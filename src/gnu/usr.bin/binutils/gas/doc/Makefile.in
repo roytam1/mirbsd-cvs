@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.in,v 1.2 2005/03/13 17:37:45 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.3 2005/03/28 21:40:36 tg Exp $
 #
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -336,7 +336,6 @@ as.html: as.texinfo
 	    rm -rf $(@:.html=); else rm -Rf $(@:.html=.htp) $@; fi; \
 	  exit 1; \
 	fi
-
 .dvi.ps:
 	$(DVIPS) -o $@ $<
 
@@ -389,7 +388,7 @@ maintainer-clean-aminfo:
 	done
 
 clean-info: mostlyclean-aminfo
-install-man1: $(man1_MANS) $(man_MANS)
+install-man1:
 	@$(NORMAL_INSTALL)
 	test -z "$(man1dir)" || $(mkdir_p) "$(DESTDIR)$(man1dir)"
 	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
@@ -499,7 +498,7 @@ install-exec-am:
 
 install-info: install-info-am
 
-install-info-am: $(INFO_DEPS)
+install-info-am:
 	@$(NORMAL_INSTALL)
 	test -z "$(infodir)" || $(mkdir_p) "$(DESTDIR)$(infodir)"
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
