@@ -469,11 +469,11 @@ PATCH_DIST_STRIP?=	-p0
 
 PATCH_DEBUG?=		No
 .if ${PATCH_DEBUG:L} != "no"
-PATCH_ARGS?=		-d ${WRKDIST} -z ${PATCHORIG} -E ${PATCH_STRIP}
-PATCH_DIST_ARGS?=	-z ${DISTORIG} -d ${WRKDIST} -E ${PATCH_DIST_STRIP}
+PATCH_ARGS?=		-b -d ${WRKDIST} -z ${PATCHORIG} -E ${PATCH_STRIP}
+PATCH_DIST_ARGS?=	-b -z ${DISTORIG} -d ${WRKDIST} -E ${PATCH_DIST_STRIP}
 .else
-PATCH_ARGS?=		-d ${WRKDIST} -z ${PATCHORIG} --forward --quiet -E ${PATCH_STRIP}
-PATCH_DIST_ARGS?=	-z ${DISTORIG} -d ${WRKDIST} --forward --quiet -E ${PATCH_DIST_STRIP}
+PATCH_ARGS?=		-b -d ${WRKDIST} -z ${PATCHORIG} --forward --quiet -E ${PATCH_STRIP}
+PATCH_DIST_ARGS?=	-b -z ${DISTORIG} -d ${WRKDIST} --forward --quiet -E ${PATCH_DIST_STRIP}
 .endif
 
 .if ${PATCH_CHECK_ONLY:L} == "yes"
