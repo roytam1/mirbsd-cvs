@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.9 2005/02/10 00:27:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.10 2005/02/11 17:34:36 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2279,5 +2279,8 @@
  strain from myself too ;-) (Maybe it'll help to kill the first signs of a
  flu I noticed as well.) Sitting around with friends is a good first step,
  refraining from hacking on MirLibtool might increase my health again, and
- if I'll ever get lunch I'm happy for today.</p>
+ if I'll ever get lunch I'm happy for today.<br />Later that day I managed
+ to sit in the Netzladen again &ndash; my friends have dragged me. Lacking
+ anything useful to do I've brought out and debugged (keymap on GNU/Linux)
+ <tt>joe-3.1jupp3</tt>.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
