@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/xf86config/xf86config.c,v 3.72 2004/10/25 21:23:58 dawes Exp $ */
 
 /*
@@ -1965,6 +1966,11 @@ static char *XF86Config_fontpaths[] =
 	"/fonts/freefont/",
 	"/fonts/75dpi/",
 	"/fonts/100dpi/",
+	"/fonts/CID/",
+	"/fonts/cyrillic/",
+	"/fonts/util/",
+	"/fonts/TTF/",
+	"/fonts/OTF/",
 	0 /* end of fontpaths */
 };
 
