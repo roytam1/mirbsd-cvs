@@ -1,119 +1,54 @@
-# If you don't use CC 
-CC       = gcc
+# $MirOS$
 
-# Edit this line if you don't want evilwm to install under /usr.
-# Note that $(DESTDIR) is used by the Debian build process.
-prefix = $(DESTDIR)/usr
+PROG=		evilwm
+MAN=		evilwm.1
+SRCS=		allinone.c
 
-XROOT    = /usr/X11R6
-INCLUDES = -I$(XROOT)/include
-LDPATH   = -L$(XROOT)/lib
-LIBS     = -lX11
+LDADD+=		-L${X11LIBDIR} -lX11 -lXext
+CPPFLAGS+=	-DSHAPE -DVERSION=\"0.99.17\"
+CLEANFILES+=	allinone.c
 
-# Configure evilwm by editing the following DEFINES lines.
+CPPFLAGS+=	-DMOUSE
+CPPFLAGS+=	-DSTDIO
+CPPFLAGS+=	-DSOLIDDRAG
+CPPFLAGS+=	-DCOLOURMAP
 
-# Uncomment to enable solid window drags.  This can be slow on old systems.
-DEFINES += -DSOLIDDRAG
+# To support virtual desktops, uncomment exactly one of the following lines:
+CPPFLAGS+=	-DVWM
+#CPPFLAGS+=	-DVDESK
+
 # Enable a more informative and clear banner to be displayed on Ctrl+Alt+I.
-DEFINES += -DINFOBANNER
-# Uncomment to show the same banner on moves and resizes.  Note this can
-# make things very SLOW!
-#DEFINES += -DINFOBANNER_MOVERESIZE
+CPPFLAGS+=	-DINFOBANNER
+# Uncomment to show the same banner on moves and resizes.
+# Note this can make things very SLOW!
+#CPPFLAGS+=	-DINFOBANNER_MOVERESIZE
+
+# Starting with evilwm 0.99.14, the "new move behaviour" is to only move a
+# window if you move it by 5 or more pixels. This can be rather annoying,
+# even if moving a window by accident. Uncomment the following line to
+# revert to the older move behaviour.
+CPPFLAGS+=	-DOLD_MOVE_BEHAVIOUR
 
 # Use Motif hints to find if a window should be borderless.
 # To use this option, you need to have the Motif development files installed.
-DEFINES += -DMWM_HINTS
-
-# To support virtual desktops, uncomment one or both of the following 2 lines.
-DEFINES += -DVWM
-#DEFINES += -DVDESK
-# VWM enables the built-in virtual desktop code and VDESK allows the use
-# of the extern pager program "vdesk".
-#
-# To support shaped windows properly, uncomment the following two lines:
-DEFINES += -DSHAPE
-LIBS	+= -lXext
-
-# Uncomment for mouse support.  You probably want this.
-DEFINES += -DMOUSE
+.if exists(${X11BASE}/include/Xm/MwmUtil.h)
+CPPFLAGS+=	-DMWM_HINTS
+.endif
 
 # Uncomment for snap-to-border support (thanks, Neil Drumm)
 # Start evilwm with -snap num to enable (num is proximity in pixels to snap to)
-DEFINES += -DSNAP
-
-# Uncomment to compile in certain text messages like help.  You want this too
-# unless you *really* want to trim the bytes.
-DEFINES += -DSTDIO
-
-# You can save a few bytes if you know you won't need colour map support
-# (eg for 16 or more bit displays)
-DEFINES += -DCOLOURMAP
+CPPFLAGS+=	-DSNAP
 
 # Uncomment the following line if you want to use Ctrl+Alt+q to kill windows
 # instead of Ctrl+Alt+Escape (or just set it to what you want).  This is
 # useful under XFree86/Cygwin and VMware (probably)
-#DEFINES += -DKEY_KILL=XK_q
+#CPPFLAGS+=	-DKEY_KILL=XK_q
 
-# Print whatever debugging messages I've left in this release.
-#DEFINES += -DDEBUG	# miscellaneous debugging
+#CPPFLAGS+=	-DSANITY		# active sanity checks
+#CPPFLAGS+=	-DDEBUG			# miscellaneous debugging
+#CPPFLAGS+=	-DXDEBUG		# show some X calls
 
-# ----- You shouldn't need to change anything under this line ------ #
+allinone.c: evilwm.h client.c events.c main.c misc.c new.c screen.c
+	cat ${.ALLSRC} | sed 's/^#include.*evilwm.*$$//' >$@
 
-version = 0
-revision = 99
-subrev = 17
-
-distdir = evilwm-$(version).$(revision).$(subrev).orig
-disttar = evilwm_$(version).$(revision).$(subrev).orig.tar.gz
-
-#DEFINES += -DSANITY	# active sanity checks
-#DEFINES += -DXDEBUG	# show some X calls
-
-DEFINES += -DVERSION=\"$(version).$(revision).$(subrev)\" $(DEBIAN)
-CFLAGS  += $(INCLUDES) $(DEFINES) -Os -Wall
-#CFLAGS  += $(INCLUDES) $(DEFINES) -g -Wall
-CFLAGS  += -Wstrict-prototypes -Wpointer-arith -Wcast-align -Wcast-qual -Wshadow -Waggregate-return -Wnested-externs -Winline -Wwrite-strings -Wundef
-LDFLAGS += $(LDPATH) $(LIBS)
-
-HEADERS  = evilwm.h
-SRCS     = client.c events.c main.c misc.c new.c screen.c
-OBJS     = $(SRCS:.c=.o)
-
-all: evilwm
-
-evilwm: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
-
-allinone:
-	cat evilwm.h $(SRCS) | sed 's/^#include.*evilwm.*$$//' > allinone.c
-	$(CC) $(CFLAGS) -o evilwm allinone.c $(LDFLAGS)
-	rm allinone.c
-
-%.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $<
-
-doinstall:
-	if [ -f evilwm.exe ]; then mv evilwm.exe evilwm; fi
-	mkdir -p $(prefix)/bin $(prefix)/share/man/man1
-	install -s evilwm $(prefix)/bin
-	install evilwm.1 $(prefix)/share/man/man1
-	#gzip -9 $(prefix)/share/man/man1/evilwm.1
-
-install: doinstall
-
-dist: clean
-	cd debian && debuild clean
-	mkdir /var/tmp/$(distdir)
-	cp -a . /var/tmp/$(distdir)/
-	cd /var/tmp && tar cfz $(disttar) $(distdir) --exclude=$(distdir)/CVS --exclude=$(distdir)/debian --exclude=$(distdir)/.\#\* && rm -rf $(distdir)
-	mv /var/tmp/$(disttar) ..
-
-debuild: dist
-	-cd ..; rm -rf $(distdir)/
-	cd ..; tar xfz $(disttar)
-	cp -a debian ../$(distdir)/
-	rm -rf ../$(distdir)/debian/CVS/
-	cd ../$(distdir); debuild
-
-clean:
-	rm -f evilwm evilwm.exe $(OBJS)
+.include <bsd.prog.mk>

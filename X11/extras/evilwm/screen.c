@@ -288,8 +288,9 @@ void drag(Client *c) {
 				if (opt_snap)
 					snap_client(c);
 #endif
-
+#ifndef OLD_MOVE_BEHAVIOUR
 				if ((abs(c->x - old_cx)>5) || (abs(c->y - old_cy)>5))
+#endif
 					reallymove = 1;
 #ifdef INFOBANNER_MOVERESIZE
 				create_info_window(c);

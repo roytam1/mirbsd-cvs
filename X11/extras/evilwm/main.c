@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
 			opt_snap = atoi(argv[++i]);
 #ifdef STDIO
 		} else if (!strcmp(argv[i], "-V")) {
-			printf("evilwm version " VERSION "\n");
+			printf("evilwm version " VERSION " $MirOS$\n");
 			exit(0);
 #endif
 		} else {
@@ -174,11 +174,13 @@ void setup_display() {
 		KEY_NEW, KEY_KILL,
 		KEY_TOPLEFT, KEY_TOPRIGHT, KEY_BOTTOMLEFT, KEY_BOTTOMRIGHT,
 		KEY_LEFT, KEY_RIGHT, KEY_DOWN, KEY_UP,
+		KEY_SLEFT, KEY_SRIGHT, KEY_SDOWN, KEY_SUP,
 		KEY_LOWER, KEY_ALTLOWER, KEY_INFO, KEY_MAXVERT, KEY_MAX,
 #ifdef VWM
 		KEY_FIX, KEY_PREVDESK, KEY_NEXTDESK,
 		XK_1, XK_2, XK_3, XK_4, XK_5, XK_6, XK_7, XK_8,
 #endif
+		KEY_EXITF, KEY_ALTEXITF,
 		0
 	};
 	/* used in scanning windows (XQueryTree) */
@@ -252,9 +254,11 @@ void setup_display() {
 		/* set up DISPLAY environment variable to use */
 		colon = rindex(ds, ':');
 		if (colon && num_screens > 1) {
-			screens[i].display = (char *)xmalloc(14 + strlen(ds));
-			strcpy(screens[i].display, "DISPLAY=");
-			strcat(screens[i].display, ds);
+			int xlen = 14 + strlen(ds);
+
+			screens[i].display = (char *)xmalloc(xlen);
+			strlcpy(screens[i].display, "DISPLAY=", xlen);
+			strlcat(screens[i].display, ds, xlen);
 			colon = rindex(screens[i].display, ':');
 			dot = index(colon, '.');
 			if (!dot)
