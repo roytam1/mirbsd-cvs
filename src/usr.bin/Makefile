@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.2 2005/03/13 18:32:40 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.3 2005/03/15 21:23:04 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -51,6 +51,7 @@
   SUBDIR+= fold
   SUBDIR+= fstat
   SUBDIR+= ftp
+  SUBDIR+= getcap
   SUBDIR+= getconf
   SUBDIR+= getopt
   SUBDIR+= grep
