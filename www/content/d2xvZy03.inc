@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.19 2005/02/25 00:17:12 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.20 2005/02/28 14:12:56 bsiegert Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2431,4 +2431,47 @@
  which is in my private svn repository for the time being. I have written a
  new parser that is able to read and write PLISTs. So the foundations are
  there. Stay tuned.</p>
+<p>28.02.2005 by tg@<br />Yay, I'm back in good old Germany, and I love it
+ (and be it only for having <a href="http://www.cafe-libertad.de/">beloved
+ coffee</a> instead of what they gave us in Belgi&euml;). I've published a
+ few writings, only on German though: at the world-quality German slashdot
+ clone Symlink:</p><ul>
+<li><a href="http://www.symlink.ch/article.pl?sid=05/02/25/1639205">Day 0</a></li>
+<li><a href="http://www.symlink.ch/article.pl?sid=05/02/26/1647251">Day 1</a></li>
+<li><a href="http://www.symlink.ch/article.pl?sid=05/02/27/2047242">Day 2</a></li>
+<li>A nice followup on this &ndash; we missed it even with being there: <a
+ href="http://www.symlink.ch/article.pl?sid=05/02/28/1128246">RMS gives to
+ Theo de Raadt this year's FSF award</a>. Heck, I've nominated him for the
+ last three years in sequence, lucky him.</li></ul><p>Oh yeah, and I spoke
+ to Theo and <strong>donated him a <tt>MirOS T-Shirt #2</tt></strong>. The
+ shirt was unfolded, and he didn't blink for a second and he asked me, why
+ I'm doing MirOS and stuff. Keeping up with his spoken English (quite free
+ of accent, in contrast to the American or British visitors, though) was a
+ bit difficult to me, and he had to work on stuff, so we didn't talk much;
+ he did like our work on nroff, though. While on nroff, actually we cannot
+ use the pre-1989 ditroff since we're not US Americans (our countries have
+ signed the Berne convention long before). So I've got to either hunt down
+ <a href="http://cm.bell-labs.com/cm/cs/who/bwk/">BWK</a>, or look at what
+ the Plan 9 guys have to offer with their ditroff.<br />Having put several
+ stickers of <a href="http://fau.netzladen.org/">FAU-IAA</a> and the Chaos
+ Communication Club on my laptop, someone gave me a flyer regarding the <a
+ href="http://anargeek.net/">Anargeek manifesto</a> which fits really nice
+ into what the Netzladen is all about; thus another post-FOSDEM writing is
+ at <a href="http://www.netzladen.org/Members/tg/anargeek_20050228a/document_view">the
+ Netzladen site</a>. Maybe our local francophones will translate it into a
+ more sane language <tt>;-)</tt><br />Success on a large front &ndash; the
+ FOSDEM was quite a chaotic event, with us fighting for a booth and stuff,
+ but I managed to get <tt>ports/editors/joe</tt> compiled on cnuke@'s book
+ running Mac OSX. Now I need to make MirOS paxtar portable (I believe some
+ other BSD has already done that, though) so &quot;mmake package&quot; can
+ succeed.<br />Okay, today I'm losing regarding the length of the wlog, to
+ Benny &ndash; but he had not committed his for 10+ days and added a short
+ FOSDEM summary (while I wrote a follow-up and did the summary as a series
+ of Symlink articles). tyler@ got annoyed by some strcpy, etc. warnings in
+ MirPorts, so he just fixed them out (I'm amazed). He's fun to hang around
+ with, just like he was in IRC, funny and all, just quite tired. The BOSng
+ fellows who we usually hang around with, both in the Netzladen and at the
+ exhibitions, thought so too, and I'm now waiting for the next event to go
+ to. I'd go to Chemnitz if someone would pay for all my expenses, but I'll
+ attend Karlsruhe for sure, and Wim invited me to the CCC camp.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
