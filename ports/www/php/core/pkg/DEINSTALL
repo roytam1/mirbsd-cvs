@@ -1,8 +1,8 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/www/php/core/pkg/DEINSTALL,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 # $OpenBSD: DEINSTALL,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 #
-# php5 de-installation
+# php de-installation
 
 set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
@@ -18,7 +18,7 @@ echo "|"
 echo "|        edit ${CONF}"
 echo "|        remove the line LoadModule php5_module"
 echo "|"
-echo "| Do not do this if you plan on re-installing php5"
+echo "| Do not do this if you plan on re-installing php"
 echo "| package at some future time."
 echo "+---------------"
 echo

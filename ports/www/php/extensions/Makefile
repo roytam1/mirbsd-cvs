@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/php/extensions/Makefile,v 1.2 2005/03/25 23:13:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2004/10/18 15:58:53 robert Exp $
 
-FULLPKGNAME=		php5-extensions-${V}${PV}
+FULLPKGNAME=		php-extensions-${V}${PV}
 COMMENT=		"informational package about PHP5 extensions"
 
 MULTI_PACKAGES=
@@ -13,7 +13,7 @@ PREFIX?=		${CHROOT_DIR}
 FLAVORS=		no_x11
 FLAVOR?=
 
-RUN_DEPENDS=		:php5-core-${V}${PV}:www/php/core
+RUN_DEPENDS=		:php-core-${V}${PV}:www/php/core
 .if !defined(PACKAGING)
 MODULES=		devel/gettext
 .endif
@@ -40,7 +40,7 @@ PSEUDO_FLAVORS+=	no_bz2
 CONFIGURE_ARGS+=	--without-bz2
 .else
 MULTI_PACKAGES+=	-bz2
-COMMENT-bz2=		"bzip2 compression extensions for php5"
+COMMENT-bz2=		"bzip2 compression extensions for php"
 CONFIGURE_ARGS+=	--with-bz2=shared,${LOCALBASE}
 BZ2_DEPENDS=		bz2.10::archivers/bzip2
 .endif
@@ -51,7 +51,7 @@ PSEUDO_FLAVORS+=	no_curl
 CONFIGURE_ARGS+=	--without-curl
 .else
 MULTI_PACKAGES+=	-curl
-COMMENT-curl=		"curl URL library extensions for php5"
+COMMENT-curl=		"curl URL library extensions for php"
 CONFIGURE_ARGS+=	--with-curl=shared,${LOCALBASE}
 CURL_DEPENDS=		curl.2::net/curl
 .endif
@@ -62,7 +62,7 @@ PSEUDO_FLAVORS+=	no_dba
 CONFIGURE_ARGS+=	--disable-dba
 .else
 MULTI_PACKAGES+=	-dba
-COMMENT-dba=		"dba GDBM access extensions for php5"
+COMMENT-dba=		"dba GDBM access extensions for php"
 CONFIGURE_ARGS+=	--enable-dba=shared --with-gdbm=${LOCALBASE}
 DBA_DEPENDS=		gdbm.2::databases/gdbm
 .endif
@@ -73,7 +73,7 @@ PSEUDO_FLAVORS+=	no_dbase
 CONFIGURE_ARGS+=	--disable-dbase
 .else
 MULTI_PACKAGES+=	-dbase
-COMMENT-dbase=		"dBase database access extensions for php5"
+COMMENT-dbase=		"dBase database access extensions for php"
 CONFIGURE_ARGS+=	--enable-dbase=shared
 .endif
 
@@ -83,7 +83,7 @@ PSEUDO_FLAVORS+=	no_dbx
 CONFIGURE_ARGS+=	--disable-dbx
 .else
 MULTI_PACKAGES+=	-dbx
-COMMENT-dbx=		"dbx database abstraction interface for php5"
+COMMENT-dbx=		"dbx database abstraction interface for php"
 CONFIGURE_ARGS+=	--enable-dbx=shared
 .endif
 
@@ -93,7 +93,7 @@ PSEUDO_FLAVORS+=	no_filepro
 CONFIGURE_ARGS+=	--disable-filepro
 .else
 MULTI_PACKAGES+=	-filepro
-COMMENT-filepro=	"filepro database access extensions for php5"
+COMMENT-filepro=	"filepro database access extensions for php"
 CONFIGURE_ARGS+=	--enable-filepro=shared
 .endif
 
@@ -104,7 +104,7 @@ CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 			--without-freetype-dir
 .else
 MULTI_PACKAGES+=	-gd
-COMMENT-gd=		"image manipulation extensions for php5"
+COMMENT-gd=		"image manipulation extensions for php"
 GD_DEPENDS=		ttf.1::print/freetype ${GRAPHIC_DEPENDS} \
 			t1.5::devel/t1lib
 CONFIGURE_ARGS+=	--with-gd=shared ${GRAPHIC_CONFIG} \
@@ -115,7 +115,7 @@ USE_X11=		yes
 CONFIGURE_ARGS+=	--with-xpm-dir=${X11BASE}
 .  else
 CONFIGURE_ARGS+=	--without-xpm-dir
-FULLPKGNAME-gd=		php5-gd-${V}${PV}-no_x11
+FULLPKGNAME-gd=		php-gd-${V}${PV}-no_x11
 .  endif
 .endif
 
@@ -125,7 +125,7 @@ PSEUDO_FLAVORS+=	no_gmp
 CONFIGURE_ARGS+=	--without-gmp
 .else
 MULTI_PACKAGES+=	-gmp
-COMMENT-gmp=		"gmp math library support for php5"
+COMMENT-gmp=		"gmp math library support for php"
 CONFIGURE_ARGS+=	--with-gmp=shared,${LOCALBASE}
 GMP_DEPENDS=		gmp.4::devel/gmp
 .endif
@@ -136,7 +136,7 @@ PSEUDO_FLAVORS+=	no_imap
 CONFIGURE_ARGS+=	--without-imap --without-kerberos
 .else
 MULTI_PACKAGES+=	-imap
-COMMENT-imap=		"imap, pop3 and nntp extensions for php5"
+COMMENT-imap=		"imap, pop3 and nntp extensions for php"
 CONFIGURE_ARGS+=	--with-imap=shared,${LOCALBASE} --with-imap-ssl
 .  if ${OSname} == "openbsd"
 CONFIGURE_ARGS+=	--with-kerberos=/usr
@@ -150,7 +150,7 @@ PSEUDO_FLAVORS+=	no_ldap
 CONFIGURE_ARGS+=	--without-ldap
 .else
 MULTI_PACKAGES+=	-ldap
-COMMENT-ldap=		"ldap protocol extensions for php5"
+COMMENT-ldap=		"ldap protocol extensions for php"
 CONFIGURE_ARGS+=	--with-ldap=shared,${LOCALBASE}
 LDAP_DEPENDS=		ldap.2,lber::databases/openldap
 .endif
@@ -161,7 +161,7 @@ PSEUDO_FLAVORS+=	no_mcrypt
 CONFIGURE_ARGS+=	--without-mcrypt
 .else
 MULTI_PACKAGES+=	-mcrypt
-COMMENT-mcrypt=		"mcrypt encryption/decryption extensions for php5"
+COMMENT-mcrypt=		"mcrypt encryption/decryption extensions for php"
 CONFIGURE_ARGS+=	--with-mcrypt=shared,${LOCALBASE}
 MCRYPT_DEPENDS=		mcrypt::security/libmcrypt
 .endif
@@ -172,7 +172,7 @@ PSEUDO_FLAVORS+=	no_mhash
 CONFIGURE_ARGS+=	--without-mhash
 .else
 MULTI_PACKAGES+=	-mhash
-COMMENT-mhash=		"mhash extensions for php5"
+COMMENT-mhash=		"mhash extensions for php"
 CONFIGURE_ARGS+=	--with-mhash=shared,${LOCALBASE}
 MHASH_DEPENDS=		mhash.2::security/mhash
 .endif
@@ -185,7 +185,7 @@ FLAVOR+=		no_mysql
 CONFIGURE_ARGS+=	--without-mysql
 .else
 MULTI_PACKAGES+=	-mysql
-COMMENT-mysql=		"mysql database access extensions for php5"
+COMMENT-mysql=		"mysql database access extensions for php"
 CONFIGURE_ARGS+=	--with-mysql=shared,${LOCALBASE}
 MYSQL_DEPENDS=		lib/mysql/mysqlclient.10::databases/mysql
 USE_CXX=		Yes
@@ -197,7 +197,7 @@ PSEUDO_FLAVORS+=	no_ncurses
 CONFIGURE_ARGS+=	--without-ncurses
 .else
 MULTI_PACKAGES+=	-ncurses
-COMMENT-ncurses=	"ncurses extensions for php5"
+COMMENT-ncurses=	"ncurses extensions for php"
 CONFIGURE_ARGS+=	--with-ncurses=shared,${LOCALBASE}
 .endif
 
@@ -207,7 +207,7 @@ PSEUDO_FLAVORS+=	no_odbc
 CONFIGURE_ARGS+=	--without-odbc
 .else
 MULTI_PACKAGES+=	-odbc
-COMMENT-odbc=		"odbc database access extensions for php5"
+COMMENT-odbc=		"odbc database access extensions for php"
 CONFIGURE_ARGS+=	--with-iodbc=shared
 ODBC_DEPENDS=		iodbc.2::databases/iodbc
 .endif
@@ -218,7 +218,7 @@ PSEUDO_FLAVORS+=	no_pgsql
 CONFIGURE_ARGS+=	--without-pgsql
 .else
 MULTI_PACKAGES+=	-pgsql
-COMMENT-pgsql=		"pgsql database access extensions for php5"
+COMMENT-pgsql=		"pgsql database access extensions for php"
 CONFIGURE_ARGS+=	--with-pgsql=shared,${LOCALBASE}
 PGSQL_DEPENDS=		pq.2::databases/postgresql,-clients
 .endif
@@ -229,7 +229,7 @@ PSEUDO_FLAVORS+=	no_shmop
 CONFIGURE_ARGS+=	--disable-shmop
 .else
 MULTI_PACKAGES+=	-shmop
-COMMENT-shmop=		"shared memory extensions for php5"
+COMMENT-shmop=		"shared memory extensions for php"
 CONFIGURE_ARGS+=	--enable-shmop=shared
 .endif
 
@@ -239,7 +239,7 @@ PSEUDO_FLAVORS+=	no_snmp
 CONFIGURE_ARGS+=	--without-snmp
 .else
 MULTI_PACKAGES+=	-snmp
-COMMENT-snmp=		"snmp protocol extensions for php5"
+COMMENT-snmp=		"snmp protocol extensions for php"
 CONFIGURE_ARGS+=	--with-snmp=shared,${LOCALBASE} --enable-ucd-snmp-hack
 SNMP_DEPENDS=		snmp.42::net/ucd-snmp
 .endif
@@ -250,7 +250,7 @@ PSEUDO_FLAVORS+=	no_sqlite
 CONFIGURE_ARGS+=	--without-sqlite
 .else
 MULTI_PACKAGES+=	-sqlite
-COMMENT-sqlite=		"sqlite database access extensions for php5"
+COMMENT-sqlite=		"sqlite database access extensions for php"
 # do NOT enable utf8 mode here, it's broken
 CONFIGURE_ARGS+=	--with-sqlite=shared,${LOCALBASE} --disable-sqlite-utf8
 SQLITE_DEPENDS=		sqlite.8::databases/sqlite2
@@ -262,7 +262,7 @@ PSEUDO_FLAVORS+=	no_sybase_ct
 CONFIGURE_ARGS+=	--without-sybase-ct
 .else
 MULTI_PACKAGES+=	-sybase_ct
-COMMENT-sybase_ct=	"sybase database access extensions for php5"
+COMMENT-sybase_ct=	"sybase database access extensions for php"
 CONFIGURE_ARGS+=	--with-sybase-ct=shared,${LOCALBASE}
 SYBASE_CT_DEPENDS=	ct.0::databases/freetds
 .endif
@@ -273,14 +273,14 @@ PSEUDO_FLAVORS+=	no_xmlrpc
 CONFIGURE_ARGS+=	--without-xmlrpc
 .else
 MULTI_PACKAGES+=	-xmlrpc
-COMMENT-xmlrpc=		"XML RPC functions for php5"
+COMMENT-xmlrpc=		"XML RPC functions for php"
 CONFIGURE_ARGS+=	--with-xmlrpc=shared
 XMLRPC_DEPENDS=		expat.2::textproc/expat
 .endif
 
 .for i in ${MULTI_PACKAGES}
 .  if !defined(FULLPKGNAME${i})
-FULLPKGNAME${i}=	php5${i}-${V}${PV}
+FULLPKGNAME${i}=	php${i}-${V}${PV}
 .  endif
 .endfor
 

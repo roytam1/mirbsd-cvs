@@ -1,8 +1,8 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/www/php/core/pkg/INSTALL,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 # $OpenBSD: INSTALL,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 #
-# php5 installation
+# php installation
 
 # exit on errors, use a sane path and install prefix
 #
@@ -23,7 +23,7 @@ do_notice()
     echo "|       AddType application/x-httpd-php .php"
     echo "|"
     echo "| Copy the config file below into ${PHP_CONFIG_FILE}"
-    echo "| ${PREFIX}/share/doc/php5/php.ini-recommended"
+    echo "| ${PREFIX}/share/doc/php/php.ini-recommended"
     echo "|"
     echo "| The .ini file scan directory is ${PHP_CONFIG_PATH}/php/"
     echo "|"

@@ -1,5 +1,6 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/php/core/pkg/PLIST,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
+@pkgcfl php-core-*
 @pkgcfl php4-core-*
 bin/pear
 bin/php
@@ -8,13 +9,13 @@ bin/phpextdist
 bin/phpize
 man/man1/php.1
 sbin/phpxs
-share/doc/php5/LICENSE.php
-share/doc/php5/LICENSE.zend
-share/doc/php5/NEWS
-share/doc/php5/php.ini-dist
-share/doc/php5/php.ini-recommended
+share/doc/php/LICENSE.php
+share/doc/php/LICENSE.zend
+share/doc/php/NEWS
+share/doc/php/php.ini-dist
+share/doc/php/php.ini-recommended
 %%SHARED%%
-@dirrm share/doc/php5
+@dirrm share/doc/php
 @comment Always add @dirrm lib/php/modules
 @dirrm lib/php/modules
 @exec mkdir -p lib/php/modules

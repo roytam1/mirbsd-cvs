@@ -1,28 +1,28 @@
-# $MirOS$
+# $MirOS: ports/www/php/Makefile.inc,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
 # and has a httpd that supports DSOs.
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
 
-V=		5.0.3
-HV=		0.2.6
-PV=		p0
-DISTNAME=	php-${V}
-CATEGORIES=	www lang
-RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
-HOMEPAGE=	http://www.php.net/ \
-		http://www.hardened-php.net/
-MASTER_SITES=	\
-		http://no.php.net/distributions/ \
-		http://uk.php.net/distributions/ \
-		http://se.php.net/distributions/ \
-		http://us2.php.net/distributions/
-MASTER_SITES0=	\
-		http://www.hardened-php.net/
-PATCHFILES=	\
-		hardened-php-${V}-${HV}.patch.gz:0
-PATCH_DIST_STRIP= -p1
+V=			5.0.3
+HV=			0.2.6
+PV=			p0
+DISTNAME=		php-${V}
+CATEGORIES=		www lang
+RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+HOMEPAGE=		http://www.php.net/ \
+			http://www.hardened-php.net/
+MASTER_SITES=		\
+			http://no.php.net/distributions/ \
+			http://uk.php.net/distributions/ \
+			http://se.php.net/distributions/ \
+			http://us2.php.net/distributions/
+MASTER_SITES0=		\
+			http://www.hardened-php.net/
+PATCHFILES=		\
+			hardened-php-${V}-${HV}.patch.gz:0
+PATCH_DIST_STRIP=	-p1
 
 # UPGRADERS: please read BOTH the PHP and Zend licenses
 # and make sure they are safe before an upgrade
@@ -34,7 +34,7 @@ PERMIT_PACKAGE_FTP=	"modified versions must not be called PHP"
 PHP_CONFIG_PATH=	/var/www/conf
 PHP_CONFIG_FILE=	${PHP_CONFIG_PATH}/php.ini
 
-# where the main php5 module is stored (outside the chroot)
+# where the main php module is stored (outside the chroot)
 HTTPD_MODULE_SUBDIR=	lib/php
 HTTPD_MODULE_DIR=	${LOCALBASE}/${HTTPD_MODULE_SUBDIR}
 
@@ -45,7 +45,7 @@ MODULES_SUBDIR=		lib/php/modules
 MODULES_DIR=		${CHROOT_DIR}/${MODULES_SUBDIR}
 
 CONFIGURE_STYLE=	autogen
-AUTOGEN=		${SHELL} ${PORTSDIR}/www/php5/patches/autogen.sh
+AUTOGEN=		${SHELL} ${PORTSDIR}/www/php/files/autogen.sh
 CONFIGURE_ENV+=		EXTENSION_DIR=${MODULES_DIR}
 MAKE_ENV+=		${CONFIGURE_ENV}
 
@@ -64,8 +64,8 @@ CONFIGURE_ARGS+= 	--with-openssl \
 REGRESS_TARGET=		test
 REGRESS_FLAGS=		NO_INTERACTION=1
 
-CHECKSUM_FILE?=		${PORTSDIR}/www/php5/distinfo
-PATCH_LIST=		${PORTSDIR}/www/php5/patches/patch-* \
+CHECKSUM_FILE?=		${PORTSDIR}/www/php/distinfo
+PATCH_LIST=		${PORTSDIR}/www/php/patches/patch-* \
 			patch-*
 
 post-extract:

@@ -1,68 +1,69 @@
-# $MirOS$
+# $MirOS: ports/www/php/core/Makefile,v 1.2 2005/03/25 23:13:34 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 
-MULTI_PACKAGES=	-pear
+MULTI_PACKAGES=		-pear
 SUBPACKAGE?=
 
-COMMENT=	"server-side HTML-embedded scripting language"
-COMMENT-pear=	"base classes for common PHP tasks"
-PKGNAME=	php5-core-${V}${PV}
-FULLPKGNAME-pear=php5-pear-${V}${PV}
+COMMENT=		"server-side HTML-embedded scripting language"
+COMMENT-pear=		"base classes for common PHP tasks"
+PKGNAME=		php-core-${V}${PV}
+FULLPKGNAME-pear=	php-pear-${V}${PV}
 
-CONFIGURE_ARGS+=--with-apxs=/usr/sbin/apxs \
-		--without-mysql \
-		--enable-xml \
-		--enable-wddx \
-		--enable-cli \
-		--with-iconv=${LOCALBASE} \
-		--with-gettext=${LOCALBASE} \
-		--enable-dio \
-		--with-pear=${PEAR_DIR} \
-		--enable-bcmath \
-		--enable-session \
-		--enable-trans-sid \
-		--enable-calendar \
-		--enable-ctype \
-		--enable-ftp \
-		--with-pcre-regex \
-		--with-posix \
-		--enable-sockets \
-		--enable-sysvsem \
-		--enable-sysvshm \
-		--enable-exif \
-		--without-sqlite
+CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
+			--without-mysql \
+			--enable-xml \
+			--enable-wddx \
+			--enable-cli \
+			--with-iconv=${LOCALBASE} \
+			--with-gettext=${LOCALBASE} \
+			--enable-dio \
+			--with-pear=${PEAR_DIR} \
+			--enable-bcmath \
+			--enable-session \
+			--enable-trans-sid \
+			--enable-calendar \
+			--enable-ctype \
+			--enable-ftp \
+			--with-pcre-regex \
+			--with-posix \
+			--enable-sockets \
+			--enable-sysvsem \
+			--enable-sysvshm \
+			--enable-exif \
+			--without-sqlite
 
 .include <mirports.sys.mk>
 
 .if ${OSname} == "openbsd"
-CONFIGURE_ARGS+=--enable-yp
+CONFIGURE_ARGS+=	--enable-yp
 .else
-CONFIGURE_ARGS+=--disable-yp
+CONFIGURE_ARGS+=	--disable-yp
 .endif
 
-MODULES=	devel/gettext
+MODULES=		devel/gettext
 
 # some variables to substitute
-SUBST_VARS+=	PHP_CONFIG_FILE PHP_CONFIG_PATH
-PHP_VERSION=	${V}
+SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH
+PHP_VERSION=		${V}
 
 .for i in TRUEPREFIX PHP_CONFIG_FILE MODULES_DIR PHP_VERSION HTTPD_MODULE_DIR
-PHPXS_SUBST+=	-e 's,${i},${${i}},'
+PHPXS_SUBST+=		-e 's,${i},${${i}},'
 .endfor
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
-PREFIX=		${CHROOT_DIR}
-RUN_DEPENDS=	:php5-core-${V}${PV}:www/php/core
+PREFIX=			${CHROOT_DIR}
+RUN_DEPENDS=		:php-core-${V}${PV}:www/php/core
 MODULES=
 .else
-LIB_DEPENDS+=	xml2.8::textproc/libxml
+LIB_DEPENDS+=		xml2.8::textproc/libxml
 .endif
 
 pre-fake:
 	${INSTALL_DATA_DIR} ${PREFIX}/${HTTPD_MODULE_SUBDIR}
 
-INSTALL_TARGET= install-pear install-headers install-build install-programs
-FAKE_FLAGS= 	INSTALL_ROOT=${DESTDIR}
+INSTALL_TARGET= 	install-pear install-headers install-build \
+			install-programs
+FAKE_FLAGS= 		INSTALL_ROOT=${DESTDIR}
 
 pre-configure:
 	@perl -p -i.orig -e "s,MIRPORTS_PEAR_ROOT,'${CHROOT_DIR}/pear',g" \
@@ -71,18 +72,18 @@ pre-configure:
 post-install:
 	${INSTALL_DATA} ${WRKBUILD}/.libs/libphp5.so \
 	    ${PREFIX}/${HTTPD_MODULE_SUBDIR}
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/php5
+	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/php
 	${INSTALL_PROGRAM} ${WRKBUILD}/sapi/cli/php ${PREFIX}/bin
 .for i in dist recommended
 	@sed -e 's,MODULES_DIR,${MODULES_DIR},' \
 	     -e 's,MIRPORTS_INCLUDE_PATH,/pear/lib:${CHROOT_DIR}/pear/lib,' \
 		<${WRKSRC}/php.ini-${i} \
-		>${PREFIX}/share/doc/php5/php.ini-${i}
+		>${PREFIX}/share/doc/php/php.ini-${i}
 .endfor
-	${INSTALL_DATA} ${WRKSRC}/LICENSE ${PREFIX}/share/doc/php5/LICENSE.php
+	${INSTALL_DATA} ${WRKSRC}/LICENSE ${PREFIX}/share/doc/php/LICENSE.php
 	${INSTALL_DATA} ${WRKSRC}/Zend/LICENSE \
-	    ${PREFIX}/share/doc/php5/LICENSE.zend
-	${INSTALL_DATA} ${WRKSRC}/NEWS ${PREFIX}/share/doc/php5/
+	    ${PREFIX}/share/doc/php/LICENSE.zend
+	${INSTALL_DATA} ${WRKSRC}/NEWS ${PREFIX}/share/doc/php/
 	@sed ${PHPXS_SUBST} <${FILESDIR}/phpxs >${PREFIX}/sbin/phpxs
 	@chown ${BINOWN}:${BINGRP} ${PREFIX}/sbin/phpxs
 	@chmod ${BINMODE} ${PREFIX}/sbin/phpxs
