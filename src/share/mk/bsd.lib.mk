@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -32,9 +32,9 @@ SHLIB_VERSION?=	${major}.${minor}
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
 .SUFFIXES:
-.SUFFIXES: .out .o .go .so .S .s .c .cc .C .cxx .f .y .l .ln .m4 .m
+.SUFFIXES:	.c .cc .cxx .go .i .l .ln .m .m4 .o .out .S .s .so .y
 
-.c.o:
+.c.o .m.o:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}} " \
 	    "${.IMPSRC} -o ${.TARGET}"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} ${.IMPSRC} \
@@ -42,7 +42,7 @@ SHLIB_VERSION?=	${major}.${minor}
 	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.c.go:
+.c.go .m.go:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
 	    "-g ${.IMPSRC} -o ${.TARGET}"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} -g ${.IMPSRC} \
@@ -50,7 +50,7 @@ SHLIB_VERSION?=	${major}.${minor}
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.c.so:
+.c.so .m.so:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
 	    "${PICFLAG} -DPIC ${.IMPSRC} -o ${.TARGET}"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} ${PICFLAG} \
@@ -61,7 +61,7 @@ SHLIB_VERSION?=	${major}.${minor}
 .c.ln:
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
-.cc.o .C.o .cxx.o:
+.cc.o .cxx.o:
 	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
 	    "${.IMPSRC} -o ${.TARGET}"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
@@ -69,7 +69,7 @@ SHLIB_VERSION?=	${major}.${minor}
 	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.cc.go .C.go .cxx.go:
+.cc.go .cxx.go:
 	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
 	    "-g ${.IMPSRC} -o ${.TARGET}"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
@@ -77,7 +77,7 @@ SHLIB_VERSION?=	${major}.${minor}
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.cc.so .C.so .cxx.so:
+.cc.so .cxx.so:
 	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
 	    "${PICFLAG} -DPIC ${.IMPSRC} -o ${.TARGET}"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \

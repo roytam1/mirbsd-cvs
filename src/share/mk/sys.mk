@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.3 2005/02/14 19:21:54 tg Exp $
 # $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -46,7 +46,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 
-.SUFFIXES:	.a .c .cc .cxx .h .i .l .ln .m4 .o .out .S .s .sh .y
+.SUFFIXES:	.a .c .cc .cxx .h .i .l .ln .m .m4 .o .out .S .s .sh .y
 .LIBS:		.a
 
 AR?=		ar
@@ -112,6 +112,21 @@ CTAGS?=		/usr/bin/ctags
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .c.ln:
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} \
+	    -i ${.IMPSRC}
+
+# Objective-C
+.m:
+	${LINK.c} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+.m.o:
+	${COMPILE.c} ${CFLAGS_${.TARGET}} ${.IMPSRC}
+.m.i:
+	${COMPILE.c} -o ${.TARGET} -E ${.IMPSRC}
+.m.a:
+	${COMPILE.c} ${.IMPSRC}
+	${AR} ${ARFLAGS} $@ $*.o
+	rm -f $*.o
+.m.ln:
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} \
 	    -i ${.IMPSRC}
 
