@@ -11,16 +11,27 @@
 # serial 47 AC_PROG_LIBTOOL
 
 
+dnl Enable overwriting autoconf'd functions without aclocal bringing them in
+dnl ------------------------------------------------------------------------
+builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
+
 dnl Support using MirLibtool with Autoconf 2.13
 dnl -------------------------------------------
 sinclude(ifdef([m4_PACKAGE_VERSION], [], [m4salt.inc]))dnl
 
 dnl Support using MirLibtool with Autoconf 2.59
 dnl -------------------------------------------
-builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
 [dnl Autoconf 2.13
 dnl  =============
+
+builtin([undefine], [AC_PROG_F77])dnl
+NOACLOCAL_DEFUN([AC_PROG_F77],
+[dnl No Fortran 77 with autoconf-2.13 and MirLibtool
+])dnl
+
+dnl  End of Autoconf switch (2.13)
+dnl  ====================== ------
 ],
 [dnl Autoconf 2.5x
 dnl  =============
@@ -59,8 +70,8 @@ AC_SUBST(CXXCPP)dnl
 AC_LANG([C])dnl
 ])# AC_PROG_CXXCPP
 
-dnl  End of Autoconf switch
-dnl  ======================
+dnl  End of Autoconf switch (2.59)
+dnl  ====================== ------
 ])dnl
 
 
