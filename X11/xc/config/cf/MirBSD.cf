@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.1 2005/03/19 17:19:20 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.2 2005/03/20 18:13:18 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -156,11 +156,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	PreProcessCmd   	CppCmd
 #define	PreIncDir		DefaultGccIncludeDir
 
-#ifndef	CcCmd
-#define	CcCmd 			${CC}
-#endif
 #ifndef AsCmd
-#define AsCmd			CcCmd -c -x assembler
+#define AsCmd			${CC} -c -x assembler
 #endif
 
 /* no C++ in base, override with CXX from ports */
