@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.31 2005/01/23 12:06:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -27,14 +27,16 @@
  excessive use of the rsync command, since it imposes a lot of traffic.
 <br />
  Please consider using a <a
- href="/MirOS/CVS/cvsroot-20050123.cgz">recent (2005-01-23) snapshot</a>
- tarball (<a href="/MirOS/CVS/cvsroot-20050123.cgz.asc">PGP signature</a>)
- of the CVS repository as a base for rsync use.</p>
-<pre><!-- nice /usr/local/bin/rsync -\
--delete -rxlztpg \
-  -\
--rsync-path=/usr/bin/rsync \
-  mirbsd-cvs@mirbsd.bsdadvocacy.org:/cvs/ /var/anoncvs/anoncvs/cvs -->
+ href="/MirOS/CVS/cvsroot-20050316.cgz">recent (2005-03-16) snapshot</a>
+ tarball (<a href="/MirOS/CVS/cvsroot-20050316.cgz.asc">PGP signature</a>)
+ of the old CVS repository, or one from <a
+ href="/MirOS/CVS/cvsrepo-20050123.cgz">2005-01-23</a> (<a
+ href="/MirOS/CVS/cvsrepo-20050123.cgz.asc">PGP signature</a>) for the new
+ CVS repository, as a base for rsync use in order to speed up the initial
+ synchronisation and reduce load and traffic on the servers.</p>
+<pre>nice /usr/local/bin/rsync --delete -rxlztpg \
+  --rsync-path=/usr/bin/rsync \
+  _anoncvs@mirbsd.mirsolutions.de:/cvs/ /var/anoncvs/anoncvs/cvs
 nice /usr/local/bin/rsync --delete -rxlztpg \
   --rsync-path=/usr/bin/rsync \
   mirbsd-cvs@mirbsd.bsdadvocacy.org:/ocvs/ /var/anoncvs/anoncvs/ocvs
@@ -44,18 +46,9 @@ nice /usr/local/bin/rsync --delete -rxlztpg \
 </pre><p>
  Please be sure to check for problems (the CVS snapshot might contain
  lock files, because our way of mirroring isn't fully optimized yet),
- and not modify the command line (<code>-v --progress</code> should be
+ and not modify the command line (<code>-vP</code> should be
  not problematic; <code>-a</code> is not needed, and <code>-c</code>
  is too traffic and load intensive so its use is prohibited), especially
  do add a trailing slash on the server path and do not add one on the
  client path!<br />Let me repeat it: the <tt>mirbsd.bsdadvocacy.org</tt>
  server used is just an example, look at the <a href="/?mirrors">list</a>.</p>
-
-<p>For a peek into &quot;ncvs&quot; you can sync with the command</p>
-<pre>nice /usr/local/bin/rsync --delete -rxlztpg \
-  --rsync-path=/usr/bin/rsync \
-  _anoncvs@mirsolutions.de:/ncvs/ /var/anoncvs/anoncvs/cvs</pre>
-<p>(with key only) and get the CVS repository seed file from <a
- href="/MirOS/CVS/cvsrepo-20050123.cgz">2005-01-23</a> (<a
- href="/MirOS/CVS/cvsrepo-20050123.cgz.asc">PGP signature</a>) for a
- quicker initial rsync.</p>

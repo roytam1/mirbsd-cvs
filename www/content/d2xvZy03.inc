@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.30 2005/03/14 23:28:11 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.31 2005/03/15 22:55:25 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2630,4 +2630,10 @@
  has proven superiour for Mac OSX compatibility, so I've deprecated all of
  the old DYNLIBDIR() stuff, and Benny removed them. Minor breakage planned
  as usual.</p>
+<p>16.03.2005 by tg@<br />Even with nice weather outside nothing restrains
+ me from freezing ocvs, and so I did. There's however a new seed file that
+ shows the final version of ocvs to be archived. (This also means: EOL for
+ MirOS #7-stable.)<br />I've translated the anargeek manifesto about which
+ I already spoke into German and designed a logo for it; bsiegert@ has yet
+ to check it against the french original text.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

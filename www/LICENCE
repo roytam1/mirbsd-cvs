@@ -1,4 +1,4 @@
-# $MirOS: www/LICENCE,v 1.3 2005/03/15 17:38:59 tg Exp $
+# $MirOS: www/LICENCE,v 1.4 2005/03/16 15:13:16 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
 # Copyright (c) 1999, 2002, 2003, 2004, 2005
@@ -72,6 +72,9 @@ or via email at jonhoops@mac.com
 The Tux image is covered by this licence: Permission to use and/or modify
 this image is granted, provided you acknowledge <lewing@isc.tamu.edu> and
 The GIMP <http://www.isc.tamu.edu/~lewing/gimp/> if asked.
+
+The anargeek emblem is covered by the MirOS licence template,
+as shown on "wikipass.sh" in the current directory.
 
 The MirWiki and CVSweb CGI scripts are covered by different licences,
 the GNU GPL Version 2 and a two-clause UCB-style BSD licence respectively.

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.6 2005/03/06 18:42:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.7 2005/03/13 21:19:02 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
@@ -52,10 +52,10 @@
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;get MirOS!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
-<p><a href="/MirOS/CVS/cvsroot-20050123.cgz">CVSROOT</a>: January 23th, 2005:
- new seed file (324 MB) available to reduce the initial amount of traffic
- required for mirroring /ocvs by rsync. CTM is available on request, we'd
- like to do it but nobody uses it.<br />Attention: the CVSROOT is no longer
- <tt>/cvs</tt> but rather <b><tt>/ocvs</tt></b>.</p>
+<p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
+ new seed file (325 MB) available to reduce the initial amount of traffic
+ required for mirroring /ocvs by rsync.</p>
+<!-- CTM is available on request, we'd
+ like to do it but nobody uses it. -->
 <p><a href="/MirOS/CVS/cvsrepo-20050123.cgz">CVSREPO</a>: January 7th, 2005:
- seed file (168 MB) for peeking into ncvs.</p>
+ seed file (168 MB) for peeking into ncvs 1. Now deprecated.</p>
