@@ -1,0 +1,4 @@
+# $MirOS$
+
+*.*							/dev/ttyC4
+
