@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.23 2005/03/04 22:07:11 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.24 2005/03/05 12:11:58 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2509,5 +2509,20 @@
  order to be able to throw out new snapshots soon. I'm going to need them,
  for spreading around the word and stuff. And tyler@ needs libstdc++, so I
  don't have much of a choice. OpenBSD seems bitten by ProPolice bugs; same
- as us but their test programmes work fine on 3.2 and 3.4 here.</p>
+ as us but their test programmes work fine on 3.2 and 3.4 here.<br />Later
+ that day. My dear friend and Mach-Acker Angelo, Coder of the Mac OSX worm
+ #1, <a href="http://blog.annulator.de/archives/2005/03/fun_with_miros.html">says
+ it all</a>. These OpenBSE people are so poor...<br />And: who the fuck is
+ &quot;Harald Freyer&quot;? (Not having a good opinion on Ubuntu GNU/Linux
+ (dubbed "Negergnu" by me) is not necessarily racist, nor does it have, or
+ was intended with, racist undertone. I'm sick, not being able to say what
+ I think. Who am I, a German born 1910 or 1982?)<br />Well, all the strain
+ aside, it was a nice evening. I liked the fresh air, afterwards we (cnuke
+ with his gf, as well as Angelo, I and a BOSng companion) had a good meal,
+ after a long time, at our favourite jugoslawic food dealer again. I think
+ I need not say I like Julishka more than SSH Connection Multiplexing (and
+ you know how excited I got over it?).<br />I wish I could be on the event
+ Linux-Tage in Karl-Marx-Stadt, but I'm getting over it already. Buttt I'm
+ really looking forward to our joint booth at the LinuxTag Karlsruhe, with
+ the <a href="http://holarse.net/">Holarse</a> gang.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
