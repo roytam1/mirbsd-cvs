@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$MirOS$-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.2 2005/03/06 19:05:55 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.23 2004/04/11 18:05:23 millert Exp $-},
 etc.MACHINE)dnl
@@ -104,10 +104,10 @@ divert(__mddivert)dnl
 dnl
 ramdisk)
 	_recurse std bpf0 fd0 wd0 wd1 wd2 sd0 sd1 sd2 tty00 tty01 rd0
-	_recurse st0 cd0 ttyC0 random wskbd0 tun0 vnd0 vnd1
+	_recurse st0 cd0 ttyC0 random wskbd0 vnd0
 	;;
 rambig)
-	_recurse pty0 raid0 raid1
+	_recurse pty0 raid0 raid1 tun0 vnd1
 	;;
 
 _std(1, 2, 50, 4, 7)
@@ -130,7 +130,6 @@ twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl
 target(all, bpf, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)dnl
 target(all, tun, 0, 1, 2, 3)dnl
-target(all, tap, 0, 1, 2, 3)dnl
 target(all, xy, 0, 1, 2, 3)dnl
 target(all, rd, 0)dnl
 target(all, cd, 0, 1)dnl
@@ -163,11 +162,11 @@ The author of the ISDN4BSD package is:
 
 He requests a picture postcard of the home town of any ISDN4BSD
 user as licence fee.  Please send him one if you are using this
-ISDN subsystem for MirOS, too.
+ISDN subsystem for MirOS BSD, too.
 
- * It may be illegal in your country to connect an isdn4bsd based machine
+ * It may be illegal in your country to connect an ISDN4BSD-based machine
  * using a passive ISDN card to the ISDN at your site because the protocol
- * stack of isdn4bsd, which is necessary to run passive cards, has not been
+ * stack of ISDN4BSD, which is necessary to run passive cards, has not been
  * approved by the telecommunication certification authority of your country.
  * If in doubt, please contact your local ISDN provider!
 

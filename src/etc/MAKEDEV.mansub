@@ -1,7 +1,7 @@
-dnl $MirOS$
+dnl $MirOS: src/etc/MAKEDEV.mansub,v 1.2 2005/03/06 19:05:53 tg Exp $
 dnl $OpenBSD: MAKEDEV.mansub,v 1.2 2004/02/20 19:13:01 miod Exp $
 dnl
-dnl Copyright (c) 2004, 2005 Thorsten Glaser
+dnl Copyright (c) 2004, 2005 Thorsten Glaser <tg@MirBSD.org>
 dnl Copyright (c) 2004, Miodrag Vallat
 dnl Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
 dnl
@@ -80,12 +80,12 @@ define({-vers-},
 dnl
 dnl Version info for this file:
 dnl
-vers(__file__, {-$MirOS$-})dnl
+vers(__file__, {-$MirOS: src/etc/MAKEDEV.mansub,v 1.2 2005/03/06 19:05:53 tg Exp $-})dnl
 vers(__file__, {-$OpenBSD: MAKEDEV.mansub,v 1.2 2004/02/20 19:13:01 miod Exp $-})dnl
 dnl
 dnl
 define({-_addsubdir-},
-{-patsubst({-$1-}, {-\$(MirOS:|OpenBSD:) ([^\$]*)\$-}, {-\1 $2/\2-})-})dnl
+{-patsubst({-$1-}, {-\$(OpenBSD:) ([^\$]*)\$-}, {-\1 $2/\2-})-})dnl
 dnl
 dnl do the 'showing' of the version info
 dnl
@@ -103,7 +103,7 @@ show_vers()dnl
 dnl
 dnl _devxr(name,optional different xr name)
 dnl
-define({-_devxr-},{-.Xr ifelse($1,st,\&st,$1) ifelse(index($1,{- -}),-1,{-4 -})-})dnl
+define({-_devxr-},{-.Xr $1 ifelse(index($1,{- -}),-1,{-4 -})-})dnl
 dnl
 dnl _devitem(pattern, description)
 dnl
