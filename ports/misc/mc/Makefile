@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/misc/mc/Makefile,v 1.1.7.1 2005/03/18 15:50:27 tg Exp $
 
 COMMENT=		"free Norton Commander clone with many useful features"
 DISTNAME=		mc-4.6.0
@@ -14,7 +14,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-LIB_DEPENDS=		glib.1.2::devel/glib
+LIB_DEPENDS=		glib.1.2::devel/glib1
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
