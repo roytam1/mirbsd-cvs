@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 REV=		${OSrev}
 
@@ -8,7 +9,7 @@ ARCHDIR=	${.CURDIR}/../${MACHINE}/ramdisk
 .include <bsd.own.mk>
 
 .if exists(${ARCHDIR}/Makefile.inc)
-.include "${ARCHDIR}/Makefile.inc"
+.  include "${ARCHDIR}/Makefile.inc"
 .endif
 
 MOUNT_POINT?=	/mnt
@@ -19,14 +20,16 @@ DISKTYPE=	rdroot
 PID!=		echo $$$$
 REALIMAGE!=	echo /tmp/image.${PID}
 IMAGE?=		ramdisk${REV}.fs
-IMAGESIZE?=	8192 # 4MB in 512 byte blocks
+IMAGESIZE?=	8192			# 4 MiB in 512 byte blocks
 NEWFS_WILL_FAIL?=false
-.if ${ELF_TOOLCHAIN:L} == "yes"
+.if ${OBJECT_FMT:U} == "ELF"
 RDSETROOT?=	elfrdsetroot
 CRUNCHGENOPTS?=-E
+AOUT_BSDRD?=	No
 .else
 RDSETROOT?=	rdsetroot
 CRUNCHGENOPTS?=
+AOUT_BSDRD=	No
 .endif
 KERNEL?=	RAMDISK
 UTILS?=		${.CURDIR}/../miniroot
@@ -56,11 +59,19 @@ all:
 	@false
 .else
 
-.ifdef MAKEFLOPPY
+.  if ${AOUT_BSDRD:L} != "yes"
+.    ifdef MAKEFLOPPY
 all:	bsd.rd ${FLOPPY}
-.else
+.    else
 all:	bsd.rd
-.endif
+.    endif
+.  else
+.    ifdef MAKEFLOPPY
+all:	bsd.rd bsd.rd.net ${FLOPPY}
+.    else
+all:	bsd.rd bsd.rd.net
+.    endif
+.  endif  # ! !AOUT_BSDRD
 
 ${FLOPPY}:	bsd.gz ${BOOT} ${BOOTXX}
 	dd if=/dev/zero of=${REALIMAGE} count=${FLOPPYSIZE}
@@ -71,7 +82,7 @@ ${FLOPPY}:	bsd.gz ${BOOT} ${BOOTXX}
 	cp ${BOOT} ${MOUNT_POINT}/
 	cp bsd.gz ${MOUNT_POINT}/bsd
 	${INSTALLBOOT} -v ${BOOTIN} ${BOOTXX} \
-		`echo ${VND_RDEV} | sed -e 's/a$$/c/'`
+		$$(echo ${VND_RDEV} | sed -e 's/a$$/c/')
 .if (${MACHINE_ARCH} == "vax")
 	disklabel -B -b ${BOOTXX} ${VND}
 .endif
@@ -86,15 +97,16 @@ ${FLOPPY}:	bsd.gz ${BOOT} ${BOOTXX}
 bsd:
 	cd ${.CURDIR}/../../sys/arch/${MACHINE}/conf && config ${KERNEL}
 	cd ${.CURDIR}/../../sys/arch/${MACHINE}/compile/${KERNEL} && \
-	    make depend && make clean && COPTS=-Os make
-#	cd ${.CURDIR}/../../sys/arch/${MACHINE}/compile/${KERNEL} && \
-#	    make depend && make clean && make
+	    make depend && make clean && make
 	cp ${.CURDIR}/../../sys/arch/${MACHINE}/compile/${KERNEL}/bsd bsd
 
 bsd.rd:	bsd ${IMAGE} ${RDSETROOT}
 	cp bsd bsd.rd
 	${.OBJDIR}/${RDSETROOT} bsd.rd < ${IMAGE}
 	${STRIP} bsd.rd
+
+bsd.rd.net: bsd.rd
+	elf2aout bsd.rd bsd.rd.net -b
 
 bsd.gz:	bsd.rd
 	${GZIP} ${GZIPFLAGS} < bsd.rd > bsd.gz
@@ -135,12 +147,12 @@ clean cleandir:
 	${CBIN}.conf *.o *.lo *.c bsd bsd.*
 
 beforeinstall:
-	cp bsd.rd ${DESTDIR}/snapshot
-.ifdef MAKEFLOPPY
+	cp bsd.rd* ${DESTDIR}/snapshot
+.  ifdef MAKEFLOPPY
 	cp ${FLOPPY} ${DESTDIR}/snapshot
-.endif
+.  endif
 
-.endif	# DESTDIR check
+.endif	# ! ndef DESTDIR
 
 unconfig:
 	-umount -f ${MOUNT_POINT}

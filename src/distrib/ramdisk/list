@@ -1,5 +1,6 @@
-#	$OpenBSD: list,v 1.24 2004/01/04 00:29:51 deraadt Exp $
-#	$NetBSD: list,v 1.4.4.1 1996/06/20 20:30:26 pk Exp $
+# $MirOS$
+# $OpenBSD: list,v 1.24 2004/01/04 00:29:51 deraadt Exp $
+# $NetBSD: list,v 1.4.4.1 1996/06/20 20:30:26 pk Exp $
 
 SRCDIRS distrib/special
 SRCDIRS gnu/usr.bin usr.bin bin sbin usr.sbin
@@ -42,9 +43,13 @@ LINK	instbin					sbin/ping6
 LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/route
 LINK	instbin					sbin/umount
+LINK	instbin					usr/bin/cksum
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/gzip usr/bin/gunzip usr/bin/gzcat
 LINK	instbin					usr/bin/sed
+LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
+LINK	instbin					usr/bin/nc
+LINK	instbin					usr/bin/printf
 
 ARGVLINK ksh		-sh
 

@@ -1,6 +1,7 @@
 #!/bin/sh
-#	$OpenBSD: install.sh,v 1.142 2004/03/23 02:39:38 krw Exp $
-#	$NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
+# $MirOS$
+# $OpenBSD: install.sh,v 1.142 2004/03/23 02:39:38 krw Exp $
+# $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
@@ -86,7 +87,7 @@ if [ ! -f /etc/fstab ]; then
 	_DKDEVS=$DKDEVS
 
 	while : ; do
-		_DKDEVS=`rmel "$DISK" $_DKDEVS`
+		_DKDEVS=$(rmel "$DISK" $_DKDEVS)
 
 		# Always do ROOTDISK first, and repeat until
 		# it is configured acceptably.
@@ -146,10 +147,10 @@ if [ ! -f /etc/fstab ]; then
 					[[ $_mp == '/' ]] && break
 					# Otherwise, record user specified mount point.
 					_mount_points[$_i]=$_mp
-				done < /tmp/fstab.$DISK
+				done </tmp/fstab.$DISK
 			fi
 			: $(( _i += 1 ))
-		done < /tmp/disklabel.$DISK
+		done </tmp/disklabel.$DISK
 
 		if [[ $DISK == $ROOTDISK ]]; then
 			# Ensure that ROOTDEV was configured.
@@ -164,7 +165,7 @@ if [ ! -f /etc/fstab ]; then
 				echo "$SWAPDEV will be used for swap space."
 				# But we really don't want it in the installed
 				# /etc/fstab.
-				grep -v "^$SWAPDEV" $SWAPLIST > $SWAPLIST.tmp
+				grep -v "^$SWAPDEV" $SWAPLIST >$SWAPLIST.tmp
 				mv $SWAPLIST.tmp $SWAPLIST
 			else
 				echo "ERROR: Unable to use $SWAPDEV for swap space."
@@ -231,7 +232,7 @@ if [ ! -f /etc/fstab ]; then
 		done
 	done
 
-	cat << __EOT
+	cat <<__EOT
 
 You have configured the following partitions and mount points:
 
@@ -258,11 +259,11 @@ __EOT
 
 	# Write fstab entries to /tmp/fstab in mount point alphabetic
 	# order to enforce a rational mount order.
-	for _mp in `bsort ${_mount_points[*]}`; do
+	for _mp in $(bsort ${_mount_points[*]}); do
 		_i=0
 		for _pp in ${_partitions[*]}; do
 			if [ "$_mp" = "${_mount_points[$_i]}" ]; then
-				echo -n "/dev/$_pp $_mp ffs rw"
+				echo -n "/dev/$_pp $_mp ffs rw,softdep"
 				# Only '/' is neither nodev nor nosuid. i.e.
 				# it can obviously *always* contain devices or
 				# setuid programs.
@@ -310,17 +311,37 @@ __EOT
 			fi
 			: $(( _i += 1 ))
 		done
-	done >> /tmp/fstab
+	done >>/tmp/fstab
 
 	# Append all non-default swap devices to fstab.
 	while read _dev; do
 		echo "/dev/$_dev none swap sw 0 0" >>/tmp/fstab
-	done < $SWAPLIST
+	done <$SWAPLIST
 
 	munge_fstab
 fi
 
 mount_fs "-o async"
+
+# Seed from random if exists
+if [ -e /mnt/var/db/host.random ]; then
+	dd if=/dev/prandom bs=256 count=1 >/tmp/rand
+	dd if=/dev/arandom bs=256 count=94 >>/tmp/rand
+	SUMS="$(cksum /tmp/rand) $RANDOM $(ls -lR /) $PPID $SECONDS $$ $(dd if=/dev/srandom bs=8 count=1)"
+	RANDOM=$(echo "$SUMS" | cksum -o 1 | while read a b; do echo $a; done)
+	dd if=/dev/prandom bs=256 count=1 >>/tmp/rand
+	dd if=/dev/urandom bs=256 count=96 >>/tmp/rand
+	cat /mnt/var/db/host.random >/dev/arandom
+	dd if=/dev/arandom bs=256 count=1 >>/tmp/rand
+	dd if=/dev/urandom bs=1024 count=63 >>/tmp/rand
+	SUMS="$(cksum /mnt/var/db/host.random) $RANDOM $(cksum -o 1 /tmp/rand)"
+	cat /tmp/rand >/var/db/host.random
+	dd if=/dev/prandom bs=256 count=1 >/tmp/rand
+	dd if=/dev/urandom bs=256 count=1 >>/tmp/rand
+	echo "$SUMS" >>/tmp/rand
+	cat /tmp/rand >/dev/arandom
+	rm /tmp/rand
+fi
 
 # Set hostname.
 #
@@ -341,7 +362,7 @@ ask_until "\nSystem hostname? (short form, e.g. 'foo')" "$(hostname -s)"
 ( cd /tmp; rm -f host* my* resolv.* dhclient.* )
 
 # Always create new hosts file.
-cat > /tmp/hosts << __EOT
+cat >/tmp/hosts <<__EOT
 ::1 localhost
 127.0.0.1 localhost
 ::1 $(hostname -s)
@@ -373,7 +394,7 @@ install_sets
 # mount.
 while read _dev _mp _fstype _opt _rest; do
 	mount -u -o $_opt $_dev $_mp ||	exit
-done < /etc/fstab
+done </etc/fstab
 
 # Handle questions...
 questions
@@ -386,7 +407,7 @@ echo -n "Saving configuration files..."
 
 # Move configuration files from /tmp to /mnt/etc.
 ( cd /tmp
-hostname > myname
+hostname >myname
 
 # Add FQDN to /tmp/hosts entries, changing lines of the form '1.2.3.4 hostname'
 # to '1.2.3.4 hostname.$FQDN hostname'. Leave untouched any lines containing
@@ -398,7 +419,7 @@ while read _addr _hn _aliases; do
 	else
 		echo "$_addr $_hn.$_dn $_hn"
 	fi
-done < hosts > hosts.new
+done <hosts >hosts.new
 mv hosts.new hosts
 
 # Prepend interesting comments from installed hosts and dhclient.conf files
@@ -406,23 +427,28 @@ mv hosts.new hosts
 save_comments hosts
 save_comments dhclient.conf
 
-# Possible files: fstab, kbdtype, myname, mygate, sysctl.conf
+# Possible files: fstab, kbdtype, myname, sysctl.conf
 #                 dhclient.conf resolv.conf resolv.conf.tail
 #		  hostname.* hosts
-for _f in fstab kbdtype my* *.conf *.tail host*; do
+for _f in fstab kbdtype myname *.conf *.tail host*; do
 	[[ -f $_f ]] && mv $_f /mnt/etc/.
 done )
 
-_encr=`/mnt/usr/bin/encrypt -b 8 -- "$_password"`
+# Amend target fstab by kernfs (BSD) / sysfs (Linux) and procfs (both)
+[[ $MODE == install ]] && cat >>/mnt/etc/fstab <<__EOF
+kern /kern kernfs rw,noauto 0 0
+proc /proc procfs rw,linux 0 0
+__EOF
+
+_encr=$(/mnt/usr/bin/encrypt -b 8 -- "$_password")
 echo "1,s@^root::@root:${_encr}:@
 w
-q" | ed /mnt/etc/master.passwd 2> /dev/null
+q" | ed /mnt/etc/master.passwd 2>/dev/null
 /mnt/usr/sbin/pwd_mkdb -p -d /mnt/etc /etc/master.passwd
 
 echo -n "done.\nGenerating initial host.random file..."
-( cd /mnt/var/db
-dd if=/mnt/dev/urandom of=host.random bs=1024 count=64 >/dev/null 2>&1
-chmod 600 host.random >/dev/null 2>&1 )
+dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=64 >/dev/null 2>&1
+chmod 600 /mnt/var/db/host.random
 echo "done."
 
 set_timezone

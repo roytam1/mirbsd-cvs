@@ -1,6 +1,9 @@
-#	$OpenBSD: install.sub,v 1.338 2004/04/12 22:55:11 krw Exp $
-#	$NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
+# $MirOS$
+# $OpenBSD: install.sub,v 1.338 2004/04/12 22:55:11 krw Exp $
+# $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
+# Copyright (c) 2003, 2004
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #
@@ -59,7 +62,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-# OpenBSD install/upgrade script common subroutines and initialization code
+# MirBSD install/upgrade script common subroutines and initialization code
 
 # Include machine-dependent functions and definitions.
 #
@@ -91,14 +94,14 @@ set_term() {
 welcome() {
 	local _q
 
-	cat << __EOT
+	cat <<__EOT
 
-Welcome to the $OBSD $MODE program.
+Welcome to the ${OBSD} $MODE program.
 
-This program will help you $MODE OpenBSD in a simple and rational way. At
-any prompt except password prompts you can run a shell command by typing
-'!foo', or escape to a shell by typing '!'. Default answers are shown in []'s
-and are selected by pressing RETURN. At any time you can exit this program by
+This program will help you $MODE MirOS. At any prompt except password prompts
+you can run a shell command by typing '!foo', or escape to a shell by typing
+'!'. Default answers are shown in []'s and are selected by just RETURN, but
+sometimes there is no default. At any time you can exit this programme by
 pressing Control-C and then RETURN, but quitting during an $MODE can leave
 your system in an inconsistent state.
 
@@ -107,7 +110,7 @@ __EOT
 	# Configure the terminal.
 	set_term
 
-	cat << __EOT
+	cat <<__EOT
 
 IS YOUR DATA BACKED UP? As with anything that modifies disk contents, this
 program can cause SIGNIFICANT data loss.
@@ -116,23 +119,23 @@ __EOT
 
 	case $MODE in
 	upgrade)
-		cat << __EOT
-NOTE: once your system has been upgraded, you must manually merge any changes
-to files in the 'etc' set into the files already on your system.
+		cat <<__EOT
+NOTE: before your system has been upgraded, you must manually merge any changes
+to files in the 'etc' and 'xetc' set into the files already on your system.
 
 __EOT
 		_q="Proceed with upgrade?"
 		;;
 
 	install)
-		cat << __EOT
+		cat <<__EOT
 It is often helpful to have the installation notes handy. For complex disk
 configurations, relevant disk hardware manuals and a calculator are useful.
 
 __EOT
 
 		if [ -f /etc/fstab ]; then
-			cat << __EOT
+			cat <<__EOT
 You seem to be trying to restart an interrupted installation! You can skip
 the disk preparation steps and continue, or you can reboot and start over.
 
@@ -146,10 +149,10 @@ __EOT
 
 	ask_yn "$_q"
 	if [[ $resp == n ]]; then
-		cat << __EOT
+		cat <<__EOT
 
-Enter 'halt' at the prompt to gracefully exit OpenBSD. You can then
-power cycle the machine and boot your original OS.
+Enter 'halt -p' or 'reboot' at the prompt to gracefully exit MirBSD.
+You can then power cycle the machine and boot BSD or your other OSes.
 __EOT
 		exit
 	fi
@@ -158,11 +161,11 @@ __EOT
 }
 
 get_dkdevs() {
-	bsort `sed -ne "${MDDISKDEVS:-/^[sw]d[0-9][0-9]* /s/ .*//p}" /var/run/dmesg.boot`
+	bsort $(sed -ne "${MDDISKDEVS:-/^[sw]d[0-9][0-9]* /s/ .*//p}" -e '/^raid[0-9][0-9]* /s/ .*//p' -e '/^ccd[0-9][0-9]* /s/ .*//p' /var/run/dmesg.boot)
 }
 
 get_cddevs() {
-	bsort `sed -ne "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}" /var/run/dmesg.boot`
+	bsort $(sed -ne "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}" /var/run/dmesg.boot)
 }
 
 get_ifdevs() {
@@ -223,7 +226,7 @@ ask() {
 # Save the user input (or the default) in $resp.
 ask_until() {
 	resp=
-	while [[ -z $resp ]] ; do
+	while [[ -z $resp ]]; do
 		ask "$1" "$2"
 	done
 }
@@ -242,8 +245,8 @@ ask_yn() {
 		ask "$_q" "$_a"
 		_resp=$resp
 		case $_resp in
-		y|yes)	resp=y ; return ;;
-		n|no)	resp=n ; return ;;
+		y|yes)	resp=y; return ;;
+		n|no)	resp=n; return ;;
 		esac
 	done
  }
@@ -329,8 +332,8 @@ bsort() {
 
 	shift
 	for _b; do
-		if [[ $_a != $_b ]] ; then
-			if [[ $_a > $_b ]] ; then
+		if [[ $_a != $_b ]]; then
+			if [[ $_a >$_b ]]; then
 				_l="$_a $_l"; _a=$_b
 			else
 				_l="$_b $_l"
@@ -352,8 +355,8 @@ save_comments() {
 	local _file=$1
 
 	if [[ -f /mnt/etc/$_file ]]; then
-		grep "^#" /mnt/etc/$_file > /tmp/$_file.new
-		[[ -f /tmp/$_file ]] && cat /tmp/$_file >> /tmp/$_file.new
+		grep "^#" /mnt/etc/$_file >/tmp/$_file.new
+		[[ -f /tmp/$_file ]] && cat /tmp/$_file >>/tmp/$_file.new
 		mv /tmp/$_file.new /tmp/$_file
 	fi
 }
@@ -374,13 +377,13 @@ edit_tmp_file() {
 manual_net_cfg() {
 	ask_yn "Do you want to do any manual network configuration?"
 
-	[[ $resp == y ]] && { echo "Type 'exit' to return to $MODE." ; sh ; }
+	[[ $resp == y ]] && { echo "Type 'exit' to return to $MODE."; sh; }
 }
 
 # log in via ftp to host $1 as user $2 with password $3
 # and return a list of all files in the directory $4 on stdout
 ftp_list_files() {
-	ftp ${_ftp_active} -V -n "$1" << __EOT
+	ftp ${_ftp_active} -V -n "$1" <<__EOT
 user "$2" "$3"
 cd "$4"
 ls
@@ -399,11 +402,11 @@ makedev() {
 
 	# Don't need to make network interface devices nodes. If the device
 	# nodes exist, don't need to create them.
-	if isin $_dev $IFDEVS || [[ -c $_node ]] ; then
+	if isin $_dev $IFDEVS || [[ -c $_node ]]; then
 		return 0
 	fi
 
-	if [[ ! -r /dev/MAKEDEV ]] ; then
+	if [[ ! -r /dev/MAKEDEV ]]; then
 		echo "No /dev/MAKEDEV. Can't create device nodes for ${_dev}."
 		return 1
 	fi
@@ -414,7 +417,7 @@ makedev() {
 	# error message and return false.
 	[[ -c $_node ]] || return 1
 
-	DEVSMADE=`addel $_dev $DEVSMADE`
+	DEVSMADE=$(addel $_dev $DEVSMADE)
 }
 
 # Create an entry in the hosts file. If an entry with the
@@ -422,10 +425,10 @@ makedev() {
 # $1 - IP address
 # $2 - symbolic name
 addhostent() {
-	sed "/ $2\$/d" /tmp/hosts > /tmp/hosts.new
+	sed "/ $2\$/d" /tmp/hosts >/tmp/hosts.new
 	mv /tmp/hosts.new /tmp/hosts
 
-	echo "$1 $2" >> /tmp/hosts
+	echo "$1 $2" >>/tmp/hosts
 }
 
 # Show list of available sets and let the user select which sets to install.
@@ -439,7 +442,7 @@ select_sets() {
 
 	while : ; do
 		_action=
-		cat << __EOT
+		cat <<__EOT
 
 The following sets are available. Enter a filename, 'all' to select
 all the sets, or 'done'. You may de-select a set by prepending a '-'
@@ -493,7 +496,7 @@ configure_ifs() {
 		[[ $resp == done ]] && break
 
 		_ifs=$resp
-		_hn=/tmp/hostname.$_ifs 
+		_hn=/tmp/hostname.$_ifs
 
 		# Get symbolic name - will be used in DHCP requests.
 		ask "Symbolic (host) name for $_ifs?" "$(hostname -s)"
@@ -547,16 +550,16 @@ v4_info() {
 dhcp_request() {
 	local _ifs=$1 _hostname=$2
 
-	echo "initial-interval 1;" > /etc/dhclient.conf
+	echo "initial-interval 1;" >/etc/dhclient.conf
 
 	if [[ -n $_hostname ]]; then
-		echo "send host-name \"$_hostname\";" >> /etc/dhclient.conf
+		echo "send host-name \"$_hostname\";" >>/etc/dhclient.conf
 		echo "Issuing hostname-associated DHCP request for $_ifs."
 	else
 		echo "Issuing free-roaming DHCP request for $_ifs."
 	fi
 
-	cat >> /etc/dhclient.conf << __EOT
+	cat >>/etc/dhclient.conf <<__EOT
 request subnet-mask,
 	broadcast-address,
 	routers,
@@ -565,7 +568,7 @@ request subnet-mask,
 	host-name;
 __EOT
 
-	cat >> /etc/resolv.conf.tail << __EOT
+	cat >>/etc/resolv.conf.tail <<__EOT
 lookup file bind
 __EOT
 
@@ -595,11 +598,11 @@ v4_config() {
 	if [[ -n $2 ]]; then
 		ifconfig $_ifs inet $2 delete
 		[[ $2 != "0.0.0.0" ]] && { _addr=$2; _mask=$3; }
-	fi	
+	fi
 
 	[[ -x /sbin/dhclient ]] && _prompt=" or 'dhcp'"
 	_prompt="IPv4 address for $_ifs? (or 'none'$_prompt)"
-	
+
 	ask_until "$_prompt" "$_addr"
 	case $resp in
 	none)	;;
@@ -635,7 +638,11 @@ v4_defroute() {
 		none|dhcp) break ;;
 		esac
 		route delete -inet default > /dev/null 2>&1
-		route -n add -inet -host default "$resp" && { echo "$resp" >/tmp/mygate ; break ; }
+		route -n add -inet -host default "$resp" && {
+			echo "route -n add -inet -host default $resp" \
+			    >/tmp/hostname.local
+			break
+		}
 		# Put the old default route back. The new one did not work.
 		route -n add -inet -host default $_dr >/dev/null 2>&1
 	done
@@ -679,10 +686,9 @@ enable_network() {
 
 		# Interface names must be alphanumeric only. We check to avoid
 		# configuring backup or temp files, and to catch the "*" case.
-		if ! isalphanumeric "$if"; then
-			continue
-		fi
-		ifconfig $if > /dev/null 2>&1
+		isalphanumeric "$if" || continue
+		[[ $if = local ]] && continue
+		ifconfig $if >/dev/null 2>&1
 		if [ $? -ne 0 ]; then
 			continue
 		fi
@@ -703,6 +709,11 @@ enable_network() {
 			# $af can be "dhcp", "up", "rtsol", an address family, commands, or
 			# a comment.
 			case $af in
+			"route"|"!route")
+				routep="-n $name"
+				[ x"$name" = x"+n" ] && routep=
+				cmd="/sbin/route ${routep} ${mask} ${bcaddr} ${ext1} ${ext2}"
+				;;
 			"#"*|"!"*|"bridge"|""|"rtsol")
 				# skip comments, user commands, bridges,
 				# IPv6 rtsol and empty lines
@@ -763,16 +774,15 @@ enable_network() {
 		done </mnt/etc/hostname.$if
 	done
 
-	# /mnt/etc/mygate, if it exists, contains the name of my gateway host
-	# that name must be in /etc/hosts.
-	if [ -f /mnt/etc/mygate ]; then
-		route delete default >/dev/null 2>&1
-		route -qn add -host default $(< /mnt/etc/mygate)
-	fi
-
 	# Use loopback, not the wire.
-	route -qn add -host `hostname` 127.0.0.1 >/dev/null
+	route -qn add -host $(hostname) 127.0.0.1 >/dev/null
 	route -qn add -net 127 127.0.0.1 -reject >/dev/null
+
+	# Grab default route, if existent
+	if [ -s /mnt/etc/hostname.local ]; then
+		cmd="$(grep ^route /mnt/etc/hostname.local | grep default)"
+		[[ -n $cmd ]] && eval "$cmd"
+	fi
 
 	# Display results...
 	echo "Network interface configuration:"
@@ -797,7 +807,7 @@ install_files() {
 	# _get_sets to the intersection of _sets and DEFAULTSETS.
 	#
 	# Sets will be installed in the order given in THESETS to ensure proper
-	# installation.  So, to minimize user confusion display the sets in the
+	# installation. So, to minimize user confusion display the sets in the
 	# order in which they will be installed.
 	for _f in $THESETS; do
 		isin $_f $_files || continue;
@@ -807,7 +817,7 @@ install_files() {
 
 	if [[ -z $_sets ]]; then
 		# Show $_src, but delete any ftp password.
-		cat << __EOT
+		cat <<__EOT
 No $OBSD sets were found at
 
 	$(echo $_src | sed -e 's/\(^ftp:\/\/[^/]*\)\(:[^/]*\)\(@.*\)/\1\3/')
@@ -825,11 +835,11 @@ __EOT
 	ask_yn "Ready to $MODE sets?" yes
 	[[ $resp = n ]] && return
 
-	for _f in $THESETS ; do
+	for _f in $THESETS; do
 		isin $_f $_get_sets || continue
 		echo "Getting $_f ..."
 		case $_f in
-		*.tgz)	ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxphf - -C /mnt
+		*.ngz)	ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxphf - -C /mnt
 			;;
 		*)	ftp $_ftp_active -o "/mnt/$_f" -V -m "$_src/$_f"
 			;;
@@ -919,24 +929,25 @@ install_url() {
 	[[ $resp == none ]] || export ftp_proxy=$resp http_proxy=$resp
 
 	rm -f $SERVERLIST
-	ask_yn "Display the list of known $_url_type servers?" "${_get_server_list:-yes}"
-	_get_server_list=$resp
-	if [[ $_get_server_list == y ]]; then
-		# ftp.openbsd.org == 129.128.5.191 and will remain at
-		# that address for the forseeable future.
-		echo -n "Getting the list from 129.128.5.191 (ftp.openbsd.org)..."
-		ftp $_ftp_active -V -a -o - \
-			ftp://129.128.5.191/$FTPDIR/ftplist 2>/tmp/ftplisterr \
-			| sed -ne "/^${_url_type}:\/\//s///p" >$SERVERLIST
-		if [[ -s $SERVERLIST ]]; then
-			echo "done."
-			_prompt="Server? (IP address, hostname, list#, 'done' or '?')"
-			cat -n $SERVERLIST | less -XE
-		else
-			echo "FAILED."
-			cat /tmp/ftplisterr
-		fi
-	fi
+#	ask_yn "Display the list of known $_url_type servers?" "${_get_server_list:-yes}"
+#	_get_server_list=$resp
+	_get_server_list=n
+#	if [[ $_get_server_list == y ]]; then
+#		# ftp.openbsd.org == 129.128.5.191 and will remain at
+#		# that address for the forseeable future.
+#		echo -n "Getting the list from 129.128.5.191 (ftp.openbsd.org)..."
+#		ftp $_ftp_active -V -a -o - \
+#			ftp://129.128.5.191/$FTPDIR/ftplist 2>/tmp/ftplisterr \
+#			| sed -ne "/^${_url_type}:\/\//s///p" >$SERVERLIST
+#		if [[ -s $SERVERLIST ]]; then
+#			echo "done."
+#			_prompt="Server? (IP address, hostname, list#, 'done' or '?')"
+#			cat -n $SERVERLIST | less -XE
+#		else
+#			echo "FAILED."
+#			cat /tmp/ftplisterr
+#		fi
+#	fi
 
 	# Get server IP address or hostname
 	: ${_prompt:="Server? (IP address, hostname or 'done')"}
@@ -953,7 +964,7 @@ install_url() {
 			# as a line number in $SERVERLIST.
 			[[ -s $SERVERLIST ]] || continue
 			set -- $(sed -ne "${resp}p" $SERVERLIST)
-			[[ $# -lt 1 ]] && { echo "There is no line $resp." ; continue ; }
+			[[ $# -lt 1 ]] && { echo "There is no line $resp."; continue; }
 			echo "Using	$*"
 			eval _${_url_type}_server_ip=${1%%/*}
 			eval _${_url_type}_server_dir=${1#*/}/$SETDIR
@@ -981,7 +992,8 @@ install_url() {
 
 	# Get server directory
 	eval resp=\$_${_url_type}_server_dir
-	ask_until "Server directory?" "${resp:-pub/OpenBSD/$SETDIR}"
+#	ask_until "Server directory?" "${resp:-mbsd7}"
+	ask_until "Server directory?" "${resp:-MirOS/current/$ARCH}"
 	eval _${_url_type}_server_dir=$resp
 
 	if [[ $_url_type == ftp ]]; then
@@ -993,10 +1005,10 @@ install_url() {
 		_ftp_server_login=$resp
 
 		# Get password unless anonymous
-		_passwd=root@`hostname`
+		_passwd=root@$(hostname)
 		if [[ $_ftp_server_login != anonymous ]]; then
 			resp=
-			while [[ -z $resp ]] ; do
+			while [[ -z $resp ]]; do
 				askpass "Password? (will not echo)"
 			done
 			_passwd=$resp
@@ -1012,7 +1024,7 @@ install_url() {
 	eval _url_base=$_url_base\$_${_url_type}_server_ip/\$_${_url_type}_server_dir
 
 	# Get list of files from the server.
-	if [[ $_url_type == ftp && -z $ftp_proxy ]] ; then
+	if [[ $_url_type == ftp && -z $ftp_proxy ]]; then
 		_file_list=$(ftp_list_files "$_ftp_server_ip" "$_ftp_server_login" "$_passwd" "$_ftp_server_dir")
 		ftp_error "Login failed." "$_file_list" && return
 		ftp_error "No such file or directory." "$_file_list" && return
@@ -1037,16 +1049,16 @@ install_mounted_fs() {
 			;;
 		*)
 			# Accept a valid $_mp relative path.
-			[[ -d $_mp/$resp ]] && { _dir=$_mp/$resp ; break ; }
+			[[ -d $_mp/$resp ]] && { _dir=$_mp/$resp; break; }
 			# Accept a valid absolute path.
-			[[ -d /$resp ]] && { _dir=/$resp ; break ; }
+			[[ -d /$resp ]] && { _dir=/$resp; break; }
 			# Otherwise ask again, with original default dir.
 			echo "The directory '$resp' does not exist."
 			;;
 		esac
 	done
 
-	install_files "file://$_dir" "`ls -l $_dir`"
+	install_files "file://$_dir" "$(ls -l $_dir)"
 }
 
 install_cdrom() {
@@ -1082,7 +1094,7 @@ install_cdrom() {
 	else
 		# Get partition from user
 		resp=
-		while [ -z "$resp" ] ; do
+		while [ -z "$resp" ]; do
 			ask "CD-ROM partition to mount? (normally 'c')" c
 			case $resp in
 			[a-p])
@@ -1096,7 +1108,7 @@ install_cdrom() {
 		done
 
 		# Ask for filesystem type
-		cat << __EOT
+		cat <<__EOT
 
 Two CD-ROM filesystem types are currently supported by this program:
 cd9660		ISO-9660
@@ -1104,7 +1116,7 @@ ffs		Berkeley Fast Filesystem
 
 __EOT
 		resp=
-		while [ -z "$resp" ] ; do
+		while [ -z "$resp" ]; do
 			ask "Which filesystem type?" cd9660
 			case $resp in
 			cd9660|ffs)
@@ -1121,13 +1133,13 @@ __EOT
 	rm -f /tmp/label.$_drive
 
 	# Mount the CD-ROM
-	if ! mount -t ${_fstype} -o ro /dev/${_drive}${_part} /mnt2 ; then
+	if ! mount -t ${_fstype} -o ro /dev/${_drive}${_part} /mnt2; then
 		echo "Cannot mount CD-ROM drive."
 		return
 	fi
 
 	install_mounted_fs /mnt2 "$SETDIR"
-	umount -f /mnt2 > /dev/null 2>&1
+	umount -f /mnt2 >/dev/null 2>&1
 }
 
 # Mount a disk on /mnt2. The set of disk devices to choose from
@@ -1143,25 +1155,25 @@ mount_a_disk() {
 	_drive=$resp
 
 	# Get partition
-	cat << __EOT
+	cat <<__EOT
 
 The following partitions have been found on $_drive:
 
 __EOT
 	disklabel $_drive 2>/dev/null | grep '^  .:'
 	echo
-	_likely_partition_range=`disklabel $_drive 2>/dev/null | \
+	_likely_partition_range=$(disklabel $_drive 2>/dev/null | \
 		sed -n	-e '/swap/s/.*//' -e '/unused/s/.*//' \
 			-e '/^  .:/{s/^  \(.\).*/\1/;H;}' \
-			-e '${g;s/\n//g;s/^/[/;s/$/]/p;}'`
-	_partition_range=`disklabel $_drive 2>/dev/null | \
+			-e '${g;s/\n//g;s/^/[/;s/$/]/p;}')
+	_partition_range=$(disklabel $_drive 2>/dev/null | \
 		sed -n	-e '/^  .:/{s/^  \(.\).*/\1/;H;}' \
-			-e '${g;s/\n//g;s/^/[/;s/$/]/p;}'`
-	_def_partition=`echo $_likely_partition_range | \
-		sed -n 's/^\[\(.\).*\]/\1/p'`
+			-e '${g;s/\n//g;s/^/[/;s/$/]/p;}')
+	_def_partition=$(echo $_likely_partition_range | \
+		sed -n 's/^\[\(.\).*\]/\1/p')
 	if [ -z "$_def_partition" ]; then
-		_def_partition=`echo $_partition_range | \
-			sed -n 's/^\[\(.\).*\]/\1/p'`
+		_def_partition=$(echo $_partition_range | \
+			sed -n 's/^\[\(.\).*\]/\1/p')
 		if [ -z "$_def_partition" ]; then
 			echo "There are no usable partitions on that disk"
 			return 1
@@ -1183,11 +1195,12 @@ __EOT
 	done
 
 	# Ask for filesystem type
-	cat << __EOT
+	cat <<__EOT
 
 The following filesystem types are supported:
 default		(deduced from the disklabel)
 ffs
+msdos
 $MDFSTYPE
 __EOT
 
@@ -1198,7 +1211,10 @@ __EOT
 		default)
 			;;
 		ffs)	_fstype="-t ffs"
-			_fsopts=async
+			_fsopts=softdep
+			;;
+		msdos)	_fstype="-t msdos"
+			_fsopts="-l"
 			;;
 		$MDFSTYPE)
 			_fstype="-t $resp"
@@ -1223,7 +1239,7 @@ __EOT
 install_disk() {
 	if mount_a_disk; then
 		install_mounted_fs /mnt2
-		umount -f /mnt2 > /dev/null 2>&1
+		umount -f /mnt2 >/dev/null 2>&1
 	fi
 }
 
@@ -1246,24 +1262,24 @@ install_nfs() {
 
 	# Determine use of TCP
 	_nfs_tcp=
-	ask_yn "Use TCP transport? (only works with capable NFS server)"
-	[[ $resp == y ]] && _nfs_tcp=-T
+	ask_yn "Use TCP transport? (only works with capable NFS server)" yes
+	[[ $resp == n ]] || _nfs_tcp=-T
 
 	# Mount the server
-	if ! mount_nfs $_nfs_tcp -o ro ${_nfs_server_ip}:${_nfs_server_path} /mnt2 ; then
+	if ! mount_nfs $_nfs_tcp -o ro ${_nfs_server_ip}:${_nfs_server_path} /mnt2; then
 		echo "Cannot mount NFS server."
 		return
 	fi
 
 	install_mounted_fs /mnt2
-	umount -f /mnt2 > /dev/null 2>&1
+	umount -f /mnt2 >/dev/null 2>&1
 }
 
 install_tape() {
 	local _xcmd
 
 	# Get the name of the tape from the user.
-	cat << __EOT
+	cat <<__EOT
 
 The installation program needs to know which tape device to use. Make
 sure you use a "no rewind on close" device.
@@ -1279,7 +1295,7 @@ __EOT
 
 	# Rewind the tape device
 	echo -n "Rewinding ${TAPE} (mt rewind)..."
-	if ! mt rewind ; then
+	if ! mt rewind; then
 		echo "FAILED."
 		return
 	fi
@@ -1302,14 +1318,14 @@ __EOT
 	# Skip to correct file.
 	if [ $_nskip -ne 0 ]; then
 		echo -n "Skipping to source file (mt fsf ${_nskip})..."
-		if ! mt fsf $_nskip ; then
+		if ! mt fsf $_nskip; then
 			echo "FAILED. Could not skip $_nskip files."
 			return
 		fi
 		echo "done."
 	fi
 
-cat << __EOT
+cat <<__EOT
 
 There are 2 different ways the file can be stored on tape:
 
@@ -1337,7 +1353,7 @@ __EOT
 }
 
 set_timezone() {
-	local _zoneroot=/mnt/usr/share/zoneinfo/ _zonepath
+	local _zoneroot=/mnt/usr/share/zoneinfo/right/ _zonepath
 
 	# If the timezone directory structure is not
 	# available, return immediately.
@@ -1375,7 +1391,7 @@ set_timezone() {
 		if [[ -f $_zonepath ]]; then
 			TZ=${_zonepath#$_zoneroot}
 			echo -n "Setting local timezone to '$TZ'..."
-			ln -sf /usr/share/zoneinfo/$TZ /mnt/etc/localtime
+			ln -sf /usr/share/zoneinfo/right/$TZ /mnt/etc/localtime
 			echo "done."
 			return
 		fi
@@ -1409,7 +1425,7 @@ __EOT
 	# Check if baseXX is installed.
 	if [[ ! -d /mnt/sbin || ! -d /mnt/dev ]]; then
 		_insane=y
-		DEFAULTSETS=$(addel base${VERSION}.tgz $DEFAULTSETS)
+		DEFAULTSETS=$(addel base${VERSION}.ngz $DEFAULTSETS)
 		cat << __EOT
 +*** 'base${VERSION}.tgz' must be (re)installed: /sbin or /dev is missing.
 __EOT
@@ -1418,7 +1434,7 @@ __EOT
 	# Check if etcXX is installed.
 	if [[ ! -s /mnt/etc/rc ]]; then
 		_insane=y
-		DEFAULTSETS=$(addel etc${VERSION}.tgz $DEFAULTSETS)
+		DEFAULTSETS=$(addel etc${VERSION}.ngz $DEFAULTSETS)
 		cat << __EOT
 +*** 'etc${VERSION}.tgz' must be (re)installed: /etc/rc is missing.
 __EOT
@@ -1433,7 +1449,7 @@ __EOT
 # user selects from that location. Repeat as many times as the user
 # needs to get all desired sets.
 install_sets() {
-	cat << __EOT
+	cat <<__EOT
 
 You will now specify the location and names of the ${MODE} sets you want to
 load. You will be able to repeat this step until all of your sets have been
@@ -1442,7 +1458,7 @@ installation notes for details on the contents of each.
 __EOT
 
 	while : ; do
-		cat << __EOT
+		cat <<__EOT
 
 Sets can be located on a (m)ounted filesystem; a (c)drom, (d)isk or (t)ape
 device; or a (f)tp, (n)fs or (h)ttp server.
@@ -1469,11 +1485,11 @@ __EOT
 #       1) can't be mounted (no mount_* command is found),
 #	2) have 'xx' in the option field (usually /altroot),
 #	3) have 'noauto' in the option field,
-#	4) are nfs (since name resolution may not be present).
+#	4) are nfs (since name resolution may not be present),
+#	5) are mfs (breaks install usually).
 #
 # In addition,
 #
-#	1) delete 'softdep' options (no soft updates in ramdisk kernels),
 #	2) mount non-ffs filesystems read only,
 #	3) prepend '/mnt' to all mount points,
 #	4) delete any trailing '/' from the mount point (e.g. root),
@@ -1487,13 +1503,10 @@ munge_fstab() {
 		# Drop irrelevant lines and filesystems.
 		[[ $_dev == \#* || \
 		    $_fstype == nfs || \
+		    $_fstype == mfs || \
 		    ! -f /sbin/mount_$_fstype || \
 		    $_opt == *noauto* || \
 		    $_opt == *xx* ]] && continue
-
-		# Remove any softdep options, as soft updates are not
-		# available in the ramdisk kernels.
-		_opt=$(echo $_opt | sed -e 's/softdep//')
 
 		# Mount non-ffs filesystems read only.
 		[[ $_fstype == ffs ]] || _opt=$(echo $_opt | sed -e 's/rw/ro/')
@@ -1504,7 +1517,7 @@ munge_fstab() {
 		# 3) leave out fs_freq and fs_passno fields (i.e. $_rest).
 		echo $_dev /mnt${_mp%/} $_fstype $_opt
 
-	done < /tmp/fstab > /etc/fstab
+	done </tmp/fstab >/etc/fstab
 
 	# If no /etc/fstab was created, we have nowhere to ${MODE} to.
 	if [ ! -s /etc/fstab ]; then
@@ -1524,17 +1537,19 @@ mount_fs() {
 		[ "$_mp" = "/mnt" ] || mkdir -p $_mp
 
 		# Mount the filesystem. If the mount fails, exit.
-		if ! mount -v -t $_fstype $_async -o $_opt $_dev $_mp ; then
+		if ! mount -v -t $_fstype $_async -o $_opt $_dev $_mp; then
+		# If it failed, try without async (important for raid) first
+			if ! mount -v -t $_fstype -o $_opt $_dev $_mp; then
 			# In addition to the error message displayed by mount ...
-			cat << __EOT
+			cat <<__EOT
 
 FATAL ERROR:	Cannot mount filesystems. Double-check your configuration
 		and restart the ${MODE}.
 
 __EOT
 			exit
-		fi
-	done < /etc/fstab
+		fi; fi
+	done </etc/fstab
 }
 
 # Preen all filesystems in /etc/fstab that have a /sbin/fsck_XXX,
@@ -1554,13 +1569,13 @@ check_fs() {
 		_rest=${_dev#/dev/}
 		makedev ${_rest%[a-p]} || continue
 		echo -n "fsck -p ${_dev}..."
-		if ! fsck -fp ${_dev} > /dev/null 2>&1; then
+		if ! fsck -fp ${_dev} >/dev/null 2>&1; then
 			echo "FAILED. You must fsck $_dev manually."
 			_fail=y
 		else
 			echo "OK."
 		fi
-	done < /etc/fstab
+	done </etc/fstab
 
 	echo "...done."
 
@@ -1612,9 +1627,9 @@ donetconfig() {
 	# Get/Confirm nameservers, and construct appropriate resolv.conf.
 	ask "DNS nameserver? (IP address or 'none')" "${_ns:=none}"
 	if [[ $resp != none ]]; then
-		echo "lookup file bind" > /tmp/resolv.conf
+		echo "lookup file bind" >/tmp/resolv.conf
 		for _ns in $resp; do
-			echo "nameserver $_ns" >> /tmp/resolv.conf
+			echo "nameserver $_ns" >>/tmp/resolv.conf
 		done
 		ask_yn "Use the nameserver now?" yes
 		[[ $resp == y ]] && cp /tmp/resolv.conf /tmp/resolv.conf.shadow
@@ -1637,7 +1652,7 @@ questions() {
 	ask_yn "Do you wish sshd(8) to be started by default?" yes
 	if [[ $resp == n ]]; then
 		echo "sshd_flags=NO		# disabled during install" \
-		    > /mnt/etc/rc.conf.local
+		    >/mnt/etc/rc.conf.local
 	fi
 
 	[[ -n $MDXAPERTURE ]] || return
@@ -1645,7 +1660,7 @@ questions() {
 	ask_yn "Do you expect to run the X Window System?" yes
 	if [[ $resp == y ]]; then
 		sed -e "/^#\(machdep\.allowaperture=${MDXAPERTURE}\)/s//\1	/" \
-		    /mnt/etc/sysctl.conf > /tmp/sysctl.conf
+		    /mnt/etc/sysctl.conf >/tmp/sysctl.conf
 	fi
 }
 
@@ -1684,11 +1699,17 @@ finish_up() {
 	[ -x /mnt/${MODE}.site ] && /mnt/usr/sbin/chroot /mnt /${MODE}.site
 
 	# Pat on the back.
-	cat << __EOT
+	cat <<__EOT
 
-CONGRATULATIONS! Your OpenBSD ${MODE} has been successfully completed!
+CONGRATULATIONS! Your MirBSD ${MODE} has been successfully completed!
 To boot the new system, enter halt at the command prompt. Once the
 system has halted, reset the machine and boot from the disk.
+
+Hello there! We from the MirOS project would like to hear from you!
+If you installed or updated your existing MirOS installation, which
+architecture, maybe your country, a dmesg and a few words about how
+you like MirOS. If you don't mind being counted to help us estimate
+our userbase, mail to <miros-dev@66h.42h.de> - thanks in advance!
 __EOT
 
 	md_congrats
@@ -1707,12 +1728,11 @@ __EOT
 ROOTDISK=
 ROOTDEV=
 
-VERSION=35
+VERSION=8
 
 VNAME="$(( $VERSION / 10 )).$(( $VERSION % 10 ))"
 SETDIR="$VNAME/$ARCH"
-FTPDIR="pub/OpenBSD/$VNAME"
-OBSD="OpenBSD/$ARCH $VNAME"
+OBSD="MirOS/BSD/$ARCH $VNAME"
 SERVERLIST=/tmp/serverlist
 
 # Do not limit ourselves during installs or upgrades.
@@ -1721,33 +1741,35 @@ for _opt in d f l m n p s; do
 done
 
 # Extract and save one boot's worth of dmesg
-dmesg | sed -ne '/^OpenBSD /h;/^OpenBSD /!H;${g;p;}' > /var/run/dmesg.boot
+dmesg | sed -ne '/^MirBSD /h;/^MirBSD /!H;${g;p;}' >/var/run/dmesg.boot
 
 # Scan /var/run/dmesg.boot for disks and cds
-DKDEVS=`get_dkdevs`
-CDDEVS=`get_cddevs`
-IFDEVS=`get_ifdevs`
+DKDEVS=$(get_dkdevs)
+CDDEVS=$(get_cddevs)
+IFDEVS=$(get_ifdevs)
 
 # Devices created with makedev().
 DEVSMADE=
 
 # Selected sets will be installed in the order they are listed in $THESETS.
-# Ensure that siteXX.tgz is the *last* set listed so its contents overwrite
+# Ensure that siteXX.ngz is the *last* set listed so its contents overwrite
 # the contents of the other sets, not the other way around.
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
-for _set in base etc misc comp man game xbase xshare xfont xserv site ; do
-	[[ $MODE == upgrade && $_set == etc ]] && continue
-	THESETS="$THESETS ${_set}${VERSION}.tgz"
-	isin $_set xbase xshare xfont xserv site && continue
-	DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.tgz"
+for _set in base etc gnu gcc xbase xetc ports pkgutl source xfree site; do
+	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
+	THESETS="$THESETS ${_set}${VERSION}.ngz"
+	isin $_set xbase xetc ports pkgutl source xfree site && continue
+	DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
 done
 
 # decide upon an editor
-if [ -z "$EDITOR" ] ; then
+if [ -z "$EDITOR" ]; then
 	EDITOR=ed
 	[ -x /usr/bin/vi ] && EDITOR=vi
 	export EDITOR
+	# for ksh line-editing (bsiegert@, leave this in, thanks)
+	set -o emacs
 fi
 
 # umount all filesystems, just in case we are re-running install or upgrade.
@@ -1759,9 +1781,9 @@ welcome
 
 # Get ROOTDISK, ROOTDEV and SWAPDEV.
 if [[ $MODE == install && ! -f /etc/fstab ]]; then
-	cat << __EOT
+	cat <<__EOT
 
-You will now initialize the disk(s) that OpenBSD will use. To enable all
+You will now initialize the disk(s) that MirBSD will use. To enable all
 available security features you should configure the disk(s) to allow the
 creation of separate filesystems for /, /tmp, /var, /usr, and /home.
 

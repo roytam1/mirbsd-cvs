@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: elfrdsetroot.c,v 1.5 2004/02/04 14:28:22 mickey Exp $	*/
 /*	$NetBSD: rdsetroot.c,v 1.2 1995/10/13 16:38:39 gwr Exp $	*/
 
@@ -226,8 +227,8 @@ find_rd_root_image(file, eh, ph)
 	rd_root_image_off     = wantsyms[1].n_value - kernel_start;
 
 #ifdef DEBUG
-	printf("rd_root_size_off = 0x%x\n", rd_root_size_off);
-	printf("rd_root_image_off = 0x%x\n", rd_root_image_off);
+	printf("rd_root_size_off = 0x%lx\n", rd_root_size_off);
+	printf("rd_root_image_off = 0x%lx\n", rd_root_image_off);
 #endif
 
 	/*
