@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/opts.c,v 1.3 2005/03/25 19:29:09 tg Exp $ */
+/* $MirOS: gcc/gcc/opts.c,v 1.4 2005/03/25 22:58:44 tg Exp $ */
 
 /* Command line option handling.
    Copyright (C) 2002, 2003, 2004, 2005
@@ -1435,6 +1435,10 @@ common_handle_option (size_t scode, const char *arg,
     case OPT_ftracer:
       flag_tracer_set = true;
       flag_tracer = value;
+      break;
+
+    case OPT_ftrampolines:
+      flag_trampolines = value;
       break;
 
     case OPT_ftrapping_math:
