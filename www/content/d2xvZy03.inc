@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.32 2005/03/16 23:55:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.33 2005/03/20 22:01:14 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2640,4 +2640,16 @@
  update XFree86&trade; to their latest released version. I was outside for
  a while though, and that helped me inspire. If I would now just get these
  damn scripts done I need for $ork tomorrow...</p>
+<p>21.03.2005 by tg@<br />A happy start into the spring... XFree86&trade;,
+ as announced, works. I've imported gcc 3.4.4 (prerelease), but gotta work
+ today, and every day of this week 'til thundersday. Promising activity is
+ ongoing by the ppl from OpenBSD again, making everyone realise how unfree
+ &quot;FreeBSD&quot; really is. I'm quite often astonished when I read the
+ news, but amazed how high-quality they want to keep their code. I can say
+ I'd like to follow that, and despite being an amateur project we will try
+ hard. Everybody can help, and if it's just a donation, a small docs patch
+ or you buying a T-Shirt. Testing snapshots and reporting broken behaviour
+ is of course better; helping to fix that best.<br />We still don't have a
+ &quot;public relationships manager&quot; and I'm waiting for the new logo
+ but we'll appear with Holarse and BOSng at LinuxTag, Karlsruhe ;-)</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
