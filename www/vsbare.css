@@ -1,0 +1,162 @@
+/* $MirBSD: www/vsbare.css,v 1.4 2004/11/12 17:54:19 tg Exp $
+ *-
+ * Copyright (c) 1999, 2002, 2003, 2004
+ *	Thorsten Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004
+ *	Benny Siegert <bsiegert@gmx.de>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the following
+ *    disclaimer in the documentation and/or other materials provided
+ *    with the distribution.
+ * 3. All marketing or advertising materials mentioning features or
+ *    use of this product must display the following acknowledgement:
+ *    * This product includes material provided by Thorsten Glaser.
+ * 4. Neither the name of Thorsten Glaser or the MirOS project nor
+ *    the names of their contributors may be used to endorse or pro-
+ *    mote products derived from this software without specific prior
+ *    written permission.
+ * 5. If this work is used on world wide web pages, the authors must
+ *    be given due credits in the site's imprint.
+ * 6. This licence automatically ends if the site of licensee is not
+ *    easily distinguishable from Thorsten Glaser's personal homepage
+ *    or the MirOS project's site.
+ * 7. This licence does not cover usage of the pictures used on the
+ *    pages, especially not the BSD Dæmon or the MirOS/MirAbile logo.
+ *
+ * This work is provided "as is" with no explicit or implicit warran-
+ * ties whatsoever to the maximum extend permitted by applicable law;
+ * in no event may an author or contributor be held liable for damage
+ * that is, directly or indirectly, caused by the work, even if advi-
+ * sed of the possibility of such damage.
+ *-
+ * This is the master stylesheet for the new-style MirOS homepage.
+ * Credits to Jupp cnuke Söntgen <cnuke@66h.42h.de> for his feedback.
+ *
+ * Stylesheet variant: bare (no colours defined)
+ */
+
+body {
+	max-width:100%;
+	padding:2px;
+}
+
+body,p,.content {
+	font-family:Times,"Times New Roman",serif;
+	font-size:12pt;
+}
+
+.legalese {
+	font-size:4pt;
+	font-family:fixed,Terminal,monospace; }
+
+.legalbig {
+	font-size:7pt;
+	font-family:fixed,Terminal,monospace; }
+
+tt,pre {
+	font-family:fixed,vga,Fixedsys,Terminal,monospace;
+	font-size:14px;
+}
+
+tt {
+	white-space:nowrap;
+}
+
+a {
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+strong {
+	text-decoration:underline;
+}
+
+strong:hover {
+	text-decoration:none;
+}
+
+.footer {
+	position:absolute;
+		left: 0px; right:0px;
+	padding:7px;
+	margin-top:3px;
+	font-size:10pt;
+	border-top:inset;
+}
+
+.heading {
+	position:absolute; overflow:hidden;
+		top:2px; left:204px;
+		right:2px; height:96px;
+	padding:3px;
+	font-family:monospace;
+	font-size:12px;
+}
+
+.index {
+	position:absolute;
+		top:2px; left:2px;
+		bottom:10%; width:200px;
+}
+
+.content {
+	margin-top:100px; margin-left:204px;
+	padding-left:2px;
+}
+
+.hdrflf {
+	position:absolute;
+		top:-16px; left:52px;
+		width:436px; height:88px;
+	font-family:monospace;
+	font-size:10px;
+	z-index:1;
+}
+
+.hdrlnks {
+	position:absolute;
+		top:7px; left:2px;
+		width:86px; height:84px;
+	z-index:3;
+}
+
+.hdrrhts {
+	position:absolute;
+		top:4px; left:482px;
+		width:74px; height:88px;
+	z-index:2;
+}
+
+ul.lv1 {
+	position:relative; left:-20px; width:95%;
+	list-style:disc;
+}
+
+ul.lv2 {
+	position:relative; left:-20px; width:90%;
+	list-style:square;
+}
+
+.greyed {
+}
+
+.erecta {
+	font-size:13pt;
+}
+
+.admin {
+	color:#000000;
+	background-color:#000000;
+	display:none;
+}
