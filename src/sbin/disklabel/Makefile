@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/disklabel/Makefile,v 1.2 2005/03/06 19:49:51 tg Exp $
+# $MirOS: src/sbin/disklabel/Makefile,v 1.3 2005/03/15 18:39:17 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/10/31 04:05:29 drahn Exp $
 
 .include <bsd.own.mk>
@@ -9,7 +9,7 @@ CLEANFILES+=	manpage.c
 DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
 MAN=		disklabel.8 disklabel.5
-CFLAGS+=	-Wall -Werror
+CFLAGS+=	-Wall
 
 .if !defined(NOMAN) || ${NOMAN:L} == "no"
 manpage.c: disklabel.cat8

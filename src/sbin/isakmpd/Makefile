@@ -1,4 +1,4 @@
-#	$MirOS$
+#	$MirOS: src/sbin/isakmpd/Makefile,v 1.2 2005/03/06 19:50:03 tg Exp $
 #	$OpenBSD: Makefile,v 1.58 2004/11/10 22:07:46 drahn Exp $
 #	$EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
 
@@ -83,7 +83,7 @@ CPPFLAGS+=	-DNEED_SYSDEP_APP -I${.CURDIR} -I${.CURDIR}/sysdep/${OS} -I.
 # Include symbolic debugging info
 #DEBUG=		-g	# OpenBSD
 #DEBUG_FLAGS=	-g	# FreeBSD
-#CFLAGS+=	-g	# NetBSD and others
+#CFLAGS+=	-g	# NetBSD, MirOS and others
 #STRIPFLAG=		# NETBSD
 
 # Do execution time profiles
