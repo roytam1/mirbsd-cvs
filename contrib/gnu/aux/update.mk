@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/gnu/aux/update.mk,v 1.1.7.1 2005/02/05 01:54:29 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -17,6 +17,8 @@ PIDBDIR=	$${PORTSDIR:-/usr/ports}${.CURDIR:S/${PORTSDIR}//}
 #	gettext/autoconf-lib-link/m4/lib-ld.m4
 #	gettext/autoconf-lib-link/m4/lib-link.m4
 #	gettext/autoconf-lib-link/m4/lib-prefix.m4
+# removed:
+#	libtool/libtoolize
 
 
 POSSIBLE_SOURCES+=					\
@@ -38,10 +40,9 @@ POSSIBLE_SOURCES+=					\
 	gettext/config/install-reloc			\
 	gettext/config/reloc-ldflags			\
 	libtool/libtool.m4				\
-	libtool/libtoolize				\
 	libtool/ltmain.sh				\
-	libtool/m4salt.m4				\
-	libtool/m4sugar.m4
+	libtool/m4salt.inc				\
+	libtool/m4sugar.inc
 
 .if !empty(ONLY)
 POSSIBLE_SOURCES=${ONLY}
