@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.6 2005/03/19 17:19:17 tg Exp $
+# $MirOS: X11/Makefile,v 1.7 2005/03/20 18:13:16 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -30,8 +30,20 @@ build:
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} fix-appd
 
-b-r: check-objdir
-	exec ${SHELL} ${.CURDIR}/build-release
+b-r:
+	# Test if the targets are mounted suitable for root (BTSTF)
+.for _dir in ${BSDOBJDIR} ${BSDRELDIR}
+	mkdir -p ${_dir} || ${SUDO} mkdir -p ${_dir}
+	${SUDO} touch ${_dir}/permissions.test
+	${SUDO} chown root:wheel ${_dir}/permissions.test
+	${SUDO} rm ${_dir}/permissions.test
+.endfor
+	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
+	@echo ============================================================
+	@date
+	@echo ============================================================
+	cd ${.CURDIR} && ${MAKE} obj && ${MAKE} check-objdir \
+	    && exec ${SHELL} ${.CURDIR}/build-release
 
 compile:
 	rm -f ${CONFHOSTDEF}
@@ -113,6 +125,14 @@ dist:
 
 release:
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} do-rel DESTDIR=${BSDRELDIR}/x11
+	-cd ${RELEASEDIR}; cksum x*.ngz \
+	    | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
+	-cd ${RELEASEDIR}; rmd160 x*.ngz \
+	    | cat - RMD160 | ${SUDO} sort -o RMD160
+	@echo ============================================================
+	@echo Build and Release for the X-Window System complete.
+	@date; uname -a
+	@echo ============================================================
 
 do-rel:
 	mkdir -p ${DESTDIR} ${RELEASEDIR}
