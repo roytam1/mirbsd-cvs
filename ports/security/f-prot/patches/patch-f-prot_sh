@@ -1,9 +1,0 @@
-$MirOS$
---- f-prot.sh.orig	Tue Nov  2 13:39:24 2004
-+++ f-prot.sh	Wed Nov  3 20:55:02 2004
-@@ -2,4 +2,4 @@
- #
- # This is a shell script to invoke the F-Prot OnDemand Scanner for Linux.
- #
--exec /usr/local/f-prot/f-prot ${@+"$@"}
-+exec @@PREFIX@@/f-prot/f-prot-openbsd3.4 ${@+"$@"}
