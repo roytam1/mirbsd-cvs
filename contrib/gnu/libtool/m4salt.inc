@@ -1,5 +1,5 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.2 2005/02/10 20:17:02 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.3 2005/02/10 20:19:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 # Free Software Foundation, Inc.
@@ -14,7 +14,7 @@ divert(-1)dnl
 # on to distinguish whether stuff has been fnordified or not.
 
 define([AC_m4salt_INIT],
-[builtin([include], [m4sugar.m4])dnl
+[builtin([include], [m4sugar.inc])dnl
 
 dnl Undo some damage
 m4_copy_unm4([m4_builtin])
@@ -45,7 +45,13 @@ m4_copy_unm4([m4_translit])
 m4_copy_unm4([m4_undefine])
 m4_copy_unm4([m4_undivert])
 
-dnl The following macro is under the GPL with exception clause:
+m4_ifndef([m4_tmpdir], [m4_define([m4_tmpdir], [/tmp])])dnl
+
+dnl Another identifier
+define([m4_PACKAGE_VERSION], [fnord_acsalt])dnl
+
+])dnl # AC_m4salt_INIT
+
 dnl AC_PROG_CXX()
 dnl ----------------
 dnl Forgiving copy of original AC_PROG_CXX
@@ -101,9 +107,6 @@ dnl normal versions of a library), tasteless as that idea is.
 fi
 AC_LANG_C
 ])dnl # AC_PROG_CXX
-
-dnl Another identifier
-define([m4_PACKAGE_VERSION], [fnord_acsalt])dnl
 
 dnl We don't have/want/need aclang.m4
 define([AC_LANG_PUSH],
@@ -170,7 +173,9 @@ m4_text_wrap([$2], AS_Prefix, [  $1]AS_PadLeft(m4_len(AS_Prefix),m4_len([$1])+2)
 m4_popdef([AS_Prefix])dnl
 ])
 
-])dnl # AC_m4salt_INIT
+
+dnl Initialisation of m4salt
+dnl ------------------------
 
 define([AC_m4salt_SPLIT],
 [translit($1, ., [, ])])dnl
