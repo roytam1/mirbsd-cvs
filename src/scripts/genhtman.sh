@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/scripts/genhtman.sh,v 1.3 2005/03/29 00:21:33 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.4 2005/03/29 10:49:07 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,46 +24,34 @@
 
 cd $BSDRELDIR
 if ! [[ -e base && -e gcc && -e x11 ]]; then
-	print Invoke in BSDRELDIR
+	print Invoke with BSDRELDIR
 	exit 1
 fi
 
 . /usr/src/scripts/roff2htm
-mkdir -p /usr/obj/htman/{man,htm}
-for s in x11 gcc base; do
-	( cd $s/usr/share/man; find * -type f | cpio -pdlu /usr/obj/htman/man )
-done
-convert_all /usr/obj/htman/man /usr/obj/htman/htm
+convert_all $BSDOBJDIR/htman/man $BSDOBJDIR/htman/htm
 for s in papers psd smm usd; do
 	typeset -u u=$s
-	mkdir -p /usr/obj/htman/papers/$s /usr/obj/htman/htm/man$u
-	( cd /usr/obj/htman/papers/$s; lndir base/usr/share/doc/$s; make )
-	if [[ -e /usr/obj/htman/papers/$s/Title.txt ]]; then
+	mkdir -p $BSDOBJDIR/htman/htm/man$u
+	if [[ -e $BSDOBJDIR/htman/papers/$s/Title.txt ]]; then
 		( output_header Title $u
-		  do_convert </usr/obj/htman/papers/$s/Title.txt
+		  do_convert <$BSDOBJDIR/htman/papers/$s/Title.txt
 		  output_footer
-		) >/usr/obj/htman/htm/man$u/Title.htm
+		) >$BSDOBJDIR/htman/htm/man$u/Title.htm
 	fi
-	if [[ -e /usr/obj/htman/papers/$s/contents.txt ]]; then
+	if [[ -e $BSDOBJDIR/htman/papers/$s/contents.txt ]]; then
 		( output_header Contents $u
-		  do_convert </usr/obj/htman/papers/$s/contents.txt
+		  do_convert <$BSDOBJDIR/htman/papers/$s/contents.txt
 		  output_footer
-		) >/usr/obj/htman/htm/man$u/contents.htm
+		) >$BSDOBJDIR/htman/htm/man$u/contents.htm
 	fi
-	for f in /usr/obj/htman/papers/$s/*/paper.txt; do
-		t="${f#/usr/obj/htman/papers/$s/}"
+	for f in $BSDOBJDIR/htman/papers/$s/*/paper.txt; do
+		t="${f#$BSDOBJDIR/htman/papers/$s/}"
 		t="${t%/paper.txt}"
 		( output_header $t $u
 		  do_convert <$f
 		  output_footer
-		) >/usr/obj/htman/htm/man$u/$t.htm
+		) >$BSDOBJDIR/htman/htm/man$u/$t.htm
 	done
 done
-
-$SUDO mkdir -p htman
-( cd /usr/obj/htman/htm; find man* -name \*.htm | cpio -o ) \
-    | ( cd htman; $SUDO cpio -id )
-$SUDO chown -R 0:0 htman
-$SUDO chmod -R a=rX htman
-rm -rf /usr/obj/htman
 exit 0

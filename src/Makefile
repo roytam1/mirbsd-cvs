@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.5 2005/03/29 00:12:16 tg Exp $
+# $MirOS: src/Makefile,v 1.6 2005/03/29 10:49:05 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -101,8 +101,25 @@ contrelease:
 	@echo ============================================================
 
 do-htman:
-	BSDRELDIR="${BSDRELDIR}" SUDO="${SUDO}" OSrev="${OSrev}" \
+	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
+.for _i in x11 gcc base
+	cd ${BSDRELDIR}/${_i}/usr/share/man \
+	    && find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
+.endfor
+.for _i in papers psd smm usd
+	mkdir -p ${BSDOBJDIR}/htman/papers/${_i}
+	cd ${BSDOBJDIR}/htman/papers/${_i} \
+	    && lndir ${BSDOBJDIR}/base/usr/share/doc/${_i} \
+	    && ${MAKE}
+.endfor
+	BSDOBJDIR="${BSDOBJDIR}" BSDRELDIR="${BSDRELDIR}" \
+	    SUDO="${SUDO}" OSrev="${OSrev}" \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	${SUDO} mkdir -p ${BSDRELDIR}/htman
+	cd ${BSDOBJDIR}/htman/htm \
+	    && find man* -name \*.htm | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman
+	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
+	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 	@echo "============================================================"
 	@echo "Checking files:"
 	@echo ""
