@@ -1,58 +1,42 @@
-#	$OpenBSD: Makefile,v 1.35 2004/11/06 20:03:08 otto Exp $
-
-PROG=	disklabel
-SRCS=	disklabel.c dkcksum.c editor.c manual.c
-DPADD=	${LIBUTIL}
-LDADD=	-lutil
-MAN=	disklabel.8 disklabel.5
-
-
-CLEANFILES+=manual.c
+# $MirOS$
+# $OpenBSD: Makefile,v 1.30 2003/10/31 04:05:29 drahn Exp $
 
 .include <bsd.own.mk>
 
-.ifdef NOMAN
-manual.c:
-	(echo 'const char manpage[] = {'; \
-	echo 'no manual' | gzip -9c | hexdump -ve '"0x" 1/1 "%02x,"'; \
-	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
+PROG=		disklabel
+SRCS=		disklabel.c dkcksum.c editor.c manpage.c
+CLEANFILES+=	manpage.c
+DPADD+=		${LIBUTIL}
+LDADD+=		-lutil
+MAN=		disklabel.8 disklabel.5
+CFLAGS+=	-Wall -Werror
+
+.if !defined(NOMAN) || ${NOMAN:L} == "no"
+manpage.c: disklabel.cat8
+.endif
+
+manpage.c:
+	print 'char manpage[] = ' >$@
+.if defined(NOMAN) && ${NOMAN:L} != "no"
+	print -r '"no manual\n"' >>$@
 .else
-manual.c:	disklabel.cat8
-	(echo 'const char manpage[] = {'; \
-	gzip -9c disklabel.cat8 | hexdump -ve '"0x" 1/1 "%02x,"'; \
-	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
+	col -b <disklabel.cat8 | sed -e 's/[\\"]/\\&/g' \
+	    -e 's/^/"/' -e 's/$$/\\n"/' >>$@
+.endif
+	print ';' >>$@
+
+.if ${MACHINE} == "i386"
+CPPFLAGS+=	-DNUMBOOT=2 -DDOSLABEL
+CPPFLAGS+=	-DSEEALSO="\"fdisk(8), installboot(8)\""
 .endif
 
-.if (${MACHINE} == "alpha")
-CFLAGS+= -DSEEALSO="\"fdisk(8), installboot(8)\""
+.if ${MACHINE} == "sparc" || ${MACHINE} == "sparc64"
+CPPFLAGS+=	-DSEEALSO="\"installboot(8)\"" -DCYLCHECK -DAAT0
 .endif
 
-.if (${MACHINE} == "cats")
-CFLAGS+= -DSEEALSO="\"fdisk(8)\""
-.endif
-
-.if (${MACHINE} == "i386") || (${MACHINE} == "amd64")
-CFLAGS+= -DNUMBOOT=2 -DDOSLABEL
-CFLAGS+= -DSEEALSO="\"fdisk(8), installboot(8)\""
-.endif
-
-
-.if (${MACHINE} == "hp300") || (${MACHINE} == "vax") || (${MACHINE} == "hppa")
-CFLAGS+= -DNUMBOOT=1
-.endif
-
-.if (${MACHINE} == "sun3") || (${MACHINE} == "sparc") || \
-    (${MACHINE} == "sparc64")
-CFLAGS+= -DSEEALSO="\"installboot(8)\"" -DCYLCHECK -DAAT0
-.endif
-
-.if (${MACHINE} == "mvme68k") || (${MACHINE} == "mvme88k")
-CFLAGS+= -DSEEALSO="\"installboot(8)\""
-.endif
-
-.if (${MACHINE} == "macppc")
-CFLAGS+= -DDOSLABEL
-CFLAGS+= -DSEEALSO="\"fdisk(8)\""
+.if ${MACHINE} == "macppc"
+CPPFLAGS+=	-DDOSLABEL
+CPPFLAGS+=	-DSEEALSO="\"fdisk(8)\""
 .endif
 
 .include <bsd.prog.mk>

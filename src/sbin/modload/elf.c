@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: elf.c,v 1.6 2003/09/18 18:00:13 deraadt Exp $	*/
 /*	$NetBSD: elf.c,v 1.8 2002/01/03 21:45:58 jdolecek Exp $	*/
 
@@ -76,7 +77,7 @@ struct elf_section {
 	struct elf_section *next;
 };
 
-/* adds the section `s' at the correct (sorted by address) place in
+/* adds the section 's' at the correct (sorted by address) place in
    the list ponted to by head; *head may be NULL */
 static void
 add_section(struct elf_section **head, struct elf_section *s)
@@ -270,10 +271,10 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
 		 * XXX try to get rid of the hole before the data
 		 * section that GNU-ld likes to put there
 		 */
-		if (strcmp(s->name, ".data") == 0 && s->addr > (void*)off) {
+		if (strcmp(s->name, ".rodata") == 0 && s->addr > (void*)off) {
 			data_offset = roundup(off, s->align);
 			if (debug)
-				fprintf(stderr, ".data section forced to "
+				fprintf(stderr, ".rodata section forced to "
 				    "offset %p (was %p)\n",
 				    (void*)data_offset, s->addr);
 			/* later remove size of compressed hole from off */
@@ -317,7 +318,7 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
  * <target>	object file */
 
 #define	LINKCMD		"ld -Z -R %s -e %s -o %s -Ttext %p %s"
-#define	LINKCMD2	"ld -Z -R %s -e %s -o %s -Ttext %p -Tdata %p %s"
+#define	LINKCMD2	"ld -Z -R %s -e %s -o %s -Ttext %p --section-start .rodata=%p %s"
 
 /* make a link command; XXX if data_offset above is non-zero, force
    data address to be at start of text + offset */
@@ -328,7 +329,7 @@ elf_linkcmd(char *buf, size_t len, const char *kernel,
 {
 	ssize_t n;
 
-	if (data_offset == NULL)
+	if (!data_offset)
 		n = snprintf(buf, len, LINKCMD, kernel, entry,
 		    outfile, address, object);
 	else
@@ -362,7 +363,7 @@ elf_mod_load(int fd)
 		if (s->type != SHT_STRTAB && s->type != SHT_SYMTAB &&
 		    s->type != SHT_DYNSYM) {
 			if (debug)
-				fprintf(stderr, "loading `%s': addr = %p, "
+				fprintf(stderr, "loading '%s': addr = %p, "
 				    "size = %#lx\n",
 				    s->name, s->addr, (u_long)s->size);
 			if (s->type == SHT_NOBITS) {
@@ -431,7 +432,7 @@ elf_mod_symload(int strtablen)
 
 		if ((p->type == SHT_SYMTAB) || (p->type == SHT_DYNSYM)) {
 			if (debug)
-				fprintf(stderr, "loading `%s': addr = %p, "
+				fprintf(stderr, "loading '%s': addr = %p, "
 				    "size = %#lx\n",
 				    s->name, s->addr, (u_long)s->size);
 			/*
@@ -456,7 +457,7 @@ elf_mod_symload(int strtablen)
 		if ((p->type == SHT_STRTAB) &&
 		    (strcmp(p->name, ".strtab") == 0 )) {
 			if (debug)
-				fprintf(stderr, "loading `%s': addr = %p, "
+				fprintf(stderr, "loading '%s': addr = %p, "
 				    "size = %#lx\n",
 				    s->name, s->addr, (u_long)s->size);
 			/*

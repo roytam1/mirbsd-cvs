@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: user.c,v 1.21 2003/06/11 06:22:12 deraadt Exp $	*/
 
 /*
@@ -25,22 +26,23 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/types.h>
+#include <sys/fcntl.h>
+#include <sys/stat.h>
+#include <sys/disklabel.h>
+#include <machine/param.h>
 #include <err.h>
 #include <util.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/disklabel.h>
-#include <machine/param.h>
 #include "user.h"
 #include "disk.h"
 #include "misc.h"
 #include "mbr.h"
 #include "cmd.h"
 
+__RCSID("$MirOS$");
 
 /* Our command table */
 static cmd_table_t cmd_table[] = {
@@ -50,8 +52,10 @@ static cmd_table_t cmd_table[] = {
 	{"setpid", Xsetpid,	"Set the identifier of a given table entry"},
 	{"disk",   Xdisk,	"Edit current drive stats"},
 	{"edit",   Xedit,	"Edit given table entry"},
-	{"flag",   Xflag,	"Flag given table entry as bootable"},
-	{"update", Xupdate,	"Update machine code in loaded MBR"},
+	{"flag",   Xflag,	"Flag given table entry as active"},
+	{"fdef",   Xfdef,	"Flag as default (dangerous)"},
+	{"update", Xupdate,	"Update machine boot code in loaded MBR"},
+	{"umin",   Xumin,	"Update small portion of boot code only"},
 	{"select", Xselect,	"Select extended partition table entry MBR"},
 	{"print",  Xprint,	"Print loaded MBR partition table"},
 	{"write",  Xwrite,	"Write loaded MBR to disk"},
@@ -201,7 +205,8 @@ USER_print_disk(disk_t *disk)
 		/* Print out extended partitions too */
 		for (offset = i = 0; i < 4; i++)
 			if (mbr.part[i].id == DOSPTYP_EXTEND ||
-			    mbr.part[i].id == DOSPTYP_EXTENDL) {
+			    mbr.part[i].id == DOSPTYP_EXTENDL ||
+			    mbr.part[i].id == DOSPTYP_EXTENDLX) {
 				offset = mbr.part[i].bs;
 				if (firstoff == 0)
 					firstoff = offset;
@@ -210,4 +215,3 @@ USER_print_disk(disk_t *disk)
 
 	return (DISK_close(fd));
 }
-

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: message.c,v 1.92 2004/12/14 19:03:16 ho Exp $	 */
 /* $EOM: message.c,v 1.156 2000/10/10 12:36:39 provos Exp $	 */
 
@@ -65,6 +66,8 @@
 #include "transport.h"
 #include "util.h"
 #include "virtual.h"
+
+__RCSID("$MirOS$");
 
 #ifdef __GNUC__
 #define INLINE __inline
@@ -891,7 +894,7 @@ message_validate_notify(struct message *msg, struct payload *p)
 	}
 
 	/* Validate the SPI. XXX Just ISAKMP for now.  */
-	if (proto == ISAKMP_PROTO_ISAKMP && 
+	if (proto == ISAKMP_PROTO_ISAKMP &&
 	    GET_ISAKMP_NOTIFY_SPI_SZ(p->p) == ISAKMP_HDR_COOKIES_LEN &&
 	    msg->isakmp_sa &&
 	    memcmp(p->p + ISAKMP_NOTIFY_SPI_OFF, msg->isakmp_sa->cookies,
@@ -1472,7 +1475,9 @@ message_recv(struct message *msg)
 	 * DOI-specific exchange types are definitely wrong.
          */
 	if (exch_type >= ISAKMP_EXCH_DOI_MIN
+#if ISAKMP_EXCH_DOI_MAX < 255
 	    && exch_type <= ISAKMP_EXCH_DOI_MAX
+#endif
 	    && msg->exchange->doi->validate_exchange(exch_type)) {
 		log_print("message_recv: invalid DOI exchange type %d",
 		    exch_type);
@@ -1797,7 +1802,7 @@ message_send_info(struct message *msg)
 		sz = ISAKMP_DELETE_SPI_OFF + args->u.d.nspis * args->spi_sz;
 		break;
 	}
-	
+
 	buf = calloc(1, sz);
 	if (!buf) {
 		log_error("message_send_info: calloc (1, %lu) failed",

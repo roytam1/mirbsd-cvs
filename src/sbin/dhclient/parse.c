@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: parse.c,v 1.11 2004/05/05 23:07:47 deraadt Exp $	*/
 
 /* Common parser code for dhcpd and dhclient. */
@@ -42,6 +43,8 @@
 
 #include "dhcpd.h"
 #include "dhctoken.h"
+
+__RCSID("$MirOS$");
 
 /* Skip to the semicolon ending the current statement.   If we encounter
  * braces, the matching closing brace terminates the statement.   If we
@@ -210,6 +213,7 @@ parse_lease_time(FILE *cfile, time_t *timep)
 {
 	char *val;
 	int token;
+	uint32_t tmp;
 
 	token = next_token(&val, cfile);
 	if (token != NUMBER) {
@@ -217,9 +221,9 @@ parse_lease_time(FILE *cfile, time_t *timep)
 		skip_to_semi(cfile);
 		return;
 	}
-	convert_num((unsigned char *)timep, val, 10, 32);
+	convert_num((unsigned char *)&tmp, val, 10, 32);
 	/* Unswap the number - convert_num returns stuff in NBO. */
-	*timep = ntohl(*timep); /* XXX */
+	*timep = ntohl(tmp);
 
 	parse_semi(cfile);
 }
@@ -437,7 +441,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric day of week expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_wday = atoi(val);
 
@@ -447,7 +451,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric year expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_year = atoi(val);
 	if (tm.tm_year > 1900)
@@ -459,7 +463,7 @@ parse_date(FILE *cfile)
 		parse_warn("expected slash separating year from month.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 
 	/* Month... */
@@ -468,7 +472,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric month expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_mon = atoi(val) - 1;
 
@@ -478,7 +482,7 @@ parse_date(FILE *cfile)
 		parse_warn("expected slash separating month from day.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 
 	/* Month... */
@@ -487,7 +491,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric day of month expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_mday = atoi(val);
 
@@ -497,7 +501,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric hour expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_hour = atoi(val);
 
@@ -507,7 +511,7 @@ parse_date(FILE *cfile)
 		parse_warn("expected colon separating hour from minute.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 
 	/* Minute... */
@@ -516,7 +520,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric minute expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_min = atoi(val);
 
@@ -526,7 +530,7 @@ parse_date(FILE *cfile)
 		parse_warn("expected colon separating hour from minute.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 
 	/* Minute... */
@@ -535,7 +539,7 @@ parse_date(FILE *cfile)
 		parse_warn("numeric minute expected.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 	tm.tm_sec = atoi(val);
 	tm.tm_isdst = 0;
@@ -548,7 +552,7 @@ parse_date(FILE *cfile)
 	if (token != SEMI) {
 		parse_warn("semicolon expected.");
 		skip_to_semi(cfile);
-		return (NULL);
+		return 0;
 	}
 
 	/* Guess the time value... */

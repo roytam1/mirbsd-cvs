@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: timer.c,v 1.14 2004/06/14 09:55:42 ho Exp $	 */
 /* $EOM: timer.c,v 1.13 2000/02/20 19:58:42 niklas Exp $	 */
 
@@ -103,12 +104,13 @@ timer_add_event(char *name, void (*func)(void *), void *arg,
 		LOG_DBG((LOG_TIMER, 10,
 		    "timer_add_event: event %s(%p) added before %s(%p), "
 		    "expiration in %lds", name,
-		    arg, n->name, n->arg, expiration->tv_sec - now.tv_sec));
+		    arg, n->name, n->arg,
+		    (long)(expiration->tv_sec - now.tv_sec)));
 		TAILQ_INSERT_BEFORE(n, ev, link);
 	} else {
 		LOG_DBG((LOG_TIMER, 10, "timer_add_event: event %s(%p) added "
-		    "last, expiration in %lds", name, arg,
-		    expiration->tv_sec - now.tv_sec));
+		    "last, expiration in %llds", name, arg,
+		    (int64_t)(expiration->tv_sec - now.tv_sec)));
 		TAILQ_INSERT_TAIL(&events, ev, link);
 	}
 	return ev;

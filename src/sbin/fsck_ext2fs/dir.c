@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dir.c,v 1.12 2003/07/29 18:38:35 deraadt Exp $	*/
 /*	$NetBSD: dir.c,v 1.5 2000/01/28 16:01:46 bouyer Exp $	*/
 
@@ -47,6 +48,8 @@
 #include "fsck.h"
 #include "fsutil.h"
 #include "extern.h"
+
+__RCSID("$MirOS$");
 
 char	*lfname = "lost+found";
 int	lfmode = 01777;
@@ -236,7 +239,12 @@ dircheck(struct inodesc *idesc, struct ext2fs_direct *dp)
 	size = EXT2FS_DIRSIZ(dp->e2d_namlen);
 	if (reclen < size ||
 	    idesc->id_filesize < size ||
-	    dp->e2d_namlen > EXT2FS_MAXNAMLEN)
+#if EXT2FS_MAXNAMLEN < 255
+	    dp->e2d_namlen > EXT2FS_MAXNAMLEN
+#else
+	    0
+#endif
+	    )
 		return (0);
 	for (cp = dp->e2d_name, size = 0; size < dp->e2d_namlen; size++)
 		if (*cp == '\0' || (*cp++ == '/'))

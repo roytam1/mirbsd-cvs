@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tape.c,v 1.20 2003/07/29 18:38:35 deraadt Exp $	*/
 /*	$NetBSD: tape.c,v 1.11 1997/06/05 11:13:26 lukem Exp $	*/
 
@@ -30,14 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tape.c	8.2 (Berkeley) 3/17/94";
-#else
-static const char rcsid[] = "$OpenBSD: tape.c,v 1.20 2003/07/29 18:38:35 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -66,6 +59,9 @@ static const char rcsid[] = "$OpenBSD: tape.c,v 1.20 2003/07/29 18:38:35 deraadt
 
 #include "dump.h"
 #include "pathnames.h"
+
+__SCCSID("@(#)tape.c	8.2 (Berkeley) 3/17/94");
+__RCSID("$MirOS$");
 
 int	writesize;		/* size of malloc()ed buffer for tape */
 long	lastspclrec = -1;	/* tape block number of last written header */
@@ -273,10 +269,10 @@ statussig(int notused)
 	deltat = tstart_writing - tnow + (1.0 * (tnow - tstart_writing))
 		/ blockswritten * tapesize;
 	(void)snprintf(msgbuf, sizeof(msgbuf),
-	    "%3.2f%% done at %d KB/s, finished in %d:%02d\n",
+	    "%3.2f%% done at %d KB/s, finished in %lld:%02d\n",
 	    (blockswritten * 100.0) / tapesize,
-	    (spcl.c_tapea - tapea_volume) / (tnow - tstart_volume),
-	    (int)(deltat / 3600), (int)((deltat % 3600) / 60));
+	    (int)((spcl.c_tapea - tapea_volume) / (tnow - tstart_volume)),
+	    (int64_t)(deltat / 3600), (int)((deltat % 3600) / 60));
 	write(STDERR_FILENO, msgbuf, strlen(msgbuf));
 	errno = save_errno;
 }

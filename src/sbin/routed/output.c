@@ -208,7 +208,7 @@ set_auth(struct ws_buf *w)
 		nap = (struct netauth *)(&w->n->n_tag);
 		w->n->n_family = RIP_AF_AUTH;
 		nap->a_type = RIP_AUTH_PW;
-		bcopy(ws.ifp->int_passwd, nap->au.au_pw,
+		memmove(nap->au.au_pw, ws.ifp->int_passwd,
 		      sizeof(nap->au.au_pw));
 		w->n++;
 	}

@@ -1,7 +1,9 @@
 #!/bin/sh
-#
+# $MirOS$
 # $OpenBSD: dhclient-script,v 1.6 2004/05/06 18:22:41 claudio Exp $
 #
+# Copyright (c) 2004
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 # Copyright (c) 2003 Kenneth R Westerback <krw@openbsd.org>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -25,7 +27,7 @@
 delete_old_address() {
 	if [ -n "$old_ip_address" ]; then
 		ifconfig $interface inet -alias $old_ip_address $medium
-		route delete "$old_ip_address" 127.0.0.1 >/dev/null 2>&1
+		route -n delete "$old_ip_address" 127.0.0.1 >/dev/null 2>&1
 	fi
 }
 
@@ -37,13 +39,13 @@ add_new_address() {
 		$medium
 
 	# XXX Original TIMEOUT code did not do this unless $new_routers was set?
-	route add $new_ip_address 127.0.0.1 >/dev/null 2>&1
+	route -n add $new_ip_address 127.0.0.1 >/dev/null 2>&1
 }
 
 delete_old_alias() {
 	if [ -n "$alias_ip_address" ]; then
-		ifconfig $interface inet -alias $alias_ip_address > /dev/null 2>&1
-		route delete $alias_ip_address 127.0.0.1 > /dev/null 2>&1
+		ifconfig $interface inet -alias $alias_ip_address >/dev/null 2>&1
+		route -n delete $alias_ip_address 127.0.0.1 >/dev/null 2>&1
 	fi
 }
 
@@ -51,14 +53,14 @@ add_new_alias() {
 	if [ -n "$alias_ip_address" ]; then
 		ifconfig $interface inet alias $alias_ip_address netmask \
 		    $alias_subnet_mask
-		route add $alias_ip_address 127.0.0.1
+		route -n add $alias_ip_address 127.0.0.1
 	fi
 }
 
 delete_old_routes() {
 	# Delete existing default route. We only allow one, so no need to
 	# process $old_routers list.
-	route delete default >/dev/null 2>&1
+	route -n delete default >/dev/null 2>&1
 
 	if [ -n "$old_static_routes" ]; then
 		set $old_static_routes
@@ -75,9 +77,9 @@ add_new_routes() {
 	route delete default >/dev/null 2>&1
 	for router in $new_routers; do
 		if [ "$new_ip_address" = "$router" ]; then
-			route add default -iface $router >/dev/null 2>&1
+			route -n add default -iface $router >/dev/null 2>&1
 		else
-			route add default $router >/dev/null 2>&1
+			route -n add default $router >/dev/null 2>&1
 		fi
 		# 2nd and subsequent default routers error out, so explicitly
 		# stop processing the list after the first one.
@@ -87,7 +89,7 @@ add_new_routes() {
 	if [ -n "$new_static_routes" ]; then
 		set $new_static_routes
 		while [ $# -gt 1 ]; do
-			route add $1 $2
+			route -n add $1 $2
 			shift; shift
 		done
 	fi
@@ -117,14 +119,21 @@ add_new_resolv_conf() {
 			cat /etc/resolv.conf.tail >>/etc/resolv.conf.std
 		fi
 
+		# Some people set up their own local cacheing DNS, even
+		# if they use DHCP. So fix them up.
+		if [ -f /etc/resolv.conf.lock ]; then
+			rm -f /etc/resolv.conf.save
+			return 0
+		fi
+
 		# In case (e.g. during OpenBSD installs) /etc/resolv.conf
 		# is a symbolic link, take care to preserve the link and write
 		# the new data in the correct location.
 
 		if [ -f /etc/resolv.conf ]; then
-			cat /etc/resolv.conf > /etc/resolv.conf.save
+			cat /etc/resolv.conf >/etc/resolv.conf.save
 		fi
-		cat /etc/resolv.conf.std > /etc/resolv.conf
+		cat /etc/resolv.conf.std >/etc/resolv.conf
 		rm -f /etc/resolv.conf.std
 
 		# Try to ensure correct ownership and permissions.
@@ -196,7 +205,9 @@ EXPIRE|FAIL)
 	# XXX Why add alias we just deleted above?
 	add_new_alias
 	if [ -f /etc/resolv.conf.save ]; then
-		cat /etc/resolv.conf.save > /etc/resolv.conf
+		[ -f /etc/resolv.conf.lock ] || \
+			cat /etc/resolv.conf.save >/etc/resolv.conf
+		rm -f /etc/resolv.conf.{std,save}
 	fi
 	;;
 

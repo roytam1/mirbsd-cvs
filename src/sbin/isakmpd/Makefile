@@ -1,3 +1,4 @@
+#	$MirOS$
 #	$OpenBSD: Makefile,v 1.58 2004/11/10 22:07:46 drahn Exp $
 #	$EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
 
@@ -73,8 +74,8 @@ CLEANFILES=	exchange_num.c exchange_num.h ipsec_num.c ipsec_num.h \
 		isakmp_fld.c isakmp_fld.h
 MAN=		isakmpd.8 isakmpd.conf.5 isakmpd.policy.5
 CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes \
-		-Wmissing-declarations -DNEED_SYSDEP_APP \
-		-I${.CURDIR} -I${.CURDIR}/sysdep/${OS} -I.
+		-Wmissing-declarations
+CPPFLAGS+=	-DNEED_SYSDEP_APP -I${.CURDIR} -I${.CURDIR}/sysdep/${OS} -I.
 #CFLAGS+=	-Wsign-compare -Werror
 
 # Different debugging & profiling suggestions
@@ -96,7 +97,7 @@ CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes \
 # If you like to use Boehm's garbage collector (/usr/ports/devel/boehm-gc).
 #LDADD+=		-L/usr/local/lib -lgc
 #DPADD+=		/usr/local/lib/libgc.a
-#CFLAGS+=		-DUSE_BOEHM_GC -DGC_DEBUG
+#CPPFLAGS+=		-DUSE_BOEHM_GC -DGC_DEBUG
 # You can also use Boehm's garbage collector as a means to find leaks.
 #  # setenv GC_FIND_LEAK
 
@@ -106,11 +107,11 @@ SUBDIR=		apps
 
 .if ${FEATURES} != ""
 FEATURES_UC!=	echo ${FEATURES} | tr '[:lower:]' '[:upper:]'
-CFLAGS+=	${FEATURES_UC:S/^/-DUSE_/g}
+CPPFLAGS+=	${FEATURES_UC:S/^/-DUSE_/g}
 .endif
 
 .if make(install)
-SUBDIR+=	samples
+#SUBDIR+=	samples
 .endif
 
 .if !make(install) && !defined(NO_REGRESS)
@@ -124,11 +125,11 @@ SUBDIR+=	regress
 .endfor
 
 .if ${FEATURES:Mgmp} == "gmp"
-CFLAGS+=	-DMP_FLAVOUR=MP_FLAVOUR_GMP
+CPPFLAGS+=	-DMP_FLAVOUR=MP_FLAVOUR_GMP
 LDADD+=		-lgmp
 DPADD+=		${LIBGMP}
 .else
-CFLAGS+=	-DMP_FLAVOUR=MP_FLAVOUR_OPENSSL
+CPPFLAGS+=	-DMP_FLAVOUR=MP_FLAVOUR_OPENSSL
 .endif
 
 .ifdef USE_KEYNOTE
@@ -136,22 +137,22 @@ USE_LIBCRYPTO=	yes
 USE_LIBDES=	yes
 LDADD+=		-lkeynote -lm
 DPADD+=		${LIBKEYNOTE} ${LIBM}
-CFLAGS+=	-DUSE_KEYNOTE
+CPPFLAGS+=	-DUSE_KEYNOTE
 .endif
 
 .ifdef USE_RAWKEY
 USE_LIBCRYPTO=	yes
-CFLAGS+=	-DUSE_RAWKEY
+CPPFLAGS+=	-DUSE_RAWKEY
 .endif
 
 .ifdef USE_LIBCRYPTO
-CFLAGS+=	-DUSE_LIBCRYPTO
+CPPFLAGS+=	-DUSE_LIBCRYPTO
 LDADD+=		-lcrypto
 DPADD+=		${LIBCRYPTO}
 .endif
 
 .ifdef USE_LIBDES
-CFLAGS+=	-DUSE_LIBDES
+CPPFLAGS+=	-DUSE_LIBDES
 LDADD+=		-ldes
 DPADD+=		${LIBDES}
 .endif
@@ -164,19 +165,19 @@ LDADD+=		${DESLIB} ${LWRESLIB}
 DPADD+=		${DESLIBDEP} ${LWRESLIB}
 
 exchange_num.c exchange_num.h: genconstants.sh exchange_num.cst
-	/bin/sh ${.CURDIR}/genconstants.sh ${.CURDIR}/exchange_num
+	${SHELL} ${.CURDIR}/genconstants.sh ${.CURDIR}/exchange_num
 
 ipsec_fld.c ipsec_fld.h: genfields.sh ipsec_fld.fld
-	/bin/sh ${.CURDIR}/genfields.sh ${.CURDIR}/ipsec_fld
+	${SHELL} ${.CURDIR}/genfields.sh ${.CURDIR}/ipsec_fld
 
 ipsec_num.c ipsec_num.h: genconstants.sh ipsec_num.cst
-	/bin/sh ${.CURDIR}/genconstants.sh ${.CURDIR}/ipsec_num
+	${SHELL} ${.CURDIR}/genconstants.sh ${.CURDIR}/ipsec_num
 
 isakmp_fld.c isakmp_fld.h: genfields.sh isakmp_fld.fld
-	/bin/sh ${.CURDIR}/genfields.sh ${.CURDIR}/isakmp_fld
+	${SHELL} ${.CURDIR}/genfields.sh ${.CURDIR}/isakmp_fld
 
 isakmp_num.c isakmp_num.h: genconstants.sh isakmp_num.cst
-	/bin/sh ${.CURDIR}/genconstants.sh ${.CURDIR}/isakmp_num
+	${SHELL} ${.CURDIR}/genconstants.sh ${.CURDIR}/isakmp_num
 
 ${PROG} beforedepend: ${GENERATED}
 
@@ -185,3 +186,9 @@ ${PROG} beforedepend: ${GENERATED}
 
 debug:
 	(cd ${.CURDIR}; ${MAKE} DEBUG="-g -Werror")
+
+show-os:
+	@echo ${OS}
+
+show-features:
+	@echo ${FEATURES}

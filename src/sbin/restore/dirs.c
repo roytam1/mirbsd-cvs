@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dirs.c,v 1.27 2004/04/13 21:51:18 henning Exp $	*/
 /*	$NetBSD: dirs.c,v 1.26 1997/07/01 05:37:49 lukem Exp $	*/
 
@@ -35,14 +36,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)dirs.c	8.5 (Berkeley) 8/31/94";
-#else
-static const char rcsid[] = "$OpenBSD: dirs.c,v 1.27 2004/04/13 21:51:18 henning Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -64,6 +57,9 @@ static const char rcsid[] = "$OpenBSD: dirs.c,v 1.27 2004/04/13 21:51:18 henning
 
 #include "restore.h"
 #include "extern.h"
+
+__SCCSID("@(#)dirs.c	8.5 (Berkeley) 8/31/94");
+__RCSID("$MirOS$");
 
 /*
  * Symbol table of directories read from tape.
@@ -149,8 +145,8 @@ extractdirs(genmode)
 	int fd;
 
 	Vprintf(stdout, "Extract directories from tape\n");
-	(void)snprintf(dirfile, sizeof(dirfile), "%s/rstdir%d", tmpdir,
-	    dumpdate);
+	(void)snprintf(dirfile, sizeof(dirfile), "%s/rstdir%lld", tmpdir,
+	    (int64_t)dumpdate);
 	if (command != 'r' && command != 'R') {
 		strlcat(dirfile, "-XXXXXXXXXX", sizeof(dirfile));
 		fd = mkstemp(dirfile);
@@ -162,8 +158,8 @@ extractdirs(genmode)
 		err(1, "cannot create directory temporary %s", dirfile);
 	}
 	if (genmode != 0) {
-		(void)snprintf(modefile, sizeof(modefile), "%s/rstmode%d",
-		    tmpdir, dumpdate);
+		(void)snprintf(modefile, sizeof(modefile), "%s/rstmode%lld",
+		    tmpdir, (int64_t)dumpdate);
 		if (command != 'r' && command != 'R') {
 			strlcat(modefile, "-XXXXXXXXXX", sizeof(modefile));
 			fd = mkstemp(modefile);
@@ -375,7 +371,12 @@ putdir(buf, size)
 			if ((dp->d_reclen & 0x3) != 0 ||
 			    dp->d_reclen > i ||
 			    dp->d_reclen < DIRSIZ(0, dp) ||
-			    dp->d_namlen > NAME_MAX) {
+#if NAME_MAX < 255
+			    dp->d_namlen > NAME_MAX
+#else
+			    0
+#endif
+			    ) {
 				Vprintf(stdout, "Mangled directory: ");
 				if ((dp->d_reclen & 0x3) != 0)
 					Vprintf(stdout,
@@ -385,10 +386,12 @@ putdir(buf, size)
 					   "reclen less than DIRSIZ (%u < %u) ",
 					   (unsigned)dp->d_reclen,
 					   (unsigned)DIRSIZ(0, dp));
+#if NAME_MAX < 255
 				if (dp->d_namlen > NAME_MAX)
 					Vprintf(stdout,
 					   "reclen name too big (%u > %u) ",
 					   (unsigned)dp->d_namlen, NAME_MAX);
+#endif
 				Vprintf(stdout, "\n");
 				loc += i;
 				continue;
@@ -597,8 +600,8 @@ setdirmodes(flags)
 
 	Vprintf(stdout, "Set directory mode, owner, and times.\n");
 	if (command == 'r' || command == 'R')
-		(void)snprintf(modefile, sizeof(modefile), "%s/rstmode%d",
-		    tmpdir, dumpdate);
+		(void)snprintf(modefile, sizeof(modefile), "%s/rstmode%lld",
+		    tmpdir, (int64_t)dumpdate);
 	if (modefile[0] == '#') {
 		panic("modefile not defined\n");
 		fputs("directory mode, owner, and times not set\n", stderr);

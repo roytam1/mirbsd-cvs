@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: pfctl_altq.c,v 1.84 2004/04/26 02:50:04 kjc Exp $	*/
 
 /*
@@ -458,7 +459,7 @@ cbq_compute_idletime(struct pfctl *pf, struct pf_altq *pa)
 	if (nsPerByte * (double)opts->maxpktsize > (double)INT_MAX) {
 		/*
 		 * this causes integer overflow in kernel!
-		 * (bandwidth < 6Kbps when max_pkt_size=1500)
+		 * (bandwidth < 6kbps when max_pkt_size=1500)
 		 */
 		if (pa->bandwidth != 0 && (pf->opts & PF_OPT_QUIET) == 0)
 			warnx("queue bandwidth must be larger than %s",
@@ -1076,19 +1077,19 @@ rate2str(double rate)
 	static char	 r2sbuf[R2S_BUFS][RATESTR_MAX];  /* ring bufer */
 	static int	 idx = 0;
 	int		 i;
-	static const char unit[] = " KMG";
+#define	unit(i)	( (i)?( (i==1)?"Ki":( (i==2)?"Mi":"Gi" )):"" )
 
 	buf = r2sbuf[idx++];
 	if (idx == R2S_BUFS)
 		idx = 0;
 
-	for (i = 0; rate >= 1000 && i <= 3; i++)
-		rate /= 1000;
+	for (i = 0; rate >= 1024 && i <= 3; i++)
+		rate /= 1024;
 
 	if ((int)(rate * 100) % 100)
-		snprintf(buf, RATESTR_MAX, "%.2f%cb", rate, unit[i]);
+		snprintf(buf, RATESTR_MAX, "%.2f %sb", rate, unit(i));
 	else
-		snprintf(buf, RATESTR_MAX, "%d%cb", (int)rate, unit[i]);
+		snprintf(buf, RATESTR_MAX, "%d %sb", (int)rate, unit(i));
 
 	return (buf);
 }

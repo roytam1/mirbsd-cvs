@@ -1,11 +1,13 @@
+/**	$MirOS$ */
+
 /*
  * Copyright (c) 2000 Christoph Herrmann, Thomas-Henning von Kamptz
  * Copyright (c) 1980, 1989, 1993 The Regents of the University of California.
  * All rights reserved.
- * 
+ *
  * This code is derived from software contributed to Berkeley by
  * Christoph Herrmann and Thomas-Henning von Kamptz, Munich and Frankfurt.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -55,6 +57,7 @@ static const char rcsid[] =
 #include <sys/param.h>
 #include <sys/disklabel.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
 
 #include <stdio.h>
 #include <paths.h>
@@ -96,7 +99,7 @@ static struct csum	*fscs;
 static void	rdfs(daddr_t, size_t, void *, int);
 static void	usage(void);
 static struct disklabel	*get_disklabel(int);
-static struct dinode	*ginode(ino_t, int);
+static struct ufs1_dinode	*ginode(ino_t, int);
 static void	dump_whole_inode(ino_t, int, int);
 
 /* ************************************************************** rdfs ***** */
@@ -141,7 +144,6 @@ main(int argc, char **argv)
 {
 	DBG_FUNC("main")
 	char	*device, *special, *cp;
-	char	ch;
 	size_t	len;
 	struct stat	st;
 	struct disklabel	*lp;
@@ -155,7 +157,7 @@ main(int argc, char **argv)
 	int	cg_start, cg_stop;
 	ino_t	in;
 	char	*out_file;
-	int	Lflag=0;
+	int	ch, Lflag=0;
 
 	DBG_ENTER;
 
@@ -183,7 +185,7 @@ main(int argc, char **argv)
 			if(cfg_in < 0) {
 				usage();
 			}
-			break; 
+			break;
 		case 'l':
 			cfg_lv=atol(optarg);
 			if(cfg_lv < 0x1||cfg_lv > 0x3ff) {
@@ -210,7 +212,7 @@ main(int argc, char **argv)
 		usage();
 	}
 	device=*argv;
-	
+
 	/*
 	 * Now we try to guess the (raw)device name.
 	 */
@@ -221,7 +223,7 @@ main(int argc, char **argv)
 		 *     /dev/%s
 		 *     /dev/vinum/r%s
 		 *     /dev/vinum/%s.
-		 * 
+		 *
 		 * FreeBSD now doesn't distinguish between raw and  block
 		 * devices any longer, but it should still work this way.
 		 */
@@ -257,7 +259,7 @@ main(int argc, char **argv)
 	}
 
 	stat(device, &st);
-	
+
 	if(S_ISREG(st.st_mode)) { /* label check not supported for files */
 		Lflag=1;
 	}
@@ -271,16 +273,18 @@ main(int argc, char **argv)
 		 */
 		cp=device+strlen(device)-1;
 		lp = get_disklabel(fsi);
-		if(lp->d_type == DTYPE_VINUM) {
-			pp = &lp->d_partitions[0];
-		} else if (isdigit(*cp)) {
+	/** We do not have VINUM
+	 *	if(lp->d_type == DTYPE_VINUM) {
+	 *		pp = &lp->d_partitions[0];
+	 *	} else */
+		if (isdigit(*cp)) {
 			pp = &lp->d_partitions[2];
 		} else if (*cp>='a' && *cp<='h') {
 			pp = &lp->d_partitions[*cp - 'a'];
 		} else {
 			errx(1, "unknown device");
 		}
-	
+
 		/*
 		 * Check if that partition looks suited for dumping.
 		 */
@@ -431,12 +435,12 @@ void
 dump_whole_inode(ino_t inode, int fsi, int level)
 {
 	DBG_FUNC("dump_whole_inode")
-	struct dinode	*ino;
+	struct ufs1_dinode	*ino;
 	int	rb;
 	unsigned int	ind2ctr, ind3ctr;
 	ufs_daddr_t	*ind2ptr, *ind3ptr;
 	char	comment[80];
-	
+
 	DBG_ENTER;
 
 	/*
@@ -594,7 +598,7 @@ get_disklabel(int fd)
 void
 usage(void)
 {
-	DBG_FUNC("usage")	
+	DBG_FUNC("usage")
 
 	DBG_ENTER;
 
@@ -615,17 +619,17 @@ usage(void)
  * not  read the same block again and again if we iterate linearly  over  all
  * inodes.
  */
-struct dinode *
+struct ufs1_dinode *
 ginode(ino_t inumber, int fsi)
 {
 	DBG_FUNC("ginode")
 	ufs_daddr_t	iblk;
 	static ino_t	startinum=0;	/* first inode in cached block */
-	struct dinode	*pi;
+	struct ufs1_dinode	*pi;
 
 	DBG_ENTER;
 
-	pi=(struct dinode *)(void *)ablk;
+	pi=(struct ufs1_dinode *)(void *)ablk;
 	if (startinum == 0 || inumber < startinum ||
 	    inumber >= startinum + INOPB(&sblock)) {
 		/*
@@ -641,4 +645,3 @@ ginode(ino_t inumber, int fsi)
 	DBG_LEAVE;
 	return (&(pi[inumber % INOPB(&sblock)]));
 }
-

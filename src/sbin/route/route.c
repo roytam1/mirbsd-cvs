@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: route.c,v 1.66 2004/05/15 07:43:34 claudio Exp $	*/
 /*	$NetBSD: route.c,v 1.16 1996/04/15 18:27:05 cgd Exp $	*/
 
@@ -36,14 +37,6 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)route.c	8.3 (Berkeley) 3/19/94";
-#else
-static const char rcsid[] = "$OpenBSD: route.c,v 1.66 2004/05/15 07:43:34 claudio Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -54,10 +47,7 @@ static const char rcsid[] = "$OpenBSD: route.c,v 1.66 2004/05/15 07:43:34 claudi
 #include <net/route.h>
 #include <net/if_dl.h>
 #include <netinet/in.h>
-#include <netns/ns.h>
 #include <netipx/ipx.h>
-#include <netiso/iso.h>
-#include <netccitt/x25.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 
@@ -72,17 +62,16 @@ static const char rcsid[] = "$OpenBSD: route.c,v 1.66 2004/05/15 07:43:34 claudi
 
 #include "keywords.h"
 
+__RCSID("$MirOS$");
+
 union	sockunion {
 	struct	sockaddr sa;
 	struct	sockaddr_in sin;
 #ifdef INET6
 	struct	sockaddr_in6 sin6;
 #endif
-	struct	sockaddr_ns sns;
 	struct	sockaddr_ipx sipx;
-	struct	sockaddr_iso siso;
 	struct	sockaddr_dl sdl;
-	struct	sockaddr_x25 sx25;
 } so_dst, so_gate, so_mask, so_genmask, so_ifa, so_ifp;
 
 typedef union sockunion *sup;
@@ -120,7 +109,6 @@ void	quit(char *s);
 char	*any_ntoa(const struct sockaddr *sa);
 void	set_metric(char *value, int key);
 void	inet_makenetandmask(u_int32_t net, struct sockaddr_in *sin, int bits);
-char	*ns_print(struct sockaddr_ns *sns);
 char	*ipx_print(struct sockaddr_ipx *sipx);
 void	interfaces(void);
 
@@ -369,7 +357,6 @@ routename(struct sockaddr *sa)
 	struct hostent *hp;
 	static char domain[MAXHOSTNAMELEN];
 	static int first = 1;
-	char *ns_print(struct sockaddr_ns *);
 	char *ipx_print(struct sockaddr_ipx *);
 
 	if (first) {
@@ -440,19 +427,11 @@ routename(struct sockaddr *sa)
 	    }
 #endif
 
-	case AF_NS:
-		return (ns_print((struct sockaddr_ns *)sa));
-
 	case AF_IPX:
 		return (ipx_print((struct sockaddr_ipx *)sa));
 
 	case AF_LINK:
 		return (link_ntoa((struct sockaddr_dl *)sa));
-
-	case AF_ISO:
-		(void) snprintf(line, sizeof line, "iso %s",
-		    iso_ntoa(&((struct sockaddr_iso *)sa)->siso_addr));
-		break;
 
 	default:
 		(void) snprintf(line, sizeof line, "(%d) %s",
@@ -473,7 +452,6 @@ netname(struct sockaddr *sa)
 	static char line[MAXHOSTNAMELEN];
 	struct netent *np = 0;
 	in_addr_t net, mask, subnetshift;
-	char *ns_print(struct sockaddr_ns *);
 	char *ipx_print(struct sockaddr_ipx *);
 
 	switch (sa->sa_family) {
@@ -551,19 +529,11 @@ netname(struct sockaddr *sa)
 	    }
 #endif
 
-	case AF_NS:
-		return (ns_print((struct sockaddr_ns *)sa));
-
 	case AF_IPX:
 		return (ipx_print((struct sockaddr_ipx *)sa));
 
 	case AF_LINK:
 		return (link_ntoa((struct sockaddr_dl *)sa));
-
-	case AF_ISO:
-		(void) snprintf(line, sizeof line, "iso %s",
-		    iso_ntoa(&((struct sockaddr_iso *)sa)->siso_addr));
-		break;
 
 	default:
 		snprintf(line, sizeof line, "af %d: %s",
@@ -620,11 +590,6 @@ newroute(int argc, char **argv)
 				af = AF_LINK;
 				aflen = sizeof(struct sockaddr_dl);
 				break;
-			case K_OSI:
-			case K_ISO:
-				af = AF_ISO;
-				aflen = sizeof(struct sockaddr_iso);
-				break;
 			case K_INET:
 				af = AF_INET;
 				aflen = sizeof(struct sockaddr_in);
@@ -635,17 +600,9 @@ newroute(int argc, char **argv)
 				aflen = sizeof(struct sockaddr_in6);
 				break;
 #endif
-			case K_X25:
-				af = AF_CCITT;
-				aflen = sizeof(struct sockaddr_x25);
-				break;
 			case K_SA:
 				af = PF_ROUTE;
 				aflen = sizeof(union sockunion);
-				break;
-			case K_XNS:
-				af = AF_NS;
-				aflen = sizeof(struct sockaddr_ns);
 				break;
 			case K_IPX:
 				af = AF_IPX;
@@ -914,7 +871,6 @@ int
 getaddr(int which, char *s, struct hostent **hpp)
 {
 	sup su = NULL;
-	struct ccitt_addr *ccitt_addr(char *, struct sockaddr_x25 *);
 	struct hostent *hp;
 	struct netent *np;
 	u_long val;
@@ -1012,19 +968,6 @@ getaddr(int which, char *s, struct hostent **hpp)
 	    }
 #endif
 
-	case AF_NS:
-		if (which == RTA_DST) {
-			extern short ns_bh[3];
-			struct sockaddr_ns *sms = &(so_mask.sns);
-			memset(sms, 0, sizeof(*sms));
-			sms->sns_family = 0;
-			sms->sns_len = 6;
-			sms->sns_addr.x_net = *(union ns_net *)ns_bh;
-			rtm_addrs |= RTA_NETMASK;
-		}
-		su->sns.sns_addr = ns_addr(s);
-		return (!ns_nullhost(su->sns.sns_addr));
-
 	case AF_IPX:
 		if (which == RTA_DST) {
 			extern short ipx_bh[3];
@@ -1038,25 +981,9 @@ getaddr(int which, char *s, struct hostent **hpp)
 		su->sipx.sipx_addr = ipx_addr(s);
 		return (!ipx_nullhost(su->sipx.sipx_addr));
 
-	case AF_OSI:
-		su->siso.siso_addr = *iso_addr(s);
-		if (which == RTA_NETMASK || which == RTA_GENMASK) {
-			char *cp = (char *)TSEL(&su->siso);
-			su->siso.siso_nlen = 0;
-			do {
-				--cp;
-			} while ((cp > (char *)su) && (*cp == 0));
-			su->siso.siso_len = 1 + cp - (char *)su;
-		}
-		return (1);
-
 	case AF_LINK:
 		link_addr(s, &su->sdl);
 		return (1);
-
-	case AF_CCITT:
-		ccitt_addr(s, &su->sx25);
-		return (which == RTA_DST ? x25_makemask() : 1);
 
 	case PF_ROUTE:
 		su->sa.sa_len = sizeof(*su);
@@ -1164,66 +1091,6 @@ prefixlen(char *s)
 #endif
 	}
 	return (len == max);
-}
-
-int
-x25_makemask(void)
-{
-	char *cp;
-
-	if ((rtm_addrs & RTA_NETMASK) == 0) {
-		rtm_addrs |= RTA_NETMASK;
-		for (cp = (char *)&so_mask.sx25.x25_net;
-		     cp < &so_mask.sx25.x25_opts.op_flags; cp++)
-			*cp = -1;
-		so_mask.sx25.x25_len = (u_char)&(((sup)0)->sx25.x25_opts);
-	}
-	return (0);
-}
-
-short ns_nullh[] = {0,0,0};
-short ns_bh[] = {-1,-1,-1};
-
-char *
-ns_print(struct sockaddr_ns *sns)
-{
-	struct ns_addr work;
-	union { union ns_net net_e; u_int32_t long_e; } net;
-	u_short port;
-	static char mybuf[50+MAXHOSTNAMELEN];
-	char cport[10], chost[25];
-	char *host = "";
-	u_char *q;
-
-	work = sns->sns_addr;
-	port = ntohs(work.x_port);
-	work.x_port = 0;
-	net.net_e  = work.x_net;
-	if (ns_nullhost(work) && net.long_e == 0) {
-		if (!port)
-			return ("*.*");
-		(void) snprintf(mybuf, sizeof mybuf, "*.0x%x", port);
-		return (mybuf);
-	}
-
-	if (memcmp(ns_bh, work.x_host.c_host, 6) == 0)
-		host = "any";
-	else if (memcmp(ns_nullh, work.x_host.c_host, 6) == 0)
-		host = "*";
-	else {
-		q = work.x_host.c_host;
-		(void) snprintf(chost, sizeof chost, "0x%02x%02x%02x%02x%02x%02x",
-			q[0], q[1], q[2], q[3], q[4], q[5]);
-		host = chost;
-	}
-	if (port)
-		(void) snprintf(cport, sizeof cport, ".0x%x", htons(port));
-	else
-		*cport = '\0';
-
-	(void) snprintf(mybuf, sizeof mybuf, "0x%x.%s%s",
-	    ntohl(net.long_e), host, cport);
-	return (mybuf);
 }
 
 short ipx_nullh[] = {0,0,0};
@@ -1413,19 +1280,13 @@ mask_addr(void)
 	if ((rtm_addrs & RTA_DST) == 0)
 		return;
 	switch (so_dst.sa.sa_family) {
-	case AF_NS:
 	case AF_IPX:
 	case AF_INET:
 #ifdef INET6
 	case AF_INET6:
 #endif
-	case AF_CCITT:
 	case 0:
 		return;
-	case AF_ISO:
-		olen = MIN(so_dst.siso.siso_nlen,
-			   MAX(so_mask.sa.sa_len - 6, 0));
-		break;
 	}
 	cp1 = so_mask.sa.sa_len + 1 + (char *)&so_dst;
 	cp2 = so_dst.sa.sa_len + 1 + (char *)&so_dst;
@@ -1434,11 +1295,6 @@ mask_addr(void)
 	cp2 = so_mask.sa.sa_len + 1 + (char *)&so_mask;
 	while (cp1 > so_dst.sa.sa_data)
 		*--cp1 &= *--cp2;
-	switch (so_dst.sa.sa_family) {
-	case AF_ISO:
-		so_dst.siso.siso_nlen = olen;
-		break;
-	}
 }
 
 char *msgtypes[] = {
@@ -1709,10 +1565,6 @@ sodump(sup su, char *which)
 		(void) printf("%s: link %s; ",
 		    which, link_ntoa(&su->sdl));
 		break;
-	case AF_ISO:
-		(void) printf("%s: iso %s; ",
-		    which, iso_ntoa(&su->siso.siso_addr));
-		break;
 	case AF_INET:
 		(void) printf("%s: inet %s; ",
 		    which, inet_ntoa(su->sin.sin_addr));
@@ -1724,10 +1576,6 @@ sodump(sup su, char *which)
 				     ntop_buf, sizeof(ntop_buf)));
 		break;
 #endif
-	case AF_NS:
-		(void) printf("%s: xns %s; ",
-		    which, ns_ntoa(su->sns.sns_addr));
-		break;
 	case AF_IPX:
 		(void) printf("%s: ipx %s; ",
 		    which, ipx_ntoa(su->sipx.sipx_addr));

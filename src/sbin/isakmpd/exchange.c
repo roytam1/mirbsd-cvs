@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: exchange.c,v 1.105 2004/12/06 12:28:21 ho Exp $	 */
 /* $EOM: exchange.c,v 1.143 2000/12/04 00:02:25 angelos Exp $	 */
 
@@ -62,6 +63,8 @@
 #include "sa.h"
 #include "util.h"
 #include "key.h"
+
+__RCSID("$MirOS$");
 
 /* Initial number of bits from the cookies used as hash.  */
 #define INITIAL_BUCKET_BITS 6
@@ -191,7 +194,12 @@ exchange_script(struct exchange *exchange)
 #endif
 	default:
 		if (exchange->type >= ISAKMP_EXCH_DOI_MIN &&
-		    exchange->type <= ISAKMP_EXCH_DOI_MAX)
+#if ISAKMP_EXCH_DOI_MAX < 255
+		    exchange->type <= ISAKMP_EXCH_DOI_MAX
+#else
+		    1
+#endif
+		    )
 			return exchange->doi->exchange_script(exchange->type);
 	}
 	return 0;
@@ -1536,7 +1544,7 @@ exchange_nonce(struct exchange *exchange, int peer, size_t nonce_sz,
 
 	if (nonce_sz < 8 || nonce_sz > 256) {
 		/*
-		 * RFC2409, ch 5: The length of nonce payload MUST be 
+		 * RFC2409, ch 5: The length of nonce payload MUST be
 		 * between 8 and 256 bytes inclusive.
 		 * XXX I'm assuming the generic payload header is not included.
 		 */

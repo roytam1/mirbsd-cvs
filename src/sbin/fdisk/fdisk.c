@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fdisk.c,v 1.39 2004/08/03 09:22:03 otto Exp $	*/
 
 /*
@@ -37,10 +38,12 @@
 #include "disk.h"
 #include "user.h"
 
-#define _PATH_MBR _PATH_BOOTDIR "mbr"
+#define _PATH_MBR _PATH_BOOTDIR "mbrmgr"
 static unsigned char builtin_mbr[] = {
 #include "mbrcode.h"
 };
+
+__RCSID("$MirOS$");
 
 static void
 usage(void)
@@ -49,7 +52,7 @@ usage(void)
 
 	fprintf(stderr, "usage: %s "
 	    "[-ieu] [-f mbrboot] [-c cyl -h head -s sect] disk\n"
-	    "\t-i: initialize disk with virgin MBR\n"
+	    "\t-i: initialise disk with virgin MBR\n"
 	    "\t-u: update MBR code, preserve partition table\n"
 	    "\t-e: edit MBRs on disk interactively\n"
 	    "\t-f: specify non-standard MBR template\n"
@@ -162,4 +165,3 @@ main(int argc, char *argv[])
 
 	return (0);
 }
-

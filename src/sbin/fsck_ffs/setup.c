@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: setup.c,v 1.21 2003/09/25 04:19:39 deraadt Exp $	*/
 /*	$NetBSD: setup.c,v 1.27 1996/09/27 22:45:19 christos Exp $	*/
 
@@ -30,13 +31,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)setup.c	8.5 (Berkeley) 11/23/94";
-#else
-static const char rcsid[] = "$OpenBSD: setup.c,v 1.21 2003/09/25 04:19:39 deraadt Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)setup.c	8.5 (Berkeley) 11/23/94");
+__RCSID("$MirOS$");
 
 #define DKTYPENAMES
 #include <sys/param.h>
@@ -168,6 +165,15 @@ setup(char *dev)
 	/*
 	 * Check and potentially fix certain fields in the super block.
 	 */
+#ifdef	__MirBSD__
+	if (sblock.fs_unused_1) {
+		arc4random_push(sblock.fs_firstfield);
+		arc4random_push(sblock.fs_unused_1);
+		sblock.fs_firstfield = arc4random();
+		sblock.fs_unused_1 = arc4random();
+		sbdirty();
+	}
+#endif
 	if (sblock.fs_optim != FS_OPTTIME && sblock.fs_optim != FS_OPTSPACE) {
 		pfatal("UNDEFINED OPTIMIZATION IN SUPERBLOCK");
 		if (reply("SET TO DEFAULT") == 1) {

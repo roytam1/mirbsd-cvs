@@ -1,10 +1,12 @@
+/**	$MirOS$ */
 /*	$OpenBSD: parse.y,v 1.452 2004/04/24 23:22:54 cedric Exp $	*/
 
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  * Copyright (c) 2001 Daniel Hartmeier.  All rights reserved.
  * Copyright (c) 2001 Theo de Raadt.  All rights reserved.
- * Copyright (c) 2002,2003 Henning Brauer. All rights reserved.
+ * Copyright (c) 2002, 2003, 2004 Thorsten Glaser.
+ * Copyright (c) 2002, 2003 Henning Brauer. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -58,6 +60,8 @@
 
 #include "pfctl_parser.h"
 #include "pfctl.h"
+
+__RCSID("$MirOS$");
 
 static struct pfctl	*pf = NULL;
 static FILE		*fin = NULL;
@@ -190,10 +194,6 @@ struct filter_opts {
 	u_int8_t		 match_tag_not;
 } filter_opts;
 
-struct antispoof_opts {
-	char			*label;
-} antispoof_opts;
-
 struct scrub_opts {
 	int			marker;
 #define SOM_MINTTL	0x01
@@ -243,7 +243,6 @@ struct node_hfsc_opts	hfsc_opts;
 
 int	yyerror(const char *, ...);
 int	disallow_table(struct node_host *, const char *);
-int	disallow_alias(struct node_host *, const char *);
 int	rule_consistent(struct pf_rule *);
 int	filter_consistent(struct pf_rule *);
 int	nat_consistent(struct pf_rule *);
@@ -363,7 +362,6 @@ typedef struct {
 		struct node_queue_bw	 queue_bwspec;
 		struct node_qassign	 qassign;
 		struct filter_opts	 filter_opts;
-		struct antispoof_opts	 antispoof_opts;
 		struct queue_opts	 queue_opts;
 		struct scrub_opts	 scrub_opts;
 		struct table_opts	 table_opts;
@@ -385,10 +383,6 @@ typedef struct {
 		}						\
 	} while (0)
 
-#define DYNIF_MULTIADDR(addr) ((addr).type == PF_ADDR_DYNIFTL && \
-	(!((addr).iflags & PFI_AFLAG_NOALIAS) ||		 \
-	!isdigit((addr).v.ifname[strlen((addr).v.ifname)-1])))
-
 %}
 
 %token	PASS BLOCK SCRUB RETURN IN OS OUT LOG LOGALL QUICK ON FROM TO FLAGS
@@ -398,7 +392,7 @@ typedef struct {
 %token	NOROUTE FRAGMENT USER GROUP MAXMSS MAXIMUM TTL TOS DROP TABLE
 %token	REASSEMBLE FRAGDROP FRAGCROP ANCHOR NATANCHOR RDRANCHOR BINATANCHOR
 %token	SET OPTIMIZATION TIMEOUT LIMIT LOGINTERFACE BLOCKPOLICY RANDOMID
-%token	REQUIREORDER SYNPROXY FINGERPRINTS NOSYNC DEBUG HOSTID
+%token	REQUIREORDER SYNPROXY FINGERPRINTS NOSYNC DEBUG HOSTID FUCKOFF
 %token	ANTISPOOF FOR
 %token	BITMASK RANDOM SOURCEHASH ROUNDROBIN STATICPORT PROBABILITY
 %token	ALTQ CBQ PRIQ HFSC BANDWIDTH TBRSIZE LINKSHARE REALTIME UPPERLIMIT
@@ -422,7 +416,7 @@ typedef struct {
 %type	<v.icmp>		icmp6_list icmp6_item
 %type	<v.fromto>		fromto
 %type	<v.peer>		ipportspec from to
-%type	<v.host>		ipspec xhost host dynaddr host_list
+%type	<v.host>		ipspec xhost host host_list
 %type	<v.host>		redir_host_list redirspec
 %type	<v.host>		route_host route_host_list routespec
 %type	<v.os>			os xos os_list
@@ -435,7 +429,6 @@ typedef struct {
 %type	<v.keep_state>		keep
 %type	<v.state_opt>		state_opt_spec state_opt_list state_opt_item
 %type	<v.logquick>		logquick
-%type	<v.interface>		antispoof_ifspc antispoof_iflst antispoof_if
 %type	<v.qassign>		qname
 %type	<v.queue>		qassign qassign_list qassign_item
 %type	<v.queue_options>	scheduler
@@ -444,7 +437,6 @@ typedef struct {
 %type	<v.hfsc_opts>		hfscopts_list hfscopts_item hfsc_opts
 %type	<v.queue_bwspec>	bandwidth
 %type	<v.filter_opts>		filter_opts filter_opt filter_opts_l
-%type	<v.antispoof_opts>	antispoof_opts antispoof_opt antispoof_opts_l
 %type	<v.queue_opts>		queue_opts queue_opt queue_opts_l
 %type	<v.scrub_opts>		scrub_opts scrub_opt scrub_opts_l
 %type	<v.table_opts>		table_opts table_opt table_opts_l
@@ -463,7 +455,6 @@ ruleset		: /* empty */
 		| ruleset altqif '\n'
 		| ruleset queuespec '\n'
 		| ruleset varset '\n'
-		| ruleset antispoof '\n'
 		| ruleset tabledef '\n'
 		| ruleset error '\n'		{ errors++; }
 		;
@@ -884,128 +875,6 @@ fragcache	: FRAGMENT REASSEMBLE	{ $$ = 0; /* default */ }
 		| FRAGMENT FRAGDROP	{ $$ = PFRULE_FRAGDROP; }
 		;
 
-antispoof	: ANTISPOOF logquick antispoof_ifspc af antispoof_opts {
-			struct pf_rule		 r;
-			struct node_host	*h = NULL, *hh;
-			struct node_if		*i, *j;
-
-			if (check_rulestate(PFCTL_STATE_FILTER))
-				YYERROR;
-
-			for (i = $3; i; i = i->next) {
-				bzero(&r, sizeof(r));
-
-				r.action = PF_DROP;
-				r.direction = PF_IN;
-				r.log = $2.log;
-				r.quick = $2.quick;
-				r.af = $4;
-				if (rule_label(&r, $5.label))
-					YYERROR;
-				j = calloc(1, sizeof(struct node_if));
-				if (j == NULL)
-					err(1, "antispoof: calloc");
-				if (strlcpy(j->ifname, i->ifname,
-				    sizeof(j->ifname)) >= sizeof(j->ifname)) {
-					free(j);
-					yyerror("interface name too long");
-					YYERROR;
-				}
-				j->not = 1;
-				if (i->dynamic) {
-					h = calloc(1, sizeof(*h));
-					if (h == NULL)
-						err(1, "address: calloc");
-					h->addr.type = PF_ADDR_DYNIFTL;
-					set_ipmask(h, 128);
-					if (strlcpy(h->addr.v.ifname, i->ifname,
-					    sizeof(h->addr.v.ifname)) >=
-					    sizeof(h->addr.v.ifname)) {
-						yyerror(
-						    "interface name too long");
-						YYERROR;
-					}
-					hh = malloc(sizeof(*hh));
-					if (hh == NULL)
-						 err(1, "address: malloc");
-					bcopy(h, hh, sizeof(*hh));
-					h->addr.iflags = PFI_AFLAG_NETWORK;
-				} else {
-					h = ifa_lookup(j->ifname,
-					    PFI_AFLAG_NETWORK);
-					hh = NULL;
-				}
-
-				if (h != NULL)
-					expand_rule(&r, j, NULL, NULL, NULL, h,
-					    NULL, NULL, NULL, NULL, NULL, NULL);
-
-				if ((i->ifa_flags & IFF_LOOPBACK) == 0) {
-					bzero(&r, sizeof(r));
-
-					r.action = PF_DROP;
-					r.direction = PF_IN;
-					r.log = $2.log;
-					r.quick = $2.quick;
-					r.af = $4;
-					if (rule_label(&r, $5.label))
-						YYERROR;
-					if (hh != NULL)
-						h = hh;
-					else
-						h = ifa_lookup(i->ifname, 0);
-					if (h != NULL)
-						expand_rule(&r, NULL, NULL,
-						    NULL, NULL, h, NULL, NULL,
-						    NULL, NULL, NULL, NULL);
-				} else
-					free(hh);
-			}
-			free($5.label);
-		}
-		;
-
-antispoof_ifspc	: FOR antispoof_if		{ $$ = $2; }
-		| FOR '{' antispoof_iflst '}'	{ $$ = $3; }
-		;
-
-antispoof_iflst	: antispoof_if				{ $$ = $1; }
-		| antispoof_iflst comma antispoof_if	{
-			$1->tail->next = $3;
-			$1->tail = $3;
-			$$ = $1;
-		}
-		;
-
-antispoof_if  : if_item				{ $$ = $1; }
-		| '(' if_item ')'		{
-			$2->dynamic = 1;
-			$$ = $2;
-		}
-		;
-
-antispoof_opts	:	{ bzero(&antispoof_opts, sizeof antispoof_opts); }
-		    antispoof_opts_l
-			{ $$ = antispoof_opts; }
-		| /* empty */	{
-			bzero(&antispoof_opts, sizeof antispoof_opts);
-			$$ = antispoof_opts;
-		}
-		;
-
-antispoof_opts_l	: antispoof_opts_l antispoof_opt
-			| antispoof_opt
-			;
-
-antispoof_opt	: label	{
-			if (antispoof_opts.label) {
-				yyerror("label cannot be redefined");
-				YYERROR;
-			}
-			antispoof_opts.label = $1;
-		}
-		;
-
 not		: '!'		{ $$ = 1; }
 		| /* empty */	{ $$ = 0; }
 		;
@@ -1078,10 +947,6 @@ table_opt	: STRING		{
 				switch (n->addr.type) {
 				case PF_ADDR_ADDRMASK:
 					continue; /* ok */
-				case PF_ADDR_DYNIFTL:
-					yyerror("dynamic addresses are not "
-					    "permitted inside tables");
-					break;
 				case PF_ADDR_TABLE:
 					yyerror("tables cannot contain tables");
 					break;
@@ -1262,12 +1127,12 @@ bandwidth	: STRING {
 			if (cp != NULL) {
 				if (!strcmp(cp, "b"))
 					; /* nothing */
-				else if (!strcmp(cp, "Kb"))
-					bps *= 1000;
-				else if (!strcmp(cp, "Mb"))
-					bps *= 1000 * 1000;
-				else if (!strcmp(cp, "Gb"))
-					bps *= 1000 * 1000 * 1000;
+				else if (!strcmp(cp, "Kib"))
+					bps *= 1024;
+				else if (!strcmp(cp, "Mib"))
+					bps *= 1024 * 1024;
+				else if (!strcmp(cp, "Gib"))
+					bps *= 1024 * 1024 * 1024;
 				else if (!strcmp(cp, "%")) {
 					if (bps < 0 || bps > 100) {
 						yyerror("bandwidth spec "
@@ -1691,19 +1556,12 @@ pfrule		: action dir logquick interface route af proto fromto
 				}
 				if ((r.rpool.opts & PF_POOL_TYPEMASK) ==
 				    PF_POOL_NONE && ($5.host->next != NULL ||
-				    $5.host->addr.type == PF_ADDR_TABLE ||
-				    DYNIF_MULTIADDR($5.host->addr)))
+				    $5.host->addr.type == PF_ADDR_TABLE))
 					r.rpool.opts |= PF_POOL_ROUNDROBIN;
 				if ((r.rpool.opts & PF_POOL_TYPEMASK) !=
 				    PF_POOL_ROUNDROBIN &&
 				    disallow_table($5.host, "tables are only "
 				    "supported in round-robin routing pools"))
-					YYERROR;
-				if ((r.rpool.opts & PF_POOL_TYPEMASK) !=
-				    PF_POOL_ROUNDROBIN &&
-				    disallow_alias($5.host, "interface (%s) "
-				    "is only supported in round-robin "
-				    "routing pools"))
 					YYERROR;
 				if ($5.host->next != NULL) {
 					if ((r.rpool.opts & PF_POOL_TYPEMASK) !=
@@ -1849,6 +1707,12 @@ filter_opt	: USER uids {
 
 action		: PASS			{ $$.b1 = PF_PASS; $$.b2 = $$.w = 0; }
 		| BLOCK blockspec	{ $$ = $2; $$.b1 = PF_DROP; }
+		| FUCKOFF		{
+			$$.b1 = PF_DROP;
+			$$.b2 = PFRULE_RETURN;
+			$$.w = returnicmpdefault;
+			$$.w2 = returnicmp6default;
+		}
 		;
 
 blockspec	: /* empty */		{
@@ -2161,14 +2025,6 @@ host		: STRING			{
 			}
 			free(buf);
 		}
-		| dynaddr
-		| dynaddr '/' number		{
-			struct node_host	*n;
-
-			$$ = $1;
-			for (n = $1; n != NULL; n = n->next)
-				set_ipmask(n, $3);
-		}
 		| '<' STRING '>'	{
 			if (strlen($2) >= PF_TABLE_NAME_SIZE) {
 				yyerror("table name '%s' too long", $2);
@@ -2199,60 +2055,6 @@ number		: STRING			{
 			} else
 				$$ = ulval;
 			free($1);
-		}
-		;
-
-dynaddr		: '(' STRING ')'		{
-			int	 flags = 0;
-			char	*p, *op;
-
-			op = $2;
-			while ((p = strrchr($2, ':')) != NULL) {
-				if (!strcmp(p+1, "network"))
-					flags |= PFI_AFLAG_NETWORK;
-				else if (!strcmp(p+1, "broadcast"))
-					flags |= PFI_AFLAG_BROADCAST;
-				else if (!strcmp(p+1, "peer"))
-					flags |= PFI_AFLAG_PEER;
-				else if (!strcmp(p+1, "0"))
-					flags |= PFI_AFLAG_NOALIAS;
-				else {
-					yyerror("interface %s has bad modifier",
-					    $2);
-					free(op);
-					YYERROR;
-				}
-				*p = '\0';
-			}
-			if (flags & (flags - 1) & PFI_AFLAG_MODEMASK) {
-				free(op);
-				yyerror("illegal combination of "
-				    "interface modifiers");
-				YYERROR;
-			}
-			if (ifa_exists($2, 1) == NULL && strcmp($2, "self")) {
-				yyerror("interface %s does not exist", $2);
-				free(op);
-				YYERROR;
-			}
-			$$ = calloc(1, sizeof(struct node_host));
-			if ($$ == NULL)
-				err(1, "address: calloc");
-			$$->af = 0;
-			set_ipmask($$, 128);
-			$$->addr.type = PF_ADDR_DYNIFTL;
-			$$->addr.iflags = flags;
-			if (strlcpy($$->addr.v.ifname, $2,
-			    sizeof($$->addr.v.ifname)) >=
-			    sizeof($$->addr.v.ifname)) {
-				free(op);
-				free($$);
-				yyerror("interface name too long");
-				YYERROR;
-			}
-			free(op);
-			$$->next = NULL;
-			$$->tail = $$;
 		}
 		;
 
@@ -3151,20 +2953,13 @@ natrule		: nataction interface af proto fromto tag redirpool pool_opts
 				r.rpool.opts = $8.type;
 				if ((r.rpool.opts & PF_POOL_TYPEMASK) ==
 				    PF_POOL_NONE && ($7->host->next != NULL ||
-				    $7->host->addr.type == PF_ADDR_TABLE ||
-				    DYNIF_MULTIADDR($7->host->addr)))
+				    $7->host->addr.type == PF_ADDR_TABLE))
 					r.rpool.opts = PF_POOL_ROUNDROBIN;
 				if ((r.rpool.opts & PF_POOL_TYPEMASK) !=
 				    PF_POOL_ROUNDROBIN &&
 				    disallow_table($7->host, "tables are only "
 				    "supported in round-robin redirection "
 				    "pools"))
-					YYERROR;
-				if ((r.rpool.opts & PF_POOL_TYPEMASK) !=
-				    PF_POOL_ROUNDROBIN &&
-				    disallow_alias($7->host, "interface (%s) "
-				    "is only supported in round-robin "
-				    "redirection pools"))
 					YYERROR;
 				if ($7->host->next != NULL) {
 					if ((r.rpool.opts & PF_POOL_TYPEMASK) !=
@@ -3261,16 +3056,8 @@ binatrule	: no BINAT natpass interface af proto FROM host TO ipspec tag
 			if ($8 != NULL && disallow_table($8, "invalid use of "
 			    "table <%s> as the source address of a binat rule"))
 				YYERROR;
-			if ($8 != NULL && disallow_alias($8, "invalid use of "
-			    "interface (%s) as the source address of a binat "
-			    "rule"))
-				YYERROR;
 			if ($12 != NULL && $12->host != NULL && disallow_table(
 			    $12->host, "invalid use of table <%s> as the "
-			    "redirect address of a binat rule"))
-				YYERROR;
-			if ($12 != NULL && $12->host != NULL && disallow_alias(
-			    $12->host, "invalid use of interface (%s) as the "
 			    "redirect address of a binat rule"))
 				YYERROR;
 
@@ -3279,8 +3066,6 @@ binatrule	: no BINAT natpass interface af proto FROM host TO ipspec tag
 					yyerror("multiple binat ip addresses");
 					YYERROR;
 				}
-				if ($8->addr.type == PF_ADDR_DYNIFTL)
-					$8->af = binat.af;
 				if ($8->af != binat.af) {
 					yyerror("binat ip versions must match");
 					YYERROR;
@@ -3531,17 +3316,6 @@ disallow_table(struct node_host *h, const char *fmt)
 }
 
 int
-disallow_alias(struct node_host *h, const char *fmt)
-{
-	for (; h != NULL; h = h->next)
-		if (DYNIF_MULTIADDR(h->addr)) {
-			yyerror(fmt, h->addr.v.tblname);
-			return (1);
-		}
-	return (0);
-}
-
-int
 rule_consistent(struct pf_rule *r)
 {
 	int	problems = 0;
@@ -3777,9 +3551,6 @@ expand_label_addr(const char *name, char *label, size_t len, sa_family_t af,
 
 	if (strstr(label, name) != NULL) {
 		switch (h->addr.type) {
-		case PF_ADDR_DYNIFTL:
-			snprintf(tmp, sizeof(tmp), "(%s)", h->addr.v.ifname);
-			break;
 		case PF_ADDR_TABLE:
 			snprintf(tmp, sizeof(tmp), "<%s>", h->addr.v.tblname);
 			break;
@@ -4357,7 +4128,6 @@ lookup(char *s)
 		{ "allow-opts",		ALLOWOPTS},
 		{ "altq",		ALTQ},
 		{ "anchor",		ANCHOR},
-		{ "antispoof",		ANTISPOOF},
 		{ "any",		ANY},
 		{ "bandwidth",		BANDWIDTH},
 		{ "binat",		BINAT},
@@ -4380,6 +4150,7 @@ lookup(char *s)
 		{ "for",		FOR},
 		{ "fragment",		FRAGMENT},
 		{ "from",		FROM},
+		{ "fuck-off",		FUCKOFF},
 		{ "global",		GLOBAL},
 		{ "group",		GROUP},
 		{ "group-bound",	GRBOUND},
@@ -4851,8 +4622,7 @@ invalid_redirect(struct node_host *nh, sa_family_t af)
 
 		/* tables and dyniftl are ok without an address family */
 		for (n = nh; n != NULL; n = n->next) {
-			if (n->addr.type != PF_ADDR_TABLE &&
-			    n->addr.type != PF_ADDR_DYNIFTL) {
+			if (n->addr.type != PF_ADDR_TABLE) {
 				yyerror("address family not given and "
 				    "translation address expands to multiple "
 				    "address families");
@@ -4964,4 +4734,3 @@ pfctl_load_anchors(int dev, int opts, struct pfr_buffer *trans)
 
 	return (0);
 }
-

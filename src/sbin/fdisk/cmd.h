@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cmd.h,v 1.8 2003/06/03 01:13:19 weingart Exp $	*/
 
 /*
@@ -70,8 +71,8 @@ int Xquit(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
 int Xabort(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
 int Xhelp(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
 int Xflag(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
+int Xfdef(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
 int Xupdate(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
+int Xumin(cmd_t *, disk_t *, mbr_t *, mbr_t *, int);
 
 #endif /* _CMD_H */
-
-

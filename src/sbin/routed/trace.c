@@ -97,7 +97,7 @@ ts(time_t secs)
 #ifdef sgi
 	(void)cftime(s, "%T", &secs);
 #else
-	bcopy(ctime(&secs)+11, s, 8);
+	memmove(s, ctime(&secs)+11, 8);
 	s[8] = '\0';
 #endif
 	return s;

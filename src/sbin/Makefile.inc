@@ -1,4 +1,14 @@
-#	$OpenBSD: Makefile.inc,v 1.4 1997/09/21 11:36:00 deraadt Exp $
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.4 1997/09/21 11:36:00 deraadt Exp $
+
+.ifndef _MODSRC_SBIN_MAKEFILE_INC
+_MODSRC_SBIN_MAKEFILE_INC=1
 
 BINDIR?=	/sbin
 LDSTATIC=	${STATIC}
+
+.if !defined(EXPERIMENTAL)
+CFLAGS+=	-Werror
+.endif
+
+.endif

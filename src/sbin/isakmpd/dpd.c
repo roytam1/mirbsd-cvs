@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dpd.c,v 1.7 2004/12/28 15:15:08 deraadt Exp $	*/
 
 /*
@@ -135,7 +136,7 @@ dpd_check_vendor_payload(struct message *msg, struct payload *p)
 }
 
 /*
- * All incoming DPD Notify messages enter here. Message has been validated. 
+ * All incoming DPD Notify messages enter here. Message has been validated.
  */
 void
 dpd_handle_notify(struct message *msg, struct payload *p)
@@ -233,7 +234,7 @@ dpd_timer_reset(struct sa *sa, u_int32_t time_passed, enum dpd_tstate mode)
 	default:
 		break;
 	}
-	if (!sa->dpd_event) 
+	if (!sa->dpd_event)
 		log_print("dpd_timer_reset: timer_add_event failed");
 }
 
@@ -245,7 +246,7 @@ dpd_find_sa(struct sa *sa, void *v_sa)
 
 	if (!isakmp_sa->id_i || !isakmp_sa->id_r)
 		return (0);
-	return (sa->phase == 2 && 
+	return (sa->phase == 2 &&
 	    memcmp(sa->id_i, isakmp_sa->id_i, sa->id_i_len) == 0 &&
 	    memcmp(sa->id_r, isakmp_sa->id_r, sa->id_r_len) == 0);
 }
@@ -257,7 +258,7 @@ struct dpd_args {
 
 /* Helper function for dpd_event().  */
 static int
-dpd_check_time(struct sa *sa, void *v_arg) 
+dpd_check_time(struct sa *sa, void *v_arg)
 {
 	struct dpd_args *args = v_arg;
 	struct sockaddr *dst;
@@ -289,10 +290,10 @@ dpd_check_time(struct sa *sa, void *v_arg)
 		args->interval = (u_int32_t)(tv.tv_sec - ksa->last_used);
 		return 1;
 	}
-	
+
 	return 0;
 }
-	
+
 /* Called by the timer.  */
 static void
 dpd_event(void *v_sa)
@@ -369,8 +370,8 @@ dpd_check_event(void *v_sa)
 		dpd_timer_reset(isakmp_sa, 0, DPD_TIMER_CHECK);
 		return;
 	}
-	
-	/* 
+
+	/*
 	 * Peer is considered dead. Delete all SAs created under isakmp_sa.
 	 */
 	LOG_DBG((LOG_MESSAGE, 10, "dpd_check_event: peer is dead, "

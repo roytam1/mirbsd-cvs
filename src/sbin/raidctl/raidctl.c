@@ -250,7 +250,7 @@ main(argc, argv)
 	argc -= optind;
 	argv += optind;
 
-	if ((num_options > 1) || (argc == NULL))
+	if ((num_options > 1) || !argc)
 		usage();
 
 	if (strlcpy(name, argv[0], sizeof name) >= sizeof(name))

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pfctl_parser.c,v 1.198 2004/05/07 16:54:20 henning Exp $ */
 
 /*
@@ -55,6 +56,8 @@
 
 #include "pfctl_parser.h"
 #include "pfctl.h"
+
+__RCSID("$MirOS$");
 
 void		 print_op (u_int8_t, const char *, const char *);
 void		 print_port (u_int8_t, u_int16_t, u_int16_t, const char *);
@@ -996,10 +999,6 @@ check_netmask(struct node_host *h, sa_family_t af)
 		if (h->addr.type == PF_ADDR_TABLE)
 			continue;
 		m = &h->addr.v.a.mask;
-		/* fix up netmask for dynaddr */
-		if (af == AF_INET && h->addr.type == PF_ADDR_DYNIFTL &&
-		    unmask(m, AF_INET6) > 32)
-			set_ipmask(n, 32);
 		/* netmasks > 32 bit are invalid on v4 */
 		if (af == AF_INET &&
 		    (m->addr32[1] || m->addr32[2] || m->addr32[3])) {

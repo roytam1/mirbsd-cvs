@@ -1,6 +1,9 @@
+.\"	$MirOS$
 .\"	$OpenBSD: fdisk.8,v 1.43 2004/06/26 11:45:40 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Tobias Weingartner
+.\" Copyright (c) 2003, 2004
+.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
@@ -28,7 +31,7 @@
 .Os
 .Sh NAME
 .Nm fdisk
-.Nd DOS partition maintenance program
+.Nd i386 BIOS partition maintenance program
 .Sh SYNOPSIS
 .Nm fdisk
 .Op Fl ieu
@@ -42,9 +45,8 @@ In order for the BIOS to boot the kernel, certain conventions must be
 adhered to.
 Sector 0 of a bootable hard disk must contain boot code,
 an MBR partition table, and a magic number (0xAA55).
-These MBR partitions (also
-known as BIOS partitions) can be used to break the disk up into several
-pieces.
+These MBR partitions (also known as BIOS partitions) can be used
+to break the disk up into several pieces.
 .Pp
 The BIOS loads sector 0 of the boot disk into memory, verifies
 the magic number, and begins executing the code at the first byte.
@@ -97,6 +99,10 @@ table of the specified device, i.e.,
      3: 00    0   0   0 -    0   0   0 [         0 -          0] unused
 .Ed
 .Pp
+It should be noted that the partition table shown above is
+invalid and a bad idea in general, because the partitions
+overlap.
+.Pp
 The geometry displayed is the BIOS geometry unless another geometry
 has been selected using the
 .Fl c ,
@@ -116,12 +122,16 @@ A
 denotes the bootable partition.
 .It Em "id"
 System identifier.
-.Ox
-reserves the
-magic number 166 decimal (A6 in hex).
-If no 166 partition is found, it will use an older
+.Mx
+reserves the partition type 0x27 (39 dec.) and will use
+the
+.Ox ,
+.Nx
+or
 .Fx
-partition (with a magic number of 165 or A5 in hex).
+types (0xA6, 0xA9 and 0xA5 respectively) if no partition of
+.Mx
+type is found.
 .It Em "cyl/hd/sec"
 These fields provide the starting and ending address of the partition
 in BIOS geometry.
@@ -148,7 +158,7 @@ using the default MBR template, or the one specified by the
 .Fl f
 flag.
 In the default template, partition number 3 will be configured as an
-.Ox
+.Mx
 partition spanning from cylinder 0, head 1, sector 1, and extending
 to the end of the disk.
 This mode is designed to initialize an MBR the very first time,
@@ -166,6 +176,10 @@ This is useful for writing new MBR code onto an existing drive, and is
 equivalent to the DOS command
 .Dq FDISK /MBR .
 Note that this option will overwrite the NT disk signature, if present.
+If you would like to preserve the NT disk signature, you can use the
+.Em umin
+command in the interactive command mode.
+Just be damn sure you use a boot code which supports this.
 .Pp
 The
 .Fl e
@@ -222,18 +236,54 @@ Change the partition
 identifier of the given partition table entry.
 This command is particularly useful for reassigning
 an existing partition to
-.Ox .
-.It Em flag
+.Mx .
+.It Em fdef
 Make the given partition table entry bootable.
+This does only work with the MirOS boot blocks.
+This is not the same as the flag command, which
+is commonly used to mark the default entry, too.
 Only one entry can be marked bootable.
 If you wish to boot from an extended
 partition, you will need to mark the partition table entry for the
 extended partition as bootable.
+\fBAttention:\fR This command should only be used
+by people who know what they are doing.
+This command can destroy third party bootblocks.
+To disable the functionality after it has been enabled,
+use the number 9 as parameter.
+.It Em flag
+Make the given partition table entry active.
+Only one entry can be marked active.
+If you wish to boot from an extended
+partition, you will need to mark the partition table entry for the
+extended partition active.
+If no default entry has been selected with fdef,
+or an older, for example from
+.Mx 7 ,
+or non-MirOS bootblock is used, this entry will be
+the default booted entry as well.
 .It Em update
 Update the machine code and 0xAA55 signature in the memory copy
 of the currently selected boot block.
 Note that this option will overwrite the NT disk
 signature, if present.
+This option will also revert the
+.Em fdef
+choice to unset, if you use recent
+.Mx
+boot code.
+.It Em umin
+This option performs basically the same operation as the
+.Em update
+command, but leaving the last part of the machine boot code, which
+contains the Microsoft NT disk signature and, shortly before, the
+.Em fdef
+flag, untouched.
+If you do not use recent
+.Mx
+boot code which supports this, your hard disc will be left
+unbootable because this option cuts off the end of the
+machine code, possibly containing instructions.
 .It Em select
 Select and load into memory the boot block pointed
 to by the extended partition table entry in the current boot block.
@@ -276,7 +326,7 @@ that use geometry translation under a potentially different BIOS.
 .Pp
 If you hand craft your disk layout,
 please make sure that the
-.Ox
+.Mx
 partition starts on a cylinder boundary.
 (This restriction may be changed in the future.)
 .Pp
@@ -289,11 +339,12 @@ This is completely safe as long as you answer the
 questions in the
 negative.
 .Sh FILES
-.Bl -tag -width /usr/mdec/mbr -compact
-.It Pa /usr/mdec/mbr
+.Bl -tag -width /usr/mdec/mbrmgr -compact
+.It Pa /usr/mdec/mbrmgr
 default MBR template
 .El
 .Sh SEE ALSO
+.Xr boot ,
 .Xr boot_i386 8 ,
 .Xr disklabel 8
 .Sh BUGS

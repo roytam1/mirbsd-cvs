@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: mount.c,v 1.35 2004/03/16 21:27:47 otto Exp $	*/
 /*	$NetBSD: mount.c,v 1.24 1995/11/18 03:34:29 cgd Exp $	*/
 
@@ -36,14 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mount.c	8.19 (Berkeley) 4/19/94";
-#else
-static char rcsid[] = "$OpenBSD: mount.c,v 1.35 2004/03/16 21:27:47 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/mount.h>
 #include <sys/socket.h>
@@ -67,6 +60,8 @@ static char rcsid[] = "$OpenBSD: mount.c,v 1.35 2004/03/16 21:27:47 otto Exp $";
 #include <util.h>
 
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 int	debug, verbose;
 char	**typelist = NULL;
@@ -110,7 +105,7 @@ static struct opt {
 	{ MNT_SYNCHRONOUS,	0,	"synchronous",		"sync" },
 	{ MNT_SOFTDEP,		0,	"softdep", 		"softdep" },
 	{ MNT_UNION,		0,	"union",		"" },
-	{ NULL,			0,	"",			"" }
+	{ 0,			0,	"",			"" }
 };
 
 int
@@ -569,6 +564,8 @@ prmount(struct statfs *sf)
 			(void)printf("%s%s", !f++ ? " (" : ", ", "long");
 		if (msdosfs_args->flags & MSDOSFSMNT_NOWIN95)
 			(void)printf("%s%s", !f++ ? " (" : ", ", "nowin95");
+		if (msdosfs_args->flags & MSDOSFSMNT_ALLOWDIRX)
+			(void)printf("%s%s", !f++ ? " (" : ", ", "direxec");
 		if (msdosfs_args->flags & MSDOSFSMNT_GEMDOSFS)
 			(void)printf("%s%s", !f++ ? " (" : ", ", "gem");
 		if (msdosfs_args->flags & MSDOSFSMNT_ALLOWDIRX)
@@ -739,4 +736,3 @@ disklabelcheck(struct fstab *fs)
 	}
 	return (0);
 }
-

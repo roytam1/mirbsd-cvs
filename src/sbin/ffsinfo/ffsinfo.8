@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" Copyright (c) 2000 Christoph Herrmann, Thomas-Henning von Kamptz
 .\" Copyright (c) 1980, 1989, 1993 The Regents of the University of California.
 .\" All rights reserved.
@@ -120,10 +121,10 @@ If
 is provided, output will be sent to stdout.
 .El
 .Sh EXAMPLES
-.Dl ffsinfo -l 1023 /dev/vinum/testvol
+.Dl ffsinfo -l 1023 /dev/rwd0f
 .Pp
 will dump
-.Pa /dev/vinum/testvol
+.Pa /dev/rwd0f
 with all available information.
 .Sh BUGS
 Currently
@@ -143,8 +144,7 @@ file system.
 .Xr fsck 8 ,
 .Xr growfs 8 ,
 .Xr newfs 8 ,
-.Xr tunefs 8 ,
-.Xr vinum 8
+.Xr tunefs 8
 .Sh AUTHORS
 .An Christoph Herrmann Aq chm@FreeBSD.org
 .An Thomas-Henning von Kamptz Aq tomsoft@FreeBSD.org

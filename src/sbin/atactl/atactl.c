@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: atactl.c,v 1.33 2004/02/19 21:22:07 grange Exp $	*/
 /*	$NetBSD: atactl.c,v 1.4 1999/02/24 18:49:14 jwise Exp $	*/
 
@@ -161,7 +162,7 @@ struct bitinfo ata_caps[] = {
 	{ ATA_CAP_STBY, "ATA standby timer values" },
 	{ WDC_CAP_IORDY, "IORDY operation" },
 	{ WDC_CAP_IORDY_DSBL, "IORDY disabling" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_vers[] = {
@@ -179,7 +180,7 @@ struct bitinfo ata_vers[] = {
 	{ WDC_VER_ATA12, "ATA-12" },
 	{ WDC_VER_ATA13, "ATA-13" },
 	{ WDC_VER_ATA14, "ATA-14" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_cmd_set1[] = {
@@ -197,7 +198,7 @@ struct bitinfo ata_cmd_set1[] = {
 	{ WDC_CMD1_REMOV, "Removable Media feature set" },
 	{ WDC_CMD1_SEC, "Security Mode feature set" },
 	{ WDC_CMD1_SMART, "SMART feature set" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_cmd_set2[] = {
@@ -214,14 +215,14 @@ struct bitinfo ata_cmd_set2[] = {
 	{ ATA_CMD2_CFA, "CFA feature set" },
 	{ ATA_CMD2_RWQ, "READ/WRITE DMA QUEUED commands" },
 	{ WDC_CMD2_DM, "DOWNLOAD MICROCODE command" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_cmd_ext[] = {
 	{ ATAPI_CMDE_MSER, "Media serial number" },
 	{ ATAPI_CMDE_TEST, "SMART self-test" },
 	{ ATAPI_CMDE_SLOG, "SMART error logging" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 /*
@@ -426,7 +427,7 @@ void
 print_bitinfo(const char *f, u_int bits, struct bitinfo *binfo)
 {
 
-	for (; binfo->bitmask != NULL; binfo++)
+	for (; binfo->bitmask != 0; binfo++)
 		if (bits & binfo->bitmask)
 			printf(f, binfo->string);
 }

@@ -293,7 +293,7 @@ char *fmt, va_list ap)
 				{
 					char *dest;
 					dest = va_arg(ap, char *);
-					bcopy(databuf, dest, width);
+					memmove(dest, databuf, width);
 					if (letter == 'z')
 					{
 						char *p;

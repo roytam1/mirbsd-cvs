@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: show.c,v 1.26 2003/08/26 08:33:12 itojun Exp $	*/
 /*	$NetBSD: show.c,v 1.1 1996/11/15 18:01:41 gwr Exp $	*/
 
@@ -30,13 +31,8 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "from: @(#)route.c	8.3 (Berkeley) 3/9/94";
-#else
-static char *rcsid = "$OpenBSD: show.c,v 1.26 2003/08/26 08:33:12 itojun Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/protosw.h>
@@ -48,7 +44,6 @@ static char *rcsid = "$OpenBSD: show.c,v 1.26 2003/08/26 08:33:12 itojun Exp $";
 #include <net/if_types.h>
 #include <net/route.h>
 #include <netinet/in.h>
-#include <netns/ns.h>
 #include <netinet/ip_ipsp.h>
 #include <arpa/inet.h>
 
@@ -65,7 +60,6 @@ static char *rcsid = "$OpenBSD: show.c,v 1.26 2003/08/26 08:33:12 itojun Exp $";
 /* XXX: things from route.c */
 extern char *routename(struct sockaddr *);
 extern char *netname(struct sockaddr *);
-extern char *ns_print(struct sockaddr_ns *);
 extern int nflag;
 
 #define ROUNDUP(a) \
@@ -367,10 +361,6 @@ p_sockaddr(sa, flags, width)
 		break;
 	    }
 #endif /* INET6 */
-
-	case AF_NS:
-		cp = ns_print((struct sockaddr_ns *)sa);
-		break;
 
 	default:
 	    {

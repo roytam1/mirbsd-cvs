@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: mount_ext2fs.c,v 1.12 2003/07/03 22:41:40 tedu Exp $	*/
 /*	$NetBSD: mount_ffs.c,v 1.3 1996/04/13 01:31:19 jtc Exp $	*/
 
@@ -30,19 +31,8 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mount_ufs.c	8.2 (Berkeley) 3/27/94";
-#else
-static char rcsid[] = "$OpenBSD: mount_ext2fs.c,v 1.12 2003/07/03 22:41:40 tedu Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/mount.h>
@@ -61,6 +51,8 @@ void	ext2fs_usage(void);
 static const struct mntopt mopts[] = {
 	MOPT_STDOPTS,
 	MOPT_UPDATE,
+	MOPT_ASYNC,
+	MOPT_SYNC,
 	{ NULL }
 };
 

@@ -225,7 +225,7 @@ rf_MakeConfig(configname, cfgPtr)
     RF_ERRORMSG2("Using %s-%d\n", cfgPtr->diskQueueType, cfgPtr->maxOutstandingDiskReqs);
   } else {
 		char *ch;
-		bcopy(buf1, cfgPtr->diskQueueType,
+		memmove(cfgPtr->diskQueueType, buf1,
 		    RF_MIN(sizeof(cfgPtr->diskQueueType), strlen(buf1) + 1));
 		for (ch = buf1; *ch; ch++) {
 			if (*ch == ' ') {

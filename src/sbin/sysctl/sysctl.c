@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: sysctl.c,v 1.113 2004/04/15 00:23:17 tedu Exp $	*/
 /*	$NetBSD: sysctl.c,v 1.9 1995/09/30 07:12:50 thorpej Exp $	*/
 
@@ -36,16 +37,7 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)sysctl.c	8.5 (Berkeley) 5/9/95";
-#else
-static const char rcsid[] = "$OpenBSD: sysctl.c,v 1.113 2004/04/15 00:23:17 tedu Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
-#include <sys/gmon.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/sem.h>
@@ -115,6 +107,9 @@ static const char rcsid[] = "$OpenBSD: sysctl.c,v 1.113 2004/04/15 00:23:17 tedu
 #ifdef CPU_BIOS
 #include <machine/biosvar.h>
 #endif
+
+__SCCSID("@(#)sysctl.c	8.5 (Berkeley) 5/9/95");
+__RCSID("$MirOS$");
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -342,21 +337,6 @@ parse(char *string, int flags)
 
 	case CTL_KERN:
 		switch (mib[1]) {
-		case KERN_PROF:
-			mib[2] = GPROF_STATE;
-			size = sizeof(state);
-			if (sysctl(mib, 3, &state, &size, NULL, 0) == -1) {
-				if (flags == 0)
-					return;
-				if (!nflag)
-					(void)printf("%s: ", string);
-				(void)puts("kernel is not compiled for profiling");
-				return;
-			}
-			if (!nflag)
-				(void)printf("%s = %s\n", string,
-				    state == GMON_PROF_OFF ? "off" : "running");
-			return;
 		case KERN_FORKSTAT:
 			sysctl_forkstat(string, &bufp, mib, flags, &type);
 			return;
@@ -750,7 +730,7 @@ parse(char *string, int flags)
 			boottime = btp->tv_sec;
 			(void)printf("%s%s%s", string, equ, ctime(&boottime));
 		} else
-			(void)printf("%ld\n", btp->tv_sec);
+			(void)printf("%lld\n", (int64_t)(btp->tv_sec));
 		return;
 	}
 	if (special & BLKDEV) {

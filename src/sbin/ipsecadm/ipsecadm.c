@@ -1,3 +1,7 @@
+/* $MirOS$ */
+/*
+ * The authors of this code apparently lack a bunch of clues.
+ */
 /* $OpenBSD: ipsecadm.c,v 1.77 2004/05/14 20:29:52 ish Exp $ */
 /*
  * The authors of this code are John Ioannidis (ji@tla.org),
@@ -48,9 +52,6 @@
 #include <net/route.h>
 #include <net/if_dl.h>
 #include <netinet/in.h>
-#include <netns/ns.h>
-#include <netiso/iso.h>
-#include <netccitt/x25.h>
 #include <net/pfkeyv2.h>
 #include <netinet/ip_ipsp.h>
 #include <netinet/in.h>
@@ -65,6 +66,8 @@
 #include <string.h>
 #include <paths.h>
 #include <err.h>
+
+__RCSID("$MirOS$");
 
 #define KEYSIZE_LIMIT	1024
 

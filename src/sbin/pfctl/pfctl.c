@@ -524,7 +524,7 @@ pfctl_get_pool(int dev, struct pf_pool *pool, u_int32_t nr,
 		pa = calloc(1, sizeof(struct pf_pooladdr));
 		if (pa == NULL)
 			err(1, "calloc");
-		bcopy(&pp.addr, pa, sizeof(struct pf_pooladdr));
+		memmove(pa, &pp.addr, sizeof(struct pf_pooladdr));
 		TAILQ_INSERT_TAIL(&pool->list, pa, entries);
 	}
 
