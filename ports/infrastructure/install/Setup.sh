@@ -79,7 +79,7 @@ Darwin)
 	mtar=$localbase/bin/tar
 	pkgbin=$localbase/sbin
 
-	cat $ti/db/fake.mtree >$tmp
+	cat $ti/templates/fake.mtree >$tmp
 	(print '/@@local/d\ni\n'; IFS=/; s=;
 	 for pc in $(print "$localbase"); do
 		s="$s    "; print "$s$pc"
@@ -153,7 +153,7 @@ fi
 
 print "2. Building package tools..."
 
-cd $ti/stools
+cd $ti/pkgtools
 rm -rf */obj
 set -e
 $MAKE cleandir
@@ -187,7 +187,7 @@ if grep '\.ifndef.TRUEPREFIX' $sysmk/bsd.sys.mk >/dev/null 2>&1; then
 	print not needed.
 else
 	if patch $sysmk/bsd.sys.mk \
-	    $ti/compat/generic/patch-bsd_sys_mk; then
+	    $ti/install/patch-bsd_sys_mk; then
 		print done.
 		rm -f $sysmk/bsd.sys.mk.orig
 	else
@@ -201,7 +201,7 @@ print -n "4. Installing MirPorts system makefile includes..."
 case $os in
 Darwin)
 	if ! install -c -o root -g wheel -m 644 \
-	    $ti/compat/osdep/darwin-mirports.osdep.mk \
+	    $ti/install/mirports.osdep.mk-darwin \
 	    $ti/mk/mirports.osdep.mk; then
 		print failed.
 		exit 1
@@ -210,7 +210,7 @@ Darwin)
 MirBSD)
 	if [[ $mirosnew = 0 ]]; then
 		if ! install -c -o root -g wsrc -m 664 \
-		    $ti/compat/osdep/mbsd-mirports.osdep.mk \
+		    $ti/install/mirports.osdep.mk-mbsd \
 		    $ti/mk/mirports.osdep.mk; then
 			print failed.
 			exit 1
@@ -221,7 +221,7 @@ MirBSD)
 	;;
 OpenBSD)
 	if ! install -c -o root -g wsrc -m 664 \
-	    $ti/compat/osdep/obsd-mirports.osdep.mk \
+	    $ti/install/mirports.osdep.mk-obsd \
 	    $ti/mk/mirports.osdep.mk; then
 		print failed.
 		exit 1
@@ -231,7 +231,7 @@ OpenBSD)
 esac
 
 if install -c -o root -g bin -m 444 \
-    $ti/compat/generic/*.mk $sysmk/; then
+    $ti/install/*.mk $sysmk/; then
 	print done.
 else
 	print failed.
@@ -305,7 +305,7 @@ print done.
 print -n "6. Augmenting user and group database..."
 
 if [[ $os = @(Open|Mir)BSD ]]; then
-	$SHELL $ti/db/mkuserdb
+	$SHELL $ti/scripts/mkuserdb
 	print done.
 else
 	print not supported on $os, please do so manually!
