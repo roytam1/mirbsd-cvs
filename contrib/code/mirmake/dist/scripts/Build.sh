@@ -1,7 +1,7 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.2 2005/02/23 21:35:09 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.3 2005/02/23 21:40:55 tg Exp $
 #-
-# Copyright (c) 2004
+# Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -155,6 +155,14 @@ for f in ${d_build}/mk/*.mk; do
 \$i -c \$ug -m 444 $f \$DESTDIR${dt_mk}/
 EOF
 done
+if [[ $is_catman = 1 ]]; then
+	cd $d_build
+	if ! nroff -mandoc make.1 >make.cat1; then
+		echo "Warning: manpage build failure."
+		is_catman=0
+	fi
+	cd $top
+fi
 if [[ $is_catman = 0 ]]; then
 	cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 ${d_build}/make.1 \$DESTDIR${dt_man}/${new_exenam}.1
@@ -163,11 +171,6 @@ else
 	cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 ${d_build}/make.cat1 \$DESTDIR${dt_man}/${new_exenam}.0
 EOF
-	cd $d_build
-	if ! nroff -mandoc make.1 >make.cat1; then
-		echo "Warning: manpage build failure."
-	fi
-	cd $top
 fi
 if [[ -e $d_build/PSD12.make.txt ]]; then
 	cat >>Install.sh <<EOF
