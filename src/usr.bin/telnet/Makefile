@@ -1,5 +1,5 @@
-#	$MirOS$
-#	$OpenBSD: Makefile,v 1.20 2003/06/03 02:56:17 millert Exp $
+# $MirOS: src/usr.bin/telnet/Makefile,v 1.2 2005/03/13 18:33:44 tg Exp $
+# $OpenBSD: Makefile,v 1.20 2003/06/03 02:56:17 millert Exp $
 #
 # Copyright (c) 1990 The Regents of the University of California.
 # All rights reserved.
@@ -33,9 +33,9 @@
 
 PROG=	telnet
 
-CFLAGS+=-DKLUDGELINEMODE -DUSE_TERMIO -DENV_HACK -DSKEY -Dunix
-CFLAGS+=-I${.CURDIR}/../../libexec/telnetd
-CFLAGS+= -DHAS_CGETENT -Wall -Wno-unused
+CPPFLAGS+=-DKLUDGELINEMODE -DUSE_TERMIO -DENV_HACK -DSKEY -Dunix
+CPPFLAGS+=-I${.CURDIR}/../../libexec/telnetd -DHAS_CGETENT
+CFLAGS+=-Wall -Wno-unused
 LDADD+=	-lcurses
 DPADD=	${LIBCURSES}
 
