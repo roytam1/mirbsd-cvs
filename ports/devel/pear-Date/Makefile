@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/pear-Date/Makefile,v 1.2 2005/03/19 22:55:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/02/29 00:09:28 avsm Exp $
 
 COMMENT=	"date and timezone classes for PHP"
@@ -11,7 +11,7 @@ CATEGORIES=	devel pear
 MASTER_SITES=	http://pear.php.net/get/
 EXTRACT_SUFX=	.tgz
 
-MODULES=	www/php4/pear
+MODULES=	www/php/pear
 
 # PHP License
 PERMIT_PACKAGE_CDROM=	Yes
