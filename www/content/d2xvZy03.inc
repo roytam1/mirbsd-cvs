@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.13 2005/02/13 23:16:46 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.14 2005/02/14 20:50:34 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2311,4 +2311,11 @@
  channel for them @ <tt>irc6.oftc.net:6667</tt> so they can't throw me out
  of the Netzladen tonight ;) Greets to Anglo, Scotty&trade;, ane and johl;
  be sure to visit the channel.</p>
+<p>20.02.2005 by tg@<br />I've about recovered from a flu. I've got to get
+ working tomorrow again, even if I wish I could take the day off, but it's
+ too hard to get a testate. I've got to take care of a few things the next
+ two weeks, so don't expect much commits in that time.<br />The new ports.
+ Troublesome (to speak with Shikamaru). Samba doesn't work as expected and
+ I've got no way to test PostgreSQL; pine and mplayer could need an update
+ (though they can wait until the next version is released).</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
