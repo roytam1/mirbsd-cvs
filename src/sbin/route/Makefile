@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sbin/route/Makefile,v 1.2 2005/03/06 19:50:34 tg Exp $
 # $OpenBSD: Makefile,v 1.6 1999/12/08 07:55:54 itojun Exp $
 
 PROG=	route
@@ -7,7 +7,7 @@ SRCS=	route.c show.c keywords.c
 
 CPPFLAGS+=	-DINET6
 
-route.o .depend lint tags: keywords.h
+beforedepend: keywords.h
 
 afterinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
