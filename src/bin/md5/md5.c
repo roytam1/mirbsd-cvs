@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.2 2005/03/06 18:55:22 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -37,8 +37,9 @@
 #include <sha1.h>
 #include <sha2.h>
 #include <crc.h>
+#include "suma.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.2 2005/03/06 18:55:22 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -53,13 +54,14 @@ union ANY_CTX {
 	SHA512_CTX sha512;
 	SUM_CTX sum;
 	SYSVSUM_CTX sysvsum;
+	SUMA_CTX suma;
 };
 
 void digest_print(const char *, const char *, const char *);
 void digest_print_short(const char *, const char *, const char *);
 void digest_print_string(const char *, const char *, const char *);
 
-#define NHASHES	10
+#define NHASHES	11
 struct hash_functions {
 	char *name;
 	int digestlen;
@@ -97,6 +99,15 @@ struct hash_functions {
 		(char *(*)(void *, char *))SYSVSUM_End,
 		digest_print_short,
 		digest_print_short
+	}, {
+		"SUMA",
+		SUMA_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))SUMA_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))SUMA_Update,
+		(char *(*)(void *, char *))SUMA_End,
+		digest_print,
+		digest_print_string
 	}, {
 		"MD4",
 		MD4_DIGEST_LENGTH * 2,
@@ -408,8 +419,8 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		return(1);
 	}
 
-	if (defhash < &functions[3])
-		defhash = NULL;	/* No GNU format for sum, cksum, sysvsum */
+	if (defhash < &functions[4])
+		defhash = NULL;	/* No GNU format for sum, cksum, sysvsum, suma */
 
 	algorithm_max = algorithm_min = strlen(functions[0].name);
 	for (hf = &functions[1]; hf->name != NULL; hf++) {

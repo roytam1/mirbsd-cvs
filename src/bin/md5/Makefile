@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: src/bin/md5/Makefile,v 1.2 2005/03/06 18:55:22 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/05/04 14:50:45 millert Exp $
 
 PROG=	md5
-SRCS=	crc.c md5.c
+SRCS=	crc.c md5.c suma.c suma-x86.S
 MAN=	cksum.1 md5.1 sha1.1 rmd160.1
 LINKS=	${BINDIR}/md5 ${BINDIR}/sha1 \
 	${BINDIR}/md5 ${BINDIR}/rmd160 \

@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.2 2005/03/06 18:55:22 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.3 2004/12/29 17:32:44 millert Exp $
 .\"
 .\" Copyright (c) 1991, 1993
@@ -33,7 +33,7 @@
 .\"
 .\"	@(#)cksum.1	8.2 (Berkeley) 4/28/95
 .\"
-.Dd April 30, 2004
+.Dd March 16, 2005
 .Dt CKSUM 1
 .Os
 .Sh NAME
@@ -74,6 +74,13 @@ checksum, the number of kilobytes in the input,
 and name of the file or string.
 If no file name is specified, the standard input is used and no file name
 is written.
+.It suma
+The output is a 33-bit
+.Tn CRC
+over the file, expressed as eight sedecimal numbers,
+followed by the input file name.
+If no file name is specified, the standard input is used
+and no file name is written.
 .It sysvsum
 The output line consists of three whitespace separated fields: a
 .Tn CRC
@@ -111,6 +118,7 @@ Supported algorithms include
 .Ar sha384 ,
 .Ar sha512 ,
 .Ar sum ,
+.Ar suma ,
 and
 .Ar sysvsum .
 Multiple algorithms may be specified, separated by a comma or whitespace.
@@ -232,6 +240,12 @@ The coefficients of R(x) are considered to be a 32-bit sequence.
 .Pp
 The bit sequence is complemented and the result is the CRC.
 .Ed
+.Pp
+The
+.Ar suma
+CRC uses little endian 32-bit block reading conventions,
+initialisation of the CRC with an all-ones word and a
+different 33-bit polynomial.
 .Pp
 The other available algorithms are described in their respective
 man pages in section 3 of the manual.
