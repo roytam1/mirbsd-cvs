@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.1 2005/03/13 17:08:03 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.2 2005/03/13 17:19:39 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -42,7 +42,7 @@ AM_FLAGS="--miros --ignore-deps"
 [[ -n $flags ]] && AM_FLAGS="$flags"
 
 [[ -e /tmp/empty ]] || print -n >/tmp/empty
-for a in $files ChangeLog; do
+for a in $files ChangeLog ltmain.sh; do
 	[[ -e $a ]] || ln -s /tmp/empty $a
 done
 
