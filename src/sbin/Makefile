@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/Makefile,v 1.2 2005/03/06 19:49:47 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.3 2005/03/14 22:16:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -53,7 +53,9 @@
   SUBDIR+= newfs_msdos
   SUBDIR+= nfsd
   SUBDIR+= nologin
+.if ${MACHINE} == "macppc"
   SUBDIR+= pdisk
+.endif
   SUBDIR+= pfctl
   SUBDIR+= pflogd
   SUBDIR+= ping
