@@ -97,7 +97,7 @@ ERRORS+=	Can't figure out MTREE_FILE
 plist: install
 	@DESTDIR=${PREFIX} PREFIX=${PREFIX} LDCONFIG="${LDCONFIG}" MTREE_FILE=${MTREE_FILE} \
 	INSTALL_PRE_COOKIE=${_INSTALL_PRE_COOKIE} \
-	perl ${PORTSDIR}/infrastructure/install/make-plist ${PLIST}
+	perl ${PORTSDIR}/infrastructure/scripts/make-plist ${PLIST}
 
 # Fake installation of package so that user can pkg_delete it later.
 # Also, make sure that an installed port is recognized correctly in
