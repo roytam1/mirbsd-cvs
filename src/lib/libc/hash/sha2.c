@@ -1,3 +1,4 @@
+/*	$MirOS$	*/
 /*	$OpenBSD: sha2.c,v 1.10 2004/05/28 15:10:27 millert Exp $	*/
 
 /*
@@ -847,9 +848,29 @@ SHA384_Init(SHA384_CTX *context)
 	context->bitcount[0] = context->bitcount[1] = 0;
 }
 
+#ifdef __weak_alias
 __weak_alias(SHA384_Transform, SHA512_Transform);
 __weak_alias(SHA384_Update, SHA512_Update);
 __weak_alias(SHA384_Pad, SHA512_Pad);
+#else
+inline void
+SHA384_Transform(u_int64_t state[8], const u_int8_t data[SHA512_BLOCK_LENGTH])
+{
+	SHA512_Transform(state, data);
+}
+
+inline void
+SHA384_Update(SHA384_CTX *context, const u_int8_t *data, size_t len)
+{
+	SHA512_Update(context, data, len);
+}
+
+inline void
+SHA384_Pad(SHA384_CTX *context)
+{
+	SHA512_Pad(context);
+}
+#endif
 
 void
 SHA384_Final(u_int8_t digest[SHA384_DIGEST_LENGTH], SHA384_CTX *context)
