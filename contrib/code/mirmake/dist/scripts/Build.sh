@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.2 2005/02/23 21:35:09 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -35,6 +35,7 @@ new_machin="$5"		# MACHINE
 new_macarc="$6"		# MACHINE_ARCH
 new_machos="$7"		# MACHINE_OS
 new_mirksh="$8"
+new_binids="$9"
 
 if [ -z "$new_mirksh" ]; then
 	echo "Use ../../Build.sh instead!"
@@ -76,6 +77,17 @@ Darwin:*:*)
 	new_macarc=i386
 	;;
 }
+
+if [[ -z $new_binids ]]; then
+	binown=root
+	bingrp=bin
+elif [[ $new_binids = *:* ]]; then
+	binown=${new_binids%:*}
+	bingrp=${new_binids#*:}
+else
+	binown=$new_binids
+	bingrp=$new_binids
+fi
 
 mkdir -p $d_build/mk
 
@@ -132,27 +144,24 @@ cat >Install.sh <<EOF
 #!${new_mirksh}
 
 i=\${1:-install}
+ug="-o $binown -g $bingrp"
 set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
-\$i -c -s -o root -g bin -m 555 ${d_build}/bmake \
-    \$DESTDIR${dt_bin}/${new_exenam}
-\$i -c -o root -g bin -m 555 ${d_build}/mkdep.sh \
-    \$DESTDIR${dt_bin}/mkdep
+\$i -c -s \$ug -m 555 ${d_build}/bmake \$DESTDIR${dt_bin}/${new_exenam}
+\$i -c \$ug -m 555 ${d_build}/mkdep.sh \$DESTDIR${dt_bin}/mkdep
 EOF
 for f in ${d_build}/mk/*.mk; do
 	cat >>Install.sh <<EOF
-\$i -c -o root -g bin -m 444 $f \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $f \$DESTDIR${dt_mk}/
 EOF
 done
 if [[ $is_catman = 0 ]]; then
 	cat >>Install.sh <<EOF
-\$i -c -o root -g bin -m 444 ${d_build}/make.1 \
-    \$DESTDIR${dt_man}/${new_exenam}.1
+\$i -c \$ug -m 444 ${d_build}/make.1 \$DESTDIR${dt_man}/${new_exenam}.1
 EOF
 else
 	cat >>Install.sh <<EOF
-\$i -c -o root -g bin -m 444 ${d_build}/make.cat1 \
-    \$DESTDIR${dt_man}/${new_exenam}.0
+\$i -c \$ug -m 444 ${d_build}/make.cat1 \$DESTDIR${dt_man}/${new_exenam}.0
 EOF
 	cd $d_build
 	if ! nroff -mandoc make.1 >make.cat1; then
@@ -162,15 +171,13 @@ EOF
 fi
 if [[ -e $d_build/PSD12.make.txt ]]; then
 	cat >>Install.sh <<EOF
-\$i -c -o root -g bin -m 444 $d_build/PSD12.make.txt \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_build/PSD12.make.txt \$DESTDIR${dt_mk}/
 EOF
 fi
 
 cat >>Install.sh <<EOF
-\$i -c -o root -g bin -m 444 $d_src/lib/libc/string/strlfun.c \
-    \$DESTDIR${dt_mk}/
-\$i -c -o root -g bin -m 444 $d_script/../contrib/mirmake.h \
-    \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/lib/libc/string/strlfun.c \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
 EOF
 
 chmod 555 $top/Install.sh

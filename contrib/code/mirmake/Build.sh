@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.2 2005/02/23 21:29:42 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,6 +29,7 @@ MAC="$5"		# machine (i386, macppc) (optional)
 MAR="$6"		# machine_arch (i386, powerpc) (optional)
 MOS="$7"		# machine_os (BSD, Linux) (optional)
 MKS="$8"		# mirbsdksh path (optional)
+BIN="$9"		# binown:bingrp (optional)
 
 if [ x"$MAC" = x"" ]; then
 	MAC="`machine 2>/dev/null || echo unknown`"
@@ -73,7 +74,8 @@ fi
 if [ x"$OSN" = x"" ]; then
 	echo "Syntax:"
 	echo " $0 <OStype> [<prefix> [<manpath> [<exename>"
-	echo "	[<machine> [<machine_arch> [<machine_os> [<mksh>]]]]]]]"
+	echo "	[<machine> [<machine_arch> [<machine_os>"
+	echo "  [<mksh> [<binown>:<bingrp>]]]]]]]]"
 	echo "OStype:  name of OS (eg. Debian)"
 	echo "prefix:  installation target (default: /usr/local)"
 	echo "manpath: manpath relative to <prefix> (default: man/cat)"
@@ -87,6 +89,7 @@ if [ x"$OSN" = x"" ]; then
 	echo "generated and installed, else, an unformatted manpage"
 	echo "will be installed. If <mksh> is given, it is searched"
 	echo "first when determining the path of the mirbsdksh."
+	echo "Default binary owner is root:bin"
 	exit 1
 fi
 
@@ -115,4 +118,4 @@ if [ x"$ms" = x"NONE" ]; then
 	exit 1
 fi
 
-exec $ms `dirname $0`/dist/scripts/Build.sh "$OSN" "$PFX" "$MPT" "$MKN" "$MAC" "$MAR" "$MOS" $ms
+exec $ms `dirname $0`/dist/scripts/Build.sh "$OSN" "$PFX" "$MPT" "$MKN" "$MAC" "$MAR" "$MOS" $ms "$BIN"
