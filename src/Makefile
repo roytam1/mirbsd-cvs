@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.12 2005/03/29 17:33:27 tg Exp $
+# $MirOS: src/Makefile,v 1.13 2005/03/29 22:05:57 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -184,3 +184,6 @@ cvsup:
 	cont-b-r cvsup do-htman dist dist-q do-dist
 
 .include <bsd.subdir.mk>
+
+cleandir:
+	-rm -rf ${BSDOBJDIR}/htman
