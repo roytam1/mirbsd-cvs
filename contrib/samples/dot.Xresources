@@ -1,4 +1,4 @@
-! $MirOS$
+! $MirOS: contrib/samples/dot.Xresources,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
 !-
 ! Copyright (c) 2003, 2004, 2005
 !	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -211,6 +211,9 @@ UXTerm*VT100*utf8Fonts.font4:	-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso
 UXTerm*VT100*utf8Fonts.font5:	-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
 UXTerm*VT100*utf8Fonts.font6:	-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso10646-1
 UXTerm*utf8Fonts.font:		-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
+! this one has easier strokes for kana etc.
+!UXTerm*utf8Fonts.wideFont:	-misc-fixed-medium-r-normal-ja-18-120-100-100-c-180-iso10646-1
+! and this one just looks better, more calligraphic, also has waaay more chars
 UXTerm*utf8Fonts.wideFont:	-misc-fixed-medium-r-normal-ko-18-120-100-100-c-180-iso10646-1
 UXTerm*visualBell:		true
 
