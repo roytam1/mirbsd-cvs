@@ -22,7 +22,7 @@ CONFIGURE_ARGS+= --with-snmp-style=ucd \
 		--with-snmp-lib=${LOCALBASE}/lib
 
 LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+ \
-		glib.1.2::devel/glib \
+		glib.1.2::devel/glib1\
 		snmp.42::net/ucd-snmp
 
 .include <bsd.port.mk>

@@ -13,7 +13,7 @@ HOMEPAGE=       http://sawmill.sourceforge.net/
 BUILD_DEPENDS=	${RUN_DEPENDS}
 RUN_DEPENDS=	:rep-gtk-*:x11/rep-gtk
 LIB_DEPENDS=	gtk.1.2::x11/gtk+ \
-		glib.1.2::devel/glib \
+		glib.1.2::devel/glib1\
 		rep.10::lang/librep \
 		Imlib.19,gdk_imlib.19::graphics/imlib
 

@@ -17,7 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS= 		gtk.1.2,gdk.1.2::x11/gtk+ \
-			glib.1::devel/glib 
+			glib.1::devel/glib1
 
 CONFIGURE_STYLE=	gnu
 NO_REGRESS=		Yes

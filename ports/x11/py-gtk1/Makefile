@@ -31,7 +31,7 @@ FLAVOR?=
 LIB_DEPENDS+=	Imlib.19,gdk_imlib::graphics/imlib \
 		gtkgl.1.2::x11/gtkglarea \
 		gdk_pixbuf::graphics/gdk-pixbuf \
-		gthread.1.2::devel/glib
+		gthread.1.2::devel/glib1
 
 USE_X11=	Yes
 USE_GMAKE=	Yes

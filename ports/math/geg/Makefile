@@ -22,7 +22,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=	devel/gettext
 LIB_DEPENDS=	gtk.1.2::x11/gtk+ \
-		glib.1::devel/glib \
+		glib.1::devel/glib1\
 		gdk_imlib::graphics/imlib
 
 CONFIGURE_STYLE= gnu

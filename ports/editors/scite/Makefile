@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=scintilla/}
 EXTRACT_SUFX=		.tgz
 
-LIB_DEPENDS=		gthread.1.2::devel/glib \
+LIB_DEPENDS=		gthread.1.2::devel/glib1\
 			scintilla.1,scintilla_lexers.1::editors/scintilla
 
 USE_GMAKE=		Yes

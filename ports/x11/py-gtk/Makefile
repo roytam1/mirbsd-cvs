@@ -25,9 +25,9 @@ MODPY_DISTUTILS_BUILDARGS=	--enable-threading
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig \
 		:py-Numeric-*:math/py-Numeric
-LIB_DEPENDS=	gthread-2.0.0.0::devel/glib2 \
-		glade-2.0.0.0::devel/libglade2 \
-		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+LIB_DEPENDS=	gthread-2.0.0.0::devel/glib \
+		glade-2.0.0.0::devel/libglade \
+		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --enable-thread

@@ -24,7 +24,7 @@ MODULES=	devel/gettext
 
 LIB_DEPENDS=	SDL::devel/sdl \
 		gtk.1.2,gdk.1.2::x11/gtk+ \
-		glib,gthread::devel/glib \
+		glib,gthread::devel/glib1\
 		png::graphics/png \
 		id3tag.2::audio/libid3tag \
 		mad.2::audio/libmad \

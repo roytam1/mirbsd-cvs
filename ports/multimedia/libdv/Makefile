@@ -19,7 +19,7 @@ BUILD_DEPENDS=		::devel/pkgconfig
 
 LIB_DEPENDS=		SDL.2::devel/sdl \
 			gdk.1.2,gtk.1.2::x11/gtk+ \
-			glib.1.2,gmodule.1.2::devel/glib \
+			glib.1.2,gmodule.1.2::devel/glib1\
 			popt.0::devel/popt
 
 USE_X11=		Yes

@@ -18,7 +18,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		converters/libiconv
-LIB_DEPENDS=		glib.1.2,gmodule.1.2::devel/glib \
+LIB_DEPENDS=		glib.1.2,gmodule.1.2::devel/glib1\
 			xml2::textproc/libxml
 
 CONFIGURE_STYLE=	gnu

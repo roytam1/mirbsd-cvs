@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=rep-gtk/}
 
 LIB_DEPENDS= 	gtk.1.2,gdk.1.2::x11/gtk+ \
-		glib.1.2::devel/glib \
+		glib.1.2::devel/glib1\
 		rep.10::lang/librep
 
 SUBST_VARS=     OPSYS_VER VERSION

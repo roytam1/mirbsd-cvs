@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/ORBit/Makefile,v 1.2 2005/03/20 16:46:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/10 20:33:58 marcm Exp $
 
 COMMENT=		"high-performance CORBA Object Request Broker"
@@ -18,7 +18,7 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
 LIB_DEPENDS=		IDL-2::devel/libIDL \
-			gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
+			gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib\
 			popt::devel/popt
 
 USE_GMAKE=		Yes

@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/soup/0.7/}
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS=		glib.1.2,gmodule.1.2::devel/glib \
+LIB_DEPENDS=		glib.1.2,gmodule.1.2::devel/glib1\
 			popt::devel/popt \
 			xml.9.17::textproc/libxml1
 

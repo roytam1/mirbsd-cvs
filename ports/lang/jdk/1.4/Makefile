@@ -96,8 +96,8 @@ EXTRACT_CASES+=		*.bin) \
 .if !${FLAVOR:L:Mno_plugin}
 BUILD_DEPENDS+=		:nspr-*:devel/nspr
 
-LIB_DEPENDS+=		glib.1::devel/glib \
-			gtk.1.2::x11/gtk+
+LIB_DEPENDS+=		glib.1::devel/glib1 \
+			gtk.1.2::x11/gtk+1
 
 MODULES+=		devel/gettext
 

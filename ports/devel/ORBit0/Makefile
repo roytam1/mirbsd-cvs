@@ -15,7 +15,7 @@ PATCH_LIST=		patch-* sup-alpha-*
 .endif
 
 MODULES=	devel/gettext
-LIB_DEPENDS=	glib.1.2,gmodule.1.2::devel/glib \
+LIB_DEPENDS=	glib.1.2,gmodule.1.2::devel/glib1 \
 		popt::devel/popt
 
 

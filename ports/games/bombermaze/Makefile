@@ -20,7 +20,7 @@ MASTER_SITES=		http://savannah.nongnu.org/download/bombermaze/
 MODULES=	devel/gettext
 LIB_DEPENDS=	gdk_pixbuf.2::graphics/gdk-pixbuf \
 		audiofile.0::devel/libaudiofile \
-		glib.1,gmodule.1::devel/glib \
+		glib.1,gmodule.1::devel/glib1\
 	 	gif.5::graphics/libungif \
 		art_lgpl.4,gnome.36,gnomeui.46,gnomesupport.0::x11/gnome/libs
 
