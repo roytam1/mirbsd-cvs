@@ -1,3 +1,5 @@
+# $MirOS$
+#
 ## Makefile for the toplevel directory of the GNU C++ Standard library.
 ##
 ## Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003
@@ -26,10 +28,10 @@ include $(top_srcdir)/fragment.am
 
 if GLIBCXX_HOSTED
   # Possibly libmath as well...
-  hosted_source = src po
+  hosted_source = src
 endif
 ## Keep this list sync'd with acinclude.m4:GLIBCXX_CONFIGURE.
-SUBDIRS = include libmath libsupc++ $(hosted_source) testsuite
+SUBDIRS = include libmath libsupc++ $(hosted_source)
 
 # These rules are messy, but are hella worth it.
 doxygen:

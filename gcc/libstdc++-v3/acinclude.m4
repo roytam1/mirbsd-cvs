@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: gcc/libstdc++-v3/acinclude.m4,v 1.2 2005/03/26 09:11:59 tg Exp $
 
 dnl
 dnl GLIBCXX_CONDITIONAL (NAME, SHELL-TEST)
@@ -83,7 +83,7 @@ AC_DEFUN([GLIBCXX_CONFIGURE], [
   # Keep these sync'd with the list in Makefile.am.  The first provides an
   # expandable list at autoconf time; the second provides an expandable list
   # (i.e., shell variable) at configure time.
-  m4_define([glibcxx_SUBDIRS],[include libmath libsupc++ src po testsuite])
+  m4_define([glibcxx_SUBDIRS],[include libmath libsupc++ src])
   SUBDIRS='glibcxx_SUBDIRS'
 
   # These need to be absolute paths, yet at the same time need to
