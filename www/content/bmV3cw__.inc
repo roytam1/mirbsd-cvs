@@ -1,6 +1,10 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.7 2005/03/06 14:47:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.8 2005/03/13 21:19:02 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>19.03.2005<br />
+	<a href="http://www.xfree86.org/">XFree86&trade;</a> 4.5 joined us
+	in the tree; it's currently in the process of being ported.</li>
 
 <li>13.03.2005<br />
 	We've reopened the webpages, after the Wiki came back earlier. The
