@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/make-temp-file.c,v 1.2 2005/03/13 16:07:10 tg Exp $ */
 
 /* Utility to pick a temporary filename prefix.
    Copyright (C) 1996, 1997, 1998, 2001 Free Software Foundation, Inc.
@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.  */
 #include "config.h"
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/make-temp-file.c,v 1.2 2005/03/13 16:07:10 tg Exp $");
 
 #include <stdio.h>	/* May get P_tmpdir.  */
 #include <sys/types.h>
@@ -47,7 +47,7 @@ __RCSID("$MirOS$");
 #endif
 
 #include "libiberty.h"
-extern int mkstemps PARAMS ((char *, int));
+extern int mkstemps (char *, int);
 
 /* '/' works just fine on MS-DOS based systems.  */
 #ifndef DIR_SEPARATOR
@@ -65,11 +65,10 @@ extern int mkstemps PARAMS ((char *, int));
    If success, DIR is returned.
    Otherwise NULL is returned.  */
 
-static inline const char *try PARAMS ((const char *, const char *));
+static inline const char *try (const char *, const char *);
 
 static inline const char *
-try (dir, base)
-     const char *dir, *base;
+try (const char *dir, const char *base)
 {
   if (base != 0)
     return base;
@@ -99,7 +98,7 @@ files in.
 */
 
 char *
-choose_tmpdir ()
+choose_tmpdir (void)
 {
   const char *base = 0;
   char *tmpdir;
@@ -150,8 +149,7 @@ string is @code{malloc}ed, and the temporary file has been created.
 */
 
 char *
-make_temp_file (suffix)
-     const char *suffix;
+make_temp_file (const char *suffix)
 {
   const char *base = choose_tmpdir ();
   char *temp_filename;

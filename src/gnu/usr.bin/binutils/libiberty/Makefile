@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
 
 .include "../Makefile.inc"
 
-SHLIB_VERSION?=	9.0
+SHLIB_VERSION?=	9.1
 LIB=		iberty
 SRCS=		_gplwarn.c argv.c concat.c copysign.c cp-demangle.c \
 		cp-demint.c cplus-dem.c dyn-string.c fdmatch.c fibheap.c \
@@ -10,8 +10,9 @@ SRCS=		_gplwarn.c argv.c concat.c copysign.c cp-demangle.c \
 		htab_old.c lbasename.c lrealpath.c make-relative-prefix.c \
 		make-temp-file.c mempcpy.c objalloc.c obstack.c partition.c \
 		pex-unix.c physmem.c safe-ctype.c sort.c spaces.c \
-		splay-tree.c stpcpy.c stpncpy.c strerror.c strsignal.c \
-		ternary.c xatexit.c xexit.c xmalloc.c xmemdup.c xstrdup.c \
+		splay-tree.c stpcpy.c stpncpy.c strerror.c strndup.c \
+		strsignal.c ternary.c unlink-if-ordinary.c xatexit.c \
+		xexit.c xmalloc.c xmemdup.c xstrdup.c xstrndup.c \
 		xstrerror.c
 CPPFLAGS+=	-DHAVE_CONFIG_H -I${GNU_LIBIBERTY_SRC} -I${GNU_LIBIBERTY_INC}
 

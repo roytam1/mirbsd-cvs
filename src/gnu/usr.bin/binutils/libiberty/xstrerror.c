@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/xstrerror.c,v 1.2 2005/03/13 16:07:11 tg Exp $ */
 
 /* xstrerror.c -- jacket routine for more robust strerror() usage.
    Fri Jun 16 18:30:00 1995  Pat Rankin  <rankin@eql.caltech.edu>
@@ -20,18 +20,18 @@ will never return a @code{NULL} pointer.
 #include "config.h"
 #include "libiberty.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/xstrerror.c,v 1.2 2005/03/13 16:07:11 tg Exp $");
 
 #ifdef VMS
 #include <errno.h>
 #if !defined (__STRICT_ANSI__) && !defined (__HIDE_FORBIDDEN_NAMES)
-extern char *strerror PARAMS ((int,...));
+extern char *strerror (int,...);
 #define DONT_DECLARE_STRERROR
 #endif
 #endif	/* VMS */
 
 #ifndef DONT_DECLARE_STRERROR
-extern char *strerror PARAMS ((int));
+extern char *strerror (int);
 #endif
 
 /* If strerror returns NULL, we'll format the number into a static buffer.  */
@@ -42,15 +42,14 @@ static char xstrerror_buf[sizeof ERRSTR_FMT + 20];
 /* Like strerror, but result is never a null pointer.  */
 
 char *
-xstrerror (errnum)
-     int errnum;
+xstrerror (int errnum)
 {
   char *errstr;
 #ifdef VMS
-  char *(*vmslib_strerror) PARAMS ((int,...));
+  char *(*vmslib_strerror) (int,...);
 
   /* Override any possibly-conflicting declaration from system header.  */
-  vmslib_strerror = (char *(*) PARAMS ((int,...))) strerror;
+  vmslib_strerror = (char *(*) (int,...)) strerror;
   /* Second argument matters iff first is EVMSERR, but it's simpler to
      pass it unconditionally.  `vaxc$errno' is declared in <errno.h>
      and maintained by the run-time library in parallel to `errno'.
