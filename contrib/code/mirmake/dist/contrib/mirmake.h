@@ -1,7 +1,7 @@
-/**	$MirOS$ */
+/* $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $ */
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -21,6 +21,8 @@
  *-
  * Add here: macros not defined on every operating system, for easier
  * patching of ported apps.
+ * Suggest to use with CPPFLAGS+= -imacros "/path/to/mirmake.h" (safe
+ * or conservative) or CPPFLAGS+= -include "/path/to/mirmake.h"
  */
 
 #ifndef _MIRMAKE_H

@@ -1,5 +1,6 @@
 0a
-# $MirOS$
+# $MirOS: contrib/code/mirmake/dist/scripts/bsd.sys.mk.ed,v 1.1.3.1 2004/10/05 10:29:45 tg Exp $
 .
-/^\.ifdef.DESTDIR/;/^\.endif/+d
+/-Werror/d
+/defined(DESTDIR/;/endif/+d
 wq

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: contrib/code/mirmake/Clean.sh,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -18,6 +18,5 @@
 # author or contributor be held liable for any damage, direct, indi-
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
-#-
 
 rm -rf build Install.sh

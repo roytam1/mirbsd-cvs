@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 #-
-# Copyright (c) 2004
+# Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -19,7 +19,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# Build MirMake. (Assumes ksh or bash)
+# Build MirMake. (Assumes mksh or bash)
 
 OSN="$1"		# OStype
 PFX="${2:-/usr/local}"	# Installation prefix (optional)
@@ -98,7 +98,7 @@ for f in mksh mirbsdksh ksh; do
 done
 ms=NONE
 echo "Checking for mirbsdksh..."
-for s in $mktest $MKS; do
+for s in $MKS $mktest; do
 	echo "Trying ${s}..."
 	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = *@(MirOS \$Rev|MirOS R)* ]]; then echo yes; else echo no; fi' 2>/dev/null`"
 	if [ x"$t" = x"yes" ]; then
