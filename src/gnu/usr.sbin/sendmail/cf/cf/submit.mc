@@ -1,9 +1,9 @@
 divert(-1)
 #
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.2 2005/03/13 15:11:42 tg Exp $
 #
 # Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
 # Copyright (c) 2001-2003 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
 #
@@ -19,7 +19,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS$')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.2 2005/03/13 15:11:42 tg Exp $')
 VERSIONID(`$Sendmail: submit.mc,v 8.13 2003/09/10 22:12:48 ca Exp $')
 define(`confCF_VERSION', `Submit')dnl
 define(`__OSTYPE__',`')dnl dirty hack to keep proto.m4 from complaining
@@ -28,6 +28,7 @@ define(`confTIME_ZONE', `USE_TZ')dnl
 define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
 define(`confDONT_INIT_GROUPS', `True')dnl
 define(`confEIGHT_BIT_HANDLING', `mimefy')dnl
+define(`confDEF_CHAR_SET', `iso-8859-1')dnl
 define(`_DEF_SMTP_MAILER_FLAGS', `LmDFMuX')dnl
 define(`SMTP_MAILER_FLAGS', `67E')dnl
 FEATURE(`accept_unresolvable_domains')dnl
