@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.34 2005/03/21 14:12:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.35 2005/03/22 20:54:45 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2658,4 +2658,16 @@
  edited and added the logo I've promised, and gcc got extended by SSP. I'm
  still working over the day so it's going at a slow pace, but is going on;
  joe 3.2 is out and I've yet got to have a look at it.</p>
+<p>26.03.2005 by tg@<br />People say I've been quite stressy lately. Well,
+ that may be true, I'm working on my apprenticeship's finishing stuff, too
+ (and Winword plays its games with me). And I've still got the feeling I'm
+ talking to a wall, for example when asking for the events of the last 3-4
+ months.<br />We (HolaBSDng, that is) have got a booth for the LinuxTag in
+ Karlsruhe, join us.<br />gcc 3.4.4 (20050326; prerelease; propolice) eats
+ up my nerves, but builds, systrace'd and all, I've just left out the java
+ stuff for now. I'm looking at exception handling through a shared libgcc,
+ if anyone has got test cases I'd be glad to hear from it.<br />darkveggy,
+ the #1 anargeek, has answered, and I've pointed him to what I've drafted,
+ <a href="/?anargeek">this page</a> and <a href="/pics/anargeek.svg">image
+ (SVG)</a> I drafted. Let's look what he's got to add.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

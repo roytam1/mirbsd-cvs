@@ -1,7 +1,20 @@
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.3 2005/03/13 21:19:01 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.4 2005/03/20 22:01:14 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
+
+<li>19.03.2005<br />
+	<a href="http://www.xfree86.org/">XFree86&trade;</a> 4.5 joined us
+	in the tree; it's currently in the process of being ported.</li>
+
+<li>13.03.2005<br />
+	We've reopened the webpages, after the Wiki came back earlier. The
+	problems about software patents aren't finished, either. Good news
+	is that Plan 9's ditroff is under an acceptable licence.<br />ncvs
+	migration of <tt>src</tt> is pretty much complete, except Lynx (an
+	upstream update is expected); gcc isn't started yet and X11 really
+	depends upon when <a href="http://xfree86.org/">XFree86&trade;</a>
+	is about to be released.</li>
 
 <li>06.03.2005<br />
 	<tt>mirbsd.org</tt> has been freed and saved from the hands of the
