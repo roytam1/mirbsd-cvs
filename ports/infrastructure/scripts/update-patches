@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: ports/infrastructure/scripts/update-patches,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -114,14 +114,6 @@ for i in *; do
 	    && print -r -- "*** Patch $i needs manual intervention" >&2
 	[[ $accounted != *@($i)* ]] \
 	    && print -r -- "*** Patch $i not accounted for" >&2
-done
-
-# Check for $Id and similar bugs in all those patch files
-for i in $accounted; do
-	sed -e '1,/^--- /d' $i | egrep -sqe \
-	    '^[- ].*\$(Id|MirBSD|Revision|Author|Header|Date|Name)(\$|: )' \
-	    >/dev/null 2>&1 \
-	    && print -r -- "Problem with $i: RCS tag found in patch" >&2
 done
 
 print -r -- $edit
