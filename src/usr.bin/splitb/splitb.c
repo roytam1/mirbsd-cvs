@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.1 2005/03/15 21:23:05 tg Exp $ */
+/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.2 2005/03/17 09:17:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -150,7 +150,7 @@ usage(int loud)
 {
 	extern const char *__progname;
 
-	printf("Usage: %s [-hkq] [-B bufsiz] [-b blocks] [-t template]\n"
+	printf("Usage: %s [-dhkq] [-B bufsiz] [-b blocks] [-t template]\n"
 	    "    [-w width] [inputfile]\n%s",
 	    __progname, loud ?
 	    "If -b is not given, blocks defaults to 1024 buffers.\n"
