@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: locore.s,v 1.77 2004/02/01 19:05:23 deraadt Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.2 2005/03/06 21:26:57 tg Exp $ */
+/*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
 /*-
@@ -938,7 +938,7 @@ ENTRY(copyin)
 	movl	_C_LABEL(curpcb),%eax
 	pushl	$0
 	movl	$_C_LABEL(copy_fault),PCB_ONFAULT(%eax)
-	
+
 	movl	16(%esp),%esi
 	movl	20(%esp),%edi
 	movl	24(%esp),%eax
@@ -1079,6 +1079,8 @@ ENTRY(copyoutstr)
 
 1:	decl	%edx
 	jz	2f
+	cmpl	$VM_MAXUSER_ADDRESS,%edi
+	jae	_C_LABEL(copystr_fault)
 	lodsb
 	stosb
 	testb	%al,%al
