@@ -1,4 +1,4 @@
-dnl $MirOS: gcc/libstdc++-v3/acinclude.m4,v 1.3 2005/03/26 09:22:56 tg Exp $
+dnl $MirOS: gcc/libstdc++-v3/acinclude.m4,v 1.4 2005/03/26 09:33:46 tg Exp $
 
 dnl
 dnl GLIBCXX_CONDITIONAL (NAME, SHELL-TEST)
@@ -39,21 +39,6 @@ AC_DEFUN([GLIBCXX_TOPREL_CONFIGURE], [
   # Sets up multi_basedir, which is srcdir/.. plus the usual
   # "multi_source_toprel_bottom_adjust" lunacy as needed.
   AM_ENABLE_MULTILIB(, ..)
-
-  # The generated code is exactly the same, except that automake's looks in
-  # ".. $srcdir/.." and autoconf's looks in multi_basedir.  Apparently other
-  # things are triggered on the presence of the two ...AUX_DIR[S], but I don't
-  # know what they are or what the other differences might be (and they keep
-  # changing anyhow).
-  #
-  # Looking in multi_basedir seems smarter, so actually execute that branch.
-  if false; then
-    # this is for automake
-    AC_CONFIG_AUX_DIR(..)
-  else
-    # this is for autoconf
-    AC_CONFIG_AUX_DIRS(${multi_basedir})
-  fi
 
   dnl XXX Turn this on.
   dnl AC_LANG_CPLUSPLUS
