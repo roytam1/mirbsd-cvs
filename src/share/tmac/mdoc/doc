@@ -1,9 +1,9 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.2 2005/03/06 19:38:53 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.
-.\" Copyright (c) 2003, 2004
+.\" Copyright (c) 2003, 2004, 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\" All rights reserved.
 .\"
@@ -779,7 +779,7 @@
 .		ds mN Nm
 .		sW "\\$1"
 .		aT \\$1
-.		ie \\n(aT==3:\\n(aT==4 \{\
+.		ie (\\n(aT==3):(\\n(aT==4) \{\
 .			ds A1 \\*(n1
 .			ds A2 \\$1
 .			ds A3 \\$2
@@ -1402,7 +1402,7 @@
 .if \n(.g \{\
 .de aT
 .nr aT 0
-.ie \\n(sW>2:(\A'\\$1'==0) \{\
+.ie (\\n(sW>2):(\A'\\$1'==0) \{\
 .	nr aT 2
 .\}
 .el \{\
@@ -1423,7 +1423,7 @@
 .de aU
 .nr aT 0
 .aW \\$1
-.ie \\n(sW>2:(\A'\\*(A\\$1'==0) .nr aT 2
+.ie (\\n(sW>2):(\A'\\*(A\\$1'==0) .nr aT 2
 .el \{\
 .	if \\n(sW==1 \{\
 .		ie \\n(z\\*(A\\$1>2 \{\
