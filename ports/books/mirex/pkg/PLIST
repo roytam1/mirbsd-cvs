@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.1.7.1 2005/03/18 15:43:30 tg Exp $
 share/examples/mirex/daemon.png
 share/examples/mirex/devel-keys
 share/examples/mirex/dot.Xmodmap
@@ -11,5 +11,7 @@ share/examples/mirex/kbd-layout.80c
 share/examples/mirex/kbd-layout.euc-jp
 share/examples/mirex/myXenvironment
 share/examples/mirex/openssl.cnf
+share/examples/mirex/unidata.htm
+share/examples/mirex/unitable.htm
 share/examples/mirex/utf-8
 @dirrm share/examples/mirex

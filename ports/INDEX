@@ -185,7 +185,7 @@ cvs-guide-1.21|books/cvs-guide||the definitive guide to CVS|http://cvsbook.red-b
 docbook-guide-2.0.8|books/docbook-guide||the definite guide to DocBook (uses PKZip)|http://docbook.org/tdg/en/|books/docbook-guide/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||unzip-*:archivers/unzip||BSD Linux|any|y|y|y|y
 grokking-the-gimp-1.0|books/grokking-the-gimp||book about gimp||books/grokking-the-gimp/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books graphics||||BSD Linux|any|y|y|y|y
 mason-book-1.0|books/mason-book||book on embedding Perl in HTML with Mason|http://www.masonbook.com/|books/mason-book/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||:graphics/p5-Image-Size :textproc/p5-Pod-Simple :www/p5-HTML-Parser :www/p5-URI||BSD Linux|any|y|y|y|y
-mirex-5|books/mirex||MirOS sample files, keys and info|http://mirbsd.de/|books/mirex/pkg/DESCR|Thorsten Glaser <tg@MirBSD.org>|books||||BSD Linux|any|y|y|y|y
+mirex-6|books/mirex||MirOS sample files, keys and information|http://MirBSD.org/|books/mirex/pkg/DESCR|Thorsten Glaser <tg@MirBSD.org>|books||||BSD Linux|any|y|y|y|y
 selfhtml-8.1|books/selfhtml||German HTML compendium (uses PKZip)|http://aktuell.de.selfhtml.org/|books/selfhtml/pkg/DESCR|Thorsten Glaser <tg@MirBSD.org>|books www||unzip-*:archivers/unzip||BSD Linux|any|n|n|y|y
 zopebook-2.6|books/zopebook||Zope documentation|http://zope.org/Documentation/Books/ZopeBook/|books/zopebook/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||||BSD Linux|any|y|y|y|y
 chipmunk-1.57|cad/chipmunk||electronic CAD system (uses X11)|http://www.cs.berkeley.edu/~lazzaro/chipmunk/|cad/chipmunk/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|cad||||BSD Linux|any|y|y|y|y
