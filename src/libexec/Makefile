@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/libexec/Makefile,v 1.2 2005/03/06 19:23:57 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -33,7 +33,6 @@
   SUBDIR+= spamd-setup
   SUBDIR+= spamlogd
   SUBDIR+= talkd
-  SUBDIR+= tcpd
   SUBDIR+= telnetd
   SUBDIR+= tftpd
 
