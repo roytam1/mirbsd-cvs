@@ -22,7 +22,6 @@ sbin/exiwhat
 share/doc/exim/README.SIEVE
 share/doc/exim/filter.txt
 share/doc/exim/spec.txt
-%%exiscan%%
 @sample ${SYSCONFDIR}/exim/
 share/examples/exim/exim.conf
 @sample ${SYSCONFDIR}/exim/exim.conf

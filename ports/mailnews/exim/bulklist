@@ -1,2 +1,5 @@
 
 no_x11
+pgsql
+ldap
+pgsql,ldap,iconv,no_x11

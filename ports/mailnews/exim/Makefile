@@ -1,17 +1,14 @@
 # $MirOS$
 
 COMMENT=		"flexible mail transfer agent"
-VERSION=		4.44
+VERSION=		4.50
 DISTNAME=		exim-${VERSION}
 PKGNAME=		exim-${VERSION}
 CATEGORIES=		mail
 MASTER_SITES=		ftp://ftp.csx.cam.ac.uk/pub/software/email/exim/exim4/ \
 			http://ftp.planetmirror.com/pub/exim/exim4/ \
 			ftp://ftp.planetmirror.com/pub/exim/exim4/
-MASTER_SITES0=		http://duncanthrax.net/exiscan-acl/
 				
-EXISCAN_DIST=		exiscan-acl-4.44-28.patch:0
-SUPDISTFILES+=		${EXISCAN_DIST}
 EXTRACT_SUFX=		.tar.bz2
 SUBST_VARS+=		VERSION
 HOMEPAGE=		http://www.exim.org/
@@ -23,7 +20,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=		no_x11 no_perl no_ssl no_wrap mysql pgsql ldap iconv exiscan
+FLAVORS=		no_x11 no_perl no_ssl no_wrap mysql pgsql ldap iconv
 FLAVOR?=
 
 EXIM_ROUTERS=		ACCEPT DNSLOOKUP IPLITERAL MANUALROUTE QUERYPROGRAM REDIRECT # IPLOOKUP
@@ -67,11 +64,6 @@ EXIM_EXTRA_LIBS+=	-L${LOCALBASE}/lib -liconv
 EXIM_CFLAGS+=		-I${LOCALBASE}/include
 .endif
 
-.if ${FLAVOR:L:Mexiscan}
-PATCHFILES=		${EXISCAN_DIST}
-PATCH_DIST_STRIP=	-p1
-.endif
-
 post-patch:
 	cp ${WRKSRC}/OS/Makefile-OpenBSD ${WRKSRC}/OS/Makefile-MirBSD
 	cp ${WRKSRC}/OS/Makefile-OpenBSD ${WRKSRC}/OS/Makefile-ekkoBSD
@@ -95,6 +87,7 @@ do-configure:
 	@echo "ZCAT_COMMAND=/usr/bin/zcat" >> ${WRKSRC}/Local/Makefile
 	@echo "CYRUS_PWCHECK_SOCKET=/var/pwcheck/pwcheck" >> ${WRKSRC}/Local/Makefile
 	@echo "CYRUS_SASLAUTHD_SOCKET=/var/sasl2/mux" >> ${WRKSRC}/Local/Makefile
+	@echo "WITH_CONTENT_SCAN=yes" >> ${WRKSRC}/Local/Makefile
 	@echo "HAVE_IPV6=yes" >> ${WRKSRC}/Local/Makefile
 .for ROUTER in ${EXIM_ROUTERS}
 	@echo "ROUTER_${ROUTER}=yes" >> ${WRKSRC}/Local/Makefile
