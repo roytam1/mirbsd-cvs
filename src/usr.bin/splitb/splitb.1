@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+.\" $MirOS: src/usr.bin/splitb/splitb.1,v 1.1 2005/03/15 21:23:05 tg Exp $
 .\"-
 .\" Copyright (c) 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -26,7 +26,7 @@
 .Nd split a file bytewise into pieces
 .Sh SYNOPSIS
 .Nm
-.Op Fl hkq
+.Op Fl dhkq
 .Op Fl B Ar bufsiz
 .Op Fl b Ar blocksize
 .Op Fl t Ar template
@@ -55,6 +55,9 @@ buffers of
 .Ar bufsiz
 each.
 Default is 1024.
+.It Fl d
+Toggle the use of decimal respective sedecimal sequence numbers.
+Default is sedecimal.
 .It Fl h
 Display a verbose synopsis.
 .It Fl k

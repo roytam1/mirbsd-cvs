@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.1 2005/03/15 21:23:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -47,11 +47,11 @@ main(int argc, char **argv)
 	int i, ifd, ofd, ch, pfl = 3;
 	long l = 1024, lw = 0, bufsiz = 1024 * 1024;
 	ssize_t k;
-	bool quiet = false;
+	bool quiet = false, dec = false;
 	char *ft = strdup("split"), fn[PATH_MAX], *buf;
 	int64_t sum = 0;
 
-	while ((ch = getopt(argc, argv, "B:b:hkqt:w:")) != -1) {
+	while ((ch = getopt(argc, argv, "B:b:dhkqt:w:")) != -1) {
 		switch (ch) {
 		case 'h':
 			usage(1);
@@ -67,6 +67,9 @@ main(int argc, char **argv)
 		case 'b':
 			if ((l = strtol(optarg, NULL, 0)) <= 0)
 				usage(0);
+			break;
+		case 'd':
+			dec = !dec;
 			break;
 		case 'k':
 			bufsiz = 1024;
@@ -106,7 +109,8 @@ main(int argc, char **argv)
 	while ((k = read(ifd, buf, (size_t)bufsiz)) > 0) {
 		sum += k;
 		if (ofd == -1) {
-			snprintf(fn, sizeof(fn), "%s.%0*X",
+			snprintf(fn, sizeof(fn),
+			    dec ? "%s.%0*d" : "%s.%0*X",
 			    ft, pfl, i);
 			if ((ofd = open(fn, O_WRONLY | O_CREAT | O_TRUNC,
 			    0666)) == -1)
