@@ -1,11 +1,10 @@
-# $MirOS$
+# $MirOS: src/sbin/Makefile,v 1.2 2005/03/06 19:49:47 tg Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= ancontrol
   SUBDIR+= atactl
   SUBDIR+= badsect
-  SUBDIR+= bootsys
   SUBDIR+= brconfig
   SUBDIR+= ccdconfig
   SUBDIR+= clri

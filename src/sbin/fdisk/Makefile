@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sbin/fdisk/Makefile,v 1.2 2005/03/06 19:49:54 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -6,16 +6,7 @@ PROG=		fdisk
 MAN=		fdisk.8
 SRCS=		cmd.c disk.c fdisk.c mbr.c misc.c part.c user.c manpage.c
 CLEANFILES+=	manpage.c
-
-MBRPATH=	../bootsys/common/dosmbr
-CPPFLAGS+=	-I${.OBJDIR}/${MBRPATH}
-CFLAGS+=	-Wall -Werror
-.PATH: ${.OBJDIR}/${MBRPATH}
-
-${.OBJDIR}/${MBRPATH}/mbrcode.h:
-	cd ${.CURDIR}/${MBRPATH} && ${MAKE} _DEP=1 $@
-
-fdisk.o: ${.OBJDIR}/${MBRPATH}/mbrcode.h
+CFLAGS+=	-Wall
 
 DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
