@@ -1,8 +1,10 @@
-# $MirOS: src/sbin/Makefile,v 1.3 2005/03/14 22:16:04 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.4 2005/03/15 18:32:34 tg Exp $
 
 .include <bsd.own.mk>
 
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= ancontrol
+.endif
   SUBDIR+= atactl
   SUBDIR+= badsect
   SUBDIR+= brconfig
@@ -23,7 +25,10 @@
   SUBDIR+= growfs
   SUBDIR+= ifconfig
   SUBDIR+= init
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386") \
+    || (${MACHINE} == "macppc")
   SUBDIR+= iopctl
+.endif
   SUBDIR+= ipsecadm
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= isakmpd
@@ -41,7 +46,9 @@
   SUBDIR+= mount_kernfs
   SUBDIR+= mount_msdos
   SUBDIR+= mount_nfs
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= mount_ntfs
+.endif
   SUBDIR+= mount_null
   SUBDIR+= mount_portal
   SUBDIR+= mount_procfs
@@ -77,7 +84,10 @@
   SUBDIR+= ttyflags
   SUBDIR+= tunefs
   SUBDIR+= umount
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386") \
+    || (${MACHINE} == "sparc") || (${MACHINE_ARCH} == "powerpc")
   SUBDIR+= wicontrol
+.endif
   SUBDIR+= wsconsctl
 
 .include <bsd.subdir.mk>

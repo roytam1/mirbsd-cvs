@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sbin/disklabel/Makefile,v 1.2 2005/03/06 19:49:51 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/10/31 04:05:29 drahn Exp $
 
 .include <bsd.own.mk>
@@ -30,7 +30,7 @@ CPPFLAGS+=	-DNUMBOOT=2 -DDOSLABEL
 CPPFLAGS+=	-DSEEALSO="\"fdisk(8), installboot(8)\""
 .endif
 
-.if ${MACHINE} == "sparc" || ${MACHINE} == "sparc64"
+.if ${MACHINE} == "sparc"
 CPPFLAGS+=	-DSEEALSO="\"installboot(8)\"" -DCYLCHECK -DAAT0
 .endif
 
