@@ -46,6 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
+# $MirOS$
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -1503,7 +1504,7 @@ sub htmlify($;$)
 
   $_ = htmlquote($_);
 
-  # get URL's as link
+  # get URLs as link
   s{
     ((https?|ftp)://.+?)([\s\']|&(quot|[lg]t);)
    }{
@@ -1523,7 +1524,7 @@ sub htmlify($;$)
 
   if ($extra) {
 
-    # get PR #'s as link: "PR#nnnn" "PR: nnnn, ..." "PR nnnn, ..." "bin/nnnn"
+    # get PR #s as link: "PR#nnnn" "PR: nnnn, ..." "PR nnnn, ..." "bin/nnnn"
     if (defined($prcgi) && defined($re_prkeyword)) {
       my $prev;
 
@@ -3114,7 +3115,6 @@ EOF
      '-m', $pathname,
      '-i',
      '-M', $mapname,
-     '-x', 'x',
      "-Omap_branch_href=\"href=\\\"./?only_with_tag=%(%t%)$notag_query\\\"\"",
      "-Omap_rev_href=\"href=\\\"?rev=%(%R%)$barequery\\\"\"",
      "-Omap_diff_href=\"href=\\\"%(%F%).diff" .
