@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/toplev.c,v 1.3 2005/03/25 19:29:11 tg Exp $ */
 
 /* Top level of GCC compilers (cc1, cc1plus, etc.)
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -1000,6 +1000,9 @@ int flag_propolice_protection = 0;
 int flag_stack_protection = 0;
 #endif
 
+/* Nonzero to allow trampolines.  */
+int flag_trampolines = 0;
+
 typedef struct
 {
   const char *const string;
@@ -1176,6 +1179,7 @@ static const lang_independent_options f_options[] =
   { "trapv", &flag_trapv, 1 },
   { "wrapv", &flag_wrapv, 1 },
   { "new-ra", &flag_new_regalloc, 1 },
+  {"trampolines", &flag_trampolines, 1 },
   {"stack-protector", &flag_propolice_protection, 1 },
   {"stack-protector-all", &flag_stack_protection, 1 }
 };

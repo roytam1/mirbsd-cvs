@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/opts.c,v 1.3 2005/03/25 19:29:09 tg Exp $ */
 
 /* Command line option handling.
    Copyright (C) 2002, 2003, 2004, 2005
@@ -128,8 +128,11 @@ bool warn_unused_parameter;
 bool warn_unused_variable;
 bool warn_unused_value;
 
-/* Warn when not issuing stack smashing protection for some reason */
+/* Warn when not issuing stack smashing protection for some reason.  */
 bool warn_stack_protector;
+
+/* Warn when emitting trampolines.  */
+bool warn_trampolines;
 
 /* Hack for cooperation between set_Wunused and set_Wextra.  */
 static bool maybe_warn_unused_parameter;
@@ -815,6 +818,10 @@ common_handle_option (size_t scode, const char *arg,
 
     case OPT_Wstack_protector:
       warn_stack_protector = value;
+      break;
+
+    case OPT_Wtrampolines:
+      warn_trampolines = value;
       break;
 
     case OPT_aux_info:

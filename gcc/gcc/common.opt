@@ -1,7 +1,8 @@
-; $MirOS$
+; $MirOS: gcc/gcc/common.opt,v 1.3 2005/03/25 19:29:03 tg Exp $
 ;
 ; Options for the language- and target-independent parts of the compiler.
-; Copyright (C) 2003 Free Software Foundation, Inc.
+; Copyright (C) 2003, 2005
+; Free Software Foundation, Inc.
 ;
 ; This file is part of GCC.
 ;
@@ -161,6 +162,10 @@ Warn when a variable is unused
 Wstack-protector
 Common
 Warn when not issuing stack smashing protection for some reason
+
+Wtrampolines
+Common
+Warn when trampolines are emitted
 
 aux-info
 Common Separate
@@ -755,6 +760,10 @@ Enables stack protection
 fstack-protector-all
 Common
 Enables stack protection of every function
+
+ftrampolines
+Common
+Enables generation of trampolines
 
 g
 Common JoinedOrMissing

@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Convert tree expression to rtl instructions, for GNU compiler.
    Copyright (C) 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -49,6 +52,9 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #include "tm_p.h"
 #include "target.h"
 #include "protector.h"
+
+extern int flag_trampolines;
+extern bool warn_trampolines;
 
 /* Decide whether a function's arguments should be processed
    from first to last or from last to first.
@@ -8811,6 +8817,15 @@ expand_expr_real (tree exp, rtx target, enum machine_mode tmode,
 	  && ! DECL_NO_STATIC_CHAIN (TREE_OPERAND (exp, 0))
 	  && ! TREE_STATIC (exp))
 	{
+	  if (!flag_trampolines)
+	    {
+	      error_with_decl(exp, "trampoline code generation is not allowed without -ftrampoline");
+	      return const0_rtx;
+	    }
+	  if (warn_trampolines)
+	    {
+	      warning_with_decl(exp, "local function address taken, needing trampoline generation");
+	    }
 	  op0 = trampoline_address (TREE_OPERAND (exp, 0));
 	  op0 = force_operand (op0, target);
 	}
