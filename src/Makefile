@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/Makefile,v 1.2 2005/03/06 21:27:25 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -72,6 +72,7 @@ distrib-dirs:
 	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=${DESTDIR}
 
 b-r: .PHONY
+	@echo "Did you not forget to add WAIT_CHECKFLIST=yes to ${MAKE}?"
 	# Test if the targets are mounted suitable for root (BTSTF)
 .for _dir in ${BSDOBJDIR} ${BSDRELDIR}
 	mkdir -p ${_dir} || ${SUDO} mkdir -p ${_dir}
