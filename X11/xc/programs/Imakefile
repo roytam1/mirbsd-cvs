@@ -116,16 +116,16 @@ SUBDIRS = \
 	$(MAKEPSRESDIR) $(DPSCLIENTDIRS) \
 	$(MKCFMSRCDIR) \
 	mkfontdir $(MKFONTSCALEDIR) oclock $(PROXYMGRSRCDIR) \
-	$(RGBSRCDIR) $(RSTARTSRCDIR) showfont \
+	$(RGBSRCDIR) $(RSTARTSRCDIR) showfont ssh-askpass \
 	$(SMPROXYSRCDIR) $(TWMSRCDIR) viewres x11perf xauth xbiff xcalc \
 	xclipboard xclock \
 	xcmsdb $(XCONSOLESRCDIR) xditview $(XDMSRCDIR) xdpyinfo \
 	$(XF86DGASRCDIR) xedit xev xeyes xfd xfontsel $(XFSSRCDIR) xfsinfo \
 	$(XFINDPROXYSRCDIR) $(XFWPSRCDIR) $(XGAMMASRCDIR) xgc $(XHOSTSRCDIR) \
-	$(XINITSRCDIR) $(XKBSRCDIRS) xkill $(XLOADDIR) xlogo xlsatoms \
+	$(XINITSRCDIR) $(XKBSRCDIRS) xkill $(XLOADDIR) xlock xlogo xlsatoms \
 	xlsclients xlsfonts xmag xman xmessage xmh xmodmap xprop xrdb \
 	xrefresh $(XRXSRCDIR) xset \
-	xsetroot $(XSMSRCDIR) xstdcmap $(XINPUTCLIENTDIRS) \
+	xsetroot $(XSMSRCDIR) xstdcmap xsystrace $(XINPUTCLIENTDIRS) \
 	$(XTERMSRCDIR) $(XTRAPCLIENTDIRS) $(XVIDTUNESRCDIR) xwd xwininfo xwud \
 	$(XPMCLIENTDIRS) $(XVINFOSRCDIR) \
 	$(XSSRCDIR) $(LBXPROXYSRCDIR) $(SCRIPTSDIR) \
