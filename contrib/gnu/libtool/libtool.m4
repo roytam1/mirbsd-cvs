@@ -1,8 +1,9 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.19 2005/02/11 16:38:35 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.20 2005/02/11 17:24:29 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
+## MirLibtool contributed by Thorsten Glaser <tg@66h.42h.de> for the MirOS Prj.
 ##
 ## This file is free software; the Free Software Foundation gives
 ## unlimited permission to copy and/or distribute it, with or without
