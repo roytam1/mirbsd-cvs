@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/gnu/share/autogen.sh,v 1.1.7.1 2005/02/11 14:29:40 tg Exp $
+# $MirOS: contrib/code/jupp/autogen.sh,v 1.2 2005/02/11 21:37:29 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -33,7 +33,7 @@ export AUTOCONF_VERSION AUTOMAKE_VERSION
 
 [[ -n $GNUSYSTEM_AUX_DIR ]] || GNUSYSTEM_AUX_DIR=/usr/src/gnu/share
 
-AM_FLAGS=--miros
+AM_FLAGS= #--miros
 [[ $AUTOMAKE_VERSION = 1.4 ]] && AM_FLAGS=
 
 [[ -e /tmp/empty ]] || print -n >/tmp/empty
