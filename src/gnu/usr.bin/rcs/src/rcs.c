@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Change RCS file attributes.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -240,28 +242,28 @@ struct delrevpair {
         int     code;
 };
 
-static int branchpoint P((struct hshentry*,struct hshentry*));
-static int breaklock P((struct hshentry const*));
-static int buildeltatext P((struct hshentries const*));
-static int doaccess P((void));
-static int doassoc P((void));
-static int dolocks P((void));
-static int domessages P((void));
-static int rcs_setstate P((char const*,char const*));
-static int removerevs P((void));
-static int sendmail P((char const*,char const*));
-static int setlock P((char const*));
-static struct Lockrev **rmnewlocklst P((char const*));
-static struct hshentry *searchcutpt P((char const*,int,struct hshentries*));
-static void buildtree P((void));
-static void cleanup P((void));
-static void getaccessor P((char*,enum changeaccess));
-static void getassoclst P((int,char*));
-static void getchaccess P((char const*,enum changeaccess));
-static void getdelrev P((char*));
-static void getmessage P((char*));
-static void getstates P((char*));
-static void scanlogtext P((struct hshentry*,int));
+static int branchpoint(struct hshentry*,struct hshentry*);
+static int breaklock(struct hshentry const*);
+static int buildeltatext(struct hshentries const*);
+static int doaccess(void);
+static int doassoc(void);
+static int dolocks(void);
+static int domessages(void);
+static int rcs_setstate(char const*,char const*);
+static int removerevs(void);
+static int sendmail(char const*,char const*);
+static int setlock(char const*);
+static struct Lockrev **rmnewlocklst(char const*);
+static struct hshentry *searchcutpt(char const*,int,struct hshentries*);
+static void buildtree(void);
+static void cleanup(void);
+static void getaccessor(char*,enum changeaccess);
+static void getassoclst(int,char*);
+static void getchaccess(char const*,enum changeaccess);
+static void getdelrev(char*);
+static void getmessage(char*);
+static void getstates(char*);
+static void scanlogtext(struct hshentry*,int);
 
 static struct buf numrev;
 static char const *headstate;
@@ -276,7 +278,11 @@ static struct delrevpair delrev;
 static struct hshentry *cuthead, *cuttail, *delstrt;
 static struct hshentries *gendeltas;
 
-mainProg(rcsId, "rcs", "$Id$")
+const char cmdid[] = "rcs";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
 	static char const cmdusage[] =
 		"\nrcs usage: rcs -{ae}logins -Afile -{blu}[rev] -cstring -{iILqTU} -ksubst -mrev:msg -{nN}name[:[rev]] -orange -sstate[:rev] -t[text] -Vn -xsuff -zzone file ...";
@@ -588,7 +594,7 @@ mainProg(rcsId, "rcs", "$Id$")
 	if (delrev.strt && removerevs()) {
             /*  rebuild delta tree if some deltas are deleted   */
             if ( cuttail )
-		VOID genrevs(
+		genrevs(
 			cuttail->num, (char *)0, (char *)0, (char *)0,
 			&gendeltas
 		);
@@ -639,7 +645,7 @@ mainProg(rcsId, "rcs", "$Id$")
 	}
 
 	tempunlink();
-	exitmain(exitstatus);
+	return exitstatus;
 }       /* end of main (rcs) */
 
 	static void
@@ -728,7 +734,7 @@ getaccessor(opt, command)
 
 
 {
-        register c;
+        register int c;
 	register char *sp;
 
 	sp = opt;
@@ -788,7 +794,7 @@ char    *sp;
 {
 	char const *temp;
         struct  Status  *pt;
-        register        c;
+        register int c;
 
 	while ((c = *++sp) ==' ' || c == '\t' || c == '\n')
 	    continue;
@@ -1035,7 +1041,8 @@ sendmail(Delta, who)
 	    efaterror(messagefile);
         }
 
-	aprintf(mailmess, "Subject: Broken lock on %s\n\nYour lock on revision %s of file %s\nhas been broken by %s for the following reason:\n",
+	aprintf(mailmess, "To: %s\nSubject: Broken lock on %s\n\nYour lock on revision %s of file %s\n"
+		"has been broken by %s for the following reason:\n", who,
 		basefilename(RCSname), Delta, getfullRCSname(), getcaller()
 	);
 	aputs("State the reason for breaking the lock:\n(terminate with single '.' or end of file)\n>> ", stderr);
@@ -1061,7 +1068,7 @@ sendmail(Delta, who)
         }
 	Orewind(mailmess);
 	aflush(mailmess);
-	status = run(fileno(mailmess), (char*)0, SENDMAIL, who, (char*)0);
+	status = run(fileno(mailmess), (char*)0, SENDMAIL, "-t", (char*)0);
 	Ozclose(&mailmess);
 	if (status == 0)
 		return true;
@@ -1236,7 +1243,7 @@ removerevs()
                 else
                     temp = searchcutpt(target->num, length, gendeltas);
 		getbranchno(temp->num, &numrev);  /* get branch number */
-		VOID genrevs(numrev.string, (char*)0, (char*)0, (char*)0, &gendeltas);
+		genrevs(numrev.string, (char*)0, (char*)0, (char*)0, &gendeltas);
             }
             if ( branchpoint( temp, cuttail ) ) {
 		cuttail = 0;
@@ -1392,7 +1399,7 @@ dolocks()
 	for (lockpt = rmvlocklst;  lockpt;  lockpt = lockpt->nextrev)
 	    if (expandsym(lockpt->revno, &numrev)) {
 		target = genrevs(numrev.string, (char *)0, (char *)0, (char *)0, &gendeltas);
-                if ( target )
+                if ( target ) {
 		   if (!(countnumflds(numrev.string)&1) && cmpnum(target->num,numrev.string))
 			rcserror("can't unlock nonexisting revision %s",
 				lockpt->revno
@@ -1400,19 +1407,21 @@ dolocks()
                    else
 			changed |= breaklock(target);
                         /* breaklock does its own diagnose */
+		   }
             }
 
         /*  add new locks which stored in newlocklst  */
 	for (lockpt = newlocklst;  lockpt;  lockpt = lockpt->nextrev)
 	    changed |= setlock(lockpt->revno);
 
-	if (lockhead) /*  lock default branch or head  */
+	if (lockhead) { /*  lock default branch or head  */
 	    if (Dbranch)
 		changed |= setlock(Dbranch);
 	    else if (Head)
 		changed |= setlock(Head->num);
 	    else
 		rcswarn("can't lock an empty tree");
+	}
 	return changed;
 }
 
@@ -1431,7 +1440,7 @@ setlock(rev)
 	if (expandsym(rev, &numrev)) {
 	    target = genrevs(numrev.string, (char*)0, (char*)0,
 			     (char*)0, &gendeltas);
-            if ( target )
+            if ( target ) {
 	       if (!(countnumflds(numrev.string)&1) && cmpnum(target->num,numrev.string))
 		    rcserror("can't lock nonexisting revision %s",
 			numrev.string
@@ -1445,6 +1454,7 @@ setlock(rev)
 			return r;
 		    }
 	       }
+	    }
 	}
 	return 0;
 }
@@ -1487,7 +1497,7 @@ rcs_setstate(rev,status)
 	if (expandsym(rev, &numrev)) {
 	    target = genrevs(numrev.string, (char*)0, (char*)0,
 			     (char*)0, &gendeltas);
-            if ( target )
+            if ( target ) {
 	       if (!(countnumflds(numrev.string)&1) && cmpnum(target->num,numrev.string))
 		    rcserror("can't set state of nonexisting revision %s",
 			numrev.string
@@ -1496,6 +1506,7 @@ rcs_setstate(rev,status)
                     target->state = status;
 		    return true;
 	       }
+	    }
 	}
 	return false;
 }
@@ -1539,14 +1550,10 @@ buildeltatext(deltas)
 
 	if (fcut) {
 	    char const *diffname = maketemp(0);
-	    char const *diffv[6 + !!OPEN_O_BINARY];
+	    char const *diffv[6];
 	    char const **diffp = diffv;
 	    *++diffp = DIFF;
 	    *++diffp = DIFFFLAGS;
-#	    if OPEN_O_BINARY
-		if (Expand == BINARY_EXPAND)
-		    *++diffp == "--binary";
-#	    endif
 	    *++diffp = "-";
 	    *++diffp = resultname;
 	    *++diffp = 0;
@@ -1603,28 +1610,3 @@ buildtree()
 	}
         return;
 }
-
-#if RCS_lint
-/* This lets us lint everything all at once. */
-
-char const cmdid[] = "";
-
-#define go(p,e) {int p P((int,char**)); void e P((void)); if(*argv)return p(argc,argv);if(*argv[1])e();}
-
-	int
-main(argc, argv)
-	int argc;
-	char **argv;
-{
-	go(ciId,	ciExit);
-	go(coId,	coExit);
-	go(identId,	identExit);
-	go(mergeId,	mergeExit);
-	go(rcsId,	exiterr);
-	go(rcscleanId,	rcscleanExit);
-	go(rcsdiffId,	rdiffExit);
-	go(rcsmergeId,	rmergeExit);
-	go(rlogId,	rlogExit);
-	return 0;
-}
-#endif

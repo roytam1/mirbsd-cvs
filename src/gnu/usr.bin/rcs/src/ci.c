@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Check in revisions of RCS files from working files.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -250,17 +252,17 @@ struct Symrev {
        struct Symrev * nextsym;
 };
 
-static char const *getcurdate P((void));
-static int addbranch P((struct hshentry*,struct buf*,int));
-static int addelta P((void));
-static int addsyms P((char const*));
-static int fixwork P((mode_t,time_t));
-static int removelock P((struct hshentry*));
-static int xpandfile P((RILE*,struct hshentry const*,char const**,int));
-static struct cbuf getlogmsg P((void));
-static void cleanup P((void));
-static void incnum P((char const*,struct buf*));
-static void addassoclst P((int,char const*));
+static char const *getcurdate(void);
+static int addbranch(struct hshentry*,struct buf*,int);
+static int addelta(void);
+static int addsyms(char const*);
+static int fixwork(mode_t,time_t);
+static int removelock(struct hshentry*);
+static int xpandfile(RILE*,struct hshentry const*,char const**,int);
+static struct cbuf getlogmsg(void);
+static void cleanup(void);
+static void incnum(char const*,struct buf*);
+static void addassoclst(int,char const*);
 
 static FILE *exfile;
 static RILE *workptr;			/* working file pointer		*/
@@ -275,7 +277,11 @@ static struct hshentry newdelta;	/* new delta to be inserted	*/
 static struct stat workstat;
 static struct Symrev *assoclst, **nextassoc;
 
-mainProg(ciId, "ci", "$Id$")
+const char cmdid[] = "ci";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
 	static char const cmdusage[] =
 		"\nci usage: ci -{fIklMqru}[rev] -d[date] -mmsg -{nN}name -sstate -ttext -T -Vn -wwho -xsuff -zzone file ...";
@@ -372,7 +378,7 @@ mainProg(ciId, "ci", "$Id$")
 			checkssym(a);
 			addassoclst(false, a);
 		        break;
-		
+
 		case 'N':
 			if (!*a) {
                                 error("missing symbolic name after -N");
@@ -574,7 +580,7 @@ mainProg(ciId, "ci", "$Id$")
 	if (!addsyms(newdelta.num))
 	    continue;
 
-    
+
 	putadmin();
         puttree(Head,frewrite);
 	putdesc(false,textfile);
@@ -669,51 +675,15 @@ mainProg(ciId, "ci", "$Id$")
 		} else {
 		    int wfd = Ifileno(workptr);
 		    struct stat checkworkstat;
-		    char const *diffv[6 + !!OPEN_O_BINARY], **diffp;
-#		    if large_memory && !maps_memory
-			FILE *wfile = workptr->stream;
-			long wfile_off;
-#		    endif
-#		    if !has_fflush_input && !(large_memory && maps_memory)
-		        off_t wfd_off;
-#		    endif
+		    char const *diffv[6], **diffp;
 
 		    diagnose("new revision: %s; previous revision: %s\n",
 			newdelta.num, targetdelta->num
 		    );
 		    newdelta.log = getlogmsg();
-#		    if !large_memory
-			Irewind(workptr);
-#			if has_fflush_input
-			    if (fflush(workptr) != 0)
-				Ierror();
-#			endif
-#		    else
-#			if !maps_memory
-			    if (
-			    	(wfile_off = ftell(wfile)) == -1
-			     ||	fseek(wfile, 0L, SEEK_SET) != 0
-#			     if has_fflush_input
-			     ||	fflush(wfile) != 0
-#			     endif
-			    )
-				Ierror();
-#			endif
-#		    endif
-#		    if !has_fflush_input && !(large_memory && maps_memory)
-			wfd_off = lseek(wfd, (off_t)0, SEEK_CUR);
-			if (wfd_off == -1
-			    || (wfd_off != 0
-				&& lseek(wfd, (off_t)0, SEEK_SET) != 0))
-			    Ierror();
-#		    endif
 		    diffp = diffv;
 		    *++diffp = DIFF;
 		    *++diffp = DIFFFLAGS;
-#		    if OPEN_O_BINARY
-			if (Expand == BINARY_EXPAND)
-			    *++diffp = "--binary";
-#		    endif
 		    *++diffp = newhead ? "-" : expname;
 		    *++diffp = newhead ? expname : "-";
 		    *++diffp = 0;
@@ -721,14 +691,6 @@ mainProg(ciId, "ci", "$Id$")
 			case DIFF_FAILURE: case DIFF_SUCCESS: break;
 			default: rcsfaterror("diff failed");
 		    }
-#		    if !has_fflush_input && !(large_memory && maps_memory)
-			if (lseek(wfd, wfd_off, SEEK_CUR) == -1)
-			    Ierror();
-#		    endif
-#		    if large_memory && !maps_memory
-			if (fseek(wfile, wfile_off, SEEK_SET) != 0)
-			    Ierror();
-#		    endif
 		    if (newhead) {
 			Irewind(workptr);
 			putdftext(&newdelta, workptr, frewrite, false);
@@ -779,7 +741,7 @@ mainProg(ciId, "ci", "$Id$")
 		    Irewind(workptr);
 		    /* Expand keywords in file.  */
 		    locker_expansion = lockthis;
-		    workdelta->name = 
+		    workdelta->name =
 			namedrev(
 				assoclst ? assoclst->ssymbol
 				: keepflag && *prevname.string ? prevname.string
@@ -822,7 +784,7 @@ mainProg(ciId, "ci", "$Id$")
 	}
 
 	tempunlink();
-	exitmain(exitstatus);
+	return exitstatus;
 }       /* end of main (ci) */
 
 	static void
@@ -837,9 +799,6 @@ cleanup()
 	dirtempunlink();
 }
 
-#if RCS_lint
-#	define exiterr ciExit
-#endif
 	void
 exiterr()
 {
@@ -1099,7 +1058,7 @@ incnum(onum,nnum)
 	l = strlen(onum);
 	bufalloc(nnum, l+2);
 	np = tp = nnum->string;
-	VOID strcpy(np, onum);
+	strlcpy(np, onum, l+2);
 	for (tp = np + l;  np != tp;  )
 		if (isdigit(*--tp)) {
 			if (*tp != '9') {
@@ -1136,7 +1095,7 @@ struct hshentry * delta;
 
         num=delta->num;
 	for (trail = &Locks;  (next = *trail);  trail = &next->nextlock)
-	    if (next->delta == delta)
+	    if (next->delta == delta) {
 		if (strcmp(getcaller(), next->login) == 0) {
 		    /* We found a lock on delta by caller; delete it.  */
 		    *trail = next->nextlock;
@@ -1146,6 +1105,7 @@ struct hshentry * delta;
 		    rcserror("revision %s locked by %s", num, next->login);
 		    return -1;
                 }
+	    }
 	if (!StrictLocks && myself(RCSstat.st_uid))
 	    return 0;
 	rcserror("no lock set by %s for revision %s", getcaller(), num);
@@ -1166,14 +1126,7 @@ getcurdate()
 }
 
 	static int
-#if has_prototypes
 fixwork(mode_t newworkmode, time_t mtime)
-  /* The `#if has_prototypes' is needed because mode_t might promote to int.  */
-#else
-  fixwork(newworkmode, mtime)
-	mode_t newworkmode;
-	time_t mtime;
-#endif
 {
 	return
 			1 < workstat.st_nlink
@@ -1273,8 +1226,8 @@ getlogmsg()
 		i = sizeof(ciklog)+strlen(caller)+3;
 		bufalloc(&logbuf, i + datesize + zonelenmax);
 		tp = logbuf.string;
-		VOID sprintf(tp, "%s%s at ", ciklog, caller);
-		VOID date2str(getcurdate(), tp+i);
+		snprintf(tp, logbuf.size, "%s%s at ", ciklog, caller);
+		date2str(getcurdate(), tp+i);
 		logmsg.string = tp;
 		logmsg.size = strlen(tp);
 		return logmsg;
@@ -1309,7 +1262,7 @@ addassoclst(flag, sp)
 	char const *sp;
 {
         struct Symrev *pt;
-	
+
 	pt = talloc(struct Symrev);
 	pt->ssymbol = sp;
 	pt->override = flag;

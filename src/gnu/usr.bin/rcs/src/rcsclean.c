@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Clean up working files.  */
 
 /* Copyright 1991, 1992, 1993, 1994, 1995 Paul Eggert
@@ -29,16 +31,20 @@ Report problems and direct all questions to:
 #include "rcsbase.h"
 
 #if has_dirent
-	static int get_directory P((char const*,char***));
+	static int get_directory(char const*,char***);
 #endif
 
-static int unlock P((struct hshentry *));
-static void cleanup P((void));
+static int unlock(struct hshentry *);
+static void cleanup(void);
 
 static RILE *workptr;
 static int exitstatus;
 
-mainProg(rcscleanId, "rcsclean", "$Id$")
+const char cmdid[] = "rcsclean";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
 	static char const usage[] =
 		"\nrcsclean: usage: rcsclean -ksubst -{nqru}[rev] -T -Vn -xsuff -zzone file ...";
@@ -233,7 +239,7 @@ mainProg(rcscleanId, "rcsclean", "$Id$")
 	tempunlink();
 	if (!quietflag)
 		Ofclose(stdout);
-	exitmain(exitstatus);
+	return exitstatus;
 }
 
 	static void
@@ -247,9 +253,6 @@ cleanup()
 	dirtempunlink();
 }
 
-#if RCS_lint
-#	define exiterr rcscleanExit
-#endif
 	void
 exiterr()
 {
@@ -309,7 +312,7 @@ get_directory(dirname, aargv)
 		if (entries == entries_max)
 			offset = trealloc(size_t, offset, entries_max<<=1);
 		offset[entries++] = chars;
-		VOID strcpy(a+chars, en);
+		strlcpy(a+chars, en, chars_max);
 		chars += s;
 	}
 #	if void_closedir

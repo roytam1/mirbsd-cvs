@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* three-way file merge internals */
 
 /* Copyright 1991, 1992, 1993, 1994, 1995 Paul Eggert
@@ -28,9 +30,9 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(mergerId, "$Id$")
+__RCSID("$MirOS$");
 
-	static char const *normalize_arg P((char const*,char**));
+	static char const *normalize_arg(char const*,char**);
 	static char const *
 normalize_arg(s, b)
 	char const *s;
@@ -42,8 +44,9 @@ normalize_arg(s, b)
 {
 	char *t;
 	if (*s == '-') {
-		*b = t = testalloc(strlen(s) + 3);
-		VOID sprintf(t, ".%c%s", SLASH, s);
+		size_t l = strlen(s) + 3;
+		*b = t = testalloc(l);
+		snprintf(t, l, ".%c%s", SLASH, s);
 		return t;
 	} else {
 		*b = 0;
@@ -67,7 +70,9 @@ merge(tostdout, edarg, label, argv)
 {
 	register int i;
 	FILE *f;
+#if DIFF3_BIN
 	RILE *rt;
+#endif
 	char const *a[3], *t;
 	char *b[3];
 	int s;
@@ -77,7 +82,7 @@ merge(tostdout, edarg, label, argv)
 
 	for (i=3; 0<=--i; )
 		a[i] = normalize_arg(argv[i], &b[i]);
-	
+
 	if (!edarg)
 		edarg = "-E";
 

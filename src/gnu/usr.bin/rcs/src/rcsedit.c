@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* RCS stream editor */
 
 /******************************************************************************
@@ -202,20 +204,16 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(editId, "$Id$")
+__RCSID("$MirOS$");
 
-static void editEndsPrematurely P((void)) exiting;
-static void editLineNumberOverflow P((void)) exiting;
-static void escape_string P((FILE*,char const*));
-static void keyreplace P((enum markers,struct hshentry const*,int,RILE*,FILE*,int));
+__dead static void editEndsPrematurely(void);
+__dead static void editLineNumberOverflow(void);
+static void escape_string(FILE*,char const*);
+static void keyreplace(enum markers,struct hshentry const*,int,RILE*,FILE*,int);
 
 FILE *fcopy;		 /* result file descriptor			    */
 char const *resultname;	 /* result pathname				    */
 int locker_expansion;	 /* should the locker name be appended to Id val?   */
-#if !large_memory
-	static RILE *fedit; /* edit file descriptor */
-	static char const *editname; /* edit pathname */
-#endif
 static long editline; /* edit line counter; #lines before cursor   */
 static long linecorr; /* #adds - #deletes in each edit run.		    */
                /*used to correct editline in case file is not rewound after */
@@ -234,7 +232,6 @@ static enum maker volatile dirtpmaker[DIRTEMPNAMES];	/* if these are set */
 #define newRCSname (dirtpname[newRCSdirtp_index].string)
 
 
-#if has_NFS || bad_unlink
 	int
 un_link(s)
 	char const *s;
@@ -259,41 +256,8 @@ un_link(s)
 			}
 		}
 #	endif
-#	if has_NFS
 		return unlink(s)==0 || errno==ENOENT  ?  0  :  -1;
-#	else
-		return unlink(s);
-#	endif
 }
-#endif
-
-#if !has_rename
-#  if !has_NFS
-#	define do_link(s,t) link(s,t)
-#  else
-	static int do_link P((char const*,char const*));
-	static int
-do_link(s, t)
-	char const *s, *t;
-/* Link S to T, ignoring bogus EEXIST problems due to NFS failures.  */
-{
-	int r = link(s, t);
-
-	if (r != 0  &&  errno == EEXIST) {
-		struct stat sb, tb;
-		if (
-		    stat(s, &sb) == 0  &&
-		    stat(t, &tb) == 0  &&
-		    same_file(sb, tb, 0)
-		)
-			r = 0;
-		errno = EEXIST;
-	}
-	return r;
-}
-#  endif
-#endif
-
 
 	static void
 editEndsPrematurely()
@@ -307,37 +271,12 @@ editLineNumberOverflow()
 	fatserror("edit script refers to line past end of file");
 }
 
+#define movelines(s1, s2, n) memmove(s1, s2, (n)*sizeof(Iptr_type))
 
-#if large_memory
-
-#if has_memmove
-#	define movelines(s1, s2, n) VOID memmove(s1, s2, (n)*sizeof(Iptr_type))
-#else
-	static void movelines P((Iptr_type*,Iptr_type const*,long));
-	static void
-movelines(s1, s2, n)
-	register Iptr_type *s1;
-	register Iptr_type const *s2;
-	register long n;
-{
-	if (s1 < s2)
-		do {
-			*s1++ = *s2++;
-		} while (--n);
-	else {
-		s1 += n;
-		s2 += n;
-		do {
-			*--s1 = *--s2;
-		} while (--n);
-	}
-}
-#endif
-
-static void deletelines P((long,long));
-static void finisheditline P((RILE*,FILE*,Iptr_type,struct hshentry const*));
-static void insertline P((long,Iptr_type));
-static void snapshotline P((FILE*,Iptr_type));
+static void deletelines(long,long);
+static void finisheditline(RILE*,FILE*,Iptr_type,struct hshentry const*);
+static void insertline(unsigned long,Iptr_type);
+static void snapshotline(FILE*,Iptr_type);
 
 /*
  * `line' contains pointers to the lines in the currently `edited' file.
@@ -352,9 +291,7 @@ static Iptr_type *line;
 static size_t gap, gapsize, linelim;
 
 	static void
-insertline(n, l)
-	long n;
-	Iptr_type l;
+insertline(unsigned long n, Iptr_type l)
 /* Before line N, insert line L.  N is 0-origin.  */
 {
 	if (linelim-gapsize < n)
@@ -378,16 +315,15 @@ insertline(n, l)
 }
 
 	static void
-deletelines(n, nlines)
-	long n, nlines;
+deletelines(long n, long nlines)
 /* Delete lines N through N+NLINES-1.  N is 0-origin.  */
 {
 	long l = n + nlines;
-	if (linelim-gapsize < l  ||  l < n)
+	if (linelim-gapsize < (unsigned long)l  ||  l < n)
 	    editLineNumberOverflow();
-	if (l < gap)
+	if ((unsigned long)l < gap)
 	    movelines(line+l+gapsize, line+l, gap-l);
-	else if (gap < n)
+	else if (gap < (unsigned long)n)
 	    movelines(line+gap, line+gap+gapsize, n-gap);
 
 	gap = n;
@@ -460,18 +396,7 @@ finishedit(delta, outfile, done)
 }
 
 /* Open a temporary NAME for output, truncating any previous contents.  */
-#   define fopen_update_truncate(name) fopenSafer(name, FOPEN_W_WORK)
-#else /* !large_memory */
-    static FILE * fopen_update_truncate P((char const*));
-    static FILE *
-fopen_update_truncate(name)
-    char const *name;
-{
-	if (bad_fopen_wplus  &&  un_link(name) != 0)
-		efaterror(name);
-	return fopenSafer(name, FOPEN_WPLUS_WORK);
-}
-#endif
+#define fopen_update_truncate(name) fopenSafer(name, FOPEN_W_WORK)
 
 
 	void
@@ -487,113 +412,7 @@ openfcopy(f)
 }
 
 
-#if !large_memory
-
-	static void swapeditfiles P((FILE*));
-	static void
-swapeditfiles(outfile)
-	FILE *outfile;
-/* Function: swaps resultname and editname, assigns fedit=fcopy,
- * and rewinds fedit for reading.  Set fcopy to outfile if nonnull;
- * otherwise, set fcopy to be resultname opened for reading and writing.
- */
-{
-	char const *tmpptr;
-
-	editline = 0;  linecorr = 0;
-	Orewind(fcopy);
-	fedit = fcopy;
-	tmpptr=editname; editname=resultname; resultname=tmpptr;
-	openfcopy(outfile);
-}
-
-	void
-snapshotedit(f)
-	FILE *f;
-/* Copy the current state of the edits to F.  */
-{
-	finishedit((struct hshentry *)0, (FILE*)0, false);
-	fastcopy(fedit, f);
-	Irewind(fedit);
-}
-
-	void
-finishedit(delta, outfile, done)
-	struct hshentry const *delta;
-	FILE *outfile;
-	int done;
-/* copy the rest of the edit file and close it (if it exists).
- * if delta, perform keyword substitution at the same time.
- * If DONE is set, we are finishing the last pass.
- */
-{
-	register RILE *fe;
-	register FILE *fc;
-
-	fe = fedit;
-	if (fe) {
-		fc = fcopy;
-		if (delta) {
-			while (1 < expandline(fe,fc,delta,false,(FILE*)0,true))
-				;
-                } else {
-			fastcopy(fe,fc);
-                }
-		Ifclose(fe);
-        }
-	if (!done)
-		swapeditfiles(outfile);
-}
-#endif
-
-
-
-#if large_memory
-#	define copylines(upto,delta) (editline = (upto))
-#else
-	static void copylines P((long,struct hshentry const*));
-	static void
-copylines(upto, delta)
-	register long upto;
-	struct hshentry const *delta;
-/*
- * Copy input lines editline+1..upto from fedit to fcopy.
- * If delta, keyword expansion is done simultaneously.
- * editline is updated. Rewinds a file only if necessary.
- */
-{
-	register int c;
-	declarecache;
-	register FILE *fc;
-	register RILE *fe;
-
-	if (upto < editline) {
-                /* swap files */
-		finishedit((struct hshentry *)0, (FILE*)0, false);
-                /* assumes edit only during last pass, from the beginning*/
-        }
-	fe = fedit;
-	fc = fcopy;
-	if (editline < upto)
-	    if (delta)
-		do {
-		    if (expandline(fe,fc,delta,false,(FILE*)0,true) <= 1)
-			editLineNumberOverflow();
-		} while (++editline < upto);
-	    else {
-		setupcache(fe); cache(fe);
-		do {
-			do {
-				cachegeteof_(c, editLineNumberOverflow();)
-				aputc_(c, fc)
-			} while (c != '\n');
-		} while (++editline < upto);
-		uncache(fe);
-	    }
-}
-#endif
-
-
+#define copylines(upto,delta) (editline = (upto))
 
 	void
 xpandstring(delta)
@@ -617,7 +436,7 @@ copystring()
  * editline is incremented by the number of lines copied.
  * Assumption: next character read is first string character.
  */
-{	register c;
+{	register int c;
 	declarecache;
 	register FILE *frew, *fcop;
 	register int amidline;
@@ -659,15 +478,6 @@ copystring()
 enterstring()
 /* Like copystring, except the string is put into the edit data structure.  */
 {
-#if !large_memory
-	editname = 0;
-	fedit = 0;
-	editline = linecorr = 0;
-	resultname = maketemp(1);
-	if (!(fcopy = fopen_update_truncate(resultname)))
-		efaterror(resultname);
-	copystring();
-#else
 	register int c;
 	declarecache;
 	register FILE *frew;
@@ -713,27 +523,12 @@ enterstring()
 		if (!oamidline)
 			insertline(oe, optr);
 	}
-#endif
 }
 
-
-
-
 	void
-#if large_memory
 edit_string()
-#else
-  editstring(delta)
-	struct hshentry const *delta;
-#endif
 /*
  * Read an edit script from finptr and applies it to the edit file.
-#if !large_memory
- * The result is written to fcopy.
- * If delta, keyword expansion is performed simultaneously.
- * If running out of lines in fedit, fedit and fcopy are swapped.
- * editname is the name of the file that goes with fedit.
-#endif
  * If foutptr is set, the edit script is also copied verbatim to foutptr.
  * Assumes that all these files are open.
  * resultname is the name of the file that goes with fcopy.
@@ -745,16 +540,9 @@ edit_string()
         register int c;
 	declarecache;
 	register FILE *frew;
-#	if !large_memory
-		register FILE *f;
-		long line_lim = LONG_MAX;
-		register RILE *fe;
-#	endif
 	register long i;
 	register RILE *fin;
-#	if large_memory
 		register long j;
-#	endif
 	struct diffcmd dc;
 
         editline += linecorr; linecorr=0; /*correct line number*/
@@ -763,57 +551,23 @@ edit_string()
 	setupcache(fin);
 	initdiffcmd(&dc);
 	while (0  <=  (ed = getdiffcmd(fin,true,frew,&dc)))
-#if !large_memory
-		if (line_lim <= dc.line1)
-			editLineNumberOverflow();
-		else
-#endif
 		if (!ed) {
 			copylines(dc.line1-1, delta);
                         /* skip over unwanted lines */
 			i = dc.nlines;
 			linecorr -= i;
 			editline += i;
-#			if large_memory
 			    deletelines(editline+linecorr, i);
-#			else
-			    fe = fedit;
-			    do {
-                                /*skip next line*/
-				do {
-				    Igeteof_(fe, c, { if (i!=1) editLineNumberOverflow(); line_lim = dc.dafter; break; } )
-				} while (c != '\n');
-			    } while (--i);
-#			endif
 		} else {
 			/* Copy lines without deleting any.  */
 			copylines(dc.line1, delta);
 			i = dc.nlines;
-#			if large_memory
 				j = editline+linecorr;
-#			endif
 			linecorr += i;
-#if !large_memory
-			f = fcopy;
-			if (delta)
-			    do {
-				switch (expandline(fin,f,delta,true,frew,true)){
-				    case 0: case 1:
-					if (i==1)
-					    return;
-					/* fall into */
-				    case -1:
-					editEndsPrematurely();
-				}
-			    } while (--i);
-			else
-#endif
 			{
 			    cache(fin);
 			    do {
-#				if large_memory
 				    insertline(j++, cacheptr());
-#				endif
 				for (;;) {
 				    GETC_(frew, c)
 				    if (c==SDELIM) {
@@ -826,9 +580,6 @@ edit_string()
 					    return;
 					}
 				    }
-#				    if !large_memory
-					aputc_(c, f)
-#				    endif
 				    if (c == '\n')
 					break;
 				}
@@ -862,7 +613,7 @@ expandline(infile, outfile, delta, delimstuffed, frewfile, dolog)
  * 2 if a complete line is copied; adds 1 to yield if expansion occurred.
  */
 {
-	register c;
+	register int c;
 	declarecache;
 	register FILE *out, *frew;
 	register char * tp;
@@ -1050,9 +801,10 @@ keyreplace(marker, delta, delimstuffed, infile, out, dolog)
 		aputs(date2str(date,datebuf), out);
                 break;
 	    case Id:
+	    case LocalId:
 	    case Header:
 		escape_string(out,
-			marker==Id || RCSv<VERSION(4)
+			marker != Header || RCSv<VERSION(4)
 			? basefilename(RCSname)
 			: getfullRCSname()
 		);
@@ -1063,12 +815,13 @@ keyreplace(marker, delta, delimstuffed, infile, out, dolog)
 			  RCSv==VERSION(3) && delta->lockedby ? "Locked"
 			: delta->state
 		);
-		if (delta->lockedby)
+		if (delta->lockedby) {
 		    if (VERSION(5) <= RCSv) {
 			if (locker_expansion || exp==KEYVALLOCK_EXPAND)
 			    aprintf(out, " %s", delta->lockedby);
 		    } else if (RCSv == VERSION(4))
 			aprintf(out, " Locker: %s", delta->lockedby);
+		}
                 break;
 	    case Locker:
 		if (delta->lockedby)
@@ -1155,8 +908,9 @@ keyreplace(marker, delta, delimstuffed, infile, out, dolog)
 		    cp = leader.string;
 		    for (cw = 0;  cw < cs;  cw++) {
 			leader.string[cw] = c;
-			if (c == SDELIM  &&  delimstuffed)
+			if (c == SDELIM  &&  delimstuffed) {
 			    cacheget_(c)
+			}
 			cacheget_(c)
 		    }
 
@@ -1230,11 +984,10 @@ keyreplace(marker, delta, delimstuffed, infile, out, dolog)
 	}
 }
 
-#if has_readlink
-	static int resolve_symlink P((struct buf*));
+static int resolve_symlink(struct buf*);
+
 	static int
-resolve_symlink(L)
-	struct buf *L;
+resolve_symlink(struct buf *L)
 /*
  * If L is a symbolic link, resolve it to the name that it points to.
  * If unsuccessful, set errno and yield -1.
@@ -1253,7 +1006,7 @@ resolve_symlink(L)
 	s = sizeof(a);
 	bufautobegin(&bigbuf);
 	while ((r = readlink(L->string,b,s))  !=  -1)
-	    if (r == s) {
+	    if ((size_t)r == s) {
 		bufalloc(&bigbuf, s<<1);
 		b = bigbuf.string;
 		s = bigbuf.size;
@@ -1279,12 +1032,11 @@ resolve_symlink(L)
 	bufautoend(&bigbuf);
 	errno = e;
 	switch (e) {
-	    case readlink_isreg_errno: return 1;
+	    case EINVAL: return 1;
 	    case ENOENT: return 0;
 	    default: return -1;
 	}
 }
-#endif
 
 	RILE *
 rcswriteopen(RCSbuf, status, mustread)
@@ -1309,13 +1061,7 @@ rcswriteopen(RCSbuf, status, mustread)
 	struct stat statbuf;
 
 	waslocked  =  0 <= fdlock;
-	exists =
-#		if has_readlink
-			resolve_symlink(RCSbuf);
-#		else
-			    stat(RCSbuf->string, &statbuf) == 0  ?  1
-			:   errno==ENOENT ? 0 : -1;
-#		endif
+	exists = resolve_symlink(RCSbuf);
 	if (exists < (mustread|waslocked))
 		/*
 		 * There's an unusual problem with the RCS file;
@@ -1331,13 +1077,11 @@ rcswriteopen(RCSbuf, status, mustread)
 	bufscpy(dirt, RCSpath);
 	tp = dirt->string + l;
 	x = rcssuffix(RCSpath);
-#	if has_readlink
 	    if (!x) {
 		error("symbolic link to non RCS file `%s'", RCSpath);
 		errno = EINVAL;
 		return 0;
 	    }
-#	endif
 	if (*sp == *x) {
 		error("RCS pathname `%s' incompatible with suffix `%s'", sp, x);
 		errno = EINVAL;
@@ -1379,15 +1123,15 @@ rcswriteopen(RCSbuf, status, mustread)
 
 	/*
 	* good news:
-	*	open(f, O_CREAT|O_EXCL|O_TRUNC|..., OPEN_CREAT_READONLY)
+	*	open(f, O_CREAT|O_EXCL|O_TRUNC|..., S_IRUSR|S_IRGRP|S_IROTH)
 	*	is atomic according to Posix 1003.1-1990.
 	* bad news:
 	*	NFS ignores O_EXCL and doesn't comply with Posix 1003.1-1990.
 	* good news:
-	*	(O_TRUNC,OPEN_CREAT_READONLY) normally guarantees atomicity
+	*	(O_TRUNC,S_IRUSR|S_IRGRP|S_IROTH) normally guarantees atomicity
 	*	even with NFS.
 	* bad news:
-	*	If you're root, (O_TRUNC,OPEN_CREAT_READONLY) doesn't
+	*	If you're root, (O_TRUNC,S_IRUSR|S_IRGRP|S_IROTH) doesn't
 	*	guarantee atomicity.
 	* good news:
 	*	Root-over-the-wire NFS access is rare for security reasons.
@@ -1420,11 +1164,7 @@ rcswriteopen(RCSbuf, status, mustread)
 	* Since this problem afflicts scads of Unix programs, but is so rare
 	* that nobody seems to be worried about it, we won't worry either.
 	*/
-#	if !open_can_creat
-#		define create(f) creat(f, OPEN_CREAT_READONLY)
-#	else
-#		define create(f) open(f, OPEN_O_BINARY|OPEN_O_LOCK|OPEN_O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, OPEN_CREAT_READONLY)
-#	endif
+#define create(f) open(f, O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, S_IRUSR|S_IRGRP|S_IROTH)
 
 	catchints();
 	ignoreints();
@@ -1503,15 +1243,12 @@ makedirtemp(isworkfile)
 	register size_t dl;
 	register struct buf *bn;
 	register char const *name = isworkfile ? workname : RCSname;
+	int fd;
 
 	dl = basefilename(name) - name;
 	bn = &dirtpname[newRCSdirtp_index + isworkfile];
 	bufalloc(bn,
-#		if has_mktemp
 			dl + 9
-#		else
-			strlen(name) + 3
-#		endif
 	);
 	bufscpy(bn, name);
 	np = tp = bn->string;
@@ -1519,24 +1256,13 @@ makedirtemp(isworkfile)
 	*tp++ = '_';
 	*tp++ = '0'+isworkfile;
 	catchints();
-#	if has_mktemp
-		VOID strcpy(tp, "XXXXXX");
-		if (!mktemp(np) || !*np)
+		strlcpy(tp, "XXXXXX", 7);
+		fd = mkstemp(np);
+		if (fd < 0 || !*np)
 		    faterror("can't make temporary pathname `%.*s_%cXXXXXX'",
 			(int)dl, name, '0'+isworkfile
 		    );
-#	else
-		/*
-		 * Posix 1003.1-1990 has no reliable way
-		 * to create a unique file in a named directory.
-		 * We fudge here.  If the filename is abcde,
-		 * the temp filename is _Ncde where N is a digit.
-		 */
-		name += dl;
-		if (*name) name++;
-		if (*name) name++;
-		VOID strcpy(tp, name);
-#	endif
+		close(fd);
 	dirtpmaker[newRCSdirtp_index + isworkfile] = real;
 	return np;
 }
@@ -1552,7 +1278,7 @@ dirtempunlink()
 	    if ((m = dirtpmaker[i]) != notmade) {
 		if (m == effective)
 		    seteid();
-		VOID un_link(dirtpname[i].string);
+		un_link(dirtpname[i].string);
 		if (m == effective)
 		    setrid();
 		dirtpmaker[i] = notmade;
@@ -1561,17 +1287,10 @@ dirtempunlink()
 
 
 	int
-#if has_prototypes
 chnamemod(
 	FILE **fromp, char const *from, char const *to,
 	int set_mode, mode_t mode, time_t mtime
 )
-  /* The `#if has_prototypes' is needed because mode_t might promote to int.  */
-#else
-  chnamemod(fromp, from, to, set_mode, mode, mtime)
-	FILE **fromp; char const *from,*to;
-	int set_mode; mode_t mode; time_t mtime;
-#endif
 /*
  * Rename a file (with stream pointer *FROMP) from FROM to TO.
  * FROM already exists.
@@ -1721,7 +1440,7 @@ addlock(delta, verbose)
 	register struct rcslock *next;
 
 	for (next = Locks;  next;  next = next->nextlock)
-		if (cmpnum(delta->num, next->delta->num) == 0)
+		if (cmpnum(delta->num, next->delta->num) == 0) {
 			if (strcmp(getcaller(), next->login) == 0)
 				return 0;
 			else {
@@ -1731,6 +1450,7 @@ addlock(delta, verbose)
 				  );
 				return -1;
 			}
+		}
 	next = ftalloc(struct rcslock);
 	delta->lockedby = next->login = getcaller();
 	next->delta = delta;
@@ -1754,7 +1474,7 @@ addsymbol(num, name, rebind)
 	register struct assoc *next;
 
 	for (next = Symbols;  next;  next = next->nextassoc)
-		if (strcmp(name, next->symbol)  ==  0)
+		if (strcmp(name, next->symbol)  ==  0) {
 			if (strcmp(next->num,num) == 0)
 				return 0;
 			else if (rebind) {
@@ -1766,6 +1486,7 @@ addsymbol(num, name, rebind)
 				);
 				return -1;
 			}
+		}
 	next = ftalloc(struct assoc);
 	next->symbol = name;
 	next->num = num;
@@ -1780,11 +1501,7 @@ addsymbol(num, name, rebind)
 getcaller()
 /* Get the caller's login name.  */
 {
-#	if has_setuid
 		return getusername(euid()!=ruid());
-#	else
-		return getusername(false);
-#	endif
 }
 
 
@@ -1825,7 +1542,7 @@ dorewrite(lockflag, changed)
 {
 	int r = 0, e;
 
-	if (lockflag)
+	if (lockflag) {
 		if (changed) {
 			if (changed < 0)
 				return -1;
@@ -1861,6 +1578,7 @@ dorewrite(lockflag, changed)
 				}
 #			endif
 		}
+	    }
 	return r;
 }
 
@@ -1942,8 +1660,8 @@ ORCSerror()
 */
 {
 	if (0 <= fdlock)
-		VOID close(fdlock);
+		close(fdlock);
 	if (frewrite)
 		/* Avoid fclose, since stdio may not be reentrant.  */
-		VOID close(fileno(frewrite));
+		close(fileno(frewrite));
 }

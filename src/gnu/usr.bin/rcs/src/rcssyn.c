@@ -4,7 +4,6 @@
  *                       Syntax Analysis.
  *                       Keyword table
  *                       Testprogram: define SYNTEST
- *                       Compatibility with Release 2: define COMPAT2=1
  ******************************************************************************
  */
 
@@ -154,15 +153,15 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(synId, "$Id$")
+__RCSID("$MirOS$");
 
-static char const *getkeyval P((char const*,enum tokens,int));
-static int getdelta P((void));
-static int strn2expmode P((char const*,size_t));
-static struct hshentry *getdnum P((void));
-static void badDiffOutput P((char const*)) exiting;
-static void diffLineNumberTooLarge P((char const*)) exiting;
-static void getsemi P((char const*));
+static char const *getkeyval(char const*,enum tokens,int);
+static int getdelta(void);
+static int strn2expmode(char const*,size_t);
+static struct hshentry *getdnum(void);
+__dead static void badDiffOutput(char const*);
+__dead static void diffLineNumberTooLarge(char const*);
+static void getsemi(char const*);
 
 /* keyword table */
 
@@ -184,9 +183,7 @@ char const
 	Ktext[]     = "text";
 
 static char const
-#if COMPAT2
 	Ksuffix[]   = "suffix",
-#endif
 	K_branches[]= "branches";
 
 static struct buf Commleader;
@@ -251,7 +248,6 @@ getadmin()
         }
 
 
-#if COMPAT2
         /* read suffix. Only in release 2 format */
 	if (getkeyopt(Ksuffix)) {
                 if (nexttok==STRING) {
@@ -261,7 +257,6 @@ getadmin()
                 }
 		getsemi(Ksuffix);
         }
-#endif
 
 	getkey(Kaccess);
 	LastAccess = &AccessList;
@@ -655,7 +650,7 @@ int argc; char * argv[];
 
         if (argc<2) {
 		aputs("No input file\n",stderr);
-		exitmain(EXIT_FAILURE);
+		return EXIT_FAILURE;
         }
 	if (!(finptr = Iopen(argv[1], FOPEN_R, (struct stat*)0))) {
 		faterror("can't open input file %s", argv[1]);
@@ -674,7 +669,7 @@ int argc; char * argv[];
 	if (!eoflex()) {
 		fatserror("expecting EOF");
         }
-	exitmain(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
 
 void exiterr() { _exit(EXIT_FAILURE); }

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Generate RCS revisions.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -141,15 +143,15 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(genId, "$Id$")
+__RCSID("$MirOS$");
 
 int interactiveflag;  /* Should we act as if stdin is a tty?  */
 struct buf curlogbuf;  /* buffer for current log message */
 
 enum stringwork { enter, copy, edit, expand, edit_expand };
 
-static void putdelta P((struct hshentry const*,FILE*));
-static void scandeltatext P((struct hshentry*,enum stringwork,int));
+static void putdelta(struct hshentry const*,FILE*);
+static void scandeltatext(struct hshentry*,enum stringwork,int);
 
 
 
@@ -314,20 +316,14 @@ getcstdin()
 	return c;
 }
 
-#if has_prototypes
 	int
 yesorno(int default_answer, char const *question, ...)
-#else
-		/*VARARGS2*/ int
-	yesorno(default_answer, question, va_alist)
-		int default_answer; char const *question; va_dcl
-#endif
 {
 	va_list args;
 	register int c, r;
 	if (!quietflag && ttystdin()) {
 		oflush();
-		vararg_start(args, question);
+		va_start(args, question);
 		fvfprintf(stderr, question, args);
 		va_end(args);
 		eflush();
@@ -438,13 +434,13 @@ getsstdin(option, name, note, buf)
 	    rcsfaterror("can't reread redirected stdin for %s; use -%s<%s>",
 		name, option, name
 	    );
-	
+
 	for (
 	   i = 0,  p = 0;
 	   c = getcstdin(),  !feof(stdin);
 	   bufrealloc(buf, i+1),  p = buf->string,  p[i++] = c
 	)
-		if (c == '\n')
+		if (c == '\n') {
 			if (i  &&  p[i-1]=='.'  &&  (i==1 || p[i-2]=='\n')) {
 				/* Remove trailing '.'.  */
 				--i;
@@ -453,6 +449,7 @@ getsstdin(option, name, note, buf)
 				aputs(">> ", stderr);
 				eflush();
 			}
+		}
 	return cleanlogmsg(p, i);
 }
 

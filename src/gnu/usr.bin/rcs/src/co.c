@@ -169,13 +169,13 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-static char *addjoin P((char*));
-static char const *getancestor P((char const*,char const*));
-static int buildjoin P((char const*));
-static int preparejoin P((char*));
-static int rmlock P((struct hshentry const*));
-static int rmworkfile P((void));
-static void cleanup P((void));
+static char *addjoin(char*);
+static char const *getancestor(char const*,char const*);
+static int buildjoin(char const*);
+static int preparejoin(char*);
+static int rmlock(struct hshentry const*);
+static int rmworkfile(void);
+static void cleanup(void);
 
 static char const quietarg[] = "-q";
 
@@ -192,7 +192,11 @@ static struct hshentries *gendeltas;	/* deltas to be generated	*/
 static struct hshentry *targetdelta;	/* final delta to be generated	*/
 static struct stat workstat;
 
-mainProg(coId, "co", "$Id$")
+const char cmdid[] = "co";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
 	static char const cmdusage[] =
 		"\nco usage: co -{fIlMpqru}[rev] -ddate -jjoins -ksubst -sstate -T -w[who] -Vn -xsuff -zzone file ...";
@@ -205,9 +209,6 @@ mainProg(coId, "co", "$Id$")
 	int Ttimeflag;
 	struct buf numericrev;	/* expanded revision number	*/
 	char finaldate[datesize];
-#	if OPEN_O_BINARY
-		int stdout_mode = 0;
-#	endif
 
 	setrid();
 	author = date = rev = state = 0;
@@ -346,14 +347,6 @@ mainProg(coId, "co", "$Id$")
 
 	workstatstat = -1;
 	if (tostdout) {
-#		if OPEN_O_BINARY
-		    int newmode = Expand==BINARY_EXPAND ? OPEN_O_BINARY : 0;
-		    if (stdout_mode != newmode) {
-			stdout_mode = newmode;
-			oflush();
-			VOID setmode(STDOUT_FILENO, newmode);
-		    }
-#		endif
 		neworkname = 0;
 		neworkptr = workstdout = stdout;
 	} else {
@@ -454,10 +447,6 @@ mainProg(coId, "co", "$Id$")
 			joinflag&&tostdout ? (FILE*)0 : neworkptr,
 			Expand < MIN_UNEXPAND
 		);
-#		if !large_memory
-			if (fcopy == neworkptr)
-				fcopy = 0;  /* Don't close it twice.  */
-#		endif
 		if_advise_access(changelock && gendeltas->first!=targetdelta,
 			finptr, MADV_SEQUENTIAL
 		);
@@ -507,7 +496,7 @@ mainProg(coId, "co", "$Id$")
 
 	tempunlink();
 	Ofclose(workstdout);
-	exitmain(exitstatus);
+	return exitstatus;
 
 }       /* end of main (co) */
 
@@ -517,16 +506,10 @@ cleanup()
 	if (nerror) exitstatus = EXIT_FAILURE;
 	Izclose(&finptr);
 	ORCSclose();
-#	if !large_memory
-		if (fcopy!=workstdout) Ozclose(&fcopy);
-#	endif
 	if (neworkptr!=workstdout) Ozclose(&neworkptr);
 	dirtempunlink();
 }
 
-#if RCS_lint
-#	define exiterr coExit
-#endif
 	void
 exiterr()
 {
@@ -725,8 +708,8 @@ getancestor(r1, r2)
 	    /* This will terminate since r1 and r2 are not the same; see above. */
 	    if (l3==0) {
 		/* no common prefix; common ancestor on main trunk */
-		VOID partialno(&t1, r1, l1>2 ? 2 : l1);
-		VOID partialno(&t2, r2, l2>2 ? 2 : l2);
+		partialno(&t1, r1, l1>2 ? 2 : l1);
+		partialno(&t2, r2, l2>2 ? 2 : l2);
 		r = cmpnum(t1.string,t2.string)<0 ? t1.string : t2.string;
 		if (cmpnum(r,r1)!=0 && cmpnum(r,r2)!=0)
 			return r;

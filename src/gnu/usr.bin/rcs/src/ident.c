@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Identify RCS keyword strings in files.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -99,15 +101,19 @@ Report problems and direct all questions to:
 
 #include  "rcsbase.h"
 
-static int match P((FILE*));
-static int scanfile P((FILE*,char const*,int));
-static void reportError P((char const*));
+static int match(FILE*);
+static int scanfile(FILE*,char const*,int);
+static void reportError(char const*);
 
-mainProg(identId, "ident", "$Id$")
 /*  Ident searches the named files for all occurrences
  *  of the pattern $@: text $ where @ is a keyword.
  */
 
+const char cmdid[] = "ident";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
    FILE *fp;
    int quiet = 0;
@@ -122,21 +128,21 @@ mainProg(identId, "ident", "$Id$")
 		    break;
 
 		case 'V':
-		    VOID printf("RCS version %s\n", RCS_version_string);
+		    printf("RCS version %s\n", RCS_version_string);
 		    quiet = -1;
 		    break;
 
 		default:
-		    VOID fprintf(stderr,
+		    fprintf(stderr,
 			"ident: usage: ident -{qV} [file...]\n"
 		    );
-		    exitmain(EXIT_FAILURE);
+		    return EXIT_FAILURE;
 		    break;
 	    }
 
-   if (0 <= quiet)
+   if (0 <= quiet) {
        if (!a)
-	    VOID scanfile(stdin, (char*)0, quiet);
+	    scanfile(stdin, (char*)0, quiet);
        else
 	    do {
 		if (!(fp = fopen(a, FOPEN_RB))) {
@@ -148,17 +154,15 @@ mainProg(identId, "ident", "$Id$")
 		)
 		    break;
 	    } while ((a = *++argv));
+   }
 
    if (ferror(stdout) || fclose(stdout)!=0) {
       reportError("standard output");
       status = EXIT_FAILURE;
    }
-   exitmain(status);
+   return status;
 }
 
-#if RCS_lint
-#	define exiterr identExit
-#endif
 	void
 exiterr()
 {
@@ -170,7 +174,7 @@ reportError(s)
 	char const *s;
 {
 	int e = errno;
-	VOID fprintf(stderr, "%s error: ", cmdid);
+	fprintf(stderr, "%s error: ", cmdid);
 	errno = e;
 	perror(s);
 }
@@ -188,7 +192,7 @@ scanfile(file, name, quiet)
    register int c;
 
    if (name) {
-      VOID printf("%s:\n", name);
+      printf("%s:\n", name);
       if (ferror(stdout))
 	 return -1;
    } else
@@ -210,12 +214,12 @@ scanfile(file, name, quiet)
       * The following is equivalent to exit(EXIT_FAILURE), but we invoke
       * exiterr to keep lint happy.  The DOS and OS/2 ports need exiterr.
       */
-      VOID fflush(stderr);
-      VOID fflush(stdout);
+      fflush(stderr);
+      fflush(stdout);
       exiterr();
    }
    if (!quiet)
-      VOID fprintf(stderr, "%s warning: no id keywords in %s\n", cmdid, name);
+      fprintf(stderr, "%s warning: no id keywords in %s\n", cmdid, name);
    return 0;
 }
 
@@ -266,6 +270,6 @@ match(fp)   /* group substring between two KDELIM's; then do pattern match */
       return c;
    *tp++ = c;     /*append trailing KDELIM*/
    *tp   = '\0';
-   VOID printf("     %c%s\n", KDELIM, line);
+   printf("     %c%s\n", KDELIM, line);
    return 0;
 }

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Extract RCS keyword string values from working files.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -99,15 +101,15 @@ Report problems and direct all questions to:
 
 #include  "rcsbase.h"
 
-libId(keepId, "$Id$")
+__RCSID("$MirOS$");
 
-static int badly_terminated P((void));
-static int checknum P((char const*));
-static int get0val P((int,RILE*,struct buf*,int));
-static int getval P((RILE*,struct buf*,int));
-static int keepdate P((RILE*));
-static int keepid P((int,RILE*,struct buf*));
-static int keeprev P((RILE*));
+static int badly_terminated(void);
+static int checknum(char const*);
+static int get0val(int,RILE*,struct buf*,int);
+static int getval(RILE*,struct buf*,int);
+static int keepdate(RILE*);
+static int keepid(int,RILE*,struct buf*);
+static int keeprev(RILE*);
 
 int prevkeys;
 struct buf prevauthor, prevdate, prevname, prevrev, prevstate;
@@ -192,6 +194,7 @@ getoldkeys(fp)
                 break;
             case Header:
             case Id:
+            case LocalId:
 		if (!(
 		      getval(fp, (struct buf*)0, false) &&
 		      keeprev(fp) &&
@@ -241,8 +244,9 @@ getoldkeys(fp)
             default:
                continue;
             }
-	    if (!c)
+	    if (!c) {
 		Igeteof_(fp, c, c=0;)
+	    }
 	    if (c != KDELIM) {
 		workerror("closing %c missing on keyword", KDELIM);
 		return false;
@@ -324,7 +328,7 @@ get0val(c, fp, target, optional)
 		if (tp) {
 		    *tp = 0;
 #		    ifdef KEEPTEST
-			VOID printf("getval: %s\n", target);
+			printf("getval: %s\n", target);
 #		    endif
 		}
 		return got1;
@@ -361,7 +365,7 @@ keepdate(fp)
 	    if (c) {
 		register char const *d = prevday.string, *t = prevtime.string;
 		bufalloc(&prevdate, strlen(d) + strlen(t) + 9);
-		VOID sprintf(prevdate.string, "%s%s %s%s",
+		snprintf(prevdate.string, prevdate.size, "%s%s %s%s",
 		    /* Parse dates put out by old versions of RCS.  */
 		      isdigit(d[0]) && isdigit(d[1]) && !isdigit(d[2])
 		    ? "19" : "",
@@ -383,8 +387,9 @@ keepid(c, fp, b)
 	struct buf *b;
 /* Get previous identifier from C+FP into B.  */
 {
-	if (!c)
+	if (!c) {
 	    Igeteof_(fp, c, return false;)
+	}
 	if (!get0val(c, fp, b, false))
 	    return false;
 	checksid(b->string);
@@ -413,11 +418,11 @@ checknum(s)
 		    return true;
 		else
 		    break;
-	    
+
 	    case '.':
 		dotcount++;
 		continue;
-	    
+
 	    default:
 		if (isdigit(*sp))
 		    continue;
@@ -444,9 +449,9 @@ int  argc; char  *argv[];
         while (*(++argv)) {
 		workname = *argv;
 		getoldkeys((RILE*)0);
-                VOID printf("%s:  revision: %s, date: %s, author: %s, name: %s, state: %s\n",
+                printf("%s:  revision: %s, date: %s, author: %s, name: %s, state: %s\n",
 			    *argv, prevrev.string, prevdate.string, prevauthor.string, prevname.string, prevstate.string);
 	}
-	exitmain(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
 #endif

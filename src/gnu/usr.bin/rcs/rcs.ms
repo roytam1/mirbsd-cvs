@@ -1,3 +1,5 @@
+.\" $MirOS$
+.\"
 .\" Format this file with:
 .\" pic file | tbl | troff -ms
 .\"
@@ -111,6 +113,8 @@ Revision groups of individual components are treated in the next three sections,
 and the extensions to configurations follow.
 Because of its size, a survey of version control tools
 appears at the end of the paper.
+.\" add list of functions here
+.so rcs_func.ms
 .NH
 Getting started with RCS
 .PP

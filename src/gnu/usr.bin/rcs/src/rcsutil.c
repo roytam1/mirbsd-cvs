@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* RCS utility functions */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -187,43 +189,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(utilId, "$Id$")
-
-#if !has_memcmp
-	int
-memcmp(s1, s2, n)
-	void const *s1, *s2;
-	size_t n;
-{
-	register unsigned char const
-		*p1 = (unsigned char const*)s1,
-		*p2 = (unsigned char const*)s2;
-	register size_t i = n;
-	register int r = 0;
-	while (i--  &&  !(r = (*p1++ - *p2++)))
-		;
-	return r;
-}
-#endif
-
-#if !has_memcpy
-	void *
-memcpy(s1, s2, n)
-	void *s1;
-	void const *s2;
-	size_t n;
-{
-	register char *p1 = (char*)s1;
-	register char const *p2 = (char const*)s2;
-	while (n--)
-		*p1++ = *p2++;
-	return s1;
-}
-#endif
-
-#if RCS_lint
-	malloc_type lintalloc;
-#endif
+__RCSID("$MirOS$");
 
 /*
  * list of blocks allocated with ftestalloc()
@@ -232,23 +198,23 @@ memcpy(s1, s2, n)
  * to the free block, but that would be less portable.
  */
 struct alloclist {
-	malloc_type alloc;
+	void *alloc;
 	struct alloclist *nextalloc;
 };
 static struct alloclist *alloced;
 
 
-	static malloc_type okalloc P((malloc_type));
-	static malloc_type
+	static void *okalloc(void *);
+	static void *
 okalloc(p)
-	malloc_type p;
+	void *p;
 {
 	if (!p)
 		faterror("out of memory");
 	return p;
 }
 
-	malloc_type
+	void *
 testalloc(size)
 	size_t size;
 /* Allocate a block, testing that the allocation succeeded.  */
@@ -256,18 +222,18 @@ testalloc(size)
 	return okalloc(malloc(size));
 }
 
-	malloc_type
+	void *
 testrealloc(ptr, size)
-	malloc_type ptr;
+	void *ptr;
 	size_t size;
 /* Reallocate a block, testing that the allocation succeeded.  */
 {
 	return okalloc(realloc(ptr, size));
 }
 
-	malloc_type
+	void *
 fremember(ptr)
-	malloc_type ptr;
+	void *ptr;
 /* Remember PTR in 'alloced' so that it can be freed later.  Yield PTR.  */
 {
 	register struct alloclist *q = talloc(struct alloclist);
@@ -276,7 +242,7 @@ fremember(ptr)
 	return q->alloc = ptr;
 }
 
-	malloc_type
+	void *
 ftestalloc(size)
 	size_t size;
 /* Allocate a block, putting it in 'alloced' so it can be freed later. */
@@ -316,7 +282,10 @@ str_save(s)
 	char const *s;
 /* Save s in permanently allocated storage. */
 {
-	return strcpy(tnalloc(char, strlen(s)+1), s);
+	size_t l = strlen(s)+1;
+	char *res = tnalloc(char, l);
+	strlcpy(res, s, l);
+	return res;
 }
 
 	char *
@@ -324,7 +293,10 @@ fstr_save(s)
 	char const *s;
 /* Save s in storage that will be deallocated when we're done with this file. */
 {
-	return strcpy(ftnalloc(char, strlen(s)+1), s);
+	size_t l = strlen(s)+1;
+	char *res = ftnalloc(char, l);
+	strlcpy(res, s, l);
+	return res;
 }
 
 	char *
@@ -363,20 +335,12 @@ getusername(suspicious)
 			)
 #		    endif
 		) {
-#if has_getuid && has_getpwuid
 			struct passwd const *pw = getpwuid(ruid());
 			if (!pw)
 			    faterror("no password entry for userid %lu",
 				     (unsigned long)ruid()
 			    );
 			name = pw->pw_name;
-#else
-#if has_setuid
-			faterror("setuid not supported");
-#else
-			faterror("Who are you?  Please setenv LOGNAME.");
-#endif
-#endif
 		}
 		checksid(name);
 	}
@@ -385,8 +349,6 @@ getusername(suspicious)
 
 
 
-
-#if has_signal
 
 /*
  *	 Signal handling
@@ -404,7 +366,6 @@ static sig_atomic_t volatile heldsignal, holdlevel;
 #endif
 
 
-#if has_NFS && has_mmap && large_memory && mmap_signal
     static char const *accessName;
 
 	  void
@@ -417,77 +378,11 @@ static sig_atomic_t volatile heldsignal, holdlevel;
 	t = *p;
 	accessName = 0;
     }
-#else
-#   define accessName ((char const *) 0)
-#endif
 
 
-#if !has_psignal
-
-# define psignal my_psignal
-	static void my_psignal P((int,char const*));
-	static void
-my_psignal(sig, s)
-	int sig;
-	char const *s;
-{
-	char const *sname = "Unknown signal";
-#	if has_sys_siglist && defined(NSIG)
-	    if ((unsigned)sig < NSIG)
-		sname = sys_siglist[sig];
-#	else
-	    switch (sig) {
-#	       ifdef SIGHUP
-		case SIGHUP:	sname = "Hangup";  break;
-#	       endif
-#	       ifdef SIGINT
-		case SIGINT:	sname = "Interrupt";  break;
-#	       endif
-#	       ifdef SIGPIPE
-		case SIGPIPE:	sname = "Broken pipe";  break;
-#	       endif
-#	       ifdef SIGQUIT
-		case SIGQUIT:	sname = "Quit";  break;
-#	       endif
-#	       ifdef SIGTERM
-		case SIGTERM:	sname = "Terminated";  break;
-#	       endif
-#	       ifdef SIGXCPU
-		case SIGXCPU:	sname = "Cputime limit exceeded";  break;
-#	       endif
-#	       ifdef SIGXFSZ
-		case SIGXFSZ:	sname = "Filesize limit exceeded";  break;
-#	       endif
-#	      if has_mmap && large_memory
-#	       if defined(SIGBUS) && mmap_signal==SIGBUS
-		case SIGBUS:	sname = "Bus error";  break;
-#	       endif
-#	       if defined(SIGSEGV) && mmap_signal==SIGSEGV
-		case SIGSEGV:	sname = "Segmentation fault";  break;
-#	       endif
-#	      endif
-	    }
-#	endif
-
-	/* Avoid calling sprintf etc., in case they're not reentrant.  */
-	{
-	    char const *p;
-	    char buf[BUFSIZ], *b = buf;
-	    for (p = s;  *p;  *b++ = *p++)
-		continue;
-	    *b++ = ':';
-	    *b++ = ' ';
-	    for (p = sname;  *p;  *b++ = *p++)
-		continue;
-	    *b++ = '\n';
-	    VOID write(STDERR_FILENO, buf, b - buf);
-	}
-}
-#endif
-
-static signal_type catchsig P((int));
+static signal_type catchsig(int);
 #ifdef SA_SIGINFO
-	static signal_type catchsigaction P((int,siginfo_t*,void*));
+	static signal_type catchsigaction(int,siginfo_t*,void*);
 #endif
 
 	static signal_type
@@ -506,7 +401,7 @@ catchsigaction(s, i, c)
 {
 #   if sig_zaps_handler
 	/* If a signal arrives before we reset the handler, we lose. */
-	VOID signal(s, SIG_IGN);
+	signal(s, SIG_IGN);
 #   endif
 
 #   ifdef SA_SIGINFO
@@ -533,33 +428,21 @@ catchsigaction(s, i, c)
 	char buf[BUFSIZ], *b = buf;
 
 	if ( !	(
-#		if has_mmap && large_memory && mmap_signal
 			/* Check whether this signal was planned.  */
 			s == mmap_signal && accessName
-#		else
-			0
-#		endif
 	)) {
 	    char const *nRCS = "\nRCS";
-#	    if defined(SA_SIGINFO) && has_si_errno && has_mmap && large_memory && mmap_signal
+#	    if defined(SA_SIGINFO) && has_si_errno
 		if (s == mmap_signal  &&  i  &&  i->si_errno) {
 		    errno = i->si_errno;
 		    perror(nRCS++);
 		}
 #	    endif
-#	    if defined(SA_SIGINFO) && has_psiginfo
-		if (i)
-		    psiginfo(i, nRCS);
-		else
-		    psignal(s, nRCS);
-#	    else
 		psignal(s, nRCS);
-#	    endif
 	}
 
 	for (p = "RCS: ";  *p;  *b++ = *p++)
 	    continue;
-#	if has_mmap && large_memory && mmap_signal
 	    if (s == mmap_signal) {
 		p = accessName;
 		if (!p)
@@ -568,18 +451,17 @@ catchsigaction(s, i, c)
 		    char const *p1;
 		    for (p1 = p;  *p1;  p1++)
 			continue;
-		    VOID write(STDERR_FILENO, buf, b - buf);
-		    VOID write(STDERR_FILENO, p, p1 - p);
+		    write(STDERR_FILENO, buf, b - buf);
+		    write(STDERR_FILENO, p, p1 - p);
 		    b = buf;
 		    p = ": Permission denied.  ";
 		}
 		while (*p)
 		    *b++ = *p++;
 	    }
-#	endif
 	for (p = "Cleaning up.\n";  *p;  *b++ = *p++)
 	    continue;
-	VOID write(STDERR_FILENO, buf, b - buf);
+	write(STDERR_FILENO, buf, b - buf);
     }
     exiterr();
 }
@@ -595,18 +477,16 @@ restoreints()
 {
 	if (!--holdlevel && heldsignal)
 #	    ifdef SA_SIGINFO
-		VOID catchsigaction(heldsignal, heldsiginfo, (void *)0);
+		catchsigaction(heldsignal, heldsiginfo, (void *)0);
 #	    else
-		VOID catchsig(heldsignal);
+		catchsig(heldsignal);
 #	    endif
 }
 
 
-static void setup_catchsig P((int const*,int));
+static void setup_catchsig(int const*,int);
 
-#if has_sigaction
-
-	static void check_sig P((int));
+	static void check_sig(int);
 	static void
   check_sig(r)
 	int r;
@@ -629,11 +509,7 @@ static void setup_catchsig P((int const*,int));
 		act.sa_handler = catchsig;
 #		ifdef SA_SIGINFO
 		    if (!unsupported_SA_SIGINFO) {
-#			if has_sa_sigaction
 			    act.sa_sigaction = catchsigaction;
-#			else
-			    act.sa_handler = catchsigaction;
-#			endif
 			act.sa_flags |= SA_SIGINFO;
 		    }
 #		endif
@@ -653,51 +529,6 @@ static void setup_catchsig P((int const*,int));
 	    }
 	}
   }
-
-#else
-#if has_sigblock
-
-	static void
-  setup_catchsig(sig, sigs)
-	int const *sig;
-	int sigs;
-  {
-	register int i;
-	int mask;
-
-	mask = 0;
-	for (i=sigs; 0<=--i; )
-		mask |= sigmask(sig[i]);
-	mask = sigblock(mask);
-	for (i=sigs; 0<=--i; )
-		if (
-		    signal(sig[i], catchsig) == SIG_IGN  &&
-		    signal(sig[i], SIG_IGN) != catchsig
-		)
-			faterror("signal catcher failure");
-	VOID sigsetmask(mask);
-  }
-
-#else
-
-	static void
-  setup_catchsig(sig, sigs)
-	int const *sig;
-	int sigs;
-  {
-	register i;
-
-	for (i=sigs; 0<=--i; )
-		if (
-		    signal(sig[i], SIG_IGN) != SIG_IGN  &&
-		    signal(sig[i], catchsig) != SIG_IGN
-		)
-			faterror("signal catcher failure");
-  }
-
-#endif
-#endif
-
 
 static int const regsigs[] = {
 # ifdef SIGHUP
@@ -733,8 +564,6 @@ catchints()
 	}
 }
 
-#if has_mmap && large_memory && mmap_signal
-
     /*
     * If you mmap an NFS file, and someone on another client removes the last
     * link to that file, and you later reference an uncached part of that file,
@@ -758,9 +587,6 @@ catchints()
 	    setup_catchsig(mmapsigs, (int)(sizeof(mmapsigs)/sizeof(*mmapsigs)));
 	}
     }
-#endif
-
-#endif /* has_signal */
 
 
 	void
@@ -770,39 +596,9 @@ fastcopy(inf,outf)
 /* Function: copies the remainder of file inf to outf.
  */
 {
-#if large_memory
-#	if maps_memory
 	    awrite((char const*)inf->ptr, (size_t)(inf->lim - inf->ptr), outf);
 	    inf->ptr = inf->lim;
-#	else
-	    for (;;) {
-		awrite((char const*)inf->ptr, (size_t)(inf->readlim - inf->ptr), outf);
-		inf->ptr = inf->readlim;
-		if (inf->ptr == inf->lim)
-		    break;
-		VOID Igetmore(inf);
-	    }
-#	endif
-#else
-	char buf[BUFSIZ*8];
-	register fread_type rcount;
-
-        /*now read the rest of the file in blocks*/
-	while (!feof(inf)) {
-		if (!(rcount = Fread(buf,sizeof(*buf),sizeof(buf),inf))) {
-			testIerror(inf);
-			return;
-		}
-		awrite(buf, (size_t)rcount, outf);
-        }
-#endif
 }
-
-#ifndef SSIZE_MAX
- /* This does not work in #ifs, but it's good enough for us.  */
- /* Underestimating SSIZE_MAX may slow us down, but it won't break us.  */
-#	define SSIZE_MAX ((unsigned)-1 >> 1)
-#endif
 
 	void
 awrite(buf, chars, f)
@@ -823,7 +619,7 @@ awrite(buf, chars, f)
 }
 
 /* dup a file descriptor; the result must not be stdin, stdout, or stderr.  */
-	static int dupSafer P((int));
+	static int dupSafer(int);
 	static int
 dupSafer(fd)
 	int fd;
@@ -837,7 +633,7 @@ dupSafer(fd)
 	    e = errno;
 	    for (i = STDIN_FILENO;  i <= STDERR_FILENO;  i++)
 		    if (used & (1<<i))
-			    VOID close(i);
+			    close(i);
 	    errno = e;
 	    return f;
 #	endif
@@ -851,7 +647,7 @@ fdSafer(fd)
 	if (STDIN_FILENO <= fd  &&  fd <= STDERR_FILENO) {
 		int f = dupSafer(fd);
 		int e = errno;
-		VOID close(fd);
+		close(fd);
 		errno = e;
 		fd = f;
 	}
@@ -871,13 +667,13 @@ fopenSafer(filename, type)
 			int f = dupSafer(fd);
 			if (f < 0) {
 				int e = errno;
-				VOID fclose(stream);
+				fclose(stream);
 				errno = e;
 				return 0;
 			}
 			if (fclose(stream) != 0) {
 				int e = errno;
-				VOID close(f);
+				close(f);
 				errno = e;
 				return 0;
 			}
@@ -894,9 +690,7 @@ fopenSafer(filename, type)
 #endif
 
 
-#if has_fork || has_spawn
-
-	static int movefd P((int,int));
+	static int movefd(int,int);
 	static int
 movefd(old, new)
 	int old, new;
@@ -911,7 +705,7 @@ movefd(old, new)
 	return close(old)==0 ? new : -1;
 }
 
-	static int fdreopen P((int,char const*,int));
+	static int fdreopen(int,char const*,int);
 	static int
 fdreopen(fd, file, flags)
 	int fd;
@@ -919,83 +713,26 @@ fdreopen(fd, file, flags)
 	int flags;
 {
 	int newfd;
-	VOID close(fd);
+	close(fd);
 	newfd =
-#if !open_can_creat
-		flags&O_CREAT ? creat(file, S_IRUSR|S_IWUSR) :
-#endif
 		open(file, flags, S_IRUSR|S_IWUSR);
 	return movefd(newfd, fd);
 }
 
-#if has_spawn
-	static void redirect P((int,int));
-	static void
-redirect(old, new)
-	int old, new;
-/*
-* Move file descriptor OLD to NEW.
-* If OLD is -1, do nothing.
-* If OLD is -2, just close NEW.
-*/
-{
-	if ((old != -1 && close(new) != 0) || (0 <= old && movefd(old,new) < 0))
-		efaterror("spawn I/O redirection");
-}
-#endif
-
-
-#else /* !has_fork && !has_spawn */
-
-	static void bufargcat P((struct buf*,int,char const*));
-	static void
-bufargcat(b, c, s)
-	register struct buf *b;
-	int c;
-	register char const *s;
-/* Append to B a copy of C, plus a quoted copy of S.  */
-{
-	register char *p;
-	register char const *t;
-	size_t bl, sl;
-
-	for (t=s, sl=0;  *t;  )
-		sl  +=  3*(*t++=='\'') + 1;
-	bl = strlen(b->string);
-	bufrealloc(b, bl + sl + 4);
-	p = b->string + bl;
-	*p++ = c;
-	*p++ = '\'';
-	while (*s) {
-		if (*s == '\'') {
-			*p++ = '\'';
-			*p++ = '\\';
-			*p++ = '\'';
-		}
-		*p++ = *s++;
-	}
-	*p++ = '\'';
-	*p = 0;
-}
-
-#endif
-
-#if !has_spawn && has_fork
 /*
 * Output the string S to stderr, without touching any I/O buffers.
 * This is useful if you are a child process, whose buffers are usually wrong.
 * Exit immediately if the write does not completely succeed.
 */
-static void write_stderr P((char const *));
+static void write_stderr(char const *);
 	static void
 write_stderr(s)
 	char const *s;
 {
 	size_t slen = strlen(s);
-	if (write(STDERR_FILENO, s, slen) != slen)
+	if ((size_t)write(STDERR_FILENO, s, slen) != slen)
 		_exit(EXIT_TROUBLE);
 }
-#endif
 
 /*
 * Run a command.
@@ -1010,77 +747,21 @@ runv(infd, outname, args)
 {
 	int wstatus;
 
-#if bad_wait_if_SIGCHLD_ignored
 	static int fixed_SIGCHLD;
 	if (!fixed_SIGCHLD) {
 	    fixed_SIGCHLD = true;
-#	    ifndef SIGCHLD
-#	    define SIGCHLD SIGCLD
-#	    endif
-	    VOID signal(SIGCHLD, SIG_DFL);
+	    signal(SIGCHLD, SIG_DFL);
 	}
-#endif
 
 	oflush();
 	eflush();
     {
-#if has_spawn
-	int in, out;
-	char const *file;
-
-	in = -1;
-	if (infd != -1  &&  infd != STDIN_FILENO) {
-	    if ((in = dup(STDIN_FILENO)) < 0) {
-		if (errno != EBADF)
-		    efaterror("spawn input setup");
-		in = -2;
-	    } else {
-#		ifdef F_DUPFD
-		    if (close(STDIN_FILENO) != 0)
-			efaterror("spawn input close");
-#		endif
-	    }
-	    if (
-#		ifdef F_DUPFD
-		    fcntl(infd, F_DUPFD, STDIN_FILENO) != STDIN_FILENO
-#		else
-		    dup2(infd, STDIN_FILENO) != STDIN_FILENO
-#		endif
-	    )
-		efaterror("spawn input redirection");
-	}
-
-	out = -1;
-	if (outname) {
-	    if ((out = dup(STDOUT_FILENO)) < 0) {
-		if (errno != EBADF)
-		    efaterror("spawn output setup");
-		out = -2;
-	    }
-	    if (fdreopen(
-		STDOUT_FILENO, outname,
-		O_CREAT | O_TRUNC | O_WRONLY
-	    ) < 0)
-		efaterror(outname);
-	}
-
-	wstatus = spawn_RCS(0, args[1], (char**)(args + 1));
-#	ifdef RCS_SHELL
-	    if (wstatus == -1  &&  errno == ENOEXEC) {
-		args[0] = RCS_SHELL;
-		wstatus = spawnv(0, args[0], (char**)args);
-	    }
-#	endif
-	redirect(in, STDIN_FILENO);
-	redirect(out, STDOUT_FILENO);
-#else
-#if has_fork
 	pid_t pid;
 	if (!(pid = vfork())) {
 		char const *notfound;
 		if (infd != -1  &&  infd != STDIN_FILENO  &&  (
 #		    ifdef F_DUPFD
-			(VOID close(STDIN_FILENO),
+			(close(STDIN_FILENO),
 			fcntl(infd, F_DUPFD, STDIN_FILENO) != STDIN_FILENO)
 #		    else
 			dup2(infd, STDIN_FILENO) != STDIN_FILENO
@@ -1104,14 +785,12 @@ runv(infd, outname, args)
 			write_stderr(": cannot create\n");
 			_exit(EXIT_TROUBLE);
 		    }
-		VOID exec_RCS(args[1], (char**)(args + 1));
+		execv(args[1], (char**)(args + 1));
 		notfound = args[1];
-#		ifdef RCS_SHELL
 		    if (errno == ENOEXEC) {
 			args[0] = notfound = RCS_SHELL;
-			VOID execv(args[0], (char**)args);
+			execv(args[0], (char**)args);
 		    }
-#		endif
 
 		/* Avoid perror since it may misuse buffers.  */
 		write_stderr(notfound);
@@ -1120,37 +799,8 @@ runv(infd, outname, args)
 	}
 	if (pid < 0)
 		efaterror("fork");
-#	if has_waitpid
 		if (waitpid(pid, &wstatus, 0) < 0)
 			efaterror("waitpid");
-#	else
-		{
-			pid_t w;
-			do {
-				if ((w = wait(&wstatus)) < 0)
-					efaterror("wait");
-			} while (w != pid);
-		}
-#	endif
-#else
-	static struct buf b;
-	char const *p;
-
-	/* Use system().  On many hosts system() discards signals.  Yuck!  */
-	p = args + 1;
-	bufscpy(&b, *p);
-	while (*++p)
-		bufargcat(&b, ' ', *p);
-	if (infd != -1  &&  infd != STDIN_FILENO) {
-		char redirection[32];
-		VOID sprintf(redirection, "<&%d", infd);
-		bufscat(&b, redirection);
-	}
-	if (outname)
-		bufargcat(&b, '>', outname);
-	wstatus = system(b.string);
-#endif
-#endif
     }
 	if (!WIFEXITED(wstatus)) {
 		if (WIFSIGNALED(wstatus)) {
@@ -1170,20 +820,12 @@ runv(infd, outname, args)
 * The remaining arguments specify the command and its arguments.
 */
 	int
-#if has_prototypes
 run(int infd, char const *outname, ...)
-#else
-	/*VARARGS2*/
-run(infd, outname, va_alist)
-	int infd;
-	char const *outname;
-	va_dcl
-#endif
 {
 	va_list ap;
 	char const *rgargs[CARGSMAX];
 	register int i;
-	vararg_start(ap, outname);
+	va_start(ap, outname);
 	for (i = 1;  (rgargs[i++] = va_arg(ap, char const*));  )
 		if (CARGSMAX <= i)
 			faterror("too many command arguments");
@@ -1232,6 +874,9 @@ getRCSINIT(argc, argv, newargv)
 {
 	register char *p, *q, **pp;
 	size_t n;
+
+	if ((q = cgetenv("RCSLOCALID")))
+		setRCSlocalId(q);
 
 	if (!(q = cgetenv("RCSINIT")))
 		*newargv = argv;
@@ -1308,15 +953,9 @@ getRCSINIT(argc, argv, newargv)
 
 #define cacheid(E) static uid_t i; static int s; if (!s){ s=1; i=(E); } return i
 
-#if has_getuid
 	uid_t ruid() { cacheid(getuid()); }
-#endif
-#if has_setuid
 	uid_t euid() { cacheid(geteuid()); }
-#endif
 
-
-#if has_setuid
 
 /*
  * Setuid execution really works only with Posix 1003.1a Draft 5 seteuid(),
@@ -1328,26 +967,15 @@ getRCSINIT(argc, argv, newargv)
  */
 
 	static void
-#if has_prototypes
 set_uid_to(uid_t u)
-#else
- set_uid_to(u) uid_t u;
-#endif
 /* Become user u.  */
 {
 	static int looping;
 
 	if (euid() == ruid())
 		return;
-#if (has_fork||has_spawn) && DIFF_ABSOLUTE
-#	if has_setreuid
-		if (setreuid(u==euid() ? ruid() : euid(), u) != 0)
-			efaterror("setuid");
-#	else
-		if (seteuid(u) != 0)
-			efaterror("setuid");
-#	endif
-#endif
+	if (seteuid(u) != 0)
+		efaterror("setuid");
 	if (geteuid() != u) {
 		if (looping)
 			return;
@@ -1380,7 +1008,6 @@ setrid()
 	if (!stick_with_euid)
 		set_uid_to(ruid());
 }
-#endif
 
 	time_t
 now()

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Convert between RCS time format and Posix and/or C formats.  */
 
 /* Copyright 1992, 1993, 1994, 1995 Paul Eggert
@@ -27,13 +29,9 @@ Report problems and direct all questions to:
 */
 
 #include "rcsbase.h"
-#include "partime.h"
-#include "maketime.h"
+#include "getdate.h"
 
-libId(rcstimeId, "$Id$")
-
-static long zone_offset; /* seconds east of UTC, or TM_LOCAL_ZONE */
-static int use_zone_offset; /* if zero, use UTC without zone indication */
+__RCSID("$MirOS$");
 
 /*
 * Convert Unix time to RCS format.
@@ -41,35 +39,29 @@ static int use_zone_offset; /* if zero, use UTC without zone indication */
 * dates from 1900 through 1999 are stored without the leading "19".
 */
 	void
-time2date(unixtime,date)
-	time_t unixtime;
-	char date[datesize];
+time2date(time_t unixtime, char date[datesize])
 {
-	register struct tm const *tm = time2tm(unixtime, RCSversion<VERSION(5));
-	VOID sprintf(date,
-#		if has_printf_dot
-			"%.2d.%.2d.%.2d.%.2d.%.2d.%.2d",
-#		else
-			"%02d.%02d.%02d.%02d.%02d.%02d",
-#		endif
-		tm->tm_year  +  ((unsigned)tm->tm_year < 100 ? 0 : 1900),
-		tm->tm_mon+1, tm->tm_mday,
-		tm->tm_hour, tm->tm_min, tm->tm_sec
-	);
+	struct tm tm;
+
+	tm = mjd2tm(tai2mjd(timet2tai(unixtime)));
+	snprintf(date, datesize,
+	    "%.2d.%.2d.%.2d.%.2d.%.2d.%.2d",
+	    (int)(tm.tm_year + ((unsigned)tm.tm_year < 100 ? 0 : 1900)),
+	    tm.tm_mon + 1, tm.tm_mday,
+	    tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
-/* Like str2time, except die if an error was found.  */
-static time_t str2time_checked P((char const*,time_t,long));
-	static time_t
-str2time_checked(source, default_time, default_zone)
-	char const *source;
-	time_t default_time;
-	long default_zone;
+static time_t
+str2time_checked(char const *source, time_t default_time)
 {
-	time_t t = str2time(source, default_time, default_zone);
-	if (t == -1)
+	struct timespec ts, td;
+
+	td.tv_sec = default_time;
+	td.tv_nsec = 0;
+
+	if (!get_date(&ts, source, &td))
 		faterror("unknown date/time: %s", source);
-	return t;
+	return ts.tv_sec;
 }
 
 /*
@@ -77,115 +69,39 @@ str2time_checked(source, default_time, default_zone)
 * into RCS internal format, and store the result into TARGET.
 */
 	void
-str2date(source, target)
-	char const *source;
-	char target[datesize];
+str2date(char const *source, char target[datesize])
 {
-	time2date(
-		str2time_checked(source, now(),
-			use_zone_offset ? zone_offset
-			: RCSversion<VERSION(5) ? TM_LOCAL_ZONE
-			: 0
-		),
-		target
-	);
+	time2date(str2time_checked(source, now()), target);
 }
 
 /* Convert an RCS internal format date to time_t.  */
 	time_t
-date2time(source)
-	char const source[datesize];
+date2time(char const source[datesize])
 {
 	char s[datesize + zonelenmax];
-	return str2time_checked(date2str(source, s), (time_t)0, 0);
+	return str2time_checked(date2str(source, s), 0);
 }
-
-
-/* Set the time zone for date2str output.  */
-	void
-zone_set(s)
-	char const *s;
-{
-	if ((use_zone_offset = *s)) {
-		long zone;
-		char const *zonetail = parzone(s, &zone);
-		if (!zonetail || *zonetail)
-			error("%s: not a known time zone", s);
-		else
-			zone_offset = zone;
-	}
-}
-
 
 /*
 * Format a user-readable form of the RCS format DATE into the buffer DATEBUF.
 * Yield DATEBUF.
 */
 	char const *
-date2str(date, datebuf)
-	char const date[datesize];
-	char datebuf[datesize + zonelenmax];
+date2str(char const date[datesize], char datebuf[datesize + zonelenmax])
 {
-	register char const *p = date;
+	char const *p = date;
+	char *b = datebuf;
 
 	while (*p++ != '.')
 		continue;
-	if (!use_zone_offset)
-	    VOID sprintf(datebuf,
-		"19%.*s/%.2s/%.2s %.2s:%.2s:%s"
-			+ (date[2]=='.' && VERSION(5)<=RCSversion  ?  0  :  2),
-		(int)(p-date-1), date,
-		p, p+3, p+6, p+9, p+12
-	    );
-	else {
-	    struct tm t;
-	    struct tm const *z;
-	    int non_hour;
-	    long zone;
-	    char c;
 
-	    t.tm_year = atoi(date) - (date[2]=='.' ? 0 : 1900);
-	    t.tm_mon = atoi(p) - 1;
-	    t.tm_mday = atoi(p+3);
-	    t.tm_hour = atoi(p+6);
-	    t.tm_min = atoi(p+9);
-	    t.tm_sec = atoi(p+12);
-	    t.tm_wday = -1;
-	    zone = zone_offset;
-	    if (zone == TM_LOCAL_ZONE) {
-		time_t u = tm2time(&t, 0), d;
-		z = localtime(&u);
-		d = difftm(z, &t);
-		zone  =  (time_t)-1 < 0 || d < -d  ?  d  :  -(long)-d;
-	    } else {
-		adjzone(&t, zone);
-		z = &t;
-	    }
-	    c = '+';
-	    if (zone < 0) {
-		zone = -zone;
-		c = '-';
-	    }
-	    VOID sprintf(datebuf,
-#		if has_printf_dot
-		    "%.2d-%.2d-%.2d %.2d:%.2d:%.2d%c%.2d",
-#		else
-		    "%02d-%02d-%02d %02d:%02d:%02d%c%02d",
-#		endif
-		z->tm_year + 1900,
-		z->tm_mon + 1, z->tm_mday, z->tm_hour, z->tm_min, z->tm_sec,
-		c, (int) (zone / (60*60))
-	    );
-	    if ((non_hour = zone % (60*60))) {
-#		if has_printf_dot
-		    static char const fmt[] = ":%.2d";
-#		else
-		    static char const fmt[] = ":%02d";
-#		endif
-		VOID sprintf(datebuf + strlen(datebuf), fmt, non_hour / 60);
-		if ((non_hour %= 60))
-		    VOID sprintf(datebuf + strlen(datebuf), fmt, non_hour);
-	    }
+	if (date[2]=='.' && VERSION(5)<=RCSversion) {
+		strlcpy(b, "19", datesize + zonelenmax);
+		b += 2;
 	}
+
+	snprintf(b, datesize + zonelenmax - (b - datebuf),
+	    "%.*s/%.2s/%.2s %.2s:%.2s:%s",
+	    (int)(p-date-1), date, p, p+3, p+6, p+9, p+12);
 	return datebuf;
 }

@@ -1,4 +1,5 @@
 #! /bin/sh
+# $MirOS$
 
 # rcsfreeze - assign a symbolic revision number to a configuration of RCS files
 
@@ -25,10 +26,7 @@
 #       {RCS/}.rcsfreeze.ver	version number
 #       {RCS/}.rscfreeze.log	log messages, most recent first
 
-PATH=/usr/local/bin:/bin:/usr/bin:/usr/ucb:$PATH
-export PATH
-
-DATE=`date` || exit
+DATE=$(date) || exit
 # Check whether we have an RCS subdirectory, so we can have the right
 # prefix for our paths.
 if test -d RCS
@@ -43,8 +41,8 @@ LOGFILE=${RCSDIR}.rcsfreeze.log
 test -r $VERSIONFILE || { echo 0 >$VERSIONFILE && >>$LOGFILE; } || exit
 
 # Get Version number, increase it, write back to file.
-VERSIONNUMBER=`cat $VERSIONFILE` &&
-VERSIONNUMBER=`expr $VERSIONNUMBER + 1` &&
+VERSIONNUMBER=$(<$VERSIONFILE) &&
+VERSIONNUMBER=$(expr $VERSIONNUMBER + 1) &&
 echo $VERSIONNUMBER >$VERSIONFILE || exit
 
 # Symbolic Revision Number
@@ -59,7 +57,7 @@ rcsfreeze: give log message, summarizing changes (end with EOF or single '.')" \
 
 # Stamp the logfile. Because we order the logfile the most recent
 # first we will have to save everything right now in a temporary file.
-TMPLOG=/tmp/rcsfrz$$
+TMPLOG=$(mktemp /tmp/rcsfreeze.XXXXXXXXXX) || exit 1
 trap 'rm -f $TMPLOG; exit 1' 1 2 13 15
 # Now ask for a log message, continously add to the log file
 (

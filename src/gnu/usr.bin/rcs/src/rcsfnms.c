@@ -1,9 +1,10 @@
+/* $MirOS$ */
+
 /* RCS filename and pathname handling */
 
 /****************************************************************************
  *                     creation and deletion of /tmp temporaries
  *		       pairing of RCS pathnames and working pathnames.
- *                     Testprogram: define PAIRTEST
  ****************************************************************************
  */
 
@@ -178,15 +179,15 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(fnmsId, "$Id$")
+__RCSID("$MirOS$");
 
-static char const *bindex P((char const*,int));
-static int fin2open P((char const*, size_t, char const*, size_t, char const*, size_t, RILE*(*)P((struct buf*,struct stat*,int)), int));
-static int finopen P((RILE*(*)P((struct buf*,struct stat*,int)), int));
-static int suffix_matches P((char const*,char const*));
-static size_t dir_useful_len P((char const*));
-static size_t suffixlen P((char const*));
-static void InitAdmin P((void));
+static char const *bindex(char const*,int);
+static int fin2open(char const*, size_t, char const*, size_t, char const*, size_t, RILE*(*)(struct buf*,struct stat*,int), int);
+static int finopen(RILE*(*)(struct buf*,struct stat*,int), int);
+static int suffix_matches(char const*,char const*);
+static size_t dir_useful_len(char const*);
+static size_t suffixlen(char const*);
+static void InitAdmin(void);
 
 char const *RCSname;
 char *workname;
@@ -217,27 +218,27 @@ struct compair {
 */
 static struct compair const comtable[] = {
 	{ "a"	, "-- "	},	/* Ada */
-	{ "ada"	, "-- "	},	
-	{ "adb"	, "-- "	},	
-	{ "ads"	, "-- "	},	
+	{ "ada"	, "-- "	},
+	{ "adb"	, "-- "	},
+	{ "ads"	, "-- "	},
 	{ "asm"	, ";; "	},	/* assembler (MS-DOS) */
 	{ "bat"	, ":: "	},	/* batch (MS-DOS) */
 	{ "body", "-- "	},	/* Ada */
 	{ "c"	, " * "	},	/* C */
 	{ "c++"	, "// "	},	/* C++ in all its infinite guises */
-	{ "cc"	, "// "	},	
-	{ "cpp"	, "// "	},	
-	{ "cxx"	, "// "	},	
+	{ "cc"	, "// "	},
+	{ "cpp"	, "// "	},
+	{ "cxx"	, "// "	},
 	{ "cl"	, ";;; "},	/* Common Lisp */
 	{ "cmd"	, ":: "	},	/* command (OS/2) */
 	{ "cmf"	, "c "	},	/* CM Fortran */
 	{ "cs"	, " * "	},	/* C* */
 	{ "el"	, "; "	},	/* Emacs Lisp */
 	{ "f"	, "c "	},	/* Fortran */
-	{ "for"	, "c "	},	
+	{ "for"	, "c "	},
 	{ "h"	, " * "	},	/* C-header */
 	{ "hpp"	, "// "	},	/* C++ header */
-	{ "hxx"	, "// "	},	
+	{ "hxx"	, "// "	},
 	{ "l"	, " * "	},	/* lex (NOTE: franzlisp disagrees) */
 	{ "lisp", ";;; "},	/* Lucid Lisp */
 	{ "lsp"	, ";; "	},	/* Microsoft Lisp */
@@ -248,7 +249,7 @@ static struct compair const comtable[] = {
 	{ "mm"	, ".\\\" "},	/* troff -mm */
 	{ "ms"	, ".\\\" "},	/* troff -ms */
 	{ "p"	, " * "	},	/* Pascal */
-	{ "pas"	, " * "	},	
+	{ "pas"	, " * "	},
 	{ "ps"	, "% "	},	/* PostScript */
 	{ "spec", "-- "	},	/* Ada */
 	{ "sty"	, "% "	},	/* LaTeX style */
@@ -257,8 +258,8 @@ static struct compair const comtable[] = {
 	{ 0	, "# "	}	/* default for unknown suffix; must be last */
 };
 
-#if has_mktemp
-	static char const *tmp P((void));
+#if has_mktemp || has_mkstemp
+	static char const *tmp(void);
 	static char const *
 tmp()
 /* Yield the name of the tmp directory.  */
@@ -285,17 +286,33 @@ maketemp(n)
 {
 	char *p;
 	char const *t = tpnames[n];
+#	if has_mkstemp
+	int fd;
+#	endif
 
 	if (t)
 		return t;
 
 	catchints();
 	{
-#	if has_mktemp
+#	if has_mkstemp
 	    char const *tp = tmp();
 	    size_t tplen = dir_useful_len(tp);
 	    p = testalloc(tplen + 10);
-	    VOID sprintf(p, "%.*s%cT%cXXXXXX", (int)tplen, tp, SLASH, '0'+n);
+	    snprintf(p, tplen + 10, "%.*s%cT%cXXXXXX", (int)tplen, tp,
+		SLASH, '0'+n);
+	    fd = mkstemp(p);
+	    if (fd < 0 || !*p)
+		faterror("can't make temporary pathname `%.*s%cT%cXXXXXX'",
+			(int)tplen, tp, SLASH, '0'+n
+		);
+	    close(fd);
+#	elif has_mktemp
+	    char const *tp = tmp();
+	    size_t tplen = dir_useful_len(tp);
+	    p = testalloc(tplen + 10);
+	    snprintf(p, tplen + 10, "%.*s%cT%cXXXXXX", (int)tplen, tp,
+		SLASH, '0'+n);
 	    if (!mktemp(p) || !*p)
 		faterror("can't make temporary pathname `%.*s%cT%cXXXXXX'",
 			(int)tplen, tp, SLASH, '0'+n
@@ -326,7 +343,7 @@ tempunlink()
 
 	for (i = TEMPNAMES;  0 <= --i;  )
 	    if ((p = tpnames[i])) {
-		VOID unlink(p);
+		unlink(p);
 		/*
 		 * We would tfree(p) here,
 		 * but this might dump core if we're handing a signal.
@@ -416,7 +433,7 @@ bufalloc(b, size)
 		if (b->size)
 			tfree(b->string);
 		else
-			b->size = sizeof(malloc_type);
+			b->size = sizeof(void *);
 		while (b->size < size)
 			b->size <<= 1;
 		b->string = tnalloc(char, b->size);
@@ -491,8 +508,9 @@ bufscat(b, s)
 /* Concatenate S to B's end. */
 {
 	size_t blen  =  b->string ? strlen(b->string) : 0;
-	bufrealloc(b, blen+strlen(s)+1);
-	VOID strcpy(b->string+blen, s);
+	size_t l = blen+strlen(s)+1;
+	bufrealloc(b, l);
+	strlcpy(b->string+blen, s, l);
 }
 
 	void
@@ -501,8 +519,9 @@ bufscpy(b, s)
 	char const *s;
 /* Copy S into B. */
 {
-	bufalloc(b, strlen(s)+1);
-	VOID strcpy(b->string, s);
+	size_t l = strlen(s)+1;
+	bufalloc(b, l);
+	strlcpy(b->string, s, l);
 }
 
 
@@ -581,7 +600,7 @@ rcsreadopen(RCSpath, status, mustread)
 
 	static int
 finopen(rcsopen, mustread)
-	RILE *(*rcsopen)P((struct buf*,struct stat*,int));
+	RILE *(*rcsopen)(struct buf*,struct stat*,int);
 	int mustread;
 /*
  * Use RCSOPEN to open an RCS file; MUSTREAD is set if the file must be read.
@@ -613,7 +632,7 @@ finopen(rcsopen, mustread)
 fin2open(d, dlen, base, baselen, x, xlen, rcsopen, mustread)
 	char const *d, *base, *x;
 	size_t dlen, baselen, xlen;
-	RILE *(*rcsopen)P((struct buf*,struct stat*,int));
+	RILE *(*rcsopen)(struct buf*,struct stat*,int);
 	int mustread;
 /*
  * D is a directory name with length DLEN (including trailing slash).
@@ -632,12 +651,12 @@ fin2open(d, dlen, base, baselen, x, xlen, rcsopen, mustread)
 	bufalloc(&RCSb, dlen + rcslen + 1 + baselen + xlen + 1);
 
 	/* Try dRCS/basex.  */
-	VOID memcpy(p = RCSb.string, d, dlen);
-	VOID memcpy(p += dlen, rcsdir, rcslen);
+	memcpy(p = RCSb.string, d, dlen);
+	memcpy(p += dlen, rcsdir, rcslen);
 	p += rcslen;
 	*p++ = SLASH;
-	VOID memcpy(p, base, baselen);
-	VOID memcpy(p += baselen, x, xlen);
+	memcpy(p, base, baselen);
+	memcpy(p += baselen, x, xlen);
 	p[xlen] = 0;
 	if (xlen) {
 	    if (finopen(rcsopen, mustread))
@@ -645,9 +664,9 @@ fin2open(d, dlen, base, baselen, x, xlen, rcsopen, mustread)
 
 	    /* Try dbasex.  */
 	    /* Start from scratch, because finopen() may have changed RCSb.  */
-	    VOID memcpy(p = RCSb.string, d, dlen);
-	    VOID memcpy(p += dlen, base, baselen);
-	    VOID memcpy(p += baselen, x, xlen);
+	    memcpy(p = RCSb.string, d, dlen);
+	    memcpy(p += dlen, base, baselen);
+	    memcpy(p += baselen, x, xlen);
 	    p[xlen] = 0;
 	}
 	return finopen(rcsopen, mustread);
@@ -657,7 +676,7 @@ fin2open(d, dlen, base, baselen, x, xlen, rcsopen, mustread)
 pairnames(argc, argv, rcsopen, mustread, quiet)
 	int argc;
 	char **argv;
-	RILE *(*rcsopen)P((struct buf*,struct stat*,int));
+	RILE *(*rcsopen)(struct buf*,struct stat*,int);
 	int mustread, quiet;
 /*
  * Pair the pathnames pointed to by argv; argc indicates
@@ -725,7 +744,7 @@ pairnames(argc, argv, rcsopen, mustread, quiet)
 		if (
 		    1 < argc  &&
 		    (x = rcssuffix(RCS1 = argv[1]))  &&
-		    baselen  <=  x - RCS1  &&
+		    (size_t)baselen  <=  (size_t)(x - RCS1)  &&
 		    ((RCSbase=x-baselen)==RCS1 || isSLASH(RCSbase[-1])) &&
 		    memcmp(base, RCSbase, baselen) == 0
 		) {
@@ -745,7 +764,7 @@ pairnames(argc, argv, rcsopen, mustread, quiet)
 		bufscpy(&RCSbuf, "");
 		if (RCS1)
 			/* RCS filename was given without path.  */
-			VOID fin2open(arg, (size_t)0, RCSbase, baselen,
+			fin2open(arg, (size_t)0, RCSbase, baselen,
 				x, strlen(x), rcsopen, mustread
 			);
 		else {
@@ -812,7 +831,7 @@ getfullRCSname()
 		static size_t wdlen;
 
 		register char const *r;
-		register size_t dlen;
+		size_t dlen, dlen0;
 		register char *d;
 		register char const *wd;
 
@@ -857,12 +876,12 @@ getfullRCSname()
 			r++;
 		/* Build full pathname.  */
 		dlen = wdlen;
-		bufalloc(&rcsbuf, dlen + strlen(r) + 2);
+		bufalloc(&rcsbuf, dlen0 = (dlen + strlen(r) + 2));
 		d = rcsbuf.string;
-		VOID memcpy(d, wd, dlen);
+		memcpy(d, wd, dlen);
 		d += dlen;
 		*d++ = SLASH;
-		VOID strcpy(d, r);
+		strlcpy(d, r, dlen0);
 #	    endif
 	    return rcsbuf.string;
         }
@@ -878,210 +897,8 @@ dir_useful_len(d)
 * but some non-Posix systems misbehave unless the slashes are omitted.
 */
 {
-#	ifndef SLASHSLASH_is_SLASH
-#	define SLASHSLASH_is_SLASH 0
-#	endif
 	size_t dlen = strlen(d);
-	if (!SLASHSLASH_is_SLASH && dlen==2 && isSLASH(d[0]) && isSLASH(d[1]))
-	    --dlen;
-	else
 	    while (dlen && isSLASH(d[dlen-1]))
 		--dlen;
 	return dlen;
 }
-
-#ifndef isSLASH
-	int
-isSLASH(c)
-	int c;
-{
-	switch (c) {
-	    case SLASHes:
-		return true;
-	    default:
-		return false;
-	}
-}
-#endif
-
-
-#if !has_getcwd && !has_getwd
-
-	char *
-getcwd(path, size)
-	char *path;
-	size_t size;
-{
-	static char const usrbinpwd[] = "/usr/bin/pwd";
-#	define binpwd (usrbinpwd+4)
-
-	register FILE *fp;
-	register int c;
-	register char *p, *lim;
-	int closeerrno, closeerror, e, fd[2], readerror, toolong, wstatus;
-	pid_t child;
-
-	if (!size) {
-		errno = EINVAL;
-		return 0;
-	}
-	if (pipe(fd) != 0)
-		return 0;
-#	if bad_wait_if_SIGCHLD_ignored
-#		ifndef SIGCHLD
-#		define SIGCHLD SIGCLD
-#		endif
-		VOID signal(SIGCHLD, SIG_DFL);
-#	endif
-	if (!(child = vfork())) {
-		if (
-			close(fd[0]) == 0 &&
-			(fd[1] == STDOUT_FILENO ||
-#				ifdef F_DUPFD
-					(VOID close(STDOUT_FILENO),
-					fcntl(fd[1], F_DUPFD, STDOUT_FILENO))
-#				else
-					dup2(fd[1], STDOUT_FILENO)
-#				endif
-				== STDOUT_FILENO &&
-				close(fd[1]) == 0
-			)
-		) {
-			VOID close(STDERR_FILENO);
-			VOID execl(binpwd, binpwd, (char *)0);
-			VOID execl(usrbinpwd, usrbinpwd, (char *)0);
-		}
-		_exit(EXIT_FAILURE);
-	}
-	e = errno;
-	closeerror = close(fd[1]);
-	closeerrno = errno;
-	fp = 0;
-	readerror = toolong = wstatus = 0;
-	p = path;
-	if (0 <= child) {
-		fp = fdopen(fd[0], "r");
-		e = errno;
-		if (fp) {
-			lim = p + size;
-			for (p = path;  ;  *p++ = c) {
-				if ((c=getc(fp)) < 0) {
-					if (feof(fp))
-						break;
-					if (ferror(fp)) {
-						readerror = 1;
-						e = errno;
-						break;
-					}
-				}
-				if (p == lim) {
-					toolong = 1;
-					break;
-				}
-			}
-		}
-#		if has_waitpid
-			if (waitpid(child, &wstatus, 0) < 0)
-				wstatus = 1;
-#		else
-			{
-				pid_t w;
-				do {
-					if ((w = wait(&wstatus)) < 0) {
-						wstatus = 1;
-						break;
-					}
-				} while (w != child);
-			}
-#		endif
-	}
-	if (!fp) {
-		VOID close(fd[0]);
-		errno = e;
-		return 0;
-	}
-	if (fclose(fp) != 0)
-		return 0;
-	if (readerror) {
-		errno = e;
-		return 0;
-	}
-	if (closeerror) {
-		errno = closeerrno;
-		return 0;
-	}
-	if (toolong) {
-		errno = ERANGE;
-		return 0;
-	}
-	if (wstatus  ||  p == path  ||  *--p != '\n') {
-		errno = EACCES;
-		return 0;
-	}
-	*p = '\0';
-	return path;
-}
-#endif
-
-
-#ifdef PAIRTEST
-/* test program for pairnames() and getfullRCSname() */
-
-char const cmdid[] = "pair";
-
-main(argc, argv)
-int argc; char *argv[];
-{
-        int result;
-	int initflag;
-	quietflag = initflag = false;
-
-        while(--argc, ++argv, argc>=1 && ((*argv)[0] == '-')) {
-                switch ((*argv)[1]) {
-
-		case 'p':       workstdout = stdout;
-                                break;
-                case 'i':       initflag=true;
-                                break;
-                case 'q':       quietflag=true;
-                                break;
-                default:        error("unknown option: %s", *argv);
-                                break;
-                }
-        }
-
-        do {
-		RCSname = workname = 0;
-		result = pairnames(argc,argv,rcsreadopen,!initflag,quietflag);
-                if (result!=0) {
-		    diagnose("RCS pathname: %s; working pathname: %s\nFull RCS pathname: %s\n",
-			     RCSname, workname, getfullRCSname()
-		    );
-                }
-                switch (result) {
-                        case 0: continue; /* already paired file */
-
-                        case 1: if (initflag) {
-				    rcserror("already exists");
-                                } else {
-				    diagnose("RCS file %s exists\n", RCSname);
-                                }
-				Ifclose(finptr);
-                                break;
-
-			case -1:diagnose("RCS file doesn't exist\n");
-                                break;
-                }
-
-        } while (++argv, --argc>=1);
-
-}
-
-	void
-exiterr()
-{
-	dirtempunlink();
-	tempunlink();
-	_exit(EXIT_FAILURE);
-}
-#endif

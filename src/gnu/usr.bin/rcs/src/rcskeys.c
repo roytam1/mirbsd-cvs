@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* RCS keyword table and match operation */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -64,14 +66,13 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(keysId, "$Id$")
+__RCSID("$MirOS$");
 
-
-char const *const Keyword[] = {
+char const *Keyword[] = {
     /* This must be in the same order as rcsbase.h's enum markers type. */
 	0,
 	AUTHOR, DATE, HEADER, IDH,
-	LOCKER, LOG, NAME, RCSFILE, REVISION, SOURCE, STATE
+	LOCKER, LOG, NAME, RCSFILE, REVISION, SOURCE, STATE, NULL
 };
 
 
@@ -87,20 +88,34 @@ trymatch(string)
         register int j;
 	register char const *p, *s;
 	for (j = sizeof(Keyword)/sizeof(*Keyword);  (--j);  ) {
-		/* try next keyword */
-		p = Keyword[j];
-		s = string;
-		while (*p++ == *s++) {
-			if (!*p)
-			    switch (*s) {
-				case KDELIM:
-				case VDELIM:
-				    return (enum markers)j;
-				default:
-				    return Nomatch;
-			    }
+		if (Keyword[j] != NULL) {
+			/* try next keyword */
+			p = Keyword[j];
+			s = string;
+			while (*p++ == *s++) {
+				if (!*p)
+				    switch (*s) {
+					case KDELIM:
+					case VDELIM:
+					    return (enum markers)j;
+					default:
+					    return Nomatch;
+				    }
+			}
 		}
         }
         return(Nomatch);
 }
 
+	void
+setRCSlocalId(string)
+	char const *string;
+/* function: sets local RCS id and RCSLOCALID envariable */
+{
+	static char local_id[keylength+1];
+
+	if (strlen(string) > keylength)
+		warn("LocalId is too long");
+	strlcpy(local_id, string, keylength+1);
+	Keyword[LocalId] = local_id;
+}

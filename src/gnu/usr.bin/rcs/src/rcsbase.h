@@ -1,8 +1,10 @@
+/* $MirOS$ */
+
 /* RCS common definitions and data structures */
 
-#define RCSBASE "$Id$"
+#define RCSBASE "$MirOS$"
 
-/* Copyright 1982, 1988, 1989 Walter Tichy
+/* Copyright 1982, 1988, 1989 Walter F. Tichy, Purdue CS
    Copyright 1990, 1991, 1992, 1993, 1994, 1995 Paul Eggert
    Distributed under license by the Free Software Foundation, Inc.
 
@@ -198,8 +200,8 @@ Report problems and direct all questions to:
 #endif
 
 /* for traditional C hosts with unusual size arguments */
-#define Fread(p,s,n,f)  fread(p, (freadarg_type)(s), (freadarg_type)(n), f)
-#define Fwrite(p,s,n,f)  fwrite(p, (freadarg_type)(s), (freadarg_type)(n), f)
+#define Fread(p,s,n,f)  fread(p, (size_t)(s), (size_t)(n), f)
+#define Fwrite(p,s,n,f)  fwrite(p, (size_t)(s), (size_t)(n), f)
 
 
 /*
@@ -254,31 +256,18 @@ Report problems and direct all questions to:
 
 #define maps_memory (has_map_fd || has_mmap)
 
-#if large_memory
 	typedef unsigned char const *Iptr_type;
 	typedef struct RILE {
 		Iptr_type ptr, lim;
 		unsigned char *base; /* not Iptr_type for lint's sake */
 		unsigned char *readlim;
 		int fd;
-#		if maps_memory
-			void (*deallocate) P((struct RILE *));
-#		else
-			FILE *stream;
-#		endif
+			void (*deallocate)(struct RILE *);
 	} RILE;
-#	if maps_memory
 #		define declarecache register Iptr_type ptr, lim
 #		define setupcache(f) (lim = (f)->lim)
 #		define Igeteof_(f,c,s) if ((f)->ptr==(f)->lim) s else (c)= *(f)->ptr++;
 #		define cachegeteof_(c,s) if (ptr==lim) s else (c)= *ptr++;
-#	else
-		int Igetmore P((RILE*));
-#		define declarecache register Iptr_type ptr; register RILE *rRILE
-#		define setupcache(f) (rRILE = (f))
-#		define Igeteof_(f,c,s) if ((f)->ptr==(f)->readlim && !Igetmore(f)) s else (c)= *(f)->ptr++;
-#		define cachegeteof_(c,s) if (ptr==rRILE->readlim && !Igetmore(rRILE)) s else (c)= *ptr++;
-#	endif
 #	define uncache(f) ((f)->ptr = ptr)
 #	define cache(f) (ptr = (f)->ptr)
 #	define Iget_(f,c) Igeteof_(f,c,Ieof();)
@@ -289,21 +278,6 @@ Report problems and direct all questions to:
 #	define Irewind(f) ((f)->ptr = (f)->base)
 #	define cacheptr() ptr
 #	define Ifileno(f) ((f)->fd)
-#else
-#	define RILE FILE
-#	define declarecache register FILE *ptr
-#	define setupcache(f) (ptr = (f))
-#	define uncache(f)
-#	define cache(f)
-#	define Igeteof_(f,c,s) {if(((c)=getc(f))==EOF){testIerror(f);if(feof(f))s}}
-#	define cachegeteof_(c,s) Igeteof_(ptr,c,s)
-#	define Iget_(f,c) { if (((c)=getc(f))==EOF) testIeof(f); }
-#	define cacheget_(c) Iget_(ptr,c)
-#	define cacheunget_(f,c) if(fseek(ptr,-2L,SEEK_CUR))Ierror();else cacheget_(c)
-#	define Ioffset_type long
-#	define Itell(f) ftell(f)
-#	define Ifileno(f) fileno(f)
-#endif
 
 /* Print a char, but abort on write error.  */
 #define aputc_(c,o) { if (putc(c,o)==EOF) testOerror(o); }
@@ -401,17 +375,6 @@ struct assoc {
         struct assoc      * nextassoc;
 };
 
-
-#define mainArgs (argc,argv) int argc; char **argv;
-
-#if RCS_lint
-#	define libId(name,rcsid)
-#	define mainProg(name,cmd,rcsid) int name mainArgs
-#else
-#	define libId(name,rcsid) char const name[] = rcsid;
-#	define mainProg(n,c,i) char const Copyright[] = "Copyright 1982,1988,1989 Walter F. Tichy, Purdue CS\nCopyright 1990,1991,1992,1993,1994,1995 Paul Eggert", baseid[] = RCSBASE, cmdid[] = c; libId(n,i) int main P((int,char**)); int main mainArgs
-#endif
-
 /*
  * Markers for keyword expansion (used in co and ident)
  *	Every byte must have class LETTER or Letter.
@@ -430,7 +393,7 @@ struct assoc {
 #define keylength 8 /* max length of any of the above keywords */
 
 enum markers { Nomatch, Author, Date, Header, Id,
-	       Locker, Log, Name, RCSfile, Revision, Source, State };
+	       Locker, Log, Name, RCSfile, Revision, Source, State, LocalId };
 	/* This must be in the same order as rcskeys.c's Keyword[] array. */
 
 #define DELNUMFORM      "\n\n%s\n%s\n"
@@ -440,10 +403,10 @@ enum markers { Nomatch, Author, Date, Header, Id,
 
 /* main program */
 extern char const cmdid[];
-void exiterr P((void)) exiting;
+__dead void exiterr(void);
 
 /* merge */
-int merge P((int,char const*,char const*const[3],char const*const[3]));
+int merge(int,char const*,char const*const[3],char const*const[3]);
 
 /* rcsedit */
 #define ciklogsize 23 /* sizeof("checked in with -k by ") */
@@ -451,88 +414,85 @@ extern FILE *fcopy;
 extern char const *resultname;
 extern char const ciklog[ciklogsize];
 extern int locker_expansion;
-RILE *rcswriteopen P((struct buf*,struct stat*,int));
-char const *makedirtemp P((int));
-char const *getcaller P((void));
-int addlock P((struct hshentry*,int));
-int addsymbol P((char const*,char const*,int));
-int checkaccesslist P((void));
-int chnamemod P((FILE**,char const*,char const*,int,mode_t,time_t));
-int donerewrite P((int,time_t));
-int dorewrite P((int,int));
-int expandline P((RILE*,FILE*,struct hshentry const*,int,FILE*,int));
-int findlock P((int,struct hshentry**));
-int setmtime P((char const*,time_t));
-void ORCSclose P((void));
-void ORCSerror P((void));
-void copystring P((void));
-void dirtempunlink P((void));
-void enterstring P((void));
-void finishedit P((struct hshentry const*,FILE*,int));
-void keepdirtemp P((char const*));
-void openfcopy P((FILE*));
-void snapshotedit P((FILE*));
-void xpandstring P((struct hshentry const*));
+RILE *rcswriteopen(struct buf*,struct stat*,int);
+char const *makedirtemp(int);
+char const *getcaller(void);
+int addlock(struct hshentry*,int);
+int addsymbol(char const*,char const*,int);
+int checkaccesslist(void);
+int chnamemod(FILE**,char const*,char const*,int,mode_t,time_t);
+int donerewrite(int,time_t);
+int dorewrite(int,int);
+int expandline(RILE*,FILE*,struct hshentry const*,int,FILE*,int);
+int findlock(int,struct hshentry**);
+int setmtime(char const*,time_t);
+void ORCSclose(void);
+void ORCSerror(void);
+void copystring(void);
+void dirtempunlink(void);
+void enterstring(void);
+void finishedit(struct hshentry const*,FILE*,int);
+void keepdirtemp(char const*);
+void openfcopy(FILE*);
+void snapshotedit(FILE*);
+void xpandstring(struct hshentry const*);
 #if has_NFS || bad_unlink
-	int un_link P((char const*));
+	int un_link(char const*);
 #else
 #	define un_link(s) unlink(s)
 #endif
-#if large_memory
-	void edit_string P((void));
+	void edit_string(void);
 #	define editstring(delta) edit_string()
-#else
-	void editstring P((struct hshentry const*));
-#endif
 
 /* rcsfcmp */
-int rcsfcmp P((RILE*,struct stat const*,char const*,struct hshentry const*));
+int rcsfcmp(RILE*,struct stat const*,char const*,struct hshentry const*);
 
 /* rcsfnms */
 #define bufautobegin(b) clear_buf(b)
-#define clear_buf(b) (VOID ((b)->string = 0, (b)->size = 0))
+#define clear_buf(b) (((b)->string = 0, (b)->size = 0))
 extern FILE *workstdout;
 extern char *workname;
 extern char const *RCSname;
 extern char const *suffixes;
 extern int fdlock;
 extern struct stat RCSstat;
-RILE *rcsreadopen P((struct buf*,struct stat*,int));
-char *bufenlarge P((struct buf*,char const**));
-char const *basefilename P((char const*));
-char const *getfullRCSname P((void));
-char const *maketemp P((int));
-char const *rcssuffix P((char const*));
-int pairnames P((int,char**,RILE*(*)P((struct buf*,struct stat*,int)),int,int));
-struct cbuf bufremember P((struct buf*,size_t));
-void bufalloc P((struct buf*,size_t));
-void bufautoend P((struct buf*));
-void bufrealloc P((struct buf*,size_t));
-void bufscat P((struct buf*,char const*));
-void bufscpy P((struct buf*,char const*));
-void tempunlink P((void));
+RILE *rcsreadopen(struct buf*,struct stat*,int);
+char *bufenlarge(struct buf*,char const**);
+char const *basefilename(char const*);
+char const *getfullRCSname(void);
+char const *maketemp(int);
+char const *rcssuffix(char const*);
+int pairnames(int,char**,RILE*(*)(struct buf*,struct stat*,int),int,int);
+struct cbuf bufremember(struct buf*,size_t);
+void bufalloc(struct buf*,size_t);
+void bufautoend(struct buf*);
+void bufrealloc(struct buf*,size_t);
+void bufscat(struct buf*,char const*);
+void bufscpy(struct buf*,char const*);
+void tempunlink(void);
 
 /* rcsgen */
 extern int interactiveflag;
 extern struct buf curlogbuf;
-char const *buildrevision P((struct hshentries const*,struct hshentry*,FILE*,int));
-int getcstdin P((void));
-int putdtext P((struct hshentry const*,char const*,FILE*,int));
-int ttystdin P((void));
-int yesorno P((int,char const*,...)) printf_string(2,3);
-struct cbuf cleanlogmsg P((char*,size_t));
-struct cbuf getsstdin P((char const*,char const*,char const*,struct buf*));
-void putdesc P((int,char*));
-void putdftext P((struct hshentry const*,RILE*,FILE*,int));
+char const *buildrevision(struct hshentries const*,struct hshentry*,FILE*,int);
+int getcstdin(void);
+int putdtext(struct hshentry const*,char const*,FILE*,int);
+int ttystdin(void);
+int yesorno(int,char const*,...) __attribute__((format(printf, 2, 3)));
+struct cbuf cleanlogmsg(char*,size_t);
+struct cbuf getsstdin(char const*,char const*,char const*,struct buf*);
+void putdesc(int,char*);
+void putdftext(struct hshentry const*,RILE*,FILE*,int);
 
 /* rcskeep */
 extern int prevkeys;
 extern struct buf prevauthor, prevdate, prevname, prevrev, prevstate;
-int getoldkeys P((RILE*));
+int getoldkeys(RILE*);
 
 /* rcskeys */
-extern char const *const Keyword[];
-enum markers trymatch P((char const*));
+extern char const *Keyword[];
+void setRCSlocalId(char const *);
+enum markers trymatch(char const*);
 
 /* rcslex */
 extern FILE *foutptr;
@@ -545,91 +505,78 @@ extern int nerror;
 extern int nextc;
 extern int quietflag;
 extern long rcsline;
-char const *getid P((void));
-void efaterror P((char const*)) exiting;
-void enfaterror P((int,char const*)) exiting;
-void fatcleanup P((int)) exiting;
-void faterror P((char const*,...)) printf_string_exiting(1,2);
-void fatserror P((char const*,...)) printf_string_exiting(1,2);
-void rcsfaterror P((char const*,...)) printf_string_exiting(1,2);
-void Ieof P((void)) exiting;
-void Ierror P((void)) exiting;
-void Oerror P((void)) exiting;
-char *checkid P((char*,int));
-char *checksym P((char*,int));
-int eoflex P((void));
-int getkeyopt P((char const*));
-int getlex P((enum tokens));
-struct cbuf getphrases P((char const*));
-struct cbuf savestring P((struct buf*));
-struct hshentry *getnum P((void));
-void Ifclose P((RILE*));
-void Izclose P((RILE**));
-void Lexinit P((void));
-void Ofclose P((FILE*));
-void Orewind P((FILE*));
-void Ozclose P((FILE**));
-void aflush P((FILE*));
-void afputc P((int,FILE*));
-void aprintf P((FILE*,char const*,...)) printf_string(2,3);
-void aputs P((char const*,FILE*));
-void checksid P((char*));
-void checkssym P((char*));
-void diagnose P((char const*,...)) printf_string(1,2);
-void eerror P((char const*));
-void eflush P((void));
-void enerror P((int,char const*));
-void error P((char const*,...)) printf_string(1,2);
-void fvfprintf P((FILE*,char const*,va_list));
-void getkey P((char const*));
-void getkeystring P((char const*));
-void nextlex P((void));
-void oflush P((void));
-void printstring P((void));
-void readstring P((void));
-void redefined P((int));
-void rcserror P((char const*,...)) printf_string(1,2);
-void rcswarn P((char const*,...)) printf_string(1,2);
-void testIerror P((FILE*));
-void testOerror P((FILE*));
-void warn P((char const*,...)) printf_string(1,2);
-void warnignore P((void));
-void workerror P((char const*,...)) printf_string(1,2);
-void workwarn P((char const*,...)) printf_string(1,2);
-#if has_madvise && has_mmap && large_memory
-	void advise_access P((RILE*,int));
+char const *getid(void);
+__dead void efaterror(char const*);
+__dead void enfaterror(int,char const*);
+__dead void fatcleanup(int);
+__dead void faterror(char const*,...) __attribute__((format(printf, 1, 2)));
+__dead void fatserror(char const*,...) __attribute__((format(printf, 1, 2)));
+__dead void rcsfaterror(char const*,...) __attribute__((format(printf, 1, 2)));
+__dead void Ieof(void);
+__dead void Ierror(void);
+__dead void Oerror(void);
+char *checkid(char*,int);
+char *checksym(char*,int);
+int eoflex(void);
+int getkeyopt(char const*);
+int getlex(enum tokens);
+struct cbuf getphrases(char const*);
+struct cbuf savestring(struct buf*);
+struct hshentry *getnum(void);
+void Ifclose(RILE*);
+void Izclose(RILE**);
+void Lexinit(void);
+void Ofclose(FILE*);
+void Orewind(FILE*);
+void Ozclose(FILE**);
+void aflush(FILE*);
+void afputc(int,FILE*);
+void aprintf(FILE*,char const*,...) __attribute__((format(printf, 2, 3)));
+void aputs(char const*,FILE*);
+void checksid(char*);
+void checkssym(char*);
+void diagnose(char const*,...) __attribute__((format(printf, 1, 2)));
+void eerror(char const*);
+void eflush(void);
+void enerror(int,char const*);
+void error(char const*,...) __attribute__((format(printf, 1, 2)));
+void fvfprintf(FILE*,char const*,va_list);
+void getkey(char const*);
+void getkeystring(char const*);
+void nextlex(void);
+void oflush(void);
+void printstring(void);
+void readstring(void);
+void redefined(int);
+void rcserror(char const*,...) __attribute__((format(printf, 1, 2)));
+void rcswarn(char const*,...) __attribute__((format(printf, 1, 2)));
+void testIerror(FILE*);
+void testOerror(FILE*);
+void warn(char const*,...) __attribute__((format(printf, 1, 2)));
+void warnignore(void);
+void workerror(char const*,...) __attribute__((format(printf, 1, 2)));
+void workwarn(char const*,...) __attribute__((format(printf, 1, 2)));
+	void advise_access(RILE*,int);
 #	define if_advise_access(p,f,advice) if (p) advise_access(f,advice)
-#else
-#	define advise_access(f,advice)
-#	define if_advise_access(p,f,advice)
-#endif
-#if large_memory && maps_memory
-	RILE *I_open P((char const*,struct stat*));
+	RILE *I_open(char const*,struct stat*);
 #	define Iopen(f,m,s) I_open(f,s)
-#else
-	RILE *Iopen P((char const*,char const*,struct stat*));
-#endif
-#if !large_memory
-	void testIeof P((FILE*));
-	void Irewind P((RILE*));
-#endif
 
 /* rcsmap */
 extern enum tokens const ctab[];
 
 /* rcsrev */
-char *partialno P((struct buf*,char const*,int));
-char const *namedrev P((char const*,struct hshentry*));
-char const *tiprev P((void));
-int cmpdate P((char const*,char const*));
-int cmpnum P((char const*,char const*));
-int cmpnumfld P((char const*,char const*,int));
-int compartial P((char const*,char const*,int));
-int expandsym P((char const*,struct buf*));
-int fexpandsym P((char const*,struct buf*,RILE*));
-struct hshentry *genrevs P((char const*,char const*,char const*,char const*,struct hshentries**));
-int countnumflds P((char const*));
-void getbranchno P((char const*,struct buf*));
+char *partialno(struct buf*,char const*,int);
+char const *namedrev(char const*,struct hshentry*);
+char const *tiprev(void);
+int cmpdate(char const*,char const*);
+int cmpnum(char const*,char const*);
+int cmpnumfld(char const*,char const*,int);
+int compartial(char const*,char const*,int);
+int expandsym(char const*,struct buf*);
+int fexpandsym(char const*,struct buf*,RILE*);
+struct hshentry *genrevs(char const*,char const*,char const*,char const*,struct hshentries**);
+int countnumflds(char const*);
+void getbranchno(char const*,struct buf*);
 
 /* rcssyn */
 /* These expand modes must agree with Expand_names[] in rcssyn.c.  */
@@ -640,7 +587,7 @@ void getbranchno P((char const*,struct buf*));
 #define OLD_EXPAND 4 /* -ko use old string, omitting expansion */
 #define BINARY_EXPAND 5 /* -kb like -ko, but use binary mode I/O */
 #define MIN_UNEXPAND OLD_EXPAND /* min value for no logical expansion */
-#define MIN_UNCHANGED_EXPAND (OPEN_O_BINARY ? BINARY_EXPAND : OLD_EXPAND)
+#define MIN_UNCHANGED_EXPAND OLD_EXPAND
 			/* min value guaranteed to yield an identical file */
 struct diffcmd {
 	long
@@ -664,94 +611,70 @@ extern char const
 	Kaccess[], Kauthor[], Kbranch[], Kcomment[],
 	Kdate[], Kdesc[], Kexpand[], Khead[], Klocks[], Klog[],
 	Knext[], Kstate[], Kstrict[], Ksymbols[], Ktext[];
-void unexpected_EOF P((void)) exiting;
-int getdiffcmd P((RILE*,int,FILE*,struct diffcmd*));
-int str2expmode P((char const*));
-void getadmin P((void));
-void getdesc P((int));
-void gettree P((void));
-void ignorephrases P((char const*));
-void initdiffcmd P((struct diffcmd*));
-void putadmin P((void));
-void putstring P((FILE*,int,struct cbuf,int));
-void puttree P((struct hshentry const*,FILE*));
+__dead void unexpected_EOF(void);
+int getdiffcmd(RILE*,int,FILE*,struct diffcmd*);
+int str2expmode(char const*);
+void getadmin(void);
+void getdesc(int);
+void gettree(void);
+void ignorephrases(char const*);
+void initdiffcmd(struct diffcmd*);
+void putadmin(void);
+void putstring(FILE*,int,struct cbuf,int);
+void puttree(struct hshentry const*,FILE*);
 
 /* rcstime */
 #define zonelenmax 9 /* maxiumum length of time zone string, e.g. "+12:34:56" */
-char const *date2str P((char const[datesize],char[datesize + zonelenmax]));
-time_t date2time P((char const[datesize]));
-void str2date P((char const*,char[datesize]));
-void time2date P((time_t,char[datesize]));
-void zone_set P((char const*));
+char const *date2str(char const[datesize],char[datesize + zonelenmax]);
+time_t date2time(char const[datesize]);
+void str2date(char const*,char[datesize]);
+void time2date(time_t,char[datesize]);
+#define zone_set(x) /* nothing */
 
 /* rcsutil */
 extern int RCSversion;
-FILE *fopenSafer P((char const*,char const*));
-char *cgetenv P((char const*));
-char *fstr_save P((char const*));
-char *str_save P((char const*));
-char const *getusername P((int));
-int fdSafer P((int));
-int getRCSINIT P((int,char**,char***));
-int run P((int,char const*,...));
-int runv P((int,char const*,char const**));
-malloc_type fremember P((malloc_type));
-malloc_type ftestalloc P((size_t));
-malloc_type testalloc P((size_t));
-malloc_type testrealloc P((malloc_type,size_t));
+FILE *fopenSafer(char const*,char const*);
+char *cgetenv(char const*);
+char *fstr_save(char const*);
+char *str_save(char const*);
+char const *getusername(int);
+int fdSafer(int);
+int getRCSINIT(int,char**,char***);
+int run(int,char const*,...);
+int runv(int,char const*,char const**);
+void *fremember(void *);
+void *ftestalloc(size_t);
+void *testalloc(size_t);
+void *testrealloc(void *,size_t);
 #define ftalloc(T) ftnalloc(T,1)
 #define talloc(T) tnalloc(T,1)
-#if RCS_lint
-	extern malloc_type lintalloc;
-#	define ftnalloc(T,n) (lintalloc = ftestalloc(sizeof(T)*(n)), (T*)0)
-#	define tnalloc(T,n) (lintalloc = testalloc(sizeof(T)*(n)), (T*)0)
-#	define trealloc(T,p,n) (lintalloc = testrealloc((malloc_type)0, sizeof(T)*(n)), p)
-#	define tfree(p)
-#else
-#	define ftnalloc(T,n) ((T*) ftestalloc(sizeof(T)*(n)))
-#	define tnalloc(T,n) ((T*) testalloc(sizeof(T)*(n)))
-#	define trealloc(T,p,n) ((T*) testrealloc((malloc_type)(p), sizeof(T)*(n)))
-#	define tfree(p) free((malloc_type)(p))
-#endif
-time_t now P((void));
-void awrite P((char const*,size_t,FILE*));
-void fastcopy P((RILE*,FILE*));
-void ffree P((void));
-void ffree1 P((char const*));
-void setRCSversion P((char const*));
+#define ftnalloc(T,n) ((T*) ftestalloc(sizeof(T)*(n)))
+#define tnalloc(T,n) ((T*) testalloc(sizeof(T)*(n)))
+#define trealloc(T,p,n) ((T*) testrealloc((void *)(p), sizeof(T)*(n)))
+#define tfree(p) free((void *)(p))
+time_t now(void);
+void awrite(char const*,size_t,FILE*);
+void fastcopy(RILE*,FILE*);
+void ffree(void);
+void ffree1(char const*);
+void setRCSversion(char const*);
 #if has_signal
-	void catchints P((void));
-	void ignoreints P((void));
-	void restoreints P((void));
+	void catchints(void);
+	void ignoreints(void);
+	void restoreints(void);
 #else
 #	define catchints()
 #	define ignoreints()
 #	define restoreints()
 #endif
-#if has_mmap && large_memory
-#   if has_NFS && mmap_signal
-	void catchmmapints P((void));
-	void readAccessFilenameBuffer P((char const*,unsigned char const*));
-#   else
-#	define catchmmapints()
-#   endif
-#endif
-#if has_getuid
-	uid_t ruid P((void));
+	void catchmmapints(void);
+	void readAccessFilenameBuffer(char const*,unsigned char const*);
+	uid_t ruid(void);
 #	define myself(u) ((u) == ruid())
-#else
-#	define myself(u) true
-#endif
-#if has_setuid
-	uid_t euid P((void));
-	void nosetid P((void));
-	void seteid P((void));
-	void setrid P((void));
-#else
-#	define nosetid()
-#	define seteid()
-#	define setrid()
-#endif
+	uid_t euid(void);
+	void nosetid(void);
+	void seteid(void);
+	void setrid(void);
 
 /* version */
 extern char const RCS_version_string[];

@@ -28,7 +28,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-static void badoption P((char const*));
+static void badoption(char const*);
 
 static char const usage[] =
  "\nmerge: usage: merge [-AeEpqxX3] [-L lab [-L lab [-L lab]]] file1 file2 file3";
@@ -40,8 +40,11 @@ badoption(a)
 	error("unknown option: %s%s", a, usage);
 }
 
+const char cmdid[] = "merge";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
 
-mainProg(mergeId, "merge", "$Id$")
+int main(int argc, char *argv[])
 {
 	register char const *a;
 	char const *arg[3], *label[3], *edarg = 0;
@@ -73,7 +76,7 @@ mainProg(mergeId, "merge", "$Id$")
 
 			case 'V':
 				printf("RCS version %s\n", RCS_version_string);
-				exitmain(0);
+				return 0;
 
 			default:
 				badoption(a - 2);
@@ -98,13 +101,10 @@ mainProg(mergeId, "merge", "$Id$")
 
 	if (nerror)
 		exiterr();
-	exitmain(merge(tostdout, edarg, label, arg));
+	return merge(tostdout, edarg, label, arg);
 }
 
 
-#if RCS_lint
-#	define exiterr mergeExit
-#endif
 	void
 exiterr()
 {

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Print log messages and other information about RCS files.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -187,26 +189,26 @@ struct Datepairs{                     /* date range in -d option; stored in */
      char ne_date; /* datelist only; distinguishes < from <= */
      };
 
-static char extractdelta P((struct hshentry const*));
-static int checkrevpair P((char const*,char const*));
-static int extdate P((struct hshentry*));
-static int getnumericrev P((void));
-static struct hshentry const *readdeltalog P((void));
-static void cleanup P((void));
-static void exttree P((struct hshentry*));
-static void getauthor P((char*));
-static void getdatepair P((char*));
-static void getlocker P((char*));
-static void getrevpairs P((char*));
-static void getscript P((struct hshentry*));
-static void getstate P((char*));
-static void putabranch P((struct hshentry const*));
-static void putadelta P((struct hshentry const*,struct hshentry const*,int));
-static void putforest P((struct branchhead const*));
-static void putree P((struct hshentry const*));
-static void putrunk P((void));
-static void recentdate P((struct hshentry const*,struct Datepairs*));
-static void trunclocks P((void));
+static char extractdelta(struct hshentry const*);
+static int checkrevpair(char const*,char const*);
+static int extdate(struct hshentry*);
+static int getnumericrev(void);
+static struct hshentry const *readdeltalog(void);
+static void cleanup(void);
+static void exttree(struct hshentry*);
+static void getauthor(char*);
+static void getdatepair(char*);
+static void getlocker(char*);
+static void getrevpairs(char*);
+static void getscript(struct hshentry*);
+static void getstate(char*);
+static void putabranch(struct hshentry const*);
+static void putadelta(struct hshentry const*,struct hshentry const*,int);
+static void putforest(struct branchhead const*);
+static void putree(struct hshentry const*);
+static void putrunk(void);
+static void recentdate(struct hshentry const*,struct Datepairs*);
+static void trunclocks(void);
 
 static char const *insDelFormat;
 static int branchflag;	/*set on -b */
@@ -219,7 +221,11 @@ static struct rcslockers *lockerlist;
 static struct stateattri *statelist;
 
 
-mainProg(rlogId, "rlog", "$Id$")
+const char cmdid[] = "rlog";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
 	static char const cmdusage[] =
 		"\nrlog usage: rlog -{bhLNRt} -ddates -l[lockers] -r[revs] -sstates -Vn -w[logins] -xsuff -zzone file ...";
@@ -437,7 +443,7 @@ mainProg(rlogId, "rlog", "$Id$")
 		/*  get most recently date of the dates pointed by duelst  */
 		currdate = duelst;
 		while( currdate) {
-		    VOID strcpy(currdate->strtdate, "0.0.0.0.0.0");
+		    strlcpy(currdate->strtdate, "0.0.0.0.0.0", datesize);
 		    recentdate(Head, currdate);
 		    currdate = currdate->dnext;
 		}
@@ -465,7 +471,7 @@ mainProg(rlogId, "rlog", "$Id$")
 	    aputs("=============================================================================\n",out);
 	  }
 	Ofclose(out);
-	exitmain(exitstatus);
+	return exitstatus;
 }
 
 	static void
@@ -475,9 +481,6 @@ cleanup()
 	Izclose(&finptr);
 }
 
-#if RCS_lint
-#	define exiterr rlogExit
-#endif
 	void
 exiterr()
 {
@@ -583,13 +586,14 @@ putadelta(node,editscript,trunk)
 		node->author, node->state
 	);
 
-        if ( editscript )
+        if ( editscript ) {
            if(trunk)
 	      aprintf(out, insDelFormat,
                              editscript->deletelns, editscript->insertlns);
            else
 	      aprintf(out, insDelFormat,
                              editscript->insertlns, editscript->deletelns);
+	}
 
         newbranch = node->branches;
         if ( newbranch ) {
@@ -771,7 +775,7 @@ char   *argv;
 /*              and store in authorlist                   */
 
 {
-        register    c;
+        register int c;
         struct     authors  * newauthor;
 
         argv--;
@@ -875,7 +879,7 @@ recentdate(root, pd)
 	if (root->selector) {
 	     if ( cmpdate(root->date, pd->strtdate) >= 0 &&
 		  cmpdate(root->date, pd->enddate) <= 0)
-		VOID strcpy(pd->strtdate, root->date);
+		strlcpy(pd->strtdate, root->date, datesize);
         }
 
         recentdate(root->next, pd);
@@ -965,12 +969,13 @@ extractdelta(pdelta)
 	    while (strcmp(pstate->status, pdelta->state) != 0)
 		if (!(pstate = pstate->nextstate))
 		    return false;
-	if (lockflag) /* only locked revisions wanted */
+	if (lockflag) { /* only locked revisions wanted */
 	    for (plock = Locks;  ;  plock = plock->nextlock)
 		if (!plock)
 		    return false;
 		else if (plock->delta == pdelta)
 		    break;
+	}
 	if ((prevision = Revlst)) /* only certain revs or branches wanted */
 	    for (;;) {
                 length = prevision->numfld;
@@ -1031,7 +1036,7 @@ getdatepair(argv)
 		str2date(rawdate,
 			 switchflag ? nextdate->enddate : nextdate->strtdate);
 		if ( c == ';' || c == '\0') {  /*  case: -d date  */
-		    VOID strcpy(nextdate->enddate,nextdate->strtdate);
+		    strlcpy(nextdate->enddate,nextdate->strtdate,datesize);
                     nextdate->dnext = duelst;
                     duelst = nextdate;
 		    goto end;
@@ -1122,8 +1127,10 @@ getnumericrev()
 		if ((n = countnumflds(e.string)) < 2)
 		    bufscpy(&s, ".0");
 		else {
+		    char *s0;
 		    bufscpy(&s, e.string);
-		    VOID strcpy(strrchr(s.string,'.'), ".0");
+		    s0 = strrchr(s.string,'.');
+		    strlcpy(s0, ".0", s.size - (s0 - s.string));
 		}
 		break;
 

@@ -118,7 +118,11 @@ Report problems and direct all questions to:
 
 static char const co[] = CO;
 
-mainProg(rcsmergeId, "rcsmerge", "$Id$")
+const char cmdid[] = "rcsmerge";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
 	static char const cmdusage[] =
 		"\nrcsmerge usage: rcsmerge -rrev1 [-rrev2] -ksubst -{pq}[rev] -Vn -xsuff -zzone file";
@@ -273,12 +277,9 @@ mainProg(rcsmergeId, "rcsmerge", "$Id$")
 	    }
         }
 	tempunlink();
-	exitmain(nerror ? DIFF_TROUBLE : status);
+	return nerror ? DIFF_TROUBLE : status;
 }
 
-#if RCS_lint
-#	define exiterr rmergeExit
-#endif
 	void
 exiterr()
 {

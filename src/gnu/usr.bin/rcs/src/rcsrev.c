@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Handle RCS revision numbers.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -106,16 +108,19 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-libId(revId, "$Id$")
+__RCSID("$MirOS$");
 
-static char const *branchtip P((char const*));
-static char const *lookupsym P((char const*));
-static char const *normalizeyear P((char const*,char[5]));
-static struct hshentry *genbranch P((struct hshentry const*,char const*,int,char const*,char const*,char const*,struct hshentries**));
-static void absent P((char const*,int));
-static void cantfindbranch P((char const*,char const[datesize],char const*,char const*));
-static void store1 P((struct hshentries***,struct hshentry*));
+static char const *branchtip(char const*);
+static char const *lookupsym(char const*);
+static char const *normalizeyear(char const*,char[5]);
+static struct hshentry *genbranch(struct hshentry const*,char const*,int,char const*,char const*,char const*,struct hshentries**);
+static void absent(char const*,int);
+static void cantfindbranch(char const*,char const[datesize],char const*,char const*);
+static void store1(struct hshentries***,struct hshentry*);
 
+#if has_fgets == 0
+#define	fgets(s,l,f)	gets(s)
+#endif
 
 
 	int
@@ -745,7 +750,7 @@ fexpandsym(source, target, fp)
 			for (bp = tp;  *bp=='0' && isdigit(bp[1]);  bp++)
 				continue;
 
-			if (!*bp)
+			if (!*bp) {
 			    if (s || *sp!='.')
 				break;
 			    else {
@@ -761,6 +766,7 @@ fexpandsym(source, target, fp)
 				bp = tp = target->string;
 				tlim = tp + target->size;
 			    }
+			}
 		}
 
 		while ((*tp++ = *bp++))
@@ -867,7 +873,7 @@ int argc; char * argv[];
 
         if (argc<2) {
 		aputs("No input file\n",stderr);
-		exitmain(EXIT_FAILURE);
+		return EXIT_FAILURE;
         }
 	if (!(finptr=Iopen(argv[1], FOPEN_R, (struct stat*)0))) {
 		faterror("can't open input file %s", argv[1]);
@@ -883,17 +889,17 @@ int argc; char * argv[];
                 /* all output goes to stderr, to have diagnostics and       */
                 /* errors in sequence.                                      */
 		aputs("\nEnter revision number or <return> or '.': ",stderr);
-		if (!gets(symrevno)) break;
+		if (!fgets(symrevno, sizeof(symrevno), stdin)) break;
                 if (*symrevno == '.') break;
 		aprintf(stderr,"%s;\n",symrevno);
 		expandsym(symrevno,&numricrevno);
 		aprintf(stderr,"expanded number: %s; ",numricrevno.string);
 		aprintf(stderr,"Date: ");
-		gets(date); aprintf(stderr,"%s; ",date);
+		fgets(date, sizeof(date), stdin); aprintf(stderr,"%s; ",date);
 		aprintf(stderr,"Author: ");
-		gets(author); aprintf(stderr,"%s; ",author);
+		fgets(author, sizeof author, stdin); aprintf(stderr,"%s; ",author);
 		aprintf(stderr,"State: ");
-		gets(state); aprintf(stderr, "%s;\n", state);
+		fgets(state, state, stdin); aprintf(stderr, "%s;\n", state);
 		target = genrevs(numricrevno.string, *date?date:(char *)0, *author?author:(char *)0,
 				 *state?state:(char*)0, &gendeltas);
 		if (target) {
@@ -904,7 +910,7 @@ int argc; char * argv[];
                 }
         } while (true);
 	aprintf(stderr,"done\n");
-	exitmain(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
 
 void exiterr() { _exit(EXIT_FAILURE); }

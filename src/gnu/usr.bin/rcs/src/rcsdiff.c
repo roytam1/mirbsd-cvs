@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Compare RCS revisions.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -144,15 +146,19 @@ Report problems and direct all questions to:
 #include "rcsbase.h"
 
 #if DIFF_L
-static char const *setup_label P((struct buf*,char const*,char const[datesize]));
+static char const *setup_label(struct buf*,char const*,char const[datesize]);
 #endif
-static void cleanup P((void));
+static void cleanup(void);
 
 static int exitstatus;
 static RILE *workptr;
 static struct stat workstat;
 
-mainProg(rcsdiffId, "rcsdiff", "$Id$")
+const char cmdid[] = "rcsdiff";
+__IDSTRING(baseid,RCSBASE);
+__RCSID("$MirOS$");
+
+int main(int argc, char *argv[])
 {
     static char const cmdusage[] =
 	    "\nrcsdiff usage: rcsdiff -ksubst -q -rrev1 [-rrev2] -Vn -xsuff -zzone [diff options] file ...";
@@ -176,7 +182,7 @@ mainProg(rcsdiffId, "rcsdiff", "$Id$")
     struct hshentry * target;
     char *a, *dcp, **newargv;
     int no_diff_means_no_output;
-    register c;
+    register int c;
 
     exitstatus = DIFF_SUCCESS;
 
@@ -195,7 +201,7 @@ mainProg(rcsdiffId, "rcsdiff", "$Id$")
     * Room for runv extra + args [+ --binary] [+ 2 labels]
     * + 1 file + 1 trailing null.
     */
-    diffv = tnalloc(char const*, 1 + argc + !!OPEN_O_BINARY + 2*DIFF_L + 2);
+    diffv = tnalloc(char const*, 1 + argc + 2*DIFF_L + 2);
     diffp = diffv + 1;
     *diffp++ = DIFF;
 
@@ -364,13 +370,14 @@ mainProg(rcsdiffId, "rcsdiff", "$Id$")
 		    lexpandarg = "-kkvl";
 	    Izclose(&workptr);
 #if DIFF_L
-	    if (diff_label2)
+	    if (diff_label2) {
 		if (revnums == 2)
 		    *diff_label2 = setup_label(&labelbuf[1], target->num, target->date);
 		else {
 		    time2date(workstat.st_mtime, date2);
 		    *diff_label2 = setup_label(&labelbuf[1], (char*)0, date2);
 		}
+	    }
 #endif
 
 	    diagnose("retrieving revision %s\n", xrev1);
@@ -387,10 +394,6 @@ mainProg(rcsdiffId, "rcsdiff", "$Id$")
 	    *pp = 0;
 
 	    diffp = diffpend;
-#	    if OPEN_O_BINARY
-		    if (Expand == BINARY_EXPAND)
-			    *diffp++ = "--binary";
-#	    endif
 	    diffp[0] = maketemp(0);
 	    if (runv(-1, diffp[0], cov)) {
 		    rcserror("co failed");
@@ -399,11 +402,12 @@ mainProg(rcsdiffId, "rcsdiff", "$Id$")
 	    if (!rev2) {
 		    diffp[1] = workname;
 		    if (*workname == '-') {
-			char *dp = ftnalloc(char, strlen(workname)+3);
+			size_t l = strlen(workname)+3;
+			char *dp = ftnalloc(char, l);
 			diffp[1] = dp;
 			*dp++ = '.';
 			*dp++ = SLASH;
-			VOID strcpy(dp, workname);
+			strlcpy(dp, workname, l);
 		    }
 	    } else {
 		    diagnose("retrieving revision %s\n",xrev2);
@@ -435,7 +439,7 @@ mainProg(rcsdiffId, "rcsdiff", "$Id$")
 	}
 
     tempunlink();
-    exitmain(exitstatus);
+    return exitstatus;
 }
 
     static void
@@ -446,9 +450,6 @@ cleanup()
     Izclose(&workptr);
 }
 
-#if RCS_lint
-#	define exiterr rdiffExit
-#endif
     void
 exiterr()
 {
@@ -465,7 +466,7 @@ setup_label(b, num, date)
 {
 	char *p;
 	char datestr[datesize + zonelenmax];
-	VOID date2str(date, datestr);
+	date2str(date, datestr);
 	bufalloc(b,
 		strlen(workname)
 		+ sizeof datestr + 4
@@ -473,9 +474,10 @@ setup_label(b, num, date)
 	);
 	p = b->string;
 	if (num)
-		VOID sprintf(p, "-L%s\t%s\t%s", workname, datestr, num);
+		snprintf(p, b->size, "-L%s\t%s\t%s", workname,
+		    datestr, num);
 	else
-		VOID sprintf(p, "-L%s\t%s", workname, datestr);
+		snprintf(p, b->size, "-L%s\t%s", workname, datestr);
 	return p;
 }
 #endif

@@ -119,9 +119,9 @@ Report problems and direct all questions to:
 
 #include  "rcsbase.h"
 
-libId(fcmpId, "$Id$")
+__RCSID("$MirOS$");
 
-	static int discardkeyval P((int,RILE*));
+	static int discardkeyval(int,RILE*);
 	static int
 discardkeyval(c, f)
 	register int c;
@@ -175,19 +175,7 @@ rcsfcmp(xfp, xstatp, uname, delta)
     xeof = ueof = false;
     if (MIN_UNEXPAND <= Expand) {
 	if (!(result = xstatp->st_size!=ustat.st_size)) {
-#	    if large_memory && maps_memory
 		result = !!memcmp(xfp->base,ufp->base,(size_t)xstatp->st_size);
-#	    else
-		for (;;) {
-		    /* get the next characters */
-		    Igeteof_(xfp, xc, xeof=true;)
-		    Igeteof_(ufp, uc, ueof=true;)
-		    if (xeof | ueof)
-			goto eof;
-		    if (xc != uc)
-			goto return1;
-		}
-#	    endif
 	}
     } else {
 	xc = 0;
@@ -228,7 +216,7 @@ rcsfcmp(xfp, xstatp, uname, delta)
 		(*tp = xc,  (match1 = trymatch(xkeyword)) != Nomatch)
 	    ) {
 #ifdef FCMPTEST
-	      VOID printf("found common keyword %s\n",xkeyword);
+	      printf("found common keyword %s\n",xkeyword);
 #endif
 	      result = -1;
 	      for (;;) {
@@ -305,7 +293,7 @@ rcsfcmp(xfp, xstatp, uname, delta)
 		  /* both end in the same character, but not a KDELIM */
 		  /* must compare string values.*/
 #ifdef FCMPTEST
-		  VOID printf("non-terminated keywords %s, potentially different values\n",xkeyword);
+		  printf("non-terminated keywords %s, potentially different values\n",xkeyword);
 #endif
 		  if (!eqkeyvals)
 		      goto return1;
@@ -349,7 +337,7 @@ int  argc; char  *argv[];
 	delta.log.string = argv[2];
 	delta.log.size = strlen(argv[2]);
 	if (rcsfcmp(Iopen(argv[3], FOPEN_R_WORK, (struct stat*)0), argv[4], &delta))
-                VOID printf("files are the same\n");
-        else    VOID printf("files are different\n");
+                printf("files are the same\n");
+        else    printf("files are different\n");
 }
 #endif
