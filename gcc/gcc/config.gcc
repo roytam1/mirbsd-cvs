@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/config.gcc,v 1.2 2005/03/25 19:29:03 tg Exp $
 #
 # GCC target-specific configuration file.
 # Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -477,7 +477,7 @@ case ${target} in
 *-*-mirbsd*)
   # this one is for targets where libgcc is built multilib'd, one
   # position-independent and one not
-  tmake_file_mlpic="t-openbsd t-mirbsd"
+  tmake_file_mlpic="t-slibgcc-elf-ver t-openbsd t-mirbsd"
   # this one (default) is to build libgcc2 with -fPIC
   tmake_file="${tmake_file_mlpic} t-libgcc-pic"
   case ${enable_threads} in
