@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.12 2005/02/10 20:50:18 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.13 2005/02/10 20:57:08 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1547,6 +1547,16 @@ linux*)
   dynamic_linker='GNU/Linux ld.so'
   ;;
 
+mirbsd*)
+  version_type=sunos
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${shared_ext}$versuffix'
+  finish_cmds='PATH="\$PATH:/sbin" ldconfig -m $libdir'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=yes
+  ;;
+
 knetbsd*-gnu)
   version_type=linux
   need_lib_prefix=no
@@ -1594,7 +1604,7 @@ nto-qnx*)
   shlibpath_overrides_runpath=yes
   ;;
 
-mirbsd* | openbsd*)
+openbsd*)
   version_type=sunos
   need_lib_prefix=no
   need_version=no
@@ -2288,6 +2298,10 @@ linux*)
   lt_cv_deplibs_check_method=pass_all
   ;;
 
+mirbsd*)
+  lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so\.[[0-9]]+\.[[0-9]]+|\.so|_pic\.a)$'
+  ;;
+
 netbsd*)
   if echo __ELF__ | $CC -E - | grep __ELF__ > /dev/null; then
     lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so\.[[0-9]]+\.[[0-9]]+|_pic\.a)$'
@@ -2306,7 +2320,7 @@ nto-qnx*)
   lt_cv_deplibs_check_method=unknown
   ;;
 
-mirbsd* | openbsd*)
+openbsd*)
   if test -z "$(echo __ELF__ | $CC -E - | grep __ELF__)" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
     lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so\.[[0-9]]+\.[[0-9]]+|\.so|_pic\.a)$'
   else
@@ -3284,6 +3298,16 @@ case $host_os in
     # FIXME: insert proper C++ library support
     _LT_AC_TAGVAR(ld_shlibs, $1)=no
     ;;
+  mirbsd*)
+    _LT_AC_TAGVAR(hardcode_direct, $1)=yes
+    _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
+    _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
+    _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
+    _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
+    _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
+    _LT_AC_TAGVAR(whole_archive_flag_spec, $1)="$wlarc"'--whole-archive$convenience '"$wlarc"'--no-whole-archive'
+    output_verbose_link_cmd='echo'
+    ;;
   mvs*)
     case $cc_basename in
       cxx)
@@ -3311,7 +3335,7 @@ case $host_os in
     # C++ shared libraries are fairly broken
     _LT_AC_TAGVAR(ld_shlibs, $1)=no
     ;;
-  mirbsd* | openbsd*)
+  openbsd*)
     _LT_AC_TAGVAR(hardcode_direct, $1)=yes
     _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
@@ -5733,6 +5757,15 @@ $echo "local: *; };" >> $output_objdir/$libname.ver~
       _LT_AC_TAGVAR(link_all_deplibs, $1)=yes
       ;;
 
+    mirbsd*)
+      _LT_AC_TAGVAR(hardcode_direct, $1)=yes
+      _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
+      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
+      _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols'
+      _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
+      _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
+      ;;
+
     netbsd*)
       if echo __ELF__ | $CC -E - | grep __ELF__ >/dev/null; then
 	_LT_AC_TAGVAR(archive_cmds, $1)='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
@@ -5752,7 +5785,7 @@ $echo "local: *; };" >> $output_objdir/$libname.ver~
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       ;;
 
-    mirbsd* | openbsd*)
+    openbsd*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       if test -z "$(echo __ELF__ | $CC -E - | grep __ELF__)" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
