@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/expr.c,v 1.3 2005/03/25 22:58:43 tg Exp $ */
 
 /* Convert tree expression to rtl instructions, for GNU compiler.
    Copyright (C) 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -8819,12 +8819,14 @@ expand_expr_real (tree exp, rtx target, enum machine_mode tmode,
 	{
 	  if (!flag_trampolines)
 	    {
-	      error_with_decl(exp, "trampoline code generation is not allowed without -ftrampoline");
+	      error ("%Htrampoline code generation is not allowed without -ftrampoline",
+		&DECL_SOURCE_LOCATION (exp));
 	      return const0_rtx;
 	    }
 	  if (warn_trampolines)
 	    {
-	      warning_with_decl(exp, "local function address taken, needing trampoline generation");
+	      warning ("%Hlocal function address taken, needing trampoline generation",
+		&DECL_SOURCE_LOCATION (exp));
 	    }
 	  op0 = trampoline_address (TREE_OPERAND (exp, 0));
 	  op0 = force_operand (op0, target);
