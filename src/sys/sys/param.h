@@ -1,11 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/sys/param.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005
- *	The MirOS Project. All rights reserved.
- * Copyright (c) 2002, 2003, 2004
+ *	The MirOS Project.  All rights reserved.
+ * Copyright (c) 2002, 2003
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -46,18 +46,9 @@
 #define	_SYS_PARAM_H
 
 #define	BSD	199306		/* System version (year & month). */
-#define BSD4_3	1
-#define BSD4_4	1
-
-#define	MirBSD	0x0823		/* minor 10-7F=prerelease; 80=release
+#define	MirBSD	0x0824		/* minor 10-7F=prerelease; 80=release
 				 * minor 81-9F=stable; A0-FF=unlocked
 				 */
-
-/*** MirOS/ekkoBSD/whatever operating system type (eg. for make) ***/
-#define	_MACHINE_OS	BSD	/* Do not change this. Possible values	*/
-#define	MACHINE_OS	"BSD"	/*  are: "BSD" "Linux" (...)		*/
-
-
 #ifndef _LOCORE
 #include <sys/types.h>
 #include <sys/simplelock.h>
