@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/ccache/Makefile,v 1.2 2005/03/25 21:26:44 tyler Exp $
 # $OpenBSD: Makefile,v 1.6 2003/09/28 17:19:14 naddy Exp $
 
-COMMENT=		"A pre-processor caching program for C/C++ compilers"
+COMMENT=		"pre-processor caching program for C/C++ compilers"
 
 DISTNAME=		ccache-2.4
 CATEGORIES=		devel
