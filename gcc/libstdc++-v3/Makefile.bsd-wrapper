@@ -1,7 +1,9 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.6 2005/03/26 11:30:13 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.7 2005/03/26 11:39:28 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
+
+CFWRAP_NO_CXXCOM=defined
 
 SHLIB_VERSION?=	35.0
 
@@ -16,6 +18,7 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 		--disable-symvers --with-gxx-include-dir=/usr/include/gxx
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
+		SECTION_FLAGS= CXX="${CC}" \
 		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
 CLEANFILES+=	include libsupc++/cp-demangle.c src/atomicity.cc \
 		src/basic_file.cc src/c++locale.cc src/codecvt_members.cc \
