@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 # install-reloc - install a program including a relocating wrapper
 # Copyright (C) 2003 Free Software Foundation, Inc.
 # Written by Bruno Haible <bruno@clisp.org>, 2003.

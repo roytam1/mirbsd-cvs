@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 # py-compile - Compile a Python program
 
 scriptversion=2004-01-12.23

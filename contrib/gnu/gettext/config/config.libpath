@@ -1,4 +1,5 @@
 #! /bin/sh
+# $MirOS$
 # Output a system dependent set of variables, describing how to set the
 # run time search path of shared libraries in an executable at run time.
 #
@@ -106,7 +107,7 @@ case $host_os in
   newsos6)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
-  openbsd*)
+  ekkobsd* | microbsd* | mirbsd* | openbsd*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   os2*)
