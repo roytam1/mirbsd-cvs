@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.16 2005/02/21 05:13:12 sap Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.17 2005/02/21 15:06:00 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2327,4 +2327,17 @@
  just realized that this is the first wlog entry I've written in two
  months.  Time flies when you're having fun I guess, or when you don't 
  have much to say.</p>
+<p>23.02.2005 by tg@<br />I've been having a birthday party yesterday with
+ the coder of the first Mac OSX worm ever (he's exactly one year younger).
+ The party happened in the Netzladen (what did you guess), but ended badly
+ for me when my guests started smoking after his guests did so, while I've
+ still not fully recovered from the flu I had over the weekend (tobacco is
+ a REAL pita to my lungs).<br />Today I've made, out of being bored, first
+ steps (<a href="http://wiki.mirbsd.de/MirMake">MirMake</a>, MirPorts' own
+ infrastructure and OSdep parts) towards running it on Darwin. I hope that
+ there's at least a smallish userbase which is willing to help, and shared
+ libraries work with a bit of sed magic in PFRAG.shared, to happen in make
+ (and not in the pkg tools, unless bsiegert@ has really good arguments). I
+ myself won't do this though, since I despise the Macintosh, Motorola (and
+ PowerPC) and its followings.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
