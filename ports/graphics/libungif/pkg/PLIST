@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.1.1.1 2001/11/02 21:13:35 brad Exp $
 @pkgcfl giflib-[0-9]*
 bin/gif2epsn
@@ -34,7 +35,6 @@ lib/libgif.a
 lib/libgif.la
 lib/libungif.a
 lib/libungif.la
-%%SHARED%%
 share/doc/libungif/COPYING
 share/doc/libungif/UNCOMPRESSED_GIF
 share/doc/libungif/html/GifFileType.png
@@ -77,5 +77,6 @@ share/doc/libungif/html/raw2gif.html
 share/doc/libungif/html/rgb2gif.html
 share/doc/libungif/html/rle2gif.html
 share/doc/libungif/html/text2gif.html
+%%SHARED%%
 @dirrm share/doc/libungif/html
 @dirrm share/doc/libungif

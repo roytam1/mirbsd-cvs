@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/libungif/Makefile,v 1.1.7.1 2005/03/18 15:46:59 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/04/18 20:58:45 brad Exp $
 
 COMMENT=	"tools and library routines for working with GIF images"
@@ -7,7 +7,6 @@ CATEGORIES=	graphics
 USE_CXX=	Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=libungif/}
 EXTRACT_SUFX=	.tar.bz2
-
 HOMEPAGE=	http://sourceforge.net/projects/libungif/
 
 PERMIT_PACKAGE_CDROM=	Yes
@@ -15,13 +14,13 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE= autoconf
-CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
-CONFIGURE_ARGS+= --without-x
+CONFIGURE_STYLE=	autoconf
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--without-x
 
-DOCS=	COPYING UNCOMPRESSED_GIF
-HTMLDOCS= *.html *.txt *.png
-DOCSDIR= ${PREFIX}/share/doc/libungif
+DOCS=			COPYING UNCOMPRESSED_GIF
+HTMLDOCS=		*.html *.txt *.png
+DOCSDIR=		${PREFIX}/share/doc/libungif
 
 post-install:
 	@cd ${PREFIX}/lib; \
