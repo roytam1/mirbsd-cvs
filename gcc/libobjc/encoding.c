@@ -1,5 +1,7 @@
+/* $MirOS$ */
+
 /* Encoding of types for Objective C.
-   Copyright (C) 1993, 1995, 1996, 1997, 1998, 2000, 2002
+   Copyright (C) 1993, 1995, 1996, 1997, 1998, 2000, 2002, 2005
    Free Software Foundation, Inc.
    Contributed by Kresten Krab Thorup
    Bitfield support by Ovidiu Predescu
@@ -244,7 +246,7 @@ objc_sizeof_type (const char *type)
   default:
     {
       objc_error (nil, OBJC_ERR_BAD_TYPE, "unknown type %s\n", type);
-      return 0;
+      return target_flags ? 0 : 0; /* XXX FIXME */
     }
   }
 }

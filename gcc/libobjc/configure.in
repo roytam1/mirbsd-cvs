@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Process this file with autoconf to produce a configure script.
 #   Copyright (C) 1995, 1997, 1998, 1999, 2002, 2003
 #   Free Software Foundation, Inc.
@@ -76,9 +78,9 @@ AC_CHECK_HEADERS(sched.h)
 # Determine CFLAGS for gthread.
 
 AC_CACHE_CHECK([for gthread cflags],objc_cv_gthread_flags,
-[if test -f "$r"/gcc/Makefile
+[if test -f ../gcc/Makefile
 then
-  objc_cv_gthread_flags=`grep \^GTHREAD_FLAGS "$r"/gcc/Makefile | awk -F= '{ print $2 }'`
+  objc_cv_gthread_flags=`grep \^GTHREAD_FLAGS ../gcc/Makefile | awk -F= '{ print $2 }'`
 else
   AC_MSG_ERROR([not found])
 fi])
@@ -105,7 +107,7 @@ if test -n "$CONFIG_FILES"; then
     # FIXME: We shouldn't need to set ac_file
     ac_file=Makefile
     LD="${ORIGINAL_LD_FOR_MULTILIBS}"
-    . ${toplevel_srcdir}/config-ml.in
+    . ${GNUSYSTEM_AUX_DIR}/config-ml.in
   fi
 fi],
 srcdir=${srcdir}

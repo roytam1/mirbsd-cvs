@@ -1,5 +1,8 @@
+/* $MirOS$ */
+
 /* GNU Objective C Runtime class related functions
-   Copyright (C) 1993, 1995, 1996 Free Software Foundation, Inc.
+   Copyright (C) 1993, 1995, 1996, 2005
+   Free Software Foundation, Inc.
    Contributed by Kresten Krab Thorup
 
 This file is part of GCC.
@@ -30,6 +33,7 @@ Boston, MA 02111-1307, USA.  */
 
 #if OBJC_WITH_GC
 # include <gc.h>
+# include <gc_typed.h>
 #endif
 
 id __objc_object_alloc (Class);
@@ -48,7 +52,7 @@ class_create_instance (Class class)
 #if OBJC_WITH_GC
   if (CLS_ISCLASS (class))
     new = (id) GC_malloc_explicitly_typed (class->instance_size,
-					   class->gc_object_type);
+					   (GC_descr)class->gc_object_type);
 #else
   if (CLS_ISCLASS (class))
     new = (*_objc_object_alloc) (class);

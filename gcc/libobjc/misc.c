@@ -1,5 +1,7 @@
+/* $MirOS$ */
+
 /* GNU Objective C Runtime Miscellaneous 
-   Copyright (C) 1993, 1994, 1995, 1996, 1997, 2002
+   Copyright (C) 1993, 1994, 1995, 1996, 1997, 2002, 2005
    Free Software Foundation, Inc.
    Contributed by Kresten Krab Thorup
 
@@ -161,7 +163,7 @@ GC_calloc (size_t nelem, size_t size)
 }
 
 static void
-noFree (void *p)
+noFree (void *p __attribute__((unused)))
 {
 }
 

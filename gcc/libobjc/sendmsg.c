@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* GNU Objective C Runtime message lookup 
    Copyright (C) 1993, 1995, 1996, 1997, 1998,
-   2001, 2002 Free Software Foundation, Inc.
+   2001, 2002, 2005
+   Free Software Foundation, Inc.
    Contributed by Kresten Krab Thorup
 
 This file is part of GCC.
@@ -39,6 +42,7 @@ Boston, MA 02111-1307, USA.  */
 #define gen_rtx(args...) 1
 #define gen_rtx_MEM(args...) 1
 #define gen_rtx_REG(args...) 1
+#undef rtx
 #define rtx int
 
 #if ! defined (STRUCT_VALUE) || STRUCT_VALUE == 0
