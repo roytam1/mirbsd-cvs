@@ -1,7 +1,6 @@
-# $MirBSD: contrib/gnu/libtool/libtool.m4,v 1.29 2005/01/15 19:05:31 tg Exp $
-#
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004
+# $MirOS$
+## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 ##
@@ -1719,7 +1718,7 @@ if test -f "$ltmain" && test -n "$tagnames"; then
       case $tagname in
       CXX)
 	if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-	    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) ||
+	    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
 	    (test "X$CXX" != "Xg++"))) ; then
 	  AC_LIBTOOL_LANG_CXX_CONFIG
 	else
@@ -2458,7 +2457,7 @@ AC_DEFUN([_LT_AC_PROG_CXXCPP],
 [
 AC_REQUIRE([AC_PROG_CXX])
 if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) ||
+    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
     (test "X$CXX" != "Xg++"))) ; then
   AC_PROG_CXXCPP
 fi

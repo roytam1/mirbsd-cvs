@@ -1,5 +1,4 @@
-# $MirBSD: contrib/gnu/libtool/ltmain.in,v 1.15 2005/01/15 19:56:18 tg Exp $
-#
+# $MirOS$
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
@@ -291,7 +290,7 @@ func_extract_archives () {
 	  darwin_curdir=`pwd`
 	  darwin_base_archive=`basename $darwin_archive`
 	  darwin_arches=`lipo -info "$darwin_archive" 2>/dev/null | $EGREP Architectures 2>/dev/null`
-	  if test -n "$darwin_arches"; then
+	  if test -n "$darwin_arches"; then 
 	    darwin_arches=`echo "$darwin_arches" | $SED -e 's/.*are://'`
 	    darwin_arch=
 	    $show "$darwin_base_archive has multiple architectures $darwin_arches"
@@ -3829,7 +3828,7 @@ EOF
 	    libobjs="$libobjs $func_extract_archives_result"
 	  fi
 	fi
-
+	
 	if test "$thread_safe" = yes && test -n "$thread_safe_flag_spec"; then
 	  eval flag=\"$thread_safe_flag_spec\"
 	  linker_flags="$linker_flags $flag"

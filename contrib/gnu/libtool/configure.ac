@@ -1,8 +1,6 @@
-# $MirBSD: contrib/gnu/libtool/configure.ac,v 1.7 2004/10/16 23:39:12 tg Exp $
-
 ## Process this file with autoconf to create configure. -*- autoconf -*-
-# Copyright 2001, 2004
-#	Free Software Foundation, Inc.
+# $MirOS$
+# Copyright 2001, 2004, 2005  Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

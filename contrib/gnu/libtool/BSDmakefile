@@ -1,0 +1,41 @@
+# $MirOS$
+
+.include <bsd.own.mk>
+
+all:
+	cd ${.CURDIR}/obj && CONFIG_SHELL=${SHELL} ${SHELL} ./configure \
+	    && ${MAKE} ./ltmain.sh libtoolize
+
+obj:
+	cd ${.CURDIR} && mkdir -p obj
+	cd ${.CURDIR}/obj && \
+	    lndir -e obj ${.CURDIR} && rm -f BSDmakefile ltmain.sh libtoolize
+	for i in config.{guess,sub} install-sh missing mkinstalldirs; do \
+		cp ${GNUSYSTEM_AUX_DIR}/$$i ${.CURDIR}/obj; done
+	cd ${.CURDIR}/obj && ln -s libtool.m4 aclocal.m4
+
+clean:
+	-rm -f ${.CURDIR}/{config.{guess,sub},ac{local,include}.m4,configure.in}
+	-rm -rf ${.CURDIR}/obj ${.CURDIR}/{COPYING,INSTALL}
+
+install:
+	# Nothing to do...
+
+do-bootstrap:
+	cd ${.CURDIR} && ${MAKE} clean
+	for i in config.{guess,sub} install-sh missing mkinstalldirs; do \
+		cp ${GNUSYSTEM_AUX_DIR}/$$i ${.CURDIR}/; done
+	cd ${.CURDIR} && env AUTOCONF_VERSION=2.13 AUTOMAKE_VERSION=1.4 \
+	    ${SHELL} ./bootstrap
+	cd ${.CURDIR} && rm config.{guess,sub} install-sh missing ChangeLog \
+	    mkinstalldirs aclocal.m4 COPYING INSTALL NEWS README AUTHORS
+	cd ${.CURDIR} && ${MAKE} obj && ${MAKE}
+	cp ${.CURDIR}/obj/ltmain.sh ${.CURDIR}/obj/libtoolize ${.CURDIR}/
+	cd ${.CURDIR} && chmod 664 ltmain.sh libtoolize
+	cd ${.CURDIR} && ${MAKE} clean
+	for file in ${.CURDIR}/{ltmain.sh,libtoolize,Makefile.in}; do \
+		print "/\\\$$""MirOS:/ka\n'at'a-1\n'as/\\\$$/_/\nwq" \
+		    | ed -s $$file; \
+	done
+
+.PHONY:	all obj clean install do-bootstrap

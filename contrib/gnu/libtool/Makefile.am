@@ -1,6 +1,5 @@
-# $MirBSD: contrib/gnu/libtool/Makefile.am,v 1.10 2004/08/10 01:18:01 tg Stab $
-
 ## Process this file with automake to produce Makefile.in
+# $MirOS$
 
 AUTOMAKE_OPTIONS = 1.3e gnu
 
