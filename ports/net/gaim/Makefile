@@ -5,7 +5,7 @@ NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
 
 COMMENT=		"Gtk AIM, ICQ, IRC, Jabber, MSN, Yahoo and Zephyr client"
 
-DISTNAME=		gaim-1.1.2
+DISTNAME=		gaim-1.2.0
 CATEGORIES=		net
 HOMEPAGE=		http://gaim.sourceforge.net/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gaim/}
@@ -20,7 +20,7 @@ RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 MODULES=		devel/gettext
 
-LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
+LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			startup-notification-1.0.0::devel/startup-notification
 BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
 
