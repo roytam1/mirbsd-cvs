@@ -20,23 +20,6 @@
 # the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA. }
 
-# This script requires bash. Since bash cannot be assumed to be in
-# /bin, /usr/bin or any other certain place, we cannot use it in the
-# first line. So we use /bin/sh, which can be assumed to exist. Then
-# we check if it's actually bash, and if not, try to re-run the
-# script with bash.
-if [ x"$BASH" = x ]; then
-  if [ x"$RERUN_BASH_TRIED" != x ]; then
-    echo "`basename "$0"`: cannot run, \`bash' is either not bash or a very old version" >&2
-    exit 1
-  else
-    RERUN_BASH_TRIED=1; export RERUN_BASH_TRIED
-    exec bash "$0" "$@"
-    echo "`basename "$0"`: cannot run bash" >&2
-    exit 1
-  fi
-fi
-
 if [ $# -ne 2 ]; then
   echo "Usage: `basename $0` gcc-dir dest-filename" >&2
   exit 1
