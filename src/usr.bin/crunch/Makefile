@@ -1,9 +1,3 @@
-#	$OpenBSD: Makefile,v 1.4 2000/03/01 22:10:03 todd Exp $
-
-PROG=   crunchide
-SRCS=	crunchide.c elf_hide.c ecoff_hide.c
-
-.include <bsd.prog.mk>
 #	$OpenBSD: Makefile,v 1.2 1996/09/25 06:40:52 etheisen Exp $
 
 PROG=		crunchgen
@@ -14,5 +8,11 @@ CLEANFILES+=	crunched_skel.c
 
 crunched_skel.c: crunched_main.c
 	sh ${.CURDIR}/mkskel.sh ${.CURDIR}/crunched_main.c > crunched_skel.c
+
+.include <bsd.prog.mk>
+#	$OpenBSD: Makefile,v 1.4 2000/03/01 22:10:03 todd Exp $
+
+PROG=   crunchide
+SRCS=	crunchide.c elf_hide.c ecoff_hide.c
 
 .include <bsd.prog.mk>
