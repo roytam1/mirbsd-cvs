@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.4 2005/03/03 20:18:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.5 2005/03/06 14:47:50 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
@@ -8,12 +8,9 @@
  alt="A fatal exception 0E has occured in EUROPE_COUNCIL.EXE" /></p>
 <p class="erecta">More information at <a href="http://swpat.ffii.org/">FFII
  website</a>.</p>
-<p><a href="http://demo.ffii.org/kuenast/brief.html"><img
- src="http://demo.ffii.org/kuenast/kuenast_banner60.png"
- alt="Renate K&uuml;nast, bitte hier klicken!" /></a>
-<a href="http://www.ffii.org/"><img
- src="http://demo.ffii.org/cons0501/fishy_banner82.jpg"
- alt="Something fishy's going on..." /></a></p>
+<p><a href="http://demo.ffii.org/cons0503/"><img
+ src="http://demo.ffii.org/cons0503/banners/Banner1-400x90.jpg"
+ alt="No Banana Union, No Software Patents - Support Denmark!" /></a></p>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
  website isn't always up to date. It's optimized for lynx and works in
