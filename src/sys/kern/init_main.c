@@ -1,11 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.113 2004/04/01 00:27:51 tedu Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
 /*	$NetBSD: kern_xxx.c,v 1.32 1996/04/22 01:38:41 christos Exp $	*/
 
 /*
- * Copyright (c) 2002, 2003, 2004, 2005
+ * Copyright (c) 1990-2002, 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995 Christopher G. Demetriou.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1992, 1993
@@ -106,7 +106,7 @@ const char	copyright[] =
 "Copyright (c) 1982, 1986, 1989, 1991, 1993\n"
 "\tThe Regents of the University of California.  All rights reserved.\n"
 "Copyright (c) 1995-2004 OpenBSD. All rights reserved.  http://www.OpenBSD.org\n"
-"Copyright (c) 1990-2002 MirBSD; 2002-2005 The MirOS Project.  http://MirBSD.de/\n";
+"Copyright (c) 2002-2005 The MirOS Project.  http://www.MirBSD.org/\n";
 
 /* Components of the first process -- never freed. */
 struct	session session0;

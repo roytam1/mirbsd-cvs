@@ -1,11 +1,12 @@
-/*	$OpenBSD: miidevs.h,v 1.43 2004/04/15 08:45:19 mickey Exp $	*/
+/* $MirOS$ */
 
-/*
+/*-
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	OpenBSD: miidevs,v 1.40 2004/04/15 08:45:04 mickey Exp 
+ *	MirOS: src/sys/dev/mii/miidevs,v 1.2 2005/03/14 21:02:32 tg Exp 
  */
+/* $OpenBSD: miidevs,v 1.40 2004/04/15 08:45:04 mickey Exp $ */
 /* $NetBSD: miidevs,v 1.3 1998/11/05 03:43:43 thorpej Exp $ */
 
 /*-
