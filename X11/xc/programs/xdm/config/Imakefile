@@ -1,3 +1,4 @@
+XCOMM $MirOS$
 XCOMM $Xorg: Imakefile,v 1.4 2000/08/17 19:54:17 cpqbld Exp $
 
 
@@ -53,6 +54,7 @@ InstallNonExecFile(Xservers,$(XDMDIR))
 InstallNonExecFile(Xaccess,$(XDMDIR))
 InstallNamedProg(Xsession,Xsession,$(XDMDIR))
 InstallNamedProg(GiveConsole,GiveConsole,$(XDMDIR))
+InstallNamedProg(Startup_0,Startup_0,$(XDMDIR))
 InstallNamedProg(TakeConsole,TakeConsole,$(XDMDIR))
 InstallNamedProg(Xsetup_0,Xsetup_0,$(XDMDIR))
 InstallNamedProg(Xwilling,Xwilling,$(XDMDIR))
@@ -63,6 +65,7 @@ InstallNonExecFileNoClobber(Xservers,$(XDMDIR))
 InstallNonExecFileNoClobber(Xaccess,$(XDMDIR))
 InstallNamedProgNoClobber(Xsession,Xsession,$(XDMDIR))
 InstallNamedProgNoClobber(GiveConsole,GiveConsole,$(XDMDIR))
+InstallNamedProgNoClobber(Startup_0,Startup_0,$(XDMDIR))
 InstallNamedProgNoClobber(TakeConsole,TakeConsole,$(XDMDIR))
 InstallNamedProgNoClobber(Xsetup_0,Xsetup_0,$(XDMDIR))
 InstallNamedProgNoClobber(Xwilling,Xwilling,$(XDMDIR))
