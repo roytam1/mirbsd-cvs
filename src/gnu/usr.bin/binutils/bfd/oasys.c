@@ -1,6 +1,6 @@
 /* BFD back-end for oasys objects.
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2001,
-   2002, 2003, 2004 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2005 Free Software Foundation, Inc.
    Written by Steve Chamberlain of Cygnus Support, <sac@cygnus.com>.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -738,14 +738,6 @@ oasys_slurp_section_data (abfd)
 				  r->symbol = 0;
 				  /* Work out the howto */
 				  abort ();
-#if 0
-				  r->relent.section =
-				    data->sections[reloc &
-						   RELOCATION_SECT_BITS];
-
-				  r->relent.addend = -
-				    r->relent.section->vma;
-#endif
 				  r->relent.address = dst_ptr - dst_base_ptr;
 				  r->relent.howto = &howto_table[reloc >> 6];
 				  r->relent.sym_ptr_ptr = (asymbol **) NULL;
@@ -781,10 +773,6 @@ oasys_slurp_section_data (abfd)
 				  /* Work out the howto */
 				  abort ();
 
-#if 0
-				  r->relent.section = (asection
-						       *) NULL;
-#endif
 				  r->relent.addend = 0;
 				  r->relent.address = dst_ptr - dst_base_ptr;
 				  r->relent.howto = &howto_table[reloc >> 6];
@@ -890,13 +878,6 @@ oasys_canonicalize_reloc (ignore_abfd, section, relptr, symbols)
   while (src != (oasys_reloc_type *) NULL)
     {
       abort ();
-
-#if 0
-      if (src->relent.section == (asection *) NULL)
-	{
-	  src->relent.sym_ptr_ptr = symbols + src->symbol;
-	}
-#endif
 
       *relptr++ = &src->relent;
       src = src->next;
@@ -1228,20 +1209,9 @@ oasys_write_data (abfd)
 			    }
 
 			  /* Is this a section relative relocation, or a symbol
-		       relative relocation ? */
+			     relative relocation ? */
 			  abort ();
 
-#if 0
-			  if (r->section != (asection *) NULL)
-			    {
-			      /* The relent has a section attached, so it must be section
-			     relative */
-			      rel_byte |= RELOCATION_TYPE_REL;
-			      rel_byte |= r->section->output_section->target_index;
-			      *dst++ = rel_byte;
-			    }
-			  else
-#endif
 			    {
 			      asymbol *sym = *(r->sym_ptr_ptr);
 

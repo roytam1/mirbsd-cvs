@@ -1,6 +1,7 @@
 /* read.c - read a source file -
    Copyright 1986, 1987, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-   1998, 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+   1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GAS, the GNU Assembler.
 
@@ -19,14 +20,10 @@ along with GAS; see the file COPYING.  If not, write to the Free
 Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 02111-1307, USA.  */
 
-#if 0
-/* If your chars aren't 8 bits, you will change this a bit.
+/* If your chars aren't 8 bits, you will change this a bit (eg. to 0xFF).
    But then, GNU isn't spozed to run on your machine anyway.
    (RMS is so shortsighted sometimes.)  */
-#define MASK_CHAR (0xFF)
-#else
 #define MASK_CHAR ((int)(unsigned char) -1)
-#endif
 
 /* This is the largest known floating point format (for now). It will
    grow when we do 4361 style flonums.  */
@@ -217,6 +214,7 @@ static int dwarf_file_string;
 static void do_align (int, char *, int, int);
 static void s_align (int, int);
 static void s_altmacro (int);
+static void s_bad_end (int);
 static int hex_float (int, char *);
 static segT get_known_segmented_expression (expressionS * expP);
 static void pobegin (void);
@@ -245,6 +243,24 @@ read_begin (void)
     lex_type['?'] = 3;
 }
 
+#ifndef TC_ADDRESS_BYTES
+#ifdef BFD_ASSEMBLER
+#define TC_ADDRESS_BYTES address_bytes
+
+static inline int
+address_bytes (void)
+{
+  /* Choose smallest of 1, 2, 4, 8 bytes that is large enough to
+     contain an address.  */
+  int n = (stdoutput->arch_info->bits_per_address - 1) / 8;
+  n |= n >> 1;
+  n |= n >> 2;
+  n += 1;
+  return n;
+}
+#endif
+#endif
+
 /* Set up pseudo-op tables.  */
 
 static struct hash_control *po_hash;
@@ -265,6 +281,9 @@ static const pseudo_typeS potable[] = {
   {"common.s", s_mri_common, 1},
   {"data", s_data, 0},
   {"dc", cons, 2},
+#ifdef TC_ADDRESS_BYTES
+  {"dc.a", cons, 0},
+#endif
   {"dc.b", cons, 1},
   {"dc.d", float_cons, 'd'},
   {"dc.l", cons, 4},
@@ -301,7 +320,8 @@ static const pseudo_typeS potable[] = {
   {"endc", s_endif, 0},
   {"endfunc", s_func, 1},
   {"endif", s_endif, 0},
-  {"endr", s_bad_endr, 0},
+  {"endm", s_bad_end, 0},
+  {"endr", s_bad_end, 1},
 /* endef  */
   {"equ", s_set, 0},
   {"equiv", s_set, 1},
@@ -709,13 +729,13 @@ read_a_source_file (char *name)
 		  /* Input_line_pointer->after ':'.  */
 		  SKIP_WHITESPACE ();
 		}
-	      else if (c == '='
-		       || ((c == ' ' || c == '\t')
-			   && input_line_pointer[1] == '='
+              else if ((c == '='
+                       || ((c == ' ' || c == '\t')
+                            && input_line_pointer[1] == '='))
 #ifdef TC_EQUAL_IN_INSN
-			   && !TC_EQUAL_IN_INSN (c, input_line_pointer)
+                           && !TC_EQUAL_IN_INSN (c, s)
 #endif
-			   ))
+                           )
 		{
 		  equals (s, 1);
 		  demand_empty_rest_of_line ();
@@ -1082,6 +1102,29 @@ read_a_source_file (char *name)
 #endif
 }
 
+/* Convert O_constant expression EXP into the equivalent O_big representation.
+   Take the sign of the number from X_unsigned rather than X_add_number.  */
+
+static void
+convert_to_bignum (expressionS *exp)
+{
+  valueT value;
+  unsigned int i;
+
+  value = exp->X_add_number;
+  for (i = 0; i < sizeof (exp->X_add_number) / CHARS_PER_LITTLENUM; i++)
+    {
+      generic_bignum[i] = value & LITTLENUM_MASK;
+      value >>= LITTLENUM_NUMBER_OF_BITS;
+    }
+  /* Add a sequence of sign bits if the top bit of X_add_number is not
+     the sign of the original value.  */
+  if ((exp->X_add_number < 0) != !exp->X_unsigned)
+    generic_bignum[i++] = exp->X_unsigned ? 0 : LITTLENUM_MASK;
+  exp->X_op = O_big;
+  exp->X_add_number = i;
+}
+
 /* For most MRI pseudo-ops, the line actually ends at the first
    nonquoted space.  This function looks for that point, stuffs a null
    in, and sets *STOPCP to the character that used to be there, and
@@ -1429,7 +1472,6 @@ s_comm_internal (int param,
 #endif
     }
 
-  know (symbolP == NULL || symbolP->sy_frag == &zero_address_frag);
   demand_empty_rest_of_line ();
  out:
   if (flag_mri)
@@ -1577,7 +1619,7 @@ s_data (int ignore ATTRIBUTE_UNUSED)
    .file.  */
 
 void
-s_app_file_string (char *file, int appfile)
+s_app_file_string (char *file, int appfile ATTRIBUTE_UNUSED)
 {
 #ifdef LISTING
   if (listing)
@@ -2639,12 +2681,14 @@ s_purgem (int ignore ATTRIBUTE_UNUSED)
   demand_empty_rest_of_line ();
 }
 
-/* Handle the .rept pseudo-op.  */
+/* Handle the .endm/.endr pseudo-ops.  */
 
-void
-s_bad_endr (int ignore ATTRIBUTE_UNUSED)
+static void
+s_bad_end (int endr)
 {
-  as_warn (_(".endr encountered without preceeding .rept, .irc, or .irp"));
+  as_warn (_(".end%c encountered without preceeding %s"),
+	   endr ? 'r' : 'm',
+	   endr ? ".rept, .irp, or .irpc" : ".macro");
   demand_empty_rest_of_line ();
 }
 
@@ -3315,6 +3359,11 @@ cons_worker (register int nbytes,	/* 1=.byte, 2=.word, 4=.long.  */
       return;
     }
 
+#ifdef TC_ADDRESS_BYTES
+  if (nbytes == 0)
+    nbytes = TC_ADDRESS_BYTES ();
+#endif
+
 #ifdef md_cons_align
   md_cons_align (nbytes);
 #endif
@@ -3541,22 +3590,9 @@ emit_expr (expressionS *exp, unsigned int nbytes)
      pass to md_number_to_chars, handle it as a bignum.  */
   if (op == O_constant && nbytes > sizeof (valueT))
     {
-      valueT val;
-      int gencnt;
-
-      if (!exp->X_unsigned && exp->X_add_number < 0)
-	extra_digit = (valueT) -1;
-      val = (valueT) exp->X_add_number;
-      gencnt = 0;
-      do
-	{
-	  generic_bignum[gencnt] = val & LITTLENUM_MASK;
-	  val >>= LITTLENUM_NUMBER_OF_BITS;
-	  ++gencnt;
-	}
-      while (val != 0);
-      op = exp->X_op = O_big;
-      exp->X_add_number = gencnt;
+      extra_digit = exp->X_unsigned ? 0 : -1;
+      convert_to_bignum (exp);
+      op = O_big;
     }
 
   if (op == O_constant)
@@ -4276,36 +4312,48 @@ output_big_sleb128 (char *p, LITTLENUM_TYPE *bignum, int size)
   unsigned byte;
 
   /* Strip leading sign extensions off the bignum.  */
-  while (size > 0 && bignum[size - 1] == (LITTLENUM_TYPE) -1)
+  while (size > 1
+	 && bignum[size - 1] == LITTLENUM_MASK
+	 && bignum[size - 2] > LITTLENUM_MASK / 2)
     size--;
 
   do
     {
-      if (loaded < 7 && size > 0)
-	{
-	  val |= (*bignum << loaded);
-	  loaded += 8 * CHARS_PER_LITTLENUM;
-	  size--;
-	  bignum++;
-	}
+      /* OR in the next part of the littlenum.  */
+      val |= (*bignum << loaded);
+      loaded += LITTLENUM_NUMBER_OF_BITS;
+      size--;
+      bignum++;
 
-      byte = val & 0x7f;
-      loaded -= 7;
-      val >>= 7;
-
-      if (size == 0)
+      /* Add bytes until there are less than 7 bits left in VAL
+	 or until every non-sign bit has been written.  */
+      do
 	{
-	  if ((val == 0 && (byte & 0x40) == 0)
-	      || (~(val | ~(((valueT) 1 << loaded) - 1)) == 0
-		  && (byte & 0x40) != 0))
+	  byte = val & 0x7f;
+	  loaded -= 7;
+	  val >>= 7;
+	  if (size > 0
+	      || val != ((byte & 0x40) == 0 ? 0 : ((valueT) 1 << loaded) - 1))
 	    byte |= 0x80;
-	}
 
+	  if (orig)
+	    *p = byte;
+	  p++;
+	}
+      while ((byte & 0x80) != 0 && loaded >= 7);
+    }
+  while (size > 0);
+
+  /* Mop up any left-over bits (of which there will be less than 7).  */
+  if ((byte & 0x80) != 0)
+    {
+      /* Sign-extend VAL.  */
+      if (val & (1 << (loaded - 1)))
+	val |= ~0 << loaded;
       if (orig)
-	*p = byte;
+	*p = val & 0x7f;
       p++;
     }
-  while (byte & 0x80);
 
   return p - orig;
 }
@@ -4365,7 +4413,7 @@ void
 emit_leb128_expr (expressionS *exp, int sign)
 {
   operatorT op = exp->X_op;
-  int nbytes;
+  unsigned int nbytes;
 
   if (op == O_absent || op == O_illegal)
     {
@@ -4384,10 +4432,20 @@ emit_leb128_expr (expressionS *exp, int sign)
       as_warn (_("register value used as expression"));
       op = O_constant;
     }
+  else if (op == O_constant
+	   && sign
+	   && (exp->X_add_number < 0) != !exp->X_unsigned)
+    {
+      /* We're outputting a signed leb128 and the sign of X_add_number
+	 doesn't reflect the sign of the original value.  Convert EXP
+	 to a correctly-extended bignum instead.  */
+      convert_to_bignum (exp);
+      op = O_big;
+    }
 
   /* Let check_eh_frame know that data is being emitted.  nbytes == -1 is
      a signal that this is leb128 data.  It shouldn't optimize this away.  */
-  nbytes = -1;
+  nbytes = (unsigned int) -1;
   if (check_eh_frame (exp, &nbytes))
     abort ();
 
@@ -4967,13 +5025,13 @@ s_incbin (int x ATTRIBUTE_UNUSED)
 	}
       file_len = ftell (binfile);
 
-      /* If a count was not specified use the size of the file.  */
+      /* If a count was not specified use the remainder of the file.  */
       if (count == 0)
-	count = file_len;
+	count = file_len - skip;
 
-      if (skip + count > file_len)
+      if (skip < 0 || count < 0 || file_len < 0 || skip + count > file_len)
 	{
-	  as_bad (_("skip (%ld) + count (%ld) larger than file size (%ld)"),
+	  as_bad (_("skip (%ld) or count (%ld) invalid for file size (%ld)"),
 		  skip, count, file_len);
 	  goto done;
 	}

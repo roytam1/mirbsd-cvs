@@ -1,6 +1,6 @@
 /* Parse options for the GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2004
+   2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GLD, the Gnu Linker.
@@ -71,6 +71,7 @@ enum option_values
   OPTION_DEFSYM,
   OPTION_DEMANGLE,
   OPTION_DYNAMIC_LINKER,
+  OPTION_SYSROOT,
   OPTION_EB,
   OPTION_EL,
   OPTION_EMBEDDED_RELOCS,
@@ -233,6 +234,8 @@ static const struct ld_option ld_options[] =
   { {"library-path", required_argument, NULL, 'L'},
     'L', N_("DIRECTORY"), N_("Add DIRECTORY to library search path"),
     TWO_DASHES },
+  { {"sysroot=<DIRECTORY>", required_argument, NULL, OPTION_SYSROOT},
+    '\0', NULL, N_("Override the default sysroot location"), TWO_DASHES },
   { {NULL, required_argument, NULL, '\0'},
     'm', N_("EMULATION"), N_("Set emulation"), ONE_DASH },
   { {"print-map", no_argument, NULL, 'M'},
@@ -747,6 +750,9 @@ parse_args (unsigned argc, char **argv)
 	case OPTION_DYNAMIC_LINKER:
 	  command_line.interpreter = optarg;
 	  break;
+	case OPTION_SYSROOT:
+	  /* Already handled in ldmain.c.  */
+	  break;
 	case OPTION_EB:
 	  command_line.endian = ENDIAN_BIG;
 	  break;
@@ -803,7 +809,7 @@ parse_args (unsigned argc, char **argv)
 	  /* Ignore.  */
 	  break;
 	case OPTION_GC_SECTIONS:
-	  command_line.gc_sections = TRUE;
+	  link_info.gc_sections = TRUE;
 	  break;
 	case OPTION_HELP:
 	  help ();
@@ -846,7 +852,7 @@ parse_args (unsigned argc, char **argv)
 	  demangling = FALSE;
 	  break;
 	case OPTION_NO_GC_SECTIONS:
-	  command_line.gc_sections = FALSE;
+	  link_info.gc_sections = FALSE;
 	  break;
 	case OPTION_NO_KEEP_MEMORY:
 	  link_info.keep_memory = FALSE;

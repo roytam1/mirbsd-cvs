@@ -1,6 +1,6 @@
 /* tc-arm.c -- Assemble for the ARM
-   Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
-   2005
+   Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+   2004, 2005
    Free Software Foundation, Inc.
    Contributed by Richard Earnshaw (rwe@pegasus.esprit.ec.org)
 	Modified by David Taylor (dtaylor@armltd.co.uk)
@@ -159,7 +159,11 @@ static int march_fpu_opt = -1;
 static int mfpu_opt = -1;
 static int mfloat_abi_opt = -1;
 #ifdef OBJ_ELF
+# ifdef EABI_DEFAULT
+static int meabi_flags = EABI_DEFAULT;
+# else
 static int meabi_flags = EF_ARM_EABI_UNKNOWN;
+# endif
 #endif
 
 /* This array holds the chars that always start a comment.  If the
@@ -2683,18 +2687,6 @@ do_msr (char * str)
       return;
     }
 
-#if 0  /* The first edition of the ARM architecture manual stated that
-	  writing anything other than the flags with an immediate operation
-	  had UNPREDICTABLE effects.  This constraint was removed in the
-	  second edition of the specification.  */
-  if ((cpu_variant & ARM_EXT_V5) != ARM_EXT_V5
-      && inst.instruction & ((PSR_c | PSR_x | PSR_s) << PSR_SHIFT))
-    {
-      inst.error = _("immediate value cannot be used to set this field");
-      return;
-    }
-#endif
-
   inst.instruction |= INST_IMMEDIATE;
 
   if (inst.reloc.exp.X_add_symbol)
@@ -2826,7 +2818,7 @@ do_mul (char * str)
 }
 
 static void
-do_mla (char * str)
+do_mlas (char * str, bfd_boolean is_mls)
 {
   int rd, rm;
 
@@ -2858,7 +2850,9 @@ do_mla (char * str)
       return;
     }
 
-  if (rm == rd)
+  /* This restriction does not apply to mls (nor to mla in v6, but
+     that's hard to detect at present).  */
+  if (rm == rd && !is_mls)
     as_tsktsk (_("rd and rm should be different in mla"));
 
   if (skip_past_comma (&str) == FAIL
@@ -2877,6 +2871,18 @@ do_mla (char * str)
     }
 
   end_of_line (str);
+}
+
+static void
+do_mla (char *str)
+{
+  do_mlas (str, FALSE);
+}
+
+static void
+do_mls (char *str)
+{
+  do_mlas (str, TRUE);
 }
 
 /* Expects *str -> the characters "acc0", possibly with leading blanks.
@@ -4524,6 +4530,286 @@ do_cpsi (char * str)
   end_of_line (str);
 }
 
+/* ARM V6T2 bitfield manipulation instructions.  */
+
+static int
+five_bit_unsigned_immediate (char **str)
+{
+  expressionS expr;
+
+  skip_whitespace (*str);
+  if (!is_immediate_prefix (**str))
+    {
+      inst.error = _("immediate expression expected");
+      return -1;
+    }
+  (*str)++;
+  if (my_get_expression (&expr, str))
+    {
+      inst.error = _("bad expression");
+      return -1;
+    }
+  if (expr.X_op != O_constant)
+    {
+      inst.error = _("constant expression expected");
+      return -1;
+    }
+  if (expr.X_add_number < 0 || expr.X_add_number > 32)
+    {
+      inst.error = _("immediate value out of range");
+      return -1;
+    }
+  
+  return expr.X_add_number;
+}
+
+static void
+bfci_lsb_and_width (char *str)
+{
+  int lsb, width;
+
+  if ((lsb = five_bit_unsigned_immediate (&str)) == -1)
+    return;
+
+  if (skip_past_comma (&str) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+  if ((width = five_bit_unsigned_immediate (&str)) == -1)
+    return;
+
+  end_of_line (str);
+
+  if (width == 0 || lsb == 32)
+    {
+      inst.error = _("immediate value out of range");
+      return;
+    }
+  else if (width + lsb > 32)
+    {
+      inst.error = _("bit-field extends past end of register");
+      return;
+    }
+
+  /* Convert to LSB/MSB and write to register.  */
+  inst.instruction |= lsb << 7;
+  inst.instruction |= (width + lsb - 1) << 16;
+}
+
+static void
+do_bfc (char *str)
+{
+  int rd;
+
+  /* Rd.  */
+  skip_whitespace (str);
+  if (((rd = reg_required_here (&str, 12)) == FAIL)
+      || (skip_past_comma (&str) == FAIL))
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+  else if (rd == REG_PC)
+    {
+      inst.error = BAD_PC;
+      return;
+    }
+
+  bfci_lsb_and_width (str);
+}
+
+static void
+do_bfi (char *str)
+{
+  int rd, rm;
+
+  /* Rd.  */
+  skip_whitespace (str);
+  if (((rd = reg_required_here (&str, 12)) == FAIL)
+      || (skip_past_comma (&str) == FAIL))
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+  else if (rd == REG_PC)
+    {
+      inst.error = BAD_PC;
+      return;
+    }
+
+  /* Rm.  Accept #0 in this position as an alternative syntax for bfc.  */
+  skip_whitespace (str);
+  if (is_immediate_prefix (*str))
+    {
+      expressionS expr;
+      str++;
+      if (my_get_expression (&expr, &str))
+	{
+	  inst.error = _("bad expression");
+	  return;
+	}
+      if (expr.X_op != O_constant)
+	{
+	  inst.error = _("constant expression expected");
+	  return;
+	}
+      if (expr.X_add_number != 0)
+	{
+	  inst.error = _("immediate value out of range");
+	  return;
+	}
+      inst.instruction |= 0x0000000f;  /* Rm = PC -> bfc, not bfi.  */
+    }
+  else
+    {
+      if ((rm = reg_required_here (&str, 0)) == FAIL)
+	{
+	  inst.error = BAD_ARGS;
+	  return;
+	}
+      else if (rm == REG_PC)
+	{
+	  inst.error = BAD_PC;
+	  return;
+	}
+    }
+  if (skip_past_comma (&str) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+
+  bfci_lsb_and_width (str);
+}
+
+static void
+do_bfx (char *str)
+{
+  int lsb, width;
+
+  /* Rd.  */
+  skip_whitespace (str);
+  if (reg_required_here (&str, 12) == FAIL
+      || skip_past_comma (&str) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+
+  /* Rm.  */
+  skip_whitespace (str);
+  if (reg_required_here (&str, 0) == FAIL
+      || skip_past_comma (&str) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+
+  if ((lsb = five_bit_unsigned_immediate (&str)) == -1)
+    return;
+
+  if (skip_past_comma (&str) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+  if ((width = five_bit_unsigned_immediate (&str)) == -1)
+    return;
+
+  end_of_line (str);
+
+  if (width == 0 || lsb == 32)
+    {
+      inst.error = _("immediate value out of range");
+      return;
+    }
+  else if (width + lsb > 32)
+    {
+      inst.error = _("bit-field extends past end of register");
+      return;
+    }
+
+  inst.instruction |= lsb << 7;
+  inst.instruction |= (width - 1) << 16;
+}
+
+static void
+do_rbit (char *str)
+{
+  /* Rd.  */
+  skip_whitespace (str);
+  if (reg_required_here (&str, 12) == FAIL
+      || skip_past_comma (&str) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+
+  /* Rm.  */
+  skip_whitespace (str);
+  if (reg_required_here (&str, 0) == FAIL)
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+
+  end_of_line (str);
+}
+
+/* ARM V6T2 16-bit immediate register load: MOV[WT]{cond} Rd, #<imm16>.  */
+static void
+do_mov16 (char *str)
+{
+  int rd;
+  expressionS expr;
+
+  /* Rd.  */
+  skip_whitespace (str);
+  if (((rd = reg_required_here (&str, 12)) == FAIL)
+      || (skip_past_comma (&str) == FAIL))
+    {
+      inst.error = BAD_ARGS;
+      return;
+    }
+  else if (rd == REG_PC)
+    {
+      inst.error = BAD_PC;
+      return;
+    }
+
+  /* Imm16.  */
+  skip_whitespace (str);
+  if (!is_immediate_prefix (*str))
+    {
+      inst.error = _("immediate expression expected");
+      return;
+    }
+  str++;
+  if (my_get_expression (&expr, &str))
+    {
+      inst.error = _("bad expression");
+      return;
+    }
+  if (expr.X_op != O_constant)
+    {
+      inst.error = _("constant expression expected");
+      return;
+    }
+  if (expr.X_add_number < 0 || expr.X_add_number > 65535)
+    {
+      inst.error = _("immediate value out of range");
+      return;
+    }
+
+  end_of_line (str);
+
+  /* The value is in two pieces: 0:11, 16:19.  */
+  inst.instruction |= (expr.X_add_number & 0x00000fff);
+  inst.instruction |= (expr.X_add_number & 0x0000f000) << 4;
+}
+  
+
 /* THUMB V5 breakpoint instruction (argument parse)
 	BKPT <immed_8>.  */
 
@@ -4563,6 +4849,7 @@ do_t_bkpt (char * str)
   end_of_line (str);
 }
 
+#ifdef OBJ_ELF
 static bfd_reloc_code_real_type
 arm_parse_reloc (void)
 {
@@ -4603,6 +4890,7 @@ arm_parse_reloc (void)
 
   return reloc_map[i].reloc;
 }
+#endif
 
 /* ARM V5 branch-link-exchange (argument parse) for BLX(1) only.
    Expects inst.instruction is set for BLX(1).
@@ -6526,6 +6814,84 @@ do_ldstv4 (char * str)
   inst.instruction |= (pre_inc ? PRE_INDEX : 0);
   end_of_line (str);
 }
+
+static void
+do_ldsttv4 (char * str)
+{
+  int conflict_reg;
+
+  skip_whitespace (str);
+
+  if ((conflict_reg = reg_required_here (& str, 12)) == FAIL)
+    {
+      if (!inst.error)
+	inst.error = BAD_ARGS;
+      return;
+    }
+
+  if (skip_past_comma (& str) == FAIL)
+    {
+      inst.error = _("address expected");
+      return;
+    }
+
+  if (*str == '[')
+    {
+      int reg;
+
+      str++;
+
+      skip_whitespace (str);
+
+      if ((reg = reg_required_here (&str, 16)) == FAIL)
+	return;
+
+      /* ldrt/strt always use post-indexed addressing, so if the base is
+	 the same as Rd, we warn.  */
+      if (conflict_reg == reg)
+	as_warn (_("%s register same as write-back base"),
+		 ((inst.instruction & LOAD_BIT)
+		  ? _("destination") : _("source")));
+
+      skip_whitespace (str);
+
+      if (*str == ']')
+	{
+	  str ++;
+
+	  if (skip_past_comma (&str) == SUCCESS)
+	    {
+	      /* [Rn],... (post inc)  */
+	      if (ldst_extend_v4 (&str) == FAIL)
+		return;
+	    }
+	  else
+	    {
+	      /* [Rn]  */
+	      skip_whitespace (str);
+
+	      /* Skip a write-back '!'.  */
+	      if (*str == '!')
+		str++;
+
+	      inst.instruction |= (INDEX_UP|HWOFFSET_IMM);
+	    }
+	}
+      else
+	{
+	  inst.error = _("post-indexed expression expected");
+	  return;
+	}
+    }
+  else
+    {
+      inst.error = _("post-indexed expression expected");
+      return;
+    }
+
+  end_of_line (str);
+}
+
 
 static long
 reg_list (char ** strp)
@@ -9381,10 +9747,10 @@ do_t_ldmstm (char * str)
       return;
     }
 
-  if (inst.reloc.type != BFD_RELOC_NONE)
+  if (inst.reloc.type != BFD_RELOC_UNUSED)
     {
       /* This really doesn't seem worth it.  */
-      inst.reloc.type = BFD_RELOC_NONE;
+      inst.reloc.type = BFD_RELOC_UNUSED;
       inst.error = _("expression too complex");
       return;
     }
@@ -9473,10 +9839,10 @@ do_t_push_pop (char * str)
       return;
     }
 
-  if (inst.reloc.type != BFD_RELOC_NONE)
+  if (inst.reloc.type != BFD_RELOC_UNUSED)
     {
       /* This really doesn't seem worth it.  */
-      inst.reloc.type = BFD_RELOC_NONE;
+      inst.reloc.type = BFD_RELOC_UNUSED;
       inst.error = _("expression too complex");
       return;
     }
@@ -10023,6 +10389,21 @@ static const struct asm_opcode insns[] =
 
   /*  ARM V6Z.  */
   { "smi",       0xe1600070, 3,  ARM_EXT_V6Z,      do_smi},
+
+  /*  ARM V6T2.  */
+  { "bfc",       0xe7c0001f, 3,  ARM_EXT_V6T2,     do_bfc},
+  { "bfi",       0xe7c00010, 3,  ARM_EXT_V6T2,     do_bfi},
+  { "mls",       0xe0600090, 3,  ARM_EXT_V6T2,     do_mls},
+  { "movw",      0xe3000000, 4,  ARM_EXT_V6T2,     do_mov16},
+  { "movt",      0xe3400000, 4,  ARM_EXT_V6T2,     do_mov16},
+  { "rbit",      0xe3ff0f30, 4,  ARM_EXT_V6T2,     do_rbit},
+  { "sbfx",      0xe7a00050, 4,  ARM_EXT_V6T2,     do_bfx},
+  { "ubfx",      0xe7e00050, 4,  ARM_EXT_V6T2,     do_bfx},
+
+  { "ldrht",     0xe03000b0, 3,  ARM_EXT_V6T2,     do_ldsttv4},
+  { "ldrsht",    0xe03000f0, 3,  ARM_EXT_V6T2,     do_ldsttv4},
+  { "ldrsbt",    0xe03000d0, 3,  ARM_EXT_V6T2,     do_ldsttv4},
+  { "strht",     0xe02000b0, 3,  ARM_EXT_V6T2,     do_ldsttv4},
 
   /* Core FPA instruction set (V1).  */
   {"wfs",        0xee200110, 3,  FPU_FPA_EXT_V1,   do_fpa_ctrl},
@@ -10882,55 +11263,6 @@ build_arm_ops_hsh (void)
     }
 }
 
-#if 0 /* Suppressed - for now.  */
-#if defined OBJ_ELF || defined OBJ_COFF
-
-#ifdef OBJ_ELF
-#define arm_Note Elf_External_Note
-#else
-typedef struct
-{
-  unsigned char	namesz[4];	/* Size of entry's owner string.  */
-  unsigned char	descsz[4];	/* Size of the note descriptor.  */
-  unsigned char	type[4];	/* Interpretation of the descriptor.  */
-  char		name[1];	/* Start of the name+desc data.  */
-} arm_Note;
-#endif
-
-/* The description is kept to a fix sized in order to make updating
-   it and merging it easier.  */
-#define ARM_NOTE_DESCRIPTION_LENGTH	8
-
-static void
-arm_add_note (const char * name,
-	      const char * description,
-	      unsigned int type)
-{
-  arm_Note     note ATTRIBUTE_UNUSED;
-  char *       p;
-  unsigned int name_len;
-
-  name_len = (strlen (name) + 1 + 3) & ~3;
-
-  p = frag_more (sizeof (note.namesz));
-  md_number_to_chars (p, (valueT) name_len, sizeof (note.namesz));
-
-  p = frag_more (sizeof (note.descsz));
-  md_number_to_chars (p, (valueT) ARM_NOTE_DESCRIPTION_LENGTH, sizeof (note.descsz));
-
-  p = frag_more (sizeof (note.type));
-  md_number_to_chars (p, (valueT) type, sizeof (note.type));
-
-  p = frag_more (name_len);
-  strcpy (p, name);
-
-  p = frag_more (ARM_NOTE_DESCRIPTION_LENGTH);
-  strncpy (p, description, ARM_NOTE_DESCRIPTION_LENGTH);
-  frag_align (2, 0, 0);
-}
-#endif
-#endif
-
 
 static const struct thumb_opcode tinsns[] =
 {
@@ -11009,6 +11341,12 @@ static const struct thumb_opcode tinsns[] =
   {"sxtb",	0xb240,		2,	ARM_EXT_V6,  do_t_arit},
   {"uxth",	0xb280,		2,	ARM_EXT_V6,  do_t_arit},
   {"uxtb",	0xb2c0,		2,	ARM_EXT_V6,  do_t_arit},
+
+  /* ARM V6K.  */
+  {"sev",	0xbf40,		2,	ARM_EXT_V6K, do_empty},
+  {"wfe",	0xbf20,		2,	ARM_EXT_V6K, do_empty},
+  {"wfi",	0xbf30,		2,	ARM_EXT_V6K, do_empty},
+  {"yield",	0xbf10,		2,	ARM_EXT_V6K, do_empty},
 };
 
 void
@@ -11089,6 +11427,7 @@ md_begin (void)
 
   cpu_variant = mcpu_cpu_opt | mfpu_opt;
 
+#if defined OBJ_COFF || defined OBJ_ELF
   {
     unsigned int flags = 0;
 
@@ -11099,7 +11438,6 @@ md_begin (void)
       {
       case EF_ARM_EABI_UNKNOWN:
 #endif
-#if defined OBJ_COFF || defined OBJ_ELF
 	/* Set the flags in the private structure.  */
 	if (uses_apcs_26)      flags |= F_APCS26;
 	if (support_interwork) flags |= F_INTERWORK;
@@ -11125,7 +11463,7 @@ md_begin (void)
 	/* Using VFP conventions (even if soft-float).  */
 	if (cpu_variant & FPU_VFP_EXT_NONE)
 	  flags |= F_VFP_FLOAT;
-#endif
+
 #if defined OBJ_ELF
 	if (cpu_variant & FPU_ARCH_MAVERICK)
 	    flags |= EF_ARM_MAVERICK_FLOAT;
@@ -11139,7 +11477,6 @@ md_begin (void)
 	abort ();
       }
 #endif
-#if defined OBJ_COFF || defined OBJ_ELF
     bfd_set_private_flags (stdoutput, flags);
 
     /* We have run out flags in the COFF header to encode the
@@ -11159,8 +11496,8 @@ md_begin (void)
 	    bfd_set_section_contents (stdoutput, sec, NULL, 0, 0);
 	  }
       }
-#endif
   }
+#endif
 
   /* Record the CPU type as well.  */
   switch (cpu_variant & ARM_CPU_MASK)
@@ -11207,62 +11544,6 @@ md_begin (void)
     }
   else if (cpu_variant & ARM_EXT_V3M)
     mach = bfd_mach_arm_3M;
-
-#if 0 /* Suppressed - for now.  */
-#if defined (OBJ_ELF) || defined (OBJ_COFF)
-
-  /* Create a .note section to fully identify this arm binary.  */
-
-#define NOTE_ARCH_STRING 	"arch: "
-
-#if defined OBJ_COFF && ! defined NT_VERSION
-#define NT_VERSION  1
-#define NT_ARCH     2
-#endif
-
-  {
-    segT current_seg = now_seg;
-    subsegT current_subseg = now_subseg;
-    asection * arm_arch;
-    const char * arch_string;
-
-    arm_arch = bfd_make_section_old_way (stdoutput, ARM_NOTE_SECTION);
-
-#ifdef OBJ_COFF
-    bfd_set_section_flags (stdoutput, arm_arch,
-			   SEC_DATA | SEC_ALLOC | SEC_LOAD | SEC_LINK_ONCE \
-			   | SEC_HAS_CONTENTS);
-#else
-    bfd_set_section_flags (stdoutput, arm_arch,
-			   SEC_READONLY | SEC_HAS_CONTENTS);
-#endif
-    arm_arch->output_section = arm_arch;
-    subseg_set (arm_arch, 0);
-
-    switch (mach)
-      {
-      default:
-      case bfd_mach_arm_unknown: arch_string = "unknown"; break;
-      case bfd_mach_arm_2:       arch_string = "armv2"; break;
-      case bfd_mach_arm_2a:      arch_string = "armv2a"; break;
-      case bfd_mach_arm_3:       arch_string = "armv3"; break;
-      case bfd_mach_arm_3M:      arch_string = "armv3M"; break;
-      case bfd_mach_arm_4:       arch_string = "armv4"; break;
-      case bfd_mach_arm_4T:      arch_string = "armv4t"; break;
-      case bfd_mach_arm_5:       arch_string = "armv5"; break;
-      case bfd_mach_arm_5T:      arch_string = "armv5t"; break;
-      case bfd_mach_arm_5TE:     arch_string = "armv5te"; break;
-      case bfd_mach_arm_XScale:  arch_string = "XScale"; break;
-      case bfd_mach_arm_ep9312:  arch_string = "ep9312"; break;
-      case bfd_mach_arm_iWMMXt:  arch_string = "iWMMXt"; break;
-      }
-
-    arm_add_note (NOTE_ARCH_STRING, arch_string, NT_ARCH);
-
-    subseg_set (current_seg, current_subseg);
-  }
-#endif
-#endif /* Suppressed code.  */
 
   bfd_set_arch_mach (stdoutput, TARGET_ARCH, mach);
 }
@@ -11478,17 +11759,10 @@ md_apply_fix3 (fixS *   fixP,
   char *         buf = fixP->fx_where + fixP->fx_frag->fr_literal;
   arm_fix_data * arm_data = (arm_fix_data *) fixP->tc_fix_data;
 
-  assert (fixP->fx_r_type < BFD_RELOC_UNUSED);
+  assert (fixP->fx_r_type <= BFD_RELOC_UNUSED);
 
   /* Note whether this will delete the relocation.  */
-#if 0
-  /* Patch from REarnshaw to JDavis (disabled for the moment, since it
-     doesn't work fully.)  */
-  if ((fixP->fx_addsy == 0 || symbol_constant_p (fixP->fx_addsy))
-      && !fixP->fx_pcrel)
-#else
   if (fixP->fx_addsy == 0 && !fixP->fx_pcrel)
-#endif
     fixP->fx_done = 1;
 
   /* If this symbol is in a different section then we need to leave it for
@@ -11507,6 +11781,11 @@ md_apply_fix3 (fixS *   fixP,
 
   switch (fixP->fx_r_type)
     {
+    case BFD_RELOC_NONE:
+      /* This will need to go in the object file.  */
+      fixP->fx_done = 0;
+      break;
+  
     case BFD_RELOC_ARM_IMMEDIATE:
       /* We claim that this fixup has been processed here,
 	 even if in fact we generate an error because we do
@@ -12174,7 +12453,7 @@ md_apply_fix3 (fixS *   fixP,
       fixP->fx_done = 0;
       return;
 
-    case BFD_RELOC_NONE:
+    case BFD_RELOC_UNUSED:
     default:
       as_bad_where (fixP->fx_file, fixP->fx_line,
 		    _("bad relocation fixup type (%d)"), fixP->fx_r_type);
@@ -12230,6 +12509,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED,
 	  break;
 	}
 
+    case BFD_RELOC_NONE:
     case BFD_RELOC_ARM_PCREL_BRANCH:
     case BFD_RELOC_ARM_PCREL_BLX:
     case BFD_RELOC_RVA:
@@ -12294,6 +12574,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED,
 
 	switch (fixp->fx_r_type)
 	  {
+	  case BFD_RELOC_NONE:		   type = "NONE";         break;
 	  case BFD_RELOC_ARM_OFFSET_IMM8:  type = "OFFSET_IMM8";  break;
 	  case BFD_RELOC_ARM_SHIFT_IMM:    type = "SHIFT_IMM";    break;
 	  case BFD_RELOC_ARM_SMI:          type = "SMI";          break;
@@ -12417,7 +12698,7 @@ output_inst (const char * str)
   else
     md_number_to_chars (to, inst.instruction, inst.size);
 
-  if (inst.reloc.type != BFD_RELOC_NONE)
+  if (inst.reloc.type != BFD_RELOC_UNUSED)
     fix_new_arm (frag_now, to - frag_now->fr_literal,
 		 inst.size, & inst.reloc.exp, inst.reloc.pc_rel,
 		 inst.reloc.type);
@@ -12434,12 +12715,6 @@ md_assemble (char * str)
   char *p;
   char *start;
 
-  /* Align the instruction.
-     This may not be the right thing to do but ...  */
-#if 0
-  arm_align (2, 0);
-#endif
-
   /* Align the previous label if needed.  */
   if (last_label_seen != NULL)
     {
@@ -12449,7 +12724,7 @@ md_assemble (char * str)
     }
 
   memset (&inst, '\0', sizeof (inst));
-  inst.reloc.type = BFD_RELOC_NONE;
+  inst.reloc.type = BFD_RELOC_UNUSED;
 
   skip_whitespace (str);
 
@@ -12879,6 +13154,10 @@ static struct arm_arch_option_table arm_archs[] =
   {"armv6k",            ARM_ARCH_V6K,    FPU_ARCH_VFP},
   {"armv6z",            ARM_ARCH_V6Z,    FPU_ARCH_VFP},
   {"armv6zk",           ARM_ARCH_V6ZK,   FPU_ARCH_VFP},
+  {"armv6t2",		ARM_ARCH_V6T2,   FPU_ARCH_VFP},
+  {"armv6kt2",		ARM_ARCH_V6KT2,  FPU_ARCH_VFP},
+  {"armv6zt2",		ARM_ARCH_V6ZT2,  FPU_ARCH_VFP},
+  {"armv6zkt2",		ARM_ARCH_V6ZKT2, FPU_ARCH_VFP},
   {"xscale",		ARM_ARCH_XSCALE, FPU_ARCH_VFP},
   {"iwmmxt",		ARM_ARCH_IWMMXT, FPU_ARCH_VFP},
   {NULL, 0, 0}
@@ -13424,7 +13703,7 @@ arm_adjust_symtab (void)
 	  elf_symbol_type * elf_sym;
 
 	  elf_sym = elf_symbol (symbol_get_bfdsym (sym));
-	  bind = ELF_ST_BIND (elf_sym);
+	  bind = ELF_ST_BIND (elf_sym->internal_elf_sym.st_info);
 
 	  /* If it's a .thumb_func, declare it as so,
 	     otherwise tag label as .code 16.  */
@@ -13938,7 +14217,7 @@ create_unwind_entry (int have_data)
 {
   int size;
   addressT where;
-  unsigned char *ptr;
+  char *ptr;
   /* The current word of data.  */
   valueT data;
   /* The number of bytes left in this word.  */
@@ -14023,6 +14302,14 @@ create_unwind_entry (int have_data)
       /* Custom personality routine.  */
       fix_new (frag_now, where, 4, unwind.personality_routine, 0, 1,
 	       BFD_RELOC_ARM_PREL31);
+
+      /* Indicate dependency to linker.  */
+        {
+          char *name = "__aeabi_unwind_cpp_pr0";
+	  symbolS *pr = symbol_find_or_make (name);
+	  fix_new (frag_now, where, 4, pr, 0, 1, BFD_RELOC_NONE);
+	}
+
       where += 4;
       ptr += 4;
 
@@ -14032,18 +14319,28 @@ create_unwind_entry (int have_data)
       break;
 
     /* ABI defined personality routines.  */
-    /* TODO: Emit R_ARM_NONE to the personality routine.  */
     case 0:
       /* Three opcodes bytes are packed into the first word.  */
       data = 0x80;
       n = 3;
-      break;
+      goto emit_reloc;
 
     case 1:
     case 2:
       /* The size and first two opcode bytes go in the first word.  */
       data = ((0x80 + unwind.personality_index) << 8) | size;
       n = 2;
+      goto emit_reloc;
+
+    emit_reloc:
+      {
+	/* Indicate dependency to linker.  */
+	char *name[] = { "__aeabi_unwind_cpp_pr0",
+	                 "__aeabi_unwind_cpp_pr1",
+			 "__aeabi_unwind_cpp_pr2" };
+	symbolS *pr = symbol_find_or_make (name[unwind.personality_index]);
+	fix_new (frag_now, where, 4, pr, 0, 1, BFD_RELOC_NONE);
+      }
       break;
 
     default:
@@ -14129,7 +14426,7 @@ static void
 s_arm_unwind_fnend (int ignored ATTRIBUTE_UNUSED)
 {
   long where;
-  unsigned char *ptr;
+  char *ptr;
   valueT val;
 
   demand_empty_rest_of_line ();

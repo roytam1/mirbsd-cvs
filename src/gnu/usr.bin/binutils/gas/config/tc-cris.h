@@ -1,5 +1,6 @@
 /* tc-cris.h -- Header file for tc-cris.c, the CRIS GAS port.
-   Copyright 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    Contributed by Axis Communications AB, Lund, Sweden.
    Originally written for GAS 1.38.1 by Mikael Asker.
@@ -34,12 +35,12 @@
 #define TC_CRIS
 
 /* Multi-target support is always on.  */
-extern const char *cris_target_format PARAMS ((void));
+extern const char *cris_target_format (void);
 #define TARGET_FORMAT cris_target_format ()
 
 #define TARGET_ARCH bfd_arch_cris
 
-extern unsigned int cris_mach PARAMS ((void));
+extern unsigned int cris_mach (void);
 #define TARGET_MACH (cris_mach ())
 
 #define TARGET_BYTES_BIG_ENDIAN 0
@@ -75,7 +76,7 @@ extern const char FLT_CHARS[];
 extern const struct relax_type md_cris_relax_table[];
 #define TC_GENERIC_RELAX_TABLE md_cris_relax_table
 
-long cris_relax_frag PARAMS ((segT, fragS *, long));
+long cris_relax_frag (segT, fragS *, long);
 
 /* GAS only handles relaxations for pc-relative data targeting addresses
    in the same segment, so we have to handle the rest on our own.  */
@@ -86,7 +87,7 @@ long cris_relax_frag PARAMS ((segT, fragS *, long));
   : cris_relax_frag (SEG, FRAGP, STRETCH))
 
 #define TC_FORCE_RELOCATION(FIX) md_cris_force_relocation (FIX)
-extern int md_cris_force_relocation PARAMS ((struct fix *));
+extern int md_cris_force_relocation (struct fix *);
 
 #define IS_CRIS_PIC_RELOC(RTYPE)			\
   ((RTYPE) == BFD_RELOC_CRIS_16_GOT			\
@@ -145,14 +146,13 @@ extern int md_cris_force_relocation PARAMS ((struct fix *));
    it is only for use with WORKING_DOT_WORD and warns about most stuff.
    (still in 2.9.1).  */
 struct broken_word;
-extern void tc_cris_check_adjusted_broken_word PARAMS ((offsetT,
-							struct
-							broken_word *));
+extern void tc_cris_check_adjusted_broken_word (offsetT,
+						struct broken_word *);
 #define TC_CHECK_ADJUSTED_BROKEN_DOT_WORD(new_offset, brokw) \
  tc_cris_check_adjusted_broken_word ((offsetT) (new_offset), brokw)
 
 /* We don't want any implicit alignment, so we do nothing.  */
-#define TC_IMPLICIT_LCOMM_ALIGNMENT(SIZE, P2VAR)
+#define TC_IMPLICIT_LCOMM_ALIGNMENT(SIZE, P2VAR) do { } while (0)
 
 /* CRIS instructions, with operands and prefixes included, are a multiple
    of two bytes long.  */

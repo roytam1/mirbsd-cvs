@@ -1,5 +1,5 @@
 /* V850-specific support for 32-bit ELF
-   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -78,8 +78,6 @@ static bfd_boolean v850_elf_add_symbol_hook
 static bfd_boolean v850_elf_link_output_symbol_hook
   PARAMS ((struct bfd_link_info *, const char *, Elf_Internal_Sym *,
 	   asection *, struct elf_link_hash_entry *));
-static bfd_boolean v850_elf_section_from_shdr
-  PARAMS ((bfd *, Elf_Internal_Shdr *, const char *));
 static bfd_boolean v850_elf_gc_sweep_hook
   PARAMS ((bfd *, struct bfd_link_info *, asection *,
 	   const Elf_Internal_Rela *));
@@ -1415,30 +1413,6 @@ v850_elf_reloc (abfd, reloc, symbol, data, isection, obfd, err)
   relocation += symbol->section->output_offset;
   relocation += reloc->addend;
 
-#if 0 /* Since this reloc is going to be processed later on, we should
-	 not make it pc-relative here.  To test this, try assembling and
-	 linking this program:
-
-	 	.text
-		.globl _start
-		nop
-	_start:
-        	jr foo
-
-	        .section ".foo","ax"
-		nop
-	foo:
-        	nop      */
-  if (reloc->howto->pc_relative)
-    {
-      /* Here the variable relocation holds the final address of the
-	 symbol we are relocating against, plus any addend.  */
-      relocation -= isection->output_section->vma + isection->output_offset;
-
-      /* Deal with pcrel_offset.  */
-      relocation -= reloc->address;
-    }
-#endif
   reloc->addend = relocation;
   return bfd_reloc_ok;
 }
@@ -1719,17 +1693,6 @@ v850_elf_relocate_section (output_bfd, info, input_bfd, input_section,
 	  sym = local_syms + r_symndx;
 	  sec = local_sections[r_symndx];
 	  relocation = _bfd_elf_rela_local_sym (output_bfd, sym, &sec, rel);
-#if 0
-	  {
-	    char * name;
-
-	    name = bfd_elf_string_from_elf_section (input_bfd, symtab_hdr->sh_link, sym->st_name);
-	    name = (name == NULL) ? "<none>" : name;
-	    fprintf (stderr, "local: sec: %s, sym: %s (%d), value: %x + %x + %x addend %x\n",
-		     sec->name, name, sym->st_name,
-		     sec->output_section->vma, sec->output_offset, sym->st_value, rel->r_addend);
-	  }
-#endif
 	}
       else
 	{
@@ -2245,16 +2208,16 @@ v850_elf_link_output_symbol_hook (info, name, sym, input_sec, h)
 }
 
 static bfd_boolean
-v850_elf_section_from_shdr (abfd, hdr, name)
-     bfd *abfd;
-     Elf_Internal_Shdr *hdr;
-     const char *name;
+v850_elf_section_from_shdr (bfd *abfd,
+			    Elf_Internal_Shdr *hdr,
+			    const char *name,
+			    int shindex)
 {
   /* There ought to be a place to keep ELF backend specific flags, but
      at the moment there isn't one.  We just keep track of the
      sections by their name, instead.  */
 
-  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name))
+  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
     return FALSE;
 
   switch (hdr->sh_type)

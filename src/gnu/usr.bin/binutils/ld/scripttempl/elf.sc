@@ -118,13 +118,10 @@ STACKNOTE="/DISCARD/ : { *(.note.GNU-stack) }"
 if test -z "${NO_SMALL_DATA}"; then
   SBSS=".sbss         ${RELOCATING-0} :
   {
-    ${RELOCATING+PROVIDE (__sbss_start = .);}
-    ${RELOCATING+PROVIDE (___sbss_start = .);}
+    ${CREATE_SHLIB+*(.sbss2 .sbss2.* .gnu.linkonce.sb2.*)}
     *(.dynsbss)
     *(.sbss${RELOCATING+ .sbss.* .gnu.linkonce.sb.*})
     *(.scommon)
-    ${RELOCATING+PROVIDE (__sbss_end = .);}
-    ${RELOCATING+PROVIDE (___sbss_end = .);}
   }"
   SBSS2=".sbss2        ${RELOCATING-0} : { *(.sbss2${RELOCATING+ .sbss2.* .gnu.linkonce.sb2.*}) }"
   SDATA="/* We want the small data sections together, so single-instruction offsets
@@ -133,6 +130,7 @@ if test -z "${NO_SMALL_DATA}"; then
   .sdata        ${RELOCATING-0} : 
   {
     ${RELOCATING+${SDATA_START_SYMBOLS}}
+    ${CREATE_SHLIB+*(.sdata2 .sdata2.* .gnu.linkonce.s2.*)}
     *(.sdata${RELOCATING+ .sdata.* .gnu.linkonce.s.*})
   }"
   SDATA2=".sdata2       ${RELOCATING-0} : { *(.sdata2${RELOCATING+ .sdata2.* .gnu.linkonce.s2.*}) }"
@@ -335,22 +333,9 @@ cat <<EOF
   .tdata	${RELOCATING-0} : { *(.tdata${RELOCATING+ .tdata.* .gnu.linkonce.td.*}) }
   .tbss		${RELOCATING-0} : { *(.tbss${RELOCATING+ .tbss.* .gnu.linkonce.tb.*})${RELOCATING+ *(.tcommon)} }
 
-  /* Ensure the __preinit_array_start label is properly aligned.  We
-     could instead move the label definition inside the section, but
-     the linker would then create the section even if it turns out to
-     be empty, which isn't pretty.  */
-  ${RELOCATING+. = ALIGN(${ALIGNMENT});}
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__preinit_array_start = .);}}
   .preinit_array   ${RELOCATING-0} : { KEEP (*(.preinit_array)) }
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__preinit_array_end = .);}}
-
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__init_array_start = .);}}
   .init_array   ${RELOCATING-0} : { KEEP (*(.init_array)) }
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__init_array_end = .);}}
-
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__fini_array_start = .);}}
   .fini_array   ${RELOCATING-0} : { KEEP (*(.fini_array)) }
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__fini_array_end = .);}}
 
   ${SMALL_DATA_CTOR-${RELOCATING+${CTOR}}}
   ${SMALL_DATA_DTOR-${RELOCATING+${DTOR}}}
@@ -383,8 +368,6 @@ cat <<EOF
   ${RELOCATING+${OTHER_GOT_SYMBOLS}}
   ${NO_SMALL_DATA-${GOT}}
   ${OTHER_GOT_SECTIONS}
-  ${CREATE_SHLIB+${SDATA2}}
-  ${CREATE_SHLIB+${SBSS2}}
   ${SDATA}
   ${OTHER_SDATA_SECTIONS}
   ${RELOCATING+_edata = .;}

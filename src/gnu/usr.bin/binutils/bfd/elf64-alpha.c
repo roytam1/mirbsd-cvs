@@ -1,5 +1,5 @@
 /* Alpha specific support for 64-bit ELF
-   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Contributed by Richard Henderson <rth@tamu.edu>.
 
@@ -72,8 +72,6 @@ static bfd_boolean elf64_alpha_mkobject
   PARAMS ((bfd *));
 static bfd_boolean elf64_alpha_object_p
   PARAMS ((bfd *));
-static bfd_boolean elf64_alpha_section_from_shdr
-  PARAMS ((bfd *, Elf_Internal_Shdr *, const char *));
 static bfd_boolean elf64_alpha_section_flags
   PARAMS ((flagword *, const Elf_Internal_Shdr *));
 static bfd_boolean elf64_alpha_fake_sections
@@ -2260,15 +2258,16 @@ elf64_alpha_relax_section (abfd, sec, link_info, again)
 #define ELF_DYNAMIC_INTERPRETER "/usr/lib/ld.so"
 
 /* Handle an Alpha specific section when reading an object file.  This
-   is called when elfcode.h finds a section with an unknown type.
+   is called when bfd_section_from_shdr finds a section with an unknown
+   type.
    FIXME: We need to handle the SHF_ALPHA_GPREL flag, but I'm not sure
    how to.  */
 
 static bfd_boolean
-elf64_alpha_section_from_shdr (abfd, hdr, name)
-     bfd *abfd;
-     Elf_Internal_Shdr *hdr;
-     const char *name;
+elf64_alpha_section_from_shdr (bfd *abfd,
+			       Elf_Internal_Shdr *hdr,
+			       const char *name,
+			       int shindex)
 {
   asection *newsect;
 
@@ -2287,7 +2286,7 @@ elf64_alpha_section_from_shdr (abfd, hdr, name)
       return FALSE;
     }
 
-  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name))
+  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
     return FALSE;
   newsect = hdr->bfd_section;
 
@@ -2741,7 +2740,9 @@ elf64_alpha_output_extsym (h, data)
 
   if (h->root.indx == -2)
     strip = FALSE;
-  else if ((h->root.def_dynamic || h->root.ref_dynamic)
+  else if ((h->root.def_dynamic
+	    || h->root.ref_dynamic
+	    || h->root.root.type == bfd_link_hash_new)
 	   && !h->root.def_regular
 	   && !h->root.ref_regular)
     strip = TRUE;

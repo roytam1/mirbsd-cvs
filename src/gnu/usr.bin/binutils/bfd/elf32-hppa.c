@@ -937,6 +937,7 @@ static bfd_boolean
 elf32_hppa_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
 {
   struct elf32_hppa_link_hash_table *htab;
+  struct elf_link_hash_entry *h;
 
   /* Don't try to create the .plt and .got twice.  */
   htab = hppa_link_hash_table (info);
@@ -966,7 +967,12 @@ elf32_hppa_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
   htab->sdynbss = bfd_get_section_by_name (abfd, ".dynbss");
   htab->srelbss = bfd_get_section_by_name (abfd, ".rela.bss");
 
-  return TRUE;
+  /* hppa-linux needs _GLOBAL_OFFSET_TABLE_ to be visible from the main
+     application, because __canonicalize_funcptr_for_compare needs it.  */
+  h = elf_hash_table (info)->hgot;
+  h->forced_local = 0;
+  h->other = STV_DEFAULT;
+  return bfd_elf_link_record_dynamic_symbol (info, h);
 }
 
 /* Copy the extra info we tack onto an elf_link_hash_entry.  */
@@ -1186,20 +1192,6 @@ elf32_hppa_check_relocs (bfd *abfd,
 	case R_PARISC_DIR14F: /* Used for load/store from absolute locn.  */
 	case R_PARISC_DIR14R:
 	case R_PARISC_DIR21L: /* As above, and for ext branches too.  */
-#if 0
-	  /* Help debug shared library creation.  Any of the above
-	     relocs can be used in shared libs, but they may cause
-	     pages to become unshared.  */
-	  if (info->shared)
-	    {
-	      (*_bfd_error_handler)
-		(_("%B: relocation %s should not be used when making a shared object; recompile with -fPIC"),
-		 abfd,
-		 elf_hppa_howto_table[r_type].name);
-	    }
-	  /* Fall through.  */
-#endif
-
 	case R_PARISC_DIR32: /* .word relocs.  */
 	  /* We may want to output a dynamic relocation later.  */
 	  need_entry = NEED_DYNREL;
@@ -1850,7 +1842,7 @@ allocate_plt_static (struct elf_link_hash_entry *h, void *inf)
   info = inf;
   htab = hppa_link_hash_table (info);
   if (htab->elf.dynamic_sections_created
-	   && h->plt.refcount > 0)
+      && h->plt.refcount > 0)
     {
       /* Make sure this symbol is output as a dynamic symbol.
 	 Undefined weak syms won't yet be marked as dynamic.  */
@@ -3253,14 +3245,6 @@ final_link_relocate (asection *input_section,
 	      == (((int) OP_ADDIL << 26) | (27 << 21)))
 	    {
 	      insn &= ~ (0x1f << 21);
-#if 0 /* debug them.  */
-	      (*_bfd_error_handler)
-		(_("%B(%A+0x%lx): fixing %s"),
-		 input_bfd,
-		 input_section,
-		 (long) rel->r_offset,
-		 howto->name);
-#endif
 	    }
 	  /* Now try to make things easy for the dynamic linker.  */
 
@@ -3823,13 +3807,6 @@ elf32_hppa_relocate_section (bfd *output_bfd,
 
 		  outrel.r_info = ELF32_R_INFO (indx, r_type);
 		}
-#if 0
-	      /* EH info can cause unaligned DIR32 relocs.
-		 Tweak the reloc type for the dynamic linker.  */
-	      if (r_type == R_PARISC_DIR32 && (outrel.r_offset & 3) != 0)
-		outrel.r_info = ELF32_R_INFO (ELF32_R_SYM (outrel.r_info),
-					      R_PARISC_DIR32U);
-#endif
 	      sreloc = elf_section_data (input_section)->sreloc;
 	      if (sreloc == NULL)
 		abort ();

@@ -1,5 +1,5 @@
 /* tc-mips.h -- header file for tc-mips.c.
-   Copyright 1993, 1994, 1995, 1996, 1997, 2000, 2001, 2002, 2003
+   Copyright 1993, 1994, 1995, 1996, 1997, 2000, 2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
    Contributed by the OSF and Ralph Campbell.
    Written by Keith Knowles and Ralph Campbell, working independently.
@@ -79,15 +79,6 @@ enum mips_pic_level
 
 extern enum mips_pic_level mips_pic;
 
-struct mips_cl_insn
-{
-  unsigned long insn_opcode;
-  const struct mips_opcode *insn_mo;
-  /* The next two fields are used when generating mips16 code.  */
-  bfd_boolean use_extend;
-  unsigned short extend;
-};
-
 extern int tc_get_register (int frame);
 
 #define md_after_parse_args() mips_after_parse_args()
@@ -158,8 +149,8 @@ extern void md_mips_end (void);
 extern void mips_pop_insert (void);
 #define md_pop_insert()		mips_pop_insert()
 
-extern void mips_flush_pending_output (void);
-#define md_flush_pending_output mips_flush_pending_output
+extern void mips_emit_delays (void);
+#define md_flush_pending_output mips_emit_delays
 
 extern void mips_enable_auto_align (void);
 #define md_elf_section_change_hook()	mips_enable_auto_align()
@@ -169,5 +160,13 @@ extern enum dwarf2_format mips_dwarf2_format (void);
 
 extern int mips_dwarf2_addr_size (void);
 #define DWARF2_ADDR_SIZE(bfd) mips_dwarf2_addr_size ()
+
+#define TARGET_USE_CFIPOP 1
+
+#define tc_cfi_frame_initial_instructions mips_cfi_frame_initial_instructions
+extern void mips_cfi_frame_initial_instructions (void);
+
+#define DWARF2_DEFAULT_RETURN_COLUMN 31
+#define DWARF2_CIE_DATA_ALIGNMENT -4
 
 #endif /* TC_MIPS */

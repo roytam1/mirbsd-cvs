@@ -32,20 +32,6 @@ static bfd_reloc_status_type sh_elf_reloc
   (bfd *, arelent *, asymbol *, void *, asection *, bfd *, char **);
 static bfd_reloc_status_type sh_elf_ignore_reloc
   (bfd *, arelent *, asymbol *, void *, asection *, bfd *, char **);
-static reloc_howto_type *sh_elf_reloc_type_lookup
-  (bfd *, bfd_reloc_code_real_type);
-static void sh_elf_info_to_howto
-  (bfd *, arelent *, Elf_Internal_Rela *);
-static bfd_boolean sh_elf_set_private_flags
-  (bfd *, flagword);
-static bfd_boolean sh_elf_copy_private_data
-  (bfd *, bfd *);
-static bfd_boolean sh_elf_merge_private_data
-  (bfd *, bfd *);
-static bfd_boolean sh_elf_set_mach_from_flags
-  (bfd *);
-static bfd_boolean sh_elf_relax_section
-  (bfd *, asection *, struct bfd_link_info *, bfd_boolean *);
 static bfd_boolean sh_elf_relax_delete_bytes
   (bfd *, asection *, bfd_vma, int);
 static bfd_boolean sh_elf_align_loads
@@ -54,67 +40,12 @@ static bfd_boolean sh_elf_align_loads
 static bfd_boolean sh_elf_swap_insns
   (bfd *, asection *, void *, bfd_byte *, bfd_vma);
 #endif
-static bfd_boolean sh_elf_relocate_section
-  (bfd *, struct bfd_link_info *, bfd *, asection *, bfd_byte *,
-   Elf_Internal_Rela *, Elf_Internal_Sym *, asection **);
-static bfd_byte *sh_elf_get_relocated_section_contents
-  (bfd *, struct bfd_link_info *, struct bfd_link_order *, bfd_byte *,
-   bfd_boolean, asymbol **);
-static void sh_elf_copy_indirect_symbol
-  (const struct elf_backend_data *, struct elf_link_hash_entry *,
-   struct elf_link_hash_entry *);
 static int sh_elf_optimized_tls_reloc
   (struct bfd_link_info *, int, int);
-static bfd_boolean sh_elf_mkobject
-  (bfd *);
-static bfd_boolean sh_elf_object_p
-  (bfd *);
-static bfd_boolean sh_elf_check_relocs
-  (bfd *, struct bfd_link_info *, asection *, const Elf_Internal_Rela *);
-static struct bfd_hash_entry *sh_elf_link_hash_newfunc
-  (struct bfd_hash_entry *, struct bfd_hash_table *, const char *);
-static struct bfd_link_hash_table *sh_elf_link_hash_table_create
-  (bfd *);
-static bfd_boolean sh_elf_adjust_dynamic_symbol
-  (struct bfd_link_info *, struct elf_link_hash_entry *);
-static bfd_boolean sh_elf_size_dynamic_sections
-  (bfd *, struct bfd_link_info *);
-static bfd_boolean sh_elf_finish_dynamic_symbol
-  (bfd *, struct bfd_link_info *, struct elf_link_hash_entry *,
-   Elf_Internal_Sym *);
-static bfd_boolean sh_elf_finish_dynamic_sections
-  (bfd *, struct bfd_link_info *);
-static bfd_reloc_status_type sh_elf_reloc_loop
-  (int, bfd *, asection *, bfd_byte *, bfd_vma, asection *, bfd_vma,
-   bfd_vma);
-static bfd_boolean create_got_section
-  (bfd *, struct bfd_link_info *);
-static bfd_boolean sh_elf_create_dynamic_sections
-  (bfd *, struct bfd_link_info *);
 static bfd_vma dtpoff_base
   (struct bfd_link_info *);
 static bfd_vma tpoff
   (struct bfd_link_info *, bfd_vma);
-static asection * sh_elf_gc_mark_hook
-  (asection *, struct bfd_link_info *, Elf_Internal_Rela *,
-   struct elf_link_hash_entry *, Elf_Internal_Sym *);
-static bfd_boolean sh_elf_gc_sweep_hook
-  (bfd *, struct bfd_link_info *, asection *, const Elf_Internal_Rela *);
-static bfd_boolean allocate_dynrelocs
-  (struct elf_link_hash_entry *, void *);
-static bfd_boolean readonly_dynrelocs
-  (struct elf_link_hash_entry *, void *);
-static enum elf_reloc_type_class sh_elf_reloc_type_class
-  (const Elf_Internal_Rela *);
-#ifdef INCLUDE_SHMEDIA
-inline static void movi_shori_putval (bfd *, unsigned long, char *);
-#endif
-#if !defined SH_TARGET_ALREADY_DEFINED
-static bfd_boolean elf32_shlin_grok_prstatus
-  (bfd *abfd, Elf_Internal_Note *note);
-static bfd_boolean elf32_shlin_grok_psinfo
-  (bfd *abfd, Elf_Internal_Note *note);
-#endif
 
 /* The name of the dynamic interpreter.  This is put in the .interp
    section.  */
@@ -2383,24 +2314,12 @@ sh_elf_relax_section (bfd *abfd, asection *sec,
 	 not if the symbol is in a different section.  Besides, we need
 	 a consistent meaning for the relocation, so we just assume here that
 	 the value of the symbol is not available.  */
-#if 0
-      if (ELF32_R_SYM (irelfn->r_info) < symtab_hdr->sh_info)
-	{
-	  /* If this needs to be changed because of future relaxing,
-	     it will be handled here like other internal IND12W
-	     relocs.  */
-	  bfd_put_16 (abfd,
-		      (bfd_vma) 0xb000 | ((foff >> 1) & 0xfff),
-		      contents + irel->r_offset);
-	}
-      else
-#endif
-	{
-	  /* We can't fully resolve this yet, because the external
-	     symbol value may be changed by future relaxing.  We let
-	     the final link phase handle it.  */
-	  bfd_put_16 (abfd, (bfd_vma) 0xb000, contents + irel->r_offset);
-	}
+
+      /* We can't fully resolve this yet, because the external
+	 symbol value may be changed by future relaxing.  We let
+	 the final link phase handle it.  */
+      bfd_put_16 (abfd, (bfd_vma) 0xb000, contents + irel->r_offset);
+
       irel->r_addend = -4;
 
       /* See if there is another R_SH_USES reloc referring to the same
@@ -3381,7 +3300,7 @@ static const bfd_byte *elf_sh_pic_plt_entry;
 #define elf_sh_plt_reloc_offset(info) (info->shared ? 52 : 44)
 
 inline static void
-movi_shori_putval (bfd *output_bfd, unsigned long value, char *addr)
+movi_shori_putval (bfd *output_bfd, unsigned long value, bfd_byte *addr)
 {
   bfd_put_32 (output_bfd,
 	      bfd_get_32 (output_bfd, addr)
@@ -3400,7 +3319,6 @@ movi_shori_putval (bfd *output_bfd, unsigned long value, char *addr)
 
 /* First entry in an absolute procedure linkage table look like this.  */
 
-#if 1
 /* Note - this code has been "optimised" not to use r2.  r2 is used by
    GCC to return the address of large structures, so it should not be
    corrupted here.  This does mean however, that this PLT does not conform
@@ -3507,107 +3425,6 @@ static const bfd_byte elf_sh_pic_plt_entry_le[PLT_ENTRY_SIZE] =
   0, 0, 0, 0,	/* 1: replaced with address of this symbol in .got.  */
   0, 0, 0, 0    /* 2: replaced with offset into relocation table.  */
 };
-
-#else /* These are the old style PLT entries.  */
-static const bfd_byte elf_sh_plt0_entry_be[PLT_ENTRY_SIZE] =
-{
-  0xd0, 0x04,	/* mov.l 1f,r0 */
-  0xd2, 0x05,	/* mov.l 2f,r2 */
-  0x60, 0x02,	/* mov.l @r0,r0 */
-  0x62, 0x22,	/* mov.l @r2,r2 */
-  0x40, 0x2b,	/* jmp @r0 */
-  0xe0, 0x00,	/*  mov #0,r0 */
-  0x00, 0x09,	/* nop */
-  0x00, 0x09,	/* nop */
-  0x00, 0x09,	/* nop */
-  0x00, 0x09,	/* nop */
-  0, 0, 0, 0,	/* 1: replaced with address of .got.plt + 8.  */
-  0, 0, 0, 0,	/* 2: replaced with address of .got.plt + 4.  */
-};
-
-static const bfd_byte elf_sh_plt0_entry_le[PLT_ENTRY_SIZE] =
-{
-  0x04, 0xd0,	/* mov.l 1f,r0 */
-  0x05, 0xd2,	/* mov.l 2f,r2 */
-  0x02, 0x60,	/* mov.l @r0,r0 */
-  0x22, 0x62,	/* mov.l @r2,r2 */
-  0x2b, 0x40,	/* jmp @r0 */
-  0x00, 0xe0,	/*  mov #0,r0 */
-  0x09, 0x00,	/* nop */
-  0x09, 0x00,	/* nop */
-  0x09, 0x00,	/* nop */
-  0x09, 0x00,	/* nop */
-  0, 0, 0, 0,	/* 1: replaced with address of .got.plt + 8.  */
-  0, 0, 0, 0,	/* 2: replaced with address of .got.plt + 4.  */
-};
-
-/* Sebsequent entries in an absolute procedure linkage table look like
-   this.  */
-
-static const bfd_byte elf_sh_plt_entry_be[PLT_ENTRY_SIZE] =
-{
-  0xd0, 0x04,	/* mov.l 1f,r0 */
-  0x60, 0x02,	/* mov.l @r0,r0 */
-  0xd2, 0x02,	/* mov.l 0f,r2 */
-  0x40, 0x2b,   /* jmp @r0 */
-  0x60, 0x23,	/*  mov r2,r0 */
-  0xd1, 0x03,	/* mov.l 2f,r1 */
-  0x40, 0x2b,	/* jmp @r0 */
-  0x00, 0x09,	/* nop */
-  0, 0, 0, 0,	/* 0: replaced with address of .PLT0.  */
-  0, 0, 0, 0,	/* 1: replaced with address of this symbol in .got.  */
-  0, 0, 0, 0,	/* 2: replaced with offset into relocation table.  */
-};
-
-static const bfd_byte elf_sh_plt_entry_le[PLT_ENTRY_SIZE] =
-{
-  0x04, 0xd0,	/* mov.l 1f,r0 */
-  0x02, 0x60,	/* mov.l @r0,r0 */
-  0x02, 0xd2,	/* mov.l 0f,r2 */
-  0x2b, 0x40,   /* jmp @r0 */
-  0x23, 0x60,	/*  mov r2,r0 */
-  0x03, 0xd1,	/* mov.l 2f,r1 */
-  0x2b, 0x40,	/* jmp @r0 */
-  0x09, 0x00,	/*  nop */
-  0, 0, 0, 0,	/* 0: replaced with address of .PLT.  */
-  0, 0, 0, 0,	/* 1: replaced with address of this symbol in .got.  */
-  0, 0, 0, 0,	/* 2: replaced with offset into relocation table.  */
-};
-
-/* Entries in a PIC procedure linkage table look like this.  */
-
-static const bfd_byte elf_sh_pic_plt_entry_be[PLT_ENTRY_SIZE] =
-{
-  0xd0, 0x04,	/* mov.l 1f,r0 */
-  0x00, 0xce,	/* mov.l @(r0,r12),r0 */
-  0x40, 0x2b,	/* jmp @r0 */
-  0x00, 0x09,	/*  nop */
-  0x50, 0xc2,	/* 0: mov.l @(8,r12),r0 */
-  0x52, 0xc1,	/* 1: mov.l @(4,r12),r2 */
-  0xd1, 0x02,	/* mov.l 2f,r1 */
-  0x40, 0x2b,	/* jmp @r0 */
-  0xe0, 0x00,	/*  mov #0,r0 ! shows the type of PLT.  */
-  0x00, 0x09,	/* nop */
-  0, 0, 0, 0,	/* 1: replaced with address of this symbol in .got.  */
-  0, 0, 0, 0    /* 2: replaced with offset into relocation table.  */
-};
-
-static const bfd_byte elf_sh_pic_plt_entry_le[PLT_ENTRY_SIZE] =
-{
-  0x04, 0xd0,	/* mov.l 1f,r0 */
-  0xce, 0x00,	/* mov.l @(r0,r12),r0 */
-  0x2b, 0x40,	/* jmp @r0 */
-  0x09, 0x00,	/*  nop */
-  0xc2, 0x50,	/* 0: mov.l @(8,r12),r0 */
-  0xc1, 0x52,	/* 1: mov.l @(4,r12),r2 */
-  0x02, 0xd1,	/* mov.l 2f,r1 */
-  0x2b, 0x40,	/* jmp @r0 */
-  0x00, 0xe0,	/*  mov #0,r0 ! shows the type of PLT.  */
-  0x09, 0x00,	/* nop */
-  0, 0, 0, 0,	/* 1: replaced with address of this symbol in .got.  */
-  0, 0, 0, 0    /* 2: replaced with offset into relocation table.  */
-};
-#endif /* old style PLT entries.  */
 
 static const bfd_byte *elf_sh_plt0_entry;
 static const bfd_byte *elf_sh_plt_entry;

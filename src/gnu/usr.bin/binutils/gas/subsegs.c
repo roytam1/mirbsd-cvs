@@ -1,6 +1,6 @@
 /* subsegs.c - subsegments -
    Copyright 1987, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2002, 2004
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
@@ -595,6 +595,34 @@ subseg_text_p (segT sec)
 #endif /* ! BFD_ASSEMBLER */
 }
 
+/* Return non zero if SEC has at least one byte of data.  It is
+   possible that we'll return zero even on a non-empty section because
+   we don't know all the fragment types, and it is possible that an
+   fr_fix == 0 one still contributes data.  Think of this as
+   seg_definitely_not_empty_p.  */
+
+int
+seg_not_empty_p (segT sec ATTRIBUTE_UNUSED)
+{
+  segment_info_type *seginfo = seg_info (sec);
+  frchainS *chain;
+  fragS *frag;
+
+  if (!seginfo)
+    return 0;
+  
+  for (chain = seginfo->frchainP; chain; chain = chain->frch_next)
+    {
+      for (frag = chain->frch_root; frag; frag = frag->fr_next)
+	if (frag->fr_fix)
+	  return 1;
+      if (obstack_next_free (&chain->frch_obstack)
+	  != chain->frch_last->fr_literal)
+	return 1;
+    }
+  return 0;
+}
+
 void
 subsegs_print_statistics (FILE *file)
 {
@@ -616,27 +644,6 @@ subsegs_print_statistics (FILE *file)
 
       for (fragp = frchp->frch_root; fragp; fragp = fragp->fr_next)
 	{
-#if 0
-	  switch (fragp->fr_type)
-	    {
-	    case rs_fill:
-	      fprintf (file, "f"); break;
-	    case rs_align:
-	      fprintf (file, "a"); break;
-	    case rs_align_code:
-	      fprintf (file, "c"); break;
-	    case rs_org:
-	      fprintf (file, "o"); break;
-	    case rs_machine_dependent:
-	      fprintf (file, "m"); break;
-	    case rs_space:
-	      fprintf (file, "s"); break;
-	    case 0:
-	      fprintf (file, "0"); break;
-	    default:
-	      fprintf (file, "?"); break;
-	    }
-#endif
 	  count++;
 	}
       fprintf (file, "\n");

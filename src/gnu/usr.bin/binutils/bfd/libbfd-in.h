@@ -2,7 +2,8 @@
    (This include file is not for users of the library.)
 
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    Written by Cygnus Support.
 
@@ -21,6 +22,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+
+#include "hashtab.h"
 
 /* Align an address upward to a boundary, expressed as a number of bytes.
    E.g. align to an 8-byte boundary with argument of 8.  Take care never
@@ -56,7 +59,7 @@ struct bfd_in_memory
 struct artdata {
   file_ptr first_file_filepos;
   /* Speed up searching the armap */
-  struct ar_cache *cache;
+  htab_t cache;
   bfd *archive_head;		/* Only interesting in output routines */
   carsym *symdefs;		/* the symdef entries */
   symindex symdef_count;	/* how many there are */
@@ -175,6 +178,8 @@ bfd_boolean coff_write_armap
 
 extern void *_bfd_generic_read_ar_hdr
   (bfd *);
+extern void _bfd_ar_spacepad
+  (char *, size_t, const char *, long);
 
 extern void *_bfd_generic_read_ar_hdr_mag
   (bfd *, const char *);
@@ -686,6 +691,6 @@ extern void bfd_section_already_linked_table_traverse
   (bfd_boolean (*) (struct bfd_section_already_linked_hash_entry *,
 		    void *), void *);
 
-extern bfd_vma read_unsigned_leb128 (bfd *, char *, unsigned int *);
-extern bfd_signed_vma read_signed_leb128 (bfd *, char *, unsigned int *);
+extern bfd_vma read_unsigned_leb128 (bfd *, bfd_byte *, unsigned int *);
+extern bfd_signed_vma read_signed_leb128 (bfd *, bfd_byte *, unsigned int *);
 

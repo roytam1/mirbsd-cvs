@@ -3208,6 +3208,7 @@ struct ppc_link_hash_entry
   /* Flag function code and descriptor symbols.  */
   unsigned int is_func:1;
   unsigned int is_func_descriptor:1;
+  unsigned int fake:1;
 
   /* Whether global opd/toc sym has been adjusted or not.
      After ppc64_elf_edit_opd/ppc64_elf_edit_toc has run, this flag
@@ -3430,14 +3431,9 @@ link_hash_newfunc (struct bfd_hash_entry *entry,
     {
       struct ppc_link_hash_entry *eh = (struct ppc_link_hash_entry *) entry;
 
-      eh->stub_cache = NULL;
-      eh->dyn_relocs = NULL;
-      eh->oh = NULL;
-      eh->is_func = 0;
-      eh->is_func_descriptor = 0;
-      eh->adjust_done = 0;
-      eh->was_undefined = 0;
-      eh->tls_mask = 0;
+      memset (&eh->stub_cache, 0,
+	      (sizeof (struct ppc_link_hash_entry)
+	       - offsetof (struct ppc_link_hash_entry, stub_cache)));
     }
 
   return entry;
@@ -3770,6 +3766,41 @@ ppc64_elf_create_dynamic_sections (bfd *dynobj, struct bfd_link_info *info)
   return TRUE;
 }
 
+/* Merge PLT info on FROM with that on TO.  */
+
+static void
+move_plt_plist (struct ppc_link_hash_entry *from,
+		struct ppc_link_hash_entry *to)
+{
+  if (from->elf.plt.plist != NULL)
+    {
+      if (to->elf.plt.plist != NULL)
+	{
+	  struct plt_entry **entp;
+	  struct plt_entry *ent;
+
+	  for (entp = &from->elf.plt.plist; (ent = *entp) != NULL; )
+	    {
+	      struct plt_entry *dent;
+
+	      for (dent = to->elf.plt.plist; dent != NULL; dent = dent->next)
+		if (dent->addend == ent->addend)
+		  {
+		    dent->plt.refcount += ent->plt.refcount;
+		    *entp = ent->next;
+		    break;
+		  }
+	      if (dent == NULL)
+		entp = &ent->next;
+	    }
+	  *entp = to->elf.plt.plist;
+	}
+
+      to->elf.plt.plist = from->elf.plt.plist;
+      from->elf.plt.plist = NULL;
+    }
+}
+
 /* Copy the extra info we tack onto an elf_link_hash_entry.  */
 
 static void
@@ -3872,33 +3903,7 @@ ppc64_elf_copy_indirect_symbol
     }
 
   /* And plt entries.  */
-  if (eind->elf.plt.plist != NULL)
-    {
-      if (edir->elf.plt.plist != NULL)
-	{
-	  struct plt_entry **entp;
-	  struct plt_entry *ent;
-
-	  for (entp = &eind->elf.plt.plist; (ent = *entp) != NULL; )
-	    {
-	      struct plt_entry *dent;
-
-	      for (dent = edir->elf.plt.plist; dent != NULL; dent = dent->next)
-		if (dent->addend == ent->addend)
-		  {
-		    dent->plt.refcount += ent->plt.refcount;
-		    *entp = ent->next;
-		    break;
-		  }
-	      if (dent == NULL)
-		entp = &ent->next;
-	    }
-	  *entp = edir->elf.plt.plist;
-	}
-
-      edir->elf.plt.plist = eind->elf.plt.plist;
-      eind->elf.plt.plist = NULL;
-    }
+  move_plt_plist (eind, edir);
 
   if (edir->elf.dynindx == -1)
     {
@@ -3937,6 +3942,41 @@ get_fdh (struct ppc_link_hash_entry *fh, struct ppc_link_hash_table *htab)
   return fdh;
 }
 
+/* Make a fake function descriptor sym for the code sym FH.  */
+
+static struct ppc_link_hash_entry *
+make_fdh (struct bfd_link_info *info,
+	  struct ppc_link_hash_entry *fh)
+{
+  bfd *abfd;
+  asymbol *newsym;
+  struct bfd_link_hash_entry *bh;
+  struct ppc_link_hash_entry *fdh;
+
+  abfd = fh->elf.root.u.undef.abfd;
+  newsym = bfd_make_empty_symbol (abfd);
+  newsym->name = fh->elf.root.root.string + 1;
+  newsym->section = bfd_und_section_ptr;
+  newsym->value = 0;
+  newsym->flags = BSF_WEAK;
+
+  bh = NULL;
+  if (!_bfd_generic_link_add_one_symbol (info, abfd, newsym->name,
+					 newsym->flags, newsym->section,
+					 newsym->value, NULL, FALSE, FALSE,
+					 &bh))
+    return NULL;
+
+  fdh = (struct ppc_link_hash_entry *) bh;
+  fdh->elf.non_elf = 0;
+  fdh->fake = 1;
+  fdh->is_func_descriptor = 1;
+  fdh->oh = fh;
+  fh->is_func = 1;
+  fh->oh = fdh;
+  return fdh;
+}
+
 /* Hacks to support old ABI code.
    When making function calls, old ABI code references function entry
    points (dot symbols), while new ABI code references the function
@@ -3971,7 +4011,9 @@ ppc64_elf_add_symbol_hook (bfd *ibfd ATTRIBUTE_UNUSED,
 }
 
 /* This function makes an old ABI object reference to ".bar" cause the
-   inclusion of a new ABI object archive that defines "bar".  */
+   inclusion of a new ABI object archive that defines "bar".
+   NAME is a symbol defined in an archive.  Return a symbol in the hash
+   table that might be satisfied by the archive symbols.  */
 
 static struct elf_link_hash_entry *
 ppc64_elf_archive_symbol_lookup (bfd *abfd,
@@ -3983,7 +4025,11 @@ ppc64_elf_archive_symbol_lookup (bfd *abfd,
   size_t len;
 
   h = _bfd_elf_archive_symbol_lookup (abfd, info, name);
-  if (h != NULL)
+  if (h != NULL
+      /* Don't return this sym if it is a fake function descriptor
+	 created by add_symbol_adjust.  */
+      && !(h->root.type == bfd_link_hash_undefweak
+	   && ((struct ppc_link_hash_entry *) h)->fake))
     return h;
 
   if (name[0] == '.')
@@ -4009,10 +4055,16 @@ ppc64_elf_archive_symbol_lookup (bfd *abfd,
    most restrictive visibility of the function descriptor and the
    function entry symbol is used.  */
 
+struct add_symbol_adjust_data
+{
+  struct bfd_link_info *info;
+  bfd_boolean ok;
+};
+
 static bfd_boolean
 add_symbol_adjust (struct elf_link_hash_entry *h, void *inf)
 {
-  struct bfd_link_info *info;
+  struct add_symbol_adjust_data *data;
   struct ppc_link_hash_table *htab;
   struct ppc_link_hash_entry *eh;
   struct ppc_link_hash_entry *fdh;
@@ -4026,11 +4078,28 @@ add_symbol_adjust (struct elf_link_hash_entry *h, void *inf)
   if (h->root.root.string[0] != '.')
     return TRUE;
 
-  info = inf;
-  htab = ppc_hash_table (info);
+  data = inf;
+  htab = ppc_hash_table (data->info);
   eh = (struct ppc_link_hash_entry *) h;
   fdh = get_fdh (eh, htab);
-  if (fdh != NULL)
+  if (fdh == NULL
+      && !data->info->relocatable
+      && (eh->elf.root.type == bfd_link_hash_undefined
+	  || eh->elf.root.type == bfd_link_hash_undefweak)
+      && eh->elf.ref_regular)
+    {
+      /* Make an undefweak function descriptor sym, which is enough to
+	 pull in an --as-needed shared lib, but won't cause link
+	 errors.  Archives are handled elsewhere.  */
+      fdh = make_fdh (data->info, eh);
+      if (fdh == NULL)
+	data->ok = FALSE;
+      else
+	fdh->elf.ref_regular = 1;
+    }
+  else if (fdh != NULL
+	   && (fdh->elf.root.type == bfd_link_hash_defined
+	       || fdh->elf.root.type == bfd_link_hash_defweak))
     {
       unsigned entry_vis = ELF_ST_VISIBILITY (eh->elf.other) - 1;
       unsigned descr_vis = ELF_ST_VISIBILITY (fdh->elf.other) - 1;
@@ -4055,48 +4124,24 @@ ppc64_elf_check_directives (bfd *abfd ATTRIBUTE_UNUSED,
 			    struct bfd_link_info *info)
 {
   struct ppc_link_hash_table *htab;
+  struct add_symbol_adjust_data data;
 
   htab = ppc_hash_table (info);
   if (!is_ppc64_elf_target (htab->elf.root.creator))
     return TRUE;
 
-  elf_link_hash_traverse (&htab->elf, add_symbol_adjust, info);
+  data.info = info;
+  data.ok = TRUE;
+  elf_link_hash_traverse (&htab->elf, add_symbol_adjust, &data);
 
   /* We need to fix the undefs list for any syms we have twiddled to
      undef_weak.  */
   if (htab->twiddled_syms)
     {
-      struct bfd_link_hash_entry **pun;
-
-      pun = &htab->elf.root.undefs;
-      while (*pun != NULL)
-	{
-	  struct bfd_link_hash_entry *h = *pun;
-
-	  if (h->type != bfd_link_hash_undefined
-	      && h->type != bfd_link_hash_common)
-	    {
-	      *pun = h->u.undef.next;
-	      h->u.undef.next = NULL;
-	      if (h == htab->elf.root.undefs_tail)
-		{
-		  if (pun == &htab->elf.root.undefs)
-		    htab->elf.root.undefs_tail = NULL;
-		  else
-		    /* pun points at an u.undef.next field.  Go back to
-		       the start of the link_hash_entry.  */
-		    htab->elf.root.undefs_tail = (struct bfd_link_hash_entry *)
-		      ((char *) pun - ((char *) &h->u.undef.next - (char *) h));
-		  break;
-		}
-	    }
-	  else
-	    pun = &h->u.undef.next;
-	}
-
+      bfd_link_repair_undef_list (&htab->elf.root);
       htab->twiddled_syms = 0;
     }
-  return TRUE;
+  return data.ok;
 }
 
 static bfd_boolean
@@ -4168,7 +4213,9 @@ update_plt_info (bfd *abfd, struct ppc_link_hash_entry *eh, bfd_vma addend)
     }
   ent->plt.refcount += 1;
   eh->elf.needs_plt = 1;
-  eh->is_func = 1;
+  if (eh->elf.root.root.string[0] == '.'
+      && eh->elf.root.root.string[1] != '\0')
+    eh->is_func = 1;
   return TRUE;
 }
 
@@ -4849,7 +4896,9 @@ ppc64_elf_gc_mark_hook (asection *sec,
 	      && eh->elf.root.type != bfd_link_hash_defweak)
 	    continue;
 
-	  if (eh->is_func_descriptor)
+	  if (eh->is_func_descriptor
+	      && (eh->oh->elf.root.type == bfd_link_hash_defined
+		  || eh->oh->elf.root.type == bfd_link_hash_defweak))
 	    rsec = eh->oh->elf.root.u.def.section;
 	  else if (get_opd_info (eh->elf.root.u.def.section) != NULL
 		   && opd_entry_value (eh->elf.root.u.def.section,
@@ -4895,12 +4944,17 @@ ppc64_elf_gc_mark_hook (asection *sec,
 	    case bfd_link_hash_defined:
 	    case bfd_link_hash_defweak:
 	      eh = (struct ppc_link_hash_entry *) h;
-	      if (eh->oh != NULL && eh->oh->is_func_descriptor)
+	      if (eh->oh != NULL
+		  && eh->oh->is_func_descriptor
+		  && (eh->oh->elf.root.type == bfd_link_hash_defined
+		      || eh->oh->elf.root.type == bfd_link_hash_defweak))
 		eh = eh->oh;
 
 	      /* Function descriptor syms cause the associated
 		 function code sym section to be marked.  */
-	      if (eh->is_func_descriptor)
+	      if (eh->is_func_descriptor
+		  && (eh->oh->elf.root.type == bfd_link_hash_defined
+		      || eh->oh->elf.root.type == bfd_link_hash_defweak))
 		{
 		  /* They also mark their opd section.  */
 		  if (!eh->elf.root.u.def.section->gc_mark)
@@ -5385,30 +5439,21 @@ func_desc_adjust (struct elf_link_hash_entry *h, void *inf)
       && (fh->elf.root.type == bfd_link_hash_undefined
 	  || fh->elf.root.type == bfd_link_hash_undefweak))
     {
-      bfd *abfd;
-      asymbol *newsym;
-      struct bfd_link_hash_entry *bh;
+      fdh = make_fdh (info, fh);
+      if (fdh == NULL)
+	return FALSE;
+    }
 
-      abfd = fh->elf.root.u.undef.abfd;
-      newsym = bfd_make_empty_symbol (abfd);
-      newsym->name = fh->elf.root.root.string + 1;
-      newsym->section = bfd_und_section_ptr;
-      newsym->value = 0;
-      newsym->flags = BSF_OBJECT;
-      if (fh->elf.root.type == bfd_link_hash_undefweak)
-	newsym->flags |= BSF_WEAK;
+  /* Fake function descriptors are made undefweak.  If the function
+     code symbol is strong undefined, make the fake sym the same.  */
 
-      bh = &fdh->elf.root;
-      if ( !(_bfd_generic_link_add_one_symbol
-	     (info, abfd, newsym->name, newsym->flags,
-	      newsym->section, newsym->value, NULL, FALSE, FALSE, &bh)))
-	{
-	  return FALSE;
-	}
-      fdh = (struct ppc_link_hash_entry *) bh;
-      fdh->elf.non_elf = 0;
-      fdh->elf.size = 24;
-      fdh->elf.type = STT_OBJECT;
+  if (fdh != NULL
+      && fdh->fake
+      && fdh->elf.root.type == bfd_link_hash_undefweak
+      && fh->elf.root.type == bfd_link_hash_undefined)
+    {
+      fdh->elf.root.type = bfd_link_hash_undefined;
+      bfd_link_add_undef (&htab->elf.root, &fdh->elf.root);
     }
 
   if (fdh != NULL
@@ -5428,11 +5473,7 @@ func_desc_adjust (struct elf_link_hash_entry *h, void *inf)
       fdh->elf.non_got_ref |= fh->elf.non_got_ref;
       if (ELF_ST_VISIBILITY (fh->elf.other) == STV_DEFAULT)
 	{
-	  struct plt_entry **ep = &fdh->elf.plt.plist;
-	  while (*ep != NULL)
-	    ep = &(*ep)->next;
-	  *ep = fh->elf.plt.plist;
-	  fh->elf.plt.plist = NULL;
+	  move_plt_plist (fh, fdh);
 	  fdh->elf.needs_plt = 1;
 	}
       fdh->is_func_descriptor = 1;
@@ -5447,12 +5488,10 @@ func_desc_adjust (struct elf_link_hash_entry *h, void *inf)
      been imported from another library.  Function code syms that
      are really in the library we must leave global to prevent the
      linker dragging in a definition from a static library.  */
-  force_local
-    = (info->shared
-       && (!fh->elf.def_regular
-	   || fdh == NULL
-	   || !fdh->elf.def_regular
-	   || fdh->elf.forced_local));
+  force_local = (!fh->elf.def_regular
+		 || fdh == NULL
+		 || !fdh->elf.def_regular
+		 || fdh->elf.forced_local);
   _bfd_elf_link_hash_hide_symbol (info, &fh->elf, force_local);
 
   return TRUE;
@@ -6168,8 +6207,14 @@ ppc64_elf_edit_opd (bfd *obfd, struct bfd_link_info *info,
 
 		  if (h != NULL
 		      && h->root.root.string[0] == '.')
-		    fdh = get_fdh ((struct ppc_link_hash_entry *) h,
-				   ppc_hash_table (info));
+		    {
+		      fdh = get_fdh ((struct ppc_link_hash_entry *) h,
+				     ppc_hash_table (info));
+		      if (fdh != NULL
+			  && fdh->elf.root.type != bfd_link_hash_defined
+			  && fdh->elf.root.type != bfd_link_hash_defweak)
+			fdh = NULL;
+		    }
 
 		  skip = (sym_sec->owner != ibfd
 			  || sym_sec->output_section == bfd_abs_section_ptr);
@@ -6353,7 +6398,9 @@ ppc64_elf_tls_setup (bfd *obfd, struct bfd_link_info *info)
 
       if (htab->tls_get_addr_fd == NULL
 	  && h->oh != NULL
-	  && h->oh->is_func_descriptor)
+	  && h->oh->is_func_descriptor
+	  && (h->oh->elf.root.type == bfd_link_hash_defined
+	      || h->oh->elf.root.type == bfd_link_hash_defweak))
 	htab->tls_get_addr_fd = h->oh;
     }
 
@@ -6735,13 +6782,14 @@ ppc64_elf_edit_toc (bfd *obfd ATTRIBUTE_UNUSED, struct bfd_link_info *info)
       Elf_Internal_Shdr *symtab_hdr;
       Elf_Internal_Sym *local_syms;
       struct elf_link_hash_entry **sym_hashes;
-      Elf_Internal_Rela *relstart, *rel, *wrel;
+      Elf_Internal_Rela *relstart, *rel;
       unsigned long *skip, *drop;
       unsigned char *used;
       unsigned char *keep, last, some_unused;
 
       toc = bfd_get_section_by_name (ibfd, ".toc");
       if (toc == NULL
+	  || toc->size == 0
 	  || toc->sec_info_type == ELF_INFO_TYPE_JUST_SYMS
 	  || elf_discarded_section (toc))
 	continue;
@@ -6986,25 +7034,32 @@ ppc64_elf_edit_toc (bfd *obfd ATTRIBUTE_UNUSED, struct bfd_link_info *info)
 	  toc->rawsize = toc->size;
 	  toc->size = src - contents - off;
 
-	  /* Read toc relocs.  */
-	  relstart = _bfd_elf_link_read_relocs (ibfd, toc, NULL, NULL, TRUE);
-	  if (relstart == NULL)
-	    goto error_ret;
+	  if (toc->reloc_count != 0)
+	    {
+	      Elf_Internal_Rela *wrel;
+	      bfd_size_type sz;
 
-	  /* Remove unused toc relocs, and adjust those we keep.  */
-	  wrel = relstart;
-	  for (rel = relstart; rel < relstart + toc->reloc_count; ++rel)
-	    if (skip[rel->r_offset >> 3] != (unsigned long) -1)
-	      {
-		wrel->r_offset = rel->r_offset - skip[rel->r_offset >> 3];
-		wrel->r_info = rel->r_info;
-		wrel->r_addend = rel->r_addend;
-		++wrel;
-	      }
-	  toc->reloc_count = wrel - relstart;
-	  elf_section_data (toc)->rel_hdr.sh_size
-	    = toc->reloc_count * elf_section_data (toc)->rel_hdr.sh_entsize;
-	  BFD_ASSERT (elf_section_data (toc)->rel_hdr2 == NULL);
+	      /* Read toc relocs.  */
+	      relstart = _bfd_elf_link_read_relocs (ibfd, toc, NULL, NULL,
+						    TRUE);
+	      if (relstart == NULL)
+		goto error_ret;
+
+	      /* Remove unused toc relocs, and adjust those we keep.  */
+	      wrel = relstart;
+	      for (rel = relstart; rel < relstart + toc->reloc_count; ++rel)
+		if (skip[rel->r_offset >> 3] != (unsigned long) -1)
+		  {
+		    wrel->r_offset = rel->r_offset - skip[rel->r_offset >> 3];
+		    wrel->r_info = rel->r_info;
+		    wrel->r_addend = rel->r_addend;
+		    ++wrel;
+		  }
+	      toc->reloc_count = wrel - relstart;
+	      sz = elf_section_data (toc)->rel_hdr.sh_entsize;
+	      elf_section_data (toc)->rel_hdr.sh_size = toc->reloc_count * sz;
+	      BFD_ASSERT (elf_section_data (toc)->rel_hdr2 == NULL);
+	    }
 
 	  /* Adjust addends for relocs against the toc section sym.  */
 	  for (sec = ibfd->sections; sec != NULL; sec = sec->next)
@@ -8314,13 +8369,27 @@ toc_adjusting_stub_needed (struct bfd_link_info *info, asection *isec)
 	  break;
 	}
 
-      /* Ignore branches to undefined syms.  */
-      if (sym_sec == NULL)
-	continue;
-
       /* Calls to dynamic lib functions go through a plt call stub
-	 that uses r2.  Assume branches to other sections not included
-	 in the link need stubs too, to cover -R and absolute syms.  */
+	 that uses r2.  Branches to undefined symbols might be a call
+	 using old-style dot symbols that can be satisfied by a plt
+	 call into a new-style dynamic library.  */
+      if (sym_sec == NULL)
+	{
+	  struct ppc_link_hash_entry *eh = (struct ppc_link_hash_entry *) h;
+	  if (eh != NULL
+	      && eh->oh != NULL
+	      && eh->oh->elf.plt.plist != NULL)
+	    {
+	      ret = 1;
+	      break;
+	    }
+
+	  /* Ignore other undefined symbols.  */
+	  continue;
+	}
+
+      /* Assume branches to other sections not included in the link need
+	 stubs too, to cover -R and absolute syms.  */
       if (sym_sec->output_section == NULL)
 	{
 	  ret = 1;
@@ -8342,7 +8411,6 @@ toc_adjusting_stub_needed (struct bfd_link_info *info, asection *isec)
       opd_adjust = get_opd_info (sym_sec);
       if (opd_adjust != NULL)
 	{
-
 	  if (h == NULL)
 	    {
 	      long adjust;
@@ -8718,8 +8786,7 @@ ppc64_elf_size_stubs (bfd *output_bfd,
 		      sym_value = 0;
 		      /* Recognise an old ABI func code entry sym, and
 			 use the func descriptor sym instead.  */
-		      if (hash->elf.root.type == bfd_link_hash_undefweak
-			  && hash->elf.root.root.string[0] == '.'
+		      if (hash->elf.root.root.string[0] == '.'
 			  && (fdh = get_fdh (hash, htab)) != NULL)
 			{
 			  if (fdh->elf.root.type == bfd_link_hash_defined

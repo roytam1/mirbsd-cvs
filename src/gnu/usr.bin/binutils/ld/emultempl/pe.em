@@ -9,8 +9,8 @@ rm -f e${EMULATION_NAME}.c
 (echo;echo;echo;echo;echo)>e${EMULATION_NAME}.c # there, now line numbers match ;-)
 cat >>e${EMULATION_NAME}.c <<EOF
 /* This file is part of GLD, the Gnu Linker.
-   Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
-   Free Software Foundation, Inc.
+   Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+   2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1362,14 +1362,6 @@ gld_${EMULATION_NAME}_unrecognized_file (lang_input_statement_type *entry ATTRIB
 		  exp_assop ('=', "__image_base__", exp_intop (pe.ImageBase));
 	    }
 
-#if 0
-	  /* Not sure if these *should* be set.  */
-	  if (pe_def_file->version_major != -1)
-	    {
-	      pe.MajorImageVersion = pe_def_file->version_major;
-	      pe.MinorImageVersion = pe_def_file->version_minor;
-	    }
-#endif
 	  if (pe_def_file->stack_reserve != -1
 	      && ! saw_option ("__size_of_stack_reserve__"))
 	    {

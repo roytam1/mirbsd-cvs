@@ -1,6 +1,6 @@
 /* ELF object file format
    Copyright 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
 
@@ -260,7 +260,7 @@ elf_file_symbol (const char *s, int appfile)
     }
 
 #ifdef NEED_ECOFF_DEBUG
-  ecoff_new_file (s);
+  ecoff_new_file (s, appfile);
 #endif
 }
 
@@ -1815,17 +1815,6 @@ elf_frob_symbol (symbolS *symp, int *puntp)
       && (symbol_get_bfdsym (symp)->flags & BSF_FUNCTION) == 0)
     symbol_get_bfdsym (symp)->flags |= BSF_OBJECT;
 #endif
-
-#if 0 /* TC_PPC */
-  /* If TC_PPC is defined, we used to force the type of a symbol to be
-     BSF_OBJECT if it was otherwise unset.  This was required by some
-     version of VxWorks.  Thomas de Lellis <tdel@windriver.com> says
-     that this is no longer needed, so it is now commented out.  */
-  if ((symbol_get_bfdsym (symp)->flags
-       & (BSF_FUNCTION | BSF_FILE | BSF_SECTION_SYM)) == 0
-      && S_IS_DEFINED (symp))
-    symbol_get_bfdsym (symp)->flags |= BSF_OBJECT;
-#endif
 }
 
 struct group_list
@@ -1947,7 +1936,7 @@ elf_frob_file (void)
 
       size = 4 * (list.elt_count[i] + 1);
       bfd_set_section_size (stdoutput, s, size);
-      s->contents = frag_more (size);
+      s->contents = (unsigned char *) frag_more (size);
       frag_now->fr_fix = frag_now_fix_octets ();
     }
 

@@ -1,6 +1,6 @@
 /* expr.c -operands, expressions-
    Copyright 1987, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
@@ -609,10 +609,6 @@ integer_constant (int radix, expressionS *expressionP)
       else
 	{
 	  expressionP->X_op = O_constant;
-#ifdef TARGET_WORD_SIZE
-	  /* Sign extend NUMBER.  */
-	  number |= (-(number >> (TARGET_WORD_SIZE - 1))) << (TARGET_WORD_SIZE - 1);
-#endif
 	  expressionP->X_add_number = number;
 	  input_line_pointer--;	/* Restore following character.  */
 	}			/* Really just a number.  */
@@ -981,12 +977,7 @@ operand (expressionS *expressionP)
       /* expression () will pass trailing whitespace.  */
       if ((c == '(' && *input_line_pointer != ')')
 	  || (c == '[' && *input_line_pointer != ']'))
-	{
-#ifdef RELAX_PAREN_GROUPING
-	  if (c != '(')
-#endif
-	    as_bad (_("missing '%c'"), c == '(' ? ')' : ']');
-	}
+	as_bad (_("missing '%c'"), c == '(' ? ')' : ']');
       else
 	input_line_pointer++;
       SKIP_WHITESPACE ();
@@ -1020,14 +1011,6 @@ operand (expressionS *expressionP)
       mri_char_constant (expressionP);
       break;
 
-    case '+':
-      /* Do not accept ++e as +(+e).
-	 Disabled, since the preprocessor removes whitespace.  */
-      if (0 && *input_line_pointer == '+')
-	goto target_op;
-      (void) operand (expressionP);
-      break;
-
 #ifdef TC_M68K
     case '"':
       /* Double quote is the bitwise not operator in MRI mode.  */
@@ -1041,10 +1024,11 @@ operand (expressionS *expressionP)
 	goto isname;
     case '!':
     case '-':
+    case '+':
       {
-        /* Do not accept --e as -(-e)
+	/* Do not accept ++e or --e as +(+e) or -(-e)
 	   Disabled, since the preprocessor removes whitespace.  */
-	if (0 && c == '-' && *input_line_pointer == '-')
+	if (0 && (c == '-' || c == '+') && *input_line_pointer == c)
 	  goto target_op;
 	
 	operand (expressionP);
@@ -1061,7 +1045,7 @@ operand (expressionS *expressionP)
 	      }
 	    else if (c == '~' || c == '"')
 	      expressionP->X_add_number = ~ expressionP->X_add_number;
-	    else
+	    else if (c == '!')
 	      expressionP->X_add_number = ! expressionP->X_add_number;
 	  }
 	else if (expressionP->X_op == O_big
@@ -1108,14 +1092,17 @@ operand (expressionS *expressionP)
 	else if (expressionP->X_op != O_illegal
 		 && expressionP->X_op != O_absent)
 	  {
-	    expressionP->X_add_symbol = make_expr_symbol (expressionP);
-	    if (c == '-')
-	      expressionP->X_op = O_uminus;
-	    else if (c == '~' || c == '"')
-	      expressionP->X_op = O_bit_not;
-	    else
-	      expressionP->X_op = O_logical_not;
-	    expressionP->X_add_number = 0;
+	    if (c != '+')
+	      {
+		expressionP->X_add_symbol = make_expr_symbol (expressionP);
+		if (c == '-')
+		  expressionP->X_op = O_uminus;
+		else if (c == '~' || c == '"')
+		  expressionP->X_op = O_bit_not;
+		else
+		  expressionP->X_op = O_logical_not;
+		expressionP->X_add_number = 0;
+	      }
 	  }
 	else
 	  as_warn (_("Unary operator %c ignored because bad operand follows"),
@@ -1716,7 +1703,7 @@ expr (int rankarg,		/* Larger # is higher rank.  */
       know (op_right == O_illegal
 	    || op_rank[(int) op_right] <= op_rank[(int) op_left]);
       know ((int) op_left >= (int) O_multiply
-	    && (int) op_left <= (int) O_logical_or);
+	    && (int) op_left <= (int) O_index);
 
       /* input_line_pointer->after right-hand quantity.  */
       /* left-hand quantity in resultP.  */

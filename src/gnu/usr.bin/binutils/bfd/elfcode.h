@@ -1,6 +1,6 @@
 /* ELF executable support for BFD.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    Written by Fred Fish @ Cygnus Support, from information published
    in "UNIX System V Release 4, Programmers Guide: ANSI C and
@@ -475,7 +475,6 @@ elf_object_p (bfd *abfd)
   Elf_Internal_Shdr i_shdr;
   Elf_Internal_Shdr *i_shdrp;	/* Section header table, internal form */
   unsigned int shindex;
-  char *shstrtab;		/* Internal copy of section header stringtab */
   const struct elf_backend_data *ebd;
   struct bfd_preserve preserve;
   asection *s;
@@ -680,16 +679,10 @@ elf_object_p (bfd *abfd)
 	      && (i_shdrp[shindex].sh_flags & SHF_ALLOC) != 0
 	      && i_shdrp[shindex].sh_type != SHT_NOBITS
 	      && (((i_shdrp[shindex].sh_addr - i_shdrp[shindex].sh_offset)
-		   % ebd->maxpagesize)
+		   % ebd->minpagesize)
 		  != 0))
 	    abfd->flags &= ~D_PAGED;
 	}
-    }
-
-  if (i_ehdrp->e_shstrndx && i_ehdrp->e_shoff)
-    {
-      if (! bfd_section_from_shdr (abfd, i_ehdrp->e_shstrndx))
-	goto got_no_match;
     }
 
   /* Read in the program headers.  */
@@ -717,19 +710,9 @@ elf_object_p (bfd *abfd)
 	}
     }
 
-  /* Read in the string table containing the names of the sections.  We
-     will need the base pointer to this table later.  */
-  /* We read this inline now, so that we don't have to go through
-     bfd_section_from_shdr with it (since this particular strtab is
-     used to find all of the ELF section names.) */
-
-  if (i_ehdrp->e_shstrndx != 0 && i_ehdrp->e_shoff)
+  if (i_ehdrp->e_shstrndx != 0 && i_ehdrp->e_shoff != 0)
     {
       unsigned int num_sec;
-
-      shstrtab = bfd_elf_get_str_section (abfd, i_ehdrp->e_shstrndx);
-      if (!shstrtab)
-	goto got_no_match;
 
       /* Once all of the section headers have been read and converted, we
 	 can start processing them.  Note that the first section header is
@@ -1516,7 +1499,7 @@ NAME(_bfd_elf,bfd_from_remote_memory)
   (bfd *templ,
    bfd_vma ehdr_vma,
    bfd_vma *loadbasep,
-   int (*target_read_memory) (bfd_vma, char *, int))
+   int (*target_read_memory) (bfd_vma, bfd_byte *, int))
 {
   Elf_External_Ehdr x_ehdr;	/* Elf file header, external form */
   Elf_Internal_Ehdr i_ehdr;	/* Elf file header, internal form */
@@ -1525,13 +1508,13 @@ NAME(_bfd_elf,bfd_from_remote_memory)
   bfd *nbfd;
   struct bfd_in_memory *bim;
   int contents_size;
-  char *contents;
+  bfd_byte *contents;
   int err;
   unsigned int i;
   bfd_vma loadbase;
 
   /* Read in the ELF header in external format.  */
-  err = target_read_memory (ehdr_vma, (char *) &x_ehdr, sizeof x_ehdr);
+  err = target_read_memory (ehdr_vma, (bfd_byte *) &x_ehdr, sizeof x_ehdr);
   if (err)
     {
       bfd_set_error (bfd_error_system_call);
@@ -1591,7 +1574,7 @@ NAME(_bfd_elf,bfd_from_remote_memory)
       bfd_set_error (bfd_error_no_memory);
       return NULL;
     }
-  err = target_read_memory (ehdr_vma + i_ehdr.e_phoff, (char *) x_phdrs,
+  err = target_read_memory (ehdr_vma + i_ehdr.e_phoff, (bfd_byte *) x_phdrs,
 			    i_ehdr.e_phnum * sizeof x_phdrs[0]);
   if (err)
     {

@@ -1,5 +1,5 @@
 /* Disassembler code for CRX.
-   Copyright 2004 Free Software Foundation, Inc.
+   Copyright 2004, 2005 Free Software Foundation, Inc.
    Contributed by Tomer Levi, NSC, Israel.
    Written by Tomer Levi.
 
@@ -655,10 +655,12 @@ make_instruction (void)
 {
   int i;
   unsigned int shift;
-  argument a;
 
   for (i = 0; i < currInsn.nargs; i++)
     {
+      argument a;
+
+      memset (&a, 0, sizeof (a));
       a.type = getargtype (instruction->operands[i].op_type);
       if (instruction->operands[i].op_type == cst4
 	  || instruction->operands[i].op_type == rbase_dispu4)

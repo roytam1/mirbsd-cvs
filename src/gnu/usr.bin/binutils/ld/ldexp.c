@@ -1,6 +1,6 @@
 /* This module handles expression trees.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2004
+   2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Written by Steve Chamberlain of Cygnus Support <sac@cygnus.com>.
 
@@ -49,6 +49,9 @@ static bfd_vma align_n
 struct exp_data_seg exp_data_seg;
 
 segment_type *segments;
+
+/* Principally used for diagnostics.  */
+static bfd_boolean assigning_to_dot = FALSE;
 
 /* Print the string representation of the given token.  Surround it
    with spaces if INFIX_P is TRUE.  */
@@ -144,6 +147,7 @@ new_abs (bfd_vma value)
   new.valid_p = TRUE;
   new.section = abs_output_section;
   new.value = value;
+  new.str = NULL;
   return new;
 }
 
@@ -595,7 +599,8 @@ fold_name (etree_type *tree,
 		    }
 		}
 	    }
-	  else if (allocation_done == lang_final_phase_enum)
+	  else if (allocation_done == lang_final_phase_enum
+		   || assigning_to_dot)
 	    einfo (_("%F%S: undefined symbol `%s' referenced in expression\n"),
 		   tree->name.name);
 	  else if (h->type == bfd_link_hash_new)
@@ -694,7 +699,7 @@ exp_fold_tree (etree_type *tree,
 
   if (tree == NULL)
     {
-      result.valid_p = FALSE;
+      memset (&result, 0, sizeof (result));
       return result;
     }
 
@@ -706,7 +711,7 @@ exp_fold_tree (etree_type *tree,
 
     case etree_rel:
       if (allocation_done != lang_final_phase_enum)
-	result.valid_p = FALSE;
+	memset (&result, 0, sizeof (result));
       else
 	result = new_rel ((tree->rel.value
 			   + tree->rel.section->output_section->vma
@@ -719,12 +724,8 @@ exp_fold_tree (etree_type *tree,
       result = exp_fold_tree (tree->assert_s.child,
 			      current_section,
 			      allocation_done, dot, dotp);
-      if (result.valid_p)
-	{
-	  if (! result.value)
-	    einfo ("%X%P: %s\n", tree->assert_s.message);
-	  return result;
-	}
+      if (result.valid_p && !result.value)
+	einfo ("%X%P: %s\n", tree->assert_s.message);
       break;
 
     case etree_unary:
@@ -754,10 +755,13 @@ exp_fold_tree (etree_type *tree,
 	      || (allocation_done == lang_final_phase_enum
 		  && current_section == abs_output_section))
 	    {
+	      /* Notify the folder that this is an assignment to dot.  */
+	      assigning_to_dot = TRUE;
 	      result = exp_fold_tree (tree->assign.src,
 				      current_section,
-				      allocation_done, dot,
-				      dotp);
+				      allocation_done, dot, dotp);
+	      assigning_to_dot = FALSE;
+
 	      if (! result.valid_p)
 		einfo (_("%F%S invalid assignment to location counter\n"));
 	      else
@@ -779,6 +783,8 @@ exp_fold_tree (etree_type *tree,
 		    }
 		}
 	    }
+	  else
+	    memset (&result, 0, sizeof (result));
 	}
       else
 	{
@@ -831,6 +837,7 @@ exp_fold_tree (etree_type *tree,
 
     default:
       FAIL ();
+      memset (&result, 0, sizeof (result));
       break;
     }
 
@@ -935,10 +942,6 @@ exp_assop (int code, const char *dst, etree_type *src)
   value.assign.dst = dst;
   value.assign.type.node_class = etree_assign;
 
-#if 0
-  if (exp_fold_tree_no_dot (&value, &result))
-    return exp_intop (result);
-#endif
   new = stat_alloc (sizeof (new->assign));
   memcpy (new, &value, sizeof (new->assign));
   return new;
@@ -997,13 +1000,6 @@ exp_print_tree (etree_type *tree)
       minfo ("%s+0x%v", tree->rel.section->name, tree->rel.value);
       return;
     case etree_assign:
-#if 0
-      if (tree->assign.dst->sdefs != NULL)
-	fprintf (config.map_file, "%s (%x) ", tree->assign.dst->name,
-		 tree->assign.dst->sdefs->value);
-      else
-	fprintf (config.map_file, "%s (UNDEFINED)", tree->assign.dst->name);
-#endif
       fprintf (config.map_file, "%s", tree->assign.dst);
       exp_print_token (tree->type.node_code, TRUE);
       exp_print_tree (tree->assign.src);
@@ -1118,7 +1114,7 @@ exp_get_fill (etree_type *tree,
       fill = xmalloc ((len + 1) / 2 + sizeof (*fill) - 1);
       fill->size = (len + 1) / 2;
       dst = fill->data;
-      s = r.str;
+      s = (unsigned char *) r.str;
       val = 0;
       do
 	{

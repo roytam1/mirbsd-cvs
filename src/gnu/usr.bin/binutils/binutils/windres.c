@@ -1,5 +1,5 @@
 /* windres.c -- a program to manipulate Windows resources
-   Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003
+   Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Written by Ian Lance Taylor, Cygnus Support.
 
@@ -34,6 +34,12 @@
 
    * The res2coff program, written by Pedro A. Aranda <paag@tid.es>.  */
 
+#include "config.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#include <assert.h>
+#include <time.h>
 #include "bfd.h"
 #include "getopt.h"
 #include "bucomm.h"
@@ -41,8 +47,6 @@
 #include "safe-ctype.h"
 #include "obstack.h"
 #include "windres.h"
-#include <assert.h>
-#include <time.h>
 
 /* Used by resrc.c at least.  */
 

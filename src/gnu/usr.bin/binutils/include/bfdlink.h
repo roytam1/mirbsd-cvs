@@ -1,6 +1,6 @@
 /* bfdlink.h -- header file for BFD link routines
-   Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2002, 2003,
-   2004 Free Software Foundation, Inc.
+   Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
+   2003, 2004, 2005 Free Software Foundation, Inc.
    Written by Steve Chamberlain and Ian Lance Taylor, Cygnus Support.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -113,6 +113,7 @@ struct bfd_link_hash_entry
 	     undefined symbol list.  */
 	  struct bfd_link_hash_entry *next;
 	  bfd *abfd;		/* BFD symbol was found in.  */
+	  bfd *weak;		/* BFD weak symbol was found in.  */
 	} undef;
       /* bfd_link_hash_defined, bfd_link_hash_defweak.  */
       struct
@@ -196,6 +197,10 @@ extern void bfd_link_hash_traverse
 /* Add an entry to the undefs list.  */
 extern void bfd_link_add_undef
   (struct bfd_link_hash_table *, struct bfd_link_hash_entry *);
+
+/* Remove symbols from the undefs list that don't belong there.  */
+extern void bfd_link_repair_undef_list
+  (struct bfd_link_hash_table *table);
 
 struct bfd_sym_chain
 {
@@ -318,6 +323,9 @@ struct bfd_link_info
 
   /* TRUE if we should warn when adding a DT_TEXTREL to a shared object.  */
   unsigned int warn_shared_textrel: 1;
+
+  /* TRUE if unreferenced sections should be removed.  */
+  unsigned int gc_sections: 1;
 
   /* What to do with unresolved symbols in an object file.
      When producing executables the default is GENERATE_ERROR.

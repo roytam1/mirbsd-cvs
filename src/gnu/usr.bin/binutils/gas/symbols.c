@@ -1,6 +1,6 @@
 /* symbols.c -symbol table-
    Copyright 1987, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
@@ -1561,7 +1561,11 @@ fb_label_name (long n,	/* We just saw "n:", "nf" or "nb" : n a number.  */
   char symbol_name_temporary[20];	/* Build up a number, BACKWARDS.  */
 
   know (n >= 0);
-  know (augend == 0 || augend == 1);
+#ifdef TC_MMIX
+  know ((unsigned long) augend <= 2 /* See mmix_fb_label.  */);
+#else
+  know ((unsigned long) augend <= 1);
+#endif
   p = symbol_name_build;
 #ifdef LOCAL_LABEL_PREFIX
   *p++ = LOCAL_LABEL_PREFIX;
@@ -2369,16 +2373,6 @@ int indent_level;
 /* Maximum indent level.
    Available for modification inside a gdb session.  */
 int max_indent_level = 8;
-
-#if 0
-
-static void
-indent (void)
-{
-  printf ("%*s", indent_level * 4, "");
-}
-
-#endif
 
 void
 print_symbol_value_1 (FILE *file, symbolS *sym)

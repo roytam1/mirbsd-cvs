@@ -1,6 +1,6 @@
 /* Linker command language support.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2004
+   2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GLD, the Gnu Linker.
@@ -553,20 +553,6 @@ lang_memory_region_lookup (const char *const name, bfd_boolean create)
 	return p;
       }
 
-#if 0
-  /* This code used to always use the first region in the list as the
-     default region.  I changed it to instead use a region
-     encompassing all of memory as the default region.  This permits
-     NOLOAD sections to work reasonably without requiring a region.
-     People should specify what region they mean, if they really want
-     a region.  */
-  if (strcmp (name, DEFAULT_MEMORY_REGION) == 0)
-    {
-      if (lang_memory_region_list != NULL)
-	return lang_memory_region_list;
-    }
-#endif
-
   if (!create && strcmp (name, DEFAULT_MEMORY_REGION))
     einfo (_("%P:%S: warning: memory region %s not declared\n"), name);
 
@@ -832,6 +818,7 @@ lang_insert_orphan (lang_input_statement_type *file,
   etree_type *load_base;
   lang_output_section_statement_type *os;
   lang_output_section_statement_type **os_tail;
+  asection **bfd_tail;
 
   /* Start building a list of statements for this section.
      First save the current statement pointer.  */
@@ -885,6 +872,7 @@ lang_insert_orphan (lang_input_statement_type *file,
 
   os_tail = ((lang_output_section_statement_type **)
 	     lang_output_section_statement.tail);
+  bfd_tail = output_bfd->section_tail;
   os = lang_enter_output_section_statement (secname, address, 0, NULL, NULL,
 					    load_base, 0);
 
@@ -916,7 +904,7 @@ lang_insert_orphan (lang_input_statement_type *file,
 
   if (after != NULL && os->bfd_section != NULL)
     {
-      asection *snew, **pps;
+      asection *snew;
 
       snew = os->bfd_section;
 
@@ -943,9 +931,8 @@ lang_insert_orphan (lang_input_statement_type *file,
 	place->section = &output_bfd->sections;
 
       /* Unlink the section.  */
-      for (pps = &output_bfd->sections; *pps != snew; pps = &(*pps)->next)
-	continue;
-      bfd_section_list_remove (output_bfd, pps);
+      ASSERT (*bfd_tail == snew);
+      bfd_section_list_remove (output_bfd, bfd_tail);
 
       /* Now tack it back on in the right place.  */
       bfd_section_list_insert (output_bfd, place->section, snew);
@@ -1284,11 +1271,12 @@ section_already_linked (bfd *abfd, asection *sec, void *data)
      discard all sections.  */
   if (entry->just_syms_flag)
     {
-      bfd_link_just_syms (sec, &link_info);
+      bfd_link_just_syms (abfd, sec, &link_info);
       return;
     }
 
-  bfd_section_already_linked (abfd, sec);
+  if (!(abfd->flags & DYNAMIC))
+    bfd_section_already_linked (abfd, sec);
 }
 
 /* The wild routines.
@@ -1427,9 +1415,10 @@ lang_add_section (lang_statement_list_type *ptr,
       if (output->section_alignment != -1)
 	output->bfd_section->alignment_power = output->section_alignment;
 
-      if (section->flags & SEC_BLOCK)
+      if (bfd_get_arch (section->owner) == bfd_arch_tic54x
+	  && (section->flags & SEC_TIC54X_BLOCK) != 0)
 	{
-	  output->bfd_section->flags |= SEC_BLOCK;
+	  output->bfd_section->flags |= SEC_TIC54X_BLOCK;
 	  /* FIXME: This value should really be obtained from the bfd...  */
 	  output->block_value = 128;
 	}
@@ -2157,10 +2146,6 @@ open_output (const char *name)
 
   delete_output_file_on_failure = TRUE;
 
-#if 0
-  output->flags |= D_PAGED;
-#endif
-
   if (! bfd_set_format (output, bfd_object))
     einfo (_("%P%F:%s: can not make object file: %E\n"), name);
   if (! bfd_set_arch_mach (output,
@@ -2306,31 +2291,6 @@ open_input_bfds (lang_statement_union_type *s, bfd_boolean force)
 	  break;
 	}
     }
-}
-
-/* If there are [COMMONS] statements, put a wild one into the bss
-   section.  */
-
-static void
-lang_reasonable_defaults (void)
-{
-#if 0
-  lang_output_section_statement_lookup (".text");
-  lang_output_section_statement_lookup (".data");
-
-  default_common_section = lang_output_section_statement_lookup (".bss");
-
-  if (!placed_commons)
-    {
-      lang_wild_statement_type *new =
-      new_stat (lang_wild_statement,
-		&default_common_section->children);
-
-      new->section_name = "COMMON";
-      new->filename = NULL;
-      lang_list_init (&new->children);
-    }
-#endif
 }
 
 /* Add a symbol to a hash of symbols used in DEFINED (NAME) expressions.  */
@@ -3341,8 +3301,7 @@ size_input_section
   ((s->flags & SEC_NEVER_LOAD) != 0				\
    || (s->flags & SEC_ALLOC) == 0				\
    || ((s->flags & SEC_THREAD_LOCAL) != 0			\
-	&& (s->flags & SEC_LOAD) == 0)				\
-   || s->size == 0)
+	&& (s->flags & SEC_LOAD) == 0))
 
 /* Check to see if any allocated sections overlap with other allocated
    sections.  This can happen if a linker script specifies the output
@@ -3359,7 +3318,7 @@ lang_check_section_addresses (void)
       asection *os;
 
       /* Ignore sections which are not loaded or which have no contents.  */
-      if (IGNORE_SECTION (s))
+      if (IGNORE_SECTION (s) || s->size == 0)
 	continue;
 
       /* Once we reach section 's' stop our seach.  This prevents two
@@ -3373,7 +3332,7 @@ lang_check_section_addresses (void)
 	  bfd_vma os_end;
 
 	  /* Only consider loadable sections with real contents.  */
-	  if (IGNORE_SECTION (os))
+	  if (IGNORE_SECTION (os) || os->size == 0)
 	    continue;
 
 	  /* We must check the sections' LMA addresses not their
@@ -3467,7 +3426,9 @@ lang_size_sections_1
 	       address from the input section.  FIXME: This is COFF
 	       specific; it would be cleaner if there were some other way
 	       to do this, but nothing simple comes to mind.  */
-	    if ((os->bfd_section->flags & SEC_COFF_SHARED_LIBRARY) != 0)
+	    if ((bfd_get_flavour (output_bfd) == bfd_target_ecoff_flavour
+		 || bfd_get_flavour (output_bfd) == bfd_target_coff_flavour)
+		&& (os->bfd_section->flags & SEC_COFF_SHARED_LIBRARY) != 0)
 	      {
 		asection *input;
 
@@ -3987,9 +3948,6 @@ lang_do_assignments_1
 	case lang_object_symbols_statement_enum:
 	case lang_output_statement_enum:
 	case lang_target_statement_enum:
-#if 0
-	case lang_common_statement_enum:
-#endif
 	  break;
 	case lang_data_statement_enum:
 	  {
@@ -4442,9 +4400,8 @@ lang_place_orphans (void)
 		 around for a sensible place for it to go.  */
 
 	      if (file->just_syms_flag)
-		abort ();
-
-	      if ((s->flags & SEC_EXCLUDE) != 0)
+		bfd_link_just_syms (file->the_bfd, s, &link_info);
+	      else if ((s->flags & SEC_EXCLUDE) != 0)
 		s->output_section = bfd_abs_section_ptr;
 	      else if (strcmp (s->name, "COMMON") == 0)
 		{
@@ -4456,13 +4413,6 @@ lang_place_orphans (void)
 		    {
 		      if (default_common_section == NULL)
 			{
-#if 0
-			  /* This message happens when using the
-			     svr3.ifile linker script, so I have
-			     disabled it.  */
-			  info_msg (_("%P: no [COMMON] command,"
-				      " defaulting to .bss\n"));
-#endif
 			  default_common_section =
 			    lang_output_section_statement_lookup (".bss");
 
@@ -4631,11 +4581,6 @@ lang_enter_output_section_statement (const char *output_section_statement_name,
     lang_output_section_statement_lookup_1 (output_section_statement_name,
 					    constraint);
 
-  /* Add this statement to tree.  */
-#if 0
-  add_statement (lang_output_section_statement_enum,
-		 output_section_statement);
-#endif
   /* Make next things chain into subchain of this.  */
 
   if (os->addr_tree == NULL)
@@ -4773,14 +4718,23 @@ lang_gc_sections (void)
 	}
     }
 
-  if (command_line.gc_sections)
+  if (link_info.gc_sections)
     bfd_gc_sections (output_bfd, &link_info);
+}
+
+static void
+lang_mark_used_section (void)
+{
+  unsigned int gc_sections = link_info.gc_sections;
+
+  link_info.gc_sections = 0;
+  bfd_gc_sections (output_bfd, &link_info);
+  link_info.gc_sections = gc_sections;
 }
 
 void
 lang_process (void)
 {
-  lang_reasonable_defaults ();
   current_target = default_target;
 
   /* Open the output file.  */
@@ -4939,7 +4893,7 @@ lang_process (void)
     lang_check_section_addresses ();
 
   /* Final stuffs.  */
-
+  lang_mark_used_section ();
   ldemul_finish ();
   lang_finish ();
 }

@@ -1295,22 +1295,6 @@ msp430_srcoperand (struct msp430_operand_s * op,
   /* Symbolic mode 'mov a, b' == 'mov x(pc), y(pc)'.  */
   do
     {
-#if 0  /* Allow expression in operand like 'a+123*(1|2)'.  */
-      char *t = l;
-
-      __tl = l;
-
-      while (*t)
-	{
-	  /* alpha/number    underline     dot for labels.  */
-	  if (! ISALNUM (*t) && *t != '_' && *t != '.')
-	    {
-	      as_bad (_("unknown operand %s"), l);
-	      return 1;
-	    }
-	  t++;
-	}
-#endif
       op->mode = OP_EXP;
       op->reg = 0;		/* PC relative... be careful.  */
       op->am = 1;
@@ -1903,7 +1887,7 @@ md_apply_fix3 (fixS * fixp, valueT * valuep, segT seg)
       /* Fetch the instruction, insert the fully resolved operand
 	 value, and stuff the instruction back again.  */
 
-      where = fixp->fx_frag->fr_literal + fixp->fx_where;
+      where = (unsigned char *) fixp->fx_frag->fr_literal + fixp->fx_where;
 
       insn = bfd_getl16 (where);
 

@@ -1,7 +1,7 @@
 %{
 
 /* Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004  Free Software Foundation, Inc.
+   2000, 2001, 2002, 2003, 2004, 2005  Free Software Foundation, Inc.
 
    This file is part of GLD, the Gnu Linker.
 
@@ -64,6 +64,8 @@ const char *lex_string = NULL;
 
 #undef YY_INPUT
 #define YY_INPUT(buf,result,max_size) yy_input (buf, &result, max_size)
+
+#define YY_NO_UNPUT
 
 #define MAX_INCLUDE_DEPTH 10
 static YY_BUFFER_STATE include_stack[MAX_INCLUDE_DEPTH];
@@ -269,6 +271,7 @@ V_IDENTIFIER [*?.$_a-zA-Z\[\]\-\!\^\\]([*?.$_a-zA-Z0-9\[\]\-\!\^\\]|::)*
 <BOTH,SCRIPT>"OUTPUT"			{ RTOKEN(OUTPUT);}
 <BOTH,SCRIPT>"INPUT"			{ RTOKEN(INPUT);}
 <EXPRESSION,BOTH,SCRIPT>"GROUP"		{ RTOKEN(GROUP);}
+<EXPRESSION,BOTH,SCRIPT>"AS_NEEDED"	{ RTOKEN(AS_NEEDED);}
 <EXPRESSION,BOTH,SCRIPT>"DEFINED"	{ RTOKEN(DEFINED);}
 <BOTH,SCRIPT>"CREATE_OBJECT_SYMBOLS"	{ RTOKEN(CREATE_OBJECT_SYMBOLS);}
 <BOTH,SCRIPT>"CONSTRUCTORS"		{ RTOKEN( CONSTRUCTORS);}

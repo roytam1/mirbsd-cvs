@@ -1,5 +1,5 @@
 /* BFD support for the Axis CRIS architecture.
-   Copyright 2000, 2002 Free Software Foundation, Inc.
+   Copyright 2000, 2002, 2004, 2005 Free Software Foundation, Inc.
    Contributed by Axis Communications AB.
    Written by Hans-Peter Nilsson.
 
@@ -46,7 +46,8 @@ get_compatible (a,b)
     return a;
 
 #if 0
-  /* See ldlang.c:lang_check.  Quite illogically, incompatible arches
+  /* The code below is disabled but kept as a warning.
+     See ldlang.c:lang_check.  Quite illogically, incompatible arches
      (as signalled by this function) are only *warned* about, while with
      this function signalling compatible ones, we can have the
      cris_elf_merge_private_bfd_data function return an error.  This is

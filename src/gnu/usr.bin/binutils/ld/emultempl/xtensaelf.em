@@ -1,5 +1,5 @@
 # This shell script emits a C file. -*- C -*-
-#   Copyright 2003, 2004
+#   Copyright 2003, 2004, 2005
 #   Free Software Foundation, Inc.
 #
 # This file is part of GLD, the Gnu Linker.
@@ -872,16 +872,6 @@ xtensa_colocate_literals (reloc_deps_graph *deps,
 
   if (deps->count == 0)
     return;
-
-#if 0
-  ld_assign_relative_paged_dot (0x100000, statement, deps,
-				xtensa_use_literal_pages);
-
-  if (!ld_local_file_relocations_fit (statement, deps))
-    fprintf (stderr, "initial relocation placement does not fit\n");
-
-  lang_for_each_statement_worker (xtensa_ldlang_clear_addresses, statement);
-#endif
 
   iter_stack_create (stack_p, statement);
 

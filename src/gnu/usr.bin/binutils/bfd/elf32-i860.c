@@ -1,5 +1,5 @@
 /* Intel i860 specific support for 32-bit ELF.
-   Copyright 1993, 1995, 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1993, 1995, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    Full i860 support contributed by Jason Eckhardt <jle@cygnus.com>.
@@ -1086,13 +1086,6 @@ elf32_i860_relocate_section (bfd *output_bfd ATTRIBUTE_UNUSED,
       int                          r_type;
 
       r_type = ELF32_R_TYPE (rel->r_info);
-
-#if 0
-      if (   r_type == R_860_GNU_VTINHERIT
-	  || r_type == R_860_GNU_VTENTRY)
-	continue;
-#endif
-
       r_symndx = ELF32_R_SYM (rel->r_info);
 
       howto = lookup_howto ((unsigned) ELF32_R_TYPE (rel->r_info));

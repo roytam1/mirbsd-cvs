@@ -1,5 +1,5 @@
 /* Support for HPPA 64-bit ELF
-   Copyright 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -184,9 +184,6 @@ static const char *get_dyn_name
 static bfd_boolean elf64_hppa_object_p
   PARAMS ((bfd *));
 
-static bfd_boolean elf64_hppa_section_from_shdr
-  PARAMS ((bfd *, Elf_Internal_Shdr *, const char *));
-
 static void elf64_hppa_post_process_headers
   PARAMS ((bfd *, struct bfd_link_info *));
 
@@ -305,13 +302,14 @@ elf64_hppa_new_dyn_hash_entry (entry, table, string)
   if (!ret)
     return 0;
 
-  /* Initialize our local data.  All zeros, and definitely easier
-     than setting 8 bit fields.  */
-  memset (ret, 0, sizeof (*ret));
-
   /* Call the allocation method of the superclass.  */
   ret = ((struct elf64_hppa_dyn_hash_entry *)
 	 bfd_hash_newfunc ((struct bfd_hash_entry *) ret, table, string));
+
+  /* Initialize our local data.  All zeros.  */
+  memset (&ret->dlt_offset, 0,
+	  (sizeof (struct elf64_hppa_dyn_hash_entry)
+	   - offsetof (struct elf64_hppa_dyn_hash_entry, dlt_offset)));
 
   return &ret->root;
 }
@@ -412,10 +410,10 @@ elf64_hppa_object_p (abfd)
 /* Given section type (hdr->sh_type), return a boolean indicating
    whether or not the section is an elf64-hppa specific section.  */
 static bfd_boolean
-elf64_hppa_section_from_shdr (abfd, hdr, name)
-     bfd *abfd;
-     Elf_Internal_Shdr *hdr;
-     const char *name;
+elf64_hppa_section_from_shdr (bfd *abfd,
+			      Elf_Internal_Shdr *hdr,
+			      const char *name,
+			      int shindex)
 {
   asection *newsect;
 
@@ -435,7 +433,7 @@ elf64_hppa_section_from_shdr (abfd, hdr, name)
       return FALSE;
     }
 
-  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name))
+  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
     return FALSE;
   newsect = hdr->bfd_section;
 
