@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.15 2005/02/10 21:37:17 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.16 2005/02/10 21:54:22 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -17,7 +17,7 @@ builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 
 dnl Support using MirLibtool with Autoconf 2.13
 dnl -------------------------------------------
-sinclude(ifdef([m4_PACKAGE_VERSION], [], [m4salt.inc]))dnl
+ifdef([m4_PACKAGE_VERSION], [], [sinclude([m4salt.inc])])dnl
 
 dnl Support using MirLibtool with Autoconf 2.59
 dnl -------------------------------------------
@@ -29,6 +29,74 @@ builtin([undefine], [AC_PROG_F77])dnl
 NOACLOCAL_DEFUN([AC_PROG_F77],
 [dnl No Fortran 77 with autoconf-2.13 and MirLibtool
 ])dnl
+
+dnl This is from Autoconf 2.59
+# AC_HELP_STRING(LHS, RHS, [COLUMN])
+# ----------------------------------
+#
+# Format a help string so that it looks pretty when
+# the user executes "script --help".  This macro takes three
+# arguments, a "left hand side" (LHS), a "right hand side" (RHS), and
+# the COLUMN which is a string of white spaces which leads to the
+# the RHS column (default: 26 white spaces).
+#
+# The resulting string is suitable for use in other macros that require
+# a help string (e.g. AC_ARG_WITH).
+#
+# Here is the sample string from the Autoconf manual (Node: External
+# Software) which shows the proper spacing for help strings.
+#
+#    --with-readline         support fancy command line editing
+#  ^ ^                       ^
+#  | |                       |
+#  | column 2                column 26
+#  |
+#  column 0
+#
+# A help string is made up of a "left hand side" (LHS) and a "right
+# hand side" (RHS).  In the example above, the LHS is
+# "--with-readline", while the RHS is "support fancy command line
+# editing".
+#
+# If the LHS is contains more than (COLUMN - 3) characters, then the LHS
+# is terminated with a newline so that the RHS starts on a line of its
+# own beginning with COLUMN.  In the default case, this corresponds to
+# an LHS with more than 23 characters.
+#
+# Therefore, in the example, if the LHS were instead
+# "--with-readline-blah-blah-blah", then the AS_HELP_STRING macro would
+# expand into:
+#
+#
+#    --with-readline-blah-blah-blah
+#  ^ ^                       support fancy command line editing
+#  | |                       ^
+#  | column 2                |
+#  column 0                  column 26
+#
+m4_define([AS_PadLeft],
+	   [m4_if(m4_eval([$1] > [$2]),1,[[ ]AS_PadLeft([$1]-1,[$2])])])
+m4_define([MIRLIBTOOL_unquote],
+[patsubst(patsubst(patsubst(patsubst([$1], [@<:@], [{]), [@:>@], [}]), [@S|@], [$$]), [@%:@], [#])])dnl
+m4_define([AC_HELP_STRING],
+[m4_pushdef([AS_Prefix], m4_default([$3], [                          ]))dnl
+m4_text_wrap(MIRLIBTOOL_unquote([$2]), AS_Prefix, MIRLIBTOOL_unquote([  $1]AS_PadLeft(m4_len(AS_Prefix),m4_len(MIRLIBTOOL_unquote([$1]))+2)))dnl
+m4_popdef([AS_Prefix])dnl
+])
+
+builtin([undefine], [AC_DIVERT_HELP])dnl
+define(AC_DIVERT_HELP,
+[AC_DIVERT_PUSH(AC_DIVERSION_HELP)dnl
+ifelse(ac_help_count,0,[--enable and --with options recognized:
+])dnl
+define([ac_help_count], builtin(eval, ac_help_count + 1))dnl
+$1
+ifelse(ac_help_count,13,[EOF
+cat <<\EOF
+define([ac_help_count], 1)dnl
+])dnl
+AC_DIVERT_POP()dnl
+])
 
 dnl  End of Autoconf switch (2.13)
 dnl  ====================== ------
