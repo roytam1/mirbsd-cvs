@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/expr.c,v 1.4 2005/03/25 23:09:32 tg Exp $ */
+/* $MirOS: gcc/gcc/expr.c,v 1.5 2005/03/26 00:52:27 tg Exp $ */
 
 /* Convert tree expression to rtl instructions, for GNU compiler.
    Copyright (C) 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -52,9 +52,6 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #include "tm_p.h"
 #include "target.h"
 #include "protector.h"
-
-extern int flag_trampolines;
-extern bool warn_trampolines;
 
 /* Decide whether a function's arguments should be processed
    from first to last or from last to first.

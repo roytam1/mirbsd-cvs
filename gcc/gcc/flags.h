@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 /* Compilation switch flag definitions for GCC.
    Copyright (C) 1987, 1988, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2002,
-   2003
+   2003, 2005
    Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -782,5 +784,13 @@ extern int flag_propolice_protection;
 /* Nonzero means use a stack protection method for every function.  */
 
 extern int flag_stack_protection;
+
+/* Nonzero allows emission of trampolines.  */
+
+extern int flag_trampolines;
+
+/* Warn if generating trampolines because they make the stack executable.  */
+
+extern bool warn_trampolines;
 
 #endif /* ! GCC_FLAGS_H */
