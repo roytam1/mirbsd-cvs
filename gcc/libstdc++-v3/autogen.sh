@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.1 2005/03/26 09:22:56 tg Exp $
+# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.2 2005/03/26 09:33:47 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -59,6 +59,8 @@ elif [[ -d ../m4 ]]; then
 else
 	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I .
 fi
+print 's!${multi_basedir}/config-ml.in!${ac_aux_dir}/config-ml.in!\nwq' \
+    | ed -s aclocal.m4
 autoheader
 set +e
 let rv=0
