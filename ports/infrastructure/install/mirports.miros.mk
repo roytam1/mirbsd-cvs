@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.miros.mk,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.miros.mk,v 1.2 2005/03/27 18:37:20 tg Exp $
 #-
 # MirPorts plug-in for current MirOS versions
 
@@ -7,8 +7,6 @@ FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX=		port
 HAS_TIMET64=		Yes
 SYSTRACE_ARGS_ADD+=	-e
-_CXX_BR_DEPENDS=
-_CXX_LIB_DEPENDS=
 
 # Version dependencies
 .if ${OSrev} < 8
