@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.38 2005/03/28 01:09:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.39 2005/03/29 00:23:39 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2658,6 +2658,19 @@
  edited and added the logo I've promised, and gcc got extended by SSP. I'm
  still working over the day so it's going at a slow pace, but is going on;
  joe 3.2 is out and I've yet got to have a look at it.</p>
+<p>24.03.2005 by bsiegert@<br />
+ Lots of things happened since my last wlog entry. I finally removed all the
+ traces of the old <tt>DYNLIBDIR</tt> code in MirPorts, replacing it with
+ <tt>@lib</tt> using a script. MirPorts has made the transition to ncvs2.
+ During this process, tg renamed lots of ports, and I had to touch a lot of
+ ports to cure the "missing dependency" errors. I still have not done a
+ new index. Only after this can the transition be considered finished. I also
+ fixed a Darwin compatibility bug in the libc hash code, but there is no new
+ MirMake release that incorporates it yet.<br />
+ I also made a program for my polymers course and put it under
+ <tt>contrib/code/polymers</tt>. However, the second version has a strange bug
+ that causes the program to go into an endless loop every 2000-9000
+ invocations. I will have to investigate this further.</p>
 <p>26.03.2005 by tg@<br />People say I've been quite stressy lately. Well,
  that may be true, I'm working on my apprenticeship's finishing stuff, too
  (and Winword plays its games with me). And I've still got the feeling I'm
@@ -2684,4 +2697,27 @@
 <p>28.03.2005 by tg@<br />I'm running the GNU Pascal testsuite and updated
  binutils to a newer CVS snapshot in the hope of fixing C++. Also I try to
  work for release engineering...</p>
+<p>31.03.2005 by bsiegert@<br />
+ The ports transition to ncvs still causes some dependency breakage, but I hope
+ that most of those cases are really fixed now. I am porting
+ <tt>bsd.lib.mk</tt> from MirMake to work with the Darwin shared library model.
+ My testbed is graphics/jpeg, which builds libjpeg itself and assorted tools. 
+ The problem is that on Darwin, you don't have s shared library cache that is
+ updated with ldconfig. When you build a shared library, you have to pass the
+ install name along with the path, like this:<br />
+ <tt>cc -dynamiclib -install_name  /usr/mpkg/lib/libjpeg.62.dylib
+ -compatibility_version  62.0 -current_version 62.0  -o libjpeg.62.0.dylib
+ [object file names ...]</tt><br />
+ Programs that link against this library take the install name and save it in
+ their executable. But when you use MirMake, you don't know the final install
+ location (the <tt>PREFIX</tt>) while building. Thus, we have to relink the
+ library during installation to incorporate the correct <tt>-install_name</tt>
+ parameter. But even then, the dependent programs that have been built at the
+ same time (in my example, the jpeg tools like rdjpgcom) also need to be
+ relinked, or they won't find their shared library on runtime and give an error
+ such as "dyld: rdjpgcom can't open library: libjpeg.62.0.dylib  (No such file
+ or directory, errno = 2)". tg@ has offered to rewrite the Makefiles to use
+ libtool instead, but I don't think I want that. Another portability problem is
+ the <tt>_gplwarn.c</tt> file from the infrastructure, which is ELF-specific
+ and gives syntax error with the Darwin linker *sigh*.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
