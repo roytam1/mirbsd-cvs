@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pf.c,v 1.433.2.7 2005/01/06 14:15:43 brad Exp $ */
 
 /*
@@ -1049,8 +1050,6 @@ pf_addr_wrap_neq(struct pf_addr_wrap *aw1, struct pf_addr_wrap *aw2)
 		if (PF_ANEQ(&aw1->v.a.mask, &aw2->v.a.mask, 0))
 			return (1);
 		return (0);
-	case PF_ADDR_DYNIFTL:
-		return (aw1->p.dyn->pfid_kt != aw2->p.dyn->pfid_kt);
 	case PF_ADDR_NOROUTE:
 		return (0);
 	case PF_ADDR_TABLE:
@@ -1785,30 +1784,7 @@ pf_map_addr(sa_family_t af, struct pf_rule *r, struct pf_addr *saddr,
 
 	if (rpool->cur->addr.type == PF_ADDR_NOROUTE)
 		return (1);
-	if (rpool->cur->addr.type == PF_ADDR_DYNIFTL) {
-		switch (af) {
-#ifdef INET
-		case AF_INET:
-			if (rpool->cur->addr.p.dyn->pfid_acnt4 < 1 &&
-			    (rpool->opts & PF_POOL_TYPEMASK) !=
-			    PF_POOL_ROUNDROBIN)
-				return (1);
-			 raddr = &rpool->cur->addr.p.dyn->pfid_addr4;
-			 rmask = &rpool->cur->addr.p.dyn->pfid_mask4;
-			break;
-#endif /* INET */
-#ifdef INET6
-		case AF_INET6:
-			if (rpool->cur->addr.p.dyn->pfid_acnt6 < 1 &&
-			    (rpool->opts & PF_POOL_TYPEMASK) !=
-			    PF_POOL_ROUNDROBIN)
-				return (1);
-			raddr = &rpool->cur->addr.p.dyn->pfid_addr6;
-			rmask = &rpool->cur->addr.p.dyn->pfid_mask6;
-			break;
-#endif /* INET6 */
-		}
-	} else if (rpool->cur->addr.type == PF_ADDR_TABLE) {
+	if (rpool->cur->addr.type == PF_ADDR_TABLE) {
 		if ((rpool->opts & PF_POOL_TYPEMASK) != PF_POOL_ROUNDROBIN)
 			return (1); /* unsupported */
 	} else {
@@ -1872,11 +1848,6 @@ pf_map_addr(sa_family_t af, struct pf_rule *r, struct pf_addr *saddr,
 			    &rpool->tblidx, &rpool->counter,
 			    &raddr, &rmask, af))
 				goto get_addr;
-		} else if (rpool->cur->addr.type == PF_ADDR_DYNIFTL) {
-			if (!pfr_pool_get(rpool->cur->addr.p.dyn->pfid_kt,
-			    &rpool->tblidx, &rpool->counter,
-			    &raddr, &rmask, af))
-				goto get_addr;
 		} else if (pf_match_addr(0, raddr, rmask, &rpool->counter, af))
 			goto get_addr;
 
@@ -1886,16 +1857,6 @@ pf_map_addr(sa_family_t af, struct pf_rule *r, struct pf_addr *saddr,
 		if (rpool->cur->addr.type == PF_ADDR_TABLE) {
 			rpool->tblidx = -1;
 			if (pfr_pool_get(rpool->cur->addr.p.tbl,
-			    &rpool->tblidx, &rpool->counter,
-			    &raddr, &rmask, af)) {
-				/* table contains no address of type 'af' */
-				if (rpool->cur != acur)
-					goto try_next;
-				return (1);
-			}
-		} else if (rpool->cur->addr.type == PF_ADDR_DYNIFTL) {
-			rpool->tblidx = -1;
-			if (pfr_pool_get(rpool->cur->addr.p.dyn->pfid_kt,
 			    &rpool->tblidx, &rpool->counter,
 			    &raddr, &rmask, af)) {
 				/* table contains no address of type 'af' */
@@ -2124,72 +2085,12 @@ pf_get_translation(struct pf_pdesc *pd, struct mbuf *m, int off, int direction,
 		case PF_BINAT:
 			switch (direction) {
 			case PF_OUT:
-				if (r->rpool.cur->addr.type == PF_ADDR_DYNIFTL){
-					switch (pd->af) {
-#ifdef INET
-					case AF_INET:
-						if (r->rpool.cur->addr.p.dyn->
-						    pfid_acnt4 < 1)
-							return (NULL);
-						PF_POOLMASK(naddr,
-						    &r->rpool.cur->addr.p.dyn->
-						    pfid_addr4,
-						    &r->rpool.cur->addr.p.dyn->
-						    pfid_mask4,
-						    saddr, AF_INET);
-						break;
-#endif /* INET */
-#ifdef INET6
-					case AF_INET6:
-						if (r->rpool.cur->addr.p.dyn->
-						    pfid_acnt6 < 1)
-							return (NULL);
-						PF_POOLMASK(naddr,
-						    &r->rpool.cur->addr.p.dyn->
-						    pfid_addr6,
-						    &r->rpool.cur->addr.p.dyn->
-						    pfid_mask6,
-						    saddr, AF_INET6);
-						break;
-#endif /* INET6 */
-					}
-				} else
 					PF_POOLMASK(naddr,
 					    &r->rpool.cur->addr.v.a.addr,
 					    &r->rpool.cur->addr.v.a.mask,
 					    saddr, pd->af);
 				break;
 			case PF_IN:
-				if (r->src.addr.type == PF_ADDR_DYNIFTL) {
-					switch (pd->af) {
-#ifdef INET
-					case AF_INET:
-						if (r->src.addr.p.dyn->
-						    pfid_acnt4 < 1)
-							return (NULL);
-						PF_POOLMASK(naddr,
-						    &r->src.addr.p.dyn->
-						    pfid_addr4,
-						    &r->src.addr.p.dyn->
-						    pfid_mask4,
-						    daddr, AF_INET);
-						break;
-#endif /* INET */
-#ifdef INET6
-					case AF_INET6:
-						if (r->src.addr.p.dyn->
-						    pfid_acnt6 < 1)
-							return (NULL);
-						PF_POOLMASK(naddr,
-						    &r->src.addr.p.dyn->
-						    pfid_addr6,
-						    &r->src.addr.p.dyn->
-						    pfid_mask6,
-						    daddr, AF_INET6);
-						break;
-#endif /* INET6 */
-					}
-				} else
 					PF_POOLMASK(naddr,
 					    &r->src.addr.v.a.addr,
 					    &r->src.addr.v.a.mask, daddr,

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tcp_timer.c,v 1.34 2003/12/10 07:22:43 itojun Exp $	*/
 /*	$NetBSD: tcp_timer.c,v 1.14 1996/02/13 23:44:09 christos Exp $	*/
 
@@ -191,6 +192,7 @@ tcp_timer_rexmt(void *arg)
 	struct tcpcb *tp = arg;
 	uint32_t rto;
 	int s;
+	long trs;
 
 	s = splsoftnet();
 
@@ -208,9 +210,10 @@ tcp_timer_rexmt(void *arg)
 	rto = TCP_REXMTVAL(tp);
 	if (rto < tp->t_rttmin)
 		rto = tp->t_rttmin;
-	TCPT_RANGESET((long) tp->t_rxtcur,
+	TCPT_RANGESET(trs,
 	    rto * tcp_backoff[tp->t_rxtshift],
 	    tp->t_rttmin, TCPTV_REXMTMAX);
+	tp->t_rxtcur = trs;
 	TCP_TIMER_ARM(tp, TCPT_REXMT, tp->t_rxtcur);
 
 	/*

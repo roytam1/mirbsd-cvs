@@ -93,11 +93,16 @@ bmtphyattach(parent, self, aux)
 	struct mii_data *mii = ma->mii_data;
 	char *model;
 
-	if (MII_MODEL(ma->mii_id2) == MII_MODEL_BROADCOM_BCM5201)
+	switch (MII_MODEL(ma->mii_id2)) {
+    case MII_MODEL_BROADCOM_BCM5201:
 		model = MII_STR_BROADCOM_BCM5201;
-	else if (MII_MODEL(ma->mii_id2) == MII_MODEL_BROADCOM_BCM5221)
+		break;
+    case MII_MODEL_BROADCOM_BCM5221:
 		model = MII_STR_BROADCOM_BCM5221;
-
+		break;
+    default:
+	model = "unknown";
+    }
 	printf(": %s, rev. %d\n", model, MII_REV(ma->mii_id2));
 
 	sc->mii_inst = mii->mii_instance;

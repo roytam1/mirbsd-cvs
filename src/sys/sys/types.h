@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: types.h,v 1.26 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: types.h,v 1.29 1996/11/15 22:48:25 jtc Exp $	*/
 
@@ -177,13 +178,8 @@ typedef	struct fd_set {
 #define	FD_SET(n, p)	((p)->fds_bits[(n)/NFDBITS] |= (1 << ((n) % NFDBITS)))
 #define	FD_CLR(n, p)	((p)->fds_bits[(n)/NFDBITS] &= ~(1 << ((n) % NFDBITS)))
 #define	FD_ISSET(n, p)	((p)->fds_bits[(n)/NFDBITS] & (1 << ((n) % NFDBITS)))
-#ifdef _KERNEL
-#define	FD_COPY(f, t)	bcopy(f, t, sizeof(*(f)))
-#define	FD_ZERO(p)	bzero(p, sizeof(*(p)))
-#else
 #define	FD_COPY(f, t)	memcpy(t, f, sizeof(*(f)))
 #define	FD_ZERO(p)	memset(p, 0, sizeof(*(p)))
-#endif
 
 #if defined(__STDC__) && defined(_KERNEL)
 /*

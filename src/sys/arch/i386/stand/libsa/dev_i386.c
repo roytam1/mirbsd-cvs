@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: dev_i386.c,v 1.28 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -32,6 +33,7 @@
 #include <dev/cons.h>
 
 extern int debug;
+extern u_int32_t tori_bootflag;
 
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
 const char bdevs[][4] = {
@@ -97,6 +99,15 @@ devboot(dev_t bootdev, char *p)
 	*p++ = '/';
 	*p++ = 'r';
 #endif
+	if ((tori_bootflag) && (bootdev == (tori_bootflag & 0xFF))) {
+		*p++ = 'c';
+		*p++ = 'd';
+		*p++ = '0';
+		*p++ = 'a';
+		*p = '\0';
+		printf(" (ISO 9660 device)");
+		return;
+	}
 	if (bootdev & 0x80)
 		*p++ = 'h';
 	else

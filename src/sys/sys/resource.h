@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: resource.h,v 1.7 2003/12/11 23:02:30 millert Exp $	*/
 /*	$NetBSD: resource.h,v 1.14 1996/02/09 18:25:27 christos Exp $	*/
 
@@ -85,8 +86,9 @@ struct	rusage {
 #define	RLIMIT_MEMLOCK	6		/* locked-in-memory address space */
 #define	RLIMIT_NPROC	7		/* number of processes */
 #define	RLIMIT_NOFILE	8		/* number of open files */
+#define	RLIMIT_TIME	9		/* user time */
 
-#define	RLIM_NLIMITS	9		/* number of resource limits */
+#define	RLIM_NLIMITS	10		/* number of resource limits */
 
 #define	RLIM_INFINITY	(((rlim_t)1 << 63) - 1)
 #define	RLIM_SAVED_MAX	RLIM_INFINITY

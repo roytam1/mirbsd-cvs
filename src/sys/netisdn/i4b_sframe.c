@@ -52,9 +52,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_sframe.c,v 1.5 2002/05/21 10:31:11 martin Exp $"
 #include <sys/socket.h>
 #include <net/if.h>
 
-#if defined(__NetBSD__) && __NetBSD_Version__ >= 104230000
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #ifdef __FreeBSD__
 #include <machine/i4b_debug.h>
@@ -129,7 +127,7 @@ i4b_tx_rr_command(l2_softc_t *l2sc, pbit_t pbit)
 {
 	struct mbuf *m;
 
-	NDBGL2(L2_S_MSG, "tx RR, bri = %d", l2sc->drv->bri);
+	NDBGL2(L2_S_MSG, "tx RR, isdnif = %d", l2sc->drv->isdnif);
 
 	m = i4b_build_s_frame(l2sc, CR_CMD_TO_NT, pbit, RR);
 
@@ -146,7 +144,7 @@ i4b_tx_rr_response(l2_softc_t *l2sc, fbit_t fbit)
 {
 	struct mbuf *m;
 
-	NDBGL2(L2_S_MSG, "tx RR, bri = %d", l2sc->drv->bri);
+	NDBGL2(L2_S_MSG, "tx RR, isdnif = %d", l2sc->drv->isdnif);
 
 	m = i4b_build_s_frame(l2sc, CR_RSP_TO_NT, fbit, RR);	
 
@@ -163,7 +161,7 @@ i4b_tx_rnr_command(l2_softc_t *l2sc, pbit_t pbit)
 {
 	struct mbuf *m;
 
-	NDBGL2(L2_S_MSG, "tx RNR, bri = %d", l2sc->drv->bri);
+	NDBGL2(L2_S_MSG, "tx RNR, isdnif = %d", l2sc->drv->isdnif);
 
 	m = i4b_build_s_frame(l2sc, CR_CMD_TO_NT, pbit, RNR);	
 
@@ -180,7 +178,7 @@ i4b_tx_rnr_response(l2_softc_t *l2sc, fbit_t fbit)
 {
 	struct mbuf *m;
 
-	NDBGL2(L2_S_MSG, "tx RNR, bri = %d", l2sc->drv->bri);
+	NDBGL2(L2_S_MSG, "tx RNR, isdnif = %d", l2sc->drv->isdnif);
 
 	m = i4b_build_s_frame(l2sc, CR_RSP_TO_NT, fbit, RNR);
 
@@ -197,7 +195,7 @@ i4b_tx_rej_response(l2_softc_t *l2sc, fbit_t fbit)
 {
 	struct mbuf *m;
 
-	NDBGL2(L2_S_MSG, "tx REJ, bri = %d", l2sc->drv->bri);
+	NDBGL2(L2_S_MSG, "tx REJ, isdnif = %d", l2sc->drv->isdnif);
 
 	m = i4b_build_s_frame(l2sc, CR_RSP_TO_NT, fbit, REJ);
 

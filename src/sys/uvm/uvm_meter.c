@@ -61,6 +61,8 @@
 int maxslp = MAXSLP;	/* patchable ... */
 struct loadavg averunnable;
 
+extern int allowpse;
+
 /*
  * constants for averages over 1, 5, and 15 minutes when sampling at
  * 5 second intervals.
@@ -134,6 +136,7 @@ uvm_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	struct vmtotal vmtotals;
 	int rv, t;
 	struct _ps_strings _ps = { PS_STRINGS };
+	struct proc *cur = curproc;
 
 	switch (name[0]) {
 	case VM_SWAPENCRYPT:
@@ -168,6 +171,11 @@ uvm_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_rdint(oldp, oldlenp, newp, nkmempages));
 
 	case VM_PSSTRINGS:
+		if ((!allowpse) &&
+		    (cur->p_cred->p_ruid != p->p_cred->p_ruid) &&
+		    (cur->p_cred->p_rgid))
+			return (EPERM);
+
 		return (sysctl_rdstruct(oldp, oldlenp, newp, &_ps,
 		    sizeof(_ps)));
 	case VM_ANONMIN:

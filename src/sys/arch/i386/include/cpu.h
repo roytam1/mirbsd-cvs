@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -210,6 +211,8 @@ int     p4tcc_setperf(int);
 
 void	k6_powernow_init(void);
 int	k6_powernow_setperf(int);
+void	k7_powernow_init(int);
+int	k7_powernow_setperf(int);
 
 
 /* npx.c */
@@ -250,7 +253,7 @@ void	setconf(void);
 
 #endif /* _KERNEL */
 
-/* 
+/*
  * CTL_MACHDEP definitions.
  */
 #define	CPU_CONSDEV		1	/* dev_t: console terminal device */

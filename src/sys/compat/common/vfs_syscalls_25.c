@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vfs_syscalls_25.c,v 1.6 2003/08/15 20:32:15 tedu Exp $	*/
 
 /*
@@ -50,12 +51,17 @@
 
 #include <sys/syscallargs.h>
 
-void statfs_to_ostatfs(struct proc *, struct mount *, struct statfs *, struct ostatfs *);
+#include <compat/common/compat_util.h>
+#include <compat/openbsd/compat_openbsd.h>
+
+#if defined(COMPAT_OPENBSD)
+static void statfs_to_ostatfs(struct proc *, struct mount *,
+    struct statfs *, struct ostatfs *);
 
 /*
  * Convert struct statfs -> struct ostatfs
  */
-void
+static void
 statfs_to_ostatfs(p, mp, sp, osp)
 	struct proc *p;
 	struct mount *mp;
@@ -93,12 +99,12 @@ statfs_to_ostatfs(p, mp, sp, osp)
  */
 /* ARGSUSED */
 int
-compat_25_sys_statfs(p, v, retval)
+compat_25_openbsd_sys_statfs(p, v, retval)
 	struct proc *p;
 	void *v;
 	register_t *retval;
 {
-	register struct compat_25_sys_statfs_args /* {
+	register struct compat_25_openbsd_sys_statfs_args /* {
 		syscallarg(char *) path;
 		syscallarg(struct ostatfs *) buf;
 	} */ *uap = v;
@@ -107,7 +113,9 @@ compat_25_sys_statfs(p, v, retval)
 	struct ostatfs osb;
 	int error;
 	struct nameidata nd;
+	caddr_t sg = stackgap_init(p->p_emul);
 
+	OPENBSD_CHECK_ALT_EXIST(p, &sg, SCARG(uap, path));
 	NDINIT(&nd, LOOKUP, FOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
 	if ((error = namei(&nd)) != 0)
 		return (error);
@@ -220,3 +228,4 @@ compat_25_sys_getfsstat(p, v, retval)
 		*retval = count;
 	return (0);
 }
+#endif /* def COMPAT_OPENBSD */

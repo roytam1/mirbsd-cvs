@@ -1,5 +1,5 @@
-/*	$MirBSD$	*/
-/*	$NetBSD: i4b_capi_msgs.c,v 1.2 2003/09/26 15:17:23 pooka Exp $	*/
+/**	$MirOS$	*/
+/*	$NetBSD: i4b_capi_msgs.c,v 1.4 2003/10/03 16:46:32 pooka Exp $	*/
 
 /*
  * Copyright (c) 2001-2003 Cubical Solutions Ltd. All rights reserved.
@@ -95,7 +95,7 @@ void capi_listen_conf(capi_softc_t *sc, struct mbuf *m_in)
 	/* We are now listening. */
 
 	sc->sc_state = C_UP;
-	l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+	l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 	l3drv->dl_est = DL_UP;
 
 	i4b_l4_l12stat(l3drv, 1, 1);
@@ -204,7 +204,7 @@ void capi_connect_req(capi_softc_t *sc, call_desc_t *cd)
 	return;
     }
 
-    l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+    l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 
     cd->crflag = CRF_ORIG;
 
@@ -299,7 +299,7 @@ void capi_connect_conf(capi_softc_t *sc, struct mbuf *m_in)
     } else {
 	struct isdn_l3_driver *l3drv;
 
-	l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+	l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 	SET_CAUSE_TV(cd->cause_out, CAUSET_I4B, CAUSE_I4B_L1ERROR);
 	i4b_l4_disconnect_ind(cd);
 	freecd_by_cd(cd);
@@ -418,7 +418,7 @@ void capi_connect_b3_conf(capi_softc_t *sc, struct mbuf *m_in)
     } else {
 	struct isdn_l3_driver *l3drv;
 
-	l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+	l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 
 	SET_CAUSE_TV(cd->cause_in, CAUSET_I4B, CAUSE_I4B_OOO); /* XXX */
 	i4b_l4_disconnect_ind(cd);
@@ -507,8 +507,9 @@ void capi_connect_ind(capi_softc_t *sc, struct mbuf *m_in)
 	return;
     }
 
-    cd->bri = sc->capi_bri;
+    cd->isdnif = sc->capi_isdnif;
     cd->channelexcl = 0;
+    cd->l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 
     for (bch = 0; bch < sc->sc_nbch; bch++)
 	if (sc->sc_bchan[bch].state == B_FREE)
@@ -590,7 +591,7 @@ void capi_connect_resp(capi_softc_t *sc, call_desc_t *cd)
 	return;
     }
 
-    l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+    l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 
     msgid = (u_int16_t) cd->event;
     PLCI = (u_int32_t) cd->Q931state;
@@ -838,7 +839,7 @@ void capi_disconnect_req(capi_softc_t *sc, call_desc_t *cd)
 	return;
     }
 
-    l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+    l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 
     sc->sc_bchan[cd->channelid].state = B_DISCONNECT_CONF;
     l3drv->bch_state[cd->channelid] = BCH_ST_RSVD;
@@ -886,7 +887,7 @@ void capi_disconnect_conf(capi_softc_t *sc, struct mbuf *m_in)
 	freecd_by_cd(cd);
     }
 
-    l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+    l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 
     sc->sc_bchan[bch].state = B_FREE;
     l3drv->bch_state[bch] = BCH_ST_FREE;
@@ -965,7 +966,7 @@ void capi_disconnect_ind(capi_softc_t *sc, struct mbuf *m_in)
 	freecd_by_cd(cd);
 
 	sc->sc_bchan[bch].state = B_FREE;
-	l3drv = isdn_find_l3_by_bri(sc->capi_bri);
+	l3drv = isdn_find_l3_by_isdnif(sc->capi_isdnif);
 	l3drv->bch_state[bch] = BCH_ST_FREE;
     }
 

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uipc_socket.c,v 1.53 2004/04/19 22:39:07 deraadt Exp $	*/
 /*	$NetBSD: uipc_socket.c,v 1.21 1996/02/04 02:17:52 christos Exp $	*/
 
@@ -127,13 +128,6 @@ socreate(dom, aso, type, proto)
 		splx(s);
 		return (error);
 	}
-#ifdef COMPAT_SUNOS
-	{
-		extern struct emul emul_sunos;
-		if (p->p_emul == &emul_sunos && type == SOCK_DGRAM)
-			so->so_options |= SO_BROADCAST;
-	}
-#endif
 	splx(s);
 	*aso = so;
 	return (0);

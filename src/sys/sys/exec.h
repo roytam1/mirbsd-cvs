@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: exec.h,v 1.22 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: exec.h,v 1.59 1996/02/09 18:25:09 christos Exp $	*/
 
@@ -181,6 +182,7 @@ void	setregs(struct proc *, struct exec_package *,
 				    u_long, register_t *);
 int	check_exec(struct proc *, struct exec_package *);
 int	exec_setup_stack(struct proc *, struct exec_package *);
+int	exec_setup_heap(struct proc *, struct exec_package *);
 int	exec_process_vmcmds(struct proc *, struct exec_package *);
 
 #ifdef DEBUG

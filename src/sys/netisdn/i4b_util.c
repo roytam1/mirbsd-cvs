@@ -52,9 +52,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_util.c,v 1.6 2002/05/21 10:31:11 martin Exp $");
 #include <sys/socket.h>
 #include <net/if.h>
 
-#if defined(__NetBSD__) && __NetBSD_Version__ >= 104230000
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #ifdef __FreeBSD__
 #include <machine/i4b_debug.h>
@@ -249,8 +247,8 @@ i4b_print_frame(int len, u_char *buf)
 void
 i4b_print_l2var(l2_softc_t *l2sc)
 {
-	NDBGL2(L2_ERROR, "bri %d V(R)=%d, V(S)=%d, V(A)=%d,ACKP=%d,PBSY=%d,OBSY=%d",
-		l2sc->drv->bri,
+	NDBGL2(L2_ERROR, "isdnif %d V(R)=%d, V(S)=%d, V(A)=%d,ACKP=%d,PBSY=%d,OBSY=%d",
+		l2sc->drv->isdnif,
 		l2sc->vr,
 		l2sc->vs,
 		l2sc->va,

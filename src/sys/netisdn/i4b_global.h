@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1997, 2000 Hellmuth Michaelis. All rights reserved.
  *
@@ -26,8 +27,6 @@
  *
  *	i4b_global.h - i4b global include file
  *	--------------------------------------
- *
- *	$Id$
  *
  * $FreeBSD$
  *
@@ -81,24 +80,11 @@
 /* timer handling */
 /*----------------*/
 
-#if defined(__NetBSD__) || defined(__OpenBSD__)
-
-#if (__NetBSD_Version__ >= 104230000) || defined(__OpenBSD__)
-#define START_TIMER(XHANDLE, XF, XSC, XTIME) callout_reset(&XHANDLE, XTIME, (TIMEOUT_FUNC_T)XF, (void*)XSC)
-#define STOP_TIMER(XHANDLE, XF, XSC) callout_stop(&XHANDLE)
-#else
-#define START_TIMER(XHANDLE, XF, XSC, XTIME) timeout((TIMEOUT_FUNC_T)XF, (void*)XSC, XTIME)
-#define STOP_TIMER(XHANDLE, XF, XSC)    untimeout((TIMEOUT_FUNC_T)XF, (void*)XSC)
-#endif
-
-#else
-#define START_TIMER(XHANDLE, XF, XSC, XTIME) XHANDLE = timeout((TIMEOUT_FUNC_T)XF, (void*)XSC, XTIME)
-#ifdef __FreeBSD__
-#define	STOP_TIMER(XHANDLE, XF, XSC)	untimeout((TIMEOUT_FUNC_T)XF, (void*)XSC, XHANDLE)
-#else
-#define STOP_TIMER(XHANDLE, XF, XSC)	untimeout((TIMEOUT_FUNC_T)XF, (void*)XSC)
-#endif
-#endif
+#define START_TIMER(XHANDLE, XF, XSC, XTIME) do { \
+	timeout_set((struct timeout *)&XHANDLE, (void (*)(void *))XF, (void *)XSC); \
+	timeout_add((struct timeout *)&XHANDLE, XTIME); \
+} while (0)
+#define STOP_TIMER(XHANDLE, XF, XSC) timeout_del(&XHANDLE)
 
 /*----------------------*/
 /* poll/select handling */
@@ -106,7 +92,7 @@
 
 #if (defined(__FreeBSD__) && \
         (!defined(__FreeBSD_version) || (__FreeBSD_version < 300001))) \
-                || defined (__OpenBSD__) || defined(__bsdi__)
+                || defined(__bsdi__) || (defined(__MirBSD__) && MirBSD < 0x070C)
 #define OS_USES_SELECT
 #else
 #define OS_USES_POLL

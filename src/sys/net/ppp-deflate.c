@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: ppp-deflate.c,v 1.7 2002/09/13 00:12:07 deraadt Exp $	*/
 /*	$NetBSD: ppp-deflate.c,v 1.1 1996/03/15 02:28:09 paulus Exp $	*/
 
@@ -43,6 +44,7 @@
 #include <sys/systm.h>
 #include <sys/mbuf.h>
 #include <net/ppp_defs.h>
+#define	_BSD_STANDXX
 #include <net/zlib.h>
 
 #define PACKETPTR	struct mbuf *

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: localedef.h,v 1.3 1996/04/21 22:31:47 deraadt Exp $	*/
 /*	$NetBSD: localedef.h,v 1.4 1996/04/09 20:55:31 cgd Exp $	*/
 
@@ -37,52 +38,6 @@
 #include <sys/param.h>
 #include <sys/types.h>
 
-typedef struct
-{
-	char *yesexpr;
-	char *noexpr;
-	char *yesstr;
-	char *nostr;
-} _MessagesLocale;
-
-extern const _MessagesLocale *_CurrentMessagesLocale;
-extern const _MessagesLocale  _DefaultMessagesLocale;
-
-
-typedef struct
-{
-	char *int_curr_symbol;
-	char *currency_symbol;
-	char *mon_decimal_point;
-	char *mon_thousands_sep;
-	char *mon_grouping;
-	char *positive_sign;
-	char *negative_sign;
-	char int_frac_digits;
-	char frac_digits;
-	char p_cs_precedes;
-	char p_sep_by_space;
-	char n_cs_precedes;
-	char n_sep_by_space;
-	char p_sign_posn;
-	char n_sign_posn;
-} _MonetaryLocale;
-
-extern const _MonetaryLocale *_CurrentMonetaryLocale;
-extern const _MonetaryLocale  _DefaultMonetaryLocale;
-
-
-typedef struct
-{
-	const char *decimal_point;
-	const char *thousands_sep;
-	const char *grouping;
-} _NumericLocale;
-
-extern const _NumericLocale *_CurrentNumericLocale;
-extern const _NumericLocale  _DefaultNumericLocale;
-
-
 typedef struct {
 	const char *abday[7];
 	const char *day[7];
@@ -95,7 +50,6 @@ typedef struct {
 	const char *t_fmt_ampm;
 } _TimeLocale;
 
-extern const _TimeLocale *_CurrentTimeLocale;
 extern const _TimeLocale  _DefaultTimeLocale;
 
 #endif /* !_SYS_LOCALEDEF_H_ */

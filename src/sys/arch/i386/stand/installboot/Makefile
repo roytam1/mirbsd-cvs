@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.9 2000/06/08 00:56:07 mickey Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.9 2000/06/08 00:56:07 mickey Exp $
 
 MAN=	installboot.8
 
@@ -12,7 +13,7 @@ LDSTATIC=	-static
 
 SADIR=	${.CURDIR}/..
 .else
-NOPROG=
+NOPROG=	yes
 .endif
 
 .include <bsd.prog.mk>

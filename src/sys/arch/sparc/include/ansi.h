@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.6 1996/11/15 22:38:59 jtc Exp $ */
 
@@ -58,8 +59,8 @@
 #define _BSD_TIMER_T_	int
 
 /*
- * Runes (wchar_t) is declared to be an ``int'' instead of the more natural
- * ``unsigned long'' or ``long''.  Two things are happening here.  It is not
+ * Runes (wchar_t) is declared to be an "int" instead of the more natural
+ * "unsigned long" or "long".  Two things are happening here.  It is not
  * unsigned so that EOF (-1) can be naturally assigned to it and used.  Also,
  * it looks like 10646 will be a 31 bit standard.  This means that if your
  * ints cannot hold 32 bits, you will be in trouble.  The reason an int was
@@ -77,8 +78,12 @@
 
 /*
  * We describe off_t here so its declaration can be visible to
- * stdio without pulling in all of <sys/type.h>, thus appeasing ANSI.
+ * stdio without pulling in all of <sys/types.h>, thus appeasing ANSI.
  */
-#define _BSD_OFF_T_	long long		/* file offset */
+#ifdef	__BIT_TYPES_DEFINED__
+#define	_BSD_OFF_T_	int64_t			/* file offset */
+#else	/* ! def __BIT_TYPES_DEFINED__ */
+#define	_BSD_OFF_T_	long long		/* file offset */
+#endif	/* ! def __BIT_TYPES_DEFINED__ */
 
 #endif	/* _ANSI_H_ */

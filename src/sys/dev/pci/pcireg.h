@@ -1,3 +1,5 @@
+/**	$MirOS$	*/
+/*	$NetBSD: pcireg.h,v 1.40 2003/03/25 21:56:20 thorpej Exp $	*/
 /*	$OpenBSD: pcireg.h,v 1.26 2003/12/06 14:40:33 grange Exp $	*/
 /*	$NetBSD: pcireg.h,v 1.26 2000/05/10 16:58:42 thorpej Exp $	*/
 
@@ -57,6 +59,10 @@ typedef u_int16_t pci_product_id_t;
 #define	PCI_PRODUCT_MASK			0xffff
 #define	PCI_PRODUCT(id) \
 	    (((id) >> PCI_PRODUCT_SHIFT) & PCI_PRODUCT_MASK)
+
+#define PCI_ID_CODE(vid,pid)					\
+	((((vid) & PCI_VENDOR_MASK) << PCI_VENDOR_SHIFT) |	\
+	 (((pid) & PCI_PRODUCT_MASK) << PCI_PRODUCT_SHIFT))	\
 
 /*
  * Command and status register.

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: uvm_unix.c,v 1.26 2003/03/04 18:24:05 mickey Exp $	*/
 /*	$NetBSD: uvm_unix.c,v 1.18 2000/09/13 15:00:25 thorpej Exp $	*/
 
@@ -93,6 +94,17 @@ sys_obreak(p, v, retval)
 	 * grow or shrink?
 	 */
 	if (new > old) {
+		/*
+		 * Since uvm_map_protect will not do the optimizations that
+		 * we need in uvm_map, we can't just change the protection
+		 * on the underlying range. We need to unmap it and then do
+		 * the mapping the way we need it.
+		 * XXX - the problem is that we really need to lock
+		 * XXX - the vm space properly when doing this to avoid
+		 * XXX - trouble with multiple processes accessing this
+		 * XXX - memory area. At this moment we don't.
+		 */
+		uvm_unmap(&vm->vm_map, old, new);
 		error = uvm_map(&vm->vm_map, &old, new - old, NULL,
 		    UVM_UNKNOWN_OFFSET, 0,
 		    UVM_MAPFLAG(UVM_PROT_RW, UVM_PROT_RWX, UVM_INH_COPY,
@@ -105,7 +117,8 @@ sys_obreak(p, v, retval)
 		}
 		vm->vm_dsize += atop(new - old);
 	} else {
-		uvm_deallocate(&vm->vm_map, new, old - new);
+		uvm_map_protect(&vm->vm_map, new, old - new,
+		    VM_PROT_NONE, FALSE);
 		vm->vm_dsize -= atop(old - new);
 	}
 

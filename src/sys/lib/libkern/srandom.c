@@ -1,45 +1,54 @@
-/*	$OpenBSD: srandom.c,v 1.3 2003/06/02 23:28:08 millert Exp $	*/
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
 /*-
- * Copyright (c) 1992, 1993
- *	The Regents of the University of California.  All rights reserved.
+ * Copyright (c) 2003
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- *
- *	@(#)random.c	8.1 (Berkeley) 6/10/93
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ *-
+ * Quick-Seed the pseudo-random number generator.
+ * Here is no simple "let" operation, but an xor and rotation ops, so
+ * nobody knows the exact state of the seed after this operation.
  */
 
 #include <sys/types.h>
 
-#include <lib/libkern/libkern.h>
-
 extern u_long _randseed;
 
+void	srandom(u_long);
+u_long	random(void);
+
 void
-srandom(seed)
-	u_long seed;
+srandom(u_long seed)
 {
-	_randseed = seed;
+	u_long s1, s2;
+
+	s1 = (_randseed & 0xFF) << 24;
+	s2 = s1 + (_randseed & 0xFFFFFF) + (seed & 0x0F);
+	s1 = s2 ^ (seed & 0x000FFFF0);
+	seed >>= 20;
+	while (seed) {
+		random();
+		if (seed & 1)
+			random();
+		seed >>= 1;
+	}
+	s2 = (s1 & 0x7F) << 24;
+	s1 = (s1 & 0xFFFFFF80) >> 7;
+	_randseed = (s1 & 0x01FFFFFF);
+	s1 = random();
+	_randseed = s1 ^ s2;
 }

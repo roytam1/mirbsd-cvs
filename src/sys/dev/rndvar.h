@@ -1,6 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1996,2000 Michael Shalayeff.
  *
  * This software derived from one contributed by Theodore Ts'o.
@@ -32,6 +35,9 @@
 #define __RNDVAR_H__
 
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
+#define	rnd_addpool_size 16
+
+#ifndef ASMSTR		/* only if we're not called from assembly code */
 
 #define	RND_RND		0	/* real randomness like nuclear chips */
 #define	RND_SRND	1	/* strong random source */
@@ -74,6 +80,18 @@ struct rndstats {
 #ifdef _KERNEL
 extern struct rndstats rndstats;
 
+extern uint32_t rnd_addpool_buf[];
+extern size_t rnd_addpool_num;
+extern int rnd_addpool_allow;
+#define	rnd_addpool_add(x)						\
+	do {								\
+		if (rnd_addpool_allow) {				\
+			rnd_addpool_buf[rnd_addpool_num++] ^= (x);	\
+			if (rnd_addpool_num == rnd_addpool_size)	\
+				rnd_addpool_num = 0;			\
+		}							\
+	} while(0)
+
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
 #define	add_timer_randomness(d)	enqueue_randomness(RND_SRC_TIMER, (int)(d))
 #define	add_mouse_randomness(d)	enqueue_randomness(RND_SRC_MOUSE, (int)(d))
@@ -89,5 +107,6 @@ void arc4random_bytes(void *, size_t);
 u_int32_t arc4random(void);
 
 #endif /* _KERNEL */
+#endif /* ndef ASMSTR */
 
 #endif /* __RNDVAR_H__ */

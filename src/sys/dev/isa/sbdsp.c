@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: sbdsp.c,v 1.23 2004/01/09 21:32:24 brad Exp $	*/
 
 /*
@@ -109,12 +110,12 @@ struct {
  *
  *				SBPRO			SB20
  *				-----			--------
- * input ls min			4	KHz		4	KHz
- * input ls max			23	KHz		13	KHz
- * input hs max			44.1	KHz		15	KHz
- * output ls min		4	KHz		4	KHz
- * output ls max		23	KHz		23	KHz
- * output hs max		44.1	KHz		44.1	KHz
+ * input ls min			4	kHz		4	kHz
+ * input ls max			23	kHz		13	kHz
+ * input hs max			44.1	kHz		15	kHz
+ * output ls min		4	kHz		4	kHz
+ * output ls max		23	kHz		23	kHz
+ * output hs max		44.1	kHz		44.1	kHz
  */
 /* XXX Should we round the tc?
 #define SB_RATE_TO_TC(x) (((65536 - 256 * 1000000 / (x)) + 128) >> 8)

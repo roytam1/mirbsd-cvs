@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vfs_syscalls_43.c,v 1.24 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls_43.c,v 1.4 1996/03/14 19:31:52 christos Exp $	*/
 
@@ -63,19 +64,43 @@
 
 #include <sys/pipe.h>
 
+#include <compat/common/compat_util.h>
+#include <compat/common/kern_gen.h>
+
+struct stat43 {
+	u_int16_t st_dev;		/* inode's device */
+	ino_t	  st_ino;		/* inode's number */
+	u_int16_t st_mode;		/* inode protection mode */
+	u_int16_t st_nlink;		/* number of hard links */
+	u_int16_t st_uid;		/* user ID of the file's owner */
+	u_int16_t st_gid;		/* group ID of the file's group */
+	u_int16_t st_rdev;		/* device type */
+	int32_t	  st_size;		/* file size, in bytes */
+	struct	timespec_compat st_atimespec;	/* time of last access */
+	struct	timespec_compat st_mtimespec;	/* time of last data modification */
+	struct	timespec_compat st_ctimespec;	/* time of last file status change */
+	int32_t	  st_blksize;		/* optimal blocksize for I/O */
+	int32_t	  st_blocks;		/* blocks allocated for file */
+	u_int32_t st_flags;		/* user defined flags for file */
+	u_int32_t st_gen;		/* file generation number */
+};
+
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 static void cvtstat(struct stat *, struct stat43 *);
+#endif
 
 /*
- * Redirection info so we don't have to include the union fs routines in 
+ * Redirection info so we don't have to include the union fs routines in
  * the kernel directly.  This way, we can build unionfs as an LKM.  The
  * pointer gets replaced later, when we modload the LKM, or when the
  * compiled-in unionfs code gets initialized.  Initial, stub routine
  * value is compiled in from kern/vfs_syscalls.c
  */
 
-extern int (*union_check_p)(struct proc *, struct vnode **, 
+extern int (*union_check_p)(struct proc *, struct vnode **,
 				   struct file *, struct uio, int *);
 
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /*
  * Convert from a new to an old stat structure.
  */
@@ -96,26 +121,31 @@ cvtstat(st, ost)
 		ost->st_size = st->st_size;
 	else
 		ost->st_size = -2;
-	ost->st_atime = st->st_atime;
-	ost->st_mtime = st->st_mtime;
-	ost->st_ctime = st->st_ctime;
+	ost->st_atime = __BOUNDLONG(st->st_atime);
+	ost->st_mtime = __BOUNDLONG(st->st_mtime);
+	ost->st_ctime = __BOUNDLONG(st->st_ctime);
 	ost->st_blksize = st->st_blksize;
 	ost->st_blocks = st->st_blocks;
 	ost->st_flags = st->st_flags;
 	ost->st_gen = st->st_gen;
 }
+#endif
+
+#if defined(COMPAT_OPENBSD)
+
+#include <compat/openbsd/compat_openbsd.h>
 
 /*
  * Get file status; this version follows links.
  */
 /* ARGSUSED */
 int
-compat_43_sys_stat(p, v, retval)
+compat_43_openbsd_sys_stat(p, v, retval)
 	struct proc *p;
 	void *v;
 	register_t *retval;
 {
-	register struct compat_43_sys_stat_args /* {
+	struct compat_43_openbsd_sys_stat_args /* {
 		syscallarg(char *) path;
 		syscallarg(struct stat43 *) ub;
 	} */ *uap = v;
@@ -123,7 +153,9 @@ compat_43_sys_stat(p, v, retval)
 	struct stat43 osb;
 	int error;
 	struct nameidata nd;
+	caddr_t sg = stackgap_init(p->p_emul);
 
+	OPENBSD_CHECK_ALT_EXIST(p, &sg, SCARG(uap, path));
 	NDINIT(&nd, LOOKUP, FOLLOW | LOCKLEAF, UIO_USERSPACE,
 	    SCARG(uap, path), p);
 	if ((error = namei(&nd)) != 0)
@@ -136,8 +168,9 @@ compat_43_sys_stat(p, v, retval)
 	error = copyout((caddr_t)&osb, (caddr_t)SCARG(uap, ub), sizeof (osb));
 	return (error);
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /*
  * Get file status; this version does not follow links.
  */
@@ -169,8 +202,9 @@ compat_43_sys_lstat(p, v, retval)
 	error = copyout(&osb, SCARG(uap, ub), sizeof (osb));
 	return (error);
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD)
 /*
  * Return status information about a file descriptor.
  */
@@ -203,8 +237,9 @@ compat_43_sys_fstat(p, v, retval)
 		    sizeof (oub));
 	return (error);
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /*
  * Truncate a file given a file descriptor.
  */
@@ -286,8 +321,9 @@ compat_43_sys_lseek(p, v, retval)
 	*(long *)retval = qret;
 	return (error);
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD)
 /*
  * Create a file.
  */
@@ -312,18 +348,6 @@ compat_43_sys_creat(p, v, retval)
 	SCARG(&nuap, flags) = O_WRONLY | O_CREAT | O_TRUNC;
 	return (sys_open(p, &nuap, retval));
 }
-
-/*ARGSUSED*/
-int
-compat_43_sys_quota(p, v, retval)
-	struct proc *p;
-	void *v;
-	register_t *retval;
-{
-
-	return (ENOSYS);
-}
-
 
 /*
  * Read a block of directory entries in a file system independent format.
@@ -371,7 +395,7 @@ unionread:
 	auio.uio_segflg = UIO_USERSPACE;
 	auio.uio_procp = p;
 	auio.uio_resid = SCARG(uap, count);
-       
+
 	vn_lock(vp, LK_EXCLUSIVE | LK_RETRY, p);
 	loff = auio.uio_offset = fp->f_offset;
 #	if (BYTE_ORDER != LITTLE_ENDIAN)
@@ -458,3 +482,4 @@ bad:
 	FRELE(fp);
 	return (error);
 }
+#endif

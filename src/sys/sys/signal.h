@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: signal.h,v 1.16 2004/01/14 05:23:25 tedu Exp $	*/
 /*	$NetBSD: signal.h,v 1.21 1996/02/09 18:25:32 christos Exp $	*/
 
@@ -129,9 +130,6 @@ struct	sigaction {
 #define SA_RESETHAND	0x0004	/* reset to SIG_DFL when taking signal */
 #define SA_NODEFER	0x0010	/* don't mask the signal we're delivering */
 #define SA_NOCLDWAIT	0x0020	/* don't create zombies (assign to pid 1) */
-#ifdef COMPAT_SUNOS
-#define	SA_USERTRAMP	0x0100	/* do not bounce off kernel's sigtramp */
-#endif
 #endif
 #define SA_NOCLDSTOP	0x0008	/* do not generate SIGCHLD on child stop */
 #define SA_SIGINFO	0x0040	/* generate siginfo_t */

@@ -59,7 +59,7 @@
  *---------------------------------------------------------------------------*/ 
 
 #include <sys/cdefs.h>
-__KERNEL_RCSID(0, "$NetBSD: i4b_ipr.c,v 1.14 2002/12/28 21:11:23 kristerw Exp $");
+__KERNEL_RCSID(0, "$NetBSD: i4b_ipr.c,v 1.15 2003/04/11 14:45:29 drochner Exp $");
 
 #include "irip.h"
 
@@ -84,9 +84,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_ipr.c,v 1.14 2002/12/28 21:11:23 kristerw Exp $"
 #include <sys/ioctl.h>
 #endif
 
-#if defined(__NetBSD__) && __NetBSD_Version__ >= 104230000
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #include <sys/kernel.h>
 #include <sys/protosw.h>
@@ -101,7 +99,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_ipr.c,v 1.14 2002/12/28 21:11:23 kristerw Exp $"
 #include <netinet/in_var.h>
 #include <netinet/ip.h>
 
-#ifdef IPR_VJ
+#ifdef IRIP_VJ
 #include <net/slcompress.h>       
 #define IPR_COMPRESS IFF_LINK0  /* compress TCP traffic */
 #define IPR_AUTOCOMP IFF_LINK1  /* auto-enable TCP compression */
@@ -118,7 +116,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_ipr.c,v 1.14 2002/12/28 21:11:23 kristerw Exp $"
  *---------------------------------------------------------------------------*/
 #define IPR_VJ_USEBUFFER	/* define to use an allocated separate buffer*/
 				/* undef to uncompress in the mbuf itself    */
-#endif /* IPR_VJ */
+#endif /* IRIP_VJ */
 
 #if defined(__FreeBSD_version) &&  __FreeBSD_version >= 400008
 #include "bpf.h"
@@ -196,12 +194,7 @@ struct ipr_softc {
 	int		sc_fn;		/* flag, first null acct	*/
 #endif	
 
-#if defined(__OpenBSD__) || (defined(__NetBSD__) && __NetBSD_Version__ >= 104230000)
-	struct callout	sc_callout;
-#endif
-#if defined(__FreeBSD__)
-	struct callout_handle	sc_callout;
-#endif
+	struct timeout	sc_callout;
 
 #ifdef I4BIPRADJFRXP
 	int		sc_first_pkt;	/* flag, first rxd packet	*/
@@ -210,7 +203,7 @@ struct ipr_softc {
 	int		sc_log_first;	/* log first n packets          */
 #endif
 
-#ifdef IPR_VJ
+#ifdef IRIP_VJ
 	struct slcompress sc_compr;	/* tcp compression data		*/
 #ifdef IPR_VJ_USEBUFFER
 	u_char		*sc_cbuf;	/* tcp decompression buffer	*/
@@ -319,18 +312,15 @@ iripattach()
 		sc->sc_if.if_name = "irip";
 		sc->sc_if.if_unit = i;
 #else
-		sprintf(sc->sc_if.if_xname, "irip%d", i);
+		snprintf(sc->sc_if.if_xname,
+		    sizeof sc->sc_if.if_xname, "irip%d", i);
 		sc->sc_if.if_softc = sc;
 #endif
 
-#ifdef	IPR_VJ
+#ifdef	IRIP_VJ
 		sc->sc_if.if_flags = IFF_POINTOPOINT | IFF_SIMPLEX | IPR_AUTOCOMP;
 #else
 		sc->sc_if.if_flags = IFF_POINTOPOINT | IFF_SIMPLEX;
-#endif
-
-#if defined(__OpenBSD__) || (defined(__NetBSD__) && __NetBSD_Version__ >= 104230000)
-		callout_init(&sc->sc_callout);
 #endif
 
 		sc->sc_if.if_mtu = I4BIPRMTU;
@@ -369,7 +359,7 @@ iripattach()
 		sc->sc_log_first = IPR_LOG;
 #endif
 
-#ifdef	IPR_VJ
+#ifdef	IRIP_VJ
 #ifdef __FreeBSD__
 		sl_compress_init(&sc->sc_compr, -1);
 #else
@@ -920,7 +910,7 @@ ipr_rx_data_rdy(void *softc)
 {
 	register struct ipr_softc *sc = softc;
 	register struct mbuf *m;
-#ifdef IPR_VJ
+#ifdef IRIP_VJ
 #ifdef IPR_VJ_USEBUFFER
 	u_char *cp = sc->sc_cbuf;
 #endif	
@@ -966,7 +956,7 @@ ipr_rx_data_rdy(void *softc)
 	sc->sc_if.if_ipackets++;
 	sc->sc_if.if_ibytes += m->m_pkthdr.len;
 
-#ifdef	IPR_VJ
+#ifdef	IRIP_VJ
 	if((c = (*(mtod(m, u_char *)) & 0xf0)) != (IPVERSION << 4))
 	{
 		/* copy data to buffer */
@@ -1110,7 +1100,7 @@ ipr_tx_queue_empty(void *softc)
 {
 	register struct ipr_softc *sc = softc;
 	register struct mbuf *m;
-#ifdef	IPR_VJ	
+#ifdef	IRIP_VJ	
 	struct ip *ip;	
 #endif
 	int x = 0;
@@ -1155,7 +1145,7 @@ ipr_tx_queue_empty(void *softc)
 		sc->sc_outb += m->m_pkthdr.len;	/* size before compression */
 #endif
 
-#ifdef	IPR_VJ	
+#ifdef	IRIP_VJ	
 		if((ip = mtod(m, struct ip *))->ip_p == IPPROTO_TCP)
 		{
 			if(sc->sc_if.if_flags & IPR_COMPRESS)

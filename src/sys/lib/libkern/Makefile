@@ -1,8 +1,9 @@
-#	$OpenBSD: Makefile,v 1.17 2004/05/07 14:42:27 millert Exp $
-#	$NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.17 2004/05/07 14:42:27 millert Exp $
+# $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 
 LIB=	kern
-NOPIC=
+NOPIC=	yes
 
 MACHINE=	${XMACHINE}
 MACHINE_ARCH=	${XMACHINE_ARCH}
@@ -25,14 +26,10 @@ SRCS+=	adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c iordi3.c \
 .endif
 
 # Other stuff
-SRCS+=	getsn.c srandom.c bcd.c strchr.c
+SRCS+=	getsn.c srandom.c bcd.c strchr.c taitime.c
 
 # Files to clean up
 CLEANFILES+= lib${LIB}.o lib${LIB}.po
-
-# mcount cannot be compiled with profiling
-mcount.po: mcount.o
-	cp mcount.o mcount.po
 
 install:
 
@@ -42,9 +39,3 @@ lib${LIB}.o:: ${OBJS}
 	@echo building standard ${LIB} library
 	@rm -f lib${LIB}.o
 	@${LD} -r -o lib${LIB}.o `${LORDER} ${OBJS} | tsort`
-
-POBJS+=	${OBJS:.o=.po} mcount.po
-lib${LIB}.po:: ${POBJS}
-	@echo building profiled ${LIB} library
-	@rm -f lib${LIB}.po
-	@${LD} -r -o lib${LIB}.po `${LORDER} ${POBJS} | tsort`

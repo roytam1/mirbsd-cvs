@@ -1,4 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vfs_syscalls_35.c,v 1.3 2004/07/14 18:57:57 millert Exp $	*/
+
+/*
+ * stat compat *NOT* for OpenBSD 3.5, but for MirOS #8-beta, pre-#8
+ */
 
 /*
  * Copyright (c) 1989, 1993
@@ -52,13 +57,35 @@
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
 
-static void cvtstat(struct stat *, struct stat35 *);
+#ifdef COMPAT_78
+
+struct stat78 {
+	dev_t	  st_dev;		/* inode's device */
+	ino_t	  st_ino;		/* inode's number */
+	u_int16_t  st_mode;		/* inode protection mode */
+	u_int16_t  st_nlink;		/* number of hard links */
+	uid_t	  st_uid;		/* user ID of the file's owner */
+	gid_t	  st_gid;		/* group ID of the file's group */
+	dev_t	  st_rdev;		/* device type */
+	struct	timespec st_atimespec;	/* time of last access */
+	struct	timespec st_mtimespec;	/* time of last data modification */
+	struct	timespec st_ctimespec;	/* time of last file status change */
+	off_t	  st_size;		/* file size, in bytes */
+	int64_t	  st_blocks;		/* blocks allocated for file */
+	u_int32_t st_blksize;		/* optimal blocksize for I/O */
+	u_int32_t st_flags;		/* user defined flags for file */
+	u_int32_t st_gen;		/* file generation number */
+	int32_t	  st_lspare;
+	int64_t	  st_qspare[2];
+};
+
+static void cvtstat(struct stat *, struct stat78 *);
 
 /*
  * Convert from a new to an old stat structure.
  */
 static void
-cvtstat(struct stat *st, struct stat35 *ost)
+cvtstat(struct stat *st, struct stat78 *ost)
 {
 
 	ost->st_dev = st->st_dev;
@@ -83,14 +110,14 @@ cvtstat(struct stat *st, struct stat35 *ost)
  */
 /* ARGSUSED */
 int
-compat_35_sys_stat(struct proc *p, void *v, register_t *retval)
+compat_78_sys_stat(struct proc *p, void *v, register_t *retval)
 {
-	struct compat_35_sys_stat_args /* {
+	struct compat_78_sys_stat_args /* {
 		syscallarg(char *) path;
-		syscallarg(struct stat35 *) ub;
+		syscallarg(struct stat78 *) ub;
 	} */ *uap = v;
 	struct stat sb;
-	struct stat35 osb;
+	struct stat78 osb;
 	int error;
 	struct nameidata nd;
 
@@ -115,14 +142,14 @@ compat_35_sys_stat(struct proc *p, void *v, register_t *retval)
  */
 /* ARGSUSED */
 int
-compat_35_sys_lstat(struct proc *p, void *v, register_t *retval)
+compat_78_sys_lstat(struct proc *p, void *v, register_t *retval)
 {
-	struct compat_35_sys_lstat_args /* {
+	struct compat_78_sys_lstat_args /* {
 		syscallarg(char *) path;
-		syscallarg(struct stat35 *) ub;
+		syscallarg(struct stat78 *) ub;
 	} */ *uap = v;
 	struct stat sb;
-	struct stat35 osb;
+	struct stat78 osb;
 	int error;
 	struct nameidata nd;
 
@@ -147,17 +174,17 @@ compat_35_sys_lstat(struct proc *p, void *v, register_t *retval)
  */
 /* ARGSUSED */
 int
-compat_35_sys_fstat(struct proc *p, void *v, register_t *retval)
+compat_78_sys_fstat(struct proc *p, void *v, register_t *retval)
 {
-	struct compat_35_sys_fstat_args /* {
+	struct compat_78_sys_fstat_args /* {
 		syscallarg(int) fd;
-		syscallarg(struct stat35 *) sb;
+		syscallarg(struct stat78 *) sb;
 	} */ *uap = v;
 	int fd = SCARG(uap, fd);
 	struct filedesc *fdp = p->p_fd;
 	struct file *fp;
 	struct stat ub;
-	struct stat35 oub;
+	struct stat78 oub;
 	int error;
 
 	if ((fp = fd_getfile(fdp, fd)) == NULL)
@@ -178,14 +205,14 @@ compat_35_sys_fstat(struct proc *p, void *v, register_t *retval)
 
 /* ARGSUSED */
 int
-compat_35_sys_fhstat(struct proc *p, void *v, register_t *retval)
+compat_78_sys_fhstat(struct proc *p, void *v, register_t *retval)
 {
-	struct sys_fhstat_args /* {
+	struct compat_78_sys_fhstat_args /* {
 		syscallarg(const fhandle_t *) fhp;
-		syscallarg(struct stat35 *) sb;
+		syscallarg(struct stat78 *) sb;
 	} */ *uap = v;
 	struct stat ub;
-	struct stat35 oub;
+	struct stat78 oub;
 	int error;
 	fhandle_t fh;
 	struct mount *mp;
@@ -212,3 +239,4 @@ compat_35_sys_fhstat(struct proc *p, void *v, register_t *retval)
 	error = copyout(&oub, SCARG(uap, sb), sizeof(oub));
 	return (error);
 }
+#endif /* COMPAT_78 */

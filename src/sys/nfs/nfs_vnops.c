@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: nfs_vnops.c,v 1.60 2004/05/14 04:00:34 tedu Exp $	*/
 /*	$NetBSD: nfs_vnops.c,v 1.62.4.1 1996/07/08 20:26:52 jtc Exp $	*/
 
@@ -2136,8 +2137,11 @@ nfs_readdirrpc(struct vnode *vp,
 			tlen = nfsm_rndup(len + 1);
 			left = NFS_READDIRBLKSIZ - blksiz;
 			if ((tlen + NFS_DIRHDSIZ) > left) {
+				caddr_t tmp = left +
+				    (caddr_t)uiop->uio_iov->iov_base;
+
 				dp->d_reclen += left;
-				(caddr_t)uiop->uio_iov->iov_base += left;
+				uiop->uio_iov->iov_base = tmp;
 				uiop->uio_iov->iov_len -= left;
 				uiop->uio_resid -= left;
 				blksiz = 0;
@@ -2145,6 +2149,8 @@ nfs_readdirrpc(struct vnode *vp,
 			if ((tlen + NFS_DIRHDSIZ) > uiop->uio_resid)
 				bigenough = 0;
 			if (bigenough) {
+				caddr_t tmp;
+
 				ndp = (struct nfs_dirent *)
 				    uiop->uio_iov->iov_base;
 				dp = &ndp->dirent;
@@ -2162,7 +2168,8 @@ nfs_readdirrpc(struct vnode *vp,
 				cp = uiop->uio_iov->iov_base;
 				tlen -= len;
 				*cp = '\0';	/* null terminate */
-				(caddr_t)uiop->uio_iov->iov_base += tlen;
+				tmp = (caddr_t)uiop->uio_iov->iov_base + tlen;
+				uiop->uio_iov->iov_base = tmp;
 				uiop->uio_iov->iov_len -= tlen;
 				uiop->uio_resid -= tlen;
 			} else

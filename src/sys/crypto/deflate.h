@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: deflate.h,v 1.3 2002/03/14 01:26:51 millert Exp $ */
 
 /*
@@ -28,13 +29,14 @@
  */
 
 /*
- * Definition for the wrapper around the deflate compression 
+ * Definition for the wrapper around the deflate compression
  * algorithm used in /sys/crypto
  */
 
 #ifndef _CRYPTO_DEFLATE_H_
 #define _CRYPTO_DEFLATE_H_
 
+#define	_BSD_STANDXX
 #include <net/zlib.h>
 
 #define Z_METHOD	8

@@ -1,7 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dkcsum.c,v 1.11 2003/06/03 20:31:07 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
+ * Copyright (c) 2004 Thorsten Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -39,9 +41,10 @@
 #include <sys/reboot.h>
 #include <sys/stat.h>
 #include <sys/systm.h>
+#include <dev/rndvar.h>
 
 #include <machine/biosvar.h>
-
+#define	_BSD_STANDXX
 #include <lib/libz/zlib.h>
 
 #define	b_cylin	b_resid
@@ -127,8 +130,11 @@ dkcsumattach()
 		/* Find the BIOS device */
 		hit = 0;
 		for (bdi = bios_diskinfo; bdi->bios_number != -1; bdi++) {
-			/* Skip non-harddrives */
-			if (!(bdi->bios_number & 0x80))
+			add_timer_randomness((bdi->bios_number * bdi->flags)
+			    ^ (int)bdi);
+			/* Skip non-harddrives and bootable CD-ROMs */
+			if ((!(bdi->bios_number & 0x80)) ||
+			    (bdi->flags & BDI_ELTORITO))
 				continue;
 #ifdef DEBUG
 			printf("dkcsum: "
@@ -139,6 +145,8 @@ dkcsumattach()
 				if (!hit && !(bdi->flags & BDI_PICKED))
 					hit = bdi;
 				else {
+					rnd_addpool_add((bdi->bios_number
+					    + csum) ^ arc4random());
 					/* XXX add other heuristics here.  */
 					printf("dkcsum: warning: "
 					    "dup BSD->BIOS disk mapping\n");
@@ -151,11 +159,14 @@ dkcsumattach()
 		 * than the BIOS can, so this case is pretty normal.
 		 */
 		if (hit) {
+			rnd_addpool_add((hit->bios_number + csum)
+			    ^ arc4random());
 #ifdef DIAGNOSTIC
 			printf("dkcsum: %s matched BIOS disk %x\n",
 			    dv->dv_xname, hit->bios_number);
 #endif
 		} else {
+			rnd_addpool_add((0x100 + csum) ^ arc4random());
 #ifdef DIAGNOSTIC
 			printf("dkcsum: %s had no matching BIOS disk\n",
 			    dv->dv_xname);

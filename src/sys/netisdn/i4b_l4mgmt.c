@@ -1,3 +1,6 @@
+/**	$MirOS$	*/
+/*	$NetBSD: i4b_l4mgmt.c,v 1.13 2003/10/03 16:38:44 pooka Exp $	*/
+
 /*
  * Copyright (c) 1997, 2000 Hellmuth Michaelis. All rights reserved.
  *
@@ -25,18 +28,10 @@
  *---------------------------------------------------------------------------
  *
  *	i4b_l4mgmt.c - layer 4 calldescriptor management utilites
- *	-----------------------------------------------------------
- *
- *	$Id$ 
- *
- * $FreeBSD$
- *
- *      last edit-date: [Fri Jan  5 11:33:47 2001]
  *
  *---------------------------------------------------------------------------*/
 
 #include <sys/cdefs.h>
-__KERNEL_RCSID(0, "$NetBSD: i4b_l4mgmt.c,v 1.10 2002/09/27 15:37:56 provos Exp $");
 
 #include "isdn.h"
 
@@ -49,9 +44,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_l4mgmt.c,v 1.10 2002/09/27 15:37:56 provos Exp $
 #include <sys/socket.h>
 #include <net/if.h>
 
-#if defined(__NetBSD__) && __NetBSD_Version__ >= 104230000
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #if defined(__FreeBSD__)
 #if defined (__FreeBSD_version) && __FreeBSD_version <= 400000
@@ -83,7 +76,6 @@ static unsigned int get_cdid(void);
 static void i4b_init_callout(call_desc_t *);
 static void i4b_stop_callout(call_desc_t *cd);
 
-#define N_CALL_DESC 40	/* XXX - make this sizeable */
 call_desc_t call_desc[N_CALL_DESC];	/* call descriptor array */
 int num_call_desc = 0;
 
@@ -210,9 +202,9 @@ freecd_by_cd(call_desc_t *cd)
 }
 
 /*
- * BRI is gone, get rid of all CDs for it
+ * ISDN is gone, get rid of all CDs for it
  */
-void free_all_cd_of_bri(int bri)
+void free_all_cd_of_isdnif(int isdnif)
 {
 	int i;
 	int x = splnet();
@@ -220,15 +212,14 @@ void free_all_cd_of_bri(int bri)
 	for(i=0; i < num_call_desc; i++)
 	{
 		if( (call_desc[i].cdid != CDID_UNUSED) &&
-		    call_desc[i].bri == bri) {
+		    call_desc[i].isdnif == isdnif) {
 			NDBGL4(L4_MSG, "releasing cd - index=%d cdid=%u cr=%d",
 				i, call_desc[i].cdid, call_desc[i].cr);
 			if (call_desc[i].callouts_inited)
 				i4b_stop_callout(&call_desc[i]);
 			call_desc[i].cdid = CDID_UNUSED;
-			call_desc[i].bri = -1;
+			call_desc[i].isdnif = -1;
 			call_desc[i].l3drv = NULL;
-			break;
 		}
 	}
 
@@ -268,20 +259,20 @@ cd_by_cdid(unsigned int cdid)
  *	It returns a pointer to the calldescriptor if found, else a NULL.
  *---------------------------------------------------------------------------*/
 call_desc_t *
-cd_by_bricr(int bri, int cr, int crf)
+cd_by_isdnifcr(int isdnif, int cr, int crf)
 {
 	int i;
 
-	for(i=0; i < num_call_desc; i++)
-	{
-	  if (call_desc[i].cdid != CDID_UNUSED && call_desc[i].bri == bri &&
-	     call_desc[i].cr == cr && call_desc[i].crflag == crf)
-	  {
-	    NDBGL4(L4_MSG, "found cd, index=%d cdid=%u cr=%d",
-			i, call_desc[i].cdid, call_desc[i].cr);
-	    i4b_init_callout(&call_desc[i]);
-	    return(&(call_desc[i]));
-	  }
+	for(i=0; i < num_call_desc; i++) {
+		if (call_desc[i].cdid != CDID_UNUSED
+		    && call_desc[i].isdnif == isdnif
+		    && call_desc[i].cr == cr
+		    && call_desc[i].crflag == crf) {
+			NDBGL4(L4_MSG, "found cd, index=%d cdid=%u cr=%d",
+			    i, call_desc[i].cdid, call_desc[i].cr);
+			i4b_init_callout(&call_desc[i]);
+			return(&(call_desc[i]));
+		}
 	}
 	return(NULL);
 }
@@ -345,14 +336,14 @@ i4b_stop_callout(call_desc_t *cd)
 	if (!cd->callouts_inited)
 		return;
 
-	callout_stop(&cd->idle_timeout_handle);
-	callout_stop(&cd->T303_callout);
-	callout_stop(&cd->T305_callout);
-	callout_stop(&cd->T308_callout);
-	callout_stop(&cd->T309_callout);
-	callout_stop(&cd->T310_callout);
-	callout_stop(&cd->T313_callout);
-	callout_stop(&cd->T400_callout);
+	timeout_del(&cd->idle_timeout_handle);
+	timeout_del(&cd->T303_callout);
+	timeout_del(&cd->T305_callout);
+	timeout_del(&cd->T308_callout);
+	timeout_del(&cd->T309_callout);
+	timeout_del(&cd->T310_callout);
+	timeout_del(&cd->T313_callout);
+	timeout_del(&cd->T400_callout);
 }
 
 /*---------------------------------------------------------------------------*
@@ -361,18 +352,7 @@ i4b_stop_callout(call_desc_t *cd)
 void
 i4b_init_callout(call_desc_t *cd)
 {
-	if(cd->callouts_inited == 0)
-	{
-		callout_init(&cd->idle_timeout_handle);
-		callout_init(&cd->T303_callout);
-		callout_init(&cd->T305_callout);
-		callout_init(&cd->T308_callout);
-		callout_init(&cd->T309_callout);
-		callout_init(&cd->T310_callout);
-		callout_init(&cd->T313_callout);
-		callout_init(&cd->T400_callout);
-		cd->callouts_inited = 1;
-	}
+	/* callout_init() translates to a NOP for OpenBSD */
 }
 
 #ifdef I4B_CD_DEBUG_PRINT

@@ -1,6 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: in_cksum.s,v 1.6 2003/04/17 03:42:14 drahn Exp $	*/
 
 /*
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1996 Dave Richards <richards@zso.dec.com>
  * All rights reserved.
  *
@@ -29,8 +32,10 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include <machine/asm.h>
 #include "assym.h"
+#include <dev/rndvar.h>
 
 		.text
 ENTRY(in_cksum)
@@ -174,6 +179,18 @@ in_cksum47:	rorl	%cl, %edx		# re-align checksum
 
 in_cksum48:	popl	%edi			# restore %edi
 		popl	%esi			# restore %esi
+		.intel_syntax noprefix
+		cmp	dword ptr [rnd_addpool_allow], 0
+		je	in_cksum48c
+		mov	ebx,[rnd_addpool_num]	# random pool pointer
+		xor	[rnd_addpool_buf+4*ebx],eax
+		inc	ebx			# write and increment
+		cmp	bl,rnd_addpool_size	# if none left...
+		jb	in_cksum48b
+		xor	ebx,ebx			# ringbuffer starts at 0 again
+in_cksum48b:	mov	[rnd_addpool_num],ebx	# write back pointer
+in_cksum48c:	# nop
+		.att_syntax
 		popl	%ebx			# restore %ebx
 		popl	%ebp			# restore %ebp
 		ret				# return %eax
@@ -186,7 +203,7 @@ in_cksum49:	pushl	%edi			# len - bytes checksummed
 
 		.data
 
-		.align	4
+		.balign	4
 
 table1:		.long	in_cksum8		# 4-byte aligned
 		.long	in_cksum4		# checksum 3 bytes

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: subr_disk.c,v 1.25 2004/02/15 02:45:46 tedu Exp $	*/
 /*	$NetBSD: subr_disk.c,v 1.17 1996/03/16 23:17:08 christos Exp $	*/
 
@@ -206,8 +207,7 @@ diskerr(bp, dname, what, pri, blkdone, lp)
 	int sn;
 
 	if (pri != LOG_PRINTF) {
-		static const char fmt[] = "";
-		log(pri, fmt);
+		logpri(pri);
 		pr = addlog;
 	} else
 		pr = printf;
@@ -275,9 +275,9 @@ disk_construct(diskp, lockname)
 {
 	lockinit(&diskp->dk_lock, PRIBIO | PCATCH, lockname,
 		 0, LK_CANRECURSE);
-	
+
 	diskp->dk_flags |= DKF_CONSTRUCTED;
-	    
+
 	return (0);
 }
 
@@ -519,7 +519,7 @@ dk_mountroot()
 #endif
 	default:
 #ifdef FFS
-		{ 
+		{
 		extern int ffs_mountroot(void);
 
 		printf("filesystem type %d not known.. assuming ffs\n",
@@ -527,7 +527,7 @@ dk_mountroot()
 		mountrootfn = ffs_mountroot;
 		}
 #else
-		panic("disk 0x%x/0x%x filesystem type %d not known", 
+		panic("disk 0x%x/0x%x filesystem type %d not known",
 		    rootdev, rrootdev, dl.d_partitions[part].p_fstype);
 #endif
 	}

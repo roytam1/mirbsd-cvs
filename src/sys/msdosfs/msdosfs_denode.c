@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: msdosfs_denode.c,v 1.26 2004/05/14 04:05:05 tedu Exp $	*/
 /*	$NetBSD: msdosfs_denode.c,v 1.23 1997/10/17 11:23:58 ws Exp $	*/
 
@@ -34,17 +35,17 @@
  */
 /*
  * Written by Paul Popelka (paulp@uts.amdahl.com)
- * 
+ *
  * You can do anything you want with this software, just don't say you wrote
  * it, and don't remove this notice.
- * 
+ *
  * This software is provided "as is".
- * 
+ *
  * The author supplies this software to be publicly redistributed on the
  * understanding that the author is not responsible for the correct
  * functioning of this software in any circumstances and is not liable for
  * any damages caused by this software.
- * 
+ *
  * October 1992
  */
 
@@ -93,7 +94,7 @@ msdosfs_hashget(dev, dirclust, diroff)
 {
 	struct denode *dep;
 	struct proc *p = curproc; /* XXX */
-       
+
 	for (;;)
 		for (dep = dehashtbl[DEHASH(dev, dirclust, diroff)];;
 		     dep = dep->de_next) {
@@ -122,7 +123,7 @@ msdosfs_hashins(dep)
 
 	depp = &dehashtbl[DEHASH(dep->de_dev, dep->de_dirclust,
 				 dep->de_diroffset)];
-	
+
 	for (deq = *depp; deq; deq = deq->de_next) {
 		if (dep->de_dirclust == deq->de_dirclust &&
 		    dep->de_diroffset == deq->de_diroffset &&
@@ -159,15 +160,15 @@ msdosfs_hashrem(dep)
 }
 
 /*
- * If deget() succeeds it returns with the gotten denode locked(). 
+ * If deget() succeeds it returns with the gotten denode locked().
  *
  * pmp	     - address of msdosfsmount structure of the filesystem containing
  *	       the denode of interest.  The pm_dev field and the address of
- *	       the msdosfsmount structure are used. 
+ *	       the msdosfsmount structure are used.
  * dirclust  - which cluster bp contains, if dirclust is 0 (root directory)
  *	       diroffset is relative to the beginning of the root directory,
- *	       otherwise it is cluster relative. 
- * diroffset - offset past begin of cluster of denode we want 
+ *	       otherwise it is cluster relative.
+ * diroffset - offset past begin of cluster of denode we want
  * depp	     - returns the address of the gotten denode.
  */
 int
@@ -202,7 +203,7 @@ deget(pmp, dirclust, diroffset, depp)
 	 * the directory entry to compute the hash value. For subdir use
 	 * address of "." entry. For root dir (if not FAT32) use cluster
 	 * MSDOSFSROOT, offset MSDOSFSROOT_OFS
-	 * 
+	 *
 	 * NOTE: The check for de_refcnt > 0 below insures the denode being
 	 * examined does not represent an unlinked but still open file.
 	 * These files are not to be accessible even when the directory
@@ -251,7 +252,7 @@ retry:
 
 	if (error) {
 		vput (nvp);
-		
+
 		if (error == EEXIST)
 			goto retry;
 
@@ -404,7 +405,7 @@ detrunc(dep, length, flags, cred, p)
 	 */
 	if ((DETOV(dep)->v_flag & VROOT) && !FAT32(pmp)) {
 		printf("detrunc(): can't truncate root directory, clust %ld, offset %ld\n",
-		    dep->de_dirclust, dep->de_diroffset);
+		    (long)dep->de_dirclust, (long)dep->de_diroffset);
 		return (EINVAL);
 	}
 
@@ -526,7 +527,7 @@ deextend(dep, length, cred)
 	struct msdosfsmount *pmp = dep->de_pmp;
 	uint32_t count;
 	int error;
-	
+
 	/*
 	 * The root of a DOS filesystem cannot be extended.
 	 */
@@ -541,7 +542,7 @@ deextend(dep, length, cred)
 
 	if (length <= dep->de_FileSize)
 		panic("deextend: file too large");
-	
+
 	/*
 	 * Compute the number of clusters to allocate.
 	 */
@@ -556,7 +557,7 @@ deextend(dep, length, cred)
 			return (error);
 		}
 	}
-		
+
 	dep->de_FileSize = length;
 	dep->de_flag |= DE_UPDATE|DE_MODIFIED;
 	return (deupdat(dep, 1));
@@ -594,7 +595,7 @@ msdosfs_reclaim(v)
 	struct vnode *vp = ap->a_vp;
 	struct denode *dep = VTODE(vp);
 	extern int prtactive;
-	
+
 #ifdef MSDOSFS_DEBUG
 	printf("msdosfs_reclaim(): dep %08x, file %s, refcnt %d\n",
 	    dep, dep->de_Name, dep->de_refcnt);
@@ -635,7 +636,7 @@ msdosfs_inactive(v)
 	struct proc *p = ap->a_p;
 	int error;
 	extern int prtactive;
-	
+
 #ifdef MSDOSFS_DEBUG
 	printf("msdosfs_inactive(): dep %08x, de_Name[0] %x\n", dep, dep->de_Name[0]);
 #endif
@@ -648,7 +649,7 @@ msdosfs_inactive(v)
 	/*
 	 * Get rid of denodes related to stale file handles.
 	 */
-	if (dep->de_Name[0] == SLOT_DELETED) 
+	if (dep->de_Name[0] == SLOT_DELETED)
 		goto out;
 
 	/*

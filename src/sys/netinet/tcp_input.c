@@ -1,3 +1,5 @@
+/**	$MirOS$ */
+/*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
 /*	$NetBSD: tcp_input.c,v 1.23 1996/02/13 23:43:44 christos Exp $	*/
 
@@ -121,10 +123,6 @@ extern u_long sb_max;
 int tcp_rst_ppslim = 100;		/* 100pps */
 int tcp_rst_ppslim_count = 0;
 struct timeval tcp_rst_ppslim_last;
-
-int tcp_ackdrop_ppslim = 100;		/* 100pps */
-int tcp_ackdrop_ppslim_count = 0;
-struct timeval tcp_ackdrop_ppslim_last;
 
 int tcp_ackdrop_ppslim = 100;		/* 100pps */
 int tcp_ackdrop_ppslim_count = 0;
@@ -2112,14 +2110,6 @@ dropafterack_ratelim:
 	}
 	/* ...fall into dropafterack... */
 
-dropafterack_ratelim:
-	if (ppsratecheck(&tcp_ackdrop_ppslim_last, &tcp_ackdrop_ppslim_count,
-	    tcp_ackdrop_ppslim) == 0) {
-		/* XXX stat */
-		goto drop;
-	}
-	/* ...fall into dropafterack... */
-
 dropafterack:
 	/*
 	 * Generate an ACK dropping incoming segment if it occupies
@@ -3085,15 +3075,17 @@ tcp_mss(tp, offer)
 	 * If we compute a larger value, return it for use in sending
 	 * a max seg size option, but don't store it for use
 	 * unless we received an offer at least that large from peer.
-	 * However, do not accept offers under 216 bytes unless the
-	 * interface MTU is actually that low.
+	 * 
+	 * However, do not accept offers lower than the minimum of
+	 * the interface MTU and 216.
 	 */
 	if (offer > 0)
 		tp->t_peermss = offer;
 	if (tp->t_peermss)
-		mss = min(mss, tp->t_peermss);
+		mss = min(mss, max(tp->t_peermss, 216));
+
 	/* sanity - at least max opt. space */
-	mss = max(mss, min(216, ifp->if_mtu - iphlen - sizeof(struct tcphdr)));
+	mss = max(mss, 64);
 
 	/*
 	 * maxopd stores the maximum length of data AND options

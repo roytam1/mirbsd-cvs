@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: wsdisplayvar.h,v 1.14 2002/07/25 19:03:25 miod Exp $ */
 /* $NetBSD: wsdisplayvar.h,v 1.14.4.1 2000/06/30 16:27:53 simonb Exp $ */
 
@@ -30,6 +31,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#ifndef	_WSDISPLAYVAR_H
+#define	_WSDISPLAYVAR_H
 
 struct device;
 
@@ -132,6 +136,7 @@ struct wsdisplay_accessops {
 	u_int16_t (*getchar)(void *, int, int);
 	void	(*burn_screen)(void *, u_int, u_int);
 	void	(*pollc)(void *, int);
+	int     (*delete_font)(void *, void *, int);
 };
 
 /*
@@ -239,3 +244,4 @@ void wsscrollback(void *v, int op);
 #define	WSDISPLAY_DEFBURNOUT	600000	/* ms */
 #define	WSDISPLAY_DEFBURNIN	250	/* ms */
 
+#endif	/* ndef _WSDISPLAYVAR_H */

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: conf.c,v 1.1 2004/03/19 13:48:19 tom Exp $	*/
 
 /*
@@ -46,7 +47,7 @@
 #include "pxeboot.h"
 #include "pxe_net.h"
 
-const char version[] = "1.00";
+const char version[] = __BOOT_VER "-PXE";
 int	debug = 1;
 
 #undef _TEST
@@ -127,3 +128,5 @@ struct consdev constab[] = {
 	{ NULL }
 };
 struct consdev *cn_tab = constab;
+
+int tori_bootflag;

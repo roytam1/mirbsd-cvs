@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pcibiosvar.h,v 1.12 2003/11/16 20:30:06 avsm Exp $	*/
 /*	$NetBSD: pcibios.h,v 1.2 2000/04/28 17:15:16 uch Exp $	*/
 
@@ -30,12 +31,13 @@
  * Data structure definitions for the PCI BIOS interface.
  */
 
-#define	PCIBIOS_ADDR_FIXUP	0x001
-#define	PCIBIOS_BUS_FIXUP	0x002
-#define	PCIBIOS_INTR_FIXUP	0x004
-#define	PCIBIOS_INTR_GUESS	0x008
-#define	PCIBIOS_VERBOSE		0x010
-#define	PCIBIOS_INTRDEBUG	0x020
+#define	PCIBIOS_ADDR_FIXUP	0x0001
+#define	PCIBIOS_BUS_FIXUP	0x0002
+#define	PCIBIOS_INTR_FIXUP	0x0004
+#define	PCIBIOS_INTR_GUESS	0x0008
+#define	PCIBIOS_VERBOSE		0x0010
+#define	PCIBIOS_INTRDEBUG	0x0020
+#define	PCIBIOS_FIXUP_FORCE	0x0040
 
 /*
  * PCI BIOS return codes.
@@ -173,4 +175,3 @@ int	amd756_init(pci_chipset_tag_t, bus_space_tag_t, pcitag_t,
 	    pciintr_icu_tag_t *, pciintr_icu_handle_t *);
 int	ali1543_init(pci_chipset_tag_t, bus_space_tag_t, pcitag_t,
 	    pciintr_icu_tag_t *, pciintr_icu_handle_t *);
-

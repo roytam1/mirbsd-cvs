@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1997, 2000 Hellmuth Michaelis. All rights reserved.
  *
@@ -27,7 +28,6 @@
  *	i4b_rbch.c - device driver for raw B channel data
  *	---------------------------------------------------
  *
- *	$Id$
  *
  * $FreeBSD$
  *
@@ -56,9 +56,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_rbch.c,v 1.13 2002/12/10 13:50:10 drochner Exp $
 
 extern cc_t ttydefchars[NCCS];
 
-#if defined(__OpenBSD__) || (defined(__NetBSD__) && __NetBSD_Version__ >= 104230000)
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #if defined (__NetBSD__) || defined (__OpenBSD__)
 #define termioschars(t) memcpy((t)->c_cc, &ttydefchars, sizeof((t)->c_cc))
@@ -103,6 +101,9 @@ extern cc_t ttydefchars[NCCS];
 #ifdef OS_USES_POLL
 #include <sys/ioccom.h>
 #include <sys/poll.h>
+# ifdef	__MirBSD__
+#  include <sys/ioctl.h>
+# endif
 #else
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
@@ -146,13 +147,7 @@ static struct rbch_softc {
 #endif
 
 #if I4BRBCHACCT
-#if defined(__FreeBSD__)
-	struct callout_handle sc_callout;
-#endif	
-#if defined(__OpenBSD__) || (defined(__NetBSD__) && __NetBSD_Version__ >= 104230000)
-	struct callout	sc_callout;
-#endif
-
+	struct timeout	sc_callout;
 	int		sc_iinb;	/* isdn driver # of inbytes	*/
 	int		sc_ioutb;	/* isdn driver # of outbytes	*/
 	int		sc_linb;	/* last # of bytes rx'd		*/
@@ -347,12 +342,6 @@ isdnbchanattach()
 #endif
 
 #if I4BRBCHACCT
-#if defined(__FreeBSD__)
-		callout_handle_init(&rbch_softc[i].sc_callout);
-#endif
-#if defined(__OpenBSD__) || (defined(__NetBSD__) && __NetBSD_Version__ >= 104230000)
-		callout_init(&rbch_softc[i].sc_callout);
-#endif
 		rbch_softc[i].sc_fn = 1;
 #endif
 		rbch_softc[i].sc_unit = i;
@@ -805,7 +794,11 @@ filt_i4brbchdetach(struct knote *kn)
 	int s;
 
 	s = splhigh();
+#ifdef	__MirBSD__
+	SLIST_REMOVE(&sc->selp.si_note, kn, knote, kn_selnext);
+#else
 	SLIST_REMOVE(&sc->selp.sel_klist, kn, knote, kn_selnext);
+#endif
 	splx(s);
 }
 
@@ -860,12 +853,20 @@ isdnbchankqfilter(dev_t dev, struct knote *kn)
 
 	switch (kn->kn_filter) {
 	case EVFILT_READ:
+#ifdef	__MirBSD__
+		klist = &sc->selp.si_note;
+#else
 		klist = &sc->selp.sel_klist;
+#endif
 		kn->kn_fop = &i4brbchread_filtops;
 		break;
 
 	case EVFILT_WRITE:
+#ifdef	__MirBSD__
+		klist = &sc->selp.si_note;
+#else
 		klist = &sc->selp.sel_klist;
+#endif
 		kn->kn_fop = &i4brbchwrite_filtops;
 		break;
 
@@ -1008,8 +1009,8 @@ rbch_connect(void *softc, void *cdp)
 #endif		
 	if(!(sc->sc_devstate & ST_CONNECTED))
 	{
-		NDBGL4(L4_RBCHDBG, "B channel %d at BRI %d, wakeup",
-			cd->channelid, cd->bri);
+		NDBGL4(L4_RBCHDBG, "B channel %d at ISDN %d, wakeup",
+			cd->channelid, cd->isdnif);
 		sc->sc_devstate |= ST_CONNECTED;
 		sc->sc_cd = cdp;
 		wakeup((caddr_t)sc);
@@ -1030,15 +1031,15 @@ rbch_disconnect(void *softc, void *cdp)
 	
         if(cd != sc->sc_cd)
 	{
-		NDBGL4(L4_RBCHDBG, "B channel %d at BRI %d not active",
-		    cd->channelid, cd->bri);
+		NDBGL4(L4_RBCHDBG, "B channel %d at ISDN %d not active",
+		    cd->channelid, cd->isdnif);
 		return;
 	}
 
 	s = splnet();
 	
-	NDBGL4(L4_RBCHDBG, "B channel %d at BRI %d disconnect",
-	    cd->channelid, cd->bri);
+	NDBGL4(L4_RBCHDBG, "B channel %d at ISDN %d disconnect",
+	    cd->channelid, cd->isdnif);
 
 	sc->sc_devstate &= ~ST_CONNECTED;
 

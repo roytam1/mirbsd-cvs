@@ -1,64 +1,53 @@
-/*	$OpenBSD: random.s,v 1.4 2003/04/17 03:42:14 drahn Exp $	*/
-/*	$NetBSD: random.s,v 1.5 1995/01/15 23:20:33 mycroft Exp $	*/
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
-/*
- * Copyright (c) 1995 Charles Hannum.
- * Copyright (c) 1990,1993 The Regents of the University of California.
- * All rights reserved.
+/*-
+ * Copyright (c) 2001, 2003, 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that: (1) source code distributions
- * retain the above copyright notice and this paragraph in its entirety, (2)
- * distributions including binary code include the above copyright notice and
- * this paragraph in its entirety in the documentation or other materials
- * provided with the distribution, and (3) all advertising materials mentioning
- * features or use of this software display the following acknowledgement:
- * ``This product includes software developed by the University of California,
- * Lawrence Berkeley Laboratory and its contributors.'' Neither the name of
- * the University nor the names of its contributors may be used to endorse
- * or promote products derived from this software without specific prior
- * written permission.
- * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * Here is a very good random number generator.  This implementation is
- * based on ``Two Fast Implementations of the "Minimal Standard" Random
- * Number Generator'', David G. Carta, Communications of the ACM, Jan 1990,
- * Vol 33 No 1.  Do NOT modify this code unless you have a very thorough
- * understanding of the algorithm.  It's trickier than you think.  If
- * you do change it, make sure that its 10,000'th invocation returns
- * 1043618065.
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ *-
+ * Fast pseudo random number generator (rewritten from scratch). The
+ * original is claimed to be from "Two Fast Implementations of the
+ * 'Minimal Standard' Random Number Generator", David G. Carta, CACM
+ * Jan 1990, Vol. 33 No. 1.
+ * Don't modify this code unless you understand what you're doing AND
+ * make sure its 10'000th invocation returns 1043618065 after the change.
  *
- * Here is easier-to-decipher pseudocode:
- *
- * p = (16807*seed)<30:0>	# e.g., the low 31 bits of the product
- * q = (16807*seed)<62:31>	# e.g., the high 31 bits starting at bit 32
- * if (p + q < 2^31)
- * 	seed = p + q
- * else
- *	seed = ((p + q) & (2^31 - 1)) + 1
- * return (seed);
- *
- * The result is in (0,2^31), e.g., it's always positive.
+ * The result lies within ]0;2^31[  (i.e. is always a signed int32_t).
  */
+
 #include <machine/asm.h>
+
+	.intel_syntax noprefix
 
 	.data
 	.globl	_C_LABEL(_randseed)
 _C_LABEL(_randseed):
-	.long	1
+	.long	0x00000001
+
 	.text
 ENTRY(random)
-	movl	$16807,%eax
-	imull	_C_LABEL(_randseed)
-	shld	$1,%eax,%edx
-	andl	$0x7fffffff,%eax
-	addl	%edx,%eax
-	js	1f
-	movl	%eax,_C_LABEL(_randseed)
-	ret
-1:
-	subl	$0x7fffffff,%eax
-	movl	%eax,_C_LABEL(_randseed)
+	mov	eax,[_C_LABEL(_randseed)]
+	mov	edx,16807
+	imul	edx
+	shld	edx,eax,1
+	mov	ecx,0x7FFFFFFF
+	and	eax,ecx
+	add	eax,edx
+	jns	.fits
+	sub	eax,ecx
+.fits:	mov	[_C_LABEL(_randseed)],eax
 	ret

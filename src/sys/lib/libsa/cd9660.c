@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: cd9660.c,v 1.10 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: cd9660.c,v 1.1 1996/09/30 16:01:19 ws Exp $	*/
 
@@ -155,7 +156,7 @@ cd9660_open(char *path, struct open_file *f)
 			goto out;
 		}
 		rc = EINVAL;
-		if (bcmp(vd->id, ISO_STANDARD_ID, sizeof vd->id) != 0)
+		if (memcmp(ISO_STANDARD_ID, vd->id, sizeof vd->id) != 0)
 			goto out;
 		if (isonum_711(vd->type) == ISO_VD_END)
 			goto out;
@@ -259,7 +260,7 @@ cd9660_open(char *path, struct open_file *f)
 
 	/* allocate file system specific data structure */
 	fp = alloc(sizeof(struct file));
-	bzero(fp, sizeof(struct file));
+	memset(fp, 0, sizeof(struct file));
 	f->f_fsdata = (void *)fp;
 
 	fp->off = 0;
@@ -319,7 +320,7 @@ cd9660_read(struct open_file *f, void *start, size_t size, size_t *resid)
 			if (read > off + size)
 				read = off + size;
 			read -= off;
-			bcopy(buf + off, start, read);
+			memmove(start, buf + off, read);
 			start += read;
 			fp->off += read;
 			size -= read;

@@ -4014,8 +4014,14 @@ sppp_set_ip_addr(struct sppp *sp, u_long src)
 	}
 
 	if (ifa && si) {
+		int error, debug = ifp->if_flags & IFF_DEBUG;
 		si->sin_addr.s_addr = htonl(src);
 		dohooks(ifp->if_addrhooks, 0);
+		error = in_ifinit(ifp, ifatoia(ifa), si, 1);
+		if (debug && error){
+			log(LOG_DEBUG, SPP_FMT "sppp_set_ip_addrs: in_ifinit "
+				"failed, error=%d\n", SPP_ARGS(ifp), error);
+		}
 	}
 }
 

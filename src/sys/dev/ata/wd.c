@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: wd.c,v 1.40 2004/03/03 17:16:03 tedu Exp $ */
 /*	$NetBSD: wd.c,v 1.193 1999/02/28 17:15:27 explorer Exp $ */
 
@@ -332,22 +333,28 @@ wdattach(struct device *parent, struct device *self, void *aux)
 		     ((u_int64_t)wd->sc_params.atap_max_lba[2] << 32) |
 		     ((u_int64_t)wd->sc_params.atap_max_lba[1] << 16) |
 		      (u_int64_t)wd->sc_params.atap_max_lba[0]);
-		printf(" LBA48, %lluMB, %llu sectors\n",
+		printf(" LBA48, %llu MiB, CHS = %d/%d/%d, %llu sectors\n",
 		    wd->sc_capacity / (1048576 / DEV_BSIZE),
+		    wd->sc_params.atap_cylinders,
+		    wd->sc_params.atap_heads,
+		    wd->sc_params.atap_sectors,
 		    wd->sc_capacity);
 	} else if ((wd->sc_flags & WDF_LBA) != 0) {
 		wd->sc_capacity =
 		    (wd->sc_params.atap_capacity[1] << 16) |
 		    wd->sc_params.atap_capacity[0];
-		printf(" LBA, %lluMB, %llu sectors\n",
+		printf(" LBA, %llu MiB, CHS = %d/%d/%d, %llu sectors\n",
 		    wd->sc_capacity / (1048576 / DEV_BSIZE),
+		    wd->sc_params.atap_cylinders,
+		    wd->sc_params.atap_heads,
+		    wd->sc_params.atap_sectors,
 		    wd->sc_capacity);
 	} else {
 		wd->sc_capacity =
 		    wd->sc_params.atap_cylinders *
 		    wd->sc_params.atap_heads *
 		    wd->sc_params.atap_sectors;
-		printf(" CHS, %lluMB, %d cyl, %d head, %d sec, %llu sectors\n",
+		printf(" CHS, %llu MiB, CHS = %d/%d/%d, %llu sectors\n",
 		    wd->sc_capacity / (1048576 / DEV_BSIZE),
 		    wd->sc_params.atap_cylinders,
 		    wd->sc_params.atap_heads,

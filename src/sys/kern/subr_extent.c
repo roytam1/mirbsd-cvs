@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: subr_extent.c,v 1.25 2002/12/08 08:18:37 deraadt Exp $	*/
 /*	$NetBSD: subr_extent.c,v 1.7 1996/11/21 18:46:34 cgd Exp $	*/
 
@@ -685,7 +686,7 @@ extent_alloc_subregion(ex, substart, subend, size, alignment, skew, boundary,
 				 * Calculate the next boundary after the start
 				 * of this region.
 				 */
-				dontcross = EXTENT_ALIGN(newstart+1, boundary, 
+				dontcross = EXTENT_ALIGN(newstart+1, boundary,
 				    (flags & EX_BOUNDZERO) ? 0 : ex->ex_start)
 				    - 1;
 
@@ -756,7 +757,7 @@ skip:
 			 */
 			goto fail;
 		}
-		
+
 		last = rp;
 	}
 
@@ -780,7 +781,7 @@ skip:
 			 * Calculate the next boundary after the start
 			 * of this region.
 			 */
-			dontcross = EXTENT_ALIGN(newstart+1, boundary, 
+			dontcross = EXTENT_ALIGN(newstart+1, boundary,
 			    (flags & EX_BOUNDZERO) ? 0 : ex->ex_start)
 			    - 1;
 
@@ -1139,7 +1140,7 @@ extent_print(ex)
 	if (ex == NULL)
 		panic("extent_print: NULL extent");
 
-	db_printf("extent `%s' (0x%lx - 0x%lx), flags=%b\n", ex->ex_name,
+	db_printf("extent '%s' (0x%lx - 0x%lx), flags=%b\n", ex->ex_name,
 	    ex->ex_start, ex->ex_end, ex->ex_flags, EXF_BITS);
 
 	for (rp = ex->ex_regions.lh_first; rp != NULL;

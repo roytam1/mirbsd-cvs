@@ -1,3 +1,4 @@
+#	$MirOS$
 #	$OpenBSD: Makefile.inc,v 1.11 2000/06/29 16:28:29 mickey Exp $
 #	$NetBSD: Makefile.inc,v 1.22 1996/09/30 15:54:35 ws Exp $
 #
@@ -10,10 +11,8 @@ KERN_AS?=	obj
 
 .if (${KERN_AS} == "library")
 KERNLIB=	${KERNDST}/libkern.a
-KERNLIB_PROF=	${KERNDST}/libkern_p.a
 .else
 KERNLIB=	${KERNDST}/libkern.o
-KERNLIB_PROF=	${KERNDST}/libkern.po
 .endif
 
 KERNMAKE= \
@@ -30,14 +29,6 @@ ${KERNLIB}:		.NOTMAIN __always_make_kernlib
 	@${KERNMAKE} libkern.a
 .else
 	@${KERNMAKE} libkern.o
-.endif
-
-${KERNLIB_PROF}:	.NOTMAIN __always_make_kernlib
-	@echo making sure the profiled kern library is up to date...
-.if (${KERN_AS} == "library")
-	@${KERNMAKE} libkern_p.a
-.else
-	@${KERNMAKE} libkern.po
 .endif
 
 clean::			.NOTMAIN __always_make_kernlib

@@ -57,6 +57,8 @@
 
 #if NPF > 0
 #include <net/pfvar.h>
+#else
+#include <netinet/ip_ipsp.h>
 #endif
 
 #ifdef IPSEC
@@ -91,7 +93,7 @@ ip6_forward(m, srcrt)
 	struct ip6_hdr *ip6 = mtod(m, struct ip6_hdr *);
 	struct sockaddr_in6 *dst;
 	struct rtentry *rt;
-	int error, type = 0, code = 0;
+	int error = 0, type = 0, code = 0;
 	struct mbuf *mcopy = NULL;
 	struct ifnet *origifp;	/* maybe unnecessary */
 #ifdef IPSEC

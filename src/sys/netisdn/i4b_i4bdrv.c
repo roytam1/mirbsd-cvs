@@ -36,7 +36,7 @@
  *---------------------------------------------------------------------------*/
 
 #include <sys/cdefs.h>
-__KERNEL_RCSID(0, "$NetBSD: i4b_i4bdrv.c,v 1.22 2002/11/26 19:49:00 christos Exp $");
+__KERNEL_RCSID(0, "$NetBSD: i4b_i4bdrv.c,v 1.23 2003/05/16 05:12:32 itojun Exp $");
 
 #include "isdn.h"
 
@@ -372,10 +372,10 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 				error = EINVAL;
 				break;
 			}
-			cd->bri = -1;
+			cd->isdnif = -1;
 			cd->l3drv = NULL;
 
-			d = isdn_find_l3_by_bri(mcr->controller);
+			d = isdn_find_l3_by_isdnif(mcr->controller);
 			if (d == NULL) {
 				error = EINVAL;
 				break;
@@ -391,12 +391,12 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 				break;
 			}
 
-			cd->bri = mcr->controller;	/* fill cd */
+			cd->isdnif = mcr->controller;	/* fill cd */
 			cd->l3drv = d;
 			cd->bprot = mcr->bprot;
 			cd->bchan_driver_index = mcr->driver;
 			cd->bchan_driver_unit = mcr->driver_unit;
-			cd->cr = get_rand_cr(cd->bri);
+			cd->cr = get_rand_cr(cd->isdnif);
 
 			cd->shorthold_data.shorthold_algorithm = mcr->shorthold_data.shorthold_algorithm;
 			cd->shorthold_data.unitlen_time  = mcr->shorthold_data.unitlen_time;
@@ -419,30 +419,38 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 					(long)cd->shorthold_data.shorthold_algorithm, (long)cd->shorthold_data.unitlen_time,
 					(long)cd->shorthold_data.idle_time, (long)cd->shorthold_data.earlyhup_time);
 
-			strcpy(cd->dst_telno, mcr->dst_telno);
-			strcpy(cd->src_telno, mcr->src_telno);
+			strlcpy(cd->dst_telno, mcr->dst_telno, sizeof cd->dst_telno);
+			strlcpy(cd->src_telno, mcr->src_telno, sizeof cd->src_telno);
 			cd->display[0] = '\0';
 
 			SET_CAUSE_TYPE(cd->cause_in, CAUSET_I4B);
 			SET_CAUSE_VAL(cd->cause_in, CAUSE_I4B_NORMAL);
 			
-			switch(mcr->channel)
-			{
-				case CHAN_B1:
-				case CHAN_B2:
-					if(d->bch_state[mcr->channel] != BCH_ST_FREE)
-						SET_CAUSE_VAL(cd->cause_in, CAUSE_I4B_NOCHAN);
-					break;
+			/*
+			 * If we want a specific channel, check if that
+			 * one is available.
+			 */
+			if ((mcr->channel >= 0) && (mcr->channel < d->nbch)) {
+				if(d->bch_state[mcr->channel] != BCH_ST_FREE)
+					SET_CAUSE_VAL(cd->cause_in,
+					    CAUSE_I4B_NOCHAN);
 
-				case CHAN_ANY:
-					if((d->bch_state[CHAN_B1] != BCH_ST_FREE) &&
-					   (d->bch_state[CHAN_B2] != BCH_ST_FREE))
-						SET_CAUSE_VAL(cd->cause_in, CAUSE_I4B_NOCHAN);
-					break;
+			/*
+			 * If any channel will do, see if any are free.
+			 */
+			} else if (mcr->channel == CHAN_ANY) {
+				int i;
 
-				default:
-					SET_CAUSE_VAL(cd->cause_in, CAUSE_I4B_NOCHAN);
-					break;
+				for (i = 0; i < d->nbch; i++)
+					if (d->bch_state[i] == BCH_ST_FREE)
+						break;
+
+				if (i == d->nbch)
+					SET_CAUSE_VAL(cd->cause_in,
+					    CAUSE_I4B_NOCHAN);
+
+			} else {
+				SET_CAUSE_VAL(cd->cause_in, CAUSE_I4B_NOCHAN);
 			}
 
 			cd->channelid = mcr->channel;
@@ -491,7 +499,7 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			
 			NDBGL4(L4_TIMO, "I4B_CONNECT_RESP max_idle_time set to %ld seconds", (long)cd->max_idle_time);
 
-			d = isdn_find_l3_by_bri(cd->bri);
+			d = isdn_find_l3_by_isdnif(cd->isdnif);
 			if (d == NULL) {
 				error = EINVAL;
 				break;
@@ -518,7 +526,7 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			/* preset causes with our cause */
 			cd->cause_in = cd->cause_out = mdr->cause;
 
-			d = isdn_find_l3_by_bri(cd->bri);
+			d = isdn_find_l3_by_isdnif(cd->isdnif);
 			if (d == NULL) {
 				error = EINVAL;
 				break;
@@ -534,14 +542,15 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		{
 			msg_ctrl_info_req_t *mcir;
 			struct isdn_l3_driver *d;
-			int bri;
+			int isdnif;
 			
 			mcir = (msg_ctrl_info_req_t *)data;
-			bri = mcir->controller;
+			isdnif = mcir->controller;
 			memset(mcir, 0, sizeof(msg_ctrl_info_req_t));
-			mcir->controller = bri;
-			mcir->ncontroller = isdn_count_bri(&mcir->maxbri);
-			d = isdn_find_l3_by_bri(bri);
+			mcir->controller = isdnif;
+			mcir->ncontroller
+			    = isdn_count_isdnif(&mcir->max_isdnif);
+			d = isdn_find_l3_by_isdnif(isdnif);
 			if (d != NULL) {
 				mcir->tei = d->tei;
 				strncpy(mcir->devname, d->devname, sizeof(mcir->devname)-1);
@@ -714,7 +723,7 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			
 			mpi = (msg_prot_ind_t *)data;
 
-			d = isdn_find_l3_by_bri(mpi->controller);
+			d = isdn_find_l3_by_isdnif(mpi->controller);
 			if (d == NULL) {
 				error = EINVAL;
 				break;
@@ -742,7 +751,7 @@ isdnioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 				(struct isdn_download_request*)data;
 			int i;
 
-			d = isdn_find_l3_by_bri(r->controller);
+			d = isdn_find_l3_by_isdnif(r->controller);
 			if (d == NULL)
 			{
 				error = ENODEV;
@@ -808,7 +817,7 @@ download_done:
 				(struct isdn_diagnostic_request*)data;
 
 			req.in_param = req.out_param = NULL;
-			d = isdn_find_l3_by_bri(r->controller);
+			d = isdn_find_l3_by_isdnif(r->controller);
 			if (d == NULL)
 			{
 				error = ENODEV;
@@ -949,7 +958,11 @@ filt_i4brdetach(struct knote *kn)
 	int s;
 
 	s = splnet();
+#ifdef	__MirBSD__
+	SLIST_REMOVE(&select_rd_info.si_note, kn, knote, kn_selnext);
+#else
 	SLIST_REMOVE(&select_rd_info.sel_klist, kn, knote, kn_selnext);
+#endif
 	splx(s);
 }
 
@@ -981,12 +994,20 @@ isdnkqfilter(dev_t dev, struct knote *kn)
 
 	switch (kn->kn_filter) {
 	case EVFILT_READ:
+#ifdef	__MirBSD__
+		klist = &select_rd_info.si_note;
+#else
 		klist = &select_rd_info.sel_klist;
+#endif
 		kn->kn_fop = &i4bread_filtops;
 		break;
 
 	case EVFILT_WRITE:
+#ifdef	__MirBSD__
+		klist = &select_rd_info.si_note;
+#else
 		klist = &select_rd_info.sel_klist;
+#endif
 		kn->kn_fop = &i4b_seltrue_filtops;
 		break;
 
@@ -1088,18 +1109,18 @@ i4bputqueue_hipri(struct mbuf *m)
 }
 
 void
-isdn_bri_ready(int bri)
+isdn_isdnif_ready(int isdnif)
 {
-	struct isdn_l3_driver *d = isdn_find_l3_by_bri(bri);
+	struct isdn_l3_driver *d = isdn_find_l3_by_isdnif(isdnif);
 
 	if (d == NULL)
 		return;
 
-	printf("BRI %d at %s\n", bri, d->devname);
+	printf("ISDN %d at %s, %d B channels\n", isdnif, d->devname, d->nbch);
 	if (!openflag) return;
 
 	d->l3driver->N_MGMT_COMMAND(d, CMR_DOPEN, 0);
-	i4b_l4_contr_ev_ind(bri, 1);
+	i4b_l4_contr_ev_ind(isdnif, 1);
 }
 
 #endif /* NISDN > 0 */

@@ -1,5 +1,5 @@
-/*	$MirBSD$	*/
-/*	$NetBSD: i4b_capi_l4if.c,v 1.2 2003/09/26 15:17:23 pooka Exp $	*/
+/**	$MirOS$	*/
+/*	$NetBSD: i4b_capi_l4if.c,v 1.4 2003/10/03 16:47:57 pooka Exp $	*/
 
 /*
  * Copyright (c) 2001-2003 Cubical Solutions Ltd. All rights reserved.
@@ -267,10 +267,9 @@ static void
 n_connect_response(call_desc_t *cd, int response, int cause)
 {
     capi_softc_t *sc;
-    int bch, s;
+    int s;
 
     sc = cd->l3drv->l1_token;
-    bch = cd->channelid;
 
     T400_stop(cd);
 
@@ -292,10 +291,9 @@ static void
 n_disconnect_request(call_desc_t *cd, int cause)
 {
     capi_softc_t *sc;
-    int bch, s;
+    int s;
 
     sc = cd->l3drv->l1_token;
-    bch = cd->channelid;
 
     cd->cause_out = cause;
 
@@ -397,16 +395,17 @@ capi_ll_attach(capi_softc_t *sc, const char *devname, const char *cardname)
 	sc->sc_bchan[i].capi_isdn_linktab.rx_mbuf = &sc->sc_bchan[i].in_mbuf;
     }
 
-    l3drv = isdn_attach_bri(devname, cardname, sc, &capi_l3_functions);
+    l3drv = isdn_attach_isdnif(devname, cardname, sc, &capi_l3_functions,
+	sc->sc_nbch);
 
     l3drv->tei = -1;
     l3drv->dl_est = DL_DOWN;
     l3drv->nbch = sc->sc_nbch;
 
     sc->sc_unit = ncapi++;
-    sc->capi_bri = l3drv->bri;
+    sc->capi_isdnif = l3drv->isdnif;
 
-    isdn_bri_ready(l3drv->bri);
+    isdn_isdnif_ready(l3drv->isdnif);
 
     printf("capi%d: card type %d attached\n", sc->sc_unit, sc->card_type);
 

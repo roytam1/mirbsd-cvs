@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tcp_var.h,v 1.61.2.1 2005/01/11 04:40:30 brad Exp $	*/
 /*	$NetBSD: tcp_var.h,v 1.17 1996/02/13 23:44:24 christos Exp $	*/
 
@@ -125,6 +126,7 @@ struct tcpcb {
 	int	rcv_numsacks;		/* # distinct sack blks present */
 	struct sackblk sackblks[MAX_SACK_BLKS]; /* seq nos. of sack blocks */
 #endif
+#define TF_REASSLOCK	0x00080000	/* reassembling or draining */
 
 /*
  * Additional variables for this implementation.
@@ -427,6 +429,8 @@ struct	tcpstat {
 	u_int32_t tcps_cwr_frecovery;	/* # of cwnd reduced by fastrecovery */
 	u_int32_t tcps_cwr_timeout;	/* # of cwnd reduced by timeout */
 
+	u_int64_t tcps_conndrained;	/* # of connections drained */
+
 	/* These statistics deal with the SYN cache. */
 	u_int64_t tcps_sc_added;	/* # of entries added */
 	u_int64_t tcps_sc_completed;	/* # of connections completed */
@@ -440,29 +444,27 @@ struct	tcpstat {
 	u_int64_t tcps_sc_dropped;	/* # of SYNs dropped (no route/mem) */
 	u_int64_t tcps_sc_collisions;	/* # of hash collisions */
 	u_int64_t tcps_sc_retransmitted;/* # of retransmissions */
-
-	u_int64_t tcps_conndrained;	/* # of connections drained */
 };
 
 /*
  * Names for TCP sysctl objects.
  */
 
-#define	TCPCTL_RFC1323		1 /* enable/disable RFC1323 timestamps/scaling */
-#define	TCPCTL_KEEPINITTIME	2 /* TCPT_KEEP value */
-#define TCPCTL_KEEPIDLE		3 /* allow tcp_keepidle to be changed */
-#define TCPCTL_KEEPINTVL	4 /* allow tcp_keepintvl to be changed */
-#define TCPCTL_SLOWHZ		5 /* return kernel idea of PR_SLOWHZ */
-#define TCPCTL_BADDYNAMIC	6 /* return bad dynamic port bitmap */
-#define	TCPCTL_RECVSPACE	7 /* receive buffer space */
-#define	TCPCTL_SENDSPACE	8 /* send buffer space */
-#define	TCPCTL_IDENT		9 /* get connection owner */
-#define	TCPCTL_SACK	       10 /* selective acknowledgement, rfc 2018 */
-#define TCPCTL_MSSDFLT	       11 /* Default maximum segment size */
-#define	TCPCTL_RSTPPSLIMIT     12 /* RST pps limit */
-#define	TCPCTL_ACK_ON_PUSH     13 /* ACK immediately on PUSH */
-#define	TCPCTL_ECN	       14 /* RFC3168 ECN */
-#define	TCPCTL_SYN_CACHE_LIMIT 15 /* max size of comp. state engine */
+#define	TCPCTL_RFC1323		 1 /* enable/disable RFC1323 timestamps/scaling */
+#define	TCPCTL_KEEPINITTIME	 2 /* TCPT_KEEP value */
+#define TCPCTL_KEEPIDLE		 3 /* allow tcp_keepidle to be changed */
+#define TCPCTL_KEEPINTVL	 4 /* allow tcp_keepintvl to be changed */
+#define TCPCTL_SLOWHZ		 5 /* return kernel idea of PR_SLOWHZ */
+#define TCPCTL_BADDYNAMIC	 6 /* return bad dynamic port bitmap */
+#define	TCPCTL_RECVSPACE	 7 /* receive buffer space */
+#define	TCPCTL_SENDSPACE	 8 /* send buffer space */
+#define	TCPCTL_IDENT		 9 /* get connection owner */
+#define	TCPCTL_SACK		10 /* selective acknowledgement, rfc 2018 */
+#define TCPCTL_MSSDFLT		11 /* Default maximum segment size */
+#define	TCPCTL_RSTPPSLIMIT	12 /* RST pps limit */
+#define	TCPCTL_ACK_ON_PUSH	13 /* ACK immediately on PUSH */
+#define	TCPCTL_ECN		14 /* RFC3168 ECN */
+#define	TCPCTL_SYN_CACHE_LIMIT	15 /* max size of comp. state engine */
 #define	TCPCTL_SYN_BUCKET_LIMIT	16 /* max size of hash bucket */
 #define	TCPCTL_RFC3390	       17 /* enable/disable RFC3390 increased cwnd */
 #define	TCPCTL_REASS_LIMIT     18 /* max entries for tcp reass queues */
@@ -543,6 +545,9 @@ extern	int tcp_syn_bucket_limit;/* max entries per hash bucket */
 extern	int tcp_syn_cache_size;
 extern	struct syn_cache_head tcp_syn_cache[];
 extern	u_long syn_cache_count;
+
+extern	struct pool tcpqe_pool;
+extern	int tcp_reass_limit;	/* max entries for tcp reass queues */
 
 int	 tcp_attach(struct socket *);
 void	 tcp_canceltimers(struct tcpcb *);

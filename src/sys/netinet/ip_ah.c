@@ -686,7 +686,7 @@ ah_input(struct mbuf *m, struct tdb *tdb, int skip, int protoff)
 int
 ah_input_cb(void *op)
 {
-	int s, roff, rplen, error, skip, protoff;
+	int s, roff, rplen, error = 0, skip, protoff;
 	unsigned char calc[AH_ALEN_MAX];
 	struct mbuf *m1, *m0, *m;
 	struct cryptodesc *crd;
@@ -1217,7 +1217,7 @@ ah_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 int
 ah_output_cb(void *op)
 {
-	int skip, protoff, error;
+	int skip, protoff, error = 0;
 	struct tdb_crypto *tc;
 	struct cryptop *crp;
 	struct tdb *tdb;

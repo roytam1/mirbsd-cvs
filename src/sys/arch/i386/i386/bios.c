@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bios.c,v 1.54 2004/01/29 01:36:13 tom Exp $	*/
 
 /*
@@ -166,7 +167,7 @@ biosattach(parent, self, aux)
 
 			bios32_entry.segment = GSEL(GCODE_SEL, SEL_KPL);
 			bios32_entry.offset = (u_int32_t)ISA_HOLE_VADDR(h->entry);
-			printf(", BIOS32 rev. %d @ 0x%lx", h->rev, h->entry);
+			printf(", BIOS32 rev. %d @ 0x%x", h->rev, h->entry);
 			break;
 		}
 	}
@@ -259,6 +260,12 @@ biosattach(parent, self, aux)
 
 	if (str)
 		printf("\n");
+
+#ifndef SMALL_KERNEL
+	/* override earlier BIOS malfunction */
+	if (!(flags & BIOSF_SAFEK7PN))
+		k7_powernow_init(2);
+#endif
 }
 
 void
@@ -582,4 +589,3 @@ bios_getdiskinfo(dev)
 	else
 		return pdi;
 }
-

@@ -209,7 +209,7 @@ int
 ipcomp_input_cb(op)
 	void *op;
 {
-	int error, s, skip, protoff, roff, hlen = IPCOMP_HLENGTH, clen;
+	int error = 0, s, skip, protoff, roff, hlen = IPCOMP_HLENGTH, clen;
 	u_int8_t nproto;
 	struct mbuf *m, *m1, *mo;
 	struct cryptodesc *crd;
@@ -621,7 +621,7 @@ ipcomp_output_cb(cp)
 	struct tdb_crypto *tc;
 	struct tdb *tdb;
 	struct mbuf *m;
-	int error, s, skip, rlen;
+	int error = 0, s, skip, rlen;
 #ifdef INET
 	struct ip *ip;
 #endif

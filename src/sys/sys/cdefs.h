@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cdefs.h,v 1.13 2004/01/28 03:33:29 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -35,8 +36,12 @@
  *	@(#)cdefs.h	8.7 (Berkeley) 1/21/94
  */
 
-#ifndef	_CDEFS_H_
-#define	_CDEFS_H_
+#ifndef _CDEFS_H_
+#define _CDEFS_H_
+
+#ifdef __KPRINTF_ATTRIBUTE__
+#undef __KPRINTF_ATTRIBUTE__
+#endif
 
 #include <machine/cdefs.h>
 
@@ -75,11 +80,9 @@
 #define	__volatile	volatile
 #if defined(__cplusplus)
 #define	__inline	inline		/* convert to C++ keyword */
-#else
-#if !defined(__GNUC__) && !defined(lint)
+#elif !defined(__GNUC__) && !defined(lint)
 #define	__inline			/* delete GCC keyword */
-#endif /* !__GNUC__ && !lint */
-#endif /* !__cplusplus */
+#endif
 
 #else	/* !(__STDC__ || __cplusplus) */
 #define	__P(protos)	()		/* traditional C preprocessor */
@@ -115,9 +118,8 @@
  * work for GNU C++ (modulo a slight glitch in the C++ grammar in
  * the distribution version of 2.5.5).
  */
-
 #if !__GNUC_PREREQ__(2, 5)
-#define	__attribute__(x)	/* delete __attribute__ if non-gcc or gcc1 */
+#define	__attribute__(x)	/* delete __attribute__ if no or old gcc */
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 #define	__dead		__volatile
 #define	__pure		__const
@@ -142,20 +144,23 @@
  *
  *	* Generally, __predict_false() error condition checks (unless
  *	  you have some _strong_ reason to do otherwise, in which case
- *	  document it), and/or __predict_true() `no-error' condition
+ *	  document it), and/or __predict_true() 'no-error' condition
  *	  checks, assuming you want to optimize for the no-error case.
  *
  *	* Other than that, if you don't know the likelihood of a test
- *	  succeeding from empirical or other `hard' evidence, don't
+ *	  succeeding from empirical or other 'hard' evidence, don't
  *	  make predictions.
  *
- *	* These are meant to be used in places that are run `a lot'.
+ *	* These are meant to be used in places that are run 'a lot'.
  *	  It is wasteful to make predictions in code that is run
  *	  seldomly (e.g. at subsystem initialization time) as the
  *	  basic block reordering that this affects can often generate
  *	  larger code.
  */
-#if __GNUC_PREREQ__(2, 96)
+#if defined(lint)
+#define __predict_true(exp)	(exp)
+#define __predict_false(exp)	(exp)
+#elif __GNUC_PREREQ__(2, 96)
 #define __predict_true(exp)	__builtin_expect(((exp) != 0), 1)
 #define __predict_false(exp)	__builtin_expect(((exp) != 0), 0)
 #else
@@ -169,8 +174,14 @@
 #define	__pure
 #endif
 
-#if __GNUC_PREREQ__(2, 7)
-#define	__packed	__attribute__((__packed__))
+#ifdef __ELF__
+#define __weak_extern(sym)	__asm__(".weak " #sym);
+#endif
+
+#if __GNUC__ >= 3
+#define	__packed		__attribute__((packed))
+#elif __GNUC_PREREQ__(2, 7)
+#define	__packed		__attribute__((__packed__))
 #elif defined(lint)
 #define	__packed
 #endif
@@ -178,5 +189,26 @@
 #if !__GNUC_PREREQ__(2, 8)
 #define	__extension__
 #endif
+
+#ifdef lint
+#define	__IDSTRING(prefix, string)				\
+	static const char __ ## prefix [] = (string)
+#elif defined(__ELF__) && defined(__GNUC__)
+#define	__IDSTRING(prefix, string)				\
+	__asm__(".section .comment"				\
+	"\n	.asciz	\"" string "\""				\
+	"\n	.previous")
+#else
+#define	__IDSTRING(prefix, string)				\
+	static const char __ ## prefix []			\
+	    __attribute__((__unused__)) = (string)
+#endif
+#ifdef lint
+#define	__KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
+#else
+#define	__KERNEL_RCSID(n,x)	/* nothing */
+#endif
+#define	__RCSID(x)		__IDSTRING(rcsid,x)
+#define	__SCCSID(x)		__IDSTRING(sccsid,x)
 
 #endif /* !_CDEFS_H_ */

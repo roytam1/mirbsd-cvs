@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.43 2004/03/19 13:48:18 tom Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.43 2004/03/19 13:48:18 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -14,21 +15,22 @@ SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c
 
 .if defined(DEBUGFLAGS) && !empty(DEBUGFLAGS:M-D_TEST)
 SRCS+=	unixdev.c unixsys.S nullfs.c memprobe.c
-CLEANFILES+=	gidt.o debug_i386.o alloca.o \
+CLEANFILES+=	gidt.o debug_i386.o alloca.o toridev.o \
 	biosdev.o bioscons.o gateA20.o apmprobe.o \
 	memprobe.o diskprobe.o smpprobe.o \
 	time.o biosprobe.o
 .else
-SRCS+=	gidt.S debug_i386.S alloca.S \
+SRCS+=	gidt.S debug_i386.S alloca.S toridev.c \
 	biosdev.c bioscons.c gateA20.c apmprobe.c \
 	memprobe.c diskprobe.c pciprobe.c smpprobe.c \
-	time.c biosprobe.c ps2probe.c pxe.c pxe_net.c pxe_call.S
+	time.c biosprobe.c memcpy.c \
+	ps2probe.c pxe.c pxe_net.c pxe_call.S
 CLEANFILES+=	unixdev.o unixsys.o nullfs.o
 .endif
 
 # stand routines
 SRCS+=	alloc.c exit.c getfile.c gets.c globals.c strcmp.c strlen.c \
-	strncmp.c memcmp.c memcpy.c memset.c printf.c snprintf.c \
+	strncmp.c memcmp.c memset.c printf.c snprintf.c \
 	strerror.c strncpy.c strtol.c ctime.c strlcpy.c strlcat.c
 
 # io routines
@@ -47,8 +49,10 @@ SRCS+=	ufs.c nfs.c tftp.c cd9660.c
 # debugger
 SRCS+=	debug.c
 
-NOPROFILE=noprofile
-NOPIC=nopic
+# fuckup gcc
+SRCS+=	moddi3.c divdi3.c qdivrem.c
+
+NOPIC=	yes
 
 .PATH:  ${DIR_SA} ${DIR_KERN}
 
@@ -59,8 +63,8 @@ install:
 .include <bsd.lib.mk>
 
 CPPFLAGS+=-DLINKADDR=${LINKADDR} -DHEAP_LIMIT=${HEAP_LIMIT} ${DEBUGFLAGS}
-CPPFLAGS+=-I${S}/stand/boot #-DCOMPAT_UFS
-CFLAGS+=${SACFLAGS} -D__INTERNAL_LIBSA_CREAD
+CPPFLAGS+=-I${S}/stand/boot -I${S}/lib #-DCOMPAT_UFS
+CPPFLAGS+=${SACFLAGS} -D__INTERNAL_LIBSA_CREAD
 #AS=cat ; 
 #AS+=	-R
 #AS+=	-a

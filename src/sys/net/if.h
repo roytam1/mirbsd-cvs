@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if.h,v 1.51 2004/04/26 05:24:00 mcbride Exp $	*/
 /*	$NetBSD: if.h,v 1.23 1996/05/07 02:40:27 thorpej Exp $	*/
 
@@ -306,7 +307,7 @@ struct ifnet {				/* and the entries */
 				caddr_t ext_buf = m->m_ext.ext_buf;	\
 				m->m_data = m->m_pktdat;		\
 				MH_ALIGN(m, m->m_len);			\
-				bcopy(data, m->m_data, m->m_len);	\
+				memmove(m->m_data, data, m->m_len);	\
 				pool_put(&mclpool, ext_buf);		\
 				m->m_flags &= ~(M_EXT|M_CLUSTER);	\
 			}						\
@@ -437,7 +438,7 @@ struct ifmediareq {
 	int	ifm_current;			/* current media options */
 	int	ifm_mask;			/* don't care mask */
 	int	ifm_status;			/* media status */
-	int	ifm_active;			/* active options */ 
+	int	ifm_active;			/* active options */
 	int	ifm_count;			/* # entries in ifm_ulist
 							array */
 	int	*ifm_ulist;			/* media words */

@@ -64,7 +64,7 @@ main(int argc, char *argv[])
 
 	prom_init();
 
-	printf(">> OpenBSD BOOT %s\n", version);
+	printf(">> MirBSD BOOT %s\n", version);
 
 	file = prom_bootfile;
 	if (file == 0 || *file == 0)

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*       $OpenBSD: vfs_sync.c,v 1.25 2003/09/01 18:06:03 henning Exp $  */
 
 /*
@@ -164,7 +165,7 @@ sched_sync(p)
 				 * vnode one second ahead in time.
 				 * XXX - no good, but the best we can do.
 				 */
-				vn_syncer_add_to_worklist(vp, 1);
+				vn_syncer_add_to_worklist(vp, 0);
 				continue;
 			}
 			splx(s);

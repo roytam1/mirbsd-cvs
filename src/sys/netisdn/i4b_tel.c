@@ -27,8 +27,8 @@
  *	i4b_tel.c - device driver for ISDN telephony
  *	--------------------------------------------
  *
- *	$Id$
- *
+ * $MirOS$
+ * $NetBSD: i4b_tel.c,v 1.14 2003/09/23 14:15:59 pooka Exp $
  * $FreeBSD$
  *
  *	last edit-date: [Fri Jan  5 11:33:47 2001]
@@ -36,7 +36,7 @@
  *---------------------------------------------------------------------------*/
 
 #include <sys/cdefs.h>
-__KERNEL_RCSID(0, "$NetBSD: i4b_tel.c,v 1.12 2002/11/26 19:49:01 christos Exp $");
+__KERNEL_RCSID(0, "$NetBSD: i4b_tel.c,v 1.14 2003/09/23 14:15:59 pooka Exp $");
 
 #include "isdntel.h"
 
@@ -47,7 +47,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_tel.c,v 1.12 2002/11/26 19:49:01 christos Exp $"
 #include <sys/param.h>
 #include <sys/systm.h>
 
-#if (defined(__FreeBSD__) && __FreeBSD__ >= 3) || defined(__NetBSD__)
+#if (defined(__FreeBSD__) && __FreeBSD__ >= 3) || defined(__NetBSD__) || defined(__MirBSD__)
 #include <sys/ioccom.h>
 #include <sys/poll.h>
 #else
@@ -485,14 +485,14 @@ isdntelioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 						sc->wcvttab = 0;
 						break;
 					case CVT_ALAW2ULAW:
-						/* ISDN: a-law */
-						/* user: u-law */ 
+						/* ISDN: A-law */
+						/* user: mu-law */ 
 						sc->rcvttab = a2u_tab;
 						sc->wcvttab = u2a_tab;
 						break;
 					case CVT_ULAW2ALAW:
-						/* ISDN: u-law */
-						/* user: a-law */ 
+						/* ISDN: mu-law */
+						/* user: A-law */ 
 						sc->rcvttab = u2a_tab;
 						sc->wcvttab = a2u_tab;
 						break;
@@ -785,10 +785,12 @@ isdntelwrite(dev_t dev, struct uio * uio, int ioflag)
 	}
 	else if(func == FUNCDIAL)
 	{
+		tel_sc_t *telsc = &tel_sc[unit][FUNCTEL];
+
 #define CMDBUFSIZ 80 
 		char cmdbuf[CMDBUFSIZ];
 		int len = min(CMDBUFSIZ-1, uio->uio_resid);
-	
+
 		error = uiomove(cmdbuf, len, uio);
 
 		if(cmdbuf[0] == CMD_DIAL)
@@ -797,7 +799,10 @@ isdntelwrite(dev_t dev, struct uio * uio, int ioflag)
 		}
 		else if(cmdbuf[0] == CMD_HUP)
 		{
-			i4b_l4_drvrdisc(sc->cdp->cdid);
+			if (!(telsc->devstate & ST_CONNECTED))
+				error = EIO;
+			else
+				i4b_l4_drvrdisc(telsc->cdp->cdid);
 		}
 	}
 	else
@@ -947,7 +952,11 @@ filt_i4btel_detach(struct knote *kn)
 	int s;
 
 	s = splhigh();
+#ifdef	__MirBSD__
+	SLIST_REMOVE(&sc->selp.si_note, kn, knote, kn_selnext);
+#else
 	SLIST_REMOVE(&sc->selp.sel_klist, kn, knote, kn_selnext);
+#endif
 	splx(s);
 }
 
@@ -1019,7 +1028,11 @@ isdntelkqfilter(dev_t dev, struct knote *kn)
 
 	switch (kn->kn_filter) {
 	case EVFILT_READ:
+#ifdef	__MirBSD__
+		klist = &sc->selp.si_note;
+#else
 		klist = &sc->selp.sel_klist;
+#endif
 		if (func == FUNCTEL)
 			kn->kn_fop = &i4btel_telread_filtops;
 		else if (func == FUNCDIAL)
@@ -1029,7 +1042,11 @@ isdntelkqfilter(dev_t dev, struct knote *kn)
 		break;
 
 	case EVFILT_WRITE:
+#ifdef	__MirBSD__
+		klist = &sc->selp.si_note;
+#else
 		klist = &sc->selp.sel_klist;
+#endif
 		if (func == FUNCTEL)
 			kn->kn_fop = &i4btel_telwrite_filtops;
 		else if (func == FUNCDIAL)
@@ -1143,7 +1160,7 @@ tel_connect(void *softc, void *cdp)
 	tel_sc_t *sc = softc;
 
 	/* audio device */
-	
+
 	sc->cdp = (call_desc_t *)cdp;
 
 	sc->devstate |= ST_CONNECTED;
@@ -1319,7 +1336,7 @@ tel_get_softc(int unit)
  *===========================================================================*/
 
 /*---------------------------------------------------------------------------*
- *	A-law to u-law conversion
+ *	A-law to mu-law conversion
  *---------------------------------------------------------------------------*/
 static unsigned char a2u_tab[256] = {
 /* 00 */	0x2a, 0x2b, 0x28, 0x29, 0x2e, 0x2f, 0x2c, 0x2d, 
@@ -1357,7 +1374,7 @@ static unsigned char a2u_tab[256] = {
 };
 
 /*---------------------------------------------------------------------------*
- *	u-law to A-law conversion
+ *	mu-law to A-law conversion
  *---------------------------------------------------------------------------*/
 static unsigned char u2a_tab[256] = {
 /* 00 */	0x2a, 0x2b, 0x28, 0x29, 0x2e, 0x2f, 0x2c, 0x2d, 

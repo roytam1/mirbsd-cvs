@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uipc_domain.c,v 1.17 2004/04/01 23:56:05 tedu Exp $	*/
 /*	$NetBSD: uipc_domain.c,v 1.14 1996/02/09 19:00:44 christos Exp $	*/
 
@@ -91,23 +92,8 @@ domaininit()
 #ifdef NETATALK
 	ADDDOMAIN(atalk);
 #endif
-#ifdef NS
-	ADDDOMAIN(ns);
-#endif
-#ifdef ISO
-	ADDDOMAIN(iso);
-#endif
-#ifdef CCITT
-	ADDDOMAIN(ccitt);
-#endif
 #ifdef NATM
 	ADDDOMAIN(natm);
-#endif
-#ifdef notdef /* XXXX */
-#include "imp.h"
-#if NIMP > 0
-	ADDDOMAIN(imp);
-#endif
 #endif
 #ifdef IPSEC
 #ifdef __KAME__

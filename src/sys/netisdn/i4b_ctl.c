@@ -300,7 +300,7 @@ isdnctlioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
                         struct chipstat *cst;
 			l2_softc_t * scl2;
 			cst = (struct chipstat *)data;
-			scl2 = (l2_softc_t*)isdn_find_softc_by_bri(cst->driver_unit);
+			scl2 = (l2_softc_t*)isdn_find_softc_by_isdnif(cst->driver_unit);
 			scl2->driver->mph_command_req(scl2->l1_token, CMR_GCST, cst);
                         break;
                 }
@@ -310,7 +310,7 @@ isdnctlioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
                         struct chipstat *cst;
 			l2_softc_t * scl2;
 			cst = (struct chipstat *)data;
-			scl2 = (l2_softc_t*)isdn_find_softc_by_bri(cst->driver_unit);
+			scl2 = (l2_softc_t*)isdn_find_softc_by_isdnif(cst->driver_unit);
 			scl2->driver->mph_command_req(scl2->l1_token, CMR_CCST, cst);
                         break;
                 }
@@ -321,7 +321,7 @@ isdnctlioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
                         l2_softc_t *sc;
                         l2s = (l2stat_t *)data;
 
-                        sc = (l2_softc_t*)isdn_find_softc_by_bri(l2s->unit);
+                        sc = (l2_softc_t*)isdn_find_softc_by_isdnif(l2s->unit);
                         if (sc == NULL) {
                         	error = EINVAL;
 				break;
@@ -337,7 +337,7 @@ isdnctlioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
                         l2_softc_t *sc;
                         up = (int *)data;
 
-                        sc = (l2_softc_t*)isdn_find_softc_by_bri(*up);
+                        sc = (l2_softc_t*)isdn_find_softc_by_isdnif(*up);
                         if (sc == NULL) {
                         	error = EINVAL;
 				break;

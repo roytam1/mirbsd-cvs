@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: msdosfs_vnops.c,v 1.45 2004/05/14 04:05:05 tedu Exp $	*/
 /*	$NetBSD: msdosfs_vnops.c,v 1.63 1997/10/17 11:24:19 ws Exp $	*/
 
@@ -907,7 +908,7 @@ abortit:
 		vrele(fvp);
 		return (error);
 	}
-	
+
 	/*
 	 * If source and dest are the same, do nothing.
 	 */
@@ -1797,7 +1798,7 @@ msdosfs_strategy(v)
 			clrbuf(bp);
 	}
 	if (bp->b_blkno == -1) {
-		s = splbio();	
+		s = splbio();
 		biodone(bp);
 		splx(s);
 		return (error);
@@ -1825,7 +1826,8 @@ msdosfs_print(v)
 
 	printf(
 	    "tag VT_MSDOSFS, startcluster %ld, dircluster %ld, diroffset %ld ",
-	    dep->de_StartCluster, dep->de_dirclust, dep->de_diroffset);
+	    (long)dep->de_StartCluster, (long)dep->de_dirclust,
+	    (long)dep->de_diroffset);
 	printf(" dev %d, %d, %s\n",
 	    major(dep->de_dev), minor(dep->de_dev),
 	    VOP_ISLOCKED(ap->a_vp) ? "(LOCKED)" : "");

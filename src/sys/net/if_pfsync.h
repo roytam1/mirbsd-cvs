@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_pfsync.h,v 1.14 2004/04/28 00:47:06 mcbride Exp $	*/
 
 /*
@@ -184,7 +185,7 @@ struct pfsync_header {
 } __packed;
 
 #define PFSYNC_BULKPACKETS	1	/* # of packets per timeout */
-#define PFSYNC_MAX_BULKTRIES	12	
+#define PFSYNC_MAX_BULKTRIES	12
 #define PFSYNC_HDRLEN	sizeof(struct pfsync_header)
 #define	PFSYNC_ACTIONS \
 	"CLR ST", "INS ST", "UPD ST", "DEL ST", \
@@ -246,12 +247,12 @@ struct pfsyncreq {
 } while (0)
 
 #define pf_state_host_hton(s,d) do {				\
-	bcopy(&(s)->addr, &(d)->addr, sizeof((d)->addr));	\
+	memmove(&(d)->addr, &(s)->addr, sizeof((d)->addr));	\
 	(d)->port = (s)->port;					\
 } while (0)
 
 #define pf_state_host_ntoh(s,d) do {				\
-	bcopy(&(s)->addr, &(d)->addr, sizeof((d)->addr));	\
+	memmove(&(d)->addr, &(s)->addr, sizeof((d)->addr));	\
 	(d)->port = (s)->port;					\
 } while (0)
 

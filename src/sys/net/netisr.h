@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: netisr.h,v 1.20 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: netisr.h,v 1.12 1995/08/12 23:59:24 mycroft Exp $	*/
 
@@ -65,7 +66,8 @@
 #define	NETISR_NATM	27		/* same as AF_ATM */
 #define	NETISR_PPP	28		/* for PPP processing */
 #define	NETISR_BRIDGE	29		/* for bridge processing */
-#define	NETISR_PPPOE	30		/* for pppoe processing */
+#define	NETISR_PLIP	30		/* for PLIP processing */
+#define	NETISR_PPPOE	31		/* for pppoe processing */
 
 #ifndef _LOCORE
 #ifdef _KERNEL

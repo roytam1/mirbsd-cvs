@@ -1385,10 +1385,8 @@ rl_miibus_readreg(self, phy, reg)
 		case MII_ANLPAR:
 			rl8139_reg = RL_LPAR;
 			break;
-		case MII_PHYIDR1:
-		case MII_PHYIDR2:
+		default:
 			return (0);
-			break;
 		}
 		return (CSR_READ_2(sc, rl8139_reg));
 	}

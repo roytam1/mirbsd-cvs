@@ -96,7 +96,7 @@
 #define AFC_MAX_STEP            (5 * FREQFACTOR) /* no more than 5 MHz */
 #endif /* TUNER_AFC */
 
-  
+
 #define TTYPE_XXX               0
 #define TTYPE_NTSC              1
 #define TTYPE_NTSC_J            2
@@ -104,7 +104,7 @@
 #define TTYPE_PAL_M             4
 #define TTYPE_PAL_N             5
 #define TTYPE_SECAM             6
-  
+
 #define TSA552x_CB_MSB          (0x80)
 #define TSA552x_CB_CP           (1<<6)	/* set this for fast tuning */
 #define TSA552x_CB_T2           (1<<5)	/* test mode - Normally set to 0 */
@@ -123,17 +123,17 @@
                                  TSA552x_CB_T0  |       \
                                  TSA552x_CB_RSA |       \
                                  TSA552x_CB_RSB)
-  
+
 /* lower the charge pump voltage for better residual oscillator FM */
 #define TSA552x_SCONTROL        (TSA552x_CB_MSB |       \
                                  TSA552x_CB_T0  |       \
                                  TSA552x_CB_RSA |       \
                                  TSA552x_CB_RSB)
-  
+
 /* The control value for the ALPS TSCH5 Tuner */
 #define TSCH5_FCONTROL          0x82
 #define TSCH5_RADIO             0x86
-  
+
 /* The control value for the ALPS TSBH1 Tuner */
 #define TSBH1_FCONTROL		0xce
 
@@ -386,11 +386,11 @@ static const int hrccable[] = {
  * caution, some of the offsets don't compute...
  *
  *  1	 4525	700	N21
- * 
+ *
  *  2	 4825	700	E2
  *  3	 5525	700	E3
  *  4	 6225	700	E4
- * 
+ *
  *  5	17525	700	E5
  *  6	18225	700	E6
  *  7	18925	700	E7
@@ -399,19 +399,19 @@ static const int hrccable[] = {
  * 10	21025	700	E10
  * 11	21725	700	E11
  * 12	22425	700	E12
- * 
+ *
  * 13	 5375	700	ITA
  * 14	 6225	700	ITB
- * 
+ *
  * 15	 8225	700	ITC
- * 
+ *
  * 16	17525	700	ITD
  * 17	18325	700	ITE
- * 
+ *
  * 18	19225	700	ITF
  * 19	20125	700	ITG
  * 20	21025	700	ITH
- * 
+ *
  * 21	47125	800	E21
  * 22	47925	800	E22
  * 23	48725	800	E23
@@ -461,15 +461,15 @@ static const int hrccable[] = {
  * 67	83925	800	E67
  * 68	84725	800	E68
  * 69	85525	800	E69
- * 
+ *
  * 70	 4575	800	IA
  * 71	 5375	800	IB
  * 72	 6175	800	IC
- * 
+ *
  * 74	 6925	700	S01
  * 75	 7625	700	S02
  * 76	 8325	700	S03
- * 
+ *
  * 80	10525	700	S1
  * 81	11225	700	S2
  * 82	11925	700	S3
@@ -500,32 +500,32 @@ static const int hrccable[] = {
  * 102	31925	800	S23
  * 103	32725	800	S24
  * 104	33525	800	S25
- * 105	34325	800	S26         
- * 106	35125	800	S27         
- * 107	35925	800	S28         
- * 108	36725	800	S29         
- * 109	37525	800	S30         
- * 110	38325	800	S31         
- * 111	39125	800	S32         
- * 112	39925	800	S33         
- * 113	40725	800	S34         
- * 114	41525	800	S35         
- * 115	42325	800	S36         
- * 116	43125	800	S37         
- * 117	43925	800	S38         
- * 118	44725	800	S39         
- * 119	45525	800	S40         
+ * 105	34325	800	S26
+ * 106	35125	800	S27
+ * 107	35925	800	S28
+ * 108	36725	800	S29
+ * 109	37525	800	S30
+ * 110	38325	800	S31
+ * 111	39125	800	S32
+ * 112	39925	800	S33
+ * 113	40725	800	S34
+ * 114	41525	800	S35
+ * 115	42325	800	S36
+ * 116	43125	800	S37
+ * 117	43925	800	S38
+ * 118	44725	800	S39
+ * 119	45525	800	S40
  * 120	46325	800	S41
- * 
+ *
  * 121	 3890	000	IFFREQ
- * 
+ *
  */
 static const int weurope[] = {
-       121,     (int)( 38.90 * FREQFACTOR),     0, 
-       100,     (int)(303.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR), 
+       121,     (int)( 38.90 * FREQFACTOR),     0,
+       100,     (int)(303.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
         90,     (int)(231.25 * FREQFACTOR),     (int)(7.00 * FREQFACTOR),
-        80,     (int)(105.25 * FREQFACTOR),     (int)(7.00 * FREQFACTOR),  
-        74,     (int)( 69.25 * FREQFACTOR),     (int)(7.00 * FREQFACTOR),  
+        80,     (int)(105.25 * FREQFACTOR),     (int)(7.00 * FREQFACTOR),
+        74,     (int)( 69.25 * FREQFACTOR),     (int)(7.00 * FREQFACTOR),
         21,     (int)(471.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
         17,     (int)(183.25 * FREQFACTOR),     (int)(9.00 * FREQFACTOR),
         16,     (int)(175.25 * FREQFACTOR),     (int)(9.00 * FREQFACTOR),
@@ -608,12 +608,12 @@ static const int jpncable[] = {
 #define IF_FREQ 38.90
 static const int xussr[] = {
       107,     (int)(IF_FREQ * FREQFACTOR),    0,
-       78,     (int)(231.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR), 
+       78,     (int)(231.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
        70,     (int)(111.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
-       35,     (int)(583.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR), 
+       35,     (int)(583.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
        21,     (int)(471.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
-        6,     (int)(175.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),  
-        3,     (int)( 77.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),  
+        6,     (int)(175.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
+        3,     (int)( 77.25 * FREQFACTOR),     (int)(8.00 * FREQFACTOR),
         1,     (int)( 49.75 * FREQFACTOR),     (int)(9.50 * FREQFACTOR),
         0
 };
@@ -623,7 +623,7 @@ static const int xussr[] = {
  * Australian broadcast channels
  */
 #define OFFSET	7.00
-#define IF_FREQ 38.90 
+#define IF_FREQ 38.90
 static const int australia[] = {
        83,     (int)(IF_FREQ * FREQFACTOR),    0,
        28,     (int)(527.25 * FREQFACTOR),     (int)(OFFSET * FREQFACTOR),
@@ -637,7 +637,7 @@ static const int australia[] = {
 #undef OFFSET
 #undef IF_FREQ
 
-/* 
+/*
  * France broadcast channels
  */
 #define OFFSET 8.00
@@ -650,7 +650,7 @@ static const int france[] = {
          3,     (int)( 60.50 * FREQFACTOR),     (int)(OFFSET * FREQFACTOR), /* 3    */
          1,     (int)( 47.75 * FREQFACTOR),     (int)(OFFSET * FREQFACTOR), /* 1  2 */
          0
-}; 
+};
 #undef OFFSET
 #undef IF_FREQ
 
@@ -668,7 +668,7 @@ static const struct {
         {xussr,         "xussr"},
         {australia,     "australia"},
         {france,        "france"},
- 
+
 };
 
 #define TBL_CHNL	freqTable[ bktr->tuner.chnlset ].ptr[ x ]
@@ -768,7 +768,7 @@ void    select_tuner( bktr_ptr_t bktr, int tuner_type ) {
 /*
  * set the frequency of the tuner
  * If 'type' is TV_FREQUENCY, the frequency is freq MHz*16
- * If 'type' is FM_RADIO_FREQUENCY, the frequency is freq MHz * 100 
+ * If 'type' is FM_RADIO_FREQUENCY, the frequency is freq MHz * 100
  * (note *16 gives is 4 bits of fraction, eg steps of nnn.0625)
  *
  */
@@ -882,7 +882,7 @@ tv_freq( bktr_ptr_t bktr, int frequency, int type )
 
 		if(!(band && control))		/* Don't try to set un-	*/
 		  return(-1);			/* supported modes.	*/
-	  
+
 		band |= bktr->tuner.radio_mode; /* tuner.radio_mode is set in
 						 * the ioctls RADIO_SETMODE
 						 * and RADIO_GETMODE */
@@ -894,7 +894,7 @@ tv_freq( bktr_ptr_t bktr, int frequency, int type )
 
 
 	}
- 
+
 
 	return( 0 );
 }
@@ -902,9 +902,6 @@ tv_freq( bktr_ptr_t bktr, int frequency, int type )
 
 
 #if defined( TUNER_AFC )
-/*
- * 
- */
 int
 do_afc( bktr_ptr_t bktr, int addr, int frequency )
 {

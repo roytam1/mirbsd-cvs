@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: in4_cksum.c,v 1.7 2003/06/02 23:28:13 millert Exp $	*/
 /*	$KAME: in4_cksum.c,v 1.10 2001/11/30 10:06:15 itojun Exp $	*/
 /*	$NetBSD: in_cksum.c,v 1.13 1996/10/13 02:03:03 christos Exp $	*/
@@ -71,6 +72,7 @@
 #include <netinet/in_systm.h>
 #include <netinet/ip.h>
 #include <netinet/ip_var.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internet Protocol family headers (Portable Version).
@@ -215,5 +217,6 @@ in4_cksum(m, nxt, off, len)
 		sum += s_util.s;
 	}
 	REDUCE;
+	rnd_addpool_add(sum);
 	return (~sum & 0xffff);
 }

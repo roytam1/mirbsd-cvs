@@ -780,7 +780,7 @@ pfkeyv2_send(struct socket *socket, void *message, int len)
 
 	struct tdb sa, *sa2 = NULL;
 
-	struct sadb_msg *smsg;
+	struct sadb_msg *smsg = NULL;
 	struct sadb_spirange *sprng;
 	struct sadb_sa *ssa;
 	struct sadb_supported *ssup;

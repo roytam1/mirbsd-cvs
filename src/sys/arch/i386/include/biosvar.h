@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: biosvar.h,v 1.42 2003/11/27 00:31:55 espie Exp $	*/
 
 /*
@@ -39,6 +40,7 @@
 #define	BIOSF_BIOS32	0x0001
 #define	BIOSF_PCIBIOS	0x0002
 #define	BIOSF_PROMSCAN	0x0004
+#define	BIOSF_SAFEK7PN	0x0008
 
 /* BIOS media ID */
 #define BIOSM_F320K	0xff	/* floppy ds/sd  8 spt */
@@ -158,6 +160,7 @@ typedef struct _bios_diskinfo {
 #define BDI_INVALID	0x00000001	/* I/O error during checksumming */
 #define BDI_GOODLABEL	0x00000002	/* Had SCSI or ST506/ESDI disklabel */
 #define BDI_BADLABEL	0x00000004	/* Had another disklabel */
+#define BDI_ELTORITO	0x00010000	/* Not a BIOS/ProtMode device */
 #define BDI_PICKED	0x80000000	/* kernel-only: cksum matched */
 
 } bios_diskinfo_t;

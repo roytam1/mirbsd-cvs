@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: conf.c,v 1.28 2004/03/19 13:48:19 tom Exp $	*/
 
 /*
@@ -31,8 +32,9 @@
 #include <netinet/in.h>
 #include <libsa.h>
 #include <lib/libsa/ufs.h>
-#ifdef notdef
 #include <lib/libsa/cd9660.h>
+#include <tori.h>
+#ifdef notdef
 #include <lib/libsa/fat.h>
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
@@ -43,7 +45,7 @@
 #include <dev/cons.h>
 #include "debug.h"
 
-const char version[] = "2.06";
+const char version[] = __BOOT_VER;
 int	debug = 1;
 
 
@@ -66,6 +68,8 @@ int nibprobes = NENTS(probe_list);
 
 
 struct fs_ops file_system[] = {
+	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
+	  cd9660_stat, cd9660_readdir },
 	{ ufs_open,    ufs_close,    ufs_read,    ufs_write,    ufs_seek,
 	  ufs_stat,    ufs_readdir    },
 #ifdef notdef
@@ -73,8 +77,6 @@ struct fs_ops file_system[] = {
 	  fat_stat,    fat_readdir    },
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
-	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
-	  cd9660_stat, cd9660_readdir },
 #endif
 #ifdef _TEST
 	{ null_open,   null_close,   null_read,   null_write,   null_seek,
@@ -87,6 +89,7 @@ struct devsw	devsw[] = {
 #ifdef _TEST
 	{ "UNIX", unixstrategy, unixopen, unixclose, unixioctl },
 #else
+	{ "TORI", toristrategy, toriopen, toriclose, toriioctl },
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
 #endif
 #if 0

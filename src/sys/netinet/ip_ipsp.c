@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ip_ipsp.c,v 1.158 2004/04/14 20:10:04 markus Exp $	*/
 /*
  * The authors of this code are John Ioannidis (ji@tla.org),
@@ -489,7 +490,7 @@ tdb_hashstats(void)
 	db_printf("tdb cnt\t\tbucket cnt\n");
 	for (i = 0; i < 16; i++)
 		if (buckets[i] > 0)
-			db_printf("%d%c\t\t%d\n", i, i == 15 ? "+" : "",
+			db_printf("%d%s\t\t%d\n", i, i == 15 ? "+" : "",
 			    buckets[i]);
 }
 #endif	/* DDB */
@@ -916,10 +917,10 @@ ipsp_print_tdb(struct tdb *tdb, char *buffer, size_t buflen)
 
 	snprintf(buffer, buflen,
 	    "SPI = %08x, Destination = %s, Sproto = %u\n"
-	    "\tEstablished %d seconds ago\n"
+	    "\tEstablished %lld seconds ago\n"
 	    "\tSource = %s",
 	    ntohl(tdb->tdb_spi), ipsp_address(tdb->tdb_dst), tdb->tdb_sproto,
-	    time.tv_sec - tdb->tdb_established,
+	    (int64_t)(time.tv_sec - tdb->tdb_established),
 	    ipsp_address(tdb->tdb_src));
 	l = strlen(buffer);
 

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_sppp.h,v 1.7 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: if_sppp.h,v 1.2.2.1 1999/04/04 06:57:39 explorer Exp $	*/
 
@@ -68,7 +69,7 @@ struct sipcp {
 #define IPCP_MYADDR_SEEN  4	/* have seen his address already */
 };
 
-#define AUTHNAMELEN	32
+#define AUTHNAMELEN	48
 #define AUTHKEYLEN	16
 
 struct sauth {
@@ -109,7 +110,17 @@ struct sppp {
 	u_short pp_loopcnt;     /* loopback detection counter */
 	u_long  pp_seq;         /* local sequence number */
 	u_long  pp_rseq;        /* remote sequence number */
+	u_quad_t	pp_saved_mtu;	/* saved MTU value */
+	time_t	pp_last_activity;	/* second of last payload data s/r */
+	time_t	pp_idle_timeout;	/* idle seconds before auto-disconnect,
+					 * 0 = disabled */
+	int	pp_auth_failures;	/* authorization failures */
+	int	pp_max_auth_fail;	/* max. allowed authorization failures */
+	time_t  pp_last_sent;
+	time_t  pp_last_recv;
 	enum ppp_phase pp_phase;	/* phase we're currently in */
+	int	query_dns;	/* 1 if we want to know the dns addresses */
+	u_int32_t	dns_addrs[2];
 	int	state[IDX_COUNT];	/* state machine */
 	u_char  confid[IDX_COUNT];	/* id of last configuration request */
 	int	rst_counter[IDX_COUNT];	/* restart counter */
@@ -120,6 +131,10 @@ struct sppp {
 	struct sipcp ipcp;		/* IPCP params */
 	struct sauth myauth;		/* auth params, i'm peer */
 	struct sauth hisauth;		/* auth params, i'm authenticator */
+#ifdef SPPP_VJ
+	int enable_vj;			/* enable VJ negotiation */
+	struct slcompress pp_comp;	/* for VJ compression */
+#endif
 	/*
 	 * These functions are filled in by sppp_attach(), and are
 	 * expected to be used by the lower layer (hardware) drivers
@@ -147,6 +162,9 @@ struct sppp {
 	 */
 	void	(*pp_con)(struct sppp *sp);
 	void	(*pp_chg)(struct sppp *sp, int new_state);
+	/* These two fields are for use by the lower layer */
+	void    *pp_lowerp;
+	int     pp_loweri;
 };
 
 #define PP_KEEPALIVE    0x01    /* use keepalive protocol */

@@ -1,4 +1,4 @@
-/* $NetBSD: i4b_l2.h,v 1.7 2002/05/21 10:31:10 martin Exp $ */
+/* $NetBSD: i4b_l2.h,v 1.8 2003/10/03 16:38:44 pooka Exp $ */
 
 /*
  * Copyright (c) 1997, 2000 Hellmuth Michaelis. All rights reserved.
@@ -39,11 +39,9 @@
 
 #ifndef _I4B_L2_H_
 #define _I4B_L2_H_
-
-#include <sys/callout.h>
-
+#include <sys/timeout.h>
 typedef struct l2_softc {
-	const struct isdn_layer1_bri_driver * driver;
+	const struct isdn_layer1_isdnif_driver * driver;
 	void*	l1_token;
 	struct isdn_l3_driver *drv;
 
@@ -68,10 +66,10 @@ typedef struct l2_softc {
 	int	N202;		/* TEI ID Req tx counter */
 	void(*T202func)(void *);/* function to be called when T202 expires */
 	int	T203;		/* max line idle time */
-	struct	callout T200_callout;
-	struct	callout T202_callout;
-	struct	callout T203_callout;
-	struct	callout IFQU_callout;	
+	struct	timeout T200_callout;
+	struct	timeout T202_callout;
+	struct	timeout T203_callout;
+	struct	timeout IFQU_callout;	
 
 /*
  * i4b_iframe.c, i4b_i_frame_queued_up(): value of IFQU_DLY
@@ -363,7 +361,7 @@ extern int i4b_dl_establish_cnf ( struct isdn_l3_driver *drv );
 extern int i4b_dl_unit_data_ind ( struct isdn_l3_driver *drv, struct mbuf *m );
 extern int i4b_dl_data_ind ( struct isdn_l3_driver *drv, struct mbuf *m );
 int i4b_mdl_command_req(struct isdn_l3_driver *drv, int, void *);
-void * isdn_find_softc_by_bri(int bri);
+void * isdn_find_softc_by_isdnif(int isdnif);
 extern int isdn_bchan_silence __P(( unsigned char *data, int len ));
 
 #endif /* _I4B_L2_H_ */

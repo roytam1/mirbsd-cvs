@@ -4559,7 +4559,7 @@ hpt_chip_map(sc, pa)
 	struct pci_attach_args *pa;
 {
 	struct pciide_channel *cp;
-	int i, compatchan, revision;
+	int i, compatchan = 0, revision;
 	pcireg_t interface;
 	bus_size_t cmdsize, ctlsize;
 
@@ -4905,7 +4905,7 @@ pdc202xx_chip_map(sc, pa)
 {
 	struct pciide_channel *cp;
 	int channel;
-	pcireg_t interface, st, mode;
+	pcireg_t interface, st = 0, mode;
 	bus_size_t cmdsize, ctlsize;
 
 	if (!PDC_IS_268(sc)) {

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bktr_core.c,v 1.11 2003/03/12 00:28:54 mickey Exp $	*/
 /* $FreeBSD: src/sys/dev/bktr/bktr_core.c,v 1.114 2000/10/31 13:09:56 roger Exp $ */
 
@@ -203,7 +204,9 @@ typedef unsigned int uintptr_t;
 #endif
 
 #ifdef __OpenBSD__
+#ifndef __MirBSD__
 typedef unsigned long uintptr_t;
+#endif
 typedef int intrmask_t;
 #else
 #include <sys/inttypes.h>		/* uintptr_t */
@@ -545,7 +548,7 @@ bktr_store_address(unit, BKTR_MEM_BUF,          buf);
 #ifdef __FreeBSD__
 			vtophys(buf));
 #else
-			bktr->dm_prog->dm_segs->ds_addr);
+			(unsigned)(bktr->dm_prog->dm_segs->ds_addr));
 #endif
 	}
 

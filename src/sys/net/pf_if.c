@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pf_if.c,v 1.12 2004/04/28 02:43:09 pb Exp $ */
 
 /*
@@ -80,7 +81,6 @@ char			  pfi_reserved_anchor[PF_ANCHOR_NAME_SIZE] =
 char			  pfi_interface_ruleset[PF_RULESET_NAME_SIZE] =
 				PF_INTERFACE_RULESET;
 
-void		 pfi_dynaddr_update(void *);
 void		 pfi_kifaddr_update(void *);
 void		 pfi_table_update(struct pfr_ktable *, struct pfi_kif *,
 		    int, int);
@@ -279,92 +279,6 @@ pfi_detach_state(struct pfi_kif *p)
 	pfi_maybe_destroy(p);
 }
 
-int
-pfi_dynaddr_setup(struct pf_addr_wrap *aw, sa_family_t af)
-{
-	struct pfi_dynaddr	*dyn;
-	char			 tblname[PF_TABLE_NAME_SIZE];
-	struct pf_ruleset	*ruleset = NULL;
-	int			 s, rv = 0;
-
-	if (aw->type != PF_ADDR_DYNIFTL)
-		return (0);
-	dyn = pool_get(&pfi_addr_pl, PR_NOWAIT);
-	if (dyn == NULL)
-		return (1);
-	bzero(dyn, sizeof(*dyn));
-
-	s = splsoftnet();
-	dyn->pfid_kif = pfi_attach_rule(aw->v.ifname);
-	if (dyn->pfid_kif == NULL)
-		senderr(1);
-
-	dyn->pfid_net = pfi_unmask(&aw->v.a.mask);
-	if (af == AF_INET && dyn->pfid_net == 32)
-		dyn->pfid_net = 128;
-	strlcpy(tblname, aw->v.ifname, sizeof(tblname));
-	if (aw->iflags & PFI_AFLAG_NETWORK)
-		strlcat(tblname, ":network", sizeof(tblname));
-	if (aw->iflags & PFI_AFLAG_BROADCAST)
-		strlcat(tblname, ":broadcast", sizeof(tblname));
-	if (aw->iflags & PFI_AFLAG_PEER)
-		strlcat(tblname, ":peer", sizeof(tblname));
-	if (aw->iflags & PFI_AFLAG_NOALIAS)
-		strlcat(tblname, ":0", sizeof(tblname));
-	if (dyn->pfid_net != 128)
-		snprintf(tblname + strlen(tblname),
-		    sizeof(tblname) - strlen(tblname), "/%d", dyn->pfid_net);
-	ruleset = pf_find_or_create_ruleset(pfi_reserved_anchor,
-	    pfi_interface_ruleset);
-	if (ruleset == NULL)
-		senderr(1);
-
-	dyn->pfid_kt = pfr_attach_table(ruleset, tblname);
-	if (dyn->pfid_kt == NULL)
-		senderr(1);
-
-	dyn->pfid_kt->pfrkt_flags |= PFR_TFLAG_ACTIVE;
-	dyn->pfid_iflags = aw->iflags;
-	dyn->pfid_af = af;
-	dyn->pfid_hook_cookie = hook_establish(dyn->pfid_kif->pfik_ah_head, 1,
-	    pfi_dynaddr_update, dyn);
-	if (dyn->pfid_hook_cookie == NULL)
-		senderr(1);
-
-	aw->p.dyn = dyn;
-	pfi_dynaddr_update(aw->p.dyn);
-	splx(s);
-	return (0);
-
-_bad:
-	if (dyn->pfid_kt != NULL)
-		pfr_detach_table(dyn->pfid_kt);
-	if (ruleset != NULL)
-		pf_remove_if_empty_ruleset(ruleset);
-	if (dyn->pfid_kif != NULL)
-		pfi_detach_rule(dyn->pfid_kif);
-	pool_put(&pfi_addr_pl, dyn);
-	splx(s);
-	return (rv);
-}
-
-void
-pfi_dynaddr_update(void *p)
-{
-	struct pfi_dynaddr	*dyn = (struct pfi_dynaddr *)p;
-	struct pfi_kif		*kif = dyn->pfid_kif;
-	struct pfr_ktable	*kt = dyn->pfid_kt;
-
-	if (dyn == NULL || kif == NULL || kt == NULL)
-		panic("pfi_dynaddr_update");
-	if (kt->pfrkt_larg != pfi_update) {
-		/* this table needs to be brought up-to-date */
-		pfi_table_update(kt, kif, dyn->pfid_net, dyn->pfid_iflags);
-		kt->pfrkt_larg = pfi_update;
-	}
-	pfr_dynaddr_update(kt, dyn);
-}
-
 void
 pfi_table_update(struct pfr_ktable *kt, struct pfi_kif *kif, int net, int flags)
 {
@@ -498,36 +412,6 @@ pfi_address_add(struct sockaddr *sa, int af, int net)
 		((caddr_t)p)[p->pfra_net/8] &= ~(0xFF >> (p->pfra_net%8));
 	for (i = (p->pfra_net+7)/8; i < sizeof(p->pfra_u); i++)
 		((caddr_t)p)[i] = 0;
-}
-
-void
-pfi_dynaddr_remove(struct pf_addr_wrap *aw)
-{
-	int	s;
-
-	if (aw->type != PF_ADDR_DYNIFTL || aw->p.dyn == NULL ||
-	    aw->p.dyn->pfid_kif == NULL || aw->p.dyn->pfid_kt == NULL)
-		return;
-
-	s = splsoftnet();
-	hook_disestablish(aw->p.dyn->pfid_kif->pfik_ah_head,
-	    aw->p.dyn->pfid_hook_cookie);
-	pfi_detach_rule(aw->p.dyn->pfid_kif);
-	aw->p.dyn->pfid_kif = NULL;
-	pfr_detach_table(aw->p.dyn->pfid_kt);
-	aw->p.dyn->pfid_kt = NULL;
-	pool_put(&pfi_addr_pl, aw->p.dyn);
-	aw->p.dyn = NULL;
-	splx(s);
-}
-
-void
-pfi_dynaddr_copyout(struct pf_addr_wrap *aw)
-{
-	if (aw->type != PF_ADDR_DYNIFTL || aw->p.dyn == NULL ||
-	    aw->p.dyn->pfid_kif == NULL)
-		return;
-	aw->p.dyncnt = aw->p.dyn->pfid_acnt4 + aw->p.dyn->pfid_acnt6;
 }
 
 void

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: vndioctl.h,v 1.5 2003/06/02 23:28:01 millert Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -39,6 +40,9 @@
  *	@(#)vnioctl.h	8.1 (Berkeley) 6/10/93
  */
 
+#ifndef	_DEV_VNDIOCTL_H
+#define	_DEV_VNDIOCTL_H
+
 /*
  * Ioctl definitions for file (vnode) disk pseudo-device.
  */
@@ -47,6 +51,8 @@ struct vnd_ioctl {
 	off_t	vnd_size;	/* (returned) size of disk */
 	u_char	*vnd_key;
 	int	vnd_keylen;
+	u_int32_t vnd_options;	/* mount options (for configure) */
+#define	VNDIOC_OPT_RDONLY  1	/* don't write to the underlying file */
 };
 
 /*
@@ -57,3 +63,5 @@ struct vnd_ioctl {
  */
 #define VNDIOCSET	_IOWR('F', 0, struct vnd_ioctl)	/* enable disk */
 #define VNDIOCCLR	_IOW('F', 1, struct vnd_ioctl)	/* disable disk */
+
+#endif	/* ndef _DEV_VNDIOCTL_H */

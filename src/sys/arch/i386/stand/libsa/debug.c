@@ -62,7 +62,7 @@ dump_regs(u_int trapno, u_int arg)
 
 	/* init cons mod */
 	save_cons = cn_tab;
-	bzero(&d_cons, sizeof(d_cons));
+	memset(&d_cons, 0, sizeof(d_cons));
 	d_cons.cn_putc = &d_putc;
 	cn_tab = &d_cons;
 
@@ -91,7 +91,7 @@ dump_mem(char *l, void *p, size_t n)
 
 	printf("%s [%p]:%s", l, p, (n > 6? "\n":" "));
 	for (i = 1; i <= n; i++)
-		printf("%x%c", *(u_int32_t *)p++, ((i%8)? ' ': '\n'));
+		printf("%X%c", *(u_int32_t *)p++, ((i%8)? ' ': '\n'));
 	if (n % 8)
 		printf("\n");
 }
@@ -106,7 +106,7 @@ d_putc(dev_t d, int c)
 	case '\n':	d_pos += 80;					break;
 	case '\r':	d_pos -= d_pos % 80;				break;
 	case '\b':	d_pos--;					break;
-	case '\f':	bzero((void *)VBASE, 80*25*2); d_pos = 0;	break;
+	case '\f':	memset((void *)VBASE, 0, 80*25*2); d_pos = 0;	break;
 		/* print it */
 	default:
 		((u_int16_t volatile *)VBASE)[d_pos++] = 0x0700 | (u_char)c;

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: tcp_subr.c,v 1.80 2004/05/07 14:42:27 millert Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
@@ -130,7 +131,7 @@ int	tcp_do_rfc1323 = TCP_DO_RFC1323;
 #endif
 int	tcp_do_sack = TCP_DO_SACK;		/* RFC 2018 selective ACKs */
 int	tcp_ack_on_push = 0;	/* set to enable immediate ACK-on-PUSH */
-int	tcp_do_ecn = 0;		/* RFC3168 ECN enabled/disabled? */
+int	tcp_do_ecn = 1;		/* RFC3168 ECN enabled/disabled? */
 int	tcp_do_rfc3390 = 0;	/* RFC3390 Increasing TCP's Initial Window */
 
 u_int32_t	tcp_now;
@@ -227,7 +228,7 @@ tcp_template(tp)
 	if ((m = tp->t_template) == 0) {
 		m = m_get(M_DONTWAIT, MT_HEADER);
 		if (m == NULL)
-			return (0);
+			return (NULL);
 
 		switch (tp->pf) {
 		case 0:	/*default to PF_INET*/
@@ -302,6 +303,8 @@ tcp_template(tp)
 		}
 		break;
 #endif /* INET6 */
+    default:
+	return (NULL);
 	}
 
 	th->th_sport = inp->inp_lport;
@@ -407,6 +410,8 @@ tcp_respond(tp, template, m, ack, seq, flags)
 			xchg(ti->ti_dst.s_addr, ti->ti_src.s_addr, u_int32_t);
 			th = (void *)((caddr_t)ti + sizeof(struct ip));
 			break;
+	default:
+	    return;
 		}
 		xchg(th->th_dport, th->th_sport, u_int16_t);
 #undef xchg
@@ -423,6 +428,8 @@ tcp_respond(tp, template, m, ack, seq, flags)
 		tlen += sizeof (struct tcpiphdr);
 		th = (struct tcphdr *)((caddr_t)ti + sizeof(struct ip));
 		break;
+    default:
+	return;
 	}
 
 	m->m_len = tlen;
@@ -691,19 +698,25 @@ tcp6_ctlinput(cmd, sa, d)
 	void *d;
 {
 	struct tcphdr th;
+	struct tcpcb *tp;
 	void (*notify)(struct inpcb *, int) = tcp_notify;
 	struct ip6_hdr *ip6;
 	const struct sockaddr_in6 *sa6_src = NULL;
 	struct sockaddr_in6 *sa6 = (struct sockaddr_in6 *)sa;
+	struct inpcb *inp;
 	struct mbuf *m;
+	tcp_seq seq;
 	int off;
 	struct {
 		u_int16_t th_sport;
 		u_int16_t th_dport;
+		u_int32_t th_seq;
 	} *thp;
 
 	if (sa->sa_family != AF_INET6 ||
-	    sa->sa_len != sizeof(struct sockaddr_in6))
+	    sa->sa_len != sizeof(struct sockaddr_in6) ||
+	    IN6_IS_ADDR_UNSPECIFIED(&sa6->sin6_addr) ||
+	    IN6_IS_ADDR_V4MAPPED(&sa6->sin6_addr))
 		return;
 	if ((unsigned)cmd >= PRC_NCMDS)
 		return;
@@ -729,6 +742,7 @@ tcp6_ctlinput(cmd, sa, d)
 	} else {
 		m = NULL;
 		ip6 = NULL;
+	off = 0;
 		sa6_src = &sa6_any;
 	}
 
@@ -749,19 +763,15 @@ tcp6_ctlinput(cmd, sa, d)
 #endif
 		m_copydata(m, off, sizeof(*thp), (caddr_t)&th);
 
+		/*
+		 * Check to see if we have a valid TCP connection
+		 * corresponding to the address in the ICMPv6 message
+		 * payload.
+		 */
+		inp = in6_pcbhashlookup(&tcbtable, &sa6->sin6_addr,
+		    th.th_dport, (struct in6_addr *)&sa6_src->sin6_addr,
+		    th.th_sport);
 		if (cmd == PRC_MSGSIZE) {
-			int valid = 0;
-
-			/*
-			 * Check to see if we have a valid TCP connection
-			 * corresponding to the address in the ICMPv6 message
-			 * payload.
-			 */
-			if (in6_pcbhashlookup(&tcbtable, &sa6->sin6_addr,
-			    th.th_dport, (struct in6_addr *)&sa6_src->sin6_addr,
-			    th.th_sport))
-				valid++;
-
 			/*
 			 * Depending on the value of "valid" and routing table
 			 * size (mtudisc_{hi,lo}wat), we will:
@@ -769,14 +779,17 @@ tcp6_ctlinput(cmd, sa, d)
 			 *   corresponding routing entry, or
 			 * - ignore the MTU change notification.
 			 */
-			icmp6_mtudisc_update((struct ip6ctlparam *)d, valid);
-
+			icmp6_mtudisc_update((struct ip6ctlparam *)d, inp != NULL);
 			return;
 		}
-
-		if (in6_pcbnotify(&tcbtable, sa, th.th_dport,
-		    (struct sockaddr *)sa6_src, th.th_sport, cmd, NULL, notify) == 0 &&
-		    syn_cache_count &&
+		if (inp) {
+			seq = ntohl(th.th_seq);
+			if (inp->inp_socket &&
+			    (tp = intotcpcb(inp)) &&
+			    SEQ_GEQ(seq, tp->snd_una) &&
+			    SEQ_LT(seq, tp->snd_max))
+				notify(inp, inet6ctlerrmap[cmd]);
+		} else if (syn_cache_count &&
 		    (inet6ctlerrmap[cmd] == EHOSTUNREACH ||
 		     inet6ctlerrmap[cmd] == ENETUNREACH ||
 		     inet6ctlerrmap[cmd] == EHOSTDOWN))
@@ -797,11 +810,18 @@ tcp_ctlinput(cmd, sa, v)
 {
 	struct ip *ip = v;
 	struct tcphdr *th;
+	struct tcpcb *tp;
+	struct inpcb *inp;
+	struct in_addr faddr;
+	tcp_seq seq;
 	extern int inetctlerrmap[];
 	void (*notify)(struct inpcb *, int) = tcp_notify;
 	int errno;
 
 	if (sa->sa_family != AF_INET)
+		return NULL;
+	faddr = satosin(sa)->sin_addr;
+	if (faddr.s_addr == INADDR_ANY)
 		return NULL;
 
 	if ((unsigned)cmd >= PRC_NCMDS)
@@ -811,24 +831,27 @@ tcp_ctlinput(cmd, sa, v)
 		notify = tcp_quench;
 	else if (PRC_IS_REDIRECT(cmd))
 		notify = in_rtchange, ip = 0;
-	else if (cmd == PRC_MSGSIZE && ip_mtudisc) {
-		th = (struct tcphdr *)((caddr_t)ip + (ip->ip_hl << 2));
+	else if (cmd == PRC_MSGSIZE && ip_mtudisc && ip) {
 		/*
 		 * Verify that the packet in the icmp payload refers
 		 * to an existing TCP connection.
 		 */
-		/*
-		 * XXX is it possible to get a valid PRC_MSGSIZE error for
-		 * a non-established connection?
-		 */
-		if (in_pcbhashlookup(&tcbtable,
-		    ip->ip_dst, th->th_dport, ip->ip_src, th->th_sport)) {
+		th = (struct tcphdr *)((caddr_t)ip + (ip->ip_hl << 2));
+		seq = ntohl(th->th_seq);
+		inp = in_pcbhashlookup(&tcbtable,
+		    ip->ip_dst, th->th_dport, ip->ip_src, th->th_sport);
+		if (inp && (tp = intotcpcb(inp)) &&
+		    SEQ_GEQ(seq, tp->snd_una) &&
+		    SEQ_LT(seq, tp->snd_max)) {
 			struct icmp *icp;
 			icp = (struct icmp *)((caddr_t)ip -
 					      offsetof(struct icmp, icmp_ip));
 
 			/* Calculate new mtu and create corresponding route */
 			icmp_mtudisc(icp);
+		} else {
+			/* ignore if we don't have a matching connection */
+			return NULL;
 		}
 		notify = tcp_mtudisc, ip = 0;
 	} else if (cmd == PRC_MTUINC)
@@ -840,9 +863,16 @@ tcp_ctlinput(cmd, sa, v)
 
 	if (ip) {
 		th = (struct tcphdr *)((caddr_t)ip + (ip->ip_hl << 2));
-		if (in_pcbnotify(&tcbtable, sa, th->th_dport, ip->ip_src,
-		    th->th_sport, errno, notify) == 0 &&
-		    syn_cache_count &&
+		inp = in_pcbhashlookup(&tcbtable,
+		    ip->ip_dst, th->th_dport, ip->ip_src, th->th_sport);
+		if (inp) {
+			seq = ntohl(th->th_seq);
+			if (inp->inp_socket &&
+			    (tp = intotcpcb(inp)) &&
+			    SEQ_GEQ(seq, tp->snd_una) &&
+			    SEQ_LT(seq, tp->snd_max))
+				notify(inp, errno);
+		} else if (syn_cache_count &&
 		    (inetctlerrmap[cmd] == EHOSTUNREACH ||
 		     inetctlerrmap[cmd] == ENETUNREACH ||
 		     inetctlerrmap[cmd] == EHOSTDOWN)) {
@@ -1069,4 +1099,3 @@ tcp_rndiss_next()
 	return ((tcp_rndiss_encrypt(tcp_rndiss_cnt++) | tcp_rndiss_msb) <<16) |
 		(arc4random() & 0x7fff);
 }
-

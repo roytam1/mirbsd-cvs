@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: com_pcmcia.c,v 1.37 2004/01/27 17:34:42 deraadt Exp $	*/
 /*	$NetBSD: com_pcmcia.c,v 1.15 1998/08/22 17:47:58 msaitoh Exp $	*/
 
@@ -318,7 +319,7 @@ found:
 		return;
 	}
 
-	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, psc->sc_pcioh.size);
+	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, (int)(psc->sc_pcioh.size));
 
 	sc->sc_iobase = -1;
 	sc->enable = com_pcmcia_enable;
@@ -338,7 +339,7 @@ found:
 
 #ifdef notyet
 	sc->enabled = 0;
-	
+
 	com_pcmcia_disable1(sc);
 #endif
 }
@@ -427,7 +428,7 @@ com_pcmcia_disable1(sc)
 	pcmcia_function_disable(psc->sc_pf);
 }
 
-/* 
+/*
  * XXX This should be handled by a generic attach
  */
 void
@@ -504,7 +505,7 @@ com_pcmcia_attach2(sc)
 	}
 #endif
 #endif
-	
+
 	/* Reset the LCR (latch access is probably enabled). */
 	bus_space_write_1(iot, ioh, com_lcr, lcr);
 	if (sc->sc_uarttype == COM_UART_16450) { /* Probe for 8250 */

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: wsdisplay.c,v 1.53 2004/03/09 22:41:57 miod Exp $ */
 /* $NetBSD: wsdisplay.c,v 1.37.4.1 2000/06/30 16:27:53 simonb Exp $ */
 
@@ -1261,7 +1262,20 @@ wsdisplay_cfg_ioctl(sc, cmd, data, flag, p)
 		return (0);
 
 	case WSDISPLAYIO_DELFONT:
-		return (EINVAL);
+		if (!sc->sc_accessops->delete_font)
+			return (EINVAL);
+		if (d->index <= 0 || d->index >= WSDISPLAY_MAXFONT)
+			return (EINVAL);
+
+		error =
+		  (*sc->sc_accessops->delete_font)(sc->sc_accesscookie, 0, d->index);
+		if (error)
+			return (error);
+
+		free(sc->sc_fonts[d->index].data, M_DEVBUF);
+		sc->sc_fonts[d->index].data = NULL;
+		sc->sc_fonts[d->index].name[0] = '\0';
+		return 0;
 #undef d
 
 #if NWSKBD > 0
@@ -1809,12 +1823,12 @@ wsdisplay_switch(dev, no, waitok)
 	if (!(scr->scr_flags & SCR_GRAPHICS) &&
 	    (sc->sc_scr[no]->scr_flags & SCR_GRAPHICS)) {
 		/* switching from a text console to a graphic console */
-	
+
 		/* remote a potential wsmoused(8) selection */
 		mouse_remove(sc);
 		wsmoused_release(sc);
 	}
-	
+
 	if ((scr->scr_flags & SCR_GRAPHICS) &&
 	    !(sc->sc_scr[no]->scr_flags & SCR_GRAPHICS)) {
 		/* switching from a graphic console to a text console */
@@ -2286,7 +2300,7 @@ button_event(int button, int clicks)
 int
 ctrl_event(u_int type, int value, struct wsdisplay_softc *ws_sc, struct proc *p)
 {
-	int i, error;
+	int i, error = 0;
 
 	if (type == WSCONS_EVENT_WSMOUSED_ON) {
 		if (!ws_sc->sc_accessops->getchar)
@@ -3210,10 +3224,10 @@ wsmoused_release(struct wsdisplay_softc *sc)
 		}
 
 		/* inject event to notify wsmoused(8) to close mouse device */
-		if (wsms_dev != NULL) 
+		if (wsms_dev != NULL)
 			wsmouse_input(wsms_dev, 0, 0, 0, 0,
 				      WSMOUSE_INPUT_WSMOUSED_CLOSE);
-		
+
 	}
 #endif /* NWSMOUSE > 0 */
 }

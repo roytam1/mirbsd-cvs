@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: socket.h,v 1.47 2004/02/24 21:43:56 tedu Exp $	*/
 /*	$NetBSD: socket.h,v 1.14 1996/02/09 18:25:36 christos Exp $	*/
 
@@ -444,9 +445,7 @@ int	socket(int, int, int);
 int	socketpair(int, int, int, int *);
 __END_DECLS
 #else
-# if defined(COMPAT_43) || defined(COMPAT_SUNOS) || defined(COMPAT_LINUX) || \
-     defined(COMPAT_HPUX) || defined(COMPAT_FREEBSD) || defined(COMPAT_BSDOS) \
-     || defined(COMPAT_OSF1)
+# if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 #  define COMPAT_OLDSOCK
 #  define MSG_COMPAT	0x8000
 # endif

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: locore.s,v 1.77 2004/02/01 19:05:23 deraadt Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -44,14 +45,8 @@
 
 #include <sys/errno.h>
 #include <sys/syscall.h>
-#ifdef COMPAT_SVR4
-#include <compat/svr4/svr4_syscall.h>
-#endif
 #ifdef COMPAT_LINUX
 #include <compat/linux/linux_syscall.h>
-#endif
-#ifdef COMPAT_FREEBSD
-#include <compat/freebsd/freebsd_syscall.h>
 #endif
 
 #include <machine/cputypes.h>
@@ -67,9 +62,9 @@
  * override user-land alignment before including asm.h
  */
 
-#define	ALIGN_DATA	.align  4
-#define	ALIGN_TEXT	.align  4,0x90	/* 4-byte boundaries, NOP-filled */
-#define	SUPERALIGN_TEXT	.align  16,0x90	/* 16-byte boundaries better for 486 */
+#define	ALIGN_DATA	.balign 4
+#define	ALIGN_TEXT	.balign 4,0x90	/* 4-byte boundaries, NOP-filled */
+#define	SUPERALIGN_TEXT	.balign 16,0x90	/* 16-byte boundaries better for 486 */
 #define _ALIGN_TEXT	ALIGN_TEXT
 #include <machine/asm.h>
 
@@ -659,32 +654,6 @@ _C_LABEL(esigcode):
 
 /*****************************************************************************/
 
-#ifdef COMPAT_SVR4
-NENTRY(svr4_sigcode)
-	call	*SVR4_SIGF_HANDLER(%esp)
-	leal	SVR4_SIGF_UC(%esp),%eax	# ucp (the call may have clobbered the
-					# copy at SIGF_UCP(%esp))
-#ifdef VM86
-	testl	$PSL_VM,SVR4_UC_EFLAGS(%eax)
-	jnz	1f
-#endif
-	movl	SVR4_UC_FS(%eax),%ecx
-	movl	SVR4_UC_GS(%eax),%edx
-	movw	%cx,%fs
-	movw	%dx,%gs
-1:	pushl	%eax
-	pushl	$1			# setcontext(p) == syscontext(1, p)
-	pushl	%eax			# junk to fake return address
-	movl	$SVR4_SYS_context,%eax
-	int	$0x80			# enter kernel with args on stack
-	movl	$SVR4_SYS_exit,%eax
-	int	$0x80			# exit if sigreturn fails
-	.globl	_C_LABEL(svr4_esigcode)
-_C_LABEL(svr4_esigcode):
-#endif
-
-/*****************************************************************************/
-
 #ifdef COMPAT_LINUX
 /*
  * Signal trampoline; copied to top of user stack.
@@ -708,26 +677,6 @@ NENTRY(linux_sigcode)
 	int	$0x80			# exit if sigreturn fails
 	.globl	_C_LABEL(linux_esigcode)
 _C_LABEL(linux_esigcode):
-#endif
-
-/*****************************************************************************/
-
-#ifdef COMPAT_FREEBSD
-/*
- * Signal trampoline; copied to top of user stack.
- */
-NENTRY(freebsd_sigcode)
-	call	*FREEBSD_SIGF_HANDLER(%esp)
-	leal	FREEBSD_SIGF_SC(%esp),%eax # scp (the call may have clobbered
-					# the copy at SIGF_SCP(%esp))
-	pushl	%eax
-	pushl	%eax			# junk to fake return address
-	movl	$FREEBSD_SYS_sigreturn,%eax
-	int	$0x80			# enter kernel with args on stack
-	movl	$FREEBSD_SYS_exit,%eax
-	int	$0x80			# exit if sigreturn fails
-	.globl	_C_LABEL(freebsd_esigcode)
-_C_LABEL(freebsd_esigcode):
 #endif
 
 /*****************************************************************************/
@@ -816,7 +765,17 @@ ENTRY(kcopy)
 	popl	%esi
 	xorl	%eax,%eax
 	ret
-	
+
+/*
+ * Emulate memcpy() by swapping the first two arguments and calling bcopy()
+ */
+ALTENTRY(memmove)
+ENTRY(memcpy)
+	movl	4(%esp),%ecx
+	xchg	8(%esp),%ecx
+	movl	%ecx,4(%esp)
+	/* FALLTHRU */
+
 /*
  * bcopy(caddr_t from, caddr_t to, size_t len);
  * Copy len bytes.
@@ -864,15 +823,6 @@ ENTRY(bcopy)
 	cld
 	ret
 
-/*
- * Emulate memcpy() by swapping the first two arguments and calling bcopy()
- */
-ENTRY(memcpy)
-	movl	4(%esp),%ecx
-	xchg	8(%esp),%ecx
-	movl	%ecx,4(%esp)
-	jmp	_C_LABEL(bcopy)
-
 /*****************************************************************************/
 
 /*
@@ -887,8 +837,8 @@ ENTRY(memcpy)
 ENTRY(copyout)
 	pushl	%esi
 	pushl	%edi
-	pushl	$0	
-	
+	pushl	$0
+
 	movl	16(%esp),%esi
 	movl	20(%esp),%edi
 	movl	24(%esp),%eax

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pf_norm.c,v 1.87 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -1568,7 +1569,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 		 * measurement of RTT (round trip time) and PAWS
 		 * (protection against wrapped sequence numbers).  PAWS
 		 * gives us a set of rules for rejecting packets on
-		 * long fat pipes (packets that were somehow delayed 
+		 * long fat pipes (packets that were somehow delayed
 		 * in transit longer than the time it took to send the
 		 * full TCP sequence space of 4Gb).  We can use these
 		 * rules and infer a few others that will let us treat
@@ -1665,14 +1666,17 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			        tsval_from_last) ? '1' : ' ',
 			    SEQ_GT(tsecr, dst->scrub->pfss_tsval) ? '2' : ' ',
 			    SEQ_LT(tsecr, dst->scrub->pfss_tsval0)? '3' : ' '));
-			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %lu  idle: %lus %lums\n",
-			    tsval, tsecr, tsval_from_last, delta_ts.tv_sec,
+			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %lu  idle: %llus %lums\n",
+			    (unsigned long)tsval, (unsigned long)tsecr,
+			    (unsigned long)tsval_from_last, delta_ts.tv_sec,
 			    delta_ts.tv_usec / 1000));
 			DPFPRINTF((" src->tsval: %lu  tsecr: %lu\n",
-			    src->scrub->pfss_tsval, src->scrub->pfss_tsecr));
+			    (unsigned long)src->scrub->pfss_tsval,
+			    (unsigned long)src->scrub->pfss_tsecr));
 			DPFPRINTF((" dst->tsval: %lu  tsecr: %lu  tsval0: %lu\n",
-			    dst->scrub->pfss_tsval, dst->scrub->pfss_tsecr,
-			    dst->scrub->pfss_tsval0));
+			    (unsigned long)dst->scrub->pfss_tsval,
+			    (unsigned long)dst->scrub->pfss_tsecr,
+			    (unsigned long)dst->scrub->pfss_tsval0));
 			if (pf_status.debug >= PF_DEBUG_MISC) {
 				pf_print_state(state);
 				pf_print_flags(th->th_flags);

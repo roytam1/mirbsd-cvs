@@ -49,9 +49,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_l4timer.c,v 1.4 2002/03/16 16:56:04 martin Exp $
 #include <sys/socket.h>
 #include <net/if.h>
 
-#if defined(__NetBSD__) && __NetBSD_Version__ >= 104230000
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #ifdef __FreeBSD__
 #include <machine/i4b_debug.h>

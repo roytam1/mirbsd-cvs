@@ -1,7 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: diskprobe.c,v 1.26 2004/03/19 13:48:18 tom Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
+ * Copyright (c) 2002, 2003
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,7 +30,7 @@
  *
  */
 
-/* We want the disk type names from disklabel.h */
+/* We don't want the disk type names from disklabel.h */
 #undef DKTYPENAMES
 
 #include <sys/param.h>
@@ -36,12 +39,15 @@
 #include <sys/disklabel.h>
 #include <stand/boot/bootarg.h>
 #include <machine/biosvar.h>
+#define	_BSD_STANDXX
 #include <lib/libz/zlib.h>
 #include "disk.h"
 #include "biosdev.h"
 #include "libsa.h"
 
 #define MAX_CKSUMLEN MAXBSIZE / DEV_BSIZE	/* Max # of blks to cksum */
+
+extern u_int32_t tori_bootflag;
 
 /* Local Prototypes */
 static int disksum(int);
@@ -64,7 +70,7 @@ floppyprobe(void)
 	/* Floppies */
 	for (i = 0; i < 4; i++) {
 		dip = alloc(sizeof(struct diskinfo));
-		bzero(dip, sizeof(*dip));
+		memset(dip, 0, sizeof(*dip));
 
 		if (bios_getdiskinfo(i, &dip->bios_info)) {
 #ifdef BIOS_DEBUG
@@ -79,13 +85,7 @@ floppyprobe(void)
 
 		/* Fill out best we can - (fd?) */
 		dip->bios_info.bsd_dev = MAKEBOOTDEV(2, 0, 0, i, RAW_PART);
-
-		/*
-		 * Delay reading the disklabel until we're sure we want
-		 * to boot from the floppy. Doing this avoids a delay
-		 * (sometimes very long) when trying to read the label
-		 * and the drive is unplugged.
-		 */
+		/* Defer disklabel lookup until it is needed */
 		dip->bios_info.flags |= BDI_BADLABEL;
 
 		/* Add to queue of disks */
@@ -102,12 +102,25 @@ hardprobe(void)
 	int i;
 	u_int bsdunit, type;
 	u_int scsi = 0, ide = 0;
-	const char *dc = (const char *)((0x40 << 4) + 0x75);
+
+	/* CD-ROM */
+	if (tori_bootflag) {
+		printf(" cd0");
+		dip = alloc(sizeof(struct diskinfo));
+		memset(dip, 0, sizeof(*dip));
+		dip->bios_info.bsd_dev = MAKEBOOTDEV(6, 0, 0, 0, RAW_PART);
+		dip->bios_info.flags |= (BDI_INVALID | BDI_ELTORITO);
+		dip->bios_info.bios_number = tori_bootflag & 0xFF;
+		TAILQ_INSERT_TAIL(&disklist, dip, list);
+	}
 
 	/* Hard disks */
-	for (i = 0x80; i < (0x80 + *dc); i++) {
+	for (i = 0x80; i < 0x88; i++) {
+		if ((tori_bootflag) && (i == (tori_bootflag & 0xFF)))
+			continue;
+
 		dip = alloc(sizeof(struct diskinfo));
-		bzero(dip, sizeof(*dip));
+		memset(dip, 0, sizeof(*dip));
 
 		if (bios_getdiskinfo(i, &dip->bios_info)) {
 #ifdef BIOS_DEBUG
@@ -121,7 +134,7 @@ hardprobe(void)
 		printf(" hd%u%s", i&0x7f, (dip->bios_info.bios_edd > 0?"+":""));
 
 		/* Try to find the label, to figure out device type */
-		if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
+		if (bios_getdisklabel(&dip->bios_info, &dip->disklabel) != NULL) {
 			printf("*");
 			bsdunit = ide++;
 			type = 0;	/* XXX let it be IDE */
@@ -211,9 +224,10 @@ dklookup(int dev)
 {
 	struct diskinfo *dip;
 
-	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
-		if (dip->bios_info.bios_number == dev)
-			return dip;
+	for(dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
+		if((dip->bios_info.bios_number == dev) &&
+		    !(dip->bios_info.flags & BDI_ELTORITO))
+			return(dip);
 
 	return NULL;
 }
@@ -228,9 +242,10 @@ dump_diskinfo(void)
 		bios_diskinfo_t *bdi = &dip->bios_info;
 		int d = bdi->bios_number;
 
-		printf("%cd%d\t0x%x\t%s\t%d\t%d\t%d\t0x%x\t0x%x\n",
-		    (d & 0x80)?'h':'f', d & 0x7F, d,
-		    (bdi->flags & BDI_BADLABEL)?"*none*":"label",
+		printf("%cd%d\t0x%X\t%s\t%d\t%d\t%d\t0x%X\t0x%X\n",
+		    (bdi->flags & BDI_ELTORITO) ? 'c' : ((d & 0x80)?'h':'f'),
+		    (bdi->flags & BDI_ELTORITO) ?  0  : d & 0x7F, d,
+			(bdi->flags & BDI_BADLABEL)?"*none*":"label",
 		    bdi->bios_cylinders, bdi->bios_heads, bdi->bios_sectors,
 		    bdi->flags, bdi->checksum);
 	}

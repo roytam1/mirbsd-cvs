@@ -833,7 +833,7 @@ ccdbuffer(cs, bp, bn, addr, bcount, cbpp, old_io)
 	struct ccdbuf *cbp;
 	daddr_t cbn, cboff, sblk;
 	int ccdisk, off;
-	long old_bcount, cnt;
+	long old_bcount = 0, cnt;
 	struct ccdiinfo *ii;
 	struct buf *nbp;
 

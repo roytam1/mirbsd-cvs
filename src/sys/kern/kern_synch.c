@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: kern_synch.c,v 1.54 2004/01/26 01:27:02 deraadt Exp $	*/
 /*	$NetBSD: kern_synch.c,v 1.37 1996/04/22 01:38:37 christos Exp $	*/
 
@@ -153,7 +154,7 @@ roundrobin(arg)
  * We now need to prove two things:
  *	1) Given factor ** (5 * loadavg) ~= .1, prove factor == b/(b+1)
  *	2) Given b/(b+1) ** power ~= .1, prove power == (5 * loadavg)
- *	
+ *
  * Facts:
  *         For x close to zero, exp(x) =~ 1 + x, since
  *              exp(x) = 0! + x**1/1! + x**2/2! + ... .
@@ -707,7 +708,7 @@ mi_switch()
 	 */
 	microtime(&tv);
 	if (timercmp(&tv, &runtime, <)) {
-#if 0
+#ifdef	DEBUG
 		printf("time is not monotonic! "
 		    "tv=%ld.%06ld, runtime=%ld.%06ld\n",
 		    tv.tv_sec, tv.tv_usec, runtime.tv_sec, runtime.tv_usec);
@@ -729,6 +730,21 @@ mi_switch()
 			psignal(p, SIGXCPU);
 			if (rlim->rlim_cur < rlim->rlim_max)
 				rlim->rlim_cur += 5;
+		}
+	  } else {
+		rlim = &p->p_rlimit[RLIMIT_TIME];
+		if (rlim->rlim_cur != RLIM_INFINITY) {
+			if ((time.tv_sec - p->p_stats->p_start.tv_sec)
+			    >= rlim->rlim_cur) {
+				if ((time.tv_sec - p->p_stats->p_start.tv_sec)
+				    >= rlim->rlim_max)
+					psignal(p, SIGKILL);
+				 else {
+					psignal(p, SIGXCPU);
+					if (rlim->rlim_cur < rlim->rlim_max)
+						rlim->rlim_cur += 5;
+				}
+			}
 		}
 	}
 
@@ -863,7 +879,7 @@ db_show_all_procs(addr, haddr, count, modif)
 	char *mode;
 	int doingzomb = 0;
 	struct proc *p, *pp;
-    
+
 	if (modif[0] == 0)
 		modif[0] = 'n';			/* default == normal mode */
 
@@ -877,7 +893,7 @@ db_show_all_procs(addr, haddr, count, modif)
 		db_printf("\t/w == show process wait/emul info\n");
 		return;
 	}
-	
+
 	p = LIST_FIRST(&allproc);
 
 	switch (*mode) {
@@ -922,7 +938,7 @@ db_show_all_procs(addr, haddr, count, modif)
 			case 'w':
 				db_printf("%-16s  %-8s  %18p  %s\n", p->p_comm,
 				    p->p_emul->e_name, p->p_wchan,
-				    (p->p_wchan && p->p_wmesg) ? 
+				    (p->p_wchan && p->p_wmesg) ?
 					p->p_wmesg : "");
 				break;
 

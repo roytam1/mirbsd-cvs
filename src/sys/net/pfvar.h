@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pfvar.h,v 1.194 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -75,7 +76,7 @@ enum	{ PF_LIMIT_STATES, PF_LIMIT_SRC_NODES, PF_LIMIT_FRAGS, PF_LIMIT_MAX };
 #define PF_POOL_IDMASK		0x0f
 enum	{ PF_POOL_NONE, PF_POOL_BITMASK, PF_POOL_RANDOM,
 	  PF_POOL_SRCHASH, PF_POOL_ROUNDROBIN };
-enum	{ PF_ADDR_ADDRMASK, PF_ADDR_NOROUTE, PF_ADDR_DYNIFTL,
+enum	{ PF_ADDR_ADDRMASK, PF_ADDR_NOROUTE, PF_ADDR_DYNIFTL_doesnotwork,
 	  PF_ADDR_TABLE };
 #define PF_POOL_TYPEMASK	0x0f
 #define PF_POOL_STICKYADDR	0x20
@@ -280,8 +281,6 @@ struct pfi_dynaddr {
 		    pf_routable((x), (af))) ||			\
 		((aw)->type == PF_ADDR_TABLE &&			\
 		    !pfr_match_addr((aw)->p.tbl, (x), (af))) ||	\
-		((aw)->type == PF_ADDR_DYNIFTL &&		\
-		    !pfi_match_addr((aw)->p.dyn, (x), (af))) || \
 		((aw)->type == PF_ADDR_ADDRMASK &&		\
 		    !PF_AZERO(&(aw)->v.a.mask, (af)) &&		\
 		    !PF_MATCHA(0, &(aw)->v.a.addr,		\
@@ -1444,9 +1443,6 @@ struct pfi_kif	*pfi_attach_rule(const char *);
 void		 pfi_detach_rule(struct pfi_kif *);
 void		 pfi_attach_state(struct pfi_kif *);
 void		 pfi_detach_state(struct pfi_kif *);
-int		 pfi_dynaddr_setup(struct pf_addr_wrap *, sa_family_t);
-void		 pfi_dynaddr_copyout(struct pf_addr_wrap *);
-void		 pfi_dynaddr_remove(struct pf_addr_wrap *);
 void		 pfi_fill_oldstatus(struct pf_status *);
 int		 pfi_clr_istats(const char *, int *, int);
 int		 pfi_get_ifaces(const char *, struct pfi_if *, int *, int);

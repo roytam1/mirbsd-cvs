@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: if_wi_pcmcia.c,v 1.47 2004/05/03 16:58:11 drahn Exp $ */
 /* $NetBSD: if_wi_pcmcia.c,v 1.14 2001/11/26 04:34:56 ichiro Exp $ */
 
@@ -334,7 +335,7 @@ wi_pcmcia_attach(parent, self, aux)
 	}
 	state++;
 
-	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, psc->sc_pcioh.size);
+	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, (int)(psc->sc_pcioh.size));
 
 	sc->wi_ltag = sc->wi_btag = psc->sc_pcioh.iot;
 	sc->wi_lhandle = sc->wi_bhandle = psc->sc_pcioh.ioh;

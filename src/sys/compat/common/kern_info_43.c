@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kern_info_43.c,v 1.15 2003/08/15 20:32:15 tedu Exp $	*/
 /*	$NetBSD: kern_info_43.c,v 1.5 1996/02/04 02:02:22 christos Exp $	*/
 
@@ -54,13 +55,14 @@
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
 
+#if defined(COMPAT_OPENBSD)
+
 int
 compat_43_sys_getdtablesize(p, v, retval)
 	struct proc *p;
 	void *v;
 	register_t *retval;
 {
-
 	*retval = min((int)p->p_rlimit[RLIMIT_NOFILE].rlim_cur, maxfiles);
 	return (0);
 }
@@ -73,7 +75,6 @@ compat_43_sys_gethostid(p, v, retval)
 	void *v;
 	register_t *retval;
 {
-
 	*(int32_t *)retval = hostid;
 	return (0);
 }
@@ -111,7 +112,7 @@ compat_43_sys_gethostname(p, v, retval)
 /*
  * The string data is appended to the end of the bsdi_si structure during
  * copyout. The "char *" offsets in the bsdi_si struct are relative to the
- * base of the bsdi_si struct. 
+ * base of the bsdi_si struct.
  */
 struct bsdi_si {
         char    *machine;
@@ -148,7 +149,7 @@ struct bsdi_si {
  * limited kernel stack...  -Peter
  */
 
-struct {      
+struct {
 	char    *bsdi_machine;          /* "i386" on BSD/386 */
 	char    *pad0;
 	long    pad1;
@@ -160,15 +161,15 @@ struct {
 
 	char    *bsdi_ostype;           /* "BSD/386" on BSD/386 */
 	char    *bsdi_osrelease;        /* "1.1" on BSD/386 */
-	long    pad7;   
+	long    pad7;
 	long    pad8;
 	char    *pad9;
 
 	long    pad10;
-	long    pad11;  
+	long    pad11;
 	int     pad12;
-	long    pad13; 
-	quad_t  pad14; 
+	long    pad13;
+	quad_t  pad14;
 	long    pad15;
 
 	struct  timeval pad16;
@@ -257,7 +258,7 @@ compat_43_sys_getkerninfo(p, v, retval)
 		    kern_sysctl(name, 1, SCARG(uap, where), &size, NULL, 0, p);
 		break;
 
-	case KINFO_BSDI_SYSINFO: { 
+	case KINFO_BSDI_SYSINFO: {
 		/*
 		 * this is pretty crude, but it's just enough for uname()
 		 * from BSDI's 1.x libc to work.
@@ -303,7 +304,7 @@ compat_43_sys_getkerninfo(p, v, retval)
 		/* how much of the buffer is remaining */
 		left = size;
 
-		if ((error = copyout((char *)&bsdi_si, SCARG(uap, where), 
+		if ((error = copyout((char *)&bsdi_si, SCARG(uap, where),
 		    left)) != 0)
 			break;
 
@@ -349,8 +350,9 @@ compat_43_sys_sethostid(p, v, retval)
 	hostid = SCARG(uap, hostid);
 	return (0);
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /* ARGSUSED */
 int
 compat_43_sys_sethostname(p, v, retval)
@@ -368,3 +370,4 @@ compat_43_sys_sethostname(p, v, retval)
 	return (kern_sysctl(&name, 1, 0, 0, SCARG(uap, hostname),
 			    SCARG(uap, len), p));
 }
+#endif

@@ -1,7 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.68 2004/08/12 07:48:53 otto Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
 /*
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1989, 1991, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -122,7 +125,7 @@ ffs_mountroot()
 	swapdev_vp = NULL;
 	if ((error = bdevvp(swapdev, &swapdev_vp)) ||
 	    (error = bdevvp(rootdev, &rootvp))) {
-		printf("ffs_mountroot: can't setup bdevvp's\n");
+		printf("ffs_mountroot: can't setup bdevvps\n");
 		if (swapdev_vp)
 			vrele(swapdev_vp);
 		return (error);
@@ -172,7 +175,7 @@ ffs_mount(mp, path, data, ndp, p)
 	struct ufsmount *ump = NULL;
 	register struct fs *fs;
 	int error = 0, flags;
-	int ronly;
+	int ronly = 0;
 	mode_t accessmode;
 	size_t size;
 
@@ -314,7 +317,7 @@ ffs_mount(mp, path, data, ndp, p)
 			/*
 			 * Process export requests.
 			 */
-			error = vfs_export(mp, &ump->um_export, 
+			error = vfs_export(mp, &ump->um_export,
 			    &args.export_info);
 			if (error)
 				goto error_1;
@@ -439,6 +442,8 @@ success:
 			else
 				fs->fs_flags &= ~FS_DOSOFTDEP;
 		}
+		/* Add randomness, in case it's remount r/o */
+		fs->fs_firstfield = arc4random();
 		ffs_sbupdate(ump, MNT_WAIT);
 	}
 	return (0);
@@ -458,7 +463,7 @@ struct ffs_reload_args {
 };
 
 int
-ffs_reload_vnode(struct vnode *vp, void *args) 
+ffs_reload_vnode(struct vnode *vp, void *args)
 {
 	struct ffs_reload_args *fra = args;
 	struct inode *ip;
@@ -485,7 +490,7 @@ ffs_reload_vnode(struct vnode *vp, void *args)
 	 * Step 6: re-read inode data for all active vnodes.
 	 */
 	ip = VTOI(vp);
-	error = bread(fra->devvp, 
+	error = bread(fra->devvp,
 	    fsbtodb(fra->fs, ino_to_fsba(fra->fs, ip->i_number)),
 	    (int)fra->fs->fs_bsize, NOCRED, &bp);
 	if (error) {
@@ -665,6 +670,18 @@ ffs_mountfs(devvp, mp, p)
 	if (error)
 		goto out;
 	fs = (struct fs *)bp->b_data;
+
+	/*
+	 * MirOS ffs specific: add true (first two) and pseudo (last)
+	 * randomness from superblock
+	 */
+	rnd_addpool_add(fs->fs_firstfield);
+	rnd_addpool_add(fs->fs_unused_1);
+	rnd_addpool_add(fs->fs_id[0] ^ arc4random());
+	rnd_addpool_add(fs->fs_id[1] ^ (fs->fs_time + fs->fs_fscktime));
+	fs->fs_firstfield = arc4random();
+	fs->fs_unused_1 = arc4random();
+
 	if (fs->fs_magic != FS_UFS1_MAGIC || (u_int)fs->fs_bsize > MAXBSIZE ||
 	    fs->fs_bsize < sizeof(struct fs) ||
 	    (u_int)fs->fs_sbsize > SBSIZE) {
@@ -915,10 +932,14 @@ ffs_unmount(mp, mntflags, p)
 		ufs_extattr_uepm_destroy(&ump->um_extattr);
 	}
 #endif
+	/* MirOS specific: write randomness into superblock */
+	get_random_bytes(&(fs->fs_unused_1), 4);
 	if (mp->mnt_flag & MNT_SOFTDEP)
 		error = softdep_flushfiles(mp, flags, p);
 	else
 		error = ffs_flushfiles(mp, flags, p);
+	/* another piece of randomness */
+	fs->fs_firstfield = arc4random();
 	if (error != 0)
 		return (error);
 
@@ -1037,7 +1058,7 @@ ffs_sync_vnode(struct vnode *vp, void *arg) {
 
 	ip = VTOI(vp);
 	if (fsa->waitfor == MNT_LAZY ||
-	    vp->v_type == VNON || 
+	    vp->v_type == VNON ||
 	    ((ip->i_flag &
 		(IN_ACCESS | IN_CHANGE | IN_MODIFIED | IN_UPDATE)) == 0	&&
 		LIST_EMPTY(&vp->v_dirtyblkhd)) ) {
@@ -1061,7 +1082,7 @@ ffs_sync_vnode(struct vnode *vp, void *arg) {
  * go through the inodes to write those that have been modified;
  * initiate the writing of the super block if it has been modified.
  *
- * Note: we are always called with the filesystem marked `MPBUSY'.
+ * Note: we are always called with the filesystem marked 'MPBUSY'.
  */
 int
 ffs_sync(mp, waitfor, cred, p)
@@ -1106,7 +1127,7 @@ ffs_sync(mp, waitfor, cred, p)
 		if ((error = softdep_flushworklist(ump->um_mountp, &count, p)))
 			allerror = error;
 		/* Flushed work items may create new vnodes to clean */
-		if (count) 
+		if (count)
 			goto loop;
 	}
 	if (waitfor != MNT_LAZY) {
@@ -1183,7 +1204,7 @@ retry:
 	 * disk portion of this inode to be read.
 	 */
 	error = ufs_ihashins(ip);
-	
+
 	if (error) {
 		/*
 		 * VOP_INACTIVE will treat this as a stale file
@@ -1342,7 +1363,7 @@ ffs_sbupdate(mp, waitfor)
 	bp = getblk(mp->um_devvp, SBOFF >> (fs->fs_fshift - fs->fs_fsbtodb),
 		    (int)fs->fs_sbsize, 0, 0);
 	fs->fs_fmod = 0;
-	fs->fs_time = time_second;
+	fs->fs_time = time.tv_sec;
 	bcopy((caddr_t)fs, bp->b_data, (u_int)fs->fs_sbsize);
 	/* Restore compatibility to old file systems.		   XXX */
 	dfs = (struct fs *)bp->b_data;				/* XXX */

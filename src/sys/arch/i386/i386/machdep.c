@@ -1,4 +1,5 @@
-/*	$OpenBSD: machdep.c,v 1.291 2004/05/04 17:06:33 grange Exp $	*/
+/**	$MirOS$ */
+/*	$OpenBSD: machdep.c,v 1.303 2004/07/02 16:29:55 niklas Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
@@ -191,7 +192,7 @@ int	cpu_apmhalt = 0;	/* sysctl'd to 1 for halt -p hack */
 #endif
 
 #ifdef USER_LDT
-int	user_ldt_enable = 0;	/* sysctl'd to 1 to enable */
+int	user_ldt_enable = 1;	/* sysctl'd to 0 to disable */
 #endif
 
 #ifdef	NBUF
@@ -245,7 +246,10 @@ struct vm_map *phys_map = NULL;
 
 int kbd_reset;
 int p4_model;
+int p3_step;
 int setperf_prio = 0;		/* for concurrent handlers */
+
+void (*update_cpuspeed)(void) = NULL;
 
 /*
  * Extent maps to manage I/O and ISA memory hole space.  Allocate
@@ -327,7 +331,8 @@ void	tm86_cpu_setup(const char *, int, int);
 char *	intel686_cpu_name(int);
 char *	cyrix3_cpu_name(int, int);
 char *	tm86_cpu_name(int);
-int	p4_cpuspeed(int *);
+void	p4_update_cpuspeed(void);
+void	p3_update_cpuspeed(void);
 int	pentium_cpuspeed(int *);
 
 #if defined(I486_CPU) || defined(I586_CPU) || defined(I686_CPU)
@@ -425,7 +430,7 @@ cpu_startup()
 	phys_map = uvm_km_suballoc(kernel_map, &minaddr, &maxaddr,
 				   VM_PHYS_SIZE, 0, FALSE, NULL);
 
-	printf("avail mem = %lu (%uK)\n", ptoa(uvmexp.free),
+	printf("avail mem = %lu (%luK)\n", ptoa(uvmexp.free),
 	    ptoa(uvmexp.free)/1024);
 	printf("using %d buffers containing %u bytes (%uK) of memory\n",
 		nbuf, bufpages * PAGE_SIZE, bufpages * PAGE_SIZE / 1024);
@@ -522,7 +527,7 @@ allocsys(v)
 	/* Restrict to at most 35% filled kvm */
 	/* XXX - This needs UBC... */
 	if (nbuf >
-	    (VM_MAX_KERNEL_ADDRESS-VM_MIN_KERNEL_ADDRESS) / MAXBSIZE * 35 / 100) 
+	    (VM_MAX_KERNEL_ADDRESS-VM_MIN_KERNEL_ADDRESS) / MAXBSIZE * 35 / 100)
 		nbuf = (VM_MAX_KERNEL_ADDRESS-VM_MIN_KERNEL_ADDRESS) /
 		    MAXBSIZE * 35 / 100;
 
@@ -634,7 +639,7 @@ setup_buffers(maxaddr)
 	pmap_update(pmap_kernel());
 }
 
-/*  
+/*
  * Info for CTL_HW
  */
 char	cpu_model[120];
@@ -681,7 +686,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 		"Intel",
 		/* Family 4 */
 		{ {
-			CPUCLASS_486, 
+			CPUCLASS_486,
 			{
 				"486DX", "486DX", "486SX", "486DX2", "486SL",
 				"486SX2", 0, "486DX2 W/B",
@@ -772,7 +777,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 		"AMD",
 		/* Family 4 */
 		{ {
-			CPUCLASS_486, 
+			CPUCLASS_486,
 			{
 				0, 0, 0, "Am486DX2 W/T",
 				0, 0, 0, "Am486DX2 W/B",
@@ -803,7 +808,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 				"Duron Model 3",
 				"Athlon Model 4",
 				0, "Athlon XP Model 6",
-				"Duron Model 7", 
+				"Duron Model 7",
 				"Athlon XP Model 8",
 				0, "Athlon XP Model 10",
 				0, 0, 0, 0, 0,
@@ -896,7 +901,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 		"IDT",
 		/* Family 4, not available from IDT */
 		{ {
-			CPUCLASS_486, 
+			CPUCLASS_486,
 			{
 				0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0,
@@ -934,7 +939,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 		"Rise",
 		/* Family 4, not available from Rise */
 		{ {
-			CPUCLASS_486, 
+			CPUCLASS_486,
 			{
 				0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0,
@@ -969,7 +974,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 		"Transmeta",
 		/* Family 4, not available from Transmeta */
 		{ {
-			CPUCLASS_486, 
+			CPUCLASS_486,
 			{
 				0, 0, 0, 0, 0, 0, 0, 0,
 				0, 0, 0, 0, 0, 0, 0, 0,
@@ -1142,7 +1147,7 @@ cyrix3_cpu_setup(cpu_device, model, step)
 		if (step < 3)
 			break;
 
-		/* 
+		/*
 		 * C3 Nehemiah:
 		 * First we check for extended feature flags, and then
 		 * (if present) retrieve the ones at 0xC0000001.  In this
@@ -1322,6 +1327,7 @@ amd_family6_setup(cpu_device, model, step)
 		pagezero = sse2_pagezero;
 	else
 		pagezero = i686_pagezero;
+	k7_powernow_init(1);
 #endif
 }
 
@@ -1354,7 +1360,6 @@ intel686_common_cpu_setup(const char *cpu_device, int model, int step)
 		pagezero = sse2_pagezero;
 	else
 		pagezero = i686_pagezero;
-	pagezero = bzero;
 	}
 #endif
 }
@@ -1385,6 +1390,12 @@ intel686_cpu_setup(const char *cpu_device, int model, int step)
 		cpu_feature &= ~CPUID_SER;
 		cpuid_level = 2;
 	}
+
+#if !defined(SMALL_KERNEL) && defined(I686_CPU)
+	p3_step = step;
+	update_cpuspeed = p3_update_cpuspeed;
+	update_cpuspeed();
+#endif
 }
 
 void
@@ -1393,10 +1404,9 @@ intel686_p4_cpu_setup(const char *cpu_device, int model, int step)
 	intel686_common_cpu_setup(cpu_device, model, step);
 
 #if !defined(SMALL_KERNEL) && defined(I686_CPU)
-	if (cpu_cpuspeed == NULL) {
-		p4_model = model;
-		cpu_cpuspeed = p4_cpuspeed;
-	}
+	p4_model = model;
+	update_cpuspeed = p4_update_cpuspeed;
+	update_cpuspeed();
 #endif
 }
 
@@ -1481,7 +1491,7 @@ tm86_cpu_name(model)
 	case 4:
 		if (((regs[1] >> 16) & 0xff) >= 0x3)
 			name = "TMS5800";
-		else 
+		else
 			name = "TMS5600";
 	}
 
@@ -1502,7 +1512,7 @@ identifycpu()
 	const char *name, *modifier, *vendorname, *token;
 	const char *cpu_device = "cpu0";
 	int class = CPUCLASS_386, vendor, i, max;
-	int family, model, step, modif, cachesize;
+	int family = 0, model, step, modif, cachesize;
 	const struct cpu_cpuid_nameclass *cpup = NULL;
 	void (*cpu_setup)(const char *, int, int);
 	char *brandstr_from, *brandstr_to;
@@ -1593,7 +1603,7 @@ identifycpu()
 				   model == 7) {
 				name = cyrix3_cpu_name(model, step);
 			/* Special hack for the TMS5x00 series. */
-			} else if (vendor == CPUVENDOR_TRANSMETA && 
+			} else if (vendor == CPUVENDOR_TRANSMETA &&
 				  family == 5 && model == 4) {
 				name = tm86_cpu_name(model);
 			} else
@@ -1702,7 +1712,7 @@ identifycpu()
 
 #ifndef SMALL_KERNEL
 #if defined(I586_CPU) || defined(I686_CPU)
-	if (cpu_cpuspeed == NULL && pentium_mhz != 0)
+	if (pentium_mhz != 0)
 		cpu_cpuspeed = pentium_cpuspeed;
 #endif
 #endif
@@ -1800,11 +1810,11 @@ identifycpu()
 
 #ifndef SMALL_KERNEL
 #ifdef I686_CPU
-int
-p4_cpuspeed(int *freq)
+void
+p4_update_cpuspeed(void)
 {
 	u_int64_t msr;
-	int bus, mult;
+	int bus, mult, freq;
 
 	msr = rdmsr(MSR_EBC_FREQUENCY_ID);
 	if (p4_model < 2) {
@@ -1832,12 +1842,42 @@ p4_cpuspeed(int *freq)
 		}
 	}
 	mult = ((msr >> 24) & 0xff);
-	*freq = bus * mult;
+	freq = bus * mult;
 	/* 133MHz actually means 133.(3)MHz */
 	if (bus == 133)
-		*freq += mult / 3;
+		freq += mult / 3;
 
-	return (0);
+	pentium_mhz = freq;
+}
+
+void
+p3_update_cpuspeed(void)
+{
+	u_int64_t msr;
+	int bus, mult;
+	const u_int8_t mult_code[] = {
+	    50, 30, 40, 0, 55, 35, 45, 0, 0, 70, 80, 60, 0, 75, 0, 65 };
+
+	msr = rdmsr(MSR_EBL_CR_POWERON);
+	bus = (msr >> 18) & 0x3;
+	switch (bus) {
+	case 0:
+		bus = 66;
+		break;
+	case 1:
+		bus = 133;
+		break;
+	case 2:
+		bus = 100;
+		break;
+	}
+
+	mult = (msr >> 22) & 0xf;
+	mult = mult_code[mult];
+	if (p3_step > 1)
+		mult += ((msr >> 27) & 0x1) * 40;
+
+	pentium_mhz = (bus * mult) / 10;
 }
 #endif	/* I686_CPU */
 
@@ -1850,23 +1890,6 @@ pentium_cpuspeed(int *freq)
 }
 #endif
 #endif	/* !SMALL_KERNEL */
-
-#ifdef COMPAT_IBCS2
-void ibcs2_sendsig(sig_t, int, int, u_long, int, union sigval);
-
-void
-ibcs2_sendsig(catcher, sig, mask, code, type, val)
-	sig_t catcher;
-	int sig, mask;
-	u_long code;
-	int type;
-	union sigval val;
-{
-	extern int bsd_to_ibcs2_sig[];
-
-	sendsig(catcher, bsd_to_ibcs2_sig[sig], mask, code, type, val);
-}
-#endif
 
 /*
  * Send an interrupt to process.
@@ -1893,7 +1916,7 @@ sendsig(catcher, sig, mask, code, type, val)
 	struct sigacts *psp = p->p_sigacts;
 	int oonstack = psp->ps_sigstk.ss_flags & SS_ONSTACK;
 
-	/* 
+	/*
 	 * Build the argument list for the signal handler.
 	 */
 	frame.sf_signum = sig;
@@ -1976,7 +1999,7 @@ sendsig(catcher, sig, mask, code, type, val)
 	tf->tf_es = GSEL(GUDATA_SEL, SEL_UPL);
 	tf->tf_ds = GSEL(GUDATA_SEL, SEL_UPL);
 	tf->tf_eip = p->p_sigcode;
-	tf->tf_cs = pmap->pm_hiexec > I386_MAX_EXE_ADDR ? 
+	tf->tf_cs = pmap->pm_hiexec > I386_MAX_EXE_ADDR ?
 	    GSEL(GUCODE1_SEL, SEL_UPL) : GSEL(GUCODE_SEL, SEL_UPL);
 	tf->tf_eflags &= ~(PSL_T|PSL_VM|PSL_AC);
 	tf->tf_esp = (int)fp;
@@ -2388,7 +2411,7 @@ setregs(p, pack, stack, retval)
 	tf->tf_ebp = 0;
 	tf->tf_ebx = (int)PS_STRINGS;
 	tf->tf_eip = pack->ep_entry;
-	tf->tf_cs = pmap->pm_hiexec > I386_MAX_EXE_ADDR ? 
+	tf->tf_cs = pmap->pm_hiexec > I386_MAX_EXE_ADDR ?
 	    LSEL(LUCODE1_SEL, SEL_UPL) : LSEL(LUCODE_SEL, SEL_UPL);
 	tf->tf_eflags = PSL_USERSET;
 	tf->tf_esp = stack;
@@ -2664,8 +2687,9 @@ init386(paddr_t first_avail)
 
 			if (extent_alloc_region(iomem_ex, a, e - a, EX_NOWAIT))
 				/* XXX What should we do? */
-				printf("\nWARNING: CAN'T ALLOCATE RAM (%x-%x)"
-				    " FROM IOMEM EXTENT MAP!\n", a, e);
+				printf("\nWARNING: CAN'T ALLOCATE RAM (%lx-%lx)"
+				    " FROM IOMEM EXTENT MAP!\n", (unsigned long) a,
+				    (unsigned long) e);
 
 			physmem += atop(e - a);
 			dumpmem[i].start = atop(a);
@@ -2895,15 +2919,15 @@ cpu_reset()
 	 * entire address space.
 	 */
 	bzero((caddr_t)PTD, NBPG);
-	tlbflush(); 
+	tlbflush();
 #endif
 
 	for (;;);
 }
 
-/*  
+/*
  * machine dependent system variables.
- */ 
+ */
 int
 cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	int *name;
@@ -2948,11 +2972,11 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return sysctl_rdstruct(oldp, oldlenp, newp, &dev, sizeof(dev));
 	case CPU_ALLOWAPERTURE:
 #ifdef APERTURE
-		if (securelevel > 0) 
-			return (sysctl_rdint(oldp, oldlenp, newp, 
+		if (securelevel > 0)
+			return (sysctl_rdint(oldp, oldlenp, newp,
 			    allowaperture));
 		else
-			return (sysctl_int(oldp, oldlenp, newp, newlen, 
+			return (sysctl_int(oldp, oldlenp, newp, newlen,
 			    &allowaperture));
 #else
 		return (sysctl_rdint(oldp, oldlenp, newp, 0));
@@ -2970,11 +2994,11 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_int(oldp, oldlenp, newp, newlen, &cpu_apmhalt));
 #endif
 	case CPU_KBDRESET:
-		if (securelevel > 0) 
-			return (sysctl_rdint(oldp, oldlenp, newp, 
+		if (securelevel > 0)
+			return (sysctl_rdint(oldp, oldlenp, newp,
 			    kbd_reset));
 		else
-			return (sysctl_int(oldp, oldlenp, newp, newlen, 
+			return (sysctl_int(oldp, oldlenp, newp, newlen,
 			    &kbd_reset));
 #ifdef USER_LDT
 	case CPU_USERLDT:
@@ -3298,7 +3322,7 @@ ok:
 	}
 }
 
-void    
+void
 bus_space_free(t, bsh, size)
 	bus_space_tag_t t;
 	bus_space_handle_t bsh;

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: errno.h,v 1.12 2004/07/13 21:03:39 marc Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
@@ -36,6 +37,9 @@
  *
  *	@(#)errno.h	8.5 (Berkeley) 1/21/94
  */
+
+#ifndef	_SYS_ERRNO_H
+#define	_SYS_ERRNO_H
 
 #ifndef _KERNEL
 extern int errno;			/* global error number */
@@ -163,6 +167,7 @@ __END_DECLS
 #endif /* _POSIX_SOURCE */
 
 #define	ENOLCK		77		/* No locks available */
+#define	ENOCOFFEE	78		/* Programmer needs more coffee */
 #define	ENOSYS		78		/* Function not implemented */
 
 #ifndef _POSIX_SOURCE
@@ -179,3 +184,5 @@ __END_DECLS
 #define	ERESTART	-1		/* restart syscall */
 #define	EJUSTRETURN	-2		/* don't modify regs, just return */
 #endif
+
+#endif	/* !def _SYS_ERRNO_H */

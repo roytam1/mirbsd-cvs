@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: printf.c,v 1.22 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: printf.c,v 1.10 1996/11/30 04:19:21 gwr Exp $	*/
 
@@ -157,6 +158,7 @@ reswitch:	switch (ch = *fmt++) {
 			put('0');
 			put('x');
 			lflag += sizeof(void *)==sizeof(u_long)? 1 : 0;
+		case 'X':
 		case 'x':
 			ul = lflag ?
 			    va_arg(ap, u_long) : va_arg(ap, u_int);
@@ -180,7 +182,7 @@ kprintn(void (*put)(int), unsigned long ul, int base)
 
 	p = buf;
 	do {
-		*p++ = "0123456789abcdef"[ul % base];
+		*p++ = "0123456789ABCDEF"[ul % base];
 	} while (ul /= base);
 	do {
 		put(*--p);

@@ -52,9 +52,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_l2fsm.c,v 1.6 2002/09/27 15:37:55 provos Exp $")
 #include <sys/socket.h>
 #include <net/if.h>
 
-#if defined(__NetBSD__) && __NetBSD_Version__ >= 104230000
-#include <sys/callout.h>
-#endif
+#include <sys/timeout.h>
 
 #ifdef __FreeBSD__
 #include <machine/i4b_debug.h>

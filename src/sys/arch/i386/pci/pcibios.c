@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pcibios.c,v 1.29 2003/06/03 20:10:32 mickey Exp $	*/
 /*	$NetBSD: pcibios.c,v 1.5 2000/08/01 05:23:59 uch Exp $	*/
 
@@ -159,9 +160,10 @@ pcibiosprobe(parent, match, aux)
 	rv = bios32_service(PCIBIOS_SIGNATURE, &pcibios_entry,
 		&pcibios_entry_info);
 
-	PCIBIOS_PRINTV(("pcibiosprobe: 0x%lx:0x%lx at 0x%lx[0x%lx]\n",
+	PCIBIOS_PRINTV(("pcibiosprobe: 0x%x:0x%x at 0x%lx[0x%lx]\n",
 	    pcibios_entry.segment, pcibios_entry.offset,
-	    pcibios_entry_info.bei_base, pcibios_entry_info.bei_size));
+	    (unsigned long) pcibios_entry_info.bei_base,
+	    (unsigned long) pcibios_entry_info.bei_size));
 
 	return rv &&
 	    pcibios_get_status(NULL, &rev_maj, &rev_min, &mech1, &mech2,
@@ -248,11 +250,11 @@ pcibios_pir_init(sc)
 
 	pcibios_pir_table = NULL;
 	for (pa = PCI_IRQ_TABLE_START; pa < PCI_IRQ_TABLE_END; pa += 16) {
-		u_int8_t *p, cksum;
+		u_int8_t cksum, *p = ISA_HOLE_VADDR(pa);
 		struct pcibios_pir_header *pirh;
 		int i;
 
-		pirh = (struct pcibios_pir_header *)p = ISA_HOLE_VADDR(pa);
+		pirh = (struct pcibios_pir_header *)p;
 		/*
 		 * Some laptops (such as the Toshiba Libretto L series)
 		 * use _PIR instead of the standard $PIR for the signature

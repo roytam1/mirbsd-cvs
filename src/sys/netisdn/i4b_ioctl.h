@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1997, 2000 Hellmuth Michaelis. All rights reserved.
  *
@@ -25,13 +27,6 @@
  *---------------------------------------------------------------------------
  *
  *	i4b_ioctl.h - messages kernel <--> userland
- *	-------------------------------------------
- *
- *	$Id$ 
- *
- * $FreeBSD$
- *
- *      last edit-date: [Tue Oct 10 15:30:55 2000]
  *
  *---------------------------------------------------------------------------*/
 
@@ -503,10 +498,11 @@ typedef struct {
 typedef struct {
 	int	controller;	/* controller number			*/
 	int	ncontroller;	/* number of controllers in system	*/
-	int	maxbri;		/* highest available BRI number		*/
+	int	max_isdnif;	/* highest available ISDN interface num */
 	int	tei;		/* tei controller probably has		*/
 	char	devname[64];	/* autoconfig device name, i.e. "isic0"	*/
 	char	cardname[80];	/* human readable brand / version	*/
+	int	nbch;		/* number of B channels provided	*/
 } msg_ctrl_info_req_t;
 	
 #define	I4B_CTRL_INFO_REQ	_IOWR('4', 4, msg_ctrl_info_req_t)

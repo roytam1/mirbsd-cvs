@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: deflate.c,v 1.3 2001/08/20 02:45:22 hugh Exp $ */
 
 /*
@@ -36,7 +37,6 @@
 #include <sys/malloc.h>
 #include <sys/param.h>
 #include <sys/systm.h>
-#include <net/zlib.h>
 #include <crypto/deflate.h>
 
 int window_inflate = -1 * MAX_WBITS;
@@ -73,7 +73,7 @@ deflate_global(data, size, comp, out)
 	zbuf.avail_in = size;	/* Total length of data to be processed */
 
 	if (comp == 0) {
-		MALLOC(buf[i].out, u_int8_t *, (u_long) size, M_CRYPTO_DATA, 
+		MALLOC(buf[i].out, u_int8_t *, (u_long) size, M_CRYPTO_DATA,
 		    M_NOWAIT);
 		if (buf[i].out == NULL)
 			goto bad;
@@ -88,7 +88,7 @@ deflate_global(data, size, comp, out)
 	 	 * updated while the decompression is going on
 	 	 */
 
-		MALLOC(buf[i].out, u_int8_t *, (u_long) (size * 4), 
+		MALLOC(buf[i].out, u_int8_t *, (u_long) (size * 4),
 		    M_CRYPTO_DATA, M_NOWAIT);
 		if (buf[i].out == NULL)
 			goto bad;

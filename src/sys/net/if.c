@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if.c,v 1.87 2004/04/28 01:20:29 deraadt Exp $	*/
 /*	$NetBSD: if.c,v 1.35 1996/05/07 05:26:04 thorpej Exp $	*/
 
@@ -207,7 +208,7 @@ if_attachsetup(ifp)
 	if (ifnet_addrs == 0 || ifindex2ifnet == 0 || if_index >= if_indexlim) {
 		size_t m, n, oldlim;
 		caddr_t q;
-		
+
 		oldlim = if_indexlim;
 		if (if_indexlim == 0)
 			if_indexlim = 8;
@@ -629,7 +630,7 @@ if_detach_queues(ifp, q)
 		m_freem(m);
 		IF_DROP(q);
 	}
-} 
+}
 
 /*
  * Create a clone network interface.
@@ -1234,7 +1235,7 @@ ifioctl(so, cmd, data, p)
 	default:
 		if (so->so_proto == 0)
 			return (EOPNOTSUPP);
-#if !defined(COMPAT_43) && !defined(COMPAT_LINUX) && !defined(COMPAT_SVR4)
+#if !defined(COMPAT_43) && !defined(COMPAT_LINUX)
 		error = ((*so->so_proto->pr_usrreq)(so, PRU_CONTROL,
 			(struct mbuf *) cmd, (struct mbuf *) data,
 			(struct mbuf *) ifp));
@@ -1329,10 +1330,10 @@ ifconf(cmd, data)
 
 			if (TAILQ_EMPTY(&ifp->if_addrlist))
 				space += sizeof (ifr);
-			else 
+			else
 				TAILQ_FOREACH(ifa, &ifp->if_addrlist, ifa_list) {
 					sa = ifa->ifa_addr;
-#if defined(COMPAT_43) || defined(COMPAT_LINUX) || defined(COMPAT_SVR4)
+#if defined(COMPAT_43) || defined(COMPAT_LINUX)
 					if (cmd != OSIOCGIFCONF)
 #endif
 					if (sa->sa_len > sizeof(*sa))
@@ -1356,13 +1357,13 @@ ifconf(cmd, data)
 			if (error)
 				break;
 			space -= sizeof (ifr), ifrp++;
-		} else 
+		} else
 			for (ifa = TAILQ_FIRST(&ifp->if_addrlist);
 			    space >= sizeof (ifr) &&
 			    ifa != TAILQ_END(&ifp->if_addrlist);
 			    ifa = TAILQ_NEXT(ifa, ifa_list)) {
 				struct sockaddr *sa = ifa->ifa_addr;
-#if defined(COMPAT_43) || defined(COMPAT_LINUX) || defined(COMPAT_SVR4)
+#if defined(COMPAT_43) || defined(COMPAT_LINUX)
 				if (cmd == OSIOCGIFCONF) {
 					struct osockaddr *osa =
 					    (struct osockaddr *)&ifr.ifr_addr;

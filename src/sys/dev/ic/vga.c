@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: vga.c,v 1.32 2004/02/27 17:44:44 millert Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
@@ -118,26 +119,11 @@ static const struct wsdisplay_emulops vga_emulops = {
  * translate WS(=ANSI) color codes to standard pc ones
  */
 static unsigned char fgansitopc[] = {
-#ifdef __alpha__
-	/*
-	 * XXX DEC HAS SWITCHED THE CODES FOR BLUE AND RED!!!
-	 * XXX We should probably not bother with this
-	 * XXX (reinitialize the palette registers).
-	 */
-	FG_BLACK, FG_BLUE, FG_GREEN, FG_CYAN, FG_RED,
-	FG_MAGENTA, FG_BROWN, FG_LIGHTGREY
-#else
 	FG_BLACK, FG_RED, FG_GREEN, FG_BROWN, FG_BLUE,
 	FG_MAGENTA, FG_CYAN, FG_LIGHTGREY
-#endif
 }, bgansitopc[] = {
-#ifdef __alpha__
-	BG_BLACK, BG_BLUE, BG_GREEN, BG_CYAN, BG_RED,
-	BG_MAGENTA, BG_BROWN, BG_LIGHTGREY
-#else
 	BG_BLACK, BG_RED, BG_GREEN, BG_BROWN, BG_BLUE,
 	BG_MAGENTA, BG_CYAN, BG_LIGHTGREY
-#endif
 };
 
 const struct wsscreen_descr vga_stdscreen = {
@@ -220,6 +206,7 @@ void	vga_free_screen(void *, void *);
 int	vga_show_screen(void *, void *, int,
 			void (*) (void *, int, int), void *);
 int	vga_load_font(void *, void *, struct wsdisplay_font *);
+int	vga_delete_font(void *, void *, int);
 void	vga_scrollback(void *, void *, int);
 void	vga_burner(void *v, u_int on, u_int flags);
 u_int16_t vga_getchar(void *, int, int);
@@ -235,7 +222,9 @@ const struct wsdisplay_accessops vga_accessops = {
 	vga_load_font,
 	vga_scrollback,
 	vga_getchar,
-	vga_burner
+	vga_burner,
+	NULL,			/* pollc */
+	vga_delete_font
 };
 
 /*
@@ -880,6 +869,31 @@ vga_load_font(v, cookie, data)
 	return (0);
 }
 
+int
+vga_delete_font(v, cookie, idx)
+	void *v;
+	void *cookie;
+	int idx;
+{
+	struct vga_config *vc = v;
+	struct vgascreen *scr;
+	struct vgafont *f;
+
+	if (idx <= 0 || idx >= 8)
+		return (EINVAL);
+
+	f = vc->vc_fonts[idx];
+	LIST_FOREACH(scr, &vc->screens, next) {
+		if (f == scr->fontset1 || f == scr->fontset2)
+			return (EINVAL);
+	}
+
+	free(f, M_DEVBUF);
+	vc->vc_fonts[idx] = 0;
+
+	return 0;
+}
+
 void
 vga_scrollback(v, cookie, lines)
 	void *v;
@@ -919,7 +933,7 @@ vga_scrollback(v, cookie, lines)
 			p = st;
 		scr->pcs.visibleoffset = (p + ul) % we;
 	}
-	
+
 	/* update visible position */
 	vga_6845_write(vh, startadrh, scr->pcs.visibleoffset >> 9);
 	vga_6845_write(vh, startadrl, scr->pcs.visibleoffset >> 1);
@@ -1269,9 +1283,9 @@ vga_getchar(c, row, col)
 	int row, col;
 {
 	struct vga_config *vc = c;
-	
+
 	return (pcdisplay_getchar(vc->active, row, col));
-}	
+}
 
 struct cfdriver vga_cd = {
 	NULL, "vga", DV_DULL

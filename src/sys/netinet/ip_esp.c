@@ -467,7 +467,7 @@ int
 esp_input_cb(void *op)
 {
 	u_int8_t lastthree[3], aalg[AH_HMAC_HASHLEN];
-	int s, hlen, roff, skip, protoff, error;
+	int s, hlen, roff, skip, protoff, error = 0;
 	struct mbuf *m1, *mo, *m;
 	struct auth_hash *esph;
 	struct tdb_crypto *tc;
@@ -985,7 +985,7 @@ esp_output_cb(void *op)
 	struct tdb_crypto *tc;
 	struct tdb *tdb;
 	struct mbuf *m;
-	int error, s;
+	int error = 0, s;
 
 	tc = (struct tdb_crypto *) crp->crp_opaque;
 

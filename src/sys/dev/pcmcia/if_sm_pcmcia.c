@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_sm_pcmcia.c,v 1.21 2004/05/12 06:35:11 tedu Exp $	*/
 /*	$NetBSD: if_sm_pcmcia.c,v 1.11 1998/08/15 20:47:32 thorpej Exp $  */
 
@@ -188,7 +189,7 @@ sm_pcmcia_attach(parent, self, aux)
 		return;
 	}
 
-	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, psc->sc_pcioh.size);
+	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, (int)(psc->sc_pcioh.size));
 
 	/*
 	 * First try to get the Ethernet address from FUNCE/LANNID tuple.

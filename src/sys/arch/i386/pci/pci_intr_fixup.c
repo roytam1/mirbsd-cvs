@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pci_intr_fixup.c,v 1.32 2004/02/24 19:30:00 markus Exp $	*/
 /*	$NetBSD: pci_intr_fixup.c,v 1.10 2000/08/10 21:18:27 soda Exp $	*/
 
@@ -26,6 +27,7 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -62,6 +64,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*
  * Copyright (c) 1999, by UCHIYAMA Yasushi
  * All rights reserved.
@@ -664,16 +667,15 @@ pci_intr_header_fixup(pc, tag, ihp)
 		p = " fixed up";
 		ihp->line = l->irq;
 
-	} else {
+	} else if (pcibios_flags & PCIBIOS_FIXUP_FORCE) {
 		/* routed by BIOS, but inconsistent */
-#ifdef PCIBIOS_INTR_FIXUP_FORCE
 		/* believe PCI IRQ Routing table */
 		p = " WARNING: overriding";
 		ihp->line = l->irq;
-#else
+	} else {
+		/* routed by BIOS, but inconsistent */
 		/* believe PCI Interrupt Configuration Register (default) */
 		p = " WARNING: preserving";
-#endif
 	}
 
 	if (pcibios_flags & PCIBIOS_INTRDEBUG) {

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ncr.c,v 1.68 2003/11/07 10:16:45 jmc Exp $	*/
 /*	$NetBSD: ncr.c,v 1.63 1997/09/23 02:39:15 perry Exp $	*/
 
@@ -1159,7 +1160,7 @@ struct ncb {
 	u_char		maxsync;	/* Maximum sync period factor	*/
 	u_char		maxoffs;	/* Max scsi offset		*/
 	u_char		clock_divn;	/* Number of clock divisors	*/
-	u_long		clock_khz;	/* SCSI clock frequency in KHz	*/
+	u_long		clock_khz;	/* SCSI clock frequency in kHz	*/
 	u_long		features;	/* Chip features map		*/
 	u_char		multiplier;	/* Clock multiplier (1,2,4)	*/
 
@@ -1411,7 +1412,7 @@ static	int	ncr_intr	(void *vnp);
 #else
 static	void	ncr_intr	(void *vnp);
 static  u_int32_t ncr_info	(int unit);
-#endif	/* !__OpenBSD__ */	
+#endif	/* !__OpenBSD__ */
 static	void	ncr_int_ma	(ncb_p np, u_char dstat);
 static	void	ncr_int_sir	(ncb_p np);
 static  void    ncr_int_sto     (ncb_p np);
@@ -3508,7 +3509,7 @@ static ncr_chip ncr_chip_table[] = {
 static int ncr_chip_lookup(u_long device_id, u_char revision_id)
 {
 	int i, found;
-	
+
 	found = -1;
 	for (i = 0; i < sizeof(ncr_chip_table)/sizeof(ncr_chip_table[0]); i++) {
 		if (device_id	== ncr_chip_table[i].device_id &&
@@ -3861,7 +3862,7 @@ static	void ncr_attach (pcici_t config_id, int unit)
 	np->maxwide	= np->features & FE_WIDE ? 1 : 0;
 #ifdef NEED_PCI_SCSI_CLOCK_FUNC
 	{
-	int b, d, f; 
+	int b, d, f;
         pci_decompose_tag(pc, pa->pa_tag, &b, &d, &f); \
 	if((np->clock_khz = pci_scsi_clock(pc, b, d)) == 0)
 		np->clock_khz	= np->features & FE_CLK80 ? 80000 : 40000;
@@ -3979,7 +3980,7 @@ static	void ncr_attach (pcici_t config_id, int unit)
 			np->rv_dcntl	|= PFEN;  /* Prefetch Enable */
 		if (np->features & FE_DFS)
 			np->rv_ctest5	|= DFS;	  /* Dma Fifo Size */
-		if (np->features & FE_DIFF)	
+		if (np->features & FE_DIFF)
 			np->rv_stest2	|= 0x20;  /* Differential mode */
 		ncr_init_burst(np, np->maxburst); /* Max dwords burst length */
 	} else {
@@ -4101,7 +4102,7 @@ static	void ncr_attach (pcici_t config_id, int unit)
 			np->rv_stest2 & 0x20 ? "differential" : "single-ended",
 			np->rv_dcntl & IRQM ? "totem pole" : "open drain",
 			ISSCRIPTRAMMAPPED(np) ? ", using on-chip SRAM" : "");
-			
+
 	/*
 	**	Patch scripts to physical addresses
 	*/
@@ -4252,7 +4253,7 @@ static	void ncr_attach (pcici_t config_id, int unit)
 			printf ("%s%d..%d ", txt_and, myaddr +1, t_to);
 		printf ("(V%d " NCR_DATE ")\n", NCR_VERSION);
 	}
-		
+
 	scsi_attachdevs (scbus);
 	scbus = NULL;   /* Upper-level SCSI code owns this now */
 #else
@@ -4448,7 +4449,7 @@ static int32_t ncr_start (struct scsi_xfer * xp)
 #if defined(__mips__)
 	if (xp->data && xp->datalen) {
 		pci_sync_cache(np->sc_pc, (vm_offset_t)xp->data, xp->datalen);
-	} 
+	}
 	pci_sync_cache(np->sc_pc, (vm_offset_t)xp->cmd, xp->cmdlen);
 	pci_sync_cache(np->sc_pc, (vm_offset_t)&xp->sense, sizeof(struct scsi_sense_data));
 #endif /* __mips__ */
@@ -6467,7 +6468,7 @@ static void ncr_int_ma (ncb_p np, u_char dstat)
 		printf ("internal error: cmd=%02x != %02x=(vdsp[0] >> 24)\n",
 			(unsigned)cmd,
 			(unsigned)READSCRIPT_OFF(vdsp_base, vdsp_off) >> 24);
-		
+
 		return;
 	}
 	if (cmd & 0x06) {
@@ -7859,7 +7860,7 @@ static void ncr_selectclock(ncb_p np, u_char scntl3)
 }
 
 /*
- *	calculate NCR SCSI clock frequency (in KHz)
+ *	calculate NCR SCSI clock frequency (in kHz)
  */
 static unsigned
 ncrgetfreq (ncb_p np, int gen)
@@ -7902,7 +7903,7 @@ ncrgetfreq (ncb_p np, int gen)
 	if (bootverbose >= 2)
 	  	printf ("\tDelay (GEN=%d): %u msec\n", gen, ms);
 	/*
-	 * adjust for prescaler, and convert into KHz
+	 * adjust for prescaler, and convert into kHz
 	 */
 	return ms ? ((1 << gen) * 4440) / ms : 0;
 }
@@ -7913,7 +7914,7 @@ static void ncr_getclock (ncb_p np, u_char multiplier)
 	unsigned char stest1;
 	scntl3 = INB(nc_scntl3);
 	stest1 = INB(nc_stest1);
-	
+
 	np->multiplier = 1;
 	/* always false, except for 875 with clock doubler selected */
 	if ((stest1 & (DBLEN+DBLSEL)) == DBLEN+DBLSEL) {
@@ -7928,7 +7929,7 @@ static void ncr_getclock (ncb_p np, u_char multiplier)
 			f2 = ncrgetfreq (np, 11);
 
 			if (bootverbose >= 2)
-			  printf ("\tNCR clock is %uKHz, %uKHz\n", f1, f2);
+			  printf ("\tNCR clock is %ukHz, %ukHz\n", f1, f2);
 			if (f1 > f2) f1 = f2;	/* trust lower result	*/
 			if (f1 > 45000) {
 				scntl3 = 5;	/* >45MHz: assume 80MHz	*/

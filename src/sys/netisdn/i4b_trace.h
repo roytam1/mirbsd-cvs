@@ -43,7 +43,7 @@
  *---------------------------------------------------------------------------*/
 typedef struct i4b_trace_hdr {
 	int length;		/* length of the following mbuf		*/
-	int bri;		/* controllers current bri number	*/
+	int isdnif;		/* controllers current isdnif number	*/
 	int type;		/* type of channel			*/
 #define TRC_CH_I	0		/* Layer 1 INFO's		*/
 #define TRC_CH_D 	1		/* D channel 			*/

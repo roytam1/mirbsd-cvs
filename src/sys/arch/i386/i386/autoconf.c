@@ -1,7 +1,10 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
 /*-
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -38,7 +41,7 @@
 /*
  * Setup the system to run on the current machine.
  *
- * cpu_configure() is called at boot time and initializes the vba 
+ * cpu_configure() is called at boot time and initializes the vba
  * device tables and the memory controller monitoring.  Available
  * devices are determined (from possibilities mentioned in ioconf.c),
  * and the drivers are initialized.
@@ -75,6 +78,7 @@ void diskconf(void);
  * the machine.
  */
 dev_t	bootdev = 0;		/* bootdevice, initialized in locore.s */
+char	root_devname[16];
 
 /* Support for VIA C3 RNG */
 #ifdef I686_CPU
@@ -264,7 +268,9 @@ setroot()
 	 * If the original rootdev is the same as the one
 	 * just calculated, don't need to adjust the swap configuration.
 	 */
-	printf("root on %s%d%c\n", findblkname(majdev), unit, part + 'a');
+	snprintf(root_devname, 16, "%s%d%c", \
+	    findblkname(majdev), unit, part + 'a');
+	printf("root on %s\n", root_devname);
 	if (rootdev == orootdev)
 		return;
 
@@ -358,13 +364,31 @@ rootconf()
 #ifdef INSTALL
 	if (B_TYPE(bootdev) == 2) {
 		printf("\n\nInsert file system floppy...\n");
-		if (!(boothowto & RB_ASKNAME))
+		if (!(boothowto & RB_ASKNAME)) {
+			cnpollc(TRUE);
 			cngetc();
+			cnpollc(FALSE);
+		}
 	}
 #endif
 
+#ifdef	RAMDISK_HOOKS
+	{
+		char name[128] = "rd0a";
+		extern size_t rd_root_image_siz;
+		extern char rd_root_image_cmp[], rd_root_image[];
+
+		if (boothowto & RB_ASKNAME)
+			goto retry;
+		if (!strncmp(rd_root_image, rd_root_image_cmp,
+		    rd_root_image_siz))
+			goto noask;
+		boothowto |= RB_ASKNAME;
+		goto ramtry;
+#else
 	if (boothowto & RB_ASKNAME) {
 		char name[128];
+#endif
 retry:
 		printf("root device? ");
 		cnpollc(TRUE);
@@ -372,6 +396,9 @@ retry:
 		cnpollc(FALSE);
 		if (*name == '\0')
 			goto noask;
+#ifdef	RAMDISK_HOOKS
+ramtry:
+#endif
 		for (gc = genericconf; gc->gc_driver; gc++)
 			if (gc->gc_driver->cd_ndevs &&
 			    strncmp(gc->gc_name, name,
@@ -402,8 +429,9 @@ retry:
 			    gc->gc_driver->cd_devs[unit] == NULL) {
 				printf("%d: no such unit\n", unit);
 			} else {
-				printf("root on %s%d%c\n", gc->gc_name, unit,
-				    'a' + part);
+				snprintf(root_devname, 16, "%s%d%c", \
+				    gc->gc_name, unit, part + 'a');
+				printf("root on %s\n", root_devname);
 				rootdev = makedev(gc->gc_major,
 				    unit * MAXPARTITIONS + part);
 				goto doswap;
@@ -422,7 +450,7 @@ retry:
 	}
 noask:
 	if (mountroot == NULL) {
-		/* `swap generic' */
+		/* 'swap generic' */
 		setroot();
 	} else {
 		/* preconfigured */
@@ -433,7 +461,9 @@ noask:
 			return;
 		part = minor(rootdev) % MAXPARTITIONS;
 		unit = minor(rootdev) / MAXPARTITIONS;
-		printf("root on %s%d%c\n", findblkname(majdev), unit, part + 'a');
+		snprintf(root_devname, 16, "%s%d%c", \
+		    findblkname(majdev), unit, part + 'a');
+		printf("root on %s\n", root_devname);
 		return;
 	}
 

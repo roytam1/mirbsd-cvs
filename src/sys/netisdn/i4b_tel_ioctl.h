@@ -44,9 +44,9 @@
  
 /* supported audio format conversions */
 
-#define CVT_NONE	0		/* no A-law/u-law conversion     */
-#define CVT_ALAW2ULAW	1		/* ISDN line: A-law, user: u-law */
-#define CVT_ULAW2ALAW	2		/* ISDN line: u-law, user: A-law */
+#define CVT_NONE	0		/* no A-law/mu-law conversion     */
+#define CVT_ALAW2ULAW	1		/* ISDN line: A-law, user: mu-law */
+#define CVT_ULAW2ALAW	2		/* ISDN line: mu-law, user: A-law */
       
 /*---------------------------------------------------------------------------*
  *	get / set audio format 

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: ipx_cksum.c,v 1.6 2003/12/10 07:22:43 itojun Exp $	*/
 
 /*-
@@ -38,8 +39,8 @@
 
 #include <sys/param.h>
 #include <sys/mbuf.h>
-
 #include <netipx/ipx.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internetwork Packet Exchange Packets (Big-Endian).
@@ -200,6 +201,7 @@ commoncase:
 		sum += sum;
 		FOLD(sum);
 	}
+	rnd_addpool_add(sum);
 	/*
 	 * sum has already been kept to low sixteen bits.
 	 * just examine result and exit.

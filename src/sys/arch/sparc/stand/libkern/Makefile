@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.3 2003/06/01 17:00:39 deraadt Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.3 2003/06/01 17:00:39 deraadt Exp $
 
 LIB=	kern
 
@@ -24,8 +25,7 @@ SRCS+=	saveregs.S
 
 ${OBJS}:	${.CURDIR}/../Makefile.inc
 
-NOPROFILE=
-NOPIC=
+NOPIC=	yes
 
 install:
 

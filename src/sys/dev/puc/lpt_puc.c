@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: lpt_puc.c,v 1.3 2002/03/14 01:27:01 millert Exp $	*/
 /*	$NetBSD: lpt_puc.c,v 1.1 1998/06/26 18:52:41 cgd Exp $	*/
 
@@ -44,6 +45,17 @@
 #include <sys/device.h>
 
 #include <machine/bus.h>
+
+#if defined(INET) && defined(PLIP)
+#include <sys/socket.h>
+#include <net/if.h>
+#ifdef	__NetBSD__
+#include <net/if_ether.h>
+#else
+#include <netinet/in.h>
+#include <netinet/if_ether.h>
+#endif
+#endif
 
 #include <dev/pci/pcivar.h>
 #include <dev/pci/pucvar.h>

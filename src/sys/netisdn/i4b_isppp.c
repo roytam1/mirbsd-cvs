@@ -43,31 +43,18 @@
  *---------------------------------------------------------------------------*/
 
 #include <sys/cdefs.h>
-__KERNEL_RCSID(0, "$NetBSD: i4b_isppp.c,v 1.15 2002/03/17 20:54:05 martin Exp $");
+__KERNEL_RCSID(0, "$NetBSD: i4b_isppp.c,v 1.16 2003/08/12 19:49:27 martin Exp $");
 
-#ifndef __NetBSD__
-#ifndef __OpenBSD__
-#define USE_ISPPP
-#endif
-#endif
 #include "ippp.h"
 
-#ifndef USE_ISPPP
-
-#ifdef __FreeBSD__
-#include "sppp.h"
-#endif
-
-//#ifndef __NetBSD__
-#ifdef __FreeBSD__
-#if NI4BISPPP == 0
-# error "You need to define `pseudo-device sppp <N>' with options ISPPP"
-#endif
-#endif
-
-#endif
-
 #include <sys/param.h>
+/*
+ * XXX - sys/param.h on alpha (indirectly) includes sys/signal.h, which
+ *	 defines sc_sp - interfering with our use of this identifier.
+ *	 Just undef it for now.
+ */
+#undef sc_sp	
+
 #include <sys/systm.h>
 #include <sys/mbuf.h>
 #include <sys/socket.h>
@@ -76,8 +63,7 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_isppp.c,v 1.15 2002/03/17 20:54:05 martin Exp $"
 #include <sys/sockio.h>
 #include <sys/kernel.h>
 #include <sys/protosw.h>
-#include <sys/callout.h>
-
+#include <sys/timeout.h>
 #include <net/if.h>
 #include <net/if_types.h>
 #include <net/netisr.h>
@@ -92,64 +78,26 @@ __KERNEL_RCSID(0, "$NetBSD: i4b_isppp.c,v 1.15 2002/03/17 20:54:05 martin Exp $"
 
 #include <net/if_sppp.h>
 
-#if defined(__FreeBSD_version) &&  __FreeBSD_version >= 400008                
-#include "bpf.h"     
-#else
 #include "bpfilter.h"
-#endif
 #if NBPFILTER > 0 || NBPF > 0
 #include <sys/time.h>
 #include <net/bpf.h>
 #endif
 
-#ifdef __FreeBSD__
-#include <machine/i4b_ioctl.h>
-#include <machine/i4b_cause.h>
-#include <machine/i4b_debug.h>
-#else
 #include <netisdn/i4b_ioctl.h>
 #include <netisdn/i4b_cause.h>
 #include <netisdn/i4b_debug.h>
-#endif
-
 #include <netisdn/i4b_global.h>
 #include <netisdn/i4b_mbuf.h>
 #include <netisdn/i4b_l3l4.h>
-
 #include <netisdn/i4b_l4.h>
 
-#ifdef __FreeBSD__
-#define ISPPP_FMT	"ippp%d: "
-#define	ISPPP_ARG(sc)	((sc)->sc_if.if_unit)
-#define	PDEVSTATIC	static
-		
-# if __FreeBSD_version >= 300001
-#  define CALLOUT_INIT(chan)		callout_handle_init(chan)
-#  define TIMEOUT(fun, arg, chan, tick)	chan = timeout(fun, arg, tick)
-#  define UNTIMEOUT(fun, arg, chan)	untimeout(fun, arg, chan)
-#  define IOCTL_CMD_T u_long
-# else
-#  define CALLOUT_INIT(chan)		do {} while(0)
-#  define TIMEOUT(fun, arg, chan, tick)	timeout(fun, arg, tick)
-#  define UNTIMEOUT(fun, arg, chan)	untimeout(fun, arg)
-#  define IOCTL_CMD_T int
-# endif
-
-#elif defined __NetBSD__ || defined __OpenBSD__
 #define	ISPPP_FMT	"%s: "
 #define	ISPPP_ARG(sc)	((sc)->sc_sp.pp_if.if_xname)
 #define	PDEVSTATIC	/* not static */
 #define IOCTL_CMD_T	u_long
-#else
-# error "What system are you using?"
-#endif
 
-#ifdef __FreeBSD__
-PDEVSTATIC void ipppattach(void *);
-PSEUDO_SET(ipppattach, i4b_isppp);
-#else
 PDEVSTATIC void ipppattach(void);
-#endif
 
 #define I4BISPPPACCT		1	/* enable accounting messages */
 #define	I4BISPPPACCTINTVL	2	/* accounting msg interval in secs */
@@ -162,9 +110,7 @@ struct i4bisppp_softc {
 
 	int	sc_state;	/* state of the interface	*/
 
-#ifndef __FreeBSD__
 	int	sc_unit;	/* unit number for Net/OpenBSD	*/
-#endif
 
 	call_desc_t *sc_cdp;	/* ptr to call descriptor	*/
 	isdn_link_t *sc_ilt;	/* B channel driver and state	*/
@@ -260,25 +206,13 @@ ipppattach()
 		sc->sc_sp.pp_if.if_softc = sc;
 		sc->sc_ilt = NULL;
 
-#ifdef __FreeBSD__		
-		sc->sc_sp.pp_if.if_name = "ippp";
-#if defined(__FreeBSD_version) && __FreeBSD_version < 300001
-		sc->sc_sp.pp_if.if_next = NULL;
-#endif
-		sc->sc_sp.pp_if.if_unit = i;
-#else
-		sprintf(sc->sc_sp.pp_if.if_xname, "ippp%d", i);
+		snprintf(sc->sc_sp.pp_if.if_xname,
+		    sizeof sc->sc_sp.pp_if.if_xname, "ippp%d", i);
 		sc->sc_unit = i;
-#endif
 
 		sc->sc_sp.pp_if.if_mtu = PP_MTU;
 
-#ifdef __NetBSD__
-		sc->sc_sp.pp_if.if_flags = IFF_SIMPLEX | IFF_POINTOPOINT |
-					IFF_MULTICAST;
-#else
 		sc->sc_sp.pp_if.if_flags = IFF_SIMPLEX | IFF_POINTOPOINT;
-#endif
 
 		sc->sc_sp.pp_if.if_type = IFT_ISDNBASIC;
 		sc->sc_state = ST_IDLE;
@@ -325,27 +259,12 @@ ipppattach()
 		sc->sc_sp.pp_chg = i4bisppp_state_changed;
 		sc->sc_sp.pp_framebytes = 0;	/* no framing added by hardware */
 
-#if defined(__FreeBSD_version) && ((__FreeBSD_version >= 500009) || (410000 <= __FreeBSD_version && __FreeBSD_version < 500000))
-		/* do not call bpfattach in ether_ifattach */
-		ether_ifattach(&sc->sc_sp.pp_if, 0);
-#else
 		if_attach(&sc->sc_sp.pp_if);
-#endif
 #ifndef USE_ISPPP
 		sppp_attach(&sc->sc_sp.pp_if);
 #else
 		isppp_attach(&sc->sc_sp.pp_if);
 #endif
-
-#if NBPFILTER > 0 || NBPF > 0
-#ifdef __FreeBSD__
-		bpfattach(&sc->sc_sp.pp_if, DLT_PPP, PPP_HDRLEN);
-		CALLOUT_INIT(&sc->sc_ch);
-#endif /* __FreeBSD__ */
-#ifdef __NetBSD__
-		bpfattach(&sc->sc_sp.pp_if, DLT_PPP, sizeof(u_int));
-#endif
-#endif		
 	}
 }
 
@@ -413,15 +332,8 @@ i4bisppp_start(struct ifnet *ifp)
 	{
 
 #if NBPFILTER > 0 || NBPF > 0
-#ifdef __FreeBSD__
-		if (ifp->if_bpf)
-			bpf_mtap(ifp, m);
-#endif /* __FreeBSD__ */
-
-#ifdef __NetBSD__
 		if (ifp->if_bpf)
 			bpf_mtap(ifp->if_bpf, m);
-#endif
 #endif /* NBPFILTER > 0 || NBPF > 0 */
 
 		if(IF_QFULL(sc->sc_ilt->tx_queue))
