@@ -1,4 +1,4 @@
-$MirOS: X11/README,v 1.2 2005/03/19 13:59:06 tg Exp $
+$MirOS: X11/README,v 1.3 2005/03/19 14:09:50 tg Exp $
 
 This module contains the X-Window subsystem for the MirOS
 operating system family. Currently, it is based upon a
@@ -41,6 +41,9 @@ Inc (http://www.xfree86.org/) and its contributors.
 .It
 This product includes software developed by X-Oz Technologies
 (http://www.x-oz.com/).
+.It
+This product includes software that is based in part of the work
+of the FreeType Team (http://www.freetype.org).
 .El
 .Pp
 All trademarks and registered trademarks are properties of their
