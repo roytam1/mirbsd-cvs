@@ -1,3 +1,5 @@
+-- $MirOS$ --
+
 ------------------------------------------------------------------------------
 --                                                                          --
 --                         GNAT COMPILER COMPONENTS                         --
@@ -38,7 +40,7 @@ package body Gnatvsn is
    --  version.c.
    --  The size is not the real one, which does not matter since we will
    --  check for the nul character in Gnat_Version_String.
-   pragma Import (C, Version_String, "version_string");
+   pragma Import (C, Version_String, "real_version_string");
 
    -------------------------
    -- Get_Gnat_Build_Type --

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/version.c,v 1.3 2005/03/26 01:02:32 tg Exp $ */
+/* $MirOS: gcc/gcc/version.c,v 1.4 2005/03/28 00:42:42 tg Exp $ */
 
 #include "version.h"
 
@@ -7,7 +7,8 @@
    please modify this string to indicate that, e.g. by putting your
    organization's name in parentheses at the end of the string.  */
 
-const char *version_string = "3.4.4 (propolice; MirOS 0825)";
+/* this must be one line */
+const char real_version_string[] = "3.4.4 (propolice; MirOS 0825)", *version_string = real_version_string;
 /*                         = "3.4.4 20050325 (prerelease)";	*/
 
 /* This is the location of the online document giving instructions for
