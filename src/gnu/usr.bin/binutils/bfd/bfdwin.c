@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Support for memory-mapped windows into a BFD.
    Copyright 1995, 1996, 2001, 2002, 2003 Free Software Foundation, Inc.
    Written by Cygnus Support.
@@ -22,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #include "bfd.h"
 #include "libbfd.h"
+
+__RCSID("$MirOS$");
 
 /* Currently, if USE_MMAP is undefined, none if the window stuff is
    used.  Okay, so it's mis-named.  At least the command-line option
@@ -78,7 +82,7 @@ bfd_free_window (bfd_window *windowp)
   i->refcount--;
   if (debug_windows)
     fprintf (stderr, "freeing window @%p<%p,%lx,%p>\n",
-	     windowp, windowp->data, windowp->size, windowp->i);
+	     windowp, windowp->data, (unsigned long)windowp->size, windowp->i);
   if (i->refcount != 0)
     return;
 

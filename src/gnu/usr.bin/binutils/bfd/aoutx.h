@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* BFD semi-generic back-end for a.out binaries.
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 2000,
    2001, 2002, 2003, 2004
@@ -1324,7 +1326,9 @@ aout_get_external_symbols (abfd)
     {
       bfd_size_type count;
       struct external_nlist *syms;
+#ifndef USE_MMAP
       bfd_size_type amt;
+#endif
 
       count = exec_hdr (abfd)->a_syms / EXTERNAL_NLIST_SIZE;
 

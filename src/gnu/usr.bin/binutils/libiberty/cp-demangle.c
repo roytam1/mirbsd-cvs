@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Demangler for g++ V3 ABI.
    Copyright (C) 2003, 2004 Free Software Foundation, Inc.
    Written by Ian Lance Taylor <ian@wasabisystems.com>.
@@ -85,6 +87,8 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+__RCSID("$MirOS$");
 
 #include <stdio.h>
 
@@ -3899,10 +3903,10 @@ d_demangle (mangled, options, palc)
       else
 	{
 	  if (mangled[9] == 'I')
-	    strcpy (r, "global constructors keyed to ");
+	    strlcpy (r, "global constructors keyed to ", 40 + len - 11);
 	  else
-	    strcpy (r, "global destructors keyed to ");
-	  strcat (r, mangled + 11);
+	    strlcpy (r, "global destructors keyed to ", 40 + len - 11);
+	  strlcat (r, mangled + 11, 40 + len - 11);
 	}
       return r;
     }
@@ -4085,7 +4089,7 @@ __cxa_demangle (mangled_name, output_buffer, length, status)
     {
       if (strlen (demangled) < *length)
 	{
-	  strcpy (output_buffer, demangled);
+	  strlcpy (output_buffer, demangled, *length);
 	  free (demangled);
 	  demangled = output_buffer;
 	}

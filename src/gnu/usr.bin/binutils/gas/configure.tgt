@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # gas target specific configuration file.  This is a -*- sh -*- file.
 
 # This is invoked by configure.  Putting it in a separate shell file
@@ -181,6 +183,7 @@ case ${generic_target} in
   i386-*-bsd*)				fmt=aout em=386bsd ;;
   i386-*-netbsd0.8)			fmt=aout em=386bsd ;;
   i386-*-netbsdpe*)			fmt=coff em=pe ;;
+  i386-*-mirbsd*)			fmt=elf em=mbsd ;;
   i386-*-netbsd*-gnu* | \
   i386-*-knetbsd*-gnu | \
   i386-*-netbsdelf*)			fmt=elf em=nbsd ;;
@@ -331,6 +334,7 @@ case ${generic_target} in
   ppc-*-aix5.*)				fmt=coff em=aix5 ;;
   ppc-*-aix*)				fmt=coff ;;
   ppc-*-beos*)				fmt=coff ;;
+  ppc-*-mirbsd*)			fmt=elf ;;
   ppc-*-*n*bsd* | ppc-*-elf*)		fmt=elf ;;
   ppc-*-eabi* | ppc-*-sysv4*)		fmt=elf ;;
   ppc-*-linux-gnu*)			fmt=elf em=linux ;;
@@ -376,6 +380,7 @@ case ${generic_target} in
   sparc-*-elf)				fmt=elf ;;
   sparc-*-sysv4*)			fmt=elf ;;
   sparc-*-solaris*)			fmt=elf ;;
+  sparc-*-mirbsd*)			fmt=elf em=mbsd ;;
   sparc-*-netbsdelf*)			fmt=elf em=nbsd ;;
   sparc-*-*n*bsd*)
     case ${cpu} in

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ia64-gen.c -- Generate a shrunk set of opcode tables
    Copyright 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
    Written by Bob Manson, Cygnus Solutions, <manson@cygnus.com>
@@ -50,8 +52,9 @@
 #include "ia64-opc-x.c"
 #include "ia64-opc-d.c"
 
-#include <libintl.h>
-#define _(String) gettext (String)
+__RCSID("$MirOS$");
+
+#define _(String) (String)
 
 const char * program_name = NULL;
 int debug = 0;

@@ -1,3 +1,5 @@
+# $MirOS$
+
 ## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = 1.9 cygnus
@@ -5,11 +7,11 @@ AUTOMAKE_OPTIONS = 1.9 cygnus
 # Uncomment the following line when doing a release.
 # RELEASE=y
 
-INCDIR = $(srcdir)/../include
+INCDIR = $(LIBIBERTY_HDRS)
 CSEARCH = -I. -I$(srcdir) -I$(INCDIR)
 MKDEP = gcc -MM
 
-SUBDIRS = doc po
+SUBDIRS = doc
 
 docdir = doc
 bfdlibdir = @bfdlibdir@
@@ -593,9 +595,9 @@ BFD_LIBS = @bfd_libs@
 BFD_MACHINES = @bfd_machines@
 TDEFAULTS = @tdefaults@
 
-INCLUDES = -D_GNU_SOURCE @HDEFINES@ @COREFLAG@ @TDEFINES@ $(CSEARCH) $(CSWITCHES) -I$(srcdir)/../intl -I../intl
+INCLUDES = -D_GNU_SOURCE @HDEFINES@ @COREFLAG@ @TDEFINES@ $(CSEARCH) $(CSWITCHES)
 
-# C source files that correspond to .o's.
+# C source files that correspond to .os.
 SOURCE_CFILES = \
 	$(BFD32_LIBS_CFILES) \
 	$(BFD64_LIBS_CFILES) \
@@ -627,19 +629,6 @@ BUILD_HFILES = \
 
 HFILES = $(SOURCE_HFILES) $(BUILD_HFILES)
 
-SRC_POTFILES = $(SOURCE_CFILES) $(SOURCE_HFILES)
-BLD_POTFILES = $(BUILD_CFILES) $(BUILD_HFILES)
-
-po/SRC-POTFILES.in: @MAINT@ Makefile $(SRC_POTFILES)
-	for file in $(SRC_POTFILES); do echo $$file; done \
-	  | LC_COLLATE= sort > tmp.src \
-	  && mv tmp.src $(srcdir)/po/SRC-POTFILES.in
-
-po/BLD-POTFILES.in: @MAINT@ Makefile $(BLD_POTFILES)
-	for file in $(BLD_POTFILES); do echo $$file; done \
-	  | LC_COLLATE= sort > tmp.bld \
-	  && mv tmp.bld $(srcdir)/po/BLD-POTFILES.in
-
 diststuff: info
 
 # Various kinds of .o files to put in libbfd.a:
@@ -658,7 +647,7 @@ stamp-ofiles: Makefile
 	  esac ; \
 	done ; \
 	echo $$f > tofiles
-	$(SHELL) $(srcdir)/../move-if-change tofiles ofiles
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tofiles ofiles
 	touch stamp-ofiles
 
 ofiles: stamp-ofiles ; @true
@@ -681,7 +670,7 @@ stamp-lib: libbfd.la
 	if [ -f $$libtooldir/libbfd.a ]; then \
 	  cp $$libtooldir/libbfd.a libbfd.tmp; \
 	  $(RANLIB) libbfd.tmp; \
-	  $(SHELL) $(srcdir)/../move-if-change libbfd.tmp libbfd.a; \
+	  $(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change libbfd.tmp libbfd.a; \
 	else true; fi
 	touch stamp-lib
 
@@ -750,28 +739,15 @@ uninstall-bfdlibLTLIBRARIES: @INSTALL_LIBBFD_TRUE@uninstall_libbfd
 	@$(NORMAL_UNINSTALL)
 
 .PHONY: install_libbfd uninstall_libbfd
-install_libbfd: $(bfdlib_LTLIBRARIES) $(BFD_H)
-	$(mkinstalldirs) $(DESTDIR)$(bfdlibdir)
-	$(mkinstalldirs) $(DESTDIR)$(bfdincludedir)
+install_libbfd: #$(bfdlib_LTLIBRARIES) $(BFD_H)
 	@list='$(bfdlib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(bfdlibdir)/$$p"; \
 	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(bfdlibdir)/$$p; \
 	  else :; fi; \
 	done
-	$(INSTALL_DATA) $(BFD_H) $(DESTDIR)$(bfdincludedir)/bfd.h
-	$(INSTALL_DATA) $(INCDIR)/ansidecl.h $(DESTDIR)$(bfdincludedir)/ansidecl.h
-	$(INSTALL_DATA) $(INCDIR)/symcat.h $(DESTDIR)$(bfdincludedir)/symcat.h
-	$(INSTALL_DATA) $(INCDIR)/bfdlink.h $(DESTDIR)$(bfdincludedir)/bfdlink.h
 
 uninstall_libbfd:
-	list='$(bfdlib_LTLIBRARIES)'; for p in $$list; do \
-	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(bfdlibdir)/$$p; \
-	done
-	rm -f $(DESTDIR)$(bfdincludedir)/bfd.h
-	rm -f $(DESTDIR)$(bfdincludedir)/ansidecl.h
-	rm -f $(DESTDIR)$(bfdincludedir)/symcat.h
-	rm -f $(DESTDIR)$(bfdincludedir)/bfdlink.h
 
 # Have to get rid of DEP1 here so that "$?" later includes all of $(CFILES).
 DEP: dep.sed $(CFILES) $(HFILES) bfd.h
@@ -800,17 +776,17 @@ dep.sed: dep-in.sed config.status
 dep: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < Makefile > tmp-Makefile
 	cat DEP >> tmp-Makefile
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile Makefile
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile Makefile
 
 dep-in: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.in > tmp-Makefile.in
 	cat DEP >> tmp-Makefile.in
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
 
 dep-am: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.am > tmp-Makefile.am
 	cat DEP >> tmp-Makefile.am
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
 
 host-aout.lo: Makefile
 
@@ -826,7 +802,7 @@ $(BFD_H): stmp-bfd-h ; @true
 stmp-bfd-h: bfd-in3.h
 	rm -f bfd-tmp.h
 	cp bfd-in3.h bfd-tmp.h
-	$(SHELL) $(srcdir)/../move-if-change bfd-tmp.h $(BFD_H)
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change bfd-tmp.h $(BFD_H)
 	rm -f bfd-tmp.h
 	touch stmp-bfd-h
 
@@ -842,11 +818,11 @@ LIBCOFF_H_FILES = libcoff-in.h coffcode.h
 headers:
 	(cd $(docdir); $(MAKE) protos $(FLAGS_TO_PASS))
 	cp $(docdir)/bfd.h bfd-in2.h-new
-	$(SHELL) $(srcdir)/../move-if-change bfd-in2.h-new $(srcdir)/bfd-in2.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change bfd-in2.h-new $(srcdir)/bfd-in2.h
 	cp $(docdir)/libbfd.h libbfd.h-new
-	$(SHELL) $(srcdir)/../move-if-change libbfd.h-new $(srcdir)/libbfd.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change libbfd.h-new $(srcdir)/libbfd.h
 	cp $(docdir)/libcoff.h libcoff.h-new
-	$(SHELL) $(srcdir)/../move-if-change libcoff.h-new $(srcdir)/libcoff.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change libcoff.h-new $(srcdir)/libcoff.h
 
 # We only rebuild the header files automatically if we have been
 # configured with --enable-maintainer-mode.
@@ -855,21 +831,21 @@ $(srcdir)/bfd-in2.h: @MAINT@ stmp-bin2-h ; @true
 stmp-bin2-h: $(BFD_H_FILES) $(BFD64_H_FILES)
 	(cd $(docdir); $(MAKE) $(FLAGS_TO_PASS) bfd.h)
 	cp $(docdir)/bfd.h bfd-in2.h-new
-	$(SHELL) $(srcdir)/../move-if-change bfd-in2.h-new $(srcdir)/bfd-in2.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change bfd-in2.h-new $(srcdir)/bfd-in2.h
 	touch stmp-bin2-h
 
 $(srcdir)/libbfd.h: @MAINT@ stmp-lbfd-h ; @true
 stmp-lbfd-h: $(LIBBFD_H_FILES)
 	(cd $(docdir); $(MAKE) $(FLAGS_TO_PASS) libbfd.h)
 	cp $(docdir)/libbfd.h libbfd.h-new
-	$(SHELL) $(srcdir)/../move-if-change libbfd.h-new $(srcdir)/libbfd.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change libbfd.h-new $(srcdir)/libbfd.h
 	touch stmp-lbfd-h
 
 $(srcdir)/libcoff.h: @MAINT@ stmp-lcoff-h ; @true
 stmp-lcoff-h: $(LIBCOFF_H_FILES)
 	(cd $(docdir); $(MAKE) $(FLAGS_TO_PASS) libcoff.h)
 	cp $(docdir)/libcoff.h libcoff.h-new
-	$(SHELL) $(srcdir)/../move-if-change libcoff.h-new $(srcdir)/libcoff.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change libcoff.h-new $(srcdir)/libcoff.h
 	touch stmp-lcoff-h
 
 MOSTLYCLEANFILES = ofiles stamp-ofiles

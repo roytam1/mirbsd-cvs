@@ -1,3 +1,5 @@
+# $MirOS$
+#
 TORS=".tors :
 	{
 	  ___ctors = . ;
@@ -84,12 +86,12 @@ ${CONSTRUCTING+${TORS}}
 	  *(.eight)
 	} ${RELOCATING+ > eight}
 
-.stab 0 ${RELOCATING+(NOLOAD)} :
+.stab 0 ${RELOCATING+\(NOLOAD\)} :
 	{
 	  [ .stab ]
 	}
 
-.stabstr 0 ${RELOCATING+(NOLOAD)} :
+.stabstr 0 ${RELOCATING+\(NOLOAD\)} :
 	{
 	  [ .stabstr ]
 	}

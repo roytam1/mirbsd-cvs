@@ -1,6 +1,10 @@
+# $MirOS$
+#
 ## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = 1.9 cygnus
+
+AM_MAKEINFOFLAGS = --no-split
 
 DOCFILES = aoutx.texi  archive.texi archures.texi \
 	bfdt.texi  cache.texi coffcode.texi \
@@ -50,7 +54,7 @@ SRCIPROT = $(srcdir)/../cache.c $(srcdir)/../libbfd.c \
 
 TEXIDIR = $(srcdir)/../../texinfo/fsf
 
-info_TEXINFOS = bfd.texinfo
+info_TEXINFOS = bfd.texinfo bfdint.texi
 
 MKDOC = chew$(EXEEXT_FOR_BUILD)
 
@@ -58,11 +62,9 @@ $(MKDOC): chew.o
 	$(CC_FOR_BUILD) -o $(MKDOC) chew.o $(CFLAGS) $(LOADLIBES) $(LDFLAGS)
 
 chew.o: chew.c
-	$(CC_FOR_BUILD) -c -I.. -I$(srcdir)/.. -I$(srcdir)/../../include -I$(srcdir)/../../intl -I../../intl $(H_CFLAGS) $(CFLAGS) $(srcdir)/chew.c
+	$(CC_FOR_BUILD) -c -I$(LIBIBERTY_HDRS) -I.. -I$(srcdir)/.. -I$(srcdir)/../../include $(H_CFLAGS) $(CFLAGS) $(srcdir)/chew.c
 
 protos: libbfd.h libcoff.h bfd.h
-
-$(srcdir)/bfd.info bfd.dvi: $(DOCFILES) bfdsumm.texi bfd.texinfo
 
 # We can't replace these rules with an implicit rule, because
 # makes without VPATH support couldn't find the .h files in `..'.
@@ -76,19 +78,19 @@ $(srcdir)/bfd.info bfd.dvi: $(DOCFILES) bfdsumm.texi bfd.texinfo
 
 s-aoutx: $(MKDOC) $(srcdir)/../aoutx.h $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../aoutx.h >aoutx.tmp
-	$(SHELL) $(srcdir)/../../move-if-change aoutx.tmp aoutx.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change aoutx.tmp aoutx.texi
 	touch s-aoutx
 aoutx.texi: s-aoutx
 
 s-archive: $(MKDOC) $(srcdir)/../archive.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../archive.c >archive.tmp
-	$(SHELL) $(srcdir)/../../move-if-change archive.tmp archive.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change archive.tmp archive.texi
 	touch s-archive
 archive.texi: s-archive
 
 s-archures: $(MKDOC) $(srcdir)/../archures.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str < $(srcdir)/../archures.c >archures.tmp
-	$(SHELL) $(srcdir)/../../move-if-change archures.tmp archures.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change archures.tmp archures.texi
 	touch s-archures
 archures.texi: s-archures
 
@@ -96,115 +98,115 @@ archures.texi: s-archures
 # bfd.texinfo on an 8.3 filesystem.
 s-bfd: $(MKDOC) $(srcdir)/../bfd.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str < $(srcdir)/../bfd.c >bfd.tmp
-	$(SHELL) $(srcdir)/../../move-if-change bfd.tmp bfdt.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change bfd.tmp bfdt.texi
 	touch s-bfd
 bfdt.texi: s-bfd
 
 s-cache: $(MKDOC) $(srcdir)/../cache.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str < $(srcdir)/../cache.c >cache.tmp
-	$(SHELL) $(srcdir)/../../move-if-change cache.tmp cache.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change cache.tmp cache.texi
 	touch s-cache
 cache.texi: s-cache
 
 s-coffcode: $(MKDOC) $(srcdir)/../coffcode.h $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../coffcode.h >coffcode.tmp
-	$(SHELL) $(srcdir)/../../move-if-change coffcode.tmp coffcode.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change coffcode.tmp coffcode.texi
 	touch s-coffcode
 coffcode.texi: s-coffcode
 
 s-core: $(MKDOC) $(srcdir)/../corefile.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../corefile.c >core.tmp
-	$(SHELL) $(srcdir)/../../move-if-change core.tmp core.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change core.tmp core.texi
 	touch s-core
 core.texi: s-core
 
 s-elf: $(MKDOC) $(srcdir)/../elf.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../elf.c >elf.tmp
-	$(SHELL) $(srcdir)/../../move-if-change elf.tmp elf.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change elf.tmp elf.texi
 	touch s-elf
 elf.texi: s-elf
 
 s-elfcode: $(MKDOC) $(srcdir)/../elfcode.h $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../elfcode.h >elfcode.tmp
-	$(SHELL) $(srcdir)/../../move-if-change elfcode.tmp elfcode.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change elfcode.tmp elfcode.texi
 	touch s-elfcode
 elfcode.texi: s-elfcode
 
 s-mmo: $(MKDOC) $(srcdir)/../mmo.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../mmo.c >mmo.tmp
-	$(SHELL) $(srcdir)/../../move-if-change mmo.tmp mmo.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change mmo.tmp mmo.texi
 	touch s-mmo
 mmo.texi: s-mmo
 
 s-format: $(MKDOC) $(srcdir)/../format.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../format.c >format.tmp
-	$(SHELL) $(srcdir)/../../move-if-change format.tmp format.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change format.tmp format.texi
 	touch s-format
 format.texi: s-format
 
 s-libbfd: $(MKDOC) $(srcdir)/../libbfd.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str < $(srcdir)/../libbfd.c >libbfd.tmp
-	$(SHELL) $(srcdir)/../../move-if-change libbfd.tmp libbfd.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change libbfd.tmp libbfd.texi
 	touch s-libbfd
 libbfd.texi: s-libbfd
 
 s-bfdio: $(MKDOC) $(srcdir)/../bfdio.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str < $(srcdir)/../bfdio.c >bfdio.tmp
-	$(SHELL) $(srcdir)/../../move-if-change bfdio.tmp bfdio.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change bfdio.tmp bfdio.texi
 	touch s-bfdio
 bfdio.texi: s-bfdio
 
 s-bfdwin: $(MKDOC) $(srcdir)/../bfdwin.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str < $(srcdir)/../bfdwin.c >bfdwin.tmp
-	$(SHELL) $(srcdir)/../../move-if-change bfdwin.tmp bfdwin.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change bfdwin.tmp bfdwin.texi
 	touch s-bfdwin
 bfdwin.texi: s-bfdwin
 
 s-opncls: $(MKDOC) $(srcdir)/../opncls.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str  <$(srcdir)/../opncls.c >opncls.tmp
-	$(SHELL) $(srcdir)/../../move-if-change opncls.tmp opncls.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change opncls.tmp opncls.texi
 	touch s-opncls
 opncls.texi: s-opncls
 
 s-reloc: $(MKDOC) $(srcdir)/../reloc.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../reloc.c >reloc.tmp
-	$(SHELL) $(srcdir)/../../move-if-change reloc.tmp reloc.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change reloc.tmp reloc.texi
 	touch s-reloc
 reloc.texi: s-reloc
 
 s-section: $(MKDOC) $(srcdir)/../section.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../section.c >section.tmp
-	$(SHELL) $(srcdir)/../../move-if-change section.tmp section.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change section.tmp section.texi
 	touch s-section
 section.texi: s-section
 
 s-syms: $(MKDOC) $(srcdir)/../syms.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../syms.c >syms.tmp
-	$(SHELL) $(srcdir)/../../move-if-change syms.tmp syms.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change syms.tmp syms.texi
 	touch s-syms
 syms.texi: s-syms
 
 s-targets: $(MKDOC) $(srcdir)/../targets.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../targets.c >targets.tmp
-	$(SHELL) $(srcdir)/../../move-if-change targets.tmp targets.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change targets.tmp targets.texi
 	touch s-targets
 targets.texi: s-targets
 
 s-init: $(MKDOC) $(srcdir)/../init.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../init.c >init.tmp
-	$(SHELL) $(srcdir)/../../move-if-change init.tmp init.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change init.tmp init.texi
 	touch s-init
 init.texi: s-init
 
 s-hash: $(MKDOC) $(srcdir)/../hash.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../hash.c >hash.tmp
-	$(SHELL) $(srcdir)/../../move-if-change hash.tmp hash.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change hash.tmp hash.texi
 	touch s-hash
 hash.texi: s-hash
 
 s-linker: $(MKDOC) $(srcdir)/../linker.c $(srcdir)/doc.str
 	./$(MKDOC) -f $(srcdir)/doc.str <$(srcdir)/../linker.c >linker.tmp
-	$(SHELL) $(srcdir)/../../move-if-change linker.tmp linker.texi
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change linker.tmp linker.texi
 	touch s-linker
 linker.texi: s-linker
 
@@ -292,13 +294,11 @@ bfd.h: $(BFD_H_DEP)
 	echo "#endif" >> $@
 	echo "#endif" >> $@
 
-noinst_TEXINFOS = bfdint.texi
-
 MOSTLYCLEANFILES = $(MKDOC) *.o
 
 CLEANFILES = s-* *.p *.ip
 
-DISTCLEANFILES = bfd.?? bfd.??? bfd.h libbfd.h libcoff.h texput.log
+DISTCLEANFILES = bfd.?? bfd.??? bfd.h libbfd.h libcoff.h texput.log *.info *.info-*
 
 MAINTAINERCLEANFILES = $(DOCFILES)
 

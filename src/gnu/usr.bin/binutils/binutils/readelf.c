@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* readelf.c -- display contents of an ELF format file
    Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
@@ -115,6 +117,8 @@
 #include "bucomm.h"
 #include "getopt.h"
 #include "libiberty.h"
+
+__RCSID("$MirOS$");
 
 char *program_name = "readelf";
 long archive_file_offset;
@@ -5041,8 +5045,9 @@ dynamic_section_mips_val (Elf_Internal_Dyn *entry)
 
 	time_t time = entry->d_un.d_val;
 	tmp = gmtime (&time);
-	sprintf (timebuf, "%04u-%02u-%02uT%02u:%02u:%02u",
-		 tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+	snprintf (timebuf, 20, "%04llu-%02u-%02uT%02u:%02u:%02u",
+		 (unsigned long long)tmp->tm_year + 1900,
+		 tmp->tm_mon + 1, tmp->tm_mday,
 		 tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 	printf ("Time Stamp: %s\n", timebuf);
       }
@@ -5786,8 +5791,9 @@ process_dynamic_section (FILE *file)
 	      time_t time = entry->d_un.d_val;
 
 	      tmp = gmtime (&time);
-	      printf ("%04u-%02u-%02uT%02u:%02u:%02u\n",
-		      tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+	      printf ("%04llu-%02u-%02uT%02u:%02u:%02u\n",
+		      (uint64_t)tmp->tm_year + 1900, tmp->tm_mon + 1,
+		      tmp->tm_mday,
 		      tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
 	    }
@@ -10826,8 +10832,9 @@ process_mips_specific (FILE *file)
 	      liblist.l_flags = BYTE_GET (elib[cnt].l_flags);
 
 	      tmp = gmtime (&time);
-	      sprintf (timebuf, "%04u-%02u-%02uT%02u:%02u:%02u",
-		       tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+	      sprintf (timebuf, "%04llu-%02u-%02uT%02u:%02u:%02u",
+		       (uint64_t)tmp->tm_year + 1900, tmp->tm_mon + 1,
+		       tmp->tm_mday,
 		       tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
 	      printf ("%3lu: ", (unsigned long) cnt);
@@ -11131,7 +11138,7 @@ process_mips_specific (FILE *file)
 	{
 	  Elf_Internal_Sym *psym = & dynamic_symbols[iconf[cnt]];
 
-	  printf ("%5lu: %8lu  ", (unsigned long) cnt, iconf[cnt]);
+	  printf ("%5lu: %8lu  ", (unsigned long) cnt, (unsigned long) iconf[cnt]);
 	  print_vma (psym->st_value, FULL_HEX);
 	  putchar (' ');
 	  if (VALID_DYNAMIC_NAME (psym->st_name))
@@ -11204,8 +11211,9 @@ process_gnu_liblist (FILE *file)
 	      liblist.l_flags = BYTE_GET (elib[cnt].l_flags);
 
 	      tmp = gmtime (&time);
-	      sprintf (timebuf, "%04u-%02u-%02uT%02u:%02u:%02u",
-		       tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+	      sprintf (timebuf, "%04llu-%02u-%02uT%02u:%02u:%02u",
+		       (uint64_t)tmp->tm_year + 1900, tmp->tm_mon + 1,
+		       tmp->tm_mday,
 		       tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
 	      printf ("%3lu: ", (unsigned long) cnt);

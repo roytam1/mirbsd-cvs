@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for PE.
 
 if test -z "${RELOCATEABLE_OUTPUT_FORMAT}"; then
@@ -137,12 +139,12 @@ SECTIONS
     ${R_RSRC}
   }
 
-  .stab ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .stab ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stab ]
   }
 
-  .stabstr ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .stabstr ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Defs for interface to demanglers.
    Copyright 1992, 1993, 1994, 1995, 1996, 1997, 1998, 2000, 2001, 2002,
    2003, 2004 Free Software Foundation, Inc.
@@ -113,7 +115,7 @@ extern char *
 cplus_demangle PARAMS ((const char *mangled, int options));
 
 extern int
-cplus_demangle_opname PARAMS ((const char *opname, char *result, int options));
+cplus_demangle_opname PARAMS ((const char *opname, char *result, int options, size_t ressiz));
 
 extern const char *
 cplus_mangle_opname PARAMS ((const char *opname, int options));

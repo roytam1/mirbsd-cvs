@@ -1,6 +1,10 @@
+# $MirOS$
+#
 ## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = 1.8 cygnus
+
+AM_MAKEINFOFLAGS = --no-split
 
 # What version of the manual you want; "all" includes everything
 CONFIG=all
@@ -62,8 +66,8 @@ gasver.texi: Makefile
 	rm -f $@
 	echo '@set VERSION $(VERSION)' > $@
 
-as.info: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
-as.dvi: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
+#as.info: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
+#as.dvi: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
 
 # We want install to imply install-info as per GNU standards, despite the
 # cygnus option.
@@ -73,7 +77,7 @@ install-data-local: install-info
 
 noinst_TEXINFOS = internals.texi
 
-DISTCLEANFILES = asconfig.texi
+DISTCLEANFILES = asconfig.texi as.info as.info-*
 
 MAINTAINERCLEANFILES = gasver.texi
 
@@ -86,6 +90,9 @@ CONFIG_STATUS_DEPENDENCIES = $(BFDDIR)/configure.in
 
 # We need it for the taz target in ../../Makefile.in.
 info-local: $(MANS)
+
+INSTALL_MAN=install-man1
+install-man: $(INSTALL_MAN)
 
 # Build the man page from the texinfo file
 # The sed command removes the no-adjust Nroff command so that

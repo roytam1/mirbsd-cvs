@@ -1,3 +1,5 @@
+# $MirOS$
+#
 cat <<EOF
 OUTPUT_FORMAT("${OUTPUT_FORMAT}")
 ${LIB_SEARCH_DIRS}
@@ -30,11 +32,11 @@ SECTIONS
      ${RELOCATING+ end = ALIGN(0x8)};
      ${RELOCATING+ _end = ALIGN(0x8)};
   }
-  .stab  0 ${RELOCATING+(NOLOAD)} : 
+  .stab  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr  0 ${RELOCATING+(NOLOAD)} :
+  .stabstr  0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

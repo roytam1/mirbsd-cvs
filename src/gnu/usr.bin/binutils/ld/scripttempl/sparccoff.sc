@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for Sparc COFF.
 # Based on i386coff.sc by Ian Taylor <ian@cygnus.com>.
 test -z "$ENTRY" && ENTRY=_start
@@ -36,11 +38,11 @@ SECTIONS
     *(COMMON)
     ${RELOCATING+ end = .};
   }
-  .stab  0 ${RELOCATING+(NOLOAD)} : 
+  .stab  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr  0 ${RELOCATING+(NOLOAD)} :
+  .stabstr  0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

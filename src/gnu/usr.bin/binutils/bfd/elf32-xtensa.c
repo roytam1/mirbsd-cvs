@@ -1802,7 +1802,7 @@ vsprint_msg (const char *origmsg, const char *fmt, int arglen, ...)
     }
   if (!is_append)
     memcpy (message, origmsg, orig_len);
-  vsprintf (message + orig_len, fmt, ap);
+  vsnprintf (message + orig_len, alloc_size - orig_len, fmt, ap);
   VA_CLOSE (ap);
   return message;
 }

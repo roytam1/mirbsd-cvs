@@ -1,3 +1,5 @@
+# $MirOS$
+#
 TORS="
     ___ctors = . ;
     *(.ctors)
@@ -48,12 +50,12 @@ SECTIONS
 	  *(.stack)
 	}
 
-.stab  0 ${RELOCATING+(NOLOAD)} :
+.stab  0 ${RELOCATING+\(NOLOAD\)} :
 	{
 	  [ .stab ]
 	}
 
-.stabstr  0 ${RELOCATING+(NOLOAD)} :
+.stabstr  0 ${RELOCATING+\(NOLOAD\)} :
 	{
 	  [ .stabstr ]
 	}

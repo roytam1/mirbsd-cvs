@@ -1,10 +1,12 @@
+# $MirOS$
+
 ## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = 1.9 cygnus
 
-SUBDIRS = po
+SUBDIRS =
 
-INCDIR = $(srcdir)/../include
+INCDIR = $(LIBIBERTY_HDRS)
 BFDDIR = $(srcdir)/../bfd
 MKDEP = gcc -MM
 
@@ -18,9 +20,6 @@ bfdlib_LTLIBRARIES = libopcodes.la
 
 # This is where bfd.h lives.
 BFD_H = ../bfd/bfd.h
-
-# This is where libiberty lives.
-LIBIBERTY = ../libiberty/libiberty.a
 
 # Header files.
 HFILES = \
@@ -42,7 +41,7 @@ HFILES = \
 	xstormy16-desc.h xstormy16-opc.h \
 	z8k-opc.h
 
-# C source files that correspond to .o's.
+# C source files that correspond to .os.
 CFILES = \
 	a29k-dis.c \
 	alpha-dis.c \
@@ -287,7 +286,7 @@ OFILES = @BFD_MACHINES@
 # that's where the version number in Makefile comes from.
 CONFIG_STATUS_DEPENDENCIES = $(BFDDIR)/configure.in
 
-INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(INCDIR) -I$(BFDDIR) @HDEFINES@ -I$(srcdir)/../intl -I../intl
+INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(INCDIR) -I$(BFDDIR) @HDEFINES@
 
 disassemble.lo: disassemble.c $(INCDIR)/dis-asm.h
 	$(LIBTOOL) --mode=compile $(COMPILE) -c @archdefs@ $(srcdir)/disassemble.c
@@ -314,16 +313,11 @@ stamp-lib: libopcodes.la
 	if [ -f $$libtooldir/libopcodes.a ]; then \
 	  cp $$libtooldir/libopcodes.a libopcodes.tmp; \
 	  $(RANLIB) libopcodes.tmp; \
-	  $(SHELL) $(srcdir)/../move-if-change libopcodes.tmp libopcodes.a; \
+	  $(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change libopcodes.tmp libopcodes.a; \
 	else true; fi
 	touch stamp-lib
 
 libopcodes.a: stamp-lib ; @true
-
-POTFILES = $(HFILES) $(CFILES)
-po/POTFILES.in: @MAINT@ Makefile
-	for f in $(POTFILES); do echo $$f; done | LC_COLLATE= sort > tmp \
-	  && mv tmp $(srcdir)/po/POTFILES.in
 
 install-bfdlibLTLIBRARIES: @INSTALL_LIBBFD_TRUE@install_libopcodes
 	@$(NORMAL_INSTALL)
@@ -332,22 +326,15 @@ uninstall-bfdlibLTLIBRARIES: @INSTALL_LIBBFD_TRUE@uninstall_libopcodes
 	@$(NORMAL_UNINSTALL)
 
 .PHONY: install_libopcodes uninstall_libopcodes
-install_libopcodes: $(bfdlib_LTLIBRARIES)
-	$(mkinstalldirs) $(DESTDIR)$(bfdlibdir)
-	$(mkinstalldirs) $(DESTDIR)$(bfdincludedir)
+install_libopcodes: #$(bfdlib_LTLIBRARIES)
 	@list='$(bfdlib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(bfdlibdir)/$$p"; \
 	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(bfdlibdir)/$$p; \
 	  else :; fi; \
 	done
-	$(INSTALL_DATA) $(INCDIR)/dis-asm.h $(DESTDIR)$(bfdincludedir)/dis-asm.h
 
 uninstall_libopcodes:
-	list='$(bfdlib_LTLIBRARIES)'; for p in $$list; do \
-	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(bfdlibdir)/$$p; \
-	done
-	rm -f $(DESTDIR)$(bfdincludedir)/dis-asm.h
 
 CLEANFILES = \
 	stamp-ip2k stamp-m32r stamp-fr30 stamp-frv stamp-openrisc \
@@ -449,13 +436,13 @@ stamp-xstormy16: $(CGENDEPS) $(CPUDIR)/xstormy16.cpu $(CPUDIR)/xstormy16.opc
 		archfile=$(CPUDIR)/xstormy16.cpu opcfile=$(CPUDIR)/xstormy16.opc extrafiles=
 
 ia64-gen: ia64-gen.o
-	$(LINK) ia64-gen.o $(LIBIBERTY)
+	$(LINK) ia64-gen.o -liberty
 
 ia64-gen.o: ia64-gen.c ia64-opc.c ia64-opc-a.c ia64-opc-b.c ia64-opc-f.c \
   ia64-opc-i.c ia64-opc-m.c ia64-opc-d.c ia64-opc.h
 
-ia64-asmtab.c: @MAINT@ ia64-gen ia64-ic.tbl ia64-raw.tbl ia64-waw.tbl ia64-war.tbl
-	./ia64-gen --srcdir $(srcdir) > $(srcdir)/ia64-asmtab.c
+ia64-asmtab.c: ia64-gen ia64-ic.tbl ia64-raw.tbl ia64-waw.tbl ia64-war.tbl
+	./ia64-gen --srcdir $(srcdir) >$@
 
 s390-mkopc: s390-mkopc.c
 	$(CC_FOR_BUILD) -o s390-mkopc $(srcdir)/s390-mkopc.c
@@ -496,17 +483,17 @@ dep.sed: dep-in.sed config.status
 dep: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < Makefile > tmp-Makefile
 	cat DEP >> tmp-Makefile
-	$(srcdir)/../move-if-change tmp-Makefile Makefile
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile Makefile
 
 dep-in: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.in > tmp-Makefile.in
 	cat DEP >> tmp-Makefile.in
-	$(srcdir)/../move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
 
 dep-am: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.am > tmp-Makefile.am
 	cat DEP >> tmp-Makefile.am
-	$(srcdir)/../move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
 
 .PHONY: dep dep-in dep-am
 

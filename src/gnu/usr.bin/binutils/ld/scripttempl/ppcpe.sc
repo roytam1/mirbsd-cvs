@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # A PE linker script for PowerPC.
 # Loosely based on Steve Chamberlain's pe.sc.
 # All new mistakes should be credited to Kim Knuttila (krk@cygnus.com)
@@ -163,12 +165,12 @@ SECTIONS
 	    ;
 	}
 
-  .stab BLOCK(__section_alignment__)  ${RELOCATING+(NOLOAD)} : 
+  .stab BLOCK(__section_alignment__)  ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
 
-  .stabstr BLOCK(__section_alignment__) ${RELOCATING+(NOLOAD)} :
+  .stabstr BLOCK(__section_alignment__) ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

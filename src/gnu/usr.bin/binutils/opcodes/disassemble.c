@@ -19,6 +19,8 @@
 #include "sysdep.h"
 #include "dis-asm.h"
 
+__RCSID("$MirOS$");
+
 #ifdef ARCH_all
 #define ARCH_a29k
 #define ARCH_alpha
@@ -437,3 +439,6 @@ disassemble_init_for_target (struct disassemble_info * info)
       break;
     }
 }
+
+#define	MYNAME	"libopcodes"
+#include "_gplwarn.c"

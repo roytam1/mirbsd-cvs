@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ELF executable support for BFD.
 
    Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
@@ -40,6 +42,8 @@
 #define ARCH_SIZE 0
 #include "elf-bfd.h"
 #include "libiberty.h"
+
+__RCSID("$MirOS$");
 
 static int elf_sort_sections (const void *, const void *);
 static bfd_boolean assign_file_positions_except_relocs (bfd *, struct bfd_link_info *);
@@ -4384,9 +4388,12 @@ get_program_header_size (bfd *abfd)
       return elf_tdata (abfd)->program_header_size;
     }
 
-  /* Assume we will need exactly two PT_LOAD segments: one for text
-     and one for data.  */
-  segs = 2;
+  /* We used to assume that two PT_LOAD segments would be enough,
+     code and data, but with the change to pad the PLT and GOT, this
+     is no longer true.  Now there can be several PT_LOAD sections.
+     7 seems to be enough with BSS_PLT and .rodata-X, where we have
+     text, data, GOT, dynamic, PLT, bss.  */
+  segs = 7;
 
   s = bfd_get_section_by_name (abfd, ".interp");
   if (s != NULL && (s->flags & SEC_LOAD) != 0)

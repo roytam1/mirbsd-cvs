@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* dlltool.c -- tool to generate stuff for PE style DLLs
    Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
@@ -267,6 +269,8 @@
 #include "coff/arm.h"
 #include "coff/internal.h"
 #endif
+
+__RCSID("$MirOS$");
 
 /* Forward references.  */
 static char *look_for_prog (const char *, const char *, int);
@@ -1149,7 +1153,11 @@ run (const char *what, char *args)
   int i;
   const char **argv;
   char *errmsg_fmt, *errmsg_arg;
+#if defined(__MSDOS__) && !defined(__GO32__)
   char *temp_base = choose_temp_base ();
+#else
+  char *temp_base = NULL;
+#endif
 
   inform ("run: %s %s", what, args);
 

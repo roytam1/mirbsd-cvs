@@ -1,3 +1,7 @@
+/* $MirOS$ */
+
+#if 0
+
 /* This file redefines all regex external names before including
    a renamed copy of glibc's regex.h.  */
 
@@ -26,3 +30,14 @@
 #include "xregex2.h"
 
 #endif /* xregex.h */
+
+#else
+
+#include "/usr/include/regex.h"
+
+#define	MAGIC1		((('r'^0200)<<8) | 'e')
+
+#define	xregcomp	regcomp
+#define	xregexec	regexec
+
+#endif

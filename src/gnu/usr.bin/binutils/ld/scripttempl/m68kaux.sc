@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for A/UX.
 test -z "$ENTRY" && ENTRY=_start
 INIT='.init : { *(.init) }'
@@ -39,8 +41,8 @@ SECTIONS
   ${RELOCATING- ${CTORS}}
   ${RELOCATING- ${DTORS}}
 
-  .comment 0 ${RELOCATING+(NOLOAD)} : { [ .comment ] [ .ident ] }
-  .stab 0 ${RELOCATING+(NOLOAD)} : { [ .stab ] }
-  .stabstr 0 ${RELOCATING+(NOLOAD)} : { [ .stabstr ] }
+  .comment 0 ${RELOCATING+\(NOLOAD\)} : { [ .comment ] [ .ident ] }
+  .stab 0 ${RELOCATING+\(NOLOAD\)} : { [ .stab ] }
+  .stabstr 0 ${RELOCATING+\(NOLOAD\)} : { [ .stabstr ] }
 }
 EOF

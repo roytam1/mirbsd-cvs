@@ -1,3 +1,5 @@
+# $MirOS$
+#
 test -z "$ENTRY" && ENTRY=_start
 cat <<EOF
 OUTPUT_FORMAT("${OUTPUT_FORMAT}")
@@ -34,11 +36,11 @@ SECTIONS
     *(COMMON)
     ${RELOCATING+ end = .};
   }
-  .stab  0 ${RELOCATING+(NOLOAD)} : 
+  .stab  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr  0 ${RELOCATING+(NOLOAD)} :
+  .stabstr  0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

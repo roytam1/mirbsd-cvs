@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* BFD back-end for IBM RS/6000 "XCOFF" files.
    Copyright 1990-1999, 2000, 2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
@@ -35,6 +37,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include "coff/rs6000.h"
 #include "libcoff.h"
 #include "libxcoff.h"
+
+__RCSID("$MirOS$");
 
 extern bfd_boolean _bfd_xcoff_mkobject
   PARAMS ((bfd *));
@@ -1823,7 +1827,7 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
   READ20 (fhdr->memoff, prevoff);
   READ20 (fhdr->symoff, nextoff);
 
-  BFD_ASSERT (nextoff == bfd_tell (abfd));
+  BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
 
   /* Write out the symbol table.
      Layout :
@@ -2170,7 +2174,7 @@ xcoff_write_archive_contents_old (abfd)
 	      + SXCOFFARFMAG
 	      + remaining);
 
-      BFD_ASSERT (nextoff == bfd_tell (abfd));
+      BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
 
       offsets[i] = nextoff;
 
@@ -2205,7 +2209,7 @@ xcoff_write_archive_contents_old (abfd)
 
   /* Write out the member table.  */
 
-  BFD_ASSERT (nextoff == bfd_tell (abfd));
+  BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
   sprintf (fhdr.memoff, "%ld", (long) nextoff);
 
   memset (&ahdr, 0, sizeof ahdr);
@@ -2274,7 +2278,7 @@ xcoff_write_archive_contents_old (abfd)
     sprintf (fhdr.symoff, "%d", 0);
   else
     {
-      BFD_ASSERT (nextoff == bfd_tell (abfd));
+      BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
       sprintf (fhdr.symoff, "%ld", (long) nextoff);
       bfd_ardata (abfd)->tdata = (PTR) &fhdr;
       if (! _bfd_compute_and_write_armap (abfd, 0))
@@ -2406,7 +2410,7 @@ xcoff_write_archive_contents_big (abfd)
 	      + SXCOFFARFMAG
 	      + remaining);
 
-      BFD_ASSERT (nextoff == bfd_tell (abfd));
+      BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
 
       /* Check for xcoff shared objects.
 	 Their text section needs to be aligned wrt the archive file position.
@@ -2467,7 +2471,7 @@ xcoff_write_archive_contents_big (abfd)
      ??			      pad to even bytes.
    */
 
-  BFD_ASSERT (nextoff == bfd_tell (abfd));
+  BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
 
   member_table_size = (SIZEOF_AR_HDR_BIG
 		       + SXCOFFARFMAG
@@ -2543,7 +2547,7 @@ xcoff_write_archive_contents_big (abfd)
     PRINT20 (fhdr.symoff, 0);
   else
     {
-      BFD_ASSERT (nextoff == bfd_tell (abfd));
+      BFD_ASSERT ((file_ptr)nextoff == bfd_tell (abfd));
 
       /* Save nextoff in fhdr.symoff so the armap routine can use it.  */
       PRINT20 (fhdr.symoff, nextoff);

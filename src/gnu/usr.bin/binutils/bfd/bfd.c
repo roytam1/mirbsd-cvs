@@ -216,6 +216,8 @@ CODE_FRAGMENT
 #include "libecoff.h"
 #undef obj_symbols
 #include "elf-bfd.h"
+
+__RCSID("$MirOS$");
 
 /* provide storage for subsystem, stack and heap data which may have been
    passed in on the command line.  Ld puts this data into a bfd_link_info
@@ -1500,3 +1502,6 @@ bfd_preserve_finish (bfd *abfd ATTRIBUTE_UNUSED, struct bfd_preserve *preserve)
      objalloc.  */
   bfd_hash_table_free (&preserve->section_htab);
 }
+
+#define	MYNAME	"libbfd"
+#include "_gplwarn.c"

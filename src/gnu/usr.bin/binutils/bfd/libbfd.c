@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Assorted BFD support routines, only used internally.
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
    2000, 2001, 2002, 2003, 2004
@@ -913,7 +915,7 @@ read_signed_leb128 (bfd *abfd ATTRIBUTE_UNUSED,
       shift += 7;
     }
   while (byte & 0x80);
-  if ((shift < 8 * sizeof (result)) && (byte & 0x40))
+  if ((shift < 8 * (int)sizeof (result)) && (byte & 0x40))
     result |= (((bfd_vma) -1) << shift);
   *bytes_read_ptr = num_read;
   return result;

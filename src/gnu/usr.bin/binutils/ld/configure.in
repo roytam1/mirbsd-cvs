@@ -1,3 +1,19 @@
+dnl $MirOS$
+
+# AC_PROG_EGREP
+# -------------
+# This is predefined starting with Autoconf 2.54, so this conditional
+# definition can be removed once we require Autoconf 2.54 or later.
+AC_DEFUN([AC_PROG_EGREP],
+[AC_CACHE_CHECK([for egrep], [ac_cv_prog_egrep],
+   [if echo a | (grep -E '(a|b)') >/dev/null 2>&1
+    then ac_cv_prog_egrep='grep -E'
+    else ac_cv_prog_egrep='egrep'
+    fi])
+ EGREP=$ac_cv_prog_egrep
+ AC_SUBST([EGREP])
+])
+
 dnl Process this file with autoconf to produce a configure script
 dnl
 AC_PREREQ(2.13)
@@ -101,9 +117,6 @@ fi
 AC_PROG_CC
 AC_PROG_INSTALL
 
-ALL_LINGUAS="fr sv tr es da"
-CY_GNU_GETTEXT
-
 AC_EXEEXT
 
 AC_PROG_YACC
@@ -118,7 +131,7 @@ AC_SUBST(HOSTING_CRT0)
 AC_SUBST(HOSTING_LIBS)
 AC_SUBST(NATIVE_LIB_DIRS)
 
-AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h)
+AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h stdbool.h)
 AC_CHECK_FUNCS(sbrk realpath)
 AC_HEADER_DIRENT
 
@@ -266,5 +279,4 @@ if test x${EXTRA_SHLIB_EXTENSION} != x ; then
    [Additional extension a shared object might have.])
 fi
 
-AC_OUTPUT(Makefile po/Makefile.in:po/Make-in,
-[sed -e '/POTFILES =/r po/POTFILES' po/Makefile.in > po/Makefile])
+AC_OUTPUT(Makefile)

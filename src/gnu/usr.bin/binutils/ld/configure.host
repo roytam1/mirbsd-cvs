@@ -1,3 +1,5 @@
+# $MirOS$
+
 # This is the linker host specific file.  This is invoked by the
 # autoconf generated configure script.  Putting it in a separate shell
 # file lets us skip running autoconf when modifying host specific
@@ -37,7 +39,7 @@ case "${host}" in
   HOSTING_LIBS='-L`dirname \`${CC} --print-file-name=libc.so\`` '"$HOSTING_LIBS"' `if [ -f ../gcc/crtend.o ]; then echo ../gcc/crtend.o; else ${CC} --print-file-name=crtend.o; fi` `${CC} --print-file-name=crtn.o`'
   ;;
 
-*-*-netbsd*)
+*-*-netbsd* | *-*-mirbsd*)
   # Different versions of NetBSD with the ELF object format use different
   # sets of start/end files.
   HOSTING_CRT0='-dynamic-linker /usr/libexec/ld.elf_so /usr/lib/crt0.o'
@@ -228,6 +230,10 @@ x86_64-*-linux-gnu*)
   ;;
 
 *-*-netbsd*)
+  ;;
+
+*-*-mirbsd*)
+  HOSTING_CRT0="${HOSTING_CRT0#@(-dynamic-linker /usr/libexec/ld.elf_so )}"
   ;;
 
 alpha*-*-*)

@@ -127,7 +127,7 @@ void
 input_file_open (char *filename, /* "" means use stdin. Must not be 0.  */
 		 int pre)
 {
-  int c;
+  int c = 0;
   char buf[80];
 
   preprocess = pre;

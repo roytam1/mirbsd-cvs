@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Utility to pick a temporary filename prefix.
    Copyright (C) 1996, 1997, 1998, 2001 Free Software Foundation, Inc.
 
@@ -20,6 +22,8 @@ Boston, MA 02111-1307, USA.  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+__RCSID("$MirOS$");
 
 #include <stdio.h>	/* May get P_tmpdir.  */
 #include <sys/types.h>
@@ -125,7 +129,7 @@ choose_tmpdir ()
      and return it.  */
   len = strlen (base);
   tmpdir = xmalloc (len + 2);
-  strcpy (tmpdir, base);
+  strlcpy (tmpdir, base, len + 2);
   tmpdir[len] = DIR_SEPARATOR;
   tmpdir[len+1] = '\0';
 
@@ -163,9 +167,9 @@ make_temp_file (suffix)
   temp_filename = xmalloc (base_len
 			   + TEMP_FILE_LEN
 			   + suffix_len + 1);
-  strcpy (temp_filename, base);
-  strcpy (temp_filename + base_len, TEMP_FILE);
-  strcpy (temp_filename + base_len + TEMP_FILE_LEN, suffix);
+  strlcpy (temp_filename, base, base_len + TEMP_FILE_LEN + suffix_len + 1);
+  strlcat (temp_filename, TEMP_FILE, base_len + TEMP_FILE_LEN + suffix_len + 1);
+  strlcat (temp_filename, suffix, base_len + TEMP_FILE_LEN + suffix_len + 1);
 
   fd = mkstemps (temp_filename, suffix_len);
   /* If mkstemps failed, then something bad is happening.  Maybe we should

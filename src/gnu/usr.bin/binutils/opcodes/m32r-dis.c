@@ -50,8 +50,6 @@ static void print_insn_normal
   (CGEN_CPU_DESC, void *, const CGEN_INSN *, CGEN_FIELDS *, bfd_vma, int);
 static int print_insn
   (CGEN_CPU_DESC, bfd_vma,  disassemble_info *, char *, unsigned);
-static int default_print_insn
-  (CGEN_CPU_DESC, bfd_vma, disassemble_info *);
 static int read_insn
   (CGEN_CPU_DESC, bfd_vma, disassemble_info *, char *, int, CGEN_EXTRACT_INFO *,
    unsigned long *);
@@ -526,41 +524,6 @@ print_insn (CGEN_CPU_DESC cd,
     }
 
   return 0;
-}
-
-/* Default value for CGEN_PRINT_INSN.
-   The result is the size of the insn in bytes or zero for an unknown insn
-   or -1 if an error occured fetching bytes.  */
-
-#ifndef CGEN_PRINT_INSN
-#define CGEN_PRINT_INSN default_print_insn
-#endif
-
-static int
-default_print_insn (CGEN_CPU_DESC cd, bfd_vma pc, disassemble_info *info)
-{
-  char buf[CGEN_MAX_INSN_SIZE];
-  int buflen;
-  int status;
-
-  /* Attempt to read the base part of the insn.  */
-  buflen = cd->base_insn_bitsize / 8;
-  status = (*info->read_memory_func) (pc, buf, buflen, info);
-
-  /* Try again with the minimum part, if min < base.  */
-  if (status != 0 && (cd->min_insn_bitsize < cd->base_insn_bitsize))
-    {
-      buflen = cd->min_insn_bitsize / 8;
-      status = (*info->read_memory_func) (pc, buf, buflen, info);
-    }
-
-  if (status != 0)
-    {
-      (*info->memory_error_func) (status, pc, info);
-      return -1;
-    }
-
-  return print_insn (cd, pc, info, buf, buflen);
 }
 
 /* Main entry point.

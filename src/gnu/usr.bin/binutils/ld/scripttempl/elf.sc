@@ -1,3 +1,4 @@
+# $MirOS$
 #
 # Unusual variables checked by this code:
 #	NOP - four byte opcode for no-op (defaults to 0)
@@ -86,7 +87,11 @@ test -z "${ALIGNMENT}" && ALIGNMENT="${ELFSIZE} / 8"
 test "$LD_FLAG" = "N" && DATA_ADDR=.
 test -n "$CREATE_SHLIB$CREATE_PIE" && test -n "$SHLIB_DATA_ADDR" && COMMONPAGESIZE=""
 test -z "$CREATE_SHLIB$CREATE_PIE" && test -n "$DATA_ADDR" && COMMONPAGESIZE=""
+if [ -n "$PLT_BEFORE_GOT" ]; then DATA_NONEXEC_PLT=; unset DATA_PLT; unset BSS_PLT; fi
 test -n "$RELRO_NOW" && unset SEPARATE_GOTPLT
+unset NO_SMALL_DATA_GOT
+test -n "$NO_SMALL_DATA" && test -z "${PAD_GOT+x}" && NO_SMALL_DATA_GOT=
+test -z "${NO_SMALL_DATA_GOT+x}" && unset SEPARATE_GOTPLT
 DATA_SEGMENT_ALIGN="ALIGN(${SEGMENT_SIZE}) + (. & (${MAXPAGESIZE} - 1))"
 DATA_SEGMENT_RELRO_END=""
 DATA_SEGMENT_RELRO_GOTPLT_END=""
@@ -112,8 +117,8 @@ if test -z "$GOT"; then
   fi
 fi
 DYNAMIC=".dynamic      ${RELOCATING-0} : { *(.dynamic) }"
-RODATA=".rodata       ${RELOCATING-0} : { *(.rodata${RELOCATING+ .rodata.* .gnu.linkonce.r.*}) }"
 DATARELRO=".data.rel.ro : { *(.data.rel.ro.local) *(.data.rel.ro*) }"
+RODATA=".rodata       ${RELOCATING-0} : { *(.rodata${RELOCATING+ .rodata.* .gnu.linkonce.r.*}) }"
 STACKNOTE="/DISCARD/ : { *(.note.GNU-stack) }"
 if test -z "${NO_SMALL_DATA}"; then
   SBSS=".sbss         ${RELOCATING-0} :
@@ -147,7 +152,22 @@ if test -z "${NO_SMALL_DATA}"; then
 else
   NO_SMALL_DATA=" "
 fi
+RODATA_ALIGN_ADD_VAL="${CREATE_SHLIB-${RODATA_ALIGN_ADD:-0}} ${CREATE_SHLIB+0}"
+test "$LD_FLAG" = "n" || test "$LD_FLAG" = "N" || test "$LD_FLAG" = "Z" || NO_PAD="y"
+if test "$NO_PAD" = "y" ; then
+  PAD_RO0="${RELOCATING+${RODATA_ALIGN} + ${RODATA_ALIGN_ADD_VAL};}"
+  PAD_PLT0="${RELOCATING+. = ALIGN(${MAXPAGESIZE}) + (. & (${MAXPAGESIZE} - 1));} .pltpad0 ${RELOCATING-0} : { ${RELOCATING+__plt_start = .;} }"
+  PAD_PLT1=".pltpad1 ${RELOCATING-0} : { ${RELOCATING+__plt_end = .;}} ${RELOCATING+. = ALIGN(${MAXPAGESIZE}) + (. & (${MAXPAGESIZE} - 1));}"
+  PAD_GOT0="${RELOCATING+. = ALIGN(${MAXPAGESIZE}) + (. & (${MAXPAGESIZE} - 1));} .gotpad0 ${RELOCATING-0} : { ${RELOCATING+__got_start = .;} }"
+  PAD_GOT1=".gotpad1 ${RELOCATING-0} : { ${RELOCATING+__got_end = .;}} ${RELOCATING+. = ALIGN(${MAXPAGESIZE}) + (. & (${MAXPAGESIZE} - 1));}"
+  test "$NO_PAD_CDTOR" = "y" || PAD_CDTOR=
+fi
 test -n "$SEPARATE_GOTPLT" && SEPARATE_GOTPLT=" "
+test -z "$S_EH_FRAME" && S_EH_FRAME=".eh_frame     ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.eh_frame)) }"
+test -z "$S_GCC_EXC" && S_GCC_EXC=".gcc_except_table ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.gcc_except_table)) *(.gcc_except_table.*) }"
+test -z "$S_TDATA" && S_TDATA=".tdata	${RELOCATING-0} : { *(.tdata${RELOCATING+ .tdata.* .gnu.linkonce.td.*}) }"
+test -z "$S_TBSS" && S_TBSS=".tbss		${RELOCATING-0} : { *(.tbss${RELOCATING+ .tbss.* .gnu.linkonce.tb.*})${RELOCATING+ *(.tcommon)} }"
+test -z "$S_JCR" && S_JCR=".jcr          ${RELOCATING-0} : { KEEP (*(.jcr)) }"
 CTOR=".ctors        ${CONSTRUCTING-0} : 
   {
     ${CONSTRUCTING+${CTOR_START}}
@@ -286,6 +306,9 @@ cat <<EOF
   .rela.plt     ${RELOCATING-0} : { *(.rela.plt) }
   ${OTHER_PLT_RELOC_SECTIONS}
 
+  /* End of relocation sections.
+     Start of text sections.  */
+
   .init         ${RELOCATING-0} : 
   { 
     ${RELOCATING+${INIT_START}}
@@ -293,7 +316,7 @@ cat <<EOF
     ${RELOCATING+${INIT_END}}
   } =${NOP-0}
 
-  ${DATA_PLT-${BSS_PLT-${PLT}}}
+  ${DATA_PLT-${DATA_NONEXEC_PLT-${BSS_PLT-${PLT}}}}
   .text         ${RELOCATING-0} :
   {
     ${RELOCATING+${TEXT_START_SYMBOLS}}
@@ -312,6 +335,10 @@ cat <<EOF
   ${RELOCATING+PROVIDE (__etext = .);}
   ${RELOCATING+PROVIDE (_etext = .);}
   ${RELOCATING+PROVIDE (etext = .);}
+
+  /* Start of R/O data sections.  */
+
+  ${PAD_RO+${PAD_RO0}}
   ${WRITABLE_RODATA-${RODATA}}
   .rodata1      ${RELOCATING-0} : { *(.rodata1) }
   ${CREATE_SHLIB-${SDATA2}}
@@ -321,19 +348,17 @@ cat <<EOF
   .eh_frame     ${RELOCATING-0} : ONLY_IF_RO { KEEP (*(.eh_frame)) }
   .gcc_except_table ${RELOCATING-0} : ONLY_IF_RO { KEEP (*(.gcc_except_table)) *(.gcc_except_table.*) }
 
+  /* Start of R/W data sections.  */
   /* Adjust the address for the data segment.  We want to adjust up to
      the same address within the page on the next page up.  */
   ${CREATE_SHLIB-${CREATE_PIE-${RELOCATING+. = ${DATA_ADDR-${DATA_SEGMENT_ALIGN}};}}}
   ${CREATE_SHLIB+${RELOCATING+. = ${SHLIB_DATA_ADDR-${DATA_SEGMENT_ALIGN}};}}
   ${CREATE_PIE+${RELOCATING+. = ${SHLIB_DATA_ADDR-${DATA_SEGMENT_ALIGN}};}}
 
-  /* Exception handling  */
-  .eh_frame     ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.eh_frame)) }
-  .gcc_except_table ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.gcc_except_table)) *(.gcc_except_table.*) }
-
-  /* Thread Local Storage sections  */
-  .tdata	${RELOCATING-0} : { *(.tdata${RELOCATING+ .tdata.* .gnu.linkonce.td.*}) }
-  .tbss		${RELOCATING-0} : { *(.tbss${RELOCATING+ .tbss.* .gnu.linkonce.tb.*})${RELOCATING+ *(.tcommon)} }
+  ${NO_SMALL_DATA_GOT+${S_EH_FRAME}}
+  ${NO_SMALL_DATA_GOT+${S_GCC_EXC}}
+  ${NO_SMALL_DATA_GOT+${S_TDATA}}
+  ${NO_SMALL_DATA_GOT+${S_TBSS}}
 
   /* Ensure the __preinit_array_start label is properly aligned.  We
      could instead move the label definition inside the section, but
@@ -352,20 +377,23 @@ cat <<EOF
   .fini_array   ${RELOCATING-0} : { KEEP (*(.fini_array)) }
   ${RELOCATING+${CREATE_SHLIB-PROVIDE (__fini_array_end = .);}}
 
-  ${SMALL_DATA_CTOR-${RELOCATING+${CTOR}}}
-  ${SMALL_DATA_DTOR-${RELOCATING+${DTOR}}}
-  .jcr          ${RELOCATING-0} : { KEEP (*(.jcr)) }
+  ${NO_SMALL_DATA_GOT+${PAD_CDTOR+${SMALL_DATA_CTOR-${RELOCATING+${CTOR}}}}}
+  ${NO_SMALL_DATA_GOT+${PAD_CDTOR+${SMALL_DATA_CTOR-${RELOCATING+${DTOR}}}}}
+  ${NO_SMALL_DATA_GOT+${S_JCR}}
 
   ${RELOCATING+${DATARELRO}}
   ${OTHER_RELRO_SECTIONS}
-  ${TEXT_DYNAMIC-${DYNAMIC}}
-  ${NO_SMALL_DATA+${RELRO_NOW+${GOT}}}
-  ${NO_SMALL_DATA+${RELRO_NOW-${SEPARATE_GOTPLT+${GOT}}}}
-  ${NO_SMALL_DATA+${RELRO_NOW-${SEPARATE_GOTPLT+${GOTPLT}}}}
+  ${NO_SMALL_DATA_GOT+${TEXT_DYNAMIC-${DYNAMIC}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW+${DATA_NONEXEC_PLT+${PLT}}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW+${GOT}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${DATA_NONEXEC_PLT+${PLT}}}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${GOT}}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${GOTPLT}}}}
   ${RELOCATING+${DATA_SEGMENT_RELRO_END}}
-  ${NO_SMALL_DATA+${RELRO_NOW-${SEPARATE_GOTPLT-${GOT}}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT-${DATA_NONEXEC_PLT+${PLT}}}}}
+  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT-${GOT}}}}
 
-  ${DATA_PLT+${PLT_BEFORE_GOT-${PLT}}}
+  ${NO_SMALL_DATA_GOT+${DATA_PLT+${PLT}}}
 
   .data         ${RELOCATING-0} :
   {
@@ -375,24 +403,54 @@ cat <<EOF
     ${CONSTRUCTING+SORT(CONSTRUCTORS)}
   }
   .data1        ${RELOCATING-0} : { *(.data1) }
+  ${NO_SMALL_DATA_GOT-${S_TDATA}}
+  ${NO_SMALL_DATA_GOT-${S_TBSS}}
+  ${NO_SMALL_DATA_GOT-${S_EH_FRAME}}
+  ${NO_SMALL_DATA_GOT-${S_GCC_EXC}}
   ${WRITABLE_RODATA+${RODATA}}
   ${OTHER_READWRITE_SECTIONS}
-  ${SMALL_DATA_CTOR+${RELOCATING+${CTOR}}}
-  ${SMALL_DATA_DTOR+${RELOCATING+${DTOR}}}
-  ${DATA_PLT+${PLT_BEFORE_GOT+${PLT}}}
+  ${NO_SMALL_DATA_GOT+${PAD_CDTOR+${SMALL_DATA_CTOR+${RELOCATING+${CTOR}}}}}
+  ${NO_SMALL_DATA_GOT+${PAD_CDTOR+${SMALL_DATA_CTOR+${RELOCATING+${DTOR}}}}}
+  ${NO_SMALL_DATA_GOT-${TEXT_DYNAMIC-${DYNAMIC}}}
+  ${PAD_CDTOR-${RELOCATING+${CTOR}}}
+  ${PAD_CDTOR-${RELOCATING+${DTOR}}}
+  ${NO_SMALL_DATA_GOT-${S_JCR}}
+
+  /* Pad PLT (if DATA_PLT).  */
+  ${NO_SMALL_DATA_GOT-${DATA_PLT+${PAD_PLT+${PAD_PLT0}}}}
+  ${NO_SMALL_DATA_GOT-${DATA_PLT+${PLT}}}
+  ${NO_SMALL_DATA_GOT-${DATA_PLT+${PAD_PLT+${PAD_PLT1}}}}
+
+  /* Pad GOT, PLT (if DATA_NONEXEC_PLT) and CTOR/DTOR (if PAD_CDTOR)
+     to page aligned if PAD_GOT.  */
+  ${PAD_GOT+${PAD_GOT0}}
+  ${NO_SMALL_DATA_GOT-${DATA_NONEXEC_PLT+${PLT}}}
   ${RELOCATING+${OTHER_GOT_SYMBOLS}}
-  ${NO_SMALL_DATA-${GOT}}
+  ${NO_SMALL_DATA_GOT-${GOT}}
+  /* If PAD_CDTOR, CTOR and DTOR relocated here to receive mprotect
+     protection after relocations are finished - same as GOT.  */
+  ${NO_SMALL_DATA_GOT-${PAD_CDTOR+${RELOCATING+${CTOR}}}}
+  ${NO_SMALL_DATA_GOT-${PAD_CDTOR+${RELOCATING+${DTOR}}}}
   ${OTHER_GOT_SECTIONS}
+  ${PAD_GOT+${PAD_GOT1}}
+
+  /* Start of shared data sections.  */
+
   ${CREATE_SHLIB+${SDATA2}}
   ${CREATE_SHLIB+${SBSS2}}
   ${SDATA}
   ${OTHER_SDATA_SECTIONS}
   ${RELOCATING+_edata = .;}
   ${RELOCATING+PROVIDE (edata = .);}
+
+  /* Start of BSS sections.  */
+
   ${RELOCATING+__bss_start = .;}
   ${RELOCATING+${OTHER_BSS_SYMBOLS}}
   ${SBSS}
+  ${BSS_PLT+${PAD_PLT+${PAD_PLT0}}}
   ${BSS_PLT+${PLT}}
+  ${BSS_PLT+${PAD_PLT+${PAD_PLT1}}}
   .bss          ${RELOCATING-0} :
   {
    *(.dynbss)

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ar.c - Archive modify and extract.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
    2001, 2002, 2003, 2004
@@ -36,6 +38,8 @@
 #include "filenames.h"
 #include "binemul.h"
 #include <sys/stat.h>
+
+__RCSID("$MirOS$");
 
 #ifdef __GO32___
 #define EXT_NAME_LEN 3		/* bufflen of addition to name if it's MS-DOS */
@@ -1073,7 +1077,7 @@ write_archive (bfd *iarch)
 
   old_name = xmalloc (strlen (bfd_get_filename (iarch)) + 1);
   strcpy (old_name, bfd_get_filename (iarch));
-  new_name = make_tempname (old_name);
+  new_name = make_tempname (old_name, 0);
 
   output_filename = new_name;
 

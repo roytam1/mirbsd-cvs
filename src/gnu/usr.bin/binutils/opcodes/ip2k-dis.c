@@ -42,10 +42,6 @@ along with this program; if not, write to the Free Software Foundation, Inc.,
 
 static void print_normal
   (CGEN_CPU_DESC, void *, long, unsigned int, bfd_vma, int);
-static void print_address
-  (CGEN_CPU_DESC, void *, bfd_vma, unsigned int, bfd_vma, int);
-static void print_keyword
-  (CGEN_CPU_DESC, void *, CGEN_KEYWORD *, long, unsigned int);
 static void print_insn_normal
   (CGEN_CPU_DESC, void *, const CGEN_INSN *, CGEN_FIELDS *, bfd_vma, int);
 static int print_insn
@@ -66,7 +62,6 @@ static void name PARAMS ((CGEN_CPU_DESC, PTR, long, unsigned int, bfd_vma, int))
 PRINT_FUNC_DECL (print_fr);
 PRINT_FUNC_DECL (print_dollarhex);
 PRINT_FUNC_DECL (print_dollarhex8);
-PRINT_FUNC_DECL (print_dollarhex16);
 PRINT_FUNC_DECL (print_dollarhex_addr16h);
 PRINT_FUNC_DECL (print_dollarhex_addr16l);
 PRINT_FUNC_DECL (print_dollarhex_p);
@@ -155,20 +150,6 @@ print_dollarhex8 (cd, dis_info, value, attrs, pc, length)
   disassemble_info *info = (disassemble_info *) dis_info;
 
   (*info->fprintf_func) (info->stream, "$%02x", value);
-}
-
-static void
-print_dollarhex16 (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
-{
-  disassemble_info *info = (disassemble_info *) dis_info;
-
-  (*info->fprintf_func) (info->stream, "$%04x", value);
 }
 
 static void
@@ -371,54 +352,6 @@ print_normal (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
     (*info->fprintf_func) (info->stream, "%ld", value);
   else
     (*info->fprintf_func) (info->stream, "0x%lx", value);
-}
-
-/* Default address handler.  */
-
-static void
-print_address (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
-	       void *dis_info,
-	       bfd_vma value,
-	       unsigned int attrs,
-	       bfd_vma pc ATTRIBUTE_UNUSED,
-	       int length ATTRIBUTE_UNUSED)
-{
-  disassemble_info *info = (disassemble_info *) dis_info;
-
-#ifdef CGEN_PRINT_ADDRESS
-  CGEN_PRINT_ADDRESS (cd, info, value, attrs, pc, length);
-#endif
-
-  /* Print the operand as directed by the attributes.  */
-  if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_SEM_ONLY))
-    ; /* nothing to do */
-  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_PCREL_ADDR))
-    (*info->print_address_func) (value, info);
-  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_ABS_ADDR))
-    (*info->print_address_func) (value, info);
-  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_SIGNED))
-    (*info->fprintf_func) (info->stream, "%ld", (long) value);
-  else
-    (*info->fprintf_func) (info->stream, "0x%lx", (long) value);
-}
-
-/* Keyword print handler.  */
-
-static void
-print_keyword (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
-	       void *dis_info,
-	       CGEN_KEYWORD *keyword_table,
-	       long value,
-	       unsigned int attrs ATTRIBUTE_UNUSED)
-{
-  disassemble_info *info = (disassemble_info *) dis_info;
-  const CGEN_KEYWORD_ENTRY *ke;
-
-  ke = cgen_keyword_lookup_value (keyword_table, value);
-  if (ke != NULL)
-    (*info->fprintf_func) (info->stream, "%s", ke->name);
-  else
-    (*info->fprintf_func) (info->stream, "???");
 }
 
 /* Default insn printer.

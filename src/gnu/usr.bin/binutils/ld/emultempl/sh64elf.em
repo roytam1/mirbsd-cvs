@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # This shell script emits a C file. -*- C -*-
 #   Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 #
@@ -565,3 +567,4 @@ sh64_elf_${EMULATION_NAME}_after_allocation (void)
     = crangesp - cranges->contents - cranges->size;
   cranges->size = crangesp - cranges->contents;
 }
+EOF

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ELF linking support for BFD.
    Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
@@ -26,6 +28,8 @@
 #include "elf-bfd.h"
 #include "safe-ctype.h"
 #include "libiberty.h"
+
+__RCSID("$MirOS$");
 
 bfd_boolean
 _bfd_elf_create_got_section (bfd *abfd, struct bfd_link_info *info)
@@ -3021,6 +3025,9 @@ elf_link_add_object_symbols (bfd *abfd, struct bfd_link_info *info)
      .gnu.warning.SYMBOL are treated as warning symbols for the given
      symbol.  This differs from .gnu.warning sections, which generate
      warnings when they are included in an output file.  */
+  /* As a MirOS extension, any input sections which are named
+     .gnu.warning.*SYMBOL are generating a warning on each use of the
+     symbol, even if it is not contained in the shared library.  */
   if (info->executable)
     {
       asection *s;
@@ -3034,10 +3041,16 @@ elf_link_add_object_symbols (bfd *abfd, struct bfd_link_info *info)
 	    {
 	      char *msg;
 	      bfd_size_type sz;
-	      bfd_size_type prefix_len;
-	      const char * gnu_warning_prefix = _("warning: ");
 
 	      name += sizeof ".gnu.warning." - 1;
+
+	      /* If the name starts with '*', always warn.  */
+	      if (*name == '*')
+		{
+		  ++name;
+		}
+	      else
+		/* fall through */
 
 	      /* If this is a shared object, then look up the symbol
 		 in the hash table.  If it is there, and it is already
@@ -3069,16 +3082,14 @@ elf_link_add_object_symbols (bfd *abfd, struct bfd_link_info *info)
 		}
 
 	      sz = s->size;
-	      prefix_len = strlen (gnu_warning_prefix);
-	      msg = bfd_alloc (abfd, prefix_len + sz + 1);
+	      msg = bfd_alloc (abfd, sz + 1);
 	      if (msg == NULL)
 		goto error_return;
 
-	      strcpy (msg, gnu_warning_prefix);
-	      if (! bfd_get_section_contents (abfd, s, msg + prefix_len, 0, sz))
+	      if (! bfd_get_section_contents (abfd, s, msg, 0, sz))
 		goto error_return;
 
-	      msg[prefix_len + sz] = '\0';
+	      msg[sz] = '\0';
 
 	      if (! (_bfd_generic_link_add_one_symbol
 		     (info, abfd, name, BSF_WARNING, s, 0, msg,

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ld.h -- general linker header file
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2002, 2004
    Free Software Foundation, Inc.
@@ -21,6 +23,11 @@
 
 #ifndef LD_H
 #define LD_H
+
+#ifdef HAVE_STDBOOL_H
+# include <stdbool.h>
+# define boolean bool
+#endif
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
@@ -230,6 +237,10 @@ typedef struct {
   bfd_boolean sort_common;
 
   bfd_boolean text_read_only;
+
+  /* Classic ELF executable which has data and bss next to each
+     other with no padding for GOT/PLT. */
+  bfd_boolean data_bss_contig;
 
   char *map_filename;
   FILE *map_file;

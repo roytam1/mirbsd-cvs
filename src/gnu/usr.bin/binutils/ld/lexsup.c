@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Parse options for the GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
    2001, 2002, 2003, 2004
@@ -39,6 +41,8 @@
 #include "ldver.h"
 #include "ldemul.h"
 #include "demangle.h"
+
+__RCSID("$MirOS$");
 
 #ifndef PATH_SEPARATOR
 #if defined (__MSDOS__) || (defined (_WIN32) && ! defined (__CYGWIN32__))
@@ -241,6 +245,9 @@ static const struct ld_option ld_options[] =
     'n', NULL, N_("Do not page align data"), TWO_DASHES },
   { {"omagic", no_argument, NULL, 'N'},
     'N', NULL, N_("Do not page align data, do not make text readonly"),
+    EXACTLY_TWO_DASHES },
+  { {"Zmagic", no_argument, NULL, 'Z'},
+    'Z', NULL, N_("Do not page align got/plt, old style executable"),
     EXACTLY_TWO_DASHES },
   { {"no-omagic", no_argument, NULL, OPTION_NO_OMAGIC},
     '\0', NULL, N_("Page align data, make text readonly"),
@@ -838,6 +845,9 @@ parse_args (unsigned argc, char **argv)
 	case 'n':
 	  config.magic_demand_paged = FALSE;
 	  config.dynamic_link = FALSE;
+	  break;
+	case 'Z':
+	  config.data_bss_contig = TRUE;
 	  break;
 	case OPTION_NO_DEFINE_COMMON:
 	  command_line.inhibit_common_definition = TRUE;

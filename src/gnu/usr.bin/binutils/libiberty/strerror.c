@@ -1,8 +1,12 @@
+/* $MirOS$ */
+
 /* Extended support for using errno values.
    Written by Fred Fish.  fnf@cygnus.com
    This file is in the public domain.  --Per Bothner.  */
 
 #include "config.h"
+
+__RCSID("$MirOS$");
 
 #ifdef HAVE_SYS_ERRLIST
 /* Note that errno.h (not sure what OS) or stdio.h (BSD 4.4, at least)
@@ -651,7 +655,7 @@ strerror (errnoval)
   else if ((sys_errlist == NULL) || (sys_errlist[errnoval] == NULL))
     {
       /* In range, but no sys_errlist or no entry at this index. */
-      sprintf (buf, "Error %d", errnoval);
+      snprintf (buf, sizeof buf, "Error %d", errnoval);
       msg = buf;
     }
   else
@@ -714,7 +718,7 @@ strerrno (errnoval)
   else if ((error_names == NULL) || (error_names[errnoval] == NULL))
     {
       /* In range, but no error_names or no entry at this index. */
-      sprintf (buf, "Error %d", errnoval);
+      snprintf (buf, sizeof buf, "Error %d", errnoval);
       name = (const char *) buf;
     }
   else

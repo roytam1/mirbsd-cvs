@@ -1,3 +1,5 @@
+dnl $MirOS$
+
 dnl GAS_CHECK_DECL_NEEDED(name, typedefname, typedef, headers)
 AC_DEFUN([GAS_CHECK_DECL_NEEDED],[
 AC_MSG_CHECKING(whether declaration is required for $1)
@@ -63,10 +65,4 @@ ifelse(yes,no,[
 AC_DEFUN([AM_PROG_LIBTOOL],)
 AC_DEFUN([AC_CHECK_LIBM],)
 AC_SUBST(LIBTOOL)
-])
-
-sinclude(../gettext.m4)
-ifelse(yes,no,[
-AC_DEFUN([CY_WITH_NLS],)
-AC_SUBST(INTLLIBS)
 ])

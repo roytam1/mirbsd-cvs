@@ -1,4 +1,7 @@
+%option nounput
 %{
+/* $MirOS$ */
+
 /* Copyright 2001, 2003 Free Software Foundation, Inc.
 
 This file is part of GLD, the Gnu Linker.
@@ -19,6 +22,10 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 02111-1307, USA.  */
 
 #include "sysinfo.h"
+#include <string.h>
+
+__RCSID("$MirOS$");
+
 char *word;
 int number;
 int unit;

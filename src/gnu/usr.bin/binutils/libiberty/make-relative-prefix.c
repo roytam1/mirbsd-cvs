@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Relative (relocatable) prefix support.
    Copyright (C) 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
    1999, 2000, 2001, 2002 Free Software Foundation, Inc.
@@ -50,6 +52,8 @@ relative prefix can be found, return @code{NULL}.
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+__RCSID("$MirOS$");
 
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
@@ -275,10 +279,11 @@ make_relative_prefix (progname, bin_prefix, prefix)
 		      else
 			nstore[endp - startp] = 0;
 		    }
-		  strcat (nstore, progname);
+		  strlcat (nstore, progname, prefixlen + strlen (progname) + 1);
 		  if (! access (nstore, X_OK)
 #ifdef HAVE_HOST_EXECUTABLE_SUFFIX
-                      || ! access (strcat (nstore, HOST_EXECUTABLE_SUFFIX), X_OK)
+                      || ! access (strlcat (nstore, HOST_EXECUTABLE_SUFFIX), X_OK,
+				prefixlen + strlen (progname) + 1)
 #endif
 		      )
 		    {
@@ -372,13 +377,13 @@ make_relative_prefix (progname, bin_prefix, prefix)
   /* Build up the pathnames in argv[0].  */
   *ret = '\0';
   for (i = 0; i < prog_num; i++)
-    strcat (ret, prog_dirs[i]);
+    strlcat (ret, prog_dirs[i], needed_len);
 
   /* Now build up the ..'s.  */
   ptr = ret + strlen(ret);
   for (i = common; i < bin_num; i++)
     {
-      strcpy (ptr, DIR_UP);
+      strlcpy (ptr, DIR_UP, needed_len - strlen(ret));
       ptr += sizeof (DIR_UP) - 1;
       *(ptr++) = DIR_SEPARATOR;
     }
@@ -386,7 +391,7 @@ make_relative_prefix (progname, bin_prefix, prefix)
 
   /* Put in directories to move over to prefix.  */
   for (i = common; i < prefix_num; i++)
-    strcat (ret, prefix_dirs[i]);
+    strlcat (ret, prefix_dirs[i], needed_len);
 
   free_split_directories (prog_dirs);
   free_split_directories (bin_dirs);

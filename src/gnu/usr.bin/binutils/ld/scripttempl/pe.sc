@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for PE.
 
 if test -z "${RELOCATEABLE_OUTPUT_FORMAT}"; then
@@ -182,12 +184,12 @@ SECTIONS
     *(.reloc)
   }
 
-  .stab ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .stab ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.stab)
   }
 
-  .stabstr ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .stabstr ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.stabstr)
   }
@@ -198,75 +200,75 @@ SECTIONS
      section VMA at 0, the PE format will not allow it.  */
      
   /* DWARF 1.1 and DWARF 2.  */
-  .debug_aranges ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_aranges ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_aranges)
   }
 
-  .debug_pubnames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_pubnames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_pubnames)
   }
 
   /* DWARF 2.  */
-  .debug_info ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_info ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_info) *(.gnu.linkonce.wi.*)
   }
 
-  .debug_abbrev ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_abbrev ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_abbrev)
   }
 
-  .debug_line ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_line ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_line)
   }
 
-  .debug_frame ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_frame ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_frame)
   }
 
-  .debug_str ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_str ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_str)
   }
 
-  .debug_loc ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_loc ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_loc)
   }
 
-  .debug_macinfo ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_macinfo ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_macinfo)
   }
 
   /* SGI/MIPS DWARF 2 extensions.  */
-  .debug_weaknames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_weaknames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_weaknames)
   }
 
-  .debug_funcnames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_funcnames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_funcnames)
   }
 
-  .debug_typenames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_typenames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_typenames)
   }
 
-  .debug_varnames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_varnames ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_varnames)
   }
 
   /* DWARF 3.  */
-  .debug_ranges ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .debug_ranges ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     *(.debug_ranges)
   }

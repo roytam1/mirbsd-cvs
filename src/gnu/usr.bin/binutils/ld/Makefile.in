@@ -1,3 +1,6 @@
+# $MirOS$
+# XXX hacked
+#
 # Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
@@ -9,6 +12,8 @@
 # but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
+
+# $MirOS$
 
 
 SHELL = @SHELL@
@@ -63,50 +68,38 @@ host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
+AR = @AR@
 AS = @AS@
-CATALOGS = @CATALOGS@
-CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CC_FOR_BUILD = @CC_FOR_BUILD@
 CPP = @CPP@
 CXXCPP = @CXXCPP@
-DATADIRNAME = @DATADIRNAME@
 DLLTOOL = @DLLTOOL@
+ECHO = @ECHO@
+EGREP = @EGREP@
 EMULATION_LIBPATH = @EMULATION_LIBPATH@
 EXEEXT = @EXEEXT@
 EXEEXT_FOR_BUILD = @EXEEXT_FOR_BUILD@
 GCJ = @GCJ@
 GCJFLAGS = @GCJFLAGS@
-GMOFILES = @GMOFILES@
-GMSGFMT = @GMSGFMT@
 GNATBIND = @GNATBIND@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
 HDEFINES = @HDEFINES@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
-INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
-INTLOBJS = @INTLOBJS@
 LIBTOOL = @LIBTOOL@
 LN = @LN@
 LN_S = @LN_S@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
-MKINSTALLDIRS = @MKINSTALLDIRS@
-MSGFMT = @MSGFMT@
 NATIVE_LIB_DIRS = @NATIVE_LIB_DIRS@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
-POFILES = @POFILES@
-POSUB = @POSUB@
 RANLIB = @RANLIB@
+RC = @RC@
 STRINGIFY = @STRINGIFY@
 STRIP = @STRIP@
 TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
 TARGET_SYSTEM_ROOT_DEFINE = @TARGET_SYSTEM_ROOT_DEFINE@
-USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
-USE_NLS = @USE_NLS@
+TESTBFDLIB = @TESTBFDLIB@
 VERSION = @VERSION@
 bfdincludedir = @bfdincludedir@
 bfdlibdir = @bfdlibdir@
@@ -115,17 +108,16 @@ build_subdir = @build_subdir@
 do_compare = @do_compare@
 host_noncanonical = @host_noncanonical@
 host_subdir = @host_subdir@
-l = @l@
 ncn_cv_ = @ncn_cv_@
 target_noncanonical = @target_noncanonical@
 target_subdir = @target_subdir@
 use_sysroot = @use_sysroot@
 
-INTLLIBS = @INTLLIBS@
-
 AUTOMAKE_OPTIONS = cygnus dejagnu
 
-SUBDIRS = po
+AM_MAKEINFOFLAGS = --no-split
+
+SUBDIRS = 
 
 tooldir = $(exec_prefix)/$(target_alias)
 
@@ -156,7 +148,7 @@ LIB_PATH = @LIB_PATH@
 
 BASEDIR = $(srcdir)/..
 BFDDIR = $(BASEDIR)/bfd
-INCDIR = $(BASEDIR)/include
+INCDIR = $(LIBIBERTY_HDRS)
 MKDEP = gcc -MM
 
 # What version of the manual to build
@@ -192,16 +184,15 @@ CXX_FOR_TARGET = `   if [ -f $$r/../gcc/xgcc ] ; then     if [ -f $$r/../newlib/
 
 
 noinst_PROGRAMS = ld-new
-info_TEXINFOS = ld.texinfo
-noinst_TEXINFOS = ldint.texinfo
+info_TEXINFOS = ld.texinfo ldint.texinfo
+noinst_TEXINFOS = #ldint.texinfo
 man_MANS = ld.1
 
-INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) -I$(top_srcdir)/../intl -I../intl $(HDEFINES) $(CFLAGS) -DLOCALEDIR="\"$(datadir)/locale\""
+INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES) $(CFLAGS)
 
 BFDLIB = ../bfd/libbfd.la
-LIBIBERTY = ../libiberty/libiberty.a
 
-ALL_EMULATIONS =  	ea29k.o 	eaixppc.o 	eaixrs6.o 	ealpha.o 	earcelf.o 	earm_epoc_pe.o 	earmaoutb.o 	earmaoutl.o 	earmcoff.o 	earmelf.o 	earmelfb.o 	earmelf_fbsd.o 	earmelf_linux.o 	earmelf_linux_eabi.o 	earmelfb_linux.o 	earmelf_nbsd.o 	earmelfb_nbsd.o 	earmelf_vxworks.o 	earmnto.o 	earmnbsd.o 	earmpe.o 	earmsymbian.o 	eavr2.o 	eavr1.o 	eavr3.o 	eavr4.o 	eavr5.o 	ecoff_i860.o 	ecoff_sparc.o 	ecrisaout.o 	ecriself.o 	ecrislinux.o 	ed10velf.o 	ed30v_e.o 	ed30v_o.o 	ed30velf.o 	edelta68.o 	eelf32_dlx.o 	eebmon29k.o 	eelf32_i960.o 	eelf32_i860.o 	eelf32_sparc.o 	eelf32b4300.o 	eelf32cr16c.o 	eelf32bmip.o 	eelf32bmipn32.o 	eelf32btsmip.o 	eelf32crx.o 	eelf32btsmipn32.o 	eelf32ltsmip.o 	eelf32ltsmipn32.o 	eelf32ebmip.o 	eelf32elmip.o 	eelf32fr30.o 	eelf32frv.o 	eelf32i370.o 	eelf32ip2k.o 	eelf32iq2000.o 	eelf32iq10.o 	eelf32l4300.o 	eelf32lmip.o 	eelf32lppc.o 	eelf32lppcnto.o 	eelf32lppcsim.o 	eelf32mcore.o 	eelf32mipswindiss.o 	eelf32openrisc.o 	eelf32ppc.o 	eelf32ppc_fbsd.o 	eelf32ppclinux.o 	eelf32ppcnto.o 	eelf32ppcsim.o 	eelf32ppcwindiss.o 	eelf32vax.o 	eelf32xstormy16.o 	eelf32xtensa.o 	eelf_i386.o 	eelf_i386_be.o 	eelf_i386_chaos.o 	eelf_i386_fbsd.o 	eelf_i386_ldso.o 	eelf_s390.o 	egld960.o 	egld960coff.o 	eh8300.o 	eh8300h.o 	eh8300s.o 	eh8300elf.o 	eh8300hn.o 	eh8300sn.o 	eh8300sx.o 	eh8300helf.o 	eh8300self.o 	eh8300hnelf.o 	eh8300snelf.o 	eh8300sxelf.o 	eh8300sxn.o 	eh8300sxnelf.o 	eh8500.o 	eh8500b.o 	eh8500c.o 	eh8500m.o 	eh8500s.o 	ehp300bsd.o 	ehp3hpux.o 	ehppaelf.o 	ehppalinux.o 	ehppanbsd.o 	ehppaobsd.o 	ei386aout.o 	ei386beos.o 	ei386bsd.o 	ei386coff.o 	ei386go32.o 	ei386linux.o 	ei386lynx.o 	ei386mach.o 	ei386moss.o 	ei386msdos.o 	ei386nbsd.o 	ei386nto.o 	ei386nw.o 	ei386pe.o 	ei386pe_posix.o 	elnk960.o 	em32relf.o 	em32rlelf.o 	em32relf_linux.o 	em32rlelf_linux.o 	em68hc11elf.o 	em68hc11elfb.o 	em68hc12elf.o 	em68hc12elfb.o 	em68k4knbsd.o 	em68kaout.o 	em68kaux.o 	em68kcoff.o 	em68kelf.o 	em68kelfnbsd.o 	em68klinux.o 	em68klynx.o 	em68knbsd.o 	em68kpsos.o 	em88kbcs.o 	emaxqcoff.o 	emcorepe.o 	emipsbig.o 	emipsbsd.o 	emipsidt.o 	emipsidtl.o 	emipslit.o 	emipslnews.o 	emipspe.o 	emsp430x110.o 	emsp430x112.o 	emsp430x1101.o 	emsp430x1111.o 	emsp430x1121.o 	emsp430x1122.o 	emsp430x1132.o 	emsp430x122.o 	emsp430x123.o 	emsp430x1222.o 	emsp430x1232.o 	emsp430x133.o 	emsp430x135.o 	emsp430x1331.o 	emsp430x1351.o 	emsp430x147.o 	emsp430x148.o 	emsp430x149.o 	emsp430x155.o 	emsp430x156.o 	emsp430x157.o 	emsp430x167.o 	emsp430x168.o 	emsp430x169.o 	emsp430x1610.o 	emsp430x1611.o 	emsp430x1612.o 	emsp430x311.o 	emsp430x312.o 	emsp430x313.o 	emsp430x314.o 	emsp430x315.o 	emsp430x323.o 	emsp430x325.o 	emsp430x336.o 	emsp430x337.o 	emsp430x412.o 	emsp430x413.o 	emsp430x415.o 	emsp430x417.o 	emsp430xE423.o 	emsp430xE425.o 	emsp430xE427.o 	emsp430xW423.o 	emsp430xW425.o 	emsp430xW427.o 	emsp430xG437.o 	emsp430xG438.o 	emsp430xG439.o 	emsp430x435.o 	emsp430x436.o 	emsp430x437.o 	emsp430x447.o 	emsp430x448.o 	emsp430x449.o 	enews.o 	ens32knbsd.o 	eor32.o 	eor32elf.o 	epc532macha.o 	epdp11.o 	epjelf.o 	epjlelf.o 	eppcmacos.o 	eppcnw.o 	eppcpe.o 	eppclynx.o 	eriscix.o 	esa29200.o 	esh.o 	eshelf32.o 	eshlelf32.o 	eshelf32_linux.o 	eshlelf32_linux.o 	eshelf32_nbsd.o 	eshlelf32_nbsd.o 	eshelf.o 	eshelf_linux.o 	eshlelf_linux.o 	eshelf_nbsd.o 	eshlelf_nbsd.o 	eshelf_nto.o 	eshlelf_nto.o 	eshl.o 	eshlelf.o 	eshlsymbian.o 	eshpe.o 	esparcaout.o 	esparclinux.o 	esparclynx.o 	esparcnbsd.o 	est2000.o 	esun3.o 	esun4.o 	etic30aout.o 	etic30coff.o 	etic3xcoff.o 	etic3xcoff_onchip.o 	etic4xcoff.o 	etic54xcoff.o 	etic80coff.o 	evanilla.o 	evax.o 	evaxnbsd.o 	evsta.o 	ew65.o 	ez8001.o 	  eelf32frvfd.o 	ez8002.o
+ALL_EMULATIONS =  	ea29k.o 	eaixppc.o 	eaixrs6.o 	ealpha.o 	earcelf.o 	earm_epoc_pe.o 	earmaoutb.o 	earmaoutl.o 	earmcoff.o 	earmelf.o 	earmelfb.o 	earmelf_fbsd.o 	earmelf_linux.o 	earmelf_linux_eabi.o 	earmelfb_linux.o 	earmelf_nbsd.o 	earmelfb_nbsd.o 	earmelf_vxworks.o 	earmnto.o 	earmnbsd.o 	earmpe.o 	earmsymbian.o 	eavr2.o 	eavr1.o 	eavr3.o 	eavr4.o 	eavr5.o 	ecoff_i860.o 	ecoff_sparc.o 	ecrisaout.o 	ecriself.o 	ecrislinux.o 	ed10velf.o 	ed30v_e.o 	ed30v_o.o 	ed30velf.o 	edelta68.o 	eelf32_dlx.o 	eebmon29k.o 	eelf32_i960.o 	eelf32_i860.o 	eelf32_sparc.o 	eelf32_sparc_mbsd.o 	eelf32b4300.o 	eelf32cr16c.o 	eelf32bmip.o 	eelf32bmipn32.o 	eelf32btsmip.o 	eelf32crx.o 	eelf32btsmipn32.o 	eelf32ltsmip.o 	eelf32ltsmipn32.o 	eelf32ebmip.o 	eelf32elmip.o 	eelf32fr30.o 	eelf32frv.o 	eelf32i370.o 	eelf32ip2k.o 	eelf32iq2000.o 	eelf32iq10.o 	eelf32l4300.o 	eelf32lmip.o 	eelf32lppc.o 	eelf32lppcnto.o 	eelf32lppcsim.o 	eelf32mcore.o 	eelf32mipswindiss.o 	eelf32openrisc.o 	eelf32ppc.o 	eelf32ppc_fbsd.o 	eelf32ppc_mbsd.o 	eelf32ppclinux.o 	eelf32ppcnto.o 	eelf32ppcsim.o 	eelf32ppcwindiss.o 	eelf32vax.o 	eelf32xstormy16.o 	eelf32xtensa.o 	eelf_i386.o 	eelf_i386_be.o 	eelf_i386_chaos.o 	eelf_i386_fbsd.o 	eelf_i386_mbsd.o 	eelf_i386_ldso.o 	eelf_s390.o 	egld960.o 	egld960coff.o 	eh8300.o 	eh8300h.o 	eh8300s.o 	eh8300elf.o 	eh8300hn.o 	eh8300sn.o 	eh8300sx.o 	eh8300helf.o 	eh8300self.o 	eh8300hnelf.o 	eh8300snelf.o 	eh8300sxelf.o 	eh8300sxn.o 	eh8300sxnelf.o 	eh8500.o 	eh8500b.o 	eh8500c.o 	eh8500m.o 	eh8500s.o 	ehp300bsd.o 	ehp3hpux.o 	ehppaelf.o 	ehppalinux.o 	ehppanbsd.o 	ehppaobsd.o 	ei386aout.o 	ei386beos.o 	ei386bsd.o 	ei386coff.o 	ei386go32.o 	ei386linux.o 	ei386lynx.o 	ei386mach.o 	ei386moss.o 	ei386msdos.o 	ei386nbsd.o 	ei386nto.o 	ei386nw.o 	ei386pe.o 	ei386pe_posix.o 	elnk960.o 	em32relf.o 	em32rlelf.o 	em32relf_linux.o 	em32rlelf_linux.o 	em68hc11elf.o 	em68hc11elfb.o 	em68hc12elf.o 	em68hc12elfb.o 	em68k4knbsd.o 	em68kaout.o 	em68kaux.o 	em68kcoff.o 	em68kelf.o 	em68kelfnbsd.o 	em68klinux.o 	em68klynx.o 	em68knbsd.o 	em68kpsos.o 	em88kbcs.o 	emaxqcoff.o 	emcorepe.o 	emipsbig.o 	emipsbsd.o 	emipsidt.o 	emipsidtl.o 	emipslit.o 	emipslnews.o 	emipspe.o 	emsp430x110.o 	emsp430x112.o 	emsp430x1101.o 	emsp430x1111.o 	emsp430x1121.o 	emsp430x1122.o 	emsp430x1132.o 	emsp430x122.o 	emsp430x123.o 	emsp430x1222.o 	emsp430x1232.o 	emsp430x133.o 	emsp430x135.o 	emsp430x1331.o 	emsp430x1351.o 	emsp430x147.o 	emsp430x148.o 	emsp430x149.o 	emsp430x155.o 	emsp430x156.o 	emsp430x157.o 	emsp430x167.o 	emsp430x168.o 	emsp430x169.o 	emsp430x1610.o 	emsp430x1611.o 	emsp430x1612.o 	emsp430x311.o 	emsp430x312.o 	emsp430x313.o 	emsp430x314.o 	emsp430x315.o 	emsp430x323.o 	emsp430x325.o 	emsp430x336.o 	emsp430x337.o 	emsp430x412.o 	emsp430x413.o 	emsp430x415.o 	emsp430x417.o 	emsp430xE423.o 	emsp430xE425.o 	emsp430xE427.o 	emsp430xW423.o 	emsp430xW425.o 	emsp430xW427.o 	emsp430xG437.o 	emsp430xG438.o 	emsp430xG439.o 	emsp430x435.o 	emsp430x436.o 	emsp430x437.o 	emsp430x447.o 	emsp430x448.o 	emsp430x449.o 	enews.o 	ens32knbsd.o 	eor32.o 	eor32elf.o 	epc532macha.o 	epdp11.o 	epjelf.o 	epjlelf.o 	eppcmacos.o 	eppcnw.o 	eppcpe.o 	eppclynx.o 	eriscix.o 	esa29200.o 	esh.o 	eshelf32.o 	eshlelf32.o 	eshelf32_linux.o 	eshlelf32_linux.o 	eshelf32_nbsd.o 	eshlelf32_nbsd.o 	eshelf.o 	eshelf_linux.o 	eshlelf_linux.o 	eshelf_nbsd.o 	eshlelf_nbsd.o 	eshelf_nto.o 	eshlelf_nto.o 	eshl.o 	eshlelf.o 	eshlsymbian.o 	eshpe.o 	esparcaout.o 	esparclinux.o 	esparclynx.o 	esparcnbsd.o 	est2000.o 	esun3.o 	esun4.o 	etic30aout.o 	etic30coff.o 	etic3xcoff.o 	etic3xcoff_onchip.o 	etic4xcoff.o 	etic54xcoff.o 	etic80coff.o 	evanilla.o 	evax.o 	evaxnbsd.o 	evsta.o 	ew65.o 	ez8001.o 	  eelf32frvfd.o 	ez8002.o
 
 
 ALL_64_EMULATIONS =  	eelf64_aix.o 	eelf64_ia64.o 	eelf64_ia64_fbsd.o 	eshelf64.o 	eshlelf64.o 	eshelf64_nbsd.o 	eshlelf64_nbsd.o 	eelf_x86_64.o 	eelf_x86_64_fbsd.o 	eelf64_s390.o 	eelf64_sparc.o 	eelf64_sparc_fbsd.o 	eelf64alpha.o 	eelf64alpha_fbsd.o 	eelf64alpha_nbsd.o 	eelf64bmip.o 	eelf64btsmip.o 	eelf64ltsmip.o 	eelf64hppa.o 	eelf64mmix.o 	emmo.o 	eelf64ppc.o 	eelf64lppc.o 	ehppa64linux.o
@@ -228,8 +219,6 @@ STAGESTUFF = *.o ldscripts/* e*.c
 # that contain internationalised strings.
 EMULATION_FILES = emultempl/pe.em emultempl/armcoff.em
 
-POTFILES = $(CFILES) $(HFILES) $(EMULATION_FILES)
-
 # These all start with e so 'make clean' can find them.
 
 GENSCRIPTS = LIB_PATH='${LIB_PATH}' $(SHELL) $(srcdir)/genscripts.sh ${srcdir} ${libdir} "${exec_prefix}" @host@ @target@ @target_alias@ "@EMULATION_LIBPATH@" "@NATIVE_LIB_DIRS@" @use_sysroot@
@@ -240,11 +229,8 @@ EXTRA_ld_new_SOURCES = deffilep.y
 
 ld_new_SOURCES = ldgram.y ldlex.l lexsup.c ldlang.c mri.c ldctor.c ldmain.c 	ldwrite.c ldexp.c ldemul.c ldver.c ldmisc.c ldfile.c ldcref.c
 
-ld_new_DEPENDENCIES = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) $(LIBIBERTY) $(INTLDEPS)
-ld_new_LDADD = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) $(LIBIBERTY) $(INTLLIBS)
-
-# This is the real libbfd.a created by libtool.
-TESTBFDLIB = @TESTBFDLIB@
+ld_new_DEPENDENCIES = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB)
+ld_new_LDADD = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) -liberty
 
 MAINTAINERCLEANFILES = ldver.texi
 
@@ -287,16 +273,16 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 TEXI2DVI = `if test -f $(top_srcdir)/../texinfo/util/texi2dvi; then echo $(top_srcdir)/../texinfo/util/texi2dvi; else echo texi2dvi; fi`
 TEXINFO_TEX = $(top_srcdir)/../texinfo/texinfo.tex
-INFO_DEPS = ld.info
-DVIS = ld.dvi
-TEXINFOS = ld.texinfo
+INFO_DEPS = ld.info ldint.info
+DVIS = ld.dvi ldint.dvi
+TEXINFOS = ld.texinfo ldint.texinfo
 man1dir = $(mandir)/man1
 MANS = $(man_MANS)
 
 NROFF = nroff
-DIST_COMMON =  README ./stamp-h.in ChangeLog Makefile.am Makefile.in \
-NEWS TODO acinclude.m4 aclocal.m4 config.in configure configure.in \
-deffilep.c ldgram.c ldlex.c
+DIST_COMMON =  ./stamp-h.in ChangeLog Makefile.am Makefile.in \
+acinclude.m4 aclocal.m4 config.in configure configure.in deffilep.c \
+ldgram.c ldlex.c ltmain.sh
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -420,6 +406,10 @@ ld.info: ld.texinfo
 ld.dvi: ld.texinfo
 
 
+ldint.info: ldint.texinfo
+ldint.dvi: ldint.texinfo
+
+
 DVIPS = dvips
 
 .texi.info:
@@ -460,7 +450,7 @@ DVIPS = dvips
 .dvi.ps:
 	$(DVIPS) $< -o $@
 
-install-info-am: $(INFO_DEPS)
+install-info-am:
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(infodir)
 	@list='$(INFO_DEPS)'; \
@@ -512,7 +502,10 @@ dist-info: $(INFO_DEPS)
 mostlyclean-aminfo:
 	-rm -f ld.aux ld.cp ld.cps ld.dvi ld.fn ld.fns ld.ky ld.kys ld.ps \
 	  ld.log ld.pg ld.toc ld.tp ld.tps ld.vr ld.vrs ld.op ld.tr \
-	  ld.cv ld.cn
+	  ld.cv ld.cn ldint.aux ldint.cp ldint.cps ldint.dvi ldint.fn \
+	  ldint.fns ldint.ky ldint.kys ldint.ps ldint.log ldint.pg \
+	  ldint.toc ldint.tp ldint.tps ldint.vr ldint.vrs ldint.op \
+	  ldint.tr ldint.cv ldint.cn
 
 clean-aminfo:
 
@@ -603,6 +596,7 @@ maintainer-clean-recursive:
 	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
 	  rev="$$subdir $$rev"; \
 	  test "$$subdir" != "." || dot_seen=yes; \
+	  true; \
 	done; \
 	test "$$dot_seen" = "no" && rev=". $$rev"; \
 	target=`echo $@ | sed s/-recursive//`; \
@@ -644,7 +638,7 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES) config.in $(TAGS_DEPENDENCIES) $(LISP
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)config.in$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags config.in $$unique $(LISP))
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags config.in $$unique $(LISP) -o $$here/TAGS)
 
 mostlyclean-tags:
 
@@ -718,6 +712,19 @@ distdir: $(DISTFILES)
 DEJATOOL = $(PACKAGE)
 
 RUNTESTDEFAULTFLAGS = --tool $(DEJATOOL) --srcdir $$srcdir
+
+check-DEJAGNU: site.exp
+	srcdir=`cd $(srcdir) && pwd`; export srcdir; \
+	EXPECT=$(EXPECT); export EXPECT; \
+	if [ -f $(top_builddir)/../expect/expect ]; then \
+	  TCL_LIBRARY=`cd $(top_srcdir)/../tcl/library && pwd`; \
+	  export TCL_LIBRARY; \
+	fi; \
+	runtest=$(RUNTEST); \
+	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
+	  $$runtest $(RUNTESTDEFAULTFLAGS) $(RUNTESTFLAGS); \
+	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
+	fi
 site.exp: Makefile
 	@echo 'Making a new site.exp file...'
 	@test ! -f site.bak || rm -f site.bak
@@ -734,7 +741,7 @@ site.exp: Makefile
 	@echo 'set build_alias $(build_alias)' >> $@-t
 	@echo 'set build_triplet $(build_triplet)' >> $@-t
 	@echo '## All variables above are generated by configure. Do Not Edit ##' >> $@-t
-	@test ! -f $(srcdir)/site.exp || sed '1,/^## All variables above are.*##/ d' $(srcdir)/site.exp >> $@-t
+	@test ! -f site.exp || sed '1,/^## All variables above are.*##/ d' site.exp >> $@-t
 	@test ! -f site.exp || mv site.exp site.bak
 	@mv $@-t site.exp
 info-am: $(INFO_DEPS)
@@ -754,10 +761,11 @@ all-recursive-am: config.h
 install-exec-am: install-exec-local
 install-exec: install-exec-recursive
 
-install-data-am: install-man install-data-local
+INSTALL_MAN=install-man
+install-data-am: $(INSTALL_MAN) install-data-local
 install-data: install-data-recursive
 
-install-am: all-am
+install-am:
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
 uninstall-am: uninstall-man
@@ -768,7 +776,6 @@ install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs)  $(DESTDIR)$(mandir)/man1
 
 
 mostlyclean-generic:
@@ -838,10 +845,6 @@ all-am all installdirs-am installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
-
-po/POTFILES.in: @MAINT@ Makefile
-	for f in $(POTFILES); do echo $$f; done | LC_COLLATE= sort > tmp \
-	  && mv tmp $(srcdir)/po/POTFILES.in
 
 ldmain.o: ldmain.c config.status
 	$(COMPILE) -c -DDEFAULT_EMULATION='"$(EMUL)"' \
@@ -1057,6 +1060,10 @@ em32rlelf_linux.c: $(srcdir)/emulparams/m32rlelf_linux.sh \
 eelf32_sparc.c: $(srcdir)/emulparams/elf32_sparc.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32_sparc "$(tdir_elf32_sparc)"
+eelf32_sparc_mbsd.c: $(srcdir)/emulparams/elf32_sparc_mbsd.sh \
+  $(srcdir)/emulparams/elf32_sparc.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32_sparc_mbsd "$(tdir_elf32_sparc_mbsd)"
 eelf32_i860.c: $(srcdir)/emulparams/elf32_i860.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32_i860 "$(tdir_elf32_i860)"
@@ -1155,6 +1162,11 @@ eelf32ppc_fbsd.c: $(srcdir)/emulparams/elf32ppc_fbsd.sh \
   $(srcdir)/emulparams/elf32ppc.sh $(srcdir)/emultempl/ppc32elf.em \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32ppc_fbsd "$(tdir_elf32ppc_fbsd)"
+eelf32ppc_mbsd.c: $(srcdir)/emulparams/elf32ppc_mbsd.sh \
+  $(srcdir)/emulparams/elf32ppc.sh \
+  $(srcdir)/emultempl/ppc32elf.em \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32ppc_mbsd "$(tdir_elf32ppc_mbsd)"
 eelf32ppcsim.c: $(srcdir)/emulparams/elf32ppcsim.sh \
   $(srcdir)/emulparams/elf32ppc.sh $(srcdir)/emultempl/ppc32elf.em \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
@@ -1264,6 +1276,10 @@ eelf_i386_fbsd.c: $(srcdir)/emulparams/elf_i386_fbsd.sh \
   $(srcdir)/emulparams/elf_i386.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_i386_fbsd "$(tdir_elf_i386_fbsd)"
+eelf_i386_mbsd.c: $(srcdir)/emulparams/elf_i386_mbsd.sh \
+  $(srcdir)/emulparams/elf_i386.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf_i386_mbsd "$(tdir_elf_i386_mbsd)"
 eelf_i386_ldso.c: $(srcdir)/emulparams/elf_i386_ldso.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_i386_ldso "$(tdir_elf_i386_ldso)"
@@ -1931,81 +1947,6 @@ $(EMULATION_OFILES): ../bfd/bfd.h sysdep.h config.h $(INCDIR)/bfdlink.h \
   ld.h ldmain.h ldemul.h ldfile.h ldmisc.h ldexp.h ldlang.h \
   ldctor.h ldexp.h ldlang.h ldgram.h
 
-check-DEJAGNU: site.exp
-	srcroot=`cd $(srcdir) && pwd`; export srcroot; \
-	r=`pwd`; export r; \
-	LC_COLLATE=; LC_ALL=; LANG=; export LC_COLLATE LC_ALL LANG; \
-	EXPECT=$(EXPECT); export EXPECT; \
-	if [ -f $(top_builddir)/../expect/expect ]; then \
-	  TCL_LIBRARY=`cd $(top_srcdir)/../tcl/library && pwd`; \
-	  export TCL_LIBRARY; \
-	fi; \
-	runtest=$(RUNTEST); \
-	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
-	  $$runtest --tool $(DEJATOOL) --srcdir $${srcroot}/testsuite \
-		CC="$(CC_FOR_TARGET)" CFLAGS="$(CFLAGS)" \
-		CXX="$(CXX_FOR_TARGET)" CXXFLAGS="$(CXXFLAGS)" \
-		CC_FOR_HOST="$(CC)" CFLAGS_FOR_HOST="$(CFLAGS)" \
-		OFILES="$(OFILES)" BFDLIB="$(TESTBFDLIB)" \
-		LIBIBERTY="$(LIBIBERTY) $(INTLLIBS)" LIBS="$(LIBS)" \
-		$(RUNTESTFLAGS); \
-	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
-	fi
-
-# Rules for testing by relinking ld itself.
-# A similar test is in the testsuite.  This target is for ease of use
-# when porting ld.
-
-ld-partial.o: ld-new$(EXEEXT)
-	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld-partial.o -r $(OFILES)
-ld1$(EXEEXT): ld-partial.o
-	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld1$(EXEEXT) $(HOSTING_CRT0) ld-partial.o $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-ld1-full$(EXEEXT): ld-new
-	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld1-full$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-ld2$(EXEEXT): ld1$(EXEEXT)
-	./ld1$(EXEEXT) $(HOSTING_EMU) -o ld2$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-ld3$(EXEEXT): ld2$(EXEEXT)
-	./ld2$(EXEEXT) $(HOSTING_EMU) -o ld3$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-bootstrap: ld3$(EXEEXT)
-	cmp ld2$(EXEEXT) ld3$(EXEEXT)
-
-.PHONY: bootstrap
-
-# A test program for C++ constructors and destructors.
-# This test is now in the testsuite.
-#
-#cdtest: cdtest-main.o cdtest-bar.o cdtest-foo.o ld.new
-#	./ld.new $(HOSTING_EMU) -o cdtest $(HOSTING_CRT0) \
-#	  cdtest-main.o cdtest-bar.o cdtest-foo.o $(HOSTING_LIBS)
-#
-#cdtest.out: cdtest
-#	./cdtest > cdtest.tmp
-#	mv cdtest.tmp cdtest.out
-#
-#cdtest-ur.o: cdtest-main.o cdtest-bar.o cdtest-foo.o ld.new
-#	./ld.new $(HOSTING_EMU) -o cdtest-ur.o -Ur cdtest-main.o \
-#	  cdtest-bar.o cdtest-foo.o
-#
-#cdtest-ur: cdtest-ur.o
-#	./ld.new $(HOSTING_EMU) -o cdtest-ur $(HOSTING_CRT0) cdtest-ur.o \
-#	  $(HOSTING_LIBS)
-#
-#cdtest-ur.out: cdtest-ur
-#	./cdtest-ur > cdtest-ur.tmp
-#	mv cdtest-ur.tmp cdtest-ur.out
-#
-#check-cdtest: cdtest.out cdtest-ur.out $(srcdir)/cdtest.exp
-#	diff $(srcdir)/cdtest.exp cdtest.out
-#	diff $(srcdir)/cdtest.exp cdtest-ur.out
-#
-#.PHONY: check-cdtest
-
-# END OF CHECK TARGETS
-
 # DOCUMENTATION TARGETS
 # Manual configuration file; not usually attached to normal configuration,
 # because almost all configs use "gen" version of manual.
@@ -2021,11 +1962,7 @@ ldver.texi: Makefile
 
 ld.info: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
 	@rm -f $@ $@-[0-9] $@-[0-9][0-9]
-	$(MAKEINFO) -I $(srcdir) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
-
-ld.dvi: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
-	TEXINPUTS=$(top_srcdir)/../texinfo:$$TEXINPUTS \
-	  MAKEINFO="$(MAKEINFO) -I $(srcdir) -I $(BFDDIR)/doc" $(TEXI2DVI) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
+	$(MAKEINFO) --no-split -I $(srcdir) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
 
 # Build the man page from the texinfo file
 # The sed command removes the no-adjust Nroff command so that
@@ -2043,20 +1980,20 @@ mostlyclean-local:
 
 .PHONY: install-exec-local install-data-local
 
-install-exec-local: ld-new$(EXEEXT)
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(tooldir)/bin
+install-exec-local:
 	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
 	    $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	  else :; fi; \
 	done
+	if [ -d "$(DESTDIR)$(tooldir)/bin" ]; then \
 	n=`echo ld | sed '$(transform)'`; \
 	if [ "$(bindir)/$$n$(EXEEXT)" != "$(tooldir)/bin/ld$(EXEEXT)" ]; then \
 	  rm -f $(DESTDIR)$(tooldir)/bin/ld$(EXEEXT); \
 	  ln $(DESTDIR)$(bindir)/$$n$(EXEEXT) $(DESTDIR)$(tooldir)/bin/ld$(EXEEXT) >/dev/null 2>/dev/null \
 	  || $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) ld-new$(EXEEXT) $(DESTDIR)$(tooldir)/bin/ld$(EXEEXT); \
-	fi
+	fi; else true; fi
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(scriptdir)/ldscripts
@@ -2072,6 +2009,9 @@ distclean-local:
 	rm -rf ldscripts
 
 Makefile: $(BFDDIR)/configure.in
+
+.y.c:
+	$(SHELL) $(YLWRAP) $< y.tab.c $*.c y.tab.h $*.h -- "$(YACC)" $(AM_YFLAGS) $(YFLAGS)
 
 # Targets to rebuild dependencies in this Makefile.
 # Have to get rid of DEP1 here so that "$?" later includes all of $(CFILES).
@@ -2102,17 +2042,17 @@ dep.sed: dep-in.sed config.status
 dep: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < Makefile > tmp-Makefile
 	cat DEP >> tmp-Makefile
-	$(srcdir)/../move-if-change tmp-Makefile Makefile
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile Makefile
 
 dep-in: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.in > tmp-Makefile.in
 	cat DEP >> tmp-Makefile.in
-	$(srcdir)/../move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
 
 dep-am: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.am > tmp-Makefile.am
 	cat DEP >> tmp-Makefile.am
-	$(srcdir)/../move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
 
 .PHONY: dep dep-in dep-am
 

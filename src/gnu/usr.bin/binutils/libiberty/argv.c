@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Create and destroy argument vectors (argv's)
    Copyright (C) 1992, 2001 Free Software Foundation, Inc.
    Written by Fred Fish @ Cygnus Support
@@ -21,6 +23,9 @@ Boston, MA 02111-1307, USA.  */
 
 /*  Create and destroy argument vectors.  An argument vector is simply an
     array of string pointers, terminated by a NULL pointer. */
+
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 #include "ansidecl.h"
 #include "libiberty.h"
@@ -100,7 +105,7 @@ dupargv (argv)
 	  freeargv (copy);
 	  return NULL;
 	}
-      strcpy (copy[argc], argv[argc]);
+      strlcpy (copy[argc], argv[argc], sizeof (char *) * (len + 1));
     }
   copy[argc] = NULL;
   return copy;

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* xstrerror.c -- jacket routine for more robust strerror() usage.
    Fri Jun 16 18:30:00 1995  Pat Rankin  <rankin@eql.caltech.edu>
    This code is in the public domain.  */
@@ -17,6 +19,8 @@ will never return a @code{NULL} pointer.
 
 #include "config.h"
 #include "libiberty.h"
+
+__RCSID("$MirOS$");
 
 #ifdef VMS
 #include <errno.h>
@@ -60,7 +64,7 @@ xstrerror (errnum)
   /* If `errnum' is out of range, result might be NULL.  We'll fix that.  */
   if (!errstr)
     {
-      sprintf (xstrerror_buf, ERRSTR_FMT, errnum);
+      snprintf (xstrerror_buf, sizeof(ERRSTR_FMT) + 20, ERRSTR_FMT, errnum);
       errstr = xstrerror_buf;
     }
   return errstr;

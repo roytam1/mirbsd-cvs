@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Function declarations for libiberty.
 
    Copyright 2001, 2002 Free Software Foundation, Inc.
@@ -48,6 +50,9 @@ extern "C" {
 #include <stdarg.h>
 #endif
 
+/* get asprintf() decl */
+#include <stdio.h>
+
 /* Build an argument vector from a string.  Allocates memory using
    malloc.  Use freeargv to free the vector.  */
 
@@ -68,6 +73,10 @@ extern char **dupargv PARAMS ((char **)) ATTRIBUTE_MALLOC;
    across different systems, sometimes as "char *" and sometimes as
    "const char *" */
 
+#if defined(__OpenBSD__)
+/* this defines basename(3) on OpenBSD or MirOS */
+#include <libgen.h>
+#else
 /* HAVE_DECL_* is a three-state macro: undefined, 0 or 1.  If it is
    undefined, we haven't run the autoconf check so provide the
    declaration without arguments.  If it is 0, we checked and failed
@@ -80,6 +89,7 @@ extern char *basename PARAMS ((const char *));
 extern char *basename ();
 #endif
 #endif
+#endif /* ! defined(__OpenBSD__) */
 
 /* A well-defined basename () that is always compiled in.  */
 
@@ -154,10 +164,6 @@ extern long get_run_time PARAMS ((void));
 
 extern char *make_relative_prefix PARAMS ((const char *, const char *,
 					   const char *));
-
-/* Choose a temporary directory to use for scratch files.  */
-
-extern char *choose_temp_base PARAMS ((void)) ATTRIBUTE_MALLOC;
 
 /* Return a temporary file name or NULL if unable to create one.  */
 
@@ -308,21 +314,6 @@ extern int pexecute PARAMS ((const char *, char * const *, const char *,
 /* Wait for pexecute to finish.  */
 
 extern int pwait PARAMS ((int, int *, int));
-
-#if !HAVE_DECL_ASPRINTF
-/* Like sprintf but provides a pointer to malloc'd storage, which must
-   be freed by the caller.  */
-
-extern int asprintf PARAMS ((char **, const char *, ...)) ATTRIBUTE_PRINTF_2;
-#endif
-
-#if !HAVE_DECL_VASPRINTF
-/* Like vsprintf but provides a pointer to malloc'd storage, which
-   must be freed by the caller.  */
-
-extern int vasprintf PARAMS ((char **, const char *, va_list))
-  ATTRIBUTE_PRINTF(2,0);
-#endif
 
 #define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
 

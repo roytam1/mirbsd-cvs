@@ -8,9 +8,3 @@ ifelse(yes,no,[
 AC_DEFUN([AM_PROG_LIBTOOL],)
 AC_SUBST(LIBTOOL)
 ])
-
-dnl sinclude(../gettext.m4) already included in bfd/acinclude.m4
-ifelse(yes,no,[
-AC_DEFUN([CY_WITH_NLS],)
-AC_SUBST(INTLLIBS)
-])

@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # In microcomputer (MC) mode, the vectors are mapped into the on-chip ROM,
 # otherwise in microprocessor (MP) mode the vectors are mapped to address 0
 # on the external bus.  In MC mode, the on-chip ROM contains a bootloader program
@@ -139,11 +141,11 @@ SECTIONS
     *(.stack)
     ${RELOCATING+ .  =  . + __STACK_SIZE};		
   } ${RELOCATING+ > ${DATA_MEMORY}}
-  .stab 0 ${RELOCATING+(NOLOAD)} : 
+  .stab 0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr 0 ${RELOCATING+(NOLOAD)} :
+  .stabstr 0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

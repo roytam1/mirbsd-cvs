@@ -1,3 +1,5 @@
+# $MirOS$
+
 # This is the linker target specific file.  This is invoked by the
 # autoconf generated configure script.  Putting it in a separate shell
 # file lets us skip running autoconf when modifying target specific
@@ -77,6 +79,8 @@ sparc*-*-linux-gnu*)	targ_emul=elf32_sparc
 			tdir_sun4=sparc-sun-sunos4
 			;;
 sparc*-*-lynxos*)	targ_emul=sparclynx ;;
+sparc-*-mirbsd*)	targ_emul=elf32_sparc_mbsd
+			;;
 sparc64-*-netbsd* | sparc64-*-openbsd*)
 			targ_emul=elf64_sparc
 			targ_extra_emuls="elf32_sparc"
@@ -177,6 +181,8 @@ i[3-7]86-*-unixware)	targ_emul=elf_i386 ;;
 i[3-7]86-*-solaris*)	targ_emul=elf_i386_ldso
                         targ_extra_emuls="elf_i386"
                         ;;
+i386-*-mirbsd*)		targ_emul=elf_i386_mbsd
+			;;
 i[3-7]86-*-netbsdelf* | \
 i[3-7]86-*-netbsd*-gnu* | \
 i[3-7]86-*-knetbsd*-gnu)
@@ -490,6 +496,8 @@ powerpc-*-freebsd* | powerpc-*-kfreebsd*-gnu)
 			targ_extra_libpath=elf32ppc;
 			tdir_elf32ppcsim=`echo ${targ_alias} | sed -e 's/ppc/ppcsim/'`
 			;;
+powerpc-*-mirbsd*)	targ_emul=elf32ppc_mbsd
+			;;
 powerpc*-*-linux*)
 	case "${targ}" in
 	*64*)	targ_emul=elf64ppc
@@ -623,6 +631,10 @@ i[03-9x]86-*-cygwin*)
   ;;
 
 *-*-freebsd*)
+  ;;
+
+*-*-mirbsd*)
+  NATIVE_LIB_DIRS='/usr/lib'
   ;;
 
 *-*-netbsd*)

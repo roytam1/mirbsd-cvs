@@ -438,8 +438,7 @@ write_comments_(state, shimm, is_limm, limm_value)
 	    strcpy (state->commentBuffer, comment_prefix);
 	  else
 	    strcat (state->commentBuffer, ", ");
-	  strncat (state->commentBuffer, state->comm[i],
-		   sizeof (state->commentBuffer));
+	  strcat (state->commentBuffer, state->comm[i]);
 	}
     }
 }

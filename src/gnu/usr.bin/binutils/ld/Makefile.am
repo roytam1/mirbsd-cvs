@@ -1,11 +1,12 @@
-## Process this file with automake to generate Makefile.in
+# $MirOS$
 
-## FIXME: work around apparent automake bug.
-INTLLIBS = @INTLLIBS@
+## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = cygnus dejagnu
 
-SUBDIRS = po
+AM_MAKEINFOFLAGS = --no-split
+
+SUBDIRS =
 
 tooldir = $(exec_prefix)/$(target_alias)
 
@@ -36,7 +37,7 @@ LIB_PATH = @LIB_PATH@
 
 BASEDIR = $(srcdir)/..
 BFDDIR = $(BASEDIR)/bfd
-INCDIR	= $(BASEDIR)/include
+INCDIR	= $(LIBIBERTY_HDRS)
 MKDEP = gcc -MM
 
 # What version of the manual to build
@@ -98,14 +99,13 @@ CXX_FOR_TARGET = ` \
   fi`
 
 noinst_PROGRAMS = ld-new
-info_TEXINFOS = ld.texinfo
-noinst_TEXINFOS = ldint.texinfo
+info_TEXINFOS = ld.texinfo ldint.texinfo
+noinst_TEXINFOS = #ldint.texinfo
 man_MANS = ld.1
 
-INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) -I$(top_srcdir)/../intl -I../intl $(HDEFINES) $(CFLAGS) -DLOCALEDIR="\"$(datadir)/locale\""
+INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES) $(CFLAGS)
 
 BFDLIB = ../bfd/libbfd.la
-LIBIBERTY = ../libiberty/libiberty.a
 
 ALL_EMULATIONS = \
 	ea29k.o \
@@ -150,6 +150,7 @@ ALL_EMULATIONS = \
 	eelf32_i960.o \
 	eelf32_i860.o \
 	eelf32_sparc.o \
+	eelf32_sparc_mbsd.o \
 	eelf32b4300.o \
 	eelf32cr16c.o \
 	eelf32bmip.o \
@@ -177,6 +178,7 @@ ALL_EMULATIONS = \
 	eelf32openrisc.o \
 	eelf32ppc.o \
 	eelf32ppc_fbsd.o \
+	eelf32ppc_mbsd.o \
 	eelf32ppclinux.o \
 	eelf32ppcnto.o \
 	eelf32ppcsim.o \
@@ -188,6 +190,7 @@ ALL_EMULATIONS = \
 	eelf_i386_be.o \
 	eelf_i386_chaos.o \
 	eelf_i386_fbsd.o \
+	eelf_i386_mbsd.o \
 	eelf_i386_ldso.o \
 	eelf_s390.o \
 	egld960.o \
@@ -422,12 +425,6 @@ STAGESTUFF = *.o ldscripts/* e*.c
 # that contain internationalised strings.
 EMULATION_FILES = emultempl/pe.em emultempl/armcoff.em
 
-POTFILES = $(CFILES) $(HFILES) $(EMULATION_FILES)
-
-po/POTFILES.in: @MAINT@ Makefile
-	for f in $(POTFILES); do echo $$f; done | LC_COLLATE= sort > tmp \
-	  && mv tmp $(srcdir)/po/POTFILES.in
-
 ldmain.o: ldmain.c config.status
 	$(COMPILE) -c -DDEFAULT_EMULATION='"$(EMUL)"' \
 	  -DSCRIPTDIR='"$(scriptdir)"' -DBINDIR='"$(bindir)"' \
@@ -647,6 +644,10 @@ em32rlelf_linux.c: $(srcdir)/emulparams/m32rlelf_linux.sh \
 eelf32_sparc.c: $(srcdir)/emulparams/elf32_sparc.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32_sparc "$(tdir_elf32_sparc)"
+eelf32_sparc_mbsd.c: $(srcdir)/emulparams/elf32_sparc_mbsd.sh \
+  $(srcdir)/emulparams/elf32_sparc.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32_sparc_mbsd "$(tdir_elf32_sparc_mbsd)"
 eelf32_i860.c: $(srcdir)/emulparams/elf32_i860.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32_i860 "$(tdir_elf32_i860)"
@@ -745,6 +746,11 @@ eelf32ppc_fbsd.c: $(srcdir)/emulparams/elf32ppc_fbsd.sh \
   $(srcdir)/emulparams/elf32ppc.sh $(srcdir)/emultempl/ppc32elf.em \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32ppc_fbsd "$(tdir_elf32ppc_fbsd)"
+eelf32ppc_mbsd.c: $(srcdir)/emulparams/elf32ppc_mbsd.sh \
+  $(srcdir)/emulparams/elf32ppc.sh \
+  $(srcdir)/emultempl/ppc32elf.em \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32ppc_mbsd "$(tdir_elf32ppc_mbsd)"
 eelf32ppcsim.c: $(srcdir)/emulparams/elf32ppcsim.sh \
   $(srcdir)/emulparams/elf32ppc.sh $(srcdir)/emultempl/ppc32elf.em \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
@@ -854,6 +860,10 @@ eelf_i386_fbsd.c: $(srcdir)/emulparams/elf_i386_fbsd.sh \
   $(srcdir)/emulparams/elf_i386.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_i386_fbsd "$(tdir_elf_i386_fbsd)"
+eelf_i386_mbsd.c: $(srcdir)/emulparams/elf_i386_mbsd.sh \
+  $(srcdir)/emulparams/elf_i386.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf_i386_mbsd "$(tdir_elf_i386_mbsd)"
 eelf_i386_ldso.c: $(srcdir)/emulparams/elf_i386_ldso.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_i386_ldso "$(tdir_elf_i386_ldso)"
@@ -1521,91 +1531,13 @@ EXTRA_ld_new_SOURCES = deffilep.y
 
 ld_new_SOURCES = ldgram.y ldlex.l lexsup.c ldlang.c mri.c ldctor.c ldmain.c \
 	ldwrite.c ldexp.c ldemul.c ldver.c ldmisc.c ldfile.c ldcref.c
-ld_new_DEPENDENCIES = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) $(LIBIBERTY) $(INTLDEPS)
-ld_new_LDADD = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) $(LIBIBERTY) $(INTLLIBS)
+ld_new_DEPENDENCIES = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB)
+ld_new_LDADD = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) -liberty
 
 # The generated emulation files mostly have the same dependencies.
 $(EMULATION_OFILES): ../bfd/bfd.h sysdep.h config.h $(INCDIR)/bfdlink.h \
   ld.h ldmain.h ldemul.h ldfile.h ldmisc.h ldexp.h ldlang.h \
   ldctor.h ldexp.h ldlang.h ldgram.h
-
-# This is the real libbfd.a created by libtool.
-TESTBFDLIB = @TESTBFDLIB@
-
-check-DEJAGNU: site.exp
-	srcroot=`cd $(srcdir) && pwd`; export srcroot; \
-	r=`pwd`; export r; \
-	LC_COLLATE=; LC_ALL=; LANG=; export LC_COLLATE LC_ALL LANG; \
-	EXPECT=$(EXPECT); export EXPECT; \
-	if [ -f $(top_builddir)/../expect/expect ]; then \
-	  TCL_LIBRARY=`cd $(top_srcdir)/../tcl/library && pwd`; \
-	  export TCL_LIBRARY; \
-	fi; \
-	runtest=$(RUNTEST); \
-	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
-	  $$runtest --tool $(DEJATOOL) --srcdir $${srcroot}/testsuite \
-		CC="$(CC_FOR_TARGET)" CFLAGS="$(CFLAGS)" \
-		CXX="$(CXX_FOR_TARGET)" CXXFLAGS="$(CXXFLAGS)" \
-		CC_FOR_HOST="$(CC)" CFLAGS_FOR_HOST="$(CFLAGS)" \
-		OFILES="$(OFILES)" BFDLIB="$(TESTBFDLIB)" \
-		LIBIBERTY="$(LIBIBERTY) $(INTLLIBS)" LIBS="$(LIBS)" \
-		$(RUNTESTFLAGS); \
-	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
-	fi
-
-# Rules for testing by relinking ld itself.
-# A similar test is in the testsuite.  This target is for ease of use
-# when porting ld.
-
-ld-partial.o: ld-new$(EXEEXT)
-	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld-partial.o -r $(OFILES)
-ld1$(EXEEXT): ld-partial.o
-	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld1$(EXEEXT) $(HOSTING_CRT0) ld-partial.o $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-ld1-full$(EXEEXT): ld-new
-	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld1-full$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-ld2$(EXEEXT): ld1$(EXEEXT)
-	./ld1$(EXEEXT) $(HOSTING_EMU) -o ld2$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-ld3$(EXEEXT): ld2$(EXEEXT)
-	./ld2$(EXEEXT) $(HOSTING_EMU) -o ld3$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
-
-bootstrap: ld3$(EXEEXT)
-	cmp ld2$(EXEEXT) ld3$(EXEEXT)
-
-.PHONY: bootstrap
-
-# A test program for C++ constructors and destructors.
-# This test is now in the testsuite.
-#
-#cdtest: cdtest-main.o cdtest-bar.o cdtest-foo.o ld.new
-#	./ld.new $(HOSTING_EMU) -o cdtest $(HOSTING_CRT0) \
-#	  cdtest-main.o cdtest-bar.o cdtest-foo.o $(HOSTING_LIBS)
-#
-#cdtest.out: cdtest
-#	./cdtest > cdtest.tmp
-#	mv cdtest.tmp cdtest.out
-#
-#cdtest-ur.o: cdtest-main.o cdtest-bar.o cdtest-foo.o ld.new
-#	./ld.new $(HOSTING_EMU) -o cdtest-ur.o -Ur cdtest-main.o \
-#	  cdtest-bar.o cdtest-foo.o
-#
-#cdtest-ur: cdtest-ur.o
-#	./ld.new $(HOSTING_EMU) -o cdtest-ur $(HOSTING_CRT0) cdtest-ur.o \
-#	  $(HOSTING_LIBS)
-#
-#cdtest-ur.out: cdtest-ur
-#	./cdtest-ur > cdtest-ur.tmp
-#	mv cdtest-ur.tmp cdtest-ur.out
-#
-#check-cdtest: cdtest.out cdtest-ur.out $(srcdir)/cdtest.exp
-#	diff $(srcdir)/cdtest.exp cdtest.out
-#	diff $(srcdir)/cdtest.exp cdtest-ur.out
-#
-#.PHONY: check-cdtest
-
-# END OF CHECK TARGETS
 
 # DOCUMENTATION TARGETS
 # Manual configuration file; not usually attached to normal configuration,
@@ -1622,11 +1554,7 @@ ldver.texi: Makefile
 
 ld.info: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
 	@rm -f $@ $@-[0-9] $@-[0-9][0-9]
-	$(MAKEINFO) -I $(srcdir) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
-
-ld.dvi: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
-	TEXINPUTS=$(top_srcdir)/../texinfo:$$TEXINPUTS \
-	  MAKEINFO="$(MAKEINFO) -I $(srcdir) -I $(BFDDIR)/doc" $(TEXI2DVI) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
+	$(MAKEINFO) --no-split -I $(srcdir) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
 
 # Build the man page from the texinfo file
 # The sed command removes the no-adjust Nroff command so that
@@ -1654,19 +1582,19 @@ CLEANFILES = dep.sed DEP DEPA DEP1 DEP2
 .PHONY: install-exec-local install-data-local
 
 install-exec-local: ld-new$(EXEEXT)
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(tooldir)/bin
 	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
 	    $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	  else :; fi; \
 	done
+	if [ -d "$(DESTDIR)$(tooldir)/bin" ]; then \
 	n=`echo ld | sed '$(transform)'`; \
 	if [ "$(bindir)/$$n$(EXEEXT)" != "$(tooldir)/bin/ld$(EXEEXT)" ]; then \
 	  rm -f $(DESTDIR)$(tooldir)/bin/ld$(EXEEXT); \
 	  ln $(DESTDIR)$(bindir)/$$n$(EXEEXT) $(DESTDIR)$(tooldir)/bin/ld$(EXEEXT) >/dev/null 2>/dev/null \
 	  || $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) ld-new$(EXEEXT) $(DESTDIR)$(tooldir)/bin/ld$(EXEEXT); \
-	fi
+	fi; else true; fi
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(scriptdir)/ldscripts
@@ -1688,6 +1616,9 @@ distclean-local:
 	rm -rf ldscripts
 
 Makefile: $(BFDDIR)/configure.in
+
+.y.c:
+	$(SHELL) $(YLWRAP) $< y.tab.c $*.c y.tab.h $*.h -- "$(YACC)" $(AM_YFLAGS) $(YFLAGS)
 
 # Targets to rebuild dependencies in this Makefile.
 # Have to get rid of DEP1 here so that "$?" later includes all of $(CFILES).
@@ -1718,17 +1649,17 @@ dep.sed: dep-in.sed config.status
 dep: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < Makefile > tmp-Makefile
 	cat DEP >> tmp-Makefile
-	$(srcdir)/../move-if-change tmp-Makefile Makefile
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile Makefile
 
 dep-in: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.in > tmp-Makefile.in
 	cat DEP >> tmp-Makefile.in
-	$(srcdir)/../move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
 
 dep-am: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.am > tmp-Makefile.am
 	cat DEP >> tmp-Makefile.am
-	$(srcdir)/../move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
 
 .PHONY: dep dep-in dep-am
 

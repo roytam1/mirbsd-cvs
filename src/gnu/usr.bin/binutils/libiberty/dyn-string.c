@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* An abstract string datatype.
    Copyright (C) 1998, 1999, 2000, 2002, 2004 Free Software Foundation, Inc.
    Contributed by Mark Mitchell (mark@markmitchell.com).
@@ -31,6 +33,8 @@ Boston, MA 02111-1307, USA.  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+__RCSID("$MirOS$");
 
 #include <stdio.h>
 
@@ -200,7 +204,7 @@ dyn_string_copy (dest, src)
   if (dyn_string_resize (dest, src->length) == NULL)
     return 0;
   /* Copy DEST into SRC.  */
-  strcpy (dest->s, src->s);
+  strlcpy (dest->s, src->s, src->length + 1);
   /* Update the size of DEST.  */
   dest->length = src->length;
   return 1;
@@ -220,7 +224,7 @@ dyn_string_copy_cstr (dest, src)
   if (dyn_string_resize (dest, length) == NULL)
     return 0;
   /* Copy DEST into SRC.  */
-  strcpy (dest->s, src);
+  strlcpy (dest->s, src, length + 1);
   /* Update the size of DEST.  */
   dest->length = length;
   return 1;
@@ -338,9 +342,10 @@ dyn_string_append (dest, s)
      dyn_string_t dest;
      dyn_string_t s;
 {
-  if (dyn_string_resize (dest, dest->length + s->length) == 0)
+  int xlength = dest->length + s->length;
+  if (dyn_string_resize (dest, xlength) == 0)
     return 0;
-  strcpy (dest->s + dest->length, s->s);
+  strlcpy (dest->s + dest->length, s->s, xlength + 1);
   dest->length += s->length;
   return 1;
 }
@@ -360,8 +365,8 @@ dyn_string_append_cstr (dest, s)
      one for the null at the end.  */
   if (dyn_string_resize (dest, dest->length + len) == NULL)
     return 0;
-  strcpy (dest->s + dest->length, s);
   dest->length += len;
+  strlcat (dest->s, s, dest->length + 1);
   return 1;
 }
 

@@ -1,11 +1,10 @@
-## Process this file with automake to generate Makefile.in
+# $MirOS$
 
-## Work around apparent automake bug.
-INTLLIBS = @INTLLIBS@
+## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = 1.8 cygnus dejagnu
 
-SUBDIRS = doc po
+SUBDIRS = doc
 # Automake should figure this out on its own.  It doesn't, because
 # of the "cygnus" option.  But distclean still wants it.
 DIST_SUBDIRS = $(SUBDIRS)
@@ -393,6 +392,7 @@ TARG_ENV_HFILES = \
 	config/te-lynx.h \
 	config/te-mach.h \
 	config/te-macos.h \
+	config/te-mbsd.h \
 	config/te-nbsd.h \
 	config/te-nbsd532.h \
 	config/te-netware.h \
@@ -457,24 +457,11 @@ GENERIC_OBJS = \
 
 OBJS = $(CONFIG_OBJS) $(GENERIC_OBJS)
 
-POTFILES = $(MULTI_CFILES) $(TARGET_ENV_HFILES) $(OBJ_FORMAT_HFILES) \
-	$(OBJ_FORMAT_CFILES) $(TARGET_CPU_HFILES) $(TARGET_CPU_CFILES) \
-	$(HFILES) $(CFILES) $(GAS_CFILES)
-po/POTFILES.in: @MAINT@ Makefile
-	for f in $(POTFILES); do echo $$f; done | LC_COLLATE= sort > tmp \
-	  && mv tmp $(srcdir)/po/POTFILES.in
-
 # Note: GASP is now deprecated and has been removed.  It is still
 # available in the CVS archive or older binutils releases if it is needed.
 noinst_PROGRAMS = as-new
 noinst_SCRIPTS = $(GDBINIT)
 EXTRA_SCRIPTS = .gdbinit
-
-$(srcdir)/make-gas.com: stamp-mk.com
-stamp-mk.com: vmsconf.sh Makefile
-	sh $(srcdir)/vmsconf.sh $(GENERIC_OBJS) > new-make.com
-	$(SHELL) $(srcdir)/../move-if-change new-make.com $(srcdir)/make-gas.com
-	touch stamp-mk.com
 
 EXTRA_DIST = make-gas.com m68k-parse.c itbl-parse.c itbl-parse.h itbl-lex.c
 diststuff: $(EXTRA_DIST) info
@@ -485,20 +472,20 @@ DISTCLEANFILES = targ-cpu.h obj-format.h targ-env.h itbl-cpu.h cgen-desc.h
 
 BASEDIR = $(srcdir)/..
 BFDDIR = $(BASEDIR)/bfd
-INCDIR = $(BASEDIR)/include
+INCDIR = $(LIBIBERTY_HDRS)
 
 # This is the variable actually used when we compile.
 # Specify the directories to be searched for header files.
 # Both . and srcdir are used, in that order,
 # so that tm.h and config.h will be found in the compilation
 # subdirectory rather than in the source directory.
-INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(srcdir)/config -I$(INCDIR) -I$(srcdir)/.. -I$(BFDDIR) -I$(srcdir)/../intl -I../intl -DLOCALEDIR="\"$(datadir)/locale\""
+INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(srcdir)/config -I$(INCDIR) -I$(srcdir)/.. -I$(BFDDIR)
 
 # This should be parallel to INCLUDES, but should replace $(srcdir)
 # with $${srcdir}, and should work in a subdirectory.  This is used
 # when building dependencies, because the dependency building is done
 # in a subdirectory.
-DEP_INCLUDES = -D_GNU_SOURCE -I.. -I$${srcdir} -I../../bfd -I$${srcdir}/config -I$${srcdir}/../include -I$${srcdir}/.. -I$${srcdir}/../bfd -I$${srcdir}/../intl -I../../intl -DLOCALEDIR="\"$(datadir)/locale\""
+DEP_INCLUDES = -D_GNU_SOURCE -I.. -I$${srcdir} -I../../bfd -I$${srcdir}/config -I$${srcdir}/../include -I$${srcdir}/.. -I$${srcdir}/../bfd
 
 DEP_FLAGS = -DBFD_ASSEMBLER -DOBJ_MAYBE_ELF \
 	-I. -I.. -I$${srcdir} -I../../bfd $(DEP_INCLUDES)
@@ -506,7 +493,7 @@ DEP_FLAGS = -DBFD_ASSEMBLER -DOBJ_MAYBE_ELF \
 # How to link with both our special library facilities
 # and the system's installed libraries.
 
-GASLIBS = @OPCODES_LIB@ @BFDLIB@ ../libiberty/libiberty.a
+GASLIBS = @OPCODES_LIB@ @BFDLIB@
 
 # Files to be copied away after each stage in building.
 STAGESTUFF = *.o $(noinst_PROGRAMS)
@@ -517,9 +504,9 @@ $(OBJS): @ALL_OBJ_DEPS@
 
 as_new_SOURCES = $(GAS_CFILES)
 as_new_LDADD = $(TARG_CPU_O) $(OBJ_FORMAT_O) $(ATOF_TARG_O) \
-	$(extra_objects) $(GASLIBS) $(INTLLIBS) $(LIBM)
+	$(extra_objects) $(GASLIBS) -liberty $(LIBM)
 as_new_DEPENDENCIES = $(TARG_CPU_O) $(OBJ_FORMAT_O) $(ATOF_TARG_O) \
-	$(extra_objects) $(GASLIBS) $(INTLDEPS)
+	$(extra_objects) $(GASLIBS)
 
 # Stuff that every object file depends upon.  If anything is removed
 # from this list, remove it from dep-in.sed as well.
@@ -528,38 +515,6 @@ $(OBJS): $(INCDIR)/bin-bugs.h $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
 	$(OBJ_FORMAT_H) $(TARG_CPU_H) $(TARG_ENV_H) \
 	as.h asintl.h bignum.h bit_fix.h config.h emul.h expr.h flonum.h \
 	frags.h hash.h listing.h obj.h read.h symbols.h tc.h write.h
-
-EXPECT = `if [ -f $${rootme}/../expect/expect ] ; then \
-          echo $${rootme}/../expect/expect ; \
-          else echo expect ; fi`
-
-RUNTEST = `if [ -f $${srcdir}/../dejagnu/runtest ] ; then \
-		echo $${srcdir}/../dejagnu/runtest ; else echo runtest; \
-	   fi`
-RUNTESTFLAGS=
-
-check-DEJAGNU: site.exp
-	if [ -d testsuite ]; then \
-	  true; \
-	else \
-	  mkdir testsuite; \
-	fi
-	rm -f testsuite/site.exp
-	cp site.exp testsuite/site.exp
-	rootme=`pwd`; export rootme; \
-	srcdir=`cd ${srcdir}; pwd` ; export srcdir ; \
-	EXPECT=${EXPECT} ; export EXPECT ; \
-	if [ -f $(top_builddir)/../expect/expect ]; then \
-	  TCL_LIBRARY=`cd $(top_srcdir)/../tcl/library && pwd`; \
-	  export TCL_LIBRARY; \
-	fi; \
-	runtest=$(RUNTEST); \
-	cd testsuite; \
-	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
-	  $$runtest --tool $(DEJATOOL) --srcdir $${srcdir}/testsuite \
-		$(RUNTESTFLAGS); \
-	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
-	fi
 
 # The implicit .c.o rule doesn't work for these, perhaps because of
 # the variables, or perhaps because the sources are not on vpath.
@@ -660,13 +615,13 @@ itbl-parse.o: itbl-parse.c itbl-parse.h $(srcdir)/itbl-ops.h
 itbl-ops.o: $(srcdir)/itbl-ops.c $(srcdir)/itbl-ops.h itbl-parse.h
 
 itbl-parse.c itbl-parse.h: $(srcdir)/itbl-parse.y
-	$(SHELL) $(YLWRAP) "$(YACC)" $(srcdir)/itbl-parse.y y.tab.c itbl-parse.c y.tab.h itbl-parse.h -- -d
+	$(SHELL) $(YLWRAP) $(srcdir)/itbl-parse.y y.tab.c itbl-parse.c y.tab.h itbl-parse.h -- "$(YACC)" -d
 
 # stand-alone itbl assembler & disassembler
 
 EXTRA_PROGRAMS = itbl-test
 itbl_test_SOURCES = itbl-parse.y itbl-lex.l
-itbl_test_LDADD = itbl-tops.o itbl-test.o $(GASLIBS) @LEXLIB@
+itbl_test_LDADD = itbl-tops.o itbl-test.o $(GASLIBS) -liberty @LEXLIB@
 
 itbl-tops.o: $(srcdir)/itbl-ops.c $(srcdir)/itbl-ops.h itbl-parse.h
 	$(COMPILE) -o itbl-tops.o -DSTAND_ALONE -c $(srcdir)/itbl-ops.c
@@ -696,17 +651,16 @@ CLEANFILES = dep.sed DEPTC DEPTCA DEPOBJ DEPOBJA DEP2 DEP2A DEP1 DEPA DEP DEPDIR
 
 install-exec-local: install-exec-bindir @install_tooldir@
 
-install-exec-bindir: $(noinst_PROGRAMS)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+install-exec-bindir: #$(noinst_PROGRAMS)
 	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
 	    $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	  else :; fi; \
 	done
 
-install-exec-tooldir: install-exec-bindir $(noinst_PROGRAMS)
-	$(mkinstalldirs) $(DESTDIR)$(tooldir)/bin
+install-exec-tooldir: install-exec-bindir #$(noinst_PROGRAMS)
+	if [ -d "$(DESTDIR)$(tooldir)/bin" ]; then \
 	n=`echo as | sed '$(transform)'`; \
 	if [ "$(bindir)/$$n$(EXEEXT)" != "$(tooldir)/bin/as$(EXEEXT)" ]; then \
 	  rm -f $(DESTDIR)$(tooldir)/bin/as$(EXEEXT); \
@@ -714,7 +668,7 @@ install-exec-tooldir: install-exec-bindir $(noinst_PROGRAMS)
 	    || $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) as-new$(EXEEXT) $(DESTDIR)$(tooldir)/bin/as$(EXEEXT); \
 	else \
 	  true ; \
-	fi
+	fi; else true; fi
 
 # These exist for maintenance purposes.
 
@@ -959,19 +913,19 @@ dep: DEP
 	sed -e '/^.MKDEP.*WARNING BELOW./,/^.MKDEP.*WARNING ABOVE./d' \
 	  < Makefile > tmp-Makefile
 	cat DEP >> tmp-Makefile
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile Makefile
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile Makefile
 
 dep-in: DEP
 	sed -e '/^.MKDEP.*WARNING BELOW./,/^.MKDEP.*WARNING ABOVE./d' \
 	  < $(srcdir)/Makefile.in > tmp-Makefile.in
 	cat DEP >> tmp-Makefile.in
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
 
 dep-am: DEP
 	sed -e '/^.MKDEP.*WARNING BELOW./,/^.MKDEP.*WARNING ABOVE./d' \
 	  < $(srcdir)/Makefile.am > tmp-Makefile.am
 	cat DEP >> tmp-Makefile.am
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
 
 # HEED THE MKDEP WARNINGS.
 # ANYTHING CHANGED OR ADDED BETWEEN THE WARNING LINES MAY GO AWAY.

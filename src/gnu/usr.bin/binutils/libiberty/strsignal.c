@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Extended support for using signal values.
    Written by Fred Fish.  fnf@cygnus.com
    This file is in the public domain.  */
@@ -5,6 +7,8 @@
 #include "config.h"
 #include "ansidecl.h"
 #include "libiberty.h"
+
+__RCSID("$MirOS$");
 
 /* We need to declare sys_siglist, because even if the system provides
    it we can't assume that it is declared in <signal.h> (for example,
@@ -432,7 +436,7 @@ strsignal (signo)
   else if ((sys_siglist == NULL) || (sys_siglist[signo] == NULL))
     {
       /* In range, but no sys_siglist or no entry at this index. */
-      sprintf (buf, "Signal %d", signo);
+      snprintf (buf, 32, "Signal %d", signo);
       msg = (const char *) buf;
     }
   else
@@ -488,7 +492,7 @@ strsigno (signo)
   else if ((signal_names == NULL) || (signal_names[signo] == NULL))
     {
       /* In range, but no signal_names or no entry at this index. */
-      sprintf (buf, "Signal %d", signo);
+      snprintf (buf, 32, "Signal %d", signo);
       name = (const char *) buf;
     }
   else

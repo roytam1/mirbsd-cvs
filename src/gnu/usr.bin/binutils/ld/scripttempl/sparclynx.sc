@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for Sparc LynxOS.
 test -z "$ENTRY" && ENTRY=_start
 cat <<EOF
@@ -35,11 +37,11 @@ SECTIONS
     *(COMMON)
     ${RELOCATING+ end = .};
   }
-  .stab  0 ${RELOCATING+(NOLOAD)} : 
+  .stab  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr  0 ${RELOCATING+(NOLOAD)} :
+  .stabstr  0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

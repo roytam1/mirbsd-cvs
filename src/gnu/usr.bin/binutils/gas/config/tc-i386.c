@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* i386.c -- Assemble code for the Intel 80386
    Copyright 1989, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
    2000, 2001, 2002, 2003, 2004
@@ -27,6 +29,7 @@
    Bugs & suggestions are completely welcome.  This is free software.
    Please help us make it better.  */
 
+#include <sys/cdefs.h>
 #include "as.h"
 #include "safe-ctype.h"
 #include "subsegs.h"
@@ -34,6 +37,8 @@
 #include "dw2gencfi.h"
 #include "opcode/i386.h"
 #include "elf/x86-64.h"
+
+__RCSID("$MirOS$");
 
 #ifndef REGISTER_WARNINGS
 #define REGISTER_WARNINGS 1
@@ -197,6 +202,7 @@ const char extra_symbol_chars[] = "*%-(["
 	 && !defined (TE_LINUX)				\
  	 && !defined (TE_NETWARE)			\
 	 && !defined (TE_FreeBSD)			\
+	 && !defined (TE_MirBSD)			\
 	 && !defined (TE_NetBSD)))
 /* This array holds the chars that always start a comment.  If the
    pre-processor is disabled, these aren't very useful.  */
@@ -1008,6 +1014,7 @@ md_begin ()
     operand_chars['?'] = '?';
 #endif
     digit_chars['-'] = '-';
+    mnemonic_chars['-'] = '-';
     identifier_chars['_'] = '_';
     identifier_chars['.'] = '.';
 

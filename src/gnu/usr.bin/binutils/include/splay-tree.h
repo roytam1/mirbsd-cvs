@@ -1,5 +1,8 @@
+/* $MirOS$ */
+
 /* A splay-tree datatype.  
-   Copyright 1998, 1999, 2000, 2002 Free Software Foundation, Inc.
+   Copyright 1998, 1999, 2000, 2002, 2005
+   Free Software Foundation, Inc.
    Contributed by Mark Mitchell (mark@markmitchell.com).
 
 This file is part of GCC.
@@ -81,21 +84,21 @@ typedef void (*splay_tree_deallocate_fn) PARAMS((void *, void *));
 struct splay_tree_node_s GTY(())
 {
   /* The key.  */
-  splay_tree_key GTY ((use_param1)) key;
+  splay_tree_key GTY ((use_param1 (""))) key;
 
   /* The value.  */
-  splay_tree_value GTY ((use_param2)) value;
+  splay_tree_value GTY ((use_param2 (""))) value;
 
   /* The left and right children, respectively.  */
-  splay_tree_node GTY ((use_params)) left;
-  splay_tree_node GTY ((use_params)) right;
+  splay_tree_node GTY ((use_params (""))) left;
+  splay_tree_node GTY ((use_params (""))) right;
 };
 
 /* The splay tree itself.  */
 struct splay_tree_s GTY(())
 {
   /* The root of the tree.  */
-  splay_tree_node GTY ((use_params)) root;
+  splay_tree_node GTY ((use_params (""))) root;
 
   /* The comparision function.  */
   splay_tree_compare_fn comp;
@@ -109,7 +112,7 @@ struct splay_tree_s GTY(())
   /* Allocate/free functions, and a data pointer to pass to them.  */
   splay_tree_allocate_fn allocate;
   splay_tree_deallocate_fn deallocate;
-  PTR GTY((skip)) allocate_data;
+  PTR GTY((skip (""))) allocate_data;
 
 };
 typedef struct splay_tree_s *splay_tree;

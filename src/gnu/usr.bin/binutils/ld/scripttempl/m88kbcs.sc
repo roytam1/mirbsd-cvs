@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # These are substituted in as variables in order to get '}' in a shell
 # conditional expansion.
 INIT='.init : { *(.init) }'
@@ -41,7 +43,7 @@ SECTIONS
     }
   ${RELOCATING- ${INIT}}
   ${RELOCATING- ${FINI}}
-  .comment  0 ${RELOCATING+(NOLOAD)} : 
+  .comment  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     *(.comment)
   }

@@ -1,4 +1,6 @@
 #!/bin/sh
+# $MirOS$
+#
 # genscripts.sh - generate the ld-emulation-target specific files
 #
 # Usage: genscripts_extra.sh \
@@ -178,16 +180,6 @@ if [ "x${LIB_PATH}" = "x" ] && [ "x${USE_LIBPATH}" = xyes ] ; then
   esac
 fi
 
-# Always search $(tooldir)/lib, aka /usr/local/TARGET/lib, except for
-# sysrooted configurations and when LIBPATH=":".
-if [ "x${use_sysroot}" != "xyes" ] ; then
-  case :${LIB_PATH}: in
-  ::: | *:${tool_lib}:*) ;;
-  ::) LIB_PATH=${tool_lib} ;;
-  *) LIB_PATH=${tool_lib}:${LIB_PATH} ;;
-  esac
-fi
-
 LIB_SEARCH_DIRS=`echo ${LIB_PATH} | sed -e 's/:/ /g' -e 's/\([^ ][^ ]*\)/SEARCH_DIR(\\"\1\\");/g'`
 
 # We need it for testsuite.
@@ -358,6 +350,16 @@ if test -n "$GENERATE_PIE_SCRIPT"; then
     unset RELRO_NOW
   fi
   unset CREATE_PIE
+fi
+
+if test -n "$GENERATE_Z_SCRIPT"; then
+LD_FLAG=Z
+DATA_ALIGNMENT=${DATA_ALIGNMENT_}
+RELOCATING=" "
+( echo "/* Script for -Z: traditional binaries with no PLT/GOT padding */"
+  . ${srcdir}/emulparams/${EMULATION_NAME}.sh
+  . ${srcdir}/scripttempl/${SCRIPT_NAME}.sc
+) | sed -e '/^ *$/d;s/[ 	]*$//' > ldscripts/${EMULATION_NAME}.xz
 fi
 
 case " $EMULATION_LIBPATH " in

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Disassembly routines for TMS320C30 architecture
    Copyright 1998, 1999, 2000, 2002 Free Software Foundation, Inc.
    Contributed by Steven Haworth (steve@pm.cse.rmit.edu.au)
@@ -22,6 +24,8 @@
 #include "sysdep.h"
 #include "dis-asm.h"
 #include "opcode/tic30.h"
+
+__RCSID("$MirOS$");
 
 #define NORMAL_INSN   1
 #define PARALLEL_INSN 2
@@ -687,6 +691,7 @@ cnvt_tmsfloat_ieee (tmsfloat, size, ieeefloat)
   exp += 0x7F000000;
   sign = (tmsfloat & 0x00800000) << 8;
   mant = tmsfloat & 0x007FFFFF;
+#if 0 /* http://lists.gnu.org/archive/html/bug-gnu-utils/2001-09/msg00220.html */
   if (exp == 0xFF000000)
     {
       if (mant == 0)
@@ -697,6 +702,7 @@ cnvt_tmsfloat_ieee (tmsfloat, size, ieeefloat)
 	*ieeefloat = -1.0 / 0.0;
       return 1;
     }
+#endif
   exp >>= 1;
   if (sign)
     {

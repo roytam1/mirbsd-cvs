@@ -1,6 +1,7 @@
 /* Print i386 instructions for GDB, the GNU debugger.
    Copyright 1988, 1989, 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -22,6 +23,9 @@
    July 1988
     modified by John Hassey (hassey@dg-rtp.dg.com)
     x86-64 support added by Jan Hubicka (jh@suse.cz)
+    VIA C3 instruction support by Theo de Raadt (deraadt@openbsd.org),
+     merged for the OpenBSD project by Dale Rahn (drahn@openbsd.org)
+     and for the MirOS project by Thorsten Glaser (tg@mirbsd.org)
     VIA PadLock support by Michal Ludvig (mludvig@suse.cz).  */
 
 /* The main tables describing the instructions is essentially a copy
@@ -44,6 +48,8 @@
    non-broken opcodes.  */
 #define UNIXWARE_COMPAT 1
 #endif
+
+__RCSID("$MirOS$");
 
 static int fetch_data (struct disassemble_info *, bfd_byte *);
 static void ckprefix (void);
@@ -97,6 +103,8 @@ static void SIMD_Fixup (int, int);
 static void PNI_Fixup (int, int);
 static void INVLPG_Fixup (int, int);
 static void BadOp (void);
+static void OP_xcrypt (int, int);
+static void OP_xcrypt2 (int, int);
 
 struct dis_private {
   /* Points to first byte not fetched.  */
@@ -297,6 +305,8 @@ fetch_data (struct disassemble_info *info, bfd_byte *addr)
 #define MS OP_MS, v_mode
 #define XS OP_XS, v_mode
 #define OPSUF OP_3DNowSuffix, 0
+#define OPXCRYPT OP_xcrypt, 0
+#define OPXCRYPT2 OP_xcrypt2, 0
 #define OPSIMD OP_SIMD_Suffix, 0
 
 #define cond_jump_flag NULL, cond_jump_mode
@@ -962,8 +972,8 @@ static const struct dis386 dis386_twobyte[] = {
   { "btS",		Ev, Gv, XX },
   { "shldS",		Ev, Gv, Ib },
   { "shldS",		Ev, Gv, CL },
-  { GRPPADLCK2 },
-  { GRPPADLCK1 },
+  { "",			OPXCRYPT2, XX, XX },
+  { "",			OPXCRYPT, XX, XX },
   /* a8 */
   { "pushT",		gs, XX, XX },
   { "popT",		gs, XX, XX },
@@ -1101,7 +1111,7 @@ static const unsigned char twobyte_has_modrm[256] = {
   /* 70 */ 1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1, /* 7f */
   /* 80 */ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 8f */
   /* 90 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* 9f */
-  /* a0 */ 0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1, /* af */
+  /* a0 */ 0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1, /* af */
   /* b0 */ 1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1, /* bf */
   /* c0 */ 1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0, /* cf */
   /* d0 */ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, /* df */
@@ -4278,6 +4288,75 @@ OP_3DNowSuffix (int bytemode ATTRIBUTE_UNUSED, int sizeflag ATTRIBUTE_UNUSED)
       op2out[0] = '\0';
       BadOp ();
     }
+}
+
+static struct {
+     unsigned char opc;
+     char *name;
+} xcrypt[] = {
+  {  0xc0, "xstore-rng" },
+  {  0xc8, "xcrypt-ecb" },
+  {  0xd0, "xcrypt-cbc" },
+  {  0xd8, "xcrypt-ctr" },
+  {  0xe0, "xcrypt-cfb" },
+  {  0xe8, "xcrypt-ofb" },
+};
+
+static struct {
+     unsigned char opc;
+     char *name;
+} xcrypt2[] = {
+  {  0xc0, "montmul" },
+  {  0xc8, "xsha1" },
+  {  0xd0, "xsha256" },
+};
+
+static void
+OP_xcrypt (bytemode, sizeflag)
+     int bytemode ATTRIBUTE_UNUSED;
+     int sizeflag ATTRIBUTE_UNUSED;
+{
+  const char *mnemonic = NULL;
+  unsigned int i;
+
+  FETCH_DATA (the_info, codep + 1);
+  /* VIA C3 xcrypt-* & xmove-* instructions are specified by an opcode
+     suffix in the place where an 8-bit immediate would normally go.
+     ie. the last byte of the instruction.  */
+  obufp = obuf + strlen(obuf);
+
+  for (i = 0; i < sizeof(xcrypt) / sizeof(xcrypt[0]); i++)
+    if (xcrypt[i].opc == (*codep & 0xff))
+      mnemonic = xcrypt[i].name;
+  codep++;
+  if (mnemonic)
+    oappend (mnemonic);
+  else
+    BadOp();
+}
+
+static void
+OP_xcrypt2 (bytemode, sizeflag)
+     int bytemode ATTRIBUTE_UNUSED;
+     int sizeflag ATTRIBUTE_UNUSED;
+{
+  const char *mnemonic = NULL;
+  unsigned int i;
+
+  FETCH_DATA (the_info, codep + 1);
+  /* VIA C3 xcrypt2 instructions are specified by an opcode
+     suffix in the place where an 8-bit immediate would normally go.
+     ie. the last byte of the instruction.  */
+  obufp = obuf + strlen(obuf);
+
+  for (i = 0; i < sizeof(xcrypt2) / sizeof(xcrypt2[0]); i++)
+    if (xcrypt2[i].opc == (*codep & 0xff))
+      mnemonic = xcrypt2[i].name;
+  codep++;
+  if (mnemonic)
+    oappend (mnemonic);
+  else
+    BadOp();
 }
 
 static const char *simd_cmp_op[] = {

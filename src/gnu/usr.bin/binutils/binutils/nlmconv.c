@@ -58,8 +58,10 @@
 #undef strerror
 extern char *strerror (int);
 
+#ifndef _TIME_H_
 #ifndef localtime
 extern struct tm *localtime ();
+#endif
 #endif
 
 #ifndef SEEK_SET

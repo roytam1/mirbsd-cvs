@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for TI TMS320C80 (tic80) COFF.
 #
 # Besides the shell variables set by the emulparams script, and the LD_FLAG
@@ -62,11 +64,11 @@ SECTIONS
      ${RELOCATING+ _end = ALIGN(0x8)};
      ${RELOCATING+ __end = ALIGN(0x8)};
   }
-  .stab  0 ${RELOCATING+(NOLOAD)} : 
+  .stab  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr  0 ${RELOCATING+(NOLOAD)} :
+  .stabstr  0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # config.bfd
 # Convert a canonical host type into a BFD host type.
 # Set shell variable targ to canonical target name, and run
@@ -500,6 +502,10 @@ case "${targ}" in
       i[3-7]86-*-freebsd3* | i[3-7]86-*-freebsd4 | i[3-7]86-*-freebsd4.0*)
 	targ_cflags=-DOLD_FREEBSD_ABI_LABEL ;;
     esac
+    ;;
+  i386-*-mirbsd*)
+    targ_defvec=bfd_elf32_i386_vec
+    targ_selvecs=i386netbsd_vec
     ;;
   i[3-7]86-*-netbsdelf* | i[3-7]86-*-netbsd*-gnu* | i[3-7]86-*-knetbsd*-gnu)
     targ_defvec=bfd_elf32_i386_vec
@@ -1220,6 +1226,10 @@ case "${targ}" in
   sparc-*-lynxos*)
     targ_defvec=sparclynx_coff_vec
     targ_selvecs=sparclynx_aout_vec
+    ;;
+  sparc-*-mirbsd*)
+    targ_defvec=bfd_elf32_sparc_vec
+    targ_selvecs=sparcnetbsd_vec
     ;;
   sparc-*-netbsdelf*)
     targ_defvec=bfd_elf32_sparc_vec

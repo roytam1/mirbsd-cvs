@@ -32,6 +32,8 @@
 #include <sys/stat.h>
 #include <time.h>		/* ctime, maybe time_t */
 
+__RCSID("$MirOS$");
+
 #ifndef HAVE_TIME_T_IN_TIME_H
 #ifndef HAVE_TIME_T_IN_TYPES_H
 typedef long time_t;
@@ -388,11 +390,12 @@ print_arelt_descr (FILE *file, bfd *abfd, bfd_boolean verbose)
 /* Return the name of a temporary file in the same directory as FILENAME.  */
 
 char *
-make_tempname (char *filename)
+make_tempname (char *filename, int isdir)
 {
   static char template[] = "stXXXXXX";
   char *tmpname;
   char *slash = strrchr (filename, '/');
+  char c = 0;
 
 #ifdef HAVE_DOS_BASED_FILE_SYSTEM
   {
@@ -407,8 +410,6 @@ make_tempname (char *filename)
 
   if (slash != (char *) NULL)
     {
-      char c;
-
       c = *slash;
       *slash = 0;
       tmpname = xmalloc (strlen (filename) + sizeof (template) + 2);
@@ -422,15 +423,42 @@ make_tempname (char *filename)
 #endif
       strcat (tmpname, "/");
       strcat (tmpname, template);
-      mktemp (tmpname);
-      *slash = c;
     }
   else
     {
       tmpname = xmalloc (sizeof (template));
       strcpy (tmpname, template);
-      mktemp (tmpname);
     }
+
+  if (isdir)
+    {
+#ifdef HAVE_MKDTEMP
+      if (mkdtemp (tmpname) == NULL)
+#else
+      mktemp (tmpname);
+#if defined (_WIN32) && !defined (__CYGWIN32__)
+      if (mkdir (tmpname))
+#else
+      if (mkdir (tmpname, 0700))
+#endif
+#endif
+	tmpname = NULL;
+    }
+  else
+    {
+#ifdef HAVE_MKSTEMP
+      int fd;
+
+      if ((fd = mkstemp (tmpname)) == -1)
+	tmpname = NULL;
+      else
+	close (fd);
+#else
+      mktemp (tmpname);
+#endif
+    }
+  if (slash != NULL)
+    *slash = c;
   return tmpname;
 }
 

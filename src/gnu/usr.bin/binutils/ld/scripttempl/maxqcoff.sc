@@ -1,3 +1,5 @@
+# $MirOS$
+
 test -z "$ENTRY" && ENTRY=_main
 cat <<EOF
 OUTPUT_FORMAT("${OUTPUT_FORMAT}")
@@ -25,17 +27,17 @@ SECTIONS
 		${RELOCATING+ edata  =  .};
 	}>ram
 
-/*	.bss ${RELOCATING+ SIZEOF(.data) + 0x0000}  :
+/*	.bss ${RELOCATING+ SIZEOF\(.data\) + 0x0000}  :
 	{ 
 		*(.bss)  
 		*(COMMON)
 	}
 */
-	.stab  0 ${RELOCATING+(NOLOAD)} :
+	.stab  0 ${RELOCATING+\(NOLOAD\)} :
 	{
 		[ .stab ]
 	}
-	.stabstr  0 ${RELOCATING+(NOLOAD)} :
+	.stabstr  0 ${RELOCATING+\(NOLOAD\)} :
 	{
 		[ .stabstr ]
 	}

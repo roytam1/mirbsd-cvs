@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Demangler for GNU C++
    Copyright 1989, 1991, 1994, 1995, 1996, 1997, 1998, 1999,
    2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -42,6 +44,8 @@ Boston, MA 02111-1307, USA.  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+__RCSID("$MirOS$");
 
 #include "safe-ctype.h"
 
@@ -683,10 +687,11 @@ demangle_qualifier (c)
 }
 
 int
-cplus_demangle_opname (opname, result, options)
+cplus_demangle_opname (opname, result, options, ressiz)
      const char *opname;
      char *result;
      int options;
+     size_t ressiz;
 {
   int len, len1, ret;
   string type;
@@ -707,7 +712,7 @@ cplus_demangle_opname (opname, result, options)
       tem = opname + 4;
       if (do_type (work, &tem, &type))
 	{
-	  strcat (result, "operator ");
+	  strlcat (result, "operator ", ressiz);
 	  strncat (result, type.b, type.p - type.b);
 	  string_delete (&type);
 	  ret = 1;
@@ -726,8 +731,8 @@ cplus_demangle_opname (opname, result, options)
 	      if (strlen (optable[i].in) == 2
 		  && memcmp (optable[i].in, opname + 2, 2) == 0)
 		{
-		  strcat (result, "operator");
-		  strcat (result, optable[i].out);
+		  strlcat (result, "operator", ressiz);
+		  strlcat (result, optable[i].out, ressiz);
 		  ret = 1;
 		  break;
 		}
@@ -744,8 +749,8 @@ cplus_demangle_opname (opname, result, options)
 		  if (strlen (optable[i].in) == 3
 		      && memcmp (optable[i].in, opname + 2, 3) == 0)
 		    {
-		      strcat (result, "operator");
-		      strcat (result, optable[i].out);
+		      strlcat (result, "operator", ressiz);
+		      strlcat (result, optable[i].out, ressiz);
 		      ret = 1;
 		      break;
 		    }
@@ -769,9 +774,9 @@ cplus_demangle_opname (opname, result, options)
 	      if ((int) strlen (optable[i].in) == len1
 		  && memcmp (optable[i].in, opname + 10, len1) == 0)
 		{
-		  strcat (result, "operator");
-		  strcat (result, optable[i].out);
-		  strcat (result, "=");
+		  strlcat (result, "operator", ressiz);
+		  strlcat (result, optable[i].out, ressiz);
+		  strlcat (result, "=", ressiz);
 		  ret = 1;
 		  break;
 		}
@@ -786,8 +791,8 @@ cplus_demangle_opname (opname, result, options)
 	      if ((int) strlen (optable[i].in) == len1
 		  && memcmp (optable[i].in, opname + 3, len1) == 0)
 		{
-		  strcat (result, "operator");
-		  strcat (result, optable[i].out);
+		  strlcat (result, "operator", ressiz);
+		  strlcat (result, optable[i].out, ressiz);
 		  ret = 1;
 		  break;
 		}
@@ -801,7 +806,7 @@ cplus_demangle_opname (opname, result, options)
       tem = opname + 5;
       if (do_type (work, &tem, &type))
 	{
-	  strcat (result, "operator ");
+	  strlcat (result, "operator ", ressiz);
 	  strncat (result, type.b, type.p - type.b);
 	  string_delete (&type);
 	  ret = 1;
@@ -1059,9 +1064,9 @@ ada_demangle (mangled, option)
 	     sizeof (char));
 
   if (mangled[0] == '<')
-     strcpy (demangled, mangled);
+     strlcpy (demangled, mangled, demangled_size);
   else
-    sprintf (demangled, "<%s>", mangled);
+    snprintf (demangled, demangled_size, "<%s>", mangled);
 
   return demangled;
 }
@@ -1843,7 +1848,7 @@ demangle_integral_value (work, mangled, s)
       if (value != -1)
 	{
 	  char buf[INTBUF_SIZE];
-	  sprintf (buf, "%d", value);
+	  snprintf (buf, INTBUF_SIZE, "%d", value);
 	  string_append (s, buf);
 
 	  /* Numbers not otherwise delimited, might have an underscore
@@ -3062,7 +3067,7 @@ gnu_special (work, mangled, declp)
 	  if (method)
 	    {
 	      char buf[50];
-	      sprintf (buf, "virtual function thunk (delta:%d) for ", -delta);
+	      snprintf (buf, 50, "virtual function thunk (delta:%d) for ", -delta);
 	      string_append (declp, buf);
 	      string_append (declp, method);
 	      free (method);
@@ -3969,7 +3974,7 @@ demangle_fund_type (work, mangled, result)
 	  *mangled += min (strlen (*mangled), 2);
 	}
       sscanf (buf, "%x", &dec);
-      sprintf (buf, "int%u_t", dec);
+      snprintf (buf, 10, "int%u_t", dec);
       APPEND_BLANK (result);
       string_append (result, buf);
       break;
@@ -4899,6 +4904,6 @@ string_append_template_idx (s, idx)
      int idx;
 {
   char buf[INTBUF_SIZE + 1 /* 'T' */];
-  sprintf(buf, "T%d", idx);
+  snprintf(buf, INTBUF_SIZE + 1, "T%d", idx);
   string_append (s, buf);
 }

@@ -1,4 +1,7 @@
+/* $MirOS$ */
+
 /* ELF support for BFD.
+   Copyright (c) 2004 Thorsten "mirabile" Glaser.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
    2001, 2002, 2003, 2004
    Free Software Foundation, Inc.
@@ -403,6 +406,11 @@
 #define GNU_ABI_TAG_SOLARIS	2
 #define GNU_ABI_TAG_FREEBSD	3
 #define GNU_ABI_TAG_NETBSD	4
+
+/* Values for MirOS .note.miros.ident notes.
+   Note name starts with "MirOS " or is "MirBSD".  */
+
+#define NT_MIRBSD_IDENT		1
 
 /* Values for NetBSD .note.netbsd.ident notes.  Note name is "NetBSD".  */
 

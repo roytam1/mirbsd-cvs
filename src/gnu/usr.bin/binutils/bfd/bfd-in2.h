@@ -5,6 +5,8 @@
    "linker.c" and "simple.c".
    Run "make headers" in your build bfd/ to regenerate.  */
 
+/* $MirOS$ */
+
 /* Main header file for the bfd library -- portable access to object files.
 
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -30,6 +32,8 @@
 
 #ifndef __BFD_H_SEEN__
 #define __BFD_H_SEEN__
+
+#include <sys/cdefs.h>
 
 #ifdef __cplusplus
 extern "C" {

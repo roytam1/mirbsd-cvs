@@ -1,3 +1,5 @@
+dnl $MirOS$
+dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl
 
@@ -37,7 +39,7 @@ AC_ARG_ENABLE(targets,
   *)        enable_targets=$enableval ;;
 esac])dnl
 AC_ARG_ENABLE(commonbfdlib,
-[  --enable-commonbfdlib   build shared BFD/opcodes/libiberty library],
+[  --enable-commonbfdlib   build shared BFD/opcodes library],
 [case "${enableval}" in
   yes) commonbfdlib=true ;;
   no)  commonbfdlib=false ;;
@@ -89,9 +91,6 @@ bfd_default_target_size=32
 # host stuff:
 
 AC_PROG_CC
-
-ALL_LINGUAS="fr tr ja es sv da zh_CN ro"
-CY_GNU_GETTEXT
 
 # Permit host specific settings.
 . ${srcdir}/configure.host
@@ -187,6 +186,10 @@ if test "${target}" = "${host}"; then
   i370-*-*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/i370linux.h"'
+	;;
+
+  i386-*-mirbsd*)
+	COREFILE=netbsd-core.lo
 	;;
 
 changequote(,)dnl
@@ -357,7 +360,7 @@ changequote([,])dnl
   powerpc-*-*bsd*)	COREFILE=netbsd-core.lo ;;
   s390*-*-*)            COREFILE=trad-core.lo ;;
   sh*-*-netbsd*)	COREFILE=netbsd-core.lo ;;
-  sparc-*-netbsd* | sparc*-*-openbsd*)
+  sparc-*-mirbsd* | sparc-*-netbsd* | sparc*-*-openbsd*)
 	COREFILE=netbsd-core.lo
 	;;
   tahoe-*-*)
@@ -946,7 +949,4 @@ case ${want_mmap}+${ac_cv_func_mmap_fixed_mapped} in
 esac
 
 rm -f doc/config.status
-AC_CONFIG_FILES([Makefile doc/Makefile bfd-in3.h:bfd-in2.h po/Makefile.in:po/Make-in])
-AC_CONFIG_COMMANDS([default],[[sed -e '/SRC-POTFILES =/r po/SRC-POTFILES' -e '/BLD-POTFILES =/r po/BLD-POTFILES' po/Makefile.in > po/Makefile]],[[]])
-AC_OUTPUT
-
+AC_OUTPUT(Makefile doc/Makefile bfd-in3.h:bfd-in2.h)

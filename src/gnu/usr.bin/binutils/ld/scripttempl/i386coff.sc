@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for 386 COFF.  This works on SVR3.2 and SCO Unix 3.2.2.
 # Ian Taylor <ian@cygnus.com>.
 test -z "$ENTRY" && ENTRY=_start
@@ -31,11 +33,11 @@ SECTIONS
   }
   ${RELOCATING- ${INIT}}
   ${RELOCATING- ${FINI}}
-  .stab  0 ${RELOCATING+(NOLOAD)} : 
+  .stab  0 ${RELOCATING+\(NOLOAD\)} : 
   {
     [ .stab ]
   }
-  .stabstr  0 ${RELOCATING+(NOLOAD)} :
+  .stabstr  0 ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }

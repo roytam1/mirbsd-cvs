@@ -395,7 +395,7 @@ print_insn (CGEN_CPU_DESC cd,
 #ifdef CGEN_VALIDATE_INSN_SUPPORTED 
       /* Not needed as insn shouldn't be in hash lists if not supported.  */
       /* Supported by this cpu?  */
-      if (! iq2000_cgen_insn_supported (cd, insn))
+      if (! iq2000_cgen_insn_supported (cd, (CGEN_INSN *)insn))
         {
           insn_list = CGEN_DIS_NEXT_INSN (insn_list);
 	  continue;

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* bucomm.h -- binutils common include file.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
    2002, 2003 Free Software Foundation, Inc.
@@ -170,7 +172,7 @@ int display_info (void);
 
 void print_arelt_descr (FILE *, bfd *, bfd_boolean);
 
-char *make_tempname (char *);
+char *make_tempname (char *, int);
 
 bfd_vma parse_vma (const char *, const char *);
 

@@ -1,11 +1,10 @@
-## Process this file with automake to generate Makefile.in
+# $MirOS$
 
-## FIXME: Work around apparent bug in automake.
-INTLLIBS = @INTLLIBS@
+## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = cygnus dejagnu
 
-SUBDIRS = doc po
+SUBDIRS = doc
 
 tooldir = $(exec_prefix)/$(target_alias)
 
@@ -52,30 +51,28 @@ DLLWRAP_PROG=dllwrap
 
 SRCONV_PROG=srconv$(EXEEXT) sysdump$(EXEEXT) coffdump$(EXEEXT) 
 
-PROGS = $(SIZE_PROG) $(OBJDUMP_PROG) $(NM_PROG) $(AR_PROG) $(STRINGS_PROG) $(STRIP_PROG) $(RANLIB_PROG) $(DEMANGLER_PROG) $(OBJCOPY_PROG) @BUILD_NLMCONV@ @BUILD_SRCONV@ @BUILD_DLLTOOL@ @BUILD_WINDRES@ $(ADDR2LINE_PROG) $(READELF_PROG) @BUILD_DLLWRAP@ @BUILD_MISC@
+PROGS = $(SIZE_PROG) $(OBJDUMP_PROG) $(NM_PROG) $(AR_PROG) $(STRINGS_PROG) $(DEMANGLER_PROG) $(OBJCOPY_PROG) @BUILD_NLMCONV@ @BUILD_SRCONV@ @BUILD_DLLTOOL@ @BUILD_WINDRES@ $(ADDR2LINE_PROG) $(READELF_PROG) @BUILD_DLLWRAP@ @BUILD_MISC@
 
-bin_PROGRAMS = $(SIZE_PROG) $(OBJDUMP_PROG) $(AR_PROG) $(STRINGS_PROG) $(RANLIB_PROG) $(OBJCOPY_PROG) @BUILD_NLMCONV@ @BUILD_SRCONV@ @BUILD_DLLTOOL@ @BUILD_WINDRES@ $(ADDR2LINE_PROG) $(READELF_PROG) @BUILD_DLLWRAP@ @BUILD_MISC@
+bin_PROGRAMS = $(SIZE_PROG) $(OBJDUMP_PROG) $(AR_PROG) $(STRINGS_PROG) $(OBJCOPY_PROG) @BUILD_NLMCONV@ @BUILD_SRCONV@ @BUILD_DLLTOOL@ @BUILD_WINDRES@ $(ADDR2LINE_PROG) $(READELF_PROG) @BUILD_DLLWRAP@ @BUILD_MISC@
 
 ## We need a special rule to install the programs which are built with
 ## -new, and to rename cxxfilt to c++filt.
-noinst_PROGRAMS = $(NM_PROG) $(STRIP_PROG) $(DEMANGLER_PROG)
+noinst_PROGRAMS = $(NM_PROG) $(DEMANGLER_PROG)
 
 EXTRA_PROGRAMS = $(NLMCONV_PROG) srconv sysdump coffdump $(DLLTOOL_PROG) $(WINDRES_PROG) $(DLLWRAP_PROG)
 
 # Stuff that goes in tooldir/ if appropriate.
-TOOL_PROGS = nm-new strip-new ar ranlib dlltool
+TOOL_PROGS = nm-new ar dlltool
 
 BASEDIR = $(srcdir)/..
 BFDDIR = $(BASEDIR)/bfd
-INCDIR	= $(BASEDIR)/include
+INCDIR	= $(LIBIBERTY_HDRS)
 
 MKDEP = gcc -MM
 
 INCLUDES = -D_GNU_SOURCE \
 	 -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) \
 	 @HDEFINES@ \
-	 -I$(srcdir)/../intl -I../intl \
-	 -DLOCALEDIR="\"$(datadir)/locale\"" \
 	 -Dbin_dummy_emulation=$(EMULATION_VECTOR)
 
 HFILES = \
@@ -90,7 +87,7 @@ CFILES = \
 	coffdump.c coffgrok.c cxxfilt.c debug.c dlltool.c dllwrap.c \
 	emul_aix.c emul_vanilla.c filemode.c \
 	ieee.c is-ranlib.c is-strip.c maybe-ranlib.c maybe-strip.c \
-	nlmconv.c nm.c not-ranlib.c not-strip.c \
+	nlmconv.c nm.c \
 	objcopy.c objdump.c prdbg.c \
 	rdcoff.c rddbg.c readelf.c rename.c \
 	resbin.c rescoff.c resrc.c resres.c \
@@ -111,19 +108,7 @@ BFDLIB = ../bfd/libbfd.la
 
 OPCODES = ../opcodes/libopcodes.la
 
-LIBIBERTY = ../libiberty/libiberty.a
-
-POTFILES = $(CFILES) $(DEBUG_SRCS) $(HFILES)
-po/POTFILES.in: @MAINT@ Makefile
-	for f in $(POTFILES); do echo $$f; done | LC_COLLATE= sort > tmp \
-	  && mv tmp $(srcdir)/po/POTFILES.in
-
-EXPECT = `if [ -f $$r/../expect/expect ] ; then \
-          echo $$r/../expect/expect ; \
-          else echo expect ; fi`
-RUNTEST = `if [ -f ${srcdir}/../dejagnu/runtest ] ; then \
-           echo ${srcdir}/../dejagnu/runtest ; \
-           else echo runtest ;  fi`
+LIBIBERTY = -liberty
 
 CC_FOR_TARGET = ` \
   if [ -f $$r/../gcc/xgcc ] ; then \
@@ -140,75 +125,32 @@ CC_FOR_TARGET = ` \
     fi; \
   fi`
 
-check-DEJAGNU: site.exp
-	srcdir=`cd $(srcdir) && pwd`; export srcdir; \
-	r=`pwd`; export r; \
-	EXPECT=$(EXPECT); export EXPECT; \
-	if [ -f $(top_builddir)/../expect/expect ]; then \
-	  TCL_LIBRARY=`cd $(top_srcdir)/../tcl/library && pwd`; \
-	  export TCL_LIBRARY; \
-	fi; \
-	runtest=$(RUNTEST); \
-	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
-	  CC_FOR_TARGET="$(CC_FOR_TARGET)" CFLAGS_FOR_TARGET="$(CFLAGS)" \
-		$$runtest --tool $(DEJATOOL) --srcdir $${srcdir}/testsuite \
-			$(RUNTESTFLAGS); \
-	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
-	fi
-
-installcheck:
-	/bin/sh $(srcdir)/sanity.sh $(bindir)
-
-LDADD = $(BFDLIB) $(LIBIBERTY) $(INTLLIBS)
+LDADD = $(BFDLIB) $(LIBIBERTY)
 
 size_SOURCES = size.c $(BULIBS)
 
-objcopy_SOURCES = objcopy.c not-strip.c rename.c $(WRITE_DEBUG_SRCS) $(BULIBS)
+objcopy_SOURCES = objcopy.c maybe-strip.c rename.c $(WRITE_DEBUG_SRCS) $(BULIBS)
 
 strings_SOURCES = strings.c $(BULIBS)
 
 readelf_SOURCES = readelf.c version.c unwind-ia64.c
-readelf_LDADD   = $(INTLLIBS) $(LIBIBERTY)
-
-strip_new_SOURCES = objcopy.c is-strip.c rename.c $(WRITE_DEBUG_SRCS) $(BULIBS)
+readelf_LDADD   = $(LIBIBERTY)
 
 nm_new_SOURCES = nm.c budemang.c $(BULIBS)
 
 objdump_SOURCES = objdump.c budemang.c prdbg.c $(DEBUG_SRCS) $(BULIBS)
-objdump_LDADD = $(OPCODES) $(BFDLIB) $(LIBIBERTY) $(INTLLIBS)
+objdump_LDADD = $(OPCODES) $(BFDLIB) $(LIBIBERTY)
 
 objdump.o:objdump.c
 	$(COMPILE) -c $(OBJDUMP_DEFS) $(srcdir)/objdump.c
 
 cxxfilt_SOURCES = cxxfilt.c $(BULIBS)
 
-ar_SOURCES = arparse.y arlex.l ar.c not-ranlib.c arsup.c rename.c binemul.c \
+ar_SOURCES = arparse.y arlex.l ar.c maybe-ranlib.c arsup.c rename.c binemul.c \
 	emul_$(EMULATION).c $(BULIBS)
-ar_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@ $(INTLLIBS)
-
-ranlib_SOURCES = ar.c is-ranlib.c arparse.y arlex.l arsup.c rename.c \
-	binemul.c emul_$(EMULATION).c $(BULIBS)
-ranlib_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@ $(INTLLIBS)
+ar_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@
 
 addr2line_SOURCES = addr2line.c budemang.c $(BULIBS)
-
-# The following is commented out for the conversion to automake.
-# This rule creates a single binary that switches between ar and ranlib
-# by looking at argv[0].  Use this kludge to save some disk space.
-# However, you have to install things by hand.
-# (That is after 'make install', replace the installed ranlib by a link to ar.)
-# Alternatively, you can install ranlib.sh as ranlib.
-# ar_with_ranlib: $(ADDL_DEPS) ar.o maybe-ranlib.o
-#	$(HLDENV) $(CC) $(HLDFLAGS) $(CFLAGS) $(LDFLAGS) -o $(AR_PROG) ar.o maybe-ranlib.o $(ADDL_LIBS) $(EXTRALIBS)
-#	-rm -f $(RANLIB_PROG)
-#	-ln $(AR_PROG) $(RANLIB_PROG)
-#
-# objcopy and strip in one binary that uses argv[0] to decide its action.
-#
-#objcopy_with_strip: $(ADDL_DEPS) objcopy.o maybe-strip.o
-#	$(HLDENV) $(CC) $(HLDFLAGS) $(CFLAGS) $(LDFLAGS) -o $(OBJCOPY_PROG) objcopy.o maybe-strip.o $(ADDL_LIBS) $(EXTRALIBS)
-#	-rm -f $(STRIP_PROG)
-#	-ln $(OBJCOPY_PROG) $(STRIP_PROG)
 
 sysroff.c: sysinfo$(EXEEXT_FOR_BUILD) sysroff.info 
 	./sysinfo$(EXEEXT_FOR_BUILD) -c <$(srcdir)/sysroff.info >sysroff.c
@@ -245,7 +187,7 @@ sysinfo.h: sysinfo.c
 srconv_SOURCES = srconv.c coffgrok.c $(BULIBS)
 
 dlltool_SOURCES = dlltool.c defparse.y deflex.l $(BULIBS)
-dlltool_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@ $(INTLLIBS)
+dlltool_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@
 
 dlltool.o:dlltool.c
 	$(COMPILE) -c $(DLLTOOL_DEFS) $(srcdir)/dlltool.c
@@ -267,10 +209,10 @@ nlmconv_SOURCES = nlmconv.c nlmheader.y $(BULIBS)
 
 windres_SOURCES = windres.c resrc.c rescoff.c resbin.c rcparse.y rclex.l \
 	winduni.c resres.c $(BULIBS)
-windres_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@ $(INTLLIBS)
+windres_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@
 
 dllwrap_SOURCES = dllwrap.c version.c
-dllwrap_LDADD = $(LIBIBERTY) $(INTLLIBS)
+dllwrap_LDADD = $(LIBIBERTY)
 
 
 EXTRA_DIST = arparse.c arparse.h arlex.c nlmheader.c sysinfo.c sysinfo.h \
@@ -314,17 +256,17 @@ dep.sed: dep-in.sed config.status
 dep: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < Makefile > tmp-Makefile
 	cat DEP >> tmp-Makefile
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile Makefile
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile Makefile
 
 dep-in: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.in > tmp-Makefile.in
 	cat DEP >> tmp-Makefile.in
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile.in $(srcdir)/Makefile.in
 
 dep-am: DEP
 	sed -e '/^..DO NOT DELETE THIS LINE/,$$d' < $(srcdir)/Makefile.am > tmp-Makefile.am
 	cat DEP >> tmp-Makefile.am
-	$(SHELL) $(srcdir)/../move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
+	$(SHELL) ${GNUSYSTEM_AUX_DIR}/move-if-change tmp-Makefile.am $(srcdir)/Makefile.am
 
 .PHONY: dep dep-in dep-am
 
@@ -338,14 +280,14 @@ CLEANFILES = dep.sed DEP DEPA DEP1 DEP2
 
 .PHONY: install-exec-local
 
-install-exec-local: install-binPROGRAMS $(bin_PROGRAMS) $(noinst_PROGRAMS)
+install-exec-local: install-binPROGRAMS #$(bin_PROGRAMS) $(noinst_PROGRAMS)
 	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//' -e 's/cxxfilt/$(DEMANGLER_NAME)/'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//' -e 's/cxxfilt/$(DEMANGLER_NAME)/'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
 	    $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//' -e 's/cxxfilt/$(DEMANGLER_NAME)/'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	  else :; fi; \
 	done
-	$(mkinstalldirs) $(DESTDIR)$(tooldir)/bin
+	if [ -d "$(DESTDIR)$(tooldir)/bin" ]; then \
 	for i in $(TOOL_PROGS); do \
 	  if [ -f $$i$(EXEEXT) ]; then \
 	    j=`echo $$i | sed -e 's/-new//'`; \
@@ -357,7 +299,35 @@ install-exec-local: install-binPROGRAMS $(bin_PROGRAMS) $(noinst_PROGRAMS)
 	    fi; \
 	  else true; \
 	  fi; \
-	done
+	done; else true; fi
+	i1='$(DESTDIR)$(bindir)/$(AR_PROG)'; i2='$(DESTDIR)$(bindir)/$(OBJCOPY_PROG)'; \
+	    i3='$(DESTDIR)$(bindir)/$(RANLIB_PROG)'; i4='$(DESTDIR)$(bindir)/$(STRIP_PROG)'; \
+	    j1=`echo $$i1 | sed -e 's/-new//'`; j2=`echo $$i2 | sed -e 's/-new//'`; \
+	    k1=`echo $$j1 | sed '$(transform)'`; k2=`echo $$j2 | sed '$(transform)'`; \
+	    j3=`echo $$i3 | sed -e 's/-new//'`; j4=`echo $$i4 | sed -e 's/-new//'`; \
+	    k3=`echo $$j3 | sed '$(transform)'`; k4=`echo $$j4 | sed '$(transform)'`; \
+	    if [ -e $$k1$(EXEEXT) ]; then \
+		rm -f $$k3$(EXEEXT); \
+		ln $$k1$(EXEEXT) $$k3$(EXEEXT); \
+		if [ -d "$(DESTDIR)$(tooldir)/bin" ]; then \
+			rm -f $(DESTDIR)$(tooldir)/bin/$$(basename $$j3)$(EXEEXT); \
+			ln $$k3$(EXEEXT) $(DESTDIR)$(tooldir)/bin/$$(basename $$j3)$(EXEEXT) \
+			    || $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$k3$(EXEEXT) $(DESTDIR)$(tooldir)/bin/$$(basename $$j3)$(EXEEXT); \
+		else \
+			true; \
+		fi; \
+	    else true; fi; \
+	    if [ -e $$k2$(EXEEXT) ]; then \
+		rm -f $$k4$(EXEEXT); \
+		ln $$k2$(EXEEXT) $$k4$(EXEEXT); \
+		if [ -d "$(DESTDIR)$(tooldir)/bin" ]; then \
+			rm -f $(DESTDIR)$(tooldir)/bin/$$(basename $$j4)$(EXEEXT); \
+			ln $$k4$(EXEEXT) $(DESTDIR)$(tooldir)/bin/$$(basename $$j4)$(EXEEXT) \
+			    || $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) $$k4$(EXEEXT) $(DESTDIR)$(tooldir)/bin/$$(basename $$j4)$(EXEEXT); \
+		else \
+			true; \
+		fi; \
+	    else true; fi;
 
 # What appears below is generated by a hacked mkdep using gcc -MM.
 
@@ -435,8 +405,6 @@ nm.o: nm.c ../bfd/bfd.h $(INCDIR)/ansidecl.h $(INCDIR)/symcat.h \
   $(INCDIR)/aout/stab.def $(INCDIR)/aout/ranlib.h $(INCDIR)/demangle.h \
   $(INCDIR)/libiberty.h $(BFDDIR)/elf-bfd.h $(INCDIR)/elf/common.h \
   $(INCDIR)/elf/internal.h $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h
-not-ranlib.o: not-ranlib.c
-not-strip.o: not-strip.c
 objcopy.o: objcopy.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h $(INCDIR)/progress.h bucomm.h config.h \
   $(INCDIR)/bin-bugs.h $(INCDIR)/fopen-same.h $(INCDIR)/libiberty.h \

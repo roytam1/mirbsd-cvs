@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Linker script for PE.
 
 if test -z "${RELOCATEABLE_OUTPUT_FORMAT}"; then
@@ -151,12 +153,12 @@ SECTIONS
     ${R_EXC}
   }
 
-  .stab ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .stab ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stab ]
   }
 
-  .stabstr ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+(NOLOAD)} :
+  .stabstr ${RELOCATING+BLOCK(__section_alignment__)} ${RELOCATING+\(NOLOAD\)} :
   {
     [ .stabstr ]
   }
@@ -165,30 +167,30 @@ SECTIONS
      of the section so we begin them at 0.  */
 
   /* DWARF 1 */
-  .debug          0 ${RELOCATING+(NOLOAD)} : { *(.debug) }
-  .line           0 ${RELOCATING+(NOLOAD)} : { *(.line) }
+  .debug          0 ${RELOCATING+\(NOLOAD\)} : { *(.debug) }
+  .line           0 ${RELOCATING+\(NOLOAD\)} : { *(.line) }
 
   /* GNU DWARF 1 extensions */
-  .debug_srcinfo  0 ${RELOCATING+(NOLOAD)} : { *(.debug_srcinfo) }
-  .debug_sfnames  0 ${RELOCATING+(NOLOAD)} : { *(.debug_sfnames) }
+  .debug_srcinfo  0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_srcinfo) }
+  .debug_sfnames  0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_sfnames) }
 
   /* DWARF 1.1 and DWARF 2 */
-  .debug_aranges  0 ${RELOCATING+(NOLOAD)} : { *(.debug_aranges) }
-  .debug_pubnames 0 ${RELOCATING+(NOLOAD)} : { *(.debug_pubnames) }
+  .debug_aranges  0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_aranges) }
+  .debug_pubnames 0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_pubnames) }
 
   /* DWARF 2 */
-  .debug_info     0 ${RELOCATING+(NOLOAD)} : { *(.debug_info) *(.gnu.linkonce.wi.*) }
-  .debug_abbrev   0 ${RELOCATING+(NOLOAD)} : { *(.debug_abbrev) }
-  .debug_line     0 ${RELOCATING+(NOLOAD)} : { *(.debug_line) }
-  .debug_frame    0 ${RELOCATING+(NOLOAD)} : { *(.debug_frame) }
-  .debug_str      0 ${RELOCATING+(NOLOAD)} : { *(.debug_str) }
-  .debug_loc      0 ${RELOCATING+(NOLOAD)} : { *(.debug_loc) }
-  .debug_macinfo  0 ${RELOCATING+(NOLOAD)} : { *(.debug_macinfo) }
+  .debug_info     0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_info) *(.gnu.linkonce.wi.*) }
+  .debug_abbrev   0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_abbrev) }
+  .debug_line     0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_line) }
+  .debug_frame    0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_frame) }
+  .debug_str      0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_str) }
+  .debug_loc      0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_loc) }
+  .debug_macinfo  0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_macinfo) }
 
   /* SGI/MIPS DWARF 2 extensions */
-  .debug_weaknames 0 ${RELOCATING+(NOLOAD)} : { *(.debug_weaknames) }
-  .debug_funcnames 0 ${RELOCATING+(NOLOAD)} : { *(.debug_funcnames) }
-  .debug_typenames 0 ${RELOCATING+(NOLOAD)} : { *(.debug_typenames) }
-  .debug_varnames  0 ${RELOCATING+(NOLOAD)} : { *(.debug_varnames) }
+  .debug_weaknames 0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_weaknames) }
+  .debug_funcnames 0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_funcnames) }
+  .debug_typenames 0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_typenames) }
+  .debug_varnames  0 ${RELOCATING+\(NOLOAD\)} : { *(.debug_varnames) }
 }
 EOF

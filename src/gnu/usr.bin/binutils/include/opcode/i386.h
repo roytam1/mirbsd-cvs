@@ -1,6 +1,6 @@
 /* opcode/i386.h -- Intel 80386 opcode table
    Copyright 1989, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004
+   2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler, and GDB, the GNU Debugger.
@@ -599,6 +599,9 @@ static const template i386_optab[] =
 {"fld",    1,	0xdb, 5, 0,	 x_FP|Modrm,		{ LLongMem, 0, 0} },
 {"fild",   1,	0xdf, 0, 0,	 sl_FP|Modrm,		{ ShortMem|LongMem, 0, 0} },
 {"fild",   1,	0xdf, 5, 0,	 q_FP|Modrm,		{ LLongMem, 0, 0} },
+/* Intel Syntax */
+{"fildd",  1,	0xdf, 5, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
+{"fildq",  1,	0xdf, 5, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
 {"fildll", 1,	0xdf, 5, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
 {"fldt",   1,	0xdb, 5, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
 {"fbld",   1,	0xdf, 4, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
@@ -617,6 +620,9 @@ static const template i386_optab[] =
 {"fstp",   1,	0xdb, 7, 0,	 x_FP|Modrm,		{ LLongMem, 0, 0} },
 {"fistp",  1,	0xdf, 3, 0,	 sl_FP|Modrm,		{ ShortMem|LongMem, 0, 0} },
 {"fistp",  1,	0xdf, 7, 0,	 q_FP|Modrm,		{ LLongMem, 0, 0} },
+/* Intel Syntax */
+{"fistpd", 1,	0xdf, 7, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
+{"fistpq", 1,	0xdf, 7, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
 {"fistpll",1,	0xdf, 7, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
 {"fstpt",  1,	0xdb, 7, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
 {"fbstp",  1,	0xdf, 6, 0,	 FP|Modrm,		{ LLongMem, 0, 0} },
@@ -910,8 +916,8 @@ static const template i386_optab[] =
 {"cmpxchg8b",1,0x0fc7, 1, Cpu586, q_Suf|Modrm,		{ LLongMem, 0, 0} },
 
 /* Pentium II/Pentium Pro extensions.  */
-{"sysenter",0, 0x0f34, X, Cpu686, NoSuf,		{ 0, 0, 0} },
-{"sysexit", 0, 0x0f35, X, Cpu686, NoSuf,		{ 0, 0, 0} },
+{"sysenter",0, 0x0f34, X, Cpu686|CpuNo64, NoSuf,	{ 0, 0, 0} },
+{"sysexit", 0, 0x0f35, X, Cpu686|CpuNo64, NoSuf,	{ 0, 0, 0} },
 {"fxsave",  1, 0x0fae, 0, Cpu686, q_Suf|Modrm,		{ LLongMem, 0, 0} },
 {"fxrstor", 1, 0x0fae, 1, Cpu686, q_Suf|Modrm,		{ LLongMem, 0, 0} },
 {"rdpmc",   0, 0x0f33, X, Cpu686, NoSuf,		{ 0, 0, 0} },
@@ -921,6 +927,13 @@ static const template i386_optab[] =
 {"ud2a",    0, 0x0f0b, X, Cpu686, NoSuf,		{ 0, 0, 0} },
 /* 2nd. official undefined instr. */
 {"ud2b",    0, 0x0fb9, X, Cpu686, NoSuf,		{ 0, 0, 0} },
+
+/* VIA C3 extensions (by OpenBSD) */
+{"xstore-rng", 0, 0x0fa7, 0xc0, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
+{"xcrypt-ecb", 0, 0x0fa7, 0xc8, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
+{"xcrypt-cbc", 0, 0x0fa7, 0xd0, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
+{"xcrypt-cfb", 0, 0x0fa7, 0xe0, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
+{"xcrypt-ofb", 0, 0x0fa7, 0xe8, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
 
 {"cmovo",   2, 0x0f40, X, Cpu686, wlq_Suf|Modrm,	{ WordReg|WordMem, WordReg, 0} },
 {"cmovno",  2, 0x0f41, X, Cpu686, wlq_Suf|Modrm,	{ WordReg|WordMem, WordReg, 0} },
@@ -1608,4 +1621,3 @@ static const seg_entry ss = { "ss", 0x36 };
 static const seg_entry es = { "es", 0x26 };
 static const seg_entry fs = { "fs", 0x64 };
 static const seg_entry gs = { "gs", 0x65 };
-

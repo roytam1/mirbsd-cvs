@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # If you change this file, please also look at files which source this one:
 # shlelf.sh, shelf_nbsd.sh
 
@@ -23,7 +25,7 @@ DTOR_END='___dtors_end = .;'
 # N.B. We can't use PROVIDE to set the default value in a symbol because
 # the address is needed to place the .stack section, which in turn is needed
 # to hold the sentinel value(s).
-test -z "$CREATE_SHLIB" && OTHER_SECTIONS="  .stack        ${RELOCATING-0}${RELOCATING+(DEFINED(_stack) ? _stack : 0x300000)} :
+test -z "$CREATE_SHLIB" && OTHER_SECTIONS="  .stack        ${RELOCATING-0}${RELOCATING+\(DEFINED\(_stack\) ? _stack : 0x300000\)} :
   {
     ${RELOCATING+_stack = .;}
     *(.stack)

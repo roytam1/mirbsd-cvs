@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Demangler test program,
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
    Written by Zack Weinberg <zack@codesourcery.com
@@ -32,6 +34,8 @@
 #if HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
+
+__RCSID("$MirOS$");
 
 struct line
 {
@@ -233,14 +237,14 @@ main(argc, argv)
 	      enum gnu_v3_ctor_kinds kc;
 
 	      kc = is_gnu_v3_mangled_ctor (input.data);
-	      sprintf (buf, "%d", (int) kc);
+	      snprintf (buf, 20, "%d", (int) kc);
 	    }
 	  else
 	    {
 	      enum gnu_v3_dtor_kinds kd;
 
 	      kd = is_gnu_v3_mangled_dtor (input.data);
-	      sprintf (buf, "%d", (int) kd);
+	      snprintf (buf, 20, "%d", (int) kd);
 	    }
 
 	  if (strcmp (buf, expect.data) != 0)

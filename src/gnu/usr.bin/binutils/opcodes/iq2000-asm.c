@@ -70,6 +70,8 @@ iq2000_cgen_insn_supported (cd, insn)
   return ((CGEN_INSN_ATTR_VALUE (insn, CGEN_INSN_MACH) & machs) != 0);
 }
 
+static int iq2000_cgen_isa_register(const char **);
+
 static int iq2000_cgen_isa_register (strp)
      const char **strp;
 {
@@ -161,6 +163,15 @@ parse_imm (cd, strp, opindex, valuep)
 }
 
 /* Handle iq10 21-bit jmp offset.  */
+
+static const char *
+parse_jtargq10 (
+     CGEN_CPU_DESC cd,
+     const char **strp,
+     int opindex,
+     int reloc,
+     enum cgen_parse_operand_result *type_addr,
+     unsigned long *valuep);
 
 static const char *
 parse_jtargq10 (cd, strp, opindex, reloc, type_addr, valuep)
@@ -290,6 +301,13 @@ parse_lo16 (cd, strp, opindex, valuep)
    handles the case where %lo() isn't present.  */
 
 static const char *
+parse_mlo16 (
+     CGEN_CPU_DESC cd,
+     const char **strp,
+     int opindex,
+     long *valuep);
+
+static const char *
 parse_mlo16 (cd, strp, opindex, valuep)
      CGEN_CPU_DESC cd;
      const char **strp;
@@ -407,7 +425,7 @@ iq2000_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case IQ2000_OPERAND_JMPTARGQ10 :
       {
-        bfd_vma value;
+        unsigned long value;
         errmsg = parse_jtargq10 (cd, strp, IQ2000_OPERAND_JMPTARGQ10, 0, NULL,  & value);
         fields->f_jtargq10 = value;
       }
@@ -792,7 +810,7 @@ iq2000_cgen_assemble_insn (CGEN_CPU_DESC cd,
       /* Not usually needed as unsupported opcodes
 	 shouldn't be in the hash lists.  */
       /* Is this insn supported by the selected cpu?  */
-      if (! iq2000_cgen_insn_supported (cd, insn))
+      if (! iq2000_cgen_insn_supported (cd, (CGEN_INSN *)insn))
 	continue;
 #endif
       /* If the RELAXED attribute is set, this is an insn that shouldn't be

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Copyright 2001, 2003 Free Software Foundation, Inc.
    Written by Steve Chamberlain of Cygnus Support (steve@cygnus.com).
 
@@ -20,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 %{
 #include <stdio.h>
 #include <stdlib.h>
+
+int yylex(void);
 
 extern char *word;
 extern char writecode;

@@ -1,3 +1,5 @@
+# $MirOS$
+#
 cat <<EOF
 OUTPUT_FORMAT(${OUTPUT_FORMAT})
 OUTPUT_ARCH(${ARCH})
@@ -49,11 +51,11 @@ SECTIONS
     ${RELOCATING+ PROVIDE(_end = .);}
     ${RELOCATING+ PROVIDE(_FreeMemStart = .);}
   }
-  .stab 0 ${RELOCATING+(NOLOAD)} : 
+  .stab 0 ${RELOCATING+\(NOLOAD\)} : 
   {
     *(.stab);
   }
-  .stabstr 0 ${RELOCATING+(NOLOAD)} :
+  .stabstr 0 ${RELOCATING+\(NOLOAD\)} :
   {
     *(.stabstr);
   }
