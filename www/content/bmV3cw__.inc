@@ -1,5 +1,9 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.82 2005/01/23 01:24:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.3 2005/02/05 22:43:39 tg Exp $</small>
 <h1>Current MirOS News</h1><ul>
+
+<li>28.02.2005<br />
+	We're back from FOSDEM. MirPorts work on Mac OSX now, but only for
+	ports <b>without</b> a <tt>PFRAG.shared</tt>!</li>
 
 <li>05.02.2005<br />
 	The (final) new CVS repository has been started; the modules "www"
