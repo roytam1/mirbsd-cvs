@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.26 2005/03/06 22:22:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.27 2005/03/06 22:41:17 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2559,4 +2559,19 @@
  Do my dreams come true or what?
  I'm eagerly awaiting this, and be it only to be able to <b>/kick</b> from
  IRC these who mention "the other X11 implementation". ;-)</pre>
+<p>09.03.2005 by tg@<br />It's become quite silent recently. I'm relaxing,
+ listening to some <a href="http://64.236.34.67:80/stream/1006">music</a>,
+ classical one, and shut down my system with +90 instead of now. I think I
+ deserve a break, especially considering my health, and cnuke@ has taken a
+ break from all computing related activity as well (now I wish I could hit
+ the road to the swimming bath, walk the forest with cnuke, do some fires,
+ and related stuff). At work, my apprenticeship's final project is keeping
+ me busy, as does the flu (I had fever today at work, the first time since
+ all this illness fuss started!). <tt>mirbsd.org</tt> should work as eMail
+ domain (an alias to 66h.42h.de) soon enough. We're continuing until first
+ lawyer letters regarding patents come in, I think. The OSI is a bunch of,
+ politic even, wusses who now have made a public mailing list an official!
+ committee of theirs. (I wonder if I am, now, too?) I started flaming some
+ on their lists, just for the fun of it (gimme my fun, will you, since Wim
+ doesn't send me Kriek he owes me for their last pun).</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
