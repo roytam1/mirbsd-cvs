@@ -1,8 +1,10 @@
-# $MirOS: www/LICENCE,v 1.1 2005/03/15 17:13:04 tg Exp $
+# $MirOS: www/LICENCE,v 1.2 2005/03/15 17:37:42 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
 # Copyright (c) 1999, 2002, 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+# Copyright (c) 2004
+#	Benny Siegert <bsiegert@MirBSD.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
