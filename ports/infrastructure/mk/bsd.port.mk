@@ -661,7 +661,7 @@ MESSAGE?=		${PKGDIR}/MESSAGE${SUBPACKAGE}
 DESCR?=			${PKGDIR}/DESCR${SUBPACKAGE}
 
 MTREE_FILE?=
-MTREE_FILE+=		${PORTSDIR}/infrastructure/db/fake.mtree
+MTREE_FILE+=		${PORTSDIR}/infrastructure/templates/fake.mtree
 
 # Fill out package command, and package dependencies
 _PKG_PREREQ=		${WRKPKG}/PLIST${SUBPACKAGE} \
@@ -1050,7 +1050,7 @@ _libresolve_fragment= \
 	*)	shprefix=""; shdir="${LOCALBASE}/lib";; \
 	esac; \
 	check=$$(eval $$listlibs | perl \
-	    ${PORTSDIR}/infrastructure/build/resolve-lib ${_noshared} $$d) \
+	    ${PORTSDIR}/infrastructure/scripts/resolve-lib ${_noshared} $$d) \
 	    || true
 
 _lib_depends_fragment= \
@@ -1429,7 +1429,7 @@ ${_DEP}-depends: ${_DEP${_DEP}_COOKIES}
 .endfor
 
 # Do a brute-force ldd/objdump on all files under WRKINST.
-_CHECK_LIBS_SCRIPT=	${PORTSDIR}/infrastructure/install/check-libs-elf
+_CHECK_LIBS_SCRIPT=	${PORTSDIR}/infrastructure/scripts/check-libs-elf
 ${_LIBLIST}: ${_FAKE_COOKIE}
 	@cd ${WRKINST} && ${SUDO} find . -type f|\
 		${SUDO} xargs objdump -p 2>/dev/null |\
@@ -2145,14 +2145,14 @@ plist update-plist: fake
 	PFRAG=${PKGDIR}/PFRAG \
 	FLAVORS='${FLAVORS}' MULTI_PACKAGES='${MULTI_PACKAGES}' \
 	OKAY_FILES='${_FAKE_COOKIE} ${_INSTALL_PRE_COOKIE}' \
-	perl ${PORTSDIR}/infrastructure/install/make-plist ${PKGDIR} ${_tmpvars}
+	perl ${PORTSDIR}/infrastructure/scripts/make-plist ${PKGDIR} ${_tmpvars}
 .endif
 
 update-patches:
 	@toedit=$$(WRKDIST=${WRKDIST} PATCHDIR=${PATCHDIR} \
 	    PATCH_LIST='${PATCH_LIST}' DIFF_ARGS='${DIFF_ARGS}' \
 	    DISTORIG=${DISTORIG} PATCHORIG=${PATCHORIG} ${_GDIFFLAG} \
-	    ${SHELL} ${PORTSDIR}/infrastructure/build/update-patches); \
+	    ${SHELL} ${PORTSDIR}/infrastructure/scripts/update-patches); \
 	case $$toedit in "");; \
 	*) read i?'edit patches: '; \
 	cd ${PATCHDIR} && $${VISUAL:-$${EDITOR:-/usr/bin/vi}} $$toedit;; esac
