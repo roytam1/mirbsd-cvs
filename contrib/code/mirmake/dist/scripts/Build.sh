@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.6 2005/02/26 14:04:59 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.7 2005/02/28 21:43:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -188,7 +188,8 @@ rm -rf $d_build/tsort
 mkdir $d_build/tsort
 cd $d_build/tsort
 (cd $d_src/usr.bin/tsort; tar cf - * ) | tar xf -
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes \
+    INCS='-I $d_build/ohash' LIBS='$d_build/ohash/libohash.a'
 cd $top
 cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/tsort/tsort \$DESTDIR${dt_bin}/
