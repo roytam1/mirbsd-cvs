@@ -2575,9 +2575,9 @@ static void move_anchors_in_region(HTLine *line, int line_number,
 	/* Fix the end */
 	if (last < ebyte) {
 	    a->extent += shift;
-	}
-	else
+	} else {
 	    break;		/* Keep this `a' for the next step */
+	}
     }
     *prev_anchor = a;
     *prev_head_processed = head_processed;
@@ -4242,17 +4242,17 @@ void HText_appendCharacter(HText *text, int ch)
 	      ((line->size > 0) &&
 	       (int) (line->data[line->size - 1] == LY_SOFT_HYPHEN ? 1 : 0)));
 
-    if (text->T.output_utf8) {
-	actual += (UTFXTRA_ON_THIS_LINE - ctrl_chars_on_this_line + UTF_XLEN(ch));
-	limit = LYcols_cu(text);
-    } else {
-	actual +=
-	    (int) style->rightIndent - ctrl_chars_on_this_line +
-	    (((HTCJK != NOCJK) && text->kanji_buf) ? 1 : 0);
-	limit = WRAP_COLS(text);
-    }
-
-    if (actual >= limit) {
+    if ((actual
+	 + (int) style->rightIndent
+	 - ctrl_chars_on_this_line
+	 + (((HTCJK != NOCJK) && text->kanji_buf) ? 1 : 0)
+	) >= (WRAP_COLS(text) - 1)
+	|| (text->T.output_utf8
+	    && ((actual
+		 + UTFXTRA_ON_THIS_LINE
+		 - ctrl_chars_on_this_line
+		 + UTF_XLEN(ch)
+		) >= (LYcols_cu(text) - 1)))) {
 
 	if (style->wordWrap && HTOutputFormat != WWW_SOURCE) {
 #ifdef EXP_JUSTIFY_ELTS
@@ -7083,7 +7083,7 @@ static BOOL anchor_is_numbered(TextAnchor *Anchor_ptr)
     BOOL result = FALSE;
 
     if (Anchor_ptr->show_anchor
-	/* FIXME: && non_empty(hi_string) */
+    /* FIXME: && non_empty(hi_string) */
 	&& (Anchor_ptr->link_type & HYPERTEXT_ANCHOR)) {
 	result = TRUE;
     } else if (Anchor_ptr->link_type == INPUT_ANCHOR
