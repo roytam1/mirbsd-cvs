@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.2 2005/03/06 21:27:05 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2004/03/19 13:48:18 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -31,7 +31,7 @@ CLEANFILES+=	unixdev.o unixsys.o nullfs.o
 # stand routines
 SRCS+=	alloc.c exit.c getfile.c gets.c globals.c strcmp.c strlen.c \
 	strncmp.c memcmp.c memset.c printf.c snprintf.c \
-	strerror.c strncpy.c strtol.c ctime.c strlcpy.c strlcat.c
+	strerror.c strncpy.c strtol.c ctime.c strlfun.c
 
 # io routines
 SRCS+=	close.c closeall.c dev.c disklabel.c dkcksum.c fstat.c ioctl.c lseek.c \
