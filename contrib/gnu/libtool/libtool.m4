@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.13 2005/02/10 20:57:08 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.14 2005/02/10 21:03:31 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -4051,10 +4051,10 @@ if test -f "$ltmain"; then
     old_postinstall_cmds | old_postuninstall_cmds | \
     sys_lib_search_path_spec | sys_lib_dlsearch_path_spec)
       # Double-quote double-evaled strings.
-      eval "lt_$var=\\\"\$(\$echo \"X\$$var\" | \$Xsed -e \"\$double_quote_subst\" -e \"\$sed_quote_subst\" -e \"\$delay_variable_subst\"\)\\\""
+      eval "lt_$var=\\\"\$\(\$echo \"X\$$var\" | \$Xsed -e \"\$double_quote_subst\" -e \"\$sed_quote_subst\" -e \"\$delay_variable_subst\"\)\\\""
       ;;
     *)
-      eval "lt_$var=\\\"\$(\$echo \"X\$$var\" | \$Xsed -e \"\$sed_quote_subst\"\)\\\""
+      eval "lt_$var=\\\"\$\(\$echo \"X\$$var\" | \$Xsed -e \"\$sed_quote_subst\"\)\\\""
       ;;
     esac
   done
