@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/sys.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -38,7 +38,7 @@ OStype=		unknown
 # Sync these with <sys/param.h>
 unix=		We run ${OStype}.
 OSrev=		8		# MirOS version (major)
-OSrpl=		35		# MirOS patchlevel
+OSrpl=		36		# MirOS patchlevel
 OScompat=	3.5		# OpenBSD compatibility revision
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=	uname -s
@@ -76,7 +76,7 @@ LINK.cc?=	${CXX} ${CXXFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 CPP?=		cpp
 CPPFLAGS?=
-CPPFLAGS+=	-I${.CURDIR}
+CPPFLAGS+=	-idirafter ${.CURDIR}
 
 LEX?=		lex
 LFLAGS?=
