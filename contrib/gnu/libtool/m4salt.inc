@@ -1,44 +1,12 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.m4,v 1.3 2005/02/09 23:42:07 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.1 2005/02/10 19:34:35 tg Exp $
 #-
 # Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Free Software Foundation, Inc.
+# Contributed by Thorsten "mirabile" Glaser.
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
-#
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
-#
-# Alternatively to these terms and conditions, this work may be han-
-# dled as if it were covered by the same terms and conditions as the
-# current version of GNU Autoconf, or versions derived from Autoconf
-# 2.13, if it is part of an autoconf'd programme or an autotools re-
-# placement/patchkit suite. The same exception clauses apply.
-# The author hereby grants the "Free Software Foundation" permission
-# to, under the standing copyright assignment, take over this script
-# and licence it as they want.
-#
-# Below there is one modified excerpt from GNU Autoconf which is co-
-# vered by the following GNU GPL exception clause:
-#| As a special exception, the Free Software Foundation gives unli-
-#| mited permission to copy, distribute and modify the configure
-#| scripts that are the output of Autoconf. You need not follow the
-#| terms of the GNU General Public License when using or distribu-
-#| ting such scripts, even though portions of the text of Autoconf
-#| appear in them. The GNU General Public License (GPL) does govern
-#| all other use of the material that constitutes the Autoconf pro-
-#| gram.
-# The MirOS project and Thorsten Glaser hereby grant you the same.
+# This file is licenced under the same terms and conditions as
+# GNU autoconf, including the GPL exception.
 #-
 # m4salt - include m4sugar (from Autoconf 2.52) for Autoconf 2.13 as
 # well as enough magic to make GNU Libtool 1.5 work with Autoconf in
@@ -133,13 +101,12 @@ dnl normal versions of a library), tasteless as that idea is.
   fi
 fi
 AC_LANG_C
-])dnl
-dnl End of GPL+exc licenced part.
+])dnl # AC_PROG_CXX
 
 dnl No Fortran 77 with autoconf-2.13 and MirLibtool
 builtin([undefine], [AC_PROG_F77])dnl
 NOACLOCAL_DEFUN([AC_PROG_F77],
-[
+[dnl Empty. Seems to work.
 ])dnl
 
 dnl Another identifier
@@ -151,13 +118,66 @@ define([AC_LANG_PUSH],
 ifelse([$1],
  [C], AC_LANG_C,
  [C++], AC_LANG_CPLUSPLUS)
-])])dnl # AC_LANG_PUSH
+])dnl # AC_LANG_PUSH
 
 define([AC_LANG_POP],
 [AC_LANG_RESTORE])dnl # AC_LANG_POP
 
 define([AS_MESSAGE_LOG_FD], 5)dnl
-])dnl
+
+dnl This is from Autoconf 2.59
+# AC_HELP_STRING(LHS, RHS, [COLUMN])
+# ----------------------------------
+#
+# Format a help string so that it looks pretty when
+# the user executes "script --help".  This macro takes three
+# arguments, a "left hand side" (LHS), a "right hand side" (RHS), and
+# the COLUMN which is a string of white spaces which leads to the
+# the RHS column (default: 26 white spaces).
+#
+# The resulting string is suitable for use in other macros that require
+# a help string (e.g. AC_ARG_WITH).
+#
+# Here is the sample string from the Autoconf manual (Node: External
+# Software) which shows the proper spacing for help strings.
+#
+#    --with-readline         support fancy command line editing
+#  ^ ^                       ^
+#  | |                       |
+#  | column 2                column 26
+#  |
+#  column 0
+#
+# A help string is made up of a "left hand side" (LHS) and a "right
+# hand side" (RHS).  In the example above, the LHS is
+# "--with-readline", while the RHS is "support fancy command line
+# editing".
+#
+# If the LHS is contains more than (COLUMN - 3) characters, then the LHS
+# is terminated with a newline so that the RHS starts on a line of its
+# own beginning with COLUMN.  In the default case, this corresponds to
+# an LHS with more than 23 characters.
+#
+# Therefore, in the example, if the LHS were instead
+# "--with-readline-blah-blah-blah", then the AS_HELP_STRING macro would
+# expand into:
+#
+#
+#    --with-readline-blah-blah-blah
+#  ^ ^                       support fancy command line editing
+#  | |                       ^
+#  | column 2                |
+#  column 0                  column 26
+#
+m4_define([AS_PadLeft],
+	   [m4_if(m4_eval([$1] > [$2]),1,[[ ]AS_PadLeft([$1]-1,[$2])])])
+m4_define([AC_HELP_STRING],
+[m4_pushdef([AS_Prefix], m4_default([$3], [                          ]))dnl
+m4_text_wrap([$2], AS_Prefix, [  $1]AS_PadLeft(m4_len(AS_Prefix),m4_len([$1])+2))dnl
+m4_popdef([AS_Prefix])dnl
+])
+
+])dnl # AC_m4salt_INIT
 
 define([AC_m4salt_SPLIT],
 [translit($1, ., [, ])])dnl

@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS$
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.5 2005/02/10 19:37:37 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -9,6 +9,63 @@
 ## modifications, as long as this notice is preserved.
 
 # serial 47 AC_PROG_LIBTOOL
+
+
+dnl Support using MirLibtool with Autoconf 2.13
+dnl -------------------------------------------
+sinclude(ifdef([m4_PACKAGE_VERSION], [], [m4salt.inc]))dnl
+
+dnl Support using MirLibtool with Autoconf 2.59
+dnl -------------------------------------------
+builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
+ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
+[dnl Autoconf 2.13
+dnl  =============
+],
+[dnl Autoconf 2.5x
+dnl  =============
+
+dnl This function was originally copied from Autoconf 2.59
+# AC_PROG_CXXCPP
+# --------------
+# Find a working C++ preprocessor.
+# We shouldn't have to require AC_PROG_CC, but this is due to the concurrency
+# between the AC_LANG_COMPILER_REQUIRE family and that of AC_PROG_CXX.
+builtin([undefine], [AC_PROG_CXXCPP])dnl
+NOACLOCAL_DEFUN([AC_PROG_CXXCPP],
+[AC_REQUIRE([AC_PROG_CXX])dnl
+AC_ARG_VAR([CXXCPP],   [C++ preprocessor])dnl
+_AC_ARG_VAR_CPPFLAGS()dnl
+AC_LANG([C++])dnl
+AC_MSG_CHECKING([how to run the C++ preprocessor])
+if test -z "$CXXCPP"; then
+  AC_CACHE_VAL(ac_cv_prog_CXXCPP,
+  [dnl
+    # Double quotes because CXXCPP needs to be expanded
+    for CXXCPP in "$CXX -E" "$CC -E" "/usr/libexec/cpp" "/lib/cpp"
+    do
+      _AC_PROG_PREPROC_WORKS_IFELSE([break])
+    done
+    ac_cv_prog_CXXCPP=$CXXCPP
+  ])dnl
+  CXXCPP=$ac_cv_prog_CXXCPP
+else
+  ac_cv_prog_CXXCPP=$CXXCPP
+fi
+AC_MSG_RESULT([$CXXCPP])
+_AC_PROG_PREPROC_WORKS_IFELSE([],
+	  [AC_MSG_WARN([C++ preprocessor "$CXXCPP" fails sanity check])])
+AC_SUBST(CXXCPP)dnl
+AC_LANG([C])dnl
+])# AC_PROG_CXXCPP
+
+dnl  End of Autoconf switch
+dnl  ======================
+])dnl
+
+
+dnl Here it goes
+dnl ------------
 
 
 # AC_PROVIDE_IFELSE(MACRO-NAME, IF-PROVIDED, IF-NOT-PROVIDED)
@@ -26,7 +83,8 @@ m4_ifdef([AC_PROVIDE_IFELSE],
 AC_DEFUN([AC_PROG_LIBTOOL],
 [AC_REQUIRE([_AC_PROG_LIBTOOL])dnl
 dnl If AC_PROG_CXX has already been expanded, run AC_LIBTOOL_CXX
-dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX.
+dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX
+dnl and replace AC_PROG_CXX by a more forgiving variant.
   AC_PROVIDE_IFELSE([AC_PROG_CXX],
     [AC_LIBTOOL_CXX],
     [define([AC_PROG_CXX], defn([AC_PROG_CXX])[AC_LIBTOOL_CXX
@@ -79,7 +137,7 @@ define([AC_PROG_LIBTOOL], [])
 # AC_LIBTOOL_SETUP
 # ----------------
 AC_DEFUN([AC_LIBTOOL_SETUP],
-[AC_PREREQ(2.50)dnl
+[AC_PREREQ(2.13)dnl
 AC_REQUIRE([AC_ENABLE_SHARED])dnl
 AC_REQUIRE([AC_ENABLE_STATIC])dnl
 AC_REQUIRE([AC_ENABLE_FAST_INSTALL])dnl
@@ -176,7 +234,7 @@ old_postuninstall_cmds=
 
 if test -n "$RANLIB"; then
   case $host_os in
-  openbsd*)
+  mirbsd* | openbsd*)
     old_postinstall_cmds="\$RANLIB -t \$oldlib~$old_postinstall_cmds"
     ;;
   *)
