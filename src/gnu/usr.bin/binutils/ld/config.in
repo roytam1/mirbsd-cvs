@@ -6,6 +6,9 @@
 /* Define if lex declares yytext as a char * by default, not a char[].  */
 #undef YYTEXT_POINTER
 
+/* Define if you have the glob function.  */
+#undef HAVE_GLOB
+
 /* Define if you have the realpath function.  */
 #undef HAVE_REALPATH
 
