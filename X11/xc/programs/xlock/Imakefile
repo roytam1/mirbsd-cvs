@@ -1,5 +1,3 @@
-#	$OpenBSD: Imakefile,v 1.5 2001/06/27 23:19:23 matthieu Exp $
-
 #ifndef XCOMM
 #define XCOMM /**/#
 #endif
