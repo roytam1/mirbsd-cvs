@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dirent.h,v 1.13 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: dirent.h,v 1.9 1995/03/26 20:13:37 jtc Exp $	*/
 
@@ -43,7 +44,7 @@
 #endif
 
 /*
- * The kernel defines the format of directory entries returned by 
+ * The kernel defines the format of directory entries returned by
  * the getdirentries(2) system call.
  */
 #include <sys/dirent.h>
@@ -80,8 +81,10 @@ typedef struct _dirdesc {
 #ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 

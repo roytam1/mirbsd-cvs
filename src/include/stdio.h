@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: stdio.h,v 1.30 2004/06/07 21:11:23 marc Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -51,6 +52,7 @@ typedef	_BSD_SIZE_T_	size_t;
 #endif
 
 #ifdef	_BSD_OFF_T_
+/* LONGLONG */
 typedef	_BSD_OFF_T_	off_t;
 #undef	_BSD_OFF_T_
 #endif
@@ -58,8 +60,10 @@ typedef	_BSD_OFF_T_	off_t;
 #ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 

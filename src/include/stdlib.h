@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: stdlib.h,v 1.32 2004/08/03 19:59:42 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -34,6 +35,7 @@
 
 #ifndef _STDLIB_H_
 #define _STDLIB_H_
+
 #include <machine/ansi.h>
 
 #if !defined(_ANSI_SOURCE)	/* for quad_t, etc. */
@@ -71,11 +73,13 @@ typedef struct {
 #endif
 
 
-#ifndef	NULL
+#ifndef NULL
 #ifdef 	__GNUG__
-#define NULL	__null
+#define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 
@@ -104,6 +108,7 @@ int	 atexit(void (*)(void));
 double	 atof(const char *);
 int	 atoi(const char *);
 long	 atol(const char *);
+/* LONGLONG */
 long long atoll(const char *);
 void	*bsearch(const void *, const void *, size_t, size_t,
 	    int (*)(const void *, const void *));
@@ -118,6 +123,7 @@ char	*gcvt(double, int, char *);
 char	*getenv(const char *);
 long	 labs(long);
 ldiv_t	 ldiv(long, long);
+/* LONGLONG */
 long long
 	 llabs(long long);
 void	*malloc(size_t);
@@ -128,12 +134,15 @@ void	*realloc(void *, size_t);
 void	 srand(unsigned);
 double	 strtod(const char *, char **);
 long	 strtol(const char *, char **, int);
+/* LONGLONG */
 long long
 	 strtoll(const char *, char **, int);
+/* LONGLONG */
 long long
 	 strtonum(const char *, long long, long long, const char **);
 unsigned long
 	 strtoul(const char *, char **, int);
+/* LONGLONG */
 unsigned long long
 	 strtoull(const char *, char **, int);
 int	 system(const char *);
@@ -147,10 +156,10 @@ size_t	 wcstombs(char *, const wchar_t *, size_t);
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 #if defined(alloca) && (alloca == __builtin_alloca) && (__GNUC__ < 2)
-void  *alloca(int);     /* built-in for gcc */ 
-#else 
-void  *alloca(size_t); 
-#endif /* __GNUC__ */ 
+void  *alloca(int);     /* built-in for gcc */
+#else
+void  *alloca(size_t);
+#endif /* __GNUC__ */
 
 char	*getbsize(int *, long *);
 char	*cgetcap(char *, const char *, int);
@@ -226,6 +235,10 @@ u_int32_t arc4random(void);
 void	arc4random_stir(void);
 void	arc4random_addrandom(unsigned char *, int)
 	__attribute__((__bounded__ (__string__,1,2)));
+void	arc4random_push(int);
+
+void	setprogname(const char *);
+const char *getprogname(void);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 __END_DECLS

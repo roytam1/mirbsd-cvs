@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: stddef.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $	*/
 
@@ -52,14 +53,18 @@ typedef	_BSD_WCHAR_T_	wchar_t;
 #endif
 #endif
 
-#ifndef	NULL
+#ifndef NULL
 #ifdef 	__GNUG__
-#define NULL	__null
+#define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 
-#define	offsetof(type, member)	((size_t)(&((type *)0)->member))
+#ifndef offsetof
+#define offsetof(s, e)	((size_t)&((s *)0)->e)
+#endif
 
 #endif /* _STDDEF_H_ */

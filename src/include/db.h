@@ -135,8 +135,8 @@ typedef struct {
 	unsigned int	ffactor;	/* fill factor */
 	unsigned int	nelem;		/* number of elements */
 	unsigned int	cachesize;	/* bytes to cache */
-	u_int32_t			/* hash function */
-			(*hash)(const void *, size_t);
+	u_int32_t	(*hash)		/* hash function */
+			    (const void *, size_t);
 	int		lorder;		/* byte order */
 } HASHINFO;
 
@@ -149,11 +149,11 @@ typedef struct {
 	unsigned int	cachesize;	/* bytes to cache */
 	unsigned int	psize;		/* page size */
 	int		lorder;		/* byte order */
-	size_t		reclen;		/* record length 
+	size_t		reclen;		/* record length
 					   (fixed-length records) */
-	unsigned char	bval;		/* delimiting byte 
+	unsigned char	bval;		/* delimiting byte
 					   (variable-length records) */
-	char	*bfname;		/* btree file name */ 
+	char	*bfname;		/* btree file name */
 } RECNOINFO;
 
 #ifdef __DBINTERFACE_PRIVATE
@@ -216,4 +216,5 @@ DB	*__rec_open(const char *, int, int, const RECNOINFO *, int);
 void	 __dbpanic(DB *dbp);
 #endif
 __END_DECLS
+
 #endif /* !_DB_H_ */

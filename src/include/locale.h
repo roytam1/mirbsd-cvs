@@ -1,3 +1,4 @@
+/*	$MirOS$	*/
 /*	$OpenBSD: locale.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: locale.h,v 1.6 1994/10/26 00:56:02 cgd Exp $	*/
 
@@ -35,6 +36,8 @@
 #ifndef _LOCALE_H_
 #define _LOCALE_H_
 
+#include <sys/cdefs.h>
+
 struct lconv {
 	char	*decimal_point;
 	char	*thousands_sep;
@@ -56,14 +59,6 @@ struct lconv {
 	char	n_sign_posn;
 };
 
-#ifndef NULL
-#ifdef 	__GNUG__
-#define NULL	__null
-#else
-#define	NULL	0L
-#endif
-#endif
-
 #define	LC_ALL		0
 #define	LC_COLLATE	1
 #define	LC_CTYPE	2
@@ -71,10 +66,7 @@ struct lconv {
 #define	LC_NUMERIC	4
 #define	LC_TIME		5
 #define LC_MESSAGES	6
-
 #define	_LC_LAST	7		/* marks end */
-
-#include <sys/cdefs.h>
 
 __BEGIN_DECLS
 struct lconv	*localeconv(void);

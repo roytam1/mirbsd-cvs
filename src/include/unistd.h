@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: unistd.h,v 1.52 2004/01/13 18:10:53 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
@@ -46,8 +47,10 @@
 #ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 
@@ -63,11 +66,10 @@ size_t	 confstr(int, char *, size_t)
 char	*cuserid(char *);
 int	 dup(int);
 int	 dup2(int, int);
-int	 execl(const char *, const char *, ...) 
+int	 execl(const char *, const char *, ...)
 	    __attribute__((sentinel));
-int	 execle(const char *, const char *, ...) 
-	    __attribute__((sentinel));
-int	 execlp(const char *, const char *, ...) 
+int	 execle(const char *, const char *, ...);
+int	 execlp(const char *, const char *, ...)
 	    __attribute__((sentinel));
 int	 execv(const char *, char * const *);
 int	 execve(const char *, char * const *, char * const *);

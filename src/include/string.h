@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: string.h,v 1.14 2004/06/20 17:47:07 avsm Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -34,6 +35,7 @@
 
 #ifndef _STRING_H_
 #define	_STRING_H_
+
 #include <machine/ansi.h>
 
 #ifdef	_BSD_SIZE_T_
@@ -41,11 +43,13 @@ typedef	_BSD_SIZE_T_	size_t;
 #undef	_BSD_SIZE_T_
 #endif
 
-#ifndef	NULL
+#ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 
@@ -109,7 +113,7 @@ void	 strmode(int, char *);
 int	 strncasecmp(const char *, const char *, size_t);
 char	*strsep(char **, const char *);
 char	*strsignal(int);
-#endif 
+#endif
 __END_DECLS
 
 #endif /* _STRING_H_ */

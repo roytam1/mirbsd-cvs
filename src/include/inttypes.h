@@ -1,29 +1,31 @@
-/*	$OpenBSD: inttypes.h,v 1.5 2003/06/17 21:56:23 millert Exp $	*/
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
-/*
- * Copyright (c) 1997 Todd C. Miller <Todd.Miller@courtesan.com>
+/*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
  */
 
-#ifndef _INTTYPES_H_
-#define _INTTYPES_H_
+#ifndef	_INTTYPES_H_
+#define	_INTTYPES_H_
 
-/* Machine type dependent parameters. */
-#include <machine/types.h>
+/* POSIX says so */
+#include <stdint.h>
 
-/* XXX - these really belong in <machine/types.h> (maybe create u_register_t) */
-typedef long			intptr_t;
-typedef unsigned long		uintptr_t;
+/* missing: division stuff, formatting macros */
 
-#endif /* _INTTYPES_H_ */
+#endif /* ndef _INTTYPES_H_ */
