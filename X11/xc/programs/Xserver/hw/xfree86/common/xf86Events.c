@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/common/xf86Events.c,v 3.166 2005/02/18 22:38:31 dawes Exp $ */
 /*
  * Copyright 1990,91 by Thomas Roell, Dinkelscherben, Germany.
@@ -575,8 +576,8 @@ xf86PostKbdEvent(unsigned key)
       case 0x75:        scanCode = KEY_0x75; break;
       case 0x76:        scanCode = KEY_0x76; break;
       }
-    }
 #endif
+    }
   }
 
   else if (
