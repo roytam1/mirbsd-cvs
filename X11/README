@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: X11/README,v 1.1 2005/03/19 13:21:35 tg Exp $
 
 This module contains the X-Window subsystem for the MirOS
 operating system family. Currently, it is based upon a
@@ -15,7 +15,9 @@ module as a collective-work copyright. Then refer to the file
 xc/programs/Xserver/hw/xfree86/doc/LICENSE which documents
 all the licences, trademarks and advertising clauses imposed
 by the use of Xfree86(tm). Finally, there are some additions
-taken over from OpenBSD originally. XXX All advertising clauses and trademark attributions required are reproduced below, directly usable by *roff formatters.
+taken over from OpenBSD originally. All advertising clauses
+and trademark attributions required are reproduced below,
+directly usable by *roff formatters.
 
 .Ss Required attribution
 The following attribution clauses are required to be reproduced
@@ -23,7 +25,22 @@ when advertising for
 .Os .
 .Bl -bullet -compact
 .It
-XXX list all advertising clauses here.
+This product includes software developed by The XFree86 Project,
+Inc (http://www.xfree86.org/) and its contributors.
+.It
+This product includes software developed by the University of
+California, Berkeley and its contributors.
+.It
+This product includes software developed by the University of
+California, Lawrence Berkeley Laboratory.
+.It
+This product includes software developed by Christopher G. Demetriou.
+.It
+This product includes software developed by the NetBSD Foundation,
+Inc. and its contributors.
+.It
+This product includes software developed by X-Oz Technologies
+(http://www.x-oz.com/).
 .El
 .Pp
 All trademarks and registered trademarks are properties of their
