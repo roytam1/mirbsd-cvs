@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.5 2005/03/15 16:15:09 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.6 2005/03/15 16:23:23 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2005
@@ -1503,8 +1503,7 @@
 .\" NS xX local register
 .\" NS aa local register
 .de s0
-.nr xX \\n(.c-3740
-.tm MDOC-ERROR: bogus type 0 (can't set space '\\*(A\\n(aC') (#\\n(.c or #\\n(xX)
+.tm MDOC-ERROR: bogus type 0 (can't set space '\\*(A\\n(aC') (#\\n(.c)
 ..
 .de s1
 .if \\n(\\*(A\\n(aC==3 \{\
@@ -1539,8 +1538,7 @@
 .\" NS c3 macro - call .No if type 3
 .\" NS c4 macro - call .No if type 4
 .de c0
-.nr xX \\n(.c-3740
-.tm MDOC-ERROR: bogus class 0 (can't determine '\\*(A\\n(aC') (#\\n(.c or #\\n(xX)
+.tm MDOC-ERROR: bogus class 0 (can't determine '\\*(A\\n(aC') (#\\n(.c)
 ..
 .de c1
 .\\*(A\\n(aP
@@ -2308,8 +2306,7 @@
 .\" NS Xr macro - cross reference (man page only)
 .de Xr
 .if \\n(aC==0 \{\
-.	nr xX \\n(.c-3739
-.	ie \\n(.$==0 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c or #\\n(xX)
+.	ie \\n(.$==0 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c)
 .	el \{\
 .		ds mN Xr
 .		ie \\$1st \
@@ -2320,8 +2317,7 @@
 .\}
 .if \\n(aC>\\n(aP \{\
 .	nr aP \\n(aP+1
-.	nr xX \\n(.c-3740
-.	ie \\n(C\\n(aP==1 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c or #\\n(xX)
+.	ie \\n(C\\n(aP==1 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c)
 .	el \{\
 .		ie \\n(C\\n(aP>2 .y\\n(C\\n(aP
 .		el \{\

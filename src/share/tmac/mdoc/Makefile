@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/tmac/mdoc/Makefile,v 1.2 2005/03/06 19:38:53 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/04/08 01:44:59 millert Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/8/93
 
@@ -12,25 +12,12 @@ NOOBJ=		yes
 all clean cleandir depend lint tags:
 
 beforeinstall:
-	install -c -o ${BINOWN} -g ${BINGRP} -m 444 ${.CURDIR}/README \
-		${DESTDIR}${BINDIR}/../README.mdoc
+	install -c -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
+	    ${.CURDIR}/README ${DESTDIR}${BINDIR}/../README.mdoc
 	for i in ${MSRCS}; do \
 		sed -f ${STRIP_SED} <$$i >${DESTDIR}${BINDIR}/$$i; \
 		chown ${BINOWN}:${BINGRP} ${DESTDIR}${BINDIR}/$$i; \
 		chmod ${SHAREMODE} ${DESTDIR}${BINDIR}/$$i; \
 	done
-
-.PHONY: check check-loud check-silent
-
-check:
-	@echo "Type 'make check-loud' or 'make check-silent' to test!"
-
-check-loud:
-	@echo "Remember to have done 'sudo make install' first!\n"
-	nroff -mandoc ${.CURDIR}/test.5
-
-check-silent:
-	@echo "Remember to have done 'sudo make install' first!\n"
-	nroff -mandoc ${.CURDIR}/test.5 >/dev/null
 
 .include <bsd.prog.mk>
