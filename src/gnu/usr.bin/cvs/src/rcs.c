@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Brian Berliner and Jeff Polk
  * 
@@ -22,6 +24,8 @@
 #  define MAP_FAILED NULL
 # endif
 #endif
+
+__RCSID("$MirOS$");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -3072,6 +3076,7 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
     struct timespec revdate;
     Node *p;
     RCSVers *vers;
+    int y;
 
     /* make sure we have something to look at... */
     assert (rcs != NULL);
@@ -3086,7 +3091,7 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
     vers = p->data;
 
     /* split up the date */
-    if (sscanf (vers->date, SDATEFORM, &xtm.tm_year, &xtm.tm_mon,
+    if (sscanf (vers->date, SDATEFORM, &y, &xtm.tm_mon,
 		&xtm.tm_mday, &xtm.tm_hour, &xtm.tm_min, &xtm.tm_sec) != 6)
 	error (1, 0, "%s: invalid date for revision %s (%s)", rcs->print_path,
 	       rev, vers->date);
@@ -3096,15 +3101,14 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
        2000+, RCS files contain all four digits and we subtract 1900,
        because the tm_year field should contain years since 1900.  */
 
-    if (xtm.tm_year >= 100 && xtm.tm_year < 2000)
+    if (y >= 100 && y < 2000)
 	error (0, 0, "%s: non-standard date format for revision %s (%s)",
 	       rcs->print_path, rev, vers->date);
-    if (xtm.tm_year >= 1900)
-	xtm.tm_year -= 1900;
+    xtm.tm_year = y - ((y >= 1900) ? 1900 : 0);
 
     /* put the date in a form getdate can grok */
-    (void) sprintf (tdate, "%d-%d-%d GMT %d:%d:%d",
-		    xtm.tm_year + 1900, xtm.tm_mon, xtm.tm_mday,
+    (void) sprintf (tdate, "%lld-%d-%d GMT %d:%d:%d",
+		    (int64_t)xtm.tm_year + 1900, xtm.tm_mon, xtm.tm_mday,
 		    xtm.tm_hour, xtm.tm_min, xtm.tm_sec);
 
     /* Turn it into seconds since the epoch.
@@ -3121,7 +3125,7 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
 	/* Put an appropriate string into `date', if we were given one. */
 	ftm = gmtime (&revdate.tv_sec);
 	(void) sprintf (date, DATEFORM,
-			ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
+			(int)(ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900)),
 			ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 			ftm->tm_min, ftm->tm_sec);
     }
@@ -5006,7 +5010,7 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
     ftm = gmtime (&modtime);
     delta->date = xmalloc (MAXDATELEN);
     (void) sprintf (delta->date, DATEFORM,
-		    ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
+		    (int)(ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900)),
 		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 		    ftm->tm_min, ftm->tm_sec);
     if (flags & RCS_FLAGS_DEAD)

@@ -9,12 +9,10 @@ dnl the same distribution terms as the rest of that program.
 AC_DEFUN([gl_GETDATE],
 [
   dnl Prerequisites of lib/getdate.h.
-  AC_REQUIRE([AM_STDBOOL_H])
   AC_REQUIRE([gl_TIMESPEC])
 
   dnl Prerequisites of lib/getdate.y.
   AC_REQUIRE([gl_BISON])
-  AC_REQUIRE([AC_FUNC_ALLOCA])
   AC_REQUIRE([AC_HEADER_STDC])
   AC_CHECK_FUNCS_ONCE(isascii)
   AC_STRUCT_TIMEZONE

@@ -1,4 +1,5 @@
 ## Process this file with automake to produce Makefile.in
+# $MirOS$
 # Makefile for GNU CVS documentation (excluding man pages - see ../man).
 # Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 #               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
@@ -13,6 +14,8 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+
+AM_MAKEINFOFLAGS = --no-split
 
 info_TEXINFOS = cvs.texinfo cvsclient.texi
 man_MANS = cvs.1
@@ -33,8 +36,6 @@ TXTS = \
 
 EXTRA_DIST = \
 	$(PSS) \
-	.cvsignore \
-	ChangeLog.fsf \
 	RCSFILES \
 	cvs.1 \
 	cvs-paper.ms \
@@ -46,7 +47,7 @@ EXTRA_DIST = \
 MOSTLYCLEANFILES = \
 	$(TXTS)
 
-DISTCLEANFILES =
+DISTCLEANFILES = *.info* texinfo-* cvs.1
 
 # These Automake generates MOSTLYCLEAN targets for PostScripts genersted from
 # TEXINFOS, but it shouldn't when those files are in EXTRA_DIST
@@ -82,12 +83,12 @@ cvs-paper.pdf: cvs-paper.ps
 # Targets to build a man page from cvs.texinfo.
 cvs.1: @MAINTAINER_MODE_TRUE@ mkman cvs.man.header cvs.texinfo cvs.man.footer
 	$(PERL) ./mkman $(srcdir)/cvs.man.header $(srcdir)/cvs.texinfo \
-	        $(srcdir)/cvs.man.footer >$(srcdir)/$@
-MAINTAINERCLEANFILES += $(srcdir)/cvs.1
+	        $(srcdir)/cvs.man.footer >$@
+MAINTAINERCLEANFILES += cvs.1
 
 cvs.dvi cvs.html cvs.info cvs.pdf cvs.ps cvs.txt: getdate-cvs.texi
 getdate-cvs.texi: stamp-gdt
-stamp-gdt: getdate.texi $(top_srcdir)/configure
+stamp-gdt: $(srcdir)/getdate.texi $(top_srcdir)/configure
 	@echo "@c This file is generated via a rule in Makefile.am from the" \
 	  >getdate-cvs.tmp
 	@echo " * getdate.texi file." >>getdate-cvs.tmp
@@ -103,7 +104,7 @@ stamp-gdt: getdate.texi $(top_srcdir)/configure
 	  || (echo "Updating getdate-cvs.texi"; \
 	      cp getdate-cvs.tmp getdate-cvs.texi)
 	-@rm -f getdate-cvs.tmp
-	@cp getdate-cvs.texi $@
+	@echo -n >$@
 DISTCLEANFILES += getdate-cvs.texi stamp-gdt getdate-cvs.tmp
 
 # texinfo based targets automake neglects to include
@@ -117,6 +118,9 @@ SUFFIXES = .txt
 .texi.txt:
 	$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I $(srcdir) \
 	 --no-headers -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
+
+INSTALL_MAN=install-man
+install-data-am: install-info-am $(INSTALL_MAN)
 
 ##
 ## MAINTAINER Targets

@@ -1,4 +1,5 @@
 ## Process this file with automake to produce Makefile.in
+# $MirOS$
 # Makefile for GNU CVS program.
 # Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 #               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
@@ -20,7 +21,6 @@ AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)/lib \
               -I$(top_srcdir)/diff $(ZLIB_CPPFLAGS)
 
 bin_PROGRAMS = cvs
-bin_SCRIPTS = cvsbug
 
 # The cvs executable
 cvs_SOURCES = \
@@ -59,7 +59,6 @@ cvs_SOURCES = \
 	mkmodules.c \
 	modules.c \
 	ms-buffer.c ms-buffer.h \
-	myndbm.c \
 	no_diff.c \
 	parseinfo.c parseinfo.h \
 	patch.c \
@@ -93,15 +92,11 @@ cvs_SOURCES = \
 	hardlink.h \
 	hash.h \
 	history.h \
-	myndbm.h \
 	rcs.h \
 	root.h \
 	server.h \
 	update.h \
 	watch.h
-
-EXTRA_cvs_SOURCES = gssapi-client.c gssapi-client.h \
-                    kerberos4-client.c kerberos4-client.h
 
 cvs_DEPENDENCIES = $(cvs_client_objects) \
 	../diff/libdiff.a \
@@ -117,12 +112,6 @@ cvs_LDADD = $(cvs_client_objects) \
 
 # General
 EXTRA_DIST = \
-	.cvsignore \
-	ChangeLog-9194 \
-	ChangeLog-9395 \
-	ChangeLog-96 \
-	ChangeLog-97 \
-	build_src.com \
 	sanity.sh
 
 check-local: localcheck remotecheck proxycheck

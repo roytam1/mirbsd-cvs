@@ -1,4 +1,5 @@
 ## Process this file with automake to produce Makefile.in
+# $MirOS$
 # Master Makefile for the GNU Concurrent Versions System.
 # Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 #               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
@@ -19,31 +20,14 @@
 # This is a legacy variable from b4 Automake
 USOURCE_SUBDIRS = lib $(ZLIB_SUBDIRS) diff src
 # All other subdirs:
-SUBDIRS = $(USOURCE_SUBDIRS) man doc contrib tools \
-	windows-NT os2 emx vms
+SUBDIRS = $(USOURCE_SUBDIRS) man doc contrib
 
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
-	.cvsignore \
 	BUGS \
-	ChangeLog.zoo \
-	DEVEL-CVS \
 	FAQ \
-	HACKING \
-	MINOR-BUGS \
-	PROJECTS \
-	README.VMS \
-	TESTS \
-	build.com \
-	cvs-format.el \
-	cvsnt.dep \
-	cvsnt.dsp \
-	cvsnt.dsw \
-	cvsnt.mak \
-	cvs.spec \
-	mktemp.sh \
-	$(top_srcdir)/m4/ChangeLog
+	MINOR-BUGS
 
 
 ## MAINTAINER Targets

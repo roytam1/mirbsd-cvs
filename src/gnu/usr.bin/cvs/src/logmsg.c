@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Brian Berliner and Jeff Polk
  * Copyright (c) 1989-1992, Brian Berliner
@@ -9,6 +11,8 @@
 
 #include "cvs.h"
 #include "getline.h"
+
+__RCSID("$MirOS$");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -220,6 +224,8 @@ do_editor (const char *dir, char **messagep, const char *repository,
 	    (*messagep)[strlen (*messagep) - 1] != '\n')
 	    (void) fprintf (fp, "\n");
     }
+    else
+	(void) fputc ('\n', fp);
 
     if (repository != NULL)
 	/* tack templates on if necessary */

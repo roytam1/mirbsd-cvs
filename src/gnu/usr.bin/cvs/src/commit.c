@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Brian Berliner and Jeff Polk
  * Copyright (c) 1989-1992, Brian Berliner
@@ -19,6 +21,8 @@
 #include "edit.h"
 #include "fileattr.h"
 #include "hardlink.h"
+
+__RCSID("$MirOS$");
 
 static Dtype check_direntproc (void *callerdat, const char *dir,
                                const char *repos, const char *update_dir,
@@ -854,7 +858,7 @@ check_fileproc (void *callerdat, struct file_info *finfo)
 	case T_ADDED:
 	case T_REMOVED:
         {
-            char *editor;
+            char *editor = NULL;
 
 	    /*
 	     * some quick sanity checks; if no numeric -r option specified:
@@ -2281,9 +2285,10 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 		   this was added into the log message. */
 		t = time(NULL);
 		ct = gmtime(&t);
-		tmp = Xasprintf ("file %s was added on branch %s on %d-%02d-%02d %02d:%02d:%02d +0000",
+		tmp = Xasprintf ("file %s was added on branch %s on %lld-%02d-%02d %02d:%02d:%02d +0000",
 				 file, tag,
-				 ct->tm_year + (ct->tm_year < 100 ? 0 : 1900),
+				 (int64_t)ct->tm_year
+				  + (ct->tm_year < 100 ? 0 : 1900),
 				 ct->tm_mon + 1, ct->tm_mday,
 				 ct->tm_hour, ct->tm_min, ct->tm_sec);
 			 

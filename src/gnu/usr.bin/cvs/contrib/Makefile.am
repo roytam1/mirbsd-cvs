@@ -1,9 +1,10 @@
 ## Process this file with automake to produce Makefile.in
+# $MirOS$
 # Makefile for GNU CVS contributed sources.
 # Do not use this makefile directly, but only from `../Makefile'.
 # Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 #               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
-#               2004
+#               2004, 2005
 #               Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
@@ -15,8 +16,6 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
-SUBDIRS = pam
 
 contribdir = $(pkgdatadir)/contrib
 
@@ -46,11 +45,7 @@ contrib_DATA = \
 contrib_MANS = \
 	sandbox_status.man
 
-bin_LINKS = \
-	rcs2log
-
 EXTRA_DIST = \
-	.cvsignore \
 	$(contrib_DATA) \
 	$(contrib_MANS) \
 	cvs2vendor.sh \
@@ -66,33 +61,7 @@ EXTRA_DIST = \
 	rcs2log.sh \
 	rcs2sccs.sh
 
-CLEANFILES = $(bin_LINKS) $(contrib_SCRIPTS)
-
-# we'd rather have a link here rather than two copies of a script
-install-data-local:
-	: FIXME - this path should be determined dynamically from bindir
-	: and contribdir
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	@list='$(bin_LINKS)'; for p in $$list; do \
-	    echo "test ! -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
-	    echo "  && cd $(DESTDIR)$(bindir) && $(LN_S) ../share/$(PACKAGE)/contrib/`echo $$p|sed '$(transform)'` ."; \
-	    (test ! -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'` \
-	        && cd $(DESTDIR)$(bindir) && $(LN_S) ../share/$(PACKAGE)/contrib/`echo $$p|sed '$(transform)'` .) \
-	      || (echo "Link creation failed" && if test -f $$p; then \
-	           echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
-	           $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
-	         else if test -f $(srcdir)/$$p; then \
-	           echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
-	           $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
-	         else :; fi; fi); \
-	done
-
-uninstall-local:
-	@$(NORMAL_UNINSTALL)
-	list='$(bin_LINKS)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
-	done
+CLEANFILES = $(contrib_SCRIPTS)
 
 SUFFIXES = .sh
 

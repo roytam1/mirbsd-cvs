@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  *    Copyright (c) 1992, Brian Berliner and Jeff Polk
  *    Copyright (c) 1989-1992, Brian Berliner
@@ -16,6 +18,8 @@
 #include "cvs.h"
 #include "xgethostname.h"
 #include "strftime.h"
+
+__RCSID("$MirOS$");
 
 const char *program_name;
 const char *program_path;
@@ -662,13 +666,6 @@ main (int argc, char **argv)
     if (argc < 1)
 	usage (usg);
 
-    if (readonlyfs && !really_quiet) {
-	error (0, 0,
-	       "WARNING: Read-only repository access mode selected via `cvs -R'.\n\
-Using this option to access a repository which some users write to may\n\
-cause intermittent sandbox corruption.");
-    }
-
     /* Look up the command name. */
 
     cvs_cmd_name = argv[0];
@@ -1116,7 +1113,7 @@ date_from_time_t (time_t unixtime)
 	ftm = localtime (&unixtime);
 
     (void) sprintf (date, DATEFORM,
-		    ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
+		    (int)(ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900)),
 		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 		    ftm->tm_min, ftm->tm_sec);
     ret = xstrdup (date);
@@ -1146,8 +1143,9 @@ date_to_internet (char *dest, const char *source)
 void
 date_to_tm (struct tm *dest, const char *source)
 {
+    int y;
     if (sscanf (source, SDATEFORM,
-		&dest->tm_year, &dest->tm_mon, &dest->tm_mday,
+		&y, &dest->tm_mon, &dest->tm_mday,
 		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
 	    != 6)
 	/* Is there a better way to handle errors here?  I made this
@@ -1155,9 +1153,7 @@ date_to_tm (struct tm *dest, const char *source)
 	   deal with fatal errors.  */
 	error (0, 0, "internal error: bad date %s", source);
 
-    if (dest->tm_year > 100)
-	dest->tm_year -= 1900;
-
+    dest->tm_year = y - ((y > 100) ? 1900 : 0);
     dest->tm_mon -= 1;
 }
 
@@ -1179,10 +1175,10 @@ tm_to_internet (char *dest, const struct tm *source)
       {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     
-    sprintf (dest, "%d %s %d %02d:%02d:%02d -0000", source->tm_mday,
+    sprintf (dest, "%d %s %lld %02d:%02d:%02d -0000", source->tm_mday,
 	     source->tm_mon < 0 || source->tm_mon > 11
                ? "???" : month_names[source->tm_mon],
-	     source->tm_year + 1900, source->tm_hour, source->tm_min,
+	     (int64_t)source->tm_year + 1900, source->tm_hour, source->tm_min,
              source->tm_sec);
 }
 

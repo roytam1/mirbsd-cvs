@@ -1,4 +1,5 @@
 ## Process this file with automake to produce Makefile.in
+# $MirOS$
 # Makefile for library files used by GNU CVS.
 # Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 #               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
@@ -20,6 +21,7 @@ noinst_LIBRARIES = libcvs.a
 # with the diff library (perhaps to have the caller, CVS, do the
 # matching?)
 libcvs_a_SOURCES = \
+	md5.c \
 	sighandle.c \
 	system.h \
 	wait.h \
@@ -42,22 +44,7 @@ TESTS =
 check_PROGRAMS =
 
 EXTRA_DIST = \
-	.cvsignore \
-	ChangeLog.fsf \
-	build_lib.com \
-	libcvs.dep \
-	libcvs.dsp \
-	libcvs.mak \
 	test-getdate.sh
-
-## For GNULIB's alloca module.
-BUILT_SOURCES += $(ALLOCA_H)
-EXTRA_DIST += alloca_.h
-all-local $(libcvs_a_OBJECTS): $(ALLOCA_H)
-alloca.h: alloca_.h
-	cp $(srcdir)/alloca_.h $@-t
-	mv $@-t $@
-MOSTLYCLEANFILES += alloca.h alloca.h-t
 
 ## For GNULIB's allocsa module.
 libcvs_a_SOURCES += allocsa.h allocsa.c
@@ -79,19 +66,6 @@ libcvs_a_SOURCES += exit.h
 
 ## For GNULIB's exitfail module.
 libcvs_a_SOURCES += exitfail.h exitfail.c
-
-## For GNULIB's fnmatch-posix module.
-BUILT_SOURCES += $(FNMATCH_H)
-EXTRA_DIST += fnmatch_.h fnmatch_loop.c
-
-## For GNULIB's fnmatch module.
-# We need the following in order to create an <fnmatch.h> when the system
-# doesn't have one that supports the required API.
-all-local $(libcvs_a_OBJECTS): $(FNMATCH_H)
-fnmatch.h: fnmatch_.h
-	cp $(srcdir)/fnmatch_.h $@-t
-	mv $@-t $@
-MOSTLYCLEANFILES += fnmatch.h fnmatch.h-t
 
 ## For GNULIB's getdate module.
 libcvs_a_SOURCES += getdate.h getdate.y
@@ -134,38 +108,17 @@ libcvs_a_SOURCES += getnline.h getnline.c
 ## For GNULIB's getpagesize module.
 libcvs_a_SOURCES += getpagesize.h
 
-## For GNULIB's getpass module.
-libcvs_a_SOURCES += getpass.h
-
-## For GNULIB's getopt module.
-BUILT_SOURCES += $(GETOPT_H)
-EXTRA_DIST += getopt_.h getopt_int.h
-
-# We need the following in order to create an <getopt.h> when the system
-# doesn't have one that works with the given compiler.
-all-local $(libcvs_a_OBJECTS): $(GETOPT_H)
-getopt.h: getopt_.h
-	cp $(srcdir)/getopt_.h $@-t
-	mv $@-t $@
-MOSTLYCLEANFILES += getopt.h getopt.h-t
-
 ## For GNULIB's gettext module.
 libcvs_a_SOURCES += gettext.h
 
 ## For GNULIB's gettime module.
 libcvs_a_SOURCES += gettime.c
 
-## For GNULIB's md5 module.
-libcvs_a_SOURCES += md5.c md5.h
-
 ## For GNULIB's minmax module.
 libcvs_a_SOURCES += minmax.h
 
 ## For GNULIB's pathmax module.
 libcvs_a_SOURCES += pathmax.h
-
-## For GNULIB's regex module.
-libcvs_a_SOURCES += regex.h
 
 ## For GNULIB's save-cwd module.
 libcvs_a_SOURCES += save-cwd.h save-cwd.c
@@ -175,30 +128,6 @@ libcvs_a_SOURCES += setenv.h
 
 ## For GNULIB's stat module.
 libcvs_a_SOURCES += stat-macros.h
-
-## For GNULIB's stdbool module.
-BUILT_SOURCES += $(STDBOOL_H)
-EXTRA_DIST += stdbool_.h
-# We need the following in order to create an <stdbool.h> when the system
-# doesn't have one that works.
-all-local $(libcvs_a_OBJECTS): $(STDBOOL_H)
-stdbool.h: stdbool_.h
-	sed -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' \
-		< $(srcdir)/stdbool_.h > $@-t
-	mv $@-t $@
-MOSTLYCLEANFILES += stdbool.h stdbool.h-t
-
-## For GNULIB's stdint module.
-BUILT_SOURCES += $(STDINT_H)
-EXTRA_DIST += stdint_.h
-
-# We need the following in order to create an <stdint.h> when the system
-# doesn't have one that works with the given compiler.
-all-local $(libcvs_a_OBJECTS): $(STDINT_H)
-stdint.h: stdint_.h
-	sed -e 's/@''HAVE_LONG_64BIT''@/$(HAVE_LONG_64BIT)/g;s/@''HAVE_LONGLONG_64BIT@/$(HAVE_LONGLONG_64BIT)/g' < $(srcdir)/stdint_.h > $@-t
-	mv $@-t $@
-MOSTLYCLEANFILES += stdint.h stdint.h-t
 
 ## For GNULIB's strcase module.
 libcvs_a_SOURCES += strcase.h
@@ -242,10 +171,6 @@ libcvs_a_SOURCES += xsize.h
 
 ## For GNULIB's yesno module.
 libcvs_a_SOURCES += yesno.c yesno.h
-
-# Until Automake gets its act together
-distclean-local:
-	rm -f fnmatch.h
 
 # for backwards compatibility with the old makefiles
 realclean: maintainer-clean

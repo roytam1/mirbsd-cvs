@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Brian Berliner and Jeff Polk
  * Copyright (c) 1989-1992, Brian Berliner
@@ -18,6 +20,8 @@
 
 #include "cvs.h"
 #include "save-cwd.h"
+
+__RCSID("$MirOS$");
 
 static char *get_comment (const char *user);
 static int add_rev (char *message, RCSNode *rcs, char *vfile,
@@ -231,6 +235,23 @@ import (int argc, char **argv)
 	    error (1, 0,
 "Only numeric branch specifications with two dots are\n"
 "supported by import, not `%s'.  For example: `1.1.1'.",
+		   vbranch);
+	}
+	regfree (&pat);
+    }
+
+    /*
+     * If you use even vendor branches, something evil[TM] can happen.
+     */
+    {
+	regex_t pat;
+	assert (!regcomp (&pat, "^[1-9][0-9]*\\.[1-9][0-9]*\\.[0-9]*[13579]$",
+			  REG_EXTENDED));
+	if (regexec (&pat, vbranch, 0, NULL, 0))
+	{
+	    error (0, 0,
+"warning: you are using an even vendor branch, which can\n"
+"lead to problems: '%s'.  Use for example: '1.1.3' or '1.1.5'.",
 		   vbranch);
 	}
 	regfree (&pat);
@@ -1252,7 +1273,7 @@ add_rcs_file (const char *message, const char *rcs, const char *user,
 	(void) time (&now);
     ftm = gmtime (&now);
     (void) sprintf (altdate1, DATEFORM,
-		    ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
+		    (int)(ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900)),
 		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 		    ftm->tm_min, ftm->tm_sec);
     author = getcaller ();

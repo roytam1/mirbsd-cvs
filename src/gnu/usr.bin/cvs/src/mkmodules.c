@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Brian Berliner and Jeff Polk
  * Copyright (c) 1989-1992, Brian Berliner
@@ -9,6 +11,8 @@
 #include "getline.h"
 #include "history.h"
 #include "save-cwd.h"
+
+__RCSID("$MirOS$");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -952,20 +956,22 @@ write_dbmfile( char *temp )
 	    key.dptr = vp;
 	    while (*vp && !isspace ((unsigned char) *vp))
 		vp++;
-	    key.dsize = vp - key.dptr;
+	    key.dsize = vp - (char *)key.dptr;
 	    *vp++ = '\0';		/* NULL terminate the key */
 	    while (*vp && isspace ((unsigned char) *vp))
 		vp++;			/* skip whitespace to value */
 	    if (*vp == '\0')
 	    {
-		error (0, 0, "warning: NULL value for key `%s'", key.dptr);
+		error (0, 0, "warning: NULL value for key `%s'",
+		    (char *)key.dptr);
 		continue;
 	    }
 	    val.dptr = vp;
 	    val.dsize = strlen (vp);
 	    if (dbm_store (db, key, val, DBM_INSERT) == 1)
 	    {
-		error (0, 0, "duplicate key found for `%s'", key.dptr);
+		error (0, 0, "duplicate key found for `%s'",
+		    (char *)key.dptr);
 		err++;
 	    }
 	}

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* sdiff-format output routines for GNU DIFF.
    Copyright (C) 1991, 1992, 1993, 1998 Free Software Foundation, Inc.
 
@@ -20,6 +22,8 @@ and this notice must be preserved on all copies.  */
 
 
 #include "diff.h"
+
+__RCSID("$MirOS$");
 
 static unsigned print_half_line PARAMS((char const * const *, unsigned, unsigned));
 static unsigned tab_from_to PARAMS((unsigned, unsigned));
@@ -122,7 +126,7 @@ print_half_line (line, indent, out_bound)
 	  break;
 
 	case '\b':
-	  if (in_position != 0 && --in_position < out_bound)
+	  if (in_position != 0 && --in_position < out_bound) {
 	    if (out_position <= in_position)
 	      /* Add spaces to make up for suppressed tab past out_bound.  */
 	      for (;  out_position < in_position;  out_position++)
@@ -133,6 +137,7 @@ print_half_line (line, indent, out_bound)
 		cc = c;
 		write_output (&cc, 1);
 	      }
+	     }
 	  break;
 
 	case '\f':

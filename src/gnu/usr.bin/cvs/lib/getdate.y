@@ -1,6 +1,9 @@
 %{
+/* $MirOS$ */
+
 /* Parse a string into an internal time stamp.
-   Copyright (C) 1999, 2000, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,7 +39,9 @@
 
 #include "getdate.h"
 
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
+#endif
 
 /* Since the code of getdate.y is not included in the Emacs executable
    itself, there is no need to #define static in this file.  Even if
@@ -54,8 +59,31 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef IN_RCS
 #include "setenv.h"
 #include "xalloc.h"
+#else /* IN_RCS */
+
+void *
+xmalloc(size_t s)
+{
+	void *x;
+
+	if ((x = malloc(s)) == NULL) {
+		fprintf(stderr, "memory exhausted");
+		fflush(stderr);
+		exit(1);
+	}
+
+	return x;
+}
+
+void *
+xmemdup(void const *p, size_t s)
+{
+	return memcpy(xmalloc(s), p, s);
+}
+#endif /* IN_RCS */
 
 #if STDC_HEADERS || (! defined isascii && ! HAVE_ISASCII)
 # define IN_CTYPE_DOMAIN(c) 1
@@ -1293,7 +1321,8 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 			  + sizeof pc.time_zone * CHAR_BIT / 3];
 	      if (!tz_was_altered)
 		tz0 = get_tz (tz0buf);
-	      sprintf (tz1buf, "XXX%s%ld:%02d", "-" + (time_zone < 0),
+	      snprintf (tz1buf, sizeof(tz1buf),
+		       "XXX%s%ld:%02d", "-" + (time_zone < 0),
 		       abs_time_zone_hour, abs_time_zone_min);
 	      if (setenv ("TZ", tz1buf, 1) != 0)
 		goto fail;
@@ -1391,7 +1420,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
   ok = false;
  done:
   if (tz_was_altered)
-    ok &= (tz0 ? setenv ("TZ", tz0, 1) : unsetenv ("TZ")) == 0;
+    ok &= (tz0 ? setenv ("TZ", tz0, 1) : (unsetenv ("TZ"), 0)) == 0;
   if (tz0 != tz0buf)
     free (tz0);
   return ok;
@@ -1423,7 +1452,7 @@ main (int ac, char **av)
 	{
 	  int ns = d.tv_nsec;
 	  printf ("%04ld-%02d-%02d %02d:%02d:%02d.%09d\n",
-		  tm->tm_year + 1900L, tm->tm_mon + 1, tm->tm_mday,
+		  (long)tm->tm_year + 1900L, tm->tm_mon + 1, tm->tm_mday,
 		  tm->tm_hour, tm->tm_min, tm->tm_sec, ns);
 	}
       printf ("\t> ");

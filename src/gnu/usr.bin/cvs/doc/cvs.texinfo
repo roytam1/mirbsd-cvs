@@ -1,6 +1,8 @@
 \input texinfo  @c -*-texinfo-*-
 @comment Documentation for CVS.
 @setfilename cvs.info
+@afourpaper
+@comment $MirOS$
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -73,7 +75,7 @@ approved by the Free Software Foundation.
 @finalout
 
 @include version.texi
-@settitle CVS---Concurrent Versions System v@value{VERSION}
+@settitle CVS---Concurrent Versions System v@value{EDITION}
 @setchapternewpage odd
 
 @c -- TODO list:
@@ -7761,7 +7763,12 @@ should do a merge like this even if @code{import} doesn't tell you to.
 
 You can also revert local changes completely and return
 to the latest vendor release by changing the `head'
-revision back to the vendor branch on all files.  For
+revision back to the vendor branch on all files.  This
+does, however, produce weird results if you should ever
+edit this file again, for anyone looking at the output
+from the @code{log} command or CVSweb.  To fix this,
+first commit a revision of the file which equals the
+vendor branch, then use @code{admin} @samp{-b}. For
 example, if you have a checked-out copy of the sources
 in @file{~/work.d/wdiff}, and you want to revert to the
 vendor's version for all the files in that directory,
@@ -7827,6 +7834,10 @@ For handling situations in which there may be more than
 one vendor, you may specify the @samp{-b} option to
 @code{cvs import}.  It takes as an argument the vendor
 branch to import to.  The default is @samp{-b 1.1.1}.
+
+Vendor branches can only be in the format 1.1.x where
+@samp{x} is an @emph{uneven} number, because branch
+tags use even numbers.
 
 For example, suppose that there are two teams, the red
 team and the blue team, that are sending you sources.
@@ -8445,7 +8456,7 @@ option as in other commands.  (Other command options,
 which are listed with the individual commands, may have
 different behavior from one @sc{cvs} command to the other).
 
-@strong{Note: the @samp{history} command is an exception; it supports
+@emph{Note: the @samp{history} command is an exception; it supports
 many options that conflict even with these standard options.}
 
 @table @code
@@ -8607,7 +8618,7 @@ Do not run any tag program.  (A program can be
 specified to run in the modules
 database (@pxref{modules}); this option bypasses it).
 
-@strong{Note: this is not the same as the @samp{cvs -n}
+@emph{Note: this is not the same as the @samp{cvs -n}
 program option, which you can specify to the left of a cvs command!}
 
 Available with the @code{checkout}, @code{commit}, @code{export},
@@ -8680,7 +8691,7 @@ Specifying the @samp{-q} global option along with the
 the warning messages when the @sc{rcs} file
 does not contain the specified tag.
 
-@strong{Note: this is not the same as the overall @samp{cvs -r} option,
+@emph{Note: this is not the same as the overall @samp{cvs -r} option,
 which you can specify to the left of a @sc{cvs} command!}
 
 @samp{-r} is available with the @code{annotate}, @code{checkout},
@@ -10339,7 +10350,7 @@ various formats.
 Logging must be enabled by creating the file
 @file{$CVSROOT/CVSROOT/history}.
 
-@strong{Note: @code{history} uses @samp{-f}, @samp{-l},
+@emph{Note: @code{history} uses @samp{-f}, @samp{-l},
 @samp{-n}, and @samp{-p} in ways that conflict with the
 normal use inside @sc{cvs} (@pxref{Common options}).}
 
@@ -10720,7 +10731,7 @@ time at the client.  This is typically specified in the
 @code{$TZ} environment variable, which can be set to
 govern how @code{log} displays dates.
 
-@strong{Note: @code{log} uses @samp{-R} in a way that conflicts
+@emph{Note: @code{log} uses @samp{-R} in a way that conflicts
 with the normal use inside @sc{cvs} (@pxref{Common options}).}
 
 @menu
@@ -14397,7 +14408,7 @@ that the file should be checked with the file system
 @samp{stat()} function to see if it has changed (see warning below)
 before rereading.  The default value is @samp{always}.
 
-@strong{Note: the `stat' mode can cause CVS to pause for up to
+@emph{Note: the `stat' mode can cause CVS to pause for up to
 one extra second per directory committed.  This can be less IO and
 CPU intensive but is not recommended for use with large repositories}
 

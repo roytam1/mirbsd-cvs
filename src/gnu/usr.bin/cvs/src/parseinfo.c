@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Brian Berliner and Jeff Polk
  * Copyright (c) 1989-1992, Brian Berliner
@@ -523,6 +525,20 @@ warning: this CVS does not support PreservePermissions");
 	else if (!strcmp (line, "UseArchiveCommentLeader"))
 	    readBool (infopath, "UseArchiveCommentLeader", p,
 		      &retval->UseArchiveCommentLeader);
+#if !defined(LOCK_COMPATIBILITY) || !defined(SUPPORT_OLD_INFO_FMT_STRINGS)
+	else if ((!strcmp (line, "tag")) || (!strcmp (line, "umask"))
+	  || (!strcmp (line, "DisableXProg")) || (!strcmp (line, "dlimit"))
+	  || (!strcmp (line, "forceReadOnlyFS"))) {
+	    /* We are dealing with keywords removed between cvs 1.11.1p1
+	       and cvs 1.12.10; odds are we are not being able to handle
+	       access or concurrent access with 1.11 cvs correctly */
+	    error (0, 0, "%s: found keyword '%s' in repository",
+		   infopath, line);
+	    error (readonlyfs ? 0 : 1, 0, readonlyfs
+		? "Danger: Granting read access to incompatible repository!"
+		: "Do not try to access a cvs 1.11 repository!");
+	}
+#endif
 	else
 	    /* We may be dealing with a keyword which was added in a
 	       subsequent version of CVS.  In that case it is a good idea

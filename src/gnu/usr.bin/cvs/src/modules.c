@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  *    Copyright (c) 1992, Brian Berliner and Jeff Polk
  *    Copyright (c) 1989-1992, Brian Berliner
@@ -449,7 +451,7 @@ my_module (DBM *db, char *mname, enum mtype m_type, char *msg,
 	    case '?':
 		error (0, 0,
 		       "modules file has invalid option for key %s value %s",
-		       key.dptr, value);
+		       (char *)key.dptr, value);
 		err++;
 		goto do_module_return;
 	}

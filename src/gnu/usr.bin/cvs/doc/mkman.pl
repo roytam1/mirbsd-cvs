@@ -267,7 +267,8 @@ for my $file (@ARGV)
 		undef $last;
 
 		# Trap keywords
-		my $nk = qr/
+		my $nk;
+		$nk = qr/
 				\@(\w+)\{
 				(?{ push @parent, $1 })       # Keep track of the last keyword
 				                              # keyword we encountered.

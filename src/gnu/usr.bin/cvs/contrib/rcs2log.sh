@@ -56,9 +56,6 @@ under the terms of the GNU General Public License.
 For more information about these matters, see the files named COPYING.
 Author: Paul Eggert <eggert@twinsun.com>'
 
-# functions
-@MKTEMP_SH_FUNCTION@
-
 # Use the traditional C locale.
 LANG=C
 LANGUAGE=C
@@ -82,7 +79,6 @@ nl='
 # Parse options.
 
 # defaults
-: ${MKTEMP="@MKTEMP@"}
 : ${AWK=awk}
 : ${TMPDIR=/tmp}
 
@@ -187,7 +183,7 @@ month_data='
 	m[9]="Oct"; m[10]="Nov"; m[11]="Dec"
 '
 
-logdir=`$MKTEMP -d $TMPDIR/rcs2log.XXXXXX`
+logdir=$(/usr/bin/mktemp -d $TMPDIR/rcs2log.XXXXXXXXXX)
 test -n "$logdir" || exit
 llogout=$logdir/l
 trap exit 1 2 13 15

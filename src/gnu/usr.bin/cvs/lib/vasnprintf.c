@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* vsprintf with automatic memory allocation.
    Copyright (C) 1999, 2002-2004 Free Software Foundation, Inc.
 
@@ -26,7 +28,9 @@
 # include <config.h>
 #endif
 #ifndef IN_LIBINTL
+# ifdef HAVE_ALLOCA_H
 # include <alloca.h>
+# endif
 #endif
 
 /* Specification.  */
@@ -50,6 +54,8 @@
 
 /* Checked size_t computations.  */
 #include "xsize.h"
+
+__RCSID("$MirOS$");
 
 #ifdef HAVE_WCHAR_T
 # ifdef HAVE_WCSLEN

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  *
  *    You may distribute under the terms of the GNU General Public License
@@ -181,6 +183,8 @@
 #include "cvs.h"
 #include "history.h"
 #include "save-cwd.h"
+
+__RCSID("$MirOS$");
 
 static struct hrec
 {
@@ -1492,7 +1496,8 @@ report_hrecs (void)
 	    tm = localtime (&(lr->date));
 
 	(void) printf ("%c %04d-%02d-%02d %02d:%02d %s %-*s", ty,
-		  tm->tm_year+1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour,
+		  (int)tm->tm_year+1900, tm->tm_mon + 1, tm->tm_mday,
+		  tm->tm_hour,
 		  tm->tm_min, tz_name, user_len, lr->user);
 
 	workdir = xmalloc (strlen (lr->dir) + strlen (lr->end) + 10);

@@ -1,8 +1,10 @@
+dnl $MirOS$
+dnl
 dnl configure.in for cvs
 
 AC_COPYRIGHT(
 [Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
-              1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+              1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
               Free Software Foundation, Inc.
 
 This program is free software; you can redistribute it and/or modify
@@ -15,7 +17,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.])
 
-AC_INIT([Concurrent Versions System (CVS)],[1.12.11],[bug-cvs@gnu.org],[cvs])
+AC_INIT([Concurrent Versions System (CVS)],[1.12.11-MirOS],[miros-discuss@mirbsd.org],[cvs])
 AC_CONFIG_SRCDIR(src/cvs.h)
 AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
 AC_PREREQ(2.59)
@@ -29,53 +31,6 @@ dnl a C compiler.
 gl_EARLY
 
 AC_PROG_CC
-AM_PROG_CC_C_O
-
-# Find the posix library needed on INTERACTIVE UNIX (ISC)
-dnl
-dnl From the Autoconf 2.53 manual (AC_ISC_POSIX):
-dnl
-dnl  For INTERACTIVE UNIX (ISC), add `-lcposix' to output variable
-dnl  `LIBS' if necessary for POSIX facilities.  Call this after
-dnl  `AC_PROG_CC' and before any other macros that use POSIX
-dnl  interfaces.  INTERACTIVE UNIX is no longer sold, and Sun says that
-dnl  they will drop support for it on 2006-07-23, so this macro is
-dnl  becoming obsolescent.
-dnl
-AC_SEARCH_LIBS([strerror], [cposix])
-
-dnl
-dnl Autoconf stopped setting $ISC sometime before 2.53
-dnl
-dnl If this is still important, someone should come up with a generic test
-dnl for whether _SYSV3 needs to be defined.  Removed code below:
-dnl
-dnl if test "$ISC" = yes; then
-dnl CFLAGS="$CFLAGS -D_SYSV3"
-dnl # And I don't like this...  In theory it should be found later if server is
-dnl # enabled, but maybe something on INTERACTIVE UNIX (ISC) we didn't ask to
-dnl # link with crypt tries?  Anyhow, the autoconf manual says we can delete
-dnl # this ISC stuff on or after 2006-07-23 when Sun discontinues support and
-dnl # ISC becomes obsolescent, but I suppose that is probably a matter of
-dnl # opinion.
-dnl #
-dnl # N.B.  The reason for doing this is that some moron decided to put a stub
-dnl # for crypt in libc that always returns NULL.  Without this here, the later
-dnl # check will find the stub instead of the real thing, resulting in a server
-dnl # that can't process crypted passwords correctly.
-dnl
-dnl # again, if we have to try and reenable this for ISC, someone should come
-dnl # up with a generic test that figures out whether crypt is good or not -
-dnl # Is it always returning NULL?
-dnl LIBS="-lcrypt $LIBS"
-dnl fi
-dnl
-dnl FIXME - This has been broken for at least a few months anyhow, so I'm
-dnl removing the crypt lib define above, but the correct fix would be to
-dnl provide a CRYPT_WORKS macro or the like that gets called sometime after
-dnl the AC_SEARCH_LIBS call that normally finds crypt, and if crypt doesn't
-dnl work, the macro should be retried with LIBS="-lcrypt $LIBS" forced.
-dnl
 
 AC_PROG_RANLIB
 AC_PROG_LN_S
@@ -84,14 +39,6 @@ AC_EXEEXT
 
 AC_PATH_PROG(PERL, perl, no)
 AC_PATH_PROG(CSH, csh, no)
-# for contrib/rcs2log.sh & src/cvsbug.in.
-AC_PATH_PROG(MKTEMP, mktemp, mktemp)
-if test x"$MKTEMP" = xmktemp; then
-	MKTEMP_SH_FUNCTION=$srcdir/mktemp.sh
-else
-	MKTEMP_SH_FUNCTION=/dev/null
-fi
-AC_SUBST_FILE(MKTEMP_SH_FUNCTION)
 # for src/cvsbug.in
 AC_PATH_PROG(SENDMAIL, sendmail, no, [$PATH:/usr/sbin:/usr/lib])
 # For diff/util.c
@@ -108,7 +55,7 @@ dnl
 dnl Yeah, put the value in a variable add it to the substitution list
 dnl then have configure create sanity.sh from sanity.sh.in...
 glocs="$PATH:/usr/local/bin:/usr/contrib/bin:/usr/gnu/bin:/local/bin:/local/gnu/bin:/gnu/bin"
-AC_PATH_PROGS(ROFF, groff roff, $missing_dir/missing roff, $glocs)
+AC_PATH_PROGS(ROFF, groff roff nroff, $missing_dir/missing roff, $glocs)
 AC_PATH_PROG(PS2PDF, ps2pdf, $missing_dir/missing ps2pdf)
 AC_PATH_PROG(TEXI2DVI, texi2dvi, $missing_dir/missing texi2dvi)
 
@@ -119,7 +66,6 @@ if test X"$ac_cv_sys_interpreter" != X"yes" ; then
   AC_MSG_WARN($ac_msg)
 fi
 
-# BSD's logo is a devil for a reason, hey?
 AC_CACHE_CHECK(for BSD VPATH bug in make, ccvs_cv_bsd_make_vpath_bug,
 [if test ! -d ac_test_dir ; then
 	AC_TRY_COMMAND([mkdir ac_test_dir])
@@ -153,6 +99,8 @@ AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(\
 	direct.h \
 	fcntl.h \
+	getopt.h \
+	inttypes.h \
 	io.h \
 	memory.h \
 	ndbm.h \
@@ -160,13 +108,18 @@ AC_CHECK_HEADERS(\
 	syslog.h \
 	sys/bsdtypes.h \
 	sys/file.h \
+	sys/inttypes.h \
 	sys/param.h \
 	sys/resource.h \
 	sys/select.h \
 	unistd.h \
-	utime.h\
+	utime.h \
+	wctype.h \
+	zlib.h \
 )
+gl_AC_HEADER_STDINT_H
 AC_HEADER_STAT
+AC_HEADER_STDBOOL
 
 AC_C_CONST
 AC_TYPE_UID_T
@@ -178,6 +131,7 @@ AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 
 AC_FUNC_FSEEKO
+AC_FUNC_ALLOCA
 if test $ac_cv_func_fseeko = no; then
     AC_LIBOBJ(fseeko)
     AC_LIBOBJ(ftello)
@@ -210,10 +164,6 @@ ccvs_FUNC_SELECT
 dnl This calls most of the GNULIB macros we need via the
 dnl autogenerated m4/gnulib.m4.
 gl_INIT
-dnl For one reason or another, the autogenerated m4/gnulib.m4 wants
-dnl AM_GNU_GETTEXT([external]) called directly from here.
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION dnl work around for autoconf-2.57 bug.
 # The error module still poses merge problems.
 AC_FUNC_STRERROR_R
 dnl The following macros can be called by other GNULIB macros but are also
@@ -236,17 +186,22 @@ CCVS_CALL_GNULIB_MACROS_ONCE()
 
 # Check for function existance.
 AC_CHECK_FUNCS(\
+	alloca \
+	btowc \
 	fchdir \
 	fchmod \
 	fsync \
 	ftime \
 	geteuid \
 	getgroups \
+	getopt_long_only \
 	getpagesize \
+	getpass \
 	gettimeofday \
 	initgroups \
 	login \
 	logout \
+	mbsrtowcs \
 	mknod \
 	putenv \
 	regcomp \
@@ -262,9 +217,13 @@ AC_CHECK_FUNCS(\
 	tzset \
 	vprintf \
 	wait3 \
+	wmemchr \
+	wmemcpy \
+	wmempcpy \
 )
 HAVE_PUTENV=$ac_cv_func_putenv
 AC_SUBST(HAVE_PUTENV)
+AC_C_BIGENDIAN
 
 dnl
 dnl Find the sizes of various types and set a variable for some if they
@@ -544,105 +503,6 @@ dnl begin --with-*
 dnl
 
 dnl
-dnl set $(KRB4) from --with-krb4=value -- WITH_KRB4
-dnl
-dnl If you change this, keep in mind that some systems have a bogus
-dnl libkrb in the system libraries, so --with-krb4=value needs to
-dnl override the system -lkrb.
-dnl
-KRB4=/usr/kerberos
-define(WITH_KRB4,[
-AC_ARG_WITH(
-  [krb4],
-  AC_HELP_STRING(
-    [--with-krb4],
-    [Kerberos 4 directory (default /usr/kerberos)]),
-  [KRB4=$with_krb4],
-)dnl
-AC_MSG_CHECKING([for KRB4 in $KRB4])
-AC_MSG_RESULT([])
-AC_SUBST(KRB4)])dnl
-WITH_KRB4
-
-krb_h=
-AC_MSG_CHECKING([for krb.h])
-if test "$cross_compiling" != yes && test -r $KRB4/include/krb.h; then
-   hold_cflags=$CFLAGS
-   CFLAGS="$CFLAGS -I$KRB4/include"
-   AC_TRY_LINK([#include <krb.h>],[int i;],
-          [krb_h=yes krb_incdir=$KRB4/include],
-          [CFLAGS=$hold_cflags
-           AC_TRY_LINK([#include <krb.h>],[int i;],
-             [krb_h=yes krb_incdir=])])
-   CFLAGS=$hold_cflags
-else
-   AC_TRY_LINK([#include <krb.h>],[int i;],
-             [krb_h=yes krb_incdir=])
-fi
-if test -z "$krb_h"; then
-  AC_TRY_LINK([#include <krb.h>],[int i;],
-    [krb_h=yes krb_incdir=],
-    [if test "$cross_compiling" != yes && test -r $KRB4/include/kerberosIV/krb.h; then
-       hold_cflags=$CFLAGS
-       CFLAGS="$CFLAGS -I$KRB4/include/kerberosIV"
-       AC_TRY_LINK([#include <krb.h>],[int i;],
-	 [krb_h=yes krb_incdir=$KRB4/include/kerberosIV])
-       CFLAGS=$hold_cflags
-     fi])
-fi
-AC_MSG_RESULT($krb_h)
-
-if test -n "$krb_h"; then
-  krb_lib=
-  if test "$cross_compiling" != yes && test -r $KRB4/lib/libkrb.a; then
-       hold_ldflags=$LDFLAGS
-       LDFLAGS="-L${KRB4}/lib $LDFLAGS"
-       AC_CHECK_LIB(krb,printf,[krb_lib=yes krb_libdir=${KRB4}/lib],
-           [LDFLAGS=$hold_ldflags
-            # Using open here instead of printf so we don't
-            # get confused by the cached value for printf from above.
-            AC_CHECK_LIB(krb,open,[krb_lib=yes krb_libdir=])])
-       LDFLAGS=$hold_ldflags
-  else
-       AC_CHECK_LIB(krb,printf,[krb_lib=yes krb_libdir=])
-       AC_CHECK_FUNC(krb_recvauth,[krb_lib=yes krb_libdir=])
-  fi
-  if test -n "$krb_lib"; then
-    AC_DEFINE([HAVE_KERBEROS], 1,
-	      [Define if you have MIT Kerberos version 4 available.])
-    cvs_client_objects="$cvs_client_objects kerberos4-client.o"
-    test -n "${krb_libdir}" && LIBS="${LIBS} -L${krb_libdir}"
-    # Put -L${krb_libdir} in LDFLAGS temporarily so that it appears before
-    # -ldes in the command line.  Don't do it permanently so that we honor
-    # the user's setting for LDFLAGS
-    hold_ldflags=$LDFLAGS
-    test -n "${krb_libdir}" && LDFLAGS="$LDFLAGS -L${krb_libdir}"
-    AC_CHECK_LIB(des,printf,[LIBS="${LIBS} -ldes"])
-    AC_CHECK_LIB(krb,krb_recvauth)
-    AC_CHECK_LIB(krb4,krb_recvauth)
-    LDFLAGS=$hold_ldflags
-    if test -n "$krb_incdir"; then
-      CPPFLAGS="$CPPFLAGS -I$krb_incdir"
-    fi
-  fi
-fi
-AC_CHECK_FUNCS(krb_get_err_text)
-
-
-dnl
-dnl WITH_GSSAPI is external
-dnl
-dnl TODO - I tried to put these in alphabetical order, but ACX_WITH_GSSAPI
-dnl fails unless called after the KRB4 stuff.  I don't know why.
-dnl
-ACX_WITH_GSSAPI
-
-dnl
-dnl WITH_EXTERNAL_ZLIB is external
-dnl
-ACX_WITH_EXTERNAL_ZLIB
-
-dnl
 dnl begin --with-rsh
 dnl
 dnl Many sites no longer desire the use of "rsh" as the default
@@ -654,12 +514,12 @@ AC_ARG_WITH(
   AC_HELP_STRING(
     [--with-rsh],
     [The default remote shell CVS will use for :ext: transport
-     (default rsh)]), ,
-  [with_rsh="rsh ssh"])
+     (default ssh)]), ,
+  [with_rsh="ssh"])
 
 if test no = "$with_rsh"; then
-  AC_MSG_WARN([Failed to find usable remote shell. Using 'rsh'.])
-  with_rsh=rsh
+  AC_MSG_WARN([Failed to find usable remote shell. Using 'ssh'.])
+  with_rsh=ssh
 elif test yes = "$with_rsh"; then
   # Make --with-rsh mean the same thing as --with-rsh=rsh
   with_rsh=rsh
@@ -678,7 +538,7 @@ if echo $with_rsh |grep ^/ >/dev/null; then
   fi
 else
   # Search for a remote shell
-  AC_CHECK_PROGS([with_default_rsh], [$with_rsh], "rsh")
+  AC_CHECK_PROGS([with_default_rsh], [$with_rsh], "ssh")
 fi
 
 AC_DEFINE_UNQUOTED(
@@ -722,7 +582,7 @@ fi
 # Set the default when --with-editor wasn't supplied or when it was supplied
 # without an argument.
 if test yes = $with_editor; then
-  with_editor="vim vi emacs nano pico edit"
+  with_editor="vim vi emacs nano pico edit ed"
 fi
 
 if echo $with_editor |grep ^/ >/dev/null; then
@@ -775,34 +635,6 @@ dnl done finding an editor
 dnl
 dnl end --with-editor
 dnl
-
-
-
-dnl
-dnl --with-hardcoded-pam-service-name
-dnl
-AC_ARG_WITH(
-  [hardcoded-pam-service-name],
-  AC_HELP_STRING(
-    [--with-hardcoded-pam-service-name],
-    [Use this to hard code a service name for PAM CVS authentication.  The
-     special name, `program_name', will cause CVS to use whatever name it
-     was invoked as as the service name.  (defaults to `cvs')]),,
-    [with_hardcoded_pam_service_name=cvs])
-
-if test "x$with_hardcoded_pam_service_name" = xno ||
-   test "x$with_hardcoded_pam_service_name" = xprogram_name; then
-  AC_DEFINE([PAM_SERVICE_NAME], [program_name],
-    [Define to set a service name for PAM.  This must be defined.  Define to
-     `program_name', without the quotes, to use whatever name CVS was invoked
-      as.  Otherwise, define to a double-quoted literal string, such as
-      `"cvs"'.])
-else
-  if test x"$with_hardcoded_pam_service_name" = xyes; then
-    with_hardcoded_pam_service_name=cvs
-  fi
-  AC_DEFINE_UNQUOTED([PAM_SERVICE_NAME], ["$with_hardcoded_pam_service_name"])
-fi
 
 
 
@@ -916,45 +748,6 @@ fi
 dnl
 dnl Done setting CVS Administrator Group
 dnl
-
-dnl
-dnl Set the NDBM library to use.
-dnl
-dnl XXX - FIXME - FIXME - FIXME - XXX
-dnl
-dnl This is very bad.  It should really autodetect an appropriate NDBM library
-dnl and, if it doesn't find one, decide to use MY_NDBM.  I'm am defining
-dnl this here since this is no worse than it worked when it was in options.h
-dnl and I am cleaning out options.h so that the Windows version of CVS will
-dnl compile properly for the next release.
-dnl
-dnl That's why this option is in the --with-* section rather than the
-dnl --enable-* section.
-dnl
-dnl XXX - FIXME - FIXME - FIXME - XXX
-dnl
-AC_ARG_ENABLE(
-  [cvs-ndbm],
-  AC_HELP_STRING(
-    [--enable-cvs-ndbm],
-    [Use the NDBM library distributed with CVS rather than attempting to use
-     a system NDBM library.  Disabling this may not work.  (default)]), ,
-  [enable_cvs_ndbm=yes])
-if test no != "$enable_cvs_ndbm"; then
-  AC_DEFINE(
-    [MY_NDBM], [1],
-    [By default, CVS stores its modules and other such items in flat
-     text files (MY_NDBM enables this).  Turning off MY_NDBM causes CVS
-     to look for a system-supplied ndbm database library and use it
-     instead.  That may speed things up, but the default setting
-     generally works fine too.])
-fi
-
-dnl
-dnl Done selecting NDBM library.
-dnl
-
-
 
 dnl
 dnl end --with-*
@@ -1153,43 +946,6 @@ if test no != "$enable_proxy"; then
 fi
 dnl
 dnl end --enable-proxy
-dnl
-
-
-dnl
-dnl begin --enable-pam
-dnl
-
-dnl
-dnl Check if PAM authentication is enabled
-dnl
-AC_ARG_ENABLE(
-  [pam],
-  AC_HELP_STRING(
-    [--enable-pam],
-    [Use to enable system authentication with PAM instead of using the 
-    simple getpwnam interface.  This allows authentication (in theory) 
-    with any PAM module, e.g. on systems with shadow passwords or via LDAP]), ,
-  [enable_pam=no]
-  )
-
-if test yes = $enable_pam; then
-  AC_CHECK_HEADER(security/pam_appl.h, 
-    AC_DEFINE(HAVE_PAM, 1, 
-    [Define to enable system authentication with PAM instead of using the 
-    simple getpwnam interface.  This allows authentication (in theory) 
-    with any PAM module, e.g. on systems with shadow passwords or via LDAP])
-    AC_CHECK_LIB(pam, pam_start, [LIBS="${LIBS} -lpam"],
-      AC_MSG_ERROR([Could not find PAM libraries but the headers exist.
-      Give the --disable-pam option to compile without PAM support (or fix
-      your broken configuration)])
-    ),
-    AC_MSG_ERROR([Could not find PAM headers])
-  )
-fi
-
-dnl
-dnl end --enable-pam
 dnl
 
 
@@ -1444,35 +1200,6 @@ dnl things won't be that simple, before long.
 dnl AC_DEFINE(PRESERVE_PERMISSIONS_SUPPORT, 1,
 dnl [Define if this system supports chown(), link(), and friends.])
 
-dnl On cygwin32, we configure like a Unix system, but we need some support
-dnl libraries.  We do this at the end so that the new libraries are added at
-dnl the end of LIBS.
-dnl
-dnl FIXME: We should be trying to meet the autoconf ideal of checking for
-dnl the properties of the system rather than the name of the os here.  In other
-dnl words, we should check the case sensitivty of the system and then for
-dnl the support functions we are using and which library we find them in.
-AC_CACHE_CHECK(for cygwin32, ccvs_cv_sys_cygwin32,
-[AC_TRY_COMPILE([], [return __CYGWIN32__;],
-ccvs_cv_sys_cygwin32=yes, ccvs_cv_sys_cygwin32=no)])
-if test $ccvs_cv_sys_cygwin32 = yes; then
-  LIBS="$LIBS -ladvapi32"
-
-  dnl On Windows you can only change file times if you can write to
-  dnl the file.  cygwin32 should really handle this for us, but as of
-  dnl January 1998 it doesn't.
-  AC_DEFINE(UTIME_EXPECTS_WRITABLE, 1,
-[Define if utime requires write access to the file (true on Windows,
-but not Unix).])
-
-  dnl On Windows we must use setmode to change between binary and text
-  dnl mode.  This probably doesn't really require two macro definitions
-  AC_DEFINE(USE_SETMODE_STDOUT, 1,
-[Define if setmode is required when writing binary data to stdout.])
-  AC_DEFINE(HAVE_SETMODE, 1,
-[Define if the diff library should use setmode for binary files.])
-fi
-
 dnl associate the setting of the execute bit with the individual scripts
 AC_CONFIG_FILES(contrib/validate_repo, [chmod +x contrib/validate_repo])
 AC_CONFIG_FILES(contrib/clmerge, [chmod +x contrib/clmerge])
@@ -1487,31 +1214,15 @@ AC_CONFIG_FILES(contrib/rcs2log:contrib/rcs2log.sh, [chmod +x contrib/rcs2log])
 AC_CONFIG_FILES(contrib/rcslock, [chmod +x contrib/rcslock])
 AC_CONFIG_FILES(contrib/sccs2rcs, [chmod +x contrib/sccs2rcs])
 AC_CONFIG_FILES(doc/mkman:doc/mkman.pl, [chmod +x doc/mkman])
-AC_CONFIG_FILES(src/cvsbug, [chmod +x src/cvsbug])
-AC_CONFIG_FILES(
-    windows-NT/fix-msvc-mak:windows-NT/plhead.pl:windows-NT/fix-msvc-mak.pl,
-    [chmod +x windows-NT/fix-msvc-mak])
-AC_CONFIG_FILES(windows-NT/mkconfig:windows-NT/plhead.pl:windows-NT/mkconfig.pl,
-                [chmod +x windows-NT/mkconfig])
 
 dnl the bulk files
 AC_CONFIG_FILES([Makefile \
 	  contrib/Makefile \
-	  contrib/pam/Makefile \
-	  cvs.spec \
 	  diff/Makefile \
 	  doc/Makefile \
-	  emx/Makefile \
 	  lib/Makefile \
 	  man/Makefile \
-	  os2/Makefile \
-	  src/Makefile \
-	  src/sanity.config.sh \
-	  tools/Makefile \
-	  vms/Makefile \
-	  windows-NT/Makefile \
-	  windows-NT/SCC/Makefile \
-	  zlib/Makefile])
+	  src/Makefile])
 
 dnl and we're done
 AC_OUTPUT

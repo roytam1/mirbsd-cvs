@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1992, Mark D. Baushke
  * Copyright (c) 2002, Derek R. Price
@@ -12,6 +14,8 @@
 
 #include "cvs.h"
 #include "getline.h"
+
+__RCSID("$MirOS$");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */
@@ -637,7 +641,7 @@ parse_cvsroot (const char *root_in)
 #ifdef CLIENT_SUPPORT
     newroot->isremote = (newroot->method != local_method);
 
-    if (readonlyfs && newroot->isremote)
+    if (readonlyfs && newroot->isremote && !quiet)
 	error (1, 0,
 "Read-only repository feature unavailable with remote roots (cvsroot = %s)",
 	       cvsroot_copy);

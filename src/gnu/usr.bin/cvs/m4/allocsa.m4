@@ -10,7 +10,6 @@ AC_DEFUN([gl_ALLOCSA],
 [
   dnl Use the autoconf tests for alloca(), but not the AC_SUBSTed variables
   dnl @ALLOCA@ and @LTALLOCA@.
-  AC_REQUIRE([gl_FUNC_ALLOCA])
   AC_REQUIRE([gl_EEMALLOC])
   AC_REQUIRE([gl_AC_TYPE_LONG_LONG])
   AC_REQUIRE([gt_TYPE_LONGDOUBLE])

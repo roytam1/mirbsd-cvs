@@ -16,7 +16,6 @@ AC_PREREQ(2.13)
 AC_DEFUN([gl_AC_TYPE_UINTMAX_T],
 [
   AC_REQUIRE([gl_AC_HEADER_INTTYPES_H])
-  AC_REQUIRE([gl_AC_HEADER_STDINT_H])
   if test $gl_cv_header_inttypes_h = no && test $gl_cv_header_stdint_h = no; then
     AC_REQUIRE([gl_AC_TYPE_UNSIGNED_LONG_LONG])
     test $ac_cv_type_unsigned_long_long = yes \
@@ -29,4 +28,5 @@ AC_DEFUN([gl_AC_TYPE_UINTMAX_T],
     AC_DEFINE(HAVE_UINTMAX_T, 1,
       [Define if you have the 'uintmax_t' type in <stdint.h> or <inttypes.h>.])
   fi
+  gl_AC_TYPE_UINT32_T
 ])

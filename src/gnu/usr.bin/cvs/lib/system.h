@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* system-dependent definitions for CVS.
    Copyright (C) 1989-1992 Free Software Foundation, Inc.
 
@@ -460,6 +462,7 @@ extern int errno;
  */
 # if defined( HAVE_STAT_EMPTY_STRING_BUG ) || !defined( LSTAT_FOLLOWS_SLASHED_SYMLINK )
 #   define CVS_LSTAT rpl_lstat
+int rpl_lstat(const char *, struct stat *);
 # else /* !defined(HAVE_STAT_EMPTY_STRING_BUG )
         *    && defined( LSTAT_FOLLOWS_SLASHED_SYMLINK )
         */
