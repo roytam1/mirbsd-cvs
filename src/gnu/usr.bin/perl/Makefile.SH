@@ -1,4 +1,6 @@
 #! /bin/sh
+# $MirOS$
+#
 case $PERL_CONFIG_SH in
 '')
 	if test -f config.sh
@@ -69,7 +71,7 @@ true)
 	sunos*)
 		linklibperl="-lperl"
 		;;
-	netbsd*|freebsd[234]*|openbsd*)
+	mirbsd*|netbsd*|freebsd[234]*|openbsd*)
 		linklibperl="-L. -lperl"
 		;;
 	aix*)
@@ -1407,4 +1409,3 @@ esac
     esac
     ;;
 esac
-
