@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.37 2005/03/26 01:24:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.38 2005/03/28 01:09:51 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2681,4 +2681,7 @@
  have missed DST getting in effect today again &ndash; can't just everyone
  use UTC? It's hard for me too to go to bed at 20:00 and wake up at 03:50,
  but if I can do it...</p>
+<p>28.03.2005 by tg@<br />I'm running the GNU Pascal testsuite and updated
+ binutils to a newer CVS snapshot in the hope of fixing C++. Also I try to
+ work for release engineering...</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
