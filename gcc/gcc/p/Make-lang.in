@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.3 2005/03/27 23:39:14 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -126,7 +126,7 @@ gpc_version=`sed -ne 's/"[^"]*$$//;s/^\#define GPC_VERSION_STRING *"//p' $(VERSI
 rts_version=`cat $(RTS_VERSION_FILENAME)`
 
 GPCSOLIBSHORTNAME=libgpc.so
-GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor).$(rts_version)
+GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor)
 GPCSOLIBDIR=lib
 WITH_SHARED=@with_shared@
 
@@ -572,14 +572,6 @@ pascal.install-normal: pascal.install-common pascal.install-compiler$(GPC_GCC_34
 # @@ Repeating pascal.install-compiler is strange here. But since it's disabled
 #    in pascal.install-normal for gcc-3.4, it would otherwise be missing here.
 pascal.install: pascal.install-normal pascal.install-compiler; @true
-
-pascal.install-with-gcc: $(INSTALL_HEADERS) pascal.install $(INSTALL_LIBGCC)
-	for file in $(GCC_PASSES); do \
-	  if [ x"$$file" != x"xgcc$(exeext)" ]; then \
-	    rm -f $(DESTDIR)$(libsubdir)/$$file; \
-	    $(INSTALL_PROGRAM) $$file $(DESTDIR)$(libsubdir)/$$file || exit 1; \
-	  fi; \
-	done; exit 0
 
 pascal.uninstall:
 	-rm -rf $(DESTDIR)$(bindir)/$(GPC_INSTALL_NAME)$(exeext)
