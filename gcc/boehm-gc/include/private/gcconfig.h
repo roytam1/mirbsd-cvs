@@ -52,6 +52,9 @@
 /* And one for OpenBSD: */
 # if defined(__OpenBSD__)
 #    define OPENBSD
+#    if defined(__MirBSD__)
+#	define MIRBSD
+#    endif
 # endif
 
 /* And one for FreeBSD: */
@@ -97,7 +100,7 @@
 #    define ARM32
 #    define mach_type_known
 # endif
-# if defined(vax)
+# if defined(vax) || defined(__vax__)
 #    define VAX
 #    ifdef ultrix
 #	define ULTRIX
@@ -217,6 +220,10 @@
 #    define I386
 #    define mach_type_known
 # endif
+# if defined(OPENBSD) && defined(__amd64__)
+#    define X86_64
+#    define mach_type_known
+# endif
 # if defined(LINUX) && defined(__x86_64__)
 #    define X86_64
 #    define mach_type_known
@@ -279,6 +286,16 @@
 #    define POWERPC
 #    define mach_type_known
 # endif
+# if defined(__OpenBSD__) && (defined(__powerpc__))
+#   define POWERPC
+#   define OPENBSD
+#   define mach_type_known
+# endif
+# if defined(__OpenBSD__) && (defined(__mc68020__) || defined(__mc68020))
+#   define M68K
+#   define OPENBSD
+#   define mach_type_known
+# endif
 # if defined(__APPLE__) && defined(__MACH__) && defined(__i386__)
 #    define DARWIN
 #    define I386
@@ -325,6 +342,10 @@
 # if defined(DGUX) && defined(m88k)
 #   define M88K
     /* DGUX defined */
+#   define mach_type_known
+# endif
+# if defined(OPENBSD) && defined(__m88k__)
+#   define M88K
 #   define mach_type_known
 # endif
 # if defined(_WIN32_WCE)
@@ -599,8 +620,8 @@
 #   ifdef OPENBSD
 #	define OS_TYPE "OPENBSD"
 #	define HEURISTIC2
-	extern char etext[];
-#	define DATASTART ((ptr_t)(etext))
+#	define DATASTART GC_data_start
+#	define USE_GENERIC_PUSH_REGS
 #   endif
 #   ifdef NETBSD
 #	define OS_TYPE "NETBSD"
@@ -770,6 +791,14 @@
 #     define DATASTART GC_data_start
 #     define DYNAMIC_LOADING
 #   endif
+#   ifdef OPENBSD
+#     define ALIGNMENT 4
+#     define OS_TYPE "OPENBSD"
+#     define HEURISTIC2
+      extern char etext;
+#     define DATASTART GC_data_start
+#     define DYNAMIC_LOADING
+#   endif
 #   ifdef NOSYS
 #     define ALIGNMENT 4
 #     define OS_TYPE "NOSYS"
@@ -906,9 +935,9 @@
 #   endif
 #   ifdef OPENBSD
 #     define OS_TYPE "OPENBSD"
-#     define STACKBOTTOM ((ptr_t) 0xf8000000)
-      extern int etext[];
-#     define DATASTART ((ptr_t)(etext))
+#     define HEURISTIC2
+#     define DATASTART GC_data_start
+#     define DYNAMIC_LOADING
 #   endif
 #   ifdef NETBSD
 #     define OS_TYPE "NETBSD"
@@ -1154,6 +1183,9 @@
 #   endif
 #   ifdef OPENBSD
 #	define OS_TYPE "OPENBSD"
+#	define HEURISTIC2
+#       define DATASTART GC_data_start
+#       define DYNAMIC_LOADING
 #   endif
 #   ifdef FREEBSD
 #	define OS_TYPE "FREEBSD"
@@ -1182,7 +1214,7 @@
 #   ifdef BSDI
 #	define OS_TYPE "BSDI"
 #   endif
-#   if defined(OPENBSD) || defined(NETBSD) \
+#   if defined(NETBSD) \
         || defined(THREE86BSD) || defined(BSDI)
 #	define HEURISTIC2
 	extern char etext[];
@@ -1442,7 +1474,7 @@
 #   define MACH_TYPE "ALPHA"
 #   define ALIGNMENT 8
 #   define CPP_WORDSZ 64
-#   ifndef LINUX
+#   if !defined(LINUX)
 #     define USE_GENERIC_PUSH_REGS
       /* Gcc and probably the DEC/Compaq compiler spill pointers to preserved */
       /* fp registers in some cases when the target is a 21264.  The assembly */
@@ -1456,6 +1488,7 @@
 #	define ELFCLASS32 32
 #	define ELFCLASS64 64
 #	define ELF_CLASS ELFCLASS64
+#   	define CPP_WORDSZ 64
 #       define DYNAMIC_LOADING
 #   endif
 #   ifdef OPENBSD
@@ -1463,9 +1496,8 @@
 #	define HEURISTIC2
 #   	ifdef __ELF__	/* since OpenBSD/Alpha 2.9 */
 #	   define DATASTART GC_data_start
-#   	   define ELFCLASS32 32
-#   	   define ELFCLASS64 64
 #   	   define ELF_CLASS ELFCLASS64
+#	   define DYNAMIC_LOADING
 #       else		/* ECOFF, until OpenBSD/Alpha 2.7 */
 #   	   define DATASTART ((ptr_t) 0x140000000)
 #   	endif
@@ -1621,16 +1653,22 @@
 #   define ALIGNMENT 4
 #   define ALIGN_DOUBLE
     extern int etext[];
+#   ifdef OPENBSD
+#	define OS_TYPE "OPENBSD"
+#	define HEURISTIC2
+#       define DATASTART GC_data_start
+#   endif
 #   ifdef CX_UX
 #	define OS_TYPE "CX_UX"
 #       define DATASTART ((((word)etext + 0x3fffff) & ~0x3fffff) + 0x10000)
+#       define STACKBOTTOM ((char*)0xf0000000) /* determined empirically */
 #   endif
 #   ifdef  DGUX
 #	define OS_TYPE "DGUX"
 	extern ptr_t GC_SysVGetDataStart();
 #       define DATASTART GC_SysVGetDataStart(0x10000, etext)
+#       define STACKBOTTOM ((char*)0xf0000000) /* determined empirically */
 #   endif
-#   define STACKBOTTOM ((char*)0xf0000000) /* determined empirically */
 # endif
 
 # ifdef S370
@@ -1777,6 +1815,13 @@
 #   endif
 #   define CACHE_LINE_SIZE 64
 #   define USE_GENERIC_PUSH_REGS
+#   ifdef OPENBSD
+#       define OS_TYPE "OPENBSD"
+#       define DATASTART GC_data_start
+#       define HEURISTIC2
+#       define ELF_CLASS ELFCLASS64
+#       define DYNAMIC_LOADING
+#   endif
 #   ifdef LINUX
 #	define OS_TYPE "LINUX"
 #       define LINUX_STACKBOTTOM
@@ -1823,6 +1868,11 @@
 # ifndef CPP_WORDSZ
 #   define CPP_WORDSZ 32
 # endif
+
+#if defined(MIRBSD)
+# undef OS_TYPE
+# define OS_TYPE "MIRBSD"
+#endif
 
 # ifndef OS_TYPE
 #   define OS_TYPE ""

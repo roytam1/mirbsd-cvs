@@ -462,7 +462,7 @@ ptr_t cold_gc_frame;
 /* the stack.	Return sp.						*/
 # ifdef SPARC
     asm("	.seg 	\"text\"");
-#   if defined(SVR4) || defined(NETBSD)
+#   if defined(SVR4) || defined(NETBSD) || defined(__ELF__)
       asm("	.globl	GC_save_regs_in_stack");
       asm("GC_save_regs_in_stack:");
       asm("	.type GC_save_regs_in_stack,#function");

@@ -234,15 +234,7 @@ AC_SUBST(CXXINCLUDES)
 AC_MSG_CHECKING(whether to build shared libraries)
 AC_ENABLE_SHARED
 
-case "$host" in
- alpha-*-openbsd*)
-     enable_shared=no
-     AC_MSG_RESULT(no)
-     ;;
- *)
-     AC_MSG_RESULT(yes)
-     ;;
-esac
+AC_MSG_RESULT(yes)
 
 # Configuration of machine-dependent code
 #
@@ -255,12 +247,6 @@ esac
 AC_MSG_CHECKING(which machine-dependent code should be used) 
 machdep=
 case "$host" in
- alpha*-*-openbsd*)
-    machdep="alpha_mach_dep.lo"
-    if test x"${ac_cv_lib_dl_dlopen}" != xyes ; then
-       AC_MSG_WARN(OpenBSD/Alpha without dlopen(). Shared library support is disabled)
-    fi
-    ;;
  alpha*-*-linux*)
     machdep="alpha_mach_dep.lo"
     ;;
@@ -451,7 +437,7 @@ echo "$INCLUDES $DEFS" > boehm-cflags
 
 if test -n "$CONFIG_FILES"; then
   LD="${ORIGINAL_LD_FOR_MULTILIBS}"
-  ac_file=Makefile . ${gc_basedir}/../config-ml.in
+  ac_file=Makefile . ${GNUSYSTEM_AUX_DIR}/config-ml.in
 fi],
 srcdir=${srcdir}
 host=${host}

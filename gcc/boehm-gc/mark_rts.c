@@ -1,4 +1,6 @@
-/* 
+/* $MirOS$ */
+
+/*
  * Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
  * Copyright (c) 1991-1994 by Xerox Corporation.  All rights reserved.
  *
@@ -44,7 +46,7 @@ void GC_print_static_roots()
 {
     register int i;
     size_t total = 0;
-    
+
     for (i = 0; i < n_root_sets; i++) {
         GC_printf2("From 0x%lx to 0x%lx ",
         	   (unsigned long) GC_static_roots[i].r_start,
@@ -72,8 +74,8 @@ ptr_t p;
 {
     static int last_root_set = MAX_ROOT_SETS;
     register int i;
-    
-    
+
+
     if (last_root_set < n_root_sets
 	&& p >= GC_static_roots[last_root_set].r_start
         && p < GC_static_roots[last_root_set].r_end) return(TRUE);
@@ -88,7 +90,7 @@ ptr_t p;
 }
 
 #if !defined(MSWIN32) && !defined(MSWINCE)
-/* 
+/*
 #   define LOG_RT_SIZE 6
 #   define RT_SIZE (1 << LOG_RT_SIZE)  -- Power of 2, may be != MAX_ROOT_SETS
 
@@ -121,7 +123,7 @@ char *b;
 {
     register int h = rt_hash(b);
     register struct roots *p = GC_root_index[h];
-    
+
     while (p != 0) {
         if (p -> r_start == (ptr_t)b) return(p);
         p = p -> r_next;
@@ -134,7 +136,7 @@ static void add_roots_to_index(p)
 struct roots *p;
 {
     register int h = rt_hash(p -> r_start);
-    
+
     p -> r_next = GC_root_index[h];
     GC_root_index[h] = p;
 }
@@ -154,7 +156,7 @@ void GC_add_roots(b, e)
 char * b; char * e;
 {
     DCL_LOCK_STATE;
-    
+
     DISABLE_SIGNALS();
     LOCK();
     GC_add_roots_inner(b, e, FALSE);
@@ -168,13 +170,13 @@ char * b; char * e;
 /* different but overlapping intervals efficiently.  (We do handle	*/
 /* them correctly.)							*/
 /* Tmp specifies that the interval may be deleted before 		*/
-/* reregistering dynamic libraries.					*/ 
+/* reregistering dynamic libraries.					*/
 void GC_add_roots_inner(b, e, tmp)
 char * b; char * e;
 GC_bool tmp;
 {
     struct roots * old;
-    
+
 #   if defined(MSWIN32) || defined(MSWINCE)
       /* Spend the time to ensure that there are no overlapping	*/
       /* or adjacent intervals.					*/
@@ -184,7 +186,7 @@ GC_bool tmp;
       /* takes to scan the roots.				*/
       {
         register int i;
-        
+
         for (i = 0; i < n_root_sets; i++) {
             old = GC_static_roots + i;
             if ((ptr_t)b <= old -> r_end && (ptr_t)e >= old -> r_start) {
@@ -203,7 +205,7 @@ GC_bool tmp;
         if (i < n_root_sets) {
           /* merge other overlapping intervals */
             struct roots *other;
-            
+
             for (i++; i < n_root_sets; i++) {
               other = GC_static_roots + i;
               b = (char *)(other -> r_start);
@@ -257,7 +259,7 @@ static GC_bool roots_were_cleared = FALSE;
 void GC_clear_roots GC_PROTO((void))
 {
     DCL_LOCK_STATE;
-    
+
     DISABLE_SIGNALS();
     LOCK();
     roots_were_cleared = TRUE;
@@ -266,7 +268,7 @@ void GC_clear_roots GC_PROTO((void))
 #   if !defined(MSWIN32) && !defined(MSWINCE)
     {
     	register int i;
-    	
+
     	for (i = 0; i < RT_SIZE; i++) GC_root_index[i] = 0;
     }
 #   endif
@@ -275,7 +277,7 @@ void GC_clear_roots GC_PROTO((void))
 }
 
 /* Internal use only; lock held.	*/
-static void GC_remove_root_at_pos(i) 
+static void GC_remove_root_at_pos(i)
 int i;
 {
     GC_root_size -= (GC_static_roots[i].r_end - GC_static_roots[i].r_start);
@@ -289,7 +291,7 @@ int i;
 static void GC_rebuild_root_index()
 {
     register int i;
-    	
+
     for (i = 0; i < RT_SIZE; i++) GC_root_index[i] = 0;
     for (i = 0; i < n_root_sets; i++)
 	add_roots_to_index(GC_static_roots + i);
@@ -300,7 +302,7 @@ static void GC_rebuild_root_index()
 void GC_remove_tmp_roots()
 {
     register int i;
-    
+
     for (i = 0; i < n_root_sets; ) {
     	if (GC_static_roots[i].r_tmp) {
             GC_remove_root_at_pos(i);
@@ -318,7 +320,7 @@ void GC_remove_roots(b, e)
 char * b; char * e;
 {
     DCL_LOCK_STATE;
-    
+
     DISABLE_SIGNALS();
     LOCK();
     GC_remove_roots_inner(b, e);
@@ -350,7 +352,7 @@ ptr_t p;
 {
     static int last_root_set = MAX_ROOT_SETS;
     register int i;
-    
+
     if (last_root_set < n_root_sets
 	&& p >= GC_static_roots[last_root_set].r_start
         && p < GC_static_roots[last_root_set].r_end)
@@ -369,11 +371,13 @@ ptr_t p;
 ptr_t GC_approx_sp()
 {
     word dummy;
+    word *p;
 
 #   ifdef _MSC_VER
 #     pragma warning(disable:4172)
 #   endif
-    return((ptr_t)(&dummy));
+    p = &dummy;
+    return((ptr_t)p);
 #   ifdef _MSC_VER
 #     pragma warning(default:4172)
 #   endif
@@ -434,7 +438,7 @@ GC_PTR finish;
       if ((word)(next -> e_start) < (word) finish) {
 	/* incomplete error check. */
 	ABORT("exclusion ranges overlap");
-      }  
+      }
       if ((word)(next -> e_start) == (word) finish) {
         /* extend old range backwards	*/
           next -> e_start = (ptr_t)start;
@@ -603,7 +607,7 @@ ptr_t cold_gc_frame;
 	   GC_set_mark_bit(base);
 	 }
        }
-       
+
      /* Mark from GC internal roots if those might otherwise have	*/
      /* been excluded.							*/
        if (GC_no_dls || roots_were_cleared) {
@@ -646,4 +650,3 @@ ptr_t cold_gc_frame;
     	/* of stuff may have been pushed already, and this	*/
     	/* should be careful about mark stack overflows.	*/
 }
-

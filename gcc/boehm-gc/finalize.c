@@ -803,7 +803,7 @@ int GC_invoke_finalizers()
     return count;
 }
 
-void (* GC_finalizer_notifier)() = (void (*) GC_PROTO((void)))0;
+void (* GC_finalizer_notifier) GC_PROTO((void)) = (void (*) GC_PROTO((void)))0;
 
 static GC_word last_finalizer_notification = 0;
 
