@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.4 2005/03/15 17:17:59 tg Exp $
+# $MirOS: src/Makefile,v 1.5 2005/03/29 00:12:16 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -100,6 +100,31 @@ contrelease:
 	@date; uname -a
 	@echo ============================================================
 
+do-htman:
+	BSDRELDIR="${BSDRELDIR}" SUDO="${SUDO}" OSrev="${OSrev}" \
+	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	@echo "============================================================"
+	@echo "Checking files:"
+	@echo ""
+	-cd ${BSDSRCDIR}/distrib/lists/htman && DESTDIR=${BSDRELDIR}/htman \
+	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
+	    ${BSDSRCDIR}/scripts/tarck
+	@echo "============================================================"
+.ifndef BATCH
+	@read a?'Press Return to continue...'
+.endif
+	cd ${BSDSRCDIR}/distrib/lists/htman && DESTDIR=${BSDRELDIR}/htman \
+	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
+	    ${BSDSRCDIR}/scripts/tarmk ${OSrev}
+	-cd ${BSDRELDIR}/rel; cksum htman*.ngz \
+	    | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
+	-cd ${BSDRELDIR}/rel; rmd160 htman*.ngz \
+	    | cat - RMD160 | ${SUDO} sort -o RMD160
+	@echo ============================================================
+	@echo Build and Release for the HTML Documentation complete.
+	@date; uname -a
+	@echo ============================================================
+
 CVSROOT?=/cvs
 cvsup:
 	-rm -f ${.CURDIR}/Build.log
@@ -107,6 +132,6 @@ cvsup:
 
 .PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
 	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
-	cvsup
+	cvsup do-htman
 
 .include <bsd.subdir.mk>

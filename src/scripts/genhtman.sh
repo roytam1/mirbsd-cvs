@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/scripts/genhtman.sh,v 1.2 2005/03/14 20:52:32 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.3 2005/03/29 00:21:33 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -22,61 +22,48 @@
 # Build the HTML format manual pages. This is part of the MirOS con-
 # tribuional and base system release process.
 
-print XXX not ported
-exit 0
+cd $BSDRELDIR
+if ! [[ -e base && -e gcc && -e x11 ]]; then
+	print Invoke in BSDRELDIR
+	exit 1
+fi
 
-# for a in papers psd smm usd; do (cd papers; for x in $a.*; do (cd ../man$(print $a|tr '[:lower:]' '[:upper:]'); ln -s ../papers/$x ${x#$a.}); done); done                                                                       
-
-
-...:
-	mkdir -p ${MYDESTDIR}/htman || ${SUDO} mkdir -p ${MYDESTDIR}/htman
-	cd ${.CURDIR}/etc && exec ${MAKE} htman RELEASEDIR=${MYRELDIR} \
-	    DESTDIR=${MYDESTDIR}/htman BASEDESTDIR=${MYDESTDIR}/base
-
-htman:
-	@echo "Building HTML format manual pages."
-	${SHELL} -c ". ${BSDSRCDIR}/scripts/man2htm; \
-	    convert_all ${BASEDESTDIR}/usr/share/man ${DESTDIR}"
-	@echo "Building ASCII to HTML format papers."
-	mkdir -p ${DESTDIR}/papers
-	-rm -rf ${BSDOBJDIR}/htman
-.for _i in papers psd smm usd
-	mkdir -p ${BSDOBJDIR}/htman/${_i}
-	( cd ${BSDOBJDIR}/htman/${_i} \
-	    && lndir ${BASEDESTDIR}/usr/share/doc/${_i} \
-	    && ${MAKE} )
-	[[ ! -e ${BSDOBJDIR}/htman/${_i}/Title.txt ]] \
-	    || ${SHELL} -c ". ${BSDSRCDIR}/scripts/man2htm; \
-	    output_header Title ${_i:U}; \
-	    do_convert <${BSDOBJDIR}/htman/${_i}/Title.txt; \
-	    output_footer" >${DESTDIR}/papers/${_i}-Title.htm
-	[[ ! -e ${BSDOBJDIR}/htman/${_i}/contents.txt ]] \
-	    || ${SHELL} -c ". ${BSDSRCDIR}/scripts/man2htm; \
-	    output_header Contents ${_i:U}; \
-	    do_convert <${BSDOBJDIR}/htman/${_i}/contents.txt; \
-	    output_footer" >${DESTDIR}/papers/${_i}-contents.htm
-	for f in ${BSDOBJDIR}/htman/${_i}/*/paper.txt; do \
-		t=$$(print "$$f" | sed \
-		    -e 's#${BSDOBJDIR}/htman/${_i}/##' \
-		    -e 's#/paper.txt##'); \
-		${SHELL} -c ". ${BSDSRCDIR}/scripts/man2htm; \
-		    output_header $$t ${_i:U}; \
-		    do_convert <$$f; \
-		    output_footer" >${DESTDIR}/papers/${_i}.$$t.htm; \
+. /usr/src/scripts/roff2htm
+mkdir -p /usr/obj/htman/{man,htm}
+for s in x11 gcc base; do
+	( cd $s/usr/share/man; find * -type f | cpio -pdlu /usr/obj/htman/man )
+done
+convert_all /usr/obj/htman/man /usr/obj/htman/htm
+for s in papers psd smm usd; do
+	typeset -u u=$s
+	mkdir -p /usr/obj/htman/papers/$s /usr/obj/htman/htm/man$u
+	( cd /usr/obj/htman/papers/$s; lndir base/usr/share/doc/$s; make )
+	if [[ -e /usr/obj/htman/papers/$s/Title.txt ]]; then
+		( output_header Title $u
+		  do_convert </usr/obj/htman/papers/$s/Title.txt
+		  output_footer
+		) >/usr/obj/htman/htm/man$u/Title.htm
+	fi
+	if [[ -e /usr/obj/htman/papers/$s/contents.txt ]]; then
+		( output_header Contents $u
+		  do_convert </usr/obj/htman/papers/$s/contents.txt
+		  output_footer
+		) >/usr/obj/htman/htm/man$u/contents.htm
+	fi
+	for f in /usr/obj/htman/papers/$s/*/paper.txt; do
+		t="${f#/usr/obj/htman/papers/$s/}"
+		t="${t%/paper.txt}"
+		( output_header $t $u
+		  do_convert <$f
+		  output_footer
+		) >/usr/obj/htman/htm/man$u/$t.htm
 	done
-.endfor
-	@echo "============================================================"
-	@echo "Checking files:"
-	@echo ""
-	-cd ${.CURDIR}/../distrib/lists/htman && RELEASEDIR="${RELEASEDIR}" \
-	    DESTDIR="${DESTDIR}" ${SHELL} ${BSDSRCDIR}/scripts/checkflist
-	@echo "============================================================"
-.  ifdef WAIT_CHECKFLIST
-	@read a?'Press Return to continue...'
-.  endif
-	-cd ${.CURDIR}/../distrib/lists/htman && RELEASEDIR="${RELEASEDIR}" \
-	    DESTDIR="${DESTDIR}" ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/maketars ${OSrev}
-	-cd ${RELEASEDIR}; md5 htman${OSrev}.ngz | ${SUDO} tee -a MD5; \
-	    cksum htman${OSrev}.ngz | ${SUDO} tee -a CKSUM
+done
 
+$SUDO mkdir -p htman
+( cd /usr/obj/htman/htm; find man* -name \*.htm | cpio -o ) \
+    | ( cd htman; $SUDO cpio -id )
+$SUDO chown -R 0:0 htman
+$SUDO chmod -R a=rX htman
+rm -rf /usr/obj/htman
+exit 0
