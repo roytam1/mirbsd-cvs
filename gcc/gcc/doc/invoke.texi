@@ -1,4 +1,4 @@
-@c $MirOS$
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.3 2005/03/25 19:29:23 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -233,7 +233,7 @@ in the following sections.
 -Wreturn-type  -Wsequence-point  -Wshadow @gol
 -Wsign-compare  -Wstack-protector  -Wstrict-aliasing @gol
 -Wswitch  -Wswitch-default  -Wswitch-enum @gol
--Wsystem-headers  -Wtrigraphs  -Wundef  -Wuninitialized @gol
+-Wsystem-headers  -Wtrampolines -Wtrigraphs  -Wundef  -Wuninitialized @gol
 -Wunknown-pragmas  -Wunreachable-code @gol
 -Wunused  -Wunused-function  -Wunused-label  -Wunused-parameter @gol
 -Wunused-value  -Wunused-variable  -Wwrite-strings}
@@ -682,7 +682,7 @@ in the following sections.
 -fstack-protector  -fstack-protector-all @gol
 -fargument-alias  -fargument-noalias @gol
 -fargument-noalias-global  -fleading-underscore @gol
--ftls-model=@var{model} @gol
+-ftls-model=@var{model} -ftrampolines @gol
 -ftrapv  -fwrapv  -fbounds-check}
 @end table
 
@@ -3004,6 +3004,10 @@ itself is likely to take inordinate amounts of time.
 @item -Wstack-protector
 @opindex Wstack-protector
 Warn when not issuing stack smashing protection for some reason.
+
+@item -Wtrampolines
+@opindex Wtrampolines
+Warn when emitting trampolines.
 
 @item -Werror
 @opindex Werror
@@ -11260,6 +11264,7 @@ of 128KB@.  Note that this may only work with the GNU linker.
 @opindex fstack-protector
 @opindex fstack-protector-all
 @opindex fno-stack-protector
+@opindex fno-stack-protector-all
 Generate code to protect an application from a stack smashing
 attack. The features are (1) the insertion of random value next to the
 frame pointer to detect the integrity of the stack, (2) the reordering
@@ -11272,6 +11277,15 @@ locations, and the (4) omission of instrumentation code from some
 functions to decrease the performance overhead.  If the integrity
 would be broken, the program is aborted.  If stack-protector-all is
 specified, instrumentation codes are generated at every functions.
+
+@item -ftrampolines
+@opindex ftrampolines
+@opindex fno-trampolines
+Allow the compiler to generate trampoline code.
+Since trampolines require the stack to be executable,
+this is commonly considered very bad code.
+In C, trampolines are only needed for nested functions,
+which is a GCC extension to be deprecated soon.
 
 @cindex aliasing of parameters
 @cindex parameters, aliased

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/ada/misc.c,v 1.2 2005/03/25 19:29:16 tg Exp $ */
 
 /****************************************************************************
  *                                                                          *
@@ -82,6 +82,7 @@
 #include "protector.h"
 
 extern FILE *asm_out_file;
+extern int flag_trampolines;
 
 /* The largest alignment, in bits, that is needed for using the widest
    move instruction.  */
@@ -374,6 +375,9 @@ gnat_init (void)
   /* Disable ProPolice stack protector, we've got our own.  */
   flag_stack_protection = 0;
   flag_propolice_protection = 0;
+
+  /* XXX Enable the generation of trampolines, for now.  */
+  flag_trampolines = 1;
 
   /* Performs whatever initialization steps needed by the language-dependent
      lexical analyzer.  */
