@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.5 2005/02/10 19:37:37 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.6 2005/02/10 20:17:01 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -293,20 +293,10 @@ compiler=$CC
 
 # _LT_AC_SYS_LIBPATH_AIX
 # ----------------------
-# Links a minimal program and checks the executable
-# for the system default hardcoded library path. In most cases,
-# this is /usr/lib:/lib, but when the MPI compilers are used
-# the location of the communication and MPI libs are included too.
-# If we don't find anything, use the default library path according
-# to the aix ld manual.
+# We use the default library path according to the aix ld manual.
+# When the MPI compilers are used, this breaks. That's it.
 AC_DEFUN([_LT_AC_SYS_LIBPATH_AIX],
-[AC_LINK_IFELSE(AC_LANG_PROGRAM,[
-aix_libpath=`dump -H conftest$ac_exeext 2>/dev/null | $SED -n -e '/Import File Strings/,/^$/ { /^0/ { s/^0  *\(.*\)$/\1/; p; }
-}'`
-# Check for a 64-bit object if we didn't find anything.
-if test -z "$aix_libpath"; then aix_libpath=`dump -HX64 conftest$ac_exeext 2>/dev/null | $SED -n -e '/Import File Strings/,/^$/ { /^0/ { s/^0  *\(.*\)$/\1/; p; }
-}'`; fi],[])
-if test -z "$aix_libpath"; then aix_libpath="/usr/lib:/lib"; fi
+[aix_libpath="/usr/lib:/lib"
 ])# _LT_AC_SYS_LIBPATH_AIX
 
 
