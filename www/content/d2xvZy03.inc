@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.4 2005/02/07 23:16:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.5 2005/02/08 21:42:17 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2202,4 +2202,13 @@
  (which are yet to be haved), things I built are still in use &ndash; then I
  have deeply engrained myself into the earth's surface. MirOS is a small piece
  out of this masterplan of mine. Feel free to help.</p>
+<p>09.02.2005 by tg@<br />Latest (and hopefully last) chapter of a certain
+ web forum: I'd like to warn everyone from mail contact with "them" (it is
+ only one special person, but I've said I'm not going to write names here,
+ again). He has in fact quoted from private eMail exchange with me. I have
+ him take it down, and he did it, replying over-polite (i.e. mocking), but
+ that's enough with me. I don't have the time nor is it pleasure for me to
+ deal with them (or tell them stuff about MirOS which they don't know yet;
+ I simply have got better things to do).<br />Quoting from private eMails,
+ publicly, is simply The bad thing to do, I hope he's learned it.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
