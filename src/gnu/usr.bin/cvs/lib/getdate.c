@@ -1,7 +1,7 @@
-/* A Bison parser, made by GNU Bison 1.875.  */
+/* A Bison parser, made by GNU Bison 2.0.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -100,8 +100,11 @@
 /* Copy the first part of user declarations.  */
 #line 1 "getdate.y"
 
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.2 2005/03/13 15:50:35 tg Exp $ */
+
 /* Parse a string into an internal time stamp.
-   Copyright (C) 1999, 2000, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -137,7 +140,9 @@
 
 #include "getdate.h"
 
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
+#endif
 
 /* Since the code of getdate.y is not included in the Emacs executable
    itself, there is no need to #define static in this file.  Even if
@@ -155,8 +160,31 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef IN_RCS
 #include "setenv.h"
 #include "xalloc.h"
+#else /* IN_RCS */
+
+void *
+xmalloc(size_t s)
+{
+	void *x;
+
+	if ((x = malloc(s)) == NULL) {
+		fprintf(stderr, "memory exhausted");
+		fflush(stderr);
+		exit(1);
+	}
+
+	return x;
+}
+
+void *
+xmemdup(void const *p, size_t s)
+{
+	return memcpy(xmalloc(s), p, s);
+}
+#endif /* IN_RCS */
 
 #if STDC_HEADERS || (! defined isascii && ! HAVE_ISASCII)
 # define IN_CTYPE_DOMAIN(c) 1
@@ -297,14 +325,14 @@ static int yyerror (parser_control *, char *);
 #endif
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 195 "getdate.y"
+#line 223 "getdate.y"
 typedef union YYSTYPE {
   long int intval;
   textint textintval;
   struct timespec timespec;
 } YYSTYPE;
-/* Line 191 of yacc.c.  */
-#line 307 "getdate.c"
+/* Line 190 of yacc.c.  */
+#line 336 "getdate.c"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -315,23 +343,26 @@ typedef union YYSTYPE {
 /* Copy the second part of user declarations.  */
 
 
-/* Line 214 of yacc.c.  */
-#line 319 "getdate.c"
+/* Line 213 of yacc.c.  */
+#line 348 "getdate.c"
 
 #if ! defined (yyoverflow) || YYERROR_VERBOSE
 
+# ifndef YYFREE
+#  define YYFREE free
+# endif
+# ifndef YYMALLOC
+#  define YYMALLOC malloc
+# endif
+
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
-# if YYSTACK_USE_ALLOCA
-#  define YYSTACK_ALLOC alloca
-# else
-#  ifndef YYSTACK_USE_ALLOCA
-#   if defined (alloca) || defined (_ALLOCA_H)
-#    define YYSTACK_ALLOC alloca
+# ifdef YYSTACK_USE_ALLOCA
+#  if YYSTACK_USE_ALLOCA
+#   ifdef __GNUC__
+#    define YYSTACK_ALLOC __builtin_alloca
 #   else
-#    ifdef __GNUC__
-#     define YYSTACK_ALLOC __builtin_alloca
-#    endif
+#    define YYSTACK_ALLOC alloca
 #   endif
 #  endif
 # endif
@@ -344,20 +375,20 @@ typedef union YYSTYPE {
 #   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
 #   define YYSIZE_T size_t
 #  endif
-#  define YYSTACK_ALLOC malloc
-#  define YYSTACK_FREE free
+#  define YYSTACK_ALLOC YYMALLOC
+#  define YYSTACK_FREE YYFREE
 # endif
 #endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
 
 
 #if (! defined (yyoverflow) \
      && (! defined (__cplusplus) \
-	 || (YYSTYPE_IS_TRIVIAL)))
+	 || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  short yyss;
+  short int yyss;
   YYSTYPE yyvs;
   };
 
@@ -367,13 +398,13 @@ union yyalloc
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (sizeof (short) + sizeof (YYSTYPE))				\
+     ((N) * (sizeof (short int) + sizeof (YYSTYPE))			\
       + YYSTACK_GAP_MAXIMUM)
 
 /* Copy COUNT objects from FROM to TO.  The source and destination do
    not overlap.  */
 # ifndef YYCOPY
-#  if 1 < __GNUC__
+#  if defined (__GNUC__) && 1 < __GNUC__
 #   define YYCOPY(To, From, Count) \
       __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
 #  else
@@ -409,7 +440,7 @@ union yyalloc
 #if defined (__STDC__) || defined (__cplusplus)
    typedef signed char yysigned_char;
 #else
-   typedef short yysigned_char;
+   typedef short int yysigned_char;
 #endif
 
 /* YYFINAL -- State number of the termination state. */
@@ -508,16 +539,16 @@ static const yysigned_char yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const unsigned short yyrline[] =
+static const unsigned short int yyrline[] =
 {
-       0,   216,   216,   217,   221,   228,   230,   234,   236,   238,
-     240,   242,   244,   246,   250,   258,   266,   276,   283,   295,
-     297,   302,   304,   306,   311,   316,   321,   326,   334,   339,
-     359,   366,   374,   382,   387,   393,   398,   407,   417,   421,
-     423,   425,   427,   429,   431,   433,   435,   437,   439,   441,
-     443,   445,   447,   449,   451,   453,   455,   457,   459,   461,
-     463,   465,   467,   469,   471,   475,   475,   478,   479,   484,
-     485,   490,   528,   529
+       0,   244,   244,   245,   249,   256,   258,   262,   264,   266,
+     268,   270,   272,   274,   278,   286,   294,   304,   311,   323,
+     325,   330,   332,   334,   339,   344,   349,   354,   362,   367,
+     387,   394,   402,   410,   415,   421,   426,   435,   445,   449,
+     451,   453,   455,   457,   459,   461,   463,   465,   467,   469,
+     471,   473,   475,   477,   479,   481,   483,   485,   487,   489,
+     491,   493,   495,   497,   499,   503,   503,   506,   507,   512,
+     513,   518,   556,   557
 };
 #endif
 
@@ -526,20 +557,20 @@ static const unsigned short yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "tAGO", "tDST", "tDAY", "tDAY_UNIT", 
-  "tDAYZONE", "tHOUR_UNIT", "tLOCAL_ZONE", "tMERIDIAN", "tMINUTE_UNIT", 
-  "tMONTH", "tMONTH_UNIT", "tORDINAL", "tSEC_UNIT", "tYEAR_UNIT", "tZONE", 
-  "tSNUMBER", "tUNUMBER", "tSDECIMAL_NUMBER", "tUDECIMAL_NUMBER", "'@'", 
-  "':'", "','", "'/'", "$accept", "spec", "timespec", "items", "item", 
-  "time", "local_zone", "zone", "day", "date", "rel", "relunit", 
-  "seconds", "signed_seconds", "unsigned_seconds", "number", "o_merid", 0
+  "$end", "error", "$undefined", "tAGO", "tDST", "tDAY", "tDAY_UNIT",
+  "tDAYZONE", "tHOUR_UNIT", "tLOCAL_ZONE", "tMERIDIAN", "tMINUTE_UNIT",
+  "tMONTH", "tMONTH_UNIT", "tORDINAL", "tSEC_UNIT", "tYEAR_UNIT", "tZONE",
+  "tSNUMBER", "tUNUMBER", "tSDECIMAL_NUMBER", "tUDECIMAL_NUMBER", "'@'",
+  "':'", "','", "'/'", "$accept", "spec", "timespec", "items", "item",
+  "time", "local_zone", "zone", "day", "date", "rel", "relunit", "seconds",
+  "signed_seconds", "unsigned_seconds", "number", "o_merid", 0
 };
 #endif
 
 # ifdef YYPRINT
 /* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
    token YYLEX-NUM.  */
-static const unsigned short yytoknum[] =
+static const unsigned short int yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
@@ -686,7 +717,7 @@ static const unsigned char yystos[] =
 
 #define YYACCEPT	goto yyacceptlab
 #define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrlab1
+#define YYERROR		goto yyerrorlab
 
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
@@ -714,19 +745,52 @@ do								\
     }								\
 while (0)
 
+
 #define YYTERROR	1
 #define YYERRCODE	256
 
-/* YYLLOC_DEFAULT -- Compute the default location (before the actions
-   are run).  */
 
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+#define YYRHSLOC(Rhs, K) ((Rhs)[K])
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)         \
-  Current.first_line   = Rhs[1].first_line;      \
-  Current.first_column = Rhs[1].first_column;    \
-  Current.last_line    = Rhs[N].last_line;       \
-  Current.last_column  = Rhs[N].last_column;
+# define YYLLOC_DEFAULT(Current, Rhs, N)				\
+    do									\
+      if (N)								\
+	{								\
+	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
+	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
+	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
+	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
+	}								\
+      else								\
+	{								\
+	  (Current).first_line   = (Current).last_line   =		\
+	    YYRHSLOC (Rhs, 0).last_line;				\
+	  (Current).first_column = (Current).last_column =		\
+	    YYRHSLOC (Rhs, 0).last_column;				\
+	}								\
+    while (0)
 #endif
+
+
+/* YY_LOCATION_PRINT -- Print the location on the stream.
+   This macro was not mandated originally: define only if we know
+   we won't break user code: when these are the locations we know.  */
+
+#ifndef YY_LOCATION_PRINT
+# if YYLTYPE_IS_TRIVIAL
+#  define YY_LOCATION_PRINT(File, Loc)			\
+     fprintf (File, "%d.%d-%d.%d",			\
+              (Loc).first_line, (Loc).first_column,	\
+              (Loc).last_line,  (Loc).last_column)
+# else
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif
+#endif
+
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
@@ -750,36 +814,30 @@ do {						\
     YYFPRINTF Args;				\
 } while (0)
 
-# define YYDSYMPRINT(Args)			\
-do {						\
-  if (yydebug)					\
-    yysymprint Args;				\
-} while (0)
-
-# define YYDSYMPRINTF(Title, Token, Value, Location)		\
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)		\
 do {								\
   if (yydebug)							\
     {								\
       YYFPRINTF (stderr, "%s ", Title);				\
       yysymprint (stderr, 					\
-                  Token, Value);	\
+                  Type, Value);	\
       YYFPRINTF (stderr, "\n");					\
     }								\
 } while (0)
 
 /*------------------------------------------------------------------.
 | yy_stack_print -- Print the state stack from its BOTTOM up to its |
-| TOP (cinluded).                                                   |
+| TOP (included).                                                   |
 `------------------------------------------------------------------*/
 
 #if defined (__STDC__) || defined (__cplusplus)
 static void
-yy_stack_print (short *bottom, short *top)
+yy_stack_print (short int *bottom, short int *top)
 #else
 static void
 yy_stack_print (bottom, top)
-    short *bottom;
-    short *top;
+    short int *bottom;
+    short int *top;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
@@ -809,9 +867,9 @@ yy_reduce_print (yyrule)
 #endif
 {
   int yyi;
-  unsigned int yylineno = yyrline[yyrule];
+  unsigned int yylno = yyrline[yyrule];
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %u), ",
-             yyrule - 1, yylineno);
+             yyrule - 1, yylno);
   /* Print the symbols being reduced, and their result.  */
   for (yyi = yyprhs[yyrule]; 0 <= yyrhs[yyi]; yyi++)
     YYFPRINTF (stderr, "%s ", yytname [yyrhs[yyi]]);
@@ -829,8 +887,7 @@ do {					\
 int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
-# define YYDSYMPRINT(Args)
-# define YYDSYMPRINTF(Title, Token, Value, Location)
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 # define YY_STACK_PRINT(Bottom, Top)
 # define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
@@ -847,10 +904,6 @@ int yydebug;
    Do not make this value too large; the results are undefined if
    SIZE_MAX < YYSTACK_BYTES (YYMAXDEPTH)
    evaluated with infinite-precision integer arithmetic.  */
-
-#if YYMAXDEPTH == 0
-# undef YYMAXDEPTH
-#endif
 
 #ifndef YYMAXDEPTH
 # define YYMAXDEPTH 10000
@@ -933,15 +986,15 @@ yysymprint (yyoutput, yytype, yyvaluep)
   (void) yyvaluep;
 
   if (yytype < YYNTOKENS)
-    {
-      YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
-# ifdef YYPRINT
-      YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
-# endif
-    }
+    YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
+
+# ifdef YYPRINT
+  if (yytype < YYNTOKENS)
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+# endif
   switch (yytype)
     {
       default:
@@ -957,16 +1010,21 @@ yysymprint (yyoutput, yytype, yyvaluep)
 
 #if defined (__STDC__) || defined (__cplusplus)
 static void
-yydestruct (int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
 #else
 static void
-yydestruct (yytype, yyvaluep)
+yydestruct (yymsg, yytype, yyvaluep)
+    const char *yymsg;
     int yytype;
     YYSTYPE *yyvaluep;
 #endif
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
+
+  if (!yymsg)
+    yymsg = "Deleting";
+  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
   switch (yytype)
     {
@@ -987,7 +1045,7 @@ int yyparse ();
 # endif
 #else /* ! YYPARSE_PARAM */
 #if defined (__STDC__) || defined (__cplusplus)
-int yyparse ( parser_control *pc );
+int yyparse (parser_control *pc);
 #else
 int yyparse ();
 #endif
@@ -1012,18 +1070,18 @@ int yyparse (YYPARSE_PARAM)
 #else /* ! YYPARSE_PARAM */
 #if defined (__STDC__) || defined (__cplusplus)
 int
-yyparse ( parser_control *pc )
+yyparse (parser_control *pc)
 #else
 int
 yyparse (pc)
-     parser_control *pc ;
+    parser_control *pc;
 #endif
 #endif
 {
-  /* The lookahead symbol.  */
+  /* The look-ahead symbol.  */
 int yychar;
 
-/* The semantic value of the lookahead symbol.  */
+/* The semantic value of the look-ahead symbol.  */
 YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
@@ -1034,7 +1092,7 @@ int yynerrs;
   int yyresult;
   /* Number of tokens to shift before error messages enabled.  */
   int yyerrstatus;
-  /* Lookahead token as an internal (translated) token number.  */
+  /* Look-ahead token as an internal (translated) token number.  */
   int yytoken = 0;
 
   /* Three stacks and their tools:
@@ -1046,9 +1104,9 @@ int yynerrs;
      to reallocate them elsewhere.  */
 
   /* The state stack.  */
-  short	yyssa[YYINITDEPTH];
-  short *yyss = yyssa;
-  register short *yyssp;
+  short int yyssa[YYINITDEPTH];
+  short int *yyss = yyssa;
+  register short int *yyssp;
 
   /* The semantic value stack.  */
   YYSTYPE yyvsa[YYINITDEPTH];
@@ -1085,6 +1143,9 @@ int yynerrs;
   yyssp = yyss;
   yyvsp = yyvs;
 
+
+  yyvsp[0] = yylval;
+
   goto yysetstate;
 
 /*------------------------------------------------------------.
@@ -1110,7 +1171,7 @@ int yynerrs;
 	   these so that the &'s don't force the real ones into
 	   memory.  */
 	YYSTYPE *yyvs1 = yyvs;
-	short *yyss1 = yyss;
+	short int *yyss1 = yyss;
 
 
 	/* Each stack pointer address is followed by the size of the
@@ -1138,7 +1199,7 @@ int yynerrs;
 	yystacksize = YYMAXDEPTH;
 
       {
-	short *yyss1 = yyss;
+	short int *yyss1 = yyss;
 	union yyalloc *yyptr =
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
@@ -1174,18 +1235,18 @@ int yynerrs;
 yybackup:
 
 /* Do appropriate processing given the current state.  */
-/* Read a lookahead token if we need one and don't already have one.  */
+/* Read a look-ahead token if we need one and don't already have one.  */
 /* yyresume: */
 
-  /* First try to decide what to do without reference to lookahead token.  */
+  /* First try to decide what to do without reference to look-ahead token.  */
 
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a lookahead token if don't already have one.  */
+  /* Not known => get a look-ahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -1200,7 +1261,7 @@ yybackup:
   else
     {
       yytoken = YYTRANSLATE (yychar);
-      YYDSYMPRINTF ("Next token is", yytoken, &yylval, &yylloc);
+      YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -1220,8 +1281,8 @@ yybackup:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %s, ", yytname[yytoken]));
+  /* Shift the look-ahead token.  */
+  YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -1271,256 +1332,256 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 222 "getdate.y"
+#line 250 "getdate.y"
     {
-	pc->seconds = yyvsp[0].timespec;
+	pc->seconds = (yyvsp[0].timespec);
 	pc->timespec_seen = true;
-      }
+      ;}
     break;
 
   case 7:
-#line 235 "getdate.y"
-    { pc->times_seen++; }
+#line 263 "getdate.y"
+    { pc->times_seen++; ;}
     break;
 
   case 8:
-#line 237 "getdate.y"
-    { pc->local_zones_seen++; }
+#line 265 "getdate.y"
+    { pc->local_zones_seen++; ;}
     break;
 
   case 9:
-#line 239 "getdate.y"
-    { pc->zones_seen++; }
+#line 267 "getdate.y"
+    { pc->zones_seen++; ;}
     break;
 
   case 10:
-#line 241 "getdate.y"
-    { pc->dates_seen++; }
+#line 269 "getdate.y"
+    { pc->dates_seen++; ;}
     break;
 
   case 11:
-#line 243 "getdate.y"
-    { pc->days_seen++; }
+#line 271 "getdate.y"
+    { pc->days_seen++; ;}
     break;
 
   case 12:
-#line 245 "getdate.y"
-    { pc->rels_seen++; }
+#line 273 "getdate.y"
+    { pc->rels_seen++; ;}
     break;
 
   case 14:
-#line 251 "getdate.y"
+#line 279 "getdate.y"
     {
-	pc->hour = yyvsp[-1].textintval.value;
+	pc->hour = (yyvsp[-1].textintval).value;
 	pc->minutes = 0;
 	pc->seconds.tv_sec = 0;
 	pc->seconds.tv_nsec = 0;
-	pc->meridian = yyvsp[0].intval;
-      }
+	pc->meridian = (yyvsp[0].intval);
+      ;}
     break;
 
   case 15:
-#line 259 "getdate.y"
+#line 287 "getdate.y"
     {
-	pc->hour = yyvsp[-3].textintval.value;
-	pc->minutes = yyvsp[-1].textintval.value;
+	pc->hour = (yyvsp[-3].textintval).value;
+	pc->minutes = (yyvsp[-1].textintval).value;
 	pc->seconds.tv_sec = 0;
 	pc->seconds.tv_nsec = 0;
-	pc->meridian = yyvsp[0].intval;
-      }
+	pc->meridian = (yyvsp[0].intval);
+      ;}
     break;
 
   case 16:
-#line 267 "getdate.y"
+#line 295 "getdate.y"
     {
-	pc->hour = yyvsp[-3].textintval.value;
-	pc->minutes = yyvsp[-1].textintval.value;
+	pc->hour = (yyvsp[-3].textintval).value;
+	pc->minutes = (yyvsp[-1].textintval).value;
 	pc->seconds.tv_sec = 0;
 	pc->seconds.tv_nsec = 0;
 	pc->meridian = MER24;
 	pc->zones_seen++;
-	pc->time_zone = yyvsp[0].textintval.value % 100 + (yyvsp[0].textintval.value / 100) * 60;
-      }
+	pc->time_zone = (yyvsp[0].textintval).value % 100 + ((yyvsp[0].textintval).value / 100) * 60;
+      ;}
     break;
 
   case 17:
-#line 277 "getdate.y"
+#line 305 "getdate.y"
     {
-	pc->hour = yyvsp[-5].textintval.value;
-	pc->minutes = yyvsp[-3].textintval.value;
-	pc->seconds = yyvsp[-1].timespec;
-	pc->meridian = yyvsp[0].intval;
-      }
+	pc->hour = (yyvsp[-5].textintval).value;
+	pc->minutes = (yyvsp[-3].textintval).value;
+	pc->seconds = (yyvsp[-1].timespec);
+	pc->meridian = (yyvsp[0].intval);
+      ;}
     break;
 
   case 18:
-#line 284 "getdate.y"
+#line 312 "getdate.y"
     {
-	pc->hour = yyvsp[-5].textintval.value;
-	pc->minutes = yyvsp[-3].textintval.value;
-	pc->seconds = yyvsp[-1].timespec;
+	pc->hour = (yyvsp[-5].textintval).value;
+	pc->minutes = (yyvsp[-3].textintval).value;
+	pc->seconds = (yyvsp[-1].timespec);
 	pc->meridian = MER24;
 	pc->zones_seen++;
-	pc->time_zone = yyvsp[0].textintval.value % 100 + (yyvsp[0].textintval.value / 100) * 60;
-      }
+	pc->time_zone = (yyvsp[0].textintval).value % 100 + ((yyvsp[0].textintval).value / 100) * 60;
+      ;}
     break;
 
   case 19:
-#line 296 "getdate.y"
-    { pc->local_isdst = yyvsp[0].intval; }
+#line 324 "getdate.y"
+    { pc->local_isdst = (yyvsp[0].intval); ;}
     break;
 
   case 20:
-#line 298 "getdate.y"
-    { pc->local_isdst = yyvsp[-1].intval < 0 ? 1 : yyvsp[-1].intval + 1; }
+#line 326 "getdate.y"
+    { pc->local_isdst = (yyvsp[-1].intval) < 0 ? 1 : (yyvsp[-1].intval) + 1; ;}
     break;
 
   case 21:
-#line 303 "getdate.y"
-    { pc->time_zone = yyvsp[0].intval; }
+#line 331 "getdate.y"
+    { pc->time_zone = (yyvsp[0].intval); ;}
     break;
 
   case 22:
-#line 305 "getdate.y"
-    { pc->time_zone = yyvsp[0].intval + 60; }
+#line 333 "getdate.y"
+    { pc->time_zone = (yyvsp[0].intval) + 60; ;}
     break;
 
   case 23:
-#line 307 "getdate.y"
-    { pc->time_zone = yyvsp[-1].intval + 60; }
+#line 335 "getdate.y"
+    { pc->time_zone = (yyvsp[-1].intval) + 60; ;}
     break;
 
   case 24:
-#line 312 "getdate.y"
+#line 340 "getdate.y"
     {
 	pc->day_ordinal = 1;
-	pc->day_number = yyvsp[0].intval;
-      }
+	pc->day_number = (yyvsp[0].intval);
+      ;}
     break;
 
   case 25:
-#line 317 "getdate.y"
+#line 345 "getdate.y"
     {
 	pc->day_ordinal = 1;
-	pc->day_number = yyvsp[-1].intval;
-      }
+	pc->day_number = (yyvsp[-1].intval);
+      ;}
     break;
 
   case 26:
-#line 322 "getdate.y"
+#line 350 "getdate.y"
     {
-	pc->day_ordinal = yyvsp[-1].intval;
-	pc->day_number = yyvsp[0].intval;
-      }
+	pc->day_ordinal = (yyvsp[-1].intval);
+	pc->day_number = (yyvsp[0].intval);
+      ;}
     break;
 
   case 27:
-#line 327 "getdate.y"
+#line 355 "getdate.y"
     {
-	pc->day_ordinal = yyvsp[-1].textintval.value;
-	pc->day_number = yyvsp[0].intval;
-      }
+	pc->day_ordinal = (yyvsp[-1].textintval).value;
+	pc->day_number = (yyvsp[0].intval);
+      ;}
     break;
 
   case 28:
-#line 335 "getdate.y"
+#line 363 "getdate.y"
     {
-	pc->month = yyvsp[-2].textintval.value;
-	pc->day = yyvsp[0].textintval.value;
-      }
+	pc->month = (yyvsp[-2].textintval).value;
+	pc->day = (yyvsp[0].textintval).value;
+      ;}
     break;
 
   case 29:
-#line 340 "getdate.y"
+#line 368 "getdate.y"
     {
 	/* Interpret as YYYY/MM/DD if the first value has 4 or more digits,
 	   otherwise as MM/DD/YY.
 	   The goal in recognizing YYYY/MM/DD is solely to support legacy
 	   machine-generated dates like those in an RCS log listing.  If
 	   you want portability, use the ISO 8601 format.  */
-	if (4 <= yyvsp[-4].textintval.digits)
+	if (4 <= (yyvsp[-4].textintval).digits)
 	  {
-	    pc->year = yyvsp[-4].textintval;
-	    pc->month = yyvsp[-2].textintval.value;
-	    pc->day = yyvsp[0].textintval.value;
+	    pc->year = (yyvsp[-4].textintval);
+	    pc->month = (yyvsp[-2].textintval).value;
+	    pc->day = (yyvsp[0].textintval).value;
 	  }
 	else
 	  {
-	    pc->month = yyvsp[-4].textintval.value;
-	    pc->day = yyvsp[-2].textintval.value;
-	    pc->year = yyvsp[0].textintval;
+	    pc->month = (yyvsp[-4].textintval).value;
+	    pc->day = (yyvsp[-2].textintval).value;
+	    pc->year = (yyvsp[0].textintval);
 	  }
-      }
+      ;}
     break;
 
   case 30:
-#line 360 "getdate.y"
+#line 388 "getdate.y"
     {
 	/* ISO 8601 format.  YYYY-MM-DD.  */
-	pc->year = yyvsp[-2].textintval;
-	pc->month = -yyvsp[-1].textintval.value;
-	pc->day = -yyvsp[0].textintval.value;
-      }
+	pc->year = (yyvsp[-2].textintval);
+	pc->month = -(yyvsp[-1].textintval).value;
+	pc->day = -(yyvsp[0].textintval).value;
+      ;}
     break;
 
   case 31:
-#line 367 "getdate.y"
+#line 395 "getdate.y"
     {
 	/* e.g. 17-JUN-1992.  */
-	pc->day = yyvsp[-2].textintval.value;
-	pc->month = yyvsp[-1].intval;
-	pc->year.value = -yyvsp[0].textintval.value;
-	pc->year.digits = yyvsp[0].textintval.digits;
-      }
+	pc->day = (yyvsp[-2].textintval).value;
+	pc->month = (yyvsp[-1].intval);
+	pc->year.value = -(yyvsp[0].textintval).value;
+	pc->year.digits = (yyvsp[0].textintval).digits;
+      ;}
     break;
 
   case 32:
-#line 375 "getdate.y"
+#line 403 "getdate.y"
     {
 	/* e.g. JUN-17-1992.  */
-	pc->month = yyvsp[-2].intval;
-	pc->day = -yyvsp[-1].textintval.value;
-	pc->year.value = -yyvsp[0].textintval.value;
-	pc->year.digits = yyvsp[0].textintval.digits;
-      }
+	pc->month = (yyvsp[-2].intval);
+	pc->day = -(yyvsp[-1].textintval).value;
+	pc->year.value = -(yyvsp[0].textintval).value;
+	pc->year.digits = (yyvsp[0].textintval).digits;
+      ;}
     break;
 
   case 33:
-#line 383 "getdate.y"
+#line 411 "getdate.y"
     {
-	pc->month = yyvsp[-1].intval;
-	pc->day = yyvsp[0].textintval.value;
-      }
+	pc->month = (yyvsp[-1].intval);
+	pc->day = (yyvsp[0].textintval).value;
+      ;}
     break;
 
   case 34:
-#line 388 "getdate.y"
+#line 416 "getdate.y"
     {
-	pc->month = yyvsp[-3].intval;
-	pc->day = yyvsp[-2].textintval.value;
-	pc->year = yyvsp[0].textintval;
-      }
+	pc->month = (yyvsp[-3].intval);
+	pc->day = (yyvsp[-2].textintval).value;
+	pc->year = (yyvsp[0].textintval);
+      ;}
     break;
 
   case 35:
-#line 394 "getdate.y"
+#line 422 "getdate.y"
     {
-	pc->day = yyvsp[-1].textintval.value;
-	pc->month = yyvsp[0].intval;
-      }
+	pc->day = (yyvsp[-1].textintval).value;
+	pc->month = (yyvsp[0].intval);
+      ;}
     break;
 
   case 36:
-#line 399 "getdate.y"
+#line 427 "getdate.y"
     {
-	pc->day = yyvsp[-2].textintval.value;
-	pc->month = yyvsp[-1].intval;
-	pc->year = yyvsp[0].textintval;
-      }
+	pc->day = (yyvsp[-2].textintval).value;
+	pc->month = (yyvsp[-1].intval);
+	pc->year = (yyvsp[0].textintval);
+      ;}
     break;
 
   case 37:
-#line 408 "getdate.y"
+#line 436 "getdate.y"
     {
 	pc->rel_ns = -pc->rel_ns;
 	pc->rel_seconds = -pc->rel_seconds;
@@ -1529,201 +1590,201 @@ yyreduce:
 	pc->rel_day = -pc->rel_day;
 	pc->rel_month = -pc->rel_month;
 	pc->rel_year = -pc->rel_year;
-      }
+      ;}
     break;
 
   case 39:
-#line 422 "getdate.y"
-    { pc->rel_year += yyvsp[-1].intval * yyvsp[0].intval; }
+#line 450 "getdate.y"
+    { pc->rel_year += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 40:
-#line 424 "getdate.y"
-    { pc->rel_year += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 452 "getdate.y"
+    { pc->rel_year += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 41:
-#line 426 "getdate.y"
-    { pc->rel_year += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 454 "getdate.y"
+    { pc->rel_year += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 42:
-#line 428 "getdate.y"
-    { pc->rel_year += yyvsp[0].intval; }
+#line 456 "getdate.y"
+    { pc->rel_year += (yyvsp[0].intval); ;}
     break;
 
   case 43:
-#line 430 "getdate.y"
-    { pc->rel_month += yyvsp[-1].intval * yyvsp[0].intval; }
+#line 458 "getdate.y"
+    { pc->rel_month += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 44:
-#line 432 "getdate.y"
-    { pc->rel_month += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 460 "getdate.y"
+    { pc->rel_month += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 45:
-#line 434 "getdate.y"
-    { pc->rel_month += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 462 "getdate.y"
+    { pc->rel_month += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 46:
-#line 436 "getdate.y"
-    { pc->rel_month += yyvsp[0].intval; }
+#line 464 "getdate.y"
+    { pc->rel_month += (yyvsp[0].intval); ;}
     break;
 
   case 47:
-#line 438 "getdate.y"
-    { pc->rel_day += yyvsp[-1].intval * yyvsp[0].intval; }
+#line 466 "getdate.y"
+    { pc->rel_day += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 48:
-#line 440 "getdate.y"
-    { pc->rel_day += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 468 "getdate.y"
+    { pc->rel_day += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 49:
-#line 442 "getdate.y"
-    { pc->rel_day += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 470 "getdate.y"
+    { pc->rel_day += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 50:
-#line 444 "getdate.y"
-    { pc->rel_day += yyvsp[0].intval; }
+#line 472 "getdate.y"
+    { pc->rel_day += (yyvsp[0].intval); ;}
     break;
 
   case 51:
-#line 446 "getdate.y"
-    { pc->rel_hour += yyvsp[-1].intval * yyvsp[0].intval; }
+#line 474 "getdate.y"
+    { pc->rel_hour += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 52:
-#line 448 "getdate.y"
-    { pc->rel_hour += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 476 "getdate.y"
+    { pc->rel_hour += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 53:
-#line 450 "getdate.y"
-    { pc->rel_hour += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 478 "getdate.y"
+    { pc->rel_hour += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 54:
-#line 452 "getdate.y"
-    { pc->rel_hour += yyvsp[0].intval; }
+#line 480 "getdate.y"
+    { pc->rel_hour += (yyvsp[0].intval); ;}
     break;
 
   case 55:
-#line 454 "getdate.y"
-    { pc->rel_minutes += yyvsp[-1].intval * yyvsp[0].intval; }
+#line 482 "getdate.y"
+    { pc->rel_minutes += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 56:
-#line 456 "getdate.y"
-    { pc->rel_minutes += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 484 "getdate.y"
+    { pc->rel_minutes += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 57:
-#line 458 "getdate.y"
-    { pc->rel_minutes += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 486 "getdate.y"
+    { pc->rel_minutes += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 58:
-#line 460 "getdate.y"
-    { pc->rel_minutes += yyvsp[0].intval; }
+#line 488 "getdate.y"
+    { pc->rel_minutes += (yyvsp[0].intval); ;}
     break;
 
   case 59:
-#line 462 "getdate.y"
-    { pc->rel_seconds += yyvsp[-1].intval * yyvsp[0].intval; }
+#line 490 "getdate.y"
+    { pc->rel_seconds += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 60:
-#line 464 "getdate.y"
-    { pc->rel_seconds += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 492 "getdate.y"
+    { pc->rel_seconds += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 61:
-#line 466 "getdate.y"
-    { pc->rel_seconds += yyvsp[-1].textintval.value * yyvsp[0].intval; }
+#line 494 "getdate.y"
+    { pc->rel_seconds += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 62:
-#line 468 "getdate.y"
-    { pc->rel_seconds += yyvsp[-1].timespec.tv_sec * yyvsp[0].intval; pc->rel_ns += yyvsp[-1].timespec.tv_nsec * yyvsp[0].intval; }
+#line 496 "getdate.y"
+    { pc->rel_seconds += (yyvsp[-1].timespec).tv_sec * (yyvsp[0].intval); pc->rel_ns += (yyvsp[-1].timespec).tv_nsec * (yyvsp[0].intval); ;}
     break;
 
   case 63:
-#line 470 "getdate.y"
-    { pc->rel_seconds += yyvsp[-1].timespec.tv_sec * yyvsp[0].intval; pc->rel_ns += yyvsp[-1].timespec.tv_nsec * yyvsp[0].intval; }
+#line 498 "getdate.y"
+    { pc->rel_seconds += (yyvsp[-1].timespec).tv_sec * (yyvsp[0].intval); pc->rel_ns += (yyvsp[-1].timespec).tv_nsec * (yyvsp[0].intval); ;}
     break;
 
   case 64:
-#line 472 "getdate.y"
-    { pc->rel_seconds += yyvsp[0].intval; }
+#line 500 "getdate.y"
+    { pc->rel_seconds += (yyvsp[0].intval); ;}
     break;
 
   case 68:
-#line 480 "getdate.y"
-    { yyval.timespec.tv_sec = yyvsp[0].textintval.value; yyval.timespec.tv_nsec = 0; }
+#line 508 "getdate.y"
+    { (yyval.timespec).tv_sec = (yyvsp[0].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
     break;
 
   case 70:
-#line 486 "getdate.y"
-    { yyval.timespec.tv_sec = yyvsp[0].textintval.value; yyval.timespec.tv_nsec = 0; }
+#line 514 "getdate.y"
+    { (yyval.timespec).tv_sec = (yyvsp[0].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
     break;
 
   case 71:
-#line 491 "getdate.y"
+#line 519 "getdate.y"
     {
 	if (pc->dates_seen
-	    && ! pc->rels_seen && (pc->times_seen || 2 < yyvsp[0].textintval.digits))
-	  pc->year = yyvsp[0].textintval;
+	    && ! pc->rels_seen && (pc->times_seen || 2 < (yyvsp[0].textintval).digits))
+	  pc->year = (yyvsp[0].textintval);
 	else
 	  {
-	    if (4 < yyvsp[0].textintval.digits)
+	    if (4 < (yyvsp[0].textintval).digits)
 	      {
 		pc->dates_seen++;
-		pc->day = yyvsp[0].textintval.value % 100;
-		pc->month = (yyvsp[0].textintval.value / 100) % 100;
-		pc->year.value = yyvsp[0].textintval.value / 10000;
-		pc->year.digits = yyvsp[0].textintval.digits - 4;
+		pc->day = (yyvsp[0].textintval).value % 100;
+		pc->month = ((yyvsp[0].textintval).value / 100) % 100;
+		pc->year.value = (yyvsp[0].textintval).value / 10000;
+		pc->year.digits = (yyvsp[0].textintval).digits - 4;
 	      }
 	    else
 	      {
 		pc->times_seen++;
-		if (yyvsp[0].textintval.digits <= 2)
+		if ((yyvsp[0].textintval).digits <= 2)
 		  {
-		    pc->hour = yyvsp[0].textintval.value;
+		    pc->hour = (yyvsp[0].textintval).value;
 		    pc->minutes = 0;
 		  }
 		else
 		  {
-		    pc->hour = yyvsp[0].textintval.value / 100;
-		    pc->minutes = yyvsp[0].textintval.value % 100;
+		    pc->hour = (yyvsp[0].textintval).value / 100;
+		    pc->minutes = (yyvsp[0].textintval).value % 100;
 		  }
 		pc->seconds.tv_sec = 0;
 		pc->seconds.tv_nsec = 0;
 		pc->meridian = MER24;
 	      }
 	  }
-      }
+      ;}
     break;
 
   case 72:
-#line 528 "getdate.y"
-    { yyval.intval = MER24; }
+#line 556 "getdate.y"
+    { (yyval.intval) = MER24; ;}
     break;
 
   case 73:
-#line 530 "getdate.y"
-    { yyval.intval = yyvsp[0].intval; }
+#line 558 "getdate.y"
+    { (yyval.intval) = (yyvsp[0].intval); ;}
     break;
 
 
     }
 
-/* Line 999 of yacc.c.  */
-#line 1726 "getdate.c"
+/* Line 1037 of yacc.c.  */
+#line 1788 "getdate.c"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -1764,18 +1825,33 @@ yyerrlab:
 	{
 	  YYSIZE_T yysize = 0;
 	  int yytype = YYTRANSLATE (yychar);
+	  const char* yyprefix;
 	  char *yymsg;
-	  int yyx, yycount;
+	  int yyx;
 
-	  yycount = 0;
 	  /* Start YYX at -YYN if negative to avoid negative indexes in
 	     YYCHECK.  */
-	  for (yyx = yyn < 0 ? -yyn : 0;
-	       yyx < (int) (sizeof (yytname) / sizeof (char *)); yyx++)
+	  int yyxbegin = yyn < 0 ? -yyn : 0;
+
+	  /* Stay within bounds of both yycheck and yytname.  */
+	  int yychecklim = YYLAST - yyn;
+	  int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+	  int yycount = 0;
+
+	  yyprefix = ", expecting ";
+	  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
 	    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	      yysize += yystrlen (yytname[yyx]) + 15, yycount++;
-	  yysize += yystrlen ("syntax error, unexpected ") + 1;
-	  yysize += yystrlen (yytname[yytype]);
+	      {
+		yysize += yystrlen (yyprefix) + yystrlen (yytname [yyx]);
+		yycount += 1;
+		if (yycount == 5)
+		  {
+		    yysize = 0;
+		    break;
+		  }
+	      }
+	  yysize += (sizeof ("syntax error, unexpected ")
+		     + yystrlen (yytname[yytype]));
 	  yymsg = (char *) YYSTACK_ALLOC (yysize);
 	  if (yymsg != 0)
 	    {
@@ -1784,16 +1860,13 @@ yyerrlab:
 
 	      if (yycount < 5)
 		{
-		  yycount = 0;
-		  for (yyx = yyn < 0 ? -yyn : 0;
-		       yyx < (int) (sizeof (yytname) / sizeof (char *));
-		       yyx++)
+		  yyprefix = ", expecting ";
+		  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
 		    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
 		      {
-			const char *yyq = ! yycount ? ", expecting " : " or ";
-			yyp = yystpcpy (yyp, yyq);
+			yyp = yystpcpy (yyp, yyprefix);
 			yyp = yystpcpy (yyp, yytname[yyx]);
-			yycount++;
+			yyprefix = " or ";
 		      }
 		}
 	      yyerror (pc, yymsg);
@@ -1811,38 +1884,57 @@ yyerrlab:
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse lookahead token after an
+      /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
-      /* Return failure if at end of input.  */
-      if (yychar == YYEOF)
+      if (yychar <= YYEOF)
         {
-	  /* Pop the error token.  */
-          YYPOPSTACK;
-	  /* Pop the rest of the stack.  */
-	  while (yyss < yyssp)
-	    {
-	      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-	      yydestruct (yystos[*yyssp], yyvsp);
-	      YYPOPSTACK;
-	    }
-	  YYABORT;
+          /* If at end of input, pop the error token,
+	     then the rest of the stack, then return failure.  */
+	  if (yychar == YYEOF)
+	     for (;;)
+	       {
+
+		 YYPOPSTACK;
+		 if (yyssp == yyss)
+		   YYABORT;
+		 yydestruct ("Error: popping",
+                             yystos[*yyssp], yyvsp);
+	       }
         }
-
-      YYDSYMPRINTF ("Error: discarding", yytoken, &yylval, &yylloc);
-      yydestruct (yytoken, &yylval);
-      yychar = YYEMPTY;
-
+      else
+	{
+	  yydestruct ("Error: discarding", yytoken, &yylval);
+	  yychar = YYEMPTY;
+	}
     }
 
-  /* Else will try to reuse lookahead token after shifting the error
+  /* Else will try to reuse look-ahead token after shifting the error
      token.  */
   goto yyerrlab1;
 
 
-/*----------------------------------------------------.
-| yyerrlab1 -- error raised explicitly by an action.  |
-`----------------------------------------------------*/
+/*---------------------------------------------------.
+| yyerrorlab -- error raised explicitly by YYERROR.  |
+`---------------------------------------------------*/
+yyerrorlab:
+
+#ifdef __GNUC__
+  /* Pacify GCC when the user code never invokes YYERROR and the label
+     yyerrorlab therefore never appears in user code.  */
+  if (0)
+     goto yyerrorlab;
+#endif
+
+yyvsp -= yylen;
+  yyssp -= yylen;
+  yystate = *yyssp;
+  goto yyerrlab1;
+
+
+/*-------------------------------------------------------------.
+| yyerrlab1 -- common code for both syntax error and YYERROR.  |
+`-------------------------------------------------------------*/
 yyerrlab1:
   yyerrstatus = 3;	/* Each real token shifted decrements this.  */
 
@@ -1864,21 +1956,21 @@ yyerrlab1:
       if (yyssp == yyss)
 	YYABORT;
 
-      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-      yydestruct (yystos[yystate], yyvsp);
-      yyvsp--;
-      yystate = *--yyssp;
 
+      yydestruct ("Error: popping", yystos[yystate], yyvsp);
+      YYPOPSTACK;
+      yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
     }
 
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  YYDPRINTF ((stderr, "Shifting error token, "));
-
   *++yyvsp = yylval;
 
+
+  /* Shift the error token. */
+  YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
@@ -1895,6 +1987,9 @@ yyacceptlab:
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
+  yydestruct ("Error: discarding lookahead",
+              yytoken, &yylval);
+  yychar = YYEMPTY;
   yyresult = 1;
   goto yyreturn;
 
@@ -1917,7 +2012,7 @@ yyreturn:
 }
 
 
-#line 533 "getdate.y"
+#line 561 "getdate.y"
 
 
 static table const meridian_table[] =
@@ -2681,7 +2776,8 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 			  + sizeof pc.time_zone * CHAR_BIT / 3];
 	      if (!tz_was_altered)
 		tz0 = get_tz (tz0buf);
-	      sprintf (tz1buf, "XXX%s%ld:%02d", "-" + (time_zone < 0),
+	      snprintf (tz1buf, sizeof(tz1buf),
+		       "XXX%s%ld:%02d", "-" + (time_zone < 0),
 		       abs_time_zone_hour, abs_time_zone_min);
 	      if (setenv ("TZ", tz1buf, 1) != 0)
 		goto fail;
@@ -2779,7 +2875,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
   ok = false;
  done:
   if (tz_was_altered)
-    ok &= (tz0 ? setenv ("TZ", tz0, 1) : unsetenv ("TZ")) == 0;
+    ok &= (tz0 ? setenv ("TZ", tz0, 1) : (unsetenv ("TZ"), 0)) == 0;
   if (tz0 != tz0buf)
     free (tz0);
   return ok;
@@ -2811,7 +2907,7 @@ main (int ac, char **av)
 	{
 	  int ns = d.tv_nsec;
 	  printf ("%04ld-%02d-%02d %02d:%02d:%02d.%09d\n",
-		  tm->tm_year + 1900L, tm->tm_mon + 1, tm->tm_mday,
+		  (long)tm->tm_year + 1900L, tm->tm_mon + 1, tm->tm_mday,
 		  tm->tm_hour, tm->tm_min, tm->tm_sec, ns);
 	}
       printf ("\t> ");
