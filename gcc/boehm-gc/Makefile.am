@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/boehm-gc/Makefile.am,v 1.2 2005/03/25 20:24:58 tg Exp $
 #
 ## Process this file with automake to produce Makefile.in.
 
@@ -31,9 +31,7 @@ backgraph.c \
 pthread_support.c pthread_stop_world.c \
 $(asm_libgc_sources)
 
-EXTRA_GC_SOURCES = alpha_mach_dep.S \
-rs6000_mach_dep.s sparc_mach_dep.S sparc_netbsd_mach_dep.s \
-sparc_sunos4_mach_dep.s
+EXTRA_GC_SOURCES = rs6000_mach_dep.s sparc_netbsd_mach_dep.s
 
 libgcjgc_la_SOURCES = $(GC_SOURCES)
 libgcjgc_convenience_la_SOURCES = $(GC_SOURCES)

@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -73,8 +73,11 @@ CXXCPP = @CXXCPP@
 CXXFLAGS = @CXXFLAGS@
 CXXINCLUDES = @CXXINCLUDES@
 DLLTOOL = @DLLTOOL@
+ECHO = @ECHO@
+EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 EXTRA_TEST_LIBS = @EXTRA_TEST_LIBS@
+F77 = @F77@
 GCJ = @GCJ@
 GCJFLAGS = @GCJFLAGS@
 GC_CFLAGS = @GC_CFLAGS@
@@ -88,6 +91,7 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+RC = @RC@
 STRIP = @STRIP@
 THREADLIBS = @THREADLIBS@
 VERSION = @VERSION@
@@ -103,8 +107,7 @@ toolexeclibdir = @toolexeclibdir@
 
 AUTOMAKE_OPTIONS = foreign
 
-noinst_HEADERS = gc.h gc_backptr.h gc_local_alloc.h \
-  gc_pthread_redirects.h gc_cpp.h
+noinst_HEADERS = gc.h gc_backptr.h gc_local_alloc.h   gc_pthread_redirects.h gc_cpp.h
 
 CONFIG_CLEAN_FILES = 
 HEADERS =  $(noinst_HEADERS)
@@ -114,7 +117,7 @@ DIST_COMMON =  Makefile.am Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
@@ -186,7 +189,7 @@ install-exec: install-exec-am
 install-data-am:
 install-data: install-data-am
 
-install-am: all-am
+install-am:
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
 uninstall-am:
