@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.36 2005/03/26 01:20:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.37 2005/03/26 01:24:19 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2671,4 +2671,14 @@
  <a href="/?anargeek">this page</a> and <a href="/pics/anargeek.svg">image
  (SVG)</a> I drafted. Let's look what he's got to add.<br />I've installed
  greylisting on the MXes (thor and loki) and miss my spam now ;-)</p>
+<p>27.03.2005 by tg@<br />If I could kill... well, if I cannot get C++ for
+ us, I will at least try to get Pascal working. But without docs, I am not
+ going to rewrite 80% of the Makefile to prevent it from placing generated
+ files into the source directory. Besides, the gpc docs are online I think
+ (and I could always add them later, differently). Lynx is back and Master
+ Dickey is helping me to get a current version. I will try if updating the
+ binutils stuff can help C++ (and we didn't start with gdb anyway).<br />I
+ have missed DST getting in effect today again &ndash; can't just everyone
+ use UTC? It's hard for me too to go to bed at 20:00 and wake up at 03:50,
+ but if I can do it...</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
