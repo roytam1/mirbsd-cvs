@@ -1,9 +1,9 @@
-# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.bsd-wrapper,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.bsd-wrapper,v 1.2 2005/03/28 21:58:08 tg Exp $
 
 .include "../Makefile.inc"
 
 FSFSRC=		${GNU_BINUTILS_OPC}
-SHLIB_VERSION?=	2.1
+SHLIB_VERSION?=	3.0
 XARGS+=		libopcodes_la_LDFLAGS="-version-info ${SHLIB_VERSION:S/./:/}"
 CLEANFILES+=	_gplwarn.c ia64-asmtab.c ia64-gen s390-mkopc s390-opc.tab
 
