@@ -1,9 +1,10 @@
 divert(-1)#                                                  -*- Autoconf -*-
 # This file is part of Autoconf.
-# $MirOS: contrib/gnu/libtool/m4sugar.m4,v 1.2 2005/02/09 23:42:07 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.1 2005/02/10 19:34:36 tg Exp $
 # Base M4 layer.
-# Requires GNU M4.
-# Copyright 1999, 2000, 2001 Free Software Foundation, Inc.
+# Hacked for MirOS m4.
+# Copyright 1999, 2000, 2001, 2005
+# Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -128,7 +129,9 @@ m4_rename_m4([divnum])
 m4_rename_m4([dumpdef])
 m4_rename_m4([errprint])
 m4_rename_m4([esyscmd])
-m4_rename_m4([eval])
+
+m4_define([m4_eval], [builtin([expr], $@)])
+
 m4_rename_m4([format])
 m4_rename_m4([ifdef])
 m4_rename([ifelse], [m4_if])
@@ -144,7 +147,9 @@ m4_rename_m4([patsubst])
 m4_undefine([popdef])
 m4_rename_m4([pushdef])
 m4_rename_m4([regexp])
-m4_rename_m4([shift])
+
+m4_define([m4_shift], [builtin([shift], $@)])
+
 m4_rename_m4([sinclude])
 m4_rename_m4([substr])
 m4_rename_m4([symbols])
