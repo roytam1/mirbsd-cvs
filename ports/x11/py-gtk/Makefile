@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
 
 NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}

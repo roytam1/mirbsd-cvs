@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2002/10/25 22:37:52 naddy Exp $
 
 COMMENT=	"java foundation classes (jfc)/swing"
@@ -13,7 +14,7 @@ EXTRACT_SUFX=	.zip
 
 HOMEPAGE=	http://java.sun.com/products/jfc/
 
-RUN_DEPENDS=	::devel/jdk/1.1
+RUN_DEPENDS=	::lang/jdk/1.1
 
 
 PERMIT_PACKAGE_CDROM=   No

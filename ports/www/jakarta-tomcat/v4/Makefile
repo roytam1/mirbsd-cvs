@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2004/01/03 13:36:03 sturm Exp $
 
 COMMENT=	"Java servlet 2.3 and Java server pages 1.2 server"
@@ -15,7 +16,7 @@ HOMEPAGE=	http://jakarta.apache.org/
 JDK_VERSION=	1.3.1-linux
 JAVA_HOME=	${LOCALBASE}/jdk${JDK_VERSION}
 BUILD_DEPENDS=	::archivers/gtar
-RUN_DEPENDS=	:jdk-linux->1.3:devel/jdk/1.3-linux
+RUN_DEPENDS=	:jdk-linux->1.3:lang/jdk/1.3-linux
 
 # Apache Software License
 PERMIT_PACKAGE_CDROM=	Yes

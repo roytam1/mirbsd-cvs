@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-BUILD_DEPENDS=		nasm::devel/nasm
+BUILD_DEPENDS=		nasm::lang/nasm
 LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl \
 			png.2::graphics/png
 

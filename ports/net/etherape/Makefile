@@ -23,8 +23,8 @@ CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include" \
 MAKE_ENV+=		LIBTOOL="${LOCALBASE}/bin/libtool"
 
 BUILD_DEPENDS=		:pkgconfig->=0.9.0:devel/pkgconfig
-LIB_DEPENDS=		gtk-x11-2.0.0.11::x11/gtk+2 \
-			glade-2.0.0.1::devel/libglade2 \
+LIB_DEPENDS=		gtk-x11-2.0.0.11::x11/gtk+ \
+			glade-2.0.0.1::devel/libglade \
 			gnomeui-2::x11/gnome/libgnomeui
 
 USE_CXX=		Yes

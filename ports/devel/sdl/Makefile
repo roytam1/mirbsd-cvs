@@ -35,7 +35,7 @@ FLAVORS=	sun esd arts aa caca no_x11 no_cxx
 FLAVOR?=	sun no_cxx
 
 .if ${MACHINE_ARCH} == "i386"
-BUILD_DEPENDS=	nasm::devel/nasm
+BUILD_DEPENDS=	nasm::lang/nasm
 CONFIGURE_ARGS+= --enable-nasm
 .else
 CONFIGURE_ARGS+= --disable-nasm

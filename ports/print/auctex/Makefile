@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 01:41:12 pvalchev Exp $
 
 COMMENT=	"extensible emacs interface for TeX"
@@ -17,7 +18,7 @@ MASTER_SITES=	${MASTER_SITE_GNU:=auctex/11.14/}
 
 FAKE_FLAGS=	lispdir=${DESTDIR}/${PREFIX}/share/emacs/site-lisp
 
-BUILD_DEPENDS=	:emacs-21.*:editors/emacs21
+BUILD_DEPENDS=	:emacs-21.*:editors/emacs
 RUN_DEPENDS=	${BUILD_DEPENDS} \
 		:teTeX_base-*:print/teTeX/base
 

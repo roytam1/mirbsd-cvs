@@ -52,7 +52,7 @@ PHPXS_SUBST+=	-e 's,${i},${${i}},'
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
 PREFIX=		${CHROOT_DIR}
-RUN_DEPENDS=	:php5-core-${V}${PV}:www/php5/core
+RUN_DEPENDS=	:php5-core-${V}${PV}:www/php/core
 MODULES=
 .else
 LIB_DEPENDS+=	xml2.8::textproc/libxml

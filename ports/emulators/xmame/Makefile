@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.10 2003/10/11 01:37:55 brad Exp $
 
 COMMENT=	"emulates arcade machines and old home computers"
@@ -124,7 +125,7 @@ DOCS=	changes.mame changes.mess changes.opengl changes.unix credits.mess \
 	xmame-gdoc-7.html xmame-gdoc-8.html xmame-gdoc.html xmame.css
 
 .if   ${MACHINE_ARCH} == "i386"
-BUILD_DEPENDS+=	nasm::devel/nasm
+BUILD_DEPENDS+=	nasm::lang/nasm
 MAKE_FLAGS+=	MY_CPU=i386 \
 		X86_ASM_68000=1 \
 		NASM_FMT="-f elf" \

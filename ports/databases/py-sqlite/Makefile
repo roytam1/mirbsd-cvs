@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2004/03/03 02:41:49 djm Exp $
 
 NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
@@ -19,7 +20,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
-LIB_DEPENDS+=	sqlite::databases/sqlite
+LIB_DEPENDS+=	sqlite::databases/sqlite2
 
 MODULES=	lang/python
 

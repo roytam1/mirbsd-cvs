@@ -22,8 +22,8 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
-LIB_DEPENDS=		gconf-2::devel/gconf2 \
-			glade-2.0.0.0::devel/libglade2 \
+LIB_DEPENDS=		gconf-2::devel/gconf \
+			glade-2.0.0.0::devel/libglade \
 			startup-notification-1::devel/startup-notification
 
 SEPARATE_BUILD=		concurrent

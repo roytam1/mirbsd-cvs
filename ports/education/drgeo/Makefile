@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 12:31:02 espie Exp $
 
 COMMENT=	"interactive geometry program"
@@ -21,7 +22,7 @@ MODULES=	devel/gettext
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	xml2.6::textproc/libxml \
-		glade-2.0.0.0::devel/libglade2 \
+		glade-2.0.0.0::devel/libglade \
 		guile::lang/guile
 
 

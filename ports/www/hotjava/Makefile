@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.16 2002/10/29 01:30:41 naddy Exp $
 # $FreeBSD: ports/www/hotjava/Makefile,v 1.4 2000/02/16 00:19:45 mharo Exp $
 
@@ -15,8 +16,8 @@ EXTRACT_CASES=*.sfx) uudecode ${FULLDISTDIR}/$$archive;;
 
 HOMEPAGE=	http://java.sun.com/products/hotjava/
 
-BUILD_DEPENDS=	::devel/jdk/1.1
-RUN_DEPENDS=	::devel/jdk/1.1
+BUILD_DEPENDS=	::lang/jdk/1.1
+RUN_DEPENDS=	::lang/jdk/1.1
 
 
 PERMIT_PACKAGE_CDROM=	No

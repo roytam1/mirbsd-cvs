@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.19 2003/11/15 15:12:55 sturm Exp $
 
 COMMENT=	"xml parser for Java"
@@ -23,7 +24,7 @@ MASTER_SITES=	http://xml.apache.org/dist/xerces-j/
 TAR?=		gtar
 
 BUILD_DEPENDS=	:gtar-*:archivers/gtar 
-RUN_DEPENDS=    ::devel/jdk/1.3-linux
+RUN_DEPENDS=    ::lang/jdk/1.3-linux
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

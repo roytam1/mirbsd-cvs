@@ -24,7 +24,7 @@ DISTFILES=		pp4sty.zip pp4p.jar manual.pdf leveldemo.zip
 DIST_SUBDIR=		${DISTNAME}
 
 BUILD_DEPENDS=		::print/teTeX/base
-RUN_DEPENDS=		::devel/jdk/1.3-linux \
+RUN_DEPENDS=		::lang/jdk/1.3-linux \
 			::print/teTeX/base
 
 USE_X11=		Yes

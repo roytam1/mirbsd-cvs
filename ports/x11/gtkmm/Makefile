@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:19 sturm Exp $
 
 COMMENT=		"C++ interface for gtk+"
@@ -23,15 +24,16 @@ MULTI_PACKAGES=		-docs
 SUBPACKAGE?=
 
 .if ${SUBPACKAGE} != "-docs"
-BUILD_DEPENDS=		:m4->=1.4:devel/m4
+BUILD_DEPENDS=		:m4->=1.4:lang/m4
 LIB_DEPENDS=		sigc.0::devel/libsigc++ \
-			gdk.1,gtk.1::x11/gtk+
+			gdk.1,gtk.1::x11/gtk+1
 .endif
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
 PKG_ARCH=		*
 .endif
 
 SEPARATE_BUILD=		concurrent
+USE_CXX=		Yes
 USE_X11=		Yes
 NO_REGRESS=		Yes
 USE_GMAKE=		Yes

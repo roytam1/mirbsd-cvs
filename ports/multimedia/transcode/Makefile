@@ -25,7 +25,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 .if ${MACHINE} == "i386"
-BUILD_DEPENDS+=		::devel/nasm
+BUILD_DEPENDS+=		::lang/nasm
 SED_PLIST+=		|sed -e '/^%%i386%%/r${PKGDIR}/PFRAG.i386' -e '//d'
 .else
 SED_PLIST+=		|sed -e '/^%%i386%%/d'

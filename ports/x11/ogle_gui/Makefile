@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2004/04/02 19:07:05 sturm Exp $
 
 CATEGORIES=	x11
@@ -24,12 +25,12 @@ FLAVORS=gtk1
 FLAVOR?=
 
 .if ${FLAVOR:L} == "gtk1"
-LIB_DEPENDS+= 	glade.5.0::devel/libglade \
-		gtk.1.2::x11/gtk+
+LIB_DEPENDS+= 	glade.5.0::devel/libglade0 \
+		gtk.1.2::x11/gtk+1
 .else
 BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS+=	glade-2.0.0.0::devel/libglade2 \
-		gtk-x11-2.0.0.0::x11/gtk+2
+LIB_DEPENDS+=	glade-2.0.0.0::devel/libglade \
+		gtk-x11-2.0.0.0::x11/gtk+
 CONFIGURE_ARGS+=--enable-gtk2
 .endif
 

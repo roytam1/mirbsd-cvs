@@ -21,7 +21,7 @@ PERMIT_DISTFILES_FTP=  Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=junit/}
 EXTRACT_SUFX=	.zip 
 
-RUN_DEPENDS=	:jdk-linux->1.3:devel/jdk/1.3-linux
+RUN_DEPENDS=	:jdk-linux->1.3:lang/jdk/1.3-linux
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

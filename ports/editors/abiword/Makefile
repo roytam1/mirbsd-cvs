@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/abiword/Makefile,v 1.2 2005/03/20 16:46:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/10 22:51:14 couderc Exp $
 
 COMMENT=		"open-source, cross-platform WYSIWYG word processor"
@@ -11,8 +11,8 @@ MODULES=		devel/gettext
 BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
 LIB_DEPENDS=		fribidi::devel/fribidi \
 			gthread-2.0.0.0::devel/glib \
-			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
-			glade-2.0.0.0::devel/libglade2 \
+			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
+			glade-2.0.0.0::devel/libglade \
 			popt::devel/popt
 
 # GPL

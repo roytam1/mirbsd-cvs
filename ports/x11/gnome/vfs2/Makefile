@@ -17,7 +17,7 @@ MODULES=		devel/gettext
 LIB_DEPENDS=		bonobo-2,bonobo-activation::x11/gnome/libbonobo \
 			bz2::archivers/bzip2 \
 			cdda_paranoia,cdda_interface::audio/cdparanoia \
-			gconf-2::devel/gconf2
+			gconf-2::devel/gconf
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser \

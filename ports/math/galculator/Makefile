@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2004/05/27 20:10:19 naddy Exp $
 
 COMMENT=	"GTK2-based scientific calculator"
@@ -15,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=galculator/}
 
-LIB_DEPENDS=	glade-2.0.=0::devel/libglade2
+LIB_DEPENDS=	glade-2.0.0.0::devel/libglade
 BUILD_DEPENDS=	::textproc/intltool
 
 SEPARATE_BUILD=	simple

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2003/10/08 01:25:43 marcm Exp $
 
 COMMENT=		"dialogs for Gnome"
@@ -21,7 +22,7 @@ BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
 			:intltool-*:textproc/intltool \
 			:scrollkeeper-*:textproc/scrollkeeper
 
-LIB_DEPENDS=		gconf-2::devel/gconf2 \
+LIB_DEPENDS=		gconf-2::devel/gconf \
 			gnomecanvas-2::x11/gnome/libgnomecanvas \
 
 USE_GMAKE=		Yes

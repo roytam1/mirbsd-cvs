@@ -1,4 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/02/04 07:39:18 sturm Exp $
+
+BROKEN=			needs update to GNOME 2
 
 COMMENT=		"integrated email and PIM software for GNOME"
 COMMENT-devguide=	"Evolution Developer's Guide"

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2004/03/31 06:08:36 kevlo Exp $
 
 COMMENT=	"encrypt and decrypt AES files and streams"
@@ -18,11 +19,11 @@ MASTER_SITES=	${HOMEPAGE}/download/ \
 
 CONFIGURE_STYLE= gnu
 
-FLAVORS=	emacs21
+FLAVORS=	emacs
 FLAVOR?=
 
 .if ${FLAVOR:L:Memacs21}
-BUILD_DEPENDS=	:emacs-21.*:editors/emacs21
+BUILD_DEPENDS=	:emacs-21.*:editors/emacs
 .endif
 
 .include <bsd.port.mk>

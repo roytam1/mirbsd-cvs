@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2003/03/03 00:51:37 pvalchev Exp $
 
 COMMENT=	"Streamlined replacement for make"
@@ -11,7 +12,7 @@ EXTRACT_SUFX=	.tgz
 
 BUILD_DEPENDS=	fmt::devel/libfmt \
 		bio::devel/libbio \
-		regexp9::devel/libregexp9
+		regexp9::plan9/libregexp9
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

@@ -29,7 +29,7 @@ BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig \
 RUN_DEPENDS=		:scrollkeeper-*:textproc/scrollkeeper
 LIB_DEPENDS=		panel-applet-2.0::x11/gnome/panel \
 			gailutil.17::x11/gnome/gail \
-			gtop-2.0.4.0::devel/libgtop2 \
+			gtop-2.0.4.0::devel/libgtop \
 			xklavier.8::x11/libxklavier1
 
 FLAVOR?=

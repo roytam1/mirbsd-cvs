@@ -18,7 +18,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-nls --disable-yacc
 
-BUILD_DEPENDS+=		:m4->=1.4.2:devel/m4
-RUN_DEPENDS+=		:m4->=1.4.2:devel/m4
+BUILD_DEPENDS+=		:m4->=1.4.2:lang/m4
+RUN_DEPENDS+=		:m4->=1.4.2:lang/m4
 
 .include <bsd.port.mk>

@@ -1,5 +1,8 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2003/07/12 06:27:12 marcm Exp $
 # $RuOBSD: Makefile,v 1.9 2002/10/28 16:01:41 grange Exp $
+
+BROKEN=			needs updating to GNOME 2
 
 COMMENT=		"GNOME jabber client"
 
@@ -17,7 +20,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gabber/}
 
-LIB_DEPENDS=		sigc.0::devel/libsigc++ gal.19::devel/gal \
+LIB_DEPENDS=		sigc.0::devel/libsigc++ gal.19::devel/gal0 \
 			gnomemm.9::x11/gnomemm \
 			glade.5,glade-gnome.5::devel/libglade,gnome \
 			gnomeprint.16::x11/gnome/print

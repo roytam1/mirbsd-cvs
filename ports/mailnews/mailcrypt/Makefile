@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2004/02/21 00:59:01 pvalchev Exp $
 
 COMMENT=	"emacs interface to PGP and GnuPG"
@@ -18,7 +19,7 @@ CONFIGURE_STYLE= gnu dest
 FLAVORS=	gnupg pgp pgp5 
 FLAVOR?=	gnupg
 
-BUILD_DEPENDS=	:emacs-21.*:editors/emacs21
+BUILD_DEPENDS=	:emacs-21.*:editors/emacs
 
 .if ${FLAVOR:L:Mgnupg}
 RUN_DEPENDS=	:gnupg-*:security/gnupg

@@ -20,7 +20,7 @@ MODULES=	converters/libiconv
 LIB_DEPENDS=	ogg.4::audio/libogg
 
 .if ${MACHINE_ARCH} == "i386"
-BUILD_DEPENDS+=	::devel/nasm
+BUILD_DEPENDS+=	::lang/nasm
 .endif
 
 USE_CXX=	Yes

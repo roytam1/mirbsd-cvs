@@ -13,7 +13,7 @@ PREFIX?=		${CHROOT_DIR}
 FLAVORS=		no_x11
 FLAVOR?=
 
-RUN_DEPENDS=		:php5-core-${V}${PV}:www/php5/core
+RUN_DEPENDS=		:php5-core-${V}${PV}:www/php/core
 .if !defined(PACKAGING)
 MODULES=		devel/gettext
 .endif
@@ -253,7 +253,7 @@ MULTI_PACKAGES+=	-sqlite
 COMMENT-sqlite=		"sqlite database access extensions for php5"
 # do NOT enable utf8 mode here, it's broken
 CONFIGURE_ARGS+=	--with-sqlite=shared,${LOCALBASE} --disable-sqlite-utf8
-SQLITE_DEPENDS=		sqlite.8::databases/sqlite
+SQLITE_DEPENDS=		sqlite.8::databases/sqlite2
 .endif
 
 # sybase-ct

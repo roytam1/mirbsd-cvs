@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/py-gtk1/Makefile,v 1.2 2005/03/20 16:56:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/18 20:05:12 xsa Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -56,7 +56,7 @@ BROKEN=		"needs update to newer Gnome"
 PATCH_STRIP=  -p1
 PATCH_LIST=   patch-pygtk_configure
 
-LIB_DEPENDS+= glade.4::devel/libglade
+LIB_DEPENDS+= glade.4::devel/libglade0
 WRKDIST=      ${WRKDIR}/${DISTNAME}/pygtk
 .endif
 

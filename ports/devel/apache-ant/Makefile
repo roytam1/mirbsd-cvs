@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/03 13:40:03 sturm Exp $
 
 ONLY_FOR_ARCHS= i386
@@ -22,7 +23,7 @@ MASTER_SITES=	${MASTER_SITE_APACHE:=ant/binaries/} \
 EXTRACT_SUFX=	-bin.tar.gz
 
 BUILD_DEPENDS=	::archivers/gtar
-RUN_DEPENDS=	:jdk*->=1.2:devel/jdk/1.3-linux
+RUN_DEPENDS=	:jdk*->=1.2:lang/jdk/1.3-linux
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

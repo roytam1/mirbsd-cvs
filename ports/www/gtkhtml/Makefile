@@ -1,4 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2003/04/10 15:55:48 marcm Exp $
+
+BROKEN=			needs update to GNOME 2
 
 COMMENT=		"lightweight HTML rendering/printing/editing engine"
 

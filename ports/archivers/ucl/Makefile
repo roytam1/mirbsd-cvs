@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2003/05/24 02:40:42 jolan Exp $
 
 COMMENT=	"portable lossless data compression library"
@@ -17,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${HOMEPAGE}/download/
 
 .if ${MACHINE_ARCH} == "i386"
-BUILD_DEPENDS=	:nasm-*:devel/nasm
+BUILD_DEPENDS=	:nasm-*:lang/nasm
 .endif
 
 CONFIGURE_STYLE=	gnu
