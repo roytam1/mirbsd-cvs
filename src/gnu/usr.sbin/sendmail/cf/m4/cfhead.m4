@@ -1,3 +1,5 @@
+# $Id$
+# $MirOS$
 #
 # Copyright (c) 1998-2004 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
@@ -202,7 +204,7 @@ define(`SITE', `ifelse(CONCAT($'2`, $3), SU,
 sinclude(_CF_DIR_`'siteconfig/$1.m4)')
 define(`EXPOSED_USER', `PUSHDIVERT(5)C{E}$1
 POPDIVERT`'dnl`'')
-define(`EXPOSED_USER_FILE', `PUSHDIVERT(5)F{E}$1 
+define(`EXPOSED_USER_FILE', `PUSHDIVERT(5)F{E}$1
 POPDIVERT`'dnl`'')
 define(`LOCAL_USER', `PUSHDIVERT(5)C{L}$1
 POPDIVERT`'dnl`'')

@@ -18,6 +18,7 @@ SM_IDSTR(copyright,
      Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n")
 
+SM_RCSID("$MirOS$");
 SM_IDSTR(id, "@(#)$Sendmail: mail.local.c,v 8.253 2004/11/01 20:42:42 ca Exp $")
 
 #include <stdlib.h>
@@ -138,7 +139,7 @@ off_t	HeaderLength;
 off_t	BodyLength;
 #endif /* CONTENTLENGTH */
 
-bool	EightBitMime = true;		/* advertise 8BITMIME in LMTP */
+bool	EightBitMime = false;		/* advertise 8BITMIME in LMTP */
 char	ErrBuf[10240];			/* error buffer */
 int	ExitVal = EX_OK;		/* sysexits.h error value. */
 bool	HoldErrs = false;		/* Hold errors in ErrBuf */
@@ -223,15 +224,19 @@ main(argc, argv)
 		sm_exit(EX_CONFIG);
 	}
 #if HASHSPOOL
-	while ((ch = getopt(argc, argv, "7bdD:f:h:r:lH:p:n")) != -1)
+	while ((ch = getopt(argc, argv, "78bdD:f:h:r:lH:p:n")) != -1)
 #else /* HASHSPOOL */
-	while ((ch = getopt(argc, argv, "7bdD:f:h:r:l")) != -1)
+	while ((ch = getopt(argc, argv, "78bdD:f:h:r:l")) != -1)
 #endif /* HASHSPOOL */
 	{
 		switch(ch)
 		{
 		  case '7':		/* Do not advertise 8BITMIME */
 			EightBitMime = false;
+			break;
+
+		  case '8':		/* Do advertise 8BITMIME */
+			EightBitMime = true;
 			break;
 
 		  case 'b':		/* bounce mail when over quota. */
@@ -1029,7 +1034,7 @@ deliver(fd, name)
 
 	if (HomeMailFile == NULL)
 	{
-		if (sm_strlcpyn(path, sizeof(path), 
+		if (sm_strlcpyn(path, sizeof(path),
 #if HASHSPOOL
 				4,
 #else /* HASHSPOOL */

@@ -3735,6 +3735,7 @@ resetlimits()
 
 	lim.rlim_cur = lim.rlim_max = RLIM_INFINITY;
 	(void) setrlimit(RLIMIT_CPU, &lim);
+	(void) setrlimit(RLIMIT_TIME, &lim);
 	(void) setrlimit(RLIMIT_FSIZE, &lim);
 # ifdef RLIMIT_NOFILE
 	lim.rlim_cur = lim.rlim_max = FD_SETSIZE;
@@ -6275,4 +6276,3 @@ char	*FFRCompileOptions[] =
 #endif /* _FFR_USE_SETLOGIN */
 	NULL
 };
-

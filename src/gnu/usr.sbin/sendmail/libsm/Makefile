@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.5 2004/12/16 00:21:30 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.5 2004/12/16 00:21:30 millert Exp $
 
 LIB=	sm
 SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \
@@ -13,7 +14,6 @@ SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \
 ENVDEF=	-DNOT_SENDMAIL
 
 # This is not a library that gets installed so only build the .a version
-NOPROFILE=1
-NOPIC=1
+NOPIC=	yes
 
 .include <bsd.lib.mk>
