@@ -1,31 +1,31 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.7 2005/03/13 21:19:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.8 2005/03/16 23:55:51 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
-<h3>Software Patent Issues</h3>
-<p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
- parties protesting against software, algorithm and even data structure
- patentability in the European Union!</p>
-<p>They have failed. <a href="http://demo.ffii.org/cons0503/"><img
- src="http://demo.ffii.org/cons0503/banners/Banner1-400x90.jpg"
- alt="No Banana Union, No Software Patents!" /></a></p>
+<h2>Software Patent Issues</h2>
+<p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
+ structure and business model patentability and jointly protests against
+ the European Union trying to legalise them. But we have failed so far,
+ and what happens next, nobody knows. We can only say for sure that the
+ EU <em>as well</em> as every single country which joined the European
+ Patent Convention, including Switzerland etc., is <strong>not</strong>
+ a democracy. Our German developers are deeply ashamed that our executive
+ leadership willingly ignores the mandate from the legislative to stop
+ the new EU directive.</p>
 <p class="erecta">More information at <a href="http://swpat.ffii.org/">FFII
  website</a>.</p>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
- website isn't always up to date. It's optimized for lynx and works in
- Konqueror; IE and Mozilla&trade;-crap do have problems with it.<br />New:
- <a href="/?style">the Stylesheet selector</a> to improve readability.</p>
+ website isn't always up to date. It's optimised for lynx and works well in
+ Konqueror; IE and Mozilla&trade;-crap have certain problems with it.</p>
 <p><big>Where to go next?</big><br />If you want to read about what MirOS
  actually <b>is</b>, visit the &quot;about&quot; href (hyperlink) on the
- left side. &quot;get MirOS!&quot; should be self-explanatory, and files
+ left side. &quot;Download&quot; should be self-explanatory, and files
  are available as well as a full ISO image!</p>
 <p><big>We're looking</big> for people wanting to ensure quality of MirPorts
- under MirOS BSD and OpenBSD. If you're interested and have &gt;1
+ under MirOS BSD, OpenBSD and Mac OSX. If you're interested and have &gt;1
  year of experience with the OpenBSD Ports Tree, and are not scared of
  &lt;bsd.port.mk&gt;; please contact us. We also <big>need web site
  hackers</big> who keep track of source changes.</p>
 <h3>News</h3>
-<p>If you're coming from <tt>bsdforen.de</tt>, one of the worst pro-BSD
- websites I've seen, read <a href="/?wlog-7#rantbsdforen20050115">this</a>.</p>
 <p>Attention: All announcements from the MirOS team are <a
  href="/cvs.cgi/contrib/samples/devel-keys">cryptographically
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
@@ -52,10 +52,8 @@
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;get MirOS!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
+<p><a href="/MirOS/CVS/cvsrepo-20050318.cgz">CVSREPO</a>: March 18th, 2005:
+ seed file (130 MB) for reducing the initial transfer costs. We would like
+ to offer CTM; it's available on request but nobody uses it.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
- new seed file (325 MB) available to reduce the initial amount of traffic
- required for mirroring /ocvs by rsync.</p>
-<!-- CTM is available on request, we'd
- like to do it but nobody uses it. -->
-<p><a href="/MirOS/CVS/cvsrepo-20050123.cgz">CVSREPO</a>: January 7th, 2005:
- seed file (168 MB) for peeking into ncvs 1. Now deprecated.</p>
+ final and complete seed file (325 MB) for the historic old repository.</p>

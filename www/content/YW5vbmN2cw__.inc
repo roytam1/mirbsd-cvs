@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.3 2005/03/16 23:55:51 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -30,8 +30,8 @@
  href="/MirOS/CVS/cvsroot-20050316.cgz">recent (2005-03-16) snapshot</a>
  tarball (<a href="/MirOS/CVS/cvsroot-20050316.cgz.asc">PGP signature</a>)
  of the old CVS repository, or one from <a
- href="/MirOS/CVS/cvsrepo-20050123.cgz">2005-01-23</a> (<a
- href="/MirOS/CVS/cvsrepo-20050123.cgz.asc">PGP signature</a>) for the new
+ href="/MirOS/CVS/cvsrepo-20050318.cgz">2005-03-18</a> (<a
+ href="/MirOS/CVS/cvsrepo-20050318.cgz.asc">PGP signature</a>) for the new
  CVS repository, as a base for rsync use in order to speed up the initial
  synchronisation and reduce load and traffic on the servers.</p>
 <pre>nice /usr/local/bin/rsync --delete -rxlztpg \
