@@ -6,11 +6,13 @@
 
 # Set `LocalKeyword' to specify a local alias for a standard keyword.
 #LocalKeyword=MYCVS=CVSHeader
+LocalKeyword=MirOS=CVSHeader
 
 # Set `KeywordExpand' to `i' followed by a list of keywords to expand or
 # `e' followed by a list of keywords to not expand.
 #KeywordExpand=iMYCVS,Name,Date
 #KeywordExpand=eCVSHeader
+KeywordExpand=iMirOS
 
 # Set `TopLevelAdmin' to `yes' to create a CVS directory at the top
 # level of the new working directory when using the `cvs checkout'
