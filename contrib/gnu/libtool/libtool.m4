@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.6 2005/02/10 20:17:01 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.8 2005/02/10 20:29:08 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -322,12 +322,28 @@ AC_DIVERT_POP
 ])# _LT_AC_SHELL_INIT
 
 
+# _LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
+# ---------------------------------
+AC_DEFUN([_LT_AC_LIBTOOL_SYS_PATH_SEPARATOR],
+[# Find the correct PATH separator.  Usually this is `:', but
+# DJGPP uses `;' like DOS.
+if test "X${PATH_SEPARATOR+set}" != Xset; then
+  UNAME=${UNAME-`uname 2>/dev/null`}
+  case X$UNAME in
+    *-DOS) lt_cv_sys_path_separator=';' ;;
+    *)     lt_cv_sys_path_separator=':' ;;
+  esac
+  PATH_SEPARATOR=$lt_cv_sys_path_separator
+fi
+])# _LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
+
 # _LT_AC_PROG_ECHO_BACKSLASH
 # --------------------------
 # Add some code to the start of the generated configure script which
 # will find an echo command which doesn't interpret backslashes.
 AC_DEFUN([_LT_AC_PROG_ECHO_BACKSLASH],
 [_LT_AC_SHELL_INIT([
+_LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
 # Check that we are running under the correct shell.
 SHELL=${CONFIG_SHELL-/bin/sh}
 
@@ -4029,7 +4045,8 @@ ifelse([$1], [],
   [cfgfile="${ofile}T"
   trap "$rm \"$cfgfile\"; exit 1" 1 2 15
   $rm -f "$cfgfile"
-  AC_MSG_NOTICE([creating $ofile])],
+  echo "$as_me:__oline__: creating $ofile" >&AS_MESSAGE_LOG_FD
+  echo "$as_me: creating $ofile" >&6],
   [cfgfile="$ofile"])
 
   cat <<__EOF__ >> "$cfgfile"
@@ -6062,6 +6079,7 @@ AC_DEFUN([LT_AC_PROG_SED],
 AC_CACHE_VAL(lt_cv_path_SED,
 [# Loop through the user's path and test for sed and gsed.
 # Then use that list of sed's as ones to test for truncation.
+test -z "$as_executable_p" && as_executable_p="test -f"
 as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
@@ -6083,7 +6101,7 @@ for lt_ac_sed in $lt_ac_sed_list /usr/xpg4/bin/sed; do
   test ! -f $lt_ac_sed && continue
   cat /dev/null > conftest.in
   lt_ac_count=0
-  echo $ECHO_N "0123456789$ECHO_C" >conftest.in
+  echo ${ECHO_N-$ac_n} "0123456789$ECHO_C" >conftest.in
   # Check for GNU sed and select it if it is found.
   if "$lt_ac_sed" --version 2>&1 < /dev/null | grep 'GNU' > /dev/null; then
     lt_cv_path_SED=$lt_ac_sed
@@ -6106,6 +6124,10 @@ for lt_ac_sed in $lt_ac_sed_list /usr/xpg4/bin/sed; do
   done
 done
 ])
-SED=$lt_cv_path_SED
+if test "X$SED" != "X"; then
+  lt_cv_path_SED=$SED
+else
+  SED=$lt_cv_path_SED
+fi
 AC_MSG_RESULT([$SED])
 ])
