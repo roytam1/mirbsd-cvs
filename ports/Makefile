@@ -36,7 +36,7 @@ PKGPATH=
 .if defined(key) || defined(name) || defined(category) || defined(author)
 
 # set up subdirs from the index, assume it's up-to-date
-_CMD=perl ${.CURDIR}/infrastructure/build/index-retrieve index='${.CURDIR}/INDEX'
+_CMD=perl ${.CURDIR}/infrastructure/scripts/index-retrieve index='${.CURDIR}/INDEX'
 .  if defined(key)
 _CMD+=key='${key}'
 .  endif
@@ -118,18 +118,18 @@ DISTFILES_DB?=${.CURDIR}/infrastructure/db/locate.database
 
 distfiles-update-locatedb:
 	@PORTSDIR=${.CURDIR} ${SHELL} \
-	    ${.CURDIR}/infrastructure/fetch/distfiles-update-locatedb \
+	    ${.CURDIR}/infrastructure/scripts/distfiles-update-locatedb \
 	    ${DISTFILES_DB}
 
 portupgrade: index
 	@PORTSDIR=${.CURDIR} ${SHELL} \
-	    ${.CURDIR}/infrastructure/build/out-of-date
+	    ${.CURDIR}/infrastructure/scripts/out-of-date
 
-setup: infrastructure/stools/Setup.sh
+setup: infrastructure/install/Setup.sh
 	env ourCC='${CC}' MAKE='${MAKE}' SHELL='${SHELL}' ${SUDO} \
-	    ${SHELL} ${.CURDIR}/infrastructure/stools/Setup.sh
+	    ${SHELL} ${.CURDIR}/infrastructure/install/Setup.sh
 
-CVSROOT?=/ocvs
+CVSROOT?=/cvs
 cvsup:
 	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd
 
