@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.9 2005/03/28 02:39:45 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.10 2005/03/29 01:15:33 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -473,9 +473,9 @@ pascal.install-units: pascal.install-dir
 	chmod a-x $(DESTDIR)$(unitsubdir)/rts-config.inc $(DESTDIR)$(unitsubdir)/gpc.pas
 	for f in `cd $(srcdir)/p/units && echo *`; do \
 	  if [ "$$f" = gpc-in-c.h ]; then \
-	    rm -f $(DESTDIR)$(libsubdir)/include/"$$f"; \
-	    $(INSTALL_DATA) $(srcdir)/p/units/"$$f" $(DESTDIR)$(libsubdir)/include/"$$f" || exit 1; \
-	    chmod a-x $(DESTDIR)$(libsubdir)/include/"$$f"; \
+	    rm -f $(DESTDIR)$(prefix)/include/"$$f"; \
+	    $(INSTALL_DATA) $(srcdir)/p/units/"$$f" $(DESTDIR)$(prefix)/include/"$$f" || exit 1; \
+	    chmod a-x $(DESTDIR)$(prefix)/include/"$$f"; \
 	  elif [ "$$f" != CVS ]; then \
 	    rm -f $(DESTDIR)$(unitsubdir)/"$$f"; \
 	    $(INSTALL_DATA) $(srcdir)/p/units/"$$f" $(DESTDIR)$(unitsubdir)/"$$f" || exit 1; \
