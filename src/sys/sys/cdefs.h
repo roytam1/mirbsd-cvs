@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.2 2005/03/06 21:28:33 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.13 2004/01/28 03:33:29 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -117,6 +117,7 @@
  * GCC >= 2.5 uses the __attribute__((attrs)) style.  All of these
  * work for GNU C++ (modulo a slight glitch in the C++ grammar in
  * the distribution version of 2.5.5).
+ * For GCC 3, the ANSI parser seems to be able to cope with attributes.
  */
 #if !__GNUC_PREREQ__(2, 5)
 #define	__attribute__(x)	/* delete __attribute__ if no or old gcc */
@@ -124,7 +125,7 @@
 #define	__dead		__volatile
 #define	__pure		__const
 #endif
-#elif !defined(__STRICT_ANSI__)
+#elif __GNUC_PREREQ__(3, 4) || !defined(__STRICT_ANSI__)
 #define __dead		__attribute__((__noreturn__))
 #define __pure		__attribute__((__const__))
 #endif
