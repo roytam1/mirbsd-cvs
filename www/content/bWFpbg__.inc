@@ -1,15 +1,17 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.3 2005/02/05 22:46:28 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
  parties protesting against software, algorithm and even data structure
  patentability in the European Union!</p>
+<p><img src="http://swpat.ffii.org/img/banners/reboot0501.en.gif"
+ alt="A fatal exception 0E has occured in EUROPE_COUNCIL.EXE" /></p>
 <p class="erecta">More information at <a href="http://swpat.ffii.org/">FFII
  website</a>.</p>
 <p><a href="http://demo.ffii.org/kuenast/brief.html"><img
  src="http://demo.ffii.org/kuenast/kuenast_banner60.png"
- alt="Renate K&uuml;nast, bitte hier klicken!" /></a></p>
-<p><a href="http://www.ffii.org/"><img
+ alt="Renate K&uuml;nast, bitte hier klicken!" /></a>
+<a href="http://www.ffii.org/"><img
  src="http://demo.ffii.org/cons0501/fishy_banner82.jpg"
  alt="Something fishy's going on..." /></a></p>
 <h2>Welcome to the MirOS Project!</h2>

@@ -1,4 +1,8 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.4 2005/02/28 23:03:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.5 2005/03/02 22:57:20 tg Exp $</small>
+
+<p><img src="http://swpat.ffii.org/img/banners/reboot0501.en.gif"
+ alt="A fatal exception 0E has occured in EUROPE_COUNCIL.EXE" /></p>
+
 <h1>Current MirOS News</h1><ul>
 
 <li>28.02.2005<br />
