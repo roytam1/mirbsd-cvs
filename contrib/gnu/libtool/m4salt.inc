@@ -1,5 +1,5 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.1 2005/02/10 19:34:35 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.2 2005/02/10 20:17:02 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 # Free Software Foundation, Inc.
@@ -50,7 +50,6 @@ dnl AC_PROG_CXX()
 dnl ----------------
 dnl Forgiving copy of original AC_PROG_CXX
 builtin([undefine], [AC_PROG_CXX])dnl
-builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 NOACLOCAL_DEFUN([AC_PROG_CXX],
 [dnl from AC_PROG_CXX (autoconf 2.13)
 dnl  --------------------------------
@@ -102,12 +101,6 @@ dnl normal versions of a library), tasteless as that idea is.
 fi
 AC_LANG_C
 ])dnl # AC_PROG_CXX
-
-dnl No Fortran 77 with autoconf-2.13 and MirLibtool
-builtin([undefine], [AC_PROG_F77])dnl
-NOACLOCAL_DEFUN([AC_PROG_F77],
-[dnl Empty. Seems to work.
-])dnl
 
 dnl Another identifier
 define([m4_PACKAGE_VERSION], [fnord_acsalt])dnl
