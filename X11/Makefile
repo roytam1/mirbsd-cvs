@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.3 2005/03/19 14:28:23 tg Exp $
+# $MirOS: X11/Makefile,v 1.4 2005/03/19 15:09:59 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -115,7 +115,7 @@ dist:
 release:
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} do-rel DESTDIR=${BSDRELDIR}/x11
 
-do-release:
+do-rel:
 	mkdir -p ${DESTDIR} ${RELEASEDIR}
 	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/etc/X11 ${DESTDIR}/usr/X11R6/man/cat1 \
