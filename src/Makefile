@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.7 2005/03/29 12:20:06 tg Exp $
+# $MirOS: src/Makefile,v 1.8 2005/03/29 12:24:56 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -113,7 +113,7 @@ do-htman:
 	    && ${MAKE}
 .endfor
 	BSDOBJDIR="${BSDOBJDIR}" BSDRELDIR="${BSDRELDIR}" \
-	    SUDO="${SUDO}" OSrev="${OSrev}" \
+	    BSDSRCDIR="${BSDSRCDIR}" SUDO="${SUDO}" OSrev="${OSrev}" \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	${SUDO} mkdir -p ${BSDRELDIR}/htman
 	cd ${BSDOBJDIR}/htman/htm \

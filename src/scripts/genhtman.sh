@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/scripts/genhtman.sh,v 1.5 2005/03/29 12:20:08 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.6 2005/03/29 12:21:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -22,13 +22,7 @@
 # Build the HTML format manual pages. This is part of the MirOS con-
 # tribuional and base system release process.
 
-cd $BSDRELDIR
-if ! [[ -e base && -e gcc && -e x11 ]]; then
-	print Invoke with BSDRELDIR
-	exit 1
-fi
-
-. /usr/src/scripts/roff2htm
+. $BSDSRCDIR/scripts/roff2htm
 convert_all $BSDOBJDIR/htman/man $BSDOBJDIR/htman/htm
 for s in papers psd smm usd; do
 	typeset -u u=$s
