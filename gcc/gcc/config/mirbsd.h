@@ -1,9 +1,9 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.1 2005/03/25 18:49:28 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
    Free Software Foundation, Inc.
-   Hacked by Thorsten Glaser <tg@66.42h.de>
+   Hacked by Thorsten Glaser <tg@MirBSD.org>
 
 This file is part of GCC.
 
@@ -98,7 +98,7 @@ Boston, MA 02111-1307, USA.  */
    libgcc with -symbolic.  */
 
 #define MIRBSD_LIBGCC_SPEC	\
-  "%{!symbolic:%{!shared:-lgcc}}"
+  "%{!symbolic:-lgcc}"
 
 #undef LIBGCC_SPEC
 #define LIBGCC_SPEC MIRBSD_LIBGCC_SPEC
@@ -354,3 +354,18 @@ do {									\
   do { fputs ("\t.weak\t", FILE); assemble_name (FILE, NAME); \
        fputc ('\n', FILE); } while (0)
 #endif
+
+/* Exception handling.  */
+
+/* The principle is as follows:
+   When using --enable-shared, a libgcc_eh.a and libgcc_s.so is
+   built and -lgcc in LIBGCC_SPEC is transformed into a weird
+   sequence.
+   Defining LINK_EH_SPEC has the side effect that
+   -shared still means -static-gcc by default, and you must use
+   -shared-libgcc explicitly (g++ does this) to pull in -lgcc_s
+   instead of -lgcc -lgcc_eh at link time.
+   Other than that, the C string LINK_EH_SPEC is appended to the
+   linker spec automatically, so we define it to be empty.  */
+#undef	LINK_EH_SPEC
+#define	LINK_EH_SPEC	""
