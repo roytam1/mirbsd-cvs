@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.3 2005/02/05 22:43:40 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.4 2005/02/07 23:16:08 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2175,4 +2175,31 @@
  actually read by people, even if not provoked by links on certain webfora
  (I still won't consider it a blog, but who must can retrieve RSS feeds of
  the MirOS mailing lists at gmane). These people are hereby greeted.</p>
+<p>08.02.2005 by tg@<br />Today I'm writing a bit about me and MirOS, and why
+ I'm doing things like this.<br />First off, I started BASIC at age 8, on an
+ 8088 Schneider EURO PC. Then came English, Assembly and Pascal at age 12,
+ followed by C at age 17. I shall be 23 in a few jiffies, and I'm not a student
+ of computer science. In fact, I believe I couldn't even write a (decent)
+ malloc implementation. If I could, though, I could do it in any language I
+ know (well, I won't do it in <a href="/man1/brainfuck.htm">brainfuck(1)</a>
+ though).<br />It has been said I'm an amateur. Well, not exactly, but <a
+ href="http://article.gmane.org/gmane.os.openbsd.misc/73647">this</a> Theo
+ quote can only mean me. I do believe so, too, but I'm content with it.
+ I'm not a CS student or master, worse than Torvalds in that respect, but
+ I'm kind of a craftsman, maybe even more an artist. MirOS is not an OS
+ to please the masses, bring in money or hunt bugs down because that is a
+ design goad. MirOS is simply a piece of art.<br /><br />But it goes further
+ than that. When I'm doing certain things for MirBSD&trade;, it's like magic
+ to me. The <a href="/cvs.cgi/src/share/misc/licence.template">licence</a>
+ is such an example. It was an artwork to do it, but in contrast to the last
+ 193 lines of HTML source in this file, it was also a magickal item to me. It
+ does good to the source when it touches it. I'm handling forces older than
+ mankind when writing code, no, crafting a work of authorship under European
+ Droit d'Auteur law / Urheberrecht, and putting it under the licence is a
+ magickal act.<br />Yes, I believe so.<br />And I also try to stay alive in
+ the world (doesn't everybody?) beyond my lifetime, through my achievements.
+ If the remembrance of my person lives on in my friends, wife and children
+ (which are yet to be haved), things I built are still in use &ndash; then I
+ have deeply engrained myself into the earth's surface. MirOS is a small piece
+ out of this masterplan of mine. Feel free to help.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
