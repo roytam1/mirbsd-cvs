@@ -1,4 +1,4 @@
-/* $MirOS$
+/* $MirOS: contrib/code/polymers/calc/calc.c,v 1.1 2005/03/19 21:04:19 bsiegert Exp $
  *-
  * Copyright (c) 2005
  *	Benny Siegert <bsiegert@gmx.de>
@@ -40,13 +40,13 @@ calc(FILE *outfile)
 	int i;
 	double angle;
 
-	fprintf(outfile, "#x\ty\n");
+	fprintf(outfile, "#x\ty\n0\t0\n");
 
-	for (i = 0; i <= DP; i++) {
-		fprintf(outfile, "%.4f\t%.4f\n", x, y);
-		angle = (double)arc4random() / (1 << 31) * M_PI;
+	for (i = 0; i < DP; i++) {
+		angle = (double)arc4random() / RAND_MAX * M_PI;
 		x += sin(angle);
 		y += cos(angle);
+		fprintf(outfile, "%.4f\t%.4f\n", x, y);
 	}
-	return pow(x, 2) + pow(y, 2);
+	return hypot(x, y) + 0.5;
 }
