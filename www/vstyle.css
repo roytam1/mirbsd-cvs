@@ -1,4 +1,4 @@
-/* $MirOS: www/vstyle.css,v 1.5 2005/03/16 15:43:15 tg Exp $ */
+/* $MirOS: www/vstyle.css,v 1.6 2005/03/22 19:12:16 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -73,7 +73,7 @@ strong:hover {
 
 .heading {
 	position:absolute; overflow:hidden;
-		top:2px; left:204px;
+		top:2px; left:188px;
 		right:2px; height:96px;
 	padding:3px;
 	background-color:#444444;
@@ -84,18 +84,18 @@ strong:hover {
 .index {
 	position:absolute;
 		top:2px; left:2px;
-		bottom:10%; width:200px;
+		bottom:10%; width:184px;
 	background-color:#333333;
 }
 
 .content {
-	margin-top:100px; margin-left:204px;
+	margin-top:100px; margin-left:188px;
 	padding-left:2px;
 }
 
 .hdrflf {
 	position:absolute;
-		top:-16px; left:76px;
+		top:-16px; left:60px;
 		width:436px; height:88px;
 	font-family:monospace;
 	font-size:10px;
@@ -111,7 +111,7 @@ strong:hover {
 
 .hdrrhts {
 	position:absolute;
-		top:4px; left:500px;
+		top:4px; left:484px;
 		width:85px; height:92px;
 	z-index:2;
 }
