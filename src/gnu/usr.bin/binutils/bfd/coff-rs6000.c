@@ -1,7 +1,7 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/coff-rs6000.c,v 1.2 2005/03/13 16:06:45 tg Exp $ */
 
 /* BFD back-end for IBM RS/6000 "XCOFF" files.
-   Copyright 1990-1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1990-1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    FIXME: Can someone provide a transliteration of this name into ASCII?
    Using the following chars caused a compiler warning on HIUX (so I replaced
@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include "libcoff.h"
 #include "libxcoff.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/coff-rs6000.c,v 1.2 2005/03/13 16:06:45 tg Exp $");
 
 extern bfd_boolean _bfd_xcoff_mkobject
   PARAMS ((bfd *));
@@ -1853,8 +1853,8 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
   if (sym_32)
     {
       struct xcoff_ar_hdr_big *hdr;
-      bfd_byte *symbol_table;
-      bfd_byte *st;
+      char *symbol_table;
+      char *st;
       file_ptr fileoff;
 
       bfd_vma symbol_table_size =
@@ -1864,8 +1864,7 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
 	+ 8 * sym_32
 	+ str_32 + (str_32 & 1);
 
-      symbol_table = NULL;
-      symbol_table = (bfd_byte *) bfd_zmalloc (symbol_table_size);
+      symbol_table = bfd_zmalloc (symbol_table_size);
       if (symbol_table == NULL)
 	return FALSE;
 
@@ -1945,7 +1944,6 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
       bfd_bwrite (symbol_table, symbol_table_size, abfd);
 
       free (symbol_table);
-      symbol_table = NULL;
 
       prevoff = nextoff;
       nextoff = nextoff + symbol_table_size;
@@ -1956,8 +1954,8 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
   if (sym_64)
     {
       struct xcoff_ar_hdr_big *hdr;
-      bfd_byte *symbol_table;
-      bfd_byte *st;
+      char *symbol_table;
+      char *st;
       file_ptr fileoff;
 
       bfd_vma symbol_table_size =
@@ -1967,8 +1965,7 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
 	+ 8 * sym_64
 	+ str_64 + (str_64 & 1);
 
-      symbol_table = NULL;
-      symbol_table = (bfd_byte *) bfd_zmalloc (symbol_table_size);
+      symbol_table = bfd_zmalloc (symbol_table_size);
       if (symbol_table == NULL)
 	return FALSE;
 
@@ -2043,7 +2040,6 @@ xcoff_write_armap_big (abfd, elength, map, orl_count, stridx)
       bfd_bwrite (symbol_table, symbol_table_size, abfd);
 
       free (symbol_table);
-      symbol_table = NULL;
 
       PRINT20 (fhdr->symoff64, nextoff);
     }
@@ -2315,7 +2311,7 @@ xcoff_write_archive_contents_big (abfd)
   size_t i;
   struct xcoff_ar_hdr_big *hdr, ahdr;
   bfd_size_type size;
-  bfd_byte *member_table, *mt;
+  char *member_table, *mt;
   bfd_vma member_table_size;
 
   memset (&fhdr, 0, SIZEOF_AR_FILE_HDR_BIG);
@@ -2480,8 +2476,7 @@ xcoff_write_archive_contents_big (abfd)
 		       + total_namlen);
 
   member_table_size += member_table_size & 1;
-  member_table = NULL;
-  member_table = (bfd_byte *) bfd_zmalloc (member_table_size);
+  member_table = bfd_zmalloc (member_table_size);
   if (member_table == NULL)
     return FALSE;
 
@@ -2534,7 +2529,6 @@ xcoff_write_archive_contents_big (abfd)
     return FALSE;
 
   free (member_table);
-  member_table = NULL;
 
   PRINT20 (fhdr.memoff, nextoff);
 
@@ -3534,7 +3528,7 @@ _bfd_xcoff_put_ldsymbol_name (abfd, ldinfo, ldsym, name)
       if (ldinfo->string_size + len + 3 > ldinfo->string_alc)
 	{
 	  bfd_size_type newalc;
-	  bfd_byte *newstrings;
+	  char *newstrings;
 
 	  newalc = ldinfo->string_alc * 2;
 	  if (newalc == 0)
@@ -3542,8 +3536,7 @@ _bfd_xcoff_put_ldsymbol_name (abfd, ldinfo, ldsym, name)
 	  while (ldinfo->string_size + len + 3 > newalc)
 	    newalc *= 2;
 
-	  newstrings = ((bfd_byte *)
-			bfd_realloc ((PTR) ldinfo->strings, newalc));
+	  newstrings = bfd_realloc (ldinfo->strings, newalc);
 	  if (newstrings == NULL)
 	    {
 	      ldinfo->failed = TRUE;

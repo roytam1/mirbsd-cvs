@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: src/gnu/usr.bin/binutils/bfd/configure.in,v 1.2 2005/03/13 16:06:46 tg Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl
@@ -10,7 +10,7 @@ AC_CONFIG_SRCDIR([libbfd.c])
 AC_CANONICAL_TARGET
 AC_ISC_POSIX
 
-AM_INIT_AUTOMAKE(bfd, 050118)
+AM_INIT_AUTOMAKE(bfd, 050328)
 
 dnl These must be called before AM_PROG_LIBTOOL, because it may want
 dnl to call AC_CHECK_PROG.
@@ -54,6 +54,22 @@ AC_ARG_WITH(mmap,
 esac],[want_mmap=false])dnl
 
 build_warnings="-W -Wall -Wstrict-prototypes -Wmissing-prototypes"
+
+AC_ARG_ENABLE(werror,
+  [  --enable-werror    treat compile warnings as errors],
+  [case "${enableval}" in
+     yes | y) ERROR_ON_WARNING="yes" ;;
+     no | n)  ERROR_ON_WARNING="no" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-werror) ;;
+   esac])
+
+# Enable -Werror by default, suppressing it only for --disable-werror
+# or --disable-build-warnings.
+if test "${ERROR_ON_WARNING}" != no
+then
+  build_warnings="$build_warnings -Werror"
+fi
+
 AC_ARG_ENABLE(build-warnings,
 [  --enable-build-warnings Enable build-time compiler warnings if gcc is used],
 [case "${enableval}" in
@@ -162,7 +178,7 @@ if test "${target}" = "${host}"; then
   alpha*-*-freebsd* | alpha*-*-kfreebsd*-gnu)
 	COREFILE=''
 	;;
-  alpha*-*-linux-gnu*)
+  alpha*-*-linux-*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/alphalinux.h"'
 	;;
@@ -251,7 +267,7 @@ changequote([,])dnl
 	TRAD_HEADER='"hosts/i386mach3.h"'
 	;;
 changequote(,)dnl
-  i[3-7]86-*-linux-gnu*)
+  i[3-7]86-*-linux-*)
 changequote([,])dnl
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/i386linux.h"'
@@ -292,7 +308,7 @@ changequote([,])dnl
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/hp300bsd.h"'
 	;;
-  m68*-*-linux-gnu*)
+  m68*-*-linux-*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/m68klinux.h"'
 	;;
@@ -378,7 +394,7 @@ changequote([,])dnl
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/vaxult2.h"'
 	;;
-  vax-*-linux-gnu*)
+  vax-*-linux-*)
 	COREFILE=trad-core.lo
 	TRAD_HEADER='"hosts/vaxlinux.h"'
 	;;

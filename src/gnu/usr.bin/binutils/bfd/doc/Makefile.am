@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/bfd/doc/Makefile.am,v 1.2 2005/03/13 16:06:50 tg Exp $
 #
 ## Process this file with automake to generate Makefile.in
 
@@ -59,10 +59,10 @@ info_TEXINFOS = bfd.texinfo bfdint.texi
 MKDOC = chew$(EXEEXT_FOR_BUILD)
 
 $(MKDOC): chew.o
-	$(CC_FOR_BUILD) -o $(MKDOC) chew.o $(CFLAGS) $(LOADLIBES) $(LDFLAGS)
+	$(CC_FOR_BUILD) -o $(MKDOC) chew.o $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD)
 
 chew.o: chew.c
-	$(CC_FOR_BUILD) -c -I$(LIBIBERTY_HDRS) -I.. -I$(srcdir)/.. -I$(srcdir)/../../include $(H_CFLAGS) $(CFLAGS) $(srcdir)/chew.c
+	$(CC_FOR_BUILD) -c -I$(LIBIBERTY_HDRS) -I.. -I$(srcdir)/.. -I$(srcdir)/../../include $(H_CFLAGS) $(CFLAGS_FOR_BUILD) $(srcdir)/chew.c
 
 protos: libbfd.h libcoff.h bfd.h
 

@@ -1,9 +1,9 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in.h,v 1.2 2005/03/13 16:06:44 tg Exp $ */
 
 /* Main header file for the bfd library -- portable access to object files.
 
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    Contributed by Cygnus Support.
 
@@ -92,14 +92,6 @@ typedef int bfd_boolean;
 #undef TRUE
 #define FALSE 0
 #define TRUE 1
-
-#if 0
-/* Poison.  */
-#undef false
-#undef true
-#define false dont_use_false_in_bfd
-#define true dont_use_true_in_bfd
-#endif
 
 #ifdef BFD64
 
@@ -242,6 +234,10 @@ bfd_format;
 
 /* The sections in this BFD specify a memory page.  */
 #define HAS_LOAD_PAGE 0x1000
+
+/* This BFD has been created by the linker and doesn't correspond
+   to any input file.  */
+#define BFD_LINKER_CREATED 0x2000
 
 /* Symbols and relocation.  */
 
@@ -689,7 +685,7 @@ extern int bfd_get_elf_phdrs
    the remote memory.  */
 extern bfd *bfd_elf_bfd_from_remote_memory
   (bfd *templ, bfd_vma ehdr_vma, bfd_vma *loadbasep,
-   int (*target_read_memory) (bfd_vma vma, char *myaddr, int len));
+   int (*target_read_memory) (bfd_vma vma, bfd_byte *myaddr, int len));
 
 /* Return the arch_size field of an elf bfd, or -1 if not elf.  */
 extern int bfd_get_arch_size
@@ -701,6 +697,9 @@ extern int bfd_get_sign_extend_vma
 
 extern struct bfd_section *_bfd_elf_tls_setup
   (bfd *, struct bfd_link_info *);
+
+extern void _bfd_elf_provide_symbol
+  (struct bfd_link_info *, const char *, bfd_vma);
 
 extern bfd_boolean bfd_m68k_elf32_create_embedded_relocs
   (bfd *, struct bfd_link_info *, struct bfd_section *, struct bfd_section *, char **);
@@ -821,7 +820,7 @@ extern bfd_boolean bfd_elf32_arm_process_before_allocation
   (bfd *, struct bfd_link_info *, int);
 
 void bfd_elf32_arm_set_target_relocs
-  (struct bfd_link_info *, int, char *);
+  (struct bfd_link_info *, int, char *, int);
 
 extern bfd_boolean bfd_elf32_arm_get_bfd_for_interworking
   (bfd *, struct bfd_link_info *);

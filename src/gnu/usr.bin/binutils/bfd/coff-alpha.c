@@ -1,6 +1,6 @@
 /* BFD back-end for ALPHA Extended-Coff files.
    Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-   2003, 2004 Free Software Foundation, Inc.
+   2003, 2004, 2005 Free Software Foundation, Inc.
    Modified from coff-mips.c by Steve Chamberlain <sac@cygnus.com> and
    Ian Lance Taylor <ian@cygnus.com>.
 
@@ -668,12 +668,7 @@ alpha_adjust_reloc_in (abfd, intern, rptr)
     case ALPHA_R_OP_STORE:
       /* The STORE reloc needs the size and offset fields.  We store
 	 them in the addend.  */
-#if 0
-      BFD_ASSERT (intern->r_offset <= 256 && intern->r_size <= 256);
-#else
-      /* comparision is always true due to limited range of data type.  */
       BFD_ASSERT (intern->r_offset <= 256);
-#endif
       rptr->addend = (intern->r_offset << 8) + intern->r_size;
       break;
 
@@ -1226,23 +1221,6 @@ alpha_bfd_reloc_type_lookup (abfd, code)
     case BFD_RELOC_64_PCREL:
       alpha_type = ALPHA_R_SREL64;
       break;
-#if 0
-    case ???:
-      alpha_type = ALPHA_R_OP_PUSH;
-      break;
-    case ???:
-      alpha_type = ALPHA_R_OP_STORE;
-      break;
-    case ???:
-      alpha_type = ALPHA_R_OP_PSUB;
-      break;
-    case ???:
-      alpha_type = ALPHA_R_OP_PRSHIFT;
-      break;
-    case ???:
-      alpha_type = ALPHA_R_GPVALUE;
-      break;
-#endif
     default:
       return (reloc_howto_type *) NULL;
     }

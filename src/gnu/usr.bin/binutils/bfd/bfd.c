@@ -1,6 +1,6 @@
 /* Generic BFD library interface and support routines.
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004
+   2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Written by Cygnus Support.
 
@@ -217,7 +217,7 @@ CODE_FRAGMENT
 #undef obj_symbols
 #include "elf-bfd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.2 2005/03/13 16:06:45 tg Exp $");
 
 /* provide storage for subsystem, stack and heap data which may have been
    passed in on the command line.  Ld puts this data into a bfd_link_info
@@ -1205,7 +1205,7 @@ DESCRIPTION
 .#define bfd_link_add_symbols(abfd, info) \
 .	BFD_SEND (abfd, _bfd_link_add_symbols, (abfd, info))
 .
-.#define bfd_link_just_syms(sec, info) \
+.#define bfd_link_just_syms(abfd, sec, info) \
 .	BFD_SEND (abfd, _bfd_link_just_syms, (sec, info))
 .
 .#define bfd_final_link(abfd, info) \

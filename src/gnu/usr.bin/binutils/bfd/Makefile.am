@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/bfd/Makefile.am,v 1.2 2005/03/13 16:06:42 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -239,7 +239,6 @@ BFD32_BACKENDS = \
 	elf32-i386.lo \
 	elf32-i860.lo \
 	elf32-i960.lo \
-	elf32-ia64.lo \
 	elf32-ip2k.lo \
 	elf32-iq2000.lo \
 	elf32-m32r.lo \
@@ -511,6 +510,8 @@ BFD32_BACKENDS_CFILES = \
 # The .o files needed by all of the 64 bit vectors that are configured into
 # target_vector in targets.c if configured with --enable-targets=all
 # and --enable-64-bit-bfd.
+# elf32-ia64.c requires a 64-bit bfd_vma, and hence can not be put in
+# BFD32_BACKENDS.
 BFD64_BACKENDS = \
 	aix5ppc-core.lo \
 	aout64.lo \
@@ -521,6 +522,7 @@ BFD64_BACKENDS = \
 	elf64-x86-64.lo \
 	elf64-alpha.lo \
 	elf64-hppa.lo \
+	elf32-ia64.lo \
 	elf64-ia64.lo \
 	elf64-gen.lo \
 	elfn32-mips.lo \
@@ -879,7 +881,7 @@ bfd.lo: bfd.c bfdver.h $(INCDIR)/filenames.h $(INCDIR)/libiberty.h \
   $(INCDIR)/elf/external.h
 bfdio.lo: bfdio.c $(INCDIR)/filenames.h
 bfdwin.lo: bfdwin.c $(INCDIR)/filenames.h
-cache.lo: cache.c $(INCDIR)/filenames.h
+cache.lo: cache.c $(INCDIR)/filenames.h $(INCDIR)/libiberty.h
 coffgen.lo: coffgen.c $(INCDIR)/filenames.h $(INCDIR)/coff/internal.h \
   libcoff.h $(INCDIR)/bfdlink.h
 corefile.lo: corefile.c $(INCDIR)/filenames.h
@@ -946,8 +948,8 @@ cpu-m68k.lo: cpu-m68k.c $(INCDIR)/filenames.h
 cpu-m88k.lo: cpu-m88k.c $(INCDIR)/filenames.h
 cpu-m10200.lo: cpu-m10200.c $(INCDIR)/filenames.h
 cpu-m10300.lo: cpu-m10300.c $(INCDIR)/filenames.h
-cpu-mcore.lo: cpu-mcore.c $(INCDIR)/filenames.h
 cpu-maxq.lo: cpu-maxq.c $(INCDIR)/filenames.h
+cpu-mcore.lo: cpu-mcore.c $(INCDIR)/filenames.h
 cpu-mips.lo: cpu-mips.c $(INCDIR)/filenames.h
 cpu-mmix.lo: cpu-mmix.c $(INCDIR)/filenames.h
 cpu-msp430.lo: cpu-msp430.c $(INCDIR)/filenames.h
@@ -1057,7 +1059,8 @@ coff-m88k.lo: coff-m88k.c $(INCDIR)/filenames.h $(INCDIR)/coff/m88k.h \
   $(INCDIR)/coff/external.h $(INCDIR)/coff/internal.h \
   libcoff.h $(INCDIR)/bfdlink.h coffcode.h coffswap.h
 coff-maxq.lo: coff-maxq.c $(INCDIR)/filenames.h $(INCDIR)/coff/maxq.h \
-  $(INCDIR)/coff/internal.h libcoff.h $(INCDIR)/libiberty.h \
+  $(INCDIR)/coff/external.h $(INCDIR)/coff/internal.h \
+  libcoff.h $(INCDIR)/bfdlink.h $(INCDIR)/libiberty.h \
   coffcode.h coffswap.h
 coff-mips.lo: coff-mips.c $(INCDIR)/filenames.h $(INCDIR)/bfdlink.h \
   $(INCDIR)/coff/internal.h $(INCDIR)/coff/sym.h $(INCDIR)/coff/symconst.h \
