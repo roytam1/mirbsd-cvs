@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWsK.inc,v 1.1 2005/03/16 23:55:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.1 2005/03/17 00:01:39 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <h2>Why this page?</h2>
 <p>On <a href="http://www.fosdem.org/">FOSDEM</a> 2005 some boy walked past
@@ -21,14 +21,14 @@
  and so is the text below.</p>
 <address><small>Thorsten Glaser &mdash; Benny Siegert</small></address>
 <hr />
-<table><tr><td>
+<table width="100%"><tr><td>
 <h2>Das Anargeek Manifest</h2><pre>
 &middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;
 &middot;&middot; m a n i f e s t &middot; e i n e s &middot;&middot;
 &middot;&middot; a n a r g e e k &middot; v 1 . 0 b &middot;&middot;
 &middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;
 </pre></td>
-<td><img src="/pics/anargeek.png" alt="Anargeek Emblem" /></td></tr></table>
+<td style="width:160px;"><img src="/pics/anargeek.png" alt="Anargeek Emblem" /></td></tr></table>
 <p>Ich bin ein Anargeek. Ein Anarchist und Geek, und mehr.</p>
 <p>&middot; &middot; &middot;</p>
 <p>Ich bin ein Geek, weil man mich zu denen z&auml;hlen kann, die es
