@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.10 2005/02/16 21:31:02 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.10 2005/02/16 21:31:02 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.11 2005/02/16 21:54:37 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.11 2005/02/16 21:54:37 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -46,7 +46,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.12
-TIMESTAMP=" (MirLibtool-1.5 2005/02/16 21:31:43)"
+TIMESTAMP=" (MirLibtool-1.5 2005/02/16 21:55:21)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -2022,6 +2022,9 @@ EOF
 	    finalize_deplibs="$deplib $finalize_deplibs"
 	  else
 	    compiler_flags="$compiler_flags $deplib"
+	    if test "X$deplib" = "X-pthread"; then
+	      deplibs="$deplibs $deplib"
+	    fi
 	  fi
 	  continue
 	  ;;
