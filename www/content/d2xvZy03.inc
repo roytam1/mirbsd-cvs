@@ -2130,4 +2130,12 @@
  CFLAGS fixes, and some new/fixed/updated ports, all minor stuff not worth
  to be mentioned.<br />Netzladen now has a music playing daemon, but IMHO,
  the mp3 printer is better ;-)</p>
+<p>05.02.2005 by tg@<br />I've felt obliged to start ncvs ][ after all, so
+ I did so. When having breakfast yesterday, I lost a piece of a tooth, too
+ bad. It doesn't hurt (now) only disturbs, but having to see the doctor is
+ not a thing I like &ndash; it will also impact me not only physically but
+ also financially. For FOSDEM, I can borrow IsCs's car (it's 1337 and does
+ work, advertising for Club-Mate included, but... it's an adventurous car)
+ so I'll be at least able to arrive. My herc server could need a passively
+ cooled PSU in Baby-AT form factor.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

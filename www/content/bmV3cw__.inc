@@ -1,6 +1,13 @@
 <small class="rcsid">$MirBSD: www/content/bmV3cw__.inc,v 1.82 2005/01/23 01:24:18 tg Exp $</small>
 <h1>Current MirOS News</h1><ul>
 
+<li>05.02.2005<br />
+	The (final) new CVS repository has been started; the modules "www"
+	and "contrib" have been fully merged over, "src" and "X11" started
+	and "gcc" and "ports" will follow. <a href="/cvs.cgi/">CVSweb</a>,
+	still lacking adequate functionality to directly display ChangeLog
+	links (we work around it now), has been updated and enhanced.</li>
+
 <li>22.01.2005<br />
 	We're almost through with the new directory structure, CVS and GCC
 	versions and various stages of merging and fixing. SSH still dumps
