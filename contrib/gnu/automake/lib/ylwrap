@@ -1,6 +1,4 @@
 #! /bin/sh
-# $MirBSD: contrib/gnu/automake/lib/ylwrap,v 1.6 2004/11/21 18:41:31 tg Exp $
-#
 # ylwrap - wrapper for lex/yacc invocations.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2001, 2002, 2003 Free Software
