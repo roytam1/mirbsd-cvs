@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.39 2005/03/29 00:23:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.40 2005/03/31 20:25:42 bsiegert Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2720,4 +2720,11 @@
  libtool instead, but I don't think I want that. Another portability problem is
  the <tt>_gplwarn.c</tt> file from the infrastructure, which is ELF-specific
  and gives syntax error with the Darwin linker *sigh*.</p>
+<p>02.04.2005 by tg@<br />Just in case anyone wonders where I have been at
+ all the time, yesterday, today. I was outside and enjoyed sun and nature.
+ Recreation is a powerful measure to refill <tt>/dev/random</tt> &ndash; I
+ can do it myself and need not ask others like our colleagues of a certain
+ other BSD. Also, some -funroll-loops freaks have stolen my idea to port a
+ reasonable Unixish operating system to Interix, but they couldn't finish.
+ Gets a smile from me.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
