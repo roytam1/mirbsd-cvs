@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/d2xvZy01.inc,v 1.4 2004/08/28 14:28:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy01.inc,v 1.4 2004/08/28 14:28:50 tg Exp $</small>
 <p><img src="/pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <h1>MirBSD - You wish you had it. Eh?</h1>
 <p>This is an archived weblog of the development leading to <a

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/Y2xvZy0yMDA1.inc,v 1.2 2005/01/27 23:23:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.2 2005/01/27 23:23:57 tg Exp $</small>
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 

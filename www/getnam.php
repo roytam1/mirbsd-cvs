@@ -1,5 +1,5 @@
 <?php
-/* $MirBSD: www/getnam.php,v 1.3 2004/11/04 10:14:26 tg Exp $
+/* $MirOS: www/getnam.php,v 1.3 2004/11/04 10:14:26 tg Exp $
  *-
  * Copyright (c) 1999, 2002, 2003 Thorsten Glaser <tg@66h.42h.de>
  * All rights reserved.

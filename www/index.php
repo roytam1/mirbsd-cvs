@@ -1,5 +1,5 @@
 <?php
-/* $MirBSD: www/index.php,v 1.15 2005/01/09 11:55:47 tg Exp $
+/* $MirOS: www/index.php,v 1.15 2005/01/09 11:55:47 tg Exp $
  *-
  * Copyright (c) 1999, 2002, 2003, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>

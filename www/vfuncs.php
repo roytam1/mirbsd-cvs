@@ -1,5 +1,5 @@
 <?php
-/* $MirBSD: www/vfuncs.php,v 1.6 2004/11/12 17:54:19 tg Exp $
+/* $MirOS: www/vfuncs.php,v 1.6 2004/11/12 17:54:19 tg Exp $
  *-
  * Copyright (c) 1999, 2002, 2003, 2004
  *	Thorsten Glaser <tg@66h.42h.de>

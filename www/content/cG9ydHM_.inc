@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/cG9ydHM_.inc,v 1.17 2004/11/28 22:19:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/cG9ydHM_.inc,v 1.17 2004/11/28 22:19:29 tg Exp $</small>
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
 <h2>General</h2>

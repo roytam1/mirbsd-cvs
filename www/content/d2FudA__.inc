@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/d2FudA__.inc,v 1.1 2004/11/26 17:42:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2FudA__.inc,v 1.1 2004/11/26 17:42:25 tg Exp $</small>
 <h1>Hardware wishlist</h1>
 
 <p>Alphabetically sorted by developers; short-term first,

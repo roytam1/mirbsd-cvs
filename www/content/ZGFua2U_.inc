@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/ZGFua2U_.inc,v 1.3 2005/01/09 11:55:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.3 2005/01/09 11:55:48 tg Exp $</small>
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/aXB2Ni1zaXh4cw__.inc,v 1.6 2004/11/12 17:54:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aXB2Ni1zaXh4cw__.inc,v 1.6 2004/11/12 17:54:22 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>IPv6 with SixXS and MirOS</h1>
 

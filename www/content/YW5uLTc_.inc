@@ -280,7 +280,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirBSD: www/content/YW5uLTc_.inc,v 1.11 2005/01/06 17:24:38 bsiegert Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.11 2005/01/06 17:24:38 bsiegert Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/aXNkbg__.inc,v 1.3 2004/11/12 17:54:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aXNkbg__.inc,v 1.3 2004/11/12 17:54:22 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1><a href="/?isdn">ISDN4MirBSD</a> HowTo</h1>
 

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/b2xkZXI_.inc,v 1.35 2005/01/23 01:24:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.35 2005/01/23 01:24:18 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>

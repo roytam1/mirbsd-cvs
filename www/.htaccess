@@ -1,4 +1,4 @@
-# $MirBSD: www/.htaccess,v 1.2 2004/05/09 00:02:45 tg Exp $
+# $MirOS: www/.htaccess,v 1.2 2004/05/09 00:02:45 tg Exp $
 
 # custom 404 document
 ErrorDocument 404 /404.php

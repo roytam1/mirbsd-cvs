@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/c3R5bGU_.inc,v 1.6 2004/11/12 17:54:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/c3R5bGU_.inc,v 1.6 2004/11/12 17:54:23 tg Exp $</small>
 <h1>Stylesheet Selector</h1>
 <p>The MirOS project website has a number of CSS style sheets to
  offer in order to improve usability and readability on web browsers

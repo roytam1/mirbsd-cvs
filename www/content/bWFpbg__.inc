@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/bWFpbg__.inc,v 1.70 2005/01/27 23:23:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.70 2005/01/27 23:23:57 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of

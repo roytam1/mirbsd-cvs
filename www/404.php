@@ -1,5 +1,5 @@
 <?php
-/* $MirBSD: www/404.php,v 1.6 2004/11/12 17:54:19 tg Exp $
+/* $MirOS: www/404.php,v 1.6 2004/11/12 17:54:19 tg Exp $
  *-
  * Copyright (c) 1999, 2002, 2003, 2004
  *	Thorsten Glaser <tg@66h.42h.de>
@@ -51,7 +51,7 @@
 	$rq = mybase64($rq).".inc";
 ?>
  <title>404 - N&uuml;s jefonde!</title>
- <meta name="RCSId" content="$MirBSD: www/404.php,v 1.6 2004/11/12 17:54:19 tg Exp $" />
+ <meta name="RCSId" content="$MirOS: www/404.php,v 1.6 2004/11/12 17:54:19 tg Exp $" />
  <meta name="robots" content="index, follow" />
  <style type="text/css"><!--
 a.wmd {

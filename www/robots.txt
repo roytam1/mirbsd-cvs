@@ -1,4 +1,4 @@
-# $MirBSD: www/robots.txt,v 1.2 2004/11/12 17:54:19 tg Exp $
+# $MirOS: www/robots.txt,v 1.2 2004/11/12 17:54:19 tg Exp $
 
 
 # Disallow the W3C Linkchecker

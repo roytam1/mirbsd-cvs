@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/YW5vbmN2cw__.inc,v 1.31 2005/01/23 12:06:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.31 2005/01/23 12:06:15 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>

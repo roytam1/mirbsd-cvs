@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/aGlzdG9yeQ__.inc,v 1.25 2005/01/23 01:24:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.25 2005/01/23 01:24:18 tg Exp $</small>
 <h1>History of MirOS</h1>
 
 <p>On <a href="http://marc.theaimsgroup.com/?m=103065556502499">August

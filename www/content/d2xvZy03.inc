@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/d2xvZy03.inc,v 1.209 2005/02/03 23:51:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.209 2005/02/03 23:51:15 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the

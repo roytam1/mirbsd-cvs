@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/bWlycm9ycw__.inc,v 1.12 2005/01/07 02:47:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.12 2005/01/07 02:47:03 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>

@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirBSD: www/wiki.cgi,v 1.34 2004/11/08 14:11:18 tg Exp $
+# $MirOS: www/wiki.cgi,v 1.34 2004/11/08 14:11:18 tg Exp $
 #
 # MirOS Wiki
 # Copyright (c) 2004

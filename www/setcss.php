@@ -1,5 +1,5 @@
 <?php
-/* $MirBSD: www/setcss.php,v 1.4 2004/05/08 23:00:47 tg Exp $
+/* $MirOS: www/setcss.php,v 1.4 2004/05/08 23:00:47 tg Exp $
  *-
  * Copyright (c) 2004
  *	Thorsten Glaser <tg@66h.42h.de>

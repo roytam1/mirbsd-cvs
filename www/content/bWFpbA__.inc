@@ -1,4 +1,4 @@
-<small class="rcsid">$MirBSD: www/content/bWFpbA__.inc,v 1.1 2004/11/12 17:54:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.1 2004/11/12 17:54:23 tg Exp $</small>
 <h1>The Mailing Lists</h1>
 
 <p>We've got a <a href="mailto:miros-discuss@66h.42h.de">discussion
