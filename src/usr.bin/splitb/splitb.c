@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.2 2005/03/17 09:17:09 tg Exp $ */
+/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.3 2005/03/17 09:25:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -45,7 +45,7 @@ int
 main(int argc, char **argv)
 {
 	int i, ifd, ofd, ch, pfl = 3;
-	long l = 1024, lw = 0, bufsiz = 1024 * 1024;
+	long l = 1, lw = 0, bufsiz = 1024 * 1024;
 	ssize_t k;
 	bool quiet = false, dec = false;
 	char *ft = strdup("split"), fn[PATH_MAX], *buf;
@@ -153,7 +153,6 @@ usage(int loud)
 	printf("Usage: %s [-dhkq] [-B bufsiz] [-b blocks] [-t template]\n"
 	    "    [-w width] [inputfile]\n%s",
 	    __progname, loud ?
-	    "If -b is not given, blocks defaults to 1024 buffers.\n"
 	    "A buffer consists of bufsiz Bytes, or 1 KiB (1024 Bytes)\n"
 	    "if -k is given, or 1 MiB (1048576 Bytes) if neither -B\n"
 	    "nor -k is used on the command line. Default width for\n"
