@@ -1,5 +1,5 @@
 <?php
-/* $MirOS$ */
+/* $MirOS: www/index.php,v 1.5 2005/03/15 17:13:04 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -38,10 +38,10 @@
  <title>MirOS/MirPorts: a wonderful operating system for a world of peace</title>
  <meta name="robots" content="index, follow" />
  <!--
-	This is copyrighted material. For the full licence text, see the
-	MirOS CVSweb or the CSS file. In no event may text from this page
-	be simply copied into another website under an unfree or otherwise
-	mismatching licence, such as the GNU Free Documentation License.
+	This is copyrighted material. For the full licence text, see the file
+	LICENCE in the current directory. In no event may text from this page
+	be simply copied into another work covered by an unfree (or otherwise
+	mismatching) licence, such as the GNU Free Documentation License.
  -->
 </head><body>
 <div class="index">
