@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.3 2005/03/15 15:01:02 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.4 2005/03/15 16:13:47 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2005
@@ -1446,9 +1446,7 @@
 .if !\n(.g \{\
 .de aT
 .nr aT 0
-.ie \\n(sW>2 \{\
-.	nr aT 2
-.\}
+.ie (\\n(sW>2):(\\n(sW<1) .nr aT 2
 .el \{\
 .	tr \&
 .	ie (\w\\$1/\\n(fW)==\\n(sW \{\
@@ -1472,7 +1470,7 @@
 .de aU
 .nr aT 0
 .aW \\$1
-.ie \\n(sW>2 .nr aT 2
+.ie (\\n(sW>2):(\\n(sW<1) .nr aT 2
 .el \{\
 .	tr \&
 .	ie (\w\\*(A\\$1/\\n(fW)==\\n(sW \{\
