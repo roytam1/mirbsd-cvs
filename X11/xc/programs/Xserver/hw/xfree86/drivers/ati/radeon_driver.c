@@ -1822,11 +1822,6 @@ static Bool RADEONGetPLLParameters(ScrnInfoPtr pScrn)
 		    pll->reference_div  = 12;
 		    pll->xclk           = 36000;
 		    break;
-		case PCI_CHIP_RADEON_LW: /* Guess based on iBook OpenFirmware */
-		    pll->reference_freq = 2700;
-		    pll->reference_div  = 12;
-		    pll->xclk           = 36000;
-		    break;
 		default:
 		    pll->reference_freq = 2700;
 		    pll->reference_div  = 67;
@@ -5044,14 +5039,6 @@ static void RADEONRestorePLLRegisters(ScrnInfoPtr pScrn,
 {
     RADEONInfoPtr  info       = RADEONPTR(pScrn);
     unsigned char *RADEONMMIO = info->MMIO;
-
-    /* 
-     * Never do it on Apple iBook to avoid a blank screen.
-     */
-#ifdef __powerpc__
-    if (xf86ReturnOptValBool(info->Options, OPTION_IBOOKHACKS, FALSE))
-        return;
-#endif
 
     if (info->IsMobility) {
     /* 
