@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.2 2005/03/13 16:06:58 tg Exp $
 #
 ## Process this file with automake to generate Makefile.in
 
@@ -65,9 +65,6 @@ CPU_DOCS = \
 gasver.texi: Makefile
 	rm -f $@
 	echo '@set VERSION $(VERSION)' > $@
-
-#as.info: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
-#as.dvi: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
 
 # We want install to imply install-info as per GNU standards, despite the
 # cygnus option.

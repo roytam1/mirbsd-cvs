@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.2 2005/03/13 16:06:56 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -220,6 +220,7 @@ HFILES = \
 	frags.h \
 	hash.h \
 	input-file.h \
+	itbl-lex.h \
 	itbl-ops.h \
 	listing.h \
 	macro.h \
@@ -352,8 +353,7 @@ OBJ_FORMAT_CFILES = \
 	config/obj-evax.c \
 	config/obj-hp300.c \
 	config/obj-ieee.c \
-	config/obj-som.c \
-	config/obj-vms.c
+	config/obj-som.c
 
 OBJ_FORMAT_HFILES = \
 	config/obj-aout.h \
@@ -364,8 +364,7 @@ OBJ_FORMAT_HFILES = \
 	config/obj-evax.h \
 	config/obj-hp300.h \
 	config/obj-ieee.h \
-	config/obj-som.h \
-	config/obj-vms.h
+	config/obj-som.h
 
 # Emulation header files in config
 
@@ -552,8 +551,6 @@ obj-multi.o : $(srcdir)/config/obj-multi.c
 	$(COMPILE) -c $(srcdir)/config/obj-multi.c
 obj-som.o : $(srcdir)/config/obj-som.c
 	$(COMPILE) -c $(srcdir)/config/obj-som.c
-obj-vms.o : $(srcdir)/config/obj-vms.c
-	$(COMPILE) -c $(srcdir)/config/obj-vms.c
 
 e-mipself.o : $(srcdir)/config/e-mipself.c
 	$(COMPILE) -c $(srcdir)/config/e-mipself.c
@@ -599,7 +596,10 @@ m68k-parse.c: $(srcdir)/config/m68k-parse.y
 	if [ $$f = "m68k-parse.y" ]; then \
 	  rm -f m68k-parse.y; \
 	else true; fi
+# Disable -Werror, if it has been enabled, since old versions of bison/
+# yacc will produce working code which contain compile time warnings. 
 m68k-parse.o: m68k-parse.c $(srcdir)/config/m68k-parse.h
+	$(COMPILE) -c $< -Wno-error
 
 # Don't let the .y.h rule clobber m68k-parse.h.
 m68k-parse.h: ; @true
@@ -608,9 +608,12 @@ $(srcdir)/config/m68k-parse.h: ; @true
 # The instruction table specification lexical analyzer and parser.
 
 itbl-lex.c: $(srcdir)/itbl-lex.l
-itbl-lex.o: itbl-lex.c itbl-parse.h
+itbl-lex.o: itbl-lex.c itbl-parse.h $(srcdir)/itbl-lex.h
 
-itbl-parse.o: itbl-parse.c itbl-parse.h $(srcdir)/itbl-ops.h
+# Disable -Werror, if it has been enabled, since old versions of bison/
+# yacc will produce working code which contain compile time warnings. 
+itbl-parse.o: itbl-parse.c itbl-parse.h $(srcdir)/itbl-ops.h $(srcdir)/itbl-lex.h
+	$(COMPILE) -c $< -Wno-error
 
 itbl-ops.o: $(srcdir)/itbl-ops.c $(srcdir)/itbl-ops.h itbl-parse.h
 
@@ -1255,7 +1258,7 @@ DEPTC_mips_elf = $(INCDIR)/symcat.h $(srcdir)/config/obj-elf.h \
   $(BFDDIR)/elf-bfd.h $(INCDIR)/elf/common.h $(INCDIR)/elf/internal.h \
   $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h $(srcdir)/config/tc-mips.h \
   subsegs.h $(INCDIR)/obstack.h $(INCDIR)/safe-ctype.h \
-  $(INCDIR)/opcode/mips.h itbl-ops.h dwarf2dbg.h $(INCDIR)/elf/mips.h \
+  $(INCDIR)/opcode/mips.h itbl-ops.h dwarf2dbg.h dw2gencfi.h $(INCDIR)/elf/mips.h \
   $(INCDIR)/elf/reloc-macros.h ecoff.h $(INCDIR)/coff/sym.h \
   $(INCDIR)/coff/ecoff.h
 DEPTC_mmix_elf = $(INCDIR)/symcat.h $(srcdir)/config/obj-elf.h \
@@ -1470,11 +1473,6 @@ DEPTC_vax_elf = $(INCDIR)/symcat.h $(srcdir)/config/obj-elf.h \
   $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h $(srcdir)/config/tc-vax.h \
   $(srcdir)/config/vax-inst.h $(INCDIR)/obstack.h subsegs.h \
   $(INCDIR)/elf/vax.h $(INCDIR)/elf/reloc-macros.h $(INCDIR)/opcode/vax.h \
-  $(INCDIR)/safe-ctype.h
-DEPTC_vax_vms = $(INCDIR)/symcat.h $(srcdir)/config/obj-vms.h \
-  $(srcdir)/config/tc-vax.h $(INCDIR)/aout/stab_gnu.h \
-  $(INCDIR)/aout/stab.def $(srcdir)/config/vax-inst.h \
-  $(INCDIR)/obstack.h subsegs.h $(INCDIR)/opcode/vax.h \
   $(INCDIR)/safe-ctype.h
 DEPTC_w65_coff = $(INCDIR)/symcat.h $(srcdir)/config/obj-coff.h \
   $(srcdir)/config/tc-w65.h $(INCDIR)/coff/internal.h \
@@ -1996,10 +1994,6 @@ DEPOBJ_vax_elf = $(INCDIR)/symcat.h $(srcdir)/config/obj-elf.h \
   $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h $(srcdir)/config/tc-vax.h \
   $(INCDIR)/safe-ctype.h subsegs.h $(INCDIR)/obstack.h \
   struc-symbol.h dwarf2dbg.h $(INCDIR)/aout/aout64.h
-DEPOBJ_vax_vms = $(INCDIR)/symcat.h $(srcdir)/config/obj-vms.h \
-  $(srcdir)/config/tc-vax.h $(INCDIR)/aout/stab_gnu.h \
-  $(INCDIR)/aout/stab.def $(INCDIR)/safe-ctype.h subsegs.h \
-  $(INCDIR)/obstack.h
 DEPOBJ_w65_coff = $(INCDIR)/symcat.h $(srcdir)/config/obj-coff.h \
   $(srcdir)/config/tc-w65.h $(INCDIR)/coff/internal.h \
   $(INCDIR)/coff/w65.h $(INCDIR)/coff/external.h $(BFDDIR)/libcoff.h \
@@ -2357,8 +2351,6 @@ DEP_vax_coff = $(srcdir)/config/obj-coff.h $(srcdir)/config/tc-vax.h \
 DEP_vax_elf = $(srcdir)/config/obj-elf.h $(INCDIR)/symcat.h \
   $(BFDDIR)/elf-bfd.h $(INCDIR)/elf/common.h $(INCDIR)/elf/internal.h \
   $(INCDIR)/elf/external.h $(INCDIR)/bfdlink.h $(srcdir)/config/tc-vax.h
-DEP_vax_vms = $(srcdir)/config/obj-vms.h $(srcdir)/config/tc-vax.h \
-  $(INCDIR)/aout/stab_gnu.h $(INCDIR)/aout/stab.def
 DEP_w65_coff = $(srcdir)/config/obj-coff.h $(srcdir)/config/tc-w65.h \
   $(INCDIR)/symcat.h $(INCDIR)/coff/internal.h $(INCDIR)/coff/w65.h \
   $(INCDIR)/coff/external.h $(BFDDIR)/libcoff.h $(INCDIR)/bfdlink.h

@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.2 2005/03/13 16:06:58 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.in,v 1.2 2005/03/13 17:37:45 tg Exp $
 #
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -336,6 +336,7 @@ as.html: as.texinfo
 	    rm -rf $(@:.html=); else rm -Rf $(@:.html=.htp) $@; fi; \
 	  exit 1; \
 	fi
+
 .dvi.ps:
 	$(DVIPS) -o $@ $<
 
@@ -574,9 +575,6 @@ asconfig.texi: $(CONFIG).texi
 gasver.texi: Makefile
 	rm -f $@
 	echo '@set VERSION $(VERSION)' > $@
-
-#as.info: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
-#as.dvi: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
 
 # We want install to imply install-info as per GNU standards, despite the
 # cygnus option.

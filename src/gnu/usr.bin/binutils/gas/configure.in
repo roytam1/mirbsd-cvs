@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: src/gnu/usr.bin/binutils/gas/configure.in,v 1.2 2005/03/13 16:06:56 tg Exp $
 
 dnl Process this file with autoconf to produce a configure script.
 dnl
@@ -19,7 +19,7 @@ AC_ISC_POSIX
 changequote(,)dnl
 BFD_VERSION=`sed -n -e 's/^.._INIT_AUTOMAKE.*,[ 	]*\([^ 	]*\)[ 	]*).*/\1/p' < ${srcdir}/../bfd/configure.in`
 changequote([,])dnl
-AM_INIT_AUTOMAKE(gas, 050118)
+AM_INIT_AUTOMAKE(gas, 050328)
 
 AM_PROG_LIBTOOL
 
@@ -50,6 +50,22 @@ esac])dnl
 using_cgen=no
 
 build_warnings="-W -Wall -Wstrict-prototypes -Wmissing-prototypes"
+
+AC_ARG_ENABLE(werror,
+  [  --enable-werror    treat compile warnings as errors],
+  [case "${enableval}" in
+     yes | y) ERROR_ON_WARNING="yes" ;;
+     no | n)  ERROR_ON_WARNING="no" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-werror) ;;
+   esac])
+
+# Enable -Werror by default, suppressing it only for --disable-werror
+# or --disable-build-warnings.
+if test "${ERROR_ON_WARNING}" != no
+then
+  build_warnings="$build_warnings -Werror"
+fi
+		   
 AC_ARG_ENABLE(build-warnings,
 [  --enable-build-warnings Enable build-time compiler warnings if gcc is used],
 [case "${enableval}" in
@@ -86,6 +102,9 @@ case "${host}" in
     ;;
 esac
 AC_SUBST(GDBINIT)
+
+#We need this for the host.  BOUT header is in host order.
+AC_C_BIGENDIAN
 
 te_file=generic
 
@@ -159,7 +178,7 @@ for this_target in $target $canon_targets ; do
 	AC_DEFINE(AIX_WEAK_SUPPORT, 1,
 		  [Define if using AIX 5.2 value for C_WEAKEXT.])
 	;;
-      ppc-*-linux-gnu*)
+      ppc-*-linux-*)
 	case "$endian" in
 	  big)  ;;
 	  *)    AC_MSG_ERROR(GNU/Linux must be configured big endian) ;;
@@ -546,7 +565,6 @@ if test `set . $formats ; shift ; echo $#` -gt 1 ; then
       hp300)	AC_DEFINE(OBJ_MAYBE_HP300, 1,   [HP300 support?])   ;;
       ieee)	AC_DEFINE(OBJ_MAYBE_IEEE, 1,    [IEEE support?])    ;;
       som)	AC_DEFINE(OBJ_MAYBE_SOM, 1,     [SOM support?])     ;;
-      vms)	AC_DEFINE(OBJ_MAYBE_VMS, 1,     [VMS support?])     ;;
     esac
     extra_objects="$extra_objects obj-$fmt.o"
   done
