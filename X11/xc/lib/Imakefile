@@ -189,10 +189,6 @@ XF86EXTLIBS = $(XF86MISCLIBDIR) $(XF86VMLIBDIR) \
 LBXUTILDIR = lbxutil
 #endif
 
-#if (BuildLBX || GzipFontCompression) && !HasZlib
-ZLIBDIR = zlib
-#endif
-
 #if defined(XFree86Version) && !HasPosixRegex
 REGEXDIR = regex
 #endif
