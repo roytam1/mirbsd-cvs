@@ -1,4 +1,5 @@
 # Process this file with autoconf to produce a configure script.
+# $MirOS$
 # $Id$
 #
 # This file is free software; as a special exception the author gives
@@ -27,7 +28,6 @@ AC_PROG_GCC_TRADITIONAL
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
-AM_MISSING_PROG(HELP2MAN, help2man)
 
 AC_ISC_POSIX
 AC_MINIX
@@ -204,21 +204,10 @@ AC_ARG_ENABLE(install-warnings,
 AM_CONDITIONAL(INSTALL_WARNINGS,
    test x"$install_warnings" = xtrue || test x"$install_warnings" = xyes)
 
-# i18n support.  To update to a new version of gettext, run:
-# gettextize -f -c --intl
-AM_GNU_GETTEXT_VERSION(0.14.1)
-AM_GNU_GETTEXT()
-
 AC_CONFIG_FILES([
   Makefile
-  doc/Makefile
   info/Makefile
-  intl/Makefile
-  lib/Makefile
-  m4/Makefile
   makeinfo/Makefile
-  makeinfo/tests/Makefile
-  po/Makefile.in
   util/Makefile
 ])
 AC_OUTPUT

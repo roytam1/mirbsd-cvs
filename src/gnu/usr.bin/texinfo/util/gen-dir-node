@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 # $Id$
 # Generate the top-level Info node, given a directory of Info files
 # and (optionally) a skeleton file.  The output will be suitable for a
@@ -79,7 +80,7 @@ moobler
 ### then generate entries for those in the same way, putting the info for 
 ### those at the end....
 
-infofiles=`(cd ${INFODIR}; /bin/ls | grep -v '\-[0-9]*$' | egrep -v '^dir$|^dir\.info$|^dir\.orig$')`
+infofiles=$( (cd ${INFODIR}; /bin/ls | grep -a -v '\-[0-9]*$' | egrep -a -v '^dir$|^dir\.info$|^dir\.orig$'))
 
 # echoing gets clobbered by backquotes; we do it the hard way...
 lines=`wc $SKELETON | awk '{print $1}'`
@@ -166,9 +167,9 @@ fi
 
 # Sort remaining files by INFO-DIR-SECTION.
 prevsect=
-filesectdata=`(cd ${INFODIR}; fgrep INFO-DIR-SECTION /dev/null ${infofiles} | \
-	      fgrep -v 'INFO-DIR-SECTION Miscellaneous' | \
-	      sort -t: -k2 -k1 | tr ' ' '_')`
+filesectdata=$( (cd ${INFODIR}; fgrep -a INFO-DIR-SECTION /dev/null ${infofiles} | \
+	      fgrep -a -v 'INFO-DIR-SECTION Miscellaneous' | \
+	      sort -t: -k2 -k1 | tr ' ' '_'))
 for sectdata in ${filesectdata}; do
   file=`echo ${sectdata} | cut -d: -f1`
   section=`sed -n -e 's/^INFO-DIR-SECTION //p' ${INFODIR}/${file}`

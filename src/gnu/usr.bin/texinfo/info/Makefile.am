@@ -1,3 +1,4 @@
+# $MirOS$
 # $Id$
 # Makefile.am for texinfo/info.
 # Run automake in .. to produce Makefile.in from this.
@@ -16,18 +17,14 @@
 bin_PROGRAMS = ginfo infokey
 transform = s/ginfo/info/; $(program_transform_name)
 
-localedir = $(datadir)/locale
 infodir2 = $(datadir)/info
 
 # -I. for funs.h.
 # Automake puts -I.. and -I$(srcdir) into DEFS by default, but
 # we need to override it, so include them ourselves.
-INCLUDES = -I. -I$(top_srcdir)/lib -I../intl -I.. -I$(srcdir)
-DEFS += -DLOCALEDIR=\"$(localedir)\" -DINFODIR=\"$(infodir)\" \
-	-DINFODIR2=\"$(infodir2)\"
-LDADD = ../lib/libtxi.a $(TERMLIBS) $(LIBINTL)
-
-EXTRA_DIST = README pcterm.c
+INCLUDES = -I. -I.. -I$(srcdir)
+DEFS += -DINFODIR=\"$(infodir)\" -DINFODIR2=\"$(infodir2)\"
+LDADD = $(TERMLIBS)
 
 ginfo_SOURCES = dir.c display.c display.h doc.h dribble.c dribble.h \
   echo-area.c echo-area.h \

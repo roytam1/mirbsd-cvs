@@ -39,6 +39,8 @@
 #include "toc.h"
 #include "xml.h"
 
+__RCSID("$MirOS$");
+
 /* You can change some of the behavior of Makeinfo by changing the
    following defines: */
 
@@ -168,6 +170,20 @@ static int end_of_sentence_p (void);
 
 void maybe_update_execution_strings (char **text, unsigned int new_len);
 
+char *
+substring (const char *start, const char *end)
+{
+  char *result = xmalloc (end - start + 1);
+  char *scan_result = result;
+  const char *scan = start;
+
+  while (scan < end)
+    *scan_result++ = *scan++;
+
+  *scan_result = 0;
+  return result;
+}
+
 /* Error handling.  */
 
 /* Number of errors encountered. */
@@ -1614,8 +1630,7 @@ convert_from_loaded_file (char *name)
     {
       if (html && splitting)
         {
-          if (FILENAME_CMP (output_filename, NULL_DEVICE) == 0
-              || FILENAME_CMP (output_filename, ALSO_NULL_DEVICE) == 0)
+          if (FILENAME_CMP (output_filename, NULL_DEVICE) == 0)
             splitting = 0;
           else
             output_filename = insert_toplevel_subdirectory (output_filename);
@@ -1702,8 +1717,7 @@ finished:
       fclose (macro_expansion_output_stream);
       if (errors_printed && !force
           && strcmp (macro_expansion_filename, "-") != 0
-          && FILENAME_CMP (macro_expansion_filename, NULL_DEVICE) != 0
-          && FILENAME_CMP (macro_expansion_filename, ALSO_NULL_DEVICE) != 0)
+          && FILENAME_CMP (macro_expansion_filename, NULL_DEVICE) != 0)
         {
           fprintf (stderr,
 _("%s: Removing macro output file `%s' due to errors; use --force to preserve.\n"),
@@ -1766,8 +1780,7 @@ _("%s: Removing macro output file `%s' due to errors; use --force to preserve.\n
       else if (errors_printed
                && !force
                && strcmp (real_output_filename, "-") != 0
-               && FILENAME_CMP (real_output_filename, NULL_DEVICE) != 0
-               && FILENAME_CMP (real_output_filename, ALSO_NULL_DEVICE) != 0)
+               && FILENAME_CMP (real_output_filename, NULL_DEVICE) != 0)
         { /* If there were errors, and no --force, remove the output.  */
           fprintf (stderr,
   _("%s: Removing output file `%s' due to errors; use --force to preserve.\n"),

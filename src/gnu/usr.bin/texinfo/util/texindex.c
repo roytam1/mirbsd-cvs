@@ -21,6 +21,8 @@
 #include "system.h"
 #include <getopt.h>
 
+__RCSID("$MirOS$");
+
 static char *program_name = "texindex";
 
 #if defined (emacs)
@@ -144,7 +146,6 @@ void pfatal_with_name (const char *name);
 void fatal (const char *format, const char *arg);
 void error (const char *format, const char *arg);
 void *xmalloc (), *xrealloc ();
-char *concat (char *s1, char *s2);
 void flush_tempfiles (int to_count);
 
 #define MAX_IN_CORE_SORT 500000
@@ -161,10 +162,6 @@ main (int argc, char **argv)
   /* Set locale via LC_ALL.  */
   setlocale (LC_ALL, "");
 #endif
-
-  /* Set the text message domain.  */
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
 
   /* In case we write to a redirected stdout that fails.  */
   /* not ready atexit (close_stdout); */
@@ -220,7 +217,7 @@ main (int argc, char **argv)
 
       outfile = outfiles[i];
       if (!outfile)
-        outfile = concat (infiles[i], "s");
+        outfile = concat (infiles[i], "s", NULL);
 
       need_initials = 0;
       first_initial = '\0';
@@ -318,7 +315,7 @@ decode_command (int argc, char **argv)
   if (tempdir == NULL)
     tempdir = DEFAULT_TMPDIR;
   else
-    tempdir = concat (tempdir, "/");
+    tempdir = concat (tempdir, "/", NULL);
 
   keep_tempfiles = 0;
 
@@ -395,15 +392,15 @@ maketempname (int count)
   if (!tempbase)
     {
       int fd;
-      tempbase = concat (tempdir, "txidxXXXXXX");
+      tempbase = concat (tempdir, "txidxXXXXXX", NULL);
 
       fd = mkstemp (tempbase);
       if (fd == -1)
         pfatal_with_name (tempbase);
     }
 
-  sprintf (tempsuffix, ".%d", count);
-  return concat (tempbase, tempsuffix);
+  snprintf (tempsuffix, 10, ".%d", count);
+  return concat (tempbase, tempsuffix, NULL);
 }
 
 
@@ -1609,20 +1606,4 @@ pfatal_with_name (const char *name)
 {
   perror_with_name (name);
   xexit (1);
-}
-
-
-/* Return a newly-allocated string concatenating S1 and S2.  */
-
-char *
-concat (char *s1, char *s2)
-{
-  int len1 = strlen (s1), len2 = strlen (s2);
-  char *result = (char *) xmalloc (len1 + len2 + 1);
-
-  strcpy (result, s1);
-  strcpy (result + len1, s2);
-  *(result + len1 + len2) = 0;
-
-  return result;
 }

@@ -867,7 +867,3 @@ terminal_unprep_terminal (void)
 #endif /* !HAVE_TERMIOS_H */
   terminal_end_using_terminal ();
 }
-
-#ifdef __MSDOS__
-# include "pcterm.c"
-#endif

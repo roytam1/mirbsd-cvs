@@ -1,4 +1,5 @@
 # Makefile.am for texinfo.
+# $MirOS$
 # $Id$
 # Process this file with automake to produce Makefile.in in all directories.
 #
@@ -11,27 +12,9 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 # Be sure we're using the right version of Automake.
-AUTOMAKE_OPTIONS = 1.8 readme-alpha
+AUTOMAKE_OPTIONS = 1.8
 
-# Additional files to distribute.
-EXTRA_DIST = ChangeLog.46 INSTALL.generic INTRODUCTION README.dev \
-  config.rpath \
-  djgpp/README djgpp/config.bat djgpp/config.sed djgpp/config.site
-
-# This is to prevent texinfo.tex from being included in the top-level
-# distribution directory.
-TEXINFO_TEX = doc/texinfo.tex
-
-if TOOLS_ONLY
-  # Build native tools only.
-  SUBDIRS = lib info makeinfo util
-else
-  # All subdirectories.
-  # Do intl, m4, and lib first since the C programs depend on them.
-  # Do doc last so makeinfo will be built when we get there.
-  # Others are alphabetical.
-  SUBDIRS = $(native_tools) intl m4 lib info makeinfo po util doc
-endif
+SUBDIRS = $(native_tools) info makeinfo util
 
 # for gettext.
 ACLOCAL_AMFLAGS = -I m4
@@ -41,15 +24,5 @@ ACLOCAL_AMFLAGS = -I m4
 distcleancheck_listfiles = \
   find -type f -exec sh -c 'test -f $(srcdir)/{} || echo {}' ';'
 
-# One special target for installers to use by hand if desired.
-install-tex:
-	cd doc && $(MAKE) TEXMF=$(TEXMF) install-tex
-
 distclean-local:
 	-test -d "$(native_tools)" && rm -rf "$(native_tools)"
-
-# Don't install native tools for cross compile.
-if TOOLS_ONLY
-install:
-
-endif

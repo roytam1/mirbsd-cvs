@@ -26,6 +26,8 @@
 #include "makeinfo.h"
 #include "node.h"
 
+__RCSID("$MirOS$");
+
 FSTACK *filestack = NULL;
 
 static int node_filename_stack_index = 0;
@@ -649,8 +651,7 @@ register_delayed_write (char *delayed_command)
 
   /* Don't complain if the user is writing /dev/null, since surely they
      don't care, but don't register the delayed write, either.  */
-  if (FILENAME_CMP (current_output_filename, NULL_DEVICE) == 0
-      || FILENAME_CMP (current_output_filename, ALSO_NULL_DEVICE) == 0)
+  if (FILENAME_CMP (current_output_filename, NULL_DEVICE) == 0)
     return;
     
   /* We need the HTML header in the output,

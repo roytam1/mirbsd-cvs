@@ -1,4 +1,5 @@
 /* cmds.c -- Texinfo commands.
+   $MirOS$
    $Id$
 
    Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
@@ -409,7 +410,7 @@ cm_asterisk (void)
     add_word ("<br>");
   else if (xml && !docbook)
     xml_insert_entity ("linebreak");
-  else if (docbook) 
+  else if (docbook)
     xml_asterisk ();
   else
     {
@@ -1033,7 +1034,7 @@ cm_verb (int arg)
       else
 	line_error (_("`{' expected, but saw `%c'"), character);
     }
-    
+
   if (input_text_offset < input_text_length)
     {
       delimiter = curchar ();
@@ -1072,7 +1073,7 @@ cm_verb (int arg)
 
   if (!seen_end)
     warning (_("end of file inside verb block"));
-  
+
   if (input_text_offset < input_text_length)
     {
       character = curchar ();
@@ -1100,12 +1101,12 @@ cm_strong (int arg, int start_pos, int end_pos)
     insert_html_tag (arg, "strong");
   else
     add_char ('*');
-  
+
   if (!xml && !html && !docbook && !no_headers
       && arg == END
       && end_pos - start_pos >= 6
-      && (STRNCASEEQ ((char *) output_paragraph + start_pos, "*Note:", 6)
-          || STRNCASEEQ ((char *) output_paragraph + start_pos, "*Note ", 6)))
+      && (strncasecmp ((char *) output_paragraph + start_pos, "*Note:", 6)
+          || strncasecmp ((char *) output_paragraph + start_pos, "*Note ", 6)))
     {
       /* Translators: "Note:" is literal here and should not be
          translated.  @strong{Nota}, say, does not cause the problem.  */
@@ -1119,7 +1120,7 @@ void
 cm_cite (int arg, int position)
 {
   if (xml)
-    xml_insert_element (CITE, arg);        
+    xml_insert_element (CITE, arg);
   else if (html)
     insert_html_tag (arg, "cite");
   else
@@ -1275,7 +1276,7 @@ cm_w (int arg)
         /* This is so @w{$}Log$ doesn't end up as <dollar>Log<dollar>
            in the output.  */
         insert_string ("<!-- /@w -->");
-        
+
       non_splitting_words--;
     }
 }
@@ -1340,7 +1341,7 @@ cm_indent (void)
   inhibit_paragraph_indentation = 0;
   xml_no_indent = 0;
   skip_whitespace_and_newlines();
-  
+
   if (xml)
     xml_start_para ();
   else if (html && !paragraph_is_open)
@@ -1452,7 +1453,7 @@ cm_sp (void)
   free (line);
 }
 
-/* @dircategory LINE outputs INFO-DIR-SECTION LINE, unless --no-headers.  */ 
+/* @dircategory LINE outputs INFO-DIR-SECTION LINE, unless --no-headers.  */
 void
 cm_dircategory (void)
 {
@@ -1624,7 +1625,7 @@ cm_exdent (void)
 
   /* @exdent arg is supposed to be in roman.  */
   in_fixed_width_font = 0;
-  
+
   /* The preceding newline already inserted the `current_indent'.
      Remove one level's worth.  */
   kill_self_indent (default_indentation_increment);
@@ -1657,7 +1658,7 @@ cm_exdent (void)
     start_paragraph ();
 }
 
-/* 
+/*
   Read include-filename, process the include-file:
     verbatim_include == 0: process through reader_loop
     verbatim_include != 0: process through handle_verbatim_environment
@@ -1672,7 +1673,7 @@ handle_include (int verbatim_include)
 
   if (!insertion_stack)
     close_paragraph ();  /* No blank lines etc. if not at outer level.  */
-    
+
   get_rest_of_line (0, &arg);
   /* We really only want to expand @value, but it's easier to just do
      everything.  TeX will only work with @value.  */
@@ -1730,7 +1731,7 @@ handle_include (int verbatim_include)
 void
 cm_verbatiminclude (void)
 {
-  handle_include (1); 
+  handle_include (1);
 }
 
 
@@ -1738,7 +1739,7 @@ cm_verbatiminclude (void)
 void
 cm_include (void)
 {
-  handle_include (0); 
+  handle_include (0);
 }
 
 
@@ -1783,7 +1784,7 @@ static void
 cm_exampleindent (void)
 {
   char *arg;
-  
+
   get_rest_of_line (1, &arg);
   if (set_example_indentation_increment (arg) != 0)
     line_error (_("Bad argument to @%s"), command);
@@ -1823,7 +1824,7 @@ cm_firstparagraphindent (void)
 
 /* For DocBook and XML, produce &period; for `.@:'. This gives the processing
    software a fighting chance to treat it specially by not adding extra space.
-  
+
    Do this also for ?, !, and :.  */
 void
 cm_colon (void)

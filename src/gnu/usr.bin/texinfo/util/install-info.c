@@ -21,6 +21,8 @@
 #include "system.h"
 #include <getopt.h>
 
+__RCSID("$MirOS$");
+
 static char *progname = "install-info";
 
 struct spec_entry;
@@ -165,22 +167,6 @@ fatal (const char *s1, const char *s2, const char *s3)
   xexit (1);
 }
 
-/* Return a newly-allocated string
-   whose contents concatenate those of S1, S2, S3.  */
-char *
-concat (const char *s1, const char *s2, const char *s3)
-{
-  int len1 = strlen (s1), len2 = strlen (s2), len3 = strlen (s3);
-  char *result = (char *) xmalloc (len1 + len2 + len3 + 1);
-
-  strcpy (result, s1);
-  strcpy (result + len1, s2);
-  strcpy (result + len1 + len2, s3);
-  *(result + len1 + len2 + len3) = 0;
-
-  return result;
-}
-
 /* Return a string containing SIZE characters
    copied from starting at STRING.  */
 
@@ -200,7 +186,7 @@ copy_string (const char *string, int size)
 void
 pfatal_with_name (const char *name)
 {
-  char *s = concat ("", strerror (errno), _(" for %s"));
+  char *s = concat ("", strerror (errno), _(" for %s"), NULL);
   fatal (s, name, 0);
 }
 
@@ -548,12 +534,12 @@ open_possibly_compressed_file (char *filename,
   f = fopen (*opened_filename, FOPEN_RBIN);
   if (!f)
     {
-      *opened_filename = concat (filename, ".gz", "");
+      *opened_filename = concat (filename, ".gz", NULL);
       f = fopen (*opened_filename, FOPEN_RBIN);
   if (!f)
     {
       free (*opened_filename);
-      *opened_filename = concat (filename, ".bz2", "");
+      *opened_filename = concat (filename, ".bz2", NULL);
       f = fopen (*opened_filename, FOPEN_RBIN);
     }
 
@@ -561,13 +547,13 @@ open_possibly_compressed_file (char *filename,
       if (!f)
         {
           free (*opened_filename);
-          *opened_filename = concat (filename, ".igz", "");
+          *opened_filename = concat (filename, ".igz", NULL);
           f = fopen (*opened_filename, FOPEN_RBIN);
         }
       if (!f)
         {
           free (*opened_filename);
-          *opened_filename = concat (filename, ".inz", "");
+          *opened_filename = concat (filename, ".inz", NULL);
           f = fopen (*opened_filename, FOPEN_RBIN);
         }
 #endif
@@ -629,7 +615,7 @@ open_possibly_compressed_file (char *filename,
 
   if (*compression_program)
     { /* It's compressed, so fclose the file and then open a pipe.  */
-      char *command = concat (*compression_program," -cd <", *opened_filename);
+      char *command = concat (*compression_program," -cd <", *opened_filename, NULL);
       if (fclose (f) < 0)
         pfatal_with_name (*opened_filename);
       f = popen (command, "r");
@@ -724,7 +710,7 @@ output_dirfile (char *dirfile, int dir_nlines, struct line_data *dir_lines,
 
   if (compression_program)
     {
-      char *command = concat (compression_program, ">", dirfile);
+      char *command = concat (compression_program, ">", dirfile, NULL);
       output = popen (command, "w");
     }
   else
@@ -1164,10 +1150,6 @@ main (int argc, char **argv)
   setlocale (LC_ALL, "");
 #endif
 
-  /* Set the text message domain.  */
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
-
   while (1)
     {
       int opt = getopt_long (argc, argv, "i:d:e:s:hHr", longopts, 0);
@@ -1202,7 +1184,7 @@ main (int argc, char **argv)
                        progname, dirfile);
               suggest_asking_for_help ();
             }
-          dirfile = concat (optarg, "", "/dir");
+          dirfile = concat (optarg, "", "/dir", NULL);
           break;
 
         case 'e':
@@ -1212,7 +1194,7 @@ main (int argc, char **argv)
             int olen = strlen (optarg);
             if (! (*optarg != 0 && optarg[olen - 1] == '\n'))
               {
-                optarg = concat (optarg, "\n", "");
+                optarg = concat (optarg, "\n", NULL);
                 olen++;
               }
             next->text = optarg;
