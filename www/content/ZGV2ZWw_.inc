@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.19 2005/01/23 01:24:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
@@ -10,7 +10,7 @@
 <li>dave@ (Dave Steinberg)</li>
 <li><a href="http://wiki.mirbsd.de/StephenPaskaluk">sap@</a> (Stephen Paskaluk)</li>
 <li><a href="http://wiki.mirbsd.de/MirAbile">tg@</a> (Thorsten Glaser)</li>
-<li><a href="/?devel.tyler">tyler@</a> (R. Tyler Ballance)</li>
+<li><a href="http://wiki.mirbsd.de/RTyler">tyler@</a> (R. Tyler Ballance)</li>
 <li>wbx@ (Waldemar Brodkorb)</li>
 </ul><h2>Sponsors</h2>
 <h4>Webspace</h4><ul>
