@@ -1,15 +1,14 @@
 #!/bin/ksh
-#	$Id$
-#	$MirOS$
-#	$OpenBSD: security,v 1.66 2003/12/28 19:51:31 otto Exp $
-#	from: @(#)security	8.1 (Berkeley) 6/9/93
-#
+# $Id$
+# $MirOS: src/etc/security,v 1.2 2005/03/06 19:05:54 tg Exp $
+# $OpenBSD: security,v 1.66 2003/12/28 19:51:31 otto Exp $
+# from: @(#)security	8.1 (Berkeley) 6/9/93
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 umask 077
 
-DIR=`mktemp -d /tmp/_secure.XXXXXXXXXX` || exit 1
+DIR=$(mktemp -d /tmp/_secure.XXXXXXXXXX) || exit 1
 ERR=$DIR/_secure1
 TMP1=$DIR/_secure2
 TMP2=$DIR/_secure3
@@ -53,7 +52,7 @@ awk -F: '{
 		printf("Login %s has a negative user ID.\n", $1);
 	if ($4 < 0)
 		printf("Login %s has a negative group ID.\n", $1);
-	if (int($7) != 0 && system("test "$7" -lt `date +%s`") == 0)
+	if (int($7) != 0 && system("test "$7" -lt $(date +%s)") == 0)
 		printf("Login %s has expired.\n", $1);
 }' < $MP > $OUTPUT
 if [ -s $OUTPUT ] ; then
@@ -83,8 +82,8 @@ if [ ! -d /var/backups ] ; then
 	mkdir /var/backups
 	chmod 700 /var/backups
 fi
-CUR=/var/backups/`basename $MP`.current
-BACK=/var/backups/`basename $MP`.backup
+CUR=/var/backups/$(basename $MP).current
+BACK=/var/backups/$(basename $MP).backup
 if [ -s $CUR ] ; then
 	if cmp -s $CUR $MP; then
 		:
@@ -188,7 +187,7 @@ fi
 # check anyway.
 > $OUTPUT
 rhome=/root
-list="/etc/ksh.kshrc `cat $TMP2`"
+list="/etc/ksh.kshrc $(cat $TMP2)"
 (cd $rhome
  for i in $list; do
 	if [ -s $i ] ; then
@@ -271,7 +270,7 @@ while read uid homedir; do
 	for j in .rhosts .shosts; do
 		# Root owned .rhosts/.shosts files are ok.
 		if [ -s ${homedir}/$j -a ! -O ${homedir}/$j ] ; then
-			rhost=`ls -ldgT ${homedir}/$j`
+			rhost=$(ls -ldgT ${homedir}/$j)
 			echo "${uid}: ${rhost}"
 		fi
 	done
@@ -305,7 +304,7 @@ fi
 awk -F: '/^[^+-]/ { print $1 " " $6 }' /etc/passwd | \
 while read uid homedir; do
 	if [ -d ${homedir}/ ] ; then
-		file=`ls -ldgT ${homedir}`
+		file=$(ls -ldgT ${homedir})
 		echo "${uid} ${file}"
 	fi
 done |
@@ -328,7 +327,7 @@ while read uid homedir; do
 	for f in $list ; do
 		file=${homedir}/${f}
 		if [ -f $file ] ; then
-			echo "${uid} ${f} `ls -ldgT ${file}`"
+			echo "${uid} ${f} $(ls -ldgT ${file})"
 		fi
 	done
 done |
@@ -355,7 +354,7 @@ while read uid homedir; do
 	for f in $list ; do
 		file=${homedir}/${f}
 		if [ -f $file ] ; then
-			echo "${uid} ${f} `ls -ldgT ${file}`"
+			echo "${uid} ${f} $(ls -ldgT ${file})"
 		fi
 	done
 done |
@@ -567,12 +566,14 @@ if [ -d /etc/mtree ] ; then
 		echo "Output format is:\n\tfilename:"
 		echo "\t\tcriteria (shouldbe, reallyis)"
 		cat $OUTPUT
+		echo "\nIf this message bugs you, use:"
+		echo "\tmtree -e -p / -f /etc/mtree/special -U"
 	fi
 
 	> $OUTPUT
 	for file in *.secure; do
 		[ $file = '*.secure' ] && continue
-		tree=`sed -n -e '3s/.* //p' -e 3q $file`
+		tree=$(sed -n -e '3s/.* //p' -e 3q $file)
 		mtree -f $file -p $tree > $TMP1
 		if [ -s $TMP1 ] ; then
 			echo "\nChecking ${tree}:" >> $OUTPUT
@@ -604,7 +605,7 @@ if [ -s /etc/changelist ] ; then
 		R=/etc/changelist
 	fi
 	# Now check
-	for file in `egrep -v "^(#|\+|$MP)" $R`; do
+	for file in $(egrep -v "^(#|\+|$MP)" $R); do
 		CUR=/var/backups/$(_fnchg  "$file").current
 		BACK=/var/backups/$(_fnchg "$file").backup
 		if [ -s $file -a ! -d $file ] ; then
@@ -623,14 +624,14 @@ if [ -s /etc/changelist ] ; then
 			fi
 		fi
 	done
-	for file in `egrep "^\+" $R`; do
+	for file in $(egrep "^\+" $R); do
 		file="${file#+}"
 		CUR=/var/backups/$(_fnchg  "$file").current.md5
 		BACK=/var/backups/$(_fnchg "$file").backup.md5
 		if [ -s $file -a ! -d $file ] ; then
-			MD5_NEW=`md5 $file | sed 's/^.* //'`
+			MD5_NEW=$(md5 $file | sed 's/^.* //')
 			if [ -s $CUR ] ; then
-				MD5_OLD="`cat $CUR`"
+				MD5_OLD="$(cat $CUR)"
 				if [ "$MD5_NEW" != "$MD5_OLD" ]; then
 		echo "\n======\n${file} MD5 checksums\n======"
 					echo "OLD: $MD5_OLD"
