@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.8 2005/03/21 07:08:23 tg Exp $
+# $MirOS: X11/Makefile,v 1.9 2005/03/21 07:19:05 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -108,9 +108,11 @@ perms:
 	chown ${DIROWN}:${DIRGRP} ${DESTDIR}${_i}/.
 .endfor
 	find ${DESTDIR}/etc/. ${DESTDIR}/usr/X11R6/. ${DESTDIR}/usr/local/. \
-	    -type d \( \! -user ${DIROWN} -o \! -group ${DIRGRP} \) -ls
+	    -type d \( \! -user ${DIROWN} -o \! -group ${DIRGRP} \) -ls \
+	    | sed -e 's!/\./!/!'
 	find ${DESTDIR}/etc/. ${DESTDIR}/usr/X11R6/. \
-	    -type f \( \! -user ${BINOWN} -o \! -group wheel \) -ls
+	    -type f \( \! -user ${BINOWN} -o \! -group wheel \) -ls \
+	    | sed -e 's!/\./!/!'
 
 dist:
 	cd ${.CURDIR} && exec ${MAKE} perms
@@ -138,8 +140,9 @@ release:
 do-rel:
 	mkdir -p ${DESTDIR} ${RELEASEDIR}
 	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
-	    ${DESTDIR}/etc/X11 ${DESTDIR}/usr/X11R6/man/cat1 \
-	    ${DESTDIR}/usr/local/lib/X11
+	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
+	    ${DESTDIR}/usr/X11R6 ${DESTDIR}/usr/X11R6/man/cat1 \
+	    ${DESTDIR}/usr/local ${DESTDIR}/usr/local/lib/X11
 	cd ${.CURDIR} && exec ${MAKE} install
 .if (${MACHINE} == "macppc") || (${MACHINE} == "sparc")
 	@if [[ -f ${DESTDIR}/etc/X11/XF86Config ]]; then \

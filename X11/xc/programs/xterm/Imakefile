@@ -1,3 +1,4 @@
+XCOMM $MirOS$
 XCOMM $XTermId: Imakefile,v 1.73 2005/01/13 23:39:33 tom Exp $
 XCOMM
 XCOMM $Xorg: Imakefile,v 1.3 2000/08/17 19:55:07 cpqbld Exp $
@@ -184,7 +185,7 @@ NormalProgramTarget(xterm,$(OBJS1),$(DEPLIBS1),$(XRFLIBS) XkbClientLibs XawClien
 
 #if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture)
 /* On OpenBSD xterm is now setgid utmp */
-INSTUIDFLAGS= -m 2755 -g utmp
+INSTUIDFLAGS= -m 2555 -g utmp
 #endif
 
 #if InstallXtermSetUID && defined(SunArchitecture) && HasSharedLibraries && (OSMajorVersion < 5)
