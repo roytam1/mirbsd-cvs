@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/Makefile,v 1.1 2005/03/25 18:33:12 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -59,10 +59,10 @@ b-r: .PHONY
 	@echo ============================================================
 	@date
 	@echo ============================================================
-	exec ${MAKE} obj
-	exec ${MAKE}
-	exec ${SUDO} ${MAKE} install
-	exec ${MAKE} release BSDRELDIR=${BSDRELDIR}
+	cd ${.CURDIR} && exec ${MAKE} obj
+	cd ${.CURDIR} && exec ${MAKE}
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
+	cd ${.CURDIR} && exec ${MAKE} release BSDRELDIR=${BSDRELDIR}
 
 release: .PHONY
 	mkdir -p ${BSDRELDIR}/gcc ${BSDRELDIR}/rel \

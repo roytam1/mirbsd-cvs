@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: gcc/Makefile.sub,v 1.1 2005/03/25 18:28:48 tg Exp $
+
+.include "${.CURDIR}/Makefile.inc"
 
   SUBDIR+= boehm-gc
   SUBDIR+= fastjar
