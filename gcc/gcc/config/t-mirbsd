@@ -1,10 +1,7 @@
-# $MirOS: gcc/gcc/config/t-mirbsd,v 1.1 2005/03/25 18:49:28 tg Exp $
+# $MirOS: gcc/gcc/config/t-mirbsd,v 1.2 2005/03/25 22:30:47 tg Exp $
 
 # Compile crtbeginS.o and crtendS.o with pic.
 CRTSTUFF_T_CFLAGS_S = $(CRTSTUFF_T_CFLAGS) -fPIC
 
-# Don't install "libgcc_s.so" symlink
-SHLIB_INSTALL = \
-	$$(SHELL) $$(srcdir)/mkinstalldirs $$(DESTDIR)$$(slibdir)$(SHLIB_SLIBDIR_QUAL); \
-	$(INSTALL_DATA) $(SHLIB_NAME) \
-	  $$(DESTDIR)$$(slibdir)$(SHLIB_SLIBDIR_QUAL)/$(SHLIB_SONAME)
+# Don't install "libgcc_s.so" in all its variations
+SHLIB_INSTALL =
