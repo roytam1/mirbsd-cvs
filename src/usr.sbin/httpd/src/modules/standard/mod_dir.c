@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -69,6 +71,8 @@
 #include "http_main.h"
 #include "util_script.h"
 
+__RCSID("$MirOS$");
+
 module MODULE_VAR_EXPORT dir_module;
 
 typedef struct dir_config_struct {
@@ -126,6 +130,25 @@ static int handle_dir(request_rec *r)
     int error_notfound = 0;
 
     if (r->uri[0] == '\0' || r->uri[strlen(r->uri) - 1] != '/') {
+#ifndef	NO_CORRECT_DIR_PATH
+	r->content_type = "text/html";
+	ap_send_http_header(r);
+	ap_rvputs(r, "<html><head><title>404: is a directory</title></head>\n"
+	    "<body><h1>404 Is A Directory</h1>\n<p>The file you have requested"
+	    " was not found. Additionally, a directory with the same name"
+	    " was found. If you want to retrieve the contents of that"
+	    " directory, please add a trailing slash to your request URI."
+	    "<br />Do not forget to update your bookmarks!</p>\n<p>The failed"
+	    " path was: <tt>", r->uri, "</tt></p><p>Use the following hypertext"
+	    " reference to go to <a href=\"", r->uri, "/\">", r->uri, "/</a>"
+	    "<br />and do not forget to update your bookmarks and future"
+	    " behaviour!</p>\n", ap_psignature("<hr />", r),
+	    "</body></html>\n", NULL);
+	ap_kill_timeout(r);
+	ap_finalize_request_protocol(r);
+	ap_rflush(r);
+	return 0; /*HTTP_NOT_FOUND;*/
+#else
         char *ifile;
         if (r->args != NULL)
             ifile = ap_pstrcat(r->pool, ap_escape_uri(r->pool, r->uri),
@@ -137,6 +160,7 @@ static int handle_dir(request_rec *r)
         ap_table_setn(r->headers_out, "Location",
                   ap_construct_url(r->pool, ifile, r));
         return HTTP_MOVED_PERMANENTLY;
+#endif
     }
 
     /* KLUDGE --- make the sub_req lookups happen in the right directory.

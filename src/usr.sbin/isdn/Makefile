@@ -1,6 +1,11 @@
-#	$NetBSD: Makefile,v 1.3 2002/03/06 08:06:40 martti Exp $
+# $MirOS$
 
-SUBDIR= daicctl dtmfdecode isdnd isdnmonitor isdntel \
-	isdntelctl isdntrace
+# SUBDIR+= daicctl
+# SUBDIR+= dtmfdecode
+  SUBDIR+= isdnd
+# SUBDIR+= isdnmonitor
+# SUBDIR+= isdntel
+# SUBDIR+= isdntelctl
+# SUBDIR+= isdntrace
 
 .include <bsd.subdir.mk>

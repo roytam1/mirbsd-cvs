@@ -320,16 +320,16 @@ static void log_error_core(const char *file, int line, int level,
     }
 
     if (logf) {
-	len = ap_snprintf(errstr, sizeof(errstr), "[%s] ", ap_get_time());
+	len = snprintf(errstr, sizeof(errstr), "[%s] ", ap_get_time());
     } else {
 	len = 0;
     }
 
-    len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+    len += snprintf(errstr + len, sizeof(errstr) - len,
 	    "[%s] ", priorities[level & APLOG_LEVELMASK].t_name);
 
     if (file && (level & APLOG_LEVELMASK) == APLOG_DEBUG) {
-	len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+	len += snprintf(errstr + len, sizeof(errstr) - len,
 		"%s(%d): ", file, line);
     }
     if (r) {
@@ -338,23 +338,23 @@ static void log_error_core(const char *file, int line, int level,
 	 * quad is the most secure, which is why I'm implementing it
 	 * first. -djg
 	 */
-	len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+	len += snprintf(errstr + len, sizeof(errstr) - len,
 		"[client %s] ", r->connection->remote_ip);
     }
     if (!(level & APLOG_NOERRNO)
 	&& (save_errno != 0)
 	) {
-	len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+	len += snprintf(errstr + len, sizeof(errstr) - len,
 		"(%d)%s: ", save_errno, strerror(save_errno));
     }
 
 #ifndef AP_UNSAFE_ERROR_LOG_UNESCAPED
-    if (ap_vsnprintf(scratch, sizeof(scratch) - len, fmt, args)) {
+    if (vsnprintf(scratch, sizeof(scratch) - len, fmt, args)) {
         len += ap_escape_errorlog_item(errstr + len, scratch,
                                        sizeof(errstr) - len);
     }
 #else
-    len += ap_vsnprintf(errstr + len, sizeof(errstr) - len, fmt, args);
+    len += vsnprintf(errstr + len, sizeof(errstr) - len, fmt, args);
 #endif
 
     /* NULL if we are logging to syslog */

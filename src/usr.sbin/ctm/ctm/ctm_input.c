@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -115,13 +116,13 @@ Fname(FILE *fd, MD5_CTX *ctx,u_char term,int qual, int verbose)
 
     if ((p = Ffield(fd,ctx,term)) == NULL) return(NULL);
 
-    strcpy(CatPtr, p);
+    strlcpy(CatPtr, p, CatPtrLen);
 
     if (!(qual & CTM_Q_Name_Subst)) return(Buffer);
 
     p = Buffer + strlen(Buffer);
 
-    strcat(Buffer, SUBSUFF);
+    strlcat(Buffer, SUBSUFF, BUFSIZ);
 
     if ( -1 == stat(Buffer, &st) ) {
 	*p = '\0';

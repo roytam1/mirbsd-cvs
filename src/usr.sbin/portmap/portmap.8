@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: portmap.8,v 1.5 2003/06/12 12:59:52 jmc Exp $
 .\"
 .\" Copyright (c) 1987 Sun Microsystems
@@ -66,7 +67,11 @@ When a client wishes to make an
 call to a given program number,
 it will first contact
 .Nm portmap
-on the server machine to determine
+on the server machine, port
+.Dv PMAP_PORT
+(defined in
+.Aq Pa rpc/pmap_prot.h
+to 111) to determine
 the port number where
 .Tn RPC
 packets should be sent.

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: wsfontload.c,v 1.6 2003/04/19 23:50:06 millert Exp $ */
 /* $NetBSD: wsfontload.c,v 1.2 2000/01/05 18:46:43 ad Exp $ */
 
@@ -33,16 +34,18 @@
  *
  */
 
+#include <sys/types.h>
+#include <sys/ioctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/ioctl.h>
 #include <string.h>
 #include <err.h>
 
 #include <dev/wscons/wsconsio.h>
+
+__RCSID("$MirOS$");
 
 #define DEFDEV		"/dev/ttyCcfg"
 #define DEFWIDTH	8
@@ -61,10 +64,11 @@ usage()
 	extern char *__progname;
 
 	(void)fprintf(stderr,
-	    "usage: %s [-f file] -l\n"
-	    "       %s [-B] [-b] [-e encoding] [-f file] [-h height] [-N name]\n"
-	    "       %*s [-w width] [fontfile]\n",
-	    __progname, __progname, (int)strlen(__progname), "");
+		"usage: %s [-f file] -l\n"
+		"       %s [-f file] -d slot\n"
+		"       %s [-B] [-b] [-e encoding] [-f file] [-h height] [-N name]\n"
+		"       %*s [-w width] [fontfile]\n",
+	    __progname, __progname, __progname, (int)strlen(__progname), "");
 	exit(1);
 }
 
@@ -87,7 +91,7 @@ main(argc, argv)
 {
 	char *wsdev, *p;
 	struct wsdisplay_font f;
-	int c, res, wsfd, ffd, list, i;
+	int c, res, wsfd, ffd, list, del, slot, i;
 	size_t len;
 	void *buf;
 
@@ -103,8 +107,8 @@ main(argc, argv)
 	f.bitorder = DEFBITORDER;
 	f.byteorder = DEFBYTEORDER;
 
-	list = 0;
-	while ((c = getopt(argc, argv, "bB:e:f:h:lN:w:")) != -1) {
+	list = 0; del = 0;
+	while ((c = getopt(argc, argv, "bB:d:e:f:h:lN:w:")) != -1) {
 		switch (c) {
 		case 'f':
 			wsdev = optarg;
@@ -125,6 +129,11 @@ main(argc, argv)
 		case 'l':
 			list++;
 			break;
+		case 'd':
+		        del++;
+			if (sscanf(optarg, "%d", &slot) != 1)
+			  errx(1, "invalid font number %d", slot);
+			break;
 		case 'N':
 			strlcpy(f.name, optarg, WSFONT_NAME_SIZE);
 			break;
@@ -143,7 +152,9 @@ main(argc, argv)
 	argc -= optind;
 	argv += optind;
 
-	if (list && argc)
+	if ((list + del) > 1)
+		usage();
+	if ((list || del) && argc)
 		usage();
 
 	if (argc > 1)
@@ -175,6 +186,17 @@ main(argc, argv)
 		} while(res == 0);
 
 		return (0);
+	}
+
+	if (del) {
+		f.index = slot;
+		res = ioctl(wsfd, WSDISPLAYIO_LSFONT, &f);
+			printf("deleting font %s from slot %d\n",
+			       f.name, slot);
+			res = ioctl(wsfd, WSDISPLAYIO_DELFONT, &f);
+			if (res)
+				printf("unable to delete font\n");
+			return res;
 	}
 
 	if (argc > 0) {

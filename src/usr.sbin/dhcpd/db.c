@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db.c,v 1.10 2004/09/16 18:35:42 deraadt Exp $	*/
 
 /*
@@ -44,6 +45,8 @@
 
 #include "dhcpd.h"
 
+__RCSID("$MirOS$");
+
 FILE *db_file;
 
 static int counting = 0;
@@ -69,8 +72,8 @@ write_lease(struct lease *lease)
 		++errors;
 
 	t = gmtime(&lease->starts);
-	snprintf(tbuf, sizeof(tbuf), "%d %d/%02d/%02d %02d:%02d:%02d;",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	snprintf(tbuf, sizeof(tbuf), "%d %lld/%02d/%02d %02d:%02d:%02d;",
+	    t->tm_wday, (int64_t)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 
 	errno = 0;
@@ -79,8 +82,8 @@ write_lease(struct lease *lease)
 		++errors;
 
 	t = gmtime(&lease->ends);
-	snprintf(tbuf, sizeof(tbuf), "%d %d/%02d/%02d %02d:%02d:%02d;",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	snprintf(tbuf, sizeof(tbuf), "%d %lld/%02d/%02d %02d:%02d:%02d;",
+	    t->tm_wday, (int64_t)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 
 	errno = 0;

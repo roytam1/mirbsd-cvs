@@ -1,3 +1,29 @@
+/* $MirOS$ */
+
+/*-
+ * Copyright (c) 2003, 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -64,6 +90,13 @@ extern "C" {
 #endif
 
 /*
+ * Define APACHE6 so that additional modules depending on Apache can
+ * tell if this a pacthed apache-1.3.*. With this definition apache6
+ * is working together with e.g. the ap-perl module in NetBSD.
+ */
+#define APACHE6 1
+
+/*
  * httpd.h: header for simple (ha! not anymore) http daemon
  */
 
@@ -75,7 +108,7 @@ extern "C" {
 /*
  * Include the Extended API headers.
  * Don't move the position. It has to be after ap_alloc.h because it uses the
- * pool stuff but before buff.h because the buffer stuff uses the EAPI, too. 
+ * pool stuff but before buff.h because the buffer stuff uses the EAPI, too.
  */
 #include "ap_hook.h"
 #include "ap_ctx.h"
@@ -88,7 +121,7 @@ extern "C" {
  * file with a relative pathname will have this added.
  */
 #ifndef HTTPD_ROOT
-#define HTTPD_ROOT "/usr/local/apache"
+#define HTTPD_ROOT "/usr/local/httpd"
 #endif /* HTTPD_ROOT */
 
 /* Default location of documents.  Can be overridden by the DocumentRoot
@@ -111,11 +144,11 @@ extern "C" {
 #define TARGET "httpd"
 #endif
 
-/* 
+/*
  * --------- You shouldn't have to edit anything below this line ----------
  *
- * Any modifications to any defaults not defined above should be done in the 
- * respective config. file. 
+ * Any modifications to any defaults not defined above should be done in the
+ * respective config. file.
  *
  */
 
@@ -161,7 +194,7 @@ extern "C" {
 
 /* Define this to be what your HTML directory content files are called */
 #ifndef DEFAULT_INDEX
-#define DEFAULT_INDEX "index.html"
+#define DEFAULT_INDEX "index.htm"
 #endif
 
 /* Define this to 1 if you want fancy indexing, 0 otherwise */
@@ -206,7 +239,7 @@ extern "C" {
 #endif
 /* The default directory in user's home dir */
 #ifndef DEFAULT_USER_DIR
-#define DEFAULT_USER_DIR "public_html"
+#define DEFAULT_USER_DIR "pub"
 #endif
 
 /* The default path for CGI scripts if none is currently set */
@@ -299,7 +332,7 @@ extern "C" {
  *     A fatal error, resulting in the whole server aborting.
  *     If a child exits with this error, the parent process
  *     considers this a server-wide fatal error and aborts.
- *                 
+ *
  */
 #define APEXIT_OK		0x0
 #define APEXIT_INIT		0x2
@@ -323,7 +356,7 @@ extern "C" {
 
 /*
  * Unix only:
- * Path to Shared Memory Files 
+ * Path to Shared Memory Files
  */
 #ifndef EAPI_MM_CORE_PATH
 #define EAPI_MM_CORE_PATH "logs/mm"
@@ -352,8 +385,8 @@ extern "C" {
  * by listen(2).  Under some systems, it should be increased if you
  * are experiencing a heavy TCP SYN flood attack.
  *
- * It defaults to 511 instead of 512 because some systems store it 
- * as an 8-bit datatype; 512 truncated to 8-bits is 0, while 511 is 
+ * It defaults to 511 instead of 512 because some systems store it
+ * as an 8-bit datatype; 512 truncated to 8-bits is 0, while 511 is
  * 255 when truncated.
  */
 
@@ -388,7 +421,7 @@ extern "C" {
 #endif /* default limit on number of request header fields */
 
 /*
- * The default default character set name to add if AddDefaultCharset is 
+ * The default default character set name to add if AddDefaultCharset is
  * enabled.  Overridden with AddDefaultCharsetName.
  */
 #define DEFAULT_ADD_DEFAULT_CHARSET_NAME "iso-8859-1"
@@ -400,15 +433,15 @@ extern "C" {
  * The tokens are listed in order of their significance for identifying the
  * application.
  *
- * "Product tokens should be short and to the point -- use of them for 
+ * "Product tokens should be short and to the point -- use of them for
  * advertizing or other non-essential information is explicitly forbidden."
  *
- * Example: "Apache/1.1.0 MrWidget/0.1-alpha" 
+ * Example: "Apache/1.1.0 MrWidget/0.1-alpha"
  */
 
-#define SERVER_BASEVENDOR   "Apache Group"
-#define SERVER_BASEPRODUCT  "Apache"
-#define SERVER_BASEREVISION "1.3.29"
+#define SERVER_BASEVENDOR   "The MirOS Project"
+#define SERVER_BASEPRODUCT  "httpd"
+#define SERVER_BASEREVISION "3.30A"
 #define SERVER_BASEVERSION  SERVER_BASEPRODUCT "/" SERVER_BASEREVISION
 
 #define SERVER_PRODUCT  SERVER_BASEPRODUCT
@@ -430,15 +463,15 @@ API_EXPORT(void) ap_add_config_define(const char *define);
  * Always increases along the same track as the source branch.
  * For example, Apache 1.4.2 would be '10402100', 2.5b7 would be '20500007'.
  */
-#define APACHE_RELEASE 10329100
+#define APACHE_RELEASE 10330042
 
 #define SERVER_PROTOCOL "HTTP/1.1"
 #ifndef SERVER_SUPPORT
-#define SERVER_SUPPORT "http://www.apache.org/"
+#define SERVER_SUPPORT "http://wiki.mirbsd.de/"
 #endif
 
 #define DECLINED -1		/* Module declines to handle */
-#define DONE -2			/* Module has served the response completely 
+#define DONE -2			/* Module has served the response completely
 				 *  - it's safe to die() with no more output
 				 */
 #define OK 0			/* Module has handled this stage. */
@@ -652,7 +685,7 @@ struct request_rec {
 				 * pointer to where we redirected *from*.
 				 */
 
-    request_rec *main;		/* If this is a sub_request (see request.h) 
+    request_rec *main;		/* If this is a sub_request (see request.h)
 				 * pointer back to the main request.
 				 */
 
@@ -783,13 +816,13 @@ struct request_rec {
  */
     const struct htaccess_result *htaccess;
 
-    /* On systems with case insensitive file systems (Windows, OS/2, etc.), 
-     * r->filename is case canonicalized (folded to either lower or upper 
+    /* On systems with case insensitive file systems (Windows, OS/2, etc.),
+     * r->filename is case canonicalized (folded to either lower or upper
      * case, depending on the specific system) to accomodate file access
-     * checking. case_preserved_filename is the same as r->filename 
-     * except case is preserved. There is at least one instance where Apache 
-     * needs access to the case preserved filename: Java class files published 
-     * with WebDAV need to preserve filename case to make the Java compiler 
+     * checking. case_preserved_filename is the same as r->filename
+     * except case is preserved. There is at least one instance where Apache
+     * needs access to the case preserved filename: Java class files published
+     * with WebDAV need to preserve filename case to make the Java compiler
      * happy.
      */
     char *case_preserved_filename;
@@ -821,8 +854,8 @@ struct conn_rec {
 
     /* Who is the client? */
 
-    struct sockaddr_in local_addr;	/* local address */
-    struct sockaddr_in remote_addr;	/* remote address */
+    struct sockaddr_storage local_addr;	/* local address */
+    struct sockaddr_storage remote_addr; /* remote address */
     char *remote_ip;		/* Client's IP address */
     char *remote_host;		/* Client's DNS name, if known.
 				 * NULL if DNS hasn't been checked,
@@ -862,8 +895,8 @@ struct conn_rec {
 typedef struct server_addr_rec server_addr_rec;
 struct server_addr_rec {
     server_addr_rec *next;
-    struct in_addr host_addr;	/* The bound address, for this server */
-    unsigned short host_port;	/* The bound port, for this server */
+    struct sockaddr_storage host_addr;	/* The bound address, for this server */
+    unsigned short host_port;	/* The bound port, for this server XXX */
     char *virthost;		/* The name given in <VirtualHost> */
 };
 
@@ -929,9 +962,9 @@ struct server_rec {
 /* These are more like real hosts than virtual hosts */
 struct listen_rec {
     listen_rec *next;
-    struct sockaddr_in local_addr;	/* local IP address and port */
+    struct sockaddr_storage local_addr;	/* local IP address and port */
     int fd;
-    int used;			/* Only used during restart */        
+    int used;			/* Only used during restart */
 /* more stuff here, like which protocol is bound to the port */
 };
 
@@ -999,13 +1032,13 @@ API_EXPORT(int) ap_strcasecmp_match(const char *str, const char *exp);
 API_EXPORT(char *) ap_stripprefix(const char *bigstring, const char *prefix);
 API_EXPORT(char *) ap_strcasestr(const char *s1, const char *s2);
 API_EXPORT(char *) ap_pbase64decode(pool *p, const char *bufcoded);
-API_EXPORT(char *) ap_pbase64encode(pool *p, char *string); 
+API_EXPORT(char *) ap_pbase64encode(pool *p, char *string);
 API_EXPORT(char *) ap_uudecode(pool *p, const char *bufcoded);
-API_EXPORT(char *) ap_uuencode(pool *p, char *string); 
+API_EXPORT(char *) ap_uuencode(pool *p, char *string);
 
 API_EXPORT(int)    ap_regexec(const regex_t *preg, const char *string,
                               size_t nmatch, regmatch_t pmatch[], int eflags);
-API_EXPORT(size_t) ap_regerror(int errcode, const regex_t *preg, 
+API_EXPORT(size_t) ap_regerror(int errcode, const regex_t *preg,
                                char *errbuf, size_t errbuf_size);
 API_EXPORT(char *) ap_pregsub(pool *p, const char *input, const char *source,
                               size_t nmatch, regmatch_t pmatch[]);
@@ -1071,7 +1104,7 @@ API_EXPORT(char *) ap_os_canonical_filename(pool *p, const char *file);
 
 
 API_EXPORT(char *) ap_get_local_host(pool *);
-API_EXPORT(unsigned long) ap_get_virthost_addr(char *hostname, unsigned short *port);
+API_EXPORT(struct sockaddr *) ap_get_virthost_addr(char *hostname, unsigned short *port);
 
 extern API_VAR_EXPORT time_t ap_restart_time;
 

@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # This is a comment. I love comments.
 
 # This file controls what Internet media types are sent to the client for
@@ -50,7 +52,7 @@ application/news-message-id
 application/news-transmission
 application/ocsp-request
 application/ocsp-response
-application/octet-stream	bin dms lha lzh exe class so dll
+application/octet-stream	bin lha lzh exe class so dll dmg cgz ngz cbz
 application/oda			oda
 application/ogg			ogg
 application/parityfec
@@ -342,6 +344,7 @@ application/whoispp-response
 application/wita
 application/wordperfect5.1
 application/x-bcpio		bcpio
+application/x-bittorrent	torrent
 application/x-cdlink		vcd
 application/x-chess-pgn		pgn
 application/x-compress

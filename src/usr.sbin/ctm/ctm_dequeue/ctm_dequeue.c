@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1996, Gary J. Palmer
  * All rights reserved.
@@ -53,7 +55,7 @@
 
 #define DEFAULT_NUM	1	/* Default number of pieces mailed per run. */
 
-int fts_sort(const FTSENT * const *, const FTSENT * const *);
+int fts_sort(const FTSENT **, const FTSENT **);
 int run_sendmail(int ifd);
 
 int
@@ -115,7 +117,7 @@ main(int argc, char **argv)
 	if (ftsent->fts_info != FTS_F || ftsent->fts_name[0] == '.')
 	    continue;
 
-	sprintf(filename, "%s/%s", queue_dir, ftsent->fts_name);
+	snprintf(filename, PATH_MAX, "%s/%s", queue_dir, ftsent->fts_name);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
@@ -127,13 +129,13 @@ main(int argc, char **argv)
 	    exit(1);
 
 	close(fd);
-	
+
 	if (unlink(filename) < 0)
 	{
 	    err("*unlink: %s", filename);
 	    exit(1);
 	}
-	
+
 	/*
 	 * Deduce the delta, piece number, and number of pieces from
 	 * the name of the file in the queue.  Ideally, we should be
@@ -156,7 +158,7 @@ main(int argc, char **argv)
 }
 
 int
-fts_sort(const FTSENT * const * a, const FTSENT * const * b)
+fts_sort(const FTSENT ** a, const FTSENT ** b)
 {
     if ((*a)->fts_info != FTS_F)
 	return(0);

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: do_command.c,v 1.26 2004/04/26 17:15:37 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
@@ -21,9 +22,8 @@
  * SOFTWARE.
  */
 
-#if !defined(lint) && !defined(LINT)
-static char const rcsid[] = "$OpenBSD: do_command.c,v 1.26 2004/04/26 17:15:37 millert Exp $";
-#endif
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 #include "cron.h"
 
@@ -88,7 +88,7 @@ child_process(entry *e, user *u) {
 	 */
 	pipe(stdin_pipe);	/* child's stdin */
 	pipe(stdout_pipe);	/* child's stdout */
-	
+
 	/* since we are a forked process, we can diddle the command string
 	 * we were passed -- nobody else is going to use it again, right?
 	 *
@@ -388,7 +388,7 @@ child_process(entry *e, user *u) {
 				 */
 				mailto = usernm;
 			}
-		
+
 			/* if we are supposed to be mailing, MAILTO will
 			 * be non-NULL.  only in this case should we set
 			 * up the mail command and subjects and stuff...
@@ -509,7 +509,7 @@ safe_p(const char *usernm, const char *s) {
 
 	for (t = s, first = 1; (ch = *t++) != '\0'; first = 0) {
 		if (isascii(ch) && isprint(ch) &&
-		    (isalnum(ch) || ch == '_' ||
+		    (isalnum(ch) || (first && (ch == '_')) ||
 		    (!first && strchr(safe_delim, ch))))
 			continue;
 		log_it(usernm, getpid(), "UNSAFE", s);

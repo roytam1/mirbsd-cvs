@@ -82,7 +82,7 @@ err(const char *fmt, ...)
 	{
 	time(&now);
 	tm = localtime(&now);
-	fprintf(fp, "%04d-%02d-%02d %02d:%02d ", tm->tm_year+1900,
+	fprintf(fp, "%04lld-%02d-%02d %02d:%02d ", (int64_t)tm->tm_year+1900,
 	    tm->tm_mon+1, tm->tm_mday, tm->tm_hour, tm->tm_min);
 	}
 

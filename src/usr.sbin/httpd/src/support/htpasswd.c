@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -45,7 +47,6 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  * ====================================================================
- * ====================================================================
  *
  * This software consists of voluntary contributions made by many
  * individuals on behalf of the Apache Software Foundation.  For more
@@ -66,7 +67,7 @@
 /*
  * htpasswd.c: simple program for manipulating password file for
  * the Apache HTTP server
- * 
+ *
  * Originally by Rob McCool
  *
  * Exit values:
@@ -95,7 +96,7 @@
 #define ALG_PLAIN 0
 #define ALG_CRYPT 1
 #define ALG_APMD5 2
-#define ALG_APSHA 3 
+#define ALG_APSHA 3
 
 #define ERR_FILEPERM 1
 #define ERR_SYNTAX 2
@@ -109,16 +110,6 @@
  * access it.
  */
 static char tempfilename[MAX_STRING_LEN];
-/*
- * If our platform knows about the tmpnam() external buffer size, create
- * a buffer to pass in.  This is needed in a threaded environment, or
- * one that thinks it is (like HP-UX).
- */
-#ifdef L_tmpnam
-static char tname_buf[L_tmpnam];
-#else
-static char *tname_buf = NULL;
-#endif
 
 /*
  * Get a line of input from the user, not including any terminating
@@ -172,7 +163,7 @@ static int mkrecord(char *user, char *record, size_t rlen, char *passwd,
     }
     else {
 	if (ap_getpass("New password: ", pwin, sizeof(pwin)) != 0) {
-	    ap_snprintf(record, (rlen - 1), "password too long (>%lu)",
+	    snprintf(record, (rlen - 1), "password too long (>%lu)",
 			(unsigned long) (sizeof(pwin) - 1));
 	    return ERR_OVERFLOW;
 	}
@@ -191,7 +182,7 @@ static int mkrecord(char *user, char *record, size_t rlen, char *passwd,
  	ap_sha1_base64(pw,strlen(pw),cpw);
 	break;
 
-    case ALG_APMD5: 
+    case ALG_APMD5:
         ap_to64(&salt[0], arc4random(), 8);
         salt[8] = '\0';
 
@@ -335,7 +326,7 @@ int main(int argc, char *argv[])
 
     /*
      * Preliminary check to make sure they provided at least
-     * three arguments, we'll do better argument checking as 
+     * three arguments, we'll do better argument checking as
      * we parse the command line.
      */
     if (argc < 3) {

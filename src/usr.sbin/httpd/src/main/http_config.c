@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: http_config.c,v 1.15 2004/12/02 19:42:47 henning Exp $ */
 
 /* ====================================================================
@@ -62,8 +63,8 @@
  * http_config.c: once was auxillary functions for reading httpd's config
  * file and converting filenames into a namespace
  *
- * Rob McCool 
- * 
+ * Rob McCool
+ *
  * Wall-to-wall rewrite for Apache... commands which are part of the
  * server core can now be found next door in "http_core.c".  Now contains
  * general command loop, and functions which do bookkeeping for the new
@@ -251,7 +252,7 @@ char *ShowMethod(module *modp, int offset)
     for (n = 0; aMethods[n].offset >= 0; ++n)
 	if (aMethods[n].offset == offset)
 	    break;
-    ap_snprintf(buf, sizeof(buf), "%s:%s", modp->name, aMethods[n].method);
+    snprintf(buf, sizeof(buf), "%s:%s", modp->name, aMethods[n].method);
     return buf;
 }
 #else
@@ -602,7 +603,7 @@ API_EXPORT(void) ap_add_module(module *m)
 #endif /* EAPI */
 }
 
-/* 
+/*
  * remove_module undoes what add_module did. There are some caveats:
  * when the module is removed, its slot is lost so all the current
  * per-dir and per-server configurations are invalid. So we should
@@ -664,13 +665,13 @@ API_EXPORT(void) ap_add_loaded_module(module *mod)
 {
     module **m;
 
-    /* 
-     *  Add module pointer to top of chained module list 
+    /*
+     *  Add module pointer to top of chained module list
      */
     ap_add_module(mod);
 
-    /* 
-     *  And module pointer to list of loaded modules 
+    /*
+     *  And module pointer to list of loaded modules
      *
      *  Notes: 1. ap_add_module() would already complain if no more space
      *            exists for adding a dynamically loaded module
@@ -689,12 +690,12 @@ API_EXPORT(void) ap_remove_loaded_module(module *mod)
     module **m2;
     int done;
 
-    /* 
-     *  Remove module pointer from chained module list 
+    /*
+     *  Remove module pointer from chained module list
      */
     ap_remove_module(mod);
 
-    /* 
+    /*
      *  Remove module pointer from list of loaded modules
      *
      *  Note: 1. We cannot determine if the module was successfully
@@ -724,7 +725,7 @@ API_EXPORT(void) ap_setup_prelinked_modules(void)
     for (m = ap_preloaded_modules; *m != NULL; m++)
         (*m)->module_index = total_modules++;
 
-    /* 
+    /*
      *  Initialise list of loaded modules
      */
     ap_loaded_modules = (module **)malloc(
@@ -1255,7 +1256,7 @@ CORE_EXPORT(void) ap_process_resource_config(server_rec *s, char *fname, pool *p
 	    return;
     }
 
-    /* 
+    /*
      * here we want to check if the candidate file is really a
      * directory, and most definitely NOT a symlink (to prevent
      * horrible loops).  If so, let's recurse and toss it back into
@@ -1279,7 +1280,7 @@ CORE_EXPORT(void) ap_process_resource_config(server_rec *s, char *fname, pool *p
                 exit(1);
             }
 
-            if (!ap_is_rdirectory(path)){ 
+            if (!ap_is_rdirectory(path)){
                 fprintf(stderr, "%s: Include directory '%s' not found",
                         ap_server_argv0, path);
                 exit(1);
@@ -1332,7 +1333,7 @@ CORE_EXPORT(void) ap_process_resource_config(server_rec *s, char *fname, pool *p
 	}
 	return;
     }
-    
+
     /* GCC's initialization extensions are soooo nice here... */
 
     parms = default_parms;
@@ -1537,7 +1538,7 @@ static void fixup_virtual_hosts(pool *p, server_rec *main_server)
 
 /*****************************************************************
  *
- * Getting *everything* configured... 
+ * Getting *everything* configured...
  */
 
 static void init_config_globals(pool *p)
@@ -1546,7 +1547,7 @@ static void init_config_globals(pool *p)
 
     ap_standalone = 1;
     ap_user_name = DEFAULT_USER;
-    if (!ap_server_is_chrooted()) { 
+    if (!ap_server_is_chrooted()) {
 	/* can't work, just keep old setting */
 	ap_user_id = ap_uname2id(DEFAULT_USER);
 	ap_group_id = ap_gname2id(DEFAULT_GROUP);
@@ -1559,7 +1560,6 @@ static void init_config_globals(pool *p)
     ap_scoreboard_fname = DEFAULT_SCOREBOARD;
     ap_lock_fname = DEFAULT_LOCKFILE;
     ap_max_requests_per_child = DEFAULT_MAX_REQUESTS_PER_CHILD;
-    ap_bind_address.s_addr = htonl(INADDR_ANY);
     ap_listeners = NULL;
     ap_listenbacklog = DEFAULT_LISTENBACKLOG;
     ap_extended_status = 0;
@@ -1592,7 +1592,13 @@ static server_rec *init_server_config(pool *p)
     s->next = NULL;
     s->addrs = ap_pcalloc(p, sizeof(server_addr_rec));
     /* NOT virtual host; don't match any real network interface */
-    s->addrs->host_addr.s_addr = htonl(INADDR_ANY);
+    memset(&s->addrs->host_addr, 0, sizeof(s->addrs->host_addr));
+#if 0
+    s->addrs->host_addr.ss_family = ap_default_family; /* XXX: needed?, XXX: PF_xxx can be different from AF_xxx */
+#endif
+#ifdef HAVE_SOCKADDR_LEN
+    s->addrs->host_addr.ss_len = (u_int8_t)sizeof(s->addrs->host_addr); /* XXX: needed ? */
+#endif
     s->addrs->host_port = 0;	/* matches any port */
     s->addrs->virthost = "";	/* must be non-NULL */
     s->names = s->wild_names = NULL;
@@ -1611,21 +1617,33 @@ static server_rec *init_server_config(pool *p)
 static void default_listeners(pool *p, server_rec *s)
 {
     listen_rec *new;
+    struct addrinfo hints, *res0;
+    int gai;
+    char servbuf[NI_MAXSERV];
 
     if (ap_listeners != NULL) {
 	return;
     }
+    snprintf(servbuf, sizeof(servbuf), "%d", s->port ? s->port : DEFAULT_HTTP_PORT);
+    memset (&hints, 0, sizeof(hints));
+    hints.ai_family = ap_default_family;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+    gai = getaddrinfo(NULL, servbuf, &hints, &res0);
+    if (gai){
+	fprintf(stderr, "default_listeners(): getaddrinfo(PASSIVE) for family %u: %s\n",
+		ap_default_family, gai_strerror(gai));
+	exit (1);
+    }
     /* allocate a default listener */
     new = ap_pcalloc(p, sizeof(listen_rec));
-    new->local_addr.sin_family = AF_INET;
-    new->local_addr.sin_addr = ap_bind_address;
-    /* Buck ugly cast to get around terniary op bug in some (MS) compilers */
-    new->local_addr.sin_port = htons((unsigned short)(s->port ? s->port 
-                                                        : DEFAULT_HTTP_PORT));
+    memcpy(&new->local_addr, res0->ai_addr, res0->ai_addrlen);
     new->fd = -1;
     new->used = 0;
     new->next = NULL;
     ap_listeners = new;
+
+    freeaddrinfo(res0);
 }
 
 

@@ -630,7 +630,7 @@ check_keynote_assertions(request_rec *r)
 	    /* Missing or self-signed, deny them */
 	    issuer = X509_get_issuer_name(cert);
 	    subject = X509_get_subject_name(cert);
-	    if (!issuer || !subject || X509_name_cmp(issuer, subject) == NULL)
+	    if (!issuer || !subject || X509_name_cmp(issuer, subject) == 0)
 		return(FORBIDDEN);
 
 	    /* Build a set of fake assertions corresponding to the certificate chain. */

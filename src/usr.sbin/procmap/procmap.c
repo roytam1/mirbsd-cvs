@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: procmap.c,v 1.16 2004/04/01 23:17:11 tdeval Exp $ */
 /*	$NetBSD: pmap.c,v 1.1 2002/09/01 20:32:44 atatat Exp $ */
 
@@ -593,7 +594,7 @@ dump_vm_map_entry(kvm_t *kd, struct kbit *vmspace,
 		}
 	}
 
-	A(vfs) = NULL;
+	A(vfs) = 0;
 
 	if (P(vp) != NULL && D(vp, vnode)->v_mount != NULL) {
 		P(vfs) = D(vp, vnode)->v_mount;

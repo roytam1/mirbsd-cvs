@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pf_print_state.c,v 1.2 2004/02/10 20:26:49 mcbride Exp $	*/
 
 /*
@@ -46,30 +47,14 @@
 #include "pfctl.h"
 #include "addrtoname.h"
 
+__RCSID("$MirOS$");
+
 void	print_name(struct pf_addr *, sa_family_t);
 
 void
 print_addr(struct pf_addr_wrap *addr, sa_family_t af, int verbose)
 {
 	switch (addr->type) {
-	case PF_ADDR_DYNIFTL:
-		printf("(%s", addr->v.ifname);
-		if (addr->iflags & PFI_AFLAG_NETWORK)
-			printf(":network");
-		if (addr->iflags & PFI_AFLAG_BROADCAST)
-			printf(":broadcast");
-		if (addr->iflags & PFI_AFLAG_PEER)
-			printf(":peer");
-		if (addr->iflags & PFI_AFLAG_NOALIAS)
-			printf(":0");
-		if (verbose) {
-			if (addr->p.dyncnt <= 0)
-				printf(":*");
-			else
-				printf(":%d", addr->p.dyncnt);
-		}
-		printf(")");
-		break;
 	case PF_ADDR_TABLE:
 		if (verbose)
 			if (addr->p.tblcnt == -1)

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -76,7 +78,7 @@ int ap_execve(const char *, char * const argv[], char * const envp[]);
 API_EXPORT(int) ap_getpass(const char *prompt, char *pwbuf, size_t bufsiz);
 
 #ifndef ap_strtol
-API_EXPORT(long) ap_strtol(const char *nptr, char **endptr, int base);
+#define	ap_strtol	strtol
 #endif
 
 /* small utility macros to make things easier to read */
@@ -87,7 +89,8 @@ API_EXPORT(long) ap_strtol(const char *nptr, char **endptr, int base);
  * with some extensions.  The extensions are:
  *
  * %pA	takes a struct in_addr *, and prints it as a.b.c.d
- * %pI	takes a struct sockaddr_in * and prints it as a.b.c.d:port
+ * %pI	takes a struct sockaddr * and prints it as a.b.c.d:port, or
+ *	ipv6-numeric-addr:port
  * %pp  takes a void * and outputs it in hex
  *
  * The %p hacks are to force gcc's printf warning code to skip
@@ -140,35 +143,17 @@ typedef struct {
 API_EXPORT(int) ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
     ap_vformatter_buff *, const char *fmt, va_list ap);
 
-/* These are snprintf implementations based on ap_vformatter().
- *
- * Note that various standards and implementations disagree on the return
- * value of snprintf, and side-effects due to %n in the formatting string.
- * ap_snprintf behaves as follows:
- *
- * Process the format string until the entire string is exhausted, or
- * the buffer fills.  If the buffer fills then stop processing immediately
- * (so no further %n arguments are processed), and return the buffer
- * length.  In all cases the buffer is NUL terminated. The return value
- * is the number of characters placed in the buffer, excluding the
- * terminating NUL. All this implies that, at most, (len-1) characters
- * will be copied over; if the return value is >= len, then truncation
- * occured.
- *
- * In no event does ap_snprintf return a negative number.
- */
 API_EXPORT_NONSTD(int) ap_snprintf(char *buf, size_t len, const char *format,...)
 			    __attribute__((format(printf,3,4)));
-API_EXPORT(int) ap_vsnprintf(char *buf, size_t len, const char *format,
-			     va_list ap);
+
 /* Simple BASE64 encode/decode functions.
- * 
+ *
  * As we might encode binary strings, hence we require the length of
  * the incoming plain source. And return the length of what we decoded.
  *
  * The decoding function takes any non valid char (i.e. whitespace, \0
  * or anything non A-Z,0-9 etc as terminal.
- * 
+ *
  * plain strings/binary sequences are not assumed '\0' terminated. Encoded
  * strings are neither. But propably should.
  *

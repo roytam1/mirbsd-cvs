@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -147,19 +148,23 @@ main(int argc, char **argv)
     argv += optind;
 
     if (basedir == NULL) {
-	Buffer = (u_char *)Malloc(BUFSIZ + strlen(SUBSUFF) +1);
+	CatPtrLen = BUFSIZ + strlen(SUBSUFF) + 1;
+	Buffer = (u_char *)Malloc(CatPtrLen);
 	CatPtr = Buffer;
 	*Buffer  = '\0';
     } else {
-	Buffer = (u_char *)Malloc(strlen(basedir)+ BUFSIZ + strlen(SUBSUFF) +1);
-	strcpy(Buffer, basedir);
+	CatPtrLen = strlen(basedir) + BUFSIZ + strlen(SUBSUFF) + 1;
+	Buffer = (u_char *)Malloc(CatPtrLen);
+	strlcpy(Buffer, basedir, CatPtrLen);
 	CatPtr = Buffer + strlen(basedir);
+	CatPtrLen -= strlen(basedir);
 	if (CatPtr[-1] != '/') {
-		strcat(Buffer, "/");
+		strlcat(Buffer, "/", CatPtrLen);
 		CatPtr++;
+		CatPtrLen--;
 	}
     }
-    strcat(Buffer, CTM_STATUS);
+    strlcat(Buffer, CTM_STATUS, BUFSIZ);
 
     if(ListIt) 
 	applied = 0;
@@ -207,8 +212,8 @@ Proc(char *filename, unsigned applied)
 	f = stdin;
     } else if(p && (!strcmp(p,".gz") || !strcmp(p,".Z"))) {
 	p = alloca(20 + strlen(filename));
-	strcpy(p,"gunzip < ");
-	strcat(p,filename);
+	strlcpy(p,"gunzip < ", 20 + strlen(filename));
+	strlcat(p,filename, 20 + strlen(filename));
 	f = popen(p,"r");
 	if(!f) { warn("%s", p); return Exit_Garbage; }
     } else {

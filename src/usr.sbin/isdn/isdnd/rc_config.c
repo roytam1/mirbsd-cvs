@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 1997, 2000 Hellmuth Michaelis. All rights reserved.
  *
@@ -40,7 +42,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#ifdef __OpenBSD__
+#include <sys/timeout.h>
+#else
 #include <sys/callout.h>
+#endif
 #include <sys/ioctl.h>
 #include <ifaddrs.h>
 
@@ -48,6 +54,8 @@
 #include "rc_parse.h"
 
 #include "monitor.h"
+
+__RCSID("$MirOS$");
 
 extern int lineno;
 extern char *yytext;
@@ -61,7 +69,9 @@ static void print_config(void);
 static void parse_valid(char *dt);
 static int lookup_l4_driver(const char *name);
 void init_currrent_cfg_state(void);
+#ifdef SPPPGETAUTHCFG
 static void set_isppp_auth(struct cfg_entry*);
+#endif
 static void set_autoupdown(struct cfg_entry*);
 void flush_config(void);
 
@@ -77,7 +87,7 @@ void
 configure(char *filename, int reread)
 {
 	extern void reset_scanner(FILE *inputfile);
-	
+
 	set_config_defaults();
 
 	yyin = fopen(filename, "r");
@@ -95,7 +105,7 @@ configure(char *filename, int reread)
 	}
 
 	yyparse();
-	
+
 	monitor_fixup_rights();
 
 	check_config();		/* validation and consistency check */
@@ -147,9 +157,9 @@ init_currrent_cfg_state()
 	current_cfe->earlyhangup = EARLYHANGUP_DEFAULT;
 	current_cfe->ratetype = INVALID_RATE;
 	current_cfe->unitlengthsrc = ULSRC_NONE;
-	current_cfe->answerprog = ANSWERPROG_DEF;	 	
+	current_cfe->answerprog = ANSWERPROG_DEF;
 	current_cfe->callbackwait = CALLBACKWAIT_MIN;
-	current_cfe->calledbackwait = CALLEDBACKWAIT_MIN;		
+	current_cfe->calledbackwait = CALLEDBACKWAIT_MIN;
 	current_cfe->dialretries = DIALRETRIES_DEF;
 	current_cfe->recoverytime = RECOVERYTIME_MIN;
 	current_cfe->dialouttype = DIALOUT_NORMAL;
@@ -172,22 +182,22 @@ set_config_defaults(void)
 	int i;
 
 	/* system section cleanup */
-        
+
 	nregprog = nregexpr = 0;
 
 	rt_prio = RTPRIO_NOTUSED;
 
 	mailer[0] = '\0';
-	mailto[0] = '\0';       
-        
+	mailto[0] = '\0';
+
 	/* clean regular expression table */
-        
+
 	for (i=0; i < MAX_RE; i++)
 	{
 		if (rarr[i].re_expr)
 			free(rarr[i].re_expr);
 		rarr[i].re_expr = NULL;
-	        
+
 		if (rarr[i].re_prog)
 			free(rarr[i].re_prog);
 		rarr[i].re_prog = NULL;
@@ -246,6 +256,7 @@ set_autoupdown(struct cfg_entry *cep)
 	close(s);
 }
 
+#ifdef SPPPGETAUTHCFG
 static void
 set_isppp_auth(struct cfg_entry *cep)
 {
@@ -253,15 +264,15 @@ set_isppp_auth(struct cfg_entry *cep)
 	int s;
 	int doioctl = 0;
 
-	if (cep->ppp_expect_auth == AUTH_UNDEF 
+	if (cep->ppp_expect_auth == AUTH_UNDEF
 	   && cep->ppp_send_auth == AUTH_UNDEF)
 		return;
 
-	if (cep->ppp_expect_auth == AUTH_NONE 
+	if (cep->ppp_expect_auth == AUTH_NONE
 	   || cep->ppp_send_auth == AUTH_NONE)
 		doioctl = 1;
 
-	if ((cep->ppp_expect_auth == AUTH_CHAP 
+	if ((cep->ppp_expect_auth == AUTH_CHAP
 	     || cep->ppp_expect_auth == AUTH_PAP)
 	    && cep->ppp_expect_name != NULL
 	    && cep->ppp_expect_password != NULL)
@@ -298,7 +309,7 @@ set_isppp_auth(struct cfg_entry *cep)
 		{
 			spcfg.hisauth = SPPP_AUTHPROTO_NONE;
 		}
-		else if ((cep->ppp_expect_auth == AUTH_CHAP 
+		else if ((cep->ppp_expect_auth == AUTH_CHAP
 			  || cep->ppp_expect_auth == AUTH_PAP)
 			 && cep->ppp_expect_name != NULL
 			 && cep->ppp_expect_password != NULL)
@@ -316,7 +327,7 @@ set_isppp_auth(struct cfg_entry *cep)
 		{
 			spcfg.myauth = SPPP_AUTHPROTO_NONE;
 		}
-		else if ((cep->ppp_send_auth == AUTH_CHAP 
+		else if ((cep->ppp_send_auth == AUTH_CHAP
 			  || cep->ppp_send_auth == AUTH_PAP)
 			 && cep->ppp_send_name != NULL
 			 && cep->ppp_send_password != NULL)
@@ -345,6 +356,7 @@ set_isppp_auth(struct cfg_entry *cep)
 	}
 	close(s);
 }
+#endif
 
 /*---------------------------------------------------------------------------*
  *	extract values from config and fill table
@@ -353,14 +365,14 @@ void
 cfg_setval(int keyword)
 {
 	int i;
-	
+
 	switch (keyword)
 	{
 	case ACCTALL:
 		acct_all = yylval.booln;
 		DBGL(DL_RCCF, (logit(LL_DBG, "system: acctall = %d", yylval.booln)));
 		break;
-		
+
 	case ACCTFILE:
 		strlcpy(acctfile, yylval.str, sizeof(acctfile));
 		DBGL(DL_RCCF, (logit(LL_DBG, "system: acctfile = %s", yylval.str)));
@@ -377,7 +389,7 @@ cfg_setval(int keyword)
 			yylval.num = MAXALERT;
 			DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: alert > %d, min = %d", current_cfe->name, MAXALERT, yylval.num)));
 		}
-			
+
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: alert = %d", current_cfe->name, yylval.num)));
 		current_cfe->alert = yylval.num;
 		break;
@@ -400,7 +412,7 @@ cfg_setval(int keyword)
 		}
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: answerprog = %s", current_cfe->name, yylval.str)));
 		break;
-		
+
 	case B1PROTOCOL:
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: b1protocol = %s", current_cfe->name, yylval.str)));
 		if (!(strcmp(yylval.str, "raw")))
@@ -428,7 +440,7 @@ cfg_setval(int keyword)
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: budget-callbackncalls = %d", current_cfe->name, yylval.num)));
 		current_cfe->budget_callbackncalls = yylval.num;
 		break;
-		
+
 	case BUDGETCALLOUTPERIOD:
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: budget-calloutperiod = %d", current_cfe->name, yylval.num)));
 		current_cfe->budget_calloutperiod = yylval.num;
@@ -448,7 +460,7 @@ cfg_setval(int keyword)
 		current_cfe->budget_callbacksfile_rotate = yylval.booln;
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: budget-callbacksfile-rotate = %d", current_cfe->name, yylval.booln)));
 		break;
-		
+
 	case BUDGETCALLBACKSFILE:
 		{
 			FILE *fp;
@@ -543,7 +555,7 @@ cfg_setval(int keyword)
 			}
 		}
 		break;
-	
+
 	case CALLBACKWAIT:
 		if (yylval.num < CALLBACKWAIT_MIN)
 		{
@@ -554,7 +566,7 @@ cfg_setval(int keyword)
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: callbackwait = %d", current_cfe->name, yylval.num)));
 		current_cfe->callbackwait = yylval.num;
 		break;
-		
+
 	case CALLEDBACKWAIT:
 		if (yylval.num < CALLEDBACKWAIT_MIN)
 		{
@@ -574,7 +586,7 @@ cfg_setval(int keyword)
 		}
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: connectprog = %s", current_cfe->name, yylval.str)));
 		break;
-		
+
 	case DIALOUTTYPE:
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: dialouttype = %s", current_cfe->name, yylval.str)));
 		if (!(strcmp(yylval.str, "normal")))
@@ -628,7 +640,7 @@ cfg_setval(int keyword)
 			yylval.num = DOWN_TRIES_MAX;
 		else if (yylval.num < DOWN_TRIES_MIN)
 			yylval.num = DOWN_TRIES_MIN;
-	
+
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: downtries = %d", current_cfe->name, yylval.num)));
 		current_cfe->downtries = yylval.num;
 		break;
@@ -638,7 +650,7 @@ cfg_setval(int keyword)
 			yylval.num = DOWN_TIME_MAX;
 		else if (yylval.num < DOWN_TIME_MIN)
 			yylval.num = DOWN_TIME_MIN;
-	
+
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: downtime = %d", current_cfe->name, yylval.num)));
 		current_cfe->downtime = yylval.num;
 		break;
@@ -685,7 +697,7 @@ cfg_setval(int keyword)
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: idle_time_in = %d", current_cfe->name, yylval.num)));
 		current_cfe->idle_time_in = yylval.num;
 		break;
-		
+
 	case IDLETIME_OUT:
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: idle_time_out = %d", current_cfe->name, yylval.num)));
 		current_cfe->idle_time_out = yylval.num;
@@ -884,8 +896,8 @@ cfg_setval(int keyword)
 			logit(LL_ERR, "ERROR parsing config file: too many remote numbers at line %d!", lineno);
 			config_error_flag++;
 			break;
-		}				
-		
+		}
+
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: remote_phone_dialout #%d = %s",
 			current_cfe->name, current_cfe->remote_numbers_count, yylval.str)));
 
@@ -895,10 +907,10 @@ cfg_setval(int keyword)
 		current_cfe->remote_numbers[current_cfe->remote_numbers_count].flag = 0;
 
 		current_cfe->remote_numbers_count++;
-		
+
 		break;
 
-	case REMOTE_NUMBERS_HANDLING:			
+	case REMOTE_NUMBERS_HANDLING:
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: remdial_handling = %s", current_cfe->name, yylval.str)));
 		if (!(strcmp(yylval.str, "next")))
 			current_cfe->remote_numbers_handling = RNH_NEXT;
@@ -940,7 +952,7 @@ cfg_setval(int keyword)
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: ratetype = %d", current_cfe->name, yylval.num)));
 		current_cfe->ratetype = yylval.num;
 		break;
-	
+
 	case RECOVERYTIME:
 		if (yylval.num < RECOVERYTIME_MIN)
 		{
@@ -951,7 +963,7 @@ cfg_setval(int keyword)
 		DBGL(DL_RCCF, (logit(LL_DBG, "entry %s: recoverytime = %d", current_cfe->name, yylval.num)));
 		current_cfe->recoverytime = yylval.num;
 		break;
-	
+
 	case REGEXPR:
 		if (nregexpr >= MAX_RE)
 		{
@@ -978,12 +990,12 @@ cfg_setval(int keyword)
 			}
 
 			DBGL(DL_RCCF, (logit(LL_DBG, "system: regexpr %s stored into slot %d", yylval.str, nregexpr)));
-			
+
 			if (rarr[nregexpr].re_prog != NULL)
 				rarr[nregexpr].re_flg = 1;
-			
+
 			nregexpr++;
-			
+
 		}
 		break;
 
@@ -1002,7 +1014,7 @@ cfg_setval(int keyword)
 		}
 
 		DBGL(DL_RCCF, (logit(LL_DBG, "system: regprog %s stored into slot %d", yylval.str, nregprog)));
-		
+
 		if (rarr[nregprog].re_expr != NULL)
 			rarr[nregprog].re_flg = 1;
 
@@ -1094,7 +1106,7 @@ cfg_setval(int keyword)
 	default:
 		logit(LL_ERR, "ERROR parsing config file: unknown keyword at line %d!", lineno);
 		config_error_flag++;
-		break;			
+		break;
 	}
 }
 
@@ -1122,7 +1134,7 @@ parse_valid(char *dt)
 	int tohr = 0;
 	int tomin = 0;
 	int ret;
-	
+
 	for (;;)
 	{
 		if ( ( ((*dt >= '0') && (*dt <= '9')) && (*(dt+1) == ':') ) ||
@@ -1198,7 +1210,7 @@ check_config(void)
 	int error = 0;
 
 	/* regular expression table */
-	
+
 	for (i=0; i < MAX_RE; i++)
 	{
 		if ((rarr[i].re_expr != NULL) && (rarr[i].re_prog == NULL))
@@ -1214,12 +1226,12 @@ check_config(void)
 	}
 
 	/* entry sections */
-	
+
 	for (cep = get_first_cfg_entry(); cep; cep = NEXT_CFE(cep)) {
 
 		/* does this entry have a bchannel driver configured? */
 		if (cep->usrdevice < 0) {
-			logit(LL_ERR, "check_config: usrdevicename not set in entry \"%s\"!", 
+			logit(LL_ERR, "check_config: usrdevicename not set in entry \"%s\"!",
 			    cep->name);
 			error++;
 		}
@@ -1230,7 +1242,7 @@ check_config(void)
 		}
 
 		/* numbers used for dialout */
-		
+
 		if ((cep->inout != DIR_INONLY) && (cep->dialin_reaction != REACT_ANSWER))
 		{
 			if (cep->remote_numbers_count == 0)
@@ -1242,7 +1254,7 @@ check_config(void)
 		}
 
 		/* numbers used for incoming calls */
-		
+
 		if (cep->inout != DIR_OUTONLY)
 		{
 			if (strlen(cep->local_phone_incoming) == 0)
@@ -1297,9 +1309,11 @@ check_config(void)
 			}
 		}
 
-		if (cep->ppp_expect_auth != AUTH_UNDEF 
+#ifdef SPPPGETAUTHCFG
+		if (cep->ppp_expect_auth != AUTH_UNDEF
 		   || cep->ppp_send_auth != AUTH_UNDEF)
 			set_isppp_auth(cep);
+#endif
 
 		/*
 		 * Only if AUTOUPDOWN_YES is the only bit set, otherwise
@@ -1353,7 +1367,7 @@ print_config(void)
 #endif
 
 	/* regular expression table */
-	
+
 	for (i=0; i < MAX_RE; i++)
 	{
 		if (rarr[i].re_expr != NULL)
@@ -1493,7 +1507,7 @@ print_config(void)
 				fprintf(PFILE, "monitor         = \"%s/%s\"\t\t# host (net/mask) allowed to connect for monitoring\n", inet_ntoa(ia), s);
 			}
 			b[0] = '\0';
-			
+
 			if ((m_rights->rights) & I4B_CA_COMMAND_FULL)
 				strlcat(b, "fullcmd,", sizeof(b));
 			if ((m_rights->rights) & I4B_CA_COMMAND_RESTRICTED)
@@ -1509,14 +1523,14 @@ print_config(void)
 
 			if (strlen(b) > 0 && b[strlen(b)-1] == ',')
 				b[strlen(b)-1] = '\0';
-				
+
 			fprintf(PFILE, "monitor-access  = %s\t\t# monitor access rights\n", b);
 		}
 	}
-	
+
 #endif
 	/* entry sections */
-	
+
 	for (cep = get_first_cfg_entry(); cep; cep = NEXT_CFE(cep)) {
 		fprintf(PFILE, "\n");
 		fprintf(PFILE, "#---------------------------------------------------------------------------\n");
@@ -1556,14 +1570,14 @@ print_config(void)
 			fprintf(PFILE, "inout\t\t# incoming and outgoing connections allowed\n");
 			break;
 		}
-		
+
 		if (cep->remote_numbers_count > 1)
 		{
 			for (j = 0; j < cep->remote_numbers_count; j++)
 				fprintf(PFILE, "remote-phone-dialout  = %s\t\t# telephone number %d for dialing out to remote\n", cep->remote_numbers[j].number, j+1);
 
 				fprintf(PFILE, "remdial-handling      = ");
-	
+
 				switch (cep->remote_numbers_handling)
 				{
 				case RNH_NEXT:
@@ -1587,7 +1601,7 @@ print_config(void)
 		if (!(cep->inout == DIR_OUTONLY))
 		{
 			int n;
-			
+
 			fprintf(PFILE, "local-phone-incoming  = %s\t\t# incoming calls must match this (mine) telephone number\n", cep->local_phone_incoming);
 			for (n = 0; n < cep->incoming_numbers_count; n++)
 				fprintf(PFILE, "remote-phone-incoming = %s\t\t# this is a valid remote number to call me\n",
@@ -1697,7 +1711,7 @@ print_config(void)
 		if (!(cep->inout == DIR_OUTONLY))
 			fprintf(PFILE, "idletime-incoming     = %d\t\t# incoming call idle timeout\n", cep->idle_time_in);
 
-		{		
+		{
 	 		fprintf(PFILE, "unitlengthsrc         = ");
 			switch (cep->unitlengthsrc)
 			{
@@ -1724,19 +1738,19 @@ print_config(void)
 			fprintf(PFILE, "earlyhangup           = %d\t\t# early hangup safety time\n", cep->earlyhangup);
 
 		}
-		
+
 		{
 			fprintf(PFILE, "answerprog            = %s\t\t# program used to answer incoming telephone calls\n", cep->answerprog);
 			fprintf(PFILE, "alert                 = %d\t\t# number of seconds to wait before accepting a call\n", cep->alert);
 		}
 
-		{		
+		{
 			if (cep->dialin_reaction == REACT_CALLBACK)
 				fprintf(PFILE, "callbackwait          = %d\t\t# i am waiting this time before calling back remote\n", cep->callbackwait);
-	
+
 			if (cep->dialouttype == DIALOUT_CALLEDBACK)
 				fprintf(PFILE, "calledbackwait        = %d\t\t# i am waiting this time for a call back from remote\n", cep->calledbackwait);
-	
+
 			if (!(cep->inout == DIR_INONLY))
 			{
 				fprintf(PFILE, "dialretries           = %d\t\t# number of dialing retries\n", cep->dialretries);
@@ -1751,7 +1765,7 @@ print_config(void)
 				}
 			}
 	}
-	fprintf(PFILE, "\n");	
+	fprintf(PFILE, "\n");
 }
 
 static int
@@ -1766,4 +1780,3 @@ lookup_l4_driver(const char *name)
 	if (e != 0) return -1;
 	return query.driver_id;
 }
-

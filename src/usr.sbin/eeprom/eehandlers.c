@@ -546,7 +546,7 @@ doio(ktent, buf, len, wr)
 			goto done;
 		}
 	} else
-		bcopy(buf2, buf, len);
+		memmove(buf, buf2, len);
 
  done:
 	free(buf2);

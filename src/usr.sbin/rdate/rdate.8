@@ -1,7 +1,9 @@
+.\"	$MirOS$
 .\"	$OpenBSD: rdate.8,v 1.26 2004/02/18 20:10:53 jmc Exp $
 .\"	$NetBSD: rdate.8,v 1.4 1996/04/08 20:55:17 jtc Exp $
 .\"
 .\" Copyright (c) 1994 Christos Zoulas
+.\" Copyright (c) 2002 Thorsten Glaser
 .\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
@@ -37,7 +39,7 @@
 .Nd set the system's date from a remote host
 .Sh SYNOPSIS
 .Nm rdate
-.Op Fl 46acnpsv
+.Op Fl 46acnprsv
 .Ar host
 .Sh DESCRIPTION
 .Nm
@@ -68,9 +70,13 @@ call to gradually skew the local time to the
 remote time rather than just hopping.
 .It Fl c
 Correct leap seconds.
-Sometimes required when synchronizing to an NTP server.
+Usually required when synchronizing to an NTP server.
+See below for an example.
+.Pp
 When synchronizing using the RFC 868 protocol, use this option only if the
-server does not correctly account for leap seconds.
+server does not correctly account for leap seconds (i.e. if his
+.Pa /etc/localtime
+link is set to a POSIX, not a RIGHT, time zone).
 You can determine if you need this parameter if you sync against an NTP
 server (with this parameter) or (recommended) check with a local radio
 controlled watch or phone service.
@@ -78,11 +84,21 @@ controlled watch or phone service.
 Use SNTP (RFC 1361) instead of the RFC 868 time protocol.
 .It Fl p
 Do not set, just print the remote time.
+.It Fl r
+Show the remainder from the last
+.Xr adjtime 2
+call.
 .It Fl s
 Do not print the time.
+If set, any previous
+.Fl v
+options will be ignored.
 .It Fl v
 Verbose output.
 Always show the adjustment.
+Put this on a command line to reset all previous
+.Fl s
+options.
 .El
 .Sh FILES
 .Bl -tag -width /var/log/wtmp -compact
@@ -101,14 +117,20 @@ and issue the following command:
 The command of course assumes you have a working internet connection
 and DNS set up to connect to the server at
 .Sy Physikalisch-Technische Bundesanstalt
-in Braunschweig, Germany.
+in Braunschweig, Germany, which makes legal time for this country.
 .Pp
 To gradually adjust time once an hour after the first
 .Qq step
 adjustment, put the following line into root's crontab:
 .Pp
 .D1 Li "58  *  *  *  *  rdate -ncav ptbtime1.ptb.de | logger -t NTP"
+.Pp
+Note that a line similar to the line above is already active
+by default in root's crontab of
+.Mx .
 .Sh SEE ALSO
 .Xr adjtime 2 ,
+.Xr crontab 1 ,
 .Xr gettimeofday 2 ,
+.Xr symlink 7 ,
 .Xr inetd 8

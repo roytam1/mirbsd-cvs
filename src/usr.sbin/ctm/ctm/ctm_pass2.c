@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -114,6 +115,11 @@ Pass2(FILE *fd)
 			else
 			    ret |= Exit_NotOK;
 			break;
+		    }
+		    if (-1 == access(name, W_OK)) {
+			fprintf(stderr, "  %s: %s not writable.\n",
+				sp->Key, name);
+			ret |= Exit_Forcible;
 		    }
 		    if (SetTime && getuid() && (getuid() != st.st_uid)) {
 			    fprintf(stderr,

@@ -23,11 +23,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ *	$MirOS$
  *	$OpenBSD: bundle.c,v 1.69 2004/01/28 01:35:16 kevlo Exp $
  */
 
 #include <sys/param.h>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <net/if.h>
 #include <net/if_tun.h>		/* For TUNS* ioctls */

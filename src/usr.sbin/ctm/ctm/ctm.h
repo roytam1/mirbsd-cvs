@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -84,6 +85,7 @@ EXTERN u_char *Prefix;
 EXTERN u_char *FileName;
 EXTERN u_char *TmpDir;
 EXTERN u_char *CatPtr;
+EXTERN size_t CatPtrLen;
 EXTERN u_char *Buffer;
 EXTERN u_char *BackupFile;
 EXTERN u_char *TarCmd;

@@ -6,12 +6,13 @@
 # ----------------------------------------------------------------------------
 #
 # $FreeBSD: src/usr.sbin/ctm/README,v 1.10 2002/03/25 14:12:09 phk Exp $
-#
+# $MirOS$
 
 What will I not find in this file ?
 -----------------------------------
-Instructions on how to obtain FreeBSD via CTM.
-Contact <CTM@FreeBSD.org> for that.
+- Instructions on how to obtain FreeBSD via CTM.
+  Contact <CTM@FreeBSD.org> for that.
+- Instructions on MirBSD. Contact <miros-discuss@66h.42h.de> for that.
 
 What is CTM ?
 -------------
@@ -45,12 +46,12 @@ to upgrade your copy.
 
 How do I make a CTM-delta ?
 ---------------------------
-
 Read the source, and be prepared to have 2 copies of the tree; One is
 the reference ("From") tree, and the other is the delta ("To") tree.
 The mkCTM script will create the CTM diff of the differences between
 the reference tree and the delta tree. A lot of scratch space is
 required, and your machine will work hard.
+Don't. Really. It's very difficult, untested and not documented.
 
 How do I apply a CTM-delta ?
 ----------------------------
@@ -80,6 +81,6 @@ No.  You might want to selectively reconstruct a file latter on.
 Why is CTM not being maintained?
 --------------------------------
 Because CVSUP has improved on the concept quite a bit, and is now
-the method of choice.
+the method of choice. For FreeBSD, that is. MirBSD does not like it.
 
 Poul-Henning

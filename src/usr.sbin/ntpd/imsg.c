@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: imsg.c,v 1.7 2004/09/16 01:13:42 henning Exp $ */
 
 /*
@@ -24,6 +25,8 @@
 #include <unistd.h>
 
 #include "ntpd.h"
+
+__RCSID("$MirOS$");
 
 void
 imsg_init(struct imsgbuf *ibuf, int fd)
@@ -111,8 +114,8 @@ imsg_compose(struct imsgbuf *ibuf, enum imsg_type type, u_int32_t peerid,
 }
 
 struct buf *
-imsg_create(struct imsgbuf *ibuf, enum imsg_type type, u_int32_t peerid,
-    pid_t pid, u_int16_t datalen)
+imsg_create(struct imsgbuf *ibuf __attribute__((unused)), enum imsg_type type,
+    u_int32_t peerid, pid_t pid, u_int16_t datalen)
 {
 	struct buf	*wbuf;
 	struct imsg_hdr	 hdr;

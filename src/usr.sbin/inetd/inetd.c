@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: inetd.c,v 1.117 2004/04/24 21:40:35 millert Exp $	*/
 
 /*
@@ -468,7 +469,7 @@ main(int argc, char *argv[])
 			}
 			readablen = allsockn;
 		}
-		bcopy(allsockp, fdsrp, allsockn);
+		memmove(fdsrp, allsockp, allsockn);
 
 		if ((n = select(maxsock + 1, fdsrp, NULL, NULL, NULL)) <= 0) {
 			if (n < 0 && errno != EINTR) {
@@ -1106,13 +1107,13 @@ matchconf(struct servtab *old, struct servtab *new)
 	 */
 
 	if (old->se_family == AF_INET && new->se_family == AF_INET &&
-	    bcmp(&old->se_ctrladdr_in.sin_addr,
+	    memcmp(&old->se_ctrladdr_in.sin_addr,
 	    &new->se_ctrladdr_in.sin_addr,
 	    sizeof(new->se_ctrladdr_in.sin_addr)) != 0)
 		return (0);
 
 	if (old->se_family == AF_INET6 && new->se_family == AF_INET6 &&
-	    bcmp(&old->se_ctrladdr_in6.sin6_addr,
+	    memcmp(&old->se_ctrladdr_in6.sin6_addr,
 	    &new->se_ctrladdr_in6.sin6_addr,
 	    sizeof(new->se_ctrladdr_in6.sin6_addr)) != 0)
 		return (0);

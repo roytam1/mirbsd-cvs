@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ntpd.h,v 1.48 2004/12/16 00:38:59 dtucker Exp $ */
 
 /*
@@ -38,9 +39,11 @@
 #define	NTPD_OPT_VERBOSE	0x0001
 #define	NTPD_OPT_VERBOSE2	0x0002
 
-#define	INTERVAL_QUERY_NORMAL		30	/* sync to peers every n secs */
-#define	INTERVAL_QUERY_PATHETIC		60
-#define	INTERVAL_QUERY_AGRESSIVE	5
+#define INTERVAL_MANIPULATOR		(4 - (rand() / (RAND_MAX >> 3)))
+/* sync to peers every n secs */
+#define	INTERVAL_QUERY_NORMAL		(30 + INTERVAL_MANIPULATOR)
+#define	INTERVAL_QUERY_PATHETIC		(60 + INTERVAL_MANIPULATOR)
+#define	INTERVAL_QUERY_AGRESSIVE	(5 + (INTERVAL_MANIPULATOR / 3))
 
 #define	TRUSTLEVEL_BADPEER		6
 #define	TRUSTLEVEL_PATHETIC		2
@@ -55,7 +58,6 @@
 #define	QUERYTIME_MAX		15	/* single query might take n secs max */
 #define	OFFSET_ARRAY_SIZE	8
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
-#define	LOG_NEGLIGEE		128	/* negligible drift to not log (ms) */
 
 enum client_state {
 	STATE_NONE,

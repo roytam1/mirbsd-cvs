@@ -441,7 +441,7 @@ subst(char *tgt, const char *oldstr, const char *newstr)
   do {
     pos = word - tgt;
     if (loldstr > lnewstr)
-      bcopy(word + loldstr, word + lnewstr, ltgt - pos - loldstr);
+      memmove(word + lnewstr, word + loldstr, ltgt - pos - loldstr);
     if (loldstr != lnewstr) {
       ntgt = realloc(tgt, ltgt += lnewstr - loldstr);
       if (ntgt == NULL)
@@ -450,8 +450,8 @@ subst(char *tgt, const char *oldstr, const char *newstr)
       tgt = ntgt;
     }
     if (lnewstr > loldstr)
-      bcopy(word + loldstr, word + lnewstr, ltgt - pos - loldstr);
-    bcopy(newstr, word, lnewstr);
+      memmove(word + lnewstr, word + loldstr, ltgt - pos - loldstr);
+    memmove(word, newstr, lnewstr);
   } while ((word = strstrword(word, oldstr)));
 
   return tgt;

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -234,7 +236,7 @@ static int proxy_fixup(request_rec *r)
                     AP_HOOK_SIG3(int,ptr,ptr),
                     AP_HOOK_DECLINE(DECLINED),
                     &rc, r, url) && rc != DECLINED)
-        return rc;  
+        return rc;
     else
 #endif /* EAPI */
     if (strncasecmp(url, "http:", 5) == 0)
@@ -253,7 +255,7 @@ static void proxy_init(server_rec *r, pool *p)
 {
     ap_proxy_garbage_init(r, p);
 #ifdef EAPI
-    ap_hook_use("ap::mod_proxy::init", 
+    ap_hook_use("ap::mod_proxy::init",
                 AP_HOOK_SIG3(void,ptr,ptr), AP_HOOK_ALL, r, p);
 #endif
 }
@@ -262,21 +264,21 @@ static void proxy_init(server_rec *r, pool *p)
 static void proxy_addmod(module *m)
 {
     /* export: ap_proxy_http_canon() as `ap::mod_proxy::http::canon' */
-    ap_hook_configure("ap::mod_proxy::http::canon", 
+    ap_hook_configure("ap::mod_proxy::http::canon",
                       AP_HOOK_SIG5(int,ptr,ptr,ptr,int), AP_HOOK_TOPMOST);
-    ap_hook_register("ap::mod_proxy::http::canon", 
+    ap_hook_register("ap::mod_proxy::http::canon",
                      ap_proxy_http_canon, AP_HOOK_NOCTX);
 
     /* export: ap_proxy_http_handler() as `ap::mod_proxy::http::handler' */
-    ap_hook_configure("ap::mod_proxy::http::handler", 
+    ap_hook_configure("ap::mod_proxy::http::handler",
                       AP_HOOK_SIG6(int,ptr,ptr,ptr,ptr,int), AP_HOOK_TOPMOST);
-    ap_hook_register("ap::mod_proxy::http::handler", 
+    ap_hook_register("ap::mod_proxy::http::handler",
                      ap_proxy_http_handler, AP_HOOK_NOCTX);
 
     /* export: ap_proxyerror() as `ap::mod_proxy::error' */
-    ap_hook_configure("ap::mod_proxy::error", 
+    ap_hook_configure("ap::mod_proxy::error",
                       AP_HOOK_SIG3(int,ptr,ptr), AP_HOOK_TOPMOST);
-    ap_hook_register("ap::mod_proxy::error", 
+    ap_hook_register("ap::mod_proxy::error",
                      ap_proxyerror, AP_HOOK_NOCTX);
     return;
 }
@@ -425,8 +427,8 @@ static int proxy_handler(request_rec *r)
 		if (!ap_hook_use("ap::mod_proxy::handler",
 				 AP_HOOK_SIG7(int,ptr,ptr,ptr,ptr,int,ptr),
 				 AP_HOOK_DECLINE(DECLINED),
-				 &rc, r, cr, url, 
-				 ents[i].hostname, ents[i].port, 
+				 &rc, r, cr, url,
+				 ents[i].hostname, ents[i].port,
 				 ents[i].protocol) || rc == DECLINED) {
 #endif /* EAPI */
                 if (r->method_number == M_CONNECT)
@@ -459,7 +461,7 @@ static int proxy_handler(request_rec *r)
     if (ap_hook_use("ap::mod_proxy::handler",
 		    AP_HOOK_SIG7(int,ptr,ptr,ptr,ptr,int,ptr),
 		    AP_HOOK_DECLINE(DECLINED),
-		    &rc, r, cr, url, 
+		    &rc, r, cr, url,
                     NULL, 0, scheme) && rc != DECLINED)
         return rc;
 #endif /* EAPI */
@@ -575,11 +577,31 @@ static const char *
     struct proxy_remote *new;
     char *p, *q;
     int port;
+    char *bl = NULL, *br = NULL;
 
     p = strchr(r, ':');
     if (p == NULL || p[1] != '/' || p[2] != '/' || p[3] == '\0')
-        return "ProxyRemote: Bad syntax for a remote proxy server";
-    q = strchr(p + 3, ':');
+	return "ProxyRemote: Bad syntax for a remote proxy server";
+    bl = p + 3;
+    if (*bl == '['){
+	br = strrchr(bl+1, ']');
+	if (br){
+	    bl++;
+	    *br = '\0';
+	    if (*(br+1) == ':'){	/* [host]:xx */
+		q = br+1;
+	    }
+	    else if (*(br+1) == '\0'){	/* [host] */
+		q = NULL;
+	    }
+	    else
+		q = strrchr(br, ':');	/* XXX */
+	}
+	else
+	    q = strrchr(bl, ':');	/* XXX */
+    }
+    else
+	q = strrchr(bl, ':');
     if (q != NULL) {
         if (sscanf(q + 1, "%u", &port) != 1 || port > 65535)
             return "ProxyRemote: Bad syntax for a remote proxy server (bad port number)";
@@ -590,7 +612,7 @@ static const char *
     *p = '\0';
     if (strchr(f, ':') == NULL)
         ap_str_tolower(f);      /* lowercase scheme */
-    ap_str_tolower(p + 3);      /* lowercase hostname */
+    ap_str_tolower(bl);         /* lowercase hostname */
 
     if (port == -1) {
         int i;
@@ -603,7 +625,7 @@ static const char *
     new = ap_push_array(conf->proxies);
     new->scheme = f;
     new->protocol = r;
-    new->hostname = p + 3;
+    new->hostname = bl;
     new->port = port;
     return NULL;
 }
@@ -789,7 +811,7 @@ static const char *
     ap_get_module_config(parms->server->module_config, &proxy_module);
 
     psf->cache.root = arg;
-    ap_server_strip_chroot(psf->cache.root, 1);
+    ap_server_strip_chroot((char *)psf->cache.root, 1);
 
     return NULL;
 }

@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $NetBSD: ifwatchd.8,v 1.23 2004/11/25 16:05:11 wiz Exp $
 .\"
 .\" Copyright (c) 2001-2003 The NetBSD Foundation, Inc.
@@ -60,8 +61,15 @@ which can take care of running any necessary scripts (like
 .Xr pppd 8
 or
 .Xr isdnd 8 ) ,
-but sometimes the interfaces run completely autonomously (like
+but sometimes the interfaces run completely autonomously (such as
 .Xr pppoe 4 ) .
+.Pp
+.Em Attention:
+on current
+.Mx ,
+only address additions for
+.Xr pppoe 4
+interfaces are tested.
 .Pp
 .Nm
 provides a generic way to watch these types of changes.
@@ -83,7 +91,7 @@ is run.
 The following options are available:
 .Bl -tag -width indent
 .It Fl A Ar arrival-script
-Specify the command to invoke on arrival of new interfaces (like
+Specify the command to invoke on arrival of new interfaces (such as
 PCMCIA cards).
 .It Fl c Ar carrier-script
 Specify the command to invoke when the carrier status transitions from
@@ -148,7 +156,7 @@ default route.
 This is an example for an up script doing this:
 .Bd -literal -offset indent
 #! /bin/sh
-/sbin/route add default $5
+/sbin/route -n add default $5
 .Ed
 .Pp
 As described below the fifth command line parameter will contain
@@ -156,7 +164,7 @@ the peer address of the pppoe link.
 The corresponding ip-down script is:
 .Bd -literal -offset indent
 #! /bin/sh
-/sbin/route delete default $5
+/sbin/route -n delete default $5
 .Ed
 .Pp
 Note that this is not a good idea if you have pppoe0 configured to
@@ -164,11 +172,11 @@ connect only on demand (via the link1 flag), but works well for
 all permanent connected cases.
 Use
 .Bd -literal -offset indent
-! /sbin/route add default -iface 0.0.0.1
+! /sbin/route -n add default -iface 0.0.0.1
 .Ed
 .Pp
 in your
-.Pa /etc/ifconfig.pppoe0
+.Pa /etc/hostname.pppoe0
 file in the on-demand case.
 .Pp
 The next example is for dhclient users.
@@ -177,22 +185,22 @@ The next example is for dhclient users.
 .Ed
 .Pp
 With the above command, the carrier-detect script will be invoked when
-a carrier is detected on the interface 
+a carrier is detected on the interface
 .Ar tlp0 .
 Note that the
-.Ar -i 
+.Ar -i
 flag prevents any action based on the initial state.
 A script like the following should work for most users, although it
-will not work for machines with multiple interfaces running 
+will not work for machines with multiple interfaces running
 .Cm dhclient .
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/ksh
 # Arguments:  ifname tty speed address destination
 # If there is a dhclient already running, kill it.
 # (This step could be put in a distinct no-carrier script,
 # if desired.)
 if [ -f /var/run/dhclient.pid ]; then
-       /bin/kill `/bin/cat /var/run/dhclient.pid`
+        kill $(</var/run/dhclient.pid)
 fi
 # Start dhclient again on this interface
 /sbin/dhclient $1
@@ -235,14 +243,16 @@ For detailed debugging use the
 .Sh SEE ALSO
 .Xr pppoe 4 ,
 .Xr route 4 ,
-.Xr ifconfig.if 5 ,
-.Xr rc.d 8 ,
+.Xr hostname.if 5 ,
+.Xr rc.conf 8 ,
 .Xr route 8
 .Sh HISTORY
 The
 .Nm
 utility appeared in
-.Nx 1.6 .
+.Nx 1.6
+first and was ported to
+.Mx 8 .
 .Sh AUTHORS
 The program was written by
 .An Martin Husemann

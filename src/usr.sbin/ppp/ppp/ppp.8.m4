@@ -25,6 +25,7 @@ changecom(,)dnl
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
+.\" $MirOS$
 .\" $OpenBSD: ppp.8.m4,v 1.19 2004/07/30 22:25:37 jmc Exp $
 .\"
 .Dd September 20, 1995
@@ -386,7 +387,7 @@ All external commands
 (executed via the
 .Ic shell
 or
-.No !\& Ns Ic bg
+.No \&! Ns Ic bg
 commands)
 are executed as the user ID that invoked
 .Nm ppp .
@@ -1646,7 +1647,7 @@ A filter definition has the following syntax:
 .Ar name
 .Ar rule-no
 .Ar action
-.Op !\&
+.Op \&!
 .Oo
 .Op host
 .Ar src_addr Ns Op / Ns Ar width
@@ -1694,7 +1695,7 @@ the new rule number (rather than the next rule number).
 The
 .Ar action
 may optionally be followed with an exclamation mark
-.Pq Sq !\& ,
+.Pq Sq \&! ,
 telling
 .Nm
 to reverse the sense of the following match.
@@ -3117,7 +3118,7 @@ This is usually only necessary if
 you require the user to both login and authenticate themselves.
 .El
 .It Ic add Ns Xo
-.Op !\&
+.Op \&!
 .Ar dest Ns Op / Ns Ar nn
 .Op Ar mask
 .Op Ar gateway
@@ -3166,10 +3167,10 @@ is replaced with the interface IPv6 address, and
 is replaced with the interface IPv6 destination address.
 .Pp
 If the
-.Ic add Ns !\&
+.Ic add Ns \&!
 command is used
 (note the trailing
-.Sq !\& ) ,
+.Sq \&! ) ,
 then if the route already exists, it will be updated as with the
 .Ic route change
 command (see
@@ -3281,7 +3282,7 @@ When running in multi-link mode, a section can be loaded if it allows
 .Em any
 of the currently existing line modes.
 .El
-.It Op !\& Ns Xo
+.It Op \&! Ns Xo
 .Ic bg Ar command
 .Xc
 The given
@@ -3437,8 +3438,8 @@ The default link name is
 .Dq deflink .
 .It Xo
 .Ic close
-.Oo Ic lcp Ns Oo !\& Oc |\&
-.Ic ccp Ns Op !\& Oc
+.Oo Ic lcp Ns Oo \&! Oc \&|
+.Ic ccp Ns Op \&! Oc
 .Xc
 If no arguments are given, the relevant protocol layers will be brought
 down and the link will be closed.
@@ -3457,7 +3458,7 @@ If
 .Dq ccp
 is specified, only the relevant compression layer is closed.
 If the
-.Sq !\&
+.Sq \&!
 is used, the compression layer will remain in the closed state, otherwise
 it will re-enter the STOPPED state, waiting for the peer to initiate
 further CCP negotiation.
@@ -3469,7 +3470,7 @@ See the
 .Ic quit
 command below.
 .It Ic delete Ns Xo
-.Op !\&
+.Op \&!
 .Ar dest
 .Xc
 This command deletes the route with the given
@@ -3490,10 +3491,10 @@ is specified as
 the default route is deleted.
 .Pp
 If the
-.Ic delete Ns !\&
+.Ic delete Ns \&!
 command is used
 (note the trailing
-.Sq !\& ) ,
+.Sq \&! ) ,
 .Nm
 will not complain if the route does not already exist.
 .It Xo
@@ -3525,7 +3526,7 @@ If
 is specified, only the relevant compression layer(s) are terminated.
 .It Xo
 .Ic help No \&|
-.Ic ?\&
+.Ic \&?
 .Op Ar command
 .Xc
 Show a list of available commands.
@@ -3554,12 +3555,12 @@ may be one of the following:
 .Pp
 .Bl -tag -width 2n -compact
 .It Ic iface add Ns Xo
-.Op !\&
+.Op \&!
 .Ar addr Ns Op / Ns Ar bits
 .Op Ar peer
 .Xc
 .It Ic iface add Ns Xo
-.Op !\&
+.Op \&!
 .Ar addr
 .Ar mask
 .Ar peer
@@ -3574,7 +3575,7 @@ can be used
 (with no space between it and
 .Ar addr ) .
 If the given address already exists, the command fails unless the
-.Sq !\&
+.Sq \&!
 is used \- in which case the previous interface address entry is overwritten
 with the new one, allowing a change of netmask or peer address.
 .Pp
@@ -3610,15 +3611,15 @@ family are cleared.
 .Pp
 .It Xo
 .Ic iface
-.Ic delete Ns Oo !\& Oc \&|
-.Ic rm Ns Op !\&
+.Ic delete Ns Oo \&! Oc \&|
+.Ic rm Ns Op \&!
 .Ar addr
 .Xc
 This command deletes the given
 .Ar addr
 from the interface.
 If the
-.Sq !\&
+.Sq \&!
 is used, no error is given if the address isn't currently assigned to
 the interface (and no deletion takes place).
 .Pp
@@ -3690,7 +3691,7 @@ will not attempt to make an immediate connection.
 Send the given word(s) to the log file with the prefix
 .Dq LOG: .
 Word substitutions are done as explained under the
-.No !\& Ns Ic bg
+.No \&! Ns Ic bg
 command above.
 .It Ic nat Ar command Op Ar args
 This command allows the control of the network address translation (also
@@ -3728,7 +3729,7 @@ connections using the
 or
 .Ic nat target
 commands.
-.It Ic nat help No \&| Ic ?\&
+.It Ic nat help No \&| Ic \&?
 This command gives a summary of available nat commands.
 .It Ic nat log Ar yes | no
 This option causes various NAT statistics and information to
@@ -4082,7 +4083,7 @@ for security reasons.
 If the first character of
 .Ar value
 is an exclamation mark
-.Pq Sq !\& ,
+.Pq Sq \&! ,
 .Nm
 treats the remainder of the string as a program that must be executed
 to determine the
@@ -4092,17 +4093,17 @@ and
 values.
 .Pp
 If the
-.Sq !\&
+.Sq \&!
 is doubled up
 (to
 .Sq !! ) ,
 it is treated as a single literal
-.Sq !\& ,
+.Sq \&! ,
 otherwise, ignoring the
-.Sq !\& ,
+.Sq \&! ,
 .Ar value
 is parsed as a program to execute in the same was as the
-.No !\& Ns Ic bg
+.No \&! Ns Ic bg
 command above, substituting special names in the same manner.
 Once executed,
 .Nm
@@ -4306,7 +4307,7 @@ is specified,
 .Nm
 will expect the peer to specify the number.
 .It Ic set cd Oo
-.No off| Ns Ar seconds Ns Op !\&
+.No off| Ns Ar seconds Ns Op \&!
 .Oc
 Normally,
 .Nm
@@ -4379,7 +4380,7 @@ values.
 If
 .Ar seconds
 is followed immediately by an exclamation mark
-.Pq Sq !\& ,
+.Pq Sq \&! ,
 .Nm
 will
 .Em require
@@ -4458,7 +4459,7 @@ If
 does not begin with
 .Pa /dev/ ,
 it must either begin with an exclamation mark
-.Pq Sq !\&
+.Pq Sq \&!
 or be of the format
 .Sm off
 .Ar host : port Op /tcp|udp .
@@ -4557,11 +4558,11 @@ set dial "... ATDT\\\\T CONNECT"
 It is also possible to execute external commands from the chat script.
 To do this, the first character of the expect or send string is an
 exclamation mark
-.Pq Sq !\& .
+.Pq Sq \&! .
 If a literal exclamation mark is required, double it up to
-.Sq !!\&
+.Sq \&!!
 and it will be treated as a single literal
-.Sq !\& .
+.Sq \&! .
 When the command is executed, standard input and standard output are
 directed to the open device (see the
 .Ic set device
@@ -4615,7 +4616,7 @@ important that the
 signs are escaped, otherwise this parser will see them as constituting
 an expect-send-expect sequence.
 When the
-.Sq !\&
+.Sq \&!
 character is seen, the execution parser reads the first command as three
 arguments, and then
 .Xr sh 1
@@ -4636,7 +4637,7 @@ for a good alternative.
 .Pp
 The external command that is executed is subjected to the same special
 word expansions as the
-.No !\& Ns Ic bg
+.No \&! Ns Ic bg
 command.
 .It Xo
 .Ic set dns
@@ -4712,7 +4713,7 @@ It allows the user to specify a set of characters that will be
 as they travel across the link.
 .It Ic set filter No dial|alive|in|out Ar rule-no Xo
 .No permit|deny|clear| Ns Ar rule-no
-.Op !\&
+.Op \&!
 .Oo Op host
 .Ar src_addr Ns Op / Ns Ar width
 .Op Ar dst_addr Ns Op / Ns Ar width
@@ -4781,7 +4782,7 @@ before it is closed.
 It should not normally be necessary, but can
 be used for devices that fail to reset themselves properly on close.
 .It Xo
-.Ic set help No \&| Ic ?\&
+.Ic set help No \&| Ic \&?
 .Op Ar command
 .Xc
 This command gives a summary of available
@@ -5419,7 +5420,7 @@ delay will be effective, even after
 has been exceeded, so an immediate manual dial may appear to have
 done nothing.
 If an immediate dial is required, a
-.Sq !\&
+.Sq \&!
 should immediately follow the
 .Ic open
 keyword.
@@ -5623,7 +5624,7 @@ must be between 4 and 16 inclusive.
 .Pp
 .It Xo
 .Ic shell No \&|
-.Ic !\&
+.Ic \&!
 .Op Ar command
 .Xc
 If
@@ -5635,11 +5636,11 @@ Otherwise, the given
 .Ar command
 is executed.
 Word replacement is done in the same way as for the
-.No !\& Ns Ic bg
+.No \&! Ns Ic bg
 command as described above.
 .Pp
 Use of the
-.Sq !\&
+.Sq \&!
 character requires a following space as with any of the other commands.
 You should note that this command is executed in the foreground;
 .Nm
@@ -5665,7 +5666,7 @@ If
 is not specified, all filters are shown.
 .It Ic show hdlc
 Show the current HDLC statistics.
-.It Ic show help No \&| Ic ?\&
+.It Ic show help No \&| Ic \&?
 Give a summary of available show commands.
 .It Ic show iface
 Show the current interface information
@@ -5726,9 +5727,9 @@ Use
 .Ic help ,
 .Ic nat \&? ,
 .Ic enable \&? ,
-.Ic set ?\& ,
+.Ic set \&? ,
 and
-.Ic show ?\&
+.Ic show \&?
 to get online information about what's available.
 .It
 The following URLs contain useful information:

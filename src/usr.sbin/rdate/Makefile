@@ -1,11 +1,14 @@
-#	$OpenBSD: Makefile,v 1.7 2003/11/20 23:23:09 avsm Exp $
+# $MirOS$
 
 PROG=	rdate
 SRCS=	rdate.c rfc868time.c ntp.c ntpleaps.c
-CFLAGS+=-Wall
+MAN=	rdate.8
+CFLAGS+=-Wall -Werror
+
+# for MirBSD:
 DPADD+= ${LIBUTIL}
 LDADD+= -lutil
-
-MAN=	rdate.8
+# for generic GNU/Linux:
+#CFLAGS+= -DNO_UTIL
 
 .include <bsd.prog.mk>

@@ -1,6 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ntpd.c,v 1.27 2004/12/22 16:04:11 henning Exp $ */
 
 /*
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -32,6 +35,8 @@
 #include <unistd.h>
 
 #include "ntpd.h"
+
+__RCSID("$MirOS$");
 
 void	sighdlr(int);
 void	usage(void);
@@ -88,6 +93,9 @@ main(int argc, char *argv[])
 	conffile = CONFFILE;
 
 	bzero(&conf, sizeof(conf));
+
+	(void) tai_leaps();	/* initialise leap second table early */
+	srand((double)arc4random() / (((double)(0xFFFFFFFFUL)) / RAND_MAX));
 
 	log_init(1);		/* log to stderr until daemonized */
 
@@ -304,42 +312,40 @@ dispatch_imsg(struct ntpd_conf *conf)
 void
 ntpd_adjtime(double d)
 {
-	struct timeval	tv;
+	struct timeval	tv, otv;
+	int		rv;
 
-	if (d >= (double)LOG_NEGLIGEE / 1000 ||
-	    d <= -1 * (double)LOG_NEGLIGEE / 1000)
-		log_info("adjusting local clock by %fs", d);
-	else
-		log_debug("adjusting local clock by %fs", d);
 	d_to_tv(d, &tv);
-	if (adjtime(&tv, NULL) == -1)
+	rv = adjtime(&tv, &otv);
+	log_info("adjusting local clock by %fs, old adjust %fs", d,
+	    (double)otv.tv_sec + (double)otv.tv_usec / 1000000.);
+	if (rv == -1)
 		log_warn("adjtime failed");
 }
 
 void
 ntpd_settime(double d)
 {
-	struct timeval	tv, curtime;
+	struct timeval	curtime;
 	char		buf[80];
-	time_t		tval;
+	tai64na_t	t;
 
 	/* if the offset is small, don't call settimeofday */
 	if (d < SETTIME_MIN_OFFSET && d > -SETTIME_MIN_OFFSET)
 		return;
 
-	d_to_tv(d, &tv);
-	if (gettimeofday(&curtime, NULL) == -1)
-		log_warn("gettimeofday");
-	curtime.tv_sec += tv.tv_sec;
-	curtime.tv_usec += tv.tv_usec;
-	if (curtime.tv_usec > 1000000) {
+	d_to_tv(d, &curtime);
+	taina_time(&t);
+	t.secs = utc2tai(tai2utc(t.secs) + curtime.tv_sec);
+	curtime.tv_sec = tai2timet(t.secs);
+	curtime.tv_usec += t.nano / 1000;
+	while (curtime.tv_usec > 1000000) {
 		curtime.tv_sec++;
 		curtime.tv_usec -= 1000000;
 	}
 	if (settimeofday(&curtime, NULL) == -1)
 		log_warn("settimeofday");
-	tval = curtime.tv_sec;
 	strftime(buf, sizeof(buf), "%a %b %e %H:%M:%S %Z %Y",
-	    localtime(&tval));
+	    localtime(&curtime.tv_sec));
 	log_info("set local clock to %s (offset %fs)", buf, d);
 }

@@ -2201,7 +2201,7 @@ static void set_neg_headers(request_rec *r, negotiation_state *neg,
         *((const char **) ap_push_array(arr)) = "\" ";
 
         qstr = (char *) ap_palloc(r->pool, 6);
-        ap_snprintf(qstr, 6, "%1.3f", variant->source_quality);
+        snprintf(qstr, 6, "%1.3f", variant->source_quality);
 
         /* Strip trailing zeros (saves those valuable network bytes) */
         if (qstr[4] == '0') {
@@ -2257,7 +2257,7 @@ static void set_neg_headers(request_rec *r, negotiation_state *neg,
             && (len = (long)find_content_length(neg, variant)) != 0) {
 
             lenstr = (char *) ap_palloc(r->pool, 22);
-            ap_snprintf(lenstr, 22, "%ld", len);
+            snprintf(lenstr, 22, "%ld", len);
             *((const char **) ap_push_array(arr)) = " {length ";
             *((const char **) ap_push_array(arr)) = lenstr;
             *((const char **) ap_push_array(arr)) = "}";

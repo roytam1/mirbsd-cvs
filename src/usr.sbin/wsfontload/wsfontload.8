@@ -1,3 +1,4 @@
+.\"	$MirOS$ */
 .\"	$OpenBSD: wsfontload.8,v 1.14 2003/06/12 12:59:54 jmc Exp $
 .\"	$NetBSD: wsfontload.8,v 1.5 1999/04/06 04:54:22 cgd Exp $
 .\"
@@ -30,7 +31,8 @@
 .Os
 .Sh NAME
 .Nm wsfontload
-.Nd load a font bitmap into a wscons display device
+.Nd load or delete a font bitmap from a wscons
+display device
 .Sh SYNOPSIS
 .Nm wsfontload
 .Bk -words
@@ -49,15 +51,18 @@
 .Op Fl h Ar height
 .Ek
 .Bk -words
-.Op Fl l
-.Ek
-.Bk -words
 .Op Fl N Ar name
 .Ek
 .Bk -words
 .Op Fl w Ar width
 .Ek
-.Op Ar fontfile
+.Ar fontfile
+.Nm wsfontload
+.Op Fl f Ar file
+.Fl d Ar slot
+.Nm wsfontload
+.Op Fl f Ar file
+.Fl l
 .Sh DESCRIPTION
 The
 .Nm
@@ -81,6 +86,10 @@ The default is left-to-right.
 .It Fl B
 Specifies that the font data is ordered right-to-left byte wise.
 The default is left-to-right.
+.It Fl d Ar slot
+Specifies to delete the font from the given slot number, no other
+arguments should be specified.  Will fail if font deletion is not
+supported by the device, or if the font is in use.
 .It Fl e Ar encoding
 Sets the encoding of the font.
 This can be either a symbolic abbreviation or a numeric value.
@@ -115,21 +124,11 @@ Sets the width of a font character in pixels.
 Default is 8.
 .El
 .Pp
-.\" Typically, the
-.\" .Nm
-.\" utility will be executed in system startup by the
-.\" .Pa /etc/rc.wscons
-.\" script, controlled by the
-.\" .Pa /etc/wscons.conf
-.\" configuration file.
-.\" .Pp
 No font files are provided with the wscons framework.
 The fonts installed by PCVT can be used instead, as can raw font files from
 other operating system distributions.
 .Sh FILES
 .Bl -tag -width /etc/wscons.conf -compact
-.\" .It Pa /etc/wscons.conf
-.\" wscons configuration file
 .It Pa /usr/share/misc/pcvtfonts/
 fonts directory.
 .El
@@ -140,6 +139,10 @@ Load the IBM-encoded 8x8-font from the PCVT distribution.
 This (or another 8x8-font) is necessary to use the 50-line screen type on
 .Xr vga 4
 displays.
+.Pp
+.Li "# wsfontload -d 3"
+.Pp
+Delete the font in currently loaded in slot 3.
 .Sh SEE ALSO
 .Xr wscons 4 ,
 .Xr wsconscfg 8 ,
@@ -151,5 +154,3 @@ program appeared in
 .Ox 2.8 .
 .Sh BUGS
 Many features are missing.
-.Pp
-There is no way to remove a loaded font.

@@ -1,10 +1,11 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dump.c,v 1.6 2002/06/10 19:57:35 espie Exp $	*/
 /*	$KAME: dump.c,v 1.27 2002/05/29 14:23:55 itojun Exp $	*/
 
 /*
  * Copyright (C) 2000 WIDE Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -16,7 +17,7 @@
  * 3. Neither the name of the project nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -56,6 +57,8 @@
 #include "timer.h"
 #include "if.h"
 #include "dump.h"
+
+__RCSID("$MirOS$");
 
 static FILE *fp;
 
@@ -177,9 +180,9 @@ if_dump()
 				fprintf(fp, "vltime: %ld",
 					(long)pfx->validlifetime);
 			if (pfx->vltimeexpire != 0)
-				fprintf(fp, "(decr,expire %ld), ", (long)
-					pfx->vltimeexpire > now.tv_sec ?
-					pfx->vltimeexpire - now.tv_sec : 0);
+				fprintf(fp, "(decr,expire %lld), ", (int64_t)
+					pfx->vltimeexpire > now.tv_sec ? (int64_t)
+					pfx->vltimeexpire - now.tv_sec : 0LL);
 			else
 				fprintf(fp, ", ");
 			if (pfx->preflifetime ==  ND6_INFINITE_LIFETIME)
@@ -188,8 +191,8 @@ if_dump()
 				fprintf(fp, "pltime: %ld",
 					(long)pfx->preflifetime);
 			if (pfx->pltimeexpire != 0)
-				fprintf(fp, "(decr,expire %ld), ", (long)
-					pfx->pltimeexpire > now.tv_sec ?
+				fprintf(fp, "(decr,expire %lld), ", (int64_t)
+					pfx->pltimeexpire > now.tv_sec ? (int64_t)
 					pfx->pltimeexpire - now.tv_sec : 0);
 			else
 				fprintf(fp, ", ");

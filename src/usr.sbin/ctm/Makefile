@@ -1,5 +1,9 @@
-# $FreeBSD: src/usr.sbin/ctm/Makefile,v 1.7 1999/08/28 01:15:57 peter Exp $
+# $MirOS$
 
-SUBDIR=	ctm ctm_rmail ctm_smail ctm_dequeue
+  SUBDIR+= ctm
+  SUBDIR+= ctm_dequeue
+  SUBDIR+= ctm_rmail
+  SUBDIR+= ctm_smail
+  SUBDIR+= mkCTM
 
 .include <bsd.subdir.mk>

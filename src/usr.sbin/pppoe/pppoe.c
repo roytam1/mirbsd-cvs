@@ -445,7 +445,7 @@ getifhwaddr(char *ifnhint, char *ifnambuf, struct ether_addr *ea)
 			freeifaddrs(ifap);
 			return (-1);
 		}
-		bcopy(dl->sdl_data + dl->sdl_nlen, ea, sizeof(*ea));
+		memmove(ea, dl->sdl_data + dl->sdl_nlen, sizeof(*ea));
 		strlcpy(ifnambuf, ifa->ifa_name, IFNAMSIZ);
 		freeifaddrs(ifap);
 		return (0);

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: memory.c,v 1.10 2004/09/21 04:07:04 david Exp $ */
 
 /*
@@ -39,6 +40,8 @@
  */
 
 #include "dhcpd.h"
+
+__RCSID("$MirOS$");
 
 static struct subnet *subnets;
 static struct shared_network *shared_networks;
@@ -632,8 +635,8 @@ abandon_lease(struct lease *lease, char *message)
 	lease->flags |= ABANDONED_LEASE;
 	lt = *lease;
 	lt.ends = cur_time + abtime;
-	warning("Abandoning IP address %s for %d seconds: %s",
-	    piaddr(lease->ip_addr), abtime, message);
+	warning("Abandoning IP address %s for %lld seconds: %s",
+	    piaddr(lease->ip_addr), (int64_t)abtime, message);
 	lt.hardware_addr.htype = 0;
 	lt.hardware_addr.hlen = 0;
 	lt.uid = NULL;

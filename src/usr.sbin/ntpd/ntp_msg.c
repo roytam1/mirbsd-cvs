@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ntp_msg.c,v 1.14 2004/12/14 06:27:13 dtucker Exp $ */
 
 /*
@@ -25,6 +26,8 @@
 
 #include "ntpd.h"
 #include "ntp.h"
+
+__RCSID("$MirOS$");
 
 int
 ntp_getmsg(char *p, ssize_t len, struct ntp_msg *msg)
@@ -59,7 +62,7 @@ ntp_getmsg(char *p, ssize_t len, struct ntp_msg *msg)
 
 int
 ntp_sendmsg(int fd, struct sockaddr *sa, struct ntp_msg *msg, ssize_t len,
-    int auth)
+    int auth __attribute__((unused)))
 {
 	char		 buf[NTP_MSGSIZE];
 	char		*p = buf;

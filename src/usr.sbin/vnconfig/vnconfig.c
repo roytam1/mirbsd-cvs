@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vnconfig.c,v 1.12 2003/06/24 23:26:58 millert Exp $	*/
 /*
  * Copyright (c) 1993 University of Utah.
@@ -59,15 +60,15 @@
 int verbose = 0;
 
 __dead void usage(void);
-int config(char *, char *, int, char *);
+int config(char *, char *, int, char *, u_int32_t);
 
 int
 main(int argc, char **argv)
 {
-	int ch, rv, action = VND_CONFIG;
+	int ch, rv, action = VND_CONFIG, flags = 0;
 	char *key = NULL;
 
-	while ((ch = getopt(argc, argv, "cuvk")) != -1) {
+	while ((ch = getopt(argc, argv, "cuvkr")) != -1) {
 		switch (ch) {
 		case 'c':
 			action = VND_CONFIG;
@@ -81,6 +82,9 @@ main(int argc, char **argv)
 		case 'k':
 			key = getpass("Encryption key: ");
 			break;
+		case 'r':
+			flags |= VNDIOC_OPT_RDONLY;
+			break;
 		default:
 			usage();
 			/* NOTREACHED */
@@ -90,23 +94,24 @@ main(int argc, char **argv)
 	argv += optind;
 
 	if (action == VND_CONFIG && argc == 2)
-		rv = config(argv[0], argv[1], action, key);
+		rv = config(argv[0], argv[1], action, key, flags);
 	else if (action == VND_UNCONFIG && argc == 1)
-		rv = config(argv[0], NULL, action, key);
+		rv = config(argv[0], NULL, action, key, flags);
 	else
 		usage();
 	exit(rv);
 }
 
 int
-config(char *dev, char *file, int action, char *key)
+config(char *dev, char *file, int action, char *key, u_int32_t flags)
 {
 	struct vnd_ioctl vndio;
 	FILE *f;
 	char *rdev;
 	int rv;
 
-	if (opendev(dev, O_RDWR, OPENDEV_PART, &rdev) < 0)
+	if (opendev(dev, (flags & VNDIOC_OPT_RDONLY) ? O_RDONLY : O_RDWR,
+	    OPENDEV_PART, &rdev) < 0)
 		err(4, "%s", rdev);
 	f = fopen(rdev, "rw");
 	if (f == NULL) {
@@ -117,6 +122,7 @@ config(char *dev, char *file, int action, char *key)
 	vndio.vnd_file = file;
 	vndio.vnd_key = key;
 	vndio.vnd_keylen = key == NULL ? 0 : strlen(key);
+	vndio.vnd_options = flags;
 
 	/*
 	 * Clear (un-configure) the device
@@ -154,7 +160,7 @@ usage(void)
 	extern char *__progname;
 
 	(void)fprintf(stderr,
-	    "usage: %s [-c] [-vk] rawdev regular-file\n"
-	    "       %s -u [-v] rawdev\n", __progname, __progname);
+	    "usage: %s [-c] [-vkr] rawdev regular-file\n"
+	    "       %s -u [-vr] rawdev\n", __progname, __progname);
 	exit(1);
 }

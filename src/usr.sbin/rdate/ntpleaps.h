@@ -41,8 +41,8 @@
  * leap second zoneinfo files and userland support anyways.
  */
 
-#ifndef _NTPLEAPS_H
-#define _NTPLEAPS_H
+#ifndef	_NTPLEAPS_H
+#define	_NTPLEAPS_H
 
 /* Offset between struct timeval.tv_sec and a tai64_t */
 #define	NTPLEAPS_OFFSET	(4611686018427387914ULL)
@@ -69,5 +69,14 @@ int ntpleaps_read(void);
  * returns 0 on success, -1 on error (time is unchanged), 1 on leap second
  */
 int ntpleaps_sub(u_int64_t *);
+
+/* This macro is not implemented on all operating systems */
+#ifndef	SA_LEN
+#define	SA_LEN(x)	(((x)->sa_family == AF_INET6) ? \
+			    sizeof(struct sockaddr_in6) : \
+			    (((x)->sa_family == AF_INET) ? \
+				sizeof(struct sockaddr_in) : \
+				sizeof(struct sockaddr)))
+#endif
 
 #endif

@@ -1,35 +1,106 @@
-#	$OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
 
-SUBDIR=	ac accton adduser amd arp authpf bgpctl bgpd bind chroot \
-	config cron dev_mkdb dhcpd dhcrelay edquota httpd inetd \
-	iostat kgmon kvm_mkdb lpr mailwrapper mopd mtree mrouted \
-	mrinfo mtrace map-mbone netgroup_mkdb openssl pkg_add popa3d \
-	portmap ppp pppd pppoe procmap pstat pwd_mkdb quot quotaon \
-	rarpd rbootd rdconfig rdate repquota rmt rpc.bootparamd \
-	rpc.lockd rwhod sa sensorsd sesd sliplogin slstats spamdb \
-	spppcontrol spray syslogc syslogd tcpdrop tcpdump timed \
-	tokenadm tokeninit traceroute trpt usbdevs user vipw vnconfig \
-	wsmoused zdump zic
-
-# IPv6
-SUBDIR+=faithd ndp rip6query route6d rtadvd rtsold traceroute6
-
-# Arch dependent tools, with manpages
-SUBDIR+=bad144 apm apmd fdformat memconfig
-SUBDIR+=eeprom grfinfo hilinfo
-SUBDIR+=wsconscfg wsfontload
-
-# Extended Attribute tools
-SUBDIR+=extattrctl setextattr getextattr
-
-.if (${AFS:L} == "yes")
-SUBDIR+=afs
+  SUBDIR+= ac
+  SUBDIR+= accton
+  SUBDIR+= adduser
+  SUBDIR+= apm
+  SUBDIR+= apmd
+  SUBDIR+= arp
+  SUBDIR+= authpf
+  SUBDIR+= bad144
+  SUBDIR+= bgpctl
+  SUBDIR+= bgpd
+  SUBDIR+= chroot
+  SUBDIR+= config
+  SUBDIR+= cron
+  SUBDIR+= ctm
+  SUBDIR+= dev_mkdb
+  SUBDIR+= dhcpd
+  SUBDIR+= dhcrelay
+  SUBDIR+= edquota
+  SUBDIR+= eeprom
+  SUBDIR+= extattrctl
+  SUBDIR+= faithd
+.if ${CROSS_MODE:L} != "yes"
+  SUBDIR+= fdformat
 .endif
-
-.if (${YP:L} == "yes")
-SUBDIR+=ypbind yppoll ypset ypserv
+  SUBDIR+= getextattr
+.if ${CROSS_MODE:L} != "yes"
+  SUBDIR+= httpd
 .endif
+  SUBDIR+= ifwatchd
+  SUBDIR+= inetd
+  SUBDIR+= iostat
+.if ${MACHINE} == "i386"
+  SUBDIR+= isdn
+.endif
+  SUBDIR+= kvm_mkdb
+  SUBDIR+= lpr
+  SUBDIR+= mailwrapper
+  SUBDIR+= map-mbone
+  SUBDIR+= memconfig
+  SUBDIR+= mrinfo
+  SUBDIR+= mrouted
+  SUBDIR+= mtrace
+  SUBDIR+= mtree
+  SUBDIR+= ndp
+  SUBDIR+= netgroup_mkdb
+  SUBDIR+= ntpd
+  SUBDIR+= openssl
+  SUBDIR+= popa3d
+  SUBDIR+= portmap
+  SUBDIR+= ppp
+  SUBDIR+= pppd
+  SUBDIR+= pppoe
+  SUBDIR+= procmap
+  SUBDIR+= pstat
+  SUBDIR+= pwd_mkdb
+  SUBDIR+= quot
+  SUBDIR+= quotaon
+  SUBDIR+= rarpd
+  SUBDIR+= rbootd
+  SUBDIR+= rdate
+  SUBDIR+= rdconfig
+  SUBDIR+= repquota
+  SUBDIR+= rip6query
+  SUBDIR+= rmt
+  SUBDIR+= route6d
+  SUBDIR+= rpc.bootparamd
+  SUBDIR+= rpc.lockd
+  SUBDIR+= rtadvd
+  SUBDIR+= rtsold
+  SUBDIR+= rwhod
+  SUBDIR+= sa
+  SUBDIR+= sensorsd
+  SUBDIR+= sesd
+  SUBDIR+= setextattr
+  SUBDIR+= sliplogin
+  SUBDIR+= slstats
+  SUBDIR+= spamdb
+  SUBDIR+= spppcontrol
+  SUBDIR+= spray
+  SUBDIR+= syslogc
+  SUBDIR+= syslogd
+  SUBDIR+= tcpdrop
+  SUBDIR+= tcpdump
+  SUBDIR+= timed
+  SUBDIR+= tokenadm
+  SUBDIR+= tokeninit
+  SUBDIR+= traceroute
+  SUBDIR+= traceroute6
+  SUBDIR+= trpt
+  SUBDIR+= usbdevs
+  SUBDIR+= user
+  SUBDIR+= vipw
+  SUBDIR+= vnconfig
+  SUBDIR+= wsconscfg
+  SUBDIR+= wsfontload
+  SUBDIR+= wsmoused
+  SUBDIR+= wssetfont
+  SUBDIR+= zdump
+  SUBDIR+= zic
 
 .include <bsd.subdir.mk>

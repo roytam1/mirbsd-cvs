@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: util.c,v 1.18 2004/07/28 09:37:26 markus Exp $	*/
 
 /*
@@ -20,11 +21,6 @@
  * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
-
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
 
 #include <sys/types.h>
 #include <sys/time.h>
@@ -50,6 +46,9 @@ static const char rcsid[] =
 
 #include "interface.h"
 #include "privsep.h"
+
+__RCSID("$MirOS$");
+
 /*
  * Print out a filename (or other ascii string).
  * If ep is NULL, assume no truncation check is needed.
@@ -133,8 +132,8 @@ ts_print(register const struct bpf_timeval *tvp)
 		break;
 	case -1:
 		/* Unix timeval style */
-		(void)printf("%u.%06u ",
-		    (u_int32_t)tvp->tv_sec, (u_int32_t)tvp->tv_usec);
+		(void)printf("%llu.%06u ",
+		    (u_int64_t)tvp->tv_sec, (u_int32_t)tvp->tv_usec);
 		break;
 	case -2:
 		t=tvp->tv_sec;

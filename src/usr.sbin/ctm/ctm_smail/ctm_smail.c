@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Send a compressed CTM delta to a recipient mailing list by encoding it
  * in safe ASCII characters, in mailer-friendly chunks, and passing them
@@ -190,13 +192,13 @@ chop_and_send(FILE *dfp, char *delta, long msg_size, int npieces,
  * Construct the tmp queue file name of a delta piece.
  */
 #define mk_tmp_name(fn,qd,p) \
-    sprintf((fn), "%s/.%08ld.%03d", (qd), (long)getpid(), (p))
+    snprintf((fn), PATH_MAX, "%s/.%08ld.%03d", (qd), (long)getpid(), (p))
 
 /*
  * Construct the final queue file name of a delta piece.
  */
 #define mk_queue_name(fn,qd,d,p,n) \
-    sprintf((fn), "%s/%s+%03d-%03d", (qd), (d), (p), (n))
+    snprintf((fn), PATH_MAX, "%s/%s+%03d-%03d", (qd), (d), (p), (n))
 
 /*
  * Carve our CTM delta into pieces, encode them, and queue them.
@@ -467,7 +469,7 @@ open_sendmail()
     FILE *fp;
     char buf[100];
 
-    sprintf(buf, "%s -odq -t", _PATH_SENDMAIL);
+    snprintf(buf, 100, "%s -odq -t", _PATH_SENDMAIL);
     if ((fp = popen(buf, "w")) == NULL)
 	err("cannot start sendmail");
     return fp;

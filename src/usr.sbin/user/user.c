@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: user.c,v 1.59 2004/05/10 18:41:11 otto Exp $ */
 /* $NetBSD: user.c,v 1.69 2003/04/14 17:40:07 agc Exp $ */
 
@@ -305,7 +306,7 @@ copydotfiles(char *skeldir, uid_t uid, gid_t gid, char *dir)
 	if (n == 0) {
 		warnx("No \"dot\" initialisation files found");
 	} else {
-		(void) asystem("cd %s && %s -rw -pe %s . %s", 
+		(void) asystem("cd %s && %s -rw -pe %s . %s",
 				skeldir, PAX, (verbose) ? "-v" : "", dir);
 	}
 	(void) asystem("%s -R -P %u:%u %s", CHOWN, uid, gid, dir);
@@ -909,7 +910,7 @@ scantime(time_t *tp, char *s)
 			*tp = mktime(&tm);
 		} else if (strptime(s, "%B %d %Y", &tm) != NULL) {
 			*tp = mktime(&tm);
-		} else if (isdigit((unsigned char) s[0]) != NULL) {
+		} else if (!isdigit((unsigned char) s[0])) {
 			*tp = atoi(s);
 		} else {
 			return 0;
@@ -986,7 +987,7 @@ adduser(char *login_name, user_t *up)
 		 * Look for a free UID in the command line ranges (if any).
 		 * These start after the ranges specified in the config file.
 		 */
-		for (i = up->u_defrc; got_id == 0 && i < up->u_rc ; i++) { 
+		for (i = up->u_defrc; got_id == 0 && i < up->u_rc ; i++) {
 			got_id = getnextuid(sync_uid_gid, &up->u_uid,
 			    up->u_rv[i].r_from, up->u_rv[i].r_to);
 	 	}
@@ -996,7 +997,7 @@ adduser(char *login_name, user_t *up)
 		 * be at least one default).
 		 */
 		if (got_id == 0) {
-			for (i = 0; got_id == 0 && i < up->u_defrc; i++) { 
+			for (i = 0; got_id == 0 && i < up->u_defrc; i++) {
 				got_id = getnextuid(sync_uid_gid, &up->u_uid,
 				    up->u_rv[i].r_from, up->u_rv[i].r_to);
 			}
@@ -1483,10 +1484,10 @@ moduser(char *login_name, char *newlogin, user_t *up)
 	if (up == NULL) {
 		syslog(LOG_INFO, "user removed: name=%s", login_name);
 	} else if (strcmp(login_name, newlogin) == 0) {
-		syslog(LOG_INFO, "user information modified: name=%s, uid=%d, gid=%d, home=%s, shell=%s", 
+		syslog(LOG_INFO, "user information modified: name=%s, uid=%d, gid=%d, home=%s, shell=%s",
 			login_name, pwp->pw_uid, pwp->pw_gid, pwp->pw_dir, pwp->pw_shell);
 	} else {
-		syslog(LOG_INFO, "user information modified: name=%s, new name=%s, uid=%d, gid=%d, home=%s, shell=%s", 
+		syslog(LOG_INFO, "user information modified: name=%s, new name=%s, uid=%d, gid=%d, home=%s, shell=%s",
 			login_name, newlogin, pwp->pw_uid, pwp->pw_gid, pwp->pw_dir, pwp->pw_shell);
 	}
 	return 1;
@@ -1583,7 +1584,7 @@ usermgmt_usage(const char *prog)
 #ifdef EXTENSIONS
 #define ADD_OPT_EXTENSIONS	"p:r:vL:"
 #else
-#define ADD_OPT_EXTENSIONS	
+#define ADD_OPT_EXTENSIONS
 #endif
 
 int
@@ -1721,7 +1722,7 @@ useradd(int argc, char **argv)
 #ifdef EXTENSIONS
 #define MOD_OPT_EXTENSIONS	"p:vL:"
 #else
-#define MOD_OPT_EXTENSIONS	
+#define MOD_OPT_EXTENSIONS
 #endif
 
 int
@@ -1834,7 +1835,7 @@ usermod(int argc, char **argv)
 #ifdef EXTENSIONS
 #define DEL_OPT_EXTENSIONS	"Dp:v"
 #else
-#define DEL_OPT_EXTENSIONS	
+#define DEL_OPT_EXTENSIONS
 #endif
 
 int
@@ -1921,7 +1922,7 @@ userdel(int argc, char **argv)
 #ifdef EXTENSIONS
 #define GROUP_ADD_OPT_EXTENSIONS	"v"
 #else
-#define GROUP_ADD_OPT_EXTENSIONS	
+#define GROUP_ADD_OPT_EXTENSIONS
 #endif
 
 /* add a group */
@@ -1981,7 +1982,7 @@ groupadd(int argc, char **argv)
 #ifdef EXTENSIONS
 #define GROUP_DEL_OPT_EXTENSIONS	"v"
 #else
-#define GROUP_DEL_OPT_EXTENSIONS	
+#define GROUP_DEL_OPT_EXTENSIONS
 #endif
 
 /* remove a group */
@@ -2022,7 +2023,7 @@ groupdel(int argc, char **argv)
 #ifdef EXTENSIONS
 #define GROUP_MOD_OPT_EXTENSIONS	"v"
 #else
-#define GROUP_MOD_OPT_EXTENSIONS	
+#define GROUP_MOD_OPT_EXTENSIONS
 #endif
 
 /* modify a group */

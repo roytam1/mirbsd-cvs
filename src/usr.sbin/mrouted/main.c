@@ -301,7 +301,7 @@ usage:	fprintf(stderr,
      */
     dummy = 0;
     for(;;) {
-	bcopy((char *)&readers, (char *)&rfds, sizeof(rfds));
+	memmove((char *)&rfds, (char *)&readers, sizeof(rfds));
 #ifdef SNMP
    gettimeofday(nvp, 0);
    if (nvp->tv_sec > svp->tv_sec

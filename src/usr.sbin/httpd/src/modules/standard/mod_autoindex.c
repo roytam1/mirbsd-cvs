@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -58,10 +60,10 @@
 
 /*
  * mod_autoindex.c: Handles the on-the-fly html index generation
- * 
+ *
  * Rob McCool
  * 3/23/93
- * 
+ *
  * Adapted to Apache by rst.
  */
 
@@ -74,6 +76,8 @@
 #include "http_main.h"
 #include "util_script.h"
 #include "fnmatch.h"
+
+__RCSID("$MirOS$");
 
 module MODULE_VAR_EXPORT autoindex_module;
 
@@ -663,7 +667,7 @@ static void *merge_autoindex_configs(pool *p, void *basev, void *addv)
 	 * incremental ones.
 	 */
 	if (add->opts == 0) {
-	    new->incremented_opts = (base->incremented_opts 
+	    new->incremented_opts = (base->incremented_opts
 				     | add->incremented_opts)
 		                    & ~add->decremented_opts;
 	    new->decremented_opts = (base->decremented_opts
@@ -1166,7 +1170,7 @@ static void emit_tail(request_rec *r, char *readme_fname, int suppress_amble)
 	    }
 	}
     }
-    
+
     if (r_accept) {
         ap_table_setn(hdrs, "Accept", r_accept);
     }
@@ -1291,7 +1295,9 @@ static struct ent *make_autoindex_entry(char *name, int autoindex_opts,
 		    p->alt = "DIR";
 		}
 		p->size = -1;
+#ifdef	NO_CORRECT_DIR_PATH
 		p->name = ap_pstrcat(r->pool, name, "/", NULL);
+#endif
 	    }
 	    else {
 		p->icon = find_icon(d, rr, 0);
@@ -1308,6 +1314,11 @@ static struct ent *make_autoindex_entry(char *name, int autoindex_opts,
 
 	ap_destroy_sub_req(rr);
     }
+#ifndef	NO_CORRECT_DIR_PATH
+    else if (S_ISDIR(ap_sub_req_lookup_file(name, r)->finfo.st_mode))
+	p->isdir = 1;
+#endif
+
     /*
      * We don't need to take any special action for the file size key.  If
      * we did, it would go here.
@@ -1497,6 +1508,11 @@ static void output_directories(struct ent **ar, int n,
 	    anchor = ap_escape_html(scratch, ap_os_escape_path(scratch, t, 0));
 	}
 	else {
+#ifndef	NO_CORRECT_DIR_PATH
+	    if (ar[x]->isdir) {
+		t = ap_pstrcat(scratch, ar[x]->name, "/", NULL);
+	    } else
+#endif
 	    t = ar[x]->name;
 	    t2 = t;
 	    anchor = ap_escape_html(scratch, ap_os_escape_path(scratch, t, 0));
@@ -1747,9 +1763,9 @@ static int index_directory(request_rec *r,
 	}
     }
 
-    /* 
-     * Since we don't know how many dir. entries there are, put them into a 
-     * linked list and then arrayificate them so qsort can use them. 
+    /*
+     * Since we don't know how many dir. entries there are, put them into a
+     * linked list and then arrayificate them so qsort can use them.
      */
     head = NULL;
     while ((dstruct = readdir(d))) {

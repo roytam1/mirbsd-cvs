@@ -90,6 +90,8 @@
 #endif
 #include "id.h"
 
+__RCSID("$MirOS$");
+
 static const char * const chapcodes[] = {
   "???", "CHALLENGE", "RESPONSE", "SUCCESS", "FAILURE"
 };
@@ -102,15 +104,18 @@ ChapOutput(struct physical *physical, u_int code, u_int id,
   int plen;
   struct fsmheader lh;
   struct mbuf *bp;
+  u_char *tmp;
 
   plen = sizeof(struct fsmheader) + count;
   lh.code = code;
   lh.id = id;
   lh.length = htons(plen);
   bp = m_get(plen, MB_CHAPOUT);
-  memcpy(MBUF_CTOP(bp), &lh, sizeof(struct fsmheader));
+  if ((tmp = MBUF_CTOP(bp)) != NULL)
+    memcpy(tmp, &lh, sizeof(struct fsmheader));
   if (count)
-    memcpy(MBUF_CTOP(bp) + sizeof(struct fsmheader), ptr, count);
+    if ((tmp = MBUF_CTOP(bp)) != NULL)
+      memcpy(tmp + sizeof(struct fsmheader), ptr, count);
   log_DumpBp(LogDEBUG, "ChapOutput", bp);
   if (text == NULL)
     log_Printf(LogPHASE, "Chap Output: %s\n", chapcodes[code]);

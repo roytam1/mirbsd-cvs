@@ -197,7 +197,9 @@ file(char *name)
 	args[3] = &arg[3][0];
 	args[4] = &arg[4][0];
 	retval = 0;
-	while (fgets(line, 100, fp) != NULL) {
+	while (fgets(line, sizeof(line), fp) != NULL) {
+		if ((line[0] == '#') || (line[0] == '\n'))
+			continue;
 		i = sscanf(line, "%49s %49s %49s %49s %49s", arg[0], arg[1], arg[2],
 		    arg[3], arg[4]);
 		if (i < 2) {

@@ -1,8 +1,9 @@
+/* $MirOS$ */
 /* $FreeBSD: src/usr.sbin/ctm/mkCTM/mkctm.c,v 1.13 2004/01/26 04:27:22 mckay Exp $ */
 
 /* Still missing:
  *
- * mkctm 
+ * mkctm
  *	-B regex	Bogus
  *	-I regex	Ignore
  *      -D int		Damage
@@ -42,7 +43,7 @@ int	verbose;
 int	damage, damage_limit;
 int	change;
 
-FILE	*logf;
+FILE	*log_f;
 
 u_long s1_ignored,	s2_ignored;
 u_long s1_bogus,	s2_bogus;
@@ -75,21 +76,21 @@ print_stat(FILE *fd, char *pre)
 	    pre, s1_ignored, s2_ignored);
     fprintf(fd, "%s  bogus:   %5lu ref   %5lu target\n",
 	    pre, s1_bogus, s2_bogus);
-    fprintf(fd, "%s  wrong:   %5lu ref   %5lu target\n", 
+    fprintf(fd, "%s  wrong:   %5lu ref   %5lu target\n",
 	    pre, s1_wrong, s2_wrong);
     fprintf(fd, "%sDelta:\n", pre);
-    fprintf(fd, "%s  new:     %5lu dirs  %5lu files  %9lu plus\n", 
+    fprintf(fd, "%s  new:     %5lu dirs  %5lu files  %9lu plus\n",
 	    pre, s_new_dirs, s_new_files, s_new_bytes);
-    fprintf(fd, "%s  del:     %5lu dirs  %5lu files                   %9lu minus\n", 
+    fprintf(fd, "%s  del:     %5lu dirs  %5lu files                   %9lu minus\n",
 	    pre, s_del_dirs, s_del_files, s_del_bytes);
     fprintf(fd, "%s  chg:                 %5lu files  %9lu plus   %9lu minus\n",
 	    pre, s_files_chg, s_bytes_add, s_bytes_del);
-    fprintf(fd, "%s  same:    %5lu dirs  %5lu files  %9lu bytes\n", 
+    fprintf(fd, "%s  same:    %5lu dirs  %5lu files  %9lu bytes\n",
 	    pre, s_same_dirs, s_same_files, s_same_bytes);
     fprintf(fd, "%sMethod:\n", pre);
-    fprintf(fd, "%s  edit:                %5lu files  %9lu bytes  %9lu saved\n", 
+    fprintf(fd, "%s  edit:                %5lu files  %9lu bytes  %9lu saved\n",
 	    pre, s_edit_files, s_edit_bytes, s_edit_saves);
-    fprintf(fd, "%s  sub:                 %5lu files  %9lu bytes\n", 
+    fprintf(fd, "%s  sub:                 %5lu files  %9lu bytes\n",
 	    pre, s_sub_files, s_sub_bytes);
 
 }
@@ -107,7 +108,7 @@ static struct stat st;
 static __inline struct stat *
 StatFile(char *name)
 {
-	if (lstat(name, &st) < 0) 
+	if (lstat(name, &st) < 0)
 		err(1, "couldn't stat %s", name);
 	return &st;
 }
@@ -123,18 +124,20 @@ dirselect(struct dirent *de)
 void
 name_stat(const char *pfx, const char *dir, const char *name, struct dirent *de)
 {
-	char *buf = alloca(strlen(dir) + strlen(name) + 
+	char *buf;
+	size_t buflen = (strlen(dir) + strlen(name) +
 		strlen(de->d_name) + 3);
 	struct stat *st;
 
-	strcpy(buf, dir); 
-		strcat(buf, "/"); strcat(buf, name);
-		strcat(buf, "/"); strcat(buf, de->d_name);
+	buf = alloca(buflen);
+	strlcpy(buf, dir, buflen);
+	strlcat(buf, "/", buflen); strlcat(buf, name, buflen);
+	strlcat(buf, "/", buflen); strlcat(buf, de->d_name, buflen);
 	st = StatFile(buf);
-	printf("%s %s%s %u %u %o", 
-	    pfx, name, de->d_name, 
+	printf("%s %s%s %u %u %o",
+	    pfx, name, de->d_name,
 	    st->st_uid, st->st_gid, st->st_mode & ~S_IFMT);
-	fprintf(logf, "%s %s%s\n", pfx, name, de->d_name);
+	fprintf(log_f, "%s %s%s\n", pfx, name, de->d_name);
 	if (verbose > 1) {
 		fprintf(stderr, "%s %s%s\n", pfx, name, de->d_name);
 	}
@@ -144,30 +147,35 @@ void
 Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 {
 	if (de->d_type == DT_DIR) {
-		char *p = alloca(strlen(name)+strlen(de->d_name)+2);
+		size_t pl = strlen(name)+strlen(de->d_name)+2;
+		char *p = alloca(pl);
 
-		strcpy(p, name);  strcat(p, de->d_name); strcat(p, "/");
+		strlcpy(p, name, pl);
+		strlcat(p, de->d_name, pl);
+		strlcat(p, "/", pl);
 		DoDir(dir1, dir2, p);
 		s_same_dirs++;
 	} else {
-		char *buf1 = alloca(strlen(dir1) + strlen(name) + 
+		size_t pl1 = (strlen(dir1) + strlen(name) +
 			strlen(de->d_name) + 3);
-		char *buf2 = alloca(strlen(dir2) + strlen(name) + 
+		size_t pl2 = (strlen(dir2) + strlen(name) +
 			strlen(de->d_name) + 3);
+		char *buf1 = alloca(pl1);
+		char *buf2 = alloca(pl2);
 		char *m1, md5_1[33], *m2, md5_2[33];
 		u_char *p1, *p2;
 		int fd1, fd2;
 		struct stat s1, s2;
 
-		strcpy(buf1, dir1); 
-			strcat(buf1, "/"); strcat(buf1, name);
-			strcat(buf1, "/"); strcat(buf1, de->d_name);
+		strlcpy(buf1, dir1, pl1);
+			strlcat(buf1, "/", pl1); strlcat(buf1, name, pl1);
+			strlcat(buf1, "/", pl1); strlcat(buf1, de->d_name, pl1);
 		fd1 = open(buf1, O_RDONLY);
 		if(fd1 < 0) { err(3, "%s", buf1); }
 		fstat(fd1, &s1);
-		strcpy(buf2, dir2); 
-			strcat(buf2, "/"); strcat(buf2, name);
-			strcat(buf2, "/"); strcat(buf2, de->d_name);
+		strlcpy(buf2, dir2, pl2);
+			strlcat(buf2, "/", pl2); strlcat(buf2, name, pl2);
+			strlcat(buf2, "/", pl2); strlcat(buf2, de->d_name, pl2);
 		fd2 = open(buf2, O_RDONLY);
 		if(fd2 < 0) { err(3, "%s", buf2); }
 		fstat(fd2, &s2);
@@ -205,10 +213,10 @@ Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 
 		m1 = MD5Data(p1, s1.st_size, md5_1);
 		m2 = MD5Data(p2, s2.st_size, md5_2);
-		
+
 		/* Just a curiosity... */
 		if(!strcmp(m1, m2)) {
-			if (s1.st_size != s2.st_size) 
+			if (s1.st_size != s2.st_size)
 				fprintf(stderr,
 		"Notice: MD5 same for files of diffent size:\n\t%s\n\t%s\n",
 					buf1, buf2);
@@ -217,13 +225,14 @@ Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 
 		{
 			u_long l = s2.st_size + 2;
-			u_char *cmd = alloca(strlen(buf1)+strlen(buf2)+100);
+			size_t cmdlen = strlen(buf1) + strlen(buf2) + 100;
+			u_char *cmd = alloca(cmdlen);
 			u_char *ob = malloc(l), *p;
 			int j;
 			FILE *F;
-			
+
 			if (s1.st_size && p1[s1.st_size-1] != '\n') {
-				if (verbose > 0) 
+				if (verbose > 0)
 					fprintf(stderr,
 					    "last char != \\n in %s\n",
 					     buf1);
@@ -231,7 +240,7 @@ Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 			}
 
 			if (s2.st_size && p2[s2.st_size-1] != '\n') {
-				if (verbose > 0) 
+				if (verbose > 0)
 					fprintf(stderr,
 					    "last char != \\n in %s\n",
 					     buf2);
@@ -240,7 +249,7 @@ Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 
 			for (p=p1; p<p1+s1.st_size; p++)
 				if (!*p) {
-					if (verbose > 0) 
+					if (verbose > 0)
 						fprintf(stderr,
 						    "NULL char in %s\n",
 						     buf1);
@@ -249,21 +258,21 @@ Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 
 			for (p=p2; p<p2+s2.st_size; p++)
 				if (!*p) {
-					if (verbose > 0) 
+					if (verbose > 0)
 						fprintf(stderr,
 						    "NULL char in %s\n",
 						     buf2);
 					goto subst;
 				}
 
-			strcpy(cmd, "diff -n ");
-			strcat(cmd, buf1);
-			strcat(cmd, " ");
-			strcat(cmd, buf2);
+			strlcpy(cmd, "diff -n ", cmdlen);
+			strlcat(cmd, buf1, cmdlen);
+			strlcat(cmd, " ", cmdlen);
+			strlcat(cmd, buf2, cmdlen);
 			F = popen(cmd, "r");
 			for (j = 1, l = 0; l < s2.st_size; ) {
 				j = fread(ob+l, 1, s2.st_size - l, F);
-				if (j < 1) 
+				if (j < 1)
 					break;
 				l += j;
 				continue;
@@ -274,7 +283,7 @@ Equ(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 					continue;
 			}
 			pclose(F);
-			
+
 			if (l && l < s2.st_size) {
 				name_stat("CTMFN", dir2, name, de);
 				printf(" %s %s %d\n", m1, m2, (unsigned)l);
@@ -305,23 +314,27 @@ Add(const char *dir1, const char *dir2, const char *name, struct dirent *de)
 {
 	change++;
 	if (de->d_type == DT_DIR) {
-		char *p = alloca(strlen(name)+strlen(de->d_name)+2);
-		strcpy(p, name);  strcat(p, de->d_name); strcat(p, "/");
+		size_t pl = strlen(name)+strlen(de->d_name)+2;
+		char *p = alloca(pl);
+		strlcpy(p, name, pl);
+		strlcat(p, de->d_name, pl);
+		strlcat(p, "/", pl);
 		name_stat("CTMDM", dir2, name, de);
 		putchar('\n');
 		s_new_dirs++;
 		DoDir(dir1, dir2, p);
 	} else if (de->d_type == DT_REG) {
-		char *buf2 = alloca(strlen(dir2) + strlen(name) + 
+		size_t pl2 = (strlen(dir2) + strlen(name) +
 			strlen(de->d_name) + 3);
+		char *buf2 = alloca(pl2);
 		char *m2, md5_2[33];
 		u_char *p1;
 		struct stat st;
 		int fd1;
 
-		strcpy(buf2, dir2); 
-			strcat(buf2, "/"); strcat(buf2, name);
-			strcat(buf2, "/"); strcat(buf2, de->d_name);
+		strlcpy(buf2, dir2, pl2);
+			strlcat(buf2, "/", pl2); strlcat(buf2, name, pl2);
+			strlcat(buf2, "/", pl2); strlcat(buf2, de->d_name, pl2);
 		fd1 = open(buf2, O_RDONLY);
 		if (fd1 < 0) { err(3, "%s", buf2); }
 		fstat(fd1, &st);
@@ -345,25 +358,27 @@ Del (const char *dir1, const char *dir2, const char *name, struct dirent *de)
 	damage++;
 	change++;
 	if (de->d_type == DT_DIR) {
-		char *p = alloca(strlen(name)+strlen(de->d_name)+2);
-		strcpy(p, name);  strcat(p, de->d_name); strcat(p, "/");
+		size_t pl = strlen(name)+strlen(de->d_name)+2;
+		char *p = alloca(pl);
+		strlcpy(p, name, pl);  strlcat(p, de->d_name, pl); strlcat(p, "/", pl);
 		DoDir(dir1, dir2, p);
 		printf("CTMDR %s%s\n", name, de->d_name);
-		fprintf(logf, "CTMDR %s%s\n", name, de->d_name);
+		fprintf(log_f, "CTMDR %s%s\n", name, de->d_name);
 		if (verbose > 1) {
 			fprintf(stderr, "CTMDR %s%s\n", name, de->d_name);
 		}
 		s_del_dirs++;
 	} else if (de->d_type == DT_REG) {
-		char *buf1 = alloca(strlen(dir1) + strlen(name) + 
+		size_t pl1 = (strlen(dir1) + strlen(name) +
 			strlen(de->d_name) + 3);
+		char *buf1 = alloca(pl1);
 		char *m1, md5_1[33];
-		strcpy(buf1, dir1); 
-			strcat(buf1, "/"); strcat(buf1, name);
-			strcat(buf1, "/"); strcat(buf1, de->d_name);
+		strlcpy(buf1, dir1, pl1);
+			strlcat(buf1, "/", pl1); strlcat(buf1, name, pl1);
+			strlcat(buf1, "/", pl1); strlcat(buf1, de->d_name, pl1);
 		m1 = MD5File(buf1, md5_1);
 		printf("CTMFR %s%s %s\n", name, de->d_name, m1);
-		fprintf(logf, "CTMFR %s%s %s\n", name, de->d_name, m1);
+		fprintf(log_f, "CTMFR %s%s %s\n", name, de->d_name, m1);
 		if (verbose > 1) {
 			fprintf(stderr, "CTMFR %s%s\n", name, de->d_name);
 		}
@@ -383,37 +398,37 @@ GetNext(int *i, int *n, struct dirent **nl, const char *dir, const char *name, u
 			(*i)++;
 			if (*i >= *n)
 				return;
-			strcpy(buf1, name);
+			strlcpy(buf1, name, BUFSIZ);
 			if (buf1[strlen(buf1)-1] != '/')
-				strcat(buf1, "/"); 
-			strcat(buf1, nl[*i]->d_name);
-			if (flag_ignore && 
+				strlcat(buf1, "/", BUFSIZ);
+			strlcat(buf1, nl[*i]->d_name, BUFSIZ);
+			if (flag_ignore &&
 			    !regexec(&reg_ignore, buf1, 0, 0, 0)) {
 				(*ignored)++;
-				fprintf(logf, "Ignore %s\n", buf1);
+				fprintf(log_f, "Ignore %s\n", buf1);
 				if (verbose > 2) {
 					fprintf(stderr, "Ignore %s\n", buf1);
 				}
-			} else if (flag_bogus && 
+			} else if (flag_bogus &&
 			    !regexec(&reg_bogus, buf1, 0, 0, 0)) {
 				(*bogus)++;
-				fprintf(logf, "Bogus %s\n", buf1);
+				fprintf(log_f, "Bogus %s\n", buf1);
 				fprintf(stderr, "Bogus %s\n", buf1);
 				damage++;
 			} else {
 				*buf = 0;
 				if (*dir != '/')
-					strcat(buf, "/");
-				strcat(buf, dir); 
+					strlcat(buf, "/", BUFSIZ);
+				strlcat(buf, dir, BUFSIZ);
 				if (buf[strlen(buf)-1] != '/')
-					strcat(buf, "/"); 
-				strcat(buf, buf1);
+					strlcat(buf, "/", BUFSIZ);
+				strlcat(buf, buf1, BUFSIZ);
 				break;
 			}
 			free(nl[*i]); nl[*i] = 0;
 		}
 		/* If the filesystem didn't tell us, find type */
-		if (nl[*i]->d_type == DT_UNKNOWN) 
+		if (nl[*i]->d_type == DT_UNKNOWN)
 			nl[*i]->d_type = IFTODT(StatFile(buf)->st_mode);
 		if (nl[*i]->d_type == DT_REG || nl[*i]->d_type == DT_DIR)
 			break;
@@ -429,11 +444,13 @@ DoDir(const char *dir1, const char *dir2, const char *name)
 {
 	int i1, i2, n1, n2, i;
 	struct dirent **nl1, **nl2;
-	char *buf1 = alloca(strlen(dir1) + strlen(name) + 4);
-	char *buf2 = alloca(strlen(dir2) + strlen(name) + 4);
+	size_t pl1 = strlen(dir1) + strlen(name) + 4;
+	size_t pl2 = strlen(dir2) + strlen(name) + 4;
+	char *buf1 = alloca(pl1);
+	char *buf2 = alloca(pl2);
 
-	strcpy(buf1, dir1); strcat(buf1, "/"); strcat(buf1, name);
-	strcpy(buf2, dir2); strcat(buf2, "/"); strcat(buf2, name);
+	strlcpy(buf1, dir1, pl1); strlcat(buf1, "/", pl1); strlcat(buf1, name, pl1);
+	strlcpy(buf2, dir2, pl2); strlcat(buf2, "/", pl2); strlcat(buf2, name, pl2);
 	n1 = scandir(buf1, &nl1, dirselect, alphasort);
 	n2 = scandir(buf2, &nl2, dirselect, alphasort);
 	i1 = i2 = -1;
@@ -445,13 +462,13 @@ DoDir(const char *dir1, const char *dir2, const char *name)
 			break;
 
 		/* Get next item from list 1 */
-		if (i1 < n1 && !nl1[i1]) 
-			GetNext(&i1, &n1, nl1, dir1, name, 
+		if (i1 < n1 && !nl1[i1])
+			GetNext(&i1, &n1, nl1, dir1, name,
 				&s1_ignored, &s1_bogus, &s1_wrong);
 
 		/* Get next item from list 2 */
-		if (i2 < n2 && !nl2[i2]) 
-			GetNext(&i2, &n2, nl2, dir2, name, 
+		if (i2 < n2 && !nl2[i2])
+			GetNext(&i2, &n2, nl2, dir2, name,
 				&s2_ignored, &s2_bogus, &s2_wrong);
 
 		if (i1 >= n1 && i2 >= n2) {
@@ -544,10 +561,10 @@ main(int argc, char **argv)
 			flag_bogus = 1;
 			break;
 		case 'l':
-			logf = fopen(optarg, "w");
-			if (!logf)
+			log_f = fopen(optarg, "w");
+			if (!log_f)
 				err(1, "%s", optarg);
-			setlinebuf(logf);
+			setlinebuf(log_f);
 			break;
 		case 'q':
 			verbose--;
@@ -563,8 +580,8 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (!logf)
-		logf = fopen(_PATH_DEVNULL, "w");
+	if (!log_f)
+		log_f = fopen(_PATH_DEVNULL, "w");
 
 	setbuf(stdout, 0);
 
@@ -572,25 +589,25 @@ main(int argc, char **argv)
 		Usage();
 		return (1);
 	}
-	
+
 	signal(SIGINFO, stat_info);
 
 	fprintf(stderr, "CTM_BEGIN 2.0 %s %s %s %s\n",
 		argv[0], argv[1], argv[2], argv[3]);
-	fprintf(logf, "CTM_BEGIN 2.0 %s %s %s %s\n",
+	fprintf(log_f, "CTM_BEGIN 2.0 %s %s %s %s\n",
 		argv[0], argv[1], argv[2], argv[3]);
 	printf("CTM_BEGIN 2.0 %s %s %s %s\n",
 		argv[0], argv[1], argv[2], argv[3]);
 	DoDir(argv[4], argv[5], "");
 	if (damage_limit && damage > damage_limit) {
 		print_stat(stderr, "DAMAGE: ");
-		errx(1, "damage of %d would exceed %d files", 
+		errx(1, "damage of %d would exceed %d files",
 			damage, damage_limit);
 	} else if (change < 2) {
 		errx(4, "no changes");
 	} else {
 		printf("CTM_END ");
-		fprintf(logf, "CTM_END\n");
+		fprintf(log_f, "CTM_END\n");
 		print_stat(stderr, "END: ");
 	}
 	exit(0);

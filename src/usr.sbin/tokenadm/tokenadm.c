@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tokenadm.c,v 1.7 2004/04/07 14:09:35 aaron Exp $	*/
 
 /*-
@@ -153,11 +154,11 @@ main(int argc, char **argv)
 			if (what == REMOVE || how)
 				goto usage;
 			if (*optarg == '-') {
-				if ((c = token_mode(optarg+1)) == NULL)
+				if (!(c = token_mode(optarg+1)))
 					errx(1, "%s: unknown mode", optarg+1);
 				dmode |= c;
 			} else {
-				if ((c = token_mode(optarg)) == NULL)
+				if (!(c = token_mode(optarg)))
 					errx(1, "%s: unknown mode", optarg);
 				emode |= c;
 			}

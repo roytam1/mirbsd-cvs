@@ -1,8 +1,9 @@
-#	$OpenBSD: Makefile,v 1.16 2004/02/27 17:36:18 deraadt Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.16 2004/02/27 17:36:18 deraadt Exp $
 
 PROG=	openssl
 LDADD=	-lssl -lcrypto
-MAN1=	openssl.1
+DPADD=	${LIBSSL} ${LIBCRYPTO}
 
 SSLEAYDIST= lib/libssl/src
 
@@ -12,18 +13,15 @@ SSLEAY_SRC_TOP= ${.CURDIR}/../../${SSLEAYDIST}
 .if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "vax" || \
     ${MACHINE_ARCH} == "amd64"
 
-CFLAGS+= -DL_ENDIAN
-.else
-.if ${MACHINE_ARCH} == "alpha"
+CPPFLAGS+= -DL_ENDIAN
+.elif ${MACHINE_ARCH} == "alpha"
 # no ENDIAN stuff defined for alpha
 .else
-CFLAGS+= -DB_ENDIAN
-.endif
+CPPFLAGS+= -DB_ENDIAN
 .endif
 
-CFLAGS+= -DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DOPENSSL_NO_RC5
-CFLAGS+= -DOPENSSL_NO_MDC2
-CFLAGS+= -I${SSLEAY_SRC_TOP}
+CPPFLAGS+= -DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE
+CPPFLAGS+= -I${SSLEAY_SRC_TOP}
 
 SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c\
 	pkcs7.c crl2p7.c crl.c ca.c \

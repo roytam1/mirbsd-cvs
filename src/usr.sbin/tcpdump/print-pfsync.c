@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: print-pfsync.c,v 1.27 2004/07/07 23:48:40 mcbride Exp $	*/
 
 /*
@@ -25,11 +26,6 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$";
-#endif
 
 #include <sys/param.h>
 #include <sys/time.h>
@@ -61,6 +57,8 @@ struct rtentry;
 #include "addrtoname.h"
 #include "pfctl_parser.h"
 #include "pfctl.h"
+
+__RCSID("$MirOS$");
 
 const char *pfsync_acts[] = { PFSYNC_ACTIONS };
 
@@ -150,8 +148,8 @@ pfsync_print(struct pfsync_header *hdr, int len)
 		    i <= hdr->count && i * sizeof(*s) <= len; i++, s++) {
 			struct pf_state st;
 
-			bzero(&st, sizeof(st));
-			bcopy(&s->id, &st.id, sizeof(st.id));
+			memset(&st, 0, sizeof(st));
+			memmove(&st.id, &s->id, sizeof(st.id));
 			strlcpy(st.u.ifname, s->ifname, sizeof(st.u.ifname));
 			pf_state_host_ntoh(&s->lan, &st.lan);
 			pf_state_host_ntoh(&s->gwy, &st.gwy);
@@ -161,7 +159,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			st.rule.nr = ntohl(s->rule);
 			st.nat_rule.nr = ntohl(s->nat_rule);
 			st.anchor.nr = ntohl(s->anchor);
-			bcopy(&s->rt_addr, &st.rt_addr, sizeof(st.rt_addr));
+			memmove(&st.rt_addr, &s->rt_addr, sizeof(st.rt_addr));
 			st.creation = ntohl(s->creation);
 			st.expire = ntohl(s->expire);
 			st.packets[0] = ntohl(s->packets[0]);
@@ -186,7 +184,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	case PFSYNC_ACT_UPD_C:
 		for (i = 1, u = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*u) <= len; i++, u++) {
-			bcopy(&u->id, &id, sizeof(id));
+			memmove(&id, &u->id, sizeof(id));
 			printf("\n\tid: %016llx creatorid: %08x",
 			    betoh64(id), ntohl(u->creatorid));
 			if (vflag > 1)
@@ -196,7 +194,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	case PFSYNC_ACT_DEL_C:
 		for (i = 1, d = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*d) <= len; i++, d++) {
-			bcopy(&d->id, &id, sizeof(id));
+			memmove(&id, &d->id, sizeof(id));
 			printf("\n\tid: %016llx creatorid: %08x",
 			    betoh64(id), ntohl(d->creatorid));
 		}
@@ -204,7 +202,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	case PFSYNC_ACT_UREQ:
 		for (i = 1, r = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*r) <= len; i++, r++) {
-			bcopy(&r->id, &id, sizeof(id));
+			memmove(&id, &r->id, sizeof(id));
 			printf("\n\tid: %016llx creatorid: %08x",
 			    betoh64(id), ntohl(r->creatorid));
 		}

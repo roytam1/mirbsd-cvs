@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Accept one (or more) ASCII encoded chunks that together make a compressed
  * CTM delta.  Decode them and reconstruct the deltas.  Any completed
@@ -124,14 +125,14 @@ main(int argc, char **argv)
 /*
  * Construct the file name of a piece of a delta.
  */
-#define mk_piece_name(fn,d,p,n)	\
-    sprintf((fn), "%s/%s+%03d-%03d", piece_dir, (d), (p), (n))
+#define mk_piece_name(fn,fnl,d,p,n)	\
+    snprintf((fn), (fnl), "%s/%s+%03d-%03d", piece_dir, (d), (p), (n))
 
 /*
  * Construct the file name of an assembled delta.
  */
-#define mk_delta_name(fn,d)	\
-    sprintf((fn), "%s/%s", delta_dir, (d))
+#define mk_delta_name(fn,fnl,d)	\
+    snprintf((fn), (fnl), "%s/%s", delta_dir, (d))
 
 /*
  * If the next required delta is now present, let ctm lunch on it and any
@@ -155,15 +156,15 @@ apply_complete()
      * Grab a lock on the ctm mutex file so that we can be sure we are
      * working alone, not fighting another ctm_rmail!
      */
-    strcpy(fname, delta_dir);
-    strcat(fname, "/.mutex_apply");
+    strlcpy(fname, delta_dir, PATH_MAX);
+    strlcat(fname, "/.mutex_apply", PATH_MAX);
     if ((lfd = lock_file(fname)) < 0)
 	return;
 
     /*
      * Find out which delta ctm needs next.
      */
-    sprintf(fname, "%s/%s", base_dir, CTM_STATUS);
+    snprintf(fname, PATH_MAX, "%s/%s", base_dir, CTM_STATUS);
     if ((fp = fopen(fname, "r")) == NULL)
 	{
 	close(lfd);
@@ -198,13 +199,13 @@ apply_complete()
      */
     for (;;)
 	{
-	sprintf(delta, "%s.%04d.gz", class, ++dn);
-	mk_delta_name(fname, delta);
+	snprintf(delta, 30, "%s.%04d.gz", class, ++dn);
+	mk_delta_name(fname, PATH_MAX, delta);
 
 	if (stat(fname, &sb) < 0)
 	    break;
 
-	sprintf(buf, "(cd %s && ctm %s%s%s%s) 2>&1", base_dir,
+	snprintf(buf, PATH_MAX*2, "(cd %s && ctm %s%s%s%s) 2>&1", base_dir,
 				set_time ? "-u " : "",
 				apply_verbose ? "-v " : "", here, fname);
 	if ((ctm = popen(buf, "r")) == NULL)
@@ -308,8 +309,8 @@ read_piece(char *input_file)
 		*s = '_';
 
 	    got_one++;
-	    strcpy(tname, piece_dir);
-	    strcat(tname, "/p.XXXXXXXXXX");
+	    strlcpy(tname, piece_dir, PATH_MAX);
+	    strlcat(tname, "/p.XXXXXXXXXX", PATH_MAX);
 	    if ((fd = mkstemp(tname)) == -1 ||
 		(ofp = fdopen(fd, "w")) == NULL)
 		{
@@ -355,7 +356,7 @@ read_piece(char *input_file)
 		continue;
 		}
 
-	    mk_piece_name(pname, delta, pce, npieces);
+	    mk_piece_name(pname, PATH_MAX, delta, pce, npieces);
 	    if (rename(tname, pname) < 0)
 		{
 		err("*rename: '%s' to '%s'", tname, pname);
@@ -444,8 +445,8 @@ combine_if_complete(char *delta, int pce, int npieces)
      */
     if (npieces == 1)
 	{
-	mk_delta_name(dname, delta);
-	mk_piece_name(pname, delta, 1, 1);
+	mk_delta_name(dname, PATH_MAX, delta);
+	mk_piece_name(pname, PATH_MAX, delta, 1, 1);
 	if (rename(pname, dname) == 0)
 	    {
 	    chmod(dname, 0666 & ~mask);
@@ -458,8 +459,8 @@ combine_if_complete(char *delta, int pce, int npieces)
      * Grab a lock on the reassembly mutex file so that we can be sure we are
      * working alone, not fighting another ctm_rmail!
      */
-    strcpy(tname, delta_dir);
-    strcat(tname, "/.mutex_build");
+    strlcpy(tname, delta_dir, PATH_MAX);
+    strlcat(tname, "/.mutex_build", PATH_MAX);
     if ((lfd = lock_file(tname)) < 0)
 	return 0;
 
@@ -472,7 +473,7 @@ combine_if_complete(char *delta, int pce, int npieces)
 	{
 	if (i == pce)
 	    continue;
-	mk_piece_name(pname, delta, i, npieces);
+	mk_piece_name(pname, PATH_MAX, delta, i, npieces);
 	if (stat(pname, &sb) < 0)
 	    {
 	    close(lfd);
@@ -504,8 +505,8 @@ combine(char *delta, int npieces, char *dname, char *pname, char *tname)
     char buf[BUFSIZ];
     int fd = -1;
 
-    strcpy(tname, delta_dir);
-    strcat(tname, "/d.XXXXXXXXXX");
+    strlcpy(tname, delta_dir, PATH_MAX);
+    strlcat(tname, "/d.XXXXXXXXXX", PATH_MAX);
     if ((fd = mkstemp(tname)) == -1 ||
 	(dfp = fdopen(fd, "w")) == NULL)
 	{
@@ -523,7 +524,7 @@ combine(char *delta, int npieces, char *dname, char *pname, char *tname)
      */
     for (i = 1; i <= npieces; i++)
 	{
-	mk_piece_name(pname, delta, i, npieces);
+	mk_piece_name(pname, PATH_MAX, delta, i, npieces);
 	if ((pfp = fopen(pname, "r")) == NULL)
 	    {
 	    err("cannot open '%s' for reading", pname);
@@ -553,7 +554,7 @@ combine(char *delta, int npieces, char *dname, char *pname, char *tname)
 	return 0;
 	}
 
-    mk_delta_name(dname, delta);
+    mk_delta_name(dname, PATH_MAX, delta);
     if (rename(tname, dname) < 0)
 	{
 	err("*rename: '%s' to '%s'", tname, dname);
@@ -567,7 +568,7 @@ combine(char *delta, int npieces, char *dname, char *pname, char *tname)
      */
     for (i = 1; i <= npieces; i++)
 	{
-	mk_piece_name(pname, delta, i, npieces);
+	mk_piece_name(pname, PATH_MAX, delta, i, npieces);
 	if (unlink(pname) < 0)
 	    err("*unlink: '%s'", pname);
 	}

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
@@ -38,13 +39,9 @@
  *	Time is returned as the number of seconds since
  *	midnight January 1st 1900.
  */
-#ifndef lint
-#if 0
-from: static char rcsid[] = "$NetBSD: rdate.c,v 1.3 1996/02/22 06:59:18 thorpej Exp $";
-#else
-static const char rcsid[] = "$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $";
-#endif
-#endif				/* lint */
+
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/socket.h>
@@ -58,16 +55,16 @@ static const char rcsid[] = "$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Ex
 #include <time.h>
 
 /* there are systems without libutil; for portability */
-#ifndef NO_UTIL
+#ifndef	NO_UTIL
 #include <util.h>
 #else
-#define logwtmp(a,b,c)
+#define	logwtmp(a,b,c)
 #endif
 
-void rfc868time_client (const char *, int, struct timeval *, struct timeval *, int);
-void ntp_client (const char *, int, struct timeval *, struct timeval *, int);
+void rfc868time_client(const char *, int, struct timeval *, struct timeval *, int);
+void ntp_client(const char *, int, struct timeval *, struct timeval *, int);
 
-extern char    *__progname;
+extern char *__progname;
 
 void
 usage(void)
@@ -76,26 +73,27 @@ usage(void)
 	(void) fprintf(stderr, "  -4: use IPv4 only\n");
 	(void) fprintf(stderr, "  -6: use IPv6 only\n");
 	(void) fprintf(stderr, "  -a: use adjtime instead of instant change\n");
-	(void) fprintf(stderr, "  -c: correct leap second count\n");
+	(void) fprintf(stderr, "  -c: correct leap second count (recommended)\n");
 	(void) fprintf(stderr, "  -n: use SNTP instead of RFC868 time protocol\n");
 	(void) fprintf(stderr, "  -p: just print, don't set\n");
-	(void) fprintf(stderr, "  -s: just set, don't print\n");
-	(void) fprintf(stderr, "  -v: verbose output\n");
+	(void) fprintf(stderr, "  -r: show remainder from last adjtime\n");
+	(void) fprintf(stderr, "  -s: just set, don't print (overrides -v)\n");
+	(void) fprintf(stderr, "  -v: verbose output (clears -s)\n");
 }
 
 int
 main(int argc, char **argv)
 {
 	int             pr = 0, silent = 0, ntp = 0, verbose = 0;
-	int		slidetime = 0, corrleaps = 0;
+	int		slidetime = 0, corrleaps = 0, showremainder = 0;
 	char           *hname;
 	extern int      optind;
 	int             c;
 	int		family = PF_UNSPEC;
 
-	struct timeval new, adjust;
+	struct timeval new, adjust, remainder;
 
-	while ((c = getopt(argc, argv, "46psancv")) != -1)
+	while ((c = getopt(argc, argv, "46acnprsv")) != -1)
 		switch (c) {
 		case '4':
 			family = PF_INET;
@@ -107,6 +105,10 @@ main(int argc, char **argv)
 
 		case 'p':
 			pr++;
+			break;
+
+		case 'r':
+			showremainder++;
 			break;
 
 		case 's':
@@ -122,11 +124,12 @@ main(int argc, char **argv)
 			break;
 
 		case 'c':
-			corrleaps = 1;
+			corrleaps++;
 			break;
 
 		case 'v':
 			verbose++;
+			silent = 0;
 			break;
 
 		default:
@@ -134,7 +137,7 @@ main(int argc, char **argv)
 			return 1;
 		}
 
-	if (argc - 1 != optind) {
+	if ((argc - 1) != optind) {
 		usage();
 		return 1;
 	}
@@ -152,7 +155,7 @@ main(int argc, char **argv)
 				err(1, "Could not set time of day");
 			logwtmp("{", "date", "");
 		} else {
-			if (adjtime(&adjust, NULL) == -1)
+			if (adjtime(&adjust, &remainder) == -1)
 				err(1, "Could not adjust time of day");
 		}
 	}
@@ -161,13 +164,14 @@ main(int argc, char **argv)
 		struct tm      *ltm;
 		char		buf[80];
 		time_t		tim = new.tv_sec;
-		double		adjsec;
+		double		adjsec, remainsec;
 
 		ltm = localtime(&tim);
 		(void) strftime(buf, sizeof buf, "%a %b %e %H:%M:%S %Z %Y\n", ltm);
 		(void) fputs(buf, stdout);
 
 		adjsec  = adjust.tv_sec + adjust.tv_usec / 1.0e6;
+		remainsec  = remainder.tv_sec + remainder.tv_usec / 1.0e6;
 
 		if (slidetime || verbose) {
 			if (ntp)
@@ -177,8 +181,21 @@ main(int argc, char **argv)
 			else
 				(void) fprintf(stdout,
 				   "%s: adjust local clock by %ld seconds\n",
-				   __progname, adjust.tv_sec);
+				   __progname, (long)adjust.tv_sec);
 		}
+		if (!pr && slidetime && showremainder)
+			(void) fprintf(stdout,
+			    "%s: remainder before were %.6f seconds\n",
+			    __progname, remainsec);
+	}
+
+	if (!corrleaps) {
+		(void) fprintf(stderr,
+		    "%s: WARNING: Not using the '-c' parameter is deprecated and can\n"
+		    "lead to the clock being set wrongly (even if sometimes POSIXly correct)\n",
+		    __progname);
+		if (!ntp) fprintf(stderr,
+		    "This does not apply if the time server uses corrected leap seconds.\n");
 	}
 
 	return 0;

@@ -105,7 +105,7 @@ sub variables {
     $defaultgroup = $group_uniq;# login groupname, $group_uniq means username
     $defaultclass = 'default';  # default user login class
 
-    $uid_start = 1000;		# new users get this uid
+    $uid_start = 3000;		# new users get this uid
     $uid_end   = 2147483647;	# max. uid
 
     # global variables

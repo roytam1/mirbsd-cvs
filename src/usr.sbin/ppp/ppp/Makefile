@@ -1,3 +1,4 @@
+#	$MirOS$
 #	$OpenBSD: Makefile,v 1.26 2004/01/24 18:43:22 deraadt Exp $
 
 PROG=	ppp
@@ -9,12 +10,13 @@ SRCS=	alias.c alias_cuseeme.c alias_db.c alias_ftp.c alias_irc.c \
 	main.c mbuf.c mp.c mppe.c ncp.c ncpaddr.c nat_cmd.c pap.c physical.c \
 	pred.c probe.c prompt.c proto.c radius.c radlib.c route.c server.c \
 	sig.c slcompress.c systems.c sync.c tcp.c tcpmss.c throughput.c \
-	timer.c tty.c tun.c udp.c vjcomp.c
-CFLAGS+=-Wall -DNO_FW_PUNCH -DNOI4B -DNONETGRAPH
+	timer.c tty.c tun.c udp.c vjcomp.c i4b.c atm.c
+CFLAGS+=-Wall -DNO_FW_PUNCH -DNONETGRAPH
 CFLAGS+=-DLOCALNAT -DLOCALRAD
 M4FLAGS=-DLOCALNAT -DLOCALRAD
 LDADD+= -lcrypto -ldes -lutil -lz
 DPADD+=	${LIBDES} ${LIBUTIL} ${LIBZ} ${LIBCRYPTO}
+
 .if defined(NOSUID) || defined(PPP_NOSUID)
 BINMODE=554
 .else
@@ -29,13 +31,6 @@ CLEANFILES=	ppp.8
 
 .8.m4.8:
 	m4 ${M4FLAGS} ${.IMPSRC} >${.TARGET}
-
-NOATM=	/usr/include/netnatm required
-.if defined(NOATM)
-CFLAGS+=-DNOATM
-.else
-SRCS+=	atm.c
-.endif
 
 .if defined(NOSUID) || defined(PPP_NOSUID)
 CFLAGS+=-DNOSUID

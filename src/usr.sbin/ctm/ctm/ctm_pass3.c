@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -175,6 +176,26 @@ Pass3(FILE *fd)
 
 	if (Verbose > 0)
 		fprintf(stderr,"> %s %s\n",sp->Key,name);
+	if ((strcmp(sp->Key, "FS") == 0 ||
+	     strcmp(sp->Key, "FN") == 0 ||
+	     strcmp(sp->Key, "FE") == 0) && -1 == access(name, W_OK)) {
+		if (Verbose > 1)
+			fprintf(stderr, "  %s: chmod u+w %s\n",
+			    sp->Key, name);
+		if (!Force) {
+			warn("%s", name);
+			WRONG
+		}
+		if (-1 == stat(name, &st)) {
+			warn("stat: %s", name);
+			WRONG
+		}
+		if (-1 == chmod(name, st.st_mode | S_IWUSR)) {
+			warn("chmod: %s", name);
+			WRONG
+		}
+	}
+
 	if(!strcmp(sp->Key,"FM") || !strcmp(sp->Key, "FS")) {
 	    i = open(name,O_WRONLY|O_CREAT|O_TRUNC,0666);
 	    if(i < 0) {
@@ -219,8 +240,8 @@ Pass3(FILE *fd)
 	    continue;
 	}
 	if(!strcmp(sp->Key,"FN")) {
-	    strcpy(buf,name);
-	    strcat(buf,TMPSUFF);
+	    strlcpy(buf,name,BUFSIZ);
+	    strlcat(buf,TMPSUFF,BUFSIZ);
 	    i = ctm_edit(trash,cnt,name,buf);
 	    if(i) {
 		fprintf(stderr," %s %s Edit failed with code %d.\n",
@@ -239,7 +260,7 @@ Pass3(FILE *fd)
 	}
 	if(!strcmp(sp->Key,"DM")) {
 	    if(0 > mkdir(name,0777)) {
-		sprintf(buf,"mkdir -p %s",name);
+		snprintf(buf,BUFSIZ,"mkdir -p %s",name);
 		system(buf);
 	    }
 	    if(0 > stat(name,&st) || ((st.st_mode & S_IFMT) != S_IFDIR)) {
@@ -271,7 +292,7 @@ Pass3(FILE *fd)
 			printf("<%s> not removed\n", name);
 		}
 	    } else {
-		    sprintf(buf,"rm -rf %s",name);
+		    snprintf(buf,BUFSIZ,"rm -rf %s",name);
 		    system(buf);
 	    }
 	    continue;

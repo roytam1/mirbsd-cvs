@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: pppoe.8,v 1.17 2004/08/03 08:54:08 jmc Exp $
 .\"
 .\" Copyright (c) 2000 Network Security Technologies, Inc.
@@ -93,8 +94,8 @@ if no
 is specified):
 .Bd -literal -offset indent
 set device "!/usr/sbin/pppoe"
-set mtu max 1492
-set mru max 1492
+set mtu max 1454
+set mru max 1454
 set speed sync
 disable acfcomp protocomp
 deny acfcomp
@@ -112,8 +113,8 @@ The
 .Nm mtu
 and
 .Nm mru
-must be set to 1492 to leave room in the outgoing Ethernet packet for
-the
+must be set to at maximum 1492, better 1454 (see below), to leave
+room in the outgoing Ethernet packet for the
 .Nm pppoe
 headers.
 The
@@ -158,8 +159,8 @@ default:
 
 pppoe:
    set device "!/usr/sbin/pppoe -i xl0"
-   set mtu max 1492
-   set mru max 1492
+   set mtu max 1454
+   set mru max 1454
    set speed sync
    disable acfcomp protocomp
    deny acfcomp
@@ -221,6 +222,10 @@ to adjust the maximum segment size on outgoing SYN packets.
 .%T RFC 2516 A Method for Transmitting PPP Over Ethernet (PPPoE)
 .%A L. Mamakos, et al.
 .Re
+.Pp
+For an explanation how PPPoE is further encapsulated on the way
+to your ISP, and why 1454 is the optimum MTU, go to
+.Pa http://www.mynetwatchman.com/kb/adsl/pppoemtu.htm .
 .Sh HISTORY
 This implementation of
 .Nm pppoe

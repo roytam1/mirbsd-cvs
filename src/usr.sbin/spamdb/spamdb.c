@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: spamdb.c,v 1.11 2004/04/27 21:25:11 itojun Exp $	*/
 
 /*
@@ -30,6 +31,8 @@
 #include <netdb.h>
 
 #include "grey.h"
+
+__RCSID("$MirOS$");
 
 int
 dbupdate(char *dbname, char *ip, int add)
@@ -163,7 +166,7 @@ dblist(char *dbname)
 		cp = strchr(a, '\n');
 		if (cp == NULL)
 			/* this is a whitelist entry */
-			printf("WHITE|%s|||%d|%d|%d|%d|%d\n", a, gd.first,
+			printf("WHITE|%s|||%lld|%lld|%lld|%d|%d\n", a, gd.first,
 			    gd.pass, gd.expire, gd.bcount, gd.pcount);
 		else {
 			char *from, *to;
@@ -179,7 +182,7 @@ dblist(char *dbname)
 			}
 			*to = '\0';
 			to++;
-			printf("GREY|%s|%s|%s|%d|%d|%d|%d|%d\n",
+			printf("GREY|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
 			    a, from, to, gd.first, gd.pass, gd.expire,
 			    gd.bcount, gd.pcount);
 		}

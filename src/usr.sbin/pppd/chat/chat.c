@@ -1212,7 +1212,7 @@ register char *s;
 
     if (verbose) {
 	if (quiet)
-	    logmsg("send (??????)");
+	    logmsg("send (?!)");
 	else
 	    logmsg("send (%v)", s);
     }

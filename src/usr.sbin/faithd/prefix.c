@@ -148,9 +148,6 @@ prefix_match(const struct prefix *prefix, const struct sockaddr *sa)
 	    prefix->a.ss_len != sa->sa_len)
 		return 0;
 
-	if (prefix->a.ss_len > sizeof(a) || sa->sa_len > sizeof(b))
-		return 0;
-
 	switch (prefix->a.ss_family) {
 	case AF_INET:
 		off = offsetof(struct sockaddr_in, sin_addr);
@@ -328,10 +325,6 @@ config_match(struct sockaddr *sa1, struct sockaddr *sa2)
 {
 	static struct config conf;
 	const struct config *p;
-
-	if (sa1->sa_len > sizeof(conf.match.a) ||
-	    sa2->sa_len > sizeof(conf.dest.a))
-		return NULL;
 
 	memset(&conf, 0, sizeof(conf));
 	if (!config_list) {

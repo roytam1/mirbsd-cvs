@@ -1,6 +1,6 @@
-#	$OpenBSD: Makefile,v 1.7 2002/06/18 00:40:30 ericj Exp $
-#
-#	@(#)Makefile	5.12 (Berkeley) 5/7/93
+# $MirOS$
+# $OpenBSD: Makefile,v 1.7 2002/06/18 00:40:30 ericj Exp $
+# @(#)Makefile	5.12 (Berkeley) 5/7/93
 #
 # optional flags are: MEASURE TESTING DEBUG
 
@@ -10,6 +10,8 @@ SRCS=	acksend.c candidate.c correct.c master.c networkdelta.c readmsg.c \
 DPADD=	${LIBUTIL}
 LDADD=	-lutil
 MAN=	timed.8
+
+CFLAGS_readmsg.o+= -Wno-format-y2k
 
 .include "../../Makefile.inc"
 .include <bsd.prog.mk>

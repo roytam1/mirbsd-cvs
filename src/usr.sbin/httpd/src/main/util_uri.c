@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -58,7 +60,7 @@
 
 /*
  * util_uri.c: URI related utility things
- * 
+ *
  */
 
 #include "httpd.h"
@@ -179,38 +181,38 @@ API_EXPORT(char *) ap_unparse_uri_components(pool *p,
     char *parts[16];     /* 16 distinct parts of a URI */
     char *scheme = NULL; /* to hold the scheme without modifying const args */
     int j = 0;           /* an index into parts */
-    
+
     memset(parts, 0, sizeof(parts));
-        
+
     /* If suppressing the site part, omit all of scheme://user:pass@host:port */
     if (!(flags & UNP_OMITSITEPART)) {
 
         /* if the user passes in a scheme, we'll assume an absoluteURI */
         if (uptr->scheme) {
             scheme = uptr->scheme;
-            
+
             parts[j++] = uptr->scheme;
             parts[j++] = ":";
         }
-        
+
         /* handle the hier_part */
         if (uptr->user || uptr->password || uptr->hostname) {
-            
+
             /* this stuff requires absoluteURI, so we have to add the scheme */
             if (!uptr->scheme) {
                 scheme = DEFAULT_URI_SCHEME;
-                
+
                 parts[j++] = DEFAULT_URI_SCHEME;
                 parts[j++] = ":";
             }
-            
+
             parts[j++] = "//";
-            
+
             /* userinfo requires hostport */
             if (uptr->hostname && (uptr->user || uptr->password)) {
                 if (uptr->user && !(flags & UNP_OMITUSER))
                     parts[j++] = uptr->user;
-                
+
                 if (uptr->password && !(flags & UNP_OMITPASSWORD)) {
                     parts[j++] = ":";
 
@@ -218,14 +220,14 @@ API_EXPORT(char *) ap_unparse_uri_components(pool *p,
                         parts[j++] = uptr->password;
                     else
                         parts[j++] = "XXXXXXXX";
-                }    
+                }
 
                 parts[j++] = "@";
-            }                
-            
+            }
+
             /* If we get here, there must be a hostname. */
             parts[j++] = uptr->hostname;
-            
+
             /* Emit the port.  A small beautification
              * prevents http://host:80/ and similar visual blight.
              */
@@ -239,14 +241,14 @@ API_EXPORT(char *) ap_unparse_uri_components(pool *p,
             }
         }
     }
-        
+
     if (!(flags & UNP_OMITPATHINFO)) {
-        
-        
+
+
         /* We must ensure we don't put out a hier_part and a rel_path */
         if (j && uptr->path && *uptr->path != '/')
             parts[j++] = "/";
-        
+
         if (uptr->path != NULL)
             parts[j++] = uptr->path;
 
@@ -255,7 +257,7 @@ API_EXPORT(char *) ap_unparse_uri_components(pool *p,
                 parts[j++] = "?";
                 parts[j++] = uptr->query;
             }
-            
+
             if (uptr->fragment) {
                 parts[j++] = "#";
                 parts[j++] = uptr->fragment;
@@ -263,7 +265,7 @@ API_EXPORT(char *) ap_unparse_uri_components(pool *p,
         }
     }
 
-    /* Ugly, but correct and probably faster than ap_vsnprintf. */
+    /* Ugly, but correct and probably faster than vsnprintf. */
     return ap_pstrcat(p,
         parts[0],
         parts[1],
@@ -410,45 +412,50 @@ API_EXPORT(int) ap_parse_uri_components(pool *p, const char *uri,
      * &hostinfo[-1] < &hostinfo[0] ... and this loop is valid C.
      */
     do {
-        --s;
+	--s;
     } while (s >= hostinfo && *s != '@');
     if (s < hostinfo) {
-        /* again we want the common case to be fall through */
-      deal_with_host:
-        /* We expect hostinfo to point to the first character of
-         * the hostname.  If there's a port it is the first colon.
-         */
-        s = memchr(hostinfo, ':', uri - hostinfo);
-        if (s == NULL) {
-            /* we expect the common case to have no port */
-            uptr->hostname = ap_pstrndup(p, hostinfo, uri - hostinfo);
-            goto deal_with_path;
-        }
-        uptr->hostname = ap_pstrndup(p, hostinfo, s - hostinfo);
-        ++s;
-        uptr->port_str = ap_pstrndup(p, s, uri - s);
-        if (uri != s) {
-            port = ap_strtol(uptr->port_str, &endstr, 10);
-            uptr->port = port;
-            if (*endstr == '\0') {
-                goto deal_with_path;
-            }
-            /* Invalid characters after ':' found */
-            return HTTP_BAD_REQUEST;
-        }
-        uptr->port = ap_default_port_for_scheme(uptr->scheme);
-        goto deal_with_path;
+	/* again we want the common case to be fall through */
+deal_with_host:
+	/* We expect hostinfo to point to the first character of
+	 * the hostname.  If there's a port it is the first colon.
+	 */
+	if (*hostinfo == '[') {
+	    s = memchr(hostinfo+1, ']', uri - hostinfo - 1);
+	    if (s)
+		s = strchr(s, ':');
+	} else
+	    s = memchr(hostinfo, ':', uri - hostinfo);
+	if (s == NULL) {
+	    /* we expect the common case to have no port */
+	    uptr->hostname = ap_pstrndup(p, hostinfo, uri - hostinfo);
+	    goto deal_with_path;
+	}
+	uptr->hostname = ap_pstrndup(p, hostinfo, s - hostinfo);
+	++s;
+	uptr->port_str = ap_pstrndup(p, s, uri - s);
+	if (uri != s) {
+	    port = ap_strtol(uptr->port_str, &endstr, 10);
+	    uptr->port = port;
+	    if (*endstr == '\0') {
+		goto deal_with_path;
+	    }
+	    /* Invalid characters after ':' found */
+	    return HTTP_BAD_REQUEST;
+	}
+	uptr->port = ap_default_port_for_scheme(uptr->scheme);
+	goto deal_with_path;
     }
 
     /* first colon delimits username:password */
     s1 = memchr(hostinfo, ':', s - hostinfo);
     if (s1) {
-        uptr->user = ap_pstrndup(p, hostinfo, s1 - hostinfo);
-        ++s1;
-        uptr->password = ap_pstrndup(p, s1, s - s1);
+	uptr->user = ap_pstrndup(p, hostinfo, s1 - hostinfo);
+	++s1;
+	uptr->password = ap_pstrndup(p, s1, s - s1);
     }
     else {
-        uptr->user = ap_pstrndup(p, hostinfo, s - hostinfo);
+	uptr->user = ap_pstrndup(p, hostinfo, s - hostinfo);
     }
     hostinfo = s + 1;
     goto deal_with_host;
@@ -475,7 +482,12 @@ API_EXPORT(int) ap_parse_hostinfo_components(pool *p, const char *hostinfo,
     /* We expect hostinfo to point to the first character of
      * the hostname.  There must be a port, separated by a colon
      */
-    s = strchr(hostinfo, ':');
+    if (*hostinfo == '[') {
+        s = strchr(hostinfo+1, ']');
+        if (s)
+            s = strchr(s, ':');
+    } else
+        s = strchr(hostinfo, ':');
     if (s == NULL) {
         return HTTP_BAD_REQUEST;
     }

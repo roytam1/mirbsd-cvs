@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: addrtoname.c,v 1.24 2004/02/13 17:56:29 canacar Exp $	*/
 
 /*
@@ -23,10 +24,6 @@
  *  Internet, ethernet, port, and protocol string to address
  *  and address to string conversion routines
  */
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -65,6 +62,8 @@ struct rtentry;
 #include "privsep.h"
 #include "savestr.h"
 #include "setsignal.h"
+
+__RCSID("$MirOS$");
 
 /*
  * hash tables for whatever-to-name translations
@@ -336,7 +335,7 @@ lookup_emem(const u_char *ep)
 }
 
 /*
- * Find the hash node that corresponds to the bytestring 'bs' 
+ * Find the hash node that corresponds to the bytestring 'bs'
  * with length 'nlen'
  */
 
@@ -362,7 +361,7 @@ lookup_bytestring(register const u_char *bs, const int nlen)
 		if (tp->e_addr0 == i &&
 		    tp->e_addr1 == j &&
 		    tp->e_addr2 == k &&
-		    bcmp((char *)bs, (char *)(tp->e_bs), nlen) == 0)
+		    memcmp((char *)bs, (char *)(tp->e_bs), nlen) == 0)
 			return tp;
 		else
 			tp = tp->e_nxt;
@@ -372,7 +371,7 @@ lookup_bytestring(register const u_char *bs, const int nlen)
 	tp->e_addr2 = k;
 
 	tp->e_bs = (u_char *) calloc(1, nlen + 1);
-	bcopy(bs, tp->e_bs, nlen);
+	memmove(tp->e_bs, bs, nlen);
 	tp->e_nxt = (struct enamemem *)calloc(1, sizeof(*tp));
 	if (tp->e_nxt == NULL)
 		error("lookup_bytestring: calloc");
@@ -496,7 +495,7 @@ linkaddr_string(const u_char *ep, const int len)
 
 	if (len == 6)	/* XXX not totally correct... */
 		return etheraddr_string(ep);
-	
+
 	tp = lookup_bytestring(ep, len);
 	if (tp->e_name)
 		return (tp->e_name);
@@ -665,7 +664,7 @@ init_servarray(void)
 	int i, port;
 	char buf[sizeof("0000000000")];
 	char service[BUFSIZ];
-	char protocol[sizeof("tcp")];
+	char protocol[sizeof("divert")];
 
 	priv_getserventries();
 	while (priv_getserventry(service, sizeof(service), &port, protocol,

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cron.c,v 1.34 2004/05/13 13:54:52 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
@@ -21,13 +22,11 @@
  * SOFTWARE.
  */
 
-#if !defined(lint) && !defined(LINT)
-static const char rcsid[] = "$OpenBSD: cron.c,v 1.34 2004/05/13 13:54:52 millert Exp $";
-#endif
-
 #define	MAIN_PROGRAM
 
 #include "cron.h"
+
+__RCSID("$MirOS$");
 
 enum timejump { negative, small, medium, large };
 
@@ -223,7 +222,7 @@ main(int argc, char *argv[]) {
 				    (long)getpid(), timeDiff))
 				/* run wildcard jobs for current minute */
 				find_jobs(timeRunning, &database, TRUE, FALSE);
-	
+
 				/* run fixed-time jobs for each minute missed */
 				do {
 					if (job_runqueue())
@@ -235,7 +234,7 @@ main(int argc, char *argv[]) {
 				} while (virtualTime< timeRunning &&
 				    clockTime == timeRunning);
 				break;
-	
+
 			case negative:
 				/*
 				 * case 3: timeDiff is a small or medium-sized
@@ -336,7 +335,7 @@ find_jobs(int vtime, cron_db *db, int doWild, int doNonWild) {
 			    )
 			   ) {
 				if ((doNonWild &&
-				    !(e->flags & (MIN_STAR|HR_STAR))) || 
+				    !(e->flags & (MIN_STAR|HR_STAR))) ||
 				    (doWild && (e->flags & (MIN_STAR|HR_STAR))))
 					job_add(e, u);
 			}
@@ -390,8 +389,9 @@ cron_sleep(int target) {
 	}
 
 	while (timerisset(&tv) && tv.tv_sec < 65) {
-		Debug(DSCH, ("[%ld] Target time=%ld, sec-to-wait=%ld\n",
-		    (long)getpid(), (long)target*SECONDS_PER_MINUTE, tv.tv_sec))
+		Debug(DSCH, ("[%ld] Target time=%ld, sec-to-wait=%lld\n",
+		    (long)getpid(), (long)target*SECONDS_PER_MINUTE,
+		    (int64_t)tv.tv_sec))
 
 		poke = RELOAD_CRON | RELOAD_AT;
 		if (fdsr)

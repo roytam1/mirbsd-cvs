@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: vnconfig.8,v 1.19 2003/06/12 12:59:54 jmc Exp $
 .\"
 .\" Copyright (c) 1993 University of Utah.
@@ -43,11 +44,11 @@
 .Sh SYNOPSIS
 .Nm vnconfig
 .Op Fl c
-.Op Fl vk
+.Op Fl vkr
 .Ar rawdev
 .Ar regular_file
 .Nm vnconfig Fl u
-.Op Fl v
+.Op Fl vr
 .Ar rawdev
 .Sh DESCRIPTION
 The
@@ -90,8 +91,15 @@ Associate an encryption key with the device.
 All data will be encrypted before it is written to the disk.
 Encryption only works with
 .Pa svnd .
+.It Fl r
+If the kernel supports it, don't write to the underlying file.
+This is supported since
+.Mx 7 .
 .It Fl u
 Unconfigures the device.
+If the device was configured read-only, you must use the
+.Fl r
+option while unconfiguring, or you will get an error.
 .It Fl v
 Print messages to stdout describing actions taken.
 .El

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mod_log_config.c,v 1.16 2004/12/02 19:42:48 henning Exp $ */
 
 /* ====================================================================
@@ -89,7 +90,7 @@
  * the VirtualHost will _not_ be used. This makes this module compatable
  * with the CLF and config log modules, where the use of TransferLog
  * inside the VirtualHost section overrides its use outside.
- * 
+ *
  * Examples:
  *
  *    TransferLog    logs/access_log
@@ -188,6 +189,8 @@
 #include "http_main.h"
 #include "fdcache.h"
 #include <limits.h>
+
+__RCSID("$MirOS$");
 
 module MODULE_VAR_EXPORT config_log_module;
 
@@ -437,8 +440,8 @@ static const char *log_request_time(request_rec *r, char *a)
         if (timz < 0) {
             timz = -timz;
         }
-        ap_snprintf(tstr, sizeof(tstr), "[%02d/%s/%d:%02d:%02d:%02d %c%.2d%.2d]",
-                t->tm_mday, ap_month_snames[t->tm_mon], t->tm_year+1900, 
+        snprintf(tstr, sizeof(tstr), "[%02d/%s/%lld:%02d:%02d:%02d %c%.2d%.2d]",
+                t->tm_mday, ap_month_snames[t->tm_mon], (int64_t)t->tm_year+1900,
                 t->tm_hour, t->tm_min, t->tm_sec,
                 sign, timz / 60, timz % 60);
     }
@@ -505,11 +508,11 @@ static struct log_item_list {
     {
         'h', log_remote_host, 0
     },
-    {   
-        'a', log_remote_address, 0 
+    {
+        'a', log_remote_address, 0
     },
-    {   
-        'A', log_local_address, 0 
+    {
+        'A', log_local_address, 0
     },
     {
         'l', log_remote_logname, 0
@@ -599,7 +602,7 @@ static struct log_item_list *find_log_func(char k)
         }
 
 #ifdef EAPI
-    if (ap_hook_status(ap_psprintf(p, "ap::mod_log_config::log_%c", k)) 
+    if (ap_hook_status(ap_psprintf(p, "ap::mod_log_config::log_%c", k))
         != AP_HOOK_STATE_NOTEXISTANT) {
         lil = (struct log_item_list *)
               ap_pcalloc(p, sizeof(struct log_item_list));
@@ -651,7 +654,7 @@ static char *parse_log_misc_string(pool *p, log_format_item *it,
 		*d++ = '\n';
 		s++;
 		break;
-	    case 't':	
+	    case 't':
 		*d++ = '\t';
 		s++;
 		break;
@@ -1140,7 +1143,7 @@ static config_log_state *open_multi_logs(server_rec *s, pool *p)
 	if (format) {
 	    mls->default_format = parse_log_string(p, format, &dummy);
 	}
-    }    
+    }
 
     if (!mls->default_format) {
         mls->default_format = parse_log_string(p, DEFAULT_LOG_FORMAT, &dummy);

@@ -1,9 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ntp.c,v 1.15 2004/02/16 21:25:41 jakob Exp $	*/
 
 /*
+ * Copyright (c) 2002, 2004 by Thorsten Glaser.
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
- * Copyright (c) 2002 by Thorsten "mirabile" Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -50,6 +51,8 @@
 #include <unistd.h>
 
 #include "ntpleaps.h"
+
+__RCSID("$MirOS$");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -327,6 +330,11 @@ retry:
 	 */
 	delay1 = data->transmit - data->receive;
 	delay2 = data->current - data->originate;
+
+	if (data->status == 3) {
+		warnx("Alarm condition - server not synched yet?");
+		return 1;
+	}
 
 	if (data->reference == 0.0 ||
 	    data->transmit == 0.0 ||

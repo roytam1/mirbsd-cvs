@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: ifwatchd.c,v 1.20 2004/11/25 06:57:38 martin Exp $	*/
 
 /*-
@@ -40,8 +41,7 @@
  * Define this for special treatment of sys/net/if_spppsubr.c based interfaces.
  */
 #define SPPP_IF_SUPPORT
- 
-#include <sys/types.h>
+
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
@@ -66,6 +66,9 @@
 #include <err.h>
 #include <ifaddrs.h>
 #include <syslog.h>
+#include <sysexits.h>
+
+__RCSID("$MirOS$");
 
 enum event { ARRIVAL, DEPARTURE, UP, DOWN, CARRIER, NO_CARRIER };
 
@@ -185,7 +188,7 @@ main(int argc, char **argv)
 	argv += optind;
 	argc -= optind;
 
-	if (argc <= 0) 
+	if (argc <= 0)
 		usage();
 
 	if (verbose) {
@@ -222,7 +225,7 @@ main(int argc, char **argv)
 		msgp = msg;
 		for (msgp = msg; n > 0; n -= ((struct rt_msghdr*)msgp)->rtm_msglen, msgp += ((struct rt_msghdr*)msgp)->rtm_msglen) {
 			dispatch(msgp, n);
-			
+
 		}
 	}
 
@@ -236,7 +239,7 @@ main(int argc, char **argv)
 static void
 usage()
 {
-	fprintf(stderr, 
+	fprintf(stderr,
 	    "usage:\n"
 	    "\tifwatchd [-hiqv] [-A arrival-script] [-D departure-script]\n"
 	    "\t\t  [-d down-script] [-u up-script]\n"
@@ -278,6 +281,8 @@ dispatch(void *msg, size_t len)
 	case RTM_IFINFO:
 		ifmp = (struct if_msghdr*)msg;
 		check_carrier(ifmp->ifm_index, ifmp->ifm_data.ifi_link_state);
+		return;
+	case RTM_MISS:
 		return;
 	}
 	if (verbose)
@@ -343,7 +348,7 @@ invoke_script(sa, dest, ev, ifindex, ifname_hint)
 	const char *ifname_hint;
 {
 	char addr[NI_MAXHOST], daddr[NI_MAXHOST], ifname_buf[IFNAMSIZ];
-	const char *ifname;
+	const char * volatile ifname;
 	const char *script;
 	int status;
 
@@ -447,7 +452,7 @@ check_carrier(int if_index, int carrier_status)
 	if (p == NULL)
 		return;
 
-	/* 
+	/*
 	 * Treat it as an event worth handling if:
 	 * - the carrier status changed, or
 	 * - this is the first time we've been called, and
@@ -504,7 +509,7 @@ check_announce(struct if_announcemsghdr *ifan)
 static void rescan_interfaces()
 {
 	struct interface_data * p;
-	
+
 	SLIST_FOREACH(p, &ifs, next) {
 		p->index = if_nametoindex(p->ifname);
 		if (verbose)
@@ -529,7 +534,7 @@ static int find_interface(index)
 	int index;
 {
 	struct interface_data * p;
-	
+
 	SLIST_FOREACH(p, &ifs, next)
 		if (p->index == index)
 			return 1;
@@ -540,11 +545,13 @@ static void run_initial_ups()
 {
 	struct interface_data * ifd;
 	struct ifaddrs *res = NULL, *p;
+#ifdef __NetBSD__
 	int s;
 
 	s = socket(AF_INET, SOCK_DGRAM, 0);
 	if (s < 0)
 		return;
+#endif
 
 	if (getifaddrs(&res) == 0) {
 		for (p = res; p; p = p->ifa_next) {
@@ -564,10 +571,11 @@ static void run_initial_ups()
 			if (p->ifa_addr == NULL)
 				continue;
 			if (p->ifa_addr->sa_family == AF_LINK) {
+#ifdef __NetBSD__
 				struct ifmediareq ifmr;
 
 				memset(&ifmr, 0, sizeof(ifmr));
-				strncpy(ifmr.ifm_name, ifd->ifname,
+				strlcpy(ifmr.ifm_name, ifd->ifname,
 				    sizeof(ifmr.ifm_name));
 				if (ioctl(s, SIOCGIFMEDIA, &ifmr) != -1
 				    && (ifmr.ifm_status & IFM_AVALID)
@@ -577,6 +585,7 @@ static void run_initial_ups()
 					ifd->last_carrier_status =
 					    LINK_STATE_UP;
 				    }
+#endif
 				continue;
 			}
 			if (if_is_connected(ifd->ifname))
@@ -585,7 +594,9 @@ static void run_initial_ups()
 		}
 		freeifaddrs(res);
 	}
+#ifdef __NetBSD__
 	close(s);
+#endif
 }
 
 #ifdef SPPP_IF_SUPPORT
@@ -601,14 +612,15 @@ static void run_initial_ups()
 static int
 check_is_connected(const char * ifname, int def_retval)
 {
+#ifdef __NetBSD__
 	int s, err;
 	struct spppstatus oldstatus;
 	struct spppstatusncp status;
 
 	memset(&status, 0, sizeof status);
-	strncpy(status.ifname, ifname, sizeof status.ifname);
+	strlcpy(status.ifname, ifname, sizeof status.ifname);
 	memset(&oldstatus, 0, sizeof oldstatus);
-	strncpy(oldstatus.ifname, ifname, sizeof oldstatus.ifname);
+	strlcpy(oldstatus.ifname, ifname, sizeof oldstatus.ifname);
 
 	s = socket(AF_INET, SOCK_DGRAM, 0);
 	if (s < 0)
@@ -629,5 +641,26 @@ check_is_connected(const char * ifname, int def_retval)
 	close(s);
 
 	return status.phase == SPPP_PHASE_NETWORK && status.ncpup > 0;
+#endif
+#ifdef __OpenBSD__
+	int s, res = -1;
+	struct ifreq ifr;
+	struct spppreq spr;
+
+	strlcpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+
+	s = socket(AF_INET, SOCK_DGRAM, 0);
+	if (s < 0)
+		err(EX_UNAVAILABLE, "ifwatchd: socket");
+
+	spr.cmd = (int)SPPPIOGDEFS;
+	ifr.ifr_data = (caddr_t)&spr;
+
+	if (ioctl(s, SIOCGIFGENERIC, &ifr) > -1)
+		res = (spr.defs.pp_phase == PHASE_NETWORK);
+	close(s);
+
+	return res;
+#endif
 }
 #endif

@@ -1,4 +1,6 @@
 #!/bin/sh
+# $MirOS$
+#
 exstat=1
 trap 'rm -f Makefile dummy ../dummy.o dummy.exe testfunc.c testfunc ../testfunc.o testfunc.exe; exit $exstat' 0 1 2 3 15
 #
@@ -54,7 +56,7 @@ trap 'rm -f Makefile dummy ../dummy.o dummy.exe testfunc.c testfunc ../testfunc.
 #  -r (run generated test program)
 #   Enables TCRUNIT=yes, see below
 #
-#  
+#
 # ENVIRONMENT VARIABLES:
 # The following environment variables have influence on
 # TestCompile's operation:
@@ -244,7 +246,7 @@ rm -f dummy ../dummy.o testfunc ../testfunc.o
 
 cat ../Makefile.config > Makefile
 cat <<EOF >> Makefile
-CFLAGS=\$(OPTIM) \$(CFLAGS1) \$(EXTRA_CFLAGS)
+CFLAGS=\$(OPTIM) \$(CFLAGS1) \$(EXTRA_CFLAGS) \$(TESTCOMPILE_EXTRAFLAGS)
 LIBS=\$(EXTRA_LIBS) \$(LIBS1)
 INCLUDES=\$(INCLUDES1) \$(EXTRA_INCLUDES)
 LDFLAGS=\$(LDFLAGS1) \$(EXTRA_LDFLAGS)
@@ -268,7 +270,7 @@ eval "${MAKE-make} ${TARGET} $ERRDIR >&2"
 if sh PrintPath -s -p`pwd` $TARGET ; then
     if [ "x$OS" = "xMPE/iX" ]; then
 	# clever hack to check for unresolved externals without actually
-	# executing the test program 
+	# executing the test program
 	if eval "callci run `pwd`/$TARGET\;stdin=\*notfound 2>&1 | /bin/grep ^UNRESOLVED $ERRDIR >&2"; then
 	    exit 1 # there were unresolved externals
 	fi
@@ -278,4 +280,3 @@ if sh PrintPath -s -p`pwd` $TARGET ; then
     fi
     exstat=0
 fi
-
