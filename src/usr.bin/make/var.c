@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: var.c,v 1.59 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
@@ -84,6 +85,8 @@
 #include "symtable.h"
 #include "gnode.h"
 
+__RCSID("$MirOS$");
+
 /* extended indices for System V stuff */
 #define FTARGET_INDEX	7
 #define DTARGET_INDEX	8
@@ -141,6 +144,7 @@ static char *varnames[] = {
     MEMBER,
     OODATE,
     ALLSRC,
+    GNUALLSRC,
     IMPSRC,
     FTARGET,
     DTARGET,
@@ -268,6 +272,10 @@ quick_lookup(const char *name, const char **enamePtr, u_int32_t *pk)
 	break;
     case K_ALLSRC % MAGICSLOTS1:
 	if (name[0] == ALLSRC[0] && len == 1)
+	    return ALLSRC_INDEX;
+	break;
+    case K_GNUALLSRC % MAGICSLOTS1:
+	if (name[0] == GNUALLSRC[0] && len == 1)
 	    return ALLSRC_INDEX;
 	break;
     case K_IMPSRC % MAGICSLOTS1:

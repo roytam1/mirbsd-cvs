@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: generate.c,v 1.5 2002/06/11 21:12:11 espie Exp $ */
 
@@ -34,12 +35,16 @@
 #include "ohash.h"
 #include "cond_int.h"
 #include "var_int.h"
+#include "defines.h"
+
+__RCSID("$MirOS$");
 
 #define M(x)	x, #x
 char *table_var[] = {
 	M(TARGET),
 	M(OODATE),
 	M(ALLSRC),
+	M(GNUALLSRC),
 	M(IMPSRC),
 	M(PREFIX),
 	M(ARCHIVE),

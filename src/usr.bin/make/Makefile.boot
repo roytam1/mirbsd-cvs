@@ -1,39 +1,70 @@
-#	$OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
-#	$OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
+# $MirOS$
+# $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
+# $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
 # a very simple makefile...
 #
-# You only want to use this if you aren't running OpenBSD.
+# You only want to use this if you aren't running MirOS.
 #
 # modify MACHINE and MACHINE_ARCH as appropriate for your target architecture
-#
+
+#------------------------------
+# System dependencies
+#------------------------------
+
+#MACHINE=sun
+#MACHINE_ARCH=sparc
+MACHINE=i386
+MACHINE_ARCH=i386
+MACHINE_OS=BSD
+
+# set this to the true path of mirbsdksh
+MKSH=		/bin/ksh
+
+# some make(1)s don't support +=
+DEFS=		-DMAKE_BOOTSTRAP -DNEED_FGETLN
+#DEFS_VSN=	-DNEED_VSNPRINTF
+#FILES_STRL=	strlfun.o
+#FILES_GETOPT=	getopt_long.o
+
+# a stupid way to do .if/.else/.endif with make
+COPY_OHASH=	copy_ohash
+COPY_STRL=	copy_strl
+#COPY_GETOPT=	copy_getopt
+COPY_GETOPT=	copy_dummy
+
+# paths
+LIBCDIR=	/usr/src/lib/libc
+INCLDIR=	/usr/src/include
+
+#==============================
 
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
-MACHINE=sun
-MACHINE_ARCH=sparc
-CFLAGS= -Iohash -I. -DTARGET_MACHINE=\"${MACHINE}\" -DTARGET_MACHINE_ARCH=\"${MACHINE_ARCH}\" -DMACHINE=\"${MACHINE}\" \
-	-DMAKE_BOOTSTRAP -DNEED_FGETLN
-LIBS= ohash/libohash.a
+CFLAGS= -Iohash -I. -DMACHINE=\"${MACHINE}\" \
+	-DMACHINE_ARCH=\"${MACHINE_ARCH}\" \
+	-DMACHINE_OS=\"${MACHINE_OS}\" \
+	-D_PATH_MIRBSDKSH=\"${MKSH}\" ${DEFS} ${DEFS_VSN} ${COPTS}
+LIBS=	ohash/libohash.a
 
-OBJ=arch.o buf.o compat.o cond.o dir.o for.o job.o main.o make.o \
-    parse.o str.o suff.o targ.o var.o util.o error.o lowparse.o \
-    varmodifiers.o memory.o cmd_exec.o timestamp.o parsevar.o \
-    varname.o init.o
+OBJ=	arch.o buf.o compat.o cond.o dir.o for.o job.o main.o make.o \
+	parse.o str.o suff.o targ.o var.o util.o error.o lowparse.o \
+	varmodifiers.o memory.o cmd_exec.o timestamp.o parsevar.o \
+	varname.o init.o ${FILES_STRL} ${FILES_GETOPT}
 
 LIBOBJ=	lst.lib/lstAddNew.o lst.lib/lstAppend.o \
 	lst.lib/lstConcat.o lst.lib/lstConcatDestroy.o lst.lib/lstDeQueue.o \
 	lst.lib/lstDestroy.o lst.lib/lstDupl.o lst.lib/lstFindFrom.o \
-	lst.lib/lstForEachFrom.o lst.lib/lstInit.o lst.lib/lstInsert.o \
+	lst.lib/lstForEachFrom.o lst.lib/lstInsert.o \
 	lst.lib/lstMember.o lst.lib/lstRemove.o lst.lib/lstReplace.o \
 	lst.lib/lstSucc.o
 
-bmake: varhashconsts.h ${OBJ} ${LIBOBJ}
+bmake: varhashconsts.h condhashconsts.h ${OBJ} ${LIBOBJ}
 #	@echo 'make of make and make.0 started.'
 	${CC} ${CFLAGS} ${OBJ} ${LIBOBJ} -o bmake ${LIBS}
 	@ls -l $@
-#	nroff -h -man make.1 > make.0
+#	nroff -h -man make.1 >make.0
 #	@echo 'make of make and make.0 completed.'
 
 GENOBJ= generate.o stats.o memory.o ohash/libohash.a
@@ -52,9 +83,26 @@ generate: ${GENOBJ}
 	${CC} ${CFLAGS} ${GENOBJ} -o generate ${LIBS}
 
 varhashconsts.h: generate
-	./generate 1 77 > varhashconsts.h
+	./generate 1 82 >varhashconsts.h
+
+condhashconsts.h: generate
+	./generate 2 65 >condhashconsts.h
 
 clean:
 	rm -f ${OBJ} ${LIBOBJ} ${PORTOBJ} ${GENOBJ} ${OHASHOBJ} bmake
-	rm -f varhashconsts.h generate
+	rm -f varhashconsts.h condhashconsts.h generate
 
+copy-sources: ${COPY_OHASH} ${COPY_STRL} ${COPY_GETOPT}
+
+copy_dummy:
+
+copy_ohash:
+	cp -R ${LIBCDIR}/ohash .
+	cp ${INCLDIR}/ohash.h .
+
+copy_strl:
+	cp ${LIBCDIR}/string/strlfun.c .
+
+copy_getopt:
+	cp ${LIBCDIR}/stdlib/getopt_long.c .
+	cp ${INCLDIR}/getopt.h .

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: main.c,v 1.65 2004/04/21 13:17:49 jmc Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
@@ -79,6 +80,8 @@
 #endif	/* DEFMAXLOCAL */
 
 #define MAKEFLAGS	".MAKEFLAGS"
+
+__RCSID("$MirOS$");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
@@ -446,6 +449,7 @@ main(int argc, char **argv)
 	char *mdpath;
 	char *machine = getenv("MACHINE");
 	char *machine_arch = getenv("MACHINE_ARCH");
+	char *machine_os = getenv("MACHINE_OS");
 	const char *syspath = _PATH_DEFSYSPATH;
 
 #ifdef RLIMIT_NOFILE
@@ -489,19 +493,21 @@ main(int argc, char **argv)
 	 * Get the name of this type of MACHINE from utsname
 	 * so we can share an executable for similar machines.
 	 * (i.e. m68k: amiga hp300, mac68k, sun3, ...)
-	 *
-	 * Note that both MACHINE and MACHINE_ARCH are decided at
-	 * run-time.
 	 */
 	if (!machine) {
 #ifndef MAKE_BOOTSTRAP
 	    struct utsname utsname;
 
-	    if (uname(&utsname) == -1) {
+	    if (uname(&utsname) != -1) {
+		    machine = utsname.machine;
+	    } else {
+#ifdef MACHINE
+		    machine = MACHINE;
+#else
 		    perror("make: uname");
 		    exit(2);
+#endif
 	    }
-	    machine = utsname.machine;
 #else
 	    machine = MACHINE;
 #endif
@@ -512,6 +518,20 @@ main(int argc, char **argv)
 	    machine_arch = "unknown";	/* XXX: no uname -p yet */
 #else
 	    machine_arch = MACHINE_ARCH;
+#endif
+	}
+
+	if (!machine_os) {
+#ifdef MACHINE_OS
+	    machine_os = MACHINE_OS;
+#elif defined(__Linux__)
+	    machine_os = "Linux";
+#elif defined(__APPLE__) && defined(__MACH__)
+	    machine_os = "Darwin";
+#elif defined(BSD)
+	    machine_os = "BSD";
+#else
+	    machine_os = "unknown";
 #endif
 	}
 
@@ -598,6 +618,7 @@ main(int argc, char **argv)
 	Var_Set("MFLAGS", "", VAR_GLOBAL);
 	Var_Set("MACHINE", machine, VAR_GLOBAL);
 	Var_Set("MACHINE_ARCH", machine_arch, VAR_GLOBAL);
+	Var_Set("MACHINE_OS", machine_os, VAR_GLOBAL);
 
 	/*
 	 * First snag any flags out of the MAKEFLAGS environment variable.
@@ -822,10 +843,8 @@ static void
 usage()
 {
 	(void)fprintf(stderr,
-"usage: make [-BeiknPqrSst] [-D variable] [-d flags] [-f makefile]\n\
-	    [-I directory] [-j max_jobs] [-m directory] [-V variable]\n\
-	    [NAME=value] [target ...]\n");
+	    "usage: make [-BeiknPqrSst] [-D variable] [-d flags] [-f makefile]\n"
+	    "	[-I directory] [-j max_jobs] [-m directory] [-V variable]\n"
+	    "	[NAME=value] [target ...]\n");
 	exit(2);
 }
-
-

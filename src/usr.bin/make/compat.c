@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: compat.c,v 1.50 2004/04/07 13:11:35 espie Exp $	*/
 /*	$NetBSD: compat.c,v 1.14 1996/11/06 17:59:01 christos Exp $	*/
@@ -66,6 +67,8 @@
 #include "lst.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS$");
+
 /* The following array is used to make a fast determination of which
  * characters are interpreted specially by the shell.  If a command
  * contains any of these characters, it is executed by the shell, not
@@ -106,8 +109,8 @@ static int
 shellneed(char **av)
 {
 	char *runsh[] = {
-		"alias", "cd", "eval", "exec", "exit", "read", "set", "ulimit",
-		"unalias", "unset", "wait",
+		"alias", "cd", "eval", "exec", "exit", "read", "set",
+		"typeset", "ulimit", "unalias", "unset", "wait",
 		NULL
 	};
 
@@ -174,7 +177,7 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
 				 * locally */
     char	  *cmd = (char *)cmdp;
     GNode	  *gn = (GNode *)gnp;
-    static char *shargv[4] = { _PATH_BSHELL };
+    static char *shargv[4] = { _PATH_MIRBSDKSH };
 
     silent = gn->type & OP_SILENT;
     errCheck = !(gn->type & OP_IGNORE);

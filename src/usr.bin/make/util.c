@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: util.c,v 1.21 2003/06/25 15:11:06 millert Exp $	*/
 /*	$NetBSD: util.c,v 1.10 1996/12/31 17:56:04 christos Exp $	*/
@@ -34,6 +35,8 @@
 #include <stdio.h>
 #include "config.h"
 #include "defines.h"
+
+__RCSID("$MirOS$");
 
 #ifdef sun
 
@@ -378,6 +381,7 @@ signal(s, a))()
 #define STRFLAG (_IOREAD)		/* XXX: Assume svr4 stdio */
 #endif
 
+#ifdef NEED_VSNPRINTF
 int
 vsnprintf(s, n, fmt, args)
 	char *s;
@@ -402,6 +406,7 @@ vsnprintf(s, n, fmt, args)
 	    fakebuf._cnt = 0;
 	return n-fakebuf._cnt-1;
 }
+#endif
 
 int
 snprintf(char *s, size_t n, const char *fmt, ...)

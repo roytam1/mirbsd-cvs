@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: job.c,v 1.58 2004/11/29 06:20:03 jsg Exp $	*/
 /*	$NetBSD: job.c,v 1.16 1996/11/06 17:59:08 christos Exp $	*/
@@ -96,6 +97,7 @@
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/time.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -123,6 +125,13 @@
 #include "make.h"
 #include "timestamp.h"
 #include "main.h"
+
+__RCSID("$MirOS$");
+
+/* From MirBSD: src/sys/sys/types.h,v 1.2 2004/06/13 20:56:51 tg Exp $ */
+#ifndef howmany
+#define	howmany(x, y)	(((x) + ((y) - 1)) / (y))
+#endif
 
 #define TMPPAT	"/tmp/makeXXXXXXXXXX"
 

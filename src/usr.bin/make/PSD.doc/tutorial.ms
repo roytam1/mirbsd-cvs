@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: tutorial.ms,v 1.9 2004/11/29 06:20:03 jsg Exp $
 .\"	$NetBSD: tutorial.ms,v 1.3 1996/03/06 00:15:31 christos Exp $
 .\" Copyright (c) 1988, 1989 by Adam de Boor
@@ -73,6 +74,11 @@
 .\" hey. Can't have everything. In case you're wondering how I came
 .\" up with such weird commands, they came from running grn on a
 .\" gremlin file...
+.ie n \{\
+.de No
+..
+.\}
+.el \{\
 .de No
 .br
 .ne 0.5i
@@ -107,6 +113,7 @@
 .ft \\n(g3
 .ps \\n(g4
 ..
+.\}
 .de Bp
 .ie !\\n(.$ .IP \(bu 2
 .el .IP "\&" 2
@@ -133,6 +140,11 @@ purpose.  It is provided "as is" without express or implied warranty.
 .PP
 .xH 1 Introduction
 .LP
+This is a historic document describing PMake, the predecessor of
+BSD and MirOS make, NetBSD(TM) nmake and some others.
+Please keep this in mind while reading the following documentation.
+In case of doubt please consider the manual page for your make
+executable.
 .LP
 Make is a program for creating other programs, or anything else you
 can think of for it to do.  The basic idea behind Make is that, for

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: varmodifiers.c,v 1.13 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
@@ -88,6 +89,8 @@
 #include "memory.h"
 #include "gnode.h"
 
+
+__RCSID("$MirOS$");
 
 /* Var*Pattern flags */
 #define VAR_SUB_GLOBAL	0x01	/* Apply substitution globally */
@@ -1406,7 +1409,7 @@ VarModifiers_Apply(char *str, const struct Name *name, SymTable *ctxt,
 	if (DEBUG(VAR))
 	    printf("Applying :%c to \"%s\"\n", *tstr, str);
 
-	mod = choose_mod[*tstr];
+	mod = choose_mod[(int)(*tstr)];
 	arg = NULL;
 
 	if (mod != NULL && (!mod->atstart || atstart))

@@ -1,6 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: defines.h,v 1.2 2002/02/19 19:39:38 millert Exp $ */
 
@@ -96,5 +97,9 @@ extern int debug;
 #define CONCAT(a,b)	a##b
 
 #define DEBUG(module)	(debug & CONCAT(DEBUG_,module))
+
+#ifndef	__RCSID
+#define	__RCSID(x)	static const char __rcsid[] = x
+#endif
 
 #endif

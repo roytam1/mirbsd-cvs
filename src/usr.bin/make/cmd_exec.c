@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: cmd_exec.c,v 1.5 2004/04/07 13:11:35 espie Exp $ */
 /*
@@ -37,6 +38,8 @@
 #include "memory.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS$");
+
 char *
 Cmd_Exec(const char *cmd, char **err)
 {
@@ -55,7 +58,7 @@ Cmd_Exec(const char *cmd, char **err)
     *err = NULL;
 
     /* Set up arguments for the shell. */
-    args[0] = "sh";
+    args[0] = "ksh";
     args[1] = "-c";
     args[2] = (char *)cmd;
     args[3] = NULL;
@@ -75,14 +78,14 @@ Cmd_Exec(const char *cmd, char **err)
 	/* Duplicate the output stream to the shell's output, then
 	 * shut the extra thing down. Note we don't fetch the error
 	 * stream: user can use redirection to grab it as this goes
-	 * through /bin/sh.
+	 * through /bin/ksh.
 	 */
 	if (fds[1] != 1) {
 	    (void)dup2(fds[1], 1);
 	    (void)close(fds[1]);
 	}
 
-	(void)execv(_PATH_BSHELL, args);
+	(void)execv(_PATH_MIRBSDKSH, args);
 	_exit(1);
 	/*NOTREACHED*/
 
@@ -139,4 +142,3 @@ Cmd_Exec(const char *cmd, char **err)
 bad:
     return estrdup("");
 }
-

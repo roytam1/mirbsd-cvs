@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: pathnames.h,v 1.10 2003/06/03 02:56:12 millert Exp $	*/
 /*	$NetBSD: pathnames.h,v 1.6 1996/11/06 17:59:21 christos Exp $	*/
@@ -36,8 +37,14 @@
 #ifdef HAS_PATH_H
 # include <paths.h>
 #endif
-#ifndef _PATH_BSHELL
-# define _PATH_BSHELL	"/bin/sh"
+
+#ifndef _PATH_MIRBSDKSH
+#ifdef _PATH_BSHELL
+#define _PATH_MIRBSDKSH		_PATH_BSHELL
+#warning "using bourne shell, not mirbsdksh"
+#else
+#define _PATH_MIRBSDKSH		"/bin/mksh"
+#endif
 #endif
 #ifndef _PATH_OBJDIR
 #define _PATH_OBJDIR		"obj"

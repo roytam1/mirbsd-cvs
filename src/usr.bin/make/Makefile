@@ -1,15 +1,19 @@
-#	$OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
-PROG=	make
-CFLAGS+= -I${.OBJDIR} -I${.CURDIR}
-CDIAGFLAGS=-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
-	-Wmissing-prototypes
+.include <bsd.own.mk>
 
-CFLAGS+=-DUSE_TIMESPEC
-CFLAGS+=-DHAS_BOOL_H
-CFLAGS+=-DHAS_PATHS_H
-CFLAGS+=-DHAS_EXTENDED_GETCWD
-#CFLAGS+=-DHAS_STATS
+PROG=		make
+CPPFLAGS+=	-I.
+CDIAGFLAGS=	-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
+		-Wmissing-prototypes -Werror
+CPPFLAGS+=	-DUSE_TIMESPEC
+CPPFLAGS+=	-DHAS_BOOL_H
+CPPFLAGS+=	-DHAS_PATHS_H
+CPPFLAGS+=	-DHAS_EXTENDED_GETCWD
+#CPPFLAGS+=	-DHAS_STATS	# Throw out statistics after running
+CPPFLAGS+=	-DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\" \
+		-DMACHINE_OS=\"${MACHINE_OS}\" -D_PATH_MIRBSDKSH=\"${MKSH}\"
 
 SRCS=	arch.c buf.c cmd_exec.c compat.c cond.c dir.c error.c for.c \
 	init.c job.c lowparse.c main.c make.c memory.c parse.c \
@@ -20,40 +24,45 @@ SRCS+=	lstAddNew.c lstAppend.c lstConcat.c lstConcatDestroy.c \
 	lstInsert.c lstMember.c lstRemove.c lstReplace.c lstSucc.c
 .PATH:	${.CURDIR}/lst.lib
 
+.if !exists(${MKSH})
+.BEGIN:
+	@echo 'You know, $${MKSH} (${MKSH}) should exist!'
+	@exit 1
+.endif
 
-CLEANFILES+=generate hashconsts.h generate.o regress.o check
+make.1: ${.CURDIR}/make.1
+	sed -e 's#@@MKSH@@#${MKSH}#g' <$> >$@
 
-CLEANFILES+=${LIBOBJS} libohash.a
-CLEANFILES+= varhashconsts.h condhashconsts.h generate.o generate
+CLEANFILES+=	${LIBOBJS} check condhashconsts.h generate.o generate \
+		hashconsts.h libohash.a regress.o varhashconsts.h
+.if ${.OBJDIR} != ${.CURDIR}
+CLEANFILES+=	make.1
+.endif
 
 beforedepend: varhashconsts.h condhashconsts.h
 # may need tweaking if you add variable synonyms or change the hash function
-MAGICVARSLOTS=77
-MAGICCONDSLOTS=65
+MAGICVARSLOTS=	82
+MAGICCONDSLOTS=	65
 
 varhashconsts.h: generate
-	${.OBJDIR}/generate 1 ${MAGICVARSLOTS} >${.TARGET}
+	${.OBJDIR}/generate 1 ${MAGICVARSLOTS} >$@
 
 condhashconsts.h: generate
-	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >${.TARGET}
+	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >$@
 
 generate: generate.c stats.c memory.c
-	${HOSTCC} ${LDSTATIC} -o ${.TARGET} ${CFLAGS} ${.ALLSRC} ${LDADD}
+	${HOSTCC} ${LDSTATIC} -o $@ ${CFLAGS} ${CPPFLAGS} $> ${LDADD}
 
 check: regress.o str.o memory.o buf.o
-	${CC} -o ${.TARGET} ${CFLAGS} ${.ALLSRC} ${LDADD}
+	${CC} -o $@ ${CFLAGS} $> ${LDADD}
 
 regress: check
-	${.OBJDIR}/check 
-
-# kludge for people who forget to make depend
-var.o: varhashconsts.h
-cond.o: condhashconsts.h
+	${.OBJDIR}/check
 
 .if make(install)
 SUBDIR+= PSD.doc
 .endif
 
-.PHONY:		regress
+.PHONY: regress
 
 .include <bsd.prog.mk>
