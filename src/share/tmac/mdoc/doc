@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.4 2005/03/15 16:13:47 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.5 2005/03/15 16:15:09 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2005
@@ -2312,7 +2312,10 @@
 .	ie \\n(.$==0 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c or #\\n(xX)
 .	el \{\
 .		ds mN Xr
-.		aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.		ie \\$1st \
+.			aV \&st \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.		el \
+.			aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 .	\}
 .\}
 .if \\n(aC>\\n(aP \{\
