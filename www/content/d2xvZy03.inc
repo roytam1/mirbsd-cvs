@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.20 2005/02/28 14:12:56 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.21 2005/02/28 14:47:55 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2474,4 +2474,14 @@
  exhibitions, thought so too, and I'm now waiting for the next event to go
  to. I'd go to Chemnitz if someone would pay for all my expenses, but I'll
  attend Karlsruhe for sure, and Wim invited me to the CCC camp.</p>
+<p>03.03.2005 by tg@<br />I'm sick again. That sucks. I didn't go to work,
+ but I think I'll make it tomorrow. Wish my nose was freer.<br />We've got
+ some <a href="http://www.symlink.ch/article.pl?sid=05/03/03/1610216">more
+ press coverage</a> (sorry, again German only). Yes, it works now. Jupp of
+ course, and mc with libglib. cnuke@ lent me his book while kissing (for a
+ good part of the evening). Now I've got to get my ass up for merging ncvs
+ 1, finally. But bsiegert@ still hasn't done a thing (except bitch around)
+ for it. Oh, and I don't get the hang on OSI.<br />ZDnet shot photos of us
+ at FOSDEM, but they aren't available. So, I guess that's it. I wish I had
+ let someone take a photo of deraadt and me, but it was kinda quick.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
