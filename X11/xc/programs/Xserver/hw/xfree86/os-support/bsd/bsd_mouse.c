@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/os-support/bsd/bsd_mouse.c,v 1.37 2005/02/10 01:37:52 dawes Exp $ */
 
 /*
@@ -815,6 +816,11 @@ usbPreInit(InputInfoPtr pInfo, const char *protocol, int flags)
 		    pInfo->name, strerror(errno));
 	    return FALSE;
     }
+#endif
+#ifdef __OpenBSD__
+#undef USB_NEW_HID 
+#endif
+#ifdef USB_NEW_HID
     pUsbMse->packetSize = hid_report_size(reportDesc, hid_input,
 					      pUsbMse->iid);
 #else
