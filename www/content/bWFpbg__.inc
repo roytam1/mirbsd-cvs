@@ -1,16 +1,14 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.5 2005/03/06 14:47:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.6 2005/03/06 18:42:31 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
  parties protesting against software, algorithm and even data structure
  patentability in the European Union!</p>
-<p><img src="http://swpat.ffii.org/img/banners/reboot0501.en.gif"
- alt="A fatal exception 0E has occured in EUROPE_COUNCIL.EXE" /></p>
+<p>They have failed. <a href="http://demo.ffii.org/cons0503/"><img
+ src="http://demo.ffii.org/cons0503/banners/Banner1-400x90.jpg"
+ alt="No Banana Union, No Software Patents!" /></a></p>
 <p class="erecta">More information at <a href="http://swpat.ffii.org/">FFII
  website</a>.</p>
-<p><a href="http://demo.ffii.org/cons0503/"><img
- src="http://demo.ffii.org/cons0503/banners/Banner1-400x90.jpg"
- alt="No Banana Union, No Software Patents - Support Denmark!" /></a></p>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
  website isn't always up to date. It's optimized for lynx and works in
@@ -48,11 +46,9 @@
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
-<p>PORTS: January 9th, 2005: If updating MirPorts, always use 'cd /usr/ports;
- make setup' before using. Also, review <tt>/etc/mk.conf</tt> because some of
- the settings which used to be on top have been moved to the bottom; you must
- delete them from the top of the file. Please read the page on <a
- href="/?ports">MirPorts</a> for usage and update/upgrade instructions.</p>
+<p>PORTS: March 13th, 2005: MirPorts now work on MirOS BSD, OpenBSD and Mac
+ OSX; the <a href="http://wiki.mirbsd.de/MirPorts">instructions</a> have
+ been updated and enhanced.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;get MirOS!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
