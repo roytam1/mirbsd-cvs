@@ -141,8 +141,6 @@ check_list(char *home, package_t *pkg)
 			len = strlen(p->name);
 			tmp = NULL;
 			if (p->name[len - 1] != '/') {   /* not a dir/ entry */
-				if (IsDylib && !strncmp(p->name, "lib", 3))
-					convert_dylib(pkg, p, cwd);
 				if (BaseDir)
 					(void) snprintf(name, sizeof(name),
 					    "%s/%s/%s", BaseDir, there ? there : cwd,
