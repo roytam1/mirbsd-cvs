@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.1.7.1 2005/02/05 01:54:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2004
@@ -65,7 +65,7 @@
 
 
 __SECTSTRING(".comment", rcsid,
-    "$MirBSD: contrib/gnu/aux/_gplwarn.c,v 2.1 2004/12/19 14:33:30 tg Exp $");
+    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 2.1 2004/12/19 14:33:30 tg Exp $");
 
 __SECTSTRING(".gnu.warning.*main", warntext,
     "Linking with " MYNAME " infects the result\\n\\t"
