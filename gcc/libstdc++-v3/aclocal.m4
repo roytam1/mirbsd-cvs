@@ -435,7 +435,7 @@ AC_OUTPUT_COMMANDS([
 # Makefile.
 case " $CONFIG_FILES " in
  *" ]m4_default([$1],Makefile)[ "*)
-   ac_file=]m4_default([$1],Makefile)[ . ${multi_basedir}/config-ml.in
+   ac_file=]m4_default([$1],Makefile)[ . ${ac_aux_dir}/config-ml.in
    ;;
 esac],
 		   [

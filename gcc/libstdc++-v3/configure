@@ -110271,7 +110271,7 @@ echo "$as_me: executing $ac_dest commands" >&6;}
 # Makefile.
 case " $CONFIG_FILES " in
  *" Makefile "*)
-   ac_file=Makefile . ${multi_basedir}/config-ml.in
+   ac_file=Makefile . ${ac_aux_dir}/config-ml.in
    ;;
 esac ;;
     default ) if test -n "$CONFIG_FILES"; then
