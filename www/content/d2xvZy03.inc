@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.15 2005/02/20 22:19:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.16 2005/02/21 05:13:12 sap Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2326,5 +2326,5 @@
  guess that wasn't really too much news, but still more that usual.  I
  just realized that this is the first wlog entry I've written in two
  months.  Time flies when you're having fun I guess, or when you don't 
- have much to say.
+ have much to say.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
