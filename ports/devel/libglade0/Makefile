@@ -20,7 +20,7 @@ FLAVOR?=
 
 MODULES=		devel/gettext
 LIB_DEPENDS=		xml.9::textproc/libxml1 \
-			gtk.1.2,gdk.1.2::x11/gtk+
+			gtk.1.2,gdk.1.2::x11/gtk+1
 
 SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
@@ -31,6 +31,7 @@ CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
 			LDFLAGS="-L${LOCALBASE}/lib"
 
 .if ${FLAVOR:L:Mgnome}
+BROKEN=			GNOME 1 has been removed
 LIB_DEPENDS+=		gnome.36,art_lgpl,gnomesupport,gnomeui::x11/gnome/libs
 USE_CXX=		Yes
 CONFIGURE_ARGS+=	--with-gnome

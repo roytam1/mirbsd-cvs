@@ -9,7 +9,7 @@ MASTER_SITES=		http://www.student.oulu.fi/~jlof/gtkglarea/download/
 
 HOMEPAGE=		http://www.student.oulu.fi/~jlof/gtkglarea/
 
-LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1
 
 # LGPL
 PERMIT_PACKAGE_CDROM=	Yes

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2002/10/26 12:52:48 naddy Exp $
 
 COMMENT=	"UAE amiga emulator"
@@ -20,7 +21,7 @@ CONFIGURE_ARGS+=	--enable-dga --enable-vidmode --disable-ui
 
 MODULES=	devel/gettext
 LIB_DEPENDS+=	glib.1.2,gmodule.1.2::devel/glib1\
-		gtk.1.2,gdk.1.2::x11/gtk+
+		gtk.1.2,gdk.1.2::x11/gtk+1
 
 NO_REGRESS=	Yes
 

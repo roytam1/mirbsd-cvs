@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.16 2002/09/15 11:01:25 shell Exp $
 
 COMMENT=	"convert ASP code to PHP code"
@@ -19,7 +20,7 @@ FLAVOR?=
 
 .if ${FLAVOR} != "no_x11"
 USE_X11=	Yes
-LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 ALL_TARGET=	all gui
 .endif
 

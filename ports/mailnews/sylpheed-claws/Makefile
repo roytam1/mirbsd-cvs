@@ -26,8 +26,8 @@ DISTFILES=		$(DISTNAME).tar.bz2 \
 			$(THEMEFILE).tar.gz
 
 MODULES=		devel/gettext
-LIB_DEPENDS=		gdk.1,gtk.1::x11/gtk+ \
-			gthread.1::devel/glib
+LIB_DEPENDS=		gdk.1,gtk.1::x11/gtk+1 \
+			gthread.1::devel/glib1
 
 USE_CXX=		Yes
 CONFIGURE_STYLE= 	gnu

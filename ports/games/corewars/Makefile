@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2002/12/29 15:10:07 fgsch Exp $
 COMMENT=	"computer simulation game"
 
@@ -15,7 +16,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-LIB_DEPENDS=	gtk.1.2,gdk::x11/gtk+ 
+LIB_DEPENDS=	gtk.1.2,gdk::x11/gtk+1
 
 USE_X11=	Yes
 

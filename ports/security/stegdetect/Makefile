@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2003/09/25 06:25:14 jolan Exp $
 
 COMMENT=	"steganography detection tool"
@@ -13,7 +14,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	gdk.1.2,gtk.1.2,glib.1.2::x11/gtk+
+LIB_DEPENDS=	gdk.1.2,gtk.1.2,glib.1.2::x11/gtk+1
 
 NO_REGRESS=	Yes
 USE_X11=	Yes

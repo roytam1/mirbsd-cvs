@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2003/12/19 12:22:41 wilfried Exp $
 
 COMMENT=		'wm-dockapp; alarm clock'
@@ -16,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}
 
-LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+
+LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1
 
 USE_X11=		Yes
 NO_REGRESS=		Yes

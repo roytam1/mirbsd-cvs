@@ -13,8 +13,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	pisock.3:pilot-link-*:comms/pilot-link \
-		gtk.1.2,gdk.1.2:gtk+-*:x11/gtk+
+LIB_DEPENDS=	pisock.3::comms/pilot-link \
+		gtk.1.2,gdk.1.2::x11/gtk+1
 
 MODULES=	devel/gettext
 USE_X11=	Yes

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.17 2004/04/18 17:21:13 pvalchev Exp $
 
 COMMENT=	"simple gtk+ pool simulation game"
@@ -8,7 +9,7 @@ MASTER_SITES=	${HOMEPAGE}
 
 HOMEPAGE=	http://gtkpool.seul.org/
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 
 
 PERMIT_PACKAGE_CDROM=   Yes

@@ -47,7 +47,7 @@ SUBPACKAGE?=
 
 MODULES=		devel/gettext
 RUN_DEPENDS=		:unzip-*:archivers/unzip
-LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1 \
 			gthread.1.2::devel/glib1\
 			xml.9::textproc/libxml1
 

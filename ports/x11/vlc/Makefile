@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2004/04/28 01:30:53 jolan Exp $
 
 COMMENT=	"videolan client; multimedia player"
@@ -23,8 +24,8 @@ USE_X11=	Yes
 MODULES=	devel/gettext
 
 LIB_DEPENDS=	SDL::devel/sdl \
-		gtk.1.2,gdk.1.2::x11/gtk+ \
-		glib,gthread::devel/glib1\
+		gtk.1.2,gdk.1.2::x11/gtk+1 \
+		glib,gthread::devel/glib1 \
 		png::graphics/png \
 		id3tag.2::audio/libid3tag \
 		mad.2::audio/libmad \

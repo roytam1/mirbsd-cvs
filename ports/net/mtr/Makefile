@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.25 2003/10/09 08:40:27 jakob Exp $
 
 COMMENT=	"Matt's traceroute - network diagnostic tool"
@@ -32,7 +33,7 @@ CONFIGURE_ARGS+=	--without-gtk
 .else
 USE_X11=		Yes
 CONFIGURE_ARGS+=	--with-gtk-prefix=${LOCALBASE}
-LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+1
 .endif
 
 .include <bsd.port.mk>

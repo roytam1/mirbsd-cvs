@@ -20,7 +20,7 @@ MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Gtk/}
 
 USE_X11=	Yes
 
-LIB_DEPENDS=	gtk.1.2,glib.1.2::x11/gtk+ \
+LIB_DEPENDS=	gtk.1.2,glib.1.2::x11/gtk+1 \
 		gdk_pixbuf.2::graphics/gdk-pixbuf \
 		gdk_imlib.19::graphics/imlib
 RUN_DEPENDS=	:p5-XML-Parser-*:textproc/p5-XML-Parser \

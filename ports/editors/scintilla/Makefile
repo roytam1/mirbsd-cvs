@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2003/08/14 18:24:30 sturm Exp $
 
 COMMENT=	"source code editing component for GTK+"
@@ -31,7 +32,7 @@ MAKE_ENV=	CXX='${CXX}' CXXFLAGS='${CXXFLAGS}' \
 WRKDIST=	${WRKDIR}/scintilla
 WRKSRC=		${WRKDIST}/gtk
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 
 post-extract:
 	perl -pi -e 's|\x0d||' ${WRKDIST}/include/*.h ${WRKDIST}/gtk/*.cxx \

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2002/09/17 15:22:27 wilfried Exp $
 
 COMMENT=		'wm-dockapp; clock application with clock, date and fish'
@@ -16,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}software/
 
-LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+
+LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1
 
 MAKE_FLAGS=		CC="${CC}" \
 			CFLAGS="${CFLAGS} -Wall `gtk-config --cflags`" \

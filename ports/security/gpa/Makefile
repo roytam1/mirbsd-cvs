@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2002/12/29 20:31:40 fgsch Exp $
 
 COMMENT=	"graphical interface for GnuPG"
@@ -18,7 +19,7 @@ MASTER_SITES=	ftp://ftp.gnupg.org/gcrypt/alpha/gpa/
 
 BUILD_DEPENDS=	:gnupg-*:security/gnupg
 RUN_DEPENDS=	${BUILD_DEPENDS}
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu

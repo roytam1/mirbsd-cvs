@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2004/02/13 11:37:44 sturm Exp $
 
 COMMENT=	"OCaml interface to GTK+"
@@ -16,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	http://wwwfun.kurims.kyoto-u.ac.jp/soft/olabl/dist/
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 RUN_DEPENDS=	::lang/ocaml
 
 FAKE_FLAGS=	BINDIR=${WRKINST}${PREFIX}/bin \

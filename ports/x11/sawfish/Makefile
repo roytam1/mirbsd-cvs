@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2003/05/15 04:39:16 margarida Exp $
 
 COMMENT=	"extensible window manager"
@@ -12,8 +13,8 @@ HOMEPAGE=       http://sawmill.sourceforge.net/
 
 BUILD_DEPENDS=	${RUN_DEPENDS}
 RUN_DEPENDS=	:rep-gtk-*:x11/rep-gtk
-LIB_DEPENDS=	gtk.1.2::x11/gtk+ \
-		glib.1.2::devel/glib1\
+LIB_DEPENDS=	gtk.1.2::x11/gtk+1 \
+		glib.1.2::devel/glib1 \
 		rep.10::lang/librep \
 		Imlib.19,gdk_imlib.19::graphics/imlib
 

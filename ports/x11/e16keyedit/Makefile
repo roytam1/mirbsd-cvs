@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2003/10/08 17:13:15 sturm Exp $
 
 COMMENT=		"edit enlightenment's keybindings"
@@ -15,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		ftp://ftp.enlightenment.org/enlightenment/e16utils/
 
 LIB_DEPENDS=		gdk_imlib.19::graphics/imlib \
-			gtk.1.2,gdk.1.2::x11/gtk+
+			gtk.1.2,gdk.1.2::x11/gtk+1
 RUN_DEPENDS=		:enlightenment-0.16*:x11/enlightenment
 
 USE_X11=		Yes

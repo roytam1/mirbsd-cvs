@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.16 2004/04/18 23:20:28 jcs Exp $
 
 COMMENT=	"image viewer similar to ACDSee for Windows"
@@ -12,7 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
 		jpeg.62::graphics/jpeg \
 		tiff.35::graphics/tiff \
 		png.2::graphics/png

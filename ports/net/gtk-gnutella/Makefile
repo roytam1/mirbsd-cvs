@@ -19,7 +19,7 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gtk-gnutella/}
 EXTRACT_SUFX=		.tar.bz2
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1 \
 			xml2::textproc/libxml
 
 USE_X11=		Yes

@@ -19,7 +19,7 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=mjpeg/}
 BUILD_DEPENDS=		::devel/pkgconfig
 LIB_DEPENDS=		SDL.2:sdl-*-!no_x11:devel/sdl \
 			dv.4::multimedia/libdv \
-			gdk.1.2,gtk.1.2::x11/gtk+ \
+			gdk.1.2,gtk.1.2::x11/gtk+1 \
 			jpeg.62::graphics/jpeg \
 			png.4::graphics/png
 

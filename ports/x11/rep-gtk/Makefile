@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2003/05/15 08:52:57 margarida Exp $
 
 COMMENT=	"GTK+ binding for librep Lisp environment"
@@ -16,8 +17,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=rep-gtk/}
 
-LIB_DEPENDS= 	gtk.1.2,gdk.1.2::x11/gtk+ \
-		glib.1.2::devel/glib1\
+LIB_DEPENDS= 	gtk.1.2,gdk.1.2::x11/gtk+1 \
+		glib.1.2::devel/glib1 \
 		rep.10::lang/librep
 
 SUBST_VARS=     OPSYS_VER VERSION

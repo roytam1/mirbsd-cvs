@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2002/09/17 15:22:26 wilfried Exp $
 
 COMMENT=		'wm-dockapp; display CPU and memory load'
@@ -16,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}software/
 
-LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+
+LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

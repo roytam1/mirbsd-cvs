@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:18 sturm Exp $
 
 COMMENT=		"window manager theme utility"
@@ -18,7 +19,7 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=wmtheme/}
 
 NO_REGRESS=		Yes
 
-LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1
 USE_GMAKE=		Yes
 EXTRA_THEMES=		gotheme ortheme
 

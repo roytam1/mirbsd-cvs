@@ -53,7 +53,7 @@ LIB_DEPENDS=	net::net/libnet
 BUILD_DEPENDS=	::devel/bison
 
 .if empty(FLAVOR:L:Mno_x11)
-LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 USE_X11=	Yes
 .else
 CONFIGURE_ARGS+=--disable-gtk

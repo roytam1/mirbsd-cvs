@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:08:46 fgsch Exp $
 
 DISTNAME=	cqcam-0.91
@@ -35,7 +36,7 @@ MAKE_FLAGS=	${FAKE_FLAGS}
 FAKE_FLAGS=	CLIENTS="cli webcam"
 .else
 USE_X11=	Yes
-LIB_DEPENDS+=	gtk.1,gdk.1::x11/gtk+
+LIB_DEPENDS+=	gtk.1,gdk.1::x11/gtk+1
 LIB_DEPENDS+=	xview,olgx::x11/xview/lib
 #BUILD_DEPENDS=	wish8.3::x11/tk/8.3
 CONFIGURE_ARGS+= --with-gtk-prefix=${LOCALBASE} 

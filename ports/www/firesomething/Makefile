@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/www/firesomething/Makefile,v 1.2 2005/03/20 16:56:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/08/08 17:19:36 robert Exp $
 
 ONLY_FOR_ARCHS=		alpha i386 sparc sparc64 amd64 powerpc
@@ -22,8 +22,8 @@ DISTFILES=		firefox-source-${VERSION}.tar.bz2
 
 BUILD_DEPENDS=		:zip->=2.3:archivers/zip \
 			:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+ \
-			glib.1,gmodule.1::devel/glib1\
+LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1 \
+			glib.1,gmodule.1::devel/glib1 \
 			IDL.4::devel/ORBit \
 			jpeg.62::graphics/jpeg \
 			png.3::graphics/png

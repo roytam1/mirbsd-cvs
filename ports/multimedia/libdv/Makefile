@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/06/26 18:00:27 sturm Exp $
 
 COMMENT=		"Quasar DV codec"
@@ -18,8 +19,8 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=libdv/}
 BUILD_DEPENDS=		::devel/pkgconfig
 
 LIB_DEPENDS=		SDL.2::devel/sdl \
-			gdk.1.2,gtk.1.2::x11/gtk+ \
-			glib.1.2,gmodule.1.2::devel/glib1\
+			gdk.1.2,gtk.1.2::x11/gtk+1 \
+			glib.1.2,gmodule.1.2::devel/glib1 \
 			popt.0::devel/popt
 
 USE_X11=		Yes

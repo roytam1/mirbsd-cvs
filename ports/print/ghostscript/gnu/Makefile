@@ -123,7 +123,7 @@ USE_X11=	Yes
 .endif
 
 .if ${FLAVOR:L:Mgtk}
-LIB_DEPENDS+=	gtk.1::x11/gtk+
+LIB_DEPENDS+=	gtk.1::x11/gtk+1
 ALL_TARGET=	all so
 INSTALL_TARGET=	install soinstall
 NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}

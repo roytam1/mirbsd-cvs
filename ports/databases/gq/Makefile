@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2004/04/01 08:44:27 jakob Exp $
 
 COMMENT=	"GTK-based LDAP client"
@@ -20,8 +21,8 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=	Yes
 USE_CXX=	Yes
 
-BUILD_DEPENDS=  :cyrus-sasl-*:security/cyrus-sasl2	# sasl.h only
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+ \
+BUILD_DEPENDS=  :cyrus-sasl-*:security/cyrus-sasl	# sasl.h only
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
 		ldap,lber::databases/openldap \
 		gdk_pixbuf::graphics/gdk-pixbuf
 

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2003/07/16 17:37:47 naddy Exp $
 
 COMMENT=		"GTK-based time tracker"
@@ -16,8 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}
 
-LIB_DEPENDS=		gtk.1.2::x11/gtk+  \
-			gdk.1.2::x11/gtk+
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2003/08/19 09:40:32 espie Exp $
 
 COMMENT=	"graphical networked AD&D style game"
@@ -19,7 +20,7 @@ PERMIT_DISTFILES_FTP=   Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=crossfire/}
 
-LIB_DEPENDS=   	gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS=   	gtk.1.2,gdk.1.2::x11/gtk+1 \
 	        png.1::graphics/png \
 		SDL.1::devel/sdl \
 		SDL_image.1::devel/sdl-image

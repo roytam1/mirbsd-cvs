@@ -25,7 +25,7 @@ MODULES=		devel/gettext
 LIB_DEPENDS=		id3.3.8::audio/id3lib \
 			FLAC.4::audio/flac \
 			vorbis.1,vorbisfile.1::audio/libvorbis \
-			gdk.1.2,gtk.1.2::x11/gtk+
+			gdk.1.2,gtk.1.2::x11/gtk+1
 BUILD_DEPENDS=		:help2man-*:devel/help2man
 
 USE_X11=		Yes

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2003/10/08 17:13:15 sturm Exp $
 
 DISTNAME=	aewm-1.2.0
@@ -17,7 +18,7 @@ MASTER_SITES=	${HOMEPAGE} \
 
 USE_GMAKE=	Yes
 USE_X11=	Yes
-LIB_DEPENDS=	gtk.1,gdk.1::x11/gtk+ \
+LIB_DEPENDS=	gtk.1,gdk.1::x11/gtk+1 \
 		Xaw3d.6::x11/Xaw3d
 NO_REGRESS=	Yes
 

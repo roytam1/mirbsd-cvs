@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=calcoo/} \
 			http://www.physics.umn.edu/~kaminski/calcoo/
 
-LIB_DEPENDS=	gtk.1,gdk.1::x11/gtk+
+LIB_DEPENDS=	gtk.1,gdk.1::x11/gtk+1
 
 USE_X11=	Yes
 

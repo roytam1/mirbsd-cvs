@@ -10,7 +10,7 @@ HOMEPAGE=		http://glade.gnome.org/
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/glade/0.6/}
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1
 BUILD_DEPENDS=		:scrollkeeper->=0.3.12:textproc/scrollkeeper
 RUN_DEPENDS=		:automake->=1.4:devel/automake \
 			:autoconf->=2.13:devel/autoconf/2.13 \
@@ -33,6 +33,7 @@ CONFIGURE_ENV=  	CPPFLAGS="-I${LOCALBASE}/include" \
 			LDFLAGS="-L${LOCALBASE}/lib"
 
 .if ${FLAVOR:L:Mgnome}
+BROKEN=			GNOME 1 has been removed
 LIB_DEPENDS+=		gnome.36,art_lgpl.4,gnomesupport.0,gnomeui.46::x11/gnome/libs
 USE_CXX=		Yes
 .else

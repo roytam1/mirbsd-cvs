@@ -16,7 +16,7 @@ MASTER_SITES=	ftp://ftp.lokigames.com/pub/open-source/smpeg/ \
 		ftp://sunsite.auc.dk/pub/os/linux/loki/open-source/smpeg/ \
 		ftp://snuffleupagus.animearchive.org/loki/open-source/smpeg/
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
 		SDL::devel/sdl
 
 USE_X11=	Yes

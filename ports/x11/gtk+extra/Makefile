@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/22 17:10:59 margarida Exp $
 
 COMMENT=	"GTK Extra Widget Set"
@@ -15,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${HOMEPAGE}/src/
 
-LIB_DEPENDS=	gtk.1.2,glib.1.2::x11/gtk+
+LIB_DEPENDS=	gtk.1.2,glib.1.2::x11/gtk+1
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu

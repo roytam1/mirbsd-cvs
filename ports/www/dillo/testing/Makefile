@@ -25,7 +25,7 @@ EXTRACT_SUFX=	.tar.bz2
 
 LIB_DEPENDS=    jpeg.62::graphics/jpeg \
                 png.2::graphics/png \
-		gtk.1.2,gdk.1.2::x11/gtk+
+		gtk.1.2,gdk.1.2::x11/gtk+1
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu

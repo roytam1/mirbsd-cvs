@@ -20,7 +20,7 @@ PATCHFILES=	${DISTNAME}pl1.tar.gz
 USE_X11=	Yes
 #MODULES=	gettext		# links statically (lib-link.m4 bug)
 
-LIB_DEPENDS=	gtk.1.2::x11/gtk+
+LIB_DEPENDS=	gtk.1.2::x11/gtk+1
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/kiklib ${WRKSRC}/mkf
 CONFIGURE_STYLE=autoconf no-autoheader

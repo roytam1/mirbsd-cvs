@@ -7,7 +7,7 @@ CATEGORIES=	graphics
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=xmedcon/}
 HOMEPAGE=	http://xmedcon.sourceforge.net
 
-LIB_DEPENDS=	gtk.1.2::x11/gtk+ \
+LIB_DEPENDS=	gtk.1.2::x11/gtk+1 \
 		gdk_pixbuf::graphics/gdk-pixbuf
 		
 PERMIT_PACKAGE_CDROM=   Yes

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/14 01:01:19 naddy Exp $
 
 COMMENT=		"switch GTK+ themes quickly"
@@ -16,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://www.muhri.net/
 
-LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1
 
 MAKE_FLAGS=		CC="${CC}" \
 			CFLAGS="${CFLAGS} `gtk-config --cflags`" \

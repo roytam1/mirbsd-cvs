@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2002/12/29 20:31:39 fgsch Exp $
 
 COMMENT=	"generate resources for PalmOS applications from text descr"
@@ -28,7 +29,7 @@ CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--disable-pilrcui
 .else
 USE_X11=	Yes
-LIB_DEPENDS=	gtk.1.2,gdk.1.2:gtk+-*:x11/gtk+
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 CONFIGURE_ARGS= --enable-pilrcui
 .endif
 

@@ -34,13 +34,14 @@ MULTI_PACKAGES=
 .if !${FLAVOR:L:Mno_gnome}
 MULTI_PACKAGES+= -gnome
 USE_CXX=	Yes
+BROKEN=		GNOME 1 has been removed
 .endif
 SUBPACKAGE?=
 
 LIB_DEPENDS+=	jpeg.62::graphics/jpeg \
 		png.2::graphics/png \
 		tiff.35.::graphics/tiff \
-		gtk.1.2,gdk.1.2::x11/gtk+
+		gtk.1.2,gdk.1.2::x11/gtk+1
 
 .if defined(PACKAGING)
 . if ${SUBPACKAGE} == "-gnome"

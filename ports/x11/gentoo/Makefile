@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2002/09/09 16:22:10 pvalchev Exp $
 
 COMMENT=		"GTK+ Graphical filemanager"
@@ -16,7 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS= 		gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS= 		gtk.1.2,gdk.1.2::x11/gtk+1 \
 			glib.1::devel/glib1
 
 CONFIGURE_STYLE=	gnu

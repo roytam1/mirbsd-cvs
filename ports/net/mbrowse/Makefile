@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/22 22:34:57 jcs Exp $
 
 COMMENT=	"graphical MIB browser"
@@ -21,8 +22,8 @@ CONFIGURE_ARGS+= --with-snmp-style=ucd \
 		--with-snmp-include=${LOCALBASE}/include \
 		--with-snmp-lib=${LOCALBASE}/lib
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+ \
-		glib.1.2::devel/glib1\
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
+		glib.1.2::devel/glib1 \
 		snmp.42::net/ucd-snmp
 
 .include <bsd.port.mk>

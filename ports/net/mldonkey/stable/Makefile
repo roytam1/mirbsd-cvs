@@ -22,7 +22,7 @@ CONFIGURE_ARGS+=	--enable-ocamlver=3.07
 USE_GMAKE=		Yes
 MODULES=		lang/ocaml
 BUILD_DEPENDS+=		::x11/lablgtk
-LIB_DEPENDS+=		gdk.1,gtk.1::x11/gtk+
+LIB_DEPENDS+=		gdk.1,gtk.1::x11/gtk+1
 FAKE_FLAGS+=		prefix=${DESTDIR}${PREFIX} \
 			MODOCAML_NATIVE=${MODOCAML_NATIVE}
 NO_REGRESS=		Yes

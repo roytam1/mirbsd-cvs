@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2004/02/20 23:12:31 couderc Exp $
 
 COMMENT=		"Ruby extension library for GTK Toolkit"
@@ -19,7 +20,7 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ruby-gnome/}
 
 MODULES=	lang/ruby
 
-LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 
 NO_REGRESS=	Yes
 

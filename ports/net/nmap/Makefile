@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.49 2004/05/16 08:38:12 jolan Exp $
 
 COMMENT=	"scan ports and fingerprint stack of network hosts"
@@ -33,7 +34,7 @@ LIB_DEPENDS+=	pcre::devel/pcre
 ALL_TARGET=	nmap
 CONFIGURE_ARGS+=--without-nmapfe
 .else
-LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 USE_X11=	Yes
 ALL_TARGET=	nmap nmapfe/nmapfe
 .endif

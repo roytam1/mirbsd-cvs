@@ -21,8 +21,8 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=	devel/gettext
-LIB_DEPENDS=	gtk.1.2::x11/gtk+ \
-		glib.1::devel/glib1\
+LIB_DEPENDS=	gtk.1.2::x11/gtk+1 \
+		glib.1::devel/glib1 \
 		gdk_imlib::graphics/imlib
 
 CONFIGURE_STYLE= gnu

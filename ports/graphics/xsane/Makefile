@@ -22,7 +22,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=	devel/gettext
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
 		png.2::graphics/png \
 		jpeg.62::graphics/jpeg \
 		tiff.35::graphics/tiff 
