@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<!-- $MirOS$ -->
+<!-- $MirOS: X11/xc/extras/fontconfig/fonts.conf.in,v 1.2 2005/03/19 17:19:23 tg Exp $ -->
 <!-- /etc/fonts.conf file to configure system font access -->
 <fontconfig>
 
@@ -239,6 +239,7 @@
  bitmap face names with equivalent scalable fonts
  -->
 
+<!-- same does not exist in our fontconfig version?!
 	<match target="pattern">
 	        <test name="prefer_outline">
 	                <bool>true</bool>
@@ -262,6 +263,7 @@
 	                <string>Times New Roman</string>
 	        </edit>
 	</match>
+-->
 <!--
   Provide required aliases for standard names
 -->
