@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.6 2005/03/29 10:49:05 tg Exp $
+# $MirOS: src/Makefile,v 1.7 2005/03/29 12:20:06 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -142,6 +142,28 @@ do-htman:
 	@date; uname -a
 	@echo ============================================================
 
+dist-q:
+	cd ${.CURDIR} && exec ${MAKE} dist BATCH=defined
+
+dist:
+	@echo Initiating MirOS Build...
+	@date
+.ifdef BATCH
+	@echo BATCH mode engaged.
+.else
+	@echo INTERACTIVE mode engaged.
+.endif
+	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
+	cd ${.CURDIR}/etc \
+	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} b-r
+	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
+	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
+	cd ${.CURDIR} && exec ${MAKE} do-htman
+	@echo Done with MirOS Build.
+	@date
+	@/bin/ls -Fl ${BSDRELDIR}/rel
+
 CVSROOT?=/cvs
 cvsup:
 	-rm -f ${.CURDIR}/Build.log
@@ -149,6 +171,6 @@ cvsup:
 
 .PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
 	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
-	cvsup do-htman
+	cvsup do-htman dist dist-q
 
 .include <bsd.subdir.mk>
