@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.21 2005/02/28 14:47:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.22 2005/03/03 20:05:24 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2484,4 +2484,21 @@
  for it. Oh, and I don't get the hang on OSI.<br />ZDnet shot photos of us
  at FOSDEM, but they aren't available. So, I guess that's it. I wish I had
  let someone take a photo of deraadt and me, but it was kinda quick.</p>
+<p>04.3.2005 by bsiegert@<br />
+ Going home by train is a little chaotic today, because the EuroCity was broken
+ and I had to leave it in Karlsruhe. I had quite some time in the afternoons
+ this week, and I used it. After tg's latest <tt>bsd.port.subdir.mk</tt>
+ changes, I upgraded my local ports tree checkout and discovered lots of
+ uncommitted changes, so I committed (some of) them. The GNOME 2.8 migration
+ in MirPorts continued smoothly. I did some stuff that OpenBSD does not have
+ myself: libgnomecups (CUPS hooks), libxklavier and libxklavier1 (high-level
+ xkb API), libcroco (for CSS support in librsvg, which is required by the SVG
+ spec) and CUPS support for GNOME-Print. I could not test this yet, but GNOME
+ apps should show for example all the CUPS printers in the printer list. OTOH,
+ I actually had to downgrade some of these because the new versions are already
+ incompatible.  They are for GNOME 2.10, which is going to be out soon
+ *sigh*.<br />
+ Anyway, with gnome-session, metacity, and nautilus running, you could already
+ try to use it. However, I still do not consider the upgrade finished. Not
+ until gnumeric is running (I need this) and the meta port is there.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
