@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.31 2005/03/15 22:55:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.32 2005/03/16 23:55:51 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2636,4 +2636,8 @@
  MirOS #7-stable.)<br />I've translated the anargeek manifesto about which
  I already spoke into German and designed a logo for it; bsiegert@ has yet
  to check it against the french original text.</p>
+<p>20.03.2005 by tg@<br />Okay, even the nice weather hasn't limited me to
+ update XFree86&trade; to their latest released version. I was outside for
+ a while though, and that helped me inspire. If I would now just get these
+ damn scripts done I need for $ork tomorrow...</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

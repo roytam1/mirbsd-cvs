@@ -1,6 +1,16 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.8 2005/03/13 21:19:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.9 2005/03/19 17:32:43 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>20.03.2005<br />
+	We have updated our XFree86&trade; to the recently released 4.5.0,
+	with only minor breakage along the way. Also, MirPorts are getting
+	fixed by bsiegert@ after the transition to the new CVS repository.
+	This means the next snapshot will rock even more, especially since
+	X11 is built using systrace now, too; we'd appreciate if our users
+	were going to test them hard and help fixing problems.<br />As for
+	the website design changes: it's not yet finished, but we're still
+	waiting for delivery of the new images. Stay tuned.</li>
 
 <li>19.03.2005<br />
 	<a href="http://www.xfree86.org/">XFree86&trade;</a> 4.5 joined us
@@ -14,29 +24,6 @@
 	upstream update is expected); gcc isn't started yet and X11 really
 	depends upon when <a href="http://xfree86.org/">XFree86&trade;</a>
 	is about to be released.</li>
-
-<li>06.03.2005<br />
-	<tt>mirbsd.org</tt> has been freed and saved from the hands of the
-	evil OpenBSD force who announced in a primitive video that they'll
-	put some new pictures on there. It has since been sponsored to the
-	MirOS Project (but, similar to <tt>mirbsd.de</tt>, does not belong
-	to a project member). Both second-level domains are content-filled
-	from a Zope system run by the owner of <tt>mirbsd.de</tt>, where 2
-	project members are content admins.</li>
-
-<li>28.02.2005<br />
-	We're back from FOSDEM. MirPorts work on Mac OSX now, but only for
-	ports <b>without</b> a <tt>PFRAG.shared</tt>!<br />Update 02.03.05
-	<br />There is basic support for <tt>PFRAG.dylib</tt> in place, so
-	Midnight Commander (including libglib, autoconf 2.13 and 2.59, and
-	help2man, works &ndash; this includes MirLibtool)!</li>
-
-<li>05.02.2005<br />
-	The (final) new CVS repository has been started; the modules "www"
-	and "contrib" have been fully merged over, "src" and "X11" started
-	and "gcc" and "ports" will follow. <a href="/cvs.cgi/">CVSweb</a>,
-	still lacking adequate functionality to directly display ChangeLog
-	links (we work around it now), has been updated and enhanced.</li>
 
 </ul>
 <p>For older news, please refer to the <a href="/?older">historical news

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.8 2005/03/16 23:55:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.9 2005/03/19 11:08:37 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -50,7 +50,7 @@
  OSX; the <a href="http://wiki.mirbsd.de/MirPorts">instructions</a> have
  been updated and enhanced.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
- available for retrieval. Click the &quot;get MirOS!&quot; link on the left
+ available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
 <p><a href="/MirOS/CVS/cvsrepo-20050318.cgz">CVSREPO</a>: March 18th, 2005:
  seed file (130 MB) for reducing the initial transfer costs. We would like

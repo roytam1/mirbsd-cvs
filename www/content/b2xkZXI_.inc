@@ -1,7 +1,30 @@
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.3 2005/03/13 21:19:01 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
+
+<li>06.03.2005<br />
+	<tt>mirbsd.org</tt> has been freed and saved from the hands of the
+	evil OpenBSD force who announced in a primitive video that they'll
+	put some new pictures on there. It has since been sponsored to the
+	MirOS Project (but, similar to <tt>mirbsd.de</tt>, does not belong
+	to a project member). Both second-level domains are content-filled
+	from a Zope system run by the owner of <tt>mirbsd.de</tt>, where 2
+	project members are content admins.</li>
+
+<li>28.02.2005<br />
+	We're back from FOSDEM. MirPorts work on Mac OSX now, but only for
+	ports <b>without</b> a <tt>PFRAG.shared</tt>!<br />Update 02.03.05
+	<br />There is basic support for <tt>PFRAG.dylib</tt> in place, so
+	Midnight Commander (including libglib, autoconf 2.13 and 2.59, and
+	help2man, works &ndash; this includes MirLibtool)!</li>
+
+<li>05.02.2005<br />
+	The (final) new CVS repository has been started; the modules "www"
+	and "contrib" have been fully merged over, "src" and "X11" started
+	and "gcc" and "ports" will follow. <a href="/cvs.cgi/">CVSweb</a>,
+	still lacking adequate functionality to directly display ChangeLog
+	links (we work around it now), has been updated and enhanced.</li>
 
 <li>22.01.2005<br />
 	We're almost through with the new directory structure, CVS and GCC
