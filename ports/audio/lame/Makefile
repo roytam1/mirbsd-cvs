@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/lame/Makefile,v 1.1.7.1 2005/03/18 15:42:54 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2004/04/15 12:40:45 jakob Exp $
 
 COMMENT=	"lame ain't an MP3 encoder"
@@ -28,7 +28,7 @@ FAKE_FLAGS+=		${MAKE_FLAGS}
 USE_X11=		Yes
 CONFIGURE_ARGS+=	--enable-mp3x \
 			--with-gtk-prefix=${LOCALBASE}
-LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+
+LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+1
 .endif
 
 .include <bsd.port.mk>
