@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.3 2005/03/27 23:39:14 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.4 2005/03/27 23:43:18 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -224,16 +224,6 @@ RTS_FLAGS_TO_PASS_34=$(RTS_FLAGS_TO_PASS_)
 RTS_FLAGS_TO_PASS=$(RTS_FLAGS_TO_PASS_ALL) \
 	$(RTS_FLAGS_TO_PASS_$(GCC_VERSION_FOR_GPC))
 
-RTS_GENERATED_FILES=\
- $(RTSSRCDIR)/acconfig.h \
- $(RTSSRCDIR)/configure \
- $(RTSSRCDIR)/rts-config.in \
- $(RTSSRCDIR)/rtsc.pas \
- $(RTSSRCDIR)/gpc.pas
-
-GPC_GENERATED_FILES=\
- $(RTS_GENERATED_FILES)
-
 # Define the names for selecting Pascal in LANGUAGES.
 # @@ Removing "pascal.rts pascal.utils" here fails for a cross-built compiler
 Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) gpc-run \
@@ -242,9 +232,6 @@ Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) gpc-run \
 
 # Tell GNU make to ignore these if they exist.
 .PHONY: Pascal pascal
-
-# Create all files in the source directory that can be created automatically
-pascal.generated-files: $(GPC_GENERATED_FILES)
 
 p/gpc.o: $(srcdir)/p/gpc.c $(CONFIG_H) multilib.h Makefile \
  $(lang_specs_files) $(srcdir)/p/version.h specs.h
