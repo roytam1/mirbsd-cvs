@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.10 2005/02/11 17:34:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.11 2005/02/11 23:22:50 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2283,4 +2283,13 @@
  to sit in the Netzladen again &ndash; my friends have dragged me. Lacking
  anything useful to do I've brought out and debugged (keymap on GNU/Linux)
  <tt>joe-3.1jupp3</tt>.</p>
+<p>12.02.2005 by tg@<br />I took my time, after finishing the work on Jupp
+ (and building mac and win binary packages), to update PHP 5 to the latest
+ version <b>and</b> apply the Hardened-PHP patchkit. It's still considered
+ experimental, however it works on odem. It was a nice evening at Yofuh's,
+ with us five &quot;core <a href="http://bosng.de">BOSng</a> members&quot;
+ chilling with Club-Mate (as usual), and we finally got around to some web
+ site hacking, too. Benny is at another IRC comrade's place, eating sushi,
+ the first time for him, and seems to have fun playing Counter-Strike (the
+ Windows&reg; fanboy he is ;-)</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
