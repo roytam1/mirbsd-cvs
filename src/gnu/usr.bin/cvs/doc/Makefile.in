@@ -461,7 +461,7 @@ maintainer-clean-aminfo:
 	  echo " rm -f $$i $$i-[0-9] $$i-[0-9][0-9] $$i_i[0-9] $$i_i[0-9][0-9]"; \
 	  rm -f $$i $$i-[0-9] $$i-[0-9][0-9] $$i_i[0-9] $$i_i[0-9][0-9]; \
 	done
-install-man1: $(man1_MANS) $(man_MANS)
+install-man1:
 	@$(NORMAL_INSTALL)
 	test -z "$(man1dir)" || $(mkdir_p) "$(DESTDIR)$(man1dir)"
 	@list='$(man1_MANS) $(dist_man1_MANS) $(nodist_man1_MANS)'; \
@@ -599,7 +599,7 @@ install-exec-am:
 
 install-info: install-info-am
 
-install-info-am: $(INFO_DEPS)
+install-info-am:
 	@$(NORMAL_INSTALL)
 	test -z "$(infodir)" || $(mkdir_p) "$(DESTDIR)$(infodir)"
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \

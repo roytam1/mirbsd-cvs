@@ -238,7 +238,7 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 uninstall-info-am:
-install-man5: $(man5_MANS) $(man_MANS)
+install-man5:
 	@$(NORMAL_INSTALL)
 	test -z "$(man5dir)" || $(mkdir_p) "$(DESTDIR)$(man5dir)"
 	@list='$(man5_MANS) $(dist_man5_MANS) $(nodist_man5_MANS)'; \

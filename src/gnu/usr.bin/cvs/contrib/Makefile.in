@@ -321,7 +321,7 @@ rcslock: $(top_builddir)/config.status $(srcdir)/rcslock.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 sccs2rcs: $(top_builddir)/config.status $(srcdir)/sccs2rcs.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-install-contribSCRIPTS: $(contrib_SCRIPTS)
+install-contribSCRIPTS:
 	@$(NORMAL_INSTALL)
 	test -z "$(contribdir)" || $(mkdir_p) "$(DESTDIR)$(contribdir)"
 	@list='$(contrib_SCRIPTS)'; for p in $$list; do \
@@ -341,7 +341,7 @@ uninstall-contribSCRIPTS:
 	  rm -f "$(DESTDIR)$(contribdir)/$$f"; \
 	done
 uninstall-info-am:
-install-contribDATA: $(contrib_DATA)
+install-contribDATA:
 	@$(NORMAL_INSTALL)
 	test -z "$(contribdir)" || $(mkdir_p) "$(DESTDIR)$(contribdir)"
 	@list='$(contrib_DATA)'; for p in $$list; do \
