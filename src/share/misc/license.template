@@ -1,6 +1,9 @@
 Below is an example license to be used for new code in OpenBSD,
 modeled after the ISC license.
 
+The MirOS Project however recommends a different licence template,
+please look at /usr/share/misc/licence.template for details.
+
 It is important to specify the year of the copyright.  Additional years
 should be separated by a comma, e.g.
     Copyright (c) 2003, 2004
