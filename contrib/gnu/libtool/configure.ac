@@ -1,5 +1,6 @@
 ## Process this file with autoconf to create configure. -*- autoconf -*-
-# Copyright 2001  Free Software Foundation, Inc.
+# $MirOS$
+# Copyright 2001, 2005  Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -104,9 +105,9 @@ AC_PROG_LN_S
 pushdef([AC_MSG_ERROR], [CXX=no])
 AC_PROG_CXX
 popdef([AC_MSG_ERROR])
-AM_CONDITIONAL(HAVE_CXX, 
+AM_CONDITIONAL(HAVE_CXX,
 [test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-  ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
+  ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) ||
   (test "X$CXX" != "Xg++")))])
 
 pushdef([AC_MSG_ERROR], [F77=no])
