@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.6 2005/02/09 11:14:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.7 2005/02/09 21:27:42 bsiegert Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2240,4 +2240,31 @@
  tend to also have <tt>@unexec userdel</tt> or a similar construct at the end.
  Thus, it is better to have pkg_create fail with an error, so that you are
  reminded to check the PLIST file.</p>
+<p>09.02.2005 by tg@<br />Hey, what's this, I'm reading drexim here ;-) It
+ <u>did</u> a good job though today delivering an eMail of mine to the GNU
+ Pascal mailing list and back to me in... let's say, 2 seconds. (Of course
+ there was my superb sendmail involved, too ;)<br />Anyway. I've hacked at
+ MirLibtool again, discovering that &quot;we don't have relink issues, and
+ we don't relink anyway&quot; (huh?) and fixed some C++ problems. (Rather,
+ some no-C++ problems.) MirPorts' infrastructure received an update, which
+ also will cause some spurious rm(1) errors to go away. I should really do
+ the ncvs2 merger now, I wish I could have a week off (and somebody caring
+ for me, like cooking, making the dishes etc :) I haven't had any holidays
+ for ages now.<br />I'll go to sleep now, but my masterplan is as follows:
+ First, src/ gets merged (pretty quick, but time consuming, since it's not
+ few files to be updated). Then, I can at least bring in necessary fixes I
+ have already piled up on my TODO and work on the infrastructure (ie. that
+ damn MirLibfool). After that, gcc 3.4 will be taken (another CVS snapshot
+ of course) and imported, then gradually adjusted to match the one in ncvs
+ 1. There's two commits in OpenBSD for that I think we'll like, too. After
+ that's finished, I can build another (experimental) snapshot, and then it
+ depends. I think libstdc++, XFree86, gcj/f77 is the order. I would do X11
+ later if they brought out 4.5.0 now, but I guess, since 4.4 was imported,
+ we'll stick with it first (I've got to check if it works at all, too). In
+ the meanwhile I hope Benny updates all our ports (yayayaya I'll do a few,
+ too), then we'll close ocvs and ncvs 1 down.<br />I've read NetBSD&trade;
+ stuff yesterday (and I'm impressed), and I remember Stephen talking about
+ making the kernel aware of userland threads. Please, do it (I can't do it
+ myself since I'm <b>just</b> an amateur ;) because it will also increase,
+ among other programmes, wine's chance to work. (Java&trade; too.)</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
