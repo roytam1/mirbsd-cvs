@@ -1,18 +1,27 @@
 $MirOS$
---- doc/automake.texi.orig	Sun Nov 21 00:44:48 2004
-+++ doc/automake.texi	Sun Nov 21 00:46:25 2004
+--- doc/automake.texi.orig	2005-02-12 22:15:58.000000000 +0100
++++ doc/automake.texi	2005-04-03 21:06:41.000000000 +0200
 @@ -34,12 +34,12 @@ published by the Free Software Foundatio
  
  @dircategory Software development
  @direntry
 -* automake: (automake).         Making Makefile.in's.
-+* automake: (automake-1.9).         Making Makefile.in's.
++* automake-1.9: (automake-1.9).         Making Makefile.in files.
  @end direntry
  
  @dircategory Individual utilities
  @direntry
 -* aclocal: (automake)Invoking aclocal.          Generating aclocal.m4.
-+* aclocal: (automake-1.9)Invoking aclocal.          Generating aclocal.m4.
++* aclocal-1.9: (automake-1.9)Invoking aclocal.          Generating aclocal.m4.
  @end direntry
  
  @titlepage
+@@ -9628,7 +9628,7 @@ The number of test cases in the test sui
+ @end table
+ 
+ @multitable {8888-88-88} {8.8-p8} {8888} {888} {8888} {8888 (88)} {8888 (88)} {888} {888}
+-@headitem Date   @tab Rel @tab am @tab acl @tab pm @tab @file{*.am} @tab m4 @tab doc @tab t
++@item Date   @tab Rel @tab am @tab acl @tab pm @tab @file{*.am} @tab m4 @tab doc @tab t
+ @item 1994-09-19 @tab CVS    @tab  141 @tab     @tab      @tab  299 (24) @tab           @tab     @tab
+ @item 1994-11-05 @tab CVS    @tab  208 @tab     @tab      @tab  332 (28) @tab           @tab     @tab
+ @item 1995-11-23 @tab 0.20   @tab  533 @tab     @tab      @tab  458 (35) @tab           @tab   9 @tab
