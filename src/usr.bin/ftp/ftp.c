@@ -59,11 +59,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-#ifndef	SMALL
-__RCSID("$MirOS$");
-#endif
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -88,6 +83,8 @@ __RCSID("$MirOS$");
 #include <utime.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.2 2005/03/13 18:32:59 tg Exp $");
 
 union sockunion {
 	struct sockinet {

@@ -30,12 +30,10 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: cmdtab.c,v 1.17 2003/12/16 21:46:22 deraadt Exp $";
-#endif /* not lint and not SMALL */
-
 #include <stdio.h>
 #include "ftp_var.h"
+
+__RCSID("$MirOS$");
 
 /*
  * User FTP -- Command Tables.

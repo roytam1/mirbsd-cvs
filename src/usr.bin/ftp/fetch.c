@@ -37,15 +37,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: fetch.c,v 1.49 2004/02/28 20:08:38 krw Exp $";
-#endif /* not lint and not SMALL */
-
 /*
  * FTP User Program -- Command line file retrieval
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
@@ -69,6 +64,8 @@ static char rcsid[] = "$OpenBSD: fetch.c,v 1.49 2004/02/28 20:08:38 krw Exp $";
 #include <util.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS$");
 
 static int	url_get(const char *, const char *, const char *);
 void		aborthttp(int);

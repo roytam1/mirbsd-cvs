@@ -70,10 +70,6 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: util.c,v 1.37 2003/12/16 21:46:22 deraadt Exp $";
-#endif /* not lint and not SMALL */
-
 /*
  * FTP User Program -- Misc support routines
  */
@@ -98,6 +94,8 @@ static char rcsid[] = "$OpenBSD: util.c,v 1.37 2003/12/16 21:46:22 deraadt Exp $
 
 #include "ftp_var.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 static void updateprogressmeter(int);
 

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.2 2005/03/13 18:32:59 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.57 2003/12/16 21:46:22 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -60,11 +60,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-#ifndef	SMALL
-__RCSID("$MirOS$");
-#endif
-
 /*
  * FTP User Program -- Command Interface.
  */
@@ -82,6 +77,8 @@ __RCSID("$MirOS$");
 #include <unistd.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.2 2005/03/13 18:32:59 tg Exp $");
 
 int family = PF_UNSPEC;
 

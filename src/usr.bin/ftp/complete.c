@@ -38,9 +38,6 @@
  */
 
 #ifndef SMALL
-#ifndef lint
-static char rcsid[] = "$OpenBSD: complete.c,v 1.14 2003/04/05 17:19:47 deraadt Exp $";
-#endif /* not lint */
 
 /*
  * FTP user program - command and file completion routines
@@ -54,6 +51,8 @@ static char rcsid[] = "$OpenBSD: complete.c,v 1.14 2003/04/05 17:19:47 deraadt E
 #include <string.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS$");
 
 static int	     comparstr(const void *, const void *);
 static unsigned char complete_ambiguous(char *, int, StringList *);
