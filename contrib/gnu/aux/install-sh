@@ -1,7 +1,7 @@
 #!/bin/ksh
-# $MirOS$
+# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
-# Copyright (c) 2004
+# Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -23,8 +23,26 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
+# XXX how to check for ksh88?
+if [ -n "$BASH_VERSION" ]; then
+	shopt -s extglob
+	p=echo
+elif [ -n "$SH_VERSION" ]; then
+	case $SH_VERSION in
+	*KSH*)
+		set +o sh +o posix
+		p=print
+		;;
+	esac
+elif [[ -n $KSH_VERSION ]]; then
+	set +o sh +o posix
+	p=print
+fi
 
-set +o sh +o posix
+if [ -z "$p" ]; then
+	echo "Shell not supported; go to http://wiki.mirbsd.de/MirbsdKsh"
+	exit 1
+fi
 
 allargs="$*"
 
@@ -60,8 +78,8 @@ set -A sources -- "$@"
 let numsrcs=${#sources[@]}
 
 if (( numsrcs < 2 )); then
-	print "Syntax: $0 [-bCcdpSs] [-B suf] [-f flag]"
-	print "\t[-g grp] [-m mode] [-o owner] [-b=x -t=x] srcs ... dst"
+	$p "Syntax: $0 [-bCcdpSs] [-B suf] [-f flag]"
+	$p "\t[-g grp] [-m mode] [-o owner] [-b=x -t=x] srcs ... dst"
 	exit 1
 fi
 
