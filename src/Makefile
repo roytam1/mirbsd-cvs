@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.10 2005/03/29 13:03:55 tg Exp $
+# $MirOS: src/Makefile,v 1.11 2005/03/29 17:02:29 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -106,14 +106,14 @@ contrelease:
 
 do-htman:
 	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
-.for _i in x11 gcc base
-	cd ${BSDRELDIR}/${_i}/usr/share/man \
+.for _set _dir in x11 share x11 X11R6 gcc share base share
+	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man \
 	    && find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .endfor
-.for _i in papers psd smm usd
-	mkdir -p ${BSDOBJDIR}/htman/papers/${_i}
-	cd ${BSDOBJDIR}/htman/papers/${_i} \
-	    && lndir ${BSDOBJDIR}/base/usr/share/doc/${_i} \
+.for _doc in papers psd smm usd
+	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
+	cd ${BSDOBJDIR}/htman/papers/${_doc} \
+	    && lndir ${BSDOBJDIR}/base/usr/share/doc/${_doc} \
 	    && ${MAKE}
 .endfor
 	BSDOBJDIR="${BSDOBJDIR}" BSDRELDIR="${BSDRELDIR}" \
@@ -148,11 +148,11 @@ do-htman:
 
 dist-q:
 	cd ${.CURDIR} && exec ${MAKE} BATCH=defined \
-	    do-dist 2>&1 | tee ${.CURDIR}/Build.log
+	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 dist:
 	cd ${.CURDIR} && exec ${MAKE} \
-	    do-dist 2>&1 | tee ${.CURDIR}/Build.log
+	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 do-dist:
 	@echo Initiating MirOS Build...
