@@ -25,8 +25,8 @@ USE_X11=	Yes
 MODULES=	devel/gettext
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	gdk_pixbuf-2.0.400.3,gdk-x11-2.0.400.3::x11/gtk+2 \
-		glib-2.0.400.2,gthread-2.0.400.2::devel/glib2
+LIB_DEPENDS=	gdk_pixbuf-2.0.400.3,gdk-x11-2.0.400.3::x11/gtk+ \
+		glib-2.0.400.2,gthread-2.0.400.2::devel/glib
 
 MULTI_PACKAGES=
 PSEUDO_FLAVORS=	no_mp3 no_vorbis
@@ -54,7 +54,7 @@ SUBPACKAGE?=
 
 .if $(SUBPACKAGE) != "-mp3"
 LIB_DEPENDS+=	esd.2.34::audio/esound \
-		glade-2.0.0.4::devel/libglade2 \
+		glade-2.0.0.4::devel/libglade \
 		xml2::textproc/libxml
 .endif
 
