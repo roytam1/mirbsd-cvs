@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.29 2005/03/13 19:38:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.30 2005/03/14 23:28:11 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2610,4 +2610,24 @@
  it provides a preexisting infrastructure quite well). So don't wonder. If
  you ask where the money is going, be sure it'll be used for MirBSD&reg;'s
  further development and deployment.</p>
+<p>15.03.2005 by tg@<br />W00t, we've finally got a logo for MirOS BSD. On
+ the other hand, most of you will already know it. Stay tuned, I'll update
+ the framework as soon as feasible.<br />I've built a new base running the
+ kernel I built yesterday from fresh sources. So far, no breakage. Also, I
+ have added splitb(1) as split(1) improvement (MirOS specific), cleaned up
+ lots of Makefiles and fixed remaining breakage. The hardest part of that,
+ but entertaining, is the changes to the -mdoc package for nroff. Finally,
+ we won't have problems with <tt>\&amp;!</tt> or <tt>?\&amp;</tt> any more
+ and I've added a workaround for <tt>.Xr st 4</tt>. Also, <tt>.Xr</tt> now
+ temporarily switches to non-hyphenation mode (and back to hyphenated once
+ it's run, even if it was non-hyphenating before).<br /><tt>make b-r</tt>,
+ except kernels, succeeds now as does <tt>make distclean</tt> in /usr/src.
+ I've also updated the packaging lists, so I could quickly make a snapshot
+ (though incomplete). Much redundant code was removed, and the MirOS brand
+ applied to many files.<br />I've also done a licencing cleanup in the www
+ repository and added a few clauses needed for a new contributors' logo or
+ mascot component.<br />Benny has implemented <em>@lib</em> for ports that
+ has proven superiour for Mac OSX compatibility, so I've deprecated all of
+ the old DYNLIBDIR() stuff, and Benny removed them. Minor breakage planned
+ as usual.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
