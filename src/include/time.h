@@ -1,7 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
 /*
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
  *
@@ -41,13 +44,16 @@
 #ifndef _TIME_H_
 #define	_TIME_H_
 
+#include <machine/types.h>
 #include <machine/ansi.h>
 
 #ifndef	NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 
@@ -74,7 +80,7 @@ struct tm {
 	int	tm_hour;	/* hours since midnight [0-23] */
 	int	tm_mday;	/* day of the month [1-31] */
 	int	tm_mon;		/* months since January [0-11] */
-	int	tm_year;	/* years since 1900 */
+	time_t	tm_year;	/* years since 1900 */
 	int	tm_wday;	/* days since Sunday [0-6] */
 	int	tm_yday;	/* days since January 1 [0-365] */
 	int	tm_isdst;	/* Daylight Saving Time flag */
@@ -82,10 +88,35 @@ struct tm {
 	char	*tm_zone;	/* timezone abbreviation */
 };
 
-#include <sys/cdefs.h>
+#if !defined(__TIMESPEC_DECLARED)
+struct timespec {
+	time_t	tv_sec;		/* seconds */
+	long	tv_nsec;	/* and nanoseconds */
+};
+#define	__TIMESPEC_DECLARED
+#endif
+
+/*
+ * Represents the current date and time of day in seconds
+ * since 1970-01-01 00:00:00 (beginning of the TAI year),
+ * with a bias of 0x4000000000000000, as a signed 63 bit value.
+ */
+typedef	int64_t tai64_t;
+
+/* The same, just with nanosecond and attosecond accuracy */
+typedef	struct {
+	tai64_t secs;
+	u_int32_t nano;
+	u_int32_t atto;
+} tai64na_t;
+
+/* Modified Julian Date */
+typedef struct {
+	time_t	mjd;
+	int32_t	sec;
+} mjd_t;
 
 __BEGIN_DECLS
-struct timespec;
 char *asctime(const struct tm *);
 clock_t clock(void);
 char *ctime(const time_t *);
@@ -118,6 +149,38 @@ time_t timelocal(struct tm *);
 time_t timegm(struct tm *);
 time_t timeoff(struct tm *, const long);
 #endif /* neither ANSI nor POSIX */
+
+/*
+ * tai64 and mjd handling functions
+ */
+
+/* Get current time */
+tai64_t	tai_time(tai64_t *)
+		__attribute__((__bounded__(__minbytes__,1,8)));
+void	taina_time(tai64na_t *)
+		__attribute__((__bounded__(__minbytes__,1,16)));
+tai64_t *tai_leaps(void);
+int	tai_isleap(tai64_t);
+
+/* Conversion routines */
+#define __TAI64_BIAS	0x4000000000000000ULL
+#define	timet2tai(x)	((tai64_t)((time_t)(x) + __TAI64_BIAS))
+#define	tai2timet(x)	((time_t)((tai64_t)(x) - __TAI64_BIAS))
+tai64_t	utc2tai(int64_t);
+int64_t	tai2utc(tai64_t);
+tai64_t	mjd2tai(mjd_t);
+mjd_t	tai2mjd(tai64_t);
+
+struct tm	mjd2tm(mjd_t);
+mjd_t		tm2mjd(struct tm);
+
+/* Conversion between tai64 and DJB-compatible TAI64NA on the wire values */
+void	exporttai(u_int8_t *, tai64na_t *)
+		__attribute__((__bounded__(__minbytes__,1,16)))
+		__attribute__((__bounded__(__minbytes__,2,16)));
+void	importtai(u_int8_t *, tai64na_t *)
+		__attribute__((__bounded__(__minbytes__,1,16)))
+		__attribute__((__bounded__(__minbytes__,2,16)));
 __END_DECLS
 
 #endif /* !_TIME_H_ */
