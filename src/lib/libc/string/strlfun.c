@@ -1,9 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libc/string/strlfun.c,v 1.1 2005/02/23 20:54:33 tg Exp $ */
 /*	$OpenBSD: strlcpy.c,v 1.8 2003/06/17 21:56:24 millert Exp $ */
 /*	$OpenBSD: strlcat.c,v 1.11 2003/06/17 21:56:24 millert Exp $ */
 
 /*-
- * Copyright (c) 2004 Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005 Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Some hints for optimisation from Bodo Eggert (via d.a.s.r)
  * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
  *
@@ -20,25 +20,29 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <string.h>
-
+#if !defined(_KERNEL) && !defined(_STANDALONE)
 #ifdef HAVE_CONFIG_H
-/* packaged with third-party software */
+/* usually when packaged with third-party software */
 #include "config.h"
 #define LIBC_SCCS
-#else /* ! def HAVE_CONFIG_H */
-/* integrated into MirOS C library */
-#undef HAVE_STRLCPY
-#undef HAVE_STRLCAT
-#endif /* ! def HAVE_CONFIG_H */
+#endif
+#include <sys/types.h>
+#include <string.h>
 
 #ifndef __RCSID
 #define __RCSID(x)	static const char __rcsid[] = (x)
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.1 2005/02/23 20:54:33 tg Exp $");
+#else
+#include <lib/libkern/libkern.h>
+#undef HAVE_CONFIG_H
+#endif
 
+#ifndef HAVE_CONFIG_H
+#undef HAVE_STRLCPY
+#undef HAVE_STRLCAT
+#endif
 
 #ifndef	HAVE_STRLCPY
 /*
