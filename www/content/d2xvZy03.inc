@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.7 2005/02/09 21:27:42 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.8 2005/02/10 00:05:34 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2241,7 +2241,7 @@
  Thus, it is better to have pkg_create fail with an error, so that you are
  reminded to check the PLIST file.</p>
 <p>09.02.2005 by tg@<br />Hey, what's this, I'm reading drexim here ;-) It
- <u>did</u> a good job though today delivering an eMail of mine to the GNU
+ <i>did</i> a good job though today delivering an eMail of mine to the GNU
  Pascal mailing list and back to me in... let's say, 2 seconds. (Of course
  there was my superb sendmail involved, too ;)<br />Anyway. I've hacked at
  MirLibtool again, discovering that &quot;we don't have relink issues, and
