@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.9 2005/03/19 11:08:37 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.10 2005/03/20 22:01:14 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -46,9 +46,10 @@
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
-<p>PORTS: March 13th, 2005: MirPorts now work on MirOS BSD, OpenBSD and Mac
+<p>PORTS: March 26th, 2005: MirPorts now work on MirOS BSD, OpenBSD and Mac
  OSX; the <a href="http://wiki.mirbsd.de/MirPorts">instructions</a> have
- been updated and enhanced.</p>
+ been updated and enhanced. Changes to MirPorts in the new CVS repository
+ are allowed now, the pages need yet to be updated.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
