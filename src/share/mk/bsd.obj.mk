@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.obj.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: bsd.obj.mk,v 1.12 2003/10/28 17:09:33 espie Exp $
 # $NetBSD: bsd.obj.mk,v 1.9 1996/04/10 21:08:05 thorpej Exp $
 
@@ -41,32 +41,30 @@ __usrobjdirpf=
 _SUBDIRUSE:
 
 obj! _SUBDIRUSE
-	@cd ${.CURDIR}; \
-	here=$$(/bin/pwd); bsdsrcdir=$$( (cd ${BSDSRCDIR} && /bin/pwd) \
-	    2>/dev/null || print '${BSDSRCDIR}'); \
+	@cd ${.CURDIR}; here=$$(/bin/pwd); \
+	bsdsrcdir=$$( (cd ${BSDSRCDIR} && /bin/pwd) 2>/dev/null \
+	    || print '${BSDSRCDIR}'); \
 	subdir=$${here#$${bsdsrcdir}/}; \
-	if test $$here != $$subdir ; then \
-		dest=${__usrobjdir}/$$subdir${__usrobjdirpf} ; \
-		echo "$$here/${__objdir} -> $$dest"; \
-		if test ! -L ${__objdir} -o \
-		    X$$(readlink ${__objdir}) != X$$dest; \
-		    then \
-			if test -e ${__objdir}; then rm -rf ${__objdir}; fi; \
+	if [[ $$here != $$subdir ]]; then \
+		dest=${__usrobjdir}/$$subdir${__usrobjdirpf}; \
+		print -r "$$here/${__objdir} -> $$dest"; \
+		if [[ ! -L ${__objdir} \
+		    || $$(readlink ${__objdir}) != $$dest ]]; then \
+			[[ ! -e ${__objdir} ]] || rm -rf ${__objdir}; \
 			ln -sf $$dest ${__objdir}; \
 		fi; \
-		if test -d ${__usrobjdir} -a ! -d $$dest; then \
+		if [[ -d ${__usrobjdir} && ! -d $$dest ]]; then \
 			mkdir -p $$dest; \
 		else \
 			true; \
 		fi; \
 	else \
-		true ; \
-		dest=$$here/${__objdir} ; \
-		if test ! -d ${__objdir} ; then \
-			echo "making $$dest" ; \
+		if [[ ! -d ${__objdir} ]]; then \
+			dest=$$here/${__objdir}; \
+			print -r "making $$dest"; \
 			mkdir $$dest; \
-		fi ; \
-	fi;
+		fi; \
+	fi
 .  endif
 .endif	# ! not target obj
 

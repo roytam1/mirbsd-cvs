@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.doc.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: bsd.doc.mk,v 1.8 2001/04/03 23:00:09 espie Exp $
 # $NetBSD: bsd.doc.mk,v 1.20 1994/07/26 19:42:37 mycroft Exp $
 # @(#)bsd.doc.mk	8.1 (Berkeley) 8/14/93
@@ -31,7 +31,7 @@ paper.ps: ${SRCS}
 
 .if !target(paper.txt)
 paper.txt: ${SRCS}
-	@([ -e paper.ps ] && mv paper.ps paper.tmp) 2>/dev/null || true
+	@(test -e paper.ps && mv paper.ps paper.tmp) 2>/dev/null || true
 	@${MAKE} paper.ps 'ROFF=${NROFF}' 2>&1 | sed 's/paper\.ps/$@/'
 	@mv paper.ps $@ || { mv paper.tmp paper.ps 2>/dev/null; false; }
 	@mv paper.tmp paper.ps 2>/dev/null || true

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.README,v 1.2 2005/02/14 18:57:45 tg Exp $
 # $OpenBSD: bsd.README,v 1.36 2003/08/29 00:04:41 jolan Exp $
 # $NetBSD: bsd.README,v 1.17 1996/04/13 02:08:08 thorpej Exp $
 # @(#)bsd.README	5.1 (Berkeley) 5/11/90
@@ -22,6 +22,10 @@ bsd.sys.mk		- building bsd from the source tree
 
 Note, this file is not intended to replace reading through the .mk
 files for anything tricky. It's also not been updated for a long time.
+
+All of the files bear no explicit copyright notice or licence, please
+feel free to use them as fit. The MirOS Project would like to receive
+due credit if possible, though.
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
