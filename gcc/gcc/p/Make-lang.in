@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.6 2005/03/28 00:09:04 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.7 2005/03/28 00:11:57 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -68,16 +68,16 @@ GPC_GCC_VERSION=$(GPC_GCC_VERSION_$(GCC_VERSION_FOR_GPC))
 GPC_GCC_VERSION_OBJS_28=pexecute.o
 GPC_GCC_VERSION_OBJS_=intl.o
 GPC_GCC_VERSION_OBJS=$(GPC_GCC_VERSION_OBJS_$(GCC_VERSION_FOR_GPC))
-GPC_GCC_VERSION_LINK_=p/diagnostic.o attribs.o main.o libbackend.a ../libiberty/libiberty.a
+GPC_GCC_VERSION_LINK_=p/diagnostic.o attribs.o main.o libbackend.a -liberty
 GPC_GCC_VERSION_LINK_2=`cat p/stamp-gbe`
 GPC_GCC_VERSION_LINK_28=`cat p/stamp-gbe` choose-temp.o pexecute.o
 GPC_GCC_VERSION_LINK=$(GPC_GCC_VERSION_LINK_$(GCC_VERSION_FOR_GPC))
 GPC_GCC_VERSION_DEPS_=$(GPC_GCC_VERSION_LINK)
-GPC_GCC_VERSION_DEPS_2=p/stamp-gbe ../libiberty/libiberty.a
+GPC_GCC_VERSION_DEPS_2=p/stamp-gbe -liberty
 GPC_GCC_VERSION_DEPS_28=p/stamp-gbe choose-temp.o pexecute.o
 GPC_GCC_VERSION_DEPS=$(GPC_GCC_VERSION_DEPS_$(GCC_VERSION_FOR_GPC))
-GPC_GCC_VERSION_H_=target.h dbxout.h ../include/libiberty.h
-GPC_GCC_VERSION_H_2=gansidecl.h dbxout.h ../include/libiberty.h
+GPC_GCC_VERSION_H_=target.h dbxout.h $(LIBIBERTY_HDRS)/libiberty.h
+GPC_GCC_VERSION_H_2=gansidecl.h dbxout.h $(LIBIBERTY_HDRS)/libiberty.h
 GPC_GCC_VERSION_H_28=gansidecl.h
 GPC_GCC_VERSION_H=$(GPC_GCC_VERSION_H_$(GCC_VERSION_FOR_GPC))
 GPC_ALL_WARNINGS_=$(WARN_CFLAGS) $(STRICT_WARN)
@@ -128,7 +128,7 @@ rts_version=`cat $(RTS_VERSION_FILENAME)`
 GPCSOLIBSHORTNAME=libgpc.so
 GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor)
 GPCSOLIBDIR=lib
-WITH_SHARED=@with_shared@
+WITH_SHARED=@enable_shared@
 
 BISON=bison
 BISONFLAGS=
@@ -227,8 +227,7 @@ RTS_FLAGS_TO_PASS=$(RTS_FLAGS_TO_PASS_ALL) \
 # Define the names for selecting Pascal in LANGUAGES.
 # @@ Removing "pascal.rts pascal.utils" here fails for a cross-built compiler
 Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) gpc-run \
-               specs pascal.generated-files \
-               pascal.rts pascal.utils
+               specs pascal.rts pascal.utils
 
 # Tell GNU make to ignore these if they exist.
 .PHONY: Pascal pascal
@@ -236,7 +235,7 @@ Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) gpc-run \
 p/gpc.o: $(srcdir)/p/gpc.c $(CONFIG_H) multilib.h Makefile \
  $(lang_specs_files) $(srcdir)/p/version.h specs.h
 	$(CC) -DGPC $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(GPC_ALL_WARNINGS) $(INCLUDES) \
-	$(DRIVER_DEFINES) -c `echo $(srcdir)/p/gpc.c | sed 's,^\./,,'` -o $@
+	$(DRIVER_DEFINES) -Wno-error -c `echo $(srcdir)/p/gpc.c | sed 's,^\./,,'` -o $@
 
 # We call this executable `xgpc' rather than `gpc'
 # to avoid confusion if the current directory is in the path
@@ -399,7 +398,7 @@ p/rts/Makefile: $(GCC_PARTS) \
 	src=`cd $(srcdir) && pwd` && \
 	cd ./p/rts && \
 	$(RTS_COMPILERS) CONFIG_SITE=nonexisting-file \
-	$$src/p/rts/configure --silent > /dev/null --srcdir=$$src/p/rts \
+	$(SHELL) $$src/p/rts/configure --silent > /dev/null --srcdir=$$src/p/rts \
 	 `if [ x$(WITH_SHARED) = xyes ]; then echo '--with-shared'; fi`
 
 pascal.rts: p/rts/Makefile xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext)
@@ -463,10 +462,8 @@ pascal.install-lib: pascal.install-dir
 	done
 	if [ x$(WITH_SHARED) = xyes ] && [ -f $(GPCSOLIBNAME) ]; then \
 	  mkdir -p -m a+rx $(DESTDIR)$(prefix)/$(GPCSOLIBDIR) && \
-	  rm -f $(DESTDIR)$(libsubdir)/$(GPCSOLIBSHORTNAME) $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME); \
 	  $(INSTALL_DATA) $(GPCSOLIBNAME) $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME) && \
-	  chmod a-x $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME) && \
-	  $(SYMLINK) $(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME) $(DESTDIR)$(libsubdir)/$(GPCSOLIBSHORTNAME); \
+	  chmod a-x $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME); \
 	else \
 	  true; \
 	fi
@@ -610,5 +607,19 @@ pascal.stageprofile: stageprofile-start
 	-mv p/*$(objext) stageprofile/p
 pascal.stagefeedback: stageprofile-start
 	-mv p/*$(objext) stagefeedback/p
+
+pascal.man:
+
+pascal.info:
+
+pascal.dvi:
+
+pascal.install-man:
+
+pascal.install-info:
+
+pascal.install-dvi:
+
+pascal.distdir:
 
 force:

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*GNU Pascal Compiler Preprocessor (GPCPP)
 
   Copyright (C) 1986-2005 Free Software Foundation, Inc.
@@ -3152,7 +3154,7 @@ special_symbol (hp, op)
       timebuf = localtime (&t);
     }
     if (hp->type == T_DATE)
-      sprintf (s, "\"%04d-%02d-%02d\"", timebuf->tm_year + 1900, timebuf->tm_mon + 1, timebuf->tm_mday);
+      sprintf (s, "\"%04d-%02d-%02d\"", (int)timebuf->tm_year + 1900, timebuf->tm_mon + 1, timebuf->tm_mday);
     else
       sprintf (s, "\"%02d:%02d:%02d\"", timebuf->tm_hour, timebuf->tm_min, timebuf->tm_sec);
     buf = s;

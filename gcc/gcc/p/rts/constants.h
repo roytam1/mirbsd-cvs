@@ -49,7 +49,7 @@ COMMENT (Input masks.)
 #define READ_STRING_MASK           1 COMMENT ((ReadStr))
 #define VAL_MASK                   2 COMMENT ((Val))
 #define INT_READ_BASE_SPEC_MASK    4 COMMENT ((allow the base specifier (n#) (integer)))
-#define INT_READ_HEX_MASK          8 COMMENT ((allow the hex specifier ($) (integer)))
+#define INT_READ_HEX_MASK          8 COMMENT ((allow the hex specifier (dollar) (integer)))
 #define NUM_READ_CHK_WHITE_MASK   16 COMMENT ((require whitespace after the number (integer, real)))
 #define REAL_READ_SP_ONLY_MASK    32 COMMENT ((do not accept Extended Pascal real number format extension (real)))
 

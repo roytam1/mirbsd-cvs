@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*GNU Pascal compiler lexical analyzer
 
   Copyright (C) 1989-2005, Free Software Foundation, Inc.
@@ -46,7 +48,6 @@ int LEX_LINE_DIRECTIVE = MIN_EXTRA_SYMBOL - 4;
 #define YY_NO_FLEX_REALLOC
 #define yyrealloc xrealloc
 #define YY_TYPEDEF_YY_SIZE_T
-typedef size_t yy_size_t;
 #include "pascal-lex.c"
 
 filename_t lexer_filename = NULL, compiler_filename = NULL;

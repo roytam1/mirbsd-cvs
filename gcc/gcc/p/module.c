@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*Module support for GNU Pascal
 
   Copyright (C) 1994-2005, Free Software Foundation, Inc.
@@ -356,6 +358,35 @@ mseek (F, O)
   assert (O <= F->size);
   F->curpos = O;
 }
+
+/* Kill the writers of this code, gently, with a chainsaw.  */
+
+#define TEMP_FILE "ccXXXXXXXXXX"
+#define TEMP_FILE_LEN (sizeof(TEMP_FILE) - 1)
+
+char *choose_temp_base(void);
+
+char *
+choose_temp_base ()
+{
+  extern char *choose_tmpdir(void);
+  const char *base = choose_tmpdir ();
+  char *temp_filename;
+  int len;
+
+  len = strlen (base);
+  temp_filename = xmalloc (len + TEMP_FILE_LEN + 1);
+  strcpy (temp_filename, base);
+  strcpy (temp_filename + len, TEMP_FILE);
+
+  mktemp (temp_filename);
+  if (strlen (temp_filename) == 0)
+    assert (0);
+  return temp_filename;
+}
+
+#undef TEMP_FILE
+#undef TEMP_FILE_LEN
 
 /* Scan the program/module parameter list for entries of file type.
    If this is at top level, and they are variables of file type, flag the files as external.

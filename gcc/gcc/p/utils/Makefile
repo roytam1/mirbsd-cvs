@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/p/utils/Makefile,v 1.2 2005/03/28 00:05:06 tg Exp $
 # Makefile for the GNU Pascal utilities
 #
 # Copyright (C) 2002-2005 Free Software Foundation, Inc.
@@ -44,14 +44,14 @@ VPATH=$(srcdir)
 PFLAGS1=--executable-path=. --unit-path=$(GCC_DIR)/p/rts --unit-path=$(GCC_DIR)/p/units
 EXE=binobj$(exeext) gpidump$(exeext)
 EXE2=binobj gpidump
-PC_WITH_FLAGS=$(PC) --automake --executable-file-name $(UTILS_WARN) $(CFLAGS) $(PFLAGS) $(PFLAGS1) `cat needed-options`
+PC_WITH_FLAGS=$(PC) --automake --executable-file-name $(UTILS_WARN) $(subst -Wformat,,$(CFLAGS)) $(PFLAGS) $(PFLAGS1) `cat needed-options`
 
 all: $(EXE)
 
 # The Pascal source is not used, but we have to provide any.
 # `-x Preprocessed-Pascal /dev/null' works as well, except on mingw.
 needed-options: binobj.pas $(GCC_DIR)/p/version.h
-	$(PC) $(UTILS_WARN) $(CFLAGS) $(PFLAGS) $(PFLAGS1) --print-needed-options "$<" 2> "$@" || true
+	$(PC) $(UTILS_WARN) $(subst -Wformat,,$(CFLAGS)) $(PFLAGS) $(PFLAGS1) --print-needed-options "$<" 2> "$@" || true
 	if grep '^[^-]' "$@" > /dev/null; then echo "needed-options: `cat "$@"`" >&2; rm -f "$@"; false; else true; fi
 
 binobj$(exeext): binobj.pas needed-options
