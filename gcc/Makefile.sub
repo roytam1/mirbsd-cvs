@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.1 2005/03/25 18:28:48 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.2 2005/03/25 19:43:36 tg Exp $
 
 .include "${.CURDIR}/Makefile.inc"
 
@@ -8,6 +8,7 @@
   SUBDIR+= libada
   SUBDIR+= libffi
   SUBDIR+= libobjc
+  SUBDIR+= libstdc++-v3
 
 prereq: _SUBDIRUSE
 
@@ -19,6 +20,10 @@ prereq: _SUBDIRUSE
 
 .ifdef NO_ADA
   SKIPDIR+= libada
+.endif
+
+.ifdef NO_CXX
+  SKIPDIR+= libstdc++-v3
 .endif
 
 .if defined(NO_OBJC) && defined(NO_JAVA)

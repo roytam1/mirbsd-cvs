@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.5 2005/03/26 11:15:12 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.6 2005/03/26 11:30:13 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -17,7 +17,11 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
-CLEANFILES+=	include libsupc++/cp-demangle.c
+CLEANFILES+=	include libsupc++/cp-demangle.c src/atomicity.cc \
+		src/basic_file.cc src/c++locale.cc src/codecvt_members.cc \
+		src/collate_members.cc src/ctype_members.cc \
+		src/messages_members.cc src/monetary_members.cc \
+		src/numeric_members.cc src/time_members.cc
 
 LIBFILES=	libstdc++.a libstdc++.la libsupc++.a libsupc++.la
 .if ${NOPIC:L} == "no"
