@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.7 2005/03/28 00:11:57 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.8 2005/03/28 02:09:43 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -128,7 +128,6 @@ rts_version=`cat $(RTS_VERSION_FILENAME)`
 GPCSOLIBSHORTNAME=libgpc.so
 GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor)
 GPCSOLIBDIR=lib
-WITH_SHARED=@enable_shared@
 
 BISON=bison
 BISONFLAGS=

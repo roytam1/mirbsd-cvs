@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/Makefile.in,v 1.3 2005/03/25 19:28:57 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -257,6 +257,8 @@ REMAKEFLAGS=LANGUAGES="$(LANGUAGES)" BOOT_CFLAGS="$(BOOT_CFLAGS)"
 # --------
 # UNSORTED
 # --------
+
+WITH_SHARED=@enable_shared@
 
 # Some compilers can't handle cc -c blah.c -o foo/blah.o.
 # In stage2 and beyond, we force this to "-o $@" since we know we're using gcc.
