@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.7 2005/03/20 18:13:16 tg Exp $
+# $MirOS: X11/Makefile,v 1.8 2005/03/21 07:08:23 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -42,8 +42,13 @@ b-r:
 	@echo ============================================================
 	@date
 	@echo ============================================================
-	cd ${.CURDIR} && ${MAKE} obj && ${MAKE} check-objdir \
-	    && exec ${SHELL} ${.CURDIR}/build-release
+	cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} check-objdir
+	cd ${.CURDIR} && exec ${MAKE} build
+	cd ${.CURDIR} && exec ${MAKE} release
+	@echo ============================================================
+	@echo Build and Release for the X-Window System complete.
+	@date; uname -a
+	@echo ============================================================
 
 compile:
 	rm -f ${CONFHOSTDEF}
@@ -129,10 +134,6 @@ release:
 	    | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
 	-cd ${RELEASEDIR}; rmd160 x*.ngz \
 	    | cat - RMD160 | ${SUDO} sort -o RMD160
-	@echo ============================================================
-	@echo Build and Release for the X-Window System complete.
-	@date; uname -a
-	@echo ============================================================
 
 do-rel:
 	mkdir -p ${DESTDIR} ${RELEASEDIR}
