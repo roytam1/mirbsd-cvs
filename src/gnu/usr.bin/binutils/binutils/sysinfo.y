@@ -1,6 +1,6 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/sysinfo.y,v 1.2 2005/03/13 16:06:54 tg Exp $ */
 
-/* Copyright 2001, 2003 Free Software Foundation, Inc.
+/* Copyright 2001, 2003, 2005 Free Software Foundation, Inc.
    Written by Steve Chamberlain of Cygnus Support (steve@cygnus.com).
 
 This file is part of GNU binutils.
@@ -41,6 +41,9 @@ int rdepth;
 char *loop [] = {"","n","m","/*BAD*/"};
 char *names[] = {" ","[n]","[n][m]"};
 char *pnames[]= {"","*","**"};
+
+static int yyerror (char *s);
+extern int yylex (void);
 %}
 
 
@@ -121,7 +124,7 @@ it:
 	    printf("void sysroff_swap_%s_in(ptr)\n",$2);
 	    printf("struct IT_%s *ptr;\n", it);
 	    printf("{\n");
-	    printf("char raw[255];\n");
+	    printf("unsigned char raw[255];\n");
 	    printf("\tint idx = 0 ;\n");
 	    printf("\tint size;\n");
 	    printf("memset(raw,0,255);\n");	
@@ -133,7 +136,7 @@ it:
 	    printf("FILE * file;\n");
 	    printf("struct IT_%s *ptr;\n", it);
 	    printf("{\n");
-	    printf("\tchar raw[255];\n");
+	    printf("\tunsigned char raw[255];\n");
 	    printf("\tint idx = 16 ;\n");
 	    printf("\tmemset (raw, 0, 255);\n");
 	    printf("\tcode = IT_%s_CODE;\n", it);
@@ -435,7 +438,7 @@ if (writecode == 'd')
 return 0;
 }
 
-int
+static int
 yyerror (char *s)
 {
   fprintf(stderr, "%s\n" , s);

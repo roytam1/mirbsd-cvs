@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/binutils/Makefile.am,v 1.2 2005/03/13 16:06:50 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -62,7 +62,7 @@ noinst_PROGRAMS = $(NM_PROG) $(DEMANGLER_PROG)
 EXTRA_PROGRAMS = $(NLMCONV_PROG) srconv sysdump coffdump $(DLLTOOL_PROG) $(WINDRES_PROG) $(DLLWRAP_PROG)
 
 # Stuff that goes in tooldir/ if appropriate.
-TOOL_PROGS = nm-new ar dlltool
+TOOL_PROGS = nm-new ar dlltool objdump
 
 BASEDIR = $(srcdir)/..
 BFDDIR = $(BASEDIR)/bfd
@@ -161,20 +161,20 @@ sysroff.h: sysinfo$(EXEEXT_FOR_BUILD) sysroff.info
 	./sysinfo$(EXEEXT_FOR_BUILD) -d <$(srcdir)/sysroff.info >sysroff.h
 
 sysinfo$(EXEEXT_FOR_BUILD): sysinfo.o syslex.o
-	$(CC_FOR_BUILD) $(CFLAGS) $(LDFLAGS) -o $@ sysinfo.o syslex.o 
+	$(CC_FOR_BUILD) $(CFLAGS) $(LDFLAGS) -o $@ sysinfo.o syslex.o
 
-syslex.o: syslex.c sysinfo.h
+syslex.o:
 	if [ -r syslex.c ]; then \
-	  $(CC_FOR_BUILD) -c -I. $(CFLAGS)  syslex.c  ; \
+	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(CFLAGS)  syslex.c  ; \
 	else \
-	  $(CC_FOR_BUILD) -c -I. -I$(srcdir) $(CFLAGS) $(srcdir)/syslex.c ;\
+	  $(CC_FOR_BUILD) -c -I. -I$(srcdir) $(AM_CFLAGS) $(CFLAGS) $(srcdir)/syslex.c ;\
 	fi
 
-sysinfo.o: sysinfo.c
+sysinfo.o:
 	if [ -r sysinfo.c ]; then \
-	  $(CC_FOR_BUILD) -c -I. $(CFLAGS)  sysinfo.c  ; \
+	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(CFLAGS)  sysinfo.c  ; \
 	else \
-	  $(CC_FOR_BUILD) -c -I. $(CFLAGS) $(srcdir)/sysinfo.c ; \
+	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(CFLAGS) $(srcdir)/sysinfo.c ; \
 	fi
 
 # We need these for parallel make.
@@ -189,10 +189,10 @@ srconv_SOURCES = srconv.c coffgrok.c $(BULIBS)
 dlltool_SOURCES = dlltool.c defparse.y deflex.l $(BULIBS)
 dlltool_LDADD = $(BFDLIB) $(LIBIBERTY) @LEXLIB@
 
-dlltool.o:dlltool.c
+dlltool.o:
 	$(COMPILE) -c $(DLLTOOL_DEFS) $(srcdir)/dlltool.c
 
-rescoff.o:rescoff.c
+rescoff.o:
 	$(COMPILE) -c $(DLLTOOL_DEFS) $(srcdir)/rescoff.c
 
 coffdump_SOURCES = coffdump.c coffgrok.c $(BULIBS)
@@ -493,11 +493,10 @@ sysdump.o: sysdump.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
 version.o: version.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h ../bfd/bfdver.h bucomm.h config.h \
   $(INCDIR)/bin-bugs.h $(INCDIR)/fopen-same.h
-windres.o: windres.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
-  $(INCDIR)/symcat.h $(INCDIR)/getopt.h bucomm.h config.h \
-  $(INCDIR)/bin-bugs.h $(INCDIR)/fopen-same.h $(INCDIR)/libiberty.h \
-  $(INCDIR)/safe-ctype.h $(INCDIR)/obstack.h windres.h \
-  winduni.h
+windres.o: windres.c config.h ../bfd/bfd.h $(INCDIR)/ansidecl.h \
+  $(INCDIR)/symcat.h bucomm.h $(INCDIR)/bin-bugs.h $(INCDIR)/fopen-same.h \
+  $(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h $(INCDIR)/obstack.h \
+  windres.h winduni.h
 winduni.o: winduni.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h bucomm.h config.h $(INCDIR)/bin-bugs.h \
   $(INCDIR)/fopen-same.h winduni.h $(INCDIR)/safe-ctype.h
@@ -513,7 +512,7 @@ arlex.o: arlex.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
   arparse.h
 sysroff.o: sysroff.c
 sysinfo.o: sysinfo.c
-syslex.o: syslex.c sysinfo.h
+syslex.o: syslex.c config.h sysinfo.h
 defparse.o: defparse.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h bucomm.h config.h $(INCDIR)/bin-bugs.h \
   $(INCDIR)/fopen-same.h dlltool.h

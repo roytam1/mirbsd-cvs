@@ -58,12 +58,6 @@
 #undef strerror
 extern char *strerror (int);
 
-#ifndef _TIME_H_
-#ifndef localtime
-extern struct tm *localtime ();
-#endif
-#endif
-
 #ifndef SEEK_SET
 #define SEEK_SET 0
 #endif
@@ -199,7 +193,7 @@ main (int argc, char **argv)
   bfd *sharedbfd;
   size_t shared_offset = 0;
   size_t shared_size = 0;
-  Nlm_Internal_Fixed_Header sharedhdr;
+  static Nlm_Internal_Fixed_Header sharedhdr;
   int len;
   char *modname;
   char **matching;
@@ -982,7 +976,7 @@ main (int argc, char **argv)
       for (l = modules; l != NULL; l = l->next)
 	{
 	  *set = strlen (l->string);
-	  strncpy (set + 1, l->string, *set);
+	  strncpy ((char *) set + 1, l->string, *set);
 	  set += *set + 1;
 	  ++c;
 	}
