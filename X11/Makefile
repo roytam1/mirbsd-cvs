@@ -1,9 +1,10 @@
-# $MirOS: X11/Makefile,v 1.2 2005/03/19 13:52:17 tg Exp $
+# $MirOS: X11/Makefile,v 1.3 2005/03/19 14:28:23 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
 
 SUBOBJDIR!=	readlink ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
+RELEASEDIR?=	${BSDRELDIR}/rel
 
 .if ${MACHINE} == i386
 XMACH=		ix86
@@ -14,158 +15,139 @@ BINDIST=	programs/Xserver/hw/xfree86/etc/bindist
 HOSTDEF=	xc/${BINDIST}/OpenBSD-${XMACH}/host.def
 CONFHOSTDEF=	xc/config/cf/host.def
 XCONFIG=	xc/${BINDIST}/OpenBSD-${XMACH}/XF86Config
+LOCALAPPX=	/usr/local/lib/X11
+LOCALAPPD=	${LOCALAPPX}/app-defaults
+REALAPPD=	/etc/X11/app-defaults
 
 DIROWN?=	root
 DIRGRP?=	wheel
 
-LOCALAPPD=	/usr/local/lib/X11/app-defaults
-LOCALAPPX=	/usr/local/lib/X11
-REALAPPD=	/etc/X11/app-defaults
-
+.if make(obj)
+SUBDIR=		extras
+.endif
 
 all: ${_STFILE_SUB}
-	cd ${.CURDIR} && ${_STCMD_SUB} ${MAKE} compile
+	cd ${.CURDIR} && exec ${_STCMD_SUB} ${MAKE} compile
 
-depend:
-	cd ${.OBJDIR}/xc && lndir ${.CURDIR}/xc
+build:
+	cd ${.CURDIR} && exec ${MAKE} all
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} fix-appd
+
+b-r: check-objdir
+	exec ${SHELL} ${.CURDIR}/build-release
 
 compile:
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
 .if ${MKC_USAP:L} != "yes"
 	echo '#define Freetype2BuildDefines	'\
-		'-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER' >>${CONFHOSTDEF}
+	    '-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER' >>${CONFHOSTDEF}
 .endif
-.if defined(NOFONTS)
+.if defined(NOFONTS) && ${NOFONTS:L} != "no"
 	echo "#define BuildFonts		NO" >>${CONFHOSTDEF}
 .endif
 	cd xc && exec ${MAKE} World \
 	    WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} COPTS=${COPTS:Q}" \
 	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}"
-	cd ${.CURDIR}/extras && ${MAKE} obj && ${MAKE} depend && exec ${MAKE}
+	cd ${.CURDIR}/extras && ${MAKE} depend && exec ${MAKE}
 
-build:
-	cd ${.CURDIR} && ${MAKE} compile
-	cd ${.CURDIR} && ${SUDO} ${MAKE} install
-	cd ${.CURDIR} && ${SUDO} ${MAKE} fix-appd
+install:
+	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
+	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
+	cd ${.CURDIR} && exec ${_STCMD_DEST} ${MAKE} do-install
+	sleep 1; rm ${_STFILE_DEST}
 
-release: release-clean release-mkdir release-install fix-appd dist
+do-install:
+	cd xc && ${MAKE} install CC="${CC}" && exec ${MAKE} install.man
+	cd xc/programs/rstart && ${MAKE} install CC="${CC}" \
+	    && exec ${MAKE} install.man
+	cd ${.CURDIR}/extras && exec ${MAKE} install
+	/usr/libexec/makewhatis ${DESTDIR}/usr/X11R6/man
+	chown root:wheel ${DESTDIR}/usr/X11R6/man/whatis.db
 
-release-clean:
-.if ! ( defined(DESTDIR) && defined(RELEASEDIR) )
-	@echo You must set DESTDIR and RELEASEDIR for a release.; exit 255
-.endif
-	rm -rf ${DESTDIR}/usr/X11R6/* ${DESTDIR}/usr/X11R6/.[a-zA-Z0-9]*
-	rm -rf ${DESTDIR}/var/X11/*
-	rm -rf ${DESTDIR}/etc/X11/*
-	rm -rf ${DESTDIR}/etc/fonts/*
-	@if [[ -d ${DESTDIR}/usr/X11R6 ]]; then \
-		d="$$(cd ${DESTDIR}/usr/X11R6; ls)"; \
-		if [[ -n $$d ]]; then \
-			print Files found in ${DESTDIR}/usr/X11R6:; \
-			(cd ${DESTDIR}/usr/X11R6; pwd; ls -a); \
-			print Cleanup before proceeding.; \
-			exit 255; \
+fix-appd:
+	# Make sure ${LOCALAPPD} is a symbolic link
+	if [[ ! -L ${DESTDIR}${LOCALAPPD} ]]; then \
+		if [[ -d ${DESTDIR}${LOCALAPPD} ]]; then \
+			mv ${DESTDIR}${LOCALAPPD}/* ${DESTDIR}${REALAPPD}/ \
+			    || true; \
+			rmdir ${DESTDIR}${LOCALAPPD}; \
 		fi; \
+		mkdir -p ${DESTDIR}${LOCALAPPX}; \
+		ln -s ${REALAPPD} ${DESTDIR}${LOCALAPPD}; \
 	fi
 
-release-mkdir:
-	@${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
-		${DESTDIR}/usr/X11R6 ${DESTDIR}/etc/X11 \
-		${DESTDIR}/usr/local/lib/X11 \
-		${DESTDIR}/usr/X11R6/man \
-		${DESTDIR}/usr/X11R6/man/cat1
-	@cd ${.CURDIR} && ${MAKE} perms
+clean: ${_STFILE_SUB}
+	cd xc && exec ${_STCMD_SUB} ${MAKE} clean
 
-release-install:
-	@cd ${.CURDIR} && ${MAKE} install
-.if ${MACHINE} == "macppc" || ${MACHINE} == "sparc"
-	@if [[ -f $(DESTDIR)/etc/X11/XF86Config ]]; then \
-		echo "Not overwriting existing $(DESTDIR)/etc/X11/XF86Config"; \
-	  else \
-		set -x; \
-		${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
-		    ${XCONFIG} ${DESTDIR}/etc/X11/XF86Config; \
-	fi
-.endif
-	@cd ${.CURDIR} && ${MAKE} fix-appd
+distclean:
+	cd ${.CURDIR} && exec ${MAKE} clean
+	sleep 1; rm -f ${_STFILE_SUB} xc/xmakefile
 
-PERMDIRS=	/ /usr /usr/X11R6 /etc /etc/X11 /usr/local \
-		/usr/local/lib /usr/local/lib/X11
 perms:
-.for _dir in ${PERMDIRS}
-	chown ${DIROWN}:${DIRGRP} ${DESTDIR}${_dir}/.
+.for _i in / /etc /etc/X11 /usr/X11R6 /usr/local /usr/local/lib \
+    /usr/local/lib/X11
+	chown ${DIROWN}:${DIRGRP} ${DESTDIR}${_i}/.
 .endfor
-	find ${DESTDIR}/usr/X11R6/. ${DESTDIR}/etc/. ${DESTDIR}/usr/local/. \
-		-type d \
-		\( \! -user ${DIROWN} -o \! -group ${DIRGRP} \) \
-		-ls
-	find ${DESTDIR}/usr/X11R6/. ${DESTDIR}/etc/. \
-		-type f \
-		\( \! -user ${BINOWN} -o \! -group wheel \) \
-		-ls
+	find ${DESTDIR}/etc/. ${DESTDIR}/usr/X11R6/. ${DESTDIR}/usr/local/. \
+	    -type d \( \! -user ${DIROWN} -o \! -group ${DIRGRP} \) -ls
+	find ${DESTDIR}/etc/. ${DESTDIR}/usr/X11R6/. \
+	    -type f \( \! -user ${BINOWN} -o \! -group wheel \) -ls
 
 dist:
-	cd ${.CURDIR} && ${MAKE} perms
+	cd ${.CURDIR} && exec ${MAKE} perms
 	@echo "============================================================"
 	@echo "Checking files:"
 	@echo ""
 	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
+	    DESTDIR="${DESTDIR}" RELEASEDIR="${RELEASEDIR}" \
 	    ${SHELL} ${BSDSRCDIR}/scripts/tarck
 	@echo "============================================================"
 .ifdef WAIT_CHECKFLIST
 	@read a?'Press Return to continue...'
 .endif
 	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
+	    DESTDIR="${DESTDIR}" RELEASEDIR="${RELEASEDIR}" \
 	    ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 
-install: install-xc install-extra
-	/usr/libexec/makewhatis ${DESTDIR}/usr/X11R6/man
-	chown root:wheel ${DESTDIR}/usr/X11R6/man/whatis.db
+release:
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} do-rel DESTDIR=${BSDRELDIR}/x11
 
-install-xc:
-	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
-	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
-	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk make
-	cd xc \
-	    && ${_STCMD_DEST} ${MAKE} install CC="${CC}" \
-	    && ${_STCMD_DEST} ${MAKE} install.man
-	cd xc/programs/rstart \
-	    && ${_STCMD_DEST} ${MAKE} install \
-	    && ${_STCMD_DEST} ${MAKE} install.man
-	sleep 1; rm -f ${_STFILE_DEST}
+do-release:
+	mkdir -p ${DESTDIR} ${RELEASEDIR}
+	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
+	    ${DESTDIR}/etc/X11 ${DESTDIR}/usr/X11R6/man/cat1 \
+	    ${DESTDIR}/usr/local/lib/X11
+	cd ${.CURDIR} && exec ${MAKE} install
+.if (${MACHINE} == "macppc") || (${MACHINE} == "sparc")
+	@if [[ -f ${DESTDIR}/etc/X11/XF86Config ]]; then \
+		print Not overwriting existing ${DESTDIR}/etc/X11/XF86Config; \
+	else \
+		print ${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+		    ${XCONFIG} ${DESTDIR}/etc/X11/XF86Config; \
+		${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+		    ${XCONFIG} ${DESTDIR}/etc/X11/XF86Config; \
+	fi
+.endif
+	cd ${.CURDIR} && exec ${MAKE} fix-appd
+	cd ${.CURDIR} && exec ${MAKE} dist
 
-install-extra:
-	cd ${.CURDIR}/extras && exec ${MAKE} install
+${_STFILE_SUB}: check-objdir
+	cd ${SUBOBJDIR} && env WRITEDIR="${SUBOBJDIR}" \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
-fix-appd:
-	# Make sure /usr/local/lib/X11/app-defaults is a link
-	if [[ ! -L $(DESTDIR)${LOCALAPPD} ]]; then \
-	    if [[ -d $(DESTDIR)${LOCALAPPD} ]]; then \
-		mv $(DESTDIR)${LOCALAPPD}/* $(DESTDIR)${REALAPPD} || true; \
-		rmdir $(DESTDIR)${LOCALAPPD}; \
-	    fi; \
-	    mkdir -p ${DESTDIR}${LOCALAPPX}; \
-	    ln -s ${REALAPPD} ${DESTDIR}${LOCALAPPD}; \
+check-objdir:
+	@if [[ -e obj || -e Makefile || ! -h xc ]]; then \
+		print "Error: you must make obj first."; \
+		exit 1; \
+	fi
+	@if [[ ! -e xc ]]; then \
+		(cd ${.OBJDIR}/xc && lndir ${.CURDIR}/xc); \
 	fi
 
-clean: ${_STFILE_SUB}
-	cd xc && ${_STCMD_SUB} ${MAKE} clean
-
-distclean:
-	cd ${.CURDIR} && ${MAKE} clean
-	@sleep 1
-	rm -f xc/xmakefile ${_STFILE_SUB}
-
-b-r:
-	@echo ${SHELL} ${.CURDIR}/build-release
-	@exec ${SHELL} ${.CURDIR}/build-release
-
-${_STFILE_SUB}:
-	cd ${SUBOBJDIR} && env WRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
-	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk make
-
-.PHONY:	all build release dist install install-xc install-extra clean \
-	distclean fix-appd b-r release-clean release-mkdir release-install
+.PHONY: all b-r build check-objdir clean compile dist distclean \
+	do-install do-rel fix-appd install perms release
 
 .include <bsd.obj.mk>
