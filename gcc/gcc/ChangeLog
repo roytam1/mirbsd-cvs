@@ -1,3 +1,50 @@
+2005-03-25  John David Anglin  <dave.anglin@nrc-crnc.gc.ca>
+
+	PR target/15491
+        * vax.c (vax_rtx_costs_1): Merge with vax_rtx_costs.
+	(vax_rtx_costs): Return false when passed unsupported rtx's.  Handle
+	FLOAT_EXTEND, FLOAT_TRUNCATE and TRUNCATE.  Fix costs for POST_INC,
+	PRE_DEC, NEG and NOT.
+
+2005-03-23  Uros Bizjak  <uros@kss-loka.si>
+	
+	* simplify-rtx.c (simplify_unary_operation) <NOT>: Add missing break
+	in code that deals with logicals on floats.
+
+2005-03-22  Uros Bizjak  <uros@kss-loka.si>
+
+	PR target/14981
+	Backport from mainline
+	2004-02-18  Jan Hubicka  <jh@suse.cz>
+	* simplify-rtx.c (simplify_unary_operation): Deal with logicals on
+	floats.
+	(simplify_binary_operation): Deal with logicals on floats.
+	* i386.md (SSE fabs splitters): Emit new patterns.
+	(SSE cmov splitters): Likewise.
+	(sse_andv4sf3, sse_nandv4sf3, sse_iorv4sf3, sse_xorv4sf3
+	(sse_andv2df3, sse_nandv2df3, sse_iorv2df3, sse_xorv2df3): Do not use
+	subregs.
+	(sse_andsf3, sse_nandsf3, sse_xorsf3): Kill.
+	(sse_anddf3, sse_nanddf3, sse_xordf3): Kill.
+
+2005-03-20  Marek Michalkiewicz  <marekm@amelek.gda.pl>
+
+	PR target/18551
+	* config/avr/avr.c (avr_output_function_prologue): Do not use
+	current_function_name() in a label, use a local label instead.
+
+2005-03-19  Joseph S. Myers  <joseph@codesourcery.com>
+
+	* c.opt (ansi, std=iso9899:1990, std=iso9899:1999,
+	std=iso9899:199x): Correct descriptions.
+
+2005-03-19  Andy Hutchinson  <HutchinsonAndy@netscape.net>
+
+	PR target/18251
+	* config/avr/avr.md (movstrhi): Rewrite as RTL loop.
+	(*movstrqi_insn): Delete.
+	(*movstrhi): Delete.
+
 2005-03-17  Richard Sandiford  <rsandifo@redhat.com>
 
 	PR rtl-optimization/19683
