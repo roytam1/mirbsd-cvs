@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/less/less/Makefile,v 1.1 2005/03/13 18:56:34 tg Exp $
 
 PROG=		less
 SRCS=		brac.c ch.c charset.c cmdbuf.c command.c decode.c edit.c \
@@ -15,6 +15,6 @@ MLINKS=		less.1 more.1 \
 
 afterinstall:
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${TOP}/less.hlp ${HELPFILE}
+	    ${TOP}/less.hlp ${DESTDIR}${HELPFILE}
 
 .include <bsd.prog.mk>
