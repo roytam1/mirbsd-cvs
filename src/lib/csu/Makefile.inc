@@ -1,0 +1,8 @@
+# $MirOS$
+
+.ifndef _MODSRC_LIB_CSU_MAKEFILE_INC
+_MODSRC_LIB_CSU_MAKEFILE_INC=1
+
+CFLAGS+= -Wall
+
+.endif
