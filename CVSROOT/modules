@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: CVSROOT/modules,v 1.2 2005/02/04 23:43:43 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -39,7 +39,6 @@ ksrc-sparc	-a src/sys/arch/sparc
 bin		-a src/bin
 distrib		-a src/distrib
 etc		-a src/etc
-gcc		-a gcc
 gnu		-a src/gnu
 include		-a src/include
 lib		-a src/lib
@@ -50,5 +49,4 @@ share		-a src/share
 sys		src/sys
 usr.bin		-a src/usr.bin
 usr.sbin	-a src/usr.sbin
-www		-a www
 x11		-a X11
