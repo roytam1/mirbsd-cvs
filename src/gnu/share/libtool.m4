@@ -1,9 +1,10 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.17 2005/02/11 02:02:42 tg Exp $
-# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.17 2005/02/11 02:02:42 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.21 2005/03/06 22:00:42 tg Exp $
+# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.21 2005/03/06 22:00:42 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
+## MirLibtool contributed by Thorsten Glaser <tg@66h.42h.de> for the MirOS Prj.
 ##
 ## This file is free software; the Free Software Foundation gives
 ## unlimited permission to copy and/or distribute it, with or without
@@ -16,22 +17,16 @@ dnl Enable overwriting autoconf'd functions without aclocal bringing them in
 dnl ------------------------------------------------------------------------
 builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 
-dnl Support using MirLibtool with Autoconf 2.13
-dnl -------------------------------------------
+dnl Support using MirLibtool with Autoconf 2.13 and 2.59
+dnl ----------------------------------------------------
 ifdef([m4_PACKAGE_VERSION], [], [sinclude([m4salt.inc])])dnl
-
-dnl Support using MirLibtool with Autoconf 2.59
-dnl -------------------------------------------
 ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
 [dnl Autoconf 2.13
 dnl  =============
 
-builtin([undefine], [AC_PROG_F77])dnl
-NOACLOCAL_DEFUN([AC_PROG_F77],
-[dnl No Fortran 77 with autoconf-2.13 and MirLibtool
-])dnl
-
-dnl This is from Autoconf 2.59
+dnl This is originally from Autoconf 2.59
+dnl but modified due to us not having autom4te
+dnl
 # AC_HELP_STRING(LHS, RHS, [COLUMN])
 # ----------------------------------
 #
@@ -85,6 +80,9 @@ m4_text_wrap(MIRLIBTOOL_unquote([$2]), AS_Prefix, MIRLIBTOOL_unquote([  $1]AS_Pa
 m4_popdef([AS_Prefix])dnl
 ])
 
+dnl This is from Autoconf 2.13
+dnl but with s/[$1]/$1/ to allow calling
+dnl
 builtin([undefine], [AC_DIVERT_HELP])dnl
 define(AC_DIVERT_HELP,
 [AC_DIVERT_PUSH(AC_DIVERSION_HELP)dnl
@@ -105,7 +103,9 @@ dnl  ====================== ------
 [dnl Autoconf 2.5x
 dnl  =============
 
-dnl This function was originally copied from Autoconf 2.59
+dnl This is originally from Autoconf 2.59
+dnl but modified to find our cpp
+dnl
 # AC_PROG_CXXCPP
 # --------------
 # Find a working C++ preprocessor.
@@ -163,8 +163,7 @@ m4_ifdef([AC_PROVIDE_IFELSE],
 AC_DEFUN([AC_PROG_LIBTOOL],
 [AC_REQUIRE([_AC_PROG_LIBTOOL])dnl
 dnl If AC_PROG_CXX has already been expanded, run AC_LIBTOOL_CXX
-dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX
-dnl and replace AC_PROG_CXX by a more forgiving variant.
+dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX.
   AC_PROVIDE_IFELSE([AC_PROG_CXX],
     [AC_LIBTOOL_CXX],
     [define([AC_PROG_CXX], defn([AC_PROG_CXX])[AC_LIBTOOL_CXX
@@ -2582,7 +2581,9 @@ AC_DEFUN([AC_LIBTOOL_CXX],
 # _LT_AC_LANG_CXX
 # ---------------
 AC_DEFUN([_LT_AC_LANG_CXX],
-[AC_REQUIRE([AC_PROG_CXX])
+[pushdef([AC_MSG_ERROR], [CXX=false])
+AC_REQUIRE([AC_PROG_CXX])
+popdef([AC_MSG_ERROR])
 AC_REQUIRE([_LT_AC_PROG_CXXCPP])
 _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}CXX])
 ])# _LT_AC_LANG_CXX
@@ -2590,9 +2591,11 @@ _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}CXX])
 # _LT_AC_PROG_CXXCPP
 # ---------------
 AC_DEFUN([_LT_AC_PROG_CXXCPP],
-[
+[pushdef([AC_MSG_ERROR], [CXX=false])
 AC_REQUIRE([AC_PROG_CXX])
+popdef([AC_MSG_ERROR])
 if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
+    test x"$CXX" != x"false" &&
     ( (test "X$CXX" = "Xg++" && $(g++ -v >/dev/null 2>&1) ) ||
     (test "X$CXX" != "Xg++"))) ; then
   AC_PROG_CXXCPP
@@ -2610,7 +2613,9 @@ AC_DEFUN([AC_LIBTOOL_F77],
 # _LT_AC_LANG_F77
 # ---------------
 AC_DEFUN([_LT_AC_LANG_F77],
-[AC_REQUIRE([AC_PROG_F77])
+[pushdef([AC_MSG_ERROR], [F77=false])
+AC_REQUIRE([AC_PROG_F77])
+popdef([AC_MSG_ERROR])
 _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}F77])
 ])# _LT_AC_LANG_F77
 
@@ -2761,7 +2766,9 @@ CC="$lt_save_CC"
 AC_DEFUN([AC_LIBTOOL_LANG_CXX_CONFIG], [_LT_AC_LANG_CXX_CONFIG(CXX)])
 AC_DEFUN([_LT_AC_LANG_CXX_CONFIG],
 [AC_LANG_PUSH(C++)
+pushdef([AC_MSG_ERROR], [CXX=false])
 AC_REQUIRE([AC_PROG_CXX])
+popdef([AC_MSG_ERROR])
 AC_REQUIRE([_LT_AC_PROG_CXXCPP])
 
 _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
@@ -3854,7 +3861,9 @@ esac
 # AC_LIBTOOL_CONFIG to write the compiler configuration to 'libtool'.
 AC_DEFUN([AC_LIBTOOL_LANG_F77_CONFIG], [_LT_AC_LANG_F77_CONFIG(F77)])
 AC_DEFUN([_LT_AC_LANG_F77_CONFIG],
-[AC_REQUIRE([AC_PROG_F77])
+[pushdef([AC_MSG_ERROR], [F77=false])
+AC_REQUIRE([AC_PROG_F77])
+popdef([AC_MSG_ERROR])
 AC_LANG_PUSH(Fortran 77)
 
 _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no

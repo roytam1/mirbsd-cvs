@@ -1,5 +1,5 @@
-# $MirOS: contrib/gnu/automake/lib/config-ml.in,v 1.2 2005/02/05 02:28:19 tg Exp $
-# _MirOS: contrib/gnu/automake/lib/config-ml.in,v 1.2 2005/02/05 02:28:19 tg Exp $
+# $MirOS: contrib/gnu/automake/lib/config-ml.in,v 1.3 2005/03/13 16:35:24 tg Exp $
+# _MirOS: contrib/gnu/automake/lib/config-ml.in,v 1.3 2005/03/13 16:35:24 tg Exp $
 # Configure fragment invoked in the post-target section for subdirs
 # wanting multilib support.
 #
@@ -110,6 +110,11 @@ ml_realsrcdir=${srcdir}
 ml_verbose=--verbose
 for option in ${ac_configure_args}
 do
+  # strip single quotes surrounding individual options
+  case $option in
+  \'*\') eval option=$option ;;
+  esac
+
   case $option in
   --*) ;;
   -*) option=-$option ;;

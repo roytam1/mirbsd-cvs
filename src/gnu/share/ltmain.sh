@@ -1,12 +1,13 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.4 2005/02/10 22:04:56 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.4 2005/02/10 22:04:56 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.9 2005/02/10 22:03:25 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.7 2005/03/06 22:03:32 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.7 2005/03/06 22:03:32 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.12 2005/03/06 22:00:43 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 # Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
+# MirLibtool contributed by Thorsten Glaser <tg@66h.42h.de> for the MirOS Proj.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,8 +47,8 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.5.12
-TIMESTAMP=" (MirLibtool-1.5 2005/02/10 22:04:13)"
+VERSION=1.5.14
+TIMESTAMP=" (MirLibtool-1.5 2005/03/06 22:03:00)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -441,7 +442,7 @@ do
   --version)
     $echo "$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP"
     $echo
-    $echo "Copyright (C) 2003  Free Software Foundation, Inc."
+    $echo "Copyright (C) 2005  Free Software Foundation, Inc."
     $echo "This is free software; see the source for copying conditions.  There is NO"
     $echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     exit $?
@@ -1528,6 +1529,8 @@ EOF
 
      -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe)
 	compiler_flags="$compiler_flags $arg"
+	compile_command="$compile_command $arg"
+	finalize_command="$finalize_command $arg"
 	continue
 	;;
 
@@ -2017,6 +2020,9 @@ EOF
 	    finalize_deplibs="$deplib $finalize_deplibs"
 	  else
 	    compiler_flags="$compiler_flags $deplib"
+	    if test "X$deplib" = "X-pthread"; then
+	      deplibs="$deplibs $deplib"
+	    fi
 	  fi
 	  continue
 	  ;;
