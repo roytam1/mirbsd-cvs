@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: nd6.c,v 1.65 2003/06/27 22:47:32 itojun Exp $	*/
 /*	$KAME: nd6.c,v 1.280 2002/06/08 19:52:07 itojun Exp $	*/
 
