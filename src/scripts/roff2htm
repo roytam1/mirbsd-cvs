@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/scripts/roff2htm,v 1.1 2005/03/03 16:44:00 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.2 2005/03/03 16:49:33 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -180,6 +180,7 @@ convert_all()
 
 	for x in $(jot 9 1); do
 		mkdir -p $tp/man$x	# one per section
+		print DirectoryIndex /dev/null >$tp/man$x/.htaccess
 	done
 	find ${1:-/usr/share/man}/cat* -name \*.0 | while read f; do
 		do_convert_page $f $tp	# any subpages
