@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS$
+# $MirOS: contrib/gnu/libtool/Makefile.am,v 1.4 2005/02/10 19:51:47 tg Exp $
 
 AUTOMAKE_OPTIONS = 1.3e gnu
 
@@ -18,8 +18,8 @@ FLIBS = @FLIBS@
 
 aclocal_macros = libtool.m4
 
-EXTRA_DIST = $(aclocal_macros) bootstrap libtoolize.in ltmain.in
-CLEANFILES = libtool libtoolize ltmain.shT
+EXTRA_DIST = $(aclocal_macros) bootstrap ltmain.in #libtoolize.in
+CLEANFILES = libtool ltmain.shT #libtoolize
 
 # These are required by libtoolize and must be executable when installed.
 # Since _SCRIPTS gets the program transform applied we make them
@@ -27,7 +27,7 @@ CLEANFILES = libtool libtoolize ltmain.shT
 pkgdata_DATA = config.guess config.sub install-sh ltmain.sh
 
 # The standalone libtool script, and the libtool distributor.
-bin_SCRIPTS = libtool libtoolize
+bin_SCRIPTS = libtool #libtoolize
 
 libtool: $(srcdir)/ltmain.sh $(top_builddir)/configure.ac
 	$(SHELL) $(top_builddir)/config.status --recheck
