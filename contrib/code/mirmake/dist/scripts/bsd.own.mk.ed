@@ -1,0 +1,12 @@
+0a
+# $MirOS$
+.
+/^# Calculate machine capabilities/;/^BINGRP?=/-1d
+-i
+WARNINGS?=		No
+DEBUGLIBS?=		No
+BSDSRCDIR?=		/usr/src
+BSDOBJDIR?=		/usr/obj
+.
+/nrcon/s//nroff/
+wq
