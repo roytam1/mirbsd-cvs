@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/include/Makefile,v 1.2 2005/03/06 19:13:40 tg Exp $
 # $OpenBSD: Makefile,v 1.126 2004/05/17 22:11:32 drahn Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -36,7 +36,7 @@ RDIRS=	../lib/libcdk ../lib/libcompat ../lib/libcurses ../lib/libedit \
 	../lib/libmenu ../lib/libocurses ../lib/libossaudio ../lib/libpanel \
 	../lib/libpcap ../lib/libpng ../lib/libpthread ../lib/librpcsvc \
 	../lib/libsectok ../lib/libskey ../lib/libssl ../lib/libusbhid \
-	../lib/libutil ../lib/libwrap ../lib/libz \
+	../lib/libutil ../lib/libz \
 	../usr.bin/lex ../gnu/usr.sbin/sendmail \
 	../sys/arch/${MACHINE}
 
