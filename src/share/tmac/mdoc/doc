@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.6 2005/03/15 16:23:23 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.7 2005/03/15 16:26:17 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2005
@@ -2305,6 +2305,7 @@
 .nr tY 1
 .\" NS Xr macro - cross reference (man page only)
 .de Xr
+.nh
 .if \\n(aC==0 \{\
 .	ie \\n(.$==0 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c)
 .	el \{\
@@ -2334,6 +2335,7 @@
 .		\}
 .       \}
 .\}
+.hy
 ..
 .\" NS Sx macro - cross section reference
 .de Sx
