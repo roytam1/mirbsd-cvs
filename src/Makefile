@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.11 2005/03/29 17:02:29 tg Exp $
+# $MirOS: src/Makefile,v 1.12 2005/03/29 17:33:27 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -105,15 +105,16 @@ contrelease:
 	@echo ============================================================
 
 do-htman:
+	-rm -rf ${BSDOBJDIR}/htman
 	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
-.for _set _dir in x11 share x11 X11R6 gcc share base share
+.for _set _dir in x11 X11R6 gcc share base share
 	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man \
 	    && find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .endfor
 .for _doc in papers psd smm usd
 	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
 	cd ${BSDOBJDIR}/htman/papers/${_doc} \
-	    && lndir ${BSDOBJDIR}/base/usr/share/doc/${_doc} \
+	    && lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} \
 	    && ${MAKE}
 .endfor
 	BSDOBJDIR="${BSDOBJDIR}" BSDRELDIR="${BSDRELDIR}" \
