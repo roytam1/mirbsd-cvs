@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.12 2005/02/13 03:44:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.13 2005/02/13 23:16:46 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2302,4 +2302,13 @@
  gmane jumps in again &ndash; it's funny that most mailing lists are gated
  there, most even bi-directionally. I sent out a posting and now idle here
  waiting for the answer. Good night!</p>
+<p>14.02.2005 by tg@<br />After work I went into the Netzladen, giving the
+ visitors CAcert points and finishing the PostgreSQL 8 port. It's a weirdo
+ bringing its own timezone data, but it looks like it's wanted that way. I
+ just hope their ohlson-libtz variant correctly handles our native time_t,
+ varying between 32 and 64 bits. They use an internal pg_time_t of 64 bit,
+ though. Time to sync the INDEX.<br />I've made a <tt>#machackers</tt> IRC
+ channel for them @ <tt>irc6.oftc.net:6667</tt> so they can't throw me out
+ of the Netzladen tonight ;) Greets to Anglo, Scotty&trade;, ane and johl;
+ be sure to visit the channel.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
