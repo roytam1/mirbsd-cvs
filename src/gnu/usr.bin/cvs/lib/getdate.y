@@ -1,5 +1,5 @@
 %{
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.2 2005/03/13 15:50:35 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
    Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
@@ -111,6 +111,12 @@ xmemdup(void const *p, size_t s)
 #ifndef ATTRIBUTE_UNUSED
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
+
+#ifndef __RCSID
+# define __RCSID(x) static const char __rcsid[] ATTRIBUTE_UNUSED = (x)
+#endif
+
+__RCSID("$MirOS$");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
