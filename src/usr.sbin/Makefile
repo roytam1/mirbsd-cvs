@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/Makefile,v 1.2 2005/03/13 19:16:11 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -21,7 +21,9 @@
   SUBDIR+= dhcpd
   SUBDIR+= dhcrelay
   SUBDIR+= edquota
+.if ${MACHINE} == "sparc"
   SUBDIR+= eeprom
+.endif
   SUBDIR+= extattrctl
   SUBDIR+= faithd
 .if ${CROSS_MODE:L} != "yes"
