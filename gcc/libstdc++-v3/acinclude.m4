@@ -1,3 +1,4 @@
+dnl $MirOS$
 
 dnl
 dnl GLIBCXX_CONDITIONAL (NAME, SHELL-TEST)
@@ -1750,7 +1751,7 @@ AC_DEFUN([AC_LC_MESSAGES], [
 ])
 
 
-sinclude([../libtool.m4])
+sinclude([libtool.m4])
 dnl The lines below arrange for aclocal not to bring an installed
 dnl libtool.m4 into aclocal.m4, while still arranging for automake to
 dnl add a definition of LIBTOOL to Makefile.in.

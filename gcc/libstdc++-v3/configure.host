@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # configure.host
 #
 # This shell script handles all host based configuration for libstdc++.
@@ -180,6 +182,9 @@ case "${host_os}" in
     ;;
   mingw32*)
     os_include_dir="os/mingw32"
+    ;;
+  mirbsd*)
+    os_include_dir="os/bsd/netbsd"
     ;;
   netbsd*)
     os_include_dir="os/bsd/netbsd"
