@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.5 2002/02/17 22:25:24 brad Exp $
-@lib lib/libxml.so.9.17

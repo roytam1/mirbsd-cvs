@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.5 2003/09/23 23:08:44 jolan Exp $
-lib/expect5.39/pkgIndex.tcl
-@lib lib/libexpect539.so.1.2
