@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.14 2005/02/10 21:03:31 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.15 2005/02/10 21:37:17 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1750,7 +1750,7 @@ if test -f "$ltmain" && test -n "$tagnames"; then
 
   # Extract list of available tagged configurations in $ofile.
   # Note that this assumes the entire list is on one line.
-  available_tags=$(grep "^available_tags=" "${ofile}" | $SED -e 's/available_tags=\(.*$\)/\1/' -e 's/\"//g')
+  available_tags=$(grep "^available_tags=" "${ofile}" | $SED -e 's/available_tags=\(.*$\)/\1/' -e 's/"//g')
 
   lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
   for tagname in $tagnames; do
@@ -2011,7 +2011,7 @@ dnl not every word.  This closes a longstanding sh security hole.
       if test -n "$file_magic_test_file"; then
 	case $deplibs_check_method in
 	"file_magic "*)
-	  file_magic_regex="$(expr \"$deplibs_check_method\" : \"file_magic \(.*\)\")"
+	  file_magic_regex="$(expr "$deplibs_check_method" : "file_magic \(.*\)")"
 	  MAGIC_CMD="$lt_cv_path_MAGIC_CMD"
 	  if eval $file_magic_cmd \$file_magic_test_file 2> /dev/null |
 	    $EGREP "$file_magic_regex" > /dev/null; then
@@ -3697,7 +3697,7 @@ if AC_TRY_EVAL(ac_compile); then
   # The '*' in the case matches for architectures that use 'case' in
   # $output_verbose_cmd can trigger glob expansion during the loop
   # eval without this substitution.
-  output_verbose_link_cmd="$($echo \"X$output_verbose_link_cmd\" | $Xsed -e \"$no_glob_subst\")"
+  output_verbose_link_cmd="$($echo "X$output_verbose_link_cmd" | $Xsed -e "$no_glob_subst")"
 
   for p in $(eval $output_verbose_link_cmd); do
     case $p in
@@ -4051,10 +4051,10 @@ if test -f "$ltmain"; then
     old_postinstall_cmds | old_postuninstall_cmds | \
     sys_lib_search_path_spec | sys_lib_dlsearch_path_spec)
       # Double-quote double-evaled strings.
-      eval "lt_$var=\\\"\$\(\$echo \"X\$$var\" | \$Xsed -e \"\$double_quote_subst\" -e \"\$sed_quote_subst\" -e \"\$delay_variable_subst\"\)\\\""
+      eval "lt_$var=\\\"\$(\$echo "X\$$var" | \$Xsed -e "\$double_quote_subst" -e "\$sed_quote_subst" -e "\$delay_variable_subst")\\\""
       ;;
     *)
-      eval "lt_$var=\\\"\$\(\$echo \"X\$$var\" | \$Xsed -e \"\$sed_quote_subst\"\)\\\""
+      eval "lt_$var=\\\"\$(\$echo "X\$$var" | \$Xsed -e "\$sed_quote_subst")\\\""
       ;;
     esac
   done
