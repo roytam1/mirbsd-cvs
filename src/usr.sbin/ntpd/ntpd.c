@@ -1,8 +1,8 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.2 2005/03/13 19:17:10 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.27 2004/12/22 16:04:11 henning Exp $ */
 
-/*
- * Copyright (c) 2004
+/*-
+ * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
@@ -36,7 +36,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.2 2005/03/13 19:17:10 tg Exp $");
 
 void	sighdlr(int);
 void	usage(void);
@@ -94,7 +94,6 @@ main(int argc, char *argv[])
 
 	bzero(&conf, sizeof(conf));
 
-	(void) tai_leaps();	/* initialise leap second table early */
 	srand((double)arc4random() / (((double)(0xFFFFFFFFUL)) / RAND_MAX));
 
 	log_init(1);		/* log to stderr until daemonized */
