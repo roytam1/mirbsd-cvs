@@ -1,7 +1,3 @@
-#ifndef lint
-static char sccsid[] = "@(#)cpp.c	1.22 11/7/90";
-#endif lint
-
 #ifdef FLEXNAMES
 #define	NCPS	128
 #else
@@ -10,8 +6,12 @@ static char sccsid[] = "@(#)cpp.c	1.22 11/7/90";
 
 #include <sys/param.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
-#include "pathnames.h"
+#include <paths.h>
+
+__SCCSID("@(#)cpp.c	1.22 11/7/90");
+__RCSID("$MirOS$");
 
 /* C command
 /* written by John F. Reiser
@@ -115,8 +115,6 @@ char *ptrtab;
 char buffer[NCPS+BUFSIZ+BUFSIZ+NCPS];
 
 char	*lastcopy;
-
-char *malloc(), *realloc();
 
 # define DROP 0xFE	/* special character not legal ASCII or EBCDIC */
 # define WARN DROP
@@ -601,18 +599,18 @@ doincl(p) register char *p; {
 # else
 			filname[0]=='/' 
 # endif
-				|| **dirp=='\0') strcpy(nfil,filname);
+				|| **dirp=='\0') strlcpy(nfil,filname,BUFSIZ);
 		else {
-			strcpy(nfil,*dirp);
+			strlcpy(nfil,*dirp,BUFSIZ);
 # if unix || gcos
-			strcat(nfil,"/");
+			strlcat(nfil,"/",BUFSIZ);
 # endif
 #ifdef ibm
 #ifndef gimpel
-			strcat(nfil,".");
+			strlcat(nfil,".",BUFSIZ);
 #endif
 #endif
-			strcat(nfil,filname);
+			strlcat(nfil,filname,BUFSIZ);
 		}
 		if (0<(fins[ifno+1]=open(nfil,READ))) {
 			filok=1; fin=fins[++ifno]; break;
@@ -879,9 +877,15 @@ struct symtab *
 ppsym(s) char *s; {/* kluge */
 	register struct symtab *sp;
 	register char *name;
+	size_t len;
 
-	cinit=SALT; sp=stsym(s); name = malloc(strlen(sp->name)+1+1);
-	name[0] = '#'; strcpy(name+1, sp->name); sp->name = name;
+	cinit=SALT; sp=stsym(s);
+	len = strlen(sp->name) + 2;
+	name = malloc(len);
+	name[0] = '#';
+	name[1] = '\0';
+	strlcat(name, sp->name, len);
+	sp->name = name;
 	cinit=0; return(sp);
 }
 
@@ -971,10 +975,10 @@ subst(p,sp) register char *p; struct symtab *sp; {
 	dump();
 	if (sp==ulnloc) {
 		vp=acttxt; *vp++='\0';
-		(void)sprintf(vp,"%d",lineno[ifno]); while (*vp++);
+		(void)snprintf(vp,BUFSIZ,"%d",lineno[ifno]); while (*vp++);
 	} else if (sp==uflloc) {
 		vp=acttxt; *vp++='\0';
-		(void)sprintf(vp,"\"%s\"",fnames[ifno]); while (*vp++);
+		(void)snprintf(vp,BUFSIZ,"\"%s\"",fnames[ifno]); while (*vp++);
 	}
 	if (0!=(params= *--vp&0xFF)) {/* definition calls for params */
 		register char **pa;
@@ -1053,7 +1057,7 @@ copy(s) register char *s; {
 
 	old = malloc(strlen(s)+1);
 	if (old==NULL) {pperror("no space"); exit(exfail);}
-	strcpy(old, s);
+	strlcpy(old, s, strlen(s)+1);
 	return(lastcopy=old);
 }
 
@@ -1159,7 +1163,9 @@ main(argc,argv)
 					if (nd>8) pperror("excessive -I file (%s) ignored",argv[i]);
 					else dirs[nd++] = argv[i]+2;
 					continue;
-				case '\0': continue;
+				case 't':
+				case '\0':
+					continue;
 				default: 
 					pperror("unknown flag %s", argv[i]);
 					continue;
@@ -1214,6 +1220,9 @@ main(argc,argv)
 	fins[ifno]=fin;
 	exfail = 0;
 		/* after user -I files here are the standard include libraries */
+#if defined(__MirBSD__)
+	dirs[nd++] = "/usr/include";
+#else
 # if unix
 	dirs[nd++] = _PATH_INCLUDES;
 # endif
@@ -1228,6 +1237,7 @@ main(argc,argv)
 # ifdef gimpel
 	dirs[nd++] = intss() ?  "SYS3.C." : "" ;
 # endif
+#endif
 	/* dirs[nd++] = "/compool"; */
 	dirs[nd++] = 0;
 	defloc=ppsym("define");

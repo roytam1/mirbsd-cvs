@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: ftpd.8,v 1.61 2003/11/20 12:32:34 jmc Exp $
 .\"	$NetBSD: ftpd.8,v 1.8 1996/01/14 20:55:23 thorpej Exp $
 .\"
@@ -38,7 +39,7 @@
 .Nd Internet File Transfer Protocol server
 .Sh SYNOPSIS
 .Nm ftpd
-.Op Fl 46ADdlMnPSU
+.Op Fl 46ADdflMnPSU
 .Op Fl T Ar maxtimeout
 .Op Fl t Ar timeout
 .Op Fl u Ar mask
@@ -87,6 +88,8 @@ and is thus useful on busy servers to reduce load.
 .It Fl d
 Debugging information is written to the syslog using
 .Dv LOG_FTP .
+.It Fl f
+Disables the DELE and RMD commands for anonymous users.
 .It Fl l
 Each successful and failed
 .Xr ftp 1
@@ -272,7 +275,7 @@ file (see
 .Xr login.conf 5 ) .
 An authentication style
 may be specified by appending with a colon
-.Pq Sq :\&
+.Pq Sq \&:
 following the authentication style, i.e.\&
 .Dq joe:skey .
 The allowed authentication styles for
@@ -540,6 +543,9 @@ The
 .Nm
 command appeared in
 .Bx 4.2 .
+As of
+.Mx 8 ,
+there is an option to prevent anonymous users from deleting.
 .Sh BUGS
 The server must run as the superuser to create sockets with
 privileged port numbers.
@@ -548,3 +554,13 @@ an effective user ID of the logged in user, reverting to
 the superuser only when binding addresses to sockets.
 The possible security holes have been extensively scrutinized,
 but are possibly incomplete.
+.Pp
+You ought to not be using the file transfer protocol at all;
+this daemon is only provided for compatibility reasons.
+A suitable alternative is
+.Xr scp 1 ,
+as well as
+.Xr sftp 1 ;
+you might use
+.Xr httpd 8
+for simply sharing files, or NFS or CIFS/samba for discs.

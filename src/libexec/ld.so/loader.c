@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: loader.c,v 1.83 2004/08/11 17:13:10 pefo Exp $ */
 
 /*
@@ -28,10 +29,9 @@
 
 #define	_DYN_LOADER
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/exec.h>
-#include <sys/param.h>
 #include <sys/sysctl.h>
 #include <nlist.h>
 #include <string.h>
@@ -43,6 +43,8 @@
 #include "resolve.h"
 #include "sod.h"
 #include "stdlib.h"
+
+__RCSID("$MirOS$");
 
 /*
  * Local decls.
@@ -450,7 +452,7 @@ _dl_boot_bind(const long sp, long *dl_data, Elf_Dyn *dynamicp)
 	argv = (char **)stack;
 	envp = &argv[argc + 1];
 	stack = (long *)envp;
-	while (*stack++ != NULL)
+	while (*stack++)
 		;
 
 	/*

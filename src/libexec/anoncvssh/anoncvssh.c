@@ -1,3 +1,33 @@
+/* $MirOS$ */
+
+/*-
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ *-
+ * user shell to be used for chrooted access (anonymous or personali-
+ * sed, read-only or read-write) to cvs and possibly rsync.
+ * This programme requires ANSI C.
+ */
+
 /*
  * Copyright (c) 2002 Todd C. Miller <Todd.Miller@courtesan.com>
  * Copyright (c) 1997 Bob Beck <beck@obtuse.com>
@@ -16,6 +46,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include <stdio.h>
 #include <stdlib.h>
 #if defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
@@ -23,38 +56,14 @@
 #endif
 #include <pwd.h>
 #include <unistd.h>
-#include <sys/types.h>
-
-#ifndef __CONCAT
-#if defined(__STDC__) || defined(__cplusplus)
-#define __CONCAT(x,y)		x ## y
-#else
-#define __CONCAT(x,y)		x/**/y
-#endif
-#endif
-
-#ifndef __CONCAT3
-#if defined(__STDC__) || defined(__cplusplus)
-#define __CONCAT3(x,y,z)	x ## y ## z
-#else
-#define __CONCAT3(x,y,z)	x/**/y/**/z
-#endif
-#endif
-
-#ifndef __P
-#if defined(__STDC__) || defined(__cplusplus)
-#define	__P(protos)	protos		/* full-blown ANSI C */
-#else
-#define	__P(protos)	()		/* traditional C preprocessor */
-#endif
-#endif
+#include <errno.h>
 
 /*
  * You may need to change this path to ensure that RCS, CVS and diff
  * can be found
  */
 #ifndef _PATH_DEFPATH
-#define	_PATH_DEFPATH	"/bin:/usr/bin"
+#define _PATH_DEFPATH	"/bin:/usr/bin"
 #endif
 
 /*
@@ -69,7 +78,7 @@
  * home directory
  */
 #ifndef LOCALROOT
-#define	LOCALROOT	"/cvs"
+#define LOCALROOT	"/cvs"
 #endif
 
 /*
@@ -77,29 +86,43 @@
  * CVS repository remotely
  */
 #ifndef HOSTNAME
-#define	HOSTNAME	"anoncvs@anoncvs1.usa.openbsd.org"
+#if defined(FQDN) && defined(ANONCVS_USER)
+#define HOSTNAME	ANONCVS_USER "@" FQDN
+#else
+#define HOSTNAME	"mirbsd-cvs@mirbsd.bsdadvocacy.org"
+#endif
+#endif /* ndef HOSTNAME */
+
+/*
+ * This is our own programme name
+ */
+#ifndef ANONCVSSH_NAME
+#define ANONCVSSH_NAME	"anoncvssh"
 #endif
 
 /*
- * $CVSROOT is created based on HOSTNAME and LOCALROOT above
+ * This is the rsync server to invoke
  */
-#ifndef CVSROOT
-#define	CVSROOT		__CONCAT3(HOSTNAME,":",LOCALROOT)
+#ifndef RSYNC
+#define RSYNC		"/usr/bin/rsync"
 #endif
+#define FULL_RSYNC	RSYNC " --server "
 
 /*
- * We define PSERVER_SUPPORT to allow anoncvssh to spawn a "cvs pserver".
- * You may undefine this if you aren't going to be running pserver.
+ * Niceness increase
  */
-#ifndef PSERVER_SUPPORT
-#define PSERVER_SUPPORT
+#ifndef NICE_INC
+#define NICE_INC	5
+#endif
+#if NICE_INC < 0
+#error "may not decrease niceness"
 #endif
 
-/*
- * Define USE_SYSLOG if you want anoncvssh to log pserver connections 
- * using syslog()
- */
-#define USE_SYSLOG
+
+/****************************************************************/
+
+static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
+    "\n@(#) $MirOS$";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -107,35 +130,38 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#define LOG_FACILITY LOG_DAEMON
-#define LOG_PRIO LOG_INFO
-#endif
+#define LOG_FACILITY	LOG_DAEMON
+#define LOG_PRIO	LOG_INFO
+#define DO_LOG(x)	syslog(LOG_NOTICE, x)
+#else /* def USE_SYSLOG */
+#define DO_LOG(x)	/* nothing */
+#endif /* ! def USE_SYSLOG */
 
-/* Define ANONCVS_USER if you want anoncvssh to complain if invoked by
- * anyone other than root or ANONCVS_USER.
- */
-/* #define ANONCVS_USER "anoncvs" */
-
-int main __P((int, char *[]));
+int main(int, char *[]);
 
 char * const env[] = {
-	__CONCAT("PATH=",_PATH_DEFPATH),
-	__CONCAT("SHELL=",_PATH_BSHELL),
-	__CONCAT("CVSROOT=",LOCALROOT),
+	"PATH=" _PATH_DEFPATH,
+	"SHELL=" _PATH_BSHELL,
+	"CVSROOT=" LOCALROOT,
 	"HOME=/",
+#ifndef ACCESS_READWRITE
 	"CVSREADONLYFS=1",
+#endif
 	NULL
 };
 
 int
-main(argc, argv)
-int argc;
-char *argv[];
+main(int argc, char *argv[])
 {
 	struct passwd *pw;
+	int niceness;
+	char *chrootdir;
+#ifdef CHROOT_PARENT_DIR
+	char *s;
+#endif
 #ifdef DEBUG
 	int i;
-#endif /* DEBUG */
+#endif
 
 	pw = getpwuid(getuid());
 	if (pw == NULL) {
@@ -143,108 +169,156 @@ char *argv[];
 		exit(1);
 	}
 	if (pw->pw_dir == NULL) {
-		fprintf(stderr, "no directory\n");
+		fprintf(stderr, "no home directory\n");
 		exit(1);
 	}
 
 #ifdef USE_SYSLOG
-	openlog("anoncvssh", LOG_PID | LOG_NDELAY, LOG_FACILITY);
-#endif /* USE_SYSLOG */
-	
+	openlog(ANONCVSSH_NAME, LOG_PID | LOG_NDELAY, LOG_FACILITY);
+#endif
+
+	/* drop priority by NICE_INC; anoncvs is a background process */
+	errno = 0;
+	niceness = NICE_INC + getpriority(PRIO_PROCESS, 0);
+	if ((niceness == (NICE_INC - 1)) && errno) {
+		DO_LOG("Can't get process priority!");
+	} else if (setpriority(PRIO_PROCESS, 0, niceness)) {
+		DO_LOG("Can't set process priority!");
+	}
+
 #ifdef ANONCVS_USER
-	/* 
+	/*
 	 * I love lusers who have to test every setuid binary on my machine.
 	 */
-	if (getuid() != 0 && (strcmp (pw->pw_name, ANONCVS_USER) != 0)) {
-		fprintf(stderr, "You're not supposed to be running me!\n"); 
+	if (getuid() != 0 && (strcmp(pw->pw_name, ANONCVS_USER) != 0)) {
+		fprintf(stderr, "You're not supposed to be running me!\n");
 #ifdef USE_SYSLOG
 		syslog(LOG_NOTICE,
-		       "User %s(%d) invoked anoncvssh - Possible twink?",
-		       pw->pw_name, pw->pw_uid); 
-#endif /* USE_SYSLOG */
+		    "User %s(%d) invoked %s - Possible twink?",
+		    pw->pw_name, pw->pw_uid, ANONCVSSH_NAME);
+#endif /* def USE_SYSLOG */
 		exit(1);
 	}
-#endif /* ANONCVS_USER */
-
+#endif /* def ANONCVS_USER */
 
 	setuid(0);
-	if (chroot(pw->pw_dir) == -1) {
+	if ((chrootdir = strdup(pw->pw_dir)) == NULL) {
+		perror("strdup");
+		exit(1);
+	}
+#ifdef CHROOT_PARENT_DIR
+	if ((s = strrchr(chrootdir, '/')) == NULL) {
+		fprintf(stderr, "No slash in user's home directory!\n");
+		exit(1);
+	}
+	*s = '\0';
+	if (strrchr(chrootdir, '/') == NULL) {
+		fprintf(stderr, "No slash in user's parent directory!\n");
+		exit(1);
+	}
+#endif
+	if (chroot(chrootdir) == -1) {
 		perror("chroot");
-		exit (1);
+		exit(1);
 	}
 	chdir("/");
 	setuid(pw->pw_uid);
+	free(chrootdir);
 
 	/*
-	 * program now "safe"
+	 * programme now "safe"
 	 */
 
-#ifdef PSERVER_SUPPORT
-	/* If we want pserver functionality */
+
+#ifdef ACCESS_PSERVER
+	/* If we want pserver functionality (NOT! It's braindead!) */
 	if ((argc == 2) && (strcmp("pserver", argv[1]) == 0)) {
 #ifdef USE_SYSLOG
  	        int slen;
 		struct sockaddr_in my_sa, peer_sa;
 		char *us, *them;
-		
+
 		slen = sizeof(my_sa);
-		if (getsockname(0, (struct sockaddr *) &my_sa, &slen)
-		    != 0) {
-		  perror("getsockname");
-		  exit(1);
+		if (getsockname(0, (struct sockaddr *) &my_sa, &slen) != 0) {
+			perror("getsockname");
+			exit(1);
 		}
 		us = strdup(inet_ntoa(my_sa.sin_addr));
 		if (us == NULL) {
-		  fprintf(stderr, "malloc failed\n");
-		  exit(1);
+			fprintf(stderr, "malloc failed\n");
+			exit(1);
 		}
 		slen = sizeof(peer_sa);
-		if (getpeername(0, (struct sockaddr *) &peer_sa, &slen)
-		    != 0) {
-		  perror("getpeername");
-		  exit(1);
+		if (getpeername(0, (struct sockaddr *) &peer_sa, &slen) != 0) {
+			perror("getpeername");
+			exit(1);
 		}
-		them=strdup(inet_ntoa(peer_sa.sin_addr));
+		them = strdup(inet_ntoa(peer_sa.sin_addr));
 		if (them == NULL) {
-		  fprintf(stderr, "malloc failed\n");
-		  exit(1);
+			fprintf(stderr, "malloc failed\n");
+			exit(1);
 		}
-	        syslog(LOG_PRIO, 
-		       "pserver connection from %s:%d to %s:%d\n",
-		       them, ntohs(peer_sa.sin_port),
-		       us, ntohs(my_sa.sin_port));
-#endif /* USE_SYSLOG */
+	        syslog(LOG_PRIO,
+		    "pserver connection from %s:%d to %s:%d\n",
+		    them, ntohs(peer_sa.sin_port),
+		    us, ntohs(my_sa.sin_port));
+#endif /* def USE_SYSLOG */
 		execle("/usr/bin/cvs", "cvs",
-		    __CONCAT("--allow-root=",LOCALROOT), "pserver", (char *)NULL, env);
+		    "--allow-root=" LOCALROOT, "pserver", NULL, env);
 		perror("execle: cvs");
 		fprintf(stderr, "unable to exec CVS pserver!\n");
 		exit(1);
 		/* NOTREACHED */
 	}
+#endif /* def ACCESS_PSERVER */
+
+	if ((argc == 3) && (!strcmp(ANONCVSSH_NAME, argv[0])) &&
+	    (!strcmp("-c", argv[1]))) {
+		if ((!strcmp("cvs server", argv[2])) ||
+		    (!strcmp("cvs -d " LOCALROOT " server", argv[2]))) {
+			execle("/usr/bin/cvs", "cvs", "server", NULL, env);
+			perror("execle: cvs");
+			DO_LOG("chaining to CVS failed!");
+			fprintf(stderr, "unable to exec CVS server!\n");
+			exit(1);
+			/* NOTREACHED */
+		} else if (!strncmp(FULL_RSYNC, argv[2], strlen(FULL_RSYNC))) {
+#ifdef ACCESS_RSYNC
+			int i = 0;
+			char *newarg[256];
+			char *p = argv[2] + 15;
+
+			newarg[0] = "rsync";
+		lp:
+			newarg[++i] = strsep(&p, " ");
+			if ((newarg[i] != NULL) && (i < 255))
+				goto lp;
+			execve(RSYNC, newarg, env);
+			perror("execve: rsync");
+			DO_LOG("chaining to " RSYNC " failed!");
+			fprintf(stderr, "unable to exec RSYNC!\n");
+			exit(1);
+			/* NOTREACHED */
+#else
+			DO_LOG("access to RSYNC prohibited!");
 #endif
-
-	if (argc != 3 || 
-		strcmp("anoncvssh",  argv[0]) != 0 ||
-		strcmp("-c",         argv[1]) != 0 ||
-		(strcmp("cvs server", argv[2]) != 0 &&
-		 strcmp(__CONCAT3("cvs -d ",LOCALROOT," server"), argv[2]) != 0)) {
-		fprintf(stderr, "\nTo use anonymous CVS install the latest ");
-		fprintf(stderr,"version of CVS on your local machine.\n");
-		fprintf(stderr,"Then set your CVSROOT environment variable ");
-		fprintf(stderr,"to the following value:\n");
-		fprintf(stderr,"\t%s\n\n", CVSROOT);
-#ifdef DEBUG
-		fprintf(stderr, "argc = %d\n", argc);
-		for (i = 0 ; i < argc ; i++)
-			fprintf(stderr, "argv[%d] = \"%s\"\n", i, argv[i]);
-#endif /* DEBUG */
-		sleep(10);
-		exit(0);
+		}
 	}
-	execle("/usr/bin/cvs", "cvs", "server", (char *)NULL, env);
-	perror("execle: cvs");
-	fprintf(stderr, "unable to exec CVS server!\n");
-	exit(1);
-	/* NOTREACHED */
-}
 
+	DO_LOG("parameter failure, printing help message");
+	fprintf(stderr, "\n"
+	    "To use anonymous CVS or RSYNC, install the latest version of the\n"
+	    "client access software, as well as OpenSSH, on your computer.\n"
+	    "Then, set your CVSROOT environment variable to the following\n"
+	    "value for CVS access:\n\t%s:%s\n"
+	    "For RSYNC specify the parameter --rsync-path=" RSYNC "\n"
+	    "when connecting, and use SSH instead of RSH for both.\n",
+	    HOSTNAME, LOCALROOT);
+#ifdef DEBUG
+	fprintf(stderr, "argc = %d\n", argc);
+	for (i = 0; i < argc; i++)
+		fprintf(stderr, "argv[%d] = \"%s\"\n", i, argv[i]);
+#endif
+	sleep(10);
+	exit(0);
+}

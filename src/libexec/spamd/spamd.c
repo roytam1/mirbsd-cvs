@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: spamd.c,v 1.74 2004/11/17 15:29:38 beck Exp $	*/
 
 /*
@@ -47,6 +48,8 @@
 
 #include "sdl.h"
 #include "grey.h"
+
+__RCSID("$MirOS$");
 
 struct con {
 	int fd;
@@ -540,12 +543,10 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	cp->blacklists = NULL;
 	free(cp->lists);
 	cp->lists = NULL;
-	bzero(cp, sizeof(struct con));
+	memset(cp, 0, sizeof(struct con));
 	if (grow_obuf(cp, 0) == NULL)
 		err(1, "malloc");
 	cp->fd = fd;
-	if (sa->sa_len > sizeof(cp->ss))
-		errx(1, "sockaddr size");
 	if (sa->sa_family != AF_INET)
 		errx(1, "not supported yet");
 	memcpy(&cp->ss, sa, sa->sa_len);
@@ -957,8 +958,8 @@ main(int argc, char *argv[])
 			greylist = 1;
 			break;
 		case 'G':
-			if (sscanf(optarg, "%d:%d:%d", &passtime, &greyexp,
-			    &whiteexp) != 3)
+			if (sscanf(optarg, "%lld:%lld:%lld", &passtime,
+			    &greyexp, &whiteexp) != 3)
 				usage();
 			/* convert to seconds from minutes */
 			passtime *= 60;

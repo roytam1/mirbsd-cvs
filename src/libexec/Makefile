@@ -1,25 +1,40 @@
-#	from: @(#)Makefile	5.7 (Berkeley) 4/1/91
-#	$OpenBSD: Makefile,v 1.38 2004/02/26 07:28:54 beck Exp $
+# $MirOS$
 
 .include <bsd.own.mk>
 
-SUBDIR=	comsat fingerd ftpd ftp-proxy getNAME getty identd lockspool \
-	mail.local makewhatis \
-	rpc.rquotad rpc.rstatd rpc.rusersd rpc.rwalld rpc.sprayd spamd \
-	spamlogd spamd-setup rshd talkd tcpd telnetd tftpd uucpd
-SUBDIR+=login_passwd login_skey login_reject \
-	login_chpass login_lchpass login_token login_radius
-
-.if (${YP:L} == "yes")
-SUBDIR+=rpc.yppasswdd
+  SUBDIR+= anoncvssh
+  SUBDIR+= cpp
+  SUBDIR+= fingerd
+  SUBDIR+= ftp-proxy
+  SUBDIR+= ftpd
+  SUBDIR+= getNAME
+  SUBDIR+= getty
+  SUBDIR+= identd
+.if (${OBJECT_FMT:U} == "ELF") && !(defined(NOPIC) && ${NOPIC:L} != "no")
+  SUBDIR+= ld.so
 .endif
-
-.if (${ELF_TOOLCHAIN:L} == "yes") && !defined(NOPIC)
-SUBDIR+=ld.so
-.endif
-
-.if (${KERBEROS5:L} == "yes")
-SUBDIR+=login_krb5 login_krb5-or-pwd
-.endif
+  SUBDIR+= lockspool
+  SUBDIR+= login_chpass
+  SUBDIR+= login_lchpass
+  SUBDIR+= login_passwd
+  SUBDIR+= login_radius
+  SUBDIR+= login_reject
+  SUBDIR+= login_skey
+  SUBDIR+= login_token
+  SUBDIR+= mail.local
+  SUBDIR+= makewhatis
+  SUBDIR+= randshuffle
+  SUBDIR+= rpc.rquotad
+  SUBDIR+= rpc.rstatd
+  SUBDIR+= rpc.rusersd
+  SUBDIR+= rpc.rwalld
+  SUBDIR+= rpc.sprayd
+  SUBDIR+= spamd
+  SUBDIR+= spamd-setup
+  SUBDIR+= spamlogd
+  SUBDIR+= talkd
+  SUBDIR+= tcpd
+  SUBDIR+= telnetd
+  SUBDIR+= tftpd
 
 .include <bsd.subdir.mk>

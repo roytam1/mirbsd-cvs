@@ -1,3 +1,4 @@
+#	$MirOS$
 #	$OpenBSD: Makefile,v 1.4 2003/07/15 19:02:19 deraadt Exp $
 
 
@@ -10,20 +11,6 @@ MAN=	login_chpass.8
 .include <bsd.own.mk>	# For KERBEROS and YP
 
 CFLAGS+=-Wall
-
-#.if (${KERBEROS:L} == "yes")
-#CFLAGS+=-DKERBEROS
-#SRCS+=	new_pwd.c
-#DPADD+= ${LIBKADM} ${LIBKRB} ${LIBDES}
-#LDADD+= -lkadm -lkrb -ldes
-#.endif
-
-.if (${YP:L} == "yes")
-CFLAGS+=-DYP
-SRCS+= yp_passwd.c pwd_check.c pwd_gensalt.c
-DPADD+= ${LIBRPCSVC} ${LIBUTIL}
-LDADD+= -lrpcsvc -lutil
-.endif
 
 BINOWN=	root
 BINGRP=	auth

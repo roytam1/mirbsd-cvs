@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: library_mquery.c,v 1.14 2004/07/05 00:47:40 kjell Exp $ */
 
 /*
@@ -29,9 +30,8 @@
 
 #define _DYN_LOADER
 
-#include <sys/types.h>
-#include <sys/syslimits.h>
 #include <sys/param.h>
+#include <sys/syslimits.h>
 #include <fcntl.h>
 #include <nlist.h>
 #include <link.h>
@@ -44,13 +44,15 @@
 #include "dir.h"
 #include "sod.h"
 
+__RCSID("$MirOS$");
+
 #define DEFAULT_PATH "/usr/lib"
 
 #define PFLAGS(X) ((((X) & PF_R) ? PROT_READ : 0) | \
 		   (((X) & PF_W) ? PROT_WRITE : 0) | \
 		   (((X) & PF_X) ? PROT_EXEC : 0))
 
-elf_object_t *_dl_tryload_shlib(const char *libname, int type);
+static elf_object_t *_dl_tryload_shlib(const char *libname, int type);
 
 /*
  * _dl_match_file()
@@ -355,7 +357,7 @@ _dl_unload_shlib(elf_object_t *object)
 }
 
 
-elf_object_t *
+static elf_object_t *
 _dl_tryload_shlib(const char *libname, int type)
 {
 	int	libfile, i, align = _dl_pagesz - 1;
@@ -580,5 +582,3 @@ _dl_link_sub(elf_object_t *dep, elf_object_t *p)
 	DL_DEB(("linking dep %s as child of %s\n", dep->load_name,
 	    p->load_name));
 }
-
-

@@ -1,6 +1,7 @@
-#ifndef lint
-static char sccsid[] = "@(#)yylex.c	1.4 10/15/86";
-#endif lint
+#include <sys/cdefs.h>
+
+__SCCSID("@(#)yylex.c	1.4 10/15/86");
+__RCSID("$MirOS$");
 
 #define isid(a)  ((fastab+COFF)[a]&IB)
 #define IB 1

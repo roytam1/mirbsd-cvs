@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ftpd.c,v 1.153 2003/12/12 19:45:22 deraadt Exp $	*/
 /*	$NetBSD: ftpd.c,v 1.15 1995/06/03 22:46:47 mycroft Exp $	*/
 
@@ -65,15 +66,6 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)ftpd.c	8.4 (Berkeley) 4/16/94";
-#else
-static const char rcsid[] =
-    "$OpenBSD: ftpd.c,v 1.153 2003/12/12 19:45:22 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 /*
  * FTP server.
  */
@@ -125,7 +117,10 @@ static const char rcsid[] =
 #include "pathnames.h"
 #include "extern.h"
 
-static char version[] = "Version 6.5/OpenBSD";
+__SCCSID("@(#)ftpd.c	8.4 (Berkeley) 4/16/94");
+__RCSID("$MirOS$");
+
+static char version[] = "Version 6.5/MirOS";
 
 extern	off_t restart_point;
 extern	char cbuf[];
@@ -149,6 +144,8 @@ int	maxtimeout = 7200;/* don't allow idle time to be set beyond 2 hours */
 int	logging;
 int	anon_ok = 1;
 int	anon_only = 0;
+int	anon_dele = 1;
+int	anon_rmd = 1;
 int	multihome = 0;
 int	guest;
 int	stats;
@@ -267,7 +264,7 @@ curdir(void)
 	return (guest ? path+1 : path);
 }
 
-char *argstr = "AdDhnlMSt:T:u:UvP46";
+char *argstr = "AdDfhnlMSt:T:u:UvP46";
 
 static void
 usage(void)
@@ -296,6 +293,11 @@ main(int argc, char *argv[])
 		switch (ch) {
 		case 'A':
 			anon_only = 1;
+			break;
+
+		case 'f':
+			anon_dele = 0;
+			anon_rmd = 0;
 			break;
 
 		case 'd':
@@ -1759,7 +1761,7 @@ void
 statcmd(void)
 {
 	union sockunion *su;
-	u_char *a, *p;
+	u_char *a = NULL, *p = NULL;
 	char hbuf[MAXHOSTNAMELEN];
 	int ispassive;
 
@@ -1972,6 +1974,11 @@ delete(char *name)
 {
 	struct stat st;
 
+	if (!anon_dele && guest) {
+		nack("DELE");
+		return;
+	}
+
 	LOGCMD("delete", name);
 	if (stat(name, &st) < 0) {
 		perror_reply(550, name);
@@ -2053,6 +2060,10 @@ makedir(char *name)
 void
 removedir(char *name)
 {
+	if (!anon_rmd && guest) {
+		nack("RMD");
+		return;
+	}
 
 	LOGCMD("rmdir", name);
 	if (rmdir(name) < 0)
@@ -2753,7 +2764,7 @@ logxfer(char *name, off_t size, time_t start)
 		strvis(vpw, guest? guestpw : pw->pw_name, VIS_SAFE|VIS_NOSLASH);
 
 		if ((len = snprintf(buf, sizeof(buf),
-		    "%.24s %d %s %qd %s %c %s %c %c %s ftp %d %s %s\n",
+		    "%.24s %lld %s %qd %s %c %s %c %c %s ftp %d %s %s\n",
 		    ctime(&now), now - start + (now == start),
 		    vremotehost, (long long)size, vpath,
 		    ((type == TYPE_A) ? 'a' : 'b'), "*" /* none yet */,

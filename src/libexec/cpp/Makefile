@@ -1,17 +1,23 @@
-#	@(#)Makefile	5.2 (Berkeley) 5/12/90
+# $MirOS$
+# @(#)Makefile	5.2 (Berkeley) 5/12/90
 
-PROG=	cpp
-CFLAGS+=-Dunix=1 -DFLEXNAMES -I${.CURDIR}
-SRCS=	cpp.c cpy.c rodata.o
-CLEANFILES+=cpy.c rodata.c
-NOMAN=	noman
+PROG=		cpp
+SRCS=		cpp.c cpy.c rodata.o
+NOMAN=		yes
+CPPFLAGS+=	-Dunix=1 -DFLEXNAMES
+CLEANFILES+=	cpy.c rodata.c
 
-rodata.o: cpy.c
-	${CC} ${CFLAGS} -R -c ${.PREFIX}.c
+beforedepend: cpy.c
+
+rodata.c: cpy.c
 
 cpy.c: cpy.y
-	${YACC} ${.ALLSRC}
-	yyfix rodata.c
-	mv y.tab.c cpy.c
+	${YACC} -r ${.ALLSRC}
+	mv y.tab.c rodata.c
+	mv y.code.c cpy.c
+
+afterinstall:
+	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
+	    ${.CURDIR}/xcpp.sh ${DESTDIR}/usr/bin/cpp
 
 .include <bsd.prog.mk>
