@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/scripts/genhtman.sh,v 1.1 2005/03/06 16:08:16 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.2 2005/03/14 20:52:32 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # tribuional and base system release process.
 
 print XXX not ported
-exit 1
+exit 0
 
 # for a in papers psd smm usd; do (cd papers; for x in $a.*; do (cd ../man$(print $a|tr '[:lower:]' '[:upper:]'); ln -s ../papers/$x ${x#$a.}); done); done                                                                       
 
