@@ -1,4 +1,4 @@
-/* $MirBSD: X11/xc/programs/Xserver/hw/xfree86/drivers/wsfb/wsfb_driver.c,v 1.1 2005/01/06 22:13:55 tg Exp $ */
+/* $MirOS$ */
 /* $OpenBSD: wsfb_driver.c,v 1.20 2004/10/24 21:07:06 matthieu Exp $ */
 /*
  * Copyright (c) 2001 Matthieu Herrb

@@ -1,7 +1,8 @@
 #
 # Unaccelerated, dual-headed display configuration
 #
-# $MirBSD: X11/xc/programs/Xserver/hw/xfree86/etc/bindist/OpenBSD-sparc/XF86Config.2heads,v 1.1 2005/01/06 22:13:56 tg Exp $
+# $Id$
+# $MirOS$
 # $OpenBSD: XF86Config.2heads,v 1.2 2003/08/31 13:45:34 matthieu Exp $
 
 Section "ServerLayout"
@@ -17,7 +18,7 @@ Section "Files"
 	FontPath     "/usr/X11R6/lib/X11/fonts/local/"
 	FontPath     "/usr/X11R6/lib/X11/fonts/misc/"
 	FontPath     "/usr/X11R6/lib/X11/fonts/Type1/"
-#	FontPath     "/usr/X11R6/lib/X11/fonts/TrueType/"
+	FontPath     "/usr/X11R6/lib/X11/fonts/TTF/"
 #	FontPath     "/usr/X11R6/lib/X11/fonts/freefont/"
 	FontPath     "/usr/X11R6/lib/X11/fonts/75dpi/"
 EndSection
