@@ -1,0 +1,138 @@
+# Example config: Soekris net4xxx Boot for router with DHCP, NAT, VLAN
+#
+# chris@nmedia.net
+
+stty status '^T'
+
+# Set shell to ignore SIGINT (2), but not children;
+# shell catches SIGQUIT (3) and returns to single user.
+trap : 2
+trap : 3
+
+HOME=/; export HOME
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+export PATH
+
+if [ "$1" == "shutdown" ]; then
+	mount -o ro /
+	exit 0
+fi
+
+# Filesystem should never be dirty unless we acked while fs was mounted
+# read/write
+fsck -p
+
+echo mfs: mounting /tmp...
+mount_mfs -s 16384 /dev/wd0b /tmp
+
+echo mfs: populating /tmp...
+# flashdist makes /var a link to /tmp/var
+mkdir /tmp/var
+mkdir /tmp/var/tmp
+mkdir /tmp/var/tmp/vi.recover
+mkdir /tmp/var/run
+mkdir /tmp/var/log
+mkdir /tmp/var/db
+mkdir /tmp/var/empty
+if [ -d /root ]; then
+ cp -R /root /tmp/root
+fi
+chmod -R 755 /tmp/var
+chmod a+rwxt /tmp/var/tmp/vi.recover
+touch /tmp/var/run/utmp
+touch /tmp/var/log/authlog
+touch /tmp/var/log/messages
+
+# Copy over devices created from flashdist into a place where the permissions
+# can be changed.  Flashdist already created links to /var/run/dev/XXX for
+# these devices.
+mkdir /var/run/dev
+tar cf - -C /dev/devtmp . | tar xpf - -C /var/run/dev
+
+# You don't need to make databases, but they help ps and some other
+# programs ... (skipped kvm for now since /dev/ksyms is a waste of time
+# on an embedded router)
+#
+echo -n "databases:"
+echo -n " dev"
+dev_mkdb
+echo
+
+# Init will do this for us, but to be proper we should do it now, before
+# remote login services start
+echo -n "securelevel: "
+sysctl -w kern.securelevel=1
+
+echo -n "watchdog: "
+sysctl -w kern.watchdog.period=32
+echo -n "watchdog: "
+sysctl -w kern.watchdog.auto=1
+
+if [ -f /etc/nshrc -a -x /bin/nsh ]; then
+ echo nsh: starting nsh
+ nsh -i /etc/nshrc
+else
+ # Setup hostname, IPs, and pf/nat
+
+ hostname=sample
+ echo hostname: setting hostname to $hostname...
+ hostname $hostname
+
+ echo inet: configuring IP on system interfaces...
+ ifconfig lo0 127.0.0.1 netmask 255.0.0.0
+
+ ifconfig sis0 208.192.32.2 netmask 255.255.255.252
+ ifconfig sis1 192.168.88.5 netmask 255.255.255.0
+ ifconfig vlan0 192.168.2.1 netmask 255.255.255.0 vlan 1002 vlandev sis1
+ ifconfig vlan3 208.44.70.0 netmask 255.255.255.224 vlan 1005 vlandev sis1
+
+ echo route: adding default route...
+ route add default 208.192.32.1
+
+ echo pf/nat: configuring and enabling...
+ pfctl -e -f /etc/pf.conf
+fi
+
+if [ -f /etc/syslog.conf ]; then
+  echo syslogd: starting log daemon...
+  syslogd -p /var/run/log
+fi
+
+#echo dhcp: starting server...
+#touch /var/db/dhcpd.leases
+#dhcpd -q vlan0
+
+if [ -d /etc/ssh -a ! -f /etc/ssh/ssh_host_dsa_key ]; then
+ echo -n "ssh-keygen: generating new DSA host key... "
+ mount -o rw /dev/wd0a /
+ if /usr/bin/ssh-keygen -q -t dsa -f /etc/ssh/ssh_host_dsa_key -N ''; then
+  echo done.
+ else
+  echo failed.
+ fi
+ mount -o ro /
+fi
+if [ -d /etc/ssh -a ! -f /etc/ssh/ssh_host_rsa_key ]; then
+ echo -n "ssh-keygen: generating new RSA host key... "
+ mount -o rw /dev/wd0a /
+ if /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''; then
+  echo done.
+ else
+  echo failed.
+ fi
+ mount -o ro /
+fi
+if [ -d /etc/ssh -a ! -f /etc/ssh/ssh_host_key ]; then
+ echo -n "ssh-keygen: generating new RSA1 host key... "
+ mount -o rw /dev/wd0a /
+ if /usr/bin/ssh-keygen -q -t rsa1 -f /etc/ssh/ssh_host_key -N ''; then
+  echo done.
+ else
+  echo failed.
+ fi
+ mount -o ro /
+fi
+
+echo ssh: starting daemon...
+/usr/sbin/sshd 
+
