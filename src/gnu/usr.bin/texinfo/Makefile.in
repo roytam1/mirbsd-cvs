@@ -50,8 +50,8 @@ build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.in \
-	$(top_srcdir)/configure config.guess config.sub install-sh \
-	missing mkinstalldirs
+	$(top_srcdir)/configure ChangeLog config.guess config.sub \
+	install-sh missing mkinstalldirs
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/inttypes_h.m4 \
