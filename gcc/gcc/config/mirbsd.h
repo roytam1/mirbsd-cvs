@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.1 2005/03/25 18:49:28 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.2 2005/03/25 21:56:13 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -94,11 +94,9 @@ Boston, MA 02111-1307, USA.  */
 #undef LIB_SPEC
 #define LIB_SPEC MIRBSD_LIB_SPEC
 
-/* Provide a LIBGCC_SPEC appropriate for MirOS BSD.  We also want to exclude
-   libgcc with -symbolic.  */
+/* Provide a LIBGCC_SPEC stub for shared libgcc use.  */
 
-#define MIRBSD_LIBGCC_SPEC	\
-  "%{!symbolic:-lgcc}"
+#define MIRBSD_LIBGCC_SPEC	"-lgcc"
 
 #undef LIBGCC_SPEC
 #define LIBGCC_SPEC MIRBSD_LIBGCC_SPEC
