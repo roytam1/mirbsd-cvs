@@ -4809,6 +4809,18 @@ else
 fi;
 
 
+
+# Determine whether or not stack protection is enabled.
+# Check whether --enable-stack-protector or --disable-stack-protector was given.
+if test "${enable_stack_protector+set}" = set; then
+  ENABLESSP="-DSTACK_PROTECTOR"
+
+else
+  ENABLESSP=""
+fi;
+
+
+
 # -------------------------
 # Checks for other programs
 # -------------------------
@@ -13098,6 +13110,7 @@ s,@TARGET_SYSTEM_ROOT@,$TARGET_SYSTEM_ROOT,;t t
 s,@TARGET_SYSTEM_ROOT_DEFINE@,$TARGET_SYSTEM_ROOT_DEFINE,;t t
 s,@CROSS_SYSTEM_HEADER_DIR@,$CROSS_SYSTEM_HEADER_DIR,;t t
 s,@onestep@,$onestep,;t t
+s,@ENABLESSP@,$ENABLESSP,;t t
 s,@SET_MAKE@,$SET_MAKE,;t t
 s,@AWK@,$AWK,;t t
 s,@LN@,$LN,;t t

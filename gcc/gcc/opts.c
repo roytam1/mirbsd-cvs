@@ -125,6 +125,9 @@ bool warn_unused_parameter;
 bool warn_unused_variable;
 bool warn_unused_value;
 
+/* Warn when not issuing stack smashing protection for some reason */
+bool warn_stack_protector;
+
 /* Hack for cooperation between set_Wunused and set_Wextra.  */
 static bool maybe_warn_unused_parameter;
 
@@ -798,6 +801,10 @@ common_handle_option (size_t scode, const char *arg,
       warn_unused_variable = value;
       break;
 
+    case OPT_Wstack_protector:
+      warn_stack_protector = value;
+      break;
+
     case OPT_aux_info:
     case OPT_aux_info_:
       aux_info_file_name = arg;
@@ -1359,6 +1366,14 @@ common_handle_option (size_t scode, const char *arg,
 
     case OPT_fstack_limit_symbol_:
       stack_limit_rtx = gen_rtx_SYMBOL_REF (Pmode, ggc_strdup (arg));
+      break;
+
+    case OPT_fstack_protector:
+      flag_propolice_protection = value;
+      break;
+
+    case OPT_fstack_protector_all:
+      flag_stack_protection = value;
       break;
 
     case OPT_fstrength_reduce:

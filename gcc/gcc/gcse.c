@@ -4176,9 +4176,13 @@ cprop_insn (rtx insn, int alter_jumps)
 	continue;
 
       /* Find an assignment that sets reg_used and is available
-	 at the start of the block.  */
+	 at the start of the block.
+
+         Skip the copy propagation not to eliminate the register that is
+	 the duplicated pointer of a function argument. It is used for
+	 the function argument protection.  */
       set = find_avail_set (regno, insn);
-      if (! set)
+      if (! set || SET_VOLATILE_P (set->expr))
 	continue;
 
       pat = set->expr;
