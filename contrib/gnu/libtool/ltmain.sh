@@ -1,6 +1,5 @@
-# $MirBSD: contrib/gnu/libtool/ltmain.sh,v 1.21 2005/01/15 19:57:36 tg Exp $
-# _MirBSD: contrib/gnu/libtool/ltmain.in,v 1.15 2005/01/15 19:56:18 tg Exp $
-#
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.2 2005/02/05 02:25:03 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.2 2005/02/05 02:25:03 tg Exp $
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
@@ -47,7 +46,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.10
-TIMESTAMP=" (MirLibtool-1.5 2005/01/15 19:57:09)"
+TIMESTAMP=" (MirLibtool-1.5 2005/02/05 02:26:57)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -292,7 +291,7 @@ func_extract_archives () {
 	  darwin_curdir=`pwd`
 	  darwin_base_archive=`basename $darwin_archive`
 	  darwin_arches=`lipo -info "$darwin_archive" 2>/dev/null | $EGREP Architectures 2>/dev/null`
-	  if test -n "$darwin_arches"; then
+	  if test -n "$darwin_arches"; then 
 	    darwin_arches=`echo "$darwin_arches" | $SED -e 's/.*are://'`
 	    darwin_arch=
 	    $show "$darwin_base_archive has multiple architectures $darwin_arches"
@@ -3830,7 +3829,7 @@ EOF
 	    libobjs="$libobjs $func_extract_archives_result"
 	  fi
 	fi
-
+	
 	if test "$thread_safe" = yes && test -n "$thread_safe_flag_spec"; then
 	  eval flag=\"$thread_safe_flag_spec\"
 	  linker_flags="$linker_flags $flag"

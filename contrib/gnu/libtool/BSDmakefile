@@ -1,9 +1,10 @@
-# $MirOS$
+# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.1 2005/02/05 02:25:03 tg Exp $
 
 .include <bsd.own.mk>
 
 all:
-	cd ${.CURDIR}/obj && CONFIG_SHELL=${SHELL} ${SHELL} ./configure \
+	cd ${.CURDIR}/obj && CONFIG_SHELL=${SHELL} CC="${CC}" \
+	    ${SHELL} ./configure \
 	    && ${MAKE} ./ltmain.sh libtoolize
 
 obj:
