@@ -1,21 +1,52 @@
-#	$OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
-#	$NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
-#	@(#)sys.mk	5.11 (Berkeley) 3/13/91
+# $MirOS$
+# $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
+# $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
+# @(#)sys.mk	5.11 (Berkeley) 3/13/91
+
+# We want at least the following defines: (samples)
+# MACHINE		i386			amiga
+# MACHINE_ARCH		i386			m68k
+# MACHINE_OS		BSD			Linux
+# OStype		MirBSD			Debian (...)
+# OSrev			7			version
+# OSrpl			128			patchlevel
+# OSNAME		MirBSD			uname -s
+# OSname		mirbsd			uname -s in lowercase
+# OScompat		3.5			equivalent OpenBSD version
+# OStriplet		i386-ecce-mirbsd8	... for GNU software
+
+.if !defined(_SYS_MK)
+_SYS_MK=1
 
 .if defined(EXTRA_SYS_MK_INCLUDES)
-.for __SYS_MK_INCLUDE in ${EXTRA_SYS_MK_INCLUDES}
-.include ${__SYS_MK_INCLUDE}
-.endfor
+.  for _i in ${EXTRA_SYS_MK_INCLUDES}
+.    include ${_i}
+.  endfor
 .endif
 
-unix=		We run OpenBSD.
-OSMAJOR=	3
-OSMINOR=	5
-OSREV=		$(OSMAJOR).$(OSMINOR)
-OSrev=		$(OSMAJOR)$(OSMINOR)
+MACHINE_OS?=	unknown
+.if ${MACHINE_OS} == "BSD"
+OStype=		MirBSD
+.elif ${MACHINE_OS} == "Linux"
+OStype=		MirLinux
+.else
+ERRORS+=	Something fishy: $$MACHINE_OS unknown!
+___DISPLAY_MAKEVARS+=ERRORS
+OStype=		unknown
+.endif
 
-.SUFFIXES: .out .a .ln .o .c .cc .C .cxx .F .f .r .y .l .s .S .cl .p .h .sh .m4
+# Sync these with <sys/param.h>
+unix=		We run ${OStype}.
+OSrev=		8		# MirOS version (major)
+OSrpl=		35		# MirOS patchlevel
+OScompat=	3.5		# OpenBSD compatibility revision
+.if !defined(OSNAME) || empty(OSNAME)
+OSNAME!=	uname -s
+.endif
+OSname=		${OSNAME:L}
+OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 
+.SUFFIXES:	.a .c .cc .cxx .h .i .l .ln .m4 .o .out .S .s .sh .y
 .LIBS:		.a
 
 AR?=		ar
@@ -30,13 +61,13 @@ LINK.s?=	${CC} ${AFLAGS} ${LDFLAGS}
 COMPILE.S?=	${CC} ${AFLAGS} ${CPPFLAGS} -c
 LINK.S?=	${CC} ${AFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
-CC?=		cc
+CC?=		mgcc
 
 CFLAGS?=	-O2 ${PIPE} ${DEBUG}
 COMPILE.c?=	${CC} ${CFLAGS} ${CPPFLAGS} -c
 LINK.c?=	${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
-HOSTCC?=	cc
+HOSTCC?=	mgcc
 
 CXX?=		c++
 CXXFLAGS?=	${CFLAGS}
@@ -44,17 +75,8 @@ COMPILE.cc?=	${CXX} ${CXXFLAGS} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 CPP?=		cpp
-CPPFLAGS?=	
-
-FC?=		f77
-FFLAGS?=		-O2
-RFLAGS?=
-COMPILE.f?=	${FC} ${FFLAGS} -c
-LINK.f?=	${FC} ${FFLAGS} ${LDFLAGS}
-COMPILE.F?=	${FC} ${FFLAGS} ${CPPFLAGS} -c
-LINK.F?=	${FC} ${FFLAGS} ${CPPFLAGS} ${LDFLAGS}
-COMPILE.r?=	${FC} ${FFLAGS} ${RFLAGS} -c
-LINK.r?=	${FC} ${FFLAGS} ${RFLAGS} ${LDFLAGS}
+CPPFLAGS?=
+CPPFLAGS+=	-I${.CURDIR}
 
 LEX?=		lex
 LFLAGS?=
@@ -66,14 +88,9 @@ LDFLAGS+=	${DEBUG}
 LINT?=		lint
 LINTFLAGS?=	-chapbx
 
+# MirOS can use mirbsdksh extensions per definitionem
+SHELL=		/bin/ksh
 MAKE?=		make
-
-PC?=		pc
-PFLAGS?=
-COMPILE.p?=	${PC} ${PFLAGS} ${CPPFLAGS} -c
-LINK.p?=	${PC} ${PFLAGS} ${CPPFLAGS} ${LDFLAGS}
-
-SHELL?=		sh
 
 YACC?=		yacc
 YFLAGS?=	-d
@@ -87,31 +104,25 @@ CTAGS?=		/usr/bin/ctags
 .c:
 	${LINK.c} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .c.o:
-	${COMPILE.c} ${.IMPSRC}
-.if (${MACHINE_ARCH} != "alpha")
+	${COMPILE.c} ${CFLAGS_${.TARGET}} ${.IMPSRC}
+.c.i:
+	${COMPILE.c} -o ${.TARGET} -E ${.IMPSRC}
 .c.a:
 	${COMPILE.c} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
-.endif
 .c.ln:
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} -i ${.IMPSRC}
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} \
+	    -i ${.IMPSRC}
 
 # C++
 .cc:
 	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .cc.o:
-	${COMPILE.cc} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET}} ${.IMPSRC}
+.cc.i:
+	${COMPILE.cc} -o ${.TARGET} -E ${.IMPSRC}
 .cc.a:
-	${COMPILE.cc} ${.IMPSRC}
-	${AR} ${ARFLAGS} $@ $*.o
-	rm -f $*.o
-
-.C:
-	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
-.C.o:
-	${COMPILE.cc} ${.IMPSRC}
-.C.a:
 	${COMPILE.cc} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
@@ -119,47 +130,11 @@ CTAGS?=		/usr/bin/ctags
 .cxx:
 	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .cxx.o:
-	${COMPILE.cc} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET}} ${.IMPSRC}
+.cxx.i:
+	${COMPILE.cc} -o ${.TARGET} -E ${.IMPSRC}
 .cxx.a:
 	${COMPILE.cc} ${.IMPSRC}
-	${AR} ${ARFLAGS} $@ $*.o
-	rm -f $*.o
-
-# Fortran/Ratfor
-.f:
-	${LINK.f} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
-.f.o:
-	${COMPILE.f} ${.IMPSRC}
-.f.a:
-	${COMPILE.f} ${.IMPSRC}
-	${AR} ${ARFLAGS} $@ $*.o
-	rm -f $*.o
-
-.F:
-	${LINK.F} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
-.F.o:
-	${COMPILE.F} ${.IMPSRC}
-.F.a:
-	${COMPILE.F} ${.IMPSRC}
-	${AR} ${ARFLAGS} $@ $*.o
-	rm -f $*.o
-
-.r:
-	${LINK.r} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
-.r.o:
-	${COMPILE.r} ${.IMPSRC}
-.r.a:
-	${COMPILE.r} ${.IMPSRC}
-	${AR} ${ARFLAGS} $@ $*.o
-	rm -f $*.o
-
-# Pascal
-.p:
-	${LINK.p} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
-.p.o:
-	${COMPILE.p} ${.IMPSRC}
-.p.a:
-	${COMPILE.p} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
@@ -167,15 +142,18 @@ CTAGS?=		/usr/bin/ctags
 .s:
 	${LINK.s} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .s.o:
-	${COMPILE.s} ${.IMPSRC}
+	${COMPILE.s} ${ASFLAGS_${.TARGET}} ${.IMPSRC}
 .s.a:
 	${COMPILE.s} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
+
 .S:
 	${LINK.S} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .S.o:
-	${COMPILE.S} ${.IMPSRC}
+	${COMPILE.S} ${ASFLAGS_${.TARGET}} ${.IMPSRC}
+.S.i:
+	${COMPILE.S} -o ${.TARGET} -E ${.IMPSRC}
 .S.a:
 	${COMPILE.S} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -191,7 +169,7 @@ CTAGS?=		/usr/bin/ctags
 	mv lex.yy.c ${.TARGET}
 .l.o:
 	${LEX.l} ${.IMPSRC}
-	${COMPILE.c} -o ${.TARGET} lex.yy.c 
+	${COMPILE.c} ${CFLAGS_${.TARGET}} -o ${.TARGET} lex.yy.c
 	rm -f lex.yy.c
 
 # Yacc
@@ -204,10 +182,21 @@ CTAGS?=		/usr/bin/ctags
 	mv y.tab.c ${.TARGET}
 .y.o:
 	${YACC.y} ${.IMPSRC}
-	${COMPILE.c} -o ${.TARGET} y.tab.c
+	${COMPILE.c} ${CFLAGS_${.TARGET}} -o ${.TARGET} y.tab.c
 	rm -f y.tab.c
 
 # Shell
 .sh:
 	rm -f ${.TARGET}
 	cp ${.IMPSRC} ${.TARGET}
+
+# Debugging output
+.if defined(___DISPLAY_MAKEVARS)
+.MAIN: ___display_makevars
+.endif
+___display_makevars: .PHONY .NOTMAIN
+.for _i in ${___DISPLAY_MAKEVARS}
+	@printf '%s\n' '${${_i}}'
+.endfor
+
+.endif

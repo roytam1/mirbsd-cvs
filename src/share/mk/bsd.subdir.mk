@@ -1,6 +1,10 @@
-#	$OpenBSD: bsd.subdir.mk,v 1.12 2004/01/18 23:44:51 marc Exp $
-#	$NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
-#	@(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
+# $MirOS$
+# $OpenBSD: bsd.subdir.mk,v 1.12 2004/01/18 23:44:51 marc Exp $
+# $NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
+# @(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
+
+.if !defined(BSD_SUBDIR_MK)
+BSD_SUBDIR_MK=1
 
 .if !target(.MAIN)
 .MAIN: all
@@ -62,12 +66,12 @@ ${SUBDIR}::
 .endif
 
 .if !target(install)
-.if !target(beforeinstall)
+.  if !target(beforeinstall)
 beforeinstall:
-.endif
-.if !target(afterinstall)
+.  endif
+.  if !target(afterinstall)
 afterinstall:
-.endif
+.  endif
 install: maninstall
 maninstall: afterinstall
 afterinstall: realinstall
@@ -111,5 +115,7 @@ regress: _SUBDIRUSE
 .endif
 
 .if !defined(BSD_OWN_MK)
-.include <bsd.own.mk>
+.  include <bsd.own.mk>
+.endif
+
 .endif

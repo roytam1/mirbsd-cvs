@@ -1,84 +1,30 @@
-#	$OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
-#	$NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
-#	@(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
+# $MirOS$
+# $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
+# $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
+# @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
+
+.if !defined(BSD_PROG_MK)
+BSD_PROG_MK=1
 
 .if exists(${.CURDIR}/../Makefile.inc)
-.include "${.CURDIR}/../Makefile.inc"
+.  include "${.CURDIR}/../Makefile.inc"
 .endif
 
-.include <bsd.own.mk>
+.if !defined(BSD_OWN_MK)
+.  include <bsd.own.mk>
+.endif
 
 .SUFFIXES: .out .o .c .cc .C .cxx .y .l .s .8 .7 .6 .5 .4 .3 .2 .1 .0
 
 .if ${WARNINGS:L} == "yes"
-CFLAGS+=       ${CDIAGFLAGS}
-CXXFLAGS+=     ${CXXDIAGFLAGS}
+CFLAGS+=	${CDIAGFLAGS}
+CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
 CFLAGS+=	${COPTS}
-CXXFLAGS+=     ${CXXOPTS}
-
-.if (${ELF_TOOLCHAIN:L} == "yes")
-CRTBEGIN?=       ${DESTDIR}/usr/lib/crtbegin.o
-CRTEND?=         ${DESTDIR}/usr/lib/crtend.o
-.endif
-
-LIBCRT0?=	${DESTDIR}/usr/lib/crt0.o
-LIB45?=		${DESTDIR}/usr/lib/lib45.a
-LIBACL?=	${DESTDIR}/usr/lib/libacl.a
-LIBASN1?=	${DESTDIR}/usr/lib/libasn1.a
-LIBC?=		${DESTDIR}/usr/lib/libc.a
-LIBCOMPAT?=	${DESTDIR}/usr/lib/libcompat.a
-LIBCRYPTO?=	${DESTDIR}/usr/lib/libcrypto.a
-LIBCURSES?=	${DESTDIR}/usr/lib/libcurses.a
-LIBDES?=	${DESTDIR}/usr/lib/libdes.a
-LIBEDIT?=	${DESTDIR}/usr/lib/libedit.a
-LIBEVENT?=	${DESTDIR}/usr/lib/libevent.a
-LIBGCC?=	${DESTDIR}/usr/lib/libgcc.a
-LIBGSSAPI?=	${DESTDIR}/usr/lib/libgssapi.a
-LIBHDB?=	${DESTDIR}/usr/lib/libhdb.a
-LIBKADM?=	${DESTDIR}/usr/lib/libkadm.a
-LIBKADM5CLNT?=	${DESTDIR}/usr/lib/libkadm5clnt.a
-LIBKADM5SRV?=	${DESTDIR}/usr/lib/libkadm5srv.a
-LIBKAFS?=	${DESTDIR}/usr/lib/libkafs.a
-LIBKDB?=	${DESTDIR}/usr/lib/libkdb.a
-LIBKEYNOTE?=	${DESTDIR}/usr/lib/libkeynote.a
-LIBKRB?=	${DESTDIR}/usr/lib/libkrb.a
-LIBKRB5?=	${DESTDIR}/usr/lib/libkrb5.a
-LIBKVM?=	${DESTDIR}/usr/lib/libkvm.a
-LIBL?=		${DESTDIR}/usr/lib/libl.a
-LIBM?=		${DESTDIR}/usr/lib/libm.a
-LIBOLDCURSES?=	${DESTDIR}/usr/lib/libocurses.a
-LIBPCAP?=	${DESTDIR}/usr/lib/libpcap.a
-LIBPERL?=	${DESTDIR}/usr/lib/libperl.a
-LIBRPCSVC?=	${DESTDIR}/usr/lib/librpcsvc.a
-LIBSECTOK?=	${DESTDIR}/usr/lib/libsectok.a
-LIBSKEY?=	${DESTDIR}/usr/lib/libskey.a
-LIBSSL?=	${DESTDIR}/usr/lib/libssl.a
-LIBTELNET?=	${DESTDIR}/usr/lib/libtelnet.a
-LIBTERMCAP?=	${DESTDIR}/usr/lib/libtermcap.a
-LIBTERMLIB?=	${DESTDIR}/usr/lib/libtermlib.a
-LIBUSB?=	${DESTDIR}/usr/lib/libusbhid.a
-LIBUTIL?=	${DESTDIR}/usr/lib/libutil.a
-LIBWRAP?=	${DESTDIR}/usr/lib/libwrap.a
-LIBY?=		${DESTDIR}/usr/lib/liby.a
-LIBZ?=		${DESTDIR}/usr/lib/libz.a
-
-.if (${MACHINE_ARCH} == "alpha" || ${MACHINE_ARCH} == "amd64" || \
-     ${MACHINE_ARCH} == "i386")
-LIBARCH?=	${DESTDIR}/usr/lib/lib${MACHINE_ARCH}.a
-.else
-LIBARCH?=
-.endif
-
-# old stuff
-LIBDBM?=	${DESTDIR}/usr/lib/libdbm.a
-LIBMP?=		${DESTDIR}/usr/lib/libmp.a
-LIBPC?=		${DESTDIR}/usr/lib/libpc.a
-LIBPLOT?=	${DESTDIR}/usr/lib/libplot.a
-LIBRESOLV?=	${DESTDIR}/usr/lib/libresolv.a
+CXXFLAGS+=	${CXXOPTS}
 
 .if defined(SHAREDSTRINGS)
-CLEANFILES+=strings
+CLEANFILES+=	strings
 .c.o:
 	${CC} -E ${CFLAGS} ${.IMPSRC} | xstr -c -
 	@${CC} ${CFLAGS} -c x.c -o ${.TARGET}
@@ -104,31 +50,26 @@ CLEANFILES+=strings
 .endif
 
 
-.if defined(PROG)
+.if defined(PROG) && !empty(PROG)
 SRCS?=	${PROG}.c
-.if !empty(SRCS:N*.h:N*.sh)
+.  if !empty(SRCS:N*.h:N*.sh)
 OBJS+=	${SRCS:N*.h:N*.sh:R:S/$/.o/g}
 LOBJS+=	${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
-.endif
+.  endif
 
-.if defined(OBJS) && !empty(OBJS)
-.if defined(DESTDIR)
+.  if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)
+LINKER?=${CXX}
+.  else
+LINKER?=${CC}
+.  endif
 
-${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${DPADD}
-	${CC} ${LDFLAGS} ${LDSTATIC} -o ${.TARGET} -nostdlib -L${DESTDIR}/usr/lib ${LIBCRT0} ${CRTBEGIN} ${OBJS} ${LDADD} -lgcc -lc -lgcc ${CRTEND}
+.  if defined(OBJS) && !empty(OBJS)
+${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
+	${LINKER} ${LDFLAGS} ${LDSTATIC} -o ${.TARGET} ${OBJS} ${LDADD}
+.  endif
 
-.else
-
-${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${DPADD}
-	${CC} ${LDFLAGS} ${LDSTATIC} -o ${.TARGET} ${OBJS} ${LDADD}
-
-.endif	# defined(DESTDIR)
-.endif	# defined(OBJS) && !empty(OBJS)
-
-.if	!defined(MAN)
-MAN=	${PROG}.1
-.endif	# !defined(MAN)
-.endif	# defined(PROG)
+MAN?=	${PROG}.1
+.endif	# def/not empty PROG
 
 .MAIN: all
 all: ${PROG} _SUBDIRUSE
@@ -140,54 +81,58 @@ clean: _SUBDIRUSE
 .endif
 
 cleandir: _SUBDIRUSE clean
+.if ${NOMAN:L} != "no"
+	rm -f *.cat?
+.endif
 
 .if !target(install)
-.if !target(beforeinstall)
+.  if !target(beforeinstall)
 beforeinstall:
-.endif
-.if !target(afterinstall)
+.  endif
+.  if !target(afterinstall)
 afterinstall:
-.endif
+.  endif
 
-.if !target(realinstall)
+.  if !target(realinstall)
 realinstall:
-.if defined(PROG)
+.    if defined(PROG) && !empty(PROG)
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}
-.endif
-.endif
+	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
+.    endif
+.  endif
 
 install: maninstall _SUBDIRUSE
-.if defined(LINKS) && !empty(LINKS)
-.  for lnk file in ${LINKS}
+.  if defined(LINKS) && !empty(LINKS)
+.    for lnk file in ${LINKS}
 	@l=${DESTDIR}${lnk}; \
 	 t=${DESTDIR}${file}; \
 	 echo $$t -\> $$l; \
-	 rm -f $$t; ln $$l $$t
-.  endfor
-.endif
+	 rm -f $$t; ln $$l $$t || cp $$l $$t
+.    endfor
+.  endif
 
 maninstall: afterinstall
 afterinstall: realinstall
 realinstall: beforeinstall
-.endif
+.endif	# !target install
 
 .if !target(lint)
+.  if empty(LINTFLAGS:M-l*)
+LINTFLAGS+=	-lstdc
+.  endif
 lint: ${LOBJS}
-.if defined(LOBJS) && !empty(LOBJS)
+.  if defined(LOBJS) && !empty(LOBJS)
 	@${LINT} ${LINTFLAGS} ${LDFLAGS:M-L*} ${LOBJS} ${LDADD}
-.endif
-.endif
-
-.if !defined(NOMAN)
-.include <bsd.man.mk>
+.  endif
 .endif
 
-.if !defined(NONLS)
-.include <bsd.nls.mk>
+.if ${NOMAN:L} == "no"
+.  include <bsd.man.mk>
 .endif
 
 .include <bsd.obj.mk>
 .include <bsd.dep.mk>
 .include <bsd.subdir.mk>
 .include <bsd.sys.mk>
+
+.endif
