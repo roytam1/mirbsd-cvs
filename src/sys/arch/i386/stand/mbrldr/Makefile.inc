@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/mbrldr/Makefile.inc,v 1.1 2005/03/14 22:12:39 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/mbrldr/Makefile.inc,v 1.2 2005/03/14 22:26:03 tg Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MBRLDR_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MBRLDR_MAKEFILE_INC=1
@@ -16,7 +16,7 @@ CLEANFILES+=	mbrcode.h
 all: mbrcode.h
 
 mbrcode.h: ${PROG}
-	print '/* $$Mir''BSD$$ */\n/*-\n * Automatically' \
+	print '/* $$Mir''OS$$ */\n/*-\n * Automatically' \
 	    'generated, do not edit!\n * ${PROG} Version' \
 	    '${V} for ${MACHINE}\n */' >$@
 	hexdump -ve '8/1 "0x%02X, " "\n"' ${.ALLSRC} >>$@
