@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.209 2005/02/03 23:51:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.3 2005/02/05 22:43:40 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2138,4 +2138,41 @@
  work, advertising for Club-Mate included, but... it's an adventurous car)
  so I'll be at least able to arrive. My herc server could need a passively
  cooled PSU in Baby-AT form factor.</p>
+<p>07.02.2005 by tg@<br />Carnival update. I've discovered that benz, even
+ if he doesn't write wlog entries *hint, hint*, still documents changes in
+ the MirWiki. For me, tomorrow is a working day at my dayjob &ndash; maybe
+ I'm the only one of my class, I think all the others have booked that day
+ off to enjoy the last day of carnival, before on wednesday the Christians
+ will start their 40 days of abstinence. I don't mind working on that day,
+ since I'm born on "Rosenmontag" I hate carnival like the pest, but due to
+ my $orkplace being K&ouml;ln, the #1 point of interest for these crazies,
+ I'm not too enjoying the idea. I hope that, tomorrow, in the train, there
+ will be at least no smoking (it's forbidden!) teenager groups mocking the
+ passengers, like last Thundersday.<br />Well, CVSweb sorta works and _is_
+ valid XHTML (where I checked, at least), the synchronisation of the three
+ CVS repos works, I've got a checkout of src to start the merge, so I'd do
+ it better soon (since I've got a pile of fixes to commit which I can't at
+ the moment due to lack of a non-locked repository ;). I'd rather like to,
+ among other things, play with the new gcc and especially native WineX and
+ Java&trade; but since I haven't even recompiled XFree86&trade; it's still
+ a long way before I can think of starting this. Ports could use some care
+ too (the pine update isn't that urgent, but mplayer is, and Samba).<br />
+ At least I've got a spanish guy (evilwm and Crux user) persuaded, in IRC,
+ to do docs for us.<br />Oh, well, IRC. I still wonder about the behaviour
+ of some people. A person with a three-letter nick (I'm not to name anyone
+ here again) just left the &quot;unfriendly&quot; channel, without telling
+ the reason. If it's because of my friendliness towards newbies, he should
+ have left two or three days earlier, so I just don't understand. If not I
+ have no idea either. Well, there is quite a bunch of people still hanging
+ around in the channels, so I guess every community builds itself, and who
+ doesn't fit in earlier or later leaves anyway. I don't want to gather the
+ huge crowd around myself or the MirOS project, I don't want (us or me) to
+ be popular. Linux users are a huge mass (or mess?) but definitively don't
+ have class (or does the Englishman say style?). I hope that, not despite,
+ but because of our (well, mine ;) I don't speak for the others.) rudeness
+ towards idiots, our userbase will consist of people which don't lack more
+ than one or two clues.<br />It has come to my attention that this wlog is
+ actually read by people, even if not provoked by links on certain webfora
+ (I still won't consider it a blog, but who must can retrieve RSS feeds of
+ the MirOS mailing lists at gmane). These people are hereby greeted.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
