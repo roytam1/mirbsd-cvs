@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/collect2.c,v 1.2 2005/03/25 19:29:02 tg Exp $ */
 
 /* Collect static initialization info into data structures that can be
    traversed by C++ initialization and finalization routines.
@@ -1093,6 +1093,11 @@ main (int argc, char **argv)
 		  /* Already parsed.  */
 		  ld1--;
 		  ld2--;
+		}
+	      if (!strcmp (arg, "-dynamic-linker") && argv[1])
+		{
+		  ++argv;
+		  *ld1++ = *ld2++ = *argv;
 		}
 	      break;
 
