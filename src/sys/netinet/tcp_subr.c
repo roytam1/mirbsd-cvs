@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.2 2005/03/06 21:28:21 tg Exp $	*/
 /*	$OpenBSD: tcp_subr.c,v 1.80 2004/05/07 14:42:27 millert Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
@@ -150,6 +150,9 @@ int	tcp_syn_bucket_limit = 3*TCP_SYN_BUCKET_SIZE;
 struct	syn_cache_head tcp_syn_cache[TCP_SYN_HASH_SIZE];
 
 int tcp_reass_limit = NMBCLUSTERS / 2; /* hardlimit for tcpqe_pool */
+#ifdef TCP_SACK
+int tcp_sackhole_limit = 32*1024; /* hardlimit for sackhl_pool */
+#endif
 
 #ifdef INET6
 extern int ip6_defhlim;
@@ -181,6 +184,7 @@ tcp_init()
 #ifdef TCP_SACK
 	pool_init(&sackhl_pool, sizeof(struct sackhole), 0, 0, 0, "sackhlpl",
 	    NULL);
+	pool_sethardlimit(&sackhl_pool, tcp_sackhole_limit, NULL, 0);
 #endif /* TCP_SACK */
 	in_pcbinit(&tcbtable, tcbhashsize);
 	tcp_now = arc4random() / 2;
