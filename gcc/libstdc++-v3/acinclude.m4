@@ -1,4 +1,4 @@
-dnl $MirOS: gcc/libstdc++-v3/acinclude.m4,v 1.2 2005/03/26 09:11:59 tg Exp $
+dnl $MirOS: gcc/libstdc++-v3/acinclude.m4,v 1.3 2005/03/26 09:22:56 tg Exp $
 
 dnl
 dnl GLIBCXX_CONDITIONAL (NAME, SHELL-TEST)
@@ -1751,7 +1751,7 @@ AC_DEFUN([AC_LC_MESSAGES], [
 ])
 
 
-sinclude([libtool.m4])
+sinclude([../libtool.m4])
 dnl The lines below arrange for aclocal not to bring an installed
 dnl libtool.m4 into aclocal.m4, while still arranging for automake to
 dnl add a definition of LIBTOOL to Makefile.in.
