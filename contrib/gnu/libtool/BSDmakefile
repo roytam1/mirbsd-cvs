@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.1 2005/02/05 02:25:03 tg Exp $
+# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.2 2005/02/05 02:27:36 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -16,7 +16,7 @@ obj:
 	cd ${.CURDIR}/obj && ln -s libtool.m4 aclocal.m4
 
 clean:
-	-rm -f ${.CURDIR}/{config.{guess,sub},ac{local,include}.m4,configure.in}
+	-rm -f ${.CURDIR}/{config.{guess,sub},ac{local,include}.m4}
 	-rm -rf ${.CURDIR}/obj ${.CURDIR}/{COPYING,INSTALL}
 
 install:
@@ -26,7 +26,7 @@ do-bootstrap:
 	cd ${.CURDIR} && ${MAKE} clean
 	for i in config.{guess,sub} install-sh missing mkinstalldirs; do \
 		cp ${GNUSYSTEM_AUX_DIR}/$$i ${.CURDIR}/; done
-	cd ${.CURDIR} && env AUTOCONF_VERSION=2.13 AUTOMAKE_VERSION=1.4 \
+	cd ${.CURDIR} && env AUTOCONF_VERSION=2.59 AUTOMAKE_VERSION=1.9 \
 	    ${SHELL} ./bootstrap
 	cd ${.CURDIR} && rm config.{guess,sub} install-sh missing ChangeLog \
 	    mkinstalldirs aclocal.m4 COPYING INSTALL NEWS README AUTHORS
