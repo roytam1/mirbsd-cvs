@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: src/gnu/usr.bin/binutils/opcodes/configure.in,v 1.2 2005/03/13 16:07:12 tg Exp $
 
 dnl Process this file with autoconf to produce a configure script.
 dnl
@@ -47,6 +47,22 @@ AC_ARG_ENABLE(commonbfdlib,
 esac])dnl
 
 build_warnings="-W -Wall -Wstrict-prototypes -Wmissing-prototypes"
+
+AC_ARG_ENABLE(werror,
+  [  --enable-werror    treat compile warnings as errors],
+  [case "${enableval}" in
+     yes | y) ERROR_ON_WARNING="yes" ;;
+     no | n)  ERROR_ON_WARNING="no" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-werror) ;;
+   esac])
+
+# Enable -Werror by default, suppressing it only for --disable-werror
+# or --disable-build-warnings.
+if test "${ERROR_ON_WARNING}" != no
+then
+  build_warnings="$build_warnings -Werror"
+fi
+
 AC_ARG_ENABLE(build-warnings,
 [  --enable-build-warnings Enable build-time compiler warnings if gcc is used],
 [case "${enableval}" in
