@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.10 2005/03/20 22:01:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.11 2005/03/26 01:09:34 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -31,19 +31,17 @@
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Release</h3>
-<p>CURRENT: January 27th, 2005: #8-Beta snapshot (tech preview), via <a
- href="/MirOS/current/i386-20050127/">https</a> and at the usual <a
- href="http://f.scarywater.net/miros/">usual BitTorrent tracker</a>.
- This is a less tested, less stable, more current version without even
- an X-Windowing system built, lest alone source and stuff. At least
- you get Ports and a special boot floppy for Strato dedicated servers.</p>
+<p>CURRENT: March 30th, 2005: #8-beta snapshot available via our <a
+ href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
+<p>CURRENT: March 30th, 2005: #8-beta snapshot available for <a
+ href="/MirOS/current/i386-20050330/">download</a> via the usual mirrors.
+ This snapshot includes full source code for base/gnu/gcc, XFree86&reg;
+ and MirPorts.</p>
 <p>CURRENT: November 29th, 2004: #8-Beta snapshot available via <a
  href="https://mirbsd.bsdadvocacy.org:8890/MirOS/current/i386-20041129/">http</a>.
  There is an updated <a
  href="http://users.mirsolutions.de/~tg/bsd/encrypt.gz">/usr/bin/encrypt</a>
  (gzip compressed) available to fix a core dump.</p>
-<p>CURRENT: November 29th, 2004: Development snapshot available on the <a
- href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
 <p>PORTS: March 26th, 2005: MirPorts now work on MirOS BSD, OpenBSD and Mac
@@ -53,8 +51,8 @@
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
-<p><a href="/MirOS/CVS/cvsrepo-20050318.cgz">CVSREPO</a>: March 18th, 2005:
- seed file (130 MB) for reducing the initial transfer costs. We would like
+<p><a href="/MirOS/CVS/cvsrepo-20050330.cgz">CVSREPO</a>: March 30th, 2005:
+ seed file (161 MB) for reducing the initial transfer costs. We would like
  to offer CTM; it's available on request but nobody uses it.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
  final and complete seed file (325 MB) for the historic old repository.</p>

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.3 2005/03/16 23:55:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.4 2005/03/19 11:08:37 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -27,12 +27,12 @@
  excessive use of the rsync command, since it imposes a lot of traffic.
 <br />
  Please consider using a <a
- href="/MirOS/CVS/cvsroot-20050316.cgz">recent (2005-03-16) snapshot</a>
- tarball (<a href="/MirOS/CVS/cvsroot-20050316.cgz.asc">PGP signature</a>)
- of the old CVS repository, or one from <a
- href="/MirOS/CVS/cvsrepo-20050318.cgz">2005-03-18</a> (<a
- href="/MirOS/CVS/cvsrepo-20050318.cgz.asc">PGP signature</a>) for the new
- CVS repository, as a base for rsync use in order to speed up the initial
+ href="/MirOS/CVS/cvsrepo-20050330.cgz">recent (2005-03-30) snapshot</a>
+ tarball (<a href="/MirOS/CVS/cvsrepo-20050330.cgz.asc">PGP signature</a>)
+ of the CVS Repository (or for the old CVSROOT, a snapshot from <a
+ href="/MirOS/CVS/cvsroot-20050316.cgz">2005-03-16</a> &ndash; <a
+ href="/MirOS/CVS/cvsroot-20050316.cgz.asc">PGP signature</a>)
+ as a base for rsync use in order to speed up the initial
  synchronisation and reduce load and traffic on the servers.</p>
 <pre>nice /usr/local/bin/rsync --delete -rxlztpg \
   --rsync-path=/usr/bin/rsync \
