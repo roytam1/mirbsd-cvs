@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: src/scripts/genhtman.sh,v 1.1 2005/03/06 16:08:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,6 +24,9 @@
 
 print XXX not ported
 exit 1
+
+# for a in papers psd smm usd; do (cd papers; for x in $a.*; do (cd ../man$(print $a|tr '[:lower:]' '[:upper:]'); ln -s ../papers/$x ${x#$a.}); done); done                                                                       
+
 
 ...:
 	mkdir -p ${MYDESTDIR}/htman || ${SUDO} mkdir -p ${MYDESTDIR}/htman
