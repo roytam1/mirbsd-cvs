@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/imlib/Makefile,v 1.1.7.1 2005/03/18 15:46:54 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2003/11/14 23:52:42 brad Exp $
 # $FreeBSD: Makefile,v 1.45 1999/03/09 01:08:57 nectar Exp $
 
@@ -10,7 +10,7 @@ CATEGORIES=	graphics devel
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/imlib/1.9/}
 
 MODULES=	devel/gettext
-LIB_DEPENDS= 	gtk.1.2,gdk.1.2::x11/gtk+ \
+LIB_DEPENDS= 	gtk.1.2,gdk.1.2::x11/gtk+1 \
 		jpeg.62::graphics/jpeg \
 		png.2::graphics/png \
 		tiff.35::graphics/tiff

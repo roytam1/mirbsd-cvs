@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.11 2003/11/14 23:52:42 brad Exp $
 bin/imlib-config
 bin/imlib_config
@@ -11,7 +12,8 @@ lib/libImlib.a
 lib/libImlib.la
 lib/libgdk_imlib.a
 lib/libgdk_imlib.la
-%%SHARED%%
+lib/pkgconfig/imlib.pc
+lib/pkgconfig/imlibgdk.pc
 man/man1/imlib-config.1
 man/man1/imlib_config.1
 share/aclocal/imlib.m4
@@ -19,5 +21,8 @@ share/examples/imlib/im_palette-small.pal
 share/examples/imlib/im_palette-tiny.pal
 share/examples/imlib/im_palette.pal
 share/examples/imlib/imrc
+%%SHARED%%
 @dirrm share/examples/imlib
+@dirrm share/aclocal
+@dirrm lib/pkgconfig
 @extraunexec rm -rf ${SYSCONFDIR}/imlib
