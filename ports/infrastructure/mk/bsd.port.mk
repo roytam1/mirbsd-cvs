@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.4 2005/03/25 23:42:25 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.5 2005/03/27 18:41:34 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -442,7 +442,7 @@ NO_CXX=			No
 .  elif ${HAS_CXX:L} == "port"
 LIB_DEPENDS+=		${_CXX_LIB_DEPENDS}
 NO_CXX=			No
-.  else
+.  elif ${HAS_CXX:L} != "reason"
 NO_CXX=			C++ is not supported on this system
 .  endif
 CONFIGURE_ENV+=		CXX='${CXX}'
