@@ -1,4 +1,4 @@
-(* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.1 2005/03/27 23:56:18 tg Exp $
  *-
  * Copyright (c) 2005
  *	Free Software Foundation, Inc. <gpc@gnu.de>
@@ -83,7 +83,7 @@ type
     buffer: array[0..63] of Card8;
   end;
 
-{$L md5c.c}
+{$L c}
 procedure cInit(var ctx: TCtx);
   external name 'MD5Init';
 procedure cUpdate(var ctx: TCtx; protected var buf; len: SizeType);
