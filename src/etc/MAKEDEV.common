@@ -1,3 +1,4 @@
+vers(a, {-$MirOS$-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.common,v 1.7 2004/04/11 18:14:59 millert Exp $-})dnl
 divert(1)dnl
 dnl
@@ -445,10 +446,10 @@ _mkdev(pctr, pctr, {-M pctr c major_pctr_c 0 644-})dnl
 __devitem(systrace, systrace*, System call tracing device)dnl
 _mkdev(systrace, systrace, {-M systrace c major_systrace_c 0 644-})dnl
 __devitem(au, audio*, Audio devices,audio)dnl
-_mkdev(au, audio*, {-M sound$U	c major_au_c $U
-	M mixer$U	c major_au_c Add($U, 16)
-	M audio$U	c major_au_c Add($U, 128)
-	M audioctl$U	c major_au_c Add($U, 192)
+_mkdev(au, audio*, {-M sound$U	c major_au_c $U 660 audio
+	M mixer$U	c major_au_c Add($U, 16) 660 audio
+	M audio$U	c major_au_c Add($U, 128) 660 audio
+	M audioctl$U	c major_au_c Add($U, 192) 660 audio
 	MKlist="$MKlist;[ -e audio ] || ln -s audio$U audio"
 	MKlist="$MKlist;[ -e mixer ] || ln -s mixer$U mixer"
 	MKlist="$MKlist;[ -e sound ] || ln -s sound$U sound"
@@ -456,12 +457,12 @@ _mkdev(au, audio*, {-M sound$U	c major_au_c $U
 __devitem(asc, asc*, ASC Audio device)dnl
 _mkdev(asc, asc*, {-M asc$U major_asc_c 0-})dnl
 __devitem(music, music*, MIDI devices,midi)dnl
-_mkdev(music, music*, {-M music$U     c major_music_c $U
-	M sequencer$U c major_music_c Add($U, 128)
+_mkdev(music, music*, {-M music$U     c major_music_c $U 660 audio
+	M sequencer$U c major_music_c Add($U, 128) 660 audio
 	MKlist="$MKlist;[ -e music ] || ln -s music$U music"
 	MKlist="$MKlist;[ -e sequencer ] || ln -s sequencer$U sequencer"-})dnl
 __devitem(radio, radio*, FM tuner devices)dnl
-_mkdev(radio, radio*, {-M radio$U     c major_radio_c $U
+_mkdev(radio, radio*, {-M radio$U     c major_radio_c $U 660 audio
 	MKlist="$MKlist;[ -e radio ] || ln -s radio$U radio"-})dnl
 __devitem(fdesc, fd, fd/* nodes for fdescfs,mount_fdesc 8)dnl
 _mkdev(fdesc, fd, {-RMlist="mkdir -p fd;$RMlist" n=0
@@ -548,3 +549,15 @@ __devitem(pdc, pdc, PDC device)dnl
 __devitem(gpr, gpr*, GPR400 smartcard reader)dnl
 _mcdev(gpr, gpr*, gpr, {-major_gpr_c-})dnl
 _mkdev(local, local, {-test -s $T.local && sh $T.local-})dnl
+dnl
+__devtitle(isdns, I4B devices)dnl
+__devitem(isdn, isdn, ISDN4BSD master device)dnl
+__devitem(isdnctl, isdnctl, ISDN4BSD control device)dnl
+__devitem(isdntel, isdntel*, ISDN4BSD telephony device)dnl
+__devitem(isdnbchan, isdnbchan*, ISDN4BSD raw B channel device)dnl
+__devitem(isdntrc, isdntrc*, ISDN4BSD tracing device)dnl
+_mkdev(isdn, isdn, {-M isdn c major_isdn_c 0-})dnl
+_mkdev(isdnctl, isdnctl, {-M isdnctl c major_isdnctl_c 0-})dnl
+_mkdev(isdntel, isdntel*, {-M isdntel$U c major_isdntel_c $U-})dnl
+_mkdev(isdnbchan, isdnbchan*, {-M isdnbchan$U c major_isdnbchan_c $U-})dnl
+_mkdev(isdntrc, isdntrc*, {-M isdntrc$U c major_isdntrc_c $U-})dnl

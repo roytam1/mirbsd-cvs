@@ -1,8 +1,11 @@
 vers(__file__,
+	{-$MirOS$-})dnl
+vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.23 2004/04/11 18:05:23 millert Exp $-},
 etc.MACHINE)dnl
 dnl
 dnl Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
+dnl Copyright (c) 2003-2005 Thorsten Glaser <tg@66h.42h.de>
 dnl
 dnl Permission to use, copy, modify, and distribute this software for any
 dnl purpose with or without fee is hereby granted, provided that the above
@@ -16,10 +19,11 @@ dnl WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 dnl ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 dnl OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 dnl
-dnl
 _TITLE(make)
 _DEV(all)
 _DEV(ramdisk)
+__devitem(rambig, rambig, additional devices to be put on large ramdisk media,nothing)dnl
+_DEV(rambig)
 _DEV(std)
 _DEV(local)
 _TITLE(dis)
@@ -42,7 +46,7 @@ _DEV(ttyc, 38)
 _TITLE(call)
 _DEV(tun, 40)
 _TITLE(pty)
-_DEV(ptm, 81)
+_DEV(ptm, 82)
 _DEV(pty, 6)
 _DEV(tty, 5)
 _TITLE(cons)
@@ -89,13 +93,21 @@ _DEV(systrace, 78)
 _DEV(tuner, 49)
 _DEV(uk, 20)
 _DEV(wdt, 55)
-_DEV(xfs, 51)
+_TITLE(isdns)
+_DEV(isdn, 56)
+_DEV(isdnctl, 57)
+_DEV(isdnbchan, 58)
+_DEV(isdntrc, 59)
+_DEV(isdntel, 60)
 dnl
 divert(__mddivert)dnl
 dnl
 ramdisk)
 	_recurse std bpf0 fd0 wd0 wd1 wd2 sd0 sd1 sd2 tty00 tty01 rd0
-	_recurse st0 cd0 ttyC0 random wskbd0
+	_recurse st0 cd0 ttyC0 random wskbd0 tun0 vnd0 vnd1
+	;;
+rambig)
+	_recurse pty0 raid0 raid1
 	;;
 
 _std(1, 2, 50, 4, 7)
@@ -118,6 +130,7 @@ twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl
 target(all, bpf, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)dnl
 target(all, tun, 0, 1, 2, 3)dnl
+target(all, tap, 0, 1, 2, 3)dnl
 target(all, xy, 0, 1, 2, 3)dnl
 target(all, rd, 0)dnl
 target(all, cd, 0, 1)dnl
@@ -135,3 +148,28 @@ target(ramd, sd, 0, 1, 2, 3)dnl
 target(ramd, cd, 0, 1)dnl
 target(ramd, st, 0, 1)dnl
 target(ramd, mcd, 0)dnl
+
+isdns)
+	_recurse isdn isdnctl isdnbchan0 isdnbchan1
+	_recurse isdntel0 isdntel1 isdntrc0 isdntrc1
+	cat <<_EOF_ALLISDN
+The author of the ISDN4BSD package is:
+ * Hellmuth Michaelis
+ * Hallstrasse 20
+ * D-25462 Rellingen
+ * voice: +49 4101 473574
+ * fax:   +49 4101 473575
+ * email: hm@kts.org
+
+He requests a picture postcard of the home town of any ISDN4BSD
+user as licence fee.  Please send him one if you are using this
+ISDN subsystem for MirOS, too.
+
+ * It may be illegal in your country to connect an isdn4bsd based machine
+ * using a passive ISDN card to the ISDN at your site because the protocol
+ * stack of isdn4bsd, which is necessary to run passive cards, has not been
+ * approved by the telecommunication certification authority of your country.
+ * If in doubt, please contact your local ISDN provider!
+
+_EOF_ALLISDN
+	;;

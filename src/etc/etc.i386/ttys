@@ -1,5 +1,11 @@
-#
+#	$Id$
+#	$MirOS$
 #	$OpenBSD: ttys,v 1.17 2002/06/09 06:15:14 todd Exp $
+#
+# Please note that *not* removing the word "secure" from the line
+# starting with "console" will leave your system open for attackers
+# in single-user mode. (If they boot a ramdisk kernel, they'll have
+# access anyway, but hey!)
 #
 # name	getty				type	status		comments
 #

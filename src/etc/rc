@@ -1,25 +1,88 @@
-#	$OpenBSD: rc,v 1.246 2004/05/16 04:31:01 mcbride Exp $
-
-# System startup script run by init on autoboot
-# or after single-user.
-# Output and error are redirected to console by init,
-# and the console is the controlling terminal.
+#!/bin/ksh
+# $MirOS$
+# $OpenBSD: rc,v 1.258 2004/10/22 00:59:09 itojun Exp $
+#-
+# Copyright (c) 2003, 2004
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#
+# Licensee is hereby permitted to deal in this work without restric-
+# tion, including unlimited rights to use, publicly perform, modify,
+# merge, distribute, sell, give away or sublicence, provided all co-
+# pyright notices above, these terms and the disclaimer are retained
+# in all redistributions or reproduced in accompanying documentation
+# or other materials provided with binary redistributions.
+#
+# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+# any kind, expressed or implied, to the maximum extent permitted by
+# applicable law, but with the warranty of being written without ma-
+# licious intent or gross negligence; in no event shall licensor, an
+# author or contributor be held liable for any damage, direct, indi-
+# rect or other, however caused, arising in any way out of the usage
+# of covered work, even if advised of the possibility of such damage.
+#-
+# System startup script run by init on autoboot or after single-user.
+# Output and error are redirected to console by init, and the console
+# is the controlling terminal.
+# This script must be run with the korn shell as /bin/sh.
 
 # Subroutines (have to come first).
 
 # Strip comments (and leading/trailing whitespace if IFS is set)
-# from a file and spew to stdout
-stripcom() {
-	local _file="$1"
+# from one or more file(s) given (or stdin if none) and spew to stdout
+function stripcom
+{
 	local _line
 
-	{
-		while read _line ; do
-			_line=${_line%%#*}		# strip comments
-			test -z "$_line" && continue
-			echo $_line
+	set -o noglob
+	cat "$@" | while read _line; do
+		_line=${_line%%#*}
+		[[ -n $_line ]] && echo $_line
+	done
+	set +o noglob
+}
+
+# Sort the "/etc/fstab" arrays:
+# -> sorting is done on $_mp[] from 0 to $_fstab - 1
+# -> swapping is done on $_dev[] $_mp[] $_fstype[] $_opt[] $_rest[]
+function _fsswap
+{
+	local dev mp fstype opt rest
+
+	dev="${_dev[$1]}"
+	mp="${_mp[$1]}"
+	fstype="${_fstype[$1]}"
+	opt="${_opt[$1]}"
+	rest="${_rest[$1]}"
+
+	_dev[$1]="${_dev[$2]}"
+	_mp[$1]="${_mp[$2]}"
+	_fstype[$1]="${_fstype[$2]}"
+	_opt[$1]="${_opt[$2]}"
+	_rest[$1]="${_rest[$2]}"
+
+	_dev[$2]="$dev"
+	_mp[$2]="$mp"
+	_fstype[$2]="$fstype"
+	_opt[$2]="$opt"
+	_rest[$2]="$rest"
+}
+function _fssort
+{
+	local i j k
+
+	let i=0
+	while [[ $i -lt $((_fstab-1)) ]]; do
+		let j=i
+		let k='i+1'
+		while [[ $k -lt $_fstab ]]; do
+			if [[ ${_mp[k]} < ${_mp[j]} ]]; then
+				let j=k
+			fi
+			let k='k+1'
 		done
-	} < $_file
+		_fsswap $i $j
+		let i='i+1'
+	done
 }
 
 # End subroutines
@@ -31,14 +94,14 @@ stty status '^T'
 trap : 2
 trap : 3	# shouldn't be needed
 
-HOME=/; export HOME
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
-export PATH
+export HOME=/
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-if [ $1x = shutdownx ]; then
-	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 >/dev/null 2>&1
+if [[ $1 == shutdown ]]; then
+	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
+	    >/dev/null 2>&1
 	chmod 600 /var/db/host.random >/dev/null 2>&1
-	if [ $? -eq 0 -a -f /etc/rc.shutdown ]; then
+	if [[ $? -eq 0 && -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -49,13 +112,13 @@ if [ $1x = shutdownx ]; then
 			if=${hn#/etc/hostname.}
 			test "$if" = "carp[0-9]*" && continue
 
-			ifconfig $if > /dev/null 2>&1
-			if [ "$?" != "0" ]; then
+			ifconfig $if >/dev/null 2>&1
+			if [[ $? != 0 ]]; then
 				ifconfig $if down
 			fi
 		done
 
-		if [ "X${powerdown}" = X"YES" ]; then
+		if [[ $powerdown == YES ]]; then
 			exit 2
 		fi
 
@@ -66,14 +129,14 @@ if [ $1x = shutdownx ]; then
 fi
 
 # Configure ccd devices.
-if [ -f /etc/ccd.conf ]; then
+if [[ -f /etc/ccd.conf ]]; then
 	ccdconfig -C
 fi
 
 # Configure raid devices.
-for dev in 0 1 2 3; do
-	if [ -f /etc/raid$dev.conf ]; then
-		raidctl -c /etc/raid$dev.conf raid$dev
+for dev in 0 1 2 3 4 5 6 7; do
+	if [[ -f /etc/raid${dev}.conf ]]; then
+		raidctl -c /etc/raid${dev}.conf raid$dev
 	fi
 done
 
@@ -82,64 +145,168 @@ raidctl -P all
 
 swapctl -A -t blk
 
-if [ -e /fastboot ]; then
+# pick up configuration options
+. /etc/rc.conf
+
+# Read /etc/fstab into arrays and sort by mountpoint
+# Must use a co-process because pipes are executed in a subshell in pdksh
+let _fstab=0
+stripcom /etc/fstab |&
+while read -p _fdev _fmp _ffstype _fopt _frest; do
+	_dev[_fstab]="$_fdev"
+	_mp[_fstab]="$_fmp"
+	_fstype[_fstab]="$_ffstype"
+	_opt[_fstab]="${_fopt:-rw}"
+	_rest[_fstab]="$_frest"
+	let _fstab='_fstab+1'
+done
+_fssort
+
+# Examine the filesystems whether there are IDE drives
+let i=0
+[[ $softdrives_ide = NO ]] && softdrives_ide=""
+while [[ $i -lt $_fstab ]]; do
+	case "${_dev[i]}" {
+	  /dev/wd+([0-9])[a-p])
+		_fdev="${_dev[i]#/dev/}"
+		softdrives_ide="$softdrives_ide ${_fdev%[a-p]}"
+		;;
+	  *)	;;
+	}
+	let i='i+1'
+done
+
+# Needed for softdep to work correctly (SCSI drives, too!)
+if [[ -n $softdrives_ide ]]; then
+	echo -n "Disabling HDD hardware write caches..."
+	_flags=""
+	set -o noglob
+	for drv in $softdrives_ide; do
+		case "$_flags" {
+			*${drv}*)
+				;;	# Already done
+			*)
+				echo -n " $drv"
+				/sbin/atactl /dev/r${drv}c writecachedisable \
+				    >/dev/null 2>&1 || echo -n !
+				_flags="$_flags $drv"
+				;;
+		}
+	done
+	set +o noglob
+	echo .
+fi
+
+# Check filesystems
+if [[ -e /fastboot ]]; then
 	echo "Fast boot: skipping disk checks."
-elif [ $1x = autobootx ]; then
+  elif [[ $1 == autoboot ]]; then
 	echo "Automatic boot in progress: starting file system checks."
 	fsck -p
-	case $? in
-	0)
+	case $? {
+	  0)
 		;;
-	2)
+	  2)
 		exit 1
 		;;
-	4)
+	  4)
 		echo "Rebooting..."
 		reboot
 		echo "Reboot failed; help!"
 		exit 1
 		;;
-	8)
+	  8)
 		echo "Automatic file system check failed; help!"
 		exit 1
 		;;
-	12)
+	  12)
 		echo "Boot interrupted."
 		exit 1
 		;;
-	130)
+	  130)
 		# interrupt before catcher installed
 		exit 1
 		;;
-	*)
+	  *)
 		echo "Unknown error; help!"
 		exit 1
 		;;
-	esac
+	}
 fi
 
 trap "echo 'Boot interrupted.'; exit 1" 3
 
 umount -a >/dev/null 2>&1
+let i=0
+while [[ $i -lt $_fstab ]]; do
+	if [[ ${_mp[i]} == / ]]; then
+		mount -uwo "${_opt[i]}" "${_dev[i]}" / >/dev/null 2>&1
+		if [[ $? -ne 0 ]]; then
+			case "${_opt[i]}" {
+			  *softdep*)	;;
+			  *)	echo -n 'WARNING: Your root filesystem failed'
+				echo -n ' to remount read-write! <forcing...>'
+				echo 'The system is probably severely damaged'
+				;;
+			}
+			mount -ufwo "${_opt[i]}" "${_dev[i]}" /
+		fi
+	  else
+		case "${_opt[i]}" {
+		  *noauto*)	;;
+		  sw*)		;;	# Swap
+		  xx*)		;;	# ignore totally
+		  *)	if [[ ${_fstype[i]} == ffs ]]; then
+				mount -t ffs -o "${_opt[i]}" "${_dev[i]}" \
+					"${_mp[i]}" >/dev/null 2>&1
+				if [[ $? -ne 0 ]]; then
+					case "${_opt[i]}" {
+					  *softdep*)	;;
+					  *)	echo -n "Warning: force-mounti"
+						echo -n "ng unchecked ffs file"
+						echo -n "system: ${_dev[i]}"
+						echo " -> ${_mp[i]}  nosoftdep"
+						;;
+					}
+					mount -f -t ffs -o "${_opt[i]}" \
+					    "${_dev[i]}" "${_mp[i]}"
+				fi
+			  else
+				mount -t "${_fstype[i]}" -o "${_opt[i]}" \
+				    "${_dev[i]}" "${_mp[i]}"
+			fi
+			;;
+		}
+	fi
+	let i='i+1'
+done
 mount -a -t nonfs
-mount -uw /		# root on nfs requires this, others aren't hurt
-rm -f /fastboot		# XXX (root now writeable)
-
-# pick up option configuration
-. /etc/rc.conf
+rm -f /fastboot
 
 # set flags on ttys.  (do early, in case they use tty for SLIP in netstart)
 echo 'setting tty flags'
 ttyflags -a
 
-if [ "X${pf}" != X"NO" ]; then
+if [[ -f /sbin/kbd && -f /etc/kbdtype ]]; then
+	[[ -f /etc/wsconsctl.conf ]] && \
+	    echo "warning: better use wsconsctl.conf instead of /etc/kbdtype!"
+	kbd $(</etc/kbdtype)
+fi
+
+if [[ $pf != NO ]]; then
 	RULES="block all"
 	RULES="$RULES\npass on lo0"
 	RULES="$RULES\npass in proto tcp from any to any port 22 keep state"
 	RULES="$RULES\npass out proto { tcp, udp } from any to any port 53 keep state"
 	RULES="$RULES\npass out inet proto icmp all icmp-type echoreq keep state"
+	if ifconfig lo0 inet6 >/dev/null 2>&1; then
+		RULES="$RULES\npass out inet6 proto icmp6 all icmp6-type neighbrsol"
+		RULES="$RULES\npass in inet6 proto icmp6 all icmp6-type neighbradv"
+		RULES="$RULES\npass out inet6 proto icmp6 all icmp6-type routersol"
+		RULES="$RULES\npass in inet6 proto icmp6 all icmp6-type routeradv"
+	fi
 	RULES="$RULES\npass proto { pfsync, carp }"
-	case `sysctl vfs.mounts.nfs 2>/dev/null` in
+	case $(sysctl vfs.mounts.nfs 2>/dev/null) in
 	*[1-9]*)
 		# don't kill NFS
 		RULES="scrub in all no-df\n$RULES"
@@ -150,11 +317,11 @@ if [ "X${pf}" != X"NO" ]; then
 	echo $RULES | pfctl -f - -e
 fi
 
-if [ -f /etc/sysctl.conf ]; then
+if [[ -f /etc/sysctl.conf ]]; then
 (
 	# delete comments and blank lines
-	set -- `stripcom /etc/sysctl.conf`
-	while [ $# -ge 1 ] ; do
+	set -- $(stripcom /etc/sysctl.conf)
+	while [[ $# -ge 1 ]]; do
 		sysctl $1
 		shift
 	done
@@ -165,150 +332,98 @@ fi
 echo 'starting network'
 . /etc/netstart
 
-if [ "X${pf}" != X"NO" ]; then
-	if [ -f ${pf_rules} ]; then
-		pfctl -f ${pf_rules}
+# load arp tables
+if [[ $arptables == YES && -e /etc/arp.conf ]]; then
+	echo 'Setting static ARP table entries'
+	/usr/sbin/arp -f /etc/arp.conf
+fi
+
+if [[ $pf != NO ]]; then
+	if [[ -f $pf_rules ]]; then
+		pfctl -f "$pf_rules"
 	fi
 fi
 
 mount /usr >/dev/null 2>&1
 mount /var >/dev/null 2>&1
 
-# if there's no /var/db/host.random, make one through /dev/urandom
-if [ ! -f /var/db/host.random ]; then
-	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
-		>/dev/null 2>&1
-	chmod 600 /var/db/host.random >/dev/null 2>&1
-else
-	dd if=/var/db/host.random of=/dev/urandom bs=1024 count=64 \
-	    > /dev/null 2>&1
-	dd if=/var/db/host.random of=/dev/arandom bs=1024 count=64 \
-	    > /dev/null 2>&1
-fi
-
-# reset seed file, so that if a shutdown-less reboot occurs,
-# the next seed is not a repeat
+# read in old random seed; if there's no /var/db/host.random, make
+# one through /dev/urandom; else reset seed file anyways, so that
+# if a shutdown-less reboot occurs, the next seed is not a repeat
+[[ -f /var/db/host.random ]] && cat /var/db/host.random >/dev/arandom
 dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
-    > /dev/null 2>&1
+    >/dev/null 2>&1
+chmod 600 /var/db/host.random >/dev/null 2>&1
 
 # clean up left-over files
 rm -f /etc/nologin
 rm -f /var/spool/lock/LCK.*
 rm -f /var/spool/uucp/STST/*
-(cd /var/run && { test -r dhclient.pid && dhclient_pid=`cat dhclient.pid`; rm -rf -- *; install -c -m 664 -g utmp /dev/null utmp; test -n "$dhclient_pid" && echo "$dhclient_pid" > dhclient.pid; })
+(cd /var/run && { rm -rf -- *; install -c -m 664 -g utmp /dev/null utmp; })
 (cd /var/authpf && rm -rf -- *)
-
 
 # save a copy of the boot messages
 dmesg >/var/run/dmesg.boot
 
 echo 'starting system logger'
 rm -f /dev/log
-if [ "X${named_flags}" != X"NO" ]; then
-	rm -f /var/named/dev/log
-	syslogd_flags="${syslogd_flags} -a /var/named/dev/log"
-fi
-if [ -d /var/empty ]; then
+if [[ -d /var/empty ]]; then
 	rm -f /var/empty/dev/log
 	mkdir -p -m 0555 /var/empty/dev
-	syslogd_flags="${syslogd_flags} -a /var/empty/dev/log"
+	syslogd_flags="$syslogd_flags -a /var/empty/dev/log"
 fi
-syslogd ${syslogd_flags}
+syslogd $syslogd_flags
 
-if [ X"${pf}" != X"NO" -a X"${pflogd_flags}" != X"NO" ]; then
+if [[ $pf != NO && $pflogd_flags != NO ]]; then
 	ifconfig pflog0 up
-	pflogd ${pflogd_flags}
-fi
-
-# $named_flags is imported from /etc/rc.conf;
-# if $named_flags != NO, named is run.
-if [ "X${named_flags}" != X"NO" ]; then
-	if ! cmp -s /etc/rndc.key /var/named/etc/rndc.key ; then
-		echo -n "rndc-confgen: generating new shared secret... "
-		if /usr/sbin/rndc-confgen -a -t /var/named >/dev/null 2>&1; then
-			chmod 0640 /var/named/etc/rndc.key >/dev/null 2>&1
-			echo done.
-		else
-			echo failed.
-		fi
-	fi
-
-	echo 'starting named';		named $named_flags
+	pflogd $pflogd_flags
 fi
 
 # $isakmpd_flags is imported from /etc/rc.conf;
-# If $isakmpd_flags == NO or /etc/isakmpd/isakmpd.policy doesn't exist, then
-# isakmpd isn't run.
-if [ "X${isakmpd_flags}" != X"NO" -a -e /etc/isakmpd/isakmpd.policy ]; then
-	echo 'starting isakmpd';	isakmpd ${isakmpd_flags}
+# If $isakmpd_flags == NO, isakmpd isn't run.
+if [[ $isakmpd_flags != NO ]]; then
+	echo 'starting isakmpd';	isakmpd $isakmpd_flags
 fi
 
 echo -n 'starting rpc daemons:'
 
 # $portmap is imported from /etc/rc.conf;
 # if $portmap == YES, the portmapper is started.
-if [ X"${portmap}" = X"YES" ]; then
+if [[ $portmap == YES ]]; then
 	echo -n ' portmap';		portmap
-fi
-
-if [ -d /var/yp/binding -a X`domainname` != X ]; then
-	if [ -d /var/yp/`domainname` ]; then
-		# yp server capabilities needed...
-		echo -n ' ypserv';		ypserv ${ypserv_flags}
-		#echo -n ' ypxfrd';		ypxfrd
-	fi
-
-	echo -n ' ypbind';		ypbind
-
-	if [ X"${yppasswdd_flags}" != X"NO" -a -d /var/yp/`domainname` ]; then
-		# if we are the master server, run rpc.yppasswdd
-		_host1=`ypwhich -m passwd 2> /dev/null`
-		_host2=`hostname`
-		if [ `grep '^lookup' /etc/resolv.conf | grep yp | wc -c` -ne 0 ]; then
-			_host1=`ypmatch $_host1 hosts | cut -d'	' -f2`
-			_host2=`ypmatch $_host2 hosts | cut -d'	' -f2 | head -1`
-		else
-			_host1=`nslookup $_host1 | grep '^Name: ' | \
-			    sed -e 's/^Name:    //'`
-			_host2=`nslookup $_host2 | grep '^Name: ' | \
-			    sed -e 's/^Name:    //'`
-		fi
-		if [ "$_host2" = "$_host1" ]; then
-			echo -n ' rpc.yppasswdd'
-			rpc.yppasswdd ${yppasswdd_flags}
-		fi
-	fi
+  else
+	nfs_server=NO
 fi
 
 # $nfs_server is imported from /etc/rc.conf;
 # if $nfs_server == YES, the machine is setup for being an nfs server
-if [ X${nfs_server} = X"YES" -a -s /etc/exports -a \
-    `sed -e '/^#/d' < /etc/exports | wc -l` -ne 0 ]; then
+if [[ $nfs_server == YES && -s /etc/exports && \
+    $(sed -e '/^#/d' </etc/exports | wc -l) -ne 0 ]]; then
 	rm -f /var/db/mountdtab
-	echo -n > /var/db/mountdtab
+	echo -n >/var/db/mountdtab
 	echo -n ' mountd';		mountd
-	echo -n ' nfsd';		nfsd ${nfsd_flags}
-	if [ X${lockd} = X"YES" ]; then
+	echo -n ' nfsd';		nfsd $nfsd_flags
+	if [[ $lockd == YES ]]; then
 		echo -n ' rpc.lockd';	rpc.lockd
 	fi
 fi
 
-if [ X${amd} = X"YES" -a -e ${amd_master} ]; then
-	echo -n ' amd'
-	(cd /etc/amd; amd -l syslog -x error,noinfo,nostats -p \
-	    -a ${amd_dir} `cat ${amd_master}` > /var/run/amd.pid )
-fi
-
-# run rdate before timed
-if [ X"${rdate_flags}" != X"NO" ]; then
-	echo -n ' rdate';	rdate -s ${rdate_flags}
+# run rdate before timed/ntpd
+if [[ $rdate_flags != NO ]]; then
+	echo -n ' rdate';		rdate -s $rdate_flags
 fi
 
 # $timed_flags is imported from /etc/rc.conf;
 # if $timed_flags == NO, timed isn't run.
-if [ "X${timed_flags}" != X"NO" ]; then
-	echo -n ' timed'; timed $timed_flags
+if [[ $timed_flags != NO ]]; then
+	echo -n ' timed';		timed $timed_flags
 fi
+
+# run ntpd if asked for; set time once (at startup) via settimeofday(2)
+if [[ $ntpd_flags != NO ]]; then
+	echo -n ' ntpd';		ntpd -s $ntpd_flags
+fi
+
 echo '.'
 
 mount -a -t nfs
@@ -317,19 +432,11 @@ swapctl -A -t noblk
 
 # /var/crash should be a directory or a symbolic link
 # to the crash directory if core dumps are to be saved.
-if [ -d /var/crash ]; then
+if [[ -d /var/crash ]]; then
 	savecore ${savecore_flags} /var/crash
 fi
 
-if [ "X${afs}" = X"YES" -a -c /dev/xfs0 ]; then
-	echo -n 'mounting afs:'
-	mkdir -p -m 0755 /afs
-	mount -t xfs /dev/xfs0 /afs
-	/usr/libexec/afsd ${afsd_flags}
-	echo ' done.'
-fi
-
-if [ "X${check_quotas}" = X"YES" ]; then
+if [[ $check_quotas == YES ]]; then
 	echo -n 'checking quotas:'
 	quotacheck -a
 	echo ' done.'
@@ -348,108 +455,128 @@ chmod 666 /dev/tty[pqrstuvwxyzPQRST]*
 chown root:wheel /dev/tty[pqrstuvwxyzPQRST]*
 
 # check the password temp/lock file
-if [ -f /etc/ptmp ]; then
+if [[ -f /etc/ptmp ]]; then
 	logger -s -p auth.err \
 	'password file may be incorrect -- /etc/ptmp exists'
 fi
 
 echo clearing /tmp
 
-# prune quickly with one rm, then use find to clean up /tmp/[lq]*
-# (not needed with mfs /tmp, but doesn't hurt there...)
-(cd /tmp && rm -rf [a-km-pr-zA-Z]* &&
-    find . ! -name . ! -name lost+found ! -name quota.user \
-	! -name quota.group -execdir rm -rf -- {} \; -type d -prune)
+if mount 2>&1 | grep -F "on /tmp" >/dev/null 2>&1; then
+	# prune quickly with one rm, then use find to clean up /tmp/[lq]*
+	# (not needed with mfs /tmp, but doesn't hurt there...)
+	(cd /tmp && rm -rf [a-km-pr-zA-Z]* &&
+	    find . ! -name . ! -name lost+found ! -name quota.user \
+		! -name quota.group -execdir rm -rf -- {} \; -type d -prune)
+  else
+	# clean up as usual on small systems
+	rm -rf /tmp
+	mkdir /tmp
+	chown 0:0 /tmp
+	chmod 01777 /tmp
+fi
 
-# create Unix sockets directories  for X if needed and make sure they have
+# create Unix sockets directories for X if needed and make sure they have
 # correct permissions
-if [ -d /usr/X11R6/lib ]; then
-	for d in /tmp/.X11-unix /tmp/.ICE-unix ; do
-		if [ -d $d ]; then
-			if [ `ls -ld $d | cut -d' ' -f4` != root ]; then
+if [[ -d /usr/X11R6/lib ]]; then
+	for d in /tmp/.X11-unix /tmp/.ICE-unix; do
+		if [[ -d $d ]]; then
+			if [[ $(ls -ld $d | cut -d' ' -f4) != root ]]; then
 				chown root $d
 			fi
-			if [ `ls -ld $d | cut -d' ' -f1` != drwxrwxrwt ]; then
+			if [[ $(ls -ld $d | cut -d' ' -f1) != drwxrwxrwt ]]; then
 				chmod 1777 $d
 			fi
-		elif [ -e $d ]; then
+		  elif [[ -e $d ]]; then
 			echo "Error: $d exists and isn't a directory."
-		else
+		  else
 			mkdir -m 1777 $d
 		fi
 	done
 fi
 
-[ -f /etc/rc.securelevel ] && . /etc/rc.securelevel
-if [ X${securelevel} != X"" ]; then
+[[ -f /etc/rc.securelevel ]] && . /etc/rc.securelevel
+if [[ -n $securelevel ]]; then
 	echo -n 'setting kernel security level: '
 	sysctl kern.securelevel=${securelevel}
 fi
 
 # patch /etc/motd
-if [ ! -f /etc/motd ]; then
+if [[ ! -f /etc/motd ]]; then
 	install -c -o root -g wheel -m 664 /dev/null /etc/motd
 fi
-T=`mktemp /tmp/_motd.XXXXXXXXXX`
-if [ $? -eq 0 ]; then
-	sysctl -n kern.version | sed 1q > $T
-	echo "" >> $T
-	sed '1,/^$/d' < /etc/motd >> $T
+T=$(mktemp /tmp/_motd.XXXXXXXXXX)
+if [[ $? -eq 0 ]]; then
+	sysctl -n kern.version | sed 1q >$T
+	echo "" >>$T
+	sed '1,/^$/d' </etc/motd >>$T
 	cmp -s $T /etc/motd || cp $T /etc/motd
 	rm -f $T
+  else
+	echo 'warning: mktemp(1) failed. Please check for possible reasons.'
 fi
 
-if [ -f /var/account/acct ]; then
+if [[ -f /var/account/acct ]]; then
 	echo 'turning on accounting';	accton /var/account/acct
 fi
 
-if [ -f /sbin/ldconfig ]; then
+if [[ -f /sbin/ldconfig ]]; then
 	echo 'creating runtime link editor directory cache.'
-	if [ -d /usr/local/lib ]; then
+	if [[ -d /usr/local/lib ]]; then
 		shlib_dirs="/usr/local/lib $shlib_dirs"
 	fi
-	if [ -d /usr/X11R6/lib ]; then
+	if [[ -d /usr/X11R6/lib ]]; then
 		shlib_dirs="/usr/X11R6/lib $shlib_dirs"
 	fi
 	ldconfig $shlib_dirs
 fi
 
-if [ -x /usr/libexec/vi.recover ]; then
+if [[ -x /usr/libexec/vi.recover && -e /var/tmp/vi.recover ]]; then
 	echo 'preserving editor files';	/usr/libexec/vi.recover
 fi
 
-if [ ! -f /etc/ssh/ssh_host_dsa_key ]; then
-	echo -n "ssh-keygen: generating new DSA host key... "
-	if /usr/bin/ssh-keygen -q -t dsa -f /etc/ssh/ssh_host_dsa_key -N ''; then
-		echo done.
-	else
-		echo failed.
-	fi
-fi
-if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
+if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 	echo -n "ssh-keygen: generating new RSA host key... "
-	if /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''; then
+	if /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key \
+	    -N ''; then
 		echo done.
-	else
+	  else
 		echo failed.
 	fi
 fi
-if [ ! -f /etc/ssh/ssh_host_key ]; then
-	echo -n "ssh-keygen: generating new RSA1 host key... "
-	if /usr/bin/ssh-keygen -q -t rsa1 -f /etc/ssh/ssh_host_key -N ''; then
+
+if [[ -d /var/anoncvs/anoncvs && -f /var/anoncvs/anoncvssh \
+    && ! -e /var/anoncvs/anoncvs/dev/null ]]; then
+	# Copy over /dev/null into anoncvs chroot, it needs it
+	(cd /dev; tar cf - null) | (cd /var/anoncvs/anoncvs/dev; tar xpf -)
+fi
+
+if [[ ! -f /etc/ssl/private/default.key \
+    || ! -f /etc/ssl/default.cer \
+    || ! -f /etc/ssl/deflt-ca.cer ]]; then
+	echo -n "openssl: generating new host RSA key... "
+	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
+	if /usr/sbin/openssl genrsa -out /etc/ssl/private/default.key 1024 \
+	    >/dev/null 2>&1; then
+		chmod 600 /etc/ssl/private/default.key
+		/usr/sbin/openssl req -batch -new -subj "/CN=$(hostname)/" \
+		    -key /etc/ssl/private/default.key \
+		    -x509 -out /etc/ssl/default.cer
+		chmod 644 /etc/ssl/default.cer
+		ln /etc/ssl/default.cer /etc/ssl/deflt-ca.cer
 		echo done.
 	else
 		echo failed.
 	fi
 fi
 
-if [ ! -f /etc/isakmpd/private/local.key ]; then
+if [[ ! -f /etc/isakmpd/private/local.key ]]; then
 	echo -n "openssl: generating new isakmpd RSA key... "
 	if /usr/sbin/openssl genrsa -out /etc/isakmpd/private/local.key 1024 \
-	    > /dev/null 2>&1; then
+	    >/dev/null 2>&1; then
 		chmod 600 /etc/isakmpd/private/local.key
-		openssl rsa -out /etc/isakmpd/private/local.pub \
-		    -in /etc/isakmpd/private/local.key -pubout > /dev/null 2>&1
+		/usr/sbin/openssl rsa -out /etc/isakmpd/private/local.pub \
+		    -in /etc/isakmpd/private/local.key -pubout >/dev/null 2>&1
 		echo done.
 	else
 		echo failed.
@@ -460,64 +587,65 @@ echo -n starting network daemons:
 
 # $routed_flags are imported from /etc/rc.conf.
 # If $routed_flags == NO, routed isn't run.
-if [ "X${routed_flags}" != X"NO" ]; then
+if [[ $routed_flags != NO ]]; then
 	echo -n ' routed';		routed $routed_flags
 fi
 
 # $mrouted_flags is imported from /etc/rc.conf;
 # If $mrouted_flags == NO, then mrouted isn't run.
-if [ "X${mrouted_flags}" != X"NO" ]; then
+if [[ $mrouted_flags != NO ]]; then
 	echo -n ' mrouted';		mrouted $mrouted_flags
 fi
 
-if [ "X${bgpd_flags}" != X"NO" ]; then
+if [[ $bgpd_flags != NO ]]; then
 	echo -n ' bgpd';		/usr/sbin/bgpd $bgpd_flags
 fi
 
 # $dhcpd_flags is imported from /etc/rc.conf
 # If $dhcpd_flags == NO or /etc/dhcpd.conf doesn't exist, then dhcpd isn't run.
-if [ "X${dhcpd_flags}" != X"NO" -a -f /etc/dhcpd.conf ]; then
+if [[ $dhcpd_flags != NO && -f /etc/dhcpd.conf ]]; then
 	touch /var/db/dhcpd.leases
-	if [ -f /etc/dhcpd.interfaces ]; then
-		dhcpd_ifs=`stripcom /etc/dhcpd.interfaces`
+	if [[ -f /etc/dhcpd.interfaces ]]; then
+		dhcpd_ifs=$(stripcom /etc/dhcpd.interfaces)
 	fi
-	echo -n ' dhcpd';	/usr/sbin/dhcpd ${dhcpd_flags} ${dhcpd_ifs}
+	_flags="$dhcpd_flags $dhcpd_ifs"
+	echo -n ' dhcpd';		/usr/sbin/dhcpd $_flags
 fi
 
 if ifconfig lo0 inet6 >/dev/null 2>&1; then
-	fw=`sysctl -n net.inet6.ip6.forwarding`
-	if [ "X${fw}" == X"0" ]; then
+	fw=$(sysctl -n net.inet6.ip6.forwarding)
+	if [[ $fw == 0 ]]; then
 		# $rtsold_flags is imported from /etc/rc.conf;
 		# If $rtsold_flags == NO, then rtsold isn't run.
-		if [ "X${rtsold_flags}" != X"NO" ]; then
+		if [[ $rtsold_flags != NO ]]; then
 			echo -n ' rtsold'
-			/usr/sbin/rtsold ${rtsold_flags}
+			/usr/sbin/rtsold $rtsold_flags
 		fi
-	else
+	  else
 		# $route6d_flags is imported from /etc/rc.conf;
 		# If $route6d_flags == NO, then route6d isn't run.
-		if [ "X${route6d_flags}" != X"NO" ]; then
+		if [[ $route6d_flags != NO ]]; then
 			echo -n ' route6d'
-			/usr/sbin/route6d ${route6d_flags}
+			/usr/sbin/route6d $route6d_flags
 		fi
 		# $rtadvd_flags is imported from /etc/rc.conf;
 		# If $rtadvd_flags == NO, then rtadvd isn't run.
-		if [ "X${rtadvd_flags}" != X"NO" ]; then
+		if [[ $rtadvd_flags != NO ]]; then
 			echo -n ' rtadvd'
-			/usr/sbin/rtadvd ${rtadvd_flags}
+			/usr/sbin/rtadvd $rtadvd_flags
 		fi
 	fi
 fi
 
 # $rwhod is imported from /etc/rc.conf;
 # if $rwhod == YES, rwhod is run.
-if [ X${rwhod} = X"YES" ]; then
+if [[ $rwhod == YES ]]; then
 	echo -n ' rwhod';		rwhod
 fi
 
 
-if [ "X${lpd_flags}" != X"NO" ]; then
-	echo -n ' printer';		lpd ${lpd_flags}
+if [[ $lpd_flags != NO ]]; then
+	echo -n ' printer';		lpd $lpd_flags
 fi
 
 # $sendmail_flags is imported from /etc/rc.conf;
@@ -525,39 +653,40 @@ fi
 # sendmail isn't run.  We call sendmail with a full path so that
 # SIGHUP works.  Note that /usr/sbin/sendmail may actually call a
 # mailer other than sendmail, depending on /etc/mailer.conf.
-if [ "X${sendmail_flags}" != X"NO" -a -s /etc/mailer.conf ]; then
-	echo -n ' sendmail';		( /usr/sbin/sendmail ${sendmail_flags} >/dev/null 2>&1 & )
+if [[ $sendmail_flags != NO && -s /etc/mailer.conf ]]; then
+	echo -n ' sendmail'
+	( /usr/sbin/sendmail $sendmail_flags >/dev/null 2>&1 & )
 fi
 
-if [ "X${httpd_flags}" != X"NO"  ]; then
+if [[ $httpd_flags != NO ]]; then
 	# Clean up left-over httpd locks
 	rm -f /var/www/logs/{ssl_mutex,httpd.lock,accept.lock}.*
-	echo -n ' httpd';		/usr/sbin/httpd ${httpd_flags}
+	echo -n ' httpd';		/usr/sbin/httpd $httpd_flags
 fi
 
-if [ "X${ftpd_flags}" != X"NO" ]; then
-	echo -n ' ftpd';		/usr/libexec/ftpd ${ftpd_flags}
+if [[ $ftpd_flags != NO ]]; then
+	echo -n ' ftpd';		/usr/libexec/ftpd $ftpd_flags
 fi
 
-if [ "X${identd_flags}" != X"NO" ]; then
-	echo -n ' identd';		/usr/libexec/identd ${identd_flags}
+if [[ $identd_flags != NO ]]; then
+	echo -n ' identd';		/usr/libexec/identd $identd_flags
 fi
 
-if [ X${inetd} = X"YES" -a -e /etc/inetd.conf ]; then
+if [[ $inetd == YES && -e /etc/inetd.conf ]]; then
 	echo -n ' inetd';		inetd
 fi
 
-if [ X"${sshd_flags}" != X"NO" ]; then
+if [[ $sshd_flags != NO ]]; then
 	echo -n ' sshd';		/usr/sbin/sshd ${sshd_flags};
 fi
 
-if [ "X${spamd_flags}" != X"NO" ]; then
-	if [ "X${spamd_grey}" != X"NO" ]; then
+if [[ $spamd_flags != NO ]]; then
+	if [[ $spamd_grey != NO ]]; then
 		spamd_flags="${spamd_flags} -g"
 	fi
 	echo -n ' spamd';		eval /usr/libexec/spamd ${spamd_flags}
 	/usr/libexec/spamd-setup
-	if [ "X${spamd_grey}" != X"NO" ]; then
+	if [[ $spamd_grey != NO ]]; then
 		echo -n ' spamlogd'
 		/usr/libexec/spamlogd
 	fi
@@ -566,79 +695,72 @@ fi
 # $rarpd_flags is imported from /etc/rc.conf;
 # If $rarpd_flags == NO or /etc/ethers doesn't exist, then
 # rarpd isn't run.
-if [ "X${rarpd_flags}" != X"NO" -a -s /etc/ethers ]; then
-	echo -n ' rarpd';		rarpd ${rarpd_flags}
+if [[ $rarpd_flags != NO && -s /etc/ethers ]]; then
+	echo -n ' rarpd';		rarpd $rarpd_flags
 fi
 
 # $bootparamd_flags is imported from /etc/rc.conf;
 # If $bootparamd_flags == NO or /etc/bootparams doesn't exist, then
 # bootparamd isn't run.
-if [ "X${bootparamd_flags}" != X"NO" -a -s /etc/bootparams ]; then
-	echo -n ' rpc.bootparamd';	rpc.bootparamd ${bootparamd_flags}
+if [[ $bootparamd_flags != NO && -s /etc/bootparams ]]; then
+	echo -n ' rpc.bootparamd';	rpc.bootparamd $bootparamd_flags
 fi
 
 # $rbootd_flags is imported from /etc/rc.conf;
 # If $rbootd_flags == NO or /etc/rbootd.conf doesn't exist, then
 # rbootd isn't run.
-if [ "X${rbootd_flags}" != X"NO" -a -s /etc/rbootd.conf ]; then
-	echo -n ' rbootd';		rbootd ${rbootd_flags}
+if [[ $rbootd_flags != NO && -s /etc/rbootd.conf ]]; then
+	echo -n ' rbootd';		rbootd $rbootd_flags
 fi
 
-# $mopd_flags is imported from /etc/rc.conf;
-# If $mopd_flags == NO or /tftpboot/mop doesn't exist, then
-# mopd isn't run.
-if [ "X${mopd_flags}" != X"NO" -a -d /tftpboot/mop ]; then
-	echo -n ' mopd';		mopd ${mopd_flags}
+if [[ $isdnd_flags != NO ]]; then
+	echo -n ' isdnd';		/usr/sbin/isdnd $isdnd_flags
 fi
 
 echo '.'
 
-if [ -x /sbin/wsconsctl -a -f /etc/wsconsctl.conf ]; then
+if [[ $sshagent_autostart != NO ]]; then
+	echo 'Setting up ssh-agent directories...'
+	mkdir -m 0755 /tmp/.ssh-agent
+	chown root:daemon /tmp/.ssh-agent
+	for luser in $sshagent_autostart; do
+		mkdir -m 0700 /tmp/.ssh-agent/$luser
+		chown $luser /tmp/.ssh-agent/$luser
+		rm -f /tmp/.ssh-agent/$luser/agent
+	done
+fi
+
+if [[ -x /sbin/wsconsctl && -f /etc/wsconsctl.conf ]]; then
 (
 	# delete comments and blank lines
 	save_IFS="$IFS"
 	IFS="
 "
-	set -- `stripcom /etc/wsconsctl.conf`
+	set -- $(stripcom /etc/wsconsctl.conf)
 	IFS="$save_IFS"
-	while [ $# -ge 1 ] ; do
+	while [[ $# -ge 1 ]]; do
 		eval /sbin/wsconsctl -w $1
 		shift
 	done
 )
 fi
 
-if [ -f /sbin/kbd -a -f /etc/kbdtype ]; then
-	kbd `cat /etc/kbdtype`
-fi
-
-# KerberosV master KDC
-if [ X${krb5_master_kdc} = X"YES" ]; then
-	echo 'KerberosV master KDC'
-	/usr/libexec/kdc &
-	/usr/libexec/kadmind &
-	/usr/libexec/kpasswdd &
-fi
-
-# KerberosV slave KDC
-if [ X${krb5_slave_kdc} = X"YES" ]; then
-	echo 'KerberosV slave KDC'
-	/usr/libexec/kdc &
-	# Remember to enable hpropd in inetd.conf
-fi
-
-[ -f /etc/rc.local ] && . /etc/rc.local
+[[ -f /etc/rc.local ]] && . /etc/rc.local
 
 echo -n standard daemons:
 
 # $apmd_flags is imported from /etc/rc.conf;
 # don't run daemon if $apmd_flags == NO or /usr/sbin/apmd doesn't exist
-if [ "X${apmd_flags}" != X"NO" -a -x /usr/sbin/apmd ]; then
-	echo -n ' apmd';	/usr/sbin/apmd ${apmd_flags}
+if [[ $apmd_flags != NO && -x /usr/sbin/apmd ]]; then
+	echo -n ' apmd';	/usr/sbin/apmd $apmd_flags
 fi
 
-if [ X"${sensorsd_flags}" != X"NO" ]; then
+if [[ $sensorsd_flags != NO ]]; then
 	echo -n ' sensorsd';	/usr/sbin/sensorsd ${sensorsd_flags}
+fi
+
+if [[ $hotplugd_flags != NO && -x /usr/sbin/hotplugd ]]; then
+	echo -n ' hotplugd';	/usr/sbin/hotplugd ${hotplugd_flags}
 fi
 
 echo -n ' cron';		cron
@@ -647,14 +769,13 @@ echo '.'
 
 date
 
-if [ "X${wsmoused_flags}" != X"NO" -a -x /usr/sbin/wsmoused ]; then
-	echo 'starting wsmoused...';	/usr/sbin/wsmoused ${wsmoused_flags}
+if [[ $wsmoused_flags != NO && -x /usr/sbin/wsmoused ]]; then
+	echo 'starting wsmoused...';	/usr/sbin/wsmoused $wsmoused_flags
 fi
 
 # Alternatively, on some architectures, xdm may be started in /etc/ttys.
-if [ "X${xdm_flags}" != X"NO" ]; then
-	echo 'starting xdm...';		/usr/X11R6/bin/xdm ${xdm_flags}
+if [[ $xdm_flags != NO ]]; then
+	echo 'starting xdm...';		/usr/X11R6/bin/xdm $xdm_flags
 fi
 
 exit 0
-

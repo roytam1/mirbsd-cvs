@@ -1,11 +1,18 @@
-/dev/ttyb
-19200
+/dev/cua03
+115200
 modem
 crtscts
-defaultroute
-netmask 255.255.255.0
+lock
+noauth
+noipdefault
 ipcp-accept-local
 ipcp-accept-remote
-noipdefault
-lock
-connect "/usr/sbin/chat -v -f /etc/ppp/chatscript"
+defaultroute
+mru 552
+mtu 552
+debug
+noipx
+lcp-echo-failure 2
+lcp-echo-interval 90
+nobsdcomp
+nodeflate
