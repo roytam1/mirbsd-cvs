@@ -938,6 +938,20 @@ tcp_sysctl(name, namelen, oldp, oldlenp, newp, newlen)
 			tcp_reass_limit = nval;
 		}
 		return (0);
+#ifdef TCP_SACK
+	case TCPCTL_SACKHOLE_LIMIT:
+		nval = tcp_sackhole_limit;
+		error = sysctl_int(oldp, oldlenp, newp, newlen, &nval);
+		if (error)
+			return (error);
+		if (nval != tcp_sackhole_limit) {
+			error = pool_sethardlimit(&sackhl_pool, nval, NULL, 0);
+			if (error)
+				return (error);
+			tcp_sackhole_limit = nval;
+		}
+		return (0);
+#endif
 	default:
 		if (name[0] < TCPCTL_MAXID)
 			return (sysctl_int_arr(tcpctl_vars, name, namelen,
