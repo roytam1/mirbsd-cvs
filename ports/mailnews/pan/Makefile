@@ -10,7 +10,7 @@ MASTER_SITES=	http://pan.rebelbase.com/download/releases/${VER}/SOURCE/
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.5::x11/gtk+2 \
 		gtk-x11-2.0.0.5::x11/gtk+2 \
-		gthread-2.0.0.0::devel/glib2 \
+		gthread-2.0.0.0::devel/glib \
 		xml2.6.22::textproc/libxml \
 		gnet-2.0.0.3::net/gnet
 

@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES+=	devel/gettext
 
-LIB_DEPENDS+=   glib-2.0.0.0::devel/glib2
+LIB_DEPENDS+=   glib-2.0.0.0::devel/glib
 BUILD_DEPENDS+= :pkgconfig-*:devel/pkgconfig
 
 USE_GMAKE=	Yes
@@ -39,7 +39,7 @@ FLAVOR?=
 .if ${FLAVOR:L:Mno_x11}
 CONFIGURE_ARGS+= --disable-gui-client
 .else
-LIB_DEPENDS+=	gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib2 \
+LIB_DEPENDS+=	gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 		atk-1.0.0.0::devel/atk \
 		pango-1.0.0.0,pangox-1.0.0.0,pangoxft-1.0.0.0::devel/pango \
 		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2

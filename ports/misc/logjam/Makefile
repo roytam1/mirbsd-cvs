@@ -20,7 +20,7 @@ MASTER_SITES=	http://logjam.danga.com/download/
 MODULES=	devel/gettext
 
 BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	glib-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib2 \
+LIB_DEPENDS=	glib-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
 		gtk-x11-2.0.0.0,gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0::x11/gtk+2 \
 		curl.2::net/curl \
 		xml2::textproc/libxml

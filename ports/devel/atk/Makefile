@@ -16,7 +16,7 @@ MASTER_SITES=		${MASTER_SITE_GNOME:=sources/atk/1.8/}
 EXTRACT_SUFX=           .tar.bz2
 
 MODULES=		devel/gettext
-LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib2
+LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib
 BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 
 USE_GMAKE=		Yes

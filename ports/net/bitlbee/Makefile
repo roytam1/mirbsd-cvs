@@ -29,7 +29,7 @@ SUBST_VARS=		DB_DIR ETCDIR EXAMPLEDIR DOCDIR \
 			BITLBEEUSER BITLBEEGROUP ID
 
 LIB_DEPENDS=		soup.6.4::devel/soup \
-			glib-2.0.0.8,gmodule-2.0.0.8,gobject-2.0.0.8::devel/glib2
+			glib-2.0.0.8,gmodule-2.0.0.8,gobject-2.0.0.8::devel/glib
 
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=	--bindir=${PREFIX}/libexec \

@@ -10,7 +10,7 @@ HOMEPAGE=		http://www.abisource.com/
 MODULES=		devel/gettext
 BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
 LIB_DEPENDS=		fribidi::devel/fribidi \
-			gthread-2.0.0.0::devel/glib2 \
+			gthread-2.0.0.0::devel/glib \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
 			glade-2.0.0.0::devel/libglade2 \
 			popt::devel/popt

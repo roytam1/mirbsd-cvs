@@ -27,7 +27,7 @@ BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
 
 LIB_DEPENDS=		bz2.10.2::archivers/bzip2 \
 			xml2.8.4::textproc/libxml \
-			glib-2.0.0.11,gobject-2.0.0.11::devel/glib2
+			glib-2.0.0.11,gobject-2.0.0.11::devel/glib
 
 USE_GMAKE=		Yes
 USE_X11=		Yes

@@ -17,7 +17,7 @@ USE_X11=		Yes
 USE_CXX=		Yes
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib2 \
+LIB_DEPENDS=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
 
 CONFIGURE_STYLE=	gnu

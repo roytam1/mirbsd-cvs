@@ -18,7 +18,7 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
 LIB_DEPENDS=		IDL-2::devel/libIDL \
-			gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib2 \
+			gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
 			popt::devel/popt
 
 USE_GMAKE=		Yes

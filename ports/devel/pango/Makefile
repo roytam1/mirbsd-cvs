@@ -16,7 +16,7 @@ MASTER_SITES=		ftp://ftp.gtk.org/pub/gtk/v2.6/ \
 			${MASTER_SITE_GNOME:=sources/pango/1.6/}
 EXTRACT_SUFX=           .tar.bz2
 
-LIB_DEPENDS=		glib-2.0.400.0,gmodule-2.0.400.0,gobject-2.0.400.0::devel/glib2
+LIB_DEPENDS=		glib-2.0.400.0,gmodule-2.0.400.0,gobject-2.0.400.0::devel/glib
 BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 
 USE_X11=		Yes

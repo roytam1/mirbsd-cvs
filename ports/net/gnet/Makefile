@@ -17,7 +17,7 @@ MODULES=	devel/gettext
 
 BUILD_DEPENDS=	:pkgconfig->=0.9.0:devel/pkgconfig
 
-LIB_DEPENDS=	glib-2.0.0.0,gthread-2.0.0.0::devel/glib2
+LIB_DEPENDS=	glib-2.0.0.0,gthread-2.0.0.0::devel/glib
 
 USE_CXX=	Yes
 CONFIGURE_STYLE=gnu

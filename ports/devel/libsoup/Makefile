@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libsoup/2.2/}
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS=		glib-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib2 \
+LIB_DEPENDS=		glib-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
 			xml2.7::textproc/libxml
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 

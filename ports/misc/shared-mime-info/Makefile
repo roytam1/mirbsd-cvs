@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
 			:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib2 \
+LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			xml2::textproc/libxml
 
 USE_CXX=		Yes

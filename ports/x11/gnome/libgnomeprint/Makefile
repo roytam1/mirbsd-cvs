@@ -28,7 +28,7 @@ MODULES=		devel/gettext
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
-			glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib2 \
+			glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			pango-1.0.0.0,pangoft2-1.0.0.0::devel/pango \
 			popt.0::devel/popt \
 			xml2.6::textproc/libxml

@@ -57,7 +57,7 @@ BUILD_DEPENDS+=		gtk.1.2::x11/gtk+
 .endif
 .else
 CONFIGURE_ARGS+=	--enable-gtk2
-LIB_DEPENDS+=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib2
+LIB_DEPENDS+=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib
 BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
 .if ! ${FLAVOR:L:Mno_x11}
 BUILD_DEPENDS+=		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2

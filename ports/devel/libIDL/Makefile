@@ -19,7 +19,7 @@ MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libIDL/0.8/}
 EXTRACT_SUFX=		.tar.bz2
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		glib-2.0.0.0::devel/glib2
+LIB_DEPENDS=		glib-2.0.0.0::devel/glib
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader

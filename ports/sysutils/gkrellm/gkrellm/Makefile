@@ -32,7 +32,7 @@ MULTI_PACKAGES+=-client
 SUBPACKAGE?=
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	gthread-2.0.=0::devel/glib2
+LIB_DEPENDS=	gthread-2.0.=0::devel/glib
 
 NO_REGRESS=	Yes
 USE_GMAKE=	Yes

@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext
 
-LIB_DEPENDS+=		glib-2.0.0.0::devel/glib2 \
+LIB_DEPENDS+=		glib-2.0.0.0::devel/glib \
 			popt::devel/popt
 
 USE_GMAKE=		Yes

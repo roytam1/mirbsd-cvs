@@ -19,7 +19,7 @@ BUILD_DEPENDS=	:pkgconfig->=0.12.0p1:devel/pkgconfig
 
 LIB_DEPENDS=	ghttp::www/libghttp \
 		id3.3.8::audio/id3lib \
-		glib-2.0.0.11::devel/glib2 \
+		glib-2.0.0.11::devel/glib \
 		gnomeui-2::x11/gnome/libgnomeui \
 		curl.2.2::net/curl \
 		vte::devel/vte
