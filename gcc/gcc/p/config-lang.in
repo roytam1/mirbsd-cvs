@@ -1,3 +1,4 @@
+# $MirOS$
 # Top level configure fragment for GNU Pascal.
 #
 # Copyright (C) 1994-2005 Free Software Foundation, Inc.
@@ -27,10 +28,6 @@ language="pascal"
 compilers="gpc1\$(exeext)"
 stagestuff="gpc\$(exeext) gpc-cross\$(exeext) gpc1\$(exeext) gpcpp\$(exeext) libgpc.a"
 gtfiles="\$(srcdir)/p/gpc.h \$(srcdir)/p/declarations.c \$(srcdir)/p/module.c \$(srcdir)/p/predef.c"
-
-#echo "in p/config-lang.in"
-#echo "srcdir=$srcdir"
-#echo "pwd=`pwd`"
 
 (
 if [ -f "$srcdir/version.c" ]; then
@@ -90,17 +87,6 @@ else
   echo "/* empty */" > "$gcc_version_h"
 fi
 
-for x in 2.95.1 2.95.2 2.95.3 2.95.3-5 2.95.3-6 2.95.3-8 2.95.4; do
-  if [ ! -r "$srcdir/p/diffs/gcc-$x.diff" ]; then
-    (cd "$srcdir/p/diffs"; ln -s "gcc-2.95.diff" "gcc-$x.diff")
-  fi
-done
-for x in 3.2.2 3.2.3; do
-  if [ ! -r "$srcdir/p/diffs/gcc-$x.diff" ]; then
-    (cd "$srcdir/p/diffs"; ln -s "gcc-3.2.1.diff" "gcc-$x.diff")
-  fi
-done
-
 if grep "@@ PATCHED FOR GPC 20050130 @@" "$srcdir/stor-layout.c" > /dev/null; then
   :
 elif grep "@@ PATCHED FOR GPC" "$srcdir/stor-layout.c" > /dev/null; then
@@ -110,43 +96,8 @@ elif grep "@@ PATCHED FOR GPC" "$srcdir/stor-layout.c" > /dev/null; then
   echo "" >&2
   exit 1
 else
-  patchfile="p/diffs/gcc-$mainversion.diff"
-  if [ ! -r "$srcdir/$patchfile" ]; then
-    echo "" >&2
-    echo "***" >&2
     echo "*** Detected GCC version $mainversion." >&2
-    echo "*** This version of GPC requires one of the following versions of the GCC" >&2
-    echo "*** sources to build:" >&2
-    echo "***" >&2
-    ls "$srcdir"/p/diffs/gcc-*.diff | sed -e 's/^.*\/p\/diffs\/gcc-/***   /' -e 's/\.diff//' >&2
-    echo "***" >&2
-    echo "*** (You can try to patch GCC manually by changing to the directory" >&2
-    echo "*** `cd "$srcdir"; pwd`," >&2
-    echo "*** typing a command like \`patch -p1 < p/diffs/gcc-<version>.diff' and patching" >&2
-    echo "*** possible rejects by hand before you run the configure script again.)" >&2
-    echo "***" >&2
     echo >&2
     exit 1
-  fi
-  echo "" >&2
-  echo "***" >&2
-  echo "*** Detected GCC version $mainversion." >&2
-  echo "*** This version of GPC requires a patch to GCC to build with" >&2
-  echo "*** GCC version $mainversion." >&2
-  echo "*** This patch will now be applied." >&2
-  echo "*** Press ENTER to continue, Ctrl-C to abort." >&2
-  echo "***" >&2
-  read junk
-  if [ $gcc281 = y ]; then
-    (cd "$srcdir"; patch -s -p1 < "$patchfile" || exit 1)
-  else
-    (cd "$srcdir/.."; patch -s -p0 < "gcc/$patchfile" || exit 1)
-  fi
-  # gcc-2's configure expects this. Since it's already running, patching it
-  # will not stop it from requiring it (only for future runs).
-  if [ $gcc3 = n ] && [ ! -r "$srcdir/p/Makefile.in" ]; then
-    echo "*** Creating dummy $srcdir/p/Makefile.in"
-    echo "# empty" > "$srcdir/p/Makefile.in"
-  fi
 fi
 ) || exit 1
