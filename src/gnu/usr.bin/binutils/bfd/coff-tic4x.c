@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/binutils/bfd/coff-tic4x.c,v 1.2 2005/03/13 16:06:46 tg Exp $ */
-
 /* BFD back-end for TMS320C4X coff binaries.
    Copyright 1996, 1997, 1998, 1999, 2000, 2002, 2003, 2005
    Free Software Foundation, Inc.
@@ -31,8 +29,6 @@
 #include "coff/internal.h"
 #include "libcoff.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/coff-tic4x.c,v 1.2 2005/03/13 16:06:46 tg Exp $");
-
 #undef  F_LSYMS
 #define	F_LSYMS		F_LSYMS_TICOFF
 
@@ -44,6 +40,8 @@ static reloc_howto_type *tic4x_coff_reloc_type_lookup
     PARAMS ((bfd *, bfd_reloc_code_real_type ));
 static void tic4x_lookup_howto
     PARAMS ((arelent *, struct internal_reloc * ));
+static reloc_howto_type *coff_tic4x_rtype_to_howto
+    PARAMS ((bfd *, asection *, struct internal_reloc *, struct coff_link_hash_entry *, struct internal_syment *, bfd_vma * ));
 static void tic4x_reloc_processing
     PARAMS ((arelent *, struct internal_reloc *, asymbol **, bfd *, asection * ));
 

@@ -1,7 +1,4 @@
-%option nounput
 %{
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/syslex.l,v 1.2 2005/03/13 16:06:54 tg Exp $ */
-
 /* Copyright 2001, 2003, 2005 Free Software Foundation, Inc.
 
 This file is part of GLD, the Gnu Linker.
@@ -30,10 +27,6 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #endif
 #endif
 #include "sysinfo.h"
-#include <string.h>
-
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/syslex.l,v 1.2 2005/03/13 16:06:54 tg Exp $");
-
 char *word;
 int number;
 int unit;
