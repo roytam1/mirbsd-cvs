@@ -1,7 +1,6 @@
-#	$OpenBSD: Makefile,v 1.5 2002/04/09 17:29:23 deraadt Exp $
-#	$NetBSD: Makefile,v 1.3 1995/09/06 21:36:38 jtc Exp $
+# $MirOS: src/share/man/man8/Makefile,v 1.3 2005/03/28 22:36:18 tg Exp $
 
-MAN=	MAKEDEV.8 boot_sparc.8
-MANSUBDIR=sparc
+MANSECT=	8
 
+.include "../../automan.mk"
 .include <bsd.prog.mk>

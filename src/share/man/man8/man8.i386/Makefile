@@ -1,5 +1,6 @@
-# $MirOS$
+# $MirOS: src/share/man/man8/Makefile,v 1.3 2005/03/28 22:36:18 tg Exp $
 
-MAN=	MAKEDEV.8 boot_i386.8
+MANSECT=	8
 
+.include "../../automan.mk"
 .include <bsd.prog.mk>

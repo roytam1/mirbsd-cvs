@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/man/automan.mk,v 1.1 2005/03/28 22:34:15 tg Exp $
 
 .ifndef _MODSRC_SHARE_MAN_AUTOMAN_MK
 _MODSRC_SHARE_MAN_AUTOMAN_MK=1
@@ -16,6 +16,12 @@ MAN+=		${_MANT}
 .  if ${_MANE} != "*.$(MANSECT)eqn"
 MAN+=		${_MANE}
 .  endif
+.endif
+
+.if exists(man$(MANSECT).${MACHINE})
+SUBDIR+=	man$(MANSECT).${MACHINE}
+.elif exists(man$(MANSECT).${MACHINE_ARCH})
+SUBDIR+=	man$(MANSECT).${MACHINE_ARCH}
 .endif
 
 .endif
