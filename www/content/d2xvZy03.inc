@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.17 2005/02/21 15:06:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.18 2005/02/23 22:47:22 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2340,4 +2340,21 @@
  (and not in the pkg tools, unless bsiegert@ has really good arguments). I
  myself won't do this though, since I despise the Macintosh, Motorola (and
  PowerPC) and its followings.</p>
+<p>24.02.2005 by tg@<br />I feel left alone at some places, the Netzladen,
+ among others. I'll continue to fight on all fronts, though.<br />I played
+ with MirPorts today, modernising the MODULES= stuff and preparing for the
+ long-planned Makefile-for-subdir revamp I already did for e.g. the former
+ gfdl-books port.<br />I've sort of shut down my brain regarding planning,
+ preparing and announcing the trip to FOSDEM. Sensory overload, or so. The
+ BSDs won't have a booth, and I admit I didn't ask them day for day for it
+ (in the hope they'd give in). I barely will make it for the annual "early
+ bird gathering" and have to get off on Sunday already. I seem to have got
+ a place to sleep, too. I've got to work tomorrow (btw, does <b>any</b> of
+ the English speakers who read this ever use the term "vocational school"?
+ I don't think I've heard it before), and I've got thousands more things I
+ need to take care of, such as securing a basic income. My mood varies not
+ only a bit now, I often switch between happy, energy-laden and depressed,
+ several times a day, and rarely get the creative mood of yesterday again.
+ I can only interpret this as "I need a vacation". Other project leaders I
+ won't name have just had one...</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
