@@ -1,4 +1,4 @@
-/* $MirOS: www/vsmini.css,v 1.4 2005/03/15 17:57:02 tg Exp $ */
+/* $MirOS: www/vsmini.css,v 1.5 2005/03/16 15:43:15 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -73,7 +73,7 @@ strong:hover {
 
 .hdrflf {
 	position:absolute;
-		top:-16px; left:52px;
+		top:-16px; left:76px;
 		width:436px; height:88px;
 	font-family:monospace;
 	font-size:10px;
@@ -83,13 +83,13 @@ strong:hover {
 .hdrlnks {
 	position:absolute;
 		top:7px; left:2px;
-		width:86px; height:84px;
+		width:98px; height:92px;
 	z-index:1;
 }
 
 .hdrrhts {
 	position:absolute;
-		top:4px; left:478px;
+		top:4px; left:500px;
 		width:85px; height:92px;
 	z-index:2;
 }
