@@ -1,6 +1,8 @@
 # $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/05/01 16:16:34 avsm Exp $ 
 
+BROKEN=		needs upgrading to PHP5
+
 COMMENT=	"modular framework for web-based applications"
 V=		2.2.5
 DISTNAME=	horde-${V}

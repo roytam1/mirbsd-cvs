@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2004/02/29 00:08:50 avsm Exp $
 
 COMMENT=	"logging utilities for PHP"
@@ -12,16 +13,7 @@ EXTRACT_SUFX=	.tgz
 
 HOMEPAGE=	http://www.csh.rit.edu/~jon/projects/pear_log/
 
-FLAVORS=	php4 php5
-FLAVOR?=	php5
-
-.if ${FLAVOR:L} == "php4"
-MODULES=	www/php4/pear
-.elif ${FLAVOR:L} == "php5"
-MODULES=	www/php5/pear
-.else
-ERRORS+=	'Error: choose either php4 or php5 flavour'
-.endif
+MODULES=	www/php/pear
 
 # PHP License
 PERMIT_PACKAGE_CDROM=	Yes
