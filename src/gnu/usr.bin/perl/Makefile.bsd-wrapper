@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.2 2005/03/13 15:01:15 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
@@ -11,8 +11,11 @@
 THREADED_PERL?=	Yes
 
 # Perl builds with -fno-strict-aliasing, we want libperl to do the same
-CFLAGS+=	-fno-strict-aliasing -fno-delete-null-pointer-checks
-COPTS+=		-Wall -W -Wno-error
+CFLAGS+=	-fno-strict-aliasing -fno-delete-null-pointer-checks \
+		-Wall -Wextra
+
+# Perl produces more warnings than shitty GNU code
+EXPERIMENTAL=	yes
 
 # Arguments passed to Configure...
 CONFIGURE_ARGS=	-dsE -D${OSname}_distribution=defined
