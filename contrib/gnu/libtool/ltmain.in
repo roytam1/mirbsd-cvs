@@ -1,9 +1,7 @@
-# $MirBSD: contrib/gnu/libtool/ltmain.in,v 1.15 2005/01/15 19:56:18 tg Exp $
-#
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
-# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
+# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004
 # Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 #
@@ -291,7 +289,7 @@ func_extract_archives () {
 	  darwin_curdir=`pwd`
 	  darwin_base_archive=`basename $darwin_archive`
 	  darwin_arches=`lipo -info "$darwin_archive" 2>/dev/null | $EGREP Architectures 2>/dev/null`
-	  if test -n "$darwin_arches"; then
+	  if test -n "$darwin_arches"; then 
 	    darwin_arches=`echo "$darwin_arches" | $SED -e 's/.*are://'`
 	    darwin_arch=
 	    $show "$darwin_base_archive has multiple architectures $darwin_arches"
@@ -863,7 +861,7 @@ EOF
 	command="$command -o $lobj"
       fi
 
-      $run $rm $lobj $output_obj
+      $run $rm "$lobj" "$output_obj"
 
       $show "$command"
       if $run eval "$command"; then :
@@ -936,7 +934,7 @@ EOF
 
       # Suppress compiler output if we already did a PIC compilation.
       command="$command$suppress_output"
-      $run $rm $obj $output_obj
+      $run $rm "$obj" "$output_obj"
       $show "$command"
       if $run eval "$command"; then :
       else
@@ -1468,8 +1466,7 @@ EOF
 	    # These systems don't actually have a C library (as such)
 	    test "X$arg" = "X-lc" && continue
 	    ;;
-	  *-*-ekkobsd* | *-*-freebsd* | *-*-microbsd* \
-	  | *-*-mirbsd* | *-*-openbsd*)
+	  *-*-openbsd* | *-*-freebsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    test "X$arg" = "X-lc" && continue
 	    ;;
@@ -1480,8 +1477,7 @@ EOF
 	  esac
 	elif test "X$arg" = "X-lc_r"; then
 	 case $host in
-	 *-*-ekkobsd* | *-*-freebsd* | *-*-microbsd* \
-	 | *-*-mirbsd* | *-*-openbsd*)
+	 *-*-openbsd* | *-*-freebsd*)
 	   # Do not include libc_r directly, use -pthread flag.
 	   continue
 	   ;;
@@ -2527,7 +2523,7 @@ EOF
 	    lib_linked=yes
 	    case $hardcode_action in
 	    immediate | unsupported)
-	      if test "$hardcode_direct" = no && test -f $dir/$linklib; then
+	      if test "$hardcode_direct" = no; then
 		add="$dir/$linklib"
 		case $host in
 		  *-*-sco3.2v5* ) add_dir="-L$dir" ;;
@@ -2559,7 +2555,7 @@ EOF
 	      fi
 	      ;;
 	    relink)
-	      if test "$hardcode_direct" = yes && test -f $dir/$linklib; then
+	      if test "$hardcode_direct" = yes; then
 		add="$dir/$linklib"
 	      elif test "$hardcode_minus_L" = yes; then
 		add_dir="-L$dir"
@@ -2615,7 +2611,7 @@ EOF
 	    add_dir=
 	    add=
 	    # Finalize command for both is simple: just hardcode it.
-	    if test "$hardcode_direct" = yes && test -f $linkdir/$linklib; then
+	    if test "$hardcode_direct" = yes; then
 	      add="$libdir/$linklib"
 	    elif test "$hardcode_minus_L" = yes; then
 	      add_dir="-L$libdir"
@@ -3340,8 +3336,7 @@ EOF
 	  *-*-netbsd*)
 	    # Don't link with libc until the a.out ld.so is fixed.
 	    ;;
-	  *-*-ekkobsd* | *-*-freebsd* | *-*-microbsd* \
-	  | *-*-mirbsd* | *-*-openbsd*)
+	  *-*-openbsd* | *-*-freebsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    test "X$arg" = "X-lc" && continue
 	    ;;
@@ -3829,7 +3824,7 @@ EOF
 	    libobjs="$libobjs $func_extract_archives_result"
 	  fi
 	fi
-
+	
 	if test "$thread_safe" = yes && test -n "$thread_safe_flag_spec"; then
 	  eval flag=\"$thread_safe_flag_spec\"
 	  linker_flags="$linker_flags $flag"
@@ -5806,6 +5801,43 @@ relink_command=\"$relink_command\""
       done
     fi
 
+    # Exit here if they wanted silent mode.
+    test "$show" = : && exit $EXIT_SUCCESS
+
+    $echo "----------------------------------------------------------------------"
+    $echo "Libraries have been installed in:"
+    for libdir in $libdirs; do
+      $echo "   $libdir"
+    done
+    $echo
+    $echo "If you ever happen to want to link against installed libraries"
+    $echo "in a given directory, LIBDIR, you must either use libtool, and"
+    $echo "specify the full pathname of the library, or use the \`-LLIBDIR'"
+    $echo "flag during linking and do at least one of the following:"
+    if test -n "$shlibpath_var"; then
+      $echo "   - add LIBDIR to the \`$shlibpath_var' environment variable"
+      $echo "     during execution"
+    fi
+    if test -n "$runpath_var"; then
+      $echo "   - add LIBDIR to the \`$runpath_var' environment variable"
+      $echo "     during linking"
+    fi
+    if test -n "$hardcode_libdir_flag_spec"; then
+      libdir=LIBDIR
+      eval flag=\"$hardcode_libdir_flag_spec\"
+
+      $echo "   - use the \`$flag' linker flag"
+    fi
+    if test -n "$admincmds"; then
+      $echo "   - have your system administrator run these commands:$admincmds"
+    fi
+    if test -f /etc/ld.so.conf; then
+      $echo "   - have your system administrator add LIBDIR to \`/etc/ld.so.conf'"
+    fi
+    $echo
+    $echo "See any operating system documentation about shared libraries for"
+    $echo "more information, such as the ld(1) and ld.so(8) manual pages."
+    $echo "----------------------------------------------------------------------"
     exit $EXIT_SUCCESS
     ;;
 

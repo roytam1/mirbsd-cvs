@@ -1,5 +1,3 @@
-# $MirBSD: contrib/gnu/libtool/libtool.m4,v 1.29 2005/01/15 19:05:31 tg Exp $
-#
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004
 ## Free Software Foundation, Inc.
@@ -27,58 +25,6 @@
 # serial 47 AC_PROG_LIBTOOL
 
 
-dnl Provide support for this m4 include with Autoconf 2.13
-dnl ------------------------------------------------------
-dnl
-sinclude(ifdef([m4_PACKAGE_VERSION], [], [m4salt.m4]))dnl
-
-dnl Cover for different versions of Autoconf in addition to that
-dnl ------------------------------------------------------------
-ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
-[dnl Autoconf 2.13
-],
-[dnl Autoconf 2.5x
-
-dnl This function is copied from Autoconf 2.59
-# AC_PROG_CXXCPP
-# --------------
-# Find a working C++ preprocessor.
-# We shouldn't have to require AC_PROG_CC, but this is due to the concurrency
-# between the AC_LANG_COMPILER_REQUIRE family and that of AC_PROG_CXX.
-builtin([undefine], [AC_PROG_CXXCPP])dnl
-builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
-NOACLOCAL_DEFUN([AC_PROG_CXXCPP],
-[AC_REQUIRE([AC_PROG_CXX])dnl
-AC_ARG_VAR([CXXCPP],   [C++ preprocessor])dnl
-_AC_ARG_VAR_CPPFLAGS()dnl
-AC_LANG_PUSH(C++)dnl
-AC_MSG_CHECKING([how to run the C++ preprocessor])
-if test -z "$CXXCPP"; then
-  AC_CACHE_VAL(ac_cv_prog_CXXCPP,
-  [dnl
-    # Double quotes because CXXCPP needs to be expanded
-    for CXXCPP in "$CXX -E" "$CC -E" "/usr/libexec/cpp" "/lib/cpp"
-    do
-      _AC_PROG_PREPROC_WORKS_IFELSE([break])
-    done
-    ac_cv_prog_CXXCPP=$CXXCPP
-  ])dnl
-  CXXCPP=$ac_cv_prog_CXXCPP
-else
-  ac_cv_prog_CXXCPP=$CXXCPP
-fi
-AC_MSG_RESULT([$CXXCPP])
-_AC_PROG_PREPROC_WORKS_IFELSE([AC_LANG_POP(C++)],
-	  [AC_MSG_WARN([C++ preprocessor "$CXXCPP" fails sanity check])
-	   CXXCPP=cpp
-	   ac_cv_prog_CXXCPP=cpp
-	   AC_LANG_POP(C++)
-	   AC_LANG_PUSH(C)])dnl
-AC_SUBST(CXXCPP)dnl
-])# AC_PROG_CXXCPP
-])dnl
-
-
 # AC_PROVIDE_IFELSE(MACRO-NAME, IF-PROVIDED, IF-NOT-PROVIDED)
 # -----------------------------------------------------------
 # If this macro is not defined by Autoconf, define it here.
@@ -94,13 +40,34 @@ m4_ifdef([AC_PROVIDE_IFELSE],
 AC_DEFUN([AC_PROG_LIBTOOL],
 [AC_REQUIRE([_AC_PROG_LIBTOOL])dnl
 dnl If AC_PROG_CXX has already been expanded, run AC_LIBTOOL_CXX
-dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX,
-dnl and replace AC_PROG_CXX by a more forgiving variant.
+dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX.
   AC_PROVIDE_IFELSE([AC_PROG_CXX],
     [AC_LIBTOOL_CXX],
     [define([AC_PROG_CXX], defn([AC_PROG_CXX])[AC_LIBTOOL_CXX
   ])])
-])# AC_PROG_LIBTOOL
+dnl And a similar setup for Fortran 77 support
+  AC_PROVIDE_IFELSE([AC_PROG_F77],
+    [AC_LIBTOOL_F77],
+    [define([AC_PROG_F77], defn([AC_PROG_F77])[AC_LIBTOOL_F77
+])])
+
+dnl Quote A][M_PROG_GCJ so that aclocal doesn't bring it in needlessly.
+dnl If either AC_PROG_GCJ or A][M_PROG_GCJ have already been expanded, run
+dnl AC_LIBTOOL_GCJ immediately, otherwise, hook it in at the end of both.
+  AC_PROVIDE_IFELSE([AC_PROG_GCJ],
+    [AC_LIBTOOL_GCJ],
+    [AC_PROVIDE_IFELSE([A][M_PROG_GCJ],
+      [AC_LIBTOOL_GCJ],
+      [AC_PROVIDE_IFELSE([LT_AC_PROG_GCJ],
+	[AC_LIBTOOL_GCJ],
+      [ifdef([AC_PROG_GCJ],
+	     [define([AC_PROG_GCJ], defn([AC_PROG_GCJ])[AC_LIBTOOL_GCJ])])
+       ifdef([A][M_PROG_GCJ],
+	     [define([A][M_PROG_GCJ], defn([A][M_PROG_GCJ])[AC_LIBTOOL_GCJ])])
+       ifdef([LT_AC_PROG_GCJ],
+	     [define([LT_AC_PROG_GCJ],
+		defn([LT_AC_PROG_GCJ])[AC_LIBTOOL_GCJ])])])])
+])])# AC_PROG_LIBTOOL
 
 
 # _AC_PROG_LIBTOOL
@@ -108,6 +75,8 @@ dnl and replace AC_PROG_CXX by a more forgiving variant.
 AC_DEFUN([_AC_PROG_LIBTOOL],
 [AC_REQUIRE([AC_LIBTOOL_SETUP])dnl
 AC_BEFORE([$0],[AC_LIBTOOL_CXX])dnl
+AC_BEFORE([$0],[AC_LIBTOOL_F77])dnl
+AC_BEFORE([$0],[AC_LIBTOOL_GCJ])dnl
 
 # This can be used to rebuild libtool when needed
 LIBTOOL_DEPS="$ac_aux_dir/ltmain.sh"
@@ -124,7 +93,7 @@ define([AC_PROG_LIBTOOL], [])
 # AC_LIBTOOL_SETUP
 # ----------------
 AC_DEFUN([AC_LIBTOOL_SETUP],
-[AC_PREREQ(2.13)dnl
+[AC_PREREQ(2.50)dnl
 AC_REQUIRE([AC_ENABLE_SHARED])dnl
 AC_REQUIRE([AC_ENABLE_STATIC])dnl
 AC_REQUIRE([AC_ENABLE_FAST_INSTALL])dnl
@@ -221,8 +190,8 @@ old_postuninstall_cmds=
 
 if test -n "$RANLIB"; then
   case $host_os in
-  ekkobsd* | microbsd* | mirbsd* | openbsd*)
-    old_postinstall_cmds="chmod 600 \$oldlib~\$RANLIB -t \$oldlib~chmod 444 \$oldlib"
+  openbsd*)
+    old_postinstall_cmds="\$RANLIB -t \$oldlib~$old_postinstall_cmds"
     ;;
   *)
     old_postinstall_cmds="\$RANLIB \$oldlib~$old_postinstall_cmds"
@@ -246,8 +215,14 @@ AC_PROVIDE_IFELSE([AC_LIBTOOL_DLOPEN], enable_dlopen=yes, enable_dlopen=no)
 AC_PROVIDE_IFELSE([AC_LIBTOOL_WIN32_DLL],
 enable_win32_dll=yes, enable_win32_dll=no)
 
+AC_ARG_ENABLE([libtool-lock],
+    [AC_HELP_STRING([--disable-libtool-lock],
+	[avoid locking (might break parallel builds)])])
+test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
+
 AC_ARG_WITH([pic],
-[  --with-pic              try to use only PIC/non-PIC objects [default=use both]],
+    [AC_HELP_STRING([--with-pic],
+	[try to use only PIC/non-PIC objects @<:@default=use both@:>@])],
     [pic_mode="$withval"],
     [pic_mode=default])
 test -z "$pic_mode" && pic_mode=default
@@ -274,10 +249,20 @@ compiler=$CC
 
 # _LT_AC_SYS_LIBPATH_AIX
 # ----------------------
-# We use the default library path according to the aix ld manual.
-# When the MPI compilers are used, this breaks. That's it.
+# Links a minimal program and checks the executable
+# for the system default hardcoded library path. In most cases,
+# this is /usr/lib:/lib, but when the MPI compilers are used
+# the location of the communication and MPI libs are included too.
+# If we don't find anything, use the default library path according
+# to the aix ld manual.
 AC_DEFUN([_LT_AC_SYS_LIBPATH_AIX],
-[aix_libpath="/usr/lib:/lib"
+[AC_LINK_IFELSE(AC_LANG_PROGRAM,[
+aix_libpath=`dump -H conftest$ac_exeext 2>/dev/null | $SED -n -e '/Import File Strings/,/^$/ { /^0/ { s/^0  *\(.*\)$/\1/; p; }
+}'`
+# Check for a 64-bit object if we didn't find anything.
+if test -z "$aix_libpath"; then aix_libpath=`dump -HX64 conftest$ac_exeext 2>/dev/null | $SED -n -e '/Import File Strings/,/^$/ { /^0/ { s/^0  *\(.*\)$/\1/; p; }
+}'`; fi],[])
+if test -z "$aix_libpath"; then aix_libpath="/usr/lib:/lib"; fi
 ])# _LT_AC_SYS_LIBPATH_AIX
 
 
@@ -292,29 +277,12 @@ AC_DIVERT_POP
 ])# _LT_AC_SHELL_INIT
 
 
-# _LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
-# ---------------------------------
-AC_DEFUN([_LT_AC_LIBTOOL_SYS_PATH_SEPARATOR],
-[# Find the correct PATH separator.  Usually this is `:', but
-# DJGPP uses `;' like DOS.
-if test "X${PATH_SEPARATOR+set}" != Xset; then
-  UNAME=${UNAME-`uname 2>/dev/null`}
-  case X$UNAME in
-    *-DOS) lt_cv_sys_path_separator=';' ;;
-    *)     lt_cv_sys_path_separator=':' ;;
-  esac
-  PATH_SEPARATOR=$lt_cv_sys_path_separator
-fi
-])# _LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
-
 # _LT_AC_PROG_ECHO_BACKSLASH
 # --------------------------
 # Add some code to the start of the generated configure script which
 # will find an echo command which doesn't interpret backslashes.
 AC_DEFUN([_LT_AC_PROG_ECHO_BACKSLASH],
 [_LT_AC_SHELL_INIT([
-_LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
-
 # Check that we are running under the correct shell.
 SHELL=${CONFIG_SHELL-/bin/sh}
 
@@ -469,7 +437,8 @@ AC_SUBST(ECHO)
 # -----------
 AC_DEFUN([_LT_AC_LOCK],
 [AC_ARG_ENABLE([libtool-lock],
-[  --disable-libtool-lock  avoid locking (might break parallel builds)])
+    [AC_HELP_STRING([--disable-libtool-lock],
+	[avoid locking (might break parallel builds)])])
 test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 
 # Some flags need to be propagated to the compiler or linker for good
@@ -709,7 +678,7 @@ AC_CACHE_VAL([lt_cv_sys_max_cmd_len], [dnl
     lt_cv_sys_max_cmd_len=8192;
     ;;
 
-  darwin* | ekkobsd* | freebsd* | microbsd* | mirbsd* | netbsd* | openbsd*)
+  netbsd* | freebsd* | openbsd* | darwin* )
     # This has been around since 386BSD, at least.  Likely further.
     if test -x /sbin/sysctl; then
       lt_cv_sys_max_cmd_len=`/sbin/sysctl -n kern.argmax`
@@ -832,7 +801,7 @@ int main ()
 }]
 EOF
   if AC_TRY_EVAL(ac_link) && test -s conftest${ac_exeext} 2>/dev/null; then
-    (./conftest; exit; ) >/dev/null 2>&1
+    (./conftest; exit; ) 2>/dev/null
     lt_status=$?
     case x$lt_status in
       x$lt_dlno_uscore) $1 ;;
@@ -1028,7 +997,7 @@ if test "$_LT_AC_TAGVAR(lt_cv_prog_compiler_c_o, $1)" = no && test "$need_locks"
   ln conftest.a conftest.b 2>/dev/null && hard_links=no
   AC_MSG_RESULT([$hard_links])
   if test "$hard_links" = no; then
-    AC_MSG_WARN(['$CC' does not support '-c -o', so 'make -j' may be unsafe])
+    AC_MSG_WARN([`$CC' does not support `-c -o', so `make -j' may be unsafe])
     need_locks=warn
   fi
 else
@@ -1550,7 +1519,7 @@ nto-qnx*)
   shlibpath_overrides_runpath=yes
   ;;
 
-ekkobsd* | microbsd* | mirbsd* | openbsd*)
+openbsd*)
   version_type=sunos
   need_lib_prefix=no
   need_version=no
@@ -1676,20 +1645,21 @@ test "$dynamic_linker" = no && can_build_shared=no
 # ----------------
 AC_DEFUN([_LT_AC_TAGCONFIG],
 [AC_ARG_WITH([tags],
-[  --with-tags[=TAGS]      include additional configurations [automatic]],
+    [AC_HELP_STRING([--with-tags@<:@=TAGS@:>@],
+        [include additional configurations @<:@automatic@:>@])],
     [tagnames="$withval"])
 
 if test -f "$ltmain" && test -n "$tagnames"; then
   if test ! -f "${ofile}"; then
-    AC_MSG_WARN([output file '$ofile' does not exist])
+    AC_MSG_WARN([output file `$ofile' does not exist])
   fi
 
   if test -z "$LTCC"; then
     eval "`$SHELL ${ofile} --config | grep '^LTCC='`"
     if test -z "$LTCC"; then
-      AC_MSG_WARN([output file '$ofile' does not look like a libtool script])
+      AC_MSG_WARN([output file `$ofile' does not look like a libtool script])
     else
-      AC_MSG_WARN([using 'LTCC=$LTCC', extracted from '$ofile'])
+      AC_MSG_WARN([using `LTCC=$LTCC', extracted from `$ofile'])
     fi
   fi
 
@@ -1719,7 +1689,7 @@ if test -f "$ltmain" && test -n "$tagnames"; then
       case $tagname in
       CXX)
 	if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-	    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) ||
+	    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
 	    (test "X$CXX" != "Xg++"))) ; then
 	  AC_LIBTOOL_LANG_CXX_CONFIG
 	else
@@ -1728,14 +1698,23 @@ if test -f "$ltmain" && test -n "$tagnames"; then
 	;;
 
       F77)
+	if test -n "$F77" && test "X$F77" != "Xno"; then
+	  AC_LIBTOOL_LANG_F77_CONFIG
+	else
 	  tagname=""
+	fi
 	;;
 
       GCJ)
+	if test -n "$GCJ" && test "X$GCJ" != "Xno"; then
+	  AC_LIBTOOL_LANG_GCJ_CONFIG
+	else
 	  tagname=""
+	fi
 	;;
 
       RC)
+	AC_LIBTOOL_LANG_RC_CONFIG
 	;;
 
       *)
@@ -1786,9 +1765,8 @@ AC_DEFUN([AC_LIBTOOL_WIN32_DLL],
 AC_DEFUN([AC_ENABLE_SHARED],
 [define([AC_ENABLE_SHARED_DEFAULT], ifelse($1, no, no, yes))dnl
 AC_ARG_ENABLE([shared],
-changequote(<<, >>)dnl
-<<  --enable-shared[=PKGS]  build shared libraries [default=>>AC_ENABLE_SHARED_DEFAULT],
-changequote([, ])dnl
+    [AC_HELP_STRING([--enable-shared@<:@=PKGS@:>@],
+	[build shared libraries @<:@default=]AC_ENABLE_SHARED_DEFAULT[@:>@])],
     [p=${PACKAGE-default}
     case $enableval in
     yes) enable_shared=yes ;;
@@ -1826,9 +1804,8 @@ AC_ENABLE_SHARED(no)
 AC_DEFUN([AC_ENABLE_STATIC],
 [define([AC_ENABLE_STATIC_DEFAULT], ifelse($1, no, no, yes))dnl
 AC_ARG_ENABLE([static],
-changequote(<<, >>)dnl
-<<  --enable-static[=PKGS]  build static libraries [default=>>AC_ENABLE_STATIC_DEFAULT],
-changequote([, ])dnl
+    [AC_HELP_STRING([--enable-static@<:@=PKGS@:>@],
+	[build static libraries @<:@default=]AC_ENABLE_STATIC_DEFAULT[@:>@])],
     [p=${PACKAGE-default}
     case $enableval in
     yes) enable_static=yes ;;
@@ -1866,9 +1843,8 @@ AC_ENABLE_STATIC(no)
 AC_DEFUN([AC_ENABLE_FAST_INSTALL],
 [define([AC_ENABLE_FAST_INSTALL_DEFAULT], ifelse($1, no, no, yes))dnl
 AC_ARG_ENABLE([fast-install],
-changequote(<<, >>)dnl
-<<  --enable-fast-install[=PKGS]  optimize for fast installation [default=>>AC_ENABLE_FAST_INSTALL_DEFAULT],
-changequote([, ])dnl
+    [AC_HELP_STRING([--enable-fast-install@<:@=PKGS@:>@],
+    [optimize for fast installation @<:@default=]AC_ENABLE_FAST_INSTALL_DEFAULT[@:>@])],
     [p=${PACKAGE-default}
     case $enableval in
     yes) enable_fast_install=yes ;;
@@ -2007,7 +1983,8 @@ fi
 # find the pathname to the GNU or non-GNU linker
 AC_DEFUN([AC_PROG_LD],
 [AC_ARG_WITH([gnu-ld],
-[  --with-gnu-ld           assume the C compiler uses GNU ld [default=no]],
+    [AC_HELP_STRING([--with-gnu-ld],
+	[assume the C compiler uses GNU ld @<:@default=no@:>@])],
     [test "$withval" = no || with_gnu_ld=yes],
     [with_gnu_ld=no])
 AC_REQUIRE([LT_AC_PROG_SED])dnl
@@ -2254,7 +2231,7 @@ nto-qnx*)
   lt_cv_deplibs_check_method=unknown
   ;;
 
-ekkobsd* | microbsd* | mirbsd* | openbsd*)
+openbsd*)
   if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
     lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so\.[[0-9]]+\.[[0-9]]+|\.so|_pic\.a)$'
   else
@@ -2458,11 +2435,57 @@ AC_DEFUN([_LT_AC_PROG_CXXCPP],
 [
 AC_REQUIRE([AC_PROG_CXX])
 if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
-    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) ||
+    ( (test "X$CXX" = "Xg++" && `g++ -v >/dev/null 2>&1` ) || 
     (test "X$CXX" != "Xg++"))) ; then
   AC_PROG_CXXCPP
 fi
 ])# _LT_AC_PROG_CXXCPP
+
+# AC_LIBTOOL_F77
+# --------------
+# enable support for Fortran 77 libraries
+AC_DEFUN([AC_LIBTOOL_F77],
+[AC_REQUIRE([_LT_AC_LANG_F77])
+])# AC_LIBTOOL_F77
+
+
+# _LT_AC_LANG_F77
+# ---------------
+AC_DEFUN([_LT_AC_LANG_F77],
+[AC_REQUIRE([AC_PROG_F77])
+_LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}F77])
+])# _LT_AC_LANG_F77
+
+
+# AC_LIBTOOL_GCJ
+# --------------
+# enable support for GCJ libraries
+AC_DEFUN([AC_LIBTOOL_GCJ],
+[AC_REQUIRE([_LT_AC_LANG_GCJ])
+])# AC_LIBTOOL_GCJ
+
+
+# _LT_AC_LANG_GCJ
+# ---------------
+AC_DEFUN([_LT_AC_LANG_GCJ],
+[AC_PROVIDE_IFELSE([AC_PROG_GCJ],[],
+  [AC_PROVIDE_IFELSE([A][M_PROG_GCJ],[],
+    [AC_PROVIDE_IFELSE([LT_AC_PROG_GCJ],[],
+      [ifdef([AC_PROG_GCJ],[AC_REQUIRE([AC_PROG_GCJ])],
+	 [ifdef([A][M_PROG_GCJ],[AC_REQUIRE([A][M_PROG_GCJ])],
+	   [AC_REQUIRE([A][C_PROG_GCJ_OR_A][M_PROG_GCJ])])])])])])
+_LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}GCJ])
+])# _LT_AC_LANG_GCJ
+
+
+# AC_LIBTOOL_RC
+# --------------
+# enable support for Windows resource files
+AC_DEFUN([AC_LIBTOOL_RC],
+[AC_REQUIRE([LT_AC_PROG_RC])
+_LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}RC])
+])# AC_LIBTOOL_RC
+
 
 # AC_LIBTOOL_LANG_C_CONFIG
 # ------------------------
@@ -2501,10 +2524,10 @@ if test "$GCC" = no; then
   esac
 fi
 if test -n "$_LT_AC_TAGVAR(lt_prog_cc_shlib, $1)"; then
-  AC_MSG_WARN(['$CC' requires '$_LT_AC_TAGVAR(lt_prog_cc_shlib, $1)' to build shared libraries])
+  AC_MSG_WARN([`$CC' requires `$_LT_AC_TAGVAR(lt_prog_cc_shlib, $1)' to build shared libraries])
   if echo "$old_CC $old_CFLAGS " | grep "[[ 	]]$_LT_AC_TAGVAR(lt_prog_cc_shlib, $1)[[ 	]]" >/dev/null; then :
   else
-    AC_MSG_WARN([add '$_LT_AC_TAGVAR(lt_prog_cc_shlib, $1)' to the CC or CFLAGS env variable and reconfigure])
+    AC_MSG_WARN([add `$_LT_AC_TAGVAR(lt_prog_cc_shlib, $1)' to the CC or CFLAGS env variable and reconfigure])
     _LT_AC_TAGVAR(lt_cv_prog_cc_can_build_shared, $1)=no
   fi
 fi
@@ -3198,12 +3221,12 @@ case $host_os in
     # C++ shared libraries are fairly broken
     _LT_AC_TAGVAR(ld_shlibs, $1)=no
     ;;
-  ekkobsd* | microbsd* | mirbsd* | openbsd*)
+  openbsd*)
     _LT_AC_TAGVAR(hardcode_direct, $1)=yes
     _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
     _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
-    if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`"; then
+    if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
       _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
       _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
       _LT_AC_TAGVAR(whole_archive_flag_spec, $1)="$wlarc"'--whole-archive$convenience '"$wlarc"'--no-whole-archive'
@@ -3641,6 +3664,200 @@ case " $_LT_AC_TAGVAR(postdeps, $1) " in
 esac
 ])# AC_LIBTOOL_POSTDEP_PREDEP
 
+# AC_LIBTOOL_LANG_F77_CONFIG
+# ------------------------
+# Ensure that the configuration vars for the C compiler are
+# suitably defined.  Those variables are subsequently used by
+# AC_LIBTOOL_CONFIG to write the compiler configuration to `libtool'.
+AC_DEFUN([AC_LIBTOOL_LANG_F77_CONFIG], [_LT_AC_LANG_F77_CONFIG(F77)])
+AC_DEFUN([_LT_AC_LANG_F77_CONFIG],
+[AC_REQUIRE([AC_PROG_F77])
+AC_LANG_PUSH(Fortran 77)
+
+_LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
+_LT_AC_TAGVAR(allow_undefined_flag, $1)=
+_LT_AC_TAGVAR(always_export_symbols, $1)=no
+_LT_AC_TAGVAR(archive_expsym_cmds, $1)=
+_LT_AC_TAGVAR(export_dynamic_flag_spec, $1)=
+_LT_AC_TAGVAR(hardcode_direct, $1)=no
+_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)=
+_LT_AC_TAGVAR(hardcode_libdir_flag_spec_ld, $1)=
+_LT_AC_TAGVAR(hardcode_libdir_separator, $1)=
+_LT_AC_TAGVAR(hardcode_minus_L, $1)=no
+_LT_AC_TAGVAR(hardcode_automatic, $1)=no
+_LT_AC_TAGVAR(module_cmds, $1)=
+_LT_AC_TAGVAR(module_expsym_cmds, $1)=
+_LT_AC_TAGVAR(link_all_deplibs, $1)=unknown
+_LT_AC_TAGVAR(old_archive_cmds, $1)=$old_archive_cmds
+_LT_AC_TAGVAR(no_undefined_flag, $1)=
+_LT_AC_TAGVAR(whole_archive_flag_spec, $1)=
+_LT_AC_TAGVAR(enable_shared_with_static_runtimes, $1)=no
+
+# Source file extension for f77 test sources.
+ac_ext=f
+
+# Object file extension for compiled f77 test sources.
+objext=o
+_LT_AC_TAGVAR(objext, $1)=$objext
+
+# Code to be used in simple compile tests
+lt_simple_compile_test_code="      subroutine t\n      return\n      end\n"
+
+# Code to be used in simple link tests
+lt_simple_link_test_code="      program t\n      end\n"
+
+# ltmain only uses $CC for tagged configurations so make sure $CC is set.
+_LT_AC_SYS_COMPILER
+
+# Allow CC to be a program name with arguments.
+lt_save_CC="$CC"
+CC=${F77-"f77"}
+compiler=$CC
+_LT_AC_TAGVAR(compiler, $1)=$CC
+cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%'`
+
+AC_MSG_CHECKING([if libtool supports shared libraries])
+AC_MSG_RESULT([$can_build_shared])
+
+AC_MSG_CHECKING([whether to build shared libraries])
+test "$can_build_shared" = "no" && enable_shared=no
+
+# On AIX, shared libraries and static libraries use the same namespace, and
+# are all built from PIC.
+case "$host_os" in
+aix3*)
+  test "$enable_shared" = yes && enable_static=no
+  if test -n "$RANLIB"; then
+    archive_cmds="$archive_cmds~\$RANLIB \$lib"
+    postinstall_cmds='$RANLIB $lib'
+  fi
+  ;;
+aix4* | aix5*)
+  test "$enable_shared" = yes && enable_static=no
+  ;;
+esac
+AC_MSG_RESULT([$enable_shared])
+
+AC_MSG_CHECKING([whether to build static libraries])
+# Make sure either enable_shared or enable_static is yes.
+test "$enable_shared" = yes || enable_static=yes
+AC_MSG_RESULT([$enable_static])
+
+test "$_LT_AC_TAGVAR(ld_shlibs, $1)" = no && can_build_shared=no
+
+_LT_AC_TAGVAR(GCC, $1)="$G77"
+_LT_AC_TAGVAR(LD, $1)="$LD"
+
+AC_LIBTOOL_PROG_COMPILER_PIC($1)
+AC_LIBTOOL_PROG_CC_C_O($1)
+AC_LIBTOOL_SYS_HARD_LINK_LOCKS($1)
+AC_LIBTOOL_PROG_LD_SHLIBS($1)
+AC_LIBTOOL_SYS_DYNAMIC_LINKER($1)
+AC_LIBTOOL_PROG_LD_HARDCODE_LIBPATH($1)
+AC_LIBTOOL_SYS_LIB_STRIP
+
+
+AC_LIBTOOL_CONFIG($1)
+
+AC_LANG_POP
+CC="$lt_save_CC"
+])# AC_LIBTOOL_LANG_F77_CONFIG
+
+
+# AC_LIBTOOL_LANG_GCJ_CONFIG
+# --------------------------
+# Ensure that the configuration vars for the C compiler are
+# suitably defined.  Those variables are subsequently used by
+# AC_LIBTOOL_CONFIG to write the compiler configuration to `libtool'.
+AC_DEFUN([AC_LIBTOOL_LANG_GCJ_CONFIG], [_LT_AC_LANG_GCJ_CONFIG(GCJ)])
+AC_DEFUN([_LT_AC_LANG_GCJ_CONFIG],
+[AC_LANG_SAVE
+
+# Source file extension for Java test sources.
+ac_ext=java
+
+# Object file extension for compiled Java test sources.
+objext=o
+_LT_AC_TAGVAR(objext, $1)=$objext
+
+# Code to be used in simple compile tests
+lt_simple_compile_test_code="class foo {}\n"
+
+# Code to be used in simple link tests
+lt_simple_link_test_code='public class conftest { public static void main(String[] argv) {}; }\n'
+
+# ltmain only uses $CC for tagged configurations so make sure $CC is set.
+_LT_AC_SYS_COMPILER
+
+# Allow CC to be a program name with arguments.
+lt_save_CC="$CC"
+CC=${GCJ-"gcj"}
+compiler=$CC
+_LT_AC_TAGVAR(compiler, $1)=$CC
+
+# GCJ did not exist at the time GCC didn't implicitly link libc in.
+_LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
+
+## CAVEAT EMPTOR:
+## There is no encapsulation within the following macros, do not change
+## the running order or otherwise move them around unless you know exactly
+## what you are doing...
+AC_LIBTOOL_PROG_COMPILER_NO_RTTI($1)
+AC_LIBTOOL_PROG_COMPILER_PIC($1)
+AC_LIBTOOL_PROG_CC_C_O($1)
+AC_LIBTOOL_SYS_HARD_LINK_LOCKS($1)
+AC_LIBTOOL_PROG_LD_SHLIBS($1)
+AC_LIBTOOL_SYS_DYNAMIC_LINKER($1)
+AC_LIBTOOL_PROG_LD_HARDCODE_LIBPATH($1)
+AC_LIBTOOL_SYS_LIB_STRIP
+AC_LIBTOOL_DLOPEN_SELF($1)
+
+AC_LIBTOOL_CONFIG($1)
+
+AC_LANG_RESTORE
+CC="$lt_save_CC"
+])# AC_LIBTOOL_LANG_GCJ_CONFIG
+
+
+# AC_LIBTOOL_LANG_RC_CONFIG
+# --------------------------
+# Ensure that the configuration vars for the Windows resource compiler are
+# suitably defined.  Those variables are subsequently used by
+# AC_LIBTOOL_CONFIG to write the compiler configuration to `libtool'.
+AC_DEFUN([AC_LIBTOOL_LANG_RC_CONFIG], [_LT_AC_LANG_RC_CONFIG(RC)])
+AC_DEFUN([_LT_AC_LANG_RC_CONFIG],
+[AC_LANG_SAVE
+
+# Source file extension for RC test sources.
+ac_ext=rc
+
+# Object file extension for compiled RC test sources.
+objext=o
+_LT_AC_TAGVAR(objext, $1)=$objext
+
+# Code to be used in simple compile tests
+lt_simple_compile_test_code='sample MENU { MENUITEM "&Soup", 100, CHECKED }\n'
+
+# Code to be used in simple link tests
+lt_simple_link_test_code="$lt_simple_compile_test_code"
+
+# ltmain only uses $CC for tagged configurations so make sure $CC is set.
+_LT_AC_SYS_COMPILER
+
+# Allow CC to be a program name with arguments.
+lt_save_CC="$CC"
+CC=${RC-"windres"}
+compiler=$CC
+_LT_AC_TAGVAR(compiler, $1)=$CC
+_LT_AC_TAGVAR(lt_cv_prog_compiler_c_o, $1)=yes
+
+AC_LIBTOOL_CONFIG($1)
+
+AC_LANG_RESTORE
+CC="$lt_save_CC"
+])# AC_LIBTOOL_LANG_RC_CONFIG
+
+
 # AC_LIBTOOL_CONFIG([TAGNAME])
 # ----------------------------
 # If TAGNAME is not passed, then create an initial libtool script
@@ -3738,8 +3955,7 @@ ifelse([$1], [],
   [cfgfile="${ofile}T"
   trap "$rm \"$cfgfile\"; exit 1" 1 2 15
   $rm -f "$cfgfile"
-  echo "$as_me:__oline__: creating $ofile" >&AS_MESSAGE_LOG_FD
-  echo "$as_me: creating $ofile" >&6],
+  AC_MSG_NOTICE([creating $ofile])],
   [cfgfile="$ofile"])
 
   cat <<__EOF__ >> "$cfgfile"
@@ -4893,7 +5109,7 @@ ifelse([$1],[CXX],[
       with_gnu_ld=no
     fi
     ;;
-  ekkobsd* | microbsd* | mirbsd* | openbsd*)
+  openbsd*)
     with_gnu_ld=no
     ;;
   esac
@@ -5407,7 +5623,7 @@ $echo "local: *; };" >> $output_objdir/$libname.ver~
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       ;;
 
-    ekkobsd* | microbsd* | mirbsd* | openbsd*)
+    openbsd*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
@@ -5735,7 +5951,6 @@ AC_DEFUN([LT_AC_PROG_SED],
 AC_CACHE_VAL(lt_cv_path_SED,
 [# Loop through the user's path and test for sed and gsed.
 # Then use that list of sed's as ones to test for truncation.
-test -z "$as_executable_p" && as_executable_p="test -f"
 as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
@@ -5757,7 +5972,7 @@ for lt_ac_sed in $lt_ac_sed_list /usr/xpg4/bin/sed; do
   test ! -f $lt_ac_sed && break
   cat /dev/null > conftest.in
   lt_ac_count=0
-  echo ${ECHO_N-$ac_n} "0123456789$ECHO_C" >conftest.in
+  echo $ECHO_N "0123456789$ECHO_C" >conftest.in
   # Check for GNU sed and select it if it is found.
   if "$lt_ac_sed" --version 2>&1 < /dev/null | grep 'GNU' > /dev/null; then
     lt_cv_path_SED=$lt_ac_sed
@@ -5780,10 +5995,6 @@ for lt_ac_sed in $lt_ac_sed_list /usr/xpg4/bin/sed; do
   done
 done
 ])
-if test "X$SED" != "X"; then
-  lt_cv_path_SED=$SED
-else
-  SED=$lt_cv_path_SED
-fi
+SED=$lt_cv_path_SED
 AC_MSG_RESULT([$SED])
 ])
