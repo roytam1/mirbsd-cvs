@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.8 2005/02/10 00:05:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.9 2005/02/10 00:27:50 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2267,4 +2267,17 @@
  making the kernel aware of userland threads. Please, do it (I can't do it
  myself since I'm <b>just</b> an amateur ;) because it will also increase,
  among other programmes, wine's chance to work. (Java&trade; too.)</p>
+<p>11.02.2005 by tg@<br />I'm sitting here at Kabelaffe's (a friend and an
+ apprenticeship (he's IT-Systemekeltroniker) comrade) continuing what I've
+ done over the whole night (rendering me pretty useless at work today with
+ only 2.5 hours of sleep) &ndash; updating MirLibtool to 1.5.12 of GNU and
+ simplifying and enhancing it during that. I seem to have success, even to
+ bring back (and conditionalising) Fortran 77 and GJC support, so reducing
+ the diff to GNU Libtool (which increased again due to accent cleanup). It
+ works on a few ports, but I need testers now.<br />I'm still open for the
+ weekend, having planned only to <em>not</em> plan anything, to remove all
+ strain from myself too ;-) (Maybe it'll help to kill the first signs of a
+ flu I noticed as well.) Sitting around with friends is a good first step,
+ refraining from hacking on MirLibtool might increase my health again, and
+ if I'll ever get lunch I'm happy for today.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
