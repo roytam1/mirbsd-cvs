@@ -1,5 +1,6 @@
 ######## TERMINAL TYPE DESCRIPTIONS SOURCE FILE
 #
+# $MirOS$
 # $OpenBSD: termtypes.master,v 1.34 2003/01/27 19:14:44 miod Exp $
 #
 # This version of terminfo.src is distributed with ncurses.
@@ -1453,6 +1454,11 @@ wsvt25m|NetBSD wscons in 25 line DEC VT220 mode with Meta,
 	bce, km, msgr,
 	colors#8, cols#80, lines#25, ncv#3, pairs#64,
 	op=\E[m, setab=\E[4%p1%dm, setaf=\E[3%p1%dm,
+	use=vt220, 
+
+wsvtg|MirBSD wscons in generic DEC VT220 mode, 
+	bce, msgr,
+	use=klone+color, 
 	use=vt220, 
 
 # `rasterconsole' provided by 4.4BSD, NetBSD and OpenBSD on SPARC, and 
@@ -3199,10 +3205,11 @@ eterm|gnu emacs term.el terminal emulation,
 	smul=\E[4m, 
 
 # Entries for use by the `screen' program by Juergen Weigert, 
-# Michael Schroeder, Oliver Laumann.  The screen and
-# screen-w entries came with version 3.7.1.  The screen2 and screen3 entries
+# Michael Schroeder, Oliver Laumann.  The screenO and
+# screenO-w entries came with version 3.7.1.  The screen2 and screen3 entries
 # come from University of Wisconsin and may be older.
-# (screen: added <cnorm> on ANSI model -- esr)
+# (screenO: added <cnorm> on ANSI model -- esr)
+# The screen, screen-bce and screen-s entries came with GNU screen 3.09.15.
 #
 # 'screen' defines extensions to termcap.  Some are used in its terminal
 # description:
@@ -3211,7 +3218,83 @@ eterm|gnu emacs term.el terminal emulation,
 #                   (\E[39m / \E[49m).
 #      S0   (str)   Switch charset 'G0' to the specified charset.
 #      E0   (str)   Switch charset 'G0' back to standard charset.
-screen|VT 100/ANSI X3.64 virtual terminal, 
+screen|VT 100/ANSI X3.64 virtual terminal,
+	am, km, mir, msgr, xenl,
+	cols#80, it#8, lines#24, colors#8, pairs#64,
+	bel=^G, blink=\E[5m, bold=\E[1m, cbt=\E[Z,
+	clear=\E[H\E[J, cr=\r, csr=\E[%i%p1%d;%p2%dr,
+	cub=\E[%p1%dD, cub1=\b, cud=\E[%p1%dB, cud1=\n,
+	cuf=\E[%p1%dC, cuf1=\E[C, cup=\E[%i%p1%d;%p2%dH,
+	cuu=\E[%p1%dA, cuu1=\EM, dch=\E[%p1%dP, dch1=\E[P,
+	dl=\E[%p1%dM, dl1=\E[M, ed=\E[J, el=\E[K, el1=\E[1K,
+	enacs=\E(B\E)0, home=\E[H,
+	ht=\t, hts=\EH, ich=\E[%p1%d@, il=\E[%p1%dL, il1=\E[L,
+	ind=\n, is2=\E)0, kbs=\b, kcub1=\EOD, kcud1=\EOB,
+	kcuf1=\EOC, kcuu1=\EOA, kdch1=\E[3~, kf1=\EOP,
+	kf10=\E[21~, kf11=\E[23~, kf12=\E[24~, kf2=\EOQ,
+	kf3=\EOR, kf4=\EOS, kf5=\E[15~, kf6=\E[17~,
+	kf7=\E[18~, kf8=\E[19~, kf9=\E[20~, khome=\E[1~, kend=\E[4~,
+	kich1=\E[2~, knp=\E[6~, kpp=\E[5~, nel=\EE,
+	rc=\E8, rev=\E[7m, ri=\EM, rmcup=\E[?1049l, rmir=\E[4l,
+	rmkx=\E[?1l\E>, rmso=\E[23m, rmul=\E[24m, rs2=\Ec, sc=\E7,
+	sgr0=\E[m, smcup=\E[?1049h, smir=\E[4h, smkx=\E[?1h\E=,
+	smso=\E[3m, smul=\E[4m, tbc=\E[3g, smacs=^N, rmacs=^O, flash=\Eg, 
+	civis=\E[?25l, cnorm=\E[34h\E[?25h, cvvis=\E[34l,
+	op=\E[39;49m, setab=\E[4%p1%dm, setaf=\E[3%p1%dm,
+	acsc=``aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++\054\054hhII00,
+
+screen-bce|VT 100/ANSI X3.64 virtual terminal with bce,
+	am, bce, km, mir, msgr, xenl,
+	cols#80, it#8, lines#24, colors#8, pairs#64,
+	bel=^G, blink=\E[5m, bold=\E[1m, cbt=\E[Z,
+	clear=\E[H\E[J, cr=\r, csr=\E[%i%p1%d;%p2%dr,
+	cub=\E[%p1%dD, cub1=\b, cud=\E[%p1%dB, cud1=\n,
+	cuf=\E[%p1%dC, cuf1=\E[C, cup=\E[%i%p1%d;%p2%dH,
+	cuu=\E[%p1%dA, cuu1=\EM, dch=\E[%p1%dP, dch1=\E[P,
+	dl=\E[%p1%dM, dl1=\E[M, ed=\E[J, el=\E[K, el1=\E[1K,
+	enacs=\E(B\E)0, home=\E[H,
+	ht=\t, hts=\EH, ich=\E[%p1%d@, il=\E[%p1%dL, il1=\E[L,
+	ind=\n, is2=\E)0, kbs=\b, kcub1=\EOD, kcud1=\EOB,
+	kcuf1=\EOC, kcuu1=\EOA, kdch1=\E[3~, kf1=\EOP,
+	kf10=\E[21~, kf11=\E[23~, kf12=\E[24~, kf2=\EOQ,
+	kf3=\EOR, kf4=\EOS, kf5=\E[15~, kf6=\E[17~,
+	kf7=\E[18~, kf8=\E[19~, kf9=\E[20~, khome=\E[1~, kend=\E[4~,
+	kich1=\E[2~, knp=\E[6~, kpp=\E[5~, nel=\EE,
+	rc=\E8, rev=\E[7m, ri=\EM, rmcup=\E[?1049l, rmir=\E[4l,
+	rmkx=\E[?1l\E>, rmso=\E[23m, rmul=\E[24m, rs2=\Ec, sc=\E7,
+	sgr0=\E[m, smcup=\E[?1049h, smir=\E[4h, smkx=\E[?1h\E=,
+	smso=\E[3m, smul=\E[4m, tbc=\E[3g, smacs=^N, rmacs=^O, flash=\Eg, 
+	civis=\E[?25l, cnorm=\E[34h\E[?25h, cvvis=\E[34l,
+	op=\E[39;49m, setab=\E[4%p1%dm, setaf=\E[3%p1%dm,
+	acsc=``aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++\054\054hhII00,
+
+screen-s|VT 100/ANSI X3.64 virtual terminal with hardstatus line,
+	am, bce, km, mir, msgr, xenl,
+	cols#80, it#8, lines#24, colors#8, pairs#64,
+	bel=^G, blink=\E[5m, bold=\E[1m, cbt=\E[Z,
+	clear=\E[H\E[J, cr=\r, csr=\E[%i%p1%d;%p2%dr,
+	cub=\E[%p1%dD, cub1=\b, cud=\E[%p1%dB, cud1=\n,
+	cuf=\E[%p1%dC, cuf1=\E[C, cup=\E[%i%p1%d;%p2%dH,
+	cuu=\E[%p1%dA, cuu1=\EM, dch=\E[%p1%dP, dch1=\E[P,
+	dl=\E[%p1%dM, dl1=\E[M, ed=\E[J, el=\E[K, el1=\E[1K,
+	enacs=\E(B\E)0, home=\E[H,
+	ht=\t, hts=\EH, ich=\E[%p1%d@, il=\E[%p1%dL, il1=\E[L,
+	ind=\n, is2=\E)0, kbs=\b, kcub1=\EOD, kcud1=\EOB,
+	kcuf1=\EOC, kcuu1=\EOA, kdch1=\E[3~, kf1=\EOP,
+	kf10=\E[21~, kf11=\E[23~, kf12=\E[24~, kf2=\EOQ,
+	kf3=\EOR, kf4=\EOS, kf5=\E[15~, kf6=\E[17~,
+	kf7=\E[18~, kf8=\E[19~, kf9=\E[20~, khome=\E[1~, kend=\E[4~,
+	kich1=\E[2~, knp=\E[6~, kpp=\E[5~, nel=\EE,
+	rc=\E8, rev=\E[7m, ri=\EM, rmcup=\E[?1049l, rmir=\E[4l,
+	rmkx=\E[?1l\E>, rmso=\E[23m, rmul=\E[24m, rs2=\Ec, sc=\E7,
+	sgr0=\E[m, smcup=\E[?1049h, smir=\E[4h, smkx=\E[?1h\E=,
+	smso=\E[3m, smul=\E[4m, tbc=\E[3g, smacs=^N, rmacs=^O, flash=\Eg, 
+	tsl=\E_, fsl=\E\\, dsl=\E_\E\\,
+	civis=\E[?25l, cnorm=\E[34h\E[?25h, cvvis=\E[34l,
+	op=\E[39;49m, setab=\E[4%p1%dm, setaf=\E[3%p1%dm,
+	acsc=``aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++\054\054hhII00,
+
+screenO|VT 100/ANSI X3.64 virtual terminal, 
 	OTbs, OTpt, am, km, mir, msgr, xenl, G0, 
 	colors#8, cols#80, it#8, lines#24, pairs#64, 
 	acsc=++\,\,--..00``aaffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~, 
@@ -3234,7 +3317,7 @@ screen|VT 100/ANSI X3.64 virtual terminal,
 	smir=\E[4h, smkx=\E[?1h\E=, smso=\E[3m, smul=\E[4m, 
 	tbc=\E[3g, E0=\E(B, S0=\E(%p1%c, use=ecma+color, 
 
-screen-w|VT 100/ANSI X3.64 virtual terminal with 132 cols, 
+screenO-w|VT 100/ANSI X3.64 virtual terminal with 132 cols, 
 	cols#132, use=screen, 
 
 screen2|old VT 100/ANSI X3.64 virtual terminal, 

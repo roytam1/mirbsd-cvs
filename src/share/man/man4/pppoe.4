@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: pppoe.4,v 1.5 2004/11/30 12:42:21 jmc Exp $
 .\"	$NetBSD: pppoe.4,v 1.26 2003/10/02 07:06:36 wiz Exp $
 .\"
@@ -91,6 +92,8 @@ The
 mode, selected by setting
 .Em link0 ,
 is to wait for incoming PPPoE session.
+This option is not set in the GENERIC kernel and discouraged
+because it does not offer authentication.
 .Pp
 Before a
 .Nm
@@ -189,7 +192,11 @@ the orphaned session and allow a new one to be established.
 The
 .Nm
 device appeared in
-.Ox 3.7 .
+.Nx 1.6
+and was ported via
+.Ox 3.7
+to
+.Mx 8 .
 .Sh BUGS
 This implementation is client side only.
 .Pp

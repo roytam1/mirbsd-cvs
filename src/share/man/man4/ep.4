@@ -35,7 +35,6 @@
 .Nm ep
 .Nd 3Com EtherLink III and Fast EtherLink III Ethernet driver
 .Sh SYNOPSIS
-.Cd "ep* at eisa? slot ?"
 .Cd "ep* at isa? port ? irq ?"
 .Cd "ep* at pci? dev ? function ?"
 .Cd "ep* at pcmcia? function ?"
@@ -58,18 +57,12 @@ EtherLink III LAN+Modem PC Card (PCMCIA)
 EtherLink III LAN+33.6K Modem PC Card (PCMCIA)
 .It 3C574
 Fast EtherLink III 10/100 LAN PC Card (PCMCIA)
-.It 3C579
-EtherLink III EISA
 .It 3C589
 EtherLink III LAN PC Card (PCMCIA)
 .It 3C590
 Fast EtherLink III PCI
-.It 3C592
-EtherLink III EISA Bus Master
 .It 3C595
 Fast EtherLink III PCI 10/100
-.It 3C597
-Fast EtherLink III EISA 10/100
 .El
 .Pp
 Other models of 3Com network cards are supported by the
@@ -123,11 +116,9 @@ in the following order:
 .It
 1.  PCI cards based on PCI function number order.
 .It
-2.  EISA cards based on EISA slot number order.
+2.  ISA cards based on increasing Ethernet address order.
 .It
-3.  ISA cards based on increasing Ethernet address order.
-.It
-4.  Any ISA cards in Plug-and-Play mode, in Plug-and-Play order.
+3.  Any ISA cards in Plug-and-Play mode, in Plug-and-Play order.
 .El
 .Pp
 You may specify the port and IRQ numbers where the cards are expected to
@@ -152,7 +143,6 @@ Erase the pencil mark and reboot.
 .Xr ec 4 ,
 .Xr ef 4 ,
 .Xr eg 4 ,
-.Xr eisa 4 ,
 .Xr el 4 ,
 .Xr ie 4 ,
 .Xr ifmedia 4 ,

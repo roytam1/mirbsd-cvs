@@ -1,5 +1,5 @@
-#	$OpenBSD: Makefile,v 1.3 2004/02/01 14:22:45 jmc Exp $
-
+# $MirOS$
+# $OpenBSD: Makefile,v 1.3 2004/02/01 14:22:45 jmc Exp $
 
 DIR=	papers/sysperf
 MACROS= -ms
@@ -9,12 +9,10 @@ OBJS=	paper.tmp appendix.tmp
 CLEANFILES+=${OBJS}
 
 paper.ps: ${OBJS}
-	${ROFF} ${OBJS} > ${.TARGET}
-paper.txt: ${OBJS}
-	${ROFF} -Tascii ${OBJS} > ${.TARGET}
+	${ROFF} ${OBJS} >${.TARGET}
 
 paper.tmp: ${SRCS}
-	${TBL} ${SRCS} | ${EQN} > paper.tmp
+	${TBL} ${SRCS} | ${EQN} >${.TARGET}
 
 appendix.tmp: a1.t a2.t
 	${GRIND} -f a1.t |  awk '/\.\(\)/{ cnt = 2 } \

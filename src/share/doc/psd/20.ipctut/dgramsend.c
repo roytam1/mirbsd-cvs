@@ -68,7 +68,7 @@ main(argc, argv)
 		fprintf(stderr, "%s: unknown host\n", argv[1]);
 		exit(2);
 	}
-	bcopy(hp->h_addr, &name.sin_addr, hp->h_length);
+	memmove(&name.sin_addr, hp->h_addr, hp->h_length);
 	name.sin_family = AF_INET;
 	name.sin_port = htons(atoi(argv[2]));
 	/* Send message. */

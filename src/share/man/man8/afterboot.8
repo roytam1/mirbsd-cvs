@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: afterboot.8,v 1.89 2004/04/20 06:39:04 tedu Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -58,13 +59,29 @@ command, type:
 .Dl # man 1 ls
 .Pp
 Administrators will rapidly become more familiar with
-.Ox
+.Mx BSD
 if they get used to using the high quality manual pages.
+.Pp
+In order to browse a file, for example
+.Pa /usr/share/man/COPYRIGHT ,
+which you \fBshould really\fR read, type:
+.Pp
+.Dl # less /usr/share/man/COPYRIGHT
+.Pp
+Within
+.Xr less 1 ,
+type \? for help and q to quit.
+.Pp
+Other important files to read include
+.Pa /usr/share/doc/legal/LICENCE ,
+which refers to most other files within the same directory.
+You are obliged to read, understand and acknowledge the licences
+outlined in these files to use this product.
 .Ss Errata
 By the time that you have installed your system, it is quite likely that
 bugs in the release have been found.
-All significant and easily fixed problems will be reported at
-.Pa http://www.openbsd.org/errata.html .
+Most significant and easily fixed problems will be reported at
+.Pa https://mirbsd.bsdadvocacy.org/?errata .
 The web page will mention if a problem is security related.
 It is recommended that you check this page regularly.
 .Ss Login
@@ -72,14 +89,24 @@ Login as
 .Dq Ic root .
 You can do so on the console, or over the network using
 .Xr ssh 1 .
-If you wish to deny root logins over the network, edit the
+If you wish to log in as root over the network, edit the
 .Pa /etc/ssh/sshd_config
 file and set
 .Cm PermitRootLogin
 to
-.Dq no
-(see
+.Dq yes
+first (see
 .Xr sshd_config 5 ) .
+.Pp
+If you want to use RSA Version 1 or DSA Version 2 keys with
+.Xr sshd 8 ,
+you must edit the
+.Pa /etc/ssh/sshd_config
+file first and generate the keys using
+.Dl # /usr/bin/ssh-keygen \-q \-t rsa1 \-f /etc/ssh/ssh_host_key \-N \'\'
+for RSA Version 1 (old), and
+.Dl # /usr/bin/ssh-keygen \-q \-t dsa \-f /etc/ssh/ssh_host_dsa_key \-N \'\'
+for DSA Version 2 (extremely slow).
 .Pp
 Upon successful login on the console, you may see the message
 .Dq Don't login as root, use su .
@@ -126,8 +153,18 @@ command.
 If needed, change the date, and/or change the symbolic link of
 .Pa /etc/localtime
 to the correct time zone in the
-.Pa /usr/share/zoneinfo
+.Pa /usr/share/zoneinfo/right
 directory.
+.Pp
+It is highly recommended to use
+.Xr rdate 8
+to set the system clock against a NTP or time server.
+In the default crontab, there is even an entry which does that
+automatically after installation, using the
+.Xr adjtime 2
+system call, which is not suitable for setting the clock, only
+adjusting it by a few milliseconds, but can be used in a runlevel
+greater than 0 as well.
 .Pp
 Examples:
 .Pp
@@ -135,7 +172,11 @@ Set the current date to January 27th, 1999 3:04pm:
 .Dl # date 199901271504
 .Pp
 Set the time zone to Atlantic Standard Time:
-.Dl # ln -fs /usr/share/zoneinfo/Canada/Atlantic /etc/localtime
+.Dl # ln -fs /usr/share/zoneinfo/right/Canada/Atlantic /etc/localtime
+.Pp
+Go into single user mode and get the time from an SNTP server:
+.Dl # kill 1
+.Dl # rdate -ncv ntp0.nl.net
 .Ss System daemon configuration database
 The file
 .Pa /etc/rc.conf
@@ -174,6 +215,15 @@ Read the
 man page for more information on the format of
 .Pa /etc/hostname. Ns Ar interface
 files.
+The default routes are also set in these files; if you come from
+.Ox
+you will have to merge your
+.Pa /etc/mygate
+into a
+.Pa /etc/hostname. Ns Ar interface
+file - preferably with
+.Ar interface
+being the one on which the route is set.
 The loopback interface will look something like:
 .Bd -literal -offset indent
 lo0: flags=8009<UP,LOOPBACK,MULTICAST> mtu 32972
@@ -234,7 +284,7 @@ ff02::%lo0/32      fe80::1%lo0   UC       0     0   32972  lo0
 .Ed
 .Pp
 The default gateway address is stored in the
-.Pa /etc/mygate
+.Xr hostname.if 5
 file.
 If you need to edit this file, a painless way to reconfigure the network
 afterwards is
@@ -242,7 +292,7 @@ afterwards is
 followed by a
 .Ic sh -x /etc/netstart
 command.
-Or, you may prefer to manually configure using a series of
+You may manually configure using a series of
 .Ic route add
 and
 .Ic route delete
@@ -251,7 +301,7 @@ commands (see
 If you run
 .Xr dhclient 8
 you will have to kill it by running
-.Ic kill `cat /var/run/dhclient.pid`
+.Ic kill $(</var/run/dhclient.pid)
 after you flush the routes.
 .Pp
 If you wish to route packets between interfaces, add the directive
@@ -270,8 +320,8 @@ You can add new
 .Dq virtual interfaces
 by adding the required entries to
 .Pa /etc/hostname.if .
-.Ss BIND Name Server (DNS)
-If you are using the BIND Name Server, check the
+.Ss Domain Name Server (DNS)
+If you are using the Domain Name Service, check the
 .Pa /etc/resolv.conf
 file.
 It may look something like:
@@ -284,15 +334,6 @@ lookup file bind
 .Ed
 .Pp
 If using a caching name server, add the line "nameserver 127.0.0.1" first.
-To get a local caching name server to run
-you will need to set "named_flags" in
-.Pa /etc/rc.conf.local .
-The same holds true if the machine is going to be a
-name server for your domain.
-In both these cases, make sure that
-.Xr named 8
-is running
-(otherwise there are long waits for resolver timeouts).
 .Ss RPC-based network services
 Several services depend on the RPC portmapper,
 .Xr portmap 8 ,
@@ -303,39 +344,6 @@ you will need to have this line in
 .Pa /etc/rc.conf.local :
 .Pp
 .Dl portmap=YES
-.Ss YP Setup
-Check the YP domain name with the
-.Xr domainname 1
-command.
-If necessary, correct it by editing the
-.Pa /etc/defaultdomain
-file.
-The
-.Pa /etc/netstart
-script reads this file on bootup to determine and set the domain name.
-You may also set the running system's domain name with the
-.Xr domainname 1
-command.
-To start YP client services, simply run
-.Ic ypbind ,
-then perform the remaining
-YP activation as described in
-.Xr passwd 5
-and
-.Xr group 5 .
-.Pp
-In particular, to enable YP passwd support, you'll need to add the following
-line to
-.Pa /etc/master.passwd :
-.Pp
-.Dl +:*::::::::
-.Pp
-You do this by using
-.Xr vipw 8 .
-.Pp
-There are many more YP man pages available to help you.
-You can find more information by starting with
-.Xr yp 8 .
 .Ss Check disk mounts
 Check that the disks are mounted correctly by
 comparing the
@@ -402,26 +410,13 @@ You then
 and edit
 .Pa /etc/fstab
 as needed.
-.Ss Automounter daemon (AMD)
-If using the
-.Xr amd 8
-package,
-go into the
-.Pa /etc/amd
-directory and set it up by
-renaming
-.Pa master.sample
-to
-.Pa master
-and editing it and creating other maps as needed.
-Alternatively, you can get your maps with YP.
 .Sh CHANGING /etc FILES
 The system should be usable now, but you may wish to do more customizing,
 such as adding users, etc.
 Many of the following sections may be skipped
 if you are not using that package (for example, skip the
-.Sx Kerberos
-section if you won't be using Kerberos).
+.Sx Sendmail
+section if you won't be using Sendmail (not recommended)).
 We suggest that you
 .Ic cd /etc
 and edit most of the files in that directory.
@@ -455,16 +450,10 @@ The manual page for
 tells you to make sure to put people in
 the
 .Sq wheel
-group if they need root access (non-Kerberos).
+group if they need root access.
 For example:
 .Pp
 .Dl wheel:*:0:root,myself
-.Pp
-Follow instructions for
-.Xr login_krb5 8
-if using
-Kerberos
-for authentication.
 .Ss rc.conf, rc.conf.local, rc.local, rc.securelevel, rc.shutdown
 Check for any local changes needed in the files
 .Pa /etc/rc.conf ,
@@ -519,19 +508,20 @@ Note that by default the
 and
 .Xr ftpd 8
 daemons are not enabled in favor of SSH (Secure Shell).
-.Ss Kerberos
-If you are going to use Kerberos
-.Po see\ \&
-.Ql info heimdal
-.Pc
-for authentication, and you already have a
-Kerberos
-master, change directory to
-.Pa /etc/kerberosV
-and configure.
-Remember to get a
-.Pa srvtab
-from the master so that the remote commands work.
+.Ss Default security
+The root user is not allowed to log in via SSH by default, see
+.Xr sshd_config 5 .
+.Pp
+The MirPorts Framework builds with
+.Xr systrace 1
+on by default.
+.Pp
+The
+.Xr malloc.conf 5
+file is set to some sane
+.Em debugging
+values by default.
+You might want to review it for performance.
 .Ss Mail Aliases
 Edit
 .Pa /etc/mail/aliases
@@ -548,7 +538,7 @@ Run
 .Xr newaliases 8
 after changes.
 .Ss Sendmail
-.Ox
+.Mx
 ships with a default
 .Pa /etc/mail/localhost.cf
 file that will work for simple installations; it was generated from
@@ -680,6 +670,22 @@ nor
 nor
 .Pa rmt ,
 nor any directories.)
+.Pp
+Many files \- for example,
+.Pa /etc/mk.conf ,
+.Pa /etc/profile ,
+.Pa /etc/rc.conf ,
+.Pa /etc/changelist ,
+and others \- provide the ability to have them unchanged
+and place the changes into the file with \fB.local\fR added.
+Example:
+.Dl # echo 'rdate_flags="-nc ntp0.nl.net"' >>/etc/rc.conf.local
+.Pp
+It is recommended to use
+.Xr rcs 1
+for versioning files in
+.Pa /etc ,
+especially those not in any changelist.
 .Ss Crontab (background running processes)
 Check what is running by typing
 .Ic crontab -l
@@ -728,11 +734,9 @@ and
 as needed.
 .Ss Packages
 Install your own packages.
-The
-.Ox
-ports collection includes a large set of third-party software.
+The MirPorts framework includes a large set of third-party software.
 A lot of it is available as binary packages that you can download from
-.Pa ftp://ftp.openbsd.org
+.Pa http://benz.mine.nu/
 or a mirror, and install using
 .Xr pkg_add 1 .
 See
@@ -749,7 +753,7 @@ to find out how to install and use compatibility mode.)
 .Pp
 There is also other third-party software that is available
 in source form only, either because it has not been ported to
-.Ox
+.Mx
 yet, or because licensing restrictions make binary redistribution
 impossible.
 Sometimes checking the mailing lists for
@@ -818,70 +822,69 @@ ukc>
 Additionally, you can permanently save the changes made with UKC during
 boot time in the kernel image.
 .Sh SEE ALSO
-.Xr chgrp 1 ,
-.Xr chmod 1 ,
-.Xr crontab 1 ,
-.Xr date 1 ,
-.Xr df 1 ,
-.Xr domainname 1 ,
-.Xr hostname 1 ,
-.Xr ls 1 ,
-.Xr make 1 ,
-.Xr man 1 ,
-.Xr netstat 1 ,
-.Xr passwd 1 ,
-.Xr pkg_add 1 ,
-.Xr ssh 1 ,
-.Xr su 1 ,
-.Xr xdm 1 ,
-.Xr ccd 4 ,
-.Xr aliases 5 ,
-.Xr bootptab 5 ,
-.Xr crontab 5 ,
-.Xr exports 5 ,
-.Xr fbtab 5 ,
-.Xr fstab 5 ,
-.Xr group 5 ,
-.Xr hostname.if 5 ,
-.Xr login.conf 5 ,
-.Xr passwd 5 ,
-.Xr printcap 5 ,
-.Xr resolv.conf 5 ,
-.Xr ssh_config 5 ,
-.Xr hostname 7 ,
-.Xr packages 7 ,
-.Xr ports 7 ,
 .Xr adduser 8 ,
+.Xr aliases 5 ,
 .Xr amd 8 ,
 .Xr bootpd 8 ,
+.Xr bootptab 5 ,
+.Xr ccd 4 ,
 .Xr ccdconfig 8 ,
+.Xr chgrp 1 ,
+.Xr chmod 1 ,
 .Xr chown 8 ,
 .Xr config 8 ,
+.Xr crontab 1 ,
+.Xr crontab 5 ,
+.Xr date 1 ,
+.Xr df 1 ,
 .Xr dhclient 8 ,
 .Xr dhcp 8 ,
 .Xr dhcpd 8 ,
 .Xr dmesg 8 ,
+.Xr domainname 1 ,
+.Xr exports 5 ,
+.Xr fbtab 5 ,
+.Xr fstab 5 ,
 .Xr ftpd 8 ,
+.Xr group 5 ,
+.Xr hostname 1 ,
+.Xr hostname 7 ,
+.Xr hostname.if 5 ,
 .Xr ifconfig 8 ,
 .Xr inetd 8 ,
 .Xr kbd 8 ,
+.Xr login.conf 5 ,
 .Xr lpd 8 ,
+.Xr ls 1 ,
+.Xr make 1 ,
+.Xr man 1 ,
 .Xr mount 8 ,
 .Xr mtree 8 ,
-.Xr named 8 ,
 .Xr netstart 8 ,
+.Xr netstat 1 ,
 .Xr newaliases 8 ,
+.Xr packages 7 ,
+.Xr passwd 1 ,
+.Xr passwd 5 ,
+.Xr pkg_add 1 ,
 .Xr portmap 8 ,
+.Xr ports 7 ,
+.Xr printcap 5 ,
 .Xr rbootd 8 ,
 .Xr rc 8 ,
+.Xr rdate 8 ,
+.Xr resolv.conf 5 ,
 .Xr rmt 8 ,
 .Xr route 8 ,
+.Xr ssh 1 ,
+.Xr ssh_config 5 ,
+.Xr sshd_config 8 ,
+.Xr su 1 ,
 .Xr sudo 8 ,
 .Xr telnetd 8 ,
 .Xr umount 8 ,
 .Xr vipw 8 ,
-.Xr yp 8 ,
-.Xr ypbind 8
+.Xr xdm 1
 .Sh HISTORY
 This document first appeared in
 .Ox 2.2 .

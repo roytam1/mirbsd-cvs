@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: hostname.if.5,v 1.35 2004/02/09 19:21:51 espie Exp $
 .\"	$NetBSD: hosts.5,v 1.4 1994/11/30 19:31:20 jtc Exp $
 .\"
@@ -65,6 +66,10 @@ Regular ipv4 network setup:
 .br
 .Li dest
 .Va dest_addr
+.br
+.Li route
+.Op \+n
+.Va options
 .Ed
 .Pp
 Regular ipv6 network setup:
@@ -73,6 +78,10 @@ Regular ipv6 network setup:
 .Op Va alias
 .Va addr
 .Va prefixlen
+.Va options
+.br
+.Li route
+.Op \+n
 .Va options
 .Ed
 .Pp
@@ -92,6 +101,8 @@ inet alias 10.0.1.15 255.255.255.255
 inet alias 10.0.1.16 0xffffffff
 inet6 alias fec0::1 64
 inet6 alias fec0::2 64 anycast
+route add default 10.0.1.254
+route +n add -inet6 default myrouter.mydomain.com
 # This is an example comment line.
 !wicontrol \e$if -t 2  # Set to 2Mbps
 .Ed
@@ -145,6 +156,15 @@ library routines.
 .It Va prefixlen
 The prefixlen number, or number of bits in the netmask, to be set on
 the interface, such as 64.
+.It route Op \+n
+This command starts the
+.Xr route 8
+command with
+.Fl n ,
+unless \fB\+n\fR
+is given as second word, and the
+.Va options
+as parameters.
 .It Li #
 Comments are allowed.
 Anything following a comment character is treated as a comment.

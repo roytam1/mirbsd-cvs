@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: security.8,v 1.7 2003/09/25 09:22:01 jmc Exp $
 .\"
 .\" David Leonard, 2001. Public Domain.
@@ -84,7 +85,9 @@ For details on really protecting yourself against modified binaries, see
 .Xr mtree 8 .
 .It
 Check for content changes in those files specified by
-.Pa /etc/changelist .
+.Pa /etc/changelist
+and
+.Pa /etc/changelist.local .
 See
 .Xr changelist 5
 for further details.

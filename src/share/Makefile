@@ -1,6 +1,13 @@
-#	$OpenBSD: Makefile,v 1.11 2002/11/22 22:06:46 henning Exp $
+# $MirOS$
 
-SUBDIR=	dict doc ipsec lkm man misc mk tabset termtypes \
-	tmac zoneinfo pf
+  SUBDIR+= dict
+  SUBDIR+= doc
+  SUBDIR+= man
+  SUBDIR+= misc
+  SUBDIR+= mk
+  SUBDIR+= tabset
+  SUBDIR+= termtypes
+  SUBDIR+= tmac
+  SUBDIR+= zoneinfo
 
 .include <bsd.subdir.mk>
