@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.2 2005/03/13 16:07:09 tg Exp $ */
 
 /* Demangler for g++ V3 ABI.
    Copyright (C) 2003, 2004 Free Software Foundation, Inc.
@@ -27,7 +27,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 /* This code implements a demangler for the g++ V3 ABI.  The ABI is
@@ -88,8 +88,6 @@
 #include "config.h"
 #endif
 
-__RCSID("$MirOS$");
-
 #include <stdio.h>
 
 #ifdef HAVE_STDLIB_H
@@ -103,6 +101,8 @@ __RCSID("$MirOS$");
 #include "libiberty.h"
 #include "demangle.h"
 #include "cp-demangle.h"
+
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.2 2005/03/13 16:07:09 tg Exp $");
 
 /* If IN_GLIBCPP_V3 is defined, some functions are made static.  We
    also rename them via #define to avoid compiler errors when the
@@ -290,7 +290,7 @@ struct d_print_info
   ((dpi)->buf == NULL || (dpi)->len == 0 ? '\0' : (dpi)->buf[(dpi)->len - 1])
 
 #ifdef CP_DEMANGLE_DEBUG
-static void 
+static void
 d_dump PARAMS ((struct demangle_component *, int));
 #endif
 
@@ -4122,11 +4122,11 @@ cplus_demangle_v3 (mangled, options)
   return d_demangle (mangled, options, &alc);
 }
 
-/* Demangle a Java symbol.  Java uses a subset of the V3 ABI C++ mangling 
+/* Demangle a Java symbol.  Java uses a subset of the V3 ABI C++ mangling
    conventions, but the output formatting is a little different.
-   This instructs the C++ demangler not to emit pointer characters ("*"), and 
-   to use Java's namespace separator symbol ("." instead of "::").  It then 
-   does an additional pass over the demangled output to replace instances 
+   This instructs the C++ demangler not to emit pointer characters ("*"), and
+   to use Java's namespace separator symbol ("." instead of "::").  It then
+   does an additional pass over the demangled output to replace instances
    of JArray<TYPE> with TYPE[].  */
 
 char *
@@ -4333,7 +4333,7 @@ print_usage (fp, exit_value)
 }
 
 /* Option specification for getopt_long.  */
-static const struct option long_options[] = 
+static const struct option long_options[] =
 {
   { "help",	 no_argument, NULL, 'h' },
   { "no-params", no_argument, NULL, 'p' },
@@ -4359,7 +4359,7 @@ main (argc, argv)
   program_name = argv[0];
 
   /* Parse options.  */
-  do 
+  do
     {
       opt_char = getopt_long (argc, argv, "hpv", long_options, NULL);
       switch (opt_char)
@@ -4383,7 +4383,7 @@ main (argc, argv)
     }
   while (opt_char != -1);
 
-  if (optind == argc) 
+  if (optind == argc)
     /* No command line arguments were provided.  Filter stdin.  */
     {
       dyn_string_t mangled = dyn_string_new (3);
