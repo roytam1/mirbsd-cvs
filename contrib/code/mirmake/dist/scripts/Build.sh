@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS$
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -62,6 +62,20 @@ if [[ $new_manpth = *@(cat)* ]]; then
 else
 	is_catman=0
 fi
+
+case "$new_machos:$new_machin:$new_macarc" {
+Darwin:*:powerpc)
+	;;
+Darwin:*:i686)
+	;;
+Darwin:*:*)
+	new_macarc=$(uname -p)
+	[[ $new_macarc = *86 ]] && new_macarc=i686
+	;;
+*:*:i[3456789x]86)
+	new_macarc=i386
+	;;
+}
 
 mkdir -p $d_build/mk
 
