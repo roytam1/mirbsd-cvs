@@ -1,4 +1,4 @@
-# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.1 2005/03/25 21:44:40 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.1 2005/03/26 09:45:38 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -12,6 +12,7 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 		--enable-long-long --disable-libstdcxx-debug \
 		--with-gxx-include-dir==/usr/include/gxx
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
+		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
 #CLEANFILES+=	config.h libtool stamp-h
 
