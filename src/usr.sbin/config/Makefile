@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/config/Makefile,v 1.2 2005/03/13 19:16:18 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/07/22 17:15:13 brad Exp $
 
 .include <bsd.own.mk>
@@ -11,7 +11,7 @@ SRCS=		files.c gram.y hash.c main.c mkheaders.c mkioconf.c \
 CPPFLAGS+=	-DELF_SUPPORT
 SRCS+=		exec_elf.c
 .else
-CFLAGS+=	-DAOUT_SUPPORT
+CPPFLAGS+=	-DAOUT_SUPPORT
 SRCS+=		exec_aout.c
 .endif
 
@@ -23,6 +23,6 @@ DPADD=		${LIBKVM}
 CLEANFILES+=	gram.c scan.c y.tab.h
 MAN=		config.8
 
-.include <bsd.prog.mk>
+beforedepend: gram.c scan.c
 
-.depend: gram.c scan.c
+.include <bsd.prog.mk>

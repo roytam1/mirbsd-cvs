@@ -2,7 +2,7 @@
 
 PROG=	ifstated
 SRCS=	ifstated.c parse.y
-CFLAGS+= -Wall -I${.CURDIR}
+CFLAGS+= -Wall
 CFLAGS+= -Wstrict-prototypes -Wmissing-prototypes
 CLFAGS+= -Wmissing-declarations -Wredundant-decls
 CFLAGS+= -Wshadow -Wpointer-arith -Wcast-qual

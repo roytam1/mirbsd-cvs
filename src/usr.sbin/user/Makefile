@@ -3,7 +3,7 @@
 PROG=	user
 SRCS=	user.c main.c
 
-CFLAGS+=	-DEXTENSIONS
+CPPFLAGS+=	-DEXTENSIONS
 
 LDADD+=	-lutil 
 DPADD+=	${LIBUTIL}
