@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/util.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: util.c,v 1.21 2003/06/25 15:11:06 millert Exp $	*/
 /*	$NetBSD: util.c,v 1.10 1996/12/31 17:56:04 christos Exp $	*/
@@ -35,8 +35,9 @@
 #include <stdio.h>
 #include "config.h"
 #include "defines.h"
+#include "memory.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/util.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
 
 #ifdef sun
 
