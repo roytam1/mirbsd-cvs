@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/varmodifiers.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: varmodifiers.c,v 1.13 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
@@ -69,7 +69,7 @@
 
 #include <ctype.h>
 #include <sys/types.h>
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 #include <regex.h>
 #endif
 #include <stddef.h>
@@ -90,7 +90,7 @@
 #include "gnode.h"
 
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/varmodifiers.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
 
 /* Var*Pattern flags */
 #define VAR_SUB_GLOBAL	0x01	/* Apply substitution globally */
@@ -132,7 +132,7 @@ static bool VarUniq(struct Name *, bool, Buffer, void *);
 static bool VarLoop(struct Name *, bool, Buffer, void *);
 
 
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 static void VarREError(int, regex_t *, const char *);
 static bool VarRESubstitute(struct Name *, bool, Buffer, void *);
 static char *do_regex(const char *, const struct Name *, void *);
@@ -194,7 +194,7 @@ static struct modifier {
     match_mod = {false, get_stringarg, NULL, VarMatch, free_stringarg},
     nomatch_mod = {false, get_stringarg, NULL, VarNoMatch, free_stringarg},
     subst_mod = {false, get_spatternarg, NULL, VarSubstitute, free_patternarg},
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
     resubst_mod = {false, get_patternarg, do_regex, NULL, free_patternarg},
 #endif
     quote_mod = {false, check_empty, VarQuote, NULL , NULL},
@@ -223,7 +223,7 @@ VarModifiers_Init()
     choose_mod['M'] = &match_mod;
     choose_mod['N'] = &nomatch_mod;
     choose_mod['S'] = &subst_mod;
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
     choose_mod['C'] = &resubst_mod;
 #endif
     choose_mod['Q'] = &quote_mod;
@@ -786,7 +786,7 @@ VarSubstitute(struct Name *word, bool addSpace, Buffer buf,
     return true;
 }
 
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 /*-
  *-----------------------------------------------------------------------
  * VarREError --
@@ -1342,7 +1342,7 @@ free_patternarg(void *p)
     free(vp);
 }
 
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 static char *
 do_regex(const char *s, const struct Name *n UNUSED, void *arg)
 {

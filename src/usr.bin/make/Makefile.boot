@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.2 2005/02/23 20:36:53 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.3 2005/02/23 20:49:26 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -23,6 +23,7 @@ MKSH=		/bin/ksh
 
 # some make(1)s don't support +=
 DEFS=		-DMAKE_BOOTSTRAP -DNEED_FGETLN #-DNEED_VSNPRINTF
+#DEFS_RE=	-DNO_REGEX
 
 # paths
 LIBCDIR=	/usr/src/lib/libc
@@ -33,7 +34,7 @@ INCLDIR=	/usr/src/include
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
-CFLAGS= -Iohash -I. ${DEFS} ${COPTS} -DMACHINE=\"${MACHINE}\" \
+CFLAGS= -Iohash -I. ${DEFS} ${DEFS_RE} ${COPTS} -DMACHINE=\"${MACHINE}\" \
 	-DMACHINE_ARCH=\"${MACHINE_ARCH}\" -DMACHINE_OS=\"${MACHINE_OS}\" \
 	-D_PATH_MIRBSDKSH=\"${MKSH}\" -D_PATH_DEFSYSPATH=\"/usr/share/mk\"
 LIBS=	ohash/libohash.a
