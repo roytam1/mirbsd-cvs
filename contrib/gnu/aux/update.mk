@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/aux/update.mk,v 1.1.7.1 2005/02/05 01:54:29 tg Exp $
+# $MirOS: contrib/gnu/aux/update.mk,v 1.2 2005/02/10 22:10:00 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -81,12 +81,13 @@ update:
 .  endfor
 	@echo "============================================================"
 .endif
-	if test -s ${.CURDIR}/libtoolize; then \
-		printf '%s\nwq\n' '1,$$g#@pkgdatadir@#s##${PIDBDIR}#' \
-		    | ed -s ${.CURDIR}/libtoolize; \
-	else \
-		true; \
-	fi
+# No libtoolize ATM, see above
+#	if test -s ${.CURDIR}/libtoolize; then \
+#		printf '%s\nwq\n' '1,$$g#@pkgdatadir@#s##${PIDBDIR}#' \
+#		    | ed -s ${.CURDIR}/libtoolize; \
+#	else \
+#		true; \
+#	fi
 .if !empty(IGNORED)
 	@echo "============================================================"
 	@echo "The following files have been ignored:"
