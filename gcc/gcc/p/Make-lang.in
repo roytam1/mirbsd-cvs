@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.5 2005/03/28 00:07:09 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.6 2005/03/28 00:09:04 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -302,7 +302,7 @@ p/gpc-lex.o: p/gpc-lex.c $(srcdir)/p/pascal-lex.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/handle-opts.c: $(srcdir)/p/opts.sum $(srcdir)/p/script/mk-handle-opts-c
-	$(srcdir)/p/script/mk-handle-opts-c $(srcdir)/p/opts.sum "$@"
+	$(SHELL) $(srcdir)/p/script/mk-handle-opts-c $(srcdir)/p/opts.sum "$@"
 
 p/lang.o: p/lang.c $(P_H) p/handle-opts.c
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
@@ -384,19 +384,6 @@ pascal.utils: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) pascal.rts force
 	mkdir -p p/utils
 	srcdir=`cd $(srcdir) && pwd` && cd ./p/utils && $(MAKE) -f "$$srcdir/p/utils/Makefile" $(UTILS_FLAGS_TO_PASS) GCC_DIR="$$srcdir" all
 
-# Let the RTS Makefile make its generated files. Use `force' here
-# because we don't know their dependencies here. Use Makefile.in in
-# RTS source directory, so this can be run from the GPC source directory.
-#
-# @@ I tried the following (so the RTS make is invoked only once, not once per
-#    RTS generated file), but it doesn't work -- when, e.g. rts/files.pas is
-#    modified, rts/gpc.pas is rebuilt, but doc/generated/gpcpas.texi (which
-#    depends on the latter) is not. Strange make ... :-( -- Frank
-# $(RTS_GENERATED_FILES): rts-generated-files
-# rts-generated-files: force
-$(RTS_GENERATED_FILES): force
-	cd $(RTSSRCDIR) && $(MAKE) -f Makefile.in srcdir=. $(RTS_FLAGS_TO_PASS) generated-files
-
 # The configuration of the Run Time System relies on an autoconf-type
 # configure, not a Cygnus-type one. It needs to be run *after* the
 # appropriate (cross-)compiler has been built, thus depend on GCC_PARTS.
@@ -433,16 +420,16 @@ unitsubdir=$(libsubdir)/units
 pascal.install-dir:
 	for directory in $(prefix) $(bindir) $(unitsubdir) $(libsubdir)/include $(LIBEXECSUBDIR) \
 	                 $(infodir) $(p_inst_docdir) $(p_inst_demodir) $(p_inst_docdemodir) $(man1dir); do \
-	  mkdir -p -m a+rx $(DESTDIR)$$directory || exit 1; \
+	  mkdir -p -m 0755 $(DESTDIR)$$directory || exit 1; \
 	done
 
-install-gpcpp: pascal.install-dir gpcpp$(exeext)
+install-gpcpp: pascal.install-dir
 	rm -f $(DESTDIR)$(LIBEXECSUBDIR)/gpcpp$(exeext)
 	$(INSTALL_PROGRAM) gpcpp$(exeext) $(DESTDIR)$(LIBEXECSUBDIR)/gpcpp$(exeext)
 
 # Install the driver program as $(target)-gpc
 # and also as either gpc (if native) or $(tooldir)/bin/gpc.
-pascal.install-common: pascal.install-dir xgpc$(exeext) gpc-run
+pascal.install-common: pascal.install-dir
 	if [ -f gpc-cross$(exeext) ]; then \
 	  rm -f $(DESTDIR)$(bindir)/$(GPC_CROSS_NAME)$(exeext); \
 	  $(INSTALL_PROGRAM) gpc-cross$(exeext) $(DESTDIR)$(bindir)/$(GPC_CROSS_NAME)$(exeext) && \
@@ -456,13 +443,13 @@ pascal.install-common: pascal.install-dir xgpc$(exeext) gpc-run
 	$(INSTALL_PROGRAM) gpc-run $(DESTDIR)$(bindir)/gpc-run
 	chmod a+x $(DESTDIR)$(bindir)/gpc-run
 
-pascal.install-utils: pascal.utils
+pascal.install-utils:
 	srcdir=`cd $(srcdir) && pwd` && \
 	bindir=`cd "$(DESTDIR)$(bindir)"; pwd` && \
 	man1dir=`cd "$(DESTDIR)$(man1dir)"; pwd` && \
 	cd ./p/utils && $(MAKE) -f "$$srcdir/p/utils/Makefile" $(UTILS_FLAGS_TO_PASS) GCC_DIR="$$srcdir" bindir="$$bindir" man1dir="$$man1dir" install
 
-pascal.install-lib: pascal.install-dir pascal.rts
+pascal.install-lib: pascal.install-dir
 	if [ -f libgpc.a ]; then \
 	  rm -f $(DESTDIR)$(libsubdir)/libgpc.a; \
 	  $(INSTALL_DATA) libgpc.a $(DESTDIR)$(libsubdir)/libgpc.a && \
@@ -484,7 +471,7 @@ pascal.install-lib: pascal.install-dir pascal.rts
 	  true; \
 	fi
 
-pascal.install-units: pascal.install-dir $(srcdir)/p/units/crtc.h $(RTSSRCDIR)/gpc.pas
+pascal.install-units: pascal.install-dir
 	$(INSTALL_DATA) p/rts/rts-config.inc $(DESTDIR)$(unitsubdir)/rts-config.inc
 	$(INSTALL_DATA) $(RTSSRCDIR)/gpc.pas $(DESTDIR)$(unitsubdir)/gpc.pas
 	chmod a-x $(DESTDIR)$(unitsubdir)/rts-config.inc $(DESTDIR)$(unitsubdir)/gpc.pas
@@ -504,7 +491,7 @@ pascal.install-compiler34:
 
 # Install gpc1 et.al.
 # Do *not* overwrite files if they exist.
-pascal.install-compiler: pascal.install-dir pascal
+pascal.install-compiler: pascal.install-dir
 	for file in gpc1$(exeext); do \
 	  if [ -f $$file ]; then \
 	    rm -f $(DESTDIR)$(LIBEXECSUBDIR)/$$file; \
