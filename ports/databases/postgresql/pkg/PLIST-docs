@@ -606,3 +606,4 @@ share/doc/postgresql/html/xoper.html
 share/doc/postgresql/html/xplang.html
 share/doc/postgresql/html/xtypes.html
 @dirrm share/doc/postgresql/html
+@dirrm share/doc/postgresql

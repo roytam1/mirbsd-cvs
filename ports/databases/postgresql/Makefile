@@ -1,16 +1,18 @@
 # $MirOS$
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=	"PostgreSQL RDBMS"
+COMMENT=	"PostgreSQL RDBMS clients and utilities"
 COMMENT-tcl=	"PostgreSQL RDBMS tcl libraries and utilities"
-COMMENT-clients="PostgreSQL RDBMS client libraries and utilities"
+COMMENT-server=	"PostgreSQL RDBMS server software"
 COMMENT-docs=	"PostgreSQL RDBMS documentation"
 
 VERSION=	8.0.1
+DASH_VER=	p1
 DISTNAME=	postgresql-${VERSION}
-PKGNAME-clients=postgresql-clients-${VERSION}
-PKGNAME-docs=	postgresql-docs-${VERSION}
-PKGNAME-tcl=	postgresql-tcl-${VERSION}
+PKGNAME=	${DISTNAME}${DASH_VER}
+PKGNAME-server=	postgresql-server-${VERSION}${DASH_VER}
+PKGNAME-docs=	postgresql-docs-${VERSION}${DASH_VER}
+PKGNAME-tcl=	postgresql-tcl-${VERSION}${DASH_VER}
 CATEGORIES=	databases
 HOMEPAGE=	http://www.postgresql.org/
 
@@ -112,7 +114,7 @@ FLAVOR?=	kerberos
 FLAVOR?=
 .endif
 
-MULTI_PACKAGES=	-clients -docs
+MULTI_PACKAGES=	-server -docs
 SUBPACKAGE?=
 
 SUBST_VARS=	VERSION
@@ -147,6 +149,12 @@ DOCS=	${WRKSRC}/COPYRIGHT ${WRKSRC}/HISTORY \
 	${WRKSRC}/INSTALL ${WRKSRC}/README \
 	${WRKSRC}/doc/README.mb.big5 ${WRKSRC}/doc/README.mb.jp \
 	${WRKSRC}/doc/FAQ{,_DEV,_[a-z]*} ${WRKSRC}/doc/TODO
+
+.if defined(PACKAGING)
+. if ${SUBPACKAGE} == "-server"
+RUN_DEPENDS=	::databases/postgresql
+. endif
+.endif
 
 # For tcl
 .if ${FLAVOR:L:Mtcl}
