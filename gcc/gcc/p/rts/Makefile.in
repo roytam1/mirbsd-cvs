@@ -51,7 +51,7 @@ gpc_major=2
 gpc_minor=1
 rts_version=`cat $(VERSION_FILENAME)`
 GPCSOLIBSHORTNAME=libgpc.so
-GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor).$(rts_version)
+GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor)
 GPCLIB=$(DESTDIR)/libgpc.a
 GPCSOLIB=$(DESTDIR)/$(GPCSOLIBNAME)
 PFLAGS1=--unit-path=$(VPATH) --automake
