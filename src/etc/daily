@@ -1,6 +1,6 @@
 #!/bin/ksh
 #	$Id$
-#	$MirOS$
+#	$MirOS: src/etc/daily,v 1.2 2005/03/06 19:05:54 tg Exp $
 #	$OpenBSD: daily,v 1.46 2003/07/28 20:58:48 jmc Exp $
 #	From: @(#)daily	8.2 (Berkeley) 1/25/94
 #
@@ -35,7 +35,8 @@ if [ -d /var/tmp -a ! -L /var/tmp ]; then
 	cd /var/tmp && {
 	find -x . \( -path './ssh-*' -o -path './.X11-unix' \) -prune -o \
 	    ! -type d -atime +7 -execdir rm -f -- {} \;
-	find -x . ! -name . -type d -mtime +1 -execdir rmdir -- {} \; \
+	find -x . ! -name . ! -name vi.recover \
+	    -type d -mtime +1 -execdir rmdir -- {} \; \
 	    >/dev/null 2>&1; }
 fi
 
