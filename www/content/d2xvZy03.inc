@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.35 2005/03/22 20:54:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.36 2005/03/26 01:20:42 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2669,5 +2669,6 @@
  if anyone has got test cases I'd be glad to hear from it.<br />darkveggy,
  the #1 anargeek, has answered, and I've pointed him to what I've drafted,
  <a href="/?anargeek">this page</a> and <a href="/pics/anargeek.svg">image
- (SVG)</a> I drafted. Let's look what he's got to add.</p>
+ (SVG)</a> I drafted. Let's look what he's got to add.<br />I've installed
+ greylisting on the MXes (thor and loki) and miss my spam now ;-)</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
