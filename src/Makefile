@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.8 2005/03/29 12:24:56 tg Exp $
+# $MirOS: src/Makefile,v 1.9 2005/03/29 12:27:47 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -143,9 +143,14 @@ do-htman:
 	@echo ============================================================
 
 dist-q:
-	cd ${.CURDIR} && exec ${MAKE} dist BATCH=defined
+	cd ${.CURDIR} && exec ${MAKE} BATCH=defined \
+	    do-dist 2>&1 | tee ${.CURDIR}/Build.log
 
 dist:
+	cd ${.CURDIR} && exec ${MAKE} \
+	    do-dist 2>&1 | tee ${.CURDIR}/Build.log
+
+do-dist:
 	@echo Initiating MirOS Build...
 	@date
 .ifdef BATCH
@@ -171,6 +176,6 @@ cvsup:
 
 .PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
 	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
-	cvsup do-htman dist dist-q
+	cvsup do-htman dist dist-q do-dist
 
 .include <bsd.subdir.mk>
