@@ -1,3 +1,5 @@
+@c $MirOS$
+@c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 @c This is part of the GCC manual.
@@ -7,6 +9,8 @@
 @c man begin COPYRIGHT
 Copyright @copyright{} 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997,
 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+Copyright @copyright{} 1998-2004 Hiroaki Etoh, assigned to the FSF.
+Copyright @copyright{} 2004-2005 Thorsten Glaser, assigned to the FSF.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -210,11 +214,11 @@ in the following sections.
 @item Warning Options
 @xref{Warning Options,,Options to Request or Suppress Warnings}.
 @gccoptlist{-fsyntax-only  -pedantic  -pedantic-errors @gol
--w  -Wextra  -Wall  -Waggregate-return @gol
+-w  -Wextra  -Wall  -Waggregate-return -Wbounded @gol
 -Wcast-align  -Wcast-qual  -Wchar-subscripts  -Wcomment @gol
 -Wconversion  -Wno-deprecated-declarations @gol
 -Wdisabled-optimization  -Wno-div-by-zero  -Wendif-labels @gol
--Werror  -Werror-implicit-function-declaration @gol
+-Werror -Werror-maybe-reset -Werror-implicit-function-declaration @gol
 -Wfloat-equal  -Wformat  -Wformat=2 @gol
 -Wno-format-extra-args -Wformat-nonliteral @gol
 -Wformat-security  -Wformat-y2k @gol
@@ -2768,6 +2772,9 @@ to functions.
 Warn whenever a function call is cast to a non-matching type.
 For example, warn if @code{int malloc()} is cast to @code{anything *}.
 
+@item -Wbounded
+Activate Anil Madhavapeddys bounds checker.
+
 @item -Wcast-qual
 @opindex Wcast-qual
 Warn whenever a pointer is cast so as to remove a type qualifier from
@@ -3001,6 +3008,11 @@ Warn when not issuing stack smashing protection for some reason.
 @item -Werror
 @opindex Werror
 Make all warnings into errors.
+
+@item -Werror-maybe-reset
+@opindex Werror-maybe-reset
+Act like @samp{-Wno-error} if the @env{GCC_NO_WERROR} environment
+variable is set to anything other than 0 or empty.
 @end table
 
 @node Debugging Options

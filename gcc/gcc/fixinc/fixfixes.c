@@ -1,9 +1,10 @@
+/* $MirOS$ */
 
 /*
 
    Test to see if a particular fix should be applied to a header file.
 
-   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2003
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2003, 2005
    Free Software Foundation, Inc.
 
 = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -589,7 +590,11 @@ FIX_PROC_HEAD( wrap_fix )
 
   tCC*   pz_name = NULL;
 
+#ifdef MAGIC1
+  if (no_wrapping_re.re_magic != MAGIC1)
+#else
   if (no_wrapping_re.allocated == 0)
+#endif
     compile_re( z_no_wrap_pat, &no_wrapping_re, 0, "no-wrap pattern",
                 "wrap-fix" );
 

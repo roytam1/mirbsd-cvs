@@ -1,3 +1,5 @@
+; $MirOS$
+;
 ; Options for the C, ObjC, C++ and ObjC++ front ends.
 ; Copyright (C) 2003 Free Software Foundation, Inc.
 ;
@@ -156,6 +158,10 @@ Wbad-function-cast
 C ObjC
 Warn about casting functions to incompatible types
 
+Wbounded
+C ObjC C++ ObjC++
+Warn about exceeding bounds (unimplemented)
+
 Wcast-qual
 C ObjC C++ ObjC++
 Warn about casts which discard qualifiers
@@ -207,6 +213,10 @@ C ObjC C++ ObjC++
 Werror-implicit-function-declaration
 C ObjC RejectNegative
 Make implicit function declarations an error
+
+Werror-maybe-reset
+C ObjC C++ ObjC++
+; Documented in common.opt
 
 Wfloat-equal
 C ObjC C++ ObjC++

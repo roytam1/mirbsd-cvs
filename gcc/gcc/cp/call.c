@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Functions related to invoking methods and overloaded functions.
    Copyright (C) 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
    Contributed by Michael Tiemann (tiemann@cygnus.com) and
    modified by Brendan Kehoe (brendan@cygnus.com).
 
@@ -4525,6 +4528,10 @@ build_over_call (struct z_candidate *cand, int flags)
 
   if (warn_format)
     check_function_format (NULL, TYPE_ATTRIBUTES (TREE_TYPE (fn)),
+			   converted_args);
+
+  if (warn_bounded)
+    check_function_bounded (NULL, TYPE_ATTRIBUTES (TREE_TYPE (fn)),
 			   converted_args);
 
   /* Avoid actually calling copy constructors and copy assignment operators,

@@ -2407,7 +2407,7 @@ tSCC zHpux11_SnprintfList[] =
  *  content selection pattern - do fix if pattern found
  */
 tSCC zHpux11_SnprintfSelect0[] =
-       "(extern int snprintf *\\(char *\\*, *(|__|_hpux_)size_t,) *(char *\\*, *\\.\\.\\.\\);)";
+       "(extern int snprintf *\\(char *\\*, *(__|_hpux_)?size_t,) *(char *\\*, *\\.\\.\\.\\);)";
 
 #define    HPUX11_SNPRINTF_TEST_CT  1
 static tTestDesc aHpux11_SnprintfTests[] = {
@@ -4591,7 +4591,7 @@ static const char* apzSolaris_Mutex_Init_2Patch[] = {
 #else\n\
 %1, {0}}%3\n\
 #endif",
-    "(^#define[ \t]+PTHREAD_(MUTEX|COND)_INITIALIZER[ \t]+\\{.*),[ \t]*0\\}(|[ \t].*)$",
+    "(^#define[ \t]+PTHREAD_(MUTEX|COND)_INITIALIZER[ \t]+\\{.*),[ \t]*0\\}([ \t].*)?$",
     (char*)NULL };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -4943,7 +4943,7 @@ tSCC zStrict_Ansi_Not_CtdList[] =
  *  content selection pattern - do fix if pattern found
  */
 tSCC zStrict_Ansi_Not_CtdSelect0[] =
-       "^([ \t]*(\\(|&&|\\|\\|)([ \t(]*!*[ \t]*defined\\([a-zA-Z_0-9]+\\)[ \t]*[|&][|&])*[ \t(]*)(__STDC__[ \t]*(|-[ \t]*0[ \t]*)==[ \t]*0)";
+       "^([ \t]*(\\(|&&|\\|\\|)([ \t(]*!*[ \t]*defined\\([a-zA-Z_0-9]+\\)[ \t]*[|&][|&])*[ \t(]*)(__STDC__[ \t]*(-[ \t]*0[ \t]*)?==[ \t]*0)";
 
 /*
  *  perform the C function call test

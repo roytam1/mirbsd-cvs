@@ -1,3 +1,5 @@
+; $MirOS$
+;
 ; Options for the language- and target-independent parts of the compiler.
 ; Copyright (C) 2003 Free Software Foundation, Inc.
 ;
@@ -71,6 +73,10 @@ Warn when an optimization pass is disabled
 Werror
 Common
 Treat all warnings as errors
+
+Werror-maybe-reset
+Common
+If environment variable GCC_NO_WERROR is set, act as -Wno-error
 
 Wextra
 Common

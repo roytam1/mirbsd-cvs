@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # configure.ac for GCC
 # Process this file with autoconf to generate a configuration script.
 
@@ -613,6 +615,30 @@ esac],
 [onestep=""])
 AC_SUBST(onestep)
 
+# Build with stack protection
+AC_MSG_CHECKING([whether to enable the ProPolice Stack-Smashing Protector])
+  AC_ARG_ENABLE(stack-protector,
+[  --enable-stack-protector
+                          force use of stack protection as default],
+  enable_stack_protector=$enableval,
+  enable_stack_protector=no)
+
+case "${enable_stack_protector}" in
+  always)
+    AC_MSG_RESULT([yes, always])
+    ENABLESSP="-DSTACK_PROTECTOR -DSTACK_PROTECTOR_ALL"
+    ;;
+  yes)
+    AC_MSG_RESULT(yes)
+    ENABLESSP="-DSTACK_PROTECTOR"
+    ;;
+  *)
+    AC_MSG_RESULT(no)
+    ENABLESSP=""
+    ;;
+esac
+AC_SUBST(ENABLESSP)
+
 # -------------------------
 # Checks for other programs
 # -------------------------
@@ -1178,7 +1204,7 @@ else
 	esac
 	saved_CFLAGS="${CFLAGS}"
 	CC="${CC_FOR_BUILD}" CFLAGS="${CFLAGS_FOR_BUILD}" \
-	${realsrcdir}/configure \
+	${CONFIG_SHELL-/bin/sh} ${realsrcdir}/configure \
 		--target=$target_alias --host=$build_alias --build=$build_alias
 	CFLAGS="${saved_CFLAGS}"
 
@@ -1393,7 +1419,7 @@ xm_include_list=
 for f in $xm_file; do
   case $f in
     ansidecl.h )
-       xm_file_list="${xm_file_list} \$(srcdir)/../include/$f"
+       xm_file_list="${xm_file_list} \$(LIBIBERTY_HDRS)/$f"
        xm_include_list="${xm_include_list} $f"
        ;;
     auto-host.h )
@@ -1412,7 +1438,7 @@ host_xm_include_list=
 for f in $host_xm_file; do
   case $f in
     ansidecl.h )
-       host_xm_file_list="${host_xm_file_list} \$(srcdir)/../include/$f"
+       host_xm_file_list="${host_xm_file_list} \$(LIBIBERTY_HDRS)/$f"
        host_xm_include_list="${host_xm_include_list} $f"
        ;;
     auto-host.h )
@@ -1430,7 +1456,7 @@ build_xm_file_list=
 for f in $build_xm_file; do
   case $f in
     ansidecl.h )
-       build_xm_file_list="${build_xm_file_list} \$(srcdir)/../include/$f"
+       build_xm_file_list="${build_xm_file_list} \$(LIBIBERTY_HDRS)/$f"
        build_xm_include_list="${build_xm_include_list} $f"
        ;;
     auto-build.h | auto-host.h )

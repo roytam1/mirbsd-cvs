@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Target definitions for GNU compiler for PowerPC running System V.4
    Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
    2004 Free Software Foundation, Inc.
@@ -196,6 +198,8 @@ do {									\
   else if (!strcmp (rs6000_abi_name, "linux"))				\
     rs6000_current_abi = ABI_V4;					\
   else if (!strcmp (rs6000_abi_name, "gnu"))				\
+    rs6000_current_abi = ABI_V4;					\
+  else if (!strcmp (rs6000_abi_name, "mirbsd"))				\
     rs6000_current_abi = ABI_V4;					\
   else if (!strcmp (rs6000_abi_name, "netbsd"))				\
     rs6000_current_abi = ABI_V4;					\
@@ -818,6 +822,7 @@ extern int fixuplabelno;
   mbig|mbig-endian      :-mbig;    \
   mcall-aixdesc |		   \
   mcall-freebsd |		   \
+  mcall-mirbsd  |		   \
   mcall-netbsd  |		   \
   mcall-openbsd |		   \
   mcall-linux   |		   \
@@ -841,6 +846,7 @@ extern int fixuplabelno;
   mbig   |mbig-endian   : %(cc1_endian_big);              \
   mcall-aixdesc |					  \
   mcall-freebsd |					  \
+  mcall-mirbsd  |					  \
   mcall-netbsd  |					  \
   mcall-openbsd |					  \
   mcall-linux   |					  \
@@ -855,8 +861,9 @@ extern int fixuplabelno;
     %{mcall-i960-old: -meabi } \
     %{mcall-linux: -mno-eabi } \
     %{mcall-gnu: -mno-eabi } \
+    %{mcall-mirbsd: -mno-eabi } \
     %{mcall-netbsd: -mno-eabi } \
-    %{mcall-openbsd: -mno-eabi }}} \
+    %{mcall-openbsd: -mno-eabi }}}} \
 %{msdata: -msdata=default} \
 %{mno-sdata: -msdata=none} \
 %{profile: -p}"
@@ -888,6 +895,7 @@ extern int fixuplabelno;
   mcall-freebsd: %(link_start_freebsd)     ; \
   mcall-linux  : %(link_start_linux)       ; \
   mcall-gnu    : %(link_start_gnu)         ; \
+  mcall-mirbsd : %(link_start_mirbsd)      ; \
   mcall-netbsd : %(link_start_netbsd)      ; \
   mcall-openbsd: %(link_start_openbsd)     ; \
                : %(link_start_default)     }"
@@ -946,6 +954,7 @@ extern int fixuplabelno;
   mcall-freebsd: %(link_os_freebsd)     ; \
   mcall-linux  : %(link_os_linux)       ; \
   mcall-gnu    : %(link_os_gnu)         ; \
+  mcall-mirbsd : %(link_os_mirbsd)      ; \
   mcall-netbsd : %(link_os_netbsd)      ; \
   mcall-openbsd: %(link_os_openbsd)     ; \
                : %(link_os_default)     }"
@@ -963,6 +972,7 @@ extern int fixuplabelno;
   mcall-freebsd: %(cpp_os_freebsd)     ; \
   mcall-linux  : %(cpp_os_linux)       ; \
   mcall-gnu    : %(cpp_os_gnu)         ; \
+  mcall-mirbsd : %(cpp_os_mirbsd)      ; \
   mcall-netbsd : %(cpp_os_netbsd)      ; \
   mcall-openbsd: %(cpp_os_openbsd)     ; \
                : %(cpp_os_default)     }"
@@ -980,6 +990,7 @@ extern int fixuplabelno;
   mcall-freebsd: %(startfile_freebsd)     ; \
   mcall-linux  : %(startfile_linux)       ; \
   mcall-gnu    : %(startfile_gnu)         ; \
+  mcall-mirbsd : %(startfile_mirbsd)      ; \
   mcall-netbsd : %(startfile_netbsd)      ; \
   mcall-openbsd: %(startfile_openbsd)     ; \
                : %(startfile_default)     }"
@@ -997,6 +1008,7 @@ extern int fixuplabelno;
   mcall-freebsd: %(lib_freebsd)     ; \
   mcall-linux  : %(lib_linux)       ; \
   mcall-gnu    : %(lib_gnu)         ; \
+  mcall-mirbsd : %(lib_mirbsd)      ; \
   mcall-netbsd : %(lib_netbsd)      ; \
   mcall-openbsd: %(lib_openbsd)     ; \
                : %(lib_default)     }"
@@ -1014,6 +1026,7 @@ extern int fixuplabelno;
   mcall-freebsd: crtsavres.o%s        %(endfile_freebsd)     ; \
   mcall-linux  : crtsavres.o%s        %(endfile_linux)       ; \
   mcall-gnu    : crtsavres.o%s        %(endfile_gnu)         ; \
+  mcall-mirbsd : crtsavres.o%s        %(endfile_mirbsd)      ; \
   mcall-netbsd : crtsavres.o%s        %(endfile_netbsd)      ; \
   mcall-openbsd: crtsavres.o%s        %(endfile_openbsd)     ; \
                : %(crtsavres_default) %(endfile_default)     }"
@@ -1161,6 +1174,30 @@ extern int fixuplabelno;
   %{!ansi: -Dunix -D__unix}}			                \
 -Asystem=gnu -Asystem=unix -Asystem=posix %{pthread:-D_REENTRANT}"
 
+/* MirBSD support.  */
+#define LIB_MIRBSD_SPEC \
+"%{pthread:-lpthread} %{!shared:%{!symbolic:-lc}}"
+
+#define	STARTFILE_MIRBSD_SPEC \
+"crti.o%s ncrti.o%s crt0.o%s \
+%{static:%:if-exists-else(crtbeginT%O%s crtbegin%O%s)} \
+%{!static:%{!shared:crtbegin%O%s} %{shared:crtbeginS%O%s}}"
+
+#define ENDFILE_MIRBSD_SPEC "\
+%{!shared:crtend.o%s} %{shared:crtendS.o%s} \
+ncrtn.o%s"
+
+#define LINK_START_MIRBSD_SPEC "-Ttext 0x400074"
+
+#define LINK_OS_MIRBSD_SPEC "\
+%{!shared: %{!static: \
+  %{rdynamic:-export-dynamic} \
+  %{!dynamic-linker:-dynamic-linker /usr/libexec/ld.so}}}"
+
+#define CPP_OS_MIRBSD_SPEC "\
+%{posix:-D_POSIX_SOURCE} %{pthread:-D_POSIX_THREADS} \
+-D__powerpc__ -D__MirBSD__ -D__OpenBSD__ -D__KPRINTF_ATTRIBUTE__"
+
 /* NetBSD support.  */
 #define LIB_NETBSD_SPEC "\
 %{profile:-lgmon -lc_p} %{!profile:-lc}"
@@ -1243,6 +1280,7 @@ ncrtn.o%s"
   { "lib_freebsd",		LIB_FREEBSD_SPEC },			\
   { "lib_gnu",			LIB_GNU_SPEC },				\
   { "lib_linux",		LIB_LINUX_SPEC },			\
+  { "lib_mirbsd",		LIB_MIRBSD_SPEC },			\
   { "lib_netbsd",		LIB_NETBSD_SPEC },			\
   { "lib_openbsd",		LIB_OPENBSD_SPEC },			\
   { "lib_windiss",              LIB_WINDISS_SPEC },                     \
@@ -1254,6 +1292,7 @@ ncrtn.o%s"
   { "startfile_freebsd",	STARTFILE_FREEBSD_SPEC },		\
   { "startfile_gnu",		STARTFILE_GNU_SPEC },			\
   { "startfile_linux",		STARTFILE_LINUX_SPEC },			\
+  { "startfile_mirbsd",		STARTFILE_MIRBSD_SPEC },		\
   { "startfile_netbsd",		STARTFILE_NETBSD_SPEC },		\
   { "startfile_openbsd",	STARTFILE_OPENBSD_SPEC },		\
   { "startfile_windiss",        STARTFILE_WINDISS_SPEC },               \
@@ -1265,6 +1304,7 @@ ncrtn.o%s"
   { "endfile_freebsd",		ENDFILE_FREEBSD_SPEC },			\
   { "endfile_gnu",		ENDFILE_GNU_SPEC },			\
   { "endfile_linux",		ENDFILE_LINUX_SPEC },			\
+  { "endfile_mirbsd",		ENDFILE_MIRBSD_SPEC },			\
   { "endfile_netbsd",		ENDFILE_NETBSD_SPEC },			\
   { "endfile_openbsd",		ENDFILE_OPENBSD_SPEC },			\
   { "endfile_windiss",          ENDFILE_WINDISS_SPEC },                 \
@@ -1280,6 +1320,7 @@ ncrtn.o%s"
   { "link_start_freebsd",	LINK_START_FREEBSD_SPEC },		\
   { "link_start_gnu",		LINK_START_GNU_SPEC },			\
   { "link_start_linux",		LINK_START_LINUX_SPEC },		\
+  { "link_start_mirbsd",	LINK_START_MIRBSD_SPEC },		\
   { "link_start_netbsd",	LINK_START_NETBSD_SPEC },		\
   { "link_start_openbsd",	LINK_START_OPENBSD_SPEC },		\
   { "link_start_windiss",	LINK_START_WINDISS_SPEC },		\
@@ -1292,6 +1333,7 @@ ncrtn.o%s"
   { "link_os_freebsd",		LINK_OS_FREEBSD_SPEC },			\
   { "link_os_linux",		LINK_OS_LINUX_SPEC },			\
   { "link_os_gnu",		LINK_OS_GNU_SPEC },			\
+  { "link_os_mirbsd",		LINK_OS_MIRBSD_SPEC },			\
   { "link_os_netbsd",		LINK_OS_NETBSD_SPEC },			\
   { "link_os_openbsd",		LINK_OS_OPENBSD_SPEC },			\
   { "link_os_windiss",		LINK_OS_WINDISS_SPEC },			\
@@ -1306,6 +1348,7 @@ ncrtn.o%s"
   { "cpp_os_freebsd",		CPP_OS_FREEBSD_SPEC },			\
   { "cpp_os_gnu",		CPP_OS_GNU_SPEC },			\
   { "cpp_os_linux",		CPP_OS_LINUX_SPEC },			\
+  { "cpp_os_mirbsd",		CPP_OS_MIRBSD_SPEC },			\
   { "cpp_os_netbsd",		CPP_OS_NETBSD_SPEC },			\
   { "cpp_os_openbsd",		CPP_OS_OPENBSD_SPEC },			\
   { "cpp_os_windiss",           CPP_OS_WINDISS_SPEC },                  \

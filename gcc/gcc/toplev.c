@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Top level of GCC compilers (cc1, cc1plus, etc.)
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -96,10 +99,6 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #ifdef XCOFF_DEBUGGING_INFO
 #include "xcoffout.h"		/* Needed for external data
 				   declarations for e.g. AIX 4.x.  */
-#endif
-
-#ifdef STACK_PROTECTOR
-#include "protector.h"
 #endif
 
 #ifndef HAVE_conditional_execution
@@ -928,7 +927,11 @@ int flag_instrument_function_entry_exit = 0;
    On SVR4 targets, it also controls whether or not to emit a
    string identifying the compiler.  */
 
+#ifdef MIRBSD_NATIVE
+int flag_no_ident = 1;
+#else
 int flag_no_ident = 0;
+#endif
 
 /* This will perform a peephole pass before sched2.  */
 int flag_peephole2 = 0;
@@ -987,7 +990,11 @@ int force_align_functions_log;
 #if defined(STACK_PROTECTOR) && defined(STACK_GROWS_DOWNWARD)
 /* Nonzero means use propolice as a stack protection method */
 int flag_propolice_protection = 1;
+#if defined(STACK_PROTECTOR_ALL)
+int flag_stack_protection = 1;
+#else
 int flag_stack_protection = 0;
+#endif
 #else
 int flag_propolice_protection = 0;
 int flag_stack_protection = 0;
@@ -4509,7 +4516,11 @@ process_options (void)
     a internal compilation error at prepare_stack_protection.
     so don't allow it.  */
   if (flag_stack_protection && !flag_propolice_protection)
+#if defined(STACK_PROTECTOR_ALL)
+    flag_stack_protection = FALSE;
+#else
     flag_propolice_protection = TRUE;
+#endif
 }
 
 /* Initialize the compiler back end.  */

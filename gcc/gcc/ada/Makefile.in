@@ -1,5 +1,7 @@
+# $MirOS$
+#
 # Makefile for GNU Ada Compiler (GNAT).
-#   Copyright (C) 1994-2004 Free Software Foundation, Inc.
+#   Copyright (C) 1994-2005 Free Software Foundation, Inc.
 
 #This file is part of GCC.
 
@@ -127,7 +129,7 @@ GNATLIBCFLAGS = -g -O2
 GNATLIBCFLAGS_FOR_C = $(GNATLIBCFLAGS) $(TARGET_LIBGCC2_CFLAGS) -fexceptions \
 	-DIN_RTS
 ALL_ADA_CFLAGS = $(X_ADA_CFLAGS) $(T_ADA_CFLAGS) $(ADA_CFLAGS)
-ALL_ADAFLAGS = $(CFLAGS) $(ALL_ADA_CFLAGS) $(X_ADAFLAGS) $(T_ADAFLAGS) \
+ALL_ADAFLAGS = $(subst -Wformat,,$(CFLAGS)) $(ALL_ADA_CFLAGS) $(X_ADAFLAGS) $(T_ADAFLAGS) \
 	$(ADAFLAGS)
 MOST_ADAFLAGS = $(CFLAGS) $(ALL_ADA_CFLAGS) $(X_ADAFLAGS) $(T_ADAFLAGS) \
 	$(SOME_ADAFLAGS)
@@ -235,33 +237,35 @@ all.indirect: Makefile ../gnat1$(exeext)
 INTERNAL_CFLAGS = @CROSS@ -DIN_GCC
 
 # This is the variable actually used when we compile.
-LOOSE_CFLAGS = `echo $(CFLAGS) $(WARN2_CFLAGS)|sed -e 's/-pedantic//g' -e 's/-Wtraditional//g'`
+LOOSE_CFLAGS = `echo $(CFLAGS) $(WARN2_CFLAGS)|sed -e 's/-pedantic//g' -e 's/-Wtraditional//g' -e 's/-Wformat//g'`
 ALL_CFLAGS = $(INTERNAL_CFLAGS) $(X_CFLAGS) $(T_CFLAGS) $(LOOSE_CFLAGS) \
 	$(XCFLAGS)
+GNATLIBCFLAGS_TO_PASS = `echo $(GNATLIBCFLAGS)|sed -e 's/-Wformat//g'`
 
 # Likewise.
 ALL_CPPFLAGS = $(CPPFLAGS) $(X_CPPFLAGS) $(T_CPPFLAGS)
 
 # This is where we get libiberty.a from.
-LIBIBERTY = ../../libiberty/libiberty.a
+LIBIBERTY = -liberty
+BUILD_LIBIBERTY = -liberty
 
 # How to link with both our special library facilities
 # and the system's installed libraries.
 LIBS = $(LIBINTL) $(LIBIBERTY) $(SYSLIBS)
 LIBDEPS = $(LIBINTL_DEP) $(LIBIBERTY)
-TOOLS_LIBS = $(LIBGNAT) $(EXTRA_GNATTOOLS_OBJS) ../../../libiberty/libiberty.a $(SYSLIBS)
+TOOLS_LIBS = $(LIBGNAT) $(EXTRA_GNATTOOLS_OBJS) $(BUILD_LIBIBERTY) $(SYSLIBS)
 
 # Specify the directories to be searched for header files.
 # Both . and srcdir are used, in that order,
 # so that tm.h and config.h will be found in the compilation
 # subdirectory rather than in the source directory.
 INCLUDES = -I- -I. -I.. -I$(srcdir) -I$(srcdir)/.. -I$(srcdir)/../config \
-	-I$(srcdir)/../../include
+	-I$(LIBIBERTY_HDRS)
 
 ADA_INCLUDES = -I- -I. -I$(srcdir)
 
 INCLUDES_FOR_SUBDIR = -I. -I.. -I../.. -I$(fsrcdir) -I$(fsrcdir)/../config \
-	-I$(fsrcdir)/../../include -I$(fsrcdir)/..
+	-I$(LIBIBERTY_HDRS) -I$(fsrcdir)/..
 ADA_INCLUDES_FOR_SUBDIR = -I. -I$(fsrcdir)
 
 # Avoid a lot of time thinking about remaking Makefile.in and *.def.
@@ -1774,7 +1778,7 @@ gnatlib: ../stamp-gnatlib1 ../stamp-gnatlib2
 	        -f ../Makefile $(LIBGNAT_OBJS)
 	$(MAKE) -C rts CC="../../xgcc -B../../" \
 	        ADA_INCLUDES="" \
-                CFLAGS="$(GNATLIBCFLAGS)" \
+                CFLAGS="$(GNATLIBCFLAGS_TO_PASS)" \
 	        ADAFLAGS="$(GNATLIBFLAGS)" \
 		srcdir=$(fsrcdir) \
 	        -f ../Makefile \

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Collect static initialization info into data structures that can be
    traversed by C++ initialization and finalization routines.
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -1534,7 +1536,7 @@ collect_execute (const char *prog, char **argv, const char *redir)
   if (redir)
     {
       /* Open response file.  */
-      redir_handle = open (redir, O_WRONLY | O_TRUNC | O_CREAT);
+      redir_handle = open (redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 
       /* Duplicate the stdout and stderr file handles
 	 so they can be restored later.  */

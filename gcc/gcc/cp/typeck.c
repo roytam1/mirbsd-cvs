@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Build expressions with type checking for C++ compiler.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
    Hacked by Michael Tiemann (tiemann@cygnus.com)
 
 This file is part of GCC.
@@ -2485,6 +2488,9 @@ build_function_call (tree function, tree params)
 
   if (warn_format)
     check_function_format (NULL, TYPE_ATTRIBUTES (fntype), coerced_params);
+
+  if (warn_bounded)
+    check_function_bounded (NULL, TYPE_ATTRIBUTES (fntype), coerced_params);
 
   /* Recognize certain built-in functions so we can make tree-codes
      other than CALL_EXPR.  We do this when it enables fold-const.c

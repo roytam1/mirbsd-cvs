@@ -2,9 +2,6 @@
 @c Set file name and title for man page.
 @setfilename gfdl
 @settitle GNU Free Documentation License
-@c man begin SEEALSO
-gpl(7), fsf-funding(7).
-@c man end
 @c man begin COPYRIGHT
 Copyright @copyright{} 2000 Free Software Foundation, Inc.
 59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
@@ -31,6 +28,30 @@ of this license document, but changing it is not allowed.
 @node GNU Free Documentation License
 @unnumbered GNU Free Documentation License
 @end ifclear
+
+MIROS REMARKS
+
+Although most of the GNU documentation is covered by the so-called
+"Free Documentation License", this is not considered a free or open
+source licence and will never pass OSI certification. GFDL-licenced
+documents are NOT eligible for inclusion into MirOS.
+
+However, for practical reasons, we have decided to deliver the GCC
+documentation for MirOS GCC along, since it is not part of MirOS
+itself, and the binutils documentation with MirOS because it would
+only cripple our users.
+
+Please bear in mind that you cannot freely reproduce or change these
+documents. MirOS-specific changes are only allowed if they are reassigned
+to the FSF.
+
+If you received this document with MirOS, information on how to find
+the sources (original FSF and patched MirOS) to the "opaque" Texinfo
+versions of this document can be found in the README file accompanying
+the "gcc" (for GCC) or "src" (for Binutils) module, or in the
+directory /usr/share/doc/legal/ after installation. If you did not
+receive this document with MirOS, you can safely delete this paragraph
+as an additional freedom granted to the below licence terms.
 
 @cindex FDL, GNU Free Documentation License
 @center Version 1.2, November 2002

@@ -1,6 +1,9 @@
+# $MirOS$
+#
 # Top level -*- makefile -*- fragment for GNU Ada (GNAT).
 #   Copyright (C) 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-#   2003, 2004 Free Software Foundation, Inc.
+#   2003, 2004, 2005
+#   Free Software Foundation, Inc.
 
 #This file is part of GCC.
 
@@ -50,7 +53,7 @@ shext  =
 # Extra flags to pass to recursive makes.
 BOOT_ADAFLAGS= $(ADAFLAGS)
 ADAFLAGS= -gnatpg -gnata
-ALL_ADAFLAGS = $(CFLAGS) $(ALL_ADA_CFLAGS) $(X_ADAFLAGS) $(T_ADAFLAGS) \
+ALL_ADAFLAGS = $(subst -Wformat,,$(CFLAGS)) $(ALL_ADA_CFLAGS) $(X_ADAFLAGS) $(T_ADAFLAGS) \
 	$(ADAFLAGS)
 FORCE_DEBUG_ADAFLAGS = -g
 ADA_CFLAGS =
@@ -1015,7 +1018,7 @@ update-sources : ada/treeprs.ads ada/einfo.h ada/sinfo.h ada/nmake.adb \
 	$(CP) $^ $(srcdir)/ada
 
 ada/sdefault.adb: ada/stamp-sdefault ; @true
-ada/stamp-sdefault : $(srcdir)/version.c $(srcdir)/move-if-change \
+ada/stamp-sdefault : $(srcdir)/version.c $(GNUSYSTEM_AUX_DIR)/move-if-change \
  Makefile
 	$(ECHO) "pragma Style_Checks (Off);" >tmp-sdefault.adb
 	$(ECHO) "with Osint; use Osint;" >>tmp-sdefault.adb
@@ -1042,7 +1045,7 @@ ada/stamp-sdefault : $(srcdir)/version.c $(srcdir)/move-if-change \
 	$(ECHO) "      return Relocate_Path (S0, S4);" >>tmp-sdefault.adb
 	$(ECHO) "   end Search_Dir_Prefix;" >>tmp-sdefault.adb
 	$(ECHO) "end Sdefault;" >> tmp-sdefault.adb
-	$(srcdir)/move-if-change tmp-sdefault.adb ada/sdefault.adb
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-sdefault.adb ada/sdefault.adb
 	touch ada/stamp-sdefault
 
 ada/sdefault.o : ada/sdefault.ads ada/sdefault.adb ada/types.ads \

@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Definitions for c-common.c.
    Copyright (C) 1987, 1993, 1994, 1995, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -528,6 +531,10 @@ extern int warn_format_nonliteral;
 
 extern int warn_format_security;
 
+/* Warn about buffer size mismatches.  */
+
+extern int warn_bounded;
+
 
 /* C/ObjC language option variables.  */
 
@@ -881,7 +888,9 @@ extern void check_function_arguments_recurse (void (*)
 					      void *, tree,
 					      unsigned HOST_WIDE_INT);
 extern void check_function_format (int *, tree, tree);
+extern void check_function_bounded (int *, tree, tree);
 extern void set_Wformat (int);
+extern tree handle_bounded_attribute (tree *, tree, tree, int, bool *);
 extern tree handle_format_attribute (tree *, tree, tree, int, bool *);
 extern tree handle_format_arg_attribute (tree *, tree, tree, int, bool *);
 extern int c_common_handle_option (size_t code, const char *arg, int value);

@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # GCC target-specific configuration file.
 # Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
 # Free Software Foundation, Inc.
@@ -471,6 +473,25 @@ case ${target} in
       tm_file="${cpu_type}/${cpu_type}.h i386/unix.h i386/att.h dbxelf.h elfos.h svr4.h linux.h i386/linux.h gnu.h ${tm_file}"
       ;;
   esac
+  ;;
+*-*-mirbsd*)
+  # this one is for targets where libgcc is built multilib'd, one
+  # position-independent and one not
+  tmake_file_mlpic="t-openbsd t-mirbsd"
+  # this one (default) is to build libgcc2 with -fPIC
+  tmake_file="${tmake_file_mlpic} t-libgcc-pic"
+  case ${enable_threads} in
+    yes)
+      thread_file='posix'
+      tmake_file="${tmake_file} t-openbsd-thread"
+      tmake_file_mlpic="${tmake_file_mlpic} t-openbsd-thread"
+      ;;
+  esac
+
+  gas=yes
+  gnu_ld=yes
+
+  extra_parts="crtbegin.o crtend.o crtbeginS.o crtendS.o crtbeginT.o"
   ;;
 *-*-netbsd*)
   tmake_file="t-slibgcc-elf-ver t-libc-ok t-netbsd t-libgcc-pic"
@@ -952,6 +973,11 @@ i[34567]86-*-freebsd*)
 x86_64-*-freebsd*)
 	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h ${fbsd_tm_file} i386/x86-64.h i386/freebsd.h i386/freebsd64.h"
 	;;
+i386-*-mirbsd*)
+	tmake_file="${tmake_file_mlpic} i386/t-openbsd i386/t-crtstuff"
+	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h"
+	tm_file="${tm_file} mirbsd.h i386/mirbsd.h"
+	;;
 i[34567]86-*-netbsdelf*)
 	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h netbsd.h netbsd-elf.h i386/netbsd-elf.h"
 	;;
@@ -964,12 +990,19 @@ i[34567]86-*-netbsd*)
 x86_64-*-netbsd*)
 	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h netbsd.h netbsd-elf.h i386/x86-64.h i386/netbsd64.h"
 	;;
-i[34567]86-*-openbsd*)
+i[34567]86-*-openbsd2* | i[34567]86-*-openbsd3.[012])
 	tm_file="i386/i386.h i386/unix.h i386/bsd.h i386/gas.h i386/gstabs.h openbsd-oldgas.h openbsd.h i386/openbsd.h"
 	# needed to unconfuse gdb
 	tmake_file="t-libc-ok t-openbsd i386/t-openbsd"
 	# we need collect2 until our bug is fixed...
 	use_collect2=yes
+	;;
+i[34567]86-*-openbsd*)
+	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h i386/i386elf.h"
+	tm_file="${tm_file} openbsd.h i386/openbsdelf.h"
+	gas=yes
+	gnu_ld=yes
+	stabs=yes
 	;;
 i[34567]86-*-coff*)
 	tm_file="${tm_file} i386/unix.h i386/bsd.h i386/gas.h dbxcoff.h i386/i386-coff.h"
@@ -1717,6 +1750,11 @@ powerpc*-*-freebsd*)
 	tm_file="${tm_file} dbxelf.h elfos.h ${fbsd_tm_file} rs6000/sysv4.h rs6000/freebsd.h"
 	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
 	;;
+powerpc-*-mirbsd*)
+	tmake_file="${tmake_file} rs6000/t-mirbsd"
+	tm_file="${tm_file} dbxelf.h elfos.h"
+	tm_file="${tm_file} mirbsd.h freebsd-spec.h rs6000/sysv4.h rs6000/mirbsd.h"
+	;;
 powerpc-*-netbsd*)
 	tm_file="${tm_file} dbxelf.h elfos.h netbsd.h netbsd-elf.h freebsd-spec.h rs6000/sysv4.h rs6000/netbsd.h"
 	tmake_file="${tmake_file} rs6000/t-netbsd"
@@ -1993,6 +2031,11 @@ sh-*-*)
 sparc-tti-*)
 	tm_file="${tm_file} sparc/pbd.h"
 	use_fixproto=yes
+	;;
+sparc-*-mirbsd*)
+	tmake_file="${tmake_file_mlpic} sparc/t-openbsd"
+	tm_file="${tm_file} elfos.h svr4.h sparc/sysv4.h"
+	tm_file="${tm_file} mirbsd.h sparc/mirbsd.h"
 	;;
 sparc-*-netbsdelf*)
 	tm_file="${tm_file} elfos.h svr4.h sparc/sysv4.h netbsd.h netbsd-elf.h sparc/netbsd-elf.h"

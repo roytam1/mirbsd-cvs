@@ -1,5 +1,8 @@
+/* $MirOS$ */
+
 /* Command line option handling.
-   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
    Contributed by Neil Booth.
 
 This file is part of GCC.
@@ -552,7 +555,6 @@ decode_options (unsigned int argc, const char **argv)
       flag_cse_skip_blocks = 1;
       flag_gcse = 1;
       flag_expensive_optimizations = 1;
-      flag_strength_reduce = 1;
       flag_rerun_cse_after_loop = 1;
       flag_rerun_loop_opt = 1;
       flag_caller_saves = 1;
@@ -563,7 +565,6 @@ decode_options (unsigned int argc, const char **argv)
       flag_schedule_insns_after_reload = 1;
 #endif
       flag_regmove = 1;
-      flag_strict_aliasing = 1;
       flag_delete_null_pointer_checks = 1;
       flag_reorder_blocks = 1;
       flag_reorder_functions = 1;
@@ -572,6 +573,9 @@ decode_options (unsigned int argc, const char **argv)
 
   if (optimize >= 3)
     {
+      flag_strength_reduce = 1;
+      flag_strict_aliasing = 1;
+
       flag_inline_functions = 1;
       flag_rename_registers = 1;
       flag_unswitch_loops = 1;
@@ -718,6 +722,14 @@ common_handle_option (size_t scode, const char *arg,
 
     case OPT_Werror:
       warnings_are_errors = value;
+      break;
+
+    case OPT_Werror_maybe_reset:
+      {
+	char *ev = getenv ("GCC_NO_WERROR");
+	if ((ev != NULL) && (*ev != '0'))
+	  warnings_are_errors = 0;
+      }
       break;
 
     case OPT_Wextra:

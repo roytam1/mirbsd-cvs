@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Part of CPP library.  (Macro and #define handling.)
    Copyright (C) 1986, 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1998,
-   1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2005
+   Free Software Foundation, Inc.
    Written by Per Bothner, 1994.
    Based on CCCP program by Paul Rubin, June 1986
    Adapted to ANSI C, Richard Stallman, Jan 1987
@@ -206,9 +209,9 @@ _cpp_builtin_macro_text (cpp_reader *pfile, cpp_hashnode *node)
 	    {
 	      pfile->date = _cpp_unaligned_alloc (pfile,
 						  sizeof ("\"Oct 11 1347\""));
-	      sprintf ((char *) pfile->date, "\"%s %2d %4d\"",
+	      sprintf ((char *) pfile->date, "\"%s %2d %4lld\"",
 		       monthnames[tb->tm_mon], tb->tm_mday,
-		       tb->tm_year + 1900);
+		       (long long)tb->tm_year + 1900);
 
 	      pfile->time = _cpp_unaligned_alloc (pfile,
 						  sizeof ("\"12:34:56\""));

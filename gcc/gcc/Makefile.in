@@ -1,8 +1,11 @@
+# $MirOS$
+#
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
 
 # Copyright (C) 1987, 1988, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-# 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+# 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+# Free Software Foundation, Inc.
 
 #This file is part of GCC.
 
@@ -121,7 +124,7 @@ SUBDIRS =@subdirs@
 
 # Selection of languages to be made.
 CONFIG_LANGUAGES = @all_languages@
-LANGUAGES = c gcov$(exeext) gcov-dump$(exeext) $(CONFIG_LANGUAGES)
+LANGUAGES = c gcov$(exeext) gcov-dump$(exeext) proto $(CONFIG_LANGUAGES)
 
 # Selection of languages to be made during stage1 build.
 BOOT_LANGUAGES = c @all_boot_languages@
@@ -338,11 +341,11 @@ NM_FOR_TARGET = ` \
 # --------
 
 # Where to find some libiberty headers.
-HASHTAB_H   = $(srcdir)/../include/hashtab.h
-OBSTACK_H   = $(srcdir)/../include/obstack.h
-SPLAY_TREE_H= $(srcdir)/../include/splay-tree.h
-FIBHEAP_H   = $(srcdir)/../include/fibheap.h
-PARTITION_H = $(srcdir)/../include/partition.h
+HASHTAB_H   = $(LIBIBERTY_HDRS)/hashtab.h
+OBSTACK_H   = $(LIBIBERTY_HDRS)/obstack.h
+SPLAY_TREE_H= $(LIBIBERTY_HDRS)/splay-tree.h
+FIBHEAP_H   = $(LIBIBERTY_HDRS)/fibheap.h
+PARTITION_H = $(LIBIBERTY_HDRS)/partition.h
 
 # Default native SYSTEM_HEADER_DIR, to be overridden by targets.
 NATIVE_SYSTEM_HEADER_DIR = /usr/include
@@ -425,6 +428,7 @@ libexecdir = @libexecdir@
 
 # Directory in which the compiler finds libraries etc.
 libsubdir = $(libdir)/gcc/$(target_noncanonical)/$(version)
+extrapartsdir = $(libsubdir)
 # Directory in which the compiler finds executables
 libexecsubdir = $(libexecdir)/gcc/$(target_noncanonical)/$(version)
 # Used to produce a relative $(gcc_tooldir) in gcc.o
@@ -500,7 +504,7 @@ TARGET_LIBGCC2_CFLAGS =
 # Options to use when compiling crtbegin/end.
 CRTSTUFF_CFLAGS = -O2 $(GCC_CFLAGS) $(INCLUDES) $(MULTILIB_CFLAGS) -g0 \
   -finhibit-size-directive -fno-inline-functions -fno-exceptions \
-  -fno-zero-initialized-in-bss -fno-unit-at-a-time
+  -fno-zero-initialized-in-bss -fno-unit-at-a-time -fno-stack-protector
 
 # Additional sources to handle exceptions; overridden by targets as needed.
 LIB2ADDEH = $(srcdir)/unwind-dw2.c $(srcdir)/unwind-dw2-fde.c \
@@ -676,7 +680,7 @@ TREE_H = tree.h tree.def $(MACHMODE_H) tree-check.h version.h builtins.def \
 BASIC_BLOCK_H = basic-block.h bitmap.h sbitmap.h varray.h $(PARTITION_H) \
           hard-reg-set.h cfghooks.h
 COVERAGE_H = coverage.h gcov-io.h gcov-iov.h
-DEMANGLE_H = $(srcdir)/../include/demangle.h
+DEMANGLE_H = $(LIBIBERTY_HDRS)/demangle.h
 RECOG_H = recog.h
 EXPR_H = expr.h
 OPTABS_H = optabs.h insn-codes.h
@@ -689,7 +693,7 @@ TIMEVAR_H = timevar.h timevar.def
 INSN_ATTR_H = insn-attr.h $(srcdir)/insn-addr.h $(srcdir)/varray.h
 C_COMMON_H = c-common.h $(SPLAY_TREE_H) $(CPPLIB_H)
 C_TREE_H = c-tree.h $(C_COMMON_H)
-SYSTEM_H = system.h hwint.h $(srcdir)/../include/libiberty.h
+SYSTEM_H = system.h hwint.h $(LIBIBERTY_HDRS)/libiberty.h
 PREDICT_H = predict.h predict.def
 CPPLIB_H = cpplib.h line-map.h
 PRETTY_PRINT_H = pretty-print.h input.h $(OBSTACK_H)
@@ -716,6 +720,7 @@ ALL_CPPFLAGS = $(CPPFLAGS) $(X_CPPFLAGS) $(T_CPPFLAGS)
 # .. or ../$(build_alias) depending on whether host != build.
 LIBIBERTY = ../libiberty/libiberty.a
 BUILD_LIBIBERTY = @FORBUILD@/libiberty/libiberty.a
+SUB_LIBERTY = $(PWD_COMMAND)/"$(BUILD_LIBIBERTY)"
 
 # Dependencies on the intl and portability libraries.
 LIBDEPS= $(LIBIBERTY) $(LIBINTL_DEP) $(LIBICONV_DEP)
@@ -755,7 +760,7 @@ BUILD_VARRAY = $(BUILD_PREFIX)varray.o
 # currently being compiled, in both source trees, to be examined as well.
 # libintl.h will be found in ../intl if we are using the included libintl.
 INCLUDES = -I. -I$(@D) -I$(srcdir) -I$(srcdir)/$(@D) \
-	   -I$(srcdir)/../include @INCINTL@
+	   -I$(LIBIBERTY_HDRS) @INCINTL@
 
 .c.o:
 	$(CC) -c $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) $< $(OUTPUT_OPTION)
@@ -842,7 +847,7 @@ CXX_TARGET_OBJS=@cxx_target_objs@
 # Language-specific object files for C and Objective C.
 C_AND_OBJC_OBJS = attribs.o c-errors.o c-lex.o c-pragma.o c-decl.o c-typeck.o \
   c-convert.o c-aux-info.o c-common.o c-opts.o c-format.o c-semantics.o \
-  c-incpath.o cppdefault.o c-ppoutput.o c-cppbuiltin.o prefix.o \
+  c-bounded.o c-incpath.o cppdefault.o c-ppoutput.o c-cppbuiltin.o prefix.o \
   c-objc-common.o c-dump.o c-pch.o libcpp.a $(C_TARGET_OBJS)
 
 # Language-specific object files for C.
@@ -1185,7 +1190,7 @@ libgcc.mk: config.status Makefile mklibgcc $(LIB2ADD) $(LIB2ADD_ST) $(LIB2ADD_SH
 	SHLIB_MAPFILES='$(SHLIB_MAPFILES)' \
 	SHLIB_NM_FLAGS='$(SHLIB_NM_FLAGS)' \
 	MULTILIB_OSDIRNAMES='$(MULTILIB_OSDIRNAMES)' \
-	mkinstalldirs='$(SHELL) $(srcdir)/mkinstalldirs' \
+	mkinstalldirs='$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs' \
 	  $(SHELL) mklibgcc > tmp-libgcc.mk
 	mv tmp-libgcc.mk libgcc.mk
 
@@ -1229,7 +1234,7 @@ s-mlib: $(srcdir)/genmultilib Makefile
 	  $(SHELL) $(srcdir)/genmultilib '' '' '' '' '' '' '' no \
 	    > tmp-mlib.h; \
 	fi
-	$(SHELL) $(srcdir)/move-if-change tmp-mlib.h multilib.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-mlib.h multilib.h
 	$(STAMP) s-mlib
 
 # Build multiple copies of libgcc.a, one for each target switch.
@@ -1313,7 +1318,7 @@ c-parse.y: c-parse.in
 	echo '/*WARNING: This file is automatically generated!*/' >tmp-c-parse.y
 	sed -e "/^@@ifobjc.*/,/^@@end_ifobjc.*/d" \
 	    -e "/^@@ifc.*/d" -e "/^@@end_ifc.*/d" $< >>tmp-c-parse.y
-	$(SHELL) $(srcdir)/move-if-change tmp-c-parse.y $@
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-c-parse.y $@
 
 c-incpath.o: c-incpath.c c-incpath.h $(CONFIG_H) $(SYSTEM_H) $(CPPLIB_H) \
 		intl.h prefix.h coretypes.h $(TM_H) cppdefault.h
@@ -1397,6 +1402,9 @@ attribs.o : attribs.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(TREE_H) flag
 c-format.o : c-format.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(TREE_H) langhooks.h \
 	$(C_COMMON_H) flags.h toplev.h intl.h $(DIAGNOSTIC_H)
 
+c-bounded.o : c-bounded.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(TREE_H) langhooks.h \
+	$(C_COMMON_H) flags.h toplev.h intl.h $(DIAGNOSTIC_H)
+
 c-semantics.o : c-semantics.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(TREE_H) \
 	$(C_TREE_H) flags.h toplev.h output.h c-pragma.h $(RTL_H) $(GGC_H) \
 	$(EXPR_H) $(PREDICT_H) tree-inline.h
@@ -1444,9 +1452,9 @@ gccspec.o: gccspec.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(GCC_H)
 cppspec.o: cppspec.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(GCC_H)
 
 tree-check.h: s-check ; @true
-s-check : gencheck$(build_exeext) $(srcdir)/move-if-change
+s-check : gencheck$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./gencheck$(build_exeext) > tmp-check.h
-	$(SHELL) $(srcdir)/move-if-change tmp-check.h tree-check.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-check.h tree-check.h
 	$(STAMP) s-check
 
 gencheck$(build_exeext) : gencheck.o $(BUILD_LIBDEPS)
@@ -1461,7 +1469,7 @@ s-gencheck : Makefile
 	ltf="$(lang_tree_files)"; for f in $$ltf; do \
 	    echo "#include \"$$f\""; \
 	done | sed 's|$(srcdir)/||' > tmp-gencheck.h
-	$(SHELL) $(srcdir)/move-if-change tmp-gencheck.h gencheck.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-gencheck.h gencheck.h
 	$(STAMP) s-gencheck
 
 specs.h : s-specs ; @true
@@ -1469,14 +1477,14 @@ s-specs : Makefile
 	lsf="$(lang_specs_files)"; for f in $$lsf; do \
 	    echo "#include \"$$f\""; \
 	done | sed 's|$(srcdir)/||' > tmp-specs.h
-	$(SHELL) $(srcdir)/move-if-change tmp-specs.h specs.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-specs.h specs.h
 	$(STAMP) s-specs
 
 options.c: $(lang_opt_files) $(srcdir)/opts.sh options.h intl.h
 
 options.h: $(lang_opt_files) $(srcdir)/opts.sh Makefile
 	AWK=$(AWK) $(SHELL) $(srcdir)/opts.sh \
-               '$(SHELL) $(srcdir)/move-if-change' \
+               '$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change' \
                options.c options.h $(lang_opt_files)
 
 dumpvers: dumpvers.c
@@ -1921,15 +1929,15 @@ libbackend.o : $(OBJS-common:.o=.c) $(out_file) \
 # trailing `;'), we call true for each.
 
 insn-config.h: s-config ; @true
-s-config : $(md_file) genconfig$(build_exeext) $(srcdir)/move-if-change
+s-config : $(md_file) genconfig$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genconfig$(build_exeext) $(md_file) > tmp-config.h
-	$(SHELL) $(srcdir)/move-if-change tmp-config.h insn-config.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-config.h insn-config.h
 	$(STAMP) s-config
 
 insn-conditions.c: s-conditions ; @true
-s-conditions : $(md_file) genconditions$(build_exeext) $(srcdir)/move-if-change
+s-conditions : $(md_file) genconditions$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genconditions$(build_exeext) $(md_file) > tmp-conditions.c
-	$(SHELL) $(srcdir)/move-if-change tmp-conditions.c insn-conditions.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-conditions.c insn-conditions.c
 	$(STAMP) s-conditions
 
 insn-conditions.o : insn-conditions.c $(CONFIG_H) $(SYSTEM_H) coretypes.h \
@@ -1942,21 +1950,21 @@ dummy-conditions.o : dummy-conditions.c $(BCONFIG_H) $(SYSTEM_H) \
   coretypes.h $(GTM_H) gensupport.h
 
 insn-flags.h: s-flags ; @true
-s-flags : $(md_file) genflags$(build_exeext) $(srcdir)/move-if-change
+s-flags : $(md_file) genflags$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genflags$(build_exeext) $(md_file) > tmp-flags.h
-	$(SHELL) $(srcdir)/move-if-change tmp-flags.h insn-flags.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-flags.h insn-flags.h
 	$(STAMP) s-flags
 
 insn-codes.h: s-codes ; @true
-s-codes : $(md_file) gencodes$(build_exeext) $(srcdir)/move-if-change
+s-codes : $(md_file) gencodes$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./gencodes$(build_exeext) $(md_file) > tmp-codes.h
-	$(SHELL) $(srcdir)/move-if-change tmp-codes.h insn-codes.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-codes.h insn-codes.h
 	$(STAMP) s-codes
 
 insn-constants.h: s-constants ; @true
-s-constants : $(md_file) genconstants$(build_exeext) $(srcdir)/move-if-change
+s-constants : $(md_file) genconstants$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genconstants$(build_exeext) $(md_file) > tmp-constants.h
-	$(SHELL) $(srcdir)/move-if-change tmp-constants.h insn-constants.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-constants.h insn-constants.h
 	$(STAMP) s-constants
 
 insn-emit.o : insn-emit.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -1966,9 +1974,9 @@ insn-emit.o : insn-emit.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-emit.c: s-emit ; @true
-s-emit : $(md_file) genemit$(build_exeext) $(srcdir)/move-if-change
+s-emit : $(md_file) genemit$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genemit$(build_exeext) $(md_file) > tmp-emit.c
-	$(SHELL) $(srcdir)/move-if-change tmp-emit.c insn-emit.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-emit.c insn-emit.c
 	$(STAMP) s-emit
 
 insn-recog.o : insn-recog.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -1978,9 +1986,9 @@ insn-recog.o : insn-recog.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-recog.c: s-recog ; @true
-s-recog : $(md_file) genrecog$(build_exeext) $(srcdir)/move-if-change
+s-recog : $(md_file) genrecog$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genrecog$(build_exeext) $(md_file) > tmp-recog.c
-	$(SHELL) $(srcdir)/move-if-change tmp-recog.c insn-recog.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-recog.c insn-recog.c
 	$(STAMP) s-recog
 
 insn-opinit.o : insn-opinit.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -1989,9 +1997,9 @@ insn-opinit.o : insn-opinit.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-opinit.c: s-opinit ; @true
-s-opinit : $(md_file) genopinit$(build_exeext) $(srcdir)/move-if-change
+s-opinit : $(md_file) genopinit$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genopinit$(build_exeext) $(md_file) > tmp-opinit.c
-	$(SHELL) $(srcdir)/move-if-change tmp-opinit.c insn-opinit.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-opinit.c insn-opinit.c
 	$(STAMP) s-opinit
 
 insn-extract.o : insn-extract.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -2000,9 +2008,9 @@ insn-extract.o : insn-extract.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-extract.c: s-extract ; @true
-s-extract : $(md_file) genextract$(build_exeext) $(srcdir)/move-if-change
+s-extract : $(md_file) genextract$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genextract$(build_exeext) $(md_file) > tmp-extract.c
-	$(SHELL) $(srcdir)/move-if-change tmp-extract.c insn-extract.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-extract.c insn-extract.c
 	$(STAMP) s-extract
 
 insn-peep.o : insn-peep.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -2012,9 +2020,9 @@ insn-peep.o : insn-peep.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-peep.c: s-peep ; @true
-s-peep : $(md_file) genpeep$(build_exeext) $(srcdir)/move-if-change
+s-peep : $(md_file) genpeep$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genpeep$(build_exeext) $(md_file) > tmp-peep.c
-	$(SHELL) $(srcdir)/move-if-change tmp-peep.c insn-peep.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-peep.c insn-peep.c
 	$(STAMP) s-peep
 
 insn-attrtab.o : insn-attrtab.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -2024,15 +2032,15 @@ insn-attrtab.o : insn-attrtab.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-attr.h: s-attr ; @true
-s-attr : $(md_file) genattr$(build_exeext) $(srcdir)/move-if-change
+s-attr : $(md_file) genattr$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genattr$(build_exeext) $(md_file) > tmp-attr.h
-	$(SHELL) $(srcdir)/move-if-change tmp-attr.h insn-attr.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-attr.h insn-attr.h
 	$(STAMP) s-attr
 
 insn-attrtab.c: s-attrtab ; @true
-s-attrtab : $(md_file) genattrtab$(build_exeext) $(srcdir)/move-if-change
+s-attrtab : $(md_file) genattrtab$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genattrtab$(build_exeext) $(md_file) > tmp-attrtab.c
-	$(SHELL) $(srcdir)/move-if-change tmp-attrtab.c insn-attrtab.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-attrtab.c insn-attrtab.c
 	$(STAMP) s-attrtab
 
 insn-output.o : insn-output.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
@@ -2043,9 +2051,9 @@ insn-output.o : insn-output.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	  $(OUTPUT_OPTION)
 
 insn-output.c: s-output ; @true
-s-output : $(md_file) genoutput$(build_exeext) $(srcdir)/move-if-change
+s-output : $(md_file) genoutput$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genoutput$(build_exeext) $(md_file) > tmp-output.c
-	$(SHELL) $(srcdir)/move-if-change tmp-output.c insn-output.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-output.c insn-output.c
 	$(STAMP) s-output
 
 genrtl.o : genrtl.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(RTL_H) \
@@ -2053,31 +2061,31 @@ genrtl.o : genrtl.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) $(RTL_H) \
 genrtl.c genrtl.h : s-genrtl
 	@true	# force gnu make to recheck modification times.
 
-s-genrtl: gengenrtl$(build_exeext) $(srcdir)/move-if-change
+s-genrtl: gengenrtl$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./gengenrtl$(build_exeext) -h > tmp-genrtl.h
-	$(SHELL) $(srcdir)/move-if-change tmp-genrtl.h genrtl.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-genrtl.h genrtl.h
 	$(RUN_GEN) ./gengenrtl$(build_exeext) > tmp-genrtl.c
-	$(SHELL) $(srcdir)/move-if-change tmp-genrtl.c genrtl.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-genrtl.c genrtl.c
 	$(STAMP) s-genrtl
 
 insn-modes.o : insn-modes.c $(CONFIG_H) $(SYSTEM_H) coretypes.h $(TM_H) \
 	       $(MACHMODE_H) real.h
 min-insn-modes.c insn-modes.c insn-modes.h : s-modes ; @true
 
-s-modes: genmodes$(build_exeext) $(srcdir)/move-if-change
+s-modes: genmodes$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genmodes$(build_exeext) -h > tmp-modes.h
-	$(SHELL) $(srcdir)/move-if-change tmp-modes.h insn-modes.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-modes.h insn-modes.h
 	$(RUN_GEN) ./genmodes$(build_exeext) -m > tmp-min-modes.c
-	$(SHELL) $(srcdir)/move-if-change tmp-min-modes.c min-insn-modes.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-min-modes.c min-insn-modes.c
 	$(RUN_GEN) ./genmodes$(build_exeext) > tmp-modes.c
-	$(SHELL) $(srcdir)/move-if-change tmp-modes.c insn-modes.c
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-modes.c insn-modes.c
 	$(STAMP) s-modes
 
 tm-preds.h: s-preds; @true
 
-s-preds: genpreds$(build_exeext) $(srcdir)/move-if-change
+s-preds: genpreds$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	$(RUN_GEN) ./genpreds$(build_exeext) > tmp-preds.h
-	$(SHELL) $(srcdir)/move-if-change tmp-preds.h tm-preds.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-preds.h tm-preds.h
 	$(STAMP) s-preds
 
 GTFILES = $(srcdir)/input.h $(srcdir)/coretypes.h $(srcdir)/cpplib.h \
@@ -2115,7 +2123,7 @@ gt-dbxout.h gt-c-common.h gt-c-decl.h gt-c-parse.h \
 gt-c-pragma.h gtype-c.h gt-input.h gt-cfglayout.h \
 gt-stringpool.h gt-langhooks.h : s-gtype ; @true
 
-gtyp-gen.h: Makefile
+gtyp-gen.h: #Makefile
 	echo "/* This file is machine generated.  Do not edit.  */" > tmp-gtyp.h
 	echo "static const char *const srcdir = "  >> tmp-gtyp.h
 	echo "\"$(GTFILES_SRCDIR)\"" >> tmp-gtyp.h
@@ -2140,7 +2148,7 @@ gtyp-gen.h: Makefile
 	for l in $$gf; do \
 	echo "\"$$l\", "; done >> tmp-gtyp.h
 	echo "NULL};" >> tmp-gtyp.h
-	$(SHELL) $(srcdir)/move-if-change tmp-gtyp.h gtyp-gen.h 
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-gtyp.h gtyp-gen.h
 
 s-gtype: gengtype$(build_exeext) $(GTFILES)
 	$(RUN_GEN) ./gengtype
@@ -2405,7 +2413,7 @@ protoize$(exeext): protoize.o $(PROTO_OBJS) $(LIBDEPS)
 unprotoize$(exeext): unprotoize.o $(PROTO_OBJS) $(LIBDEPS)
 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o $@ unprotoize.o $(PROTO_OBJS) $(LIBS)
 
-protoize.o: protoize.c $(srcdir)/../include/getopt.h $(CONFIG_H) $(SYSTEM_H) \
+protoize.o: protoize.c $(LIBIBERTY_HDRS)/getopt.h $(CONFIG_H) $(SYSTEM_H) \
    coretypes.h $(TM_H) Makefile version.h
 	(SHLIB_LINK='$(SHLIB_LINK)' \
 	SHLIB_MULTILIB='$(SHLIB_MULTILIB)'; \
@@ -2413,7 +2421,7 @@ protoize.o: protoize.c $(srcdir)/../include/getopt.h $(CONFIG_H) $(SYSTEM_H) \
 	  $(DRIVER_DEFINES) \
 	  $(srcdir)/protoize.c $(OUTPUT_OPTION))
 
-unprotoize.o: protoize.c $(srcdir)/../include/getopt.h \
+unprotoize.o: protoize.c $(LIBIBERTY_HDRS)/getopt.h \
    $(CONFIG_H) $(SYSTEM_H) Makefile version.h
 	(SHLIB_LINK='$(SHLIB_LINK)' \
 	SHLIB_MULTILIB='$(SHLIB_MULTILIB)'; \
@@ -2467,9 +2475,9 @@ gcov-iov.o: gcov-iov.c version.c $(BCONFIG_H) coretypes.h $(GTM_H) $(SYSTEM_H) c
 gcov-iov$(build_exeext): gcov-iov.o
 	$(CC_FOR_BUILD) $(BUILD_CFLAGS) $(BUILD_LDFLAGS) gcov-iov.o -o $@
 gcov-iov.h: s-iov
-s-iov: gcov-iov$(build_exeext) $(srcdir)/move-if-change
+s-iov: gcov-iov$(build_exeext) $(GNUSYSTEM_AUX_DIR)/move-if-change
 	./gcov-iov$(build_exeext) > tmp-gcov-iov.h
-	$(SHELL) $(srcdir)/move-if-change tmp-gcov-iov.h gcov-iov.h
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/move-if-change tmp-gcov-iov.h gcov-iov.h
 	$(STAMP) s-iov
 
 gcov.o: gcov.c gcov-io.h gcov-io.c gcov-iov.h intl.h $(SYSTEM_H) coretypes.h $(TM_H) $(CONFIG_H)
@@ -2535,7 +2543,7 @@ fixinc.sh: $(FIXINCSRCDIR)/mkfixinc.sh $(FIXINCSRCDIR)/fixincl.c \
 	$(FIXINCSRCDIR)/server.h $(FIXINCSRCDIR)/inclhack.def specs.ready
 	(MAKE="$(MAKE)"; srcdir=`cd $(srcdir)/fixinc && ${PWD_COMMAND}` ; \
 	CC="$(CC_FOR_BUILD)"; CFLAGS="$(BUILD_CFLAGS)"; LDFLAGS="$(BUILD_LDFLAGS)"; \
-	WARN_CFLAGS="$(WARN_CFLAGS)"; LIBERTY=`${PWD_COMMAND}`/"$(BUILD_LIBIBERTY)"; \
+	WARN_CFLAGS="$(WARN_CFLAGS)"; LIBERTY="$(SUB_LIBERTY)"; \
 	export MAKE srcdir CC CFLAGS LDFLAGS WARN_CFLAGS LIBERTY; \
 	cd ./fixinc && \
 	$(SHELL) $${srcdir}/mkfixinc.sh $(build) $(target))
@@ -2566,6 +2574,18 @@ stmp-fixinc: fixinc.sh gsyslimits.h
 	fi; \
 	chmod a+r include/syslimits.h)
 	$(STAMP) stmp-fixinc
+
+stmp-fixinc-fake: gsyslimits.h
+	rm -rf include; mkdir include
+	-chmod a+rx include
+	rm -f include/syslimits.h; \
+	if [ -f include/limits.h ]; then \
+	  mv include/limits.h include/syslimits.h; \
+	else \
+	  cp $(srcdir)/gsyslimits.h include/syslimits.h; \
+	fi; \
+	chmod a+r include/syslimits.h
+	$(STAMP) stmp-fixinc-fake
 
 # Files related to the fixproto script.
 # gen-protos and fix-header are compiled with CC_FOR_BUILD, but they are only
@@ -2633,7 +2653,7 @@ stmp-fixproto: fixhdr.ready fixproto stmp-int-hdrs
 	else \
 	  : This line works around a 'make' bug in BSDI 1.1.; \
 	  FIXPROTO_DEFINES="$(FIXPROTO_DEFINES)"; export FIXPROTO_DEFINES; \
-	  mkinstalldirs="$(SHELL) $(srcdir)/mkinstalldirs"; \
+	  mkinstalldirs="$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs"; \
 	    export mkinstalldirs; \
 	  if [ -d "$(SYSTEM_HEADER_DIR)" ]; then \
 	    $(SHELL) ${srcdir}/fixproto include include $(SYSTEM_HEADER_DIR); \
@@ -2872,7 +2892,8 @@ maintainer-clean:
 # Copy the compiler files into directories where they will be run.
 # Install the driver last so that the window when things are
 # broken is small.
-install: install-common $(INSTALL_HEADERS) $(INSTALL_LIBGCC) \
+install: $(INSTALL_TARGET)
+INSTALL_TARGET=install-common $(INSTALL_HEADERS) $(INSTALL_LIBGCC) \
     install-cpp install-man install-info install-@POSUB@ \
     lang.install-normal install-driver
 
@@ -2894,11 +2915,10 @@ installdirs:
 	$(SHELL) ${srcdir}/mkinstalldirs $(DESTDIR)$(includedir)
 	$(SHELL) ${srcdir}/mkinstalldirs $(DESTDIR)$(infodir)
 	$(SHELL) ${srcdir}/mkinstalldirs $(DESTDIR)$(slibdir)
-	$(SHELL) ${srcdir}/mkinstalldirs $(DESTDIR)$(man1dir)
-	$(SHELL) ${srcdir}/mkinstalldirs $(DESTDIR)$(man7dir)
 
 # Install the compiler executables built during cross compilation.
-install-common: native $(EXTRA_PARTS) lang.install-common installdirs
+#install-common: native $(EXTRA_PARTS) lang.install-common installdirs
+install-common: lang.install-common installdirs
 	for file in $(COMPILERS); do \
 	  if [ -f $$file ] ; then \
 	    rm -f $(DESTDIR)$(libexecsubdir)/$$file; \
@@ -2914,9 +2934,9 @@ install-common: native $(EXTRA_PARTS) lang.install-common installdirs
 	done
 	for file in $(EXTRA_PARTS) ..; do \
 	  if [ x"$$file" != x.. ]; then \
-	    rm -f $(DESTDIR)$(libsubdir)/$$file; \
-	    $(INSTALL_DATA) $$file $(DESTDIR)$(libsubdir)/$$file; \
-	    chmod a-x $(DESTDIR)$(libsubdir)/$$file; \
+	    rm -f $(DESTDIR)$(extrapartsdir)/$$file; \
+	    $(INSTALL_DATA) $$file $(DESTDIR)$(extrapartsdir)/$$file; \
+	    chmod a-x $(DESTDIR)$(extrapartsdir)/$$file; \
 	  else true; fi; \
 	done
 # Don't mess with specs if it doesn't exist yet.
@@ -2941,12 +2961,11 @@ install-common: native $(EXTRA_PARTS) lang.install-common installdirs
 	    rm -f $(DESTDIR)$(bindir)/$(GCOV_INSTALL_NAME)$(exeext); \
 	    $(INSTALL_PROGRAM) gcov$(exeext) $(DESTDIR)$(bindir)/$(GCOV_INSTALL_NAME)$(exeext); \
 	fi
-	$(INSTALL_SCRIPT) gccbug $(DESTDIR)$(bindir)/$(GCCBUG_INSTALL_NAME)
 
 # Install the driver program as $(target_noncanonical)-gcc, 
 # $(target_noncanonical)-gcc-$(version)
 # and also as either gcc (if native) or $(gcc_tooldir)/bin/gcc.
-install-driver: installdirs xgcc$(exeext)
+install-driver: installdirs #xgcc$(exeext)
 	-rm -f $(DESTDIR)$(bindir)/$(GCC_INSTALL_NAME)$(exeext)
 	-$(INSTALL_PROGRAM) xgcc$(exeext) $(DESTDIR)$(bindir)/$(GCC_INSTALL_NAME)$(exeext)
 	-rm -f $(DESTDIR)$(bindir)/$(target_noncanonical)-gcc-$(version)
@@ -3019,7 +3038,8 @@ $(DESTDIR)$(man1dir)/$(GCOV_INSTALL_NAME)$(man1ext): doc/gcov.1
 	-chmod a-x $@
 
 # Install the library.
-install-libgcc: libgcc.mk libgcc.a libgcov.a installdirs
+#install-libgcc: libgcc.mk libgcc.a libgcov.a installdirs
+install-libgcc: installdirs
 	$(MAKE) \
 	  CFLAGS="$(CFLAGS) $(WARN_CFLAGS)" \
 	  CONFIG_H="$(TCONFIG_H)" \
@@ -3027,7 +3047,8 @@ install-libgcc: libgcc.mk libgcc.a libgcov.a installdirs
 	  -f libgcc.mk install
 
 # Install multiple versions of libgcc.a, libgcov.a.
-install-multilib: stmp-multilib installdirs
+#install-multilib: stmp-multilib installdirs
+install-multilib: installdirs
 	$(MAKE) \
 	  CFLAGS="$(CFLAGS) $(WARN_CFLAGS)" \
 	  CONFIG_H="$(CONFIG_H)" \
@@ -3086,8 +3107,8 @@ itoolsdatadir = $(libsubdir)/install-tools
 install-mkheaders: stmp-int-hdrs $(STMP_FIXPROTO) install-include-dir \
     mkheaders xlimits.h
 	-rm -rf $(DESTDIR)$(itoolsdir) $(DESTDIR)$(itoolsdatadir)
-	$(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$(itoolsdatadir)/include
-	$(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$(itoolsdir)
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(itoolsdatadir)/include
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(itoolsdir)
 	for file in $(USER_H); do \
 	  realfile=`echo $$file | sed -e 's|.*/\([^/]*\)$$|\1|'`; \
 	  $(INSTALL_DATA) $$file \
@@ -3103,7 +3124,7 @@ install-mkheaders: stmp-int-hdrs $(STMP_FIXPROTO) install-include-dir \
 	    $(DESTDIR)$(itoolsdatadir)/gsyslimits.h ; \
 	else :; fi
 	if [ x$(STMP_FIXPROTO) != x ] ; then \
-	  $(INSTALL_SCRIPT) $(srcdir)/mkinstalldirs \
+	  $(INSTALL_SCRIPT) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
 		$(DESTDIR)$(itoolsdir)/mkinstalldirs ; \
 	  $(INSTALL_SCRIPT) $(srcdir)/fixproto $(DESTDIR)$(itoolsdir)/fixproto ; \
 	  $(INSTALL_PROGRAM) fix-header$(build_exeext) \
@@ -3122,7 +3143,8 @@ install-mkheaders: stmp-int-hdrs $(STMP_FIXPROTO) install-include-dir \
 		>> $(DESTDIR)$(itoolsdatadir)/mkheaders.conf
 
 # Use this target to install the program `collect2' under the name `collect2'.
-install-collect2: collect2 installdirs
+#install-collect2: collect2 installdirs
+install-collect2: installdirs
 	$(INSTALL_PROGRAM) collect2$(exeext) $(DESTDIR)$(libexecsubdir)/collect2$(exeext)
 # Install the driver program as $(libsubdir)/gcc for collect2.
 	$(INSTALL_PROGRAM) xgcc$(exeext) $(DESTDIR)$(libexecsubdir)/gcc$(exeext)
@@ -3889,7 +3911,7 @@ update-po: $(CATALOGS:.gmo=.pox)
 # for each language, in case they weren't built or included
 # with the distribution.
 install-po:
-	$(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$(datadir)
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(datadir)
 	cats="$(CATALOGS)"; for cat in $$cats; do \
 	  lang=`basename $$cat | sed 's/\.gmo$$//'`; \
 	  if [ -f $$cat ]; then :; \
@@ -3897,8 +3919,8 @@ install-po:
 	  else continue; \
 	  fi; \
 	  dir=$(localedir)/$$lang/LC_MESSAGES; \
-	  echo $(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$$dir; \
-	  $(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$$dir || exit 1; \
+	  echo $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$$dir; \
+	  $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$$dir || exit 1; \
 	  echo $(INSTALL_DATA) $$cat $(DESTDIR)$$dir/$(PACKAGE).mo; \
 	  $(INSTALL_DATA) $$cat $(DESTDIR)$$dir/$(PACKAGE).mo; \
 	done

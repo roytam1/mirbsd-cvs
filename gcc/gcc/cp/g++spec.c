@@ -1,5 +1,7 @@
+/* $MirOS$ */
+
 /* Specific flags and argument handling of the C++ front-end.
-   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
+   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
    Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -45,6 +47,12 @@ Boston, MA 02111-1307, USA.  */
 #ifndef LIBSTDCXX_PROFILE
 #define LIBSTDCXX_PROFILE "-lstdc++"
 #endif
+#ifndef LIBSUPCXX
+#define LIBSUPCXX "-lsupc++"
+#endif
+#ifndef LIBSUPCXX_PROFILE
+#define LIBSUPCXX_PROFILE "-lsupc++"
+#endif
 
 void
 lang_specific_driver (int *in_argc, const char *const **in_argv,
@@ -63,6 +71,10 @@ lang_specific_driver (int *in_argc, const char *const **in_argv,
      0  means we should link in libstdc++ if it is needed
      1  means libstdc++ is needed and should be linked in.  */
   int library = 0;
+
+  /* This will be 1 if we encounter a situation where we should link
+     libsupc++. */
+  int libsupcxx = 0;
 
   /* The number of arguments being added to what's in argv, other than
      libraries.  We use this to track the number of times we've inserted
@@ -135,6 +147,13 @@ lang_specific_driver (int *in_argc, const char *const **in_argv,
 	      || strcmp (argv[i], "-nodefaultlibs") == 0)
 	    {
 	      library = -1;
+	      libsupcxx = -1;
+	    }
+	  else if (strcmp (argv[i], "-shared") == 0)
+	    {
+	      library = 0;
+	      if (libsupcxx == 0)
+	        libsupcxx = 1;
 	    }
 	  else if (strcmp (argv[i], "-lm") == 0
 		   || strcmp (argv[i], "-lmath") == 0
@@ -146,6 +165,8 @@ lang_specific_driver (int *in_argc, const char *const **in_argv,
 	    }
 	  else if (strcmp (argv[i], "-lc") == 0)
 	    args[i] |= WITHLIBC;
+	  else if (strcmp (argv[i], "-lstdc++") == 0)
+	    libsupcxx = -1;
 	  else if (strcmp (argv[i], "-pg") == 0 || strcmp (argv[i], "-p") == 0)
 	    saw_profile_flag++;
 	  else if (strcmp (argv[i], "-v") == 0)
@@ -300,6 +321,12 @@ lang_specific_driver (int *in_argc, const char *const **in_argv,
       j++;
     }
 
+  /* Add -lsupc++ for shared. */
+  if (libsupcxx == 1)
+    {
+      arglist[j++] = saw_profile_flag ? LIBSUPCXX_PROFILE : LIBSUPCXX;
+      added_libraries++;
+    }
   /* Add `-lstdc++' if we haven't already done so.  */
   if (library > 0)
     {

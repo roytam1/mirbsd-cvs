@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
    Contributed by Neil Booth.
@@ -360,6 +362,7 @@ c_common_handle_option (size_t scode, const char *arg, int value)
       set_Wunused (value);
       set_Wformat (value);
       set_Wimplicit (value);
+      warn_bounded = value;
       warn_char_subscripts = value;
       warn_missing_braces = value;
       warn_parentheses = value;
@@ -400,6 +403,10 @@ c_common_handle_option (size_t scode, const char *arg, int value)
 
     case OPT_Wbad_function_cast:
       warn_bad_function_cast = value;
+      break;
+
+    case OPT_Wbounded:
+      warn_bounded = value;
       break;
 
     case OPT_Wcast_qual:
@@ -450,6 +457,14 @@ c_common_handle_option (size_t scode, const char *arg, int value)
 
     case OPT_Werror_implicit_function_declaration:
       mesg_implicit_function_declaration = 2;
+      break;
+
+    case OPT_Werror_maybe_reset:
+      {
+	char *ev = getenv ("GCC_NO_WERROR");
+	if ((ev != NULL) && (*ev != '0'))
+	  cpp_opts->warnings_are_errors = 0;
+      }
       break;
 
     case OPT_Wfloat_equal:

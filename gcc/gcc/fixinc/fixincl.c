@@ -1,8 +1,11 @@
+/* $MirOS$ */
+
 /* Install modified versions of certain ANSI-incompatible system header
    files which are fixed to work correctly with ANSI C and placed in a
    directory that GCC will search.
 
-   Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1997, 1998, 1999, 2000, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -562,7 +565,7 @@ create_file (void)
 
   sprintf (fname, "%s/%s", pz_dest_dir, pz_curr_file + find_base_len);
 
-  fd = open (fname, O_WRONLY | O_CREAT | O_TRUNC, S_IRALL);
+  fd = open (fname, O_WRONLY | O_CREAT | O_TRUNC, S_IRALL, 0666);
 
   /*  We may need to create the directories needed... */
   if ((fd < 0) && (errno == ENOENT))
@@ -583,7 +586,7 @@ create_file (void)
         }
 
       /*  Now, lets try the open again... */
-      fd = open (fname, O_WRONLY | O_CREAT | O_TRUNC, S_IRALL);
+      fd = open (fname, O_WRONLY | O_CREAT | O_TRUNC, S_IRALL, 0666);
     }
   if (fd < 0)
     {

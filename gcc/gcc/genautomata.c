@@ -1,5 +1,8 @@
+/* $MirOS$ */
+
 /* Pipeline hazard description translator.
-   Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    Written by Vladimir Makarov <vmakarov@redhat.com>
 
@@ -8665,10 +8668,10 @@ output_internal_insn_latency_func (void)
     if (description->decls[i]->mode == dm_insn_reserv)
       {
 	decl = description->decls[i];
-	if (DECL_INSN_RESERV (decl)->default_latency > UCHAR_MAX
+	if ((unsigned)DECL_INSN_RESERV (decl)->default_latency > UCHAR_MAX
 	    && tabletype[0] != 'i')  /* Don't shrink it.  */
 	  tabletype = "unsigned short";
-	if (DECL_INSN_RESERV (decl)->default_latency > USHRT_MAX)
+	if ((unsigned)DECL_INSN_RESERV (decl)->default_latency > USHRT_MAX)
 	  tabletype = "int";
       }
 

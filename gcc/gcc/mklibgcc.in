@@ -1,6 +1,9 @@
 #!/bin/sh
+# $MirOS$
+#
 # Construct makefile for libgcc.
-#   Copyright (C) 2000, 2002, 2003 Free Software Foundation, Inc.
+#   Copyright (C) 2000, 2002, 2003, 2005
+#   Free Software Foundation, Inc.
 #
 # This file is part of GCC.
 
@@ -128,6 +131,7 @@ for name in $lib2funcs; do
   for ml in $MULTILIBS; do
     dir=`echo ${ml} | sed -e 's/;.*$//' -e 's/=/$(EQ)/g'`
     flags=`echo ${ml} | sed -e 's/^[^;]*;//' -e 's/@/ -/g'`;
+    [ x"${name}" = x"_stack_smash_handler" ] && flags="$flags -fno-stack-protector"
     out="libgcc/${dir}/${name}${objext}"
 
     echo $out: $libgcc2_c_dep
@@ -650,7 +654,8 @@ echo ""
 echo "all: $all"
 
 echo ""
-echo "install: $all"
+#echo "install: $all"
+echo "install:"
 for ml in $MULTILIBS; do
   dir=`echo ${ml} | sed -e 's/;.*$//' -e 's/=/$(EQ)/g'`
   flags=`echo ${ml} | sed -e 's/^[^;]*;//' -e 's/@/ -/g'`;

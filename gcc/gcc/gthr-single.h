@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Threads compatibility routines for libgcc2 and libobjc.  */
 /* Compile this one with gcc.  */
-/* Copyright (C) 1997, 1999, 2000 Free Software Foundation, Inc.
+/* Copyright (C) 1997, 1999, 2000, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -68,7 +71,7 @@ __gthread_objc_close_thread_system (void)
 
 /* Create a new thread of execution.  */
 static inline objc_thread_t
-__gthread_objc_thread_detach (void (* func)(void *), void * UNUSED(arg))
+__gthread_objc_thread_detach (void UNUSED((* func)(void *)), void * UNUSED(arg))
 {
   /* No thread support available */
   return NULL;

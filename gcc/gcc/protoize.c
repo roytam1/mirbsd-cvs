@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Protoize program - Original version by Ron Guilmette (rfg@segfault.us.com).
    Copyright (C) 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -115,10 +118,6 @@ static void do_processing (void);
 /* Define a default place to find the SYSCALLS.X file.  */
 
 #ifndef UNPROTOIZE
-
-#ifndef STANDARD_EXEC_PREFIX
-#define STANDARD_EXEC_PREFIX "/usr/local/lib/gcc-lib/"
-#endif /* !defined STANDARD_EXEC_PREFIX */
 
 static const char * const standard_exec_prefix = STANDARD_EXEC_PREFIX;
 static const char * const target_machine = DEFAULT_TARGET_MACHINE;

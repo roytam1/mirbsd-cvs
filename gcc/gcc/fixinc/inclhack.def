@@ -1,5 +1,7 @@
 /* -*- Mode: C -*-  */
 
+/* $MirOS$ */
+
 autogen definitions fixincl;
 
 /* Define all the fixes we know about for repairing damaged headers.
@@ -1381,7 +1383,7 @@ fix = {
 fix = {
     hackname = hpux11_snprintf;
     files    = stdio.h;
-    select   = '(extern int snprintf *\(char *\*, *(|__|_hpux_)size_t,)'
+    select   = '(extern int snprintf *\(char *\*, *(__|_hpux_)?size_t,)'
                                     ' *(char *\*, *\.\.\.\);)';
     c_fix     = format;
     c_fix_arg = '%1 const %3';
@@ -2567,7 +2569,7 @@ fix = {
                 "%1, {0}}%3\n"
                 "#endif";
     c_fix_arg = "(^#define[ \t]+PTHREAD_(MUTEX|COND)_INITIALIZER[ \t]+\\{.*)"
-                ",[ \t]*0\\}" "(|[ \t].*)$";
+                ",[ \t]*0\\}" "([ \t].*)?$";
     test_text =
     '#ident "@(#)pthread.h  1.26  98/04/12 SMI"'"\n"
     "#define PTHREAD_MUTEX_INITIALIZER\t{{{0},0}, {{{0}}}, 0}\n"

@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* YACC parser for C syntax and for Objective C.  -*-c-*-
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997,
-   1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -331,9 +334,13 @@ static bool parsing_iso_function_signature;
 
 /* Tell yyparse how to print a token's value, if yydebug is set.  */
 
+#if 0
 #define YYPRINT(FILE,YYCHAR,YYLVAL) yyprint(FILE,YYCHAR,YYLVAL)
+#endif
 
+#if 0
 static void yyprint (FILE *, int, YYSTYPE);
+#endif
 static void yyerror (const char *);
 static int yylexname (void);
 static inline int _yylex (void);
@@ -3727,6 +3734,7 @@ yylex (void)
   return r;
 }
 
+#if 0
 /* Function used when yydebug is set, to print a token in more detail.  */
 
 static void
@@ -3760,6 +3768,7 @@ yyprint (FILE *file, int yychar, YYSTYPE yyl)
       break;
     }
 }
+#endif
 
 /* This is not the ideal place to put these, but we have to get them out
    of c-lex.c because cp/lex.c has its own versions.  */

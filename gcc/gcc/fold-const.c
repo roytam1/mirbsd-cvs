@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Fold a constant sub-tree into a single node for C-compiler
    Copyright (C) 1987, 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -1198,6 +1201,10 @@ int_const_binop (enum tree_code code, tree arg1, tree arg2, int notrunc)
     = (TREE_CODE (type) == INTEGER_TYPE && TYPE_IS_SIZETYPE (type));
   int overflow = 0;
   int no_overflow = 0;
+  int sizeof_flag = 0;
+
+  if (SIZEOF_PTR_DERIVED (arg1) == 1 || SIZEOF_PTR_DERIVED (arg2) == 1)
+    sizeof_flag = 1;
 
   int1l = TREE_INT_CST_LOW (arg1);
   int1h = TREE_INT_CST_HIGH (arg1);
@@ -1361,6 +1368,10 @@ int_const_binop (enum tree_code code, tree arg1, tree arg2, int notrunc)
   TREE_CONSTANT_OVERFLOW (t) = (TREE_OVERFLOW (t)
 				| TREE_CONSTANT_OVERFLOW (arg1)
 				| TREE_CONSTANT_OVERFLOW (arg2));
+
+  if (sizeof_flag == 1)
+    SIZEOF_PTR_DERIVED (t) = 1;
+
   return t;
 }
 
@@ -5812,6 +5823,12 @@ fold (tree expr)
 		       | force_fit_type (t, overflow));
 		  TREE_CONSTANT_OVERFLOW (t)
 		    = TREE_OVERFLOW (t) | TREE_CONSTANT_OVERFLOW (arg0);
+              /* If arg0 was calculated from sizeof(ptr), record this */
+              if (SIZEOF_PTR_DERIVED (arg0))
+                SIZEOF_PTR_DERIVED (t) = 1;
+                  /* If arg0 was calculated from sizeof(ptr), record this */
+                  if (SIZEOF_PTR_DERIVED (arg0))
+                    SIZEOF_PTR_DERIVED (t) = 1;
 		}
 	    }
 	  else if (TREE_CODE (arg0) == REAL_CST)

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /****************************************************************************
  *                                                                          *
  *                         GNAT COMPILER COMPONENTS                         *
@@ -77,6 +79,7 @@
 #include "adadecode.h"
 #include "opts.h"
 #include "options.h"
+#include "protector.h"
 
 extern FILE *asm_out_file;
 
@@ -368,6 +371,10 @@ gnat_tree_size (enum tree_code code)
 static bool
 gnat_init (void)
 {
+  /* Disable ProPolice stack protector, we've got our own.  */
+  flag_stack_protection = 0;
+  flag_propolice_protection = 0;
+
   /* Performs whatever initialization steps needed by the language-dependent
      lexical analyzer.  */
   gnat_init_decl_processing ();

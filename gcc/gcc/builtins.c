@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 /* Expand builtin functions.
    Copyright (C) 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -112,7 +114,9 @@ static rtx expand_builtin_memcmp (tree, tree, rtx, enum machine_mode);
 static rtx expand_builtin_strcmp (tree, rtx, enum machine_mode);
 static rtx expand_builtin_strncmp (tree, rtx, enum machine_mode);
 static rtx builtin_memcpy_read_str (void *, HOST_WIDE_INT, enum machine_mode);
+#ifndef NO_UNSAFE_BUILTINS
 static rtx expand_builtin_strcat (tree, rtx, enum machine_mode);
+#endif
 static rtx expand_builtin_strncat (tree, rtx, enum machine_mode);
 static rtx expand_builtin_strspn (tree, rtx, enum machine_mode);
 static rtx expand_builtin_strcspn (tree, rtx, enum machine_mode);
@@ -120,7 +124,9 @@ static rtx expand_builtin_memcpy (tree, rtx, enum machine_mode);
 static rtx expand_builtin_mempcpy (tree, rtx, enum machine_mode, int);
 static rtx expand_builtin_memmove (tree, rtx, enum machine_mode);
 static rtx expand_builtin_bcopy (tree);
+#ifndef NO_UNSAFE_BUILTINS
 static rtx expand_builtin_strcpy (tree, rtx, enum machine_mode);
+#endif
 static rtx expand_builtin_stpcpy (tree, rtx, enum machine_mode);
 static rtx builtin_strncpy_read_str (void *, HOST_WIDE_INT, enum machine_mode);
 static rtx expand_builtin_strncpy (tree, rtx, enum machine_mode);
@@ -160,7 +166,9 @@ static tree fold_builtin_bitop (tree);
 static tree fold_builtin_memcpy (tree);
 static tree fold_builtin_mempcpy (tree);
 static tree fold_builtin_memmove (tree);
+#ifndef NO_UNSAFE_BUILTINS
 static tree fold_builtin_strcpy (tree);
+#endif
 static tree fold_builtin_strncpy (tree);
 static tree fold_builtin_memcmp (tree);
 static tree fold_builtin_strcmp (tree);
@@ -2772,6 +2780,7 @@ expand_builtin_bcopy (tree arglist)
   return expand_builtin_memmove (newarglist, const0_rtx, VOIDmode);
 }
 
+#ifndef NO_UNSAFE_BUILTINS
 /* Expand expression EXP, which is a call to the strcpy builtin.  Return 0
    if we failed the caller should emit a normal call, otherwise try to get
    the result in TARGET, if convenient (and in mode MODE if that's
@@ -2807,6 +2816,7 @@ expand_builtin_strcpy (tree arglist, rtx target, enum machine_mode mode)
   return expand_expr (build_function_call_expr (fn, arglist),
 		      target, mode, EXPAND_NORMAL);
 }
+#endif
 
 /* Expand a call to the stpcpy builtin, with arguments in ARGLIST.
    Return 0 if we failed the caller should emit a normal call,
@@ -3578,6 +3588,7 @@ expand_builtin_strncmp (tree exp, rtx target, enum machine_mode mode)
   return 0;
 }
 
+#ifndef NO_UNSAFE_BUILTINS
 /* Expand expression EXP, which is a call to the strcat builtin.
    Return 0 if we failed the caller should emit a normal call,
    otherwise try to get the result in TARGET, if convenient.  */
@@ -3643,6 +3654,7 @@ expand_builtin_strcat (tree arglist, rtx target, enum machine_mode mode)
       return 0;
     }
 }
+#endif
 
 /* Expand expression EXP, which is a call to the strncat builtin.
    Return 0 if we failed the caller should emit a normal call,
@@ -5217,9 +5229,11 @@ expand_builtin (tree exp, rtx target, rtx subtarget, enum machine_mode mode,
       break;
 
     case BUILT_IN_STRCPY:
+#ifndef NO_UNSAFE_BUILTINS
       target = expand_builtin_strcpy (arglist, target, mode);
       if (target)
 	return target;
+#endif
       break;
 
     case BUILT_IN_STRNCPY:
@@ -5235,9 +5249,11 @@ expand_builtin (tree exp, rtx target, rtx subtarget, enum machine_mode mode,
       break;
 
     case BUILT_IN_STRCAT:
+#ifndef NO_UNSAFE_BUILTINS
       target = expand_builtin_strcat (arglist, target, mode);
       if (target)
 	return target;
+#endif
       break;
 
     case BUILT_IN_STRNCAT:
@@ -6336,6 +6352,7 @@ fold_builtin_memmove (tree exp)
   return 0;
 }
 
+#ifndef NO_UNSAFE_BUILTINS
 /* Fold function call to builtin strcpy.  Return
    NULL_TREE if no simplification can be made.  */
 
@@ -6358,6 +6375,7 @@ fold_builtin_strcpy (tree exp)
 
   return 0;
 }
+#endif
 
 /* Fold function call to builtin strncpy.  Return
    NULL_TREE if no simplification can be made.  */
@@ -6910,7 +6928,9 @@ fold_builtin (tree exp)
       return fold_builtin_memmove (exp);
 
     case BUILT_IN_STRCPY:
+#ifndef NO_UNSAFE_BUILTINS
       return fold_builtin_strcpy (exp);
+#endif
 
     case BUILT_IN_STRNCPY:
       return fold_builtin_strncpy (exp);

@@ -1,5 +1,8 @@
+/* $MirOS$ */
+
 /* RTL buffer overflow protection function for GNU C compiler
-   Copyright (C) 2003 Free Software Foundation, Inc.
+   Copyright (C) 2003, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -2404,7 +2407,7 @@ push_frame_in_operand (rtx insn, rtx orig,
 	       && GET_CODE (XEXP (x, 1)) == REG
 	       && fp_equiv[REGNO (XEXP (x, 1))])
 	if (REGNO (XEXP (x, 0)) <= LAST_VIRTUAL_REGISTER
-	    || reg_renumber[REGNO (XEXP (x, 0))] > 0)
+	    || reg_renumber != 0 && reg_renumber[REGNO (XEXP (x, 0))] > 0)
 	  fp_equiv[REGNO (XEXP (x, 0))] = fp_equiv[REGNO (XEXP (x, 1))];
       break;
 

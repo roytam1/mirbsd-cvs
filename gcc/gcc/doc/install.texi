@@ -64,7 +64,9 @@
 @c Part 2 Summary Description and Copyright
 @copying
 Copyright @copyright{} 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+Copyright @copyright{} 1998-2004 Hiroaki Etoh, assigned to the FSF.
+Copyright @copyright{} 2004-2005 Thorsten Glaser, assigned to the FSF.
 @sp 1
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -974,6 +976,15 @@ Specify that a user visible @command{cpp} program should not be installed.
 @item --with-cpp-install-dir=@var{dirname}
 Specify that the user visible @command{cpp} program should be installed
 in @file{@var{prefix}/@var{dirname}/cpp}, in addition to @var{bindir}.
+
+@item --enable-stack-protector
+Force the use of the ProPolice Stack-Smashing Protector on generated
+code by default. Set to @var{always} to default to behave as if
+@option{-fstack-protector-all} was given, to @var{yes} or use
+@option{--enable-stack-protector} to default to
+@option{-fstack-protector} behaviour, or to @var{no} or use
+@option{--disable-stack-protector} to default to
+@option{-fno-stack-protector} behaviour, which is the default.
 
 @item --enable-initfini-array
 Force the use of sections @code{.init_array} and @code{.fini_array}

@@ -1,5 +1,7 @@
+# $MirOS$
+#
 # Top level -*- makefile -*- fragment for GNU C++.
-#   Copyright (C) 1994, 1995, 1997, 1998, 1999, 2000, 2001, 2002, 2003
+#   Copyright (C) 1994, 1995, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
 #   Free Software Foundation, Inc.
 
 #This file is part of GCC.
@@ -72,7 +74,7 @@ g++-cross$(exeext): g++$(exeext)
 # The compiler itself.
 # Shared with C front end:
 CXX_C_OBJS = attribs.o c-common.o c-format.o c-pragma.o c-semantics.o c-lex.o \
-	c-dump.o $(CXX_TARGET_OBJS) c-pretty-print.o c-opts.o c-pch.o \
+	c-dump.o $(CXX_TARGET_OBJS) c-pretty-print.o c-opts.o c-pch.o c-bounded.o \
 	c-incpath.o cppdefault.o c-ppoutput.o c-cppbuiltin.o prefix.o
 
 # Language-specific object files.
@@ -210,7 +212,7 @@ CXX_TREE_H = $(TREE_H) cp/name-lookup.h cp/cp-tree.h c-common.h \
 	cp/cp-tree.def c-common.def \
 	function.h varray.h $(SYSTEM_H) coretypes.h $(CONFIG_H) $(TARGET_H) \
 	$(GGC_H) \
-	$(srcdir)/../include/hashtab.h $(srcdir)/../include/splay-tree.h
+	$(LIBIBERTY_HDRS)/hashtab.h $(LIBIBERTY_HDRS)/splay-tree.h
 
 CXX_PRETTY_PRINT_H = cp/cxx-pretty-print.h $(C_PRETTY_PRINT_H)
 
