@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: src/gnu/usr.bin/binutils/ld/configure.in,v 1.2 2005/03/13 16:07:04 tg Exp $
 
 # AC_PROG_EGREP
 # -------------
@@ -83,6 +83,22 @@ AC_SUBST(TARGET_SYSTEM_ROOT)
 AC_SUBST(TARGET_SYSTEM_ROOT_DEFINE)
 
 build_warnings="-W -Wall -Wstrict-prototypes -Wmissing-prototypes"
+
+AC_ARG_ENABLE(werror,
+  [  --enable-werror    treat compile warnings as errors],
+  [case "${enableval}" in
+     yes | y) ERROR_ON_WARNING="yes" ;;
+     no | n)  ERROR_ON_WARNING="no" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --enable-werror) ;;
+   esac])
+
+# Enable -Werror by default, suppressing it only for --disable-werror
+# or --disable-build-warnings.
+if test "${ERROR_ON_WARNING}" != no
+then
+  build_warnings="$build_warnings -Werror"
+fi
+
 AC_ARG_ENABLE(build-warnings,
 [  --enable-build-warnings enable build-time compiler warnings if gcc is used],
 [case "${enableval}" in
@@ -132,7 +148,7 @@ AC_SUBST(HOSTING_LIBS)
 AC_SUBST(NATIVE_LIB_DIRS)
 
 AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h stdbool.h)
-AC_CHECK_FUNCS(sbrk realpath)
+AC_CHECK_FUNCS(sbrk realpath glob)
 AC_HEADER_DIRENT
 
 BFD_BINARY_FOPEN

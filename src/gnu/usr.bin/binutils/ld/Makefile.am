@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.2 2005/03/13 16:07:02 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -123,6 +123,7 @@ ALL_EMULATIONS = \
 	earmelf_linux.o \
 	earmelf_linux_eabi.o \
 	earmelfb_linux.o \
+	earmelfb_linux_eabi.o \
 	earmelf_nbsd.o \
 	earmelfb_nbsd.o \
 	earmelf_vxworks.o \
@@ -251,7 +252,6 @@ ALL_EMULATIONS = \
 	em68kelf.o \
 	em68kelfnbsd.o \
 	em68klinux.o \
-	em68klynx.o \
 	em68knbsd.o \
 	em68kpsos.o \
 	em88kbcs.o \
@@ -353,7 +353,6 @@ ALL_EMULATIONS = \
 	eshpe.o \
 	esparcaout.o \
 	esparclinux.o \
-	esparclynx.o \
 	esparcnbsd.o \
 	est2000.o \
 	esun3.o \
@@ -505,6 +504,12 @@ earmelfb_linux.c: $(srcdir)/emulparams/armelfb_linux.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/emultempl/armelf.em \
   $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} armelfb_linux "$(tdir_armelfb_linux)"
+earmelfb_linux_eabi.c: $(srcdir)/emulparams/armelfb_linux_eabi.sh \
+  $(srcdir)/emulparams/armelf_linux_eabi.sh \
+  $(srcdir)/emulparams/armelf_linux.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/emultempl/armelf.em \
+  $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} armelfb_linux_eabi "$(tdir_armelfb_linux_abi)"
 earmelf_nbsd.c: $(srcdir)/emulparams/armelf_nbsd.sh \
   $(srcdir)/emulparams/armelf.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/emultempl/armelf.em \
@@ -1053,9 +1058,6 @@ em68kelfnbsd.c: $(srcdir)/emulparams/m68kelfnbsd.sh \
 em68klinux.c: $(srcdir)/emulparams/m68klinux.sh \
   $(srcdir)/emultempl/linux.em $(srcdir)/scripttempl/aout.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} m68klinux "$(tdir_m68klinux)"
-em68klynx.c: $(srcdir)/emulparams/m68klynx.sh \
-  $(srcdir)/emultempl/generic.em $(srcdir)/scripttempl/m68klynx.sc ${GEN_DEPENDS}
-	${GENSCRIPTS} m68klynx "$(tdir_m68klynx)"
 em68knbsd.c:	$(srcdir)/emulparams/m68knbsd.sh \
   $(srcdir)/emultempl/generic.em $(srcdir)/scripttempl/aout.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} m68knbsd "$(tdir_m68knbsd)"
@@ -1461,9 +1463,6 @@ esparcaout.c: $(srcdir)/emulparams/sparcaout.sh \
 esparclinux.c: $(srcdir)/emulparams/sparclinux.sh \
   $(srcdir)/emultempl/linux.em $(srcdir)/scripttempl/aout.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} sparclinux "$(tdir_sparclinux)"
-esparclynx.c: $(srcdir)/emulparams/sparclynx.sh \
-  $(srcdir)/emultempl/generic.em $(srcdir)/scripttempl/sparclynx.sc ${GEN_DEPENDS}
-	${GENSCRIPTS} sparclynx "$(tdir_sparclynx)"
 esparcnbsd.c:	$(srcdir)/emulparams/sparcnbsd.sh \
   $(srcdir)/emultempl/generic.em $(srcdir)/scripttempl/aout.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} sparcnbsd "$(tdir_sparcnbsd)"

@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.2 2005/03/13 16:07:05 tg Exp $ */
 
 /* Main program of GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-   2002, 2003, 2004
+   2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Written by Steve Chamberlain steve@cygnus.com
 
@@ -61,7 +61,7 @@ extern void *sbrk ();
 #define TARGET_SYSTEM_ROOT ""
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.2 2005/03/13 16:07:05 tg Exp $");
 
 /* EXPORTS */
 
@@ -72,7 +72,7 @@ const char *output_filename = "a.out";
 char *program_name;
 
 /* The prefix for system library directories.  */
-char *ld_sysroot;
+const char *ld_sysroot;
 
 /* The canonical representation of ld_sysroot.  */
 char * ld_canon_sysroot;
@@ -114,6 +114,8 @@ ld_config_type config;
 
 sort_type sort_section;
 
+static const char *get_sysroot
+  (int, char **);
 static char *get_emulation
   (int, char **);
 static void set_scripts_dir
@@ -175,7 +177,7 @@ remove_output (void)
       if (output_bfd)
 	bfd_cache_close (output_bfd);
       if (delete_output_file_on_failure)
-	unlink (output_filename);
+	unlink_if_ordinary (output_filename);
     }
 }
 
@@ -205,47 +207,18 @@ main (int argc, char **argv)
 
   xatexit (remove_output);
 
-#ifdef TARGET_SYSTEM_ROOT_RELOCATABLE
-  ld_sysroot = make_relative_prefix (program_name, BINDIR,
-				     TARGET_SYSTEM_ROOT);
-
-  if (ld_sysroot)
+  /* Set up the sysroot directory.  */
+  ld_sysroot = get_sysroot (argc, argv);
+  if (*ld_sysroot)
     {
-      struct stat s;
-      int res = stat (ld_sysroot, &s) == 0 && S_ISDIR (s.st_mode);
-
-      if (!res)
+      if (*TARGET_SYSTEM_ROOT == 0)
 	{
-	  free (ld_sysroot);
-	  ld_sysroot = NULL;
+	  einfo ("%P%F: this linker was not configured to use sysroots");
+	  ld_sysroot = "";
 	}
+      else
+	ld_canon_sysroot = lrealpath (ld_sysroot);
     }
-
-  if (! ld_sysroot)
-    {
-      ld_sysroot = make_relative_prefix (program_name, TOOLBINDIR,
-					 TARGET_SYSTEM_ROOT);
-
-      if (ld_sysroot)
-	{
-	  struct stat s;
-	  int res = stat (ld_sysroot, &s) == 0 && S_ISDIR (s.st_mode);
-
-	  if (!res)
-	    {
-	      free (ld_sysroot);
-	      ld_sysroot = NULL;
-	    }
-	}
-    }
-
-  if (! ld_sysroot)
-#endif
-    ld_sysroot = TARGET_SYSTEM_ROOT;
-
-  if (ld_sysroot && *ld_sysroot)
-    ld_canon_sysroot = lrealpath (ld_sysroot);
-
   if (ld_canon_sysroot)
     ld_canon_sysroot_len = strlen (ld_canon_sysroot);
   else
@@ -343,6 +316,7 @@ main (int argc, char **argv)
   link_info.flags_1 = 0;
   link_info.need_relax_finalize = FALSE;
   link_info.warn_shared_textrel = FALSE;
+  link_info.gc_sections = FALSE;
 
   ldfile_add_arch ("");
 
@@ -367,7 +341,7 @@ main (int argc, char **argv)
 
   if (link_info.relocatable)
     {
-      if (command_line.gc_sections)
+      if (link_info.gc_sections)
 	einfo ("%P%F: --gc-sections and -r may not be used together\n");
       else if (command_line.relax)
 	einfo (_("%P%F: --relax and -r may not be used together\n"));
@@ -590,6 +564,51 @@ main (int argc, char **argv)
 
   xexit (0);
   return 0;
+}
+
+/* If the configured sysroot is relocatable, try relocating it based on
+   default prefix FROM.  Return the relocated directory if it exists,
+   otherwise return null.  */
+
+static char *
+get_relative_sysroot (const char *from ATTRIBUTE_UNUSED)
+{
+#ifdef TARGET_SYSTEM_ROOT_RELOCATABLE
+  char *path;
+  struct stat s;
+
+  path = make_relative_prefix (program_name, from, TARGET_SYSTEM_ROOT);
+  if (path)
+    {
+      if (stat (path, &s) == 0 && S_ISDIR (s.st_mode))
+	return path;
+      free (path);
+    }
+#endif
+  return 0;
+}
+
+/* Return the sysroot directory.  Return "" if no sysroot is being used.  */
+
+static const char *
+get_sysroot (int argc, char **argv)
+{
+  int i;
+  const char *path;
+
+  for (i = 1; i < argc; i++)
+    if (strncmp (argv[i], "--sysroot=", strlen ("--sysroot=")) == 0)
+      return argv[i] + strlen ("--sysroot=");
+
+  path = get_relative_sysroot (BINDIR);
+  if (path)
+    return path;
+
+  path = get_relative_sysroot (TOOLBINDIR);
+  if (path)
+    return path;
+
+  return TARGET_SYSTEM_ROOT;
 }
 
 /* We need to find any explicitly given emulation in order to initialize the
@@ -1187,11 +1206,11 @@ warning_callback (struct bfd_link_info *info ATTRIBUTE_UNUSED,
     return TRUE;
 
   if (section != NULL)
-    einfo ("%C: %s\n", abfd, section, address, warning);
+    einfo ("%C: %s%s\n", abfd, section, address, _("warning: "), warning);
   else if (abfd == NULL)
-    einfo ("%P: %s\n", warning);
+    einfo ("%P: %s%s\n", _("warning: "), warning);
   else if (symbol == NULL)
-    einfo ("%B: %s\n", abfd, warning);
+    einfo ("%B: %s%s\n", abfd, _("warning: "), warning);
   else
     {
       lang_input_statement_type *entry;
@@ -1229,7 +1248,7 @@ warning_callback (struct bfd_link_info *info ATTRIBUTE_UNUSED,
       bfd_map_over_sections (abfd, warning_find_reloc, &info);
 
       if (! info.found)
-	einfo ("%B: %s\n", abfd, warning);
+	einfo ("%B: %s%s\n", abfd, _("warning: "), warning);
 
       if (entry == NULL)
 	free (asymbols);
@@ -1277,7 +1296,8 @@ warning_find_reloc (bfd *abfd, asection *sec, void *iarg)
 	  && strcmp (bfd_asymbol_name (*q->sym_ptr_ptr), info->symbol) == 0)
 	{
 	  /* We found a reloc for the symbol we are looking for.  */
-	  einfo ("%C: %s\n", abfd, sec, q->address, info->warning);
+	  einfo ("%C: %s%s\n", abfd, sec, q->address, _("warning: "),
+		 info->warning);
 	  info->found = TRUE;
 	  break;
 	}

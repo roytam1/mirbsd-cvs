@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.2 2005/03/13 16:07:07 tg Exp $
 #
 # Unusual variables checked by this code:
 #	NOP - four byte opcode for no-op (defaults to 0)
@@ -123,13 +123,10 @@ STACKNOTE="/DISCARD/ : { *(.note.GNU-stack) }"
 if test -z "${NO_SMALL_DATA}"; then
   SBSS=".sbss         ${RELOCATING-0} :
   {
-    ${RELOCATING+PROVIDE (__sbss_start = .);}
-    ${RELOCATING+PROVIDE (___sbss_start = .);}
+    ${CREATE_SHLIB+*(.sbss2 .sbss2.* .gnu.linkonce.sb2.*)}
     *(.dynsbss)
     *(.sbss${RELOCATING+ .sbss.* .gnu.linkonce.sb.*})
     *(.scommon)
-    ${RELOCATING+PROVIDE (__sbss_end = .);}
-    ${RELOCATING+PROVIDE (___sbss_end = .);}
   }"
   SBSS2=".sbss2        ${RELOCATING-0} : { *(.sbss2${RELOCATING+ .sbss2.* .gnu.linkonce.sb2.*}) }"
   SDATA="/* We want the small data sections together, so single-instruction offsets
@@ -138,6 +135,7 @@ if test -z "${NO_SMALL_DATA}"; then
   .sdata        ${RELOCATING-0} : 
   {
     ${RELOCATING+${SDATA_START_SYMBOLS}}
+    ${CREATE_SHLIB+*(.sdata2 .sdata2.* .gnu.linkonce.s2.*)}
     *(.sdata${RELOCATING+ .sdata.* .gnu.linkonce.s.*})
   }"
   SDATA2=".sdata2       ${RELOCATING-0} : { *(.sdata2${RELOCATING+ .sdata2.* .gnu.linkonce.s2.*}) }"
@@ -360,22 +358,9 @@ cat <<EOF
   ${NO_SMALL_DATA_GOT+${S_TDATA}}
   ${NO_SMALL_DATA_GOT+${S_TBSS}}
 
-  /* Ensure the __preinit_array_start label is properly aligned.  We
-     could instead move the label definition inside the section, but
-     the linker would then create the section even if it turns out to
-     be empty, which isn't pretty.  */
-  ${RELOCATING+. = ALIGN(${ALIGNMENT});}
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__preinit_array_start = .);}}
   .preinit_array   ${RELOCATING-0} : { KEEP (*(.preinit_array)) }
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__preinit_array_end = .);}}
-
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__init_array_start = .);}}
   .init_array   ${RELOCATING-0} : { KEEP (*(.init_array)) }
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__init_array_end = .);}}
-
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__fini_array_start = .);}}
   .fini_array   ${RELOCATING-0} : { KEEP (*(.fini_array)) }
-  ${RELOCATING+${CREATE_SHLIB-PROVIDE (__fini_array_end = .);}}
 
   ${NO_SMALL_DATA_GOT+${PAD_CDTOR+${SMALL_DATA_CTOR-${RELOCATING+${CTOR}}}}}
   ${NO_SMALL_DATA_GOT+${PAD_CDTOR+${SMALL_DATA_CTOR-${RELOCATING+${DTOR}}}}}
@@ -436,8 +421,6 @@ cat <<EOF
 
   /* Start of shared data sections.  */
 
-  ${CREATE_SHLIB+${SDATA2}}
-  ${CREATE_SHLIB+${SBSS2}}
   ${SDATA}
   ${OTHER_SDATA_SECTIONS}
   ${RELOCATING+_edata = .;}

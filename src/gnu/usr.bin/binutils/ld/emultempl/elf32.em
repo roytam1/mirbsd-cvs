@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.2 2005/03/13 16:07:06 tg Exp $
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -15,7 +15,7 @@ cat >e${EMULATION_NAME}.c <<EOF
 
 /* ${ELFSIZE} bit ELF emulation code for ${EMULATION_NAME}
    Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-   2002, 2003, 2004 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2005 Free Software Foundation, Inc.
    Written by Steve Chamberlain <sac@cygnus.com>
    ELF support by Ian Lance Taylor <ian@cygnus.com>
 
@@ -55,7 +55,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include <ldgram.h>
 #include "elf/common.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.2 2005/03/13 16:07:06 tg Exp $");
 
 /* Declare functions used by various EXTRA_EM_FILEs.  */
 static void gld${EMULATION_NAME}_before_parse (void);
@@ -300,9 +300,11 @@ EOF
 
 if [ "x${USE_LIBPATH}" = xyes ] ; then
   case ${target} in
-    *-*-linux-gnu*)
+    *-*-linux-*)
   cat >>e${EMULATION_NAME}.c <<EOF
+#ifdef HAVE_GLOB
 #include <glob.h>
+#endif
 EOF
     ;;
   esac
@@ -466,8 +468,16 @@ gld${EMULATION_NAME}_stat_needed (lang_input_statement_type *s)
       return;
     }
 
+  /* Some operating systems, e.g. Windows, do not provide a meaningful
+     st_ino; they always set it to zero.  (Windows does provide a
+     meaningful st_dev.)  Do not indicate a duplicate library in that
+     case.  While there is no guarantee that a system that provides
+     meaningful inode numbers will never set st_ino to zero, this is
+     merely an optimization, so we do not need to worry about false
+     negatives.  */
   if (st.st_dev == global_stat.st_dev
-      && st.st_ino == global_stat.st_ino)
+      && st.st_ino == global_stat.st_ino
+      && st.st_ino != 0)
     {
       global_found = TRUE;
       return;
@@ -572,7 +582,7 @@ gld${EMULATION_NAME}_try_needed (struct dt_needed *needed,
 
 EOF
 case ${target} in
-  *-*-linux-gnu*)
+  *-*-linux-*)
     cat >>e${EMULATION_NAME}.c <<EOF
 	  {
 	    struct bfd_link_needed_list *l;
@@ -634,9 +644,8 @@ cat >>e${EMULATION_NAME}.c <<EOF
   /* Tell the ELF linker that we don't want the output file to have a
      DT_NEEDED entry for this file at all if the entry is from a file
      with DYN_NO_ADD_NEEDED.  */
-  if (needed->by
-      && (bfd_elf_get_dyn_lib_class (needed->by)
-	  & DYN_NO_ADD_NEEDED) != 0)
+  if (needed->by != NULL
+      && (bfd_elf_get_dyn_lib_class (needed->by) & DYN_NO_ADD_NEEDED) != 0)
     class |= DYN_NO_NEEDED | DYN_NO_ADD_NEEDED;
 
   bfd_elf_set_dyn_lib_class (abfd, class);
@@ -765,7 +774,7 @@ gld${EMULATION_NAME}_add_sysroot (const char *path)
 
 EOF
   case ${target} in
-    *-*-linux-gnu*)
+    *-*-linux-*)
       cat >>e${EMULATION_NAME}.c <<EOF
 /* For a native linker, check the file /etc/ld.so.conf for directories
    in which we may find shared libraries.  /etc/ld.so.conf is really
@@ -787,7 +796,9 @@ gld${EMULATION_NAME}_parse_ld_so_conf_include
       const char *pattern)
 {
   char *newp = NULL;
+#ifdef HAVE_GLOB
   glob_t gl;
+#endif
 
   if (pattern[0] != '/')
     {
@@ -800,6 +811,7 @@ gld${EMULATION_NAME}_parse_ld_so_conf_include
       pattern = newp;
     }
 
+#ifdef HAVE_GLOB
   if (glob (pattern, 0, NULL, &gl) == 0)
     {
       size_t i;
@@ -808,6 +820,10 @@ gld${EMULATION_NAME}_parse_ld_so_conf_include
 	gld${EMULATION_NAME}_parse_ld_so_conf (info, gl.gl_pathv[i]);
       globfree (&gl);
     }
+#else
+  /* If we do not have glob, treat the pattern as a literal filename.  */
+  gld${EMULATION_NAME}_parse_ld_so_conf (info, pattern);
+#endif
 
   if (newp)
     free (newp);
@@ -1040,9 +1056,17 @@ gld${EMULATION_NAME}_after_open (void)
       struct dt_needed n, nn;
       int force;
 
+      /* If the lib that needs this one was --as-needed and wasn't
+	 found to be needed, then this lib isn't needed either.  */
+      if (l->by != NULL
+	  && (bfd_elf_get_dyn_lib_class (l->by) & DYN_AS_NEEDED) != 0)
+	continue;
+
       /* If we've already seen this file, skip it.  */
       for (ll = needed; ll != l; ll = ll->next)
-	if (strcmp (ll->name, l->name) == 0)
+	if ((ll->by == NULL
+	     || (bfd_elf_get_dyn_lib_class (ll->by) & DYN_AS_NEEDED) == 0)
+	    && strcmp (ll->name, l->name) == 0)
 	  break;
       if (ll != l)
 	continue;
@@ -1076,9 +1100,13 @@ gld${EMULATION_NAME}_after_open (void)
 	  size_t len;
 	  search_dirs_type *search;
 EOF
+if [ "x${NATIVE}" = xyes ] ; then
+cat >>e${EMULATION_NAME}.c <<EOF
+	  const char *lib_path;
+EOF
+fi
 if [ "x${USE_LIBPATH}" = xyes ] ; then
 cat >>e${EMULATION_NAME}.c <<EOF
-	  char *lib_path;
 	  struct bfd_link_needed_list *rp;
 	  int found;
 EOF
@@ -1150,7 +1178,7 @@ cat >>e${EMULATION_NAME}.c <<EOF
 EOF
 if [ "x${USE_LIBPATH}" = xyes ] ; then
   case ${target} in
-    *-*-linux-gnu*)
+    *-*-linux-*)
       cat >>e${EMULATION_NAME}.c <<EOF
 	  if (gld${EMULATION_NAME}_check_ld_so_conf (l->name, force))
 	    break;
@@ -1180,16 +1208,14 @@ cat >>e${EMULATION_NAME}.c <<EOF
 static void
 gld${EMULATION_NAME}_find_exp_assignment (etree_type *exp)
 {
-  struct bfd_link_hash_entry *h;
+  bfd_boolean provide = FALSE;
 
   switch (exp->type.node_class)
     {
     case etree_provide:
-      h = bfd_link_hash_lookup (link_info.hash, exp->assign.dst,
-				FALSE, FALSE, FALSE);
-      if (h == NULL)
-	break;
-
+      provide = TRUE;
+      /* Fall thru */
+    case etree_assign:
       /* We call record_link_assignment even if the symbol is defined.
 	 This is because if it is defined by a dynamic object, we
 	 actually want to use the value defined by the linker script,
@@ -1197,14 +1223,10 @@ gld${EMULATION_NAME}_find_exp_assignment (etree_type *exp)
 	 symbols like etext).  If the symbol is defined by a regular
 	 object, then, as it happens, calling record_link_assignment
 	 will do no harm.  */
-
-      /* Fall through.  */
-    case etree_assign:
       if (strcmp (exp->assign.dst, ".") != 0)
 	{
-	  if (! (bfd_elf_record_link_assignment
-		 (output_bfd, &link_info, exp->assign.dst,
-		  exp->type.node_class == etree_provide ? TRUE : FALSE)))
+	  if (!bfd_elf_record_link_assignment (output_bfd, &link_info,
+					       exp->assign.dst, provide))
 	    einfo ("%P%F: failed to record assignment to %s: %E\n",
 		   exp->assign.dst);
 	}
@@ -1251,8 +1273,8 @@ if test x"$LDEMUL_BEFORE_ALLOCATION" != xgld"$EMULATION_NAME"_before_allocation;
     ELF_INTERPRETER_SET_DEFAULT="
   if (sinterp != NULL)
     {
-      sinterp->contents = ${ELF_INTERPRETER_NAME};
-      sinterp->size = strlen (sinterp->contents) + 1;
+      sinterp->contents = (unsigned char *) ${ELF_INTERPRETER_NAME};
+      sinterp->size = strlen ((char *) sinterp->contents) + 1;
     }
 
 "
@@ -1334,6 +1356,10 @@ ${ELF_INTERPRETER_SET_DEFAULT}
 	/* Clobber the section size, so that we don't waste copying the
 	   warning into the output file.  */
 	s->size = 0;
+
+	/* Also set SEC_EXCLUDE, so that symbols defined in the warning
+	   section don't get copied to the output.  */
+	s->flags |= SEC_EXCLUDE;
       }
   }
 }
@@ -1669,6 +1695,29 @@ if test x"$LDEMUL_FINISH" != xgld"$EMULATION_NAME"_finish; then
 cat >>e${EMULATION_NAME}.c <<EOF
 
 static void
+gld${EMULATION_NAME}_provide_bound_symbols (const char *sec,
+					    const char *start,
+					    const char *end)
+{
+  asection *s;
+  bfd_vma start_val, end_val;
+
+  s = bfd_get_section_by_name (output_bfd, sec);
+  if (s != NULL)
+    {
+      start_val = s->vma;
+      end_val = start_val + s->size;
+    }
+  else
+    {
+      start_val = 0;
+      end_val = 0;
+    }
+  _bfd_elf_provide_symbol (&link_info, start, start_val);
+  _bfd_elf_provide_symbol (&link_info, end, end_val);
+}
+
+static void
 gld${EMULATION_NAME}_finish (void)
 {
   if (bfd_elf_discard_info (output_bfd, &link_info))
@@ -1685,6 +1734,62 @@ gld${EMULATION_NAME}_finish (void)
       /* Do the assignments again.  */
       lang_do_assignments (stat_ptr->head, abs_output_section,
 			   (fill_type *) 0, (bfd_vma) 0);
+    }
+
+  if (!link_info.relocatable)
+    {
+      lang_output_section_statement_type *os;
+
+      for (os = &lang_output_section_statement.head->output_section_statement;
+	   os != NULL;
+	   os = os->next)
+	{
+	  asection *s;
+
+	  if (os == abs_output_section || os->constraint == -1)
+	    continue;
+	  s = os->bfd_section;
+	  if (s != NULL && s->size == 0 && (s->flags & SEC_KEEP) == 0)
+	    {
+	      asection **p;
+
+	      for (p = &output_bfd->sections; *p; p = &(*p)->next)
+		if (*p == s)
+		  {
+		    bfd_section_list_remove (output_bfd, p);
+		    output_bfd->section_count--;
+		    break;
+		  }
+	    }
+	}
+
+      /* If not building shared library, provide
+
+	 __preinit_array_start
+	 __preinit_array_end
+	 __init_array_start
+	 __init_array_end
+	 __fini_array_start
+	 __fini_array_end
+
+	 They are set here rather than via PROVIDE in the linker
+	 script, because using PROVIDE inside an output section
+	 statement results in unnecessary output sections.  Using
+	 PROVIDE outside an output section statement runs the risk of
+	 section alignment affecting where the section starts.  */
+
+      if (!link_info.shared)
+	{
+	  gld${EMULATION_NAME}_provide_bound_symbols
+	    (".preinit_array", "__preinit_array_start",
+	     "__preinit_array_end");
+	  gld${EMULATION_NAME}_provide_bound_symbols
+	    (".init_array", "__init_array_start",
+	     "__init_array_end");
+	  gld${EMULATION_NAME}_provide_bound_symbols
+	    (".fini_array", "__fini_array_start",
+	     "__fini_array_end");
+	}
     }
 }
 EOF
