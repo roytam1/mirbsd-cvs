@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.1 2005/03/25 18:33:12 tg Exp $
+# $MirOS: gcc/Makefile,v 1.2 2005/03/25 19:43:36 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -77,7 +77,7 @@ release: .PHONY
 	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
 	    ${BSDSRCDIR}/scripts/tarck
 	@echo "============================================================"
-.ifdef WAIT_CHECKFLIST
+.ifndef BATCH
 	@read a?'Press Return to continue...'
 .endif
 	cd ${BSDSRCDIR}/distrib/lists/gcc && DESTDIR=${BSDRELDIR}/gcc \

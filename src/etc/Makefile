@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/Makefile,v 1.2 2005/03/06 19:05:53 tg Exp $
 # $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -210,7 +210,7 @@ release: distribution snap_pre snap_md
 	    RELEASEDIR="${RELEASEDIR}" ${SUDO} ${SHELL} \
 	    ${BSDSRCDIR}/scripts/tarck
 	@echo "============================================================"
-.    ifdef WAIT_CHECKFLIST
+.    ifndef BATCH
 	@read a?'Press Return to continue...'
 .    endif
 	cd ${.CURDIR}/../distrib/lists/base && DESTDIR="${DESTDIR}" \
@@ -333,7 +333,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	( \
-		echo '#    $$MirOS$$'; \
+		echo '#    $$MirOS: src/etc/Makefile,v 1.2 2005/03/06 19:05:53 tg Exp $$'; \
 		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		( for i in ${DHSIZE}; do \

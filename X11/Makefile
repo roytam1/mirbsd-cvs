@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.10 2005/03/21 10:29:14 tg Exp $
+# $MirOS: X11/Makefile,v 1.11 2005/03/27 18:13:25 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -125,7 +125,7 @@ dist:
 	    DESTDIR="${DESTDIR}" RELEASEDIR="${RELEASEDIR}" \
 	    ${SHELL} ${BSDSRCDIR}/scripts/tarck
 	@echo "============================================================"
-.ifdef WAIT_CHECKFLIST
+.ifndef BATCH
 	@read a?'Press Return to continue...'
 .endif
 	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
