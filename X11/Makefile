@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.1 2005/03/19 13:21:35 tg Exp $
+# $MirOS: X11/Makefile,v 1.2 2005/03/19 13:52:17 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -26,19 +26,8 @@ REALAPPD=	/etc/X11/app-defaults
 all: ${_STFILE_SUB}
 	cd ${.CURDIR} && ${_STCMD_SUB} ${MAKE} compile
 
-obj:
-	@cd ${.CURDIR}; \
-	here=$$(/bin/pwd); bsdsrcdir=$$(cd ${BSDSRCDIR}; /bin/pwd); \
-	bsdobjdir=$$(cd ${BSDOBJDIR}; /bin/pwd); \
-	subdir=$${here#$${bsdsrcdir}/}; \
-	dest=$${bsdobjdir}/$$subdir; \
-	echo "linking $$here -> $$dest"; \
-	if test -d $${bsdobjdir} -a ! -d $$dest; then \
-		mkdir -p $$dest; \
-		( cd $$dest; lndir $$here ); \
-	else \
-		true; \
-	fi;
+depend:
+	cd ${.OBJDIR}/xc && lndir ${.CURDIR}/xc
 
 compile:
 	rm -f ${CONFHOSTDEF}
@@ -50,7 +39,7 @@ compile:
 .if defined(NOFONTS)
 	echo "#define BuildFonts		NO" >>${CONFHOSTDEF}
 .endif
-	cd ${.CURDIR}/xc && exec ${MAKE} World \
+	cd xc && exec ${MAKE} World \
 	    WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} COPTS=${COPTS:Q}" \
 	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}"
 	cd ${.CURDIR}/extras && ${MAKE} obj && ${MAKE} depend && exec ${MAKE}
@@ -70,11 +59,14 @@ release-clean:
 	rm -rf ${DESTDIR}/var/X11/*
 	rm -rf ${DESTDIR}/etc/X11/*
 	rm -rf ${DESTDIR}/etc/fonts/*
-	@if [ -d ${DESTDIR}/usr/X11R6 ] && [ "$$(cd ${DESTDIR}/usr/X11R6;ls)" ]; then \
-		echo "Files found in ${DESTDIR}/usr/X11R6:"; \
-		(cd ${DESTDIR}/usr/X11R6;/bin/pwd;ls -a); \
-		echo "Cleanup before proceeding."; \
-		exit 255; \
+	@if [[ -d ${DESTDIR}/usr/X11R6 ]]; then \
+		d="$$(cd ${DESTDIR}/usr/X11R6; ls)"; \
+		if [[ -n $$d ]]; then \
+			print Files found in ${DESTDIR}/usr/X11R6:; \
+			(cd ${DESTDIR}/usr/X11R6; pwd; ls -a); \
+			print Cleanup before proceeding.; \
+			exit 255; \
+		fi; \
 	fi
 
 release-mkdir:
@@ -119,13 +111,13 @@ dist:
 	@echo "Checking files:"
 	@echo ""
 	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
-	    ${SHELL} ${BSDSRCDIR}/scripts/checkflist
+	    ${SHELL} ${BSDSRCDIR}/scripts/tarck
 	@echo "============================================================"
 .ifdef WAIT_CHECKFLIST
 	@read a?'Press Return to continue...'
 .endif
 	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
-	    ${SHELL} ${BSDSRCDIR}/scripts/maketars ${OSrev}
+	    ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 
 install: install-xc install-extra
 	/usr/libexec/makewhatis ${DESTDIR}/usr/X11R6/man
@@ -135,10 +127,10 @@ install-xc:
 	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
 	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk make
-	cd ${.CURDIR}/xc \
+	cd xc \
 	    && ${_STCMD_DEST} ${MAKE} install CC="${CC}" \
 	    && ${_STCMD_DEST} ${MAKE} install.man
-	cd ${.CURDIR}/xc/programs/rstart \
+	cd xc/programs/rstart \
 	    && ${_STCMD_DEST} ${MAKE} install \
 	    && ${_STCMD_DEST} ${MAKE} install.man
 	sleep 1; rm -f ${_STFILE_DEST}
@@ -158,7 +150,7 @@ fix-appd:
 	fi
 
 clean: ${_STFILE_SUB}
-	cd ${.CURDIR}/xc && ${_STCMD_SUB} ${MAKE} clean
+	cd xc && ${_STCMD_SUB} ${MAKE} clean
 
 distclean:
 	cd ${.CURDIR} && ${MAKE} clean
@@ -169,5 +161,11 @@ b-r:
 	@echo ${SHELL} ${.CURDIR}/build-release
 	@exec ${SHELL} ${.CURDIR}/build-release
 
+${_STFILE_SUB}:
+	cd ${SUBOBJDIR} && env WRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk make
+
 .PHONY:	all build release dist install install-xc install-extra clean \
 	distclean fix-appd b-r release-clean release-mkdir release-install
+
+.include <bsd.obj.mk>
