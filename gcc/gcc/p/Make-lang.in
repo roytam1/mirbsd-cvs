@@ -544,7 +544,7 @@ pascal.srcman:
 pascal.docdemos: p/stamp-docdemos
 p/stamp-docdemos: $(GPC_TEXI_EN)
 	rm -rf p/docdemos
-	$(srcdir)/p/script/mkdir-p p/docdemos
+	mkdir -p p/docdemos
 	$(srcdir)/p/script/extract-doc-demos -o p/docdemos $(srcdir)/p/doc/*.texi $(srcdir)/p/doc/generated/*.texi $(srcdir)/p/doc/en/*.texi
 	$(STAMP) "$@"
 
@@ -728,7 +728,7 @@ $(srcdir)/p/parse.c $(srcdir)/p/parse.h: $(srcdir)/p/parse.y
 	cd $(srcdir)/p && $(BISON) $(BISONFLAGS) -o parse.c parse.y
 
 pascal.utils: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) pascal.rts force
-	$(srcdir)/p/script/mkdir-p p/utils
+	mkdir -p p/utils
 	srcdir=`cd $(srcdir) && pwd` && cd ./p/utils && $(MAKE) -f "$$srcdir/p/utils/Makefile" $(UTILS_FLAGS_TO_PASS) GCC_DIR="$$srcdir" all
 
 # Let the RTS Makefile make its generated files. Use `force' here
@@ -755,7 +755,7 @@ $(RTS_GENERATED_FILES): force
 # now it's only needed by rts/configure, hope that's not so important.
 p/rts/Makefile: $(GCC_PARTS) \
  $(RTSSRCDIR)/Makefile.in $(RTSSRCDIR)/configure $(RTSSRCDIR)/rts-config.in
-	$(srcdir)/p/script/mkdir-p p/rts
+	mkdir -p p/rts
 	src=`cd $(srcdir) && pwd` && \
 	cd ./p/rts && \
 	$(RTS_COMPILERS) CONFIG_SITE=nonexisting-file \
@@ -782,31 +782,31 @@ pascal.info: $(srcdir)/p/doc/info/gpc.info \
 pascal.dvi: gpc.dvi
 
 $(srcdir)/p/doc/info/gpc.info: $(GPC_TEXI_EN)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_EN) -o $(srcdir)/p/doc/info/gpc.info gpc.texi
 
 $(srcdir)/p/doc/info/gpcs.info: $(GPC_TEXI_EN)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_EN) --no-split -o $(srcdir)/p/doc/info/gpcs.info gpcs.texi
 
 $(srcdir)/p/doc/info/gpcs-de.info: $(GPC_TEXI_DE)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_DE) --no-split -o $(srcdir)/p/doc/info/gpcs-de.info gpcs.texi
 
 $(srcdir)/p/doc/info/gpc-hr.info: $(GPC_TEXI_HR)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_HR) -o $(srcdir)/p/doc/info/gpc-hr.info gpc.texi
 
 $(srcdir)/p/doc/info/gpcs-hr.info: $(GPC_TEXI_HR)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_HR) --no-split -o $(srcdir)/p/doc/info/gpcs-hr.info gpcs.texi
 
 $(srcdir)/p/doc/info/gpc-es.info: $(GPC_TEXI_ES)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_ES) -o $(srcdir)/p/doc/info/gpc-es.info gpc.texi
 
 $(srcdir)/p/doc/info/gpcs-es.info: $(GPC_TEXI_ES)
-	[ -d "$(srcdir)/p/doc/info" ] || $(srcdir)/p/script/mkdir-p "$(srcdir)/p/doc/info"
+	[ -d "$(srcdir)/p/doc/info" ] || mkdir -p "$(srcdir)/p/doc/info"
 	$(MAKEINFO_ES) --no-split -o $(srcdir)/p/doc/info/gpcs-es.info gpcs.texi
 
 gpc.dvi: $(GPC_TEXI_EN)
@@ -834,7 +834,7 @@ gpc.txt: $(GPC_TEXI_EN)
 HTML_DIR=./p/html
 
 p/stamp-gpc-html: $(GPC_TEXI_EN) $(GPC_TEXI_DE) $(GPC_TEXI_HR) $(GPC_TEXI_ES)
-	$(srcdir)/p/script/mkdir-p $(HTML_DIR)
+	mkdir -p $(HTML_DIR)
 	-rm -rf $(HTML_DIR)/gpc $(HTML_DIR)/gpc-hr $(HTML_DIR)/gpc-es
 	$(MAKEINFO_EN) --html --no-split -o $(HTML_DIR)/gpcs-en.html $(srcdir)/p/doc/en/gpcs.texi
 	$(MAKEINFO_DE) --html --no-split -o $(HTML_DIR)/gpcs-de.html $(srcdir)/p/doc/de/gpcs.texi
@@ -858,7 +858,7 @@ p/stamp-pascal-html: p/stamp-gpc-html gpc.dvi gpc.ps gpc.pdf \
  $(srcdir)/p/doc/en/homepage.def $(srcdir)/p/doc/hr/homepage.def $(srcdir)/p/doc/es/homepage.def \
  $(srcdir)/p/COPYING $(srcdir)/p/COPYING.LIB $(srcdir)/p/COPYING.DEMO $(VERSION_FILENAME)
 	cp -f $(srcdir)/p/COPYING $(srcdir)/p/COPYING.LIB $(srcdir)/p/COPYING.DEMO gpc.dvi gpc.ps gpc.pdf $(HTML_DIR)
-	$(srcdir)/p/script/mkdir-p $(HTML_DIR)/images $(HTML_DIR)/demos
+	mkdir -p $(HTML_DIR)/images $(HTML_DIR)/demos
 	for f in $(srcdir)/p/doc/images/*; do \
 	  case "$$f" in \
 	    */CVS|*/README) : ;; \
@@ -898,13 +898,13 @@ unitsubdir=$(libsubdir)/units
 
 pascal.install-info-man-dirs:
 	for directory in $(infodir) $(man1dir); do \
-	  $(srcdir)/p/script/mkdir-p -m a+rx $(DESTDIR)$$directory || exit 1; \
+	  mkdir -p -m a+rx $(DESTDIR)$$directory || exit 1; \
 	done
 
 pascal.install-dir:
 	for directory in $(prefix) $(bindir) $(unitsubdir) $(libsubdir)/include $(LIBEXECSUBDIR) \
 	                 $(infodir) $(p_inst_docdir) $(p_inst_demodir) $(p_inst_docdemodir) $(man1dir); do \
-	  $(srcdir)/p/script/mkdir-p -m a+rx $(DESTDIR)$$directory || exit 1; \
+	  mkdir -p -m a+rx $(DESTDIR)$$directory || exit 1; \
 	done
 
 install-gpcpp: pascal.install-dir gpcpp$(exeext)
@@ -946,7 +946,7 @@ pascal.install-lib: pascal.install-dir pascal.rts
 	  fi; \
 	done
 	if [ x$(WITH_SHARED) = xyes ] && [ -f $(GPCSOLIBNAME) ]; then \
-	  $(srcdir)/p/script/mkdir-p -m a+rx $(DESTDIR)$(prefix)/$(GPCSOLIBDIR) && \
+	  mkdir -p -m a+rx $(DESTDIR)$(prefix)/$(GPCSOLIBDIR) && \
 	  rm -f $(DESTDIR)$(libsubdir)/$(GPCSOLIBSHORTNAME) $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME); \
 	  $(INSTALL_DATA) $(GPCSOLIBNAME) $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME) && \
 	  chmod a-x $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME) && \
@@ -1140,7 +1140,7 @@ pascal.check-dejagnu pascal.check-short pascal.check-long pascal.check-long-nolo
 	cd ./p/test && $(MAKE) $(TEST_FLAGS_TO_PASS) "$@"
 
 p/stamp-test-Makefile: $(srcdir)/p/test/Makefile
-	$(srcdir)/p/script/mkdir-p p/test
+	mkdir -p p/test
 	{ \
 	  echo "# Automatically generated from $(srcdir)/p/test/Makefile."; \
 	  echo "# Don't change manually."; \
@@ -1207,19 +1207,19 @@ RTSSTAGESTUFF=p/rts/*.o p/rts/*.lo p/rts/*.gpi p/rts/*.gpd \
   p/rts/stamp-error-gpi
 
 pascal.stage1:
-	$(srcdir)/p/script/mkdir-p stage1/p/rts
+	mkdir -p stage1/p/rts
 	-mv $(GPCSTAGESTUFF) stage1/p
 	-mv $(RTSSTAGESTUFF) stage1/p/rts
 pascal.stage2:
-	$(srcdir)/p/script/mkdir-p stage2/p/rts
+	mkdir -p stage2/p/rts
 	-mv $(GPCSTAGESTUFF) stage2/p
 	-mv $(RTSSTAGESTUFF) stage2/p/rts
 pascal.stage3:
-	$(srcdir)/p/script/mkdir-p stage3/p/rts
+	mkdir -p stage3/p/rts
 	-mv $(GPCSTAGESTUFF) stage3/p
 	-mv $(RTSSTAGESTUFF) stage3/p/rts
 pascal.stage4:
-	$(srcdir)/p/script/mkdir-p stage4/p/rts
+	mkdir -p stage4/p/rts
 	-mv $(GPCSTAGESTUFF) stage4/p
 	-mv $(RTSSTAGESTUFF) stage4/p/rts
 pascal.stageprofile: stageprofile-start
@@ -1234,7 +1234,7 @@ pascal.stagefeedback: stageprofile-start
 # This will fail on systems that don't support symlinks. Tough luck ...
 # (The symlinks will disappear after integration into GCC, anyway.)
 pascal.distdir: pascal.extraclean pascal.generated-files
-	$(srcdir)/p/script/mkdir-p tmp/p
+	mkdir -p tmp/p
 	dest=`cd ./tmp/p && pwd` && \
 	cd $(srcdir)/p && \
 	for file in `find . -type d -print`; do \
