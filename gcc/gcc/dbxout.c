@@ -1470,7 +1470,7 @@ dbxout_type (tree type, int full)
 	  fputs ("@s", asmfile);
 	  CHARS (2);
 	  print_wide_int (BITS_PER_UNIT * int_size_in_bytes (type));
-	  fputs (";-20;", asmfile);
+	  fputs (";-20", asmfile);
 	  CHARS (4);
 	}
       else
@@ -1492,7 +1492,7 @@ dbxout_type (tree type, int full)
 	  fputs ("@s", asmfile);
 	  CHARS (2);
 	  print_wide_int (BITS_PER_UNIT * int_size_in_bytes (type));
-	  fputs (";-16;", asmfile);
+	  fputs (";-16", asmfile);
 	  CHARS (4);
 	}
       else /* Define as enumeral type (False, True) */
