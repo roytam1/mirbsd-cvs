@@ -1,7 +1,4 @@
-# $MirOS$
-#-
-# Central configurator, hub and shared code for MirPorts.
-# Yes I know that this description sucks, but I've got to have one.
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -26,7 +23,7 @@ PORTSDIR?=		/usr/ports
 
 
 # Let's assume a sane environment now.
-_DOMAIN_DU_JOUR=	66h.42h.de
+_DOMAIN_DU_JOUR=	MirBSD.org
 _MIRPORTS_ADDRESS=	<miros-discuss@${_DOMAIN_DU_JOUR}>
 ARCH?=			${MACHINE_ARCH}
 LP64_ARCHS=		alpha amd64 sparc64
