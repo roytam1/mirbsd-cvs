@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.3 2005/02/05 22:46:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.4 2005/03/03 20:18:29 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
@@ -66,6 +66,3 @@
  <tt>/cvs</tt> but rather <b><tt>/ocvs</tt></b>.</p>
 <p><a href="/MirOS/CVS/cvsrepo-20050123.cgz">CVSREPO</a>: January 7th, 2005:
  seed file (168 MB) for peeking into ncvs.</p>
-<h2>Big Warning</h2>
-<p>Do not go to &quot;mirbsd.org&quot; - it's not a domain of ours and
- used to transfer you to a faecal website.</p>

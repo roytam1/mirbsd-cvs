@@ -1,9 +1,18 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.5 2005/03/02 22:57:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.6 2005/03/03 20:18:29 tg Exp $</small>
 
 <p><img src="http://swpat.ffii.org/img/banners/reboot0501.en.gif"
  alt="A fatal exception 0E has occured in EUROPE_COUNCIL.EXE" /></p>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>06.03.2005<br />
+	<tt>mirbsd.org</tt> has been freed and saved from the hands of the
+	evil OpenBSD force who announced in a primitive video that they'll
+	put some new pictures on there. It has since been sponsored to the
+	MirOS Project (but, similar to <tt>mirbsd.de</tt>, does not belong
+	to a project member). Both second-level domains are content-filled
+	from a Zope system run by the owner of <tt>mirbsd.de</tt>, where 2
+	project members are content admins.</li>
 
 <li>28.02.2005<br />
 	We're back from FOSDEM. MirPorts work on Mac OSX now, but only for

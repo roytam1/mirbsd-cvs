@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.3 2005/02/12 21:17:00 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
@@ -17,8 +17,9 @@
 <li>Robin S. Socha (historic)</li>
 <li>http://www.bsdadvocacy.org/</li>
 </ul><h4>misc. services</h4><ul>
-<li>Bastian Blank</li>
-<li>Andreas Kupfer</li>
+<li>Bastian "waldi" Blank</li>
+<li>Andreas "ScottyTM" Kupfer</li>
 <li>Eike Frost</li>
 <li>Eimann (http://eimann.etherkiller.de/)</li>
+<li>Ingo "bogus" Dyck</li>
 </ul>
