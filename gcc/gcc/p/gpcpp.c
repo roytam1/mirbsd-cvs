@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.2 2005/03/28 02:09:43 tg Exp $ */
 
 /*GNU Pascal Compiler Preprocessor (GPCPP)
 
@@ -110,11 +110,7 @@ const struct gpc_option gpc_options[] =
 
 typedef unsigned char U_CHAR;
 
-#ifndef GCC_3_3
 extern char *version_string;
-#else
-extern const char version_string[];
-#endif
 
 /* Name under which this program was invoked. */
 static const char *progname;
