@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/Makefile,v 1.2 2005/03/13 18:32:40 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -137,6 +137,7 @@
   SUBDIR+= sort
   SUBDIR+= spell
   SUBDIR+= split
+  SUBDIR+= splitb
   SUBDIR+= ssh
   SUBDIR+= stat
   SUBDIR+= su
