@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.33 2005/03/20 22:01:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.34 2005/03/21 14:12:50 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2652,4 +2652,10 @@
  is of course better; helping to fix that best.<br />We still don't have a
  &quot;public relationships manager&quot; and I'm waiting for the new logo
  but we'll appear with Holarse and BOSng at LinuxTag, Karlsruhe ;-)</p>
+<p>22.03.2005 by tg@<br />Wow, I did a fire for spring equinox, and now in
+ my village-like thing they're going to do one for Ostara, although with a
+ real roman-catholic background ;-)<br />In the meanwhile, we've received,
+ edited and added the logo I've promised, and gcc got extended by SSP. I'm
+ still working over the day so it's going at a slow pace, but is going on;
+ joe 3.2 is out and I've yet got to have a look at it.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
