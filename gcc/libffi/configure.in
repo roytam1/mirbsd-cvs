@@ -61,7 +61,9 @@ i*86-*-linux*) TARGET=X86; TARGETDIR=x86;;
 i*86-*-solaris*) TARGET=X86; TARGETDIR=x86;;
 i*86-*-beos*) TARGET=X86; TARGETDIR=x86;;
 i*86-*-freebsd*) TARGET=X86; TARGETDIR=x86;;
+i386-*-mirbsd*) TARGET=X86; TARGETDIR=x86;;
 i*86-*-netbsdelf*) TARGET=X86; TARGETDIR=x86;;
+i*86-*-openbsd*) TARGET=X86; TARGETDIR=x86;;
 i*86-*-win32*) TARGET=X86_WIN32; TARGETDIR=x86;;
 i*86-*-cygwin*) TARGET=X86_WIN32; TARGETDIR=x86;;
 i*86-*-mingw*) TARGET=X86_WIN32; TARGETDIR=x86;;
@@ -69,13 +71,21 @@ sparc-sun-4*) TARGET=SPARC; TARGETDIR=sparc;;
 sparc*-sun-*) TARGET=SPARC; TARGETDIR=sparc;;
 sparc-*-linux* | sparc-*-netbsdelf*) TARGET=SPARC; TARGETDIR=sparc;;
 sparc64-*-linux* | sparc64-*-netbsd*) TARGET=SPARC; TARGETDIR=sparc;;
+sparc-*-mirbsd*) TARGET=SPARC; TARGETDIR=sparc;;
+sparc-*-openbsd*) TARGET=SPARC; TARGETDIR=sparc;;
+sparc64-*-openbsd*) TARGET=SPARC; TARGETDIR=sparc;;
 alpha*-*-linux* | alpha*-*-osf* | alpha*-*-freebsd* | alpha*-*-netbsd*) TARGET=ALPHA; TARGETDIR=alpha;;
+alpha*-*-openbsd*) TARGET=ALPHA; TARGETDIR=alpha;;
 ia64*-*-*) TARGET=IA64; TARGETDIR=ia64;;
 m68k-*-linux*) TARGET=M68K; TARGETDIR=m68k;;
+m68k-*-openbsd*) TARGET=M68K; TARGETDIR=m68k;;
 mips64*-*);;
 mips-sgi-irix5.* | mips-sgi-irix6.*) TARGET=MIPS_IRIX; TARGETDIR=mips;;
 mips*-*-linux*) TARGET=MIPS_LINUX; TARGETDIR=mips;;
+mips*-*-openbsd*) TARGET=MIPS; TARGETDIR=mips;;
 powerpc*-*-linux* | powerpc-*-sysv*) TARGET=POWERPC; TARGETDIR=powerpc;;
+powerpc-*-mirbsd*) TARGET=POWERPC; TARGETDIR=powerpc;;
+powerpc-*-openbsd*) TARGET=POWERPC; TARGETDIR=powerpc;;
 powerpc-*-beos*) TARGET=POWERPC; TARGETDIR=powerpc;;
 powerpc-*-darwin*) TARGET=POWERPC_DARWIN; TARGETDIR=powerpc;;
 powerpc-*-aix*) TARGET=POWERPC_AIX; TARGETDIR=powerpc;;
@@ -253,11 +263,11 @@ else
   multilib_arg=
 fi
 
-AC_OUTPUT(include/Makefile testsuite/Makefile include/ffi.h Makefile,
+AC_OUTPUT(include/Makefile include/ffi.h Makefile,
 [
 if test -n "$CONFIG_FILES"; then
    LD="${ORIGINAL_LD_FOR_MULTILIBS}"
-   ac_file=Makefile . ${srcdir}/${libffi_basedir}../config-ml.in
+   ac_file=Makefile . ${GNUSYSTEM_AUX_DIR}/config-ml.in
 fi
 ],
 srcdir=${srcdir}

@@ -2,7 +2,7 @@
 
 AUTOMAKE_OPTIONS = cygnus
 
-SUBDIRS = include testsuite
+SUBDIRS = include
 
 EXTRA_DIST = LICENSE ChangeLog.v1 \
 	src/alpha/ffi.c src/alpha/osf.S src/alpha/ffitarget.h \

@@ -319,7 +319,7 @@ java::lang::Runtime::traceMethodCalls (jboolean)
 }
 
 #if ! defined (DEFAULT_FILE_ENCODING) && defined (HAVE_ICONV) \
-    && defined (HAVE_NL_LANGINFO)
+    && defined (HAVE_LANGINFO_CODESET)
 
 static char *
 file_encoding ()

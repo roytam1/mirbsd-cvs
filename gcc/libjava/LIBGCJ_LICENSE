@@ -1,3 +1,12 @@
+$MirOS$
+
+Linking with independent modules may be not covered by the GNU GPL,
+but inheriting a class from libgcj seems to be. That's why we add
+the _gplwarn.c file and urge people to not use gcj with libgcj for
+developing their programmes.
+
+________________________________________________________________________
+
 Jan 21, 2002
 
 The libgcj library is licensed under the terms of the GNU General

@@ -1,3 +1,5 @@
+# $MirOS$
+
 ## Process this file with automake to produce Makefile.in.
 
 AUTOMAKE_OPTIONS = foreign
@@ -127,7 +129,7 @@ LIBFFIINCS = @LIBFFIINCS@
 
 INCLUDES = -I$(top_srcdir) -Iinclude -I$(top_srcdir)/include \
 	$(GCINCS) $(THREADINCS) $(INCLTDL) $(xlib_includes) \
-	$(GCC_UNWIND_INCLUDE) $(ZINCS) $(LIBFFIINCS)
+	$(GCC_UNWIND_INCLUDE) $(ZINCS) $(LIBFFIINCS) -I$(GNUSYSTEM_AUX_DIR)
 
 ## ################################################################
 
@@ -2762,6 +2764,7 @@ java_source_files = $(special_java_source_files) $(ordinary_java_source_files)
 
 ## Math library: C, not C++
 c_source_files = \
+  LIBGCJ_LICENSE.c							  \
   java/lang/dtoa.c        java/lang/k_rem_pio2.c  java/lang/s_tan.c       \
   java/lang/e_acos.c      java/lang/k_sin.c       java/lang/strtod.c      \
   java/lang/e_asin.c      java/lang/k_tan.c       java/lang/w_acos.c      \

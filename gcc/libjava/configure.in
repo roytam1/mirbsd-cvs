@@ -686,6 +686,7 @@ else
    fi
 
    AM_ICONV
+   AM_LANGINFO_CODESET
    AM_LC_MESSAGES
    AC_STRUCT_TIMEZONE
 
@@ -1217,7 +1218,7 @@ AC_OUTPUT(Makefile libgcj.pc libgcj.spec libgcj-test.spec gnu/classpath/Configur
 case " $CONFIG_FILES " in
  *" Makefile "*)
    LD="${ORIGINAL_LD_FOR_MULTILIBS}"
-   ac_file=Makefile . ${libgcj_basedir}/../config-ml.in
+   ac_file=Makefile . ${GNUSYSTEM_AUX_DIR}/config-ml.in
    ;;
 esac
 

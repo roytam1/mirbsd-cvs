@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
   jargrep.c - main functions for jargrep utility
   Copyright (C) 2002, 2003 Free Software Foundation
@@ -351,7 +353,7 @@ static char *extract_line(const char *stream, regoff_t begin, regoff_t end, int 
 	for(e = end; stream[e] == '\t' || !iscntrl((unsigned char)stream[e]); e++);
 	length = e - *b;
 	if((retstr = (char *) malloc(length + 1))) {
-		sprintf(retstr, "%d:", *b);
+		snprintf(retstr, length + 1, "%d:", *b);
 		strncpy(retstr, &(stream[*b]), length);
 		retstr[length] = '\0';
 	}
@@ -692,7 +694,7 @@ int main(int argc, char **argv) {
 					fprintf(stderr, "Error: %s\n", strerror(errno));
 					exit(1);
 				}
-				strcpy(regexpstr, optarg);
+				strlcpy(regexpstr, optarg, strlen(optarg) + 1);
 				break;
 			case 'i':
 				options |= JG_IGNORE_CASE;

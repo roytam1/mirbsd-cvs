@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
   jartool.c - main functions for fastjar utility
   Copyright (C) 2002 Free Software Foundation
@@ -722,7 +724,7 @@ int make_manifest(int jfd, const char *mf_name){
   
   memset(ze, 0, sizeof(zipentry)); /* clear all the fields*/
   ze->filename = (char*)malloc((nlen + 1) * sizeof(char) + 1);
-  strcpy(ze->filename, "META-INF/");
+  strlcpy(ze->filename, "META-INF/", (nlen + 1) * sizeof(char) + 1);
   ze->filename[nlen] = '\0';
     
   ze->offset = lseek(jfd, 0, SEEK_CUR);
@@ -744,7 +746,7 @@ int make_manifest(int jfd, const char *mf_name){
     if((mf = (char *) malloc(mf_len + 1))) {
     uLong crc;
 
-    sprintf(mf, "%s%s%s", MANIFEST_STR, VERSION, MANIFEST_END);
+    snprintf(mf, mf_len + 1, "%s%s%s", MANIFEST_STR, VERSION, MANIFEST_END);
 
     crc = crc32(0L, Z_NULL, 0);
     
@@ -772,7 +774,7 @@ int make_manifest(int jfd, const char *mf_name){
     
     memset(ze, 0, sizeof(zipentry)); /* clear all the fields*/
     ze->filename = (char*)malloc((nlen + 1) * sizeof(char) + 1);
-    strcpy(ze->filename, "META-INF/MANIFEST.MF");
+    strlcpy(ze->filename, "META-INF/MANIFEST.MF", (nlen + 1) * sizeof(char) + 1);
     ze->filename[nlen] = '\0';
     
     ze->offset = lseek(jfd, 0, SEEK_CUR);
@@ -889,14 +891,13 @@ add_to_jar (int fd, const char *file) {
     
     nlen = strlen(file) + 256;
     fullname = (char*)malloc(nlen * sizeof(char));
-    memset(fullname, 0, (nlen * sizeof(char)));
     
     if(fullname == NULL){
       fprintf(stderr, "Filename is NULL!\n");
       return 1;
     }
 
-    strcpy(fullname, file);
+    strlcpy(fullname, file, nlen * sizeof(char));
     nlen = strlen(file);
 
     if(fullname[nlen - 1] != '/'){
@@ -928,7 +929,7 @@ add_to_jar (int fd, const char *file) {
 
     memset(ze, 0, sizeof(zipentry)); /* clear all the fields*/
     ze->filename = (char*)malloc((nlen + 1) * sizeof(char) + 1);
-    strcpy(ze->filename, fullname);
+    strlcpy(ze->filename, fullname, (nlen + 1) * sizeof(char) + 1);
     ze->filename[nlen] = '\0';
     
     ze->offset = lseek(fd, 0, SEEK_CUR);
@@ -951,7 +952,9 @@ add_to_jar (int fd, const char *file) {
         continue;
       }
 
-      strcpy(t_ptr, de->d_name);
+      *t_ptr = '\0';
+      strlcpy(fullname, de->d_name, nlen * sizeof(char));
+/*    strcpy(t_ptr, de->d_name); */
 
       if (add_to_jar(fd, fullname)) {
         fprintf(stderr, "Error adding file to jar!\n");
@@ -1035,7 +1038,11 @@ int add_file_to_jar(int jfd, int ffd, const char *fname, struct stat *statbuf){
   
   memset(ze, 0, sizeof(zipentry)); /* clear all the fields*/
   ze->filename = (char*)malloc((file_name_length + 1) * sizeof(char));
-  strcpy(ze->filename, fname);
+  if(ze->filename == NULL){
+    perror("malloc");
+    exit(1);
+  }
+  strlcpy(ze->filename, fname, (file_name_length + 1) * sizeof(char));
 
   ze->mod_time = (ub2)(mod_time & 0x0000ffff);
   ze->mod_date = (ub2)((mod_time & 0xffff0000) >> 16);
@@ -1915,6 +1922,8 @@ Store many files together in a single `jar' file.\n\
   -C DIR FILE     change to the specified directory and include\n\
                   the following file\n\
   -E              don't include the files found in a directory\n\
+");
+  printf("\
   -f FILE         specify archive file name\n\
   --help          print this help, then exit\n\
   -m FILE         include manifest information from specified manifest file\n\
@@ -1944,7 +1953,7 @@ jt_strdup(s)
   char *result = (char*)malloc(strlen(s) + 1);
   if (result == (char*)0)
     return (char*)0;
-  strcpy(result, s);
+  strlcpy(result, s, strlen(s) + 1);
   return result;
 }
 

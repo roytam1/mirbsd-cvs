@@ -1,0 +1,16 @@
+# $MirOS$
+
+NOMAN=		yes
+CFARGS+=	--enable-static ${CF_PIC} --disable-libtool-lock
+CLEANFILES+=	config.status include/Makefile include/ffi.h \
+		include/ffitarget.h
+
+# this doesn't (need to) install.
+do-install:
+
+# the cleaning procedure is broken.
+do-clean:
+	-if test -e ${FSFMAKEFILE}; then \
+	    cd ${FSFOBJDIR} && ${FSFMAKE} distclean-am; fi
+
+.include <bsd.cfwrap.mk>
