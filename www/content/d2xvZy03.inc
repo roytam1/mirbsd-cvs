@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.18 2005/02/23 22:47:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.19 2005/02/25 00:17:12 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2327,6 +2327,31 @@
  just realized that this is the first wlog entry I've written in two
  months.  Time flies when you're having fun I guess, or when you don't 
  have much to say.</p>
+<p>20.02.2005 by bsiegert@<br />
+ The GNOME update is progressing nicely. The only problem is that it is an
+ awful lot of packages to port. I will probably do a meta port like FreeBSD
+ has: this port does not contain any code but depends on all packages in the
+ right order. Such meta ports could also be done for other stuff, e.g. a
+ complete mail server setup. In any case, I have removed the additional runtime
+ dependencies for the GNOME packages that should assure that everything is
+ installed&mdash;these never worked right. I also discovered a bug in the
+ handling of <tt>-pthread</tt> in MirLibtool that is fixed now (thanks to tg@).
+ <br />
+ Last weekend, I visited ssimon from our IRC channel&mdash;yes, IRL. We had
+ some fun eating sushi (mmm) and playing games like CounterStrike under Linux
+ in cedega. I had winter holidays this week, but alas, they are over now. As
+ usual, I am writing this entry in the train.<br />
+ We also came up with the idea to port MirPorts to Mac&nbsp;OS&nbsp;X. Work
+ has not yet started, but it seems like quite a few people are interested in
+ it. Ironically, the Objective-C extensions to the pkgtools are going to be a
+ problem because the GNU folks deliberately changed the spelling of function
+ names in their libobjc. The OS X version however is a "real" NeXTstep
+ implementation with proper spelling. Sigh.<br />
+ I also bought a <a href="http://www.bwct.de/">CF-to-IDE adapter</a>, which
+ works fine. The goal is to install MirOS-stable to the CF card (256 MiB) and
+ use it instead of a hard disk in frankie. I imported flashdist (which is for
+ OpenBSD) to <tt>contrib/code/flashdist</tt> in cvs and began playing with it.
+ Let's see how that works out.</p>
 <p>23.02.2005 by tg@<br />I've been having a birthday party yesterday with
  the coder of the first Mac OSX worm ever (he's exactly one year younger).
  The party happened in the Netzladen (what did you guess), but ended badly
@@ -2357,4 +2382,53 @@
  several times a day, and rarely get the creative mood of yesterday again.
  I can only interpret this as "I need a vacation". Other project leaders I
  won't name have just had one...</p>
+<p id="fosdem">27.02.2005 by bsiegert@<br />
+ It is that time of the week again, and I am sitting again in the train but
+ this time from Bruxelles to Strasbourg.
+ <a href="http://www.fosdem.org/">FOSDEM</a> was an adventure, but getting
+ there and getting back even more so. On Friday, I accidentally took the wrong
+ train at Bruxelles-Nord, today I almost missed my train because the bus was
+ much too late and did not stop where I wanted to leave it. I found myself
+ somewhere in the centre of Bruxelles, but luckily, I discovered that it was
+ only like 500 meters to the Bruxelles-Luxembourg station, so I catched the
+ train there.<br />
+ On Friday, we were at the early-bird gathering at <i>Le Roy d'Espagne</i>,
+ a bar right at the Grand Place, where tg later joined me. We had some beers
+ and some talk with the others&mdash;KDE, Debian, and Fresco developers. We
+ took the last train to Leuven and basically went to sleep.<br />
+ Saturday was the first regular day of FOSDEM. Upon arrival, tg and me just sat
+ down at the (then empty) Mozilla booth. When the Mozilla folks arrived, they
+ sent us away, but the organization team officially gave us an empty table with
+ no chairs as a "booth" after all. With no merchandise, no flyers, and no sign,
+ it was not a very productive kind of booth, but at least we could sit down and
+ hack a bit. Later that day, tyler arrived from USA. I went to two GNUstep
+ talks: the first one was a good general overview, the second one (about
+ Etoil&eacute;) was given by someone who had clearly never done a presentation
+ before. What's more, he spoke French and had somebody translate it for him to
+ English. In the evening, we (yofuh, Kabelaffe, cnuke, tyler, tg, and me) went
+ to <i>La petite plan&egrave;te</i> to eat gyros. After buying lots of liquor
+ in a supermarket, we returned to Leuven. For tg and me (who took the train),
+ this took quote long because our train was cancelled and we had to take a
+ local train instead. tg, cnuke and Kabelaffe went to sleep quite early (after
+ only one bottle of meade and some beers), while yofuh and me were awake,
+ drinking red wine and more meade. When we went to sleep, tyler changed the
+ room to keep on hacking. I think he did not even sleep that night.<br />
+ On Sunday morning, we went to Bruxelles quite late, and took place in the
+ "Hacker's room". I went to the Nautilus talk, but left it after two minutes,
+ after having discovered that the dillo talk was at the same time. The plan9
+ people were there (including uriel and one Englishman) and kept on trolling
+ and asking questions like "Why do you use <tt>select</tt>? Plan9 does not
+ have it." After the talk, I spoke to Jorge and Sebastian, the main developers.
+ Jorge was very happy to be offered funding for dillo (maybe). We talked about
+ a thread-safe resolving library (which BSD does not have out of the box) and
+ more. Afterwards, I met Wim, who told me to visit the OpenBSD room, Theo de
+ Raadt would be there. Theo gave a talk about future plans for OpenBSD (for him,
+ future is after the upcoming 3.7 release) and various other political rants.
+ Later that day, tg talked to Theo himself and gave him a MirOS T-Shirt. I
+ would have loved to overhear this conversation but alas, I had to leave for my
+ train.<br />
+ During the time, I mostly hacked on the Objective-C stuff in the pkgtools,
+ which is in my private svn repository for the time being. I have written a
+ new parser that is able to read and write PLISTs. So the foundations are
+ there. Stay tuned.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
