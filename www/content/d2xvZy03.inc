@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.24 2005/03/05 12:11:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.25 2005/03/06 00:39:20 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2525,4 +2525,31 @@
  Linux-Tage in Karl-Marx-Stadt, but I'm getting over it already. Buttt I'm
  really looking forward to our joint booth at the LinuxTag Karlsruhe, with
  the <a href="http://holarse.net/">Holarse</a> gang.</p>
+<p>06.03.2005 by tg@<br />I've started re-merging ncvs I to ncvs ][ today,
+ but first I had to discover several import flaws, so I hacked up a bit in
+ the repository. (I know, I had promised to not do this again. Well, looks
+ like since we use CVS not SVN, you wouldn't have even noticed if I hadn't
+ written it here, or you read ancient CVS mails. You won't notice it while
+ using, promised. And it looks fine now.)<br />I've merged, so far, all of
+ src except usr.bin, usr.sbin, gnu/usr.bin and gnu/usr.sbin; the generated
+ files neither of course. I'm awaiting another Lynx development version in
+ a few days, and let's hope XFree86&trade; 4.5.0 comes out before I'm _so_
+ through with src and gcc and making a new snapshot to start working on X.
+ There are really good chances, plus I've got to make libstdc++ work first
+ (and maybe Fortran? Who needs it? gfortran (gcc 4) won't be part of base,
+ for library reasons, anyway, so?) to please tyler@.<br />There has been a
+ libtool update (they realised themselfes (well, SuSE did) that they broke
+ pthreads), and Benny threw in some Darwin stuff.<br />My health is nearly
+ back now, but I've got to work next week too.<br />Tells that the person,
+ &quot;Harald Freyer&quot;, I asked for yesterday, really is hubertf@nbsd.
+ I skip commenting on that here, though. Anyway, I'm lucky that MirOS _is_
+ something special and we'll share a booth with Holarse, and not any other
+ BSD, at LinuxTag.<br />Any volunteers outside? While skipping through ca.
+ 6 MiB unified diffs today I noticed our man pages aren't all in sync with
+ reality, and I <em>still</em> <strong>want</strong> IPV4_MAPPED addresses
+ (in IPv6) to work.<br />We freed the <tt>mirbsd.org</tt> domain, with the
+ nice <a href="http://bosng.de/">BOSng</a> lad who went eating with us the
+ day before, re-registering it and pointing it to the same server on which
+ <tt>mirbsd.de</tt> runs on, cooperating with Waldi. I've even set up mail
+ for the two domains now!</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
