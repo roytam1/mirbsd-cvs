@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-unix_unix_c,v 1.2 2003/08/17 23:48:40 brad Exp $
---- unix/unix.c.orig	2002-01-21 17:54:42.000000000 -0500
-+++ unix/unix.c	2003-08-17 19:25:19.000000000 -0400
+--- unix/unix.c.orig	Mon Jan 21 22:54:20 2002
++++ unix/unix.c	Fri Apr  1 17:27:12 2005
 @@ -421,7 +421,8 @@ int mapname(__G__ renamed)
   */
  {
@@ -91,20 +92,20 @@ $OpenBSD: patch-unix_unix_c,v 1.2 2003/08/17 23:48:40 brad Exp $
                      }
                  }
                  *pp++ = '.';
-@@ -534,6 +579,16 @@ int mapname(__G__ renamed)
-             error = (error & MPN_MASK) | PK_WARN;
-     }
- 
-+    /* Show warning when stripping insecure quoted-slash at beginning of
-+       path components */
-+    if (killed_qslash && QCOND2) {
-+        Info(slide, 0, ((char *)slide,
-+          "warning:  skipped root directory component(s) in %s\n",
+@@ -529,6 +574,16 @@ int mapname(__G__ renamed)
+     if (killed_ddot && QCOND2) {
+         Info(slide, 0, ((char *)slide,
+           "warning:  skipped \"../\" path component(s) in %s\n",
 +          FnFilter1(G.filename)));
 +        if (!(error & ~MPN_MASK))
 +            error = (error & MPN_MASK) | PK_WARN;
 +    }
 +
- /*---------------------------------------------------------------------------
-     Report if directory was created (and no file to create:  filename ended
-     in '/'), check name to be sure it exists, and combine path and name be-
++    /* Show warning when stripping insecure quoted-slash at beginning of
++       path components */
++    if (killed_qslash && QCOND2) {
++        Info(slide, 0, ((char *)slide,
++          "warning:  skipped root directory component(s) in %s\n",
+           FnFilter1(G.filename)));
+         if (!(error & ~MPN_MASK))
+             error = (error & MPN_MASK) | PK_WARN;
