@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/gcc.c,v 1.2 2005/03/25 19:29:06 tg Exp $ */
 
 /* Compiler driver program that can handle many languages.
    Copyright (C) 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -770,8 +770,8 @@ static const char *cc1_options =
 "%{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}}\
  %1 %{!Q:-quiet} -dumpbase %B %{d*} %{m*} %{a*}\
  %{c|S:%{o*:-auxbase-strip %*}%{!o*:-auxbase %b}}%{!c:%{!S:-auxbase %b}}\
- %{g*} %{O*} %{W*&pedantic*} %{w} %{std*} %{ansi}\
- %{v:-version} %{pg:-p} %{p} %{f*} %{undef}\
+ %{g*} %{O*} %{f*&W*&pedantic*&w} %{std*} %{ansi}\
+ %{v:-version} %{pg:-p} %{p} %{undef}\
  %{Qn:-fno-ident} %{--help:--help}\
  %{--target-help:--target-help}\
  %{!fsyntax-only:%{S:%W{o*}%{!o*:-o %b.s}}}\

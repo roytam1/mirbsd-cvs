@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/tree.h,v 1.3 2005/03/25 19:29:12 tg Exp $ */
 
 /* Front-end tree definitions for GNU compiler.
    Copyright (C) 1989, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -24,6 +24,9 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 
 #ifndef GCC_TREE_H
 #define GCC_TREE_H
+
+
+/* @@ PATCHED FOR GPC @@ */
 
 #include "machmode.h"
 #include "version.h"
@@ -2474,6 +2477,14 @@ extern unsigned int maximum_field_alignment;
 
 /* If nonzero, the alignment of a bitstring or (power-)set value, in bits.  */
 extern unsigned int set_alignment;
+#ifdef GPC
+
+/* The word size of a bitstring or (power-)set value, in bits.  */
+extern unsigned int set_word_size;
+
+/* If non-zero, bits in (power-)sets start with the highest bit.  */
+extern unsigned int set_words_big_endian;
+#endif /* GPC */
 
 /* Concatenate two lists (chains of TREE_LIST nodes) X and Y
    by making the last node in X point to Y.
