@@ -1,9 +1,10 @@
+$MirOS$
 $OpenBSD: patch-src_default_h,v 1.2 2004/05/21 17:00:09 naddy Exp $
---- src/default.h.orig	2003-09-27 02:54:45.000000000 -0500
-+++ src/default.h	2004-02-15 17:42:38.000000000 -0600
-@@ -188,8 +188,8 @@ XSV(const char *, moveSizeFontName,     
+--- src/default.h.orig	Sun Jan  9 21:48:01 2005
++++ src/default.h	Sun Mar 27 20:16:44 2005
+@@ -131,8 +131,8 @@ XSV(const char *, acpiIgnoreBatteries,  
+ #endif
  
- XSV(const char *, kdeDataDir,                   KDEDIR)
  XSV(const char *, mailBoxPath,                  0)
 -XSV(const char *, mailCommand,                  "xterm -name pine -title PINE -e pine")
 -XSV(const char *, mailClassHint,                "pine.XTerm")
