@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/scripts/genhtman.sh,v 1.4 2005/03/29 10:49:07 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.5 2005/03/29 12:20:08 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -33,25 +33,24 @@ convert_all $BSDOBJDIR/htman/man $BSDOBJDIR/htman/htm
 for s in papers psd smm usd; do
 	typeset -u u=$s
 	mkdir -p $BSDOBJDIR/htman/htm/man$u
-	if [[ -e $BSDOBJDIR/htman/papers/$s/Title.txt ]]; then
-		( output_header Title $u
-		  do_convert <$BSDOBJDIR/htman/papers/$s/Title.txt
-		  output_footer
-		) >$BSDOBJDIR/htman/htm/man$u/Title.htm
-	fi
-	if [[ -e $BSDOBJDIR/htman/papers/$s/contents.txt ]]; then
-		( output_header Contents $u
-		  do_convert <$BSDOBJDIR/htman/papers/$s/contents.txt
-		  output_footer
-		) >$BSDOBJDIR/htman/htm/man$u/contents.htm
-	fi
+	[[ -e $BSDOBJDIR/htman/papers/$s/Title.txt ]] && {
+		output_header Title $u
+		do_convert <$BSDOBJDIR/htman/papers/$s/Title.txt
+		output_footer
+	} >$BSDOBJDIR/htman/htm/man$u/Title.htm
+	[[ -e $BSDOBJDIR/htman/papers/$s/contents.txt ]] && {
+		output_header Contents $u
+		do_convert <$BSDOBJDIR/htman/papers/$s/contents.txt
+		output_footer
+	} >$BSDOBJDIR/htman/htm/man$u/contents.htm
 	for f in $BSDOBJDIR/htman/papers/$s/*/paper.txt; do
 		t="${f#$BSDOBJDIR/htman/papers/$s/}"
 		t="${t%/paper.txt}"
-		( output_header $t $u
-		  do_convert <$f
-		  output_footer
-		) >$BSDOBJDIR/htman/htm/man$u/$t.htm
+		{
+			output_header $t $u
+			do_convert <$f
+			output_footer
+		} >$BSDOBJDIR/htman/htm/man$u/$t.htm
 	done
 done
 exit 0
