@@ -24,7 +24,7 @@ MASTER_SITES=	http://ftp.silcnet.org/client/sources/ \
 		http://the.wiretapped.net/security/network-security/silc/client/sources/ \
 		ftp://ftp.wiretapped.net/pub/security/network-security/silc/client/sources/
 
-LIB_DEPENDS+=	glib.1.2,gmodule.1.2::devel/glib
+LIB_DEPENDS+=	glib.1.2,gmodule.1.2::devel/glib1
 
 MODULES=	converters/libiconv
 

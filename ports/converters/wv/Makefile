@@ -17,7 +17,7 @@ MODULES=	converters/libiconv
 LIB_DEPENDS=	wmf.6,wmflite.6::graphics/libwmf \
 		png.2::graphics/png \
 		Magick.5::graphics/ImageMagick \
-		glib.1::devel/glib
+		glib.1::devel/glib1
 
 USE_GMAKE= 	Yes
 USE_CXX=	Yes

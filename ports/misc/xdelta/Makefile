@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2002/12/29 19:49:41 fgsch Exp $
 # $FreeBSD: Makefile,v 1.10 1998/09/03 00:05:11 jmacd Exp $
 
@@ -10,7 +11,7 @@ MASTER_SITES=	ftp://ftp.xcf.berkeley.edu/pub/xdelta/
 HOMEPAGE=	http://www.xcf.berkeley.edu/~jmacd/xdelta.html
 
 LIB_DEPENDS=	gdbm.2::databases/gdbm \
-		glib.1.2::devel/glib
+		glib.1.2::devel/glib1
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

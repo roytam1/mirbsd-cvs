@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2002/12/04 14:29:58 naddy Exp $
 
 COMMENT=	"XML internationalization tool"
@@ -16,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${MASTER_SITE_GNU:=toutdoux/}
 
 LIB_DEPENDS=	xml.9::textproc/libxml1 \
-		glib.1::devel/glib
+		glib.1::devel/glib1
 
 CONFIGURE_STYLE=	gnu
 

@@ -22,7 +22,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS+=		glib.1.2,gmodule::devel/glib
+LIB_DEPENDS+=		glib.1.2,gmodule::devel/glib1
 
 SUBST_VARS+=		P5ARCH
 CONFIGURE_STYLE=	autoconf

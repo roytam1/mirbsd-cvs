@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2004/04/18 17:38:37 naddy Exp $
 
 COMMENT=		"Direct Connect clone"
@@ -14,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}
 
-LIB_DEPENDS=    	glib.1.2,gthread.1.2::devel/glib
+LIB_DEPENDS=    	glib.1.2,gthread.1.2::devel/glib1
 
 SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE= 	autoconf

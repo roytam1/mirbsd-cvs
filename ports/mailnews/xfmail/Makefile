@@ -13,7 +13,7 @@ HOMEPAGE=		http://www.xfmail.org/
 
 LIB_DEPENDS=		forms::x11/xforms \
 			jpeg.62::graphics/jpeg \
-			glib.1.2::devel/glib
+			glib.1.2::devel/glib1
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
