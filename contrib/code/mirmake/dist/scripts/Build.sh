@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.3 2005/02/23 21:40:55 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.4 2005/02/26 13:38:25 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -182,6 +182,49 @@ cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 $d_src/lib/libc/string/strlfun.c \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
 EOF
+
+# build the hash stuff
+rm -rf $d_build/hash
+mkdir $d_build/hash
+cd $d_build/hash
+sed -e 's/hashinc/md4.h/g' -e 's/HASH/MD4/g' \
+    $d_src/lib/libc/hash/helper.c >md4hl.c
+sed -e 's/hashinc/md5.h/g' -e 's/HASH/MD5/g' \
+    $d_src/lib/libc/hash/helper.c >md5hl.c
+sed -e 's/hashinc/rmd160.h/g' -e 's/HASH/RMD160/g' \
+    $d_src/lib/libc/hash/helper.c >rmd160hl.c
+sed -e 's/hashinc/sha1.h/g' -e 's/HASH/SHA1/g' \
+    $d_src/lib/libc/hash/helper.c >sha1hl.c
+sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA256_/g' \
+    $d_src/lib/libc/hash/helper.c >sha256hl.c
+sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA384_/g' \
+    $d_src/lib/libc/hash/helper.c >sha384hl.c
+sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
+    $d_src/lib/libc/hash/helper.c >sha512hl.c
+( cd $d_src/lib/libc/hash; \
+  cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/hash/ )
+for f in *.c; do
+	${CC:-cc} $CFLAGS -c -include $d_script/../contrib/mirmake.h \
+	    -I$d_src/include $f || touch failure
+done
+if [[ ! -e failure ]]; then
+	if ar rc libhash.a *.o; then
+		ranlib libhash.a
+	else
+		rm -f libhash.a
+	fi
+fi
+cd $top
+if [[ -s $d_build/hash/libhash.a ]]; then
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 $d_build/hash/libhash.a \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/md4.h \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/md5.h \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/rmd160.h \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/sha1.h \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/sha2.h \$DESTDIR${dt_mk}/
+EOF
+fi
 
 chmod 555 $top/Install.sh
 
