@@ -38,7 +38,7 @@
 .Nd display free disk space
 .Sh SYNOPSIS
 .Nm df
-.Op Fl hiklnP
+.Op Fl iklnP
 .Op Fl t Ar type
 .Oo
 .Op Ar file | file_system
@@ -66,11 +66,6 @@ options below).
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
-.It Fl h
-"Human-readable" output.
-Use unit suffixes: Byte, Kilobyte, Megabyte,
-Gigabyte, Terabyte, Petabyte, Exabyte in order to reduce the number of
-digits to four or less.
 .It Fl i
 Include statistics on the number of free inodes.
 .It Fl k
@@ -116,8 +111,6 @@ that file system.
 If the environment variable
 .Ev BLOCKSIZE
 is set, and the
-.Fl h
-or
 .Fl k
 options are not specified, the block counts will be displayed in units of that
 size block.

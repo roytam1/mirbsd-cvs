@@ -1,4 +1,4 @@
-/*	$OpenBSD: util.c,v 1.11 2003/08/06 19:09:09 tedu Exp $	*/
+/*	$OpenBSD: util.c,v 1.10 2003/07/29 00:24:15 deraadt Exp $	*/
 /*	$NetBSD: util.c,v 1.12 1995/09/07 06:43:02 jtc Exp $	*/
 
 /*
@@ -33,13 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)util.c	8.5 (Berkeley) 4/28/95";
-#else
-static char rcsid[] = "$OpenBSD: util.c,v 1.11 2003/08/06 19:09:09 tedu Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)util.c	8.5 (Berkeley) 4/28/95");
+__RCSID("$OpenBSD: util.c,v 1.10 2003/07/29 00:24:15 deraadt Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -67,7 +63,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-1ACFLRSTWacdfhiklmnopqrstux] [file ...]\n",
-	    __progname);
+	    "usage: %s [-1ACFLRSTWacdfiklmnopqrstux] [file ...]\n",
+	     __progname);
 	exit(1);
 }

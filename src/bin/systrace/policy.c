@@ -119,7 +119,7 @@ systrace_setupdir(char *path)
 		if (strlcpy(policydir, home, sizeof(policydir)) >= sizeof(policydir))
 			errx(1, "HOME too long");
 
-		if (strlcat(policydir, "/.systrace", sizeof(policydir)) >= sizeof(policydir))
+		if (strlcat(policydir, "/.etc/systrace", sizeof(policydir)) >= sizeof(policydir))
 			errx(1, "HOME too long");
 	} else if (strlcpy(policydir, path, sizeof(policydir)) >= sizeof(policydir))
 		errx(1, "policy directory too long");

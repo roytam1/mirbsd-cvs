@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: openbsd-syscalls.c,v 1.23 2003/10/22 21:03:35 sturm Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -33,16 +34,8 @@
 
 #include <sys/syscall.h>
 
-#include "../../sys/compat/bsdos/bsdos_syscall.h"
-#include "../../sys/compat/freebsd/freebsd_syscall.h"
-#include "../../sys/compat/netbsd/netbsd_syscall.h"
-#include "../../sys/compat/hpux/hpux_syscall.h"
-#include "../../sys/compat/ibcs2/ibcs2_syscall.h"
 #include "../../sys/compat/linux/linux_syscall.h"
-#include "../../sys/compat/osf1/osf1_syscall.h"
-#include "../../sys/compat/sunos/sunos_syscall.h"
-#include "../../sys/compat/svr4/svr4_syscall.h"
-#include "../../sys/compat/ultrix/ultrix_syscall.h"
+#include "../../sys/compat/openbsd/openbsd_syscall.h"
 
 #define KTRACE
 #define NFSCLIENT
@@ -53,16 +46,8 @@
 #define LFS
 #include "../../sys/kern/syscalls.c"
 
-#include "../../sys/compat/bsdos/bsdos_syscalls.c"
-#include "../../sys/compat/freebsd/freebsd_syscalls.c"
-#include "../../sys/compat/netbsd/netbsd_syscalls.c"
-#include "../../sys/compat/hpux/hpux_syscalls.c"
-#include "../../sys/compat/ibcs2/ibcs2_syscalls.c"
 #include "../../sys/compat/linux/linux_syscalls.c"
-#include "../../sys/compat/osf1/osf1_syscalls.c"
-#include "../../sys/compat/sunos/sunos_syscalls.c"
-#include "../../sys/compat/svr4/svr4_syscalls.c"
-#include "../../sys/compat/ultrix/ultrix_syscalls.c"
+#include "../../sys/compat/openbsd/openbsd_syscalls.c"
 #undef KTRACE
 #undef NFSCLIENT
 #undef NFSSERVER
@@ -85,6 +70,8 @@
 
 #include "intercept.h"
 
+__RCSID("$MirOS$");
+
 struct emulation {
 	const char *name;	/* Emulation name */
 	char **sysnames;	/* Array of system call names */
@@ -94,16 +81,8 @@ struct emulation {
 static struct emulation emulations[] = {
 	{ "native",	syscallnames,		SYS_MAXSYSCALL },
 	{ "aout",	syscallnames,		SYS_MAXSYSCALL },
-	{ "hpux",	hpux_syscallnames,	HPUX_SYS_MAXSYSCALL },
-	{ "ibcs2",	ibcs2_syscallnames,	IBCS2_SYS_MAXSYSCALL },
 	{ "linux",	linux_syscallnames,	LINUX_SYS_MAXSYSCALL },
-	{ "osf1",	osf1_syscallnames,	OSF1_SYS_MAXSYSCALL },
-	{ "sunos",	sunos_syscallnames,	SUNOS_SYS_MAXSYSCALL },
-	{ "svr4",	svr4_syscallnames,	SVR4_SYS_MAXSYSCALL },
-	{ "ultrix",	ultrix_syscallnames,	ULTRIX_SYS_MAXSYSCALL },
-	{ "bsdos",	bsdos_syscallnames,	BSDOS_SYS_MAXSYSCALL },
-	{ "freebsd",	freebsd_syscallnames,	FREEBSD_SYS_MAXSYSCALL },
-	{ "netbsd",	netbsd_syscallnames,	NETBSD_SYS_MAXSYSCALL },
+	{ "openbsd",	openbsd_syscallnames,	OPENBSD_SYS_MAXSYSCALL },
 	{ NULL,		NULL,			0 }
 };
 

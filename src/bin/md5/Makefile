@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.9 2004/05/04 14:50:45 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.9 2004/05/04 14:50:45 millert Exp $
 
 PROG=	md5
 SRCS=	crc.c md5.c
@@ -9,7 +10,6 @@ LINKS=	${BINDIR}/md5 ${BINDIR}/sha1 \
 	${BINDIR}/md5 ${BINDIR}/sum
 MLINKS= cksum.1 sum.1
 
-CPPFLAGS+= -I${.CURDIR}
 COPTS+=	-ansi -Wall -Wconversion -Wmissing-prototypes
 
 .include <bsd.prog.mk>

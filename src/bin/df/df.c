@@ -79,10 +79,9 @@ void	 prthuman(struct statfs *sfsp, long);
 
 int		raw_df(char *, struct statfs *);
 extern int	ffs_df(int, char *, struct statfs *);
-extern int	lfs_df(int, char *, struct statfs *);
 extern int	e2fs_df(int, char *, struct statfs *);
 
-int	hflag, iflag, kflag, lflag, nflag, Pflag;
+int	iflag, kflag, lflag, nflag, Pflag;
 char	**typelist = NULL;
 
 int
@@ -95,18 +94,13 @@ main(int argc, char *argv[])
 	int width, maxwidth;
 	char *mntpt;
 
-	while ((ch = getopt(argc, argv, "hiklnPt:")) != -1)
+	while ((ch = getopt(argc, argv, "iklnPt:")) != -1)
 		switch (ch) {
-		case 'h':
-			hflag = 1;
-			kflag = 0;
-			break;
 		case 'i':
 			iflag = 1;
 			break;
 		case 'k':
 			kflag = 1;
-			hflag = 0;
 			break;
 		case 'l':
 			lflag = 1;
@@ -331,9 +325,6 @@ prtstat(struct statfs *sfsp, int maxwidth, int headerlen, int blocksize)
 	(void)printf("%-*.*s", maxwidth, maxwidth, sfsp->f_mntfromname);
 	used = sfsp->f_blocks - sfsp->f_bfree;
 	availblks = sfsp->f_bavail + used;
-	if (hflag)
-		prthuman(sfsp, used);
-	else
 		(void)printf(" %*u %8u %8d", headerlen,
 		    fsbtoblk(sfsp->f_blocks, sfsp->f_bsize, blocksize),
 		    fsbtoblk(used, sfsp->f_bsize, blocksize),
@@ -362,12 +353,6 @@ bsdprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 	long blocksize;
 
 	/* Print the header line */
-	if (hflag) {
-		header = "  Size";
-		headerlen = strlen(header);
-		(void)printf("%-*.*s %s   Used  Avail Capacity",
-			     maxwidth, maxwidth, "Filesystem", header);
-	} else {
 		if (kflag) {
 			blocksize = 1024;
 			header = "1K-blocks";
@@ -376,7 +361,6 @@ bsdprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 			header = getbsize(&headerlen, &blocksize);
 		(void)printf("%-*.*s %s     Used    Avail Capacity",
 			     maxwidth, maxwidth, "Filesystem", header);
-	}
 	if (iflag)
 		(void)printf(" iused   ifree  %%iused");
 	(void)printf("  Mounted on\n");
@@ -445,10 +429,6 @@ raw_df(char *file, struct statfs *sfsp)
 
 	if (ffs_df(rfd, file, sfsp) == 0) {
 		return (0);
-#if 0
-	} else if (lfs_df(rfd, file, sfsp) == 0) {
-		return (0);
-#endif
 	} else if (e2fs_df(rfd, file, sfsp) == 0) {
 		return (0);
 	} else {
@@ -479,7 +459,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-hiklnP] [-t type] [file | file_system ...]\n",
+	    "usage: %s [-iklnP] [-t type] [file | file_system ...]\n",
 	    __progname);
 	exit(1);
 }

@@ -1,4 +1,5 @@
-/*	$OpenBSD: ls.c,v 1.22 2004/04/02 07:31:06 otto Exp $	*/
+/**	$MirOS$ */
+/*	$OpenBSD: ls.c,v 1.20 2003/06/11 23:42:12 deraadt Exp $	*/
 /*	$NetBSD: ls.c,v 1.18 1996/07/09 09:16:29 mycroft Exp $	*/
 
 /*
@@ -33,19 +34,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)ls.c	8.7 (Berkeley) 8/5/94";
-#else
-static char rcsid[] = "$OpenBSD: ls.c,v 1.22 2004/04/02 07:31:06 otto Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)ls.c	8.7 (Berkeley) 8/5/94");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -61,7 +52,6 @@ static char rcsid[] = "$OpenBSD: ls.c,v 1.22 2004/04/02 07:31:06 otto Exp $";
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <util.h>
 
 #include "ls.h"
 #include "extern.h"
@@ -86,7 +76,6 @@ int f_accesstime;		/* use time of last access */
 int f_column;			/* columnated format */
 int f_columnacross;		/* columnated format, sorted across */
 int f_flags;			/* show flags associated with a file */
-int f_humanval;			/* show human-readable file sizes */
 int f_inode;			/* print inode */
 int f_listdir;			/* list actual directory, not contents */
 int f_listdot;			/* list files beginning with . */
@@ -134,7 +123,7 @@ ls_main(int argc, char *argv[])
 		f_listdot = 1;
 
 	fts_options = FTS_PHYSICAL;
-	while ((ch = getopt(argc, argv, "1ACFLRSTWacdfghiklmnopqrstux")) != -1) {
+	while ((ch = getopt(argc, argv, "1ACFLRSTWacdfgiklmnopqrstux")) != -1) {
 		switch (ch) {
 		/*
 		 * The -1, -C and -l, -m and -x options all override each
@@ -201,9 +190,6 @@ ls_main(int argc, char *argv[])
 			f_nosort = 1;
 			break;
 		case 'g':		/* Compatibility with 4.3BSD. */
-			break;
-		case 'h':
-			f_humanval = 1;
 			break;
 		case 'i':
 			f_inode = 1;
@@ -540,11 +526,8 @@ display(FTSENT *p, FTSENT *list)
 		d.s_inode = strlen(buf);
 		(void)snprintf(buf, sizeof(buf), "%lu", maxnlink);
 		d.s_nlink = strlen(buf);
-		if (!f_humanval) {
-			(void)snprintf(buf, sizeof(buf), "%qu", maxsize);
-			d.s_size = strlen(buf);
-		} else
-			d.s_size = FMT_SCALED_STRSIZE-2; /* no - or '\0' */
+		(void)snprintf(buf, sizeof(buf), "%qu", maxsize);
+		d.s_size = strlen(buf);
 		d.s_user = maxuser;
 	}
 
