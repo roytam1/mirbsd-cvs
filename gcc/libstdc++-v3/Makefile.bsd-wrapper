@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.3 2005/03/26 10:27:07 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.4 2005/03/26 10:36:48 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -6,6 +6,7 @@
 SHLIB_VERSION?=	35.0
 
 CXXOPTS?=	${COPTS}
+CXXOPTS+=	-Wno-unused
 NOMAN=		yes
 CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 		--enable-fast-install --disable-libtool-lock \
@@ -16,6 +17,6 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
-#CLEANFILES+=	config.h libtool stamp-h
+CLEANFILES+=	include libsupc++/cp-demangle.c
 
 .include <bsd.cfwrap.mk>

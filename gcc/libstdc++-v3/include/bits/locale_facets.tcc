@@ -1,4 +1,5 @@
 // Locale support -*- C++ -*-
+// $MirOS$
 
 // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
 // Free Software Foundation, Inc.
@@ -1929,6 +1930,43 @@ namespace std
     _InIter
     time_get<_CharT, _InIter>::
     _M_extract_num(iter_type __beg, iter_type __end, int& __member,
+		   int __min, int __max, size_t __len,
+		   ios_base& __io, ios_base::iostate& __err) const
+    {
+      const locale& __loc = __io._M_getloc();
+      const ctype<_CharT>& __ctype = use_facet<ctype<_CharT> >(__loc);
+
+      // As-is works for __len = 1, 2, 4, the values actually used.
+      int __mult = __len == 2 ? 10 : (__len == 4 ? 1000 : 1);
+
+      ++__min;
+      size_t __i = 0;
+      int __value = 0;
+      for (; __beg != __end && __i < __len; ++__beg, ++__i)
+	{
+	  const char __c = __ctype.narrow(*__beg, '*');
+	  if (__c >= '0' && __c <= '9')
+	    {
+	      __value = __value * 10 + (__c - '0');
+	      const int __valuec = __value * __mult;
+	      if (__valuec > __max || __valuec + __mult < __min)
+		break;
+	      __mult /= 10;
+	    }
+	  else
+	    break;
+	}
+      if (__i == __len)
+	__member = __value;
+      else
+	__err |= ios_base::failbit;
+      return __beg;
+    }
+
+  template<typename _CharT, typename _InIter>
+    _InIter
+    time_get<_CharT, _InIter>::
+    _M_extract_num(iter_type __beg, iter_type __end, int64_t& __member,
 		   int __min, int __max, size_t __len,
 		   ios_base& __io, ios_base::iostate& __err) const
     {

@@ -1,3 +1,5 @@
+// $MirOS$
+
 // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
 // Free Software Foundation, Inc.
 //
@@ -292,7 +294,7 @@ namespace std
 
 	    // New facet array.
 	    const facet** __oldf = _M_facets;
-	    const facet** __newf;
+	    const facet** __newf = NULL;
 	    __newf = new const facet*[__new_size]; 
 	    for (size_t __i = 0; __i < _M_facets_size; ++__i)
 	      __newf[__i] = _M_facets[__i];

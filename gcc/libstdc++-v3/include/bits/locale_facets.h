@@ -1,4 +1,5 @@
 // Locale support -*- C++ -*-
+// $MirOS$
 
 // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
 // Free Software Foundation, Inc.
@@ -3266,6 +3267,12 @@ namespace std
       // Extract numeric component of length __len.
       iter_type
       _M_extract_num(iter_type __beg, iter_type __end, int& __member,
+		     int __min, int __max, size_t __len,
+		     ios_base& __io, ios_base::iostate& __err) const;
+
+      // time_t-64 kludge
+      iter_type
+      _M_extract_num(iter_type __beg, iter_type __end, int64_t& __member,
 		     int __min, int __max, size_t __len,
 		     ios_base& __io, ios_base::iostate& __err) const;
 
