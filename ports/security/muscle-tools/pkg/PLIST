@@ -1,0 +1,3 @@
+@comment $MirOS$
+bin/muscleTool
+man/man1/muscleTool.1

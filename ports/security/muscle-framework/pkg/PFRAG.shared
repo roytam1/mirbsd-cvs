@@ -1,0 +1,2 @@
+@comment $MirOS$
+@lib lib/libmusclepkcs11.so.0.1

@@ -1,0 +1,11 @@
+# $MirOS$
+
+PROG=		cksfv
+SRCS=		cksfv.c crc32.c newsfv.c print.c readsfv.c
+
+BINDIR=		${TRUEPREFIX}/bin
+MANDIR=		${TRUEPREFIX}/man/cat
+
+.PATH: ${.CURDIR}/src
+
+.include <bsd.prog.mk>
