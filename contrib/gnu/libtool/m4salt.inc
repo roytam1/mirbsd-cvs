@@ -1,5 +1,5 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.4 2005/02/11 00:38:08 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.5 2005/02/11 02:02:43 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 # Free Software Foundation, Inc.
@@ -113,6 +113,8 @@ define([AC_LANG_PUSH],
 [AC_LANG_SAVE
 ifelse([$1],
  [C], AC_LANG_C,
+ [Fortran 77], AC_LANG_FORTRAN77,
+ [Fortran], AC_LANG_FORTRAN77,
  [C++], AC_LANG_CPLUSPLUS)
 ])dnl # AC_LANG_PUSH
 
