@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.20 2005/01/07 02:47:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
@@ -27,8 +27,6 @@
 
 <p>Read more about the <a href="/?features">Features</a> of MirOS or
  the <a href="/?devel">People</a> behind it.</p>
-
-<p><a href="/?about-logo">[insert MirOS logo here]</a></p>
 
 <h1>Licencing information</h1>
 
