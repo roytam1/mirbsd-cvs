@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.25 2005/03/06 00:39:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.26 2005/03/06 22:22:53 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2552,4 +2552,11 @@
  day before, re-registering it and pointing it to the same server on which
  <tt>mirbsd.de</tt> runs on, cooperating with Waldi. I've even set up mail
  for the two domains now!</p>
+<pre>Update: look at this
+ Mar  6 18:38  Directory        [4]4.4.99.903
+ Mar  6 20:16  bzip2            [2]XFree86-4.4.99.903.tar.bz2  40507Kb
+
+ Do my dreams come true or what?
+ I'm eagerly awaiting this, and be it only to be able to <b>/kick</b> from
+ IRC these who mention "the other X11 implementation". ;-)</pre>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
