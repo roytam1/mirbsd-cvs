@@ -1,6 +1,6 @@
 \input texinfo @c                               -*-Texinfo-*-
 @c  Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-@c  2001, 2002, 2003, 2004
+@c  2001, 2002, 2003, 2004, 2005
 @c  Free Software Foundation, Inc.
 @c UPDATE!!  On future updates--
 @c   (1)   check for new machine-dep cmdline options in
@@ -315,6 +315,8 @@ gcc(1), ld(1), and the Info entries for @file{binutils} and @file{ld}.
    [@b{-mconstant-gp}|@b{-mauto-pic}]
    [@b{-milp32}|@b{-milp64}|@b{-mlp64}|@b{-mp64}]
    [@b{-mle}|@b{mbe}]
+   [@b{-munwind-check=warning}|@b{-munwind-check=error}]
+   [@b{-mhint.b=ok}|@b{-mhint.b=warning}|@b{-mhint.b=error}]
    [@b{-x}|@b{-xexplicit}] [@b{-xauto}] [@b{-xdebug}]
 @end ifset
 @ifset IP2K
@@ -4836,8 +4838,10 @@ With that definition, @samp{SUM 0,5} is equivalent to this assembly input:
 Begin the definition of a macro called @var{macname}.  If your macro
 definition requires arguments, specify their names after the macro name,
 separated by commas or spaces.  You can supply a default value for any
-macro argument by following the name with @samp{=@var{deflt}}.  For
-example, these are all valid @code{.macro} statements:
+macro argument by following the name with @samp{=@var{deflt}}.  You
+cannot define two macros with the same @var{macname} unless it has been
+subject to the @code{.purgem} directive (@xref{Purgem}.) between the two
+definitions.  For example, these are all valid @code{.macro} statements:
 
 @table @code
 @item .macro comm
@@ -6038,6 +6042,9 @@ subject, see the hardware manufacturer's manual.
 @end ifset
 @ifset I960
 * i960-Dependent::              Intel 80960 Dependent Features
+@end ifset
+@ifset IA64
+* IA-64-Dependent::             Intel IA-64 Dependent Features
 @end ifset
 @ifset IP2K
 * IP2K-Dependent::              IP2K Dependent Features

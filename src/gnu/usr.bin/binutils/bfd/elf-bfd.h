@@ -269,7 +269,7 @@ struct cie
 {
   struct cie_header hdr;
   unsigned char version;
-  unsigned char augmentation[20];
+  char augmentation[20];
   bfd_vma code_align;
   bfd_signed_vma data_align;
   bfd_vma ra_column;
@@ -398,6 +398,10 @@ struct elf_link_hash_table
 
   /* A linked list of BFD's loaded in the link.  */
   struct elf_link_loaded_list *loaded;
+
+  /* True if this target has relocatable executables, so needs dynamic
+     section symbols.  */
+  bfd_boolean is_relocatable_executable;
 };
 
 /* Look up an entry in an ELF linker hash table.  */
@@ -551,6 +555,11 @@ struct elf_backend_data
   /* The maximum page size for this backend.  */
   bfd_vma maxpagesize;
 
+  /* The minimum page size for this backend.  An input object will not be
+     considered page aligned unless its sections are correctly aligned for
+     pages at least this large.  May be smaller than maxpagesize.  */
+  bfd_vma minpagesize;
+
   /* The BFD flags applied to sections created for dynamic linking.  */
   flagword dynamic_sec_flags;
 
@@ -620,7 +629,7 @@ struct elf_backend_data
   /* A function to handle unusual section types when creating BFD
      sections from ELF sections.  */
   bfd_boolean (*elf_backend_section_from_shdr)
-    (bfd *, Elf_Internal_Shdr *, const char *);
+    (bfd *, Elf_Internal_Shdr *, const char *, int);
 
   /* A function to convert machine dependent section header flags to
      BFD internal section header flags.  */
@@ -630,7 +639,7 @@ struct elf_backend_data
   /* A function to handle unusual program segment types when creating BFD
      sections from ELF program segments.  */
   bfd_boolean (*elf_backend_section_from_phdr)
-    (bfd *, Elf_Internal_Phdr *, int);
+    (bfd *, Elf_Internal_Phdr *, int, const char *);
 
   /* A function to set up the ELF section header for a BFD section in
      preparation for writing it out.  This is where the flags and type
@@ -901,6 +910,12 @@ struct elf_backend_data
   bfd_boolean (*elf_backend_ignore_discarded_relocs)
     (asection *);
 
+  /* This function returns the width of FDE pointers in bytes, or 0 if
+     that can't be determined for some reason.  The default definition
+     goes by the bfd's EI_CLASS.  */
+  unsigned int (*elf_backend_eh_frame_address_size)
+    (bfd *, asection *);
+
   /* These functions tell elf-eh-frame whether to attempt to turn
      absolute or lsda encodings into pc-relative ones.  The default
      definition enables these transformations.  */
@@ -940,7 +955,7 @@ struct elf_backend_data
      see elf.c, elfcode.h.  */
   bfd *(*elf_backend_bfd_from_remote_memory)
      (bfd *templ, bfd_vma ehdr_vma, bfd_vma *loadbasep,
-      int (*target_read_memory) (bfd_vma vma, char *myaddr, int len));
+      int (*target_read_memory) (bfd_vma vma, bfd_byte *myaddr, int len));
 
   /* This function is used by `_bfd_elf_get_synthetic_symtab';
      see elf.c.  */
@@ -1044,8 +1059,7 @@ struct bfd_elf_section_data
   /* The number of relocations currently assigned to REL_HDR2.  */
   unsigned int rel_count2;
 
-  /* The ELF section number of this section.  Only used for an output
-     file.  */
+  /* The ELF section number of this section.  */
   int this_idx;
 
   /* The ELF section number of the reloc section indicated by
@@ -1367,15 +1381,13 @@ extern bfd_boolean _bfd_elf_print_private_bfd_data
 extern void bfd_elf_print_symbol
   (bfd *, void *, asymbol *, bfd_print_symbol_type);
 
-#define elf_string_from_elf_strtab(abfd, strindex) \
-  bfd_elf_string_from_elf_section (abfd, elf_elfheader(abfd)->e_shstrndx, \
-				   strindex)
-
 extern void _bfd_elf_sprintf_vma
   (bfd *, char *, bfd_vma);
 extern void _bfd_elf_fprintf_vma
   (bfd *, void *, bfd_vma);
 
+extern unsigned int _bfd_elf_eh_frame_address_size
+  (bfd *, asection *);
 extern bfd_byte _bfd_elf_encode_eh_address
   (bfd *abfd, struct bfd_link_info *info, asection *osec, bfd_vma offset,
    asection *loc_sec, bfd_vma loc_offset, bfd_vma *encoded);
@@ -1403,7 +1415,7 @@ extern bfd_boolean bfd_elf_mkcorefile
 extern Elf_Internal_Shdr *bfd_elf_find_section
   (bfd *, char *);
 extern bfd_boolean _bfd_elf_make_section_from_shdr
-  (bfd *, Elf_Internal_Shdr *, const char *);
+  (bfd *, Elf_Internal_Shdr *, const char *, int);
 extern bfd_boolean _bfd_elf_make_section_from_phdr
   (bfd *, Elf_Internal_Phdr *, int, const char *);
 extern struct bfd_hash_entry *_bfd_elf_link_hash_newfunc
@@ -1425,8 +1437,6 @@ extern bfd_boolean _bfd_elf_merge_sections
   (bfd *, struct bfd_link_info *);
 extern bfd_boolean bfd_elf_is_group_section
   (bfd *, const struct bfd_section *);
-extern bfd_boolean bfd_elf_discard_group
-  (bfd *, struct bfd_section *);
 extern void _bfd_elf_section_already_linked
   (bfd *, struct bfd_section *);
 extern void bfd_elf_set_group_contents
@@ -1543,7 +1553,8 @@ extern bfd_boolean _bfd_elf_maybe_strip_eh_frame_hdr
 
 extern bfd_boolean _bfd_elf_merge_symbol
   (bfd *, struct bfd_link_info *, const char *, Elf_Internal_Sym *,
-   asection **, bfd_vma *, struct elf_link_hash_entry **, bfd_boolean *,
+   asection **, bfd_vma *, unsigned int *,
+   struct elf_link_hash_entry **, bfd_boolean *,
    bfd_boolean *, bfd_boolean *, bfd_boolean *);
 
 extern bfd_boolean _bfd_elf_add_default_symbol
@@ -1579,8 +1590,6 @@ extern bfd_boolean _bfd_elf_link_omit_section_dynsym
 extern bfd_boolean _bfd_elf_create_dynamic_sections
   (bfd *, struct bfd_link_info *);
 extern bfd_boolean _bfd_elf_create_got_section
-  (bfd *, struct bfd_link_info *);
-extern unsigned long _bfd_elf_link_renumber_dynsyms
   (bfd *, struct bfd_link_info *);
 
 extern bfd_boolean _bfd_elfcore_make_pseudosection
@@ -1769,10 +1778,10 @@ extern char *elfcore_write_lwpstatus
 
 extern bfd *_bfd_elf32_bfd_from_remote_memory
   (bfd *templ, bfd_vma ehdr_vma, bfd_vma *loadbasep,
-   int (*target_read_memory) (bfd_vma, char *, int));
+   int (*target_read_memory) (bfd_vma, bfd_byte *, int));
 extern bfd *_bfd_elf64_bfd_from_remote_memory
   (bfd *templ, bfd_vma ehdr_vma, bfd_vma *loadbasep,
-   int (*target_read_memory) (bfd_vma, char *, int));
+   int (*target_read_memory) (bfd_vma, bfd_byte *, int));
 
 /* SH ELF specific routine.  */
 

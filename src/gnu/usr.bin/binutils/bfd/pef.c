@@ -1,5 +1,5 @@
 /* PEF support for BFD.
-   Copyright 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -106,7 +106,7 @@ bfd_pef_print_symbol (abfd, afile, symbol, how)
       fprintf (file, " %-5s %s", symbol->section->name, symbol->name);
       if (strncmp (symbol->name, "__traceback_", strlen ("__traceback_")) == 0)
 	{
-	  char *buf = alloca (symbol->udata.i);
+	  unsigned char *buf = alloca (symbol->udata.i);
 	  size_t offset = symbol->value + 4;
 	  size_t len = symbol->udata.i;
 	  int ret;
@@ -600,13 +600,7 @@ bfd_pef_scan (abfd, header, mdata)
     }
 
   if (bfd_pef_scan_start_address (abfd) < 0)
-    {
-#if 0
-      fprintf (stderr, "bfd_pef_scan: unable to scan start address: %s\n",
-	       bfd_errmsg (bfd_get_error ()));
-      return -1;
-#endif
-    }
+    return -1;
 
   abfd->tdata.pef_data = mdata;
 
@@ -890,7 +884,8 @@ static int bfd_pef_parse_function_stubs (abfd, codesec, codebuf, codelen,
 	  goto error;
 
 	max = loaderlen - (header.loader_strings_offset + imports[index].name);
-	symname = loaderbuf + header.loader_strings_offset + imports[index].name;
+	symname = (char *) loaderbuf;
+	symname += header.loader_strings_offset + imports[index].name;
 	namelen = 0;
 	for (s = symname; s < (symname + max); s++)
 	  {
@@ -984,7 +979,7 @@ static long bfd_pef_parse_symbols (abfd, csym)
   count = 0;
   if (codesec != NULL)
     {
-      unsigned long ncount = 0;
+      long ncount = 0;
       bfd_pef_parse_traceback_tables (abfd, codesec, codebuf, codelen,
 				      &ncount, csym);
       count += ncount;

@@ -26,6 +26,14 @@
 #include "fnmatch.h"
 
 /*
+   It's okay to see some:
+#if 0
+   directives in this source file, as targets.c uses them to exclude
+   certain BFD vectors.  This comment is specially formatted to catch
+   users who grep for ^#if 0, so please keep it this way!
+*/
+
+/*
 SECTION
 	Targets
 
@@ -201,7 +209,7 @@ DESCRIPTION
 .  unsigned short ar_max_namelen;
 .
 .  {* Entries for byte swapping for data. These are different from the
-.     other entry points, since they don't take a BFD asthe first argument.
+.     other entry points, since they don't take a BFD as the first argument.
 .     Certain other handlers could do the same.  *}
 .  bfd_uint64_t   (*bfd_getx64) (const void *);
 .  bfd_int64_t    (*bfd_getx_signed_64) (const void *);
@@ -859,7 +867,9 @@ static const bfd_target * const _bfd_target_vector[] = {
 #if 0
 	&bfd_elf32_ia64_big_vec,
 #endif
+#ifdef BFD64
 	&bfd_elf32_ia64_hpux_big_vec,
+#endif
 	&bfd_elf32_ip2k_vec,
 	&bfd_elf32_iq2000_vec,
 	&bfd_elf32_little_generic_vec,

@@ -779,6 +779,18 @@ to compensate for the borrow when the low bits are added.
 @deffn {} BFD_RELOC_LO16
 Low 16 bits.
 @end deffn
+@deffn {} BFD_RELOC_MIPS16_HI16
+MIPS16 high 16 bits of 32-bit value.
+@end deffn
+@deffn {} BFD_RELOC_MIPS16_HI16_S
+MIPS16 high 16 bits of 32-bit value but the low 16 bits will be sign
+extended and added to form the final result.  If the low 16
+bits form a negative number, we need to add one to the high value
+to compensate for the borrow when the low bits are added.
+@end deffn
+@deffn {} BFD_RELOC_MIPS16_LO16
+MIPS16 low 16 bits.
+@end deffn
 @deffn {} BFD_RELOC_MIPS_LITERAL
 Relocation against a MIPS literal section.
 @end deffn
@@ -803,6 +815,19 @@ Relocation against a MIPS literal section.
 @deffnx {} BFD_RELOC_MIPS_REL16
 @deffnx {} BFD_RELOC_MIPS_RELGOT
 @deffnx {} BFD_RELOC_MIPS_JALR
+@deffnx {} BFD_RELOC_MIPS_TLS_DTPMOD32
+@deffnx {} BFD_RELOC_MIPS_TLS_DTPREL32
+@deffnx {} BFD_RELOC_MIPS_TLS_DTPMOD64
+@deffnx {} BFD_RELOC_MIPS_TLS_DTPREL64
+@deffnx {} BFD_RELOC_MIPS_TLS_GD
+@deffnx {} BFD_RELOC_MIPS_TLS_LDM
+@deffnx {} BFD_RELOC_MIPS_TLS_DTPREL_HI16
+@deffnx {} BFD_RELOC_MIPS_TLS_DTPREL_LO16
+@deffnx {} BFD_RELOC_MIPS_TLS_GOTTPREL
+@deffnx {} BFD_RELOC_MIPS_TLS_TPREL32
+@deffnx {} BFD_RELOC_MIPS_TLS_TPREL64
+@deffnx {} BFD_RELOC_MIPS_TLS_TPREL_HI16
+@deffnx {} BFD_RELOC_MIPS_TLS_TPREL_LO16
 MIPS ELF relocations.
 @end deffn
 @deffn {} BFD_RELOC_FRV_LABEL16
@@ -828,6 +853,22 @@ MIPS ELF relocations.
 @deffnx {} BFD_RELOC_FRV_GOTOFF12
 @deffnx {} BFD_RELOC_FRV_GOTOFFHI
 @deffnx {} BFD_RELOC_FRV_GOTOFFLO
+@deffnx {} BFD_RELOC_FRV_GETTLSOFF
+@deffnx {} BFD_RELOC_FRV_TLSDESC_VALUE
+@deffnx {} BFD_RELOC_FRV_GOTTLSDESC12
+@deffnx {} BFD_RELOC_FRV_GOTTLSDESCHI
+@deffnx {} BFD_RELOC_FRV_GOTTLSDESCLO
+@deffnx {} BFD_RELOC_FRV_TLSMOFF12
+@deffnx {} BFD_RELOC_FRV_TLSMOFFHI
+@deffnx {} BFD_RELOC_FRV_TLSMOFFLO
+@deffnx {} BFD_RELOC_FRV_GOTTLSOFF12
+@deffnx {} BFD_RELOC_FRV_GOTTLSOFFHI
+@deffnx {} BFD_RELOC_FRV_GOTTLSOFFLO
+@deffnx {} BFD_RELOC_FRV_TLSOFF
+@deffnx {} BFD_RELOC_FRV_TLSDESC_RELAX
+@deffnx {} BFD_RELOC_FRV_GETTLSOFF_RELAX
+@deffnx {} BFD_RELOC_FRV_TLSOFF_RELAX
+@deffnx {} BFD_RELOC_FRV_TLSMOFF
 Fujitsu Frv Relocations.
 @end deffn
 @deffn {} BFD_RELOC_MN10300_GOTOFF24

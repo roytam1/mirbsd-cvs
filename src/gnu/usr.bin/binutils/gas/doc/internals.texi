@@ -1,6 +1,6 @@
 \input texinfo
 @c  Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-@c  2001, 2002, 2003
+@c  2001, 2002, 2003, 2004, 2005
 @c  Free Software Foundation, Inc.
 @setfilename internals.info
 @node Top
@@ -1029,7 +1029,7 @@ If you define this macro, GAS will not require pseudo-ops to start with a
 If you define this macro, it should return nonzero if the instruction is
 permitted to contain an @kbd{=} character.  GAS will call it with two
 arguments, the character before the @kbd{=} character, and the value of
-@code{input_line_pointer} at that point.  GAS uses this macro to decide if a
+the string preceding the equal sign. GAS uses this macro to decide if a
 @kbd{=} is an assignment or an instruction.
 
 @item TC_EOL_IN_INSN
@@ -1121,6 +1121,11 @@ pseudo-op.
 @item TC_CONS_FIX_NEW
 @cindex TC_CONS_FIX_NEW
 You may define this macro to generate a fixup for a data allocation pseudo-op.
+
+@item TC_ADDRESS_BYTES
+@cindex TC_ADDRESS_BYTES
+Define this macro to specify the number of bytes used to store an address.
+Used to implement @code{dc.a}.  The target must have a reloc for this size.
 
 @item TC_INIT_FIX_DATA (@var{fixp})
 @cindex TC_INIT_FIX_DATA

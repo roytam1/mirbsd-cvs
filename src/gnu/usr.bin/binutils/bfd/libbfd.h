@@ -7,7 +7,8 @@
    (This include file is not for users of the library.)
 
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    Written by Cygnus Support.
 
@@ -26,6 +27,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+
+#include "hashtab.h"
 
 /* Align an address upward to a boundary, expressed as a number of bytes.
    E.g. align to an 8-byte boundary with argument of 8.  Take care never
@@ -61,7 +64,7 @@ struct bfd_in_memory
 struct artdata {
   file_ptr first_file_filepos;
   /* Speed up searching the armap */
-  struct ar_cache *cache;
+  htab_t cache;
   bfd *archive_head;		/* Only interesting in output routines */
   carsym *symdefs;		/* the symdef entries */
   symindex symdef_count;	/* how many there are */
@@ -180,6 +183,8 @@ bfd_boolean coff_write_armap
 
 extern void *_bfd_generic_read_ar_hdr
   (bfd *);
+extern void _bfd_ar_spacepad
+  (char *, size_t, const char *, long);
 
 extern void *_bfd_generic_read_ar_hdr_mag
   (bfd *, const char *);
@@ -691,8 +696,8 @@ extern void bfd_section_already_linked_table_traverse
   (bfd_boolean (*) (struct bfd_section_already_linked_hash_entry *,
 		    void *), void *);
 
-extern bfd_vma read_unsigned_leb128 (bfd *, char *, unsigned int *);
-extern bfd_signed_vma read_signed_leb128 (bfd *, char *, unsigned int *);
+extern bfd_vma read_unsigned_leb128 (bfd *, bfd_byte *, unsigned int *);
+extern bfd_signed_vma read_signed_leb128 (bfd *, bfd_byte *, unsigned int *);
 
 /* Extracted from init.c.  */
 /* Extracted from libbfd.c.  */
@@ -902,6 +907,9 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_HI16",
   "BFD_RELOC_HI16_S",
   "BFD_RELOC_LO16",
+  "BFD_RELOC_MIPS16_HI16",
+  "BFD_RELOC_MIPS16_HI16_S",
+  "BFD_RELOC_MIPS16_LO16",
   "BFD_RELOC_MIPS_LITERAL",
   "BFD_RELOC_MIPS_GOT16",
   "BFD_RELOC_MIPS_CALL16",
@@ -924,6 +932,19 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_MIPS_REL16",
   "BFD_RELOC_MIPS_RELGOT",
   "BFD_RELOC_MIPS_JALR",
+  "BFD_RELOC_MIPS_TLS_DTPMOD32",
+  "BFD_RELOC_MIPS_TLS_DTPREL32",
+  "BFD_RELOC_MIPS_TLS_DTPMOD64",
+  "BFD_RELOC_MIPS_TLS_DTPREL64",
+  "BFD_RELOC_MIPS_TLS_GD",
+  "BFD_RELOC_MIPS_TLS_LDM",
+  "BFD_RELOC_MIPS_TLS_DTPREL_HI16",
+  "BFD_RELOC_MIPS_TLS_DTPREL_LO16",
+  "BFD_RELOC_MIPS_TLS_GOTTPREL",
+  "BFD_RELOC_MIPS_TLS_TPREL32",
+  "BFD_RELOC_MIPS_TLS_TPREL64",
+  "BFD_RELOC_MIPS_TLS_TPREL_HI16",
+  "BFD_RELOC_MIPS_TLS_TPREL_LO16",
 
   "BFD_RELOC_FRV_LABEL16",
   "BFD_RELOC_FRV_LABEL24",
@@ -948,6 +969,22 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_FRV_GOTOFF12",
   "BFD_RELOC_FRV_GOTOFFHI",
   "BFD_RELOC_FRV_GOTOFFLO",
+  "BFD_RELOC_FRV_GETTLSOFF",
+  "BFD_RELOC_FRV_TLSDESC_VALUE",
+  "BFD_RELOC_FRV_GOTTLSDESC12",
+  "BFD_RELOC_FRV_GOTTLSDESCHI",
+  "BFD_RELOC_FRV_GOTTLSDESCLO",
+  "BFD_RELOC_FRV_TLSMOFF12",
+  "BFD_RELOC_FRV_TLSMOFFHI",
+  "BFD_RELOC_FRV_TLSMOFFLO",
+  "BFD_RELOC_FRV_GOTTLSOFF12",
+  "BFD_RELOC_FRV_GOTTLSOFFHI",
+  "BFD_RELOC_FRV_GOTTLSOFFLO",
+  "BFD_RELOC_FRV_TLSOFF",
+  "BFD_RELOC_FRV_TLSDESC_RELAX",
+  "BFD_RELOC_FRV_GETTLSOFF_RELAX",
+  "BFD_RELOC_FRV_TLSOFF_RELAX",
+  "BFD_RELOC_FRV_TLSMOFF",
 
   "BFD_RELOC_MN10300_GOTOFF24",
   "BFD_RELOC_MN10300_GOT32",

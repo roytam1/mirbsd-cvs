@@ -2400,7 +2400,7 @@ find_cooked_opcode (char **str_p)
      The pre-processor will eliminate whitespace in front of
      any '@' after the first argument; we may be called from
      assemble_ppi, so the opcode might be terminated by an '@'.  */
-  for (op_start = op_end = (unsigned char *) (str);
+  for (op_start = op_end = (unsigned char *) str;
        *op_end
        && nlen < 20
        && !is_end_of_line[*op_end] && *op_end != ' ' && *op_end != '@';
@@ -2419,7 +2419,7 @@ find_cooked_opcode (char **str_p)
     }
 
   name[nlen] = 0;
-  *str_p = op_end;
+  *str_p = (char *) op_end;
 
   if (nlen == 0)
     as_bad (_("can't find opcode "));
@@ -2734,7 +2734,7 @@ assemble_ppi (char *op_end, sh_opcode_info *opcode)
 void
 md_assemble (char *str)
 {
-  unsigned char *op_end;
+  char *op_end;
   sh_operand_info operand[3];
   sh_opcode_info *opcode;
   unsigned int size = 0;
@@ -3777,7 +3777,11 @@ sh_elf_final_processing (void)
   else
 #elif defined TARGET_SYMBIAN
     if (1)
-      val = sh_symbian_find_elf_flags (valid_arch);
+      {
+	extern int sh_symbian_find_elf_flags (unsigned int);
+
+	val = sh_symbian_find_elf_flags (valid_arch);
+      }
     else
 #endif /* HAVE_SH64 */
     val = sh_find_elf_flags (valid_arch);
@@ -3904,7 +3908,7 @@ md_apply_fix3 (fixS *fixP, valueT *valP, segT seg ATTRIBUTE_UNUSED)
 	abort();
       max = 0x7ffff;
       min = -0x80000;
-      buf[1] = (buf[1] & 0x0f) | (val >> 12) & 0xf0;
+      buf[1] = (buf[1] & 0x0f) | ((val >> 12) & 0xf0);
       buf[2] = (val >> 8) & 0xff;
       buf[3] = val & 0xff;
       break;
@@ -3914,7 +3918,7 @@ md_apply_fix3 (fixS *fixP, valueT *valP, segT seg ATTRIBUTE_UNUSED)
       max = 0x7ffff;
       min = -0x80000;
       shift = 8;
-      buf[1] = (buf[1] & 0x0f) | (val >> 20) & 0xf0;
+      buf[1] = (buf[1] & 0x0f) | ((val >> 20) & 0xf0);
       buf[2] = (val >> 16) & 0xff;
       buf[3] = (val >> 8) & 0xff;
       break;
@@ -4556,7 +4560,6 @@ sh_parse_name (char const *name, expressionS *exprP, char *nextcharP)
 
   return 1;
 }
-#endif
 
 void
 sh_cfi_frame_initial_instructions (void)
@@ -4606,4 +4609,5 @@ sh_regname_to_dw2regnum (const char *regname)
     }
   return regnum;
 }
+#endif /* OBJ_ELF */
 #endif /* BFD_ASSEMBLER */

@@ -1,5 +1,5 @@
 /* IA-64 support for 64-bit ELF
-   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Contributed by David Mosberger-Tang <davidm@hpl.hp.com>
 
@@ -183,8 +183,6 @@ static void elfNN_ia64_relax_ldxmov
   PARAMS((bfd_byte *contents, bfd_vma off));
 static bfd_boolean is_unwind_section_name
   PARAMS ((bfd *abfd, const char *));
-static bfd_boolean elfNN_ia64_section_from_shdr
-  PARAMS ((bfd *, Elf_Internal_Shdr *, const char *));
 static bfd_boolean elfNN_ia64_section_flags
   PARAMS ((flagword *, const Elf_Internal_Shdr *));
 static bfd_boolean elfNN_ia64_fake_sections
@@ -445,8 +443,8 @@ static reloc_howto_type ia64_howto_table[] =
     IA64_HOWTO (R_IA64_TPREL64LSB,  "TPREL64LSB",  4, FALSE, FALSE),
     IA64_HOWTO (R_IA64_LTOFF_TPREL22, "LTOFF_TPREL22",  0, FALSE, FALSE),
 
-    IA64_HOWTO (R_IA64_DTPMOD64MSB, "TPREL64MSB",  4, FALSE, FALSE),
-    IA64_HOWTO (R_IA64_DTPMOD64LSB, "TPREL64LSB",  4, FALSE, FALSE),
+    IA64_HOWTO (R_IA64_DTPMOD64MSB, "DTPMOD64MSB",  4, FALSE, FALSE),
+    IA64_HOWTO (R_IA64_DTPMOD64LSB, "DTPMOD64LSB",  4, FALSE, FALSE),
     IA64_HOWTO (R_IA64_LTOFF_DTPMOD22, "LTOFF_DTPMOD22", 0, FALSE, FALSE),
 
     IA64_HOWTO (R_IA64_DTPREL14,    "DTPREL14",	   0, FALSE, FALSE),
@@ -676,32 +674,39 @@ bfd_elfNN_ia64_after_parse (int itanium)
 static void
 elfNN_ia64_relax_brl (bfd_byte *contents, bfd_vma off)
 {
-  int template;
+  unsigned int template, t0, t1, t2, t3;
   bfd_byte *hit_addr;
-  bfd_vma t0, t1, i0, i1, i2;
 
   hit_addr = (bfd_byte *) (contents + off);
   hit_addr -= (long) hit_addr & 0x3;
-  t0 = bfd_getl64 (hit_addr);
-  t1 = bfd_getl64 (hit_addr + 8);
-
-  /* Keep the instruction in slot 0. */
-  i0 = (t0 >> 5) & 0x1ffffffffffLL;
-  /* Use nop.b for slot 1. */
-  i1 = 0x4000000000LL;
-  /* For slot 2, turn brl into br by masking out bit 40.  */
-  i2 = (t1 >> 23) & 0x0ffffffffffLL;
+  t0 = bfd_getl32 (hit_addr + 0);
+  t1 = bfd_getl32 (hit_addr + 4);
+  t2 = bfd_getl32 (hit_addr + 8);
+  t3 = bfd_getl32 (hit_addr + 12);
 
   /* Turn a MLX bundle into a MBB bundle with the same stop-bit
      variety.  */
   template = 0x12;
-  if ((t0 & 0x1fLL) == 5)
+  if ((t0 & 0x1f) == 5)
     template += 1;
-  t0 = (i1 << 46) | (i0 << 5) | template;
-  t1 = (i2 << 23) | (i1 >> 18);
 
-  bfd_putl64 (t0, hit_addr);
-  bfd_putl64 (t1, hit_addr + 8);
+  /* Keep the instruction in slot 0. */
+  t0 &= 0xffffffe0;
+  t1 &= 0x3fff;
+
+  t0 |= template;
+
+  /* For slot 2, turn brl into br by masking out bit 40.  */
+  t2 &= 0xff800000;
+  t3 &= 0x7fffffff;
+
+  /* Use nop.b for slot 1. */
+  t2 |= 0x100000;
+
+  bfd_putl32 (t0, hit_addr);
+  bfd_putl32 (t1, hit_addr + 4);
+  bfd_putl32 (t2, hit_addr + 8);
+  bfd_putl32 (t3, hit_addr + 12);
 }
 
 /* These functions do relaxation for IA-64 ELF.  */
@@ -957,7 +962,7 @@ elfNN_ia64_relax_section (abfd, sec, link_info, again)
 		  elfNN_ia64_relax_brl (contents, roff);
 
 		  irel->r_info
-		    = ELF64_R_INFO (ELF64_R_SYM (irel->r_info),
+		    = ELFNN_R_INFO (ELFNN_R_SYM (irel->r_info),
 				    R_IA64_PCREL21B);
 
 		  /* If the original relocation offset points to slot
@@ -984,9 +989,10 @@ elfNN_ia64_relax_section (abfd, sec, link_info, again)
 	    }
 
 	  /* If the branch and target are in the same section, you've
-	     got one honking big section and we can't help you.  You'll
-	     get an error message later.  */
-	  if (tsec == sec)
+	     got one honking big section and we can't help you unless
+	     you are branching backwards.  You'll get an error message
+	     later.  */
+	  if (tsec == sec && toff > roff)
 	    continue;
 
 	  /* Look for an existing fixup to this address.  */
@@ -1253,13 +1259,14 @@ is_unwind_section_name (abfd, name)
 }
 
 /* Handle an IA-64 specific section when reading an object file.  This
-   is called when elfcode.h finds a section with an unknown type.  */
+   is called when bfd_section_from_shdr finds a section with an unknown
+   type.  */
 
 static bfd_boolean
-elfNN_ia64_section_from_shdr (abfd, hdr, name)
-     bfd *abfd;
-     Elf_Internal_Shdr *hdr;
-     const char *name;
+elfNN_ia64_section_from_shdr (bfd *abfd,
+			      Elf_Internal_Shdr *hdr,
+			      const char *name,
+			      int shindex)
 {
   asection *newsect;
 
@@ -1283,7 +1290,7 @@ elfNN_ia64_section_from_shdr (abfd, hdr, name)
       return FALSE;
     }
 
-  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name))
+  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
     return FALSE;
   newsect = hdr->bfd_section;
 
@@ -1616,15 +1623,12 @@ elfNN_ia64_new_elf_hash_entry (entry, table, string)
   if (!ret)
     return 0;
 
-  /* Initialize our local data.  All zeros, and definitely easier
-     than setting a handful of bit fields.  */
-  memset (ret, 0, sizeof (*ret));
-
   /* Call the allocation method of the superclass.  */
   ret = ((struct elfNN_ia64_link_hash_entry *)
 	 _bfd_elf_link_hash_newfunc ((struct bfd_hash_entry *) ret,
 				     table, string));
 
+  ret->info = NULL;
   return (struct bfd_hash_entry *) ret;
 }
 
@@ -3114,7 +3118,8 @@ elfNN_ia64_install_value (hit_addr, v, r_type)
 {
   const struct ia64_operand *op;
   int bigendian = 0, shift = 0;
-  bfd_vma t0, t1, insn, dword;
+  bfd_vma t0, t1, dword;
+  ia64_insn insn;
   enum ia64_opnd opnd;
   const char *err;
   size_t size = 8;
@@ -3303,7 +3308,7 @@ elfNN_ia64_install_value (hit_addr, v, r_type)
       insn = (dword >> shift) & 0x1ffffffffffLL;
 
       op = elf64_ia64_operands + opnd;
-      err = (*op->insert) (op, val, (ia64_insn *)& insn);
+      err = (*op->insert) (op, val, &insn);
       if (err)
 	return bfd_reloc_overflow;
 
@@ -4496,7 +4501,7 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	    const char *name;
 
 	    if (h)
-	      name = NULL;
+	      name = h->root.root.string;
 	    else
 	      {
 		name = bfd_elf_string_from_elf_section (input_bfd,
@@ -4507,13 +4512,37 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 		if (*name == '\0')
 		  name = bfd_section_name (input_bfd, sym_sec);
 	      }
-	    if (!(*info->callbacks->reloc_overflow) (info, &h->root,
-						     name, howto->name,
-						     (bfd_vma) 0,
-						     input_bfd,
-						     input_section,
-						     rel->r_offset))
-	      return FALSE;
+
+	    switch (r_type)
+	      {
+	      case R_IA64_PCREL21B:
+	      case R_IA64_PCREL21BI:
+	      case R_IA64_PCREL21M:
+	      case R_IA64_PCREL21F:
+		if (is_elf_hash_table (info->hash))
+		  {
+		    /* Relaxtion is always performed for ELF output.
+		       Overflow failures for those relocations mean
+		       that the section is too big to relax.  */
+		    (*_bfd_error_handler)
+		      (_("%B: Can't relax br (%s) to `%s' at 0x%lx in section `%A' with size 0x%lx (> 0x1000000)."),
+		       input_bfd, input_section, howto->name, name,
+		       rel->r_offset, input_section->size);
+		    break;
+		  }
+	      default:
+		if (!(*info->callbacks->reloc_overflow) (info,
+							 &h->root,
+							 name,
+							 howto->name,
+							 (bfd_vma) 0,
+							 input_bfd,
+							 input_section,
+							 rel->r_offset))
+		  return FALSE;
+		break;
+	      }
+
 	    ret_val = FALSE;
 	  }
 	  break;

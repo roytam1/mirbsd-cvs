@@ -195,13 +195,14 @@ struct xtensa_frag_type
   unsigned int is_assembly_state_set : 1;
   unsigned int is_no_density : 1;
   unsigned int is_no_transform : 1;
+  unsigned int use_longcalls : 1;
   unsigned int use_absolute_literals : 1;
 
   /* Inhibits relaxation of machine-dependent alignment frags the
      first time through a relaxation....  */
   unsigned int relax_seen : 1;
 
-  /* Infomation that is needed in the object file and set when known.  */
+  /* Information that is needed in the object file and set when known.  */
   unsigned int is_literal : 1;
   unsigned int is_loop_target : 1;
   unsigned int is_branch_target : 1;
@@ -291,6 +292,7 @@ extern const char *xtensa_target_format (void);
 extern void xtensa_init_fix_data (struct fix *);
 extern void xtensa_frag_init (fragS *);
 extern int xtensa_force_relocation (struct fix *);
+extern int xtensa_validate_fix_sub (struct fix *);
 extern void xtensa_frob_label (struct symbol *);
 extern void xtensa_end (void);
 extern void xtensa_post_relax_hook (void);
@@ -314,6 +316,9 @@ extern char *xtensa_section_rename (char *);
 #define TC_FRAG_TYPE			struct xtensa_frag_type
 #define TC_FRAG_INIT(frag)		xtensa_frag_init (frag)
 #define TC_FORCE_RELOCATION(fix)	xtensa_force_relocation (fix)
+#define TC_FORCE_RELOCATION_SUB_SAME(fix, seg) \
+  (! SEG_NORMAL (seg) || xtensa_force_relocation (fix))
+#define	TC_VALIDATE_FIX_SUB(fix)	xtensa_validate_fix_sub (fix)
 #define NO_PSEUDO_DOT			xtensa_check_inside_bundle ()
 #define tc_canonicalize_symbol_name(s)	xtensa_section_rename (s)
 #define tc_canonicalize_section_name(s)	xtensa_section_rename (s)

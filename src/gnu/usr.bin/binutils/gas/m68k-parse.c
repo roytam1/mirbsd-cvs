@@ -82,7 +82,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 27 "m68k-parse.y"
+#line 28 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
 
 
 #include "as.h"
@@ -164,7 +164,7 @@ static struct m68k_op *op;
 #endif
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 95 "m68k-parse.y"
+#line 96 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
 typedef union YYSTYPE {
   struct m68k_indexreg indexreg;
   enum m68k_register reg;
@@ -396,15 +396,15 @@ static const yysigned_char yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const unsigned short yyrline[] =
 {
-       0,   120,   120,   121,   125,   134,   135,   142,   147,   152,
-     157,   162,   167,   172,   177,   182,   187,   192,   205,   210,
-     215,   220,   230,   240,   250,   255,   260,   265,   272,   283,
-     290,   296,   303,   309,   320,   330,   337,   343,   351,   358,
-     365,   371,   379,   386,   398,   409,   422,   430,   438,   446,
-     456,   463,   471,   478,   492,   493,   506,   507,   519,   520,
-     521,   527,   528,   534,   535,   542,   543,   544,   551,   554,
-     560,   561,   568,   571,   581,   585,   595,   599,   608,   609,
-     613,   625,   629,   630,   634,   641,   651,   655,   659,   663
+       0,   121,   121,   122,   126,   135,   136,   143,   148,   153,
+     158,   163,   168,   173,   178,   183,   188,   193,   206,   211,
+     216,   221,   231,   241,   251,   256,   261,   266,   273,   284,
+     291,   297,   304,   310,   321,   331,   338,   344,   352,   359,
+     366,   372,   380,   387,   399,   410,   423,   431,   439,   447,
+     457,   464,   472,   479,   493,   494,   507,   508,   520,   521,
+     522,   528,   529,   535,   536,   543,   544,   545,   552,   555,
+     561,   562,   569,   572,   582,   586,   596,   600,   609,   610,
+     614,   626,   630,   631,   635,   642,   652,   656,   660,   664
 };
 #endif
 
@@ -1217,45 +1217,45 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 122 "m68k-parse.y"
+#line 123 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->trailing_ampersand = yyvsp[0].trailing_ampersand;
 		}
     break;
 
   case 4:
-#line 126 "m68k-parse.y"
+#line 127 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->trailing_ampersand = yyvsp[0].trailing_ampersand;
 		}
     break;
 
   case 5:
-#line 134 "m68k-parse.y"
+#line 135 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     { yyval.trailing_ampersand = 0; }
     break;
 
   case 6:
-#line 136 "m68k-parse.y"
+#line 137 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     { yyval.trailing_ampersand = 1; }
     break;
 
   case 7:
-#line 143 "m68k-parse.y"
+#line 144 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = LSH;
 		}
     break;
 
   case 8:
-#line 148 "m68k-parse.y"
+#line 149 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = RSH;
 		}
     break;
 
   case 9:
-#line 153 "m68k-parse.y"
+#line 154 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = DREG;
 		  op->reg = yyvsp[0].reg;
@@ -1263,7 +1263,7 @@ yyreduce:
     break;
 
   case 10:
-#line 158 "m68k-parse.y"
+#line 159 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = AREG;
 		  op->reg = yyvsp[0].reg;
@@ -1271,7 +1271,7 @@ yyreduce:
     break;
 
   case 11:
-#line 163 "m68k-parse.y"
+#line 164 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = FPREG;
 		  op->reg = yyvsp[0].reg;
@@ -1279,7 +1279,7 @@ yyreduce:
     break;
 
   case 12:
-#line 168 "m68k-parse.y"
+#line 169 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = CONTROL;
 		  op->reg = yyvsp[0].reg;
@@ -1287,7 +1287,7 @@ yyreduce:
     break;
 
   case 13:
-#line 173 "m68k-parse.y"
+#line 174 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = CONTROL;
 		  op->reg = yyvsp[0].reg;
@@ -1295,7 +1295,7 @@ yyreduce:
     break;
 
   case 14:
-#line 178 "m68k-parse.y"
+#line 179 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = ABSL;
 		  op->disp = yyvsp[0].exp;
@@ -1303,7 +1303,7 @@ yyreduce:
     break;
 
   case 15:
-#line 183 "m68k-parse.y"
+#line 184 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = IMMED;
 		  op->disp = yyvsp[0].exp;
@@ -1311,7 +1311,7 @@ yyreduce:
     break;
 
   case 16:
-#line 188 "m68k-parse.y"
+#line 189 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = IMMED;
 		  op->disp = yyvsp[0].exp;
@@ -1319,7 +1319,7 @@ yyreduce:
     break;
 
   case 17:
-#line 193 "m68k-parse.y"
+#line 194 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = REGLST;
 		  op->mask = yyvsp[0].mask;
@@ -1327,7 +1327,7 @@ yyreduce:
     break;
 
   case 18:
-#line 206 "m68k-parse.y"
+#line 207 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = AINDR;
 		  op->reg = yyvsp[-1].reg;
@@ -1335,7 +1335,7 @@ yyreduce:
     break;
 
   case 19:
-#line 211 "m68k-parse.y"
+#line 212 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = AINC;
 		  op->reg = yyvsp[-2].reg;
@@ -1343,7 +1343,7 @@ yyreduce:
     break;
 
   case 20:
-#line 216 "m68k-parse.y"
+#line 217 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = ADEC;
 		  op->reg = yyvsp[-1].reg;
@@ -1351,7 +1351,7 @@ yyreduce:
     break;
 
   case 21:
-#line 221 "m68k-parse.y"
+#line 222 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->reg = yyvsp[-1].reg;
 		  op->disp = yyvsp[-3].exp;
@@ -1364,7 +1364,7 @@ yyreduce:
     break;
 
   case 22:
-#line 231 "m68k-parse.y"
+#line 232 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->reg = yyvsp[-3].reg;
 		  op->disp = yyvsp[-1].exp;
@@ -1377,7 +1377,7 @@ yyreduce:
     break;
 
   case 23:
-#line 241 "m68k-parse.y"
+#line 242 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->reg = yyvsp[-1].reg;
 		  op->disp = yyvsp[-3].exp;
@@ -1390,7 +1390,7 @@ yyreduce:
     break;
 
   case 24:
-#line 251 "m68k-parse.y"
+#line 252 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = DISP;
 		  op->reg = yyvsp[-1].reg;
@@ -1398,7 +1398,7 @@ yyreduce:
     break;
 
   case 25:
-#line 256 "m68k-parse.y"
+#line 257 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-1].reg;
@@ -1406,7 +1406,7 @@ yyreduce:
     break;
 
   case 26:
-#line 261 "m68k-parse.y"
+#line 262 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-1].reg;
@@ -1414,7 +1414,7 @@ yyreduce:
     break;
 
   case 27:
-#line 266 "m68k-parse.y"
+#line 267 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-3].reg;
@@ -1424,7 +1424,7 @@ yyreduce:
     break;
 
   case 28:
-#line 273 "m68k-parse.y"
+#line 274 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[-3].reg == PC || yyvsp[-3].reg == ZPC)
 		    yyerror (_("syntax error"));
@@ -1438,7 +1438,7 @@ yyreduce:
     break;
 
   case 29:
-#line 284 "m68k-parse.y"
+#line 285 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-1].reg;
@@ -1448,7 +1448,7 @@ yyreduce:
     break;
 
   case 30:
-#line 291 "m68k-parse.y"
+#line 292 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->disp = yyvsp[-1].exp;
@@ -1457,7 +1457,7 @@ yyreduce:
     break;
 
   case 31:
-#line 297 "m68k-parse.y"
+#line 298 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-3].reg;
@@ -1467,7 +1467,7 @@ yyreduce:
     break;
 
   case 32:
-#line 304 "m68k-parse.y"
+#line 305 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-3].reg;
@@ -1476,7 +1476,7 @@ yyreduce:
     break;
 
   case 33:
-#line 310 "m68k-parse.y"
+#line 311 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[-3].reg == PC || yyvsp[-3].reg == ZPC)
 		    yyerror (_("syntax error"));
@@ -1490,7 +1490,7 @@ yyreduce:
     break;
 
   case 34:
-#line 321 "m68k-parse.y"
+#line 322 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[-3].reg == PC || yyvsp[-3].reg == ZPC)
 		    yyerror (_("syntax error"));
@@ -1503,7 +1503,7 @@ yyreduce:
     break;
 
   case 35:
-#line 331 "m68k-parse.y"
+#line 332 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-1].reg;
@@ -1513,7 +1513,7 @@ yyreduce:
     break;
 
   case 36:
-#line 338 "m68k-parse.y"
+#line 339 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-1].reg;
@@ -1522,7 +1522,7 @@ yyreduce:
     break;
 
   case 37:
-#line 344 "m68k-parse.y"
+#line 345 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = POST;
 		  op->reg = yyvsp[-5].reg;
@@ -1533,7 +1533,7 @@ yyreduce:
     break;
 
   case 38:
-#line 352 "m68k-parse.y"
+#line 353 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = POST;
 		  op->reg = yyvsp[-3].reg;
@@ -1543,7 +1543,7 @@ yyreduce:
     break;
 
   case 39:
-#line 359 "m68k-parse.y"
+#line 360 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = POST;
 		  op->reg = yyvsp[-5].reg;
@@ -1553,7 +1553,7 @@ yyreduce:
     break;
 
   case 40:
-#line 366 "m68k-parse.y"
+#line 367 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = POST;
 		  op->reg = yyvsp[-3].reg;
@@ -1562,7 +1562,7 @@ yyreduce:
     break;
 
   case 41:
-#line 372 "m68k-parse.y"
+#line 373 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = PRE;
 		  op->reg = yyvsp[-5].reg;
@@ -1573,7 +1573,7 @@ yyreduce:
     break;
 
   case 42:
-#line 380 "m68k-parse.y"
+#line 381 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = PRE;
 		  op->reg = yyvsp[-5].reg;
@@ -1583,7 +1583,7 @@ yyreduce:
     break;
 
   case 43:
-#line 387 "m68k-parse.y"
+#line 388 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[-5].reg == PC || yyvsp[-5].reg == ZPC)
 		    yyerror (_("syntax error"));
@@ -1598,7 +1598,7 @@ yyreduce:
     break;
 
   case 44:
-#line 399 "m68k-parse.y"
+#line 400 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[-5].reg == PC || yyvsp[-5].reg == ZPC)
 		    yyerror (_("syntax error"));
@@ -1612,7 +1612,7 @@ yyreduce:
     break;
 
   case 45:
-#line 410 "m68k-parse.y"
+#line 411 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = PRE;
 		  op->reg = yyvsp[-3].reg;
@@ -1623,7 +1623,7 @@ yyreduce:
     break;
 
   case 46:
-#line 423 "m68k-parse.y"
+#line 424 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  /* We use optzapc to avoid a shift/reduce conflict.  */
 		  if (yyvsp[-1].reg < ADDR0 || yyvsp[-1].reg > ADDR7)
@@ -1634,7 +1634,7 @@ yyreduce:
     break;
 
   case 47:
-#line 431 "m68k-parse.y"
+#line 432 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  /* We use optzapc to avoid a shift/reduce conflict.  */
 		  if (yyvsp[-2].reg < ADDR0 || yyvsp[-2].reg > ADDR7)
@@ -1645,7 +1645,7 @@ yyreduce:
     break;
 
   case 48:
-#line 439 "m68k-parse.y"
+#line 440 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  /* We use optzapc to avoid a shift/reduce conflict.  */
 		  if (yyvsp[-2].reg < ADDR0 || yyvsp[-2].reg > ADDR7)
@@ -1656,7 +1656,7 @@ yyreduce:
     break;
 
   case 49:
-#line 447 "m68k-parse.y"
+#line 448 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->reg = yyvsp[-4].reg;
 		  op->disp = yyvsp[-1].exp;
@@ -1669,7 +1669,7 @@ yyreduce:
     break;
 
   case 50:
-#line 457 "m68k-parse.y"
+#line 458 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = BASE;
 		  op->reg = yyvsp[-5].reg;
@@ -1679,7 +1679,7 @@ yyreduce:
     break;
 
   case 51:
-#line 464 "m68k-parse.y"
+#line 465 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = POST;
 		  op->reg = yyvsp[-9].reg;
@@ -1690,7 +1690,7 @@ yyreduce:
     break;
 
   case 52:
-#line 472 "m68k-parse.y"
+#line 473 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = POST;
 		  op->reg = yyvsp[-8].reg;
@@ -1700,7 +1700,7 @@ yyreduce:
     break;
 
   case 53:
-#line 479 "m68k-parse.y"
+#line 480 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  op->mode = PRE;
 		  op->reg = yyvsp[-9].reg;
@@ -1711,7 +1711,7 @@ yyreduce:
     break;
 
   case 55:
-#line 494 "m68k-parse.y"
+#line 495 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.indexreg.reg = yyvsp[0].reg;
 		  yyval.indexreg.size = SIZE_UNSPEC;
@@ -1720,7 +1720,7 @@ yyreduce:
     break;
 
   case 57:
-#line 508 "m68k-parse.y"
+#line 509 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.indexreg.reg = yyvsp[0].reg;
 		  yyval.indexreg.size = SIZE_UNSPEC;
@@ -1729,28 +1729,28 @@ yyreduce:
     break;
 
   case 68:
-#line 551 "m68k-parse.y"
+#line 552 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.reg = ZADDR0;
 		}
     break;
 
   case 72:
-#line 568 "m68k-parse.y"
+#line 569 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.reg = ZADDR0;
 		}
     break;
 
   case 73:
-#line 572 "m68k-parse.y"
+#line 573 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.reg = yyvsp[0].reg;
 		}
     break;
 
   case 74:
-#line 581 "m68k-parse.y"
+#line 582 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.exp.exp.X_op = O_absent;
 		  yyval.exp.size = SIZE_UNSPEC;
@@ -1758,14 +1758,14 @@ yyreduce:
     break;
 
   case 75:
-#line 586 "m68k-parse.y"
+#line 587 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.exp = yyvsp[0].exp;
 		}
     break;
 
   case 76:
-#line 595 "m68k-parse.y"
+#line 596 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.exp.exp.X_op = O_absent;
 		  yyval.exp.size = SIZE_UNSPEC;
@@ -1773,49 +1773,49 @@ yyreduce:
     break;
 
   case 77:
-#line 600 "m68k-parse.y"
+#line 601 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.exp = yyvsp[-1].exp;
 		}
     break;
 
   case 79:
-#line 610 "m68k-parse.y"
+#line 611 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.mask = yyvsp[-2].mask | yyvsp[0].mask;
 		}
     break;
 
   case 80:
-#line 614 "m68k-parse.y"
+#line 615 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.mask = (1 << yyvsp[-2].onereg) | yyvsp[0].mask;
 		}
     break;
 
   case 81:
-#line 626 "m68k-parse.y"
+#line 627 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.mask = 1 << yyvsp[0].onereg;
 		}
     break;
 
   case 83:
-#line 631 "m68k-parse.y"
+#line 632 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.mask = yyvsp[-2].mask | yyvsp[0].mask;
 		}
     break;
 
   case 84:
-#line 635 "m68k-parse.y"
+#line 636 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.mask = (1 << yyvsp[-2].onereg) | yyvsp[0].mask;
 		}
     break;
 
   case 85:
-#line 642 "m68k-parse.y"
+#line 643 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[-2].onereg <= yyvsp[0].onereg)
 		    yyval.mask = (1 << (yyvsp[0].onereg + 1)) - 1 - ((1 << yyvsp[-2].onereg) - 1);
@@ -1825,28 +1825,28 @@ yyreduce:
     break;
 
   case 86:
-#line 652 "m68k-parse.y"
+#line 653 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.onereg = yyvsp[0].reg - DATA0;
 		}
     break;
 
   case 87:
-#line 656 "m68k-parse.y"
+#line 657 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.onereg = yyvsp[0].reg - ADDR0 + 8;
 		}
     break;
 
   case 88:
-#line 660 "m68k-parse.y"
+#line 661 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  yyval.onereg = yyvsp[0].reg - FP0 + 16;
 		}
     break;
 
   case 89:
-#line 664 "m68k-parse.y"
+#line 665 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
     {
 		  if (yyvsp[0].reg == FPI)
 		    yyval.onereg = 24;
@@ -2086,7 +2086,7 @@ yyreturn:
 }
 
 
-#line 674 "m68k-parse.y"
+#line 675 "/sourceware/snapshot-tmp/binutils-snapshot/asnap050328.18413/src/gas/.././gas/config/m68k-parse.y"
 
 
 /* The string to parse is stored here, and modified by yylex.  */

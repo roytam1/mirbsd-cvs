@@ -1,6 +1,6 @@
 /* as.h - global header file
    Copyright 1987, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
@@ -104,26 +104,10 @@ extern void *alloca ();
 #if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 6)
 #define __PRETTY_FUNCTION__  ((char*)0)
 #endif
-#if 0
-
-/* Handle lossage with assert.h.  */
-#ifndef BROKEN_ASSERT
-#include <assert.h>
-#else /* BROKEN_ASSERT */
-#ifndef NDEBUG
-#define assert(p) ((p) ? 0 : (as_assert (__FILE__, __LINE__, __PRETTY_FUNCTION__), 0))
-#else
-#define assert(p) ((p), 0)
-#endif
-#endif /* BROKEN_ASSERT */
-
-#else
-
-#define assert(P) ((P) ? 0 : (as_assert (__FILE__, __LINE__, __PRETTY_FUNCTION__), 0))
+#define assert(P) \
+  ((void) ((P) ? 0 : (as_assert (__FILE__, __LINE__, __PRETTY_FUNCTION__), 0)))
 #undef abort
 #define abort()		as_abort (__FILE__, __LINE__, __PRETTY_FUNCTION__)
-
-#endif
 
 /* Now GNU header files...  */
 #include "ansidecl.h"
@@ -397,6 +381,22 @@ typedef unsigned int relax_substateT;
 /* Enough bits for address, but still an integer type.
    Could be a problem, cross-assembling for 64-bit machines.  */
 typedef addressT relax_addressT;
+
+struct relax_type
+{
+  /* Forward reach. Signed number. > 0.  */
+  offsetT rlx_forward;
+  /* Backward reach. Signed number. < 0.  */
+  offsetT rlx_backward;
+
+  /* Bytes length of this address.  */
+  unsigned char rlx_length;
+
+  /* Next longer relax-state.  0 means there is no 'next' relax-state.  */
+  relax_substateT rlx_more;
+};
+
+typedef struct relax_type relax_typeS;
 
 /* main program "as.c" (command arguments etc).  */
 
@@ -594,13 +594,13 @@ segT   subseg_new (const char *, subsegT);
 segT   subseg_force_new (const char *, subsegT);
 void   subseg_set (segT, subsegT);
 int    subseg_text_p (segT);
+int    seg_not_empty_p (segT);
 void   start_dependencies (char *);
 void   register_dependency (char *);
 void   print_dependencies (void);
 #ifdef BFD_ASSEMBLER
 segT   subseg_get (const char *, int);
 #endif
-
 
 struct expressionS;
 struct fix;

@@ -1,6 +1,6 @@
 /* vms-misc.c -- Miscellaneous functions for VAX (openVMS/VAX) and
    EVAX (openVMS/Alpha) files.
-   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    Written by Klaus K"ampf (kkaempf@rmi.de)
@@ -770,13 +770,7 @@ _bfd_vms_output_flush (abfd)
   while (aligncount-- > 0)
     {
       PRIV (output_buf)[real_size++] = 0;
-#if 0
-      /* this is why I *love* vms: inconsistency :-}
-	 alignment is added to the subrecord length
-	 but not to the record length  */
-      if (PRIV (push_level) > 0)
-#endif
-	length++;
+      length++;
     }
 
   /* put length to buffer  */

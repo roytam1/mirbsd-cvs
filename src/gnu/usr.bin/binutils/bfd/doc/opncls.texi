@@ -201,6 +201,16 @@ void *bfd_alloc (bfd *abfd, bfd_size_type wanted);
 Allocate a block of @var{wanted} bytes of memory attached to
 @code{abfd} and return a pointer to it.
 
+@findex bfd_zalloc
+@subsubsection @code{bfd_zalloc}
+@strong{Synopsis}
+@example
+void *bfd_zalloc (bfd *abfd, bfd_size_type wanted);
+@end example
+@strong{Description}@*
+Allocate a block of @var{wanted} bytes of zeroed memory
+attached to @code{abfd} and return a pointer to it.
+
 @findex bfd_calc_gnu_debuglink_crc32
 @subsubsection @code{bfd_calc_gnu_debuglink_crc32}
 @strong{Synopsis}

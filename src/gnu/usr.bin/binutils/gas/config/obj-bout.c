@@ -1,6 +1,6 @@
 /* b.out object file format
-   Copyright 1989, 1990, 1991, 1992, 1993, 1994, 1996, 2000, 2001, 2002
-   Free Software Foundation, Inc.
+   Copyright 1989, 1990, 1991, 1992, 1993, 1994, 1996, 2000, 2001, 2002,
+   2003, 2005 Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
 
@@ -22,20 +22,20 @@
 #include "as.h"
 #include "obstack.h"
 
-/* In: segT   Out: N_TYPE bits  */
+/* In: segT   Out: N_TYPE bits.  */
 const short seg_N_TYPE[] =
 {
   N_ABS,
   N_TEXT,
   N_DATA,
   N_BSS,
-  N_UNDF,			/* unknown  */
-  N_UNDF,			/* error  */
-  N_UNDF,			/* expression  */
-  N_UNDF,			/* debug  */
-  N_UNDF,			/* ntv  */
-  N_UNDF,			/* ptv  */
-  N_REGISTER,			/* register  */
+  N_UNDF,			/* Unknown.  */
+  N_UNDF,			/* Error.  */
+  N_UNDF,			/* Expression.  */
+  N_UNDF,			/* Debug.  */
+  N_UNDF,			/* Ntv.  */
+  N_UNDF,			/* Ptv.  */
+  N_REGISTER,			/* Register.  */
 };
 
 const segT N_TYPE_seg[N_TYPE + 2] =
@@ -53,32 +53,8 @@ const segT N_TYPE_seg[N_TYPE + 2] =
   SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF,
   SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF,
   SEG_GOOF, SEG_GOOF, SEG_GOOF, SEG_GOOF,
-  SEG_REGISTER,			/* dummy N_REGISTER for regs = 30  */
+  SEG_REGISTER,			/* Dummy N_REGISTER for regs = 30.   */
   SEG_GOOF,
-};
-
-static void obj_bout_line PARAMS ((int));
-
-const pseudo_typeS obj_pseudo_table[] =
-{
-  {"line", obj_bout_line, 0},	/* Source code line number.  */
-
-/* coff debugging directives.  Currently ignored silently.  */
-  {"def", s_ignore, 0},
-  {"dim", s_ignore, 0},
-  {"endef", s_ignore, 0},
-  {"ln", s_ignore, 0},
-  {"scl", s_ignore, 0},
-  {"size", s_ignore, 0},
-  {"tag", s_ignore, 0},
-  {"type", s_ignore, 0},
-  {"val", s_ignore, 0},
-
-/* other stuff we don't handle */
-  {"ABORT", s_ignore, 0},
-  {"ident", s_ignore, 0},
-
-  {NULL, NULL, 0}		/* End sentinel.  */
 };
 
 /* Relocation.  */
@@ -86,10 +62,9 @@ const pseudo_typeS obj_pseudo_table[] =
 /* Crawl along a fixS chain. Emit the segment's relocations.  */
 
 void
-obj_emit_relocations (where, fixP, segment_address_in_file)
-     char **where;
-     fixS *fixP;		/* Fixup chain for this segment.  */
-     relax_addressT segment_address_in_file;
+obj_emit_relocations (char **where,
+		      fixS *fixP,		/* Fixup chain for this segment.  */
+		      relax_addressT segment_address_in_file)
 {
   for (; fixP; fixP = fixP->fx_next)
     {
@@ -105,9 +80,9 @@ obj_emit_relocations (where, fixP, segment_address_in_file)
 	  fixP->fx_addsy = sym;
 
 	  tc_bout_fix_to_chars (*where, fixP, segment_address_in_file);
-	  *where += sizeof (struct relocation_info);
-	}			/* if there's a symbol  */
-    }				/* for each fixup  */
+	  *where += md_reloc_size;
+	}
+    }
 }
 
 /* Aout file generation & utilities .  */
@@ -115,19 +90,16 @@ obj_emit_relocations (where, fixP, segment_address_in_file)
 /* Convert a lvalue to machine dependent data.  */
 
 void
-obj_header_append (where, headers)
-     char **where;
-     object_headers *headers;
+obj_header_append (char **where, object_headers *headers)
 {
   /* Always leave in host byte order.  */
+  char *p;
 
   headers->header.a_talign = section_alignment[SEG_TEXT];
 
   /* Force to at least 2.  */
   if (headers->header.a_talign < 2)
-    {
-      headers->header.a_talign = 2;
-    }
+    headers->header.a_talign = 2;
 
   headers->header.a_dalign = section_alignment[SEG_DATA];
   headers->header.a_balign = section_alignment[SEG_BSS];
@@ -138,64 +110,53 @@ obj_header_append (where, headers)
 
   headers->header.a_relaxable = linkrelax;
 
-#ifdef CROSS_COMPILE
-  md_number_to_chars (*where, headers->header.a_magic, sizeof (headers->header.a_magic));
-  *where += sizeof (headers->header.a_magic);
-  md_number_to_chars (*where, headers->header.a_text, sizeof (headers->header.a_text));
-  *where += sizeof (headers->header.a_text);
-  md_number_to_chars (*where, headers->header.a_data, sizeof (headers->header.a_data));
-  *where += sizeof (headers->header.a_data);
-  md_number_to_chars (*where, headers->header.a_bss, sizeof (headers->header.a_bss));
-  *where += sizeof (headers->header.a_bss);
-  md_number_to_chars (*where, headers->header.a_syms, sizeof (headers->header.a_syms));
-  *where += sizeof (headers->header.a_syms);
-  md_number_to_chars (*where, headers->header.a_entry, sizeof (headers->header.a_entry));
-  *where += sizeof (headers->header.a_entry);
-  md_number_to_chars (*where, headers->header.a_trsize, sizeof (headers->header.a_trsize));
-  *where += sizeof (headers->header.a_trsize);
-  md_number_to_chars (*where, headers->header.a_drsize, sizeof (headers->header.a_drsize));
-  *where += sizeof (headers->header.a_drsize);
-  md_number_to_chars (*where, headers->header.a_tload, sizeof (headers->header.a_tload));
-  *where += sizeof (headers->header.a_tload);
-  md_number_to_chars (*where, headers->header.a_dload, sizeof (headers->header.a_dload));
-  *where += sizeof (headers->header.a_dload);
-  md_number_to_chars (*where, headers->header.a_talign, sizeof (headers->header.a_talign));
-  *where += sizeof (headers->header.a_talign);
-  md_number_to_chars (*where, headers->header.a_dalign, sizeof (headers->header.a_dalign));
-  *where += sizeof (headers->header.a_dalign);
-  md_number_to_chars (*where, headers->header.a_balign, sizeof (headers->header.a_balign));
-  *where += sizeof (headers->header.a_balign);
-  md_number_to_chars (*where, headers->header.a_relaxable, sizeof (headers->header.a_relaxable));
-  *where += sizeof (headers->header.a_relaxable);
-#else /* ! CROSS_COMPILE */
-  append (where, (char *) &headers->header, sizeof (headers->header));
-#endif /* ! CROSS_COMPILE */
+  p = *where;
+  host_number_to_chars (p, headers->header.a_magic, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_text, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_data, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_bss, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_syms, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_entry, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_trsize, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_drsize, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_tload, 4);
+  p += 4;
+  host_number_to_chars (p, headers->header.a_dload, 4);
+  p += 4;
+  *p++ = headers->header.a_talign;
+  *p++ = headers->header.a_dalign;
+  *p++ = headers->header.a_balign;
+  *p++ = headers->header.a_relaxable;
+  *where = p;
 }
 
 void
-obj_symbol_to_chars (where, symbolP)
-     char **where;
-     symbolS *symbolP;
+obj_symbol_to_chars (char **where, symbolS *symbolP)
 {
-  md_number_to_chars ((char *) &(S_GET_OFFSET (symbolP)),
-		      S_GET_OFFSET (symbolP),
-		      sizeof (S_GET_OFFSET (symbolP)));
+  char *p = *where;
 
-  md_number_to_chars ((char *) &(S_GET_DESC (symbolP)),
-		      S_GET_DESC (symbolP),
-		      sizeof (S_GET_DESC (symbolP)));
-
-  md_number_to_chars ((char *) &symbolP->sy_symbol.n_value,
-		      S_GET_VALUE (symbolP),
-		      sizeof (symbolP->sy_symbol.n_value));
-
-  append (where, (char *) &symbolP->sy_symbol, sizeof (obj_symbol_type));
+  host_number_to_chars (p, S_GET_OFFSET (symbolP), 4);
+  p += 4;
+  /* Can't use S_GET_TYPE here as it masks.  */
+  *p++ = symbolP->sy_symbol.n_type;
+  *p++ = symbolP->sy_symbol.n_other;
+  host_number_to_chars (p, S_GET_DESC (symbolP), 2);
+  p += 2;
+  host_number_to_chars (p, S_GET_VALUE (symbolP), 4);
+  p += 4;
+  *where = p;
 }
 
 void
-obj_emit_symbols (where, symbol_rootP)
-     char **where;
-     symbolS *symbol_rootP;
+obj_emit_symbols (char **where, symbolS *symbol_rootP)
 {
   symbolS *symbolP;
 
@@ -219,32 +180,29 @@ obj_emit_symbols (where, symbol_rootP)
 }
 
 void
-obj_symbol_new_hook (symbolP)
-     symbolS *symbolP;
+obj_symbol_new_hook (symbolS *symbolP)
 {
   S_SET_OTHER (symbolP, 0);
   S_SET_DESC (symbolP, 0);
 }
 
 static void
-obj_bout_line (ignore)
-     int ignore ATTRIBUTE_UNUSED;
+obj_bout_line (int ignore ATTRIBUTE_UNUSED)
 {
   /* Assume delimiter is part of expression.  */
   /* BSD4.2 as fails with delightful bug, so we are not being
      incompatible here.  */
-  new_logical_line ((char *) NULL, (int) (get_absolute_expression ()));
+  new_logical_line (NULL, (int) (get_absolute_expression ()));
   demand_empty_rest_of_line ();
 }
 
 void
-obj_read_begin_hook ()
+obj_read_begin_hook (void)
 {
 }
 
 void
-obj_crawl_symbol_chain (headers)
-     object_headers *headers;
+obj_crawl_symbol_chain (object_headers *headers)
 {
   symbolS **symbolPP;
   symbolS *symbolP;
@@ -258,7 +216,7 @@ obj_crawl_symbol_chain (headers)
       if (flag_readonly_data_in_text && (S_GET_SEGMENT (symbolP) == SEG_DATA))
 	{
 	  S_SET_SEGMENT (symbolP, SEG_TEXT);
-	}			/* if pushing data into text  */
+	}
 
       resolve_symbol_value (symbolP);
 
@@ -294,7 +252,7 @@ obj_crawl_symbol_chain (headers)
       /* FIXME-SOON this ifdef seems highly dubious to me.  xoxorich.  */
 	      || !S_IS_DEFINED (symbolP)
 	      || S_IS_EXTERNAL (symbolP)
-#endif /* TC_I960 */
+#endif
 	      || (S_GET_NAME (symbolP)[0] != '\001'
 		  && (flag_keep_locals || !S_LOCAL_NAME (symbolP)))))
 	{
@@ -315,15 +273,13 @@ obj_crawl_symbol_chain (headers)
       else
 	{
 	  if (S_IS_EXTERNAL (symbolP) || !S_IS_DEFINED (symbolP))
-	    {
-	      as_bad (_("Local symbol %s never defined"),
-		      S_GET_NAME (symbolP));
-	    }			/* Oops.  */
+	    as_bad (_("Local symbol %s never defined"),
+		    S_GET_NAME (symbolP));
 
 	  /* Unhook it from the chain.  */
 	  *symbolPP = symbol_next (symbolP);
-	}			/* if this symbol should be in the output  */
-    }				/* for each symbol  */
+	}
+    }
 
   H_SET_SYMBOL_TABLE_SIZE (headers, symbol_number);
 }
@@ -331,24 +287,38 @@ obj_crawl_symbol_chain (headers)
 /* Find strings by crawling along symbol table chain.  */
 
 void
-obj_emit_strings (where)
-     char **where;
+obj_emit_strings (char **where)
 {
   symbolS *symbolP;
 
-#ifdef CROSS_COMPILE
-  /* Gotta do md_ byte-ordering stuff for string_byte_count first - KWK */
-  md_number_to_chars (*where, string_byte_count, sizeof (string_byte_count));
-  *where += sizeof (string_byte_count);
-#else /* CROSS_COMPILE */
-  append (where, (char *) &string_byte_count,
-	  (unsigned long) sizeof (string_byte_count));
-#endif /* CROSS_COMPILE */
+  md_number_to_chars (*where, string_byte_count, 4);
+  *where += 4;
 
   for (symbolP = symbol_rootP; symbolP; symbolP = symbol_next (symbolP))
-    {
-      if (S_GET_NAME (symbolP))
-	append (where, S_GET_NAME (symbolP),
-		(unsigned long) (strlen (S_GET_NAME (symbolP)) + 1));
-    }				/* Walk symbol chain.  */
+    if (S_GET_NAME (symbolP))
+      append (where, S_GET_NAME (symbolP),
+	      (unsigned long) (strlen (S_GET_NAME (symbolP)) + 1));
 }
+
+const pseudo_typeS obj_pseudo_table[] =
+{
+  {"line", obj_bout_line, 0},	/* Source code line number.  */
+
+  /* COFF debugging directives.  Currently ignored silently.  */
+  {"def", s_ignore, 0},
+  {"dim", s_ignore, 0},
+  {"endef", s_ignore, 0},
+  {"ln", s_ignore, 0},
+  {"scl", s_ignore, 0},
+  {"size", s_ignore, 0},
+  {"tag", s_ignore, 0},
+  {"type", s_ignore, 0},
+  {"val", s_ignore, 0},
+
+  /* Other stuff we don't handle.  */
+  {"ABORT", s_ignore, 0},
+  {"ident", s_ignore, 0},
+
+  {NULL, NULL, 0}
+};
+

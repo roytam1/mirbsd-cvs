@@ -1165,6 +1165,9 @@ struct elf32_arm_link_hash_table
     /* The relocation to use for R_ARM_TARGET2 relocations.  */
     int target2_reloc;
 
+    /* Nonzero to fix BX instructions for ARMv4 targets.  */
+    int fix_v4bx;
+
     /* The number of bytes in the initial entry in the PLT.  */
     bfd_size_type plt_header_size;
 
@@ -1931,7 +1934,8 @@ error_return:
 void
 bfd_elf32_arm_set_target_relocs (struct bfd_link_info *link_info,
 				 int target1_is_rel,
-				 char * target2_type)
+				 char * target2_type,
+                                 int fix_v4bx)
 {
   struct elf32_arm_link_hash_table *globals;
 
@@ -1949,6 +1953,7 @@ bfd_elf32_arm_set_target_relocs (struct bfd_link_info *link_info,
       _bfd_error_handler (_("Invalid TARGET2 relocation type '%s'."),
 			  target2_type);
     }
+  globals->fix_v4bx = fix_v4bx;
 }
 #endif
 
@@ -2237,7 +2242,8 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
 			       asection *                   sym_sec,
 			       const char *                 sym_name,
 			       int		            sym_flags,
-			       struct elf_link_hash_entry * h)
+			       struct elf_link_hash_entry * h,
+			       bfd_boolean *                unresolved_reloc_p)
 {
   unsigned long                 r_type = howto->type;
   unsigned long                 r_symndx;
@@ -2305,6 +2311,9 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
   switch (r_type)
     {
     case R_ARM_NONE:
+      /* We don't need to find a value for this symbol.  It's just a
+	 marker.  */
+      *unresolved_reloc_p = FALSE;
       return bfd_reloc_ok;
 
     case R_ARM_PC24:
@@ -2340,14 +2349,16 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
 	  value = (splt->output_section->vma
 		   + splt->output_offset
 		   + h->plt.offset);
+	  *unresolved_reloc_p = FALSE;
 	  return _bfd_final_link_relocate (howto, input_bfd, input_section,
 					   contents, rel->r_offset, value,
 					   (bfd_vma) 0);
 	}
 
-      /* When generating a shared object, these relocations are copied
-	 into the output file to be resolved at run time.  */
-      if (info->shared
+      /* When generating a shared object or relocatable executable, these
+	 relocations are copied into the output file to be resolved at
+	 run time.  */
+      if ((info->shared || globals->root.is_relocatable_executable)
 	  && (input_section->flags & SEC_ALLOC)
 	  && (r_type != R_ARM_REL32
 	      || !SYMBOL_CALLS_LOCAL (info, h))
@@ -2365,6 +2376,8 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
 	  Elf_Internal_Rela outrel;
 	  bfd_byte *loc;
 	  bfd_boolean skip, relocate;
+
+	  *unresolved_reloc_p = FALSE;
 
 	  if (sreloc == NULL)
 	    {
@@ -2688,6 +2701,7 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
 		     + h->plt.offset);
 	    /* Target the Thumb stub before the ARM PLT entry.  */
 	    value -= 4;
+	    *unresolved_reloc_p = FALSE;
 	  }
 
 	relocation = value + signed_addend;
@@ -2731,6 +2745,7 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
       break;
 
     case R_ARM_THM_PC11:
+    case R_ARM_THM_PC9:
       /* Thumb B (branch) instruction).  */
       {
 	bfd_signed_vma relocation;
@@ -2850,6 +2865,7 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
       if (sgot == NULL)
         return bfd_reloc_notsupported;
 
+      *unresolved_reloc_p = FALSE;
       value = sgot->output_section->vma;
       return _bfd_final_link_relocate (howto, input_bfd, input_section,
 				       contents, rel->r_offset, value,
@@ -2903,6 +2919,8 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
 		  h->got.offset |= 1;
 		}
 	    }
+	  else
+	    *unresolved_reloc_p = FALSE;
 
 	  value = sgot->output_offset + off;
 	}
@@ -2984,6 +3002,22 @@ elf32_arm_final_link_relocate (reloc_howto_type *           howto,
 
     case R_ARM_RBASE:
       return bfd_reloc_notsupported;
+
+    case R_ARM_V4BX:
+      if (globals->fix_v4bx)
+        {
+          bfd_vma insn = bfd_get_32 (input_bfd, hit_data);
+
+          /* Ensure that we have a BX instruction.  */
+          BFD_ASSERT ((insn & 0x0ffffff0) == 0x012fff10);
+
+          /* Preserve Rm (lowest four bits) and the condition code
+             (highest four bits). Other bits encode MOV PC,Rm.  */
+          insn = (insn & 0xf000000f) | 0x01a0f000;
+
+          bfd_put_32 (input_bfd, insn, hit_data);
+        }
+      return bfd_reloc_ok;
 
     default:
       return bfd_reloc_notsupported;
@@ -3102,6 +3136,7 @@ elf32_arm_relocate_section (bfd *                  output_bfd,
       bfd_vma                      relocation;
       bfd_reloc_status_type        r;
       arelent                      bfd_reloc;
+      bfd_boolean                  unresolved_reloc = FALSE;
 
       r_symndx = ELF32_R_SYM (rel->r_info);
       r_type   = ELF32_R_TYPE (rel->r_info);
@@ -3192,72 +3227,11 @@ elf32_arm_relocate_section (bfd *                  output_bfd,
       else
 	{
 	  bfd_boolean warned;
-	  bfd_boolean unresolved_reloc;
 
 	  RELOC_FOR_GLOBAL_SYMBOL (info, input_bfd, input_section, rel,
 				   r_symndx, symtab_hdr, sym_hashes,
 				   h, sec, relocation,
 				   unresolved_reloc, warned);
-
-	  if (unresolved_reloc || relocation != 0)
-	    {
-	      /* In these cases, we don't need the relocation value.
-	         We check specially because in some obscure cases
-	         sec->output_section will be NULL.  */
-	      switch (r_type)
-		{
-	        case R_ARM_PC24:
-#ifndef OLD_ARM_ABI
-		case R_ARM_CALL:
-		case R_ARM_JUMP24:
-		case R_ARM_PREL31:
-#endif
-	        case R_ARM_ABS32:
-		case R_ARM_THM_PC22:
-	        case R_ARM_PLT32:
-
-	          if (info->shared
-	              && ((!info->symbolic && h->dynindx != -1)
-	                  || !h->def_regular)
-		      && ELF_ST_VISIBILITY (h->other) == STV_DEFAULT
-	              && ((input_section->flags & SEC_ALLOC) != 0
-			  /* DWARF will emit R_ARM_ABS32 relocations in its
-			     sections against symbols defined externally
-			     in shared libraries.  We can't do anything
-			     with them here.  */
-			  || ((input_section->flags & SEC_DEBUGGING) != 0
-			      && h->def_dynamic))
-		      )
-	            relocation = 0;
-		  break;
-
-	        case R_ARM_GOTPC:
-	          relocation = 0;
-		  break;
-
-	        case R_ARM_GOT32:
-#ifndef OLD_ARM_ABI
-		case R_ARM_GOT_PREL:
-#endif
-	          if ((WILL_CALL_FINISH_DYNAMIC_SYMBOL
-		       (elf_hash_table (info)->dynamic_sections_created,
-			info->shared, h))
-		      && (!info->shared
-	                  || (!info->symbolic && h->dynindx != -1)
-	                  || !h->def_regular))
-	            relocation = 0;
-		  break;
-
-	        default:
-		  if (unresolved_reloc)
-		    _bfd_error_handler
-		      (_("%B(%A): warning: unresolvable relocation %d against symbol `%s'"),
-		       input_bfd, input_section,
-		       r_type,
-		       h->root.root.string);
-		  break;
-		}
-	    }
 	}
 
       if (h != NULL)
@@ -3274,7 +3248,22 @@ elf32_arm_relocate_section (bfd *                  output_bfd,
 					 input_section, contents, rel,
 					 relocation, info, sec, name,
 					 (h ? ELF_ST_TYPE (h->type) :
-					  ELF_ST_TYPE (sym->st_info)), h);
+					  ELF_ST_TYPE (sym->st_info)), h,
+					 &unresolved_reloc);
+
+      /* Dynamic relocs are not propagated for SEC_DEBUGGING sections
+	 because such sections are not SEC_ALLOC and thus ld.so will
+	 not process them.  */
+      if (unresolved_reloc
+          && !((input_section->flags & SEC_DEBUGGING) != 0
+               && h->def_dynamic))
+	{
+	  (*_bfd_error_handler)
+	    (_("%B(%A+0x%lx): warning: unresolvable relocation %d against symbol `%s'"),
+	     input_bfd, input_section, (long) rel->r_offset,
+	     r_type, h->root.root.string);
+	  return FALSE;
+	}
 
       if (r != bfd_reloc_ok)
 	{
@@ -3964,6 +3953,15 @@ elf32_arm_check_relocs (bfd *abfd, struct bfd_link_info *info,
   htab = elf32_arm_hash_table (info);
   sreloc = NULL;
 
+  /* Create dynamic sections for relocatable executables so that we can
+     copy relocations.  */
+  if (htab->root.is_relocatable_executable
+      && ! htab->root.dynamic_sections_created)
+    {
+      if (! _bfd_elf_link_create_dynamic_sections (abfd, info))
+	return FALSE;
+    }
+
   dynobj = elf_hash_table (info)->dynobj;
   local_got_offsets = elf_local_got_offsets (abfd);
 
@@ -4084,11 +4082,11 @@ elf32_arm_check_relocs (bfd *abfd, struct bfd_link_info *info,
 		  eh->plt_thumb_refcount += 1;
 	      }
 
-	    /* If we are creating a shared library, and this is a reloc
-               against a global symbol, or a non PC relative reloc
-               against a local symbol, then we need to copy the reloc
-               into the shared library.  However, if we are linking with
-               -Bsymbolic, we do not need to copy a reloc against a
+	    /* If we are creating a shared library or relocatable executable,
+	       and this is a reloc against a global symbol, or a non PC
+	       relative reloc against a local symbol, then we need to copy
+	       the reloc into the shared library.  However, if we are linking
+	       with -Bsymbolic, we do not need to copy a reloc against a
                global symbol which is defined in an object we are
                including in the link (i.e., DEF_REGULAR is set).  At
                this point we have not seen all the input files, so it is
@@ -4096,7 +4094,7 @@ elf32_arm_check_relocs (bfd *abfd, struct bfd_link_info *info,
                later (it is never cleared).  We account for that
                possibility below by storing information in the
                relocs_copied field of the hash table entry.  */
-	    if (info->shared
+	    if ((info->shared || htab->root.is_relocatable_executable)
 		&& (sec->flags & SEC_ALLOC) != 0
 		&& ((r_type != R_ARM_PC24
 		     && r_type != R_ARM_PLT32
@@ -4356,7 +4354,9 @@ elf32_arm_adjust_dynamic_symbol (struct bfd_link_info * info,
   asection * s;
   unsigned int power_of_two;
   struct elf32_arm_link_hash_entry * eh;
+  struct elf32_arm_link_hash_table *globals;
 
+  globals = elf32_arm_hash_table (info);
   dynobj = elf_hash_table (info)->dynobj;
 
   /* Make sure we know what is going on here.  */
@@ -4421,8 +4421,10 @@ elf32_arm_adjust_dynamic_symbol (struct bfd_link_info * info,
   /* If we are creating a shared library, we must presume that the
      only references to the symbol are via the global offset table.
      For such cases we need not do anything here; the relocations will
-     be handled correctly by relocate_section.  */
-  if (info->shared)
+     be handled correctly by relocate_section.  Relocatable executables
+     can reference data in shared objects directly, so we don't need to
+     do anything here.  */
+  if (info->shared || globals->root.is_relocatable_executable)
     return TRUE;
 
   /* We must allocate the symbol in our .dynbss section, which will
@@ -4615,13 +4617,23 @@ allocate_dynrelocs (struct elf_link_hash_entry *h, void * inf)
      space for pc-relative relocs that have become local due to symbol
      visibility changes.  */
 
-  if (info->shared)
+  if (info->shared || htab->root.is_relocatable_executable)
     {
       /* Discard relocs on undefined weak syms with non-default
          visibility.  */
       if (ELF_ST_VISIBILITY (h->other) != STV_DEFAULT
 	  && h->root.type == bfd_link_hash_undefweak)
 	eh->relocs_copied = NULL;
+      else if (htab->root.is_relocatable_executable && h->dynindx == -1
+	       && h->root.type == bfd_link_hash_new)
+	{
+	  /* Output absolute symbols so that we can create relocations
+	     against them.  For normal symbols we output a relocation
+	     against the section that contains them.  */
+	  if (! bfd_elf_link_record_dynamic_symbol (info, h))
+	    return FALSE;
+	}
+
     }
   else
     {
@@ -5440,13 +5452,15 @@ elf32_arm_fake_sections (bfd * abfd, Elf_Internal_Shdr * hdr, asection * sec)
   return TRUE;
 }
 
-/* Handle an ARM specific section when reading an object file.
-   This is called when elf.c finds a section with an unknown type.  */
+/* Handle an ARM specific section when reading an object file.  This is
+   called when bfd_section_from_shdr finds a section with an unknown
+   type.  */
 
 static bfd_boolean
 elf32_arm_section_from_shdr (bfd *abfd,
 			     Elf_Internal_Shdr * hdr,
-			     const char *name)
+			     const char *name,
+			     int shindex)
 {
   /* There ought to be a place to keep ELF backend specific flags, but
      at the moment there isn't one.  We just keep track of the
@@ -5462,7 +5476,7 @@ elf32_arm_section_from_shdr (bfd *abfd,
       return FALSE;
     }
 
-  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name))
+  if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
     return FALSE;
 
   return TRUE;
@@ -5664,6 +5678,55 @@ elf32_arm_swap_symbol_out (bfd *abfd,
   bfd_elf32_swap_symbol_out (abfd, src, cdst, shndx);
 }
 
+/* Add the PT_ARM_EXIDX program header.  */
+
+static bfd_boolean
+elf32_arm_modify_segment_map (bfd *abfd, 
+			      struct bfd_link_info *info ATTRIBUTE_UNUSED)
+{
+  struct elf_segment_map *m;
+  asection *sec;
+
+  sec = bfd_get_section_by_name (abfd, ".ARM.exidx");
+  if (sec != NULL && (sec->flags & SEC_LOAD) != 0)
+    {
+      /* If there is already a PT_ARM_EXIDX header, then we do not
+	 want to add another one.  This situation arises when running
+	 "strip"; the input binary already has the header.  */
+      m = elf_tdata (abfd)->segment_map;
+      while (m && m->p_type != PT_ARM_EXIDX)
+	m = m->next;
+      if (!m)
+	{
+	  m = bfd_zalloc (abfd, sizeof (struct elf_segment_map));
+	  if (m == NULL)
+	    return FALSE;
+	  m->p_type = PT_ARM_EXIDX;
+	  m->count = 1;
+	  m->sections[0] = sec;
+
+	  m->next = elf_tdata (abfd)->segment_map;
+	  elf_tdata (abfd)->segment_map = m;
+	}
+    }
+
+  return TRUE;
+}
+
+/* We may add a PT_ARM_EXIDX program header.  */
+
+static int
+elf32_arm_additional_program_headers (bfd *abfd)
+{
+  asection *sec;
+
+  sec = bfd_get_section_by_name (abfd, ".ARM.exidx");
+  if (sec != NULL && (sec->flags & SEC_LOAD) != 0)
+    return 1;
+  else
+    return 0;
+}
+
 /* We use this to override swap_symbol_in and swap_symbol_out.  */
 const struct elf_size_info elf32_arm_size_info = {
   sizeof (Elf32_External_Ehdr),
@@ -5700,6 +5763,7 @@ const struct elf_size_info elf32_arm_size_info = {
 #else
 #define ELF_MAXPAGESIZE			0x8000
 #endif
+#define ELF_MINPAGESIZE			0x1000
 
 #define bfd_elf32_bfd_copy_private_bfd_data	elf32_arm_copy_private_bfd_data
 #define bfd_elf32_bfd_merge_private_bfd_data	elf32_arm_merge_private_bfd_data
@@ -5733,6 +5797,9 @@ const struct elf_size_info elf32_arm_size_info = {
 #define elf_backend_copy_indirect_symbol        elf32_arm_copy_indirect_symbol
 #define elf_backend_symbol_processing		elf32_arm_symbol_processing
 #define elf_backend_size_info			elf32_arm_size_info
+#define elf_backend_modify_segment_map		elf32_arm_modify_segment_map
+#define elf_backend_additional_program_headers \
+  elf32_arm_additional_program_headers
 
 #define elf_backend_can_refcount    1
 #define elf_backend_can_gc_sections 1
@@ -5823,22 +5890,29 @@ elf32_arm_symbian_link_hash_table_create (bfd *abfd)
       /* The PLT entries are each three instructions.  */
       htab->plt_entry_size = 4 * NUM_ELEM (elf32_arm_symbian_plt_entry);
       htab->symbian_p = 1;
+      htab->root.is_relocatable_executable = 1;
     }
   return ret;
 }     
 
-/* In a BPABI executable, the dynamic linking sections do not go in
-   the loadable read-only segment.  The post-linker may wish to refer
-   to these sections, but they are not part of the final program
-   image.  */
 static struct bfd_elf_special_section const 
   elf32_arm_symbian_special_sections[]=
 {
+  /* In a BPABI executable, the dynamic linking sections do not go in
+     the loadable read-only segment.  The post-linker may wish to
+     refer to these sections, but they are not part of the final
+     program image.  */
   { ".dynamic",        8,  0, SHT_DYNAMIC,  0 },
   { ".dynstr",         7,  0, SHT_STRTAB,   0 },
   { ".dynsym",         7,  0, SHT_DYNSYM,   0 },
   { ".got",            4,  0, SHT_PROGBITS, 0 },
   { ".hash",           5,  0, SHT_HASH,     0 },
+  /* These sections do not need to be writable as the SymbianOS
+     postlinker will arrange things so that no dynamic relocation is
+     required.  */
+  { ".init_array",    11,  0, SHT_INIT_ARRAY, SHF_ALLOC },
+  { ".fini_array",    11,  0, SHT_FINI_ARRAY, SHF_ALLOC },
+  { ".preinit_array", 14,  0, SHT_PREINIT_ARRAY, SHF_ALLOC },
   { NULL,              0,  0, 0,            0 }
 };
 
@@ -5860,8 +5934,7 @@ elf32_arm_symbian_begin_write_processing (bfd *abfd,
 
 static bfd_boolean
 elf32_arm_symbian_modify_segment_map (bfd *abfd, 
-				      struct bfd_link_info *info 
-				        ATTRIBUTE_UNUSED)
+				      struct bfd_link_info *info)
 {
   struct elf_segment_map *m;
   asection *dynsec;
@@ -5878,7 +5951,8 @@ elf32_arm_symbian_modify_segment_map (bfd *abfd,
       elf_tdata (abfd)->segment_map = m;
     }
 
-  return TRUE;
+  /* Also call the generic arm routine.  */
+  return elf32_arm_modify_segment_map (abfd, info);
 }
 
 #undef elf32_bed
@@ -5917,7 +5991,7 @@ elf32_arm_symbian_modify_segment_map (bfd *abfd,
 #undef elf_backend_may_use_rela_p
 #define elf_backend_may_use_rela_p  0
 #undef elf_backend_default_use_rela_p
-#define elf_backend_default_use_rela_p 1
+#define elf_backend_default_use_rela_p 0
 #undef elf_backend_rela_normal
 #define elf_backend_rela_normal     0
 

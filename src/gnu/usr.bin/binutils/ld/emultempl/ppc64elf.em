@@ -1,5 +1,5 @@
 # This shell script emits a C file. -*- C -*-
-#   Copyright 2002, 2003, 2004 Free Software Foundation, Inc.
+#   Copyright 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 #
 # This file is part of GLD, the Gnu Linker.
 #
@@ -88,10 +88,11 @@ ppc_create_output_section_statements (void)
 			     bfd_get_arch (output_bfd),
 			     bfd_get_mach (output_bfd)))
     {
-      einfo ("%X%P: can not create BFD %E\n");
+      einfo ("%F%P: can not create BFD %E\n");
       return;
     }
 
+  stub_file->the_bfd->flags |= BFD_LINKER_CREATED;
   ldlang_add_file (stub_file);
   ppc64_elf_init_stub_bfd (stub_file->the_bfd, &link_info);
 }
@@ -103,10 +104,7 @@ ppc_before_allocation (void)
     {
       if (!no_opd_opt
 	  && !ppc64_elf_edit_opd (output_bfd, &link_info, non_overlapping_opd))
-	{
-	  einfo ("%X%P: can not edit %s %E\n", "opd");
-	  return;
-	}
+	einfo ("%X%P: can not edit %s %E\n", "opd");
 
       if (ppc64_elf_tls_setup (output_bfd, &link_info) && !no_tls_opt)
 	{
@@ -116,10 +114,7 @@ ppc_before_allocation (void)
 			      &stat_ptr->head, 0, 0, NULL, TRUE);
 
 	  if (!ppc64_elf_tls_optimize (output_bfd, &link_info))
-	    {
-	      einfo ("%X%P: TLS problem %E\n");
-	      return;
-	    }
+	    einfo ("%X%P: TLS problem %E\n");
 
 	  /* We must not cache anything from the preliminary sizing.  */
 	  elf_tdata (output_bfd)->program_header_size = 0;
@@ -129,10 +124,7 @@ ppc_before_allocation (void)
       if (!no_toc_opt
 	  && !link_info.relocatable
 	  && !ppc64_elf_edit_toc (output_bfd, &link_info))
-	{
-	  einfo ("%X%P: can not edit %s %E\n", "toc");
-	  return;
-	}
+	einfo ("%X%P: can not edit %s %E\n", "toc");
     }
 
   gld${EMULATION_NAME}_before_allocation ();
@@ -322,7 +314,7 @@ build_section_lists (lang_statement_union_type *statement)
 /* Final emulation specific call.  */
 
 static void
-gld${EMULATION_NAME}_finish (void)
+ppc_finish (void)
 {
   /* e_entry on PowerPC64 points to the function descriptor for
      _start.  If _start is missing, default to the first function
@@ -342,14 +334,10 @@ gld${EMULATION_NAME}_finish (void)
     {
       int ret = ppc64_elf_setup_section_lists (output_bfd, &link_info,
 					       no_multi_toc);
-      if (ret != 0)
+      if (ret < 0)
+	einfo ("%X%P: can not size stub section: %E\n");
+      else if (ret > 0)
 	{
-	  if (ret < 0)
-	    {
-	      einfo ("%X%P: can not size stub section: %E\n");
-	      return;
-	    }
-
 	  toc_section = bfd_get_section_by_name (output_bfd, ".got");
 	  if (toc_section != NULL)
 	    lang_for_each_statement (build_toc_list);
@@ -364,10 +352,7 @@ gld${EMULATION_NAME}_finish (void)
 				     group_size,
 				     &ppc_add_stub_section,
 				     &ppc_layout_sections_again))
-	    {
-	      einfo ("%X%P: can not size stub section: %E\n");
-	      return;
-	    }
+	    einfo ("%X%P: can not size stub section: %E\n");
 	}
     }
 
@@ -404,6 +389,7 @@ gld${EMULATION_NAME}_finish (void)
     }
 
   ppc64_elf_restore_symbols (&link_info);
+  gld${EMULATION_NAME}_finish ();
 }
 
 
@@ -591,6 +577,6 @@ PARSE_AND_LIST_ARGS_CASES='
 #
 LDEMUL_BEFORE_ALLOCATION=ppc_before_allocation
 LDEMUL_AFTER_ALLOCATION=gld${EMULATION_NAME}_after_allocation
-LDEMUL_FINISH=gld${EMULATION_NAME}_finish
+LDEMUL_FINISH=ppc_finish
 LDEMUL_CREATE_OUTPUT_SECTION_STATEMENTS=ppc_create_output_section_statements
 LDEMUL_NEW_VERS_PATTERN=gld${EMULATION_NAME}_new_vers_pattern

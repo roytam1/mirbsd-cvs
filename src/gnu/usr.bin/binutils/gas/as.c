@@ -1,6 +1,6 @@
 /* as.c - GAS main program.
    Copyright 1987, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
@@ -437,6 +437,11 @@ parse_args (int * pargc, char *** pargv)
        the end of the preceeding line so that it is simpler to
        selectively add and remove lines from this list.  */
     {"alternate", no_argument, NULL, OPTION_ALTERNATE}
+    /* The entry for "a" is here to prevent getopt_long_only() from
+       considering that -a is an abbreviation for --alternate.  This is
+       necessary because -a=<FILE> is a valid switch but getopt would
+       normally reject it since --alternate does not take an argument.  */
+    ,{"a", optional_argument, NULL, 'a'}
     ,{"defsym", required_argument, NULL, OPTION_DEFSYM}
     ,{"dump-config", no_argument, NULL, OPTION_DUMPCONFIG}
     ,{"emulation", required_argument, NULL, OPTION_EMULATION}
@@ -584,7 +589,7 @@ parse_args (int * pargc, char *** pargv)
 #else
 	  printf (_("GNU assembler %s\n"), VERSION);
 #endif
-	  printf (_("Copyright 2002 Free Software Foundation, Inc.\n"));
+	  printf (_("Copyright 2005 Free Software Foundation, Inc.\n"));
 	  printf (_("\
 This program is free software; you may redistribute it under the terms of\n\
 the GNU General Public License.  This program has absolutely no warranty.\n"));
@@ -786,6 +791,9 @@ the GNU General Public License.  This program has absolutely no warranty.\n"));
 	case 'a':
 	  if (optarg)
 	    {
+	      if (optarg != old_argv[optind] && optarg[-1] == '=')
+		--optarg;
+
 	      if (md_parse_option (optc, optarg) != 0)
 		break;
 
@@ -1197,7 +1205,7 @@ main (int argc, char ** argv)
     keep_it = 0;
 
   if (!keep_it)
-    unlink (out_file_name);
+    unlink_if_ordinary (out_file_name);
 
   input_scrub_end ();
 

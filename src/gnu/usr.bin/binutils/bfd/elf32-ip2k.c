@@ -1,5 +1,6 @@
 /* Ubicom IP2xxx specific support for 32-bit ELF
-   Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
 
@@ -105,15 +106,6 @@ static const struct ip2k_opcode ip2k_jmp_opcode[] =
 
 #define IS_JMP_OPCODE(code) \
   ip2k_is_opcode (code, ip2k_jmp_opcode)
-
-static const struct ip2k_opcode ip2k_call_opcode[] =
-{
-  {0xC000, 0xE000},	/* call */
-  {0x0000, 0x0000},
-};
-
-#define IS_CALL_OPCODE(code) \
-  ip2k_is_opcode (code, ip2k_call_opcode)
 
 static const struct ip2k_opcode ip2k_snc_opcode[] =
 {
@@ -1598,12 +1590,6 @@ ip2k_elf_gc_mark_hook (sec, info, rel, h, sym)
     {
       switch (ELF32_R_TYPE (rel->r_info))
       {
-#if 0
-      case R_IP2K_GNU_VTINHERIT:
-      case R_IP2K_GNU_VTENTRY:
-        break;
-#endif
-
       default:
         switch (h->root.type)
           {

@@ -1,6 +1,6 @@
 /* Target definitions for NN-bit ELF
    Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-   2003, 2004 Free Software Foundation, Inc.
+   2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
 
@@ -143,7 +143,7 @@
 #endif
 
 #ifndef bfd_elfNN_bfd_discard_group
-#define bfd_elfNN_bfd_discard_group bfd_elf_discard_group
+#define bfd_elfNN_bfd_discard_group bfd_generic_discard_group
 #endif
 
 #ifndef bfd_elfNN_section_already_linked
@@ -283,6 +283,10 @@
 #define ELF_MAXPAGESIZE 1
 #endif
 
+#ifndef ELF_MINPAGESIZE
+#define ELF_MINPAGESIZE ELF_MAXPAGESIZE
+#endif
+
 #ifndef ELF_DYNAMIC_SEC_FLAGS
 /* Note that we set the SEC_IN_MEMORY flag for these sections.  */
 #define ELF_DYNAMIC_SEC_FLAGS			\
@@ -322,13 +326,13 @@
 #define elf_backend_section_processing	0
 #endif
 #ifndef elf_backend_section_from_shdr
-#define elf_backend_section_from_shdr	0
+#define elf_backend_section_from_shdr	_bfd_elf_make_section_from_shdr
 #endif
 #ifndef elf_backend_section_flags
 #define elf_backend_section_flags	0
 #endif
 #ifndef elf_backend_section_from_phdr
-#define elf_backend_section_from_phdr	0
+#define elf_backend_section_from_phdr	_bfd_elf_make_section_from_phdr
 #endif
 #ifndef elf_backend_fake_sections
 #define elf_backend_fake_sections	0
@@ -438,6 +442,9 @@
 #ifndef elf_backend_ignore_discarded_relocs
 #define elf_backend_ignore_discarded_relocs	NULL
 #endif
+#ifndef elf_backend_eh_frame_address_size
+#define elf_backend_eh_frame_address_size _bfd_elf_eh_frame_address_size
+#endif
 #ifndef elf_backend_can_make_relative_eh_frame
 #define elf_backend_can_make_relative_eh_frame	_bfd_elf_can_make_relative
 #endif
@@ -519,6 +526,7 @@ static const struct elf_backend_data elfNN_bed =
   ELF_ARCH,			/* arch */
   ELF_MACHINE_CODE,		/* elf_machine_code */
   ELF_MAXPAGESIZE,		/* maxpagesize */
+  ELF_MINPAGESIZE,		/* minpagesize */
   ELF_DYNAMIC_SEC_FLAGS,        /* dynamic_sec_flags */
   elf_info_to_howto,
   elf_info_to_howto_rel,
@@ -568,6 +576,7 @@ static const struct elf_backend_data elfNN_bed =
   elf_backend_reloc_type_class,
   elf_backend_discard_info,
   elf_backend_ignore_discarded_relocs,
+  elf_backend_eh_frame_address_size,
   elf_backend_can_make_relative_eh_frame,
   elf_backend_can_make_lsda_relative_eh_frame,
   elf_backend_encode_eh_address,
@@ -632,7 +641,7 @@ const bfd_target TARGET_BIG_SYM =
   /* section_flags: mask of all section flags */
   (SEC_HAS_CONTENTS | SEC_ALLOC | SEC_LOAD | SEC_RELOC | SEC_READONLY
    | SEC_CODE | SEC_DATA | SEC_DEBUGGING | SEC_EXCLUDE | SEC_SORT_ENTRIES
-   | SEC_ARCH_BIT_0 | SEC_SMALL_DATA | SEC_MERGE | SEC_STRINGS | SEC_GROUP),
+   | SEC_SMALL_DATA | SEC_MERGE | SEC_STRINGS | SEC_GROUP),
 
    /* leading_symbol_char: is the first char of a user symbol
       predictable, and if so what is it */
@@ -728,7 +737,7 @@ const bfd_target TARGET_LITTLE_SYM =
   /* section_flags: mask of all section flags */
   (SEC_HAS_CONTENTS | SEC_ALLOC | SEC_LOAD | SEC_RELOC | SEC_READONLY
    | SEC_CODE | SEC_DATA | SEC_DEBUGGING | SEC_EXCLUDE | SEC_SORT_ENTRIES
-   | SEC_ARCH_BIT_0 | SEC_SMALL_DATA | SEC_MERGE | SEC_STRINGS | SEC_GROUP),
+   | SEC_SMALL_DATA | SEC_MERGE | SEC_STRINGS | SEC_GROUP),
 
    /* leading_symbol_char: is the first char of a user symbol
       predictable, and if so what is it */

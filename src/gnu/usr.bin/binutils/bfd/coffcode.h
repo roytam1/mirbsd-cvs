@@ -1,6 +1,6 @@
 /* Support for the generic parts of most COFF variants, for BFD.
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004
+   2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
    Written by Cygnus Support.
 
@@ -494,12 +494,12 @@ sec_to_styp_flags (sec_name, sec_flags)
     }
 
 #ifdef STYP_CLINK
-  if (sec_flags & SEC_CLINK)
+  if (sec_flags & SEC_TIC54X_CLINK)
     styp_flags |= STYP_CLINK;
 #endif
 
 #ifdef STYP_BLOCK
-  if (sec_flags & SEC_BLOCK)
+  if (sec_flags & SEC_TIC54X_BLOCK)
     styp_flags |= STYP_BLOCK;
 #endif
 
@@ -579,7 +579,7 @@ sec_to_styp_flags (sec_name, sec_flags)
     styp_flags |= IMAGE_SCN_MEM_WRITE;    /* Invert READONLY for write.  */
   if (sec_flags & SEC_CODE)
     styp_flags |= IMAGE_SCN_MEM_EXECUTE;  /* CODE->EXECUTE.  */
-  if (sec_flags & SEC_SHARED)
+  if (sec_flags & SEC_COFF_SHARED)
     styp_flags |= IMAGE_SCN_MEM_SHARED;   /* Shared remains meaningful.  */
 
   return styp_flags;
@@ -608,12 +608,12 @@ styp_to_sec_flags (abfd, hdr, name, section, flags_ptr)
 
 #ifdef STYP_BLOCK
   if (styp_flags & STYP_BLOCK)
-    sec_flags |= SEC_BLOCK;
+    sec_flags |= SEC_TIC54X_BLOCK;
 #endif
 
 #ifdef STYP_CLINK
   if (styp_flags & STYP_CLINK)
-    sec_flags |= SEC_CLINK;
+    sec_flags |= SEC_TIC54X_CLINK;
 #endif
 
 #ifdef STYP_NOLOAD
@@ -1066,15 +1066,11 @@ styp_to_sec_flags (abfd, hdr, name, section, flags_ptr)
 	  unhandled = "IMAGE_SCN_MEM_NOT_CACHED";
 	  break;
 	case IMAGE_SCN_MEM_NOT_PAGED:
-#if 0
-	  unhandled = "IMAGE_SCN_MEM_NOT_PAGED";
-#else
 	  /* Generate a warning message rather using the 'unhandled'
 	     variable as this will allow some .sys files generate by
 	     other toolchains to be processed.  See bugzilla issue 196.  */
 	  _bfd_error_handler (_("%B: Warning: Ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section %s"),
 			      abfd, name);
-#endif
 	  break;
 	case IMAGE_SCN_MEM_EXECUTE:
 	  sec_flags |= SEC_CODE;
@@ -1090,7 +1086,7 @@ styp_to_sec_flags (abfd, hdr, name, section, flags_ptr)
 	    sec_flags |= SEC_DEBUGGING;
 	  break;
 	case IMAGE_SCN_MEM_SHARED:
-	  sec_flags |= SEC_SHARED;
+	  sec_flags |= SEC_COFF_SHARED;
 	  break;
 	case IMAGE_SCN_LNK_REMOVE:
 	  sec_flags |= SEC_EXCLUDE;
@@ -2410,7 +2406,8 @@ coff_print_aux (abfd, file, table_base, symbol, aux, indaux)
 	{
 	  BFD_ASSERT (! aux->fix_scnlen);
 #ifdef XCOFF64
-	  fprintf (file, "val %5lld", aux->u.auxent.x_csect.x_scnlen.l);
+	  fprintf (file, "val %5lld",
+		   (long long) aux->u.auxent.x_csect.x_scnlen.l);
 #else
 	  fprintf (file, "val %5ld", (long) aux->u.auxent.x_csect.x_scnlen.l);
 #endif
@@ -2420,7 +2417,8 @@ coff_print_aux (abfd, file, table_base, symbol, aux, indaux)
 	  fprintf (file, "indx ");
 	  if (! aux->fix_scnlen)
 #ifdef XCOFF64
-	    fprintf (file, "%4lld", aux->u.auxent.x_csect.x_scnlen.l);
+	    fprintf (file, "%4lld",
+		     (long long) aux->u.auxent.x_csect.x_scnlen.l);
 #else
 	    fprintf (file, "%4ld", (long) aux->u.auxent.x_csect.x_scnlen.l);
 #endif
@@ -3352,86 +3350,6 @@ coff_compute_section_file_positions (abfd)
   return TRUE;
 }
 
-#if 0
-
-/* This can never work, because it is called too late--after the
-   section positions have been set.  I can't figure out what it is
-   for, so I am going to disable it--Ian Taylor 20 March 1996.  */
-
-/* If .file, .text, .data, .bss symbols are missing, add them.  */
-/* @@ Should we only be adding missing symbols, or overriding the aux
-   values for existing section symbols?  */
-static bfd_boolean
-coff_add_missing_symbols (abfd)
-     bfd *abfd;
-{
-  unsigned int nsyms = bfd_get_symcount (abfd);
-  asymbol **sympp = abfd->outsymbols;
-  asymbol **sympp2;
-  unsigned int i;
-  int need_text = 1, need_data = 1, need_bss = 1, need_file = 1;
-  bfd_size_type amt;
-
-  for (i = 0; i < nsyms; i++)
-    {
-      coff_symbol_type *csym = coff_symbol_from (abfd, sympp[i]);
-      const char *name;
-
-      if (csym)
-	{
-	  /* Only do this if there is a coff representation of the input
-	     symbol.  */
-	  if (csym->native && csym->native->u.syment.n_sclass == C_FILE)
-	    {
-	      need_file = 0;
-	      continue;
-	    }
-	  name = csym->symbol.name;
-	  if (!name)
-	    continue;
-	  if (!strcmp (name, _TEXT))
-	    need_text = 0;
-#ifdef APOLLO_M68
-	  else if (!strcmp (name, ".wtext"))
-	    need_text = 0;
-#endif
-	  else if (!strcmp (name, _DATA))
-	    need_data = 0;
-	  else if (!strcmp (name, _BSS))
-	    need_bss = 0;
-	}
-    }
-  /* Now i == bfd_get_symcount (abfd).  */
-  /* @@ For now, don't deal with .file symbol.  */
-  need_file = 0;
-
-  if (!need_text && !need_data && !need_bss && !need_file)
-    return TRUE;
-  nsyms += need_text + need_data + need_bss + need_file;
-  amt = nsyms;
-  amt *= sizeof (asymbol *);
-  sympp2 = (asymbol **) bfd_alloc (abfd, amt);
-  if (!sympp2)
-    return FALSE;
-  memcpy (sympp2, sympp, i * sizeof (asymbol *));
-
-  if (need_file)
-    /* @@ Generate fake .file symbol, in sympp2[i], and increment i.  */
-    abort ();
-
-  if (need_text)
-    sympp2[i++] = coff_section_symbol (abfd, _TEXT);
-  if (need_data)
-    sympp2[i++] = coff_section_symbol (abfd, _DATA);
-  if (need_bss)
-    sympp2[i++] = coff_section_symbol (abfd, _BSS);
-  BFD_ASSERT (i == nsyms);
-  bfd_set_symtab (abfd, sympp2, nsyms);
-  return TRUE;
-}
-
-#endif /* 0 */
-
 #ifdef COFF_IMAGE_WITH_PE
 
 static unsigned int pelength;
@@ -4116,10 +4034,7 @@ coff_write_object_contents (abfd)
   if (bfd_get_symcount (abfd) != 0)
     {
       int firstundef;
-#if 0
-      if (!coff_add_missing_symbols (abfd))
-	return FALSE;
-#endif
+
       if (!coff_renumber_symbols (abfd, &firstundef))
 	return FALSE;
       coff_mangle_symbols (abfd);
@@ -4401,32 +4316,6 @@ coff_set_section_contents (abfd, section, location, offset, count)
 
   return bfd_bwrite (location, count, abfd) == count;
 }
-#if 0
-static bfd_boolean
-coff_close_and_cleanup (abfd)
-     bfd *abfd;
-{
-  if (!bfd_read_p (abfd))
-    switch (abfd->format)
-      {
-      case bfd_archive:
-	if (!_bfd_write_archive_contents (abfd))
-	  return FALSE;
-	break;
-      case bfd_object:
-	if (!coff_write_object_contents (abfd))
-	  return FALSE;
-	break;
-      default:
-	bfd_set_error (bfd_error_invalid_operation);
-	return FALSE;
-      }
-
-  /* We depend on bfd_close to free all the memory on the objalloc.  */
-  return TRUE;
-}
-
-#endif
 
 static PTR
 buy_and_read (abfd, where, size)
@@ -4610,11 +4499,6 @@ coff_slurp_symbol_table (abfd)
 	    {
 #ifdef I960
 	    case C_LEAFEXT:
-#if 0
-	      dst->symbol.value = src->u.syment.n_value - dst->symbol.section->vma;
-	      dst->symbol.flags = BSF_EXPORT | BSF_GLOBAL;
-	      dst->symbol.flags |= BSF_NOT_AT_END | BSF_FUNCTION;
-#endif
 	      /* Fall through to next case.  */
 #endif
 
@@ -5246,15 +5130,6 @@ coff_canonicalize_reloc (abfd, section, relptr, symbols)
   return section->reloc_count;
 }
 
-#ifdef GNU960
-file_ptr
-coff_sym_filepos (abfd)
-     bfd *abfd;
-{
-  return obj_sym_filepos (abfd);
-}
-#endif
-
 #ifndef coff_reloc16_estimate
 #define coff_reloc16_estimate dummy_reloc16_estimate
 
@@ -5414,7 +5289,7 @@ coff_final_link_postscript (abfd, pfinfo)
 #define coff_SWAP_scnhdr_in coff_swap_scnhdr_in
 #endif
 
-static const bfd_coff_backend_data bfd_coff_std_swap_table =
+static const bfd_coff_backend_data bfd_coff_std_swap_table ATTRIBUTE_UNUSED =
 {
   coff_SWAP_aux_in, coff_SWAP_sym_in, coff_SWAP_lineno_in,
   coff_SWAP_aux_out, coff_SWAP_sym_out,

@@ -1,6 +1,6 @@
 /* SPARC-specific support for 64-bit ELF
    Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-   2003, 2004 Free Software Foundation, Inc.
+   2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
 
@@ -1268,7 +1268,6 @@ sparc64_elf_check_relocs (abfd, info, sec, relocs)
 
 	  sgot->size += 8;
 
-#if 0
 	  /* Doesn't work for 64-bit -fPIC, since sethi/or builds
 	     unsigned numbers.  If we permit ourselves to modify
 	     code so we get sethi/xor, this could work.
@@ -1277,10 +1276,11 @@ sparc64_elf_check_relocs (abfd, info, sec, relocs)
 	  /* If the .got section is more than 0x1000 bytes, we add
 	     0x1000 to the value of _GLOBAL_OFFSET_TABLE_, so that 13
 	     bit relocations have a greater chance of working.  */
+	  /*
 	  if (sgot->size >= 0x1000
 	      && elf_hash_table (info)->hgot->root.u.def.value == 0)
 	    elf_hash_table (info)->hgot->root.u.def.value = 0x1000;
-#endif
+	  */
 
 	  break;
 

@@ -1,6 +1,6 @@
 /* Define a target vector and some small routines for a variant of a.out.
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004
+   2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
 This file is part of BFD, the Binary File Descriptor library.
@@ -124,11 +124,6 @@ MY(callback) (abfd)
 
   /* Don't set sizes now -- can't be sure until we know arch & mach.
      Sizes get set in set_sizes callback, later.  */
-#if 0
-  adata(abfd).page_size = TARGET_PAGE_SIZE;
-  adata(abfd).segment_size = SEGMENT_SIZE;
-  adata(abfd).exec_bytes_size = EXEC_BYTES_SIZE;
-#endif
 
   return abfd->xvec;
 }
@@ -207,16 +202,9 @@ static bfd_boolean
 MY(mkobject) (abfd)
      bfd *abfd;
 {
-  if (! NAME(aout,mkobject) (abfd))
-    return FALSE;
-#if 0 /* Sizes get set in set_sizes callback, later, after we know
-	 the architecture and machine.  */
-  adata(abfd).page_size = TARGET_PAGE_SIZE;
-  adata(abfd).segment_size = SEGMENT_SIZE;
-  adata(abfd).exec_bytes_size = EXEC_BYTES_SIZE;
-#endif
-  return TRUE;
+  return NAME (aout, mkobject (abfd));
 }
+
 #define MY_mkobject MY(mkobject)
 #endif
 

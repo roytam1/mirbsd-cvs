@@ -1,5 +1,5 @@
 /* Mach-O support for BFD.
-   Copyright 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -379,41 +379,6 @@ bfd_mach_o_write_contents (abfd)
   for (s = abfd->sections; s != (asection *) NULL; s = s->next)
     ;
 
-#if 0
-  for (i = 0; i < mdata->header.ncmds; i++)
-    {
-      bfd_mach_o_load_command *cur = &mdata->commands[i];
-      if (cur->type != BFD_MACH_O_LC_SEGMENT)
-	break;
-
-      {
-	bfd_mach_o_segment_command *seg = &cur->command.segment;
-	char buf[1024];
-	bfd_vma nbytes = seg->filesize;
-	bfd_vma curoff = seg->fileoff;
-
-	while (nbytes > 0)
-	  {
-	    bfd_vma thisread = nbytes;
-
-	    if (thisread > 1024)
-	      thisread = 1024;
-
-	    bfd_seek (abfd, curoff, SEEK_SET);
-	    if (bfd_bread ((PTR) buf, thisread, abfd) != thisread)
-	      return FALSE;
-
-	    bfd_seek (abfd, curoff, SEEK_SET);
-	    if (bfd_bwrite ((PTR) buf, thisread, abfd) != thisread)
-	      return FALSE;
-
-	    nbytes -= thisread;
-	    curoff += thisread;
-	  }
-      }
-  }
-#endif
-
   /* Now write header information.  */
   if (bfd_mach_o_write_header (abfd, &mdata->header) != 0)
     return FALSE;
@@ -679,21 +644,6 @@ bfd_mach_o_scan_write_symtab_symbols (abfd, command)
 
       s = &sym->symbols[i];
 
-      /* Don't set this from the symbol information; use stored values.  */
-#if 0
-      if (s->flags & BSF_GLOBAL)
-	ntype |= N_EXT;
-      if (s->flags & BSF_DEBUGGING)
-	ntype |= N_STAB;
-
-      if (s->section == bfd_und_section_ptr)
-	ntype |= N_UNDF;
-      else if (s->section == bfd_abs_section_ptr)
-	ntype |= N_ABS;
-      else
-	ntype |= N_SECT;
-#endif
-
       /* Instead just set from the stored values.  */
       ntype = (s->udata.i >> 24) & 0xff;
       nsect = (s->udata.i >> 16) & 0xff;
@@ -848,7 +798,7 @@ bfd_mach_o_scan_read_symtab_strtab (abfd, sym)
 	  bfd_set_error (bfd_error_file_truncated);
 	  return -1;
 	}
-      sym->strtab = b->buffer + sym->stroff;
+      sym->strtab = (char *) b->buffer + sym->stroff;
       return 0;
     }
 
@@ -1707,17 +1657,9 @@ bfd_mach_o_scan (abfd, header, mdata)
     }
 
   if (bfd_mach_o_scan_start_address (abfd) < 0)
-    {
-#if 0
-      fprintf (stderr, "bfd_mach_o_scan: unable to scan start address: %s\n",
-	       bfd_errmsg (bfd_get_error ()));
-      abfd->tdata.mach_o_data = NULL;
-      return -1;
-#endif
-    }
+    return -1;
 
   bfd_mach_o_flatten_sections (abfd);
-
   return 0;
 }
 
@@ -2178,7 +2120,7 @@ bfd_mach_o_core_file_failing_command (abfd)
   if (ret < 0)
     return NULL;
 
-  return buf;
+  return (char *) buf;
 }
 
 int

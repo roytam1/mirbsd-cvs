@@ -418,8 +418,10 @@ _bfd_elf_discard_section_eh_frame
      it (it would need to use 64-bit .eh_frame format anyway).  */
   REQUIRE (sec->size == (unsigned int) sec->size);
 
-  ptr_size = (elf_elfheader (abfd)->e_ident[EI_CLASS]
-	      == ELFCLASS64) ? 8 : 4;
+  ptr_size = (get_elf_backend_data (abfd)
+	      ->elf_backend_eh_frame_address_size (abfd, sec));
+  REQUIRE (ptr_size != 0);
+
   buf = ehbuf;
   last_cie = NULL;
   last_cie_inf = NULL;
@@ -451,7 +453,7 @@ _bfd_elf_discard_section_eh_frame
 
   for (;;)
     {
-      unsigned char *aug;
+      char *aug;
       bfd_byte *start, *end, *insns;
       bfd_size_type length;
 
@@ -480,6 +482,7 @@ _bfd_elf_discard_section_eh_frame
 	 on whether to output or discard last encountered CIE (if any).  */
       if ((bfd_size_type) (buf - ehbuf) == sec->size)
 	{
+	  hdr.length = 0;
 	  hdr.id = (unsigned int) -1;
 	  end = buf;
 	}
@@ -560,10 +563,10 @@ _bfd_elf_discard_section_eh_frame
 
 	  /* Cannot handle unknown versions.  */
 	  REQUIRE (cie.version == 1 || cie.version == 3);
-	  REQUIRE (strlen (buf) < sizeof (cie.augmentation));
+	  REQUIRE (strlen ((char *) buf) < sizeof (cie.augmentation));
 
-	  strcpy (cie.augmentation, buf);
-	  buf = strchr (buf, '\0') + 1;
+	  strcpy (cie.augmentation, (char *) buf);
+	  buf = (bfd_byte *) strchr ((char *) buf, '\0') + 1;
 	  ENSURE_NO_RELOCS (buf);
 	  if (buf[0] == 'e' && buf[1] == 'h')
 	    {
@@ -987,12 +990,14 @@ _bfd_elf_write_section_eh_frame (bfd *abfd,
   unsigned int ptr_size;
   struct eh_cie_fde *ent;
 
-  ptr_size = (elf_elfheader (sec->owner)->e_ident[EI_CLASS]
-	      == ELFCLASS64) ? 8 : 4;
-
   if (sec->sec_info_type != ELF_INFO_TYPE_EH_FRAME)
     return bfd_set_section_contents (abfd, sec->output_section, contents,
 				     sec->output_offset, sec->size);
+
+  ptr_size = (get_elf_backend_data (abfd)
+	      ->elf_backend_eh_frame_address_size (abfd, sec));
+  BFD_ASSERT (ptr_size != 0);
+
   sec_info = elf_section_data (sec)->sec_info;
   htab = elf_hash_table (info);
   hdr_info = &htab->eh_info;
@@ -1083,7 +1088,7 @@ _bfd_elf_write_section_eh_frame (bfd *abfd,
 	      || ent->need_lsda_relative
 	      || ent->per_encoding_relative)
 	    {
-	      unsigned char *aug;
+	      char *aug;
 	      unsigned int action, extra_string, extra_data;
 	      unsigned int per_width, per_encoding;
 
@@ -1097,8 +1102,8 @@ _bfd_elf_write_section_eh_frame (bfd *abfd,
 
 	      /* Skip length, id and version.  */
 	      buf += 9;
-	      aug = buf;
-	      buf = strchr (buf, '\0') + 1;
+	      aug = (char *) buf;
+	      buf += strlen (aug) + 1;
 	      skip_leb128 (&buf, end);
 	      skip_leb128 (&buf, end);
 	      skip_leb128 (&buf, end);
@@ -1112,7 +1117,7 @@ _bfd_elf_write_section_eh_frame (bfd *abfd,
 
 	      /* Make room for the new augmentation string and data bytes.  */
 	      memmove (buf + extra_string + extra_data, buf, end - buf);
-	      memmove (aug + extra_string, aug, buf - aug);
+	      memmove (aug + extra_string, aug, buf - (bfd_byte *) aug);
 	      buf += extra_string;
 	      end += extra_string + extra_data;
 
@@ -1405,6 +1410,14 @@ _bfd_elf_write_section_eh_frame_hdr (bfd *abfd, struct bfd_link_info *info)
 				     sec->size);
   free (contents);
   return retval;
+}
+
+/* Return the width of FDE addresses.  This is the default implementation.  */
+
+unsigned int
+_bfd_elf_eh_frame_address_size (bfd *abfd, asection *sec ATTRIBUTE_UNUSED)
+{
+  return elf_elfheader (abfd)->e_ident[EI_CLASS] == ELFCLASS64 ? 8 : 4;
 }
 
 /* Decide whether we can use a PC-relative encoding within the given

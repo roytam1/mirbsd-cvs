@@ -1,6 +1,6 @@
 # This shell script emits a C file. -*- C -*-
-#   Copyright 1991, 1993, 1994, 1997, 1999, 2000, 2001, 2002, 2003
-#   Free Software Foundation, Inc.
+#   Copyright 1991, 1993, 1994, 1997, 1999, 2000, 2001, 2002, 2003, 2004,
+#   2005 Free Software Foundation, Inc.
 #
 # This file is part of GLD, the Gnu Linker.
 #
@@ -52,12 +52,12 @@ hppaelf_after_parse (void)
 {
   if (link_info.relocatable)
     lang_add_unique (".text");
-#if 0 /* Enable this once we split millicode stuff from libgcc.  */
-  else
-    lang_add_input_file ("milli",
-			 lang_input_file_is_l_enum,
-			 NULL);
-#endif
+
+  /* Enable this once we split millicode stuff from libgcc:
+     lang_add_input_file ("milli",
+     			  lang_input_file_is_l_enum,
+			  NULL);
+  */
 }
 
 /* This is called before the input files are opened.  We create a new
@@ -67,9 +67,11 @@ static void
 hppaelf_create_output_section_statements (void)
 {
   extern const bfd_target bfd_elf32_hppa_linux_vec;
+  extern const bfd_target bfd_elf32_hppa_nbsd_vec;
   extern const bfd_target bfd_elf32_hppa_vec;
 
   if (link_info.hash->creator != &bfd_elf32_hppa_linux_vec
+      && link_info.hash->creator != &bfd_elf32_hppa_nbsd_vec
       && link_info.hash->creator != &bfd_elf32_hppa_vec)
     return;
 
@@ -86,6 +88,7 @@ hppaelf_create_output_section_statements (void)
       return;
     }
 
+  stub_file->the_bfd->flags |= BFD_LINKER_CREATED;
   ldlang_add_file (stub_file);
 }
 
@@ -253,7 +256,7 @@ build_section_lists (lang_statement_union_type *statement)
    to build linker stubs.  */
 
 static void
-gld${EMULATION_NAME}_finish (void)
+hppaelf_finish (void)
 {
   /* bfd_elf_discard_info just plays with debugging sections,
      ie. doesn't affect any code, so we can delay resizing the
@@ -309,9 +312,14 @@ gld${EMULATION_NAME}_finish (void)
       if (stub_file != NULL && stub_file->the_bfd->sections != NULL)
 	{
 	  if (! elf32_hppa_build_stubs (&link_info))
-	    einfo ("%X%P: can not build stubs: %E\n");
+	    {
+	      einfo ("%X%P: can not build stubs: %E\n");
+	      return;
+	    }
 	}
     }
+
+  gld${EMULATION_NAME}_finish ();
 }
 
 
@@ -384,5 +392,5 @@ PARSE_AND_LIST_ARGS_CASES='
 # Put these extra hppaelf routines in ld_${EMULATION_NAME}_emulation
 #
 LDEMUL_AFTER_PARSE=hppaelf_after_parse
-LDEMUL_FINISH=gld${EMULATION_NAME}_finish
+LDEMUL_FINISH=hppaelf_finish
 LDEMUL_CREATE_OUTPUT_SECTION_STATEMENTS=hppaelf_create_output_section_statements

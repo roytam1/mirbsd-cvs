@@ -1,20 +1,21 @@
 /* Print VAX instructions.
-   Copyright 1995, 1998, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright 1995, 1998, 2000, 2001, 2002, 2005
+   Free Software Foundation, Inc.
    Contributed by Pauline Middelink <middelin@polyware.iaf.nl>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #include "sysdep.h"
 #include "opcode/vax.h"
@@ -32,6 +33,21 @@ static char *reg_names[] =
 {
   "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
   "r8", "r9", "r10", "r11", "ap", "fp", "sp", "pc"
+};
+
+/* Definitions for the function entry mask bits.  */
+static char *entry_mask_bit[] =
+{
+  /* Registers 0 and 1 shall not be saved, since they're used to pass back
+     a function's result to its caller...  */
+  "~r0~", "~r1~",
+  /* Registers 2 .. 11 are normal registers.  */
+  "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11",
+  /* Registers 12 and 13 are argument and frame pointer and must not
+     be saved by using the entry mask.  */
+  "~ap~", "~fp~",
+  /* Bits 14 and 15 control integer and decimal overflow.  */
+  "IntOvfl", "DecOvfl",
 };
 
 /* Sign-extend an (unsigned char). */
@@ -138,6 +154,27 @@ print_insn_vax (memaddr, info)
     {
       FETCH_DATA (info, buffer + 1);
       buffer[1] = 0;
+    }
+
+  /* Decode function entry mask.  */
+  if (info->symbols
+      && info->symbols[0]
+      && (info->symbols[0]->flags & BSF_FUNCTION)
+      && memaddr == bfd_asymbol_value (info->symbols[0]))
+    {
+      int i = 0;
+      int register_mask = buffer[1] << 8 | buffer[0];
+
+      (*info->fprintf_func) (info->stream, ".word 0x%04x # Entry mask: <",
+			     register_mask);
+
+      for (i = 15; i >= 0; i--)
+	if (register_mask & (1 << i))
+          (*info->fprintf_func) (info->stream, " %s", entry_mask_bit[i]);
+
+      (*info->fprintf_func) (info->stream, " >");
+
+      return 2;
     }
 
   for (votp = &votstrs[0]; votp->name[0]; votp++)
