@@ -14,7 +14,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth-rsa.c,v 1.62 2004/12/11 01:48:56 dtucker Exp $");
+RCSID("$MirOS$");
 
 #include <openssl/rsa.h>
 #include <openssl/md5.h>
@@ -45,7 +45,7 @@ extern ServerOptions options;
 extern u_char session_id[16];
 
 /*
- * The .ssh/authorized_keys file contains public keys, one per line, in the
+ * The .etc/ssh/authorized_keys file contains public keys, one per line, in the
  * following format:
  *   options bits e n comment
  * where bits, e and n are decimal numbers,

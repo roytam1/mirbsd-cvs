@@ -184,7 +184,7 @@ loginlist(void)
 		if (!user.ut_name[0])
 			continue;
 		if ((pn = find_person(user.ut_name)) == NULL) {
-			bcopy(user.ut_name, name, UT_NAMESIZE);
+			memmove(name, user.ut_name, UT_NAMESIZE);
 			if ((pw = getpwnam(name)) == NULL)
 				continue;
 			pn = enter_person(pw);

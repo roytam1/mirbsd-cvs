@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: lock.c,v 1.20 2003/06/03 02:56:10 millert Exp $	*/
 /*	$NetBSD: lock.c,v 1.8 1996/05/07 18:32:31 jtc Exp $	*/
 
@@ -39,13 +40,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)lock.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: lock.c,v 1.20 2003/06/03 02:56:10 millert Exp $";
-#endif /* not lint */
-
 /*
  * Lock a terminal up until the given key is entered, until the root
  * password is entered, or the given interval times out.
@@ -71,6 +65,9 @@ static char rcsid[] = "$OpenBSD: lock.c,v 1.20 2003/06/03 02:56:10 millert Exp $
 
 #include <login_cap.h>
 #include <bsd_auth.h>
+
+__SCCSID("@(#)lock.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #define	TIMEOUT	15
 
@@ -106,7 +103,7 @@ main(int argc, char *argv[])
 		errx(1, "unknown uid %u.", getuid());
 
 	lc = login_getclass(pw->pw_class);
-	
+
 	while ((ch = getopt(argc, argv, "a:npt:")) != -1)
 		switch (ch) {
 		case 'a':
@@ -144,7 +141,7 @@ main(int argc, char *argv[])
 	curtime = time(NULL);
 	nexttime = curtime + (sectimeout * 60);
 	timp = localtime(&curtime);
-	strftime(date, sizeof(date), "%c", timp);
+	strftime(date, sizeof(date), "%+", timp);
 
 	if (!usemine) {
 		/* get key and check again */
@@ -224,7 +221,7 @@ hi(int dummy)
 	else {
 		now = time(NULL);
 		(void)snprintf(buf2, sizeof buf2, " timeout in %d:%d minutes",
-		    (nexttime - now) / 60, (nexttime - now) % 60);
+		    (int)((nexttime - now) / 60), (int)((nexttime - now) % 60));
 	}
 	snprintf(buf, sizeof buf, "%s: type in the unlock key.%s\n",
 	    __progname, buf2);

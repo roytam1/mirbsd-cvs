@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: main.c,v 1.57 2003/12/16 21:46:22 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -59,15 +60,10 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1985, 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: main.c,v 1.57 2003/12/16 21:46:22 deraadt Exp $";
-#endif /* not lint and not SMALL */
+#include <sys/cdefs.h>
+#ifndef	SMALL
+__RCSID("$MirOS$");
+#endif
 
 /*
  * FTP User Program -- Command Interface.
@@ -172,7 +168,7 @@ main(volatile int argc, char *argv[])
 	if (isatty(fileno(ttyout)) && !dumb_terminal && foregroundproc())
 		progress = 1;		/* progress bar on if tty is usable */
 
-	while ((ch = getopt(argc, argv, "46Aadegimno:pP:r:tvV")) != -1) {
+	while ((ch = getopt(argc, argv, "46AEadegimno:pP:r:tvV")) != -1) {
 		switch (ch) {
 		case '4':
 			family = PF_INET;
@@ -183,6 +179,10 @@ main(volatile int argc, char *argv[])
 		case 'A':
 			activefallback = 0;
 			passivemode = 0;
+			break;
+
+		case 'E':
+			epsv4 = 0;
 			break;
 
 		case 'a':
@@ -386,7 +386,7 @@ cmdscanner(top)
 	HistEvent hev;
 #endif
 
-	if (!top 
+	if (!top
 #ifndef SMALL
 	    && !editing
 #endif /* !SMALL */
@@ -545,7 +545,7 @@ makeargv()
 					cursor_argo = ap-argbase; \
 					cursor_pos = NULL; \
 				} }
-						
+
 #endif /* !SMALL */
 
 /*

@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: col.1,v 1.8 2003/06/03 02:56:06 millert Exp $
 .\"	$NetBSD: col.1,v 1.4 1995/03/26 05:25:52 glass Exp $
 .\"
@@ -76,7 +77,7 @@ Output multiple spaces instead of tabs.
 Buffer at least
 .Ar num
 lines in memory.
-By default, 128 lines are buffered.
+By default, 256 lines are buffered.
 .El
 .Pp
 The control sequences for carriage motion that
@@ -94,7 +95,7 @@ Half forward line feed (escape then 11).
 .It backspace
 Moves back one column (8); ignored in the first column.
 .It carriage return
-(13)
+Move back to first column (13).
 .It newline
 Forward line feed (10); also does carriage return.
 .It shift in

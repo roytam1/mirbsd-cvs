@@ -16,7 +16,7 @@
 
 #include "includes.h"
 
-RCSID("$OpenBSD: sftp.c,v 1.61 2005/01/24 10:22:06 dtucker Exp $");
+RCSID("$MirOS$");
 
 #include <glob.h>
 #include <histedit.h>
@@ -1417,6 +1417,7 @@ main(int argc, char **argv)
 
 	args.list = NULL;
 	addargs(&args, "ssh");		/* overwritten with ssh_program */
+	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardX11 no");
 	addargs(&args, "-oForwardAgent no");
 	addargs(&args, "-oClearAllForwardings yes");

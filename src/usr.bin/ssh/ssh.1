@@ -34,6 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
+.\" $MirOS$
 .\" $OpenBSD: ssh.1,v 1.199 2004/11/07 17:42:36 jmc Exp $
 .Dd September 25, 1999
 .Dt SSH 1
@@ -43,7 +44,7 @@
 .Nd OpenSSH SSH client (remote login program)
 .Sh SYNOPSIS
 .Nm ssh
-.Op Fl 1246AaCfgkMNnqsTtVvXxY
+.Op Fl 1246AaCfghkMNnqsTtVvXxY
 .Op Fl b Ar bind_address
 .Op Fl c Ar cipher_spec
 .Bk -words
@@ -126,7 +127,7 @@ Additionally, if the server can verify the client's
 host key (see
 .Pa /etc/ssh/ssh_known_hosts
 and
-.Pa $HOME/.ssh/known_hosts
+.Pa $HOME/.etc/ssh/known_hosts
 in the
 .Sx FILES
 section), only then is login permitted.
@@ -150,7 +151,7 @@ key pair for authentication purposes.
 The server knows the public key, and only the user knows the private key.
 .Pp
 The file
-.Pa $HOME/.ssh/authorized_keys
+.Pa $HOME/.etc/ssh/authorized_keys
 lists the public keys that are permitted for logging in.
 When the user logs in, the
 .Nm
@@ -171,14 +172,14 @@ implements the RSA authentication protocol automatically.
 The user creates his/her RSA key pair by running
 .Xr ssh-keygen 1 .
 This stores the private key in
-.Pa $HOME/.ssh/identity
+.Pa $HOME/.etc/ssh/identity
 and stores the public key in
-.Pa $HOME/.ssh/identity.pub
+.Pa $HOME/.etc/ssh/identity.pub
 in the user's home directory.
 The user should then copy the
 .Pa identity.pub
 to
-.Pa $HOME/.ssh/authorized_keys
+.Pa $HOME/.etc/ssh/authorized_keys
 in his/her home directory on the remote machine (the
 .Pa authorized_keys
 file corresponds to the conventional
@@ -212,12 +213,12 @@ password authentication are tried.
 The public key method is similar to RSA authentication described
 in the previous section and allows the RSA or DSA algorithm to be used:
 The client uses his private key,
-.Pa $HOME/.ssh/id_dsa
+.Pa $HOME/.etc/ssh/id_dsa
 or
-.Pa $HOME/.ssh/id_rsa ,
+.Pa $HOME/.etc/ssh/id_rsa ,
 to sign the session identifier and sends the result to the server.
 The server checks whether the matching public key is listed in
-.Pa $HOME/.ssh/authorized_keys
+.Pa $HOME/.etc/ssh/authorized_keys
 and grants access if both the key is found and the signature is correct.
 The session identifier is derived from a shared Diffie-Hellman value
 and is only known to the client and the server.
@@ -230,8 +231,8 @@ Additionally,
 supports hostbased or challenge response authentication.
 .Pp
 Protocol 2 provides additional mechanisms for confidentiality
-(the traffic is encrypted using AES, 3DES, Blowfish, CAST128 or Arcfour)
-and integrity (hmac-md5, hmac-sha1, hmac-ripemd160).
+(the traffic is encrypted using Blowfish, AES, 3DES, CAST128 or Arcfour)
+and integrity (hmac-ripemd160, hmac-sha1, hmac-md5).
 Note that protocol 1 lacks a strong mechanism for ensuring the
 integrity of the connection.
 .Ss Login session and remote execution
@@ -371,7 +372,7 @@ electronic purse; another is going through firewalls.
 automatically maintains and checks a database containing
 identifications for all hosts it has ever been used with.
 Host keys are stored in
-.Pa $HOME/.ssh/known_hosts
+.Pa $HOME/.etc/ssh/known_hosts
 in the user's home directory.
 Additionally, the file
 .Pa /etc/ssh/ssh_known_hosts
@@ -471,7 +472,7 @@ that do not support the
 cipher.
 Its use is strongly discouraged due to cryptographic weaknesses.
 The default is
-.Dq 3des .
+.Dq blowfish .
 .Pp
 For protocol version 2
 .Ar cipher_spec
@@ -544,6 +545,10 @@ something like
 .Ic ssh -f host xterm .
 .It Fl g
 Allows remote hosts to connect to local forwarded ports.
+.It Fl h
+Disables the TCP lowdelay option.
+Useful for using with rsync over ssh to not block the interactive
+session while using ALTQ to prioritize ssh traffic.
 .It Fl I Ar smartcard_device
 Specifies which smartcard device to use.
 The argument is the device
@@ -554,11 +559,11 @@ private RSA key.
 Selects a file from which the identity (private key) for
 RSA or DSA authentication is read.
 The default is
-.Pa $HOME/.ssh/identity
+.Pa $HOME/.etc/ssh/identity
 for protocol version 1, and
-.Pa $HOME/.ssh/id_rsa
+.Pa $HOME/.etc/ssh/id_rsa
 and
-.Pa $HOME/.ssh/id_dsa
+.Pa $HOME/.etc/ssh/id_dsa
 for protocol version 2.
 Identity files may also be specified on
 a per-host basis in the configuration file.
@@ -566,8 +571,6 @@ It is possible to have multiple
 .Fl i
 options (and multiple identities specified in
 configuration files).
-.It Fl k
-Disables forwarding (delegation) of GSSAPI credentials to the server.
 .It Fl L Xo
 .Sm off
 .Ar port : host : hostport
@@ -679,8 +682,6 @@ For full details of the options listed below, and their possible values, see
 .It ForwardX11Trusted
 .It GatewayPorts
 .It GlobalKnownHostsFile
-.It GSSAPIAuthentication
-.It GSSAPIDelegateCredentials
 .It Host
 .It HostbasedAuthentication
 .It HostKeyAlgorithms
@@ -894,7 +895,7 @@ Set to the name of the user logging in.
 Additionally,
 .Nm
 reads
-.Pa $HOME/.ssh/environment ,
+.Pa $HOME/.etc/ssh/environment ,
 and adds lines of the format
 .Dq VARNAME=value
 to the environment if the file exists and if users are allowed to
@@ -905,13 +906,13 @@ option in
 .Xr sshd_config 5 .
 .Sh FILES
 .Bl -tag -width Ds
-.It Pa $HOME/.ssh/known_hosts
+.It Pa $HOME/.etc/ssh/known_hosts
 Records host keys for all hosts the user has logged into that are not
 in
 .Pa /etc/ssh/ssh_known_hosts .
 See
 .Xr sshd 8 .
-.It Pa $HOME/.ssh/identity, $HOME/.ssh/id_dsa, $HOME/.ssh/id_rsa
+.It Pa $HOME/.etc/ssh/identity, $HOME/.etc/ssh/id_dsa, $HOME/.etc/ssh/id_rsa
 Contains the authentication identity of the user.
 They are for protocol 1 RSA, protocol 2 DSA, and protocol 2 RSA, respectively.
 These files
@@ -923,21 +924,21 @@ ignores a private key file if it is accessible by others.
 It is possible to specify a passphrase when
 generating the key; the passphrase will be used to encrypt the
 sensitive part of this file using 3DES.
-.It Pa $HOME/.ssh/identity.pub, $HOME/.ssh/id_dsa.pub, $HOME/.ssh/id_rsa.pub
+.It Pa $HOME/.etc/ssh/identity.pub, $HOME/.etc/ssh/id_dsa.pub, $HOME/.etc/ssh/id_rsa.pub
 Contains the public key for authentication (public part of the
 identity file in human-readable form).
 The contents of the
-.Pa $HOME/.ssh/identity.pub
+.Pa $HOME/.etc/ssh/identity.pub
 file should be added to the file
-.Pa $HOME/.ssh/authorized_keys
+.Pa $HOME/.etc/ssh/authorized_keys
 on all machines
 where the user wishes to log in using protocol version 1 RSA authentication.
 The contents of the
-.Pa $HOME/.ssh/id_dsa.pub
+.Pa $HOME/.etc/ssh/id_dsa.pub
 and
-.Pa $HOME/.ssh/id_rsa.pub
+.Pa $HOME/.etc/ssh/id_rsa.pub
 file should be added to
-.Pa $HOME/.ssh/authorized_keys
+.Pa $HOME/.etc/ssh/authorized_keys
 on all machines
 where the user wishes to log in using protocol version 2 DSA/RSA authentication.
 These files are not
@@ -945,13 +946,13 @@ sensitive and can (but need not) be readable by anyone.
 These files are
 never used automatically and are not necessary; they are only provided for
 the convenience of the user.
-.It Pa $HOME/.ssh/config
+.It Pa $HOME/.etc/ssh/config
 This is the per-user configuration file.
 The file format and configuration options are described in
 .Xr ssh_config 5 .
 Because of the potential for abuse, this file must have strict permissions:
 read/write for the user, and not accessible by others.
-.It Pa $HOME/.ssh/authorized_keys
+.It Pa $HOME/.etc/ssh/authorized_keys
 Lists the public keys (RSA/DSA) that can be used for logging in as this user.
 The format of this file is described in the
 .Xr sshd 8
@@ -1041,11 +1042,11 @@ authentication before permitting log in.
 If the server machine does not have the client's host key in
 .Pa /etc/ssh/ssh_known_hosts ,
 it can be stored in
-.Pa $HOME/.ssh/known_hosts .
+.Pa $HOME/.etc/ssh/known_hosts .
 The easiest way to do this is to
 connect back to the client from the server machine using ssh; this
 will automatically add the host key to
-.Pa $HOME/.ssh/known_hosts .
+.Pa $HOME/.etc/ssh/known_hosts .
 .It Pa $HOME/.shosts
 This file is used exactly the same way as
 .Pa .rhosts .
@@ -1086,7 +1087,7 @@ when the user logs in just before the user's shell (or command) is started.
 See the
 .Xr sshd 8
 manual page for more information.
-.It Pa $HOME/.ssh/rc
+.It Pa $HOME/.etc/ssh/rc
 Commands in this file are executed by
 .Nm
 when the user logs in just before the user's shell (or command) is
@@ -1094,7 +1095,7 @@ started.
 See the
 .Xr sshd 8
 manual page for more information.
-.It Pa $HOME/.ssh/environment
+.It Pa $HOME/.etc/ssh/environment
 Contains additional definitions for environment variables, see section
 .Sx ENVIRONMENT
 above.

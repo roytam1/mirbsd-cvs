@@ -9,6 +9,7 @@
 .\"
 .\" Created: Sun May  7 00:14:37 1995 ylo
 .\"
+.\" $MirOS$
 .\" $OpenBSD: scp.1,v 1.37 2004/10/07 10:10:24 djm Exp $
 .\"
 .Dd September 25, 1999
@@ -131,8 +132,6 @@ For full details of the options listed below, and their possible values, see
 .It ControlMaster
 .It ControlPath
 .It GlobalKnownHostsFile
-.It GSSAPIAuthentication
-.It GSSAPIDelegateCredentials
 .It Host
 .It HostbasedAuthentication
 .It HostKeyAlgorithms
@@ -214,6 +213,14 @@ is based on the
 .Xr rcp 1
 program in BSD source code from the Regents of the University of
 California.
+Since
+.Mx 5 ,
+.Nm
+disables the TCP lowdelay option by passing
+.Ar -h
+to the
+.Nm ssh
+programme.
 .Sh AUTHORS
 .An Timo Rinne Aq tri@iki.fi
 .An Tatu Ylonen Aq ylo@cs.hut.fi

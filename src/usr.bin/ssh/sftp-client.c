@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -15,12 +17,11 @@
  */
 
 /* XXX: memleaks */
-/* XXX: signed vs unsigned */
 /* XXX: remove all logging, only return status codes */
 /* XXX: copy between two remote sites */
 
 #include "includes.h"
-RCSID("$OpenBSD: sftp-client.c,v 1.52 2004/11/25 22:22:14 markus Exp $");
+RCSID("$MirOS$");
 
 #include <sys/queue.h>
 
@@ -743,7 +744,7 @@ do_download(struct sftp_conn *conn, char *remote_path, char *local_path,
 	Attrib junk, *a;
 	Buffer msg;
 	char *handle;
-	int local_fd, status, num_req, max_req, write_error;
+	int local_fd, status = SSH2_FX_OK, num_req, max_req, write_error;
 	int read_error, write_errno;
 	u_int64_t offset, size;
 	u_int handle_len, mode, type, id, buflen;

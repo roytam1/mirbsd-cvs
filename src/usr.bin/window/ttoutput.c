@@ -142,7 +142,7 @@ ttwrite(s, n)
 				ttflush();
 			if ((m = tt_obe - tt_obp) > n)
 				m = n;
-			bcopy(s, tt_obp, m);
+			memmove(tt_obp, s, m);
 			tt_obp += m;
 			s += m;
 			n -= m;

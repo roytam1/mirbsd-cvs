@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth2-pubkey.c,v 1.9 2004/12/11 01:48:56 dtucker Exp $");
+RCSID("$MirOS$");
 
 #include "ssh.h"
 #include "ssh2.h"
@@ -251,7 +251,7 @@ user_key_allowed2(struct passwd *pw, Key *key, char *file)
 	return found_key;
 }
 
-/* check whether given key is in .ssh/authorized_keys* */
+/* check whether given key is in .etc/ssh/authorized_keys* */
 int
 user_key_allowed(struct passwd *pw, Key *key)
 {

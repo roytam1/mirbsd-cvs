@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: xstr.c,v 1.11 2003/06/03 02:56:24 millert Exp $	*/
 /*	$NetBSD: xstr.c,v 1.5 1994/12/24 16:57:59 cgd Exp $	*/
 
@@ -36,13 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)xstr.c	8.1 (Berkeley) 6/9/93";
-#endif
-static char rcsid[] = "$OpenBSD: xstr.c,v 1.11 2003/06/03 02:56:24 millert Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <signal.h>
 #include <errno.h>
@@ -52,6 +46,9 @@ static char rcsid[] = "$OpenBSD: xstr.c,v 1.11 2003/06/03 02:56:24 millert Exp $
 #include <string.h>
 #include <stdlib.h>
 #include "pathnames.h"
+
+__SCCSID("@(#)xstr.c	8.1 (Berkeley) 6/9/93");
+__RCSID("$MirOS$");
 
 /*
  * xstr - extract and hash strings in a C program
@@ -117,7 +114,7 @@ main(int argc, char *argv[])
 			fprintf(stderr,
 			    "usage: xstr [-vc] [-l array] [-] [name ...]\n");
 			exit(1);
-		} 
+		}
 	argc -= optind;
 	argv += optind;
 
@@ -308,7 +305,7 @@ inithash(void)
 		return;
 	for (;;) {
 		mesgpt = tellpt;
-		if (fgetNUL(buf, sizeof buf, mesgread) == NULL)
+		if (!fgetNUL(buf, sizeof buf, mesgread))
 			break;
 		hashit(buf, 0);
 	}
@@ -324,7 +321,7 @@ fgetNUL(char *obuf, int rmdr, FILE  *file)
 	while (--rmdr > 0 && (c = xgetc(file)) != 0 && c != EOF)
 		*buf++ = c;
 	*buf++ = 0;
-	return ((feof(file) || ferror(file)) ? NULL : 1);
+	return ((feof(file) || ferror(file)) ? 0 : 1);
 }
 
 int

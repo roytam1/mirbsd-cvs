@@ -1,21 +1,21 @@
-#	$OpenBSD: Makefile.inc,v 1.29 2004/06/21 18:34:51 avsm Exp $
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.29 2004/06/21 18:34:51 avsm Exp $
 
-CFLAGS+=	-I${.CURDIR}/..
+CPPFLAGS+=	-I${.CURDIR}/..
 
-CDIAGFLAGS=	-Wall
-#CDIAGFLAGS+=	-Werror
-CDIAGFLAGS+=	-Wpointer-arith
-CDIAGFLAGS+=	-Wno-uninitialized
-#CDIAGFLAGS+=	-Wstrict-prototypes
-CDIAGFLAGS+=	-Wmissing-prototypes
-CDIAGFLAGS+=	-Wunused
-#CDIAGFLAGS+=	-Wsign-compare
-CDIAGFLAGS+=	-Wbounded
-#CDIAGFLAGS+=	-Wshadow
+CFLAGS+=	-Wall
+CFLAGS+=	-Wpointer-arith
+CFLAGS+=	-Wno-uninitialized
+#CFLAGS+=	-Wstrict-prototypes
+CFLAGS+=	-Wmissing-prototypes
+CFLAGS+=	-Wunused
+#CFLAGS+=	-Wsign-compare
+CFLAGS+=	-Wbounded
+#CFLAGS+=	-Wshadow
 
 #DEBUG=-g
 
-#CFLAGS+=	-DSMARTCARD
+#CPPFLAGS+=	-DSMARTCARD
 #LDADD+=	-lsectok
 
 .include <bsd.obj.mk>
@@ -26,4 +26,8 @@ DPADD+=         ${.CURDIR}/../lib/${__objdir}/libssh.a
 .else
 LDADD+=         -L${.CURDIR}/../lib -lssh
 DPADD+=         ${.CURDIR}/../lib/libssh.a
+.endif
+
+.if exists(../Makefile.inc)
+.  include "../Makefile.inc"
 .endif

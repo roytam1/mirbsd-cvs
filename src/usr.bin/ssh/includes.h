@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: includes.h,v 1.18 2004/06/13 15:03:02 djm Exp $	*/
 
 /*
@@ -15,9 +16,6 @@
 
 #ifndef INCLUDES_H
 #define INCLUDES_H
-
-#define RCSID(msg) \
-static /**/const char *const rcsid[] = { (char *)rcsid, "\100(#)" msg }
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -55,6 +53,8 @@ static /**/const char *const rcsid[] = { (char *)rcsid, "\100(#)" msg }
 #include <time.h>
 #include <paths.h>
 #include <dirent.h>
+
+#define	RCSID(x)	__RCSID(x)
 
 #include "version.h"
 

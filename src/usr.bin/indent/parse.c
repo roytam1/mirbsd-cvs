@@ -32,14 +32,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "@(#)parse.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: parse.c,v 1.7 2003/06/26 21:43:07 deraadt Exp $";
-#endif /* not lint */
-
+#include <sys/cdefs.h>
 #include <stdio.h>
 #include "indent_globs.h"
 #include "indent_codes.h"
+
+__SCCSID("@(#)parse.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 void reduce(void);
 

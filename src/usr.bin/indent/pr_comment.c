@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pr_comment.c,v 1.5 2003/06/12 01:07:27 deraadt Exp $	*/
 
 /*
@@ -32,15 +33,14 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "@(#)pr_comment.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: pr_comment.c,v 1.5 2003/06/12 01:07:27 deraadt Exp $";
-#endif /* not lint */
-
+#include <sys/cdefs.h>
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "indent_globs.h"
+
+__SCCSID("@(#)pr_comment.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*
  * NAME:
@@ -106,6 +106,25 @@ pr_comment()
 
     /* Figure where to align and how to treat the comment */
 
+    if (ps.com_ind == 1) {
+	char *i;
+	int target_col = 0;
+
+	ps.box_com = true;			/* don't touch this comment */
+	ps.com_col = 1;
+	i = in_buffer;
+	while (i < (buf_ptr - 1))
+	    if (*(i++) == '\t')
+		ps.com_col = ((ps.com_col + 7) & ~7) + 1;
+	    else
+		++ps.com_col;
+	if (s_code != e_code)
+	    target_col = count_spaces(compute_code_target(), s_code);
+	else if (s_lab != e_lab)
+	    target_col = count_spaces(compute_label_target(), s_lab);
+	if (ps.com_col > target_col)
+	    --ps.com_col;
+    } else
     if (ps.col_1 && !format_col1_comments) {	/* if comment starts in column
 						 * 1 it should not be touched */
 	ps.box_com = true;

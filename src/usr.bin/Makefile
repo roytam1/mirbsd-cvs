@@ -1,39 +1,198 @@
-#	$OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
 
-SUBDIR= apply apropos arch asa asn1_compile at aucat audioctl awk banner \
-	basename bc bdes \
-	biff cal calendar cap_mkdb cdio checknr chpass cmp col \
-	colcrt colrm column comm compile_et compress cpp crontab ctags cut \
-	dc deroff diff diff3 dirname du elf2olf encrypt env expand false file \
-	file2c find fgen finger fmt fold from fsplit fstat ftp gencat getconf \
-	getopt gprof grep head hexdump id indent infocmp ipcrm ipcs join jot \
-	kdump keynote ktrace lam last lastcomm leave less lex lndir locate \
-	lock logger login logname look lorder m4 mail make man mesg mg \
-	midiplay mixerctl mkdep mkstr mktemp modstat msgs nc netstat newsyslog \
-	nfsstat nice nm nohup oldrdist pagesize passwd paste patch pctr pkill \
-	pmdb pr printenv printf quota radioctl rdist rdistd readlink renice \
-	rev rpcgen rpcinfo rs rsh \
-	rup ruptime rusers rwall rwho script sectok sed shar showmount skey \
-	skeyaudit skeyinfo skeyinit sort spell split ssh su sup systat sudo \
-	tail talk tcopy tee telnet tftp tic time tip tn3270 top touch tput tr \
-	true tset tsort tty usbhidaction usbhidctl ul uname unexpand unifdef \
-	uniq units \
-	unvis users uudecode uuencode vacation vgrind vi vis vmstat w wall wc \
-	what whatis which who whois window write x99token xargs xinstall xlint \
-	xstr yacc yes
-
-.if (${YP:L} == "yes")
-SUBDIR+=ypcat ypmatch ypwhich
+  SUBDIR+= apropos
+  SUBDIR+= arch
+  SUBDIR+= at
+  SUBDIR+= aucat
+  SUBDIR+= audioctl
+  SUBDIR+= awk
+  SUBDIR+= basename
+  SUBDIR+= bc
+  SUBDIR+= brainfuck
+  SUBDIR+= cal
+  SUBDIR+= calendar
+  SUBDIR+= cap_mkdb
+  SUBDIR+= cdio
+  SUBDIR+= checknr
+  SUBDIR+= chpass
+  SUBDIR+= cmp
+  SUBDIR+= col
+  SUBDIR+= colcrt
+  SUBDIR+= colrm
+  SUBDIR+= column
+  SUBDIR+= comm
+  SUBDIR+= compress
+  SUBDIR+= crontab
+  SUBDIR+= crunch
+  SUBDIR+= ctags
+  SUBDIR+= cut
+  SUBDIR+= dc
+  SUBDIR+= deroff
+  SUBDIR+= diff
+  SUBDIR+= diff3
+  SUBDIR+= dirname
+  SUBDIR+= du
+  SUBDIR+= elf2aout
+  SUBDIR+= elf2olf
+  SUBDIR+= encrypt
+  SUBDIR+= env
+  SUBDIR+= expand
+  SUBDIR+= false
+  SUBDIR+= fdialog
+  SUBDIR+= fgen
+  SUBDIR+= file
+  SUBDIR+= file2c
+  SUBDIR+= find
+  SUBDIR+= finger
+  SUBDIR+= fmt
+  SUBDIR+= fold
+  SUBDIR+= fstat
+  SUBDIR+= ftp
+  SUBDIR+= getconf
+  SUBDIR+= getopt
+  SUBDIR+= grep
+  SUBDIR+= head
+  SUBDIR+= hexdump
+  SUBDIR+= host
+  SUBDIR+= id
+  SUBDIR+= indent
+  SUBDIR+= infocmp
+  SUBDIR+= ipcrm
+  SUBDIR+= ipcs
+  SUBDIR+= join
+  SUBDIR+= jot
+  SUBDIR+= kdump
+  SUBDIR+= keynote
+  SUBDIR+= ktrace
+  SUBDIR+= last
+  SUBDIR+= lastcomm
+  SUBDIR+= less
+  SUBDIR+= lex
+  SUBDIR+= lndir
+  SUBDIR+= locate
+  SUBDIR+= lock
+  SUBDIR+= logger
+  SUBDIR+= login
+  SUBDIR+= logname
+  SUBDIR+= look
+  SUBDIR+= lorder
+  SUBDIR+= m4
+  SUBDIR+= mail
+  SUBDIR+= make
+  SUBDIR+= man
+  SUBDIR+= mesg
+  SUBDIR+= midiplay
+  SUBDIR+= mixerctl
+  SUBDIR+= mkdep
+  SUBDIR+= mktemp
+  SUBDIR+= modstat
+  SUBDIR+= msgs
+  SUBDIR+= nc
+  SUBDIR+= netstat
+  SUBDIR+= newsyslog
+  SUBDIR+= nfsstat
+  SUBDIR+= nice
+  SUBDIR+= nohup
+  SUBDIR+= oldroff
+  SUBDIR+= pagesize
+  SUBDIR+= passwd
+  SUBDIR+= paste
+  SUBDIR+= patch
+.if ${MACHINE} == "i386"
+  SUBDIR+= pctr
 .endif
-
-.if (${ELF_TOOLCHAIN:L} == "no")
-SUBDIR+= ar ranlib strip strings
+  SUBDIR+= pkill
+  SUBDIR+= pmdb
+  SUBDIR+= pr
+  SUBDIR+= printenv
+  SUBDIR+= printf
+  SUBDIR+= quota
+  SUBDIR+= radioctl
+  SUBDIR+= readlink
+  SUBDIR+= renice
+  SUBDIR+= rev
+  SUBDIR+= rpcgen
+  SUBDIR+= rpcinfo
+  SUBDIR+= rs
+  SUBDIR+= rup
+  SUBDIR+= ruptime
+  SUBDIR+= rusers
+  SUBDIR+= rwall
+  SUBDIR+= rwho
+  SUBDIR+= script
+.if ${CROSS_MODE:L} != "yes"
+  SUBDIR+= sectok
 .endif
-
-.if   make(clean) || make(cleandir) || make(obj)
-SUBDIR+= elf2ecoff elf2aout
-.endif
+  SUBDIR+= sed
+  SUBDIR+= shar
+  SUBDIR+= showmount
+  SUBDIR+= skey
+  SUBDIR+= skeyaudit
+  SUBDIR+= skeyinfo
+  SUBDIR+= skeyinit
+  SUBDIR+= soelim
+  SUBDIR+= sort
+  SUBDIR+= spell
+  SUBDIR+= split
+  SUBDIR+= ssh
+  SUBDIR+= stat
+  SUBDIR+= su
+  SUBDIR+= sudo
+  SUBDIR+= systat
+  SUBDIR+= tail
+  SUBDIR+= talk
+  SUBDIR+= tcopy
+  SUBDIR+= tee
+  SUBDIR+= telnet
+  SUBDIR+= tftp
+  SUBDIR+= tic
+  SUBDIR+= time
+  SUBDIR+= tip
+  SUBDIR+= top
+  SUBDIR+= touch
+  SUBDIR+= tput
+  SUBDIR+= tr
+  SUBDIR+= true
+  SUBDIR+= tset
+  SUBDIR+= tsort
+  SUBDIR+= tty
+  SUBDIR+= ul
+  SUBDIR+= uname
+  SUBDIR+= unexpand
+  SUBDIR+= unifdef
+  SUBDIR+= uniq
+  SUBDIR+= units
+  SUBDIR+= unvis
+  SUBDIR+= usbhidaction
+  SUBDIR+= usbhidctl
+  SUBDIR+= users
+  SUBDIR+= uudecode
+  SUBDIR+= uuencode
+  SUBDIR+= vgrind
+  SUBDIR+= vi
+  SUBDIR+= vis
+  SUBDIR+= vmstat
+  SUBDIR+= w
+  SUBDIR+= wall
+  SUBDIR+= wc
+  SUBDIR+= what
+  SUBDIR+= whatis
+  SUBDIR+= which
+  SUBDIR+= who
+  SUBDIR+= whois
+  SUBDIR+= window
+  SUBDIR+= write
+  SUBDIR+= wtf
+  SUBDIR+= x99token
+  SUBDIR+= xargs
+  SUBDIR+= xinstall
+  SUBDIR+= xlint
+  SUBDIR+= xmlwf
+  SUBDIR+= xstr
+  SUBDIR+= yacc
+  SUBDIR+= yes
 
 .include <bsd.subdir.mk>

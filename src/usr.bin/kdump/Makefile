@@ -1,14 +1,16 @@
-#	$OpenBSD: Makefile,v 1.8 2003/07/02 20:54:17 deraadt Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.8 2003/07/02 20:54:17 deraadt Exp $
 
-LDSTATIC=${STATIC}
-PROG=	kdump
-CFLAGS+=-I${.CURDIR}/../ktrace -I${.CURDIR}
-SRCS=	kdump.c ioctl.c subr.c
-.PATH:	${.CURDIR}/../ktrace
-CLEANFILES+=ioctl.c
+LDSTATIC=	${STATIC}
+PROG=		kdump
+CPPFLAGS+=	-I${.CURDIR}/../ktrace
+SRCS=		kdump.c ioctl.c subr.c
+.PATH:		${.CURDIR}/../ktrace
+CLEANFILES+=	ioctl.c
 
 ioctl.c: ${.CURDIR}/mkioctls
-	/bin/sh ${.CURDIR}/mkioctls ${DESTDIR}/usr/include/sys/ioctl.h \
+	CC="${CC}" ${SHELL} ${.CURDIR}/mkioctls \
+	    ${DESTDIR}/usr/include/sys/ioctl.h \
 	    ${DESTDIR}/usr/include/sys/ioctl_compat.h \
 	    ${DESTDIR}/usr/include/crypto/cryptodev.h \
 	    ${DESTDIR}/usr/include/dev/biovar.h \
@@ -38,6 +40,7 @@ ioctl.c: ${.CURDIR}/mkioctls
 	    ${DESTDIR}/usr/include/sys/radioio.h \
 	    ${DESTDIR}/usr/include/sys/scanio.h \
 	    ${DESTDIR}/usr/include/sys/scsiio.h \
-	    ${DESTDIR}/usr/include/sys/sockio.h > ioctl.c
+	    ${DESTDIR}/usr/include/sys/sockio.h \
+	    >$@
 
 .include <bsd.prog.mk>

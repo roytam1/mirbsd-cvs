@@ -59,9 +59,10 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: ftp.c,v 1.55 2003/12/16 21:46:22 deraadt Exp $";
-#endif /* not lint and not SMALL */
+#include <sys/cdefs.h>
+#ifndef	SMALL
+__RCSID("$MirOS$");
+#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -378,10 +379,12 @@ getreply(expecteof)
 				code = 421;
 				return (4);
 			}
-			if (c != '\r' && (verbose > 0 ||
-			    ((verbose > -1 && n == '5' && dig > 4)) &&
-			    (((!n && c < '5') || (n && n < '5'))
-			     || !retry_connect))) {
+			if ( ((c != '\r') && (verbose > 0)) ||
+			     (((verbose > -1) && (n == '5') && (dig > 4)) &&
+			      ((!retry_connect) || (
+			       (((!n) && (c < '5')) || (n && (n < '5')))) )
+			     )
+			   ) {
 				if (proxflag &&
 				   (dig == 1 || (dig == 5 && verbose == 0)))
 					fprintf(ttyout, "%s:", hostname);
@@ -1496,7 +1499,7 @@ noport:
 			result = COMPLETE + 1; /* xxx */
 		}
 	skip_port:
-		
+
 		if (result == ERROR && sendport == -1) {
 			sendport = 0;
 			tmpno = 1;

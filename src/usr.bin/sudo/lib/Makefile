@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.2 2004/09/28 15:10:51 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.2 2004/09/28 15:10:51 millert Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -8,10 +9,9 @@ SRCS=	alloc.c defaults.c fileops.c find_path.c gettime.c goodpath.c \
 CPPFLAGS+=	-I.
 
 DEBUGLIBS= no
-NOPROFILE= yes
 
 .include <bsd.own.mk>
-.if !defined(NOPIC)
+.if !defined(NOPIC) || ${NOPIC:L} == "no"
 CPPFLAGS+= -D_PATH_SUDO_NOEXEC=\"/usr/libexec/sudo_noexec.so\"
 NOPIC=	yes
 .endif

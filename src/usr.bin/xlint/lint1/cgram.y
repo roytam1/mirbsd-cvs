@@ -1,4 +1,5 @@
 %{
+/**	$MirOS$ */
 /*	$OpenBSD: cgram.y,v 1.5 2003/11/08 19:17:29 jmc Exp $	*/
 /*	$NetBSD: cgram.y,v 1.8 1995/10/02 17:31:35 jpo Exp $	*/
 
@@ -33,14 +34,13 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: cgram.y,v 1.5 2003/11/08 19:17:29 jmc Exp $";
-#endif
-
+#include <sys/cdefs.h>
 #include <stdlib.h>
 #include <limits.h>
 
 #include "lint1.h"
+
+__RCSID("$MirOS$");
 
 /*
  * Contains the level of current declaration. 0 is extern.
@@ -279,7 +279,7 @@ data_def:
 	  }
 	| declspecs deftyp type_init_decls T_SEMI
 	| error T_SEMI {
-		globclup();		
+		globclup();
 	  }
 	| error T_RBRACE {
 		globclup();
@@ -1613,21 +1613,10 @@ toicon(tn)
 				warning(56);
 			}
 		} else {
-#ifdef XXX_BROKEN_GCC
-			if (v->v_quad > INT_MAX) {
-				/* integral constant too large */
-				warning(56);
-			}
-			if (v->v_quad < INT_MIN) {
-				/* integral constant too large */
-				warning(56);
-			}
-#else
 			if (v->v_quad > INT_MAX || v->v_quad < INT_MIN) {
 				/* integral constant too large */
 				warning(56);
 			}
-#endif
 		}
 	}
 	free(v);

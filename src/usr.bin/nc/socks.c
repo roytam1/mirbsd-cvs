@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: socks.c,v 1.9 2004/10/17 03:13:55 djm Exp $	*/
 
 /*
@@ -36,6 +37,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -110,7 +113,8 @@ proxy_read_line(int fd, char *buf, int bufsz)
 }
 
 int
-socks_connect(char *host, char *port, struct addrinfo hints,
+socks_connect(char *host, char *port,
+    struct addrinfo hints __attribute__((unused)),
     char *proxyhost, char *proxyport, struct addrinfo proxyhints,
     int socksv)
 {
@@ -200,17 +204,17 @@ socks_connect(char *host, char *port, struct addrinfo hints,
 
 		/* Try to be sane about numeric IPv6 addresses */
 		if (strchr(host, ':') != NULL) {
-			r = snprintf(buf, sizeof(buf),
+			r = snprintf((char *)buf, sizeof(buf),
 			    "CONNECT [%s]:%d HTTP/1.0\r\n\r\n",
 			    host, ntohs(serverport));
 		} else {
-			r = snprintf(buf, sizeof(buf),
+			r = snprintf((char *)buf, sizeof(buf),
 			    "CONNECT %s:%d HTTP/1.0\r\n\r\n",
 			    host, ntohs(serverport));
 		}
-		if (r == -1 || r >= sizeof(buf))
+		if (r == -1 || r >= (ssize_t)sizeof(buf))
 			errx (1, "hostname too long");
-		r = strlen(buf);
+		r = strlen((char *)buf);
 
 		/* XXX atomicio */
 		cnt = write (proxyfd, buf, r);
@@ -221,8 +225,9 @@ socks_connect(char *host, char *port, struct addrinfo hints,
 
 		/* Read reply */
 		for (r = 0; r < HTTP_MAXHDRS; r++) {
-			proxy_read_line(proxyfd, buf, sizeof(buf));
-			if (r == 0 && strncmp(buf, "HTTP/1.0 200 ", 12) != 0)
+			proxy_read_line(proxyfd, (char *)buf, sizeof(buf));
+			if (r == 0 &&
+			    strncmp((char *)buf, "HTTP/1.0 200 ", 12) != 0)
 				errx (1, "Proxy error: \"%s\"", buf);
 			/* Discard headers until we hit an empty line */
 			if (*buf == '\0')

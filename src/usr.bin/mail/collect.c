@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: collect.c,v 1.27 2004/01/03 20:06:59 millert Exp $	*/
 /*	$NetBSD: collect.c,v 1.9 1997/07/09 05:25:45 mikel Exp $	*/
 
@@ -531,7 +532,7 @@ forward(char *ms, FILE *fp, char *fn, int f)
 			puts("No appropriate messages");
 			return(0);
 		}
-		msgvec[1] = NULL;
+		msgvec[1] = 0;
 	}
 	if (f == 'f' || f == 'F')
 		tabst = NULL;

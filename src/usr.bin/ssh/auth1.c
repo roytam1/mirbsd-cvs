@@ -10,7 +10,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth1.c,v 1.59 2004/07/28 09:40:29 markus Exp $");
+RCSID("$MirOS$");
 
 #include "xmalloc.h"
 #include "rsa.h"
@@ -75,9 +75,6 @@ do_authloop(Authctxt *authctxt)
 
 	/* If the user has no password, accept authentication immediately. */
 	if (options.password_authentication &&
-#ifdef KRB5
-	    (!options.kerberos_authentication || options.kerberos_or_local_passwd) &&
-#endif
 	    PRIVSEP(auth_password(authctxt, ""))) {
 		auth_log(authctxt, 1, "without authentication", "");
 		return;

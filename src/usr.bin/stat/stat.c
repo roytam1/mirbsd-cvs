@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $ */
 
 /*
@@ -48,7 +49,11 @@ __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 #if ! HAVE_NBTOOL_CONFIG_H
 #define HAVE_STRUCT_STAT_ST_FLAGS 1
 #define HAVE_STRUCT_STAT_ST_GEN 1
+#if defined(__OpenBSD__) && !defined(_POSIX_SOURCE) && !defined(st_birthtime)
+#undef HAVE_STRUCT_STAT_ST_BIRTHTIME
+#else
 #define HAVE_STRUCT_STAT_ST_BIRTHTIME 1
+#endif
 #define HAVE_STRUCT_STAT_ST_MTIMENSEC 1
 #define HAVE_DEVNAME 1
 #endif /* HAVE_NBTOOL_CONFIG_H */
@@ -179,7 +184,7 @@ __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 #define SHOW_filename	'N'
 #define SHOW_sizerdev	'Z'
 
-void	usage(const char *);
+__dead void	usage(const char *);
 void	output(const struct stat *, const char *,
 	    const char *, int, int, int);
 int	format1(const struct stat *,	/* stat info */
@@ -216,6 +221,7 @@ main(int argc, char *argv[])
 	statfmt = NULL;
 	timefmt = NULL;
 
+#ifdef __NetBSD__
 	if (strcmp(getprogname(), "readlink") == 0) {
 		am_readlink = 1;
 		options = "n";
@@ -224,6 +230,9 @@ main(int argc, char *argv[])
 		fmtchar = 'f';
 		quiet = 1;
 	} else {
+#else
+	{
+#endif
 		options = "f:FlLnqrst:x";
 		synopsis = "[-FlLnqrsx] [-f format] [-t timefmt] [file ...]";
 	}
@@ -340,20 +349,29 @@ main(int argc, char *argv[])
 	return (am_readlink ? linkfail : errs);
 }
 
-void
+__dead void
 usage(const char *synopsis)
 {
+#ifndef __NetBSD__
+	extern char *__progname;
+#endif
 
-	(void)fprintf(stderr, "usage: %s %s\n", getprogname(), synopsis);
+	(void)fprintf(stderr, "usage: %s %s\n",
+#ifdef __NetBSD__
+	    getprogname(),
+#else
+	    __progname,
+#endif
+	    synopsis);
 	exit(1);
 }
 
-/* 
+/*
  * Parses a format string.
  */
 void
 output(const struct stat *st, const char *file,
-    const char *statfmt, int fn, int nonl, int quiet)
+    const char *statfmt, int fn, int nonl, int quiet __attribute__((unused)))
 {
 	int flags, size, prec, ofmt, hilo, what;
 	char buf[PATH_MAX];
@@ -525,7 +543,7 @@ output(const struct stat *st, const char *file,
 		     buf, sizeof(buf),
 		     flags, size, prec, ofmt, hilo, what);
 
-		for (i = 0; i < t && i < sizeof(buf); i++)
+		for (i = 0; i < t && (size_t)i < sizeof(buf); i++)
 			addchar(stdout, buf[i], &nl);
 
 		continue;
@@ -579,7 +597,7 @@ format1(const struct stat *st,
 #if HAVE_DEVNAME
 		sdata = (what == SHOW_st_dev) ?
 		    devname(st->st_dev, S_IFBLK) :
-		    devname(st->st_rdev, 
+		    devname(st->st_rdev,
 		    S_ISCHR(st->st_mode) ? S_IFCHR :
 		    S_ISBLK(st->st_mode) ? S_IFBLK :
 		    0U);
@@ -795,22 +813,29 @@ format1(const struct stat *st,
 		sdata[0] = '\0';
 		if (hilo == 0 || hilo == LOW_PIECE) {
 			switch (st->st_mode & S_IFMT) {
-			case S_IFIFO:	(void)strcat(sdata, "|");	break;
-			case S_IFDIR:	(void)strcat(sdata, "/");	break;
+			case S_IFIFO:	(void)strlcat(sdata, "|",
+					    sizeof(smode));	break;
+			case S_IFDIR:	(void)strlcat(sdata, "/",
+					    sizeof(smode));	break;
 			case S_IFREG:
 				if (st->st_mode &
 				    (S_IXUSR | S_IXGRP | S_IXOTH))
-					(void)strcat(sdata, "*");
+					(void)strlcat(sdata, "*",
+					    sizeof(smode));
 				break;
-			case S_IFLNK:	(void)strcat(sdata, "@");	break;
+			case S_IFLNK:	(void)strlcat(sdata, "@",
+					    sizeof(smode));	break;
 #ifdef S_IFSOCK
-			case S_IFSOCK:	(void)strcat(sdata, "=");	break;
+			case S_IFSOCK:	(void)strlcat(sdata, "=",
+					    sizeof(smode));	break;
 #endif
 #ifdef S_IFWHT
-			case S_IFWHT:	(void)strcat(sdata, "%");	break;
+			case S_IFWHT:	(void)strlcat(sdata, "%",
+					    sizeof(smode));	break;
 #endif /* S_IFWHT */
 #ifdef S_IFDOOR
-			case S_IFDOOR:	(void)strcat(sdata, ">");	break;
+			case S_IFDOOR:	(void)strlcat(sdata, ">",
+					    sizeof(smode));	break;
 #endif /* S_IFDOOR */
 			}
 			hilo = 0;
@@ -926,22 +951,22 @@ format1(const struct stat *st,
 	 * Assemble the format string for passing to printf(3).
 	 */
 	lfmt[0] = '\0';
-	(void)strcat(lfmt, "%");
+	(void)strlcat(lfmt, "%", sizeof(lfmt));
 	if (flags & FLAG_POUND)
-		(void)strcat(lfmt, "#");
+		(void)strlcat(lfmt, "#", sizeof(lfmt));
 	if (flags & FLAG_SPACE)
-		(void)strcat(lfmt, " ");
+		(void)strlcat(lfmt, " ", sizeof(lfmt));
 	if (flags & FLAG_PLUS)
-		(void)strcat(lfmt, "+");
+		(void)strlcat(lfmt, "+", sizeof(lfmt));
 	if (flags & FLAG_MINUS)
-		(void)strcat(lfmt, "-");
+		(void)strlcat(lfmt, "-", sizeof(lfmt));
 	if (flags & FLAG_ZERO)
-		(void)strcat(lfmt, "0");
+		(void)strlcat(lfmt, "0", sizeof(lfmt));
 
 	/*
 	 * Only the timespecs support the FLOAT output format, and that
 	 * requires work that differs from the other formats.
-	 */ 
+	 */
 	if (ofmt == FMTF_FLOAT) {
 		/*
 		 * Nothing after the decimal point, so just print seconds.
@@ -949,9 +974,9 @@ format1(const struct stat *st,
 		if (prec == 0) {
 			if (size != -1) {
 				(void)snprintf(tmp, sizeof(tmp), "%d", size);
-				(void)strcat(lfmt, tmp);
+				(void)strlcat(lfmt, tmp, sizeof(lfmt));
 			}
-			(void)strcat(lfmt, "d");
+			(void)strlcat(lfmt, "d", sizeof(lfmt));
 			return (snprintf(buf, blen, lfmt, secs));
 		}
 
@@ -973,22 +998,22 @@ format1(const struct stat *st,
 		 */
 		if (size > 0) {
 			(void)snprintf(tmp, sizeof(tmp), "%d", size);
-			(void)strcat(lfmt, tmp);
+			(void)strlcat(lfmt, tmp, sizeof(lfmt));
 		}
-		(void)strcat(lfmt, "d");
+		(void)strlcat(lfmt, "d", sizeof(lfmt));
 
 		/*
 		 * The stuff after the decimal point always needs zero
 		 * filling.
 		 */
-		(void)strcat(lfmt, ".%0");
+		(void)strlcat(lfmt, ".%0", sizeof(lfmt));
 
 		/*
 		 * We can "print" at most nine digits of precision.  The
 		 * rest we will pad on at the end.
 		 */
 		(void)snprintf(tmp, sizeof(tmp), "%dd", prec > 9 ? 9 : prec);
-		(void)strcat(lfmt, tmp);
+		(void)strlcat(lfmt, tmp, sizeof(lfmt));
 
 		/*
 		 * For precision of less that nine digits, trim off the
@@ -1002,8 +1027,8 @@ format1(const struct stat *st,
 		 * might be required to make up the requested precision.
 		 */
 		l = snprintf(buf, blen, lfmt, secs, nsecs);
-		for (; prec > 9 && l < blen; prec--, l++)
-			(void)strcat(buf, "0");
+		for (; prec > 9 && (size_t)l < blen; prec--, l++)
+			(void)strlcat(buf, "0", blen);
 		return (l);
 	}
 
@@ -1012,11 +1037,11 @@ format1(const struct stat *st,
 	 */
 	if (size != -1) {
 		(void)snprintf(tmp, sizeof(tmp), "%d", size);
-		(void)strcat(lfmt, tmp);
+		(void)strlcat(lfmt, tmp, sizeof(lfmt));
 	}
 	if (prec != -1) {
 		(void)snprintf(tmp, sizeof(tmp), ".%d", prec);
-		(void)strcat(lfmt, tmp);
+		(void)strlcat(lfmt, tmp, sizeof(lfmt));
 	}
 
 	/*
@@ -1025,7 +1050,7 @@ format1(const struct stat *st,
 	if (ofmt == FMTF_STRING) {
 		if (sdata == NULL)
 			errx(1, "%.*s: bad format", (int)flen, fmt);
-		(void)strcat(lfmt, "s");
+		(void)strlcat(lfmt, "s", sizeof(lfmt));
 		return (snprintf(buf, blen, lfmt, sdata));
 	}
 
@@ -1039,12 +1064,12 @@ format1(const struct stat *st,
 	/*
 	 * The four "numeric" output forms.
 	 */
-	(void)strcat(lfmt, "ll");
+	(void)strlcat(lfmt, "ll", sizeof(lfmt));
 	switch (ofmt) {
-	case FMTF_DECIMAL:	(void)strcat(lfmt, "d");	break;
-	case FMTF_OCTAL:		(void)strcat(lfmt, "o");	break;
-	case FMTF_UNSIGNED:	(void)strcat(lfmt, "u");	break;
-	case FMTF_HEX:		(void)strcat(lfmt, "x");	break;
+	case FMTF_DECIMAL:	(void)strlcat(lfmt, "d", sizeof(lfmt));	break;
+	case FMTF_OCTAL:	(void)strlcat(lfmt, "o", sizeof(lfmt));	break;
+	case FMTF_UNSIGNED:	(void)strlcat(lfmt, "u", sizeof(lfmt));	break;
+	case FMTF_HEX:		(void)strlcat(lfmt, "x", sizeof(lfmt));	break;
 	}
 
 	return (snprintf(buf, blen, lfmt, data));

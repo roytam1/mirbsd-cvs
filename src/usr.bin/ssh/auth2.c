@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth2.c,v 1.107 2004/07/28 09:40:29 markus Exp $");
+RCSID("$MirOS$");
 
 #include "ssh2.h"
 #include "xmalloc.h"
@@ -35,10 +35,6 @@ RCSID("$OpenBSD: auth2.c,v 1.107 2004/07/28 09:40:29 markus Exp $");
 #include "dispatch.h"
 #include "pathnames.h"
 #include "monitor_wrap.h"
-
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 
 /* import */
 extern ServerOptions options;
@@ -52,16 +48,10 @@ extern Authmethod method_pubkey;
 extern Authmethod method_passwd;
 extern Authmethod method_kbdint;
 extern Authmethod method_hostbased;
-#ifdef GSSAPI
-extern Authmethod method_gssapi;
-#endif
 
 Authmethod *authmethods[] = {
 	&method_none,
 	&method_pubkey,
-#ifdef GSSAPI
-	&method_gssapi,
-#endif
 	&method_passwd,
 	&method_kbdint,
 	&method_hostbased,
@@ -172,11 +162,6 @@ input_userauth_request(int type, u_int32_t seq, void *ctxt)
 	}
 	/* reset state */
 	auth2_challenge_stop(authctxt);
-
-#ifdef GSSAPI
-	dispatch_set(SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-	dispatch_set(SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE, NULL);
-#endif
 
 	authctxt->postponed = 0;
 

@@ -46,6 +46,6 @@ scan.o: parse.c
 
 includes:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
-		${.CURDIR}/FlexLexer.h ${DESTDIR}/usr/include/g++
+		${.CURDIR}/FlexLexer.h ${DESTDIR}/usr/include/
 
 .include <bsd.prog.mk>

@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh-keygen.c,v 1.118 2004/12/23 17:38:07 markus Exp $");
+RCSID("$MirOS$");
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -72,6 +72,10 @@ int convert_to_ssh2 = 0;
 int convert_from_ssh2 = 0;
 int print_public = 0;
 int print_generic = 0;
+
+/* Dump public key file in format used by the OpenSSL tool */
+int convert_to_ossl = 0;
+int convert_from_ossl = 0;
 
 char *key_type_name = NULL;
 
@@ -183,6 +187,35 @@ do_convert_to_ssh2(struct passwd *pw)
 	key_free(k);
 	xfree(blob);
 	exit(0);
+}
+
+static void
+do_convert_to_ossl(struct passwd *pw)
+{
+	Key *k;
+	struct stat st;
+	int rv;
+
+	if (!have_identity)
+		ask_filename(pw, "Enter file in which the key is");
+	if (stat(identity_file, &st) < 0) {
+		perror(identity_file);
+		exit(1);
+	}
+	if ((k = key_load_public(identity_file, NULL)) == NULL) {
+		if ((k = load_identity(identity_file)) == NULL) {
+			fprintf(stderr, "load failed\n");
+			exit(1);
+		}
+	}
+	if (k->type == KEY_RSA1) {
+		fprintf(stderr, "version 1 keys are not supported\n");
+		exit(1);
+	}
+	if ((rv = !PEM_write_RSA_PUBKEY(stdout, k->rsa)))
+		fprintf(stderr, "error during key conversion\n");
+	key_free(k);
+	exit(rv);
 }
 
 static void
@@ -371,6 +404,43 @@ do_convert_from_ssh2(struct passwd *pw)
 	key_free(k);
 	if (!private)
 		fprintf(stdout, "\n");
+	fclose(fp);
+	exit(0);
+}
+
+static void
+do_convert_from_ossl(struct passwd *pw)
+{
+	Key *k;
+	struct stat st;
+	FILE *fp;
+
+	if (!have_identity)
+		ask_filename(pw, "Enter file in which the key is");
+	if (stat(identity_file, &st) < 0) {
+		perror(identity_file);
+		exit(1);
+	}
+	fp = fopen(identity_file, "r");
+	if (fp == NULL) {
+		perror(identity_file);
+		exit(1);
+	}
+	k = key_new_private(KEY_RSA);
+	if (k != NULL) {
+		RSA_free(k->rsa);
+		k->rsa = PEM_read_RSA_PUBKEY(fp, NULL, NULL, NULL);
+	}
+	if (k == NULL || k->rsa == NULL) {
+		fprintf(stderr, "decode blob failed.\n");
+		exit(1);
+	}
+	if (!key_write(k, stdout)) {
+		fprintf(stderr, "key write failed");
+		exit(1);
+	}
+	key_free(k);
+	fprintf(stdout, "\n");
 	fclose(fp);
 	exit(0);
 }
@@ -758,9 +828,11 @@ usage(void)
 	fprintf(stderr, "  -b bits     Number of bits in the key to create.\n");
 	fprintf(stderr, "  -c          Change comment in private and public key files.\n");
 	fprintf(stderr, "  -e          Convert OpenSSH to IETF SECSH key file.\n");
+	fprintf(stderr, "  -E          Convert OpenSSH to OpenSSL public key file.\n");
 	fprintf(stderr, "  -f filename Filename of the key file.\n");
 	fprintf(stderr, "  -g          Use generic DNS resource record format.\n");
 	fprintf(stderr, "  -i          Convert IETF SECSH to OpenSSH key file.\n");
+	fprintf(stderr, "  -I          Convert OpenSSL to OpenSSH public key file.\n");
 	fprintf(stderr, "  -l          Show fingerprint of key file.\n");
 	fprintf(stderr, "  -p          Change passphrase of private key file.\n");
 	fprintf(stderr, "  -q          Quiet.\n");
@@ -819,7 +891,7 @@ main(int ac, char **av)
 	}
 
 	while ((opt = getopt(ac, av,
-	    "degiqpclBRvxXyb:f:t:U:D:P:N:C:r:g:T:G:M:S:a:W:")) != -1) {
+	    "a:Bb:cC:dD:Eef:gG:g:IilM:N:pP:qRr:S:T:t:U:vW:Xxy")) != -1) {
 		switch (opt) {
 		case 'b':
 			bits = atoi(optarg);
@@ -872,6 +944,12 @@ main(int ac, char **av)
 		case 'X':
 			/* import key */
 			convert_from_ssh2 = 1;
+			break;
+		case 'E':
+			convert_to_ossl = 1;
+			break;
+		case 'I':
+			convert_from_ossl = 1;
 			break;
 		case 'y':
 			print_public = 1;
@@ -950,6 +1028,10 @@ main(int ac, char **av)
 		do_convert_to_ssh2(pw);
 	if (convert_from_ssh2)
 		do_convert_from_ssh2(pw);
+	if (convert_to_ossl)
+		do_convert_to_ossl(pw);
+	if (convert_from_ossl)
+		do_convert_from_ossl(pw);
 	if (print_public)
 		do_print_public(pw);
 	if (resource_record_hostname != NULL) {
@@ -1025,7 +1107,7 @@ main(int ac, char **av)
 	if (!have_identity)
 		ask_filename(pw, "Enter file in which to save the key");
 
-	/* Create ~/.ssh directory if it doesn\'t already exist. */
+	/* Create ~/.etc/ssh directory if it doesn\'t already exist. */
 	snprintf(dotsshdir, sizeof dotsshdir, "%s/%s", pw->pw_dir, _PATH_SSH_USER_DIR);
 	if (strstr(identity_file, dotsshdir) != NULL &&
 	    stat(dotsshdir, &st) < 0) {

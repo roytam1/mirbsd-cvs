@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: vmstat.c,v 1.29.4.1 1996/06/05 00:21:05 cgd Exp $	*/
 /*	$OpenBSD: vmstat.c,v 1.82 2004/02/15 02:45:47 tedu Exp $	*/
 
@@ -36,14 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)vmstat.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: vmstat.c,v 1.82 2004/02/15 02:45:47 tedu Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/proc.h>
@@ -74,6 +67,9 @@ static const char rcsid[] = "$OpenBSD: vmstat.c,v 1.82 2004/02/15 02:45:47 tedu 
 
 #include <uvm/uvm_object.h>
 #include <uvm/uvm_extern.h>
+
+__SCCSID("@(#)vmstat.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 struct nlist namelist[] = {
 #define X_UVMEXP	0		/* sysctl */
@@ -410,17 +406,17 @@ dovmstat(u_int interval, int reps)
 #define pgtok(a) ((a) * ((int)uvmexp.pagesize >> 10))
 		(void)printf("%7u%7u ",
 		    pgtok(total.t_avm), pgtok(total.t_free));
-		(void)printf("%5u ", rate(uvmexp.faults - ouvmexp.faults));
-		(void)printf("%3u ", rate(uvmexp.pdreact - ouvmexp.pdreact));
-		(void)printf("%3u ", rate(uvmexp.pageins - ouvmexp.pageins));
+		(void)printf("%5u ", (unsigned)rate(uvmexp.faults - ouvmexp.faults));
+		(void)printf("%3u ", (unsigned)rate(uvmexp.pdreact - ouvmexp.pdreact));
+		(void)printf("%3u ", (unsigned)rate(uvmexp.pageins - ouvmexp.pageins));
 		(void)printf("%3u %3u ",
-		    rate(uvmexp.pdpageouts - ouvmexp.pdpageouts), 0);
-		(void)printf("%3u ", rate(uvmexp.pdscans - ouvmexp.pdscans));
+		    (unsigned)rate(uvmexp.pdpageouts - ouvmexp.pdpageouts), 0);
+		(void)printf("%3u ", (unsigned)rate(uvmexp.pdscans - ouvmexp.pdscans));
 		dkstats();
 		(void)printf("%4u %5u %4u ",
-		    rate(uvmexp.intrs - ouvmexp.intrs),
-		    rate(uvmexp.syscalls - ouvmexp.syscalls),
-		    rate(uvmexp.swtch - ouvmexp.swtch));
+		    (unsigned)rate(uvmexp.intrs - ouvmexp.intrs),
+		    (unsigned)rate(uvmexp.syscalls - ouvmexp.syscalls),
+		    (unsigned)rate(uvmexp.swtch - ouvmexp.swtch));
 		cpustats();
 		(void)printf("\n");
 		(void)fflush(stdout);
@@ -734,7 +730,8 @@ dointr(void)
 				snprintf(fname, sizeof fname, "irq%d/%s", i,
 					 iname);
 				printf("%-16.16s %10lu %8lu\n", fname,
-				       ih.ih_count, ih.ih_count / uptime);
+				    ih.ih_count,
+				    (unsigned long)(ih.ih_count / uptime));
 				inttotal += ih.ih_count;
 				ihp = ih.ih_next;
 			}
@@ -744,10 +741,12 @@ dointr(void)
 	for (i = 0; i < 16; i++)
 		if (intrstray[i]) {
 			printf("Stray irq %-2d     %10lu %8lu\n",
-			    i, intrstray[i], intrstray[i] / uptime);
+			    i, intrstray[i],
+			    (unsigned long)(intrstray[i] / uptime));
 			inttotal += intrstray[i];
 		}
-	printf("Total            %10lu %8lu\n", inttotal, inttotal / uptime);
+	printf("Total            %10lu %8lu\n", inttotal,
+	    (unsigned long)(inttotal / uptime));
 }
 #else
 static void dointr_sysctl(void);
@@ -977,7 +976,7 @@ domem(void)
 			mib[3] = i;
 			siz = sizeof(struct kmemstats);
 
-			/* 
+			/*
 			 * Skip errors -- these are presumed to be unallocated
 			 * entries.
 			 */
@@ -1112,7 +1111,7 @@ print_pool(struct pool *pp, char *name)
 	PRWORD(ovflw, " %*d", 6, 1, pp->pr_hiwat);
 	PRWORD(ovflw, " %*d", 6, 1, pp->pr_minpages);
 	PRWORD(ovflw, " %*s", 6, 1, maxp);
-	PRWORD(ovflw, " %*lu\n", 5, 1, pp->pr_nidle);	
+	PRWORD(ovflw, " %*lu\n", 5, 1, pp->pr_nidle);
 }
 
 static void dopool_kvm(void);

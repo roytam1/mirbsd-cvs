@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: telnet.c,v 1.18 2003/11/08 19:17:29 jmc Exp $	*/
 /*	$NetBSD: telnet.c,v 1.7 1996/02/28 21:04:15 thorpej Exp $	*/
 
@@ -1640,7 +1641,7 @@ telrcv()
 {
     int c;
     int scc;
-    unsigned char *sbp;
+    unsigned char *sbp = netiring.consume;
     int count;
     int returnValue = 0;
 
@@ -1925,7 +1926,7 @@ telsnd()
     int tcc;
     int count;
     int returnValue = 0;
-    unsigned char *tbp;
+    unsigned char *tbp = ttyiring.consume;
 
     tcc = 0;
     count = 0;

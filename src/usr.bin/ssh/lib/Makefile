@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.50 2004/12/22 02:13:19 djm Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.50 2004/12/22 02:13:19 djm Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -13,20 +14,10 @@ SRCS=	authfd.c authfile.c bufaux.c buffer.c canohost.c channels.c \
 	kexdhc.c kexgexc.c scard.c msg.c progressmeter.c dns.c \
 	monitor_fdpass.c
 
-DEBUGLIBS= no
-NOPROFILE= yes
-NOPIC=	yes
+DEBUGLIBS=	no
+NOPIC=		yes
 
 install:
-	@echo -n
-
-.include <bsd.own.mk>
-
-.if (${KERBEROS5:L} == "yes")
-CFLAGS+= -DKRB5 -I${DESTDIR}/usr/include/kerberosV
-
-SRCS+= gss-genr.c
-CFLAGS+= -DGSSAPI
-.endif # KERBEROS5
+# nothing to do here
 
 .include <bsd.lib.mk>

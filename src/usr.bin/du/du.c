@@ -63,7 +63,7 @@ static char rcsid[] = "$OpenBSD: du.c,v 1.14 2003/07/02 21:04:09 deraadt Exp $";
 typedef enum { NONE = 0, KILO, MEGA, GIGA, TERA, PETA /* , EXA */ } unit_t;
 
 int	 linkchk(FTSENT *);
-void	 prtout(quad_t, char *, int);
+void	 prtout(quad_t, char *);
 void	 usage(void);
 unit_t	 unit_adjust(double *);
 
@@ -75,15 +75,15 @@ main(int argc, char *argv[])
 	long blocksize;
 	quad_t totalblocks;
 	int ftsoptions, listdirs, listfiles;
-	int Hflag, Lflag, Pflag, aflag, cflag, hflag, kflag, sflag;
+	int Hflag, Lflag, Pflag, aflag, cflag, kflag, sflag;
 	int ch, notused, rval;
 	char **save;
 
 	save = argv;
-	Hflag = Lflag = Pflag = aflag = cflag = hflag = kflag = sflag = 0;
+	Hflag = Lflag = Pflag = aflag = cflag = kflag = sflag = 0;
 	totalblocks = 0;
 	ftsoptions = FTS_PHYSICAL;
-	while ((ch = getopt(argc, argv, "HLPachksxr")) != -1)
+	while ((ch = getopt(argc, argv, "HLPacksxr")) != -1)
 		switch (ch) {
 		case 'H':
 			Hflag = 1;
@@ -102,9 +102,6 @@ main(int argc, char *argv[])
 			break;
 		case 'c':
 			cflag = 1;
-			break;
-		case 'h':
-			hflag = 1;
 			break;
 		case 'k':
 			kflag = 1;
@@ -160,9 +157,7 @@ main(int argc, char *argv[])
 		argv[1] = NULL;
 	}
 
-	if (hflag)
-		blocksize = 512;
-	else if (kflag)
+	if (kflag)
 		blocksize = 1024;
 	else
 		(void)getbsize(&notused, &blocksize);
@@ -187,7 +182,7 @@ main(int argc, char *argv[])
 			 */
 			if (listdirs || (!listfiles && !p->fts_level))
 				prtout((quad_t)howmany(p->fts_number, blocksize),
-				    p->fts_path, hflag);
+				    p->fts_path);
 			break;
 		case FTS_DC:			/* Ignore. */
 			break;
@@ -206,7 +201,7 @@ main(int argc, char *argv[])
 			 */
 			if (listfiles || !p->fts_level)
 				prtout(howmany(p->fts_statp->st_blocks, blocksize),
-				    p->fts_path, hflag);
+				    p->fts_path);
 			p->fts_parent->fts_number += p->fts_statp->st_blocks;
 			if (cflag)
 				totalblocks += p->fts_statp->st_blocks;
@@ -214,7 +209,7 @@ main(int argc, char *argv[])
 	if (errno)
 		err(1, "fts_read");
 	if (cflag) {
-		prtout((quad_t)howmany(totalblocks, blocksize), "total", hflag);
+		prtout((quad_t)howmany(totalblocks, blocksize), "total");
 	}
 	exit(rval);
 }
@@ -283,24 +278,9 @@ unit_adjust(double *val)
 }
 
 void
-prtout(quad_t size, char *path, int hflag)
+prtout(quad_t size, char *path)
 {
-	unit_t unit;
-	double bytes;
-
-	if (!hflag)
-		(void)printf("%lld\t%s\n", (long long)size, path);
-	else {
-		bytes = (double)size * 512.0;
-		unit = unit_adjust(&bytes);
-
-		if (bytes == 0)
-			(void)printf("0B\t%s\n", path);
-		else if (bytes > 10)
-			(void)printf("%.0f%c\t%s\n", bytes, "BKMGTPE"[unit], path);
-		else
-			(void)printf("%.1f%c\t%s\n", bytes, "BKMGTPE"[unit], path);
-	}
+	(void)printf("%lld\t%s\n", (long long)size, path);
 }
 
 void
@@ -308,6 +288,6 @@ usage(void)
 {
 
 	(void)fprintf(stderr,
-		"usage: du [-H | -L | -P] [-a | -s] [-chkrx] [file ...]\n");
+		"usage: du [-H | -L | -P] [-a | -s] [-ckrx] [file ...]\n");
 	exit(1);
 }

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: last.c,v 1.30 2004/01/08 13:36:52 otto Exp $	*/
 /*	$NetBSD: last.c,v 1.6 1994/12/24 16:49:02 cgd Exp $	*/
 
@@ -36,13 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)last.c	8.2 (Berkeley) 4/2/94";
-#endif
-static char rcsid[] = "$OpenBSD: last.c,v 1.30 2004/01/08 13:36:52 otto Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -57,6 +51,9 @@ static char rcsid[] = "$OpenBSD: last.c,v 1.30 2004/01/08 13:36:52 otto Exp $";
 #include <tzfile.h>
 #include <unistd.h>
 #include <utmp.h>
+
+__SCCSID("@(#)last.c	8.2 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 #define	NO	0				/* false/no */
 #define	YES	1				/* true/yes */
@@ -384,8 +381,8 @@ wtmp(void)
 							    timesize, timesize,
 							    asctime(gmtime(&delta))+11);
 						else
-							printf(" (%ld+%*.*s)\n",
-							    delta / SECSPERDAY,
+							printf(" (%lld+%*.*s)\n",
+							    (int64_t)(delta / SECSPERDAY),
 							    timesize, timesize,
 							    asctime(gmtime(&delta))+11);
 					}

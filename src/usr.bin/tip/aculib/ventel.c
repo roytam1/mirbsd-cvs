@@ -155,7 +155,7 @@ echo(s)
 {
 	char c;
 
-	while ((c = *s++) != NULL)
+	while (c = *s++)
 		switch (c) {
 		case '$':
 			read(FD, &c, 1);

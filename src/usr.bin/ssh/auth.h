@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: auth.h,v 1.50 2004/05/23 23:59:53 dtucker Exp $	*/
 
 /*
@@ -38,9 +39,6 @@
 #ifdef BSD_AUTH
 #include <bsd_auth.h>
 #endif
-#ifdef KRB5
-#include <krb5.h>
-#endif
 
 typedef struct Authctxt Authctxt;
 typedef struct Authmethod Authmethod;
@@ -60,12 +58,6 @@ struct Authctxt {
 	void		*kbdintctxt;
 #ifdef BSD_AUTH
 	auth_session_t	*as;
-#endif
-#ifdef KRB5
-	krb5_context	 krb5_ctx;
-	krb5_ccache	 krb5_fwd_ccache;
-	krb5_principal	 krb5_user;
-	char		*krb5_ticket_file;
 #endif
 	void		*methoddata;
 };
@@ -114,13 +106,6 @@ int	 auth_rsa_key_allowed(struct passwd *, BIGNUM *, Key **);
 int	 auth_rhosts_rsa_key_allowed(struct passwd *, char *, char *, Key *);
 int	 hostbased_key_allowed(struct passwd *, const char *, char *, Key *);
 int	 user_key_allowed(struct passwd *, Key *);
-
-#ifdef KRB5
-int	auth_krb5(Authctxt *authctxt, krb5_data *auth, char **client, krb5_data *);
-int	auth_krb5_tgt(Authctxt *authctxt, krb5_data *tgt);
-int	auth_krb5_password(Authctxt *authctxt, const char *password);
-void	krb5_cleanup_proc(Authctxt *authctxt);
-#endif /* KRB5 */
 
 void	do_authentication(Authctxt *);
 void	do_authentication2(Authctxt *);

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: servconf.h,v 1.71 2004/12/23 23:11:00 djm Exp $	*/
 
 /*
@@ -53,7 +54,7 @@ typedef struct {
 	int     key_regeneration_time;	/* Server key lifetime (seconds). */
 	int     permit_root_login;	/* PERMIT_*, see above */
 	int     ignore_rhosts;	/* Ignore .rhosts and .shosts. */
-	int     ignore_user_known_hosts;	/* Ignore ~/.ssh/known_hosts
+	int     ignore_user_known_hosts;	/* Ignore ~/.etc/ssh/known_hosts
 						 * for RhostsRsaAuth */
 	int     print_motd;	/* If true, print /etc/motd. */
 	int	print_lastlog;	/* If true, print lastlog */
@@ -76,26 +77,13 @@ typedef struct {
 	int     hostbased_uses_name_from_packet_only; /* experimental */
 	int     rsa_authentication;	/* If true, permit RSA authentication. */
 	int     pubkey_authentication;	/* If true, permit ssh2 pubkey authentication. */
-	int     kerberos_authentication;	/* If true, permit Kerberos
-						 * authentication. */
-	int     kerberos_or_local_passwd;	/* If true, permit kerberos
-						 * and any other password
-						 * authentication mechanism,
-						 * such as SecurID or
-						 * /etc/passwd */
-	int     kerberos_ticket_cleanup;	/* If true, destroy ticket
-						 * file on logout. */
-	int     kerberos_get_afs_token;		/* If true, try to get AFS token if
-						 * authenticated with Kerberos. */
-	int     gss_authentication;	/* If true, permit GSSAPI authentication */
-	int     gss_cleanup_creds;	/* If true, destroy cred cache on logout */
 	int     password_authentication;	/* If true, permit password
 						 * authentication. */
 	int     kbd_interactive_authentication;	/* If true, permit */
 	int     challenge_response_authentication;
 	int     permit_empty_passwd;	/* If false, do not permit empty
 					 * passwords. */
-	int     permit_user_env;	/* If true, read ~/.ssh/environment */
+	int     permit_user_env;	/* If true, read ~/.etc/ssh/environment */
 	int     use_login;	/* If true, login(1) is used */
 	int     compression;	/* If true, compression is allowed */
 	int	allow_tcp_forwarding;

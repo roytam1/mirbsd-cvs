@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh.c,v 1.230 2004/11/07 17:57:30 jmc Exp $");
+RCSID("$MirOS$");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -156,13 +156,53 @@ u_int control_server_pid = 0;
 static void
 usage(void)
 {
-	fprintf(stderr,
-"usage: ssh [-1246AaCfgkMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
-"           [-D port] [-e escape_char] [-F configfile] [-i identity_file]\n"
-"           [-L port:host:hostport] [-l login_name] [-m mac_spec] [-O ctl_cmd]\n"
-"           [-o option] [-p port] [-R port:host:hostport] [-S ctl_path]\n"
-"           [user@]hostname [command]\n"
-	);
+	fprintf(stderr, "Usage: %s [options] host [command]\n", __progname);
+	fprintf(stderr, "Options:\n");
+	fprintf(stderr, "  -l user     Log in using this user name.\n");
+	fprintf(stderr, "  -n          Redirect input from " _PATH_DEVNULL ".\n");
+	fprintf(stderr, "  -F config   Config file (default: ~/%s).\n",
+	     _PATH_SSH_USER_CONFFILE);
+	fprintf(stderr, "  -A          Enable authentication agent forwarding.\n");
+	fprintf(stderr, "  -a          Disable authentication agent forwarding (default).\n");
+	fprintf(stderr, "  -X          Enable X11 connection forwarding.\n");
+	fprintf(stderr, "  -Y          Enable trusted X11 connection forwarding.\n");
+	fprintf(stderr, "  -x          Disable X11 connection forwarding (default).\n");
+	fprintf(stderr, "  -i file     Identity for public key authentication "
+	    "(default: ~/.etc/ssh/identity)\n");
+#ifdef SMARTCARD
+	fprintf(stderr, "  -I reader   Set smartcard reader.\n");
+#endif
+	fprintf(stderr, "  -t          Tty; allocate a tty even if command is given.\n");
+	fprintf(stderr, "  -T          Do not allocate a tty.\n");
+	fprintf(stderr, "  -v          Verbose; display verbose debugging messages.\n");
+	fprintf(stderr, "              Multiple -v increases verbosity.\n");
+	fprintf(stderr, "  -V          Display version number only.\n");
+	fprintf(stderr, "  -q          Quiet; don't display any warning messages.\n");
+	fprintf(stderr, "  -f          Fork into background after authentication.\n");
+	fprintf(stderr, "  -e char     Set escape character; ``none'' = disable (default: ~).\n");
+
+	fprintf(stderr, "  -c cipher   Select encryption algorithm\n");
+	fprintf(stderr, "  -m macs     Specify MAC algorithms for protocol version 2.\n");
+	fprintf(stderr, "  -p port     Connect to this port.  Server must be on the same port.\n");
+	fprintf(stderr, "  -L listen-port:host:port   Forward local port to remote address\n");
+	fprintf(stderr, "  -R listen-port:host:port   Forward remote port to local address\n");
+	fprintf(stderr, "              These cause %s to listen for connections on a port, and\n", __progname);
+	fprintf(stderr, "              forward them to the other side by connecting to host:port.\n");
+	fprintf(stderr, "  -D port     Enable dynamic application-level port forwarding.\n");
+	fprintf(stderr, "  -C          Enable compression.\n");
+	fprintf(stderr, "  -N          Do not execute a shell or command.\n");
+	fprintf(stderr, "  -g          Allow remote hosts to connect to forwarded ports.\n");
+	fprintf(stderr, "  -1          Force protocol version 1.\n");
+	fprintf(stderr, "  -2          Force protocol version 2.\n");
+	fprintf(stderr, "  -4          Use IPv4 only.\n");
+	fprintf(stderr, "  -6          Use IPv6 only.\n");
+	fprintf(stderr, "  -o 'option' Process the option as if it was read from a configuration file.\n");
+	fprintf(stderr, "  -s          Invoke command (mandatory) as SSH2 subsystem.\n");
+	fprintf(stderr, "  -b addr     Local IP address.\n");
+	fprintf(stderr, "  -h          Disable lowdelay TOS type, e.g. for rsync.\n");
+	fprintf(stderr, "  -M          Enable session multiplexing master mode.\n");
+	fprintf(stderr, "  -S ctl_path Use ctl_path as socket for session multiplexing.\n");
+	fprintf(stderr, "  -O ctl_cmd  Pass command to multiplex session master.\n");
 	exit(1);
 }
 
@@ -235,7 +275,7 @@ main(int ac, char **av)
 
 again:
 	while ((opt = getopt(ac, av,
-	    "1246ab:c:e:fgi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVXY")) != -1) {
+	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVXY")) != -1) {
 		switch (opt) {
 		case '1':
 			options.protocol = SSH_PROTO_1;
@@ -287,7 +327,6 @@ again:
 			options.forward_agent = 1;
 			break;
 		case 'k':
-			options.gss_deleg_creds = 0;
 			break;
 		case 'i':
 			if (stat(optarg, &st) < 0) {
@@ -461,6 +500,9 @@ again:
 			break;
 		case 'F':
 			config = optarg;
+			break;
+		case 'h':
+			options.no_lowdelay = 1;
 			break;
 		default:
 			usage();
@@ -652,8 +694,9 @@ again:
 	}
 
 	/*
-	 * Now that we are back to our own permissions, create ~/.ssh
+	 * Now that we are back to our own permissions, create ~/.etc/ssh
 	 * directory if it doesn\'t already exist.
+	 * XXX create ~/.etc first?
 	 */
 	snprintf(buf, sizeof buf, "%.100s%s%.100s", pw->pw_dir, strcmp(pw->pw_dir, "/") ? "/" : "", _PATH_SSH_USER_DIR);
 	if (stat(buf, &st) < 0)
@@ -954,7 +997,8 @@ ssh_session(void)
 		}
 	}
 	/* Tell the packet module whether this is an interactive session. */
-	packet_set_interactive(interactive);
+	if (!options.no_lowdelay)
+		packet_set_interactive(interactive);
 
 	/* Request authentication agent forwarding if appropriate. */
 	check_agent_present();
@@ -1102,7 +1146,8 @@ ssh_session2_setup(int id, void *arg)
 	client_session2_setup(id, tty_flag, subsystem_flag, getenv("TERM"),
 	    NULL, fileno(stdin), &command, environ, &ssh_subsystem_reply);
 
-	packet_set_interactive(interactive);
+	if (!options.no_lowdelay)
+		packet_set_interactive(interactive);
 }
 
 /* open new channel for a session */

@@ -1,9 +1,14 @@
+/**	$MirOS$ */
+/*	$OpenBSD: LEGAL.NOTICE,v 1.6 2003/06/13 18:31:14 deraadt Exp $	*/
 /*	$OpenBSD: file.c,v 1.15 2004/09/25 09:19:35 otto Exp $ */
 /*
  * Copyright (c) Ian F. Darwin 1986-1995.
  * Software written by Ian F. Darwin and others;
- * maintained 1995-present by Christos Zoulas and others.
- * 
+ * maintained 1994-present by Christos Zoulas and others.
+ *
+ * This software is not subject to any export provision of the United States
+ * Department of Commerce, and may be exported to any country or planet.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -182,7 +187,7 @@ main(int argc, char *argv[])
 			if ((usermagic = malloc(len)) != NULL) {
 				(void)strlcpy(usermagic, home, len);
 				(void)strlcat(usermagic, "/.magic", len);
-				if (stat(usermagic, &sb)<0) 
+				if (stat(usermagic, &sb)<0)
 					free(usermagic);
 				else
 					magicfile = usermagic;

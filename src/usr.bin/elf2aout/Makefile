@@ -1,5 +1,8 @@
-#	$OpenBSD: Makefile,v 1.1.1.1 1996/12/22 15:03:32 graichen Exp $
+# $MirOS$
 
 PROG=	elf2aout
+MAN=	elf2aout.1
+
+CFLAGS+= -Wall -Werror
 
 .include <bsd.prog.mk>

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
  * uses ssh to do the data transfer (instead of using rcmd).
@@ -71,7 +73,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: scp.c,v 1.119 2005/01/24 10:22:06 dtucker Exp $");
+RCSID("$MirOS$");
 
 #include "xmalloc.h"
 #include "atomicio.h"
@@ -223,6 +225,7 @@ main(int argc, char **argv)
 	args.list = NULL;
 	addargs(&args, "ssh");		/* overwritten with ssh_program */
 	addargs(&args, "-x");
+	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardAgent no");
 	addargs(&args, "-oClearAllForwardings yes");
 
@@ -497,7 +500,7 @@ source(int argc, char **argv)
 	static BUF buffer;
 	BUF *bp;
 	off_t i, amt, result, statbytes;
-	int fd, haderr, indx;
+	int fd = -1, haderr, indx;
 	char *last, *name, buf[2048];
 	int len;
 

@@ -36,7 +36,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth-passwd.c,v 1.33 2005/01/24 11:47:13 dtucker Exp $");
+RCSID("$MirOS$");
 
 #include "packet.h"
 #include "buffer.h"
@@ -79,14 +79,6 @@ auth_password(Authctxt *authctxt, const char *password)
 		ok = 0;
 	if (*password == '\0' && options.permit_empty_passwd == 0)
 		return 0;
-#ifdef KRB5
-	if (options.kerberos_authentication == 1) {
-		int ret = auth_krb5_password(authctxt, password);
-		if (ret == 1 || ret == 0)
-			return ret && ok;
-		/* Fall back to ordinary passwd authentication. */
-	}
-#endif
 	return (sys_auth_passwd(authctxt, password) && ok);
 }
 

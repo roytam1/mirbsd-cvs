@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kdump.c,v 1.24 2004/03/04 20:39:27 miod Exp $	*/
 
 /*-
@@ -35,13 +36,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)kdump.c	8.4 (Berkeley) 4/28/95";
-#endif
-static char *rcsid = "$OpenBSD: kdump.c,v 1.24 2004/03/04 20:39:27 miod Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/uio.h>
@@ -64,6 +58,9 @@ static char *rcsid = "$OpenBSD: kdump.c,v 1.24 2004/03/04 20:39:27 miod Exp $";
 #include "kdump.h"
 #include "extern.h"
 
+__SCCSID("@(#)kdump.c	8.4 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
+
 int timestamp, decimal, fancy = 1, tail, maxdata;
 char *tracefile = DEF_TRACEFILE;
 struct ktr_header ktr_header;
@@ -73,16 +70,8 @@ pid_t pid = -1;
 
 #include <sys/syscall.h>
 
-#include "../../sys/compat/bsdos/bsdos_syscall.h"
-#include "../../sys/compat/freebsd/freebsd_syscall.h"
-#include "../../sys/compat/netbsd/netbsd_syscall.h"
-#include "../../sys/compat/hpux/hpux_syscall.h"
-#include "../../sys/compat/ibcs2/ibcs2_syscall.h"
 #include "../../sys/compat/linux/linux_syscall.h"
-#include "../../sys/compat/osf1/osf1_syscall.h"
-#include "../../sys/compat/sunos/sunos_syscall.h"
-#include "../../sys/compat/svr4/svr4_syscall.h"
-#include "../../sys/compat/ultrix/ultrix_syscall.h"
+#include "../../sys/compat/openbsd/openbsd_syscall.h"
 
 #define KTRACE
 #define PTRACE
@@ -95,16 +84,8 @@ pid_t pid = -1;
 #define UFS_EXTATTR
 #include "../../sys/kern/syscalls.c"
 
-#include "../../sys/compat/bsdos/bsdos_syscalls.c"
-#include "../../sys/compat/freebsd/freebsd_syscalls.c"
-#include "../../sys/compat/netbsd/netbsd_syscalls.c"
-#include "../../sys/compat/hpux/hpux_syscalls.c"
-#include "../../sys/compat/ibcs2/ibcs2_syscalls.c"
 #include "../../sys/compat/linux/linux_syscalls.c"
-#include "../../sys/compat/osf1/osf1_syscalls.c"
-#include "../../sys/compat/sunos/sunos_syscalls.c"
-#include "../../sys/compat/svr4/svr4_syscalls.c"
-#include "../../sys/compat/ultrix/ultrix_syscalls.c"
+#include "../../sys/compat/openbsd/openbsd_syscalls.c"
 #undef KTRACE
 #undef PTRACE
 #undef NFSCLIENT
@@ -123,17 +104,9 @@ struct emulation {
 
 static struct emulation emulations[] = {
 	{ "native",	syscallnames,		SYS_MAXSYSCALL },
-	{ "hpux",	hpux_syscallnames,	HPUX_SYS_MAXSYSCALL },
-	{ "ibcs2",	ibcs2_syscallnames,	IBCS2_SYS_MAXSYSCALL },
 	{ "linux",	linux_syscallnames,	LINUX_SYS_MAXSYSCALL },
-	{ "osf1",	osf1_syscallnames,	OSF1_SYS_MAXSYSCALL },
-	{ "sunos",	sunos_syscallnames,	SUNOS_SYS_MAXSYSCALL },
-	{ "svr4",	svr4_syscallnames,	SVR4_SYS_MAXSYSCALL },
-	{ "ultrix",	ultrix_syscallnames,	ULTRIX_SYS_MAXSYSCALL },
-	{ "bsdos",	bsdos_syscallnames,	BSDOS_SYS_MAXSYSCALL },
-	{ "freebsd",	freebsd_syscallnames,	FREEBSD_SYS_MAXSYSCALL },
-	{ "netbsd",	netbsd_syscallnames,	NETBSD_SYS_MAXSYSCALL },
-	{ NULL,		NULL,			NULL }
+	{ "openbsd",	openbsd_syscallnames,	OPENBSD_SYS_MAXSYSCALL },
+	{ NULL,		NULL,			0 }
 };
 
 struct emulation *current;
@@ -318,7 +291,8 @@ dumpheader(struct ktr_header *kth)
 			prevtime = kth->ktr_time;
 		} else
 			temp = kth->ktr_time;
-		(void)printf("%ld.%06ld ", temp.tv_sec, temp.tv_usec);
+		(void)printf("%lld.%06ld ", (int64_t)(temp.tv_sec),
+		    temp.tv_usec);
 	}
 	(void)printf("%s  ", type);
 }
@@ -335,7 +309,7 @@ ioctldecode(u_long cmd)
 	*dir = '\0';
 
 	printf(decimal ? ",_IO%s('%c',%ld" : ",_IO%s('%c',%#lx",
-	    dirbuf, (cmd >> 8) & 0xff, cmd & 0xff);
+	    dirbuf, (char)((cmd >> 8) & 0xff), cmd & 0xff);
 	if ((cmd & IOC_VOID) == 0)
 		printf(decimal ? ",%ld)" : ",%#lx)", (cmd >> 16) & 0xff);
 	else

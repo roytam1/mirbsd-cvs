@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pr_time.c,v 1.12 2003/11/26 00:31:27 millert Exp $	*/
 
 /*-
@@ -29,14 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)pr_time.c	8.2 (Berkeley) 4/4/94";
-#else
-static char *rcsid = "$OpenBSD: pr_time.c,v 1.12 2003/11/26 00:31:27 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
 
@@ -46,9 +39,12 @@ static char *rcsid = "$OpenBSD: pr_time.c,v 1.12 2003/11/26 00:31:27 millert Exp
 
 #include "extern.h"
 
+__SCCSID("@(#)pr_time.c	8.2 (Berkeley) 4/4/94");
+__RCSID("$MirOS$");
+
 /*
  * pr_attime --
- *	Print the time since the user logged in. 
+ *	Print the time since the user logged in.
  */
 void
 pr_attime(time_t *started, time_t *now)
@@ -103,10 +99,11 @@ pr_idle(time_t idle)
 
 	/* If idle more than an hour, print as HH:MM. */
 	else if (idle >= SECSPERHOUR)
-		(void)printf(" %2d:%02d ",
-		    idle / SECSPERHOUR, (idle % SECSPERHOUR) / SECSPERMIN);
+		(void)printf(" %2lld:%02d ",
+		    (int64_t)(idle / SECSPERHOUR),
+		    (int)((idle % SECSPERHOUR) / SECSPERMIN));
 
 	/* Else print the minutes idle. */
 	else
-		(void)printf("    %2d ", idle / SECSPERMIN);
+		(void)printf("    %2lld ", (int64_t)(idle / SECSPERMIN));
 }

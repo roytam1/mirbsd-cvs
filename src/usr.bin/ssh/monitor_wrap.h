@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: monitor_wrap.h,v 1.14 2004/06/21 17:36:31 avsm Exp $	*/
 
 /*
@@ -55,15 +56,6 @@ int mm_key_verify(Key *, u_char *, u_int, u_char *, u_int);
 int mm_auth_rsa_key_allowed(struct passwd *, BIGNUM *, Key **);
 int mm_auth_rsa_verify_response(Key *, BIGNUM *, u_char *);
 BIGNUM *mm_auth_rsa_generate_challenge(Key *);
-
-#ifdef GSSAPI
-#include "ssh-gss.h"
-OM_uint32 mm_ssh_gssapi_server_ctx(Gssctxt **, gss_OID);
-OM_uint32 mm_ssh_gssapi_accept_ctx(Gssctxt *,
-   gss_buffer_desc *, gss_buffer_desc *, OM_uint32 *);
-int mm_ssh_gssapi_userok(char *user);
-OM_uint32 mm_ssh_gssapi_checkmic(Gssctxt *, gss_buffer_t, gss_buffer_t);
-#endif
 
 struct Session;
 void mm_terminate(void);

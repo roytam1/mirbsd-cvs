@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: skeleton.c,v 1.23 2004/03/12 13:39:50 henning Exp $	*/
 /*	$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $	*/
 
@@ -33,13 +34,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)skeleton.c	5.8 (Berkeley) 4/29/95";
-#else
-static char rcsid[] = "$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)skeleton.c	5.8 (Berkeley) 4/29/95");
+__RCSID("$MirOS$");
 
 #include "defs.h"
 
@@ -57,14 +54,9 @@ static char rcsid[] = "$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $"
 
 char *banner[] =
 {
-    "#ifndef lint",
-    "/*static char yysccsid[] = \"from: @(#)yaccpar	1.9 (Berkeley) 02/21/93\";*/",
-    "static char yyrcsid[]",
-    "#if __GNUC__ >= 2",
-    "  __attribute__ ((unused))",
-    "#endif /* __GNUC__ >= 2 */",
-    "  = \"$OpenBSD: skeleton.c,v 1.23 2004/03/12 13:39:50 henning Exp $\";",
-    "#endif",
+    "#include <sys/cdefs.h>",
+    "__SCCSID(\"@(#)yaccpar	1.9 (Berkeley) 02/21/93\");",
+    "__RCSID(\"$MirOS$\");",
     "#include <stdlib.h>",
     "#define YYBYACC 1",
     "#define YYMAJOR 1",
@@ -74,6 +66,12 @@ char *banner[] =
     "#define yyclearin (yychar=(YYEMPTY))",
     "#define yyerrok (yyerrflag=0)",
     "#define YYRECOVERING() (yyerrflag!=0)",
+    "int",
+    "#if defined(__cplusplus) || defined(__STDC__)",
+    "yyparse(void);",
+    "#else",
+    "yyparse();",
+    "#endif",
     0
 };
 

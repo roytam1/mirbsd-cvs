@@ -58,11 +58,6 @@
   (zlib format), rfc1951.txt (deflate format) and rfc1952.txt (gzip format).
 */
 
-#ifndef SMALL
-const char gz_rcsid[] =
-    "$OpenBSD: gzopen.c,v 1.21 2004/02/23 21:07:30 deraadt Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -73,6 +68,8 @@ const char gz_rcsid[] =
 #include <unistd.h>
 #include <zlib.h>
 #include "compress.h"
+
+__RCSID("$MirOS$");
 
 /* gzip flag byte */
 #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */

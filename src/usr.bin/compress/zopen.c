@@ -36,13 +36,6 @@
  *	From: @(#)zopen.c	8.1 (Berkeley) 6/27/93
  */
 
-#if 0
-static char sccsid[] = "@(#)zopen.c	8.1 (Berkeley) 6/27/93";
-#else
-const char z_rcsid[] =
-	"$OpenBSD: zopen.c,v 1.14 2003/08/03 01:26:46 deraadt Exp $";
-#endif
-
 /*-
  * fcompress.c - File compression ala IEEE Computer, June 1984.
  *
@@ -77,6 +70,9 @@ const char z_rcsid[] =
 #include <unistd.h>
 #include <fcntl.h>
 #include "compress.h"
+
+__SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
+__RCSID("$MirOS$");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */

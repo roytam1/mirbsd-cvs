@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.22 2003/07/16 19:10:14 deraadt Exp $
+#	$MirOS$
+#	$OpenBSD: Makefile,v 1.20 2003/06/03 02:56:17 millert Exp $
 #
 # Copyright (c) 1990 The Regents of the University of California.
 # All rights reserved.
@@ -43,14 +44,5 @@ SRCS=	authenc.c commands.c main.c network.c ring.c sys_bsd.c telnet.c \
 	misc.c
 
 .PATH:	${.CURDIR}/../../libexec/telnetd
-
-.include <bsd.own.mk> # for KERBEROS
-
-.if (${KERBEROS5:L} == "yes")
-CFLAGS+=-DENCRYPTION -DAUTHENTICATION -DKRB5 -DDES_ENCRYPTION
-DPADD+= ${LIBKRB5} ${LIBASN1} ${LIBCRYPTO} ${LIBDES}
-LDADD+= -lkrb5 -lasn1 -lcrypto -ldes
-SRCS+= kerberos5.c enc_des.c
-.endif
 
 .include <bsd.prog.mk>

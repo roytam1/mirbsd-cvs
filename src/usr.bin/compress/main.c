@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: main.c,v 1.54 2004/02/29 13:59:15 markus Exp $	*/
 
 #ifndef SMALL
@@ -35,10 +36,6 @@ static const char license[] =
 " THE POSSIBILITY OF SUCH DAMAGE.\n";
 #endif /* SMALL */
 
-#ifndef SMALL
-static const char main_rcsid[] = "$OpenBSD: main.c,v 1.54 2004/02/29 13:59:15 markus Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -55,6 +52,8 @@ static const char main_rcsid[] = "$OpenBSD: main.c,v 1.54 2004/02/29 13:59:15 ma
 #include <fcntl.h>
 #include <paths.h>
 #include "compress.h"
+
+__RCSID("$MirOS$");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -275,11 +274,8 @@ main(int argc, char *argv[])
 			testmode = 1;
 			decomp++;
 			break;
-#ifndef SMALL
 		case 'V':
-			printf("%s\n%s\n", main_rcsid, gz_rcsid);
-			printf("%s\n%s\n", z_rcsid, null_rcsid);
-#endif
+			printf("MirOS compress\n");
 			exit (0);
 		case 'v':
 			verbose++;
@@ -734,7 +730,7 @@ check_suffix(const char *infile)
 {
 	int i;
 	char *suf, *sep, *separators = ".-_";
-	static char *suffixes[] = { "Z", "gz", "z", "tgz", "taz", NULL };
+	static char *suffixes[] = { "Z", "gz", "z", "tgz", "taz", "cgz", "ngz", NULL };
 
 	for (sep = separators; *sep != '\0'; sep++) {
 		if ((suf = strrchr(infile, *sep)) == NULL)
@@ -770,6 +766,9 @@ set_outfile(const char *infile, char *outfile, size_t osize)
 	if (strcmp(cp, "tgz") == 0) {
 		cp[1] = 'a';
 		cp[2] = 'r';
+	} else if (!strcmp(cp, "cgz") || !strcmp(cp, "ngz")) {
+		*--cp = 0;
+		strlcat(outfile, ".cpio", osize);
 	} else if (strcmp(cp, "taz") == 0)
 		cp[2] = 'r';
 	else

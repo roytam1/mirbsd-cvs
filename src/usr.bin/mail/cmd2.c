@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cmd2.c,v 1.14 2004/05/10 12:10:50 millert Exp $	*/
 /*	$NetBSD: cmd2.c,v 1.7 1997/05/17 19:55:10 pk Exp $	*/
 
@@ -30,17 +31,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)cmd2.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: cmd2.c,v 1.14 2004/05/10 12:10:50 millert Exp $";
-#endif
-#endif /* not lint */
-
-#include "rcv.h"
+#include <sys/cdefs.h>
 #include <sys/wait.h>
+#include "rcv.h"
 #include "extern.h"
+
+__SCCSID("@(#)cmd2.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*
  * Mail -- a mail program
@@ -61,7 +58,7 @@ next(void *v)
 	int *msgvec = v;
 	int *ip, *ip2, list[2], mdot;
 
-	if (*msgvec != NULL) {
+	if (*msgvec) {
 		/*
 		 * If some messages were supplied, find the
 		 * first applicable one following dot using
@@ -73,7 +70,7 @@ next(void *v)
 		 * Find the first message in the supplied
 		 * message list which follows dot.
 		 */
-		for (ip = msgvec; *ip != NULL; ip++)
+		for (ip = msgvec; *ip; ip++)
 			if (*ip > mdot)
 				break;
 		if (*ip == 0)
@@ -85,9 +82,9 @@ next(void *v)
 				dot = mp;
 				goto hitit;
 			}
-			if (*ip2 != NULL)
+			if (*ip2)
 				ip2++;
-			if (*ip2 == 0)
+			if (!(*ip2))
 				ip2 = msgvec;
 		} while (ip2 != ip);
 		puts("No messages applicable");
@@ -118,7 +115,7 @@ hitit:
 	 * Print dot.
 	 */
 	list[0] = dot - &message[0] + 1;
-	list[1] = NULL;
+	list[1] = 0;
 	return(type(list));
 }
 
@@ -166,7 +163,7 @@ save1(char *str, int mark, char *cmd, struct ignoretab *ignore)
 			printf("No messages to %s.\n", cmd);
 			return(1);
 		}
-		msgvec[1] = NULL;
+		msgvec[1] = 0;
 	}
 	if (f && getmsglist(str, msgvec, 0) < 0)
 		return(1);
@@ -279,7 +276,7 @@ deltype(void *v)
 		list[0] = dot - &message[0] + 1;
 		if (list[0] > lastdot) {
 			touch(dot);
-			list[1] = NULL;
+			list[1] = 0;
 			return(type(list));
 		}
 		puts("At EOF");
@@ -299,18 +296,18 @@ delm(int *msgvec)
 	struct message *mp;
 	int *ip, last;
 
-	last = NULL;
-	for (ip = msgvec; *ip != NULL; ip++) {
+	last = 0;
+	for (ip = msgvec; *ip; ip++) {
 		mp = &message[*ip - 1];
 		touch(mp);
 		mp->m_flag |= MDELETED|MTOUCH;
 		mp->m_flag &= ~(MPRESERVE|MSAVED|MBOX);
 		last = *ip;
 	}
-	if (last != NULL) {
+	if (last) {
 		dot = &message[last-1];
 		last = first(0, MDELETED);
-		if (last != NULL) {
+		if (last) {
 			dot = &message[last-1];
 			return(0);
 		}

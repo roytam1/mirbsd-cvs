@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: moduli.c,v 1.10 2005/01/17 03:25:46 dtucker Exp $ */
 /*
  * Copyright 1994 Phil Karn <karn@qualcomm.com>
@@ -42,6 +43,8 @@
 #include "log.h"
 
 #include <openssl/bn.h>
+
+RCSID("$MirOS$");
 
 /*
  * File output defines
@@ -161,8 +164,8 @@ qfileout(FILE * ofile, u_int32_t otype, u_int32_t otests, u_int32_t otries,
 	time(&time_now);
 	gtm = gmtime(&time_now);
 
-	res = fprintf(ofile, "%04d%02d%02d%02d%02d%02d %u %u %u %u %x ",
-	    gtm->tm_year + 1900, gtm->tm_mon + 1, gtm->tm_mday,
+	res = fprintf(ofile, "%04lld%02d%02d%02d%02d%02d %u %u %u %u %x ",
+	    (int64_t)gtm->tm_year + 1900, gtm->tm_mon + 1, gtm->tm_mday,
 	    gtm->tm_hour, gtm->tm_min, gtm->tm_sec,
 	    otype, otests, otries, osize, ogenerator);
 

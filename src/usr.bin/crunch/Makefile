@@ -1,18 +1,18 @@
-#	$OpenBSD: Makefile,v 1.2 1996/09/25 06:40:52 etheisen Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.2 1996/09/25 06:40:52 etheisen Exp $
+# $OpenBSD: Makefile,v 1.4 2000/03/01 22:10:03 todd Exp $
 
 PROG=		crunchgen
-SRCS=		crunchgen.c crunched_skel.c
-CFLAGS+=	-g -Wall
+SRCS=		crunch.c
+SRCS+=		crunchgen.c crunched_skel.c
+SRCS+=		crunchide.c ecoff_hide.c elf_hide.c
+CFLAGS+=	-Wall -W -pedantic
 CPPFLAGS+=	-DMF_NAMES='"Makefile.bsd-wrapper","Makefile"'
 CLEANFILES+=	crunched_skel.c
+MAN=		crunchgen.1 crunchide.1
+LINKS=		${BINDIR}/crunchgen ${BINDIR}/crunchide
 
-crunched_skel.c: crunched_main.c
-	sh ${.CURDIR}/mkskel.sh ${.CURDIR}/crunched_main.c > crunched_skel.c
-
-.include <bsd.prog.mk>
-#	$OpenBSD: Makefile,v 1.4 2000/03/01 22:10:03 todd Exp $
-
-PROG=   crunchide
-SRCS=	crunchide.c elf_hide.c ecoff_hide.c
+crunched_skel.c: ${.CURDIR}/crunched_main.c
+	${SHELL} ${.CURDIR}/mkskel.sh ${.ALLSRC} >$@
 
 .include <bsd.prog.mk>

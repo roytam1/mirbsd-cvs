@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile.inc,v 1.1 2004/01/15 21:32:03 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.1 2004/01/15 21:32:03 millert Exp $
 
 CPPFLAGS+=	-I${.CURDIR}/..
 CFLAGS+=	-Wall
@@ -11,4 +12,8 @@ DPADD+=         ${.CURDIR}/../lib/${__objdir}/libsudo.a
 .else
 LDADD+=         -L${.CURDIR}/../lib -lsudo
 DPADD+=         ${.CURDIR}/../lib/libsudo.a
+.endif
+
+.if exists(../Makefile.inc)
+.  include "../Makefile.inc"
 .endif

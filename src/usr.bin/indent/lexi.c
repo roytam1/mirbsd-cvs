@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: lexi.c,v 1.10 2003/09/26 22:23:28 tedu Exp $	*/
 
 /*
@@ -32,17 +33,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "@(#)lexi.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: lexi.c,v 1.10 2003/09/26 22:23:28 tedu Exp $";
-#endif /* not lint */
-
 /*
  * Here we have the token scanner for indent.  It scans off one token and puts
  * it in the global variable "token".  It returns a code, indicating the type
  * of token scanned.
  */
 
+#include <sys/cdefs.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -50,6 +47,9 @@ static char rcsid[] = "$OpenBSD: lexi.c,v 1.10 2003/09/26 22:23:28 tedu Exp $";
 #include <err.h>
 #include "indent_globs.h"
 #include "indent_codes.h"
+
+__SCCSID("@(#)lexi.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #define alphanum 1
 #define opchar 3
@@ -589,7 +589,7 @@ addkey(key, val)
 	    err(1, NULL);
 	memmove(specials, specialsinit, sizeof specialsinit);
     } else if (nspecials >= maxspecials) {
-	int newspecials = maxspecials + maxspecials >> 2;
+	int newspecials = maxspecials + (maxspecials >> 2);
 	struct templ *specials2;
 
 	specials2 = realloc(specials, newspecials * sizeof specials[0]);

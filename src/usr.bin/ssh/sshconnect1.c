@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshconnect1.c,v 1.60 2004/07/28 09:40:29 markus Exp $");
+RCSID("$MirOS$");
 
 #include <openssl/bn.h>
 #include <openssl/md5.h>
@@ -471,7 +471,7 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	BIGNUM *key;
 	Key *host_key, *server_key;
 	int bits, rbits;
-	int ssh_cipher_default = SSH_CIPHER_3DES;
+	int ssh_cipher_default = SSH_CIPHER_BLOWFISH;
 	u_char session_key[SSH_SESSION_KEY_LENGTH];
 	u_char cookie[8];
 	u_int supported_ciphers;

@@ -696,7 +696,7 @@ copyinfo(struct Info *from, struct Info *to)
 
 	intrcnt = to->intrcnt;
 	*to = *from;
-	bcopy(from->intrcnt, to->intrcnt = intrcnt, nintr * sizeof (int));
+	memmove(to->intrcnt = intrcnt, from->intrcnt, nintr * sizeof (int));
 }
 
 static void

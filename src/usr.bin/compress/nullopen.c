@@ -28,15 +28,14 @@
  *
  */
 
-const char null_rcsid[] =
-    "$OpenBSD: nullopen.c,v 1.2 2004/01/22 18:49:35 millert Exp $";
-
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
 #include "compress.h"
+
+__RCSID("$MirOS$");
 
 typedef struct {
 	off_t 	  total_in;
