@@ -1,4 +1,17 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.2 2005/01/27 23:23:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<!--
+ Full list of release focuses in freshmeat.net-compatible format:
+	N/A
+	Initial freshmeat announcement
+	Documentation
+	Code cleanup
+	Minor feature enhancements
+	Major feature enhancements
+	Minor bugfixes
+	Major bugfixes
+	Minor security fixes
+	Major security fixes
+ -->
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
