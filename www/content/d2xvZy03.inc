@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.5 2005/02/08 21:42:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.6 2005/02/09 11:14:04 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2211,4 +2211,33 @@
  deal with them (or tell them stuff about MirOS which they don't know yet;
  I simply have got better things to do).<br />Quoting from private eMails,
  publicly, is simply The bad thing to do, I hope he's learned it.</p>
+<p>09.02.2005 by bsiegert@<br />
+ I have holidays (sort of) this week and the next one, so finally, I can spare
+ some time for MirOS. There were some updates I have been wanting to do for a
+ long time, e.g. WindowMaker and dillo-0.8.4. The
+ <a href="http://wiki.mirbsd.de/PkgTools">pkgtools</a> have had two real
+ showstoppers fixed: <tt>@sample dir/</tt> works now. With this command, you
+ can create a directory (e.g. in /etc) during installation of a package which
+ will be deleted on deinstallation if it is empty. This one and the variant
+ without slash (for copying configuration files) now correctly apply
+ permissions. Some bugs that have been lurking for a long time have been
+ fixed&mdash;it is safe now to use the <tt>-n</tt> parameter to
+ <tt>pkg_add</tt>. However, I think I introduced a new bug, I will have to
+ investigate further.<br />
+ MirOS #7quinquies (the #7-stable branch) has had its first security update,
+ consisting of a base system tarball and a kernel update. All #7 users are
+ encouraged to install this. Get all the info at
+ <a href="http://wiki.mirbsd.de/SevenQuinquiesUpdates">MirWiki:SevenQuinquiesUpdates</a>.
+ <br />
+ Some security updates: exim and mailman. There are still some OPSAs unfixed,
+ but it is getting better. My next big project is bringing GNOME 2.8 to
+ MirPorts. I am taking a different approach than before: instead of importing,
+ I manually pull the patches from OpenBSD via <tt>cvs rdiff -D 2004-05-28</tt>,
+ merge, fix, build and test locally before committing. The new-style PLISTs from
+ OpenBSD actually work very well. The only incompatibility I have noticed is
+ <tt>@conflict</tt> and <tt>@newuser</tt>/<tt>@newgroup</tt>. I won't implement
+ the latter two, not even as no-ops. The reason is that the ports who use this
+ tend to also have <tt>@unexec userdel</tt> or a similar construct at the end.
+ Thus, it is better to have pkg_create fail with an error, so that you are
+ reminded to check the PLIST file.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
