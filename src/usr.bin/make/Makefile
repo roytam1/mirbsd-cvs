@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/make/Makefile,v 1.2 2005/02/23 20:36:53 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -7,13 +7,13 @@ PROG=		make
 CPPFLAGS+=	-I.
 CDIAGFLAGS=	-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
 		-Wmissing-prototypes -Werror
-CPPFLAGS+=	-DUSE_TIMESPEC
-CPPFLAGS+=	-DHAS_BOOL_H
-CPPFLAGS+=	-DHAS_PATHS_H
-CPPFLAGS+=	-DHAS_EXTENDED_GETCWD
+CPPFLAGS+=	-DUSE_TIMESPEC -D_PATH_MIRBSDKSH=\"${MKSH}\"
+CPPFLAGS+=	-DHAS_BOOL_H -DHAS_PATHS_H -DHAS_EXTENDED_GETCWD
 #CPPFLAGS+=	-DHAS_STATS	# Throw out statistics after running
-CPPFLAGS+=	-DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\" \
-		-DMACHINE_OS=\"${MACHINE_OS}\" -D_PATH_MIRBSDKSH=\"${MKSH}\"
+CPPFLAGS+=	-DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\"
+.if defined(MACHINE_OS) && !empty(MACHINE_OS)
+CPPFLAGS+=	-DMACHINE_OS=\"${MACHINE_OS}\"
+.endif
 
 SRCS=	arch.c buf.c cmd_exec.c compat.c cond.c dir.c error.c for.c \
 	init.c job.c lowparse.c main.c make.c memory.c parse.c \
