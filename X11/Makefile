@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.9 2005/03/21 07:19:05 tg Exp $
+# $MirOS: X11/Makefile,v 1.10 2005/03/21 10:29:14 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -16,6 +16,8 @@ REALAPPD=	/etc/X11/app-defaults
 
 DIROWN?=	root
 DIRGRP?=	wheel
+
+.include <bsd.obj.mk>
 
 .if make(obj)
 SUBDIR=		extras
@@ -173,5 +175,3 @@ check-objdir:
 
 .PHONY: all b-r build check-objdir clean compile dist distclean \
 	do-install do-rel fix-appd install mrproper perms release
-
-.include <bsd.obj.mk>
