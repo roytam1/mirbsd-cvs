@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: helper.c,v 1.6 2004/06/22 01:57:29 jfb Exp $	*/
 
 /*
@@ -9,10 +10,6 @@
  * ----------------------------------------------------------------------------
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static const char rcsid[] = "$OpenBSD: helper.c,v 1.6 2004/06/22 01:57:29 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 
 #include <errno.h>
@@ -23,6 +20,8 @@ static const char rcsid[] = "$OpenBSD: helper.c,v 1.6 2004/06/22 01:57:29 jfb Ex
 #include <unistd.h>
 
 #include <hashinc>
+
+__RCSID("$MirOS$ helper for HASH hash");
 
 /* ARGSUSED */
 char *
@@ -57,10 +56,11 @@ HASHFileChunk(const char *filename, char *buf, off_t off, off_t len)
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		return (NULL);
-	if (off > 0 && lseek(fd, off, SEEK_SET) < 0)
+	if ((len < 0) || (off > 0 && lseek(fd, off, SEEK_SET) < 0))
 		return (NULL);
 
-	while ((nr = read(fd, buffer, MIN(sizeof(buffer), len))) > 0) {
+	while ((nr = read(fd, buffer,
+	    (size_t)(len ? MIN(BUFSIZ, len) : BUFSIZ))) > 0) {
 		HASHUpdate(&ctx, buffer, (size_t)nr);
 		if (len > 0 && (len -= nr) == 0)
 			break;
