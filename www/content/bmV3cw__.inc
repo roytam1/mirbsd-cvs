@@ -1,9 +1,12 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.3 2005/02/05 22:43:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.4 2005/02/28 23:03:58 tg Exp $</small>
 <h1>Current MirOS News</h1><ul>
 
 <li>28.02.2005<br />
 	We're back from FOSDEM. MirPorts work on Mac OSX now, but only for
-	ports <b>without</b> a <tt>PFRAG.shared</tt>!</li>
+	ports <b>without</b> a <tt>PFRAG.shared</tt>!<br />Update 02.03.05
+	<br />There is basic support for <tt>PFRAG.dylib</tt> in place, so
+	Midnight Commander (including libglib, autoconf 2.13 and 2.59, and
+	help2man, works &ndash; this includes MirLibtool)!</li>
 
 <li>05.02.2005<br />
 	The (final) new CVS repository has been started; the modules "www"
