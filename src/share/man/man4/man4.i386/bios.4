@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/man/man4/man4.i386/bios.4,v 1.2 2005/03/06 19:38:40 tg Exp $
 .\"	$OpenBSD: bios.4,v 1.9 2003/06/06 10:29:42 jmc Exp $
 .\"
 .\" Copyright (c) 2001 Michael Shalayeff
@@ -70,11 +70,10 @@ device, which performs certain PCI configuration tasks.
 Do not perform the scan for ROM images in the ISA memory hole
 (0xc0000 - 0xf0000 physical addresses).
 .It 0x0008
-If the first AMD K7 PowerNow!(TM) attachment failed, try it
-a second time, using the first PCT found, even if the CPU
-signature does not match.
-WARNING: this is dangerous, only use it if you know what you
-are doing!
+Usually, if the first AMD K7 PowerNow!(TM) attachment fails,
+attaching is tried a second time, using the first PCT found,
+even if the CPU signature does not match.
+Usage of this option disables this behaviour on AMD K7 CPUs.
 .El
 .Sh SEE ALSO
 .Xr apm 4 ,
