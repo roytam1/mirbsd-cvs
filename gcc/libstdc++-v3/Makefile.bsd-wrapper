@@ -1,0 +1,18 @@
+# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.1 2005/03/25 21:44:40 tg Exp $
+
+.include <bsd.own.mk>
+.include "${GNUSYSTEM_AUX_DIR}/locations.mk"
+
+SHLIB_VERSION?=	35.0
+
+NOMAN=		yes
+CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
+		--enable-fast-install --disable-libtool-lock \
+		--disable-libstdcxx-pch --disable-nls --enable-c99 \
+		--enable-long-long --disable-libstdcxx-debug \
+		--with-gxx-include-dir==/usr/include/gxx
+XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
+		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
+#CLEANFILES+=	config.h libtool stamp-h
+
+.include <bsd.cfwrap.mk>
