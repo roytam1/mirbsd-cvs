@@ -1,8 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/kern_sig.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: kern_sig.c,v 1.70 2004/04/06 17:24:11 mickey Exp $	*/
 /*	$NetBSD: kern_sig.c,v 1.54 1996/04/22 01:38:32 christos Exp $	*/
 
-/*
+/*-
+ * Copyright (c) 2003, 2005 Thorsten Glaser
  * Copyright (c) 1997 Theo de Raadt. All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -1287,36 +1288,41 @@ sigexit(p, signum)
 	register struct proc *p;
 	int signum;
 {
-    switch (signum) {
-    case 0:
-    case SIGKILL:
-    case SIGINT:
-    case SIGTERM:
-    case SIGALRM:
-    case SIGSTOP:
-    case SIGTTIN:
-    case SIGTTOU:
-    case SIGTSTP:
-    case SIGHUP:
-    case SIGUSR1:
-    case SIGUSR2:
-	break;
-    default:
-	if (p->p_pptr != NULL)
-		log(LOG_INFO, "signal %d received by (%.32s:%d) UID(%lu) "
-		    "EUID(%lu), parent (%.32s:%d) UID(%lu) EUID(%lu)\n",
-		    signum, p->p_comm, p->p_pid,
-		    (unsigned long) p->p_cred->p_ruid,
-		    (unsigned long) p->p_ucred->cr_uid,
-		    p->p_pptr->p_comm, p->p_pptr->p_pid,
-		    (unsigned long) p->p_pptr->p_cred->p_ruid,
-		    (unsigned long) p->p_pptr->p_ucred->cr_uid);
-	  else
-		log(LOG_INFO, "signal %d received by (%.32s:%d) UID(%lu) "
-		    "EUID(%lu), zombie\n", signum, p->p_comm, p->p_pid,
-		    (unsigned long) p->p_cred->p_ruid,
-		    (unsigned long) p->p_ucred->cr_uid);
-    }
+	switch (signum) {
+	case 0:
+	case SIGHUP:
+	case SIGINT:
+	case SIGKILL:
+	case SIGPIPE:
+	case SIGALRM:
+	case SIGTERM:
+	case SIGSTOP:
+	case SIGTSTP:
+	case SIGTTIN:
+	case SIGTTOU:
+	case SIGUSR1:
+	case SIGUSR2:
+		break;
+	default:
+		if (p->p_pptr != NULL)
+			log(LOG_INFO,
+			    "signal %d received by (%.32s:%d) UID(%lu)"
+			    " EUID(%lu), parent (%.32s:%d) UID(%lu)"
+			    " EUID(%lu)\n",
+			    signum, p->p_comm, p->p_pid,
+			    (unsigned long) p->p_cred->p_ruid,
+			    (unsigned long) p->p_ucred->cr_uid,
+			    p->p_pptr->p_comm, p->p_pptr->p_pid,
+			    (unsigned long) p->p_pptr->p_cred->p_ruid,
+			    (unsigned long) p->p_pptr->p_ucred->cr_uid);
+		else
+			log(LOG_INFO,
+			    "signal %d received by (%.32s:%d) UID(%lu)"
+			    " EUID(%lu), zombie\n",
+			    signum, p->p_comm, p->p_pid,
+			    (unsigned long) p->p_cred->p_ruid,
+			    (unsigned long) p->p_ucred->cr_uid);
+	}
 
 	/* Mark process as going away */
 	p->p_flag |= P_WEXIT;
