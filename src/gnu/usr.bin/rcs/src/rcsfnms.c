@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcsfnms.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* RCS filename and pathname handling */
 
@@ -179,7 +179,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcsfnms.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 static char const *bindex(char const*,int);
 static int fin2open(char const*, size_t, char const*, size_t, char const*, size_t, RILE*(*)(struct buf*,struct stat*,int), int);
@@ -590,7 +590,7 @@ rcssuffix(name)
 rcsreadopen(RCSpath, status, mustread)
 	struct buf *RCSpath;
 	struct stat *status;
-	int mustread;
+	int mustread __attribute__((unused));
 /* Open RCSPATH for reading and yield its FILE* descriptor.
  * If successful, set *STATUS to its status.
  * Pass this routine to pairnames() for read-only access to the file.  */

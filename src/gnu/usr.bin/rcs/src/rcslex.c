@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcslex.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* lexical analysis of RCS files */
 
@@ -171,7 +171,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcslex.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 static char *checkidentifier(char*,int,int);
 static void errsay(char const*);
@@ -883,7 +883,7 @@ checkssym(sym)
     static void nothing_to_deallocate(RILE *);
 	static void
     nothing_to_deallocate(f)
-	RILE *f;
+	RILE *f __attribute__((unused));
     {
     }
 

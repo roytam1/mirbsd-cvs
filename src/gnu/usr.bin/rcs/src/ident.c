@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/ident.c,v 1.2 2005/03/13 15:36:37 tg Exp $ */
 
 /* Identify RCS keyword strings in files.  */
 
@@ -111,9 +111,9 @@ static void reportError(char const*);
 
 const char cmdid[] = "ident";
 __IDSTRING(baseid,RCSBASE);
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/ident.c,v 1.2 2005/03/13 15:36:37 tg Exp $");
 
-int main(int argc, char *argv[])
+int main(int argc __attribute__((unused)), char *argv[])
 {
    FILE *fp;
    int quiet = 0;

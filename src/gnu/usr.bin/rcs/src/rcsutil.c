@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcsutil.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* RCS utility functions */
 
@@ -189,7 +189,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcsutil.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 /*
  * list of blocks allocated with ftestalloc()
@@ -396,7 +396,7 @@ catchsig(s)
 catchsigaction(s, i, c)
 	int s;
 	siginfo_t *i;
-	void *c;
+	void *c __attribute__((unused));
 #endif
 {
 #   if sig_zaps_handler
