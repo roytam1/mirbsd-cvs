@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.11 2005/02/11 23:22:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.12 2005/02/13 03:44:35 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2292,4 +2292,14 @@
  site hacking, too. Benny is at another IRC comrade's place, eating sushi,
  the first time for him, and seems to have fun playing Counter-Strike (the
  Windows&reg; fanboy he is ;-)</p>
+<p>13.02.2005 by tg@<br />After finishing php 5 (except for naming issues)
+ I took care of Samba 3 and started the conversion to PostgreSQL 8. That's
+ my first time meeting <tt>@sample</tt> and luckily benz helped me with it
+ (thanks). He did a huge docs update (after telling him how worn out I am,
+ he pointed that out &ndash; but <em>who</em> did MirLibtool some days ago
+ I ask here? ;-)<br />Now there's left: clean up after Samba investigating
+ the ProPolice problem as well as the unability to change passwords. Here,
+ gmane jumps in again &ndash; it's funny that most mailing lists are gated
+ there, most even bi-directionally. I sent out a posting and now idle here
+ waiting for the answer. Good night!</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
