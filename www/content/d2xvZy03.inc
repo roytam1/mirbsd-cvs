@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.14 2005/02/14 20:50:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.15 2005/02/20 22:19:44 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2318,4 +2318,13 @@
  Troublesome (to speak with Shikamaru). Samba doesn't work as expected and
  I've got no way to test PostgreSQL; pine and mplayer could need an update
  (though they can wait until the next version is released).</p>
+<p>20.02.2005 by sap@<br />More news than usual.  Got a part-time job to
+ complement my full time one, and looks like I might have some more work
+ to fill my weekends in addition to my days and nights.  It sounds awful
+ but I couldn't be happier, it's interesting work and the extra money
+ doesn't hurt, and I get to arrange my hours around my family life.  I
+ guess that wasn't really too much news, but still more that usual.  I
+ just realized that this is the first wlog entry I've written in two
+ months.  Time flies when you're having fun I guess, or when you don't 
+ have much to say.
 <p id="eof">Good luck, have fun, take care etc.pp</p>
