@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.16 2005/02/10 21:54:22 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.17 2005/02/11 02:02:42 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -24,11 +24,6 @@ dnl -------------------------------------------
 ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
 [dnl Autoconf 2.13
 dnl  =============
-
-builtin([undefine], [AC_PROG_F77])dnl
-NOACLOCAL_DEFUN([AC_PROG_F77],
-[dnl No Fortran 77 with autoconf-2.13 and MirLibtool
-])dnl
 
 dnl This is from Autoconf 2.59
 # AC_HELP_STRING(LHS, RHS, [COLUMN])
@@ -162,8 +157,7 @@ m4_ifdef([AC_PROVIDE_IFELSE],
 AC_DEFUN([AC_PROG_LIBTOOL],
 [AC_REQUIRE([_AC_PROG_LIBTOOL])dnl
 dnl If AC_PROG_CXX has already been expanded, run AC_LIBTOOL_CXX
-dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX
-dnl and replace AC_PROG_CXX by a more forgiving variant.
+dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX.
   AC_PROVIDE_IFELSE([AC_PROG_CXX],
     [AC_LIBTOOL_CXX],
     [define([AC_PROG_CXX], defn([AC_PROG_CXX])[AC_LIBTOOL_CXX
@@ -2609,7 +2603,9 @@ AC_DEFUN([AC_LIBTOOL_F77],
 # _LT_AC_LANG_F77
 # ---------------
 AC_DEFUN([_LT_AC_LANG_F77],
-[AC_REQUIRE([AC_PROG_F77])
+[pushdef([AC_MSG_ERROR], [F77=false])
+AC_REQUIRE([AC_PROG_F77])
+popdef([AC_MSG_ERROR])
 _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}F77])
 ])# _LT_AC_LANG_F77
 
@@ -3853,7 +3849,9 @@ esac
 # AC_LIBTOOL_CONFIG to write the compiler configuration to 'libtool'.
 AC_DEFUN([AC_LIBTOOL_LANG_F77_CONFIG], [_LT_AC_LANG_F77_CONFIG(F77)])
 AC_DEFUN([_LT_AC_LANG_F77_CONFIG],
-[AC_REQUIRE([AC_PROG_F77])
+[pushdef([AC_MSG_ERROR], [F77=false])
+AC_REQUIRE([AC_PROG_F77])
+popdef([AC_MSG_ERROR])
 AC_LANG_PUSH(Fortran 77)
 
 _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
