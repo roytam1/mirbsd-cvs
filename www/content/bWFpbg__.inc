@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.70 2005/01/27 23:23:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h3>Software Patent Issues</h3>
 <p>The <tt>MirOS Project</tt> would like to join the hundreds of thousands of
@@ -8,7 +8,7 @@
  website</a>.</p>
 <p><a href="http://demo.ffii.org/kuenast/brief.html"><img
  src="http://demo.ffii.org/kuenast/kuenast_banner60.png"
- alt="Renate K&uuml;nast, bitte hier klicken!"></a></p>
+ alt="Renate K&uuml;nast, bitte hier klicken!" /></a></p>
 <p><a href="http://www.ffii.org/"><img
  src="http://demo.ffii.org/cons0501/fishy_banner82.jpg"
  alt="Something fishy's going on..." /></a></p>
