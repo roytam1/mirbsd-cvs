@@ -1,0 +1,4 @@
+This is procmail, the ultimate incoming mail processor.
+
+Flavors:
+	lmtp - Build with LMTP support

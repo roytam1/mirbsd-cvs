@@ -1,0 +1,12 @@
+$MirOS$
+--- pine/pine-use.c.orig	Sun Jul 25 09:26:47 2004
++++ pine/pine-use.c	Sun Jul 25 09:26:51 2004
+@@ -98,7 +98,7 @@ main(argc, argv)
+         if(strcmp(pw->pw_dir, "/") == 0)
+           continue;
+ 
+-        sprintf(filename, "%s/.pinerc", pw->pw_dir);
++        sprintf(filename, "%s/.etc/pinerc", pw->pw_dir);
+         if(stat(filename, &statb) < 0)
+           continue;
+         if(statb.st_mtime + 7 * DAYSEC > now) 

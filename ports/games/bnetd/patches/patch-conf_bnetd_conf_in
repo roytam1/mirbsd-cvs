@@ -1,0 +1,43 @@
+$MirOS$
+--- conf/bnetd.conf.in.orig	2004-05-29 19:04:13.000000000 +0000
++++ conf/bnetd.conf.in	2004-05-29 19:07:06.000000000 +0000
+@@ -11,12 +11,12 @@
+ 
+ ##############################################################################
+ # Privileges to work under                                                   #
+-# Use either the names from the corresponding files or numerical id's (with  #
++# Use either the names from the corresponding files or numerical IDs (with   #
+ # a leading '#').  If none are specified, the userid will not be changed.    #
+ #----------------------------------------------------------------------------#
+ 
+-#effective_user  = games
+-#effective_group = games
++effective_user  = _bnetd
++effective_group = _bnetd
+ 
+ # effective_user  = #12
+ # effective_group = #20
+@@ -47,8 +47,8 @@ mpqfile     = /usr/local/etc/autoupdate
+ logfile     = /usr/local/var/bnetd.log
+ realmfile   = /usr/local/etc/realm.list
+ maildir     = /usr/local/var/bnmail/
++pidfile     = /usr/local/var/bnetd.pid
+ versioncheck_file = /usr/local/etc/versioncheck
+-#pidfile     = /usr/local/var/bnetd.pid
+ 
+ fortunecmd  = /usr/games/fortune
+ 
+@@ -190,7 +190,7 @@ hide_pass_games = true
+ hide_started_games = false
+ 
+ # Should non-permanent channels hidden on the channel list?
+-hide_temp_channels = true
++hide_temp_channels = false
+ 
+ # Should the extended /-commands be avaliable? (of course!)
+ extra_commands = true
+@@ -377,4 +377,3 @@ servername = "none"
+ 
+ #                                                                            #
+ ##############################################################################
+-

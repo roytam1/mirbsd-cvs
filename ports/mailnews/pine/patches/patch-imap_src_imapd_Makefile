@@ -1,0 +1,12 @@
+$MirOS$
+--- imap/src/imapd/Makefile.orig	Tue Jun 29 22:02:35 2004
++++ imap/src/imapd/Makefile	Thu Nov  4 17:18:02 2004
+@@ -45,7 +45,7 @@ SHELL= /bin/sh
+ # Get local definitions from c-client directory
+ 
+ C = ../c-client
+-CCLIENTLIB = $C/c-client.a
++CCLIENTLIB = -L$C -lc-client
+ CC = `cat $C/CCTYPE`
+ CFLAGS = -I$C `cat $C/CFLAGS` $(NSBD) $(ENBD) -DANOFILE=\"$(ANO)\" \
+ 	-DALERTFILE=\"$(ALERT)\" -DNNTPFILE=\"$(NNTP)\" \

@@ -1,0 +1,12 @@
+$MirOS$
+--- src/prefs.c.orig	2004-06-11 01:20:31.000000000 +0200
++++ src/prefs.c	2004-07-26 17:55:02.000000000 +0200
+@@ -271,7 +271,7 @@ static gint Prefs_load(void)
+    gchar *file;
+ 
+    /* Here we load and set options from dillorc */
+-   file = a_Misc_prepend_user_home(".dillo/dillorc");
++   file = a_Misc_prepend_user_home(".etc/dillo/dillorc");
+    fd = open(file, O_RDONLY);
+    g_free(file);
+    if (fd < 0 && (fd = open(DILLORC_SYS, O_RDONLY)) < 0)

@@ -1,0 +1,12 @@
+$OpenBSD: patch-Makefile_in,v 1.1 2004/02/16 12:33:18 jakob Exp $
+--- Makefile.in.orig	Mon Sep  2 11:21:17 2002
++++ Makefile.in	Mon Sep  2 11:21:21 2002
+@@ -78,7 +78,7 @@ VERSION = @VERSION@
+ host = @host@
+ ssldir = @ssldir@
+ 
+-SUBDIRS = src doc tools
++SUBDIRS = src doc
+ 
+ # extra_src = src/gui.c src/resources.rc src/stunnel.ico src/stunnel.exe
+ # extra_doc = doc/stunnel.pod doc/stunnel.8 doc/stunnel.html doc/en doc/pl

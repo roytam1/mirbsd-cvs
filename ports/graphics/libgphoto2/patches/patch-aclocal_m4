@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-aclocal_m4,v 1.2 2004/01/16 01:10:47 brad Exp $
+--- aclocal.m4.orig	Sun Sep 19 13:35:29 2004
++++ aclocal.m4	Sun Sep 19 13:39:03 2004
+@@ -3167,6 +3167,8 @@ dnl Look for standard byte swapping macr
+ AC_HAVE_SYMBOL(ntohl,arpa/inet.h,
+  [cat >> "$1" << EOF
+ /* ntohl and relatives live here */
++#include <sys/types.h>
++#include <netinet/in.h>
+ #include <arpa/inet.h>
+ 
+ EOF],

@@ -1,0 +1,39 @@
+$MirOS$
+--- configure.in.orig	2004-10-08 20:37:13.000000000 +0200
++++ configure.in	2005-02-15 13:43:44.000000000 +0100
+@@ -1392,35 +1392,6 @@ int main() {
+ 
+ if test x"$have_threads" != xno; then
+ 
+-  if test x"$have_threads" = xposix; then
+-    # First we test for posix, whether -pthread or -pthreads do the trick as 
+-    # both CPPFLAG and LIBS. 
+-    # One of them does for most gcc versions and some other platforms/compilers
+-    # too and could be considered as the canonical way to go. 
+-    case $host in
+-      *-*-cygwin*)
+-         # skip cygwin -pthread or -pthreads test
+-         ;;
+-      *)
+-        for flag in pthread pthreads; do
+-          glib_save_CFLAGS="$CFLAGS"
+-          CFLAGS="$CFLAGS -$flag"
+-          AC_TRY_RUN(glib_thread_test(0),
+-                     glib_flag_works=yes,
+-                     glib_flag_works=no,
+-                     [AC_LINK_IFELSE(glib_thread_test(0),
+-                                     glib_flag_works=yes,
+-                                     glib_flag_works=no)])
+-          CFLAGS="$glib_save_CFLAGS"
+-          if test $glib_flag_works = yes ; then
+-             G_THREAD_CFLAGS=-$flag
+-	     G_THREAD_LIBS=-$flag
+-          fi
+-        done
+-         ;;
+-    esac 
+-  fi
+-
+   if test x"$G_THREAD_CFLAGS" = x; then
+ 
+     # The canonical -pthread[s] does not work. Try something different.

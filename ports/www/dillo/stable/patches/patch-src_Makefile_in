@@ -1,0 +1,12 @@
+$MirOS$
+--- src/Makefile.in.orig	2004-07-28 12:21:22.000000000 +0200
++++ src/Makefile.in	2004-07-28 12:21:34.000000000 +0200
+@@ -46,7 +46,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ am__aclocal_m4_deps = $(top_srcdir)/configure.in
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+-mkinstalldirs = $(mkdir_p)
++mkinstalldirs = mkdir -p
+ CONFIG_HEADER = $(top_builddir)/config.h
+ CONFIG_CLEAN_FILES =
+ am__installdirs = "$(DESTDIR)$(bindir)"

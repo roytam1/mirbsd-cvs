@@ -1,0 +1,18 @@
+# $MirOS$
+
+SRCDIR=		${.CURDIR}/..
+BINDIR=		${PREFIX}/bin
+MANDIR=		${PREFIX}/man/cat
+
+PROG=		rdjpgcom
+SRCS=		rdjpgcom.c
+MAN=		rdjpgcom.1
+LDADD+=		-L${SRCDIR}/lib -ljpeg
+
+.PATH:		${SRCDIR}
+
+.if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
+PREFIX:=	${TRUEPREFIX}
+.endif
+
+.include <bsd.prog.mk>

@@ -1,0 +1,56 @@
+1i
+$MirOS$
+Further information has been added at the end of this file.
+____________________________________________________________
+
+
+Gentium SIL Release 1.01 Read Me
+17 September 2003
+-------------------------
+.
+/^VERSION DETAILS/,$g/^Version /.+1d
+$i
+
+____________________________________________________________
+
+From gentium@sil.org Thu May 13 13:44:36 2004
+From: Gentium <gentium@sil.org>
+Message-ID: <BCC93320.13644%gentium@sil.org>
+Date: Thu, 13 May 2004 14:13:52 +0100
+Subject: Re: Licence clarifications for Gentium font
+
+Thorsten -
+
+> - You are allowing to reproduce the font unmodified. Does this apply
+> only to the files (GenAI101.TTF GenAR101.TTF GenI101.TTF GenR101.TTF
+> Gentium101ReadMe.txt) or to the ZIP file as a whole?
+
+Specifically the font files, but the read me should always be included (feel
+free to rewrap).
+
+> - You are giving certain permissions to the font, while retaining other
+> rights. Does this only apply to the font face, or to the shape of the
+> glyphs per se?
+
+The software of the font cannot be copied. In other words, you can't pull
+the font into FontLab or Fontforge, play with it, rename it and
+redistribute. There is no problem with using the fonts to create graphic
+images - as long as they're not fonts themselves. You can certainly publish
+a book using Gentium.
+
+> - You are currently not allowing users to have Gentium accomply a medium
+> which is given away in exchange for money (meaning, we can't put the
+> font on a CD of our operating system), but you state on the website that
+> you are planning to change this.
+> What are your plans in this respect? (It's not as important to us at all
+> like the two problems above, but a clarification will be appreciated.)
+
+We're working hard on getting approval to move to a much more open license.
+I can't give you any idea of when that may happen, though. But I think
+you'll like what we have in mind.
+
+Victor Gaultney
+
+____________________________________________________________
+.
+wq

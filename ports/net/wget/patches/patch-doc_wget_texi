@@ -1,0 +1,33 @@
+$MirOS$
+--- doc/wget.texi.orig	Sat Nov  8 23:46:11 2003
++++ doc/wget.texi	Tue Jan 25 19:19:48 2005
+@@ -11,6 +11,11 @@
+ @setchapternewpage on
+ @c %**end of header
+ 
++@dircategory Networking tools
++@direntry
++* Wget: (wget.info).            A utility for network download.
++@end direntry
++
+ @iftex
+ @c Remove this if you don't use A4 paper.
+ @afourpaper
+@@ -189,7 +194,7 @@ Built-in features offer mechanisms to tu
+ @sp 1
+ @item
+ The retrieval is conveniently traced with printing dots, each dot
+-representing a fixed amount of data received (1KB by default).  These
++representing a fixed amount of data received (1 KiB by default).  These
+ representations can be customized to your preferences.
+ 
+ @sp 1
+@@ -722,7 +727,7 @@ seconds.
+ Limit the download speed to @var{amount} bytes per second.  Amount may
+ be expressed in bytes, kilobytes with the @samp{k} suffix, or megabytes
+ with the @samp{m} suffix.  For example, @samp{--limit-rate=20k} will
+-limit the retrieval rate to 20KB/s.  This kind of thing is useful when,
++limit the retrieval rate to 20 KiB/s.  This kind of thing is useful when,
+ for whatever reason, you don't want Wget to consume the entire available
+ bandwidth.
+ 

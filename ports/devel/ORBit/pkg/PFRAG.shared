@@ -1,0 +1,5 @@
+@comment $OpenBSD: PFRAG.shared,v 1.4 2004/08/10 09:43:46 espie Exp $
+@lib lib/libORBit-2.so.0.0
+@lib lib/libORBit-imodule-2.so.0.0
+@lib lib/libORBitCosNaming-2.so.0.0
+lib/orbit-2.0/Everything_module.so

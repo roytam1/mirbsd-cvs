@@ -1,0 +1,23 @@
+$MirOS$
+--- lib/blkid/blkidP.h.orig	Sun Feb 13 16:45:10 2005
++++ lib/blkid/blkidP.h	Sun Feb 13 16:45:51 2005
+@@ -174,8 +174,8 @@ static inline void DEB_DUMP_DEV(int mask
+ 	}
+ 
+ 	printf("  dev: name = %s\n", dev->bid_name);
+-	printf("  dev: DEVNO=\"0x%0Lx\"\n", dev->bid_devno);
+-	printf("  dev: TIME=\"%lu\"\n", dev->bid_time);
++	printf("  dev: DEVNO=\"0x%0Lx\"\n", (unsigned long long)dev->bid_devno);
++	printf("  dev: TIME=\"%lu\"\n", (unsigned long)dev->bid_time);
+ 	printf("  dev: PRI=\"%d\"\n", dev->bid_pri);
+ 	printf("  dev: flags = 0x%08X\n", dev->bid_flags);
+ 
+@@ -195,7 +195,7 @@ static inline void DEB_DUMP_CACHE(int ma
+ 		return;
+ 	}
+ 
+-	printf("cache: time = %lu\n", cache->bic_time);
++	printf("cache: time = %llu\n", (unsigned long long)cache->bic_time);
+ 	printf("cache: flags = 0x%08X\n", cache->bic_flags);
+ 
+ 	list_for_each(p, &cache->bic_devs) {

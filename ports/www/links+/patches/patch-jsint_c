@@ -1,0 +1,22 @@
+$MirOS$
+$OpenBSD: patch-jsint_c,v 1.5 2003/11/17 22:59:32 fgsch Exp $
+--- jsint.c.orig	2004-04-28 12:41:12.000000000 +0000
++++ jsint.c	2004-06-28 17:29:22.000000000 +0000
+@@ -2836,7 +2836,7 @@ static void __js_upcall_goto_history_ok_
+ 
+ 	if (a<jsid->n&&(fd->js)&&jsid->js_id==fd->js->ctx->js_id){js_downcall_vezmi_null(fd->js->ctx);return;}   /* call downcall */
+ 
+-	go_backwards(fd->ses->term,(void*)(jsid->n),fd->ses);
++	go_backwards(fd->ses->term,(void*)(intptr_t)(jsid->n),fd->ses);
+ }
+ 
+ 
+@@ -2944,7 +2944,7 @@ void js_upcall_goto_history(void * data)
+ 	{
+ 		js_mem_free(s);
+ 		mem_free(url);
+-		go_backwards(term,(void*)(history_num),fd->ses);
++		go_backwards(term,(void*)(intptr_t)(history_num),fd->ses);
+ 	}
+ 	return;
+ goto_history_failed:

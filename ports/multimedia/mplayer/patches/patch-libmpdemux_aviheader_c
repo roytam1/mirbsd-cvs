@@ -1,0 +1,12 @@
+$MirOS$
+--- libmpdemux/aviheader.c.orig	Sat Dec 18 17:48:33 2004
++++ libmpdemux/aviheader.c	Sat Dec 18 17:48:47 2004
+@@ -425,7 +425,7 @@ while(1){
+   }
+   mp_msg(MSGT_HEADER,MSGL_DBG2,"list_end=0x%X  pos=0x%X  chunksize=0x%X  next=0x%X\n",
+       (int)list_end, (int)stream_tell(demuxer->stream),
+-      chunksize, (int)chunksize+stream_tell(demuxer->stream));
++      (int)chunksize, (int)chunksize+stream_tell(demuxer->stream));
+   if(list_end>0 &&
+      chunksize+stream_tell(demuxer->stream) == list_end) list_end=0;
+   if(list_end>0 && chunksize+stream_tell(demuxer->stream)>list_end){

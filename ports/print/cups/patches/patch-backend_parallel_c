@@ -1,0 +1,24 @@
+$MirOS$
+--- backend/parallel.c.orig	2004-05-13 17:13:20.000000000 +0200
++++ backend/parallel.c	2004-10-31 19:45:05.000000000 +0100
+@@ -639,16 +639,13 @@ list_devices(void)
+   char	device[255];		/* Device filename */
+ 
+ 
+   for (i = 0; i < 3; i ++)
+   {
+-    sprintf(device, "/dev/lpt%d", i);
+-    if ((fd = open(device, O_WRONLY)) >= 0)
+-    {
+-      close(fd);
+-      printf("direct parallel:%s \"Unknown\" \"Parallel Port #%d (interrupt-driven)\"\n", device, i + 1);
+-    }
++    /* The lpt devices have problems under MirOS / OpenBSD, so we do not
++     * include them.
++     */
+ 
+-    sprintf(device, "/dev/lpa%d", i);
++    snprintf(device, sizeof(device), "/dev/lpa%d", i);
+     if ((fd = open(device, O_WRONLY)) >= 0)
+     {
+       close(fd);

@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-configure,v 1.1 2001/08/26 12:00:38 espie Exp $
+--- configure.in.orig	2004-02-14 20:57:16.000000000 +0000
++++ configure.in	2004-02-14 20:57:29.000000000 +0000
+@@ -40,7 +40,7 @@ LIB_MAJOR_VERSION=0
+ 
+ # increase this when changes are made, but they are upward compatible
+ # to previous versions
+-LIB_MINOR_VERSION=0
++LIB_MINOR_VERSION=1
+ 
+ dnl check environment
+ AC_AIX

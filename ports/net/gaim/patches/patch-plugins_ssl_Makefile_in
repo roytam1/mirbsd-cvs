@@ -1,0 +1,78 @@
+$OpenBSD: patch-plugins_ssl_Makefile_in,v 1.5 2004/12/10 20:57:08 fgsch Exp $
+--- plugins/ssl/Makefile.in.orig	Fri Dec  3 01:24:54 2004
++++ plugins/ssl/Makefile.in	Fri Dec 10 02:11:39 2004
+@@ -59,6 +59,10 @@ am__installdirs = "$(DESTDIR)$(plugindir
+ pluginLTLIBRARIES_INSTALL = $(INSTALL)
+ LTLIBRARIES = $(plugin_LTLIBRARIES)
+ am__DEPENDENCIES_1 =
++@PLUGINS_TRUE@ssl_openssl_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
++am__ssl_openssl_la_SOURCES_DIST = ssl-openssl.c
++@PLUGINS_TRUE@am_ssl_openssl_la_OBJECTS = ssl-openssl.lo
++ssl_openssl_la_OBJECTS = $(am_ssl_openssl_la_OBJECTS)
+ @PLUGINS_TRUE@ssl_gnutls_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+ am__ssl_gnutls_la_SOURCES_DIST = ssl-gnutls.c
+ @PLUGINS_TRUE@am_ssl_gnutls_la_OBJECTS = ssl-gnutls.lo
+@@ -87,7 +91,7 @@ LINK = $(LIBTOOL) --mode=link --tag=CC $
+ 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+ SOURCES = $(ssl_gnutls_la_SOURCES) $(ssl_nss_la_SOURCES) \
+ 	$(ssl_la_SOURCES)
+-DIST_SOURCES = $(am__ssl_gnutls_la_SOURCES_DIST) \
++DIST_SOURCES = $(am__ssl_openssl_la_SOURCES_DIST) $(am__ssl_gnutls_la_SOURCES_DIST) \
+ 	$(am__ssl_nss_la_SOURCES_DIST) $(am__ssl_la_SOURCES_DIST)
+ ETAGS = etags
+ CTAGS = ctags
+@@ -218,6 +222,8 @@ MSGMERGE = @MSGMERGE@
+ NSS_CFLAGS = @NSS_CFLAGS@
+ NSS_LIBS = @NSS_LIBS@
+ OBJEXT = @OBJEXT@
++OPENSSL_CFLAGS = @OPENSSL_CFLAGS@
++OPENSSL_LIBS = @OPENSSL_LIBS@
+ PACKAGE = @PACKAGE@
+ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
+ PACKAGE_NAME = @PACKAGE_NAME@
+@@ -353,16 +359,20 @@ EXTRA_DIST = \
+ 
+ plugindir = $(libdir)/gaim
+ ssl_la_LDFLAGS = -module -avoid-version
++ssl_openssl_la_LDFLAGS = -module -avoid-version
+ ssl_gnutls_la_LDFLAGS = -module -avoid-version
+ ssl_nss_la_LDFLAGS = -module -avoid-version
+ @PLUGINS_TRUE@plugin_LTLIBRARIES = \
+ @PLUGINS_TRUE@	ssl.la           \
++@PLUGINS_TRUE@ ssl-openssl.la    \
+ @PLUGINS_TRUE@	ssl-gnutls.la    \
+ @PLUGINS_TRUE@	ssl-nss.la
+ 
+ @PLUGINS_TRUE@ssl_la_SOURCES = ssl.c
++@PLUGINS_TRUE@ssl_openssl_la_SOURCES = ssl-openssl.c
+ @PLUGINS_TRUE@ssl_gnutls_la_SOURCES = ssl-gnutls.c
+ @PLUGINS_TRUE@ssl_nss_la_SOURCES = ssl-nss.c
++@PLUGINS_TRUE@ssl_openssl_la_LIBADD = $(OPENSSL_LIBS)
+ @PLUGINS_TRUE@ssl_gnutls_la_LIBADD = $(GNUTLS_LIBS)
+ @PLUGINS_TRUE@ssl_nss_la_LIBADD = $(NSS_LIBS)
+ AM_CPPFLAGS = \
+@@ -372,6 +382,7 @@ AM_CPPFLAGS = \
+ 	$(DEBUG_CFLAGS) \
+ 	$(GTK_CFLAGS) \
+ 	$(PLUGIN_CFLAGS) \
++	$(OPENSSL_CFLAGS) \
+ 	$(NSS_CFLAGS) \
+ 	$(GNUTLS_CFLAGS)
+ 
+@@ -435,6 +446,8 @@ clean-pluginLTLIBRARIES:
+ 	  echo "rm -f \"$${dir}/so_locations\""; \
+ 	  rm -f "$${dir}/so_locations"; \
+ 	done
++ssl-openssl.la: $(ssl_openssl_la_OBJECTS) $(ssl_openssl_la_DEPENDENCIES)
++	$(LINK) -rpath $(plugindir) $(ssl_openssl_la_LDFLAGS) $(ssl_openssl_la_OBJECTS) $(ssl_openssl_la_LIBADD) $(LIBS)
+ ssl-gnutls.la: $(ssl_gnutls_la_OBJECTS) $(ssl_gnutls_la_DEPENDENCIES) 
+ 	$(LINK) $(am_ssl_gnutls_la_rpath) $(ssl_gnutls_la_LDFLAGS) $(ssl_gnutls_la_OBJECTS) $(ssl_gnutls_la_LIBADD) $(LIBS)
+ ssl-nss.la: $(ssl_nss_la_OBJECTS) $(ssl_nss_la_DEPENDENCIES) 
+@@ -448,6 +461,7 @@ mostlyclean-compile:
+ distclean-compile:
+ 	-rm -f *.tab.c
+ 
++@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssl-openssl.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssl-gnutls.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssl-nss.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssl.Plo@am__quote@

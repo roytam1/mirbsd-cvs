@@ -1,0 +1,12 @@
+$OpenBSD: patch-links_h,v 1.9 2003/11/17 22:59:32 fgsch Exp $
+--- links.h.orig	2003-09-18 08:46:34.000000000 -0300
++++ links.h	2003-09-23 02:55:15.000000000 -0300
+@@ -137,6 +137,8 @@ x #endif*/
+ #define longlong long
+ #endif
+ 
++#include <inttypes.h>
++
+ #include <termios.h>
+ 
+ #include "os_depx.h"

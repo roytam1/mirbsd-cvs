@@ -1,0 +1,65 @@
+$MirOS$
+--- automake.in.orig	Sat Feb 12 10:06:34 2005
++++ automake.in	Sun Mar 13 16:18:16 2005
+@@ -288,6 +288,8 @@ my $copy_missing = 0;
+ # TRUE if we should always update files that we know about.
+ my $force_missing = 0;
+ 
++# TRUE is we use $GNUSYSTEM_AUX_DIR instead of am*_aux_dir
++my $miros_mode = 0;
+ 
+ ## ---------------------------------------- ##
+ ## Variables filled during files scanning.  ##
+@@ -3882,7 +3884,7 @@ sub handle_configure ($$$@)
+   # in the package, for backward compatibility (some people may still
+   # use $(mkinstalldirs)).
+   my $mkidpath = "$config_aux_dir/mkinstalldirs";
+-  if (-f $mkidpath)
++  if (-f $mkidpath || $miros_mode)
+     {
+       # Use require_file so that any existingscript gets updated
+       # by --force-missing.
+@@ -3895,7 +3897,7 @@ sub handle_configure ($$$@)
+       # Use $(install_sh), not $(mkdir_p) because the latter requires
+       # at least one argument, and $(mkinstalldirs) used to work
+       # even without arguments (e.g. $(mkinstalldirs) $(conditional_dir)).
+-      define_variable ('mkinstalldirs', '$(install_sh) -d', INTERNAL);
++      define_variable ('mkinstalldirs', '\$(SHELL) $(install_sh) -d', INTERNAL);
+     }
+ 
+   reject_var ('CONFIG_HEADER',
+@@ -4651,6 +4653,7 @@ sub scan_autoconf_traces ($)
+ 		_LT_AC_TAGCONFIG => 0,
+ 		m4_include => 1,
+ 		m4_sinclude => 1,
++		include => 1,
+ 		sinclude => 1,
+ 	      );
+ 
+@@ -6776,6 +6779,10 @@ sub locate_aux_dir ()
+   $am_config_aux_dir =
+     '$(top_srcdir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
+   $am_config_aux_dir =~ s,/*$,,;
++  if ($miros_mode)
++    {
++      $am_config_aux_dir = "\$(GNUSYSTEM_AUX_DIR)";
++    }
+ }
+ 
+ 
+@@ -7286,6 +7293,7 @@ Flavors:
+       --foreign          set strictness to foreign
+       --gnits            set strictness to gnits
+       --gnu              set strictness to gnu
++      --miros            use \$GNUSYSTEM_AUX_DIR
+ 
+ Library files:
+   -a, --add-missing      add missing standard files to package
+@@ -7382,6 +7390,7 @@ sub parse_arguments ()
+      'gnits' 		=> sub { set_strictness ('gnits'); },
+      'cygnus' 	        => sub { set_global_option ('cygnus', $cli_where); },
+      'foreign'          => sub { set_strictness ('foreign'); },
++     'miros'            => sub { $miros_mode = 1; },
+      'include-deps' 	=> sub { unset_global_option ('no-dependencies'); },
+      'i|ignore-deps' 	=> sub { set_global_option ('no-dependencies',
+ 						    $cli_where); },

@@ -1,0 +1,4 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.5 2004/01/14 17:21:52 jakob Exp $
+@lib lib/libpcre.so.0.1
+@lib lib/libpcreposix.so.0.0

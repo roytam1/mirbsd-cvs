@@ -1,0 +1,12 @@
+$MirOS$
+--- imlib2-config.in.orig	Wed Aug 18 17:16:29 2004
++++ imlib2-config.in	Wed Aug 18 17:16:44 2004
+@@ -46,7 +46,7 @@ while test $# -gt 0; do
+       ;;
+     --libs)
+       libdirs=-L@libdir@
+-      echo $libdirs -lImlib2 @freetype_libs@ -lm @dlopen_libs@ @x_ldflags@ @x_libs@
++      echo $libdirs -lltdl -lImlib2 @freetype_libs@ -lm @dlopen_libs@ @x_ldflags@ @x_libs@
+       ;;
+     *)
+       echo "${usage}" 1>&2

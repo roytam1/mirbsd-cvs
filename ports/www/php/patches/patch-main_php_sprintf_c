@@ -1,0 +1,12 @@
+$MirOS$
+--- main/php_sprintf.c.orig	Sun Feb 13 02:54:21 2005
++++ main/php_sprintf.c	Sun Feb 13 02:55:09 2005
+@@ -37,7 +37,7 @@ php_sprintf (char*s, const char* format,
+ 
+   va_start (args, format);
+   s[0] = '\0';
+-  ret = vsprintf (s, format, args);
++  ret = (char *)vsprintf (s, format, args);
+   va_end (args);
+   if (!ret)
+     return -1;

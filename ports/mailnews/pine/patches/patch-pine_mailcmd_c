@@ -1,0 +1,12 @@
+$MirOS$
+--- pine/mailcmd.c.orig	Fri Dec 10 22:02:49 2004
++++ pine/mailcmd.c	Fri Dec 10 22:02:54 2004
+@@ -11913,7 +11913,7 @@ select_date(stream, msgmap, msgno, limit
+ 	seldate_tm = localtime(&seldate);
+ 	sprintf(defdate, "%.2d-%.4s-%.4d", seldate_tm->tm_mday,
+ 		month_abbrev(seldate_tm->tm_mon + 1),
+-		seldate_tm->tm_year + 1900);
++		(int)seldate_tm->tm_year + 1900);
+ 	sprintf(prompt,"Select messages which %s%s%s [%s]: ",
+ 		tense[when].preamble, tense[when].range,
+ 		tense[when].scope, defdate);

@@ -1,0 +1,12 @@
+$MirOS$
+--- libltdl/ltdl.m4.orig	Sat Feb  5 14:03:59 2005
++++ libltdl/ltdl.m4	Fri Feb 11 16:59:25 2005
+@@ -147,7 +147,7 @@ AC_CACHE_CHECK([whether deplibs are load
+   netbsd*)
+     libltdl_cv_sys_dlopen_deplibs=yes
+     ;;
+-  openbsd*)
++  ekkobsd* | microbsd* | mirbsd* | openbsd*)
+     libltdl_cv_sys_dlopen_deplibs=yes
+     ;;
+   osf[[1234]]*)

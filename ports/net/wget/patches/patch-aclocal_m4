@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-configure,v 1.4 2003/05/14 15:03:51 brad Exp $
+--- aclocal.m4.orig	Tue Jan 25 19:07:30 2005
++++ aclocal.m4	Tue Jan 25 19:07:40 2005
+@@ -342,7 +342,7 @@ AC_DEFUN(WGET_WITH_NLS,
+ 
+       AC_CHECK_LIB(intl, gettext, [
+         dnl gettext is in libintl; announce the fact manually.
+-        LIBS="-lintl $LIBS"
++        LIBS="-lintl -liconv $LIBS"
+ 	AC_DEFINE(HAVE_GETTEXT)
+       ], [
+         AC_CHECK_FUNCS(gettext, [], [

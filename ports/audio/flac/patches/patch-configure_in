@@ -1,0 +1,37 @@
+$MirOS$
+--- configure.in.orig	2003-01-15 21:55:45.000000000 +0100
++++ configure.in	2004-04-02 23:33:26.000000000 +0200
+@@ -160,7 +160,7 @@ AM_CONDITIONAL(FLaC__CPU_IA32, test x$cp
+ AM_CONDITIONAL(FLaC__CPU_PPC, test x$cpu_ppc = xtrue)
+ AM_CONDITIONAL(FLaC__CPU_SPARC, test x$cpu_sparc = xtrue)
+ case "$host" in
+-	i[[3-6]]86-*-openbsd*) OBJ_FORMAT=aoutb ;;
++	i386-*-openbsd3.[0-2]) OBJ_FORMAT=aoutb ;;
+ 	*) OBJ_FORMAT=elf ;;
+ esac
+ AC_SUBST(OBJ_FORMAT)
+@@ -255,9 +255,12 @@ dnl check for i18n(internationalization)
+ AM_ICONV
+ AM_LANGINFO_CODESET
+ 
+-dnl check for id3lib library
+-dnl LOCAL__PATH_ID3LIB is defined by us, and will be until such time as id3lib supplies one
+-LOCAL__PATH_ID3LIB(have_id3lib=yes, AC_MSG_WARN([*** id3lib not found - id3v2 support will not be built]))
++dnl check for id3lib library (disabled in MirPorts)
++have_id3lib=no
++ID3LIB_CFLAGS=
++ID3LIB_LIBS=
++AC_SUBST(ID3LIB_CFLAGS)
++AC_SUBST(ID3LIB_LIBS)
+ AM_CONDITIONAL(FLaC__HAS_ID3LIB, [test x$have_id3lib = xyes])
+ if test x$have_id3lib = xyes ; then
+ AC_DEFINE(FLAC__HAS_ID3LIB)
+@@ -358,7 +361,7 @@ OUR_CFLAGS_HEAD='-I$(top_builddir) -I$(s
+ if test x$debug = xtrue; then
+ 	OUR_CFLAGS_HEAD="$OUR_CFLAGS_HEAD -g -O0 -DDEBUG"
+ else
+-	OUR_CFLAGS_HEAD="$OUR_CFLAGS_HEAD -O3 -DNDEBUG"
++	OUR_CFLAGS_HEAD="$OUR_CFLAGS_HEAD -DNDEBUG"
+ 	if test x$GCC = xyes; then
+ 		OUR_CFLAGS_HEAD="$OUR_CFLAGS_HEAD -fomit-frame-pointer -funroll-loops -finline-functions -Wall -W -Winline -DFLaC__INLINE=__inline__"
+ 	fi

@@ -1,0 +1,21 @@
+$OpenBSD: patch-ogg123_Makefile_in,v 1.6 2003/12/14 00:52:22 naddy Exp $
+--- ogg123/Makefile.in.orig	2003-11-17 17:50:56.000000000 +0100
++++ ogg123/Makefile.in	2003-12-14 00:51:43.000000000 +0100
+@@ -135,7 +135,7 @@ install_sh = @install_sh@
+ 
+ AUTOMAKE_OPTIONS = foreign
+ localedir = $(datadir)/locale
+-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
++DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" @DEFS@
+ 
+ docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
+ 
+@@ -486,7 +486,7 @@ info: info-am
+ 
+ info-am:
+ 
+-install-data-am: install-docDATA install-man
++install-data-am: install-man
+ 
+ install-exec-am: install-binPROGRAMS
+ 

@@ -1,0 +1,22 @@
+$MirOS$
+$OpenBSD: patch-automake_in,v 1.8 2001/08/27 14:01:47 espie Exp $
+--- automake.in.orig	Sat Jul 27 20:55:36 2002
++++ automake.in	Wed Dec 15 16:03:55 2004
+@@ -2012,7 +2012,7 @@ sub handle_texinfo
+ 	# dependency list.
+ 	@texi_deps = ();
+ 	push (@texi_deps, $info_cursor);
+-	push (@texi_deps, $vtexi) if $vtexi;
++	push (@texi_deps, '$(srcdir)/'.$vtexi) if $vtexi;
+ 
+ 	# Canonicalize name first.
+ 	($canonical = $infobase) =~ tr/A-Za-z0-9_/_/c;
+@@ -3545,7 +3545,7 @@ sub handle_merge_targets
+     &do_one_merge_target ('install-data', @install_data);
+     $output_rules .= "\n";
+ 
+-    &do_one_merge_target ('install', 'all-am');
++    &do_one_merge_target ('install');
+     &do_one_merge_target ('uninstall', @uninstall);
+ 
+     &do_one_merge_target ('all', @all);

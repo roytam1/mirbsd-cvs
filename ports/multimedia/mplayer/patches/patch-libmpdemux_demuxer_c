@@ -1,0 +1,14 @@
+$MirOS$
+--- libmpdemux/demuxer.c.orig	Sat Jul 24 19:58:14 2004
++++ libmpdemux/demuxer.c	Sat Jul 24 19:58:30 2004
+@@ -20,6 +20,10 @@
+ 
+ #include "../libvo/fastmemcpy.h"
+ 
++#ifdef STREAMING_LIVE_DOT_COM
++#include "demux_rtp.h"
++#endif
++
+ void free_demuxer_stream(demux_stream_t *ds){
+     ds_free_packs(ds);
+     free(ds);

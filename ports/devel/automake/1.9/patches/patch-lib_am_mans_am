@@ -1,0 +1,12 @@
+$MirOS$
+--- lib/am/mans.am.orig	Tue Mar 15 20:40:58 2005
++++ lib/am/mans.am	Tue Mar 15 20:41:01 2005
+@@ -29,7 +29,7 @@ man%SECTION%dir = $(mandir)/man%SECTION%
+ ?INSTALL-MAN?install-data-am: install-man
+ ?INSTALL-MAN?am__installdirs += "$(DESTDIR)$(man%SECTION%dir)"
+ .PHONY install-man: install-man%SECTION%
+-install-man%SECTION%: $(man%SECTION%_MANS) $(man_MANS)
++install-man%SECTION%:
+ 	@$(NORMAL_INSTALL)
+ 	test -z "$(man%SECTION%dir)" || $(mkdir_p) "$(DESTDIR)$(man%SECTION%dir)"
+ 	@list='$(man%SECTION%_MANS) $(dist_man%SECTION%_MANS) $(nodist_man%SECTION%_MANS)'; \

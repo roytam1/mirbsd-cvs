@@ -1,0 +1,12 @@
+$OpenBSD: patch-icons_Makefile_in,v 1.4 2003/05/13 20:12:03 brad Exp $
+--- icons/Makefile.in.orig	Fri Feb 21 14:42:41 2003
++++ icons/Makefile.in	Mon May 12 07:03:18 2003
+@@ -144,7 +144,7 @@ ICON2 = anthony-bomb.gif \
+ 		anthony-xpm.gif
+ 
+ 
+-icondir = $(datadir)/icons
++icondir = $(prefix)/share/examples/squid/icons
+ icon_DATA = $(ICON1) $(ICON2)
+ EXTRA_DIST = $(ICON1) $(ICON2) icons.shar
+ DISTCLEANFILES = 

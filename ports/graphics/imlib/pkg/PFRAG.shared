@@ -1,0 +1,4 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.5 2002/05/17 02:42:15 brad Exp $
+@lib lib/libImlib.so.19.14
+@lib lib/libgdk_imlib.so.19.14

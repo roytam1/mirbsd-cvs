@@ -1,0 +1,4 @@
+@comment $MirOS$
+lib/loaders/image/gif.a
+lib/loaders/image/gif.la
+lib/loaders/image/gif.so

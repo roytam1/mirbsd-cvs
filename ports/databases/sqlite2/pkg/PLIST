@@ -1,0 +1,9 @@
+@comment $MirOS$
+@comment $OpenBSD: PLIST,v 1.1 2004/02/18 20:59:24 djm Exp $
+bin/sqlite
+include/sqlite.h
+lib/libsqlite.a
+lib/libsqlite.la
+lib/pkgconfig/sqlite.pc
+%%SHARED%%
+@dirrm lib/pkgconfig

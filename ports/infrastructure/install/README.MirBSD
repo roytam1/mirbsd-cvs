@@ -1,0 +1,60 @@
+$MirOS$
+
+MirPorts sysmake files for old MirOS
+====================================
+
+mk.conf
+-------
+
+After updating, your /etc/mk.conf contains some entries under
+the label "#@@MIRPORTS user1" which used to be part of stock
+/etc/mk.conf before 2005. Please review these and delete the
+older default settings further up this file. The user settings
+will not be overwritten by a later 'make setup' in contrast
+to these marked by "#@@MIRPORTS start" (system settings).
+
+Package tools
+-------------
+
+The package tools of MirOS #7quater are sufficiently recent
+so that they work with the current version of MirPorts. On
+older (MirOS #7ter) systems, you must build the new MirPorts
+package tools, see below.
+
+Systems older than MirOS #7ter are not supported, but might
+work (MirOS #7bis will do).
+
+
+Installing the MirPorts package tools
+-------------------------------------
+
+Go to the mpsup/pkgtools directory and issue the usual sequence
+of make obj, make depend, make, sudo make install.
+
+
+Patching the system Makefile includes
+-------------------------------------
+
+Copy the files in ports/infrastructure/compat/generic/ over their
+corresponding (or non-existant) files in /usr/share/mk.
+
+Then change to the directory ports/infrastructure/compat/miros/X
+where X is your MirOS release, and apply the patches to the other
+Makefiles. On systems older than MirOS #7ter you might have to
+add other patches manually.
+
+Finally, please copy ports/infrastructure/compat/miros/mirports.osdep.mk
+to the directory /usr/ports/infrastructure/mk/ or whereever you placed
+the MirPorts Framework.
+
+
+Adding support for ancient MirOS releases
+-----------------------------------------
+
+You might want to export certain variables to known values before
+calling any MirPorts specific file. The best place to add such
+patches would be /usr/share/mk/mirports.sys.mk just after the
+call to <bsd.own.mk>.
+
+In addition to that, you will have to add the necessary pieces
+to /usr/ports/infrastructure/mk/mirports.osdep.mk for your revision.

@@ -1,0 +1,5 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.5 2003/12/14 00:52:22 naddy Exp $
+@lib lib/libvorbis.so.3.0
+@lib lib/libvorbisenc.so.2.0
+@lib lib/libvorbisfile.so.4.0

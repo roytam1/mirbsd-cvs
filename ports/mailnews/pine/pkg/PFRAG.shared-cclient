@@ -1,0 +1,2 @@
+@comment $MirOS$
+@lib lib/libc-client.so.5.0

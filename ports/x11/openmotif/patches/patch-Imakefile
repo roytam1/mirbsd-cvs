@@ -1,0 +1,11 @@
+--- Imakefile.orig	Mon Nov 20 13:42:49 2000
++++ Imakefile	Mon Nov 20 20:35:18 2000
+@@ -90,7 +90,7 @@
+ #ifdef UseInstalled
+ TESTS_IMAKE = $(IMAKE) -DUseInstalled
+ #else
+-TESTS_IMAKE = ../$(IMAKE)
++TESTS_IMAKE = $(IMAKE)
+ #endif
+ DIRS_TO_CREATE = $(USRLIBDIR) $(BINDIR) $(INCDIR) $(USRINCDIR) $(LIBDIR) $(XAPPLOADDIR)
+ CDE_DIRS_TO_CREATE = $(USRLIBDIR) $(BINDIR) $(PROJECTROOT)/share/include

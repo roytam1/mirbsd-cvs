@@ -1,0 +1,23 @@
+#!/bin/sh
+# $MirOS$
+#
+# deinstallation setup
+
+set -e
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+PREFIX=${PKG_PREFIX:-/usr/local}
+THIS=${1:-unknown}
+ME=${1%%-*}
+CONFDIR=${SYSCONFDIR:-/etc}/${ME}
+
+test x"${PKG_DELETE_EXTRA}" = x"Yes" && exit 0
+
+test -e $CONFDIR && cat <<-EOF
+	+------------------------------------------------------------
+	| To completely uninstall the ${THIS} package,
+	| perform the following step as root:
+	| # rm -rf $CONFDIR
+	+------------------------------------------------------------
+
+EOF
+exit 0

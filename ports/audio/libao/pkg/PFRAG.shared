@@ -1,0 +1,8 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.9 2003/10/08 12:12:52 naddy Exp $
+@comment lib/ao/plugins-2/libsun.a
+@comment lib/ao/plugins-2/libsun.la
+lib/ao/plugins-2/libsun.so
+@lib lib/libao.so.3.2
+@dirrm lib/ao/plugins-2
+@dirrm lib/ao

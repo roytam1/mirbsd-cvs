@@ -1,0 +1,12 @@
+$MirOS$
+--- libvo/font_load_ft.c.orig	2003-12-08 13:30:08.000000000 +0000
++++ libvo/font_load_ft.c	2004-01-01 17:10:36.000000000 +0000
+@@ -913,7 +913,7 @@ static int load_sub_face(char *name, FT_
+ 	if (err) {
+ 	    err = FT_New_Face(library, MPLAYER_DATADIR "/subfont.ttf", 0, face);
+ 	    if (err) {
+-	        mp_msg(MSGT_OSD, MSGL_ERR, "New_Face failed. Maybe the font path is wrong.\nPlease supply the text font file (~/.mplayer/subfont.ttf).\n" );
++	        mp_msg(MSGT_OSD, MSGL_ERR, "New_Face failed. Maybe the font path is wrong.\nPlease supply the text font file (~/.etc/mplayer/subfont.ttf).\n" );
+ 		return -1;
+ 	    }
+ 	}

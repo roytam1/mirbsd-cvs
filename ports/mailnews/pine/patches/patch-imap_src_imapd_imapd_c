@@ -1,0 +1,12 @@
+$MirOS$
+--- imap/src/imapd/imapd.c.orig	Sun Jul 25 09:04:42 2004
++++ imap/src/imapd/imapd.c	Sun Jul 25 09:04:51 2004
+@@ -183,7 +183,7 @@ char *lasterror (void);
+ 
+ /* Global storage */
+ 
+-char *version = "2004.352";	/* version number of this server */
++char *version = "2004.352L";	/* version number of this server */
+ time_t alerttime = 0;		/* time of last alert */
+ time_t sysalerttime = 0;	/* time of last system alert */
+ time_t useralerttime = 0;	/* time of last user alert */
