@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.2 2005/02/23 21:29:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -30,8 +30,33 @@
 
 #include <sys/types.h>
 
+#ifndef __IDSTRING
+#ifdef lint
+#define	__IDSTRING(prefix, string)				\
+	static const char __ ## prefix [] = (string)
+#elif defined(__ELF__) && defined(__GNUC__)
+#define	__IDSTRING(prefix, string)				\
+	__asm__(".section .comment"				\
+	"\n	.asciz	\"" string "\""				\
+	"\n	.previous")
+#else
+#define	__IDSTRING(prefix, string)				\
+	static const char __ ## prefix []			\
+	    __attribute__((__unused__)) = (string)
+#endif
+#endif
+#ifndef __KERNEL_RCSID
+#ifdef lint
+#define	__KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
+#else
+#define	__KERNEL_RCSID(n,x)	/* nothing */
+#endif
+#endif
 #ifndef __RCSID
-#define __RCSID(x)	static const char __rcsid[] = (x)
+#define	__RCSID(x)		__IDSTRING(rcsid,x)
+#endif
+#ifndef __SCCSID
+#define	__SCCSID(x)		__IDSTRING(sccsid,x)
 #endif
 
 #ifndef	SA_LEN
