@@ -1,4 +1,4 @@
-(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.1 2005/03/27 23:56:18 tg Exp $
+(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.2 2005/03/28 23:33:18 tg Exp $
  *-
  * Copyright (c) 2005
  *	Free Software Foundation, Inc. <gpc@gnu.de>
@@ -79,16 +79,16 @@ type
   Card64 = Cardinal attribute (Size = 64);
   TCtx = record { = MD5_CTX }
     state: array[0..3] of Card32;
-    count: Card64;
-    buffer: array[0..63] of Card8;
+    Count: Card64;
+    Buffer: array[0..63] of Card8;
   end;
 
 {$L c}
-procedure cInit(var ctx: TCtx);
+procedure cInit(var Ctx: TCtx);
   external name 'MD5Init';
-procedure cUpdate(var ctx: TCtx; protected var buf; len: SizeType);
+procedure cUpdate(var Ctx: TCtx; protected var Buf; len: SizeType);
   external name 'MD5Update';
-procedure cFinal(var buf: TMD5; var ctx: TCtx);
+procedure cFinal(var Buf: TMD5; var Ctx: TCtx);
   external name 'MD5Final';
 
 
