@@ -1,0 +1,4 @@
+@comment $MirOS$
+lib/libpng.6.0.dylib
+lib/libpng.6.dylib
+lib/libpng.dylib

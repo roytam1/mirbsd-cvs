@@ -1,0 +1,14 @@
+@comment $MirOS$
+bin/qemu
+bin/qemu-system-ppc
+bin/qemu-system-sparc
+share/doc/qemu/qemu-doc.html
+share/doc/qemu/qemu-tech.html
+share/qemu/bios.bin
+share/qemu/linux_boot.bin
+share/qemu/ppc_rom.bin
+share/qemu/proll.bin
+share/qemu/vgabios-cirrus.bin
+share/qemu/vgabios.bin
+@dirrm share/qemu
+@dirrm share/doc/qemu

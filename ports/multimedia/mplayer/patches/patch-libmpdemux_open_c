@@ -1,0 +1,12 @@
+$MirOS$
+--- libmpdemux/open.c.orig	Sat Jul 24 19:56:04 2004
++++ libmpdemux/open.c	Sat Jul 24 19:56:13 2004
+@@ -550,7 +550,7 @@ if(strncmp("dvd://",filename,6) == 0){
+ }
+ 
+ int dvd_parse_chapter_range(m_option_t *conf, const char *range){
+-  const char *s;
++  char *s;
+   char *t;
+   if (!range)
+     return M_OPT_MISSING_PARAM;

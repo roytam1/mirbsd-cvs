@@ -1,0 +1,4 @@
+@comment $MirOS$
+@comment $OpenBSD: PLIST-sqlite,v 1.1 2004/10/18 15:58:53 robert Exp $
+lib/php/modules/sqlite.so
+@dirrm lib/php/modules

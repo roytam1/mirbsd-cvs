@@ -1,0 +1,43 @@
+$MirOS$
+--- src/cpuinfo/SDL_cpuinfo.c.orig	Sat Feb  5 03:33:34 2005
++++ src/cpuinfo/SDL_cpuinfo.c	Sat Feb  5 03:34:35 2005
+@@ -105,6 +105,7 @@ static __inline__ int CPU_getCPUIDFeatur
+ 	int features = 0;
+ #if defined(__GNUC__) && defined(i386)
+ 	__asm__ (
++"	 pushl	 %%ebx\n"
+ "        movl    %%ebx,%%edi\n"
+ "        xorl    %%eax,%%eax         # Set up for CPUID instruction    \n"
+ "        cpuid                       # Get and save vendor ID          \n"
+@@ -116,9 +117,10 @@ static __inline__ int CPU_getCPUIDFeatur
+ "        movl    %%edx,%0                                              \n"
+ "1:                                                                    \n"
+ "        movl    %%edi,%%ebx\n"
++"	 popl	 %%ebx\n"
+ 	: "=m" (features)
+ 	:
+-	: "%eax", "%ebx", "%ecx", "%edx", "%edi"
++	: "%eax", "%ecx", "%edx", "%edi"
+ 	);
+ #elif defined(_MSC_VER)
+ 	__asm {
+@@ -141,6 +143,7 @@ static __inline__ int CPU_getCPUIDFeatur
+ 	int features = 0;
+ #if defined(__GNUC__) && defined(i386)
+ 	__asm__ (
++"	 pushl	 %%ebx\n"
+ "        movl    %%ebx,%%edi\n"
+ "        movl    $0x80000000,%%eax   # Query for extended functions    \n"
+ "        cpuid                       # Get extended function limit     \n"
+@@ -151,9 +154,10 @@ static __inline__ int CPU_getCPUIDFeatur
+ "        movl    %%edx,%0                                              \n"
+ "1:                                                                    \n"
+ "        movl    %%edi,%%ebx\n"
++"	 popl	 %%ebx\n"
+ 	: "=m" (features)
+ 	:
+-	: "%eax", "%ebx", "%ecx", "%edx", "%edi"
++	: "%eax", "%ecx", "%edx", "%edi"
+ 	);
+ #elif defined(_MSC_VER)
+ 	__asm {

@@ -1,0 +1,2 @@
+@comment $OpenBSD: PFRAG.shared,v 1.5 2004/08/10 08:36:46 espie Exp $
+@lib lib/libIDL-2.so.0.0

@@ -1,0 +1,21 @@
+$MirOS$
+--- libmpdemux/tvi_bsdbt848.c.orig	2004-06-18 13:00:56.000000000 +0000
++++ libmpdemux/tvi_bsdbt848.c	2004-08-17 17:06:35.000000000 +0000
+@@ -40,7 +40,7 @@
+ #include <string.h>
+ 
+ #include <sys/param.h>
+-#ifdef __NetBSD__
++#if defined(__NetBSD__) || defined(__OpenBSD__)
+ #include <dev/ic/bt8xx.h>
+ #include <sys/audioio.h>
+ #elif __FreeBSD_version >= 502100
+@@ -571,7 +571,7 @@ if(priv->tunerfd < 0)
+ /* Audio Configuration */
+ 
+ priv->dspready = TRUE;
+-#ifdef __NetBSD__
++#if defined(__NetBSD__) || defined(__OpenBSD__)
+ priv->dspdev = strdup("/dev/sound");
+ #else
+ priv->dspdev = strdup("/dev/dsp");

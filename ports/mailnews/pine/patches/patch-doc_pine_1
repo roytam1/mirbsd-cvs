@@ -1,0 +1,37 @@
+$MirOS$
+$OpenBSD: patch-doc_pine_1,v 1.2 2003/05/27 23:38:33 brad Exp $
+--- doc/pine.1.orig	Fri Jul  9 20:33:56 2004
++++ doc/pine.1	Sun Jul 25 08:53:45 2004
+@@ -1,4 +1,4 @@
+-.TH pine 1 "Version 4.61"
++.TH pine 1 "Version 4.61L"
+ .SH NAME
+ pine \- a Program for Internet News and Email
+ .SH SYNTAX 
+@@ -309,7 +309,7 @@ uses the following environment variables
+ .if n .ta 2.8i
+ .if t .ta 2.1i
+ 
+-/usr/spool/mail/xxxx	Default folder for incoming mail.
++/var/mail/xxxx	Default folder for incoming mail.
+ .br
+ ~/mail	Default directory for mail folders.
+ .br
+@@ -333,13 +333,13 @@ uses the following environment variables
+ .br
+ /etc/mime.types	System-wide file ext. to MIME type mapping
+ .br
+-/usr/local/lib/pine.info	Local pointer to system administrator.
++/etc/pine.info	Local pointer to system administrator.
+ .br
+-/usr/local/lib/pine.conf	System-wide configuration file.
++/etc/pine.conf	System-wide configuration file.
+ .br
+-/usr/local/lib/pine.conf.fixed	 Non-overridable configuration file.
++/etc/pine.conf.fixed	 Non-overridable configuration file.
+ .br
+-/tmp/.\\usr\\spool\\mail\\xxxx	Per-folder mailbox lock files.
++/tmp/.\\var\\mail\\xxxx	Per-folder mailbox lock files.
+ .br
+ ~/.pine-interrupted-mail	Message which was interrupted.
+ .br

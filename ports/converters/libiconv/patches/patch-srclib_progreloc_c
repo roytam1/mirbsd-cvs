@@ -1,0 +1,28 @@
+$MirOS$
+--- srclib/progreloc.c.orig	Sun Feb 27 00:39:16 2005
++++ srclib/progreloc.c	Sun Feb 27 00:40:53 2005
+@@ -151,7 +151,7 @@ find_executable (const char *argv0)
+ 
+     {
+       char buf[6+10+5];
+-      sprintf (buf, "/proc/%d/exe", getpid ());
++      snprintf (buf, sizeof(buf), "/proc/%d/exe", getpid ());
+       link = xreadlink (buf);
+       if (link != NULL && link[0] != '[')
+ 	return link;
+@@ -206,12 +206,13 @@ find_executable (const char *argv0)
+ #endif
+ 		if (p_len == 0)
+ 		  /* An empty PATH element designates the current directory.  */
+-		  strcpy (concat_name, argv0);
++		  strlcpy (concat_name, argv0i, sizeof(concat_name));
+ 		else
+ 		  {
+ 		    memcpy (concat_name, p, p_len);
+ 		    concat_name[p_len] = '/';
+-		    strcpy (concat_name + p_len + 1, argv0);
++		    strlcpy (concat_name + p_len + 1, argv0, 
++			sizeof(concat_name + p_len + 1));
+ 		  }
+ 		if (maybe_executable (concat_name))
+ 		  return canonicalize_file_name (concat_name);

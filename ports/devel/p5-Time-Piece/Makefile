@@ -1,0 +1,22 @@
+# $OpenBSD: Makefile,v 1.3 2004/04/17 09:57:59 xsa Exp $
+
+NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+
+COMMENT=	"object oriented time interface"
+
+DISTNAME=	Time-Piece-1.08
+PKGNAME=	p5-${DISTNAME}
+CATEGORIES=	devel perl5
+
+
+# Artistic License
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
+
+MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=Time/}
+
+CONFIGURE_STYLE=	perl
+
+.include <bsd.port.mk>

@@ -1,0 +1,14 @@
+$MirOS$
+--- liveMedia/FileSink.cpp.orig	Sat Jul 24 17:48:20 2004
++++ liveMedia/FileSink.cpp	Sat Jul 24 17:49:04 2004
+@@ -123,8 +123,8 @@ void FileSink::addData(unsigned char* da
+ 		       struct timeval presentationTime) {
+   if (fPerFrameFileNameBuffer != NULL) {
+     // Special case: Open a new file on-the-fly for this frame
+-    sprintf(fPerFrameFileNameBuffer, "%s-%lu.%06lu", fPerFrameFileNamePrefix,
+-	    presentationTime.tv_sec, presentationTime.tv_usec);
++    sprintf(fPerFrameFileNameBuffer, "%s-%lld.%06lu", fPerFrameFileNamePrefix,
++	    (long long)presentationTime.tv_sec, presentationTime.tv_usec);
+     fOutFid = openFileByName(envir(), fPerFrameFileNameBuffer);
+   }
+ 

@@ -1,0 +1,5 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.2 2004/04/28 01:30:00 jolan Exp $
+@lib lib/libfaad.so.0.0
+@lib lib/libmp4ff.so.0.0
+@lib lib/libmp4v2.so.0.0

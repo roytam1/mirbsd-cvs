@@ -1,0 +1,12 @@
+$MirOS$
+$OpenBSD: patch-src_Makefile_in,v 1.6 2003/09/29 05:41:37 pvalchev Exp $
+--- src/Makefile.in.orig	Sun Feb 22 21:31:43 2004
++++ src/Makefile.in	Thu Aug 26 19:41:47 2004
+@@ -300,7 +300,6 @@ lib_LTLIBRARIES = libSDL.la
+ libSDL_la_SOURCES = $(GENERAL_SRCS)
+ libSDL_la_LDFLAGS = \
+ 	-no-undefined		\
+-        -release $(LT_RELEASE)	\
+ 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+ 
+ libSDL_la_LIBADD = \

@@ -1,0 +1,82 @@
+/* $MirOS$
+ *-
+ * Copyright (c) 2005
+ *	Benny Siegert <bsiegert@gmx.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ */
+
+#include "objclib.h"
+
+/* An abstract base class for the enumerator classes.
+ * Do not use this directly!
+ */
+
+@implementation enumerator
+
+- (id)initWithList: (list *)aList
+{
+	self = [super init];
+	(void)aList;    /* to quell the warning */
+	return self;
+}
+
+- (id)nextObject
+{
+	return nil;
+}
+
+@end
+
+@implementation listEnumerator
+
+- (id)initWithList: (list *)aList
+{
+	self = [super initWithList: aList];
+	if (self)
+		obj = [aList head];
+	return self;
+}
+
+- (id)nextObject
+{
+	id current = obj;
+	if (current)
+		obj = [obj next];
+	return current;
+}
+
+@end
+
+@implementation listReverseEnumerator
+
+- (id)initWithList: (list *)aList
+{
+	self = [super initWithList: aList];
+	if (self)
+		obj = [aList tail];
+	return self;
+}
+
+- (id)nextObject
+{
+	id current = obj;
+	if (current)
+		obj = [obj prev];
+	return current;
+}
+
+@end

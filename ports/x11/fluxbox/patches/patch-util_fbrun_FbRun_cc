@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-util_fbrun_FbRun_cc,v 1.2 2004/04/28 18:10:34 robert Exp $
+--- util/fbrun/FbRun.cc.orig	2004-04-22 21:01:36.000000000 +0000
++++ util/fbrun/FbRun.cc	2004-07-16 11:20:39.000000000 +0000
+@@ -113,7 +113,7 @@ void FbRun::run(const std::string &comma
+     // fork and execute program
+     if (!fork()) {
+         setsid();
+-        execl("/bin/sh", "/bin/sh", "-c", command.c_str(), 0);
++        execl("/bin/sh", "/bin/sh", "-c", command.c_str(), (void *)NULL);
+         exit(0); //exit child
+     }
+ 

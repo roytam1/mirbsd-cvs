@@ -1,0 +1,109 @@
+$MirOS$
+--- pine/init.c.orig	Thu Jul 15 17:37:02 2004
++++ pine/init.c	Fri Dec 10 21:49:18 2004
+@@ -1333,7 +1333,7 @@ init_pinerc(ps, debug_out)
+     }
+ 
+     if(!ps->pinerc){
+-      build_path(buf, ps->home_dir, ".pinerc", sizeof(buf));
++      build_path(buf, ps->home_dir, ".etc/pinerc", sizeof(buf));
+       ps->pinerc = cpystr(buf);
+     }
+ 
+@@ -3020,6 +3020,7 @@ process_feature_list(ps, list, old_growt
+                              *lvalue[BM_SIZE * 8];
+     int                       i,
+                               yorn;
++    int                       bsmf = 1, bsmu = 1;
+     long                      l;
+     FEATURE_S		     *feat;
+ 
+@@ -3041,6 +3042,12 @@ process_feature_list(ps, list, old_growt
+     if(old_growth)
+         set_old_growth_bits(ps, 0);
+ 
++    /* standards compliance */
++    if(bsmf)
++        F_TURN_ON(F_QUELL_FLOWED_TEXT, ps);
++    if(bsmu)
++	F_TURN_ON(F_COMPOSE_ALWAYS_DOWNGRADE, ps);
++
+     /* now run through the list (global, user, and cmd_line lists are here) */
+     if(list){
+       for(p = list; (q = *p) != NULL; p++){
+@@ -3103,7 +3110,7 @@ process_feature_list(ps, list, old_growt
+       ps->orig_use_fkeys = 1;
+ 
+     /* Will we have to build a new list? */
+-    if(!(old_growth || hir || osr))
++    if(!(old_growth || hir || osr || bsmf || bsmu))
+ 	return;
+ 
+     /*
+@@ -3125,12 +3132,18 @@ process_feature_list(ps, list, old_growt
+       }else if(old_growth && (strucmp(q, "old-growth") == 0 ||
+                              strucmp(q, "no-old-growth") == 0)){
+ 	old_growth = 0;
++      }else if(bsmf && (strucmp(q, "quell-flowed-text") == 0 ||
++                             strucmp(q, "no-quell-flowed-text") == 0)){
++	bsmf = 0;
++      }else if(bsmu && (strucmp(q, "downgrade-multipart-to-text") == 0 ||
++                             strucmp(q, "no-downgrade-multipart-to-text") == 0)){
++	bsmu = 0;
+       }
+       lvalue[i++] = cpystr(q);
+     }
+ 
+     /* check to see if we still need to build a new list */
+-    if(!(old_growth || hir || osr))
++    if(!(old_growth || hir || osr || bsmf || bsmu))
+ 	return;
+ 
+     if(hir)
+@@ -3139,6 +3152,10 @@ process_feature_list(ps, list, old_growt
+       lvalue[i++] = "signature-at-bottom";
+     if(old_growth)
+       lvalue[i++] = "old-growth";
++    if(bsmf)
++      lvalue[i++] = "quell-flowed-text";
++    if(bsmu)
++      lvalue[i++] = "downgrade-multipart-to-text";
+     lvalue[i] = NULL;
+     set_variable_list(V_FEATURE_LIST, lvalue, TRUE, Main);
+ }
+@@ -5362,7 +5379,7 @@ read_pinerc(prc, vars, which_vars)
+ 	if(!prc->pinerc_written && prc->type == Loc){
+ 	    prc->pinerc_written = name_file_mtime(filename);
+ 	    dprint(5, (debugfile, "read_pinerc: time_pinerc_written = %ld\n",
+-		       prc->pinerc_written));
++		       (long) prc->pinerc_written));
+ 	}
+     }
+ 
+@@ -5929,7 +5946,7 @@ write_pinerc(ps, which)
+ 		dprint(2, (debugfile,
+ 			   "write_pinerc: mtime mismatch: \"%s\": %ld != %ld\n",
+ 			   filename ? filename : "?",
+-			   prc->pinerc_written, mtime));
++			   (long) prc->pinerc_written, (long) mtime));
+ 		return(-1);
+ 	    }
+ 	}
+@@ -6214,7 +6231,7 @@ write_pinerc(ps, which)
+     if(prc->type == Loc){
+ 	prc->pinerc_written = name_file_mtime(filename);
+ 	dprint(2, (debugfile, "wrote pinerc: %s: time_pinerc_written = %ld\n",
+-		   pinrc ? pinrc : "?", prc->pinerc_written));
++		   pinrc ? pinrc : "?", (long) prc->pinerc_written));
+     }
+     else{
+ 	dprint(2, (debugfile, "wrote pinerc: %s\n", pinrc ? pinrc : "?"));
+@@ -6504,7 +6521,7 @@ char *filename;
+     }
+ #else	/* !DOS */
+     if(!ps_global->pinerc){
+-	build_path(buf, ps_global->home_dir, ".pinerc", sizeof(buf));
++	build_path(buf, ps_global->home_dir, ".etc/pinerc", sizeof(buf));
+ 	p = buf;
+     }
+ #endif	/* !DOS */

@@ -1,0 +1,12 @@
+$MirOS$
+--- imap/src/ipopd/Makefile.orig	Tue Oct 24 23:54:45 2000
++++ imap/src/ipopd/Makefile	Thu Nov  4 17:18:03 2004
+@@ -19,7 +19,7 @@
+ 
+ 
+ C = ../c-client
+-CCLIENTLIB = $C/c-client.a
++CCLIENTLIB = -L$C -lc-client
+ SHELL = /bin/sh
+ 
+ # Get local definitions from c-client directory

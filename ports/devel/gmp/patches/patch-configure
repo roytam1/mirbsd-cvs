@@ -1,0 +1,53 @@
+$OpenBSD: patch-configure,v 1.4 2003/04/18 01:22:53 naddy Exp $
+--- configure.orig	Sat Dec 28 00:30:26 2002
++++ configure	Fri Apr 18 03:19:09 2003
+@@ -8299,7 +8299,7 @@ if test -z "$aix_libpath"; then aix_libp
+       hardcode_shlibpath_var=no
+ 
+       if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
+-	archive_cmds='$CC -shared $pic_flag -o $lib $libobjs $deplibs $linker_flags'
++	archive_cmds='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
+ 	hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+ 	export_dynamic_flag_spec='${wl}-E'
+       else
+@@ -8309,7 +8309,7 @@ if test -z "$aix_libpath"; then aix_libp
+ 	   hardcode_libdir_flag_spec='-R$libdir'
+ 	   ;;
+ 	 *)
+-	   archive_cmds='$CC -shared $pic_flag -o $lib $libobjs $deplibs $linker_flags'
++	   archive_cmds='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
+ 	   hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+ 	   ;;
+        esac
+@@ -14098,7 +14098,7 @@ if test -z "$aix_libpath"; then aix_libp
+       hardcode_shlibpath_var_GCJ=no
+ 
+       if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
+-	archive_cmds_GCJ='$CC -shared $pic_flag -o $lib $libobjs $deplibs $linker_flags'
++	archive_cmds_GCJ='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
+ 	hardcode_libdir_flag_spec_GCJ='${wl}-rpath,$libdir'
+ 	export_dynamic_flag_spec_GCJ='${wl}-E'
+       else
+@@ -14108,7 +14108,7 @@ if test -z "$aix_libpath"; then aix_libp
+ 	   hardcode_libdir_flag_spec_GCJ='-R$libdir'
+ 	   ;;
+ 	 *)
+-	   archive_cmds_GCJ='$CC -shared $pic_flag -o $lib $libobjs $deplibs $linker_flags'
++	   archive_cmds_GCJ='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
+ 	   hardcode_libdir_flag_spec_GCJ='${wl}-rpath,$libdir'
+ 	   ;;
+        esac
+@@ -19970,13 +19970,6 @@ echo "$as_me:19969: result: determined" 
+ echo "${ECHO_T}determined" >&6
+ 
+       fi
+-      case $host in
+-        *-*-openbsd*)
+-
+-echo 'define(<_GLOBAL_OFFSET_TABLE_>, <__GLOBAL_OFFSET_TABLE_>)' >>$gmp_tmpconfigm4
+-
+-          ;;
+-      esac
+       ;;
+   esac
+ fi

@@ -1,0 +1,12 @@
+$MirOS$
+--- testProgs/playCommon.cpp.orig	Sat Jul 24 17:55:01 2004
++++ testProgs/playCommon.cpp	Sat Jul 24 17:55:10 2004
+@@ -1169,7 +1169,7 @@ void checkForPacketArrival(void* /*clien
+     struct timeval timeNow;
+     gettimeofday(&timeNow, &Idunno);
+ 	char timestampStr[100];
+-	sprintf(timestampStr, "%ld%03ld", timeNow.tv_sec, timeNow.tv_usec/1000);
++	sprintf(timestampStr, "%lld%03ld", (long long)timeNow.tv_sec, timeNow.tv_usec/1000);
+     *env << (syncStreams ? "Synchronized d" : "D")
+ 		<< "ata packets have begun arriving [" << timestampStr << "]\007\n";
+     return;

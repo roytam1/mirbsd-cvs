@@ -1,0 +1,31 @@
+@comment $OpenBSD: PLIST,v 1.8 2003/12/30 02:02:48 naddy Exp $
+@comment ${P5ARCH}/Carp/Clan.pm
+@comment ${P5ARCH}/Carp/Clan.pod
+${P5ARCH}/Date/Calc.pm
+${P5ARCH}/Date/Calc.pod
+${P5ARCH}/Date/Calc/Object.pm
+${P5ARCH}/Date/Calc/Object.pod
+${P5ARCH}/Date/Calendar.pm
+${P5ARCH}/Date/Calendar.pod
+${P5ARCH}/Date/Calendar/Profiles.pm
+${P5ARCH}/Date/Calendar/Profiles.pod
+${P5ARCH}/Date/Calendar/Year.pm
+${P5ARCH}/Date/Calendar/Year.pod
+@comment ${P5ARCH}/auto/Date/Calc/.packlist
+${P5ARCH}/auto/Date/Calc/Calc.bs
+${P5ARCH}/auto/Date/Calc/Calc.so
+@comment man/man3/Carp::Clan.3p
+man/man3/Date::Calc.3p
+man/man3/Date::Calc::Object.3p
+man/man3/Date::Calendar.3p
+man/man3/Date::Calendar::Profiles.3p
+man/man3/Date::Calendar::Year.3p
+@dirrm man/man3
+@dirrm ${P5ARCH}/auto/Date/Calc
+@dirrm ${P5ARCH}/auto/Date
+@dirrm ${P5ARCH}/auto
+@dirrm ${P5ARCH}/Date/Calendar
+@dirrm ${P5ARCH}/Date/Calc
+@dirrm ${P5ARCH}/Date
+@comment @dirrm ${P5ARCH}/Carp
+@dirrm ${P5ARCH}

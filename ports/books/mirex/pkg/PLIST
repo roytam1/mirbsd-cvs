@@ -1,0 +1,15 @@
+@comment $MirOS$
+share/examples/mirex/daemon.png
+share/examples/mirex/devel-keys
+share/examples/mirex/dot.Xmodmap
+share/examples/mirex/dot.Xmodmap.light
+share/examples/mirex/dot.Xresources
+share/examples/mirex/dot.xinitrc
+share/examples/mirex/etc_profile
+share/examples/mirex/kbd-layout
+share/examples/mirex/kbd-layout.80c
+share/examples/mirex/kbd-layout.euc-jp
+share/examples/mirex/myXenvironment
+share/examples/mirex/openssl.cnf
+share/examples/mirex/utf-8
+@dirrm share/examples/mirex

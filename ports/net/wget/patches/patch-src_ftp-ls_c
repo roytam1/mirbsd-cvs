@@ -1,0 +1,12 @@
+$MirOS$
+--- src/ftp-ls.c.orig	Sat May 18 02:15:59 2002
++++ src/ftp-ls.c	Tue Jan 25 19:17:13 2005
+@@ -871,7 +871,7 @@ ftp_index (const char *file, struct url 
+ 	  };
+ 	  struct tm *ptm = localtime ((time_t *)&f->tstamp);
+ 
+-	  fprintf (fp, "%d %s %02d ", ptm->tm_year + 1900, months[ptm->tm_mon],
++	  fprintf (fp, "%lld %s %02d ", (long long)ptm->tm_year + 1900, months[ptm->tm_mon],
+ 		  ptm->tm_mday);
+ 	  if (ptm->tm_hour)
+ 	    fprintf (fp, "%02d:%02d  ", ptm->tm_hour, ptm->tm_min);

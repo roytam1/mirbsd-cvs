@@ -1,0 +1,85 @@
+#!/bin/sh
+# $MirOS$
+# $OpenBSD: INSTALL,v 1.4 2004/03/11 20:54:14 lebel Exp $
+#
+# Pre/post-installation setup of redhat_base
+
+# exit on errors, use a sane path and install prefix
+#
+set -e
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+PREFIX=${PREFIX:-/usr/local}/emul/redhat
+
+# Function: tell the user what s/he needs to do to use the port just installed
+#
+do_notice_top()
+{
+    echo
+    echo "+---------------"
+    echo "|"
+}
+
+do_notice_link()
+{
+    echo "| /emul/linux already exists but it's not a symlink to $PREFIX."
+    echo "|"
+    echo "| To make this port active you must make /emul/linux a symlink to"
+    echo "| $PREFIX."
+    echo "|"
+}
+
+do_notice_bottom()
+{
+    echo "| Installation of $1 complete. See compat_linux(8)"
+    echo "| for more information."
+    echo "|"
+    echo "+---------------"
+    echo
+}
+
+# verify proper execution
+#
+if [ $# -ne 2 ]; then
+    echo "usage: $0 distname { PRE-INSTALL | POST-INSTALL }" >&2
+    exit 1
+fi
+
+# Verify/process the command
+#
+case $2 in
+    PRE-INSTALL)
+	if [ x"$(sysctl -n kern.emul.linux)" != x"1" ]; then
+		echo "+================================================"
+		echo "| Error: the Linux emulation must be enabled in"
+		echo "| order to use this port. To do so, execute"
+		echo "|    # sysctl -w kern.emul.linux=1"
+		echo "| Please refer to compat_linux(8) for further"
+		echo "| information on this topic."
+		echo "+================================================"
+		exit 1
+	fi
+	install -d -o root -g bin -m 755 /emul
+	install -d -o root -g bin -m 755 $PREFIX
+	;;
+    POST-INSTALL)
+	do_notice_top
+
+	if [ -e /emul/linux ]; then
+	    if [ x`readlink /emul/linux` != x"$PREFIX" ]; then
+	    	do_notice_link
+	    fi
+	else
+	    ln -sf $PREFIX /emul/linux
+	fi
+
+	${PREFIX}/sbin/ldconfig
+
+	do_notice_bottom $1
+	;;
+    *)
+	echo "usage: $0 distname { PRE-INSTALL | POST-INSTALL }" >&2
+	exit 1
+	;;
+esac
+
+exit 0

@@ -1,0 +1,4 @@
+@comment $OpenBSD: PLIST-expat,v 1.2 2002/03/23 04:34:23 matt Exp $
+@option no-default-conflict
+@pkgcfl python-expat-2.1*
+lib/python2.1/lib-dynload/pyexpat.so

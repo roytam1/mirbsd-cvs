@@ -1,0 +1,83 @@
+@comment $MirOS$
+@comment $OpenBSD: PLIST,v 1.14 2004/02/03 08:37:55 brad Exp $
+bin/centericq
+bin/cicqconv
+bin/cicqsync
+@comment include/libicq2000/libicq2000/Client.h
+@comment include/libicq2000/libicq2000/Contact.h
+@comment include/libicq2000/libicq2000/ContactList.h
+@comment include/libicq2000/libicq2000/ContactTree.h
+@comment include/libicq2000/libicq2000/Translator.h
+@comment include/libicq2000/libicq2000/constants.h
+@comment include/libicq2000/libicq2000/events.h
+@comment include/libicq2000/libicq2000/exceptions.h
+@comment include/libicq2000/libicq2000/ref_ptr.h
+@comment include/libicq2000/libicq2000/sigslot.h
+@comment include/libicq2000/libicq2000/time_extra.h
+@comment include/libicq2000/libicq2000/userinfoconstants.h
+@comment include/libicq2000/libicq2000/version.h
+man/man1/centericq.1
+man/man1/cicqconv.1
+man/man1/cicqsync.1
+share/centericq/email.wav
+share/centericq/msg.wav
+share/centericq/online.wav
+share/centericq/sms.wav
+share/centericq/url.wav
+share/doc/centericq/FAQ
+share/doc/centericq/README
+share/locale/bg/LC_MESSAGES/centericq.mo
+share/locale/cs/LC_MESSAGES/centericq.mo
+share/locale/de/LC_MESSAGES/centericq.mo
+share/locale/es/LC_MESSAGES/centericq.mo
+share/locale/fr/LC_MESSAGES/centericq.mo
+share/locale/hu/LC_MESSAGES/centericq.mo
+share/locale/it/LC_MESSAGES/centericq.mo
+share/locale/ms/LC_MESSAGES/centericq.mo
+share/locale/nl/LC_MESSAGES/centericq.mo
+share/locale/pl/LC_MESSAGES/centericq.mo
+share/locale/pt_BR/LC_MESSAGES/centericq.mo
+share/locale/ro/LC_MESSAGES/centericq.mo
+share/locale/ru/LC_MESSAGES/centericq.mo
+share/locale/sv/LC_MESSAGES/centericq.mo
+share/locale/uk/LC_MESSAGES/centericq.mo
+share/locale/zh_TW.Big5/LC_MESSAGES/centericq.mo
+@dirrm share/locale/zh_TW.Big5/LC_MESSAGES
+@dirrm share/locale/zh_TW.Big5
+@dirrm share/locale/uk/LC_MESSAGES
+@dirrm share/locale/uk
+@dirrm share/locale/sv/LC_MESSAGES
+@dirrm share/locale/sv
+@dirrm share/locale/ru/LC_MESSAGES
+@dirrm share/locale/ru
+@dirrm share/locale/ro/LC_MESSAGES
+@dirrm share/locale/ro
+@dirrm share/locale/pt_BR/LC_MESSAGES
+@dirrm share/locale/pt_BR
+@dirrm share/locale/pl/LC_MESSAGES
+@dirrm share/locale/pl
+@dirrm share/locale/nl/LC_MESSAGES
+@dirrm share/locale/nl
+@dirrm share/locale/ms/LC_MESSAGES
+@dirrm share/locale/ms
+@dirrm share/locale/it/LC_MESSAGES
+@dirrm share/locale/it
+@dirrm share/locale/hu/LC_MESSAGES
+@dirrm share/locale/hu
+@dirrm share/locale/fr/LC_MESSAGES
+@dirrm share/locale/fr
+@dirrm share/locale/es/LC_MESSAGES
+@dirrm share/locale/es
+@dirrm share/locale/de/LC_MESSAGES
+@dirrm share/locale/de
+@dirrm share/locale/cs/LC_MESSAGES
+@dirrm share/locale/cs
+@dirrm share/locale/bg/LC_MESSAGES
+@dirrm share/locale/bg
+@dirrm share/locale
+@dirrm share/doc/centericq
+@dirrm share/doc
+@dirrm share/centericq
+@dirrm share
+@comment @dirrm include/libicq2000/libicq2000
+@comment @dirrm include/libicq2000

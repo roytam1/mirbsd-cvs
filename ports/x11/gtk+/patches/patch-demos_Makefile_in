@@ -1,0 +1,11 @@
+$OpenBSD: patch-demos_Makefile_in,v 1.5 2004/06/22 03:15:03 marcm Exp $
+--- demos/Makefile.in.orig	2004-04-01 15:28:47.000000000 -0800
++++ demos/Makefile.in	2004-04-01 15:30:06.000000000 -0800
+@@ -779,6 +779,7 @@ uninstall-info: uninstall-info-recursive
+ 
+ 
+ test-inline-pixbufs.h: $(pixbuf_csource_deps) apple-red.png gnome-foot.png
++	LD_LIBRARY_PATH=$(top_builddir)/gdk-pixbuf/.libs \
+ 	$(pixbuf_csource) --raw --build-list		\
+ 	        apple_red  $(srcdir)/apple-red.png	\
+                 gnome_foot $(srcdir)/gnome-foot.png	\

@@ -1,0 +1,23 @@
+$MirOS$
+--- lib/blkid/probe.c.orig	Sun Feb 13 16:47:41 2005
++++ lib/blkid/probe.c	Sun Feb 13 16:48:05 2005
+@@ -554,8 +554,8 @@ blkid_dev blkid_verify(blkid_cache cache
+ 		return dev;
+ 
+ 	DBG(DEBUG_PROBE,
+-	    printf("need to revalidate %s (time since last check %lu)\n", 
+-		   dev->bid_name, diff));
++	    printf("need to revalidate %s (time since last check %lld)\n", 
++		   dev->bid_name, (long long)diff));
+ 
+ 	if (((fd = open(dev->bid_name, O_RDONLY)) < 0) ||
+ 	    (fstat(fd, &st) < 0)) {
+@@ -649,7 +649,7 @@ found_type:
+ 		blkid_set_tag(dev, "TYPE", type, 0);
+ 				
+ 		DBG(DEBUG_PROBE, printf("%s: devno 0x%04Lx, type %s\n",
+-			   dev->bid_name, st.st_rdev, type));
++			   dev->bid_name, (unsigned long long)st.st_rdev, type));
+ 	}
+ 
+ 	close(fd);

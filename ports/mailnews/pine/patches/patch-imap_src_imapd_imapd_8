@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-imapd.8c,v 1.4 2003/10/05 22:00:00 jakob Exp $
+--- imap/src/imapd/imapd.8.orig	Tue May 18 17:46:32 2004
++++ imap/src/imapd/imapd.8	Sun Jul 25 09:04:17 2004
+@@ -3,7 +3,7 @@
+ .SH NAME
+ IMAPd \- Internet Message Access Protocol server
+ .SH SYNOPSIS
+-.B /usr/etc/imapd
++.B imapd
+ .SH DESCRIPTION
+ .I imapd
+ is a server which supports the

@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-sigc++_Makefile_am,v 1.2 2001/10/24 12:54:37 shell Exp $
+--- sigc++/Makefile.am.orig	2001-10-18 20:54:46.000000000 +0000
++++ sigc++/Makefile.am	2004-02-14 21:24:24.000000000 +0000
+@@ -14,7 +14,7 @@ libsigc_la_SOURCES= \
+ EXTRA_libsigc_la_SOURCES = sigc_res.rc
+ 
+ libsigc_la_LDFLAGS = -version-info $(LIBSIGC_SO_VERSION) \
+-                     -release $(SIGC_RELEASE) -no-undefined
++                     -no-undefined
+ 
+ lib_LTLIBRARIES = libsigc.la
+ 

@@ -1,0 +1,9 @@
+$MirOS$
+--- doc/pico.1.orig	Fri Jul  9 20:33:51 2004
++++ doc/pico.1	Sun Jul 25 08:53:44 2004
+@@ -1,4 +1,4 @@
+-.TH pico 1 "Version 4.8"
++.TH pico 1 "Version 4.8L"
+ .SH Name
+ pico \- simple text editor in the style of the Pine Composer
+ .SH Syntax

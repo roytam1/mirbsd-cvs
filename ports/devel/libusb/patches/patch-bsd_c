@@ -1,0 +1,107 @@
+$MirOS$
+$OpenBSD: patch-bsd_c,v 1.5 2003/11/27 04:34:26 pvalchev Exp $
+--- bsd.c.orig	Mon Nov 11 18:03:54 2002
++++ bsd.c	Thu Aug 12 19:38:11 2004
+@@ -276,7 +276,7 @@ static int ensure_ep_open(usb_dev_handle
+ int usb_bulk_write(usb_dev_handle *dev, int ep, char *bytes, int size,
+                    int timeout)
+ {
+-  int fd, ret, sent = 0;
++  int fd, ret;
+ 
+   /* Ensure the endpoint address is correct */
+   ep &= ~USB_ENDPOINT_IN;
+@@ -298,8 +298,7 @@ int usb_bulk_write(usb_dev_handle *dev, 
+     USB_ERROR_STR(ret, "error setting timeout: %s",
+                   strerror(errno));
+ 
+-  do {
+-    ret = write(fd, bytes+sent, size-sent);
++    ret = write(fd, bytes, size);
+     if (ret < 0)
+ #if __FreeBSD__
+       USB_ERROR_STR(ret, "error writing to bulk endpoint %s.%d: %s",
+@@ -309,16 +308,13 @@ int usb_bulk_write(usb_dev_handle *dev, 
+                   dev->device->filename, UE_GET_ADDR(ep), strerror(errno));
+ #endif
+ 
+-    sent += ret;
+-  } while(ret > 0 && sent < size);
+-
+-  return sent;
++  return ret;
+ }
+ 
+ int usb_bulk_read(usb_dev_handle *dev, int ep, char *bytes, int size,
+                   int timeout)
+ {
+-  int fd, ret, retrieved = 0, one = 1;
++  int fd, ret, one = 1;
+ 
+   /* Ensure the endpoint address is correct */
+   ep |= USB_ENDPOINT_IN;
+@@ -345,8 +341,7 @@ int usb_bulk_read(usb_dev_handle *dev, i
+     USB_ERROR_STR(ret, "error setting short xfer: %s",
+                   strerror(errno));
+ 
+-  do {
+-    ret = read(fd, bytes+retrieved, size-retrieved);
++    ret = read(fd, bytes, size);
+     if (ret < 0)
+ #if __FreeBSD__
+       USB_ERROR_STR(ret, "error reading from bulk endpoint %s.%d: %s",
+@@ -355,10 +350,8 @@ int usb_bulk_read(usb_dev_handle *dev, i
+       USB_ERROR_STR(ret, "error reading from bulk endpoint %s.%02d: %s",
+                   dev->device->filename, UE_GET_ADDR(ep), strerror(errno));
+ #endif
+-    retrieved += ret;
+-  } while (ret > 0 && retrieved < size);
+ 
+-  return retrieved;
++  return ret;
+ }
+ 
+ int usb_control_msg(usb_dev_handle *dev, int requesttype, int request,
+@@ -371,6 +364,8 @@ int usb_control_msg(usb_dev_handle *dev,
+     fprintf(stderr, "usb_control_msg: %d %d %d %d %p %d %d\n",
+             requesttype, request, value, index, bytes, size, timeout);
+ 
++  memset(&req,0,sizeof(req));
++
+   req.ucr_request.bmRequestType = requesttype;
+   req.ucr_request.bRequest = request;
+   USETW(req.ucr_request.wValue, value);
+@@ -378,8 +373,10 @@ int usb_control_msg(usb_dev_handle *dev,
+   USETW(req.ucr_request.wLength, size);
+ 
+   req.ucr_data = bytes;
+-  req.ucr_flags = 0;
++  req.ucr_flags = USBD_SHORT_XFER_OK;
+ 
++  if(timeout<0) timeout=0;
++
+   ret = ioctl(dev->fd, USB_SET_TIMEOUT, &timeout);
+ #if (__NetBSD__ || __OpenBSD__)
+   if (ret < 0 && errno != EINVAL)
+@@ -390,11 +387,18 @@ int usb_control_msg(usb_dev_handle *dev,
+                   strerror(errno));
+ 
+   ret = ioctl(dev->fd, USB_DO_REQUEST, &req);
+-  if (ret < 0)
++  if (ret < 0) {
++    int errno2 = errno;
+     USB_ERROR_STR(ret, "error sending control message: %s",
+-                  strerror(errno));
++                  strerror(errno2));
++    return -errno2;
++  }
+ 
+-  return UGETW(req.ucr_request.wLength);
++  /* return UGETW(req.ucr_request.wLength); */
++   if(requesttype && USB_ENDPOINT_IN)
++	   return req.ucr_actlen;
++   else
++	   return UGETW(req.ucr_request.wLength);
+ }
+ 
+ int usb_os_find_busses(struct usb_bus **busses)

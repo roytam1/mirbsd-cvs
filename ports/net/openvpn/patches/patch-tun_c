@@ -1,0 +1,23 @@
+$MirOS$
+--- tun.c.orig	Sun Dec 19 11:47:52 2004
++++ tun.c	Thu Jan 13 18:46:28 2005
+@@ -669,15 +669,15 @@ do_ifconfig (struct tuntap *tt,
+ 			  );
+       else
+ 	openvpn_snprintf (command_line, sizeof (command_line),
+-			  IFCONFIG_PATH " %s %s netmask %s mtu %d broadcast %s link0",
++			  IFCONFIG_PATH " %s %s netmask %s broadcast %s mtu %d link0 up",
+ 			  actual,
+ 			  ifconfig_local,
+ 			  ifconfig_remote_netmask,
+-			  tun_mtu,
+-			  ifconfig_broadcast
++			  ifconfig_broadcast,
++			  tun_mtu
+ 			  );
+       msg (M_INFO, "%s", command_line);
+-      system_check (command_line, es, S_FATAL, "OpenBSD ifconfig failed");
++      system_check (command_line, es, S_FATAL, "Open/MirBSD ifconfig failed");
+       tt->did_ifconfig = true;
+ 
+ #elif defined(TARGET_NETBSD)

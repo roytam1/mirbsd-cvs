@@ -1,0 +1,21 @@
+$MirOS$
+--- configure.in.orig	2004-02-18 12:25:18.000000000 +0000
++++ configure.in	2004-02-18 12:25:27.000000000 +0000
+@@ -139,8 +139,6 @@ else
+   GX_LIBS="$GTK_LIBS"
+ fi
+ 
+-CPPFLAGS="$CPPFLAGS -I$includedir -I$prefix/include"
+-
+ SUPPORT_LIBS=""
+ 
+ dnl Test for shared memory headers and semantics, unless we are
+@@ -231,7 +229,7 @@ fi
+ dnl Test for libtiff
+ AC_CHECK_LIB(tiff, TIFFReadScanline,
+   AC_CHECK_HEADER(tiffio.h,
+-    TIFFLIBS="-ltiff"
++    TIFFLIBS="-ltiff -ljpeg -lz"
+     SUPPORT_LIBS="$SUPPORT_LIBS -ltiff"; AC_DEFINE(HAVE_LIBTIFF),
+     AC_MSG_ERROR(*** TIFF header files not found ***)),
+   AC_CHECK_LIB(tiff, TIFFWriteScanline,

@@ -1,0 +1,5 @@
+@comment $MirOS$
+@pkgcfl db4-tcl-*
+lib/libdb_tcl.a
+lib/libdb_tcl.la
+%%SHARED%%

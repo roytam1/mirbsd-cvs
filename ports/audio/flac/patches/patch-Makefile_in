@@ -1,0 +1,12 @@
+$OpenBSD: patch-Makefile_in,v 1.2 2003/04/18 00:28:40 naddy Exp $
+--- Makefile.in.orig	Sat Jan 25 19:42:16 2003
++++ Makefile.in	Mon Feb 24 01:41:36 2003
+@@ -145,7 +145,7 @@ am__include = @am__include@
+ am__quote = @am__quote@
+ install_sh = @install_sh@
+ 
+-SUBDIRS = doc include man src test build flac.pbproj obj
++SUBDIRS = doc include man src test build flac.pbproj
+ 
+ DISTCLEANFILES = libtool-disable-static
+ 

@@ -1,0 +1,13 @@
+#!/bin/sh
+# $MirOS$
+
+USER=_slapd
+GROUP=_slapd
+
+echo "+---------------"
+echo "| To completely deinstall the $1 package you need to perform"
+echo "| these steps as root:"
+echo "| rm -rf /var/ldap"
+echo "+---------------"
+
+exit 0

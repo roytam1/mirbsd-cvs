@@ -1,0 +1,12 @@
+$MirOS$
+--- pico/pico.h.orig	Sun Jul 25 09:06:06 2004
++++ pico/pico.h	Sun Jul 25 09:06:07 2004
+@@ -412,7 +412,7 @@ extern	void	kbdestroy PROTO((KBESC_T *))
+  */
+ #ifdef	maindef
+ PICO	*Pmaster = NULL;		/* composer specific stuff */
+-char	*version = "4.8";		/* PICO version number */
++char	*version = "4.8L";		/* PICO version number */
+ 
+ #else
+ extern	PICO *Pmaster;			/* composer specific stuff */

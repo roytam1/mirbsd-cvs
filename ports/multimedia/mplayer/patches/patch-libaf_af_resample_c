@@ -1,0 +1,12 @@
+$MirOS$
+--- libaf/af_resample.c.orig	Sat Dec 18 17:55:10 2004
++++ libaf/af_resample.c	Sat Dec 18 17:55:13 2004
+@@ -199,7 +199,7 @@ static int control(struct af_instance_s*
+     if((s->setup & RSMP_MASK) == RSMP_LIN){
+       s->pt=0LL;
+       s->step=((uint64_t)n->rate<<STEPACCURACY)/(uint64_t)af->data->rate+1LL;
+-      af_msg(AF_MSG_DEBUG0,"[resample] Linear interpolation step: 0x%016X.\n",
++      af_msg(AF_MSG_DEBUG0,"[resample] Linear interpolation step: 0x%016llX.\n",
+ 	     s->step);
+       af->mul.n = af->data->rate;
+       af->mul.d = n->rate;

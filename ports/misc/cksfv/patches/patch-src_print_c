@@ -1,0 +1,12 @@
+$MirOS$
+--- src/print.c.orig	2004-03-06 21:19:46.000000000 +0000
++++ src/print.c	2004-03-06 21:19:58.000000000 +0000
+@@ -26,7 +26,7 @@
+ 
+ void pnsfv_head()
+ {
+-  clock_t       clock;
++  time_t	clock;
+   struct tm     *timeinfo;
+   
+   clock = time(NULL);

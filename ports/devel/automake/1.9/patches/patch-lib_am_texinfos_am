@@ -1,0 +1,12 @@
+$MirOS$
+--- lib/am/texinfos.am.orig	Tue Mar 15 20:41:27 2005
++++ lib/am/texinfos.am	Tue Mar 15 20:41:30 2005
+@@ -121,7 +121,7 @@ endif !%?SUBDIRS%
+ 
+ .PHONY: install-info-am
+ if %?LOCAL-TEXIS%
+-install-info-am: $(INFO_DEPS)
++install-info-am:
+ 	@$(NORMAL_INSTALL)
+ 	test -z "$(infodir)" || $(mkdir_p) "$(DESTDIR)$(infodir)"
+ 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \

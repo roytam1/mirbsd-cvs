@@ -1,0 +1,25 @@
+$MirOS$
+--- pine/osdep/os-bso.h.orig	Fri May 23 16:06:36 2003
++++ pine/osdep/os-bso.h	Sun Jul 25 09:31:35 2004
+@@ -256,7 +256,7 @@
+  in the user's home directory and have a number appended to them when
+  there is more than one.
+  ----*/
+-#define DEBUGFILE	".pine-debug"
++#define DEBUGFILE	".etc/pine-debug"
+ 
+ /*----------------------------------------------------------------------
+     The number of debug files to save in the user's home diretory. The files
+@@ -295,7 +295,10 @@
+ #define MAX_ADDR_EXPN   (1000)  /* Longest expanded addr                    */
+ #define MAX_ADDR_FIELD (10000)  /* Longest fully-expanded addr field        */
+ 
++/*
++ * File name used to store the user's server/id/password triple between
++ * session.  It is rooted in the same directory as the PINERC.
++ */
++#define	PASSFILE	"ssh/pine.pwd"
+ 
+ #endif /* _OS_INCLUDED */
+-
+-

@@ -1,0 +1,3 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.5 2003/12/14 00:52:22 naddy Exp $
+@lib lib/libogg.so.5.0

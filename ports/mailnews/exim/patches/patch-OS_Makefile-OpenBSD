@@ -1,0 +1,11 @@
+$MirOS$
+--- OS/Makefile-OpenBSD.orig	Sun Oct 10 17:53:25 2004
++++ OS/Makefile-OpenBSD	Sun Oct 10 17:53:36 2004
+@@ -2,7 +2,6 @@
+ 
+ CHOWN_COMMAND=/usr/sbin/chown
+ CHGRP_COMMAND=/usr/sbin/chgrp
+-CFLAGS=-O2 -Wall
+ 
+ HAVE_SA_LEN=YES
+ 

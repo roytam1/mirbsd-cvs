@@ -1,0 +1,20 @@
+$MirOS$
+--- src/Makefile.in.orig	2002-01-21 16:46:02.000000000 +0000
++++ src/Makefile.in	2004-05-29 18:59:53.000000000 +0000
+@@ -23,7 +23,7 @@ exec_prefix	= @exec_prefix@
+ bindir		= @bindir@
+ sbindir		= @sbindir@
+ mandir		= @mandir@
+-confdir		= @sysconfdir@
++confdir		= @localstatedir@/conf
+ sharedir	= @localstatedir@
+ filesdir	= @localstatedir@/files
+ usersdir	= @localstatedir@/users
+@@ -403,6 +403,7 @@ DIRS		= ${SRC_BINDIR} ${SRC_SBINDIR}
+ 
+ .PHONY: all
+ all: @ANSI2KNR_DEP@ config ${SBINS} ${BINS}
++all: ${SRC_CONFDIR}/bnetd.conf ${SRC_CONFDIR}/d2cs.conf ${SRC_CONFDIR}/d2dbs.conf
+ 
+ .PHONY: clean
+ clean:

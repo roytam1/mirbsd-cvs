@@ -1,0 +1,12 @@
+$MirOS$
+--- imap/src/dmail/dmail.c.orig	2004-05-11 16:02:39.000000000 +0000
++++ imap/src/dmail/dmail.c	2004-05-11 16:02:43.000000000 +0000
+@@ -33,7 +33,7 @@ extern int errno;		/* just in case */
+ 
+ /* Globals */
+ 
+-char *version = "2003(12)";	/* dmail release version */
++char *version = "2003(12)L";	/* dmail release version */
+ int debug = NIL;		/* debugging (don't fork) */
+ int flagseen = NIL;		/* flag message as seen */
+ int trycreate = NIL;		/* flag saying gotta create before appending */

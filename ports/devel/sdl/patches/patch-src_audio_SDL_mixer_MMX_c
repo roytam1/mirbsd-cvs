@@ -1,0 +1,45 @@
+$MirOS$
+--- src/audio/SDL_mixer_MMX.c.orig	Sat Feb  5 03:24:34 2005
++++ src/audio/SDL_mixer_MMX.c	Sat Feb  5 03:24:43 2005
+@@ -14,6 +14,7 @@
+ void SDL_MixAudio_MMX_S16(char* dst,char* src,unsigned int size,int volume)
+ {
+     __asm__ __volatile__ (
++"	pushl %%ebx\n"
+ 
+ "	movl %0,%%edi\n"	// edi = dst
+ "	movl %1,%%esi\n"	// esi = src
+@@ -102,10 +103,11 @@ void SDL_MixAudio_MMX_S16(char* dst,char
+ "	emms\n"
+ 
+ ".endS16:\n"
++"	popl %%ebx\n"
+ 	 :
+ 	 : "m" (dst), "m"(src),"m"(size),
+ 	 "m"(volume)
+-	 : "eax","ebx", "esi", "edi","memory"
++	 : "eax", "esi", "edi","memory"
+ 	 );
+ }
+ 
+@@ -119,6 +121,7 @@ void SDL_MixAudio_MMX_S8(char* dst,char*
+ {
+     __asm__ __volatile__ (
+ 
++"	pushl %%ebx\n"
+ "	movl %0,%%edi\n"	// edi = dst
+ "	movl %1,%%esi\n"	// esi = src
+ "	movl %3,%%eax\n"	// eax = volume
+@@ -175,10 +178,11 @@ void SDL_MixAudio_MMX_S8(char* dst,char*
+ 
+ ".endS8:\n"
+ "	emms\n"
++"	popl %%ebx\n"
+ 	 :
+ 	 : "m" (dst), "m"(src),"m"(size),
+ 	 "m"(volume)
+-	 : "eax","ebx", "esi", "edi","memory"
++	 : "eax", "esi", "edi","memory"
+ 	 );
+ }
+ #endif

@@ -1,0 +1,13 @@
+@comment $MirOS$
+@comment $OpenBSD: PLIST,v 1.2 2003/08/20 09:27:21 espie Exp $
+bin/dsircp
+bin/sirc
+bin/ssfe
+man/man1/sirc.1
+man/man1/ssfe.1
+share/sirc/PROGRAMMING
+share/sirc/README
+share/sirc/README.socks
+share/sirc/n0thing.pl
+share/sirc/sirc.help
+@dirrm share/sirc

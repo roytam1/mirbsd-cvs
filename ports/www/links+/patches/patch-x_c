@@ -1,0 +1,39 @@
+$MirOS$
+$OpenBSD: patch-x_c,v 1.6 2003/04/07 19:30:21 fgsch Exp $
+--- x.c.orig	2004-04-20 11:41:57.000000000 +0000
++++ x.c	2004-06-28 17:31:23.000000000 +0000
+@@ -629,7 +629,24 @@ static void x_process_events(void *data)
+ 				gd=x_find_gd(&(event.xkey.window));
+ 				if (!gd)break;
+ 				if (x_translate_key((XKeyEvent*)(&event),&k,&f))
+-					gd->keyboard_handler(gd,k,f);
++				{
++ 					if (k == KBD_INS && event.xkey.state & ShiftMask)
++					{
++						Atom pty;
++						if ((pty = XInternAtom(x_display, "XCLIP_OUT", False)))
++						{
++							XConvertSelection(
++								x_display,
++								XA_PRIMARY,
++								XA_STRING,
++								pty,
++								event.xbutton.window,
++								CurrentTime);
++						}
++					
++					} else
++						gd->keyboard_handler(gd,k,f);
++				}
+ 			}
+ 			break;
+ 	
+@@ -677,7 +694,7 @@ static void x_process_events(void *data)
+ 					break;
+ 
+ 					case 2:
+-					a=B_MIDDLE;
++					return; /* paste */
+ 					break;
+ 
+ 					default:

@@ -1,0 +1,463 @@
+$MirOS$
+--- dsirc.orig	Tue Mar 10 12:55:29 1998
++++ dsirc	Mon Aug 23 18:15:22 2004
+@@ -1,30 +1,40 @@
+-#!/usr/local/bin/perl
+-
+-# dsirc: dumb-mode small irc client in perl
++#!/usr/bin/perl
++# $MirOS$
++#-
++# dsircp: dumb-mode small irc client in perl
+ # by orabidoo <roger.espel.llima@pobox.com>
+ #
+ # Copyright (C) 1995-1997 Roger Espel Llima
++# Copyright (c) 2002-2003 Hubert Feyrer
++# Copyright (c) 2001-2004 Thorsten Glaser
+ #
+ # for a full-screen termcap interface, use this with ssfe
+ #
+-# use: dsirc [options] [nick [server[:port[:password]]]]
++# use: dsircp [options] [nick [server[:port[:password]]]]
+ # options are:
+ #	-p = specify port number
+ #	-i = specify IRCNAME
++#	-u = specify username (quite useless as an option)
+ #	-n = specify nickname (quite useless as an option)
+ #	-s = specify server (quite useless as an option)
+-#	-l = specify file to be loaded instead of ~/.sircrc.pl
+-#	-L = specify file to be loaded instead of ~/.sircrc
++#	-l = specify file to be loaded instead of ~/.etc/sircrc.pl
++#	-L = specify file to be loaded instead of ~/.etc/sircrc
+ #	-H = specify virtual host to bind to
+-#	-q = don't load ~/.sircrc or ~/.sircrc.pl
++#	-q = don't load ~/.etc/sircrc or ~/.etc/sircrc.pl
+ #	-Q = don't load system sircrc or sircrc.pl
+ #	-R = run in restricted (secure) mode
+ #	-r = raw mode (no control-char filtering)
+-#	-8 = 8-bit mode
++#	-8 = 8-bit mode (enabled by default, use -7 to disable)
++#	-7 = 7-bit (ISO_646.irv:1991) mode
++#	-U = non-UTF-8 (Unicode) mode
++#	-C = set local charset to optarg
++#	-X = set local charset to UTF-8
+ 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation. See the file LICENSE for more details.
++# The version of the GNU General Public License incorporated herein
++# shall be Version 2, June 1991.
+ #
+ # If you make improvements to sirc, please send me the modifications
+ # (context diffs appreciated) and they might make it to the next release.
+@@ -36,11 +46,11 @@
+ 
+ $version='2.211';
+ $date='10 Mar 1998';
+-$add_ons='';
++$add_ons='+[mirabile-p10]';
+ 
+-$libdir=$ENV{"SIRCLIB"} || ".";
+-push(@INC, $libdir, $ENV{"HOME"});
+-@loadpath=($ENV{"HOME"}."/.sirc", $libdir, ".");
++$libdir=$ENV{"SIRCLIB"} || "PREFIX.SED/share/sirc/";
++push(@INC, $libdir, $ENV{"HOME"}."/.etc/sirc");
++@loadpath=($ENV{"HOME"}."/.etc/sirc", $libdir, ".");
+ 
+ $|=1;
+ 
+@@ -52,6 +62,7 @@ even there! Have you even bothered to ru
+ }
+ 
+ if ($] >= 5 && (eval "use Socket;", $@ eq '')) {
++  use Socket6;
+ } elsif (-f "$libdir/sircsock.ph") {
+   do "$libdir/sircsock.ph";
+ } elsif (-f $ENV{'HOME'}."/sircsock.ph") {
+@@ -62,39 +73,44 @@ Your perl installation is wrong somewher
+ couldn't be found. Have you even bothered to run 'install'?\n";
+     exit;
+ }
++use Encode;
+ 
+-&Getopts('n:s:p:u:i:l:L:H:rqQR78');
++&Getopts('n:s:p:u:i:l:L:H:rqQR78UC:X');
+ 
+ %set=("LOGFILE", "", "LOG", "off", "PRINTUH", "none", "PRINTCHAN", "off",
+- 	"LOCALHOST", "", "CTCP", "noflood", "SENDAHEAD", 4096,
++ 	"LOCALHOST", "", "CTCP", "no", "SENDAHEAD", 4096,
+ 	"USERINFO", "", "FINGER", "", "IRCNAME", "", "EIGHT_BIT", "on",
+-	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next");
++	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next", "UTF", "on",
++	"CHARSET", "iso-8859-1");
+ 
+ $raw_mode=$opt_r || (!-t STDOUT);
+ $ansi=!$raw_mode && $ENV{"TERM"} =~ /^vt|^xterm|^ansi/i;
+ $server=$opt_s || $ARGV[1] || $ENV{"SIRCSERVER"} || $ENV{"IRCSERVER"} ||
+-                  "irc.primenet.com";
++		"irc.eu.freenode.net";
+ $port0=$opt_p || $ENV{"SIRCPORT"} || $ENV{"IRCPORT"} || 6667;
+ $username=$opt_u || $ENV{"SIRCUSER"} || $ENV{"IRCUSER"} || (getpwuid($<))[0] ||
+                 $ENV{"USER"} || "blah";
+-$set{"IRCNAME"}=$opt_i || $ENV{"SIRCNAME"} || $ENV{"IRCNAME"} || "sirc user";
++$set{"IRCNAME"}=$opt_i || $ENV{"SIRCNAME"} || $ENV{"IRCNAME"} || "/whois your father?";
+ $nick=$opt_n || $ARGV[0] || $ENV{"SIRCNICK"} || $ENV{"IRCNICK"} || $username;
+ $set{"FINGER"}=$ENV{"IRCFINGER"} || "keep your fingers to yourself";
+-$set{"USERINFO"}=$ENV{"USERINFO"} || "yep, I'm a user";
++$set{"USERINFO"}=$ENV{"USERINFO"} || "yep, I'm a happy MirBSD user";
+ ($server, $port, $pass)=split(/[\s:]+/, $server);
+ $port || ($port=$port0);
+ $server0=$server1=$server;
+-$initfile=$opt_l || $ENV{"SIRCRCPL"} || $ENV{'HOME'}."/.sircrc.pl" 
++$initfile=$opt_l || $ENV{"SIRCRCPL"} || $ENV{'HOME'}."/.etc/sircrc.pl"
+   if $opt_l || !$opt_q;
+ $sysinit=$libdir."/sircrc.pl" if $libdir ne '.' && !$opt_Q;
+-$rcfile=$opt_L || $ENV{"SIRCRC"} || $ENV{'HOME'}."/.sircrc" 
++$rcfile=$opt_L || $ENV{"SIRCRC"} || $ENV{'HOME'}."/.etc/sircrc"
+   if $opt_L || !$opt_q;
+ $sysrc=$libdir."/sircrc" if $libdir ne '.' && !$opt_Q;
+ $set{"LOGFILE"}=$logfile=$ENV{'HOME'}."/sirc.log";
+-$opt_8 || ($set{"EIGHT_BIT"}="off");
++$opt_7 && ($set{"EIGHT_BIT"}="off");
+ $restrict=$opt_R;
+ $set{"LOCALHOST"}=$opt_H || $ENV{"SIRCHOST"} || $ENV{"IRCHOST"} ||
+ 		$ENV{"LOCALHOST"} || "";
++$opt_U && ($set{"UTF"}="off");
++$opt_C && ($set{"CHARSET"}=$opt_C);
++$opt_X && ($set{"CHARSET"}="utf8");
+ 
+ if ($set{"LOCALHOST"}) {
+   $bindaddr=&resolve($set{"LOCALHOST"});
+@@ -148,7 +164,16 @@ sub resolve {
+   } elsif ($_[0] =~ /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/) {
+     return pack("c4", $1, $2, $3, $4);
+   } else {
+-    return (gethostbyname($_[0]))[4];
++      local $rc;
++
++      $rc = (gethostbyname2($_[0], AF_INET6))[4];
++
++      if ($rc) {
++	  $use_ipv6 = 1;
++	  return $rc;
++      } else {
++	  return (gethostbyname($_[0]))[4];
++      }
+   }
+ }
+ 
+@@ -162,19 +187,31 @@ sub connect {
+   local($fh, $host, $port)=@_;
+   local($adr, $otherend)=&resolve($host);
+   &tell("*\cbE\cb* Hostname `$host' not found"), return 0 unless $adr;
+-  $otherend=pack("S n a4 x8", &AF_INET, $port, $adr);
+-  &print("*\cbE\cb* Out of file descriptors"), return 0
+-    unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
+-  if ($set{"LOCALHOST"}) {
+-    bind($fh, pack("S n a4 x8", &AF_INET, 0, $bindaddr)) ||
+-      &tell("*\cbE\cb* Warning: can't bind to sirc host ".$set{'LOCALHOST'});
++  if ($use_ipv6) {
++      $otherend=pack_sockaddr_in6($port, $adr);
++      &print("*\cbE\cb* Out of file descriptors"), return 0
++	  unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
++  } else {
++      $otherend=pack_sockaddr_in($port, $adr);
++      &print("*\cbE\cb* Out of file descriptors"), return 0
++	  unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
+   }
++  if (! $use_ipv6) {
++      if ($set{"LOCALHOST"}) {
++	  bind($fh, pack("S n a4 x8", &AF_INET, 0, $bindaddr)) ||
++	      &tell("*\cbE\cb* Warning: can't bind to sirc host ".$set{'LOCALHOST'});
++      }
++  }
+   $trysock=$fh;
+   $SIG{'QUIT'}='sigquit';
+   &print("*\cbE\cb* Can't connect to host: $!"), close $fh,
+     $SIG{'QUIT'}='IGNORE', return 0 unless connect($fh, $otherend);
+   $SIG{'QUIT'}='IGNORE';
+-  $bindaddr=(unpack("S n a4", getsockname($fh)))[2] if !$bindaddr;
++  if ($use_ipv6) {
++      $bindaddr=(unpack_sockaddr_in6(getsockname($fh)))[2] if !$bindaddr;
++  } else {
++      $bindaddr=(unpack_sockaddr_in(getsockname($fh)))[2] if !$bindaddr;
++  }
+   select($fh); $|=1; select(STDOUT);
+   return 1;
+ }
+@@ -183,15 +220,26 @@ sub listen {
+   $_[0]=&newfh;
+   local($fh, $port)=@_;
+   local($thisend);
+-  $bindaddr=pack("x4", 0) unless $bindaddr;
+-  $thisend=pack("S n a4 x8", &AF_INET, $port+0, $bindaddr);
+-  &tell("*\cbE\cb* Out of file descriptors"), return 0
+-    unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
++  if ($use_ipv6) {
++      $bindaddr=pack_sockaddr_in6(0, 0) unless $bindaddr;
++      $thisend=pack_sockaddr_in6($port+0, $bindaddr);
++      &tell("*\cbE\cb* Out of file descriptors"), return 0
++	  unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
++  } else {
++      $bindaddr=pack_sockaddr_in(0, 0) unless $bindaddr;
++      $thisend=pack_sockaddr_in($port+0, $bindaddr);
++      &tell("*\cbE\cb* Out of file descriptors"), return 0
++	  unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
++  }
+   &tell("*\cbE\cb* Can't bind local socket!"), close $fh, return 0
+     unless bind($fh, $thisend);
+   &tell("*\cbE\cb* Can't listen to socket!"), close $fh, return
+     unless listen($fh, 5);
+-  return (unpack("S n", getsockname($fh)))[1];
++  if ($use_ipv6) {
++      return (unpack_sockaddr_in6(getsockname($fh)))[1];
++  } else {
++      return (unpack_sockaddr_in(getsockname($fh)))[1];
++  }
+ }
+ 
+ sub accept {
+@@ -200,7 +248,7 @@ sub accept {
+ }
+ 
+ sub bindtoserver {
+-  @channels=(); $talkchannel='';
++  @channels=(); $talkchannel=''; $use_ipv6=0;
+   %mode=(); $umode=''; %limit=(); %haveops=(); %chankey=(); $away='';
+   $listmin=0; $listmax=100000; $listpat='';
+   @waituh=(); @douh=(); @erruh=(); $invited='';
+@@ -223,8 +271,15 @@ sub gl {
+     return 1;
+   }
+   local($buf)='';
++  local($buf2)='';
+   if (sysread($_[0], $buf, 4096)) {
+-    $buffer{$_[0]}.=$buf;
++    if ($_[0] eq $S) {
++      $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
++      $buf2 .= Encode::decode("iso-8859-1", $buf, Encode::FB_QUIET);
++      $buffer{$_[0]} .= Encode::encode($set{"CHARSET"}, $buf2, 0);
++    } else {
++      $buffer{$_[0]} .= $buf;
++    }
+     if ($buffer{$_[0]} =~ /^([^\n\r]*)\r?\n\r?/) {
+       $buffer{$_[0]}=$';
+       $_=$1."\n";
+@@ -237,7 +292,19 @@ sub gl {
+ }
+ 
+ sub sl {
+-  &print("*\cbE\cb* Error writing to server: $!") unless print $S $_[0]."\n";
++  local($buf)=$_[0];
++  local($buf2)='';
++  local($buf3)='';
++  $buf2 .= Encode::decode($set{"CHARSET"}, $buf, Encode::FB_QUIET);
++  $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
++  $buf2 .= Encode::decode("iso-8859-1", $buf, Encode::FB_QUIET);
++  $buf2 .= Encode::decode("windows-1252", $buf, 0);
++  if ($set{"UTF"} ne 'off') {
++    $buf3 = Encode::encode("utf8", $buf2, 0);
++  } else {
++    $buf3 = Encode::encode("iso-8859-1", $buf2, 0);
++  }
++  &print("*\cbE\cb* Error writing to server: $!") unless print $S $buf3."\n";
+ }
+ 
+ sub dostatus {
+@@ -276,6 +343,8 @@ sub print {
+   &dohooks("print", $what);
+   return if $skip;
+   $what =~ s/\s+$//;
++  # windows-1252 and broken (not converted) utf-8 => latin-1
++#  $what =~ tr/\x80-\x9F/e ,f,.tT\^×S<ö Z  ''""·\-\-\~Ts>ö zÿ/;
+   # thanks to Toy (wacren@obspm.fr) for this translation
+   $what =~ tr/\x80-\xff/\x00-\x1f !cLxY|$_ca<\-\-R_o+23\'mp.,1o>123?AAAAAAACEEEEIIIIDNOOOOO*0UUUUYPBaaaaaaaceeeeiiiidnooooo:0uuuuypy/
+     if $set{"EIGHT_BIT"} ne 'on';
+@@ -348,7 +417,17 @@ sub dgsclose {
+ 
+ sub msg {
+   local($towho, $what)=@_;
+-  print "`#ssfe#t/m $towho \n" if $ssfe && !&eq($towho, $talkchannel);
++  if ($ssfe) {
++    local($x)=0;
++    if ($query) {
++      $x=1;
++    } elsif (!&eq($towho, $talkchannel)) {
++      $x=1;
++    }
++    if ($x) {
++      print "`#ssfe#t/m $towho \n";
++    }
++  }
+   if ($towho =~ s/^=//) {
+     local($n, $fh)=($towho);
+     $n =~ tr/A-Z/a-z/;
+@@ -537,6 +616,11 @@ sub doset {
+   } elsif ($var eq 'PRINTCHAN') {
+     $set{$var}="on", $printchan=1 if $val =~ /^on$/i;
+     $set{$var}="off", $printchan=0 if $val =~ /^off$/i;
++  } elsif ($var eq 'UTF') {
++    $set{$var}="on" if $val =~ /^on$/i;
++    $set{$var}="off" if $val =~ /^off$/i;
++  } elsif ($var eq 'CHARSET') {
++    $set{$var}=$val;
+   } elsif ($var eq 'CTCP') {
+     $val =~ tr/A-Z/a-z/;
+     $set{$var}=$val if $val =~ /^(none|all)$/;
+@@ -574,7 +658,7 @@ sub doset {
+     &restrict || return;
+     if ($val =~ /^on$/i) {
+       $logging && close LOG;
+-      if (open(LOG, 
++      if (open(LOG,
+ 	  ($logfile =~ /\.gz$/ ? "| gzip >> $logfile" : ">> $logfile"))) {
+ 	$logging=1;
+ 	$set{$var}="on";
+@@ -721,7 +805,7 @@ sub docommand {
+ 	&tell("*** $s is ".($set{$s} ne '' ? "set to $set{$s}" : "unset"));
+       }
+     }
+-  } elsif ($cmd eq 'NOTIFY' || $cmd eq 'N') {
++  } elsif ($cmd eq 'NOTIFY' || $cmd eq 'NO') {
+     if ($args eq '-') {
+       &tell("*** Notify list cleared");
+       %notify=();
+@@ -867,7 +951,7 @@ sub docommand {
+     } else {
+       &tell("*\cbE\cb* You must specify a nick or channel!");
+     }
+-  } elsif ($cmd eq 'QUERY' || $cmd eq 'Q') {
++  } elsif ($cmd eq 'QUERY') {
+     if ($args) {
+       $args =~ s/\s+$//;
+       $query=$args;
+@@ -918,9 +1002,9 @@ sub docommand {
+       &getarg;
+       if ($newarg) {
+ 	local($fh)=grep(&eq($dcnick{$_}, $n), keys(%dcnick));
+-	&tell("*\cbE\cb* No DCC CHAT established with $n"), return 
++	&tell("*\cbE\cb* No DCC CHAT established with $n"), return
+ 	  unless $fh;
+-	&tell("*\cbE\cb* DCC CHAT already established with $newarg"), return 
++	&tell("*\cbE\cb* DCC CHAT already established with $newarg"), return
+ 	  if grep(&eq($dcnick{$_}, $newarg), keys(%dcnick));
+ 	&tell("*\cbD\cb* DCC CHAT with $n renamed to $newarg");
+ 	$dcnick{$fh}=$newarg;
+@@ -974,7 +1058,7 @@ sub docommand {
+ 	  if (!$found && $dgrfh{$sfh}) {
+ 	    local($fh)=$dgrfh{$sfh};
+ 	    next if $args && ($args ne $dfile{$fh});
+-	    &dohooks("dcc_disconnect", $dnick{$sfh}, $dfile{$fh}, 
++	    &dohooks("dcc_disconnect", $dnick{$sfh}, $dfile{$fh},
+ 		$dtransferred{$sfh}, time-$dstarttime{$fh});
+ 	    &tell("*\cbE\cb* Closing DCC GET connection with $newarg");
+ 	    $found=1;
+@@ -999,7 +1083,7 @@ sub docommand {
+ 	  if ($newarg eq '' || $dfile{$fh} =~ /^${newarg}$/ ||
+ 	      $dfile{$fh} =~ /\/${newarg}$/) {
+ 	    &tell("*\cbD\cb* DCC SEND connection with $n closed");
+-	    &dohooks("dcc_disconnect", $dnick{$sfh}, $dfile{$fh}, 
++	    &dohooks("dcc_disconnect", $dnick{$sfh}, $dfile{$fh},
+ 		$dtransferred{$sfh}, time-$dstarttime{$fh});
+ 	    close($sfh);
+ 	    close($fh);
+@@ -1122,7 +1206,7 @@ sub docommand {
+     }
+   } elsif ($cmd eq 'SAY' || $cmd eq '') {
+     &say($args);
+-  } elsif ($cmd eq 'NOTICE' || $cmd eq 'NO') {
++  } elsif ($cmd eq 'NOTICE' || $cmd eq 'N') {
+     &dosplat;
+     if ($args) {
+       ($newarg, $args)=split(/ /, $args, 2);
+@@ -1183,7 +1267,7 @@ sub docommand {
+     } else {
+       &tell("*\cbE\cb* You must specify a nick or channel!");
+     }
+-  } elsif ($cmd eq 'PING' || $cmd eq 'P') {
++  } elsif ($cmd eq 'PING') {
+     &dosplat;
+     if ($args) {
+       &getarg;
+@@ -1194,7 +1278,7 @@ sub docommand {
+     } else {
+       &tell("*\cbE\cb* You must specify a nick or channel!");
+     }
+-  } elsif ($cmd eq 'ME') {
++  } elsif ($cmd eq 'ME' || $cmd eq 'D') {
+     if ($talkchannel) {
+       &describe($talkchannel, $args);
+     } else {
+@@ -1212,7 +1296,7 @@ sub docommand {
+     } else {
+       &sl("TOPIC $c");
+     }
+-  } elsif ($cmd eq 'LEAVE' || $cmd eq 'PART' || $cmd eq 'HOP') {
++  } elsif ($cmd eq 'PART' || $cmd eq 'P') {
+     &dosplat;
+     $args=$talkchannel if $args eq '';
+     &sl("PART $args");
+@@ -1222,7 +1306,7 @@ sub docommand {
+     } else {
+       &tell("*\cbE\cb* Not on a channel");
+     }
+-  } elsif ($cmd eq 'O' || $cmd eq 'OP') {
++  } elsif ($cmd eq 'OP') {
+     local($c, $n, $l)=($talkchannel, 0, '');
+     &getarg, $c=$newarg if ($args =~ /^[\#\&\+]/);
+     local(@ppl)=split(/ +/, $args);
+@@ -1237,7 +1321,7 @@ sub docommand {
+       }
+     }
+     $l && &sl("MODE $c +oooo $l");
+-  } elsif ($cmd eq 'D' || $cmd eq 'DEOP') {
++  } elsif ($cmd eq 'DEOP') {
+     local($c, $n, $l)=($talkchannel, 0, '');
+     &getarg, $c=$newarg if ($args =~ /^[\#\&\+]/);
+     local(@ppl)=split(/ +/, $args);
+@@ -1252,9 +1336,9 @@ sub docommand {
+       }
+     }
+     $l && &sl("MODE $c -oooo $l");
+-  } elsif ($cmd eq 'W' || $cmd eq 'WHOIS') {
++  } elsif ($cmd eq 'WI' || $cmd eq 'WHOIS') {
+     &sl($args eq '' ? "WHOIS $nick" : "WHOIS $args");
+-  } elsif ($cmd eq 'WI') {
++  } elsif ($cmd eq 'W') {
+     &getarg;
+     $newarg=$nick if $newarg eq '';
+     &sl("WHOIS $newarg $newarg");
+@@ -1277,7 +1361,7 @@ sub docommand {
+     } else {
+       &sl("JOIN $args");
+     }
+-  } elsif ($cmd eq 'QUOTE') {
++  } elsif ($cmd eq 'QUOTE' || $cmd eq 'Q') {
+     $args ne '' && &sl($args);
+   } elsif ($cmd eq 'UMODE') {
+     &sl("MODE $nick $args");
+@@ -1611,7 +1695,7 @@ sub dorcfile {
+ }
+ 
+ sub loadrc {
+-  $rcloaded=1; 
++  $rcloaded=1;
+   $sysrc && &dorcfile($sysrc);
+   $rcfile && &dorcfile($rcfile);
+ }
+@@ -2127,8 +2211,8 @@ while (1) {
+ 	$talkchannel && !$ssfe && &tell("*** Talking to $talkchannel now");
+ 	&dostatus;
+       } else {
+-	&dohooks("leave", $newarg);
+-	&tell("*\cb<\cb* $who$puh2 has left channel $newarg");
++	&dohooks("leave", $newarg, $args);
++	&tell("*\cb<\cb* $who$puh2 has left channel $newarg ($args)");
+       }
+     } elsif ($cmd eq 'JOIN') {
+       &yetonearg;
+@@ -2205,4 +2289,3 @@ while (1) {
+     }
+   }
+ }
+-

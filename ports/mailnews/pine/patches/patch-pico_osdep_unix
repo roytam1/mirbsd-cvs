@@ -1,0 +1,22 @@
+$MirOS$
+--- pico/osdep/unix.orig	Sat Sep 18 22:56:21 2004
++++ pico/osdep/unix	Sat Sep 18 22:58:12 2004
+@@ -2717,7 +2717,9 @@ int  *n;
+ 	return(NULL);
+     } 
+     else{
++#ifndef MAX
+ #define MAX(x,y)        ((x) > (y) ? (x) : (y))
++#endif
+ 	/*
+ 	 * We'd like to use 512 * st_blocks as an initial estimate but
+ 	 * some systems have a stat struct with no st_blocks in it.
+@@ -3677,7 +3679,7 @@ pico_new_mail()
+       sprintf(inbox, "%.*s", sizeof(inbox)-1, p);
+     else
+       sprintf(inbox,"%.*s/%.*s", sizeof(inbox)/3, MAILDIR, sizeof(inbox)/3,
+-	      getlogin());
++	      (char *) getlogin());
+ 
+     if(stat(inbox, &sbuf) == 0){
+ 	ret = sbuf.st_atime <= sbuf.st_mtime &&

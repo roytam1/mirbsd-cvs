@@ -1,0 +1,13 @@
+$OpenBSD: patch-bitlbee_h,v 1.2 2003/10/16 15:00:17 naddy Exp $
+Use a more usefull name for the server
+--- bitlbee.h.orig	2003-10-15 14:42:47.000000000 +0200
++++ bitlbee.h	2003-10-15 15:56:58.000000000 +0200
+@@ -51,7 +51,7 @@
+ 
+ #define _( x ) x
+ 
+-#define ROOT_NICK "root"
++#define ROOT_NICK "bitlbee"
+ #define ROOT_CHAN "#bitlbee"
+ #define ROOT_FN "User manager"
+ 

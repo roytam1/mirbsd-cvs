@@ -1,0 +1,13 @@
+$MirOS$
+$OpenBSD: patch-ext_calendar_calendar_c,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
+--- ext/calendar/calendar.c.orig	Mon Oct 11 06:39:58 2004
++++ ext/calendar/calendar.c	Sat Feb 12 18:09:09 2005
+@@ -300,7 +300,7 @@ PHP_FUNCTION(cal_from_jd)
+ 
+ 	calendar->from_jd(jd, &year, &month, &day);
+ 
+-	sprintf(date, "%i/%i/%i", month, day, year);
++	snprintf(date, sizeof date, "%i/%i/%i", month, day, year);
+ 	add_assoc_string(return_value, "date", date, 1);
+ 
+ 	add_assoc_long(return_value, "month", month);

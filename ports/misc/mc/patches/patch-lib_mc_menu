@@ -1,0 +1,50 @@
+$MirOS$
+--- lib/mc.menu.orig	Fri Oct 15 18:02:52 2004
++++ lib/mc.menu	Fri Oct 15 18:05:41 2004
+@@ -1,5 +1,37 @@
+ shell_patterns=0
++= t r
++c       Diff current file to CVS
++	cvs -Rq diff -du %f 2>&1 | less
++
++= t r
++C       Diff current file to baseline CVS
++	cvs -Rq diff -dur1.1.1 %f 2>&1 | less
++
++= t r
++e       Edit current revision diff against baserev
++	ksh /usr/src/scripts/editdiff %f
++
++= t r
++E       Edit current revision diff against any rev
++	ksh /usr/src/scripts/editdiff %f ask
++
++l       Show CVS log of file
++	cvs -Rq log %f | less
++
+++ t r & ! t t
++u       Diff file against opposite
++	diff -du %f %D/%F 2>&1 | less
++
++= t d
++U       Diff dir against opposite
++	diff -du . %D 2>&1 | grep -v "^Only in " | less
++
++= t r
+ + ! t t
++R       Reverse CVS problem
++	mv ".#%f".[0-9]* "%f"
++
+++ ! t t
+ @       Do something on the current file
+ 	CMD=%{Enter command}
+ 	$CMD %f
+@@ -20,7 +52,7 @@ shell_patterns=0
+ 
+ =+ f \.1$ | f \.3$ | f \.4$ | f \.5$ | f \.6$ | f \.7$ | f \.8$ | f \.man$ & t r
+ 1       Display the file with roff -man
+-	nroff -man %f | less
++	nrcon -man %f | less
+ 
+ 2       Call the info hypertext browser
+         info

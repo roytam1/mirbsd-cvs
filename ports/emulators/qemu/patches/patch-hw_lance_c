@@ -1,0 +1,81 @@
+$MirOS$
+--- hw/lance.c.orig	Thu Feb 17 18:48:39 2005
++++ hw/lance.c	Thu Feb 17 18:50:07 2005
+@@ -300,10 +300,10 @@ static int lance_can_receive(void *opaqu
+     if ((s->regs[LE_CSR0] & LE_C0_STOP) == LE_C0_STOP)
+ 	return 0;
+ 
+-    ib = (void *) iommu_translate(dmaptr);
++    ib = (void *) iommu_translate((long)dmaptr);
+ 
+     for (i = 0; i < RX_RING_SIZE; i++) {
+-	cpu_physical_memory_read(&ib->brx_ring[i].rmd1_bits, (void *) &temp, 1);
++	cpu_physical_memory_read((long)&ib->brx_ring[i].rmd1_bits, (void *) &temp, 1);
+ 	temp &= 0xff;
+ 	if (temp == (LE_R1_OWN)) {
+ #ifdef DEBUG_LANCE
+@@ -331,25 +331,25 @@ static void lance_receive(void *opaque, 
+     if ((s->regs[LE_CSR0] & LE_C0_STOP) == LE_C0_STOP)
+ 	return;
+ 
+-    ib = (void *) iommu_translate(dmaptr);
++    ib = (void *) iommu_translate((long)dmaptr);
+ 
+     old_rxptr = rxptr;
+     for (i = rxptr; i != ((old_rxptr - 1) & RX_RING_MOD_MASK); i = (i + 1) & RX_RING_MOD_MASK) {
+-	cpu_physical_memory_read(&ib->brx_ring[i].rmd1_bits, (void *) &temp, 1);
++	cpu_physical_memory_read((long)&ib->brx_ring[i].rmd1_bits, (void *) &temp, 1);
+ 	if (temp == (LE_R1_OWN)) {
+ 	    rxptr = (rxptr + 1) & RX_RING_MOD_MASK;
+ 	    temp = size;
+ 	    bswap16s(&temp);
+-	    cpu_physical_memory_write(&ib->brx_ring[i].mblength, (void *) &temp, 2);
++	    cpu_physical_memory_write((long)&ib->brx_ring[i].mblength, (void *) &temp, 2);
+ #if 0
+ 	    cpu_physical_memory_write(&ib->rx_buf[i], buf, size);
+ #else
+ 	    for (j = 0; j < size; j++) {
+-		cpu_physical_memory_write(((void *)&ib->rx_buf[i]) + j, &buf[j], 1);
++		cpu_physical_memory_write((long)((void *)&ib->rx_buf[i]) + j, &buf[j], 1);
+ 	    }
+ #endif
+ 	    temp = LE_R1_POK;
+-	    cpu_physical_memory_write(&ib->brx_ring[i].rmd1_bits, (void *) &temp, 1);
++	    cpu_physical_memory_write((long)&ib->brx_ring[i].rmd1_bits, (void *) &temp, 1);
+ 	    s->regs[LE_CSR0] |= LE_C0_RINT | LE_C0_INTR;
+ 	    if ((s->regs[LE_CSR0] & LE_C0_INTR) && (s->regs[LE_CSR0] & LE_C0_INEA))
+ 		pic_set_irq(s->irq, 1);
+@@ -373,20 +373,20 @@ static void lance_send(void *opaque)
+     if ((s->regs[LE_CSR0] & LE_C0_STOP) == LE_C0_STOP)
+ 	return;
+ 
+-    ib = (void *) iommu_translate(dmaptr);
++    ib = (void *) iommu_translate((long)dmaptr);
+ 
+     old_txptr = txptr;
+     for (i = txptr; i != ((old_txptr - 1) & TX_RING_MOD_MASK); i = (i + 1) & TX_RING_MOD_MASK) {
+-	cpu_physical_memory_read(&ib->btx_ring[i].tmd1_bits, (void *) &temp, 1);
++	cpu_physical_memory_read((long)&ib->btx_ring[i].tmd1_bits, (void *) &temp, 1);
+ 	if (temp == (LE_T1_POK|LE_T1_OWN)) {
+-	    cpu_physical_memory_read(&ib->btx_ring[i].length, (void *) &temp, 2);
++	    cpu_physical_memory_read((long)&ib->btx_ring[i].length, (void *) &temp, 2);
+ 	    bswap16s(&temp);
+ 	    temp = (~temp) + 1;
+ #if 0
+ 	    cpu_physical_memory_read(&ib->tx_buf[i], pkt_buf, temp);
+ #else
+ 	    for (j = 0; j < temp; j++) {
+-		cpu_physical_memory_read(((void *)&ib->tx_buf[i]) + j, &pkt_buf[j], 1);
++		cpu_physical_memory_read((long)((void *)&ib->tx_buf[i]) + j, &pkt_buf[j], 1);
+ 	    }
+ #endif
+ 
+@@ -395,7 +395,7 @@ static void lance_send(void *opaque)
+ #endif
+ 	    qemu_send_packet(s->nd, pkt_buf, temp);
+ 	    temp = LE_T1_POK;
+-	    cpu_physical_memory_write(&ib->btx_ring[i].tmd1_bits, (void *) &temp, 1);
++	    cpu_physical_memory_write((long)&ib->btx_ring[i].tmd1_bits, (void *) &temp, 1);
+ 	    txptr = (txptr + 1) & TX_RING_MOD_MASK;
+ 	    s->regs[LE_CSR0] |= LE_C0_TINT | LE_C0_INTR;
+ 	}

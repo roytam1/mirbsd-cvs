@@ -1,0 +1,7 @@
+@comment $MirOS$
+include/ltdl.h
+lib/libltdl.a
+lib/libltdl.la
+share/libtool/ltdl.m4
+%%SHARED%%
+@dirrm share/libtool

@@ -1,0 +1,21 @@
+$MirOS$
+--- ext/ftp/ftp.c.orig	Sun Feb 13 02:47:24 2005
++++ ext/ftp/ftp.c	Sun Feb 13 02:47:54 2005
+@@ -1007,6 +1007,7 @@ ftp_mdtm(ftpbuf_t *ftp, const char *path
+ 	struct tm	tm;
+ 	char		*ptr;
+ 	int		n;
++	int		y;
+ 
+ 	if (ftp == NULL) {
+ 		return -1;
+@@ -1019,7 +1020,8 @@ ftp_mdtm(ftpbuf_t *ftp, const char *path
+ 	}
+ 	/* parse out the timestamp */
+ 	for (ptr = ftp->inbuf; *ptr && !isdigit(*ptr); ptr++);
+-	n = sscanf(ptr, "%4u%2u%2u%2u%2u%2u", &tm.tm_year, &tm.tm_mon, &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
++	n = sscanf(ptr, "%4u%2u%2u%2u%2u%2u", &y, &tm.tm_mon, &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
++	tm.tm_year = y;
+ 	if (n != 6) {
+ 		return -1;
+ 	}

@@ -1,0 +1,115 @@
+@comment $OpenBSD: PLIST,v 1.13 2003/12/20 19:51:26 naddy Exp $
+bin/GET
+bin/HEAD
+bin/POST
+bin/lwp-download
+bin/lwp-mirror
+bin/lwp-request
+bin/lwp-rget
+${P5SITE}/Bundle/LWP.pm
+${P5SITE}/File/Listing.pm
+${P5SITE}/HTML/Form.pm
+${P5SITE}/HTTP/Cookies.pm
+${P5SITE}/HTTP/Cookies/Microsoft.pm
+${P5SITE}/HTTP/Cookies/Netscape.pm
+${P5SITE}/HTTP/Daemon.pm
+${P5SITE}/HTTP/Date.pm
+${P5SITE}/HTTP/Headers.pm
+${P5SITE}/HTTP/Headers/Auth.pm
+${P5SITE}/HTTP/Headers/ETag.pm
+${P5SITE}/HTTP/Headers/Util.pm
+${P5SITE}/HTTP/Message.pm
+${P5SITE}/HTTP/Negotiate.pm
+${P5SITE}/HTTP/Request.pm
+${P5SITE}/HTTP/Request/Common.pm
+${P5SITE}/HTTP/Response.pm
+${P5SITE}/HTTP/Status.pm
+${P5SITE}/LWP.pm
+${P5SITE}/LWP/Authen/Basic.pm
+${P5SITE}/LWP/Authen/Digest.pm
+${P5SITE}/LWP/Authen/Ntlm.pm
+${P5SITE}/LWP/ConnCache.pm
+${P5SITE}/LWP/Debug.pm
+${P5SITE}/LWP/DebugFile.pm
+${P5SITE}/LWP/MediaTypes.pm
+${P5SITE}/LWP/MemberMixin.pm
+${P5SITE}/LWP/Protocol.pm
+${P5SITE}/LWP/Protocol/GHTTP.pm
+${P5SITE}/LWP/Protocol/data.pm
+${P5SITE}/LWP/Protocol/file.pm
+${P5SITE}/LWP/Protocol/ftp.pm
+${P5SITE}/LWP/Protocol/gopher.pm
+${P5SITE}/LWP/Protocol/http.pm
+${P5SITE}/LWP/Protocol/http10.pm
+${P5SITE}/LWP/Protocol/https.pm
+${P5SITE}/LWP/Protocol/https10.pm
+${P5SITE}/LWP/Protocol/mailto.pm
+${P5SITE}/LWP/Protocol/nntp.pm
+${P5SITE}/LWP/Protocol/nogo.pm
+${P5SITE}/LWP/RobotUA.pm
+${P5SITE}/LWP/Simple.pm
+${P5SITE}/LWP/UserAgent.pm
+${P5SITE}/LWP/media.types
+${P5SITE}/Net/HTTP.pm
+${P5SITE}/Net/HTTP/Methods.pm
+${P5SITE}/Net/HTTP/NB.pm
+${P5SITE}/Net/HTTPS.pm
+${P5SITE}/WWW/RobotRules.pm
+${P5SITE}/WWW/RobotRules/AnyDBM_File.pm
+@comment ${P5ARCH}/auto/libwww-perl/.packlist
+${P5SITE}/lwpcook.pod
+${P5SITE}/lwptut.pod
+man/man1/GET.1
+man/man1/HEAD.1
+man/man1/POST.1
+man/man1/lwp-download.1
+man/man1/lwp-mirror.1
+man/man1/lwp-request.1
+man/man1/lwp-rget.1
+man/man3/Bundle::LWP.3p
+man/man3/File::Listing.3p
+man/man3/HTML::Form.3p
+man/man3/HTTP::Cookies.3p
+man/man3/HTTP::Cookies::Microsoft.3p
+man/man3/HTTP::Cookies::Netscape.3p
+man/man3/HTTP::Daemon.3p
+man/man3/HTTP::Date.3p
+man/man3/HTTP::Headers.3p
+man/man3/HTTP::Headers::Util.3p
+man/man3/HTTP::Message.3p
+man/man3/HTTP::Negotiate.3p
+man/man3/HTTP::Request.3p
+man/man3/HTTP::Request::Common.3p
+man/man3/HTTP::Response.3p
+man/man3/HTTP::Status.3p
+man/man3/LWP.3p
+man/man3/LWP::Authen::Ntlm.3p
+man/man3/LWP::ConnCache.3p
+man/man3/LWP::Debug.3p
+man/man3/LWP::DebugFile.3p
+man/man3/LWP::MediaTypes.3p
+man/man3/LWP::MemberMixin.3p
+man/man3/LWP::Protocol.3p
+man/man3/LWP::RobotUA.3p
+man/man3/LWP::Simple.3p
+man/man3/LWP::UserAgent.3p
+man/man3/Net::HTTP.3p
+man/man3/Net::HTTP::NB.3p
+man/man3/WWW::RobotRules.3p
+man/man3/WWW::RobotRules::AnyDBM_File.3p
+man/man3/lwpcook.3p
+man/man3/lwptut.3p
+@comment @dirrm ${P5ARCH}/auto/libwww-perl
+@dirrm ${P5SITE}/WWW/RobotRules
+@dirrm ${P5SITE}/WWW
+@dirrm ${P5SITE}/Net/HTTP
+@dirrm ${P5SITE}/Net
+@dirrm ${P5SITE}/LWP/Protocol
+@dirrm ${P5SITE}/LWP/Authen
+@dirrm ${P5SITE}/LWP
+@dirrm ${P5SITE}/HTTP/Request
+@dirrm ${P5SITE}/HTTP/Headers
+@dirrm ${P5SITE}/HTTP/Cookies
+@dirrm ${P5SITE}/HTTP
+@dirrm ${P5SITE}/File
+@dirrm ${P5SITE}/Bundle

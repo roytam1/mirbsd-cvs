@@ -1,0 +1,17 @@
+$MirOS$
+$OpenBSD: patch-pico_pico_c,v 1.2 2003/10/05 21:42:29 jakob Exp $
+--- pico/pico.c.orig	Mon Jul 12 22:16:44 2004
++++ pico/pico.c	Sun Jul 25 08:53:45 2004
+@@ -855,8 +855,11 @@ stripwhitespace()
+     LINE *cur_line = lforw(curbp->b_linep);
+ 
+     do{
++      /* test for lines starting with space or dash (patches) */
++      if(!(cur_line->l_used && (isspace(lgetc(cur_line, 0).c)
++	   || lgetc(cur_line, 0).c == '-'))
+       /* we gotta test for the sigdash case here */
+-      if(!(cur_line->l_used == 3 && 
++	   || !(cur_line->l_used == 3 && 
+ 	   lgetc(cur_line, 0).c == '-' &&
+ 	   lgetc(cur_line, 1).c == '-' &&
+ 	   lgetc(cur_line, 2).c == ' '))

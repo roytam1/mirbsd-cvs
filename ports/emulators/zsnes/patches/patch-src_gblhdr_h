@@ -1,0 +1,13 @@
+--- src/gblhdr.h.orig	Tue Jun 25 05:25:37 2002
++++ src/gblhdr.h	Tue Jun 25 05:25:43 2002
+@@ -70,9 +70,7 @@
+ 
+ // unistd.h stuff
+ 
+-	//#if HAVE_UNISTD_H
+-	//Small hack for now
+-	#if unix
++	#if HAVE_UNISTD_H
+ 	#include <sys/types.h>
+ 	#include <unistd.h>
+ 	#endif

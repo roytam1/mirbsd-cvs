@@ -1,0 +1,4 @@
+@comment $MirOS$
+@comment $OpenBSD: PFRAG.shared,v 1.4 2003/12/24 00:08:02 brad Exp $
+@lib lib/libcharset.so.1.0
+@lib lib/libiconv.so.4.0
