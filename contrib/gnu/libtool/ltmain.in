@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.8 2005/02/10 21:57:51 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.9 2005/02/10 22:03:25 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -1524,7 +1524,7 @@ EOF
 	continue
 	;;
 
-     -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe)
+     -mt|-mthreads|-kthread|-Kthread|-pthreads|--thread-safe)
 	compiler_flags="$compiler_flags $arg"
 	continue
 	;;
@@ -1596,6 +1596,12 @@ EOF
 
       -precious-files-regex)
 	prev=precious_regex
+	continue
+	;;
+
+     -pthread)
+	compiler_flags="$compiler_flags $arg"
+	deplibs="$deplibs $arg"
 	continue
 	;;
 
