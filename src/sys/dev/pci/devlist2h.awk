@@ -1,5 +1,5 @@
 #! /usr/bin/awk -f
-#	$MirOS$
+#	$MirOS: src/sys/dev/pci/devlist2h.awk,v 1.2 2005/03/14 21:04:47 tg Exp $
 #	$OpenBSD: devlist2h.awk,v 1.6 2001/01/27 01:19:11 deraadt Exp $
 #	$NetBSD: devlist2h.awk,v 1.2 1996/01/22 21:08:09 cgd Exp $
 #
@@ -40,8 +40,8 @@ NR == 1 {
 	VERSION = $0
 	gsub("\\$", "", VERSION)
 
-	printf("/*\t\$MirOS\$\t*/\n\n") > dfile
-	printf("/*\n") > dfile
+	printf("/* \$MirOS\$ */\n\n") > dfile
+	printf("/*-\n") > dfile
 	printf(" * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.\n") \
 	    > dfile
 	printf(" *\n") > dfile
@@ -49,8 +49,8 @@ NR == 1 {
 	printf(" *\t%s\n", VERSION) > dfile
 	printf(" */\n") > dfile
 
-	printf("/*\t\$MirOS\$\t*/\n\n") > hfile
-	printf("/*\n") > hfile
+	printf("/* \$MirOS\$ */\n\n") > hfile
+	printf("/*-\n") > hfile
 	printf(" * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.\n") \
 	    > hfile
 	printf(" *\n") > hfile
