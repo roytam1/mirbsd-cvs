@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.6 2005/02/10 21:11:13 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.7 2005/02/10 21:14:14 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -5761,7 +5761,7 @@ relink_command=\"$relink_command\""
 	fi
 
 	# remove .exe since cygwin /usr/bin/install will append another
-	# one anyways
+	# one anyway
 	case $install_prog,$host in
 	*/usr/bin/install*,*cygwin*)
 	  case $file:$destfile in
