@@ -1,0 +1,40 @@
+# $MirOS$
+
+  SUBDIR+= boehm-gc
+  SUBDIR+= fastjar
+  SUBDIR+= gcc
+  SUBDIR+= libada
+  SUBDIR+= libffi
+  SUBDIR+= libobjc
+
+prereq: _SUBDIRUSE
+
+.if make(install)
+  SKIPDIR+= boehm-gc
+  SKIPDIR+= libada
+  SKIPDIR+= libffi
+.endif
+
+.ifdef NO_ADA
+  SKIPDIR+= libada
+.endif
+
+.if defined(NO_OBJC) && defined(NO_JAVA)
+  SKIPDIR+= boehm-gc
+.endif
+
+.ifdef NO_OBJC
+  SKIPDIR+= libobjc
+.endif
+
+.ifdef NO_JAVA
+  SKIPDIR+= fastjar
+  SKIPDIR+= libffi
+.endif
+
+.if defined(SUBONLY) && !empty(SUBONLY)
+  SUBDIR:= ${SUBONLY}
+.endif
+
+.include <bsd.obj.mk>
+.include <bsd.subdir.mk>
