@@ -1,6 +1,6 @@
 divert(-1)#                                                  -*- Autoconf -*-
 # This file is part of Autoconf.
-# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.1 2005/02/10 19:34:36 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.2 2005/02/11 00:37:33 tg Exp $
 # Base M4 layer.
 # Hacked for MirOS m4.
 # Copyright 1999, 2000, 2001, 2005
@@ -130,7 +130,7 @@ m4_rename_m4([dumpdef])
 m4_rename_m4([errprint])
 m4_rename_m4([esyscmd])
 
-m4_define([m4_eval], [builtin([expr], $@)])
+m4_define([m4_eval], [builtin([eval], $@)])
 
 m4_rename_m4([format])
 m4_rename_m4([ifdef])
