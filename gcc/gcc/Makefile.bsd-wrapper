@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.5 2005/03/26 00:06:38 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.6 2005/03/26 19:54:18 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -53,6 +53,7 @@ XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		extrapartsdir='/usr/lib' BOOT_CFLAGS="${BOOT_CFLAGS}" \
 		CFLAGS="${FSFCFLAGS}" GNATLIBCFLAGS="${BOOT_CFLAGS}" \
 		HOST_CC="${HOSTCC}" HOST_CFLAGS="${HOSTCFLAGS}" \
+		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB" \
 		LIBGCC2_DEBUG_CFLAGS="${FSFCFLAGS}"
 
 CFARGS+=	--prefix=/usr --libexecdir=/usr/lib --infodir=/usr/share/info \
