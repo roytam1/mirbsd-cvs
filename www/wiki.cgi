@@ -1,9 +1,10 @@
 #!/usr/bin/perl
-# $MirOS: www/wiki.cgi,v 1.34 2004/11/08 14:11:18 tg Exp $
+# $MirOS: www/wiki.cgi,v 1.2 2005/02/05 22:43:35 tg Exp $
 #
 # MirOS Wiki
-# Copyright (c) 2004
-#	Thorsten Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#
 # Based upon UseModWiki version 1.0 (September 12, 2003)
 # Copyright (C) 2000-2003 Clifford A. Adams  <caadams@usemod.com>
 # Copyright (C) 2002-2003 Sunir Shah  <sunir@sunir.org>
@@ -1710,7 +1711,7 @@ sub CommonMarkup {
     if ($HtmlLinks) {
       s/\&lt;A(\s[^<>]+?)\&gt;(.*?)\&lt;\/a\&gt;/&StoreHref($1, $2)/gise;
     }
-    s/([A-Za-z][A-Za-z0-9_-]*)\((\d)\)/&StoreHref(
+    s/([A-Za-z][.A-Za-z0-9_-]*)\((\d)\)/&StoreHref(
       " href=\"\/man" . $2 . "\/" . $1 . ".htm\"", $1 . "(" . $2 . ")")/gise;
     if ($FreeLinks) {
       # Consider: should local free-link descriptions be conditional?
