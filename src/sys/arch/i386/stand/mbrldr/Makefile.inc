@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/bootsys/i386/mbrldr/Makefile.inc,v 1.1.7.1 2005/03/06 16:33:40 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/mbrldr/Makefile.inc,v 1.1 2005/03/14 22:12:39 tg Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MBRLDR_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MBRLDR_MAKEFILE_INC=1
@@ -17,9 +17,26 @@ all: mbrcode.h
 
 mbrcode.h: ${PROG}
 	print '/* $$Mir''BSD$$ */\n/*-\n * Automatically' \
-	    'generated, do not edit!\n * mbrldr Version' \
+	    'generated, do not edit!\n * ${PROG} Version' \
 	    '${V} for ${MACHINE}\n */' >$@
 	hexdump -ve '8/1 "0x%02X, " "\n"' ${.ALLSRC} >>$@
+
+.if defined(INSTALL_BIN)
+${PROG}: ${OBJS} ${DPADD}
+	${LD} ${LDFLAGS} -o ${PROG} ${OBJS} ${LDADD}
+	@size ${PROG}
+	@cp ${PROG} ${PROG}.elf
+	objcopy -O binary ${PROG} ${PROG}.bin
+.  if ${INSTALL_BIN:L} == "yes"
+	@cp ${PROG}.bin ${PROG}
+	@ls -l ${.OBJDIR}/${PROG}
+.  endif
+
+disasm: ${PROG}
+	ndisasm -b 16 ${PROG}.bin >${.CURDIR}/disasm
+
+CLEANFILES+=	${.CURDIR}/disasm ${PROG}.elf ${PROG}.bin
+.endif
 
 .if exists(../Makefile.inc)
 .  include "../Makefile.inc"
