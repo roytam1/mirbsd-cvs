@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.27 2005/03/06 22:41:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.28 2005/03/09 22:56:06 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2574,4 +2574,13 @@
  committee of theirs. (I wonder if I am, now, too?) I started flaming some
  on their lists, just for the fun of it (gimme my fun, will you, since Wim
  doesn't send me Kriek he owes me for their last pun).</p>
+<p>13.03.2005 by tg@<br />I've finished merging src (except gcc) over from
+ ncvs1 to ncvs2, except for lynx, where I'm waiting for the new version at
+ upstream, which is due RSN. I haven't looked at XFree86&trade; yet. Now I
+ will try to throw in some goodies from OpenBSD-HEAD, then build what I've
+ got right now. After that, I'll peek at gcc, build what we have and after
+ that look at libstdc++ (hi tyler) and lynx. If a new XFree86&trade; comes
+ out in the meantime, I think I'll have a look at it with higher priority,
+ since I want to feed back our local diffs, and don't want to run -current
+ as MirOS default X11 environment.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
