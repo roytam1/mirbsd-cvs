@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.1 2005/03/26 09:45:38 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.2 2005/03/26 10:08:03 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -10,7 +10,7 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 		--enable-fast-install --disable-libtool-lock \
 		--disable-libstdcxx-pch --disable-nls --enable-c99 \
 		--enable-long-long --disable-libstdcxx-debug \
-		--with-gxx-include-dir==/usr/include/gxx
+		--with-gxx-include-dir=/usr/include/gxx --disable-symvers
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
