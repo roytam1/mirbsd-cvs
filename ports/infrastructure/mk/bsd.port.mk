@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.2 2005/03/19 23:15:06 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -602,7 +602,7 @@ _SYSTRACE_CMD?=		/bin/systrace ${SYSTRACE_ARGS_ADD} -i -a \
 .else
 _SYSTRACE_CMD=
 .endif
-SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/db/systrace.filter
+SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/templates/systrace.filter
 _SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env /usr/bin/make \
 			    ${LOCALBASE}/bin/gmake
 SYSTRACE_SUBST_VARS+=	DISTDIR PKG_TMPDIR PORTSDIR TMPDIR WRKDIR

@@ -48,7 +48,7 @@ CONFIGURE_STYLE+=	autoconf
 .if ${CONFIGURE_STYLE:L:Mautomake}
 BUILD_DEPENDS+=		${MODGNU_AUTOMAKE_DEPS}
 .else
-REORDER_DEPENDENCIES+=	${PORTSDIR}/infrastructure/mk/automake.dep
+REORDER_DEPENDENCIES+=	${PORTSDIR}/infrastructure/templates/automake.dep
 .endif
 
 .if ${CONFIGURE_STYLE:L:Mautoconf}
