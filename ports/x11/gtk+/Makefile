@@ -27,7 +27,7 @@ SUBPACKAGE?=
 .if ${SUBPACKAGE} != "-docs"
 MODULES=			devel/gettext
 
-LIB_DEPENDS=			glib-2.0.400.0,gmodule-2.0.400.0,gobject-2.0.400.0::devel/glib2 \
+LIB_DEPENDS=			glib-2.0.400.0,gmodule-2.0.400.0,gobject-2.0.400.0::devel/glib \
 				pango-1.0.399.1,pangoft2-1.0.399.1,pangox-1.0.399.1,pangoxft-1.0.399.1::devel/pango \
 				atk-1.0.0.1::devel/atk \
 				tiff.35::graphics/tiff \
