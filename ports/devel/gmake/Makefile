@@ -1,29 +1,23 @@
-# $MirOS$
+# $MirOS: ports/devel/gmake/Makefile,v 1.1.7.1 2005/03/18 15:44:42 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
 
 COMMENT=	"GNU make"
-NOT_FOR_OS=	Linux
-
 DISTNAME=	make-3.80
 PKGNAME=	g${DISTNAME}
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=make/}
-
 HOMEPAGE=	http://www.gnu.org/software/make/
 
-
+# GNU GPLv2
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 SEPARATE_BUILD=	simple
-CONFIGURE_STYLE= gnu
+CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS= --program-prefix="g" --disable-nls
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		MAKEINFO="makeinfo --no-split"
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/config
+CONFIGURE_ENV+=	MAKEINFO="makeinfo --no-split"
 
 post-extract:
 	@rm -f ${WRKSRC}/doc/make.info*
