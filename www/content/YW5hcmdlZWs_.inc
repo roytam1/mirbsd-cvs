@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.2 2005/03/17 00:06:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.3 2005/03/17 18:29:04 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>.</p>
 <h2>Why this page?</h2>
@@ -152,7 +152,7 @@
 <p>Diese Grundsatzerkl&auml;rung nimmt keineswegs in Anspruch, f&uuml;r Dich
  zu sprechen. Es ist Dir vollkommen freigestellt, es teilweise anzunehmen,
  v&ouml;llig dahinterzustehen oder es total zur&uuml;ckzuweisen. Und weil es
- so viele Anargeeks wie Individuen gibt, ermuntere ich hiermit jeden, sein
+ so viele Anargeeks wie Individu&euml;n gibt, ermuntere ich hiermit jeden, sein
  bzw. ihr eigenes Manifest zu schreiben und auszuf&uuml;hren, seine oder ihre
  Ide&euml;n auszuprobieren, das eigene Grafitti oder ASCII zu malen.</p>
 <p>Wider den Personenkult, gegen blindes Folgen von Vorgesetzten und
