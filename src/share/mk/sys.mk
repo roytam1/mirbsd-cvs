@@ -1,19 +1,7 @@
-# $MirOS: src/share/mk/sys.mk,v 1.3 2005/02/14 19:21:54 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.4 2005/03/05 12:02:29 tg Exp $
 # $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
-
-# We want at least the following defines: (samples)
-# MACHINE		i386			amiga
-# MACHINE_ARCH		i386			m68k
-# MACHINE_OS		BSD			Linux
-# OStype		MirBSD			Debian (...)
-# OSrev			7			version
-# OSrpl			128			patchlevel
-# OSNAME		MirBSD			uname -s
-# OSname		mirbsd			uname -s in lowercase
-# OScompat		3.5			equivalent OpenBSD version
-# OStriplet		i386-ecce-mirbsd8	... for GNU software
 
 .if !defined(_SYS_MK)
 _SYS_MK=1
@@ -76,7 +64,7 @@ LINK.cc?=	${CXX} ${CXXFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 CPP?=		cpp
 CPPFLAGS?=
-CPPFLAGS+=	-idirafter ${.CURDIR}
+CPPFLAGS+=	-isystem ${.CURDIR}
 
 LEX?=		lex
 LFLAGS?=
