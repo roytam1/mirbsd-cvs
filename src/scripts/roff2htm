@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/scripts/roff2htm,v 1.4 2005/03/22 20:08:29 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.5 2005/03/29 12:33:51 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -116,7 +116,7 @@ output_header()
 </head><body>
 <h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 <p style="font-size:xx-small;">Generated on ${gendate} by
- \$MirOS: src/scripts/roff2htm,v 1.4 2005/03/22 20:08:29 tg Exp $</p>
+ \$MirOS: src/scripts/roff2htm,v 1.5 2005/03/29 12:33:51 tg Exp $</p>
 <hr />
 EOF
 }
@@ -125,8 +125,8 @@ output_footer()
 {
 	cat <<EOF
 <hr />
-<p>These manual pages are copyrighted by their respective writers, their
- source can normally be found at the <a href="/cvs.cgi/src/">CVSweb</a>.
+<p>These manual pages are copyrighted by their respective writers; their
+ source can normally be found in our <a href="/cvs.cgi/src/">CVSweb</a>.
  The rest is Copyright &copy; 2002-2005 <a href="http://MirBSD.org/">The
  MirOS Project</a>, Germany.</p>
 <p style="font-size:x-small;">This manual page's HTML representation
@@ -168,7 +168,7 @@ convert_all()
 	gendate="$(date +"%F %T")"	# current time
 	tp=${2:-$(pwd)/mbsdman}		# target basepath
 
-	for x in $(jot 9 1); do
+	for x in $(jot 9 1) 3p; do
 		mkdir -p $tp/man$x	# one per section
 		print DirectoryIndex /dev/null >$tp/man$x/.htaccess
 	done
