@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/mtree/special,v 1.2 2005/03/06 19:05:58 tg Exp $
 # $OpenBSD: special,v 1.59 2004/04/24 19:28:38 beck Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -187,9 +187,9 @@ mqueue		type=dir mode=0700 uname=root gname=wheel ignore
 ..	#var/spool/mqueue
 output		type=dir mode=0775 uname=root gname=daemon ignore
 ..	#var/spool/output
-uucp		type=dir mode=0755 uname=uucp gname=daemon ignore
+uucp		type=dir mode=0755 uname=uucp gname=daemon optional ignore
 ..	#var/spool/uucp
-uucppublic	type=dir mode=01775 uname=uucp gname=daemon ignore
+uucppublic	type=dir mode=01775 uname=uucp gname=daemon optional ignore
 ..	#var/spool/uucppublic
 ..	#var/spool
 anoncvs		type=dir mode=0755 uname=root gname=wheel
