@@ -61,6 +61,14 @@ extern char *_XawTextGetSTRING(TextWidget ctx, XawTextPosition left,
 #include <X11/Shell.h>
 #include <ctype.h>
 #include <stdlib.h>
+#ifdef __OpenBSD__
+#include <util.h>
+#endif
+#include <pwd.h>
+
+extern int priv_init(uid_t, gid_t);
+extern int priv_openpty(int *, int *);
+extern int priv_set_console(int);
 
 /* Fix ISC brain damage.  When using gcc fdopen isn't declared in <stdio.h>. */
 #if defined(ISC) && __STDC__ && !defined(ISC30)
@@ -227,8 +235,7 @@ OpenConsole(void)
 		if (get_pty (&pty_fd, &tty_fd, ttydev, ptydev) == 0)
 		{
 #ifdef TIOCCONS
-		    int on = 1;
-		    if (ioctl (tty_fd, TIOCCONS, (char *) &on) != -1)
+		    if (priv_set_console(tty_fd) != -1)
 			input = fdopen (pty_fd, "r");
 #else
 #ifndef Lynx
@@ -599,6 +606,21 @@ main(int argc, char *argv[])
     Arg arglist[10];
     Cardinal num_args;
 
+    struct passwd *pw;
+
+    /* Revoke privileges if any */
+    if (getuid() == 0) {
+	/* Running as root */
+	pw = getpwnam("_x11");
+	if (!pw) {
+	    fprintf(stderr, "_x11 user not found\n");
+	    exit(2);
+	}
+	if (priv_init(pw->pw_uid, pw->pw_gid) < 0) {
+		fprintf(stderr, "priv_init failed\n");
+		exit(2);
+	}
+    }
     top = XtInitialize ("xconsole", "XConsole", options, XtNumber (options),
 			&argc, argv);
     XtGetApplicationResources (top, (XtPointer)&app_resources, resources,
@@ -766,16 +788,19 @@ ScrollLine(Widget w)
 /*
  * This function opens up a pty master and stuffs its value into pty.
  * If it finds one, it returns a value of 0.  If it does not find one,
- * it returns a value of !0.  This routine is designed to be re-entrant,
- * so that if a pty master is found and later, we find that the slave
- * has problems, we can re-enter this function and get another one.
+ * it returns a value of !0.  
  */
 
 #include    "../xterm/ptyx.h"
 static int
 get_pty(int *pty, int *tty, char *ttydev, char *ptydev)
 {
-#ifdef SVR4
+#if defined(CSRG_BASED) || defined(__osf__) || (defined(__GLIBC__) && !defined(USE_USG_PTYS))
+	if (priv_openpty(pty, tty) < 0) {
+		return 1;
+	}
+	return 0;
+#elif defined(SVR4)
 	if ((*pty = open ("/dev/ptmx", O_RDWR)) < 0)
 	    return 1;
 	grantpt(*pty);

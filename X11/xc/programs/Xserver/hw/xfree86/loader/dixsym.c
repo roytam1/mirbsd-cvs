@@ -105,6 +105,8 @@
 #include <X11/extensions/XKBsrv.h>
 #endif
 
+extern int priv_open_device(const char *);
+
 extern Selection *CurrentSelections;
 extern int NumCurrentSelections;
 
@@ -341,6 +343,8 @@ LOOKUP dixLookupTab[] = {
     SYMFUNC(AdjustWaitForDelay)
     SYMVAR(noTestExtensions)
     SYMFUNC(GiveUp)
+    /* privsep.c */
+    SYMFUNC(priv_open_device)
     /* log.c */
     SYMFUNC(LogVWrite)
     SYMFUNC(LogWrite)
@@ -408,9 +412,11 @@ LOOKUP dixLookupTab[] = {
     SYMFUNC(AssignTypeAndName)
 #endif
 
+#ifdef XFreeXDGA
     /* xf86DGA.c */
     /* XXX This is exported from the DDX, not DIX. */
     SYMVAR(XDGAEventBase)
+#endif
 
     /* librender.a */
 #ifdef RENDER

@@ -293,14 +293,12 @@ char *name;
 
     if (name[0] != '~') return name;
 
-    newname = (char *) malloc (HomeLen + strlen(name) + 2);
+    asprintf(&newname, "%s/%s", Home, &name[1]);
     if (!newname) {
 	fprintf (stderr, 
 		 "%s:  unable to allocate %ld bytes to expand filename %s/%s\n",
 		 ProgramName, HomeLen + (unsigned long)strlen(name) + 2,
 		 Home, &name[1]);
-    } else {
-	(void) sprintf (newname, "%s/%s", Home, &name[1]);
     }
 
     return newname;
@@ -688,9 +686,9 @@ MyFont *font;
 	    XFreeFontSet(dpy, font->fontset);
 	}
 
-	basename2 = (char *)malloc(strlen(font->name) + 3);
-	if (basename2) sprintf(basename2, "%s,*", font->name);
-	else basename2 = font->name;
+	asprintf(&basename2, "%s,*", font->name);
+	if (!basename2)
+	    basename2 = font->name;
 	if( (font->fontset = XCreateFontSet(dpy, basename2,
 					    &missing_charset_list_return,
 					    &missing_charset_count_return,

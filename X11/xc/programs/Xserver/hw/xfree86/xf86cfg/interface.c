@@ -298,7 +298,7 @@ main(int argc, char *argv[])
     
     startedx = startx();
     if (XF86Config_path == NULL)
-	XF86Config_path = XtNewString("XF86Config-4");
+	XF86Config_path = XtNewString("XF86Config");
     if (XkbConfig_path == NULL) {
 	XmuSnprintf(XkbConfig_path_static, sizeof(XkbConfig_path_static),
 		    "%s/%s%s", XFree86Dir, XkbConfigDir, XkbConfigFile);

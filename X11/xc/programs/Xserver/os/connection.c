@@ -317,7 +317,7 @@ CreateWellKnownSockets(void)
 
     FD_ZERO (&WellKnownConnections);
 
-    sprintf (port, "%d", atoi (display));
+    snprintf (port, sizeof(port), "%d", atoi (display));
 
     if ((_XSERVTransMakeAllCOTSServerListeners (port, &partial,
 	&ListenTransCount, &ListenTransConns) >= 0) &&
@@ -388,7 +388,11 @@ CreateWellKnownSockets(void)
 #endif /* __UNIXOS2__ */
     if (RunFromSmartParent) {
 	if (ParentProcess > 1) {
+#if defined(__OpenBSD__)
+	    priv_signal_parent();
+#else
 	    kill (ParentProcess, SIGUSR1);
+#endif
 	}
     }
 #endif
@@ -474,13 +478,15 @@ AuthAudit (ClientPtr client, Bool letin,
 {
     char addr[128];
     char *out = addr;
+    size_t outlen = 0;
 
     if (!((OsCommPtr)client->osPrivate)->trans_conn) {
-	strcpy(addr, "LBX proxy at ");
-	out += strlen(addr);
+	strlcpy(addr, "LBX proxy at ", sizeof(addr));
+	outlen = strlen(addr);
+	out += outlen;
     }
     if (!len)
-        strcpy(out, "local host");
+        strlcpy(out, "local host", sizeof(addr)-outlen);
     else
 	switch (saddr->sa_family)
 	{
@@ -488,11 +494,11 @@ AuthAudit (ClientPtr client, Bool letin,
 #if defined(UNIXCONN) || defined(LOCALCONN) || defined(OS2PIPECONN)
 	case AF_UNIX:
 #endif
-	    strcpy(out, "local host");
+	    strlcpy(out, "local host", sizeof(addr)-outlen);
 	    break;
 #if defined(TCPCONN) || defined(STREAMSCONN) || defined(MNX_TCPCONN)
 	case AF_INET:
-	    sprintf(out, "IP %s",
+	    snprintf(out, sizeof(addr) - outlen, "IP %s",
 		inet_ntoa(((struct sockaddr_in *) saddr)->sin_addr));
 	    break;
 #if defined(IPv6) && defined(AF_INET6)
@@ -500,19 +506,19 @@ AuthAudit (ClientPtr client, Bool letin,
 	    char ipaddr[INET6_ADDRSTRLEN];
 	    inet_ntop(AF_INET6, &((struct sockaddr_in6 *) saddr)->sin6_addr,
 	      ipaddr, sizeof(ipaddr));
-	    sprintf(out, "IP %s", ipaddr);
+	    snprintf(out, sizeof(addr) - outlen, "IP %s", ipaddr);
 	}
 	    break;
 #endif
 #endif
 #ifdef DNETCONN
 	case AF_DECnet:
-	    sprintf(out, "DN %s",
+	    snprintf(out, sizeof(addr) - outlen, "DN %s",
 		    dnet_ntoa(&((struct sockaddr_dn *) saddr)->sdn_add));
 	    break;
 #endif
 	default:
-	    strcpy(out, "unknown address");
+	    strlcpy(out, "unknown address", sizeof(addr) - outlen);
 	}
     
     if (proto_n)

@@ -880,6 +880,15 @@ parse_utsname(struct utsname *name, char *fmt, char *result, char *msg)
 	  ptr += strlen(ptr);
 	  break;
 
+#ifdef __MirBSD__
+	case 'l':
+	  if (arg > 0)
+	    *ptr++ = ' ';
+	  strcpy(ptr, name->patchlevel);
+	  ptr += strlen(ptr);
+	  break;
+#endif
+
 	default:
 	  LogFatal(msg, fmt);
 	}

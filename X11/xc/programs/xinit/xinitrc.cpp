@@ -24,10 +24,21 @@ if [ -f $usermodmap ]; then
     xmodmap $usermodmap
 fi
 
+XCOMM if we have private ssh key(s), start ssh-agent and add the key(s)
+id1=$HOME/.ssh/identity
+if [ -x /usr/bin/ssh-agent ] && [ -f $id1 -o -f $id2 -o -f $id3 ]; then
+	eval $(ssh-agent -s)
+	ssh-add $id1 </dev/null
+fi
+
 XCOMM start some nice programs
 
-twm &
 xclock -geometry 50x50-1+1 &
-xterm -geometry 80x50+494+51 &
-xterm -geometry 80x20+494-0 &
-exec xterm -geometry 80x66+0+0 -name login
+xconsole -iconic &
+xterm -geometry 80x24 &
+twm || evilwm || xterm
+
+if [ "$SSH_AGENT_PID" ]; then
+	ssh-add -D </dev/null
+	eval $(ssh-agent -s -k)
+fi

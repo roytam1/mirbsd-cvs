@@ -118,18 +118,15 @@ MTRRDEFINES = -DHAS_MTRR_BUILTIN
 #endif
 
 #if UsbMouseSupport
-USBMOUSEDEFINES1 = -DUSBMOUSE_SUPPORT
-#if !HasLibUsb
+#if HasLibUsb
+LIBUSBHIDDEFINES = -DHAS_LIB_USB_HID
+#else
 LIBUSBINCLUDES = -Ilibusb
 #define IHaveSubdirs
 SUBDIRS = libusb
-#else
-#if HasLibUsbHid
-USBMOUSEDEFINES2 = -DHAS_LIB_USB_HID
 #endif
+USBMOUSEDEFINES = -DUSBMOUSE_SUPPORT $(LIBUSBHIDDEFINES)
 #endif
-#endif
-USBMOUSEDEFINES = $(USBMOUSEDEFINES1) $(USBMOUSEDEFINES2)
 
 #if (defined(OpenBSDArchitecture) || defined(NetBSDArchitecture)) && defined(i386Architecture)
 # if !defined(HasApmKqueue) || !HasApmKqueue
@@ -269,7 +266,7 @@ LinkSourceFile(xf86Axp.c,../shared)
 
 DependTarget()
 
-#if UsbMouseSupport && !HasLibUsb
+#if UsbMouseSupport && !HasLibUsbHid
 MakeSubdirs($(SUBDIRS))
 
 DependSubdirs($(SUBDIRS))

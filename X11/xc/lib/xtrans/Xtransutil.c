@@ -226,7 +226,7 @@ TRANS(ConvertAddress)(int *familyp, int *addrlenp, Xtransaddr **addrp)
 	    if (!*addrp)
 		*addrp = (Xtransaddr *) xalloc (len + 1);
 	    if (*addrp) {
-		strcpy ((char *) *addrp, hostnamebuf);
+		strlcpy ((char *) *addrp, hostnamebuf, len + 1);
 		*addrlenp = len;
 	    } else {
 		*addrlenp = 0;
@@ -259,6 +259,7 @@ TRANS(GetMyNetworkId) (XtransConnInfo ciptr)
     char	hostnamebuf[256];
     char 	*networkId = NULL;
     char	*transName = ciptr->transptr->TransName;
+    size_t	len;
 
     if (gethostname (hostnamebuf, sizeof (hostnamebuf)) < 0)
     {
@@ -271,9 +272,10 @@ TRANS(GetMyNetworkId) (XtransConnInfo ciptr)
     case AF_UNIX:
     {
 	struct sockaddr_un *saddr = (struct sockaddr_un *) addr;
-	networkId = (char *) xalloc (3 + strlen (transName) +
-	    strlen (hostnamebuf) + strlen (saddr->sun_path));
-	sprintf (networkId, "%s/%s:%s", transName,
+	len = 3 + strlen (transName) +
+	    strlen (hostnamebuf) + strlen (saddr->sun_path);
+	networkId = (char *) xalloc (len);
+	snprintf (networkId, len, "%s/%s:%s", transName,
 	    hostnamebuf, saddr->sun_path);
 	break;
     }
@@ -300,10 +302,12 @@ TRANS(GetMyNetworkId) (XtransConnInfo ciptr)
 #endif
 	    portnum = ntohs (saddr->sin_port);
 
-	sprintf (portnumbuf, "%d", portnum);
-	networkId = (char *) xalloc (3 + strlen (transName) +
-	    strlen (hostnamebuf) + strlen (portnumbuf));
-	sprintf (networkId, "%s/%s:%s", transName, hostnamebuf, portnumbuf);
+	snprintf (portnumbuf, sizeof(portnumbuf), "%d", portnum);
+	len = 3 + strlen (transName) +
+	    strlen (hostnamebuf) + strlen (portnumbuf);
+	networkId = (char *) xalloc (len);
+	snprintf (networkId, len, "%s/%s:%s", transName, hostnamebuf, 
+	    portnumbuf);
 	break;
     }
 #endif /* defined(TCPCONN) || defined(STREAMSCONN) */
@@ -312,10 +316,9 @@ TRANS(GetMyNetworkId) (XtransConnInfo ciptr)
     case AF_DECnet:
     {
 	struct sockaddr_dn *saddr = (struct sockaddr_dn *) addr;
-
-	networkId = (char *) xalloc (
-	    13 + strlen (hostnamebuf) + saddr->sdn_objnamel);
-	sprintf (networkId, "dnet/%s::%s",
+	len = 13 + strlen (hostnamebuf) + saddr->sdn_objnamel;
+	networkId = (char *) xalloc (len);
+	snprintf (networkId, len, "dnet/%s::%s",
 	    hostnamebuf, saddr->sdn_objname);
 	break;
     }
@@ -361,6 +364,7 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
     char	*hostname;
     char	addrbuf[256];
     const char	*addr = NULL;
+    size_t	len;
 
     switch (family)
     {
@@ -444,9 +448,10 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 
 	if (np = getnodebyaddr(saddr->sdn_add.a_addr,
 	    saddr->sdn_add.a_len, AF_DECnet)) {
-	    sprintf(addrbuf, "%s:", np->n_name);
+	    snprintf(addrbuf, sizeof(addrbuf), "%s:", np->n_name);
 	} else {
-	    sprintf(addrbuf, "%s:", dnet_htoa(&saddr->sdn_add));
+	    snprintf(addrbuf, sizeof(addrbuf), "%s:", 
+		     dnet_htoa(&saddr->sdn_add));
 	}
 	addr = addrbuf;
 	break;
@@ -457,13 +462,12 @@ TRANS(GetPeerNetworkId) (XtransConnInfo ciptr)
 	return (NULL);
     }
 
-
-    hostname = (char *) xalloc (
-	strlen (ciptr->transptr->TransName) + strlen (addr) + 2);
-    strcpy (hostname, ciptr->transptr->TransName);
-    strcat (hostname, "/");
+    len = strlen (ciptr->transptr->TransName) + strlen (addr) + 2;
+    hostname = (char *) xalloc (len);
+    strlcpy (hostname, ciptr->transptr->TransName, len);
+    strlcat (hostname, "/", len);
     if (addr)
-	strcat (hostname, addr);
+	strlcat (hostname, addr, len);
 
     return (hostname);
 }
@@ -580,16 +584,10 @@ trans_mkdir(char *path, int mode)
 	    if (updateOwner && !updatedOwner) {
 	  	PRMSG(1, "mkdir: Owner of %s should be set to root\n",
 		      path, 0, 0);
-#if !defined(__CYGWIN__) && !defined(__DARWIN__)
-		sleep(5);
-#endif
 	    }
 	    if (updateMode && !updatedMode) {
 	  	PRMSG(1, "mkdir: Mode of %s should be set to %04o\n",
 		      path, mode, 0);
-#if !defined(__CYGWIN__) && !defined(__DARWIN__)
-		sleep(5);
-#endif
 	    }
 	    return 0;
 	}

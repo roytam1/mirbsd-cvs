@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.4 2005/03/19 15:09:59 tg Exp $
+# $MirOS: X11/Makefile,v 1.5 2005/03/19 15:11:16 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -6,15 +6,10 @@
 SUBOBJDIR!=	readlink ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
 RELEASEDIR?=	${BSDRELDIR}/rel
 
-.if ${MACHINE} == i386
-XMACH=		ix86
-.else
-XMACH=		${MACHINE}
-.endif
 BINDIST=	programs/Xserver/hw/xfree86/etc/bindist
-HOSTDEF=	xc/${BINDIST}/OpenBSD-${XMACH}/host.def
+HOSTDEF=	xc/${BINDIST}/OpenBSD-${MACHINE}/host.def
 CONFHOSTDEF=	xc/config/cf/host.def
-XCONFIG=	xc/${BINDIST}/OpenBSD-${XMACH}/XF86Config
+XCONFIG=	xc/${BINDIST}/OpenBSD-${MACHINE}/XF86Config
 LOCALAPPX=	/usr/local/lib/X11
 LOCALAPPD=	${LOCALAPPX}/app-defaults
 REALAPPD=	/etc/X11/app-defaults

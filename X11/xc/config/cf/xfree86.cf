@@ -172,7 +172,7 @@ XCOMM $XFree86: xc/config/cf/xfree86.cf,v 3.492 2005/02/28 23:19:12 dawes Exp $
 #define XConfigFile		XF86Config
 #endif
 #ifndef XConfigDir
-#define XConfigDir		$(LIBDIR)
+#define XConfigDir		EtcX11Directory
 #endif
 #ifndef XLogFile
 #define XLogFile		XFree86
@@ -1126,6 +1126,9 @@ XCOMM $XFree86: xc/config/cf/xfree86.cf,v 3.492 2005/02/28 23:19:12 dawes Exp $
 #ifndef HasGlide2
 #define HasGlide2 NO
 #endif
+#ifndef HasGlide3
+#define HasGlide3 NO
+#endif
 #if HasGlide2 && DoLoadableServer
 #define GlideDriver glide
 #else
@@ -1802,8 +1805,8 @@ IPLAN2P8_DEFS = -DUSE_IPLAN2P8
 # define UsbMouseSupport NO
 #endif
 /* Does this OS have libusb ? */
-#ifndef HasLibUsb
-# define HasLibUsb	NO
+#ifndef HasLibUsbHid
+# define HasLibUsbHid	NO
 #endif
 
 #ifndef UseServerLock

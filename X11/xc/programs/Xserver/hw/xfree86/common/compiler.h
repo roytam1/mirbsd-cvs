@@ -405,7 +405,12 @@ static __inline__ void stw_u(unsigned long r5, unsigned short * r11)
 }
 
 /* to flush the I-cache before jumping to code which just got loaded */
+#ifdef __FreeBSD__
 #    define PAL_imb 134
+#endif
+#ifdef __OpenBSD__
+#include <machine/pal.h>
+#endif
 #    define istream_mem_barrier() \
 	__asm__ __volatile__("call_pal %0 #imb" : : "i" (PAL_imb) : "memory")
 #    define mem_barrier()        __asm__ __volatile__("mb"  : : : "memory")

@@ -182,9 +182,9 @@ SetUIDProgramTarget(xterm,$(OBJS1),$(DEPLIBS1),$(XRFLIBS) XkbClientLibs XawClien
 NormalProgramTarget(xterm,$(OBJS1),$(DEPLIBS1),$(XRFLIBS) XkbClientLibs XawClientLibs,$(TERMCAPLIB) $(UTMPLIB) $(PTYLIB))
 #endif
 
-#if defined(OpenBSDArchitecture)
+#if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture)
 /* On OpenBSD xterm is now setgid utmp */
-INSTUIDFLAGS= -m 6755 -g utmp
+INSTUIDFLAGS= -m 2755 -g utmp
 #endif
 
 #if InstallXtermSetUID && defined(SunArchitecture) && HasSharedLibraries && (OSMajorVersion < 5)

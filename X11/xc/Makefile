@@ -122,7 +122,7 @@ $(IMAKESRC)/Makefile.proto: depend.bootstrap
 imake.bootstrap: $(IMAKESRC)/Makefile.proto
 	cd $(IMAKESRC) && $(MAKE) -f Makefile.proto bootstrapdepend
 	cd $(IMAKESRC) && $(MAKE) $(FLAGS) bootstrap
-	cd $(IMAKESRC) && $(MAKE) -f Makefile.proto imakeonly
+	cd $(IMAKESRC) && $(MAKE) CC=\"$(CC)\" -f Makefile.proto imakeonly
 	-@if [ -f xmakefile ]; then set -x; \
 	  $(RM) xmakefile.bak; $(MV) xmakefile xmakefile.bak; \
 	  else exit 0; fi

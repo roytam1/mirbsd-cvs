@@ -857,7 +857,18 @@ char *cpp_argv[ARGUMENTS] = {
 /* uname -r returns "x.y[.z]-mumble", e.g. "2.1.5-RELEASE" or "2.2-0801SNAP" */
 #  define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
 #  define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
+#  ifdef __MirBSD__
+#   define DEFAULT_OS_TEENY_REV  "l %*c%*[0-9]%*c%[0-9A-F]"
+#   define DEFAULT_OS_TEENY_REV_FROB(buf, size)				\
+	do {								\
+		int v;							\
+									\
+		sscanf(buf, "%x", &v);					\
+		snprintf(buf, size, "%d", v);				\
+	} while(0)
+#  else
 #  define DEFAULT_OS_TEENY_REV   "r %*d.%*d.%[0-9]" 
+#  endif
 #  define DEFAULT_OS_NAME        "srm %[^\n]"
 #  if defined(__FreeBSD__)
 /* Use an alternate way to find the teeny version for -STABLE, -SNAP versions */

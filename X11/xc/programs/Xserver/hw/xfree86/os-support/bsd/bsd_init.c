@@ -34,6 +34,7 @@
 #include "xf86_OSlib.h"
 
 #include <sys/utsname.h>
+#include <pwd.h>
 #include <stdlib.h>
 
 static Bool KeepTty = FALSE;
@@ -155,6 +156,9 @@ xf86OpenConsole()
     vtmode_t vtmode;
 #endif
     
+    if (xf86Info.consoleFd != -1) {
+	    return;
+    }    
     if (serverGeneration == 1)
     {
 	/* check if we are run with euid==0 */
@@ -274,12 +278,12 @@ acquire_vt:
 	        xf86Msg(X_WARNING, "xf86OpenConsole: VT_WAITACTIVE failed\n");
 	    }
 
-	    signal(SIGUSR1, xf86VTRequest);
+	    signal(SIGUSR2, xf86VTRequest);
 
 	    vtmode.mode = VT_PROCESS;
-	    vtmode.relsig = SIGUSR1;
-	    vtmode.acqsig = SIGUSR1;
-	    vtmode.frsig = SIGUSR1;
+	    vtmode.relsig = SIGUSR2;
+	    vtmode.acqsig = SIGUSR2;
+	    vtmode.frsig = SIGUSR2;
 	    if (ioctl(xf86Info.consoleFd, VT_SETMODE, &vtmode) < 0) 
 	    {
 	        FatalError("xf86OpenConsole: VT_SETMODE VT_PROCESS failed");
@@ -299,8 +303,7 @@ acquire_vt:
 #endif /* SYSCONS_SUPPORT || PCVT_SUPPORT */
 #ifdef WSCONS_SUPPORT
 	case WSCONS:
-	    fprintf(stderr, "xf86OpenConsole\n");
-	    /* xf86Info.consoleFd = open("/dev/wskbd0", 0); */
+	    /* Nothing to do... */
    	    break; 
 #endif
         }
@@ -683,6 +686,7 @@ xf86CloseConsole()
 	}
     }
     close(xf86Info.consoleFd);
+    xf86Info.consoleFd = -1;
     if (devConsoleFd >= 0)
 	close(devConsoleFd);
     return;
@@ -725,4 +729,33 @@ xf86UseMsg()
 	ErrorF("-keeptty               ");
 	ErrorF("don't detach controlling tty (for debugging only)\n");
 	return;
+}
+
+/*
+ * Revoke privileges after init.
+ * If the X server is started as root (xdm case), then switch to _x11 
+ * if it exists.
+ * Otherwise use the real uid.
+ */
+void
+xf86DropPriv(char *disp)
+{
+	struct passwd *pw;
+
+	/* revoke privileges */
+	if (getuid() == 0) {
+		/* Running as root */
+		pw = getpwnam("_x11");
+		if (!pw)
+			return;
+		/* Start privileged child */
+		if (priv_init(pw->pw_uid, pw->pw_gid) == -1) {
+			FatalError("priv_init");
+		}
+	} else {
+		/* Normal user */
+		if (priv_init(getuid(), getgid()) == -1) {
+			FatalError("priv_init");
+		}
+	}
 }

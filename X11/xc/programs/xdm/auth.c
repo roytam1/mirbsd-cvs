@@ -41,6 +41,9 @@ from The Open Group.
 #include <X11/Xlibint.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef __OpenBSD__
+#include <pwd.h>
+#endif
 
 #include "dm.h"
 #include "dm_auth.h"
@@ -279,7 +282,7 @@ static char authdir1[] = "authdir";
 static char authdir2[] = "authfiles";
 
 static int
-MakeServerAuthFile (struct display *d, FILE ** file)
+MakeServerAuthFile (struct display *d, FILE ** file, uid_t uid, gid_t gid)
 {
     int len;
 #if defined(SYSV) && !defined(SVR4)
@@ -315,8 +318,8 @@ MakeServerAuthFile (struct display *d, FILE ** file)
 	    sprintf (d->authFile, "%s/%s", authDir, authdir1);
 	    r = stat(d->authFile, &statb);
 	    if (r == 0) {
-		if (statb.st_uid != 0)
-		    (void) chown(d->authFile, 0, statb.st_gid);
+		if (statb.st_uid != uid)
+		    (void) chown(d->authFile, uid, statb.st_gid);
 		if ((statb.st_mode & 0077) != 0)
 		    (void) chmod(d->authFile, statb.st_mode & 0700);
 	    } else {
@@ -326,6 +329,8 @@ MakeServerAuthFile (struct display *d, FILE ** file)
 		    free (d->authFile);
 		    d->authFile = NULL;
 		    return FALSE;
+		} else {
+		    (void) chown(d->authFile, uid, gid);
 		}
 	    }
 	    sprintf (d->authFile, "%s/%s/%s", authDir, authdir1, authdir2);
@@ -334,6 +339,8 @@ MakeServerAuthFile (struct display *d, FILE ** file)
 		free (d->authFile);
 		d->authFile = NULL;
 		return FALSE;
+	    } else {
+		(void) chown(d->authFile, uid, gid);
 	    }
 	    sprintf (d->authFile, "%s/%s/%s/A%s-XXXXXX",
 		     authDir, authdir1, authdir2, cleanname);
@@ -352,6 +359,7 @@ MakeServerAuthFile (struct display *d, FILE ** file)
 #else
 	    (void) mktemp (d->authFile);
 #endif
+	    (void) chown(d->authFile, uid, gid);
 	}
     }
 
@@ -370,12 +378,34 @@ SaveServerAuthorizations (
     int		mask;
     int		ret;
     int		i;
+    uid_t	uid;
+    gid_t	gid;
+#ifdef __OpenBSD__
+    struct passwd *x11;
+#endif
+
+#ifdef __OpenBSD__
+    /* Give read capability to group _x11 */
+    x11 = getpwnam("_x11");
+    if (x11 == NULL) {
+	LogError("Can't find _x11 user\n");
+	uid = getuid();
+	gid = getgid();
+    } else {
+	uid = x11->pw_uid;
+	gid = x11->pw_gid;
+    }
+#else
+    uid = getuid();
+    gid = getgid();
+#endif
 
     mask = umask (0077);
-    ret = MakeServerAuthFile(d, &auth_file);
+    ret = MakeServerAuthFile(d, &auth_file, uid, gid);
     umask (mask);
     if (!ret)
 	return FALSE;
+    fchown(fileno(auth_file), uid, gid);
     if (!auth_file) {
 	Debug ("Can't creat auth file %s\n", d->authFile);
 	LogError ("Cannot open server authorization file %s\n", d->authFile);

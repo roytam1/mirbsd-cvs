@@ -5,10 +5,16 @@ LinkSourceFile(glext.h, $(MESASRCDIR)/include/GL)
 LinkSourceFile(glxext.h, $(MESASRCDIR)/include/GL)
 LinkSourceFile(osmesa.h, $(MESASRCDIR)/include/GL)
 
+#if BuildGLXLibrary
 GLXHEADERS = gl.h glext.h glu.h glx.h glxint.h glxmd.h glxproto.h \
 	     glxtokens.h osmesa.h glxext.h
+#endif
 
-HEADERS = $(GLXHEADERS)
+#if BuildGLULibrary
+GLUHEADERS = glu.h
+#endif
+
+HEADERS = $(GLXHEADERS) $(GLUHEADERS)
 
 all::
 

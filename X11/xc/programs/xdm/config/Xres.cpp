@@ -10,7 +10,6 @@
 xlogin*login.translations: #override BS
 	Ctrl<Key>R: abort-display()NLBS
 	<Key>F1: set-session-argument(failsafe) finish-field()NLBS
-	<Key>Delete: delete-character()NLBS
 	<Key>Left: move-backward-character()NLBS
 	<Key>Right: move-forward-character()NLBS
 	<Key>Home: move-to-begining()NLBS
@@ -40,29 +39,73 @@ xlogin*promptFont: -adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1
 xlogin*failFont: -adobe-helvetica-bold-o-normal--14-140-75-75-p-82-iso8859-1
 XHASHendif
 #endif /* XPM */
-XHASHifdef COLOR
+
+XHASHif !(defined(bpp1) || defined(bpp4) || defined(bpp8) || defined(bpp15))
+XHASH if PLANES < 4 || defined(Hp300Architecture)
+XHASH  ifndef bpp1
+XHASH   define bpp1
+XHASH  endif
+XHASH else
+XHASH  if PLANES > 4
+XHASH   if PLANES > 8
+XHASH    ifndef bpp15
+XHASH     define bpp15
+XHASH    endif
+XHASH   else
+XHASH    ifndef bpp8
+XHASH     define bpp8
+XHASH    endif bpp8
+XHASH   endif
+XHASH  else
+XHASH   ifndef bpp4
+XHASH    define bpp4
+XHASH   endif
+XHASH  endif
+XHASH endif
+XHASHendif  //**/* If manual override */**//
+
+XHASHifndef bpp1
 #ifndef XPM
 xlogin*greetColor: CadetBlue
 #else
-xlogin*borderWidth: 1
+xlogin*borderWidth: 2
 xlogin*frameWidth: 5
 xlogin*innerFramesWidth: 2
-xlogin*shdColor: grey30
-xlogin*hiColor: grey90
-xlogin*background: grey
-!xlogin*foreground: darkgreen
-xlogin*greetColor: Blue3
+
+! top/left border
+xlogin*hiColor: #6d9df2
+
+! bottom/right border
+xlogin*shdColor: #384c70
+
+! 'Welcome to..' text color
+xlogin*greetColor: #000000
 #endif /* XPM */
+XHASHif defined(bpp4) || defined(bpp8) || defined(bpp15)
+! flood fill
+!xlogin*background: #2559a5
+xlogin*background: #5272b6
+XHASHendif
 xlogin*failColor: red
-*Foreground: black
-*Background: #fffff0
+
+! 'Login:' and 'Password:'
+*Foreground: #fbfeff
+
+! border/shadow
+*Background: #000000
 XHASHelse
 #ifdef XPM
 xlogin*borderWidth: 3
-xlogin*frameWidth: 0
+xlogin*frameWidth: 5
 xlogin*innerFramesWidth: 1
-xlogin*shdColor: black
-xlogin*hiColor: black
+xlogin*shdColor: white
+xlogin*hiColor: white
+xlogin*greetColor: white
+xlogin*background: black
+xlogin*failColor: white
+xlogin*promptColor: white
+*Foreground: white
+*Background: black
 #else
 xlogin*borderWidth: 3
 xlogin*Foreground: black
@@ -78,10 +121,18 @@ XHASHendif
 xlogin*useShape: true
 xlogin*logoPadding: 10
 #endif /* XPM */
+! comment out to disable root logins
+xlogin.Login.allowRootLogin:	true
 
 XConsole.text.geometry:	480x130
 XConsole.verbose:	true
 XConsole*iconic:	true
+#ifdef XPM
+XConsole*background:	black
+XConsole*foreground:	white
+XConsole*borderWidth:	2
+XConsole*borderColor:   grey
+#endif /* XPM */
 XConsole*font:		fixed
 
 Chooser*geometry:		700x500+300+200

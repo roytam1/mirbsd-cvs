@@ -85,6 +85,9 @@
 #define UMS_BUT(i) ((i) == 0 ? 2 : (i) == 1 ? 0 : (i) == 2 ? 1 : (i))
 #endif /* USBMOUSE_SUPPORT */
 
+#ifdef __OpenBSD__
+extern int priv_open_device(const char *path);
+#endif
 #ifdef USBMOUSE_SUPPORT
 static void usbSigioReadInput (int fd, void *closure);
 #endif
@@ -506,7 +509,7 @@ FindDevice(InputInfoPtr pInfo, const char *protocol, int flags)
     const char **pdev;
 
     for (pdev = mouseDevs; *pdev; pdev++) {
-	SYSCALL(fd = open(*pdev, O_RDWR | O_NONBLOCK));
+	fd = priv_open_device(*pdev);
 	if (fd != -1) {
 	    /* Set the Device option. */
 	    pInfo->conf_idev->commonOptions =

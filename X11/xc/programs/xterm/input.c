@@ -580,7 +580,12 @@ Input(TKeyboard * keyboard,
 #endif
 
 	dec_code = decfuncvalue(keysym);
-	if ((event->state & ShiftMask)
+	if (keysym == XK_Delete 
+	    && (event->state & (ShiftMask|ControlMask)) 
+	    && xtermDeleteIsDEL) {
+		unparseputc('\177', pty);
+	} 
+	else 	if ((event->state & ShiftMask) 
 #if OPT_SUNPC_KBD
 	    && keyboard->type == keyboardIsVT220
 #endif

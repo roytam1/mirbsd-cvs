@@ -145,17 +145,22 @@ STRLCAT_OBJS = strlcat.o strlcpy.o
 GETPEEREID_DEFINES = -DHAS_GETPEEREID
 #endif
 
+#ifdef OpenBSDArchitecture
+PRIVSEP_SRCS=privsep.c
+PRIVSEP_OBJS=privsep.o
+#endif
+
 BOOTSTRAPCFLAGS = 
            SRCS = WaitFor.c access.c connection.c io.c $(COLOR_SRCS) \
                   osinit.c utils.c log.c auth.c mitauth.c secauth.c \
                   $(XDMAUTHSRCS) $(RPCSRCS) $(KRB5SRCS) xdmcp.c OtherSources \
                   transport.c $(SNPRINTF_SRCS) $(STRLCAT_SRCS) \
-		  $(MALLOC_SRCS) $(LBX_SRCS)
+		  $(MALLOC_SRCS) $(LBX_SRCS) $(PRIVSEP_SRCS)
            OBJS = WaitFor.o access.o connection.o io.o $(COLOR_OBJS) \
                   osinit.o utils.o log.o auth.o mitauth.o secauth.o \
                   $(XDMAUTHOBJS) $(RPCOBJS) $(KRB5OBJS) xdmcp.o OtherObjects \
                   transport.o $(SNPRINTF_OBJS) $(STRLCAT_OBJS) \
-		  $(MALLOC_OBJS) $(LBX_OBJS)
+		  $(MALLOC_OBJS) $(LBX_OBJS) $(PRIVSEP_OBJS)
 
 #if SpecialMalloc
      MEM_DEFINES = -DSPECIAL_MALLOC

@@ -294,7 +294,8 @@ typedef Elf32_Word Elf_Word;
     defined(__alpha__) || \
     defined(__sparc__) || \
     defined(__ia64__) || \
-    defined(__AMD64__)
+    defined(__AMD64__) || \
+    defined(__amd64__) 
 typedef Elf_Rela Elf_Rel_t;
 #else
 typedef Elf_Rel Elf_Rel_t;
@@ -488,7 +489,8 @@ ElfDelayRelocation(ELFModulePtr elffile, Elf_Word secn, Elf_Rel_t *rel)
     defined(__alpha__) || \
     defined(__sparc__) || \
     defined(__ia64__) || \
-    defined(__AMD64__)
+    defined(__AMD64__) || \
+    defined(__amd64__)
     ELFDEBUG(", r_addend 0x%lx", rel->r_addend);
 # endif
     ELFDEBUG("\n");
@@ -524,6 +526,7 @@ ElfCOMMONSize(void)
 #if defined(__alpha__) || \
     defined(__ia64__) || \
     defined(__AMD64__) || \
+    defined(__amd64__) || \
     (defined(__sparc__) && \
      (defined(__arch64__) || \
       defined(__sparcv9)))
@@ -548,6 +551,7 @@ ElfCreateCOMMON(ELFModulePtr elffile, LOOKUP *pLookup)
 #if defined(__alpha__) || \
     defined(__ia64__) || \
     defined(__AMD64__) || \
+    defined(__amd64__) || \
     (defined(__sparc__) && \
      (defined(__arch64__) || \
       defined(__sparcv9)))
@@ -603,6 +607,7 @@ ElfCreateCOMMON(ELFModulePtr elffile, LOOKUP *pLookup)
 #if defined(__alpha__) || \
     defined(__ia64__) || \
     defined(__AMD64__) || \
+    defined(__amd64__) || \
     (defined(__sparc__) && \
      (defined(__arch64__) || \
       defined(__sparcv9)))
@@ -1263,7 +1268,7 @@ Elf_RelocateEntry(ELFModulePtr elffile, Elf_Word secn, Elf_Rel_t *rel,
     unsigned long *dest64;
     unsigned short *dest16;
 #endif
-#if  defined(__AMD64__)
+#if  defined(__AMD64__) || defined(__amd64__)
     unsigned long *dest64;
     int *dest32s;
 #endif
@@ -1281,7 +1286,8 @@ Elf_RelocateEntry(ELFModulePtr elffile, Elf_Word secn, Elf_Rel_t *rel,
     defined(__alpha__) || \
     defined(__sparc__) || \
     defined(__ia64__) || \
-    defined(__AMD64__)
+    defined(__AMD64__) || \
+    defined(__amd64__)
     ELFDEBUG("%lx", rel->r_addend);
 # endif
     ELFDEBUG("\n");
@@ -1340,7 +1346,7 @@ Elf_RelocateEntry(ELFModulePtr elffile, Elf_Word secn, Elf_Rel_t *rel,
 
 	break;
 #endif /* i386 */
-#if defined(__AMD64__)
+#if defined(__AMD64__) || defined(__amd64__)
     case R_X86_64_32:
 	dest32 = (unsigned int *)(secp + rel->r_offset);
 # ifdef ELFDEBUG

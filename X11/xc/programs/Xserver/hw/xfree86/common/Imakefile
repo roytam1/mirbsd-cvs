@@ -30,7 +30,8 @@ XCOMM $XFree86: xc/programs/Xserver/hw/xfree86/common/Imakefile,v 3.156 2004/06/
 # endif
 #endif
 
-#if defined(SparcArchitecture) || defined(Sparc64Architecture)
+#if (defined(SparcArchitecture) || defined(Sparc64Architecture)) \
+	&& !defined(OpenBSDArchitecture)
         SBUSSRC = xf86sbusBus.c
         SBUSOBJ = xf86sbusBus.o
 #endif
@@ -54,6 +55,11 @@ XCOMM $XFree86: xc/programs/Xserver/hw/xfree86/common/Imakefile,v 3.156 2004/06/
  RANDRINCS = -I../../../randr
   RANDRSRC = xf86RandR.c
   RANDROBJ = xf86RandR.o
+#endif
+
+#if BuildXF86DGA
+  XF86_DGA_SRC = xf86DGA.c
+  XF86_DGA_OBJ = xf86DGA.o
 #endif
 
 MODPATHDEFINES = -DDEFAULT_MODULE_PATH=\"$(MODULEDIR)\"
@@ -99,7 +105,7 @@ SRCS =	\
 	xf86Config.c \
 	xf86AutoConfig.c \
 	xf86Cursor.c \
-	xf86DGA.c \
+	$(XF86_DGA_SRC) \
 	xf86DPMS.c \
 	xf86DefModeSet.c \
 	xf86DoProbe.c \
@@ -139,7 +145,7 @@ OBJS = \
 	xf86Config.o \
 	xf86AutoConfig.o \
 	xf86Cursor.o \
-	xf86DGA.o \
+	$(XF86_DGA_OBJ) \
 	xf86DPMS.o \
 	xf86DefModeSet.o \
 	xf86DoProbe.o \

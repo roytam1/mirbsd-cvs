@@ -740,7 +740,7 @@ SRCS3 = \
 	LockDis.c \
 	x11trans.c \
 	ximtrans.c \
-	$(XKBSRCS) $(LCSRCS) $(MISCSRCS)
+	$(XKBSRCS) $(LCSRCS) $(MISCSRCS) $(XTHRSRCS)
 
 OBJS3 = \
 	Lab.o \
@@ -823,7 +823,7 @@ OBJS3 = \
 	LockDis.o \
 	x11trans.o \
 	ximtrans.o \
-	$(XKBOBJS) $(LCOBJS) $(MISCOBJS)
+	$(XKBOBJS) $(LCOBJS) $(MISCOBJS) $(XTHROBJS)
 
 #if BuildLoadableXlibI18n
 LC_DYNDEFINES = -DUSE_DYNAMIC_LC
@@ -988,6 +988,11 @@ MISCSRCS = os2Stubs.c
 MISCOBJS = os2Stubs.o
 #endif
 
+#if NeedUIThrStubs
+XTHRSRCS = UIThrStubs.c
+XTHROBJS = UIThrStubs.o
+#endif
+
 OBJS = $(OBJS1) $(OBJS2) $(OBJS3)
 
 EXTRAUNSHAREDOBJS = $(STATICLCOBJS)
@@ -1060,6 +1065,9 @@ LinkSourceFile(k5encode.c,$(XAUTHSRC))
 LinkSourceFile(Wrap.h,$(XDMCPLIBSRC))
 LinkSourceFile(Wrap.c,$(XDMCPLIBSRC))
 LinkSourceFile(Wraphelp.c,$(XDMCPLIBSRC))
+#endif
+#if NeedUIThrStubs 
+LinkSourceFile(UIThrStubs.c,$(XTHRSTUBLIBSRC))
 #endif
 
 #ifdef QNX4Architecture

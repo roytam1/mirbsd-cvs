@@ -85,7 +85,7 @@ CenterLoadTarget(debug_src,name.c,NullParameter,$(ALLDEFINES) -mv8 \
 #define FFBsObjectRule(name)						@@\
 name.o: name.s								@@\
 	$(RM) $@							@@\
-	$(CPP) $*.s | $(AS) $(GCCVISOPTION) -o $@ -			@@\
+	$(CPP) $*.s | $(AS) $(ASVISOPTION) -o $@ -			@@\
 	dd if=/dev/zero bs=1 count=3 2>/dev/null | \
 		dd of=$@ bs=1 count=3 seek=36 conv=notrunc 2>/dev/null	@@\
 	dd if=/dev/zero bs=1 count=1 2>/dev/null | \

@@ -407,3 +407,17 @@ xkb_keycodes "102" {
 xkb_keycodes "jp106" {
     include "xfree86(basic)"
 };
+
+xkb_keycodes "sun" {
+    include "xfree86(xfree86)"
+    alias <STOP> = <FK13>;
+    alias <AGAI> = <FK14>;
+    alias <PROP> = <FK15>;
+    alias <UNDO> = <FK16>;
+    alias <FRNT> = <FK17>;
+    alias <COPY> = <KPDC>;
+    <OPEN> = 124;
+    <PAST> = 125;
+    alias <FIND> = <KPEQ>;
+    <CUT>  = 127;
+};

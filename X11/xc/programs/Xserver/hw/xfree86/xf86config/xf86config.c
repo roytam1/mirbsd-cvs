@@ -188,11 +188,18 @@ static int getuid() { return 0; }
 #endif
 #endif
 
+#if defined(__OpenBSD__) && defined(WSCONS_SUPPORT) && !defined(PCVT_SUPPORT) 
+/* OpenBSD/macppc now has support for Standard kbd protocol under wscons */
+# ifndef __powerpc__
+#  define NEED_WSKBD
+# endif
+#endif
 
 int config_mousetype;		/* Mouse. */
 int config_emulate3buttons;
 int config_chordmiddle;
 int config_cleardtrrts;
+int config_wheel;
 char *config_pointerdevice;
 int config_altmeta;		/* Keyboard. */
 int config_monitortype;		/* Monitor. */
@@ -214,7 +221,7 @@ int config_virtualx24bpp, config_virtualy24bpp;
 char *config_ramdac;
 char *config_dacspeed;
 char *config_clockchip;
-#if defined(__OpenBSD__) && defined(WSCONS_SUPPORT) && !defined(PCVT_SUPPORT)
+#ifdef NEED_WSKBD
 char *config_keyboard_dev = "/dev/wskbd0";
 #endif
 int config_xkbdisable = 0;
@@ -612,13 +619,21 @@ mouse_configuration(void) {
 
 	printf("\n");
 
-	printf("Please answer the following question with either 'y' or 'n'.\n");
+	printf("Please answer the following questions with either 'y' or 'n'.\n");
 	printf("Do you want to enable Emulate3Buttons? ");
 	getstring(s);
 	if (answerisyes(s))
 		config_emulate3buttons = 1;
 	else
 		config_emulate3buttons = 0;
+	printf("\n");
+
+	printf("Do you want to configure a mouse wheel? ");
+	getstring(s);
+	if (answerisyes(s)) 
+		config_wheel = 1;
+	else
+		config_wheel = 0;
 	printf("\n");
 
 	printf("%s", mousedev_text);
@@ -677,7 +692,7 @@ static char *xkboptionstext =
 "Do you want to select additional XKB options (group switcher,\n"
 "group indicator, etc.)? ";
 
-#if defined(__OpenBSD__) && defined(WSCONS_SUPPORT) && !defined(PCVT_SUPPORT)
+#ifdef NEED_WSKBD
 static char *kbdevtext =
 "Please enter the device name for your keyboard or just press enter\n"
 "for the default of wskbd0\n\n";
@@ -692,7 +707,7 @@ keyboard_configuration(void)
 	int number, options[MAX_XKBOPTIONS], num_options;
         XkbRF_RulesPtr rules;
 
-#if defined(__OpenBSD__) && defined(WSCONS_SUPPORT) && !defined(PCVT_SUPPORT)
+#ifdef NEED_WSKBD
 	printf(kbdevtext);
 	getstring(s);
 	if (strlen(s) != 0) {
@@ -2495,7 +2510,7 @@ write_XF86Config(char *filename)
 		fprintf(f, "#    Option \"LeftAlt\"     \"Meta\"\n");
 		fprintf(f, "#    Option \"RightAlt\"    \"ModeShift\"\n");
 	}
-#if defined(__OpenBSD__) && defined(WSCONS_SUPPORT) && !defined(PCVT_SUPPORT)
+#ifdef NEED_WSKBD
 	/* wscons keyoards need a protocol line */
 	fprintf(f, "    Option \"Protocol\" \"wskbd\"\n");
 	fprintf(f, "    Option \"Device\" \"%s\"\n", config_keyboard_dev);
@@ -2546,6 +2561,11 @@ write_XF86Config(char *filename)
 		fprintf(f, "    Option \"ClearDTR\"\n");
 		fprintf(f, "    Option \"ClearRTS\"\n\n");
 	}
+	fprintf(f, "# ZaxisMapping is an option for handling the wheel\n");
+	if (!config_wheel) 
+		fprintf(f, "#");
+	fprintf(f, "    Option \"ZAxisMapping\" \"4 5\"\n\n");
+
 	fprintf(f, "EndSection\n\n\n");
 
 	/*

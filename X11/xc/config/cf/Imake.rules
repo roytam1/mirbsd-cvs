@@ -2190,6 +2190,18 @@ LintLibReferences(varname,libname,libsource)
 #endif
 
 /*
+ * SharedLibTwoReferences - variables for shared libraries which depend
+ * on other shared libraries
+ */
+#ifndef SharedLibTwoReferences
+#define SharedLibTwoReferences(varname,libname,libsource,revname,rev,others)	@@\
+revname = rev								@@\
+Concat3(DEP,varname,LIB) = SharedLibDependencies(libname,libsource,revname) @@\
+Concat(varname,LIB) = LoaderLibPrefix Concat(-l,libname) others		@@\
+LintLibReferences(varname,libname,libsource)
+#endif
+
+/*
  * SharedDSLibReferences - variables for shared libraries with data separation
  */
 #ifndef SharedDSLibReferences

@@ -32,7 +32,6 @@
 
 #ifdef HAS_MTRR_SUPPORT
 #ifndef __NetBSD__
-#include <sys/types.h>
 #include <sys/memrange.h>
 #else
 #include "memrange.h"
@@ -44,6 +43,11 @@
 #include <machine/mtrr.h>
 #include <machine/sysarch.h>
 #include <sys/queue.h>
+#endif
+
+#if defined(__OpenBSD__) && defined(__amd64__)
+#include <machine/mtrr.h>
+#include <machine/sysarch.h>
 #endif
 
 #include "xf86_OSlib.h"
@@ -94,7 +98,11 @@ static pointer NetBSDsetWC(int, unsigned long, unsigned long, Bool,
 			   MessageType);
 static void NetBSDundoWC(int, pointer);
 #endif
-
+#if defined(__amd64__) && defined(__OpenBSD__)
+static pointer amd64setWC(int, unsigned long, unsigned long, Bool, 
+    MessageType);
+static void amd64undoWC(int, pointer);
+#endif
 
 /*
  * Check if /dev/mem can be mmap'd.  If it can't print a warning when
@@ -111,78 +119,64 @@ checkDevMem(Bool warn)
 	    return;
 	devMemChecked = TRUE;
 
-	if ((fd = open(DEV_MEM, O_RDWR)) >= 0)
-	{
+#ifdef HAS_APERTURE_DRV
+	/* Try the aperture driver first */
+	if ((fd = open(DEV_APERTURE, O_RDWR)) >= 0) {
 	    /* Try to map a page at the VGA address */
 	    base = mmap((caddr_t)0, 4096, PROT_READ | PROT_WRITE,
 				 MAP_FLAGS, fd, (off_t)0xA0000);
 	
-	    if (base != MAP_FAILED)
-	    {
+	    if (base != MAP_FAILED) {
 		munmap((caddr_t)base, 4096);
 		devMemFd = fd;
 		useDevMem = TRUE;
-		return;
-	    } else {
-		/* This should not happen */
-		if (warn)
-		{
-		    xf86Msg(X_WARNING, "checkDevMem: failed to mmap %s (%s)\n",
-			    DEV_MEM, strerror(errno));
-		}
-		useDevMem = FALSE;
-		return;
-	    }
-	}
-#ifndef HAS_APERTURE_DRV
-	if (warn)
-	{ 
-	    xf86Msg(X_WARNING, "checkDevMem: failed to open %s (%s)\n",
-		    DEV_MEM, strerror(errno));
-	} 
-	useDevMem = FALSE;
-	return;
-#else
-	/* Failed to open /dev/mem, try the aperture driver */
-	if ((fd = open(DEV_APERTURE, O_RDWR)) >= 0)
-	{
-	    /* Try to map a page at the VGA address */
-	    base = mmap((caddr_t)0, 4096, PROT_READ | PROT_WRITE,
-			     MAP_FLAGS, fd, (off_t)0xA0000);
-	
-	    if (base != MAP_FAILED)
-	    {
-		munmap((caddr_t)base, 4096);
-		devMemFd = fd;
-		useDevMem = TRUE;
-		xf86Msg(X_INFO, "checkDevMem: using aperture driver %s\n",
+		xf86Msg(X_PROBED, "checkDevMem: using aperture driver %s\n",
 		        DEV_APERTURE);
 		return;
 	    } else {
-
-		if (warn)
-		{
+		if (warn) {
 		    xf86Msg(X_WARNING, "checkDevMem: failed to mmap %s (%s)\n",
 			    DEV_APERTURE, strerror(errno));
 		}
 	    }
-	} else {
-	    if (warn)
-	    {
-#ifndef __OpenBSD__
-		xf86Msg(X_WARNING, "checkDevMem: failed to open %s and %s\n"
-			"\t(%s)\n", DEV_MEM, DEV_APERTURE, strerror(errno));
-#else /* __OpenBSD__ */
-		xf86Msg(X_WARNING, "checkDevMem: failed to open %s and %s\n"
-			"\t(%s)\n%s", DEV_MEM, DEV_APERTURE, strerror(errno),
-			SYSCTL_MSG);
-#endif /* __OpenBSD__ */
+	}
+#endif
+	if ((fd = open(DEV_MEM, O_RDWR)) >= 0) {
+	    /* Try to map a page at the VGA address */
+	    base = mmap((caddr_t)0, 4096, PROT_READ | PROT_WRITE,
+			     MAP_FLAGS, fd, (off_t)0xA0000);
+	
+	    if (base != MAP_FAILED) {
+		munmap((caddr_t)base, 4096);
+		devMemFd = fd;
+		useDevMem = TRUE;
+		return;
+	    } else {
+		if (warn) {
+		    xf86Msg(X_WARNING, "checkDevMem: failed to mmap %s (%s)\n",
+			    DEV_MEM, strerror(errno));
+		}
 	    }
 	}
+	if (warn) {
+#ifndef HAS_APERTURE_DRV
+	    xf86Msg(X_WARNING, "checkDevMem: failed to open/mmap %s (%s)\n",
+		    DEV_MEM, strerror(errno));
+	    xf86ErrorF("\tlinear framebuffer access unavailable\n");
+#else
+#ifndef __OpenBSD__
+		xf86Msg(X_WARNING, "checkDevMem: failed to open %s and %s\n"
+		"\t(%s)\n", DEV_APERTURE, DEV_MEM, strerror(errno));
+#else /* __OpenBSD__ */
+		xf86Msg(X_WARNING, "checkDevMem: failed to open %s and %s\n"
+		    "\t(%s)\n%s", DEV_APERTURE, DEV_MEM, strerror(errno),
+			SYSCTL_MSG);
+#endif /* __OpenBSD__ */
 	
+	    xf86ErrorF("\tlinear framebuffer access unavailable\n");
+	}
 	useDevMem = FALSE;
 	return;
-
 #endif
 }
 
@@ -205,6 +199,10 @@ xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 #if defined(HAS_MTRR_BUILTIN) && defined(__NetBSD__)
 	pVidMem->setWC = NetBSDsetWC;
 	pVidMem->undoWC = NetBSDundoWC;
+#endif
+#if defined(__amd64__) && defined(__OpenBSD__)
+	pVidMem->setWC = amd64setWC;
+	pVidMem->undoWC = amd64undoWC;
 #endif
 	pVidMem->initialised = TRUE;
 }
@@ -246,8 +244,7 @@ mapVidMem(int ScreenNum, unsigned long Base, unsigned long Size, int flags)
 		    (flags & VIDMEM_READONLY) ?
 		     PROT_READ : (PROT_READ | PROT_WRITE),
 		    MAP_FLAGS, xf86Info.screenFd,
-		    (unsigned long)Base - 0xA0000
-	    );
+		    (unsigned long)Base - 0xA0000);
 	if (base == MAP_FAILED)
 	{
 	    FatalError("xf86MapVidMem: Could not mmap /dev/vga (%s)",
@@ -509,7 +506,6 @@ xf86SetRGBOut()
     return;
 }
 #endif
-
 
 #ifdef HAS_MTRR_SUPPORT
 /* memory range (MTRR) support for FreeBSD */
@@ -918,3 +914,67 @@ NetBSDundoWC(int screenNum, pointer list)
 	xfree(mtrrp);
 }
 #endif
+
+#if defined(__OpenBSD__) && defined(__amd64__)
+static pointer
+amd64setWC(int screenNum, unsigned long base, unsigned long size, Bool enable,
+	    MessageType from)
+{
+	struct mtrr *mtrrp;
+	int n;
+
+	xf86DrvMsg(screenNum, X_WARNING,
+		   "%s MTRR %lx - %lx\n", enable ? "set" : "remove",
+		   base, (base + size));
+
+	mtrrp = xnfalloc(sizeof (struct mtrr));
+	mtrrp->base = base;
+	mtrrp->len = size;
+	mtrrp->type = MTRR_TYPE_WC;
+
+	/*
+	 * MTRR_PRIVATE will make this MTRR get reset automatically
+	 * if this process exits, so we have no need for an explicit
+	 * cleanup operation when starting a new server.
+	 */
+
+	if (enable)
+		mtrrp->flags = MTRR_VALID | MTRR_PRIVATE;
+	else
+		mtrrp->flags = 0;
+	n = 1;
+
+	if (amd64_set_mtrr(mtrrp, &n) < 0) {
+		xfree(mtrrp);
+		return NULL;
+	}
+	return mtrrp;
+}
+
+static void
+amd64undoWC(int screenNum, pointer list)
+{
+	struct mtrr *mtrrp = (struct mtrr *)list;
+	int n;
+
+	if (mtrrp == NULL)
+		return;
+	n = 1;
+	mtrrp->flags &= ~MTRR_VALID;
+	amd64_set_mtrr(mtrrp, &n);
+	xfree(mtrrp);
+}
+#endif /* OpenBSD/amd64 */
+
+/*
+ * Do all things that need root privileges early 
+ * and revoke those privileges 
+ */
+void
+xf86PrivilegedInit(void)
+{
+	checkDevMem(TRUE);
+	xf86EnableIO();
+	xf86OpenConsole();
+	xf86AgpGARTSupported();
+}

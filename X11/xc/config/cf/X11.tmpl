@@ -1696,15 +1696,16 @@ XCOMM X Window System make variables; these need to be coordinated with rules
      INSTAPPFLAGS = $(INSTDATFLAGS)	/* XXX - this should go away - XXX */
 
 #if UseInstalledX11
-              RGB = $(BINDIR)/rgb
-            FONTC = $(BINDIR)/bdftopcf
-      MKFONTSCALE = $(BINDIR)/mkfontscale
-        MKFONTDIR = $(BINDIR)/mkfontdir
-      MKHTMLINDEX = $(BINDIR)/mkhtmlindex
-          UCS2ANY = $(BINDIR)/ProgramTargetName(ucs2any)
-      BDFTRUNCATE = $(BINDIR)/bdftruncate
-     UCSMAPPREFIX = $(FONTDIR)/util/map-
-       XCURSORGEN = $(BINDIR)/xcursorgen
+          XBINDIR = Concat(ProjectRoot,/bin)
+              RGB = $(XBINDIR)/rgb
+            FONTC = $(XBINDIR)/bdftopcf
+      MKFONTSCALE = $(XBINDIR)/mkfontscale
+        MKFONTDIR = $(XBINDIR)/mkfontdir
+      MKHTMLINDEX = $(XBINDIR)/mkhtmlindex
+          UCS2ANY = $(XBINDIR)/ucs2any
+      BDFTRUNCATE = $(XBINDIR)/bdftruncate
+     UCSMAPPREFIX = $(XFONTDIR)/util/map-
+       XCURSORGEN = $(XBINDIR)/xcursorgen
 #else
               RGB = $(CLIENTENVSETUP) $(XBUILDBINDIR)/rgb
 # if !CrossCompiling
@@ -2704,6 +2705,10 @@ SharedLibReferences(GLX,GL,$(GLXLIBSRC),SOGLREV,SharedGlxRev)
 #else
 ProjectUnsharedLibReferences(GLX,GL,$(GLXLIBSRC),XBuildLibDir)
 #endif
+#ifndef SharedOSMesaRev
+#define SharedOSMesaRev 4.0
+#endif
+
     GLWIDGETSRC = $(LIBSRC)/GLw
 #if SharedLibGLw
 #ifndef SharedGLwRev
@@ -3312,10 +3317,11 @@ ProjectUnsharedLibReferences(XPM,Xpm,$(XPMLIBSRC),XBuildLibDir)
 #if LibtoolMinorVersions
 #define SharedFreetype2Rev 6.3
 #else
-#define SharedFreetype2Rev 9.0
+/* was 9.0, but libz dependency has grow it by one */
+#define SharedFreetype2Rev 10.0
 #endif
 #endif
-SharedLibReferences(FREETYPE2,freetype,$(FREETYPE2LIBSRC),SOFREETYPE2REV,SharedFreetype2Rev)
+SharedLibTwoReferences(FREETYPE2,freetype,$(FREETYPE2LIBSRC),SOFREETYPE2REV,SharedFreetype2Rev,-lz)
 #else
 ProjectUnsharedLibReferences(FREETYPE2,freetype,$(FREETYPE2LIBSRC),XBuildLibDir)
 #endif

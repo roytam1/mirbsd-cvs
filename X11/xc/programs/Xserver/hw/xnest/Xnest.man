@@ -169,6 +169,23 @@ For each server running on the workstation the display number needs to
 be incremented by one.  Thus, if you wish to start another
 \fIXnest\fP, you will need to type \fIXnest :2\fP on the command line.
 .PP
+On some operating environments, you need to add authorisation cookies
+to your xauth list before.
+You might find the following script useful:
+.RS -2C
+.nf
+#!/bin/ksh
+typeset -i dispnr=${1:-1}
+COOKIE=$(dd if=/dev/arandom bs=16 count=1 | hexdump -e '16/1 "%02X"')
+
+xauth add $(hostname)/unix:$dispnr . $COOKIE
+xauth add localhost/unix:$dispnr . $COOKIE
+Xnest :$dispnr
+xauth remove $(hostname)/unix:$dispnr localhost/unix:$dispnr
+exit 0
+.fi
+.RE
+.PP
 To run clients in the nested server each client needs to be given the
 same display number as the nested server.  For example, \fIxterm
 -display :1\fP will start up an \fIxterm\fP in the first nested server

@@ -544,6 +544,7 @@ xf86PostKbdEvent(unsigned key)
     } else
 #endif /* i386 && SVR4 */
     if (!xf86IsPc98()) {
+#ifndef __OpenBSD__
       switch (scanCode) {
       case 0x59:        scanCode = KEY_0x59; break;
       case 0x5a:        scanCode = KEY_0x5A; break;
@@ -575,6 +576,7 @@ xf86PostKbdEvent(unsigned key)
       case 0x76:        scanCode = KEY_0x76; break;
       }
     }
+#endif
   }
 
   else if (
@@ -624,8 +626,8 @@ xf86PostKbdEvent(unsigned key)
     case 0x36:
 	return;
     default:
-      xf86MsgVerb(X_INFO, 4, "Unreported Prefix0 scancode: 0x%02x\n",
-		  scanCode);
+	    /* xf86MsgVerb(X_INFO, 4, "Unreported Prefix0 scancode: 0x%02x\n",
+	       scanCode); XXXX */
       /*
        * "Internet" keyboards are generating lots of new codes.  Let them
        * pass.  There is little consistency between them, so don't bother

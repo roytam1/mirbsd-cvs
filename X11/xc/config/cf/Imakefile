@@ -25,6 +25,7 @@ site.def
 RULEFILES = \
 Imake.rules \
 Motif.rules \
+OpenBSDLib.rules \
 Win32.rules \
 X11.rules \
 bsdLib.rules \
@@ -54,7 +55,9 @@ xf86.rules
 TMPLFILES = \
 Imake.tmpl \
 Library.tmpl \
+MirBSDLib.tmpl \
 Motif.tmpl \
+OpenBSDLib.tmpl \
 Server.tmpl \
 ServerLib.tmpl \
 Threads.tmpl \
@@ -83,6 +86,7 @@ Imake.cf \
 Amoeba.cf \
 DGUX.cf \
 FreeBSD.cf \
+MirBSD.cf \
 Mips.cf \
 NetBSD.cf \
 OpenBSD.cf \

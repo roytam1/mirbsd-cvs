@@ -113,8 +113,14 @@ XCOMM $XFree86: xc/config/cf/Imake.cf,v 3.91 2004/04/03 22:26:20 dawes Exp $
 # undef __NetBSD__
 # define OpenBSDArchitecture
 # define KOpenBSDArchitecture
+#ifdef	__MirBSD__
+# define MirBSDArchitecture
+# define MacroIncludeFile <MirBSD.cf>
+# define MacroFile MirBSD.cf
+#else
 # define MacroIncludeFile <OpenBSD.cf>
 # define MacroFile OpenBSD.cf
+#endif
 # ifdef __i386__
 #  define i386BsdArchitecture
 #  define i386Architecture
@@ -144,6 +150,12 @@ XCOMM $XFree86: xc/config/cf/Imake.cf,v 3.91 2004/04/03 22:26:20 dawes Exp $
 #   define AlphaArchitecture
 #   undef __alpha__
 #   undef alpha
+# endif
+# if defined(__amd64__) || defined(__x86_64__)
+#   define AMD64Architecture
+#   undef __amd64__
+#   undef __x86_64__
+#   undef amd64
 # endif
 # if defined(__amd64__) || defined(__x86_64__)
 #   define AMD64Architecture

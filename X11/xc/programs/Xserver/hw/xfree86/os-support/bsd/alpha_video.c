@@ -727,3 +727,15 @@ int  (*xf86ReadMmio16)(pointer Base, unsigned long Offset)
 int  (*xf86ReadMmio32)(pointer Base, unsigned long Offset)
      = readDense32;
 
+/*
+ * Do all things that need root privileges early 
+ * and revoke those priviledges 
+ */
+void
+xf86PrivilegedInit(void)
+{
+	xf86EnableIO();
+	checkDevMem(TRUE);
+	pciInit();
+	xf86OpenConsole();
+}

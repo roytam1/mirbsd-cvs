@@ -44,9 +44,8 @@
 /* Video Memory Mapping section                                            */
 /***************************************************************************/
 
-#ifndef __OpenBSD__
-#define DEV_MEM "/dev/mem"
-#else
+#ifdef __OpenBSD__
+#undef DEV_MEM
 #define DEV_MEM "/dev/xf86"
 #endif
 
@@ -80,7 +79,7 @@ ppcMapVidMem(int ScreenNum, unsigned long Base, unsigned long Size, int flags)
 		     PROT_READ : (PROT_READ | PROT_WRITE),
 		    MAP_SHARED, fd, Base);
 	if (base == MAP_FAILED)
-		FatalError("%s: could not mmap screen [s=%x,a=%x] (%s)",
+		FatalError("%s: could not mmap screen [s=%lx,a=%lx] (%s)",
 			   "xf86MapVidMem", Size, Base, strerror(errno));
 
 	return base;
@@ -92,12 +91,18 @@ ppcUnmapVidMem(int ScreenNum, pointer Base, unsigned long Size)
 	munmap(Base, Size);
 }
 
+static int kmem = -1;
+
 int
 xf86ReadBIOS(unsigned long Base, unsigned long Offset, unsigned char *Buf,
 	     int Len)
 {
 	int rv;
-	static int kmem = -1;
+
+	if (Base < 0x80000000) {
+		xf86Msg(X_WARNING, "No VGA Base=%#lx\n", Base);
+		return 0;
+	}
 
 	if (kmem == -1) {
 		kmem = open(DEV_MEM, 2);
@@ -114,7 +119,6 @@ xf86ReadBIOS(unsigned long Base, unsigned long Offset, unsigned char *Buf,
 
 	lseek(kmem, Base + Offset, 0);
 	rv = read(kmem, Buf, Len);
-
 	return rv;
 }
 
@@ -134,4 +138,19 @@ xf86EnableInterrupts()
 {
 
 	return;
+}
+
+/*
+ * Do all initialisation that need root privileges 
+ */
+void
+xf86PrivilegedInit(void)
+{
+ 	kmem = open(DEV_MEM, 2);
+ 	if (kmem == -1) {
+		ErrorF("errno: %d\n", errno);
+ 		FatalError("xf86PrivilegedInit: open %s", DEV_MEM);
+ 	}
+	pciInit();
+	xf86OpenConsole();
 }

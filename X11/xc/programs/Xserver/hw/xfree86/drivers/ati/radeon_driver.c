@@ -1822,6 +1822,11 @@ static Bool RADEONGetPLLParameters(ScrnInfoPtr pScrn)
 		    pll->reference_div  = 12;
 		    pll->xclk           = 36000;
 		    break;
+		case PCI_CHIP_RADEON_LW: /* Guess based on iBook OpenFirmware */
+		    pll->reference_freq = 2700;
+		    pll->reference_div  = 12;
+		    pll->xclk           = 36000;
+		    break;
 		default:
 		    pll->reference_freq = 2700;
 		    pll->reference_div  = 67;
@@ -5040,6 +5045,14 @@ static void RADEONRestorePLLRegisters(ScrnInfoPtr pScrn,
     RADEONInfoPtr  info       = RADEONPTR(pScrn);
     unsigned char *RADEONMMIO = info->MMIO;
 
+    /* 
+     * Never do it on Apple iBook to avoid a blank screen.
+     */
+#ifdef __powerpc__
+    if (xf86ReturnOptValBool(info->Options, OPTION_IBOOKHACKS, FALSE))
+        return;
+#endif
+
     if (info->IsMobility) {
     /* 
      * Never do it on Apple iBook to avoid a blank screen.
@@ -5531,7 +5544,7 @@ static void RADEONSave(ScrnInfoPtr pScrn)
 	 */
 	vgaHWSave(pScrn, &hwp->SavedReg, VGA_SR_MODE); /* Save mode only */
 #else
-	vgaHWSave(pScrn, &hwp->SavedReg, VGA_SR_MODE | VGA_SR_FONTS); /* Save mode
+	vgaHWSave(pScrn, &hwp->SavedReg, VGA_SR_ALL); /* Save mode
 						       * & fonts & cmap
 						       */
 #endif
@@ -5601,7 +5614,7 @@ static void RADEONRestore(ScrnInfoPtr pScrn)
 	 */
 	vgaHWRestore(pScrn, &hwp->SavedReg, VGA_SR_MODE );
 #else
-	vgaHWRestore(pScrn, &hwp->SavedReg, VGA_SR_MODE | VGA_SR_FONTS );
+	vgaHWRestore(pScrn, &hwp->SavedReg, VGA_SR_ALL );
 #endif
 	vgaHWLock(hwp);
     } else {

@@ -97,6 +97,7 @@ typedef struct _FontencCharset {
 FontencCharsetRec fontencCharsets[] = {
     {"ISO 646 (1973)", T_94, '@', "iso646.1973-0", 0x00, 0, 0},
     {"ASCII", T_94, 'B', "iso8859-1", 0x00, 0, 0},
+    {"CP437", T_128, 0, "ibm-cp437", 0x80, 0, 0},
     {"JIS X 0201:GL", T_94, 'J', "jisx0201.1976-0", 0x00, 0, 0},
     {"JIS X 0201:GR", T_94, 'I', "jisx0201.1976-0", 0x80, 0, 0},
     {"DEC Special", T_94, '0', "dec-special", 0x00, 0, 0},
@@ -389,6 +390,7 @@ getCharsetByName(char *name)
 LocaleCharsetRec localeCharsets[] = {
     { "C", 0, 2, "ASCII", NULL, "ISO 8859-1", NULL, NULL},
     { "POSIX", 0, 2, "ASCII", NULL, "ISO 8859-1", NULL, NULL},
+    { "MSDOS", 0, 2, "ASCII", NULL, "CP437", NULL, NULL},
     { "ISO8859-1", 0, 2, "ASCII", NULL, "ISO 8859-1", NULL, NULL},
     { "ISO8859-2", 0, 2, "ASCII", NULL, "ISO 8859-2", NULL, NULL},
     { "ISO8859-3", 0, 2, "ASCII", NULL, "ISO 8859-3", NULL, NULL},

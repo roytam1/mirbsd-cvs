@@ -26,6 +26,7 @@
   powerpcps2	=	powerpcps2
   pc98		=	xfree98(pc98)
   jp106		=	xfree86(jp106)
+  sun		=	xfree86(sun)
   *		=	xfree86
 
 ! $azerty = be fr fr-latin9
@@ -59,6 +60,7 @@
   abnt2_107	=	pc(abnt2_107)
   abnt2		=	pc(abnt2_104)
  $mac		=	macintosh(macintosh)
+  sun		=	sun(type4)
   *		=       pc(pc104)
 
 ! model		variant		layout	=	symbols
@@ -69,6 +71,9 @@
 
 ! model		layout	=	symbols
   pc98		nec/jp	=	nec/jp(pc98)
+  sun		us	=	us(pc104)+sun/lkeys
+  sun		en_US	=	en_US(pc104)+sun/lkeys
+  sun		*	=	en_US(pc104)+sun/lkeys+%l%(v)
  $maclaptop	us	=	macintosh/us(extended)+apple(laptop_bad_switch)
  $maclaptop	en_US	=	macintosh/us(extended)+apple(laptop_bad_switch)
  $maclaptop	*	=	macintosh/us(extended)+apple(laptop_bad_switch)+macintosh/%l%(v)

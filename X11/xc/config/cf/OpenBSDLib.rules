@@ -1,3 +1,4 @@
+XCOMM $MirOS$
 XCOMM $OpenBSD: OpenBSDLib.rules,v 1.1 2000/10/09 20:43:58 matthieu Exp $
 
 
@@ -67,7 +68,7 @@ XCOMM $XFree86: xc/config/cf/OpenBSDLib.rules,v 1.17 2004/06/01 00:16:53 dawes E
 #endif
 
 #ifndef UseRpath
-#define UseRpath YES
+#define UseRpath NO
 #endif
 
 #ifndef BaseShLibReqs
@@ -120,13 +121,12 @@ XCOMM $XFree86: xc/config/cf/OpenBSDLib.rules,v 1.17 2004/06/01 00:16:53 dawes E
 
 /*
  * InstallSharedLibrary - generate rules to install the shared library.
- * NOTE: file must be executable, hence "INSTBINFLAGS"
  */
 #ifndef InstallSharedLibrary
 #define InstallSharedLibrary(libname,rev,dest)				@@\
 install::								@@\
 	MakeDir($(DESTDIR)dest)						@@\
-	$(INSTALL) $(INSTALLFLAGS) $(INSTBINFLAGS) Concat($(LIBPREFIX),libname.so.rev) $(DESTDIR)dest
+	$(INSTALL) $(INSTALLFLAGS) $(INSTLIBFLAGS) Concat($(LIBPREFIX),libname.so.rev) $(DESTDIR)dest
 #endif /* InstallSharedLibrary */
 
 /*
@@ -180,6 +180,28 @@ clean::									@@\
 	$(RM) Concat($(LIBPREFIX),libname.so.rev)
 
 #endif /* SharedDepLibraryTarget */
+
+/*
+ * SharedDepCplusplusLibraryTarget - generate rules to create a shared library.
+ */
+#ifndef SharedDepCplusplusLibraryTarget
+#define SharedDepCplusplusLibraryTarget(libname,rev,deplist,solist,down,up)	@@\
+AllTarget(Concat(lib,libname.so.rev))					@@\
+									@@\
+Concat(lib,libname.so.rev):  deplist $(EXTRALIBRARYDEPS)		@@\
+	$(RM) $@~							@@\
+	(cd down; $(CXX) -o up/$@~ $(SHLIBLDFLAGS) solist $(REQUIREDLIBS)) @@\
+	$(RM) $@							@@\
+	$(MV) $@~ $@							@@\
+	LinkBuildLibrary($@)						@@\
+									@@\
+clean::									@@\
+	@SONAME=`echo Concat(lib,libname.so.rev) | sed 's/\.[^\.]*$$//'`; \ @@\
+	set -x; $(RM) $$SONAME						@@\
+	$(RM) Concat(lib,libname.so)					@@\
+	$(RM) Concat(lib,libname.so.rev)
+
+#endif /* SharedDepCplusplusLibraryTarget */
 
 #ifndef SharedDepModuleTarget
 #define SharedDepModuleTarget(name,deps,solist)				@@\
@@ -235,4 +257,3 @@ module: modlist								@@\
 clean::									@@\
 	RemoveFile(module)
 #endif /* DynamicModuleTarget */
-

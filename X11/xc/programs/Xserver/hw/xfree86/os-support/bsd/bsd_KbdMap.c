@@ -1044,9 +1044,11 @@ KbdGetMapping (InputInfoPtr pInfo, KeySymsPtr pKeySyms, CARD8 *pModMap)
       case PCCONS:
       case PCVT:
            pKbd->RemapScanCode = ATScancode;
+	   break;
 #endif
 #ifdef WSCONS_SUPPORT
       case WSCONS:
+	if (!pKbd->isConsole) {
            switch (pKbd->wsKbdType) {
 	       case WSKBD_TYPE_PC_XT:
 	       case WSKBD_TYPE_PC_AT:
@@ -1061,12 +1063,18 @@ KbdGetMapping (InputInfoPtr pInfo, KeySymsPtr pKeySyms, CARD8 *pModMap)
                     break;
 #endif
 #ifdef WSKBD_TYPE_SUN
+#ifdef WSKBD_TYPE_SUN5
+	       case WSKBD_TYPE_SUN5:
+#endif
 	       case WSKBD_TYPE_SUN:
                     pKbd->scancodeMap = &wsSun;
                     break;
 #endif
 	       default:
 		    ErrorF("Unknown wskbd type %d\n", pKbd->wsKbdType);
+           }
+	} else {
+           pKbd->RemapScanCode = ATScancode;
            }
       break;
 #endif

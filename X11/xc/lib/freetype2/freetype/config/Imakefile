@@ -35,7 +35,7 @@ RPATH_CFLAG = HardCodeLibdirFlag
 freetype-config: freetype-config.in
 	sed -e s%@prefix@%$(PROJECTROOT)% -e s%@exec_prefix@%$(PROJECTROOT)% \
 	-e s%@libdir@%$(USRLIBDIR)%g -e s%@includedir@%$(INCDIR)%	\
-	-e s%@ft_version@%$(FREETYPE_VERSION)% -e s%@LIBZ@%% \
+	-e s%@ft_version@%$(FREETYPE_VERSION)% -e s%@LIBZ@%-lz% \
 	-e s%@hardcode_libdir_flag_spec@%$(RPATH_CFLAG)% \
 	< freetype-config.in > $@
 

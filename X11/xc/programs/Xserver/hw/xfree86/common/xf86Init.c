@@ -223,6 +223,10 @@ InputDriverRec xf86KEYBOARD = {
 	0
 };
 
+#ifdef __OpenBSD__
+static Bool xf86KeepPriv = FALSE;
+#endif 
+
 static Bool
 xf86CreateRootWindow(WindowPtr pWin)
 {
@@ -1138,7 +1142,11 @@ retry:
 	 * don't, will wrap them.
 	 */
 	xf86Screens[i]->EnableDisableFBAccess = xf86EnableDisableFBAccess;
+#ifdef XFreeXDGA
 	xf86Screens[i]->SetDGAMode = xf86SetDGAMode;
+#else
+	xf86Screens[i]->SetDGAMode = NULL;
+#endif
 	xf86Screens[i]->DPMSSet = NULL;
 	xf86Screens[i]->LoadPalette = NULL; 
 	xf86Screens[i]->SetOverscan = NULL;
@@ -1383,8 +1391,13 @@ OsVendorPreInit(void)
  *      is called by dix before establishing the well known sockets.
  */
  
+#ifdef __OpenBSD__
+extern void xf86DropPriv(char *);
+extern void xf86PrivilegedInit(void);
+#endif
+
 void
-OsVendorInit()
+OsVendorInit(void)
 {
   static Bool beenHere = FALSE;
 
@@ -1424,6 +1437,13 @@ OsVendorInit()
     }
   }
 #endif
+#endif
+
+#if defined(__OpenBSD__)
+  if (!beenHere && !xf86KeepPriv) {
+	  xf86PrivilegedInit();
+	  xf86DropPriv(display);
+  }
 #endif
 
   beenHere = TRUE;
@@ -1631,6 +1651,11 @@ ddxProcessArgument(int argc, char **argv, int i)
 	  "\tUsing default XF86Config search path.\n\n");
     }
     xf86ConfigFile = argv[i];
+#ifdef __OpenBSD__
+    /* Cannot drop privs when -xf86config is used with unsafe path */
+    if (!xf86PathIsSafe(xf86ConfigFile))
+	    xf86KeepPriv = TRUE;
+#endif
     return 2;
   }
   if (!strcmp(argv[i],"-showunresolved"))
@@ -1946,8 +1971,22 @@ ddxProcessArgument(int argc, char **argv, int i)
     }
     xf86DoConfigure = TRUE;
     xf86AllowMouseOpenFail = TRUE;
+#ifdef __OpenBSD__
+    xf86KeepPriv = TRUE;
+#endif
     return 1;
   }
+#ifdef __OpenBSD__
+  if (!strcmp(argv[i], "-keepPriv")) 
+  {
+	  if (getuid() != 0) {
+		  ErrorF("The '-keepPriv' option can only be used by root.\n");
+		  exit(1);
+	  }
+	  xf86KeepPriv = TRUE;
+	  return 1;
+  }
+#endif
   /* OS-specific processing */
   return xf86ProcessArgument(argc, argv, i);
 }
@@ -2014,6 +2053,9 @@ ddxUseMsg()
   ErrorF("-bestRefresh           choose modes with the best refresh rate\n");
   ErrorF("-ignoreABI             make module ABI mismatches non-fatal\n");
   ErrorF("-version               show the server version\n");
+#ifdef __OpenBSD__
+  ErrorF("-keepPriv		 don't revoque privs when running as root\n");
+#endif
   /* OS-specific usage */
   xf86UseMsg();
   ErrorF("\n");

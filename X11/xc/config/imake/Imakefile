@@ -14,7 +14,7 @@ DEPLIBS =
 
 INCLUDES = -I$(TOP)/include $(TOP_X_INCLUDES)/X11
 CPP_PROGRAM = CppCmd
-CPP_DEFINES = -DCPP_PROGRAM="\"$(CPP_PROGRAM)\""
+CPP_DEFINES = -DCPP_PROGRAM="\"$(CPP_PROGRAM)\"" -DDEFAULT_CC=\"$(CC)\"
 GCC_COMMAND = $(CC) -fmerge-constants -xc /dev/null -S -o /dev/null 2> /dev/null 1> /dev/null
 GCC_DEFINES = -DHAS_MERGE_CONSTANTS=`if $(GCC_COMMAND); then echo 1; else echo 0; fi`
 

@@ -10,6 +10,11 @@
 # redirect errors to a file in user's home directory if we can
 for errfile in "$HOME/.xsession-errors" "${TMPDIR-/tmp}/xses-$USER" "/tmp/xses-$USER"
 do
+	case "$errfile" in
+	/tmp/* | /var/tmp/*)
+		errfile=$(mktemp ${errfile}.XXXXXXXXXX) || break;
+		;;
+	esac
 	if ( cp /dev/null "$errfile" 2> /dev/null )
 	then
 		chmod 600 "$errfile"
@@ -18,11 +23,28 @@ do
 	fi
 done
 
+# if we have private ssh key(s), start ssh-agent and add the key(s)
+id1=$HOME/.ssh/identity
+if [ -x /usr/bin/ssh-agent ] && [ -f $id1 -o -f $id2 -o -f $id3 ];
+then
+	eval $(ssh-agent -s)
+	ssh-add $id1 </dev/null
+fi
+
+do_exit() {
+	if [ "$SSH_AGENT_PID" ]; then
+		ssh-add -D < /dev/null
+		eval $(ssh-agent -s -k)
+	fi
+	exit
+}
+
 case $# in
 1)
 	case $1 in
 	failsafe)
-		exec xterm -geometry 80x24-0-0
+		xterm -geometry 80x24-0-0
+		do_exit
 		;;
 	esac
 esac
@@ -34,13 +56,15 @@ resources=$HOME/.Xresources
 
 if [ -s "$startup" ]; then
 	if [ -x "$startup" ]; then
-		exec "$startup"
+		"$startup"
 	else
-		exec /bin/sh "$startup"
+		/bin/ksh "$startup"
 	fi
 else
-	if [ -r "$resources" ]; then
+	if [ -f "$resources" ]; then
 		xrdb -load "$resources"
 	fi
-	exec xsm
+	xterm &
+	twm
 fi
+do_exit

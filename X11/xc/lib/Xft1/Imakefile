@@ -74,7 +74,7 @@ LDPRELIBS=LdPreLibs
 #define DoDebugLib DebugLibXft1
 #define DoProfileLib ProfileLibXft1
 #define HasSharedData YES
-#define LibName Xft
+#define LibName Xft1
 #define SoRev SOXFT1REV
 #define LibHeaders NO
 #define NoSoSymlink
@@ -145,9 +145,6 @@ step:: srcname								@@\
 #define InstallNonExecFileRelated(file,dest,rel)			@@\
 InstallNamedTargetRelated(install,file,$(INSTDATFLAGS),dest,file,rel)
 #endif /* InstallNonExecFileBackup */
-
-InstallNonExecFileRelated(XftConfig-OBSOLETE,$(XFTLIBDIR),XftConfig)
-InstallNonExecFileRelated(XftConfig-OBSOLETE,$(CONFDIR),XftConfig)
 
 MANSUFFIX = $(LIBMANSUFFIX)
 InstallManPage(Xft,$(LIBMANDIR))

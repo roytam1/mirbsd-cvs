@@ -18,13 +18,16 @@ DisplayManager.authDir:		XDMAUTHDIR
 DisplayManager*authorize:	true
 ! The following three resources set up display :0 as the console.
 DisplayManager._0.setup:	XDMDIR/Xsetup_0
-DisplayManager._0.startup:	XDMDIR/GiveConsole
+DisplayManager._0.startup:	XDMDIR/Startup_0
 DisplayManager._0.reset:	XDMDIR/TakeConsole
 !
 DisplayManager*chooser:		CHOOSERPATH
 DisplayManager*resources:	XDMDIR/Xresources
 DisplayManager*session:		XDMDIR/Xsession
 DisplayManager*authComplain:	true
+#if HAS_DES_AUTH == YES
+DisplayManager._0.authName:     MIT-MAGIC-COOKIE-1
+#endif
 #ifdef XPM
 DisplayManager*loginmoveInterval:	10
 #endif /* XPM */

@@ -29,6 +29,7 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xos.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <sys/param.h>
 
 #ifdef X_POSIX_C_SOURCE
 #define _POSIX_C_SOURCE X_POSIX_C_SOURCE
@@ -146,6 +147,9 @@ char xserverrcbuf[256];
 #define	OK_EXIT		0
 #define	ERR_EXIT	1
 
+char *default_wrapper = BINDIR "/Xwrapper";
+char real_server[MAXPATHLEN];
+char test_path[MAXPATHLEN];
 char *default_server = "X";
 char *default_display = ":0";		/* choose most efficient */
 char *default_client[] = {"xterm", "-geometry", "+1+1", "-n", "login", NULL};
@@ -259,7 +263,8 @@ main(int argc, char *argv[], char *envp[])
 	register char **sptr = server;
 	register char **cptr = client;
 	register char **ptr;
-	int pid;
+	char *path, *p;
+	int pid, n;
 	int client_given = 0, server_given = 0;
 	int client_args_given = 0, server_args_given = 0;
 	int start_of_client_args, start_of_server_args;
@@ -332,7 +337,36 @@ main(int argc, char *argv[], char *envp[])
 	if (argc == 0 ||
 #ifndef __UNIXOS2__
 	    (**argv != '/' && **argv != '.')) {
+	    /* hack for the Xfree86 3.3.6 servers: if the X link 
+	       points to XF86_*, start Xwrapper instead of X */
+		path = strdup(getenv("PATH"));
+		if (path == NULL) {
+		    Error("Can't find PATH\n");
+		    exit(1);
+		}
+		/* Walk through the PATH */
+		for (p = strtok(path, ":"); p != NULL; p = strtok(NULL, ":")) {
+		    strlcpy(test_path, p, sizeof(test_path));
+		    strlcat(test_path, "/", sizeof(test_path));
+		    strlcat(test_path, default_server, sizeof(test_path));
+		    if ((n = readlink(test_path, real_server, 
+				 sizeof(real_server) - 1)) > 0) {
+			real_server[n] = '\0';
+			/* if the target path contains XF86_, we 
+			   need Xwrapper */
+			if (strstr(real_server, "XF86_") != NULL) {
+			    *sptr++ = default_wrapper;
+			} else {
 		*sptr++ = default_server;
+			}
+			break;
+		    }
+		}
+		if (p == NULL) {
+		    Error("Can't find X link\n");
+		    exit(1);
+		}
+		free(path);
 #else
 	    (**argv != '/' && **argv != '\\' && **argv != '.' &&
 	     !(isalpha(**argv) && (*argv)[1]==':'))) {
