@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.5 2005/02/10 21:10:08 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.6 2005/02/10 21:11:13 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -2592,7 +2592,7 @@ EOF
 	      fi
 	      ;;
 	    relink)
-	      if test "$hardcode_direct" = yes; then
+	      if test "$hardcode_direct" = yes && test -f $dir/$linklib; then
 		add="$dir/$linklib"
 	      elif test "$hardcode_minus_L" = yes; then
 		add_dir="-L$dir"
@@ -2648,7 +2648,7 @@ EOF
 	    add_dir=
 	    add=
 	    # Finalize command for both is simple: just hardcode it.
-	    if test "$hardcode_direct" = yes; then
+	    if test "$hardcode_direct" = yes && test -f $linkdir/$linklib; then
 	      add="$libdir/$linklib"
 	    elif test "$hardcode_minus_L" = yes; then
 	      add_dir="-L$libdir"
