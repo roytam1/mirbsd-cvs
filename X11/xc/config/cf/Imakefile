@@ -55,7 +55,6 @@ xf86.rules
 TMPLFILES = \
 Imake.tmpl \
 Library.tmpl \
-MirBSDLib.tmpl \
 Motif.tmpl \
 OpenBSDLib.tmpl \
 Server.tmpl \

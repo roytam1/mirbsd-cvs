@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/loader/xf86sym.c,v 1.253 2005/02/26 18:31:48 dawes Exp $ */
 
 /*
@@ -112,6 +113,10 @@
 #endif
 #include "compiler.h"
 #include <zlib.h>
+
+#ifdef __RCSID
+__RCSID("$MirOS$");
+#endif
 
 #ifndef HAS_GLIBC_SIGSETJMP
 #if defined(setjmp) && defined(__GNU_LIBRARY__) && \
@@ -241,34 +246,6 @@ extern unsigned long long __xtoull(long);
 #if defined(__arm__) && defined(__linux__)
 #include <sys/io.h>
 #endif
-#if defined(__arm__) && defined(__OpenBSD__) && defined(__VFP_FP__)
-void __adddf3();
-void __addsf3();
-void __eqdf2();
-void __eqsf2();
-void __extendsfdf2();
-void __fixdfsi();
-void __fixsfsi();
-void __fixunsdfsi();
-void __fixunssfsi();
-void __floatsidf();
-void __floatsisf();
-void __gedf2();
-void __gesf2();
-void __gtdf2();
-void __gtsf2();
-void __ledf2();
-void __lesf2();
-void __ltdf2();
-void __ltsf2();
-void __nedf2();
-void __negdf2();
-void __negsf2();
-void __nesf2();
-void __subdf3();
-void __subsf3();
-void __truncdfsf2();
-#endif
 
 #if defined(__powerpc__) && (defined(Lynx) || defined(linux))
 void _restf14();
@@ -319,7 +296,7 @@ extern unsigned long ldl_brx(volatile unsigned char *, int);
 extern unsigned short ldw_brx(volatile unsigned char *, int);
 #endif
 
-#ifdef __OpenBSD__
+#if defined(__OpenBSD__) || (__SSP__ == 1) || (__SSP_ALL__ == 2)
 /* Propolice */
 extern long __guard[];
 extern void __stack_smash_handler(char [], int);
@@ -1302,34 +1279,6 @@ LOOKUP xfree86LookupTab[] = {
     SYMFUNC(inb)
     SYMFUNC(inw)
     SYMFUNC(inl)
-#if defined(__OpenBSD__) && defined(__VFP_FP__)
-    SYMFUNC(__adddf3)
-    SYMFUNC(__addsf3)
-    SYMFUNC(__eqdf2)
-    SYMFUNC(__eqsf2)
-    SYMFUNC(__extendsfdf2)
-    SYMFUNC(__fixdfsi)
-    SYMFUNC(__fixsfsi)
-    SYMFUNC(__fixunsdfsi)
-    SYMFUNC(__fixunssfsi)
-    SYMFUNC(__floatsidf)
-    SYMFUNC(__floatsisf)
-    SYMFUNC(__gedf2)
-    SYMFUNC(__gesf2)
-    SYMFUNC(__gtdf2)
-    SYMFUNC(__gtsf2)
-    SYMFUNC(__ledf2)
-    SYMFUNC(__lesf2)
-    SYMFUNC(__ltdf2)
-    SYMFUNC(__ltsf2)
-    SYMFUNC(__nedf2)
-    SYMFUNC(__negdf2)
-    SYMFUNC(__negsf2)
-    SYMFUNC(__nesf2)
-    SYMFUNC(__subdf3)
-    SYMFUNC(__subsf3)
-    SYMFUNC(__truncdfsf2)
-#endif
 #endif
 
 #ifdef __FreeBSD__
@@ -1343,21 +1292,21 @@ LOOKUP xfree86LookupTab[] = {
 #endif
 
 #ifdef USB_HID
-   SYMFUNC(hid_get_report_desc)
-   SYMFUNC(hid_use_report_desc)
-   SYMFUNC(hid_dispose_report_desc)
-   SYMFUNC(hid_start_parse)
-   SYMFUNC(hid_end_parse)
-   SYMFUNC(hid_get_item)
-   SYMFUNC(hid_report_size)
-   SYMFUNC(hid_locate)
-   SYMFUNC(hid_usage_page)
-   SYMFUNC(hid_usage_in_page)
-   SYMFUNC(hid_parse_usage_page)
-   SYMFUNC(hid_parse_usage_in_page)
-   SYMFUNC(hid_init)
-   SYMFUNC(hid_get_data)
-   SYMFUNC(hid_set_data)
+    SYMFUNC(hid_get_report_desc)
+    SYMFUNC(hid_use_report_desc)
+    SYMFUNC(hid_dispose_report_desc)
+    SYMFUNC(hid_start_parse)
+    SYMFUNC(hid_end_parse)
+    SYMFUNC(hid_get_item)
+    SYMFUNC(hid_report_size)
+    SYMFUNC(hid_locate)
+    SYMFUNC(hid_usage_page)
+    SYMFUNC(hid_usage_in_page)
+    SYMFUNC(hid_parse_usage_page)
+    SYMFUNC(hid_parse_usage_in_page)
+    SYMFUNC(hid_init)
+    SYMFUNC(hid_get_data)
+    SYMFUNC(hid_set_data)
 #endif
 
 #if defined(__OpenBSD__) || (__SSP__ == 1) || (__SSP_ALL__ == 2)
@@ -1417,58 +1366,58 @@ LOOKUP xfree86LookupTab[] = {
     /* Pci.c */
     SYMVAR(pciNumBuses)
 
-	/* libz */
-	SYMFUNC(adler32)
-	SYMFUNC(compress)
-	SYMFUNC(compress2)
-	SYMFUNC(compressBound)
-	SYMFUNC(crc32)
-	SYMFUNC(deflate)
-	SYMFUNC(deflateBound)
-	SYMFUNC(deflateCopy)
-	SYMFUNC(deflateEnd)
-	SYMFUNC(deflateInit2_)
-	SYMFUNC(deflateInit_)
-	SYMFUNC(deflateParams)
-	SYMFUNC(deflatePrime)
-	SYMFUNC(deflateReset)
-	SYMFUNC(deflateSetDictionary)
-	SYMFUNC(get_crc_table)
-	SYMFUNC(gzclearerr)
-	SYMFUNC(gzclose)
-	SYMFUNC(gzdopen)
-	SYMFUNC(gzeof)
-	SYMFUNC(gzerror)
-	SYMFUNC(gzflush)
-	SYMFUNC(gzgetc)
-	SYMFUNC(gzgets)
-	SYMFUNC(gzopen)
-	SYMFUNC(gzprintf)
-	SYMFUNC(gzputc)
-	SYMFUNC(gzputs)
-	SYMFUNC(gzread)
-	SYMFUNC(gzrewind)
-	SYMFUNC(gzseek)
-	SYMFUNC(gzsetparams)
-	SYMFUNC(gztell)
-	SYMFUNC(gzungetc)
-	SYMFUNC(gzwrite)
-	SYMFUNC(inflate)
-	SYMFUNC(inflateBack)
-	SYMFUNC(inflateBackEnd)
-	SYMFUNC(inflateBackInit_)
-	SYMFUNC(inflateCopy)
-	SYMFUNC(inflateEnd)
-	SYMFUNC(inflateInit2_)
-	SYMFUNC(inflateInit_)
-	SYMFUNC(inflateReset)
-	SYMFUNC(inflateSetDictionary)
-	SYMFUNC(inflateSync)
-	SYMFUNC(inflateSyncPoint)
-	SYMFUNC(uncompress)
-	SYMFUNC(zError)
-	SYMFUNC(zlibCompileFlags)
-	SYMFUNC(zlibVersion)
+    /* libz */
+    SYMFUNC(adler32)
+    SYMFUNC(compress)
+    SYMFUNC(compress2)
+    SYMFUNC(compressBound)
+    SYMFUNC(crc32)
+    SYMFUNC(deflate)
+    SYMFUNC(deflateBound)
+    SYMFUNC(deflateCopy)
+    SYMFUNC(deflateEnd)
+    SYMFUNC(deflateInit2_)
+    SYMFUNC(deflateInit_)
+    SYMFUNC(deflateParams)
+    SYMFUNC(deflatePrime)
+    SYMFUNC(deflateReset)
+    SYMFUNC(deflateSetDictionary)
+    SYMFUNC(get_crc_table)
+    SYMFUNC(gzclearerr)
+    SYMFUNC(gzclose)
+    SYMFUNC(gzdopen)
+    SYMFUNC(gzeof)
+    SYMFUNC(gzerror)
+    SYMFUNC(gzflush)
+    SYMFUNC(gzgetc)
+    SYMFUNC(gzgets)
+    SYMFUNC(gzopen)
+    SYMFUNC(gzprintf)
+    SYMFUNC(gzputc)
+    SYMFUNC(gzputs)
+    SYMFUNC(gzread)
+    SYMFUNC(gzrewind)
+    SYMFUNC(gzseek)
+    SYMFUNC(gzsetparams)
+    SYMFUNC(gztell)
+    SYMFUNC(gzungetc)
+    SYMFUNC(gzwrite)
+    SYMFUNC(inflate)
+    SYMFUNC(inflateBack)
+    SYMFUNC(inflateBackEnd)
+    SYMFUNC(inflateBackInit_)
+    SYMFUNC(inflateCopy)
+    SYMFUNC(inflateEnd)
+    SYMFUNC(inflateInit2_)
+    SYMFUNC(inflateInit_)
+    SYMFUNC(inflateReset)
+    SYMFUNC(inflateSetDictionary)
+    SYMFUNC(inflateSync)
+    SYMFUNC(inflateSyncPoint)
+    SYMFUNC(uncompress)
+    SYMFUNC(zError)
+    SYMFUNC(zlibCompileFlags)
+    SYMFUNC(zlibVersion)
 
     {0, 0}
 };

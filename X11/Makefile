@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.5 2005/03/19 15:11:16 tg Exp $
+# $MirOS: X11/Makefile,v 1.6 2005/03/19 17:19:17 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -19,6 +19,7 @@ DIRGRP?=	wheel
 
 .if make(obj)
 SUBDIR=		extras
+.  include <bsd.subdir.mk>
 .endif
 
 all: ${_STFILE_SUB}
@@ -81,6 +82,9 @@ distclean:
 	cd ${.CURDIR} && exec ${MAKE} clean
 	sleep 1; rm -f ${_STFILE_SUB} xc/xmakefile
 
+mrproper:
+	[[ -h obj ]] || rm -rf *
+
 perms:
 .for _i in / /etc /etc/X11 /usr/X11R6 /usr/local /usr/local/lib \
     /usr/local/lib/X11
@@ -134,15 +138,16 @@ ${_STFILE_SUB}: check-objdir
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
 check-objdir:
-	@if [[ -e obj || -e Makefile || ! -h xc ]]; then \
+	@if [[ ! -e ${.CURDIR}/obj || -e Makefile || -d xc/Imakefile ]]; then \
 		print "Error: you must make obj first."; \
 		exit 1; \
 	fi
 	@if [[ ! -e xc ]]; then \
+		mkdir -p xc; \
 		(cd ${.OBJDIR}/xc && lndir ${.CURDIR}/xc); \
 	fi
 
 .PHONY: all b-r build check-objdir clean compile dist distclean \
-	do-install do-rel fix-appd install perms release
+	do-install do-rel fix-appd install mrproper perms release
 
 .include <bsd.obj.mk>
