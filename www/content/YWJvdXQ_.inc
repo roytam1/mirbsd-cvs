@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.3 2005/03/16 15:13:17 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
@@ -28,21 +28,11 @@
 <p>Read more about the <a href="/?features">Features</a> of MirOS or
  the <a href="/?devel">People</a> behind it.</p>
 
-<h1>Licencing information</h1>
+<h3>Licencing information</h3>
 
 <p>For the full copyright statement of MirOS, please refer to the
- <a href="/cvs.cgi/src/share/man/man0/COPYRIGHT">COPYRIGHT
- file</a>, whose <a
- href="/cvs.cgi/~checkout~/src/share/man/man0/COPYRIGHT?rev=HEAD&amp;content-type=text/plain">latest
- version</a> is available by means of CVSweb.</p>
-
-<p>For material added to MirOS, we prefer it is placed under our
+ <a href="/cvs.cgi/src/share/doc/legal/">1stREAD and LICENCE</a>
+ files; the <a href="/LICENCE">website licence</a> is also available.
+ We prefer new code and documentation to be placed under our
  <a href="/cvs.cgi/src/share/misc/licence.template">licence
- template</a> which is currently under reviewal by the <a
- href="http://www.opensource.org/">OSI</a>.</p>
-
-<p>For a list of other licences, please refer to the <a
- href="/cvs.cgi/src/share/doc/LICENCE">LICENCE overview</a>
- and the respective licences (GNU GPL, GNU LGPL, Apache&trade;/mod_ssl
- licence, XFree86&trade; advertising clause, Sendmail licence, Netscape
- Public Licence).</p>
+ template</a> which is compliant to the Open Source Definition.</p>
