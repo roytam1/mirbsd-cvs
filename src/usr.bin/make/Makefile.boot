@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.2 2005/02/23 20:36:53 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -22,16 +22,7 @@ MACHINE_OS=BSD
 MKSH=		/bin/ksh
 
 # some make(1)s don't support +=
-DEFS=		-DMAKE_BOOTSTRAP -DNEED_FGETLN
-#DEFS_VSN=	-DNEED_VSNPRINTF
-#FILES_STRL=	strlfun.o
-#FILES_GETOPT=	getopt_long.o
-
-# a stupid way to do .if/.else/.endif with make
-COPY_OHASH=	copy_ohash
-COPY_STRL=	copy_strl
-#COPY_GETOPT=	copy_getopt
-COPY_GETOPT=	copy_dummy
+DEFS=		-DMAKE_BOOTSTRAP -DNEED_FGETLN #-DNEED_VSNPRINTF
 
 # paths
 LIBCDIR=	/usr/src/lib/libc
@@ -42,16 +33,15 @@ INCLDIR=	/usr/src/include
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
 
-CFLAGS= -Iohash -I. -DMACHINE=\"${MACHINE}\" \
-	-DMACHINE_ARCH=\"${MACHINE_ARCH}\" \
-	-DMACHINE_OS=\"${MACHINE_OS}\" \
-	-D_PATH_MIRBSDKSH=\"${MKSH}\" ${DEFS} ${DEFS_VSN} ${COPTS}
+CFLAGS= -Iohash -I. ${DEFS} ${COPTS} -DMACHINE=\"${MACHINE}\" \
+	-DMACHINE_ARCH=\"${MACHINE_ARCH}\" -DMACHINE_OS=\"${MACHINE_OS}\" \
+	-D_PATH_MIRBSDKSH=\"${MKSH}\" -D_PATH_DEFSYSPATH=\"/usr/share/mk\"
 LIBS=	ohash/libohash.a
 
 OBJ=	arch.o buf.o compat.o cond.o dir.o for.o job.o main.o make.o \
 	parse.o str.o suff.o targ.o var.o util.o error.o lowparse.o \
 	varmodifiers.o memory.o cmd_exec.o timestamp.o parsevar.o \
-	varname.o init.o ${FILES_STRL} ${FILES_GETOPT}
+	varname.o init.o strlfun.o getopt_long.o
 
 LIBOBJ=	lst.lib/lstAddNew.o lst.lib/lstAppend.o \
 	lst.lib/lstConcat.o lst.lib/lstConcatDestroy.o lst.lib/lstDeQueue.o \
@@ -92,17 +82,9 @@ clean:
 	rm -f ${OBJ} ${LIBOBJ} ${PORTOBJ} ${GENOBJ} ${OHASHOBJ} bmake
 	rm -f varhashconsts.h condhashconsts.h generate
 
-copy-sources: ${COPY_OHASH} ${COPY_STRL} ${COPY_GETOPT}
-
-copy_dummy:
-
-copy_ohash:
+copy-libc:
 	cp -R ${LIBCDIR}/ohash .
 	cp ${INCLDIR}/ohash.h .
-
-copy_strl:
 	cp ${LIBCDIR}/string/strlfun.c .
-
-copy_getopt:
 	cp ${LIBCDIR}/stdlib/getopt_long.c .
 	cp ${INCLDIR}/getopt.h .
