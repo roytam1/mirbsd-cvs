@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/generic/Makefile,v 1.1.7.1 2005/03/06 16:33:37 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
@@ -20,7 +20,7 @@ bsd:
 	mv build/${RAMDISK}/bsd .
 	-[[ -e ${KERNDIR} ]] \
 	    && if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \
-		( print "# Attention: kernel version changed"; \
+		( print "# warning: kernel version changed"; \
 		  print "print $$(<build/${RAMDISK}/version)" \
 		     ">${KERNDIR}/version" ) \
 		  | tee -a /var/tmp/.buildnotice >&2; \

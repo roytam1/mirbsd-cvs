@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.2 2005/03/06 18:58:03 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2004/05/05 23:40:13 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -97,7 +97,7 @@ bsd:
 	mv build/${RAMDISK}/bsd .
 	-[[ -e ${KERNDIR} ]] \
 	    && if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \
-		( print "# Attention: kernel version changed"; \
+		( print "# warning: kernel version changed"; \
 		  print "print $$(<build/${RAMDISK}/version)" \
 		     ">${KERNDIR}/version" ) \
 		  | tee -a /var/tmp/.buildnotice >&2; \
