@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.9 2005/02/10 20:32:56 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.10 2005/02/10 20:39:43 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -739,7 +739,7 @@ AC_CACHE_VAL([lt_cv_sys_max_cmd_len], [dnl
     lt_cv_sys_max_cmd_len=8192;
     ;;
 
-  netbsd* | freebsd* | openbsd* | darwin* | dragonfly*)
+  darwin* | dragonfly* | freebsd* | mirbsd* | netbsd* | openbsd*)
     # This has been around since 386BSD, at least.  Likely further.
     if test -x /sbin/sysctl; then
       lt_cv_sys_max_cmd_len=`/sbin/sysctl -n kern.argmax`
@@ -1594,7 +1594,7 @@ nto-qnx*)
   shlibpath_overrides_runpath=yes
   ;;
 
-openbsd*)
+mirbsd* | openbsd*)
   version_type=sunos
   need_lib_prefix=no
   need_version=no
@@ -2306,7 +2306,7 @@ nto-qnx*)
   lt_cv_deplibs_check_method=unknown
   ;;
 
-openbsd*)
+mirbsd* | openbsd*)
   if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
     lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so\.[[0-9]]+\.[[0-9]]+|\.so|_pic\.a)$'
   else
@@ -3311,7 +3311,7 @@ case $host_os in
     # C++ shared libraries are fairly broken
     _LT_AC_TAGVAR(ld_shlibs, $1)=no
     ;;
-  openbsd*)
+  mirbsd* | openbsd*)
     _LT_AC_TAGVAR(hardcode_direct, $1)=yes
     _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
@@ -5225,7 +5225,7 @@ ifelse([$1],[CXX],[
       with_gnu_ld=no
     fi
     ;;
-  openbsd*)
+  mirbsd* | openbsd*)
     with_gnu_ld=no
     ;;
   esac
@@ -5752,7 +5752,7 @@ $echo "local: *; };" >> $output_objdir/$libname.ver~
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       ;;
 
-    openbsd*)
+    mirbsd* | openbsd*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
