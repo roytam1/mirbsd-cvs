@@ -1,12 +1,25 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.5 2005/02/11 02:02:43 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $
 #-
 # Copyright (c) 2004, 2005
-# Free Software Foundation, Inc.
-# Contributed by Thorsten "mirabile" Glaser.
+#	Free Software Foundation, Inc.
+# Contributed by:
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
-# This file is licenced under the same terms and conditions as
-# GNU autoconf, including the GPL exception.
+# Licensee is hereby permitted to deal in this work without restric-
+# tion, including unlimited rights to use, publicly perform, modify,
+# merge, distribute, sell, give away or sublicence, provided all co-
+# pyright notices above, these terms and the disclaimer are retained
+# in all redistributions or reproduced in accompanying documentation
+# or other materials provided with binary redistributions.
+#
+# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+# any kind, expressed or implied, to the maximum extent permitted by
+# applicable law, but with the warranty of being written without ma-
+# licious intent or gross negligence; in no event shall licensor, an
+# author or contributor be held liable for any damage, direct, indi-
+# rect or other, however caused, arising in any way out of the usage
+# of this work, even if advised of the possibility of such damage.
 #-
 # m4salt - include m4sugar (from Autoconf 2.52) for Autoconf 2.13 as
 # well as enough magic to make GNU Libtool 1.5 work with Autoconf in
@@ -51,62 +64,6 @@ dnl Another identifier
 define([m4_PACKAGE_VERSION], [fnord_acsalt])dnl
 
 ])dnl # AC_m4salt_INIT
-
-dnl AC_PROG_CXX()
-dnl ----------------
-dnl Forgiving copy of original AC_PROG_CXX
-builtin([undefine], [AC_PROG_CXX])dnl
-NOACLOCAL_DEFUN([AC_PROG_CXX],
-[dnl from AC_PROG_CXX (autoconf 2.13)
-dnl  --------------------------------
-AC_CHECK_PROGS(CXX, $CCC c++ g++ gcc CC cxx cc++ cl, gcc)
-
-dnl  from AC_PROG_CXX_WORKS (autoconf 2.13)
-dnl  --------------------------------------
-AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
-AC_LANG_CPLUSPLUS
-AC_TRY_COMPILER([int main(){return(0);}], ac_cv_prog_cxx_works, ac_cv_prog_cxx_cross)
-AC_MSG_RESULT($ac_cv_prog_cxx_works)
-if test $ac_cv_prog_cxx_works = no; then
-  AC_MSG_WARN([installation or configuration problem: C++ compiler cannot create executables.])
-  CXX=false
-else
-  AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) is a cross-compiler])
-  AC_MSG_RESULT($ac_cv_prog_cxx_cross)
-  cross_compiling=$ac_cv_prog_cxx_cross
-  AC_PROG_CXX_GNU
-
-  if test $ac_cv_prog_gxx = yes; then
-    GXX=yes
-  else
-    GXX=
-  fi
-
-dnl Check whether -g works, even if CXXFLAGS is set, in case the package
-dnl plays around with CXXFLAGS (such as to build both debugging and
-dnl normal versions of a library), tasteless as that idea is.
-  ac_test_CXXFLAGS="${CXXFLAGS+set}"
-  ac_save_CXXFLAGS="$CXXFLAGS"
-  CXXFLAGS=
-  AC_PROG_CXX_G
-  if test "$ac_test_CXXFLAGS" = set; then
-    CXXFLAGS="$ac_save_CXXFLAGS"
-  elif test $ac_cv_prog_cxx_g = yes; then
-    if test "$GXX" = yes; then
-      CXXFLAGS="-g -O2"
-    else
-      CXXFLAGS="-g"
-    fi
-  else
-    if test "$GXX" = yes; then
-      CXXFLAGS="-O2"
-    else
-      CXXFLAGS=
-    fi
-  fi
-fi
-AC_LANG_C
-])dnl # AC_PROG_CXX
 
 dnl We don't have/want/need aclang.m4
 define([AC_LANG_PUSH],

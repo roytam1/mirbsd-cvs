@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.17 2005/02/11 02:02:42 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.18 2005/02/11 16:09:39 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -15,17 +15,16 @@ dnl Enable overwriting autoconf'd functions without aclocal bringing them in
 dnl ------------------------------------------------------------------------
 builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 
-dnl Support using MirLibtool with Autoconf 2.13
-dnl -------------------------------------------
+dnl Support using MirLibtool with Autoconf 2.13 and 2.59
+dnl ----------------------------------------------------
 ifdef([m4_PACKAGE_VERSION], [], [sinclude([m4salt.inc])])dnl
-
-dnl Support using MirLibtool with Autoconf 2.59
-dnl -------------------------------------------
 ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
 [dnl Autoconf 2.13
 dnl  =============
 
-dnl This is from Autoconf 2.59
+dnl This is originally from Autoconf 2.59
+dnl but modified due to us not having autom4te
+dnl
 # AC_HELP_STRING(LHS, RHS, [COLUMN])
 # ----------------------------------
 #
@@ -79,6 +78,9 @@ m4_text_wrap(MIRLIBTOOL_unquote([$2]), AS_Prefix, MIRLIBTOOL_unquote([  $1]AS_Pa
 m4_popdef([AS_Prefix])dnl
 ])
 
+dnl This is from Autoconf 2.13
+dnl but with s/[$1]/$1/ to allow calling
+dnl
 builtin([undefine], [AC_DIVERT_HELP])dnl
 define(AC_DIVERT_HELP,
 [AC_DIVERT_PUSH(AC_DIVERSION_HELP)dnl
@@ -98,40 +100,6 @@ dnl  ====================== ------
 ],
 [dnl Autoconf 2.5x
 dnl  =============
-
-dnl This function was originally copied from Autoconf 2.59
-# AC_PROG_CXXCPP
-# --------------
-# Find a working C++ preprocessor.
-# We shouldn't have to require AC_PROG_CC, but this is due to the concurrency
-# between the AC_LANG_COMPILER_REQUIRE family and that of AC_PROG_CXX.
-builtin([undefine], [AC_PROG_CXXCPP])dnl
-NOACLOCAL_DEFUN([AC_PROG_CXXCPP],
-[AC_REQUIRE([AC_PROG_CXX])dnl
-AC_ARG_VAR([CXXCPP],   [C++ preprocessor])dnl
-_AC_ARG_VAR_CPPFLAGS()dnl
-AC_LANG([C++])dnl
-AC_MSG_CHECKING([how to run the C++ preprocessor])
-if test -z "$CXXCPP"; then
-  AC_CACHE_VAL(ac_cv_prog_CXXCPP,
-  [dnl
-    # Double quotes because CXXCPP needs to be expanded
-    for CXXCPP in "$CXX -E" "$CC -E" "/usr/libexec/cpp" "/lib/cpp"
-    do
-      _AC_PROG_PREPROC_WORKS_IFELSE([break])
-    done
-    ac_cv_prog_CXXCPP=$CXXCPP
-  ])dnl
-  CXXCPP=$ac_cv_prog_CXXCPP
-else
-  ac_cv_prog_CXXCPP=$CXXCPP
-fi
-AC_MSG_RESULT([$CXXCPP])
-_AC_PROG_PREPROC_WORKS_IFELSE([],
-	  [AC_MSG_WARN([C++ preprocessor "$CXXCPP" fails sanity check])])
-AC_SUBST(CXXCPP)dnl
-AC_LANG([C])dnl
-])# AC_PROG_CXXCPP
 
 dnl  End of Autoconf switch (2.59)
 dnl  ====================== ------
@@ -2575,7 +2543,9 @@ AC_DEFUN([AC_LIBTOOL_CXX],
 # _LT_AC_LANG_CXX
 # ---------------
 AC_DEFUN([_LT_AC_LANG_CXX],
-[AC_REQUIRE([AC_PROG_CXX])
+[pushdef([AC_MSG_ERROR], [CXX=false])
+AC_REQUIRE([AC_PROG_CXX])
+popdef([AC_MSG_ERROR])
 AC_REQUIRE([_LT_AC_PROG_CXXCPP])
 _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}CXX])
 ])# _LT_AC_LANG_CXX
@@ -2583,9 +2553,11 @@ _LT_AC_SHELL_INIT([tagnames=${tagnames+${tagnames},}CXX])
 # _LT_AC_PROG_CXXCPP
 # ---------------
 AC_DEFUN([_LT_AC_PROG_CXXCPP],
-[
+[pushdef([AC_MSG_ERROR], [CXX=false])
 AC_REQUIRE([AC_PROG_CXX])
+popdef([AC_MSG_ERROR])
 if test -n "$CXX" && ( test "X$CXX" != "Xno" &&
+    test x"$CXX" != x"false" &&
     ( (test "X$CXX" = "Xg++" && $(g++ -v >/dev/null 2>&1) ) ||
     (test "X$CXX" != "Xg++"))) ; then
   AC_PROG_CXXCPP
@@ -2756,7 +2728,9 @@ CC="$lt_save_CC"
 AC_DEFUN([AC_LIBTOOL_LANG_CXX_CONFIG], [_LT_AC_LANG_CXX_CONFIG(CXX)])
 AC_DEFUN([_LT_AC_LANG_CXX_CONFIG],
 [AC_LANG_PUSH(C++)
+pushdef([AC_MSG_ERROR], [CXX=false])
 AC_REQUIRE([AC_PROG_CXX])
+popdef([AC_MSG_ERROR])
 AC_REQUIRE([_LT_AC_PROG_CXXCPP])
 
 _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
