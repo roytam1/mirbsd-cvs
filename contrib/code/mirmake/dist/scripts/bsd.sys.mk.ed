@@ -1,0 +1,5 @@
+0a
+# $MirOS$
+.
+/^\.ifdef.DESTDIR/;/^\.endif/+d
+wq

@@ -1,0 +1,14 @@
+0a
+# $MirOS$
+.
+/^.if ..MACHINE_OS/;/^.endif/d
+i
+OStype=		@@ostype@@
+.
+/^OSrev=/d
+/^OSrpl=/d
+/^OScompat=/d
+/^OStriplet?=/s/ecce/unknown/
+/^SHELL=/s!/bin/ksh!@@mksh@@!
+/^MAKE?=/s!make!@@bmake@@!
+wq
