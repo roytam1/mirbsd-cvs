@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.9 2005/03/29 12:27:47 tg Exp $
+# $MirOS: src/Makefile,v 1.10 2005/03/29 13:03:55 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -85,6 +85,10 @@ b-r: .PHONY
 	@echo ============================================================
 	${MAKE} obj
 	${MAKE} build
+	${MAKE} contrelease BSDRELDIR=${BSDRELDIR}
+
+cont-b-r:
+	${MAKE} contbuild
 	${MAKE} contrelease BSDRELDIR=${BSDRELDIR}
 
 contrelease:
@@ -176,6 +180,6 @@ cvsup:
 
 .PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
 	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
-	cvsup do-htman dist dist-q do-dist
+	cont-b-r cvsup do-htman dist dist-q do-dist
 
 .include <bsd.subdir.mk>
