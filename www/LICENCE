@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: www/LICENCE,v 1.1 2005/03/15 17:13:04 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
 # Copyright (c) 1999, 2002, 2003, 2004, 2005
@@ -55,11 +55,17 @@ All Rights Reserved.  Individuals may use the daemon for their
 personal use within the bounds of good taste.  When reasonably
 possible, the text shown above is to be included.
 
-The Shilouette dæmon is Copyright (c) 2003 Rick Collette.
+The Shilouette dæmon is Copyright (c) 2003 by Rick Collette.
 The MirOS Project may freely use the (former) ekkoBSD shilouette Daemon
 Logo for MirBSD - on anything the project leader sees fit so long as it
 pertains to MirBSD in some way and you give credit for the original dæ-
 mon to Marshall Kirk McKusick.
+
+The Hexley DarwinOS Mascot is Copyright (c) 2000 by Jon Hooper.
+All Rights Reserved.
+Permission to use the mascot may be obtained from:
+Jon Hooper, 646 Luton Drive, Glendale CA 91206, USA
+or via email at jonhoops@mac.com
 
 The MirWiki and CVSweb CGI scripts are covered by different licences,
 the GNU GPL Version 2 and a two-clause UCB-style BSD licence respectively.
