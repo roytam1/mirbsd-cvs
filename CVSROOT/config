@@ -1,3 +1,6 @@
+# $MirOS$
+#-
+
 # Set `SystemAuth' to `no' if pserver shouldn't check system users/passwords.
 #SystemAuth=no
 
@@ -20,6 +23,7 @@
 # Set `LogHistory' to `all' or `TOEFWUPCGMAR' to log all transactions to the
 # history file, or a subset as needed (ie `TMAR' logs all write operations)
 #LogHistory=TOEFWUPCGMAR
+LogHistory=TMAR
 
 # Set `RereadLogAfterVerify' to `always' (the default) to allow the verifymsg
 # script to change the log message.  Set it to `stat' to force CVS to verify
@@ -28,16 +32,18 @@
 # repositories.  Set it to `never' (the previous CVS behavior) to prevent
 # verifymsg scripts from changing the log message.
 #RereadLogAfterVerify=always
+RereadLogAfterVerify=never
 
 # Set `UserAdminOptions' to the list of `cvs admin' commands (options)
-# that users not in the `cvsadmin' group are allowed to run.  This
+# that users not in the `_cvsadmin' group are allowed to run.  This
 # defaults to `k', or only allowing the changing of the default
 # keyword expansion mode for files for users not in the `cvsadmin' group.
-# This value is ignored if the `cvsadmin' group does not exist.
+# This value is ignored if the `_cvsadmin' group does not exist.
 #
 # The following string would enable all `cvs admin' commands for all
 # users:
 #UserAdminOptions=aAbceIklLmnNostuU
+UserAdminOptions=k
 
 # Set `UseNewInfoFmtStrings' to `no' if you must support a legacy system by
 # enabling the deprecated old style info file command line format strings.
