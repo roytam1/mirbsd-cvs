@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.28 2005/03/09 22:56:06 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.29 2005/03/13 19:38:03 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2583,4 +2583,31 @@
  out in the meantime, I think I'll have a look at it with higher priority,
  since I want to feed back our local diffs, and don't want to run -current
  as MirOS default X11 environment.</p>
+<p>14.03.2005 by tg@<br />Today I've built the first kernel from a working
+ copy of ncvs ][ sources. I've ensured that GENERIC builds as well as i386
+ machdep (mbrldr, mbrmgr, ffspbr, installboot, boot, pxeboot) stuff. If it
+ boots I'll see later (won't check mbr/pbr/boot ATM though). After some of
+ the OpenBSD-current fixes go in, I'll repeat the test, in order to know I
+ haven't broken anything during a large upcoming merger (mostly userspace,
+ but one can never be sure, and NTFS, msdosfs and UFS are touched too). It
+ is a small step for me, already on experimental sources, but a large step
+ for the whole of MirOS, as gcc3.4 specific constructs, both MI and MirOS'
+ extras (#pragma), timet64-specifics (working with timet32 @sparc tho) and
+ other dependencies on MirOS particulars are deeply ingrained now. The new
+ kernel is also a test if the merger went well, and for the security fixes
+ and behavioural changes of the last few days. In addition, I have quite a
+ few files regenerated, possibly breaking preexisting behaviour (damn, and
+ I always wondered why rsync would not work without its own, bundled libz,
+ there I go).<br />Tomorrow I'll have the &quot;KMK exam&quot; &ndash; the
+ teachers over at my vocational college (workschool) explained it to be an
+ internationally accepted extra qualification (certificate), documenting a
+ certain level of English knowledge exists. I'm of course going for the #1
+ level since I've read enough man pages to know the better part of English
+ I'll need. They'll do lengthy oral exams too, though.<br />I now have, on
+ <a href="http://mirsolutions.de/">my website</a>, these weird Google ads,
+ as a kind of beta test for the MirOS pages. On the latter, though, you'll
+ be able to switch them off by means of a cookie, using MirStyleSelect (as
+ it provides a preexisting infrastructure quite well). So don't wonder. If
+ you ask where the money is going, be sure it'll be used for MirBSD&reg;'s
+ further development and deployment.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
