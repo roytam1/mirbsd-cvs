@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.18 2005/02/11 16:09:39 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.19 2005/02/11 16:38:35 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -100,6 +100,42 @@ dnl  ====================== ------
 ],
 [dnl Autoconf 2.5x
 dnl  =============
+
+dnl This is originally from Autoconf 2.59
+dnl but modified to find our cpp
+dnl
+# AC_PROG_CXXCPP
+# --------------
+# Find a working C++ preprocessor.
+# We shouldn't have to require AC_PROG_CC, but this is due to the concurrency
+# between the AC_LANG_COMPILER_REQUIRE family and that of AC_PROG_CXX.
+builtin([undefine], [AC_PROG_CXXCPP])dnl
+NOACLOCAL_DEFUN([AC_PROG_CXXCPP],
+[AC_REQUIRE([AC_PROG_CXX])dnl
+AC_ARG_VAR([CXXCPP],   [C++ preprocessor])dnl
+_AC_ARG_VAR_CPPFLAGS()dnl
+AC_LANG([C++])dnl
+AC_MSG_CHECKING([how to run the C++ preprocessor])
+if test -z "$CXXCPP"; then
+  AC_CACHE_VAL(ac_cv_prog_CXXCPP,
+  [dnl
+    # Double quotes because CXXCPP needs to be expanded
+    for CXXCPP in "$CXX -E" "$CC -E" "/usr/libexec/cpp" "/lib/cpp"
+    do
+      _AC_PROG_PREPROC_WORKS_IFELSE([break])
+    done
+    ac_cv_prog_CXXCPP=$CXXCPP
+  ])dnl
+  CXXCPP=$ac_cv_prog_CXXCPP
+else
+  ac_cv_prog_CXXCPP=$CXXCPP
+fi
+AC_MSG_RESULT([$CXXCPP])
+_AC_PROG_PREPROC_WORKS_IFELSE([],
+	  [AC_MSG_WARN([C++ preprocessor "$CXXCPP" fails sanity check])])
+AC_SUBST(CXXCPP)dnl
+AC_LANG([C])dnl
+])# AC_PROG_CXXCPP
 
 dnl  End of Autoconf switch (2.59)
 dnl  ====================== ------
