@@ -1,4 +1,4 @@
-$MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+$MirOS: src/share/doc/legal/LICENCE,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -21,7 +21,7 @@ der's /usr/src and /usr/ports directories; usually MirOS BSD
 and MirPorts.
 
 # MirOS is Copyright (c) 2003, 2004, 2005
-#		The MirOS Project <miros-dev@66h.42h.de>
+#		The MirOS Project <miros-dev@MirBSD.org>
 #   consisting of the following developers:
 #	R. Tyler Ballance <tyler@66h.42h.de>
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
