@@ -1,15 +1,21 @@
-#!/bin/sh -
+#!/bin/ksh
+# $MirOS: src/etc/MAKEDEV.mi,v 1.3 2005/03/15 16:45:44 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
 #
 #	OpenBSD: etc.sparc/MAKEDEV.md,v 1.24 2004/04/11 18:05:23 millert Exp 
+#	$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.3 2005/03/15 16:45:45 tg Exp $
 #	OpenBSD: MAKEDEV.common,v 1.7 2004/04/11 18:14:59 millert Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.2 2005/03/06 19:05:53 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.72 2004/02/16 18:58:53 miod Exp 
+#	MirOS: src/etc/MAKEDEV.mi,v 1.3 2005/03/15 16:45:44 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.12 2004/02/20 19:13:01 miod Exp 
+#	MirOS: src/etc/MAKEDEV.sub,v 1.3 2005/03/15 16:45:44 tg Exp 
 #
 #
 # Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
+# Copyright (c) 2003-2005 Thorsten Glaser <tg@66h.42h.de>
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -330,10 +336,10 @@ bpf*)
 	;;
 
 audio*)
-	M sound$U	c 69 $U
-	M mixer$U	c 69 $(($U+16))
-	M audio$U	c 69 $(($U+128))
-	M audioctl$U	c 69 $(($U+192))
+	M sound$U	c 69 $U 660 audio
+	M mixer$U	c 69 $(($U+16)) 660 audio
+	M audio$U	c 69 $(($U+128)) 660 audio
+	M audioctl$U	c 69 $(($U+192)) 660 audio
 	MKlist="$MKlist;[ -e audio ] || ln -s audio$U audio"
 	MKlist="$MKlist;[ -e mixer ] || ln -s mixer$U mixer"
 	MKlist="$MKlist;[ -e sound ] || ln -s sound$U sound"
