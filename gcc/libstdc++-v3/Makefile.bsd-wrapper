@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.4 2005/03/26 10:36:48 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.5 2005/03/26 11:15:12 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -18,5 +18,15 @@ XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
 CLEANFILES+=	include libsupc++/cp-demangle.c
+
+LIBFILES=	libstdc++.a libstdc++.la libsupc++.a libsupc++.la
+.if ${NOPIC:L} == "no"
+LIBFILES+=	libstdc++.so.${SHLIB_VERSION}
+.endif
+
+post-install:
+	cd ${DESTDIR}/usr/lib \
+	    && chown ${LIBOWN}:${LIBGRP} ${LIBFILES} \
+	    && chmod ${LIBMODE} ${LIBFILES}
 
 .include <bsd.cfwrap.mk>
