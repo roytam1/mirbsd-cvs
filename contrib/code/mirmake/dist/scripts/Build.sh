@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.5 2005/02/26 13:53:24 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.6 2005/02/26 14:04:59 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -182,6 +182,34 @@ cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 $d_src/lib/libc/string/strlfun.c \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
 EOF
+
+# build tsort
+rm -rf $d_build/tsort
+mkdir $d_build/tsort
+cd $d_build/tsort
+(cd $d_src/usr.bin/tsort; tar cf - * ) | tar xf -
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes
+cd $top
+cat >>Install.sh <<EOF
+\$i -c -s \$ug -m 555 ${d_build}/tsort/tsort \$DESTDIR${dt_bin}/
+EOF
+if [[ $is_catman = 1 ]]; then
+	cd $d_build/tsort
+	if ! nroff -mandoc tsort.1 >tsort.cat1; then
+		echo "Warning: manpage build failure."
+		is_catman=0
+	fi
+	cd $top
+fi
+if [[ $is_catman = 0 ]]; then
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/tsort/tsort.1 \$DESTDIR${dt_man}/tsort.1
+EOF
+else
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/tsort/tsort.cat1 \$DESTDIR${dt_man}/tsort.0
+EOF
+fi
 
 # build the hash stuff
 rm -rf $d_build/hash
