@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libcdk/Makefile,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
 
 SHLIB_VERSION?=	2.0
 LIB=		cdk
@@ -670,7 +670,7 @@ MLINKS=		cdk_alphalist.3 activateCDKAlphalist.3 \
 
 all: generated
 
-.depend: generated
+beforedepend: generated
 
 prereq: generated
 
