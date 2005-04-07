@@ -1,16 +1,10 @@
-# $MirOS: src/share/mk/sys.mk,v 1.5 2005/03/15 18:26:12 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.6 2005/03/25 22:43:34 tg Exp $
 # $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
 
 .if !defined(_SYS_MK)
 _SYS_MK=1
-
-.if defined(EXTRA_SYS_MK_INCLUDES)
-.  for _i in ${EXTRA_SYS_MK_INCLUDES}
-.    include ${_i}
-.  endfor
-.endif
 
 MACHINE_OS?=	unknown
 .if ${MACHINE_OS} == "BSD"
@@ -21,6 +15,12 @@ OStype=		MirLinux
 ERRORS+=	Something fishy: $$MACHINE_OS unknown!
 ___DISPLAY_MAKEVARS+=ERRORS
 OStype=		unknown
+.endif
+
+.if defined(EXTRA_SYS_MK_INCLUDES)
+.  for _i in ${EXTRA_SYS_MK_INCLUDES}
+.    include ${_i}
+.  endfor
 .endif
 
 # Sync these with <sys/param.h>
