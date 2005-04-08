@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dlfcn.c,v 1.42 2004/12/01 22:27:35 kurt Exp $ */
 
 /*
@@ -23,7 +24,6 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
 
 #define _DYN_LOADER
@@ -94,8 +94,11 @@ dlopen(const char *libname, int flags)
 			_dl_thread_kern_stop();
 			depobj = _dl_load_shlib(libname, dynobj, OBJTYPE_LIB,
 				flags|RTLD_GLOBAL);
-			if (!depobj)
+			if (!depobj) {
+				_dl_fdprintf(STDERR_FILENO,
+				    "can't dlopen %s\n", libname);
 				_dl_exit(4);
+			}
 			/* this add_object should not be here, XXX */
 			_dl_add_object(depobj);
 			_dl_link_sub(depobj, dynobj);
