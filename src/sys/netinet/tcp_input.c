@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.2 2005/03/06 21:28:21 tg Exp $ */
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.3 2005/03/31 23:45:42 tg Exp $ */
 /*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
 /*	$NetBSD: tcp_input.c,v 1.23 1996/02/13 23:43:44 christos Exp $	*/
@@ -1379,13 +1379,17 @@ trimthenstep6:
 
 	/*
 	 * If last ACK falls within this segment's sequence numbers,
-	 * record its timestamp.
-	 * Fix from Braden, see Stevens p. 870
+	 * record its timestamp if it's more recent.
+	 * Cf fix from Braden, see Stevens p. 870
 	 */
 	if (opti.ts_present && TSTMP_GEQ(opti.ts_val, tp->ts_recent) &&
 	    SEQ_LEQ(th->th_seq, tp->last_ack_sent)) {
+		if (SEQ_LEQ(tp->last_ack_sent, th->th_seq + tlen +
+		    ((tiflags & (TH_SYN|TH_FIN)) != 0)))
+			tp->ts_recent = opti.ts_val;
+		else
+			tp->ts_recent = 0;
 		tp->ts_recent_age = tcp_now;
-		tp->ts_recent = opti.ts_val;
 	}
 
 	/*
