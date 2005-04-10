@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.6 2005/03/29 12:41:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.7 2005/04/10 19:15:41 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -990,14 +990,15 @@ IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${ARCH} \(${MACHINE_A
 .    endif
 .  endif
 .  if defined(NOT_FOR_PLATFORM)
-.    for _i in ${OStype}:${ARCH} ${OStype}:${MACHINE_ARCH}
-.      if !empty(NOT_FOR_PLATFORM:M${_i:S/:/\:/g})
-__PLATFORM_OK=0
+_i:=			${OStype}.${ARCH}
+_j:=			${OStype}.${MACHINE_ARCH}
+.    for _k in ${NOT_FOR_PLATFORM}
+.      if !empty(_i:M${_k}) || !empty(_j:M${_k})
+IGNORE+=		"is not for ${NOT_FOR_PLATFORM}"
 .      endif
 .    endfor
-.    if defined(__PLATFORM_OK) && ${__PLATFORM_OK} == "0"
-IGNORE+=		"is not for ${NOT_FOR_PLATFORM}"
-.    endif
+.undef _i
+.undef _j
 .  endif
 .endif		# NO_IGNORE
 
