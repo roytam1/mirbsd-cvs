@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.dep.mk,v 1.3 2005/03/05 12:02:29 tg Exp $
+# $MirOS: src/share/mk/bsd.dep.mk,v 1.4 2005/03/14 22:23:55 tg Exp $
 # $OpenBSD: bsd.dep.mk,v 1.5 2003/08/07 11:24:03 espie Exp $
 # $NetBSD: bsd.dep.mk,v 1.12 1995/09/27 01:15:09 christos Exp $
 
@@ -30,7 +30,7 @@ depend: beforedepend .depend _SUBDIRUSE afterdepend
 	if [[ $$files != "  " ]]; then \
 		echo mkdep -a ${MKDEP} ${CXXFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
-		CC="${CC}" mkdep -a ${MKDEP} ${CXXFLAGS:M-[ID]*} \
+		CC="${CXX}" mkdep -a ${MKDEP} ${CXXFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
 	fi
 .  else
