@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/README,v 1.1.7.1 2005/03/18 15:42:39 tg Exp $
 
 The MirPorts Framework
 ----------------------
@@ -24,7 +24,7 @@ in order to be able to work as regular user, then change
 to the MirPorts directory (usually /usr/ports) and issue
 $ make setup
 
-Go to http://mirbsd.bsdadvocacy.org/?ports for details.
+Go to http://wiki.mirbsd.de/MirPorts for details.
 
 
 Legal
@@ -37,3 +37,7 @@ if it is not possible for us to distribute an unified diff patch
 we will distribute a forward ed(1) patch which is not tained by
 these terms and conditions, thus cannot be hindered to be redi-
 stributed freely.
+
+The MirOS base licence is available at /usr/share/doc/legal/LICENCE
+on an installed MirOS system, or at src/share/doc/legal/LICENCE via
+anonymous CVS or CVSweb for public display.
