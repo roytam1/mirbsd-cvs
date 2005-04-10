@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.2 2005/03/25 21:56:13 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.3 2005/03/26 00:00:30 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -204,6 +204,7 @@ Boston, MA 02111-1307, USA.  */
    %{!shared:					\
      -dc -dp					\
      %{!nostdlib:				\
+       %{g:-L/usr/lib/debug}			\
        %{!r*:					\
 	 %{!e*:-e __start}}}			\
      %{!static:					\
