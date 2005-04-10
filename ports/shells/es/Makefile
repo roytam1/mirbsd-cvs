@@ -25,9 +25,6 @@ CONFIGURE_ENV=	LDFLAGS="-static"
 
 ALL_TARGET=	es
 
-post-extract:
-	@cp ${FILESDIR}/{config.guess,config.sub} ${WRKSRC}
-
 NO_REGRESS=	Yes
 
 do-install:
