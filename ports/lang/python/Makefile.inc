@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/python/Makefile.inc,v 1.1.7.1 2005/03/18 15:47:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.21 2004/05/15 06:43:23 sturm Exp $
 
 # IMPORTANT!  If you make any changes to the Python ports, be sure
@@ -185,7 +185,7 @@ REGRESS_TARGET=		test
 .include <mirports.sys.mk>
 
 .for _i in ${MACHINE_ARCH} ${ARCH}
-.  if !empty(LP64_ARCHS:M${_i})
+.  if !empty(LP64_PLATFORMS:M${OStype}\:${_i})
 NO64BIT=	\#
 .  endif
 .endfor
