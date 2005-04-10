@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.4 2005/04/10 19:54:00 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.5 2005/04/10 19:58:08 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -34,6 +34,9 @@ SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
 
 .if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
 .  undef SHLIB_SONAME
+.else
+LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
+		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
 .endif
 
 .MAIN: all
@@ -42,7 +45,7 @@ SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
 .SUFFIXES:
-.SUFFIXES:	.c .cc .cxx .go .i .l .ln .m .m4 .o .out .S .s .so .y
+.SUFFIXES:	.c .cc .cxx .dylib .go .i .l .ln .m .m4 .o .out .S .s .so .y
 
 .c.o .m.o:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}} " \
@@ -174,9 +177,7 @@ ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	@echo building shared library ${SHLIB_SONAME}
 .endif
 	@rm -f ${SHLIB_SONAME}
-	${CC} -shared ${PICFLAG} \
-	    -o ${SHLIB_SONAME} \
-	    $$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
+	${LINK.shlib} -o ${SHLIB_SONAME}
 
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
 # the following looks XXX to me... -- cgd
