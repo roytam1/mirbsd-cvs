@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.7 2005/04/10 20:04:26 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.8 2005/04/10 20:09:25 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -29,11 +29,23 @@ SHLIB_VERSION?=	${major}.${minor}
 .endif
 
 .if defined(SHLIB_VERSION) && ${NOPIC:L} == "no"
+.  if ${OBJECT_FMT} == "Mach-O"
+SHLIB_SONAME?=	lib${LIB}.${SHLIB_VERSION}.dylib
+SHLIB_LINKS?=	lib${LIB}.${SHLIB_VERSION:R}.dylib lib${LIB}.dylib
+.  else
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
+SHLIB_LINKS?=
+.  endif
 .endif
 
 .if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
 .  undef SHLIB_SONAME
+.  undef SHLIB_LINKS
+.elif ${OBJECT_FMT} == "Mach-O"
+LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -dynamiclib \
+		-compatibility_version ${SHLIB_VERSION} \
+		-current_version ${SHLIB_VERSION} \
+		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
 .else
 LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
@@ -178,6 +190,10 @@ ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 .endif
 	@rm -f ${SHLIB_SONAME}
 	${LINK.shlib} -o $@
+.for _i in ${SHLIB_LINKS}
+	@rm -f ${_i}
+	ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
+.endfor
 
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
 # the following looks XXX to me... -- cgd
@@ -192,7 +208,7 @@ clean: _SUBDIRUSE
 	rm -f a.out [Ee]rrs mklog core *.core ${CLEANFILES}
 	rm -f lib${LIB}.a ${OBJS}
 	rm -f lib${LIB}_g.a ${GOBJS}
-	rm -f lib${LIB}_pic.a lib${LIB}.so.*.* ${SOBJS}
+	rm -f lib${LIB}_pic.a lib${LIB}.so.*.* lib${LIB}{,.*}.dylib ${SOBJS}
 	rm -f llib-l${LIB}.ln ${LOBJS}
 .endif
 
@@ -230,13 +246,19 @@ realinstall:
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
 .  endif
 .  ifdef SHLIB_SONAME
-.      if ${OBJECT_FMT} == "Mach-O"
+.    if ${OBJECT_FMT} == "Mach-O"
 	@echo Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} \
 	    -o ${SHLIB_SONAME}
-.      endif
+.    endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+.    for _i in ${SHLIB_LINKS}
+	@rm -f ${DESTDIR}${LIBDIR}/${_i}
+	cd ${DESTDIR}${LIBDIR} && if ! ln -s ${SHLIB_SONAME} ${_i}; then \
+		cp ${SHLIB_SONAME} ${_i}; \
+	fi
+.    endfor
 .  elif ${NOPIC:L} == "no"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
