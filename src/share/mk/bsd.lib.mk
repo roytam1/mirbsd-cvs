@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.5 2005/04/10 19:58:08 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.6 2005/04/10 20:00:51 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -49,78 +49,78 @@ LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
 
 .c.o .m.o:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}} " \
-	    "${.IMPSRC} -o ${.TARGET}"
+	    "${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} ${.IMPSRC} \
-	    -o ${.TARGET}.o
-	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    -o $@.o
+	@${LD} -x -r $@.o -o $@
+	@rm -f $@.o
 
 .c.go .m.go:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "-g ${.IMPSRC} -o ${.TARGET}"
+	    "-g ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} -g ${.IMPSRC} \
-	    -o ${.TARGET}.o
-	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    -o $@.o
+	@${LD} -X -r $@.o -o $@
+	@rm -f $@.o
 
 .c.so .m.so:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "${PICFLAG} -DPIC ${.IMPSRC} -o ${.TARGET}"
+	    "${PICFLAG} -DPIC ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} ${PICFLAG} \
-	    -DPIC ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    -DPIC ${.IMPSRC} -o $@.o
+	@${LD} -x -r $@.o -o $@
+	@rm -f $@.o
 
 .c.ln:
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 .cc.o .cxx.o:
 	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "${.IMPSRC} -o ${.TARGET}"
+	    "${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    ${.IMPSRC} -o $@.o
+	@${LD} -x -r $@.o -o $@
+	@rm -f $@.o
 
 .cc.go .cxx.go:
 	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "-g ${.IMPSRC} -o ${.TARGET}"
+	    "-g ${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    -g ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    -g ${.IMPSRC} -o $@.o
+	@${LD} -X -r $@.o -o $@
+	@rm -f $@.o
 
 .cc.so .cxx.so:
 	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "${PICFLAG} -DPIC ${.IMPSRC} -o ${.TARGET}"
+	    "${PICFLAG} -DPIC ${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    ${PICFLAG} -DPIC ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    ${PICFLAG} -DPIC ${.IMPSRC} -o $@.o
+	@${LD} -x -r $@.o -o $@
+	@rm -f $@.o
 
 .S.o .s.o:
 	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-		${AS} -o ${.TARGET}"
+		${AS} -o $@"
 	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} -o ${.TARGET}.o
-	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    ${AS} -o $@.o
+	@${LD} -x -r $@.o -o $@
+	@rm -f $@.o
 
 .S.go .s.go:
 	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |\
-	    ${AS} -o ${.TARGET}"
+	    ${AS} -o $@"
 	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} -o ${.TARGET}.o
-	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    ${AS} -o $@.o
+	@${LD} -X -r $@.o -o $@
+	@rm -f $@.o
 
 .S.so .s.so:
 	@echo "${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} ${ASPICFLAG} -o ${.TARGET}"
+	    ${AS} ${ASPICFLAG} -o $@"
 	@${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} ${ASPICFLAG} -o ${.TARGET}.o
-	@${LD} -x -r ${.TARGET}.o -o ${.TARGET}
-	@rm -f ${.TARGET}.o
+	    ${AS} ${ASPICFLAG} -o $@.o
+	@${LD} -x -r $@.o -o $@
+	@rm -f $@.o
 
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
@@ -177,7 +177,7 @@ ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	@echo building shared library ${SHLIB_SONAME}
 .endif
 	@rm -f ${SHLIB_SONAME}
-	${LINK.shlib} -o ${SHLIB_SONAME}
+	${LINK.shlib} -o $@
 
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
 # the following looks XXX to me... -- cgd

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -27,25 +27,25 @@ CXXFLAGS+=	${CXXOPTS}
 CLEANFILES+=	strings
 .c.o:
 	${CC} -E ${CFLAGS} ${.IMPSRC} | xstr -c -
-	@${CC} ${CFLAGS} -c x.c -o ${.TARGET}
+	@${CC} ${CFLAGS} -c x.c -o $@
 	@rm -f x.c
 
 .cc.o:
 	${CXX} -E ${CXXFLAGS} ${.IMPSRC} | xstr -c -
 	@mv -f x.c x.cc
-	@${CXX} ${CXXFLAGS} -c x.cc -o ${.TARGET}
+	@${CXX} ${CXXFLAGS} -c x.cc -o $@
 	@rm -f x.cc
 
 .C.o:
 	${CXX} -E ${CXXFLAGS} ${.IMPSRC} | xstr -c -
 	@mv -f x.c x.C
-	@${CXX} ${CXXFLAGS} -c x.C -o ${.TARGET}
+	@${CXX} ${CXXFLAGS} -c x.C -o $@
 	@rm -f x.C
 
 .cxx.o:
 	${CXX} -E ${CXXFLAGS} ${.IMPSRC} | xstr -c -
 	@mv -f x.c x.cxx
-	@${CXX} ${CXXFLAGS} -c x.cxx -o ${.TARGET}
+	@${CXX} ${CXXFLAGS} -c x.cxx -o $@
 	@rm -f x.cxx
 .endif
 
@@ -58,14 +58,17 @@ LOBJS+=	${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
 .  endif
 
 .  if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)
-LINKER?=${CXX}
+LINKER?=	${CXX}
 .  else
-LINKER?=${CC}
+LINKER?=	${CC}
 .  endif
+
+LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} \
+		${OBJS} ${LDADD}
 
 .  if defined(OBJS) && !empty(OBJS)
 ${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
-	${LINKER} ${LDFLAGS} ${LDSTATIC} -o ${.TARGET} ${OBJS} ${LDADD}
+	${LINK.prog} -o $@
 .  endif
 
 MAN?=	${PROG}.1
