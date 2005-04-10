@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.9 2005/04/10 19:41:29 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.10 2005/04/10 20:45:02 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2297,20 +2297,13 @@ describe:
 .    endif
 	@echo -n "|"
 .  endfor
-	@case "${ONLY_FOR_OS}" in \
-	 "") case "${NOT_FOR_OS}" in \
-		 "") echo -n "BSD Linux|";; \
-		 *) echo -n "!${NOT_FOR_OS}|";; \
-		 esac;; \
-	 *) echo -n "${ONLY_FOR_OS}|";; \
-	 esac
-	@case "${ONLY_FOR_ARCHS}" in \
-	 "") case "${NOT_FOR_ARCHS}" in \
-		 "") echo -n "any|";; \
-		 *) echo -n "!${NOT_FOR_ARCHS}|";; \
-		 esac;; \
-	 *) echo -n "${ONLY_FOR_ARCHS}|";; \
-	 esac
+	@case "${ONLY_FOR_PLATFORM}" in \
+	"")	case "${NOT_FOR_PLATFORM}" in \
+		"")	echo -n "any|" ;; \
+		*)	echo -n "!${NOT_FOR_PLATFORM}|" ;; \
+		esac ;; \
+	*)	echo -n "${ONLY_FOR_PLATFORM}|" ;; \
+	esac
 
 .  if defined(_BAD_LICENSING)
 	@echo "?|?|?|?"
