@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.8 2005/04/10 20:09:25 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.9 2005/04/10 20:20:22 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -34,9 +34,9 @@ SHLIB_SONAME?=	lib${LIB}.${SHLIB_VERSION}.dylib
 SHLIB_LINKS?=	lib${LIB}.${SHLIB_VERSION:R}.dylib lib${LIB}.dylib
 .  else
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
-SHLIB_LINKS?=
 .  endif
 .endif
+SHLIB_LINKS?=
 
 .if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
 .  undef SHLIB_SONAME
