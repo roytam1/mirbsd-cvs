@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.2 2005/03/06 19:05:57 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.165 2004/05/03 15:18:19 drahn Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -286,6 +286,12 @@ rpcsvc		gname=bin uname=root mode=0755
 
 # ./usr/lib
 lib
+
+# ./usr/lib/debug
+debug
+# ./usr/lib/debug
+..
+
 # ./usr/lib
 ..
 
