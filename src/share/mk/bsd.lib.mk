@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.3 2005/03/05 12:02:29 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -22,8 +22,18 @@ SHLIB_VERSION=	${SHLIB_MAJOR}.${SHLIB_MINOR}
 SHLIB_VERSION?=	${major}.${minor}
 .endif
 
-.if defined(SHLIB_VERSION) && ${SHLIB_VERSION} == "."
-.  undef SHLIB_VERSION
+.ifdef SHLIB_VERSION
+.  if empty(SHLIB_VERSION) || (${SHLIB_VERSION} == ".")
+.    undef SHLIB_VERSION
+.  endif
+.endif
+
+.ifdef SHLIB_VERSION
+SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
+.endif
+
+.if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
+.  undef SHLIB_SONAME
 .endif
 
 .MAIN: all
@@ -123,8 +133,8 @@ _LIBS+=		lib${LIB}_g.a
 
 .if ${NOPIC:L} == "no"
 _LIBS+=		lib${LIB}_pic.a
-.  ifdef SHLIB_VERSION
-_LIBS+=		lib${LIB}.so.${SHLIB_VERSION}
+.  ifdef SHLIB_SONAME
+_LIBS+=		${SHLIB_SONAME}
 .  endif
 .endif
 
@@ -156,11 +166,15 @@ lib${LIB}_pic.a:: ${SOBJS}
 	@${AR} cq lib${LIB}_pic.a $$(${LORDER} ${SOBJS} | tsort -q)
 	${RANLIB} lib${LIB}_pic.a
 
-lib${LIB}.so.${SHLIB_VERSION}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
+${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
+.if defined(SHLIB_VERSION)
 	@echo building shared ${LIB} library \(version ${SHLIB_VERSION}\)
-	@rm -f lib${LIB}.so.${SHLIB_VERSION}
+.else
+	@echo building shared library ${SHLIB_SONAME}
+.endif
+	@rm -f ${SHLIB_SONAME}
 	${CC} -shared ${PICFLAG} \
-	    -o lib${LIB}.so.${SHLIB_VERSION} \
+	    -o ${SHLIB_SONAME} \
 	    $$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
 
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
@@ -214,17 +228,17 @@ realinstall:
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
 .  endif
 .  if ${NOPIC:L} == "no"
-.    if !defined(SHLIB_VERSION)
+.    if !defined(SHLIB_SONAME)
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
 .      if ${INSTALL_COPY} != "-p"
 	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
 .      endif
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.    else   # ! ndef SHLIB_VERSION
+.    else
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}.so.${SHLIB_VERSION} ${DESTDIR}${LIBDIR}/
-.    endif  # ! ndef SHLIB_VERSION
+	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+.    endif
 .  endif  # not NOPIC
 .  if ${NOLINT:L} == "no"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
