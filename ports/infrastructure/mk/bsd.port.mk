@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.5 2005/03/27 18:41:34 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.6 2005/03/29 12:41:55 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -975,40 +975,29 @@ IGNORE+=		"uses C++, but ${NO_CXX}"
 .  if defined(BROKEN)
 IGNORE+=		"is marked as broken: ${BROKEN}"
 .  endif
-.  if defined(ONLY_FOR_ARCHS)
-.    for __ARCH in ${MACHINE_ARCH} ${ARCH}
-.      if !empty(ONLY_FOR_ARCHS:M${__ARCH})
-_ARCH_OK=1
+.  if defined(ONLY_FOR_PLATFORM)
+.    for _i in ${OStype}:${ARCH} ${OStype}:${MACHINE_ARCH}
+.      if !empty(ONLY_FOR_PLATFORM:M${_i:S/:/\:/g})
+__PLATFORM_OK=1
 .      endif
 .    endfor
-.    if !defined(_ARCH_OK)
-.      if ${MACHINE_ARCH} == "${ARCH}"
-IGNORE+=		"is only for ${ONLY_FOR_ARCHS}, not ${MACHINE_ARCH}"
+.    ifndef __PLATFORM_OK
+.      if ${ARCH} == ${MACHINE_ARCH}
+IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${ARCH}"
 .      else
-IGNORE+=		"is only for ${ONLY_FOR_ARCHS}, not ${MACHINE_ARCH} \(${ARCH}\)"
+IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${ARCH} \(${MACHINE_ARCH}\)"
 .      endif
 .    endif
 .  endif
-.  if defined(NOT_FOR_ARCHS)
-.    for __ARCH in ${MACHINE_ARCH} ${ARCH}
-.      if !empty(NOT_FOR_ARCHS:M${__ARCH})
-IGNORE+=		"is not for ${NOT_FOR_ARCHS}"
+.  if defined(NOT_FOR_PLATFORM)
+.    for _i in ${OStype}:${ARCH} ${OStype}:${MACHINE_ARCH}
+.      if !empty(NOT_FOR_PLATFORM:M${_i:S/:/\:/g})
+__PLATFORM_OK=0
 .      endif
 .    endfor
-.  endif
-.  if defined(ONLY_FOR_OS)
-.    for _m in ${MACHINE_OS}
-.      if empty(ONLY_FOR_OS:M${_m})
-IGNORE+=		"is only for ${ONLY_FOR_OS}, not ${MACHINE_OS}"
-.      endif
-.    endfor
-.  endif
-.  if defined(NOT_FOR_OS)
-.    for _m in ${MACHINE_OS}
-.      if !empty(NOT_FOR_OS:M${_m})
-IGNORE+=		"is not for ${NOT_FOR_OS}"
-.      endif
-.    endfor
+.    if defined(__PLATFORM_OK) && ${__PLATFORM_OK} == "0"
+IGNORE+=		"is not for ${NOT_FOR_PLATFORM}"
+.    endif
 .  endif
 .endif		# NO_IGNORE
 
