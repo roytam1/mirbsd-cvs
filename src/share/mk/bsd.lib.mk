@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.3 2005/03/05 12:02:29 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.4 2005/04/10 19:54:00 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -28,7 +28,7 @@ SHLIB_VERSION?=	${major}.${minor}
 .  endif
 .endif
 
-.ifdef SHLIB_VERSION
+.if defined(SHLIB_VERSION) && ${NOPIC:L} == "no"
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
 .endif
 
@@ -133,9 +133,10 @@ _LIBS+=		lib${LIB}_g.a
 
 .if ${NOPIC:L} == "no"
 _LIBS+=		lib${LIB}_pic.a
-.  ifdef SHLIB_SONAME
+.endif
+
+.ifdef SHLIB_SONAME
 _LIBS+=		${SHLIB_SONAME}
-.  endif
 .endif
 
 .if ${NOLINT:L} == "no"
@@ -227,19 +228,17 @@ realinstall:
 .    endif
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
 .  endif
-.  if ${NOPIC:L} == "no"
-.    if !defined(SHLIB_SONAME)
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
-.      if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.      endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.    else
+.  ifdef SHLIB_SONAME
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+.  elif ${NOPIC:L} == "no"
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
+	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
+.    if ${INSTALL_COPY} != "-p"
+	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
 .    endif
-.  endif  # not NOPIC
+	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+.  endif
 .  if ${NOLINT:L} == "no"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    llib-l${LIB}.ln ${DESTDIR}${LINTLIBDIR}/
