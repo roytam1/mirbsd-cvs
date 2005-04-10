@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2004/05/16 09:44:29 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"library to provide LWP https support via OpenSSL"
 

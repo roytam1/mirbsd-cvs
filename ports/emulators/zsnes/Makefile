@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:06:49 fgsch Exp $
 
-ONLY_FOR_ARCHS=		i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=		"Super Nintendo emulator for x86"
 VERSION=		1.36

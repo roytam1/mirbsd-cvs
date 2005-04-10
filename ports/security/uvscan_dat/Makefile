@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.25 2004/01/14 19:20:39 jakob Exp $
 # $NetBSD: Makefile,v 1.2 2000/06/19 14:30:02 rh Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=	"AntiVirus DAT file for uvscan"
 
 VERSION=	4312
@@ -19,7 +21,6 @@ PERMIT_PACKAGE_FTP=	"Commercial software"
 PERMIT_DISTFILES_CDROM=	"Commercial software"
 PERMIT_DISTFILES_FTP=	"Commercial software"
 
-ONLY_FOR_ARCHS=	i386
 NO_BUILD=	Yes
 NO_REGRESS=	Yes
 WRKDIST=	${WRKDIR}

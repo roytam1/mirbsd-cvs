@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/emulators/vmware/vmware3/Makefile,v 1.1.7.1 2005/03/18 15:45:58 tg Exp $
 # $OpenBSD$
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"commercial x86-32 machine emulator"
 DISTNAME=	VMware-workstation-3.2.1-2242

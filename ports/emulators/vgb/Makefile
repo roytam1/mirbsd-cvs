@@ -1,16 +1,14 @@
-# $MirOS$
+# $MirOS: ports/emulators/vgb/Makefile,v 1.1.7.1 2005/03/18 15:45:58 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/04/10 18:08:56 jsyn Exp $
 
-COMMENT=	"emulates the Nintendo Gameboy"
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
+COMMENT=	"emulates the Nintendo Gameboy"
 PKGNAME=	vgb-2.1p1
 DISTNAME=	VGB21-Linux-80x86-bin
-
 CATEGORIES=	emulators games
 HOMEPAGE=	http://www.komkon.org/fms/VGB/
-
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

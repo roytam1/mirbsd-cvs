@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/29 19:29:57 fgsch Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=	"Diamond Rio 500 utilities"
 DISTNAME=	rio500-0.7
 CATEGORIES=	audio
@@ -15,8 +17,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=		gtk.1.2::x11/gtk+
-
-ONLY_FOR_ARCHS=		i386
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu

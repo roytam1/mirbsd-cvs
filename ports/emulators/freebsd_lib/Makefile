@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/emulators/freebsd_lib/Makefile,v 1.1.7.1 2005/03/18 15:45:52 tg Exp $
 # $OpenBSD: Makefile,v 1.28 2004/01/18 08:01:28 sturm Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386
 EMUL=		freebsd
 COMMENT=	"libraries necessary for FreeBSD compatibility"
 DISTNAME=	freebsd_lib-4.0

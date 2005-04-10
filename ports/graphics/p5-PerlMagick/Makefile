@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/13 00:50:45 brad Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"object-oriented Perl interface to ImageMagick"
 

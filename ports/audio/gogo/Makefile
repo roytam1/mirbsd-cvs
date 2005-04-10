@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/gogo/Makefile,v 1.2 2005/03/25 23:13:59 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2002/10/24 22:20:03 naddy Exp $
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"686 class CPU optimized mp3 encoder"
 DISTNAME=	gogo226a	
@@ -9,10 +11,7 @@ MASTER_SITES=	http://www.kurims.kyoto-u.ac.jp/~shigeo/soft/gogo2/src/
 HOMEPAGE=	http://homepage1.nifty.com/herumi/gogo_e.html
 EXTRACT_SUFX=	.tgz
 
-ONLY_FOR_ARCHS= i386
-
 BUILD_DEPENDS=	::lang/nasm
-
 
 PERMIT_PACKAGE_CDROM=	MP3 patent, mp3licensing.com/details/software.html
 PERMIT_PACKAGE_FTP=	Yes

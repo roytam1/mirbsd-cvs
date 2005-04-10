@@ -1,12 +1,13 @@
-# $MirOS$
+# $MirOS: ports/emulators/wine/wine/Makefile,v 1.1.7.1 2005/03/18 15:46:01 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2003/05/12 22:19:11 sturm Exp $
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"MS-Windows 3.1/95/NT emulator for Unix (Alpha release)"
 DATE= 		990225
 DISTNAME= 	Wine-${DATE}
 PKGNAME=	wine-${DATE}
 CATEGORIES=	emulators x11
-ONLY_FOR_ARCHS= i386
 
 # MIT/X11-like
 PERMIT_PACKAGE_CDROM=	Yes

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gtk+/Makefile,v 1.2 2005/04/02 20:32:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
-NOT_FOR_ARCHS=			${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=			"multi-platform graphical toolkit"
 COMMENT-docs=           	"gtk+-2 documentation"
 VERSION=			2.4.14

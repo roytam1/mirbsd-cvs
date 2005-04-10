@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/03 07:19:06 ish Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"cryptographic tools for Python"
 

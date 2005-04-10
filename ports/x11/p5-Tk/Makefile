@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2004/02/02 00:31:45 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"Tk 8.0 bindings for Perl"
 COMMENT-demo=	"demonstrate the features of ptk"

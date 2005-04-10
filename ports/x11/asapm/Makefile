@@ -7,7 +7,7 @@ HOMEPAGE=	http://www.tigr.net/afterstep/
 
 CATEGORIES=	x11
 
-ONLY_FOR_ARCHS=	i386 macppc
+ONLY_FOR_PLATFORM=	*:i386 *:macppc
 
 MASTER_SITES=	http://www.tigr.net/afterstep/download/asapm/ \
 		ftp://rt.fm/pub/asapm/

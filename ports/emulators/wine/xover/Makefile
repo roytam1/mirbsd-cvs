@@ -1,10 +1,11 @@
-# $MirOS$
+# $MirOS: ports/emulators/wine/xover/Makefile,v 1.1.7.1 2005/03/18 15:46:01 tg Exp $
 
 BROKEN=		243 UNIMPL linux_sys_set_thread_area
 # missing emulated syscalls
 
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
+
 USE_X11=	Yes
 NO_SYSTRACE=	"weird Linuxulator stuff"
 IS_INTERACTIVE=	Yes

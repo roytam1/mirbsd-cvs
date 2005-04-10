@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/games/uqm/Makefile,v 1.1.7.1 2005/03/18 15:46:28 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/03/31 03:42:16 jolan Exp $
 
 # 64-bit issues, unaligned memory access
-ONLY_FOR_ARCHS=		i386 powerpc
+ONLY_FOR_PLATFORM=	*:i386 *:powerpc
 
 COMMENT=		"ur-quan masters: sdl port of star control 2"
 COMMENT-3domusic=	"ur-quan masters: 3DO music content"

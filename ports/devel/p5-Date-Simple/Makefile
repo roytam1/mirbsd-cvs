@@ -2,7 +2,7 @@
 
 COMMENT=	"Manipulate simple date objects"
 
-NOT_FOR_ARCHS=${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=	Date-Simple-3.00
 PKGNAME=	p5-${DISTNAME}

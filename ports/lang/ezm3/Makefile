@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/05/08 01:34:43 naddy Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"Modula-3 distribution for building CVSup"
 DISTNAME=	ezm3-1.0

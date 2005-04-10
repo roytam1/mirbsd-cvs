@@ -1,17 +1,13 @@
-# $MirOS$
+# $MirOS: ports/editors/wordperfect/Makefile,v 1.1.7.1 2005/03/18 15:45:50 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/01/25 21:10:50 pvalchev Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
+
 COMMENT=	"graphical word processor ported from Windows"
-
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
-
 FAKE=		No
-
 PKGNAME=	wordperfect-8.0
 CATEGORIES=     editors
-
-
 BROKEN=		Home page does not exist anymore.  Alternate 400mb iso exists
 
 PERMIT_PACKAGE_CDROM=	"commercial"

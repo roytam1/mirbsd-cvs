@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.34 2004/04/13 14:03:44 peter Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"access to PostgreSQL databases through the DBI"
 

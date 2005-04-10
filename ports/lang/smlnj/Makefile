@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/10/27 14:12:48 naddy Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"New Jersey Standard ML"
 PKGNAME=	smlnj-110.0.7

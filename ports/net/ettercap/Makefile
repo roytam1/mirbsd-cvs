@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.26 2004/02/25 02:35:16 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"multi-purpose sniffer/interceptor/logger"
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/08/15 18:41:36 wcobb Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"XMMS visualization plugin, to display Kjofol skins"
 

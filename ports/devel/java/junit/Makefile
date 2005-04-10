@@ -1,9 +1,8 @@
 # $OpenBSD: Makefile,v 1.6 2003/07/18 05:20:30 kevlo Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=	"regression testing utility for use with the Java language"
-
-ONLY_FOR_ARCHS=	i386
-
 JDK_VERSION=	1.3.1-linux
 VERSION=	3.8.1
 DISTNAME=	junit${VERSION}

@@ -4,7 +4,7 @@ COMMENT=	"turns Apache into an MP3 or Ogg streaming server"
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=	mod_mp3-0.39
 CATEGORIES=	www audio

@@ -5,6 +5,13 @@
 #     Undefined symbol `_PtrClass' referenced from text segment
 # please read the file pkg/COMPILATION
 
+# This port REQUIRES shared libs, and will not work without them
+# (dynamic linking is an essential element of Java).
+# At present it is only known to work on i386. 
+# Builds nicely, but does not run at all, on sparc (gets 
+# nullpointerexceptions everywhere).
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386 # *:sparc *:m68k
+
 COMMENT=	"Transvirtual's Java JDK1.1 compiler, runtime and libs"
 
 DISTNAME=	kaffe-1.0.6
@@ -22,14 +29,6 @@ LIB_DEPENDS=	jpeg.62.::graphics/jpeg \
 		gmp.4.::devel/gmp
 
 HOMEPAGE=	http://www.kaffe.org/
-
-# This port REQUIRES shared libs, and will not work without them
-# (dynamic linking is an essential element of Java).
-# At present it is only known to work on i386. 
-# Builds nicely, but does not run at all, on sparc (gets 
-# nullpointerexceptions everywhere).
-ONLY_FOR_ARCHS=	i386 # sparc m68k
-
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

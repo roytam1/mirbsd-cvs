@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/p5-Audio-CD/Makefile,v 1.1.7.1 2005/03/18 15:43:04 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/01/17 15:58:06 naddy Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"interface to libcdaudio"
 DISTNAME=	 	Audio-CD-0.04

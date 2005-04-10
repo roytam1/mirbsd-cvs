@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/04/19 07:20:37 kevlo Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"module for approximate matching"
 

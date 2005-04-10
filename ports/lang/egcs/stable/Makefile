@@ -2,7 +2,7 @@ BROKEN=	orphaned port - not updated
 
 # $OpenBSD: Makefile,v 1.81 2004/01/31 14:58:03 espie Exp $
 
-ONLY_FOR_ARCHS=	alpha i386 m68k sparc sparc64 powerpc vax
+ONLY_FOR_PLATFORM=	OpenBSD:alpha OpenBSD:i386 OpenBSD:m68k OpenBSD:sparc OpenBSD:sparc64 OpenBSD:powerpc OpenBSD:vax
 
 MAKE_GXX=Yes
 MAKE_FORTRAN=Yes

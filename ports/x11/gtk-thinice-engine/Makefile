@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/12/09 18:13:32 marcm Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=		"simple, clean theme engine for GTK+2"
 VERSION=		2.0.2
 DISTNAME=		gtk-thinice-engine-${VERSION}

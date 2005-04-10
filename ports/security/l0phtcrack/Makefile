@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2004/05/07 15:28:32 naddy Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"Microsoft LANMAN & NT password sniffer/cracker"
 

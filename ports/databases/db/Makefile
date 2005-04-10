@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/databases/db/Makefile,v 1.1.7.1 2005/03/18 15:44:07 tg Exp $
 
 COMMENT=		"Berkeley DB, revision 4"
 COMMENT-doc=		"Berkeley DB documentation, revision 4"
@@ -54,7 +54,7 @@ SUBPACKAGE?=
 CONFIGURE_ARGS+=	--disable-tcl
 NO_REGRESS=		Yes
 .else
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 MULTI_PACKAGES+=	-tcl
 . if !defined(PACKAGING) || ${SUBPACKAGE} == "-tcl"
 LIB_DEPENDS+=		tcl84.1.0::lang/tcl/${TCL_VERSION}
@@ -74,7 +74,7 @@ do-regress:
 .if ${FLAVOR:L:Mno_cxx}
 CONFIGURE_ARGS+=	--disable-cxx
 .else
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 MULTI_PACKAGES+=	-cxx
 CONFIGURE_ARGS+=	--enable-cxx
 USE_CXX=		Yes

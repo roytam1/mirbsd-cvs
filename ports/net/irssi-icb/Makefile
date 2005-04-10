@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/01/04 02:08:03 jolan Exp $
 
-NOT_FOR_ARCHS=  ${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"ICB plugin for irssi"
 

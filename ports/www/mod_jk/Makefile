@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/www/mod_jk/Makefile,v 1.1.7.1 2005/03/18 15:59:43 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/02 08:19:54 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"Apache-Tomcat AJP Connector"
 V=			1.2.5

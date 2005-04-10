@@ -1,16 +1,15 @@
-# $MirOS$
+# $MirOS: ports/graphics/blender/Makefile,v 1.1.7.1 2005/03/18 15:46:43 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2002/12/29 20:08:46 fgsch Exp $
 
-COMMENT=	"3D creation software"
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
+COMMENT=	"3D creation software"
 V=		2.23
 PKGNAME=	blender-${V}p1
 DISTNAME=	blender-creator-${V}-linux-glibc2.1.2-i386-static
 CATEGORIES=	graphics
 HOMEPAGE=	http://www.blender.nl/
-
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
 
 PERMIT_PACKAGE_CDROM=	"no commercial use"
 PERMIT_PACKAGE_FTP=	"no commercial use"

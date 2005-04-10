@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/14 09:59:32 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"quota manipulation module"
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/18 01:50:36 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"speed up perl scripts by running them persistently"
 

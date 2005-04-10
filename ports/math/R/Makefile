@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/04/28 21:40:31 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"clone of S, a powerful math/statistics/graphics language"
 DISTNAME=	R-1.9.0

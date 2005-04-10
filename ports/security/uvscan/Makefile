@@ -1,17 +1,15 @@
-# $MirOS$
+# $MirOS: ports/security/uvscan/Makefile,v 1.1.7.1 2005/03/18 15:51:56 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/01/14 19:20:39 jakob Exp $
 # $NetBSD: Makefile,v 1.1.1.1 2000/06/05 12:01:24 rh Exp $
 
-COMMENT=	"evaluation version of a DOS/Windows file virus scanner"
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
+COMMENT=	"evaluation version of a DOS/Windows file virus scanner"
 VERSION=	4.16.0
 DISTNAME=	vlnx416e
 PKGNAME=	uvscan-${VERSION}
 CATEGORIES=	security
-
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
-
 HOMEPAGE=	http://www.networkassociates.com/us/downloads/evals/
 
 MASTER_SITES=	http://download.nai.com/products/evaluation/virusscan/english/cmdline/linux/version_4.16/

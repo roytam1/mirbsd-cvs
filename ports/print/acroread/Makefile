@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/print/acroread/Makefile,v 1.1.7.1 2005/03/18 15:50:56 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/08/18 02:17:18 brad Exp $
 
-ONLY_FOR_ARCHS=		i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 EMUL=			linux
+
 COMMENT=		"view, distribute and print PDF documents"
 CATEGORIES=		print
 DISTNAME=		linux-5010

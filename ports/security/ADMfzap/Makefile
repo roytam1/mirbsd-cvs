@@ -3,7 +3,7 @@
 COMMENT=		"connect() and bind() wrapper to evade packet filtering"
 
 # uses LD_PRELOAD
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=		ADMfzap
 PKGNAME=        	ADMfzap-0.1

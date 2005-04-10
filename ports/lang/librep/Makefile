@@ -2,7 +2,7 @@
 
 COMMENT=	"Emacs Lisp-like runtime library"
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 VERSION=	0.16.2
 DISTNAME=	librep-${VERSION}

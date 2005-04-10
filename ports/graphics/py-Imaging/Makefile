@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2004/05/23 15:58:01 xsa Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"python imaging library"
 COMMENT-examples=	"examples for python imaging library"

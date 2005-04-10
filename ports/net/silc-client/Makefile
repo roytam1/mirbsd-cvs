@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/silc-client/Makefile,v 1.2 2005/03/30 16:51:12 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/02/19 23:07:27 brad Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"Secure Internet Live Conferencing (SILC) client"
 DISTNAME=	silc-client-1.0.1

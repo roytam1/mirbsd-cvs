@@ -1,19 +1,16 @@
-# $MirOS$
+# $MirOS: ports/www/jakarta-tomcat/v3/Makefile,v 1.2 2005/03/25 23:13:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2003/11/27 20:11:06 sturm Exp $
 
-COMMENT=	"Java servlet 2.2 and Java server pages 1.1 server"
-
 # Requires a JVM
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
+COMMENT=	"Java servlet 2.2 and Java server pages 1.1 server"
 V=		3.2.4
 DISTNAME=	jakarta-tomcat-${V}
 CATEGORIES=	www
 MASTER_SITES=	http://archive.apache.org/dist/jakarta/tomcat-3/archive/v${V}/bin/
 EXTRACT_SUFX=	.zip
-
 HOMEPAGE=	http://jakarta.apache.org/
-
 
 JDK_VERSION=	1.3.1-linux
 JAVA_HOME=	${LOCALBASE}/jdk${JDK_VERSION}

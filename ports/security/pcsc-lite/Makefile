@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/pcsc-lite/Makefile,v 1.1.7.1 2005/03/18 15:51:40 tg Exp $
 
 COMMENT=		"Smartcard middleware"
 DISTNAME=		pcsc-lite-1.2.0
@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVORS=		debug
 FLAVOR?=
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \

@@ -28,7 +28,7 @@ HOMEPAGE=		http://www.distributed.net/
 MASTER_SITES=		http://http.distributed.net/pub/dcti/v${V}/
 
 
-ONLY_FOR_ARCHS=		i386 sparc m68k
+ONLY_FOR_PLATFORM=	*:i386 *:sparc *:m68k
 
 PERMIT_PACKAGE_CDROM=	No
 PERMIT_PACKAGE_FTP=	No

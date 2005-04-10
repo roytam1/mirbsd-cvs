@@ -23,7 +23,7 @@ LIB_DEPENDS=	png.2.::graphics/png \
 USE_MOTIF=	openmotif
 USE_X11=	Yes
 ALL_TARGET=	compile.shared
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 NO_REGRESS=	Yes
 
 AFMDIR=		${PREFIX}/share/Ted/afm

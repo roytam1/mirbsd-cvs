@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/py-gtk/Makefile,v 1.3 2005/03/25 23:13:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"gtk+2 Python bindings"
 

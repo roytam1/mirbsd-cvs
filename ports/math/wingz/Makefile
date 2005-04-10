@@ -1,13 +1,13 @@
-# $MirOS$
+# $MirOS: ports/math/wingz/Makefile,v 1.1.7.1 2005/03/18 15:50:14 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2002/10/27 18:29:15 naddy Exp $
-#
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"commercial spreadsheet"
 
 DISTNAME=	Wingz-142
 PKGNAME=	${DISTNAME:L}p1
 CATEGORIES=	math
-ONLY_FOR_ARCHS=	i386
 EMUL=		linux
 
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=apps/financial/spreadsheet/}

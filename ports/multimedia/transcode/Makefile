@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/multimedia/transcode/Makefile,v 1.2 2005/03/25 23:14:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/06/24 19:27:00 sturm Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"video stream processing tools"
 COMMENT-dv=		"transcode plugins utilizing libdv"

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.32 2004/04/20 17:38:42 robert Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"unified perl interface for database access"
 

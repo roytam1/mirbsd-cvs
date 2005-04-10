@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/09/03 01:01:52 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"XMMS input plugin for playing SID files"
 

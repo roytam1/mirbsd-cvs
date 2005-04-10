@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"single process stack of system monitors for GTK+2 (server)"
 COMMENT-client=	"single process stack of system monitors for GTK+2"

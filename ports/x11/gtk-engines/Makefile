@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/12/17 15:18:33 alek Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"collection of theme engines for GTK+2"
 

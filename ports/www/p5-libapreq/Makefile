@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/www/p5-libapreq/Makefile,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/16 22:32:27 naddy Exp $
 
 BROKEN=		"mod_perl.pm nonexistent (wtf?)"
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Generic Apache Request Library"
 DISTNAME=	libapreq-1.3
 PKGNAME=	p5-${DISTNAME}

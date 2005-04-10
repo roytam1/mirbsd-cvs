@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.19 2004/05/16 23:37:58 pvalchev Exp $
 
-NOT_FOR_ARCHS=	${LP64_ARCHS}
+NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
 COMMENT=	"shoot them nasty little bugs"
 

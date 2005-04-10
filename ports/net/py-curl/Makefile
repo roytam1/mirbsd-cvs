@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/04/20 13:06:27 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"python interface to cURL library"
 

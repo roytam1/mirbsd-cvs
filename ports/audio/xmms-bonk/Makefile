@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/xmms-bonk/Makefile,v 1.1.7.1 2005/03/18 15:43:22 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/25 02:35:15 naddy Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"XMMS input plugin to play bonk files"
 

@@ -1,6 +1,7 @@
 # $OpenBSD: Makefile,v 1.19 2004/05/15 12:56:46 sturm Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
 COMMENT=	"fast and customizable WWW browser"
 

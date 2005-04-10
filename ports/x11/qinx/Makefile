@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/03/04 18:48:17 brad Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"QNX Photon inspired theme for KDE"
 

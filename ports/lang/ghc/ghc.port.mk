@@ -3,7 +3,7 @@
 
 # Not yet ported to other architectures
 # See comments in lang/ghc/Makefile for more information
-ONLY_FOR_ARCHS=	i386 sparc amd64
+ONLY_FOR_PLATFORM=	*:i386 *:sparc *:amd64
 
 BUILD_DEPENDS+=	bin/ghc::lang/ghc
 RUN_DEPENDS+=	bin/ghc::lang/ghc

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2004/02/25 03:31:04 kevlo Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"module for easy date and time manipulation"
 

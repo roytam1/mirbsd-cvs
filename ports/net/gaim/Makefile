@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/gaim/Makefile,v 1.2 2005/04/02 20:40:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.73 2005/01/28 16:33:28 fgsch Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"Gtk AIM, ICQ, IRC, Jabber, MSN, Yahoo and Zephyr client"
 

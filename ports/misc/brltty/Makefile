@@ -2,7 +2,7 @@
 
 COMMENT=	"access software for a blind person using a braille terminal"
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 DISTNAME=	brltty-3.3.1
 CATEGORIES=	misc
 MASTER_SITES=	http://mielke.cc/brltty/releases/

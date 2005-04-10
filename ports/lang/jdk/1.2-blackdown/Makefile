@@ -1,13 +1,14 @@
-# $MirOS$
+# $MirOS: ports/lang/jdk/1.2-blackdown/Makefile,v 1.1.7.1 2005/03/18 15:47:54 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/01/15 22:38:02 sturm Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
+
 COMMENT=	"Blackdown Java Development Kit for Java 2 platform"
 DISTNAME=	jdk-blackdown-1.2pre2
 PKGNAME=	${DISTNAME}p1
 CATEGORIES=	devel lang
 HOMEPAGE=	http://www.blackdown.org/
-EMUL=		linux
 
 # Sun Binary Code License
 PERMIT_PACKAGE_CDROM=	"Redistribution not permitted"

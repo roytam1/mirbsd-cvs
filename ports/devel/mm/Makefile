@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.24 2003/04/29 02:03:53 margarida Exp $
 
 # XXX This will panic any vax
-NOT_FOR_ARCHS=	vax
+NOT_FOR_PLATFORM=	*:vax
 
 COMMENT=	"shared memory lib for apps with pre-forked process model"
 

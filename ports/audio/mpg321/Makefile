@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2004/04/05 20:26:25 naddy Exp $
 
 # not very useful with static libao
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"free clone of mpg123, a command-line mp3 player"
 DISTNAME=	mpg321-0.2.10

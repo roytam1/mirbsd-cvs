@@ -6,24 +6,23 @@
 # Subdirectory MUST define DIRNAME, LOCATION and PROGRAM_V.
 
 .if ${EMUL} == "linux"
-BUILD_DEPENDS=	:redhat_base-*:emulators/redhat/base 
-RUN_DEPENDS=	${BUILD_DEPENDS}
-SUPPORTED=	supported
-ONLY_FOR_ARCHS=	i386
+BUILD_DEPENDS=		:redhat_base-*:emulators/redhat/base 
+RUN_DEPENDS=		${BUILD_DEPENDS}
+SUPPORTED=		supported
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 .endif
 
 .if ${EMUL} == "sunos"
-ONLY_FOR_ARCHS=	sparc
-IGNORE=		no SunOS compatibility
+ONLY_FOR_PLATFORM=	OpenBSD:sparc
 .endif
 
 .if ${EMUL} == "bsdos"
-ONLY_FOR_ARCHS= i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386
 .endif
 
-SUPPORTED?=	unsupported
+SUPPORTED?=		unsupported
 
-CATEGORIES=     www
+CATEGORIES=     	www
 MASTER_SITES= \
 	ftp://ftp.netscape.com/pub/$S/ \
 	ftp://uiarchive.uiuc.edu/pub/www/netscape/$S/ \
@@ -71,7 +70,7 @@ pre-fetch:
 	@echo "  WARNING: This application requires a kernel compiled with"
 	@echo "           'option COMPAT_SUNOS' and SunOS shared libraries"
 	@echo "           for proper operation, see compat_sunos(8) for"
-	@echo "           further details. MirOS does not have SunOS emulation."
+	@echo "           further details."
 	@echo ""
 .endif
 .endif

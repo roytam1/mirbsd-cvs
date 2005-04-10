@@ -1,8 +1,12 @@
-# $MirOS$
+# $MirOS: ports/math/maple/Makefile,v 1.1.7.1 2005/03/18 15:50:08 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2002/12/29 19:43:50 fgsch Exp $
 # XXX This port installs in a somewhat unusual way.
 
 .include <bsd.own.mk>
+
+# if someone wants to buy the sparc version and check it, be my guest...
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
 COMMENT=	"algebraic and symbolic computations; commercial"
 
@@ -19,12 +23,6 @@ DISTNAME=	maple-5.5
 CATEGORIES=     math
 
 RUN_DEPENDS=	:redhat_base-*:emulators/redhat/base
-
-# if someone wants to buy the sparc version and check it, be my guest...
-
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
-
 
 PERMIT_DISTFILES_CDROM=	"commercial"
 PERMIT_DISTFILES_FTP=	"commercial"

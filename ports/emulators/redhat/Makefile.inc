@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/emulators/redhat/Makefile.inc,v 1.1.7.1 2005/03/18 15:45:56 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.7 2002/12/29 15:06:49 fgsch Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 CATEGORIES=	emulators
 

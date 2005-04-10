@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/04/17 01:49:50 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"BSD process resource limit and priority functions"
 

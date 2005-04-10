@@ -1,4 +1,11 @@
-# $MirOS$
+# $MirOS: ports/security/f-prot/Makefile,v 1.1.7.1 2005/03/18 15:51:23 tg Exp $
+
+.include <mirports.sys.mk>
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+.if ${OSname} != "openbsd"
+EMUL=			openbsd
+.endif
 
 COMMENT=		"personal use freeware virus scanner"
 CATEGORIES=		security sysutils virus
@@ -8,13 +15,6 @@ PKGNAME=		f-prot-${V}
 HOMEPAGE=		http://www.f-prot.com/
 MASTER_SITES=		http://files.f-prot.com/files/bsd-x86/
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
-ONLY_FOR_ARCHS=		i386
-
-.include <mirports.sys.mk>
-
-.if ${OSname} != "openbsd"
-EMUL=			openbsd
-.endif
 
 # free for personal use
 PERMIT_DISTFILES_CDROM=	"must not distribute"

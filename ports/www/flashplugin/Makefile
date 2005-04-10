@@ -1,7 +1,8 @@
-# $MirOS$
+# $MirOS: ports/www/flashplugin/Makefile,v 1.1.7.1 2005/03/18 15:59:34 tg Exp $
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"Macromedia Flash Plugin for Linux Netscape and Opera"
-ONLY_FOR_ARCH=	i386
 EMUL=		linux
 
 VERSION=	5.0r51p1

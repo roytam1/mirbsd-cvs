@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/04/05 12:42:32 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"checks HTML documents for broken links"
 

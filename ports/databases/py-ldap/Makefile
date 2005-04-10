@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/databases/py-ldap/Makefile,v 1.1.7.1 2005/03/18 15:44:19 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/02/17 20:47:45 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"LDAP client API for Python"
 VERSION=	2.0.0pre19

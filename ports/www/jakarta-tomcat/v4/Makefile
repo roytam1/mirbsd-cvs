@@ -1,11 +1,10 @@
-# $MirOS$
+# $MirOS: ports/www/jakarta-tomcat/v4/Makefile,v 1.2 2005/03/25 23:13:43 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/01/03 13:36:03 sturm Exp $
 
-COMMENT=	"Java servlet 2.3 and Java server pages 1.2 server"
-
 # Requires a JVM
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
+COMMENT=	"Java servlet 2.3 and Java server pages 1.2 server"
 V=		4.1.29
 DISTNAME=	jakarta-tomcat-${V}
 CATEGORIES=	www

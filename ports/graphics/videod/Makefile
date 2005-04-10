@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/19 00:58:49 wcobb Exp $
 
-ONLY_FOR_ARCHS=	i386 macppc
+ONLY_FOR_PLATFORM=	*:i386 *:macppc
 
 COMMENT=	"Video capture daemon for bktr driver"
 

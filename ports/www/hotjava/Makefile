@@ -1,14 +1,12 @@
-# $MirOS$
+# $MirOS: ports/www/hotjava/Makefile,v 1.2 2005/03/25 23:13:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2002/10/29 01:30:41 naddy Exp $
 # $FreeBSD: ports/www/hotjava/Makefile,v 1.4 2000/02/16 00:19:45 mharo Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=	"Sun's Hotjava web browser"
-
-ONLY_FOR_ARCHS=	i386
-
 DISTNAME=	hotjava-3.0
 CATEGORIES=	www
-
 MASTER_SITES=
 DISTFILES=	hjb3_0-linux.sfx
 

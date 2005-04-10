@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/pcsc-egate/Makefile,v 1.1.7.1 2005/03/18 15:51:40 tg Exp $
 
 COMMENT=		"Smartcard backend driver for egate tokens"
 DISTNAME=		ifd-egate-0.05
@@ -13,7 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 LIB_DEPENDS+=		usb.7::devel/libusb
 BUILD_DEPENDS+=		:pcsc-lite->=1.2:security/pcsc-lite
 RUN_DEPENDS+=		:pcsc-lite->=1.2:security/pcsc-lite

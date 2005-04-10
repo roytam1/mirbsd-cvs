@@ -1,9 +1,8 @@
 # $OpenBSD: Makefile,v 1.13 2003/10/18 19:44:47 sturm Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=	"Microsoft FrontPage Server extensions for Apache"
-
-ONLY_FOR_ARCHS=	i386
-
 VERSION=	1.6.2
 DISTNAME=	mod_frontpage_mirfak-${VERSION}
 PKGNAME=	mod_frontpage-${VERSION}

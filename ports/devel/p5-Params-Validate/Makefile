@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/04/18 19:08:55 robert Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"perl module to validate function/method parameters"
 

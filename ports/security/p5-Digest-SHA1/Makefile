@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/05/16 09:21:08 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"module to calculate SHA1 digests"
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/09 09:34:14 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"Python Cryptographic Toolkit"
 

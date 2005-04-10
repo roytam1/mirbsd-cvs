@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/11/03 07:44:04 kevlo Exp $
 
-ONLY_FOR_ARCHS=	i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=	"Chinese input method Linux binary"
 

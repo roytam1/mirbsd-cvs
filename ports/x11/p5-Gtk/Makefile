@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.2 2005/03/30 18:13:59 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/26 23:09:15 jcs Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"set of modules to use Gtk+ libraries from Perl"
 VERSION=	0.7008

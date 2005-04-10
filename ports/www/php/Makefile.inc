@@ -1,9 +1,9 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.2 2005/03/27 22:20:23 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
 # and has a httpd that supports DSOs.
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 V=			5.0.3
 HV=			0.2.6

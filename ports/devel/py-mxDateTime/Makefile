@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/03/02 07:41:32 ish Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Date and Time types for Python"
 VERSION=	2.0.5
 DISTNAME=	egenix-mx-base-${VERSION}

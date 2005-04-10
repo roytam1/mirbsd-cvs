@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/29 17:13:37 sturm Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"universal unicode codec using iconv for Python"
 

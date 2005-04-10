@@ -1,13 +1,8 @@
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:15 naddy Exp $
 
 COMMENT=	"graphical CVS front-end using QT2"
-
-# pthread
-NOT_FOR_ARCHS=	sparc
-
 DISTNAME=	lincvs-0.4.90
 CATEGORIES=	devel
-
 HOMEPAGE=	http://www.lincvs.org
 
 # GPL

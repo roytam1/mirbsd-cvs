@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.2 2005/03/30 18:13:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		"AFPL PostScript interpreter"
@@ -106,7 +106,7 @@ CFLAGS+=		-DA4
 LIB_DEPENDS+=		gtk.1::x11/gtk+1
 ALL_TARGET+=		so
 INSTALL_TARGET+=	soinstall
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 .else
 end_install=
 .endif

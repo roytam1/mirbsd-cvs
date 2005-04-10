@@ -1,10 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2004/05/17 15:04:03 espie Exp $
 
+NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
 COMMENT=	"smalltalk system"
 CATEGORIES=	lang
-NOT_FOR_ARCHS=	${LP64_ARCHS}
-
 
 # Apple license, similar to GPL, with a clause to protect Apple
 # against litigation

@@ -4,7 +4,7 @@ COMMENT=	"Web intrusion detection and prevention engine"
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=	mod_security-1.7.6
 CATEGORIES=	www

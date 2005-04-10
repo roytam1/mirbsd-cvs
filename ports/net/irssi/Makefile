@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/irssi/Makefile,v 1.2 2005/03/30 16:51:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 07:11:56 pvalchev Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"modular IRC client with many features (ipv6,socks,proxy)"
 DISTNAME=	irssi-0.8.9

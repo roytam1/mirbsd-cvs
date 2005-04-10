@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/muscle-tools/Makefile,v 1.1.7.1 2005/03/18 15:51:35 tg Exp $
 
 COMMENT=		"Smartcard access tools"
 DISTNAME=		muscleTools-0.9.2
@@ -12,7 +12,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 BUILD_DEPENDS+=		:muscleframework->=1.1:security/muscle-framework
 RUN_DEPENDS+=		:muscleframework->=1.1:security/muscle-framework
 LIB_DEPENDS+=		musclecard.0::security/pcsc-lite

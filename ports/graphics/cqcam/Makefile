@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/cqcam/Makefile,v 1.2 2005/03/30 18:13:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:08:46 fgsch Exp $
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 DISTNAME=	cqcam-0.91
 CATEGORIES=	graphics
@@ -13,9 +15,6 @@ COMMENT=	"color QuickCam control program"
 HOMEPAGE=	http://www.cs.duke.edu/~reynolds/cqcam/
 MASTER_SITES=	${HOMEPAGE} \
 		ftp://rt.fm/pub/cqcam/
-
-
-ONLY_FOR_ARCHS=	i386
 
 USE_X11=	Yes
 USE_CXX=	Yes

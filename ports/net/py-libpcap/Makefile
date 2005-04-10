@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/02/18 08:31:50 xsa Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"libpcap bindings for Python"
 

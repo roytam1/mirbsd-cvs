@@ -1,17 +1,16 @@
-# $MirOS$
+# $MirOS: ports/games/adom/Makefile,v 1.1.7.1 2005/03/18 15:46:03 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/10/18 15:46:53 sturm Exp $
 # Author: Thomas Biskup <rpg@saranxis.ruhr.de>
 
-COMMENT=	"Ancient Domains of Mystery - roguelike"
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
+COMMENT=	"Ancient Domains of Mystery - roguelike"
 DISTNAME=	adom-1.1.1p1
 CATEGORIES=	games
 MASTER_SITES=   http://www.adom.de/adom/download/linux/
 HOMEPAGE=	http://www.adom.de/
 DISTFILES=	adom-111-elf.tar.gz
-
-ONLY_FOR_ARCHS=	i386
-EMUL=		linux
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

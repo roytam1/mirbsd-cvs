@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/04/14 22:33:07 brad Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"image viewer for KDE"
 

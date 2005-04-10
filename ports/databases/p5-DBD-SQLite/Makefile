@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/18 06:41:11 robert Exp $
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		'SQLite drivers for the Perl DBI'
 

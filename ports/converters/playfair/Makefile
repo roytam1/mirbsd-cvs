@@ -1,5 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2004/04/12 07:22:23 jolan Exp $
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS} sparc64
+
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS} *:sparc64
 
 COMMENT=	"strips DRM from iTMS protected AAC audio files"
 DISTNAME=	playfair-0.5.0

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/muscle-framework/Makefile,v 1.1.7.1 2005/03/18 15:51:35 tg Exp $
 
 COMMENT=		"Smartcard access framework"
 DISTNAME=		muscleframework-1.1.5
@@ -13,7 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-NOT_FOR_ARCHS=		${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 LIB_DEPENDS+=		musclecard.0::security/pcsc-lite
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/CFlexPlugin ${WRKSRC}/MCardPlugin \

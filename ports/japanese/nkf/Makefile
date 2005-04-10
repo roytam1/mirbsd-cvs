@@ -1,7 +1,7 @@
 # very loosely based on FreeBSD 2.2.7
 # $OpenBSD: Makefile,v 1.13 2004/01/17 15:58:08 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"Network Kanji code conversion Filter"
 

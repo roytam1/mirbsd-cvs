@@ -1,6 +1,9 @@
 # $OpenBSD: Makefile,v 1.6 2003/10/26 23:49:33 naddy Exp $
 # $FreeBSD: ports/java/jdk12/Makefile,v 1.11 2002/08/19 20:47:04 glewis Exp $
 
+# Requires existing JDK 1.2 to build; use Linux emul for bootstrapping
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=		"Java2(TM) Standard Edition Dev Kit v${V}"
 COMMENT-debug=		"Java2(TM) Standard Edition Dev Kit Debug Binaries v${V}"
 COMMENT-demos=		"Java2(TM) Standard Edition Dev Kit Demo Files v${V}"
@@ -35,9 +38,6 @@ PERMIT_DISTFILES_FTP=	"SCSL"
 
 # TCK (Technology Compatibility Kit) covered by yet another license...
 NO_REGRESS=		yes
-
-# Requires existing JDK 1.2 to build; use Linux emul for bootstrapping
-ONLY_FOR_ARCHS= 	i386
 
 VMEM_WARNING=		Yes
 BUILD_DEPENDS=		:zip-*:archivers/zip \

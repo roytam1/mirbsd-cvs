@@ -4,6 +4,10 @@
 
 .include <bsd.own.mk>
 
+# if someone wants to buy the sparc version and check it, be my guest...
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
+
 COMMENT=	"libraries for maple V 5; commercial"
 
 # Directory where the maple CDROM was mounted
@@ -17,11 +21,6 @@ TRUEMAPLE_DIR?=${TRUEPREFIX}/maple
 
 DISTNAME=	mapleshare-5.5
 CATEGORIES=     math
-
-# if someone wants to buy the sparc version and check it, be my guest...
-
-ONLY_FOR_ARCHS=	i386
-
 
 PERMIT_DISTFILES_CDROM=	Commercial
 PERMIT_DISTFILES_FTP=	Commercial

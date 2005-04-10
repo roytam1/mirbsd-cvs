@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.2 2005/03/19 11:51:38 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.3 2005/04/10 20:56:06 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -26,8 +26,8 @@ PORTSDIR?=		/usr/ports
 _DOMAIN_DU_JOUR=	MirBSD.org
 _MIRPORTS_ADDRESS=	<miros-discuss@${_DOMAIN_DU_JOUR}>
 ARCH?=			${MACHINE_ARCH}
-NO_SHARED_ARCHS?=
-LP64_ARCHS?=		*:alpha *:amd64 *:sparc64
+NOPIC_PLATFORMS?=
+LP64_PLATFORMS?=	*:alpha *:amd64 *:sparc64
 LOCALBASE?=		/usr/local
 X11BASE?=		/usr/X11R6
 MKSH?=			/bin/ksh	# path to mirbsdksh

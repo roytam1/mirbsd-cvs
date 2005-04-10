@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/cad/klogic/Makefile,v 1.1.7.1 2005/03/18 15:43:32 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/15 14:32:26 brad Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT= 	"logic circuit simulator for KDE"
 

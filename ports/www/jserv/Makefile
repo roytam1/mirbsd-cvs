@@ -1,15 +1,14 @@
 # $OpenBSD: Makefile,v 1.11 2004/01/13 21:32:36 pvalchev Exp $
 
+# This port currently only works with archs supporting dynamic loading,  
+# that have Apache that supports DSO's and requires Jakarta-Tomcat (which
+# requires a JVM).  
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 BROKEN=	"HANDLER THREAD PROBLEM: java.net.SocketException: Resource temporarily unavailable"
 
 # Build just the Tomcat connector for our in-tree Apache
 COMMENT=	"Tomcat (Servlet/JSP) - Apache Connector"
-
-# This port currently only works with archs supporting dynamic loading,
-# that have Apache that supports DSO's and requires Jakarta-Tomcat (which 
-# requires a JVM).
-ONLY_FOR_ARCHS=	i386
-
 V=		3.2.4
 PKGNAME=	jserv-${V}
 DISTNAME=	jakarta-tomcat-${V}-src

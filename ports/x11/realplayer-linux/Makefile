@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/x11/realplayer-linux/Makefile,v 1.1.7.1 2005/03/18 16:00:51 tg Exp $
+
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+EMUL=			linux
 
 DISTNAME=		rp8_linux20_libc6_i386_cs2
 PKGNAME=		realplayer-linux-8.0.1p1
 CATEGORIES=		audio graphics x11
-
-ONLY_FOR_ARCHS= 	i386
-EMUL=			linux
 
 PERMIT_PACKAGE_CDROM=	"commercial, redistribution not permitted"
 PERMIT_PACKAGE_FTP=	"commercial, redistribution not permitted"

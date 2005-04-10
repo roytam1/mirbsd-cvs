@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/10/24 22:20:04 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"FM radio input plug-in for XMMS"
 

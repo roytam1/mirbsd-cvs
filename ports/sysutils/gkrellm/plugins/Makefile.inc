@@ -10,7 +10,7 @@ PERMIT_DISTFILES_FTP?=	Yes
 BUILD_DEPENDS+=	:gkrellm->=2.2.0:sysutils/gkrellm/gkrellm,-client
 RUN_DEPENDS+=	:gkrellm->=2.2.0:sysutils/gkrellm/gkrellm,-client
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 NO_REGRESS=	Yes
 USE_GMAKE=	Yes
 

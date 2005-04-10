@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/01/17 15:58:08 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		'change terminal modes, and perform non-blocking reads'
 

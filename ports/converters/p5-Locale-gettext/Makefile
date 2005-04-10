@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/converters/p5-Locale-gettext/Makefile,v 1.1.7.1 2005/03/18 15:44:02 tg Exp $
 
-NOT_FOR_ARCHS=   ${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"interface to gettext() internationalization function"
 DISTNAME=	gettext-1.02

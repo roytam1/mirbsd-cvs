@@ -1,6 +1,8 @@
-# $MirOS$
+# $MirOS: ports/devel/boehm-gc/Makefile,v 1.1.7.1 2005/03/18 15:44:28 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/03/04 17:49:26 espie Exp $
 # $FreeBSD: Makefile,v 1.4 1999/01/10 20:12:06 steve Exp $
+
+NOT_FOR_PLATFORM=	*:hppa *:powerpc *:vax
 
 COMMENT=	"garbage collection and memory leak detection for C and C++"
 VERSION=	6.2
@@ -9,7 +11,7 @@ PKGNAME=	boehm-gc-${VERSION}
 CATEGORIES=	devel
 MASTER_SITES=	${HOMEPAGE}gc_source/
 HOMEPAGE=	http://www.hpl.hp.com/personal/Hans_Boehm/gc/
-NOT_FOR_ARCHS=	hppa powerpc vax
+NOT_FOR_PLATFORM=	*:hppa *:powerpc *:vax
 
 # BSD-style, lacks permission to sell
 PERMIT_PACKAGE_CDROM=	No

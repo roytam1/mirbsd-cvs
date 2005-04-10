@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/xmms-flac/Makefile,v 1.1.7.1 2005/03/18 15:43:23 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2003/10/23 01:36:27 naddy Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"XMMS input plugin for playing FLAC files"
 

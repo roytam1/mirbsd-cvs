@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/p5-XML-Sablotron/Makefile,v 1.1.7.1 2005/03/18 15:52:56 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/29 01:03:32 avsm Exp $
 
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"perl interface to the Sablotron XSLT engine"
 DISTNAME=	XML-Sablotron-1.0

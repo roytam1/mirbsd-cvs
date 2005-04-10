@@ -1,10 +1,9 @@
-# $MirOS$
+# $MirOS: ports/textproc/xerces/Makefile,v 1.2 2005/03/25 23:13:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2003/11/15 15:12:55 sturm Exp $
 
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+
 COMMENT=	"xml parser for Java"
-
-ONLY_FOR_ARCHS=	i386
-
 JDK_VERSION=	1.3.1
 DISTNAME=	Xerces-J-bin.2.4.0
 PKGNAME=	xerces-2.4.0

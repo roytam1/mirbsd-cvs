@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/15 16:48:37 sturm Exp $
 
-ONLY_FOR_ARCHS=		i386
+ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
 
 COMMENT=		"Assembly Language Debugger"
 

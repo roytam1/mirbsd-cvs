@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/print/ghostscript/gnu/Makefile,v 1.2 2005/03/30 18:13:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.36 2004/02/25 01:28:07 brad Exp $
 
 COMMENT=	"GNU PostScript interpreter"
@@ -126,7 +126,7 @@ USE_X11=	Yes
 LIB_DEPENDS+=	gtk.1::x11/gtk+1
 ALL_TARGET=	all so
 INSTALL_TARGET=	install soinstall
-NOT_FOR_ARCHS=	${NO_SHARED_ARCHS}
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 EXTRALIBS=	-L${X11BASE}/lib -lXt -lSM -lICE -lXext -lX11 -L${LOCALBASE}/lib -lpng -lz
 .else
 end_install=
