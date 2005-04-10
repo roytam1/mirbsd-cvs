@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.3 2005/04/10 20:04:26 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -99,6 +99,10 @@ afterinstall:
 .  if !target(realinstall)
 realinstall:
 .    if defined(PROG) && !empty(PROG)
+.      if ${OBJECT_FMT} == "Mach-O"
+	@echo Relinking ${PROG}
+	${LINK.prog} -o ${PROG}
+.      endif
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
 .    endif

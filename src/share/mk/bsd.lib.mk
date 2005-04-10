@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.6 2005/04/10 20:00:51 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.7 2005/04/10 20:04:26 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -230,6 +230,11 @@ realinstall:
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
 .  endif
 .  ifdef SHLIB_SONAME
+.      if ${OBJECT_FMT} == "Mach-O"
+	@echo Relinking dynamic ${LIB} library
+	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} \
+	    -o ${SHLIB_SONAME}
+.      endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
 .  elif ${NOPIC:L} == "no"
