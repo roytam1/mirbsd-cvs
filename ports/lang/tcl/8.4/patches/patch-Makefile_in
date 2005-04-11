@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
---- Makefile.in.orig	2004-03-01 23:58:59.000000000 +0000
-+++ Makefile.in	2004-05-17 09:30:31.000000000 +0000
+--- Makefile.in.orig	Tue Dec  7 00:23:23 2004
++++ Makefile.in	Mon Apr 11 18:22:13 2005
 @@ -40,6 +40,9 @@ mandir			= @mandir@
  # when installing files.
  INSTALL_ROOT		=
@@ -11,8 +12,8 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  # Path for the platform independent Tcl scripting libraries:
  TCL_LIBRARY		= $(prefix)/lib/tcl$(VERSION)
  
-@@ -320,7 +323,7 @@ GENERIC_OBJS = regcomp.o regexec.o regfr
- STUB_LIB_OBJS = tclStubLib.o ${COMPAT_OBJS}
+@@ -322,7 +325,7 @@ STUB_LIB_OBJS = tclStubLib.o ${COMPAT_OB
+ MAC_OSX_OBJS = tclMacOSXBundle.o
  
  OBJS = ${GENERIC_OBJS} ${UNIX_OBJS} ${NOTIFY_OBJS} ${COMPAT_OBJS} \
 -        @DL_OBJS@ @PLAT_OBJS@
@@ -20,7 +21,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  
  TCL_DECLS = \
  	$(GENERIC_DIR)/tcl.decls \
-@@ -379,8 +382,8 @@ GENERIC_SRCS = \
+@@ -381,8 +384,8 @@ GENERIC_SRCS = \
  	$(GENERIC_DIR)/tclNamesp.c \
  	$(GENERIC_DIR)/tclNotify.c \
  	$(GENERIC_DIR)/tclObj.c \
@@ -31,7 +32,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  	$(GENERIC_DIR)/tclPipe.c \
  	$(GENERIC_DIR)/tclPkg.c \
  	$(GENERIC_DIR)/tclPosixStr.c \
-@@ -445,7 +448,7 @@ SRCS = $(GENERIC_SRCS) $(UNIX_SRCS) $(ST
+@@ -447,7 +450,7 @@ SRCS = $(GENERIC_SRCS) $(UNIX_SRCS) $(ST
  
  all: binaries libraries doc
  
@@ -40,7 +41,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  
  libraries:
  
-@@ -461,6 +464,11 @@ ${STUB_LIB_FILE}: ${STUB_LIB_OBJS}
+@@ -463,6 +466,11 @@ ${STUB_LIB_FILE}: ${STUB_LIB_OBJS}
  	rm -f $@
  	@MAKE_STUB_LIB@
  
@@ -52,7 +53,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  # Make target which outputs the list of the .o contained in the Tcl lib
  # usefull to build a single big shared library containing Tcl and other
  # extensions.  used for the Tcl Plugin.  -- dl
-@@ -602,6 +610,9 @@ install-binaries: binaries
+@@ -604,6 +612,9 @@ install-binaries: binaries
  	@echo "Installing $(LIB_FILE) to $(LIB_INSTALL_DIR)/"
  	@@INSTALL_LIB@
  	@chmod 555 $(LIB_INSTALL_DIR)/$(LIB_FILE)
@@ -62,7 +63,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  	@if test "$(TCL_BUILD_EXP_FILE)" != ""; then \
  	    echo "Installing $(TCL_EXP_FILE) to $(LIB_INSTALL_DIR)/"; \
  	    $(INSTALL_DATA) $(TCL_BUILD_EXP_FILE) \
-@@ -610,14 +621,16 @@ install-binaries: binaries
+@@ -612,14 +623,16 @@ install-binaries: binaries
  	@echo "Installing tclsh as $(BIN_INSTALL_DIR)/tclsh$(VERSION)"
  	@$(INSTALL_PROGRAM) tclsh $(BIN_INSTALL_DIR)/tclsh$(VERSION)
  	@echo "Installing tclConfig.sh to $(LIB_INSTALL_DIR)/"
@@ -81,7 +82,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  	    do \
  	    if [ ! -d $$i ] ; then \
  		echo "Making directory $$i"; \
-@@ -639,11 +652,19 @@ install-libraries: libraries
+@@ -641,11 +654,19 @@ install-libraries: libraries
  	    chmod +x $(SRC_DIR)/install-sh; \
  	    fi
  	@echo "Installing header files";
@@ -104,10 +105,10 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  	@echo "Installing library files to $(SCRIPT_INSTALL_DIR)";
  	@for i in $(TOP_DIR)/library/*.tcl $(TOP_DIR)/library/tclIndex $(UNIX_DIR)/tclAppInit.c $(UNIX_DIR)/ldAix; \
  	    do \
-@@ -722,6 +743,15 @@ install-doc: doc
- 	    done;
- 	@echo "Cross-linking command (.n) docs";
- 	@$(UNIX_DIR)/mkLinks $(MKLINKS_FLAGS) $(MANN_INSTALL_DIR)
+@@ -708,6 +729,15 @@ install-doc: doc
+ 	@for i in $(TOP_DIR)/doc/*.n; do \
+ 	    $(UNIX_DIR)/installManPage $(MAN_FLAGS) $$i $(MANN_INSTALL_DIR); \
+ 	done
 +	@echo "**********"
 +	@echo "IMPORTANT:"
 +	@echo "**********"
@@ -120,7 +121,7 @@ $OpenBSD: patch-Makefile_in,v 1.2 2004/05/20 21:25:46 miod Exp $
  
  Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
  	$(SHELL) config.status
-@@ -1401,7 +1431,7 @@ package-quick: package-config package-bi
+@@ -1382,7 +1412,7 @@ package-quick: package-config package-bi
  package-config:
  	mkdir -p $(DISTDIR)/unix/`arch`
  	cd $(DISTDIR)/unix/`arch`; \
