@@ -1,11 +1,11 @@
-# $MirOS: ports/math/maple/Makefile,v 1.1.7.1 2005/03/18 15:50:08 tg Exp $
+# $MirOS: ports/math/maple/Makefile,v 1.2 2005/04/10 21:50:23 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2002/12/29 19:43:50 fgsch Exp $
 # XXX This port installs in a somewhat unusual way.
 
 .include <bsd.own.mk>
 
 # if someone wants to buy the sparc version and check it, be my guest...
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"algebraic and symbolic computations; commercial"

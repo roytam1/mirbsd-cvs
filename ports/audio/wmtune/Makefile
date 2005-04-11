@@ -25,7 +25,7 @@ FLAVOR?=
 .if ${FLAVOR:L} == "zoltrix"
 CFLAGS+=		-DZOLTRIX
 BINMODE=		4555
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 .endif
 
 WRKDIST=		${WRKDIR}/wmtune-1.0.1-combined/

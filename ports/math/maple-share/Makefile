@@ -5,7 +5,7 @@
 .include <bsd.own.mk>
 
 # if someone wants to buy the sparc version and check it, be my guest...
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"libraries for maple V 5; commercial"

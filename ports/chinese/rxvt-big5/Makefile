@@ -1,10 +1,10 @@
-# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.1.7.1 2005/03/18 15:43:35 tg Exp $
+# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.2 2005/04/10 21:49:08 tg Exp $
 
 BROKEN=		the PLIST just doesnt look right to me...
 
 # $OpenBSD: Makefile,v 1.2 2003/11/03 07:43:55 kevlo Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"color terminal emulator Linux binary"
 

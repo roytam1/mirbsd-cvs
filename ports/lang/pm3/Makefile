@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/08/21 14:46:52 naddy Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 CATEGORIES=	lang
 

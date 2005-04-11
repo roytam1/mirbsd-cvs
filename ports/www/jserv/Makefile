@@ -3,7 +3,7 @@
 # This port currently only works with archs supporting dynamic loading,  
 # that have Apache that supports DSO's and requires Jakarta-Tomcat (which
 # requires a JVM).  
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 BROKEN=	"HANDLER THREAD PROBLEM: java.net.SocketException: Resource temporarily unavailable"
 

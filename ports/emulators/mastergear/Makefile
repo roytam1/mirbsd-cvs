@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/04/10 18:08:56 jsyn Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"emulates the Sega GameGear and MasterSystem"

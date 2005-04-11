@@ -2,7 +2,7 @@
 
 BROKEN=			"security issues"
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		"Darwin Streaming Server"
 COMMENT-admin=		"Darwin Streaming Server, Admin Interface"

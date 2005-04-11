@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/12/29 20:31:39 fgsch Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"converts documents from text/html to isilo format"
 

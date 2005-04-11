@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/27 00:03:16 naddy Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"mpeg video player"
 

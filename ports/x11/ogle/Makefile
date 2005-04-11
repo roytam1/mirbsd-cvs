@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/ogle/Makefile,v 1.1.7.1 2005/03/18 16:00:45 tg Exp $
+# $MirOS: ports/x11/ogle/Makefile,v 1.2 2005/04/10 21:51:54 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/29 08:12:56 pvalchev Exp $
 
 COMMENT=		"DVD player"
@@ -9,7 +9,7 @@ HOMEPAGE=		http://www.dtek.chalmers.se/groups/dvd/
 # Authors can be reached at dvd@dtek.chalmers.se
 MASTER_SITES=		${HOMEPAGE}dist/
 
-ONLY_FOR_PLATFORM=	*:alpha *:i386 *:powerpc *:sparc64 *:amd64
+ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:powerpc *:*:sparc64 *:*:amd64
 
 # GPL
 PERMIT_DISTFILES_CDROM=	Yes
@@ -32,7 +32,7 @@ FLAVORS=		altivec
 FLAVOR?=
 
 .if ${FLAVOR:L} == "altivec"
-ONLY_FOR_PLATFORM=	*:powerpc
+ONLY_FOR_PLATFORM=	*:*:powerpc
 CONFIGURE_ARGS+=	--enable-altivec
 .else
 CONFIGURE_ARGS+=	--disable-altivec

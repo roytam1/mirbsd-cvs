@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2002/12/23 00:37:51 pvalchev Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"shared drawing (whiteboard) tool using multicast"
 

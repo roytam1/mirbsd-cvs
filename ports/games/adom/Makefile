@@ -1,8 +1,8 @@
-# $MirOS: ports/games/adom/Makefile,v 1.1.7.1 2005/03/18 15:46:03 tg Exp $
+# $MirOS: ports/games/adom/Makefile,v 1.2 2005/04/10 21:49:55 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/10/18 15:46:53 sturm Exp $
 # Author: Thomas Biskup <rpg@saranxis.ruhr.de>
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"Ancient Domains of Mystery - roguelike"

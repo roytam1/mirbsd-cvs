@@ -1,7 +1,7 @@
-# $MirOS: ports/www/netscape/navigator-linux/Makefile,v 1.1.7.1 2005/03/18 15:59:48 tg Exp $
+# $MirOS: ports/www/netscape/navigator-linux/Makefile,v 1.2 2005/04/10 21:51:41 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/10/29 01:30:42 naddy Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"Netscape Navigator (linux)"

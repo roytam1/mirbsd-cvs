@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/cqcam/Makefile,v 1.2 2005/03/30 18:13:29 bsiegert Exp $
+# $MirOS: ports/graphics/cqcam/Makefile,v 1.3 2005/04/10 21:49:57 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:08:46 fgsch Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 DISTNAME=	cqcam-0.91
 CATEGORIES=	graphics

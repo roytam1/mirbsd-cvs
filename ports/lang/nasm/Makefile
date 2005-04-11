@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/nasm/Makefile,v 1.1.7.1 2005/03/18 15:47:58 tg Exp $
+# $MirOS: ports/lang/nasm/Makefile,v 1.2 2005/04/10 21:50:16 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/04/07 22:54:23 brad Exp $
 
 # XXX why?
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"general-purpose multi-platform x86 assembler"
 

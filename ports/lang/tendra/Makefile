@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.5 2003/08/18 14:56:08 avsm Exp $
 
 # supports 68k, alpha, mips, sparc as well, but not ported yet
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"TenDRA: advanced BSD-licensed C compiler"
 

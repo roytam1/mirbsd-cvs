@@ -1,8 +1,8 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.2 2005/04/10 21:50:32 tg Exp $
 # $OpenBSD: Makefile,v 1.69 2004/05/06 07:27:36 biorn Exp $
 
 # May not be hard to add more.
-ONLY_FOR_PLATFORM=	*:amd64 *:i386 *:macppc
+ONLY_FOR_PLATFORM=	*:*:amd64 *:*:i386 *:*:macppc
 
 # <mira> waldi: in mplayer sind mehr LP64 bugs pro KB source drin als in pine
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
@@ -162,7 +162,7 @@ CONFIGURE_ARGS+=--disable-mad
 .endif
 
 .if ${FLAVOR:L:Mwin32}
-ONLY_FOR_PLATFORM=	*:i386
+ONLY_FOR_PLATFORM=	*:*:i386
 
 RUN_DEPENDS+=	:win32-codecs-*:graphics/win32-codecs
 BUILD_DEPENDS+=	:win32-codecs-*:graphics/win32-codecs

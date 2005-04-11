@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/realplayer-linux/Makefile,v 1.1.7.1 2005/03/18 16:00:51 tg Exp $
+# $MirOS: ports/x11/realplayer-linux/Makefile,v 1.2 2005/04/10 21:51:59 tg Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 DISTNAME=		rp8_linux20_libc6_i386_cs2

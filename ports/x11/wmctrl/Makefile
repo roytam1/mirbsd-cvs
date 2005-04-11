@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/19 02:50:25 jolan Exp $
 
 # 64-bit/endian issue?
-NOT_FOR_PLATFORM=	*:sparc64
+NOT_FOR_PLATFORM=	*:*:sparc64
 
 COMMENT=	"command line tool to interact with an EWMH/NetWM windowmanager"
 DISTNAME=	wmctrl-1.05

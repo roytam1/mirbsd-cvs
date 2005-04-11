@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/nspr/Makefile,v 1.1.7.1 2005/03/18 15:45:03 tg Exp $
+# $MirOS: ports/devel/nspr/Makefile,v 1.2 2005/04/10 21:49:31 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/29 21:57:53 pvalchev Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/devel/nspr/Makefile,v 1.13 2003/12/13 21:30:19 peter Exp $
 
 #BROKEN=			"should work on obsd, needs porting to mbsd"
 
 # currently only supporting i386, but alpha sparc sparc64 are possible
-ONLY_FOR_PLATFORM=	OpenBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386
 
 COMMENT=		"Netscape Portable Runtime"
 VER=			4.4.1

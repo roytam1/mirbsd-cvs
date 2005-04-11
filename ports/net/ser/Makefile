@@ -2,7 +2,7 @@
 
 COMMENT=	"SIP Express Router"
 
-ONLY_FOR_PLATFORM=	*:i386 *:sparc
+ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc
 
 VERSION=	0.8.10
 DISTNAME=	ser-${VERSION}_src

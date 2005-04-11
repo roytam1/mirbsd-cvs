@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/10/08 17:13:16 sturm Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	'ATI drivers with full xvideo support'
 

@@ -1,7 +1,7 @@
-# $MirOS: ports/emulators/vgb/Makefile,v 1.1.7.1 2005/03/18 15:45:58 tg Exp $
+# $MirOS: ports/emulators/vgb/Makefile,v 1.2 2005/04/10 21:49:49 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/04/10 18:08:56 jsyn Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"emulates the Nintendo Gameboy"

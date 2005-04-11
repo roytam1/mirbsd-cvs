@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/09/17 14:46:07 wilfried Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		'wm-dockapp; APM/battery monitor'
 DISTNAME=		wmapm-3.1

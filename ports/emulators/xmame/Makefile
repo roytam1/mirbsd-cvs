@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/xmame/Makefile,v 1.2 2005/03/25 23:14:00 bsiegert Exp $
+# $MirOS: ports/emulators/xmame/Makefile,v 1.3 2005/04/10 21:49:53 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/10/11 01:37:55 brad Exp $
 
 COMMENT=	"emulates arcade machines and old home computers"
@@ -25,7 +25,7 @@ DISTFILES=	${DISTNAME}${EXTRACT_SUFX} ${HISCORE_FILE}:0 ${HISTORY_FILE}:1 \
 		${CHEAT_FILE}:2
 
 # Need to know endianness
-ONLY_FOR_PLATFORM=	*:alpha *:hppa *:i386 *:m68k *:powerpc *:sparc
+ONLY_FOR_PLATFORM=	*:*:alpha *:*:hppa *:*:i386 *:*:m68k *:*:powerpc *:*:sparc
 
 PERMIT_PACKAGE_CDROM=	"may not sell"
 PERMIT_PACKAGE_FTP=	"may not sell"

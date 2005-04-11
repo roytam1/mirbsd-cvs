@@ -2,7 +2,7 @@
 # $FreeBSD: ports/audio/waveplay/Makefile,v 1.2 1999/08/25 04:36:16 obrien Exp $
 
 # assumes unaligned access, no struct padding, little endian
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"simple wav audio player"
 DISTNAME=	waveplay-20010924

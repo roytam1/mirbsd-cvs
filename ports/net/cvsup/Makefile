@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/03/29 00:33:47 naddy Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"network file distribution system"
 COMMENT-server=	"network file distribution server"

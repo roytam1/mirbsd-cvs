@@ -10,7 +10,7 @@
 # At present it is only known to work on i386. 
 # Builds nicely, but does not run at all, on sparc (gets 
 # nullpointerexceptions everywhere).
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386 # *:sparc *:m68k
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386 # *:*:sparc *:*:m68k
 
 COMMENT=	"Transvirtual's Java JDK1.1 compiler, runtime and libs"
 

@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.2 2005/03/20 16:56:16 bsiegert Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.3 2005/04/10 21:50:14 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 CATEGORIES=		devel/jdk java lang
 COMMENT=		"Java2(TM) Standard Edition Dev Kit v${V}"

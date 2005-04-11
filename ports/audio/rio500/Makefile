@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/29 19:29:57 fgsch Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"Diamond Rio 500 utilities"
 DISTNAME=	rio500-0.7

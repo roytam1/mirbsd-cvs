@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/prc-tools/Makefile,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
+# $MirOS: ports/devel/prc-tools/Makefile,v 1.2 2005/04/10 21:49:41 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2003/06/05 19:17:06 pvalchev Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 BROKEN=		attempts to install during build
 COMMENT=	"PalmPilot(tm) development environment"

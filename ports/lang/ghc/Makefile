@@ -1,11 +1,11 @@
-# $MirOS: ports/lang/ghc/Makefile,v 1.1.7.1 2005/03/18 15:47:37 tg Exp $
+# $MirOS: ports/lang/ghc/Makefile,v 1.2 2005/04/10 21:50:10 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/05/20 00:08:22 dons Exp $
 # 
 # Based on Simon Marlow's port script for FreeBSD:
 # $FreeBSD: ports/lang/ghc/Makefile,v 1.13 2002/08/22 12:53:38 obraun Exp $
 # And on NetBSD's 5.04.3 .hc boot script
 
-ONLY_FOR_PLATFORM=	*:i386 *:sparc *:amd64
+ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc *:*:amd64
  
 # The general solution for other architectures will be to boot
 # via unregisterised .hc files generated on openbsd-*-i386. See:

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/10/28 19:53:44 naddy Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"Libretto BIOS Setting Program"
 

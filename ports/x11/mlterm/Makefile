@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/mlterm/Makefile,v 1.2 2005/03/30 18:13:59 bsiegert Exp $
+# $MirOS: ports/x11/mlterm/Makefile,v 1.3 2005/04/10 21:51:53 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/06/04 17:13:26 naddy Exp $
 
-NOT_FOR_PLATFORM=	*:vax
+NOT_FOR_PLATFORM=	*:*:vax
 
 COMMENT=	"color terminal emulator with transparency and unicode support"
 DISTNAME=	mlterm-2.8.0

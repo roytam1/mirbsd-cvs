@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/10/18 19:44:47 sturm Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"Microsoft FrontPage Server extensions for Apache"
 VERSION=	1.6.2

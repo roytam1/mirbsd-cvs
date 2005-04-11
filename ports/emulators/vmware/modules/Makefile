@@ -1,6 +1,6 @@
-# $MirOS: ports/emulators/vmware/modules/Makefile,v 1.1.7.1 2005/03/18 15:45:58 tg Exp $
+# $MirOS: ports/emulators/vmware/modules/Makefile,v 1.2 2005/04/10 21:49:49 tg Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 .if !exists(/sys/sys/ioctl_compat.h)
 IGNORE="Fatal: This port requires kernel sources to build"

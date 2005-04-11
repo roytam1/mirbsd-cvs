@@ -9,15 +9,15 @@
 BUILD_DEPENDS=		:redhat_base-*:emulators/redhat/base 
 RUN_DEPENDS=		${BUILD_DEPENDS}
 SUPPORTED=		supported
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 .endif
 
 .if ${EMUL} == "sunos"
-ONLY_FOR_PLATFORM=	OpenBSD:sparc
+ONLY_FOR_PLATFORM=	OpenBSD:*:sparc
 .endif
 
 .if ${EMUL} == "bsdos"
-ONLY_FOR_PLATFORM=	OpenBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386
 .endif
 
 SUPPORTED?=		unsupported

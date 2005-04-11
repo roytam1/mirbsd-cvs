@@ -3,7 +3,7 @@
 
 # archs that have pthreads library in
 # good enough shape to run this app.
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		"threaded DNS daemon, optimized for caching"
 DISTNAME=		pdnsd-1.1.7a

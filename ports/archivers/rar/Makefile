@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/rar/Makefile,v 1.1.7.1 2005/03/18 15:42:44 tg Exp $
+# $MirOS: ports/archivers/rar/Makefile,v 1.2 2005/04/10 21:48:54 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2003/10/18 18:20:40 sturm Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386
 EMUL=			bsdos
 
 COMMENT=		"RAR archiver (BSD/OS binary port)"

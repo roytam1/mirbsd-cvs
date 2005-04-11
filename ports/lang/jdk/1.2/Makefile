@@ -2,7 +2,7 @@
 # $FreeBSD: ports/java/jdk12/Makefile,v 1.11 2002/08/19 20:47:04 glewis Exp $
 
 # Requires existing JDK 1.2 to build; use Linux emul for bootstrapping
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		"Java2(TM) Standard Edition Dev Kit v${V}"
 COMMENT-debug=		"Java2(TM) Standard Edition Dev Kit Debug Binaries v${V}"

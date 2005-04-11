@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/blender/Makefile,v 1.1.7.1 2005/03/18 15:46:43 tg Exp $
+# $MirOS: ports/graphics/blender/Makefile,v 1.2 2005/04/10 21:49:57 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2002/12/29 20:08:46 fgsch Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"3D creation software"

@@ -1,7 +1,7 @@
-# $MirOS: ports/lang/jdk/1.1/Makefile,v 1.1.7.1 2005/03/18 15:47:53 tg Exp $
+# $MirOS: ports/lang/jdk/1.1/Makefile,v 1.2 2005/04/10 21:50:11 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/07/10 11:56:35 matt Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"Java Development Kit for Java 1.1 platform"
 

@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/gogo/Makefile,v 1.2 2005/03/25 23:13:59 bsiegert Exp $
+# $MirOS: ports/audio/gogo/Makefile,v 1.3 2005/04/10 21:48:56 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2002/10/24 22:20:03 naddy Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:i386 MirBSD:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"686 class CPU optimized mp3 encoder"
 DISTNAME=	gogo226a	

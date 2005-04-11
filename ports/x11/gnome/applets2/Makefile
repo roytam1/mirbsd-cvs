@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.2 2005/03/25 23:13:49 bsiegert Exp $
+# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.3 2005/04/10 21:51:49 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/25 19:58:21 marcm Exp $
 
 COMMENT=		"applets for use with the GNOME panel"
@@ -60,7 +60,7 @@ CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-a
 
 .if defined(PACKAGING)
 . if ${SUBPACKAGE} == "-battstat"
-ONLY_FOR_PLATFORM=	*:i386 *:powerpc
+ONLY_FOR_PLATFORM=	*:*:i386 *:*:powerpc
 LIB_DEPENDS=		panel-applet-2.0::x11/gnome/panel
 . endif
 .endif

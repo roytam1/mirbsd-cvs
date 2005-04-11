@@ -1,7 +1,7 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.3 2005/03/30 18:13:52 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.4 2005/04/10 21:51:25 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/08/08 17:19:36 robert Exp $
 
-ONLY_FOR_PLATFORM=	*:alpha *:i386 *:sparc *:sparc64 *:amd64 *:powerpc
+ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		"one of the successors to the Netscape browser engine"
 VERSION=		0.8
 DASH_VER=		p1
