@@ -1,11 +1,14 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.6 2002/12/30 07:37:55 fgsch Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/dejagnu.info
 bin/runtest
 include/dejagnu.h
 info/dejagnu.info
 man/man1/runtest.1
+@comment share/dejagnu/_gplwarn.c
 share/dejagnu/baseboards/README
 share/dejagnu/baseboards/a29k-udi.exp
+share/dejagnu/baseboards/am33_2.0-libremote.exp
 share/dejagnu/baseboards/arc-sim.exp
 share/dejagnu/baseboards/arm-ice.exp
 share/dejagnu/baseboards/arm-sid.exp
@@ -67,9 +70,10 @@ share/dejagnu/baseboards/powerpc-bug1.exp
 share/dejagnu/baseboards/powerpc-sim.exp
 share/dejagnu/baseboards/powerpcle-sim.exp
 share/dejagnu/baseboards/rom68k-idp.exp
-share/dejagnu/baseboards/sh-hms-sim.exp
 share/dejagnu/baseboards/sh-hms.exp
 share/dejagnu/baseboards/sh-sid.exp
+share/dejagnu/baseboards/sh-sim.exp
+share/dejagnu/baseboards/sparc-sim.exp
 share/dejagnu/baseboards/sparc64-sim.exp
 share/dejagnu/baseboards/sparclet-aout.exp
 share/dejagnu/baseboards/sparclite-coff.exp
@@ -145,7 +149,6 @@ share/dejagnu/dejagnu.exp
 share/dejagnu/dg.exp
 share/dejagnu/framework.exp
 share/dejagnu/ftp.exp
-share/dejagnu/i960glue.c
 share/dejagnu/kermit.exp
 share/dejagnu/libexec/config.guess
 share/dejagnu/libgloss.exp
