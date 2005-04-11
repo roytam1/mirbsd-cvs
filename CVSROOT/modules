@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.2 2005/02/04 23:43:43 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.3 2005/02/05 14:20:11 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -50,3 +50,5 @@ sys		src/sys
 usr.bin		-a src/usr.bin
 usr.sbin	-a src/usr.sbin
 x11		-a X11
+
+mirnroff	-a src/share/tmac src/usr.bin/oldroff src/usr.bin/soelim
