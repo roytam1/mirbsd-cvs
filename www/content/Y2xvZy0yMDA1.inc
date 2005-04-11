@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.3 2005/03/15 21:49:08 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -14,6 +14,50 @@
  -->
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
+
+<p id="snap0330">30.03.2005<br />Detailed list of changes from the <a
+ href="#snap0127">2005/01/27 snapshot</a> below:</p><ul>
+ <li>Major bug-hunting season in *roff macros to improve our
+  documentation in both catman and HTML format</li>
+ <li>Display fixes regarding links in HTML-format documentation</li>
+ <li>Major improvements regarding source integrity and much reduced
+  cvs checkout time</li>
+ <li>More reliability and flexibility in the overall infrastructure,
+  including parts shared with portable MirMake and the new MirCPIO
+  and related framework; added support for compiling Objective-C;
+  shortcut for building the whole system at once</li>
+ <li>Releases are now 100% built under systrace(1) quality control</li>
+ <li>Portability improvements in MirMake</li>
+ <li>Build RCS, less and sudo using BSD make</li>
+ <li>Minor security and reliability fixes in system software (kernel
+  and support libraries), some from OpenBSD, some detected by our
+  superiour build infrastructure</li>
+ <li>sendmail now defaults to ISO-8859-1 in the submission agent</li>
+ <li>Update MirLibtool to most recent version of GNU Libtool and
+  fix pthreads and relinking related bugs; reduce vendor diff</li>
+ <li>Update X11 subsystem to the latest <a
+  href="http://www.xfree86.org/">XFree86&reg; 4.5.0</a> release</li>
+ <li>Update GCC to 3.4-20050325; binutils mainline-20050328</li>
+ <li>Languages available: c proto gcov ada objc c++ java pascal</li>
+ <li>Runtimes available: c ada objc pascal c++(broken)</li>
+ <li>Supplementaries available: objc with boehm-gc; pascal</li>
+ <li>Updated Lynx to 2.8.6dev.11i</li>
+ <li>MirPorts now work on MirOS BSD 7 and up, OpenBSD 3.4 and up
+  and Mac OSX (most versions; probably also (Open)Darwin)</li>
+</ul><p>This release includes major feature enhancements and enables
+ users to develop against a system which is very similar to what will
+ be released as MirOS #8, already at this time, although C++ support is
+ still broken. It also addresses overall stability, security, integrity,
+ performance and portability issues and features a lot more subprojects
+ and better integration into a common Unix&reg; environment. Users are
+ urged to update to this snapshot as soon as possible if they are running
+ a 2005/01 snapshot, and as soon as feasible if they are running a 2004/11
+ snapshot.<br />The next snapshot will be a major security release, because
+ this snapshot concentrated on integrating the whole CVS repository into a
+ new, overall better, build system and enabling as many features as we
+ could with the existing source code, as well as getting the damn thing out
+ of our doors, leaving no time to pick and test the security and bug fixes
+ from OpenBSD and other upstream vendors.</p>
 
 <p id="snap0127">27.01.2005<br />Detailed list of changes from the <a
  href="#snap0122">2005/01/22 snapshot</a> below:</p><ul>
