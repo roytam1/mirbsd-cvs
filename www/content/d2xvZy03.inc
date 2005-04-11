@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.41 2005/04/02 22:29:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.42 2005/04/11 17:30:26 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2752,5 +2752,8 @@
  go the Portage way and throw most of (MirOS) base into ports (but without
  removing them from base), because Interix doesn't even have CVS, SSL, SSH
  and "tar z", and old OpenBSD lacks XFree86&trade; 4.5 as well as a modern
- GNU CVS 1.12 (well, new OpenBSD lacks them too).</p>
+ GNU CVS 1.12 (well, new OpenBSD lacks them too).<br />I've been toying at
+ the GCC testsuite, but I lack experience to parse the non-obvious results
+ and have no idea what I've been doing. But ports look bright, even though
+ bsiegert@ is off for a week.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
