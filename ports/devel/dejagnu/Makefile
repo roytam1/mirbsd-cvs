@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/dejagnu/Makefile,v 1.2 2005/04/11 19:37:37 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/12/27 23:41:41 jose Exp $
 
 COMMENT=	"framework to test programs"
@@ -15,8 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=	gnu #autoconf
-AUTOCONF_NEW=		Yes
+CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-tclinclude="${PREFIX}/include/tcl8.4/generic"
 CONFIGURE_ENV+=		ac_cv_path_tclsh=${PREFIX}/bin/tclsh8.4
 
