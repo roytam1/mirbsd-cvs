@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.2 2005/03/25 23:44:43 bsiegert Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .if ${OStype} == "Darwin"
@@ -26,4 +26,14 @@ LDADD+=		${LIBS}
 PORTABLE?=	no
 .if ${PORTABLE:L} != "yes"
 CFLAGS+=	-Wall -Werror
+.endif
+
+.ifdef CRAZY
+CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
+		-Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast \
+		-Wcast-qual -Wcast-align -Wwrite-strings -Wstrict-prototypes \
+		-Wold-style-definition -Wmissing-prototypes \
+		-Wmissing-declarations -Wmissing-noreturn \
+		-Wmissing-format-attribute -Wredundant-decls \
+		-Wno-unreachable-code -Winline -pedantic -std=c99
 .endif
