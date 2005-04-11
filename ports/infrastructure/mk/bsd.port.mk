@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.10 2005/04/10 20:45:02 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.11 2005/04/10 20:52:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -979,35 +979,34 @@ IGNORE+=		"uses C++, but ${NO_CXX}"
 IGNORE+=		"is marked as broken: ${BROKEN}"
 .  endif
 .  if defined(ONLY_FOR_PLATFORM)
-_i:=			${OStype}:${ARCH}
-_j:=			${OStype}:${MACHINE_ARCH}
-.    for _k in ${ONLY_FOR_PLATFORM}
-.      if !empty(_i:M${_k:S/:/\:/g}) || !empty(_j:M${_k:S/:/\:/g})
-__PLATFORM_OK=1
-.      endif
-.    endfor
-.    ifdef __PLATFORM_OK
-.      undef __PLATFORM_OK
-.    else
+__PLATFORM_OK!=	ok=0; test="${OStype}:${ARCH} ${OStype}:${MACHINE_ARCH}"; \
+		for match in ${ONLY_FOR_PLATFORM}; do \
+			for platform in $$test; do \
+				eval [[ $$platform != $$match ]] || ok=1; \
+			done; \
+		done; \
+		print $$ok
+.    if ${__PLATFORM_OK} == "0"
 .      if ${ARCH} == ${MACHINE_ARCH}
 IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${ARCH}"
 .      else
 IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${ARCH} (${MACHINE_ARCH})"
 .      endif
 .    endif
-.    undef _i
-.    undef _j
+.    undef __PLATFORM_OK
 .  endif
 .  if defined(NOT_FOR_PLATFORM)
-_i:=			${OStype}:${ARCH}
-_j:=			${OStype}:${MACHINE_ARCH}
-.    for _k in ${NOT_FOR_PLATFORM}
-.      if !empty(_i:M${_k:S/:/\:/g}) || !empty(_j:M${_k:S/:/\:/g})
+__PLATFORM_OK!=	ok=1; test="${OStype}:${ARCH} ${OStype}:${MACHINE_ARCH}"; \
+		for match in ${NOT_FOR_PLATFORM}; do \
+			for platform in $$test; do \
+				eval [[ $$platform != $$match ]] || ok=0; \
+			done; \
+		done; \
+		print $$ok
+.    if ${__PLATFORM_OK} == "0"
 IGNORE+=		"is not for ${NOT_FOR_PLATFORM}"
-.      endif
-.    endfor
-.    undef _i
-.    undef _j
+.    endif
+.    undef __PLATFORM_OK
 .  endif
 .endif		# NO_IGNORE
 
