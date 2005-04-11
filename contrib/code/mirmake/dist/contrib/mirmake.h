@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.3 2005/02/28 20:09:23 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.4 2005/04/11 15:41:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -33,7 +33,15 @@
 #define _ALL_SOURCE
 #endif
 
+#include <sys/cdefs.h>
 #include <sys/types.h>
+
+#ifdef __INTERIX
+#undef __dead
+#undef __pure
+#define __dead		__attribute__((__noreturn__))
+#define __pure		__attribute__((__const__))
+#endif
 
 #ifndef __IDSTRING
 #ifdef lint
