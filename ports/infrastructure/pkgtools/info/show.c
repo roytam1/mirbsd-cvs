@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: show.c,v 1.13 2003/08/21 20:24:56 espie Exp $ */
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 /* structure to define entries for the "show table" */
 typedef struct show_t {
@@ -61,6 +61,8 @@ static show_t	showv[] = {
 	{	PLIST_SAMPLE,	"@sample %s",	"\tInstall configuration file: %s" },
 	{	PLIST_LIB,	"@lib %s",	"\tShared library: %s" },
 	{	PLIST_SHELL,	"@shell %s",	"\tShell: %s" },
+	{	PLIST_ENDFAKE,	"@endfake",	"\tEnd of fake point" },
+	{	PLIST_LDCACHE,	"@ldcache %s",	"\tShared libraries enabled: %s" },
 	{	-1,		NULL,		 NULL }
 };
 
