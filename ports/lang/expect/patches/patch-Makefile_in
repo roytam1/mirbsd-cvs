@@ -1,5 +1,6 @@
---- Makefile.in.orig	Thu Jul 18 11:07:41 2002
-+++ Makefile.in	Sun Jul 13 01:50:56 2003
+$MirOS$
+--- Makefile.in.orig	Fri May  7 18:10:08 2004
++++ Makefile.in	Mon Apr 11 19:01:53 2005
 @@ -24,7 +24,7 @@ TCLHDIRDASHI = @TCLHDIRDASHI@
  TCL_LIBRARY = @TCL_LIBRARY@
  
@@ -34,7 +35,7 @@
  	"INSTALL_PROGRAM=$(INSTALL_PROGRAM)" \
  	"LDFLAGS=$(LDFLAGS)" \
  	"RUNTEST=$(RUNTEST)" \
-@@ -367,7 +369,7 @@ install_shared_lib: $(EXP_LIB_FILES)
+@@ -368,7 +370,7 @@ install_shared_lib: $(EXP_LIB_FILES)
  	else true; fi
  	if [ -s $(EXP_SHARED_LIB_FILE) ] ; then \
  	  $(INSTALL_PROGRAM) $(EXP_SHARED_LIB_FILE) $(tcl_libdir)/$(EXP_SHARED_LIB_FILE) ; \
@@ -43,7 +44,16 @@
  	else true; fi
  
  expect_installed:	exp_main_exp.o $(EXP_LIB_FILE) install_shared_lib
-@@ -450,7 +452,7 @@ install-libraries:
+@@ -413,7 +415,7 @@ $(EXP_UNSHARED_LIB_FILE): $(OFILES)
+ expect-shared-lib-file :: $(EXP_SHARED_LIB_FILE)
+ $(EXP_SHARED_LIB_FILE): $(OFILES)
+ 	-rm -f $(EXP_SHARED_LIB_FILE)
+-	@TCL_SHLIB_LD@ -o $(EXP_SHARED_LIB_FILE) $(SHARED_OFILES) @EXP_LD_SEARCH_FLAGS@ @EXP_SHLIB_LD_LIBS@
++	@TCL_SHLIB_LD@ -o $(EXP_SHARED_LIB_FILE) $(SHARED_OFILES) $(LDFLAGS) @EXP_LD_SEARCH_FLAGS@ @EXP_SHLIB_LD_LIBS@
+ 
+ .PHONY: install-info install info
+ install-info:
+@@ -451,7 +453,7 @@ install-libraries:
  	${srcdir}/mkinstalldirs $(bindir_arch_indep) $(man1dir) $(SCRIPTDIR) $(EXECSCRIPTDIR)
  	-for i in $(SCRIPT_LIST) ; do \
  	  if [ -f $$i ] ; then \
