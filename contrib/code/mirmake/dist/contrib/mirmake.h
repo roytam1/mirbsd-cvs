@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.2 2005/02/23 21:29:43 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.3 2005/02/28 20:09:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -27,6 +27,11 @@
 
 #ifndef _MIRMAKE_H
 #define _MIRMAKE_H
+
+#ifdef __INTERIX
+/* stock Interix/SFU needs this, MirInterix not */
+#define _ALL_SOURCE
+#endif
 
 #include <sys/types.h>
 
