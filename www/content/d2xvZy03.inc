@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.40 2005/03/31 20:25:42 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.41 2005/04/02 22:29:24 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2727,4 +2727,30 @@
  other BSD. Also, some -funroll-loops freaks have stolen my idea to port a
  reasonable Unixish operating system to Interix, but they couldn't finish.
  Gets a smile from me.</p>
+<p>11.04.2005 by tg@<br />I've been outside a lot again, since finishing a
+ documentation (process-oriented project report) about my apprenticeship's
+ final work got me really under a strain I never experienced before, while
+ pushing the 2005-03-30 snapshot out of the doors did not help much either
+ with it.<br />Today and yesterday, I've started picking up the make diffs
+ bsiegert@ has left me with for a week and brought them into shape, adding
+ support for PE targets (MS Interix and MirInterix) and considering other,
+ non-Darwin, Mach-O targets. I also cleaned up MirPorts appropriately, for
+ we already had two platforms and two OS kernels in one platform and could
+ not say a port is only/not for some platform until now; today I've added,
+ as supplement to OS:VERSION:ARCH, my beloved ksh's wildcards.<br />All of
+ today's commits were prepared under Windows&reg; 2000 &ndash; in parallel
+ I almost broke my neck getting the CVS client up and running under almost
+ pristine MS Interix (for MirPorts, I'll take a peek at pkgsrc but for now
+ I'm doing this all on my own), in order to compile my fist MirPackages in
+ Windows&reg;. This port is easier than and inspired by the Darwin port of
+ MirPorts (well you could even say the MirInterix support for MirPorts was
+ first, in my head at least, and the Darwin port inspired by that), and no
+ NetBSD&reg; pkgsrc's developers' pride was hurt in doing so (this is just
+ to prevent anoter entry in RIPOFF). Eventually, we'll be able to support:
+ MirOS BSD, MirOS Interix, (MirOS Linux); OpenBSD; vanilla MS Interix/SFU;
+ Mac OSX, Darwin, OpenDarwin. For old OpenBSD versions and Interix, I must
+ go the Portage way and throw most of (MirOS) base into ports (but without
+ removing them from base), because Interix doesn't even have CVS, SSL, SSH
+ and "tar z", and old OpenBSD lacks XFree86&trade; 4.5 as well as a modern
+ GNU CVS 1.12 (well, new OpenBSD lacks them too).</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
