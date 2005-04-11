@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.9 2005/02/28 21:52:31 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.10 2005/02/28 21:56:30 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -49,6 +49,9 @@ if [[ -n $CFLAGS ]]; then
 	export COPTS="$CFLAGS"
 fi
 
+# ... and if not
+[[ -n $CC ]] || CC=gcc
+
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
 d_script=$top/dist/scripts
@@ -97,6 +100,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#' \
 	 -e 's#@@mksh@@#${new_mirksh}#' \
 	 -e 's#@@ostype@@#${new_ostype}#' \
 	 -e 's#@@shmk@@#${dt_mk}#' \
+	 -e 's#@@ccom@@#${CC}#' \
 	 -e 's#@@bmake@@#${new_exenam}#'"
 
 

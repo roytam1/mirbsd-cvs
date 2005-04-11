@@ -1,5 +1,5 @@
 0a
-# $MirOS: contrib/code/mirmake/dist/scripts/sys.mk.ed,v 1.2 2005/02/23 21:53:55 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/sys.mk.ed,v 1.3 2005/04/11 15:41:42 tg Exp $
 .
 /^.if ..MACHINE_OS/;/^.endif/d
 i
@@ -9,8 +9,8 @@ OStype=		@@ostype@@
 /^OSrpl=/d
 /^OScompat=/d
 /^OStriplet?=/s/ecce/unknown/
-/^CC?=/s/\(CC?=[	 ]*\).*$/\1cc/
-/^HOSTCC?=/s/\(CC?=[	 ]*\).*$/\1cc/
+/^CC?=/s/\(CC?=[	 ]*\).*$/\1@@ccom@@/
+/^HOSTCC?=/s/\(CC?=[	 ]*\).*$/\1@@ccom@@/
 /^CPPFLAGS?=/s!$!	-imacros "@@shmk@@/mirmake.h"!
 /^SHELL=/s!/bin/ksh!@@mksh@@!
 /^MAKE?=/s!make!@@bmake@@!
