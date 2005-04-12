@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/bin/md5/suma-mi.c,v 1.1 2005/04/12 19:50:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -37,7 +37,7 @@ SUMA_Init(SUMA_CTX *ctx)
 }
 
 void
-SUMA_Update(SUMA_CTX *ctx, const uint8_t *data, size_t len)
+SUMA_Update(SUMA_CTX *ctx, const u_int8_t *data, size_t len)
 {
 	errx(1, "SUMA_Update not implemented");
 }
