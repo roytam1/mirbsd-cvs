@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.2 2005/04/12 18:12:06 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -26,7 +26,7 @@
 # Retrieve prerequisites for running MirPorts on Mac OSX
 
 # DO NOT UNCOMMENT
-#testing=1
+testing=1
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
@@ -40,7 +40,7 @@ bingrp=$(echo "${2:-root:bin}" | sed 's/^.*://') # will be $3
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
 mksh=mirbsdksh-R20.cpio.gz
-make=mirmake-20050228.cpio.gz
+make=mirmake-20050412.cpio.gz
 mtar=paxmirabilis-20050228.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
@@ -80,8 +80,11 @@ if ! cmp -s s t; then
 		cd $td
 		rm -rf $T
 		exit 1
+	else
+		echo WARNING: testing engaged!
 	fi
 fi
+
 
 export CC="${CC:-gcc}"
 export CFLAGS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
