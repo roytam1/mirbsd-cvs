@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,6 +24,9 @@
 # of this work, even if advised of the possibility of such damage.
 #-
 # Retrieve prerequisites for running MirPorts on Mac OSX
+
+# DO NOT UNCOMMENT
+#testing=1
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
@@ -73,10 +76,15 @@ echo "MD5 ($mtar) = e7169bcb482f3d3be30848a5d9993f3e" >>t
 if ! cmp -s s t; then
 	echo Checksum failure!
 	diff -u12 s t | fgrep MD5
-	cd $td
-	rm -rf $T
-	exit 1
+	if [ x"$testing" != x"1" ]; then
+		cd $td
+		rm -rf $T
+		exit 1
+	fi
 fi
+
+export CC="${CC:-gcc}"
+export CFLAGS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 
 set -e # XXX should set up a trap, but...
 set -x
