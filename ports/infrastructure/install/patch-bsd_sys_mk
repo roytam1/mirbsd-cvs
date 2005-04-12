@@ -1,14 +1,23 @@
-$MirOS$
+$MirOS: ports/infrastructure/install/patch-bsd_sys_mk,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 
 This patch is necessary for using <bsd.port.mk> and
 <bsd.lib.mk> within MirPorts.
 
 Applies to (at least):
+* OPENBSD_2_8
+* OPENBSD_2_9
+* OPENBSD_3_0
+* OPENBSD_3_1
+* OPENBSD_3_2
+* OPENBSD_3_3
 * OPENBSD_3_4
 * OPENBSD_3_5
 * OPENBSD_3_6
+* OPENBSD_3_7
 * MIRBSD_7ter
 * MIRBSD_7quater
+
+Not needed when using portable MirMake with MirPorts.
 
 Index: bsd.sys.mk
 ===================================================================
