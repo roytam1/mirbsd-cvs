@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.17 2005/04/12 17:11:56 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -246,7 +246,9 @@ ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.hash \
 cd $top
 if [[ -s $d_build/hash/libhash.a ]]; then
 	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $d_build/hash/libhash.a \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 600 $d_build/hash/libhash.a \$DESTDIR${dt_mk}/
+ranlib \$DESTDIR${dt_mk}/libhash.a
+chmod 444 \$DESTDIR${dt_mk}/libhash.a
 \$i -c \$ug -m 444 $d_src/include/md4.h \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_src/include/md5.h \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_src/include/rmd160.h \$DESTDIR${dt_mk}/
