@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.17 2005/04/12 17:11:56 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.18 2005/04/12 19:10:37 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -63,10 +63,13 @@ case "$new_machos:$new_machin:$new_macarc" {
 Darwin:*:powerpc)
 	;;
 Darwin:*:i686)
+	new_machin=i686
+	new_macarc=i386
 	;;
 Darwin:*:*)
 	new_macarc=$(uname -p)
-	[[ $new_macarc = *86 ]] && new_macarc=i686
+	[[ $new_macarc = *86 ]] && new_machin=i686
+	[[ $new_macarc = *86 ]] && new_macarc=i386
 	;;
 Interix:*:*)
 	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
