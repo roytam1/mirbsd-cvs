@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.8 2005/04/12 17:30:07 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -103,8 +103,12 @@
 #endif
 #endif
 
-#if defined(__ELF__) && !defined(__weak_extern)
+#ifndef __weak_extern
+#ifdef __ELF__
 #define __weak_extern(sym)	__asm__(".weak " #sym);
+#else
+#define __weak_extern(sym)	/* XXX FIXME */
+#endif
 #endif
 
 #ifndef __packed
