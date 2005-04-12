@@ -1,9 +1,11 @@
-/**	$MirOS: src/usr.bin/make/main.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/main.c,v 1.3 2005/04/12 10:09:27 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: main.c,v 1.65 2004/04/21 13:17:49 jmc Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
 
 /*
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
  * Copyright (c) 1988, 1989, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 1989 by Berkeley Softworks
@@ -45,6 +47,7 @@
 #endif
 #include <errno.h>
 #include <getopt.h>
+#include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,12 +85,12 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.3 2005/04/12 10:09:27 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
 GNode			*DEFAULT;	/* .DEFAULT node */
-bool 		allPrecious;	/* .PRECIOUS given on line by itself */
+bool	 		allPrecious;	/* .PRECIOUS given on line by itself */
 
 static bool		noBuiltins;	/* -r flag */
 static LIST		makefiles;	/* ordered list of makefiles to read */
@@ -108,7 +111,8 @@ bool 		checkEnvFirst;	/* -e flag */
 
 static void		MainParseArgs(int, char **);
 static char *		chdir_verify_path(const char *);
-static int		ReadMakefile(void *, void *);
+static bool		ReadMakefile(void *, void *);
+static bool		ReadSysMakefile(void *, void *);
 static void		add_dirpath(Lst, const char *);
 static void		usage(void);
 static void		posixParseOptLetter(int);
@@ -672,7 +676,7 @@ main(int argc, char **argv)
 		Dir_Expand(_PATH_DEFSYSMK, sysIncPath, &sysMkPath);
 		if (Lst_IsEmpty(&sysMkPath))
 			Fatal("make: no system rules (%s).", _PATH_DEFSYSMK);
-		ln = Lst_Find(&sysMkPath, ReadMakefile, NULL);
+		ln = Lst_Find(&sysMkPath, ReadSysMakefile, NULL);
 		if (ln != NULL)
 			Fatal("make: cannot open %s.", (char *)Lst_Datum(ln));
 #ifdef CLEANUP
@@ -833,6 +837,21 @@ found:		Var_Set("MAKEFILE", fname, VAR_GLOBAL);
 		Parse_File(fname, stream);
 	}
 	return true;
+}
+
+static bool
+ReadSysMakefile(void *p, void *q UNUSED)
+{
+	bool rv;
+	char *t;
+
+	if ((rv = ReadMakefile(p, q)) == true) {
+		if ((t = dirname(p)) == NULL)
+			Fatal("make: cannot dirname(%s).", p);
+		Var_Set(".SYSMK", t, VAR_GLOBAL);
+	}
+
+	return rv;
 }
 
 

@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.2 2005/02/23 20:36:54 tg Exp $
 .\"	$OpenBSD: make.1,v 1.64 2005/01/15 20:42:49 mbalmer Exp $
 .\"	$OpenPackages$
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
@@ -539,6 +539,14 @@ The name that
 .Nm
 was executed with
 .Pq Va argv Ns Op 0 .
+.It Va .SYSMK
+Path in which
+.Pa sys.mk
+is found (normally
+.Pa /usr/share/mk ,
+can be changed with the
+.Fl m
+option).
 .It Va .CURDIR
 A path to the directory where
 .Nm
