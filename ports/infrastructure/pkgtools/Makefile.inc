@@ -1,13 +1,12 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.2 2005/03/25 23:44:43 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.3 2005/04/11 21:05:02 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .if ${OStype} == "Darwin"
 LOCALBASE?=	/usr/mpkg
-MMAKEDIR=	${LOCALBASE}/share/mmake
 PREFIX?=	${LOCALBASE}
 MANDIR=		${LOCALBASE}/man/cat
-INCS=		-I${MMAKEDIR}
-LIBS=		${MMAKEDIR}/libhash.a
+INCS=		-I${.SYSMK}
+LIBS=		${.SYSMK}/libhash.a
 PORTABLE=	Yes
 DB_DIR?=	${LOCALBASE}/db
 .else

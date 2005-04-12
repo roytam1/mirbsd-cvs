@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.4 2005/04/12 19:02:18 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.5 2005/04/12 19:31:37 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -70,7 +70,7 @@ md5 $mksh >s
 md5 $make >>s
 md5 $mtar >>s
 echo "MD5 ($mksh) = 2267876639a682dd8d43f28aa697241c" >t
-echo "MD5 ($make) = 04040c694825e522f24de029997b3e3a" >>t
+echo "MD5 ($make) = 5b98026d54cb9bb6018a48426543d939" >>t
 echo "MD5 ($mtar) = e7169bcb482f3d3be30848a5d9993f3e" >>t
 
 if ! cmp -s s t; then
