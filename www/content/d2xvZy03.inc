@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.42 2005/04/11 17:30:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.43 2005/04/11 21:10:04 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2756,4 +2756,10 @@
  the GCC testsuite, but I lack experience to parse the non-obvious results
  and have no idea what I've been doing. But ports look bright, even though
  bsiegert@ is off for a week.</p>
+<p>12.04.2005 by tg@<br />Today, I decided that investing some time in the
+ MirPorts/Darwin port will be more effective towards my MirPorts/MSInterix
+ port than directly working on it. Ta-daa! We now have ${.SYSMK} and cksum
+ for Darwin (as working port!), a new MirMake version, a MirCksum distfile
+ and a bunch of other goodies.<br />I decided to add support for sedecimal
+ number parsing to strtonum(3), much to delight of tyler@.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
