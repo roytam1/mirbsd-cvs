@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/main.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: main.c,v 1.65 2004/04/21 13:17:49 jmc Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
@@ -44,6 +44,7 @@
 #include <sys/utsname.h>
 #endif
 #include <errno.h>
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,7 +82,7 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
