@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.6 2005/04/12 10:11:53 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005
+ * Copyright (c) 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Based upon some code
  * Copyright (c) 1991, 1993
@@ -15,6 +15,12 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ * The acknowledgement needs not to be reprinted if this software was
+ * only used in compiling the redistributed work.
  *
  * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
  * any kind, expressed or implied, to the maximum extent permitted by
@@ -158,6 +164,7 @@
 			    (((x)->sa_family == AF_INET) ? \
 				sizeof(struct sockaddr_in) : \
 				sizeof(struct sockaddr)))
+#endif
 #endif
 
 #ifndef _NO_DECLS
