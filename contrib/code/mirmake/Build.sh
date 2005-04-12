@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.5 2005/04/12 10:24:45 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -10,6 +10,10 @@
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
+#
+# All advertising materials mentioning features or use of this soft-
+# ware must display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
 #
 # Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 # any kind, expressed or implied, to the maximum extent permitted by
@@ -32,7 +36,7 @@ MKS="$8"		# mirbsdksh path (optional)
 BIN="$9"		# binown:bingrp (optional)
 
 if [ x"$MAC" = x"" ]; then
-	MAC="`machine 2>/dev/null || echo unknown`"
+	MAC="`machine 2>/dev/null || uname -m 2>/dev/null || echo unknown`"
 fi
 
 if [ x"$MAR" = x"" ]; then
@@ -49,16 +53,17 @@ if [ x"$MOS" = x"" ]; then
 	esac
 fi
 
-if [ x"$MOS" = x"Interix" ]; then
-	u="`uname -m`"
-	case $MAC:$u in
-	unknown:x86)	MAC=i386; MAR=i386	;;
-	esac
-	[ -z "$BIN" ] && BIN=-
-elif [ x"$MOS" = x"Linux" ] || [ x"$MOS" = x"BSD" ] || [ x"$MOS" = x"Darwin" ]; then
-	:
+case "$MOS" in
+Interix)
 	# Okay, we know this MACHINE_OS
-else
+	[ x"$MAC" = x"x86" ] && MAC=i386
+	[ x"$MAC" = x"i386" ] && MAR=i386
+	[ -z "$BIN" ] && BIN=-
+	;;
+BSD|Darwin|Linux)
+	# Okay, we know this MACHINE_OS
+	;;
+*)
 	echo "Error: we cannot continue with this MACHINE_OS"
 	echo "value of '$MOS'. Please contact the MirOS"
 	echo "development team at miros-discuss@66h.42h.de and"
@@ -68,7 +73,8 @@ else
 	echo "Your uname -a output is:"
 	uname -a
 	OSN=""	# fall through
-fi
+	;;
+esac
 
 if [ x"$MAC" = x"unknown" ] || [ x"$MAR" = x"unknown" ] || [ x"$MOS" = x"unknown" ]; then
 	echo "Error: cannot guess machine or machine_arch"

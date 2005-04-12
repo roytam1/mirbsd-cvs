@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.15 2005/04/12 10:29:12 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -59,10 +59,6 @@ else
 	is_catman=0
 fi
 
-# ... in case user specifies CC= CFLAGS= in ./Build.sh environment
-export CC="${CC:-gcc}"
-export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
-
 case "$new_machos:$new_machin:$new_macarc" {
 Darwin:*:powerpc)
 	;;
@@ -81,6 +77,8 @@ Interix:*:*)
 	;;
 }
 
+export CC="${CC:-gcc}"
+export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 export CPPFLAGS="$CPPFLAGS -include $d_script/../contrib/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 

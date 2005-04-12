@@ -1,8 +1,13 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.5 2005/04/11 16:57:55 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.6 2005/04/12 10:11:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Based upon some code
+ * Copyright (c) 1991, 1993
+ *	The Regents of the University of California.
+ * This code is derived from software contributed to Berkeley by
+ * Berkeley Software Design, Inc.
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -35,11 +40,79 @@
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
+/* Undefining */
+
 #ifdef __INTERIX
 #undef __dead
 #undef __pure
+#endif
+
+/* Redefining */
+
+#ifndef __BEGIN_DECLS
+#if defined(__cplusplus)
+#define	__BEGIN_DECLS	extern "C" {
+#define	__END_DECLS	}
+#else
+#define	__BEGIN_DECLS
+#define	__END_DECLS
+#endif
+#endif /* ndef __BEGIN_DECLS */
+
+#ifndef __GNUC_PREREQ__
+#ifdef __GNUC__
+#define __GNUC_PREREQ__(ma, mi) \
+	((__GNUC__ > (ma)) || (__GNUC__ == (ma) && __GNUC_MINOR__ >= (mi)))
+#else
+#define __GNUC_PREREQ__(ma, mi) 0
+#endif
+#endif
+
+#define	__P(protos)	protos
+#define	__CONCAT(x,y)	x ## y
+#define	__STRING(x)	#x
+
+#define	__const		const
+#define	__signed	signed
+#define	__volatile	volatile
+#if defined(__cplusplus)
+#define	__inline	inline		/* convert to C++ keyword */
+#elif !defined(__GNUC__) && !defined(lint)
+#define	__inline			/* delete GCC keyword */
+#endif
+
+#ifndef __dead
+#if !__GNUC_PREREQ__(2, 5)
+#define	__attribute__(x)	/* delete __attribute__ if no or old gcc */
+#if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#define	__dead		__volatile
+#define	__pure		__const
+#endif
+#elif __GNUC_PREREQ__(3, 4) || !defined(__STRICT_ANSI__)
 #define __dead		__attribute__((__noreturn__))
 #define __pure		__attribute__((__const__))
+#else
+#define	__dead
+#define	__pure
+#endif
+#endif
+
+#if defined(__ELF__) && !defined(__weak_extern)
+#define __weak_extern(sym)	__asm__(".weak " #sym);
+#endif
+
+#ifndef __packed
+#if __GNUC__ >= 3
+#define	__packed		__attribute__((packed))
+#elif __GNUC_PREREQ__(2, 7)
+#define	__packed		__attribute__((__packed__))
+#elif defined(lint)
+#define	__packed
+#endif
+#endif
+
+#if !__GNUC_PREREQ__(2, 8) && !defined(__extension__)
+#define	__extension__
 #endif
 
 #ifndef __IDSTRING
@@ -71,23 +144,21 @@
 #define	__SCCSID(x)		__IDSTRING(sccsid,x)
 #endif
 
+/* Additions */
+
 #ifndef	SA_LEN
+#ifdef __INTERIX
+/* any system without AF_INET6 */
+#define	SA_LEN(x)	(((x)->sa_family == AF_INET) ? \
+			    sizeof(struct sockaddr_in) : \
+			    sizeof(struct sockaddr))
+#else
 #define	SA_LEN(x)	(((x)->sa_family == AF_INET6) ? \
 			    sizeof(struct sockaddr_in6) : \
 			    (((x)->sa_family == AF_INET) ? \
 				sizeof(struct sockaddr_in) : \
 				sizeof(struct sockaddr)))
 #endif
-
-#ifndef __BEGIN_DECLS
-#if defined(__cplusplus)
-#define	__BEGIN_DECLS	extern "C" {
-#define	__END_DECLS	}
-#else
-#define	__BEGIN_DECLS
-#define	__END_DECLS
-#endif
-#endif /* ndef __BEGIN_DECLS */
 
 #ifndef _NO_DECLS
 __BEGIN_DECLS
