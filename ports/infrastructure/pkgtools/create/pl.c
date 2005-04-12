@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.2 2005/03/25 23:40:51 bsiegert Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.2 2005/03/25 23:40:51 bsiegert Exp $");
 
 int IsDylib = 0;
 
@@ -78,10 +78,8 @@ check_list(char *home, package_t *pkg)
 	for (p = pkg->head ; p ; p = p->next) {
 		switch (p->type) {
 		case PLIST_OPTION:
-			if (!strcmp(p->name, "dylib")) {
+			if (!strcmp(p->name, "dylib"))
 				IsDylib = true;
-				printf("Dylib support enabled\n");
-			}
 			break;
 		case PLIST_CWD:
 			cwd = p->name;
