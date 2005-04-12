@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.2 2005/04/12 18:12:06 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.3 2005/04/12 18:14:52 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -31,7 +31,7 @@ testing=1
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 bd=$(cd $(dirname $0); pwd)
-td=$(cd $bd/../../..; pwd)
+td=$(cd $bd/../..; pwd)
 
 #target=${1:-/usr/mpkg}
 mirror=$1 # will be $2
@@ -70,12 +70,12 @@ md5 $mksh >s
 md5 $make >>s
 md5 $mtar >>s
 echo "MD5 ($mksh) = 2267876639a682dd8d43f28aa697241c" >t
-echo "MD5 ($make) = 8f09cb31652a23207b4f4fa4cf26a2b0" >>t
+echo "MD5 ($make) = afa2c57333a8d8d1226fb0d20d81a899" >>t
 echo "MD5 ($mtar) = e7169bcb482f3d3be30848a5d9993f3e" >>t
 
 if ! cmp -s s t; then
 	echo Checksum failure!
-	diff -u12 s t | fgrep MD5
+	diff -u12 t s | fgrep MD5
 	if [ x"$testing" != x"1" ]; then
 		cd $td
 		rm -rf $T
