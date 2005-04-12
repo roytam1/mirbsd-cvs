@@ -1,7 +1,7 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.1.7.1 2005/03/18 15:45:43 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.1 2005/04/12 21:07:00 tg Exp $
 
 # only works with portable MirMake
-NOT_FOR_OS=		MirBSD:*:* OpenBSD:*:*
+NOT_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		"MirOS cksum(1)"
 CATEGORIES=		essentials
