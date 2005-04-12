@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.12 2005/04/12 10:15:29 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.13 2005/04/12 10:17:51 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -126,7 +126,7 @@ done
 
 # Build bmake
 cd $d_build
-if ! make -f Makefile.boot bmake; then
+if ! make -f Makefile.boot bmake CC="$CC"; then
 	echo "Error: build failure"
 	exit 1
 fi
