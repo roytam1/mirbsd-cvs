@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.2 2005/02/23 21:29:42 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.3 2005/02/23 21:40:54 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -49,7 +49,12 @@ if [ x"$MOS" = x"" ]; then
 	esac
 fi
 
-if [ x"$MOS" = x"Linux" ] || [ x"$MOS" = x"BSD" ] || [ x"$MOS" = x"Interix" ] || [ x"$MOS" = x"Darwin" ]; then
+if [ x"$MOS" = x"Interix" ]; then
+	u="`uname -m`"
+	case $MAC:$u in
+	unknown:x86)	MAC=i386; MAR=i386	;;
+	esac
+elif [ x"$MOS" = x"Linux" ] || [ x"$MOS" = x"BSD" ] || [ x"$MOS" = x"Darwin" ]; then
 	:
 	# Okay, we know this MACHINE_OS
 else
