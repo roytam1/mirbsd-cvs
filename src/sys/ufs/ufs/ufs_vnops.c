@@ -904,7 +904,7 @@ abortit:
 		/*
 		 * Delete source.  There is another race now that everything
 		 * is unlocked, but this doesn't cause any new complications.
-		 * Relookup() may find a file that is unrelated to the
+		 * relookup() may find a file that is unrelated to the
 		 * original one, or it may fail.  Too bad.
 		 */
 		vrele(fvp);
@@ -913,8 +913,10 @@ abortit:
 		if ((fcnp->cn_flags & SAVESTART) == 0)
 			panic("ufs_rename: lost from startdir");
 		fcnp->cn_nameiop = DELETE;
-		(void) relookup(fdvp, &fvp, fcnp);
+		error = relookup(fdvp, &fvp, fcnp);
 		vrele(fdvp);
+		if (error)
+			return (error);
 		if (fvp == NULL) {
 			return (ENOENT);
 		}
@@ -1011,7 +1013,10 @@ abortit:
 			goto bad;
 		if (xp != NULL)
 			vput(tvp);
-
+		/*
+		 * Compensate for the reference ufs_checkpath() loses.
+		 */
+		vref(tdvp);
 		/* Only tdvp is locked */
 		if ((error = ufs_checkpath(ip, dp, tcnp->cn_cred)) != 0)
 			goto out;
@@ -1165,12 +1170,13 @@ abortit:
 	fcnp->cn_flags |= LOCKPARENT | LOCKLEAF;
 	if ((fcnp->cn_flags & SAVESTART) == 0)
 		panic("ufs_rename: lost from startdir");
-	(void) relookup(fdvp, &fvp, fcnp);
+	error = relookup(fdvp, &fvp, fcnp);
 	vrele(fdvp);
-	if (fvp != NULL) {
-		xp = VTOI(fvp);
-		dp = VTOI(fdvp);
-	} else {
+	if (error) {
+		vrele(ap->a_fvp);
+		return (error);
+	}
+	if (fvp == NULL) {
 		/*
 		 * From name has disappeared.
 		 */
@@ -1179,6 +1185,10 @@ abortit:
 		vrele(ap->a_fvp);
 		return (0);
 	}
+
+	xp = VTOI(fvp);
+	dp = VTOI(fdvp);
+
 	/*
 	 * Ensure that the directory entry still exists and has not
 	 * changed while the new name has been entered. If the source is
