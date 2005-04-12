@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.10 2005/02/28 21:56:30 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.11 2005/04/11 15:44:49 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -44,14 +44,6 @@ fi
 
 export SHELL=$new_mirksh
 
-# ... in case user specifies CC= CFLAGS= in ./Build.sh environment
-if [[ -n $CFLAGS ]]; then
-	export COPTS="$CFLAGS"
-fi
-
-# ... and if not
-[[ -n $CC ]] || CC=gcc
-
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
 d_script=$top/dist/scripts
@@ -66,6 +58,12 @@ if [[ $new_manpth = *@(cat)* ]]; then
 else
 	is_catman=0
 fi
+
+# ... in case user specifies CC= CFLAGS= in ./Build.sh environment
+export CC="${CC:-gcc}"
+COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
+export CFLAGS="${COPTS} -include $d_script/../contrib/mirmake.h"
+export COPTS="$CFLAGS"
 
 case "$new_machos:$new_machin:$new_macarc" {
 Darwin:*:powerpc)
