@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.4 2005/04/11 15:41:27 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.5 2005/04/11 16:57:55 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -21,8 +21,7 @@
  *-
  * Add here: macros not defined on every operating system, for easier
  * patching of ported apps.
- * Suggest to use with CPPFLAGS+= -imacros "/path/to/mirmake.h" (safe
- * or conservative) or CPPFLAGS+= -include "/path/to/mirmake.h"
+ * Suggest to use with CPPFLAGS+= -include "/path/to/mirmake.h"
  */
 
 #ifndef _MIRMAKE_H
