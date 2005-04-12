@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.7 2005/04/12 17:11:55 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -130,8 +130,8 @@ if [ x"$ms" = x"NONE" ]; then
 	exit 1
 fi
 
-echo "Building MirMake on $MOS/$MAC ($MAR)"
-echo "for $OSN with $MKS to $PFX/bin/$MKN"
-echo "Documentation goes to $PFX/$MPT1/ (user ${BIN:-root:bin})"
+echo "Building MirMake on $MOS/$MAC ($MAR) for $OSN"
+echo "with $ms and ${CC:-gcc} to $PFX/bin/$MKN"
+echo "Documentation goes to $PFX/${MPT}1/ (user ${BIN:-root:bin})"
 
 exec $ms `dirname $0`/dist/scripts/Build.sh "$OSN" "$PFX" "$MPT" "$MKN" "$MAC" "$MAR" "$MOS" $ms "$BIN"
