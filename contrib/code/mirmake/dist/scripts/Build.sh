@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.14 2005/04/12 10:18:44 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.15 2005/04/12 10:29:12 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -151,7 +151,11 @@ cat >Install.sh <<EOF
 #!${new_mirksh}
 
 i=\${1:-install}
-ug="-o $binown -g $bingrp"
+if [[ $binown = - ]]; then
+	ug=
+else
+	ug="-o $binown -g $bingrp"
+fi
 set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
 \$i -c -s \$ug -m 555 ${d_build}/bmake \$DESTDIR${dt_bin}/${new_exenam}
