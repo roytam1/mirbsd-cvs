@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.11 2005/04/11 15:44:49 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.12 2005/04/12 10:15:29 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -234,8 +234,8 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
     $d_src/lib/libc/hash/helper.c >sha512hl.c
 ( cd $d_src/lib/libc/hash; \
   cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/hash/ )
-make -f $d_script/Makefile.hash libhash.a \
-    INCS="-include $d_script/../contrib/mirmake.h -I$d_src/include"
+${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.hash \
+    INCS="-I$d_src/include" libhash.a
 cd $top
 if [[ -s $d_build/hash/libhash.a ]]; then
 	cat >>Install.sh <<EOF
