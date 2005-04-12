@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.13 2005/04/12 10:17:51 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.14 2005/04/12 10:18:44 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -61,9 +61,7 @@ fi
 
 # ... in case user specifies CC= CFLAGS= in ./Build.sh environment
 export CC="${CC:-gcc}"
-COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
-export CFLAGS="${COPTS} -include $d_script/../contrib/mirmake.h"
-export COPTS="$CFLAGS"
+export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 
 case "$new_machos:$new_machin:$new_macarc" {
 Darwin:*:powerpc)
@@ -74,10 +72,17 @@ Darwin:*:*)
 	new_macarc=$(uname -p)
 	[[ $new_macarc = *86 ]] && new_macarc=i686
 	;;
+Interix:*:*)
+	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
+	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
+	;;
 *:*:i[3456789x]86)
 	new_macarc=i386
 	;;
 }
+
+export CPPFLAGS="$CPPFLAGS -include $d_script/../contrib/mirmake.h"
+export CFLAGS="$COPTS $CPPFLAGS"
 
 if [[ -z $new_binids ]]; then
 	binown=root
