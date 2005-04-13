@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.44 2005/04/12 21:21:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.45 2005/04/13 21:53:47 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2766,5 +2766,7 @@
  go to sleep early today, didn't become reality &ndash; but I am almost at
  the break-through point for MirPorts/Interix. Now we only lack ftp(1), or
  an equivalent downloader. Thus, MirPorts/Darwin got updated make and cpio
- as well (not necessary to update though).</p>
+ as well (not necessary to update, though).<br />Oh, nearly forgot: I hope
+ you don't mind the ads and associated CSS cleanup. I've found they can be
+ nicely integrated.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
