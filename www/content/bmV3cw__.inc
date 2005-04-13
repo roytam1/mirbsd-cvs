@@ -1,6 +1,12 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.13 2005/03/28 15:08:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.14 2005/03/30 12:57:00 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>12.04.2005<br />
+	There has been a new release of MirMake, along with distfiles for:
+	MirCksum (tested, ports/essentials/cksum), MirNroff (untested). If
+	you use MirPorts/Darwin, you must execute the installation script,
+	<tt>ports/infrastructure/install/Setup-Darwin.sh</tt>, again.</li>
 
 <li>30.03.2005<br />
 	Today we present a new, binary and source, snapshot to the general

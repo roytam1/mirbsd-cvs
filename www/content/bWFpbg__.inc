@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.11 2005/03/26 01:09:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.12 2005/03/30 12:57:00 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -30,7 +30,7 @@
  href="/cvs.cgi/contrib/samples/devel-keys">cryptographically
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
-<h3 style="color:red;">Latest Release</h3>
+<h3 style="color:red;">Latest Releases</h3>
 <p>CURRENT: March 30th, 2005: #8-beta snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <p>CURRENT: March 30th, 2005: #8-beta snapshot available for <a
@@ -44,10 +44,10 @@
  (gzip compressed) available to fix a core dump.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
-<p>PORTS: March 26th, 2005: MirPorts now work on MirOS BSD, OpenBSD and Mac
- OSX; the <a href="http://wiki.mirbsd.de/MirPorts">instructions</a> have
- been updated and enhanced. Changes to MirPorts in the new CVS repository
- are allowed now, the pages need yet to be updated.</p>
+<p>PORTS: April 12th, 2005: There have been some infrastructural changes
+ in <a href="http://wiki.mirbsd.de/MirPorts">MirPorts</a>; Darwin users
+ <strong>must</strong> re-execute <tt>install/Setup-Darwin.sh</tt> after
+ updating, because a new MirMake version is now required.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
