@@ -1,4 +1,4 @@
-/* $MirOS: www/vstyle.css,v 1.7 2005/03/24 08:29:23 tg Exp $ */
+/* $MirOS: www/vstyle.css,v 1.8 2005/04/13 09:07:17 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -91,6 +91,7 @@ strong:hover {
 .content {
 	margin-top:100px; margin-left:188px;
 	padding-left:2px;
+	min-height:820px;
 }
 
 .hdrflf {
