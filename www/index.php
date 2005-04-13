@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.5 2005/03/15 17:13:04 tg Exp $ */
+/* $MirOS: www/index.php,v 1.6 2005/03/15 22:55:19 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -48,6 +48,23 @@
  <ul class="lv1">
   <?php include($ridx); ?>
  </ul>
+ <div style="margin-left:12px;margin-top:12px;margin-bottom:12px;">
+  <script type="text/javascript"><!--
+	google_ad_client = "pub-0266998858986985";
+	google_ad_width = 160;
+	google_ad_height = 600;
+	google_ad_format = "160x600_as";
+	google_ad_channel ="";
+	google_color_border = "555555";
+	google_color_bg = "000000";
+	google_color_link = "CC7777";
+	google_color_url = "FFAA00";
+	google_color_text = "BBBBBB";
+  //--></script>
+  <script type="text/javascript"
+   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
+ </div>
 </div>
 <div class="content">
  <?php

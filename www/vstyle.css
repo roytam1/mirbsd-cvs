@@ -1,4 +1,4 @@
-/* $MirOS: www/vstyle.css,v 1.6 2005/03/22 19:12:16 tg Exp $ */
+/* $MirOS: www/vstyle.css,v 1.7 2005/03/24 08:29:23 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -84,7 +84,7 @@ strong:hover {
 .index {
 	position:absolute;
 		top:2px; left:2px;
-		bottom:10%; width:184px;
+		width:184px;
 	background-color:#333333;
 }
 

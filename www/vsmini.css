@@ -1,4 +1,4 @@
-/* $MirOS: www/vsmini.css,v 1.5 2005/03/16 15:43:15 tg Exp $ */
+/* $MirOS: www/vsmini.css,v 1.6 2005/03/22 19:12:16 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -63,7 +63,7 @@ strong:hover {
 .index {
 	position:absolute;
 		top:2px; left:2px;
-		bottom:10%; width:200px;
+		width:200px;
 }
 
 .content {
