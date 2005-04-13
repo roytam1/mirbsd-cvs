@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.6 2005/04/12 20:35:29 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.1 2005/04/13 16:16:42 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -35,6 +35,11 @@ PATH=/bin:/opt/gcc.3.3/bin:/usr/contrib/bin:/usr/local/bin:/usr/X11R6/bin
 [ -n "$PATH_WINDOWS" ] && PATH=$PATH:/usr/contrib/win32/bin:$PATH_WINDOWS
 PATH_ORIG=$PATH:/usr/X11R5:bin
 export PATH=$PATH_ORIG
+
+if [ -e mktemp.sh ]; then
+	rm -f /bin/mktemp
+	install -c -m 555 mktemp.sh /bin/mktemp
+fi
 
 bd=$(cd $(dirname $0); pwd)
 td=$(cd $bd/../..; pwd)
