@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004
@@ -82,7 +82,7 @@ Lotxt:	mov	bx,7
 	. = 10 + Lotxt0		/* ensure it fits exactly */
 
 Ldrv:	.byte	0x80, 0		/* BIOS drive */
-	.byte	0x29		/* magic (EBPB) */
+	.byte	0xF6		/* magic (anything but 0x29) */
 
 /* the following code is 0x0F bytes long:
 	.long	0		// volume serial number
