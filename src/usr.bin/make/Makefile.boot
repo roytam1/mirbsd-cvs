@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.3 2005/02/23 20:49:26 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.4 2005/02/26 13:35:27 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -32,7 +32,7 @@ INCLDIR=	/usr/src/include
 #==============================
 
 .c.o:
-	${CC} ${CFLAGS} -c $< -o $@
+	${CC} ${CFLAGS} ${CPPFLAGS} -c $< -o $@
 
 CFLAGS= -Iohash -I. ${DEFS} ${DEFS_RE} ${COPTS} -DMACHINE=\"${MACHINE}\" \
 	-DMACHINE_ARCH=\"${MACHINE_ARCH}\" -DMACHINE_OS=\"${MACHINE_OS}\" \
