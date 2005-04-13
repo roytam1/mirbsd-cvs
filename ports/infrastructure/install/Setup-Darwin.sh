@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.6 2005/04/12 20:35:29 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.7 2005/04/13 17:15:13 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -40,8 +40,8 @@ bingrp=$(echo "${2:-root:bin}" | sed 's/^.*://') # will be $3
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
 mksh=mirbsdksh-R20.cpio.gz
-make=mirmake-20050412.cpio.gz
-mtar=paxmirabilis-20050228.cpio.gz
+make=mirmake-20050413.cpio.gz
+mtar=paxmirabilis-20050413.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
     exit 1; }
@@ -72,8 +72,8 @@ md5 $mksh >s
 md5 $make >>s
 md5 $mtar >>s
 echo "MD5 ($mksh) = 2267876639a682dd8d43f28aa697241c" >t
-echo "MD5 ($make) = 5b98026d54cb9bb6018a48426543d939" >>t
-echo "MD5 ($mtar) = e7169bcb482f3d3be30848a5d9993f3e" >>t
+echo "MD5 ($make) = 22c5710bc85a92837efb16251021bae3" >>t
+echo "MD5 ($mtar) = 8f48631579a700b5328025c7dbc7ac7d" >>t
 
 if ! cmp -s s t; then
 	echo Checksum failure!
