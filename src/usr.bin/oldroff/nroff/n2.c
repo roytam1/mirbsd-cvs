@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -241,11 +241,13 @@ flusho(){
 					ttysavespace = ttys;
 					ttysave = 1;
 				}
+#ifdef OXTABS
 				if (t.breset & 0x0C00)
 					ttys.c_oflag &= ~OXTABS;
+#endif
 				if (t.breset & 0x0010)
 					ttys.c_oflag &= ~ONLCR;
-				tcsetattr(1, TCSAFLUSH | TCSASOFT, &ttys);
+				tcsetattr(1, TCSAFLUSH, &ttys);
 			}
 			{
 			char *p = t.twinit;
@@ -327,7 +329,7 @@ done3(x) int x;{
 #endif
 	if(quiet){
 		ttys.c_lflag |= ECHO;
-		tcsetattr(0, TCSAFLUSH | TCSASOFT, &ttys);
+		tcsetattr(0, TCSAFLUSH, &ttys);
 	}
 	if(ascii)mesg(1);
 #ifndef NROFF

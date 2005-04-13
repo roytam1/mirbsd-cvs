@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -646,7 +646,7 @@ caserd(){
 	if(!iflg){
 		if(quiet){
 			ttys.c_lflag &= ~ECHO;
-			tcsetattr(0, TCSAFLUSH | TCSASOFT, &ttys);
+			tcsetattr(0, TCSAFLUSH, &ttys);
 			prstrfl(""); /*bell*/
 		}else{
 			if(nextf[0]){
@@ -674,7 +674,7 @@ rdtty(){
 	tty = 0;
 	if(quiet){
 		ttys.c_lflag |= ECHO;
-		tcsetattr(0, TCSAFLUSH | TCSASOFT, &ttys);
+		tcsetattr(0, TCSAFLUSH, &ttys);
 	}
 	return(0);
 }

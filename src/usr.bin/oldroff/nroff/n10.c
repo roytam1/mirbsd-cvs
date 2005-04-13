@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -53,7 +53,7 @@ extern
 #include "pathnames.h"
 
 __SCCSID("@(#)n10.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.2 2005/04/13 18:21:17 tg Exp $");
 
 /*
 nroff10.c
@@ -129,7 +129,7 @@ twdone(){
 		wait(&waitf);
 	}
 	if(ttysave)
-		tcsetattr(1, TCSAFLUSH | TCSASOFT, &ttysavespace);
+		tcsetattr(1, TCSAFLUSH, &ttysavespace);
 }
 ptout(i)
 int i;
