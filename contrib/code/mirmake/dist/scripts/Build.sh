@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.18 2005/04/12 19:10:37 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.19 2005/04/12 20:31:51 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -129,6 +129,11 @@ for ps in Makefile.boot mk/bsd.man.mk mk/bsd.own.mk mk/bsd.prog.mk \
 		exit 1
 	fi
 done
+
+if [[ $new_machos = Interix ]]; then
+	print "/^BINOWN/s/root/$(id -un)/p\n/^BINGRP/s/bin/$(id -gn \
+	    | sed -e 's/ /\\ /g')/p\nwq" | ed -s $d_build/mk/bsd.own.mk
+fi
 
 # Build bmake
 cd $d_build
