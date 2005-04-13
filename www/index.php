@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.6 2005/03/15 22:55:19 tg Exp $ */
+/* $MirOS: www/index.php,v 1.7 2005/04/13 09:07:17 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -57,7 +57,7 @@
 	google_ad_channel ="";
 	google_color_border = "555555";
 	google_color_bg = "000000";
-	google_color_link = "CC7777";
+	google_color_link = "995555";
 	google_color_url = "FFAA00";
 	google_color_text = "BBBBBB";
   //--></script>
