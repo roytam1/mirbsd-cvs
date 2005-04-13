@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.1 2005/04/13 16:16:42 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.2 2005/04/13 17:02:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -49,13 +49,15 @@ mirror=$1 # will be $2
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
 mksh=mirbsdksh-R20.cpio.gz
-make=mirmake-20050412.cpio.gz
+make=mirmake-20050413.cpio.gz
 mtar=paxmirabilis-20050228.cpio.gz
 roff=mirnroff-20050412.cpio.gz
 mftp=mirftp-20050413.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
     exit 1; }
+
+echo "===> building in $T"
 
 cd $T
 case "$mirror" in

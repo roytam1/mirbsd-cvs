@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.5 2005/04/12 19:31:37 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.6 2005/04/12 20:35:29 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -45,6 +45,8 @@ mtar=paxmirabilis-20050228.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
     exit 1; }
+
+echo "===> building in $T"
 
 cd $T
 case "$mirror" in
