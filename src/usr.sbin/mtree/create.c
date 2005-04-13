@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/mtree/create.c,v 1.2 2005/04/13 20:30:16 tg Exp $ */
 /*	$NetBSD: create.c,v 1.11 1996/09/05 09:24:19 mycroft Exp $	*/
 /*	$OpenBSD: create.c,v 1.24 2004/11/21 19:36:04 otto Exp $	*/
 
@@ -51,7 +51,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)create.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/mtree/create.c,v 1.2 2005/04/13 20:30:16 tg Exp $");
 
 #define	INDENTNAMELEN	15
 #define	MAXLINELEN	80
@@ -332,7 +332,7 @@ statd(FTS *t, FTSENT *parent, uid_t *puid, gid_t *pgid, mode_t *pmode)
 				error("could not get uname for uid=%u", saveuid);
 		}
 		if (keys & F_UID)
-			(void)printf(" uid=%u", saveuid);
+			(void)printf(" uid=%u", (unsigned)saveuid);
 		if (keys & F_GNAME) {
 			if ((gr = getgrgid(savegid)) != NULL)
 				(void)printf(" gname=%s", gr->gr_name);
@@ -340,9 +340,9 @@ statd(FTS *t, FTSENT *parent, uid_t *puid, gid_t *pgid, mode_t *pmode)
 				error("could not get gname for gid=%u", savegid);
 		}
 		if (keys & F_GID)
-			(void)printf(" gid=%u", savegid);
+			(void)printf(" gid=%u", (unsigned)savegid);
 		if (keys & F_MODE)
-			(void)printf(" mode=%#o", savemode);
+			(void)printf(" mode=%#o", (unsigned)savemode);
 		if (keys & F_NLINK)
 			(void)printf(" nlink=1");
 		(void)printf("\n");

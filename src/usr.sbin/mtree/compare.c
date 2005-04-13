@@ -122,7 +122,7 @@ typeerr:		LABEL;
 	if (s->flags & (F_UID | F_UNAME) && s->st_uid != p->fts_statp->st_uid) {
 		LABEL;
 		(void)printf("%suser (%u, %u",
-		    tab, s->st_uid, p->fts_statp->st_uid);
+		    tab, (unsigned)s->st_uid, (unsigned)p->fts_statp->st_uid);
 		if (uflag)
 			if (chown(p->fts_accpath, s->st_uid, -1))
 				(void)printf(", not modified: %s)\n",
@@ -136,7 +136,7 @@ typeerr:		LABEL;
 	if (s->flags & (F_GID | F_GNAME) && s->st_gid != p->fts_statp->st_gid) {
 		LABEL;
 		(void)printf("%sgid (%u, %u",
-		    tab, s->st_gid, p->fts_statp->st_gid);
+		    tab, (unsigned)s->st_gid, (unsigned)p->fts_statp->st_gid);
 		if (uflag)
 			if (chown(p->fts_accpath, -1, s->st_gid))
 				(void)printf(", not modified: %s)\n",
@@ -165,8 +165,9 @@ typeerr:		LABEL;
 					goto skip;
 		}
 		LABEL;
-		(void)printf("%spermissions (%#o, %#o",
-		    tab, s->st_mode, p->fts_statp->st_mode & MBITS);
+		(void)printf("%spermissions (%#o, %#lo",
+		    tab, (unsigned)s->st_mode,
+		    (unsigned long)p->fts_statp->st_mode & MBITS);
 		if (uflag)
 			if (chmod(p->fts_accpath, s->st_mode))
 				(void)printf(", not modified: %s)\n",
@@ -183,13 +184,15 @@ typeerr:		LABEL;
 	    s->st_nlink != p->fts_statp->st_nlink) {
 		LABEL;
 		(void)printf("%slink count (%u, %u)\n",
-		    tab, s->st_nlink, p->fts_statp->st_nlink);
+		    tab, (unsigned)s->st_nlink,
+		    (unsigned)p->fts_statp->st_nlink);
 		tab = "\t";
 	}
 	if (s->flags & F_SIZE && s->st_size != p->fts_statp->st_size) {
 		LABEL;
 		(void)printf("%ssize (%qd, %qd)\n",
-		    tab, s->st_size, p->fts_statp->st_size);
+		    tab, (long long)s->st_size,
+		    (long long)p->fts_statp->st_size);
 		tab = "\t";
 	}
 	/*
