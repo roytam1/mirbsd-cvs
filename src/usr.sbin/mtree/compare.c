@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: compare.c,v 1.11 1996/09/05 09:56:48 mycroft Exp $	*/
 /*	$OpenBSD: compare.c,v 1.20 2004/11/21 19:36:04 otto Exp $	*/
 
@@ -30,14 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)compare.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: compare.c,v 1.20 2004/11/21 19:36:04 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -45,12 +38,18 @@ static const char rcsid[] = "$OpenBSD: compare.c,v 1.20 2004/11/21 19:36:04 otto
 #include <errno.h>
 #include <stdio.h>
 #include <time.h>
+#ifdef __INTERIX
+#include <utime.h>
+#endif
 #include <unistd.h>
 #include <md5.h>
 #include <sha1.h>
 #include <rmd160.h>
 #include "mtree.h"
 #include "extern.h"
+
+__SCCSID("@(#)compare.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 extern int lflag, tflag, uflag;
 
@@ -204,25 +203,41 @@ typeerr:		LABEL;
 	if (s->flags & F_TIME) {
 		struct timeval tv[2];
 
+#ifdef __INTERIX
+		tv[1].tv_sec = s->st_mtimespec.tv_sec; tv[0].tv_usec = 0;
+		tv[1].tv_sec = p->fts_statp->st_mtime; tv[1].tv_usec = 0;
+#else
 		TIMESPEC_TO_TIMEVAL(&tv[0], &s->st_mtimespec);
 		TIMESPEC_TO_TIMEVAL(&tv[1], &p->fts_statp->st_mtimespec);
+#endif
 		if (tv[0].tv_sec != tv[1].tv_sec ||
 		    tv[0].tv_usec != tv[1].tv_usec) {
 			LABEL;
 			(void)printf("%smodification time (%.24s, ",
 			    tab, ctime(&s->st_mtimespec.tv_sec));
 			(void)printf("%.24s",
+#ifdef __INTERIX
+			    ctime(&p->fts_statp->st_mtime));
+#else
 			    ctime(&p->fts_statp->st_mtimespec.tv_sec));
+#endif
 			if (tflag) {
+#ifdef __INTERIX
+				struct utimbuf u;
+				u.actime = tv[0].tv_sec;
+				u.modtime = tv[0].tv_sec;
+				if (utime(p->fts_accpath, &u))
+#else
 				tv[1] = tv[0];
 				if (utimes(p->fts_accpath, tv))
+#endif
 					(void)printf(", not modified: %s)\n",
 					    strerror(errno));
-				else  
-					(void)printf(", modified)\n");  
+				else
+					(void)printf(", modified)\n");
 			} else
 				(void)printf(")\n");
-			tab = "\t";   
+			tab = "\t";
 		}
 	}
 	if (s->flags & F_CKSUM) {
@@ -299,6 +314,7 @@ typeerr:		LABEL;
 		LABEL;
 		(void)printf("%slink ref (%s, %s)\n", tab, cp, s->slink);
 	}
+#ifndef __INTERIX
 	if (s->flags & F_FLAGS && s->file_flags != p->fts_statp->st_flags) {
 		char *db_flags = NULL;
 		char *cur_flags = NULL;
@@ -319,23 +335,24 @@ typeerr:		LABEL;
 			REPLACE_COMMA(cur_flags);
 			printf("%sflags (%s, %s", tab, (*db_flags == '\0') ?
 						  "-" : db_flags,
-						  (*cur_flags == '\0') ? 
+						  (*cur_flags == '\0') ?
 						  "-" : cur_flags);
 				tab = "\t";
 			if (uflag)
 				if (chflags(p->fts_accpath, s->file_flags))
 					(void)printf(", not modified: %s)\n",
 						strerror(errno));
-				else	
+				else
 					(void)printf(", modified)\n");
 			else
 				(void)printf(")\n");
-			tab = "\t"; 
+			tab = "\t";
 
 			free(db_flags);
 			free(cur_flags);
 		}
 	}
+#endif
 	return (label);
 }
 
