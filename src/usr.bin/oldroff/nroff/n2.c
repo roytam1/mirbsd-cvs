@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -47,7 +47,7 @@ static char sccsid[] = "@(#)n2.c	4.2 (Berkeley) 4/18/91";
 #endif /* not lint */
 
 #include "tdef.h"
-#include <sgtty.h>
+#include <termios.h>
 extern
 #include "d.h"
 extern
@@ -96,8 +96,9 @@ extern int donef;
 extern int *pendw;
 extern int nofeed;
 extern int trap;
-extern struct sgttyb ttys;
+extern struct termios ttys;
 extern int ttysave;
+extern struct termios ttysavespace;
 extern int quiet;
 extern int pendnf;
 extern int ndone;
@@ -235,13 +236,16 @@ flusho(){
 			toolate++;
 #ifdef NROFF
 			if(t.bset || t.breset){
-				if(ttysave == -1) {
-					gtty(1, &ttys);
-					ttysave = ttys.sg_flags;
+				if(!ttysave) {
+					tcgetattr(1, &ttys);
+					ttysavespace = ttys;
+					ttysave = 1;
 				}
-				ttys.sg_flags &= ~t.breset;
-				ttys.sg_flags |= t.bset;
-				stty(1, &ttys);
+				if (t.breset & 0x0C00)
+					ttys.c_oflag &= ~OXTABS;
+				if (t.breset & 0x0010)
+					ttys.c_oflag &= ~ONLCR;
+				tcsetattr(1, TCSAFLUSH | TCSASOFT, &ttys);
 			}
 			{
 			char *p = t.twinit;
@@ -322,8 +326,8 @@ done3(x) int x;{
 	twdone();
 #endif
 	if(quiet){
-		ttys.sg_flags |= ECHO;
-		stty(0, &ttys);
+		ttys.c_lflag |= ECHO;
+		tcsetattr(0, TCSAFLUSH | TCSASOFT, &ttys);
 	}
 	if(ascii)mesg(1);
 #ifndef NROFF

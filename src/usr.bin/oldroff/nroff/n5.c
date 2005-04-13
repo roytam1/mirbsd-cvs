@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -47,7 +47,7 @@ static char sccsid[] = "@(#)n5.c	4.4 (Berkeley) 5/2/91";
 #endif /* not lint */
 
 #include "tdef.h"
-#include <sgtty.h>
+#include <termios.h>
 extern
 #include "d.h"
 extern
@@ -108,7 +108,7 @@ extern int ev;
 extern int ch;
 extern int nflush;
 extern int tty;
-extern struct sgttyb ttys;
+extern struct termios ttys;
 extern int quiet;
 extern int iflg;
 extern int eschar;
@@ -645,8 +645,8 @@ caserd(){
 	getname();
 	if(!iflg){
 		if(quiet){
-			ttys.sg_flags &= ~ECHO;
-			stty(0, &ttys);
+			ttys.c_lflag &= ~ECHO;
+			tcsetattr(0, TCSAFLUSH | TCSASOFT, &ttys);
 			prstrfl(""); /*bell*/
 		}else{
 			if(nextf[0]){
@@ -673,8 +673,8 @@ rdtty(){
 	popi();
 	tty = 0;
 	if(quiet){
-		ttys.sg_flags |= ECHO;
-		stty(0, &ttys);
+		ttys.c_lflag |= ECHO;
+		tcsetattr(0, TCSAFLUSH | TCSASOFT, &ttys);
 	}
 	return(0);
 }

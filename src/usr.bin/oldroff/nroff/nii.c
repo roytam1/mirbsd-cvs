@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/nii.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -53,7 +53,7 @@ static char sccsid[] = "@(#)nii.c	4.3 (Berkeley) 5/2/91";
 #include "sdef.h"
 #include "d.h"
 #include "v.h"
-#include <sgtty.h>
+#include <termios.h>
 
 int *vlist = (int *)&v;
 struct s *frame, *stk, *ejl;
@@ -104,7 +104,7 @@ int ch = 0;
 int cps;
 int ibf;
 int ttyod;
-struct sgttyb ttys;
+struct termios ttys;
 int iflg;
 char *enda;
 int rargc;
@@ -178,7 +178,8 @@ int nhyp;
 int **hyp;
 int *olinep;
 int esct;
-int ttysave = -1;
+int ttysave = 0;
+struct termios ttysavespace;
 int dotT;
 char *unlkp;
 int no_out;

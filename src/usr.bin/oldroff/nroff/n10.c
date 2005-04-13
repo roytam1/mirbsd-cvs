@@ -1,10 +1,10 @@
-/**	$MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -43,7 +43,7 @@
  */
 
 #include "tdef.h"
-#include <sgtty.h>
+#include <termios.h>
 extern
 #include "d.h"
 extern
@@ -53,7 +53,7 @@ extern
 #include "pathnames.h"
 
 __SCCSID("@(#)n10.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $");
 
 /*
 nroff10.c
@@ -74,7 +74,8 @@ extern int esct;
 extern int sps;
 extern int ics;
 extern int ttysave;
-extern struct sgttyb ttys;
+extern struct termios ttysavespace;
+extern struct termios ttys;
 extern char termtab[];
 extern int ptid;
 extern int waitf;
@@ -127,10 +128,8 @@ twdone(){
 		close(ptid);
 		wait(&waitf);
 	}
-	if(ttysave != -1) {
-		ttys.sg_flags = ttysave;
-		stty(1, &ttys);
-	}
+	if(ttysave)
+		tcsetattr(1, TCSAFLUSH | TCSASOFT, &ttysavespace);
 }
 ptout(i)
 int i;

@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -64,10 +64,10 @@ extern
 #include "sdef.h"
 #include <setjmp.h>
 jmp_buf sjbuf;
-#include	<sgtty.h>
+#include <termios.h>
 
 __SCCSID("@(#)n1.c	4.13 (Berkeley) 4/18/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $");
 
 /*
 troff1.c
@@ -110,7 +110,7 @@ extern int cps;
 extern int chbits;
 extern int ibf;
 extern int ttyod;
-extern struct sgttyb ttys;
+extern struct termios ttys;
 extern int iflg;
 extern int init;
 extern int rargc;
@@ -169,6 +169,7 @@ extern char *unlkp;
 extern int pts;
 extern int level;
 extern int ttysave;
+extern struct termios ttysavespace;
 extern int tdelim;
 extern int dotT;
 extern int tabch, ldrch;
@@ -227,8 +228,10 @@ options:
 			continue;
 		case 'q':
 			quiet++;
-			if(gtty(0, &ttys) >= 0)
-				ttysave = ttys.sg_flags;
+			if(tcgetattr(0, &ttys) >= 0) {
+				ttysavespace = ttys;
+				ttysave = 1;
+			}
 			continue;
 		case 'n':
 			npn = cnum(&argv[0][2]);
