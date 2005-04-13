@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/getnam.php,v 1.3 2005/03/15 17:13:04 tg Exp $ */
+/* $MirOS: www/getnam.php,v 1.4 2005/04/13 09:10:56 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -11,11 +11,11 @@
 	require("vfuncs.php");
 
 	if (!empty($_SERVER["QUERY_STRING"])) {
-		$rq = urldecode($_SERVER["QUERY_STRING"]);
+		$rqx = urldecode($_SERVER["QUERY_STRING"]);
 	} else {
-		$rq = "main";
+		$rqx = "main";
 	}
-	$rq = mybase64($rq).".inc";
+	$rq = mybase64($rqx).".inc";
 
 	require("vbegin.php");
 ?>
@@ -28,6 +28,8 @@
  in urlencoded form) has the following filename:</p><pre>
 <?php echo "www/content/".$rq; ?>
 </pre>
+<p>Backlinks: <a href="/">Home</a> <a href="/?<?php
+ echo $rqx; ?>">to <?php echo $rqx; ?> (<?php echo $rq; ?>)</a></p>
 <p>Please don't forget to check for correct XHTML validation, even
  if it sometimes sucks. Character set to use for include files is
  ISO_646.irv:1991 (US-ASCII compatible); utf-8 is tolerated but you
