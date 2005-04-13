@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/inv/inv2.c,v 1.1.7.1 2005/03/06 16:56:01 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -96,7 +96,7 @@ int *iflong;
 		}
 		else
 			more=1;
-		_assert (fd==0 || more==0);
+		assert (fd==0 || more==0);
 		nk = getargs(p, keyv);
 		if (more)
 			nk--;

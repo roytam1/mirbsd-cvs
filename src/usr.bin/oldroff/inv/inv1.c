@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/inv/inv1.c,v 1.1.7.1 2005/03/06 16:56:01 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -132,12 +132,12 @@ main(int argc, char *argv[])
 		{
 			close(fw);
 			close(0);
-			_assert(dup(fr)==0);
+			assert(dup(fr)==0);
 			close(fr);
 			execl(_PATH_SORT, "sort", "-T", sortdir, "-o", tmpa, 0);
-			_assert(0);
+			assert(0);
 		}
-		_assert(pfork!= -1);
+		assert(pfork!= -1);
 		close(fr);
 		fta = fopen(_PATH_DEVNULL, "w");
 		close(fta->_file);
@@ -146,7 +146,7 @@ main(int argc, char *argv[])
 	else /* use tmp file */
 	{
 		fta = fopen(tmpa, "w");
-		_assert (fta != NULL);
+		assert (fta != NULL);
 	}
 	fb = 0;
 	if (appflg )
@@ -174,8 +174,8 @@ main(int argc, char *argv[])
 	{
 		pwait = wait(&status);
 		printf("pfork %o pwait %o status %d\n",pfork,pwait,status);
-		_assert(pwait==pfork);
-		_assert(status==0);
+		assert(pwait==pfork);
+		assert(status==0);
 	}
 	else
 	{

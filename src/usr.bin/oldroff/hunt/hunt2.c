@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/hunt/hunt2.c,v 1.1.7.1 2005/03/06 16:56:01 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -81,7 +81,7 @@ unsigned *master;
 		umaster.b = (long *) master;
 	else
 		umaster.a = master;
-	_assert (lmaster>0);
+	assert (lmaster>0);
 	if (coord==0)
 		coord = (int *) zalloc(lmaster, sizeof(lmaster));
 	if (colevel>0)
@@ -124,8 +124,8 @@ unsigned *master;
 # if D1
 	fprintf(stderr,"first item hash %d lp %ld 0%lo\n", hh[0],lp,lp);
 # endif
-	_assert (fb!=NULL);
-	_assert (fseek(fb, lp, 0) != -1);
+	assert (fb!=NULL);
+	assert (fseek(fb, lp, 0) != -1);
 	for(i=0; i<lmaster; i++)
 	{
 		if (iflong)
@@ -139,7 +139,7 @@ unsigned *master;
 		else
 			fprintf(stderr,"umaster has %d\n",(umaster.a[i]));
 # endif
-		_assert (i<lmaster);
+		assert (i<lmaster);
 		if (iflong)
 		{
 			if (umaster.b[i] == -1L) break;
@@ -167,7 +167,7 @@ unsigned *master;
 			}
 		}
 		lp = hpt[hh[nterm]];
-		_assert (fseek(fb, lp, 0) != -1);
+		assert (fseek(fb, lp, 0) != -1);
 # if D1
 		fprintf(stderr,"item %d hash %d seek to %ld\n",nterm,hh[nterm],lp);
 # endif
@@ -202,7 +202,7 @@ unsigned *master;
 					j++;
 				else
 				{
-					_assert (g<lmaster);
+					assert (g<lmaster);
 					if (iflong)
 						umaster.b[g] = prevdrop.b[j];
 					else
@@ -249,7 +249,7 @@ unsigned *master;
 			for ( ; j<nf; j++)
 				if (prevcoord[j]+colevel > nterm)
 				{
-					_assert(g<lmaster);
+					assert(g<lmaster);
 					if (iflong)
 						umaster.b[g] = prevdrop.b[j];
 					else

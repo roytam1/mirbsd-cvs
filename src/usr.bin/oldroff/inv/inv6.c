@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/inv/inv6.c,v 1.1.7.1 2005/03/06 16:56:01 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -67,9 +67,9 @@ long *ptotct;
 	int *hfreq;
 
 	hpt = (long *) calloc (nhash+1, sizeof(*hpt));
-	_assert (hpt != NULL);
+	assert (hpt != NULL);
 	hfreq = (int *) calloc (nhash, sizeof(*hfreq));
-	_assert (hfreq != NULL);
+	assert (hfreq != NULL);
 	hpt[0] = 0;
 	lp= 0;
 	while (fgets(line, 100, ft))

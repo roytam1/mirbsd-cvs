@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/hunt/hunt6.c,v 1.1.7.1 2005/03/06 16:56:01 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -117,7 +117,7 @@ char *qitem[], *rprog;
 			findline (res, output, TXTLEN, indexdate);
 		}
 # if D1
-		_assert (len <TXTLEN);
+		assert (len <TXTLEN);
 		fprintf(stderr,"item %d of %d, tag %s len %d output\n%s\n..\n",
 			i, nf, res, len, output);
 # endif
