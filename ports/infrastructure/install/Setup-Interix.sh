@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.3 2005/04/13 17:15:13 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.4 2005/04/13 19:35:58 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -26,7 +26,7 @@
 # Retrieve prerequisites for running MirPorts on Mac OSX
 
 # DO NOT UNCOMMENT
-testing=1
+#testing=1
 
 # Since we're on NT, we can't exchange running binaries.
 [ x"$SHELL" = x"/bin/mksh" ] && exec /bin/ksh $0 "$@"
@@ -50,7 +50,7 @@ mirror=$1 # will be $2
 
 mksh=mirbsdksh-R20.cpio.gz
 make=mirmake-20050413.cpio.gz
-mtar=paxmirabilis-20050228.cpio.gz
+mtar=paxmirabilis-20050413.cpio.gz
 roff=mirnroff-20050413.cpio.gz
 mftp=mirftp-20050413.cpio.gz
 mtre=mirmtree-20050413.cpio.gz
@@ -71,8 +71,8 @@ case "$mirror" in
 	cp $mirror/$mtar .
 	echo cp $mirror/$roff .
 	cp $mirror/$roff .
-	echo cp $mirror/$mftp .
-	cp $mirror/$mftp .
+#	echo cp $mirror/$mftp .
+#	cp $mirror/$mftp .
 	echo cp $mirror/$mtre .
 	cp $mirror/$mtre .
 	;;
@@ -85,8 +85,8 @@ case "$mirror" in
 	ftp $mirror$mtar
 	echo ftp $mirror$roff
 	ftp $mirror$roff
-	echo ftp $mirror$mftp
-	ftp $mirror$mftp
+#	echo ftp $mirror$mftp
+#	ftp $mirror$mftp
 	echo ftp $mirror$mtre
 	ftp $mirror$mtre
 	;;
@@ -96,13 +96,13 @@ cksum $mksh >s
 cksum $make >>s
 cksum $mtar >>s
 cksum $roff >>s
-cksum $mftp >>s
+#cksum $mftp >>s
 cksum $mtre >>s
 echo "62583208 292816 mirbsdksh-R20.cpio.gz" >t
-echo "1984996926 279003 mirmake-20050412.cpio.gz" >>t
-echo "3380377454 117013 paxmirabilis-20050228.cpio.gz" >>t
-echo "2584789426 221690 mirnroff-20050412.cpio.gz" >>t
-echo "3462097166 62625 mirftp-20050413.cpio.gz" >>t
+echo "2826293142 279066 mirmake-20050413.cpio.gz" >>t
+echo "862398610 117237 paxmirabilis-20050413.cpio.gz" >>t
+echo "2807559264 222049 mirnroff-20050413.cpio.gz" >>t
+echo "1518604836 17212 mirmtree-20050413.cpio.gz" >>t
 
 if ! cmp -s s t; then
 	echo Checksum failure!
@@ -146,10 +146,10 @@ if [ ! -x /usr/bin/nroff ]; then
 	gzip -dc $roff | cpio -id
 	for subdir in mirnroff/src/{usr.bin/oldroff,share/tmac}; do
 		cd $subdir
-		SHELL=/bin/mksh make NOMAN=yes obj
-		SHELL=/bin/mksh make NOMAN=yes depend
-		SHELL=/bin/mksh make NOMAN=yes
-		SHELL=/bin/mksh make NOMAN=yes install
+		make NOMAN=yes obj
+		make NOMAN=yes depend
+		make NOMAN=yes
+		make NOMAN=yes install
 		cd ../../../..
 	done
 	rm -rf mirnroff
@@ -159,7 +159,7 @@ gzip -dc $mksh | cpio -id
 cd ksh
 CFLAGS="$CFLAGS -D_ALL_SOURCE" ksh ./Build.sh
 install -c -s -m 555 mksh /bin/mksh
-install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.1
+install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0
 if ! fgrep /bin/mksh /etc/shells >/dev/null 2>&1; then
 	echo /bin/mksh >>/etc/shells
 fi
@@ -178,45 +178,42 @@ rm -rf mirmake
 gzip -dc $roff | cpio -id
 for subdir in mirnroff/src/{usr.bin/oldroff,share/tmac,usr.bin/soelim}; do
 	cd $subdir
-	SHELL=/bin/mksh make obj
-	SHELL=/bin/mksh make depend
-	SHELL=/bin/mksh make
-	SHELL=/bin/mksh make install
+	make obj
+	make depend
+	make
+	make install
 	cd ../../../..
 done
 rm -rf mirnroff
 
 gzip -dc $mtar | cpio -id
 cd pax
-SHELL=/bin/mksh make obj
-SHELL=/bin/mksh make depend
-SHELL=/bin/mksh make
-SHELL=/bin/mksh make install BINDIR=/bin MANDIR=/usr/share/man/cat
+make obj
+make depend
+make
+make install BINDIR=/bin MANDIR=/usr/share/man/cat
 cd ..
 rm -rf pax
 
 gzip -dc $mtre | cpio -id
 cd mtree
-SHELL=/bin/mksh make obj
-SHELL=/bin/mksh make depend
-SHELL=/bin/mksh make
-SHELL=/bin/mksh make install BINDIR=/usr/sbin MANDIR=/usr/share/man/cat
+make obj
+make depend
+make INCS="-I\${.SYSMK}" LIBS="-L\${.SYSMK} -lhash"
+make install BINDIR=/usr/sbin MANDIR=/usr/share/man/cat
 cd ..
 rm -rf mtree
 
-gzip -dc $mftp | cpio -id
-cd ftp
-SHELL=/bin/mksh make obj
-SHELL=/bin/mksh make NO_INET6=1 depend
-SHELL=/bin/mksh make NO_INET6=1
-SHELL=/bin/mksh make install BINDIR=/usr/bin MANDIR=/usr/share/man/cat
-cd ..
-rm -rf ftp
+#gzip -dc $mftp | cpio -id
+#cd ftp
+#make obj
+#make depend
+#make
+#make install BINDIR=/usr/bin MANDIR=/usr/share/man/cat
+#cd ..
+#rm -rf ftp
 
 set +e
-for page in make pax tar cpio; do
-	mv /usr/share/man/cat1/$page.0 /usr/share/man/cat1/$page.1
-done
 set -e
 
 cd $td
