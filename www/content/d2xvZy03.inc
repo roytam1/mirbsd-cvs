@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.43 2005/04/11 21:10:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.44 2005/04/12 21:21:53 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2762,4 +2762,9 @@
  for Darwin (as working port!), a new MirMake version, a MirCksum distfile
  and a bunch of other goodies.<br />I decided to add support for sedecimal
  number parsing to strtonum(3), much to delight of tyler@.</p>
+<p>13.04.2005 by tg@<br />Of course, my good purpose, to take a shower and
+ go to sleep early today, didn't become reality &ndash; but I am almost at
+ the break-through point for MirPorts/Interix. Now we only lack ftp(1), or
+ an equivalent downloader. Thus, MirPorts/Darwin got updated make and cpio
+ as well (not necessary to update though).</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
