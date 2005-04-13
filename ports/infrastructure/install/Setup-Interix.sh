@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.2 2005/04/13 17:02:43 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.3 2005/04/13 17:15:13 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -51,8 +51,9 @@ mirror=$1 # will be $2
 mksh=mirbsdksh-R20.cpio.gz
 make=mirmake-20050413.cpio.gz
 mtar=paxmirabilis-20050228.cpio.gz
-roff=mirnroff-20050412.cpio.gz
+roff=mirnroff-20050413.cpio.gz
 mftp=mirftp-20050413.cpio.gz
+mtre=mirmtree-20050413.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
     exit 1; }
@@ -72,6 +73,8 @@ case "$mirror" in
 	cp $mirror/$roff .
 	echo cp $mirror/$mftp .
 	cp $mirror/$mftp .
+	echo cp $mirror/$mtre .
+	cp $mirror/$mtre .
 	;;
 *)	# http
 	echo ftp $mirror$mksh
@@ -84,6 +87,8 @@ case "$mirror" in
 	ftp $mirror$roff
 	echo ftp $mirror$mftp
 	ftp $mirror$mftp
+	echo ftp $mirror$mtre
+	ftp $mirror$mtre
 	;;
 esac
 echo 'checking CKSUMs... (no comment)'
@@ -92,6 +97,7 @@ cksum $make >>s
 cksum $mtar >>s
 cksum $roff >>s
 cksum $mftp >>s
+cksum $mtre >>s
 echo "62583208 292816 mirbsdksh-R20.cpio.gz" >t
 echo "1984996926 279003 mirmake-20050412.cpio.gz" >>t
 echo "3380377454 117013 paxmirabilis-20050228.cpio.gz" >>t
@@ -116,7 +122,8 @@ export CFLAGS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 set -e # XXX should set up a trap, but...
 set -x
 
-mkdir -p /usr/share/man/{cat,man}1 /usr/share/tmac/m{doc,e,s}
+mkdir -p /usr/share/man/{cat,man}{1,2,3,4,5,6,7,8,9} \
+    /usr/share/tmac/m{doc,e,s} /usr/libexec
 
 if [ ! -x /usr/bin/nroff ]; then
 	gzip -dc $mksh | cpio -id
@@ -145,15 +152,14 @@ if [ ! -x /usr/bin/nroff ]; then
 		SHELL=/bin/mksh make NOMAN=yes install
 		cd ../../../..
 	done
-	cd ..
-	rm -rf pax
+	rm -rf mirnroff
 fi
 
 gzip -dc $mksh | cpio -id
 cd ksh
 CFLAGS="$CFLAGS -D_ALL_SOURCE" ksh ./Build.sh
 install -c -s -m 555 mksh /bin/mksh
-install -c -m 444 mksh.0 /usr/share/man/cat1/mksh.1
+install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.1
 if ! fgrep /bin/mksh /etc/shells >/dev/null 2>&1; then
 	echo /bin/mksh >>/etc/shells
 fi
@@ -178,8 +184,7 @@ for subdir in mirnroff/src/{usr.bin/oldroff,share/tmac,usr.bin/soelim}; do
 	SHELL=/bin/mksh make install
 	cd ../../../..
 done
-cd ..
-rm -rf pax
+rm -rf mirnroff
 
 gzip -dc $mtar | cpio -id
 cd pax
@@ -189,6 +194,15 @@ SHELL=/bin/mksh make
 SHELL=/bin/mksh make install BINDIR=/bin MANDIR=/usr/share/man/cat
 cd ..
 rm -rf pax
+
+gzip -dc $mtre | cpio -id
+cd mtree
+SHELL=/bin/mksh make obj
+SHELL=/bin/mksh make depend
+SHELL=/bin/mksh make
+SHELL=/bin/mksh make install BINDIR=/usr/sbin MANDIR=/usr/share/man/cat
+cd ..
+rm -rf mtree
 
 gzip -dc $mftp | cpio -id
 cd ftp
