@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.45 2005/04/13 21:53:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.46 2005/04/13 21:56:44 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2769,4 +2769,8 @@
  as well (not necessary to update, though).<br />Oh, nearly forgot: I hope
  you don't mind the ads and associated CSS cleanup. I've found they can be
  nicely integrated.</p>
+<p>14.04.2005 by tg@<br />I've liberated our version of XFree86&reg; (with
+ mailing the Xlib GPL compatibility diff upstream, of course), and applied
+ a bunch of patches from others. I'll rebuild my own system RSN to test it
+ (wanna bet I didn't break anything?).</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
