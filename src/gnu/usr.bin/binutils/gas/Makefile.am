@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.2 2005/03/13 16:06:56 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.3 2005/03/28 21:40:29 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -391,7 +391,6 @@ TARG_ENV_HFILES = \
 	config/te-lynx.h \
 	config/te-mach.h \
 	config/te-macos.h \
-	config/te-mbsd.h \
 	config/te-nbsd.h \
 	config/te-nbsd532.h \
 	config/te-netware.h \

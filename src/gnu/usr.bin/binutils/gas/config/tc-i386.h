@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.h,v 1.2 2005/03/13 16:06:57 tg Exp $ */
 
 /* tc-i386.h -- Header file for tc-i386.c
    Copyright 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -42,7 +42,7 @@ extern unsigned long i386_mach (void);
 #ifdef TE_FreeBSD
 #define AOUT_TARGET_FORMAT	"a.out-i386-freebsd"
 #endif
-#if defined(TE_NetBSD) || defined(TE_MirBSD)
+#ifdef TE_NetBSD
 #define AOUT_TARGET_FORMAT	"a.out-i386-netbsd"
 #endif
 #ifdef TE_386BSD

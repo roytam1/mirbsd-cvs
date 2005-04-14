@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.c,v 1.2 2005/03/13 16:06:57 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.c,v 1.3 2005/03/28 21:40:33 tg Exp $ */
 
 /* i386.c -- Assemble code for the Intel 80386
    Copyright 1989, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -38,7 +38,7 @@
 #include "opcode/i386.h"
 #include "elf/x86-64.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.c,v 1.2 2005/03/13 16:06:57 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.c,v 1.3 2005/03/28 21:40:33 tg Exp $");
 
 #ifndef REGISTER_WARNINGS
 #define REGISTER_WARNINGS 1
@@ -202,7 +202,6 @@ const char extra_symbol_chars[] = "*%-(["
 	 && !defined (TE_LINUX)				\
  	 && !defined (TE_NETWARE)			\
 	 && !defined (TE_FreeBSD)			\
-	 && !defined (TE_MirBSD)			\
 	 && !defined (TE_NetBSD)))
 /* This array holds the chars that always start a comment.  If the
    pre-processor is disabled, these aren't very useful.  */
