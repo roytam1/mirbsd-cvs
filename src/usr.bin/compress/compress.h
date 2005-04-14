@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/compress/compress.h,v 1.2 2005/03/13 18:32:49 tg Exp $ */
 /*	$OpenBSD: compress.h,v 1.7 2003/09/05 04:46:35 tedu Exp $	*/
 
 /*
@@ -25,18 +25,17 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
 
 #ifndef	_COMPRESS_H
 #define	_COMPRESS_H
 
 struct z_info {
-	time_t mtime;		/* timestamp */
-	u_int32_t crc;		/* crc */
-	u_int32_t hlen;		/* header length */
 	u_int64_t total_in;	/* # bytes in */
 	u_int64_t total_out;	/* # bytes out */
+	u_int32_t crc;		/* crc */
+	u_int32_t hlen;		/* header length */
+	time_t mtime;		/* timestamp */
 };
 
 /*

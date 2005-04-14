@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: nullopen.c,v 1.2 2004/01/22 18:49:35 millert Exp $	*/
 
 /*
@@ -25,7 +26,6 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
 
 #include <sys/types.h>
@@ -35,7 +35,7 @@
 #include <unistd.h>
 #include "compress.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/compress/nullopen.c,v 1.2 2005/03/13 18:32:49 tg Exp $");
 
 typedef struct {
 	off_t 	  total_in;

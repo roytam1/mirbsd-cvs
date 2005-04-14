@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: zopen.c,v 1.14 2003/08/03 01:26:46 deraadt Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
@@ -72,7 +73,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.2 2005/03/13 18:32:49 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
