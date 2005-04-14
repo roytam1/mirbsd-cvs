@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.2 2005/03/13 18:33:33 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -184,8 +184,8 @@ usage(void)
 	fprintf(stderr, "  -c cipher   Select encryption algorithm\n");
 	fprintf(stderr, "  -m macs     Specify MAC algorithms for protocol version 2.\n");
 	fprintf(stderr, "  -p port     Connect to this port.  Server must be on the same port.\n");
-	fprintf(stderr, "  -L listen-port:host:port   Forward local port to remote address\n");
-	fprintf(stderr, "  -R listen-port:host:port   Forward remote port to local address\n");
+	fprintf(stderr, "  -L [bind_address:]listen-port:host:port   Forward loc. port to rem. addr.\n");
+	fprintf(stderr, "  -R [bind_address:]listen-port:host:port   Forward rem. port to loc. addr.\n");
 	fprintf(stderr, "              These cause %s to listen for connections on a port, and\n", __progname);
 	fprintf(stderr, "              forward them to the other side by connecting to host:port.\n");
 	fprintf(stderr, "  -D port     Enable dynamic application-level port forwarding.\n");
@@ -218,14 +218,13 @@ int
 main(int ac, char **av)
 {
 	int i, opt, exit_status;
-	u_short fwd_port, fwd_host_port;
-	char sfwd_port[6], sfwd_host_port[6];
 	char *p, *cp, *line, buf[256];
 	struct stat st;
 	struct passwd *pw;
 	int dummy;
 	extern int optind, optreset;
 	extern char *optarg;
+	Forward fwd;
 
 	/*
 	 * Save the original real uid.  It will be needed later (uid-swapping
@@ -331,7 +330,8 @@ again:
 		case 'i':
 			if (stat(optarg, &st) < 0) {
 				fprintf(stderr, "Warning: Identity file %s "
-				    "does not exist.\n", optarg);
+				    "not accessible: %s.\n", optarg,
+				    strerror(errno));
 				break;
 			}
 			if (options.num_identity_files >=
@@ -434,39 +434,51 @@ again:
 			break;
 
 		case 'L':
-		case 'R':
-			if (sscanf(optarg, "%5[0-9]:%255[^:]:%5[0-9]",
-			    sfwd_port, buf, sfwd_host_port) != 3 &&
-			    sscanf(optarg, "%5[0-9]/%255[^/]/%5[0-9]",
-			    sfwd_port, buf, sfwd_host_port) != 3) {
+			if (parse_forward(&fwd, optarg))
+				add_local_forward(&options, &fwd);
+			else {
 				fprintf(stderr,
-				    "Bad forwarding specification '%s'\n",
+				    "Bad local forwarding specification '%s'\n",
 				    optarg);
-				usage();
-				/* NOTREACHED */
-			}
-			if ((fwd_port = a2port(sfwd_port)) == 0 ||
-			    (fwd_host_port = a2port(sfwd_host_port)) == 0) {
-				fprintf(stderr,
-				    "Bad forwarding port(s) '%s'\n", optarg);
 				exit(1);
 			}
-			if (opt == 'L')
-				add_local_forward(&options, fwd_port, buf,
-				    fwd_host_port);
-			else if (opt == 'R')
-				add_remote_forward(&options, fwd_port, buf,
-				    fwd_host_port);
+			break;
+
+		case 'R':
+			if (parse_forward(&fwd, optarg)) {
+				add_remote_forward(&options, &fwd);
+			} else {
+				fprintf(stderr,
+				    "Bad remote forwarding specification "
+				    "'%s'\n", optarg);
+				exit(1);
+			}
 			break;
 
 		case 'D':
-			fwd_port = a2port(optarg);
-			if (fwd_port == 0) {
+			cp = p = xstrdup(optarg);
+			memset(&fwd, '\0', sizeof(fwd));
+			fwd.connect_host = "socks";
+			if ((fwd.listen_host = hpdelim(&cp)) == NULL) {
+				fprintf(stderr, "Bad dynamic forwarding "
+				    "specification '%.100s'\n", optarg);
+				exit(1);
+			}
+			if (cp != NULL) {
+				fwd.listen_port = a2port(cp);
+				fwd.listen_host = cleanhostname(fwd.listen_host);
+			} else {
+				fwd.listen_port = a2port(fwd.listen_host);
+				fwd.listen_host = "";
+			}
+
+			if (fwd.listen_port == 0) {
 				fprintf(stderr, "Bad dynamic port '%s'\n",
 				    optarg);
 				exit(1);
 			}
-			add_local_forward(&options, fwd_port, "socks", 0);
+			add_local_forward(&options, &fwd);
+			xfree(p);
 			break;
 
 		case 'C':
@@ -873,14 +885,19 @@ ssh_init_forwarding(void)
 
 	/* Initiate local TCP/IP port forwardings. */
 	for (i = 0; i < options.num_local_forwards; i++) {
-		debug("Connections to local port %d forwarded to remote address %.200s:%d",
-		    options.local_forwards[i].port,
-		    options.local_forwards[i].host,
-		    options.local_forwards[i].host_port);
+		debug("Local connections to %.200s:%d forwarded to remote "
+		    "address %.200s:%d",
+		    (options.local_forwards[i].listen_host == NULL) ?
+		    (options.gateway_ports ? "*" : "LOCALHOST") :
+		    options.local_forwards[i].listen_host,
+		    options.local_forwards[i].listen_port,
+		    options.local_forwards[i].connect_host,
+		    options.local_forwards[i].connect_port);
 		success += channel_setup_local_fwd_listener(
-		    options.local_forwards[i].port,
-		    options.local_forwards[i].host,
-		    options.local_forwards[i].host_port,
+		    options.local_forwards[i].listen_host,
+		    options.local_forwards[i].listen_port,
+		    options.local_forwards[i].connect_host,
+		    options.local_forwards[i].connect_port,
 		    options.gateway_ports);
 	}
 	if (i > 0 && success == 0)
@@ -888,14 +905,19 @@ ssh_init_forwarding(void)
 
 	/* Initiate remote TCP/IP port forwardings. */
 	for (i = 0; i < options.num_remote_forwards; i++) {
-		debug("Connections to remote port %d forwarded to local address %.200s:%d",
-		    options.remote_forwards[i].port,
-		    options.remote_forwards[i].host,
-		    options.remote_forwards[i].host_port);
+		debug("Remote connections from %.200s:%d forwarded to "
+		    "local address %.200s:%d",
+		    (options.remote_forwards[i].listen_host == NULL) ? 
+		    (options.gateway_ports ? "*" : "LOCALHOST") : 
+		    options.remote_forwards[i].listen_host,
+		    options.remote_forwards[i].listen_port,
+		    options.remote_forwards[i].connect_host,
+		    options.remote_forwards[i].connect_port);
 		channel_request_remote_forwarding(
-		    options.remote_forwards[i].port,
-		    options.remote_forwards[i].host,
-		    options.remote_forwards[i].host_port);
+		    options.remote_forwards[i].listen_host,
+		    options.remote_forwards[i].listen_port,
+		    options.remote_forwards[i].connect_host,
+		    options.remote_forwards[i].connect_port);
 	}
 }
 
@@ -1072,12 +1094,12 @@ client_global_request_reply_fwd(int type, u_int32_t seq, void *ctxt)
 		return;
 	debug("remote forward %s for: listen %d, connect %s:%d",
 	    type == SSH2_MSG_REQUEST_SUCCESS ? "success" : "failure",
-	    options.remote_forwards[i].port,
-	    options.remote_forwards[i].host,
-	    options.remote_forwards[i].host_port);
+	    options.remote_forwards[i].listen_port,
+	    options.remote_forwards[i].connect_host,
+	    options.remote_forwards[i].connect_port);
 	if (type == SSH2_MSG_REQUEST_FAILURE)
-		logit("Warning: remote port forwarding failed for listen port %d",
-		    options.remote_forwards[i].port);
+		logit("Warning: remote port forwarding failed for listen "
+		    "port %d", options.remote_forwards[i].listen_port);
 }
 
 static void
@@ -1355,7 +1377,7 @@ control_client(const char *path)
 
 	switch (mux_command) {
 	case SSHMUX_COMMAND_ALIVE_CHECK:
-		fprintf(stderr, "Master running (pid=%d)\r\n", 
+		fprintf(stderr, "Master running (pid=%d)\r\n",
 		    control_server_pid);
 		exit(0);
 	case SSHMUX_COMMAND_TERMINATE:

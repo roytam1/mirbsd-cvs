@@ -25,7 +25,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
 
 #include <openssl/dh.h>
 
@@ -754,7 +754,7 @@ mm_answer_keyallowed(int sock, Buffer *m)
 	debug3("%s: key_from_blob: %p", __func__, key);
 
 	if (key != NULL && authctxt->valid) {
-		switch(type) {
+		switch (type) {
 		case MM_USERKEY:
 			allowed = options.pubkey_authentication &&
 			    user_key_allowed(authctxt->pw, key);
@@ -1100,7 +1100,7 @@ mm_answer_sesskey(int sock, Buffer *m)
 	int rsafail;
 
 	/* Turn off permissions */
-	monitor_permit(mon_dispatch, MONITOR_REQ_SESSKEY, 1);
+	monitor_permit(mon_dispatch, MONITOR_REQ_SESSKEY, 0);
 
 	if ((p = BN_new()) == NULL)
 		fatal("%s: BN_new", __func__);

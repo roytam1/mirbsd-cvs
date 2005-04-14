@@ -16,7 +16,7 @@
 
 #include "includes.h"
 
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.2 2005/03/13 18:33:31 tg Exp $");
 
 #include <glob.h>
 #include <histedit.h>
@@ -352,7 +352,7 @@ parse_ls_flags(const char **cpp, int *lflag)
 
 	/* Check for flags */
 	if (cp++[0] == '-') {
-		for(; strchr(WHITESPACE, *cp) == NULL; cp++) {
+		for (; strchr(WHITESPACE, *cp) == NULL; cp++) {
 			switch (*cp) {
 			case 'l':
 				*lflag &= ~VIEW_FLAGS;
@@ -1462,6 +1462,7 @@ main(int argc, char **argv)
 				fatal("%s (%s).", strerror(errno), optarg);
 			showprogress = 0;
 			batchmode = 1;
+			addargs(&args, "-obatchmode yes");
 			break;
 		case 'P':
 			sftp_direct = optarg;

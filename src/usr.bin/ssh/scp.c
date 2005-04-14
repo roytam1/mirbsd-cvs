@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/ssh/scp.c,v 1.2 2005/03/13 18:33:30 tg Exp $ */
 
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
@@ -73,7 +73,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
 
 #include "xmalloc.h"
 #include "atomicio.h"
@@ -359,20 +359,21 @@ void
 toremote(char *targ, int argc, char **argv)
 {
 	int i, len;
-	char *bp, *host, *src, *suser, *thost, *tuser;
+	char *bp, *host, *src, *suser, *thost, *tuser, *arg;
 
 	*targ++ = 0;
 	if (*targ == 0)
 		targ = ".";
 
-	if ((thost = strrchr(argv[argc - 1], '@'))) {
+	arg = xstrdup(argv[argc - 1]);
+	if ((thost = strrchr(arg, '@'))) {
 		/* user@host */
 		*thost++ = 0;
-		tuser = argv[argc - 1];
+		tuser = arg;
 		if (*tuser == '\0')
 			tuser = NULL;
 	} else {
-		thost = argv[argc - 1];
+		thost = arg;
 		tuser = NULL;
 	}
 

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/ssh/sftp-client.c,v 1.2 2005/03/13 18:33:31 tg Exp $ */
 
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
@@ -21,7 +21,7 @@
 /* XXX: copy between two remote sites */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.2 2005/03/13 18:33:31 tg Exp $");
 
 #include <sys/queue.h>
 
@@ -857,7 +857,7 @@ do_download(struct sftp_conn *conn, char *remote_path, char *local_path,
 		debug3("Received reply T:%u I:%u R:%d", type, id, max_req);
 
 		/* Find the request in our queue */
-		for(req = TAILQ_FIRST(&requests);
+		for (req = TAILQ_FIRST(&requests);
 		    req != NULL && req->id != id;
 		    req = TAILQ_NEXT(req, tq))
 			;
@@ -1106,7 +1106,7 @@ do_upload(struct sftp_conn *conn, char *local_path, char *remote_path,
 			debug3("SSH2_FXP_STATUS %d", status);
 
 			/* Find the request in our queue */
-			for(ack = TAILQ_FIRST(&acks);
+			for (ack = TAILQ_FIRST(&acks);
 			    ack != NULL && ack->id != r_id;
 			    ack = TAILQ_NEXT(ack, tq))
 				;
