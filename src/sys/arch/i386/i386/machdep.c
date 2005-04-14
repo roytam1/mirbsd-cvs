@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: machdep.c,v 1.303 2004/07/02 16:29:55 niklas Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
+/*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
@@ -512,11 +512,8 @@ allocsys(v)
 	 * i/o buffers.
 	 */
 	if (bufpages == 0) {
-		if (physmem < btoc(2 * 1024 * 1024))
-			bufpages = physmem / 10;
-		else
-			bufpages = (btoc(2 * 1024 * 1024) + physmem) *
-			    bufcachepercent / 100;
+		bufpages = (btoc(2 * 1024 * 1024) + physmem) *
+		    bufcachepercent / 100;
 	}
 	if (nbuf == 0) {
 		nbuf = bufpages;
@@ -1121,6 +1118,7 @@ cyrix3_cpu_setup(cpu_device, model, step)
 	int model, step;
 {
 #if defined(I686_CPU)
+	u_int32_t regs[4];
 	unsigned int val;
 #if !defined(SMALL_KERNEL)
 	extern void (*pagezero)(void *, size_t);
@@ -1134,8 +1132,8 @@ cyrix3_cpu_setup(cpu_device, model, step)
 	case 6: /* C3 Samuel 1 */
 	case 7: /* C3 Samuel 2 or C3 Ezra */
 	case 8: /* C3 Ezra-T */
-		__asm __volatile("cpuid"
-		    : "=d" (val) : "a" (0x80000001) : "ebx", "ecx");
+		cpuid(0x80000001, regs);
+		val = regs[3];
 		if (val & (1U << 31)) {
 			cpu_feature |= CPUID_3DNOW;
 		} else {
@@ -1158,11 +1156,11 @@ cyrix3_cpu_setup(cpu_device, model, step)
 		 * Bit 6 of MSR 0x110B set to 1 (the default), which will
 		 * show up as bit 3 set here.
 		 */
-		__asm __volatile("cpuid" /* Check for RNG */
-		    : "=a" (val) : "a" (0xC0000000) : "cc");
+		cpuid(0xC0000000, regs); /* Check for RNG */
+		val = regs[0];
 		if (val >= 0xC0000001) {
-			__asm __volatile("cpuid"
-			    : "=d" (val) : "a" (0xC0000001) : "cc");
+			cpuid(0xC0000001, regs);
+			val = regs[3];
 		}
 
 		/* Enable RNG if present and disabled */
@@ -1313,6 +1311,11 @@ amd_family5_setup(cpu_device, model, step)
 	}
 }
 
+struct amd_pn_flag {
+	int mask;
+	const char *name;
+};
+
 void
 amd_family6_setup(cpu_device, model, step)
 	const char *cpu_device;
@@ -1322,12 +1325,33 @@ amd_family6_setup(cpu_device, model, step)
 	extern void (*pagezero)(void *, size_t);
 	extern void sse2_pagezero(void *, size_t);
 	extern void i686_pagezero(void *, size_t);
+	static struct amd_pn_flag amd_pn_flags[] = {
+	    {0, "TS"},
+	    {1, "FID"},
+	    {2, "VID"},
+	    {4, "TTP"},
+	    {8, "TM"},
+	    {16, "STC"}
+	};
+	u_int regs[4];
+	int i;
 
 	if (cpu_feature & CPUID_SSE2)
 		pagezero = sse2_pagezero;
 	else
 		pagezero = i686_pagezero;
-	k7_powernow_init(1);
+	cpuid(0x80000000, regs);
+	if (regs[0] > 0x80000007) {
+		cpuid(0x80000007, regs);
+		printf("%s: AMD Powernow:", cpu_device);
+		for (i = 0; i < 6; i++) {
+			if (regs[3] & amd_pn_flags[i].mask)
+				printf(" %s", amd_pn_flags[i].name);
+		}
+		printf("\n");
+		if (regs[3] & 6)
+			k7_powernow_init(1);
+	}
 #endif
 }
 
@@ -1618,13 +1642,20 @@ identifycpu()
 		}
 	}
 
-	/* Find the amount of on-chip L2 cache.  Add support for AMD K6-3...*/
+	/* Find the amount of on-chip L2 cache. */
 	cachesize = -1;
 	if (vendor == CPUVENDOR_INTEL && cpuid_level >= 2 && family < 0xf) {
 		int intel_cachetable[] = { 0, 128, 256, 512, 1024, 2048 };
 		if ((cpu_cache_edx & 0xFF) >= 0x40 &&
 		    (cpu_cache_edx & 0xFF) <= 0x45)
 			cachesize = intel_cachetable[(cpu_cache_edx & 0xFF) - 0x40];
+	} else if (vendor == CPUVENDOR_AMD && class == CPUCLASS_686) {
+		u_int regs[4];
+		cpuid(0x80000000, regs);
+		if (regs[0] >= 0x80000006) {
+			cpuid(0x80000006, regs);
+			cachesize = (regs[2] >> 16);
+		}
 	}
 
 	/* Remove leading and duplicated spaces from cpu_brandstr */
@@ -3474,6 +3505,8 @@ _bus_dmamap_load_mbuf(t, map, m0, flags)
 	seg = 0;
 	error = 0;
 	for (m = m0; m != NULL && error == 0; m = m->m_next) {
+		if (m->m_len == 0)
+			continue;
 		error = _bus_dmamap_load_buffer(t, map, m->m_data, m->m_len,
 		    NULL, flags, &lastaddr, &seg, first);
 		first = 0;
