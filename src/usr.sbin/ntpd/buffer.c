@@ -1,4 +1,4 @@
-/*	$OpenBSD: buffer.c,v 1.4 2004/09/15 00:05:29 henning Exp $ */
+/*	$OpenBSD: buffer.c,v 1.6 2005/03/23 11:36:35 henning Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -32,7 +32,7 @@ void	buf_enqueue(struct msgbuf *, struct buf *);
 void	buf_dequeue(struct msgbuf *, struct buf *);
 
 struct buf *
-buf_open(ssize_t len)
+buf_open(size_t len)
 {
 	struct buf	*buf;
 
@@ -48,7 +48,7 @@ buf_open(ssize_t len)
 }
 
 int
-buf_add(struct buf *buf, void *data, ssize_t len)
+buf_add(struct buf *buf, void *data, size_t len)
 {
 	if (buf->wpos + len > buf->size)
 		return (-1);
@@ -92,12 +92,6 @@ msgbuf_clear(struct msgbuf *msgbuf)
 int
 msgbuf_write(struct msgbuf *msgbuf)
 {
-	/*
-	 * possible race here
-	 * when we cannot write out data completely from a buffer,
-	 * we MUST return and NOT try to write out stuff from later buffers -
-	 * the socket might have become writeable again
-	 */
 	struct iovec	 iov[IOV_MAX];
 	struct buf	*buf, *next;
 	int		 i = 0;
@@ -127,7 +121,7 @@ msgbuf_write(struct msgbuf *msgbuf)
 	for (buf = TAILQ_FIRST(&msgbuf->bufs); buf != NULL && n > 0;
 	    buf = next) {
 		next = TAILQ_NEXT(buf, entries);
-		if (n >= buf->size - buf->rpos) {
+		if (buf->rpos + n >= buf->size) {
 			n -= buf->size - buf->rpos;
 			buf_dequeue(msgbuf, buf);
 		} else {
