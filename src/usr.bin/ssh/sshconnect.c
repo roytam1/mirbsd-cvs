@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshconnect.c,v 1.159 2005/01/05 08:51:32 markus Exp $");
+RCSID("$OpenBSD: sshconnect.c,v 1.162 2005/03/10 22:01:06 deraadt Exp $");
 
 #include <openssl/bn.h>
 
@@ -243,13 +243,13 @@ timeout_connect(int sockfd, const struct sockaddr *serv_addr,
 	tv.tv_sec = timeout;
 	tv.tv_usec = 0;
 
-	for(;;) {
+	for (;;) {
 		rc = select(sockfd + 1, NULL, fdset, NULL, &tv);
 		if (rc != -1 || errno != EINTR)
 			break;
 	}
 
-	switch(rc) {
+	switch (rc) {
 	case 0:
 		/* Timed out */
 		errno = ETIMEDOUT;
@@ -550,7 +550,7 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 	char hostline[1000], *hostp, *fp;
 	HostStatus host_status;
 	HostStatus ip_status;
-	int local = 0, host_ip_differ = 0;
+	int r, local = 0, host_ip_differ = 0;
 	char ntop[NI_MAXHOST];
 	char msg[1024];
 	int len, host_line, ip_line;
@@ -670,7 +670,7 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 				    "'%.128s' not in list of known hosts.",
 				    type, ip);
 			else if (!add_host_to_hostfile(user_hostfile, ip,
-			    host_key))
+			    host_key, options.hash_known_hosts))
 				logit("Failed to add the %s host key for IP "
 				    "address '%.128s' to the list of known "
 				    "hosts (%.30s).", type, ip, user_hostfile);
@@ -726,17 +726,33 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 			if (!confirm(msg))
 				goto fail;
 		}
-		if (options.check_host_ip && ip_status == HOST_NEW) {
-			snprintf(hostline, sizeof(hostline), "%s,%s", host, ip);
-			hostp = hostline;
-		} else
-			hostp = host;
-
 		/*
 		 * If not in strict mode, add the key automatically to the
 		 * local known_hosts file.
 		 */
-		if (!add_host_to_hostfile(user_hostfile, hostp, host_key))
+		if (options.check_host_ip && ip_status == HOST_NEW) {
+			snprintf(hostline, sizeof(hostline), "%s,%s",
+			    host, ip);
+			hostp = hostline;
+			if (options.hash_known_hosts) {
+				/* Add hash of host and IP separately */
+				r = add_host_to_hostfile(user_hostfile, host,
+				    host_key, options.hash_known_hosts) &&
+				    add_host_to_hostfile(user_hostfile, ip,
+				    host_key, options.hash_known_hosts);
+			} else {
+				/* Add unhashed "host,ip" */
+				r = add_host_to_hostfile(user_hostfile,
+				    hostline, host_key,
+				    options.hash_known_hosts);
+			}
+		} else {
+			r = add_host_to_hostfile(user_hostfile, host, host_key,
+			    options.hash_known_hosts);
+			hostp = host;
+		}
+
+		if (!r)
 			logit("Failed to add the host to the list of known "
 			    "hosts (%.500s).", user_hostfile);
 		else

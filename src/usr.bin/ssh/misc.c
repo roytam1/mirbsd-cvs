@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: misc.c,v 1.27 2004/12/11 01:48:56 dtucker Exp $");
+RCSID("$OpenBSD: misc.c,v 1.30 2005/04/09 04:32:54 djm Exp $");
 
 #include "misc.h"
 #include "log.h"
@@ -269,6 +269,48 @@ convtime(const char *s)
 	return total;
 }
 
+/*
+ * Search for next delimiter between hostnames/addresses and ports.
+ * Argument may be modified (for termination).
+ * Returns *cp if parsing succeeds.
+ * *cp is set to the start of the next delimiter, if one was found.
+ * If this is the last field, *cp is set to NULL.
+ */
+char *
+hpdelim(char **cp)
+{
+	char *s, *old;
+
+	if (cp == NULL || *cp == NULL)
+		return NULL;
+
+	old = s = *cp;
+	if (*s == '[') {
+		if ((s = strchr(s, ']')) == NULL)
+			return NULL;
+		else
+			s++;
+	} else if ((s = strpbrk(s, ":/")) == NULL)
+		s = *cp + strlen(*cp); /* skip to end (see first case below) */
+
+	switch (*s) {
+	case '\0':
+		*cp = NULL;	/* no more fields*/
+		break;
+
+	case ':':
+	case '/':
+		*s = '\0';	/* terminate */
+		*cp = s + 1;
+		break;
+
+	default:
+		return NULL;
+	}
+
+	return old;
+}
+
 char *
 cleanhostname(char *host)
 {
@@ -328,6 +370,51 @@ addargs(arglist *args, char *fmt, ...)
 }
 
 /*
+ * Expands tildes in the file name.  Returns data allocated by xmalloc.
+ * Warning: this calls getpw*.
+ */
+char *
+tilde_expand_filename(const char *filename, uid_t uid)
+{
+	const char *path;
+	char user[128], ret[MAXPATHLEN];
+	struct passwd *pw;
+	int len;
+
+	if (*filename != '~')
+		return (xstrdup(filename));
+	filename++;
+
+	path = strchr(filename, '/');
+	if (path != NULL && path > filename) {		/* ~user/path */
+		if (path - filename > sizeof(user) - 1)
+			fatal("tilde_expand_filename: ~username too long");
+		memcpy(user, filename, path - filename);
+		user[path - filename] = '\0';
+		if ((pw = getpwnam(user)) == NULL)
+			fatal("tilde_expand_filename: No such user %s", user);
+	} else if ((pw = getpwuid(uid)) == NULL)	/* ~/path */
+		fatal("tilde_expand_filename: No such uid %d", uid);
+
+	if (strlcpy(ret, pw->pw_dir, sizeof(ret)) >= sizeof(ret))
+		fatal("tilde_expand_filename: Path too long");
+
+	/* Make sure directory has a trailing '/' */
+	len = strlen(pw->pw_dir);
+	if ((len == 0 || pw->pw_dir[len - 1] != '/') &&
+	    strlcat(ret, "/", sizeof(ret)) >= sizeof(ret))
+		fatal("tilde_expand_filename: Path too long");
+
+	/* Skip leading '/' from specified path */
+	if (path != NULL)
+		filename = path + 1;
+	if (strlcat(ret, filename, sizeof(ret)) >= sizeof(ret))
+		fatal("tilde_expand_filename: Path too long");
+
+	return (xstrdup(ret));
+}
+
+/*
  * Read an entire line from a public key file into a static buffer, discarding
  * lines that exceed the buffer size.  Returns 0 on success, -1 on failure.
  */
@@ -343,7 +430,7 @@ read_keyfile_line(FILE *f, const char *filename, char *buf, size_t bufsz,
 			debug("%s: %s line %lu exceeds size limit", __func__,
 			    filename, *lineno);
 			/* discard remainder of line */
-			while(fgetc(f) != '\n' && !feof(f))
+			while (fgetc(f) != '\n' && !feof(f))
 				;	/* nothing */
 		}
 	}
