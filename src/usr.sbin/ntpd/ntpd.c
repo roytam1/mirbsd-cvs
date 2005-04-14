@@ -1,4 +1,4 @@
-/*	$OpenBSD: ntpd.c,v 1.27 2004/12/22 16:04:11 henning Exp $ */
+/*	$OpenBSD: ntpd.c,v 1.34 2005/03/31 17:02:43 henning Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -20,11 +20,10 @@
 #include <sys/socket.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <poll.h>
 #include <pwd.h>
+#include <resolv.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,13 +32,13 @@
 
 #include "ntpd.h"
 
-void	sighdlr(int);
-void	usage(void);
-int	main(int, char *[]);
-int	check_child(pid_t, const char *);
-int	dispatch_imsg(struct ntpd_conf *);
-void	ntpd_adjtime(double);
-void	ntpd_settime(double);
+void		sighdlr(int);
+__dead void	usage(void);
+int		main(int, char *[]);
+int		check_child(pid_t, const char *);
+int		dispatch_imsg(struct ntpd_conf *);
+void		ntpd_adjtime(double);
+void		ntpd_settime(double);
 
 volatile sig_atomic_t	 quit = 0;
 volatile sig_atomic_t	 reconfig = 0;
@@ -63,7 +62,7 @@ sighdlr(int sig)
 	}
 }
 
-void
+__dead void
 usage(void)
 {
 	extern char *__progname;
@@ -90,6 +89,7 @@ main(int argc, char *argv[])
 	bzero(&conf, sizeof(conf));
 
 	log_init(1);		/* log to stderr until daemonized */
+	res_init();		/* XXX */
 
 	while ((ch = getopt(argc, argv, "df:sS")) != -1) {
 		switch (ch) {
@@ -128,14 +128,15 @@ main(int argc, char *argv[])
 	if (!conf.settime) {
 		log_init(conf.debug);
 		if (!conf.debug)
-			daemon(1, 0);
+			if (daemon(1, 0))
+				fatal("daemon");
 	} else
 		timeout = 15 * 1000;
 
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_chld) == -1)
 		fatal("socketpair");
 
-	/* fork children */
+	/* fork child process */
 	chld_pid = ntp_main(pipe_chld, &conf);
 
 	setproctitle("[priv]");
@@ -164,13 +165,14 @@ main(int argc, char *argv[])
 			}
 
 		if (nfds == 0 && conf.settime) {
-			log_debug("no reply received, skipping initial time "
-			    "setting");
 			conf.settime = 0;
 			timeout = INFTIM;
 			log_init(conf.debug);
+			log_debug("no reply received, skipping initial time "
+			    "setting");
 			if (!conf.debug)
-				daemon(1, 0);
+				if (daemon(1, 0))
+					fatal("daemon");
 		}
 
 		if (nfds > 0 && (pfd[PFD_PIPE].revents & POLLOUT))
@@ -260,13 +262,13 @@ dispatch_imsg(struct ntpd_conf *conf)
 		switch (imsg.hdr.type) {
 		case IMSG_ADJTIME:
 			if (imsg.hdr.len != IMSG_HEADER_SIZE + sizeof(d))
-				fatal("invalid IMSG_ADJTIME received");
+				fatalx("invalid IMSG_ADJTIME received");
 			memcpy(&d, imsg.data, sizeof(d));
 			ntpd_adjtime(d);
 			break;
 		case IMSG_SETTIME:
 			if (imsg.hdr.len != IMSG_HEADER_SIZE + sizeof(d))
-				fatal("invalid IMSG_SETTIME received");
+				fatalx("invalid IMSG_SETTIME received");
 			if (!conf->settime)
 				break;
 			memcpy(&d, imsg.data, sizeof(d));
@@ -274,13 +276,14 @@ dispatch_imsg(struct ntpd_conf *conf)
 			/* daemonize now */
 			log_init(conf->debug);
 			if (!conf->debug)
-				daemon(1, 0);
+				if (daemon(1, 0))
+					fatal("daemon");
 			conf->settime = 0;
 			break;
 		case IMSG_HOST_DNS:
 			name = imsg.data;
 			if (imsg.hdr.len != strlen(name) + 1 + IMSG_HEADER_SIZE)
-				fatal("invalid IMSG_HOST_DNS received");
+				fatalx("invalid IMSG_HOST_DNS received");
 			if ((cnt = host_dns(name, &hn)) > 0) {
 				buf = imsg_create(ibuf, IMSG_HOST_DNS,
 				    imsg.hdr.peerid, 0,
@@ -327,17 +330,19 @@ ntpd_settime(double d)
 	if (d < SETTIME_MIN_OFFSET && d > -SETTIME_MIN_OFFSET)
 		return;
 
-	d_to_tv(d, &tv);
-	if (gettimeofday(&curtime, NULL) == -1)
+	if (gettimeofday(&curtime, NULL) == -1) {
 		log_warn("gettimeofday");
-	curtime.tv_sec += tv.tv_sec;
-	curtime.tv_usec += tv.tv_usec;
-	if (curtime.tv_usec > 1000000) {
-		curtime.tv_sec++;
-		curtime.tv_usec -= 1000000;
+		return;
 	}
-	if (settimeofday(&curtime, NULL) == -1)
+	d_to_tv(d, &tv);
+	curtime.tv_usec += tv.tv_usec + 1000000;
+	curtime.tv_sec += tv.tv_sec - 1 + (curtime.tv_usec / 1000000);
+	curtime.tv_usec %= 1000000;
+
+	if (settimeofday(&curtime, NULL) == -1) {
 		log_warn("settimeofday");
+		return;
+	}
 	tval = curtime.tv_sec;
 	strftime(buf, sizeof(buf), "%a %b %e %H:%M:%S %Z %Y",
 	    localtime(&tval));
