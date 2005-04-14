@@ -42,7 +42,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshd.c,v 1.307 2005/01/21 08:32:02 otto Exp $");
+RCSID("$OpenBSD: sshd.c,v 1.309 2005/04/06 09:43:59 djm Exp $");
 
 #include <openssl/dh.h>
 #include <openssl/bn.h>
@@ -1207,10 +1207,12 @@ main(int ac, char **av)
 			if (num_listen_socks >= MAX_LISTEN_SOCKS)
 				fatal("Too many listen sockets. "
 				    "Enlarge MAX_LISTEN_SOCKS");
-			if (getnameinfo(ai->ai_addr, ai->ai_addrlen,
+			if ((ret = getnameinfo(ai->ai_addr, ai->ai_addrlen,
 			    ntop, sizeof(ntop), strport, sizeof(strport),
-			    NI_NUMERICHOST|NI_NUMERICSERV) != 0) {
-				error("getnameinfo failed");
+			    NI_NUMERICHOST|NI_NUMERICSERV)) != 0) {
+				error("getnameinfo failed: %.100s",
+				    (ret != EAI_SYSTEM) ? gai_strerror(ret) :
+				    strerror(errno));
 				continue;
 			}
 			/* Create socket for listening. */
@@ -1543,17 +1545,16 @@ main(int ac, char **av)
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
 
-	/* Set SO_KEEPALIVE if requested. */
-	if (options.tcp_keep_alive &&
-	    setsockopt(sock_in, SOL_SOCKET, SO_KEEPALIVE, &on,
-	    sizeof(on)) < 0)
-		error("setsockopt SO_KEEPALIVE: %.100s", strerror(errno));
-
 	/*
 	 * Register our connection.  This turns encryption off because we do
 	 * not have a key.
 	 */
 	packet_set_connection(sock_in, sock_out);
+
+	/* Set SO_KEEPALIVE if requested. */
+	if (options.tcp_keep_alive && packet_connection_is_on_socket() &&
+	    setsockopt(sock_in, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)) < 0)
+		error("setsockopt SO_KEEPALIVE: %.100s", strerror(errno));
 
 	remote_port = get_remote_port();
 	remote_ip = get_remote_ipaddr();
