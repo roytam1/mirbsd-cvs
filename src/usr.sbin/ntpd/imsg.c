@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: imsg.c,v 1.7 2004/09/16 01:13:42 henning Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.2 2005/03/13 19:17:09 tg Exp $ */
+/*	$OpenBSD: imsg.c,v 1.10 2005/03/23 10:42:04 henning Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -26,7 +26,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.2 2005/03/13 19:17:09 tg Exp $");
 
 void
 imsg_init(struct imsgbuf *ibuf, int fd)
@@ -60,8 +60,7 @@ imsg_read(struct imsgbuf *ibuf)
 int
 imsg_get(struct imsgbuf *ibuf, struct imsg *imsg)
 {
-	ssize_t			 datalen = 0;
-	size_t			 av, left;
+	size_t			 av, left, datalen;
 
 	av = ibuf->r.wpos;
 
@@ -86,7 +85,7 @@ imsg_get(struct imsgbuf *ibuf, struct imsg *imsg)
 
 	if (imsg->hdr.len < av) {
 		left = av - imsg->hdr.len;
-		memcpy(&ibuf->r.buf, ibuf->r.buf + imsg->hdr.len, left);
+		memmove(&ibuf->r.buf, ibuf->r.buf + imsg->hdr.len, left);
 		ibuf->r.wpos = left;
 	} else
 		ibuf->r.wpos = 0;
@@ -159,7 +158,7 @@ imsg_close(struct imsgbuf *ibuf, struct buf *msg)
 	int	n;
 
 	if ((n = buf_close(&ibuf->w, msg)) < 0) {
-			log_warnx("imsg_close: buf_add error");
+			log_warnx("imsg_close: buf_close error");
 			buf_free(msg);
 			return (-1);
 	}

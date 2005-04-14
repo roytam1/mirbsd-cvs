@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ntpd.h,v 1.48 2004/12/16 00:38:59 dtucker Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.2 2005/03/13 19:17:10 tg Exp $ */
+/*	$OpenBSD: ntpd.h,v 1.54 2005/03/23 10:42:04 henning Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -39,11 +39,9 @@
 #define	NTPD_OPT_VERBOSE	0x0001
 #define	NTPD_OPT_VERBOSE2	0x0002
 
-#define INTERVAL_MANIPULATOR		(4 - (rand() / (RAND_MAX >> 3)))
-/* sync to peers every n secs */
-#define	INTERVAL_QUERY_NORMAL		(30 + INTERVAL_MANIPULATOR)
-#define	INTERVAL_QUERY_PATHETIC		(60 + INTERVAL_MANIPULATOR)
-#define	INTERVAL_QUERY_AGRESSIVE	(5 + (INTERVAL_MANIPULATOR / 3))
+#define	INTERVAL_QUERY_NORMAL		30	/* sync to peers every n secs */
+#define	INTERVAL_QUERY_PATHETIC		60
+#define	INTERVAL_QUERY_AGRESSIVE	5
 
 #define	TRUSTLEVEL_BADPEER		6
 #define	TRUSTLEVEL_PATHETIC		2
@@ -115,6 +113,7 @@ struct ntp_peer {
 	u_int32_t			 id;
 	u_int8_t			 shift;
 	u_int8_t			 trustlevel;
+	int				 lasterror;
 };
 
 struct ntpd_conf {
@@ -124,14 +123,15 @@ struct ntpd_conf {
 	u_int8_t				listen_all;
 	u_int8_t				settime;
 	u_int8_t				debug;
+	u_int32_t				scale;
 };
 
 struct buf {
 	TAILQ_ENTRY(buf)	 entries;
 	u_char			*buf;
-	ssize_t			 size;
-	ssize_t			 wpos;
-	ssize_t			 rpos;
+	size_t			 size;
+	size_t			 wpos;
+	size_t			 rpos;
 };
 
 struct msgbuf {
@@ -141,7 +141,7 @@ struct msgbuf {
 };
 
 struct buf_read {
-	ssize_t			 wpos;
+	size_t			 wpos;
 	u_char			 buf[READ_BUF_SIZE];
 	u_char			*rptr;
 };
@@ -190,8 +190,8 @@ void		 fatalx(const char *);
 const char *	 log_sockaddr(struct sockaddr *);
 
 /* buffer.c */
-struct buf	*buf_open(ssize_t);
-int		 buf_add(struct buf *, void *, ssize_t);
+struct buf	*buf_open(size_t);
+int		 buf_add(struct buf *, void *, size_t);
 int		 buf_close(struct msgbuf *, struct buf *);
 void		 buf_free(struct buf *);
 void		 msgbuf_init(struct msgbuf *);
@@ -239,6 +239,11 @@ int	client_addr_init(struct ntp_peer *);
 int	client_nextaddr(struct ntp_peer *);
 int	client_query(struct ntp_peer *);
 int	client_dispatch(struct ntp_peer *, u_int8_t);
+void	client_log_error(struct ntp_peer *, const char *, int);
+void	update_scale(double);
+time_t	scale_interval(time_t);
+time_t	error_interval(void);
+void	set_next(struct ntp_peer *, time_t);
 
 /* util.c */
 double			gettime(void);
