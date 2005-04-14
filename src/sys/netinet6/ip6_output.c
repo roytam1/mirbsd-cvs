@@ -788,7 +788,7 @@ ip6_output(m0, opt, ro, flags, im6o, ifpp)
 	}
 
 #if NPF > 0
-	if (pf_test6(PF_OUT, ifp, &m, NULL) != PF_PASS) {
+	if (pf_test6(PF_OUT, ifp, &m) != PF_PASS) {
 		error = EHOSTUNREACH;
 		m_freem(m);
 		goto done;

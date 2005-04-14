@@ -577,7 +577,9 @@ in6_ifattach(ifp, altifp)
 	case IFT_ENC:
 	case IFT_PFLOG:
 	case IFT_PFSYNC:
+#ifdef IFT_CARP
 	case IFT_CARP:
+#endif
 		return;
 	case IFT_PROPVIRTUAL:
 		if (strncmp("bridge", ifp->if_xname, sizeof("bridge")) == 0 &&
