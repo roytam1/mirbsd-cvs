@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/ssh/myproposal.h,v 1.2 2005/03/13 18:33:30 tg Exp $ */
 /*	$OpenBSD: myproposal.h,v 1.16 2004/06/13 12:53:24 djm Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 	"diffie-hellman-group1-sha1"
 #define	KEX_DEFAULT_PK_ALG	"ssh-rsa,ssh-dss"
 #define	KEX_DEFAULT_ENCRYPT \
-	"blowfish-cbc,aes256-cbc,aes128-cbc,arcfour," \
+	"arcfour,blowfish-cbc,aes256-cbc,aes128-cbc," \
 	"cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc," \
 	"aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr"
 #define	KEX_DEFAULT_MAC \
