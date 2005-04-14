@@ -1,4 +1,4 @@
-/*	$OpenBSD: ip6_output.c,v 1.82 2004/02/04 08:47:41 itojun Exp $	*/
+/*	$OpenBSD: ip6_output.c,v 1.87 2005/01/11 08:57:24 djm Exp $	*/
 /*	$KAME: ip6_output.c,v 1.172 2001/03/25 09:55:56 itojun Exp $	*/
 
 /*
@@ -788,7 +788,7 @@ ip6_output(m0, opt, ro, flags, im6o, ifpp)
 	}
 
 #if NPF > 0
-	if (pf_test6(PF_OUT, ifp, &m) != PF_PASS) {
+	if (pf_test6(PF_OUT, ifp, &m, NULL) != PF_PASS) {
 		error = EHOSTUNREACH;
 		m_freem(m);
 		goto done;
@@ -1318,6 +1318,7 @@ ip6_ctloutput(op, so, level, optname, mp)
 			case IPV6_RTHDR:
 			case IPV6_FAITH:
 			case IPV6_V6ONLY:
+			case IPV6_USE_MIN_MTU:
 				if (optlen != sizeof(int)) {
 					error = EINVAL;
 					break;
@@ -1374,6 +1375,10 @@ do { \
 
 				case IPV6_FAITH:
 					OPTSET(IN6P_FAITH);
+					break;
+
+				case IPV6_USE_MIN_MTU:
+					OPTSET(IN6P_MINMTU);
 					break;
 
 				case IPV6_V6ONLY:
@@ -1543,6 +1548,7 @@ do { \
 			case IPV6_FAITH:
 			case IPV6_V6ONLY:
 			case IPV6_PORTRANGE:
+			case IPV6_USE_MIN_MTU:
 				switch (optname) {
 
 				case IPV6_UNICAST_HOPS:
@@ -1604,6 +1610,10 @@ do { \
 						optval = 0;
 					break;
 				    }
+
+				case IPV6_USE_MIN_MTU:
+					optval = OPTBIT(IN6P_MINMTU);
+					break;
 				}
 				*mp = m = m_get(M_WAIT, MT_SOOPTS);
 				m->m_len = sizeof(int);
@@ -1853,15 +1863,20 @@ ip6_setmoptions(optname, im6op, m)
 			break;
 		}
 		bcopy(mtod(m, u_int *), &ifindex, sizeof(ifindex));
-		if (ifindex < 0 || if_indexlim <= ifindex ||
-		    !ifindex2ifnet[ifindex]) {
-			error = ENXIO;	/* XXX EINVAL? */
-			break;
-		}
-		ifp = ifindex2ifnet[ifindex];
-		if (ifp == NULL || (ifp->if_flags & IFF_MULTICAST) == 0) {
-			error = EADDRNOTAVAIL;
-			break;
+		if (ifindex == 0)
+			ifp = NULL;
+		else {
+			if (ifindex < 0 || if_indexlim <= ifindex ||
+			    !ifindex2ifnet[ifindex]) {
+				error = ENXIO;	/* XXX EINVAL? */
+				break;
+			}
+			ifp = ifindex2ifnet[ifindex];
+			if (ifp == NULL ||
+			    (ifp->if_flags & IFF_MULTICAST) == 0) {
+				error = EADDRNOTAVAIL;
+				break;
+			}
 		}
 		im6o->im6o_multicast_ifp = ifp;
 		break;
@@ -1930,15 +1945,6 @@ ip6_setmoptions(optname, im6op, m)
 		}
 
 		/*
-		 * If the interface is specified, validate it.
-		 */
-		if (mreq->ipv6mr_interface < 0 ||
-		    if_indexlim <= mreq->ipv6mr_interface ||
-		    !ifindex2ifnet[mreq->ipv6mr_interface]) {
-			error = ENXIO;	/* XXX EINVAL? */
-			break;
-		}
-		/*
 		 * If no interface was explicitly specified, choose an
 		 * appropriate one according to the given multicast address.
 		 */
@@ -1967,8 +1973,18 @@ ip6_setmoptions(optname, im6op, m)
 				ifp = ro.ro_rt->rt_ifp;
 				rtfree(ro.ro_rt);
 			}
-		} else
+		} else {
+			/*
+			 * If the interface is specified, validate it.
+			 */
+			if (mreq->ipv6mr_interface < 0 ||
+			    if_indexlim <= mreq->ipv6mr_interface ||
+			    !ifindex2ifnet[mreq->ipv6mr_interface]) {
+				error = ENXIO;	/* XXX EINVAL? */
+				break;
+			}
 			ifp = ifindex2ifnet[mreq->ipv6mr_interface];
+		}
 
 		/*
 		 * See if we found an interface, and confirm that it
@@ -2033,13 +2049,18 @@ ip6_setmoptions(optname, im6op, m)
 		 * If an interface address was specified, get a pointer
 		 * to its ifnet structure.
 		 */
-		if (mreq->ipv6mr_interface < 0 ||
-		    if_indexlim <= mreq->ipv6mr_interface ||
-		    !ifindex2ifnet[mreq->ipv6mr_interface]) {
-			error = ENXIO;	/* XXX EINVAL? */
-			break;
+		if (mreq->ipv6mr_interface == 0)
+			ifp = NULL;
+		else {
+			if (mreq->ipv6mr_interface < 0 ||
+			    if_indexlim <= mreq->ipv6mr_interface ||
+			    !ifindex2ifnet[mreq->ipv6mr_interface]) {
+				error = ENXIO;	/* XXX EINVAL? */
+				break;
+			}
+			ifp = ifindex2ifnet[mreq->ipv6mr_interface];
 		}
-		ifp = ifindex2ifnet[mreq->ipv6mr_interface];
+
 		/*
 		 * Put interface index into the multicast address,
 		 * if the address has link-local scope.

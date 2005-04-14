@@ -1,4 +1,4 @@
-/*	$OpenBSD: ip6_input.c,v 1.57 2004/02/15 11:16:08 markus Exp $	*/
+/*	$OpenBSD: ip6_input.c,v 1.61 2005/03/06 16:27:01 dhartmei Exp $	*/
 /*	$KAME: ip6_input.c,v 1.188 2001/03/29 05:34:31 itojun Exp $	*/
 
 /*
@@ -151,7 +151,6 @@ ip6_init()
 	ip6intrq.ifq_maxlen = ip6qmaxlen;
 	nd6_init();
 	frag6_init();
-	ip6_flow_seq = arc4random();
 	ip6_init2((void *)0);
 }
 
@@ -293,6 +292,20 @@ ip6_input(m)
 	}
 #endif
 
+#if NPF > 0 
+        /*
+         * Packet filter
+         */
+	odst = ip6->ip6_dst;
+	if (pf_test6(PF_IN, m->m_pkthdr.rcvif, &m, NULL) != PF_PASS)
+		goto bad;
+	if (m == NULL)
+		return;
+
+	ip6 = mtod(m, struct ip6_hdr *);
+	srcrt = !IN6_ARE_ADDR_EQUAL(&odst, &ip6->ip6_dst);
+#endif
+
 	if (IN6_IS_ADDR_LOOPBACK(&ip6->ip6_src) ||
 	    IN6_IS_ADDR_LOOPBACK(&ip6->ip6_dst)) {
 		if (m->m_pkthdr.rcvif->if_flags & IFF_LOOPBACK) {
@@ -319,20 +332,6 @@ ip6_input(m)
 			goto bad;
 		}
 	}
-
-#if NPF > 0 
-        /*
-         * Packet filter
-         */
-	odst = ip6->ip6_dst;
-	if (pf_test6(PF_IN, m->m_pkthdr.rcvif, &m) != PF_PASS)
-		goto bad;
-	if (m == NULL)
-		return;
-
-	ip6 = mtod(m, struct ip6_hdr *);
-	srcrt = !IN6_ARE_ADDR_EQUAL(&odst, &ip6->ip6_dst);
-#endif
 
 	if (IN6_IS_SCOPE_LINKLOCAL(&ip6->ip6_src))
 		ip6->ip6_src.s6_addr16[1]
@@ -901,10 +900,6 @@ ip6_savecontrol(in6p, mp, ip6, m)
 	struct mbuf *m;
 {
 # define in6p_flags	inp_flags
-	int privileged = 0;
-
-	if ((in6p->inp_socket->so_state & SS_PRIV) != 0)
-		privileged++;
 
 #ifdef SO_TIMESTAMP
 	if (in6p->in6p_socket->so_options & SO_TIMESTAMP) {
@@ -957,12 +952,13 @@ ip6_savecontrol(in6p, mp, ip6, m)
 	/* IN6P_NEXTHOP - for outgoing packet only */
 
 	/*
-	 * IPV6_HOPOPTS socket option. We require super-user privilege
-	 * for the option, but it might be too strict, since there might
-	 * be some hop-by-hop options which can be returned to normal user.
-	 * See RFC 2292 section 6.
+	 * IPV6_HOPOPTS socket option.  Recall that we required super-user
+	 * privilege for the option (see ip6_ctloutput), but it might be too
+	 * strict, since there might be some hop-by-hop options which can be
+	 * returned to normal user.
+	 * See also RFC 2292 section 6.
 	 */
-	if ((in6p->in6p_flags & IN6P_HOPOPTS) != 0 && privileged) {
+	if ((in6p->in6p_flags & IN6P_HOPOPTS) != 0) {
 		/*
 		 * Check if a hop-by-hop options header is contatined in the
 		 * received packet, and if so, store the options as ancillary
@@ -1054,14 +1050,6 @@ ip6_savecontrol(in6p, mp, ip6, m)
 			switch (nxt) {
 			case IPPROTO_DSTOPTS:
 				if (!in6p->in6p_flags & IN6P_DSTOPTS)
-					break;
-
-				/*
-				 * We also require super-user privilege for
-				 * the option.
-				 * See the comments on IN6_HOPOPTS.
-				 */
-				if (!privileged)
 					break;
 
 				*mp = sbcreatecontrol((caddr_t)ip6e, elen,
