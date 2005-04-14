@@ -54,7 +54,7 @@
 
 /* contents of an output environment */
 /* some more vars may end up being needed here later @@ */
-struct env
+static struct env
 {
   unsigned char *output_paragraph;
   int output_paragraph_offset;

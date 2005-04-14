@@ -439,7 +439,9 @@ rollback_empty_tag (char *tag)
   int check_position = output_paragraph_offset;
   int taglen = strlen (tag);
   int rollback_happened = 0;
-  char *contents = "";
+  char *contents = "";			/* FIXME (ptr to constant, later
+  					   assigned to malloc'd address).
+					 */
   char *contents_canon_white = "";
 
   /* If output_paragraph is empty, we cannot rollback :-\  */
@@ -447,7 +449,7 @@ rollback_empty_tag (char *tag)
     return 0;
 
   /* Find the end of the previous tag.  */
-  while (output_paragraph[check_position-1] != '>' && check_position > 0)
+  while (check_position > 0 && output_paragraph[check_position-1] != '>')
     check_position--;
 
   /* Save stuff between tag's end to output_paragraph's end.  */
@@ -464,7 +466,7 @@ rollback_empty_tag (char *tag)
     }
 
   /* Find the start of the previous tag.  */
-  while (output_paragraph[check_position-1] != '<' && check_position > 0)
+  while (check_position > 0 && output_paragraph[check_position-1] != '<')
     check_position--;
 
   /* Check to see if this is the tag.  */
