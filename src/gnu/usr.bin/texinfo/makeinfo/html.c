@@ -167,6 +167,8 @@ process_css_file (char *filename)
       lastchar = c;
     }
 
+  fclose(f);
+
   /* Reached the end of the file.  We should not be still in a comment.  */
   if (state == comment_state)
     warning (_("%s:%d: --css-file ended in comment"), filename, lineno);
