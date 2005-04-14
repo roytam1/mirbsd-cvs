@@ -1,4 +1,4 @@
-/*	$OpenBSD: main.c,v 1.54 2004/02/29 13:59:15 markus Exp $	*/
+/*	$OpenBSD: main.c,v 1.59 2005/02/24 09:44:36 moritz Exp $	*/
 
 #ifndef SMALL
 static const char copyright[] =
@@ -36,7 +36,7 @@ static const char license[] =
 #endif /* SMALL */
 
 #ifndef SMALL
-static const char main_rcsid[] = "$OpenBSD: main.c,v 1.54 2004/02/29 13:59:15 markus Exp $";
+static const char main_rcsid[] = "$OpenBSD: main.c,v 1.59 2005/02/24 09:44:36 moritz Exp $";
 #endif
 
 #include <sys/param.h>
@@ -146,8 +146,7 @@ main(int argc, char *argv[])
 	char *nargv[512];	/* some estimate based on ARG_MAX */
 	int bits, exists, oreg, ch, error, i, rc, oflag;
 
-	exists = 0;
-	bits = oflag = 0;
+	oreg = exists = bits = oflag = 0;
 	nosave = -1;
 	p = __progname;
 	if (p[0] == 'g') {
@@ -350,7 +349,8 @@ main(int argc, char *argv[])
 			 */
 			/* XXX - is overwriting fts_statp legal? (millert) */
 			if (entry->fts_errno == ENOENT &&
-			    strchr(entry->fts_accpath, '.') == NULL &&
+			    ((p = strrchr(entry->fts_accpath, '.')) == NULL ||
+			    strcmp(p, suffix) != 0) &&
 			    snprintf(_infile, sizeof(_infile), "%s%s", infile,
 			    suffix) < sizeof(_infile) &&
 			    stat(_infile, entry->fts_statp) == 0 &&
@@ -405,15 +405,15 @@ main(int argc, char *argv[])
 			}
 		}
 
-		if (!testmode)
+		if (!testmode) {
 			exists = !stat(outfile, &osb);
-		if (!force && exists && S_ISREG(osb.st_mode) &&
-		    !permission(outfile)) {
-			rc = rc ? rc : WARNING;
-			continue;
+			if (!force && exists && S_ISREG(osb.st_mode) &&
+			    !permission(outfile)) {
+				rc = rc ? rc : WARNING;
+				continue;
+			}
+			oreg = !exists || S_ISREG(osb.st_mode);
 		}
-
-		oreg = !exists || S_ISREG(osb.st_mode);
 
 		if (verbose > 0 && !pipin && !list)
 			fprintf(stderr, "%s:\t", infile);
@@ -454,6 +454,7 @@ int
 docompress(const char *in, char *out, const struct compressor *method,
     int bits, struct stat *sb)
 {
+#ifndef SMALL
 	u_char buf[Z_BUFSIZE];
 	char *name;
 	int error, ifd, ofd, flags;
@@ -538,6 +539,10 @@ docompress(const char *in, char *out, const struct compressor *method,
 		verbose_info(out, info.total_out, info.total_in, info.hlen);
 
 	return (error);
+#else
+	warnx("compression not supported");
+	return (FAILURE);
+#endif
 }
 
 const struct compressor *
@@ -811,7 +816,7 @@ list_stats(const char *name, const struct compressor *method,
 		printf("%10lld    %10lld  %4.1f%%  %s\n",
 		    (long long)(info->total_in + info->hlen),
 		    (long long)info->total_out,
-		    (info->total_out - info->total_in) *
+		    ((long long)info->total_out - (long long)info->total_in) *
 		    100.0 / info->total_out, name);
 		compressed_total += info->total_in;
 		uncompressed_total += info->total_out;
