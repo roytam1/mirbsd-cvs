@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.46 2005/04/13 21:56:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.47 2005/04/14 18:59:03 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2772,5 +2772,7 @@
 <p>14.04.2005 by tg@<br />I've liberated our version of XFree86&reg; (with
  mailing the Xlib GPL compatibility diff upstream, of course), and applied
  a bunch of patches from others. I'll rebuild my own system RSN to test it
- (wanna bet I didn't break anything?).</p>
+ (wanna bet I didn't break anything?). OpenSSH got updated too, a few more
+ experimental diffs entered the kernel, and netinet6 was updated in total.
+ ports/sysutils/pxegrub builds again.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
