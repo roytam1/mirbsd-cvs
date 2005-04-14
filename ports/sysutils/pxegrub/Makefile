@@ -1,9 +1,11 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.2 2005/04/10 21:51:15 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.3 2005/04/11 15:56:51 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
 #
 # Loading Linux kernels works and has been tested.
+
+.include <mirports.sys.mk>
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
@@ -27,6 +29,9 @@ NO_REGRESS=		Yes
 
 CONFIGURE_ARGS+=	--enable-diskless
 CFLAGS+=		-fno-stack-protector
+.if ${_CC_IS_GCC:M3.4*}
+CFLAGS+=		-ftrampolines
+.endif
 MAKE_FLAGS=		MAKEINFO="makeinfo --no-split"
 
 FILES=			stage1/stage1 stage2/e2fs_stage1_5 \
