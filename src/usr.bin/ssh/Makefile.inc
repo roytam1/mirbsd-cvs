@@ -1,5 +1,8 @@
-# $MirOS$
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.2 2005/03/13 18:33:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.29 2004/06/21 18:34:51 avsm Exp $
+
+.ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
+_MODSRC_USR_BIN_SSH_MAKEFILE_INC=1
 
 CPPFLAGS+=	-I${.CURDIR}/..
 
@@ -30,4 +33,6 @@ DPADD+=         ${.CURDIR}/../lib/libssh.a
 
 .if exists(../Makefile.inc)
 .  include "../Makefile.inc"
+.endif
+
 .endif
