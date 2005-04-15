@@ -1,8 +1,8 @@
 #!/bin/ksh
-# $MirOS$
+# $MirOS: src/etc/rc,v 1.2 2005/03/06 19:05:54 tg Exp $
 # $OpenBSD: rc,v 1.258 2004/10/22 00:59:09 itojun Exp $
 #-
-# Copyright (c) 2003, 2004
+# Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -18,7 +18,7 @@
 # licious intent or gross negligence; in no event shall licensor, an
 # author or contributor be held liable for any damage, direct, indi-
 # rect or other, however caused, arising in any way out of the usage
-# of covered work, even if advised of the possibility of such damage.
+# of this work, even if advised of the possibility of such damage.
 #-
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console
@@ -187,6 +187,8 @@ if [[ -n $softdrives_ide ]]; then
 				;;	# Already done
 			*)
 				echo -n " $drv"
+				/sbin/atactl /dev/r${drv}c secfreeze \
+				    >/dev/null 2>&1
 				/sbin/atactl /dev/r${drv}c writecachedisable \
 				    >/dev/null 2>&1 || echo -n !
 				_flags="$_flags $drv"
