@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_sk.c,v 1.39 2004/04/09 21:52:17 henning Exp $	*/
 
 /*
@@ -1778,8 +1779,10 @@ sk_rxcsum(struct ifnet *ifp, struct mbuf *m, const u_int16_t csum1, const u_int1
 		ipd_csum = csum2;
 
 	if (iph_csum != 0xffff) {
+#if NBPFILTER > 0
 		if (ifp->if_bpf)
 			bpf_mtap(ifp->if_bpf, m);
+#endif
 		return;
 	}
 	m->m_pkthdr.csum |= M_IPV4_CSUM_IN_OK;
