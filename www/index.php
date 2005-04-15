@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.7 2005/04/13 09:07:17 tg Exp $ */
+/* $MirOS: www/index.php,v 1.8 2005/04/13 21:51:34 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -65,6 +65,26 @@
    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   </script>
  </div>
+ <form method="get" action="http://www.google.com/custom">
+  <table style="margin-left:6px;">
+   <tr><td valign="top" align="left" colspan="2">
+    <input type="text" name="q" size="24" maxlength="255" value="" />
+    <input type="hidden" name="client" value="pub-0266998858986985" />
+    <input type="hidden" name="forid" value="1" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="hidden" name="oe" value="UTF-8" />
+    <input type="hidden" name="cof" value="GALT:#FFAA00;GL:1;DIV:#0033FF;VLC:FFAA00;AH:center;BGC:000000;LBGC:333333;ALC:FFFFFF;LC:FFFFFF;T:CCCCCC;GFNT:8888DD;GIMP:33FF33;LH:92;LW:98;L:http://mirbsd.mirsolutions.de/pics/logosmw.png;S:http://mirbsd.org/;LP:1;FORID:1;" />
+    <input type="hidden" name="safe" value="off" />
+    <input type="hidden" name="num" value="100" />
+   </td></tr>
+   <tr><td valign="top" align="left"><a
+    href="http://www.google.com/"><img style="border:0px;"
+    src="http://www.google.com/logos/Logo_25blk.gif" alt="Google" /></a>
+   </td><td valign="middle" align="right">
+    <input type="submit" name="sa" value="Search" />
+   </td></tr>
+  </table>
+ </form>
 </div>
 <div class="content">
  <?php
