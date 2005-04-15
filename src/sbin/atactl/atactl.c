@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sbin/atactl/atactl.c,v 1.2 2005/03/06 19:49:48 tg Exp $	*/
 /*	$OpenBSD: atactl.c,v 1.33 2004/02/19 21:22:07 grange Exp $	*/
 /*	$NetBSD: atactl.c,v 1.4 1999/02/24 18:49:14 jwise Exp $	*/
 
@@ -61,6 +61,8 @@
 
 #include "atasec.h"
 #include "atasmart.h"
+
+__RCSID("$MirOS$");
 
 struct command {
 	const char *cmd_name;
@@ -321,6 +323,17 @@ struct valinfo ibm_attr_names[] = {
 	{ 198, "Off-line Scan Uncorrectable Sector Count" },
 	{ 199, "Ultra DMA CRC Error Count" },
 	{ 0, NULL },
+};
+
+struct bitinfo ata_sec_st[] = {
+	{ WDC_SEC_SUPP,		"supported" },
+	{ WDC_SEC_EN,		"enabled" },
+	{ WDC_SEC_LOCKED,	"locked" },
+	{ WDC_SEC_FROZEN,	"frozen" },
+	{ WDC_SEC_EXP,		"expired" },
+	{ WDC_SEC_ESE_SUPP,	"enhanced erase support" },
+	{ WDC_SEC_LEV_MAX,	"maximum level" },
+	{ 0,			NULL },
 };
 
 #define MAKEWORD(b1, b2) \
@@ -835,11 +848,16 @@ device_identify(int argc, char *argv[])
 		printf("\n");
 	}
 
+	if ((inqbuf->atap_cmd_set1 & WDC_CMD1_SEC) || (inqbuf->atap_sec_st))
+		printf("Device security status:\n");
+
 	if ((inqbuf->atap_cmd_set1 & WDC_CMD1_SEC) &&
 	    inqbuf->atap_mpasswd_rev != 0 &&
 	    inqbuf->atap_mpasswd_rev != 0xffff)
-		printf("Master password revision code 0x%04x\n",
+		printf("\tMaster password revision code 0x%04x\n",
 		    inqbuf->atap_mpasswd_rev);
+
+	print_bitinfo("\t%s\n", inqbuf->atap_sec_st, ata_sec_st);
 
 	if (inqbuf->atap_cmd_set1 != 0 && inqbuf->atap_cmd_set1 != 0xffff &&
 	    inqbuf->atap_cmd_set2 != 0 && inqbuf->atap_cmd_set2 != 0xffff) {
