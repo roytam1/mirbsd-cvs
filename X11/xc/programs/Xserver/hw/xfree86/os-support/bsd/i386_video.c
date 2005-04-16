@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/os-support/bsd/i386_video.c,v 1.6 2004/03/21 11:27:06 herrb Exp $ */
 /*
  * Copyright 1992 by Rich Murphey <Rich@Rice.edu>
@@ -970,7 +969,6 @@ amd64undoWC(int screenNum, pointer list)
 }
 #endif /* OpenBSD/amd64 */
 
-#ifdef X_PRIVSEP
 /*
  * Do all things that need root privileges early 
  * and revoke those privileges 
@@ -983,4 +981,3 @@ xf86PrivilegedInit(void)
 	xf86OpenConsole();
 	xf86AgpGARTSupported();
 }
-#endif
