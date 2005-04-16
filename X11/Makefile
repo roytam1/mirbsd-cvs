@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.13 2005/04/16 03:45:57 tg Exp $
+# $MirOS: X11/Makefile,v 1.14 2005/04/16 03:49:22 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -65,11 +65,6 @@ compile:
 	cd xc && exec ${MAKE} World \
 	    WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} COPTS=${COPTS:Q}" \
 	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}"
-	# We cannot yet auto-generate this manpage correctly
-	cd xc/doc/man/GL/gl && if [ -e glMultMatrix._man ]; then \
-		neqn <glMultMatrix._man | tbl | nrcon -e -Tcrt -man \
-		    >glMultMatrix.0.fixed; \
-	fi
 	cd ${.CURDIR}/extras && ${MAKE} depend && exec ${MAKE}
 
 install:
@@ -81,11 +76,6 @@ install:
 
 do-install:
 	cd xc && ${MAKE} install CC="${CC}" && exec ${MAKE} install.man
-	# Install fixed copy of manual page
-	cd xc/doc/man/GL/gl && if [ -e glMultMatrix.0.fixed ]; then \
-		/usr/bin/install -c -m 0444 glMultMatrix.0.fixed \
-		    /usr/X11R6/man/cat3/glMultMatrix.0; \
-	fi
 	cd xc/programs/rstart && ${MAKE} install CC="${CC}" \
 	    && exec ${MAKE} install.man
 	cd ${.CURDIR}/extras && exec ${MAKE} install

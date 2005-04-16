@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/share/tmac/tab/tabcol.c,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -90,8 +90,13 @@ struct {
 /*twinit*/	"",		/* invoke elite */
 /*twrest*/	"",		/* reset printer to defaults */
 /*twnl*/	"\n",
+#if 0
 /*hlr*/		"\033\012",	/* half line forward (???) */
 /*hlf*/		"\033\013",	/* half line reverse (???) */
+#else
+/*hlr*/		"",
+/*hlf*/		"",
+#endif
 /*flr*/		"\013",		/* full line reverse (???) */
 #if 0
 /*bdon*/	"\016",		/* Alternate chars.  '\fB' to invoke */
