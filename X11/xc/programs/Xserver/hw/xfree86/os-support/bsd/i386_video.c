@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/os-support/bsd/i386_video.c,v 1.6 2004/03/21 11:27:06 herrb Exp $ */
 /*
  * Copyright 1992 by Rich Murphey <Rich@Rice.edu>
@@ -343,8 +344,11 @@ xf86DisableIO()
 	if (!ExtendedEnabled)
 		return;
 
-	i386_iopl(FALSE);
-	ExtendedEnabled = FALSE;
+	if (i386_iopl(FALSE) == 0)
+		ExtendedEnabled = FALSE;
+
+	/* Otherwise, the X server has revoked its root uid
+	   and thus cannot give up I/O privilegues any more */
 
 	return;
 }
@@ -966,6 +970,7 @@ amd64undoWC(int screenNum, pointer list)
 }
 #endif /* OpenBSD/amd64 */
 
+#ifdef X_PRIVSEP
 /*
  * Do all things that need root privileges early 
  * and revoke those privileges 
@@ -978,3 +983,4 @@ xf86PrivilegedInit(void)
 	xf86OpenConsole();
 	xf86AgpGARTSupported();
 }
+#endif
