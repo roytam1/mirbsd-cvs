@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.15 2005/04/16 04:18:38 tg Exp $
+# $MirOS: X11/Makefile,v 1.16 2005/04/16 17:32:15 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -63,9 +63,9 @@ compile:
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
 	echo "#define BuildFonts		NO" >>${CONFHOSTDEF}
 .endif
-	cd xc && exec ${MAKE} World \
-	    WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} COPTS=${COPTS:Q}" \
-	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}"
+	cd xc && exec ${MAKE} World WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} \
+	    COPTS=${COPTS:Q} CPPFLAGS=${CPPFLAGS:Q}" \
+	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}" CPPFLAGS="${CPPFLAGS}"
 	cd ${.CURDIR}/extras && ${MAKE} depend && exec ${MAKE}
 
 install:
