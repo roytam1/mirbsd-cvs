@@ -424,6 +424,9 @@ TRANS(Open) (int type, char *address)
     XtransConnInfo	ciptr = NULL;
     Xtransport		*thistrans;
 
+    /* XXX */
+    fprintf(stderr, "_X11TransOpen(%s)\n", address);
+
     PRMSG (2,"Open(%d,%s)\n", type, address, 0);
 
 #if defined(WIN32) && (defined(TCPCONN) || defined(DNETCONN))
