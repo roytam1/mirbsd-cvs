@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.14 2005/04/16 03:49:22 tg Exp $
+# $MirOS: X11/Makefile,v 1.15 2005/04/16 04:18:38 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -24,6 +24,7 @@ SUBDIR=		extras
 .  include <bsd.subdir.mk>
 .endif
 
+.MAIN: all
 all: ${_STFILE_SUB}
 	cd ${.CURDIR} && exec ${_STCMD_SUB} ${MAKE} compile
 
