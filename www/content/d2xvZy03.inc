@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.47 2005/04/14 18:59:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.48 2005/04/14 22:26:27 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2775,4 +2775,17 @@
  (wanna bet I didn't break anything?). OpenSSH got updated too, a few more
  experimental diffs entered the kernel, and netinet6 was updated in total.
  ports/sysutils/pxegrub builds again.</p>
+<p>15.04.2005 by tg@<br />Dang! Instead of going to bed, I seemingly chose
+ to go into the Netzladen and help Kabelaffe to get MirOS on "xTerm", some
+ really weird touchscreen machinery of his. I cannot fix the touchscreen's
+ driver though, it doesn't speak serial so it's a kernel leven thing. Also
+ we've got a Google search now (please click the ads *hint* *hint* ;-) and
+ I've rebuilt my entire system (and synched the lists). terminfo(5) is now
+ correctly installed (it was pregenerated on some OpenBSD system, I should
+ probably re-do it with a natively built GNU groff, if I had one), but the
+ htman sets still don't build (so no dist set sync) due to vgrind being in
+ csh. I've also fixed the <tt>N'34'</tt> error of XFree86&reg;'s man pages
+ (which is actually a GNU groff extension, but can be taken care of by our
+ nrcon -8 or the new -e option if you don't need an 8-bit pass-through); I
+ have changed X to build its man pages using nrcon -e now.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
