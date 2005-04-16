@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.7 2003/06/02 23:27:47 millert Exp $	*/
 /*	$NetBSD: asm.h,v 1.7 1994/10/27 04:15:56 cgd Exp $	*/
 
@@ -73,7 +73,7 @@
  * WARN_REFERENCES: create a warning if the specified symbol is referenced
  */
 #define WARN_REFERENCES(_sym,_msg)	\
-	.section .gnu.warning. ## _sym ; .ascii _msg ; .text
+	.section .gnu.warning.##_sym ;.ascii _msg ;.previous
 
 /* let kernels and others override entrypoint alignment */
 #ifndef _ALIGN_TEXT
