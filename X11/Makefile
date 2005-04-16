@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.12 2005/03/29 00:12:15 tg Exp $
+# $MirOS: X11/Makefile,v 1.13 2005/04/16 03:45:57 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -67,7 +67,7 @@ compile:
 	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}"
 	# We cannot yet auto-generate this manpage correctly
 	cd xc/doc/man/GL/gl && if [ -e glMultMatrix._man ]; then \
-		neqn <glMultMatrix._man | tbl | nroff -man \
+		neqn <glMultMatrix._man | tbl | nrcon -e -Tcrt -man \
 		    >glMultMatrix.0.fixed; \
 	fi
 	cd ${.CURDIR}/extras && ${MAKE} depend && exec ${MAKE}
