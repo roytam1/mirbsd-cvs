@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.10 2005/04/10 20:31:37 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.11 2005/04/16 20:16:43 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -78,7 +78,7 @@ LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
 .c.so .m.so:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
 	    "${PICFLAG} -DPIC ${.IMPSRC} -o $@"
-	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} 
+	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${PICFLAG} -DPIC ${.IMPSRC} -o $@.o
 	@${LD} -x -r $@.o -o $@
 	@rm -f $@.o
