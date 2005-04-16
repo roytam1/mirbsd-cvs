@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.5 2005/03/27 22:31:25 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.6 2005/03/28 20:50:25 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -219,7 +219,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
  * Documentation formatting
  */
 #define	NeqnCmd			neqn
-#define	NroffCmd		nrcon
+#define	NroffCmd		nrcon -e
 #define	Nroff8Cmd		nrcon -8
 #define	EqnCmd 			eqn -Tps
 #define	HasGroff		NO
@@ -280,8 +280,8 @@ install.man:: 								@@\
 	for i in list; do \                                             @@\
 	(MNAME=`echo $$i | cut -f1 -d.`; \				@@\
 	set -x; \							@@\
-	cat $$i | $(NEQN) | $(TBL) | $(NROFF) $(MANMACROS) \		@@\
-		| $(COL) > $${MNAME}.0; \				@@\
+	cat $$i | $(NEQN) | $(TBL) | \					@@\
+		$(NROFF) $(MANMACROS) | $(COL) > $${MNAME}.0; \		@@\
 	$(INSTALL) -c $(INSTMANFLAGS) $${MNAME}.0 \			@@\
 			$(DESTDIR)dest/$${MNAME}.0; \			@@\
 	$(RM) $${MNAME}.0); \						@@\
@@ -293,8 +293,8 @@ install.man:: 								@@\
 	case '${MFLAGS}' in *[i]*) set +e;; esac; \			@@\
 	for i in list; do \                                             @@\
 	(set -x; \							@@\
-	cat $$i.suff | $(NEQN) | $(TBL) | $(NROFF) $(MANMACROS) \	@@\
-		| $(COL) > $$i.0; \					@@\
+	cat $$i.suff | $(NEQN) | $(TBL) | \				@@\
+		$(NROFF) $(MANMACROS) | $(COL) > $$i.0; \		@@\
 	$(INSTALL) -c $(INSTMANFLAGS) $$i.0	\			@@\
 		$(DESTDIR)dest/$$i.0; \					@@\
 	$(RM) $$i.0 ); \						@@\
