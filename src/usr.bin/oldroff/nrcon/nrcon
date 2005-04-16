@@ -1,7 +1,7 @@
 #!/bin/ksh
 # $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
-# Copyright (c) 2003, 2004
+# Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -10,6 +10,10 @@
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
+#
+# All advertising materials mentioning features or use of this soft-
+# ware must display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
 #
 # Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 # any kind, expressed or implied, to the maximum extent permitted by
@@ -22,7 +26,12 @@
 # Feed everything (stdin, parametres) to nroff -Tcol (though that could
 # be overridden...) and its output to col(1).
 
-if [[ $1 = -8 ]]; then
+if [[ $1 = -8 || $1 = -e ]]; then
+	if [[ $1 = -8 ]]; then
+		c=
+	else
+		c=-7
+	fi
 	shift
 	F=
 	P=
@@ -36,7 +45,7 @@ if [[ $1 = -8 ]]; then
 	done
 	# no useless use of cat!
 	cat $F \
-	    | /usr/libexec/nr8pre \
+	    | /usr/libexec/nr8pre $c \
 	    | /usr/bin/nroff -Tcol $P | /usr/bin/col \
 	    | /usr/libexec/nr8post
 else
