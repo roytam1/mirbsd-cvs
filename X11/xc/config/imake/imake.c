@@ -1,3 +1,4 @@
+/* $MirOS$ */
 
 /***************************************************************************
  *                                                                         *
@@ -1028,21 +1029,21 @@ get_libc_version(FILE *inFile)
 }
 #endif
 
-#if defined(__OpenBSD__) 
+#if defined(__OpenBSD__)
 static void
 get_stackprotector(FILE *inFile)
 {
   FILE *fp;
   char *cc;
   char command[1024], buf[1024];
-  
+
   cc = getenv("CC");
   if (cc == NULL) {
-    cc = "cc";
+    cc = DEFAULT_CC;
   }
   snprintf(command, sizeof(command), "%s -v 2>&1", cc);
   fp = popen(command, "r");
-  if (fp == NULL) 
+  if (fp == NULL)
     abort();
   while (fgets(buf, sizeof(buf), fp)) {
     if (strstr(buf, "propolice") != NULL) {
@@ -1050,11 +1051,11 @@ get_stackprotector(FILE *inFile)
       break;
     }
   }
-  if (pclose(fp)) 
+  if (pclose(fp))
     abort();
 }
 #endif
-	
+
 
 #if defined CROSSCOMPILE || defined linux
 static void
