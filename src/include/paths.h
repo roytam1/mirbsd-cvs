@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: paths.h,v 1.21 2004/04/13 17:04:49 millert Exp $	*/
 /*	$NetBSD: paths.h,v 1.7 1994/10/26 00:56:12 cgd Exp $	*/
 
@@ -42,7 +43,6 @@
 
 #define	_PATH_BSHELL	"/bin/sh"
 #define	_PATH_CONSOLE	"/dev/console"
-#define	_PATH_CSHELL	"/bin/csh"
 #define	_PATH_DEFTAPE	"/dev/rst0"
 #define	_PATH_DEVDB	"/var/run/dev.db"
 #define	_PATH_DEVNULL	"/dev/null"

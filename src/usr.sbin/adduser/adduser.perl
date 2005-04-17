@@ -96,11 +96,11 @@ sub variables {
     # List of directories where shells located
     @path = ('/bin', '/usr/bin', '/usr/local/bin');
     # common shells, first element has higher priority
-    @shellpref = ('csh', 'sh', 'bash', 'tcsh', 'ksh');
+    @shellpref = ('ksh', 'csh', 'sh', 'bash', 'tcsh');
 
     @encryption_methods = ('auto', 'blowfish', 'md5', 'des', 'old');
 
-    $defaultshell = 'sh';	# defaultshell if not empty
+    $defaultshell = 'ksh';	# defaultshell if not empty
     $group_uniq = 'USER';
     $defaultgroup = $group_uniq;# login groupname, $group_uniq means username
     $defaultclass = 'default';  # default user login class

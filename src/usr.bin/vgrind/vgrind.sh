@@ -1,3 +1,9 @@
+#!/bin/ksh
+
+print -u2 warning: rewrite $0 in ksh please
+
+exec cat "$@" 2>/dev/null
+
 #!/bin/csh -f
 #
 #	$OpenBSD: vgrind.sh,v 1.4 2003/06/03 02:56:21 millert Exp $
