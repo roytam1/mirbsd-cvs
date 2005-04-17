@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/time/taitime.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -29,7 +29,7 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $");
 
 static __inline tai64_t *_tai_leaps(void);
 
@@ -109,7 +109,7 @@ utc2tai(int64_t u)
 	tai64_t t = u + __TAI64_BIAS;
 	tai64_t *s = _tai_leaps();
 
-	if (__predict_false(s < 0))
+	if (__predict_false(u < 0))
 		return t;
 
 	while (__predict_true((*s) && (t >= *s))) {
