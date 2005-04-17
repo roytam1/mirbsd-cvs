@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.2 2005/03/06 21:28:33 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.3 2005/03/12 18:27:29 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.13 2004/01/28 03:33:29 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -193,7 +193,7 @@
 
 #ifdef lint
 #define	__IDSTRING(prefix, string)				\
-	static const char __ ## prefix [] = (string)
+	static const char __LINTED__ ## prefix [] = (string)
 #elif defined(__ELF__) && defined(__GNUC__)
 #define	__IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
