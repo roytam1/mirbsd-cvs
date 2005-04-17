@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.8 2005/03/28 15:10:15 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.9 2005/03/29 22:31:19 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -58,6 +58,8 @@ XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		HOST_CC="${HOSTCC}" HOST_CFLAGS="${HOSTCFLAGS}" \
 		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB" \
 		LIBGCC2_DEBUG_CFLAGS="${FSFCFLAGS}" MAKEINFOFLAGS=--no-split
+
+CFVARS+=	gcc_cv_as_ix86_gotoff_in_data=no
 
 CFARGS+=	--prefix=/usr --libexecdir=/usr/lib --infodir=/usr/share/info \
 		--mandir=/usr/share/man --disable-generated-files-in-srcdir \
