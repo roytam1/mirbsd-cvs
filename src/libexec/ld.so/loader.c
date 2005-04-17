@@ -1,4 +1,4 @@
-/*	$OpenBSD: loader.c,v 1.83 2004/08/11 17:13:10 pefo Exp $ */
+/*	$OpenBSD: loader.c,v 1.85 2005/04/06 00:16:53 deraadt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB

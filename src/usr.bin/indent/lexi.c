@@ -1,4 +1,4 @@
-/*	$OpenBSD: lexi.c,v 1.10 2003/09/26 22:23:28 tedu Exp $	*/
+/*	$OpenBSD: lexi.c,v 1.12 2005/03/06 14:34:25 millert Exp $	*/
 
 /*
  * Copyright (c) 1980, 1993
@@ -34,7 +34,7 @@
 
 #ifndef lint
 /*static char sccsid[] = "@(#)lexi.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: lexi.c,v 1.10 2003/09/26 22:23:28 tedu Exp $";
+static char rcsid[] = "$OpenBSD: lexi.c,v 1.12 2005/03/06 14:34:25 millert Exp $";
 #endif /* not lint */
 
 /*
@@ -120,7 +120,7 @@ char        chartype[128] =
 
 
 int
-lexi()
+lexi(void)
 {
     int         unary_delim;	/* this is set to 1 if the current token
 				 * forces a following operator to be unary */
@@ -562,19 +562,15 @@ stop_lit:
  * Add the given keyword to the keyword table, using val as the keyword type
  */
 void
-addkey(key, val)
-    char       *key;
-    int		val;
+addkey(char *key, int val)
 {
     struct templ *p;
-    int i = 0;
+    int i;
 
-    while (i < nspecials) {
+    for (i = 0; i < nspecials; i++) {
 	p = &specials[i];
 	if (p->rwd[0] == key[0] && strcmp(p->rwd, key) == 0)
 	    return;
-	else
-	    i++;
     }
 
     if (specials == specialsinit) {
@@ -582,14 +578,13 @@ addkey(key, val)
 	 * Whoa. Must reallocate special table.
 	 */
 	nspecials = sizeof (specialsinit) / sizeof (specialsinit[0]);
-	maxspecials = nspecials;
-	maxspecials += maxspecials >> 2;
+	maxspecials = nspecials + (nspecials >> 2);
 	specials = (struct templ *)malloc(maxspecials * sizeof specials[0]);
 	if (specials == NULL)
 	    err(1, NULL);
-	memmove(specials, specialsinit, sizeof specialsinit);
+	memcpy(specials, specialsinit, sizeof specialsinit);
     } else if (nspecials >= maxspecials) {
-	int newspecials = maxspecials + maxspecials >> 2;
+	int newspecials = maxspecials + (maxspecials >> 2);
 	struct templ *specials2;
 
 	specials2 = realloc(specials, newspecials * sizeof specials[0]);
@@ -599,7 +594,7 @@ addkey(key, val)
 	maxspecials = newspecials;
     }
 
-    p = &specials[i];
+    p = &specials[nspecials];
     p->rwd = key;
     p->rwcode = val;
     nspecials++;

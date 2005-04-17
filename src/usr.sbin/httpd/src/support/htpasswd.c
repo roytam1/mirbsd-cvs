@@ -96,6 +96,8 @@
 #define ALG_CRYPT 1
 #define ALG_APMD5 2
 #define ALG_APSHA 3 
+#define ALG_APBLF 4
+
 
 #define ERR_FILEPERM 1
 #define ERR_SYNTAX 2
@@ -165,7 +167,7 @@ static int mkrecord(char *user, char *record, size_t rlen, char *passwd,
     char cpw[120];
     char pwin[MAX_STRING_LEN];
     char pwv[MAX_STRING_LEN];
-    char salt[9];
+    char salt[33];
 
     if (passwd != NULL) {
 	pw = passwd;
@@ -205,11 +207,15 @@ static int mkrecord(char *user, char *record, size_t rlen, char *passwd,
 	break;
 
     case ALG_CRYPT:
-    default:
         ap_to64(&salt[0], arc4random(), 8);
         salt[8] = '\0';
 
 	ap_cpystrn(cpw, (char *)crypt(pw, salt), sizeof(cpw) - 1);
+	break;
+    case ALG_APBLF:
+    default:
+	strlcpy(salt, bcrypt_gensalt(6), sizeof(salt));
+	strlcpy(cpw, (char *)crypt(pw, salt), sizeof(cpw));
 	break;
     }
     memset(pw, '\0', strlen(pw));
@@ -228,13 +234,14 @@ static int mkrecord(char *user, char *record, size_t rlen, char *passwd,
 
 static int usage(void)
 {
-    fprintf(stderr, "Usage:\thtpasswd [-c] [-d | -m | -p | -s] passwordfile username\n");
-    fprintf(stderr, "\thtpasswd -b [-c] [-d | -m | -p | -s] passwordfile username password\n");
-    fprintf(stderr, "\thtpasswd -n [-d | -m | -p | -s] username\n");
-    fprintf(stderr, "\thtpasswd -bn [-d | -m | -p | -s] username password\n");
+    fprintf(stderr, "Usage:\thtpasswd [-c] [-d | -l | -m | -p | -s ] passwordfile username\n");
+    fprintf(stderr, "\thtpasswd -b [-c] [-d | -l | -m | -p | -s] passwordfile username password\n");
+    fprintf(stderr, "\thtpasswd -n [-d | -l | -m | -p | -s] username\n");
+    fprintf(stderr, "\thtpasswd -bn [-d | -l | -m | -p | -s] username password\n");
     fprintf(stderr, " -b  Use the password from the command line rather than prompting for it.\n");
     fprintf(stderr, " -c  Create a new file.\n");
-    fprintf(stderr, " -d  Force CRYPT encryption of the password (default).\n");
+    fprintf(stderr, " -l  Force Blowfish-based CRYPT encryption of the password(default).\n");
+    fprintf(stderr, " -d  Force DES-based CRYPT encryption of the password.\n");
     fprintf(stderr, " -m  Force MD5 encryption of the password.\n");
     fprintf(stderr, " -n  Don't update file; display results on stdout.\n");
     fprintf(stderr, " -p  Do not encrypt the password (plaintext).\n");
@@ -323,14 +330,15 @@ int main(int argc, char *argv[])
     char pwfilename[MAX_STRING_LEN];
     char *arg;
     int found = 0;
-    int alg = ALG_CRYPT;
+    int alg = ALG_APBLF;
     int newfile = 0;
     int nofile = 0;
     int noninteractive = 0;
     int i;
     int args_left = 2;
     int tfd;
-
+    int ch;
+    
     signal(SIGINT, (void (*)(int)) interrupted);
 
     /*
@@ -346,47 +354,49 @@ int main(int argc, char *argv[])
      * Go through the argument list and pick out any options.  They
      * have to precede any other arguments.
      */
-    for (i = 1; i < argc; i++) {
-	arg = argv[i];
-	if (*arg != '-') {
-	    break;
-	}
-	while (*++arg != '\0') {
-	    if (*arg == 'c') {
-		newfile++;
+    while ((ch = getopt(argc, argv, "bcdlnmsp")) != -1) {
+	    switch (ch) {
+	    case 'b':
+		    noninteractive++;
+		    args_left++;
+		    break;
+	    case 'c':
+		    newfile++;
+		    break;
+	    case 'd':
+		    alg = ALG_CRYPT;
+		    break;
+	    case 'l':
+		    alg = ALG_APBLF;
+		    break;
+	    case 'n':
+		    nofile++;
+		    args_left--;
+		    break;
+	    case 'm':
+		    alg = ALG_APMD5;
+		    break;
+	    case 's':
+		    alg = ALG_APSHA;
+		    break;
+	    case 'p':
+		    alg = ALG_PLAIN;
+		    break;
+	    default:
+		    usage();
 	    }
-	    else if (*arg == 'n') {
-		nofile++;
-		args_left--;
-	    }
-	    else if (*arg == 'm') {
-		alg = ALG_APMD5;
-	    }
-	    else if (*arg == 's') {
-		alg = ALG_APSHA;
-	    }
-	    else if (*arg == 'p') {
-		alg = ALG_PLAIN;
-	    }
-	    else if (*arg == 'd') {
-		alg = ALG_CRYPT;
-	    }
-	    else if (*arg == 'b') {
-		noninteractive++;
-		args_left++;
-	    }
-	    else {
-		return usage();
-	    }
-	}
     }
+    argc -= optind;
+    argv += optind;
 
+    i = argc - args_left;
+    
     /*
      * Make sure we still have exactly the right number of arguments left
      * (the filename, the username, and possibly the password if -b was
      * specified).
      */
-    if ((argc - i) != args_left) {
+    if (argc != args_left) {
 	return usage();
     }
     if (newfile && nofile) {

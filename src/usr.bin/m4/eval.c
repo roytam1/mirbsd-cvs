@@ -1,4 +1,4 @@
-/*	$OpenBSD: eval.c,v 1.51 2003/11/17 17:12:10 espie Exp $	*/
+/*	$OpenBSD: eval.c,v 1.55 2005/03/02 10:12:15 espie Exp $	*/
 /*	$NetBSD: eval.c,v 1.7 1996/11/10 21:21:29 pk Exp $	*/
 
 /*
@@ -37,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)eval.c	8.2 (Berkeley) 4/27/95";
 #else
-static char rcsid[] = "$OpenBSD: eval.c,v 1.51 2003/11/17 17:12:10 espie Exp $";
+static char rcsid[] = "$OpenBSD: eval.c,v 1.55 2005/03/02 10:12:15 espie Exp $";
 #endif
 #endif /* not lint */
 
@@ -72,6 +72,7 @@ static void	gnu_dochq(const char *[], int);
 static void	dochq(const char *[], int);
 static void	gnu_dochc(const char *[], int);
 static void	dochc(const char *[], int);
+static void	dom4wrap(const char *);
 static void	dodiv(int);
 static void	doundiv(const char *[], int);
 static void	dosub(const char *[], int);
@@ -230,8 +231,10 @@ expand_builtin(const char *argv[], int argc, int td)
 	/*
 	 * dosys - execute system command
 	 */
-		if (argc > 2)
+		if (argc > 2) {
+			fflush(stdout);
 			sysval = system(argv[2]);
+		}
 		break;
 
 	case SYSVTYPE:
@@ -432,7 +435,8 @@ expand_builtin(const char *argv[], int argc, int td)
 	 * dom4wrap - set up for
 	 * wrap-up/wind-down activity
 	 */
-		m4wraps = (argc > 2) ? xstrdup(argv[2]) : null;
+		if (argc > 2)
+			dom4wrap(argv[2]);
 		break;
 
 	case EXITTYPE:
@@ -579,7 +583,6 @@ static void
 dodefn(const char *name)
 {
 	struct macro_definition *p;
-	char *real;
 
 	if ((p = lookup_macro_definition(name)) != NULL) {
 		if ((p->type & TYPEMASK) == MACRTYPE) {
@@ -615,6 +618,8 @@ dopushdef(const char *name, const char *defn)
 static void
 dump_one_def(const char *name, struct macro_definition *p)
 {
+	if (!traceout)
+		traceout = stderr;
 	if (mimic_gnu) {
 		if ((p->type & TYPEMASK) == MACRTYPE)
 			fprintf(traceout, "%s:\t%s\n", name, p->defn);
@@ -800,6 +805,23 @@ dochc(const char *argv[], int argc)
 		scommt[0] = SCOMMT, scommt[1] = EOS;
 		ecommt[0] = ECOMMT, ecommt[1] = EOS;
 	}
+}
+
+/*
+ * dom4wrap - expand text at EOF
+ */
+static void
+dom4wrap(const char *text)
+{
+	if (wrapindex >= maxwraps) {
+		if (maxwraps == 0)
+			maxwraps = 16;
+		else
+			maxwraps *= 2;
+		m4wraps = xrealloc(m4wraps, maxwraps * sizeof(*m4wraps),
+		   "too many m4wraps");
+	}
+	m4wraps[wrapindex++] = xstrdup(text);
 }
 
 /*

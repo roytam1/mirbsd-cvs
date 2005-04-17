@@ -1,4 +1,4 @@
-/*	$OpenBSD: errwarn.c,v 1.2 2004/09/16 18:35:43 deraadt Exp $	*/
+/*	$OpenBSD: errwarn.c,v 1.5 2005/04/11 19:59:07 deraadt Exp $	*/
 
 /* Errors and warnings... */
 
@@ -40,6 +40,9 @@
  * with Vixie Laboratories.
  */
 
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
 #include <errno.h>
 
 #include "dhcpd.h"
@@ -65,21 +68,19 @@ error(char *fmt, ...)
 	vsnprintf(mbuf, sizeof(mbuf), fbuf, list);
 	va_end(list);
 
-#ifndef DEBUG
-	syslog(log_priority | LOG_ERR, "%s", mbuf);
-#endif
-
 	/* Also log it to stderr? */
 	if (log_perror) {
-		write(2, mbuf, strlen(mbuf));
-		write(2, "\n", 1);
-	}
+		write(STDERR_FILENO, mbuf, strlen(mbuf));
+		write(STDERR_FILENO, "\n", 1);
+	} else
+		syslog(log_priority | LOG_ERR, "%s", mbuf);
 
-	syslog(LOG_CRIT, "exiting.");
 	if (log_perror) {
 		fprintf(stderr, "exiting.\n");
 		fflush(stderr);
-	}
+	} else
+		syslog(LOG_CRIT, "exiting.");
+
 	exit(1);
 }
 
@@ -97,14 +98,11 @@ warning(char *fmt, ...)
 	vsnprintf(mbuf, sizeof(mbuf), fbuf, list);
 	va_end(list);
 
-#ifndef DEBUG
-	syslog(log_priority | LOG_ERR, "%s", mbuf);
-#endif
-
 	if (log_perror) {
-		write(2, mbuf, strlen(mbuf));
-		write(2, "\n", 1);
-	}
+		write(STDERR_FILENO, mbuf, strlen(mbuf));
+		write(STDERR_FILENO, "\n", 1);
+	} else
+		syslog(log_priority | LOG_ERR, "%s", mbuf);
 
 	return (0);
 }
@@ -123,14 +121,11 @@ note(char *fmt, ...)
 	vsnprintf(mbuf, sizeof(mbuf), fbuf, list);
 	va_end(list);
 
-#ifndef DEBUG
-	syslog(log_priority | LOG_INFO, "%s", mbuf);
-#endif
-
 	if (log_perror) {
-		write(2, mbuf, strlen(mbuf));
-		write(2, "\n", 1);
-	}
+		write(STDERR_FILENO, mbuf, strlen(mbuf));
+		write(STDERR_FILENO, "\n", 1);
+	} else
+		syslog(log_priority | LOG_INFO, "%s", mbuf);
 
 	return (0);
 }
@@ -149,14 +144,11 @@ debug(char *fmt, ...)
 	vsnprintf(mbuf, sizeof(mbuf), fbuf, list);
 	va_end(list);
 
-#ifndef DEBUG
-	syslog(log_priority | LOG_DEBUG, "%s", mbuf);
-#endif
-
 	if (log_perror) {
-		write(2, mbuf, strlen(mbuf));
-		write(2, "\n", 1);
-	}
+		write(STDERR_FILENO, mbuf, strlen(mbuf));
+		write(STDERR_FILENO, "\n", 1);
+	} else
+		syslog(log_priority | LOG_DEBUG, "%s", mbuf);
 
 	return (0);
 }
@@ -204,6 +196,7 @@ parse_warn(char *fmt, ...)
 	static char spaces[] =
 	    "                                        "
 	    "                                        "; /* 80 spaces */
+	struct iovec iov[6];
 
 	do_percentm(mbuf, sizeof(mbuf), fmt);
 	snprintf(fbuf, sizeof(fbuf), "%s line %d: %s", tlname, lexline, mbuf);
@@ -211,21 +204,26 @@ parse_warn(char *fmt, ...)
 	vsnprintf(mbuf, sizeof(mbuf), fbuf, list);
 	va_end(list);
 
-#ifndef DEBUG
-	syslog(log_priority | LOG_ERR, "%s", mbuf);
-	syslog(log_priority | LOG_ERR, "%s", token_line);
-	if (lexline < 81)
-		syslog(log_priority | LOG_ERR,
-		    "%s^", &spaces[sizeof(spaces) - lexchar]);
-#endif
-
 	if (log_perror) {
-		write(2, mbuf, strlen(mbuf));
-		write(2, "\n", 1);
-		write(2, token_line, strlen(token_line));
-		write(2, "\n", 1);
-		write(2, spaces, lexchar - 1);
-		write(2, "^\n", 2);
+		iov[0].iov_base = mbuf;
+		iov[0].iov_len = strlen(mbuf);
+		iov[1].iov_base = "\n";
+		iov[1].iov_len = 1;
+		iov[2].iov_base = token_line;
+		iov[2].iov_len = strlen(token_line);
+		iov[3].iov_base = "\n";
+		iov[3].iov_len = 1;
+		iov[4].iov_base = spaces;
+		iov[4].iov_len = lexchar - 1;
+		iov[5].iov_base = "^\n";
+		iov[5].iov_len = 2;
+		writev(STDERR_FILENO, iov, sizeof(iov)/sizeof(iov[0]));
+	} else {
+		syslog(log_priority | LOG_ERR, "%s", mbuf);
+		syslog(log_priority | LOG_ERR, "%s", token_line);
+		if (lexline < 81)
+			syslog(log_priority | LOG_ERR,
+			    "%s^", &spaces[sizeof(spaces) - lexchar]);
 	}
 
 	warnings_occurred = 1;

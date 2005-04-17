@@ -5,7 +5,7 @@
 
 #if defined(LIBC_SCCS) && !defined(lint) && !defined(NOID)
 static char elsieid[] = "@(#)asctime.c	7.22";
-static char rcsid[] = "$OpenBSD: asctime.c,v 1.8 2004/10/18 22:33:43 millert Exp $";
+static char rcsid[] = "$OpenBSD: asctime.c,v 1.11 2005/03/06 01:40:05 cloder Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 /*LINTLIBRARY*/
@@ -60,10 +60,10 @@ register const struct tm *	timeptr;
 char *				buf;
 int				bufsize;
 {
-	static const char	wday_name[][3] = {
+	static const char	wday_name[][4] = {
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
 	};
-	static const char	mon_name[][3] = {
+	static const char	mon_name[][4] = {
 		"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 	};
@@ -84,8 +84,8 @@ int				bufsize;
 		wn, mn,
 		timeptr->tm_mday, timeptr->tm_hour,
 		timeptr->tm_min, timeptr->tm_sec,
-		TM_YEAR_BASE + timeptr->tm_year);
-	if (len < bufsize) {
+		year);
+	if (len != -1 && len < bufsize) {
 		return buf;
 	} else {
 #ifdef EOVERFLOW

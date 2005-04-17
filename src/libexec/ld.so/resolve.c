@@ -1,4 +1,4 @@
-/*	$OpenBSD: resolve.c,v 1.24 2004/07/05 00:47:40 kjell Exp $ */
+/*	$OpenBSD: resolve.c,v 1.26 2005/04/06 00:16:53 deraadt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB

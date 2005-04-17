@@ -1,4 +1,4 @@
-/*	$OpenBSD: tftpd.c,v 1.34 2004/04/28 15:18:57 deraadt Exp $	*/
+/*	$OpenBSD: tftpd.c,v 1.40 2005/03/10 10:22:32 claudio Exp $	*/
 
 /*
  * Copyright (c) 1983 Regents of the University of California.
@@ -37,7 +37,7 @@ char copyright[] =
 
 #ifndef lint
 /*static char sccsid[] = "from: @(#)tftpd.c	5.13 (Berkeley) 2/26/91";*/
-static char rcsid[] = "$OpenBSD: tftpd.c,v 1.34 2004/04/28 15:18:57 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: tftpd.c,v 1.40 2005/03/10 10:22:32 claudio Exp $";
 #endif /* not lint */
 
 /*
@@ -49,6 +49,7 @@ static char rcsid[] = "$OpenBSD: tftpd.c,v 1.34 2004/04/28 15:18:57 deraadt Exp 
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+#include <sys/uio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -81,7 +82,6 @@ int	max_rexmtval = 2*TIMEOUT;
 char	buf[PKTSIZE];
 char	ackbuf[PKTSIZE];
 struct	sockaddr_storage from;
-socklen_t fromlen;
 
 int	ndirs;
 char	**dirs;
@@ -143,6 +143,10 @@ main(int argc, char *argv[])
 	int n = 0, on = 1, fd = 0, i, c;
 	struct tftphdr *tp;
 	struct passwd *pw;
+	char cbuf[CMSG_SPACE(sizeof(struct sockaddr_storage))];
+	struct cmsghdr *cmsg;
+	struct msghdr msg;
+	struct iovec iov;
 	pid_t pid = 0;
 	socklen_t j;
 
@@ -190,6 +194,7 @@ main(int argc, char *argv[])
 			syslog(LOG_ERR, "too many -s directories");
 			exit(1);
 		}
+		tzset();
 		if (chroot(dirs[0])) {
 			syslog(LOG_ERR, "chroot %s: %m", dirs[0]);
 			exit(1);
@@ -209,13 +214,46 @@ main(int argc, char *argv[])
 		syslog(LOG_ERR, "ioctl(FIONBIO): %m");
 		exit(1);
 	}
-	fromlen = sizeof (from);
-	n = recvfrom(fd, buf, sizeof (buf), 0,
-	    (struct sockaddr *)&from, &fromlen);
-	if (n < 0) {
-		syslog(LOG_ERR, "recvfrom: %m");
+
+	j = sizeof(s_in);
+	if (getsockname(fd, (struct sockaddr *)&s_in, &j) == -1) {
+		syslog(LOG_ERR, "getsockname: %m");
 		exit(1);
 	}
+	
+	switch (s_in.ss_family) {
+	case AF_INET:
+		if (setsockopt(fd, IPPROTO_IP, IP_RECVDSTADDR, &on,
+		    sizeof(on)) == -1) {
+			syslog(LOG_ERR, "setsockopt(IP_RECVDSTADDR): %m");
+			exit (1);
+		}
+		break;
+	case AF_INET6:
+		if (setsockopt(fd, IPPROTO_IPV6, IPV6_RECVDSTADDR, &on,
+		    sizeof(on)) == -1) {
+			syslog(LOG_ERR, "setsockopt(IPV6_RECVDSTADDR): %m");
+			exit (1);
+		}
+		break;
+	}
+
+	bzero(&msg, sizeof(msg));
+	iov.iov_base = buf;
+	iov.iov_len = sizeof(buf);
+	msg.msg_name = &from;
+	msg.msg_namelen = sizeof(from);
+	msg.msg_iov = &iov;
+	msg.msg_iovlen = 1;
+	msg.msg_control = cbuf;
+	msg.msg_controllen = CMSG_LEN(sizeof(struct sockaddr_storage));
+	
+	n = recvmsg(fd, &msg, 0);
+	if (n < 0) {
+		syslog(LOG_ERR, "recvmsg: %m");
+		exit(1);
+	}
+
 	/*
 	 * Now that we have read the message out of the UDP
 	 * socket, we fork and exit.  Thus, inetd will go back
@@ -227,7 +265,7 @@ main(int argc, char *argv[])
 	 * inetd may get one or more successful "selects" on the
 	 * tftp port before we do our receive, so more than one
 	 * instance of tftpd may be started up.  Worse, if tftpd
-	 * break before doing the above "recvfrom", inetd would
+	 * breaks before doing the above "recvfrom", inetd would
 	 * spawn endless instances, clogging the system.
 	 */
 	for (i = 1; i < 20; i++) {
@@ -237,19 +275,27 @@ main(int argc, char *argv[])
 			/*
 			 * flush out to most recently sent request.
 			 *
-			 * This may drop some request, but those
+			 * This may drop some requests, but those
 			 * will be resent by the clients when
 			 * they timeout.  The positive effect of
 			 * this flush is to (try to) prevent more
 			 * than one tftpd being started up to service
 			 * a single request from a single client.
 			 */
-			j = sizeof from;
-			i = recvfrom(fd, buf, sizeof (buf), 0,
-			    (struct sockaddr *)&from, &j);
+			bzero(&msg, sizeof(msg));
+			iov.iov_base = buf;
+			iov.iov_len = sizeof(buf);
+			msg.msg_name = &from;
+			msg.msg_namelen = sizeof(from);
+			msg.msg_iov = &iov;
+			msg.msg_iovlen = 1;
+			msg.msg_control = cbuf;
+			msg.msg_controllen =
+			    CMSG_LEN(sizeof(struct sockaddr_storage));
+
+			i = recvmsg(fd, &msg, 0);
 			if (i > 0) {
 				n = i;
-				fromlen = j;
 			}
 		} else
 			break;
@@ -271,6 +317,24 @@ main(int argc, char *argv[])
 	memset(&s_in, 0, sizeof(s_in));
 	s_in.ss_family = from.ss_family;
 	s_in.ss_len = from.ss_len;
+
+	/* get local address if possible */
+	for (cmsg = CMSG_FIRSTHDR(&msg); cmsg != NULL;
+	    cmsg = CMSG_NXTHDR(&msg, cmsg)) {
+		if (cmsg->cmsg_level == IPPROTO_IP &&
+		    cmsg->cmsg_type == IP_RECVDSTADDR) {
+			memcpy(&((struct sockaddr_in *)&s_in)->sin_addr,
+			    CMSG_DATA(cmsg), sizeof(struct in_addr));
+			break;
+		}
+		if (cmsg->cmsg_level == IPPROTO_IPV6 &&
+		    cmsg->cmsg_type == IPV6_RECVDSTADDR) {
+			memcpy(&((struct sockaddr_in6 *)&s_in)->sin6_addr,
+			    CMSG_DATA(cmsg), sizeof(struct in6_addr));
+			break;
+		}
+	}
+			
 	if (bind(peer, (struct sockaddr *)&s_in, s_in.ss_len) < 0) {
 		syslog(LOG_ERR, "bind: %m");
 		exit(1);
@@ -446,7 +510,7 @@ validate_access(char *filename, int mode)
 		}
 	}
 	if (options[OPT_TSIZE].o_request) {
-		if (mode == RRQ) 
+		if (mode == RRQ)
 			options[OPT_TSIZE].o_reply = stbuf.st_size;
 		else
 			/* XXX Allows writes of all sizes. */
@@ -478,6 +542,7 @@ validate_access(char *filename, int mode)
 int	timeouts;
 jmp_buf	timeoutbuf;
 
+/* ARGSUSED */
 static void
 timer(int signo)
 {
@@ -551,6 +616,7 @@ abort:
 	return (1);
 }
 
+/* ARGSUSED */
 static void
 justquit(int signo)
 {
@@ -622,14 +688,14 @@ send_ack:
 	ap->th_block = htons((u_short)(block));
 	(void) send(peer, ackbuf, 4, 0);
 
-	signal(SIGALRM, justquit);      /* just quit on timeout */
+	signal(SIGALRM, justquit);		/* just quit on timeout */
 	alarm(rexmtval);
 	n = recv(peer, buf, sizeof (buf), 0); /* normally times out and quits */
 	alarm(0);
 	if (n >= 4 &&			/* if read some data */
 	    dp->th_opcode == DATA &&    /* and got a data block */
 	    block == dp->th_block) {	/* then my last ack was lost */
-		(void) send(peer, ackbuf, 4, 0);     /* resend final ack */
+		(void) send(peer, ackbuf, 4, 0);	/* resend final ack */
 	}
 abort:
 	return (1);
@@ -698,11 +764,15 @@ oack(void)
 	for (i = 0; options[i].o_type != NULL; i++) {
 		if (options[i].o_request) {
 			n = snprintf(bp, size, "%s%c%d", options[i].o_type,
-				     0, options[i].o_reply);
+			    0, options[i].o_reply);
+			if (n == -1 || n >= size) {
+				syslog(LOG_ERR, "oack: no buffer space");
+				exit(1);
+			}
 			bp += n+1;
 			size -= n+1;
 			if (size < 0) {
-				syslog(LOG_ERR, "oack: buffer overflow");
+				syslog(LOG_ERR, "oack: no buffer space");
 				exit(1);
 			}
 		}
