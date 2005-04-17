@@ -1,4 +1,4 @@
-/*	$OpenBSD: dhcp.c,v 1.14 2004/09/16 18:35:42 deraadt Exp $ */
+/*	$OpenBSD: dhcp.c,v 1.19 2005/01/31 22:21:44 claudio Exp $ */
 
 /*
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
@@ -400,6 +400,13 @@ dhcprelease(struct packet *packet)
 	    packet->interface->name,
 	    lease ? "" : "not ");
 
+	/* If we're already acking this lease, don't do it again. */
+	if (lease && lease->state) {
+		note("DHCPRELEASE already acking lease %s",
+		    piaddr(lease->ip_addr));
+		return;
+	}
+
 	/* If we found a lease, release it. */
 	if (lease && lease->ends > cur_time) {
 		/*
@@ -463,6 +470,13 @@ dhcpdecline(struct packet *packet)
 	    packet->raw->giaddr.s_addr ? inet_ntoa(packet->raw->giaddr) :
 	    packet->interface->name);
 
+	/* If we're already acking this lease, don't do it again. */
+	if (lease && lease->state) {
+		note("DHCPDECLINE already acking lease %s",
+		    piaddr(lease->ip_addr));
+		return;
+	}
+
 	/* If we found a lease, mark it as unusable and complain. */
 	if (lease)
 		abandon_lease(lease, "declined.");
@@ -483,7 +497,6 @@ nak_lease(struct packet *packet, struct iaddr *cip)
 	struct dhcp_packet raw;
 	unsigned char nak = DHCPNAK;
 	struct packet outgoing;
-	struct hardware hto;
 	struct tree_cache *options[256], dhcpnak_tree, dhcpmsg_tree;
 
 	memset(options, 0, sizeof options);
@@ -536,10 +549,6 @@ nak_lease(struct packet *packet, struct iaddr *cip)
 	    print_hw_addr(packet->raw->htype, packet->raw->hlen,
 	    packet->raw->chaddr), packet->raw->giaddr.s_addr ?
 	    inet_ntoa(packet->raw->giaddr) : packet->interface->name);
-
-	hto.htype = packet->raw->htype;
-	hto.hlen = packet->raw->hlen;
-	memcpy(hto.haddr, packet->raw->chaddr, hto.hlen);
 
 	/* Set up the common stuff... */
 	memset(&to, 0, sizeof to);
@@ -804,8 +813,10 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 		   it) either. */
 
 		if (!(supersede_lease(lease, &lt, !offer || offer == DHCPACK) ||
-		    (offer && offer != DHCPACK)))
+		    (offer && offer != DHCPACK))) {
+			free_lease_state(state, "ack_lease: !supersede_lease");
 			return;
+		}
 	}
 
 	/* Remember the interface on which the packet arrived. */
@@ -1097,7 +1108,6 @@ dhcp_reply(struct lease *lease)
 	struct dhcp_packet raw;
 	struct sockaddr_in to;
 	struct in_addr from;
-	struct hardware hto;
 	struct lease_state *state = lease->state;
 	int nulltp, bootpp;
 	u_int8_t *prl;
@@ -1194,11 +1204,6 @@ dhcp_reply(struct lease *lease)
 	    lease->hardware_addr.haddr),
 	    state->giaddr.s_addr ? inet_ntoa(state->giaddr) : state->ip->name);
 
-	/* Set up the hardware address... */
-	hto.htype = lease->hardware_addr.htype;
-	hto.hlen = lease->hardware_addr.hlen;
-	memcpy(hto.haddr, lease->hardware_addr.haddr, hto.hlen);
-
 	memset(&to, 0, sizeof to);
 	to.sin_family = AF_INET;
 #ifdef HAVE_SA_LEN
@@ -1215,8 +1220,10 @@ dhcp_reply(struct lease *lease)
 		to.sin_addr = raw.giaddr;
 		to.sin_port = server_port;
 
+		memcpy(&from, state->from.iabuf, sizeof from);
+
 		(void) send_packet(state->ip, &raw,
-		    packet_length, raw.siaddr, &to, &state->haddr);
+		    packet_length, from, &to, &state->haddr);
 
 		free_lease_state(state, "dhcp_reply gateway");
 		lease->state = NULL;
@@ -1259,7 +1266,7 @@ dhcp_reply(struct lease *lease)
 	memcpy(&from, state->from.iabuf, sizeof from);
 
 	(void) send_packet(state->ip, &raw, packet_length,
-	    from, &to, &hto);
+	    from, &to, &state->haddr);
 
 	free_lease_state(state, "dhcp_reply");
 	lease->state = NULL;
