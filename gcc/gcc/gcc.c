@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/gcc.c,v 1.2 2005/03/25 19:29:06 tg Exp $ */
+/* $MirOS: gcc/gcc/gcc.c,v 1.3 2005/03/28 00:42:38 tg Exp $ */
 
 /* Compiler driver program that can handle many languages.
    Copyright (C) 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -915,7 +915,7 @@ static const struct compiler default_compilers[] =
 		cc1 %(cpp_unique_options) %(cc1_options)}}}\
         %{!fsyntax-only:%(invoke_as)}}}}", 0},
   {"-",
-   "%{!E:%e-E required when input is from standard input}\
+   "%{!E:%e-E or -x required when input is from standard input}\
     %(trad_capable_cpp) %(cpp_options) %(cpp_debug_options)", 0},
   {".h", "@c-header", 0},
   {"@c-header",
