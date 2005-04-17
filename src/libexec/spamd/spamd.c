@@ -1,5 +1,5 @@
-/**	$MirOS: src/libexec/spamd/spamd.c,v 1.2 2005/03/06 19:24:07 tg Exp $ */
-/*	$OpenBSD: spamd.c,v 1.75 2005/03/11 23:09:53 beck Exp $	*/
+/**	$MirOS: src/libexec/spamd/spamd.c,v 1.3 2005/03/23 18:19:41 tg Exp $ */
+/*	$OpenBSD: spamd.c,v 1.77 2005/04/16 14:23:35 deraadt Exp $	*/
 
 /*
  * Copyright (c) 2002 Theo de Raadt.  All rights reserved.
@@ -49,7 +49,7 @@
 #include "sdl.h"
 #include "grey.h"
 
-__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.2 2005/03/06 19:24:07 tg Exp $");
+__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.3 2005/03/23 18:19:41 tg Exp $");
 
 struct con {
 	int fd;
@@ -135,6 +135,7 @@ int blackcount;
 int clients;
 int debug;
 int greylist;
+int grey_stutter = 10;
 int verbose;
 int stutter = 1;
 int window;
@@ -148,7 +149,7 @@ usage(void)
 	fprintf(stderr,
 	    "             [-G mins:hours:hours] [-n name] [-p port]\n");
 	fprintf(stderr,
-	    "             [-r reply] [-s secs] [-w window]\n");
+	    "             [-r reply] [-S secs] [-s secs] [-w window]\n");
 	exit(1);
 }
 
@@ -579,7 +580,7 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	cp->af = sa->sa_family;
 	cp->ia = &((struct sockaddr_in *)sa)->sin_addr;
 	cp->blacklists = sdl_lookup(blacklists, cp->af, cp->ia);
-	cp->stutter = (greylist && cp->blacklists == NULL) ? 0 : stutter;
+	cp->stutter = (greylist && !grey_stutter && cp->blacklists == NULL) ? 0 : stutter;
 	error = getnameinfo(sa, sa->sa_len, cp->addr, sizeof(cp->addr), NULL, 0,
 	    NI_NUMERICHOST);
 	if (error)
@@ -888,6 +889,11 @@ handlew(struct con *cp, int one)
 {
 	int n;
 
+	/* kill stutter on greylisted connections after initial delay */
+	if (cp->stutter && greylist && cp->blacklists == NULL &&
+	    (t - cp->s) > grey_stutter)
+		cp->stutter=0;
+
 	if (cp->w) {
 		if (*cp->op == '\n' && !cp->sr) {
 			/* insert \r before \n */
@@ -938,6 +944,7 @@ main(int argc, char *argv[])
 	struct servent *ent;
 	struct rlimit rlp;
 	char *bind_address = NULL;
+	const char *errstr;
 
 	tzset();
 	openlog_r("spamd", LOG_PID | LOG_NDELAY, LOG_DAEMON, &sdata);
@@ -952,7 +959,7 @@ main(int argc, char *argv[])
 	if (gethostname(hostname, sizeof hostname) == -1)
 		err(1, "gethostname");
 
-	while ((ch = getopt(argc, argv, "45b:c:B:p:dgG:r:s:n:vw:")) != -1) {
+	while ((ch = getopt(argc, argv, "45b:c:B:p:dgG:r:s:S:n:vw:")) != -1) {
 		switch (ch) {
 		case '4':
 			nreply = "450";
@@ -1002,6 +1009,12 @@ main(int argc, char *argv[])
 			if (i < 0 || i > 10)
 				usage();
 			stutter = i;
+			break;
+		case 'S':
+			i = strtonum(optarg, 0, 90, &errstr);
+			if (errstr)
+				usage();
+			grey_stutter = i;
 			break;
 		case 'n':
 			spamd = optarg;
