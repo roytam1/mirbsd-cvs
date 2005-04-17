@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_connect.c,v 1.2 2005/03/13 19:16:51 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -63,10 +63,6 @@
 #include "mod_proxy.h"
 #include "http_log.h"
 #include "http_main.h"
-
-#ifdef HAVE_BSTRING_H
-#include <bstring.h>            /* for IRIX, FD_SET calls bzero() */
-#endif
 
 /*
  * This handles Netscape CONNECT method secure proxy requests.
@@ -234,17 +230,15 @@ int ap_proxy_connect_handler(request_rec *r, cache_req *c, char *url,
 	if (sock == -1)
 	    continue;
 
-#ifdef CHECK_FD_SETSIZE
-        if (sock >= FD_SETSIZE) {
-            ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_WARNING, NULL,
-                         "proxy_connect_handler: filedescriptor (%u) "
-                         "larger than FD_SETSIZE (%u) "
-                         "found, you probably need to rebuild Apache with a "
-                         "larger FD_SETSIZE", sock, FD_SETSIZE);
-            ap_pclosesocket(r->pool, sock);
-            return HTTP_INTERNAL_SERVER_ERROR;
-        }
-#endif
+    if (sock >= FD_SETSIZE) {
+        ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_WARNING, NULL,
+                     "proxy_connect_handler: filedescriptor (%u) "
+                     "larger than FD_SETSIZE (%u) "
+                     "found, you probably need to rebuild Apache with a "
+                     "larger FD_SETSIZE", sock, FD_SETSIZE);
+        ap_pclosesocket(r->pool, sock);
+        return HTTP_INTERNAL_SERVER_ERROR;
+    }
 
 	i = ap_proxy_doconnect(sock, res->ai_addr, r);
 	if (i == 0)

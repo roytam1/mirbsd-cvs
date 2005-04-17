@@ -1,4 +1,5 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/include/http_conf_globals.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $OpenBSD: http_conf_globals.h,v 1.15 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -75,9 +76,6 @@ extern int ap_docrootcheck;
 extern API_VAR_EXPORT uid_t ap_user_id;
 extern API_VAR_EXPORT char *ap_user_name;
 extern API_VAR_EXPORT gid_t ap_group_id;
-#ifdef MULTIPLE_GROUPS
-extern gid_t group_id_list[NGROUPS_MAX];
-#endif
 extern API_VAR_EXPORT int ap_max_requests_per_child;
 extern API_VAR_EXPORT int ap_threads_per_child;
 extern API_VAR_EXPORT int ap_excess_requests_per_child;
@@ -90,9 +88,6 @@ extern API_VAR_EXPORT int ap_daemons_max_free;
 extern API_VAR_EXPORT int ap_daemons_limit;
 extern API_VAR_EXPORT int ap_suexec_enabled;
 extern API_VAR_EXPORT int ap_listenbacklog;
-#ifdef SO_ACCEPTFILTER
-extern int ap_acceptfilter;
-#endif
 extern int ap_dump_settings;
 extern API_VAR_EXPORT int ap_extended_status;
 extern API_VAR_EXPORT ap_ctx *ap_global_ctx;

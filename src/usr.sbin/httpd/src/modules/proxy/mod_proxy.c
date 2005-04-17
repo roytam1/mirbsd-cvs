@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.c,v 1.2 2005/03/13 19:16:51 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -221,9 +221,7 @@ static int proxy_trans(request_rec *r)
 static int proxy_fixup(request_rec *r)
 {
     char *url, *p;
-#ifdef EAPI
     int rc;
-#endif /* EAPI */
 
     if (r->proxyreq == NOT_PROXY || strncmp(r->filename, "proxy:", 6) != 0)
         return DECLINED;
@@ -231,14 +229,12 @@ static int proxy_fixup(request_rec *r)
     url = &r->filename[6];
 
 /* canonicalise each specific scheme */
-#ifdef EAPI
     if (ap_hook_use("ap::mod_proxy::canon",
                     AP_HOOK_SIG3(int,ptr,ptr),
                     AP_HOOK_DECLINE(DECLINED),
                     &rc, r, url) && rc != DECLINED)
         return rc;
     else
-#endif /* EAPI */
     if (strncasecmp(url, "http:", 5) == 0)
         return ap_proxy_http_canon(r, url + 5, "http", DEFAULT_HTTP_PORT);
     else if (strncasecmp(url, "ftp:", 4) == 0)
@@ -254,13 +250,10 @@ static int proxy_fixup(request_rec *r)
 static void proxy_init(server_rec *r, pool *p)
 {
     ap_proxy_garbage_init(r, p);
-#ifdef EAPI
-    ap_hook_use("ap::mod_proxy::init",
+    ap_hook_use("ap::mod_proxy::init", 
                 AP_HOOK_SIG3(void,ptr,ptr), AP_HOOK_ALL, r, p);
-#endif
 }
 
-#ifdef EAPI
 static void proxy_addmod(module *m)
 {
     /* export: ap_proxy_http_canon() as `ap::mod_proxy::http::canon' */
@@ -291,7 +284,6 @@ static void proxy_remmod(module *m)
     ap_hook_unregister("ap::mod_proxy::error", ap_proxyerror);
     return;
 }
-#endif /* EAPI */
 
 /* Send a redirection if the request contains a hostname which is not */
 /* fully qualified, i.e. doesn't have a domain name appended. Some proxy */
@@ -423,14 +415,12 @@ static int proxy_handler(request_rec *r)
                  * CONNECT is a special method that bypasses the normal proxy
                  * code.
                  */
-#ifdef EAPI
 		if (!ap_hook_use("ap::mod_proxy::handler",
 				 AP_HOOK_SIG7(int,ptr,ptr,ptr,ptr,int,ptr),
 				 AP_HOOK_DECLINE(DECLINED),
 				 &rc, r, cr, url,
 				 ents[i].hostname, ents[i].port,
 				 ents[i].protocol) || rc == DECLINED) {
-#endif /* EAPI */
                 if (r->method_number == M_CONNECT)
                     rc = ap_proxy_connect_handler(r, cr, url, ents[i].hostname,
                                                   ents[i].port);
@@ -440,9 +430,7 @@ static int proxy_handler(request_rec *r)
                                                ents[i].port);
                 else
                     rc = DECLINED;
-#ifdef EAPI
 		}
-#endif /* EAPI */
 
                 /* an error or success */
                 if (rc != DECLINED && rc != HTTP_BAD_GATEWAY)
@@ -457,14 +445,12 @@ static int proxy_handler(request_rec *r)
      */
 
     /* handle the scheme */
-#ifdef EAPI
     if (ap_hook_use("ap::mod_proxy::handler",
 		    AP_HOOK_SIG7(int,ptr,ptr,ptr,ptr,int,ptr),
 		    AP_HOOK_DECLINE(DECLINED),
 		    &rc, r, cr, url,
                     NULL, 0, scheme) && rc != DECLINED)
         return rc;
-#endif /* EAPI */
     if (r->method_number == M_CONNECT) {
         return ap_proxy_connect_handler(r, cr, url, NULL, 0);
     }
@@ -1083,10 +1069,8 @@ module MODULE_VAR_EXPORT proxy_module =
     NULL,                       /* child_init */
     NULL,                       /* child_exit */
     proxy_detect                /* post read-request */
-#ifdef EAPI
    ,proxy_addmod,		/* EAPI: add_module */
     proxy_remmod,		/* EAPI: remove_module */
     NULL,			/* EAPI: rewrite_command */
     NULL			/* EAPI: new_connection  */
-#endif
 };

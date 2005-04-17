@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.2 2005/03/13 19:16:55 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -77,7 +77,7 @@
 #include "util_script.h"
 #include "fnmatch.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.2 2005/03/13 19:16:55 tg Exp $");
 
 module MODULE_VAR_EXPORT autoindex_module;
 
@@ -295,11 +295,7 @@ static const char *add_icon(cmd_parms *cmd, void *d, char *icon, char *to)
  * Absent a strcasestr() function, we have to force wildcards on
  * systems for which "AAA" and "aaa" mean the same file.
  */
-#ifdef CASE_BLIND_FILESYSTEM
-#define WILDCARDS_REQUIRED 1
-#else
 #define WILDCARDS_REQUIRED 0
-#endif
 
 static const char *add_desc(cmd_parms *cmd, void *d, char *desc, char *to)
 {
@@ -818,11 +814,7 @@ static char *find_default_icon(autoindex_config_rec *d, char *bogus_name)
  * directives will dominate.
  */
 
-#ifdef CASE_BLIND_FILESYSTEM
-#define MATCH_FLAGS FNM_CASE_BLIND
-#else
 #define MATCH_FLAGS 0
-#endif
 
 static char *find_desc(autoindex_config_rec *dcfg, request_rec *r)
 {
@@ -892,22 +884,10 @@ static int ignore_entry(autoindex_config_rec *d, char *path)
 	    ap++;
 	}
 
-#ifndef CASE_BLIND_FILESYSTEM
 	if (!ap_strcmp_match(path, p->apply_path)
 	    && !ap_strcmp_match(tt, ap)) {
 	    return 1;
 	}
-#else  /* !CASE_BLIND_FILESYSTEM */
-	/*
-	 * On some platforms, the match must be case-blind.  This is really
-	 * a factor of the filesystem involved, but we can't detect that
-	 * reliably - so we have to granularise at the OS level.
-	 */
-	if (!ap_strcasecmp_match(path, p->apply_path)
-	    && !ap_strcasecmp_match(tt, ap)) {
-	    return 1;
-	}
-#endif /* !CASE_BLIND_FILESYSTEM */
     }
     return 0;
 }

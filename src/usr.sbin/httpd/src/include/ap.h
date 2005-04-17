@@ -1,4 +1,5 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/include/ap.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $OpenBSD: ap.h,v 1.13 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -83,14 +84,14 @@ API_EXPORT(int) ap_getpass(const char *prompt, char *pwbuf, size_t bufsiz);
 
 /* small utility macros to make things easier to read */
 
-#define ap_killpg(x, y)		(killpg ((x), (y)))
+#define ap_killpg(x, y)         (killpg ((x), (y)))
 
 /* ap_vformatter() is a generic printf-style formatting routine
  * with some extensions.  The extensions are:
  *
- * %pA	takes a struct in_addr *, and prints it as a.b.c.d
- * %pI	takes a struct sockaddr * and prints it as a.b.c.d:port, or
- *	ipv6-numeric-addr:port
+ * %pA  takes a struct in_addr *, and prints it as a.b.c.d
+ * %pI  takes a struct sockaddr * and prints it as a.b.c.d:port
+ *	or ipv6-numeric-addr:port
  * %pp  takes a void * and outputs it in hex
  *
  * The %p hacks are to force gcc's printf warning code to skip
@@ -136,16 +137,34 @@ API_EXPORT(int) ap_getpass(const char *prompt, char *pwbuf, size_t bufsiz);
  */
 
 typedef struct {
-    char *curpos;
-    char *endpos;
+	char *curpos;
+	char *endpos;
 } ap_vformatter_buff;
 
 API_EXPORT(int) ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
     ap_vformatter_buff *, const char *fmt, va_list ap);
 
-API_EXPORT_NONSTD(int) ap_snprintf(char *buf, size_t len, const char *format,...)
-			    __attribute__((format(printf,3,4)));
-
+/* These are snprintf implementations based on ap_vformatter().
+ *
+ * Note that various standards and implementations disagree on the return
+ * value of snprintf, and side-effects due to %n in the formatting string.
+ * ap_snprintf behaves as follows:
+ *
+ * Process the format string until the entire string is exhausted, or
+ * the buffer fills.  If the buffer fills then stop processing immediately
+ * (so no further %n arguments are processed), and return the buffer
+ * length.  In all cases the buffer is NUL terminated. The return value
+ * is the number of characters placed in the buffer, excluding the
+ * terminating NUL. All this implies that, at most, (len-1) characters
+ * will be copied over; if the return value is >= len, then truncation
+ * occured.
+ *
+ * In no event does ap_snprintf return a negative number.
+ */
+API_EXPORT_NONSTD(int) ap_snprintf(char *buf, size_t len,
+    const char *format,...) __attribute__((format(printf,3,4)));
+API_EXPORT(int) ap_vsnprintf(char *buf, size_t len, const char *format,
+    va_list ap);
 /* Simple BASE64 encode/decode functions.
  *
  * As we might encode binary strings, hence we require the length of
@@ -159,12 +178,15 @@ API_EXPORT_NONSTD(int) ap_snprintf(char *buf, size_t len, const char *format,...
  *
  */
 API_EXPORT(int) ap_base64encode_len(int len);
-API_EXPORT(int) ap_base64encode(char * coded_dst, const char *plain_src,int len_plain_src);
-API_EXPORT(int) ap_base64encode_binary(char * coded_dst, const unsigned char *plain_src,int len_plain_src);
+API_EXPORT(int) ap_base64encode(char * coded_dst, const char *plain_src,
+    int len_plain_src);
+API_EXPORT(int) ap_base64encode_binary(char * coded_dst,
+    const unsigned char *plain_src,int len_plain_src);
 
 API_EXPORT(int) ap_base64decode_len(const char * coded_src);
 API_EXPORT(int) ap_base64decode(char * plain_dst, const char *coded_src);
-API_EXPORT(int) ap_base64decode_binary(unsigned char * plain_dst, const char *coded_src);
+API_EXPORT(int) ap_base64decode_binary(unsigned char * plain_dst,
+    const char *coded_src);
 
 /* Password validation, as used in AuthType Basic which is able to cope
  * (based on the prefix) with the SHA1, Apache's internal MD5 and (depending

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.2 2005/03/13 19:16:52 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -66,7 +66,7 @@
 #include "http_core.h"
 #include "util_date.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.2 2005/03/13 19:16:52 tg Exp $");
 
 /*
  * Canonicalise http-like URLs.
@@ -173,9 +173,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     const char *content_length;
     struct addrinfo hints, *res, *res0;
     int error;
-#ifdef EAPI
     char *peer;
-#endif
 
     void *sconf = r->server->module_config;
     proxy_server_conf *conf =
@@ -196,12 +194,10 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     destport = DEFAULT_HTTP_PORT;
     snprintf(portstr, sizeof(portstr), "%d", DEFAULT_HTTP_PORT);
     destportstr = portstr;
-#ifdef EAPI
-    ap_hook_use("ap::mod_proxy::http::handler::set_destport",
-                AP_HOOK_SIG2(int,ptr),
+    ap_hook_use("ap::mod_proxy::http::handler::set_destport", 
+                AP_HOOK_SIG2(int,ptr), 
                 AP_HOOK_TOPMOST,
                 &destport, r);
-#endif /* EAPI */
     strp = strchr(urlptr, '/');
     if (strp == NULL) {
         desthost = ap_pstrdup(p, urlptr);
@@ -293,9 +289,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
 	error = getaddrinfo(proxyhost, pbuf, &hints, &res0);
 	if (error)
             return DECLINED;    /* try another */
-#ifdef EAPI
-	peer = ap_psprintf(p, "%s:%u", proxyhost, proxyport);
-#endif
+	peer = ap_psprintf(p, "%s:%u", proxyhost, proxyport);  
     }
 
 
@@ -319,7 +313,11 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
             }
         }
 
-	i = ap_proxy_doconnect(sock, res->ai_addr, r);
+    j = 0;
+    while (server_hp.h_addr_list[j] != NULL) {
+        memcpy(&server.sin_addr, server_hp.h_addr_list[j],
+               sizeof(struct in_addr));
+        i = ap_proxy_doconnect(sock, &server, r);
         if (i == 0)
             break;
 	ap_pclosesocket(p, sock);
@@ -352,7 +350,6 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     f = ap_bcreate(p, B_RDWR | B_SOCKET);
     ap_bpushfd(f, sock, sock);
 
-#ifdef EAPI
     {
         char *errmsg = NULL;
         ap_hook_use("ap::mod_proxy::http::handler::new_connection",
@@ -362,12 +359,10 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
         if (errmsg != NULL)
             return ap_proxyerror(r, HTTP_BAD_GATEWAY, errmsg);
     }
-#endif /* EAPI */
 
     ap_hard_timeout("proxy send", r);
     ap_bvputs(f, r->method, " ", proxyhost ? url : urlptr, " HTTP/1.1" CRLF,
               NULL);
-#ifdef EAPI
     {
 	int rc = DECLINED;
 	ap_hook_use("ap::mod_proxy::http::handler::write_host_header",
@@ -381,13 +376,6 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
 		ap_bvputs(f, "Host: ", desthost, CRLF, NULL);
         }
     }
-#else /* EAPI */
-    /* Send Host: now, adding it to req_hdrs wouldn't be much better */
-    if (destportstr != NULL && destport != DEFAULT_HTTP_PORT)
-        ap_bvputs(f, "Host: ", desthost, ":", destportstr, CRLF, NULL);
-    else
-        ap_bvputs(f, "Host: ", desthost, CRLF, NULL);
-#endif /* EAPI */
 
     if (conf->viaopt == via_block) {
         /* Block all outgoing Via: headers */

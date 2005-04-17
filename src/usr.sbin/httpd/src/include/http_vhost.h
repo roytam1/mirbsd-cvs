@@ -1,4 +1,5 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/include/http_vhost.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $OpenBSD: http_vhost.h,v 1.7 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -72,10 +73,13 @@ API_EXPORT(void) ap_init_vhost_config(pool *p);
 API_EXPORT(void) ap_fini_vhost_config(pool *p, server_rec *main_server);
 
 /* handle addresses in <VirtualHost> statement */
-API_EXPORT(const char *) ap_parse_vhost_addrs(pool *p, const char *hostname, server_rec *s);
+API_EXPORT(const char *) ap_parse_vhost_addrs(pool *p, const char *hostname,
+    server_rec *s);
 
 /* handle NameVirtualHost directive */
 API_EXPORT_NONSTD(const char *) ap_set_name_virtual_host (cmd_parms *cmd, void *dummy, char *h, char *p);
+API_EXPORT_NONSTD(const char *) ap_set_name_virtual_host (cmd_parms *cmd,
+    void *dummy, char *arg);
 
 /* given an ip address only, give our best guess as to what vhost it is */
 API_EXPORT(void) ap_update_vhost_given_ip(conn_rec *conn);

@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: http_config.c,v 1.15 2004/12/02 19:42:47 henning Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_config.c,v 1.2 2005/03/13 19:16:45 tg Exp $ */
+/* $OpenBSD: http_config.c,v 1.16 2005/02/09 12:13:09 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -588,7 +588,6 @@ API_EXPORT(void) ap_add_module(module *m)
     if (strrchr(m->name, '\\'))
 	m->name = 1 + strrchr(m->name, '\\');
 
-#ifdef EAPI
     /*
      * Invoke the `add_module' hook inside the now existing set
      * of modules to let them all now that this module was added.
@@ -600,7 +599,6 @@ API_EXPORT(void) ap_add_module(module *m)
                 if (m2->add_module != NULL)
                     (*m2->add_module)(m);
     }
-#endif /* EAPI */
 }
 
 /*
@@ -615,7 +613,6 @@ API_EXPORT(void) ap_remove_module(module *m)
 {
     module *modp;
 
-#ifdef EAPI
     /*
      * Invoke the `remove_module' hook inside the now existing
      * set of modules to let them all now that this module is
@@ -628,7 +625,6 @@ API_EXPORT(void) ap_remove_module(module *m)
                 if (m2->remove_module != NULL)
                     (*m2->remove_module)(m);
     }
-#endif /* EAPI */
 
     modp = top_module;
     if (modp == m) {
@@ -1019,7 +1015,6 @@ CORE_EXPORT(const char *) ap_handle_command(cmd_parms *parms, void *config, cons
     const command_rec *cmd;
     module *mod = top_module;
 
-#ifdef EAPI
     /*
      * Invoke the `rewrite_command' of modules to allow
      * they to rewrite the directive line before we
@@ -1038,7 +1033,6 @@ CORE_EXPORT(const char *) ap_handle_command(cmd_parms *parms, void *config, cons
             }
         }
     }
-#endif /* EAPI */
 
     if ((l[0] == '#') || (!l[0]))
 	return NULL;
@@ -1441,7 +1435,6 @@ CORE_EXPORT(const char *) ap_init_virtual_host(pool *p, const char *hostname,
 {
     server_rec *s = (server_rec *) ap_pcalloc(p, sizeof(server_rec));
 
-#ifdef RLIMIT_NOFILE
     struct rlimit limits;
 
     getrlimit(RLIMIT_NOFILE, &limits);
@@ -1452,7 +1445,6 @@ CORE_EXPORT(const char *) ap_init_virtual_host(pool *p, const char *hostname,
 	    fprintf(stderr, "Cannot exceed hard limit for open files");
 	}
     }
-#endif
 
     s->server_admin = NULL;
     s->server_hostname = NULL;
@@ -1483,9 +1475,7 @@ CORE_EXPORT(const char *) ap_init_virtual_host(pool *p, const char *hostname,
     s->limit_req_fieldsize = main_server->limit_req_fieldsize;
     s->limit_req_fields = main_server->limit_req_fields;
 
-#ifdef EAPI
     s->ctx = ap_ctx_new(p);
-#endif /* EAPI */
 
     *ps = s;
 
@@ -1606,9 +1596,7 @@ static server_rec *init_server_config(pool *p)
     s->module_config = create_server_config(p, s);
     s->lookup_defaults = create_default_per_dir_config(p);
 
-#ifdef EAPI
     s->ctx = ap_ctx_new(p);
-#endif /* EAPI */
 
     return s;
 }
@@ -1704,12 +1692,8 @@ API_EXPORT(void) ap_child_exit_modules(pool *p, server_rec *s)
 {
     module *m;
 
-#ifdef SIGHUP
     signal(SIGHUP, SIG_IGN);
-#endif
-#ifdef SIGUSR1
     signal(SIGUSR1, SIG_IGN);
-#endif
 
     for (m = top_module; m; m = m->next)
 	if (m->child_exit)
