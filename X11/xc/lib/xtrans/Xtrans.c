@@ -424,9 +424,6 @@ TRANS(Open) (int type, char *address)
     XtransConnInfo	ciptr = NULL;
     Xtransport		*thistrans;
 
-    /* XXX */
-    fprintf(stderr, "_X11TransOpen(%s)\n", address);
-
     PRMSG (2,"Open(%d,%s)\n", type, address, 0);
 
 #if defined(WIN32) && (defined(TCPCONN) || defined(DNETCONN))
@@ -598,6 +595,15 @@ XtransConnInfo
 TRANS(OpenCOTSClient) (char *address)
 
 {
+#if defined(XSERV_t) && defined(TRANS_SERVER)
+/* Use ErrorF() for the X server */
+    /* XXX */
+    ErrorF("_X11TransOpen(%s)\n", address);
+#else
+    /* XXX */
+    fprintf(stderr, "_X11TransOpen(%s)\n", address);
+#endif /* XSERV_t && TRANS_SERVER */
+
     PRMSG (2,"OpenCOTSClient(%s)\n", address, 0, 0);
     return TRANS(Open) (XTRANS_OPEN_COTS_CLIENT, address);
 }
