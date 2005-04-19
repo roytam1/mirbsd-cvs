@@ -1,10 +1,13 @@
-# $OpenBSD: Makefile,v 1.1 2003/11/25 20:12:39 otto Exp $
-# $NetBSD: Makefile,v 1.1 2003/10/16 21:41:46 christos Exp $
+# $NetBSD: Makefile,v 1.2 2003/12/05 13:37:48 lukem Exp $
 
 NOMAN=1
 PROG=test
 CPPFLAGS=-I${.CURDIR}/..
 LDADD+=-ledit -ltermcap
 DPADD+=${LIBEDIT} ${LIBTERMCAP}
+
+.ifdef DEBUG
+CPPFLAGS+=-DDEBUG
+.endif
 
 .include <bsd.prog.mk>

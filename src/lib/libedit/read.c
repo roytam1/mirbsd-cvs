@@ -1,5 +1,4 @@
-/*	$OpenBSD: read.c,v 1.11 2003/11/25 20:12:38 otto Exp $	*/
-/*	$NetBSD: read.c,v 1.30 2003/10/18 23:48:42 christos Exp $	*/
+/*	$NetBSD: read.c,v 1.35 2005/03/09 23:55:02 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)read.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: read.c,v 1.11 2003/11/25 20:12:38 otto Exp $";
+__RCSID("$NetBSD: read.c,v 1.35 2005/03/09 23:55:02 christos Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
@@ -367,6 +366,9 @@ read_prepare(EditLine *el)
 	re_clear_display(el);	/* reset the display stuff */
 	ch_reset(el);
 	re_refresh(el);		/* print the prompt */
+
+	if (el->el_flags & UNBUFFERED)
+		term__flush();
 }
 
 protected void
@@ -436,8 +438,12 @@ el_gets(EditLine *el, int *nread)
 		read_prepare(el);
 
 	if (el->el_flags & EDIT_DISABLED) {
-		char *cp = el->el_line.buffer;
+		char *cp;
 		size_t idx;
+		if ((el->el_flags & UNBUFFERED) == 0)
+			cp = el->el_line.buffer;
+		else
+			cp = el->el_line.lastchar;
 
 		term__flush();
 
@@ -509,7 +515,7 @@ el_gets(EditLine *el, int *nread)
 		    el->el_chared.c_redo.pos < el->el_chared.c_redo.lim) {
 			if (cmdnum == VI_DELETE_PREV_CHAR &&
 			    el->el_chared.c_redo.pos != el->el_chared.c_redo.buf
-			    && isprint(el->el_chared.c_redo.pos[-1]))
+			    && isprint((unsigned char)el->el_chared.c_redo.pos[-1]))
 				el->el_chared.c_redo.pos--;
 			else
 				*el->el_chared.c_redo.pos++ = ch;
@@ -554,7 +560,7 @@ el_gets(EditLine *el, int *nread)
 			if ((el->el_flags & UNBUFFERED) == 0)
 				num = 0;
 			else if (num == -1) {
-				*el->el_line.lastchar++ = CTRL('d');
+				*el->el_line.lastchar++ = CONTROL('d');
 				el->el_line.cursor = el->el_line.lastchar;
 				num = 1;
 			}

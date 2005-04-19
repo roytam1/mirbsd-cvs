@@ -1,5 +1,4 @@
-/*	$OpenBSD: map.c,v 1.9 2003/10/31 08:42:24 otto Exp $	*/
-/*	$NetBSD: map.c,v 1.19 2003/08/07 16:44:32 agc Exp $	*/
+/*	$NetBSD: map.c,v 1.20 2004/08/13 12:10:39 mycroft Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)map.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: map.c,v 1.9 2003/10/31 08:42:24 otto Exp $";
+__RCSID("$NetBSD: map.c,v 1.20 2004/08/13 12:10:39 mycroft Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
@@ -68,7 +67,7 @@ private const el_action_t  el_map_emacs[] = {
 	/*   5 */	ED_MOVE_TO_END,		/* ^E */
 	/*   6 */	ED_NEXT_CHAR,		/* ^F */
 	/*   7 */	ED_UNASSIGNED,		/* ^G */
-	/*   8 */	ED_DELETE_PREV_CHAR,	/* ^H */
+	/*   8 */	EM_DELETE_PREV_CHAR,	/* ^H */
 	/*   9 */	ED_UNASSIGNED,		/* ^I */
 	/*  10 */	ED_NEWLINE,		/* ^J */
 	/*  11 */	ED_KILL_LINE,		/* ^K */
@@ -187,7 +186,7 @@ private const el_action_t  el_map_emacs[] = {
 	/* 124 */	ED_INSERT,		/* | */
 	/* 125 */	ED_INSERT,		/* } */
 	/* 126 */	ED_INSERT,		/* ~ */
-	/* 127 */	ED_DELETE_PREV_CHAR,	/* ^? */
+	/* 127 */	EM_DELETE_PREV_CHAR,	/* ^? */
 	/* 128 */	ED_UNASSIGNED,		/* M-^@ */
 	/* 129 */	ED_UNASSIGNED,		/* M-^A */
 	/* 130 */	ED_UNASSIGNED,		/* M-^B */
@@ -284,7 +283,7 @@ private const el_action_t  el_map_emacs[] = {
 	/* 221 */	ED_UNASSIGNED,		/* M-] */
 	/* 222 */	ED_UNASSIGNED,		/* M-^ */
 	/* 223 */	ED_UNASSIGNED,		/* M-_ */
-	
+	/* 223 */	ED_UNASSIGNED,		/* M-` */
 	/* 224 */	ED_UNASSIGNED,		/* M-a */
 	/* 225 */	ED_PREV_WORD,		/* M-b */
 	/* 226 */	EM_CAPITOL_CASE,	/* M-c */

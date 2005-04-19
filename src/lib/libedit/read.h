@@ -1,5 +1,4 @@
-/*	$OpenBSD: read.h,v 1.1 2003/10/31 08:42:24 otto Exp $	*/
-/*	$NetBSD: read.h,v 1.2 2003/09/26 17:44:51 christos Exp $	*/
+/*	$NetBSD: read.h,v 1.4 2004/02/27 14:52:18 christos Exp $	*/
 
 /*-
  * Copyright (c) 2001 The NetBSD Foundation, Inc.

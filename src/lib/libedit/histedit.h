@@ -1,5 +1,4 @@
-/*	$OpenBSD: histedit.h,v 1.9 2003/11/25 20:12:38 otto Exp $	*/
-/*	$NetBSD: histedit.h,v 1.24 2003/10/16 22:26:32 christos Exp $	*/
+/*	$NetBSD: histedit.h,v 1.25 2003/12/05 13:37:48 lukem Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -42,7 +41,7 @@
 #define	_HISTEDIT_H_
 
 #define	LIBEDIT_MAJOR 2
-#define	LIBEDIT_MINOR 8
+#define	LIBEDIT_MINOR 9
 
 #include <sys/types.h>
 #include <stdio.h>
@@ -50,6 +49,7 @@
 /*
  * ==== Editing ====
  */
+
 typedef struct editline EditLine;
 
 /*
@@ -60,7 +60,6 @@ typedef struct lineinfo {
 	const char	*cursor;
 	const char	*lastchar;
 } LineInfo;
-
 
 /*
  * EditLine editor function return codes.
@@ -81,9 +80,8 @@ typedef struct lineinfo {
  * Initialization, cleanup, and resetting
  */
 EditLine	*el_init(const char *, FILE *, FILE *, FILE *);
-void		 el_reset(EditLine *);
 void		 el_end(EditLine *);
-
+void		 el_reset(EditLine *);
 
 /*
  * Get a line, a character or push a string back in the input queue
@@ -145,13 +143,13 @@ int		el_source(EditLine *, const char *);
  */
 void		 el_resize(EditLine *);
 
-
 /*
  * User-defined function interface.
  */
 const LineInfo	*el_line(EditLine *);
 int		 el_insertstr(EditLine *, const char *);
 void		 el_deletestr(EditLine *, int);
+
 
 /*
  * ==== History ====
@@ -194,5 +192,23 @@ int		history(History *, HistEvent *, int, ...);
 #define	H_CLEAR		19	/* , void);		*/
 #define	H_SETUNIQUE	20	/* , int);		*/
 #define	H_GETUNIQUE	21	/* , void);		*/
+
+
+/*
+ * ==== Tokenization ====
+ */
+
+typedef struct tokenizer Tokenizer;
+
+/*
+ * String tokenization functions, using simplified sh(1) quoting rules
+ */
+Tokenizer	*tok_init(const char *);
+void		 tok_end(Tokenizer *);
+void		 tok_reset(Tokenizer *);
+int		 tok_line(Tokenizer *, const LineInfo *,
+		    int *, const char ***, int *, int *);
+int		 tok_str(Tokenizer *, const char *,
+		    int *, const char ***);
 
 #endif /* _HISTEDIT_H_ */

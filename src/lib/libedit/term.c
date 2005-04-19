@@ -1,5 +1,4 @@
-/*	$OpenBSD: term.c,v 1.11 2003/10/31 08:42:24 otto Exp $	*/
-/*	$NetBSD: term.c,v 1.38 2003/09/14 21:48:55 christos Exp $	*/
+/*	$NetBSD: term.c,v 1.40 2004/05/22 23:21:28 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)term.c	8.2 (Berkeley) 4/30/95";
 #else
-static const char rcsid[] = "$OpenBSD: term.c,v 1.11 2003/10/31 08:42:24 otto Exp $";
+__RCSID("$NetBSD: term.c,v 1.40 2004/05/22 23:21:28 christos Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
@@ -370,6 +369,8 @@ term_end(EditLine *el)
 	el->el_term.t_str = NULL;
 	el_free((ptr_t) el->el_term.t_val);
 	el->el_term.t_val = NULL;
+	el_free((ptr_t) el->el_term.t_fkey);
+	el->el_term.t_fkey = NULL;
 	term_free_display(el);
 }
 
@@ -397,16 +398,16 @@ term_alloc(EditLine *el, const struct termcapstr *t, const char *cap)
          * New string is shorter; no need to allocate space
          */
 	if (clen <= tlen) {
-		(void) strlcpy(*str, cap, tlen + 1);
+		(void) strcpy(*str, cap);	/* XXX strcpy is safe */
 		return;
 	}
 	/*
          * New string is longer; see if we have enough space to append
          */
 	if (el->el_term.t_loc + 3 < TC_BUFSIZE) {
-		tlen = TC_BUFSIZE - el->el_term.t_loc;
-		(void) strlcpy(*str = &el->el_term.t_buf[el->el_term.t_loc],
-		    cap, tlen);
+						/* XXX strcpy is safe */
+		(void) strcpy(*str = &el->el_term.t_buf[el->el_term.t_loc],
+		    cap);
 		el->el_term.t_loc += clen + 1;	/* one for \0 */
 		return;
 	}
@@ -430,8 +431,8 @@ term_alloc(EditLine *el, const struct termcapstr *t, const char *cap)
 		    "Out of termcap string space.\n");
 		return;
 	}
-	tlen = TC_BUFSIZE - el->el_term.t_loc;
-	(void) strlcpy(*str = &el->el_term.t_buf[el->el_term.t_loc], cap, tlen);
+					/* XXX strcpy is safe */
+	(void) strcpy(*str = &el->el_term.t_buf[el->el_term.t_loc], cap);
 	el->el_term.t_loc += clen + 1;	/* one for \0 */
 	return;
 }
@@ -942,8 +943,11 @@ term_set(EditLine *el, const char *term)
 		/* Get the size */
 		Val(T_co) = tgetnum("co");
 		Val(T_li) = tgetnum("li");
-		for (t = tstr; t->name != NULL; t++)
-			term_alloc(el, t, tgetstr((char *)t->name, &area));
+		for (t = tstr; t->name != NULL; t++) {
+			/* XXX: some systems tgetstr needs non const */
+			term_alloc(el, t, tgetstr(strchr(t->name, *t->name),
+			    &area));
+		}
 	}
 
 	if (Val(T_co) < 2)
@@ -1425,7 +1429,7 @@ term_echotc(EditLine *el, int argc __attribute__((__unused__)),
 			}
 		(void) fprintf(el->el_outfile, fmtd, 0);
 #else
-		(void) fprintf(el->el_outfile, fmtd, el->el_tty.t_speed);
+		(void) fprintf(el->el_outfile, fmtd, (int)el->el_tty.t_speed);
 #endif
 		return (0);
 	} else if (strcmp(*argv, "rows") == 0 || strcmp(*argv, "lines") == 0) {
@@ -1444,8 +1448,10 @@ term_echotc(EditLine *el, int argc __attribute__((__unused__)),
 			scap = el->el_term.t_str[t - tstr];
 			break;
 		}
-	if (t->name == NULL)
-		scap = tgetstr((char *)*argv, &area);
+	if (t->name == NULL) {
+		/* XXX: some systems tgetstr needs non const */
+		scap = tgetstr(strchr(*argv, **argv), &area);
+	}
 	if (!scap || scap[0] == '\0') {
 		if (!silent)
 			(void) fprintf(el->el_errfile,

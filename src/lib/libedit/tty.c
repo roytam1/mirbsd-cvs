@@ -1,5 +1,4 @@
-/*	$OpenBSD: tty.c,v 1.10 2003/11/25 20:12:38 otto Exp $	*/
-/*	$NetBSD: tty.c,v 1.20 2003/10/18 22:37:24 christos Exp $	*/
+/*	$NetBSD: tty.c,v 1.21 2004/08/13 12:10:39 mycroft Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -38,13 +37,14 @@
 #if 0
 static char sccsid[] = "@(#)tty.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: tty.c,v 1.10 2003/11/25 20:12:38 otto Exp $";
+__RCSID("$NetBSD: tty.c,v 1.21 2004/08/13 12:10:39 mycroft Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
 /*
  * tty.c: tty interface stuff
  */
+#include <assert.h>
 #include "tty.h"
 #include "el.h"
 
@@ -121,11 +121,11 @@ private const ttychar_t ttychar = {
 private const ttymap_t tty_map[] = {
 #ifdef VERASE
 	{C_ERASE, VERASE,
-	{ED_DELETE_PREV_CHAR, VI_DELETE_PREV_CHAR, ED_PREV_CHAR}},
+	{EM_DELETE_PREV_CHAR, VI_DELETE_PREV_CHAR, ED_PREV_CHAR}},
 #endif /* VERASE */
 #ifdef VERASE2
 	{C_ERASE2, VERASE2,
-	{ED_DELETE_PREV_CHAR, VI_DELETE_PREV_CHAR, ED_PREV_CHAR}},
+	{EM_DELETE_PREV_CHAR, VI_DELETE_PREV_CHAR, ED_PREV_CHAR}},
 #endif /* VERASE2 */
 #ifdef VKILL
 	{C_KILL, VKILL,
@@ -1255,8 +1255,9 @@ tty_stty(EditLine *el, int argc __attribute__((__unused__)), const char **argv)
 			int c = ffs((int)m->m_value);
 			int v = *p ? parse__escape((const char **const) &p) :
 			    el->el_tty.t_vdisable;
-			c--;
+			assert(c-- != 0);
 			c = tty__getcharindex(c);
+			assert(c != -1);
 			tios->c_cc[c] = v;
 			continue;
 		}

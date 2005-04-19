@@ -1,5 +1,4 @@
-/*	$OpenBSD: history.c,v 1.12 2003/11/25 20:12:38 otto Exp $	*/
-/*	$NetBSD: history.c,v 1.25 2003/10/18 23:48:42 christos Exp $	*/
+/*	$NetBSD: history.c,v 1.28 2004/11/27 18:31:45 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)history.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: history.c,v 1.12 2003/11/25 20:12:38 otto Exp $";
+__RCSID("$NetBSD: history.c,v 1.28 2004/11/27 18:31:45 christos Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
@@ -247,19 +246,18 @@ history_def_next(ptr_t p, HistEvent *ev)
 {
 	history_t *h = (history_t *) p;
 
-	if (h->cursor != &h->list)
-		h->cursor = h->cursor->next;
-	else {
+	if (h->cursor == &h->list) {
 		he_seterrev(ev, _HE_EMPTY_LIST);
 		return (-1);
 	}
 
-	if (h->cursor != &h->list)
-		*ev = h->cursor->ev;
-	else {
+	if (h->cursor->next == &h->list) {
 		he_seterrev(ev, _HE_END_REACHED);
 		return (-1);
 	}
+
+        h->cursor = h->cursor->next;
+        *ev = h->cursor->ev;
 
 	return (0);
 }
@@ -273,20 +271,19 @@ history_def_prev(ptr_t p, HistEvent *ev)
 {
 	history_t *h = (history_t *) p;
 
-	if (h->cursor != &h->list)
-		h->cursor = h->cursor->prev;
-	else {
+	if (h->cursor == &h->list) {
 		he_seterrev(ev,
 		    (h->cur > 0) ? _HE_END_REACHED : _HE_EMPTY_LIST);
 		return (-1);
 	}
 
-	if (h->cursor != &h->list)
-		*ev = h->cursor->ev;
-	else {
+	if (h->cursor->prev == &h->list) {
 		he_seterrev(ev, _HE_START_REACHED);
 		return (-1);
 	}
+
+        h->cursor = h->cursor->prev;
+        *ev = h->cursor->ev;
 
 	return (0);
 }
@@ -679,7 +676,7 @@ history_load(History *h, const char *fname)
 
 		if (max_size < sz) {
 			char *nptr;
-			max_size = (sz + 1023) & ~1023;
+			max_size = (sz + 1024) & ~1023;
 			nptr = h_realloc(ptr, max_size);
 			if (nptr == NULL) {
 				i = -1;
@@ -730,7 +727,7 @@ history_save(History *h, const char *fname)
 		len = strlen(ev.str) * 4;
 		if (len >= max_size) {
 			char *nptr;
-			max_size = (len + 1023) & 1023;
+			max_size = (len + 1024) & ~1023;
 			nptr = h_realloc(ptr, max_size);
 			if (nptr == NULL) {
 				i = -1;

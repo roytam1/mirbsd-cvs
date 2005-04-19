@@ -1,4 +1,3 @@
-/*	$OpenBSD: config.h,v 1.1 2003/10/31 08:42:24 otto Exp $	*/
 /* config.h.  Generated automatically by configure.  */
 /* #undef SUNOS */
 

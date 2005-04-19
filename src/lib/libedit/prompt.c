@@ -1,4 +1,3 @@
-/*	$OpenBSD: prompt.c,v 1.7 2003/10/31 08:42:24 otto Exp $	*/
 /*	$NetBSD: prompt.c,v 1.11 2003/08/07 16:44:32 agc Exp $	*/
 
 /*-
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)prompt.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: prompt.c,v 1.7 2003/10/31 08:42:24 otto Exp $";
+__RCSID("$NetBSD: prompt.c,v 1.11 2003/08/07 16:44:32 agc Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
