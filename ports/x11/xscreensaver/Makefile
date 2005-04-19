@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.23 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=		"screen saver and locker for the X Window System"
@@ -52,8 +53,8 @@ CONFIGURE_ARGS+=	--without-gle
 
 .if ${FLAVOR:L:Mgtk2}
 BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS+=		gdk_pixbuf_xlib-2.0.0.0::x11/gtk+2 \
-			glade-2.0.0.0::devel/libglade2
+LIB_DEPENDS+=		gdk_pixbuf_xlib-2.0.0.0::x11/gtk+ \
+			glade-2.0.0.0::devel/libglade
 CONFIGURE_ARGS+=	--with-gtk2
 .else
 LIB_DEPENDS+=		gdk_pixbuf.2,gdk_pixbuf_xlib.2::graphics/gdk-pixbuf
