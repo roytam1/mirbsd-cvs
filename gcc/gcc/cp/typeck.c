@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/cp/typeck.c,v 1.2 2005/03/25 19:29:20 tg Exp $ */
 
 /* Build expressions with type checking for C++ compiler.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -1219,7 +1219,7 @@ cxx_sizeof_or_alignof_type (tree type, enum tree_code op, bool complain)
   if (type == error_mark_node)
     return error_mark_node;
   
-  if (processing_template_decl)
+  if (dependent_type_p (type))
     {
       value = build_min (op, size_type_node, type);
       TREE_READONLY (value) = 1;
