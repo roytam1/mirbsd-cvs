@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.48 2005/04/14 22:26:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.49 2005/04/16 03:33:48 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2788,4 +2788,10 @@
  (which is actually a GNU groff extension, but can be taken care of by our
  nrcon -8 or the new -e option if you don't need an 8-bit pass-through); I
  have changed X to build its man pages using nrcon -e now.</p>
+<p>19.04.2005 by tg@<br />Benny is back and I have hacked on a whole bunch
+ of stuff in the meanwhile. Today, it's the GNU Debugger (it bugs me!), of
+ course with the "I am shitty and restrict you" documentation license(sic)
+ and a variable called "main", next to 1000 gcc3.4 errors. Should work for
+ low values of work though, and libedit got improved also (and nbsdified).
+ If libedit catches up even more, we can have the TUI. More later.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
