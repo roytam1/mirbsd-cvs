@@ -346,11 +346,11 @@ edit_fileproc (void *callerdat, struct file_info *finfo)
     char *ascnow;
     Vers_TS *vers;
 
-#if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
+#if defined (CLIENT_SUPPORT)
     assert (!(current_parsed_root->isremote && check_edited));
-#else
+#else /* !CLIENT_SUPPORT */
     assert (!check_edited);
-#endif /* defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */
+#endif /* CLIENT_SUPPORT */
 
     if (noexec)
 	return 0;
@@ -387,14 +387,14 @@ edit_fileproc (void *callerdat, struct file_info *finfo)
         }
     }
 
-    fp = open_file (CVSADM_NOTIFY, "a");
+    fp = xfopen (CVSADM_NOTIFY, "a");
 
     (void) time (&now);
     ascnow = asctime (gmtime (&now));
     ascnow[24] = '\0';
     /* Fix non-standard format.  */
     if (ascnow[8] == '0') ascnow[8] = ' ';
-    fprintf (fp, "E%s\t%s GMT\t%s\t%s\t", finfo->file,
+    fprintf (fp, "E%s\t%s -0000\t%s\t%s\t", finfo->file,
 	     ascnow, hostname, CurDir);
     if (setting_tedit)
 	fprintf (fp, "E");
@@ -601,15 +601,12 @@ unedit_fileproc (void *callerdat, struct file_info *finfo)
     FILE *fp;
     time_t now;
     char *ascnow;
-    char *basefilename;
+    char *basefilename = NULL;
 
     if (noexec)
 	return 0;
 
-    basefilename = xmalloc (10 + sizeof CVSADM_BASE + strlen (finfo->file));
-    strcpy (basefilename, CVSADM_BASE);
-    strcat (basefilename, "/");
-    strcat (basefilename, finfo->file);
+    basefilename = Xasprintf ("%s/%s", CVSADM_BASE, finfo->file);
     if (!isfile (basefilename))
     {
 	/* This file apparently was never cvs edit'd (e.g. we are uneditting
@@ -633,14 +630,14 @@ unedit_fileproc (void *callerdat, struct file_info *finfo)
     rename_file (basefilename, finfo->file);
     free (basefilename);
 
-    fp = open_file (CVSADM_NOTIFY, "a");
+    fp = xfopen (CVSADM_NOTIFY, "a");
 
     (void) time (&now);
     ascnow = asctime (gmtime (&now));
     ascnow[24] = '\0';
     /* Fix non-standard format.  */
     if (ascnow[8] == '0') ascnow[8] = ' ';
-    fprintf (fp, "U%s\t%s GMT\t%s\t%s\t\n", finfo->file,
+    fprintf (fp, "U%s\t%s -0000\t%s\t%s\t\n", finfo->file,
 	     ascnow, hostname, CurDir);
 
     if (fclose (fp) < 0)
@@ -767,10 +764,7 @@ mark_up_to_date (const char *file)
 
     /* The file is up to date, so we better get rid of an out of
        date file in CVSADM_BASE.  */
-    base = xmalloc (strlen (file) + 80);
-    strcpy (base, CVSADM_BASE);
-    strcat (base, "/");
-    strcat (base, file);
+    base = Xasprintf ("%s/%s", CVSADM_BASE, file);
     if (unlink_file (base) < 0 && ! existence_error (errno))
 	error (0, errno, "cannot remove %s", file);
     free (base);
@@ -819,24 +813,28 @@ notify_proc (const char *repository, const char *filter, void *closure)
     const char *srepos = Short_Repository (repository);
     struct notify_proc_args *args = closure;
 
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
-	false, srepos,
+			      false, srepos,
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
-	filter,
-	"c", "s", cvs_cmd_name,
+			      filter,
+			      "c", "s", cvs_cmd_name,
 #ifdef SERVER_SUPPORT
-        "R", "s", referrer ? referrer->original : "NONE",
+			      "R", "s", referrer ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */
-    	"p", "s", srepos,
-	"r", "s", current_parsed_root->directory,
-	"s", "s", args->notifyee,
-	NULL
-	);
-    if (!cmdline || !strlen(cmdline))
+			      "p", "s", srepos,
+			      "r", "s", current_parsed_root->directory,
+			      "s", "s", args->notifyee,
+			      (char *) NULL);
+    if (!cmdline || !strlen (cmdline))
     {
 	if (cmdline) free (cmdline);
-	error(0, 0, "pretag proc resolved to the empty string!");
+	error (0, 0, "pretag proc resolved to the empty string!");
 	return 1;
     }
 
@@ -844,7 +842,7 @@ notify_proc (const char *repository, const char *filter, void *closure)
     if (pipefp == NULL)
     {
 	error (0, errno, "cannot write entry to notify filter: %s", cmdline);
-	free(cmdline);
+	free (cmdline);
 	return 1;
     }
 
@@ -855,7 +853,7 @@ notify_proc (const char *repository, const char *filter, void *closure)
     /* Lots more potentially useful information we could add here; see
        logfile_write for inspiration.  */
 
-    free(cmdline);
+    free (cmdline);
     return pclose (pipefp);
 }
 
@@ -1012,15 +1010,8 @@ notify_do (int type, const char *filename, const char *update_dir,
 	    size_t line_len = 0;
 
 	    args.notifyee = NULL;
-	    usersname = xmalloc (strlen (current_parsed_root->directory)
-				 + sizeof CVSROOTADM
-				 + sizeof CVSROOTADM_USERS
-				 + 20);
-	    strcpy (usersname, current_parsed_root->directory);
-	    strcat (usersname, "/");
-	    strcat (usersname, CVSROOTADM);
-	    strcat (usersname, "/");
-	    strcat (usersname, CVSROOTADM_USERS);
+	    usersname = Xasprintf ("%s/%s/%s", current_parsed_root->directory,
+				   CVSROOTADM, CVSROOTADM_USERS);
 	    fp = CVS_FOPEN (usersname, "r");
 	    if (fp == NULL && !existence_error (errno))
 		error (0, errno, "cannot read %s", usersname);

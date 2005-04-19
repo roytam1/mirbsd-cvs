@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  *
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -95,7 +100,8 @@ static const char *const commit_usage[] =
 
 #ifdef CLIENT_SUPPORT
 /* Identify a file which needs "? foo" or a Questionable request.  */
-struct question {
+struct question
+{
     /* The two fields for the Directory request.  */
     char *dir;
     char *repos;
@@ -106,7 +112,8 @@ struct question {
     struct question *next;
 };
 
-struct find_data {
+struct find_data
+{
     List *ulist;
     int argc;
     char **argv;
@@ -393,7 +400,7 @@ commit (int argc, char **argv)
 		    saved_message = NULL;
 		}
 
-		saved_message = xstrdup(optarg);
+		saved_message = xstrdup (optarg);
 		break;
 	    case 'r':
 		if (saved_tag)
@@ -496,7 +503,7 @@ commit (int argc, char **argv)
 	    find_args.argc = 0;
 	    return 0;
 	}
-	find_args.argv = xmalloc (xtimes (find_args.argc, sizeof (char **)));
+	find_args.argv = xnmalloc (find_args.argc, sizeof (char **));
 	find_args.argc = 0;
 	walklist (find_args.ulist, copy_ulist, &find_args);
 
@@ -579,11 +586,11 @@ commit (int argc, char **argv)
 	}
 
 	if (local)
-	    send_arg("-l");
+	    send_arg ("-l");
         if (check_valid_edit)
-            send_arg("-c");
+            send_arg ("-c");
 	if (force_ci)
-	    send_arg("-f");
+	    send_arg ("-f");
 	option_with_arg ("-r", saved_tag);
 	send_arg ("--");
 
@@ -896,7 +903,7 @@ check_fileproc (void *callerdat, struct file_info *finfo)
 		 * If the timestamp on the file is the same as the
 		 * timestamp stored in the Entries file, we block the commit.
 		 */
-		if ( file_has_conflict ( finfo, vers->ts_conflict ) )
+		if (file_has_conflict (finfo, vers->ts_conflict))
 		{
 		    error (0, 0,
 			  "file `%s' had a conflict and has not been modified",
@@ -984,9 +991,9 @@ warning: file `%s' seems to still contain conflict indicators",
 	    {
 		struct master_lists *ml;
 
-		ml = xmalloc (sizeof (struct master_lists ));
-		ulist = ml->ulist = getlist();
-		cilist = ml->cilist = getlist();
+		ml = xmalloc (sizeof (struct master_lists));
+		ulist = ml->ulist = getlist ();
+		cilist = ml->cilist = getlist ();
 
 		p = getnode ();
 		p->key = xstrdup (xdir);
@@ -1076,7 +1083,7 @@ warning: file `%s' seems to still contain conflict indicators",
 	    else
 		ci->rev = NULL;
 	    ci->tag = xstrdup (vers->tag);
-	    ci->options = xstrdup(vers->options);
+	    ci->options = xstrdup (vers->options);
 	    p->data = ci;
 	    (void) addnode (cilist, p);
 
@@ -1091,9 +1098,7 @@ warning: file `%s' seems to still contain conflict indicators",
 		struct hardlink_info *hlinfo;
 
 		/* Get the full pathname of the current file. */
-		fullpath = xmalloc (strlen(working_dir) +
-				    strlen(finfo->fullname) + 2);
-		sprintf (fullpath, "%s/%s", working_dir, finfo->fullname);
+		fullpath = Xasprintf ("%s/%s", working_dir, finfo->fullname);
 
 		/* To permit following links in subdirectories, files
                    are keyed on finfo->fullname, not on finfo->name. */
@@ -1247,27 +1252,30 @@ precommit_proc (const char *repository, const char *filter, void *closure)
                "    \"%s\"\n"
                "Appending defaults (\" %%r/%%p %%s\"), but please be aware that this usage is\n"
                "deprecated.", filter);
-	newfilter = xmalloc (strlen (filter) + 10);
-	strcpy (newfilter, filter);
-	strcat (newfilter, " %r/%p %s");
+	newfilter = Xasprintf ("%s %%r/%%p %%s", filter);
 	filter = newfilter;
     }
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
-        false, srepos,
+			      false, srepos,
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
-        filter,
-	"c", "s", cvs_cmd_name,
+			      filter,
+			      "c", "s", cvs_cmd_name,
 #ifdef SERVER_SUPPORT
-        "R", "s", referrer ? referrer->original : "NONE",
+			      "R", "s", referrer ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */
-        "p", "s", srepos,
-        "r", "s", current_parsed_root->directory,
-        "s", ",", ulist, precommit_list_to_args_proc, (void *)NULL,
-        (char *)NULL
-	);
+			      "p", "s", srepos,
+			      "r", "s", current_parsed_root->directory,
+			      "s", ",", ulist, precommit_list_to_args_proc,
+			      (void *) NULL,
+			      (char *) NULL);
 
     if (newfilter) free (newfilter);
 
@@ -1281,7 +1289,7 @@ precommit_proc (const char *repository, const char *filter, void *closure)
     run_setup (cmdline);
     free (cmdline);
 
-    return run_exec (RUN_TTY, RUN_TTY, RUN_TTY, RUN_NORMAL|RUN_REALLY);
+    return run_exec (RUN_TTY, RUN_TTY, RUN_TTY, RUN_NORMAL | RUN_REALLY);
 }
 
 
@@ -1454,7 +1462,8 @@ commit_fileproc (void *callerdat, struct file_info *finfo)
 	    /* find the max major rev number in this directory */
 	    maxrev = 0;
 	    (void) walklist (finfo->entries, findmaxrev, NULL);
-	    if (finfo->rcs->head) {
+	    if (finfo->rcs->head)
+	    {
 		/* resurrecting: include dead revision */
 		int thisrev = atoi (finfo->rcs->head);
 		if (thisrev > maxrev)
@@ -1462,8 +1471,7 @@ commit_fileproc (void *callerdat, struct file_info *finfo)
 	    }
 	    if (maxrev == 0)
 		maxrev = 1;
-	    xrev = xmalloc (20);
-	    (void) sprintf (xrev, "%d", maxrev);
+	    xrev = Xasprintf ("%d", maxrev);
 	}
 
 	/* XXX - an added file with symbolic -r should add tag as well */
@@ -1488,7 +1496,8 @@ commit_fileproc (void *callerdat, struct file_info *finfo)
     {
 	err = remove_file (finfo, ci->tag, saved_message);
 #ifdef SERVER_SUPPORT
-	if (server_active) {
+	if (server_active)
+	{
 	    server_scratch_entry_only ();
 	    server_updated (finfo,
 			    NULL,
@@ -1561,6 +1570,8 @@ commit_filesdoneproc (void *callerdat, int err, const char *repository,
 {
     Node *p;
     List *ulist;
+
+    assert (repository);
 
     p = findnode (mulist, update_dir);
     if (p == NULL)
@@ -1890,9 +1901,7 @@ finaladd (struct file_info *finfo, char *rev, char *tag, char *options)
     ret = Checkin ('A', finfo, rev, tag, options, saved_message);
     if (ret == 0)
     {
-	char *tmp = xmalloc (strlen (finfo->file) + sizeof (CVSADM)
-			     + sizeof (CVSEXT_LOG) + 10);
-	(void) sprintf (tmp, "%s/%s%s", CVSADM, finfo->file, CVSEXT_LOG);
+	char *tmp = Xasprintf ("%s/%s%s", CVSADM, finfo->file, CVSEXT_LOG);
 	if (unlink_file (tmp) < 0
 	    && !existence_error (errno))
 	    error (0, errno, "cannot remove %s", tmp);
@@ -2030,7 +2039,7 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	size_t desclen = 0;
 	const char *opt;
 
-	if ( adding_on_branch )
+	if (adding_on_branch)
 	{
 	    mode_t omask;
 	    rcsname = xmalloc (strlen (repository)
@@ -2039,10 +2048,10 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 			       + sizeof (RCSEXT)
 			       + 3);
 	    (void) sprintf (rcsname, "%s/%s", repository, CVSATTIC);
-	    omask = umask ( cvsumask );
-	    if (CVS_MKDIR (rcsname, 0777 ) != 0 && errno != EEXIST)
+	    omask = umask (cvsumask);
+	    if (CVS_MKDIR (rcsname, 0777) != 0 && errno != EEXIST)
 		error (1, errno, "cannot make directory `%s'", rcsname);
-	    (void) umask ( omask );
+	    (void) umask (omask);
 	    (void) sprintf (rcsname,
 			    "%s/%s/%s%s",
 			    repository,
@@ -2051,23 +2060,11 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 			    RCSEXT);
 	}
 	else
-	{
-	    rcsname = xmalloc (strlen (repository)
-			       + strlen (file)
-			       + sizeof (RCSEXT)
-			       + 2);
-	    (void) sprintf (rcsname,
-			    "%s/%s%s",
-			    repository,
-			    file,
-			    RCSEXT);
-	}
+	    rcsname = Xasprintf ("%s/%s%s", repository, file, RCSEXT);
 
 	/* this is the first time we have ever seen this file; create
 	   an RCS file.  */
-	fname = xmalloc (strlen (file) + sizeof (CVSADM)
-			 + sizeof (CVSEXT_LOG) + 10);
-	(void) sprintf (fname, "%s/%s%s", CVSADM, file, CVSEXT_LOG);
+	fname = Xasprintf ("%s/%s%s", CVSADM, file, CVSEXT_LOG);
 	/* If the file does not exist, no big deal.  In particular, the
 	   server does not (yet at least) create CVSEXT_LOG files.  */
 	if (isfile (fname))
@@ -2175,9 +2172,7 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	    int retcode;
 
 	    /* move the new file out of the way. */
-	    fname = xmalloc (strlen (file) + sizeof (CVSADM)
-			     + sizeof (CVSPREFIX) + 10);
-	    (void) sprintf (fname, "%s/%s%s", CVSADM, CVSPREFIX, file);
+	    fname = Xasprintf ("%s/%s%s", CVSADM, CVSPREFIX, file);
 	    rename_file (file, fname);
 
 	    /* Create empty FILE.  Can't use copy_file with a DEVNULL
@@ -2188,10 +2183,9 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	    if (fclose (fp) < 0)
 		error (0, errno, "cannot close %s", file);
 
-	    tmp = xmalloc (strlen (file) + strlen (tag) + 80);
+	    tmp = Xasprintf ("file %s was initially added on branch %s.",
+			     file, tag);
 	    /* commit a dead revision. */
-	    (void) sprintf (tmp, "file %s was initially added on branch %s.",
-			    file, tag);
 	    retcode = RCS_checkin (rcs, NULL, NULL, tmp, NULL, 0,
 				   RCS_FLAGS_DEAD | RCS_FLAGS_QUIET);
 	    free (tmp);
@@ -2199,6 +2193,7 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	    {
 		error (retcode == -1 ? 1 : 0, retcode == -1 ? errno : 0,
 		       "could not create initial dead revision %s", rcs->path);
+		free (fname);
 		goto out;
 	    }
 
@@ -2241,6 +2236,9 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	    fixbranch (rcs, sbranch);
 
 	    head = RCS_getversion (rcs, NULL, NULL, 0, NULL);
+	    if (!head)
+		error (1, 0, "No head revision in archive file `%s'.",
+		       rcs->print_path);
 	    magicrev = RCS_magicrev (rcs, head);
 
 	    /* If this is not a new branch, then we will want a dead
@@ -2279,8 +2277,8 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 
 		/* As we will be hacking the delta date, put the time
 		   this was added into the log message. */
-		t = time(NULL);
-		ct = gmtime(&t);
+		t = time (NULL);
+		ct = gmtime (&t);
 		tmp = Xasprintf ("file %s was added on branch %s on %d-%02d-%02d %02d:%02d:%02d +0000",
 				 file, tag,
 				 ct->tm_year + (ct->tm_year < 100 ? 0 : 1900),
@@ -2331,7 +2329,7 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 
 	if (*rcsnode != rcs)
 	{
-	    freercsnode(rcsnode);
+	    freercsnode (rcsnode);
 	    *rcsnode = rcs;
 	}
     }

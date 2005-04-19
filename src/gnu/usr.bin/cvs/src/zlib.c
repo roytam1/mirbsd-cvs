@@ -18,6 +18,7 @@
 
 #include "cvs.h"
 #include "buffer.h"
+#include "pagealign_alloc.h"
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
 
@@ -150,7 +151,7 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	bd = xmalloc (sizeof (struct buffer_data));
 	if (bd == NULL)
 	    return -2;
-	bd->text = xmalloc (BUFFER_DATA_SIZE);
+	bd->text = pagealign_xalloc (BUFFER_DATA_SIZE);
 	if (bd->text == NULL)
 	{
 	    free (bd);
@@ -193,15 +194,24 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	bd->size = cb->zstr.avail_in;
 	bd->bufp = (char *) cb->zstr.next_in;
 
+	sofar = size - cb->zstr.avail_out;
+
 	if (zstatus == Z_STREAM_END)
+	{
+	    /* If we read any data, then return it, relying on the fact that
+	     * we will get Z_STREAM_END on the next read too.
+	     */
+	    if (sofar > 0) break;
+
+	    /* Otherwise, return EOF.  */
 	    return -1;
+	}
 
 	/* If we have obtained NEED bytes, then return, unless NEED is
            zero and we haven't obtained anything at all.  If NEED is
            zero, we will keep reading from the underlying buffer until
            we either can't read anything, or we have managed to
            inflate at least one byte.  */
-	sofar = size - cb->zstr.avail_out;
 	if (sofar > 0 && sofar >= need)
 	    break;
 
@@ -219,8 +229,22 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	status = (*cb->buf->input) (cb->buf->closure, bd->text,
 				    need > 0 ? 1 : 0,
 				    BUFFER_DATA_SIZE, &nread);
-	if (status != 0)
+
+	if (status == -2)
+	    /* Don't try to recover from memory allcoation errors.  */
 	    return status;
+
+	if (status != 0)
+	{
+	    /* If we read any data, then return it, relying on the fact that
+	     * we will get the same error reading the underlying buffer
+	     * on the next read too.
+	     */
+	    if (sofar > 0) break;
+
+	    /* Otherwise, return EOF.  */
+	    return status;
+	}
 
 	/* If we didn't read anything, then presumably the buffer is
            in nonblocking mode, and we should just get out now with
@@ -249,12 +273,18 @@ compress_buffer_output (void *closure, const char *data, size_t have,
 {
     struct compress_buffer *cb = closure;
 
+    /* This is only used within the while loop below, but allocated here for
+     * efficiency.
+     */
+    static char *buffer = NULL;
+    if (!buffer)
+	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
     cb->zstr.avail_in = have;
     cb->zstr.next_in = (unsigned char *) data;
 
     while (cb->zstr.avail_in > 0)
     {
-	char buffer[BUFFER_DATA_SIZE];
 	int zstatus;
 
 	cb->zstr.avail_out = BUFFER_DATA_SIZE;
@@ -288,12 +318,18 @@ compress_buffer_flush (void *closure)
 {
     struct compress_buffer *cb = closure;
 
+    /* This is only used within the while loop below, but allocated here for
+     * efficiency.
+     */
+    static char *buffer = NULL;
+    if (!buffer)
+	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
     cb->zstr.avail_in = 0;
     cb->zstr.next_in = NULL;
 
     while (1)
     {
-	char buffer[BUFFER_DATA_SIZE];
 	int zstatus;
 
 	cb->zstr.avail_out = BUFFER_DATA_SIZE;
@@ -396,10 +432,15 @@ compress_buffer_shutdown_output (struct buffer *buf)
     struct compress_buffer *cb = buf->closure;
     int zstatus, status;
 
+    /* This is only used within the while loop below, but allocated here for
+     * efficiency.
+     */
+    static char *buffer = NULL;
+    if (!buffer)
+	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
     do
     {
-	char buffer[BUFFER_DATA_SIZE];
-
 	cb->zstr.avail_out = BUFFER_DATA_SIZE;
 	cb->zstr.next_out = (unsigned char *) buffer;
 

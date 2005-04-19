@@ -45,8 +45,8 @@ struct config
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
     bool UseNewInfoFmtStrings;
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
-#ifdef PROXY_SUPPORT
     cvsroot_t *PrimaryServer;
+#ifdef PROXY_SUPPORT
     size_t MaxProxyBufferSize;
 #endif /* PROXY_SUPPORT */
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
@@ -54,6 +54,7 @@ struct config
 #endif /* PRESERVE_PERMISSIONS_SUPPORT */
 };
 
+bool parse_error (const char *, unsigned int);
 struct config *parse_config (const char *);
 void free_config (struct config *data);
 #endif /* !PARSEINFO_H */

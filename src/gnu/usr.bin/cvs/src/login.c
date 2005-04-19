@@ -1,5 +1,10 @@
 /*
- * Copyright (c) 1995, Cyclic Software, Bloomington, IN, USA
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (c) 1995, Cyclic Software, Bloomington, IN, USA
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with CVS.
@@ -55,7 +60,7 @@ construct_cvspass_filename (void)
 	   right thing for a GUI is to just store the password in
 	   memory only)...  */
 	error (1, 0, "could not find out home directory");
-	return (char *) NULL;
+	return NULL;
     }
 
     passfile = strcat_filename_onto_homedir (homedir, CVS_PASSWORD_FILE);
@@ -114,7 +119,7 @@ password_entry_parseline (const char *cvsroot_canonical,
 
 	if (isspace(*(linebuf + 1)))
 	    /* special case since strtoul ignores leading white space */
-	    entry_version = 0;
+	    q = linebuf + 1;
 	else
 	    entry_version = strtoul (linebuf + 1, &q, 10);
 
@@ -451,7 +456,7 @@ process:
 	if (fprintf (fp, "/1 %s %s\n", cvsroot_canonical, newpassword) == EOF)
 	    error (1, errno, "cannot write %s", passfile);
 	if (fclose (fp) < 0)
-	    error (0, errno, "cannot close %s", passfile);
+	    error (1, errno, "cannot close %s", passfile);
     }
 
     /* Utter, total, raving paranoia, I know. */

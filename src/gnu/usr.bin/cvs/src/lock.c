@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -153,8 +158,7 @@ lock_name (const char *repository, const char *name)
 	   in the repository, no need to create directories or anything.  */
 	assert (name != NULL);
 	assert (repository != NULL);
-	retval = xmalloc (strlen (repository) + strlen (name) + 10);
-	(void) sprintf (retval, "%s/%s", repository, name);
+	retval = Xasprintf ("%s/%s", repository, name);
     }
     else
     {
@@ -462,14 +466,13 @@ set_readlock_name (void)
 {
     if (readlock == NULL)
     {
-	readlock = xmalloc (strlen (hostname) + sizeof (CVSRFL) + 40);
-	(void) sprintf (readlock, 
+	readlock = Xasprintf (
 #ifdef HAVE_LONG_FILE_NAMES
-			"%s.%s.%ld", CVSRFL, hostname,
+			      "%s.%s.%ld", CVSRFL, hostname,
 #else
-			"%s.%ld", CVSRFL,
+			      "%s.%ld", CVSRFL,
 #endif
-			(long) getpid ());
+			      (long) getpid ());
     }
 }
 
@@ -592,8 +595,7 @@ lock_exists (const char *repository, const char *filepat, const char *ignore)
 		if (ignore && !fncmp (ignore, dp->d_name))
 		    continue;
 
-		line = xmalloc (strlen (lockdir) + 1 + strlen (dp->d_name) + 1);
-		(void)sprintf (line, "%s/%s", lockdir, dp->d_name);
+		line = Xasprintf ("%s/%s", lockdir, dp->d_name);
 		if (CVS_STAT (line, &sb) != -1)
 		{
 #ifdef CVS_FUDGELOCKS
@@ -707,14 +709,13 @@ set_promotable_lock (struct lock *lock)
 
     if (promotablelock == NULL)
     {
-	promotablelock = xmalloc (strlen (hostname) + sizeof (CVSPFL) + 40);
-	(void) sprintf (promotablelock,
+	promotablelock = Xasprintf (
 #ifdef HAVE_LONG_FILE_NAMES
-			"%s.%s.%ld", CVSPFL, hostname,
+				    "%s.%s.%ld", CVSPFL, hostname,
 #else
-			"%s.%ld", CVSPFL,
+				    "%s.%ld", CVSPFL,
 #endif
-			(long) getpid());
+				    (long) getpid());
     }
 
     /* make sure the lock dir is ours (not necessarily unique to us!) */
@@ -840,10 +841,9 @@ lock_wait (const char *repos)
 
     (void) time (&now);
     tm_p = gmtime (&now);
-    msg = xmalloc (100 + strlen (lockers_name) + strlen (repos));
-    sprintf (msg, "[%8.8s] waiting for %s's lock in %s",
-	     (tm_p ? asctime (tm_p) : ctime (&now)) + 11,
-	     lockers_name, repos);
+    msg = Xasprintf ("[%8.8s] waiting for %s's lock in %s",
+		     (tm_p ? asctime (tm_p) : ctime (&now)) + 11,
+		     lockers_name, repos);
     error (0, 0, "%s", msg);
     /* Call cvs_flusherr to ensure that the user sees this message as
        soon as possible.  */
@@ -866,9 +866,8 @@ lock_obtained (const char *repos)
 
     (void) time (&now);
     tm_p = gmtime (&now);
-    msg = xmalloc (100 + strlen (repos));
-    sprintf (msg, "[%8.8s] obtained lock in %s",
-	     (tm_p ? asctime (tm_p) : ctime (&now)) + 11, repos);
+    msg = Xasprintf ("[%8.8s] obtained lock in %s",
+		     (tm_p ? asctime (tm_p) : ctime (&now)) + 11, repos);
     error (0, 0, "%s", msg);
     /* Call cvs_flusherr to ensure that the user sees this message as
        soon as possible.  */
@@ -897,7 +896,7 @@ Attempting to write to a read-only filesystem is not allowed.");
     }
 
     /* We only know how to do one list at a time */
-    if (locklist != (List *) NULL)
+    if (locklist != NULL)
     {
 	error (0, 0,
 	       "lock_list_promotably called while promotable locks set - Help!");
@@ -909,7 +908,7 @@ Attempting to write to a read-only filesystem is not allowed.");
     {
 	/* try to lock everything on the list */
 	lock_error = L_OK;		/* init for set_promotablelock_proc */
-	lock_error_repos = (char *) NULL; /* init for set_promotablelock_proc */
+	lock_error_repos = NULL;	/* init for set_promotablelock_proc */
 	locklist = list;		/* init for Lock_Cleanup */
 	if (lockers_name != NULL)
 	    free (lockers_name);
@@ -963,16 +962,11 @@ set_lockers_name (struct stat *statp)
 
     if (lockers_name != NULL)
 	free (lockers_name);
-    if ((pw = (struct passwd *)getpwuid (statp->st_uid)) !=
-	(struct passwd *)NULL)
-    {
+    pw = (struct passwd *) getpwuid (statp->st_uid);
+    if (pw != NULL)
 	lockers_name = xstrdup (pw->pw_name);
-    }
     else
-    {
-	lockers_name = xmalloc (20);
-	(void)sprintf (lockers_name, "uid%lu", (unsigned long) statp->st_uid);
-    }
+	lockers_name = Xasprintf ("uid%lu", (unsigned long) statp->st_uid);
 }
 
 
@@ -1183,14 +1177,13 @@ lock_dir_for_write (const char *repository)
     {
 	if (writelock == NULL)
 	{
-	    writelock = xmalloc (strlen (hostname) + sizeof (CVSWFL) + 40);
-	    (void) sprintf (writelock,
+	    writelock = Xasprintf (
 #ifdef HAVE_LONG_FILE_NAMES
-			    "%s.%s.%ld", CVSWFL, hostname,
+				   "%s.%s.%ld", CVSWFL, hostname,
 #else
-			    "%s.%ld", CVSWFL,
+				   "%s.%ld", CVSWFL,
 #endif
-			    (long) getpid());
+				   (long) getpid());
 	}
 
 	if (global_writelock.repository != NULL)

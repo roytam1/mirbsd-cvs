@@ -247,7 +247,7 @@ arg_should_not_be_sent_to_server (char *arg)
 char *
 mode_to_string (mode_t mode)
 {
-    char buf[18], u[4], g[4], o[4];
+    char u[4], g[4], o[4];
     int i;
 
     i = 0;
@@ -268,8 +268,7 @@ mode_to_string (mode_t mode)
     if (mode & S_IXOTH) o[i++] = 'x';
     o[i] = '\0';
 
-    sprintf(buf, "u=%s,g=%s,o=%s", u, g, o);
-    return xstrdup(buf);
+    return Xasprintf ("u=%s,g=%s,o=%s", u, g, o);
 }
 
 
@@ -766,6 +765,8 @@ call_in_directory (const char *pathname,
     int reposdirname_absolute;
     int newdir = 0;
 
+    assert (pathname);
+
     reposname = NULL;
     read_line (&reposname);
     assert (reposname != NULL);
@@ -871,6 +872,11 @@ call_in_directory (const char *pathname,
 	char *r;
 
 	newdir = 1;
+
+	/* If toplevel_repos doesn't have at least one character, then the
+	 * reference to r[-1] below could be out of bounds.
+	 */
+	assert (*toplevel_repos);
 
 	repo = xmalloc (strlen (toplevel_repos)
 			+ 10);
@@ -1038,7 +1044,7 @@ warning: server is not creating directories one at a time");
 	} while (dirp != NULL);
 	free (dir);
 	/* Now it better work.  */
-	if ( CVS_CHDIR (dir_name) < 0)
+	if (CVS_CHDIR (dir_name) < 0)
 	    error (1, errno, "could not chdir to %s", dir_name);
     }
     else if (strcmp (cvs_cmd_name, "export") == 0)
@@ -1057,14 +1063,7 @@ warning: server is not creating directories one at a time");
 	if (reposdirname_absolute)
 	    repo = reposdirname;
 	else
-	{
-	    repo = xmalloc (strlen (reposdirname)
-			    + strlen (toplevel_repos)
-			    + 10);
-	    strcpy (repo, toplevel_repos);
-	    strcat (repo, "/");
-	    strcat (repo, reposdirname);
-	}
+	    repo = Xasprintf ("%s/%s", toplevel_repos, reposdirname);
 
 	Create_Admin (".", ".", repo, NULL, NULL, 0, 1, 1);
 	if (repo != reposdirname)
@@ -1573,7 +1572,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 #ifdef USE_VMS_FILENAMES
         /* A VMS rename of "blah.dat" to "foo" to implies a
            destination of "foo.dat" which is unfortinate for CVS */
-       sprintf (temp_filename, "%s_new_", filename);
+	sprintf (temp_filename, "%s_new_", filename);
 #else
 #ifdef _POSIX_NO_TRUNC
 	sprintf (temp_filename, ".new.%.9s", filename);
@@ -1626,6 +1625,8 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 		   entirely possible that future files will not have
 		   the same problem.  */
 		error (0, errno, "cannot write %s", short_pathname);
+		free (temp_filename);
+		free (buf);
 		goto discard_file_and_return;
 	    }
 
@@ -1733,8 +1734,8 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 		{
 		    FILE *e;
 
-		    e = open_file (temp_filename,
-				   bin ? FOPEN_BINARY_WRITE : "w");
+		    e = xfopen (temp_filename,
+				bin ? FOPEN_BINARY_WRITE : "w");
 		    if (fwrite (patchedbuf, 1, patchedlen, e) != patchedlen)
 			error (1, errno, "cannot write %s", temp_filename);
 		    if (fclose (e) == EOF)
@@ -1800,9 +1801,9 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	if (patch_failed)
 	{
 	    /* Save this file to retrieve later.  */
-	    failed_patches = xrealloc (failed_patches,
-				       ((failed_patches_count + 1)
-					* sizeof (char *)));
+	    failed_patches = xnrealloc (failed_patches,
+					failed_patches_count + 1,
+					sizeof (char *));
 	    failed_patches[failed_patches_count] = xstrdup (short_pathname);
 	    ++failed_patches_count;
 
@@ -2073,7 +2074,7 @@ set_static (void *data, List *ent_list, const char *short_pathname,
 	    const char *filename)
 {
     FILE *fp;
-    fp = open_file (CVSADM_ENTSTAT, "w+");
+    fp = xfopen (CVSADM_ENTSTAT, "w+");
     if (fclose (fp) == EOF)
         error (1, errno, "cannot close %s", CVSADM_ENTSTAT);
 }
@@ -2236,12 +2237,9 @@ static void
 template (void *data, List *ent_list, const char *short_pathname,
 	  const char *filename)
 {
-    char *buf = xmalloc ( strlen ( short_pathname )
-	    		  + strlen ( CVSADM_TEMPLATE )
-			  + 2 );
-    sprintf ( buf, "%s/%s", short_pathname, CVSADM_TEMPLATE );
-    read_counted_file ( CVSADM_TEMPLATE, buf );
-    free ( buf );
+    char *buf = Xasprintf ("%s/%s", short_pathname, CVSADM_TEMPLATE);
+    read_counted_file (CVSADM_TEMPLATE, buf);
+    free (buf);
 }
 
 
@@ -2593,18 +2591,17 @@ handle_module_expansion (char *args, size_t len)
     if (modules_vector == NULL)
     {
 	modules_allocated = 1; /* Small for testing */
-	modules_vector = xmalloc (modules_allocated
-				  * sizeof (modules_vector[0]));
+	modules_vector = xnmalloc (modules_allocated,
+				   sizeof (modules_vector[0]));
     }
     else if (modules_count >= modules_allocated)
     {
 	modules_allocated *= 2;
-	modules_vector = xrealloc (modules_vector,
-				   modules_allocated
-				   * sizeof (modules_vector[0]));
+	modules_vector = xnrealloc (modules_vector,
+				    modules_allocated,
+				    sizeof (modules_vector[0]));
     }
-    modules_vector[modules_count] = xmalloc (strlen (args) + 1);
-    strcpy (modules_vector[modules_count], args);
+    modules_vector[modules_count] = xstrdup (args);
     ++modules_count;
 }
 
@@ -2615,13 +2612,13 @@ static int module_argc;
 static char **module_argv;
 
 void
-client_expand_modules ( int argc, char **argv, int local)
+client_expand_modules (int argc, char **argv, int local)
 {
     int errs;
     int i;
 
     module_argc = argc;
-    module_argv = xmalloc ((argc + 1) * sizeof (module_argv[0]));
+    module_argv = xnmalloc (argc + 1, sizeof (module_argv[0]));
     for (i = 0; i < argc; ++i)
 	module_argv[i] = xstrdup (argv[i]);
     module_argv[argc] = NULL;
@@ -2633,12 +2630,15 @@ client_expand_modules ( int argc, char **argv, int local)
     send_to_server ("expand-modules\012", 0);
 
     errs = get_server_responses ();
+
     if (last_repos != NULL)
         free (last_repos);
     last_repos = NULL;
+
     if (last_update_dir != NULL)
         free (last_update_dir);
     last_update_dir = NULL;
+
     if (errs)
 	error (errs, 0, "cannot expand modules");
 }
@@ -3451,7 +3451,7 @@ connect_to_pserver (cvsroot_t *root, struct buffer **to_server_p,
         proxy_port_number = get_proxy_port_number (root);
 	hostinfo = init_sockaddr (&client_sai.addr_in, root->proxy_hostname,
                                   proxy_port_number);
-        TRACE (1, "Connecting to %s:%d via proxy %s(%s):%d.",
+        TRACE (TRACE_FUNCTION, "Connecting to %s:%d via proxy %s(%s):%d.",
                root->hostname, port_number, root->proxy_hostname,
                inet_ntoa (client_sai.addr_in.sin_addr), proxy_port_number);
     }
@@ -3459,7 +3459,7 @@ connect_to_pserver (cvsroot_t *root, struct buffer **to_server_p,
     {
 	hostinfo = init_sockaddr (&client_sai.addr_in, root->hostname,
 				  port_number);
-        TRACE (1, "Connecting to %s(%s):%d.",
+        TRACE (TRACE_FUNCTION, "Connecting to %s(%s):%d.",
                root->hostname,
                inet_ntoa (client_sai.addr_in.sin_addr), port_number);
     }
@@ -3755,7 +3755,7 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
     command[1] = "server";
     command[2] = NULL;
 
-    TRACE (TRACE_FUNCTION, "Forking server: %s %s\n",
+    TRACE (TRACE_FUNCTION, "Forking server: %s %s",
 	   command[0] ? command[0] : "(null)", command[1]);
 
     child_pid = piped_child (command, &tofd, &fromfd);
@@ -3798,29 +3798,38 @@ open_connection_to_server (cvsroot_t *root, struct buffer **to_server_p,
 
     switch (root->method)
     {
-
-#ifdef AUTH_CLIENT_SUPPORT
 	case pserver_method:
+#ifdef AUTH_CLIENT_SUPPORT
 	    /* Toss the return value.  It will die with an error message if
 	     * anything goes wrong anyway.
 	     */
 	    connect_to_pserver (root, to_server_p, from_server_p, 0, 0);
-	    break;
+#else /* AUTH_CLIENT_SUPPORT */
+	    error (0, 0, "CVSROOT is set for a pserver access method but your");
+	    error (1, 0, "CVS executable doesn't support it.");
 #endif /* AUTH_CLIENT_SUPPORT */
+	    break;
 
-#if HAVE_KERBEROS
 	case kserver_method:
+#if HAVE_KERBEROS
 	    start_kerberos4_server (root, to_server_p, 
                                     from_server_p);
-	    break;
+#else /* !HAVE_KERBEROS */
+	    error (0, 0,
+	           "CVSROOT is set for a kerberos access method but your");
+	    error (1, 0, "CVS executable doesn't support it.");
 #endif /* HAVE_KERBEROS */
+	    break;
 
-#ifdef HAVE_GSSAPI
 	case gserver_method:
+#ifdef HAVE_GSSAPI
 	    /* GSSAPI authentication is handled by the pserver.  */
 	    connect_to_pserver (root, to_server_p, from_server_p, 0, 1);
-	    break;
+#else /* !HAVE_GSSAPI */
+	    error (0, 0, "CVSROOT is set for a GSSAPI access method but your");
+	    error (1, 0, "CVS executable doesn't support it.");
 #endif /* HAVE_GSSAPI */
+	    break;
 
 	case ext_method:
 #ifdef NO_EXT_METHOD
@@ -4092,10 +4101,10 @@ start_server (void)
     {
 	if (supported_request ("Gzip-stream"))
 	{
-	    char gzip_level_buf[5];
+	    char *gzip_level_buf = Xasprintf ("%d", gzip_level);
 	    send_to_server ("Gzip-stream ", 0);
-	    sprintf (gzip_level_buf, "%d", gzip_level);
 	    send_to_server (gzip_level_buf, 0);
+	    free (gzip_level_buf);
 	    send_to_server ("\012", 1);
 
 	    /* All further communication with the server will be
@@ -4110,11 +4119,10 @@ start_server (void)
 #ifndef NO_CLIENT_GZIP_PROCESS
 	else if (supported_request ("gzip-file-contents"))
 	{
-            char gzip_level_buf[5];
+            char *gzip_level_buf = Xasprintf ("%d", gzip_level);
 	    send_to_server ("gzip-file-contents ", 0);
-            sprintf (gzip_level_buf, "%d", gzip_level);
 	    send_to_server (gzip_level_buf, 0);
-
+	    free (gzip_level_buf);
 	    send_to_server ("\012", 1);
 
 	    file_gzip_level = gzip_level;
@@ -4201,12 +4209,12 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
     /* File was modified, send it.  */
     struct stat sb;
     int fd;
-    char *buf;
+    unsigned char *buf;
     char *mode_string;
     size_t bufsize;
     int bin;
 
-    TRACE (1, "Sending file `%s' to server", file);
+    TRACE (TRACE_FUNCTION, "Sending file `%s' to server", file);
 
     /* Don't think we can assume fstat exists.  */
     if (CVS_STAT (file, &sb) < 0)
@@ -4237,12 +4245,13 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
 	   conversion, use convert_file which can compensate
 	   (FIXME: we could just use stdio instead which would
 	   avoid the whole problem).  */
-	char tfile[1024]; strcpy(tfile, file); strcat(tfile, ".CVSBFCTMP");
+	char *tfile = Xasprintf ("%s.CVSBFCTMP", file);
 	convert_file (file, O_RDONLY,
 		      tfile, O_WRONLY | O_CREAT | O_TRUNC | OPEN_BINARY);
 	fd = CVS_OPEN (tfile, O_RDONLY | OPEN_BINARY);
 	if (fd < 0)
 	    error (1, errno, "reading %s", short_pathname);
+	free (tfile);
     }
     else
 	fd = CVS_OPEN (file, O_RDONLY | OPEN_BINARY);
@@ -4257,7 +4266,7 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
     {
 	size_t newsize = 0;
 
-	if (read_and_gzip (fd, short_pathname, (unsigned char **)&buf,
+	if (read_and_gzip (fd, short_pathname, &buf,
 			   &bufsize, &newsize,
 			   file_gzip_level))
 	    error (1, 0, "aborting due to compression error");
@@ -4284,7 +4293,7 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
     	int newsize;
 
         {
-	    char *bufp = buf;
+	    unsigned char *bufp = buf;
 	    int len;
 
 	    /* FIXME: This is gross.  It assumes that we might read
@@ -4317,9 +4326,10 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
 #ifdef BROKEN_READWRITE_CONVERSION
 	if (!bin)
 	{
-	    char tfile[1024]; strcpy(tfile, file); strcat(tfile, ".CVSBFCTMP");
+	    char *tfile = Xasprintf ("%s.CVSBFCTMP", file);
 	    if (CVS_UNLINK (tfile) < 0)
 		error (0, errno, "warning: can't remove temp file %s", tfile);
+	    free (tfile);
 	}
 #endif
 
@@ -4567,8 +4577,7 @@ send_dirent_proc (void *callerdat, const char *dir, const char *repository,
      * This case will happen when checking out a module defined as
      * ``-a .''.
      */
-    cvsadm_name = xmalloc (strlen (dir) + sizeof (CVSADM) + 10);
-    sprintf (cvsadm_name, "%s/%s", dir, CVSADM);
+    cvsadm_name = Xasprintf ("%s/%s", dir, CVSADM);
     dir_exists = isdir (cvsadm_name);
     free (cvsadm_name);
 
@@ -4950,22 +4959,15 @@ client_process_import_file (char *message, char *vfile, char *vtag, int targc,
     {
 	update_dir = repository + strlen (toplevel_repos) + 1;
 
-	fullname = xmalloc (strlen (vfile) + strlen (update_dir) + 10);
-	strcpy (fullname, update_dir);
-	strcat (fullname, "/");
-	strcat (fullname, vfile);
+	fullname = Xasprintf ("%s/%s", update_dir, vfile);
     }
 
     send_a_repository ("", repository, update_dir);
     if (all_files_binary)
-    {
-	vers.options = xmalloc (4); /* strlen("-kb") + 1 */
-	strcpy (vers.options, "-kb");
-    }
+	vers.options = xstrdup ("-kb");
     else
-    {
 	vers.options = wrap_rcsoption (vfile, 1);
-    }
+
     if (vers.options != NULL)
     {
 	if (supported_request ("Kopt"))
@@ -5041,7 +5043,7 @@ notified_a_file (void *data, List *ent_list, const char *short_pathname,
     int nwritten;
     char *p;
 
-    fp = open_file (CVSADM_NOTIFY, "r");
+    fp = xfopen (CVSADM_NOTIFY, "r");
     if (getline (&line, &line_len, fp) < 0)
     {
 	if (feof (fp))
@@ -5080,7 +5082,7 @@ notified_a_file (void *data, List *ent_list, const char *short_pathname,
 	    goto error_exit;
 	}
     }
-    newf = open_file (CVSADM_NOTIFYTMP, "w");
+    newf = xfopen (CVSADM_NOTIFYTMP, "w");
     if (fputs (line, newf) < 0)
     {
 	error (0, errno, "cannot write %s", CVSADM_NOTIFYTMP);

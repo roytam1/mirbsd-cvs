@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  *
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS kit.
@@ -439,7 +444,6 @@ extern int error_use_protocol;
 
 
 DBM *open_module (void);
-FILE *open_file (const char *, const char *);
 List *Find_Directories (char *repository, int which, List *entries);
 void Entries_Close (List *entries);
 List *Entries_Open (int aflag, char *update_dir);
@@ -447,7 +451,8 @@ void Subdirs_Known (List *entries);
 void Subdir_Register (List *, const char *, const char *);
 void Subdir_Deregister (List *, const char *, const char *);
 
-char *Make_Date (char *rawdate);
+void parse_tagdate (char **tag, char **date, const char *input);
+char *Make_Date (const char *rawdate);
 char *date_from_time_t (time_t);
 void date_to_internet (char *, const char *);
 void date_to_tm (struct tm *, const char *);
@@ -652,11 +657,12 @@ void read_cvsrc (int *argc, char ***argv, const char *cmdname);
 #define	RUN_SIGIGNORE         0x0010    /* ignore interrupts for command */
 #define	RUN_TTY               (char *)0 /* for the benefit of lint */
 
-void run_arg (const char *s);
+void run_add_arg (const char *s);
 void run_print (FILE * fp);
 void run_setup (const char *prog);
 int run_exec (const char *stin, const char *stout, const char *sterr,
               int flags);
+int run_piped (int *, int *);
 
 /* other similar-minded stuff from run.c.  */
 FILE *run_popen (const char *, const char *);
@@ -878,9 +884,7 @@ char *normalize_cvsroot (const cvsroot_t *root)
 	__attribute__ ((__malloc__));
 #endif /* AUTH_CLIENT_SUPPORT */
 
-void tag_check_valid (char *, int, char **, int, int, char *, bool);
-void tag_check_valid_join (char *, int, char **, int, int,
-                           char *);
+void tag_check_valid (const char *, int, char **, int, int, char *, bool);
 
 #include "server.h"
 
@@ -891,3 +895,5 @@ void cvs_outerr (const char *, size_t);
 void cvs_flusherr (void);
 void cvs_flushout (void);
 void cvs_output_tagged (const char *, const char *);
+
+extern const char *global_session_id;

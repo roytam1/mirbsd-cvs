@@ -80,14 +80,7 @@ fileattr_read (void)
        at attributes.  */
     assert (fileattr_stored_repos != NULL);
 
-    fname = xmalloc (strlen (fileattr_stored_repos)
-		     + 1
-		     + sizeof (CVSREP_FILEATTR)
-		     + 1);
-
-    strcpy (fname, fileattr_stored_repos);
-    strcat (fname, "/");
-    strcat (fname, CVSREP_FILEATTR);
+    fname = Xasprintf ("%s/%s", fileattr_stored_repos, CVSREP_FILEATTR);
 
     attr_read_attempted = 1;
     fp = CVS_FOPEN (fname, FOPEN_BINARY_READ);
@@ -104,8 +97,13 @@ fileattr_read (void)
 	nread = getline (&line, &line_len, fp);
 	if (nread < 0)
 	    break;
-	/* Remove trailing newline.  */
-	line[nread - 1] = '\0';
+	/* Remove trailing newline.
+	 * It is okay to reference line[nread - 1] here, since getline must
+	 * always return 1 character or EOF, but we need to verify that the
+	 * character we eat is the newline, since getline can return a line
+	 * w/o a newline just before returning EOF.
+	 */
+	if (line[nread - 1] == '\n') line[nread - 1] = '\0';
 	if (line[0] == 'F')
 	{
 	    char *p;
@@ -140,6 +138,7 @@ fileattr_read (void)
 		       "file attribute database corruption: tab missing in %s",
 		       fname);
 	    ++p;
+	    if (fileattr_default_attrs) free (fileattr_default_attrs);
 	    fileattr_default_attrs = xstrdup (p);
 	}
 	else
@@ -148,7 +147,7 @@ fileattr_read (void)
 	       changing it, for future expansion.  */
 	    struct unrecog *new;
 
-	    new = (struct unrecog *) xmalloc (sizeof (struct unrecog));
+	    new = xmalloc (sizeof (struct unrecog));
 	    new->line = xstrdup (line);
 	    new->next = unrecog_head;
 	    unrecog_head = new;
@@ -360,10 +359,7 @@ fileattr_set (const char *filename, const char *attrname, const char *attrval)
 	node->type = FILEATTR;
 	node->delproc = fileattr_delproc;
 	node->key = xstrdup (filename);
-	node->data = xmalloc (strlen (attrname) + 1 + strlen (attrval) + 1);
-	strcpy (node->data, attrname);
-	strcat (node->data, "=");
-	strcat (node->data, attrval);
+	node->data = Xasprintf ("%s=%s", attrname, attrval);
 	addnode (attrlist, node);
     }
 
@@ -521,6 +517,11 @@ postwatch_proc (const char *repository, const char *filter, void *closure)
      * %p = shortrepos
      * %r = repository
      */
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
 	                      false, srepos,
@@ -532,8 +533,7 @@ postwatch_proc (const char *repository, const char *filter, void *closure)
 #endif /* SERVER_SUPPORT */
 	                      "p", "s", srepos,
 	                      "r", "s", current_parsed_root->directory,
-	                      (char *)NULL
-	                     );
+	                      (char *) NULL);
 
     if (!cmdline || !strlen (cmdline))
     {
@@ -573,14 +573,7 @@ fileattr_write (void)
        attributes.  */
     assert (fileattr_stored_repos != NULL);
 
-    fname = xmalloc (strlen (fileattr_stored_repos)
-		     + 1
-		     + sizeof (CVSREP_FILEATTR)
-		     + 1);
-
-    strcpy (fname, fileattr_stored_repos);
-    strcat (fname, "/");
-    strcat (fname, CVSREP_FILEATTR);
+    fname = Xasprintf ("%s/%s", fileattr_stored_repos, CVSREP_FILEATTR);
 
     if (list_isempty (attrlist)
 	&& fileattr_default_attrs == NULL
@@ -625,18 +618,13 @@ fileattr_write (void)
 	    /* Maybe the CVSREP directory doesn't exist.  Try creating it.  */
 	    char *repname;
 
-	    repname = xmalloc (strlen (fileattr_stored_repos)
-			       + 1
-			       + sizeof (CVSREP)
-			       + 1);
-	    strcpy (repname, fileattr_stored_repos);
-	    strcat (repname, "/");
-	    strcat (repname, CVSREP);
+	    repname = Xasprintf ("%s/%s", fileattr_stored_repos, CVSREP);
 
 	    if (CVS_MKDIR (repname, 0777) < 0 && errno != EEXIST)
 	    {
 		error (0, errno, "cannot make directory %s", repname);
 		(void) umask (omask);
+		free (fname);
 		free (repname);
 		return;
 	    }
@@ -648,6 +636,7 @@ fileattr_write (void)
 	{
 	    error (0, errno, "cannot write %s", fname);
 	    (void) umask (omask);
+	    free (fname);
 	    return;
 	}
     }

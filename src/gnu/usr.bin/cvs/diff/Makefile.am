@@ -22,6 +22,7 @@ libdiff_a_SOURCES = diff.c diff3.c analyze.c cmpbuf.c cmpbuf.h io.c \
         side.c system.h diffrun.h
 
 EXTRA_DIST = \
+	.cvsignore \
 	ChangeLog \
 	build_diff.com \
 	diagmeet.note \

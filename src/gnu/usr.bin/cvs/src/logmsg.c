@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -284,14 +289,14 @@ do_editor (const char *dir, char **messagep, const char *repository,
 
     /* run the editor */
     run_setup (Editor);
-    run_arg (fname);
+    run_add_arg (fname);
     if ((retcode = run_exec (RUN_TTY, RUN_TTY, RUN_TTY,
 			     RUN_NORMAL | RUN_SIGIGNORE)) != 0)
 	error (0, retcode == -1 ? errno : 0, "warning: editor session failed");
 
     /* put the entire message back into the *messagep variable */
 
-    fp = open_file (fname, "r");
+    fp = xfopen (fname, "r");
 
     if (*messagep)
 	free (*messagep);
@@ -467,8 +472,7 @@ do_verify (char **messagep, const char *repository)
 	    char *p;
 	    FILE *fp;
 
-	    if ((fp = open_file (data.fname, "r")) == NULL)
-		error (1, errno, "cannot open temporary file %s", data.fname);
+	    fp = xfopen (data.fname, "r");
 
 	    /* On NT, we might read less than st_size bytes,
 	       but we won't read more.  So this works.  */
@@ -725,6 +729,8 @@ logfile_write (const char *repository, const char *filter, const char *message,
     int pipestatus;
     const char *srepos = Short_Repository (repository);
 
+    assert (repository);
+
     /* The user may specify a format string as part of the filter.
        Originally, `%s' was the only valid string.  The string that
        was substituted for it was:
@@ -781,6 +787,11 @@ logfile_write (const char *repository, const char *filter, const char *message,
      * %r = repository
      * %{sVv} = file name, old revision (precommit), new revision (postcommit)
      */
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
 	                      !config->UseNewInfoFmtStrings, srepos,
@@ -793,21 +804,20 @@ logfile_write (const char *repository, const char *filter, const char *message,
 	                      "p", "s", srepos,
 	                      "r", "s", current_parsed_root->directory,
 	                      "sVv", ",", changes,
-			             logmsg_list_to_args_proc, (void *) NULL,
-	                      (char *)NULL
-	                     );
-    if( !cmdline || !strlen( cmdline ) )
+			      logmsg_list_to_args_proc, (void *) NULL,
+	                      (char *) NULL);
+    if (!cmdline || !strlen (cmdline))
     {
-	if( cmdline ) free( cmdline );
-	error( 0, 0, "logmsg proc resolved to the empty string!" );
+	if (cmdline) free (cmdline);
+	error (0, 0, "logmsg proc resolved to the empty string!");
 	return 1;
     }
 
-    if( ( pipefp = run_popen( cmdline, "w" ) ) == NULL )
+    if ((pipefp = run_popen (cmdline, "w")) == NULL)
     {
 	if (!noexec)
-	    error( 0, 0, "cannot write entry to log filter: %s", cmdline );
-	free( cmdline );
+	    error (0, 0, "cannot write entry to log filter: %s", cmdline);
+	free (cmdline);
 	return 1;
     }
     (void) fprintf (pipefp, "Update of %s\n", repository);
@@ -824,12 +834,12 @@ logfile_write (const char *repository, const char *filter, const char *message,
 
     setup_tmpfile (pipefp, "", changes);
     (void) fprintf (pipefp, "Log Message:\n%s\n", (message) ? message : "");
-    if (logfp != (FILE *) 0)
+    if (logfp)
     {
 	(void) fprintf (pipefp, "Status:\n");
 	rewind (logfp);
 	while ((c = getc (logfp)) != EOF)
-	    (void) putc ((char) c, pipefp);
+	    (void) putc (c, pipefp);
     }
     free (cmdline);
     pipestatus = pclose (pipefp);
@@ -859,10 +869,7 @@ verifymsg_proc (const char *repository, const char *script, void *closure)
                "    \"%s\"\n"
                "Appending default format string (\" %%l\"), but be aware that this usage is\n"
                "deprecated.", script);
-	newscript = xmalloc (strlen (script) + 4);
-	strcpy (newscript, script);
-	strcat (newscript, " %l");
-	script = newscript;
+	script = newscript = Xasprintf ("%s %%l", script);
     }
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 
@@ -902,6 +909,11 @@ verifymsg_proc (const char *repository, const char *script, void *closure)
 	}
     } /* if (vpd->fname == NULL) */
 
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     verifymsg_script = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
                                        false, srepos,
@@ -909,15 +921,14 @@ verifymsg_proc (const char *repository, const char *script, void *closure)
                                        script,
 				       "c", "s", cvs_cmd_name,
 #ifdef SERVER_SUPPORT
-				       "R", "s", referrer ? referrer->original
-							  : "NONE",
+				       "R", "s", referrer
+				       ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */
                                        "p", "s", srepos,
                                        "r", "s",
                                        current_parsed_root->directory,
                                        "l", "s", vpd->fname,
-                                       (char *)NULL
-                                      );
+				       (char *) NULL);
 
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
     if (newscript) free (newscript);

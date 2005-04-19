@@ -100,9 +100,10 @@ ls (int argc, char **argv)
 		long_format = true;
 		break;
 	    case 'r':
-		show_tag = optarg;
+		parse_tagdate (&show_tag, &show_date, optarg);
 		break;
 	    case 'D':
+		if (show_date) free (show_date);
 		show_date = Make_Date (optarg);
 		break;
 	    case 'P':

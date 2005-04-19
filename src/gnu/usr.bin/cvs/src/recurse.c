@@ -1,6 +1,12 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
+ * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
  *
@@ -383,9 +389,7 @@ start_recursion (FILEPROC fileproc, FILESDONEPROC filesdoneproc,
 	    if (!(which & W_LOCAL))
 	    {
 		/* If doing rtag, we've done a chdir to the repository. */
-		file_to_try = xmalloc( strlen( argv[i] )
-		                       + sizeof( RCSEXT ) + 1 );
-		sprintf (file_to_try, "%s%s", argv[i], RCSEXT);
+		file_to_try = Xasprintf ("%s%s", argv[i], RCSEXT);
 	    }
 	    else
 		file_to_try = xstrdup (argv[i]);
@@ -417,10 +421,7 @@ start_recursion (FILEPROC fileproc, FILESDONEPROC filesdoneproc,
 
 		    /* look for it in the repository. */
 		    repos = Name_Repository (dir, tmp_update_dir);
-		    reposfile = xmalloc (strlen (repos)
-					 + strlen (comp)
-					 + 5);
-		    sprintf (reposfile, "%s/%s", repos, comp);
+		    reposfile = Xasprintf ("%s/%s", repos, comp);
 		    free (repos);
 
 		    if (!wrap_name_has (comp, WRAP_TOCVS) && isdir (reposfile))
@@ -1058,10 +1059,7 @@ but CVS uses %s for its own purposes; skipping %s directory",
 	if (repository == NULL)
 	    newrepos = xstrdup ("");
 	else
-	{
-	    newrepos = xmalloc (strlen (repository) + strlen (dir) + 5);
-	    sprintf (newrepos, "%s/%s", repository, dir);
-	}
+	    newrepos = Xasprintf ("%s/%s", repository, dir);
     }
     else
     {
@@ -1241,12 +1239,7 @@ but CVS uses %s for its own purposes; skipping %s directory",
 	    if (strcmp (dir, ".") == 0)
 		xframe.repository = xstrdup (repository);
 	    else
-	    {
-		xframe.repository = xmalloc (strlen (repository)
-					     + strlen (dir)
-					     + 2);
-		sprintf (xframe.repository, "%s/%s", repository, dir);
-	    }
+		xframe.repository = Xasprintf ("%s/%s", repository, dir);
 	}
 	else
 	    xframe.repository = NULL;

@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2003 The Free Software Foundation.
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
- * Portions Copyright (c) 2003 Derek Price
- *                         and Ximbiot <http://ximbiot.com>,
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
  *
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS kit.
@@ -196,5 +196,23 @@ int gunzip_and_write (int, const char *, unsigned char *, size_t);
 int read_and_gzip (int, const char *, unsigned char **, size_t *, size_t *,
                    int);
 void server_edit_file (struct file_info *finfo);
+
+/* The TRACE macro */
+void cvs_trace (int level, const char *fmt, ...)
+  __attribute__ ((__format__ (__printf__, 2, 3)));
+#define TRACE cvs_trace
+/* Trace levels:
+ *
+ * TRACE_FUNCTION	Trace function calls, often including function
+ * 			arguments.  This is the trace level that, historically,
+ * 			applied to all trace calls.
+ * TRACE_FLOW		Include the flow control functions, such as
+ * 			start_recursion, do_recursion, and walklist in the
+ * 			function traces.
+ * TRACE_DATA		Trace important internal function data.
+ */ 
+#define TRACE_FUNCTION		1
+#define TRACE_FLOW		2
+#define TRACE_DATA		3
 
 extern cvsroot_t *referrer;

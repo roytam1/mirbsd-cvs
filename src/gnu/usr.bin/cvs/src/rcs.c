@@ -1,5 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -14,12 +20,16 @@
 
 /* These need to be source after cvs.h or HAVE_MMAP won't be set... */
 #ifdef HAVE_MMAP
+# include "getpagesize.h"
 # include <sys/mman.h>
-# ifndef HAVE_GETPAGESIZE
-#  include "getpagesize.h"
+
+/* Define MAP_FILE when it isn't otherwise.  */
+# ifndef MAP_FILE
+#  define MAP_FILE 0
 # endif
+/* Define MAP_FAILED for old systems which neglect to.  */
 # ifndef MAP_FAILED
-#  define MAP_FAILED NULL
+#  define MAP_FAILED ((void *)-1)
 # endif
 #endif
 
@@ -479,6 +489,12 @@ RCS_reparsercsfile (RCSNode *rdata, FILE **pfp, struct rcsbuffer *rcsbufp)
                    RCS_addaccess expects nothing but spaces.  FIXME:
                    It would be easy and more efficient to change
                    RCS_addaccess.  */
+		if (rdata->access)
+		{
+		    error (0, 0,
+		           "Duplicate `access' keyword found in RCS file.");
+		    free (rdata->access);
+		}
 		rdata->access = rcsbuf_valcopy (&rcsbuf, value, 1, NULL);
 	    }
 	    continue;
@@ -489,7 +505,15 @@ RCS_reparsercsfile (RCSNode *rdata, FILE **pfp, struct rcsbuffer *rcsbufp)
 	if (STREQ (key, "locks"))
 	{
 	    if (value != NULL)
+	    {
+		if (rdata->locks_data)
+		{
+		    error (0, 0,
+		           "Duplicate `locks' keyword found in RCS file.");
+		    free (rdata->locks_data);
+		}
 		rdata->locks_data = rcsbuf_valcopy (&rcsbuf, value, 0, NULL);
+	    }
 	    if (! rcsbuf_getkey (&rcsbuf, &key, &value))
 	    {
 		error (1, 0, "premature end of file reading %s", rcsfile);
@@ -506,7 +530,16 @@ RCS_reparsercsfile (RCSNode *rdata, FILE **pfp, struct rcsbuffer *rcsbufp)
 	if (STREQ (RCSSYMBOLS, key))
 	{
 	    if (value != NULL)
+	    {
+		if (rdata->symbols_data)
+		{
+		    error (0, 0,
+		           "Duplicate `%s' keyword found in RCS file.",
+		           RCSSYMBOLS);
+		    free (rdata->symbols_data);
+		}
 		rdata->symbols_data = rcsbuf_valcopy (&rcsbuf, value, 0, NULL);
+	    }
 	    continue;
 	}
 
@@ -530,6 +563,13 @@ RCS_reparsercsfile (RCSNode *rdata, FILE **pfp, struct rcsbuffer *rcsbufp)
 
 	if (STREQ (key, "comment"))
 	{
+	    if (rdata->comment)
+	    {
+		error (0, 0,
+		       "warning: duplicate key `%s' in RCS file `%s'",
+		       key, rcsfile);
+		free (rdata->comment);
+	    }
 	    rdata->comment = rcsbuf_valcopy (&rcsbuf, value, 0, NULL);
 	    continue;
 	}
@@ -1990,6 +2030,8 @@ do_symbols (List *list, char *val)
     char *cp = val;
     char *tag, *rev;
 
+    assert (cp);
+
     for (;;)
     {
 	/* skip leading whitespace */
@@ -2031,6 +2073,8 @@ do_locks (List *list, char *val)
     Node *p;
     char *cp = val;
     char *user, *rev;
+
+    assert (cp);
 
     for (;;)
     {
@@ -2212,9 +2256,14 @@ RCS_tag2rev (RCSNode *rcs, char *tag)
 	* the 0 in some other position -- <dan@gasboy.com>
 	*/ 
 	pa = strrchr (rev, '.');
-	pb = xmalloc (strlen (rev) + 3);
+	if (!pa)
+	    /* This might happen, for instance, if an RCS file only contained
+	     * revisions 2.x and higher, and REV == "1".
+	     */
+	    error (1, 0, "revision `%s' does not exist", tag);
+
 	*pa++ = 0;
-	(void) sprintf (pb, "%s.%d.%s", rev, RCS_MAGIC_BRANCH, pa);
+	pb = Xasprintf ("%s.%d.%s", rev, RCS_MAGIC_BRANCH, pa);
 	free (rev);
 	rev = pb;
 	if (RCS_exist_rev (rcs, rev))
@@ -2271,7 +2320,7 @@ RCS_gettag (RCSNode *rcs, const char *symtag, int force_tag_match,
     if (symtag && STREQ (symtag, TAG_HEAD))
 #if 0 /* This #if 0 is only in the Cygnus code.  Why?  Death support?  */
 	if (force_tag_match && (rcs->flags & VALID) && (rcs->flags & INATTIC))
-	    return ((char *) NULL);	/* head request for removed file */
+	    return NULL;	/* head request for removed file */
 	else
 #endif
 	    return RCS_head (rcs);
@@ -2534,8 +2583,7 @@ RCS_nodeisbranch (RCSNode *rcs, const char *rev)
 	    cp--;
 
 	/* see if we have .magic-branch. (".0.") */
-	magic = xmalloc (strlen (version) + 1);
-	(void) sprintf (magic, ".%d.", RCS_MAGIC_BRANCH);
+	magic = Xasprintf (".%d.", RCS_MAGIC_BRANCH);
 	if (strncmp (magic, cp, strlen (magic)) == 0)
 	{
 	    free (magic);
@@ -2626,9 +2674,7 @@ RCS_getbranch (RCSNode *rcs, const char *tag, int force_tag_match)
     /* trunk processing is the special case */
     if (cp == NULL)
     {
-	xtag = xmalloc (strlen (tag) + 1 + 1);	/* +1 for an extra . */
-	(void) strcpy (xtag, tag);
-	(void) strcat (xtag, ".");
+	xtag = Xasprintf ("%s.", tag);
 	for (cp = rcs->head; cp != NULL;)
 	{
 	    if (strncmp (xtag, cp, strlen (xtag)) == 0)
@@ -2678,9 +2724,7 @@ RCS_getbranch (RCSNode *rcs, const char *tag, int force_tag_match)
     vn = p->data;
     if (vn->branches == NULL)
 	return NULL;
-    xtag = xmalloc (strlen (tag) + 1 + 1);	/* 1 for the extra '.' */
-    (void) strcpy (xtag, tag);
-    (void) strcat (xtag, ".");
+    xtag = Xasprintf ("%s.", tag);
     head = vn->branches->list;
     for (p = head->next; p != head; p = p->next)
 	if (strncmp (p->key, xtag, strlen (xtag)) == 0)
@@ -2796,6 +2840,7 @@ RCS_getbranchpoint (RCSNode *rcs, char *target)
     if (vp == NULL)
     {	
 	error (0, 0, "%s: can't find branch point %s", rcs->print_path, target);
+	free (branch);
 	return NULL;
     }
     rev = vp->data;
@@ -2833,13 +2878,19 @@ RCS_getbranchpoint (RCSNode *rcs, char *target)
 /*
  * Get the head of the RCS file.  If branch is set, this is the head of the
  * branch, otherwise the real head.
- * Returns NULL or a newly malloc'd string.
+ *
+ * INPUTS
+ *   rcs	The parsed rcs node information.
+ *
+ * RETURNS
+ *   NULL when rcs->branch exists and cannot be found.
+ *   A newly malloc'd string, otherwise.
  */
 char *
 RCS_head (RCSNode *rcs)
 {
     /* make sure we have something to look at... */
-    assert (rcs != NULL);
+    assert (rcs);
 
     /*
      * NOTE: we call getbranch with force_tag_match set to avoid any
@@ -2946,8 +2997,7 @@ RCS_getdate (RCSNode *rcs, const char *date, int force_tag_match)
     if (retval != NULL)
 	return retval;
 
-    if (!force_tag_match ||
-	(vers != NULL && RCS_datecmp (vers->date, date) <= 0))
+    if (vers && (!force_tag_match || RCS_datecmp (vers->date, date) <= 0))
 	return xstrdup (vers->version);
     else
 	return NULL;
@@ -2999,9 +3049,7 @@ RCS_getdatebranch (RCSNode *rcs, const char *date, const char *branch)
 	return xstrdup (cur_rev);
 
     /* walk the branches list looking for the branch number */
-    xbranch = xmalloc (strlen (branch) + 1 + 1); /* +1 for the extra dot */
-    (void) strcpy (xbranch, branch);
-    (void) strcat (xbranch, ".");
+    xbranch = Xasprintf ("%s.", branch);
     for (p = vers->branches->list->next; p != vers->branches->list; p = p->next)
 	if (strncmp (p->key, xbranch, strlen (xbranch)) == 0)
 	    break;
@@ -3067,7 +3115,7 @@ RCS_datecmp (const char *date1, const char *date2)
 time_t
 RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
 {
-    char tdate[MAXDATELEN];
+    char *tdate;
     struct tm xtm, *ftm;
     struct timespec revdate;
     Node *p;
@@ -3103,9 +3151,9 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
 	xtm.tm_year -= 1900;
 
     /* put the date in a form getdate can grok */
-    (void) sprintf (tdate, "%d-%d-%d GMT %d:%d:%d",
-		    xtm.tm_year + 1900, xtm.tm_mon, xtm.tm_mday,
-		    xtm.tm_hour, xtm.tm_min, xtm.tm_sec);
+    tdate = Xasprintf ("%d-%d-%d %d:%d:%d -0000",
+		       xtm.tm_year + 1900, xtm.tm_mon, xtm.tm_mday,
+		       xtm.tm_hour, xtm.tm_min, xtm.tm_sec);
 
     /* Turn it into seconds since the epoch.
      *
@@ -3113,7 +3161,11 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
      * truncate the nanoseconds.
      */
     if (!get_date (&revdate, tdate, NULL))
+    {
+	free (tdate);
 	return (time_t)-1;
+    }
+    free (tdate);
 
     revdate.tv_sec -= fudge;	/* remove "fudge" seconds */
     if (date)
@@ -3267,8 +3319,6 @@ RCS_check_kflag (const char *arg)
       "(Specify the --help global option for a list of other help options)\n",
       NULL,
     };
-    /* Big enough to hold any of the strings from kflags.  */
-    char karg[10];
     char const *const *cpp = NULL;
 
     if (arg)
@@ -3285,8 +3335,7 @@ RCS_check_kflag (const char *arg)
 	usage (keyword_usage);
     }
 
-    (void) sprintf (karg, "-k%s", *cpp);
-    return xstrdup (karg);
+    return Xasprintf ("-k%s", *cpp);
 }
 
 
@@ -3711,19 +3760,11 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
 			path = last_component (rcs->print_path);
 		    path = escape_keyword_value (path, &free_path);
 		    date = printable_date (ver->date);
-		    value = xmalloc (strlen (path)
-				     + strlen (ver->version)
-				     + strlen (date)
-				     + strlen (ver->author)
-				     + strlen (ver->state)
-				     + (locker == NULL ? 0 : strlen (locker))
-				     + 20);
-
-		    sprintf (value, "%s %s %s %s %s%s%s",
-			     path, ver->version, date, ver->author,
-			     ver->state,
-			     locker != NULL ? " " : "",
-			     locker != NULL ? locker : "");
+		    value = Xasprintf ("%s %s %s %s %s%s%s",
+				       path, ver->version, date, ver->author,
+				       ver->state,
+				       locker != NULL ? " " : "",
+				       locker != NULL ? locker : "");
 		    if (free_path)
 			/* If free_path is set then we know we allocated path
 			 * and we can discard the const.
@@ -4093,7 +4134,7 @@ RCS_checkout (RCSNode *rcs, const char *workfile, const char *rev,
     size_t len;
     int free_value = 0;
     char *log = NULL;
-    size_t loglen;
+    size_t loglen = 0;
     Node *vp = NULL;
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
     uid_t rcs_owner = (uid_t) -1;
@@ -4106,15 +4147,15 @@ RCS_checkout (RCSNode *rcs, const char *workfile, const char *rev,
     dev_t devnum = 0;
 #endif
 
-    TRACE ( 1, "RCS_checkout (%s, %s, %s, %s, %s)",
-	    rcs->path,
-	    rev != NULL ? rev : "",
-	    nametag != NULL ? nametag : "",
-	    options != NULL ? options : "",
-	    (pfn != NULL ? "(function)"
-	      : (workfile != NULL ? workfile
-		  : (sout != RUN_TTY ? sout
-		      : "(stdout)" ) ) ) );
+    TRACE (TRACE_FUNCTION, "RCS_checkout (%s, %s, %s, %s, %s)",
+	   rcs->path,
+	   rev != NULL ? rev : "",
+	   nametag != NULL ? nametag : "",
+	   options != NULL ? options : "",
+	   (pfn != NULL ? "(function)"
+	    : (workfile != NULL ? workfile
+	       : (sout != RUN_TTY ? sout
+		  : "(stdout)"))));
 
     assert (rev == NULL || isdigit ((unsigned char) *rev));
 
@@ -4155,7 +4196,15 @@ RCS_checkout (RCSNode *rcs, const char *workfile, const char *rev,
 	while (rcsbuf_getkey (&rcsbuf, &key, &value))
 	{
 	    if (STREQ (key, "log"))
+	    {
+		if (log)
+		{
+		    error (0, 0,
+"Duplicate log keyword found for head revision in RCS file.");
+		    free (log);
+		}
 		log = rcsbuf_valcopy (&rcsbuf, value, 0, &loglen);
+	    }
 	    else if (STREQ (key, "text"))
 	    {
 		gothead = 1;
@@ -4699,6 +4748,13 @@ RCS_findlock_or_tip (RCSNode *rcs)
        that in other ways if at all anyway (e.g. rcslock.pl).  */
 
     p = findnode (rcs->versions, RCS_getbranch (rcs, rcs->branch, 0));
+    if (!p)
+    {
+	error (0, 0, "RCS file `%s' does not contain its default revision.",
+	       rcs->path);
+	return NULL;
+    }
+
     return p->data;
 }
 
@@ -4808,6 +4864,8 @@ RCS_addbranch (RCSNode *rcs, const char *branch)
     Node *marker;
     RCSVers *branchnode;
 
+    assert (branch);
+
     /* Append to end by default.  */
     marker = NULL;
 
@@ -4835,9 +4893,7 @@ RCS_addbranch (RCSNode *rcs, const char *branch)
 	{
 	    /* We have to create the first branch on this node, which means
 	       appending ".2" to the revision number. */
-	    newrevnum = xmalloc (strlen (branch) + 3);
-	    strcpy (newrevnum, branch);
-	    strcat (newrevnum, ".2");
+	    newrevnum = Xasprintf ("%s.2", branch);
 	}
 	else
 	{
@@ -4948,6 +5004,7 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
     struct stat sb;
 #endif
+    Node *np;
 
     commitpt = NULL;
 
@@ -4960,6 +5017,7 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
     {
 	char *p;
 	int extlen = strlen (RCSEXT);
+	assert (rcs->path);
 	workfile = xstrdup (last_component (rcs->path));
 	p = workfile + (strlen (workfile) - extlen);
 	assert (strncmp (p, RCSEXT, extlen) == 0);
@@ -5004,11 +5062,10 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
     else
 	(void) time (&modtime);
     ftm = gmtime (&modtime);
-    delta->date = xmalloc (MAXDATELEN);
-    (void) sprintf (delta->date, DATEFORM,
-		    ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
-		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
-		    ftm->tm_min, ftm->tm_sec);
+    delta->date = Xasprintf (DATEFORM,
+			     ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
+			     ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
+			     ftm->tm_min, ftm->tm_sec);
     if (flags & RCS_FLAGS_DEAD)
     {
 	delta->state = xstrdup (RCSDEAD);
@@ -5016,6 +5073,16 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
     }
     else
 	delta->state = xstrdup ("Exp");
+
+    delta->other_delta = getlist();
+
+    /* save the commit ID */
+    np = getnode();
+    np->type = RCSFIELD;
+    np->key = xstrdup ("commitid");
+    np->data = xstrdup(global_session_id);
+    addnode (delta->other_delta, np);
+
 
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
     /* If permissions should be preserved on this project, then
@@ -5113,9 +5180,7 @@ workfile);
 	    newrev = xstrdup ("1.1");
 	else if (numdots (rev) == 0)
 	{
-	    newrev = xmalloc (strlen (rev) + 3);
-	    strcpy (newrev, rev);
-	    strcat (newrev, ".1");
+	    newrev = Xasprintf ("%s.1", rev);
 	}
 	else
 	    newrev = xstrdup (rev);
@@ -5357,7 +5422,7 @@ workfile);
 			    ? "-kb"
 			    : "-ko"),
 			   tmpfile,
-			   (RCSCHECKOUTPROC)0, NULL);
+			   NULL, NULL);
     if (status != 0)
 	error (1, 0,
 	       "could not check out revision %s of `%s'",
@@ -5537,7 +5602,13 @@ workfile);
 
     freedeltatext (dtext);
     if (status != 0)
+    {
+	/* If delta has not been added to a List, then freeing the Node key
+	 * won't free delta->version.
+	 */
+	if (delta->version) free (delta->version);
 	free_rcsvers_contents (delta);
+    }
 
     return status;
 }
@@ -5620,7 +5691,7 @@ RCS_cmp_file (RCSNode *rcs, const char *rev1, char **rev1_cache,
 	    /* Open & cache rev1 */
 	    tmpfile = cvs_temp_name();
 	    if (RCS_checkout (rcs, NULL, rev1, NULL, options, tmpfile,
-	                      (RCSCHECKOUTPROC)0, NULL))
+	                      NULL, NULL))
 		error (1, errno,
 		       "cannot check out revision %s of %s",
 		       rev1, rcs->print_path);
@@ -6221,7 +6292,12 @@ RCS_delete_revs (RCSNode *rcs, char *tag1, char *tag2, int inclusive)
 	/* A range consisting of a branch number means the latest revision
 	   on that branch. */
 	if (RCS_isbranch (rcs, rev1) && STREQ (rev1, rev2))
-	    rev1 = rev2 = RCS_getbranch (rcs, rev1, 0);
+	{
+	    char *tmp = RCS_getbranch (rcs, rev1, 0);
+	    free (rev1);
+	    free (rev2);
+	    rev1 = rev2 = tmp;
+	}
 	else
 	{
 	    /* Make sure REV1 and REV2 are ordered correctly (in the
@@ -6483,7 +6559,7 @@ RCS_delete_revs (RCSNode *rcs, char *tag1, char *tag2, int inclusive)
 
 	afterfile = cvs_temp_name();
 	status = RCS_checkout (rcs, NULL, after, NULL, "-ko", afterfile,
-			       (RCSCHECKOUTPROC)0, NULL);
+			       NULL, NULL);
 	if (status > 0)
 	    goto delrev_done;
 
@@ -6511,7 +6587,7 @@ RCS_delete_revs (RCSNode *rcs, char *tag1, char *tag2, int inclusive)
 	{
 	    beforefile = cvs_temp_name();
 	    status = RCS_checkout (rcs, NULL, before, NULL, "-ko", beforefile,
-				   (RCSCHECKOUTPROC)0, NULL);
+				   NULL, NULL);
 	    if (status > 0)
 		goto delrev_done;
 
@@ -6615,7 +6691,7 @@ RCS_delete_revs (RCSNode *rcs, char *tag1, char *tag2, int inclusive)
  delrev_done:
     if (rev1 != NULL)
 	free (rev1);
-    if (rev2 != NULL)
+    if (rev2 && rev2 != rev1)
 	free (rev2);
     if (branchpoint != NULL)
 	free (branchpoint);
@@ -6780,8 +6856,8 @@ linevector_add (struct linevector *vec, const char *text, size_t len,
 	    vec->lines_alloced = 10;
 	while (vec->nlines + nnew >= vec->lines_alloced)
 	    vec->lines_alloced *= 2;
-	vec->vector = xrealloc (vec->vector,
-				vec->lines_alloced * sizeof (*vec->vector));
+	vec->vector = xnrealloc (vec->vector,
+				 vec->lines_alloced, sizeof (*vec->vector));
     }
 
     /* Make room for the new lines in VEC->VECTOR.  */
@@ -6872,12 +6948,12 @@ linevector_copy (struct linevector *to, struct linevector *from)
 	    to->lines_alloced = 10;
 	while (from->nlines > to->lines_alloced)
 	    to->lines_alloced *= 2;
-	to->vector = xrealloc (to->vector,
-			       xtimes (to->lines_alloced,
-				       sizeof (*to->vector)));
+	to->vector = xnrealloc (to->vector,
+				to->lines_alloced,
+				sizeof (*to->vector));
     }
     memcpy (to->vector, from->vector,
-	    from->nlines * sizeof (*to->vector));
+	    xtimes (from->nlines, sizeof (*to->vector)));
     to->nlines = from->nlines;
     for (ln = 0; ln < to->nlines; ++ln)
 	++to->vector[ln]->refcount;
@@ -6957,6 +7033,7 @@ apply_rcs_changes (struct linevector *lines, const char *diffbuf,
     };
     struct deltafrag *dfhead;
     struct deltafrag *df;
+    int err;
 
     dfhead = NULL;
     for (p = diffbuf; p != NULL && p < diffbuf + difflen; )
@@ -7022,33 +7099,39 @@ apply_rcs_changes (struct linevector *lines, const char *diffbuf,
 	}
     }
 
+    err = 0;
     for (df = dfhead; df != NULL;)
     {
 	unsigned int ln;
 
-	switch (df->type)
-	{
-	case FRAG_ADD:
-	    if (! linevector_add (lines, df->new_lines, df->len, addvers,
-				  df->pos))
-		return 0;
-	    break;
-	case FRAG_DELETE:
-	    if (df->pos > lines->nlines
-		|| df->pos + df->nlines > lines->nlines)
-		return 0;
-	    if (delvers != NULL)
-		for (ln = df->pos; ln < df->pos + df->nlines; ++ln)
-		    lines->vector[ln]->vers = delvers;
-	    linevector_delete (lines, df->pos, df->nlines);
-	    break;
-	}
+	/* Once an error is encountered, just free the rest of the list and
+	 * return.
+	 */
+	if (!err)
+	    switch (df->type)
+	    {
+	    case FRAG_ADD:
+		if (! linevector_add (lines, df->new_lines, df->len, addvers,
+				      df->pos))
+		    err = 1;
+		break;
+	    case FRAG_DELETE:
+		if (df->pos > lines->nlines
+		    || df->pos + df->nlines > lines->nlines)
+		    return 0;
+		if (delvers != NULL)
+		    for (ln = df->pos; ln < df->pos + df->nlines; ++ln)
+			lines->vector[ln]->vers = delvers;
+		linevector_delete (lines, df->pos, df->nlines);
+		break;
+	    }
+
 	df = df->next;
 	free (dfhead);
 	dfhead = df;
     }
 
-    return 1;
+    return !err;
 }
 
 
@@ -7156,11 +7239,15 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
     struct linevector trunklines;
     int foundhead;
 
+    assert (version);
+
     if (fp == NULL)
     {
 	rcsbuf_cache_open (rcs, rcs->delta_pos, &fp, &rcsbuf_local);
 	rcsbuf = &rcsbuf_local;
     }
+
+   if (log) *log = NULL;
 
     ishead = 1;
     vers = NULL;
@@ -7232,6 +7319,12 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 		&& STREQ (key, "log")
 		&& STREQ (branchversion, version))
 	    {
+		if (*log != NULL)
+		{
+		    error (0, 0, "Duplicate `log' keyword in RCS file (`%s').",
+		           rcs->print_path);
+		    free (*log);
+		}
 		*log = rcsbuf_valcopy (rcsbuf, value, 0, loglen);
 	    }
 
@@ -7313,6 +7406,9 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 		if (vers->branches == NULL)
 		    error (1, 0, "missing expected branches in %s",
 			   rcs->print_path);
+		if (!cpversion)
+		    error (1, 0, "Invalid revision number in `%s'.",
+		           rcs->print_path);
 		*cpversion = '.';
 		++cpversion;
 		cpversion = strchr (cpversion, '.');
@@ -7357,7 +7453,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 
 		for (ln = 0; ln < headlines.nlines; ++ln)
 		{
-		    char buf[80];
+		    char *buf;
 		    /* Period which separates year from month in date.  */
 		    char *ym;
 		    /* Period which separates month from day in date.  */
@@ -7368,10 +7464,12 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 		    if (prvers == NULL)
 			prvers = vers;
 
+		    buf = xmalloc (strlen (prvers->version) + 24);
 		    sprintf (buf, "%-12s (%-8.8s ",
 			     prvers->version,
 			     prvers->author);
 		    cvs_output (buf, 0);
+		    free (buf);
 
 		    /* Now output the date.  */
 		    ym = strchr (prvers->date, '.');
@@ -8496,11 +8594,6 @@ make_file_label (const char *path, const char *rev, RCSNode *rcs)
     char datebuf[MAXDATELEN + 1];
     char *label;
 
-    label = xmalloc (strlen (path)
-		     + (rev == NULL ? 0 : strlen (rev) + 1)
-		     + MAXDATELEN
-		     + 2);
-
     if (rev)
     {
 	char date[MAXDATELEN + 1];
@@ -8508,7 +8601,7 @@ make_file_label (const char *path, const char *rev, RCSNode *rcs)
 	assert (strcmp(DEVNULL, path));
 	RCS_getrevtime (rcs, rev, datebuf, 0);
 	(void) date_to_internet (date, datebuf);
-	(void) sprintf (label, "-L%s\t%s\t%s", path, date, rev);
+	label = Xasprintf ("-L%s\t%s\t%s", path, date, rev);
     }
     else
     {
@@ -8532,15 +8625,29 @@ make_file_label (const char *path, const char *rev, RCSNode *rcs)
 	}
 
 	(void) tm_to_internet (datebuf, wm);
-	(void) sprintf (label, "-L%s\t%s", path, datebuf);
+	label = Xasprintf ("-L%s\t%s", path, datebuf);
     }
     return label;
 }
 
 
 
+/*
+ * Set up a local/custom RCS keyword for expansion.
+ *
+ * INPUTS
+ *   infopath		Path to file being parsed, for error messages.
+ *   ln			Line number of INFOPATH being processed, for error
+ *			messages.
+ *   keywords_in
+ *   arg
+ *
+ * OUTPUTS
+ *   keywords_in
+ */
 void
-RCS_setlocalid (void **keywords_in, const char *arg)
+RCS_setlocalid (const char *infopath, unsigned int ln,
+		void **keywords_in, const char *arg)
 {
     char *copy, *next, *key, *s;
     struct rcs_keyword *keywords;
@@ -8561,9 +8668,11 @@ RCS_setlocalid (void **keywords_in, const char *arg)
     {
 	if (! isalpha ((unsigned char) *s))
 	{
-	    error (0, 0,
-		   "LocalKeyword ignored: Bad character `%c' in key `%s'",
-		   *s, key);
+	    if (!parse_error (infopath, ln))
+		    error (0, 0,
+"%s [%u]: LocalKeyword ignored: Bad character `%c' in key `%s'",
+			   primary_root_inverse_translate (infopath),
+			   ln, *s, key);
 	    free (copy);
 	    return;
 	}
@@ -8582,8 +8691,11 @@ RCS_setlocalid (void **keywords_in, const char *arg)
 	else
 	{
 	    keywords[KEYWORD_LOCALID].expandto = save_expandto;
-	    error (0, 0, "LocalKeyword ignored: Unknown LocalId mode: `%s'",
-		   key);
+	    if (!parse_error (infopath, ln))
+		error (0, 0,
+"%s [%u]: LocalKeyword ignored: Unknown LocalId mode: `%s'",
+		       primary_root_inverse_translate (infopath),
+		       ln, key);
 	    free (copy);
 	    return;
 	}

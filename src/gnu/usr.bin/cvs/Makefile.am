@@ -20,7 +20,7 @@
 USOURCE_SUBDIRS = lib $(ZLIB_SUBDIRS) diff src
 # All other subdirs:
 SUBDIRS = $(USOURCE_SUBDIRS) man doc contrib tools \
-	windows-NT os2 emx vms
+	windows-NT os2 emx vms maint-aux
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -43,7 +43,8 @@ EXTRA_DIST = \
 	cvsnt.mak \
 	cvs.spec \
 	mktemp.sh \
-	$(top_srcdir)/m4/ChangeLog
+	m4/ChangeLog \
+	m4/README
 
 
 ## MAINTAINER Targets

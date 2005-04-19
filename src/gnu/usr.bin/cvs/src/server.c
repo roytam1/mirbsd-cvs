@@ -16,17 +16,14 @@
 #include "getnline.h"
 #include "buffer.h"
 
-#if defined(SERVER_SUPPORT) || defined(CLIENT_SUPPORT)
+#if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
 
-#include "log-buffer.h"
-#include "ms-buffer.h"
+# include "log-buffer.h"
+# include "ms-buffer.h"
+#endif	/* defined(SERVER_SUPPORT) || defined(CLIENT_SUPPORT) */
 
-#if defined(PROXY_SUPPORT) || defined(HAVE_GSSAPI)
-#  include <netdb.h>
-#endif /* defined(PROXY_SUPPORT) || defined(HAVE_GSSAPI) */
-
-# ifdef HAVE_GSSAPI
-#   include "gssapi-client.h"
+#if defined (HAVE_GSSAPI) && defined (SERVER_SUPPORT)
+# include "gssapi-client.h"
 
 /* This stuff isn't included solely with SERVER_SUPPORT since some of these
  * functions (encryption & the like) get compiled with or without server
@@ -36,19 +33,20 @@
  */
 /* We use Kerberos 5 routines to map the GSSAPI credential to a user
    name.  */
-#   include <krb5.h>
+# include <krb5.h>
 
 static void gserver_authenticate_connection (void);
 
 /* Whether we are already wrapping GSSAPI communication.  */
 static int cvs_gssapi_wrapping;
 
-# endif	/* HAVE_GSSAPI */
-#endif	/* defined(SERVER_SUPPORT) || defined(CLIENT_SUPPORT) */
+#endif	/* defined (HAVE_GSSAPI) && defined (SERVER_SUPPORT) */
 
 #ifdef SERVER_SUPPORT
 
 extern char *server_hostname;
+
+# include <netdb.h>
 
 # ifdef HAVE_WINSOCK_H
 #   include <winsock.h>
@@ -63,7 +61,7 @@ extern char *server_hostname;
 #   ifndef LOG_DAEMON   /* for ancient syslogs */
 #     define LOG_DAEMON 0
 #   endif
-# endif
+# endif /* HAVE_SYSLOG_H */
 
 # ifdef HAVE_KERBEROS
 #   include <netinet/in.h>
@@ -76,7 +74,7 @@ extern char *server_hostname;
 static C_Block kblock;
 static Key_schedule sched;
 
-# endif
+# endif /* HAVE_KERBEROS */
 
 /* for select */
 # include "xselect.h"
@@ -112,6 +110,9 @@ static char *Pserver_Repos = NULL;
 #   include <security/pam_appl.h>
 
 static pam_handle_t *pamh = NULL;
+
+static char *pam_username;
+static char *pam_password;
 # endif /* HAVE_PAM */
 
 
@@ -186,13 +187,20 @@ create_adm_p (char *base_dir, char *dir)
 
     dir_where_cvsadm_lives = xmalloc (strlen (base_dir) + strlen (dir) + 100);
     if (dir_where_cvsadm_lives == NULL)
+    {
+	free (p);
 	return ENOMEM;
+    }
 
     /* Allocate some space for the temporary string in which we will
        construct filenames. */
     tmp = xmalloc (strlen (base_dir) + strlen (dir) + 100);
     if (tmp == NULL)
+    {
+	free (p);
+	free (dir_where_cvsadm_lives);
 	return ENOMEM;
+    }
 
 
     /* We make several passes through this loop.  On the first pass,
@@ -306,8 +314,7 @@ create_adm_p (char *base_dir, char *dir)
 	       might need to change this later on to make sure that we
 	       only write one entry.  */
 
-	    Subdir_Register ((List *) NULL, dir_where_cvsadm_lives,
-			     dir_to_register);
+	    Subdir_Register (NULL, dir_where_cvsadm_lives, dir_to_register);
 	}
 
 	if (done)
@@ -337,12 +344,12 @@ create_adm_p (char *base_dir, char *dir)
     return retval;
 }
 
+
+
 /*
  * Make directory DIR, including all intermediate directories if necessary.
  * Returns 0 for success or errno code.
  */
-static int mkdir_p (char *);
-
 static int
 mkdir_p (char *dir)
 {
@@ -393,7 +400,9 @@ mkdir_p (char *dir)
     free (q);
     return retval;
 }
-
+
+
+
 /*
  * Print the error response for error code STATUS.  The caller is
  * reponsible for making sure we get back to the command loop without
@@ -418,6 +427,8 @@ print_error (int status)
 
     buf_flush (buf_to_net, 0);
 }
+
+
 
 static int pending_error;
 /*
@@ -458,9 +469,9 @@ print_pending_error (void)
 }
 
 /* Is an error pending?  */
-#define error_pending() (pending_error || pending_error_text)
+# define error_pending() (pending_error || pending_error_text)
 
-static int alloc_pending (size_t size);
+
 
 /* Allocate SIZE bytes for pending_error_text and return nonzero
    if we could do it.  */
@@ -618,7 +629,7 @@ isProxyServer (void)
     /* Must be :ext: method, then.  This is enforced when CVSROOT/config is
      * parsed.
      */
-    assert (config->PrimaryServer->method == ext_method);
+    assert (config->PrimaryServer->isremote);
 
     if (isThisHost (config->PrimaryServer->hostname))
 	return false;
@@ -635,12 +646,12 @@ serve_valid_responses (char *arg)
     char *q;
     struct response *rs;
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* Process this in the first pass since the data it gathers can be used
      * prior to a `Root' request.
      */
     if (reprocessing) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     do
     {
@@ -705,9 +716,9 @@ error ENOMEM Virtual memory exhausted.\n";
 
     /* If this gives an error, not much we could do.  syslog() it?  */
     write (STDOUT_FILENO, msg, sizeof (msg) - 1);
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
     syslog (LOG_DAEMON | LOG_ERR, "virtual memory exhausted");
-#endif
+# endif /* HAVE_SYSLOG_H */
     exit (EXIT_FAILURE);
 }
 
@@ -721,7 +732,7 @@ input_memory_error (struct buffer *buf)
 
 
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 /* This function rewinds the net connection using the write proxy log file.
  *
  * GLOBALS
@@ -762,7 +773,7 @@ rewind_buf_from_net (void)
 					 buf_from_net);
     reprocessing = true;
 }
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
 
 
@@ -780,9 +791,9 @@ serve_root (char *arg)
 
     /* Don't process this twice or when errors are pending.  */
     if (error_pending()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| reprocessing
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        ) return;
 
     if (!isabsolute (arg))
@@ -814,7 +825,7 @@ serve_root (char *arg)
      */
     original_parsed_root = current_parsed_root = local_cvsroot (arg);
 
-#ifdef AUTH_SERVER_SUPPORT
+# ifdef AUTH_SERVER_SUPPORT
     if (Pserver_Repos != NULL)
     {
 	if (strcmp (Pserver_Repos, current_parsed_root->directory) != 0)
@@ -830,13 +841,13 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
 	    return;
 	}
     }
-#endif
+# endif
 
     /* For pserver, this will already have happened, and the call will do
        nothing.  But for rsh, we need to do it now.  */
     config = get_root_allow_config (current_parsed_root->directory);
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* At this point we have enough information to determine if we are a
      * secondary server or not.
      */
@@ -855,7 +866,7 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
 	 *   proxy_log_out = NULL;
 	 */
     }
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
 
     path = xmalloc (strlen (current_parsed_root->directory)
@@ -876,17 +887,11 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
     }
     free (path);
 
-#ifdef HAVE_PUTENV
-    env = xmalloc (strlen (CVSROOT_ENV) + strlen (current_parsed_root->directory) + 2);
-    if (env == NULL)
-    {
-	pending_error = ENOMEM;
-	return;
-    }
-    (void) sprintf (env, "%s=%s", CVSROOT_ENV, current_parsed_root->directory);
+# ifdef HAVE_PUTENV
+    env = Xasprintf ("%s=%s", CVSROOT_ENV, current_parsed_root->directory);
     (void) putenv (env);
     /* do not free env, as putenv has control of it */
-#endif
+# endif
 }
 
 
@@ -929,7 +934,7 @@ server_pathname_check (char *path)
     }
 }
 
-static int outside_root (char *);
+
 
 /* Is file or directory REPOS an absolute pathname within the
    current_parsed_root->directory?  If yes, return 0.  If no, set pending_error
@@ -973,7 +978,7 @@ E protocol error: directory '%s' not within root '%s'",
     return 0;
 }
 
-static int outside_dir (char *);
+
 
 /* Is file or directory FILE outside the current directory (that is, does
    it contain '/')?  If no, return 0.  If yes, set pending_error
@@ -1239,9 +1244,9 @@ dirswitch (char *dir, char *repos)
 static void
 serve_repository (char *arg)
 {
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     assert (!proxy_log);
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     if (alloc_pending (80))
 	strcpy (pending_error_text,
@@ -1290,9 +1295,9 @@ serve_directory (char *arg)
 	    repos = xstrdup (primary_root_translate (repos));
 
 	if (
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	    !proxy_log &&
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 	    !outside_root (repos))
 	    dirswitch (arg, repos);
 	free (repos);
@@ -1330,9 +1335,9 @@ serve_static_directory (char *arg)
     FILE *f;
 
     if (error_pending ()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        ) return;
 
     f = CVS_FOPEN (CVSADM_ENTSTAT, "w+");
@@ -1362,9 +1367,9 @@ serve_sticky (char *arg)
     FILE *f;
 
     if (error_pending ()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        ) return;
 
     f = CVS_FOPEN (CVSADM_TAG, "w+");
@@ -1444,7 +1449,7 @@ receive_partial_file (size_t size, int file)
 
 	while (nread > 0)
 	{
-	    size_t nwrote;
+	    ssize_t nwrote;
 
 	    nwrote = write (file, data, nread);
 	    if (nwrote < 0)
@@ -1474,6 +1479,8 @@ receive_partial_file (size_t size, int file)
 	}
     }
 }
+
+
 
 /* Receive SIZE bytes, write to filename FILE.  */
 static void
@@ -1623,9 +1630,9 @@ serve_is_modified (char *arg)
     int found;
 
     if (error_pending ()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        ) return;
 
     if (outside_dir (arg))
@@ -1840,9 +1847,9 @@ serve_modified (char *arg)
     }
 
     if (
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	!proxy_log &&
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 	outside_dir (arg))
     {
 	free (mode_text);
@@ -1850,9 +1857,9 @@ serve_modified (char *arg)
     }
 
     receive_file (size,
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	          proxy_log ? DEVNULL :
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 			      arg,
 		  gzipped);
     if (error_pending ())
@@ -1861,12 +1868,12 @@ serve_modified (char *arg)
 	return;
     }
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* We've read all the data that needed to be read if we're still logging
      * for a secondary.  Return.
      */
     if (proxy_log) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     if (checkin_time_valid)
     {
@@ -1912,14 +1919,14 @@ serve_modified (char *arg)
 static void
 serve_enable_unchanged (char *arg)
 {
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* Might as well skip this since this function does nothing anyhow.  If
      * it did do anything and could generate errors, then the line below would
      * be necessary since this can be processed before a `Root' request.
      *
      *     if (reprocessing) return;
      */
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 }
 
 
@@ -1933,9 +1940,9 @@ serve_unchanged (char *arg)
     char *timefield;
 
     if (error_pending ()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        ) return;
 
     if (outside_dir (arg))
@@ -2027,9 +2034,9 @@ serve_entry (char *arg)
     int i = 0;
 
     if (error_pending()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        ) return;
 
     /* Verify that the entry is well-formed.  This can avoid problems later.
@@ -2061,6 +2068,7 @@ serve_entry (char *arg)
     cp = xmalloc (strlen (arg) + 2);
     if (cp == NULL)
     {
+	free (p);
 	pending_error = ENOMEM;
 	return;
     }
@@ -2076,9 +2084,9 @@ static void
 serve_kopt (char *arg)
 {
     if (error_pending ()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        )
 	return;
 
@@ -2120,9 +2128,9 @@ serve_checkin_time (char *arg)
     struct timespec t;
 
     if (error_pending ()
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	|| proxy_log
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        )
 	return;
 
@@ -2207,7 +2215,7 @@ server_write_entries (void)
 
 
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 /*
  * callback proc to run a script when admin finishes.
  */
@@ -2224,20 +2232,22 @@ prepost_proxy_proc (const char *repository, const char *filter, void *closure)
     TRACE (TRACE_FUNCTION, "prepost_proxy_proc (%s, %s, %s)", repository,
 	   filter, *pre ? "pre" : "post");
 
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
-#ifdef SUPPORT_OLD_INFO_FMT_STRINGS
+# ifdef SUPPORT_OLD_INFO_FMT_STRINGS
 	                      0, ".",
-#endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
+# endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 	                      filter,
 	                      "c", "s", cvs_cmd_name,
-#ifdef SERVER_SUPPORT
 	                      "R", "s", referrer ? referrer->original : "NONE",
-#endif /* SERVER_SUPPORT */
 	                      "p", "s", ".",
 	                      "r", "s", current_parsed_root->directory,
 	                      "P", "s", config->PrimaryServer->original,
-	                      (char *)NULL
-	                     );
+	                      (char *) NULL);
 
     if (!cmdline || !strlen (cmdline))
     {
@@ -2537,38 +2547,34 @@ become_proxy (void)
 	    exit (EXIT_FAILURE);
 	}
 
-	/* If our "source pipe" is closed and all data has been sent, close
-	 * the corresponding "dest pipe".
+	/* If our "source pipe" is closed and all data has been sent, avoid
+	 * selecting it for writability, but don't actually close the buffer in
+	 * case other routines want to use it later.  The buffer will be closed
+	 * in server_cleanup ().
 	 */
 	if (from_primary_fd < 0
 	    && buf_to_net && buf_empty_p (buf_to_net))
-	{
 	    to_net_fd = -1;
-	    /* Don't actually shut down or free BUF_TO_NET unless BUF_FROM_NET
-	     * is already closed.  Let the shutdown handlers do it otherwise
-	     * since we might need it later.
-	     */
-	    if (!buf_from_net)
-	    {
-		SIG_beginCrSect();
-		/* Need only to shut this down and set to NULL, really, in
-		 * crit sec, to ensure no double-dispose and to make sure
-		 * network pipes are closed as properly as possible, but I
-		 * don't see much optimization potential in saving values and
-		 * postponing the free.
-		 */
-		buf_shutdown (buf_to_net);
-		buf_free (buf_to_net);
-		buf_to_net = NULL;
-		SIG_endCrSect();
-	    }
-	}
-	if (from_net_fd < 0
-	    && buf_to_primary && buf_empty_p (buf_to_primary))
+
+	if (buf_to_primary
+	    && (/* Assume that there is no further reason to keep the buffer to
+	         * the primary open if we can no longer read its responses.
+	         */
+	        (from_primary_fd < 0 && buf_to_primary)
+	        /* Also close buf_to_primary when it becomes impossible to find
+	         * more data to send to it.  We don't close buf_from_primary
+	         * yet since there may be data pending or the primary may react
+	         * to the EOF on its input pipe.
+	         */
+	        || (from_net_fd < 0 && buf_empty_p (buf_to_primary))))
 	{
 	    buf_shutdown (buf_to_primary);
 	    buf_free (buf_to_primary);
 	    buf_to_primary = NULL;
+
+	    /* Setting the fd < 0 with from_primary_fd already < 0 will cause
+	     * an escape from this while loop.
+	     */
 	    to_primary_fd = -1;
 	}
     }
@@ -2578,7 +2584,7 @@ become_proxy (void)
     Parse_Info (CVSROOTADM_POSTPROXY, current_parsed_root->directory,
 		prepost_proxy_proc, PIOPT_ALL, &pre);
 }
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
 
 
@@ -2618,16 +2624,16 @@ serve_notify (char *arg)
 
     if (isProxyServer())
     {
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	if (!proxy_log)
 	{
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 	    if (alloc_pending (160) + strlen (program_name))
 		sprintf (pending_error_text, 
 "E This CVS server does not support disconnected `%s edit'.  For now, remove all `%s' files in your workspace and try your command again.",
 			 program_name, CVSADM_NOTIFY);
 	return;
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	}
 	else
 	{
@@ -2635,7 +2641,7 @@ serve_notify (char *arg)
 	    become_proxy ();
 	    exit (EXIT_SUCCESS);
 	}
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     }
 
     if (outside_dir (arg))
@@ -2865,8 +2871,8 @@ serve_argument (char *arg)
     if (argument_vector_size <= argument_count)
     {
 	argument_vector_size *= 2;
-	argument_vector = xrealloc (argument_vector,
-			            argument_vector_size * sizeof (char *));
+	argument_vector = xnrealloc (argument_vector,
+				     argument_vector_size, sizeof (char *));
 	if (argument_vector == NULL)
 	{
 	    pending_error = ENOMEM;
@@ -2920,12 +2926,12 @@ serve_argumentx (char *arg)
 static void
 serve_global_option (char *arg)
 {
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* This can generate error messages and termination before `Root' requests,
      * so it must be dealt with in the first pass.
      */ 
     if (reprocessing) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     if (arg[0] != '-' || arg[1] == '\0' || arg[2] != '\0')
     {
@@ -2971,25 +2977,25 @@ serve_global_option (char *arg)
 static void
 serve_set (char *arg)
 {
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     if (reprocessing) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     /* FIXME: This sends errors immediately (I think); they should be
        put into pending_error.  */
     variable_set (arg);
 }
 
-#ifdef ENCRYPTION
+# ifdef ENCRYPTION
 
-#ifdef HAVE_KERBEROS
+#   ifdef HAVE_KERBEROS
 
 static void
 serve_kerberos_encrypt( char *arg )
 {
-#ifdef PROXY_SUPPORT
+#     ifdef PROXY_SUPPORT
     assert (!proxy_log);
-#endif /* PROXY_SUPPORT */
+#     endif /* PROXY_SUPPORT */
 
     /* All future communication with the client will be encrypted.  */
 
@@ -3001,16 +3007,16 @@ serve_kerberos_encrypt( char *arg )
 						  buf_from_net->memory_error);
 }
 
-#endif /* HAVE_KERBEROS */
+#   endif /* HAVE_KERBEROS */
 
-#ifdef HAVE_GSSAPI
+#   ifdef HAVE_GSSAPI
 
 static void
 serve_gssapi_encrypt( char *arg )
 {
-#ifdef PROXY_SUPPORT
+#     ifdef PROXY_SUPPORT
     assert (!proxy_log);
-#endif /* PROXY_SUPPORT */
+#     endif /* PROXY_SUPPORT */
 
     if (cvs_gssapi_wrapping)
     {
@@ -3038,18 +3044,18 @@ serve_gssapi_encrypt( char *arg )
     cvs_gssapi_wrapping = 1;
 }
 
-#endif /* HAVE_GSSAPI */
+#   endif /* HAVE_GSSAPI */
 
-#endif /* ENCRYPTION */
+# endif /* ENCRYPTION */
 
-#ifdef HAVE_GSSAPI
+# ifdef HAVE_GSSAPI
 
 static void
 serve_gssapi_authenticate (char *arg)
 {
-#ifdef PROXY_SUPPORT
+#   ifdef PROXY_SUPPORT
     assert (!proxy_log);
-#endif /* PROXY_SUPPORT */
+#   endif /* PROXY_SUPPORT */
 
     if (cvs_gssapi_wrapping)
     {
@@ -3069,20 +3075,20 @@ serve_gssapi_authenticate (char *arg)
     cvs_gssapi_wrapping = 1;
 }
 
-#endif /* HAVE_GSSAPI */
+# endif /* HAVE_GSSAPI */
 
 
 
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 /* The maximum we'll queue to the remote client before blocking.  */
-# ifndef SERVER_HI_WATER
-#  define SERVER_HI_WATER (2 * 1024 * 1024)
-# endif /* SERVER_HI_WATER */
+#   ifndef SERVER_HI_WATER
+#     define SERVER_HI_WATER (2 * 1024 * 1024)
+#   endif /* SERVER_HI_WATER */
 /* When the buffer drops to this, we restart the child */
-# ifndef SERVER_LO_WATER
-#  define SERVER_LO_WATER (1 * 1024 * 1024)
-# endif /* SERVER_LO_WATER */
-#endif /* SERVER_FLOWCONTROL */
+#   ifndef SERVER_LO_WATER
+#     define SERVER_LO_WATER (1 * 1024 * 1024)
+#   endif /* SERVER_LO_WATER */
+# endif /* SERVER_FLOWCONTROL */
 
 
 
@@ -3091,9 +3097,9 @@ serve_questionable (char *arg)
 {
     static int initted;
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     if (proxy_log) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     if (error_pending ()) return;
 
@@ -3166,7 +3172,7 @@ check_command_valid_p (char *cmd_name)
      * is not set, this just returns 1, because CVS_Username unset
      * means pserver is not active.
      */
-#ifdef AUTH_SERVER_SUPPORT
+# ifdef AUTH_SERVER_SUPPORT
     if (CVS_Username == NULL)
 	return true;
 
@@ -3318,7 +3324,7 @@ check_command_valid_p (char *cmd_name)
 	     return false;
 	 }
     }
-#endif /* AUTH_SERVER_SUPPORT */
+# endif /* AUTH_SERVER_SUPPORT */
 
     /* If ever reach end of this function, command must be valid. */
     return true;
@@ -3329,13 +3335,13 @@ check_command_valid_p (char *cmd_name)
 /* Execute COMMAND in a subprocess with the approriate funky things done.  */
 
 static struct fd_set_wrapper { fd_set fds; } command_fds_to_drain;
-#ifdef SUNOS_KLUDGE
+# ifdef SUNOS_KLUDGE
 static int max_command_fd;
-#endif
+# endif
 
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 static int flowcontrol_pipe[2];
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 
 
@@ -3346,7 +3352,7 @@ static int flowcontrol_pipe[2];
 int
 set_nonblock_fd (int fd)
 {
-#if defined (F_GETFL) && defined (O_NONBLOCK) && defined (F_SETFL)
+# if defined (F_GETFL) && defined (O_NONBLOCK) && defined (F_SETFL)
     int flags;
 
     flags = fcntl (fd, F_GETFL, 0);
@@ -3354,7 +3360,7 @@ set_nonblock_fd (int fd)
 	return errno;
     if (fcntl (fd, F_SETFL, flags | O_NONBLOCK) < 0)
 	return errno;
-#endif /* F_GETFL && O_NONBLOCK && F_SETFL */
+# endif /* F_GETFL && O_NONBLOCK && F_SETFL */
     return 0;
 }
 
@@ -3391,7 +3397,7 @@ do_cvs_command (char *cmd_name, int (*command) (int, char **))
      */
     if (isProxyServer())
     {
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	if (reprocessing)
 	    /* This must be the second time we've reached this point.
 	     * Done reprocessing.
@@ -3418,14 +3424,14 @@ do_cvs_command (char *cmd_name, int (*command) (int, char **))
 		return;
 	    }
 	}
-#else /* !PROXY_SUPPORT */
+# else /* !PROXY_SUPPORT */
 	if (lookup_command_attribute (cmd_name)
 		    & CVS_CMD_MODIFIES_REPOSITORY
 	    && alloc_pending (120))
 	    sprintf (pending_error_text, 
 "E You need a CVS client that supports the `Redirect' response for write requests to this server.");
 	return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     }
 
     command_pid = -1;
@@ -3486,7 +3492,7 @@ error  \n");
 	print_error (errno);
 	goto error_exit;
     }
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
     if (pipe (flowcontrol_pipe) < 0)
     {
 	buf_output0 (buf_to_net, "E pipe failed\n");
@@ -3495,7 +3501,7 @@ error  \n");
     }
     set_nonblock_fd (flowcontrol_pipe[0]);
     set_nonblock_fd (flowcontrol_pipe[1]);
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
     dev_null_fd = CVS_OPEN (DEVNULL, O_RDONLY);
     if (dev_null_fd < 0)
@@ -3577,10 +3583,10 @@ error  \n");
 	close (stderr_pipe[1]);
 	close (protocol_pipe[0]);
 	close_on_exec (protocol_pipe[1]);
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 	close_on_exec (flowcontrol_pipe[0]);
 	close (flowcontrol_pipe[1]);
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 	/*
 	 * Set this in .bashrc if you want to give yourself time to attach
@@ -3626,7 +3632,7 @@ error  \n");
 	fclose (stderr);
 	fclose (stdout);
 	close (protocol_pipe[1]);
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 	{
 	    char junk;
 	    ssize_t status;
@@ -3636,7 +3642,7 @@ error  \n");
 	/* FIXME: No point in printing an error message with error(),
 	 * as STDERR is already closed, but perhaps this could be syslogged?
 	 */
-#endif
+# endif
 
 	exit (exitstatus);
     }
@@ -3649,9 +3655,9 @@ error  \n");
 	/* Number of file descriptors to check in select ().  */
 	int num_to_check;
 	int count_needed = 1;
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 	int have_flowcontrolled = 0;
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 	FD_ZERO (&command_fds_to_drain.fds);
 	num_to_check = stdout_pipe[0];
@@ -3661,9 +3667,9 @@ error  \n");
 	num_to_check = MAX (num_to_check, protocol_pipe[0]);
 	FD_SET (protocol_pipe[0], &command_fds_to_drain.fds);
 	num_to_check = MAX (num_to_check, STDOUT_FILENO);
-#ifdef SUNOS_KLUDGE
+# ifdef SUNOS_KLUDGE
 	max_command_fd = num_to_check;
-#endif
+# endif
 	/*
 	 * File descriptors are numbered from 0, so num_to_check needs to
 	 * be one larger than the largest descriptor.
@@ -3715,7 +3721,7 @@ error  \n");
 	}
 	protocol_pipe[1] = -1;
 
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 	if (close (flowcontrol_pipe[0]) < 0)
 	{
 	    buf_output0 (buf_to_net, "E close failed\n");
@@ -3723,7 +3729,7 @@ error  \n");
 	    goto error_exit;
 	}
 	flowcontrol_pipe[0] = -1;
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 	if (close (dev_null_fd) < 0)
 	{
@@ -3743,7 +3749,7 @@ error  \n");
 	    int numfds;
 	    struct timeval *timeout_ptr;
 	    struct timeval timeout;
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 	    int bufmemsize;
 
 	    /*
@@ -3761,7 +3767,7 @@ error  \n");
 		if (write(flowcontrol_pipe[1], "G", 1) == 1)
 		    have_flowcontrolled = 0;
 	    }
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 	    FD_ZERO (&readfds);
 	    FD_ZERO (&writefds);
@@ -3975,10 +3981,10 @@ error  \n");
 	    buf_output0 (buf_to_net,
 			 "E Protocol error: uncounted data discarded\n");
 
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 	close (flowcontrol_pipe[1]);
 	flowcontrol_pipe[1] = -1;
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 	errs = 0;
 
@@ -4059,7 +4065,7 @@ E CVS locks may need cleaning up.\n");
     while (command_pid > 0)
     {
 	pid_t waited_pid;
-	waited_pid = waitpid (command_pid, (int *) 0, 0);
+	waited_pid = waitpid (command_pid, NULL, 0);
 	if (waited_pid < 0 && errno == EINTR)
 	    continue;
 	if (waited_pid == command_pid)
@@ -4073,10 +4079,10 @@ E CVS locks may need cleaning up.\n");
     close (stderr_pipe[1]);
     close (stdout_pipe[0]);
     close (stdout_pipe[1]);
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
     close (flowcontrol_pipe[0]);
     close (flowcontrol_pipe[1]);
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
  free_args_and_return:
     /* Now free the arguments.  */
@@ -4100,7 +4106,7 @@ E CVS locks may need cleaning up.\n");
 
 
 
-#ifdef SERVER_FLOWCONTROL
+# ifdef SERVER_FLOWCONTROL
 /*
  * Called by the child at convenient points in the server's execution for
  * the server child to block.. ie: when it has no locks active.
@@ -4165,7 +4171,7 @@ server_pause_check(void)
 	}
     }
 }
-#endif /* SERVER_FLOWCONTROL */
+# endif /* SERVER_FLOWCONTROL */
 
 
 
@@ -4230,10 +4236,10 @@ server_register (const char *name, const char *version, const char *timestamp,
     if (options == NULL)
 	options = "";
 
-    TRACE ( 1, "server_register(%s, %s, %s, %s, %s, %s, %s)",
-	    name, version, timestamp ? timestamp : "", options,
-	    tag ? tag : "", date ? date : "",
-	    conflict ? conflict : "" );
+    TRACE (TRACE_FUNCTION, "server_register(%s, %s, %s, %s, %s, %s, %s)",
+	   name, version, timestamp ? timestamp : "", options,
+	   tag ? tag : "", date ? date : "",
+	   conflict ? conflict : "");
 
     if (entries_line != NULL)
     {
@@ -4317,11 +4323,15 @@ server_scratch (const char *fname)
     kill_scratched_file = 1;
 }
 
+
+
 void
 server_scratch_entry_only (void)
 {
     kill_scratched_file = 0;
 }
+
+
 
 /* Print a new entries line, from a previous server_register.  */
 static void
@@ -4383,6 +4393,8 @@ checked_in_response (const char *file, const char *update_dir,
     new_entries_line ();
 }
 
+
+
 void
 server_checked_in (const char *file, const char *update_dir,
                    const char *repository)
@@ -4409,6 +4421,8 @@ server_checked_in (const char *file, const char *update_dir,
     buf_send_counted (protocol);
 }
 
+
+
 void
 server_update_entries (const char *file, const char *update_dir,
                        const char *repository,
@@ -4432,11 +4446,15 @@ server_update_entries (const char *file, const char *update_dir,
     buf_send_counted (protocol);
 }
 
+
+
 static void
 serve_update (char *arg)
 {
     do_cvs_command ("update", update);
 }
+
+
 
 static void
 serve_diff (char *arg)
@@ -4444,11 +4462,15 @@ serve_diff (char *arg)
     do_cvs_command ("diff", diff);
 }
 
+
+
 static void
 serve_log (char *arg)
 {
     do_cvs_command ("log", cvslog);
 }
+
+
 
 static void
 serve_rlog (char *arg)
@@ -4456,11 +4478,15 @@ serve_rlog (char *arg)
     do_cvs_command ("rlog", cvslog);
 }
 
+
+
 static void
 serve_ls (char *arg)
 {
   do_cvs_command ("ls", ls);
 }
+
+
 
 static void
 serve_rls (char *arg)
@@ -4468,11 +4494,15 @@ serve_rls (char *arg)
   do_cvs_command ("rls", ls);
 }
 
+
+
 static void
 serve_add (char *arg)
 {
     do_cvs_command ("add", add);
 }
+
+
 
 static void
 serve_remove (char *arg)
@@ -4480,11 +4510,15 @@ serve_remove (char *arg)
     do_cvs_command ("remove", cvsremove);
 }
 
+
+
 static void
 serve_status (char *arg)
 {
     do_cvs_command ("status", cvsstatus);
 }
+
+
 
 static void
 serve_rdiff (char *arg)
@@ -4492,11 +4526,15 @@ serve_rdiff (char *arg)
     do_cvs_command ("rdiff", patch);
 }
 
+
+
 static void
 serve_tag (char *arg)
 {
     do_cvs_command ("tag", cvstag);
 }
+
+
 
 static void
 serve_rtag (char *arg)
@@ -4504,11 +4542,15 @@ serve_rtag (char *arg)
     do_cvs_command ("rtag", cvstag);
 }
 
+
+
 static void
 serve_import (char *arg)
 {
     do_cvs_command ("import", import);
 }
+
+
 
 static void
 serve_admin (char *arg)
@@ -4516,11 +4558,15 @@ serve_admin (char *arg)
     do_cvs_command ("admin", admin);
 }
 
+
+
 static void
 serve_history (char *arg)
 {
     do_cvs_command ("history", history);
 }
+
+
 
 static void
 serve_release (char *arg)
@@ -4536,11 +4582,15 @@ serve_watch_on (char *arg)
     do_cvs_command ("watch", watch_on);
 }
 
+
+
 static void
 serve_watch_off (char *arg)
 {
     do_cvs_command ("watch", watch_off);
 }
+
+
 
 static void
 serve_watch_add (char *arg)
@@ -4548,11 +4598,15 @@ serve_watch_add (char *arg)
     do_cvs_command ("watch", watch_add);
 }
 
+
+
 static void
 serve_watch_remove (char *arg)
 {
     do_cvs_command ("watch", watch_remove);
 }
+
+
 
 static void
 serve_watchers (char *arg)
@@ -4560,11 +4614,15 @@ serve_watchers (char *arg)
     do_cvs_command ("watchers", watchers);
 }
 
+
+
 static void
 serve_editors (char *arg)
 {
     do_cvs_command ("editors", editors);
 }
+
+
 
 static void
 serve_edit (char *arg)
@@ -4574,11 +4632,11 @@ serve_edit (char *arg)
 
 
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 /* We need to handle some of this before reprocessing since it is defined to
  * send a response and print errors before a Root request is received.
  */
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 static void
 serve_noop (char *arg)
 {
@@ -4587,11 +4645,11 @@ serve_noop (char *arg)
      */
     bool pe = print_pending_error();
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* The portions below need not be handled until reprocessing anyhow since
      * there should be no entries or notifications prior to that.  */
     if (!proxy_log)
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     {
 	server_write_entries ();
 	if (!pe)
@@ -4599,10 +4657,10 @@ serve_noop (char *arg)
     }
 
     if (!pe
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
         /* "ok" only goes across in the first pass.  */
         && !reprocessing
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
        )
 	buf_output0 (buf_to_net, "ok\n");
     buf_flush (buf_to_net, 1);
@@ -4616,6 +4674,8 @@ serve_version (char *arg)
     do_cvs_command ("version", version);
 }
 
+
+
 static void
 serve_init (char *arg)
 {
@@ -4627,7 +4687,7 @@ serve_init (char *arg)
 	    sprintf (pending_error_text,
 		     "E init %s must be an absolute pathname", arg);
     }
-#ifdef AUTH_SERVER_SUPPORT
+# ifdef AUTH_SERVER_SUPPORT
     else if (Pserver_Repos != NULL)
     {
 	if (strcmp (Pserver_Repos, arg) != 0)
@@ -4641,7 +4701,7 @@ E Protocol error: init says \"%s\" but pserver says \"%s\"",
 			 arg, Pserver_Repos);
 	}
     }
-#endif
+# endif
 
     if (print_pending_error ())
 	return;
@@ -4654,17 +4714,23 @@ E Protocol error: init says \"%s\" but pserver says \"%s\"",
     current_parsed_root = saved_parsed_root;
 }
 
+
+
 static void
 serve_annotate (char *arg)
 {
     do_cvs_command ("annotate", annotate);
 }
 
+
+
 static void
 serve_rannotate (char *arg)
 {
     do_cvs_command ("rannotate", annotate);
 }
+
+
 
 static void
 serve_co (char *arg)
@@ -4675,7 +4741,7 @@ serve_co (char *arg)
     if (print_pending_error ())
 	return;
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* If we are not a secondary server, the write proxy log will already have
      * been processed.
      */
@@ -4696,7 +4762,7 @@ serve_co (char *arg)
 	    return;
 	}
     }
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     if (!isdir (CVSADM))
     {
@@ -4745,6 +4811,8 @@ serve_co (char *arg)
 		    checkout);
 }
 
+
+
 static void
 serve_export (char *arg)
 {
@@ -4775,8 +4843,9 @@ server_copy_file (const char *file, const char *update_dir,
     buf_output0 (protocol, "\n");
 }
 
-/* See server.h for description.  */
 
+
+/* See server.h for description.  */
 void
 server_modtime (struct file_info *finfo, Vers_TS *vers_ts)
 {
@@ -5068,7 +5137,8 @@ CVS server internal error: unhandled case in server_updated");
 	buf_output0 (protocol, finfo->file);
 	buf_output (protocol, "\n", 1);
 	/* keep the vers structure up to date in case we do a join
-	 * - if there isn't a file, it can't very well have a version number, can it?
+	 * - if there isn't a file, it can't very well have a version number,
+	 *   can it?
 	 *
 	 * we do it here on the assumption that since we just told the client
 	 * to remove the file/entry, it will, and we want to remember that.
@@ -5099,8 +5169,9 @@ CVS server internal error: unhandled case in server_updated");
   done:;
 }
 
-/* Return whether we should send patches in RCS format.  */
 
+
+/* Return whether we should send patches in RCS format.  */
 int
 server_use_rcs_diff (void)
 {
@@ -5305,9 +5376,9 @@ serve_gzip_contents (char *arg)
 {
     int level;
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     assert (!proxy_log);
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     level = atoi (arg);
     if (level == 0)
@@ -5343,9 +5414,9 @@ serve_gzip_stream (char *arg)
     /* This needs to be skipped in subsequent passes to avoid compressing data
      * to the client twice.
      */
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     if (reprocessing) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     buf_to_net = compress_buffer_initialize (buf_to_net, 0, level,
 					     buf_to_net->memory_error);
 }
@@ -5364,9 +5435,9 @@ serve_wrapper_sendme_rcs_options (char *arg)
      */
     char *wrapper_line = NULL;
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     if (reprocessing) return;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     wrap_setup ();
 
@@ -5396,9 +5467,9 @@ serve_ignore (char *arg)
      * update-patches command, which is not a real command, but a signal
      * to the client that update will accept the -u argument.
      */
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     assert (!proxy_log);
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 }
 
 
@@ -5466,6 +5537,8 @@ expand_proc (int argc, char **argv, char *where, char *mwhere, char *mfile, int 
     return 0;
 }
 
+
+
 static void
 serve_expand_modules (char *arg)
 {
@@ -5473,14 +5546,14 @@ serve_expand_modules (char *arg)
     int err = 0;
     DBM *db;
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     /* This needs to be processed in the first pass since the client expects a
      * response but we may not yet know if we are a secondary.
      *
      * On the second pass, we still must make sure to ignore the arguments.
      */
     if (!reprocessing)
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     {
 	err = 0;
 
@@ -5488,8 +5561,7 @@ serve_expand_modules (char *arg)
 	for (i = 1; i < argument_count; i++)
 	    err += do_module (db, argument_vector[i],
 			      CHECKOUT, "Updating", expand_proc,
-			      NULL, 0, 0, 0, 0,
-			      (char *) NULL);
+			      NULL, 0, 0, 0, 0, NULL);
 	close_module (db);
     }
 
@@ -5504,9 +5576,9 @@ serve_expand_modules (char *arg)
 	argument_count = 1;
     }
 
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     if (!reprocessing)
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     {
 	if (err)
 	    /* We will have printed an error message already.  */
@@ -5538,9 +5610,9 @@ static void
 serve_command_prep (char *arg)
 {
     bool redirect_supported;
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     bool ditch_log;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 
     if (error_pending ()) return;
 
@@ -5577,16 +5649,16 @@ serve_command_prep (char *arg)
 	buf_output0 (buf_to_net, config->PrimaryServer->original);
 	buf_output0 (buf_to_net, "\n");
 	buf_flush (buf_to_net, 1);
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	ditch_log = true;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     }
     else
     {
 	/* Send `ok' so the client can proceed.  */
 	buf_output0 (buf_to_net, "ok\n");
 	buf_flush (buf_to_net, 1);
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
 	if (lookup_command_attribute (arg) & CVS_CMD_MODIFIES_REPOSITORY
             && isProxyServer ())
 	    /* Don't ditch the log for write commands on a proxy server.  We
@@ -5595,9 +5667,9 @@ serve_command_prep (char *arg)
 	    ditch_log = false;
 	else
 	    ditch_log = true;
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
     }
-#ifdef PROXY_SUPPORT
+# ifdef PROXY_SUPPORT
     if (proxy_log && ditch_log)
     {
 	/* If the client supported the redirect response, then they will always
@@ -5615,7 +5687,7 @@ serve_command_prep (char *arg)
 	log_buffer_closelog (proxy_log_out);
 	proxy_log = NULL;
     }
-#endif /* PROXY_SUPPORT */
+# endif /* PROXY_SUPPORT */
 }
 
 
@@ -6344,31 +6416,32 @@ error ENOMEM Virtual memory exhausted.\n");
 	 * and printed here?
 	 */
 	syslog (LOG_DAEMON | LOG_ERR, "Dying gasps received from client.");
-#endif
+#endif /* HAVE_SYSLOG_H */
 	error (0, 0, "Dying gasps received from client.");
     }
 
 #ifdef HAVE_PAM
+    if (pamh)
     {
         int retval;
 
-        retval = pam_close_session(pamh, 0);
-#ifdef HAVE_SYSLOG_H
+        retval = pam_close_session (pamh, 0);
+# ifdef HAVE_SYSLOG_H
         if (retval != PAM_SUCCESS)
             syslog (LOG_DAEMON | LOG_ERR, 
                     "PAM close session error: %s",
-                    pam_strerror(pamh, retval));
-#endif
+                    pam_strerror (pamh, retval));
+# endif /* HAVE_SYSLOG_H */
 
         retval = pam_end (pamh, retval);
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
         if (retval != PAM_SUCCESS)
             syslog (LOG_DAEMON | LOG_ERR, 
                     "PAM failed to release authenticator, error: %s",
-                    pam_strerror(pamh, retval));
-#endif
+                    pam_strerror (pamh, retval));
+# endif /* HAVE_SYSLOG_H */
     }
-#endif
+#endif /* HAVE_PAM */
 
     /* server_cleanup() will be called on a normal exit and close the buffers
      * explicitly.
@@ -6387,16 +6460,21 @@ switch_to_user (const char *cvs_username, const char *username)
     int retval;
     char *pam_stage = "open session";
 
-    retval = pam_open_session(pamh, 0);
-    if (retval == PAM_SUCCESS) {
-        pam_stage = "get pam user";
-        retval = pam_get_item(pamh, PAM_USER, (const void **)&username);
-    }
+    if (pamh)
+    {
+        retval = pam_open_session (pamh, 0);
+        if (retval == PAM_SUCCESS)
+        {
+            pam_stage = "get pam user";
+            retval = pam_get_item (pamh, PAM_USER, (const void **)&username);
+        }
 
-    if (retval != PAM_SUCCESS) {
-        printf("E PAM %s error: %s\n", pam_stage,
-                pam_strerror(pamh, retval));
-        exit (EXIT_FAILURE);
+        if (retval != PAM_SUCCESS)
+        {
+            printf("E PAM %s error: %s\n", pam_stage,
+                    pam_strerror (pamh, retval));
+            exit (EXIT_FAILURE);
+        }
     }
 #endif
 
@@ -6420,7 +6498,7 @@ error 0 %s: no such system user\n", username);
 	    syslog (LOG_DAEMON | LOG_ALERT,
 		    "attempt to root from account: %s", cvs_username
 		   );
-#endif
+#endif /* HAVE_SYSLOG_H */
         printf("error 0: root not allowed\n");
 	exit (EXIT_FAILURE);
     }
@@ -6445,11 +6523,15 @@ error 0 %s: no such system user\n", username);
 #endif /* HAVE_INITGROUPS */
 
 #ifdef HAVE_PAM
-    retval = pam_setcred(pamh, PAM_ESTABLISH_CRED);
-    if (retval != PAM_SUCCESS) {
-        printf("E PAM reestablish credentials error: %s\n", 
-                pam_strerror(pamh, retval));
-        exit (EXIT_FAILURE);
+    if (pamh)
+    {
+        retval = pam_setcred (pamh, PAM_ESTABLISH_CRED);
+        if (retval != PAM_SUCCESS)
+        {
+            printf("E PAM reestablish credentials error: %s\n", 
+                    pam_strerror (pamh, retval));
+            exit (EXIT_FAILURE);
+        }
     }
 #endif
 
@@ -6475,7 +6557,7 @@ error 0 %s: no such system user\n", username);
 	    syslog (LOG_DAEMON | LOG_ERR,
 		    "setgid to %d failed (%m): real %d/%d, effective %d/%d ",
 		    pw->pw_gid, getuid(), getgid(), geteuid(), getegid());
-#endif
+#endif /* HAVE_SYSLOG_H */
 	    exit (EXIT_FAILURE);
 	}
     }
@@ -6493,7 +6575,7 @@ error 0 %s: no such system user\n", username);
 	    syslog (LOG_DAEMON | LOG_ERR,
 		    "setuid to %d failed (%m): real %d/%d, effective %d/%d ",
 		    pw->pw_uid, getuid(), getgid(), geteuid(), getegid());
-#endif
+#endif /* HAVE_SYSLOG_H */
 	exit (EXIT_FAILURE);
     }
 
@@ -6580,6 +6662,7 @@ check_repository_password (char *username, char *password, char *repository, cha
     {
 	if (!existence_error (errno))
 	    error (0, errno, "cannot open %s", filename);
+	free (filename);
 	return 0;
     }
 
@@ -6696,23 +6779,17 @@ check_repository_password (char *username, char *password, char *repository, cha
 
 #ifdef HAVE_PAM
 
-struct cvs_pam_userinfo {
-    char *username;
-    char *password;
-};
-
 static int
 cvs_pam_conv (int num_msg, const struct pam_message **msg,
               struct pam_response **resp, void *appdata_ptr)
 {
     int i;
     struct pam_response *response;
-    struct cvs_pam_userinfo *ui = (struct cvs_pam_userinfo *)appdata_ptr;
 
     assert (msg && resp);
 
-    response = xmalloc(num_msg * sizeof (struct pam_response));
-    memset(response, 0, num_msg * sizeof (struct pam_response));
+    response = xnmalloc (num_msg, sizeof (struct pam_response));
+    memset (response, 0, num_msg * sizeof (struct pam_response));
 
     for (i = 0; i < num_msg; i++)
     {
@@ -6720,13 +6797,13 @@ cvs_pam_conv (int num_msg, const struct pam_message **msg,
 	{
 	    /* PAM wants a username */
 	    case PAM_PROMPT_ECHO_ON:
-                assert (ui && ui->username);
-		response[i].resp = xstrdup (ui->username);
+                assert (pam_username != 0);
+		response[i].resp = xstrdup (pam_username);
 		break;
 	    /* PAM wants a password */
 	    case PAM_PROMPT_ECHO_OFF:
-                assert (ui && ui->password);
-		response[i].resp = xstrdup (ui->password);
+                assert (pam_password != 0);
+		response[i].resp = xstrdup (pam_password);
 		break;
 	    case PAM_ERROR_MSG:
 	    case PAM_TEXT_INFO:
@@ -6758,35 +6835,45 @@ static int
 check_pam_password (char **username, char *password)
 {
     int retval, err;
-    struct cvs_pam_userinfo ui = { *username, password };
-    struct pam_conv conv = { cvs_pam_conv, (void *)&ui };
+    struct pam_conv conv = { cvs_pam_conv, 0 };
     char *pam_stage = "start";
+
+    pam_username = *username;
+    pam_password = password;
 
     retval = pam_start (PAM_SERVICE_NAME, *username, &conv, &pamh);
 
     /* sets a dummy tty name which pam modules can check for */
-    if (retval == PAM_SUCCESS) {
+    if (retval == PAM_SUCCESS)
+    {
         pam_stage = "set dummy tty";
-        retval = pam_set_item(pamh, PAM_TTY, PAM_SERVICE_NAME);
+        retval = pam_set_item (pamh, PAM_TTY, PAM_SERVICE_NAME);
     }
 
-    if (retval == PAM_SUCCESS) {
+    if (retval == PAM_SUCCESS)
+    {
 	pam_stage = "authenticate";
-	retval = pam_authenticate(pamh, 0);
+	retval = pam_authenticate (pamh, 0);
     }
 
-    if (retval == PAM_SUCCESS) {
+    if (retval == PAM_SUCCESS)
+    {
 	pam_stage = "account";
 	retval = pam_acct_mgmt (pamh, 0);
     }
 
-    if (retval == PAM_SUCCESS) {
+    if (retval == PAM_SUCCESS)
+    {
         pam_stage = "get pam user";
-        retval = pam_get_item(pamh, PAM_USER, (const void **)username);
+        retval = pam_get_item (pamh, PAM_USER, (const void **)username);
     }
 
     if (retval != PAM_SUCCESS)
-	printf ("E PAM %s error: %s\n", pam_stage, pam_strerror(pamh, retval));
+	printf ("E PAM %s error: %s\n", pam_stage, pam_strerror (pamh, retval));
+
+    /* clear the pointers to make sure we don't use these references again */
+    pam_username = 0;
+    pam_password = 0; 
 
     return retval == PAM_SUCCESS;       /* indicate success */
 }
@@ -6936,20 +7023,20 @@ pserver_read_line (char **tmp, size_t *tmp_len)
     status = buf_read_short_line (buf_from_net, tmp, tmp_len, PATH_MAX);
     if (status == -1)
     {
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
 	syslog (LOG_DAEMON | LOG_NOTICE,
 	        "unexpected EOF encountered during authentication");
-#endif
+# endif /* HAVE_SYSLOG_H */
 	error (1, 0, "unexpected EOF encountered during authentication");
     }
     if (status == -2)
 	status = ENOMEM;
     if (status != 0)
     {
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
 	syslog (LOG_DAEMON | LOG_NOTICE,
                 "error reading from net while validating pserver");
-#endif
+# endif /* HAVE_SYSLOG_H */
 	error (1, status, "error reading from net while validating pserver");
     }
 }
@@ -7028,9 +7115,9 @@ pserver_authenticate_connection (void)
 	if (setsockopt (STDIN_FILENO, SOL_SOCKET, SO_KEEPALIVE,
 			&on, sizeof on) < 0)
 	{
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
 	    syslog (LOG_DAEMON | LOG_ERR, "error setting KEEPALIVE: %m");
-#endif
+# endif /* HAVE_SYSLOG_H */
 	}
     }
 #endif
@@ -7084,9 +7171,9 @@ pserver_authenticate_connection (void)
     if (!root_allow_ok (repository))
     {
 	error (1, 0, "%s: no such repository", repository);
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
 	syslog (LOG_DAEMON | LOG_NOTICE, "login refused for %s", repository);
-#endif
+# endif /* HAVE_SYSLOG_H */
 	goto i_hate_you;
     }
 
@@ -7102,9 +7189,9 @@ pserver_authenticate_connection (void)
     host_user = check_password (username, descrambled_password, repository);
     if (host_user == NULL)
     {
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
 	syslog (LOG_DAEMON | LOG_NOTICE, "login failure (for %s)", repository);
-#endif
+# endif /* HAVE_SYSLOG_H */
 	memset (descrambled_password, 0, strlen (descrambled_password));
 	free (descrambled_password);
     i_hate_you:
@@ -7181,9 +7268,9 @@ error %s getpeername or getsockname failed\n", strerror (errno));
 	if (setsockopt (STDIN_FILENO, SOL_SOCKET, SO_KEEPALIVE,
 			   (char *) &on, sizeof on) < 0)
 	{
-#ifdef HAVE_SYSLOG_H
+# ifdef HAVE_SYSLOG_H
 	    syslog (LOG_DAEMON | LOG_ERR, "error setting KEEPALIVE: %m");
-#endif
+# endif /* HAVE_SYSLOG_H */
 	}
     }
 #endif
@@ -7485,7 +7572,7 @@ cvs_output (const char *str, size_t len)
 		    "Attempt to write message after close of network buffer.  "
 		    "Message was: %s",
 		    str);
-# endif /* HAVE_SYSLOG */
+# endif /* HAVE_SYSLOG_H */
     }
     else if (server_active)
     {
@@ -7501,7 +7588,7 @@ cvs_output (const char *str, size_t len)
 		    "Attempt to write message before initialization of "
 		    "protocol buffer.  Message was: %s",
 		    str);
-# endif /* HAVE_SYSLOG */
+# endif /* HAVE_SYSLOG_H */
     }
     else
 #endif
@@ -7630,9 +7717,9 @@ cvs_outerr (const char *str, size_t len)
 	else
 	    syslog (LOG_DAEMON | LOG_ERR,
 		    "Attempt to write error message after close of network "
-		    "buffer.  Message was: %s",
+		    "buffer.  Message was: `%s'",
 		    str);
-# endif /* HAVE_SYSLOG */
+# endif /* HAVE_SYSLOG_H */
     }
     else if (server_active)
     {
@@ -7646,9 +7733,9 @@ cvs_outerr (const char *str, size_t len)
 	else
 	    syslog (LOG_DAEMON | LOG_ERR,
 		    "Attempt to write error message before initialization of "
-		    "protocol buffer.  Message was: %s",
+		    "protocol buffer.  Message was: `%s'",
 		    str);
-# endif /* HAVE_SYSLOG */
+# endif /* HAVE_SYSLOG_H */
     }
     else
 #endif
@@ -7814,5 +7901,32 @@ cvs_output_tagged (const char *tag, const char *text)
 	}
 	else if (text != NULL)
 	    cvs_output (text, 0);
+    }
+}
+
+
+
+/*
+ * void cvs_trace(int level, const char *fmt, ...)
+ *
+ * Print tracing information to stderr on request.  Levels are implemented
+ * as with CVSNT.
+ */
+void
+cvs_trace (int level, const char *fmt, ...)
+{
+    if (trace >= level)
+    {
+	va_list va;
+
+	va_start (va, fmt);
+#ifdef SERVER_SUPPORT
+	fprintf (stderr,"%c -> ",server_active?(isProxyServer()?'P':'S'):' ');
+#else /* ! SERVER_SUPPORT */
+	fprintf (stderr,"  -> ");
+#endif
+	vfprintf (stderr, fmt, va);
+	fprintf (stderr,"\n");
+	va_end (va);
     }
 }

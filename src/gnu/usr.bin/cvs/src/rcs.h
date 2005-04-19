@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -63,7 +68,10 @@ struct rcsnode
     /* Use when printing paths.  */
     char *print_path;
 
-    /* Value for head keyword from RCS header, or NULL if empty.  */
+    /* Value for head keyword from RCS header, or NULL if empty.  HEAD may only
+     * be empty in a valid RCS file when the file has no revisions, a state
+     * that should not be able to occur with CVS.
+     */
     char *head;
 
     /* Value for branch keyword from RCS header, or NULL if omitted.  */
@@ -243,7 +251,7 @@ void RCS_deltas (RCSNode *, FILE *, struct rcsbuffer *, const char *,
 		 enum rcs_delta_op, char **, size_t *,
 		 char **, size_t *);
 void RCS_setincexc (void **, const char *arg);
-void RCS_setlocalid (void **, const char *arg);
+void RCS_setlocalid (const char *, unsigned int, void **, const char *arg);
 char *make_file_label (const char *, const char *, RCSNode *);
 
 extern bool preserve_perms;

@@ -507,15 +507,14 @@ int fseeko (FILE *, off_t, int);
        are path component separators.  */
 #   define FOLD_FN_CHAR(c) (WNT_filename_classes[(unsigned char) (c)])
 extern unsigned char WNT_filename_classes[];
-# else /* ! WOE32 */
-  /* As far as I know, just Macintosh OS X can make it here,
-   * but since the OS X fold just folds a-z into A-Z or visa-versa, I'm just
-   * allowing it to be used for any case insensitive system which we aren't
-   * yet making other specific folds or exceptions for (basically, anything
-   * case insensitive other than Windows, where \ and C:\ style absolute paths
-   * also need to be accounted for).
-   *
-   * Under Mac OS X, filenames are case-insensitive.
+# else /* !__CYGWIN32__ && !WOE32 */
+  /* As far as I know, only Macintosh OS X & VMS make it here, but any
+   * platform defining FILENAMES_CASE_INSENSITIVE which isn't WOE32 or
+   * piggy-backing the same could, in theory.  Since the OS X fold just folds
+   * A-Z into a-z, I'm just allowing it to be used for any case insensitive
+   * system which we aren't yet making other specific folds or exceptions for.
+   * WOE32 needs its own class since \ and C:\ style absolute paths also need
+   * to be accounted for.
    */
 #   define FOLD_FN_CHAR(c) (OSX_filename_classes[(unsigned char) (c)])
 extern unsigned char OSX_filename_classes[];

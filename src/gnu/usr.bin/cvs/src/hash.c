@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
  *
@@ -56,9 +61,9 @@ getlist (void)
 	/* get a list from the cache and clear it */
 	list = listcache;
 	listcache = listcache->next;
-	list->next = (List *) NULL;
+	list->next = NULL;
 	for (i = 0; i < HASHSIZE; i++)
-	    list->hasharray[i] = (Node *) NULL;
+	    list->hasharray[i] = NULL;
     }
     else
     {
@@ -141,7 +146,7 @@ getnode (void)
 {
     Node *p;
 
-    if (nodecache != (Node *) NULL)
+    if (nodecache != NULL)
     {
 	/* get one from the cache */
 	p = nodecache;
@@ -431,7 +436,7 @@ sortlist (List *list, int (*comp) (const Node *, const Node *))
 	n++;
 
     /* allocate an array of nodes and populate it */
-    array = (Node **) xmalloc (sizeof(Node *) * n);
+    array = xnmalloc (n, sizeof (Node *));
     i = 0;
     for (p = remain; p != head; p = p->next)
 	array[i++] = p;

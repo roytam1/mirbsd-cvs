@@ -4,13 +4,14 @@
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-                       2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+                       2001, 2002, 2003, 2004, 2005
+                       Free Software Foundation, Inc.
 
 @multitable @columnfractions .12 .88
 @item Portions
-@item @tab Copyright @copyright{} 1999, 2000, 2001, 2002, 2003, 2004
+@item @tab Copyright @copyright{} 1999, 2000, 2001, 2002, 2003, 2004, 2005
                                   Derek R. Price,
-@item @tab Copyright @copyright{} 2002, 2003, 2004
+@item @tab Copyright @copyright{} 2002, 2003, 2004, 2005
                                   Ximbiot @url{http://ximbiot.com},
 @item @tab Copyright @copyright{} 1992, 1993, 1999 Signum Support AB,
 @item @tab and Copyright @copyright{} others.
@@ -3085,7 +3086,7 @@ the primary server to write operations and pushing changes to the secondaries.
 
 Primary servers will not automatically push changes to secondaries.  This must
 be configured via @file{loginfo}, @file{postadmin}, @file{posttag}, &
-@file{postwatch} scripts (@pxref{script hooks}) like the following:
+@file{postwatch} scripts (@pxref{Trigger Scripts}) like the following:
 
 @example
 ALL	rsync -gopr -essh ./ secondary:/cvsroot/%p &
@@ -3836,8 +3837,8 @@ $ cvs checkout -r rel-1-0 tc
 This is useful, for instance, if someone claims that there is a bug in
 that release, but you cannot find the bug in the current working copy.
 
-You can also check out a module as it was at any given date.
-@xref{checkout options}.  When specifying @samp{-r} to
+You can also check out a module as it was on any branch at any given date.
+@xref{checkout options}.  When specifying @samp{-r} or @samp{-D} to
 any of these commands, you will need beware of sticky
 tags; see @ref{Sticky tags}.
 
@@ -3934,12 +3935,14 @@ description of them.
 Tag the most recent revision no later than @var{date}.
 
 @item -f
-Only useful with the @samp{-D @var{date}} or @samp{-r @var{tag}}
+Only useful with the @samp{-D} or @samp{-r}
 flags.  If no matching revision is found, use the most
 recent revision (instead of ignoring the file).
 
-@item -r @var{tag}
-Only tag those files that contain existing tag @var{tag}.
+@item -r @var{tag}[:@var{date}]
+Tag the revision already tagged with @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 @end table
 
 The @code{cvs tag} command also allows one to specify
@@ -5364,7 +5367,7 @@ time of the rename.
 
 When @var{new} is committed its revision numbers will
 start again, usually at 1.1, so if that bothers you,
-use the @samp{-r rev} option to commit.  For more
+use the @samp{-r @var{tag}} option to commit.  For more
 information see @ref{Assigning revisions}.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -5444,7 +5447,7 @@ Advantages:
 @c FIXME: Is this true about -D now that we have death
 @c support?  See 5B.3 in the FAQ.
 Checking out old revisions works correctly, as long as
-you use @samp{-r@var{tag}} and not @samp{-D@var{date}}
+you use @samp{-r @var{tag}} and not @samp{-D @var{date}}
 to retrieve the revisions.
 
 @item
@@ -5469,7 +5472,7 @@ You cannot easily see the history of the file across the rename.
 @c it is "usually 1.1", not "1.0" and it needs an
 @c xref to Assigning revisions
 @item
-Unless you use the @samp{-r rev} (@pxref{commit
+Unless you use the @samp{-r @var{tag}} (@pxref{commit
 options}) flag when @var{new} is committed its revision
 numbers will start at 1.0 again.
 @end ignore
@@ -6181,6 +6184,8 @@ revision that the file in the working directory derives
 from, and the @code{Repository revision} which is the
 latest revision in the repository for the branch in
 use.
+The @samp{Commit Identifier} reflects the unique commitid
+of the @code{commit}.
 @c FIXME: should we clarify "in use"?  The answer is
 @c sticky tags, and trying to distinguish branch sticky
 @c tags from non-branch sticky tags seems rather awkward
@@ -8632,9 +8637,11 @@ Available with the following commands: @code{annotate}, @code{checkout},
 and @code{watchers}.
 
 @item -r @var{tag}
+@item -r @var{tag}[:@var{date}]
 @cindex HEAD, special tag
 @cindex BASE, special tag
-Use the revision specified by the @var{tag} argument instead of the
+Use the revision specified by the @var{tag} argument (and the @var{date}
+argument for the commands which accept it) instead of the
 default @dfn{head} revision.  As well as arbitrary tags defined
 with the @code{tag} or @code{rtag} command, two special tags are
 always available: @samp{HEAD} refers to the most recent version
@@ -8665,7 +8672,6 @@ revision you last checked out into the current working directory.
 @c cases written for things like default branches, &c.
 
 The tag specification is sticky when you use this
-@c option
 with @code{checkout} or @code{update} to make your own
 copy of a file: @sc{cvs} remembers the tag and continues to use it on
 future update commands, until you specify otherwise (for more information
@@ -8673,7 +8679,9 @@ on sticky tags/dates, @pxref{Sticky tags}).
 
 The tag can be either a symbolic or numeric tag, as
 described in @ref{Tags}, or the name of a branch, as
-described in @ref{Branching and merging}.
+described in @ref{Branching and merging}.  When @var{tag} is the name of a
+branch, some commands accept the optional @var{date} argument to specify
+the revisions as of the given date on the branch.
 
 Specifying the @samp{-q} global option along with the
 @samp{-r} command option is often useful, to suppress
@@ -8683,9 +8691,12 @@ does not contain the specified tag.
 @strong{Note: this is not the same as the overall @samp{cvs -r} option,
 which you can specify to the left of a @sc{cvs} command!}
 
-@samp{-r} is available with the @code{annotate}, @code{checkout},
-@code{commit}, @code{diff}, @code{history}, @code{export}, @code{rdiff}, 
-@code{rtag}, and @code{update} commands.
+@samp{-r @var{tag}} is available with the @code{commit} and @code{history}
+commands.
+
+@samp{-r @var{tag}[:@var{date}]} is available with the @code{annotate},
+@code{checkout}, @code{diff}, @code{export}, @code{rdiff}, @code{rtag},
+and @code{update} commands.
 
 @item -W
 Specify file names that should be filtered.  You can
@@ -9109,8 +9120,10 @@ Use head revision if tag/date not found.
 @item -F
 Annotate binary files.
 
-@item -r @var{revision}
-Annotate file as of specified revision/tag.
+@item -r @var{tag}[:@var{date}]
+Annotate file as of specified revision/tag or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 
 @item -D @var{date}
 Annotate file as of specified date.
@@ -9250,10 +9263,8 @@ This option is sticky, and implies @samp{-P}.  See
 @ref{Sticky tags}, for more information on sticky tags/dates.
 
 @item -f
-Only useful with the @samp{-D @var{date}} or @samp{-r
-@var{tag}} flags.  If no matching revision is found,
-retrieve the most recent revision (instead of ignoring
-the file).
+Only useful with the @samp{-D} or @samp{-r} flags.  If no matching revision is
+found, retrieve the most recent revision (instead of ignoring the file).
 
 @item -k @var{kflag}
 Process keywords according to @var{kflag}.  See
@@ -9281,9 +9292,12 @@ Pipe files to the standard output.
 @item -R
 Checkout directories recursively.  This option is on by default.
 
-@item -r @var{tag}
-Use revision @var{tag}.  This option is sticky, and implies @samp{-P}.
-See @ref{Sticky tags}, for more information on sticky tags/dates.
+@item -r @var{tag}[:@var{date}]
+Checkout the revision specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  This option is sticky, and implies @samp{-P}.
+See @ref{Sticky tags}, for more information on sticky tags/dates.  Also,
+see @ref{Common options}.
 @end table
 
 In addition to those, you can use these special command
@@ -9432,6 +9446,12 @@ log message on the command line with the @samp{-m
 @var{message}} option, and thus avoid the editor invocation,
 or use the @samp{-F @var{file}} option to specify
 that the argument file contains the log message.
+
+At @code{commit}, a unique commitid is placed in the @sc{rcs}
+file inside the repository. All files committed at once
+get the same commitid. The commitid can be retrieved with
+the @code{log} and @code{status} command; see @ref{log},
+@ref{File status}.
 
 @menu
 * commit options::              commit options
@@ -9596,7 +9616,7 @@ $ cvs checkout -r EXPR1 whatever_module
 
 @itemize @bullet
 @item
-Synopsis: diff [-lR] [-k kflag] [format_options] [[-r rev1 | -D date1] [-r rev2 |  -D date2]] [files@dots{}]
+Synopsis: diff [-lR] [-k kflag] [format_options] [(-r rev1[:date1] | -D date1) [-r rev2[:date2] | -D date2]] [files@dots{}]
 @item
 Requires: working directory, repository.
 @item
@@ -9644,8 +9664,10 @@ Local; run only in current working directory.
 Examine directories recursively.  This option is on by
 default.
 
-@item -r @var{tag}
-Compare with revision @var{tag}.  Zero, one or two
+@item -r @var{tag}[:@var{date}]
+Compare with revision specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  Zero, one or two
 @samp{-r} options can be present.  With no @samp{-r}
 option, the working file will be compared with the
 revision it was based on.  With one @samp{-r}, that
@@ -10227,7 +10249,7 @@ $ cvs diff -u | less
 
 @itemize @bullet
 @item
-Synopsis: export [-flNnR] [-r rev|-D date] [-k subst] [-d dir] module@dots{}
+Synopsis: export [-flNnR] (-r rev[:date] | -D date) [-k subst] [-d dir] module@dots{}
 @item
 Requires: repository.
 @item
@@ -10284,8 +10306,10 @@ Do not run any checkout program.
 @item -R
 Export directories recursively.  This is on by default.
 
-@item -r @var{tag}
-Use revision @var{tag}.
+@item -r @var{tag}[:@var{date}]
+Export the revision specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 @end table
 
 In addition, these options (that are common to
@@ -10713,11 +10737,10 @@ The output includes the location of the @sc{rcs} file,
 the @dfn{head} revision (the latest revision on the
 trunk), all symbolic names (tags) and some other
 things.  For each revision, the revision number, the
-date, the
-author, the number of lines added/deleted and the log
-message are printed.  All dates are displayed in local
-time at the client.  This is typically specified in the
-@code{$TZ} environment variable, which can be set to
+date, the author, the number of lines added/deleted, the commitid
+and the log message are printed.  All dates are displayed
+in local time at the client. This is typically specified in
+the @code{$TZ} environment variable, which can be set to
 govern how @code{log} displays dates.
 
 @strong{Note: @code{log} uses @samp{-R} in a way that conflicts
@@ -10733,7 +10756,12 @@ with the normal use inside @sc{cvs} (@pxref{Common options}).}
 @appendixsubsec log options
 
 By default, @code{log} prints all information that is
-available.  All other options restrict the output.
+available.  All other options restrict the output.  Note that the revision
+selection options (@code{-d}, @code{-r}, @code{-s}, and @code{-w}) have no
+effect, other than possibly causing a search for files in Attic directories,
+when used in conjunction with the options that restrict the output to only
+@code{log} header fields (@code{-b}, @code{-h}, @code{-R}, and @code{-t})
+unless the @code{-S} option is also specified.
 
 @table @code
 @item -b
@@ -10910,7 +10938,7 @@ you would need to prefix the examples above with @code{env}.)
 
 @itemize @bullet
 @item
-ls [-e | -l] [-RP] [-r revision] [-D date] [path@dots{}]
+ls [-e | -l] [-RP] [-r tag[:date]] [-D date] [path@dots{}]
 @item
 Requires: repository for @code{rls}, repository & working directory for
 @code{ls}.
@@ -10964,8 +10992,10 @@ Don't list contents of empty directories when recursing.
 @item -R
 List recursively.
 
-@item -r @var{revision}
-Show files with revision or tag.
+@item -r @var{tag}[:@var{date}]
+Show files specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 
 @item -D @var{date}
 Show files from date.
@@ -11005,7 +11035,7 @@ verifymsg
 
 @itemize @bullet
 @item
-rdiff [-flags] [-V vn] [-r t|-D d [-r t2|-D d2]] modules@dots{}
+rdiff [-flags] [-V vn] (-r tag1[:date1] | -D date1) [-r tag2[:date2] | -D date2] modules@dots{}
 @item
 Requires: repository.
 @item
@@ -11063,7 +11093,9 @@ Local; don't descend subdirectories.
 Examine directories recursively.  This option is on by default.
 
 @item -r @var{tag}
-Use revision @var{tag}.
+Use the revision specified by @var{tag}, or when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 @end table
 
 In addition to the above, these options are available:
@@ -11253,7 +11285,7 @@ $
 
 @itemize @bullet
 @item
-update [-ACdflPpR] [-I name] [-j rev [-j rev]] [-k kflag] [-r tag|-D date] [-W spec] files@dots{}
+update [-ACdflPpR] [-I name] [-j rev [-j rev]] [-k kflag] [-r tag[:date] | -D date] [-W spec] files@dots{}
 @item
 Requires: repository, working directory.
 @item
@@ -11293,10 +11325,8 @@ This option is sticky, and implies @samp{-P}.
 See @ref{Sticky tags}, for more information on sticky tags/dates.
 
 @item -f
-Only useful with the @samp{-D @var{date}} or @samp{-r
-@var{tag}} flags.  If no matching revision is found,
-retrieve the most recent revision (instead of ignoring
-the file).
+Only useful with the @samp{-D} or @samp{-r} flags.  If no matching revision
+is found, retrieve the most recent revision (instead of ignoring the file).
 
 @item -k @var{kflag}
 Process keywords according to @var{kflag}.  See
@@ -11320,10 +11350,12 @@ Pipe files to the standard output.
 Update directories recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r rev
-Retrieve revision/tag @var{rev}.  This option is sticky,
-and implies @samp{-P}.
-See @ref{Sticky tags}, for more information on sticky tags/dates.
+@item -r @var{tag}[:@var{date}]
+Retrieve the revisions specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  This option is sticky, and implies @samp{-P}.
+See @ref{Sticky tags}, for more information on sticky tags/dates. Also
+see @ref{Common options}.
 @end table
 
 @need 800
@@ -11703,8 +11735,10 @@ Local; run only in current working directory.  @xref{Recursive behavior}.
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{tag}
-Annotate revision @var{tag}.  See @ref{Common options}.
+@item -r @var{tag}[:@var{date}]
+Annotate revisions specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
@@ -11732,8 +11766,10 @@ Use head revision if tag/date not found.  See
 
 @c Probably want to use rev1/rev2 style like for diff
 @c -r.  Here and in on-line help.
-@item -j @var{rev}
-Merge in changes.  See @ref{checkout options}.
+@item -j @var{tag}[:@var{date}]
+Merge in the change specified by @var{tag}, or when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{checkout options}.
 
 @item -k @var{kflag}
 Use @var{kflag} keyword expansion.  See
@@ -11760,8 +11796,10 @@ stickiness).  See @ref{checkout options}.
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{tag}
-Checkout revision @var{tag} (is sticky).  See @ref{Common options}.
+@item -r @var{tag}[:@var{date}]
+Checkout the revision already tagged with @var{tag} or, when @var{date} is
+specified and @var{tag} is a branch tag, the version from the branch @var{tag}
+as it existed on @var{date}.  This .  See @ref{Common options}.
 
 @item -s
 Like -c, but include module status.  See @ref{checkout options}.
@@ -11832,12 +11870,17 @@ Include diffs for added and removed files.  See
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{rev1}
-Diff revision for @var{rev1} against working file.  See
-@ref{diff options}.
+@item -r @var{tag1}[:@var{date1}]
+Diff the revisions specified by @var{tag1} or, when @var{date1} is specified
+and @var{tag1} is a branch tag, the version from the branch @var{tag1} as it
+existed on @var{date1}, against the working file.  See @ref{diff options}
+and @ref{Common options}.
 
-@item -r @var{rev2}
-Diff @var{rev1}/@var{date1} against @var{rev2}.  See @ref{diff options}.
+@item -r @var{tag2}[:@var{date2}]
+Diff the revisions specified by @var{tag2} or, when @var{date2} is specified
+and @var{tag2} is a branch tag, the version from the branch @var{tag2} as it
+existed on @var{date2}, against @var{rev1}/@var{date1}.  See @ref{diff options}
+and @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
@@ -11913,8 +11956,10 @@ Do not run module program (if any).  See @ref{export options}.
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{tag}
-Checkout revision @var{tag}.  See @ref{Common options}.
+@item -r @var{tag}[:@var{date}]
+Export the revisions specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
@@ -12096,8 +12141,10 @@ Local; run only in current working directory.  @xref{Recursive behavior}.
 @item -R
 Operate recursively (default).  @xref{Recursive behavior}.
 
-@item -r @var{tag}
-Annotate revision @var{tag}.  See @ref{Common options}.
+@item -r @var{tag}[:@var{date}]
+Annotate the revision specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag}
+as it existed on @var{date}.  See @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
@@ -12122,8 +12169,10 @@ Local; run only in current working directory.  See @ref{Recursive behavior}.
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{rev}
-Select revisions based on @var{rev}.  See @ref{Common options}.
+@item -r @var{tag}[:@var{date}]
+Select the revisions specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{diff options} and @ref{Common options}.
 
 @item -s
 Short patch - one liner per file.  See @ref{rdiff options}.
@@ -12243,8 +12292,10 @@ No execution of tag program.  See @ref{Common options}.
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{rev}
-Tag existing tag @var{rev}.  See @ref{Tagging by date/tag}.
+@item -r @var{tag}[:@var{date}]
+Tag the revision already tagged with @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Tagging by date/tag} and @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
@@ -12261,8 +12312,7 @@ Display status information in a working directory.  See
 Local; run only in current working directory.  See @ref{Recursive behavior}.
 
 @item -R
-Operate recursively (default).  @xref{Recursive
-behavior}.
+Operate recursively (default).  @xref{Recursive behavior}.
 
 @item -v
 Include tag information for file.  See @ref{Tags}.
@@ -12298,11 +12348,12 @@ See @ref{Tagging by date/tag}.
 Local; run only in current working directory.  See @ref{Recursive behavior}.
 
 @item -R
-Operate recursively (default).  @xref{Recursive
-behavior}.
+Operate recursively (default).  @xref{Recursive behavior}.
 
-@item -r @var{rev}
-Tag existing tag @var{rev}.  See @ref{Tagging by date/tag}.
+@item -r @var{tag}[:@var{date}]
+Tag the revision already tagged with @var{tag}, or when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Tagging by date/tag} and @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
@@ -12349,8 +12400,10 @@ More files to ignore (! to reset).  See
 
 @c Probably want to use rev1/rev2 style like for diff
 @c -r.  Here and in on-line help.
-@item -j @var{rev}
-Merge in changes.  See @ref{update options}.
+@item -j @var{tag}[:@var{date}]
+Merge in changes from revisions specified by @var{tag} or, when @var{date} is
+specified and @var{tag} is a branch tag, the version from the branch @var{tag}
+as it existed on @var{date}.  See @ref{update options}.
 
 @item -k @var{kflag}
 Use @var{kflag} keyword expansion.  See
@@ -12370,8 +12423,10 @@ stickiness).  See @ref{update options}.
 Operate recursively (default).  @xref{Recursive
 behavior}.
 
-@item -r @var{tag}
-Checkout revision @var{tag} (is sticky).  See @ref{Common options}.
+@item -r @var{tag}[:@var{date}]
+Checkout the revisions specified by @var{tag} or, when @var{date} is specified
+and @var{tag} is a branch tag, the version from the branch @var{tag} as it
+existed on @var{date}.  See @ref{Common options}.
 
 @item -W @var{spec}
 More wrappers.  See @ref{import options}.
@@ -12445,7 +12500,7 @@ file, which defines the modules inside the repository.
 @menu
 * modules::                     Defining modules
 * Wrappers::                    Specify binary-ness based on file name
-* script hooks::		Launch scripts in response to server events
+* Trigger Scripts::		Launch scripts in response to server events
 * rcsinfo::                     Templates for the log messages
 * cvsignore::                   Ignoring files via cvsignore
 * checkoutlist::                Adding your own administrative files
@@ -12940,8 +12995,11 @@ cvs import -I ! -W "*.exe -k 'b'" first-dir vendortag reltag
 @c (probably a CVS bug, although I haven't thought it out).
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-@node script hooks
-@appendixsec The scripting hooks
+@node Trigger Scripts
+@appendixsec The Trigger Scripts
+@cindex info files
+@cindex trigger scripts
+@cindex script hooks
 
 @c FIXME
 @c Somewhere there needs to be a more "how-to" guide to writing these.
@@ -12950,12 +13008,20 @@ cvs import -I ! -W "*.exe -k 'b'" first-dir vendortag reltag
 @c should probably remain outside the scope of this document, but at least
 @c _that_ much could be referenced, perhaps with links to other sources.
 
-Script hooks are used to launch external programs at various points during
+Several of the administrative files support triggers, or the launching external
+scripts or programs at specific times before or after particular events, during
 the execution of @sc{cvs} commands.  These hooks can be used to prevent certain
 actions, log them, and/or maintain anything else you deem practical.
 
+All the trigger scripts are launched in a copy of the user sandbox being
+committed, on the server, in client-server mode.  In local mode, the scripts
+are actually launched directly from the user sandbox directory being committed.
+For most intents and purposes, the same scripts can be run in both locations
+without alteration.
+
 @menu
 * syntax::                      The common syntax
+* Trigger Script Security::	Trigger script security
 
 * commit files::                The commit support files (commitinfo,
                                 verifymsg, loginfo)
@@ -12977,9 +13043,10 @@ actions, log them, and/or maintain anything else you deem practical.
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node syntax
 @appendixsubsec The common syntax
-@cindex Info files (syntax)
-@cindex Syntax of info files
-@cindex Common syntax of info files
+@cindex info files, common syntax
+@cindex script hooks, common syntax
+@cindex trigger script hooks, common syntax
+@cindex syntax of trigger script hooks
 
 @c FIXME: having this so totally separate from the
 @c Variables node is rather bogus.
@@ -13002,7 +13069,7 @@ also support the literal string @samp{ALL}.  Other than the @samp{ALL} and
 @samp{DEFAULT} keywords, this is a basic regular expression in the syntax used
 by GNU emacs.  See the descriptions of the individual script hooks for
 information on whether the @samp{ALL} keyword is supported
-(@pxref{script hooks}).
+(@pxref{Trigger Scripts}).
 @c FIXME: What we probably should be saying is "POSIX Basic
 @c Regular Expression with the following extensions (`\('
 @c `\|' '+' etc)"
@@ -13035,11 +13102,11 @@ in lieu of a regular expression is used and all lines containing @samp{ALL} is
 used for the hooks which support the @samp{ALL} keyword.  The rest of the line
 is used as a file name or command-line template as appropriate.  See the
 descriptions of the individual script hooks for information on whether the
-@samp{ALL} keyword is supported (@pxref{script hooks}).
+@samp{ALL} keyword is supported (@pxref{Trigger Scripts}).
 
 @cindex format strings
 @cindex format strings, common syntax
-@cindex Info files, common syntax, format strings
+@cindex info files, common syntax, format strings
 @cindex Common syntax of info files, format strings
 @noindent
 @emph{Note:  The following information on format strings is valid
@@ -13110,7 +13177,7 @@ server.  Should usually be set on a primary server with a write proxy setup.
 
 Other format strings are file specific.  See the docs on the
 particular script hooks for more information
-(@pxref{script hooks}).
+(@pxref{Trigger Scripts}).
 
 As an example, the following line in a @file{loginfo} file would
 match only the directory @file{module} and any subdirectories of
@@ -13137,6 +13204,33 @@ Modified Files:
 Log Message:
 A log message.
 @end example
+
+@c . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+@node Trigger Script Security
+@appendixsubsec Security and the Trigger Scripts
+@cindex info files, security
+@cindex script hooks, security
+@cindex trigger scripts, security
+
+Security is a huge subject, and implementing a secure system is a non-trivial
+task.  This section will barely touch on all the issues involved, but it is
+well to note that, as with any script you will be allowing an untrusted
+user to run on your server, there are measures you can take to help prevent
+your trigger scripts from being abused.
+
+For instance, since the CVS trigger scripts all run in a copy of the user's
+sandbox on the server, a naively coded Perl trigger script which attempts to
+use a Perl module that is not installed on the system can be hijacked by any
+user with commit access who is checking in a file with the correct name.  Other
+scripting languages may be vulnerable to similar hacks.
+
+One way to make a script more secure, at least with Perl, is to use scripts
+which invoke the @code{-T}, or "taint-check" switch on their @code{#!} line.
+In the most basic terms, this causes Perl to avoid running code that may have
+come from an external source.  Please run the @code{perldoc perlsec} command
+for more on Perl security.  Again, other languages may implement other security
+verification hooks which look more or less like Perl's "taint-check" mechanism.
+
 @c . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 @node commit files
 @appendixsubsec The commit support files
@@ -13185,7 +13279,7 @@ imagination is the limit!  @xref{loginfo}.
 @c . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 @node Updating Commit Files
 @appendixsubsubsec  Updating legacy repositories to stop using deprecated command line template formats
-@cindex Info files (syntax), updating legacy repositories
+@cindex info files, common syntax, updating legacy repositories
 @cindex Syntax of info files, updating legacy repositories
 @cindex Common syntax of info files, updating legacy repositories
 New repositories are created set to use the new format strings by default, so
@@ -13283,8 +13377,12 @@ put up with the deprecation warnings for awhile if you like.
 @cindex @file{commitinfo}
 @cindex Commits, precommit verification of
 @cindex commitinfo (admin file)
-@cindex Info files, commitinfo
-@cindex Info files, precommit verification of commits
+@cindex info files, commitinfo
+@cindex script hooks, commitinfo
+@cindex trigger scripts, commitinfo
+@cindex info files, precommit verification of commits
+@cindex script hooks, precommit verification of commits
+@cindex trigger scripts, precommit verification of commits
 
 The @file{commitinfo} file defines programs to execute
 whenever @samp{cvs commit} is about to execute.  These
@@ -13295,8 +13393,8 @@ instance, to verify that the changed files conform to
 to your site's standards for coding practice.
 
 The @file{commitinfo} file has the standard form for script hooks
-(@pxref{script hooks}), where each line is a regular expression followed by a
-command to execute.  It supports only the DEFAULT keywords.
+(@pxref{Trigger Scripts}), where each line is a regular expression followed by
+a command to execute.  It supports only the DEFAULT keywords.
 
 @cindex format strings, commitinfo admin file
 In addition to the common format strings (@pxref{syntax}),
@@ -13379,8 +13477,8 @@ with the @file{rcsinfo} file, which can be used to
 specify a log message template (@pxref{rcsinfo}).
 
 The @file{verifymsg} file has the standard form for script hooks
-(@pxref{script hooks}), where each line is a regular expression followed by a
-command to execute.  It supports only the DEFAULT keywords.
+(@pxref{Trigger Scripts}), where each line is a regular expression followed by
+a command to execute.  It supports only the DEFAULT keywords.
 
 @cindex format strings, verifymsg admin file
 In addition to the common format strings (@pxref{syntax}),
@@ -13540,8 +13638,8 @@ information and @ref{postadmin} for how to log changes due to the @code{admin}
 command.
 
 The @file{loginfo} file has the standard form for script hooks
-(@pxref{script hooks}), where each line is a regular expression followed by a
-command to execute.  It supports the ALL and DEFAULT keywords.
+(@pxref{Trigger Scripts}), where each line is a regular expression followed by
+a command to execute.  It supports the ALL and DEFAULT keywords.
 
 Any specified scripts are called:
 
@@ -13706,7 +13804,7 @@ out tree in @file{/u/www/local-docs}.
 
 The @file{postadmin} file defines programs to execute after an @code{admin}
 command modifies files.  The @file{postadmin} file has the standard form
-for script hooks (@pxref{script hooks}), where each line is a regular
+for script hooks (@pxref{Trigger Scripts}), where each line is a regular
 expression followed by a command to execute.  It supports the ALL and DEFAULT
 keywords.
 
@@ -13726,7 +13824,7 @@ ones (@pxref{syntax}),
 The @file{taginfo} file defines programs to execute
 when someone executes a @code{tag} or @code{rtag}
 command.  The @file{taginfo} file has the standard form
-for script hooks (@pxref{script hooks}), where each line
+for script hooks (@pxref{Trigger Scripts}), where each line
 is a regular expression followed by a command to execute.
 It supports the ALL and DEFAULT keywords.
 
@@ -13799,7 +13897,7 @@ echo "$@@" >>/home/kingdon/cvsroot/CVSROOT/taglog
 
 The @file{posttag} file defines programs to execute after a @code{tag} or
 @code{rtag} command modifies files.  The @file{posttag} file has the standard
-form for script hooks (@pxref{script hooks}), where each line is a regular
+form for script hooks (@pxref{Trigger Scripts}), where each line is a regular
 expression followed by a command to execute.  It supports the ALL and DEFAULT
 keywords.
 
@@ -13820,8 +13918,8 @@ The @file{postwatch} file defines programs to execute after any command (for
 instance, @code{watch}, @code{edit}, @code{unedit}, or @code{commit}) modifies
 any @file{CVS/fileattr} file in the repository (@pxref{Watches}).  The
 @file{postwatch} file has the standard form for script hooks
-(@pxref{script hooks}), where each line is a regular expression followed by a
-command to execute.  It supports the ALL and DEFAULT keywords.
+(@pxref{Trigger Scripts}), where each line is a regular expression followed by
+a command to execute.  It supports the ALL and DEFAULT keywords.
 
 @cindex format strings, postwatch admin file
 The @file{postwatch} file supports no format strings other than the common
@@ -13852,7 +13950,7 @@ the repository argument (if requested) set from the topmost directory sent by
 the client.
 
 The @file{preproxy} file has the standard form
-for script hooks (@pxref{script hooks}), where each line is a regular
+for script hooks (@pxref{Trigger Scripts}), where each line is a regular
 expression followed by a command to execute.  It supports the ALL and DEFAULT
 keywords.
 
@@ -13890,7 +13988,7 @@ repository on the secondary server.
 @file{postproxy} scripts are called once per directory.
 
 The @file{postproxy} file has the standard form
-for script hooks (@pxref{script hooks}), where each line is a regular
+for script hooks (@pxref{Trigger Scripts}), where each line is a regular
 expression followed by a command to execute.  It supports the ALL and DEFAULT
 keywords.
 
@@ -13964,8 +14062,6 @@ In versions of @sc{cvs} prior to version 1.12, the
 @sc{cvs} server is at version 1.12 or higher an older
 client may be used and the @file{CVS/Template} will
 be updated from the server.
-
-
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node cvsignore

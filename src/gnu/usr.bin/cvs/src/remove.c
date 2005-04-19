@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -85,11 +90,9 @@ cvsremove (int argc, char **argv)
 	{
 	    if (!noexec)
 	    {
-		start_recursion
-		    ( remove_force_fileproc, (FILESDONEPROC) NULL,
-		      (DIRENTPROC) NULL, (DIRLEAVEPROC) NULL,
-		      NULL, argc, argv, local, W_LOCAL,
-		      0, CVS_LOCK_NONE, (char *) NULL, 0, (char *) NULL );
+		start_recursion (remove_force_fileproc, NULL, NULL, NULL,
+				 NULL, argc, argv, local, W_LOCAL,
+				 0, CVS_LOCK_NONE, NULL, 0, NULL);
 	    }
 	    /* else FIXME should probably act as if the file doesn't exist
 	       in doing the following checks.  */
@@ -110,11 +113,9 @@ cvsremove (int argc, char **argv)
 #endif
 
     /* start the recursion processor */
-    err = start_recursion
-	( remove_fileproc, (FILESDONEPROC) NULL,
-	  remove_dirproc, (DIRLEAVEPROC) NULL, NULL, argc, argv,
-	  local, W_LOCAL, 0, CVS_LOCK_READ, (char *) NULL, 1,
-	  (char *) NULL );
+    err = start_recursion (remove_fileproc, NULL, remove_dirproc, NULL,
+			   NULL, argc, argv, local, W_LOCAL, 0,
+			   CVS_LOCK_READ, NULL, 1, NULL);
 
     if (removed_files && !really_quiet)
 	error (0, 0, "use `%s commit' to remove %s permanently", program_name,
@@ -193,11 +194,7 @@ remove_fileproc (void *callerdat, struct file_info *finfo)
 	 * remove the ,t file for it and scratch it from the
 	 * entries file.  */
 	Scratch_Entry (finfo->entries, finfo->file);
-	fname = xmalloc (strlen (finfo->file)
-			 + sizeof (CVSADM)
-			 + sizeof (CVSEXT_LOG)
-			 + 10);
-	(void) sprintf (fname, "%s/%s%s", CVSADM, finfo->file, CVSEXT_LOG);
+	fname = Xasprintf ("%s/%s%s", CVSADM, finfo->file, CVSEXT_LOG);
 	if (unlink_file (fname) < 0
 	    && !existence_error (errno))
 	    error (0, errno, "cannot remove %s", CVSEXT_LOG);
@@ -245,11 +242,9 @@ cannot remove file `%s' which has a sticky date of `%s'",
 	char *fname;
 
 	/* Re-register it with a negative version number.  */
-	fname = xmalloc (strlen (vers->vn_user) + 5);
-	(void) strcpy (fname, "-");
-	(void) strcat (fname, vers->vn_user);
-	Register (finfo->entries, finfo->file, fname, vers->ts_rcs, vers->options,
-		  vers->tag, vers->date, vers->ts_conflict);
+	fname = Xasprintf ("-%s", vers->vn_user);
+	Register (finfo->entries, finfo->file, fname, vers->ts_rcs,
+		  vers->options, vers->tag, vers->date, vers->ts_conflict);
 	if (!quiet)
 	    error (0, 0, "scheduling `%s' for removal", finfo->fullname);
 	removed_files++;

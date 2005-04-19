@@ -1,8 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 # Makefile for GNU CVS documentation (excluding man pages - see ../man).
-# Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-#               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
-#               Free Software Foundation, Inc.
+#
+# Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+#
+# Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+#                                  and others.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,6 +15,8 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+
+SUBDIRS = i18n
 
 info_TEXINFOS = cvs.texinfo cvsclient.texi
 man_MANS = cvs.1
@@ -35,13 +39,15 @@ EXTRA_DIST = \
 	$(PSS) \
 	.cvsignore \
 	ChangeLog.fsf \
+	HACKING.DOCS \
 	RCSFILES \
 	cvs.1 \
 	cvs-paper.ms \
 	cvs.man.header \
 	cvs.man.footer \
 	getdate.texi \
-	mdate-sh
+	mdate-sh \
+	writeproxy.rtf
 
 MOSTLYCLEANFILES = \
 	$(TXTS)
@@ -82,12 +88,14 @@ cvs-paper.pdf: cvs-paper.ps
 # Targets to build a man page from cvs.texinfo.
 cvs.1: @MAINTAINER_MODE_TRUE@ mkman cvs.man.header cvs.texinfo cvs.man.footer
 	$(PERL) ./mkman $(srcdir)/cvs.man.header $(srcdir)/cvs.texinfo \
-	        $(srcdir)/cvs.man.footer >$(srcdir)/$@
+		$(srcdir)/cvs.man.footer >cvs.tmp
+	cp cvs.tmp $(srcdir)/$@
+	-@rm -f cvs.tmp
 MAINTAINERCLEANFILES += $(srcdir)/cvs.1
 
-cvs.dvi cvs.html cvs.info cvs.pdf cvs.ps cvs.txt: getdate-cvs.texi
-getdate-cvs.texi: stamp-gdt
-stamp-gdt: getdate.texi $(top_srcdir)/configure
+cvs.dvi cvs.html $(srcdir)/cvs.info cvs.pdf cvs.ps cvs.txt: $(srcdir)/getdate-cvs.texi
+$(srcdir)/getdate-cvs.texi: stamp-gdt
+stamp-gdt: getdate.texi
 	@echo "@c This file is generated via a rule in Makefile.am from the" \
 	  >getdate-cvs.tmp
 	@echo " * getdate.texi file." >>getdate-cvs.tmp
@@ -99,12 +107,17 @@ stamp-gdt: getdate.texi $(top_srcdir)/configure
 	sed -e "s/^@chapter /@appendixsec /" \
 	    -e "s/^@section /@appendixsubsec /" \
 	  <$(srcdir)/getdate.texi >>getdate-cvs.tmp
-	@cmp -s getdate-cvs.tmp getdate-cvs.texi \
+	@cmp -s getdate-cvs.tmp $(srcdir)/getdate-cvs.texi \
 	  || (echo "Updating getdate-cvs.texi"; \
-	      cp getdate-cvs.tmp getdate-cvs.texi)
+	      cp getdate-cvs.tmp $(srcdir)/getdate-cvs.texi)
 	-@rm -f getdate-cvs.tmp
-	@cp getdate-cvs.texi $@
-DISTCLEANFILES += getdate-cvs.texi stamp-gdt getdate-cvs.tmp
+	@cp $(srcdir)/getdate-cvs.texi $@
+
+## If getdate-cvs.texi is not distributed, infos get rebuilt at every install.
+## This is a pretty big no-no.
+EXTRA_DIST += getdate-cvs.texi
+MOSTLYCLEANFILES += getdate-cvs.tmp
+DISTCLEANFILES += stamp-gdt
 
 # texinfo based targets automake neglects to include
 SUFFIXES = .txt

@@ -1,7 +1,12 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
+ * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
  *
@@ -163,11 +168,10 @@ cvstag (int argc, char **argv)
 		local = false;
 		break;
             case 'r':
-                numtag = optarg;
+		parse_tagdate (&numtag, &date, optarg);
                 break;
             case 'D':
-                if (date)
-                    free (date);
+                if (date) free (date);
                 date = Make_Date (optarg);
                 break;
 	    case '?':
@@ -185,8 +189,8 @@ cvstag (int argc, char **argv)
     argc--;
     argv++;
 
-    if (date && numtag)
-	error (1, 0, "-r and -D options are mutually exclusive");
+    if (date && delete_flag)
+	error (1, 0, "-d makes no sense with a date specification.");
     if (delete_flag && branch_mode)
 	error (0, 0, "warning: -b ignored with -d options");
     RCS_check_tag (symtag);
@@ -315,24 +319,30 @@ posttag_proc (const char *repository, const char *filter, void *closure)
      *                           deleted from until
      *                           SUPPORT_OLD_INFO_FMT_STRINGS is undefined).
      */
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
-	false, srepos,
+			      false, srepos,
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
-	filter,
-	"t", "s", ppd->symtag,
-	"o", "s", ppd->delete_flag ? "del" :
-	          ppd->force_tag_move ? "mov" : "add",
-    	"b", "c", delete_flag ? '?' : branch_mode ? 'T' : 'N',
-        "c", "s", cvs_cmd_name,
+			      filter,
+			      "t", "s", ppd->symtag,
+			      "o", "s", ppd->delete_flag
+			      ? "del" : ppd->force_tag_move ? "mov" : "add",
+			      "b", "c", delete_flag
+			      ? '?' : branch_mode ? 'T' : 'N',
+			      "c", "s", cvs_cmd_name,
 #ifdef SERVER_SUPPORT
-        "R", "s", referrer ? referrer->original : "NONE",
+			      "R", "s", referrer ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */
-    	"p", "s", srepos,
-	"r", "s", current_parsed_root->directory,
-	"sVv", ",", ppd->tlist, pretag_list_to_args_proc, (void *)NULL,
-	(char *)NULL
-	);
+			      "p", "s", srepos,
+			      "r", "s", current_parsed_root->directory,
+			      "sVv", ",", ppd->tlist,
+			      pretag_list_to_args_proc, (void *) NULL,
+			      (char *) NULL);
 
     if (!cmdline || !strlen (cmdline))
     {
@@ -479,6 +489,7 @@ rtag_proc (int argc, char **argv, char *xwhere, char *mwhere, char *mfile,
 	{
 	    error (0, errno, "cannot chdir to %s", repository);
 	    free (repository);
+	    free (where);
 	    return 1;
 	}
 	/* End section which is identical to patch_proc.  */
@@ -744,24 +755,30 @@ pretag_proc (const char *repository, const char *filter, void *closure)
      *                           deleted from until
      *                           SUPPORT_OLD_INFO_FMT_STRINGS is undefined)
      */
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
-	false, srepos,
+			      false, srepos,
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
-	filter,
-	"t", "s", ppd->symtag,
-	"o", "s", ppd->delete_flag ? "del" :
-	          ppd->force_tag_move ? "mov" : "add",
-    	"b", "c", delete_flag ? '?' : branch_mode ? 'T' : 'N',
-        "c", "s", cvs_cmd_name,
+			      filter,
+			      "t", "s", ppd->symtag,
+			      "o", "s", ppd->delete_flag ? "del" :
+			      ppd->force_tag_move ? "mov" : "add",
+			      "b", "c", delete_flag
+			      ? '?' : branch_mode ? 'T' : 'N',
+			      "c", "s", cvs_cmd_name,
 #ifdef SERVER_SUPPORT
-        "R", "s", referrer ? referrer->original : "NONE",
+			      "R", "s", referrer ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */
-    	"p", "s", srepos,
-	"r", "s", current_parsed_root->directory,
-	"sVv", ",", ppd->tlist, pretag_list_to_args_proc, (void *) NULL,
-	(char *)NULL
-	);
+			      "p", "s", srepos,
+			      "r", "s", current_parsed_root->directory,
+			      "sVv", ",", ppd->tlist,
+			      pretag_list_to_args_proc, (void *) NULL,
+			      (char *) NULL);
 
     if (newfilter) free (newfilter);
 
@@ -1080,8 +1097,7 @@ rtag_delete (RCSNode *rcsfile)
 
     if (numtag)
     {
-	version = RCS_getversion (rcsfile, numtag, (char *) NULL, 1,
-				  (int *) NULL);
+	version = RCS_getversion (rcsfile, numtag, NULL, 1, NULL);
 	if (version == NULL)
 	    return (0);
 	free (version);
@@ -1138,14 +1154,11 @@ tag_fileproc (void *callerdat, struct file_info *finfo)
 
     vers = Version_TS (finfo, NULL, NULL, NULL, 0, 0);
 
-    if ((numtag != NULL) || (date != NULL))
+    if (numtag || date)
     {
-        nversion = RCS_getversion(vers->srcfile,
-                                  numtag,
-                                  date,
-                                  force_tag_match,
-				  NULL);
-        if (nversion == NULL)
+        nversion = RCS_getversion (vers->srcfile, numtag, date,
+                                   force_tag_match, NULL);
+        if (!nversion)
 	    goto free_vars_and_return;
     }
     if (delete_flag)
@@ -1207,16 +1220,17 @@ tag_fileproc (void *callerdat, struct file_info *finfo)
      * If we are adding a tag, we need to know which version we have checked
      * out and we'll tag that version.
      */
-    if (nversion == NULL)
+    if (!nversion)
         version = vers->vn_user;
     else
         version = nversion;
-    if (version == NULL)
+    if (!version)
 	goto free_vars_and_return;
     else if (strcmp (version, "0") == 0)
     {
 	if (!quiet)
-	    error (0, 0, "couldn't tag added but un-commited file `%s'", finfo->file);
+	    error (0, 0, "couldn't tag added but un-commited file `%s'",
+	           finfo->file);
 	goto free_vars_and_return;
     }
     else if (version[0] == '-')
@@ -1243,8 +1257,7 @@ tag_fileproc (void *callerdat, struct file_info *finfo)
      * module -- which I have found to be a typical tagging operation.
      */
     rev = branch_mode ? RCS_magicrev (vers->srcfile, version) : version;
-    oversion = RCS_getversion (vers->srcfile, symtag, (char *) NULL, 1,
-			       (int *) NULL);
+    oversion = RCS_getversion (vers->srcfile, symtag, NULL, 1, NULL);
     if (oversion != NULL)
     {
 	int isbranch = RCS_nodeisbranch (finfo->rcs, symtag);
@@ -1286,11 +1299,11 @@ tag_fileproc (void *callerdat, struct file_info *finfo)
 		if ((isbranch && !disturb_branch_tags) ||
 		    (!isbranch && disturb_branch_tags))
 	{
-	    error(0,0, "%s: Not moving %s tag `%s' from %s to %s%s.",
-		    finfo->fullname,
-		    isbranch ? "branch" : "non-branch",
-		    symtag, oversion, rev,
-		    isbranch ? "" : " due to `-B' option");
+	    error (0,0, "%s: Not moving %s tag `%s' from %s to %s%s.",
+		   finfo->fullname,
+		   isbranch ? "branch" : "non-branch",
+		   symtag, oversion, rev,
+		   isbranch ? "" : " due to `-B' option");
 	    free (oversion);
 	    if (branch_mode)
 		free (rev);
@@ -1369,7 +1382,7 @@ tag_dirproc (void *callerdat, const char *dir, const char *repos,
    if carefully done), and/or be harder to implement correctly.  */
 
 struct val_args {
-    char *name;
+    const char *name;
     int found;
 };
 
@@ -1442,7 +1455,7 @@ val_direntproc (void *callerdat, const char *dir, const char *repository,
  *   Nothing.
  */
 void
-tag_check_valid (char *name, int argc, char **argv, int local, int aflag,
+tag_check_valid (const char *name, int argc, char **argv, int local, int aflag,
                  char *repository, bool valid)
 {
     DBM *db;
@@ -1499,14 +1512,11 @@ Numeric tag %s invalid.  Numeric tags should be of the form X[.X]...", name);
        If two processes try to write val-tags at the same time, it would
        seem like we are in trouble.  */
 
-    mytag.dptr = name;
+    mytag.dptr = xstrdup (name);
     mytag.dsize = strlen (name);
 
-    valtags_filename = xmalloc (strlen (current_parsed_root->directory)
-				+ sizeof CVSROOTADM
-				+ sizeof CVSROOTADM_VALTAGS + 3);
-    sprintf (valtags_filename, "%s/%s/%s", current_parsed_root->directory,
-					   CVSROOTADM, CVSROOTADM_VALTAGS);
+    valtags_filename = Xasprintf ("%s/%s/%s", current_parsed_root->directory,
+                                  CVSROOTADM, CVSROOTADM_VALTAGS);
     db = dbm_open (valtags_filename, O_RDWR, 0666);
     if (db == NULL)
     {
@@ -1605,41 +1615,6 @@ Numeric tag %s invalid.  Numeric tags should be of the form X[.X]...", name);
 	error (0, errno, "cannot store %s into %s", name,
 	       valtags_filename);
     dbm_close (db);
+    free (mytag.dptr);
     free (valtags_filename);
-}
-
-
-
-/*
- * Check whether a join tag is valid.  This is just like
- * tag_check_valid, but we must stop before the colon if there is one.
- */
-void
-tag_check_valid_join (char *join_tag, int argc, char **argv, int local,
-                      int aflag, char *repository)
-{
-    char *c, *s;
-
-    c = xstrdup (join_tag);
-    s = strchr (c, ':');
-    if (s != NULL)
-    {
-        if (isdigit ((unsigned char) join_tag[0]))
-	    error (1, 0,
-		   "Numeric join tag %s may not contain a date specifier",
-		   join_tag);
-
-        *s = '\0';
-	/* hmmm...  I think it makes sense to allow -j:<date>, but
-	 * for now this fixes a bug where CVS just spins and spins (I
-	 * think in the RCS code) looking for a zero length tag.
-	 */
-	if (!*c)
-	    error (1, 0,
-"argument to join may not contain a date specifier without a tag");
-    }
-
-    tag_check_valid (c, argc, argv, local, aflag, repository, false);
-
-    free (c);
 }

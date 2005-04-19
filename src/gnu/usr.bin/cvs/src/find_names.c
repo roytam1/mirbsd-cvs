@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -91,9 +96,7 @@ Find_Names (char *repository, int which, int aflag, List **optentries)
 	/* search the attic too */
 	if (which & W_ATTIC)
 	{
-	    char *dir;
-	    dir = xmalloc (strlen (repository) + sizeof (CVSATTIC) + 10);
-	    (void) sprintf (dir, "%s/%s", repository, CVSATTIC);
+	    char *dir = Xasprintf ("%s/%s", repository, CVSATTIC);
 	    if (find_rcs (dir, files) != 0
 		&& !existence_error (errno))
 		/* For now keep this a fatal error, seems less useful
@@ -106,7 +109,7 @@ Find_Names (char *repository, int which, int aflag, List **optentries)
 
     /* sort the list into alphabetical order and return it */
     sortlist (files, fsortcmp);
-    return (files);
+    return files;
  error_exit:
     dellist (&files);
     return NULL;
@@ -145,7 +148,7 @@ register_subdir_proc (Node *p, void *closure)
 {
     List *entries = (List *) closure;
 
-    Subdir_Register (entries, (char *) NULL, p->key);
+    Subdir_Register (entries, NULL, p->key);
     return 0;
 }
 

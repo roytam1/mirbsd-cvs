@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS kit.  */
@@ -864,15 +869,23 @@ checkout_file (char *file, char *temp)
     if (noexec)
 	return 0;
 
-    rcs = xmalloc (strlen (file) + 5);
-    strcpy (rcs, file);
-    strcat (rcs, RCSEXT);
+    rcs = Xasprintf ("%s%s", file, RCSEXT);
     if (!isfile (rcs))
     {
 	free (rcs);
 	return 1;
     }
+
     rcsnode = RCS_parsercsfile (rcs);
+    if (!rcsnode)
+    {
+	/* Probably not necessary (?); RCS_parsercsfile already printed a
+	   message.  */
+	error (0, 0, "Failed to parse `%s'.", rcs);
+	free (rcs);
+	return 1;
+    }
+
     retcode = RCS_checkout (rcsnode, NULL, NULL, NULL, NULL, temp, NULL, NULL);
     if (retcode != 0)
     {
@@ -900,7 +913,7 @@ write_dbmfile( char *temp )
     datum key, val;
     int len, cont, err = 0;
 
-    fp = open_file (temp, "r");
+    fp = xfopen (temp, "r");
     if ((db = dbm_open (temp, O_RDWR | O_CREAT | O_TRUNC, 0666)) == NULL)
 	error (1, errno, "cannot open dbm file %s for creation", temp);
     for (cont = 0; fgets (line, sizeof (line), fp) != NULL;)
@@ -1094,8 +1107,7 @@ rename_rcsfile (char *temp, char *real)
     char *rcs;
 
     /* Set "x" bits if set in original. */
-    rcs = xmalloc (strlen (real) + sizeof (RCSEXT) + 10);
-    (void) sprintf (rcs, "%s%s", real, RCSEXT);
+    rcs = Xasprintf ("%s%s", real, RCSEXT);
     statbuf.st_mode = 0; /* in case rcs file doesn't exist, but it should... */
     if (CVS_STAT (rcs, &statbuf) < 0
 	&& !existence_error (errno))
@@ -1104,8 +1116,7 @@ rename_rcsfile (char *temp, char *real)
 
     if (chmod (temp, 0444 | (statbuf.st_mode & 0111)) < 0)
 	error (0, errno, "warning: cannot chmod %s", temp);
-    bak = xmalloc (strlen (real) + sizeof (BAKPREFIX) + 10);
-    (void) sprintf (bak, "%s%s", BAKPREFIX, real);
+    bak = Xasprintf ("%s%s", BAKPREFIX, real);
 
     /* rm .#loginfo */
     if (unlink_file (bak) < 0
@@ -1167,8 +1178,7 @@ init (int argc, char **argv)
        which needs to be created.  */
     mkdir_if_needed (current_parsed_root->directory);
 
-    adm = xmalloc (strlen (current_parsed_root->directory) + sizeof (CVSROOTADM) + 2);
-    sprintf (adm, "%s/%s", current_parsed_root->directory, CVSROOTADM);
+    adm = Xasprintf ("%s/%s", current_parsed_root->directory, CVSROOTADM);
     mkdir_if_needed (adm);
 
     /* This is needed because we pass "fileptr->filename" not "info"
@@ -1207,7 +1217,7 @@ init (int argc, char **argv)
 		FILE *fp;
 		const char * const *p;
 
-		fp = open_file (info, "w");
+		fp = xfopen (info, "w");
 		for (p = fileptr->contents; *p != NULL; ++p)
 		    if (fputs (*p, fp) < 0)
 			error (1, errno, "cannot write %s", info);
@@ -1239,7 +1249,7 @@ init (int argc, char **argv)
     {
 	FILE *fp;
 
-	fp = open_file (info, "w");
+	fp = xfopen (info, "w");
 	if (fclose (fp) < 0)
 	    error (1, errno, "cannot close %s", info);
  
@@ -1257,7 +1267,7 @@ init (int argc, char **argv)
     {
 	FILE *fp;
 
-	fp = open_file (info, "w");
+	fp = xfopen (info, "w");
 	if (fclose (fp) < 0)
 	    error (1, errno, "cannot close %s", info);
  

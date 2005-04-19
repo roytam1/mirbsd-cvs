@@ -34,7 +34,7 @@ copy_file (const char *from, const char *to)
     int fdin, fdout;
     ssize_t rsize;
 
-    TRACE ( 1, "copy(%s,%s)", from, to );
+    TRACE (TRACE_FUNCTION, "copy(%s,%s)", from, to);
 
     if (noexec)
 	return;
@@ -265,19 +265,6 @@ isaccessible (const char *file, const int mode)
 
 
 /*
- * Open a file and die if it fails
- */
-FILE *
-open_file (const char *name, const char *mode)
-{
-    FILE *fp;
-
-    if ((fp = fopen (name, mode)) == NULL)
-	error (1, errno, "cannot open %s", name);
-    return (fp);
-}
-
-/*
  * Make a directory and die if it fails
  */
 void
@@ -374,7 +361,7 @@ xchmod (const char *fname, int writable)
 	mode = sb.st_mode & ~(S_IWRITE | S_IWGRP | S_IWOTH) & ~oumask;
     }
 
-    TRACE ( 1, "chmod(%s,%o)", fname, (unsigned int) mode );
+    TRACE (TRACE_FUNCTION, "chmod(%s,%o)", fname, (unsigned int) mode);
 
     if (noexec)
 	return;
@@ -389,7 +376,7 @@ xchmod (const char *fname, int writable)
 void
 rename_file (const char *from, const char *to)
 {
-    TRACE ( 1, "rename(%s,%s)", from, to );
+    TRACE (TRACE_FUNCTION, "rename(%s,%s)", from, to);
 
     if (noexec)
 	return;
@@ -404,7 +391,7 @@ rename_file (const char *from, const char *to)
 int
 unlink_file (const char *f)
 {
-    TRACE ( 1, "unlink_file(%s)", f );
+    TRACE (TRACE_FUNCTION, "unlink_file(%s)", f);
 
     if (noexec)
 	return (0);
@@ -493,8 +480,7 @@ deep_remove_dir (const char *path)
 			    strcmp (dp->d_name, "..") == 0)
 		    continue;
 
-		buf = xmalloc (strlen (path) + strlen (dp->d_name) + 5);
-		sprintf (buf, "%s/%s", path, dp->d_name);
+		buf = Xasprintf ("%s/%s", path, dp->d_name);
 
 		/* See comment in unlink_file_dir explanation of why we use
 		   isdir instead of just calling unlink and checking the
@@ -718,7 +704,8 @@ cvs_temp_name (void)
  *	whatever system function is called to generate the temporary file name.
  *	The value of filename is undefined on error.
  */
-FILE *cvs_temp_file (char **filename)
+FILE *
+cvs_temp_file (char **filename)
 {
     char *fn;
     FILE *fp;
@@ -731,14 +718,14 @@ FILE *cvs_temp_file (char **filename)
 
     assert (filename != NULL);
 
-    fn = xmalloc (strlen (Tmpdir) + 11);
-    sprintf (fn, "%s/%s", Tmpdir, "cvsXXXXXX" );
+    fn = Xasprintf ("%s/%s", Tmpdir, "cvsXXXXXX");
     fd = mkstemp (fn);
 
     /* a NULL return will be interpreted by callers as an error and
      * errno should still be set
      */
-    if (fd == -1) fp = NULL;
+    if (fd == -1)
+	fp = NULL;
     else if ((fp = CVS_FDOPEN (fd, "w+")) == NULL)
     {
 	/* Attempt to close and unlink the file since mkstemp returned
@@ -752,7 +739,8 @@ FILE *cvs_temp_file (char **filename)
 	errno = save_errno;
     }
 
-    if (fp == NULL) free (fn);
+    if (fp == NULL)
+	free (fn);
 
     /* mkstemp is defined to open mode 0600 using glibc 2.0.7+.  There used
      * to be a complicated #ifdef checking the library versions here and then
@@ -889,8 +877,7 @@ get_homedir (void)
 char *
 strcat_filename_onto_homedir (const char *dir, const char *file)
 {
-    char *path = xmalloc (strlen (dir) + 1 + strlen(file) + 1);
-    sprintf (path, "%s/%s", dir, file);
+    char *path = Xasprintf ("%s/%s", dir, file);
     return path;
 }
 
@@ -907,7 +894,7 @@ expand_wild (int argc, char **argv, int *pargc, char ***pargv)
 	return;
     }
     *pargc = argc;
-    *pargv = xmalloc (xtimes (argc, sizeof (char *)));
+    *pargv = xnmalloc (argc, sizeof (char *));
     for (i = 0; i < argc; ++i)
 	(*pargv)[i] = xstrdup (argv[i]);
 }

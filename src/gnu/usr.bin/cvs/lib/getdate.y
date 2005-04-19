@@ -1,6 +1,8 @@
 %{
 /* Parse a string into an internal time stamp.
-   Copyright (C) 1999, 2000, 2002, 2003, 2004 Free Software Foundation, Inc.
+
+   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005 Free Software
+   Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,7 +38,16 @@
 
 #include "getdate.h"
 
-#include <alloca.h>
+/* There's no need to extend the stack, so there's no need to involve
+   alloca.  */
+#define YYSTACK_USE_ALLOCA 0
+
+/* Tell Bison how much stack space is needed.  20 should be plenty for
+   this grammar, which is not right recursive.  Beware setting it too
+   high, since that might cause problems on machines whose
+   implementations have lame stack-overflow checking.  */
+#define YYMAXDEPTH 20
+#define YYINITDEPTH YYMAXDEPTH
 
 /* Since the code of getdate.y is not included in the Emacs executable
    itself, there is no need to #define static in this file.  Even if
@@ -108,6 +119,7 @@
    representation.  */
 typedef struct
 {
+  bool negative;
   long int value;
   size_t digits;
 } textint;
@@ -163,12 +175,13 @@ typedef struct
   long int rel_seconds;
   long int rel_ns;
 
-  /* Counts of nonterminals of various flavors parsed so far.  */
+  /* Presence or counts of nonterminals of various flavors parsed so far.  */
   bool timespec_seen;
+  bool rels_seen;
   size_t dates_seen;
   size_t days_seen;
   size_t local_zones_seen;
-  size_t rels_seen;
+  size_t dsts_seen;
   size_t times_seen;
   size_t zones_seen;
 
@@ -179,6 +192,7 @@ typedef struct
 union YYSTYPE;
 static int yylex (union YYSTYPE *, parser_control *);
 static int yyerror (parser_control *, char *);
+static long int time_zone_hhmm (textint, long int);
 
 %}
 
@@ -188,8 +202,8 @@ static int yyerror (parser_control *, char *);
 %parse-param { parser_control *pc }
 %lex-param { parser_control *pc }
 
-/* This grammar has 13 shift/reduce conflicts. */
-%expect 13
+/* This grammar has 14 shift/reduce conflicts. */
+%expect 14
 
 %union
 {
@@ -207,7 +221,7 @@ static int yyerror (parser_control *, char *);
 %token <textintval> tSNUMBER tUNUMBER
 %token <timespec> tSDECIMAL_NUMBER tUDECIMAL_NUMBER
 
-%type <intval> o_merid
+%type <intval> o_colon_minutes o_merid
 %type <timespec> seconds signed_seconds unsigned_seconds
 
 %%
@@ -242,7 +256,7 @@ item:
   | day
       { pc->days_seen++; }
   | rel
-      { pc->rels_seen++; }
+      { pc->rels_seen = true; }
   | number
   ;
 
@@ -263,7 +277,7 @@ time:
 	pc->seconds.tv_nsec = 0;
 	pc->meridian = $4;
       }
-  | tUNUMBER ':' tUNUMBER tSNUMBER
+  | tUNUMBER ':' tUNUMBER tSNUMBER o_colon_minutes
       {
 	pc->hour = $1.value;
 	pc->minutes = $3.value;
@@ -271,7 +285,7 @@ time:
 	pc->seconds.tv_nsec = 0;
 	pc->meridian = MER24;
 	pc->zones_seen++;
-	pc->time_zone = $4.value % 100 + ($4.value / 100) * 60;
+	pc->time_zone = time_zone_hhmm ($4, $5);
       }
   | tUNUMBER ':' tUNUMBER ':' unsigned_seconds o_merid
       {
@@ -280,27 +294,35 @@ time:
 	pc->seconds = $5;
 	pc->meridian = $6;
       }
-  | tUNUMBER ':' tUNUMBER ':' unsigned_seconds tSNUMBER
+  | tUNUMBER ':' tUNUMBER ':' unsigned_seconds tSNUMBER o_colon_minutes
       {
 	pc->hour = $1.value;
 	pc->minutes = $3.value;
 	pc->seconds = $5;
 	pc->meridian = MER24;
 	pc->zones_seen++;
-	pc->time_zone = $6.value % 100 + ($6.value / 100) * 60;
+	pc->time_zone = time_zone_hhmm ($6, $7);
       }
   ;
 
 local_zone:
     tLOCAL_ZONE
-      { pc->local_isdst = $1; }
+      {
+	pc->local_isdst = $1;
+	pc->dsts_seen += (0 < $1);
+      }
   | tLOCAL_ZONE tDST
-      { pc->local_isdst = $1 < 0 ? 1 : $1 + 1; }
+      {
+	pc->local_isdst = 1;
+	pc->dsts_seen += (0 < $1) + 1;
+      }
   ;
 
 zone:
     tZONE
       { pc->time_zone = $1; }
+  | tZONE tSNUMBER o_colon_minutes
+      { pc->time_zone = $1 + time_zone_hhmm ($2, $3); }
   | tDAYZONE
       { pc->time_zone = $1 + 60; }
   | tZONE tDST
@@ -489,7 +511,7 @@ unsigned_seconds:
 number:
     tUNUMBER
       {
-	if (pc->dates_seen
+	if (pc->dates_seen && ! pc->year.digits
 	    && ! pc->rels_seen && (pc->times_seen || 2 < $1.digits))
 	  pc->year = $1;
 	else
@@ -521,6 +543,13 @@ number:
 	      }
 	  }
       }
+  ;
+
+o_colon_minutes:
+    /* empty */
+      { $$ = -1; }
+  | ':' tUNUMBER
+      { $$ = $2.value; }
   ;
 
 o_merid:
@@ -616,6 +645,17 @@ static table const relative_time_table[] =
   { NULL, 0, 0 }
 };
 
+/* The universal time zone table.  These labels can be used even for
+   time stamps that would not otherwise be valid, e.g., GMT time
+   stamps in London during summer.  */
+static table const universal_time_zone_table[] =
+{
+  { "GMT",	tZONE,     HOUR ( 0) },	/* Greenwich Mean */
+  { "UT",	tZONE,     HOUR ( 0) },	/* Universal (Coordinated) */
+  { "UTC",	tZONE,     HOUR ( 0) },
+  { NULL, 0, 0 }
+};
+
 /* The time zone table.  This table is necessarily incomplete, as time
    zone abbreviations are ambiguous; e.g. Australians interpret "EST"
    as Eastern time in Australia, not as US Eastern Standard Time.
@@ -623,9 +663,6 @@ static table const relative_time_table[] =
    abbreviations; use numeric abbreviations like `-0500' instead.  */
 static table const time_zone_table[] =
 {
-  { "GMT",	tZONE,     HOUR ( 0) },	/* Greenwich Mean */
-  { "UT",	tZONE,     HOUR ( 0) },	/* Universal (Coordinated) */
-  { "UTC",	tZONE,     HOUR ( 0) },
   { "WET",	tZONE,     HOUR ( 0) },	/* Western European */
   { "WEST",	tDAYZONE,  HOUR ( 0) },	/* Western European Summer */
   { "BST",	tDAYZONE,  HOUR ( 0) },	/* British Summer */
@@ -673,7 +710,7 @@ static table const time_zone_table[] =
   { "GST",	tZONE,     HOUR (10) },	/* Guam Standard */
   { "NZST",	tZONE,     HOUR (12) },	/* New Zealand Standard */
   { "NZDT",	tDAYZONE,  HOUR (12) },	/* New Zealand Daylight */
-  { NULL, 0, 0  }
+  { NULL, 0, 0 }
 };
 
 /* Military time zone table. */
@@ -708,6 +745,19 @@ static table const military_table[] =
 };
 
 
+
+/* Convert a time zone expressed as HH:MM into an integer count of
+   minutes.  If MM is negative, then S is of the form HHMM and needs
+   to be picked apart; otherwise, S is of the form HH.  */
+
+static long int
+time_zone_hhmm (textint s, long int mm)
+{
+  if (mm < 0)
+    return (s.value / 100) * 60 + s.value % 100;
+  else
+    return s.value * 60 + (s.negative ? -mm : mm);
+}
 
 static int
 to_hour (long int hours, int meridian)
@@ -745,7 +795,12 @@ lookup_zone (parser_control const *pc, char const *name)
 {
   table const *tp;
 
-  /* Try local zone abbreviations first; they're more likely to be right.  */
+  for (tp = universal_time_zone_table; tp->name; tp++)
+    if (strcmp (name, tp->name) == 0)
+      return tp;
+
+  /* Try local zone abbreviations before those in time_zone_table, as
+     the local ones are more likely to be right.  */
   for (tp = pc->local_time_zone_table; tp->name; tp++)
     if (strcmp (name, tp->name) == 0)
       return tp;
@@ -960,6 +1015,7 @@ yylex (YYSTYPE *lvalp, parser_control *pc)
 	    }
 	  else
 	    {
+	      lvalp->textintval.negative = sign < 0;
 	      if (sign < 0)
 		{
 		  lvalp->textintval.value = - value;
@@ -1091,8 +1147,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 
   if (! now)
     {
-      if (gettime (&gettime_buffer) != 0)
-	return false;
+      gettime (&gettime_buffer);
       now = &gettime_buffer;
     }
 
@@ -1144,7 +1199,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
   pc.input = p;
   pc.year.value = tmp->tm_year;
   pc.year.value += TM_YEAR_BASE;
-  pc.year.digits = 4;
+  pc.year.digits = 0;
   pc.month = tmp->tm_mon + 1;
   pc.day = tmp->tm_mday;
   pc.hour = tmp->tm_hour;
@@ -1162,11 +1217,12 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
   pc.rel_month = 0;
   pc.rel_year = 0;
   pc.timespec_seen = false;
+  pc.rels_seen = false;
   pc.dates_seen = 0;
   pc.days_seen = 0;
-  pc.rels_seen = 0;
   pc.times_seen = 0;
   pc.local_zones_seen = 0;
+  pc.dsts_seen = 0;
   pc.zones_seen = 0;
 
 #if HAVE_STRUCT_TM_TM_ZONE
@@ -1234,9 +1290,8 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
     *result = pc.seconds;
   else
     {
-      if (1 < pc.times_seen || 1 < pc.dates_seen || 1 < pc.days_seen
-	  || 1 < (pc.local_zones_seen + pc.zones_seen)
-	  || (pc.local_zones_seen && 1 < pc.local_isdst))
+      if (1 < (pc.times_seen | pc.dates_seen | pc.days_seen | pc.dsts_seen
+	       | (pc.local_zones_seen + pc.zones_seen)))
 	goto fail;
 
       tm.tm_year = to_year (pc.year) - TM_YEAR_BASE;
@@ -1257,7 +1312,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 	}
 
       /* Let mktime deduce tm_isdst if we have an absolute time stamp.  */
-      if (pc.dates_seen | pc.days_seen | pc.times_seen)
+      if (!pc.rels_seen)
 	tm.tm_isdst = -1;
 
       /* But if the input explicitly specifies local time with or without

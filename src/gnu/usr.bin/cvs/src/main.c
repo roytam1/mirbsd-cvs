@@ -1,10 +1,14 @@
 /*
- *    Copyright (c) 1992, Brian Berliner and Jeff Polk
- *    Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
- *    You may distribute under the terms of the GNU General Public License
- *    as specified in the README file that comes with the CVS source
- *    distribution.
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
+ *
+ * You may distribute under the terms of the GNU General Public License
+ * as specified in the README file that comes with the CVS source distribution.
  *
  * This is the main C driver for the CVS system.
  *
@@ -16,10 +20,13 @@
 #include "cvs.h"
 #include "xgethostname.h"
 #include "strftime.h"
+#include "closeout.h"
 
 const char *program_name;
 const char *program_path;
 const char *cvs_cmd_name;
+
+const char *global_session_id; /* Random session ID */
 
 char *hostname;
 #ifdef SERVER_SUPPORT
@@ -291,20 +298,16 @@ cmd_synonyms (void)
 	c++;
     }
     
-    synonyms = (char **) xmalloc(numcmds * sizeof(char *));
+    synonyms = xnmalloc (numcmds, sizeof(char *));
     line = synonyms;
     *line++ = "CVS command synonyms are:\n";
     for (c = &cmds[0]; c->fullname != NULL; c++)
     {
 	if (c->nick1 || c->nick2)
 	{
-	    *line = xmalloc (strlen (c->fullname)
-			     + (c->nick1 != NULL ? strlen (c->nick1) : 0)
-			     + (c->nick2 != NULL ? strlen (c->nick2) : 0)
-			     + 40);
-	    sprintf(*line, "        %-12s %s %s\n", c->fullname,
-		    c->nick1 ? c->nick1 : "",
-		    c->nick2 ? c->nick2 : "");
+	    *line = Xasprintf ("        %-12s %s %s\n", c->fullname,
+			       c->nick1 ? c->nick1 : "",
+			       c->nick2 ? c->nick2 : "");
 	    line++;
 	}
     }
@@ -571,17 +574,22 @@ main (int argc, char **argv)
 		logoff = 1;
 		break;
 	    case 'v':
-		fputs ("\n", stdout);
+		(void) fputs ("\n", stdout);
 		version (0, NULL);    
-		fputs (
-"\n"
-"Copyright (c) 1989-2004 Brian Berliner, david d `zoo' zuhn,\n"
-"                        Jeff Polk, and other authors\n"
-"\n"
-"CVS may be copied only under the terms of the GNU General Public License,\n"
-"a copy of which can be found with the CVS distribution kit.\n"
-"\n"
-"Specify the --help option for further information about CVS\n", stdout);
+		(void) fputs ("\n", stdout);
+		(void) fputs ("\
+Copyright (C) 2005 Free Software Foundation, Inc.\n\
+\n\
+Senior active maintainers include Larry Jones, Derek R. Price,\n\
+and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
+distribution kit for a complete list of contributors and copyrights.\n",
+		              stdout);
+		(void) fputs ("\n", stdout);
+		(void) fputs ("CVS may be copied only under the terms of the GNU General Public License,\n", stdout);
+		(void) fputs ("a copy of which can be found with the CVS distribution kit.\n", stdout);
+		(void) fputs ("\n", stdout);
+
+		(void) fputs ("Specify the --help option for further information about CVS\n", stdout);
 
 		exit (0);
 		break;
@@ -668,6 +676,13 @@ main (int argc, char **argv)
 Using this option to access a repository which some users write to may\n\
 cause intermittent sandbox corruption.");
     }
+
+    /* Calculate the cvs global session ID */
+
+    global_session_id = Xasprintf ("%x%08lx%04x", (int)getpid(),
+                                  (long)time (NULL), rand()&0xFFFF);
+
+    TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
 
     /* Look up the command name. */
 
@@ -771,28 +786,30 @@ cause intermittent sandbox corruption.");
 	else
 #endif
 	{
+	    cleanup_register (close_stdout);
 	    CurDir = xgetcwd ();
             if (CurDir == NULL)
 		error (1, errno, "cannot get working directory");
 	}
 
 	if (Tmpdir == NULL || Tmpdir[0] == '\0')
+	{
+	    if (free_Tmpdir) free (Tmpdir);
 	    Tmpdir = "/tmp";
+	}
 
 #ifdef HAVE_PUTENV
 	if (tmpdir_update_env)
 	{
 	    char *env;
-	    env = xmalloc (strlen (TMPDIR_ENV) + strlen (Tmpdir) + 1 + 1);
-	    (void) sprintf (env, "%s=%s", TMPDIR_ENV, Tmpdir);
+	    env = Xasprintf ("%s=%s", TMPDIR_ENV, Tmpdir);
 	    (void) putenv (env);
 	    /* do not free env, as putenv has control of it */
 	}
 	{
 	    char *env;
 	    /* XXX pid < 10^32 */
-	    env = xmalloc (strlen (CVS_PID_ENV) + 1 + 32 + 1);
-	    (void) sprintf (env, "%s=%ld", CVS_PID_ENV, (long) getpid ());
+	    env = Xasprintf ("%s=%ld", CVS_PID_ENV, (long) getpid ());
 	    (void) putenv (env);
 	    /* do not free env, as putenv has control of it */
 	}
@@ -801,7 +818,14 @@ cause intermittent sandbox corruption.");
 	/* make sure we clean up on error */
 	signals_register (main_cleanup);
 
-	hostname = xgethostname();
+	hostname = xgethostname ();
+	if (hostname == NULL)
+	{
+            error (0, errno,
+                   "xgethostname () returned NULL, using \"localhost\"");
+            hostname = xstrdup ("localhost");
+            
+	}
 #ifdef SERVER_SUPPORT
 	/* Keep track of this separately since the client can change the
 	 * hostname.
@@ -814,8 +838,8 @@ cause intermittent sandbox corruption.");
 	/* Probably the need for this will go away at some point once
 	   we call fflush enough places (e.g. fflush (stdout) in
 	   cvs_outerr).  */
-	(void) setvbuf (stdout, (char *) NULL, _IONBF, 0);
-	(void) setvbuf (stderr, (char *) NULL, _IONBF, 0);
+	(void) setvbuf (stdout, NULL, _IONBF, 0);
+	(void) setvbuf (stderr, NULL, _IONBF, 0);
 #endif /* KLUDGE_FOR_WNT_TESTSUITE */
 
 	if (use_cvsrc)
@@ -1078,7 +1102,7 @@ cause intermittent sandbox corruption.");
 
 
 char *
-Make_Date (char *rawdate)
+Make_Date (const char *rawdate)
 {
     struct timespec t;
 
@@ -1087,6 +1111,68 @@ Make_Date (char *rawdate)
 
     /* Truncate nanoseconds.  */
     return date_from_time_t (t.tv_sec);
+}
+
+
+
+/* Parse a string of the form TAG[:DATE], where TAG could be the empty string.
+ *
+ * INPUTS
+ *   input	The string to be parsed.
+ *
+ * OUTPUTS
+ *   tag	The tag found, if any.  If TAG is the empty string, then leave
+ *		this value unchanged.
+ *   date	The date found, if any.  If DATE is the empty string or is
+ *		missing, leave this value unchanged.
+ *
+ * NOTES
+ *   If either TAG or DATE is replaced for output, the previous value is freed.
+ *
+ * ERRORS
+ *   If either TAG or DATE cannot be parsed, then this function will exit with
+ *   a fatal error message.
+ *
+ * RETURNS
+ *   Nothing.
+ */
+void
+parse_tagdate (char **tag, char **date, const char *input)
+{
+    char *p;
+
+    TRACE (TRACE_FUNCTION, "parse_tagdate (%s, %s, %s)",
+	   *tag ? *tag : "(null)", *date ? *date : "(null)",
+	   input);
+
+    if ((p = strchr (input, ':')))
+    {
+	/* Parse the tag.  */
+	if (p - input)
+	{
+	    /* The tag has > 0 length.  */
+	    if (*tag) free (*tag);
+	    *tag = xmalloc (p - input + 1);
+	    strncpy (*tag, input, p - input);
+	    (*tag)[p - input] = '\0';
+	}
+
+	/* Parse the date.  */
+	if (*++p)
+	{
+	    if (*date) free (*date);
+	    *date = Make_Date (p);
+	}
+    }
+    else if (strlen (input))
+    {
+	/* The tag has > 0 length.  */
+	if (*tag) free (*tag);
+	*tag = xstrdup (input);
+    }
+
+    TRACE (TRACE_DATA, "parse_tagdate: got tag = `%s', date = `%s'",
+	   *tag ? *tag : "(null)", *date ? *date : "(null)");
 }
 
 

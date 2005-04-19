@@ -204,7 +204,7 @@ static int select_hrec (struct hrec * hr);
 static int sort_order (const void *l, const void *r);
 static int within (char *find, char *string);
 static void expand_modules (void);
-static void read_hrecs (char *fname);
+static void read_hrecs (const char *fname);
 static void report_hrecs (void);
 static void save_file (char *dir, char *name, char *module);
 static void save_module (char *module);
@@ -436,7 +436,7 @@ history (int argc, char **argv)
 		backto = xstrdup (optarg);
 		break;
 	    case 'f':			/* For specified file */
-		save_file ("", optarg, NULL);
+		save_file (NULL, optarg, NULL);
 		break;
 	    case 'm':			/* Full module report */
 		if (!module_report++) report_count++;
@@ -445,7 +445,7 @@ history (int argc, char **argv)
 		save_module (optarg);
 		break;
 	    case 'p':			/* For specified directory */
-		save_file (optarg, "", NULL);
+		save_file (optarg, NULL, NULL);
 		break;
 	    case 'r':			/* Since specified Tag/Rev */
 		if (since_date || *since_tag || *backto)
@@ -500,10 +500,8 @@ history (int argc, char **argv)
 		     * Convert a known time with the given timezone to time_t.
 		     * Use the epoch + 23 hours, so timezones east of GMT work.
 		     */
-		    static char f[] = "1/1/1970 23:00 %s";
-		    char *buf = xmalloc (sizeof (f) - 2 + strlen (optarg));
 		    struct timespec t;
-		    sprintf (buf, f, optarg);
+		    char *buf = Xasprintf ("1/1/1970 23:00 %s", optarg);
 		    if (get_date (&t, buf, NULL))
 		    {
 			/*
@@ -528,7 +526,7 @@ history (int argc, char **argv)
     argc -= optind;
     argv += optind;
     for (i = 0; i < argc; i++)
-	save_file ("", argv[i], NULL);
+	save_file (NULL, argv[i], NULL);
 
 
     /* ================ Now analyze the arguments a bit */
@@ -549,19 +547,19 @@ history (int argc, char **argv)
 	ign_setup ();
 
 	if (tag_report)
-	    send_arg("-T");
+	    send_arg ("-T");
 	if (all_users)
-	    send_arg("-a");
+	    send_arg ("-a");
 	if (modified)
-	    send_arg("-c");
+	    send_arg ("-c");
 	if (last_entry)
-	    send_arg("-l");
+	    send_arg ("-l");
 	if (v_checkout)
-	    send_arg("-o");
+	    send_arg ("-o");
 	if (working)
-	    send_arg("-w");
+	    send_arg ("-w");
 	if (histfile)
-	    send_arg("-X");
+	    send_arg ("-X");
 	if (since_date)
 	    client_senddate (since_date);
 	if (backto[0] != '\0')
@@ -574,7 +572,7 @@ history (int argc, char **argv)
 		option_with_arg ("-f", f1->l_file);
 	}
 	if (module_report)
-	    send_arg("-m");
+	    send_arg ("-m");
 	for (mod = mod_list; mod < &mod_list[mod_count]; ++mod)
 	    option_with_arg ("-n", *mod);
 	if (*since_rev)
@@ -584,7 +582,7 @@ history (int argc, char **argv)
 	for (mod = user_list; mod < &user_list[user_count]; ++mod)
 	    option_with_arg ("-u", *mod);
 	if (extract_all)
-	    send_arg("-e");
+	    send_arg ("-e");
 	if (extract)
 	    option_with_arg ("-x", rec_types);
 	option_with_arg ("-z", tz_name);
@@ -670,15 +668,11 @@ history (int argc, char **argv)
     if (histfile)
 	fname = xstrdup (histfile);
     else
-    {
-	fname = xmalloc (strlen (current_parsed_root->directory) + sizeof (CVSROOTADM)
-			 + sizeof (CVSROOTADM_HISTORY) + 10);
-	(void) sprintf (fname, "%s/%s/%s", current_parsed_root->directory,
-			CVSROOTADM, CVSROOTADM_HISTORY);
-    }
+	fname = Xasprintf ("%s/%s/%s", current_parsed_root->directory,
+			   CVSROOTADM, CVSROOTADM_HISTORY);
 
     read_hrecs (fname);
-    if(hrec_count>0)
+    if (hrec_count > 0)
     {
 	qsort (hrec_head, hrec_count, sizeof (struct hrec), sort_order);
     }
@@ -737,7 +731,7 @@ history_write (int type, const char *update_dir, const char *revs,
 	goto out;
     }
 
-    TRACE ( 1, "fopen(%s,a)", fname );
+    TRACE (TRACE_FUNCTION, "fopen(%s,a)", fname);
 
     if (noexec)
 	goto out;
@@ -778,7 +772,7 @@ history_write (int type, const char *update_dir, const char *revs,
 		if (save_cwd (&cwd))
 		    error (1, errno, "Failed to save current directory.");
 
-		if ( CVS_CHDIR (pwdir) < 0 || (homedir = xgetcwd ()) == NULL)
+		if (CVS_CHDIR (pwdir) < 0 || (homedir = xgetcwd ()) == NULL)
 		    homedir = pwdir;
 
 		if (restore_cwd (&cwd))
@@ -854,9 +848,6 @@ history_write (int type, const char *update_dir, const char *revs,
      * Only "compress" if we save characters.
      */
 
-    if (!repos)
-	repos = "";
-
     cp = workdir + strlen (workdir) - 1;
     cp2 = repos + strlen (repos) - 1;
     for (i = 0; cp2 >= repos && cp > workdir && *cp == *cp2--; cp--)
@@ -870,11 +861,8 @@ history_write (int type, const char *update_dir, const char *revs,
 
     if (!revs)
 	revs = "";
-    line = xmalloc (strlen (username) + strlen (workdir) + strlen (repos)
-		    + strlen (revs) + strlen (name) + 100);
-    sprintf (line, "%c%08lx|%s|%s|%s|%s|%s\n",
-	     type, (long) time (NULL),
-	     username, workdir, repos, revs, name);
+    line = Xasprintf ("%c%08lx|%s|%s|%s|%s|%s\n", type, (long) time (NULL),
+		      username, workdir, repos, revs, name);
 
     /* Lessen some race conditions on non-Posix-compliant hosts.  */
     if (lseek (fd, (off_t) 0, SEEK_END) == -1)
@@ -905,7 +893,7 @@ save_user (char *name)
 	    error (0, 0, "save_user: too many users");
 	    return;
 	}
-	user_list = xrealloc (user_list, xtimes (user_max, sizeof (char *)));
+	user_list = xnrealloc (user_list, user_max, sizeof (char *));
     }
     user_list[user_count++] = xstrdup (name);
 }
@@ -925,7 +913,6 @@ save_user (char *name)
 static void
 save_file (char *dir, char *name, char *module)
 {
-    char *cp;
     struct file_list_str *fl;
 
     if (file_count == file_max)
@@ -936,36 +923,24 @@ save_file (char *dir, char *name, char *module)
 	    error (0, 0, "save_file: too many files");
 	    return;
 	}
-	file_list = xrealloc (file_list, xtimes (file_max, sizeof (*fl)));
+	file_list = xnrealloc (file_list, file_max, sizeof (*fl));
     }
     fl = &file_list[file_count++];
-    fl->l_file = cp = xmalloc (strlen (dir) + strlen (name) + 2);
     fl->l_module = module;
 
     if (dir && *dir)
     {
 	if (name && *name)
-	{
-	    (void) strcpy (cp, dir);
-	    (void) strcat (cp, "/");
-	    (void) strcat (cp, name);
-	}
+	    fl->l_file = Xasprintf ("%s/%s", dir, name);
 	else
-	{
-	    *cp++ = '*';
-	    (void) strcpy (cp, dir);
-	}
+	    fl->l_file = Xasprintf ("*%s", dir);
     }
     else
     {
 	if (name && *name)
-	{
-	    (void) strcpy (cp, name);
-	}
+	    fl->l_file = xstrdup (name);
 	else
-	{
 	    error (0, 0, "save_file: null dir and file name");
-	}
     }
 }
 
@@ -980,7 +955,7 @@ save_module (char *module)
 	    error (0, 0, "save_module: too many modules");
 	    return;
 	}
-	mod_list = xrealloc (mod_list, xtimes (mod_max, sizeof (char *)));
+	mod_list = xnrealloc (mod_list, mod_max, sizeof (char *));
     }
     mod_list[mod_count++] = xstrdup (module);
 }
@@ -1002,7 +977,7 @@ expand_modules (void)
  */
 
 #define NEXT_BAR(here) do { \
-	while (isspace(*line)) line++; \
+	while (isspace (*line)) line++; \
 	hr->here = line; \
 	while ((c = *line++) && c != '|') ; \
 	if (!c) return; line[-1] = '\0'; \
@@ -1066,7 +1041,7 @@ fill_hrec (char *line, struct hrec *hr)
  * than the whole block, we're done. 
  */
 static void
-read_hrecs (char *fname)
+read_hrecs (const char *fname)
 {
     unsigned char *cpstart, *cpend, *cp, *nl;
     char *hrline;
@@ -1083,22 +1058,22 @@ read_hrecs (char *fname)
     if (!(st_buf.st_size))
 	error (1, 0, "history file is empty");
 
-    cpstart = xmalloc (2 * STAT_BLOCKSIZE(st_buf));
+    cpstart = xnmalloc (2, STAT_BLOCKSIZE (st_buf));
     cpstart[0] = '\0';
     cp = cpend = cpstart;
 
     hrec_max = HREC_INCREMENT;
-    hrec_head = xmalloc (hrec_max * sizeof (struct hrec));
+    hrec_head = xnmalloc (hrec_max, sizeof (struct hrec));
     hrec_idx = 0;
 
     for (;;)
     {
 	for (nl = cp; nl < cpend && *nl != '\n'; nl++)
-	    if (!isprint(*nl)) *nl = ' ';
+	    if (!isprint (*nl)) *nl = ' ';
 
 	if (nl >= cpend)
 	{
-	    if (nl - cp >= STAT_BLOCKSIZE(st_buf))
+	    if (nl - cp >= STAT_BLOCKSIZE (st_buf))
 	    {
 		error(1, 0, "history line %ld too long (> %lu)", hrec_idx + 1,
 		      (unsigned long) STAT_BLOCKSIZE(st_buf));
@@ -1126,7 +1101,7 @@ read_hrecs (char *fname)
 	    struct hrec *old_head = hrec_head;
 
 	    hrec_max += HREC_INCREMENT;
-	    hrec_head = xrealloc (hrec_head, hrec_max * sizeof (struct hrec));
+	    hrec_head = xnrealloc (hrec_head, hrec_max, sizeof (struct hrec));
 	    if (last_since_tag)
 		last_since_tag = hrec_head + (last_since_tag - old_head);
 	    if (last_backto)
@@ -1144,7 +1119,7 @@ read_hrecs (char *fname)
 	if (select_hrec (&hrec_head[hrec_count]))
 	    hrec_count++;
 	else 
-	    free(hrline);
+	    free (hrline);
 
 	cp = nl + 1;
     }
@@ -1356,11 +1331,7 @@ select_hrec (struct hrec *hr)
 		{
 		    if (strchr (cp, '/'))
 		    {
-			cmpfile = xmalloc (strlen (hr->repos)
-					   + strlen (hr->file)
-					   + 10);
-			(void) sprintf (cmpfile, "%s/%s",
-					hr->repos, hr->file);
+			cmpfile = Xasprintf ("%s/%s", hr->repos, hr->file);
 			cp2 = cmpfile;
 		    }
 		    else
@@ -1372,6 +1343,8 @@ select_hrec (struct hrec *hr)
 		    if (within (cp, cp2))
 		    {
 			hr->mod = fl->l_module;
+			if (cmpfile != NULL)
+			    free (cmpfile);
 			break;
 		    }
 		    if (cmpfile != NULL)

@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (c) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (c) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -113,24 +118,17 @@ struct admin_data
 static void
 arg_add (struct admin_data *dat, int opt, char *arg)
 {
-    char *newelt = xmalloc ((arg == NULL ? 0 : strlen (arg)) + 3);
-    strcpy (newelt, "-");
-    newelt[1] = opt;
-    if (arg == NULL)
-	newelt[2] = '\0';
-    else
-	strcpy (newelt + 2, arg);
+    char *newelt = Xasprintf ("-%c%s", opt, arg ? arg : "");
 
     if (dat->av_alloc == 0)
     {
 	dat->av_alloc = 1;
-	dat->av = (char **) xmalloc (dat->av_alloc * sizeof (*dat->av));
+	dat->av = xnmalloc (dat->av_alloc, sizeof (*dat->av));
     }
     else if (dat->ac >= dat->av_alloc)
     {
 	dat->av_alloc *= 2;
-	dat->av = (char **) xrealloc (dat->av,
-				      dat->av_alloc * sizeof (*dat->av));
+	dat->av = xnrealloc (dat->av, dat->av_alloc, sizeof (*dat->av));
     }
     dat->av[dat->ac++] = newelt;
 }
@@ -153,6 +151,11 @@ postadmin_proc (const char *repository, const char *filter, void *closure)
      * %p = shortrepos
      * %r = repository
      */
+    /*
+     * Cast any NULL arguments as appropriate pointers as this is an
+     * stdarg function and we need to be certain the caller gets what
+     * is expected.
+     */
     cmdline = format_cmdline (
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
 	                      false, srepos,
@@ -164,8 +167,7 @@ postadmin_proc (const char *repository, const char *filter, void *closure)
 #endif /* SERVER_SUPPORT */
 	                      "p", "s", srepos,
 	                      "r", "s", current_parsed_root->directory,
-	                      (char *)NULL
-	                     );
+	                      (char *) NULL);
 
     if (!cmdline || !strlen (cmdline))
     {
@@ -210,7 +212,7 @@ admin (int argc, char **argv)
     int err;
 #ifdef CVS_ADMIN_GROUP
     struct group *grp;
-    struct group *getgrnam(const char *);
+    struct group *getgrnam (const char *);
 #endif
     struct admin_data admin_data;
     int c;
@@ -259,11 +261,7 @@ admin (int argc, char **argv)
 		if (optarg == NULL)
 		    admin_data.branch = xstrdup ("-b");
 		else
-		{
-		    admin_data.branch = xmalloc (strlen (optarg) + 5);
-		    strcpy (admin_data.branch, "-b");
-		    strcat (admin_data.branch, optarg);
-		}
+		    admin_data.branch = Xasprintf ("-b%s", optarg);
 		break;
 
 	    case 'c':
@@ -272,9 +270,7 @@ admin (int argc, char **argv)
 		    error (0, 0, "duplicate 'c' option");
 		    goto usage_error;
 		}
-		admin_data.comment = xmalloc (strlen (optarg) + 5);
-		strcpy (admin_data.comment, "-c");
-		strcat (admin_data.comment, optarg);
+		admin_data.comment = Xasprintf ("-c%s", optarg);
 		break;
 
 	    case 'a':
@@ -366,9 +362,7 @@ admin (int argc, char **argv)
 		    error (0, 0, "duplicate '-o' option");
 		    goto usage_error;
 		}
-		admin_data.delete_revs = xmalloc (strlen (optarg) + 5);
-		strcpy (admin_data.delete_revs, "-o");
-		strcat (admin_data.delete_revs, optarg);
+		admin_data.delete_revs = Xasprintf ("-o%s", optarg);
 		break;
 
 	    case 's':
@@ -467,11 +461,11 @@ admin (int argc, char **argv)
 	n = getgroups (0, NULL);
 	if (n < 0)
 	    error (1, errno, "unable to get number of auxiliary groups");
-	grps = xmalloc ((n + 1) * sizeof *grps);
+	grps = xnmalloc (n + 1, sizeof *grps);
 	n = getgroups (n, grps);
 	if (n < 0)
 	    error (1, errno, "unable to get list of auxiliary groups");
-	grps[n] = getgid();
+	grps[n] = getgid ();
 	for (i = 0; i <= n; i++)
 	    if (grps[i] == grp->gr_gid) break;
 	free (grps);
@@ -479,12 +473,12 @@ admin (int argc, char **argv)
 	    error (1, 0, "usage is restricted to members of the group %s",
 		   CVS_ADMIN_GROUP);
 #else
-	char *me = getcaller();
+	char *me = getcaller ();
 	char **grnam;
 	
 	for (grnam = grp->gr_mem; *grnam; grnam++)
 	    if (strcmp (*grnam, me) == 0) break;
-	if (!*grnam && getgid() != grp->gr_gid)
+	if (!*grnam && getgid () != grp->gr_gid)
 	    error (1, 0, "usage is restricted to members of the group %s",
 		   CVS_ADMIN_GROUP);
 #endif
@@ -593,7 +587,10 @@ admin (int argc, char **argv)
 
     Lock_Cleanup ();
 
+/* This just suppresses a warning from -Wall.  */
+#ifdef CLIENT_SUPPORT
  return_it:
+#endif /* CLIENT_SUPPORT */
     if (admin_data.branch != NULL)
 	free (admin_data.branch);
     if (admin_data.comment != NULL)
@@ -648,7 +645,7 @@ admin_fileproc (void *callerdat, struct file_info *finfo)
     }
 
     if (rcs->flags & PARTIAL)
-	RCS_reparsercsfile (rcs, (FILE **) NULL, (struct rcsbuffer *) NULL);
+	RCS_reparsercsfile (rcs, NULL, NULL);
 
     if (!really_quiet)
     {
@@ -885,6 +882,13 @@ admin_fileproc (void *callerdat, struct file_info *finfo)
 		{
 		    tag = xstrdup (arg + 2);
 		    rev = RCS_head (rcs);
+		    if (!rev)
+		    {
+			error (0, 0, "No head revision in archive file `%s'.",
+			       rcs->path);
+			status = 1;
+			continue;
+		    }
 		}
 		else
 		{
@@ -954,8 +958,8 @@ admin_fileproc (void *callerdat, struct file_info *finfo)
 		delta = n->data;
 		if (delta->text == NULL)
 		{
-		    delta->text = (Deltatext *) xmalloc (sizeof (Deltatext));
-		    memset ((void *) delta->text, 0, sizeof (Deltatext));
+		    delta->text = xmalloc (sizeof (Deltatext));
+		    memset (delta->text, 0, sizeof (Deltatext));
 		}
 		delta->text->version = xstrdup (delta->version);
 		delta->text->log = make_message_rcsvalid (msg);

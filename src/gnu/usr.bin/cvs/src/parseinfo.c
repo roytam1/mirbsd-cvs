@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -37,6 +42,8 @@ Parse_Info (const char *infofile, const char *repository, CALLPROC callproc,
     const char *srepos;
     const char *regex_err;
 
+    assert (repository);
+
     if (current_parsed_root == NULL)
     {
 	/* XXX - should be error maybe? */
@@ -45,12 +52,8 @@ Parse_Info (const char *infofile, const char *repository, CALLPROC callproc,
     }
 
     /* find the info file and open it */
-    infopath = xmalloc (strlen (current_parsed_root->directory)
-			+ strlen (infofile)
-			+ sizeof (CVSROOTADM)
-			+ 3);
-    (void) sprintf (infopath, "%s/%s/%s", current_parsed_root->directory,
-		    CVSROOTADM, infofile);
+    infopath = Xasprintf ("%s/%s/%s", current_parsed_root->directory,
+			  CVSROOTADM, infofile);
     fp_info = CVS_FOPEN (infopath, "r");
     if (fp_info == NULL)
     {
@@ -64,7 +67,7 @@ Parse_Info (const char *infofile, const char *repository, CALLPROC callproc,
     /* strip off the CVSROOT if repository was absolute */
     srepos = Short_Repository (repository);
 
-    TRACE (1, "Parse_Info (%s, %s, %s)",
+    TRACE (TRACE_FUNCTION, "Parse_Info (%s, %s, %s)",
 	   infopath, srepos,  (opt & PIOPT_ALL) ? "ALL" : "not ALL");
 
     /* search the info file for lines that match */
@@ -286,7 +289,7 @@ new_config (void)
 
     TRACE (TRACE_FLOW, "new_config ()");
 
-    new->logHistory = ALL_HISTORY_REC_TYPES;
+    new->logHistory = xstrdup (ALL_HISTORY_REC_TYPES);
     new->RereadLogAfterVerify = LOGMSG_REREAD_ALWAYS;
     new->UserAdminOptions = xstrdup ("k");
     new->MaxCommentLeaderLength = 20;
@@ -309,6 +312,31 @@ free_config (struct config *data)
 {
     if (data->keywords) free_keywords (data->keywords);
     free (data);
+}
+
+
+
+/* Return true if this function has already been called for line LN of file
+ * INFOPATH.
+ */
+bool
+parse_error (const char *infopath, unsigned int ln)
+{
+    static List *errors = NULL;
+    char *nodename = NULL;
+
+    if (!errors)
+	errors = getlist();
+
+    nodename = Xasprintf ("%s/%u", infopath, ln);
+    if (findnode (errors, nodename))
+    {
+	free (nodename);
+	return true;
+    }
+
+    push_string (errors, nodename);
+    return false;
 }
 
 
@@ -339,6 +367,7 @@ parse_config (const char *cvsroot)
     char *infopath;
     FILE *fp_info;
     char *line = NULL;
+    unsigned int ln;		/* Input file line counter.  */
     size_t line_allocated = 0;
     size_t len;
     char *p;
@@ -364,8 +393,11 @@ parse_config (const char *cvsroot)
 	return retval;
     }
 
+    ln = 0;  /* Have not read any lines yet.  */
     while (getline (&line, &line_allocated, fp_info) >= 0)
     {
+	ln++; /* Keep track of input file line number for error messages.  */
+
 	/* Skip comments.  */
 	if (line[0] == '#')
 	    continue;
@@ -403,9 +435,10 @@ parse_config (const char *cvsroot)
 	p = strchr (line, '=');
 	if (p == NULL)
 	{
-	    /* Probably should be printing line number.  */
-	    error (0, 0, "syntax error in %s: line '%s' is missing '='",
-		   infopath, line);
+	    if (!parse_error (infopath, ln))
+		error (0, 0,
+"%s [%d]: syntax error: missing `=' between keyword and value",
+		       infopath, ln);
 	    continue;
 	}
 
@@ -432,17 +465,21 @@ parse_config (const char *cvsroot)
 	}
 #endif
 	else if (strcmp (line, "LocalKeyword") == 0)
-	    RCS_setlocalid (&retval->keywords, p);
+	    RCS_setlocalid (infopath, ln, &retval->keywords, p);
 	else if (strcmp (line, "KeywordExpand") == 0)
 	    RCS_setincexc (&retval->keywords, p);
 	else if (strcmp (line, "PreservePermissions") == 0)
+	{
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
 	    readBool (infopath, "PreservePermissions", p,
 		      &retval->preserve_perms);
 #else
-	    error (0, 0, "\
-warning: this CVS does not support PreservePermissions");
+	    if (!parse_error (infopath, ln))
+		error (0, 0, "\
+%s [%u]: warning: this CVS does not support PreservePermissions",
+		       infopath, ln);
 #endif
+	}
 	else if (strcmp (line, "TopLevelAdmin") == 0)
 	    readBool (infopath, "TopLevelAdmin", p, &retval->top_level_admin);
 	else if (strcmp (line, "LockDir") == 0)
@@ -457,7 +494,17 @@ warning: this CVS does not support PreservePermissions");
 	else if (strcmp (line, "LogHistory") == 0)
 	{
 	    if (strcmp (p, "all") != 0)
+	    {
+		static bool gotone = false;
+		if (gotone)
+		    error (0, 0, "\
+%s [%u]: warning: duplicate LogHistory entry found.",
+			   infopath, ln);
+		else
+		    gotone = true;
+		free (retval->logHistory);
 		retval->logHistory = xstrdup (p);
+	    }
 	}
 	else if (strcmp (line, "RereadLogAfterVerify") == 0)
 	{
@@ -491,28 +538,16 @@ warning: this CVS does not support PreservePermissions");
 	    if (readBool (infopath, "UseNewInfoFmtStrings", p, &dummy)
 		&& !dummy)
 		error (1, 0,
-"%s: Old style info format strings not supported by this executable.",
-		       infopath);
+"%s [%u]: Old style info format strings not supported by this executable.",
+		       infopath, ln);
 	}
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 	else if (strcmp (line, "ImportNewFilesToVendorBranchOnly") == 0)
 	    readBool (infopath, "ImportNewFilesToVendorBranchOnly", p,
 		      &retval->ImportNewFilesToVendorBranchOnly);
-#ifdef PROXY_SUPPORT
 	else if (strcmp (line, "PrimaryServer") == 0)
-	{
 	    retval->PrimaryServer = parse_cvsroot (p);
-	    if (retval->PrimaryServer->method != fork_method
-		&& retval->PrimaryServer->method != ext_method)
-	    {
-		/* I intentionally neglect to mention :fork: here.  It is
-	         * really only useful for testing.
-		 */
-	        error (1, 0,
-"%s: Only PrimaryServers with :ext: methods are valid, not `%s'.",
-		       infopath, p);
-	    }
-	}
+#ifdef PROXY_SUPPORT
 	else if (!strcmp (line, "MaxProxyBufferSize"))
 	    readSizeT (infopath, "MaxProxyBufferSize", p,
 		       &retval->MaxProxyBufferSize);
@@ -535,8 +570,9 @@ warning: this CVS does not support PreservePermissions");
 	       adding new keywords to your CVSROOT/config file is not
 	       particularly recommended unless you are planning on using
 	       the new features.  */
-	    error (0, 0, "%s: unrecognized keyword '%s'",
-		   infopath, line);
+	    if (!parse_error (infopath, ln))
+		error (0, 0, "%s [%u]: unrecognized keyword `%s'",
+		       infopath, ln, line);
     }
     if (ferror (fp_info))
 	error (0, errno, "cannot read %s", infopath);

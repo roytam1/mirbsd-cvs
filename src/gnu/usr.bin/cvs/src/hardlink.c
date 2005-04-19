@@ -11,7 +11,9 @@
 /* Collect and manage hardlink info associated with a particular file.  */
 
 #include "cvs.h"
-#include "hardlink.h"
+
+#ifdef PRESERVE_PERMISSIONS_SUPPORT
+# include "hardlink.h"
 
 /* The structure currently used to manage hardlink info is a list.
    Therefore, most of the functions which manipulate hardlink data
@@ -71,11 +73,7 @@ lookup_file_by_inode (const char *filepath)
     else
 	file = filepath;
 
-    /* inodestr contains the hexadecimal representation of an
-       inode, so it requires two bytes of text to represent
-       each byte of the inode number. */
-    inodestr = (char *) xmalloc (2*sizeof(ino_t) + 1);
-    if( CVS_STAT( file, &sb ) < 0 )
+    if (CVS_STAT (file, &sb) < 0)
     {
 	if (existence_error (errno))
 	{
@@ -88,7 +86,9 @@ lookup_file_by_inode (const char *filepath)
 	error (1, errno, "cannot stat %s", file);
     }
 
-    sprintf (inodestr, "%lx", (unsigned long) sb.st_ino);
+    /* inodestr contains the hexadecimal representation of an
+       inode. */
+    inodestr = Xasprintf ("%lx", (unsigned long) sb.st_ino);
 
     /* Find out if this inode is already in the hardlist, adding
        a new entry to the list if not. */
@@ -98,7 +98,7 @@ lookup_file_by_inode (const char *filepath)
 	hp = getnode ();
 	hp->type = NT_UNKNOWN;
 	hp->key = inodestr;
-	hp->data = getlist();
+	hp->data = getlist ();
 	hp->delproc = delhardlist;
 	(void) addnode (hardlist, hp);
     }
@@ -110,7 +110,7 @@ lookup_file_by_inode (const char *filepath)
     p = findnode (hp->data, filepath);
     if (p == NULL)
     {
-	p = getnode();
+	p = getnode ();
 	p->type = NT_UNKNOWN;
 	p->key = xstrdup (filepath);
 	p->data = NULL;
@@ -138,8 +138,7 @@ update_hardlink_info (const char *file)
 	/* file is a relative pathname; assume it's from the current
 	   working directory. */
 	char *dir = xgetcwd ();
-	path = xmalloc (strlen(dir) + strlen(file) + 2);
-	sprintf (path, "%s/%s", dir, file);
+	path = Xasprintf ("%s/%s", dir, file);
 	free (dir);
     }
 
@@ -177,7 +176,7 @@ list_linked_files_on_disk (char *file)
        would permit us to know anything about the file's hardlinks
        (cvs update, cvs commit, etc).  Return an empty list. */
     if (hardlist == NULL)
-	return getlist();
+	return getlist ();
 
     /* Get the full pathname of file (assuming the working directory) */
     if (file[0] == '/')
@@ -185,8 +184,7 @@ list_linked_files_on_disk (char *file)
     else
     {
 	char *dir = xgetcwd ();
-	path = (char *) xmalloc (strlen(dir) + strlen(file) + 2);
-	sprintf (path, "%s/%s", dir, file);
+	path = Xasprintf ("%s/%s", dir, file);
 	free (dir);
     }
 
@@ -196,13 +194,11 @@ list_linked_files_on_disk (char *file)
        linkage for a file would always fail. */
     (void) lookup_file_by_inode (path);
 
-    if( CVS_STAT( path, &sb ) < 0 )
+    if (CVS_STAT (path, &sb) < 0)
 	error (1, errno, "cannot stat %s", file);
     /* inodestr contains the hexadecimal representation of an
-       inode, so it requires two bytes of text to represent
-       each byte of the inode number. */
-    inodestr = (char *) xmalloc (2*sizeof(ino_t) + 1);
-    sprintf (inodestr, "%lx", (unsigned long) sb.st_ino);
+       inode. */
+    inodestr = Xasprintf ("%lx", (unsigned long) sb.st_ino);
 
     /* Make sure the files linked to this inode are sorted. */
     n = findnode (hardlist, inodestr);
@@ -271,7 +267,7 @@ compare_linkage_lists (List *links1, List *links2)
 int
 find_checkedout_proc (Node *node, void *data)
 {
-    Node **uptodate = (Node **) data;
+    Node **uptodate = data;
     Node *link;
     char *dir = xgetcwd ();
     char *path;
@@ -283,9 +279,7 @@ find_checkedout_proc (Node *node, void *data)
 
     /* Look at this file in the hardlist and see whether the checked_out
        field is 1, meaning that it has been checked out during this CVS run. */
-    path = (char *)
-	xmalloc (strlen (dir) + strlen (node->key) + 2);
-    sprintf (path, "%s/%s", dir, node->key);
+    path = Xasprintf ("%s/%s", dir, node->key);
     link = lookup_file_by_inode (path);
     free (path);
     free (dir);
@@ -307,4 +301,4 @@ find_checkedout_proc (Node *node, void *data)
 
     return 0;
 }
-
+#endif /* PRESERVE_PERMISSIONS_SUPPORT */

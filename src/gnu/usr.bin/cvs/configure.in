@@ -15,8 +15,9 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.])
 
-AC_INIT([Concurrent Versions System (CVS)],[1.12.11],[bug-cvs@gnu.org],[cvs])
+AC_INIT([Concurrent Versions System (CVS)],[1.12.12],[bug-cvs@gnu.org],[cvs])
 AC_CONFIG_SRCDIR(src/cvs.h)
+AC_CONFIG_AUX_DIR(build-aux)
 AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
 AC_PREREQ(2.59)
 
@@ -185,14 +186,6 @@ fi
 
 # Replace functions with versions in lib/ when they can't be found.
 AC_REPLACE_FUNCS(\
-	dup2 \
-	ftruncate \
-	mkdir \
-	readlink \
-	rename \
-	strstr \
-	strtoul\
-	valloc \
 	waitpid \
 )
 
@@ -225,6 +218,7 @@ AC_DEFUN([CCVS_CALL_GNULIB_MACROS_ONCE],
 AC_REQUIRE([gt_TYPE_WCHAR_T])
 AC_REQUIRE([gt_TYPE_WINT_T])
 AC_REQUIRE([gl_AC_TYPE_INTMAX_T])
+AC_REQUIRE([gl_FUNC_MMAP_ANON])
 AC_REQUIRE([gl_AC_TYPE_LONG_LONG])])
 CCVS_CALL_GNULIB_MACROS_ONCE()
 
@@ -516,9 +510,6 @@ AC_SEARCH_LIBS(getspnam, sec gen, AC_DEFINE(HAVE_GETSPNAM, 1,
 AC_FUNC_UTIME_NULL
 AC_SYS_LONG_FILE_NAMES
 
-dnl for the buffer routine replacements
-AC_FUNC_MMAP
-
 dnl for debugging code
 CVS_FUNC_PRINTF_PTR
 
@@ -654,8 +645,8 @@ AC_ARG_WITH(
   AC_HELP_STRING(
     [--with-rsh],
     [The default remote shell CVS will use for :ext: transport
-     (default rsh)]), ,
-  [with_rsh="rsh ssh"])
+     (default ssh)]), ,
+  [with_rsh="ssh rsh"])
 
 if test no = "$with_rsh"; then
   AC_MSG_WARN([Failed to find usable remote shell. Using 'rsh'.])
@@ -977,9 +968,7 @@ AC_ARG_ENABLE(
   AC_HELP_STRING(
     [--enable-client],
     [Include code for running as a remote client (default)]), ,
-  [if test "$ac_cv_search_connect" != no; then
-    enable_client=yes
-  fi])
+  [enable_client=$ac_cv_search_connect])
 if test no != "$enable_client"; then
   AC_DEFINE(
     [CLIENT_SUPPORT], [1],
@@ -999,10 +988,11 @@ AC_ARG_ENABLE(
   AC_HELP_STRING(
     [--enable-password-authenticated-client],
     [Enable pserver as a remote access method in the CVS client
-     (default)]))
+     (default)]), ,
+  [enable_password_authenticated_client=$enable_client])
 
-if test no != "$enable_password_authenticated_client"; then
-  if test no != "$enable_client"; then
+if test xno != "x$enable_password_authenticated_client"; then
+  if test xno != "x$enable_client"; then
     AC_DEFINE(
       [AUTH_CLIENT_SUPPORT], [1],
       [Enable AUTH_CLIENT_SUPPORT to enable pserver as a remote access
@@ -1031,9 +1021,7 @@ AC_ARG_ENABLE(
   AC_HELP_STRING(
     [--enable-server],
     [Include code for running as a server (default)]), ,
-  [if test "$ac_cv_search_connect" != no; then
-     enable_server=yes
-   fi])
+  [enable_server=$ac_cv_search_connect])
 
 if test no != "$enable_server"; then
   AC_DEFINE(
@@ -1142,14 +1130,24 @@ AC_ARG_ENABLE(
     [Include code for running as a transparent proxy server.  Disabling this
      may produce a slight performance gain on some systems, at the expense of
      write proxy support. (default)]), ,
-  [enable_proxy=yes])
+  [if test xno != "x$enable_client" && test xno != "x$enable_server"; then
+     enable_proxy=yes
+   else
+     enable_proxy=no
+   fi])
 
 if test no != "$enable_proxy"; then
-  AC_DEFINE(
-    [PROXY_SUPPORT], [1],
-    [Define if you want CVS to be able to serve as a transparent proxy for
-     write operations.  Disabling this may produce a slight performance gain on
-     some systems, at the expense of write proxy support.])
+  if test xno = "x$enable_client" || test xno = "x$enable_server"; then
+    AC_MSG_WARN(
+      [--enable-proxy is meaningless when either the CVS client or the
+       CVS server is disabled (--disable-client and --disable-server).])
+  else
+    AC_DEFINE(
+      [PROXY_SUPPORT], [1],
+      [Define if you want CVS to be able to serve as a transparent proxy for
+       write operations.  Disabling this may produce a slight performance gain
+       on some systems, at the expense of write proxy support.])
+  fi
 fi
 dnl
 dnl end --enable-proxy
@@ -1270,15 +1268,15 @@ AC_ARG_ENABLE(
     [--enable-encryption],
     [Enable encryption support (disabled by default)]), ,
   [enable_encryption=no])
-if test "$enable_encryption" = yes; then
-  if test no != "$with_client" || test no != "$with_server"; then
-    AC_DEFINE(
-      [ENCRYPTION], [1],
-      [Define to enable encryption support.])
-  else
+if test "x$enable_encryption" = xyes; then
+  if test xno = "x$with_client" && test xno = "x$with_server"; then
     AC_MSG_WARN(
       [--enable-encryption is meaningless when neither the CVS client
        nor the CVS server is enabled (--disable-client and --disable-server).])
+  else
+    AC_DEFINE(
+      [ENCRYPTION], [1],
+      [Define to enable encryption support.])
   fi
 fi
 
@@ -1488,11 +1486,6 @@ AC_CONFIG_FILES(contrib/rcslock, [chmod +x contrib/rcslock])
 AC_CONFIG_FILES(contrib/sccs2rcs, [chmod +x contrib/sccs2rcs])
 AC_CONFIG_FILES(doc/mkman:doc/mkman.pl, [chmod +x doc/mkman])
 AC_CONFIG_FILES(src/cvsbug, [chmod +x src/cvsbug])
-AC_CONFIG_FILES(
-    windows-NT/fix-msvc-mak:windows-NT/plhead.pl:windows-NT/fix-msvc-mak.pl,
-    [chmod +x windows-NT/fix-msvc-mak])
-AC_CONFIG_FILES(windows-NT/mkconfig:windows-NT/plhead.pl:windows-NT/mkconfig.pl,
-                [chmod +x windows-NT/mkconfig])
 
 dnl the bulk files
 AC_CONFIG_FILES([Makefile \
@@ -1501,8 +1494,11 @@ AC_CONFIG_FILES([Makefile \
 	  cvs.spec \
 	  diff/Makefile \
 	  doc/Makefile \
+	  doc/i18n/Makefile \
+	  doc/i18n/pt_BR/Makefile \
 	  emx/Makefile \
 	  lib/Makefile \
+	  maint-aux/Makefile \
 	  man/Makefile \
 	  os2/Makefile \
 	  src/Makefile \

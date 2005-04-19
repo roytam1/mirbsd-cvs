@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -254,7 +259,7 @@ Version_TS (struct file_info *finfo, char *options, char *tag, char *date,
     }
 
     /* get user file time-stamp in ts_user */
-    if (finfo->entries != (List *) NULL)
+    if (finfo->entries != NULL)
     {
 #ifdef SERVER_SUPPORT
 	if (server_active)
@@ -440,5 +445,5 @@ freevers_ts (Vers_TS **versp)
     if ((*versp)->ts_conflict)
 	free ((*versp)->ts_conflict);
     free ((char *) *versp);
-    *versp = (Vers_TS *) NULL;
+    *versp = NULL;
 }

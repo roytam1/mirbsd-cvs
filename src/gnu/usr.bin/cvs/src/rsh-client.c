@@ -118,7 +118,8 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	error (1, errno, "cannot start server via rsh");
 
     /* Give caller the file descriptors in a form it can deal with. */
-    make_bufs_from_fds (pipes[0], pipes[1], child_pid, to_server_p, from_server_p, 0);
+    make_bufs_from_fds (pipes[0], pipes[1], child_pid, to_server_p,
+                        from_server_p, 0);
 }
 
 # else /* ! START_RSH_WITH_POPEN_RW */
@@ -144,16 +145,16 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	cvs_server = "cvs";
 
     /* Pass the command to rsh as a single string.  This shouldn't
-       affect most rsh servers at all, and will pacify some buggy
-       versions of rsh that grab switches out of the middle of the
-       command (they're calling the GNU getopt routines incorrectly).  */
-    command = xmalloc (strlen (cvs_server) + 8);
-
-    /* If you are running a very old (Nov 3, 1994, before 1.5)
+     * affect most rsh servers at all, and will pacify some buggy
+     * versions of rsh that grab switches out of the middle of the
+     * command (they're calling the GNU getopt routines incorrectly).
+     *
+     * If you are running a very old (Nov 3, 1994, before 1.5)
      * version of the server, you need to make sure that your .bashrc
      * on the server machine does not set CVSROOT to something
-     * containing a colon (or better yet, upgrade the server).  */
-    sprintf (command, "%s server", cvs_server);
+     * containing a colon (or better yet, upgrade the server).
+     */
+    command = Xasprintf ("%s server", cvs_server);
 
     {
         char *argv[10];

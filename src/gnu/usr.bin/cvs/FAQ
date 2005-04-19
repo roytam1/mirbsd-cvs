@@ -1513,7 +1513,7 @@ You can branch a branch.
      You need some helper tools besides CVS such as "RCS" and a good set
    of "diff" and "diff3" programs. See 1B.4 for suggestions.
    
-     Read the README, INSTALL and ChangeLog files to see what you are
+     Read the README, INSTALL-CVS and ChangeLog files to see what you are
    getting into.
    
      Though you can probably muddle along without it, you should appoint
@@ -1528,7 +1528,7 @@ You can branch a branch.
    
     2. How do I configure the CVS programs? 
     
-     You should certainly start by reading the README file, the INSTALL
+     You should certainly start by reading the README file, the INSTALL-CVS
    files and possibly the ChangeLogs in each directory, the Makefile.in
    files and the "cvsinit.sh" program.
    
@@ -1541,7 +1541,7 @@ You can branch a branch.
    
    It writes into /tmp/cvs-sanity by default.
    
-     Finish reading the INSTALL file and test out the system.
+     Finish reading the INSTALL-CVS file and test out the system.
    
    Last modified: _6/13/1997_
    

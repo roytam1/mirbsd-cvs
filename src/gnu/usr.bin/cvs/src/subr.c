@@ -1,18 +1,16 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
- * Copyright (c) 2004, Derek R. Price and Ximbiot <http://ximbiot.com>
- * Copyright (c) 1989-2004 The Free Software Foundation <http://gnu.org>
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
+ * 
+ * You may distribute under the terms of the GNU General Public License as
+ * specified in the README file that comes with the CVS source distribution.
+ * 
+ * Various useful functions for the CVS support code.
  */
 
 #include "cvs.h"
@@ -184,15 +182,15 @@ line2argv (int *pargc, char ***argv, char *line, char *sepchars)
 
     /* Small for testing.  */
     argv_allocated = 1;
-    *argv = (char **) xmalloc (argv_allocated * sizeof (**argv));
+    *argv = xnmalloc (argv_allocated, sizeof (**argv));
 
     *pargc = 0;
-    for (cp = strtok (line, sepchars); cp; cp = strtok ((char *) NULL, sepchars))
+    for (cp = strtok (line, sepchars); cp; cp = strtok (NULL, sepchars))
     {
 	if (*pargc == argv_allocated)
 	{
 	    argv_allocated *= 2;
-	    *argv = xrealloc (*argv, argv_allocated * sizeof (**argv));
+	    *argv = xnrealloc (*argv, argv_allocated, sizeof (**argv));
 	}
 	(*argv)[*pargc] = xstrdup (cp);
 	(*pargc)++;
@@ -326,10 +324,7 @@ getcaller (void)
     }
     if ((pw = (struct passwd *) getpwuid (uid)) == NULL)
     {
-	char uidname[20];
-
-	(void) sprintf (uidname, "uid%lu", (unsigned long) uid);
-	cache = xstrdup (uidname);
+	cache = Xasprintf ("uid%lu", (unsigned long) uid);
 	return cache;
     }
     cache = xstrdup (pw->pw_name);
@@ -340,16 +335,17 @@ getcaller (void)
 
 
 #ifdef lint
-#ifndef __GNUC__
+# ifndef __GNUC__
 /* ARGSUSED */
-time_t
-get_date( char *date, struct timeb *now )
+bool
+get_date (struct timespec *result, char const *p, struct timespec const *now)
 {
-    time_t foo = 0;
+    result->tv_sec = 0;
+    result->tv_nsec = 0;
 
-    return foo;
+    return false;
 }
-#endif
+# endif
 #endif
 
 
@@ -700,7 +696,7 @@ get_file (const char *name, const char *fullname, const char *mode, char **buf,
 	/* Convert from signed to unsigned.  */
 	filesize = s.st_size;
 
-	e = open_file (name, mode);
+	e = xfopen (name, mode);
     }
 
     if (*buf == NULL || *bufsize <= filesize)
@@ -809,21 +805,8 @@ resolve_symlink (char **filename)
 char *
 backup_file (const char *filename, const char *suffix)
 {
-    char *backup_name;
-
-    if (suffix == NULL)
-    {
-        backup_name = xmalloc (sizeof (BAKPREFIX) + strlen (filename) + 1);
-        sprintf (backup_name, "%s%s", BAKPREFIX, filename);
-    }
-    else
-    {
-        backup_name = xmalloc (sizeof (BAKPREFIX)
-                               + strlen (filename)
-                               + strlen (suffix)
-                               + 2);  /* one for dot, one for trailing '\0' */
-        sprintf (backup_name, "%s%s.%s", BAKPREFIX, filename, suffix);
-    }
+    char *backup_name = Xasprintf ("%s%s%s%s", BAKPREFIX, filename,
+				   suffix ? "." : "", suffix ? suffix : "");
 
     if (isfile (filename))
         copy_file (filename, backup_name);
@@ -946,14 +929,9 @@ char *
 cmdlinequote (char quotes, char *s)
 {
     char *quoted = cmdlineescape (quotes, s);
-    char *buf = xmalloc(strlen(quoted)+3);
+    char *buf = Xasprintf ("%c%s%c", quotes, quoted, quotes);
 
-    buf[0] = quotes;
-    buf[1] = '\0';
-    strcat (buf, quoted);
     free (quoted);
-    buf[strlen(buf)+1] = '\0';
-    buf[strlen(buf)] = quotes;
     return buf;
 }
 
@@ -1072,13 +1050,13 @@ cmdlineescape (char quotes, char *s)
  * EXAMPLE
  *    (ignoring oldway variable and srepos since those are only around while we
  *    SUPPORT_OLD_INFO_FMT_STRINGS)
- *    format_cmdline( "/cvsroot/CVSROOT/mytaginfoproc %t %o %{sVv}",
+ *    format_cmdline ("/cvsroot/CVSROOT/mytaginfoproc %t %o %{sVv}",
  *                    "t", "s", "newtag",
  *                    "o", "s", "mov",
  *                    "xG", "ld", longintwhichwontbeusedthispass,
  *                    "sVv", ",", tlist, pretag_list_to_args_proc,
- *                      (void *) mydata,
- *                    (char *)NULL);
+ *                    (void *) mydata,
+ *                    (char *) NULL);
  *
  *    would generate the following command line, assuming two files in tlist,
  *    file1 & file2, each with old versions 1.1 and new version 1.1.2.3:
@@ -1865,32 +1843,6 @@ isabsolute (filename)
 
 
 
-/*
- * void cvs_trace(int level, const char *fmt, ...)
- *
- * Print tracing information to stderr on request.  Levels are implemented
- * as with CVSNT.
- */
-void cvs_trace (int level, const char *fmt, ...)
-{
-    if (trace >= level)
-    {
-	va_list va;
-
-	va_start (va, fmt);
-#ifdef SERVER_SUPPORT
-	fprintf (stderr,"%c -> ",server_active?'S':' ');
-#else /* ! SERVER_SUPPORT */
-	fprintf (stderr,"  -> ");
-#endif
-	vfprintf (stderr, fmt, va);
-	fprintf (stderr,"\n");
-	va_end (va);
-    }
-}
-
-
-
 /* Like xstrdup (), but can handle a NULL argument.
  */
 char *
@@ -1983,4 +1935,29 @@ readBool (const char *infopath, const char *option, const char *p, bool *val)
     error (0, 0, "%s: unrecognized value `%s' for `%s'",
 	   infopath, p, option);
     return false;
+}
+
+
+
+/*
+ * Open a file, exiting with a message on error.
+ *
+ * INPUTS
+ *   name	The name of the file to open.
+ *   mode	Mode to open file in, as POSIX fopen().
+ *
+ * NOTES
+ *   If you want to handle errors, just call fopen (NAME, MODE).
+ *
+ * RETURNS
+ *   The new FILE pointer.
+ */
+FILE *
+xfopen (const char *name, const char *mode)
+{
+    FILE *fp;
+
+    if (!(fp = fopen (name, mode)))
+	error (1, errno, "cannot open %s", name);
+    return fp;
 }

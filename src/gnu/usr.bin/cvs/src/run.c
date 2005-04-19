@@ -18,8 +18,6 @@
 extern int execvp (char *file, char **argv);
 #endif
 
-static void run_add_arg (const char *s);
-
 
 
 /*
@@ -40,7 +38,7 @@ static int run_argc_allocated;
 
 /* VARARGS */
 void 
-run_setup( const char *prog )
+run_setup (const char *prog)
 {
     int i;
     char *run_prog;
@@ -113,21 +111,13 @@ run_setup( const char *prog )
 
 
 void
-run_arg (const char *s)
-{
-    run_add_arg (s);
-}
-
-
-
-static void
 run_add_arg (const char *s)
 {
     /* allocate more argv entries if we've run out */
     if (run_argc >= run_argc_allocated)
     {
 	run_argc_allocated += 50;
-	run_argv = xrealloc (run_argv, run_argc_allocated * sizeof (char **));
+	run_argv = xnrealloc (run_argv, run_argc_allocated, sizeof (char **));
     }
 
     if (s)
@@ -432,11 +422,11 @@ run_print (FILE *fp)
 FILE *
 run_popen (const char *cmd, const char *mode)
 {
-    TRACE ( 1, "run_popen(%s,%s)", cmd, mode );
+    TRACE (TRACE_FUNCTION, "run_popen (%s,%s)", cmd, mode);
     if (noexec)
-	return (NULL);
+	return NULL;
 
-    return (popen (cmd, mode));
+    return popen (cmd, mode);
 }
 
 
@@ -490,6 +480,15 @@ piped_child (char *const *command, int *tofdp, int *fromfdp)
     *tofdp = to_child_pipe[1];
     *fromfdp = from_child_pipe[0];
     return pid;
+}
+
+
+
+int
+run_piped (int *tofdp, int *fromfdp)
+{
+    run_add_arg (NULL);
+    return piped_child (run_argv, tofdp, fromfdp);
 }
 
 
