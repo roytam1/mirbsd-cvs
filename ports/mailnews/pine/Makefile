@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/pine/Makefile,v 1.1.7.1 2005/03/18 15:49:47 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -20,8 +20,11 @@ PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCL}
 PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCL}
 FULLPKGNAME-pico=	pico-${PICO_VERSION}
 FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}
-MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/ \
+MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
+			ftp://ftp.sunet.se/pub/unix/mail/pine/old/ \
+			ftp://ftp.cac.washington.edu/pine/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/
+EXTRACT_SUFX=		.tar.Z
 HOMEPAGE=		http://www.washington.edu/pine/
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
 
