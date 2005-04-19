@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/share/locations.mk,v 1.1.7.1 2005/02/11 14:29:40 tg Exp $
+# $MirOS: src/gnu/share/locations.mk,v 1.2 2005/02/11 14:34:12 tg Exp $
 
 # for BSDSRCDIR
 .include <bsd.own.mk>
@@ -15,7 +15,6 @@ GNU_BINUTILS_SRC?=	${GNU_ROOTDIR}/usr.bin/binutils
 GNU_BINUTILS_AS=	${GNU_BINUTILS_SRC}/gas
 GNU_BINUTILS_BFD=	${GNU_BINUTILS_SRC}/bfd
 GNU_BINUTILS_BU=	${GNU_BINUTILS_SRC}/binutils
-# not ready yet
 GNU_BINUTILS_GDB=	${GNU_BINUTILS_SRC}/gdb
 GNU_BINUTILS_LD=	${GNU_BINUTILS_SRC}/ld
 GNU_BINUTILS_OPC=	${GNU_BINUTILS_SRC}/opcodes
