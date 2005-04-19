@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.4 2005/04/19 21:15:03 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -17,7 +17,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.3 2005/04/19 20:58:21 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.4 2005/04/19 21:15:03 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -503,67 +503,67 @@ static const char *const modules_contents[] = {
 };
 
 static const char *const config_contents[] = {
-    "# Set `SystemAuth' to `no' if pserver shouldn't check system users/passwords.\n",
+    "# Set 'SystemAuth' to 'no' if pserver shouldn't check system users/passwords.\n",
     "#SystemAuth=no\n",
     "\n",
-    "# Set `LocalKeyword' to specify a local alias for a standard keyword.\n",
+    "# Set 'LocalKeyword' to specify a local alias for a standard keyword.\n",
     "#LocalKeyword=MYCVS=CVSHeader\n",
     "\n",
-    "# Set `KeywordExpand' to `i' followed by a list of keywords to expand or\n",
-    "# `e' followed by a list of keywords to not expand.\n"
+    "# Set 'KeywordExpand' to 'i' followed by a list of keywords to expand or\n",
+    "# 'e' followed by a list of keywords to not expand.\n"
     "#KeywordExpand=iMYCVS,Name,Date\n",
     "#KeywordExpand=eCVSHeader\n",
     "\n",
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
-    "# Set `PreservePermissions' to `yes' to save file status information\n",
+    "# Set 'PreservePermissions' to 'yes' to save file status information\n",
     "# in the repository.\n",
     "#PreservePermissions=no\n",
     "\n",
 #endif
-    "# Set `TopLevelAdmin' to `yes' to create a CVS directory at the top\n",
-    "# level of the new working directory when using the `cvs checkout'\n",
+    "# Set 'TopLevelAdmin' to 'yes' to create a CVS directory at the top\n",
+    "# level of the new working directory when using the 'cvs checkout'\n",
     "# command.\n",
     "#TopLevelAdmin=no\n",
     "\n",
     "# Put CVS lock files in this directory rather than directly in the repository.\n",
     "#LockDir=/var/lock/cvs\n",
     "\n",
-    "# Set `LogHistory' to `all' or `" ALL_HISTORY_REC_TYPES "' to log all transactions to the\n",
-    "# history file, or a subset as needed (ie `TMAR' logs all write operations)\n",
+    "# Set 'LogHistory' to 'all' or '" ALL_HISTORY_REC_TYPES "' to log all transactions to the\n",
+    "# history file, or a subset as needed (ie 'TMAR' logs all write operations)\n",
     "#LogHistory=" ALL_HISTORY_REC_TYPES "\n",
     "\n",
-    "# Set `RereadLogAfterVerify' to `always' (the default) to allow the verifymsg\n",
-    "# script to change the log message.  Set it to `stat' to force CVS to verify\n",
+    "# Set 'RereadLogAfterVerify' to 'always' (the default) to allow the verifymsg\n",
+    "# script to change the log message.  Set it to 'stat' to force CVS to verify\n",
     "# that the file has changed before reading it (this can take up to an extra\n",
     "# second per directory being committed, so it is not recommended for large\n",
-    "# repositories.  Set it to `never' (the previous CVS behavior) to prevent\n",
+    "# repositories.  Set it to 'never' (the previous CVS behavior) to prevent\n",
     "# verifymsg scripts from changing the log message.\n",
     "#RereadLogAfterVerify=always\n",
     "\n",
-    "# Set `UserAdminOptions' to the list of `cvs admin' commands (options)\n",
-    "# that users not in the `cvsadmin' group are allowed to run.  This\n",
-    "# defaults to `k', or only allowing the changing of the default\n",
-    "# keyword expansion mode for files for users not in the `cvsadmin' group.\n",
-    "# This value is ignored if the `cvsadmin' group does not exist.\n",
+    "# Set 'UserAdminOptions' to the list of 'cvs admin' commands (options)\n",
+    "# that users not in the '_cvsadmin' group are allowed to run.  This\n",
+    "# defaults to 'k', or only allowing the changing of the default\n",
+    "# keyword expansion mode for files for users not in the '_cvsadmin' group.\n",
+    "# This value is ignored if the '_cvsadmin' group does not exist.\n",
     "#\n",
-    "# The following string would enable all `cvs admin' commands for all\n",
+    "# The following string would enable all 'cvs admin' commands for all\n",
     "# users:\n",
     "#UserAdminOptions=aAbceIklLmnNostuU\n",
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
     "\n",
-    "# Set `UseNewInfoFmtStrings' to `no' if you must support a legacy system by\n",
+    "# Set 'UseNewInfoFmtStrings' to 'no' if you must support a legacy system by\n",
     "# enabling the deprecated old style info file command line format strings.\n",
     "# Be warned that these strings could be disabled in any new version of CVS.\n",
     "UseNewInfoFmtStrings=yes\n",
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
     "\n",
-    "# Set `ImportNewFilesToVendorBranchOnly' to `yes' if you wish to force\n",
-    "# every `cvs import' command to behave as if the `-X' flag was\n",
+    "# Set 'ImportNewFilesToVendorBranchOnly' to 'yes' if you wish to force\n",
+    "# every 'cvs import' command to behave as if the '-X' flag was\n",
     "# specified.\n",
     "#ImportNewFilesToVendorBranchOnly=no\n",
 #ifdef PROXY_SUPPORT
     "\n",
-    "# Set `PrimaryServer' to the CVSROOT to the primary, or write, server when\n",
+    "# Set 'PrimaryServer' to the CVSROOT to the primary, or write, server when\n",
     "# establishing one or more read-only mirrors which serve as proxies for\n",
     "# the write server in write mode or redirect the client to the primary for\n",
     "# write requests.\n",
@@ -572,13 +572,13 @@ static const char *const config_contents[] = {
     "#\n",
     "#   PrimaryServer=:fork:localhost/cvsroot\n",
     "\n",
-    "# Set `MaxProxyBufferSize' to the the maximum allowable secondary\n",
+    "# Set 'MaxProxyBufferSize' to the the maximum allowable secondary\n",
     "# buffer memory cache size before the buffer begins being stored to disk, in\n",
-    "# bytes.  Must be a positive integer but may end in `k', `M', `G', or `T' (for\n",
-    "# kiilo, mega, giga, & tera, respectively).  If an otherwise valid number you\n",
+    "# bytes.  Must be a positive integer but may end in 'K', 'M', 'G', or 'T' (for\n",
+    "# Kibi, Mebi, Gibi, & Tebi, respectively).  If an otherwise valid number you\n",
     "# specify is greater than the SIZE_MAX defined by your system's C compiler,\n",
     "# then it will be resolved to SIZE_MAX without a warning.  Defaults to 8M (8\n",
-    "# megabytes).\n",
+    "# Mebibytes). The 'i' from 'Ki', 'Mi', etc. is omitted.\n",
     "#\n",
     "# High values for MaxProxyBufferSize may speed up a secondary server\n",
     "# with old hardware and a lot of available memory but can actually slow a\n",
@@ -589,23 +589,23 @@ static const char *const config_contents[] = {
     "#   MaxProxyBufferSize=1G\n",
 #endif /* PROXY_SUPPORT */
     "\n",
-    "# Set `MaxCommentLeaderLength' to the maximum length permitted for the\n",
+    "# Set 'MaxCommentLeaderLength' to the maximum length permitted for the\n",
     "# automagically determined comment leader used when expanding the Log\n",
     "# keyword, in bytes.  CVS's behavior when the automagically determined\n",
     "# comment leader exceeds this length is dependant on the value of\n",
-    "# `UseArchiveCommentLeader' set in this file.  `unlimited' is a valid\n",
+    "# 'UseArchiveCommentLeader' set in this file.  'unlimited' is a valid\n",
     "# setting for this value.  Defaults to 20 bytes.\n",
     "#\n",
     "# For example:\n",
     "#\n",
     "#   MaxCommentLeaderLength=20\n",
     "\n",
-    "# Set `UseArchiveCommentLeader' to `yes' to cause CVS to fall back on\n",
+    "# Set 'UseArchiveCommentLeader' to 'yes' to cause CVS to fall back on\n",
     "# the comment leader set in the RCS archive file, if any, when the\n",
-    "# automagically determined comment leader exceeds `MaxCommentLeaderLength'\n",
-    "# bytes.  If `UseArchiveCommentLeader' is not set and a comment leader\n",
-    "# greater than `MaxCommentLeaderLength' is calculated, the Log keyword\n",
-    "# being examined will not be expanded.  Defaults to `no'.\n",
+    "# automagically determined comment leader exceeds 'MaxCommentLeaderLength'\n",
+    "# bytes.  If 'UseArchiveCommentLeader' is not set and a comment leader\n",
+    "# greater than 'MaxCommentLeaderLength' is calculated, the Log keyword\n",
+    "# being examined will not be expanded.  Defaults to 'no'.\n",
     "#\n",
     "# For example:\n",
     "#\n",
@@ -833,7 +833,7 @@ mkmodules (char *dir)
     }
 
     if (restore_cwd (&cwd))
-	error (1, errno, "Failed to restore current directory, `%s'.",
+	error (1, errno, "Failed to restore current directory, '%s'.",
 	       cwd.name);
     free_cwd (&cwd);
 
@@ -895,7 +895,7 @@ checkout_file (char *file, char *temp)
     {
 	/* Probably not necessary (?); RCS_parsercsfile already printed a
 	   message.  */
-	error (0, 0, "Failed to parse `%s'.", rcs);
+	error (0, 0, "Failed to parse '%s'.", rcs);
 	free (rcs);
 	return 1;
     }
@@ -985,7 +985,7 @@ write_dbmfile( char *temp )
 		vp++;			/* skip whitespace to value */
 	    if (*vp == '\0')
 	    {
-		error (0, 0, "warning: NULL value for key `%s'",
+		error (0, 0, "warning: NULL value for key '%s'",
 		    (char *)key.dptr);
 		continue;
 	    }
@@ -993,7 +993,7 @@ write_dbmfile( char *temp )
 	    val.dsize = strlen (vp);
 	    if (dbm_store (db, key, val, DBM_INSERT) == 1)
 	    {
-		error (0, 0, "duplicate key found for `%s'",
+		error (0, 0, "duplicate key found for '%s'",
 		    (char *)key.dptr);
 		err++;
 	    }

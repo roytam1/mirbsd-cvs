@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.2 2005/03/13 15:50:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -231,7 +231,7 @@ readSizeT (const char *infopath, const char *option, const char *p,
 	return true;
     }
 
-    /* Record the factor character (kilo, mega, giga, tera).  */
+    /* Record the factor character (kibi, mebi, gibi, tebi).  */
     if (!isdigit (p[strlen(p) - 1]))
     {
 	switch (p[strlen(p) - 1])
@@ -242,7 +242,7 @@ readSizeT (const char *infopath, const char *option, const char *p,
 		factor = xtimes (factor, 1024);
 	    case 'M':
 		factor = xtimes (factor, 1024);
-	    case 'k':
+	    case 'K':
 		factor = xtimes (factor, 1024);
 		break;
 	    default:
@@ -296,7 +296,7 @@ new_config (void)
     new->UserAdminOptions = xstrdup ("k");
     new->MaxCommentLeaderLength = 20;
 #ifdef PROXY_SUPPORT
-    new->MaxProxyBufferSize = (size_t)(8 * 1024 * 1024); /* 8 megabytes,
+    new->MaxProxyBufferSize = (size_t)(8 * 1024 * 1024); /* 8 mebibytes,
                                                           * by default.
                                                           */
 #endif /* PROXY_SUPPORT */
