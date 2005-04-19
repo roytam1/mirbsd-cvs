@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.2 2005/03/13 19:16:52 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.3 2005/04/17 04:38:38 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -66,7 +66,7 @@
 #include "http_core.h"
 #include "util_date.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.2 2005/03/13 19:16:52 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.3 2005/04/17 04:38:38 tg Exp $");
 
 /*
  * Canonicalise http-like URLs.
@@ -313,11 +313,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
             }
         }
 
-    j = 0;
-    while (server_hp.h_addr_list[j] != NULL) {
-        memcpy(&server.sin_addr, server_hp.h_addr_list[j],
-               sizeof(struct in_addr));
-        i = ap_proxy_doconnect(sock, &server, r);
+	i = ap_proxy_doconnect(sock, res->ai_addr, r);
         if (i == 0)
             break;
 	ap_pclosesocket(p, sock);

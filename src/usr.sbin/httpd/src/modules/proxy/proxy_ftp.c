@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_ftp.c,v 1.2 2005/03/13 19:16:51 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_ftp.c,v 1.3 2005/04/17 04:38:38 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -723,15 +723,14 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
         return HTTP_INTERNAL_SERVER_ERROR;
     }
 
-    j = 0;
-    while (server_hp.h_addr_list[j] != NULL) {
-        memcpy(&server.sin_addr, server_hp.h_addr_list[j],
-               sizeof(struct in_addr));
-        i = ap_proxy_doconnect(sock, &server, r);
-        if (i == 0)
+        i = ap_proxy_doconnect(sock, res->ai_addr, r);
+        if (i == 0){
+            memcpy(&server, res->ai_addr, res->ai_addrlen);
             break;
-        j++;
+        }
+        ap_pclosesocket(p, sock);
     }
+    freeaddrinfo(res0);
     if (i == -1) {
         return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                       ap_proxyerror(r, HTTP_BAD_GATEWAY, ap_pstrcat(r->pool,

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/ap_md5.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/ap_md5.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
 
 #ifndef	APACHE_MD5_H
 
@@ -23,4 +23,5 @@ void ap_MD5Encode(const unsigned char *, const unsigned char *,
     char *, size_t);
 __END_DECLS
 
+#endif
 #endif

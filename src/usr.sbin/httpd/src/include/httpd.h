@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.25 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
@@ -825,9 +825,6 @@ struct request_rec {
  */
 
 struct conn_rec {
-
-    BUFF *client;		/* Connection to the guy */
-
 	ap_pool *pool;
 	server_rec *server;
 	server_rec *base_server;/* Physical vhost this conn come in on */
