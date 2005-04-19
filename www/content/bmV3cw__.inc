@@ -1,6 +1,21 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.14 2005/03/30 12:57:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.15 2005/04/13 07:11:42 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>19.04.2005<br />
+	The current development version of MirOS has received numerous bug
+	fixes in gcc, XFree86&reg; and others over the last few days. Also
+	the in-tree CVS has been updated to fix a security issue, which <a
+	href="https://ccvs.cvshome.org/servlets/NewsItemView?newsItemID=142">is
+	described at the CVS homepage</a> and has got new features able to
+	improve our infrastructure. Furthermore, after a long period of no
+	port being available, the GNU Debugger is now integrated in MirOS,
+	as part of GNU Binutils, again (we are using a development version
+	from January 2005). Only CLI for now, the TUI requires, as of now,
+	linking against GNU libreadline which does not come with MirOS any
+	more. Fixes for libedit are probably easy.<br />The fixes are made
+	available via a new development snapshot, which is currently being
+	built and expected to hit the mirrors within the next 2 days.</li>
 
 <li>12.04.2005<br />
 	There has been a new release of MirMake, along with distfiles for:
