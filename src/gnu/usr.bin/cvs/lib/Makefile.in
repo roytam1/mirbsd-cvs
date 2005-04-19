@@ -14,11 +14,13 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.2 2005/03/13 15:50:35 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.3 2005/04/19 20:58:17 tg Exp $
 # Makefile for library files used by GNU CVS.
-# Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-#               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
-#               Free Software Foundation, Inc.
+#
+# Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+#
+# Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+#                                  and others.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -54,42 +56,61 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 check_PROGRAMS = getdate$(EXEEXT)
 subdir = lib
-DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	alloca.c asnprintf.c asprintf.c atexit.c dup2.c fncase.c \
-	fseeko.c ftello.c ftruncate.c getdate.c gethostname.c \
-	getline.c getndelim2.c gettimeofday.c lstat.c malloc.c \
-	memmove.c mkdir.c mkstemp.c nanosleep.c printf-args.c \
-	printf-parse.c readlink.c realloc.c regex.c rename.c rpmatch.c \
-	setenv.c stat.c strcasecmp.c strerror.c strncasecmp.c strstr.c \
-	strtoul.c sunos57-select.c tempname.c time_r.c unsetenv.c \
-	valloc.c vasnprintf.c vasprintf.c waitpid.c
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in __fpending.c \
+	__fpending.h asnprintf.c asprintf.c atexit.c chdir-long.c \
+	chdir-long.h closeout.c closeout.h dirname.c dirname.h dup2.c \
+	exitfail.c exitfail.h fncase.c fseeko.c ftello.c ftruncate.c \
+	getcwd.c getcwd.h getdate.c getdate.h getdate.y gethostname.c \
+	getline.c getline.h getndelim2.c getpagesize.h gettime.c \
+	gettimeofday.c lstat.c malloc.c memmove.c mempcpy.c mempcpy.h \
+	memrchr.c memrchr.h mkdir.c mkstemp.c nanosleep.c openat.c \
+	openat.h pagealign_alloc.c pagealign_alloc.h pathmax.h \
+	printf-args.c printf-parse.c quotearg.c quotearg.h readlink.c \
+	realloc.c regex.c rename.c rpmatch.c save-cwd.c save-cwd.h \
+	setenv.c stat-macros.h stat.c strcasecmp.c strerror.c \
+	strftime.c strftime.h strncasecmp.c strstr.c strtol.c \
+	strtoul.c sunos57-select.c tempname.c time_r.c timespec.h \
+	unlocked-io.h unsetenv.c vasnprintf.c vasprintf.c waitpid.c \
+	xalloc.h xmalloc.c yesno.c yesno.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/atexit.m4 $(top_srcdir)/m4/bison.m4 \
-	$(top_srcdir)/m4/clock_time.m4 \
+	$(top_srcdir)/m4/chdir-long.m4 $(top_srcdir)/m4/clock_time.m4 \
+	$(top_srcdir)/m4/closeout.m4 \
 	$(top_srcdir)/m4/cvs_func_printf_ptr.m4 \
-	$(top_srcdir)/m4/dirname.m4 $(top_srcdir)/m4/dos.m4 \
+	$(top_srcdir)/m4/d-ino.m4 $(top_srcdir)/m4/dirname.m4 \
+	$(top_srcdir)/m4/dos.m4 $(top_srcdir)/m4/dup2.m4 \
 	$(top_srcdir)/m4/eealloc.m4 $(top_srcdir)/m4/eoverflow.m4 \
-	$(top_srcdir)/m4/exitfail.m4 $(top_srcdir)/m4/extensions.m4 \
-	$(top_srcdir)/m4/getcwd.m4 $(top_srcdir)/m4/getdate.m4 \
-	$(top_srcdir)/m4/gethostname.m4 $(top_srcdir)/m4/getline.m4 \
-	$(top_srcdir)/m4/getndelim2.m4 $(top_srcdir)/m4/getnline.m4 \
-	$(top_srcdir)/m4/getpagesize.m4 $(top_srcdir)/m4/gettime.m4 \
-	$(top_srcdir)/m4/gettimeofday.m4 $(top_srcdir)/m4/gnulib.m4 \
-	$(top_srcdir)/m4/intmax_t.m4 $(top_srcdir)/m4/inttypes_h.m4 \
+	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exitfail.m4 \
+	$(top_srcdir)/m4/extensions.m4 $(top_srcdir)/m4/fpending.m4 \
+	$(top_srcdir)/m4/ftruncate.m4 \
+	$(top_srcdir)/m4/getcwd-path-max.m4 $(top_srcdir)/m4/getcwd.m4 \
+	$(top_srcdir)/m4/getdate.m4 $(top_srcdir)/m4/gethostname.m4 \
+	$(top_srcdir)/m4/getline.m4 $(top_srcdir)/m4/getndelim2.m4 \
+	$(top_srcdir)/m4/getnline.m4 $(top_srcdir)/m4/getpagesize.m4 \
+	$(top_srcdir)/m4/gettime.m4 $(top_srcdir)/m4/gettimeofday.m4 \
+	$(top_srcdir)/m4/gnulib.m4 $(top_srcdir)/m4/intmax_t.m4 \
+	$(top_srcdir)/m4/inttypes.m4 $(top_srcdir)/m4/inttypes_h.m4 \
 	$(top_srcdir)/m4/longdouble.m4 $(top_srcdir)/m4/longlong.m4 \
-	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/mbstate_t.m4 \
-	$(top_srcdir)/m4/memmove.m4 $(top_srcdir)/m4/mkstemp.m4 \
-	$(top_srcdir)/m4/nanosleep.m4 \
-	$(top_srcdir)/m4/onceonly_2_57.m4 $(top_srcdir)/m4/pathmax.m4 \
+	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/mbrtowc.m4 \
+	$(top_srcdir)/m4/mbstate_t.m4 $(top_srcdir)/m4/memmove.m4 \
+	$(top_srcdir)/m4/mempcpy.m4 $(top_srcdir)/m4/memrchr.m4 \
+	$(top_srcdir)/m4/mkdir-slash.m4 $(top_srcdir)/m4/mkstemp.m4 \
+	$(top_srcdir)/m4/mmap-anon.m4 $(top_srcdir)/m4/nanosleep.m4 \
+	$(top_srcdir)/m4/onceonly_2_57.m4 $(top_srcdir)/m4/openat.m4 \
+	$(top_srcdir)/m4/pagealign_alloc.m4 \
+	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/quotearg.m4 \
 	$(top_srcdir)/m4/readlink.m4 $(top_srcdir)/m4/regex.m4 \
-	$(top_srcdir)/m4/restrict.m4 $(top_srcdir)/m4/rpmatch.m4 \
-	$(top_srcdir)/m4/save-cwd.m4 $(top_srcdir)/m4/setenv.m4 \
-	$(top_srcdir)/m4/signed.m4 $(top_srcdir)/m4/size_max.m4 \
-	$(top_srcdir)/m4/ssize_t.m4 $(top_srcdir)/m4/st_mtim.m4 \
-	$(top_srcdir)/m4/stat.m4 $(top_srcdir)/m4/stdint_h.m4 \
+	$(top_srcdir)/m4/rename.m4 $(top_srcdir)/m4/restrict.m4 \
+	$(top_srcdir)/m4/rpmatch.m4 $(top_srcdir)/m4/save-cwd.m4 \
+	$(top_srcdir)/m4/setenv.m4 $(top_srcdir)/m4/signed.m4 \
+	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/ssize_t.m4 \
+	$(top_srcdir)/m4/st_mtim.m4 $(top_srcdir)/m4/stat-macros.m4 \
+	$(top_srcdir)/m4/stat.m4 $(top_srcdir)/m4/stdbool.m4 \
+	$(top_srcdir)/m4/stdint.m4 $(top_srcdir)/m4/stdint_h.m4 \
 	$(top_srcdir)/m4/strcase.m4 $(top_srcdir)/m4/strerror.m4 \
-	$(top_srcdir)/m4/strftime.m4 \
+	$(top_srcdir)/m4/strftime.m4 $(top_srcdir)/m4/strstr.m4 \
+	$(top_srcdir)/m4/strtol.m4 $(top_srcdir)/m4/strtoul.m4 \
 	$(top_srcdir)/m4/sunos57-select.m4 $(top_srcdir)/m4/time_r.m4 \
 	$(top_srcdir)/m4/timespec.m4 $(top_srcdir)/m4/tm_gmtoff.m4 \
 	$(top_srcdir)/m4/tzset.m4 $(top_srcdir)/m4/uint32_t.m4 \
@@ -109,22 +130,18 @@ LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
 libcvs_a_AR = $(AR) $(ARFLAGS)
-libcvs_a_DEPENDENCIES = @LIBOBJS@ @ALLOCA@
+libcvs_a_DEPENDENCIES = @LIBOBJS@
 am_libcvs_a_OBJECTS = md5.$(OBJEXT) sighandle.$(OBJEXT) \
-	allocsa.$(OBJEXT) basename.$(OBJEXT) dirname.$(OBJEXT) \
-	stripslash.$(OBJEXT) exitfail.$(OBJEXT) getdate.$(OBJEXT) \
-	getnline.$(OBJEXT) gettime.$(OBJEXT) save-cwd.$(OBJEXT) \
-	strftime.$(OBJEXT) xmalloc.$(OBJEXT) xalloc-die.$(OBJEXT) \
-	xgetcwd.$(OBJEXT) xgethostname.$(OBJEXT) xreadlink.$(OBJEXT) \
-	yesno.$(OBJEXT)
+	allocsa.$(OBJEXT) basename.$(OBJEXT) stripslash.$(OBJEXT) \
+	getnline.$(OBJEXT) xalloc-die.$(OBJEXT) xgetcwd.$(OBJEXT) \
+	xgethostname.$(OBJEXT) xreadlink.$(OBJEXT)
 libcvs_a_OBJECTS = $(am_libcvs_a_OBJECTS)
-am_getdate_OBJECTS = getdate-allocsa.$(OBJEXT) getdate-error.$(OBJEXT) \
-	getdate-exitfail.$(OBJEXT) getdate-getdate.$(OBJEXT) \
-	getdate-gettime.$(OBJEXT) getdate-xalloc-die.$(OBJEXT) \
-	getdate-xmalloc.$(OBJEXT) getdate-progname.$(OBJEXT)
+am_getdate_OBJECTS = getdate-error.$(OBJEXT) getdate-getdate.$(OBJEXT) \
+	getdate-progname.$(OBJEXT)
 getdate_OBJECTS = $(am_getdate_OBJECTS)
-am__DEPENDENCIES_1 =
-getdate_DEPENDENCIES = @LIBOBJS@ @ALLOCA@ $(am__DEPENDENCIES_1)
+am__DEPENDENCIES_1 = libcvs.a
+am__DEPENDENCIES_2 =
+getdate_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp =
 am__depfiles_maybe =
@@ -164,7 +181,10 @@ EDITOR = @EDITOR@
 EGREP = @EGREP@
 EOVERFLOW = @EOVERFLOW@
 EXEEXT = @EXEEXT@
+HAVE_LONG_64BIT = @HAVE_LONG_64BIT@
+HAVE_LONG_LONG_64BIT = @HAVE_LONG_LONG_64BIT@
 HAVE_PUTENV = @HAVE_PUTENV@
+HAVE__BOOL = @HAVE__BOOL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -196,9 +216,10 @@ PS2PDF = @PS2PDF@
 RANLIB = @RANLIB@
 ROFF = @ROFF@
 RSH_DFLT = @RSH_DFLT@
-SENDMAIL = @SENDMAIL@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+STDBOOL_H = @STDBOOL_H@
+STDINT_H = @STDINT_H@
 STRIP = @STRIP@
 TEXI2DVI = @TEXI2DVI@
 VERSION = @VERSION@
@@ -242,36 +263,33 @@ noinst_LIBRARIES = libcvs.a
 # Should look into unifying regular expression matching in CVS
 # with the diff library (perhaps to have the caller, CVS, do the
 # matching?)
-
-# For the vasprintf module from GNULIB.
-
-# For the xsize module from GNULIB.
 libcvs_a_SOURCES = md5.c sighandle.c system.h wait.h xselect.h xtime.h \
-	allocsa.h allocsa.c basename.c dirname.c dirname.h \
-	stripslash.c error.h exit.h exitfail.h exitfail.c getdate.h \
-	getdate.y getline.h getnline.h getnline.c getpagesize.h \
-	gettext.h gettime.c minmax.h pathmax.h save-cwd.h save-cwd.c \
-	setenv.h stat-macros.h strcase.h strftime.c strftime.h \
-	time_r.h timespec.h unlocked-io.h printf-args.h printf-parse.h \
-	vasnprintf.h vasprintf.h xalloc.h xmalloc.c xalloc-die.c \
-	xgetcwd.h xgetcwd.c xgethostname.h xgethostname.c xreadlink.h \
-	xreadlink.c xsize.h yesno.c yesno.h
+	allocsa.h allocsa.c basename.c stripslash.c error.h exit.h \
+	getnline.h getnline.c gettext.h minmax.h regex.h setenv.h \
+	strcase.h strstr.h time_r.h printf-args.h printf-parse.h \
+	vasnprintf.h vasprintf.h xalloc-die.c xgetcwd.h xgetcwd.c \
+	xgethostname.h xgethostname.c xreadlink.h xreadlink.c xsize.h
 libcvs_a_LIBADD = \
-	@LIBOBJS@ \
-	@ALLOCA@
+	@LIBOBJS@
 
-BUILT_SOURCES = 
-MOSTLYCLEANFILES = getdate-expected getdate-got getdate.diff
+BUILT_SOURCES = $(FNMATCH_H) $(STDBOOL_H) $(STDINT_H)
+MOSTLYCLEANFILES = fnmatch.h fnmatch.h-t getdate-expected getdate-got \
+	getdate.diff stdbool.h stdbool.h-t stdint.h stdint.h-t
+DISTCLEANFILES = getdate.log
 MAINTAINERCLEANFILES = 
 TESTS = test-getdate.sh
-EXTRA_DIST = test-getdate.sh allocsa.valgrind getndelim2.h \
-	getndelim2.c getndelim2.h getndelim2.c
-getdate_SOURCES = allocsa.c error.c exitfail.c exitfail.h getdate.y \
-	gettime.c xalloc-die.c xalloc.h xmalloc.c progname.c
+
+# We ship the getdate.c file due to requirements on particular bison
+# versions.
+#BUILT_SOURCES += getdate.c
+#MAINTAINERCLEANFILES += getdate.c
+EXTRA_DIST = test-getdate.sh allocsa.valgrind fnmatch_.h \
+	fnmatch_loop.c getndelim2.h getndelim2.c getndelim2.h \
+	getndelim2.c stdbool_.h stdint_.h
+getdate_SOURCES = error.c getdate.y progname.c
 getdate_CPPFLAGS = -DTEST
 getdate_LDADD = \
-	@LIBOBJS@ \
-	@ALLOCA@ \
+	$(noinst_LIBRARIES) \
 	$(LIB_CLOCK_GETTIME) \
 	$(LIBINTL)
 
@@ -335,47 +353,17 @@ distclean-compile:
 .c.obj:
 	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
-getdate-allocsa.o: allocsa.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-allocsa.o `test -f 'allocsa.c' || echo '$(srcdir)/'`allocsa.c
-
-getdate-allocsa.obj: allocsa.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-allocsa.obj `if test -f 'allocsa.c'; then $(CYGPATH_W) 'allocsa.c'; else $(CYGPATH_W) '$(srcdir)/allocsa.c'; fi`
-
 getdate-error.o: error.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-error.o `test -f 'error.c' || echo '$(srcdir)/'`error.c
 
 getdate-error.obj: error.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-error.obj `if test -f 'error.c'; then $(CYGPATH_W) 'error.c'; else $(CYGPATH_W) '$(srcdir)/error.c'; fi`
 
-getdate-exitfail.o: exitfail.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-exitfail.o `test -f 'exitfail.c' || echo '$(srcdir)/'`exitfail.c
-
-getdate-exitfail.obj: exitfail.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-exitfail.obj `if test -f 'exitfail.c'; then $(CYGPATH_W) 'exitfail.c'; else $(CYGPATH_W) '$(srcdir)/exitfail.c'; fi`
-
 getdate-getdate.o: getdate.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-getdate.o `test -f 'getdate.c' || echo '$(srcdir)/'`getdate.c
 
 getdate-getdate.obj: getdate.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-getdate.obj `if test -f 'getdate.c'; then $(CYGPATH_W) 'getdate.c'; else $(CYGPATH_W) '$(srcdir)/getdate.c'; fi`
-
-getdate-gettime.o: gettime.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-gettime.o `test -f 'gettime.c' || echo '$(srcdir)/'`gettime.c
-
-getdate-gettime.obj: gettime.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-gettime.obj `if test -f 'gettime.c'; then $(CYGPATH_W) 'gettime.c'; else $(CYGPATH_W) '$(srcdir)/gettime.c'; fi`
-
-getdate-xalloc-die.o: xalloc-die.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-xalloc-die.o `test -f 'xalloc-die.c' || echo '$(srcdir)/'`xalloc-die.c
-
-getdate-xalloc-die.obj: xalloc-die.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-xalloc-die.obj `if test -f 'xalloc-die.c'; then $(CYGPATH_W) 'xalloc-die.c'; else $(CYGPATH_W) '$(srcdir)/xalloc-die.c'; fi`
-
-getdate-xmalloc.o: xmalloc.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-xmalloc.o `test -f 'xmalloc.c' || echo '$(srcdir)/'`xmalloc.c
-
-getdate-xmalloc.obj: xmalloc.c
-	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-xmalloc.obj `if test -f 'xmalloc.c'; then $(CYGPATH_W) 'xmalloc.c'; else $(CYGPATH_W) '$(srcdir)/xmalloc.c'; fi`
 
 getdate-progname.o: progname.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-progname.o `test -f 'progname.c' || echo '$(srcdir)/'`progname.c
@@ -564,6 +552,7 @@ clean-generic:
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -630,6 +619,28 @@ uninstall-am: uninstall-info-am
 	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am uninstall-info-am
 
+
+# We need the following in order to create an <fnmatch.h> when the system
+# doesn't have one that supports the required API.
+all-local $(libcvs_a_OBJECTS): $(FNMATCH_H)
+fnmatch.h: fnmatch_.h
+	cp $(srcdir)/fnmatch_.h $@-t
+	mv $@-t $@
+
+# We need the following in order to create an <stdbool.h> when the system
+# doesn't have one that works.
+all-local $(libcvs_a_OBJECTS): $(STDBOOL_H)
+stdbool.h: stdbool_.h
+	sed -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' \
+		< $(srcdir)/stdbool_.h > $@-t
+	mv $@-t $@
+
+# We need the following in order to create an <stdint.h> when the system
+# doesn't have one that works with the given compiler.
+all-local $(libcvs_a_OBJECTS): $(STDINT_H)
+stdint.h: stdint_.h
+	sed -e 's/@''HAVE_LONG_64BIT''@/$(HAVE_LONG_64BIT)/g;s/@''HAVE_LONG_LONG_64BIT@/$(HAVE_LONG_LONG_64BIT)/g' < $(srcdir)/stdint_.h > $@-t
+	mv $@-t $@
 
 # for backwards compatibility with the old makefiles
 realclean: maintainer-clean
