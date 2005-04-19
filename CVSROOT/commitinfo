@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: CVSROOT/commitinfo,v 1.2 2005/02/04 23:29:56 tg Exp $
 #-
 # The "commitinfo" file is used to control pre-commit checks.
 # The filter on the right is invoked with the repository and a list 
@@ -12,6 +12,7 @@
 #
 # Format strings present in the filter will be replaced as follows:
 #    %c = canonical name of the command being executed
+#    %I = unique (randomly generated) commit ID
 #    %R = the name of the referrer, if any, otherwise the value NONE
 #    %p = path relative to repository
 #    %r = repository (path portion of $CVSROOT)

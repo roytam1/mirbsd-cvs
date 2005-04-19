@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: CVSROOT/taginfo,v 1.2 2005/02/04 23:33:43 tg Exp $
 #-
 # The "taginfo" file is used to control pre-tag checks.
 # The filter on the right is invoked with the following arguments
@@ -16,6 +16,7 @@
 #                     | "N" (not branch)
 #    %o = operation = "add" | "mov" | "del"
 #    %c = canonical name of the command being executed
+#    %I = unique (randomly generated) commit ID
 #    %R = the name of the referrer, if any, otherwise the value NONE
 #    %p = path relative to repository
 #    %r = repository (path portion of $CVSROOT)

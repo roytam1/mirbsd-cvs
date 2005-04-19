@@ -10,6 +10,7 @@
 #
 # format strings are replaceed as follows:
 #    %c = canonical name of the command being executed
+#    %I = unique (randomly generated) commit ID
 #    %R = the name of the referrer, if any, otherwise the value NONE
 #    %p = path relative to repository
 #    %r = repository (path portion of $CVSROOT)

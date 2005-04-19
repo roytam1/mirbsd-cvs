@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: CVSROOT/loginfo,v 1.2 2005/02/04 23:29:56 tg Exp $
 #-
 # The "loginfo" file controls where "cvs commit" log information is
 # sent. The first entry on a line is a regular expression which must
@@ -15,6 +15,7 @@
 # If any format strings are present in the filter, they will be replaced
 # as follows:
 #    %c = canonical name of the command being executed
+#    %I = unique (randomly generated) commit ID
 #    %R = the name of the referrer, if any, otherwise the value NONE
 #    %p = path relative to repository
 #    %r = repository (path portion of $CVSROOT)
