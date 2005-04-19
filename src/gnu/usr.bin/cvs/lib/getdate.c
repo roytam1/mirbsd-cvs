@@ -100,7 +100,7 @@
 /* Copy the first part of user declarations.  */
 #line 1 "getdate.y"
 
-/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.4 2005/04/19 20:58:17 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.5 2005/04/19 21:29:27 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
    Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
@@ -224,7 +224,7 @@ xmemdup(void const *p, size_t s)
 # define __RCSID(x) static const char __rcsid[] ATTRIBUTE_UNUSED = (x)
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.4 2005/04/19 20:58:17 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.5 2005/04/19 21:29:27 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -2952,18 +2952,33 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 #if TEST
 
 int
-main (int ac, char **av)
+main (int argc, char **argv)
 {
   char buff[BUFSIZ];
+  int cmd = 0;
 
-  printf ("Enter date, or blank line to exit.\n\t> ");
+  if (argc > 1) {
+    int i = 1;
+    buff[0] = '\0';
+    while (i < argc) {
+      if (i > 1)
+	strlcat(buff, " ", BUFSIZ);
+      strlcat(buff, argv[i++], BUFSIZ);
+    }
+    cmd++;
+    goto once;
+  }
+
+  printf ("Enter date, or blank line to exit.\n> ");
   fflush (stdout);
 
   buff[BUFSIZ - 1] = '\0';
-  while (fgets (buff, BUFSIZ - 1, stdin) && buff[0])
+  while (fgets (buff, BUFSIZ - 1, stdin) && buff[0]
+         && buff[0] != '\r' && buff[0] != '\n')
     {
       struct timespec d;
       struct tm const *tm;
+once:
       if (! get_date (&d, buff, NULL))
 	printf ("Bad format - couldn't convert.\n");
       else if (! (tm = localtime (&d.tv_sec)))
@@ -2974,11 +2989,14 @@ main (int ac, char **av)
       else
 	{
 	  int ns = d.tv_nsec;
-	  printf ("%04ld-%02d-%02d %02d:%02d:%02d.%09d\n",
-		  (long)tm->tm_year + 1900L, tm->tm_mon + 1, tm->tm_mday,
+	  printf ("%13lld =\t%04lld-%02d-%02d %02d:%02d:%02d.%09d\n",
+		  (long long)d.tv_sec, (long long)tm->tm_year + 1900LL,
+		  tm->tm_mon + 1, tm->tm_mday,
 		  tm->tm_hour, tm->tm_min, tm->tm_sec, ns);
 	}
-      printf ("\t> ");
+      if (cmd)
+	return 0;
+      printf ("> ");
       fflush (stdout);
     }
   return 0;

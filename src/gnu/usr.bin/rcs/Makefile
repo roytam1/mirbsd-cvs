@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/rcs/Makefile,v 1.1.7.1 2005/03/06 17:00:10 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -20,6 +20,8 @@
 .endif
 .if make(install)
   SUBDIR+= paper
+.else
+  SUBDIR+= getdate
 .endif
 
 VERBOSE=
