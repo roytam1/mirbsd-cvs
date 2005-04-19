@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.2 2005/03/13 15:50:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.3 2005/04/19 20:58:20 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -27,7 +27,7 @@
 #include "fileattr.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.2 2005/03/13 15:50:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.3 2005/04/19 20:58:20 tg Exp $");
 
 static Dtype check_direntproc (void *callerdat, const char *dir,
                                const char *repos, const char *update_dir,
@@ -1272,6 +1272,7 @@ precommit_proc (const char *repository, const char *filter, void *closure)
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 			      filter,
 			      "c", "s", cvs_cmd_name,
+			      "I", "s", global_session_id,
 #ifdef SERVER_SUPPORT
 			      "R", "s", referrer ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */

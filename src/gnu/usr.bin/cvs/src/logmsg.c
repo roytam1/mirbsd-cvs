@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.2 2005/03/13 15:50:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.3 2005/04/19 20:58:20 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -17,7 +17,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.2 2005/03/13 15:50:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.3 2005/04/19 20:58:20 tg Exp $");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -789,6 +789,7 @@ logfile_write (const char *repository, const char *filter, const char *message,
        `%s' is left as an exercise for the reader. */
 
     /* %c = cvs_cmd_name
+     * %I = commit ID
      * %p = shortrepos
      * %r = repository
      * %{sVv} = file name, old revision (precommit), new revision (postcommit)
@@ -804,6 +805,7 @@ logfile_write (const char *repository, const char *filter, const char *message,
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 	                      filter,
 	                      "c", "s", cvs_cmd_name,
+			      "I", "s", global_session_id,
 #ifdef SERVER_SUPPORT
 	                      "R", "s", referrer ? referrer->original : "NONE",
 #endif /* SERVER_SUPPORT */
@@ -926,6 +928,7 @@ verifymsg_proc (const char *repository, const char *script, void *closure)
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
                                        script,
 				       "c", "s", cvs_cmd_name,
+				       "I", "s", global_session_id,
 #ifdef SERVER_SUPPORT
 				       "R", "s", referrer
 				       ? referrer->original : "NONE",

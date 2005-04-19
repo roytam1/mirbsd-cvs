@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.2 2005/03/13 15:50:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -24,7 +24,7 @@
 #include "strftime.h"
 #include "closeout.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.2 2005/03/13 15:50:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.3 2005/04/19 20:58:21 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -584,6 +584,7 @@ main (int argc, char **argv)
 		(void) fputs ("\
 Copyright (C) 2005 Free Software Foundation, Inc.\n\
 \n\
+Portions contributed by Thorsten Glaser for the MirOS Project.\n\
 Senior active maintainers include Larry Jones, Derek R. Price,\n\
 and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
 distribution kit for a complete list of contributors and copyrights.\n",

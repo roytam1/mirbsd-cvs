@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.2 2005/03/13 15:50:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -17,7 +17,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.2 2005/03/13 15:50:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.3 2005/04/19 20:58:21 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -72,6 +72,7 @@ static const char *const loginfo_contents[] = {
     "# If any format strings are present in the filter, they will be replaced\n",
     "# as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -135,6 +136,7 @@ static const char *const verifymsg_contents[] = {
     "#\n",
     "# Format strings present in the filter will be replaced as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -167,6 +169,7 @@ static const char *const commitinfo_contents[] = {
     "#\n",
     "# Format strings present in the filter will be replaced as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -203,6 +206,7 @@ static const char *const taginfo_contents[] = {
     "#                     | \"N\" (not branch)\n",
     "#    %o = operation = \"add\" | \"mov\" | \"del\"\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -249,6 +253,7 @@ static const char *const preproxy_contents[] = {
     "# If any format strings are present in the filter, they will be replaced\n",
     "# as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -275,6 +280,7 @@ static const char *const postadmin_contents[] = {
     "# If any format strings are present in the filter, they will be replaced\n",
     "# as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -303,6 +309,7 @@ static const char *const postproxy_contents[] = {
     "# If any format strings are present in the filter, they will be replaced\n",
     "# as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -332,6 +339,7 @@ static const char *const posttag_contents[] = {
     "#                     | \"N\" (not branch)\n",
     "#    %o = operation = \"add\" | \"mov\" | \"del\"\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -372,6 +380,7 @@ static const char *const postwatch_contents[] = {
     "# If any format strings are present in the filter, they will be replaced\n",
     "# as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
@@ -450,6 +459,7 @@ static const char *const notify_contents[] = {
     "#\n",
     "# format strings are replaceed as follows:\n",
     "#    %c = canonical name of the command being executed\n",
+    "#    %I = unique (randomly generated) commit ID\n",
 #ifdef PROXY_SUPPORT
     "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
 #endif
