@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
 /*-
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -52,57 +52,8 @@
 	long	0,0		(+8,8) LBA block number
  */
 
-_start:	jmp	Linit
-	nop
-	. = _start + 3
-Lmsg:	.ascii	"Loading "
-	.word	512		/* bytes per sector */
-	.byte	1		/* sectors per cluster */
-	.word	1		/* reserved sectors */
-
-/* End of parameter block. How much space do we have? */
-#define	BLKCNT	(blkend - blktbl)
-blkcnt:	.byte	BLKCNT		/* FATs per volume */
-Lldp:	.word	LsLBA		/* root dir ents */
-	.word	LsCHS		/* sectors per drive (FAT16s) */
-	.byte	0xF8		/* media ID */
-bpbspt:	.word	18		/* sectors per FAT (used!)	*/
-bpbtpc:	.word	2		/* sectors per track (used!)	*/
-
-/* the following code is 0x0A bytes long:
-	.word	80		// tracks per cylinder
-	.long	16		// hidden sectors
-	.long	0x10E9464C	// sectors per drive (FAT16B)
- */
-Lotxt0:	int	0x10
-Lotxt:	mov	bx,7
-	mov	ah,0x0E
-	lodsb
-	jmp	Lotxt1
-	. = 10 + Lotxt0		/* ensure it fits exactly */
-
-Ldrv:	.byte	0x80, 0		/* BIOS drive */
-	.byte	0xF6		/* magic (anything but 0x29) */
-
-/* the following code is 0x0F bytes long:
-	.long	0		// volume serial number
-	.asciz	"UNIX LABEL"	// volume label
- */
-LsLBA:	push	si		/* save blktbl offset */
-	mov	ah,0x42		/* BIOS routine loadLBA */
-	xor	si,si		/* offset parblk */
-	call	LsINT		/* call BIOS subroutine */
-	pop	si
-	ret
-Lotxt1:	or	al,al
-	jne	Lotxt0
-	ret
-	. = 15 + LsLBA		/* ensure it fits exactly */
-
-	.asciz	"UFS 4.4"	/* volume fstype */
-
 	/* INITIALIZATION routine */
-Linit:	xor	eax,eax
+_start:	xor	eax,eax
 	push	ax
 	popf
 	mov	ss,ax
@@ -114,6 +65,17 @@ Linit:	xor	eax,eax
 	push	ax
 	push	offset Lrun
 	lret			/* should read retf according to GNU docs */
+
+Lmsg:	.ascii	__BOOT_VER
+	.asciz	" Loading "
+
+#define	BLKCNT	(blkend - blktbl)
+blkcnt:	.byte	BLKCNT		/* FATs per volume */
+Lldp:	.word	LsLBA		/* root dir ents */
+	.word	LsCHS		/* sectors per drive (FAT16s) */
+Ldrv:	.byte	0x80		/* BIOS drive # */
+bpbspt:	.word	18		/* sectors per FAT (used!)	*/
+bpbtpc:	.word	2		/* sectors per track (used!)	*/
 
 	/* MAIN routine */
 Lrun:	mov	[Ldrv],dl	/* boot device */
@@ -138,7 +100,7 @@ Lr_lba:	/* start the first stage boot loader code */
 	mov	fs,ax		/* for magic check and booting */
 	push	ax		/* for load address and incrementing */
 	mov	ax,0x0010
-	mov	[0],eax		/* high 16 bits have already been cleared */
+	mov	ds:[0],eax	/* high 16 bits have already been cleared */
 	/* initialize counters */
 	mov	si,offset blktbl
 	xor	cx,cx
@@ -160,10 +122,10 @@ Lmlp1:	lodsb
 	and	ax,31		/* sectors */
 	inc	ax
 	inc	dx
-	mov	[2],al
+	mov	ds:[2],al
 	pop	bx
 	mov	es,bx		/* load segment */
-	mov	[6],bx
+	mov	ds:[6],bx
 	shl	ax,(9-4)	/* number of sectors, times their size,
 				   divided by size of one paragraph */
 	add	bx,ax		/* increment load addr. segment accordingly */
@@ -206,7 +168,7 @@ Lmlp2:	lodsb			/* copy over as many bytes as needed */
 	/* finally /boot is loaded. compare (E)LFmagic (CX=zero!)*/
 	push	fs			/* SA_LINKSEG; old 4000, new 4012 */
 	push	cx			/* offset (used to be 120, now 0) */
-	fs mov	eax,[0x50]		/* some "random" ASCII string, ie */
+	mov	eax,fs:[0x50]		/* some "random" ASCII string, ie */
 	cmp	eax,0x696D4F03		/* boot v2.62 magic */
 	mov	si,offset Lerr		/* "bad magic" */
 	jne	Lbarf			/* no it isn't, barf out */
@@ -216,6 +178,14 @@ Lmlp2:	lodsb			/* copy over as many bytes as needed */
 	/* set up and jump into /boot */
 	mov	dl,[Ldrv]
 	lret
+
+Lotxt0:	int	0x10
+Lotxt:	mov	bx,7
+	mov	ah,0x0E
+	lodsb
+	or	al,al
+	jne	Lotxt0
+	ret
 
 	/* If something went wrong, but we didn't yet try the subrouting
 	 * to cope with broken BIOSes and Soekris, redo from start.
@@ -229,10 +199,18 @@ Lbarf:	call	Lotxt			/* something went wrong */
 	int	0x16
 	jmp	0xF000,0xFFF0
 
+	/* LBA boot routine */
+LsLBA:	push	si			/* save blktbl offset */
+	mov	ah,0x42			/* BIOS routine loadLBA */
+	xor	si,si			/* offset parblk */
+	call	LsINT			/* call BIOS subroutine */
+	pop	si
+Lretn:	ret
+
 	/* CHS boot routine */
 LsCHS:	push	dx
 	/* LBA -> CHS */
-	mov	edx,[8]
+	mov	edx,ds:[8]
 	mov	ax,dx
 	shr	edx,16
 	div	word ptr [bpbspt]
@@ -249,7 +227,7 @@ LsCHS:	push	dx
 	mov	dl,al
 	/* call the BIOS */
 	mov	ah,2
-	mov	al,[2]
+	mov	al,ds:[2]
 	xor	bx,bx
 
 	/* called from LBA routine, too */
@@ -275,13 +253,12 @@ LsBR9:	jne	LsIN0
 	jmp	LsIN0
 
 Lerr:	.ascii	"bad magic"
-Lretn:	ret
 Lldf:	.ascii	" ERR"
 Lcrlf:	.asciz	"\r\n"
 
 	/* some broken BIOSes don't allow multi-sector transfers... */
 LsBRK:	mov	dh,1
-	xchg	dh,[2]			/* number of sectors to load */
+	xchg	dh,ds:[2]		/* number of sectors to load */
 LsBR0:	push	dx
 	call	LsCHS			/* chain to default CHS loader */
 	pop	dx
@@ -290,7 +267,7 @@ LsBR0:	push	dx
 	mov	ax,es
 	add	ax,32			/* size of a sector in paragraphs */
 	mov	es,ax
-	inc	dword ptr [8]
+	inc	dword ptr ds:[8]
 	jmp	LsBR0
 	/* --- end of code --- */
 
