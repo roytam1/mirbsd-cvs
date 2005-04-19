@@ -1,8 +1,13 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/update.c,v 1.2 2005/03/13 15:50:39 tg Exp $ */
 
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  *
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -36,6 +41,7 @@
  */
 
 #include "cvs.h"
+#include <assert.h>
 #include "save-cwd.h"
 #ifdef SERVER_SUPPORT
 # include "md5.h"
@@ -93,8 +99,8 @@ static int warned;
    the setting.  See update_dirent_proc.  */
 static char *tag_update_dir;
 
-static char *join_rev1, *date_rev1;
-static char *join_rev2, *date_rev2;
+static char *join_rev1, *join_date1;
+static char *join_rev2, *join_date2;
 static int aflag = 0;
 static int toss_local_changes = 0;
 static int force_tag_match = 1;
@@ -106,7 +112,7 @@ static int dotemplate = 0;
 static int patches = 0;
 static int rcs_diff_patches = 0;
 #endif
-static List *ignlist = (List *) NULL;
+static List *ignlist = NULL;
 static time_t last_register_time;
 static const char *const update_usage[] =
 {
@@ -141,9 +147,15 @@ update (int argc, char **argv)
     int c, err;
     int local = 0;			/* recursive by default */
     int which;				/* where to look for files and dirs */
+    char *xjoin_rev1, *xjoin_date1,
+	 *xjoin_rev2, *xjoin_date2,
+	 *join_orig1, *join_orig2;
 
     if (argc == -1)
 	usage (update_usage);
+
+    xjoin_rev1 = xjoin_date1 = xjoin_rev2 = xjoin_date2 = join_orig1 =
+	         join_orig2 = NULL;
 
     ign_setup ();
     wrap_setup ();
@@ -195,9 +207,10 @@ update (int argc, char **argv)
 		force_tag_match = 0;
 		break;
 	    case 'r':
-		tag = optarg;
+		parse_tagdate (&tag, &date, optarg);
 		break;
 	    case 'D':
+		if (date) free (date);
 		date = Make_Date (optarg);
 		break;
 	    case 'P':
@@ -208,12 +221,18 @@ update (int argc, char **argv)
 		noexec = 1;		/* so no locks will be created */
 		break;
 	    case 'j':
-		if (join_rev2)
+		if (join_orig2)
 		    error (1, 0, "only two -j options can be specified");
-		if (join_rev1)
-		    join_rev2 = optarg;
+		if (join_orig1)
+		{
+		    join_orig2 = xstrdup (optarg);
+		    parse_tagdate (&xjoin_rev2, &xjoin_date2, optarg);
+		}
 		else
-		    join_rev1 = optarg;
+		{
+		    join_orig1 = xstrdup (optarg);
+		    parse_tagdate (&xjoin_rev1, &xjoin_date1, optarg);
+		}
 		break;
 	    case 'u':
 #ifdef SERVER_SUPPORT
@@ -270,10 +289,10 @@ update (int argc, char **argv)
 		send_arg (options);
 	    if (date)
 		client_senddate (date);
-	    if (join_rev1)
-		option_with_arg ("-j", join_rev1);
-	    if (join_rev2)
-		option_with_arg ("-j", join_rev2);
+	    if (join_orig1)
+		option_with_arg ("-j", join_orig1);
+	    if (join_orig2)
+		option_with_arg ("-j", join_orig2);
 	    wrap_send ();
 
 	    if (failed_patches_count == 0)
@@ -370,9 +389,9 @@ update (int argc, char **argv)
     if (tag != NULL)
 	tag_check_valid (tag, argc, argv, local, aflag, "", false);
     if (join_rev1 != NULL)
-        tag_check_valid_join (join_rev1, argc, argv, local, aflag, "");
+	tag_check_valid (xjoin_rev1, argc, argv, local, aflag, "", false);
     if (join_rev2 != NULL)
-        tag_check_valid_join (join_rev2, argc, argv, local, aflag, "");
+	tag_check_valid (xjoin_rev2, argc, argv, local, aflag, "", false);
 
     /*
      * If we are updating the entire directory (for real) and building dirs
@@ -411,17 +430,21 @@ update (int argc, char **argv)
     which = W_LOCAL | W_REPOS;
 
     /* look in the attic too if a tag or date is specified */
-    if (tag != NULL || date != NULL || joining())
+    if (tag || date || join_orig1)
+    {
+	TRACE (TRACE_DATA, "update: searching attic");
 	which |= W_ATTIC;
+    }
 
     /* call the command line interface */
     err = do_update (argc, argv, options, tag, date, force_tag_match,
 		     local, update_build_dirs, aflag, update_prune_dirs,
-		     pipeout, which, join_rev1, join_rev2, NULL, 1, NULL);
+		     pipeout, which, xjoin_rev1, xjoin_date1, xjoin_rev2,
+		     xjoin_date2, NULL, 1, NULL);
 
-    /* free the space Make_Date allocated if necessary */
-    if (date != NULL)
-	free (date);
+    /* Free the space allocated for tags and dates, if necessary.  */
+    if (tag) free (tag);
+    if (date) free (date);
 
     return err;
 }
@@ -439,11 +462,22 @@ update (int argc, char **argv)
 int
 do_update (int argc, char **argv, char *xoptions, char *xtag, char *xdate,
            int xforce, int local, int xbuild, int xaflag, int xprune,
-           int xpipeout, int which, char *xjoin_rev1, char *xjoin_rev2,
+           int xpipeout, int which, char *xjoin_rev1, char *xjoin_date1,
+	   char *xjoin_rev2, char *xjoin_date2,
            char *preload_update_dir, int xdotemplate, char *repository)
 {
     int err = 0;
-    char *cp;
+
+    TRACE (TRACE_FUNCTION,
+"do_update (%s, %s, %s, %d, %d, %d, %d, %d, %d, %d, %s, %s, %s, %s, %s, %d, %s)",
+           xoptions ? xoptions : "(null)", xtag ? xtag : "(null)",
+	   xdate ? xdate : "(null)", xforce, local, xbuild, xaflag, xprune,
+	   xpipeout, which, xjoin_rev1 ? xjoin_rev1 : "(null)",
+	   xjoin_date1 ? xjoin_date1 : "(null)",
+	   xjoin_rev2 ? xjoin_rev2 : "(null)",
+	   xjoin_date2 ? xjoin_date2 : "(null)",
+	   preload_update_dir ? preload_update_dir : "(null)", xdotemplate,
+	   repository ? repository : "(null)");
 
     /* fill in the statics */
     options = xoptions;
@@ -458,21 +492,9 @@ do_update (int argc, char **argv, char *xoptions, char *xtag, char *xdate,
 
     /* setup the join support */
     join_rev1 = xjoin_rev1;
+    join_date1 = xjoin_date1;
     join_rev2 = xjoin_rev2;
-    if (join_rev1 && (cp = strchr (join_rev1, ':')) != NULL)
-    {
-	*cp++ = '\0';
-	date_rev1 = Make_Date (cp);
-    }
-    else
-	date_rev1 = NULL;
-    if (join_rev2 && (cp = strchr (join_rev2, ':')) != NULL)
-    {
-	*cp++ = '\0';
-	date_rev2 = Make_Date (cp);
-    }
-    else
-	date_rev2 = NULL;
+    join_date2 = xjoin_date2;
 
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
     if (preserve_perms)
@@ -529,16 +551,14 @@ do_update (int argc, char **argv, char *xoptions, char *xtag, char *xdate,
  */
 
 static int
-get_linkinfo_proc( void *callerdat, struct file_info *finfo )
+get_linkinfo_proc (void *callerdat, struct file_info *finfo)
 {
     char *fullpath;
     Node *linkp;
     struct hardlink_info *hlinfo;
 
     /* Get the full pathname of the current file. */
-    fullpath = xmalloc (strlen(working_dir) +
-			strlen(finfo->fullname) + 2);
-    sprintf (fullpath, "%s/%s", working_dir, finfo->fullname);
+    fullpath = Xasprintf ("%s/%s", working_dir, finfo->fullname);
 
     /* To permit recursing into subdirectories, files
        are keyed on the full pathname and not on the basename. */
@@ -551,8 +571,7 @@ get_linkinfo_proc( void *callerdat, struct file_info *finfo )
     }
 
     /* Create a new, empty hardlink_info node. */
-    hlinfo = (struct hardlink_info *)
-	xmalloc (sizeof (struct hardlink_info));
+    hlinfo = xmalloc (sizeof (struct hardlink_info));
 
     hlinfo->status = (Ctype) 0;	/* is this dumb? */
     hlinfo->checked_out = 0;
@@ -705,7 +724,7 @@ update_fileproc (void *callerdat, struct file_info *finfo)
                             Register (finfo->entries, finfo->file,
                                       vers->vn_rcs, vers->ts_rcs,
                                       vers->options, vers->tag,
-                                      vers->date, (char *)0);
+                                      vers->date, NULL);
                         }
                     }
                     if (!retval)
@@ -731,7 +750,7 @@ update_fileproc (void *callerdat, struct file_info *finfo)
 					     ? SERVER_RCS_DIFF
 					     : SERVER_PATCHED),
 					    file_info.st_mode, checksum,
-					    (struct buffer *) NULL);
+					    NULL);
 			break;
 		    }
 		}
@@ -793,17 +812,11 @@ update_ignproc (const char *file, const char *dir)
     memset (&finfo, 0, sizeof (finfo));
     finfo.file = file;
     finfo.update_dir = dir;
-    if (dir[0] == '\0')
-	tmp = xstrdup (file);
-    else
-    {
-	tmp = xmalloc (strlen (file) + strlen (dir) + 10);
-	strcpy (tmp, dir);
-	strcat (tmp, "/");
-	strcat (tmp, file);
-    }
 
-    finfo.fullname = tmp;
+    finfo.fullname = tmp = Xasprintf ("%s%s%s",
+				      dir[0] == '\0' ? "" : dir,
+				      dir[0] == '\0' ? "" : "/",
+				      file);
     write_letter (&finfo, '?');
     free (tmp);
 }
@@ -952,10 +965,7 @@ update_dirent_proc (void *callerdat, const char *dir, const char *repository,
 	/* The directory exists.  Check to see if it has a CVS
 	   subdirectory.  */
 
-	cvsadmdir = xmalloc (strlen (dir) + 80);
-	strcpy (cvsadmdir, dir);
-	strcat (cvsadmdir, "/");
-	strcat (cvsadmdir, CVSADM);
+	cvsadmdir = Xasprintf ("%s/%s", dir, CVSADM);
 
 	if (!isdir (cvsadmdir))
 	{
@@ -976,10 +986,8 @@ update_dirent_proc (void *callerdat, const char *dir, const char *repository,
     {
 	if (update_build_dirs)
 	{
-	    char *tmp;
+	    char *tmp = Xasprintf ("%s/%s", dir, CVSADM_ENTSTAT);
 
-	    tmp = xmalloc (strlen (dir) + sizeof (CVSADM_ENTSTAT) + 10);
-	    (void) sprintf (tmp, "%s/%s", dir, CVSADM_ENTSTAT);
 	    if (unlink_file (tmp) < 0 && ! existence_error (errno))
 		error (1, errno, "cannot remove file %s", tmp);
 #ifdef SERVER_SUPPORT
@@ -1229,11 +1237,7 @@ checkout_file (struct file_info *finfo, Vers_TS *vers_ts, int adding,
 #endif
 	)
     {
-	backup = xmalloc (strlen (finfo->file)
-			  + sizeof (CVSADM)
-			  + sizeof (CVSPREFIX)
-			  + 10);
-	(void) sprintf (backup, "%s/%s%s", CVSADM, CVSPREFIX, finfo->file);
+	backup = Xasprintf ("%s/%s%s", CVSADM, CVSPREFIX, finfo->file);
 	if (isfile (finfo->file))
 	    rename_file (finfo->file, backup);
 	else
@@ -1456,7 +1460,7 @@ VERS: ", 0);
 	if (update_server && server_active)
 	    server_updated (finfo, vers_ts,
 			    merging ? SERVER_MERGED : SERVER_UPDATED,
-			    mode, (unsigned char *) NULL, revbuf);
+			    mode, NULL, revbuf);
 #endif
     }
     else
@@ -1535,7 +1539,8 @@ struct patch_file_data
  * itself.
  */
 static int
-patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout, struct stat *file_info, unsigned char *checksum)
+patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout,
+	    struct stat *file_info, unsigned char *checksum)
 {
     char *backup;
     char *file1;
@@ -1591,11 +1596,7 @@ patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout, struct s
 	return 0;
     }
 
-    backup = xmalloc (strlen (finfo->file)
-		      + sizeof (CVSADM)
-		      + sizeof (CVSPREFIX)
-		      + 10);
-    (void) sprintf (backup, "%s/%s%s", CVSADM, CVSPREFIX, finfo->file);
+    backup = Xasprintf ("%s/%s%s", CVSADM, CVSPREFIX, finfo->file);
     if (isfile (finfo->file))
         rename_file (finfo->file, backup);
     else
@@ -1605,16 +1606,8 @@ patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout, struct s
 	    error (0, errno, "cannot remove %s", backup);
     }
 
-    file1 = xmalloc (strlen (finfo->file)
-		     + sizeof (CVSADM)
-		     + sizeof (CVSPREFIX)
-		     + 10);
-    (void) sprintf (file1, "%s/%s%s-1", CVSADM, CVSPREFIX, finfo->file);
-    file2 = xmalloc (strlen (finfo->file)
-		     + sizeof (CVSADM)
-		     + sizeof (CVSPREFIX)
-		     + 10);
-    (void) sprintf (file2, "%s/%s%s-2", CVSADM, CVSPREFIX, finfo->file);
+    file1 = Xasprintf ("%s/%s%s-1", CVSADM, CVSPREFIX, finfo->file);
+    file2 = Xasprintf ("%s/%s%s-2", CVSADM, CVSPREFIX, finfo->file);
 
     fail = 0;
 
@@ -1643,7 +1636,7 @@ patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout, struct s
      * At least, if we are keeping track of the tag vn_user came from,
      * I don't know where yet. -DRP
      */
-    retcode = RCS_checkout (vers_ts->srcfile, (char *) NULL,
+    retcode = RCS_checkout (vers_ts->srcfile, NULL,
 			    vers_ts->vn_user, vers_ts->tag,
 			    vers_ts->options, RUN_TTY,
 			    patch_file_write, (void *) &data);
@@ -1666,7 +1659,7 @@ patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout, struct s
 	data.compute_checksum = 1;
 	md5_init_ctx (&data.context);
 
-	retcode = RCS_checkout (vers_ts->srcfile, (char *) NULL,
+	retcode = RCS_checkout (vers_ts->srcfile, NULL,
 				vers_ts->vn_rcs, vers_ts->tag,
 				vers_ts->options, RUN_TTY,
 				patch_file_write, (void *) &data);
@@ -1909,6 +1902,8 @@ merge_file (struct file_info *finfo, Vers_TS *vers)
     int status;
     int retval;
 
+    assert (vers->vn_user);
+
     /*
      * The users currently modified file is moved to a backup file name
      * ".#filename.version", so that it will stay around for a few days
@@ -1916,11 +1911,7 @@ merge_file (struct file_info *finfo, Vers_TS *vers)
      * is the version of the file that the user was most up-to-date with
      * before the merge.
      */
-    backup = xmalloc (strlen (finfo->file)
-		      + strlen (vers->vn_user)
-		      + sizeof (BAKPREFIX)
-		      + 10);
-    (void) sprintf (backup, "%s%s.%s", BAKPREFIX, finfo->file, vers->vn_user);
+    backup = Xasprintf ("%s%s.%s", BAKPREFIX, finfo->file, vers->vn_user);
 
     if (unlink_file (backup) && !existence_error (errno))
 	error (0, errno, "unable to remove %s", backup);
@@ -2022,9 +2013,7 @@ merge_file (struct file_info *finfo, Vers_TS *vers)
     {
         server_copy_file (finfo->file, finfo->update_dir, finfo->repository,
 			  backup);
-	server_updated (finfo, vers, SERVER_MERGED,
-			(mode_t) -1, (unsigned char *) NULL,
-			(struct buffer *) NULL);
+	server_updated (finfo, vers, SERVER_MERGED, (mode_t) -1, NULL, NULL);
     }
 #endif
 
@@ -2098,19 +2087,19 @@ join_file (struct file_info *finfo, Vers_TS *vers)
     char *jdate1;
     char *jdate2;
 
-    TRACE ( 1, "join_file(%s, %s%s%s%s, %s, %s)",
-	    finfo->file,
-	    vers->tag ? vers->tag : "",
-	    vers->tag ? " (" : "",
-	    vers->vn_rcs ? vers->vn_rcs : "",
-	    vers->tag ? ")" : "",
-	    join_rev1 ? join_rev1 : "",
-	    join_rev2 ? join_rev2 : "" );
+    TRACE (TRACE_FUNCTION, "join_file(%s, %s%s%s%s, %s, %s)",
+	   finfo->file,
+	   vers->tag ? vers->tag : "",
+	   vers->tag ? " (" : "",
+	   vers->vn_rcs ? vers->vn_rcs : "",
+	   vers->tag ? ")" : "",
+	   join_rev1 ? join_rev1 : "",
+	   join_rev2 ? join_rev2 : "");
 
     jrev1 = join_rev1;
     jrev2 = join_rev2;
-    jdate1 = date_rev1;
-    jdate2 = date_rev2;
+    jdate1 = join_date1;
+    jdate2 = join_date2;
 
     /* Determine if we need to do anything at all.  */
     if (vers->srcfile == NULL ||
@@ -2133,14 +2122,14 @@ join_file (struct file_info *finfo, Vers_TS *vers)
        below about vn_user.  */
 
     /* Convert the second revision, walking branches and dates.  */
-    rev2 = RCS_getversion (vers->srcfile, jrev2, jdate2, 1, (int *) NULL);
+    rev2 = RCS_getversion (vers->srcfile, jrev2, jdate2, 1, NULL);
 
     /* If this is a merge of two revisions, get the first revision.
        If only one join tag was specified, then the first revision is
        the greatest common ancestor of the second revision and the
        working file.  */
     if (jrev1 != NULL)
-	rev1 = RCS_getversion (vers->srcfile, jrev1, jdate1, 1, (int *) NULL);
+	rev1 = RCS_getversion (vers->srcfile, jrev1, jdate1, 1, NULL);
     else
     {
 	/* Note that we use vn_rcs here, since vn_user may contain a
@@ -2284,14 +2273,13 @@ join_file (struct file_info *finfo, Vers_TS *vers)
 	   cvs up -rbr -jbr2 could remove and readd the same file
 	 */
 	/* save the rev since server_updated might invalidate it */
-	mrev = xmalloc (strlen (vers->vn_user) + 2);
-	sprintf (mrev, "-%s", vers->vn_user);
+	mrev = Xasprintf ("-%s", vers->vn_user);
 #ifdef SERVER_SUPPORT
 	if (server_active)
 	{
 	    server_scratch (finfo->file);
 	    server_updated (finfo, vers, SERVER_UPDATED, (mode_t) -1,
-			    (unsigned char *) NULL, (struct buffer *) NULL);
+			    NULL, NULL);
 	}
 #endif
 	Register (finfo->entries, finfo->file, mrev, vers->ts_rcs,
@@ -2432,8 +2420,7 @@ join_file (struct file_info *finfo, Vers_TS *vers)
 	 */
 	retcode = RCS_checkout (vers->srcfile, finfo->file,
 				vers->vn_user, vers->tag,
-				(char *) NULL, RUN_TTY,
-				(RCSCHECKOUTPROC) NULL, (void *) NULL);
+				NULL, RUN_TTY, NULL, NULL);
 	if (retcode != 0)
 	    error (1, 0,
 		   "failed to check out %s file", finfo->fullname);
@@ -2447,11 +2434,7 @@ join_file (struct file_info *finfo, Vers_TS *vers)
      * is the version of the file that the user was most up-to-date with
      * before the merge.
      */
-    backup = xmalloc (strlen (finfo->file)
-		      + strlen (vers->vn_user)
-		      + sizeof (BAKPREFIX)
-		      + 10);
-    (void) sprintf (backup, "%s%s.%s", BAKPREFIX, finfo->file, vers->vn_user);
+    backup = Xasprintf ("%s%s.%s", BAKPREFIX, finfo->file, vers->vn_user);
 
     if (unlink_file (backup) < 0
 	&& !existence_error (errno))
@@ -2498,8 +2481,8 @@ join_file (struct file_info *finfo, Vers_TS *vers)
 	 * Also, it is safe to pass in NULL for nametag since we know no
 	 * substitution is happening during the binary mode checkout.
 	 */
-	if (RCS_checkout ( finfo->rcs, finfo->file, rev2, (char *)NULL, t_options,
-			   RUN_TTY, (RCSCHECKOUTPROC)0, NULL) != 0 )
+	if (RCS_checkout (finfo->rcs, finfo->file, rev2, NULL, t_options,
+			  RUN_TTY, NULL, NULL) != 0)
 	    status = 2;
 	else
 	    status = 0;
@@ -2533,8 +2516,8 @@ join_file (struct file_info *finfo, Vers_TS *vers)
 	   the two files, and let them resolve it.  It is possible
 	   that we should require a "touch foo" or similar step before
 	   we allow a checkin.  */
-	if (RCS_checkout ( finfo->rcs, finfo->file, rev2, (char *)NULL,
-			   t_options, RUN_TTY, (RCSCHECKOUTPROC)0, NULL) != 0)
+	if (RCS_checkout (finfo->rcs, finfo->file, rev2, NULL,
+			  t_options, RUN_TTY, NULL, NULL) != 0)
 	    status = 2;
 	else
 	    status = 0;
@@ -2630,9 +2613,7 @@ join_file (struct file_info *finfo, Vers_TS *vers)
     {
 	server_copy_file (finfo->file, finfo->update_dir, finfo->repository,
 			  backup);
-	server_updated (finfo, vers, SERVER_MERGED,
-			(mode_t) -1, (unsigned char *) NULL,
-			(struct buffer *) NULL);
+	server_updated (finfo, vers, SERVER_MERGED, (mode_t) -1, NULL, NULL);
     }
 #endif
 
@@ -2961,5 +2942,5 @@ special_file_mismatch (struct file_info *finfo, char *rev1, char *rev2)
 int
 joining (void)
 {
-    return join_rev1 != NULL;
+    return join_rev1 || join_date1;
 }
