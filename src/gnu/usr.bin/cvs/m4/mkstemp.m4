@@ -1,4 +1,9 @@
-#serial 6
+#serial 9
+
+# Copyright (C) 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
 
 # On some hosts (e.g., HP-UX 10.20, SunOS 4.1.4, Solaris 2.5.1), mkstemp has a
 # silly limit that it can create no more than 26 files from a given template.
@@ -15,26 +20,29 @@ AC_DEFUN([gl_FUNC_MKSTEMP],
     AC_CACHE_CHECK([for mkstemp limitations],
       gl_cv_func_mkstemp_limitations,
       [
+        mkdir conftest.mkstemp
 	AC_TRY_RUN([
-#         include <stdlib.h>
-	  int main ()
-	  {
-	    int i;
-	    for (i = 0; i < 70; i++)
-	      {
-		char template[] = "conftestXXXXXX";
-		int fd = mkstemp (template);
-		if (fd == -1)
-		  exit (1);
-		close (fd);
-	      }
-	    exit (0);
-	  }
-	  ],
-	gl_cv_func_mkstemp_limitations=no,
-	gl_cv_func_mkstemp_limitations=yes,
-	gl_cv_func_mkstemp_limitations=yes
-	)
+#           include <stdlib.h>
+#           include <unistd.h>
+	    int main ()
+	    {
+	      int i;
+	      for (i = 0; i < 70; i++)
+		{
+		  char template[] = "conftest.mkstemp/coXXXXXX";
+		  int fd = mkstemp (template);
+		  if (fd == -1)
+		    exit (1);
+		  close (fd);
+		}
+	      exit (0);
+	    }
+	    ],
+	  gl_cv_func_mkstemp_limitations=no,
+	  gl_cv_func_mkstemp_limitations=yes,
+	  gl_cv_func_mkstemp_limitations=yes
+	  )
+        rm -rf conftest.mkstemp
       ]
     )
   fi

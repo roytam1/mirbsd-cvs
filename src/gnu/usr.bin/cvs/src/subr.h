@@ -74,24 +74,6 @@ char *format_cmdline (const char *format, ...);
 
 bool isabsolute (const char *filename);
 
-/* The TRACE macro */
-void cvs_trace (int level, const char *fmt, ...)
-  __attribute__ ((__format__ (__printf__, 2, 3)));
-#define TRACE cvs_trace
-/* Trace levels:
- *
- * TRACE_FUNCTION	Trace function calls, often including function
- * 			arguments.  This is the trace level that, historically,
- * 			applied to all trace calls.
- * TRACE_FLOW		Include the flow control functions, such as
- * 			start_recursion, do_recursion, and walklist in the
- * 			function traces.
- * TRACE_DATA		Trace important internal function data.
- */ 
-#define TRACE_FUNCTION		1
-#define TRACE_FLOW		2
-#define TRACE_DATA		3
-
 /* Many, many CVS calls to xstrdup depend on it to return NULL when its
  * argument is NULL.
  */
@@ -106,4 +88,5 @@ char *Xasnprintf (char *resultbuf, size_t *lengthp, const char *format, ...)
 bool readBool (const char *infopath, const char *option,
 	       const char *p, bool *val);
 
+FILE *xfopen (const char *, const char *);
 #endif /* !SUBR_H */

@@ -496,7 +496,7 @@ sub get_history
 		if( $ignore == 2 )
 		{
 		    if( my ( $date, $author, $state ) =
-		             $line =~ /^date: (\S+ \S+);  author: (\S+);  state: (\S+);/ )
+		             $line =~ /^date: (\S+ \S+);  author: ([^;]+);  state: (\S+);/ )
 			{
 				$rinfo{$revision} =
 				{
@@ -700,7 +700,8 @@ sub find_interesting_revisions
 				|| $max_branch_revision{$branch_number} < $branch_rev );
 	}
 
-	push( @new_revisions, "1.1" ) unless $max_branch_revision{1} == 1;
+	push( @new_revisions, "1.1" ) unless (exists $max_branch_revision{1}
+					      && $max_branch_revision{1} == 1);
     while( ( $key, $value ) = each ( %max_branch_revision ) )
     {
         push( @new_revisions, $key . "." . $value );

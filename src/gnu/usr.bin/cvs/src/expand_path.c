@@ -90,15 +90,14 @@ variable_set (char *nameval)
 char *
 expand_path (const char *name, const char *file, int line, int formatsafe)
 {
-    const char *s;
-    char *d;
+    size_t s, d, p;
+    char *e;
 
     char *mybuf = NULL;
     size_t mybuf_size = 0;
     char *buf = NULL;
     size_t buf_size = 0;
 
-    size_t doff;
     char inquotes = '\0';
 
     char *result;
@@ -111,14 +110,11 @@ expand_path (const char *name, const char *file, int line, int formatsafe)
        thusly.  */
 
     /* First copy from NAME to MYBUF, expanding $<foo> as we go.  */
-    s = name;
-    d = mybuf;
-    doff = d - mybuf;
-    expand_string (&mybuf, &mybuf_size, doff + 1);
-    d = mybuf + doff;
-    while ((*d++ = *s) != '\0')
+    s = d = 0;
+    expand_string (&mybuf, &mybuf_size, d + 1);
+    while ((mybuf[d++] = name[s]) != '\0')
     {
-	if (*s == '\\')
+	if (name[s] == '\\')
 	{
 	    /* The next character is a literal.  Leave the \ in the string
 	     * since it will be needed again when the string is split into
@@ -128,66 +124,55 @@ expand_path (const char *name, const char *file, int line, int formatsafe)
 	     * it there - this is where we would set the escape flag to tell
 	     * our parent we want another line if we cared.
 	     */
-	    if (*++s)
+	    if (name[++s])
 	    {
-		doff = d - mybuf;
-		expand_string (&mybuf, &mybuf_size, doff + 1);
-		d = mybuf + doff;
-		*d++ = *s++;
+		expand_string (&mybuf, &mybuf_size, d + 1);
+		mybuf[d++] = name[s++];
 	    }
 	}
 	/* skip $ variable processing for text inside single quotes */
 	else if (inquotes == '\'')
 	{
-	    if (*s++ == '\'')
+	    if (name[s++] == '\'')
 	    {
 		inquotes = '\0';
 	    }
 	}
-	else if (*s == '\'')
+	else if (name[s] == '\'')
 	{
 	    s++;
 	    inquotes = '\'';
 	}
-	else if (*s == '"')
+	else if (name[s] == '"')
 	{
 	    s++;
 	    if (inquotes) inquotes = '\0';
 	    else inquotes = '"';
 	}
-	else if (*s++ == '$')
+	else if (name[s++] == '$')
 	{
-	    char *p = d;
-	    char *e;
-	    int flag = (*s == '{');
+	    int flag = (name[s] == '{');
+	    p = d;
 
-	    doff = d - mybuf;
-	    expand_string (&mybuf, &mybuf_size, doff + 1);
-	    d = mybuf + doff;
-	    for (; (*d++ = *s); s++)
+	    expand_string (&mybuf, &mybuf_size, d + 1);
+	    for (; (mybuf[d++] = name[s]); s++)
 	    {
 		if (flag
-		    ? *s =='}'
-		    : isalnum ((unsigned char) *s) == 0 && *s != '_')
+		    ? name[s] =='}'
+		    : isalnum ((unsigned char) name[s]) == 0 && name[s] != '_')
 		    break;
-		doff = d - mybuf;
-		expand_string (&mybuf, &mybuf_size, doff + 1);
-		d = mybuf + doff;
+		expand_string (&mybuf, &mybuf_size, d + 1);
 	    }
-	    *--d = '\0';
-	    e = expand_variable (&p[flag], file, line);
+	    mybuf[--d] = '\0';
+	    e = expand_variable (&mybuf[p+flag], file, line);
 
 	    if (e)
 	    {
-		doff = d - mybuf;
-		expand_string (&mybuf, &mybuf_size, doff + 1);
-		d = mybuf + doff;
-		for (d = &p[-1]; (*d++ = *e++);)
+		expand_string (&mybuf, &mybuf_size, d + 1);
+		for (d = p - 1; (mybuf[d++] = *e++); )
 		{
-		    doff = d - mybuf;
-		    expand_string (&mybuf, &mybuf_size, doff + 1);
-		    d = mybuf + doff;
-		    if (d[-1] == '"')
+		    expand_string (&mybuf, &mybuf_size, d + 1);
+		    if (mybuf[d-1] == '"')
 		    {
 			/* escape the double quotes if we're between a matched
 			 * pair of double quotes so that this sub will be
@@ -196,61 +181,55 @@ expand_path (const char *name, const char *file, int line, int formatsafe)
 			 */
 			if (inquotes)
 			{
-			    d[-1] = '\\';
-			    doff = d - mybuf;
-			    expand_string (&mybuf, &mybuf_size, doff + 1);
-			    d = mybuf + doff;
-			    *d++ = '"';
+			    mybuf[d-1] = '\\';
+			    expand_string (&mybuf, &mybuf_size, d + 1);
+			    mybuf[d++] = '"';
 			}
 		    }
-		    else if (formatsafe && d[-1] == '%')
+		    else if (formatsafe && mybuf[d-1] == '%')
 		    {
 			/* escape '%' to get past printf style format strings
 			 * later (in make_cmdline).
 			 */
-			doff = d - mybuf;
-			expand_string (&mybuf, &mybuf_size, doff + 1);
-			d = mybuf + doff;
-			*d = d[-1];
+			expand_string (&mybuf, &mybuf_size, d + 1);
+			mybuf[d] = mybuf[d-1];
 			d++;
 		    }
 		}
 		--d;
-		if (flag && *s)
+		if (flag && name[s])
 		    s++;
 	    }
 	    else
 		/* expand_variable has already printed an error message.  */
 		goto error_exit;
 	}
-	doff = d - mybuf;
-	expand_string (&mybuf, &mybuf_size, doff + 1);
-	d = mybuf + doff;
+	expand_string (&mybuf, &mybuf_size, d + 1);
     }
-    doff = d - mybuf;
-    expand_string (&mybuf, &mybuf_size, doff + 1);
-    d = mybuf + doff;
-    *d = '\0';
+    expand_string (&mybuf, &mybuf_size, d + 1);
+    mybuf[d] = '\0';
 
     /* Then copy from MYBUF to BUF, expanding ~.  */
-    s = mybuf;
-    d = buf;
+    s = d = 0;
     /* If you don't want ~username ~/ to be expanded simply remove
      * This entire if statement including the else portion
      */
-    if (*s++ == '~')
+    if (mybuf[s] == '~')
     {
-	char *t;
-	char *p, *pstart;
-	pstart = p = xstrdup (s);
-	if (*pstart=='/' || *pstart==0)
-	    t = get_homedir ();
+	p = d;
+	while (mybuf[++s] != '/' && mybuf[s] != '\0')
+	{
+	    expand_string (&buf, &buf_size, p + 1);
+	    buf[p++] = name[s];
+	}
+	expand_string (&buf, &buf_size, p + 1);
+	buf[p] = '\0';
+
+	if (p == d)
+	    e = get_homedir ();
 	else
 	{
 #ifdef GETPWNAM_MISSING
-	    for (; *p!='/' && *p; p++)
-		;
-	    *p = 0;
 	    if (line != 0)
 		error (0, 0,
 		       "%s:%d:tilde expansion not supported on this system",
@@ -261,54 +240,31 @@ expand_path (const char *name, const char *file, int line, int formatsafe)
 	    return NULL;
 #else
 	    struct passwd *ps;
-	    for (; *p!='/' && *p; p++)
-		;
-	    *p = 0;
-	    ps = getpwnam (pstart);
+	    ps = getpwnam (buf + d);
 	    if (ps == 0)
 	    {
 		if (line != 0)
 		    error (0, 0, "%s:%d: no such user %s",
-			   file, line, pstart);
+			   file, line, buf + d);
 		else
-		    error (0, 0, "%s: no such user %s", file, pstart);
+		    error (0, 0, "%s: no such user %s", file, buf + d);
 		return NULL;
 	    }
-	    t = ps->pw_dir;
+	    e = ps->pw_dir;
 #endif
 	}
-	if (t == NULL)
+	if (e == NULL)
 	    error (1, 0, "cannot find home directory");
 
-	doff = d - buf;
-	expand_string (&buf, &buf_size, doff + 1);
-	d = buf + doff;
-	while ((*d++ = *t++))
-	{
-	    doff = d - buf;
-	    expand_string (&buf, &buf_size, doff + 1);
-	    d = buf + doff;
-	}
-	--d;
-	s+=p-pstart;
-	free (pstart);
+	p = strlen(e);
+	expand_string (&buf, &buf_size, d + p);
+	memcpy(buf + d, e, p);
+	d += p;
     }
-    else
-	--s;
-	/* Kill up to here */
-    doff = d - buf;
-    expand_string (&buf, &buf_size, doff + 1);
-    d = buf + doff;
-    while ((*d++ = *s++))
-    {
-	doff = d - buf;
-	expand_string (&buf, &buf_size, doff + 1);
-	d = buf + doff;
-    }
-    doff = d - buf;
-    expand_string (&buf, &buf_size, doff + 1);
-    d = buf + doff;
-    *d = '\0';
+    /* Kill up to here */
+    p = strlen(mybuf + s) + 1;
+    expand_string (&buf, &buf_size, d + p);
+    memcpy(buf + d, mybuf + s, p);
 
     /* OK, buf contains the value we want to return.  Clean up and return
        it.  */

@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-1999, 2000, 2001, 2003, 2004 Free Software
+/* Copyright (C) 1991-1999, 2000, 2001, 2003, 2004, 2005 Free Software
    Foundation, Inc.
 
    NOTE: The canonical source of this file is maintained with the GNU C Library.
@@ -72,6 +72,7 @@ extern char *tzname[];
 #endif
 
 #include <limits.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -119,15 +120,12 @@ extern char *tzname[];
    ? (a) >> (b)		\
    : (a) / (1 << (b)) - ((a) % (1 << (b)) < 0))
 
-#define TYPE_SIGNED(t) ((t) -1 < 0)
-
-/* Bound on length of the string representing an integer value of type t.
-   Subtract one for the sign bit if t is signed;
-   302 / 1000 is log10 (2) rounded up;
-   add one for integer division truncation;
-   add one more for a minus sign if t is signed.  */
+/* Bound on length of the string representing an integer type or expression T.
+   Subtract 1 for the sign bit if t is signed; log10 (2.0) < 146/485;
+   add 1 for integer division truncation; add 1 more for a minus sign
+   if needed.  */
 #define INT_STRLEN_BOUND(t) \
- ((sizeof (t) * CHAR_BIT - TYPE_SIGNED (t)) * 302 / 1000 + 1 + TYPE_SIGNED (t))
+  ((sizeof (t) * CHAR_BIT - 1) * 146 / 485 + 2)
 
 #define TM_YEAR_BASE 1900
 
@@ -388,7 +386,7 @@ static CHAR_T const month_name[][10] =
    (including the terminating '\0') and returning number of
    characters written.  If S is NULL, nothing will be written
    anywhere, so to determine how many characters would be
-   written, use NULL for S and (size_t) UINT_MAX for MAXSIZE.  */
+   written, use NULL for S and (size_t) -1 for MAXSIZE.  */
 size_t
 my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	     const struct tm *tp extra_args_spec LOCALE_PARAM_PROTO)
@@ -479,16 +477,17 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
       int modifier;		/* Field modifier ('E', 'O', or 0).  */
       int digits;		/* Max digits for numeric format.  */
       int number_value;		/* Numeric value to be printed.  */
-      int negative_number;	/* 1 if the number is negative.  */
+      unsigned int u_number_value; /* (unsigned int) number_value.  */
+      bool negative_number;	/* 1 if the number is negative.  */
       const CHAR_T *subfmt;
       CHAR_T *bufp;
       CHAR_T buf[1 + (sizeof (int) < sizeof (time_t)
 		      ? INT_STRLEN_BOUND (time_t)
 		      : INT_STRLEN_BOUND (int))];
       int width = -1;
-      int to_lowcase = 0;
-      int to_uppcase = 0;
-      int change_case = 0;
+      bool to_lowcase = false;
+      bool to_uppcase = false;
+      bool change_case = false;
       int format_char;
 
 #if DO_MULTIBYTE && !defined COMPILE_WIDE
@@ -593,10 +592,10 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 
 	      /* This changes textual output.  */
 	    case L_('^'):
-	      to_uppcase = 1;
+	      to_uppcase = true;
 	      continue;
 	    case L_('#'):
-	      change_case = 1;
+	      change_case = true;
 	      continue;
 
 	    default:
@@ -643,10 +642,14 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
       switch (format_char)
 	{
 #define DO_NUMBER(d, v) \
-	  digits = d > width ? d : width;				      \
+	  digits = d;							      \
 	  number_value = v; goto do_number
+#define DO_SIGNED_NUMBER(d, negative, v) \
+	  digits = d;							      \
+	  negative_number = negative;					      \
+	  u_number_value = v; goto do_signed_number
 #define DO_NUMBER_SPACEPAD(d, v) \
-	  digits = d > width ? d : width;				      \
+	  digits = d;							      \
 	  number_value = v; goto do_number_spacepad
 
 	case L_('%'):
@@ -660,8 +663,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    goto bad_format;
 	  if (change_case)
 	    {
-	      to_uppcase = 1;
-	      to_lowcase = 0;
+	      to_uppcase = true;
+	      to_lowcase = false;
 	    }
 #if defined _NL_CURRENT || !HAVE_STRFTIME
 	  cpy (aw_len, a_wkday);
@@ -675,8 +678,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    goto bad_format;
 	  if (change_case)
 	    {
-	      to_uppcase = 1;
-	      to_lowcase = 0;
+	      to_uppcase = true;
+	      to_lowcase = false;
 	    }
 #if defined _NL_CURRENT || !HAVE_STRFTIME
 	  cpy (STRLEN (f_wkday), f_wkday);
@@ -689,8 +692,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	case L_('h'):
 	  if (change_case)
 	    {
-	      to_uppcase = 1;
-	      to_lowcase = 0;
+	      to_uppcase = true;
+	      to_lowcase = false;
 	    }
 	  if (modifier != 0)
 	    goto bad_format;
@@ -706,8 +709,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    goto bad_format;
 	  if (change_case)
 	    {
-	      to_uppcase = 1;
-	      to_lowcase = 0;
+	      to_uppcase = true;
+	      to_lowcase = false;
 	    }
 #if defined _NL_CURRENT || !HAVE_STRFTIME
 	  cpy (STRLEN (f_month), f_month);
@@ -756,7 +759,7 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	  {
 	    /* The relevant information is available only via the
 	       underlying strftime implementation, so use that.  */
-	    char ufmt[4];
+	    char ufmt[5];
 	    char *u = ufmt;
 	    char ubuf[1024]; /* enough for any single format in practice */
 	    size_t len;
@@ -768,15 +771,17 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    size_t strftime ();
 # endif
 
+	    /* The space helps distinguish strftime failure from empty
+	       output.  */
+	    *u++ = ' ';
 	    *u++ = '%';
 	    if (modifier != 0)
 	      *u++ = modifier;
 	    *u++ = format_char;
 	    *u = '\0';
 	    len = strftime (ubuf, sizeof ubuf, ufmt, tp);
-	    if (len == 0 && ubuf[0] != '\0')
-	      return 0;
-	    cpy (len, ubuf);
+	    if (len != 0)
+	      cpy (len - 1, ubuf + 1);
 	  }
 	  break;
 #endif
@@ -807,8 +812,9 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    }
 
 	  {
-	    int year = tp->tm_year + TM_YEAR_BASE;
-	    DO_NUMBER (1, year / 100 - (year % 100 < 0));
+	    int century = tp->tm_year / 100 + TM_YEAR_BASE / 100;
+	    century -= tp->tm_year % 100 < 0 && 0 < century;
+	    DO_SIGNED_NUMBER (2, tp->tm_year < - TM_YEAR_BASE, century);
 	  }
 
 	case L_('x'):
@@ -846,8 +852,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 
 	  DO_NUMBER_SPACEPAD (2, tp->tm_mday);
 
-	  /* All numeric formats set DIGITS and NUMBER_VALUE and then
-	     jump to one of these two labels.  */
+	  /* All numeric formats set DIGITS and NUMBER_VALUE (or U_NUMBER_VALUE)
+	     and then jump to one of these three labels.  */
 
 	do_number_spacepad:
 	  /* Force `_' flag unless overridden by `0' or `-' flag.  */
@@ -855,14 +861,22 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    pad = L_('_');
 
 	do_number:
-	  /* Format the number according to the MODIFIER flag.  */
+	  /* Format NUMBER_VALUE according to the MODIFIER flag.  */
+	  negative_number = number_value < 0;
+	  u_number_value = number_value;
 
-	  if (modifier == L_('O') && 0 <= number_value)
+	do_signed_number:
+	  /* Format U_NUMBER_VALUE according to the MODIFIER flag.
+	     NEGATIVE_NUMBER is nonzero if the original number was
+	     negative; in this case it was converted directly to
+	     unsigned int (i.e., modulo (UINT_MAX + 1)) without
+	     negating it.  */
+	  if (modifier == L_('O') && !negative_number)
 	    {
 #ifdef _NL_CURRENT
 	      /* Get the locale specific alternate representation of
-		 the number NUMBER_VALUE.  If none exist NULL is returned.  */
-	      const CHAR_T *cp = nl_get_alt_digit (number_value
+		 the number.  If none exist NULL is returned.  */
+	      const CHAR_T *cp = nl_get_alt_digit (u_number_value
 						   HELPER_LOCALE_ARG);
 
 	      if (cp != NULL)
@@ -880,19 +894,21 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 # endif
 #endif
 	    }
-	  {
-	    unsigned int u = number_value;
 
-	    bufp = buf + sizeof (buf) / sizeof (buf[0]);
-	    negative_number = number_value < 0;
+	  bufp = buf + sizeof (buf) / sizeof (buf[0]);
 
-	    if (negative_number)
-	      u = -u;
+	  if (negative_number)
+	    u_number_value = - u_number_value;
 
-	    do
-	      *--bufp = u % 10 + L_('0');
-	    while ((u /= 10) != 0);
-	  }
+	  do
+	    {
+	      *--bufp = u_number_value % 10 + L_('0');
+	      u_number_value /= 10;
+	    }
+	  while (u_number_value != 0);
+
+	  if (digits < width)
+	    digits = width;
 
 	do_number_sign_and_padding:
 	  if (negative_number)
@@ -974,7 +990,7 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	  if (modifier == L_('E'))
 	    goto bad_format;
 
-	  DO_NUMBER (3, 1 + tp->tm_yday);
+	  DO_SIGNED_NUMBER (3, tp->tm_yday < -1, tp->tm_yday + 1U);
 
 	case L_('M'):
 	  if (modifier == L_('E'))
@@ -986,7 +1002,7 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	  if (modifier == L_('E'))
 	    goto bad_format;
 
-	  DO_NUMBER (2, tp->tm_mon + 1);
+	  DO_SIGNED_NUMBER (2, tp->tm_mon < -1, tp->tm_mon + 1U);
 
 #ifndef _LIBC
 	case L_('N'):		/* GNU extension.  */
@@ -1010,7 +1026,7 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	  break;
 
 	case L_('P'):
-	  to_lowcase = 1;
+	  to_lowcase = true;
 #if !defined _NL_CURRENT && HAVE_STRFTIME
 	  format_char = L_('p');
 #endif
@@ -1019,8 +1035,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	case L_('p'):
 	  if (change_case)
 	    {
-	      to_uppcase = 0;
-	      to_lowcase = 1;
+	      to_uppcase = false;
+	      to_lowcase = true;
 	    }
 #if defined _NL_CURRENT || !HAVE_STRFTIME
 	  cpy (ap_len, ampm);
@@ -1070,20 +1086,7 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	      {
 		int d = t % 10;
 		t /= 10;
-
-		if (negative_number)
-		  {
-		    d = -d;
-
-		    /* Adjust if division truncates to minus infinity.  */
-		    if (0 < -1 % 10 && d < 0)
-		      {
-			t++;
-			d += 10;
-		      }
-		  }
-
-		*--bufp = d + L_('0');
+		*--bufp = (negative_number ? -d : d) + L_('0');
 	      }
 	    while (t != 0);
 
@@ -1131,14 +1134,22 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	  if (modifier == L_('E'))
 	    goto bad_format;
 	  {
-	    int year = tp->tm_year + TM_YEAR_BASE;
+	    /* YEAR is a leap year if and only if (tp->tm_year + TM_YEAR_BASE)
+	       is a leap year, except that YEAR and YEAR - 1 both work
+	       correctly even when (tp->tm_year + TM_YEAR_BASE) would
+	       overflow.  */
+	    int year = (tp->tm_year
+			+ (tp->tm_year < 0
+			   ? TM_YEAR_BASE % 400
+			   : TM_YEAR_BASE % 400 - 400));
+	    int year_adjust = 0;
 	    int days = iso_week_days (tp->tm_yday, tp->tm_wday);
 
 	    if (days < 0)
 	      {
 		/* This ISO week belongs to the previous year.  */
-		year--;
-		days = iso_week_days (tp->tm_yday + (365 + __isleap (year)),
+		year_adjust = -1;
+		days = iso_week_days (tp->tm_yday + (365 + __isleap (year - 1)),
 				      tp->tm_wday);
 	      }
 	    else
@@ -1148,7 +1159,7 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 		if (0 <= d)
 		  {
 		    /* This ISO week belongs to the next year.  */
-		    year++;
+		    year_adjust = 1;
 		    days = d;
 		  }
 	      }
@@ -1156,10 +1167,19 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    switch (*f)
 	      {
 	      case L_('g'):
-		DO_NUMBER (2, (year % 100 + 100) % 100);
+		{
+		  int yy = (tp->tm_year % 100 + year_adjust) % 100;
+		  DO_NUMBER (2, (0 <= yy
+				 ? yy
+				 : tp->tm_year < -TM_YEAR_BASE - year_adjust
+				 ? -yy
+				 : yy + 100));
+		}
 
 	      case L_('G'):
-		DO_NUMBER (1, year);
+		DO_SIGNED_NUMBER (4, tp->tm_year < -TM_YEAR_BASE - year_adjust,
+				  (tp->tm_year + (unsigned int) TM_YEAR_BASE
+				   + year_adjust));
 
 	      default:
 		DO_NUMBER (2, days / 7 + 1);
@@ -1201,7 +1221,8 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	  if (modifier == L_('O'))
 	    goto bad_format;
 	  else
-	    DO_NUMBER (1, tp->tm_year + TM_YEAR_BASE);
+	    DO_SIGNED_NUMBER (4, tp->tm_year < -TM_YEAR_BASE,
+			      tp->tm_year + (unsigned int) TM_YEAR_BASE);
 
 	case L_('y'):
 	  if (modifier == L_('E'))
@@ -1220,19 +1241,25 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 # endif
 #endif
 	    }
-	  DO_NUMBER (2, (tp->tm_year % 100 + 100) % 100);
+
+	  {
+	    int yy = tp->tm_year % 100;
+	    if (yy < 0)
+	      yy = tp->tm_year < - TM_YEAR_BASE ? -yy : yy + 100;
+	    DO_NUMBER (2, yy);
+	  }
 
 	case L_('Z'):
 	  if (change_case)
 	    {
-	      to_uppcase = 0;
-	      to_lowcase = 1;
+	      to_uppcase = false;
+	      to_lowcase = true;
 	    }
 
 #if HAVE_TZNAME
 	  /* The tzset() call might have changed the value.  */
 	  if (!(zone && *zone) && tp->tm_isdst >= 0)
-	    zone = tzname[tp->tm_isdst];
+	    zone = tzname[tp->tm_isdst != 0];
 #endif
 	  if (! zone)
 	    zone = "";

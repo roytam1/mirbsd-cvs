@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -86,9 +91,8 @@ Checkin (int type, struct file_info *finfo, char *rev, char *tag,
 	    {
 		/* The existing file is incorrect.  We need to check
                    out the correct file contents.  */
-		if (RCS_checkout (finfo->rcs, finfo->file, rev, (char *) NULL,
-				  options, RUN_TTY, (RCSCHECKOUTPROC) NULL,
-				  (void *) NULL) != 0)
+		if (RCS_checkout (finfo->rcs, finfo->file, rev, NULL,
+				  options, RUN_TTY, NULL, NULL) != 0)
 		    error (1, 0, "failed when checking out new copy of %s",
 			   finfo->fullname);
 		xchmod (finfo->file, 1);
@@ -109,7 +113,7 @@ Checkin (int type, struct file_info *finfo, char *rev, char *tag,
 	    if (strcmp (vers->options, "-V4") == 0)
 		vers->options[0] = '\0';
 	    Register (finfo->entries, finfo->file, vers->vn_rcs, vers->ts_user,
-		      vers->options, vers->tag, vers->date, (char *) 0);
+		      vers->options, vers->tag, vers->date, NULL);
 	    history_write (type, NULL, vers->vn_rcs,
 			   finfo->file, finfo->repository);
 
@@ -160,10 +164,10 @@ Checkin (int type, struct file_info *finfo, char *rev, char *tag,
 	if (set_time)
 	    /* Need to update the checked out file on the client side.  */
 	    server_updated (finfo, vers, SERVER_UPDATED,
-			    (mode_t) -1, (unsigned char *) NULL,
-			    (struct buffer *) NULL);
+			    (mode_t) -1, NULL, NULL);
 	else
-	    server_checked_in (finfo->file, finfo->update_dir, finfo->repository);
+	    server_checked_in (finfo->file, finfo->update_dir,
+			       finfo->repository);
     }
     else
 #endif

@@ -35,6 +35,65 @@ release_server (int argc, char **argv)
 
 #endif /* SERVER_SUPPORT */
 
+/* Construct an update command.  Be sure to add authentication and
+* encryption if we are using them currently, else our child process may
+* not be able to communicate with the server.
+*/
+static FILE *
+setup_update_command (pid_t *child_pid)
+{
+    int tofd, fromfd;
+
+    run_setup (program_path);
+   
+#if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
+    /* Be sure to add authentication and encryption if we are using them
+     * currently, else our child process may not be able to communicate with
+     * the server.
+     */
+    if (cvsauthenticate) run_add_arg ("-a");
+    if (cvsencrypt) run_add_arg ("-x");
+#endif
+
+    /* Don't really change anything.  */
+    run_add_arg ("-n");
+
+    /* Don't need full verbosity.  */
+    run_add_arg ("-q");
+
+    /* Propogate our CVSROOT.  */
+    run_add_arg ("-d");
+    run_add_arg (original_parsed_root->original);
+
+    run_add_arg ("update");
+    *child_pid = run_piped (&tofd, &fromfd);
+    if (*child_pid < 0)
+	error (1, 0, "could not fork server process");
+
+    close (tofd);
+
+    return fdopen (fromfd, "r");
+}
+
+
+
+static int
+close_update_command (FILE *fp, pid_t child_pid)
+{
+    int status;
+    pid_t w;
+
+    do
+	w = waitpid (child_pid, &status, 0);
+    while (w == -1 && errno == EINTR);
+    if (w == -1)
+	error (1, errno, "waiting for process %d", child_pid);
+
+    return status;
+}
+
+
+
 /* There are various things to improve about this implementation:
 
    1.  Using run_popen to run "cvs update" could be replaced by a
@@ -64,10 +123,8 @@ release (int argc, char **argv)
 {
     FILE *fp;
     int i, c;
-    char *repository;
     char *line = NULL;
     size_t line_allocated = 0;
-    char *update_cmd;
     char *thisarg;
     int arg_start_idx;
     int err = 0;
@@ -113,18 +170,6 @@ release (int argc, char **argv)
      * up to the user to take note of them, at least currently
      * (ignore-193 in testsuite)).
      */
-    /* Construct the update command.  Be sure to add authentication and
-       encryption if we are using them currently, else our child process may
-       not be able to communicate with the server.  */
-    update_cmd = Xasprintf ("%s %s%s-n -q -d %s update",
-			    program_path,
-#if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
-			    cvsauthenticate ? "-a " : "",
-			    cvsencrypt ? "-x " : "",
-#else
-			    "", "",
-#endif
-			    original_parsed_root->original);
 
 #ifdef CLIENT_SUPPORT
     /* Start the server; we'll close it after looping. */
@@ -173,11 +218,10 @@ release (int argc, char **argv)
 	    continue;
 	}
 
-	repository = Name_Repository ((char *) NULL, (char *) NULL);
-
 	if (!really_quiet)
 	{
 	    int line_length;
+	    pid_t child_pid;
 
 	    /* The "release" command piggybacks on "update", which
 	       does the real work of finding out if anything is not
@@ -185,9 +229,13 @@ release (int argc, char **argv)
 	       the user, telling her how many files have been
 	       modified, and asking if she still wants to do the
 	       release.  */
-	    fp = run_popen (update_cmd, "r");
+	    fp = setup_update_command (&child_pid);
 	    if (fp == NULL)
-		error (1, 0, "cannot run command %s", update_cmd);
+	    {
+		error (0, 0, "cannot run command:");
+	        run_print (stderr);
+		error (1, 0, "Exiting due to fatal error referenced above.");
+	    }
 
 	    c = 0;
 
@@ -204,10 +252,9 @@ release (int argc, char **argv)
 	       complain and go on to the next arg.  Especially, we do
 	       not want to delete the local copy, since it's obviously
 	       not what the user thinks it is.  */
-	    if ((pclose (fp)) != 0)
+	    if (close_update_command (fp, child_pid) != 0)
 	    {
 		error (0, 0, "unable to release `%s'", thisarg);
-		free (repository);
 		if (restore_cwd (&cwd))
 		    error (1, errno,
 		           "Failed to restore current directory, `%s'.",
@@ -217,20 +264,31 @@ release (int argc, char **argv)
 
 	    printf ("You have [%d] altered files in this repository.\n",
 		    c);
-	    printf ("Are you sure you want to release %sdirectory `%s': ",
-		    delete_flag ? "(and delete) " : "", thisarg);
-	    fflush (stderr);
-	    fflush (stdout);
-	    c = !yesno ();
-	    if (c)			/* "No" */
+
+	    if (!noexec)
 	    {
-		(void) fprintf (stderr, "** `%s' aborted by user choice.\n",
-				cvs_cmd_name);
-		free (repository);
+		printf ("Are you sure you want to release %sdirectory `%s': ",
+			delete_flag ? "(and delete) " : "", thisarg);
+		fflush (stderr);
+		fflush (stdout);
+		if (!yesno ())			/* "No" */
+		{
+		    (void) fprintf (stderr,
+				    "** `%s' aborted by user choice.\n",
+				    cvs_cmd_name);
+		    if (restore_cwd (&cwd))
+			error (1, errno,
+			       "Failed to restore current directory, `%s'.",
+			       cwd.name);
+		    continue;
+		}
+	    }
+	    else
+	    {
 		if (restore_cwd (&cwd))
 		    error (1, errno,
-		           "Failed to restore current directory, `%s'.",
-		           cwd.name);
+			   "Failed to restore current directory, `%s'.",
+			   cwd.name);
 		continue;
 	    }
 	}
@@ -242,7 +300,6 @@ release (int argc, char **argv)
            CVS/Entries file in the wrong directory.  See release-17
            through release-23. */
 
-        free (repository);
 	if (restore_cwd (&cwd))
 	    error (1, errno, "Failed to restore current directory, `%s'.",
 		   cwd.name);
@@ -321,7 +378,6 @@ release (int argc, char **argv)
     }
 #endif /* CLIENT_SUPPORT */
 
-    free (update_cmd);
     if (line != NULL)
 	free (line);
     return err;
