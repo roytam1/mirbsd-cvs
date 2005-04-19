@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.2 2005/04/19 20:58:11 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # ATTN: see below
@@ -27,12 +27,14 @@ SUBDIR+=	doc/paper
 CLEANFILES+=	lib/getdate.c lib/getdate.h
 .endif
 
+CVSDIR=		/usr/libexec/cvs/contrib
+
 post-install:
 	${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
 	    ${.CURDIR}/doc/RCSFILES ${DESTDIR}/usr/share/misc/
 	-rm -f ${DESTDIR}${BINDIR}/rcs2log
-	ln ${DESTDIR}/usr/libexec/cvs/contrib/rcs2log \
-	    ${DESTDIR}${BINDIR}/rcs2log
+	ln ${DESTDIR}${CVSDIR}/rcs2log ${DESTDIR}${BINDIR}/rcs2log \
+	    || cp ${DESTDIR}${CVSDIR}/rcs2log ${DESTDIR}${BINDIR}/rcs2log
 
 .include <bsd.cfwrap.mk>
 

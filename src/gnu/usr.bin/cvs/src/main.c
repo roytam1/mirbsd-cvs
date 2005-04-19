@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.4 2005/04/19 21:15:03 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -24,7 +24,7 @@
 #include "strftime.h"
 #include "closeout.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.3 2005/04/19 20:58:21 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.4 2005/04/19 21:15:03 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -1200,7 +1200,7 @@ date_from_time_t (time_t unixtime)
 	ftm = localtime (&unixtime);
 
     (void) sprintf (date, DATEFORM,
-		    (int)(ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900)),
+		    ftm->tm_year + (ftm->tm_year < 100 ? 0LL : 1900LL),
 		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 		    ftm->tm_min, ftm->tm_sec);
     ret = xstrdup (date);
