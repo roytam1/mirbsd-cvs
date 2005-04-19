@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.2 2005/03/13 15:50:39 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -35,7 +35,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.2 2005/03/13 15:50:39 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.3 2005/04/19 20:58:21 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -3177,7 +3177,7 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
 	/* Put an appropriate string into `date', if we were given one. */
 	ftm = gmtime (&revdate.tv_sec);
 	(void) sprintf (date, DATEFORM,
-			(int)(ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900)),
+			ftm->tm_year + (ftm->tm_year < 100 ? 0LL : 1900LL),
 			ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 			ftm->tm_min, ftm->tm_sec);
     }
