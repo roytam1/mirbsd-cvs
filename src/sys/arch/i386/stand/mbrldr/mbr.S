@@ -11,6 +11,10 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
  * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
  * any kind, expressed or implied, to the maximum extent permitted by
  * applicable law, but with the warranty of being written without ma-
@@ -66,16 +70,16 @@ Lotxt_:	mov	ah,0x0E
 
 #ifdef	BOOTMANAGER
 Lmod:	mov	di,offset Lm00
-	mov	al,[0x01C2]
+	mov	al,ds:[0x01C2]
 	call	LpBY
 	mov	di,offset Lm01
-	mov	al,[0x01D2]
+	mov	al,ds:[0x01D2]
 	call	LpBY
 	mov	di,offset Lm02
-	mov	al,[0x01E2]
+	mov	al,ds:[0x01E2]
 	call	LpBY
 	mov	di,offset Lm03
-	mov	al,[0x01F2]
+	mov	al,ds:[0x01F2]
 LpBY:	mov	ah,al
 	shr	al,4
 	and	ah,0x0F
@@ -98,12 +102,12 @@ Ltry:	mov	bp,4
 	inc	cx
 	add	bh,2
 	jmp	Ltry3
-Ltry2:	add	byte ptr [5],2
-	inc	dword ptr [8]
+Ltry2:	add	byte ptr ds:[5],2
+	inc	dword ptr ds:[8]
 Ltry3:	call	Ltry0
 	push	dx
 	mov	ax,0x0E0D	/* magic -> this pbr */
-	mov	[0x600],ax	/* at 0x08000 linear */
+	mov	ds:[0x600],ax	/* at 0x08000 linear */
 	xor	bx,bx
 	int	0x10
 	pop	dx
