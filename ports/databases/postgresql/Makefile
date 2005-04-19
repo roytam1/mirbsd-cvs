@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/databases/postgresql/Makefile,v 1.2 2005/03/27 22:55:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=	"PostgreSQL RDBMS clients and utilities"
@@ -104,14 +104,16 @@ MASTER_SITES=	\
 	ftp://ftp22.us.postgresql.org/mirrors/ftp.postgresql.org/source/v${VERSION}/ \
 	ftp://ftp24.us.postgresql.org/postgresql/source/v${VERSION}/
 
-.if ${OStype} == "OpenBSD"
-FLAVORS=	kerberos
-.endif
 PSEUDO_FLAVORS=	tcl
 .if ${OStype} == "OpenBSD"
+FLAVORS=	kerberos
 FLAVOR?=	kerberos
 .else
 FLAVOR?=
+.endif
+
+.if ${OStype} != "MirBSD"
+LIB_DEPENDS+=	readline::devel/libreadline
 .endif
 
 MULTI_PACKAGES=	-server -docs
