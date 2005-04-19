@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.8 2005/04/13 21:51:34 tg Exp $ */
+/* $MirOS: www/index.php,v 1.9 2005/04/15 09:47:39 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -66,9 +66,9 @@
   </script>
  </div>
  <form method="get" action="http://www.google.com/custom">
-  <table style="margin-left:6px;">
+  <table style="margin-left:6px;margin-right:6px;">
    <tr><td valign="top" align="left" colspan="2">
-    <input type="text" name="q" size="24" maxlength="255" value="" />
+    <input type="text" name="q" maxlength="255" value="" style="width:160px;" />
     <input type="hidden" name="client" value="pub-0266998858986985" />
     <input type="hidden" name="forid" value="1" />
     <input type="hidden" name="ie" value="UTF-8" />
@@ -78,10 +78,10 @@
     <input type="hidden" name="num" value="100" />
    </td></tr>
    <tr><td valign="top" align="left"><a
-    href="http://www.google.com/"><img style="border:0px;"
+    href="http://www.google.com/"><img style="border:0px;width:75px;"
     src="http://www.google.com/logos/Logo_25blk.gif" alt="Google" /></a>
    </td><td valign="middle" align="right">
-    <input type="submit" name="sa" value="Search" />
+    <input type="submit" name="sa" value="Search" style="width:80px;" />
    </td></tr>
   </table>
  </form>
