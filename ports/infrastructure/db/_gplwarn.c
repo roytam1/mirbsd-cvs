@@ -1,8 +1,8 @@
-/**	$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.2 2005/02/09 23:44:41 tg Exp $ */
-/**	_MirOS: contrib/gnu/aux/_gplwarn.c,v 1.2 2005/02/09 23:44:41 tg Exp $ */
+/* $MirOS: contrib/gnu/aux/_gplwarn.c,v 1.3 2005/04/19 16:05:38 tg Exp $ */
+/* _MirOS: contrib/gnu/aux/_gplwarn.c,v 1.3 2005/04/19 16:05:38 tg Exp $ */
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -54,7 +54,7 @@
 	    __attribute__((__unused__)) = (string)
 #endif
 
-#if defined(lint) || defined(__ELF__) || !defined(__GNUC__)
+#if defined(lint) || !defined(__aout__) || !defined(__GNUC__)
 #define	__TEXTSTRING(prefix, string)				\
 	__SECTSTRING(".text", prefix, string)
 #else
@@ -66,7 +66,7 @@
 
 
 __SECTSTRING(".comment", rcsid,
-    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.2 2005/02/09 23:44:41 tg Exp $");
+    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.3 2005/04/19 16:05:38 tg Exp $");
 
 __SECTSTRING(".gnu.warning.*main", warntext,
     "Linking with " MYNAME " infects the result\\n\\t"
