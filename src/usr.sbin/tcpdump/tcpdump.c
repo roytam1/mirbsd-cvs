@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcpdump.c,v 1.44 2005/03/30 22:13:54 moritz Exp $	*/
+/*	$OpenBSD: tcpdump.c,v 1.39 2004/09/16 11:29:51 markus Exp $	*/
 
 /*
  * Copyright (c) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997
@@ -70,7 +70,6 @@ int aflag;			/* translate network and broadcast addresses */
 int dflag;			/* print filter code */
 int eflag;			/* print ethernet header */
 int fflag;			/* don't translate "foreign" IP address */
-int Lflag;			/* List available link types */
 int nflag;			/* leave addresses as numbers */
 int Nflag;			/* remove domains from printed host names */
 int Oflag = 1;			/* run filter code optimizer */
@@ -127,7 +126,9 @@ static struct printer printers[] = {
 	{ pfsync_if_print,		DLT_PFSYNC },
 	{ ppp_ether_if_print,		DLT_PPP_ETHER },
 	{ ieee802_11_if_print,		DLT_IEEE802_11 },
+#ifdef DLT_IEEE802_11_RADIO
 	{ ieee802_11_radio_if_print,	DLT_IEEE802_11_RADIO },
+#endif
 	{ NULL,				0 },
 };
 
@@ -158,7 +159,6 @@ init_pfosfp(void)
 static pcap_t *pd;
 
 /* Multiple DLT support */
-void		 pcap_list_linktypes(pcap_t *);
 void		 pcap_print_linktype(u_int);
 int		 pcap_datalink_name_to_val(const char *);
 const char	*pcap_datalink_val_to_name(u_int);
@@ -189,7 +189,9 @@ const struct pcap_linktype {
 	{ DLT_PPP_ETHER,	"PPP_ETHER" },
 	{ DLT_IEEE802_11,	"IEEE802_11" },
 	{ DLT_PFLOG,		"PFLOG" },
+#ifdef DLT_IEEE802_11_RADIO
 	{ DLT_IEEE802_11_RADIO,	"IEEE802_11_RADIO" },
+#endif
 	{ 0,			NULL }
 };
 
@@ -230,34 +232,6 @@ pcap_print_linktype(u_int dlt)
 		fprintf(stderr, "<unknown: %u>\n", dlt);
 }
 
-void
-pcap_list_linktypes(pcap_t *p)
-{
-	int fd = p->fd;
-	u_int n;
-
-#define MAXDLT	100
-
-	u_int dltlist[MAXDLT];
-	struct bpf_dltlist dl = {MAXDLT, dltlist};
-
-	if (fd < 0)
-		error("Invalid bpf descriptor");
-
-	if (ioctl(fd, BIOCGDLTLIST, &dl) < 0)
-		err(1, "BIOCGDLTLIST");
-
-	if (dl.bfl_len > MAXDLT)
-		error("Invalid number of linktypes: %u\n", dl.bfl_len);
-
-	fprintf(stderr, "%d link types supported:\n", dl.bfl_len);
-
-	for (n = 0; n < dl.bfl_len; n++) {
-		fprintf(stderr, "\t");
-		pcap_print_linktype(dltlist[n]);
-	}
-}
-
 extern int optind;
 extern int opterr;
 extern char *optarg;
@@ -295,7 +269,7 @@ main(int argc, char **argv)
 
 	opterr = 0;
 	while ((op = getopt(argc, argv,
-	    "ac:deE:fF:i:lLnNOopqr:s:StT:vw:xXy:Y")) != -1)
+	    "ac:deE:fF:i:lnNOopqr:s:StT:vw:xXy:Y")) != -1)
 		switch (op) {
 
 		case 'a':
@@ -334,9 +308,7 @@ main(int argc, char **argv)
 			setvbuf(stdout, NULL, _IOLBF, 0);
 #endif
 			break;
-		case 'L':
-			++Lflag;
-			break;
+
 		case 'n':
 			++nflag;
 			break;
@@ -446,9 +418,11 @@ main(int argc, char **argv)
 
 	if (snaplen == 0) {
 		switch (dlt) {
+#ifdef DLT_IEEE802_11_RADIO
 		case DLT_IEEE802_11_RADIO:
 			snaplen = RADIOTAP_SNAPLEN;
 			break;
+#endif
 		default:
 			snaplen = DEFAULT_SNAPLEN;
 			break;
@@ -489,11 +463,6 @@ main(int argc, char **argv)
 			localnet = 0;
 			netmask = 0;
 		}
-	}
-
-	if (Lflag) {
-		pcap_list_linktypes(pd);
-		exit(0);
 	}
 
 	fcode = priv_pcap_setfilter(pd, Oflag, netmask);
@@ -696,7 +665,7 @@ usage(void)
 	(void)fprintf(stderr, "%s version %s\n", program_name, version);
 	(void)fprintf(stderr, "libpcap version %s\n", pcap_version);
 	(void)fprintf(stderr,
-"Usage: %s [-adefLlNnOopqStvXx] [-c count] [-E [espalg:]espkey] [-F file]\n",
+"Usage: %s [-adeflNnOopqStvXx] [-c count] [-E [espalg:]espkey] [-F file]\n",
 	    program_name);
 	(void)fprintf(stderr,
 "\t\t[-i interface] [-r file] [-s snaplen] [-T type] [-w file]\n");
