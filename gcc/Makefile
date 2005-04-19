@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.2 2005/03/25 19:43:36 tg Exp $
+# $MirOS: gcc/Makefile,v 1.3 2005/03/29 00:12:15 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -56,9 +56,6 @@ b-r: .PHONY
 	${SUDO} rm ${_dir}/permissions.test
 .endfor
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
-	@echo ============================================================
-	@date
-	@echo ============================================================
 	cd ${.CURDIR} && exec ${MAKE} obj
 	cd ${.CURDIR} && exec ${MAKE}
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
@@ -70,26 +67,5 @@ release: .PHONY
 	cd ${BSDSRCDIR} && ${EXTRA_ENV} exec \
 	    ${MAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/gcc
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/gcc
-	@echo "============================================================"
-	@echo "Checking files:"
-	@echo ""
-	-cd ${BSDSRCDIR}/distrib/lists/gcc && DESTDIR=${BSDRELDIR}/gcc \
-	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/tarck
-	@echo "============================================================"
-.ifndef BATCH
-	@read a?'Press Return to continue...'
-.endif
-	cd ${BSDSRCDIR}/distrib/lists/gcc && DESTDIR=${BSDRELDIR}/gcc \
-	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/tarmk ${OSrev}
-	-cd ${BSDRELDIR}/rel; cksum gcc*.ngz \
-	    | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
-	-cd ${BSDRELDIR}/rel; rmd160 gcc*.ngz \
-	    | cat - RMD160 | ${SUDO} sort -o RMD160
-	@echo ============================================================
-	@echo Build and Release for the GNU Compiler Collection complete.
-	@date; uname -a
-	@echo ============================================================
 
 .include <bsd.obj.mk>

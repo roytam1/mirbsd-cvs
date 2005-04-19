@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.2 2005/03/06 19:05:53 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.3 2005/03/29 00:12:14 tg Exp $
 # $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -203,19 +203,6 @@ release:
 	@false
 .  else
 release: distribution snap_pre snap_md
-	@echo "============================================================"
-	@echo "Checking files:"
-	@echo ""
-	-cd ${.CURDIR}/../distrib/lists/base && DESTDIR="${DESTDIR}" \
-	    RELEASEDIR="${RELEASEDIR}" ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/tarck
-	@echo "============================================================"
-.    ifndef BATCH
-	@read a?'Press Return to continue...'
-.    endif
-	cd ${.CURDIR}/../distrib/lists/base && DESTDIR="${DESTDIR}" \
-	    RELEASEDIR="${RELEASEDIR}" ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 	@cd ${.CURDIR} && ${MAKE} release-finish DESTDIR="${DESTDIR}" \
 	    RELEASEDIR="${RELEASEDIR}"
 
@@ -230,10 +217,6 @@ release-finish:
 	cd ${RELEASEDIR} && cksum tools/* | ${SUDO} tee -a CKSUM
 	cd ${RELEASEDIR} && rmd160 tools/* | ${SUDO} tee -a RMD160
 .    endif
-	-cd ${RELEASEDIR}; cksum bsd!(*.gz) *boot* *BOOT* *.fs \
-	    *.iso *.gz *.ngz | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
-	-cd ${RELEASEDIR}; rmd160 bsd!(*.gz) *boot* *BOOT* *.fs \
-	    *.iso *.gz *.ngz | cat - RMD160 | ${SUDO} sort -o RMD160
 	@if [[ -s /var/tmp/.buildnotice ]]; then \
 		cat /var/tmp/.buildnotice; \
 		. /var/tmp/.buildnotice; \
@@ -333,7 +316,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	( \
-		echo '#    $$MirOS: src/etc/Makefile,v 1.2 2005/03/06 19:05:53 tg Exp $$'; \
+		echo '#    $$MirOS: src/etc/Makefile,v 1.3 2005/03/29 00:12:14 tg Exp $$'; \
 		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		( for i in ${DHSIZE}; do \

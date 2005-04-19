@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.16 2005/04/16 17:32:15 tg Exp $
+# $MirOS: X11/Makefile,v 1.17 2005/04/16 18:12:21 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -42,16 +42,9 @@ b-r:
 	${SUDO} rm ${_dir}/permissions.test
 .endfor
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
-	@echo ============================================================
-	@date
-	@echo ============================================================
 	cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} check-objdir
 	cd ${.CURDIR} && exec ${MAKE} build
 	cd ${.CURDIR} && exec ${MAKE} release
-	@echo ============================================================
-	@echo Build and Release for the X-Window System complete.
-	@date; uname -a
-	@echo ============================================================
 
 compile:
 	rm -f ${CONFHOSTDEF}
@@ -119,26 +112,9 @@ perms:
 
 dist:
 	cd ${.CURDIR} && exec ${MAKE} perms
-	@echo "============================================================"
-	@echo "Checking files:"
-	@echo ""
-	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
-	    DESTDIR="${DESTDIR}" RELEASEDIR="${RELEASEDIR}" \
-	    ${SHELL} ${BSDSRCDIR}/scripts/tarck
-	@echo "============================================================"
-.ifndef BATCH
-	@read a?'Press Return to continue...'
-.endif
-	cd ${BSDSRCDIR}/distrib/lists/x11 && MACHINE=${MACHINE} \
-	    DESTDIR="${DESTDIR}" RELEASEDIR="${RELEASEDIR}" \
-	    ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 
 release:
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} do-rel DESTDIR=${BSDRELDIR}/x11
-	-cd ${RELEASEDIR}; cksum x*.ngz \
-	    | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
-	-cd ${RELEASEDIR}; rmd160 x*.ngz \
-	    | cat - RMD160 | ${SUDO} sort -o RMD160
 
 do-rel:
 	mkdir -p ${DESTDIR} ${RELEASEDIR}

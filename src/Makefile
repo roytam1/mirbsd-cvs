@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.13 2005/03/29 22:05:57 tg Exp $
+# $MirOS: src/Makefile,v 1.14 2005/03/29 22:07:19 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -51,20 +51,20 @@ build: mksystrace
 	cd ${.CURDIR}/include \
 	    && ${_STCMD_OBJ} ${MAKE} prereq \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} includes
-	${SUDO} ${_STCMD_OBJ} ${MAKE} cleandir
+	cd ${.CURDIR} && ${SUDO} ${_STCMD_OBJ} ${MAKE} cleandir
 	cd ${.CURDIR}/lib \
 	    && ${_STCMD_OBJ} ${MAKE} depend \
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
-	${_STCMD_OBJ} ${MAKE} depend
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} depend
 	# The build is now restartable from here.
-	exec ${MAKE} contbuild
+	cd ${.CURDIR} && exec ${MAKE} contbuild
 
 contbuild:
 	[[ -s ${_STFILE_OBJ} ]] || ${MAKE} mksystrace-obj
 	[[ -s ${_STFILE_DEST} ]] || ${MAKE} mksystrace-dest
-	${_STCMD_OBJ} ${MAKE} \
-	    && ${SUDO} ${_STCMD_DEST} ${MAKE} install
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
 	-sleep 1; rm -f ${_STFILE_OBJ}
 
 distrib-dirs:
@@ -80,29 +80,22 @@ b-r: .PHONY
 	${SUDO} rm ${_dir}/permissions.test
 .endfor
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
-	@echo ============================================================
-	@date
-	@echo ============================================================
-	${MAKE} obj
-	${MAKE} build
-	${MAKE} contrelease BSDRELDIR=${BSDRELDIR}
+	cd ${.CURDIR} && exec ${MAKE} obj
+	cd ${.CURDIR} && exec ${MAKE} build
+	cd ${.CURDIR} && exec ${MAKE} contrelease
 
 cont-b-r:
-	${MAKE} contbuild
-	${MAKE} contrelease BSDRELDIR=${BSDRELDIR}
+	cd ${.CURDIR} && exec ${MAKE} contbuild
+	cd ${.CURDIR} && exec ${MAKE} contrelease
 
 contrelease:
 	@echo -n >/var/tmp/.buildnotice
 	mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel \
 	    || ${SUDO} mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel
-	cd ${.CURDIR} && ${MAKE} mksystrace DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR} && exec ${MAKE} mksystrace DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR}/etc && exec ${MAKE} \
 	    release DESTDIR=${BSDRELDIR}/base RELEASEDIR=${BSDRELDIR}/rel
 	-sleep 1; rm -f ${_STFILE_OBJ}
-	@echo ============================================================
-	@echo Build and Release for the MirOS base system complete.
-	@date; uname -a
-	@echo ============================================================
 
 do-htman:
 	-rm -rf ${BSDOBJDIR}/htman
@@ -125,27 +118,6 @@ do-htman:
 	    && find man* -name \*.htm | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
-	@echo "============================================================"
-	@echo "Checking files:"
-	@echo ""
-	-cd ${BSDSRCDIR}/distrib/lists/htman && DESTDIR=${BSDRELDIR}/htman \
-	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/tarck
-	@echo "============================================================"
-.ifndef BATCH
-	@read a?'Press Return to continue...'
-.endif
-	cd ${BSDSRCDIR}/distrib/lists/htman && DESTDIR=${BSDRELDIR}/htman \
-	    RELEASEDIR=${BSDRELDIR}/rel ${EXTRA_ENV} ${SUDO} ${SHELL} \
-	    ${BSDSRCDIR}/scripts/tarmk ${OSrev}
-	-cd ${BSDRELDIR}/rel; cksum htman*.ngz \
-	    | cat - CKSUM | ${SUDO} sort -k3 -o CKSUM
-	-cd ${BSDRELDIR}/rel; rmd160 htman*.ngz \
-	    | cat - RMD160 | ${SUDO} sort -o RMD160
-	@echo ============================================================
-	@echo Build and Release for the HTML Documentation complete.
-	@date; uname -a
-	@echo ============================================================
 
 dist-q:
 	cd ${.CURDIR} && exec ${MAKE} BATCH=defined \
@@ -156,6 +128,7 @@ dist:
 	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 do-dist:
+	@echo "============================================================"
 	@echo Initiating MirOS Build...
 	@date
 .ifdef BATCH
@@ -163,6 +136,7 @@ do-dist:
 .else
 	@echo INTERACTIVE mode engaged.
 .endif
+	@echo "============================================================"
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR}/etc \
 	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=
@@ -170,9 +144,32 @@ do-dist:
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
 	cd ${.CURDIR} && exec ${MAKE} do-htman
+	@echo "============================================================"
+	@echo "Checking files:"
+	@echo ""
+.for _set in base x11 gcc htman
+	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
+	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarck
+.endfor
+	@echo "============================================================"
+.ifndef BATCH
+	@read a?'Press Return to continue...'
+.endif
+.for _set in base x11 gcc htman
+	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
+	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
+.endfor
+	-cd ${BSDRELDIR}/rel && cksum bsd!(*.gz) *boot* *BOOT* *.fs \
+	    *.iso *.gz *.ngz | cat - CKSUM | ${SUDO} sort -k3 -uo CKSUM
+	-cd ${BSDRELDIR}/rel && rmd160 bsd!(*.gz) *boot* *BOOT* *.fs \
+	    *.iso *.gz *.ngz | cat - RMD160 | ${SUDO} sort -uo RMD160
+	@echo "============================================================"
 	@echo Done with MirOS Build.
 	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
+	@echo "============================================================"
 
 CVSROOT?=/cvs
 cvsup:
