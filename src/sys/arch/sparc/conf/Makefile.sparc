@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.2 2005/03/06 21:27:16 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -199,17 +199,5 @@ machdep.o mem.o openprom.o pmap.o vm_machdep.o: Makefile
 
 locore.o: ${SPARC}/sparc/locore.s assym.h
 	${NORMAL_S}
-
-# The install target can be redefined by putting a
-# install-kernel-${MACHINE_NAME} target into /etc/mk.conf
-MACHINE_NAME!=  uname -n
-install: install-kernel-${MACHINE_NAME}
-.if !target(install-kernel-${MACHINE_NAME}})
-install-kernel-${MACHINE_NAME}:
-	rm -f /obsd
-	ln /bsd /obsd
-	cp bsd /nbsd
-	mv /nbsd /bsd
-.endif
 
 %RULES
