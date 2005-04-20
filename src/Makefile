@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.14 2005/03/29 22:07:19 tg Exp $
+# $MirOS: src/Makefile,v 1.15 2005/04/19 12:53:46 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -93,8 +93,7 @@ contrelease:
 	mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel \
 	    || ${SUDO} mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel
 	cd ${.CURDIR} && exec ${MAKE} mksystrace DESTDIR=${BSDRELDIR}/base
-	cd ${.CURDIR}/etc && exec ${MAKE} \
-	    release DESTDIR=${BSDRELDIR}/base RELEASEDIR=${BSDRELDIR}/rel
+	cd ${.CURDIR}/etc && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
 	-sleep 1; rm -f ${_STFILE_OBJ}
 
 do-htman:

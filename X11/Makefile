@@ -1,11 +1,9 @@
-# $MirOS: X11/Makefile,v 1.17 2005/04/16 18:12:21 tg Exp $
+# $MirOS: X11/Makefile,v 1.18 2005/04/19 12:53:47 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
 
 SUBOBJDIR!=	readlink ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
-RELEASEDIR?=	${BSDRELDIR}/rel
-
 BINDIST=	programs/Xserver/hw/xfree86/etc/bindist
 HOSTDEF=	xc/${BINDIST}/OpenBSD-${MACHINE}/host.def
 CONFHOSTDEF=	xc/config/cf/host.def
@@ -117,7 +115,7 @@ release:
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} do-rel DESTDIR=${BSDRELDIR}/x11
 
 do-rel:
-	mkdir -p ${DESTDIR} ${RELEASEDIR}
+	mkdir -p ${DESTDIR} ${BSDRELDIR}/rel
 	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
 	    ${DESTDIR}/usr/X11R6 ${DESTDIR}/usr/X11R6/man/cat1 \

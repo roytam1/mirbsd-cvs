@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.3 2005/03/29 00:12:14 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.4 2005/04/19 12:53:46 tg Exp $
 # $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -197,32 +197,25 @@ distribution:
 	exec ${SUDO} ${_STCMD_DEST} ${MAKE} distribution-etc-root-var
 	cd .. && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
 
-.  ifndef RELEASEDIR
-release:
-	@echo setenv RELEASEDIR before building a release.
-	@false
-.  else
 release: distribution snap_pre snap_md
-	@cd ${.CURDIR} && ${MAKE} release-finish DESTDIR="${DESTDIR}" \
-	    RELEASEDIR="${RELEASEDIR}"
+	@cd ${.CURDIR} && ${MAKE} release-finish DESTDIR="${DESTDIR}"
 
 release-finish:
 	-cd ${DESTDIR}/snapshot; for f in bsd* *boot* *BOOT* cd*.iso \
 	    *.fs *.fs.gz; do test ! -e $$f || \
-		${SUDO} cp $$f ${RELEASEDIR}; \
+		${SUDO} cp $$f ${BSDRELDIR}/rel; \
 	 done
-.    ifdef MACHINE_HAS_TOOLS
-	${SUDO} mkdir -p ${RELEASEDIR}/tools
-	${SUDO} cp ${DESTDIR}/snapshot/tools/* ${RELEASEDIR}/tools
-	cd ${RELEASEDIR} && cksum tools/* | ${SUDO} tee -a CKSUM
-	cd ${RELEASEDIR} && rmd160 tools/* | ${SUDO} tee -a RMD160
-.    endif
+.  ifdef MACHINE_HAS_TOOLS
+	${SUDO} mkdir -p ${BSDRELDIR}/rel/tools
+	${SUDO} cp ${DESTDIR}/snapshot/tools/* ${BSDRELDIR}/rel/tools/
+	cd ${BSDRELDIR}/rel && cksum tools/* | ${SUDO} tee -a CKSUM
+	cd ${BSDRELDIR}/rel && rmd160 tools/* | ${SUDO} tee -a RMD160
+.  endif
 	@if [[ -s /var/tmp/.buildnotice ]]; then \
 		cat /var/tmp/.buildnotice; \
 		. /var/tmp/.buildnotice; \
 		rm -f /var/tmp/.buildnotice || true; \
 	 fi
-.  endif
 
 snap_pre:
 	${SUDO} /bin/rm -rf ${DESTDIR}/snapshot
@@ -316,7 +309,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	( \
-		echo '#    $$MirOS: src/etc/Makefile,v 1.3 2005/03/29 00:12:14 tg Exp $$'; \
+		echo '#    $$MirOS: src/etc/Makefile,v 1.4 2005/04/19 12:53:46 tg Exp $$'; \
 		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		( for i in ${DHSIZE}; do \
