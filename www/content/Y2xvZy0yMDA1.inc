@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.3 2005/03/15 21:49:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.4 2005/04/11 17:18:14 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -14,6 +14,70 @@
  -->
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
+
+<p id="snap0420">20.04.2005<br />Detailed list of changes from the <a
+ href="#snap0330">2005/03/30 snapshot</a> below:</p><ul>
+ <li>MirPorts: fixed dependencies for almost all ports</li>
+ <li>MirPorts: compile fixes for MirOS-current and Darwin for
+  a lot of ports due to minor differences between MirOS #7 and them</li>
+ <li>MirPorts: remove {NOT,ONLY}_FOR_{ARCH,OS} in favour of the new,
+  ksh-globbed {NOT,ONLY}_FOR_PLATFORM (OStype, version, architecture)</li>
+ <li>MirPorts: fix _gplwarn.c on Darwin</li>
+ <li>Infrastructure: further simplify overall MirOS build system</li>
+ <li>Kernel: apply several recent security fixes from OpenBSD</li>
+ <li>Kernel: update INET6 subsystem to that of OpenBSD-current</li>
+ <li>PBR: don't contain an EBPB, else Microsoft&reg; NT 5.0 wants
+  to do a chkdsk /fs:FAT on us</li>
+ <li>rc: freeze ATA security status on all IDE drives seen in fstab(5)</li>
+ <li>ld.so: yield better diagnostics and update from OpenBSD</li>
+ <li>libc: unify all ABIWARN messages (for easy grep)</li>
+ <li>libc: fix taitime typo</li>
+ <li>libcurses: install missing manual page</li>
+ <li>libedit: merge with NetBSD&reg;'s and improve readline emul</li>
+ <li>ksh: prototype fixes</li>
+ <li>httpd: incorporate most OpenBSD-current fixes</li>
+ <li>lint: handle RCS and CVS IDs</li>
+ <li>nroff: improve generated manual pages from pic/eqn</li>
+ <li>nroff: convert hunt and nroff from sgtty to termios</li>
+ <li>ntpd: update to OpenNTPD-current</li>
+ <li>spamd: update to OpenBSD-current, now throttles greylisted conns</li>
+ <li>ssh: update to OpenSSH-current (not the portable)</li>
+ <li>ssh: default to arcfour now, blowfish is second choice</li>
+ <li>vgrind: work around not having csh</li>
+ <li>acronyms: sync with NetBSD&reg; and enhance</li>
+ <li>terminfo: add "putty"</li>
+ <li>zoneinfo: sync with OpenBSD, most current tzdata/tzcode</li>
+ <li>binutils: reduce diff to upstream</li>
+ <li>cvs: update to GNU CVS 1.12.12</li>
+ <li>gdb: tentatively enable</li>
+ <li>texinfo: plug some leaks</li>
+ <li>gcc: update to 2005-04-17 to fix some oversights and minor problems</li>
+ <li>gcc: don't emit .LC20 and similar local symbols due to @GOTOFF usage</li>
+ <li>gcc/make: re-enable support for DEBUGLIBS</li>
+ <li>X11: fix longstanding <tt>N'34'</tt> issue with manual pages</li>
+ <li>X11: make <a href="http://www.debian.org/social_contract#guidelines">DFSG</a>-free</li>
+ <li>X11: make Xlibs GPL-compatbile</li>
+ <li>X11: fix core dump in imake introduced by OpenBSD</li>
+ <li>X11: fix writing to /dev/null.gcda during imake build</li>
+ <li>X11: fix console switching problem on i386, from OpenBSD</li>
+ <li>X11: work around glxgears not connecting bug with debugging fprintf</li>
+ <li>MirMake: provide a pretty well portable infrastructure for dealing
+  with different platforms and object formats, especially for MirPorts</li>
+ <li>MirMake: fix building on pristine Interix/Services for Unix</li>
+ <li>MirMake: enable correct handling of shared libraries on Darwin</li>
+</ul><p>This snapshot contains major security improvements, thus its
+ installation is highly recommended for all MirOS users. Several experimental
+ features have been enabled as well, thus testing and reporting errors is
+ compulsory. C++ probably still does not work. Do not use telnet(1), it's
+ still vulnerable. Use ssh(1) or nc(1) instead, or openssltool(1) c_client
+ if you must speak TLS/SSL.<br />Our webpage now contains Google advertising
+ and search; we have integrated them into our design and hope they do not
+ disturb too much. As a byproduct, the CSS and overall layout has greatly
+ improved, and the new default ("m*zilla") stylesheet is usable now.<br />
+ We still have three white MirShirts #1 and several black MirShirts #2 in
+ various sizes for sale, contact tg@ if you are interested. We would also
+ like to invite you to visit our joint booth with Holarse at the <a
+ href="http://www.linuxtag.org/typo3site/8.0.html?L=1">LinuxTag</a>.</p>
 
 <p id="snap0330">30.03.2005<br />Detailed list of changes from the <a
  href="#snap0127">2005/01/27 snapshot</a> below:</p><ul>
