@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS$
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.2 2005/03/19 19:31:41 bsiegert Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -181,7 +181,7 @@ fi
 set +e
 rm -rf */obj
 
-print -n "3. Patching <bsd.sys.mk>..."
+print -n "3. a) Patching <bsd.sys.mk>..."
 
 if grep '\.ifndef.TRUEPREFIX' $sysmk/bsd.sys.mk >/dev/null 2>&1; then
 	print not needed.
@@ -194,6 +194,15 @@ else
 		print failed.
 		exit 1
 	fi
+fi
+
+if [[ $SHELL != /bin/ksh ]]; then
+	print -n "3. b) Patching infrastructure..."
+	for f in $ti/db/*; do
+		[[ -f $f ]] || continue
+		print "1g!/bin/ksh!s!!$SHELL!\nwq" | ed -s $f
+	done
+	print done.
 fi
 
 print -n "4. Installing MirPorts system makefile includes..."
