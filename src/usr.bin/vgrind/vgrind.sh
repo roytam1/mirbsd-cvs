@@ -1,8 +1,10 @@
 #!/bin/ksh
+# $MirOS$
 
 print -u2 warning: rewrite $0 in ksh please
 
-exec cat "$@" 2>/dev/null
+cat -- - "$@" 2>/dev/null
+exit 0
 
 #!/bin/csh -f
 #
