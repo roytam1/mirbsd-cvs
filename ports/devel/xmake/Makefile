@@ -3,6 +3,7 @@
 COMMENT=	"powerful make utility"
 
 DISTNAME=	xmake-1.05
+PKGNAME=	${DISTNAME}p1
 CATEGORIES=	devel
 HOMEPAGE=	http://apollo.backplane.com/xmake/
 

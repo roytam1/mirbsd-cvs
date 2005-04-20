@@ -3,7 +3,7 @@
 
 COMMENT=	"GNU make"
 DISTNAME=	make-3.80
-PKGNAME=	g${DISTNAME}
+PKGNAME=	g${DISTNAME}p1
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=make/}
 HOMEPAGE=	http://www.gnu.org/software/make/

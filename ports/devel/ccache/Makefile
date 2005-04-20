@@ -4,6 +4,7 @@
 COMMENT=		"pre-processor caching program for C/C++ compilers"
 
 DISTNAME=		ccache-2.4
+PKGNAME=		${DISTNAME}p1
 CATEGORIES=		devel
 HOMEPAGE=		http://ccache.samba.org/
 RESPONSIBLE=		R. Tyler Ballance <tyler@mirbsd.org>

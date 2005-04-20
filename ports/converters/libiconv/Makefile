@@ -3,6 +3,7 @@
 
 COMMENT=	"character set conversion library"
 DISTNAME=	libiconv-1.9.1
+PKGNAME=	${DISTNAME}p1
 CATEGORIES=	converters devel
 MASTER_SITES=	${MASTER_SITE_GNU:=libiconv/}
 HOMEPAGE=	http://www.gnu.org/software/libiconv/

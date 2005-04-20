@@ -1,8 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2002/10/27 21:07:53 naddy Exp $
 
 COMMENT=	"format the display of a shell script"
 
 DISTNAME= 	dialog-0.6z	
+PKGNAME=	${DISTNAME}p1
 CATEGORIES=	misc
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=utils/shell/}
 
