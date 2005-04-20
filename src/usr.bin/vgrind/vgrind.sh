@@ -1,9 +1,9 @@
 #!/bin/ksh
-# $MirOS$
+# $MirOS: src/usr.bin/vgrind/vgrind.sh,v 1.3 2005/04/20 06:41:25 tg Exp $
 
 print -u2 warning: rewrite $0 in ksh please
 
-cat -- - "$@" 2>/dev/null
+cat -- "$@" 2>/dev/null
 exit 0
 
 #!/bin/csh -f
