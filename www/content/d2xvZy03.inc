@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.50 2005/04/19 20:17:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.51 2005/04/19 22:12:04 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2800,4 +2800,8 @@
  always reach you when you're going to go to bed. Anyway, it's in now, and
  even has got a nice new feature &ndash; we're slowly going for supporting
  the long awaited change sets.</p>
+<p>20.04.2005 by tg@<br />Yummy pancakes at grandmother's place let me get
+ back on track; the new <a href="/?clog-2005#snap0420">snapshot</a> is out
+ and Benny is back. We've fixed some stuff in ports, and X11 is improving.
+ I'll spare to comment on the new OpenBSD song lyrics.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
