@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.13 2005/04/13 07:11:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.14 2005/04/13 07:13:07 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -31,7 +31,7 @@
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
-<p>CURRENT: March 30th, 2005: #8-beta snapshot available via our <a
+<p>CURRENT: April 20th, 2005: #8-beta snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <p>CURRENT: March 30th, 2005: #8-beta snapshot available for <a
  href="/MirOS/current/i386-20050330/">download</a> via the usual mirrors.
