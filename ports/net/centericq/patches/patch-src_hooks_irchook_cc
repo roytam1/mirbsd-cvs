@@ -1,0 +1,12 @@
+$MirOS$
+--- src/hooks/irchook.cc.orig	Fri Apr 22 23:17:02 2005
++++ src/hooks/irchook.cc	Fri Apr 22 23:18:05 2005
+@@ -1260,7 +1260,7 @@ const char * const command, const char *
+ 	map<string, time_t>::iterator i = irhook.pingtime.find(up(nick));
+ 
+ 	if(i != irhook.pingtime.end()) {
+-	    sprintf(buf, _("PING reply from the user: %d second(s)"), time(0)-i->second);
++	    sprintf(buf, _("PING reply from the user: %d second(s)"), (int)(time(0)-i->second));
+ 	    em.store(imnotification(imcontact(nick, irc), buf));
+ 	}
+ 
