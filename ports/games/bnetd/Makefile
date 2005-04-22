@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/games/bnetd/Makefile,v 1.1.7.1 2005/03/18 15:46:05 tg Exp $
 
-COMMENT=	"Battle.net(r) server emulator"
-DISTNAME=	bnetd-0.4.25
-CATEGORIES=	net games
-MASTER_SITES=	${_MASTER_SITE_MIRBSD}
+COMMENT=		"Battle.net(R) server emulator"
+DISTNAME=		bnetd-20050215
+CATEGORIES=		net games
+MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=	Yes
@@ -15,9 +15,13 @@ WRKSRC=			${WRKDIST}/src
 LIBDIR=			${PREFIX}/libdata/bnetd
 DOCSRC=			${WRKDIST}/docs
 DOCDIR=			${PREFIX}/share/doc/bnetd
-DOCFILES=		FAQ.html README.adbanner README.bits README.bni \
+DOCFILES=		../CHANGELOG ../CREDITS ../INSTALL ../README ../TODO \
+			FAQ.html README.adbanner README.bits README.bni \
 			README.diablo108 README.ladder README.registry \
-			bniheader.txt ../CREDITS ../README
+			TODO.Sherpya TODO_BUCKY TODO_VAP bniheader.txt
+LIBFILES=		files/icons_STAR.bni scripts/announce.sh \
+			scripts/fsgs2bnetd.pl scripts/ladder.py \
+			scripts/process.pl scripts/reform.awk conf/bnalias.list
 
 CONFIGURE_STYLE=	autoconf dest
 CONFIGURE_ARGS+=	--localstatedir='$${${DESTDIRNAME}}${LIBDIR}'
@@ -27,12 +31,12 @@ CONFIGURE_ARGS+=	--localstatedir='$${${DESTDIRNAME}}${LIBDIR}'
 IGNORE=			'disallowed: Your IP system is broken'
 .endif
 
-post-extract:
-	-rm -f ${WRKSRC}/bnetd/command.c.orig
-
 post-install:
-	chmod 644 ${LIBDIR}/conf/*
-	${INSTALL_DATA_DIR} ${DOCDIR}
+	${INSTALL_DATA_DIR} ${DOCDIR} ${LIBDIR}/scripts
 	cd ${DOCSRC} && ${INSTALL_DATA} ${DOCFILES} ${DOCDIR}/
+.for _i in ${LIBFILES}
+	${INSTALL_DATA} ${WRKDIST}/${_i} ${LIBDIR}/${_i}
+.endfor
+	chmod 644 ${LIBDIR}/conf/*
 
 .include <bsd.port.mk>

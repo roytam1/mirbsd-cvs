@@ -1,6 +1,6 @@
-$MirOS$
---- conf/bnetd.conf.in.orig	2004-05-29 19:04:13.000000000 +0000
-+++ conf/bnetd.conf.in	2004-05-29 19:07:06.000000000 +0000
+$MirOS: ports/games/bnetd/patches/patch-conf_bnetd_conf_in,v 1.1.7.1 2005/03/18 15:46:05 tg Exp $
+--- conf/bnetd.conf.in.orig	Fri Mar 29 08:17:18 2002
++++ conf/bnetd.conf.in	Fri Apr 22 20:52:34 2005
 @@ -11,12 +11,12 @@
  
  ##############################################################################
@@ -27,7 +27,7 @@ $MirOS$
  
  fortunecmd  = /usr/games/fortune
  
-@@ -190,7 +190,7 @@ hide_pass_games = true
+@@ -224,7 +224,7 @@ hide_pass_games = true
  hide_started_games = false
  
  # Should non-permanent channels hidden on the channel list?
@@ -36,8 +36,11 @@ $MirOS$
  
  # Should the extended /-commands be avaliable? (of course!)
  extra_commands = true
-@@ -377,4 +377,3 @@ servername = "none"
+@@ -400,7 +400,6 @@ use_keepalive = false
  
  #                                                                            #
  ##############################################################################
 -
+ 
+ ##############################################################################
+ # Telnet configuration                                                       #
