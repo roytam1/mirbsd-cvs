@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bnetd/Makefile,v 1.1.7.1 2005/03/18 15:46:05 tg Exp $
+# $MirOS: ports/games/bnetd/Makefile,v 1.2 2005/04/22 21:32:35 tg Exp $
 
 COMMENT=		"Battle.net(R) server emulator"
 DISTNAME=		bnetd-20050215
@@ -25,6 +25,7 @@ LIBFILES=		files/icons_STAR.bni scripts/announce.sh \
 
 CONFIGURE_STYLE=	autoconf dest
 CONFIGURE_ARGS+=	--localstatedir='$${${DESTDIRNAME}}${LIBDIR}'
+NO_REGRESS=		Yes
 
 .include <mirports.sys.mk>
 .if ${MKC_USAP:L} == "yes"
