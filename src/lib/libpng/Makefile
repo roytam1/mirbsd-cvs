@@ -1,10 +1,12 @@
-# $MirOS$
+# $MirOS: src/lib/libpng/Makefile,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
 
-SHLIB_VERSION?= 6.0
+SHLIB_VERSION?= 7.0
 LIB=		png
 SRCS=		png.c pngerror.c pngget.c pngmem.c pngpread.c \
 		pngread.c pngrio.c pngrtran.c pngrutil.c pngset.c \
 		pngtrans.c pngwio.c pngwrite.c pngwtran.c pngwutil.c
+DPADD+=		${LIBM} ${LIBZ}
+LDADD+=		-lm -lz
 MAN=		libpng.3 libpngpf.3 png.5
 INCS=		png.h pngconf.h
 
