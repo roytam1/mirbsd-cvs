@@ -1,12 +1,12 @@
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $
-# _MirBSD: src/sys/arch/i386/conf/GENERIC,v 1.77 2004/11/14 15:39:03 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.8 2005/04/23 22:06:42 tg Exp $
+# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.8 2005/04/23 22:06:42 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
 
-# _MirBSD: src/sys/arch/i386/conf/GENERIC,v 1.77 2004/11/14 15:39:03 tg Exp $
-# $OpenBSD: GENERIC,v 1.106 2004/05/27 20:48:46 tedu Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.8 2005/04/23 22:06:42 tg Exp $
+# $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
 
@@ -19,8 +19,6 @@ machine		i386			# arch, used by config; REQUIRED
 #option		DDB_SAFE_CONSOLE	# allow break into ddb during boot
 #option		INCLUDE_CONFIG_FILE	# store this file in the kernel
 #makeoptions	DEBUG="-g"		# compile full symbol table
-#makeoptions	PROF="-pg"		# build profiled kernel
-#option		GPROF			# kernel profiling, kgmon(8)
 #option		DIAGNOSTIC		# internal consistency checks
 #option		KTRACE			# system call tracing, a la ktrace(1)
 #option		ACCOUNTING		# acct(2) process accounting
@@ -49,6 +47,7 @@ option		RAMDISK_HOOKS		# allow using initrd
 #option		VFORK_SHM		# allow to do evil things with vfork(2)
 
 #option		COMPAT_OSSAUDIO		# source compatibility with OSS/Lite
+#option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
 #option		COMPAT_78		# MirOS #8-beta (pre-#8)
 
 option		FFS			# UFS
@@ -72,7 +71,7 @@ option		MFS			# memory file system
 
 option		CD9660			# ISO 9660 + Rock Ridge file system
 option		MSDOSFS			# MS-DOS file system
-#option		FDESC			# /dev/fd
+option		FDESC			# /dev/fd
 option		FIFO			# FIFOs; RECOMMENDED
 #option		KERNFS			# /kern
 #option		PORTAL			# dynamically created filesystem objects
@@ -82,7 +81,6 @@ option		FIFO			# FIFOs; RECOMMENDED
 #option		UMAPFS			# NULLFS + uid and gid remapping
 #option		UNION			# union file system
 
-#option		GATEWAY			# packet forwarding
 option		INET			# IP + ICMP + TCP + UDP
 #option		ALTQ			# ALTQ base
 #option		INET6			# IPv6 (needs INET)
@@ -98,21 +96,22 @@ option		INET			# IP + ICMP + TCP + UDP
 #pseudo-device	pf		# packet filter
 #pseudo-device	pflog		# pf log if
 #pseudo-device	pfsync		# pf sync if
-#pseudo-device	bpfilter 8	# packet filter
 #pseudo-device	sppp	2	# Sync PPP/HDLC
+#pseudo-device	pppoe	1	# PPP over Ethernet (RFC 2516)
 #pseudo-device	enc	1	# IPSEC needs this encapsulation interface
 #pseudo-device	faith	1	# IPv{4,6} tcp relay translation interface
 #pseudo-device	strip	1	# Starmode Radio IP interface
 
 #pseudo-device	pty	16	# pseudo-terminals (can grow during runtime)
 #pseudo-device	tb	1	# tablet line discipline
-#pseudo-device	vnd	2	# paging to files
+#pseudo-device	vnd	16	# paging to files
 #pseudo-device	ccd	4	# concatenated disk devices
-pseudo-device	rd	1	# ramdisk (fixed/avail and umem)
+pseudo-device	rd	1	# ramdisk
 #pseudo-device	ksyms	1	# kernel symbols device
 #pseudo-device	systrace 1	# system call tracing device
 
 # clonable devices
+#pseudo-device	bpfilter 	# packet filter
 #pseudo-device	bridge		# network bridging support
 #pseudo-device	carp		# CARP protocol support
 #pseudo-device	gif		# IPv[46] over IPv[46] tunnel (RFC1933)
@@ -126,9 +125,8 @@ pseudo-device	loop		# network loopback
 #--- end of machine independent config
 
 # CPU classes, at least one is required
-# Attention: default CFLAGS only support i586 and above.
-#option		I486_CPU		# 80486DX or 80487 only (with FPU)
-option		I586_CPU
+option		I486_CPU		# 80486DX or 80487 only (with FPU)
+#option		I586_CPU
 #option		I686_CPU
 
 #option		USER_PCICONF		# user-space PCI configuration
@@ -143,7 +141,6 @@ option		I586_CPU
 option		DUMMY_NOPS		# speed hack; recommended
 
 #option		COMPAT_LINUX		# binary compatibility with Linux
-#option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
 option		PLIP			# Ethernet over parallel port
 #option		PLIP_NO_INCOLL		# might help if not working otherwise
 #option		NTFS			# NT file system (experimental, only 4K clusters)
@@ -154,9 +151,9 @@ config		bsd	root on rd0a swap on rd0b and wd0b and sd0b
 
 mainbus0 at root
 
-bios0	at mainbus0 flags 0x0000	# flags 0x0008 to force AMD K7 PowerNow
+bios0	at mainbus0 flags 0x0000
 #apm0	at bios0 flags 0x0000		# flags 0x0101 to force protocol version 1.1
-pcibios0 at bios0 flags 0x0000		# use 0x30 for a total verbose
+pcibios0 at bios0 flags 0x0040		# use 0x30 for a total verbose
 
 isa0	at mainbus0
 isa0	at pcib?
@@ -266,21 +263,6 @@ pcmcia*	at pcic? controller ? socket ?
 #radio*	at udsbr?			# USB radio
 #ugen*	at uhub? port ? configuration ? # USB Generic driver
 
-# FireWire Controllers
-#fwohci*	at pci? dev ? function ?	# PCI FireWire adapter
-#fwohci*	at cardbus? dev ? function ?	# CardBus FireWire adapter
-
-#fwnode*	at fwbus? idhi ? idlo ?
-
-#fwscsi*	at fwnode?			# SCSI over FireWire
-#scsibus* at fwscsi?
-
-#option	FWOHCI_DEBUG
-#option	FWNODE_DEBUG
-#option	P1212_DEBUG
-#option	SBP2_DEBUG
-#option	FWSCSI_DEBUG
-
 #puc*	at pci?				# PCI "universal" communication device
 
 npx0	at isa? port 0xf0 irq 13	# math coprocessor
@@ -337,7 +319,7 @@ pccom*	at isapnp?
 
 lpt0	at isa? port 0x378 irq 7	# standard PC parallel ports
 lpt1	at isa? port 0x278 irq 5
-lpt2	at isa? port 0x3bc irq 5	# Hercules cards don't have an IRQ
+lpt2	at isa? port 0x3bc		# Hercules cards don't have an IRQ
 #lpt*	at puc? port ?
 
 #lms0	at isa? port 0x23c irq 5	# Logitech bus mouse
@@ -349,12 +331,12 @@ lpt2	at isa? port 0x3bc irq 5	# Hercules cards don't have an IRQ
 #wsmouse*	at mms? mux 0
 
 #bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [57]4X SCSI controllers
-#bha1	at isa? disable port 0x334 irq ? drq ? # BusLogic [57]4X SCSI controllers
+#bha1	at isa? disable port 0x334 irq ? drq ?
 #bha2	at isa? disable port ? irq ?
 #bha*	at pci? dev ? function ?
 #scsibus* at bha?
 aha0	at isa? port 0x330 irq ? drq ?	# Adaptec 154[02] SCSI controllers
-aha1	at isa? port 0x334 irq ? drq ?	# Adaptec 154[02] SCSI controllers
+aha1	at isa? port 0x334 irq ? drq ?
 aha*	at isapnp?
 scsibus* at aha?
 ahc*	at pci? dev ? function ?	# Adaptec 2940 SCSI controllers
@@ -444,14 +426,14 @@ scsibus* at atapiscsi?
 #we*	at isapnp?
 #ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3C503 ethernet
 ne0	at isa? port 0x240 irq 9		# NE[12]000 ethernet
-ne1	at isa? port 0x300 irq 10		# NE[12]000 ethernet
-ne2	at isa? port 0x280 irq 9		# NE[12]000 ethernet
+ne1	at isa? port 0x300 irq 10
+ne2	at isa? port 0x280 irq 9
 ne*	at isapnp?				# NE[12]000 PnP ethernet
 #eg0	at isa? disable port 0x310 irq 5	# 3C505/Etherlink+ ethernet
 #el0	at isa? disable port 0x300 irq 9 	# 3C501 ethernet
 ep0	at isa? port ? irq ?			# 3C509 ethernet
+ep*	at isa? port ? irq ?
 ep*	at isapnp?				# 3C509 PnP ethernet
-ep*	at isa? port ? irq ?			# 3C509 ethernet
 #ef*	at isapnp?				# 3C515 PnP ethernet
 #ie0	at isa? port 0x360 iomem 0xd0000 irq 7	# StarLAN and 3C507
 #ie1	at isa? disable port 0x300 irq 10	# EtherExpress
@@ -460,7 +442,7 @@ ep*	at isa? port ? irq ?			# 3C509 ethernet
 le0	at isa? port 0x360 irq 15 drq 6		# IsoLan, NE2100, and DEPCA
 ex0	at isa? port 0x320 irq 5		# Intel EtherExpress PRO/10
 #tr0	at isa? disable port 0xa20 iomem 0xd8000 irq ?	# IBM TROPIC based Token-Ring
-#tr1	at isa? disable port 0xa24 iomem 0xd0000 irq ?	# IBM TROPIC based Token-Ring
+#tr1	at isa? disable port 0xa24 iomem 0xd0000 irq ?
 #tr*	at isa? disable port ? irq ?			# 3COM TROPIC based Token-Ring
 #lmc*	at pci? dev ? function ?		# Lan Media Corp SSI/T3/HSSI
 le*	at pci? dev ? function ?		# PCnet-PCI based ethernet
@@ -469,17 +451,16 @@ le*	at isapnp?
 fxp*	at pci? dev ? function ?		# EtherExpress 10/100B ethernet
 #fxp*	at cardbus? dev ? function ?		# Intel PRO/100 ethernet
 ne*	at pci? dev ? function ?		# NE2000-compat ethernet
-#ep0	at pci? dev ? function ?		# 3C59x ethernet
-#ep*	at pci? dev ? function ?		# 3C59x ethernet
+ep*	at pci? dev ? function ?		# 3C59x ethernet
 ne*	at pcmcia? function ?			# PCMCIA based NE2000 ethernet
-#ep*	at pcmcia? function ?			# PCMCIA based 3C5xx ethernet
+ep*	at pcmcia? function ?			# PCMCIA based 3C5xx ethernet
 #sm*	at pcmcia? function ?			# PCMCIA based sm ethernet
 #xe*	at pcmcia? function ?			# Xircom ethernet
 #fpa*	at pci? dev ? function ?		# DEC DEFPA FDDI
 xl*	at pci? dev ? function ?		# 3C9xx ethernet
 #xl*	at cardbus? dev ? function ?		# 3C575/3C656 ethernet
 rl*	at pci? dev ? function ?		# RealTek 81[23]9 ethernet
-#rl*	at cardbus? dev ? function ?		# RealTek 81[23]9 ethernet
+#rl*	at cardbus? dev ? function ?
 #mtd*	at pci? dev ? function ?		# Myson MTD800/803/891
 #tx*	at pci? dev ? function ?		# SMC 83C170 EPIC ethernet
 #tl*	at pci? dev ? function ?		# Compaq Thunderlan ethernet
@@ -489,7 +470,7 @@ vr*	at pci? dev ? function ?		# VIA Rhine ethernet
 sis*	at pci? dev ? function ?		# SiS 900/7016 ethernet
 #ste*	at pci? dev ? function ?		# Sundance ST201 ethernet
 dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
-#dc*	at cardbus? dev ? function ?		# 21143, "tulip" clone ethernet
+#dc*	at cardbus? dev ? function ?
 #ti*	at pci? dev ? function ?		# Alteon Tigon 1Gb ethernet
 skc*	at pci? dev ? function ?		# SysKonnect GEnesis 984x
 sk*	at skc?					#     each port of these
@@ -504,11 +485,11 @@ sk*	at skc?					#     each port of these
 
 # Wireless network cards
 wi*	at pci? dev ? function ?		# WaveLAN IEEE 802.11DS
-wi*	at pcmcia? function ?			# WaveLAN IEEE 802.11DS
+wi*	at pcmcia? function ?
 #awi*	at pcmcia? function ?			# Bay Networks IEEE 802.11FH
 #an*	at pci? dev ? function ?		# Aironet IEEE 802.11DS
-#an*	at isapnp?				# Aironet IEEE 802.11DS
-#an*	at pcmcia? function ?			# Aironet IEEE 802.11DS
+#an*	at isapnp?
+#an*	at pcmcia? function ?
 #ray*	at pcmcia? function ?			# Raylink Aviator2.4/Pro 802.11FH
 #option	CNW_DOMAIN=value			# access point(s) to talk to,
 #option	CNW_SCRAMBLEKEY=value			#	by domain number
@@ -521,7 +502,7 @@ iophy*	at mii? phy ?				# Intel 82553 PHYs
 icsphy*	at mii? phy ?				# ICS 1890 PHYs
 lxtphy*	at mii? phy ?				# Level1 LXT970 PHYs
 nsphy*	at mii? phy ?				# NS and compatible PHYs
-nsphyter* at mii? phy ?				# NS and compatible PHYs
+nsphyter* at mii? phy ?
 qsphy*	at mii? phy ?				# Quality Semi QS6612 PHYs
 sqphy*	at mii? phy ?				# Seeq 8x220 PHYs
 #rlphy* at mii? phy ?				# RealTek 8139 internal PHYs
