@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.6 2005/03/15 00:03:44 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.7 2005/03/21 08:13:53 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #
@@ -8,7 +8,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.6 2005/03/15 00:03:44 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.7 2005/03/21 08:13:53 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -128,8 +128,7 @@ pseudo-device	vlan 		# IEEE 802.1Q VLAN
 #--- end of machine independent config
 
 # CPU classes, at least one is required
-# Attention: default CFLAGS only support i586 and above.
-#option		I486_CPU		# 80486DX or 80487 only (with FPU)
+option		I486_CPU		# 80486DX or 80487 only (with FPU)
 option		I586_CPU
 option		I686_CPU
 
