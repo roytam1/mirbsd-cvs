@@ -3,7 +3,7 @@
 
 COMMENT=	"library for manipulating PNG images"
 DISTNAME=	libpng-1.2.8
-PKGNAME=	${DISTNAME:S/lib//}
+PKGNAME=	${DISTNAME:S/lib//}p1
 CATEGORIES=	graphics
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=libpng/}
 HOMEPAGE=	http://www.libpng.org/pub/png/libpng.html
@@ -17,13 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 FAKE_FLAGS=	DESTDIR="${WRKINST}" PREFIX="${PREFIX}"
 MAKE_ENV=	CC="${CC}"
 
-.include <mirports.sys.mk>
-
-.if ${OStype} == "Darwin"
-MAKE_FILE=	${FILESDIR}/makefile.darwin
-.else
 MAKE_FILE=	scripts/makefile.openbsd
-.endif
 
 REGRESS_TARGET=	test
 
