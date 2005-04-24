@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/tiff/Makefile,v 1.2 2005/04/24 00:09:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		"library routines for working with TIFF images"
@@ -41,7 +41,7 @@ USE_CXX=		Yes
 MULTI_PACKAGES=		-cxx
 .endif
 
-. if defined(PACKAGING) && !empty(SUBPACKAGE)
+. if defined(PACKAGING) && defined(SUBPACKAGE) && !empty(SUBPACKAGE)
 LIB_DEPENDS=		tiff::graphics/tiff
 . endif
 

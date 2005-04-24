@@ -1,2 +1,2 @@
 @comment $MirOS: ports/graphics/tiff/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:47:10 tg Exp $
-@lib lib/libtiff.so.3.7
+@lib lib/libtiffxx.so.3.7
