@@ -1,4 +1,4 @@
-@comment $MirOS$
-lib/libtiffxx.${VERSION}.dylib
+@comment $MirOS: ports/graphics/tiff/pkg/PFRAG.dylib-cxx,v 1.1 2005/04/24 00:09:12 bsiegert Exp $
+lib/libtiffxx.${_V}.dylib
 lib/libtiffxx.3.dylib
 lib/libtiffxx.dylib
