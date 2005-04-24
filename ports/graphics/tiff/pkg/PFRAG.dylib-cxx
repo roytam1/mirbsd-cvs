@@ -1,0 +1,4 @@
+@comment $MirOS$
+lib/libtiffxx.${VERSION}.dylib
+lib/libtiffxx.3.dylib
+lib/libtiffxx.dylib

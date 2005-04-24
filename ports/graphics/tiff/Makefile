@@ -1,14 +1,18 @@
 # $MirOS$
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
-COMMENT=	"tools and library routines for working with TIFF images"
-VERSION=	3.6.1
-DISTNAME=	tiff-v${VERSION}
-PKGNAME=	tiff-${VERSION}p1
-CATEGORIES=	graphics
-MASTER_SITES=	ftp://ftp.remotesensing.org/pub/libtiff/
-HOMEPAGE=	http://www.libtiff.org/
-LIB_DEPENDS=    jpeg.62::graphics/jpeg
+COMMENT=		"library routines for working with TIFF images"
+COMMENT-cxx=		"library routines for working with TIFF images, C++ API"
+DESCR=			${PKGDIR}/DESCR
+VERSION=		3.7.2
+DASH_VER=	
+DISTNAME=		tiff-${VERSION}
+PKGNAME=		${DISTNAME}${DASH_VER}
+PKGNAME-cxx=		tiff-cxx-${VERSION}${DASH_VER}
+CATEGORIES=		graphics
+MASTER_SITES=		ftp://ftp.remotesensing.org/pub/libtiff/
+HOMEPAGE=		http://www.libtiff.org/
+LIB_DEPENDS=    	jpeg.62::graphics/jpeg
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -16,27 +20,31 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE= simple
-CONFIGURE_ARGS=	--prefix="${PREFIX}" --with-ZIP --with-JPEG \
-		--with-CC="${CC}" --with-GCOPTS="${CFLAGS}" \
-		--with-DIRS_LIBINC="${LOCALBASE}/include" \
-		--with-OPTIMIZER="" --with-DIR_GZLIB="/usr/lib" \
-		--with-DIR_JPEGLIB="${LOCALBASE}/lib" \
-		--with-LIBGL="no" --with-LIBIMAGE="no" \
-		--with-INSTALL="sh ${WRKSRC}/port/install.sh" \
-		--noninteractive
+PSEUDO_FLAVORS=		no_cxx
+FLAVOR?=
 
-DOCDIR=	${PREFIX}/share/doc/tiff
+CONFIGURE_STYLE=	autogen
+AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
+SEPARATE_BUILD=		concurrent
+SUBST_VARS+=		VERSION
 
-post-extract:
-	@cp -f ${PORTSDIR}/infrastructure/db/{config.guess,config.sub} ${WRKSRC}
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--with-jpeg-include-dir=${LOCALBASE}/include
+CONFIGURE_ARGS+=	--with-jpeg-lib-dir=${LOCALBASE}/lib
 
-NO_REGRESS=	Yes
+.if ${FLAVOR:L:Mno_cxx}
+CONFIGURE_ARGS+=	--enable-cxx=no
+.else
+CONFIGURE_ARGS+=	--enable-cxx
+USE_CXX=		Yes
+MULTI_PACKAGES=		-cxx
+.endif
 
-post-install:
-	${INSTALL_DATA_DIR} ${DOCDIR}/images
-	${INSTALL_DATA} ${WRKSRC}/html/*.html ${DOCDIR}
-	${INSTALL_DATA} ${WRKSRC}/html/images/*.gif ${DOCDIR}/images
-	${INSTALL_DATA} ${WRKSRC}/html/images/*.jpg ${DOCDIR}/images
+. if defined(PACKAGING) && !empty(SUBPACKAGE)
+LIB_DEPENDS=		tiff::graphics/tiff
+. endif
+
+#NO_REGRESS=	Yes
 
 .include <bsd.port.mk>
