@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.51 2005/04/19 22:12:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.52 2005/04/20 22:33:31 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2804,4 +2804,13 @@
  back on track; the new <a href="/?clog-2005#snap0420">snapshot</a> is out
  and Benny is back. We've fixed some stuff in ports, and X11 is improving.
  I'll spare to comment on the new OpenBSD song lyrics.</p>
+<p>25.04.2005 by tg@<br />Yes, I'm making astringency now with the release
+ and we'd better fix ports and get documentation soon. I'll prepare a FAQ,
+ with entries such as &quot;Why does it not find &lt;bsd.port.mk&gt;&quot;
+ for our beloved users.<br />I've found the g++ bug, finally. I must admit
+ it's due to gdb. It lured in CSU &ndash; the constructors were never run,
+ due to a change to the include path. I should probably grep all Makefiles
+ for use of -I in CPPFLAGS (no CFLAGS left, thankfully) and use -idirafter
+ in some of these places? This is the second time I get bitten by this, if
+ I'm not totally confused.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

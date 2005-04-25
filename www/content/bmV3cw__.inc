@@ -1,6 +1,14 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.16 2005/04/19 22:17:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.17 2005/04/20 22:33:31 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>25.04.2005<br />
+	MirOS-current (no snapshot yet) fixes the C++ problems, it's now a
+	fully supported programming language (leaving only GCJ open for my
+	desires &ndash; that's the reason gcc is built after X11 by a make
+	dist, by the way). It also contains some other minor yet important
+	fixes, but there's still an update of a component pending before a
+	new snapshot can be released.</li>
 
 <li>20.04.2005<br />
 	We're closer to solving that X/GLX problem, thanks to David Dawes,
