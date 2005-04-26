@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.3 2005/03/29 00:12:15 tg Exp $
+# $MirOS: gcc/Makefile,v 1.4 2005/04/19 12:53:47 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -20,7 +20,7 @@ ${_i}:
 
 .for _i in ${BUILD_TGTS}
 ${_i}: ${_STFILE_SUB}
-	cd ${.CURDIR} && ${EXTRA_ENV} exec \
+	ulimit -dS 245760 && cd ${.CURDIR} && ${EXTRA_ENV} exec \
 	    ${_STCMD_SUB} ${MAKE} -f Makefile.sub $@
 .endfor
 
