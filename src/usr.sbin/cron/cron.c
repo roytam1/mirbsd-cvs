@@ -1,32 +1,32 @@
-/**	$MirOS$ */
-/*	$OpenBSD: cron.c,v 1.34 2004/05/13 13:54:52 millert Exp $	*/
+/**	$MirOS: src/usr.sbin/cron/cron.c,v 1.2 2005/03/13 19:16:19 tg Exp $ */
+/*	$OpenBSD: cron.c,v 1.36 2004/06/17 22:11:55 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
  * All rights reserved
  */
 
 /*
+ * Copyright (c) 2004 by Internet Systems Consortium, Inc. ("ISC")
  * Copyright (c) 1997,2000 by Internet Software Consortium, Inc.
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND INTERNET SOFTWARE CONSORTIUM DISCLAIMS
- * ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL INTERNET SOFTWARE
- * CONSORTIUM BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
- * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
- * SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+ * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 #define	MAIN_PROGRAM
 
 #include "cron.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/cron/cron.c,v 1.2 2005/03/13 19:16:19 tg Exp $");
 
 enum timejump { negative, small, medium, large };
 
@@ -50,11 +50,17 @@ static	double			batch_maxload = BATCH_MAXLOAD;
 
 static void
 usage(void) {
+#if DEBUGGING
 	const char **dflags;
+#endif
 
 	fprintf(stderr, "usage:  %s [-l load_avg] [-n] [-x [", ProgramName);
+#if DEBUGGING
 	for (dflags = DebugFlagNames; *dflags; dflags++)
 		fprintf(stderr, "%s%s", *dflags, dflags[1] ? "," : "]");
+#else
+	fprintf(stderr, "debugging flags (none supported in this build)]");
+#endif
 	fprintf(stderr, "]\n");
 	exit(ERROR_EXIT);
 }
@@ -323,9 +329,9 @@ find_jobs(int vtime, cron_db *db, int doWild, int doNonWild) {
 	 */
 	for (u = db->head; u != NULL; u = u->next) {
 		for (e = u->crontab; e != NULL; e = e->next) {
-			Debug(DSCH|DEXT, ("user [%s:%ld:%ld:...] cmd=\"%s\"\n",
-			    e->pwd->pw_name, (long)e->pwd->pw_uid,
-			    (long)e->pwd->pw_gid, e->cmd))
+			Debug(DSCH|DEXT, ("user [%s:%lu:%lu:...] cmd=\"%s\"\n",
+			    e->pwd->pw_name, (unsigned long)e->pwd->pw_uid,
+			    (unsigned long)e->pwd->pw_gid, e->cmd))
 			if (bit_test(e->minute, minute) &&
 			    bit_test(e->hour, hour) &&
 			    bit_test(e->month, month) &&
@@ -405,6 +411,7 @@ cron_sleep(int target) {
 		if (nfds > 0) {
 			Debug(DSCH, ("[%ld] Got a poke on the socket\n",
 			    (long)getpid()))
+			sunlen = sizeof(s_un);
 			fd = accept(cronSock, (struct sockaddr *)&s_un, &sunlen);
 			if (fd >= 0 && fcntl(fd, F_SETFL, O_NONBLOCK) == 0) {
 				(void) read(fd, &poke, 1);

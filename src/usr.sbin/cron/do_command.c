@@ -1,31 +1,30 @@
-/**	$MirOS$ */
-/*	$OpenBSD: do_command.c,v 1.26 2004/04/26 17:15:37 millert Exp $	*/
+/**	$MirOS: src/usr.sbin/cron/do_command.c,v 1.2 2005/03/13 19:16:19 tg Exp $ */
+/*	$OpenBSD: do_command.c,v 1.29 2004/06/17 22:11:55 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
  * All rights reserved
  */
 
 /*
+ * Copyright (c) 2004 by Internet Systems Consortium, Inc. ("ISC")
  * Copyright (c) 1997,2000 by Internet Software Consortium, Inc.
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND INTERNET SOFTWARE CONSORTIUM DISCLAIMS
- * ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL INTERNET SOFTWARE
- * CONSORTIUM BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
- * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
- * SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+ * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/cdefs.h>
-__RCSID("$MirOS$");
-
 #include "cron.h"
+
+__RCSID("$MirOS$");
 
 static void		child_process(entry *, user *);
 
@@ -233,12 +232,20 @@ child_process(entry *e, user *u) {
 			}
 		}
 #else
-		setgid(e->pwd->pw_gid);
-		initgroups(usernm, e->pwd->pw_gid);
+		if (setgid(e->pwd->pw_gid) || initgroups(usernm, e->pwd->pw_gid)) {
+			fprintf(stderr,
+			    "unable to set groups for %s\n", e->pwd->pw_name);
+			_exit(ERROR_EXIT);
+		}
 #if (defined(BSD)) && (BSD >= 199103)
 		setlogin(usernm);
 #endif /* BSD */
-		setuid(e->pwd->pw_uid);	/* we aren't root after this... */
+		if (setuid(e->pwd->pw_uid)) {
+			fprintf(stderr,
+			    "unable to set uid to %lu\n",
+			    (unsigned long)e->pwd->pw_uid);
+			_exit(ERROR_EXIT);
+		}
 
 #endif /* LOGIN_CAP */
 		chdir(env_get("HOME", e->envp));
@@ -375,18 +382,12 @@ child_process(entry *e, user *u) {
 			/* get name of recipient.  this is MAILTO if set to a
 			 * valid local username; USER otherwise.
 			 */
-			if (mailto) {
-				/* MAILTO was present in the environment
-				 */
-				if (!*mailto) {
-					/* ... but it's empty. set to NULL
-					 */
-					mailto = NULL;
-				}
-			} else {
+			if (!mailto) {
 				/* MAILTO not present, set to USER.
 				 */
 				mailto = usernm;
+			} else if (!*mailto || !safe_p(usernm, mailto)) {
+				mailto = NULL;
 			}
 
 			/* if we are supposed to be mailing, MAILTO will
@@ -394,7 +395,7 @@ child_process(entry *e, user *u) {
 			 * up the mail command and subjects and stuff...
 			 */
 
-			if (mailto && safe_p(usernm, mailto)) {
+			if (mailto) {
 				char	**env;
 				char	mailcmd[MAX_COMMAND];
 				char	hostname[MAXHOSTNAMELEN];

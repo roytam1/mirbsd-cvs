@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: midiplay.c,v 1.5 2004/05/14 04:27:26 tedu Exp $	*/
+/**	$MirOS: src/usr.bin/midiplay/midiplay.c,v 1.2 2005/03/13 18:33:17 tg Exp $ */
+/*	$OpenBSD: midiplay.c,v 1.6 2005/03/11 22:54:06 jmc Exp $	*/
 /*	$NetBSD: midiplay.c,v 1.8 1998/11/25 22:17:07 augustss Exp $	*/
 
 /*
@@ -140,8 +140,8 @@ u_char sample[] = {
 void
 usage(void)
 {
-	printf("Usage: %s [-d unit] [-f file] [-l] [-m] [-q] [-t tempo]"
-	    " [-v] [-x] [file ...]\n", __progname);
+	printf("Usage: %s [-lmqvx] [-d devno] [-f file] [-t tempo] "
+	    "[file ...]\n", __progname);
 	exit(1);
 }
 

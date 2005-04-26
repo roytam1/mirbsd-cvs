@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.6 2001/10/03 19:07:58 drahn Exp $
+# $MirOS: src/usr.sbin/apmd/Makefile,v 1.2 2005/03/13 19:16:14 tg Exp $
+# $OpenBSD: Makefile,v 1.8 2005/03/29 16:26:45 miod Exp $
 
 SRCS=	apmd.c apmsubr.c
 PROG=	apmd
