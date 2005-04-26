@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: openbsd-syscalls.c,v 1.23 2003/10/22 21:03:35 sturm Exp $	*/
+/**	$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.2 2005/03/06 18:55:24 tg Exp $ */
+/*	$OpenBSD: openbsd-syscalls.c,v 1.28 2004/07/09 23:51:42 deraadt Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -34,8 +34,8 @@
 
 #include <sys/syscall.h>
 
-#include "../../sys/compat/linux/linux_syscall.h"
-#include "../../sys/compat/openbsd/openbsd_syscall.h"
+#include <compat/linux/linux_syscall.h>
+#include <compat/openbsd/openbsd_syscall.h>
 
 #define KTRACE
 #define NFSCLIENT
@@ -44,10 +44,10 @@
 #define SYSVMSG
 #define SYSVSHM
 #define LFS
-#include "../../sys/kern/syscalls.c"
+#include <kern/syscalls.c>
 
-#include "../../sys/compat/linux/linux_syscalls.c"
-#include "../../sys/compat/openbsd/openbsd_syscalls.c"
+#include <compat/linux/linux_syscalls.c>
+#include <compat/openbsd/openbsd_syscalls.c>
 #undef KTRACE
 #undef NFSCLIENT
 #undef NFSSERVER
@@ -70,7 +70,7 @@
 
 #include "intercept.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.2 2005/03/06 18:55:24 tg Exp $");
 
 struct emulation {
 	const char *name;	/* Emulation name */
@@ -118,6 +118,7 @@ static int obsd_setcwd(int, pid_t);
 static int obsd_restcwd(int);
 static int obsd_argument(int, void *, int, void **);
 static int obsd_read(int);
+static int obsd_scriptname(int, pid_t, char *);
 
 static int
 obsd_init(void)
@@ -361,6 +362,17 @@ obsd_answer(int fd, pid_t pid, u_int32_t seqnr, short policy, int nerrno,
 	return (0);
 }
 
+static int 
+obsd_scriptname(int fd, pid_t pid, char *scriptname)
+{
+	struct systrace_scriptname sn;
+
+	sn.sn_pid = pid;
+	strlcpy(sn.sn_scriptname, scriptname, sizeof(sn.sn_scriptname));
+
+	return (ioctl(fd, STRIOCSCRIPTNAME, &sn));
+}
+
 static int
 obsd_newpolicy(int fd)
 {
@@ -600,6 +612,19 @@ obsd_read(int fd)
 		intercept_child_info(msg.msg_pid,
 		    msg.msg_data.msg_child.new_pid);
 		break;
+#ifdef SYSTR_MSG_EXECVE
+	case SYSTR_MSG_EXECVE: {
+		struct str_msg_execve *msg_execve = &msg.msg_data.msg_execve;
+		
+		intercept_newimage(fd, pid, msg.msg_policy, current->name,
+		    msg_execve->path, NULL);
+
+		if (obsd_answer(fd, pid, seqnr, 0, 0, 0, NULL) == -1)
+			err(1, "%s:%d: answer", __func__, __LINE__);
+		break;
+	}
+#endif
+
 #ifdef SYSTR_MSG_POLICYFREE
 	case SYSTR_MSG_POLICYFREE:
 		intercept_policy_free(msg.msg_policy);
@@ -629,4 +654,5 @@ struct intercept_system intercept = {
 	obsd_replace,
 	obsd_clonepid,
 	obsd_freepid,
+	obsd_scriptname,
 };

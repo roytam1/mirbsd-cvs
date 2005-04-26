@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: intercept.c,v 1.46 2004/03/30 15:43:20 sturm Exp $	*/
+/**	$MirOS: src/bin/systrace/intercept.c,v 1.2 2005/03/06 18:55:24 tg Exp $ */
+/*	$OpenBSD: intercept.c,v 1.49 2004/07/07 07:31:40 marius Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -49,7 +49,7 @@
 
 #include "intercept.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/systrace/intercept.c,v 1.2 2005/03/06 18:55:24 tg Exp $");
 
 void simplify_path(char *);
 
@@ -551,7 +551,7 @@ intercept_replace(int fd, pid_t pid, u_int16_t seqnr,
 char *
 intercept_get_string(int fd, pid_t pid, void *addr)
 {
-	static char name[65536];
+	static char name[81920];
 	int off = 0, done = 0, stride;
 
 	stride = 32;
@@ -587,12 +587,15 @@ intercept_get_string(int fd, pid_t pid, void *addr)
 }
 
 char *
-intercept_filename(int fd, pid_t pid, void *addr, int userp)
+intercept_filename(int fd, pid_t pid, void *addr, int userp, char *before)
 {
 	char *name;
 
 	if ((name = intercept_get_string(fd, pid, addr)) == NULL)
 		goto abort;
+
+	if (before != NULL)
+		strlcpy(before, name, MAXPATHLEN);
 
 	if ((name = normalize_filename(fd, pid, name, userp)) == NULL)
 		goto abort;
@@ -748,7 +751,7 @@ intercept_syscall(int fd, pid_t pid, u_int16_t seqnr, int policynr,
 	/* Special handling for the exec call */
 	if (!strcmp(name, "execve")) {
 		void *addr;
-		char *argname;
+		char *argname, before[MAXPATHLEN];
 
 		icpid->execve_code = code;
 		icpid->policynr = policynr;
@@ -757,10 +760,14 @@ intercept_syscall(int fd, pid_t pid, u_int16_t seqnr, int policynr,
 			free(icpid->newname);
 
 		intercept.getarg(0, args, argsize, &addr);
-		argname = intercept_filename(fd, pid, addr, ICLINK_ALL);
+		argname = intercept_filename(fd, pid, addr, ICLINK_ALL, before);
 		if (argname == NULL)
 			err(1, "%s:%d: intercept_filename",
 			    __func__, __LINE__);
+
+		if (intercept.scriptname(fd, pid, before) != 0)
+			err(1, "%s:%d: ioctl", __func__, __LINE__);
+
 		icpid->newname = strdup(argname);
 		if (icpid->newname == NULL)
 			err(1, "%s:%d: strdup", __func__, __LINE__);
@@ -831,23 +838,40 @@ intercept_syscall_result(int fd, pid_t pid, u_int16_t seqnr, int policynr,
 
 	icpid = intercept_getpid(pid);
 	if (!strcmp("execve", name)) {
-
-		/* Commit the name of the new image */
-		if (icpid->name)
-			free(icpid->name);
-		icpid->name = icpid->newname;
-		icpid->newname = NULL;
-
-		if (intercept_newimagecb != NULL)
-			(*intercept_newimagecb)(fd, pid, policynr, emulation,
-			    icpid->name, intercept_newimagecbarg);
-
+		intercept_newimage(fd, pid, policynr,
+		    emulation, icpid->newname, icpid);
+		/* we might have detached by now */
+		if (intercept_findpid(pid) == NULL)
+			return;
 	}
 
  out:
 	/* Resume execution of the process */
 	intercept.answer(fd, pid, seqnr, 0, 0, 0, NULL);
 }
+
+void
+intercept_newimage(int fd, pid_t pid, int policynr,
+    const char *emulation, char *newname, struct intercept_pid *icpid)
+{
+	if (icpid == NULL)
+		icpid = intercept_getpid(pid);
+
+	if (icpid->name)
+		free(icpid->name);
+	if ((icpid->name = strdup(newname)) == NULL)
+		err(1, "%s:%d: strdup", __func__, __LINE__);
+
+	if (icpid->newname != NULL) {
+		free(icpid->newname);
+		icpid->newname = NULL;
+	}
+
+	if (intercept_newimagecb != NULL)
+		(*intercept_newimagecb)(fd, pid, policynr, emulation,
+		    icpid->name, intercept_newimagecbarg);
+}
+
 
 int
 intercept_newpolicy(int fd)

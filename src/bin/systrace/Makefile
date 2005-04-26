@@ -1,8 +1,8 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.12 2004/01/23 20:51:18 sturm Exp $
+# $MirOS: src/bin/systrace/Makefile,v 1.2 2005/03/15 18:58:32 tg Exp $
+# $OpenBSD: Makefile,v 1.13 2004/07/09 21:53:55 mickey Exp $
 
 PROG=		systrace
-CPPFLAGS+=	-I. -DYY_NO_UNPUT
+CPPFLAGS+=	-I. -DYY_NO_UNPUT -I${.CURDIR}/../../sys
 CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes \
 		-Wpointer-arith -Wno-uninitialized
 DPADD+=		${LIBEVENT}
