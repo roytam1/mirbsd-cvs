@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.3 2005/03/12 18:27:29 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.4 2005/04/17 01:17:21 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.13 2004/01/28 03:33:29 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
-/*
+/*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -197,12 +199,13 @@
 #elif defined(__ELF__) && defined(__GNUC__)
 #define	__IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
+	"\n	.ascii	\"" prefix ": \""			\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
 #define	__IDSTRING(prefix, string)				\
 	static const char __ ## prefix []			\
-	    __attribute__((__unused__)) = (string)
+	    __attribute__((used)) = (string)
 #endif
 #ifdef lint
 #define	__KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
