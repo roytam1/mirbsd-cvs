@@ -1,3 +1,4 @@
+# $MirOS$
 ## Process this with automake to create Makefile.in
 
 AUTOMAKE_OPTIONS=foreign
@@ -10,4 +11,4 @@ hackdir=$(includedir)
 hack_DATA= ffi.h
 
 toollibffidir = @tool_include_dir@/libffi
-toollibffi_HEADERS = ffitarget.h
+toollibffi_HEADERS = $(top_srcdir)/src/@TARGETDIR@/ffitarget.h

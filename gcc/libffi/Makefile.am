@@ -1,6 +1,7 @@
+# $MirOS$
 ## Process this with automake to create Makefile.in
 
-AUTOMAKE_OPTIONS = cygnus
+AUTOMAKE_OPTIONS = cygnus no-dependencies
 
 SUBDIRS = include
 
@@ -104,80 +105,16 @@ TARGET_SRC_X86_64 = src/x86/ffi64.c src/x86/unix64.S src/x86/ffi.c src/x86/sysv.
 TARGET_SRC_SH =  src/sh/sysv.S src/sh/ffi.c
 TARGET_SRC_SH64 =  src/sh64/sysv.S src/sh64/ffi.c
 
-##libffi_la_SOURCES = src/debug.c src/prep_cif.c src/types.c $(TARGET_SRC_@TARGET@)
-## Work around automake deficiency
-libffi_la_common_SOURCES = src/debug.c src/prep_cif.c src/types.c \
-		src/raw_api.c src/java_raw_api.c
-if MIPS_IRIX
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_MIPS_IRIX)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_MIPS_IRIX)
-endif
-if MIPS_LINUX
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_MIPS_LINUX)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_MIPS_LINUX)
-endif
-if X86
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_X86)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_X86)
-endif
-if X86_WIN32
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_X86_WIN32)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_X86_WIN32)
-endif
-if SPARC
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_SPARC)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_SPARC)
-endif
-if ALPHA
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_ALPHA)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_ALPHA)
-endif
-if IA64
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_IA64)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_IA64)
-endif
-if M68K
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_M68K)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_M68K)
-endif
-if POWERPC
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_POWERPC)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_POWERPC)
-endif
-if POWERPC_AIX
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_POWERPC_AIX)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_POWERPC_AIX)
-endif
-if POWERPC_DARWIN
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_POWERPC_DARWIN)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_POWERPC_DARWIN)
-endif
-if ARM
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_ARM)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_ARM)
-endif
-if S390
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_S390)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_S390)
-endif
-if X86_64
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_X86_64)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_X86_64)
-endif
-if SH
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_SH)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_SH)
-endif
-if SH64
-libffi_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_SH64)
-libffi_convenience_la_SOURCES = $(libffi_la_common_SOURCES) $(TARGET_SRC_SH64)
-endif
+libffi_la_SOURCES = src/debug.c src/prep_cif.c src/types.c \
+		src/raw_api.c src/java_raw_api.c $(TARGET_SRC_@TARGET@)
+libffi_convenience_la_SOURCES = src/debug.c src/prep_cif.c src/types.c \
+		src/raw_api.c src/java_raw_api.c $(TARGET_SRC_@TARGET@)
 
 AM_CFLAGS = -Wall -g -fexceptions
 
 libffi_la_LDFLAGS = -release $(VERSION) 
 
-INCLUDES = -I. -I$(top_srcdir)/include -Iinclude -I$(top_srcdir)/src
+INCLUDES = -I. -I$(top_srcdir)/include -Iinclude -I$(top_srcdir)/src -I$(top_srcdir)/src/@TARGETDIR@
 
 # Override these rules so that object files get put in the correct 
 # subdirectories. 
