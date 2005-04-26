@@ -1,9 +1,9 @@
 divert(-1)
 #
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.2 2005/03/13 15:11:42 tg Exp $
 #
 # Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -22,7 +22,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS$')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.2 2005/03/13 15:11:42 tg Exp $')
 OSTYPE(openbsd)dnl
 FEATURE(nouucp, `reject')dnl
 FEATURE(`accept_unresolvable_domains')dnl

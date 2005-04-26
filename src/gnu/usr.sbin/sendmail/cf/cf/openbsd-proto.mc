@@ -1,9 +1,9 @@
 divert(-1)dnl
 #
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.2 2005/03/13 15:11:42 tg Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -19,7 +19,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS$')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.2 2005/03/13 15:11:42 tg Exp $')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl If you have a non-static IP address you may wish to forward outgoing mail
