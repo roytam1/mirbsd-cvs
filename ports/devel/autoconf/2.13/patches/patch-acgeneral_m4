@@ -1,13 +1,13 @@
-$MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.1.7.1 2005/03/18 15:44:24 tg Exp $
+$MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.2 2005/04/26 18:03:25 tg Exp $
 $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
 --- acgeneral.m4.orig	Tue Jan  5 13:27:15 1999
-+++ acgeneral.m4	Tue Apr 26 17:59:56 2005
++++ acgeneral.m4	Tue Apr 26 18:11:21 2005
 @@ -1,7 +1,9 @@
  dnl Parameterized macros.
  dnl Requires GNU m4.
  dnl This file is part of Autoconf.
 -dnl Copyright (C) 1992, 93, 94, 95, 96, 1998 Free Software Foundation, Inc.
-+dnl $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.1.7.1 2005/03/18 15:44:24 tg Exp $
++dnl $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.2 2005/04/26 18:03:25 tg Exp $
 +dnl Copyright (C) 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2004
 +dnl	Free Software Foundation, Inc.
  dnl
@@ -100,7 +100,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  [# Guess values for system-dependent variables and create Makefiles.
  # Generated automatically using autoconf version] AC_ACVERSION [
 -# Copyright (C) 1992, 93, 94, 95, 96 Free Software Foundation, Inc.
-+# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.1.7.1 2005/03/18 15:44:24 tg Exp $
++# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.2 2005/04/26 18:03:25 tg Exp $
 +# Copyright (C) 1992, 1993, 1994, 1995, 1996, 2004
 +#	Free Software Foundation, Inc.
  #
@@ -436,7 +436,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
 +    case $nonopt in
 +    NONE)
 +ifelse($1, [host],[dnl
-+      if ac_cv_$1_alias=$($ac_config_guess); then :
++      if ac_cv_$1_alias=$($SHELL $ac_config_guess); then :
 +      else AC_MSG_ERROR(can not guess $1 type; you must specify one)
 +      fi ;;],[dnl
 +      ac_cv_$1_alias=$host_alias ;;
@@ -450,7 +450,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
 -[AC_REQUIRE([AC_CONFIG_AUX_DIR_DEFAULT])dnl
 -AC_MSG_CHECKING(target system type)
 +dnl Set the other $1 vars.
-+  ac_cv_$1=$($ac_config_sub $ac_cv_$1_alias)
++  ac_cv_$1=$($SHELL $ac_config_sub $ac_cv_$1_alias)
 +  ac_cv_$1_cpu=$(echo $ac_cv_$1 | sed 's/^\([[^-]]*\)-\([[^-]]*\)-\(.*\)$/\1/')
 +  ac_cv_$1_vendor=$(echo $ac_cv_$1 | sed 's/^\([[^-]]*\)-\([[^-]]*\)-\(.*\)$/\2/')
 +  ac_cv_$1_os=$(echo $ac_cv_$1 | sed 's/^\([[^-]]*\)-\([[^-]]*\)-\(.*\)$/\3/')
