@@ -1,7 +1,7 @@
-$MirOS$
---- configure.ac.orig	Fri Sep 24 19:38:36 2004
-+++ configure.ac	Sun Feb 13 01:54:19 2005
-@@ -370,7 +370,10 @@ else
+$MirOS: ports/databases/sqlite/patches/patch-configure_ac,v 1.1.7.1 2005/03/18 15:44:19 tg Exp $
+--- configure.ac.orig	Wed Mar 23 16:08:17 2005
++++ configure.ac	Tue Apr 26 18:57:53 2005
+@@ -354,7 +354,10 @@ else
    AC_MSG_RESULT(unknown)
  fi
  if test "$CYGWIN" != "yes"; then
@@ -13,26 +13,7 @@ $MirOS$
  fi
  if test "$CYGWIN" = "yes"; then
    BUILD_EXEEXT=.exe
-@@ -414,6 +417,8 @@ AC_SUBST(TARGET_LIBS)
- #
- if test "$config_TARGET_TCL_LIBS" != ""; then
-   TARGET_TCL_LIBS="$config_TARGET_TCL_LIBS"
-+elif test x"$with_tcl" = x"no"; then
-+  TARGET_TCL_LIBS=
- else
-   if test "$with_tcl" != ""; then
-     extra=`echo $with_tcl/$tclsubdir/libtcl8*.a`
-@@ -441,6 +446,9 @@ found=no
- if test "$config_TARGET_TCL_INC" != ""; then
-   TARGET_TCL_INC=$config_TARGET_TCL_INC
-   found=yes
-+elif test x"$with_tcl" = x"no"; then
-+  TARGET_TCL_INC="-DNO_TCL=1"
-+  found=yes
- else
-   if test "$with_tcl" != ""; then
-     TARGET_TCL_INC="-I$with_tcl/generic -I$with_tcl/$tclsubdir"
-@@ -479,8 +487,10 @@ if test "$config_TARGET_READLINE_LIBS" !
+@@ -544,8 +547,10 @@ if test "$config_TARGET_READLINE_LIBS" !
  else
    CC=$TARGET_CC
    LIBS=""
