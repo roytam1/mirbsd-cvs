@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: timer.c,v 1.14 2004/06/14 09:55:42 ho Exp $	 */
+/* $MirOS: src/sbin/isakmpd/timer.c,v 1.2 2005/03/06 19:50:06 tg Exp $ */
+/* $OpenBSD: timer.c,v 1.15 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: timer.c,v 1.13 2000/02/20 19:58:42 niklas Exp $	 */
 
 /*
@@ -33,8 +33,6 @@
 #include <sys/queue.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "sysdep.h"
 
 #include "log.h"
 #include "timer.h"

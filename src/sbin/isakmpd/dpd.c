@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dpd.c,v 1.7 2004/12/28 15:15:08 deraadt Exp $	*/
+/**	$MirOS: src/sbin/isakmpd/dpd.c,v 1.2 2005/03/06 19:50:03 tg Exp $ */
+/*	$OpenBSD: dpd.c,v 1.12 2005/04/08 21:14:49 cloder Exp $	*/
 
 /*
  * Copyright (c) 2004 Håkan Olsson.  All rights reserved.
@@ -49,7 +49,7 @@
 #define DPD_MINOR		0x00
 #define DPD_SEQNO_SZ		4
 
-static const char dpd_vendor_id[] = {
+static const u_int8_t dpd_vendor_id[] = {
 	0xAF, 0xCA, 0xD7, 0x13, 0x68, 0xA1, 0xF1,	/* RFC 3706 */
 	0xC9, 0x6B, 0x86, 0x96, 0xFC, 0x77, 0x57,
 	DPD_MAJOR,
@@ -132,7 +132,6 @@ dpd_check_vendor_payload(struct message *msg, struct payload *p)
 		}
 		p->flags |= PL_MARK;
 	}
-	return;
 }
 
 /*
@@ -246,7 +245,7 @@ dpd_find_sa(struct sa *sa, void *v_sa)
 
 	if (!isakmp_sa->id_i || !isakmp_sa->id_r)
 		return (0);
-	return (sa->phase == 2 &&
+	return (sa->phase == 2 && (sa->flags & SA_FLAG_READY) &&
 	    memcmp(sa->id_i, isakmp_sa->id_i, sa->id_i_len) == 0 &&
 	    memcmp(sa->id_r, isakmp_sa->id_r, sa->id_r_len) == 0);
 }
@@ -290,7 +289,6 @@ dpd_check_time(struct sa *sa, void *v_arg)
 		args->interval = (u_int32_t)(tv.tv_sec - ksa->last_used);
 		return 1;
 	}
-
 	return 0;
 }
 
@@ -300,14 +298,10 @@ dpd_event(void *v_sa)
 {
 	struct sa	*isakmp_sa = v_sa;
 	struct dpd_args args;
-#if defined (USE_DEBUG)
 	struct sockaddr *dst;
 	char *addr;
-#endif
 
 	isakmp_sa->dpd_event = 0;
-	if (isakmp_sa->flags & SA_FLAG_REPLACED)
-		return;
 
 	/* Check if there's been any incoming SA activity since last time.  */
 	args.isakmp_sa = isakmp_sa;
@@ -331,7 +325,6 @@ dpd_event(void *v_sa)
 	} else
 		isakmp_sa->dpd_seq++;
 
-#if defined (USE_DEBUG)
 	isakmp_sa->transport->vtbl->get_dst(isakmp_sa->transport, &dst);
 	if (sockaddr2text(dst, &addr, 0) == -1)
 		addr = 0;
@@ -339,7 +332,6 @@ dpd_event(void *v_sa)
 	    addr ? addr : "<unknown>", isakmp_sa->dpd_seq));
 	if (addr)
 		free(addr);
-#endif
 	message_send_dpd_notify(isakmp_sa, ISAKMP_NOTIFY_STATUS_DPD_R_U_THERE,
 	    isakmp_sa->dpd_seq);
 
@@ -358,8 +350,6 @@ dpd_check_event(void *v_sa)
 	struct sa	*sa;
 
 	isakmp_sa->dpd_event = 0;
-	if (isakmp_sa->flags & SA_FLAG_REPLACED)
-		return;
 
 	if (++isakmp_sa->dpd_failcount < DPD_RETRANS_MAX) {
 		LOG_DBG((LOG_MESSAGE, 10, "dpd_check_event: "
