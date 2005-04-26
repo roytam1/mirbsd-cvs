@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.1.7.1 2005/03/18 15:49:47 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.2 2005/04/19 12:24:34 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -17,7 +17,8 @@ DISTNAME=		pine${VERSION}
 PKGNAME=		pine-${VERSION}${PL_CCL}
 PKGNAME-cclient=	c-client-${VERSION}${PL_CCL}
 PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCL}
-PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCL}
+#PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCL}
+PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}p4
 FULLPKGNAME-pico=	pico-${PICO_VERSION}
 FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}
 MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
@@ -108,7 +109,7 @@ do-install:
 	${INSTALL_MAN} ${WRKSRC}/imap/src/mailutil/mailutil.1 ${PREFIX}/man/man1
 	${INSTALL_MAN} ${WRKSRC}/imap/src/tmail/tmail.1 ${PREFIX}/man/man1
 	cd ${FILESDIR}; ${INSTALL_SCRIPT} pgpencrypt pgpdecode pgpsign \
-	    pine.smime pine.smime.init ${PREFIX}/bin
+	    pine.smime pine.smime.init mbxfix ${PREFIX}/bin/
 	${INSTALL_DATA} ${FILESDIR}/dot.pinerc.pgp.sample \
 	    ${PREFIX}/share/doc/pine/
 	@sed -e 's#!!PREFIX!!#${PREFIX}#g' -e 's#!!ETC!!#${SYSCONFDIR}#g' \

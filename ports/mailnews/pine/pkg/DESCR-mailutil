@@ -5,3 +5,6 @@ and two local delivery agents. To use tmail with sendmail, use
 |                A=tmail $u
 and do a chmod 4111 /usr/local/libexec/tmail. dmail can be used as-is
 within procmail or local "prog" mailer scripts (see ports/mail/bmf).
+
+This package also includes a contributed perl script to fix damaged
+MBX format mailboxes.

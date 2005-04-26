@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# $MirOS$
 
 # Tool to repair MBX mailbox files as used by
 # UW imapd, c-client, Pine etc.
@@ -7,14 +8,14 @@
 
 # Copyright (c) 2001,2005
 #	Andrew Daviel <advax@triumf.ca>
-
+#
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
 # merge, distribute, sell, give away or sublicence, provided all co-
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
-
+#
 # Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 # any kind, expressed or implied, to the maximum extent permitted by
 # applicable law, but with the warranty of being written without ma-
@@ -25,15 +26,15 @@
 
 
 if ($ARGV[0] eq '-v') {
-  $debug ++ ; 
+  $debug ++ ;
   shift(@ARGV) ;
 }
 if ($ARGV[0] eq '-v') {
-  $debug ++ ; 
+  $debug ++ ;
   shift(@ARGV) ;
 }
 if ($ARGV[0] eq '-v') {
-  $debug ++ ; 
+  $debug ++ ;
   shift(@ARGV) ;
 }
 
@@ -77,7 +78,7 @@ while (<IN>) {
     if ($flags & 32) { $aflag .= 'draft ' ; }
     $pl = length($body) ;
     if ($uid>$maxuid) { $maxuid = $uid ; }
-    if ($pl != $j0) { 
+    if ($pl != $j0) {
       print "* $date0  uid $uid0 length mismatch $j0 repair $pl\n" ;
       $repair{$nm-1} = $pl ; $nr++ ;
     }
@@ -85,7 +86,7 @@ while (<IN>) {
       print "* $date length $j duplicate UID $uid\n" ;
       $fixuid++ ;
     }
-    $uid{$uid} ++ ; 
+    $uid{$uid} ++ ;
 #    if ($nuid != $uid) {
 #      print "* $date length $j UID $uid expected $nuid\n" ;
 #      $fixuid++ ;
@@ -96,7 +97,7 @@ while (<IN>) {
     $last = $_ ; $nuid = $uid + 1 ;
 
     if ($debug) { print "$date length $j UID $uid $aflag\n" ; }
-    $body = '' ; 
+    $body = '' ;
     next ;
   }
 #  rest of message
@@ -110,7 +111,7 @@ while (<IN>) {
 }
 $j0 = $j ;
 $pl = length($body) ;
-if ($pl != $j0) { 
+if ($pl != $j0) {
   print "* $date0  uid $uid0  mismatch $j0 repair $pl\n" ;
   $repair{$nm-1} = $pl ; $nr++ ;
 }
@@ -147,7 +148,7 @@ for ($i=0;$i<30;$i++) {
 $_ = <IN> ;
 /(.*[\d]-[\w]{3}-[\d]{4} [\d][\d]:[\d][\d]:[\d][\d].*),([\d]*);(0000000[\w]*)-([\w]*)/ ;
 $date = $1 ; $j = $2 ; $flags = $3 ; $uid = $4 ; $nm =  1 ;
-if ($fixuid) { 
+if ($fixuid) {
   $nuid = sprintf("%8.8x",$nm) ;
   s/-$uid/-$nuid/ ;
  }
@@ -170,6 +171,5 @@ while (<IN>) {
     if ($debug) { print "$date,$j;$flags-$uid\n" ; }
     next ;
   }
-  print OUT $_ ;  
+  print OUT $_ ;
 }
-
