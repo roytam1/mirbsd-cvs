@@ -48,7 +48,6 @@
 
 static u_int8_t hex2int(char);
 
-static char     int2hex[] = "0123456789abcdef";
 CHUNK_TYPE      b2n_mask[CHUNK_BITS] = {
 	0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
 #if CHUNK_BITS > 8

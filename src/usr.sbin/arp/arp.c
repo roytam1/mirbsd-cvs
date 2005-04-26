@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/arp/arp.c,v 1.3 2005/04/26 15:51:33 tg Exp $ */
 /*	$OpenBSD: arp.c,v 1.36 2005/04/04 16:14:45 deraadt Exp $ */
 /*	$NetBSD: arp.c,v 1.12 1995/04/24 13:25:18 cgd Exp $ */
 
@@ -60,7 +60,7 @@
 #include <paths.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/arp/arp.c,v 1.3 2005/04/26 15:51:33 tg Exp $");
 
 int delete(const char *, const char *);
 void search(in_addr_t addr, void (*action)(struct sockaddr_dl *sdl,
@@ -304,7 +304,9 @@ tryagain:
 			case IFT_ISO88023:
 			case IFT_ISO88024:
 			case IFT_ISO88025:
+#ifdef IFT_CARP
 			case IFT_CARP:
+#endif
 				goto overwrite;
 			}
 
@@ -387,7 +389,9 @@ tryagain:
 			case IFT_ISO88023:
 			case IFT_ISO88024:
 			case IFT_ISO88025:
+#ifdef IFT_CARP
 			case IFT_CARP:
+#endif
 				goto delete;
 			}
 

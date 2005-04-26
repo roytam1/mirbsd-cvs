@@ -1,4 +1,4 @@
-#	$MirOS: src/sbin/isakmpd/Makefile,v 1.3 2005/03/15 19:03:54 tg Exp $
+#	$MirOS: src/sbin/isakmpd/Makefile,v 1.4 2005/04/26 15:42:37 tg Exp $
 #	$OpenBSD: Makefile,v 1.76 2005/04/08 21:09:36 deraadt Exp $
 #	$EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
 
@@ -51,7 +51,7 @@ CLEANFILES=	exchange_num.c exchange_num.h ipsec_num.c ipsec_num.h \
 		isakmp_num.c isakmp_num.h ipsec_fld.c ipsec_fld.h \
 		isakmp_fld.c isakmp_fld.h
 MAN=		isakmpd.8 isakmpd.conf.5 isakmpd.policy.5
-CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes \
+CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes
 CPPFLAGS+=	-I.
 
 # Include symbolic debugging info

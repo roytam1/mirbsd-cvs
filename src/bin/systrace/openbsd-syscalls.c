@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.2 2005/03/06 18:55:24 tg Exp $ */
+/**	$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.3 2005/04/26 15:12:25 tg Exp $ */
 /*	$OpenBSD: openbsd-syscalls.c,v 1.28 2004/07/09 23:51:42 deraadt Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -70,7 +70,7 @@
 
 #include "intercept.h"
 
-__RCSID("$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.2 2005/03/06 18:55:24 tg Exp $");
+__RCSID("$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.3 2005/04/26 15:12:25 tg Exp $");
 
 struct emulation {
 	const char *name;	/* Emulation name */
@@ -365,12 +365,16 @@ obsd_answer(int fd, pid_t pid, u_int32_t seqnr, short policy, int nerrno,
 static int 
 obsd_scriptname(int fd, pid_t pid, char *scriptname)
 {
+#ifdef STRIOCSCRIPTNAME
 	struct systrace_scriptname sn;
 
 	sn.sn_pid = pid;
 	strlcpy(sn.sn_scriptname, scriptname, sizeof(sn.sn_scriptname));
 
 	return (ioctl(fd, STRIOCSCRIPTNAME, &sn));
+#else
+	return 0;
+#endif
 }
 
 static int
