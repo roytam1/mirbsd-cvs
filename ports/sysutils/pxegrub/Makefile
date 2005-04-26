@@ -1,9 +1,12 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.4 2005/04/14 22:07:59 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.5 2005/04/14 22:27:17 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
 #
 # Loading Linux kernels works and has been tested.
+#
+# PXE booting does not use UNDI network drivers. You can also boot ramdisk
+# kernels (BSD) and foreign (Linux, HURD) kernels from a fixed disc with this.
 
 .include <mirports.sys.mk>
 
