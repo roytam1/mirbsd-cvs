@@ -72,7 +72,6 @@ configure-subdirs distdir: $(DIST_MAKEFILE_LIST)
 
 # Create and install libltdl
 install-data-hook:
-	cd libltdl && $(MAKE) local-install-files
 	chmod +x $(DESTDIR)$(pkgdatadir)/config.guess
 	chmod +x $(DESTDIR)$(pkgdatadir)/config.sub
 	chmod +x $(DESTDIR)$(pkgdatadir)/install-sh
@@ -87,7 +86,7 @@ uninstall-local:
 ##  not to anybody else (inspiration from automake/Makefile.am).    ##
 ## ---------------------------------------------------------------- ##
 
-TEXI2HTML = texi2html
+MAKEINFO = makeinfo
 
 .PHONY: cvs-release
 cvs-release: version-check prev-tarball cvs-news fetch cvs-commit cvs-dist deltas web-manual
@@ -270,6 +269,6 @@ delta-xdelta: prev-tarball new-tarball got-xdelta
 
 .PHONY: web-manual
 web-manual:
-	@$(LN_S) $(top_srcdir)/doc/libtool.texi manual.texi
-	$(TEXI2HTML) -I $(top_srcdir)/doc -monolithic -number -verbose manual.texi
-	@rm -f manual.texi
+	$(MAKEINFO) -I $(top_srcdir)/doc --html --no-split -o manual.html \
+	$(top_srcdir)/doc/libtool.texi
+
