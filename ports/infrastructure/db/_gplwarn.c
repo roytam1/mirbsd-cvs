@@ -1,5 +1,5 @@
-/* $MirOS: contrib/gnu/aux/_gplwarn.c,v 1.4 2005/04/26 16:06:35 tg Exp $ */
-/* _MirOS: contrib/gnu/aux/_gplwarn.c,v 1.4 2005/04/26 16:06:35 tg Exp $ */
+/* $MirOS: contrib/gnu/aux/_gplwarn.c,v 1.5 2005/04/26 18:59:42 tg Exp $ */
+/* _MirOS: contrib/gnu/aux/_gplwarn.c,v 1.5 2005/04/26 18:59:42 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -41,16 +41,16 @@
 
 
 #ifdef lint
-#define	__IDSTRING(prefix, string)				\
-	static const char __LINTED__ ## prefix [] = (string)
+#define	__SECTSTRING(segment, prefix, string)			\
+	static const char __LINTED__ ## segment ## _ ## prefix [] = (string)
 #elif defined(__ELF__) && defined(__GNUC__)
-#define	__IDSTRING(prefix, string)				\
-	__asm__(".section .comment"				\
+#define	__SECTSTRING(segment, prefix, string)			\
+	__asm__(".section " segment				\
 	"\n	.ascii	\"" #prefix ": \""			\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
-#define	__IDSTRING(prefix, string)				\
+#define	__SECTSTRING(segment, prefix, string)			\
 	static const char __ ## prefix []			\
 	    __attribute__((used)) = (string)
 #endif
@@ -61,13 +61,13 @@
 #else
 #define	__TEXTSTRING(prefix, string)				\
 	static const char __ ## prefix []			\
-	    __attribute__((__unused__,__section__(".text")))	\
+	    __attribute__((used,__section__(".text")))		\
 	    = (string)
 #endif
 
 
 __SECTSTRING(".comment", rcsid,
-    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.4 2005/04/26 16:06:35 tg Exp $");
+    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.5 2005/04/26 18:59:42 tg Exp $");
 
 __SECTSTRING(".gnu.warning.*main", warntext,
     "Linking with " MYNAME " infects the result\\n\\t"
