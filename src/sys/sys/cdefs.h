@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.4 2005/04/17 01:17:21 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.5 2005/04/26 08:27:47 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.13 2004/01/28 03:33:29 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -199,7 +199,7 @@
 #elif defined(__ELF__) && defined(__GNUC__)
 #define	__IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
-	"\n	.ascii	\"" prefix ": \""			\
+	"\n	.ascii	\"" #prefix ": \""			\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
