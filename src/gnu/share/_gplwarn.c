@@ -1,8 +1,8 @@
-/**	$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.2 2005/02/09 23:44:41 tg Exp $ */
-/**	_MirOS: contrib/gnu/aux/_gplwarn.c,v 1.2 2005/02/09 23:44:41 tg Exp $ */
+/* $MirOS: contrib/gnu/aux/_gplwarn.c,v 1.4 2005/04/26 16:06:35 tg Exp $ */
+/* _MirOS: contrib/gnu/aux/_gplwarn.c,v 1.4 2005/04/26 16:06:35 tg Exp $ */
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -41,20 +41,21 @@
 
 
 #ifdef lint
-#define	__SECTSTRING(section, prefix, string)			\
-	const char __ ## prefix [] = (string)
+#define	__IDSTRING(prefix, string)				\
+	static const char __LINTED__ ## prefix [] = (string)
 #elif defined(__ELF__) && defined(__GNUC__)
-#define	__SECTSTRING(section, prefix, string)			\
-	__asm__(".section " section				\
+#define	__IDSTRING(prefix, string)				\
+	__asm__(".section .comment"				\
+	"\n	.ascii	\"" #prefix ": \""			\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
-#define	__SECTSTRING(section, prefix, string)			\
+#define	__IDSTRING(prefix, string)				\
 	static const char __ ## prefix []			\
-	    __attribute__((__unused__)) = (string)
+	    __attribute__((used)) = (string)
 #endif
 
-#if defined(lint) || defined(__ELF__) || !defined(__GNUC__)
+#if defined(lint) || !defined(__aout__) || !defined(__GNUC__)
 #define	__TEXTSTRING(prefix, string)				\
 	__SECTSTRING(".text", prefix, string)
 #else
@@ -66,7 +67,7 @@
 
 
 __SECTSTRING(".comment", rcsid,
-    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.2 2005/02/09 23:44:41 tg Exp $");
+    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.4 2005/04/26 16:06:35 tg Exp $");
 
 __SECTSTRING(".gnu.warning.*main", warntext,
     "Linking with " MYNAME " infects the result\\n\\t"
