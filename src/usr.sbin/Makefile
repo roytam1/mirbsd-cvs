@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.2 2005/03/13 19:16:11 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.3 2005/03/15 18:33:53 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -12,7 +12,7 @@
   SUBDIR+= authpf
   SUBDIR+= bad144
   SUBDIR+= bgpctl
-  SUBDIR+= bgpd
+# SUBDIR+= bgpd
   SUBDIR+= chroot
   SUBDIR+= config
   SUBDIR+= cron
