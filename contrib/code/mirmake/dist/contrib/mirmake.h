@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.8 2005/04/12 17:30:07 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.9 2005/04/12 17:47:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -32,7 +32,8 @@
  *-
  * Add here: macros not defined on every operating system, for easier
  * patching of ported apps.
- * Suggest to use with CPPFLAGS+= -include "/path/to/mirmake.h"
+ * Suggest to use with CPPFLAGS+= -include "/path/to/mirmake.h" - but
+ * take care of CPP uses with assembly source.
  */
 
 #ifndef _MIRMAKE_H
@@ -128,16 +129,17 @@
 #ifndef __IDSTRING
 #ifdef lint
 #define	__IDSTRING(prefix, string)				\
-	static const char __ ## prefix [] = (string)
+	static const char __LINTED__ ## prefix [] = (string)
 #elif defined(__ELF__) && defined(__GNUC__)
 #define	__IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
+	"\n	.ascii	\"" #prefix ": \""			\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
 #define	__IDSTRING(prefix, string)				\
 	static const char __ ## prefix []			\
-	    __attribute__((__unused__)) = (string)
+	    __attribute__((used)) = (string)
 #endif
 #endif
 #ifndef __KERNEL_RCSID
