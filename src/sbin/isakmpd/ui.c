@@ -1,4 +1,4 @@
-/* $OpenBSD: ui.c,v 1.42 2004/08/08 19:11:06 deraadt Exp $	 */
+/* $OpenBSD: ui.c,v 1.45 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: ui.c,v 1.43 2000/10/05 09:25:12 niklas Exp $	 */
 
 /*
@@ -37,8 +37,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-
-#include "sysdep.h"
 
 #include "conf.h"
 #include "connection.h"
@@ -298,7 +296,6 @@ ui_delete(char *cmd)
 	sa_delete(sa, 1);
 }
 
-#ifdef USE_DEBUG
 /* Parse the debug command found in CMD.  */
 static void
 ui_debug(char *cmd)
@@ -324,7 +321,6 @@ ui_debug(char *cmd)
 		}
 	}
 	log_print("ui_debug: command \"%s\" malformed", cmd);
-	return;
 }
 
 static void
@@ -349,7 +345,6 @@ ui_packetlog(char *cmd)
 fail:
 	log_print("ui_packetlog: command \"%s\" malformed", cmd);
 }
-#endif				/* USE_DEBUG */
 
 static void
 ui_shutdown_daemon(char *cmd)
@@ -410,7 +405,6 @@ ui_handle_command(char *line)
 		ui_delete(line);
 		break;
 
-#ifdef USE_DEBUG
 	case 'D':
 		ui_debug(line);
 		break;
@@ -418,7 +412,6 @@ ui_handle_command(char *line)
 	case 'p':
 		ui_packetlog(line);
 		break;
-#endif
 
 	case 'Q':
 		ui_shutdown_daemon(line);
@@ -505,7 +498,7 @@ ui_handler(void)
 		/*
 		 * When we find a newline, cut off the line and feed it to the
 		 * command processor.  Then move the rest up-front.
-	         */
+		 */
 		if (*p == '\n') {
 			*p = '\0';
 			ui_handle_command(buf);

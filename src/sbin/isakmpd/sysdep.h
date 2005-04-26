@@ -1,4 +1,4 @@
-/* $OpenBSD: sysdep.h,v 1.19 2004/08/10 15:59:10 ho Exp $	 */
+/* $OpenBSD: sysdep.h,v 1.24 2005/04/08 23:15:26 hshoexer Exp $	 */
 /* $EOM: sysdep.h,v 1.17 2000/12/04 04:46:35 angelos Exp $	 */
 
 /*
@@ -38,14 +38,11 @@
 #include <string.h>
 #endif
 
-#include "sysdep-os.h"
-
 struct proto;
 struct sa;
 struct sockaddr;
 
 extern void     sysdep_app_handler(int);
-extern int      sysdep_app_open(void);
 extern int      sysdep_cleartext(int, int);
 extern void     sysdep_connection_check(char *);
 extern int      sysdep_ipsec_delete_spi(struct sa *, struct proto *, int);
@@ -58,9 +55,6 @@ extern int	sysdep_ipsec_group_spis(struct sa *, struct proto *,
     struct proto *, int);
 extern int	sysdep_ipsec_set_spi(struct sa *, struct proto *, int,
     struct sa *);
-extern char    *sysdep_progname(void);
-extern u_int32_t sysdep_random(void);
-extern u_int8_t sysdep_sa_len(struct sockaddr *);
 
 #if defined (USE_BOEHM_GC)
 /*

@@ -1,4 +1,4 @@
-/* $OpenBSD: cert.c,v 1.28 2004/06/14 09:55:41 ho Exp $	 */
+/* $OpenBSD: cert.c,v 1.31 2005/04/08 22:32:09 cloder Exp $	 */
 /* $EOM: cert.c,v 1.18 2000/09/28 12:53:27 niklas Exp $	 */
 
 /*
@@ -35,22 +35,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sysdep.h"
-
 #include "isakmp_num.h"
 #include "log.h"
 #include "cert.h"
-
-#ifdef USE_X509
 #include "x509.h"
-#endif
 
-#ifdef USE_KEYNOTE
 #include "policy.h"
-#endif
 
 struct cert_handler cert_handler[] = {
-#ifdef USE_X509
     {
 	ISAKMP_CERTENC_X509_SIG,
 	x509_cert_init, x509_crl_init, x509_cert_get, x509_cert_validate,
@@ -59,8 +51,6 @@ struct cert_handler cert_handler[] = {
 	x509_cert_obtain, x509_cert_get_key, x509_cert_get_subjects,
 	x509_cert_dup, x509_serialize, x509_printable, x509_from_printable
     },
-#endif
-#ifdef USE_KEYNOTE
     {
 	ISAKMP_CERTENC_KEYNOTE,
 	keynote_cert_init, NULL, keynote_cert_get, keynote_cert_validate,
@@ -70,7 +60,6 @@ struct cert_handler cert_handler[] = {
 	keynote_cert_dup, keynote_serialize, keynote_printable,
 	keynote_from_printable
     },
-#endif
 };
 
 /* Initialize all certificate handlers */

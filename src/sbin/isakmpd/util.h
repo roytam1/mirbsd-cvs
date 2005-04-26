@@ -1,4 +1,4 @@
-/* $OpenBSD: util.h,v 1.22 2004/12/14 10:17:28 mcbride Exp $	 */
+/* $OpenBSD: util.h,v 1.25 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: util.h,v 1.10 2000/10/24 13:33:39 niklas Exp $	 */
 
 /*
@@ -46,15 +46,10 @@ extern int      check_file_secrecy_fd(int, char *, size_t *);
 extern u_int16_t decode_16(u_int8_t *);
 extern u_int32_t decode_32(u_int8_t *);
 extern u_int64_t decode_64(u_int8_t *);
-#if 0
-extern void     decode_128(u_int8_t *, u_int8_t *);
-#endif
 extern void     encode_16(u_int8_t *, u_int16_t);
 extern void     encode_32(u_int8_t *, u_int32_t);
 extern void     encode_64(u_int8_t *, u_int64_t);
-#if 0
-extern void     encode_128(u_int8_t *, u_int8_t *);
-#endif
+extern u_int32_t rand_32(void);
 extern u_int8_t *getrandom(u_int8_t *, size_t);
 extern int      hex2raw(char *, u_int8_t *, size_t);
 extern int      ones_test(const u_int8_t *, size_t);
@@ -63,6 +58,7 @@ extern u_int8_t *sockaddr_addrdata(struct sockaddr *);
 extern int      sockaddr_addrlen(struct sockaddr *);
 extern in_port_t sockaddr_port(struct sockaddr *);
 extern void	sockaddr_set_port(struct sockaddr *, in_port_t);
+extern in_port_t text2port(char *);
 extern int      text2sockaddr(char *, char *, struct sockaddr **,
 		    sa_family_t, int);
 extern void     util_ntoa(char **, int, u_int8_t *);

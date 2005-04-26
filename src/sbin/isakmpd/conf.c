@@ -1,4 +1,4 @@
-/* $OpenBSD: conf.c,v 1.74 2004/12/14 10:17:28 mcbride Exp $	 */
+/* $OpenBSD: conf.c,v 1.82 2005/04/08 22:32:09 cloder Exp $	 */
 /* $EOM: conf.c,v 1.48 2000/12/04 02:04:29 angelos Exp $	 */
 
 /*
@@ -44,8 +44,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-
-#include "sysdep.h"
 
 #include "app.h"
 #include "conf.h"
@@ -137,8 +135,8 @@ conf_remove_now(char *section, char *tag)
 	for (cb = LIST_FIRST(&conf_bindings[conf_hash(section)]); cb;
 	    cb = next) {
 		next = LIST_NEXT(cb, link);
-		if (strcasecmp(cb->section, section) == 0
-		    && strcasecmp(cb->tag, tag) == 0) {
+		if (strcasecmp(cb->section, section) == 0 &&
+		    strcasecmp(cb->tag, tag) == 0) {
 			LIST_REMOVE(cb, link);
 			LOG_DBG((LOG_MISC, 95, "[%s]:%s->%s removed", section,
 			    tag, cb->value));
@@ -215,15 +213,12 @@ conf_set_now(char *section, char *tag, char *value, int override,
  * headers and feed tag-value pairs into our configuration database.
  */
 static void
-conf_parse_line(int trans, char *line, size_t sz)
+conf_parse_line(int trans, char *line, int ln, size_t sz)
 {
 	char	*val;
 	size_t	 i;
 	int	 j;
 	static char *section = 0;
-	static int ln = 0;
-
-	ln++;
 
 	/* Lines starting with '#' or ';' are comments.  */
 	if (*line == '#' || *line == ';')
@@ -283,6 +278,7 @@ conf_parse(int trans, char *buf, size_t sz)
 	char	*cp = buf;
 	char	*bufend = buf + sz;
 	char	*line;
+	int	ln = 1;
 
 	line = cp;
 	while (cp < bufend) {
@@ -292,9 +288,10 @@ conf_parse(int trans, char *buf, size_t sz)
 				*(cp - 1) = *cp = ' ';
 			else {
 				*cp = '\0';
-				conf_parse_line(trans, line, cp - line);
+				conf_parse_line(trans, line, ln, cp - line);
 				line = cp + 1;
 			}
+			ln++;
 		}
 		cp++;
 	}
@@ -319,7 +316,7 @@ conf_parse(int trans, char *buf, size_t sz)
  *
  * DH group defaults to MODP_1024.
  *
- * XXX We may want to support USE_BLOWFISH, USE_TRIPLEDES, etc...
+ * XXX We may want to support USE_TRIPLEDES, etc...
  * XXX No EC2N DH support here yet.
  */
 
@@ -476,7 +473,6 @@ conf_load_defaults(int tr)
 	conf_set(tr, "General", "Pubkey-directory", CONF_DFLT_PUBKEY_DIR, 0,
 	    1);
 
-#ifdef USE_X509
 	conf_set(tr, "X509-certificates", "CA-directory",
 	    CONF_DFLT_X509_CA_DIR, 0, 1);
 	conf_set(tr, "X509-certificates", "Cert-directory",
@@ -485,12 +481,9 @@ conf_load_defaults(int tr)
 	    CONF_DFLT_X509_PRIVATE_KEY, 0, 1);
 	conf_set(tr, "X509-certificates", "CRL-directory",
 	    CONF_DFLT_X509_CRL_DIR, 0, 1);
-#endif
 
-#ifdef USE_KEYNOTE
 	conf_set(tr, "KeyNote", "Credential-directory",
 	    CONF_DFLT_KEYNOTE_CRED_DIR, 0, 1);
-#endif
 
 	/* Lifetimes. XXX p1/p2 vs main/quick mode may be unclear.  */
 	dflt = conf_get_trans_str(tr, "General", "Default-phase-1-lifetime");
@@ -694,8 +687,8 @@ conf_get_str(char *section, char *tag)
 			return cb->value;
 		}
 	LOG_DBG((LOG_MISC, 95,
-	     "conf_get_str: configuration value not found [%s]:%s", section,
-	     tag));
+	    "conf_get_str: configuration value not found [%s]:%s", section,
+	    tag));
 	return 0;
 }
 
@@ -708,7 +701,7 @@ conf_get_list(char *section, char *tag)
 {
 	char	*liststr = 0, *p, *field, *t;
 	struct conf_list *list = 0;
-	struct conf_list_node *node;
+	struct conf_list_node *node = 0;
 
 	list = malloc(sizeof *list);
 	if (!list)
@@ -747,6 +740,8 @@ conf_get_list(char *section, char *tag)
 	return list;
 
 cleanup:
+	if (node)
+		free(node);
 	if (list)
 		conf_free_list(list);
 	if (liststr)
@@ -758,7 +753,7 @@ struct conf_list *
 conf_get_tag_list(char *section)
 {
 	struct conf_list *list = 0;
-	struct conf_list_node *node;
+	struct conf_list_node *node = 0;
 	struct conf_binding *cb;
 
 	list = malloc(sizeof *list);
@@ -781,6 +776,8 @@ conf_get_tag_list(char *section)
 	return list;
 
 cleanup:
+	if (node)
+		free(node);
 	if (list)
 		conf_free_list(list);
 	return 0;

@@ -1,4 +1,4 @@
-/* $OpenBSD: transport.c,v 1.30 2004/08/08 19:11:06 deraadt Exp $	 */
+/* $OpenBSD: transport.c,v 1.33 2005/04/08 23:15:26 hshoexer Exp $	 */
 /* $EOM: transport.c,v 1.43 2000/10/10 12:36:39 provos Exp $	 */
 
 /*
@@ -32,9 +32,8 @@
 
 #include <sys/param.h>
 #include <sys/queue.h>
+#include <netdb.h>
 #include <string.h>
-
-#include "sysdep.h"
 
 #include "conf.h"
 #include "exchange.h"
@@ -58,7 +57,7 @@ transport_reinit(void)
 	struct transport_vtbl *method;
 
 	for (method = LIST_FIRST(&transport_method_list); method;
-	     method = LIST_NEXT(method, link))
+	    method = LIST_NEXT(method, link))
 		if (method->reinit)
 			method->reinit();
 }
@@ -127,8 +126,8 @@ transport_report(void)
 
 	for (t = LIST_FIRST(&transport_list); t; t = LIST_NEXT(t, link)) {
 		LOG_DBG((LOG_REPORT, 0,
-		     "transport_report: transport %p flags %x refcnt %d", t,
-			 t->flags, t->refcnt));
+		    "transport_report: transport %p flags %x refcnt %d", t,
+		    t->flags, t->refcnt));
 
 		/* XXX Report sth on the virtual transport?  */
 		t->vtbl->report(t);
@@ -141,12 +140,12 @@ transport_report(void)
 		if ((v->encap_is_active && v->encap == t) ||
 		    (!v->encap_is_active && v->main == t)) {
 			for (msg = TAILQ_FIRST(&t->virtual->prio_sendq); msg;
-			     msg = TAILQ_NEXT(msg, link))
+			    msg = TAILQ_NEXT(msg, link))
 				message_dump_raw("udp_report(prio)", msg,
 				    LOG_REPORT);
 
 			for (msg = TAILQ_FIRST(&t->virtual->sendq); msg;
-			     msg = TAILQ_NEXT(msg, link))
+			    msg = TAILQ_NEXT(msg, link))
 				message_dump_raw("udp_report", msg,
 				    LOG_REPORT);
 		}
@@ -267,8 +266,10 @@ transport_send_messages(fd_set * fds)
 	struct transport *t, *next;
 	struct message *msg;
 	struct exchange *exchange;
+	struct sockaddr *dst;
 	struct timeval  expiration;
 	int             expiry, ok_to_drop_message;
+	char peer[NI_MAXHOST], peersv[NI_MAXSERV];
 
 	/*
 	 * Reference all transports first so noone will disappear while in
@@ -302,7 +303,7 @@ transport_send_messages(fd_set * fds)
 			 * We disregard the potential error message here,
 			 * hoping that the retransmit will go better.
 			 * XXX Consider a retry/fatal error discriminator.
-		         */
+			 */
 			t->virtual->vtbl->send_message(msg, 0);
 			msg->xmits++;
 
@@ -310,42 +311,31 @@ transport_send_messages(fd_set * fds)
 			 * This piece of code has been proven to be quite
 			 * delicate. Think twice for before altering.
 			 * Here's an outline:
-		         *
+			 *
 			 * If this message is not the one which finishes an
 			 * exchange, check if we have reached the number of
 			 * retransmit before queuing it up for another.
-		         *
+			 *
 			 * If it is a finishing message we still may have to
 			 * keep it around for an on-demand retransmit when
 			 * seeing a duplicate of our peer's previous message.
-		         *
-		         */
+			 */
 			if ((msg->flags & MSG_LAST) == 0) {
 				if (msg->xmits > conf_get_num("General",
 				    "retransmits", RETRANSMIT_DEFAULT)) {
-					log_print("transport_send_messages: "
-					    "giving up on message %p, "
-					    "exchange %s", msg,
-					    exchange->name ? exchange->name :
-					    "<unnamed>");
-					/* Be more verbose here.  */
-					if (exchange->phase == 1) {
-						log_print(
-						    "transport_send_messages: "
-						    "either this message did "
-						    "not reach the other "
-						    "peer");
-						if (exchange->initiator)
-							log_print("transport_send_messages: "
-							    "or the response"
-							    "message did not "
-							    "reach us back");
-						else
-							log_print("transport_send_messages: "
-							    "or this is an "
-							    "attempted IKE "
-							    "scan");
+					t->virtual->vtbl->get_dst(t->virtual, &dst);
+					if (getnameinfo(dst, SA_LEN(dst), peer,
+					    sizeof peer, peersv, sizeof peersv,
+					    NI_NUMERICHOST | NI_NUMERICSERV)) {
+						strlcpy(peer, "<unknown>", sizeof peer);
+						strlcpy(peersv, "<?>", sizeof peersv);
 					}
+					log_print("transport_send_messages: "
+					    "giving up on exchange %s, no "
+					    "response from peer %s:%s",
+					    exchange->name ? exchange->name :
+					    "<unnamed>", peer, peersv);
+
 					exchange->last_sent = 0;
 #ifdef notyet
 					exchange_free(exchange);
@@ -357,7 +347,7 @@ transport_send_messages(fd_set * fds)
 					/*
 					 * XXX Calculate from round trip
 					 * timings and a backoff func.
-				         */
+					 */
 					expiry = msg->xmits * 2 + 5;
 					expiration.tv_sec += expiry;
 					LOG_DBG((LOG_TRANSPORT, 30,
@@ -388,7 +378,7 @@ transport_send_messages(fd_set * fds)
 			 * after the post-send function. But as the post-send
 			 * function may remove the exchange, we need to
 			 * remember this fact here.
-		         */
+			 */
 			ok_to_drop_message = exchange->last_sent == 0;
 
 			/*
@@ -398,7 +388,7 @@ transport_send_messages(fd_set * fds)
 			 * the job.  Note that a post-send function may take
 			 * away the exchange we belong to, but only if no
 			 * retransmits are possible.
-		         */
+			 */
 			if (msg->xmits == 1)
 				message_post_send(msg);
 
@@ -424,7 +414,7 @@ transport_create(char *name, char *addr)
 	struct transport_vtbl *method;
 
 	for (method = LIST_FIRST(&transport_method_list); method;
-	     method = LIST_NEXT(method, link))
+	    method = LIST_NEXT(method, link))
 		if (strcmp(method->name, name) == 0)
 			return (*method->create) (addr);
 	return 0;

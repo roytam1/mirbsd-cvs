@@ -1,4 +1,4 @@
-/*	$OpenBSD: apmd.c,v 1.29 2003/09/26 17:03:22 deraadt Exp $	*/
+/*	$OpenBSD: apmd.c,v 1.32 2005/03/10 22:42:46 deraadt Exp $	*/
 
 /*
  *  Copyright (c) 1995, 1996 John T. Kohl
@@ -71,6 +71,7 @@ void make_noise(int howmany);
 void do_etc_file(const char *file);
 void sockunlink(void);
 
+/* ARGSUSED */
 void
 sigexit(int signo)
 {
@@ -180,6 +181,7 @@ int
 bind_socket(const char *sockname)
 {
 	struct sockaddr_un s_un;
+	mode_t old_umask;
 	int sock;
 
 	sock = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -192,10 +194,11 @@ bind_socket(const char *sockname)
 
 	/* remove it if present, we're moving in */
 	(void) remove(sockname);
-	umask(077);
 
+	old_umask = umask(077);
 	if (bind(sock, (struct sockaddr *)&s_un, s_un.sun_len) == -1)
 		error("cannot connect to APM socket", NULL);
+	umask(old_umask);
 	if (chmod(sockname, 0660) == -1 || chown(sockname, 0, 0) == -1)
 		error("cannot set socket mode/owner/group to 660/0/0", NULL);
 
@@ -216,6 +219,7 @@ handle_client(int sock_fd, int ctl_fd)
 	struct apm_command cmd;
 	struct apm_reply reply;
 
+	fromlen = sizeof(from);
 	cli_fd = accept(sock_fd, (struct sockaddr *)&from, &fromlen);
 	if (cli_fd == -1) {
 		syslog(LOG_INFO, "client accept failure: %m");

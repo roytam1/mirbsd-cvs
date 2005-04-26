@@ -1,4 +1,4 @@
-/*	$OpenBSD: openbsd-syscalls.c,v 1.23 2003/10/22 21:03:35 sturm Exp $	*/
+/*	$OpenBSD: openbsd-syscalls.c,v 1.28 2004/07/09 23:51:42 deraadt Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -33,16 +33,18 @@
 
 #include <sys/syscall.h>
 
-#include "../../sys/compat/bsdos/bsdos_syscall.h"
-#include "../../sys/compat/freebsd/freebsd_syscall.h"
-#include "../../sys/compat/netbsd/netbsd_syscall.h"
-#include "../../sys/compat/hpux/hpux_syscall.h"
-#include "../../sys/compat/ibcs2/ibcs2_syscall.h"
-#include "../../sys/compat/linux/linux_syscall.h"
-#include "../../sys/compat/osf1/osf1_syscall.h"
-#include "../../sys/compat/sunos/sunos_syscall.h"
-#include "../../sys/compat/svr4/svr4_syscall.h"
-#include "../../sys/compat/ultrix/ultrix_syscall.h"
+#include <compat/bsdos/bsdos_syscall.h>
+#include <compat/freebsd/freebsd_syscall.h>
+#include <compat/netbsd/netbsd_syscall.h>
+#if defined(__hppa__) || defined(__m68k__)
+#include <compat/hpux/hpux_syscall.h>
+#endif
+#include <compat/ibcs2/ibcs2_syscall.h>
+#include <compat/linux/linux_syscall.h>
+#include <compat/osf1/osf1_syscall.h>
+#include <compat/sunos/sunos_syscall.h>
+#include <compat/svr4/svr4_syscall.h>
+#include <compat/ultrix/ultrix_syscall.h>
 
 #define KTRACE
 #define NFSCLIENT
@@ -51,18 +53,20 @@
 #define SYSVMSG
 #define SYSVSHM
 #define LFS
-#include "../../sys/kern/syscalls.c"
+#include <kern/syscalls.c>
 
-#include "../../sys/compat/bsdos/bsdos_syscalls.c"
-#include "../../sys/compat/freebsd/freebsd_syscalls.c"
-#include "../../sys/compat/netbsd/netbsd_syscalls.c"
-#include "../../sys/compat/hpux/hpux_syscalls.c"
-#include "../../sys/compat/ibcs2/ibcs2_syscalls.c"
-#include "../../sys/compat/linux/linux_syscalls.c"
-#include "../../sys/compat/osf1/osf1_syscalls.c"
-#include "../../sys/compat/sunos/sunos_syscalls.c"
-#include "../../sys/compat/svr4/svr4_syscalls.c"
-#include "../../sys/compat/ultrix/ultrix_syscalls.c"
+#include <compat/bsdos/bsdos_syscalls.c>
+#include <compat/freebsd/freebsd_syscalls.c>
+#include <compat/netbsd/netbsd_syscalls.c>
+#if defined(__hppa__) || defined(__m68k__)
+#include <compat/hpux/hpux_syscalls.c>
+#endif
+#include <compat/ibcs2/ibcs2_syscalls.c>
+#include <compat/linux/linux_syscalls.c>
+#include <compat/osf1/osf1_syscalls.c>
+#include <compat/sunos/sunos_syscalls.c>
+#include <compat/svr4/svr4_syscalls.c>
+#include <compat/ultrix/ultrix_syscalls.c>
 #undef KTRACE
 #undef NFSCLIENT
 #undef NFSSERVER
@@ -94,7 +98,9 @@ struct emulation {
 static struct emulation emulations[] = {
 	{ "native",	syscallnames,		SYS_MAXSYSCALL },
 	{ "aout",	syscallnames,		SYS_MAXSYSCALL },
+#if defined(__hppa__) || defined(__m68k__)
 	{ "hpux",	hpux_syscallnames,	HPUX_SYS_MAXSYSCALL },
+#endif
 	{ "ibcs2",	ibcs2_syscallnames,	IBCS2_SYS_MAXSYSCALL },
 	{ "linux",	linux_syscallnames,	LINUX_SYS_MAXSYSCALL },
 	{ "osf1",	osf1_syscallnames,	OSF1_SYS_MAXSYSCALL },
@@ -139,6 +145,7 @@ static int obsd_setcwd(int, pid_t);
 static int obsd_restcwd(int);
 static int obsd_argument(int, void *, int, void **);
 static int obsd_read(int);
+static int obsd_scriptname(int, pid_t, char *);
 
 static int
 obsd_init(void)
@@ -382,6 +389,17 @@ obsd_answer(int fd, pid_t pid, u_int32_t seqnr, short policy, int nerrno,
 	return (0);
 }
 
+static int 
+obsd_scriptname(int fd, pid_t pid, char *scriptname)
+{
+	struct systrace_scriptname sn;
+
+	sn.sn_pid = pid;
+	strlcpy(sn.sn_scriptname, scriptname, sizeof(sn.sn_scriptname));
+
+	return (ioctl(fd, STRIOCSCRIPTNAME, &sn));
+}
+
 static int
 obsd_newpolicy(int fd)
 {
@@ -621,6 +639,19 @@ obsd_read(int fd)
 		intercept_child_info(msg.msg_pid,
 		    msg.msg_data.msg_child.new_pid);
 		break;
+#ifdef SYSTR_MSG_EXECVE
+	case SYSTR_MSG_EXECVE: {
+		struct str_msg_execve *msg_execve = &msg.msg_data.msg_execve;
+		
+		intercept_newimage(fd, pid, msg.msg_policy, current->name,
+		    msg_execve->path, NULL);
+
+		if (obsd_answer(fd, pid, seqnr, 0, 0, 0, NULL) == -1)
+			err(1, "%s:%d: answer", __func__, __LINE__);
+		break;
+	}
+#endif
+
 #ifdef SYSTR_MSG_POLICYFREE
 	case SYSTR_MSG_POLICYFREE:
 		intercept_policy_free(msg.msg_policy);
@@ -650,4 +681,5 @@ struct intercept_system intercept = {
 	obsd_replace,
 	obsd_clonepid,
 	obsd_freepid,
+	obsd_scriptname,
 };

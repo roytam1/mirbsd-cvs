@@ -1,4 +1,4 @@
-/* $OpenBSD: crypto.c,v 1.22 2004/06/14 09:55:41 ho Exp $	 */
+/* $OpenBSD: crypto.c,v 1.28 2005/04/08 22:32:09 cloder Exp $	 */
 /* $EOM: crypto.c,v 1.32 2000/03/07 20:08:51 niklas Exp $	 */
 
 /*
@@ -34,8 +34,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sysdep.h"
-
 #include "crypto.h"
 #include "log.h"
 
@@ -56,61 +54,44 @@ void            aes_encrypt(struct keystate *, u_int8_t *, u_int16_t);
 void            aes_decrypt(struct keystate *, u_int8_t *, u_int16_t);
 
 struct crypto_xf transforms[] = {
-#ifdef USE_DES
 	{
 		DES_CBC, "Data Encryption Standard (CBC-Mode)", 8, 8,
 		BLOCKSIZE, 0,
 		des1_init,
 		des1_encrypt, des1_decrypt
 	},
-#endif
-#ifdef USE_TRIPLEDES
 	{
 		TRIPLEDES_CBC, "Triple-DES (CBC-Mode)", 24, 24,
 		BLOCKSIZE, 0,
 		des3_init,
 		des3_encrypt, des3_decrypt
 	},
-#endif
-#ifdef USE_BLOWFISH
 	{
 		BLOWFISH_CBC, "Blowfish (CBC-Mode)", 12, 56,
 		BLOCKSIZE, 0,
 		blf_init,
 		blf_encrypt, blf_decrypt
 	},
-#endif
-#ifdef USE_CAST
 	{
 		CAST_CBC, "CAST (CBC-Mode)", 12, 16,
 		BLOCKSIZE, 0,
 		cast_init,
 		cast1_encrypt, cast1_decrypt
 	},
-#endif
-#ifdef USE_AES
 	{
 		AES_CBC, "AES (CBC-Mode)", 16, 32,
 		AES_BLOCK_SIZE, 0,
 		aes_init,
 		aes_encrypt, aes_decrypt
 	},
-#endif
 };
-
-/* Hmm, the function prototypes for des are really dumb */
-#ifdef __OpenBSD__
-#define DC	(des_cblock *)
-#else
-#define DC	(void *)
-#endif
 
 enum cryptoerr
 des1_init(struct keystate *ks, u_int8_t *key, u_int16_t len)
 {
 	/* des_set_key returns -1 for parity problems, and -2 for weak keys */
-	des_set_odd_parity(DC key);
-	switch (des_set_key(DC key, ks->ks_des[0])) {
+	des_set_odd_parity((void *)key);
+	switch (des_set_key((void *)key, ks->ks_des[0])) {
 	case -2:
 		return EWEAKKEY;
 	default:
@@ -121,29 +102,28 @@ des1_init(struct keystate *ks, u_int8_t *key, u_int16_t len)
 void
 des1_encrypt(struct keystate *ks, u_int8_t *d, u_int16_t len)
 {
-	des_cbc_encrypt(DC d, DC d, len, ks->ks_des[0], DC ks->riv,
+	des_cbc_encrypt((void *)d, (void *)d, len, ks->ks_des[0], (void *)ks->riv,
 	    DES_ENCRYPT);
 }
 
 void
 des1_decrypt(struct keystate *ks, u_int8_t *d, u_int16_t len)
 {
-	des_cbc_encrypt(DC d, DC d, len, ks->ks_des[0], DC ks->riv,
+	des_cbc_encrypt((void *)d, (void *)d, len, ks->ks_des[0], (void *)ks->riv,
 	    DES_DECRYPT);
 }
 
-#ifdef USE_TRIPLEDES
 enum cryptoerr
 des3_init(struct keystate *ks, u_int8_t *key, u_int16_t len)
 {
-	des_set_odd_parity(DC key);
-	des_set_odd_parity(DC(key + 8));
-	des_set_odd_parity(DC(key + 16));
+	des_set_odd_parity((void *)key);
+	des_set_odd_parity((void *)(key + 8));
+	des_set_odd_parity((void *)(key + 16));
 
 	/* As of the draft Tripe-DES does not check for weak keys */
-	des_set_key(DC key, ks->ks_des[0]);
-	des_set_key(DC(key + 8), ks->ks_des[1]);
-	des_set_key(DC(key + 16), ks->ks_des[2]);
+	des_set_key((void *)key, ks->ks_des[0]);
+	des_set_key((void *)(key + 8), ks->ks_des[1]);
+	des_set_key((void *)(key + 16), ks->ks_des[2]);
 
 	return EOKAY;
 }
@@ -154,8 +134,8 @@ des3_encrypt(struct keystate *ks, u_int8_t *data, u_int16_t len)
 	u_int8_t        iv[MAXBLK];
 
 	memcpy(iv, ks->riv, ks->xf->blocksize);
-	des_ede3_cbc_encrypt(DC data, DC data, len, ks->ks_des[0],
-	    ks->ks_des[1], ks->ks_des[2], DC iv, DES_ENCRYPT);
+	des_ede3_cbc_encrypt((void *)data, (void *)data, len, ks->ks_des[0],
+	    ks->ks_des[1], ks->ks_des[2], (void *)iv, DES_ENCRYPT);
 }
 
 void
@@ -164,13 +144,10 @@ des3_decrypt(struct keystate *ks, u_int8_t *data, u_int16_t len)
 	u_int8_t        iv[MAXBLK];
 
 	memcpy(iv, ks->riv, ks->xf->blocksize);
-	des_ede3_cbc_encrypt(DC data, DC data, len, ks->ks_des[0],
-	    ks->ks_des[1], ks->ks_des[2], DC iv, DES_DECRYPT);
+	des_ede3_cbc_encrypt((void *)data, (void *)data, len, ks->ks_des[0],
+	    ks->ks_des[1], ks->ks_des[2], (void *)iv, DES_DECRYPT);
 }
-#undef DC
-#endif				/* USE_TRIPLEDES */
 
-#ifdef USE_BLOWFISH
 enum cryptoerr
 blf_init(struct keystate *ks, u_int8_t *key, u_int16_t len)
 {
@@ -223,9 +200,7 @@ blf_decrypt(struct keystate *ks, u_int8_t *data, u_int16_t len)
 	SET_32BIT_BIG(data + 4, xr);
 	XOR64(data, ks->riv);
 }
-#endif				/* USE_BLOWFISH */
 
-#ifdef USE_CAST
 enum cryptoerr
 cast_init(struct keystate *ks, u_int8_t *key, u_int16_t len)
 {
@@ -262,9 +237,7 @@ cast1_decrypt(struct keystate *ks, u_int8_t *data, u_int16_t len)
 	cast_decrypt(&ks->ks_cast, data, data);
 	XOR64(data, ks->riv);
 }
-#endif				/* USE_CAST */
 
-#ifdef USE_AES
 enum cryptoerr
 aes_init(struct keystate *ks, u_int8_t *key, u_int16_t len)
 {
@@ -290,7 +263,6 @@ aes_decrypt(struct keystate *ks, u_int8_t *data, u_int16_t len)
 	memcpy(iv, ks->riv, ks->xf->blocksize);
 	AES_cbc_encrypt(data, data, len, &ks->ks_aes[1], iv, AES_DECRYPT);
 }
-#endif				/* USE_AES */
 
 struct crypto_xf *
 crypto_get(enum transform id)
@@ -366,7 +338,7 @@ crypto_init_iv(struct keystate *ks, u_int8_t *buf, size_t len)
 void
 crypto_encrypt(struct keystate *ks, u_int8_t *buf, u_int16_t len)
 {
-	LOG_DBG_BUF((LOG_CRYPTO, 10, "crypto_encrypt: before encryption", buf,
+	LOG_DBG_BUF((LOG_CRYPTO, 30, "crypto_encrypt: before encryption", buf,
 	    len));
 	ks->xf->encrypt(ks, buf, len);
 	memcpy(ks->liv, buf + len - ks->xf->blocksize, ks->xf->blocksize);
@@ -377,7 +349,7 @@ crypto_encrypt(struct keystate *ks, u_int8_t *buf, u_int16_t len)
 void
 crypto_decrypt(struct keystate *ks, u_int8_t *buf, u_int16_t len)
 {
-	LOG_DBG_BUF((LOG_CRYPTO, 10, "crypto_decrypt: before decryption", buf,
+	LOG_DBG_BUF((LOG_CRYPTO, 30, "crypto_decrypt: before decryption", buf,
 	    len));
 	/*
 	 * XXX There is controversy about the correctness of updating the IV

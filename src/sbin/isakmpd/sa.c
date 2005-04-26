@@ -1,4 +1,4 @@
-/* $OpenBSD: sa.c,v 1.86 2004/08/10 15:59:10 ho Exp $	 */
+/* $OpenBSD: sa.c,v 1.98 2005/04/08 23:15:26 hshoexer Exp $	 */
 /* $EOM: sa.c,v 1.112 2000/12/12 00:22:52 niklas Exp $	 */
 
 /*
@@ -35,10 +35,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined (USE_KEYNOTE) || defined (USE_POLICY)
 #include <regex.h>
 #include <keynote.h>
-#endif				/* USE_KEYNOTE || USE_POLICY */
 
 #include "sysdep.h"
 
@@ -200,8 +198,8 @@ sa_check_peer(struct sa *sa, void *v_addr)
 		return 0;
 
 	sa->transport->vtbl->get_dst(sa->transport, &dst);
-	return sysdep_sa_len(dst) == addr->len &&
-	    memcmp(dst, addr->addr, sysdep_sa_len(dst)) == 0;
+	return SA_LEN(dst) == addr->len &&
+	    memcmp(dst, addr->addr, SA_LEN(dst)) == 0;
 }
 
 struct dst_isakmpspi_arg {
@@ -225,8 +223,8 @@ isakmp_sa_check(struct sa *sa, void *v_arg)
 	/* verify address is either src or dst for this sa */
 	sa->transport->vtbl->get_dst(sa->transport, &dst);
 	sa->transport->vtbl->get_src(sa->transport, &src);
-	if (memcmp(src, arg->dst, sysdep_sa_len(src)) &&
-	    memcmp(dst, arg->dst, sysdep_sa_len(dst)))
+	if (memcmp(src, arg->dst, SA_LEN(src)) &&
+	    memcmp(dst, arg->dst, SA_LEN(dst)))
 		return 0;
 
 	/* match icookie+rcookie against spi */
@@ -345,11 +343,10 @@ sa_lookup(u_int8_t *cookies, u_int8_t *message_id)
 		}
 	bucket &= bucket_mask;
 	for (sa = LIST_FIRST(&sa_tab[bucket]);
-	    sa && (memcmp(cookies, sa->cookies, ISAKMP_HDR_COOKIES_LEN) != 0
-	    || (message_id && memcmp(message_id, sa->message_id,
-		ISAKMP_HDR_MESSAGE_ID_LEN) != 0)
-	    || (!message_id && !zero_test(sa->message_id,
-		ISAKMP_HDR_MESSAGE_ID_LEN)));
+	    sa && (memcmp(cookies, sa->cookies, ISAKMP_HDR_COOKIES_LEN) != 0 ||
+	    (message_id && memcmp(message_id, sa->message_id,
+	    ISAKMP_HDR_MESSAGE_ID_LEN) != 0) ||
+	    (!message_id && !zero_test(sa->message_id, ISAKMP_HDR_MESSAGE_ID_LEN)));
 	    sa = LIST_NEXT(sa, link))
 		;
 
@@ -640,7 +637,7 @@ sa_dump_all(FILE *fd, struct sa *sa)
 	fprintf(fd, " (Phase %d)\n", sa->phase);
 
 	/* Source and destination IPs. */
-	fprintf(fd, sa->transport == NULL ? "<no transport>" :
+	fprintf(fd, "%s", sa->transport == NULL ? "<no transport>" :
 	    sa->transport->vtbl->decode_ids(sa->transport));
 	fprintf(fd, "\n");
 
@@ -724,6 +721,10 @@ sa_free(struct sa *sa)
 		sa->soft_death = 0;
 		sa->refcnt--;
 	}
+	if (sa->dpd_event) {
+		timer_remove_event(sa->dpd_event);
+		sa->dpd_event = 0;
+	}
 	sa_remove(sa);
 }
 
@@ -786,22 +787,16 @@ sa_release(struct sa *sa)
 		    sa->recv_key);
 	if (sa->keynote_key)
 		free(sa->keynote_key);	/* This is just a string */
-#if defined (USE_POLICY) || defined (USE_KEYNOTE)
 	if (sa->policy_id != -1)
 		kn_close(sa->policy_id);
-#endif
 	if (sa->name)
 		free(sa->name);
 	if (sa->keystate)
 		free(sa->keystate);
-#if defined (USE_NAT_TRAVERSAL)
 	if (sa->nat_t_keepalive)
 		timer_remove_event(sa->nat_t_keepalive);
-#endif
-#if defined (USE_DPD)
 	if (sa->dpd_event)
 		timer_remove_event(sa->dpd_event);
-#endif
 	if (sa->transport)
 		transport_release(sa->transport);
 	free(sa);
@@ -918,7 +913,7 @@ sa_validate_proto_xf(struct proto *match, struct payload *xf, int phase)
 		if (xf_id != GET_ISAKMP_TRANSFORM_ID(pa->attrs))
 			continue;
 
-		memset(avs->checked, 0, sizeof avs->checked);
+		bzero(avs->checked, sizeof avs->checked);
 		if (attribute_map(pa->attrs + ISAKMP_TRANSFORM_SA_ATTRS_OFF,
 		    pa->len - ISAKMP_TRANSFORM_SA_ATTRS_OFF,
 		    sa_validate_xf_attrs, avs) == 0)
@@ -970,9 +965,9 @@ sa_add_transform(struct sa *sa, struct payload *xf, int initiator,
 		 * selected proposal to make this lookup easier. Most vendors
 		 * follow this. One noted exception is the CiscoPIX (and
 		 * perhaps other Cisco products).
-	         *
+		 *
 		 * We start by matching on the proposal number, as before.
-	         */
+		 */
 		for (proto = TAILQ_FIRST(&sa->protos);
 		    proto && proto->no != GET_ISAKMP_PROP_NO(prop->p);
 		    proto = TAILQ_NEXT(proto, link))
@@ -980,13 +975,12 @@ sa_add_transform(struct sa *sa, struct payload *xf, int initiator,
 		/*
 		 * If we did not find a match, search through all proposals
 		 * and xforms.
-	         */
+		 */
 		if (!proto || sa_validate_proto_xf(proto, xf, sa->phase) != 0)
 			for (proto = TAILQ_FIRST(&sa->protos);
-			     proto && sa_validate_proto_xf(proto, xf,
-				 sa->phase) != 0;
-			     proto = TAILQ_NEXT(proto, link))
-			    ;
+			    proto && sa_validate_proto_xf(proto, xf, sa->phase) != 0;
+			    proto = TAILQ_NEXT(proto, link))
+				;
 	}
 	if (!proto)
 		return -1;
@@ -1043,8 +1037,7 @@ cleanup:
 void
 sa_delete(struct sa *sa, int notify)
 {
-	/* Don't bother notifying of Phase 1 SA deletes.  */
-	if (sa->phase != 1 && notify)
+	if (notify)
 		message_send_delete(sa);
 	sa_free(sa);
 }
@@ -1069,8 +1062,9 @@ sa_teardown_all(void)
 				 */
 				LOG_DBG((LOG_SA, 70,
 				    "sa_teardown_all: tearing down SA %s",
-				    sa->name));
-				connection_teardown(sa->name);
+				    sa->name ? sa->name : "<unnamed>"));
+				if (sa->name)
+					connection_teardown(sa->name);
 				sa_delete(sa, 1);
 			}
 		}
@@ -1094,7 +1088,7 @@ sa_soft_expire(void *v_sa)
 		/*
 		 * Start to watch the use of this SA, so a renegotiation can
 		 * happen as soon as it is shown to be alive.
-	         */
+		 */
 		sa->flags |= SA_FLAG_FADING;
 }
 
@@ -1183,6 +1177,10 @@ sa_mark_replaced(struct sa *sa)
 {
 	LOG_DBG((LOG_SA, 60, "sa_mark_replaced: SA %p (%s) marked as replaced",
 	    sa, sa->name ? sa->name : "unnamed"));
+	if (sa->dpd_event) {
+		timer_remove_event(sa->dpd_event);
+		sa->dpd_event = 0;
+	}
 	sa->flags |= SA_FLAG_REPLACED;
 }
 
@@ -1214,7 +1212,7 @@ sa_setup_expirations(struct sa *sa)
 		 * XXX This should probably be configuration controlled
 		 * somehow.
 		 */
-		seconds = sa->seconds * (850 + sysdep_random() % 100) / 1000;
+		seconds = sa->seconds * (850 + rand_32() % 100) / 1000;
 		LOG_DBG((LOG_TIMER, 95,
 		    "sa_setup_expirations: SA %p soft timeout in %llu seconds",
 		    sa, seconds));

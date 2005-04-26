@@ -1,4 +1,4 @@
-/* $OpenBSD: math_2n.c,v 1.16 2004/06/14 09:55:41 ho Exp $	 */
+/* $OpenBSD: math_2n.c,v 1.22 2005/04/21 01:23:06 cloder Exp $	 */
 /* $EOM: math_2n.c,v 1.15 1999/04/20 09:23:30 niklas Exp $	 */
 
 /*
@@ -42,8 +42,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
-#include "sysdep.h"
 
 #include "math_2n.h"
 #include "util.h"
@@ -135,7 +133,7 @@ b2n_resize(b2n_ptr n, unsigned int chunks)
 	n->dirty = 1;
 
 	if (chunks > old)
-		memset(n->limp + old, 0, size - CHUNK_BYTES * old);
+		bzero(n->limp + old, size - CHUNK_BYTES * old);
 
 	return 0;
 }
@@ -213,13 +211,13 @@ b2n_set_str(b2n_ptr n, char *str)
 	chunks = (CHUNK_BYTES - 1 + len) / CHUNK_BYTES;
 	if (b2n_resize(n, chunks))
 		return -1;
-	memset(n->limp, 0, CHUNK_BYTES * n->chunks);
+	bzero(n->limp, CHUNK_BYTES * n->chunks);
 
 	for (w = 0, i = 0; i < chunks; i++) {
 		tmp = 0;
 		for (j = (i == 0 ?
 		    ((len - 1) % CHUNK_BYTES) + 1 : CHUNK_BYTES);
-		     j > 0; j--) {
+		    j > 0; j--) {
 			tmp <<= 8;
 			tmp |= (hex2int(str[w]) << 4) | hex2int(str[w + 1]);
 			w += 2;
@@ -229,72 +227,6 @@ b2n_set_str(b2n_ptr n, char *str)
 
 	n->dirty = 1;
 	return 0;
-}
-
-/* Output function, mainly for debugging purposes.  */
-void
-b2n_print(b2n_ptr n)
-{
-	int             i, j, w, flag = 0;
-	int             left;
-	char            buffer[2 * CHUNK_BYTES];
-	CHUNK_TYPE      tmp;
-
-	left = ((((7 + b2n_sigbit(n)) >> 3) - 1) % CHUNK_BYTES) + 1;
-	printf("0x");
-	for (i = 0; i < n->chunks; i++) {
-		tmp = n->limp[n->chunks - 1 - i];
-		memset(buffer, '0', sizeof(buffer));
-		for (w = 0, j = (i == 0 ? left : CHUNK_BYTES); j > 0; j--) {
-			buffer[w++] = int2hex[(tmp >> 4) & 0xf];
-			buffer[w++] = int2hex[tmp & 0xf];
-			tmp >>= 8;
-		}
-
-		for (j = (i == 0 ? left - 1 : CHUNK_BYTES - 1); j >= 0; j--)
-			if (flag || (i == n->chunks - 1 && j == 0) ||
-			 buffer[2 * j] != '0' || buffer[2 * j + 1] != '0') {
-				putchar(buffer[2 * j]);
-				putchar(buffer[2 * j + 1]);
-				flag = 1;
-			}
-	}
-	printf("\n");
-}
-
-int
-b2n_snprint(char *buf, size_t sz, b2n_ptr n)
-{
-	int             i, j, w, flag = 0;
-	size_t          k;
-	int             left;
-	char            buffer[2 * CHUNK_BYTES];
-	CHUNK_TYPE      tmp;
-
-	left = ((((7 + b2n_sigbit(n)) >> 3) - 1) % CHUNK_BYTES) + 1;
-
-	k = strlcpy(buf, "0x", sz);
-	for (i = 0; i < n->chunks && k < sz - 1; i++) {
-		tmp = n->limp[n->chunks - 1 - i];
-		memset(buffer, '0', sizeof(buffer));
-		for (w = 0, j = (i == 0 ? left : CHUNK_BYTES); j > 0; j--) {
-			buffer[w++] = int2hex[(tmp >> 4) & 0xf];
-			buffer[w++] = int2hex[tmp & 0xf];
-			tmp >>= 8;
-		}
-
-		for (j = (i == 0 ? left - 1 : CHUNK_BYTES - 1); j >= 0
-		    && k < sz - 3; j--)
-			if (flag || (i == n->chunks - 1 && j == 0) ||
-			    buffer[2 * j] != '0' || buffer[2 * j + 1] != '0') {
-				buf[k++] = buffer[2 * j];
-				buf[k++] = buffer[2 * j + 1];
-				flag = 1;
-			}
-	}
-
-	buf[k++] = 0;
-	return k;
 }
 
 /* Arithmetic functions.  */
@@ -398,8 +330,7 @@ b2n_cmp_null(b2n_ptr a)
 	do {
 		if (a->limp[i])
 			return 1;
-	}
-	while (++i < a->chunks);
+	} while (++i < a->chunks);
 
 	return 0;
 }
@@ -426,7 +357,7 @@ b2n_lshift(b2n_ptr d, b2n_ptr n, unsigned int s)
 	memmove(d->limp + maj, n->limp, CHUNK_BYTES * chunks);
 
 	if (maj)
-		memset(d->limp, 0, CHUNK_BYTES * maj);
+		bzero(d->limp, CHUNK_BYTES * maj);
 	if (add)
 		d->limp[d->chunks - 1] = 0;
 
@@ -644,7 +575,7 @@ b2n_div(b2n_ptr q, b2n_ptr r, b2n_ptr n, b2n_ptr m)
 
 	if (b2n_resize(q, (sn - sm + CHUNK_MASK) >> CHUNK_SHIFTS))
 		goto fail;
-	memset(q->limp, 0, CHUNK_BYTES * q->chunks);
+	bzero(q->limp, CHUNK_BYTES * q->chunks);
 
 	if (b2n_lshift(shift, shift, sn - sm))
 		goto fail;
@@ -656,8 +587,8 @@ b2n_div(b2n_ptr q, b2n_ptr r, b2n_ptr n, b2n_ptr m)
 	/* The first iteration is done over the relevant bits */
 	bits = (CHUNK_MASK + sn) & CHUNK_MASK;
 	for (i = len; i >= 0 && b2n_sigbit(nenn) >= sm; i--)
-		for (j = (i == len ? bits : CHUNK_MASK); j >= 0
-		    && b2n_sigbit(nenn) >= sm; j--) {
+		for (j = (i == len ? bits : CHUNK_MASK); j >= 0 &&
+		    b2n_sigbit(nenn) >= sm; j--) {
 			if (nenn->limp[i] & b2n_mask[j]) {
 				if (b2n_sub(nenn, nenn, shift))
 					goto fail;
@@ -942,8 +873,7 @@ b2n_sqrt(b2n_ptr zo, b2n_ptr b, b2n_ptr ip)
 			if (b2n_add(w, w, p))	/* w**2 + p */
 				goto fail;
 		}
-	}
-	while (!b2n_cmp_null(w));
+	} while (!b2n_cmp_null(w));
 
 	B2N_SWAP(zo, z);
 

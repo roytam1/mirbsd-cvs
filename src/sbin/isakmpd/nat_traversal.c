@@ -1,4 +1,4 @@
-/*	$OpenBSD: nat_traversal.c,v 1.8 2004/11/18 18:15:46 hshoexer Exp $	*/
+/*	$OpenBSD: nat_traversal.c,v 1.13 2005/04/08 22:32:10 cloder Exp $	*/
 
 /*
  * Copyright (c) 2004 Håkan Olsson.  All rights reserved.
@@ -28,8 +28,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sysdep.h"
-
 #include "conf.h"
 #include "exchange.h"
 #include "hash.h"
@@ -48,21 +46,20 @@
 #include "util.h"
 #include "virtual.h"
 
+int	disable_nat_t = 0;
+
 /*
- * XXX According to draft-ietf-ipsec-nat-t-ike-07.txt, the NAT-T
- * capability of the other peer is determined by a particular vendor ID
- * sent as the first message. This vendor ID string is supposed to be a
- * MD5 hash of "RFC XXXX", where XXXX is the future RFC number.
+ * NAT-T capability of the other peer is determined by a particular vendor
+ * ID sent in the first message. This vendor ID string is supposed to be a
+ * MD5 hash of "RFC 3947".
  *
  * These seem to be the "well" known variants of this string in use by
  * products today.
  */
 static const char *isakmp_nat_t_cap_text[] = {
-	"draft-ietf-ipsec-nat-t-ike-02\n",	/* V2 */
-	"draft-ietf-ipsec-nat-t-ike-03",	/* V3 */
-#ifdef notyet
-	"RFC XXXX",
-#endif
+	"draft-ietf-ipsec-nat-t-ike-02\n",	/* draft, V2 */
+	"draft-ietf-ipsec-nat-t-ike-03",	/* draft, V3 */
+	"RFC 3947"
 };
 
 /* In seconds. Recommended in draft-ietf-ipsec-udp-encaps-09.  */
@@ -149,6 +146,9 @@ nat_t_add_vendor_payload(struct message *msg, char *hash)
 	size_t	 buflen = nat_t_hashsize + ISAKMP_GEN_SZ;
 	u_int8_t *buf;
 
+	if (disable_nat_t)
+		return 0;
+
 	buf = malloc(buflen);
 	if (!buf) {
 		log_error("nat_t_add_vendor_payload: malloc (%lu) failed",
@@ -162,7 +162,6 @@ nat_t_add_vendor_payload(struct message *msg, char *hash)
 		free(buf);
 		return -1;
 	}
-
 	return 0;
 }
 
@@ -172,14 +171,15 @@ nat_t_add_vendor_payloads(struct message *msg)
 {
 	int i = 0;
 
+	if (disable_nat_t)
+		return 0;
+
 	if (!nat_t_hashes)
 		if (nat_t_setup_hashes())
 			return 0;  /* XXX should this be an error?  */
-
 	while (nat_t_hashes[i])
 		if (nat_t_add_vendor_payload(msg, nat_t_hashes[i++]))
 			return -1;
-
 	return 0;
 }
 
@@ -192,6 +192,9 @@ nat_t_check_vendor_payload(struct message *msg, struct payload *p)
 	u_int8_t *pbuf = p->p;
 	size_t	  vlen;
 	int	  i = 0;
+
+	if (disable_nat_t)
+		return;
 
 	/* Already checked? */
 	if (p->flags & PL_MARK ||
@@ -221,8 +224,6 @@ nat_t_check_vendor_payload(struct message *msg, struct payload *p)
 			p->flags |= PL_MARK;
 			return;
 		}
-
-	return;
 }
 
 /* Generate the NAT-D payload hash : HASH(CKY-I | CKY-R | IP | Port).  */
@@ -252,7 +253,7 @@ nat_t_generate_nat_d_hash(struct message *msg, struct sockaddr *sa,
 	}
 
 	port = sockaddr_port(sa);
-	memset(res, 0, *hashlen);
+	bzero(res, *hashlen);
 
 	hash->Init(hash->ctx);
 	hash->Update(hash->ctx, msg->exchange->cookies,
@@ -260,7 +261,6 @@ nat_t_generate_nat_d_hash(struct message *msg, struct sockaddr *sa,
 	hash->Update(hash->ctx, sockaddr_addrdata(sa), sockaddr_addrlen(sa));
 	hash->Update(hash->ctx, (unsigned char *)&port, sizeof port);
 	hash->Final(res, hash->ctx);
-
 	return res;
 }
 
@@ -294,7 +294,6 @@ nat_t_add_nat_d(struct message *msg, struct sockaddr *sa)
 		free(buf);
 		return -1;
 	}
-
 	return 0;
 }
 
@@ -312,7 +311,6 @@ nat_t_exchange_add_nat_d(struct message *msg)
 	msg->transport->vtbl->get_src(msg->transport, &sa);
 	if (nat_t_add_nat_d(msg, sa))
 		return -1;
-
 	return 0;
 }
 

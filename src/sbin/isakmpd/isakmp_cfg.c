@@ -1,4 +1,4 @@
-/* $OpenBSD: isakmp_cfg.c,v 1.34 2004/08/08 19:11:06 deraadt Exp $	 */
+/* $OpenBSD: isakmp_cfg.c,v 1.37 2005/04/08 22:32:10 cloder Exp $	 */
 
 /*
  * Copyright (c) 2001 Niklas Hallqvist.  All rights reserved.
@@ -36,8 +36,6 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <bitstring.h>
-
-#include "sysdep.h"
 
 #include "attribute.h"
 #include "conf.h"
@@ -239,7 +237,7 @@ cfg_initiator_send_ATTR(struct message *msg)
 		/*
 		 * We can continue, but this indicates a configuration error
 		 * that the user probably will want to correct.
-	         */
+		 */
 		free(id_string);
 		return 0;
 	}
@@ -700,8 +698,8 @@ cfg_decode_attribute(u_int16_t type, u_int8_t * value, u_int16_t len,
 	struct ipsec_exch *ie = vie;
 	struct isakmp_cfg_attr *attr;
 
-	if (type >= ISAKMP_CFG_ATTR_PRIVATE_MIN
-	    && type <= ISAKMP_CFG_ATTR_PRIVATE_MAX)
+	if (type >= ISAKMP_CFG_ATTR_PRIVATE_MIN &&
+	    type <= ISAKMP_CFG_ATTR_PRIVATE_MAX)
 		return 0;
 	if (type == 0 || type >= ISAKMP_CFG_ATTR_FUTURE_MIN) {
 		LOG_DBG((LOG_NEGOTIATION, 30,

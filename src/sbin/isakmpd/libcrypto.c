@@ -1,4 +1,4 @@
-/* $OpenBSD: libcrypto.c,v 1.16 2004/04/15 18:39:26 deraadt Exp $	 */
+/* $OpenBSD: libcrypto.c,v 1.19 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: libcrypto.c,v 1.14 2000/09/28 12:53:27 niklas Exp $	 */
 
 /*
@@ -30,20 +30,15 @@
  * This code was written under funding by Ericsson Radio Systems.
  */
 
-#include "sysdep.h"
 #include "libcrypto.h"
 
 void
 libcrypto_init(void)
 {
-#if defined (USE_X509) && defined (USE_LIBCRYPTO)
-
 	/* Add all algorithms known by SSL */
 #if OPENSSL_VERSION_NUMBER >= 0x00905100L
 	OpenSSL_add_all_algorithms();
 #else
 	SSLeay_add_all_algorithms();
 #endif
-
-#endif /* USE_X509 && USE_LIBCRYPTO */
 }

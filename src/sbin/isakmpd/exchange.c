@@ -1,4 +1,4 @@
-/* $OpenBSD: exchange.c,v 1.105 2004/12/06 12:28:21 ho Exp $	 */
+/* $OpenBSD: exchange.c,v 1.119 2005/04/08 22:32:09 cloder Exp $	 */
 /* $EOM: exchange.c,v 1.143 2000/12/04 00:02:25 angelos Exp $	 */
 
 /*
@@ -37,8 +37,8 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "sysdep.h"
+#include <regex.h>
+#include <keynote.h>
 
 #include "cert.h"
 #include "conf.h"
@@ -50,9 +50,7 @@
 #include "exchange.h"
 #include "ipsec_num.h"
 #include "isakmp.h"
-#ifdef USE_ISAKMP_CFG
 #include "isakmp_cfg.h"
-#endif
 #include "libcrypto.h"
 #include "log.h"
 #include "message.h"
@@ -73,9 +71,7 @@
  */
 #define MAX_BUCKET_BITS 16
 
-#ifdef USE_DEBUG
 static void     exchange_dump(char *, struct exchange *);
-#endif
 static void     exchange_free_aux(void *);
 #if 0
 static void     exchange_resize(void);
@@ -142,7 +138,6 @@ int16_t script_authentication_only[] = {
 	EXCHANGE_SCRIPT_END
 };
 
-#ifdef USE_AGGRESSIVE
 int16_t script_aggressive[] = {
 	ISAKMP_PAYLOAD_SA,	/* Initiator -> responder.  */
 	ISAKMP_PAYLOAD_KEY_EXCH,
@@ -158,7 +153,6 @@ int16_t script_aggressive[] = {
 	EXCHANGE_SCRIPT_AUTH,	/* Initiator -> responder.  */
 	EXCHANGE_SCRIPT_END
 };
-#endif				/* USE_AGGRESSIVE */
 
 int16_t script_informational[] = {
 	EXCHANGE_SCRIPT_INFO,	/* Initiator -> responder.  */
@@ -179,19 +173,14 @@ exchange_script(struct exchange *exchange)
 		return script_identity_protection;
 	case ISAKMP_EXCH_AUTH_ONLY:
 		return script_authentication_only;
-#ifdef USE_AGGRESSIVE
 	case ISAKMP_EXCH_AGGRESSIVE:
 		return script_aggressive;
-#endif
 	case ISAKMP_EXCH_INFO:
 		return script_informational;
-#ifdef USE_ISAKMP_CFG
 	case ISAKMP_EXCH_TRANSACTION:
 		return script_transaction;
-#endif
 	default:
-		if (exchange->type >= ISAKMP_EXCH_DOI_MIN &&
-		    exchange->type <= ISAKMP_EXCH_DOI_MAX)
+		if (exchange->type >= ISAKMP_EXCH_DOI_MIN)
 			return exchange->doi->exchange_script(exchange->type);
 	}
 	return 0;
@@ -216,15 +205,15 @@ exchange_validate(struct message *msg)
 		    : constant_name(exchange_script_cst, *pc)));
 
 		/* Check for existence of the required payloads.  */
-		if ((*pc > 0 && !payload_first(msg, *pc))
-		    || (*pc == EXCHANGE_SCRIPT_AUTH
-		    && !payload_first(msg, ISAKMP_PAYLOAD_HASH)
-		    && !payload_first(msg, ISAKMP_PAYLOAD_SIG))
-		    || (*pc == EXCHANGE_SCRIPT_INFO
-		    && ((!payload_first(msg, ISAKMP_PAYLOAD_NOTIFY)
-		    && !payload_first(msg, ISAKMP_PAYLOAD_DELETE))
-		    || (payload_first(msg, ISAKMP_PAYLOAD_DELETE)
-		    && !payload_first(msg, ISAKMP_PAYLOAD_HASH))))) {
+		if ((*pc > 0 && !payload_first(msg, *pc)) ||
+		    (*pc == EXCHANGE_SCRIPT_AUTH &&
+		    !payload_first(msg, ISAKMP_PAYLOAD_HASH) &&
+		    !payload_first(msg, ISAKMP_PAYLOAD_SIG)) ||
+		    (*pc == EXCHANGE_SCRIPT_INFO &&
+		    ((!payload_first(msg, ISAKMP_PAYLOAD_NOTIFY) &&
+		    !payload_first(msg, ISAKMP_PAYLOAD_DELETE)) ||
+		    (payload_first(msg, ISAKMP_PAYLOAD_DELETE) &&
+		    !payload_first(msg, ISAKMP_PAYLOAD_HASH))))) {
 			/* Missing payload.  */
 			LOG_DBG((LOG_MESSAGE, 70,
 			    "exchange_validate: msg %p requires missing %s",
@@ -256,7 +245,7 @@ exchange_handle_leftover_payloads(struct message *msg)
 		    i == ISAKMP_PAYLOAD_TRANSFORM)
 			continue;
 		for (p = payload_first(msg, i); p;
-		     p = TAILQ_NEXT(p, link)) {
+		    p = TAILQ_NEXT(p, link)) {
 			if (p->flags & PL_MARK)
 				continue;
 			if (!doi->handle_leftover_payload ||
@@ -286,9 +275,9 @@ exchange_run(struct message *msg)
 
 	while (!done) {
 		/*
-	         * It's our turn if we're either the initiator on an even step,
-	         * or the responder on an odd step of the dialogue.
-	         */
+		 * It's our turn if we're either the initiator on an even step,
+		 * or the responder on an odd step of the dialogue.
+		 */
 		if (exchange->initiator ^ (exchange->step % 2)) {
 			done = 1;
 			if (exchange->step)
@@ -305,7 +294,7 @@ exchange_run(struct message *msg)
 				 * the SA at his side so we need to do that
 				 * too, i.e.  implement automatic SA teardown
 				 * after a certain amount of inactivity.
-			         */
+				 */
 				log_print("exchange_run: doi->%s (%p) failed",
 				    exchange->initiator ? "initiator" :
 				    "responder", msg);
@@ -320,7 +309,7 @@ exchange_run(struct message *msg)
 				 * than "on-demand", i.e. if we see
 				 * retransmits of the last message of the peer
 				 * later.
-			         */
+				 */
 				msg->flags |= MSG_LAST;
 				if (exchange->step > 0) {
 					if (exchange->last_sent)
@@ -333,7 +322,7 @@ exchange_run(struct message *msg)
 				 * finalization, like telling our application
 				 * the SA is ready to be used, or issuing a
 				 * CONNECTED notify if we set the COMMIT bit.
-			         */
+				 */
 				message_register_post_send(msg,
 				    exchange_finalize);
 
@@ -359,17 +348,17 @@ exchange_run(struct message *msg)
 				/* Feed the message to the DOI.  */
 				if (handler(msg)) {
 					/*
-				         * Trust the peer to retransmit.
+					 * Trust the peer to retransmit.
 					 * XXX We have to implement SA aging
 					 * with automatic teardown.
-				         */
+					 */
 					message_free(msg);
 					return;
 				}
 				/*
 				 * Go over the yet unhandled payloads and feed
 				 * them to DOI for handling.
-			         */
+				 */
 				exchange_handle_leftover_payloads(msg);
 
 				/*
@@ -377,7 +366,7 @@ exchange_run(struct message *msg)
 				 * been processing an incoming message, record
 				 * that message as the one to do duplication
 				 * tests against.
-			         */
+				 */
 				if (exchange->last_received)
 					message_free(exchange->last_received);
 				exchange->last_received = msg;
@@ -407,8 +396,8 @@ exchange_run(struct message *msg)
 		    "exchange_run: exchange %p finished step %d, advancing...",
 		    exchange, exchange->step));
 		exchange->step++;
-		while (*exchange->exch_pc != EXCHANGE_SCRIPT_SWITCH
-		    && *exchange->exch_pc != EXCHANGE_SCRIPT_END)
+		while (*exchange->exch_pc != EXCHANGE_SCRIPT_SWITCH &&
+		    *exchange->exch_pc != EXCHANGE_SCRIPT_END)
 			exchange->exch_pc++;
 		exchange->exch_pc++;
 	}
@@ -450,14 +439,14 @@ exchange_resize(void)
 
 /* Lookup a phase 1 exchange out of just the initiator cookie.  */
 struct exchange *
-exchange_lookup_from_icookie(u_int8_t * cookie)
+exchange_lookup_from_icookie(u_int8_t *cookie)
 {
 	struct exchange *exchange;
 	int	i;
 
 	for (i = 0; i <= bucket_mask; i++)
 		for (exchange = LIST_FIRST(&exchange_tab[i]); exchange;
-		     exchange = LIST_NEXT(exchange, link))
+		    exchange = LIST_NEXT(exchange, link))
 			if (memcmp(exchange->cookies, cookie,
 			    ISAKMP_HDR_ICOOKIE_LEN) == 0 &&
 			    exchange->phase == 1)
@@ -478,7 +467,7 @@ exchange_lookup_by_name(char *name, int phase)
 
 	for (i = 0; i <= bucket_mask; i++)
 		for (exchange = LIST_FIRST(&exchange_tab[i]); exchange;
-		     exchange = LIST_NEXT(exchange, link)) {
+		    exchange = LIST_NEXT(exchange, link)) {
 			LOG_DBG((LOG_EXCHANGE, 90,
 			    "exchange_lookup_by_name: %s == %s && %d == %d?",
 			    name, exchange->name ? exchange->name :
@@ -593,7 +582,7 @@ exchange_lookup(u_int8_t *msg, int phase2)
 		    exchange->message_id, ISAKMP_HDR_MESSAGE_ID_LEN) != 0) ||
 		(!phase2 && !zero_test(msg + ISAKMP_HDR_MESSAGE_ID_OFF,
 		    ISAKMP_HDR_MESSAGE_ID_LEN)));
-	     exchange = LIST_NEXT(exchange, link))
+	    exchange = LIST_NEXT(exchange, link))
 		;
 
 	return exchange;
@@ -626,8 +615,8 @@ exchange_create(int phase, int initiator, int doi, int type)
 	exchange->phase = phase;
 	exchange->step = 0;
 	exchange->initiator = initiator;
-	memset(exchange->cookies, 0, ISAKMP_HDR_COOKIES_LEN);
-	memset(exchange->message_id, 0, ISAKMP_HDR_MESSAGE_ID_LEN);
+	bzero(exchange->cookies, ISAKMP_HDR_COOKIES_LEN);
+	bzero(exchange->message_id, ISAKMP_HDR_MESSAGE_ID_LEN);
 	exchange->doi = doi_lookup(doi);
 	exchange->type = type;
 	exchange->policy_id = -1;
@@ -711,7 +700,6 @@ exchange_add_finalization(struct exchange *exchange,
 	exchange->finalize_arg = node;
 }
 
-#ifdef USE_ISAKMP_CFG
 static void
 exchange_establish_transaction(struct exchange *exchange, void *arg, int fail)
 {
@@ -726,7 +714,6 @@ exchange_establish_transaction(struct exchange *exchange, void *arg, int fail)
 
 	free(node);
 }
-#endif				/* USE_ISAKMP_CFG */
 
 /* Establish a phase 1 exchange.  */
 void
@@ -736,10 +723,8 @@ exchange_establish_p1(struct transport *t, u_int8_t type, u_int32_t doi,
 {
 	struct exchange		*exchange;
 	struct message		*msg;
-#ifdef USE_ISAKMP_CFG
 	struct conf_list	*flags;
 	struct conf_list_node	*flag;
-#endif
 	char	*tag = 0;
 	char	*str;
 
@@ -779,7 +764,7 @@ exchange_establish_p1(struct transport *t, u_int8_t type, u_int32_t doi,
 			}
 			type = constant_value(isakmp_exch_cst, str);
 			if (!type) {
-				log_print("exchange_setup_p1: "
+				log_print("exchange_establish_p1: "
 				    "unknown exchange type %s", str);
 				return;
 			}
@@ -803,7 +788,6 @@ exchange_establish_p1(struct transport *t, u_int8_t type, u_int32_t doi,
 	if (!exchange->policy && name)
 		exchange->policy = CONF_DFLT_TAG_PHASE1_CONFIG;
 
-#ifdef USE_ISAKMP_CFG
 	if (name && (flags = conf_get_list(name, "Flags")) != NULL) {
 		for (flag = TAILQ_FIRST(&flags->fields); flag;
 		    flag = TAILQ_NEXT(flag, link))
@@ -832,14 +816,11 @@ exchange_establish_p1(struct transport *t, u_int8_t type, u_int32_t doi,
 			}
 		conf_free_list(flags);
 	}
-#endif				/* USE_ISAKMP_CFG */
 
 	exchange_add_finalization(exchange, finalize, arg);
 	cookie_gen(t, exchange, exchange->cookies, ISAKMP_HDR_ICOOKIE_LEN);
 	exchange_enter(exchange);
-#ifdef USE_DEBUG
 	exchange_dump("exchange_establish_p1", exchange);
-#endif
 
 	msg = message_alloc(t, 0, ISAKMP_HDR_SZ);
 	if (!msg) {
@@ -850,13 +831,13 @@ exchange_establish_p1(struct transport *t, u_int8_t type, u_int32_t doi,
 	msg->exchange = exchange;
 
 	/* Do not create SA for an information or transaction exchange. */
-	if (exchange->type != ISAKMP_EXCH_INFO
-	    && exchange->type != ISAKMP_EXCH_TRANSACTION) {
+	if (exchange->type != ISAKMP_EXCH_INFO &&
+	    exchange->type != ISAKMP_EXCH_TRANSACTION) {
 		/*
 		 * Don't install a transport into this SA as it will be an
 		 * INADDR_ANY address in the local end, which is not good at
 		 * all.  Let the reply packet install the transport instead.
-	         */
+		 */
 		sa_create(exchange, 0);
 		msg->isakmp_sa = TAILQ_FIRST(&exchange->sa_list);
 		if (!msg->isakmp_sa) {
@@ -948,16 +929,12 @@ exchange_establish_p2(struct sa *isakmp_sa, u_int8_t type, char *name,
 	memcpy(exchange->cookies, isakmp_sa->cookies, ISAKMP_HDR_COOKIES_LEN);
 	getrandom(exchange->message_id, ISAKMP_HDR_MESSAGE_ID_LEN);
 	exchange->flags |= EXCHANGE_FLAG_ENCRYPT;
-#if defined (USE_NAT_TRAVERSAL)
 	if (isakmp_sa->flags & SA_FLAG_NAT_T_ENABLE)
 		exchange->flags |= EXCHANGE_FLAG_NAT_T_ENABLE;
 	if (isakmp_sa->flags & SA_FLAG_NAT_T_KEEPALIVE)
 		exchange->flags |= EXCHANGE_FLAG_NAT_T_KEEPALIVE;
-#endif
 	exchange_enter(exchange);
-#ifdef USE_DEBUG
 	exchange_dump("exchange_establish_p2", exchange);
-#endif
 
 	/*
          * Do not create SA's for informational exchanges.
@@ -991,10 +968,8 @@ exchange_setup_p1(struct message *msg, u_int32_t doi)
 	struct transport	*t = msg->transport;
 	struct exchange		*exchange;
 	struct sockaddr		*dst;
-#ifdef USE_ISAKMP_CFG
 	struct conf_list	*flags;
 	struct conf_list_node	*flag;
-#endif
 	char		*name = 0, *policy = 0, *str;
 	u_int32_t        want_doi;
 	u_int8_t         type;
@@ -1008,8 +983,8 @@ exchange_setup_p1(struct message *msg, u_int32_t doi)
 	type = GET_ISAKMP_HDR_EXCH_TYPE(msg->iov[0].iov_base);
 	if (type != ISAKMP_EXCH_INFO) {
 		/*
-	         * Find out our inbound phase 1 mode.
-	         */
+		 * Find out our inbound phase 1 mode.
+		 */
 		t->vtbl->get_dst(t, &dst);
 		if (sockaddr2text(dst, &str, 0) == -1)
 			return 0;
@@ -1021,7 +996,7 @@ exchange_setup_p1(struct message *msg, u_int32_t doi)
 			 * returning the call. However, we will need to
 			 * continue responding if our phase 1 exchange is
 			 * still waiting for step 1 (i.e still half-open).
-		         */
+			 */
 			if (exchange_lookup_active(name, 1))
 				return 0;
 		} else {
@@ -1086,10 +1061,9 @@ exchange_setup_p1(struct message *msg, u_int32_t doi)
 	}
 	exchange->policy = policy;
 
-#ifdef USE_ISAKMP_CFG
 	if (name && (flags = conf_get_list(name, "Flags")) != NULL) {
 		for (flag = TAILQ_FIRST(&flags->fields); flag;
-		     flag = TAILQ_NEXT(flag, link))
+		    flag = TAILQ_NEXT(flag, link))
 			if (strcasecmp(flag->field, "ikecfg") == 0) {
 				struct exchange_finalization_node *node;
 
@@ -1114,15 +1088,12 @@ exchange_setup_p1(struct message *msg, u_int32_t doi)
 			}
 		conf_free_list(flags);
 	}
-#endif
 
 	cookie_gen(msg->transport, exchange, exchange->cookies +
 	    ISAKMP_HDR_ICOOKIE_LEN, ISAKMP_HDR_RCOOKIE_LEN);
 	GET_ISAKMP_HDR_ICOOKIE(msg->iov[0].iov_base, exchange->cookies);
 	exchange_enter(exchange);
-#ifdef USE_DEBUG
 	exchange_dump("exchange_setup_p1", exchange);
-#endif
 	return exchange;
 }
 
@@ -1140,16 +1111,12 @@ exchange_setup_p2(struct message *msg, u_int8_t doi)
 	GET_ISAKMP_HDR_RCOOKIE(buf,
 	    exchange->cookies + ISAKMP_HDR_ICOOKIE_LEN);
 	GET_ISAKMP_HDR_MESSAGE_ID(buf, exchange->message_id);
-#if defined (USE_NAT_TRAVERSAL)
-	if (msg->isakmp_sa->flags & SA_FLAG_NAT_T_ENABLE)
+	if (msg->isakmp_sa && (msg->isakmp_sa->flags & SA_FLAG_NAT_T_ENABLE))
 		exchange->flags |= EXCHANGE_FLAG_NAT_T_ENABLE;
-	if (msg->isakmp_sa->flags & SA_FLAG_NAT_T_KEEPALIVE)
+	if (msg->isakmp_sa && (msg->isakmp_sa->flags & SA_FLAG_NAT_T_KEEPALIVE))
 		exchange->flags |= EXCHANGE_FLAG_NAT_T_KEEPALIVE;
-#endif
 	exchange_enter(exchange);
-#ifdef USE_DEBUG
 	exchange_dump("exchange_setup_p2", exchange);
-#endif
 	return exchange;
 }
 
@@ -1190,13 +1157,11 @@ exchange_dump_real(char *header, struct exchange *exchange, int class,
 	    decode_32(exchange->message_id), buf));
 }
 
-#ifdef USE_DEBUG
 static void
 exchange_dump(char *header, struct exchange *exchange)
 {
 	exchange_dump_real(header, exchange, LOG_EXCHANGE, 10);
 }
-#endif
 
 void
 exchange_report(void)
@@ -1265,10 +1230,8 @@ exchange_free_aux(void *v_exch)
 	if (exchange->keynote_key)
 		free(exchange->keynote_key);	/* This is just a string */
 
-#if defined (POLICY) || defined (KEYNOTE)
 	if (exchange->policy_id != -1)
 		kn_close(exchange->policy_id);
-#endif
 
 	exchange_free_aca_list(exchange);
 	LIST_REMOVE(exchange, link);
@@ -1358,9 +1321,7 @@ exchange_finalize(struct message *msg)
 	int	 i;
 	char	*id_doi, *id_trp;
 
-#ifdef USE_DEBUG
 	exchange_dump("exchange_finalize", exchange);
-#endif
 
 	/* Copy the ID from phase 1 to exchange or phase 2 SA.  */
 	if (msg->isakmp_sa) {
@@ -1482,12 +1443,10 @@ exchange_finalize(struct message *msg)
 		else
 			id_trp = "<no transport>";
 
-#if defined (USE_NAT_TRAVERSAL)
 		if (exchange->flags & EXCHANGE_FLAG_NAT_T_ENABLE)
 			msg->isakmp_sa->flags |= SA_FLAG_NAT_T_ENABLE;
 		if (exchange->flags & EXCHANGE_FLAG_NAT_T_KEEPALIVE)
 			msg->isakmp_sa->flags |= SA_FLAG_NAT_T_KEEPALIVE;
-#endif
 
 		LOG_DBG((LOG_EXCHANGE, 10,
 		    "exchange_finalize: phase 1 done: %s, %s", id_doi,
@@ -1536,7 +1495,7 @@ exchange_nonce(struct exchange *exchange, int peer, size_t nonce_sz,
 
 	if (nonce_sz < 8 || nonce_sz > 256) {
 		/*
-		 * RFC2409, ch 5: The length of nonce payload MUST be 
+		 * RFC2409, ch 5: The length of nonce payload MUST be
 		 * between 8 and 256 bytes inclusive.
 		 * XXX I'm assuming the generic payload header is not included.
 		 */
@@ -1773,6 +1732,7 @@ exchange_establish(char *name, void (*finalize)(struct exchange *, void *,
 				log_print("exchange_establish: "
 				    "[%s]:ISAKMP-peer's (%s) phase is not 1",
 				    name, peer);
+				free(name);
 				return;
 			}
 			/*
@@ -1782,7 +1742,7 @@ exchange_establish(char *name, void (*finalize)(struct exchange *, void *,
 			 * be application-specific information that won't get
 			 * cleaned up, since no error signalling will be done.
 			 * This is the case with dynamic SAs and PFKEY.
-		         */
+			 */
 			exchange_establish(peer, exchange_establish_finalize,
 			    name);
 			exchange = exchange_lookup_by_name(peer, 1);
@@ -1790,12 +1750,16 @@ exchange_establish(char *name, void (*finalize)(struct exchange *, void *,
 			 * If the exchange was correctly initialized, add the
 			 * original finalization routine; otherwise, call it
 			 * directly.
-		         */
+			 */
 			if (exchange)
 				exchange_add_finalization(exchange, finalize,
 				    arg);
-			else
-				finalize(0, arg, 1);	/* Indicate failure */
+			else {
+				/* Indicate failure */
+				if (finalize)
+					finalize(0, arg, 1);
+				free(name);
+			}
 			return;
 		} else
 			exchange_establish_p2(isakmp_sa, 0, name, 0, finalize,

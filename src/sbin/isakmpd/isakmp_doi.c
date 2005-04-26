@@ -1,4 +1,4 @@
-/* $OpenBSD: isakmp_doi.c,v 1.22 2004/06/20 17:17:35 ho Exp $	 */
+/* $OpenBSD: isakmp_doi.c,v 1.25 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: isakmp_doi.c,v 1.42 2000/09/12 16:29:41 ho Exp $	 */
 
 /*
@@ -37,8 +37,6 @@
 
 #include <sys/types.h>
 
-#include "sysdep.h"
-
 #include "doi.h"
 #include "exchange.h"
 #include "isakmp.h"
@@ -49,10 +47,8 @@
 #include "sa.h"
 #include "util.h"
 
-#ifdef USE_DEBUG
 static int      isakmp_debug_attribute(u_int16_t, u_int8_t *, u_int16_t,
     void *);
-#endif
 static void     isakmp_finalize_exchange(struct message *);
 static struct keystate *isakmp_get_keystate(struct message *);
 static int      isakmp_initiator(struct message *);
@@ -73,9 +69,7 @@ static int      isakmp_validate_transform_id(u_int8_t, u_int8_t);
 
 static struct doi isakmp_doi = {
 	{0}, ISAKMP_DOI_ISAKMP, 0, 0, 0,
-#ifdef USE_DEBUG
 	isakmp_debug_attribute,
-#endif
 	0,			/* delete_spi not needed.  */
 	0,			/* exchange_script not needed.  */
 	isakmp_finalize_exchange,
@@ -102,9 +96,7 @@ static struct doi isakmp_doi = {
 	isakmp_validate_transform_id,
 	isakmp_initiator,
 	isakmp_responder,
-#ifdef USE_DEBUG
 	ipsec_decode_ids
-#endif
 };
 
 /* Requires doi_init to already have been called.  */
@@ -114,7 +106,6 @@ isakmp_doi_init(void)
 	doi_register(&isakmp_doi);
 }
 
-#ifdef USE_DEBUG
 int
 isakmp_debug_attribute(u_int16_t type, u_int8_t *value, u_int16_t len,
     void *vmsg)
@@ -122,7 +113,6 @@ isakmp_debug_attribute(u_int16_t type, u_int8_t *value, u_int16_t len,
 	/* XXX Not implemented yet.  */
 	return 0;
 }
-#endif				/* USE_DEBUG */
 
 static void
 isakmp_finalize_exchange(struct message *msg)
@@ -247,10 +237,8 @@ isakmp_responder(struct message *msg)
 		}
 		return 0;
 
-#ifdef USE_ISAKMP_CFG
 	case ISAKMP_EXCH_TRANSACTION:
 		/* return 0 isakmp_cfg_responder (msg); */
-#endif /* USE_ISAKMP_CFG */
 
 	default:
 		/* XXX So far we don't accept any proposals.  */

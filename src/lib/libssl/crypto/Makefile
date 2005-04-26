@@ -1,4 +1,4 @@
-# $OpenBSD: Makefile,v 1.36 2004/02/27 17:36:13 deraadt Exp $
+# $OpenBSD: Makefile,v 1.40 2005/04/01 08:15:52 markus Exp $
 
 LIB=	crypto
 
@@ -14,8 +14,13 @@ CFLAGS+= -DL_ENDIAN
 CFLAGS+= -DB_ENDIAN
 .endif 
 
+.include <bsd.own.mk>		# for 'NOPIC' definition
+.if !defined(NOPIC)
+CFLAGS+= -DDSO_DLFCN -DHAVE_DLFCN_H
+.endif
+
 CFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR -DOPENSSL_NO_ASM
-CFLAGS+= -DOPENSSL_NO_RC5 -DOPENSSL_NO_KRB5 -DSO_DLFCN -DHAVE_DLFCN_H 
+CFLAGS+= -DOPENSSL_NO_RC5 -DOPENSSL_NO_KRB5
 CFLAGS+= -DOPENSSL_NO_MDC2
 CFLAGS+= -DNO_WINDOWS_BRAINDEATH
 CFLAGS+= -DOPENSSL_NO_HW_CSWIFT -DOPENSSL_NO_HW_NCIPHER -DOPENSSL_NO_HW_ATALLA
@@ -143,7 +148,8 @@ SRCS+= ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
 	${LCRYPTO_SRC}/comp ${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
 	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/ec ${LCRYPTO_SRC}/aes ${LCRYPTO_SRC} \
-	${LCRYPTO_SRC}/acss ${.CURDIR}/arch/${MACHINE_ARCH}
+	${LCRYPTO_SRC}/acss ${.CURDIR}/arch/${MACHINE_ARCH} \
+	${LCRYPTO_SRC}/bn/asm
 
 HDRS=\
 	crypto/acss/acss.h \
@@ -283,9 +289,15 @@ SRCS+= bf_enc.c
 SRCS+= bn_asm_vax.S
 SRCS+= rc4_enc.c	
 .else
+.if (${MACHINE_ARCH} == "amd64")
+SRCS+= bf_enc.c
+SRCS+= x86_64-gcc.c
+SRCS+= rc4_enc.c	
+.else
 SRCS+= bf_enc.c	
 SRCS+= bn_asm.c
 SRCS+= rc4_enc.c	
+.endif
 .endif
 .endif
 
