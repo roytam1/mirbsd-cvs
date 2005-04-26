@@ -1,10 +1,22 @@
 From mirabile@do-not-reply.66h.42h.de Fri Oct  3 19:02:13 UTC 2003
 Return-Path: root
-X-RCSId: $MirOS$
+X-RCSId: $MirOS: src/etc/root/root.mail,v 1.2 2005/03/06 19:05:59 tg Exp $
 From: MirBSD/MirLinux/MirPorts Project <do-not-reply@mirbsd.bsdadvocacy.org>
 Date: Fri Oct  3 11:55:48 UTC 2003
 To: root
 Subject: Welcome to MirOS! Safety for Free People!
+
+############################################################
+#                                                          #
+# MirOS #8 - Codename MirOS XP - Release Candidate I       #
+#                                                          #
+# Please read the website at http://mirbsd.org/ or one our #
+# mirrors (mirbsd.bsdadvocacy.org, mirbsd.mirsolutions.de, #
+# mirbsd.etherkiller.de) in detail for a list of changes.  #
+# Do not forget to report back both success and failure.   #
+#                                                          #
+############################################################
+
 
 Note: of course, this is "MirOS XP" (MirOS #8 experimental).
 The text below is out of date and should be fixed.
