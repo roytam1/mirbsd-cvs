@@ -1,4 +1,4 @@
-/*	$OpenBSD: syslogd.c,v 1.76 2004/04/15 18:13:07 millert Exp $	*/
+/*	$OpenBSD: syslogd.c,v 1.90 2005/04/21 16:15:50 djm Exp $	*/
 
 /*
  * Copyright (c) 1983, 1988, 1993, 1994
@@ -39,7 +39,7 @@ static const char copyright[] =
 #if 0
 static const char sccsid[] = "@(#)syslogd.c	8.3 (Berkeley) 4/4/94";
 #else
-static const char rcsid[] = "$OpenBSD: syslogd.c,v 1.76 2004/04/15 18:13:07 millert Exp $";
+static const char rcsid[] = "$OpenBSD: syslogd.c,v 1.90 2005/04/21 16:15:50 djm Exp $";
 #endif
 #endif /* not lint */
 
@@ -142,12 +142,13 @@ struct filed {
 		char	f_uname[MAXUNAMES][UT_NAMESIZE+1];
 		struct {
 			char	f_hname[MAXHOSTNAMELEN];
-			struct sockaddr_in	f_addr;
+			struct sockaddr_storage	f_addr;
 		} f_forw;		/* forwarding address */
 		char	f_fname[MAXPATHLEN];
 		struct {
 			char	f_mname[MAX_MEMBUF_NAME];
 			struct ringbuf *f_rb;
+			int	f_overflow;
 		} f_mb;		/* Memory buffer */
 	} f_un;
 	char	f_prevline[MAXSVLINE];		/* last message logged */
@@ -156,7 +157,8 @@ struct filed {
 	int	f_prevpri;			/* pri of f_prevline */
 	int	f_prevlen;			/* length of f_prevline */
 	int	f_prevcount;			/* repetition cnt of prevline */
-	int	f_repeatcount;			/* number of "repeated" msgs */
+	unsigned int f_repeatcount;		/* number of "repeated" msgs */
+	int	f_quick;			/* abort when matched */
 };
 
 /*
@@ -210,15 +212,35 @@ char	*ctlsock_path = NULL;	/* Path to control socket */
 #define CTL_WRITING_REPLY	2
 int	ctl_state = 0;		/* What the control socket is up to */
 
-size_t	ctl_cmd_bytes = 0;	/* number of bytes of ctl_cmd read */
+/*
+ * Client protocol NB. all numeric fields in network byte order
+ */
+#define CTL_VERSION		0
+
+/* Request */
 struct	{
+	u_int32_t	version;
 #define CMD_READ	1	/* Read out log */
 #define CMD_READ_CLEAR	2	/* Read and clear log */
 #define CMD_CLEAR	3	/* Clear log */
 #define CMD_LIST	4	/* List available logs */
-	int	cmd;
-	char	logname[MAX_MEMBUF_NAME];
+#define CMD_FLAGS	5	/* Query flags only */
+	u_int32_t	cmd;
+	char		logname[MAX_MEMBUF_NAME];
 }	ctl_cmd;
+
+size_t	ctl_cmd_bytes = 0;	/* number of bytes of ctl_cmd read */
+
+/* Reply */
+struct ctl_reply_hdr {
+	u_int32_t	version;
+#define CTL_HDR_FLAG_OVERFLOW	0x01
+	u_int32_t	flags;
+	/* Reply text follows, up to MAX_MEMBUF long */
+};
+
+#define CTL_HDR_LEN		(sizeof(struct ctl_reply_hdr))
+#define CTL_REPLY_MAXSIZE	(CTL_HDR_LEN + MAX_MEMBUF)
 
 char	*ctl_reply = NULL;	/* Buffer for control connection reply */
 size_t	ctl_reply_size = 0;	/* Number of bytes used in reply */
@@ -230,7 +252,7 @@ volatile sig_atomic_t MarkSet;
 volatile sig_atomic_t WantDie;
 volatile sig_atomic_t DoInit;
 
-void	cfline(char *, struct filed *, char *);
+struct filed *cfline(char *, char *);
 void    cvthname(struct sockaddr_in *, char *, size_t);
 int	decode(const char *, const CODE *);
 void	dodie(int);
@@ -240,8 +262,9 @@ void	domark(int);
 void	markit(void);
 void	fprintlog(struct filed *, int, char *);
 void	init(void);
-void	logerror(char *);
+void	logerror(const char *);
 void	logmsg(int, char *, char *, int);
+struct filed *find_dup(struct filed *);
 void	printline(char *, char *);
 void	printsys(char *);
 void	reapchild(int);
@@ -260,7 +283,7 @@ main(int argc, char *argv[])
 {
 	int ch, i, linesize, fd;
 	struct sockaddr_un fromunix;
-	struct sockaddr_in sin, frominet;
+	struct sockaddr_in s_in, frominet;
 	socklen_t len;
 	char *p, *line;
 	char resolve[MAXHOSTNAMELEN];
@@ -342,19 +365,23 @@ main(int argc, char *argv[])
 			logerror("syslog/udp: unknown service");
 			die(0);
 		}
-		memset(&sin, 0, sizeof(sin));
-		sin.sin_len = sizeof(sin);
-		sin.sin_family = AF_INET;
-		sin.sin_port = LogPort = sp->s_port;
-		if (bind(fd, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
+		memset(&s_in, 0, sizeof(s_in));
+		s_in.sin_len = sizeof(s_in);
+		s_in.sin_family = AF_INET;
+		s_in.sin_port = LogPort = sp->s_port;
+		if (bind(fd, (struct sockaddr *)&s_in, sizeof(s_in)) < 0) {
 			logerror("bind");
 			if (!Debug)
 				die(0);
 		} else {
 			InetInuse = 1;
-			double_rbuf(fd);
 			pfd[PFD_INET].fd = fd;
-			pfd[PFD_INET].events = POLLIN;
+			if (SecureMode) {
+				shutdown(fd, SHUT_RD);
+			} else {
+				double_rbuf(fd);
+				pfd[PFD_INET].events = POLLIN;
+			}
 		}
 	}
 
@@ -438,7 +465,7 @@ main(int argc, char *argv[])
 
 	/* Allocate ctl socket reply buffer if we have a ctl socket */
 	if (pfd[PFD_CTLSOCK].fd != -1 &&
-	    (ctl_reply = malloc(MAX_MEMBUF)) == NULL) {
+	    (ctl_reply = malloc(CTL_REPLY_MAXSIZE)) == NULL) {
 		logerror("Couldn't allocate ctlsock reply buffer");
 		die(0);
 	}
@@ -502,18 +529,14 @@ main(int argc, char *argv[])
 			len = sizeof(frominet);
 			i = recvfrom(pfd[PFD_INET].fd, line, MAXLINE, 0,
 			    (struct sockaddr *)&frominet, &len);
-			if (SecureMode) {
-				/* silently drop it */
-			} else {
-				if (i > 0) {
-					line[i] = '\0';
-					cvthname(&frominet, resolve,
-					    sizeof resolve);
-					dprintf("cvthname res: %s\n", resolve);
-					printline(resolve, line);
-				} else if (i < 0 && errno != EINTR)
-					logerror("recvfrom inet");
-			}
+			if (i > 0) {
+				line[i] = '\0';
+				cvthname(&frominet, resolve,
+				    sizeof resolve);
+				dprintf("cvthname res: %s\n", resolve);
+				printline(resolve, line);
+			} else if (i < 0 && errno != EINTR)
+				logerror("recvfrom inet");
 		}
 		if ((pfd[PFD_CTLSOCK].revents & POLLIN) != 0)
 			ctlsock_accept_handler();
@@ -524,14 +547,16 @@ main(int argc, char *argv[])
 
 		for (i = 0; i < nfunix; i++) {
 			if ((pfd[PFD_UNIX_0 + i].revents & POLLIN) != 0) {
+				ssize_t rlen;
+
 				len = sizeof(fromunix);
-				len = recvfrom(pfd[PFD_UNIX_0 + i].fd, line,
+				rlen = recvfrom(pfd[PFD_UNIX_0 + i].fd, line,
 				    MAXLINE, 0, (struct sockaddr *)&fromunix,
 				    &len);
-				if (len > 0) {
-					line[len] = '\0';
+				if (rlen > 0) {
+					line[rlen] = '\0';
 					printline(LocalHostName, line);
-				} else if (len < 0 && errno != EINTR)
+				} else if (rlen == -1 && errno != EINTR)
 					logerror("recvfrom unix");
 			}
 		}
@@ -677,7 +702,7 @@ logmsg(int pri, char *msg, char *from, int flags)
 
 	/* extract program name */
 	for(i = 0; i < NAME_MAX; i++) {
-		if (!isalnum(msg[i]))
+		if (!isalnum(msg[i]) && msg[i] != '-')
 			break;
 		prog[i] = msg[i];
 	}
@@ -754,6 +779,9 @@ logmsg(int pri, char *msg, char *from, int flags)
 				fprintlog(f, flags, msg);
 			}
 		}
+
+		if (f->f_quick)
+			break;
 	}
 	(void)sigprocmask(SIG_SETMASK, &omask, NULL);
 }
@@ -763,7 +791,7 @@ fprintlog(struct filed *f, int flags, char *msg)
 {
 	struct iovec iov[6];
 	struct iovec *v;
-	int l;
+	int l, retryonce;
 	char line[MAXLINE + 1], repbuf[80], greetings[500];
 
 	v = iov;
@@ -826,9 +854,19 @@ fprintlog(struct filed *f, int flags, char *msg)
 			l = strlen(line);
 		if (sendto(pfd[PFD_INET].fd, line, l, 0,
 		    (struct sockaddr *)&f->f_un.f_forw.f_addr,
-		    sizeof(f->f_un.f_forw.f_addr)) != l) {
-			f->f_type = F_UNUSED;
-			logerror("sendto");
+		    f->f_un.f_forw.f_addr.ss_len) != l) {
+			switch (errno) {
+			case EHOSTDOWN:
+			case EHOSTUNREACH:
+			case ENETDOWN:
+			case ENOBUFS:
+				/* silently dropped */
+				break;
+			default:
+				f->f_type = F_UNUSED;
+				logerror("sendto");
+				break;
+			}
 		}
 		break;
 
@@ -849,6 +887,7 @@ fprintlog(struct filed *f, int flags, char *msg)
 			v->iov_base = "\n";
 			v->iov_len = 1;
 		}
+		retryonce = 0;
 	again:
 		if (writev(f->f_file, iov, 6) < 0) {
 			int e = errno;
@@ -863,8 +902,9 @@ fprintlog(struct filed *f, int flags, char *msg)
 				 */
 				break;
 			} else if ((e == EIO || e == EBADF) &&
-			    f->f_type != F_FILE) {
+			    f->f_type != F_FILE && !retryonce) {
 				f->f_file = priv_open_tty(f->f_un.f_fname);
+				retryonce = 1;
 				if (f->f_file < 0) {
 					f->f_type = F_UNUSED;
 					logerror(f->f_un.f_fname);
@@ -890,9 +930,11 @@ fprintlog(struct filed *f, int flags, char *msg)
 
 	case F_MEMBUF:
 		dprintf("\n");
-		snprintf(line, sizeof(line), "%.15s %s",
-		    (char *)iov[0].iov_base, (char *)iov[4].iov_base);
-		ringbuf_append_line(f->f_un.f_mb.f_rb, line);
+		snprintf(line, sizeof(line), "%.15s %s %s",
+		    (char *)iov[0].iov_base, (char *)iov[2].iov_base, 
+		    (char *)iov[4].iov_base);
+		if (ringbuf_append_line(f->f_un.f_mb.f_rb, line) == 1)
+			f->f_un.f_mb.f_overflow = 1;
 		break;
 	}
 	f->f_prevcount = 0;
@@ -953,6 +995,7 @@ wallmsg(struct filed *f, struct iovec *iov)
 	reenter = 0;
 }
 
+/* ARGSUSED */
 void
 reapchild(int signo)
 {
@@ -1008,12 +1051,14 @@ dodie(int signo)
 	WantDie = signo;
 }
 
+/* ARGSUSED */
 void
 domark(int signo)
 {
 	MarkSet = 1;
 }
 
+/* ARGSUSED */
 void
 doinit(int signo)
 {
@@ -1024,7 +1069,7 @@ doinit(int signo)
  * Print syslogd errors some place.
  */
 void
-logerror(char *type)
+logerror(const char *type)
 {
 	char buf[100];
 
@@ -1114,10 +1159,8 @@ init(void)
 	/* open the configuration file */
 	if ((cf = priv_open_config()) == NULL) {
 		dprintf("cannot open %s\n", ConfFile);
-		*nextp = (struct filed *)calloc(1, sizeof(*f));
-		cfline("*.ERR\t/dev/console", *nextp, "*");
-		(*nextp)->f_next = (struct filed *)calloc(1, sizeof(*f));
-		cfline("*.PANIC\t*", (*nextp)->f_next, "*");
+		*nextp = cfline("*.ERR\t/dev/console", "*");
+		(*nextp)->f_next = cfline("*.PANIC\t*", "*");
 		Initialized = 1;
 		return;
 	}
@@ -1141,12 +1184,12 @@ init(void)
 			p++;
 			while (isspace(*p))
 				p++;
-			if (!*p) {
+			if (!*p || (*p == '*' && (!p[1] || isspace(p[1])))) {
 				strlcpy(prog, "*", sizeof(prog));
 				continue;
 			}
 			for (i = 0; i < NAME_MAX; i++) {
-				if (!isalnum(p[i]))
+				if (!isalnum(p[i]) && p[i] != '-' && p[i] != '!')
 					break;
 				prog[i] = p[i];
 			}
@@ -1160,10 +1203,11 @@ init(void)
 				break;
 			}
 		*p = '\0';
-		f = (struct filed *)calloc(1, sizeof(*f));
-		*nextp = f;
-		nextp = &f->f_next;
-		cfline(cline, f, prog);
+		f = cfline(cline, prog);
+		if (f != NULL) {
+			*nextp = f;
+			nextp = &f->f_next;
+		}
 	}
 
 	/* close the configuration file */
@@ -1211,29 +1255,68 @@ init(void)
 	dprintf("syslogd: restarted\n");
 }
 
+#define progmatches(p1, p2) \
+	(p1 == p2 || (p1 != NULL && p2 != NULL && strcmp(p1, p2) == 0))
+
+/*
+ * Spot a line with a duplicate file, console, tty, or membuf target.
+ */
+struct filed *
+find_dup(struct filed *f)
+{
+	struct filed *list;
+
+	for (list = Files; list; list = list->f_next) {
+		if (list->f_quick || f->f_quick)
+			continue;
+		switch (list->f_type) {
+		case F_FILE:
+		case F_TTY:
+		case F_CONSOLE:
+			if (strcmp(list->f_un.f_fname, f->f_un.f_fname) == 0 &&
+			    progmatches(list->f_program, f->f_program))
+				return (list);
+			break;
+		case F_MEMBUF:
+			if (strcmp(list->f_un.f_mb.f_mname,
+			    f->f_un.f_mb.f_mname) == 0 &&
+			    progmatches(list->f_program, f->f_program))
+				return (list);
+			break;
+		}
+	}
+	return (NULL);
+}
+
 /*
  * Crack a configuration file line
  */
-void
-cfline(char *line, struct filed *f, char *prog)
+struct filed *
+cfline(char *line, char *prog)
 {
 	int i, pri, addr_len;
 	size_t rb_len;
-	char *bp, *p, *q;
+	char *bp, *p, *q, *cp;
 	char buf[MAXLINE], ebuf[100];
-	char addr[MAXHOSTNAMELEN];
-	struct filed *xf;
+	struct filed *xf, *f, *d;
 
 	dprintf("cfline(\"%s\", f, \"%s\")\n", line, prog);
 
 	errno = 0;	/* keep strerror() stuff out of logerror messages */
 
-	/* clear out file entry */
-	memset(f, 0, sizeof(*f));
+	if ((f = calloc(1, sizeof(*f))) == NULL) {
+		logerror("Couldn't allocate struct filed");
+		die(0);
+	}
 	for (i = 0; i <= LOG_NFACILITIES; i++)
 		f->f_pmask[i] = INTERNAL_NOPRI;
 
 	/* save program name if any */
+	if (*prog == '!') {
+		f->f_quick = 1;
+		prog++;
+	} else
+		f->f_quick = 0;
 	if (!strcmp(prog, "*"))
 		prog = NULL;
 	else {
@@ -1255,7 +1338,7 @@ cfline(char *line, struct filed *f, char *prog)
 		*bp = '\0';
 
 		/* skip cruft */
-		while (strchr(", ;", *q))
+		while (*q && strchr(", ;", *q))
 			q++;
 
 		/* decode priority name */
@@ -1263,7 +1346,6 @@ cfline(char *line, struct filed *f, char *prog)
 			pri = LOG_PRIMASK + 1;
 		else {
 			/* ignore trailing spaces */
-			int i;
 			for (i=strlen(buf)-1; i >= 0 && buf[i] == ' '; i--) {
 				buf[i]='\0';
 			}
@@ -1273,7 +1355,8 @@ cfline(char *line, struct filed *f, char *prog)
 				(void)snprintf(ebuf, sizeof ebuf,
 				    "unknown priority name \"%s\"", buf);
 				logerror(ebuf);
-				return;
+				free(f);
+				return (NULL);
 			}
 		}
 
@@ -1292,7 +1375,8 @@ cfline(char *line, struct filed *f, char *prog)
 					    "unknown facility name \"%s\"",
 					    buf);
 					logerror(ebuf);
-					return;
+					free(f);
+					return (NULL);
 				}
 				f->f_pmask[i >> 3] = pri;
 			}
@@ -1311,25 +1395,38 @@ cfline(char *line, struct filed *f, char *prog)
 	case '@':
 		if (!InetInuse)
 			break;
-		(void)strlcpy(f->f_un.f_forw.f_hname, ++p,
-		    sizeof(f->f_un.f_forw.f_hname));
-		addr_len = priv_gethostbyname(f->f_un.f_forw.f_hname,
-		    addr, sizeof addr);
-		if (addr_len < 1) {
-			logerror((char *)hstrerror(h_errno));
+		if ((cp = strrchr(++p, ':')) != NULL)
+			*cp++ = '\0';
+		if ((strlcpy(f->f_un.f_forw.f_hname, p,
+		    sizeof(f->f_un.f_forw.f_hname)) >=
+		    sizeof(f->f_un.f_forw.f_hname))) {
+			snprintf(ebuf, sizeof(ebuf), "hostname too long \"%s\"",
+			    p);
+			logerror(ebuf);
 			break;
 		}
-		memset(&f->f_un.f_forw.f_addr, 0,
+		addr_len = priv_gethostserv(f->f_un.f_forw.f_hname, 
+		    cp == NULL ? "syslog" : cp, 
+		    (struct sockaddr*)&f->f_un.f_forw.f_addr, 
 		    sizeof(f->f_un.f_forw.f_addr));
-		f->f_un.f_forw.f_addr.sin_len = sizeof(f->f_un.f_forw.f_addr);
-		f->f_un.f_forw.f_addr.sin_family = AF_INET;
-		f->f_un.f_forw.f_addr.sin_port = LogPort;
-		memmove(&f->f_un.f_forw.f_addr.sin_addr, addr, addr_len);
+		if (addr_len < 1) {
+			snprintf(ebuf, sizeof(ebuf), "bad hostname \"%s\"", p);
+			logerror(ebuf);
+			break;
+		}
 		f->f_type = F_FORW;
 		break;
 
 	case '/':
 		(void)strlcpy(f->f_un.f_fname, p, sizeof(f->f_un.f_fname));
+		d = find_dup(f);
+		if (d != NULL) {
+			for (i = 0; i <= LOG_NFACILITIES; i++)
+				if (f->f_pmask[i] != INTERNAL_NOPRI)
+					d->f_pmask[i] = f->f_pmask[i];
+			free(f);
+			return (NULL);
+		}
 		if (strcmp(p, ctty) == 0)
 			f->f_file = priv_open_tty(p);
 		else
@@ -1381,15 +1478,10 @@ cfline(char *line, struct filed *f, char *prog)
 		}
 
 		/* Make sure buffer name is unique */
-		for (xf = Files; i != 0 && xf != f; xf = xf->f_next) {
-			if (xf->f_type == F_MEMBUF &&
-			    strcmp(xf->f_un.f_mb.f_mname,
-			    f->f_un.f_mb.f_mname) == 0)
-				break;
-		}
+		xf = find_dup(f);
 
 		/* Error on missing or non-unique name, or bad buffer length */
-		if (i == 0 || rb_len > MAX_MEMBUF || xf != f) {
+		if (i == 0 || rb_len > MAX_MEMBUF || xf != NULL) {
 			f->f_type = F_UNUSED;
 			logerror(p);
 			break;
@@ -1402,6 +1494,7 @@ cfline(char *line, struct filed *f, char *prog)
 			logerror(p);
 			break;
 		}
+		f->f_un.f_mb.f_overflow = 0;
 		break;
 
 	default:
@@ -1420,6 +1513,7 @@ cfline(char *line, struct filed *f, char *prog)
 		f->f_type = F_USERS;
 		break;
 	}
+	return (f);
 }
 
 
@@ -1625,6 +1719,10 @@ ctlconn_read_handler(void)
 {
 	ssize_t n;
 	struct filed *f;
+	u_int32_t flags = 0;
+	size_t reply_text_size;
+	struct ctl_reply_hdr *reply_hdr = (struct ctl_reply_hdr *)ctl_reply;
+	char *reply_text = ctl_reply + CTL_HDR_LEN;
 
 	if (ctl_state != CTL_READING_CMD) {
 		/* Shouldn't be here! */
@@ -1632,6 +1730,7 @@ ctlconn_read_handler(void)
 		ctlconn_cleanup();
 		return;
 	}
+
  retry:
 	n = read(pfd[PFD_CTLCONN].fd, (char*)&ctl_cmd + ctl_cmd_bytes,
 	    sizeof(ctl_cmd) - ctl_cmd_bytes);
@@ -1651,6 +1750,12 @@ ctlconn_read_handler(void)
 	if (ctl_cmd_bytes < sizeof(ctl_cmd))
 		return;
 
+	if (ntohl(ctl_cmd.version) != CTL_VERSION) {
+		logerror("Unknown client protocol version");
+		ctlconn_cleanup();
+		return;
+	}
+
 	/* Ensure that logname is \0 terminated */
 	if (memchr(ctl_cmd.logname, '\0', sizeof(ctl_cmd.logname)) == NULL) {
 		logerror("Corrupt ctlsock command");
@@ -1658,59 +1763,73 @@ ctlconn_read_handler(void)
 		return;
 	}
 
-	ctl_reply_size = ctl_reply_offset = 0;
-	*ctl_reply = '\0';
+	*reply_text = '\0';
 
+	ctl_reply_size = reply_text_size = ctl_reply_offset = 0;
+	memset(reply_hdr, '\0', sizeof(*reply_hdr));
+
+	ctl_cmd.cmd = ntohl(ctl_cmd.cmd);
 	dprintf("ctlcmd %x logname \"%s\"\n", ctl_cmd.cmd, ctl_cmd.logname);
 
 	switch (ctl_cmd.cmd) {
 	case CMD_READ:
 	case CMD_READ_CLEAR:
+	case CMD_FLAGS:
 		f = find_membuf_log(ctl_cmd.logname);
 		if (f == NULL) {
-			strlcpy(ctl_reply, "No such log\n", MAX_MEMBUF);
+			strlcpy(reply_text, "No such log\n", MAX_MEMBUF);
 		} else {
-			ringbuf_to_string(ctl_reply, MAX_MEMBUF,
-			    f->f_un.f_mb.f_rb);
-			if (ctl_cmd.cmd == CMD_READ_CLEAR)
+			if (ctl_cmd.cmd != CMD_FLAGS) {
+				ringbuf_to_string(reply_text, MAX_MEMBUF,
+				    f->f_un.f_mb.f_rb);
+			}
+			if (f->f_un.f_mb.f_overflow)
+				flags |= CTL_HDR_FLAG_OVERFLOW;
+			if (ctl_cmd.cmd == CMD_READ_CLEAR) {
 				ringbuf_clear(f->f_un.f_mb.f_rb);
+				f->f_un.f_mb.f_overflow = 0;
+			}
 		}
-		ctl_reply_size = strlen(ctl_reply);
+		reply_text_size = strlen(reply_text);
 		break;
 	case CMD_CLEAR:
 		f = find_membuf_log(ctl_cmd.logname);
 		if (f == NULL) {
-			strlcpy(ctl_reply, "No such log\n", MAX_MEMBUF);
+			strlcpy(reply_text, "No such log\n", MAX_MEMBUF);
 		} else {
 			ringbuf_clear(f->f_un.f_mb.f_rb);
-			strlcpy(ctl_reply, "Log cleared\n", MAX_MEMBUF);
+			if (f->f_un.f_mb.f_overflow)
+				flags |= CTL_HDR_FLAG_OVERFLOW;
+			f->f_un.f_mb.f_overflow = 0;
+			strlcpy(reply_text, "Log cleared\n", MAX_MEMBUF);
 		}
-		ctl_reply_size = strlen(ctl_reply);
+		reply_text_size = strlen(reply_text);
 		break;
 	case CMD_LIST:
 		for (f = Files; f != NULL; f = f->f_next) {
 			if (f->f_type == F_MEMBUF) {
-				strlcat(ctl_reply, f->f_un.f_mb.f_mname,
+				strlcat(reply_text, f->f_un.f_mb.f_mname,
 				    MAX_MEMBUF);
-				strlcat(ctl_reply, " ", MAX_MEMBUF);
+				if (f->f_un.f_mb.f_overflow) {
+					strlcat(reply_text, "*", MAX_MEMBUF);
+					flags |= CTL_HDR_FLAG_OVERFLOW;
+				}
+				strlcat(reply_text, " ", MAX_MEMBUF);
 			}
 		}
-		strlcat(ctl_reply, "\n", MAX_MEMBUF);
-		ctl_reply_size = strlen(ctl_reply);
+		strlcat(reply_text, "\n", MAX_MEMBUF);
+		reply_text_size = strlen(reply_text);
 		break;
 	default:
 		logerror("Unsupported ctlsock command");
 		ctlconn_cleanup();
 		return;
 	}
+	reply_hdr->version = htonl(CTL_VERSION);
+	reply_hdr->flags = htonl(flags);
 
-	dprintf("ctlcmd reply length %d\n", ctl_reply_size);
-
-	/* If there is no reply, close the connection now */
-	if (ctl_reply_size == 0) {
-		ctlconn_cleanup();
-		return;
-	}
+	ctl_reply_size = reply_text_size + CTL_HDR_LEN;
+	dprintf("ctlcmd reply length %lu\n", (u_long)ctl_reply_size);
 
 	/* Otherwise, set up to write out reply */
 	ctl_state = CTL_WRITING_REPLY;

@@ -1,4 +1,4 @@
-/* $OpenBSD: hash.c,v 1.17 2004/06/14 09:55:41 ho Exp $	 */
+/* $OpenBSD: hash.c,v 1.20 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: hash.c,v 1.10 1999/04/17 23:20:34 niklas Exp $	 */
 
 /*
@@ -32,15 +32,8 @@
 
 #include <sys/param.h>
 #include <string.h>
-#if defined (__APPLE__)
-#include <openssl/md5.h>
-#include <openssl/sha.h>
-#else
 #include <md5.h>
 #include <sha1.h>
-#endif				/* __APPLE__ */
-
-#include "sysdep.h"
 
 #include "hash.h"
 #include "log.h"
@@ -106,7 +99,7 @@ hmac_init(struct hash *hash, unsigned char *okey, unsigned int len)
 	unsigned int    i, blocklen = HMAC_BLOCKLEN;
 	unsigned char   key[HMAC_BLOCKLEN];
 
-	memset(key, 0, blocklen);
+	bzero(key, blocklen);
 	if (len > blocklen) {
 		/* Truncate key down to blocklen */
 		hash->Init(hash->ctx);
@@ -129,7 +122,7 @@ hmac_init(struct hash *hash, unsigned char *okey, unsigned int len)
 	hash->Init(hash->ctx2);
 	hash->Update(hash->ctx2, key, blocklen);
 
-	memset(key, 0, blocklen);
+	bzero(key, blocklen);
 }
 
 /*

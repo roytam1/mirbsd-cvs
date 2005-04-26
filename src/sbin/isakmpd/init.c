@@ -1,4 +1,4 @@
-/* $OpenBSD: init.c,v 1.33 2004/09/17 13:46:34 ho Exp $	 */
+/* $OpenBSD: init.c,v 1.36 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: init.c,v 1.25 2000/03/30 14:27:24 ho Exp $	 */
 
 /*
@@ -35,8 +35,6 @@
 
 #include <stdlib.h>
 
-#include "sysdep.h"
-
 #include "app.h"
 #include "cert.h"
 #include "conf.h"
@@ -58,14 +56,10 @@
 #include "ui.h"
 #include "util.h"
 
-#if defined (USE_POLICY)
 #include "policy.h"
-#endif
 
-#if defined (USE_NAT_TRAVERSAL)
 #include "nat_traversal.h"
 #include "udp_encap.h"
-#endif
 
 void
 init(void)
@@ -88,10 +82,8 @@ init(void)
 	/* This depends on conf_init, thus check as soon as possible. */
 	log_reinit();
 
-#if defined (USE_POLICY)
 	/* policy_init depends on conf_init having run.  */
 	policy_init();
-#endif
 
 	/* Depends on conf_init and policy_init having run */
 	cert_init();
@@ -101,10 +93,8 @@ init(void)
 	transport_init();
 	virtual_init();
 	udp_init();
-#if defined (USE_NAT_TRAVERSAL)
 	nat_t_init();
 	udp_encap_init();
-#endif
 	monitor_ui_init();
 }
 
@@ -122,19 +112,19 @@ reinit(void)
 	 * XXX This means we discard exchange->last_msg, is this really ok?
          */
 
+#if defined(INSECURE_RAND)
 	/* Reinitialize PRNG if we are in deterministic mode.  */
 	if (regrand)
 		srandom(seed);
+#endif
 
 	/* Reread config file.  */
 	conf_reinit();
 
 	log_reinit();
 
-#if defined (USE_POLICY)
 	/* Reread the policies.  */
 	policy_init();
-#endif
 
 	/* Reinitialize certificates */
 	cert_init();

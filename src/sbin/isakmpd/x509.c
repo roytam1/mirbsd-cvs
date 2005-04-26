@@ -1,4 +1,4 @@
-/* $OpenBSD: x509.c,v 1.95 2004/08/10 19:21:01 deraadt Exp $	 */
+/* $OpenBSD: x509.c,v 1.101 2005/04/08 22:32:10 cloder Exp $	 */
 /* $EOM: x509.c,v 1.54 2001/01/16 18:42:16 ho Exp $	 */
 
 /*
@@ -31,7 +31,6 @@
  * This code was written under funding by Ericsson Radio Systems.
  */
 
-#ifdef USE_X509
 
 #include <sys/param.h>
 #include <sys/types.h>
@@ -44,12 +43,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#ifdef USE_POLICY
 #include <regex.h>
 #include <keynote.h>
-#endif				/* USE_POLICY */
-
-#include "sysdep.h"
 
 #include "cert.h"
 #include "conf.h"
@@ -97,7 +92,6 @@ static LIST_HEAD(x509_list, x509_hash) *x509_tab = 0;
 /* Works both as a maximum index and a mask.  */
 static int	bucket_mask;
 
-#ifdef USE_POLICY
 /*
  * Given an X509 certificate, create a KeyNote assertion where
  * Issuer/Subject -> Authorizer/Licensees.
@@ -479,7 +473,6 @@ x509_generate_kn(int id, X509 *cert)
 	free(buf);
 	return 1;
 }
-#endif				/* USE_POLICY */
 
 static u_int16_t
 x509_hash(u_int8_t *id, size_t len)
@@ -612,11 +605,7 @@ int
 x509_read_from_dir(X509_STORE *ctx, char *name, int hash)
 {
 	struct dirent  *file;
-#if defined (USE_PRIVSEP)
 	struct monitor_dirents *dir;
-#else
-	DIR		*dir;
-#endif
 	FILE		*certfp;
 	X509		*cert;
 	struct stat	sb;
@@ -684,7 +673,7 @@ x509_read_from_dir(X509_STORE *ctx, char *name, int hash)
 		fclose(certfp);
 
 		if (cert == NULL) {
-			log_print("x509_read_from_dir: PEM_read_bio_X509 "
+			log_print("x509_read_from_dir: PEM_read_X509 "
 			    "failed for %s", file->d_name);
 			continue;
 		}
@@ -717,11 +706,7 @@ x509_read_crls_from_dir(X509_STORE *ctx, char *name)
 {
 #if OPENSSL_VERSION_NUMBER >= 0x00907000L
 	struct dirent	*file;
-#if defined (USE_PRIVSEP)
 	struct monitor_dirents *dir;
-#else
-	DIR		*dir;
-#endif
 	FILE		*crlfp;
 	X509_CRL	*crl;
 	struct stat	sb;
@@ -970,14 +955,12 @@ x509_cert_insert(int id, void *scert)
 		log_print("x509_cert_insert: X509_dup failed");
 		return 0;
 	}
-#ifdef USE_POLICY
 	if (x509_generate_kn(id, cert) == 0) {
 		LOG_DBG((LOG_POLICY, 50,
 		    "x509_cert_insert: x509_generate_kn failed"));
 		X509_free(cert);
 		return 0;
 	}
-#endif				/* USE_POLICY */
 
 	res = x509_hash_enter(cert);
 	if (!res)
@@ -1048,7 +1031,7 @@ x509_certreq_decode(u_int8_t *asn, u_int32_t len)
 		    "CA' info");
 		goto fail;
 	}
-	memset(&naca, 0, sizeof(naca));
+	bzero(&naca, sizeof(naca));
 
 	tmp = asn_decompose("aca.RelativeDistinguishedName."
 	    "AttributeValueAssertion", &aca);
@@ -1432,4 +1415,4 @@ x509_DN_string(u_int8_t *asn1, size_t sz)
 	buf[sizeof buf - 1] = '\0';
 	return strdup(buf);
 }
-#endif				/* USE_X509 */
+

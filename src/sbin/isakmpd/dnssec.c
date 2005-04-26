@@ -1,4 +1,4 @@
-/* $OpenBSD: dnssec.c,v 1.20 2004/06/14 09:55:41 ho Exp $	 */
+/* $OpenBSD: dnssec.c,v 1.23 2005/04/08 22:32:09 cloder Exp $	 */
 
 /*
  * Copyright (c) 2001 Håkan Olsson.  All rights reserved.
@@ -38,8 +38,6 @@
 #else
 #include <netdb.h>
 #endif
-
-#include "sysdep.h"
 
 #include "dnssec.h"
 #include "exchange.h"
@@ -98,7 +96,7 @@ dns_get_key(int type, struct message *msg, int *keylen)
 
 	id = exchange->initiator ? exchange->id_r : exchange->id_i;
 	id_len = exchange->initiator ? exchange->id_r_len : exchange->id_i_len;
-	memset(name, 0, sizeof name);
+	bzero(name, sizeof name);
 
 	if (!id || id_len == 0) {
 		log_print("dns_get_key: ID is missing");
@@ -136,7 +134,7 @@ dns_get_key(int type, struct message *msg, int *keylen)
 		/*
 		 * Some special handling here. We want to convert the ID
 		 * 'user@host.domain' string into 'user._ipsec.host.domain.'.
-	         */
+		 */
 		if ((id_len + sizeof(DNS_UFQDN_SEPARATOR)) >= sizeof name)
 			return 0;
 		/* Look for the '@' separator.  */
@@ -187,7 +185,7 @@ dns_get_key(int type, struct message *msg, int *keylen)
 		freerrset(rr);
 		return 0;
 	}
-	memset(&key_rr, 0, sizeof key_rr);
+	bzero(&key_rr, sizeof key_rr);
 
 	/*
 	 * Find a key with the wanted algorithm, if any.

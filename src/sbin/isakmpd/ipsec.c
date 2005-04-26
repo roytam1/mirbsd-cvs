@@ -1,4 +1,4 @@
-/* $OpenBSD: ipsec.c,v 1.105 2004/12/14 10:17:28 mcbride Exp $	 */
+/* $OpenBSD: ipsec.c,v 1.117 2005/04/08 23:15:26 hshoexer Exp $	 */
 /* $EOM: ipsec.c,v 1.143 2000/12/11 23:57:42 niklas Exp $	 */
 
 /*
@@ -47,9 +47,7 @@
 #include "crypto.h"
 #include "dh.h"
 #include "doi.h"
-#if defined (USE_DPD)
 #include "dpd.h"
-#endif
 #include "exchange.h"
 #include "hash.h"
 #include "ike_aggressive.h"
@@ -65,17 +63,13 @@
 #include "log.h"
 #include "math_group.h"
 #include "message.h"
-#if defined (USE_NAT_TRAVERSAL)
 #include "nat_traversal.h"
-#endif
 #include "prf.h"
 #include "sa.h"
 #include "timer.h"
 #include "transport.h"
 #include "util.h"
-#ifdef USE_X509
 #include "x509.h"
-#endif
 
 extern int acquire_only;
 
@@ -103,10 +97,8 @@ int             contact_cnt = 0, contact_limit = 0;
 static int      addr_cmp(const void *, const void *);
 static int      ipsec_add_contact(struct message *);
 static int      ipsec_contacted(struct message *);
-#ifdef USE_DEBUG
 static int      ipsec_debug_attribute(u_int16_t, u_int8_t *, u_int16_t,
     void *);
-#endif
 static void     ipsec_delete_spi(struct sa *, struct proto *, int);
 static int16_t *ipsec_exchange_script(u_int8_t);
 static void     ipsec_finalize_exchange(struct message *);
@@ -141,9 +133,7 @@ static struct doi ipsec_doi = {
 	{0}, IPSEC_DOI_IPSEC,
 	sizeof(struct ipsec_exch), sizeof(struct ipsec_sa),
 	sizeof(struct ipsec_proto),
-#ifdef USE_DEBUG
 	ipsec_debug_attribute,
-#endif
 	ipsec_delete_spi,
 	ipsec_exchange_script,
 	ipsec_finalize_exchange,
@@ -298,9 +288,7 @@ ipsec_finalize_exchange(struct message *msg)
 	struct ipsec_exch *ie = exchange->data;
 	struct sa      *sa = 0, *old_sa;
 	struct proto   *proto, *last_proto = 0;
-#ifdef USE_DEBUG
 	char           *addr1, *addr2, *mask1, *mask2;
-#endif
 
 	switch (exchange->phase) {
 	case 1:
@@ -323,10 +311,8 @@ ipsec_finalize_exchange(struct message *msg)
 			if (isakmp_sa->seconds)
 				sa_setup_expirations(isakmp_sa);
 
-#if defined (USE_NAT_TRAVERSAL)
 			if (isakmp_sa->flags & SA_FLAG_NAT_T_KEEPALIVE)
 				nat_t_setup_keepalive(isakmp_sa);
-#endif
 			break;
 		}
 		break;
@@ -337,7 +323,7 @@ ipsec_finalize_exchange(struct message *msg)
 			/*
 			 * Tell the application(s) about the SPIs and key
 			 * material.
-		         */
+			 */
 			for (sa = TAILQ_FIRST(&exchange->sa_list); sa;
 			    sa = TAILQ_NEXT(sa, next)) {
 				isa = sa->data;
@@ -391,7 +377,6 @@ ipsec_finalize_exchange(struct message *msg)
 					last_proto = proto;
 				}
 
-#ifdef USE_DEBUG
 				if (sockaddr2text(isa->src_net, &addr1, 0))
 					addr1 = 0;
 				if (sockaddr2text(isa->src_mask, &mask1, 0))
@@ -420,17 +405,15 @@ ipsec_finalize_exchange(struct message *msg)
 				if (mask2)
 					free(mask2);
 
-#endif				/* USE_DEBUG */
-
 				/*
 				 * If this is not an SA acquired by the
 				 * kernel, it needs to have a SPD entry
 				 * (a.k.a. flow) set up.
-			         */
+				 */
 				if (!(sa->flags & SA_FLAG_ONDEMAND ||
-					conf_get_str("General", "Acquire-Only")
-					|| acquire_only)
-				    && sysdep_ipsec_enable_sa(sa, isakmp_sa))
+				    conf_get_str("General", "Acquire-Only") ||
+				    acquire_only) &&
+				    sysdep_ipsec_enable_sa(sa, isakmp_sa))
 					/* XXX Tear down this exchange.  */
 					return;
 
@@ -463,18 +446,14 @@ ipsec_set_network(u_int8_t *src_id, u_int8_t *dst_id, struct ipsec_sa *isa)
 		if (!isa->src_net)
 			goto memfail;
 		isa->src_net->sa_family = AF_INET;
-#ifndef USE_OLD_SOCKADDR
 		isa->src_net->sa_len = sizeof(struct sockaddr_in);
-#endif
 
 		isa->src_mask = (struct sockaddr *)calloc(1,
 		    sizeof(struct sockaddr_in));
 		if (!isa->src_mask)
 			goto memfail;
 		isa->src_mask->sa_family = AF_INET;
-#ifndef USE_OLD_SOCKADDR
 		isa->src_mask->sa_len = sizeof(struct sockaddr_in);
-#endif
 		break;
 
 	case IPSEC_ID_IPV6_ADDR:
@@ -484,18 +463,14 @@ ipsec_set_network(u_int8_t *src_id, u_int8_t *dst_id, struct ipsec_sa *isa)
 		if (!isa->src_net)
 			goto memfail;
 		isa->src_net->sa_family = AF_INET6;
-#ifndef USE_OLD_SOCKADDR
 		isa->src_net->sa_len = sizeof(struct sockaddr_in6);
-#endif
 
 		isa->src_mask = (struct sockaddr *)calloc(1,
 		    sizeof(struct sockaddr_in6));
 		if (!isa->src_mask)
 			goto memfail;
 		isa->src_mask->sa_family = AF_INET6;
-#ifndef USE_OLD_SOCKADDR
 		isa->src_mask->sa_len = sizeof(struct sockaddr_in6);
-#endif
 		break;
 
 	case IPSEC_ID_IPV4_RANGE:
@@ -542,18 +517,14 @@ ipsec_set_network(u_int8_t *src_id, u_int8_t *dst_id, struct ipsec_sa *isa)
 		if (!isa->dst_net)
 			goto memfail;
 		isa->dst_net->sa_family = AF_INET;
-#ifndef USE_OLD_SOCKADDR
 		isa->dst_net->sa_len = sizeof(struct sockaddr_in);
-#endif
 
 		isa->dst_mask = (struct sockaddr *)calloc(1,
 		    sizeof(struct sockaddr_in));
 		if (!isa->dst_mask)
 			goto memfail;
 		isa->dst_mask->sa_family = AF_INET;
-#ifndef USE_OLD_SOCKADDR
 		isa->dst_mask->sa_len = sizeof(struct sockaddr_in);
-#endif
 		break;
 
 	case IPSEC_ID_IPV6_ADDR:
@@ -563,18 +534,14 @@ ipsec_set_network(u_int8_t *src_id, u_int8_t *dst_id, struct ipsec_sa *isa)
 		if (!isa->dst_net)
 			goto memfail;
 		isa->dst_net->sa_family = AF_INET6;
-#ifndef USE_OLD_SOCKADDR
 		isa->dst_net->sa_len = sizeof(struct sockaddr_in6);
-#endif
 
 		isa->dst_mask = (struct sockaddr *)calloc(1,
 		    sizeof(struct sockaddr_in6));
 		if (!isa->dst_mask)
 			goto memfail;
 		isa->dst_mask->sa_family = AF_INET6;
-#ifndef USE_OLD_SOCKADDR
 		isa->dst_mask->sa_len = sizeof(struct sockaddr_in6);
-#endif
 		break;
 	}
 
@@ -614,9 +581,7 @@ static void
 ipsec_free_exchange_data(void *vie)
 {
 	struct ipsec_exch *ie = vie;
-#ifdef USE_ISAKMP_CFG
 	struct isakmp_cfg_attr *attr;
-#endif
 
 	if (ie->sa_i_b)
 		free(ie->sa_i_b);
@@ -644,7 +609,6 @@ ipsec_free_exchange_data(void *vie)
 		free(ie->hash_r);
 	if (ie->group)
 		group_free(ie->group);
-#ifdef USE_ISAKMP_CFG
 	for (attr = LIST_FIRST(&ie->attrs); attr;
 	    attr = LIST_FIRST(&ie->attrs)) {
 		LIST_REMOVE(attr, link);
@@ -652,7 +616,6 @@ ipsec_free_exchange_data(void *vie)
 			free(attr->value);
 		free(attr);
 	}
-#endif
 }
 
 /* Free the DOI-specific SA data pointed to by VISA.  */
@@ -692,10 +655,8 @@ static int16_t *
 ipsec_exchange_script(u_int8_t type)
 {
 	switch (type) {
-#ifdef USE_ISAKMP_CFG
-		case ISAKMP_EXCH_TRANSACTION:
+	case ISAKMP_EXCH_TRANSACTION:
 		return script_transaction;
-#endif
 	case IKE_EXCH_QUICK_MODE:
 		return script_quick_mode;
 	case IKE_EXCH_NEW_GROUP_MODE:
@@ -784,12 +745,11 @@ ipsec_validate_attribute(u_int16_t type, u_int8_t * value, u_int16_t len,
 {
 	struct message *msg = vmsg;
 
-	if ((msg->exchange->phase == 1
-	    && (type < IKE_ATTR_ENCRYPTION_ALGORITHM
-		|| type > IKE_ATTR_GROUP_ORDER))
-	    || (msg->exchange->phase == 2
-		&& (type < IPSEC_ATTR_SA_LIFE_TYPE
-		    || type > IPSEC_ATTR_ECN_TUNNEL)))
+	if (msg->exchange->phase == 1 &&
+	    (type < IKE_ATTR_ENCRYPTION_ALGORITHM || type > IKE_ATTR_GROUP_ORDER))
+		return -1;
+	if (msg->exchange->phase == 2 &&
+	    (type < IPSEC_ATTR_SA_LIFE_TYPE || type > IPSEC_ATTR_ECN_TUNNEL))
 		return -1;
 	return 0;
 }
@@ -842,9 +802,9 @@ ipsec_validate_id_information(u_int8_t type, u_int8_t *extra, u_int8_t *buf,
 		break;
 	}
 
-	if (exchange->phase == 1
-	    && (proto != IPPROTO_UDP || port != UDP_DEFAULT_PORT)
-	    && (proto != 0 || port != 0)) {
+	if (exchange->phase == 1 &&
+	    (proto != IPPROTO_UDP || port != UDP_DEFAULT_PORT) &&
+	    (proto != 0 || port != 0)) {
 		/*
 		 * XXX SSH's ISAKMP tester fails this test (proto 17 - port
 		 * 0).
@@ -871,15 +831,15 @@ ipsec_validate_key_information(u_int8_t *buf, size_t sz)
 static int
 ipsec_validate_notification(u_int16_t type)
 {
-	return type < IPSEC_NOTIFY_RESPONDER_LIFETIME
-	    || type > IPSEC_NOTIFY_INITIAL_CONTACT ? -1 : 0;
+	return type < IPSEC_NOTIFY_RESPONDER_LIFETIME ||
+	    type > IPSEC_NOTIFY_INITIAL_CONTACT ? -1 : 0;
 }
 
 static int
 ipsec_validate_proto(u_int8_t proto)
 {
-	return proto < IPSEC_PROTO_IPSEC_AH
-	    || proto > IPSEC_PROTO_IPCOMP ? -1 : 0;
+	return proto < IPSEC_PROTO_IPSEC_AH ||
+	    proto > IPSEC_PROTO_IPCOMP ? -1 : 0;
 }
 
 static int
@@ -907,21 +867,21 @@ ipsec_validate_transform_id(u_int8_t proto, u_int8_t transform_id)
 		 * As no unexpected protocols can occur, we just tie the
 		 * default case to the first case, in orer to silence a GCC
 		 * warning.
-	         */
+		 */
 		default:
 		case ISAKMP_PROTO_ISAKMP:
 			return transform_id != IPSEC_TRANSFORM_KEY_IKE;
 		case IPSEC_PROTO_IPSEC_AH:
-			return transform_id < IPSEC_AH_MD5
-			    || transform_id > IPSEC_AH_DES ? -1 : 0;
+			return transform_id < IPSEC_AH_MD5 ||
+			    transform_id > IPSEC_AH_DES ? -1 : 0;
 	case IPSEC_PROTO_IPSEC_ESP:
-		return transform_id < IPSEC_ESP_DES_IV64
-		    || (transform_id > IPSEC_ESP_AES_128_CTR
-			&& transform_id < IPSEC_ESP_AES_MARS)
-		    || transform_id > IPSEC_ESP_AES_TWOFISH ? -1 : 0;
+		return transform_id < IPSEC_ESP_DES_IV64 ||
+		    (transform_id > IPSEC_ESP_AES_128_CTR &&
+		    transform_id < IPSEC_ESP_AES_MARS) ||
+		    transform_id > IPSEC_ESP_AES_TWOFISH ? -1 : 0;
 	case IPSEC_PROTO_IPCOMP:
-		return transform_id < IPSEC_IPCOMP_OUI
-		    || transform_id > IPSEC_IPCOMP_V42BIS ? -1 : 0;
+		return transform_id < IPSEC_IPCOMP_OUI ||
+		    transform_id > IPSEC_IPCOMP_V42BIS ? -1 : 0;
 	}
 }
 
@@ -932,14 +892,12 @@ ipsec_initiator(struct message *msg)
 	int             (**script)(struct message *) = 0;
 
 	/* Check that the SA is coherent with the IKE rules.  */
-	if (exchange->type != ISAKMP_EXCH_TRANSACTION
-	    && ((exchange->phase == 1 &&
-		exchange->type != ISAKMP_EXCH_ID_PROT &&
-		exchange->type != ISAKMP_EXCH_AGGRESSIVE &&
-		exchange->type != ISAKMP_EXCH_INFO)
-	    || (exchange->phase == 2 &&	
-		exchange->type != IKE_EXCH_QUICK_MODE &&
-		exchange->type != ISAKMP_EXCH_INFO))) {
+	if (exchange->type != ISAKMP_EXCH_TRANSACTION &&
+	    ((exchange->phase == 1 && exchange->type != ISAKMP_EXCH_ID_PROT &&
+	    exchange->type != ISAKMP_EXCH_AGGRESSIVE &&
+	    exchange->type != ISAKMP_EXCH_INFO) ||
+	    (exchange->phase == 2 && exchange->type != IKE_EXCH_QUICK_MODE &&
+	    exchange->type != ISAKMP_EXCH_INFO))) {
 		log_print("ipsec_initiator: unsupported exchange type %d "
 		    "in phase %d", exchange->type, exchange->phase);
 		return -1;
@@ -948,16 +906,12 @@ ipsec_initiator(struct message *msg)
 	case ISAKMP_EXCH_ID_PROT:
 		script = ike_main_mode_initiator;
 		break;
-#ifdef USE_AGGRESSIVE
 	case ISAKMP_EXCH_AGGRESSIVE:
 		script = ike_aggressive_initiator;
 		break;
-#endif
-#ifdef USE_ISAKMP_CFG
 	case ISAKMP_EXCH_TRANSACTION:
 		script = isakmp_cfg_initiator;
 		break;
-#endif
 	case ISAKMP_EXCH_INFO:
 		return message_send_info(msg);
 	case IKE_EXCH_QUICK_MODE:
@@ -1029,14 +983,12 @@ ipsec_responder(struct message *msg)
 	u_int16_t       type;
 
 	/* Check that a new exchange is coherent with the IKE rules.  */
-	if (exchange->step == 0 && exchange->type != ISAKMP_EXCH_TRANSACTION
-	    && ((exchange->phase == 1 &&
-		exchange->type != ISAKMP_EXCH_ID_PROT &&
-		exchange->type != ISAKMP_EXCH_AGGRESSIVE &&
-		exchange->type != ISAKMP_EXCH_INFO)
-	    || (exchange->phase == 2 &&
-		exchange->type != IKE_EXCH_QUICK_MODE &&
-		exchange->type != ISAKMP_EXCH_INFO))) {
+	if (exchange->step == 0 && exchange->type != ISAKMP_EXCH_TRANSACTION &&
+	    ((exchange->phase == 1 && exchange->type != ISAKMP_EXCH_ID_PROT &&
+	    exchange->type != ISAKMP_EXCH_AGGRESSIVE &&
+	    exchange->type != ISAKMP_EXCH_INFO) ||
+	    (exchange->phase == 2 && exchange->type != IKE_EXCH_QUICK_MODE &&
+	    exchange->type != ISAKMP_EXCH_INFO))) {
 		message_drop(msg, ISAKMP_NOTIFY_UNSUPPORTED_EXCHANGE_TYPE,
 		    0, 1, 0);
 		return -1;
@@ -1047,16 +999,12 @@ ipsec_responder(struct message *msg)
 	case ISAKMP_EXCH_ID_PROT:
 		script = ike_main_mode_responder;
 		break;
-#ifdef USE_AGGRESSIVE
 	case ISAKMP_EXCH_AGGRESSIVE:
 		script = ike_aggressive_responder;
 		break;
-#endif
-#ifdef USE_ISAKMP_CFG
 	case ISAKMP_EXCH_TRANSACTION:
 		script = isakmp_cfg_responder;
 		break;
-#endif
 	case ISAKMP_EXCH_INFO:
 		for (p = payload_first(msg, ISAKMP_PAYLOAD_NOTIFY); p;
 		    p = TAILQ_NEXT(p, link)) {
@@ -1070,12 +1018,10 @@ ipsec_responder(struct message *msg)
 				/* Handled by leftover logic. */
 				break;
 
-#if defined (USE_DPD)
 			case ISAKMP_NOTIFY_STATUS_DPD_R_U_THERE:
 			case ISAKMP_NOTIFY_STATUS_DPD_R_U_THERE_ACK:
 				dpd_handle_notify(msg, p);
 				break;
-#endif
 
 			default:
 				p->flags |= PL_MARK;
@@ -1086,7 +1032,7 @@ ipsec_responder(struct message *msg)
 		/*
 		 * If any DELETEs are in here, let the logic of leftover
 		 * payloads deal with them.
-	         */
+		 */
 		return 0;
 
 	case IKE_EXCH_QUICK_MODE:
@@ -1154,10 +1100,10 @@ ipsec_is_attribute_incompatible(u_int16_t type, u_int8_t *value, u_int16_t len,
 		case IKE_ATTR_AUTHENTICATION_METHOD:
 			return !ike_auth_get(dv);
 		case IKE_ATTR_GROUP_DESCRIPTION:
-			return (dv < IKE_GROUP_DESC_MODP_768
-				|| dv > IKE_GROUP_DESC_MODP_1536)
-			    && (dv < IKE_GROUP_DESC_MODP_2048
-				|| dv > IKE_GROUP_DESC_MODP_8192);
+			return (dv < IKE_GROUP_DESC_MODP_768 ||
+			    dv > IKE_GROUP_DESC_MODP_1536) &&
+			    (dv < IKE_GROUP_DESC_MODP_2048 ||
+			    dv > IKE_GROUP_DESC_MODP_8192);
 		case IKE_ATTR_GROUP_TYPE:
 			return 1;
 		case IKE_ATTR_GROUP_PRIME:
@@ -1171,8 +1117,8 @@ ipsec_is_attribute_incompatible(u_int16_t type, u_int8_t *value, u_int16_t len,
 		case IKE_ATTR_GROUP_CURVE_B:
 			return 1;
 		case IKE_ATTR_LIFE_TYPE:
-			return dv < IKE_DURATION_SECONDS
-			    || dv > IKE_DURATION_KILOBYTES;
+			return dv < IKE_DURATION_SECONDS ||
+			    dv > IKE_DURATION_KILOBYTES;
 		case IKE_ATTR_LIFE_DURATION:
 			return len != 2 && len != 4;
 		case IKE_ATTR_PRF:
@@ -1181,7 +1127,7 @@ ipsec_is_attribute_incompatible(u_int16_t type, u_int8_t *value, u_int16_t len,
 			/*
 			 * Our crypto routines only allows key-lengths which
 			 * are multiples of an octet.
-		         */
+			 */
 			return dv % 8 != 0;
 		case IKE_ATTR_FIELD_SIZE:
 			return 1;
@@ -1191,28 +1137,23 @@ ipsec_is_attribute_incompatible(u_int16_t type, u_int8_t *value, u_int16_t len,
 	} else {
 		switch (type) {
 		case IPSEC_ATTR_SA_LIFE_TYPE:
-			return dv < IPSEC_DURATION_SECONDS
-			    || dv > IPSEC_DURATION_KILOBYTES;
+			return dv < IPSEC_DURATION_SECONDS ||
+			    dv > IPSEC_DURATION_KILOBYTES;
 		case IPSEC_ATTR_SA_LIFE_DURATION:
 			return len != 2 && len != 4;
 		case IPSEC_ATTR_GROUP_DESCRIPTION:
-			return (dv < IKE_GROUP_DESC_MODP_768
-				|| dv > IKE_GROUP_DESC_MODP_1536)
-			    && (dv < IKE_GROUP_DESC_MODP_2048
-				|| IKE_GROUP_DESC_MODP_8192 < dv);
+			return (dv < IKE_GROUP_DESC_MODP_768 ||
+			    dv > IKE_GROUP_DESC_MODP_1536) &&
+			    (dv < IKE_GROUP_DESC_MODP_2048 ||
+			    IKE_GROUP_DESC_MODP_8192 < dv);
 		case IPSEC_ATTR_ENCAPSULATION_MODE:
-#if defined (USE_NAT_TRAVERSAL)
-			return dv != IPSEC_ENCAP_TUNNEL
-			    && dv != IPSEC_ENCAP_TRANSPORT
-			    && dv != IPSEC_ENCAP_UDP_ENCAP_TUNNEL
-			    && dv != IPSEC_ENCAP_UDP_ENCAP_TRANSPORT;
-#else
-			return dv < IPSEC_ENCAP_TUNNEL
-			    || dv > IPSEC_ENCAP_TRANSPORT;
-#endif /* USE_NAT_TRAVERSAL */
+			return dv != IPSEC_ENCAP_TUNNEL &&
+			    dv != IPSEC_ENCAP_TRANSPORT &&
+			    dv != IPSEC_ENCAP_UDP_ENCAP_TUNNEL &&
+			    dv != IPSEC_ENCAP_UDP_ENCAP_TRANSPORT;
 		case IPSEC_ATTR_AUTHENTICATION_ALGORITHM:
-			return dv < IPSEC_AUTH_HMAC_MD5
-			    || dv > IPSEC_AUTH_HMAC_RIPEMD;
+			return dv < IPSEC_AUTH_HMAC_MD5 ||
+			    dv > IPSEC_AUTH_HMAC_RIPEMD;
 		case IPSEC_ATTR_KEY_LENGTH:
 			/*
 			 * XXX Blowfish needs '0'. Others appear to disregard
@@ -1233,7 +1174,6 @@ ipsec_is_attribute_incompatible(u_int16_t type, u_int8_t *value, u_int16_t len,
 	return 1;
 }
 
-#ifdef USE_DEBUG
 /*
  * Log the attribute of TYPE with a LEN length value pointed to by VALUE
  * in human-readable form.  VMSG is a pointer to the current message.
@@ -1258,7 +1198,6 @@ ipsec_debug_attribute(u_int16_t type, u_int8_t *value, u_int16_t len,
 	    ipsec_attr_cst, type), val));
 	return 0;
 }
-#endif
 
 /*
  * Decode the attribute of type TYPE with a LEN length value pointed to by
@@ -1599,10 +1538,9 @@ ipsec_handle_leftover_payload(struct message *msg, u_int8_t type,
 			return -1;
 		}
 		/* verify proper SPI size */
-		if ((proto == ISAKMP_PROTO_ISAKMP && spisz !=
-			ISAKMP_HDR_COOKIES_LEN)
-		    || (proto != ISAKMP_PROTO_ISAKMP && spisz !=
-			sizeof(u_int32_t))) {
+		if ((proto == ISAKMP_PROTO_ISAKMP &&
+		    spisz != ISAKMP_HDR_COOKIES_LEN) ||
+		    (proto != ISAKMP_PROTO_ISAKMP && spisz != sizeof(u_int32_t))) {
 			log_print("ipsec_handle_leftover_payload: invalid SPI "
 			    "size %d for proto %d in DELETE payload",
 			    spisz, proto);
@@ -1631,14 +1569,14 @@ ipsec_handle_leftover_payload(struct message *msg, u_int8_t type,
 			 * Permit INITIAL-CONTACT if
 			 *   - this is not an AGGRESSIVE mode exchange
 			 *   - it is protected by an ISAKMP SA
-		         *
+			 *
 			 * XXX Instead of the first condition above, we could
 			 * XXX permit this only for phase 2. In the last
 			 * XXX packet of main-mode, this payload, while
 			 * XXX encrypted, is not part of the hash digest.  As
 			 * XXX we currently send our own INITIAL-CONTACTs at
 			 * XXX this point, this too would need to be changed.
-		         */
+			 */
 			if (msg->exchange->type == ISAKMP_EXCH_AGGRESSIVE) {
 				log_print("ipsec_handle_leftover_payload: got "
 				    "INITIAL-CONTACT in AGGRESSIVE mode");
@@ -1661,10 +1599,9 @@ ipsec_handle_leftover_payload(struct message *msg, u_int8_t type,
 			 * SA that is ready.  Exchanges will timeout
 			 * themselves and then the non-ready SAs will
 			 * disappear too.
-		         */
+			 */
 			msg->transport->vtbl->get_dst(msg->transport, &dst);
-			while ((sa = sa_lookup_by_peer(dst,
-			    sysdep_sa_len(dst))) != 0) {
+			while ((sa = sa_lookup_by_peer(dst, SA_LEN(dst))) != 0) {
 				/*
 				 * Don't delete the current SA -- we received
 				 * the notification over it, so it's obviously
@@ -1672,7 +1609,7 @@ ipsec_handle_leftover_payload(struct message *msg, u_int8_t type,
 				 * the SA from the list to avoid an endless
 				 * loop, but keep a reference so it won't
 				 * disappear meanwhile.
-			         */
+				 */
 				if (sa == msg->isakmp_sa) {
 					sa_reference(sa);
 					sa_remove(sa);
@@ -1817,7 +1754,7 @@ ipsec_get_proto_port(char *section, u_int8_t *tproto, u_int16_t *port)
 		se = getservbyname(pstr,
 		    pe ? pe->p_name : (pstr ? pstr : NULL));
 		if (se)
-			*port = se->s_port;
+			*port = ntohs(se->s_port);
 	}
 	if (!*port) {
 		log_print("ipsec_get_proto_port: port \"%s\" unknown",
@@ -2013,7 +1950,6 @@ ipsec_decode_id(char *buf, size_t size, u_int8_t *id, size_t id_len,
 			buf[id_len] = '\0';
 			break;
 
-#ifdef USE_X509
 		case IPSEC_ID_DER_ASN1_DN:
 			addr = x509_DN_string(id + ISAKMP_ID_DATA_OFF,
 			    id_len - ISAKMP_ID_DATA_OFF);
@@ -2023,7 +1959,6 @@ ipsec_decode_id(char *buf, size_t size, u_int8_t *id, size_t id_len,
 			}
 			strlcpy(buf, addr, size);
 			break;
-#endif
 
 		default:
 			snprintf(buf, size, "<id type unknown: %x>", id_type);
@@ -2216,15 +2151,15 @@ ipsec_add_contact(struct message *msg)
 		contacts = new_contacts;
 	}
 	msg->transport->vtbl->get_dst(msg->transport, &dst);
-	addr = malloc(sysdep_sa_len(dst));
+	addr = malloc(SA_LEN(dst));
 	if (!addr) {
-		log_error("ipsec_add_contact: malloc (%d) failed",
-		    sysdep_sa_len(dst));
+		log_error("ipsec_add_contact: malloc (%lu) failed",
+		    (unsigned long)SA_LEN(dst));
 		return -1;
 	}
-	memcpy(addr, dst, sysdep_sa_len(dst));
+	memcpy(addr, dst, SA_LEN(dst));
 	contacts[contact_cnt].addr = addr;
-	contacts[contact_cnt++].len = sysdep_sa_len(dst);
+	contacts[contact_cnt++].len = SA_LEN(dst);
 
 	/*
 	 * XXX There are better algorithms for already mostly-sorted data like
@@ -2241,7 +2176,7 @@ ipsec_contacted(struct message *msg)
 	struct contact  contact;
 
 	msg->transport->vtbl->get_dst(msg->transport, &contact.addr);
-	contact.len = sysdep_sa_len(contact.addr);
+	contact.len = SA_LEN(contact.addr);
 	return contacts ? (bsearch(&contact, contacts, contact_cnt,
 	    sizeof *contacts, addr_cmp) != 0) : 0;
 }
@@ -2450,7 +2385,6 @@ ipsec_id_string(u_int8_t *id, size_t id_len)
 		*(buf + len + id_len) = '\0';
 		break;
 
-#ifdef USE_X509
 	case IPSEC_ID_DER_ASN1_DN:
 		strlcpy(buf, "asn1_dn/", size);
 		len = strlen(buf);
@@ -2462,7 +2396,6 @@ ipsec_id_string(u_int8_t *id, size_t id_len)
 			goto fail;
 		strlcpy(buf + len, addrstr, size - len);
 		break;
-#endif
 
 	default:
 		/* Unknown type.  */

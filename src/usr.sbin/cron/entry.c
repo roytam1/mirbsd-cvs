@@ -1,4 +1,4 @@
-/*	$OpenBSD: entry.c,v 1.26 2003/06/26 00:13:38 deraadt Exp $	*/
+/*	$OpenBSD: entry.c,v 1.30 2005/01/30 20:44:50 millert Exp $	*/
 
 /*
  * Copyright 1988,1990,1993,1994 by Paul Vixie
@@ -6,24 +6,24 @@
  */
 
 /*
+ * Copyright (c) 2004 by Internet Systems Consortium, Inc. ("ISC")
  * Copyright (c) 1997,2000 by Internet Software Consortium, Inc.
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND INTERNET SOFTWARE CONSORTIUM DISCLAIMS
- * ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL INTERNET SOFTWARE
- * CONSORTIUM BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
- * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
- * SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+ * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 #if !defined(lint) && !defined(LINT)
-static char const rcsid[] = "$OpenBSD: entry.c,v 1.26 2003/06/26 00:13:38 deraadt Exp $";
+static char const rcsid[] = "$OpenBSD: entry.c,v 1.30 2005/01/30 20:44:50 millert Exp $";
 #endif
 
 /* vix 26jan87 [RCS'd; rest of log is in RCS file]
@@ -71,7 +71,8 @@ free_entry(entry *e) {
  * otherwise return a pointer to a new entry.
  */
 entry *
-load_entry(FILE *file, void (*error_func)(const char *), struct passwd *pw, char **envp) {
+load_entry(FILE *file, void (*error_func)(const char *), struct passwd *pw,
+    char **envp) {
 	/* this function reads one crontab entry -- the next -- from a file.
 	 * it skips any leading blank lines, ignores comments, and returns
 	 * NULL if for any reason the entry can't be read and parsed.
@@ -260,8 +261,9 @@ load_entry(FILE *file, void (*error_func)(const char *), struct passwd *pw, char
 			ecode = e_username;
 			goto eof;
 		}
-		Debug(DPARS, ("load_entry()...uid %ld, gid %ld\n",
-			      (long)pw->pw_uid, (long)pw->pw_gid))
+		Debug(DPARS, ("load_entry()...uid %lu, gid %lu\n",
+			      (unsigned long)pw->pw_uid,
+			      (unsigned long)pw->pw_gid))
 	}
 
 	if ((e->pwd = pw_dup(pw)) == NULL) {
@@ -278,60 +280,65 @@ load_entry(FILE *file, void (*error_func)(const char *), struct passwd *pw, char
 		goto eof;
 	}
 	if (!env_get("SHELL", e->envp)) {
-		if (glue_strings(envstr, sizeof envstr, "SHELL",
-				 _PATH_BSHELL, '=')) {
+		if (snprintf(envstr, sizeof envstr, "SHELL=%s", _PATH_BSHELL) >=
+		    sizeof(envstr))
+			log_it("CRON", getpid(), "error", "can't set SHELL");
+		else {
 			if ((tenvp = env_set(e->envp, envstr)) == NULL) {
 				ecode = e_memory;
 				goto eof;
 			}
 			e->envp = tenvp;
-		} else
-			log_it("CRON", getpid(), "error", "can't set SHELL");
+		}
 	}
 	if (!env_get("HOME", e->envp)) {
-		if (glue_strings(envstr, sizeof envstr, "HOME",
-				 pw->pw_dir, '=')) {
+		if (snprintf(envstr, sizeof envstr, "HOME=%s", pw->pw_dir) >=
+		    sizeof(envstr))
+			log_it("CRON", getpid(), "error", "can't set HOME");
+		else {
 			if ((tenvp = env_set(e->envp, envstr)) == NULL) {
 				ecode = e_memory;
 				goto eof;
 			}
 			e->envp = tenvp;
-		} else
-			log_it("CRON", getpid(), "error", "can't set HOME");
+		}
 	}
 #ifndef LOGIN_CAP
 	/* If login.conf is in use we will get the default PATH later. */
 	if (!env_get("PATH", e->envp)) {
-		if (glue_strings(envstr, sizeof envstr, "PATH",
-				 _PATH_DEFPATH, '=')) {
+		if (snprintf(envstr, sizeof envstr, "PATH=%s", _PATH_DEFPATH) >=
+		    sizeof(envstr))
+			log_it("CRON", getpid(), "error", "can't set PATH");
+		else {
 			if ((tenvp = env_set(e->envp, envstr)) == NULL) {
 				ecode = e_memory;
 				goto eof;
 			}
 			e->envp = tenvp;
-		} else
-			log_it("CRON", getpid(), "error", "can't set PATH");
+		}
 	}
 #endif /* LOGIN_CAP */
-	if (glue_strings(envstr, sizeof envstr, "LOGNAME",
-			 pw->pw_name, '=')) {
-		if ((tenvp = env_set(e->envp, envstr)) == NULL) {
-			ecode = e_memory;
-			goto eof;
-		}
-		e->envp = tenvp;
-	} else
+	if (snprintf(envstr, sizeof envstr, "LOGNAME=%s", pw->pw_name) >=
+		sizeof(envstr))
 		log_it("CRON", getpid(), "error", "can't set LOGNAME");
-#if defined(BSD) || defined(__linux)
-	if (glue_strings(envstr, sizeof envstr, "USER",
-			 pw->pw_name, '=')) {
+	else {
 		if ((tenvp = env_set(e->envp, envstr)) == NULL) {
 			ecode = e_memory;
 			goto eof;
 		}
 		e->envp = tenvp;
-	} else
+	}
+#if defined(BSD) || defined(__linux)
+	if (snprintf(envstr, sizeof envstr, "USER=%s", pw->pw_name) >=
+		sizeof(envstr))
 		log_it("CRON", getpid(), "error", "can't set USER");
+	else {
+		if ((tenvp = env_set(e->envp, envstr)) == NULL) {
+			ecode = e_memory;
+			goto eof;
+		}
+		e->envp = tenvp;
+	}
 #endif
 
 	Debug(DPARS, ("load_entry()...about to parse command\n"))
@@ -359,7 +366,7 @@ load_entry(FILE *file, void (*error_func)(const char *), struct passwd *pw, char
 	/* Everything up to the next \n or EOF is part of the command...
 	 * too bad we don't know in advance how long it will be, since we
 	 * need to malloc a string for it... so, we limit it to MAX_COMMAND.
-	 */ 
+	 */
 	ch = get_string(cmd, MAX_COMMAND, file, "\n");
 
 	/* a file without a \n before the EOF is rude, so we'll complain...
@@ -413,7 +420,7 @@ get_list(bitstr_t *bits, int low, int high, const char *names[],
 
 	/* list = range {"," range}
 	 */
-	
+
 	/* clear the bit string, since the default is 'off'.
 	 */
 	bit_nclear(bits, 0, (high-low+1));

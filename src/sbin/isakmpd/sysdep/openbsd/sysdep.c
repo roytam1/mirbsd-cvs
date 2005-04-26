@@ -1,4 +1,4 @@
-/* $OpenBSD: sysdep.c,v 1.28 2004/08/10 15:59:11 ho Exp $	 */
+/* $OpenBSD: sysdep.c,v 1.33 2005/04/08 23:15:26 hshoexer Exp $	 */
 /* $EOM: sysdep.c,v 1.9 2000/12/04 04:46:35 angelos Exp $	 */
 
 /*
@@ -42,63 +42,14 @@
 #include "monitor.h"
 #include "util.h"
 
-#ifdef NEED_SYSDEP_APP
 #include "app.h"
 #include "conf.h"
 #include "ipsec.h"
 
-#ifdef USE_PF_KEY_V2
 #include "pf_key_v2.h"
 #define KEY_API(x) pf_key_v2_##x
-#endif
 
-#endif /* NEED_SYSDEP_APP */
 #include "log.h"
-
-extern char    *__progname;
-
-/*
- * An as strong as possible random number generator, reverting to a
- * deterministic pseudo-random one if regrand is set.
- */
-u_int32_t
-sysdep_random()
-{
-	if (!regrand)
-		return arc4random();
-	else
-		return random();
-}
-
-/* Return the basename of the command used to invoke us.  */
-char *
-sysdep_progname()
-{
-	return __progname;
-}
-
-/* Return the length of the sockaddr struct.  */
-u_int8_t
-sysdep_sa_len(struct sockaddr *sa)
-{
-	return sa->sa_len;
-}
-
-/* As regress/ use this file I protect the sysdep_app_* stuff like this.  */
-#ifdef NEED_SYSDEP_APP
-/*
- * Prepare the application we negotiate SAs for (i.e. the IPsec stack)
- * for communication.  We return a file descriptor useable to select(2) on.
- */
-int
-sysdep_app_open()
-{
-#ifdef USE_PRIVSEP
-	return monitor_pf_key_v2_open();
-#else
-	return KEY_API(open)();
-#endif
-}
 
 /*
  * When select(2) has noticed our application needs attendance, this is what
@@ -263,4 +214,3 @@ sysdep_ipsec_set_spi(struct sa *sa, struct proto *proto, int incoming,
 		return 0;
 	return KEY_API(set_spi) (sa,proto, incoming, isakmp_sa);
 }
-#endif

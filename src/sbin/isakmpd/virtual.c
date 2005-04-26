@@ -1,4 +1,4 @@
-/*	$OpenBSD: virtual.c,v 1.10 2004/12/14 10:17:28 mcbride Exp $	*/
+/*	$OpenBSD: virtual.c,v 1.21 2005/04/08 23:15:26 hshoexer Exp $	*/
 
 /*
  * Copyright (c) 2004 Håkan Olsson.  All rights reserved.
@@ -27,14 +27,11 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
-#ifndef linux
 #include <sys/sockio.h>
-#endif
 #include <net/if.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <ctype.h>
-#include <err.h>
 #include <limits.h>
 #include <netdb.h>
 #include <stdlib.h>
@@ -45,14 +42,14 @@
 #include "if.h"
 #include "exchange.h"
 #include "log.h"
+#include "message.h"
+#include "nat_traversal.h"
 #include "transport.h"
 #include "virtual.h"
 #include "udp.h"
 #include "util.h"
 
-#if defined (USE_NAT_TRAVERSAL)
 #include "udp_encap.h"
-#endif
 
 static struct transport	*virtual_bind(const struct sockaddr *);
 static struct transport	*virtual_bind_ADDR_ANY(sa_family_t);
@@ -137,8 +134,6 @@ virtual_init(void)
 		    (struct virtual_transport *)default_transport6, link);
 		transport_reference(default_transport6);
 	}
-
-	return;
 }
 
 struct virtual_transport *
@@ -170,8 +165,8 @@ virtual_reinit(void)
 
 	/* Mark all UDP transports, except the default ones. */
 	for (v = LIST_FIRST(&virtual_listen_list); v; v = LIST_NEXT(v, link))
-		if (&v->transport != default_transport
-		    && &v->transport != default_transport6)
+		if (&v->transport != default_transport &&
+		    &v->transport != default_transport6)
 			v->transport.flags |= TRANSPORT_MARK;
 
 	/* Re-probe interface list.  */
@@ -210,11 +205,10 @@ virtual_listen_lookup(struct sockaddr *addr)
 				continue;
 			}
 
-		if (u->src->sa_family == addr->sa_family
-		    && sockaddr_addrlen(u->src) == sockaddr_addrlen(addr)
-		    && memcmp(sockaddr_addrdata (u->src),
-			sockaddr_addrdata(addr),
-			sockaddr_addrlen(addr)) == 0)
+		if (u->src->sa_family == addr->sa_family &&
+		    sockaddr_addrlen(u->src) == sockaddr_addrlen(addr) &&
+		    memcmp(sockaddr_addrdata (u->src), sockaddr_addrdata(addr),
+		    sockaddr_addrlen(addr)) == 0)
 			return v;
 	}
 
@@ -230,9 +224,8 @@ virtual_bind(const struct sockaddr *addr)
 {
 	struct virtual_transport *v;
 	struct sockaddr_storage	  tmp_sa;
-	char	*port;
-	char	*ep;
-	long	 lport;
+	char	*stport;
+	in_port_t port;
 
 	v = (struct virtual_transport *)calloc(1, sizeof *v);
 	if (!v) {
@@ -243,56 +236,49 @@ virtual_bind(const struct sockaddr *addr)
 
 	v->transport.vtbl = &virtual_transport_vtbl;
 
-	memcpy(&tmp_sa, addr, sysdep_sa_len((struct sockaddr *)addr));
+	memcpy(&tmp_sa, addr, SA_LEN(addr));
 
-	/*
-	 * Get port.
-	 * XXX Use getservbyname too.
-	 */
-	port = udp_default_port ? udp_default_port : UDP_DEFAULT_PORT_STR;
-	lport = strtol(port, &ep, 10);
-	if (*ep != '\0' || lport < 0 || lport > (long)USHRT_MAX) {
-		log_print("virtual_bind: "
-		    "port string \"%s\" not convertible to in_port_t", port);
+	/* Get port. */
+	stport = udp_default_port ? udp_default_port : UDP_DEFAULT_PORT_STR;
+	port = text2port(stport);
+	if (port == 0) {
+		log_print("virtual_bind: bad port \"%s\"", stport);
 		free(v);
 		return 0;
 	}
 
-	sockaddr_set_port((struct sockaddr *)&tmp_sa, (in_port_t)lport);
+	sockaddr_set_port((struct sockaddr *)&tmp_sa, port);
 	v->main = udp_bind((struct sockaddr *)&tmp_sa);
 	if (!v->main) {
 		free(v);
 		return 0;
 	}
-	((struct transport *)v->main)->virtual = (struct transport *)v;
+	v->main->virtual = (struct transport *)v;
 
-#if defined (USE_NAT_TRAVERSAL)
-	memcpy(&tmp_sa, addr, sysdep_sa_len((struct sockaddr *)addr));
+	if (!disable_nat_t) {
+		memcpy(&tmp_sa, addr, SA_LEN(addr));
 
-	/*
-	 * Get port.
-	 * XXX Use getservbyname too.
-	 */
-	port = udp_encap_default_port
-	    ? udp_encap_default_port : UDP_ENCAP_DEFAULT_PORT_STR;
-	lport = strtol(port, &ep, 10);
-	if (*ep != '\0' || lport < 0 || lport > (long)USHRT_MAX) {
-		log_print("virtual_bind: "
-		    "port string \"%s\" not convertible to in_port_t", port);
-		v->main->vtbl->remove(v->main);
-		free(v);
-		return 0;
+		/* Get port. */
+		stport = udp_encap_default_port
+		    ? udp_encap_default_port : UDP_ENCAP_DEFAULT_PORT_STR;
+		port = text2port(stport);
+		if (port == 0) {
+			log_print("virtual_bind: bad encap port \"%s\"",
+			    stport);
+			v->main->vtbl->remove(v->main);
+			free(v);
+			return 0;
+		}
+
+		sockaddr_set_port((struct sockaddr *)&tmp_sa, port);
+		v->encap = udp_encap_bind((struct sockaddr *)&tmp_sa);
+		if (!v->encap) {
+			v->main->vtbl->remove(v->main);
+			free(v);
+			return 0;
+		}
+		v->encap->virtual = (struct transport *)v;
 	}
-
-	sockaddr_set_port((struct sockaddr *)&tmp_sa, (in_port_t)lport);
-	v->encap = udp_encap_bind((struct sockaddr *)&tmp_sa);
-	if (!v->encap) {
-		v->main->vtbl->remove(v->main);
-		free(v);
-		return 0;
-	}
-	((struct transport *)v->encap)->virtual = (struct transport *)v;
-#endif
 	v->encap_is_active = 0;
 
 	transport_setup(&v->transport, 1);
@@ -310,21 +296,17 @@ virtual_bind_ADDR_ANY(sa_family_t af)
 	struct transport	*t;
 	struct in6_addr		in6addr_any = IN6ADDR_ANY_INIT;
 
-	memset(&dflt_stor, 0, sizeof dflt_stor);
+	bzero(&dflt_stor, sizeof dflt_stor);
 	switch (af) {
 	case AF_INET:
 		d4->sin_family = af;
-#if !defined (LINUX_IPSEC)
 		d4->sin_len = sizeof(struct sockaddr_in);
-#endif
 		d4->sin_addr.s_addr = INADDR_ANY;
 		break;
 
 	case AF_INET6:
 		d6->sin6_family = af;
-#if !defined (LINUX_IPSEC)
 		d6->sin6_len = sizeof(struct sockaddr_in6);
-#endif
 		memcpy(&d6->sin6_addr.s6_addr, &in6addr_any,
 		    sizeof in6addr_any);
 		break;
@@ -350,7 +332,6 @@ virtual_bind_if(char *ifname, struct sockaddr *if_addr, void *arg)
 	char	*addr_str;
 	int	 s, error;
 
-#if defined (USE_DEBUG)
 	if (sockaddr2text(if_addr, &addr_str, 0))
 		addr_str = 0;
 
@@ -362,15 +343,14 @@ virtual_bind_if(char *ifname, struct sockaddr *if_addr, void *arg)
 	    addr_str ? addr_str : "<invalid>"));
 	if (addr_str)
 		free(addr_str);
-#endif
 
 	/*
 	 * Drop non-Internet stuff.
 	 */
-	if ((if_addr->sa_family != AF_INET
-	    || sysdep_sa_len(if_addr) != sizeof (struct sockaddr_in))
-	    && (if_addr->sa_family != AF_INET6
-		|| sysdep_sa_len(if_addr) != sizeof (struct sockaddr_in6)))
+	if ((if_addr->sa_family != AF_INET ||
+	    SA_LEN(if_addr) != sizeof (struct sockaddr_in)) &&
+	    (if_addr->sa_family != AF_INET6 ||
+	    SA_LEN(if_addr) != sizeof (struct sockaddr_in6)))
 		return 0;
 
 	/*
@@ -394,10 +374,9 @@ virtual_bind_if(char *ifname, struct sockaddr *if_addr, void *arg)
 	 * These special addresses are not useable as they have special meaning
 	 * in the IP stack.
 	 */
-	if (if_addr->sa_family == AF_INET
-	    && (((struct sockaddr_in *)if_addr)->sin_addr.s_addr == INADDR_ANY
-		|| (((struct sockaddr_in *)if_addr)->sin_addr.s_addr
-		    == INADDR_NONE)))
+	if (if_addr->sa_family == AF_INET &&
+	    (((struct sockaddr_in *)if_addr)->sin_addr.s_addr == INADDR_ANY ||
+	    (((struct sockaddr_in *)if_addr)->sin_addr.s_addr == INADDR_NONE)))
 		return 0;
 
 	/*
@@ -465,8 +444,7 @@ virtual_bind_if(char *ifname, struct sockaddr *if_addr, void *arg)
 			}
 
 			/* If found, take the easy way out. */
-			if (memcmp(addr, if_addr,
-			    sysdep_sa_len(addr)) == 0) {
+			if (memcmp(addr, if_addr, SA_LEN(addr)) == 0) {
 				free(addr);
 				break;
 			}
@@ -505,6 +483,8 @@ virtual_clone(struct transport *vt, struct sockaddr *raddr)
 	struct virtual_transport *v = (struct virtual_transport *)vt;
 	struct virtual_transport *v2;
 	struct transport	 *t;
+	char			 *stport;
+	in_port_t		  port;
 
 	t = malloc(sizeof *v);
 	if (!t) {
@@ -525,13 +505,20 @@ virtual_clone(struct transport *vt, struct sockaddr *raddr)
 		v2->main = v->main->vtbl->clone(v->main, raddr);
 		v2->main->virtual = (struct transport *)v2;
 	}
-#if defined (USE_NAT_TRAVERSAL)
-	/* XXX fix strtol() call */
-	sockaddr_set_port(raddr, udp_encap_default_port ?
-	    strtol(udp_encap_default_port, NULL, 10) : UDP_ENCAP_DEFAULT_PORT);
-	v2->encap = v->encap->vtbl->clone(v->encap, raddr);
-	v2->encap->virtual = (struct transport *)v2;
-#endif
+	if (!disable_nat_t) {
+		stport = udp_encap_default_port ? udp_encap_default_port :
+		    UDP_ENCAP_DEFAULT_PORT_STR;
+		port = text2port(stport);
+		if (port == 0) {
+			log_print("virtual_clone: port string \"%s\" not convertible "
+			    "to in_port_t", stport);
+			free(t);
+			return 0;
+		}
+		sockaddr_set_port(raddr, port);
+		v2->encap = v->encap->vtbl->clone(v->encap, raddr);
+		v2->encap->virtual = (struct transport *)v2;
+	}
 	LOG_DBG((LOG_TRANSPORT, 50, "virtual_clone: old %p new %p (%s is %p)",
 	    v, t, v->encap_is_active ? "encap" : "main",
 	    v->encap_is_active ? v2->encap : v2->main));
@@ -545,21 +532,19 @@ static struct transport *
 virtual_create(char *name)
 {
 	struct virtual_transport *v;
-	struct transport	 *t, *t2;
+	struct transport	 *t, *t2 = 0;
 
 	t = transport_create("udp_physical", name);
 	if (!t)
 		return 0;
 
-#if defined (USE_NAT_TRAVERSAL)
-	t2 = transport_create("udp_encap", name);
-	if (!t2) {
-		t->vtbl->remove(t);
-		return 0;
+	if (!disable_nat_t) {
+		t2 = transport_create("udp_encap", name);
+		if (!t2) {
+			t->vtbl->remove(t);
+			return 0;
+		}
 	}
-#else
-	t2 = 0;
-#endif
 
 	v = (struct virtual_transport *)calloc(1, sizeof *v);
 	if (!v) {
@@ -602,7 +587,6 @@ virtual_remove(struct transport *t)
 static void
 virtual_report(struct transport *t)
 {
-	return;
 }
 
 static void
@@ -644,9 +628,8 @@ virtual_send_message(struct message *msg, struct transport *t)
 {
 	struct virtual_transport *v =
 	    (struct virtual_transport *)msg->transport;
-#if defined (USE_NAT_TRAVERSAL)
 	struct sockaddr *dst;
-	in_port_t port;
+	in_port_t port, default_port;
 
 	/*
 	 * Activate NAT-T Encapsulation if
@@ -666,12 +649,16 @@ virtual_send_message(struct message *msg, struct transport *t)
 		/* Copy destination port if it is translated (NAT).  */
 		v->main->vtbl->get_dst(v->main, &dst);
 		port = ntohs(sockaddr_port(dst));
-		if (port != UDP_DEFAULT_PORT) {
+
+		if (udp_default_port)
+			default_port = text2port(udp_default_port);
+		else
+			default_port = UDP_DEFAULT_PORT;
+		if (port != default_port) {
 			v->main->vtbl->get_dst(v->encap, &dst);
 			sockaddr_set_port(dst, port);
 		}
 	}
-#endif /* USE_NAT_TRAVERSAL */
 
 	if (v->encap_is_active)
 		return v->encap->vtbl->send_message(msg, v->encap);

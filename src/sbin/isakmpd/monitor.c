@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.33 2004/11/08 12:40:19 hshoexer Exp $	 */
+/* $OpenBSD: monitor.c,v 1.40 2005/04/19 15:46:49 hshoexer Exp $	 */
 
 /*
  * Copyright (c) 2003 Håkan Olsson.  All rights reserved.
@@ -41,12 +41,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#if defined (USE_POLICY)
 #include <regex.h>
 #include <keynote.h>
-#endif
-
-#include "sysdep.h"
 
 #include "conf.h"
 #include "log.h"
@@ -60,7 +56,7 @@ struct monitor_state {
 	pid_t           pid;
 	int             s;
 	char            root[MAXPATHLEN];
-}               m_state;
+} m_state;
 
 volatile sig_atomic_t sigchlded = 0;
 extern volatile sig_atomic_t sigtermed;
@@ -97,7 +93,7 @@ monitor_init(int debug)
 	struct passwd  *pw;
 	int             p[2];
 
-	memset(&m_state, 0, sizeof m_state);
+	bzero(&m_state, sizeof m_state);
 
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, p) != 0)
 		log_fatal("monitor_init: socketpair() failed");
@@ -106,6 +102,7 @@ monitor_init(int debug)
 	if (pw == NULL)
 		log_fatal("monitor_init: getpwnam(\"%s\") failed",
 		    ISAKMPD_PRIVSEP_USER);
+	endpwent();
 
 	m_state.pid = fork();
 	m_state.s = p[m_state.pid ? 1 : 0];
@@ -119,11 +116,19 @@ monitor_init(int debug)
 		if (chroot(pw->pw_dir) != 0 || chdir("/") != 0)
 			log_fatal("monitor_init: chroot failed");
 
-		if (setgid(pw->pw_gid) != 0)
+		if (setgroups(1, &pw->pw_gid) == -1)
+			log_fatal("monitor_init: setgroups(%d) failed",
+			    pw->pw_gid);
+		if (setegid(pw->pw_gid) == -1)
+			log_fatal("monitor_init: setegid(%d) failed",
+			    pw->pw_gid);
+		if (setgid(pw->pw_gid) == -1)
 			log_fatal("monitor_init: setgid(%d) failed",
 			    pw->pw_gid);
-
-		if (setuid(pw->pw_uid) != 0)
+		if (seteuid(pw->pw_uid) == -1)
+			log_fatal("monitor_init: seteuid(%d) failed",
+			    pw->pw_uid);
+		if (setuid(pw->pw_uid) == -1)
 			log_fatal("monitor_init: setuid(%d) failed",
 			    pw->pw_uid);
 
@@ -132,7 +137,6 @@ monitor_init(int debug)
 	} else {
 		setproctitle("monitor [priv]");
 	}
-
 
 	/* With "-dd", stop and wait here. For gdb "attach" etc.  */
 	if (debug > 1) {
@@ -182,7 +186,6 @@ monitor_ui_init(void)
 
 errout:
 	log_error("monitor_ui_init: problem talking to privileged process");
-	return;
 }
 
 int
@@ -492,8 +495,6 @@ monitor_init_done(void)
 {
 	if (m_write_int32(m_state.s, MONITOR_INIT_DONE))
 		log_print("monitor_init_done: read/write error");
-
-	return;
 }
 
 /*
@@ -525,6 +526,7 @@ monitor_loop(int debug)
 	pid_t	 pid;
 	fd_set	*fds;
 	size_t	 fdsn;
+	int32_t	 msgcode;
 	int	 status, n, maxfd;
 
 	if (!debug)
@@ -552,7 +554,7 @@ monitor_loop(int debug)
 		/*
 		 * Currently, there is no need for us to hang around if the
 		 * child is in the process of shutting down.
-	         */
+		 */
 		if (sigtermed) {
 			m_priv_increase_state(STATE_QUIT);
 			kill(m_state.pid, SIGTERM);
@@ -571,89 +573,80 @@ monitor_loop(int debug)
 			}
 		}
 
-		memset(fds, 0, fdsn);
+		bzero(fds, fdsn);
 		FD_SET(m_state.s, fds);
 
 		n = select(maxfd, fds, NULL, NULL, NULL);
-		if (n == -1) {
-			if (errno != EINTR) {
+		if (n <= 0) {
+			if (n && errno != EINTR) {
 				log_error("select");
 				sleep(1);
 			}
-		} else if (n)
-			if (FD_ISSET(m_state.s, fds)) {
-				int32_t	msgcode;
-				if (m_read_int32(m_state.s, &msgcode))
-					m_flush(m_state.s);
-				else
-					switch (msgcode) {
-					case MONITOR_GET_FD:
-						m_priv_getfd(m_state.s);
-						break;
-
-					case MONITOR_UI_INIT:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_UI_INIT"));
-						m_priv_test_state(STATE_INIT);
-						m_priv_ui_init(m_state.s);
-						break;
-
-					case MONITOR_PFKEY_OPEN:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_PFKEY_OPEN"));
-						m_priv_test_state(STATE_INIT);
-						m_priv_pfkey_open(m_state.s);
-						break;
-
-					case MONITOR_GET_SOCKET:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_GET_SOCKET"));
-						m_priv_test_state(STATE_INIT);
-						m_priv_getsocket(m_state.s);
-						break;
-
-					case MONITOR_SETSOCKOPT:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_SETSOCKOPT"));
-						m_priv_test_state(STATE_INIT);
-						m_priv_setsockopt(m_state.s);
-						break;
-
-					case MONITOR_BIND:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_BIND"));
-						m_priv_test_state(STATE_INIT);
-						m_priv_bind(m_state.s);
-						break;
-
-					case MONITOR_INIT_DONE:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_INIT_DONE"));
-						m_priv_test_state(STATE_INIT);
-						m_priv_increase_state(
-						    STATE_RUNNING);
-						break;
-
-					case MONITOR_SHUTDOWN:
-						LOG_DBG((LOG_MISC, 80,
-						    "monitor_loop: "
-						    "MONITOR_SHUTDOWN"));
-						m_priv_increase_state(
-						    STATE_QUIT);
-						break;
-
-					default:
-						log_print("monitor_loop: "
-						    "got unknown code %d",
-						    msgcode);
-					}
+			continue;
+		}
+		if (FD_ISSET(m_state.s, fds)) {
+			if (m_read_int32(m_state.s, &msgcode)) {
+				m_flush(m_state.s);
+				continue;
 			}
+			switch (msgcode) {
+			case MONITOR_GET_FD:
+				m_priv_getfd(m_state.s);
+				break;
+
+			case MONITOR_UI_INIT:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_UI_INIT"));
+				m_priv_test_state(STATE_INIT);
+				m_priv_ui_init(m_state.s);
+				break;
+
+			case MONITOR_PFKEY_OPEN:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_PFKEY_OPEN"));
+				m_priv_test_state(STATE_INIT);
+				m_priv_pfkey_open(m_state.s);
+				break;
+
+			case MONITOR_GET_SOCKET:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_GET_SOCKET"));
+				m_priv_test_state(STATE_INIT);
+				m_priv_getsocket(m_state.s);
+				break;
+
+			case MONITOR_SETSOCKOPT:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_SETSOCKOPT"));
+				m_priv_test_state(STATE_INIT);
+				m_priv_setsockopt(m_state.s);
+				break;
+
+			case MONITOR_BIND:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_BIND"));
+				m_priv_test_state(STATE_INIT);
+				m_priv_bind(m_state.s);
+				break;
+
+			case MONITOR_INIT_DONE:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_INIT_DONE"));
+				m_priv_test_state(STATE_INIT);
+				m_priv_increase_state(STATE_RUNNING);
+				break;
+
+			case MONITOR_SHUTDOWN:
+				LOG_DBG((LOG_MISC, 80,
+				    "monitor_loop: MONITOR_SHUTDOWN"));
+				m_priv_increase_state(STATE_QUIT);
+				break;
+
+			default:
+				log_print("monitor_loop: got unknown code %d",
+				    msgcode);
+			}
+		}
 	}
 
 	free(fds);
@@ -689,7 +682,6 @@ m_priv_ui_init(int s)
 
 errout:
 	log_error("m_priv_ui_init: read/write operation failed");
-	return;
 }
 
 /* Privileged: called by monitor_loop.  */
@@ -719,7 +711,6 @@ m_priv_pfkey_open(int s)
 
 errout:
 	log_error("m_priv_pfkey_open: read/write operation failed");
-	return;
 }
 
 /* Privileged: called by monitor_loop.  */
@@ -772,7 +763,6 @@ m_priv_getfd(int s)
 
 errout:
 	log_error("m_priv_getfd: read/write operation failed");
-	return;
 }
 
 /* Privileged: called by monitor_loop.  */
@@ -811,7 +801,6 @@ m_priv_getsocket(int s)
 
 errout:
 	log_error("m_priv_getsocket: read/write operation failed");
-	return;
 }
 
 /* Privileged: called by monitor_loop.  */
@@ -871,7 +860,6 @@ errout:
 		free(optval);
 	if (sock >= 0)
 		close(sock);
-	return;
 }
 
 /* Privileged: called by monitor_loop.  */
@@ -929,7 +917,6 @@ errout:
 		free(name);
 	if (sock >= 0)
 		close(sock);
-	return;
 }
 
 /*
@@ -1079,9 +1066,9 @@ m_priv_check_bind(const struct sockaddr *sa, socklen_t salen)
 		log_print("NULL address");
 		return 1;
 	}
-	if (sysdep_sa_len((struct sockaddr *)sa) != salen) {
-		log_print("Length mismatch: %d %d",
-		  (int)sysdep_sa_len((struct sockaddr *)sa), (int)salen);
+	if (SA_LEN(sa) != salen) {
+		log_print("Length mismatch: %lu %lu", (unsigned long)sa->sa_len,
+		    (unsigned long)salen);
 		return 1;
 	}
 	switch (sa->sa_family) {
@@ -1118,7 +1105,7 @@ static void
 m_priv_increase_state(int state)
 {
 	if (state <= cur_state)
-		log_print("m_priv_increase_state: attempt to decrase state "
+		log_print("m_priv_increase_state: attempt to decrease state "
 		    "or match current state");
 	if (state < STATE_INIT || state > STATE_QUIT)
 		log_print("m_priv_increase_state: attempt to switch to "
@@ -1132,5 +1119,4 @@ m_priv_test_state(int state)
 	if (cur_state != state)
 		log_print("m_priv_test_state: Illegal state: %d != %d",
 		    (int)cur_state, state);
-	return;
 }

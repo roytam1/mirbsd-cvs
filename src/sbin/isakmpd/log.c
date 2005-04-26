@@ -1,4 +1,4 @@
-/* $OpenBSD: log.c,v 1.50 2004/11/08 11:59:37 hshoexer Exp $	 */
+/* $OpenBSD: log.c,v 1.56 2005/04/08 19:40:03 deraadt Exp $	 */
 /* $EOM: log.c,v 1.30 2000/09/29 08:19:23 niklas Exp $	 */
 
 /*
@@ -33,7 +33,6 @@
 #include <sys/types.h>
 #include <sys/time.h>
 
-#ifdef USE_DEBUG
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -44,13 +43,7 @@
 #include <netinet/udp.h>
 #include <arpa/inet.h>
 
-#ifdef HAVE_PCAP
 #include <pcap.h>
-#else
-#include "sysdep/common/pcap.h"
-#endif
-
-#endif				/* USE_DEBUG */
 
 #include <errno.h>
 #include <stdio.h>
@@ -71,7 +64,6 @@ static void	_log_print(int, int, const char *, va_list, int, int);
 static FILE	*log_output;
 
 int		verbose_logging = 0;
-#if defined (USE_DEBUG)
 static int	log_level[LOG_ENDCLASS];
 
 #define TCPDUMP_MAGIC	0xa1b2c3d4
@@ -99,7 +91,6 @@ static u_int8_t *packet_buf = NULL;
 static int      udp_cksum(struct packhdr *, const struct udphdr *,
     u_int16_t *);
 static u_int16_t in_cksum(const u_int16_t *, int);
-#endif				/* USE_DEBUG */
 
 void
 log_init(int debug)
@@ -114,17 +105,14 @@ void
 log_reinit(void)
 {
 	struct conf_list *logging;
-#ifdef USE_DEBUG
 	struct conf_list_node *logclass;
 	int		class, level;
-#endif				/* USE_DEBUG */
 
 	logging = conf_get_list("General", "Logverbose");
 	if (logging) {
 		verbose_logging = 1;
 		conf_free_list(logging);
 	}
-#ifdef USE_DEBUG
 	logging = conf_get_list("General", "Loglevel");
 	if (!logging)
 		return;
@@ -144,7 +132,6 @@ log_reinit(void)
 			log_debug_cmd(class, level);
 	}
 	conf_free_list(logging);
-#endif				/* USE_DEBUG */
 }
 
 void
@@ -207,9 +194,7 @@ _log_print(int error, int syslog_level, const char *fmt, va_list ap,
 			    tm->tm_hour, tm->tm_min, tm->tm_sec, now.tv_usec,
 			    class == LOG_PRINT ? "Default" : "Report>");
 		strlcat(nbuf, buffer, sizeof nbuf);
-#if defined (USE_PRIVSEP)
 		strlcat(nbuf, getuid() ? "" : " [priv]", LOG_SIZE + 32);
-#endif
 		strlcat(nbuf, "\n", sizeof nbuf);
 
 		if (fwrite(nbuf, strlen(nbuf), 1, log_output) == 0) {
@@ -241,7 +226,6 @@ _log_print(int error, int syslog_level, const char *fmt, va_list ap,
 		    buffer);
 }
 
-#ifdef USE_DEBUG
 void
 log_debug(int cls, int level, const char *fmt, ...)
 {
@@ -322,7 +306,7 @@ log_debug_toggle(void)
 		LOG_DBG((LOG_MISC, 50, "log_debug_toggle: "
 		    "debug levels cleared"));
 		memcpy(&log_level_copy, &log_level, sizeof log_level);
-		memset(&log_level, 0, sizeof log_level);
+		bzero(&log_level, sizeof log_level);
 	} else {
 		memcpy(&log_level, &log_level_copy, sizeof log_level);
 		LOG_DBG((LOG_MISC, 50, "log_debug_toggle: "
@@ -330,7 +314,6 @@ log_debug_toggle(void)
 	}
 	toggle = !toggle;
 }
-#endif				/* USE_DEBUG */
 
 void
 log_print(const char *fmt, ...)
@@ -346,18 +329,14 @@ void
 log_verbose(const char *fmt, ...)
 {
 	va_list	ap;
-#ifdef USE_DEBUG
 	int	i;
-#endif				/* USE_DEBUG */
 
 	if (verbose_logging == 0)
 		return;
 
-#ifdef USE_DEBUG
 	for (i = 0; i < LOG_ENDCLASS; i++)
 		if (log_level[i] > 0)
 			return;
-#endif
 
 	va_start(ap, fmt);
 	_log_print(0, LOG_NOTICE, fmt, ap, LOG_PRINT, 0);
@@ -382,14 +361,9 @@ log_fatal(const char *fmt, ...)
 	va_start(ap, fmt);
 	_log_print(1, LOG_CRIT, fmt, ap, LOG_PRINT, 0);
 	va_end(ap);
-#ifdef USE_PRIVSEP
 	monitor_exit(1);
-#else
-	exit(1);
-#endif
 }
 
-#ifdef USE_DEBUG
 void
 log_packet_init(char *newname)
 {
@@ -415,16 +389,12 @@ log_packet_init(char *newname)
 		return;
 	}
 	/* Does the file already exist?  XXX lstat() or stat()?  */
-#if defined (USE_PRIVSEP)
 	/* XXX This is a fstat! */
 	if (monitor_stat(pcaplog_file, &st) == 0) {
-#else
-	if (lstat(pcaplog_file, &st) == 0) {
-#endif
 		/* Sanity checks.  */
 		if ((st.st_mode & S_IFMT) != S_IFREG) {
 			log_print("log_packet_init: existing capture file is "
-			     "not a regular file");
+			    "not a regular file");
 			return;
 		}
 		if ((st.st_mode & (S_IRWXG | S_IRWXO)) != 0) {
@@ -518,8 +488,8 @@ log_packet_iov(struct sockaddr *src, struct sockaddr *dst, struct iovec *iov,
 		off += iov[i].iov_len;
 	}
 
-	memset(&hdr, 0, sizeof hdr);
-	memset(&udp, 0, sizeof udp);
+	bzero(&hdr, sizeof hdr);
+	bzero(&udp, sizeof udp);
 
 	/* isakmp - turn off the encryption bit in the isakmp hdr */
 	isakmphdr = (struct isakmp_hdr *) packet_buf;
@@ -529,13 +499,11 @@ log_packet_iov(struct sockaddr *src, struct sockaddr *dst, struct iovec *iov,
 	udp.uh_sport = sockaddr_port(src);
 	udp.uh_dport = sockaddr_port(dst);
 	datalen += sizeof udp;
-#if defined (USE_NAT_TRAVERSAL)
 	if (ntohs(udp.uh_sport) == 4500 ||
 	    ntohs(udp.uh_dport) == 4500) { /* XXX Quick and dirty */
 		add_espmarker = 1;
 		datalen += sizeof espmarker;
 	}
-#endif
 	udp.uh_ulen = htons(datalen);
 
 	/* ip */
@@ -638,7 +606,7 @@ udp_cksum(struct packhdr *hdr, const struct udphdr *u, u_int16_t *d)
 	u_int32_t       sum;
 
 	/* Setup pseudoheader.  */
-	memset(phu.pa, 0, sizeof phu);
+	bzero(phu.pa, sizeof phu);
 	switch (ntohl(hdr->sa_family)) {
 	case AF_INET:
 		ip4 = &hdr->ip.ip4;
@@ -707,5 +675,3 @@ in_cksum(const u_int16_t *w, int len)
 	answer = ~sum;		/* truncate to 16 bits */
 	return answer;
 }
-
-#endif				/* USE_DEBUG */

@@ -1,4 +1,4 @@
-/*	$OpenBSD: udp_encap.c,v 1.10 2004/12/14 10:17:28 mcbride Exp $	*/
+/*	$OpenBSD: udp_encap.c,v 1.15 2005/04/08 23:15:26 hshoexer Exp $	*/
 
 /*
  * Copyright (c) 1998, 1999, 2001 Niklas Hallqvist.  All rights reserved.
@@ -29,14 +29,11 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
-#ifndef linux
 #include <sys/sockio.h>
-#endif
 #include <net/if.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <ctype.h>
-#include <err.h>
 #include <limits.h>
 #include <netdb.h>
 #include <stdlib.h>
@@ -52,7 +49,6 @@
 #include "log.h"
 #include "message.h"
 #include "monitor.h"
-#include "sysdep.h"
 #include "transport.h"
 #include "udp.h"
 #include "udp_encap.h"
@@ -100,7 +96,6 @@ static struct transport_vtbl udp_encap_transport_vtbl = {
 };
 
 char	 *udp_encap_default_port = 0;
-char	 *udp_encap_bind_port = 0;
 
 void
 udp_encap_init(void)
@@ -168,7 +163,7 @@ udp_encap_make(struct sockaddr *laddr)
 	}
 
 	t->transport.vtbl = &udp_encap_transport_vtbl;
-	if (monitor_bind(s, t->src, sysdep_sa_len (t->src))) {
+	if (monitor_bind(s, t->src, SA_LEN(t->src))) {
 		if (sockaddr2text(t->src, &tstr, 0))
 			log_error("udp_encap_make: bind (%d, %p, %lu)", s,
 			    &t->src, (unsigned long)sizeof t->src);
@@ -217,11 +212,11 @@ udp_encap_bind(const struct sockaddr *addr)
 {
 	struct sockaddr	*src;
 
-	src = malloc(sysdep_sa_len((struct sockaddr *)addr));
+	src = malloc(SA_LEN(addr));
 	if (!src)
 		return 0;
 
-	memcpy(src, addr, sysdep_sa_len((struct sockaddr *)addr));
+	memcpy(src, addr, SA_LEN(addr));
 	return udp_encap_make(src);
 }
 
@@ -279,7 +274,7 @@ udp_encap_create(char *name)
 
 	if (addr_list) {
 		for (addr_node = TAILQ_FIRST(&addr_list->fields);
-		     addr_node; addr_node = TAILQ_NEXT(addr_node, link))
+		    addr_node; addr_node = TAILQ_NEXT(addr_node, link))
 			if (text2sockaddr(addr_node->field, port_str,
 			    &addr, 0, 0) == 0) {
 				v = virtual_listen_lookup(addr);
@@ -439,7 +434,7 @@ udp_encap_send_message(struct message *msg, struct transport *t)
 	 * given, or else EISCONN will occur.
 	 */
 	m.msg_name = (caddr_t)u->dst;
-	m.msg_namelen = sysdep_sa_len (u->dst);
+	m.msg_namelen = SA_LEN(u->dst);
 	m.msg_iov = msg ? new_iov : &keepalive;
 	m.msg_iovlen = msg ? msg->iovlen + 1 : 1;
 	m.msg_control = 0;

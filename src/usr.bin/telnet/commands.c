@@ -1,4 +1,4 @@
-/*	$OpenBSD: commands.c,v 1.46 2003/12/28 21:53:01 otto Exp $	*/
+/*	$OpenBSD: commands.c,v 1.48 2005/02/27 15:46:42 otto Exp $	*/
 /*	$NetBSD: commands.c,v 1.14 1996/03/24 22:03:48 jtk Exp $	*/
 
 /*
@@ -1821,12 +1821,13 @@ env_default(init, welldefined)
 }
 
 	unsigned char *
-env_getvalue(var)
+env_getvalue(var, exported_only)
 	unsigned char *var;
+	int exported_only;
 {
 	struct env_lst *ep;
 
-	if ((ep = env_find(var)))
+	if ((ep = env_find(var)) && (!exported_only || ep->export))
 		return(ep->value);
 	return(NULL);
 }
@@ -2274,11 +2275,7 @@ tn(argc, argv)
 #endif
     char *cmd, *hostp = 0, *portp = 0, *user = 0, *aliasp = 0;
     int retry;
-#ifdef NI_WITHSCOPEID
-    const int niflags = NI_NUMERICHOST | NI_WITHSCOPEID;
-#else
     const int niflags = NI_NUMERICHOST;
-#endif
 
     /* clear the socket address prior to use */
     memset((char *)&sin, 0, sizeof(sin));

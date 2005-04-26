@@ -1,4 +1,4 @@
-/* $OpenBSD: sa.h,v 1.42 2004/12/08 16:08:10 markus Exp $	 */
+/* $OpenBSD: sa.h,v 1.46 2005/04/08 16:52:41 deraadt Exp $	 */
 /* $EOM: sa.h,v 1.58 2000/10/10 12:39:01 provos Exp $	 */
 
 /*
@@ -44,7 +44,6 @@
 /* Remove a SA if it has not been fully negotiated in this time.  */
 #define SA_NEGOTIATION_MAX_TIME 120
 
-struct crypto_xf;
 struct doi;
 struct event;
 struct exchange;
@@ -89,7 +88,7 @@ struct proto {
 	void           *data;
 
 	/* Proposal transforms data, for validating the responders selection. */
-	                TAILQ_HEAD(proto_attr_head, proto_attr) xfs;
+	TAILQ_HEAD(proto_attr_head, proto_attr) xfs;
 	size_t          xf_cnt;
 };
 
@@ -149,8 +148,6 @@ struct sa {
 	 * Crypto info needed to encrypt/decrypt packets protected by this
 	 * SA.
 	 */
-	struct crypto_xf *crypto;
-	int             key_length;
 	struct keystate *keystate;
 
 	/* IDs from Phase 1 */
@@ -204,18 +201,14 @@ struct sa {
 	struct event   *soft_death;
 	struct event   *death;
 
-#if defined (USE_NAT_TRAVERSAL)
 	struct event   *nat_t_keepalive;
-#endif
 
-#if defined (USE_DPD)
 	/* IKE DPD (RFC3706) message sequence number.  */
 	u_int32_t	dpd_seq;	/* sent */
 	u_int32_t	dpd_rseq;	/* recieved */
 	u_int32_t	dpd_failcount;	/* # of subsequent failures */
 	u_int32_t	dpd_rdupcount;	/* # of subsequent duplicates */
 	struct event   *dpd_event;	/* time of next event */
-#endif
 };
 
 /* This SA is alive.  */
@@ -292,28 +285,21 @@ struct sa_kinfo {
 
 	u_int64_t	exp_timeout;
 	u_int64_t	soft_timeout;
-	
+
 	u_int64_t	first_use;
 	u_int64_t	established;
 	u_int64_t	soft_first_use;
 	u_int64_t	exp_first_use;
 
 	u_int64_t	last_used;
-	u_int64_t	last_marked;
 
 	struct sockaddr_storage	dst;
 	struct sockaddr_storage	src;
 	struct sockaddr_storage	proxy;
 
 	u_int32_t	spi;
-	u_int32_t	rpl;
 	u_int16_t	udpencap_port;
-	u_int16_t	amxkeylen;
-	u_int16_t	emxkeylen;
-	u_int16_t	ivlen;
-	u_int8_t	sproto;
 	u_int8_t	wnd;
-	u_int8_t	satype;
 };
 
 #endif				/* _SA_H_ */

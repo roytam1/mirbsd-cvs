@@ -1,4 +1,4 @@
-/* $OpenBSD: isakmpd.c,v 1.68 2004/09/17 14:54:09 hshoexer Exp $	 */
+/* $OpenBSD: isakmpd.c,v 1.85 2005/04/10 14:17:49 jmc Exp $	 */
 /* $EOM: isakmpd.c,v 1.54 2000/10/05 09:28:22 niklas Exp $	 */
 
 /*
@@ -44,26 +44,25 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "sysdep.h"
-
 #include "app.h"
 #include "conf.h"
 #include "connection.h"
 #include "init.h"
 #include "libcrypto.h"
 #include "log.h"
+#include "message.h"
 #include "monitor.h"
+#include "nat_traversal.h"
 #include "sa.h"
 #include "timer.h"
 #include "transport.h"
 #include "udp.h"
+#include "udp_encap.h"
 #include "ui.h"
 #include "util.h"
 #include "cert.h"
 
-#ifdef USE_POLICY
 #include "policy.h"
-#endif
 
 static void     usage(void);
 
@@ -108,20 +107,19 @@ void            daemon_shutdown_now(int);
 /* The default path of the PID file.  */
 static char    *pid_file = "/var/run/isakmpd.pid";
 
-#ifdef USE_DEBUG
 /* The path of the IKE packet capture log file.  */
 static char    *pcap_file = 0;
-#endif
 
 static void
 usage(void)
 {
+	extern char *__progname;
+
 	fprintf(stderr,
-	    "usage: %s [-4] [-6] [-a] [-c config-file] [-d] [-D class=level]\n"
-	    "          [-f fifo] [-i pid-file] [-K] [-n] [-p listen-port]\n"
-	    "          [-P local-port] [-L] [-l packetlog-file] [-r seed]\n"
-	    "          [-R report-file] [-v]\n",
-	    sysdep_progname());
+	    "usage: %s [-46adKLnTv] [-c config-file] [-D class=level] [-f fifo]\n"
+	    "          [-i pid-file] [-l packetlog-file] [-N udpencap-port]\n"
+	    "          [-p listen-port] [-R report-file]\n",
+	    __progname);
 	exit(1);
 }
 
@@ -129,13 +127,13 @@ static void
 parse_args(int argc, char *argv[])
 {
 	int             ch;
+#if defined(INSECURE_RAND)
 	char           *ep;
-#ifdef USE_DEBUG
+#endif
 	int             cls, level;
 	int             do_packetlog = 0;
-#endif
 
-	while ((ch = getopt(argc, argv, "46ac:dD:f:i:Knp:P:Ll:r:R:v")) != -1) {
+	while ((ch = getopt(argc, argv, "46ac:dD:f:i:KnN:p:Ll:r:R:Tv")) != -1) {
 		switch (ch) {
 		case '4':
 			bind_family |= BIND_FAMILY_INET4;
@@ -157,12 +155,11 @@ parse_args(int argc, char *argv[])
 			debug++;
 			break;
 
-#ifdef USE_DEBUG
 		case 'D':
 			if (sscanf(optarg, "%d=%d", &cls, &level) != 2) {
 				if (sscanf(optarg, "A=%d", &level) == 1) {
 					for (cls = 0; cls < LOG_ENDCLASS;
-					     cls++)
+					    cls++)
 						log_debug_cmd(cls, level);
 				} else
 					log_print("parse_args: -D argument "
@@ -170,7 +167,6 @@ parse_args(int argc, char *argv[])
 			} else
 				log_debug_cmd(cls, level);
 			break;
-#endif				/* USE_DEBUG */
 
 		case 'f':
 			ui_fifo = optarg;
@@ -180,25 +176,22 @@ parse_args(int argc, char *argv[])
 			pid_file = optarg;
 			break;
 
-#ifdef USE_POLICY
 		case 'K':
 			ignore_policy++;
 			break;
-#endif
 
 		case 'n':
 			app_none++;
+			break;
+
+		case 'N':
+			udp_encap_default_port = optarg;
 			break;
 
 		case 'p':
 			udp_default_port = optarg;
 			break;
 
-		case 'P':
-			udp_bind_port = optarg;
-			break;
-
-#ifdef USE_DEBUG
 		case 'l':
 			pcap_file = optarg;
 			/* Fallthrough intended.  */
@@ -206,19 +199,25 @@ parse_args(int argc, char *argv[])
 		case 'L':
 			do_packetlog++;
 			break;
-#endif				/* USE_DEBUG */
 
 		case 'r':
+#if defined(INSECURE_RAND)
 			seed = strtoul(optarg, &ep, 0);
 			srandom(seed);
 			if (*ep != '\0')
 				log_fatal("parse_args: invalid numeric arg "
 				    "to -r (%s)", optarg);
 			regrand = 1;
+#else
+			usage();
 			break;
-
+#endif
 		case 'R':
 			report_file = optarg;
+			break;
+
+		case 'T':
+			disable_nat_t = 1;
 			break;
 
 		case 'v':
@@ -233,10 +232,8 @@ parse_args(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-#ifdef USE_DEBUG
 	if (do_packetlog && !pcap_file)
 		pcap_file = PCAP_FILE_DEFAULT;
-#endif
 }
 
 static void
@@ -298,6 +295,12 @@ phase2_sa_check(struct sa *sa, void *arg)
 	return sa->phase == 2;
 }
 
+static int
+phase1_sa_check(struct sa *sa, void *arg)
+{
+	return sa->phase == 1;
+}
+
 static void
 daemon_shutdown(void)
 {
@@ -307,22 +310,24 @@ daemon_shutdown(void)
 	if (sigtermed == 1) {
 		log_print("isakmpd: shutting down...");
 
-		/* Delete all active phase 2 SAs.  */
-		while ((sa = sa_find(phase2_sa_check, NULL))) {
-			/* Each DELETE is another (outgoing) message.  */
+		/*
+		 * Delete all active SAs.  First IPsec SAs, then ISAKMPD.
+		 * Each DELETE is another (outgoing) message.
+		 */
+		while ((sa = sa_find(phase2_sa_check, NULL)))
 			sa_delete(sa, 1);
-		}
+
+		while ((sa = sa_find(phase1_sa_check, NULL)))
+			sa_delete(sa, 1);
 		sigtermed++;
 	}
 	if (transport_prio_sendqs_empty()) {
 		/*
 		 * When the prioritized transport sendq:s are empty, i.e all
 		 * the DELETE notifications have been sent, we can shutdown.
-	         */
+		 */
 
-#ifdef USE_DEBUG
 		log_packet_stop();
-#endif
 		/* Remove FIFO and pid files.  */
 		unlink(ui_fifo);
 		unlink(pid_file);
@@ -344,7 +349,7 @@ write_pid_file(void)
 {
 	FILE	*fp;
 
-	/* Ignore errors. This will fail with USE_PRIVSEP.  */
+	/* Ignore errors. This fails with privsep.  */
 	unlink(pid_file);
 
 	fp = monitor_fopen(pid_file, "w");
@@ -366,13 +371,7 @@ main(int argc, char *argv[])
 	size_t          mask_size;
 	struct timeval  tv, *timeout;
 
-#if defined (HAVE_CLOSEFROM) && (!defined (OpenBSD) || (OpenBSD >= 200405))
 	closefrom(STDERR_FILENO + 1);
-#else
-	m = getdtablesize();
-	for (n = STDERR_FILENO + 1; n < m; n++)
-		(void) close(n);
-#endif
 
 	/*
 	 * Make sure init() won't alloc fd 0, 1 or 2, as daemon() will close
@@ -410,14 +409,12 @@ main(int argc, char *argv[])
 	/* Set timezone before priv'separation */
 	tzset();
 
-#if defined (USE_PRIVSEP)
 	if (monitor_init(debug)) {
 		/* The parent, with privileges enters infinite monitor loop. */
 		monitor_loop(debug);
 		exit(0);	/* Never reached.  */
 	}
 	/* Child process only from this point on, no privileges left.  */
-#endif
 
 	init();
 
@@ -432,11 +429,9 @@ main(int argc, char *argv[])
 	/* Rehash soft expiration timers on USR2 reception.  */
 	signal(SIGUSR2, sigusr2);
 
-#if defined (USE_DEBUG)
 	/* If we wanted IKE packet capture to file, initialize it now.  */
 	if (pcap_file != 0)
 		log_packet_init(pcap_file);
-#endif
 
 	/* Allocate the file descriptor sets just big enough.  */
 	n = getdtablesize();
@@ -450,9 +445,7 @@ main(int argc, char *argv[])
 		log_fatal("main: malloc (%lu) failed",
 		    (unsigned long)mask_size);
 
-#if defined (USE_PRIVSEP)
 	monitor_init_done();
-#endif
 
 	while (1) {
 		/* If someone has sent SIGHUP to us, reconfigure.  */
@@ -477,7 +470,7 @@ main(int argc, char *argv[])
 		 * and if someone set 'sigtermed' (SIGTERM, SIGINT or via the
 		 * UI), this indicates we should start a controlled shutdown
 		 * of the daemon.
-	         *
+		 *
 		 * Note: Since _one_ message is sent per iteration of this
 		 * enclosing while-loop, and we want to send a number of
 		 * DELETE notifications, we must loop atleast this number of
@@ -485,12 +478,12 @@ main(int argc, char *argv[])
 		 * the DELETEs, all other calls just increments the
 		 * 'sigtermed' variable until it reaches a "safe" value, and
 		 * the daemon exits.
-	         */
+		 */
 		if (sigtermed)
 			daemon_shutdown();
 
 		/* Setup the descriptors to look for incoming messages at.  */
-		memset(rfds, 0, mask_size);
+		bzero(rfds, mask_size);
 		n = transport_fd_set(rfds);
 		FD_SET(ui_socket, rfds);
 		if (ui_socket + 1 > n)
@@ -500,14 +493,14 @@ main(int argc, char *argv[])
 		 * XXX Some day we might want to deal with an abstract
 		 * application class instead, with many instantiations
 		 * possible.
-	         */
+		 */
 		if (!app_none && app_socket >= 0) {
 			FD_SET(app_socket, rfds);
 			if (app_socket + 1 > n)
 				n = app_socket + 1;
 		}
 		/* Setup the descriptors that have pending messages to send. */
-		memset(wfds, 0, mask_size);
+		bzero(wfds, mask_size);
 		m = transport_pending_wfd_set(wfds);
 		if (m > n)
 			n = m;
@@ -526,7 +519,7 @@ main(int argc, char *argv[])
 				 * condition time to resolve without letting
 				 * this process eat up all available CPU
 				 * we sleep for a short while.
-			         */
+				 */
 				sleep(1);
 			}
 		} else if (n) {

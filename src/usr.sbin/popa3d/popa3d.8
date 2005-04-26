@@ -1,4 +1,4 @@
-.\"	$OpenBSD: popa3d.8,v 1.8 2003/06/12 12:59:52 jmc Exp $
+.\"	$OpenBSD: popa3d.8,v 1.13 2004/09/15 22:44:35 jmc Exp $
 .\"
 .\" Copyright (c) 2001-2003 Camiel Dobbelaar (cd@sentia.nl)
 .\" All rights reserved.
@@ -32,7 +32,7 @@
 .Nd "Post Office Protocol (POP3) server"
 .Sh SYNOPSIS
 .Nm
-.Op Fl D | V
+.Op Fl 46DV
 .Sh DESCRIPTION
 .Nm
 is a POP3 server.
@@ -60,6 +60,14 @@ To send mail, the SMTP protocol is commonly used; see
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl 4
+In standalone mode
+.Pq Fl D ,
+listen to IPv4 only.
+.It Fl 6
+In standalone mode
+.Pq Fl D ,
+listen to IPv6 only.
 .It Fl D
 With this option set,
 .Nm
@@ -77,7 +85,6 @@ also does quite a few checks to significantly reduce the impact of
 connection flood attacks.
 .It Fl V
 Show version information and exit.
-.Pp
 .El
 .Pp
 Alternatively,
@@ -87,13 +94,13 @@ can be used through
 This requires the following entry to be activated in
 .Pa /etc/inetd.conf :
 .Pp
-.Pa pop3 stream tcp nowait root /usr/sbin/popa3d popa3d
+.Dl pop3 stream tcp nowait root /usr/sbin/popa3d popa3d
 .Pp
 or, using
 .Xr tcpd 8
 for TCP-wrappers access control:
 .Pp
-.Pa pop3 stream tcp nowait root /usr/libexec/tcpd /usr/sbin/popa3d
+.Dl pop3 stream tcp nowait root /usr/libexec/tcpd /usr/sbin/popa3d
 .Pp
 For access to a mailbox through the POP3 service, the username must
 be in the password database.
@@ -140,7 +147,7 @@ the server enters the update state.
 All messages that were marked for deletion are now removed.
 The server then closes the connection.
 .Sh FILES
-.Bl -tag -width Ds
+.Bl -tag -width "/var/mailXX"
 .It Pa /var/mail
 User mail spools
 .It Pa /etc/hosts.allow, /etc/hosts.deny
@@ -156,13 +163,13 @@ and is used in combination with
 .Xr tcpd 8 .
 .El
 .Sh SEE ALSO
+.Xr hosts_access 5 ,
 .Xr inetd 8 ,
-.Xr sendmail 8
+.Xr sendmail 8 ,
+.Xr tcpd 8
 .Pp
-Official Internet Protocol Standard
-.%T STD 53 ,
-also known as
-.%T RFC 1939 .
+Official Internet Protocol Standard STD 53,
+also known as RFC 1939.
 .Pp
 http://www.openwall.com/popa3d/
 .Sh HISTORY

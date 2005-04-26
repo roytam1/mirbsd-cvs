@@ -1,4 +1,4 @@
-/* $OpenBSD: crypto.h,v 1.14 2004/05/14 08:42:56 hshoexer Exp $	 */
+/* $OpenBSD: crypto.h,v 1.17 2005/04/08 18:39:12 deraadt Exp $	 */
 /* $EOM: crypto.h,v 1.12 2000/10/15 21:56:41 niklas Exp $	 */
 
 /*
@@ -32,31 +32,11 @@
 #ifndef _CRYPTO_H_
 #define _CRYPTO_H_
 
-#if defined (__APPLE__)
-
-#include <openssl/des.h>
-#ifdef USE_BLOWFISH
-#include <openssl/blowfish.h>
-#endif
-#ifdef USE_CAST
-#include <openssl/cast.h>
-#endif
-
-#else
-
 #include <des.h>
-#ifdef USE_BLOWFISH
 #include <blf.h>
-#endif
-#ifdef USE_CAST
 #include <cast.h>
-#endif
 
-#endif				/* __APPLE__ */
-
-#ifdef USE_AES
 #include <openssl/aes.h>
-#endif
 
 #define USE_32BIT
 #if defined (USE_64BIT)
@@ -92,32 +72,18 @@
  * Keep MAXBLK uptodate.
  */
 #define BLOCKSIZE	8
-
-#ifdef USE_AES
 #define MAXBLK		AES_BLOCK_SIZE
-#else
-#define MAXBLK		BLOCKSIZE
-#endif
 
 struct keystate {
 	struct crypto_xf *xf;	/* Back pointer */
-	u_int16_t       ebytes;	/* Number of encrypted bytes */
-	u_int16_t       dbytes;	/* Number of decrypted bytes */
-	time_t          life;	/* Creation time */
 	u_int8_t        iv[MAXBLK];	/* Next IV to use */
 	u_int8_t        iv2[MAXBLK];
 	u_int8_t       *riv, *liv;
 	union {
 		des_key_schedule desks[3];
-#ifdef USE_BLOWFISH
 		blf_ctx         blfks;
-#endif
-#ifdef USE_CAST
 		cast_key        castks;
-#endif
-#ifdef USE_AES
 		AES_KEY         aesks[2];
-#endif
 	}               keydata;
 };
 

@@ -69,7 +69,7 @@ static const char rcsid[] = "$Sudo: env.c,v 1.42 2004/09/08 15:57:49 millert Exp
 #undef DID_LOGNAME
 #define DID_LOGNAME	0x10
 #undef DID_USER
-#define DID_USER    	0x12
+#define DID_USER    	0x20
 
 #undef VNULL
 #define	VNULL	(VOID *)NULL
@@ -499,7 +499,7 @@ rebuild_env(envp, sudo_mode, noexec)
      * http://www.fortran-2000.com/ArnaudRecipes/sharedlib.html
      * XXX - should prepend to original value, if any
      */
-    if (noexec && def_noexec_file != NULL)
+    if (noexec && def_noexec_file != NULL) {
 #if defined(__darwin__) || defined(__APPLE__)
 	insert_env(format_env("DYLD_INSERT_LIBRARIES", def_noexec_file, VNULL), 1);
 	insert_env(format_env("DYLD_FORCE_FLAT_NAMESPACE", VNULL), 1);
@@ -510,6 +510,7 @@ rebuild_env(envp, sudo_mode, noexec)
 	insert_env(format_env("LD_PRELOAD", def_noexec_file, VNULL), 1);
 # endif
 #endif
+    }
 
     /* Set PS1 if SUDO_PS1 is set. */
     if (ps1)

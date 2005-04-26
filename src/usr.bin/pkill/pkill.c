@@ -1,4 +1,4 @@
-/*	$OpenBSD: pkill.c,v 1.3 2004/03/12 00:19:48 deraadt Exp $	*/
+/*	$OpenBSD: pkill.c,v 1.12 2005/04/11 20:25:23 deraadt Exp $	*/
 /*	$NetBSD: pkill.c,v 1.5 2002/10/27 11:49:34 kleink Exp $	*/
 
 /*-
@@ -38,7 +38,7 @@
  */
 
 #ifndef lint
-static const char rcsid[] = "$OpenBSD: pkill.c,v 1.3 2004/03/12 00:19:48 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: pkill.c,v 1.12 2005/04/11 20:25:23 deraadt Exp $";
 #endif /* !lint */
 
 #include <sys/types.h>
@@ -107,8 +107,8 @@ struct listhead sidlist = SLIST_HEAD_INITIALIZER(list);
 
 int	main(int, char **);
 void	usage(void);
-void	killact(struct kinfo_proc2 *);
-void	grepact(struct kinfo_proc2 *);
+int	killact(struct kinfo_proc2 *, int);
+int	grepact(struct kinfo_proc2 *, int);
 void	makelist(struct listhead *, enum listtype, char *);
 
 extern char *__progname;
@@ -120,7 +120,7 @@ main(int argc, char **argv)
 	extern int optind;
 	char buf[_POSIX2_LINE_MAX], *mstr, **pargv, *p, *q;
 	int i, j, ch, bestidx, rv, criteria;
-	void (*action)(struct kinfo_proc2 *);
+	int (*action)(struct kinfo_proc2 *, int);
 	struct kinfo_proc2 *kp;
 	struct list *li;
 	u_int32_t bestsec, bestusec;
@@ -263,9 +263,15 @@ main(int argc, char **argv)
 
 				j = 0;
 				while (j < sizeof(buf) && *pargv != NULL) {
-					j += snprintf(buf + j, sizeof(buf) - j,
+					int ret;
+
+					ret = snprintf(buf + j, sizeof(buf) - j,
 					    pargv[1] != NULL ? "%s " : "%s",
 					    pargv[0]);
+					if (ret >= sizeof(buf) - j)
+						j += sizeof(buf) - j - 1;
+					else if (ret > 0)
+						j += ret;
 					pargv++;
 				}
 
@@ -291,7 +297,7 @@ main(int argc, char **argv)
 	}
 
 	for (i = 0, kp = plist; i < nproc; i++, kp++) {
-		if ((kp->p_flag & P_SYSTEM) != 0)
+		if ((kp->p_flag & P_SYSTEM) != 0 || kp->p_pid == mypid)
 			continue;
 
 		SLIST_FOREACH(li, &ruidlist, li_chain)
@@ -384,8 +390,9 @@ main(int argc, char **argv)
 	/*
 	 * Take the appropriate action for each matched process, if any.
 	 */
-	for (i = 0, rv = 0, kp = plist; i < nproc; i++, kp++) {
-		if (kp->p_pid == mypid)
+	rv = STATUS_NOMATCH;
+	for (i = 0, j = 0, kp = plist; i < nproc; i++, kp++) {
+		if ((kp->p_flag & P_SYSTEM) != 0 || kp->p_pid == mypid)
 			continue;
 		if (selected[i]) {
 			if (inverse)
@@ -393,14 +400,15 @@ main(int argc, char **argv)
 		} else if (!inverse)
 			continue;
 
-		if ((kp->p_flag & P_SYSTEM) != 0)
-			continue;
-
-		rv = 1;
-		(*action)(kp);
+		if ((*action)(kp, j++) == -1)
+			rv = STATUS_ERROR;
+		else if (rv != STATUS_ERROR)
+			rv = STATUS_MATCH;
 	}
+	if (pgrep)
+		putchar('\n');
 
-	exit(rv ? STATUS_MATCH : STATUS_NOMATCH);
+	exit(rv);
 }
 
 void
@@ -419,22 +427,27 @@ usage(void)
 	exit(STATUS_ERROR);
 }
 
-void
-killact(struct kinfo_proc2 *kp)
+int
+killact(struct kinfo_proc2 *kp, int dummy)
 {
 
-	if (kill(kp->p_pid, signum) == -1)
-		err(STATUS_ERROR, "signalling pid %d", (int)kp->p_pid);
+	if (kill(kp->p_pid, signum) == -1 && errno != ESRCH) {
+		warn("signalling pid %d", (int)kp->p_pid);
+		return (-1);
+	}
+	return (0);
 }
 
-void
-grepact(struct kinfo_proc2 *kp)
+int
+grepact(struct kinfo_proc2 *kp, int printdelim)
 {
 	char **argv;
 
+	if (printdelim)
+		fputs(delim, stdout);
 	if (longfmt && matchargs) {
 		if ((argv = kvm_getargv2(kd, kp, 0)) == NULL)
-			return;
+			return (-1);
 
 		printf("%d ", (int)kp->p_pid);
 		for (; *argv != NULL; argv++) {
@@ -447,7 +460,7 @@ grepact(struct kinfo_proc2 *kp)
 	else
 		printf("%d", (int)kp->p_pid);
 
-	printf("%s", delim);
+	return (0);
 }
 
 void
@@ -493,14 +506,12 @@ makelist(struct listhead *head, enum listtype type, char *src)
 		switch (type) {
 		case LT_USER:
 			if ((pw = getpwnam(sp)) == NULL)
-				errx(STATUS_BADUSAGE, "unknown user `%s'",
-				    optarg);
+				errx(STATUS_BADUSAGE, "unknown user `%s'", sp);
 			li->li_number = pw->pw_uid;
 			break;
 		case LT_GROUP:
 			if ((gr = getgrnam(sp)) == NULL)
-				errx(STATUS_BADUSAGE, "unknown group `%s'",
-				    optarg);
+				errx(STATUS_BADUSAGE, "unknown group `%s'", sp);
 			li->li_number = gr->gr_gid;
 			break;
 		case LT_TTY:
