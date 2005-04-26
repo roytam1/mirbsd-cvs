@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/libjava/Makefile.am,v 1.2 2005/03/26 10:19:00 tg Exp $
 
 ## Process this file with automake to produce Makefile.in.
 
@@ -6,11 +6,7 @@ AUTOMAKE_OPTIONS = foreign
 
 ACLOCAL_AMFLAGS = -I .
 
-if TESTSUBDIR
-SUBDIRS = $(DIRLTDL) testsuite gcj include
-else
 SUBDIRS = $(DIRLTDL) gcj include
-endif
 
 # write_entries_to_file - writes each entry in a list
 # to the specified file. Each entry is written individually
