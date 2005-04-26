@@ -52,7 +52,6 @@ from The Open Group.
  */
 
 #include <ctype.h>
-#include <unistd.h>
 
 /*
  * The transport table contains a definition for every transport (protocol)
@@ -596,9 +595,6 @@ XtransConnInfo
 TRANS(OpenCOTSClient) (char *address)
 
 {
-    /* XXX */
-    usleep(1);
-
     PRMSG (2,"OpenCOTSClient(%s)\n", address, 0, 0);
     return TRANS(Open) (XTRANS_OPEN_COTS_CLIENT, address);
 }
