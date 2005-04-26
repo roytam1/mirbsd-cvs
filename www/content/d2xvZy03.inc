@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.52 2005/04/20 22:33:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.53 2005/04/25 23:25:25 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2813,4 +2813,9 @@
  for use of -I in CPPFLAGS (no CFLAGS left, thankfully) and use -idirafter
  in some of these places? This is the second time I get bitten by this, if
  I'm not totally confused.</p>
+<p>26.04.2005 by tg@<br />Next to some minor ports updates, I also attempt
+ to build gcj. It mostly succeeds, except for *sigh* some weird C++ file I
+ can't fix (obviously). Weirder: it builds if I pre-process it first, then
+ nuke the line number information. centericq works but doesn't convert the
+ UTF-8 characters to latin1 even if I tell it so.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
