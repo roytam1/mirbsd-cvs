@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.1.7.1 2005/03/18 15:48:03 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.2 2005/04/22 23:44:47 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
@@ -16,6 +16,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
+MODULES=		converters/libiconv
 LIB_DEPENDS+=		curl.2::net/curl
 USE_GMAKE=		Yes
 USE_CXX=		Yes
