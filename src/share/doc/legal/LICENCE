@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.2 2005/03/19 11:49:19 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -108,6 +108,11 @@ which makes them fully contractually capable for this speci-
 fic area of deals. Contributor is responsible to provide the
 parental statement, in non-electronic form, giving this all-
 owance, or a proof of age, on request.
+With the knowledge every committer accepts certain liability
+we indemnify our official mirrors from any claims arising of
+the fact they are mirroring MirOS material, and ask projects
+hosted by us to fully indemnify us and our official mirrors,
+too.
 
 
 The following art has been provided by developers and users of Open Source:
