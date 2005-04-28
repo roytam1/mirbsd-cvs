@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $
+# $MirOS: ports/infrastructure/db/autogen.sh,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,7 +34,7 @@ done
 set -e
 set -x
 aclocal -I .
-autoheader
+[[ -n $NO_AUTOHEADER ]] || autoheader
 set +e
 automake --foreign -i
 autoconf && chmod 664 configure

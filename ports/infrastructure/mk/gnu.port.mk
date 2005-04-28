@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.2 2005/03/20 17:00:45 bsiegert Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 #-
 # Largely improved support for GNU stuff, including automatic
@@ -38,6 +38,10 @@ MODGNU_AUTOCONF_DEPS=	::devel/metaauto ::devel/autoconf/${AUTOCONF_VERSION}
 
 # Dependencies
 .if ${CONFIGURE_STYLE:L:Mautogen}
+.  if ${CONFIGURE_STYLE:L:Mno-autoheader}
+AUTOCONF_ENV+=		NO_AUTOHEADER=yes
+.  endif
+# the above BEFORE the below line!
 CONFIGURE_STYLE+=	automake no-autoheader
 BUILD_DEPENDS+=		${MODGNU_AUTOCONF_DEPS}
 .endif
