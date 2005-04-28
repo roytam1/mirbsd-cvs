@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.5 2005/04/28 19:54:39 bsiegert Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.6 2005/04/28 20:08:06 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		"library routines for working with TIFF images"
@@ -44,10 +44,13 @@ USE_CXX=		Yes
 MULTI_PACKAGES=		-cxx
 .endif
 
-EXTRA_XAKE_FLAGS+=	LIBTIFF_VERSION_INFO=${_V:S/./:/}:0
-
 .if defined(PACKAGING) && defined(SUBPACKAGE) && !empty(SUBPACKAGE)
 LIB_DEPENDS=		tiff::graphics/tiff
 .endif
+
+post-install:
+	cd ${PREFIX}/man/man3; for a in *tiff; do \
+		mv $$a $${a%tiff}; \
+	done
 
 .include <bsd.port.mk>
