@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.4 2005/04/24 01:17:35 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.5 2005/04/28 19:54:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		"library routines for working with TIFF images"
@@ -13,7 +13,6 @@ PKGNAME-cxx=		tiff-cxx-${V}${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		ftp://ftp.remotesensing.org/pub/libtiff/
 HOMEPAGE=		http://www.libtiff.org/
-
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 LIB_DEPENDS=    	jpeg.62::graphics/jpeg
@@ -44,6 +43,8 @@ CONFIGURE_ARGS+=	--enable-cxx
 USE_CXX=		Yes
 MULTI_PACKAGES=		-cxx
 .endif
+
+EXTRA_XAKE_FLAGS+=	LIBTIFF_VERSION_INFO=${_V:S/./:/}:0
 
 .if defined(PACKAGING) && defined(SUBPACKAGE) && !empty(SUBPACKAGE)
 LIB_DEPENDS=		tiff::graphics/tiff
