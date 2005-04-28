@@ -1,39 +1,28 @@
---- config/Makefile.in.orig	2002-03-25 11:50:27.000000000 -0500
-+++ config/Makefile.in	2003-11-13 16:15:46.000000000 -0500
-@@ -120,21 +120,21 @@ Makefile: $(srcdir)/Makefile.in  $(top_b
- 
+$MirOS$
+--- config/Makefile.in.orig	Thu Sep 23 01:15:55 2004
++++ config/Makefile.in	Thu Apr 28 22:11:40 2005
+@@ -192,12 +192,12 @@ uninstall-info-am:
+ sysconfDATA_INSTALL = $(INSTALL_DATA)
  install-sysconfDATA: $(sysconf_DATA)
  	@$(NORMAL_INSTALL)
 -	$(mkinstalldirs) $(DESTDIR)$(sysconfdir)
 +	$(mkinstalldirs) $(DESTDIR)$(datadir)/examples/imlib
  	@list='$(sysconf_DATA)'; for p in $$list; do \
- 	  if test -f $(srcdir)/$$p; then \
--	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(sysconfdir)/$$p"; \
--	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(sysconfdir)/$$p; \
-+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(datadir)/examples/imlib/$$p"; \
-+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(datadir)/examples/imlib/$$p; \
- 	  else if test -f $$p; then \
--	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(sysconfdir)/$$p"; \
--	    $(INSTALL_DATA) $$p $(DESTDIR)$(sysconfdir)/$$p; \
-+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(datadir)/examples/imlib/$$p"; \
-+	    $(INSTALL_DATA) $$p $(DESTDIR)$(datadir)/examples/imlib/$$p; \
- 	  fi; fi; \
+ 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+ 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+-	  echo " $(sysconfDATA_INSTALL) $$d$$p $(DESTDIR)$(sysconfdir)/$$f"; \
+-	  $(sysconfDATA_INSTALL) $$d$$p $(DESTDIR)$(sysconfdir)/$$f; \
++	  echo " $(sysconfDATA_INSTALL) $$d$$p $(DESTDIR)$(datadir)/examples/imlib/$$f"; \
++	  $(sysconfDATA_INSTALL) $$d$$p $(DESTDIR)$(datadir)/examples/imlib/$$f; \
  	done
  
  uninstall-sysconfDATA:
- 	@$(NORMAL_UNINSTALL)
- 	list='$(sysconf_DATA)'; for p in $$list; do \
--	  rm -f $(DESTDIR)$(sysconfdir)/$$p; \
-+	  rm -f $(DESTDIR)$(datadir)/examples/imlib/$$p; \
- 	done
- tags: TAGS
- TAGS:
-@@ -179,7 +179,7 @@ all-redirect: all-am
- install-strip:
- 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+@@ -250,7 +250,7 @@ check: check-am
+ all-am: Makefile $(DATA)
+ 
  installdirs:
--	$(mkinstalldirs)  $(DESTDIR)$(sysconfdir)
-+	$(mkinstalldirs)  $(DESTDIR)$(datadir)/examples/imlib
- 
- 
- mostlyclean-generic:
+-	$(mkinstalldirs) $(DESTDIR)$(sysconfdir)
++	$(mkinstalldirs) $(DESTDIR)$(datadir)/examples/imlib
+ install: install-am
+ install-exec: install-exec-am
+ install-data: install-data-am
