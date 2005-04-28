@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-include_lcms_h,v 1.1 2004/02/03 05:15:16 brad Exp $
---- include/lcms.h.orig	2003-12-20 10:00:11.000000000 -0500
-+++ include/lcms.h	2004-02-02 22:05:58.000000000 -0500
-@@ -114,6 +114,9 @@
+--- include/lcms.h.orig	Mon Dec 13 09:00:37 2004
++++ include/lcms.h	Thu Apr 28 20:16:57 2005
+@@ -126,6 +126,9 @@
  
  #if defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
  #  include <sys/types.h>
@@ -11,7 +12,7 @@ $OpenBSD: patch-include_lcms_h,v 1.1 2004/02/03 05:15:16 brad Exp $
  #  define USE_INT64           1
  #  undef  LONGLONG
  #  define LONGLONG            u_int64_t
-@@ -128,7 +131,7 @@
+@@ -140,7 +143,7 @@
  #include <memory.h>
  #include <string.h>
  
