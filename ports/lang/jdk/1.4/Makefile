@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.3 2005/04/10 21:50:14 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.4 2005/04/11 15:55:51 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
@@ -11,13 +11,11 @@ V=			1.4.2
 DISTNAME=		j2sdk-1_4_2
 PKGNAME=		jdk-${V}
 PKGNAME-jre=		jre-${V}
+# explanations at http://www.intricatesoftware.com/OpenBSD/java/jdk14.html
 # wwws is not a typo in the following:
 HOMEPAGE=		http://wwws.sun.com/software/communitysource/j2se/java2/
-# explanations at http://www.intricatesoftware.com/OpenBSD/java/jdk14.html
-MAINTAINER=		Kurt Miller <truk@optonline.net>
 
 MULTI_PACKAGES= 	-jre
-
 DISTFILES=		${DISTNAME}-src-scsl.zip \
 			${DISTNAME}-bin-scsl.zip \
 			bsd-jdk14-patches-6.tar.gz
