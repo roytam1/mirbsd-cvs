@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/libungif/Makefile,v 1.1.7.1 2005/03/18 15:46:59 tg Exp $
+# $MirOS: ports/graphics/libungif/Makefile,v 1.2 2005/03/27 18:37:07 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/04/18 20:58:45 brad Exp $
 
 COMMENT=	"tools and library routines for working with GIF images"
-DISTNAME=	libungif-4.1.0b1
+DISTNAME=	libungif-4.1.3
 CATEGORIES=	graphics
 USE_CXX=	Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=libungif/}
@@ -15,6 +15,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--without-x
 

@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/libungif/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:46:59 tg Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2001/11/02 21:13:35 brad Exp $
 @lib lib/libgif.so.5.0
-@lib lib/libungif.so.5.0
+@lib lib/libungif.so.5.3
