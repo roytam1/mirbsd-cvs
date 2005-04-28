@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.3 2005/04/24 00:59:08 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.4 2005/04/24 01:17:35 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		"library routines for working with TIFF images"
@@ -6,12 +6,16 @@ COMMENT-cxx=		"library routines for working with TIFF images, C++ API"
 DESCR=			${PKGDIR}/DESCR
 V=			3.7.2
 _V=			${V:R:S/.//}.${V:E}
+DASH_VER=		p1
 DISTNAME=		tiff-${V}
 PKGNAME=		${DISTNAME}${DASH_VER}
 PKGNAME-cxx=		tiff-cxx-${V}${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		ftp://ftp.remotesensing.org/pub/libtiff/
 HOMEPAGE=		http://www.libtiff.org/
+
+RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
+
 LIB_DEPENDS=    	jpeg.62::graphics/jpeg
 
 # BSD
@@ -27,7 +31,7 @@ CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 SEPARATE_BUILD=		concurrent
-SUBST_VARS+=		_V
+SUBST_VARS+=		V _V
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-jpeg-include-dir=${LOCALBASE}/include
