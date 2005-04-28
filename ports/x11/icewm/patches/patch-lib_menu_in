@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
---- lib/menu.in.orig	Sat Sep 27 03:54:45 2003
-+++ lib/menu.in	Fri Feb 20 20:39:04 2004
-@@ -5,15 +5,114 @@
+--- lib/menu.in.orig	Sun Jan  9 21:47:58 2005
++++ lib/menu.in	Thu Apr 28 22:30:19 2005
+@@ -5,15 +5,115 @@
  # (re)install icewm.
  #
  prog xterm xterm xterm
@@ -114,6 +115,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +}
 +menu "Window _Managers" folder {
 +    restart icewm - icewm
++    restart evilwm - evilwm
 +    restart wmaker - wmaker
 +    restart enlightenment - enlightenment
 +    restart blackbox - blackbox
