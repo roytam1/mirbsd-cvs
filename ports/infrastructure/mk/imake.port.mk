@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 # $OpenBSD: imake.port.mk,v 1.3 2003/07/28 17:17:05 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
@@ -8,13 +8,10 @@ INSTALL_TARGET+=	install.man
 
 XMKMF?=			xmkmf -a
 XMKMF+=			-DPorts
-.if ${NO_CXX:L} == "No"
-XMKMF+=			-DPortsWithCXX
-.endif
-MAKE_ENV+=		"COPTS=${CFLAGS}"
+EXTRA_XAKE_FLAGS+=	CC="${CC}" COPTS="${COPTS}" CPPFLAGS="${CPPFLAGS}"
 
 .if !exists(${X11BASE})
-IGNORE="uses imake, but ${X11BASE} not found"
+IGNORE=			"uses imake, but ${X11BASE} not found"
 .endif
 
 MODIMAKE_configure= \
@@ -28,11 +25,12 @@ MODIMAKE_configure= \
 		echo >&2 "that predates March 18, 2000"; \
 		exit 1; \
 	fi
+
 # Kludge
-.  if ${CONFIGURE_STYLE:Mimake}
+.if ${CONFIGURE_STYLE:Mimake}
 MODIMAKE_pre_install= \
 	${SUDO} mkdir -p /usr/local/lib/X11; \
 	if [ ! -e /usr/local/lib/X11/app-defaults ]; then \
 		${SUDO} ln -sf /etc/X11/app-defaults /usr/local/lib/X11/app-defaults; \
 	fi
-.  endif
+.endif
