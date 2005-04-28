@@ -1,0 +1,19 @@
+$MirOS$
+--- Makefile.am.orig	Thu Apr 28 20:35:10 2005
++++ Makefile.am	Thu Apr 28 20:39:54 2005
+@@ -7,7 +7,7 @@ EXTRA_DIST = makefiles doc contrib
+ 
+ 
+ # libmng release @VERSION@
+-libmng_la_LDFLAGS = -version-info 1:0:0
++libmng_la_LDFLAGS = -version-info 2:0:0
+ 
+ lib_LTLIBRARIES = libmng.la
+ 
+@@ -24,6 +24,3 @@ libmng_la_SOURCES = libmng_callback_xs.c
+ 	libmng_filter.c libmng_hlapi.c libmng_jpeg.c \
+ 	libmng_object_prc.c libmng_pixels.c libmng_prop_xs.c \
+ 	libmng_read.c libmng_trace.c libmng_write.c libmng_zlib.c 
+-
+-man_MANS = doc/man/libmng.3 doc/man/jng.5 doc/man/mng.5
+-
