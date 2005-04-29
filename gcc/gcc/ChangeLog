@@ -1,3 +1,14 @@
+2005-04-22  David Edelsohn  <edelsohn@gnu.org>
+
+	Backport from mainline.
+	* config/rs6000/rs6000.c (rs6000_init_libfuncs): Set TFmode
+	optabs to xlq names if TARGET_XL_COMPAT.
+
+2005-04-22  Eric Botcazou  <ebotcazou@libertysurf.fr>
+
+	* doc/invoke.texi (SPARC options): Document that -mapp-regs
+	is turned off by default on Solaris.
+
 2005-04-15  Dave Korn  <dave.korn@artimi.com>
 
 	* gcc.c (default_compilers): Clarify obscure error message when
