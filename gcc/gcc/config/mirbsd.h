@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.3 2005/03/26 00:00:30 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.4 2005/04/10 20:43:09 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -367,4 +367,8 @@ do {									\
    Other than that, the C string LINK_EH_SPEC is appended to the
    linker spec automatically, so we define it to be empty.  */
 #undef	LINK_EH_SPEC
+#ifdef HAVE_LD_EH_FRAME_HDR
+#define	LINK_EH_SPEC	"%{!static:--eh-frame-hdr}"
+#else
 #define	LINK_EH_SPEC	""
+#endif
