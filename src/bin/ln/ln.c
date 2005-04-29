@@ -1,4 +1,4 @@
-/*	$OpenBSD: ln.c,v 1.10 2003/06/02 23:32:08 millert Exp $	*/
+/*	$OpenBSD: ln.c,v 1.12 2005/04/15 00:51:57 uwe Exp $	*/
 /*	$NetBSD: ln.c,v 1.10 1995/03/21 09:06:10 cgd Exp $	*/
 
 /*
@@ -40,7 +40,7 @@ static const char copyright[] =
 #if 0
 static const char sccsid[] = "@(#)ln.c	8.2 (Berkeley) 3/31/94";
 #else
-static const char rcsid[] = "$OpenBSD: ln.c,v 1.10 2003/06/02 23:32:08 millert Exp $";
+static const char rcsid[] = "$OpenBSD: ln.c,v 1.12 2005/04/15 00:51:57 uwe Exp $";
 #endif
 #endif /* not lint */
 
@@ -121,6 +121,7 @@ linkit(char *target, char *source, int isdir)
 	struct stat sb;
 	char *p, path[MAXPATHLEN];
 	int (*statf)(const char *, struct stat *);
+	int n;
 
 	if (!sflag) {
 		/* If target doesn't exist, quit now. */
@@ -130,7 +131,8 @@ linkit(char *target, char *source, int isdir)
 		}
 		/* Only symbolic links to directories, unless -F option used. */
 		if (!dirflag && S_ISDIR(sb.st_mode)) {
-			warnx("%s: is a directory", target);
+			errno = EISDIR;
+			warn("%s", target);
 			return (1);
 		}
 	}
@@ -143,7 +145,12 @@ linkit(char *target, char *source, int isdir)
 			warn("%s", target);
 			return (1);
 		}
-		(void)snprintf(path, sizeof(path), "%s/%s", source, p);
+		n = snprintf(path, sizeof(path), "%s/%s", source, p);
+		if (n < 0 || n >= sizeof(path)) {
+			errno = ENAMETOOLONG;
+			warn("%s/%s", source, p);
+			return (1);
+		}
 		source = path;
 	}
 
@@ -166,7 +173,8 @@ usage(void)
 	extern char *__progname;
 
 	(void)fprintf(stderr,
-	    "usage: %s [-fhns] file1 file2\n\tln [-fs] file ... directory\n",
-	    __progname);
+	    "usage: %s [-fhns] file1 file2\n"
+	    "       %s [-fs] file ... directory\n",
+	    __progname, __progname);
 	exit(1);
 }
