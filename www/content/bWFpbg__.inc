@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.15 2005/04/20 19:29:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.16 2005/04/20 22:33:31 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -31,12 +31,12 @@
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
+<p>CURRENT: April 27th, 2005: #8-gamma snapshot available for <a
+ href="/MirOS/current/i386-20050427-RC1/">download</a> via the usual mirrors.
+ This snapshot is the first release candidate, no major code
+ changes will be committed any more. Please help fixing ports too.</p>
 <p>CURRENT: April 20th, 2005: #8-beta snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
-<p>CURRENT: March 30th, 2005: #8-beta snapshot available for <a
- href="/MirOS/current/i386-20050330/">download</a> via the usual mirrors.
- This snapshot includes full source code for base/gnu/gcc, XFree86&reg;
- and MirPorts.</p>
 <p>CURRENT: November 29th, 2004: #8-Beta snapshot available via <a
  href="https://mirbsd.bsdadvocacy.org:8890/MirOS/current/i386-20041129/">http</a>.
  There is an updated <a
@@ -45,11 +45,12 @@
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
-<p>PORTS: April 21th, 2005: There have been some infrastructural changes
+<p>PORTS: April 27th, 2005: There have been some infrastructural changes
  in <a href="http://wiki.mirbsd.de/MirPorts">MirPorts</a>; all users should
  re-execute <tt>make setup</tt>. Darwin users updating from before April 14th
  <strong>must</strong> re-execute <tt>install/Setup-Darwin.sh</tt> after
- updating, because a new MirMake version is now required.</p>
+ updating, because a new MirMake version is now required. We do not check the
+ SHA-2 checksums any more; imake ports build now correctly.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
 <p><a href="/MirOS/CVS/cvsrepo-20050330.cgz">CVSREPO</a>: March 30th, 2005:

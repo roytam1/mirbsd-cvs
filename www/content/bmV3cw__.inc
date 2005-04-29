@@ -1,6 +1,13 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.17 2005/04/20 22:33:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.18 2005/04/25 23:25:25 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>28.04.2005<br />
+	MirOS #8 RC1 is out, for general testing. Please update bsd.own.mk
+	to src/share/mk/bsd.own.mk,v 1.8 because otherwise some programmes
+	fail to compile correctly. Installation documentation is currently
+	being written, system documentation being updated (so please, bear
+	with us or, better, send in patches or suggestions).</li>
 
 <li>25.04.2005<br />
 	MirOS-current (no snapshot yet) fixes the C++ problems, it's now a
