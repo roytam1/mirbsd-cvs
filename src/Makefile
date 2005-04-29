@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.16 2005/04/20 06:18:04 tg Exp $
+# $MirOS: src/Makefile,v 1.17 2005/04/29 19:21:45 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -186,8 +186,7 @@ do-dist:
 
 CVSROOT?=/cvs
 cvsup:
-	-rm -f ${.CURDIR}/Build.log
-	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd [!CXcptw]!(*cc) .*
+	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd [!BCXcptw]!(*cc) .*
 
 .PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
 	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
