@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/opts.c,v 1.4 2005/03/25 22:58:44 tg Exp $ */
+/* $MirOS: gcc/gcc/opts.c,v 1.5 2005/03/26 00:56:23 tg Exp $ */
 
 /* Command line option handling.
    Copyright (C) 2002, 2003, 2004, 2005
@@ -568,7 +568,6 @@ decode_options (unsigned int argc, const char **argv)
       flag_schedule_insns_after_reload = 1;
 #endif
       flag_regmove = 1;
-      flag_delete_null_pointer_checks = 1;
       flag_reorder_blocks = 1;
       flag_reorder_functions = 1;
       flag_unit_at_a_time = 1;
@@ -578,6 +577,7 @@ decode_options (unsigned int argc, const char **argv)
     {
       flag_strength_reduce = 1;
       flag_strict_aliasing = 1;
+      flag_delete_null_pointer_checks = 1;
 
       flag_inline_functions = 1;
       flag_rename_registers = 1;
