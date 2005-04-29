@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.5 2005/04/28 22:18:46 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.6 2005/04/29 18:08:51 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
@@ -34,7 +34,7 @@ VMEM_WARNING=		Yes
 BUILD_DEPENDS=		:gtar-*:archivers/gtar \
 			:zip-*:archivers/zip
 RUN_DEPENDS=		:zip-*:archivers/zip \
-			:ghostscript-fonts-*:print/ghostscript/gnu-fonts
+			:gs-fonts-std-*:print/ghostscript/fonts-std
 USE_MOTIF=		openmotif
 USE_GMAKE=		Yes
 USE_CXX=		Yes
@@ -66,8 +66,13 @@ FLAVOR?=
 PATCH_LIST=		patch-* disable-ipv6
 .endif
 
-.if ${FLAVOR:L:Mnative_bootstrap}
-BUILD_DEPENDS+=		:jdk-1.4*:devel/jdk/1.4
+.ifdef OPENBSD_BOOTSTRAP_FOR_EXPERTS
+.  if !${FLAVOR:L:Mnative_bootstrap}
+FLAVOR+=		native_bootstrap
+.  endif
+MAKE_ENV+=		ALT_BOOTDIR=/emul/openbsd/usr/local/jdk-1.4.2
+.elif ${FLAVOR:L:Mnative_bootstrap}
+BUILD_DEPENDS+=		:jdk-1.4*:lang/jdk/1.4
 MAKE_ENV+=		ALT_BOOTDIR="${LOCALBASE}/${JDKHOME}"
 .else
 DISTFILES+=		j2sdk-1_4_2-linux-i586.bin
@@ -78,7 +83,7 @@ DISTFILES+=		bootstrap-src-jdk14.tgz
 FETCH_MANUALLY+=	"Get the bootstrap source dist file:"
 FETCH_MANUALLY+=	"    bootstrap-src-jdk14.tgz"
 FETCH_MANUALLY+=	"from http://www.intricatesoftware.com/OpenBSD/java/jdk14.html"
-BUILD_DEPENDS+=		:jdk-linux->=1.3.1_10:devel/jdk/1.3-linux
+BUILD_DEPENDS+=		:jdk-linux->=1.3.1_10:lang/jdk/1.3-linux
 ALT_BOOTDIR2=		${LOCALBASE}/jdk1.3.1-linux
 MAKE_ENV+=		ALT_BOOTDIR="${WRKDIST}"
 MAKE_ENV+=		ALT_BOOTDIR2="${ALT_BOOTDIR2}"
