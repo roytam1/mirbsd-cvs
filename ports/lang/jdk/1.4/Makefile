@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.6 2005/04/29 18:08:51 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.7 2005/04/29 18:38:19 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
@@ -71,6 +71,7 @@ PATCH_LIST=		patch-* disable-ipv6
 FLAVOR+=		native_bootstrap
 .  endif
 MAKE_ENV+=		ALT_BOOTDIR=/emul/openbsd/usr/local/jdk-1.4.2
+NO_SYSTRACE=		for now
 .elif ${FLAVOR:L:Mnative_bootstrap}
 BUILD_DEPENDS+=		:jdk-1.4*:lang/jdk/1.4
 MAKE_ENV+=		ALT_BOOTDIR="${LOCALBASE}/${JDKHOME}"
