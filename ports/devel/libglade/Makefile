@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/libglade/Makefile,v 1.1.7.1 2005/03/18 15:44:50 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		"library for loading GLADE interface files at runtime"
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
+LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			xml2.7::textproc/libxml
 
 SEPARATE_BUILD=		concurrent
