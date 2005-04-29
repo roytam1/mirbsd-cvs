@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST-demos,v 1.2 2003/03/05 22:09:44 naddy Exp $
 bin/DNDDemo
 bin/UTMXmText
@@ -101,18 +102,18 @@ man/man1/simpledrop.1
 man/man1/spin_box.1
 man/man1/tic_mark.1
 man/man1/xmanimate.1
-@dirrm lib/X11/help
-@dirrm lib/X11/motifshell
-@dirrm lib/X11/uid/C/uid
-@dirrm lib/X11/uid/C
+@dirrm lib/X11/uid/swedish/uid
+@dirrm lib/X11/uid/swedish
+@dirrm lib/X11/uid/japanese/uid
+@dirrm lib/X11/uid/japanese
+@dirrm lib/X11/uid/hebrew/uid
+@dirrm lib/X11/uid/hebrew
 @dirrm lib/X11/uid/french/uid
 @dirrm lib/X11/uid/french
 @dirrm lib/X11/uid/english/uid
 @dirrm lib/X11/uid/english
-@dirrm lib/X11/uid/hebrew/uid
-@dirrm lib/X11/uid/hebrew
-@dirrm lib/X11/uid/japanese/uid
-@dirrm lib/X11/uid/japanese
-@dirrm lib/X11/uid/swedish/uid
-@dirrm lib/X11/uid/swedish
+@dirrm lib/X11/uid/C/uid
+@dirrm lib/X11/uid/C
 @dirrm lib/X11/uid
+@dirrm lib/X11/motifshell
+@dirrm lib/X11/help

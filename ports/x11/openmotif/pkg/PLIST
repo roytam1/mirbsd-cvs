@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.6 2001/04/10 20:01:30 espie Exp $
 @pkgcfl lesstif-*
 bin/mwm
@@ -7,6 +8,19 @@ include/Mrm/MrmAppl.h
 include/Mrm/MrmDecls.h
 include/Mrm/MrmPublic.h
 include/Mrm/MrmosI.h
+include/X11/bitmaps/xm_error
+include/X11/bitmaps/xm_hour16
+include/X11/bitmaps/xm_hour16m
+include/X11/bitmaps/xm_hour32
+include/X11/bitmaps/xm_hour32m
+include/X11/bitmaps/xm_information
+include/X11/bitmaps/xm_noenter16
+include/X11/bitmaps/xm_noenter16m
+include/X11/bitmaps/xm_noenter32
+include/X11/bitmaps/xm_noenter32m
+include/X11/bitmaps/xm_question
+include/X11/bitmaps/xm_warning
+include/X11/bitmaps/xm_working
 include/Xm/AccColorT.h
 include/Xm/AccTextT.h
 include/Xm/ActivatableT.h
@@ -179,32 +193,12 @@ include/Xm/XmStrDefs.h
 include/Xm/Xmfuncs.h
 include/Xm/XmosP.h
 include/Xm/XpmP.h
-include/X11/bitmaps/xm_error
-include/X11/bitmaps/xm_hour16
-include/X11/bitmaps/xm_hour16m
-include/X11/bitmaps/xm_hour32
-include/X11/bitmaps/xm_hour32m
-include/X11/bitmaps/xm_information
-include/X11/bitmaps/xm_noenter16
-include/X11/bitmaps/xm_noenter16m
-include/X11/bitmaps/xm_noenter32
-include/X11/bitmaps/xm_noenter32m
-include/X11/bitmaps/xm_question
-include/X11/bitmaps/xm_warning
-include/X11/bitmaps/xm_working
 include/uil/Uil.h
 include/uil/UilDBDef.h
 include/uil/UilDef.h
 include/uil/UilSymDef.h
 include/uil/UilSymGl.h
 include/uil/XmAppl.uil
-@unexec [ -f /usr/X11R6/lib/X11/config/Motif.rules.orig ] && mv -f /usr/X11R6/lib/X11/config/Motif.rules.orig /usr/X11R6/lib/X11/config/Motif.rules
-lib/X11/config/Motif.rules
-@exec [ -f /usr/X11R6/lib/X11/config/Motif.rules ] && (mv -f /usr/X11R6/lib/X11/config/Motif.rules /usr/X11R6/lib/X11/config/Motif.rules.orig && cp -p %D/%F /usr/X11R6/lib/X11/config)
-@unexec [ -f /usr/X11R6/lib/X11/config/Motif.tmpl.orig ] && mv -f /usr/X11R6/lib/X11/config/Motif.tmpl.orig /usr/X11R6/lib/X11/config/Motif.tmpl
-lib/X11/config/Motif.tmpl
-@exec [ -f /usr/X11R6/lib/X11/config/Motif.tmpl ] && (mv -f /usr/X11R6/lib/X11/config/Motif.tmpl /usr/X11R6/lib/X11/config/Motif.tmpl.orig && cp -p %D/%F /usr/X11R6/lib/X11/config)
-lib/X11/system.mwmrc
 lib/X11/app-defaults/Mwm
 lib/X11/bindings/CDE
 lib/X11/bindings/acorn
@@ -233,6 +227,13 @@ lib/X11/bindings/sun
 lib/X11/bindings/sun_at
 lib/X11/bindings/tek
 lib/X11/bindings/xmbind.alias
+@unexec [ -f /usr/X11R6/lib/X11/config/Motif.rules.orig ] && mv -f /usr/X11R6/lib/X11/config/Motif.rules.orig /usr/X11R6/lib/X11/config/Motif.rules
+lib/X11/config/Motif.rules
+@exec [ -f /usr/X11R6/lib/X11/config/Motif.rules ] && (mv -f /usr/X11R6/lib/X11/config/Motif.rules /usr/X11R6/lib/X11/config/Motif.rules.orig && cp -p %D/%F /usr/X11R6/lib/X11/config)
+@unexec [ -f /usr/X11R6/lib/X11/config/Motif.tmpl.orig ] && mv -f /usr/X11R6/lib/X11/config/Motif.tmpl.orig /usr/X11R6/lib/X11/config/Motif.tmpl
+lib/X11/config/Motif.tmpl
+@exec [ -f /usr/X11R6/lib/X11/config/Motif.tmpl ] && (mv -f /usr/X11R6/lib/X11/config/Motif.tmpl /usr/X11R6/lib/X11/config/Motif.tmpl.orig && cp -p %D/%F /usr/X11R6/lib/X11/config)
+lib/X11/system.mwmrc
 lib/libMrm.a
 lib/libUil.a
 lib/libXm.a
@@ -803,9 +804,10 @@ share/doc/openmotif/RELEASE
 share/doc/openmotif/RELNOTES
 %%SHARED%%
 @dirrm share/doc/openmotif
-@dirrm lib/X11/bindings
 @dirrm lib/X11/config
+@dirrm lib/X11/bindings
 @dirrm include/uil
-@dirrm include/X11/bitmaps
 @dirrm include/Xm
+@dirrm include/X11/bitmaps
+@dirrm include/X11
 @dirrm include/Mrm

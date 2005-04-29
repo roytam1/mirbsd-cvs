@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-config_cf_bsdLib_tmpl,v 1.1 2001/09/30 07:21:44 pvalchev Exp $
---- config/cf/bsdLib.tmpl.orig	Sat Sep 29 16:23:36 2001
-+++ config/cf/bsdLib.tmpl	Sat Sep 29 16:26:02 2001
+--- config/cf/bsdLib.tmpl.orig	Thu Apr 28 23:41:14 2005
++++ config/cf/bsdLib.tmpl	Thu Apr 28 23:41:18 2005
 @@ -1,5 +1,5 @@
  XCOMM $XConsortium: bsdLib.tmpl /main/3 1996/09/28 16:09:25 rws $
 -XCOMM $XFree86: xc/config/cf/bsdLib.tmpl,v 3.3.2.3 1999/12/02 14:27:24 hohndel Exp $
@@ -8,7 +9,7 @@ $OpenBSD: patch-config_cf_bsdLib_tmpl,v 1.1 2001/09/30 07:21:44 pvalchev Exp $
  
  /*
   * NetBSD/FreeBSD/OpenBSD shared library template
-@@ -7,12 +7,6 @@
+@@ -7,12 +7,6 @@ XCOMM $XFree86: xc/config/cf/bsdLib.tmpl
  
  #if !UseElfFormat
  
@@ -21,7 +22,7 @@ $OpenBSD: patch-config_cf_bsdLib_tmpl,v 1.1 2001/09/30 07:21:44 pvalchev Exp $
  #ifndef SharedXtReqs
  #define SharedXtReqs /**/
  #endif
-@@ -42,26 +36,20 @@
+@@ -42,26 +36,20 @@ XMULIB = $(XMULIBONLY) $(XTOOLLIB) $(XLI
  #endif
  
  #ifndef XawClientLibs
@@ -55,7 +56,7 @@ $OpenBSD: patch-config_cf_bsdLib_tmpl,v 1.1 2001/09/30 07:21:44 pvalchev Exp $
  #define SharedXmuReqs	$(LDPRELIB) $(XTOOLLIB) $(XLIB)
  #define SharedXextReqs	$(LDPRELIB) $(XLIBONLY)
  #define SharedXiReqs	$(LDPRELIB) $(XLIB)
-@@ -72,9 +60,10 @@
+@@ -72,9 +60,10 @@ XMULIB = $(XMULIBONLY) $(XTOOLLIB) $(XLI
  #define SharedFrescoReqs	$(LDPRELIB) $(XLIBONLY) FrescoSysLibs
  #define SharedXtfReqs	$(LDPRELIB) $(FRESCOLIB) $(XTOOLLIB) $(XLIB) FrescoSysLibs
  

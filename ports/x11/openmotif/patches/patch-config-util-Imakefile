@@ -1,5 +1,6 @@
---- config/util/Imakefile.orig	Fri Apr 28 08:04:07 2000
-+++ config/util/Imakefile	Mon Nov 20 19:53:03 2000
+$MirOS$
+--- config/util/Imakefile.orig	Fri Apr 28 15:03:45 2000
++++ config/util/Imakefile	Thu Apr 28 23:41:18 2005
 @@ -1,65 +1,9 @@
  XCOMM $XConsortium: Imakefile /main/16 1996/11/13 14:43:28 lehors $
 -#if UseCCMakeDepend
@@ -9,7 +10,8 @@
 -#ifdef ExportListGenSource
 -EXPORTLISTGEN = exportlistgen
 -#endif
--
++PROGRAMS = ProgramTargetName(makestrs)
+ 
 -#ifdef Win32Architecture
 -CMKDIRHIER = mkdirhier.exe
 -#endif
@@ -24,8 +26,7 @@
 -XCOMM not exist.  Since BUILDLIBDIR may not exist yet suppress its use.
 -         LDPRELIB =
 -        LDPRELIBS =
-+PROGRAMS = ProgramTargetName(makestrs)
- 
+-
  all:: $(PROGRAMS)
  
  includes:: ProgramTargetName(makestrs)

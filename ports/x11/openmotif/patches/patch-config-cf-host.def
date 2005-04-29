@@ -1,14 +1,15 @@
---- config/cf/host.def.orig	Mon Nov 20 21:11:53 2000
-+++ config/cf/host.def	Mon Nov 20 20:53:56 2000
+$MirOS$
+--- config/cf/host.def.orig	Thu Apr 28 23:41:14 2005
++++ config/cf/host.def	Thu Apr 28 23:41:39 2005
 @@ -1,17 +1,129 @@
  #ifdef BeforeVendorCF
  
  #define TopLevelProject         Motif
 -#define ProjectRoot             /usr/X11R6
-+#define ProjectRoot             %%PREFIX%%
++#define ProjectRoot             /usr/local
  #define X11ProjectRoot          /usr/X11R6
 -#define VirtualBindingsPath     $(LIBDIR)/bindings
-+#define VirtualBindingsPath     %%PREFIX%%/lib/X11/bindings
++#define VirtualBindingsPath     /usr/local/lib/X11/bindings
  #define ImportX11               YES
 -#define USE_BYACC               YES
  #define NoMessageCatalog        YES
@@ -132,6 +133,6 @@
 +#define ManSourcePath $(MANPATH)/man
 +
 +#undef ConfigDir
-+#define ConfigDir %%PREFIX%%/lib/X11/config
++#define ConfigDir /usr/local/lib/X11/config
 +
 +#endif /* AfterVendorCF */

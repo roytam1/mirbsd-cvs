@@ -1,16 +1,17 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.20 2004/02/22 16:47:58 naddy Exp $
 
-COMMENT=	"Motif toolkit"
-COMMENT-debuglibs="Motif toolkit debug libraries"
-COMMENT-demos=	"Motif toolkit demos"
-VERSION=	2.1.30
-DISTNAME=	motif
-PATCHLEVEL=	5
-PKGNAME=	openmotif-${VERSION}.${PATCHLEVEL}
-PKGNAME-demos=	openmotif-demos-${VERSION}.${PATCHLEVEL}
-PKGNAME-debuglibs=openmotif-debuglibs-${VERSION}.${PATCHLEVEL}
-
-CATEGORIES=	x11
+CATEGORIES=		x11
+COMMENT=		"Motif toolkit"
+COMMENT-debuglibs=	"Motif toolkit debug libraries"
+COMMENT-demos=		"Motif toolkit demos"
+VERSION=		2.1.30
+DISTNAME=		motif
+PATCHLEVEL=		5
+PKGNAME=		openmotif-${VERSION}.${PATCHLEVEL}
+PKGNAME-demos=		openmotif-demos-${VERSION}.${PATCHLEVEL}
+PKGNAME-debuglibs=	openmotif-debuglibs-${VERSION}.${PATCHLEVEL}
+HOMEPAGE=	http://www.opengroup.org/openmotif/
 
 MASTER_SITES=	ftp://ftp.opengroup.org/pub/openmotif/R${VERSION}/tars/ \
 		ftp://openmotif.opengroup.org/pub/openmotif/R${VERSION}/tars/ \
@@ -23,11 +24,8 @@ DISTFILES=	openmotif${VERSION}.tar.gz index.html:1
 DIST_SUBDIR=	openmotif
 EXTRACT_ONLY=	openmotif${VERSION}.tar.gz
 
-PATCHFILES=	patch1:0 patch2:0 patch3:0 patch4:0 patch5:0
+PATCHFILES=		patch1:0 patch2:0 patch3:0 patch4:0 patch5:0
 PATCH_DIST_STRIP=	-p1
-
-HOMEPAGE=	http://www.opengroup.org/openmotif/
-
 
 # license only available on webpage
 # http://www.opengroup.org/openmotif/license
@@ -36,17 +34,18 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MULTI_PACKAGES=	-demos -debuglibs
+MULTI_PACKAGES=		-demos -debuglibs
 SUBPACKAGE?=
 
-USE_X11=	Yes
+USE_X11=		Yes
 
-ALL_TARGET=	World
-INSTALL_TARGET=	install install.man
+ALL_TARGET=		World
+INSTALL_TARGET=		install install.man
+EXTRA_XAKE_FLAGS+=	CC="${CC}" COPTS="${COPTS}"
 
 # This dialog has been copied from the lesstif port.
 .if defined(HAVE_MOTIF) && ${HAVE_MOTIF:L} == "yes"
-IS_INTERACTIVE=	Yes
+IS_INTERACTIVE=		Yes
 
 pre-extract:
 	@echo "***********************************************************"
@@ -83,10 +82,10 @@ post-patch:
 	done
 # respect PREFIX
 	@cd ${WRKSRC}/config/cf && \
-	    perl -pi -e "s|%%PREFIX%%|${PREFIX}|g" host.def Motif.tmpl config.cf
+	    perl -pi -e "s|%%PREFIX%%|${PREFIX}|g" host.def Motif.tmpl
 
-DOCS=BUGREPORT CLOSEDBUGS COPYRIGHT.MOTIF OPENBUGS README RELEASE RELNOTES
-DOCDIR=${PREFIX}/share/doc/openmotif
+DOCS=	BUGREPORT CLOSEDBUGS COPYRIGHT.MOTIF OPENBUGS README RELEASE RELNOTES
+DOCDIR=	${PREFIX}/share/doc/openmotif
 
 post-install:
 	@${INSTALL_DATA_DIR} ${DOCDIR}

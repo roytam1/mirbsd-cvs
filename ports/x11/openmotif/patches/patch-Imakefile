@@ -1,6 +1,7 @@
---- Imakefile.orig	Mon Nov 20 13:42:49 2000
-+++ Imakefile	Mon Nov 20 20:35:18 2000
-@@ -90,7 +90,7 @@
+$MirOS$
+--- Imakefile.orig	Thu Apr 28 23:41:04 2005
++++ Imakefile	Thu Apr 28 23:41:18 2005
+@@ -90,7 +90,7 @@ XCOMM 
  #ifdef UseInstalled
  TESTS_IMAKE = $(IMAKE) -DUseInstalled
  #else

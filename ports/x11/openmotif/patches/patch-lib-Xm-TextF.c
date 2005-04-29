@@ -1,6 +1,7 @@
---- lib/Xm/TextF.c.orig	Mon Nov 20 13:42:59 2000
-+++ lib/Xm/TextF.c	Mon Nov 20 17:28:52 2000
-@@ -84,7 +84,7 @@
+$MirOS$
+--- lib/Xm/TextF.c.orig	Thu Apr 28 23:41:08 2005
++++ lib/Xm/TextF.c	Thu Apr 28 23:41:18 2005
+@@ -84,7 +84,7 @@ static char rcsid[] = "$TOG: TextF.c /ma
  #include <Xm/PrintSP.h>         /* for XmIsPrintShell */
  
  

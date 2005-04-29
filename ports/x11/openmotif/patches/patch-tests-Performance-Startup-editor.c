@@ -1,6 +1,7 @@
---- tests/Performance/Startup/editor.c.orig	Wed May  3 02:12:48 2000
-+++ tests/Performance/Startup/editor.c	Mon Nov 20 19:08:40 2000
-@@ -238,7 +238,7 @@
+$MirOS$
+--- tests/Performance/Startup/editor.c.orig	Wed May  3 09:12:26 2000
++++ tests/Performance/Startup/editor.c	Thu Apr 28 23:41:18 2005
+@@ -238,7 +238,7 @@ Boolean SaveFile()
  
      strcpy(tempname, "/tmp/xmeditXXXXXX");
      

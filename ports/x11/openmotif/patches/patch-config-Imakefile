@@ -1,6 +1,7 @@
---- config/Imakefile.orig	Fri Apr 28 08:04:08 2000
-+++ config/Imakefile	Mon Nov 20 20:45:12 2000
-@@ -5,7 +5,8 @@
+$MirOS$
+--- config/Imakefile.orig	Fri Apr 28 15:03:46 2000
++++ config/Imakefile	Thu Apr 28 23:41:18 2005
+@@ -5,7 +5,8 @@ XCOMM $XConsortium: Imakefile /main/6 19
  #undef BootstrapCleanSubdirs
  #define BootstrapCleanSubdirs BOOTSTRAPSUBDIRS="$(BOOTSTRAPSUBDIRS)"
  
