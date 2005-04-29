@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.3 2005/04/11 15:56:15 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.4 2005/04/20 09:35:08 tg Exp $
 # $OpenBSD: Makefile,v 1.69 2004/05/06 07:27:36 biorn Exp $
 
 BROKEN=			Security problems, Update comming soon
@@ -8,7 +8,7 @@ BROKEN=			Security problems, Update comming soon
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 
 COMMENT=		"Movie player supporting MPEG, DivX, AVI, ASF, MOV & more"
-DISTNAME=		MPlayer-1.0pre5try2
+DISTNAME=		MPlayer-1.0pre7
 DIST_SUBDIR=		mplayer
 PKGNAME=		${DISTNAME:L}
 CATEGORIES=		x11 multimedia
@@ -108,7 +108,7 @@ CONFIGURE_ARGS+=--disable-external-matroska
 
 .if ${FLAVOR:L:Marts}
 CONFIGURE_ARGS+=--enable-arts
-LIB_DEPENDS+=	artsc::x11/kde/arts3
+LIB_DEPENDS+=	artsc::x11/kde/arts
 .else
 CONFIGURE_ARGS+=--disable-arts
 .endif
