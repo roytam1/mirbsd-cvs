@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.53 2005/04/25 23:25:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.54 2005/04/26 20:45:57 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2818,4 +2818,12 @@
  can't fix (obviously). Weirder: it builds if I pre-process it first, then
  nuke the line number information. centericq works but doesn't convert the
  UTF-8 characters to latin1 even if I tell it so.</p>
+<p>28.04.2005 by tg@<br />It's Netzladen time, and since I have an exam on
+ Tuesday, I don't need to work tomorrow (it's the final exam), so I can be
+ here long and drink heavily with wbx@ while fixing some ports, leading to
+ discovering more flaws in base. I've also made an OpenWRT package for our
+ beloved <a href="http://wiki.mirbsd.de/MirbsdKsh">ksh(1)</a> although wbx
+ is mentioned as maintainer &ndash; since I don't use it, I can't maintain
+ it appropriately. Fun work, though. And it clearly shows me just how much
+ superior MirPorts really is.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
