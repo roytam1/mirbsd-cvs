@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.15 2005/04/19 12:53:46 tg Exp $
+# $MirOS: src/Makefile,v 1.16 2005/04/20 06:18:04 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -126,6 +126,12 @@ dist:
 	cd ${.CURDIR} && exec ${MAKE} \
 	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
+.ifdef QUICK_DIST
+_DISTS=	base gcc
+.else
+_DISTS=	base x11 gcc htman
+.endif
+
 do-dist:
 	@echo "============================================================"
 	@echo Initiating MirOS Build...
@@ -135,18 +141,26 @@ do-dist:
 .else
 	@echo INTERACTIVE mode engaged.
 .endif
+.ifdef QUICK_DIST
+	@echo QUICK dist-build mode active:
+	@echo not building XFree86® or HTML manual pages.
+.endif
 	@echo "============================================================"
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR}/etc \
 	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
+.ifndef QUICK_DIST
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
+.endif
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
+.ifndef QUICK_DIST
 	cd ${.CURDIR} && exec ${MAKE} do-htman
+.endif
 	@echo "============================================================"
 	@echo "Checking files:"
 	@echo ""
-.for _set in base x11 gcc htman
+.for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
 	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarck
@@ -155,7 +169,7 @@ do-dist:
 .ifndef BATCH
 	@read a?'Press Return to continue...'
 .endif
-.for _set in base x11 gcc htman
+.for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
 	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
