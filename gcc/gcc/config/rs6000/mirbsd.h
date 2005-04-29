@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/config/rs6000/mirbsd.h,v 1.1 2005/03/25 18:49:30 tg Exp $ */
 
 /* Definitions of target machine for GNU compiler,
    for PowerPC NetBSD systems.
    Copyright 2002, 2003, 2005 Free Software Foundation, Inc.
    Contributed by Wasabi Systems, Inc.
-   Hacked by Thorsten Glaser <tg@66h.42h.de>
+   Hacked by Thorsten Glaser <tg@MirBSD.org>
 
    This file is part of GCC.
 
@@ -90,6 +90,12 @@
 
 #undef	DEFAULT_SIGNED_CHAR
 #define DEFAULT_SIGNED_CHAR 1
+
+#undef	WCHAR_TYPE
+#define	WCHAR_TYPE "int"
+
+#undef	WCHAR_TYPE_SIZE
+#define	WCHAR_TYPE_SIZE 32
 
 #undef  TARGET_VERSION
 #define TARGET_VERSION fprintf (stderr, " (MirOS BSD/macppc)");
