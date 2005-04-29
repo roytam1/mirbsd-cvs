@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.15 2005/04/11 15:55:41 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.16 2005/04/28 20:46:58 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -686,7 +686,7 @@ _PKG_PREREQ+=		${WRKPKG}/DEINSTALL${SUBPACKAGE}
 PKG_ARGS+=		-r ${WRKPKG}/REQ${SUBPACKAGE}
 _PKG_PREREQ+=		${WRKPKG}/REQ${SUBPACKAGE}
 .  endif
-.  if defined(MESSAGE)
+.  if defined(MESSAGE) && ${MESSAGE} != "/dev/null"
 PKG_ARGS+=		-D ${WRKPKG}/MESSAGE${SUBPACKAGE}
 _PKG_PREREQ+=		${WRKPKG}/MESSAGE${SUBPACKAGE}
 .  endif
