@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/pppd/Makefile,v 1.2 2005/03/15 19:28:37 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/01/24 18:43:22 deraadt Exp $
 
 PCAPDIR=${.CURDIR}/../../lib/libpcap
@@ -17,6 +17,6 @@ BINGRP=	network
 LDADD=	-lpcap -lutil
 DPADD=	${LIBPCAP} ${LIBUTIL}
 CPPFLAGS+=	-I. -I${PCAPDIR} -DHAVE_PATHS_H -DIPX_CHANGE \
-		-DPPP_FILTER -DUSE_CRYPT -DCHAPMS
+		-DPPP_FILTER -DUSE_CRYPT -DCHAPMS -DCBCP_SUPPORT
 
 .include <bsd.prog.mk>
