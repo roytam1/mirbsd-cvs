@@ -1,5 +1,4 @@
-@comment $OpenBSD$
-${JREHOME}/javaws/
+@comment $MirOS$
 ${JREHOME}/javaws/cacerts
 ${JREHOME}/javaws/javalogo52x88.gif
 ${JREHOME}/javaws/javaws
@@ -17,7 +16,6 @@ ${JREHOME}/javaws/readme_ko.html
 ${JREHOME}/javaws/readme_sv.html
 ${JREHOME}/javaws/readme_zh_CN.html
 ${JREHOME}/javaws/readme_zh_TW.html
-${JREHOME}/javaws/resources/
 ${JREHOME}/javaws/resources/copyright.jpg
 ${JREHOME}/javaws/resources/messages.properties
 ${JREHOME}/javaws/resources/messages_de.properties
@@ -32,3 +30,7 @@ ${JREHOME}/javaws/resources/messages_zh_TW.properties
 ${JREHOME}/javaws/resources/miniSplash.jpg
 ${JREHOME}/javaws/resources/splash.jpg
 ${JREHOME}/javaws/sunlogo64x30.gif
+${JREHOME}/man/ja_JP.eucJP/man1/javaws.1
+${JREHOME}/man/man1/javaws.1
+@dirrm ${JREHOME}/javaws/resources
+@dirrm ${JREHOME}/javaws

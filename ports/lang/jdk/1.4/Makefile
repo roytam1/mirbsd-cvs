@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.4 2005/04/11 15:55:51 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.5 2005/04/28 22:18:46 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
@@ -44,6 +44,8 @@ MAKE_ENV+=		ALT_MOTIF_DIR="${LOCALBASE}" \
 			HAVE_DPS="yes" \
 			DEV_ONLY="YES" \
 			LANG="C"
+MAKE_ENV+=		PLATFORM=bsd TRUE_PLATFORM=OpenBSD # XXX?
+MAKE_FLAGS+=		CC="${CC}"
 
 # Error message for distfile.
 FETCH_MANUALLY=		"You must manually fetch the distibution files, place"
