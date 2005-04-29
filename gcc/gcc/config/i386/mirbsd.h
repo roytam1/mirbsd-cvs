@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.1 2005/03/25 18:49:29 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for i386/ELF MirOS BSD systems.
@@ -83,8 +83,5 @@ Boston, MA 02111-1307, USA.  */
 /* Default to pcc-struct-return, because this is the ELF abi and
    we don't care about compatibility with older gcc versions.  */
 #define DEFAULT_PCC_STRUCT_RETURN 1
-
-/* our configuration still doesn't handle dwarf2 correctly.  */
-#define DWARF2_UNWIND_INFO 0
 
 #define TARGET_VERSION fprintf (stderr, " (MirOS BSD/i386)");
