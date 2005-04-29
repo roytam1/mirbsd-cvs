@@ -627,7 +627,7 @@ apm_cpu_busy()
 	if ((apm_flags & APM_IDLE_SLOWS) &&
 		apmcall(APM_CPU_BUSY, 0, &regs) != 0) {
 
-#ifdef DIAGNOSTIC
+#ifdef APMDEBUG
 		apm_perror("set CPU busy", &regs);
 #endif
 	}
