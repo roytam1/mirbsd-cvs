@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/c-format.c,v 1.2 2005/03/25 19:29:01 tg Exp $ */
 
 /* Check calls to formatted I/O functions (-Wformat).
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -549,7 +549,8 @@ static const format_length_info gcc_diag_length_specs[] =
 static const format_length_info kprintf_length_specs[] =
 {
   { "h", FMT_LEN_h, STD_C89, NULL, 0, 0 },
-  { "l", FMT_LEN_l, STD_C89, "ll", FMT_LEN_ll, STD_C89 },
+  { "l", FMT_LEN_l, STD_C89, "ll", FMT_LEN_ll, STD_C9L },
+  { "q", FMT_LEN_ll, STD_EXT, NULL, 0, 0 },
   { "L", FMT_LEN_L, STD_C89, NULL, 0, 0 },
   { "q", FMT_LEN_ll, STD_C89, NULL, 0, 0 },
   { NULL, 0, 0, NULL, 0, 0 }
@@ -981,31 +982,31 @@ static const format_char_info monetary_char_table[] =
 /* This must be in the same order as enum format_type.  */
 static const format_kind_info format_types_orig[] =
 {
-  { "printf",   printf_length_specs,  print_char_table, " +#0-'I", NULL, 
+  { "printf",   printf_length_specs,  print_char_table, " +#0-'I", NULL,
     printf_flag_specs, printf_flag_pairs,
     FMT_FLAG_ARG_CONVERT|FMT_FLAG_DOLLAR_MULTIPLE|FMT_FLAG_USE_DOLLAR|FMT_FLAG_EMPTY_PREC_OK,
     'w', 0, 'p', 0, 'L',
     &integer_type_node, &integer_type_node
   },
-  { "asm_fprintf",   asm_fprintf_length_specs,  asm_fprintf_char_table, " +#0-", NULL, 
+  { "asm_fprintf",   asm_fprintf_length_specs,  asm_fprintf_char_table, " +#0-", NULL,
     asm_fprintf_flag_specs, asm_fprintf_flag_pairs,
     FMT_FLAG_ARG_CONVERT|FMT_FLAG_EMPTY_PREC_OK,
     'w', 0, 'p', 0, 'L',
     NULL, NULL
   },
-  { "gcc_diag",   gcc_diag_length_specs,  gcc_diag_char_table, "", NULL, 
+  { "gcc_diag",   gcc_diag_length_specs,  gcc_diag_char_table, "", NULL,
     gcc_diag_flag_specs, gcc_diag_flag_pairs,
     FMT_FLAG_ARG_CONVERT,
     0, 0, 'p', 0, 'L',
     NULL, &integer_type_node
   },
-  { "gcc_cdiag",   gcc_cdiag_length_specs,  gcc_cdiag_char_table, "", NULL, 
+  { "gcc_cdiag",   gcc_cdiag_length_specs,  gcc_cdiag_char_table, "", NULL,
     gcc_cdiag_flag_specs, gcc_cdiag_flag_pairs,
     FMT_FLAG_ARG_CONVERT,
     0, 0, 'p', 0, 'L',
     NULL, &integer_type_node
   },
-  { "gcc_cxxdiag",   gcc_cxxdiag_length_specs,  gcc_cxxdiag_char_table, "+#", NULL, 
+  { "gcc_cxxdiag",   gcc_cxxdiag_length_specs,  gcc_cxxdiag_char_table, "+#", NULL,
     gcc_cxxdiag_flag_specs, gcc_cxxdiag_flag_pairs,
     FMT_FLAG_ARG_CONVERT,
     0, 0, 'p', 0, 'L',
@@ -1023,7 +1024,7 @@ static const format_kind_info format_types_orig[] =
     'w', 0, 'p', 0, 'L',
     &integer_type_node, &integer_type_node
   },
-  { "scanf",    scanf_length_specs,   scan_char_table,  "*'I", NULL, 
+  { "scanf",    scanf_length_specs,   scan_char_table,  "*'I", NULL,
     scanf_flag_specs, scanf_flag_pairs,
     FMT_FLAG_ARG_CONVERT|FMT_FLAG_SCANF_A_KLUDGE|FMT_FLAG_USE_DOLLAR|FMT_FLAG_ZERO_WIDTH_BAD|FMT_FLAG_DOLLAR_GAP_POINTER_OK,
     'w', 0, 0, '*', 'L',
@@ -1034,7 +1035,7 @@ static const format_kind_info format_types_orig[] =
     FMT_FLAG_FANCY_PERCENT_OK, 'w', 0, 0, 0, 0,
     NULL, NULL
   },
-  { "strfmon",  strfmon_length_specs, monetary_char_table, "=^+(!-", NULL, 
+  { "strfmon",  strfmon_length_specs, monetary_char_table, "=^+(!-", NULL,
     strfmon_flag_specs, strfmon_flag_pairs,
     FMT_FLAG_ARG_CONVERT, 'w', '#', 'p', 0, 'L',
     NULL, NULL
@@ -1194,7 +1195,7 @@ status_warning (int *status, const char *msgid, ...)
 {
   diagnostic_info diagnostic ;
   va_list ap;
-  
+
   va_start (ap, msgid);
 
   if (status)
@@ -2599,14 +2600,14 @@ static unsigned int
 find_char_info_specifier_index (const format_char_info *fci, int c)
 {
   unsigned int i = 0;
-  
+
   while (fci->format_chars)
     {
       if (strchr (fci->format_chars, c))
 	return i;
       i++; fci++;
     }
-  
+
   /* We shouldn't be looking for a non-existent specifier.  */
   abort ();
 }
@@ -2619,14 +2620,14 @@ static unsigned int
 find_length_info_modifier_index (const format_length_info *fli, int c)
 {
   unsigned int i = 0;
-  
+
   while (fli->name)
     {
       if (strchr (fli->name, c))
 	return i;
       i++; fli++;
     }
-  
+
   /* We shouldn't be looking for a non-existent modifier.  */
   abort ();
 }
@@ -2638,12 +2639,12 @@ static void
 init_dynamic_asm_fprintf_info (void)
 {
   static tree hwi;
-      
+
   if (!hwi)
     {
       format_length_info *new_asm_fprintf_length_specs;
       unsigned int i;
-	  
+
       /* Find the underlying type for HOST_WIDE_INT.  For the %w
 	 length modifier to work, one must have issued: "typedef
 	 HOST_WIDE_INT __gcc_host_wide_int__;" in one's source code
@@ -2679,7 +2680,7 @@ static void
 init_dynamic_diag_info (void)
 {
   static tree t, loc, hwi;
-      
+
   if (!loc || !t || !hwi)
     {
       static format_char_info *diag_fci, *cdiag_fci, *cxxdiag_fci;
@@ -2699,14 +2700,14 @@ init_dynamic_diag_info (void)
 	 an extra type level.  */
       if ((t = maybe_get_identifier ("tree")))
 	t = TREE_TYPE (TREE_TYPE (identifier_global_value (t)));
-    
+
       /* Find the underlying type for HOST_WIDE_INT.  For the %w
 	 length modifier to work, one must have issued: "typedef
 	 HOST_WIDE_INT __gcc_host_wide_int__;" in one's source code
 	 prior to using that modifier.  */
       if ((hwi = maybe_get_identifier ("__gcc_host_wide_int__")))
 	hwi = DECL_ORIGINAL_TYPE (identifier_global_value (hwi));
-      
+
       /* Assign the new data for use.  */
 
       /* All the GCC diag formats use the same length specs.  */
@@ -2716,7 +2717,7 @@ init_dynamic_diag_info (void)
 	  dynamic_format_types[gcc_cxxdiag_format_type].length_char_specs =
 	  diag_ls = xmemdup (gcc_diag_length_specs,
 			     sizeof (gcc_diag_length_specs),
-			     sizeof (gcc_diag_length_specs)); 
+			     sizeof (gcc_diag_length_specs));
       if (hwi)
         {
 	  /* HOST_WIDE_INT must be one of 'long' or 'long long'.  */
