@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/nfs/nfs_vnops.c,v 1.2 2005/03/06 21:28:29 tg Exp $ */
+/**	$MirOS: src/sys/nfs/nfs_vnops.c,v 1.3 2005/04/29 15:07:09 tg Exp $ */
 /*	$OpenBSD: nfs_vnops.c,v 1.64 2005/04/21 23:29:04 deraadt Exp $	*/
 /*	$NetBSD: nfs_vnops.c,v 1.62.4.1 1996/07/08 20:26:52 jtc Exp $	*/
 
@@ -3034,7 +3034,7 @@ nfs_writebp(bp, force)
 		off = ((u_quad_t)bp->b_blkno) * DEV_BSIZE + bp->b_dirtyoff;
 		cnt = bp->b_dirtyend - bp->b_dirtyoff;
 
-		rw_enter_write(&np->n_commitlock);
+		rw_enter_write(&np->n_commitlock, curproc);
 		if (!(bp->b_flags & B_NEEDCOMMIT)) {
 			rw_exit_write(&np->n_commitlock);
 			return (0);
@@ -3177,7 +3177,8 @@ nfsspec_read(v)
 	 * Set access flag.
 	 */
 	np->n_flag |= NACC;
-	getnanotime(&np->n_atim);
+	np->n_atim.tv_sec = time.tv_sec;
+	np->n_atim.tv_nsec = time.tv_usec * 1000;
 	return (VOCALL(spec_vnodeop_p, VOFFSET(vop_read), ap));
 }
 
@@ -3200,7 +3201,8 @@ nfsspec_write(v)
 	 * Set update flag.
 	 */
 	np->n_flag |= NUPD;
-	getnanotime(&np->n_mtim);
+	np->n_mtim.tv_sec = time.tv_sec;
+	np->n_mtim.tv_nsec = time.tv_usec * 1000;
 	return (VOCALL(spec_vnodeop_p, VOFFSET(vop_write), ap));
 }
 
@@ -3259,7 +3261,8 @@ nfsfifo_read(v)
 	 * Set access flag.
 	 */
 	np->n_flag |= NACC;
-	getnanotime(&np->n_atim);
+	np->n_atim.tv_sec = time.tv_sec;
+	np->n_atim.tv_nsec = time.tv_usec * 1000;
 	return (VOCALL(fifo_vnodeop_p, VOFFSET(vop_read), ap));
 }
 
@@ -3283,7 +3286,8 @@ nfsfifo_write(v)
 	 * Set update flag.
 	 */
 	np->n_flag |= NUPD;
-	getnanotime(&np->n_mtim);
+	np->n_mtim.tv_sec = time.tv_sec;
+	np->n_mtim.tv_nsec = time.tv_usec * 1000;
 	return (VOCALL(fifo_vnodeop_p, VOFFSET(vop_write), ap));
 }
 
@@ -3309,10 +3313,12 @@ nfsfifo_close(v)
 
 	if (np->n_flag & (NACC | NUPD)) {
 		if (np->n_flag & NACC) {
-			getnanotime(&np->n_atim);
+			np->n_atim.tv_sec = time.tv_sec;
+			np->n_atim.tv_nsec = time.tv_usec * 1000;
 		}
 		if (np->n_flag & NUPD) {
-			getnanotime(&np->n_mtim);
+			np->n_mtim.tv_sec = time.tv_sec;
+			np->n_mtim.tv_nsec = time.tv_usec * 1000;
 		}
 		np->n_flag |= NCHG;
 		if (vp->v_usecount == 1 &&

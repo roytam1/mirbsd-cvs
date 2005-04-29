@@ -357,7 +357,7 @@ sys_nfssvc(p, v, retval)
 				    nuidp->nu_cr.cr_ngroups = NGROUPS;
 				nuidp->nu_cr.cr_ref = 1;
 				nuidp->nu_timestamp = nsd->nsd_timestamp;
-				nuidp->nu_expire = time_second + nsd->nsd_ttl;
+				nuidp->nu_expire = time.tv_sec + nsd->nsd_ttl;
 				/*
 				 * and save the session key in nu_key.
 				 */
@@ -505,7 +505,6 @@ nfssvc_nfsd(nsd, argp, p)
 	struct mbuf *mreq;
 	int error = 0, cacherep, s, sotype, writes_todo;
 	u_quad_t cur_usec;
-	struct timeval tv;
 
 #ifndef nolint
 	cacherep = RC_DOIT;
@@ -554,8 +553,6 @@ nfssvc_nfsd(nsd, argp, p)
 			if ((slp = nfsd->nfsd_slp) == (struct nfssvc_sock *)0)
 				continue;
 			if (slp->ns_flag & SLP_VALID) {
-				struct timeval tv;
-
 				if (slp->ns_flag & SLP_DISCONN)
 					nfsrv_zapsock(slp);
 				else if (slp->ns_flag & SLP_NEEDQ) {
@@ -567,9 +564,8 @@ nfssvc_nfsd(nsd, argp, p)
 					nfs_sndunlock(&slp->ns_solock);
 				}
 				error = nfsrv_dorec(slp, nfsd, &nd);
-				getmicrotime(&tv);
-				cur_usec = (u_quad_t)tv.tv_sec * 1000000 +
-					(u_quad_t)tv.tv_usec;
+				cur_usec = (u_quad_t)time.tv_sec * 1000000 +
+					(u_quad_t)time.tv_usec;
 				if (error && LIST_FIRST(&slp->ns_tq) &&
 				    LIST_FIRST(&slp->ns_tq)->nd_time
 				    <= cur_usec) {
@@ -602,7 +598,7 @@ nfssvc_nfsd(nsd, argp, p)
 		else
 			solockp = (int *)0;
 		if (nd) {
-		    getmicrotime(&nd->nd_starttime);
+		    nd->nd_starttime = time;
 		    if (nd->nd_nam2)
 			nd->nd_nam = nd->nd_nam2;
 		    else
@@ -727,9 +723,8 @@ nfssvc_nfsd(nsd, argp, p)
 		     * Check to see if there are outstanding writes that
 		     * need to be serviced.
 		     */
-		    getmicrotime(&tv);
-		    cur_usec = (u_quad_t)tv.tv_sec * 1000000 +
-			(u_quad_t)tv.tv_usec;
+		    cur_usec = (u_quad_t)time.tv_sec * 1000000 +
+			(u_quad_t)time.tv_usec;
 		    s = splsoftclock();
 		    if (LIST_FIRST(&slp->ns_tq) &&
 			LIST_FIRST(&slp->ns_tq)->nd_time <= cur_usec) {
@@ -898,10 +893,9 @@ nfsd_rt(sotype, nd, cacherep)
 		rt->ipadr = mtod(nd->nd_nam, struct sockaddr_in *)->sin_addr.s_addr;
 	else
 		rt->ipadr = INADDR_ANY;
-	getmicrotime(&rt->tstamp);
-	rt->resptime =
-	    ((rt->tstamp.tv_sec - nd->nd_starttime.tv_sec) * 1000000) +
-		(rt->tstamp.tv_usec - nd->nd_starttime.tv_usec);
+	rt->resptime = ((time.tv_sec - nd->nd_starttime.tv_sec) * 1000000) +
+		(time.tv_usec - nd->nd_starttime.tv_usec);
+	rt->tstamp = time;
 	nfsdrt.pos = (nfsdrt.pos + 1) % NFSRTTLOGSIZ;
 }
 #endif /* NFSSERVER */
@@ -1109,7 +1103,6 @@ nfs_getnickauth(nmp, cred, auth_str, auth_len, verf_str, verf_len)
 	struct nfsuid *nuidp;
 	u_int32_t *nickp, *verfp;
 	struct timeval ktvin, ktvout;
-	struct timeval tv;
 
 #ifdef DIAGNOSTIC
 	if (verf_len < (4 * NFSX_UNSIGNED))
@@ -1119,7 +1112,7 @@ nfs_getnickauth(nmp, cred, auth_str, auth_len, verf_str, verf_len)
 		if (nuidp->nu_cr.cr_uid == cred->cr_uid)
 			break;
 	}
-	if (!nuidp || nuidp->nu_expire < time_second)
+	if (!nuidp || nuidp->nu_expire < time.tv_sec)
 		return (EACCES);
 
 	/*
@@ -1139,11 +1132,10 @@ nfs_getnickauth(nmp, cred, auth_str, auth_len, verf_str, verf_len)
 	 */
 	verfp = (u_int32_t *)verf_str;
 	*verfp++ = txdr_unsigned(RPCAKN_NICKNAME);
-	getmicrotime(&tv);
-	if (tv.tv_sec > nuidp->nu_timestamp.tv_sec ||
-	    (tv.tv_sec == nuidp->nu_timestamp.tv_sec &&
-	     tv.tv_usec > nuidp->nu_timestamp.tv_usec))
-		nuidp->nu_timestamp = tv;
+	if (time.tv_sec > nuidp->nu_timestamp.tv_sec ||
+	    (time.tv_sec == nuidp->nu_timestamp.tv_sec &&
+	     time.tv_usec > nuidp->nu_timestamp.tv_usec))
+		nuidp->nu_timestamp = time;
 	else
 		nuidp->nu_timestamp.tv_usec++;
 	ktvin.tv_sec = txdr_unsigned(nuidp->nu_timestamp.tv_sec);
@@ -1185,7 +1177,7 @@ nfs_savenickauth(nmp, cred, len, key, mdp, dposp, mrep)
 
 		ktvout.tv_sec = fxdr_unsigned(long, ktvout.tv_sec);
 		ktvout.tv_usec = fxdr_unsigned(long, ktvout.tv_usec);
-		deltasec = time_second - ktvout.tv_sec;
+		deltasec = time.tv_sec - ktvout.tv_sec;
 		if (deltasec < 0)
 			deltasec = -deltasec;
 		/*
@@ -1205,7 +1197,7 @@ nfs_savenickauth(nmp, cred, len, key, mdp, dposp, mrep)
 			}
 			nuidp->nu_flag = 0;
 			nuidp->nu_cr.cr_uid = cred->cr_uid;
-			nuidp->nu_expire = time_second + NFS_KERBTTL;
+			nuidp->nu_expire = time.tv_sec + NFS_KERBTTL;
 			nuidp->nu_timestamp = ktvout;
 			nuidp->nu_nickname = nick;
 			bcopy(key, nuidp->nu_key, sizeof (NFSKERBKEY_T));

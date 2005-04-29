@@ -747,7 +747,7 @@ nfsmout:
 					rt->srtt = nmp->nm_srtt[proct[rep->r_procnum] - 1];
 					rt->sdrtt = nmp->nm_sdrtt[proct[rep->r_procnum] - 1];
 					rt->fsid = nmp->nm_mountp->mnt_stat.f_fsid;
-					getmicrotime(&rt->tstamp);
+					rt->tstamp = time;
 					if (rep->r_flags & R_TIMING)
 						rt->rtt = rep->r_rtt;
 					else
@@ -926,7 +926,7 @@ tryagain:
 	TAILQ_INSERT_TAIL(&nfs_reqq, rep, r_chain);
 
 	/* Get send time for nqnfs */
-	reqtime = time_second;
+	reqtime = time.tv_sec;
 
 	/*
 	 * If backing off another request or avoiding congestion, don't
@@ -1037,8 +1037,8 @@ tryagain:
 				error == NFSERR_TRYLATER) {
 				m_freem(mrep);
 				error = 0;
-				waituntil = time_second + trylater_delay;
-				while (time_second < waituntil)
+				waituntil = time.tv_sec + trylater_delay;
+				while (time.tv_sec < waituntil)
 					(void) tsleep((caddr_t)&lbolt,
 						PSOCK, "nqnfstry", 0);
 				trylater_delay *= nfs_backoff[trylater_cnt];
@@ -1224,7 +1224,6 @@ nfs_timer(arg)
 	int s, error;
 #ifdef NFSSERVER
 	struct nfssvc_sock *slp;
-	struct timeval tv;
 	u_quad_t cur_usec;
 #endif
 
@@ -1322,8 +1321,7 @@ nfs_timer(arg)
 	 * Scan the write gathering queues for writes that need to be
 	 * completed now.
 	 */
-	getmicrotime(&tv);
-	cur_usec = (u_quad_t)tv.tv_sec * 1000000 + (u_quad_t)tv.tv_usec;
+	cur_usec = (u_quad_t)time.tv_sec * 1000000 + (u_quad_t)time.tv_usec;
 	for (slp = TAILQ_FIRST(&nfssvc_sockhead); slp != NULL;
 	    slp = TAILQ_NEXT(slp, ns_chain)) {
 	    if (LIST_FIRST(&slp->ns_tq) &&
@@ -1681,7 +1679,7 @@ nfs_getreq(nd, nfsd, has_header)
 
 			tvout.tv_sec = fxdr_unsigned(long, tvout.tv_sec);
 			tvout.tv_usec = fxdr_unsigned(long, tvout.tv_usec);
-			if (nuidp->nu_expire < time_second ||
+			if (nuidp->nu_expire < time.tv_sec ||
 			    nuidp->nu_timestamp.tv_sec > tvout.tv_sec ||
 			    (nuidp->nu_timestamp.tv_sec == tvout.tv_sec &&
 			     nuidp->nu_timestamp.tv_usec > tvout.tv_usec)) {
