@@ -1,4 +1,4 @@
-/*	$OpenBSD: nfs_subs.c,v 1.46 2004/07/13 21:04:29 millert Exp $	*/
+/*	$OpenBSD: nfs_subs.c,v 1.54 2005/04/02 01:00:38 mickey Exp $	*/
 /*	$NetBSD: nfs_subs.c,v 1.27.4.3 1996/07/08 20:34:24 jtc Exp $	*/
 
 /*
@@ -71,9 +71,6 @@
 #include <miscfs/specfs/specdev.h>
 
 #include <netinet/in.h>
-#ifdef ISO
-#include <netiso/iso.h>
-#endif
 
 #include <dev/rndvar.h>
 
@@ -536,6 +533,8 @@ extern struct nfsnodehashhead *nfsnodehashtbl;
 extern u_long nfsnodehash;
 
 LIST_HEAD(nfsnodehashhead, nfsnode);
+
+struct pool nfsreqpl;
 
 /*
  * Create the header for an rpc request packet
@@ -1067,6 +1066,9 @@ nfs_init()
 	nfsrv_initcache();		/* Init the server request cache */
 #endif /* NFSSERVER */
 
+	pool_init(&nfsreqpl, sizeof(struct nfsreq), 0, 0, 0, "nfsreqpl",
+	    &pool_allocator_nointr);
+
 	/*
 	 * Initialize reply list and start timer
 	 */
@@ -1074,6 +1076,10 @@ nfs_init()
 
 	timeout_set(&nfs_timer_to, nfs_timer, &nfs_timer_to);
 	nfs_timer(&nfs_timer_to);
+
+#ifdef NFSCLIENT
+	nfs_kqinit();
+#endif	
 }
 
 #ifdef NFSCLIENT
@@ -1138,8 +1144,8 @@ nfs_loadattrcache(vpp, mdp, dposp, vaper)
 	if (v3) {
 		vtyp = nfsv3tov_type(fp->fa_type);
 		vmode = fxdr_unsigned(mode_t, fp->fa_mode);
-		rdev = makedev(fxdr_unsigned(u_char, fp->fa3_rdev.specdata1),
-			fxdr_unsigned(u_char, fp->fa3_rdev.specdata2));
+		rdev = makedev(fxdr_unsigned(u_int32_t, fp->fa3_rdev.specdata1),
+			fxdr_unsigned(u_int32_t, fp->fa3_rdev.specdata2));
 		fxdr_nfsv3time(&fp->fa3_mtime, &mtime);
 	} else {
 		vtyp = nfsv2tov_type(fp->fa_type);
@@ -1250,7 +1256,7 @@ nfs_loadattrcache(vpp, mdp, dposp, vaper)
 		} else
 			np->n_size = vap->va_size;
 	}
-	np->n_attrstamp = time.tv_sec;
+	np->n_attrstamp = time_second;
 	if (vaper != NULL) {
 		bcopy((caddr_t)vap, (caddr_t)vaper, sizeof(*vap));
 		if (np->n_flag & NCHG) {
@@ -1269,7 +1275,7 @@ nfs_attrtimeo (np)
 {
 	struct vnode *vp = np->n_vnode;
 	struct nfsmount *nmp = VFSTONFS(vp->v_mount);
-	int tenthage = (time.tv_sec - np->n_mtime) / 10;
+	int tenthage = (time_second - np->n_mtime) / 10;
 	int minto, maxto;
 
 	if (vp->v_type == VDIR) {
@@ -1302,7 +1308,8 @@ nfs_getattrcache(vp, vaper)
 	struct nfsnode *np = VTONFS(vp);
 	struct vattr *vap;
 
-	if ((time.tv_sec - np->n_attrstamp) >= nfs_attrtimeo(np)) {
+	if (np->n_attrstamp == 0 ||
+	    (time_second - np->n_attrstamp) >= nfs_attrtimeo(np)) {
 		nfsstats.attrcache_misses++;
 		return (ENOENT);
 	}
@@ -1707,21 +1714,6 @@ netaddr_match(family, haddr, nam)
 		    inetaddr->sin_addr.s_addr == haddr->had_inetaddr)
 			return (1);
 		break;
-#ifdef ISO
-	case AF_ISO:
-	    {
-		struct sockaddr_iso *isoaddr1, *isoaddr2;
-
-		isoaddr1 = mtod(nam, struct sockaddr_iso *);
-		isoaddr2 = mtod(haddr->had_nam, struct sockaddr_iso *);
-		if (isoaddr1->siso_family == AF_ISO &&
-		    isoaddr1->siso_nlen > 0 &&
-		    isoaddr1->siso_nlen == isoaddr2->siso_nlen &&
-		    SAME_ISOADDR(isoaddr1, isoaddr2))
-			return (1);
-		break;
-	    }
-#endif	/* ISO */
 	default:
 		break;
 	};
@@ -1756,6 +1748,172 @@ loop:
 		}
 	}
 	splx(s);
+}
+
+void
+nfs_merge_commit_ranges(vp)
+	struct vnode *vp;
+{
+	struct nfsnode *np = VTONFS(vp);
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSHED_VALID)) {
+		np->n_pushedlo = np->n_pushlo;
+		np->n_pushedhi = np->n_pushhi;
+		np->n_commitflags |= NFS_COMMIT_PUSHED_VALID;
+	} else {
+		if (np->n_pushlo < np->n_pushedlo)
+			np->n_pushedlo = np->n_pushlo;
+		if (np->n_pushhi > np->n_pushedhi)
+			np->n_pushedhi = np->n_pushhi;
+	}
+
+	np->n_pushlo = np->n_pushhi = 0;
+	np->n_commitflags &= ~NFS_COMMIT_PUSH_VALID;
+}
+
+int
+nfs_in_committed_range(vp, bp)
+	struct vnode *vp;
+	struct buf *bp;
+{
+	struct nfsnode *np = VTONFS(vp);
+	off_t lo, hi;
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSHED_VALID))
+		return 0;
+	lo = (off_t)bp->b_blkno * DEV_BSIZE;
+	hi = lo + bp->b_dirtyend;
+
+	return (lo >= np->n_pushedlo && hi <= np->n_pushedhi);
+}
+
+int
+nfs_in_tobecommitted_range(vp, bp)
+	struct vnode *vp;
+	struct buf *bp;
+{
+	struct nfsnode *np = VTONFS(vp);
+	off_t lo, hi;
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSH_VALID))
+		return 0;
+	lo = (off_t)bp->b_blkno * DEV_BSIZE;
+	hi = lo + bp->b_dirtyend;
+
+	return (lo >= np->n_pushlo && hi <= np->n_pushhi);
+}
+
+void
+nfs_add_committed_range(vp, bp)
+	struct vnode *vp;
+	struct buf *bp;
+{
+	struct nfsnode *np = VTONFS(vp);
+	off_t lo, hi;
+
+	lo = (off_t)bp->b_blkno * DEV_BSIZE;
+	hi = lo + bp->b_dirtyend;
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSHED_VALID)) {
+		np->n_pushedlo = lo;
+		np->n_pushedhi = hi;
+		np->n_commitflags |= NFS_COMMIT_PUSHED_VALID;
+	} else {
+		if (hi > np->n_pushedhi)
+			np->n_pushedhi = hi;
+		if (lo < np->n_pushedlo)
+			np->n_pushedlo = lo;
+	}
+}
+
+void
+nfs_del_committed_range(vp, bp)
+	struct vnode *vp;
+	struct buf *bp;
+{
+	struct nfsnode *np = VTONFS(vp);
+	off_t lo, hi;
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSHED_VALID))
+		return;
+
+	lo = (off_t)bp->b_blkno * DEV_BSIZE;
+	hi = lo + bp->b_dirtyend;
+
+	if (lo > np->n_pushedhi || hi < np->n_pushedlo)
+		return;
+	if (lo <= np->n_pushedlo)
+		np->n_pushedlo = hi;
+	else if (hi >= np->n_pushedhi)
+		np->n_pushedhi = lo;
+	else {
+		/*
+		 * XXX There's only one range. If the deleted range
+		 * is in the middle, pick the largest of the
+		 * contiguous ranges that it leaves.
+		 */
+		if ((np->n_pushedlo - lo) > (hi - np->n_pushedhi))
+			np->n_pushedhi = lo;
+		else
+			np->n_pushedlo = hi;
+	}
+}
+
+void
+nfs_add_tobecommitted_range(vp, bp)
+	struct vnode *vp;
+	struct buf *bp;
+{
+	struct nfsnode *np = VTONFS(vp);
+	off_t lo, hi;
+
+	lo = (off_t)bp->b_blkno * DEV_BSIZE;
+	hi = lo + bp->b_dirtyend;
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSH_VALID)) {
+		np->n_pushlo = lo;
+		np->n_pushhi = hi;
+		np->n_commitflags |= NFS_COMMIT_PUSH_VALID;
+	} else {
+		if (lo < np->n_pushlo)
+			np->n_pushlo = lo;
+		if (hi > np->n_pushhi)
+			np->n_pushhi = hi;
+	}
+}
+
+void
+nfs_del_tobecommitted_range(vp, bp)
+	struct vnode *vp;
+	struct buf *bp;
+{
+	struct nfsnode *np = VTONFS(vp);
+	off_t lo, hi;
+
+	if (!(np->n_commitflags & NFS_COMMIT_PUSH_VALID))
+		return;
+
+	lo = (off_t)bp->b_blkno * DEV_BSIZE;
+	hi = lo + bp->b_dirtyend;
+
+	if (lo > np->n_pushhi || hi < np->n_pushlo)
+		return;
+
+	if (lo <= np->n_pushlo)
+		np->n_pushlo = hi;
+	else if (hi >= np->n_pushhi)
+		np->n_pushhi = lo;
+	else {
+		/*
+		 * XXX There's only one range. If the deleted range
+		 * is in the middle, pick the largest of the
+		 * contiguous ranges that it leaves.
+		 */
+		if ((np->n_pushlo - lo) > (hi - np->n_pushhi))
+			np->n_pushhi = lo;
+		else
+			np->n_pushlo = hi;
+	}
 }
 
 /*

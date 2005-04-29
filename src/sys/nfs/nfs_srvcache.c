@@ -1,4 +1,4 @@
-/*	$OpenBSD: nfs_srvcache.c,v 1.10 2003/06/02 23:28:19 millert Exp $	*/
+/*	$OpenBSD: nfs_srvcache.c,v 1.12 2004/12/26 21:22:14 miod Exp $	*/
 /*	$NetBSD: nfs_srvcache.c,v 1.12 1996/02/18 11:53:49 fvdl Exp $	*/
 
 /*
@@ -52,9 +52,6 @@
 #include <sys/socketvar.h>
 
 #include <netinet/in.h>
-#ifdef ISO
-#include <netiso/iso.h>
-#endif
 #include <nfs/nfsm_subs.h>
 #include <nfs/rpcv2.h>
 #include <nfs/nfsproto.h>
@@ -76,7 +73,7 @@ u_long nfsrvhash;
 #define	FALSE	0
 
 #define	NETFAMILY(rp) \
-		(((rp)->rc_flag & RC_INETADDR) ? AF_INET : AF_ISO)
+		(((rp)->rc_flag & RC_INETADDR) ? AF_INET : AF_UNSPEC)
 
 /*
  * Static array that defines which nfs rpc's are nonidempotent
@@ -176,8 +173,7 @@ nfsrv_getcache(nd, slp, repp)
 	if (!nd->nd_nam2)
 		return (RC_DOIT);
 loop:
-	for (rp = NFSRCHASH(nd->nd_retxid)->lh_first; rp != NULL;
-	    rp = LIST_NEXT(rp, rc_hash)) {
+	LIST_FOREACH(rp, NFSRCHASH(nd->nd_retxid), rc_hash) {
 	    if (nd->nd_retxid == rp->rc_xid && nd->nd_procnum == rp->rc_proc &&
 		netaddr_match(NETFAMILY(rp), &rp->rc_haddr, nd->nd_nam)) {
 			if ((rp->rc_flag & RC_LOCKED) != 0) {
@@ -251,7 +247,6 @@ loop:
 		rp->rc_flag |= RC_INETADDR;
 		rp->rc_inetaddr = saddr->sin_addr.s_addr;
 		break;
-	case AF_ISO:
 	default:
 		rp->rc_flag |= RC_NAM;
 		rp->rc_nam = m_copym(nd->nd_nam, 0, M_COPYALL, M_WAIT);
@@ -281,8 +276,7 @@ nfsrv_updatecache(nd, repvalid, repmbuf)
 	if (!nd->nd_nam2)
 		return;
 loop:
-	for (rp = NFSRCHASH(nd->nd_retxid)->lh_first; rp != NULL;
-	    rp = LIST_NEXT(rp, rc_hash)) {
+	LIST_FOREACH(rp, NFSRCHASH(nd->nd_retxid), rc_hash) {
 	    if (nd->nd_retxid == rp->rc_xid && nd->nd_procnum == rp->rc_proc &&
 		netaddr_match(NETFAMILY(rp), &rp->rc_haddr, nd->nd_nam)) {
 			if ((rp->rc_flag & RC_LOCKED) != 0) {
