@@ -1,4 +1,4 @@
-/*	$OpenBSD: malloc.h,v 1.71 2004/05/14 04:00:33 tedu Exp $	*/
+/*	$OpenBSD: malloc.h,v 1.78 2005/03/29 17:24:52 pedro Exp $	*/
 /*	$NetBSD: malloc.h,v 1.39 1998/07/12 19:52:01 augustss Exp $	*/
 
 /*
@@ -54,6 +54,7 @@
  */
 #define	M_WAITOK	0x0000
 #define	M_NOWAIT	0x0001
+#define M_CANFAIL	0x0002
 
 /*
  * Types of memory to be allocated
@@ -172,8 +173,18 @@
 #define	M_NTFSRDATA	134	/* NTFS resident data */
 #define	M_NTFSDECOMP	135	/* NTFS decompression temporary */
 #define	M_NTFSRUN	136	/* NTFS vrun storage */
-#define	M_LAST		137	/* Must be last type + 1 */
 
+#define	M_KEVENT	137	/* kqueue related */
+
+#define	M_BLUETOOTH	138	/* Bluetooth */
+
+#define M_BWMETER	139	/* Multicast upcall bw meters */
+
+#define M_UDFMOUNT	140	/* UDF mount */
+#define M_UDFFENTRY	141	/* UDF file entry */
+#define M_UDFFID	142	/* UDF file id */
+
+#define	M_LAST		143	/* Must be last type + 1 */
 
 #define	INITKMEMNAMES { \
 	"free",		/* 0 M_FREE */ \
@@ -298,6 +309,12 @@
 	"NTFS resident data ",	/* 134 M_NTFSRDATA */ \
 	"NTFS decomp",	/* 135 M_NTFSDECOMP */ \
 	"NTFS vrun",	/* 136 M_NTFSRUN */ \
+	"kqueue",	/* 137 M_KEVENT */ \
+	"bluetooth",	/* 138 M_BLUETOOTH */ \
+	"bwmeter",	/* 139 M_BWMETER */ \
+	"UDF mount",	/* 140 M_UDFMOUNT */ \
+	"UDF file entry",	/* 141 M_UDFFENTRY */ \
+	"UDF file id",	/* 142 M_UDFFID */ \
 }
 
 struct kmemstats {
@@ -391,10 +408,11 @@ struct kmembuckets {
 
 #else /* do not collect statistics */
 #define	MALLOC(space, cast, size, type, flags) do { \
-	register struct kmembuckets *kbp = &bucket[BUCKETINDX(size)]; \
+	u_long kbp_size = (u_long)(size); \
+	register struct kmembuckets *kbp = &bucket[BUCKETINDX(kbp_size)]; \
 	long __s = splvm(); \
 	if (kbp->kb_next == NULL) { \
-		(space) = (cast)malloc((u_long)(size), type, flags); \
+		(space) = (cast)malloc(kbp_size, type, flags); \
 	} else { \
 		(space) = (cast)kbp->kb_next; \
 		kbp->kb_next = *(caddr_t *)(space); \
@@ -437,6 +455,9 @@ size_t malloc_roundup(size_t);
 int	debug_malloc(unsigned long, int, int, void **);
 int	debug_free(void *, int);
 void	debug_malloc_init(void);
+void	debug_malloc_assert_allocated(void *, const char *);
+#define DEBUG_MALLOC_ASSERT_ALLOCATED(addr) 			\
+	debug_malloc_assert_allocated(addr, __func__)
 
 void	debug_malloc_print(void);
 void	debug_malloc_printit(int (*)(const char *, ...), vaddr_t);
