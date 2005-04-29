@@ -1,12 +1,12 @@
-@comment $MirOS$
-@lib lib/win32/atrc.so.6.0
-@lib lib/win32/cook.so.6.0
-@lib lib/win32/ddnt.so.6.0
-@lib lib/win32/dnet.so.6.0
-@lib lib/win32/drv2.so.6.0
-@lib lib/win32/drv3.so.6.0
-@lib lib/win32/drv4.so.6.0
-@lib lib/win32/dspr.so.6.0
-@lib lib/win32/sipr.so.6.0
-@lib lib/win32/tokf.so.6.0
-@lib lib/win32/tokr.so.6.0
+@comment $MirOS: ports/multimedia/win32-codecs/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
+@lib lib/codecs/atrc.so.6.0
+@lib lib/codecs/cook.so.6.0
+@lib lib/codecs/ddnt.so.6.0
+@lib lib/codecs/dnet.so.6.0
+@lib lib/codecs/drv2.so.6.0
+@lib lib/codecs/drv3.so.6.0
+@lib lib/codecs/drv4.so.6.0
+@lib lib/codecs/dspr.so.6.0
+@lib lib/codecs/sipr.so.6.0
+@lib lib/codecs/tokf.so.6.0
+@lib lib/codecs/tokr.so.6.0
