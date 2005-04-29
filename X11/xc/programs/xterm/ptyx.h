@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XTermId: ptyx.h,v 1.357 2005/01/12 21:47:55 tom Exp $ */
 
 /*
@@ -148,6 +149,9 @@
 #undef USE_PTY_SEARCH
 #elif defined(PUCC_PTYD)
 #undef USE_PTY_SEARCH
+#elif defined(__OpenBSD__)
+#undef USE_PTY_SEARCH
+#undef USE_PTY_DEVICE
 #endif
 
 #if defined(SYSV) && defined(i386) && !defined(SVR4)
