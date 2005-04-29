@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $MirOS$
-@lib lib/libmusclecard.so.0.0
-@lib lib/libpcsclite.so.0.1
