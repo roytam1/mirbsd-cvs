@@ -1,4 +1,4 @@
-/*	$OpenBSD: bcode.c,v 1.26 2004/12/01 08:40:12 otto Exp $	*/
+/*	$OpenBSD: bcode.c,v 1.29 2005/04/02 18:05:04 otto Exp $	*/
 
 /*
  * Copyright (c) 2003, Otto Moerbeek <otto@drijf.net>
@@ -17,7 +17,7 @@
  */
 
 #ifndef lint
-static const char rcsid[] = "$OpenBSD: bcode.c,v 1.26 2004/12/01 08:40:12 otto Exp $";
+static const char rcsid[] = "$OpenBSD: bcode.c,v 1.29 2005/04/02 18:05:04 otto Exp $";
 #endif /* not lint */
 
 #include <ssl/ssl.h>
@@ -35,7 +35,7 @@ BIGNUM		zero;
 /* #define	DEBUGGING */
 
 #define MAX_ARRAY_INDEX		2048
-#define RECURSION_STACK_SIZE	100
+#define READSTACK_SIZE		8
 
 #define NO_ELSE			-2	/* -1 is EOF */
 #define REG_ARRAY_SIZE_SMALL	(UCHAR_MAX + 1)
@@ -46,12 +46,13 @@ struct bmachine {
 	u_int			scale;
 	u_int			obase;
 	u_int			ibase;
-	int			readsp;
+	size_t			readsp;
 	bool			extended_regs;
 	size_t			reg_array_size;
 	struct stack		*reg;
 	volatile sig_atomic_t	interrupted;
-	struct source		readstack[RECURSION_STACK_SIZE];
+	struct source		*readstack;
+	size_t			readstack_sz;
 };
 
 static struct bmachine	bmachine;
@@ -253,6 +254,11 @@ init_bmachine(bool extended_registers)
 	for (i = 0; i < bmachine.reg_array_size; i++)
 		stack_init(&bmachine.reg[i]);
 
+	bmachine.readstack_sz = READSTACK_SIZE;
+	bmachine.readstack = malloc(sizeof(struct source) *
+	    bmachine.readstack_sz);
+	if (bmachine.readstack == NULL)
+		err(1, NULL);
 	bmachine.obase = bmachine.ibase = 10;
 	BN_init(&zero);
 	bn_check(BN_zero(&zero));
@@ -301,7 +307,7 @@ src_free(void)
 
 #ifdef DEBUGGING
 void
-pn(const char * str, const struct number *n)
+pn(const char *str, const struct number *n)
 {
 	char *p = BN_bn2dec(n->number);
 	if (p == NULL)
@@ -312,7 +318,7 @@ pn(const char * str, const struct number *n)
 }
 
 void
-pbn(const char * str, const BIGNUM *n)
+pbn(const char *str, const BIGNUM *n)
 {
 	char *p = BN_bn2dec(n);
 	if (p == NULL)
@@ -1225,12 +1231,13 @@ bexp(void)
 			BN_one(one);
 			ctx = BN_CTX_new();
 			bn_checkp(ctx);
-			r->scale = scale;
-			scale_number(one, r->scale);
+			scale_number(one, r->scale + scale);
+			normalize(r, scale);
 			bn_check(BN_div(r->number, NULL, one, r->number, ctx));
 			BN_free(one);
 			BN_CTX_free(ctx);
-		}
+		} else
+			normalize(r, scale);
 	}
 	push_number(r);
 	free_number(a);
@@ -1661,8 +1668,16 @@ eval_string(char *p)
 		} else
 			unreadch();
 	}
-	if (bmachine.readsp == RECURSION_STACK_SIZE-1)
-		errx(1, "recursion too deep");
+	if (bmachine.readsp == bmachine.readstack_sz - 1) {
+		size_t newsz = bmachine.readstack_sz * 2;
+		struct source *stack;
+		stack = realloc(bmachine.readstack, newsz *
+		    sizeof(struct source));
+		if (stack == NULL)
+			err(1, "recursion too deep");
+		bmachine.readstack_sz = newsz;
+		bmachine.readstack = stack;
+	}
 	src_setstring(&bmachine.readstack[++bmachine.readsp], p);
 }
 

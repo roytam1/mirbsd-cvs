@@ -1,4 +1,4 @@
-#	$OpenBSD: Makefile,v 1.35 2004/11/06 20:03:08 otto Exp $
+#	$OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
 
 PROG=	disklabel
 SRCS=	disklabel.c dkcksum.c editor.c manual.c
@@ -19,7 +19,7 @@ manual.c:
 .else
 manual.c:	disklabel.cat8
 	(echo 'const char manpage[] = {'; \
-	gzip -9c disklabel.cat8 | hexdump -ve '"0x" 1/1 "%02x,"'; \
+	cat disklabel.cat8 | gzip -9c | hexdump -ve '"0x" 1/1 "%02x,"'; \
 	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
 .endif
 
@@ -27,7 +27,7 @@ manual.c:	disklabel.cat8
 CFLAGS+= -DSEEALSO="\"fdisk(8), installboot(8)\""
 .endif
 
-.if (${MACHINE} == "cats")
+.if (${MACHINE} == "cats") || (${MACHINE} == "zaurus")
 CFLAGS+= -DSEEALSO="\"fdisk(8)\""
 .endif
 
@@ -37,7 +37,8 @@ CFLAGS+= -DSEEALSO="\"fdisk(8), installboot(8)\""
 .endif
 
 
-.if (${MACHINE} == "hp300") || (${MACHINE} == "vax") || (${MACHINE} == "hppa")
+.if (${MACHINE} == "hp300") || (${MACHINE} == "vax") || \
+    (${MACHINE} == "hppa") || (${MACHINE} == "hppa64")
 CFLAGS+= -DNUMBOOT=1
 .endif
 
