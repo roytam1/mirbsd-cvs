@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.4 2005/04/10 20:43:09 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.5 2005/04/29 16:16:33 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -217,6 +217,10 @@ Boston, MA 02111-1307, USA.  */
 
 #undef LINK_SPEC
 #define LINK_SPEC MIRBSD_LINK_SPEC
+
+/* Don't assume anything about the header files.  Needed for libjava.  */
+#undef	NO_IMPLICIT_EXTERN_C
+#define	NO_IMPLICIT_EXTERN_C	1
 
 /* MirOS libc already provides the ProPolice functions.  */
 
