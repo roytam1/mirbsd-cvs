@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.54 2005/04/26 20:45:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.55 2005/04/29 00:28:33 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2826,4 +2826,9 @@
  is mentioned as maintainer &ndash; since I don't use it, I can't maintain
  it appropriately. Fun work, though. And it clearly shows me just how much
  superior MirPorts really is.</p>
+<p>30.04.2005 by tg@<br />Instead of a wlog entry, today I decided sending
+ a <a href="http://article.gmane.org/gmane.os.miros.general/1048">"status"
+ mail</a> to our general mailing list. I hope this mail assists more users
+ into helping us. I'm sitting at a friend right now and may get an old box
+ (laptop with broken keyboard) as build machine.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
