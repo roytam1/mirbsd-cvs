@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.7 2005/04/29 18:38:19 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.8 2005/04/29 18:39:12 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
@@ -59,14 +59,14 @@ FETCH_MANUALLY+=	"    bsd-jdk14-patches-6.tar.gz"
 FETCH_MANUALLY+=	"from http://www.eyesbeyond.com/freebsddom/java/jdk14.html"
 
 FLAVORS=		no_plugin no_webstart with_ipv6
-PSEUDO_FLAVORS=		native_bootstrap
+PSEUDO_FLAVORS=		native_bootstrap openbsd_bootstrap
 FLAVOR?=
 
 .if !${FLAVOR:L:Mwith_ipv6}
 PATCH_LIST=		patch-* disable-ipv6
 .endif
 
-.ifdef OPENBSD_BOOTSTRAP_FOR_EXPERTS
+.if ${FLAVOR:L:Mopenbsd_bootstrap}
 .  if !${FLAVOR:L:Mnative_bootstrap}
 FLAVOR+=		native_bootstrap
 .  endif
