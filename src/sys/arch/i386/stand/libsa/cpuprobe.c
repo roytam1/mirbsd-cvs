@@ -87,9 +87,9 @@ cpuprobe(void)
 	if (psl_check == PSL_ID) {			/* cpuid supported */
 		cpuid_max = cpuid(0, regs);		/* Highest std call */
 
-		bcopy(&regs[1], cpu_vendor, sizeof(regs[1]));
-		bcopy(&regs[3], cpu_vendor + 4, sizeof(regs[3]));
-		bcopy(&regs[2], cpu_vendor + 8, sizeof(regs[2]));
+		memmove(cpu_vendor, &regs[1], sizeof(regs[1]));
+		memmove(cpu_vendor + 4, &regs[3], sizeof(regs[3]));
+		memmove(cpu_vendor + 8, &regs[2], sizeof(regs[2]));
 		cpu_vendor[sizeof(cpu_vendor) - 1] = '\0';
 
 		if (cpuid_max >= 1) {
@@ -121,7 +121,7 @@ cpuprobe(void)
 			cpuid(0x80000003, brand_ints + 4);
 			cpuid(0x80000004, brand_ints + 8);
 
-			bcopy(brand_ints, cpu_brandstr,
+			memmove(cpu_brandstr, brand_ints,
 			    sizeof(cpu_brandstr) - 1);
 
 			cpu_brandstr[sizeof(cpu_brandstr) - 1] = '\0';
