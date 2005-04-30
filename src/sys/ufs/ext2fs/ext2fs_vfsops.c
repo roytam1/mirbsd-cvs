@@ -1,4 +1,4 @@
-/*	$OpenBSD: ext2fs_vfsops.c,v 1.32 2004/05/06 17:41:03 grange Exp $	*/
+/*	$OpenBSD: ext2fs_vfsops.c,v 1.36 2005/04/30 13:58:55 niallo Exp $	*/
 /*	$NetBSD: ext2fs_vfsops.c,v 1.1 1997/06/11 09:34:07 bouyer Exp $	*/
 
 /*
@@ -123,7 +123,6 @@ ext2fs_init(vfsp)
 int
 ext2fs_mountroot()
 {
-	extern struct vnode *rootvp;
 	register struct m_ext2fs *fs;
         struct mount *mp;
 	struct proc *p = curproc;	/* XXX */
@@ -311,7 +310,7 @@ ext2fs_mount(mp, path, data, ndp, p)
 	if (fs->e2fs_fmod != 0) {	/* XXX */
 		fs->e2fs_fmod = 0;
 		if (fs->e2fs.e2fs_state == 0)
-			fs->e2fs.e2fs_wtime = time.tv_sec;
+			fs->e2fs.e2fs_wtime = time_second;
 		else
 			printf("%s: file system not clean; please fsck(8)\n",
 				mp->mnt_stat.f_mntfromname);
@@ -491,7 +490,6 @@ ext2fs_mountfs(devvp, mp, p)
 	struct partinfo dpart;
 	int error, i, size, ronly;
 	struct ucred *cred;
-	extern struct vnode *rootvp;
 
 	dev = devvp->v_rdev;
 	cred = p ? p->p_ucred : NOCRED;
@@ -749,7 +747,7 @@ ext2fs_sync_vnode(struct vnode *vp, void *args)
 	ip = VTOI(vp);
 	if (vp->v_type == VNON || 
 	    ((ip->i_flag & (IN_ACCESS | IN_CHANGE | IN_MODIFIED | IN_UPDATE)) == 0 &&
-		vp->v_dirtyblkhd.lh_first == NULL) ||
+		LIST_EMPTY(&vp->v_dirtyblkhd)) ||
 	    esa->waitfor == MNT_LAZY) {
 		simple_unlock(&vp->v_interlock);
 		return (0);
@@ -814,7 +812,7 @@ ext2fs_sync(mp, waitfor, cred, p)
 	 */
 	if (fs->e2fs_fmod != 0) {
 		fs->e2fs_fmod = 0;
-		fs->e2fs.e2fs_wtime = time.tv_sec;
+		fs->e2fs.e2fs_wtime = time_second;
 		if ((error = ext2fs_cgupdate(ump, waitfor)))
 			allerror = error;
 	}
@@ -904,7 +902,8 @@ ext2fs_vget(mp, ino, vpp)
 
 	/* If the inode was deleted, reset all fields */
 	if (ip->i_e2fs_dtime != 0) {
-		ip->i_e2fs_mode = ip->i_e2fs_size = ip->i_e2fs_nblock = 0;
+		ip->i_e2fs_mode = ip->i_e2fs_nblock = 0;
+		(void)ext2fs_setsize(ip, 0);
 	}
 
 	/*
@@ -926,8 +925,8 @@ ext2fs_vget(mp, ino, vpp)
 	 * already have one. This should only happen on old filesystems.
 	 */
 	if (ip->i_e2fs_gen == 0) {
-		if (++ext2gennumber < (u_long)time.tv_sec)
-			ext2gennumber = time.tv_sec;
+		if (++ext2gennumber < (u_long)time_second)
+			ext2gennumber = time_second;
 		ip->i_e2fs_gen = ext2gennumber;
 		if ((vp->v_mount->mnt_flag & MNT_RDONLY) == 0)
 			ip->i_flag |= IN_MODIFIED;
