@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.2 2005/03/20 16:46:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"printing framework for GNOME"
@@ -55,7 +55,7 @@ CONFIGURE_ENV=		PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgco
 SUBST_VARS=		VERSION
 
 .if defined(PACKAGING)
-. if ${SUBPACKAGE} == "-cups"
+. if defined(SUBPACKAGE) && !empty(SUBPACKAGE) && ${SUBPACKAGE} == "-cups"
 LIB_DEPENDS=		gnomeprint-2-2::x11/gnome/libgnomeprint \
 			gnomecups-1.0::x11/gnome/libgnomecups \
 			cups.2::print/cups
