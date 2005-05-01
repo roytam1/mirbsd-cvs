@@ -22,7 +22,7 @@ EXTRACT_SUFX=		.tar.bz2
 MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		glib-2.0.0.0::devel/glib2 \
+LIB_DEPENDS=		glib-2.0.0.0::devel/glib \
 			xml2::textproc/libxml
 
 USE_GMAKE=		Yes

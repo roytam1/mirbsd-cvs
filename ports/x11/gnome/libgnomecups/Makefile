@@ -23,7 +23,7 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
-LIB_DEPENDS=		gthread-2.0.0.0,glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib2 \
+LIB_DEPENDS=		gthread-2.0.0.0,glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			cups.2::print/cups
 
 USE_GMAKE=		Yes
