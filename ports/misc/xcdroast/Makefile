@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2004/01/12 05:37:11 jolan Exp $
 
 COMMENT=		"gtk-based frontend to cdrtools"
@@ -21,7 +22,7 @@ MODULES=	devel/gettext
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 RUN_DEPENDS=	:cdrtools->=2.0:sysutils/cdrtools
-LIB_DEPENDS=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+2
+LIB_DEPENDS=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--enable-gtk2

@@ -18,7 +18,7 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=rox/}
 DISTFILES=		${DISTNAME}.tgz
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	gtk-x11-2.0.0.9,gdk_pixbuf-2.0.0.9,gdk-x11-2.0.0.9::x11/gtk+2 \
+LIB_DEPENDS=	gtk-x11-2.0.0.9,gdk_pixbuf-2.0.0.9,gdk-x11-2.0.0.9::x11/gtk+ \
 		xml2::textproc/libxml
 RUN_DEPENDS=	::misc/shared-mime-info
 
