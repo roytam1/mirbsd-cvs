@@ -22,7 +22,7 @@ PERMIT_DISTFILES_FTP=	Yes
 BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 			bz2::archivers/bzip2 \
-			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
+			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			gnomevfs-2.800.3::x11/gnome/vfs2 \
 			gnomecanvas-2.800.0::x11/gnome/libgnomecanvas \
 			gnomeprint-2-2::x11/gnome/libgnomeprint \

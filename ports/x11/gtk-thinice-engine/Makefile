@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=thinice/}
 
 BUILD_DEPENDS=		:pkgconfig->=0.9.0:devel/pkgconfig
-LIB_DEPENDS=		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+2
+LIB_DEPENDS=		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+
 
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu

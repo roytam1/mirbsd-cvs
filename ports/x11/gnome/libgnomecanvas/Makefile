@@ -21,8 +21,8 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
-			gdk-x11-2.0.0.3,gdk_pixbuf-2.0.0.3,gtk-x11-2.0.0.3::x11/gtk+2 \
-			glade-2.0.0.0::devel/libglade2 \
+			gdk-x11-2.0.0.3,gdk_pixbuf-2.0.0.3,gtk-x11-2.0.0.3::x11/gtk+ \
+			glade-2.0.0.0::devel/libglade \
 			pangoft2-1.0.0.0::devel/pango
 
 SEPARATE_BUILD=		concurrent

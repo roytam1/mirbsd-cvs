@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2004/04/24 22:09:55 robert Exp $
 
 COMMENT=	"small, fast & usable window manager"
@@ -10,7 +11,7 @@ HOMEPAGE=	http://www.openbox.org/
 
 
 MODULES=	devel/gettext
-LIB_DEPENDS+=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
+LIB_DEPENDS+=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 		xml2.6::textproc/libxml \
 		startup-notification-1.0.0::devel/startup-notification
 BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig

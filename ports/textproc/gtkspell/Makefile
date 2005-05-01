@@ -18,7 +18,7 @@ USE_CXX=	yes
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	aspell.15.2::textproc/aspell/core \
-		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include" \

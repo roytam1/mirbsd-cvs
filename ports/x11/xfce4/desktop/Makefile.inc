@@ -16,8 +16,8 @@ USE_X11?=	Yes
 MODULES?=	devel/gettext
 
 DBH=	dbh.1.0::databases/dbh
-GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+2
-GTHREAD=gthread-2.0.0.11::devel/glib2
+GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
+GTHREAD=gthread-2.0.0.11::devel/glib
 GUI=	xfcegui4.1.6::x11/xfce4/libraries/libxfcegui4
 MCS=	xfce4mcs-client.1.1,xfce4mcs-manager.1.1::x11/xfce4/libraries/libxfce4mcs
 MCSMANG=:xfce-mcs-manager-*:x11/xfce4/desktop/xfce-mcs-manager

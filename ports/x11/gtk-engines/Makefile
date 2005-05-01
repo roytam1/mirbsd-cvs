@@ -20,7 +20,7 @@ MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gtk-engines/2.2/}
 EXTRACT_SUFX=		.tar.bz2
 
 BUILD_DEPENDS=		:pkgconfig->=0.9.0:devel/pkgconfig
-LIB_DEPENDS=		gdk-x11-2.0.400.0,gdk_pixbuf-2.0.400.0,gtk-x11-2.0.400.0::x11/gtk+2
+LIB_DEPENDS=		gdk-x11-2.0.400.0,gdk_pixbuf-2.0.400.0,gtk-x11-2.0.400.0::x11/gtk+
 
 SEPARATE_BUILD=		concurrent
 USE_X11=		Yes

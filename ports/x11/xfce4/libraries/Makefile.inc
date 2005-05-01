@@ -22,8 +22,8 @@ MODULES?=	devel/gettext
 
 BUILD_DEPENDS?=	:pkgconfig-*:devel/pkgconfig
 
-GLIB2=	glib-2.0.0.11::devel/glib2
-GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+2
+GLIB2=	glib-2.0.0.11::devel/glib
+GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 UTIL=	xfce4util.1.0::x11/xfce4/libraries/libxfce4util
 
 CONFIGURE_STYLE?=	autoconf

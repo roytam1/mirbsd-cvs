@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP?=	No
 
 USE_X11?=	Yes
 
-GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+2
+GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 PKG=	:pkgconfig-*:devel/pkgconfig
 XFDESK=	:xfdesktop-*:x11/xfce4/desktop/xfdesktop
 

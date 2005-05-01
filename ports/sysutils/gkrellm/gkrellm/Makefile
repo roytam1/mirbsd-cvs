@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -43,7 +44,7 @@ INSTALL_TARGET=	install_openbsd
 .if ${MULTI_PACKAGES:M-client}
 USE_X11=	Yes
 .  if !defined(PACKAGING) || !empty(SUBPACKAGE)
-LIB_DEPENDS+=	gdk-x11-2.0.=0,gdk_pixbuf-2.0.=0,gtk-x11-2.0.=0::x11/gtk+2
+LIB_DEPENDS+=	gdk-x11-2.0.=0,gdk_pixbuf-2.0.=0,gtk-x11-2.0.=0::x11/gtk+
 .  endif
 .else
 WRKBUILD=	${WRKDIST}/server
