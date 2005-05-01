@@ -1,3 +1,15 @@
+Setup CD for MirOS/i386
+=======================
+
+This CD provides you with the standard MirOS GENERIC kernel as well
+as a small ramdisk image from which you can install or upgrade a
+MirOS installation and do some basic repair tasks. Also included is
+an ssh client and server for remote control and some useful tools.
+
+For further information on how to set up MirOS, please go to our
+website - http://MirBSD.org/ - and read the installation documents.
+
+
 About MirBSD
 ============
 
@@ -26,18 +38,18 @@ MirBSD Licence (in addition to OpenBSD)
 ---------------------------------------
 
 MirBSD is
-Copyright (c) 2002, 2003, 2004
+Copyright (c) 2002, 2003
 	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 MirOS is
-Copyright (c) 2002, 2003, 2004
-	The MirOS Project Team (see /usr/share/man/COPYRIGHT)
+Copyright (c) 2003, 2004, 2005
+	The MirOS Project Team (see /usr/share/doc/legal/LICENCE)
 
 Licensee is hereby permitted to deal in this work without restric-
-tion, including unlimited rights to use, publically perform, modi-
-fy, merge, distribute, sell, give away or sublicence, provided the
-above copyright notices, these terms and the disclaimer are retai-
-ned in all redistributions, or reproduced in accompanying documen-
-tation or other materials provided with binary redistributions.
+tion, including unlimited rights to use, publicly perform, modify,
+merge, distribute, sell, give away or sublicence, provided all co-
+pyright notices above, these terms and the disclaimer are retained
+in all redistributions or reproduced in accompanying documentation
+or other materials provided with binary redistributions.
 
 Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 any kind, expressed or implied, to the maximum extent permitted by
@@ -45,32 +57,33 @@ applicable law, but with the warranty of being written without ma-
 licious intent or gross negligence; in no event shall licensor, an
 author or contributor be held liable for any damage, direct, indi-
 rect or other, however caused, arising in any way out of the usage
-of covered work, even if advised of the possibility of such damage.
+of this work, even if advised of the possibility of such damage.
 
 
 To the maximum extent of my knowledge, MirBSD is free for non-com-
-mercial and commercial use, as well as non-commercial redistribution.
-Redistribution of several parts of the system may require additional
-arrangements, such as supplying the source code with redistributions.
-ome parts of the system are covered by different licenses, such as
-the GNU GPL, LGPL and the ASF, NPL or Sendmail license. You are
-responsible by yourself to read and comply with these terms if you
-intend redistribution. To the maximum extent of our knowledge, MirOS
-is free from code that is intended to do damage, though due to the
-implied error-prone-ness and complexity of software as well as the
-sheer size of the MirOS operating environment and MirPorts framework,
-code can be mis-used, so usage of MirOS/MirPorts is at your own risk.
+mercial and commercial use as well as non-commercial redistributi-
+on; redistribution of several parts of the system require additio-
+nal arrangements, such as supplying the source code with redistri-
+butions.  Some parts of the system are covered by different licen-
+ces, such as the GNU GPL, LGPL, the ASF and Sendmail license.  You
+are responsible by yourself to read and comply with these terms if
+you intend redistribution. To the maximum extent of our knowledge,
+MirOS is free from code that is intended to do damage or infringes
+third parties' rights, although due to the implied error-proneness
+and complexity of software, as well as the sheer size of the MirOS
+operating environment and MirPorts framework, code can be mis-used
+so usage of MirOS/MirPorts is at your own risk.
 
 
 MirOS supplements
 ------------------
 
-Read the file COPYRIGHT in this directory to find out more about the
-other strings attached with MirOS.
+Read the LICENCE file mentioned above, as well as the other files in
+that directory, to find out about other strings attached with MirOS.
 
 Some of the supplied software is covered by GNU licences. The source
 code is available at http://MirBSD.BSDadvocacy.org/ and its mirrors;
-further information can be found at /usr/share/doc/legal/.
+further information can be found at /usr/share/doc/legal/ as well.
 
-
+________________________________________________________________________
 $MirOS$

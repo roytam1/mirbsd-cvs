@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/Makefile,v 1.2 2005/03/06 18:58:02 tg Exp $
 
 .include <bsd.own.mk>
 .include "../Makefile.inc"
@@ -45,7 +45,7 @@ SUBDIR+=	floppy
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_AUTOISO:L} != "yes"
-#SUBDIR+=	iso
+SUBDIR+=	iso
 .endif
 
 
