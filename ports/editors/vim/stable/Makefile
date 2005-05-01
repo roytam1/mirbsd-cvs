@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.2 2005/03/30 18:13:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=	"vi clone, many additional features"
 COMMENT-lang=	"vi clone, NLS subpackage"
 
 DISTNAME=	vim-6.3
-REVISION=	061
+REVISION=	071
 VERSION=	6.3.${REVISION}
 PKGNAME=	vim-${VERSION}
 P=		${DISTNAME:C/[-\.]//g}
@@ -101,7 +101,7 @@ LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 CONFIGURE_ARGS+=--enable-gui="gtk" --with-x --enable-fontset --enable-xim --disable-gtk2-check
 .elif ${FLAVOR:L:Mgtk2} && \
 	        !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && !${FLAVOR:L:Mgtk}
-LIB_DEPENDS+=   gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+2
+LIB_DEPENDS+=   gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+
 CONFIGURE_ARGS+=--enable-gui="gtk2" --with-x --enable-fontset --enable-xim --disable-gtk-check --enable-gtk2-check
 .else
 ERRORS+="Fatal: You must select one GUI interface: no_x11, gtk, athena or motif"
@@ -121,6 +121,9 @@ post-patch:
 
 post-configure:
 	touch ${WRKBUILD}/auto/config.mk
+
+pre-build:
+	cd ${WRKSRC} && ${MAKE} xxd/xxd
 
 post-install:
 	${INSTALL_DATA} ${FILESDIR}/pf.vim ${PREFIX}/share/vim/${P}/syntax
