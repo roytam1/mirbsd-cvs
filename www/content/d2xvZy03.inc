@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.55 2005/04/29 00:28:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.56 2005/04/30 23:50:25 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2831,4 +2831,9 @@
  mail</a> to our general mailing list. I hope this mail assists more users
  into helping us. I'm sitting at a friend right now and may get an old box
  (laptop with broken keyboard) as build machine.</p>
+<p>01.05.2005 by tg@<br />41 years of BASIC, Boys Day in Japan, Day of the
+ Queen in the Netherlands, gcj first working in MirOS. Though weird and of
+ course, boehm-gc prevents gij from being useful (again). But still the 99
+ bottles of beer are passed around in various ways.<br />It's hot outside,
+ too hot to think, but better get a tan outside than to sweat inside.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
