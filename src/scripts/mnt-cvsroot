@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: src/scripts/mnt-cvsroot,v 1.1 2005/04/29 18:59:31 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -22,12 +22,12 @@
 # Change CVSROOT of a checked out tree (and save space with it)
 
 me="$0"
-newroot="$1"; shift
-
+newroot="$1"
 if [[ -z $newroot ]]; then
 	print -u2 "Syntax: $me newroot [dir [...]]"
 	exit 1
 fi
+shift
 
 [[ -z $1 ]] && exec $SHELL $me "$newroot" .
 
