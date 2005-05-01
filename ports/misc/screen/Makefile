@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/misc/screen/Makefile,v 1.1.7.1 2005/03/18 15:50:35 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 COMMENT=	"multi-screen window manager"
 VERSION=	4.0.2
 DISTNAME=	screen-${VERSION}
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}p1
 CATEGORIES=	misc
 MASTER_SITES=	ftp://ftp.uni-erlangen.de/pub/utilities/screen/
 HOMEPAGE=	http://www.gnu.org/software/screen/
@@ -43,6 +43,6 @@ post-install:
 	@chmod ${BINMODE} ${PREFIX}/bin/screen
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/screen
 	${INSTALL_DATA} ${WRKSRC}/etc/etcscreenrc \
-	    ${PREFIX}/share/examples/screen/screenrc-sample
+	    ${PREFIX}/share/examples/screen/screenrc
 
 .include <bsd.port.mk>
