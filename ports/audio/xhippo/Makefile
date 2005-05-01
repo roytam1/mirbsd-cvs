@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=  Yes
 MASTER_SITES=	${MASTER_SITE_GNU:=xhippo/}
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	gdk_pixbuf_xlib-2.0.0.0::x11/gtk+2 \
+LIB_DEPENDS=	gdk_pixbuf_xlib-2.0.0.0::x11/gtk+ \
 		id3tag.2::audio/libid3tag
 
 USE_X11=	Yes

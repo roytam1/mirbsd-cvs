@@ -20,7 +20,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MODULES=		devel/gettext
 
 BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		gdk-x11-2.0.0.10,gdk_pixbuf-2.0.0.10,gtk-x11-2.0.0.10::x11/gtk+2 \
+LIB_DEPENDS=		gdk-x11-2.0.0.10,gdk_pixbuf-2.0.0.10,gtk-x11-2.0.0.10::x11/gtk+ \
 			startup-notification-1::devel/startup-notification
 
 SEPARATE_BUILD=		concurrent

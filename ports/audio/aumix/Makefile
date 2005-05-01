@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.10 2004/04/13 18:36:57 naddy Exp $
 
 COMMENT=	"full-screen ncurses or GTK-based audio mixer"
@@ -32,7 +33,7 @@ CONFIGURE_ENV=	CPPFLAGS='-I${LOCALBASE}/include' \
 CONFIGURE_ARGS+= --without-gtk
 .else
 BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS+=	gdk-x11-2.0.0.14,gdk_pixbuf-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+2
+LIB_DEPENDS+=	gdk-x11-2.0.0.14,gdk_pixbuf-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 USE_X11=	Yes
 .endif
 
