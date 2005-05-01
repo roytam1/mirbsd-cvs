@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.17 2005/04/29 19:21:45 tg Exp $
+# $MirOS: src/Makefile,v 1.18 2005/04/29 19:57:40 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -178,6 +178,9 @@ do-dist:
 	    *.iso *.gz *.ngz | cat - CKSUM | ${SUDO} sort -k3 -uo CKSUM
 	-cd ${BSDRELDIR}/rel && rmd160 bsd!(*.gz) *boot* *BOOT* *.fs \
 	    *.iso *.gz *.ngz | cat - RMD160 | ${SUDO} sort -uo RMD160
+	-cd ${BSDRELDIR}/rel && for f in RMD160.asc index.txt *; do \
+		print "$$f"; \
+	 done | ${SUDO} sort -uo index.txt
 	@echo "============================================================"
 	@echo Done with MirOS Build.
 	@date
