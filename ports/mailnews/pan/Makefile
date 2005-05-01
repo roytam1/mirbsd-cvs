@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=	"powerful Gtk+2 newsreader"
@@ -8,8 +9,8 @@ CATEGORIES=	news x11
 MASTER_SITES=	http://pan.rebelbase.com/download/releases/${VER}/SOURCE/
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.5::x11/gtk+2 \
-		gtk-x11-2.0.0.5::x11/gtk+2 \
+LIB_DEPENDS=	gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.5::x11/gtk+ \
+		gtk-x11-2.0.0.5::x11/gtk+ \
 		gthread-2.0.0.0::devel/glib \
 		xml2.6.22::textproc/libxml \
 		gnet-2.0.0.3::net/gnet

@@ -16,7 +16,7 @@ MASTER_SITES=		${MASTER_SITE_GNOME:=sources/vte/0.11/}
 EXTRACT_SUFX=		.tar.bz2
 
 BUILD_DEPENDS=		:pkgconfig->=0.14.0p1:devel/pkgconfig
-LIB_DEPENDS=		gdk-x11-2.0.0.8,gdk_pixbuf-2.0.0.8,gtk-x11-2.0.0.8::x11/gtk+2
+LIB_DEPENDS=		gdk-x11-2.0.0.8,gdk_pixbuf-2.0.0.8,gtk-x11-2.0.0.8::x11/gtk+
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf

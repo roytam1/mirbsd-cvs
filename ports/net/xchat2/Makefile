@@ -20,7 +20,7 @@ MASTER_SITES0=	${MASTER_SITE_SOURCEFORGE:=xchat/}
 EXTRACT_SUFX=	.tar.bz2
 
 BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=	gtk-x11-2.0.0.0,gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0::x11/gtk+2
+LIB_DEPENDS=	gtk-x11-2.0.0.0,gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0::x11/gtk+
 MODULES=	devel/gettext
 USE_X11=	Yes
 CONFIGURE_STYLE=autoconf

@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.26 2004/02/25 02:35:16 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -33,7 +34,7 @@ CONFIGURE_ARGS+=	--enable-gtk=no
 .else
 USE_CXX=	Yes
 USE_X11=	Yes
-LIB_DEPENDS=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+LIB_DEPENDS=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 .endif
 
 NO_REGRESS=	Yes

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/ethereal/Makefile,v 1.2 2005/03/20 16:46:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/10 06:14:43 jakob Exp $
+
+BROKEN=		"many security problems"
 
 COMMENT=	"network protocol analyzer"
 COMMENT-x11=	"network protocol analyzer (X11 GUI)"
@@ -51,7 +53,7 @@ CONFIGURE_ARGS+=	--disable-ethereal
 
 .if ${FLAVOR:L:Mgtk1}
 CONFIGURE_ARGS+=	--enable-gtk1
-LIB_DEPENDS+=		glib.1.2,gmodule.1.2::devel/glib
+LIB_DEPENDS+=		glib.1.2,gmodule.1.2::devel/glib1
 .if ! ${FLAVOR:L:Mno_x11}
 BUILD_DEPENDS+=		gtk.1.2::x11/gtk+
 .endif
@@ -60,15 +62,15 @@ CONFIGURE_ARGS+=	--enable-gtk2
 LIB_DEPENDS+=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib
 BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
 .if ! ${FLAVOR:L:Mno_x11}
-BUILD_DEPENDS+=		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+BUILD_DEPENDS+=		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 .endif
 .endif
 
 .if ${SUBPACKAGE} == "-x11"
 .if ${FLAVOR:L:Mgtk1}
-LIB_DEPENDS+=		gtk.1.2::x11/gtk+
+LIB_DEPENDS+=		gtk.1.2::x11/gtk+1
 .else
-LIB_DEPENDS+=		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+LIB_DEPENDS+=		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 .endif
 RUN_DEPENDS+=		:tethereal-${VERSION}${FLAVOR_EXT}:net/ethereal
 .endif

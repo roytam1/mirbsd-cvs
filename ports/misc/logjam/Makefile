@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2003/02/12 18:14:28 brad Exp $
 
 COMMENT=	"gtk livejournal client"
@@ -21,7 +22,7 @@ MODULES=	devel/gettext
 
 BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	glib-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
-		gtk-x11-2.0.0.0,gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0::x11/gtk+2 \
+		gtk-x11-2.0.0.0,gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0::x11/gtk+ \
 		curl.2::net/curl \
 		xml2::textproc/libxml
 

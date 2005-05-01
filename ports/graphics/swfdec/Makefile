@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2003/12/10 21:28:58 naddy Exp $
 
 COMMENT=	"flash rendering library"
@@ -19,7 +20,7 @@ BUILD_DEPENDS+=	:pkgconfig->=0.12.0p1:devel/pkgconfig
 LIB_DEPENDS=	SDL::devel/sdl \
 		mad.2::audio/libmad \
 		art_lgpl_2.5::graphics/libart \
-		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+2
+		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+
 
 USE_CXX=	Yes
 
@@ -33,6 +34,7 @@ FLAVORS=	plugin
 FLAVOR?=
 
 .if ${FLAVOR:L:Mplugin}
+BROKEN=		no mozilla package in MirPorts
 MOZ=mozilla
 BUILD_DEPENDS=	:mozilla-devel->=1.4:www/mozilla,-devel
 CFLAGS+=	-DMOZ_X11

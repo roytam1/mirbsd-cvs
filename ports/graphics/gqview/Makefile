@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.32 2004/05/10 00:58:45 brad Exp $
 
 COMMENT=	"Gtk-based graphic file viewer"
@@ -18,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MODULES=	devel/gettext
 
 LIB_DEPENDS+=	png.2::graphics/png \
-		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
 
 USE_CXX=	Yes

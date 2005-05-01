@@ -42,7 +42,7 @@ CONFIGURE_ARGS+= --disable-gui-client
 LIB_DEPENDS+=	gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 		atk-1.0.0.0::devel/atk \
 		pango-1.0.0.0,pangox-1.0.0.0,pangoxft-1.0.0.0::devel/pango \
-		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
+		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 .endif
 
 post-install:
