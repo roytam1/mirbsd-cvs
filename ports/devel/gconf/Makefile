@@ -13,8 +13,8 @@ EXTRACT_SUFX=           .tar.bz2
 MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		ORBit-2::devel/ORBit2 \
-			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2 \
+LIB_DEPENDS=		ORBit-2::devel/ORBit \
+			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			xml2.6::textproc/libxml
 
 # GPL

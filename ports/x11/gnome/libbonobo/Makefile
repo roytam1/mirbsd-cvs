@@ -22,7 +22,7 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
-LIB_DEPENDS=		ORBit-2,ORBitCosNaming-2::devel/ORBit2 \
+LIB_DEPENDS=		ORBit-2,ORBitCosNaming-2::devel/ORBit \
 			xml2.6::textproc/libxml
 
 USE_GMAKE=		Yes
