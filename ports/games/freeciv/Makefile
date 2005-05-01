@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.34 2004/05/04 11:31:48 naddy Exp $
 
 COMMENT=	"Civilization clone for X11; multiplayer"
 
-DISTNAME=	freeciv-1.13.0
+DISTNAME=	freeciv-2.0.0
 CATEGORIES=	games
 HOMEPAGE=	http://www.freeciv.org/
 
@@ -15,16 +16,24 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	ftp://ftp.freeciv.org/pub/freeciv/stable/
 EXTRACT_SUFX=	.tar.bz2
 
-FLAVORS=	gtk esd sdl
+FLAVORS=	gtk1 xaw esd sdl
 FLAVOR?=
 
 MODULES=	devel/gettext
 
-.if ${FLAVOR:L:Mgtk}
+.if ${FLAVOR:L:Mgtk1} && ${FLAVOR:L:Mxaw}
+ERRORS+=	"Fatal: Conflicting flavors: gtk1, xaw"
+.endif
+
+.if ${FLAVOR:L:Mgtk1}
 LIB_DEPENDS+=	Imlib.19,gdk_imlib::graphics/imlib
 USE_CXX=	Yes
+CONFIGURE_ARGS+=--enable-client=gtk
+.elif ${FLAVOR:L:Mxaw}
+CONFIGURE_ARGS+=--enable-client=xaw
 .else
-CONFIGURE_ARGS=	--with-xaw
+CONFIGURE_ARGS+=--enable-client=gtk2
+LIB_DEPENDS+=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 .endif
 
 .if ${FLAVOR:L:Msdl}
@@ -41,10 +50,9 @@ CONFIGURE_ARGS+=	--with-esd-prefix=${LOCALBASE}
 CONFIGURE_ARGS+=	--disable-esd
 .endif
 
-USE_X11=	Yes
+USE_X11=		Yes
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 
-CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include -I${X11BASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib -L${X11BASE}/lib"
 
 .include <bsd.port.mk>
