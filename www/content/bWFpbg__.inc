@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.16 2005/04/20 22:33:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.17 2005/04/29 01:11:36 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -31,17 +31,10 @@
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
-<p>CURRENT: April 27th, 2005: #8-gamma snapshot available for <a
- href="/MirOS/current/i386-20050427-RC1/">download</a> via the usual mirrors.
- This snapshot is the first release candidate, no major code
- changes will be committed any more. Please help fixing ports too.</p>
-<p>CURRENT: April 20th, 2005: #8-beta snapshot available via our <a
+<p>CURRENT: May 2nd, 2005: #8-gamma snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
-<p>CURRENT: November 29th, 2004: #8-Beta snapshot available via <a
- href="https://mirbsd.bsdadvocacy.org:8890/MirOS/current/i386-20041129/">http</a>.
- There is an updated <a
- href="http://users.mirsolutions.de/~tg/bsd/encrypt.gz">/usr/bin/encrypt</a>
- (gzip compressed) available to fix a core dump.</p>
+<p>CURRENT: April 27th, 2005: #8-gamma snapshot available for <a
+ href="/MirOS/current/i386-20050427-RC1/">download</a> via the usual mirrors.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
