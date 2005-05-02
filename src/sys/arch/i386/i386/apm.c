@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: apm.c,v 1.61 2004/03/11 17:20:33 millert Exp $	*/
 
 /*-
@@ -356,7 +357,7 @@ apm_resume(sc, regs)
 	/* lower bit in cx means pccard was powered down */
 	dopowerhooks(PWR_RESUME);
 	apm_record_event(sc, regs->bx);
-	
+
 	/* acknowledge any rtc interrupt we may have missed */
 	rtcdrain(NULL);
 }
@@ -643,7 +644,7 @@ apm_cpu_idle()
 	bzero(&regs, sizeof(regs));
 	if (apmcall(APM_CPU_IDLE, 0, &regs) != 0) {
 
-#ifdef DIAGNOSTIC
+#ifdef APMDEBUG
 		apm_perror("set CPU idle", &regs);
 #endif
 	}
