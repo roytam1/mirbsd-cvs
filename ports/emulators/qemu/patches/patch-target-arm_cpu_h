@@ -1,7 +1,7 @@
 $MirOS$
---- target-arm/cpu.h.orig	Sun Nov 14 20:51:11 2004
-+++ target-arm/cpu.h	Thu Feb 17 17:44:14 2005
-@@ -61,7 +61,7 @@ void cpu_arm_close(CPUARMState *s);
+--- target-arm/cpu.h.orig	Wed Apr 27 20:51:43 2005
++++ target-arm/cpu.h	Tue May  3 18:04:53 2005
+@@ -104,7 +104,7 @@ void cpu_arm_close(CPUARMState *s);
     signal handlers to inform the virtual CPU of exceptions. non zero
     is returned if the signal was handled by the virtual CPU.  */
  struct siginfo;

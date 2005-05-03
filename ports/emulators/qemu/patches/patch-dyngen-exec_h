@@ -1,6 +1,6 @@
 $MirOS$
---- dyngen-exec.h.orig	Sun Nov 14 20:51:11 2004
-+++ dyngen-exec.h	Thu Feb 17 17:44:14 2005
+--- dyngen-exec.h.orig	Wed Apr 27 20:51:43 2005
++++ dyngen-exec.h	Tue May  3 18:02:25 2005
 @@ -20,11 +20,15 @@
  #if !defined(__DYNGEN_EXEC_H__)
  #define __DYNGEN_EXEC_H__
@@ -38,11 +38,3 @@ $MirOS$
  extern int fprintf(FILE *, const char *, ...);
  extern int printf(const char *, ...);
  #undef NULL
-@@ -70,6 +79,7 @@ extern int printf(const char *, ...);
- #define FE_UPWARD      FP_RP
- #define FE_TOWARDZERO  FP_RZ
- #define fesetround(x)  fpsetround(x)
-+#define fegetround()   fpgetround()
- #else
- #include <fenv.h>
- #endif

@@ -1,0 +1,21 @@
+$MirOS$
+--- block-vpc.c.orig	Wed Apr 27 20:51:43 2005
++++ block-vpc.c	Tue May  3 18:26:30 2005
+@@ -81,7 +81,7 @@ typedef struct BDRVVPCState {
+ 
+ static int vpc_probe(const uint8_t *buf, int buf_size, const char *filename)
+ {
+-    if (!strncmp(buf, "conectix", 8))
++    if (!strncmp((const char *)buf, "conectix", 8))
+ 	return 100;
+ 
+     return 0;
+@@ -240,4 +240,8 @@ BlockDriver bdrv_vpc = {
+     vpc_read,
+     NULL,
+     vpc_close,
++    NULL,
++    NULL,
++    NULL,
++    NULL
+ };

@@ -1,6 +1,6 @@
 $MirOS$
---- osdep.h.orig	Sun Nov 14 20:51:11 2004
-+++ osdep.h	Thu Feb 17 17:44:14 2005
+--- osdep.h.orig	Wed Apr 27 20:51:43 2005
++++ osdep.h	Tue May  3 18:04:45 2005
 @@ -2,6 +2,10 @@
  #define QEMU_OSDEP_H
  
@@ -12,7 +12,7 @@ $MirOS$
  
  int qemu_vsnprintf(char *buf, int buflen, const char *fmt, va_list args);
  void qemu_vprintf(const char *fmt, va_list ap);
-@@ -28,7 +32,7 @@ extern void __longjmp(jmp_buf env, int v
+@@ -31,7 +35,7 @@ extern void __longjmp(jmp_buf env, int v
  struct qemu_sigaction {
      union {
          void (*_sa_handler)(int);

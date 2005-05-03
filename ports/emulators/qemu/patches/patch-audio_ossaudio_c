@@ -1,6 +1,6 @@
 $MirOS$
---- audio/ossaudio.c.orig	Sun Nov 14 20:51:11 2004
-+++ audio/ossaudio.c	Thu Feb 17 17:44:14 2005
+--- audio/ossaudio.c.orig	Wed Apr 27 20:51:43 2005
++++ audio/ossaudio.c	Tue May  3 18:01:48 2005
 @@ -21,10 +21,15 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   * THE SOFTWARE.

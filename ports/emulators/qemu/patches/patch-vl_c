@@ -1,6 +1,6 @@
 $MirOS$
---- vl.c.orig	Sun Nov 14 20:51:11 2004
-+++ vl.c	Thu Feb 17 19:26:58 2005
+--- vl.c.orig	Wed Apr 27 20:51:43 2005
++++ vl.c	Tue May  3 18:36:14 2005
 @@ -42,7 +42,7 @@
  #include <dirent.h>
  #ifdef _BSD
@@ -10,7 +10,26 @@ $MirOS$
  #include <libutil.h>
  #endif
  #else
-@@ -870,13 +870,6 @@ static int start_rtc_timer(void)
+@@ -499,10 +499,18 @@ int64_t cpu_get_real_ticks(void)
+ 
+ #elif defined(__i386__)
+ 
++#ifdef __OpenBSD__
++#include <machine/pctr.h>
++#endif
++
+ int64_t cpu_get_real_ticks(void)
+ {
+     int64_t val;
++#ifdef __OpenBSD__
++    val = rdtsc();
++#else
+     asm volatile ("rdtsc" : "=A" (val));
++#endif
+     return val;
+ }
+ 
+@@ -893,13 +901,6 @@ static int start_rtc_timer(void)
      return 0;
  }
  
@@ -24,7 +43,7 @@ $MirOS$
  #endif /* !defined(__linux__) */
  
  #endif /* !defined(_WIN32) */
-@@ -945,7 +938,9 @@ static void init_timers(void)
+@@ -968,7 +969,9 @@ static void init_timers(void)
          } else 
  #endif /* defined(__linux__) */
          {
@@ -34,7 +53,7 @@ $MirOS$
              pit_min_timer_count = ((uint64_t)itv.it_interval.tv_usec * 
                                     PIT_FREQ) / 1000000;
          }
-@@ -1568,6 +1563,7 @@ static int tun_open(char *ifname, int if
+@@ -1595,6 +1598,7 @@ static int tun_open(char *ifname, int if
  {
      int fd;
      char *dev;
@@ -42,7 +61,7 @@ $MirOS$
      struct stat s;
  
      fd = open("/dev/tap", O_RDWR);
-@@ -1578,6 +1574,22 @@ static int tun_open(char *ifname, int if
+@@ -1605,6 +1609,22 @@ static int tun_open(char *ifname, int if
  
      fstat(fd, &s);
      dev = devname(s.st_rdev, S_IFCHR);
@@ -65,3 +84,12 @@ $MirOS$
      pstrcpy(ifname, ifname_size, dev);
  
      fcntl(fd, F_SETFL, O_NONBLOCK);
+@@ -2950,7 +2970,7 @@ const QEMUOption qemu_options[] = {
+     /* temporary options */
+     { "pci", 0, QEMU_OPTION_pci },
+     { "cirrusvga", 0, QEMU_OPTION_cirrusvga },
+-    { NULL },
++    { NULL, 0, 0 }
+ };
+ 
+ #if defined (TARGET_I386) && defined(USE_CODE_COPY)

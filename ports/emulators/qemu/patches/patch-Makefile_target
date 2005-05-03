@@ -1,18 +1,27 @@
 $MirOS$
---- Makefile.target.orig	Sun Nov 14 20:51:11 2004
-+++ Makefile.target	Thu Feb 17 18:54:26 2005
-@@ -7,7 +7,9 @@ ifdef CONFIG_USER_ONLY
+--- Makefile.target.orig	Wed Apr 27 20:51:43 2005
++++ Makefile.target	Tue May  3 18:52:31 2005
+@@ -14,7 +14,9 @@ ifdef CONFIG_USER_ONLY
  VPATH+=:$(SRC_PATH)/linux-user
  DEFINES+=-I$(SRC_PATH)/linux-user -I$(SRC_PATH)/linux-user/$(TARGET_ARCH)
  endif
 -CFLAGS=-Wall -O2 -g -fno-strict-aliasing
 +CFLAGS?=-O2 -g
-+CFLAGS+=-Wall -fno-strict-aliasing -Wno-unused
++CFLAGS+=-fno-strict-aliasing -Dasm=__asm__ -Wall -Wextra -Werror -std=c99 -Wno-sign-compare -Wno-unused
 +HOST_CC?=$(CC)
+ #CFLAGS+=-Werror
  LDFLAGS=-g
  LIBS=
- HELPER_CFLAGS=$(CFLAGS)
-@@ -274,7 +276,10 @@ AUDIODRV += sdlaudio.o
+@@ -212,6 +214,8 @@ endif
+ #########################################################
+ 
+ DEFINES+=-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
++
++DEFINES+=-DDEBUG_GDB -DDEBUG -DDEBUG_KBD -DDEBUG_MOUSE
+ LIBS+=-lm
+ ifndef CONFIG_USER_ONLY
+ LIBS+=-lz
+@@ -323,7 +327,10 @@ AUDIODRV += sdlaudio.o
  endif
  ifdef CONFIG_OSS
  AUDIODRV += ossaudio.o
@@ -23,16 +32,7 @@ $MirOS$
  
  pc.o: DEFINES := -DUSE_SB16 $(DEFINES)
  
-@@ -362,7 +367,7 @@ gen-op.h: op.o $(DYNGEN)
- 	$(DYNGEN) -g -o $@ $<
- 
- op.o: op.c
--	$(CC) $(OP_CFLAGS) $(DEFINES) -c -o $@ $<
-+	$(CC) $(OP_CFLAGS) $(DEFINES) -Wno-error -c -o $@ $<
- 
- helper.o: helper.c
- 	$(CC) $(HELPER_CFLAGS) $(DEFINES) -c -o $@ $<
-@@ -397,7 +402,7 @@ clean:
+@@ -463,7 +470,7 @@ clean:
  
  install: all 
  ifneq ($(PROGS),)

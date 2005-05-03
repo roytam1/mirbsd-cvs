@@ -1,6 +1,6 @@
 $MirOS$
---- slirp/tcp_subr.c.orig	Thu Feb 17 18:15:51 2005
-+++ slirp/tcp_subr.c	Thu Feb 17 18:16:07 2005
+--- slirp/tcp_subr.c.orig	Wed Apr 27 20:51:43 2005
++++ slirp/tcp_subr.c	Tue May  3 18:04:51 2005
 @@ -635,7 +635,7 @@ tcp_emu(so, m)
  	struct mbuf *m;
  {

@@ -1,0 +1,21 @@
+$MirOS$
+--- hw/ppc_chrp.c.orig	Tue May  3 19:03:28 2005
++++ hw/ppc_chrp.c	Tue May  3 19:03:40 2005
+@@ -152,7 +152,7 @@ void ppc_chrp_init(int ram_size, int vga
+         kernel_base = KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+         kernel_size = load_image(kernel_filename, phys_ram_base + kernel_base);
+-        if (kernel_size < 0) {
++        if ((int32_t)kernel_size < 0) {
+             fprintf(stderr, "qemu: could not load kernel '%s'\n", 
+                     kernel_filename);
+             exit(1);
+@@ -162,7 +162,7 @@ void ppc_chrp_init(int ram_size, int vga
+             initrd_base = INITRD_LOAD_ADDR;
+             initrd_size = load_image(initrd_filename,
+                                      phys_ram_base + initrd_base);
+-            if (initrd_size < 0) {
++            if ((int32_t)initrd_size < 0) {
+                 fprintf(stderr, "qemu: could not load initial ram disk '%s'\n", 
+                         initrd_filename);
+                 exit(1);

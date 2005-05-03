@@ -1,0 +1,11 @@
+$MirOS$
+--- block-cow.c.orig	Tue May  3 18:21:24 2005
++++ block-cow.c	Tue May  3 18:21:30 2005
+@@ -259,5 +259,7 @@ BlockDriver bdrv_cow = {
+     cow_close,
+     cow_create,
+     cow_is_allocated,
++    NULL,
++    NULL
+ };
+ #endif

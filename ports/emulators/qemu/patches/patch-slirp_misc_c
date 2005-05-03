@@ -1,7 +1,7 @@
 $MirOS$
---- slirp/misc.c.orig	Thu Feb 17 18:15:10 2005
-+++ slirp/misc.c	Thu Feb 17 18:15:27 2005
-@@ -673,7 +673,7 @@ add_emu(buff)
+--- slirp/misc.c.orig	Wed Apr 27 20:51:43 2005
++++ slirp/misc.c	Tue May  3 18:04:47 2005
+@@ -677,7 +677,7 @@ add_emu(buff)
  {
  	u_int lport, fport;
  	u_int8_t tos = 0, emu = 0;

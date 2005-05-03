@@ -1,6 +1,6 @@
 $MirOS$
---- slirp/slirp.c.orig	Thu Feb 17 18:14:52 2005
-+++ slirp/slirp.c	Thu Feb 17 18:14:56 2005
+--- slirp/slirp.c.orig	Wed Apr 27 20:51:43 2005
++++ slirp/slirp.c	Tue May  3 18:04:49 2005
 @@ -80,7 +80,7 @@ static int get_dns_addr(struct in_addr *
  static int get_dns_addr(struct in_addr *pdns_addr)
  {

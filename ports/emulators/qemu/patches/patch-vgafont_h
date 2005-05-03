@@ -1,6 +1,6 @@
 $MirOS$
---- vgafont.h.orig	Thu Feb 17 19:24:47 2005
-+++ vgafont.h	Thu Feb 17 19:25:42 2005
+--- vgafont.h.orig	Wed Apr 27 20:51:43 2005
++++ vgafont.h	Tue May  3 18:05:52 2005
 @@ -1,4611 +1,258 @@
  static uint8_t vgafont16[256 * 16] = {
 -

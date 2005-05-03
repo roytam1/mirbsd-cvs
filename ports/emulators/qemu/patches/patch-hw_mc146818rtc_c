@@ -1,6 +1,6 @@
 $MirOS$
---- hw/mc146818rtc.c.orig	Thu Feb 17 18:06:27 2005
-+++ hw/mc146818rtc.c	Thu Feb 17 18:13:35 2005
+--- hw/mc146818rtc.c.orig	Wed Apr 27 20:51:43 2005
++++ hw/mc146818rtc.c	Tue May  3 18:04:02 2005
 @@ -383,6 +383,7 @@ void rtc_set_date(RTCState *s, const str
  static void rtc_save(QEMUFile *f, void *opaque)
  {

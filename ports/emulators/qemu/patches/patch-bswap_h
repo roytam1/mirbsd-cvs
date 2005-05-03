@@ -1,6 +1,6 @@
 $MirOS$
---- bswap.h.orig	Sun Nov 14 20:51:11 2004
-+++ bswap.h	Thu Feb 17 17:58:46 2005
+--- bswap.h.orig	Wed Apr 27 20:51:43 2005
++++ bswap.h	Tue May  3 18:01:51 2005
 @@ -43,20 +43,26 @@
  
  #endif /* !HAVE_BYTESWAP_H */
