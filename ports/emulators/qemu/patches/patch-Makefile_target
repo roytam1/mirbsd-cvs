@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/emulators/qemu/patches/patch-Makefile_target,v 1.2 2005/05/03 19:30:03 tg Exp $
 --- Makefile.target.orig	Wed Apr 27 20:51:43 2005
 +++ Makefile.target	Tue May  3 18:52:31 2005
 @@ -14,7 +14,9 @@ ifdef CONFIG_USER_ONLY
@@ -17,7 +17,7 @@ $MirOS$
  
  DEFINES+=-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 +
-+DEFINES+=-DDEBUG_GDB -DDEBUG -DDEBUG_KBD -DDEBUG_MOUSE
++#DEFINES+=-DDEBUG_GDB -DDEBUG -DDEBUG_KBD -DDEBUG_MOUSE
  LIBS+=-lm
  ifndef CONFIG_USER_ONLY
  LIBS+=-lz
