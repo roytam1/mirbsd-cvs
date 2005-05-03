@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS$
+# $MirOS: src/scripts/editdiff,v 1.1.7.1 2005/02/05 00:17:00 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -55,7 +55,7 @@ T=$(mktemp /tmp/editdiff.XXXXXXXXXX) || exit 1
 trap 'rm -f $T ${T}.{lock,orig} ; exit 0' 0
 trap 'rm -f $T ${T}.{lock,orig} ; exit 1' 1 2 3 13 15
 
-eval cvs -Rq $cp diff -au $EXTRA_DIFF $rev $dp "$f" >$T 2>&1
+eval cvs -Rq $cp diff -pau $EXTRA_DIFF $rev $dp "$f" >$T 2>&1
 touch ${T}.lock
 
 if ! patch -Rlt -o ${T}.orig "$f" $T; then
