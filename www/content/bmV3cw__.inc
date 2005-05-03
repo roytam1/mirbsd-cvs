@@ -1,6 +1,11 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.19 2005/04/29 01:11:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.20 2005/04/30 23:50:25 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>03.05.2005<br />
+	Yesterday's Snapshot comes with a broken httpd(8) that is fixed in
+	HEAD, and a broken gij(1) for which I cannot imagine a fix. Please
+	help investigating if you know GCJ.</li>
 
 <li>30.04.2005<br />
 	The current development version <em>really</em> fixes <em>all</em>

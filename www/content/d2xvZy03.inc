@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.56 2005/04/30 23:50:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.57 2005/05/01 22:02:43 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2836,4 +2836,12 @@
  course, boehm-gc prevents gij from being useful (again). But still the 99
  bottles of beer are passed around in various ways.<br />It's hot outside,
  too hot to think, but better get a tan outside than to sweat inside.</p>
+<p>03.05.2005 by tg@<br />We've made it through &ndash; the IHK exam _was_
+ pretty easy. I'm sitting in the Netzladen with a few friends, some had to
+ do the exam too, some just are having a beer or Club-Mate with us. During
+ the evening, I discovered httpd's brokenness and fixed it. I should write
+ a bug report about gij, though. All in all, MirOS #8 _will_ rock, I think
+ &ndash; thanks to the help of my co-developers and the support of friends
+ and foreigners. I've also updated qemu, should probably take on pine, and
+ abiword, next.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
