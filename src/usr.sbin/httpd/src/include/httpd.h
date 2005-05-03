@@ -1,9 +1,10 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.4 2005/04/19 14:37:52 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.25 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright (c) 2002, 2005 The MirOS Project.
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -124,7 +125,7 @@ extern "C" {
 /*
  * --------- You shouldn't have to edit anything below this line ----------
  *
- * Any modifications to any defaults not defined above should be done in the 
+ * Any modifications to any defaults not defined above should be done in the
  * respective config. file.
  *
  */
@@ -666,7 +667,7 @@ struct request_rec {
 				 * pointer to where we redirected *from*.
 				 */
 
-	request_rec *main;	/* If this is a sub_request (see request.h) 
+	request_rec *main;	/* If this is a sub_request (see request.h)
 				 * pointer back to the main request.
 				 */
 
@@ -884,7 +885,6 @@ struct server_addr_rec {
 };
 
 struct server_rec {
-
 	server_rec *next;
 
 	/* description of where the definition came from */
@@ -940,14 +940,14 @@ struct server_rec {
 	int limit_req_fields;    /* limit on number of request header fields  */
 
 	ap_ctx *ctx;
-	};
+};
 
-	/* These are more like real hosts than virtual hosts */
-	struct listen_rec {
+/* These are more like real hosts than virtual hosts */
+struct listen_rec {
 	listen_rec *next;
-	struct sockaddr_in local_addr;	/* local IP address and port */
+	struct sockaddr_storage local_addr;	/* local address and port */
 	int fd;
-	int used;			/* Only used during restart */
+	int used;				/* Only used during restart */
 	/* more stuff here, like which protocol is bound to the port */
 };
 
