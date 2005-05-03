@@ -3,7 +3,7 @@
 Dec 12 16:44 2004 README Page 1
 
 
-$MirOS$
+$MirOS: src/usr.sbin/httpd/LICENCE.httpd,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $
 
 README for MirOS httpd/3.30A
 ----------------------------
@@ -15,6 +15,9 @@ which in turn is based upon Apache(TM) httpd, which is based upon
 NCSA Mosaic. Although there are still many references to Apache(TM)
 in the source code and especially (orphaned) documentation, MirOS
 httpd is not endorsed nor supported by the Apache(TM) Foundation.
+
+This work includes huge amounts of copyrighted work by the KAME
+Project, Japan and the MirOS Project, Germany.
 
 
 Dec 12 14:34 2004 LICENSE Page 1

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/httpd/src/Makefile.bsd-wrapper,v 1.2 2005/03/13 19:16:41 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -21,12 +21,7 @@ config:	.FORCE
 Makefile: helpers/GuessOS
 	${SHELL} ${.CURDIR}/Configure -file ${.CURDIR}/Configuration -make ${.CURDIR}/Makefile.tmpl
 
-# apache has no man pages in the dist
-
-maninistall:
-	@echo No man pages for apache
-
-install: maninistall
+install:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} ${PROG} ${BINDIR}
 
 clean cleandir:
