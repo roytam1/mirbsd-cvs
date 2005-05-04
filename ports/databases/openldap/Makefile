@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/databases/openldap/Makefile,v 1.1.7.1 2005/03/18 15:44:10 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=	"Open source LDAP software (client)"
 COMMENT-server=	"Open source LDAP software (server)"
-VERSION=	2.2.22
+VERSION=	2.2.26
 
 DISTNAME=	openldap-${VERSION}
 FULLPKGNAME=	openldap-client-${VERSION}

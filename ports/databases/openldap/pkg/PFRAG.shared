@@ -1,5 +1,5 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/openldap/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:44:10 tg Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.18 2004/04/04 21:53:37 jakob Exp $
-@lib lib/liblber.so.7.15
-@lib lib/libldap.so.7.15
-@lib lib/libldap_r.so.7.15
+@lib lib/liblber.so.7.19
+@lib lib/libldap.so.7.19
+@lib lib/libldap_r.so.7.19
