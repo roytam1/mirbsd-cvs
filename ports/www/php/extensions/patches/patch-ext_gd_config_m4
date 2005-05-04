@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/www/php/extensions/patches/patch-ext_gd_config_m4,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 $OpenBSD: patch-ext_gd_config_m4,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
---- ext/gd/config.m4.orig	Tue Jul 27 12:44:13 2004
-+++ ext/gd/config.m4	Wed Nov  3 18:45:14 2004
-@@ -87,13 +87,18 @@ AC_DEFUN(PHP_GD_PNG,[
+--- ext/gd/config.m4.orig	Tue Jan  4 06:51:36 2005
++++ ext/gd/config.m4	Wed May  4 17:52:19 2005
+@@ -87,13 +87,18 @@ AC_DEFUN([PHP_GD_PNG],[
        AC_MSG_ERROR([PNG support requires ZLIB. Use --with-zlib-dir=<DIR>])
      fi
  
