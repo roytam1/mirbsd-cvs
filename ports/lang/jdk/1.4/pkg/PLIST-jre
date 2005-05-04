@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/jdk/1.4/pkg/PLIST-jre,v 1.2 2005/04/29 18:08:53 tg Exp $
 @option no-default-conflict
 @pkgcfl jre->=1.4,<1.5
 !%%no_plugin%%
@@ -551,14 +551,14 @@ ${JREHOME}/man/man1/tnameserv.1
 @dirrm ${JREHOME}/lib/images/cursors
 @dirrm ${JREHOME}/lib/images
 @dirrm ${JREHOME}/lib/im
-@dirrm ${JREHOME}/lib/fonts
-@dirrm ${JREHOME}/lib/ext
-@dirrm ${JREHOME}/lib/cmm
-@dirrm ${JREHOME}/lib/audio
 @dirrm ${JREHOME}/lib/${MACHINE_ARCH}/server
 @dirrm ${JREHOME}/lib/${MACHINE_ARCH}/native_threads
 @dirrm ${JREHOME}/lib/${MACHINE_ARCH}/client
 @dirrm ${JREHOME}/lib/${MACHINE_ARCH}
+@dirrm ${JREHOME}/lib/fonts
+@dirrm ${JREHOME}/lib/ext
+@dirrm ${JREHOME}/lib/cmm
+@dirrm ${JREHOME}/lib/audio
 @exec mkdir -p %D/${JREHOME}/lib/applet
 @dirrm ${JREHOME}/lib/applet
 @dirrm ${JREHOME}/lib

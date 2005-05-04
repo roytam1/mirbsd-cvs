@@ -1,4 +1,4 @@
-@comment $OpenBSD$
+@comment $MirOS$
 ${JREHOME}/ControlPanel.html
 ${JREHOME}/bin/ControlPanel
 ${JREHOME}/bin/java_vm
@@ -19,9 +19,9 @@ ${JREHOME}/lib/plugin.jar
 ${JREHOME}/plugin/desktop/sun_java.desktop
 ${JREHOME}/plugin/desktop/sun_java.png
 ${JREHOME}/plugin/${MACHINE_ARCH}/ns610/libjavaplugin_oji.so
-@dirrm ${JREHOME}/plugin/desktop
 @dirrm ${JREHOME}/plugin/${MACHINE_ARCH}/ns610
 @dirrm ${JREHOME}/plugin/${MACHINE_ARCH}
+@dirrm ${JREHOME}/plugin/desktop
 @dirrm ${JREHOME}/plugin
 @dirrm ${JREHOME}/lib/locale/zh_TW/LC_MESSAGES
 @dirrm ${JREHOME}/lib/locale/zh_TW.BIG5/LC_MESSAGES

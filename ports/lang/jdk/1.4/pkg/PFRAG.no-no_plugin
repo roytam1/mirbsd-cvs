@@ -1,4 +1,5 @@
-@comment $OpenBSD$
+@comment $MirOS$
+${JDKHOME}/bin/ControlPanel
 ${JDKHOME}/bin/HtmlConverter
 ${JDKHOME}/demo/plugin/applets.html
 ${JDKHOME}/demo/plugin/applets/Animator/Animation.class
@@ -450,9 +451,9 @@ ${JDKHOME}/jre/plugin/${MACHINE_ARCH}/ns610/libjavaplugin_oji.so
 ${JDKHOME}/jre/plugin/${MACHINE_ARCH}/ns610/libjavaplugin_oji_g.so
 ${JDKHOME}/lib/htmlconverter.jar
 ${JDKHOME}/lib/htmlconverter_g.jar
-@dirrm ${JDKHOME}/jre/plugin/desktop
 @dirrm ${JDKHOME}/jre/plugin/${MACHINE_ARCH}/ns610
 @dirrm ${JDKHOME}/jre/plugin/${MACHINE_ARCH}
+@dirrm ${JDKHOME}/jre/plugin/desktop
 @dirrm ${JDKHOME}/jre/plugin
 @dirrm ${JDKHOME}/jre/lib/locale/zh_TW/LC_MESSAGES
 @dirrm ${JDKHOME}/jre/lib/locale/zh_TW.BIG5/LC_MESSAGES
