@@ -1,13 +1,13 @@
-# $MirOS$
+# $MirOS: ports/net/rsync/Makefile,v 1.1.7.1 2005/03/18 15:49:02 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
-COMMENT=	"mirroring/synchronization over low bandwidth links"
-DISTNAME=	rsync-2.6.3
-CATEGORIES=	net
-HOMEPAGE=	http://rsync.samba.org/
-RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+COMMENT=		"mirroring/synchronisation over low bandwidth links"
+DISTNAME=		rsync-2.6.4
+CATEGORIES=		net
+HOMEPAGE=		http://rsync.samba.org/
+RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
 
-FLAVORS=	static
+FLAVORS=		static
 FLAVOR?=
 
 # GNU GPLv2
@@ -16,10 +16,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=	ftp://ftp.samba.org/pub/rsync/ \
-		ftp://ftp.samba.org/pub/rsync/old-versions/ \
-		http://ftp.samba.org/ftp/rsync/ \
-		ftp://ftp.funet.fi/pub/mirrors/rsync.samba.org/pub/rsync/
+MASTER_SITES=		ftp://ftp.samba.org/pub/rsync/ \
+			ftp://ftp.samba.org/pub/rsync/old-versions/ \
+			http://ftp.samba.org/ftp/rsync/ \
+			ftp://ftp.funet.fi/pub/mirrors/rsync.samba.org/pub/rsync/
 
 SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	gnu
@@ -35,6 +35,5 @@ DOCDIR=			${PREFIX}/share/doc/rsync
 post-install:
 	${INSTALL_DATA_DIR} ${DOCDIR}
 	${INSTALL_DATA} ${WRKSRC}/tech_report.tex ${DOCDIR}
-	${INSTALL_DATA} ${WRKSRC}/rsyncstats ${DOCDIR}
 
 .include <bsd.port.mk>
