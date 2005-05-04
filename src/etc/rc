@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/etc/rc,v 1.2 2005/03/06 19:05:54 tg Exp $
+# $MirOS: src/etc/rc,v 1.3 2005/04/15 17:17:58 tg Exp $
 # $OpenBSD: rc,v 1.258 2004/10/22 00:59:09 itojun Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
@@ -547,10 +547,13 @@ if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 	fi
 fi
 
-if [[ -d /var/anoncvs/anoncvs && -f /var/anoncvs/anoncvssh \
-    && ! -e /var/anoncvs/anoncvs/dev/null ]]; then
-	# Copy over /dev/null into anoncvs chroot, it needs it
-	(cd /dev; tar cf - null) | (cd /var/anoncvs/anoncvs/dev; tar xpf -)
+if [[ -d /var/anoncvs/anoncvs && -f /var/anoncvs/anoncvssh ]]; then
+	# Copy over /dev/{null,zero} into anoncvs chroot, it needs it
+	if [[ ! -c /var/anoncvs/anoncvs/dev/null \
+	    || ! -c /var/anoncvs/anoncvs/dev/zero ]]; then
+		(cd /dev; tar cf - null zero) \
+		    | (cd /var/anoncvs/anoncvs/dev; tar xpf -)
+	fi
 fi
 
 if [[ ! -f /etc/ssl/private/default.key \

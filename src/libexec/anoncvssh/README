@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: src/libexec/anoncvssh/README,v 1.2 2005/03/06 19:23:58 tg Exp $
 
 On MirBSD, the directory structure outlined below, as well
 as the anoncvssh and accompanying programmes, are already
@@ -9,7 +9,7 @@ set up. For empty passwords, remember to configure the SSH
 daemon appropiately.
 Please be reminded that /var/anoncvs must not be mounted
 nodev or nosuid, because anoncvssh is suid root, and
-dev/null must be accessible within the chroot tree.
+dev/null and dev/zero must be accessible within the chroot tree.
 
 To use anonymous rsync, place a statically linked rsync
 executable into /var/anoncvs/anoncvs/usr/bin and make it
@@ -111,9 +111,8 @@ Put a message like the following in .plan:
     cp /bin/{cat,pwd,rm,sh} bin/
 
 Using mknod, make a dev/null that has the same major/minor numbers as
-    your /dev/null, and make it mode 666.
-
-Some shared library systems require a dev/zero created in the same way
+    your /dev/null, and make it mode 666. A dev/zero must be created
+    the same way.
 
 Fill etc space for the account
     cp /etc/{group,hosts,passwd,protocols} etc/
@@ -156,7 +155,7 @@ If using shared libraries, use ldd to find out which shared libs you need:
     and then copy the required libraries to usr/lib/
 
 As a final pass, make sure that all the files you have just created are
-not world writable (except dev/null).
+not world writable (except dev/null and dev/zero).
 
 For :pserver: support (optional)
   - Create an entry in /etc/services
