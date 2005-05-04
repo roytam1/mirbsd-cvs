@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/mysql/pkg/PLIST-tests,v 1.1.7.1 2005/03/18 15:44:09 tg Exp $
 @comment $OpenBSD: PLIST-tests,v 1.9 2004/05/22 11:39:10 brad Exp $
 share/mysql-test/README
 share/mysql-test/include/check_var_limit.inc
@@ -104,6 +104,7 @@ share/mysql-test/r/have_symlink.require
 share/mysql-test/r/having.result
 share/mysql-test/r/heap.result
 share/mysql-test/r/innodb-deadlock.result
+share/mysql-test/r/innodb-lock.result
 share/mysql-test/r/innodb.result
 share/mysql-test/r/innodb_cache.result
 share/mysql-test/r/innodb_handler.result
@@ -351,6 +352,7 @@ share/mysql-test/t/heap.test
 share/mysql-test/t/init_file-master.opt
 share/mysql-test/t/init_file.test
 share/mysql-test/t/innodb-deadlock.test
+share/mysql-test/t/innodb-lock.test
 share/mysql-test/t/innodb.test
 share/mysql-test/t/innodb_cache-master.opt
 share/mysql-test/t/innodb_cache.test

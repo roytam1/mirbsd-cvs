@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.3 2005/03/27 22:20:25 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.4 2005/05/04 16:12:31 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/10/18 15:58:53 robert Exp $
 
 FULLPKGNAME=		php-extensions-${V}${PV}
@@ -181,8 +181,6 @@ MHASH_DEPENDS=		mhash.2::security/mhash
 
 # mysql
 PSEUDO_FLAVORS+=	no_mysql
-# XXX for now
-FLAVOR+=		no_mysql
 .if ${FLAVOR:L:Mno_mysql}
 CONFIGURE_ARGS+=	--without-mysql
 .else

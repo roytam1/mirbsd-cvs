@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/mysql/pkg/PLIST,v 1.1.7.1 2005/03/18 15:44:09 tg Exp $
 @comment $OpenBSD: PLIST,v 1.24 2003/12/30 20:07:27 brad Exp $
 bin/myisam_ftdump
 bin/mysql
@@ -41,10 +41,10 @@ lib/mysql/libmysqlclient.a
 lib/mysql/libmysqlclient.la
 lib/mysql/libmysqlclient_r.a
 lib/mysql/libmysqlclient_r.la
-%%SHARED%%
 man/man1/mysql.1
 man/man1/mysqladmin.1
 man/man1/mysqldump.1
 man/man1/mysqlshow.1
+%%SHARED%%
 @dirrm lib/mysql
 @dirrm include/mysql

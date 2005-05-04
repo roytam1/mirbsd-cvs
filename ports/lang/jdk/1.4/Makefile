@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.8 2005/04/29 18:39:12 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.9 2005/04/30 22:12:32 tg Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
@@ -97,6 +97,10 @@ EXTRACT_CASES+=		*.bin) \
 			perl -p0777 -e "s/.*?PK\03\04/PK\03\04/s" ${FULLDISTDIR}/$$archive \
 				>${WRKDIR}/$$archive.zip && \
 			unzip -j ${WRKDIR}/$$archive ${LINUXFILES} ;;
+.endif
+
+.if !${FLAVOR:L:Mnative_bootstrap}
+NO_SYSTRACE=		mix of different binaries
 .endif
 
 .if !${FLAVOR:L:Mno_plugin}
