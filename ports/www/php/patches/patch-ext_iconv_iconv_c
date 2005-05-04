@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/www/php/patches/patch-ext_iconv_iconv_c,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 $OpenBSD: patch-ext_iconv_iconv_c,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
---- ext/iconv/iconv.c.orig	Tue Nov 23 09:45:11 2004
-+++ ext/iconv/iconv.c	Sun Feb 13 02:14:06 2005
+--- ext/iconv/iconv.c.orig	Wed Mar 23 23:08:02 2005
++++ ext/iconv/iconv.c	Wed May  4 14:38:06 2005
 @@ -251,7 +251,7 @@ static php_iconv_err_t _php_iconv_append
  
  			out_p = (d)->c + (d)->len;
@@ -65,7 +65,7 @@ $OpenBSD: patch-ext_iconv_iconv_c,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
  #if ICONV_SUPPORTS_ERRNO
  						switch (errno) {
  							case EINVAL:
-@@ -2362,7 +2362,7 @@ static int php_iconv_stream_filter_appen
+@@ -2365,7 +2365,7 @@ static int php_iconv_stream_filter_appen
  		tcnt = self->stub_len;
  
  		while (tcnt > 0) {
@@ -74,7 +74,7 @@ $OpenBSD: patch-ext_iconv_iconv_c,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
  #if ICONV_SUPPORTS_ERRNO
  				switch (errno) {
  					case EILSEQ:
-@@ -2441,7 +2441,7 @@ static int php_iconv_stream_filter_appen
+@@ -2444,7 +2444,7 @@ static int php_iconv_stream_filter_appen
  
  	while (icnt > 0) {
  		if ((ps == NULL ? iconv(self->cd, NULL, NULL, &pd, &ocnt):

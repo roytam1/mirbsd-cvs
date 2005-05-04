@@ -1,6 +1,6 @@
-$MirOS$
---- ext/sysvshm/sysvshm.c.orig	Sun Feb 13 02:51:52 2005
-+++ ext/sysvshm/sysvshm.c	Sun Feb 13 02:53:42 2005
+$MirOS: ports/www/php/patches/patch-ext_sysvshm_sysvshm_c,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+--- ext/sysvshm/sysvshm.c.orig	Thu Jan 20 10:03:10 2005
++++ ext/sysvshm/sysvshm.c	Wed May  4 14:38:07 2005
 @@ -139,19 +139,19 @@ PHP_FUNCTION(shm_attach)
  	/* get the id from a specified key or create new shared memory */
  	if ((shm_id = shmget(shm_key, 0, 0)) < 0) {
@@ -40,5 +40,5 @@ $MirOS$
 -	if (php_var_unserialize(&return_value, (const char **) &shm_data, shm_data + shm_var->length, &var_hash TSRMLS_CC) != 1) {
 +	if (php_var_unserialize(&return_value, (const unsigned char **) &shm_data, shm_data + shm_var->length, &var_hash TSRMLS_CC) != 1) {
  		PHP_VAR_UNSERIALIZE_DESTROY(var_hash);
- 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "variable data in shared memory is corruped");
+ 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "variable data in shared memory is corrupted");
  		RETURN_FALSE;

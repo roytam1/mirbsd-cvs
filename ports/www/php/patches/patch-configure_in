@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/www/php/patches/patch-configure_in,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 $OpenBSD: patch-configure_in,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
---- configure.in.orig	Sat Feb 12 18:09:08 2005
-+++ configure.in	Sat Feb 12 18:09:09 2005
+--- configure.in.orig	Wed May  4 14:38:00 2005
++++ configure.in	Wed May  4 14:41:58 2005
 @@ -31,9 +31,7 @@ AC_PREREQ(2.13)
  AC_INIT(README.CVS-RULES)
  
@@ -11,9 +11,9 @@ $OpenBSD: patch-configure_in,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
 -done
 +CONFIGURE_COMMAND="Built via the MirPorts Framework"
  
- AC_CANONICAL_HOST
+ PHP_CANONICAL_HOST
  AC_CONFIG_HEADER(main/php_config.h)
-@@ -848,14 +846,14 @@ unset with_pic
+@@ -877,17 +875,14 @@ enable_static=yes
  
  case $php_build_target in
  program|static)
@@ -25,12 +25,15 @@ $OpenBSD: patch-configure_in,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
  ;;
  shared)
      enable_static=no
--    standard_libtool_flag=-prefer-pic
+-    case $with_pic in
+-      yes) standard_libtool_flag='-prefer-pic';;
+-      no)  standard_libtool_flag='-prefer-non-pic';;
+-    esac
 +    standard_libtool_flag=
      EXTRA_LDFLAGS="$EXTRA_LDFLAGS -avoid-version -module"
  ;;
  esac
-@@ -1037,7 +1035,7 @@ EXPANDED_SYSCONFDIR=`eval echo $sysconfd
+@@ -1071,7 +1066,7 @@ EXPANDED_SYSCONFDIR=`eval echo $sysconfd
  EXPANDED_DATADIR=$datadir
  EXPANDED_PHP_CONFIG_FILE_PATH=`eval echo "$PHP_CONFIG_FILE_PATH"`
  EXPANDED_PHP_CONFIG_FILE_SCAN_DIR=`eval echo "$PHP_CONFIG_FILE_SCAN_DIR"`

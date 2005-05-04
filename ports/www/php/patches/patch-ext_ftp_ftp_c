@@ -1,7 +1,7 @@
-$MirOS$
---- ext/ftp/ftp.c.orig	Sun Feb 13 02:47:24 2005
-+++ ext/ftp/ftp.c	Sun Feb 13 02:47:54 2005
-@@ -1007,6 +1007,7 @@ ftp_mdtm(ftpbuf_t *ftp, const char *path
+$MirOS: ports/www/php/patches/patch-ext_ftp_ftp_c,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+--- ext/ftp/ftp.c.orig	Thu Mar 17 17:16:27 2005
++++ ext/ftp/ftp.c	Wed May  4 14:38:06 2005
+@@ -994,6 +994,7 @@ ftp_mdtm(ftpbuf_t *ftp, const char *path
  	struct tm	tm;
  	char		*ptr;
  	int		n;
@@ -9,7 +9,7 @@ $MirOS$
  
  	if (ftp == NULL) {
  		return -1;
-@@ -1019,7 +1020,8 @@ ftp_mdtm(ftpbuf_t *ftp, const char *path
+@@ -1006,7 +1007,8 @@ ftp_mdtm(ftpbuf_t *ftp, const char *path
  	}
  	/* parse out the timestamp */
  	for (ptr = ftp->inbuf; *ptr && !isdigit(*ptr); ptr++);

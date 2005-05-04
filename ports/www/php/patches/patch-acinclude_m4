@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/www/php/patches/patch-acinclude_m4,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 $OpenBSD: patch-aclocal_m4,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
---- acinclude.m4.orig	Sun Feb 13 00:15:24 2005
-+++ acinclude.m4	Sun Feb 13 00:25:21 2005
-@@ -1685,6 +1685,7 @@ AC_DEFUN([PHP_SETUP_OPENSSL],[
+--- acinclude.m4.orig	Wed May  4 14:37:59 2005
++++ acinclude.m4	Wed May  4 14:38:03 2005
+@@ -1783,6 +1783,7 @@ AC_DEFUN([PHP_SETUP_OPENSSL],[
    
      PHP_CHECK_LIBRARY(crypto, CRYPTO_free, [
        PHP_ADD_LIBRARY(crypto,,$1)
