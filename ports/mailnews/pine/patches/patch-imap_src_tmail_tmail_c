@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-imap_src_tmail_tmail_c,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 $OpenBSD: patch-tmail_tmail_c,v 1.1 2002/09/18 08:19:06 jakob Exp $
---- imap/src/tmail/tmail.c.orig	2002-07-14 22:49:06.000000000 +0000
-+++ imap/src/tmail/tmail.c	2004-05-11 16:03:34.000000000 +0000
+--- imap/src/tmail/tmail.c.orig	Sun Jul 14 22:49:06 2002
++++ imap/src/tmail/tmail.c	Wed May  4 23:28:08 2005
 @@ -33,7 +33,7 @@ extern int errno;		/* just in case */
  
  /* Globals */

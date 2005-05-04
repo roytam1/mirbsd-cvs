@@ -1,6 +1,6 @@
-$MirOS$
---- imap/src/osdep/unix/phile.c.orig	Tue Apr 27 21:57:11 2004
-+++ imap/src/osdep/unix/phile.c	Mon Nov 29 16:42:29 2004
+$MirOS: ports/mailnews/pine/patches/patch-imap_src_osdep_unix_phile_c,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+--- imap/src/osdep/unix/phile.c.orig	Tue Apr 27 20:00:25 2004
++++ imap/src/osdep/unix/phile.c	Wed May  4 23:28:08 2005
 @@ -289,8 +289,9 @@ MAILSTREAM *phile_open (MAILSTREAM *stre
    elt->zoccident = (k == i) ? 0 : 1;
    elt->zhours = k/60;

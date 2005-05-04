@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-pine_makefile_bso,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 --- pine/makefile.bso.orig	Tue Nov 25 06:47:08 2003
-+++ pine/makefile.bso	Thu Nov  4 17:39:35 2004
++++ pine/makefile.bso	Wed May  4 23:28:11 2005
 @@ -62,7 +62,8 @@ LDAPOFILES=   addrbook.o adrbkcmd.o args
  	      mailview.o other.o pine.o strings.o takeaddr.o
  

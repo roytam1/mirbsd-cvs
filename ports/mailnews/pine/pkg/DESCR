@@ -18,6 +18,9 @@ pgpsign. Furthermore, there is an S/MIME plug-in (or rather, wrapper for
 sendmail) with installation instructions in ${PREFIX}/bin/pine.smime (in
 form of shell comments).
 
+Warning: do not use the "plaintext" flavour unless ABSOLUTELY necessary;
+the default settings allow the use of plaintext passwords over SSL/TLS.
+
 Flavors:
 	ldap		build with support for LDAP
 	plaintext	allow unencrypted passwords

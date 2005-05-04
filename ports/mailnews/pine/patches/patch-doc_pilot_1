@@ -1,6 +1,6 @@
-$MirOS$
---- doc/pilot.1.orig	2004-05-11 16:05:01.000000000 +0000
-+++ doc/pilot.1	2004-05-11 16:05:38.000000000 +0000
+$MirOS: ports/mailnews/pine/patches/patch-doc_pilot_1,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+--- doc/pilot.1.orig	Fri Jan 14 20:39:58 2005
++++ doc/pilot.1	Wed May  4 23:28:07 2005
 @@ -1,4 +1,4 @@
 -.TH pilot 1 "Version 1.1"
 +.TH pilot 1 "Version 2.0L"

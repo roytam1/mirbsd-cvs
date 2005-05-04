@@ -1,12 +1,30 @@
 $MirOS$
---- pine/newmail.c.orig	Sat Sep 18 23:00:49 2004
-+++ pine/newmail.c	Sat Sep 18 23:01:07 2004
-@@ -974,7 +974,7 @@ check_point(stream, timing, flags)
- 	else{
- 	    dprint(9, (debugfile,
- 	      "Skipping checkpoint since last was only %ld secs ago (< %d)\n",
--	      time(0) - sp_last_chkpnt_done(stream), AT_LEAST));
-+	      (long) (time(0) - sp_last_chkpnt_done(stream)), AT_LEAST));
+--- pine/newmail.c.orig	Fri Jan 14 00:44:08 2005
++++ pine/newmail.c	Wed May  4 23:28:11 2005
+@@ -819,13 +819,13 @@ new_mail_mess(stream, number, max_num, f
+ 	long inbox_nm;
+ 	if(!sp_flagged(stream, SP_INBOX) 
+ 	   && (inbox_nm = sp_mail_since_cmd(sp_inbox_stream()))){
+-	    sprintf(tmp_20k_buf, "[%d, %d] %s",
+-		    inbox_nm > 1L ? inbox_nm : 1,
+-		    number > 1L ? number: 1,
++	    sprintf(tmp_20k_buf, "[%ld, %ld] %s",
++		    inbox_nm > 1L ? inbox_nm : 1L,
++		    number > 1L ? number: 1L,
+ 		    ps_global->pine_name);
  	}
+ 	else
+-	  sprintf(tmp_20k_buf, "[%d] %s", number > 1L ? number: 1,
++	  sprintf(tmp_20k_buf, "[%ld] %s", number > 1L ? number: 1L,
+ 		  ps_global->pine_name);
      }
+     else
+@@ -1034,7 +1034,7 @@ check_point_change(stream)
+       sp_set_first_status_change(stream, time(0));
+ 
+     sp_set_check_cnt(stream, sp_check_cnt(stream)+1);
+-    dprint(9, (debugfile, "check_point_change(%s): increment to %d\n",
++    dprint(9, (debugfile, "check_point_change(%s): increment to %ld\n",
+ 	   STREAMNAME(stream), sp_check_cnt(stream)));
+ }
  

@@ -1,22 +1,39 @@
 $MirOS$
---- pico/osdep/unix.orig	Sat Sep 18 22:56:21 2004
-+++ pico/osdep/unix	Sat Sep 18 22:58:12 2004
-@@ -2717,7 +2717,9 @@ int  *n;
- 	return(NULL);
-     } 
-     else{
-+#ifndef MAX
- #define MAX(x,y)        ((x) > (y) ? (x) : (y))
-+#endif
- 	/*
- 	 * We'd like to use 512 * st_blocks as an initial estimate but
- 	 * some systems have a stat struct with no st_blocks in it.
-@@ -3677,7 +3679,7 @@ pico_new_mail()
-       sprintf(inbox, "%.*s", sizeof(inbox)-1, p);
-     else
-       sprintf(inbox,"%.*s/%.*s", sizeof(inbox)/3, MAILDIR, sizeof(inbox)/3,
--	      getlogin());
-+	      (char *) getlogin());
+--- pico/osdep/unix.orig	Tue Apr 19 21:28:34 2005
++++ pico/osdep/unix	Wed May  4 23:28:08 2005
+@@ -1088,7 +1088,7 @@ init_color_table()
+ 		strcpy(colorname, "white");
+ 		break;
+ 	      default:
+-		sprintf(colorname, "color%03.3d", i);
++		sprintf(colorname, "color%3.3d", i);
+ 		break;
+ 	    }
  
-     if(stat(inbox, &sbuf) == 0){
- 	ret = sbuf.st_atime <= sbuf.st_mtime &&
+@@ -1122,7 +1122,7 @@ init_color_table()
+ 	    }
+ 	    else{
+ 		t->canonical_name = (char *)malloc(9*sizeof(char));
+-		sprintf(t->canonical_name, "color%03.3d", i+8);
++		sprintf(t->canonical_name, "color%3.3d", i+8);
+ 	    }
+ 
+ 	    t->rgb = (char *)malloc((RGBLEN+1) * sizeof(char));
+@@ -1304,7 +1304,7 @@ colorx(color)
+ 	  case COL_WHITE:
+ 	    return("white");
+ 	  default:
+-	    sprintf(cbuf, "color%03.3d", color);
++	    sprintf(cbuf, "color%3.3d", color);
+ 	    return(cbuf);
+ 	}
+     }
+@@ -1317,7 +1317,7 @@ colorx(color)
+       return(ct->canonical_name);
+ 
+     /* not supposed to get here */
+-    sprintf(cbuf, "color%03.3d", color);
++    sprintf(cbuf, "color%3.3d", color);
+     return(cbuf);
+ }
+ 

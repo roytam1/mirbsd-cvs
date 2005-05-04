@@ -1,7 +1,7 @@
-$MirOS$
---- pine/init.c.orig	Thu Jul 15 17:37:02 2004
-+++ pine/init.c	Fri Dec 10 21:49:18 2004
-@@ -1333,7 +1333,7 @@ init_pinerc(ps, debug_out)
+$MirOS: ports/mailnews/pine/patches/patch-pine_init_c,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+--- pine/init.c.orig	Thu Apr  7 18:01:20 2005
++++ pine/init.c	Wed May  4 23:28:10 2005
+@@ -1359,7 +1359,7 @@ init_pinerc(ps, debug_out)
      }
  
      if(!ps->pinerc){
@@ -10,7 +10,7 @@ $MirOS$
        ps->pinerc = cpystr(buf);
      }
  
-@@ -3020,6 +3020,7 @@ process_feature_list(ps, list, old_growt
+@@ -3082,6 +3082,7 @@ process_feature_list(ps, list, old_growt
                               *lvalue[BM_SIZE * 8];
      int                       i,
                                yorn;
@@ -18,7 +18,7 @@ $MirOS$
      long                      l;
      FEATURE_S		     *feat;
  
-@@ -3041,6 +3042,12 @@ process_feature_list(ps, list, old_growt
+@@ -3103,6 +3104,12 @@ process_feature_list(ps, list, old_growt
      if(old_growth)
          set_old_growth_bits(ps, 0);
  
@@ -31,7 +31,7 @@ $MirOS$
      /* now run through the list (global, user, and cmd_line lists are here) */
      if(list){
        for(p = list; (q = *p) != NULL; p++){
-@@ -3103,7 +3110,7 @@ process_feature_list(ps, list, old_growt
+@@ -3165,7 +3172,7 @@ process_feature_list(ps, list, old_growt
        ps->orig_use_fkeys = 1;
  
      /* Will we have to build a new list? */
@@ -40,7 +40,7 @@ $MirOS$
  	return;
  
      /*
-@@ -3125,12 +3132,18 @@ process_feature_list(ps, list, old_growt
+@@ -3187,12 +3194,18 @@ process_feature_list(ps, list, old_growt
        }else if(old_growth && (strucmp(q, "old-growth") == 0 ||
                               strucmp(q, "no-old-growth") == 0)){
  	old_growth = 0;
@@ -60,7 +60,7 @@ $MirOS$
  	return;
  
      if(hir)
-@@ -3139,6 +3152,10 @@ process_feature_list(ps, list, old_growt
+@@ -3201,6 +3214,10 @@ process_feature_list(ps, list, old_growt
        lvalue[i++] = "signature-at-bottom";
      if(old_growth)
        lvalue[i++] = "old-growth";
@@ -71,34 +71,7 @@ $MirOS$
      lvalue[i] = NULL;
      set_variable_list(V_FEATURE_LIST, lvalue, TRUE, Main);
  }
-@@ -5362,7 +5379,7 @@ read_pinerc(prc, vars, which_vars)
- 	if(!prc->pinerc_written && prc->type == Loc){
- 	    prc->pinerc_written = name_file_mtime(filename);
- 	    dprint(5, (debugfile, "read_pinerc: time_pinerc_written = %ld\n",
--		       prc->pinerc_written));
-+		       (long) prc->pinerc_written));
- 	}
-     }
- 
-@@ -5929,7 +5946,7 @@ write_pinerc(ps, which)
- 		dprint(2, (debugfile,
- 			   "write_pinerc: mtime mismatch: \"%s\": %ld != %ld\n",
- 			   filename ? filename : "?",
--			   prc->pinerc_written, mtime));
-+			   (long) prc->pinerc_written, (long) mtime));
- 		return(-1);
- 	    }
- 	}
-@@ -6214,7 +6231,7 @@ write_pinerc(ps, which)
-     if(prc->type == Loc){
- 	prc->pinerc_written = name_file_mtime(filename);
- 	dprint(2, (debugfile, "wrote pinerc: %s: time_pinerc_written = %ld\n",
--		   pinrc ? pinrc : "?", prc->pinerc_written));
-+		   pinrc ? pinrc : "?", (long) prc->pinerc_written));
-     }
-     else{
- 	dprint(2, (debugfile, "wrote pinerc: %s\n", pinrc ? pinrc : "?"));
-@@ -6504,7 +6521,7 @@ char *filename;
+@@ -6607,7 +6624,7 @@ char *filename;
      }
  #else	/* !DOS */
      if(!ps_global->pinerc){
@@ -107,3 +80,34 @@ $MirOS$
  	p = buf;
      }
  #endif	/* !DOS */
+@@ -7528,7 +7545,7 @@ prune_folders(prune_cntxt, folder_base, 
+     path2[sizeof(path2)-1] = '\0';
+ 
+     if(F_ON(F_PRUNE_USES_ISO,ps_global)){             /* sent-mail-yyyy-mm */
+-	sprintf(path2 + strlen(path2), "-%04.4d-%02.2d", month_to_use/12,
++	sprintf(path2 + strlen(path2), "-%4.4d-%2.2d", month_to_use/12,
+ 		month_to_use % 12 + 1);
+     }
+     else{
+@@ -10213,7 +10230,7 @@ try_looking_in_stream:
+ 	/* if we got back a result from the status command, use it */
+ 	if(mm_status_result.flags){
+ 	    dprint(7, (debugfile,
+-		   "rd_check_remvalid: got status_result 0x%x\n",
++		   "rd_check_remvalid: got status_result 0x%lX\n",
+ 		   mm_status_result.flags));
+ 	    if(mm_status_result.flags & SA_MESSAGES){
+ 		current_nmsgs = mm_status_result.messages;
+@@ -10718,10 +10735,10 @@ try_wantto:
+ 	p += strlen(p);
+ 	sprintf(p, "Suspicious data in \"%.50s\": Continue anyway ",
+ 		(rd && rd->t.i.special_hdr) ? rd->t.i.special_hdr
+-					    : unknown,
++					    : unknown/*,
+ 		(rd && rd->rn) ? rd->rn : unknown,
+ 		short_str((rd && rd->rn) ? rd->rn : "<noname>", tmp+1900,
+-			  33, FrontDots));
++			  33, FrontDots)*/);
+ 	if(want_to(tmp, 'n', 'x', NO_HELP, WT_NORM) == 'y'){
+ 	    rv = 1;
+ 	    rd->flags |= USER_SAID_YES;

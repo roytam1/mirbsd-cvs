@@ -1,10 +1,10 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-doc_pine_1,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 $OpenBSD: patch-doc_pine_1,v 1.2 2003/05/27 23:38:33 brad Exp $
---- doc/pine.1.orig	Fri Jul  9 20:33:56 2004
-+++ doc/pine.1	Sun Jul 25 08:53:45 2004
+--- doc/pine.1.orig	Thu Apr 28 18:28:20 2005
++++ doc/pine.1	Wed May  4 23:28:07 2005
 @@ -1,4 +1,4 @@
--.TH pine 1 "Version 4.61"
-+.TH pine 1 "Version 4.61L"
+-.TH pine 1 "Version 4.63"
++.TH pine 1 "Version 4.63L"
  .SH NAME
  pine \- a Program for Internet News and Email
  .SH SYNTAX 

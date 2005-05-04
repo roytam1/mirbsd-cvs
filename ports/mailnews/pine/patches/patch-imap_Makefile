@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-imap_Makefile,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 $OpenBSD: patch-Makefile,v 1.5 2003/10/05 22:00:00 jakob Exp $
---- imap/Makefile.orig	2004-04-27 21:55:02.000000000 +0000
-+++ imap/Makefile	2004-05-11 16:34:11.000000000 +0000
-@@ -178,7 +178,7 @@ SSLTYPE=nopwd
+--- imap/Makefile.orig	Wed Mar  9 02:38:45 2005
++++ imap/Makefile	Wed May  4 23:28:07 2005
+@@ -180,7 +180,7 @@ SSLTYPE=nopwd
  # 4	(default) IPv4 support only
  # 6	IPv6 and IPv4 support
  
@@ -11,7 +11,7 @@ $OpenBSD: patch-Makefile,v 1.5 2003/10/05 22:00:00 jakob Exp $
  
  
  # The following extra compilation flags are defined.  None of these flags are
-@@ -447,8 +447,6 @@ sslunix sslsco:
+@@ -473,8 +473,6 @@ sslunix sslsco:
  	@echo ++ SSLTYPE=$(SSLTYPE).nopwd
  	@echo +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  	@echo

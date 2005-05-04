@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-imap_src_tmail_Makefile,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 --- imap/src/tmail/Makefile.orig	Tue Nov 19 00:44:52 2002
-+++ imap/src/tmail/Makefile	Thu Nov  4 17:18:03 2004
++++ imap/src/tmail/Makefile	Wed May  4 23:28:08 2005
 @@ -18,7 +18,7 @@
  
  

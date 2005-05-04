@@ -1,6 +1,6 @@
-$MirOS$
---- pico/pilot.c.orig	2004-05-11 15:40:45.000000000 +0000
-+++ pico/pilot.c	2004-05-11 15:40:48.000000000 +0000
+$MirOS: ports/mailnews/pine/patches/patch-pico_pilot_c,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+--- pico/pilot.c.orig	Fri Jun 11 21:49:27 2004
++++ pico/pilot.c	Wed May  4 23:28:08 2005
 @@ -38,7 +38,7 @@ static char rcsid[] = "$Id: pilot.c,v 4.
  #include	"headers.h"
  

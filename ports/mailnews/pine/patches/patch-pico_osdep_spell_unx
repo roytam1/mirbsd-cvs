@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-pico_osdep_spell_unx,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 $OpenBSD: patch-pico_osdep_spell_unx,v 1.2 2003/05/27 23:38:33 brad Exp $
 --- pico/osdep/spell.unx.orig	Thu Dec 12 22:18:30 2002
-+++ pico/osdep/spell.unx	Sun Jul 25 08:53:45 2004
++++ pico/osdep/spell.unx	Wed May  4 23:28:08 2005
 @@ -84,6 +84,14 @@ spell(f, n)
      setimark(0, 1);
      emlwrite("Checking spelling...", NULL); 	/* greetings */

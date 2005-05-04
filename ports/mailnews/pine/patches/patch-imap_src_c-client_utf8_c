@@ -1,6 +1,6 @@
-$MirOS$
---- imap/src/c-client/utf8.c.orig	2004-06-03 14:19:17.000000000 +0000
-+++ imap/src/c-client/utf8.c	2004-06-03 14:21:13.000000000 +0000
+$MirOS: ports/mailnews/pine/patches/patch-imap_src_c-client_utf8_c,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+--- imap/src/c-client/utf8.c.orig	Fri Apr  8 00:44:57 2005
++++ imap/src/c-client/utf8.c	Wed May  4 23:28:07 2005
 @@ -109,6 +109,7 @@ static const struct utf8_eucparam ksc_pa
  
  static const CHARSET utf8_csvalid[] = {
@@ -9,7 +9,7 @@ $MirOS$
    {"UTF-8",CT_UTF8,NIL,SC_UNICODE,NIL},
    {"UTF-7",CT_UTF7,NIL,SC_UNICODE,"UTF-8"},
    {"ISO-8859-1",CT_1BYTE0,NIL,SC_LATIN_1,NIL},
-@@ -202,6 +203,7 @@ static const CHARSET utf8_csvalid[] = {
+@@ -203,6 +204,7 @@ static const CHARSET utf8_csvalid[] = {
  				/* deeper sigh */
    {"IBM367",CT_ASCII,NIL,NIL,"US-ASCII"},
    {"IBM437",CT_1BYTE,(void *) ibm_437tab,SC_LATIN_1,"ISO-8859-1"},

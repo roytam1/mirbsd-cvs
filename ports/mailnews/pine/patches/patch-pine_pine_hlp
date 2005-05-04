@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-pine_pine_hlp,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
 $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
---- pine/pine.hlp.orig	Thu Jul 15 17:37:00 2004
-+++ pine/pine.hlp	Sun Jul 25 13:14:27 2004
-@@ -189,10 +189,11 @@ Additions include:
+--- pine/pine.hlp.orig	Thu Apr 28 17:21:40 2005
++++ pine/pine.hlp	Wed May  4 23:28:11 2005
+@@ -306,10 +306,11 @@ Additions included:
  <P>
  
  <UL>
@@ -15,7 +15,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
    <LI> <A HREF="h_config_viewer_margin_left">Viewer-Margin-Left</A> and <A HREF="h_config_viewer_margin_right">Viewer-Margin-Right</A> made a little more flexible
    <LI> Suppress quoted text when viewing messages with <A HREF="h_config_quote_suppression">Quote-Suppression-Threshold</A>
    <LI> The behavior of the <A HREF="h_common_hdrmode">HdrMode Command</A> has changed slightly. It now reverts back to normal mode when you switch to a new message. It also has an additional state if <A HREF="h_config_quote_suppression">Quote-Suppression-Threshold</A> is turned on.
-@@ -841,14 +842,14 @@ PC-Pine:
+@@ -959,14 +960,14 @@ PC-Pine:
  Unix Pine:
  
   executable     &lt;Unix search path&gt;/pine
@@ -33,7 +33,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
   crash		~/.pine-crash
   newsrc#        ~/.newsrc
   signature#     &lt;pinerc dir&gt;/.signature
-@@ -857,8 +858,7 @@ Unix Pine:
+@@ -975,8 +976,7 @@ Unix Pine:
   postponed#     ~/mail/postponed-msgs
   sentmail#      ~/mail/sent-mail
   mailcap#       ~/.mailcap + /etc/mailcap
@@ -43,7 +43,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  
   news-spool	varies across Unix flavors, e.g. /var/spool/news or /usr/spool/news
   active-news	varies across Unix flavors, e.g. /usr/lib/news/active
-@@ -15858,7 +15858,8 @@ configuration file) throughout Pine, or 
+@@ -16774,7 +16774,8 @@ configuration file) throughout Pine, or 
  You can't mix the two.
  <P>
  This field consists of a filename which will be used as the signature
@@ -53,7 +53,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  <P>
  If the filename is followed by a vertical bar (|) then instead
  of reading the contents of the file the file is assumed to be a
-@@ -18047,7 +18048,7 @@ a semi-colon (;) under Windows; for exam
+@@ -19258,7 +19259,7 @@ a semi-colon (;) under Windows; for exam
  </PRE>
  <!--chtml else-->
  a colon (:) under UNIX; for example:<PRE>
@@ -62,7 +62,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  </PRE>
  <!--chtml endif-->
  <P><UL>
-@@ -18829,7 +18830,7 @@ PINERC file is a local file.
+@@ -20067,7 +20068,7 @@ PINERC file is a local file.
  If your PINERC file is remote, then it will be in the directory specified
  by the &quot;-aux local_directory&quot; command line option.
  <!--chtml else-->
@@ -71,7 +71,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  <!--chtml endif-->
  <P>
  
-@@ -18845,6 +18846,8 @@ program which will produce the text to b
+@@ -20083,6 +20084,8 @@ program which will produce the text to b
  The program can't have any arguments and doesn't receive any input from Pine,
  but the rest of the processing works as if the contents came from a file.
  
@@ -80,7 +80,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  <P>
  Instead of storing the data in a local file, the
  signature data may be stored remotely in an IMAP folder.
-@@ -23033,7 +23036,7 @@ argument (see the &quot;lynx&quot; examp
+@@ -24496,7 +24499,7 @@ argument (see the &quot;lynx&quot; examp
  So, here are some example entries:
  <PRE>
  URL-Viewers = _TEST(&quot;test -n '$&#123;DISPLAY}'&quot;)_  /usr/local/bin/netscape
@@ -89,7 +89,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
                C:&#92;BIN&#92;NETSCAPE.BAT
  </PRE>
  <P>
-@@ -23041,7 +23044,7 @@ This example shows that for the first vi
+@@ -24504,7 +24507,7 @@ This example shows that for the first vi
  the environment variable &quot;DISPLAY&quot; must be defined.  If it
  is, then the path and file &quot;/usr/local/bin/netscape&quot; must exist.  
  If neither condition is met,
@@ -98,7 +98,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  If it does, then the &quot;_URL_&quot; token is replaced by the selected URL. 
  If the path to &quot;lynx&quot; is invalid,
  then the final path and file C:&#92;BIN&#92;NETSCAPE.BAT must exist.  
-@@ -23137,7 +23140,7 @@ because of its length, but should all ap
+@@ -24600,7 +24603,7 @@ because of its length, but should all ap
  URL-Viewers = _TEST("test -L /myhomedir/.netscape/lock")_ &quot;/usr/local/bin/netscape -remote 'openURL(_URL_,  new-window)' &amp;&quot;<BR>
  
  _TEST(&quot;test -n '$&#123;DISPLAY}'&quot;)_ &quot;/usr/local/bin/netscape &amp;&quot;<BR>

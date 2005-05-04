@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.2 2005/04/19 12:24:34 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.3 2005/04/26 05:44:30 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -8,17 +8,16 @@ COMMENT-mailutil=	"University of Washington IMAP4rev1/POP2/POP3 mail utility"
 COMMENT-pico=		"small text editor"
 COMMENT-pilot=		"file system browser"
 CATEGORIES=		devel editors mail net news sysutils
-VERSION=		4.61
-PICO_VERSION=		4.8
+VERSION=		4.63
+PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
-IMAP_VERSION=		2004.352
-PL_CCL=			p3
+IMAP_VERSION=		2004.357
+#PL_CCLIENT=		p0
 DISTNAME=		pine${VERSION}
-PKGNAME=		pine-${VERSION}${PL_CCL}
-PKGNAME-cclient=	c-client-${VERSION}${PL_CCL}
-PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCL}
-#PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCL}
-PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}p4
+PKGNAME=		pine-${VERSION}${PL_CCLIENT}
+PKGNAME-cclient=	c-client-${VERSION}${PL_CCLIENT}
+PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCLIENT}
+PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCLIENT}
 FULLPKGNAME-pico=	pico-${PICO_VERSION}
 FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}
 MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
@@ -39,7 +38,7 @@ PERMIT_DISTFILES_FTP=	Yes
 NO_REGRESS=		Yes
 
 FLAVORS=		ldap plaintext
-FLAVOR?=	
+FLAVOR?=
 
 .include <mirports.sys.mk>
 
