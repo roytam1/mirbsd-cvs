@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/ap/ap_md5c.c,v 1.2 2005/03/13 19:16:42 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/ap/ap_md5c.c,v 1.4 2005/04/19 14:37:50 tg Exp $ */
 /*	$OpenBSD: md5crypt.c,v 1.13 2003/08/07 00:30:21 deraadt Exp $	*/
 
 /*
@@ -20,7 +20,10 @@
 #include <string.h>
 #include "ap_md5.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/ap/ap_md5c.c,v 1.2 2005/03/13 19:16:42 tg Exp $");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/ap/ap_md5c.c,v 1.4 2005/04/19 14:37:50 tg Exp $");
 
 static unsigned char itoa64[] =		/* 0 ... 63 => ascii - 64 */
 	"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/ssl/ssl_engine_vars.c,v 1.2 2005/03/13 19:16:54 tg Exp $ */
 
 /*                      _             _
 **  _ __ ___   ___   __| |    ___ ___| |  mod_ssl
@@ -66,7 +66,10 @@
                                                   -- Unknown       */
 #include "mod_ssl.h"
 
-__RCSID("$MirOS$");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/ssl/ssl_engine_vars.c,v 1.2 2005/03/13 19:16:54 tg Exp $");
 
 /*  _________________________________________________________________
 **

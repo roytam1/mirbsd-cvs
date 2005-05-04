@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.2 2005/03/13 19:16:52 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.3 2005/04/17 04:38:38 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -68,7 +68,10 @@
 #include "util_date.h"          /* get ap_checkmask() decl. */
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.2 2005/03/13 19:16:52 tg Exp $");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.3 2005/04/17 04:38:38 tg Exp $");
 
 static int proxy_match_ipaddr(struct dirconn_entry *This, request_rec *r);
 static int proxy_match_domainname(struct dirconn_entry *This, request_rec *r);

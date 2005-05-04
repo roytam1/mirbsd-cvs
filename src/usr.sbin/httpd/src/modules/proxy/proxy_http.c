@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.3 2005/04/17 04:38:38 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.4 2005/04/19 14:37:55 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -66,7 +66,10 @@
 #include "http_core.h"
 #include "util_date.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.3 2005/04/17 04:38:38 tg Exp $");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.4 2005/04/19 14:37:55 tg Exp $");
 
 /*
  * Canonicalise http-like URLs.

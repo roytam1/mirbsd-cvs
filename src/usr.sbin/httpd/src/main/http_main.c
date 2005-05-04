@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.2 2005/03/13 19:16:47 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.3 2005/04/17 04:38:34 tg Exp $ */
 /* $OpenBSD: http_main.c,v 1.38 2005/02/09 12:13:09 henning Exp $ */
 
 /* ====================================================================
@@ -110,7 +110,10 @@
 #endif
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.2 2005/03/13 19:16:47 tg Exp $");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.3 2005/04/17 04:38:34 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still

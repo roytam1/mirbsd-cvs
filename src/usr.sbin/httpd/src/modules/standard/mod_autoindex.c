@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.2 2005/03/13 19:16:55 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.3 2005/04/17 04:38:39 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -77,7 +77,10 @@
 #include "util_script.h"
 #include "fnmatch.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.2 2005/03/13 19:16:55 tg Exp $");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.3 2005/04/17 04:38:39 tg Exp $");
 
 module MODULE_VAR_EXPORT autoindex_module;
 

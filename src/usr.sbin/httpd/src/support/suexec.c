@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/support/suexec.c,v 1.2 2005/03/13 19:16:59 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -99,7 +99,10 @@
 
 #include "suexec.h"
 
-__RCSID("$MirOS$");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/support/suexec.c,v 1.2 2005/03/13 19:16:59 tg Exp $");
 
 #if defined(PATH_MAX)
 #define AP_MAXPATH PATH_MAX
