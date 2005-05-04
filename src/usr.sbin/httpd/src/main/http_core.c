@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_core.c,v 1.2 2005/03/13 19:16:46 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_core.c,v 1.3 2005/04/17 04:38:33 tg Exp $ */
 /* $OpenBSD: http_core.c,v 1.20 2005/02/09 12:13:09 henning Exp $ */
 
 /* ====================================================================
@@ -3188,13 +3188,11 @@ static const command_rec core_cmds[] = {
 { "RLimitCPU",
   set_limit_cpu, (void*)XtOffsetOf(core_dir_config, limit_cpu),
   OR_ALL, TAKE12, "Soft/hard limits for max CPU usage in seconds" },
-{ "RLimitTime",
 #ifdef RLIMIT_TIME
+{ "RLimitTime",
   set_limit_time, (void*)XtOffsetOf(core_dir_config, limit_time),
-#else
-  no_set_limit, NULL,
-#endif
   OR_ALL, TAKE12, "Soft/hard limits for max human time in seconds" },
+#endif
 { "RLimitMEM",
   set_limit_mem, (void*)XtOffsetOf(core_dir_config, limit_mem),
   OR_ALL, TAKE12, "Soft/hard limits for max memory usage per process" },
