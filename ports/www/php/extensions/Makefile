@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.2 2005/03/25 23:13:35 bsiegert Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.3 2005/03/27 22:20:25 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/10/18 15:58:53 robert Exp $
 
 FULLPKGNAME=		php-extensions-${V}${PV}
@@ -121,6 +121,8 @@ FULLPKGNAME-gd=		php-gd-${V}${PV}-no_x11
 
 # gmp
 PSEUDO_FLAVORS+=	no_gmp
+#XXX it's broken
+FLAVOR+=		no_gmp
 .if ${FLAVOR:L:Mno_gmp}
 CONFIGURE_ARGS+=	--without-gmp
 .else
@@ -220,7 +222,7 @@ CONFIGURE_ARGS+=	--without-pgsql
 MULTI_PACKAGES+=	-pgsql
 COMMENT-pgsql=		"pgsql database access extensions for php"
 CONFIGURE_ARGS+=	--with-pgsql=shared,${LOCALBASE}
-PGSQL_DEPENDS=		pq.2::databases/postgresql,-clients
+PGSQL_DEPENDS=		pq.2::databases/postgresql
 .endif
 
 # shmop
