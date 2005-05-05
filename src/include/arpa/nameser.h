@@ -1,8 +1,6 @@
 /*	$OpenBSD: nameser.h,v 1.10 2004/01/22 21:48:02 espie Exp $	*/
 
 /*
- * ++Copyright++ 1983, 1989, 1993
- * -
  * Copyright (c) 1983, 1989, 1993
  *    The Regents of the University of California.  All rights reserved.
  * 
@@ -70,7 +68,6 @@
  * DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE, EVEN
  * IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * --Copyright--
  */
 
 /*

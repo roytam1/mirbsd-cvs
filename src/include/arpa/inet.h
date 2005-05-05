@@ -1,8 +1,6 @@
 /*	$OpenBSD: inet.h,v 1.10 2004/01/22 21:48:02 espie Exp $	*/
 
 /*
- * ++Copyright++ 1983, 1993
- * -
  * Copyright (c) 1983, 1993
  *    The Regents of the University of California.  All rights reserved.
  * 
@@ -47,8 +45,6 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
  * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
- * -
- * --Copyright--
  */
 
 /*

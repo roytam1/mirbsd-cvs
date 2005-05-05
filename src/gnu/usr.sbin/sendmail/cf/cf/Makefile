@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.2 2005/03/13 15:11:42 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/12/16 00:21:29 millert Exp $
 #
 #  Makefile for configuration files.
@@ -34,7 +34,7 @@ RM=	rm -f
 
 ALL=	submit.cf clientproto.cf tcpproto.cf openbsd-localhost.cf \
 	openbsd-proto.cf courtesan.cf courtesan-nonet.cf openbsd-lists.cf \
-	openbsd-bulk.cf lucifier.cf corpse.cf knecht.cf
+	openbsd-bulk.cf knecht.cf
 
 FILES=	access aliases genericstable local-host-names mailertable \
 	relay-domains service.switch trusted-users virtusertable

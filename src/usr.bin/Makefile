@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.3 2005/03/15 21:23:04 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.4 2005/03/26 09:04:08 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -6,7 +6,6 @@
   SUBDIR+= apropos
   SUBDIR+= arch
   SUBDIR+= at
-  SUBDIR+= aucat
   SUBDIR+= audioctl
   SUBDIR+= awk
   SUBDIR+= basename
@@ -42,7 +41,6 @@
   SUBDIR+= expand
   SUBDIR+= false
   SUBDIR+= fdialog
-  SUBDIR+= fgen
   SUBDIR+= file
   SUBDIR+= file2c
   SUBDIR+= find
