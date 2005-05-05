@@ -1,4 +1,4 @@
-/* $OpenBSD: isakmpd.c,v 1.85 2005/04/10 14:17:49 jmc Exp $	 */
+/* $OpenBSD: isakmpd.c,v 1.87 2005/05/03 14:03:11 moritz Exp $	 */
 /* $EOM: isakmpd.c,v 1.54 2000/10/05 09:28:22 niklas Exp $	 */
 
 /*
@@ -90,19 +90,13 @@ volatile sig_atomic_t sigusr1ed = 0;
 static char    *report_file = "/var/run/isakmpd.report";
 
 /*
- * If we receive a USR2 signal, this flag gets set to show we need to
- * rehash our SA soft expiration timers to a uniform distribution.
- * XXX Perhaps this is a really bad idea?
- */
-volatile sig_atomic_t sigusr2ed = 0;
-
-/*
  * If we receive a TERM signal, perform a "clean shutdown" of the daemon.
  * This includes to send DELETE notifications for all our active SAs.
  * Also on recv of an INT signal (Ctrl-C out of an '-d' session, typically).
  */
 volatile sig_atomic_t sigtermed = 0;
 void            daemon_shutdown_now(int);
+void		set_slave_signals(void);
 
 /* The default path of the PID file.  */
 static char    *pid_file = "/var/run/isakmpd.pid";
@@ -271,24 +265,6 @@ sigusr1(int sig)
 	sigusr1ed = 1;
 }
 
-/* Rehash soft expiration timers on SIGUSR2.  */
-static void
-rehash_timers(void)
-{
-#if 0
-	/* XXX - not yet */
-	log_print("SIGUSR2 received, rehashing soft expiration timers.");
-
-	timer_rehash_timers();
-#endif
-}
-
-static void
-sigusr2(int sig)
-{
-	sigusr2ed = 1;
-}
-
 static int
 phase2_sa_check(struct sa *sa, void *arg)
 {
@@ -299,6 +275,29 @@ static int
 phase1_sa_check(struct sa *sa, void *arg)
 {
 	return sa->phase == 1;
+}
+
+void
+set_slave_signals(void)
+{
+	int n;
+
+	for (n = 1; n < _NSIG; n++)
+		signal(n, SIG_DFL);
+
+	/*
+	 * Do a clean daemon shutdown on TERM/INT. These signals must be
+	 * initialized before monitor_init(). INT is only used with '-d'.
+         */
+	signal(SIGTERM, daemon_shutdown_now);
+	if (debug == 1)		/* i.e '-dd' will skip this.  */
+		signal(SIGINT, daemon_shutdown_now);
+
+	/* Reinitialize on HUP reception.  */
+	signal(SIGHUP, sighup);
+
+	/* Report state on USR1 reception.  */
+	signal(SIGUSR1, sigusr1);
 }
 
 static void
@@ -381,9 +380,6 @@ main(int argc, char *argv[])
 		if (fcntl(n, F_GETFL, 0) == -1 && errno == EBADF)
 			(void) open("/dev/null", n ? O_WRONLY : O_RDONLY, 0);
 
-	for (n = 1; n < _NSIG; n++)
-		signal(n, SIG_DFL);
-
 	/* Log cmd line parsing and initialization errors to stderr.  */
 	log_to(stderr);
 	parse_args(argc, argv);
@@ -393,14 +389,7 @@ main(int argc, char *argv[])
 	setprotoent(1);
 	setservent(1);
 
-	/*
-	 * Do a clean daemon shutdown on TERM/INT. These signals must be
-	 * initialized before monitor_init(). INT is only used with '-d'.
-         */
-	signal(SIGTERM, daemon_shutdown_now);
-	if (debug == 1)		/* i.e '-dd' will skip this.  */
-		signal(SIGINT, daemon_shutdown_now);
-
+	set_slave_signals();
 	/* Daemonize before forking unpriv'ed child */
 	if (!debug)
 		if (daemon(0, 0))
@@ -419,15 +408,6 @@ main(int argc, char *argv[])
 	init();
 
 	write_pid_file();
-
-	/* Reinitialize on HUP reception.  */
-	signal(SIGHUP, sighup);
-
-	/* Report state on USR1 reception.  */
-	signal(SIGUSR1, sigusr1);
-
-	/* Rehash soft expiration timers on USR2 reception.  */
-	signal(SIGUSR2, sigusr2);
 
 	/* If we wanted IKE packet capture to file, initialize it now.  */
 	if (pcap_file != 0)
@@ -459,12 +439,6 @@ main(int argc, char *argv[])
 			sigusr1ed = 0;
 			log_print("SIGUSR1 received");
 			report();
-		}
-		/* and if someone sent SIGUSR2, do a timer rehash.  */
-		if (sigusr2ed) {
-			sigusr2ed = 0;
-			log_print("SIGUSR2 received");
-			rehash_timers();
 		}
 		/*
 		 * and if someone set 'sigtermed' (SIGTERM, SIGINT or via the
