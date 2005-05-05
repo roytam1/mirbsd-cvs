@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.18 2005/05/02 21:14:05 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.19 2005/05/05 00:39:43 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -33,8 +33,8 @@
 <h3 style="color:red;">Latest Releases</h3>
 <p>CURRENT: May 2nd, 2005: #8-gamma snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
-<p>CURRENT: April 27th, 2005: #8-gamma snapshot available for <a
- href="/MirOS/current/i386-20050427-RC1/">download</a> via the usual mirrors.</p>
+<p>CURRENT: May 5th, 2005: #8-gamma snapshot available for <a
+ href="/MirOS/current/i386-20050505/">download</a> via the usual mirrors.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
@@ -47,7 +47,7 @@
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
 <p><a href="/MirOS/CVS/cvsrepo-20050505.cgz">CVSREPO</a>: May 5th, 2005:
- seed file (161 MB) for reducing the initial transfer costs. We would like
+ seed file (156 MiB) for reducing the initial transfer costs. We would like
  to offer CTM; it's available on request but nobody uses it.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
  final and complete seed file (325 MB) for the historic old repository.</p>
