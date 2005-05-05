@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.17 2005/04/29 01:11:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.18 2005/05/02 21:14:05 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -46,7 +46,7 @@
  SHA-2 checksums any more; imake ports build now correctly.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
-<p><a href="/MirOS/CVS/cvsrepo-20050330.cgz">CVSREPO</a>: March 30th, 2005:
+<p><a href="/MirOS/CVS/cvsrepo-20050505.cgz">CVSREPO</a>: May 5th, 2005:
  seed file (161 MB) for reducing the initial transfer costs. We would like
  to offer CTM; it's available on request but nobody uses it.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
