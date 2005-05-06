@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.2 2005/04/11 20:57:41 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.3 2005/04/11 21:08:22 tg Exp $ */
 /* $OpenBSD: show.c,v 1.13 2003/08/21 20:24:56 espie Exp $ */
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.2 2005/04/11 20:57:41 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.3 2005/04/11 21:08:22 tg Exp $");
 
 /* structure to define entries for the "show table" */
 typedef struct show_t {
@@ -192,6 +192,9 @@ show_files(const char *title, package_t *plist)
 	for (ign = false, p = plist->head; p ; p = p->next) {
 		switch(p->type) {
 		case PLIST_FILE:
+		case PLIST_INFO:
+		case PLIST_MAN:
+		case PLIST_LIB:
 			if (!ign) {
 				printf("%s/%s\n", dir, p->name);
 			}
