@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.3 2005/03/17 18:29:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.4 2005/04/01 18:45:31 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>.</p>
 <h2>Why this page?</h2>
@@ -26,7 +26,7 @@
 <h2 id="manifest">Das Anargeek Manifest</h2><pre>
 &middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;
 &middot;&middot; m a n i f e s t &middot; e i n e s &middot;&middot;
-&middot;&middot; a n a r g e e k &middot; v 1 . 0 b &middot;&middot;
+&middot;&middot; a n a r g e e k &middot; &middot; v 1 . 1 &middot;&middot;
 &middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;
 </pre></td>
 <td style="width:160px;"><img src="/pics/anargeek.png" alt="Anargeek Emblem" /></td></tr></table>
@@ -138,6 +138,15 @@
  zwischen Handelnden, Zuschauenden und Journalisten aufbricht und Probleme
  zum Vorschein kommen l&auml;&szlig;t, die die Massenmedien vorsichtig
  ignorieren oder &uuml;ber die sie gar Disinformationen verbreiten.</p>
+<p>Ich m&ouml;chte nicht dumm und nichtswissend bleiben, ebensowenig
+ m&ouml;chte ich ein Besserwisser sein und auf meinem Standpunkt stehen
+ bleiben ohne jemals hinzulernen zu wollen &ndash; auch darum bin ich
+ ein Anargeek. Ich &ouml;ffne mich neuem Wissen, lerne und lehre, teile
+ und entdecke F&auml;higkeiten, von denen ich noch nie geh&ouml;rt habe,
+ schaue &uuml;ber den Tellerrand hinaus. Ich weigere mich anzuerkennen,
+ da&szlig; &ndash; in einer Art traditioneller Hierarchie &ndash; die
+ &Auml;lteren oder Vorgesetzten immer und &uuml;berall Recht haben, nur
+ weil sie &auml;lter oder l&auml;nger dabei sind.</p>
 <p>Schlie&szlig;lich bin ich ein Anargeek, weil ich glaube, da&szlig;
  Computer nicht nur Instrumente der Datensammlung, Beherrschung und
  Entfremdung darstellen, sondern auch als Hilfsmittel zur St&auml;rkung
