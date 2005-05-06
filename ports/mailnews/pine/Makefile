@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.3 2005/04/26 05:44:30 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.4 2005/05/04 23:37:38 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -67,7 +67,7 @@ PINE_BUILD_FLAGS+=	SSLTYPE="unix.nopwd"
 
 .if defined(PACKAGING) && ${SUBPACKAGE} != "-pico" \
     && ${SUBPACKAGE} != "-pilot" && ${SUBPACKAGE} != "-cclient"
-LIB_DEPENDS+=		c-client.5::mailnews/pine,-cclient
+LIB_DEPENDS+=		c-client.6::mailnews/pine,-cclient
 .endif
 
 IMAP_DOCFILES=		../CPYRIGHT FAQ.html FAQ.txt RELNOTES Y2K bugs.txt \
