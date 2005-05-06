@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: src/scripts/systrace.mk,v 1.1 2005/03/06 16:08:16 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -53,7 +53,7 @@ done
 
 mydir=${0%/*}
 [[ $mydir = $0 ]] && mydir=.
-mydir=$(cd $mydir; pwd)
+mydir=$(readlink -nf $mydir)
 
 for prog in "${progs[@]}"; do
 	sed "s#@@PROG@@#$prog#g" <$mydir/systrace.sed
