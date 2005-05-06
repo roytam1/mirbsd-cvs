@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.2 2005/03/25 23:13:34 bsiegert Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.3 2005/03/27 22:20:23 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 
 MULTI_PACKAGES=		-pear
@@ -24,6 +24,7 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--enable-calendar \
 			--enable-ctype \
 			--enable-ftp \
+			--enable-mbstring \
 			--with-pcre-regex \
 			--with-posix \
 			--enable-sockets \
