@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/profile,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
 
 [ -s "${HOME}/.profile.preinit" ] && . ${HOME}/.profile.preinit
 
@@ -40,13 +40,12 @@ else
 	export PATH=~/.etc/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/games
 fi
 export PS1='SINGLE:${PWD} # '
-export CVSUMASK=002
+export CVSUMASK=002 BROWSER=/usr/bin/lynx
 export IRCSERVER=irc6.oftc.net
 export IRCNAME="MirOS packages a kernel, userland and the attitude"
 HOSTNAME="$(ulimit -c 0; hostname -s 2>/dev/null)"
 OSNAME="$(ulimit -c 0; uname -s 2>/dev/null)"
 export HOSTNAME="${HOSTNAME:-noFQDN}" OSNAME="${OSNAME:-unknown}"
-export PAGER=less BROWSER=lynx
 EDITOR="$(whence -p jupp 2>/dev/null)" || \
     EDITOR="$(whence -p jstar 2>/dev/null)" || \
     EDITOR=/usr/local/bin/jupp
