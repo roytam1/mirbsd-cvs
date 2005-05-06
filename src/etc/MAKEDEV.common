@@ -1,4 +1,4 @@
-vers(a, {-$MirOS$-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.2 2005/03/06 19:05:53 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.common,v 1.7 2004/04/11 18:14:59 millert Exp $-})dnl
 divert(1)dnl
 dnl
@@ -481,7 +481,7 @@ __devitem(bpf, bpf*, Berkeley Packet Filter)dnl
 _mkdev(bpf, {-bpf*-}, {-M bpf$U c major_bpf_c $U 600-}, 600)dnl
 _mkdev(tun, {-tun*-}, {-M tun$U c major_tun_c $U 600-}, 600)dnl
 __devitem(speak, speaker, PC speaker,spkr)dnl
-_mkdev(speak, speaker, {-M speaker c major_speak_c 0 600-})dnl
+_mkdev(speak, speaker, {-M speaker c major_speak_c 0 660 audio-})dnl
 __devitem(lkm, lkm, Loadable kernel modules interface)dnl
 _cdev(lkm, lkm, {-major_lkm_c-}, 0, 640, _lkm)dnl
 __devitem(tun, tun*, Network tunnel driver)dnl
