@@ -1,6 +1,14 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.20 2005/04/30 23:50:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.21 2005/05/03 20:41:11 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>05.05.2005<br />
+	K7 PowerNow support has been greatly revamped, the PST used can be
+	chosen at UKC time now. A third release candidate should have been
+	uploaded but could not due to a server defect. The main CVS server
+	was updated with MirOS #8 RC3, and we use the new commitid feature
+	of GNU CVS 1.12.12 extensively now. Expect a fourth candidate seen
+	on the BitTorrent servers soon.</li>
 
 <li>03.05.2005<br />
 	Yesterday's Snapshot comes with a broken httpd(8) that is fixed in

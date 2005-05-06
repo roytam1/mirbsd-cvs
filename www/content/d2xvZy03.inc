@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.57 2005/05/01 22:02:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.58 2005/05/03 20:41:11 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2844,4 +2844,16 @@
  &ndash; thanks to the help of my co-developers and the support of friends
  and foreigners. I've also updated qemu, should probably take on pine, and
  abiword, next.</p>
+<p>05.05.2005 by tg@<br />I hate regressions. Why it didn't attach apm0 (I
+ had added powernowhack0 at mainbus0, preventing bios0 from attaching). An
+ error on my side, but why the fuck isn't something like this documented?!
+ <br />Anyway we're almost there. I've already listed most of the required
+ advertising clauses; the rest will follow soon. The CVS server now runs a
+ third release candidate (which I unfortunately cannot upload, due to thor
+ not being reachable by any means including serial console), and should be
+ faster because of improvements in the scripts. We've got a preliminary <a
+ href="/?faq">FAQ</a> with lotsa content to follow (I always get the ideas
+ on the toilet, though, where I don't have a shell). I'm tired, should put
+ more here, but hey, at least I'm writing again. As usual, read the commit
+ mails (or ChangeLog files) if you want to know more.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
