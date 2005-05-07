@@ -373,8 +373,8 @@ extract_plist(const char *home, package_t *pkg)
 			    apply_perms(NULL, tf);
 		    }
 		} else if (strcmp(cp = MD5File(tf, NULL), find_last_md5(p)))
-		    pwarnx("Config file '%s' was NOT updated, please do so yourself",
-			tf);
+		    pwarnx("Config file '%s' was NOT updated, please do so yourself using the new version at '%s/%s'",
+			tf, Directory, last_file);
 		else if (Verbose)
 		    printf("extract: Config file '%s' exists, but is the same as '%s/%s'\n",
 			tf, Directory, last_file);
