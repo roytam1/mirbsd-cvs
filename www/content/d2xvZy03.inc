@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.58 2005/05/03 20:41:11 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.59 2005/05/06 00:37:58 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2804,6 +2804,18 @@
  back on track; the new <a href="/?clog-2005#snap0420">snapshot</a> is out
  and Benny is back. We've fixed some stuff in ports, and X11 is improving.
  I'll spare to comment on the new OpenBSD song lyrics.</p>
+<p>24.04.2005 by bsiegert@<br />
+ My two weeks of holidays are over now *sigh*, and a week of hard university
+ work lies before me. But Gran Canaria is very enjoyable at this time of the
+ year, I can tell you. Regarding MirOS, I have worked mostly on
+ MirPorts/Darwin, but other MirPorts users should benefit as well from my
+ updates. Now that the make infrastructure and even <tt>_gplwarn.c</tt> work
+ (thanks to tg@ for the latter!), hacks like the one from libpng can be
+ safely removed. <strong>Mac OS X users, please redo "make setup"</strong>
+ for the new MirMake version. I discovered some unavailable distfiles
+ (xloadimage and libtiff), so I had to update the packages. The new libtiff
+ build system is actually very nice&mdash;I just found two minor bugs, the
+ patches will be submitted upstream.</p> 
 <p>25.04.2005 by tg@<br />Yes, I'm making astringency now with the release
  and we'd better fix ports and get documentation soon. I'll prepare a FAQ,
  with entries such as &quot;Why does it not find &lt;bsd.port.mk&gt;&quot;
@@ -2856,4 +2868,28 @@
  on the toilet, though, where I don't have a shell). I'm tired, should put
  more here, but hey, at least I'm writing again. As usual, read the commit
  mails (or ChangeLog files) if you want to know more.</p>
+<p>12.05.2005 by bsiegert@<br />
+ The #8 release is going to be Really Soon Now&trade;. We are somewhere in
+ the release candidates&mdash;RC2 or RC3, I don't know. It meets at least
+ the goals I had for a release: both gdb and g++ work now, and even Java
+ seems to be unbroken, both native (gcj) and the Java VM. I have started
+ writing an installation manual in troff (mdoc), which will be the
+ install.i386(7) manpage. It contains some theoretical chapters about
+ partitioning etc. and a walkthrough through the MirOS install. While
+ writing, I had a qemu session with the installation in parallel. However,
+ I couldn't figure out how to change CDs while the emulation is running.
+ Thus, I did not get to installing the sets, having booted from the
+ Mini-ISO :(.<br />
+ Some things in MirPorts were fixed as well, e.g. devel/pcre, which
+ actually contained a pre-MirLibtool patch that broke the build. tg@ found
+ a bug in the pkgtools (introduced by me) that made them generate wrong
+ library dependencies. <tt>@sample</tt> now tells you both filenames when
+ you need to update a configuration file yourself. I started an update of
+ firefox to 1.0.3 but it is a lot of work.<br />
+ I have also finally backported the OpenBSD security patches from about a
+ month ago and applied them to #7-stable, so a new upgrade is going to come
+ soon. But alas, alas, I left my workstation in Strasbourg switched off
+ (with both the unfinished installation docs and the uncommitted #7 patches
+ on the hard disk), so I cannot access the data at home over Pentecost
+ (sp?). But still, I wish you all <i>ein gesegnetes Pfingstfest</i>.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
