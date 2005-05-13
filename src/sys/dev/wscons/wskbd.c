@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: wskbd.c,v 1.40 2004/04/05 06:22:07 miod Exp $ */
 /* $NetBSD: wskbd.c,v 1.38 2000/03/23 07:01:47 thorpej Exp $ */
 
@@ -1269,6 +1270,9 @@ wskbd_cnbell(dev, pitch, period, volume)
 	u_int pitch, period, volume;
 {
 	if (!wskbd_console_initted)
+		return;
+
+	if ((pitch == 0) || (period == 0) || (volume == 0))
 		return;
 
 	if (wskbd_console_data.t_consops->bell != NULL)
