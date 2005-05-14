@@ -4166,7 +4166,8 @@ build_unary_op (enum tree_code code, tree xarg, int noconvert)
    for certain kinds of expressions which are not really lvalues
    but which we can accept as lvalues.
 
-   If ARG is not a kind of expression we can handle, return zero.  */
+   If ARG is not a kind of expression we can handle, return
+   NULL_TREE.  */
    
 tree
 unary_complex_lvalue (enum tree_code code, tree arg)

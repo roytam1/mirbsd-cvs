@@ -1,3 +1,50 @@
+2005-05-08  Nathan Sidwell  <nathan@codesourcery.com>
+
+	PR c++/21427
+	Backport 2005-03-01  Nathan Sidwell  <nathan@codesourcery.com>
+	* class.c (update_vtable_entry_for_fn): Don't crash on invalid
+	covariancy. 
+
+	* cp-tree.h (THUNK_TARGET): Expand comment.
+	* method.c (use_thunk): Make sure we also use the target, if that
+	is a thunk.
+
+	Backport 2005-02-11  Nathan Sidwell  <nathan@codesourcery.com>
+	* class.c (update_vtable_entry_for_fn): Walk the covariant's binfo
+	chain rather than using lookup_base.
+
+2005-05-04  Mark Mitchell  <mark@codesourcery.com>
+
+	Backport:
+	2004-12-21  Mark Mitchell  <mark@codesourcery.com>
+	PR c++/19034
+	* tree.c (cp_tree_equal): Handle OVERLOAD.
+
+2005-05-02  Mark Mitchell  <mark@codesourcery.com>
+
+	Revert:
+	2005-05-01  Mark Mitchell  <mark@codesourcery.com>
+	* typeck.c (unary_complex_lvalue): In a template, always refuse
+	simplifications.
+
+2005-05-01  Mark Mitchell  <mark@codesourcery.com>
+
+	Backport:
+	2005-02-22  Mark Mitchell  <mark@codesourcery.com>
+	PR c++/19991
+	* init.c (decl_constant_value): Iterate if the value of a decl
+	is itself a constant.
+
+2005-05-01  Mark Mitchell  <mark@codesourcery.com>
+
+	Backport:
+        2004-12-22  Mark Mitchell  <mark@codesourcery.com>
+	PR c++/18464
+	* call.c (build_this): In templates, do not bother with
+	build_unary_op.
+	* typeck.c (unary_complex_lvalue): In a template, always refuse
+	simplifications.
+
 2005-04-25  Roger Sayle  <roger@eyesopen.com>
 	    Mark Mitchell  <mark@codesourcery.com>
 
