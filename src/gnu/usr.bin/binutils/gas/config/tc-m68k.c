@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "as.h"
 #include "safe-ctype.h"
@@ -4160,7 +4160,7 @@ md_begin (void)
   m68k_sorted_opcodes = xmalloc (m68k_numopcodes * sizeof (* m68k_sorted_opcodes));
   if (!m68k_sorted_opcodes)
     as_fatal (_("Internal Error:  Can't allocate m68k_sorted_opcodes of size %d"),
-	      m68k_numopcodes * sizeof (* m68k_sorted_opcodes));
+	      m68k_numopcodes * ((int) sizeof (* m68k_sorted_opcodes)));
 
   for (i = m68k_numopcodes; i--;)
     m68k_sorted_opcodes[i] = m68k_opcodes + i;
@@ -5292,7 +5292,7 @@ get_num (struct m68k_exp *exp, int ok)
 	  subs (exp) = 0;
 	  offs (exp) = (ok == 10) ? 1 : 0;
 	  as_warn (_("Can't deal with expression; defaulting to %ld"),
-		   offs (exp));
+		   (long) offs (exp));
 	}
     }
   else
@@ -5304,7 +5304,7 @@ get_num (struct m68k_exp *exp, int ok)
 	  subs (exp) = 0;
 	  offs (exp) = (ok == 10) ? 1 : 0;
 	  as_warn (_("Can't deal with expression; defaulting to %ld"),
-		   offs (exp));
+		   (long) offs (exp));
 	}
     }
 

@@ -16,7 +16,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -576,9 +576,8 @@ _bfd_mn10300_elf_create_got_section (abfd, info)
   if (bed->plt_readonly)
     pltflags |= SEC_READONLY;
 
-  s = bfd_make_section (abfd, ".plt");
+  s = bfd_make_section_with_flags (abfd, ".plt", pltflags);
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, pltflags)
       || ! bfd_set_section_alignment (abfd, s, bed->plt_alignment))
     return FALSE;
 
@@ -601,17 +600,15 @@ _bfd_mn10300_elf_create_got_section (abfd, info)
 	return FALSE;
     }
 
-  s = bfd_make_section (abfd, ".got");
+  s = bfd_make_section_with_flags (abfd, ".got", flags);
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, flags)
       || ! bfd_set_section_alignment (abfd, s, ptralign))
     return FALSE;
 
   if (bed->want_got_plt)
     {
-      s = bfd_make_section (abfd, ".got.plt");
+      s = bfd_make_section_with_flags (abfd, ".got.plt", flags);
       if (s == NULL
-	  || ! bfd_set_section_flags (abfd, s, flags)
 	  || ! bfd_set_section_alignment (abfd, s, ptralign))
 	return FALSE;
     }
@@ -623,8 +620,7 @@ _bfd_mn10300_elf_create_got_section (abfd, info)
   bh = NULL;
   if (!(_bfd_generic_link_add_one_symbol
 	(info, abfd, "_GLOBAL_OFFSET_TABLE_", BSF_GLOBAL, s,
-	 bed->got_symbol_offset, (const char *) NULL, FALSE,
-	 bed->collect, &bh)))
+	 0, (const char *) NULL, FALSE, bed->collect, &bh)))
     return FALSE;
   h = (struct elf_link_hash_entry *) bh;
   h->def_regular = 1;
@@ -637,7 +633,7 @@ _bfd_mn10300_elf_create_got_section (abfd, info)
   elf_hash_table (info)->hgot = h;
 
   /* The first bit of the global offset table is the header.  */
-  s->size += bed->got_header_size + bed->got_symbol_offset;
+  s->size += bed->got_header_size;
 
   return TRUE;
 }
@@ -778,15 +774,15 @@ mn10300_elf_check_relocs (abfd, info, sec, relocs)
 	      srelgot = bfd_get_section_by_name (dynobj, ".rela.got");
 	      if (srelgot == NULL)
 		{
-		  srelgot = bfd_make_section (dynobj, ".rela.got");
+		  srelgot = bfd_make_section_with_flags (dynobj,
+							 ".rela.got",
+							 (SEC_ALLOC
+							  | SEC_LOAD
+							  | SEC_HAS_CONTENTS
+							  | SEC_IN_MEMORY
+							  | SEC_LINKER_CREATED
+							  | SEC_READONLY));
 		  if (srelgot == NULL
-		      || ! bfd_set_section_flags (dynobj, srelgot,
-						  (SEC_ALLOC
-						   | SEC_LOAD
-						   | SEC_HAS_CONTENTS
-						   | SEC_IN_MEMORY
-						   | SEC_LINKER_CREATED
-						   | SEC_READONLY))
 		      || ! bfd_set_section_alignment (dynobj, srelgot, 2))
 		    return FALSE;
 		}
@@ -812,7 +808,7 @@ mn10300_elf_check_relocs (abfd, info, sec, relocs)
 	  else
 	    {
 	      /* This is a global offset table entry for a local
-	         symbol.  */
+		 symbol.  */
 	      if (local_got_offsets == NULL)
 		{
 		  size_t       size;
@@ -910,13 +906,14 @@ mn10300_elf_check_relocs (abfd, info, sec, relocs)
 		    {
 		      flagword flags;
 
-		      sreloc = bfd_make_section (dynobj, name);
 		      flags = (SEC_HAS_CONTENTS | SEC_READONLY
 			       | SEC_IN_MEMORY | SEC_LINKER_CREATED);
 		      if ((sec->flags & SEC_ALLOC) != 0)
 			flags |= SEC_ALLOC | SEC_LOAD;
+		      sreloc = bfd_make_section_with_flags (dynobj,
+							    name,
+							    flags);
 		      if (sreloc == NULL
-			  || ! bfd_set_section_flags (dynobj, sreloc, flags)
 			  || ! bfd_set_section_alignment (dynobj, sreloc, 2))
 			return FALSE;
 		    }
@@ -1188,7 +1185,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
 
       bfd_put_32 (input_bfd, value, hit_data);
       return bfd_reloc_ok;
-      
+
     case R_MN10300_GOTPC16:
       /* Use global offset table as symbol value.  */
 
@@ -1209,7 +1206,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
       value -= bfd_get_section_by_name (dynobj,
 					".got")->output_section->vma;
       value += addend;
-      
+
       bfd_put_32 (input_bfd, value, hit_data);
       return bfd_reloc_ok;
 
@@ -1217,7 +1214,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
       value -= bfd_get_section_by_name (dynobj,
 					".got")->output_section->vma;
       value += addend;
-      
+
       if ((long) value > 0x7fffff || (long) value < -0x800000)
 	return bfd_reloc_overflow;
 
@@ -1230,7 +1227,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
       value -= bfd_get_section_by_name (dynobj,
 					".got")->output_section->vma;
       value += addend;
-      
+
       if ((long) value > 0xffff || (long) value < -0x10000)
 	return bfd_reloc_overflow;
 
@@ -1246,7 +1243,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
 	  asection * splt;
 
 	  splt = bfd_get_section_by_name (dynobj, ".plt");
-	  
+
 	  value = (splt->output_section->vma
 		   + splt->output_offset
 		   + h->plt.offset) - value;
@@ -1269,7 +1266,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
 	  asection * splt;
 
 	  splt = bfd_get_section_by_name (dynobj, ".plt");
-	  
+
 	  value = (splt->output_section->vma
 		   + splt->output_offset
 		   + h->plt.offset) - value;
@@ -1293,7 +1290,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
 	asection * sgot;
 
 	sgot = bfd_get_section_by_name (dynobj, ".got");
-	
+
 	  if (h != NULL)
 	    {
 	      bfd_vma off;
@@ -1375,7 +1372,7 @@ mn10300_elf_final_link_relocate (howto, input_bfd, output_bfd,
 	  return bfd_reloc_ok;
 	}
       /* Fall through.  */
-      
+
     default:
       return bfd_reloc_notsupported;
     }
@@ -2385,7 +2382,7 @@ mn10300_elf_relax_section (abfd, sec, link_info, again)
 
 	      splt = bfd_get_section_by_name (elf_hash_table (link_info)
 					      ->dynobj, ".plt");
-	  
+
 	      value = ((splt->output_section->vma
 			+ splt->output_offset
 			+ h->root.plt.offset)
@@ -2762,16 +2759,16 @@ mn10300_elf_relax_section (abfd, sec, link_info, again)
 
 		  /* We can not relax 0x6b, 0x7b, 0x8b, 0x9b as no 24bit
 		     equivalent instructions exists.  */
-	          if (code != 0x6b && code != 0x7b
+		  if (code != 0x6b && code != 0x7b
 		      && code != 0x8b && code != 0x9b
 		      && ((code & 0x0f) == 0x09 || (code & 0x0f) == 0x08
 			  || (code & 0x0f) == 0x0a || (code & 0x0f) == 0x0b
 			  || (code & 0x0f) == 0x0e))
 		    {
 		      /* Not safe if the high bit is on as relaxing may
-		         move the value out of high mem and thus not fit
-		         in a signed 8bit value.  This is currently over
-		         conservative.  */
+			 move the value out of high mem and thus not fit
+			 in a signed 8bit value.  This is currently over
+			 conservative.  */
 		      if ((value & 0x80) == 0)
 			{
 			  /* Note that we've changed the relocation contents,
@@ -2859,8 +2856,8 @@ mn10300_elf_relax_section (abfd, sec, link_info, again)
 
 	      if (code == 0xfe)
 		{
-	          /* Get the second opcode.  */
-	          code = bfd_get_8 (abfd, contents + irel->r_offset - 2);
+		  /* Get the second opcode.  */
+		  code = bfd_get_8 (abfd, contents + irel->r_offset - 2);
 
 		  /* All the am33 32 -> 24 relaxing possibilities.  */
 		  /* We can not relax 0x6b, 0x7b, 0x8b, 0x9b as no 24bit
@@ -2874,9 +2871,9 @@ mn10300_elf_relax_section (abfd, sec, link_info, again)
 			  || (code & 0x0f) == 0x0e))
 		    {
 		      /* Not safe if the high bit is on as relaxing may
-		         move the value out of high mem and thus not fit
-		         in a signed 16bit value.  This is currently over
-		         conservative.  */
+			 move the value out of high mem and thus not fit
+			 in a signed 16bit value.  This is currently over
+			 conservative.  */
 		      if ((value & 0x8000) == 0)
 			{
 			  /* Note that we've changed the relocation contents,
@@ -3825,8 +3822,8 @@ _bfd_mn10300_elf_merge_private_bfd_data (ibfd, obfd)
       && bfd_get_mach (obfd) < bfd_get_mach (ibfd))
     {
       if (! bfd_set_arch_mach (obfd, bfd_get_arch (ibfd),
-                               bfd_get_mach (ibfd)))
-        return FALSE;
+			       bfd_get_mach (ibfd)))
+	return FALSE;
     }
 
   return TRUE;
@@ -3925,10 +3922,11 @@ _bfd_mn10300_elf_create_dynamic_sections (abfd, info)
   flags = (SEC_ALLOC | SEC_LOAD | SEC_HAS_CONTENTS | SEC_IN_MEMORY
 	   | SEC_LINKER_CREATED);
 
-  s = bfd_make_section (abfd,
-			bed->default_use_rela_p ? ".rela.plt" : ".rel.plt");
+  s = bfd_make_section_with_flags (abfd,
+				   (bed->default_use_rela_p
+				    ? ".rela.plt" : ".rel.plt"),
+				   flags | SEC_READONLY);
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, flags | SEC_READONLY)
       || ! bfd_set_section_alignment (abfd, s, ptralign))
     return FALSE;
 
@@ -3953,9 +3951,9 @@ _bfd_mn10300_elf_create_dynamic_sections (abfd, info)
 	strcpy (relname, ".rela");
 	strcat (relname, secname);
 
-	s = bfd_make_section (abfd, relname);
+	s = bfd_make_section_with_flags (abfd, relname,
+					 flags | SEC_READONLY);
 	if (s == NULL
-	    || ! bfd_set_section_flags (abfd, s, flags | SEC_READONLY)
 	    || ! bfd_set_section_alignment (abfd, s, ptralign))
 	  return FALSE;
       }
@@ -3969,9 +3967,9 @@ _bfd_mn10300_elf_create_dynamic_sections (abfd, info)
 	 image and use a R_*_COPY reloc to tell the dynamic linker to
 	 initialize them at run time.  The linker script puts the .dynbss
 	 section into the .bss section of the final image.  */
-      s = bfd_make_section (abfd, ".dynbss");
-      if (s == NULL
-	  || ! bfd_set_section_flags (abfd, s, SEC_ALLOC))
+      s = bfd_make_section_with_flags (abfd, ".dynbss",
+				       SEC_ALLOC | SEC_LINKER_CREATED);
+      if (s == NULL)
 	return FALSE;
 
       /* The .rel[a].bss section holds copy relocs.  This section is not
@@ -3987,11 +3985,11 @@ _bfd_mn10300_elf_create_dynamic_sections (abfd, info)
 	 copy relocs.  */
       if (! info->shared)
 	{
-	  s = bfd_make_section (abfd,
-				(bed->default_use_rela_p
-				 ? ".rela.bss" : ".rel.bss"));
+	  s = bfd_make_section_with_flags (abfd,
+					   (bed->default_use_rela_p
+					    ? ".rela.bss" : ".rel.bss"),
+					   flags | SEC_READONLY);
 	  if (s == NULL
-	      || ! bfd_set_section_flags (abfd, s, flags | SEC_READONLY)
 	      || ! bfd_set_section_alignment (abfd, s, ptralign))
 	    return FALSE;
 	}
@@ -4291,7 +4289,7 @@ _bfd_mn10300_elf_size_dynamic_sections (output_bfd, info)
 
       if (strip)
 	{
-	  _bfd_strip_section_from_output (info, s);
+	  s->flags |= SEC_EXCLUDE;
 	  continue;
 	}
 
@@ -4694,11 +4692,11 @@ _bfd_mn10300_elf_reloc_type_class (const Elf_Internal_Rela *rela)
 
 /* So we can set bits in e_flags.  */
 #define elf_backend_final_write_processing \
-                                        _bfd_mn10300_elf_final_write_processing
-#define elf_backend_object_p            _bfd_mn10300_elf_object_p
+					_bfd_mn10300_elf_final_write_processing
+#define elf_backend_object_p		_bfd_mn10300_elf_object_p
 
 #define bfd_elf32_bfd_merge_private_bfd_data \
-                                        _bfd_mn10300_elf_merge_private_bfd_data
+					_bfd_mn10300_elf_merge_private_bfd_data
 
 #define elf_backend_can_gc_sections	1
 #define elf_backend_create_dynamic_sections \

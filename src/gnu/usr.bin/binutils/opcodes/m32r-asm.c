@@ -20,7 +20,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* ??? Eventually more and more of this stuff can go to cpu-independent files.
    Keep that in mind.  */
@@ -255,21 +255,21 @@ m32r_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case M32R_OPERAND_DISP16 :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, M32R_OPERAND_DISP16, 0, NULL,  & value);
         fields->f_disp16 = value;
       }
       break;
     case M32R_OPERAND_DISP24 :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, M32R_OPERAND_DISP24, 0, NULL,  & value);
         fields->f_disp24 = value;
       }
       break;
     case M32R_OPERAND_DISP8 :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, M32R_OPERAND_DISP8, 0, NULL,  & value);
         fields->f_disp8 = value;
       }
@@ -312,7 +312,7 @@ m32r_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case M32R_OPERAND_UIMM24 :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, M32R_OPERAND_UIMM24, 0, NULL,  & value);
         fields->f_uimm24 = value;
       }

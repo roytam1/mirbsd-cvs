@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* Derived from objdump.c and nm.c by Ulrich.Lauther@mchp.siemens.de
 
@@ -29,6 +29,7 @@
    both forms write results to stdout, the second form reads addresses
    to be converted from stdin.  */
 
+#include "config.h"
 #include <string.h>
 
 #include "bfd.h"

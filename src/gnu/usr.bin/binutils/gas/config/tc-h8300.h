@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #define TC_H8300
 
@@ -88,7 +88,6 @@ extern void tc_reloc_mangle (struct fix *, struct internal_reloc *, bfd_vma);
 
 #define TC_CONS_RELOC          (Hmode ? R_RELLONG: R_RELWORD)
 
-#define DO_NOT_STRIP 0
 #define LISTING_HEADER "Renesas H8/300 GAS "
 #define NEED_FX_R_TYPE 1
 #ifndef OBJ_ELF

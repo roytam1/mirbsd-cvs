@@ -15,8 +15,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef TC_XTENSA
 #define TC_XTENSA 1
@@ -141,7 +141,7 @@ enum xtensa_relax_statesE
      does not fit, use the specified expansion.  This is similar to
      "NARROW", except that these may not be expanded in order to align
      code.  */
-  
+
   RELAX_IMMED_STEP1,
   /* The last instruction in this fragment (at->fr_opcode) contains a
      literal.  It has already been expanded at least 1 step.  */
@@ -170,7 +170,7 @@ enum xtensa_relax_statesE
   RELAX_MAYBE_UNREACHABLE,
   /* This marks the location as possibly unreachable.  These are placed
      after a branch that may be relaxed into a branch and jump. If the
-     branch is relaxed, then this frag will be converted to a 
+     branch is relaxed, then this frag will be converted to a
      RELAX_UNREACHABLE frag.  */
 
   RELAX_NONE
@@ -227,8 +227,12 @@ struct xtensa_frag_type
   fragS *literal_frag;
 
   /* The destination segment for literal frags.  (Note that this is only
-     valid after xtensa_move_literals.  */
+     valid after xtensa_move_literals.)  This field is also used for
+     LITERAL_POOL_END frags.  */
   segT lit_seg;
+
+  /* Frag chain for LITERAL_POOL_BEGIN frags.  */
+  struct frchain *lit_frchain;
 
   /* For the relaxation scheme, some literal fragments can have their
      expansions modified by an instruction that relaxes.  */
@@ -378,27 +382,27 @@ typedef int (*unit_num_copies_func) (void *, xtensa_funcUnit);
 /* Returns the number of units the opcode uses.  */
 typedef int (*opcode_num_units_func) (void *, xtensa_opcode);
 
-/* Given an opcode and an index into the opcode's funcUnit list, 
+/* Given an opcode and an index into the opcode's funcUnit list,
    returns the unit used for the index.  */
 typedef int (*opcode_funcUnit_use_unit_func) (void *, xtensa_opcode, int);
 
-/* Given an opcode and an index into the opcode's funcUnit list, 
+/* Given an opcode and an index into the opcode's funcUnit list,
    returns the cycle during which the unit is used.  */
 typedef int (*opcode_funcUnit_use_stage_func) (void *, xtensa_opcode, int);
 
-/* The above typedefs parameterize the resource_table so that the 
+/* The above typedefs parameterize the resource_table so that the
    optional scheduler doesn't need its own resource reservation system.
-   
-   For simple resource checking, which is all that happens normally, 
-   the functions will be as follows (with some wrapping to make the 
-   interface more convenient): 
+
+   For simple resource checking, which is all that happens normally,
+   the functions will be as follows (with some wrapping to make the
+   interface more convenient):
 
    unit_num_copies_func = xtensa_funcUnit_num_copies
    opcode_num_units_func = xtensa_opcode_num_funcUnit_uses
    opcode_funcUnit_use_unit_func = xtensa_opcode_funcUnit_use->unit
    opcode_funcUnit_use_stage_func = xtensa_opcode_funcUnit_use->stage
 
-   Of course the optional scheduler has its own reservation table 
+   Of course the optional scheduler has its own reservation table
    and functions.  */
 
 int opcode_funcUnit_use_unit (void *, xtensa_opcode, int);
@@ -417,8 +421,8 @@ typedef struct
   char **units;
 } resource_table;
 
-resource_table *new_resource_table 
-  (void *, int, int, unit_num_copies_func, opcode_num_units_func, 
+resource_table *new_resource_table
+  (void *, int, int, unit_num_copies_func, opcode_num_units_func,
    opcode_funcUnit_use_unit_func, opcode_funcUnit_use_stage_func);
 void resize_resource_table (resource_table *, int);
 void clear_resource_table (resource_table *);

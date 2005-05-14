@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* This structure contains everything that BFD knows about a target.
    It includes things like its byte order, name, what routines to call
@@ -72,9 +72,6 @@
 #define bfd_elfNN_get_section_contents_in_window \
   _bfd_generic_get_section_contents_in_window
 
-#ifndef elf_backend_got_symbol_offset
-#define elf_backend_got_symbol_offset (bfd_vma) 0
-#endif
 #ifndef elf_backend_can_refcount
 #define elf_backend_can_refcount 0
 #endif
@@ -416,7 +413,7 @@
 #define elf_backend_merge_symbol_attribute	NULL
 #endif
 #ifndef elf_backend_emit_relocs
-#define elf_backend_emit_relocs			NULL
+#define elf_backend_emit_relocs			_bfd_elf_link_output_relocs
 #endif
 #ifndef elf_backend_count_relocs
 #define elf_backend_count_relocs		NULL
@@ -527,7 +524,7 @@ static const struct elf_backend_data elfNN_bed =
   ELF_MACHINE_CODE,		/* elf_machine_code */
   ELF_MAXPAGESIZE,		/* maxpagesize */
   ELF_MINPAGESIZE,		/* minpagesize */
-  ELF_DYNAMIC_SEC_FLAGS,        /* dynamic_sec_flags */
+  ELF_DYNAMIC_SEC_FLAGS,	/* dynamic_sec_flags */
   elf_info_to_howto,
   elf_info_to_howto_rel,
   elf_backend_sym_is_global,
@@ -592,7 +589,6 @@ static const struct elf_backend_data elfNN_bed =
   ELF_MACHINE_ALT2,
   &elf_backend_size_info,
   elf_backend_special_sections,
-  elf_backend_got_symbol_offset,
   elf_backend_got_header_size,
   elf_backend_collect,
   elf_backend_type_change_ok,

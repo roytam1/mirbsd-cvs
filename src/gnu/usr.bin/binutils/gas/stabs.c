@@ -1,6 +1,6 @@
 /* Generic stabs parsing for gas.
    Copyright 1989, 1990, 1991, 1993, 1995, 1996, 1997, 1998, 2000, 2001
-   2002, 2003, 2004 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
 This file is part of GAS, the GNU Assembler.
 
@@ -16,8 +16,8 @@ the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with GAS; see the file COPYING.  If not, write to the Free
-Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-02111-1307, USA.  */
+Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+02110-1301, USA.  */
 
 #include "as.h"
 #include "obstack.h"
@@ -150,11 +150,10 @@ aout_process_stab (what, string, type, other, desc)
      ends in "\" and the debug info is continued in the next .stabs
      directive) from being separated by other random symbols.  */
   symbol = symbol_create (string, undefined_section, 0,
-			  (struct frag *) NULL);
+			  &zero_address_frag);
   if (what == 's' || what == 'n')
     {
       /* Pick up the value from the input line.  */
-      symbol_set_frag (symbol, &zero_address_frag);
       pseudo_set (symbol);
     }
   else

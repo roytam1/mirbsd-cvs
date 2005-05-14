@@ -18,8 +18,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-   MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston,
+   MA 02110-1301, USA.  */
 
 #include "bfd.h"
 
@@ -220,7 +220,7 @@ xcoff64_core_p (abfd)
 	}
     }
 
-  return_value = abfd->xvec;	/* This is garbage for now.  */
+  return_value = (bfd_target *) abfd->xvec;	/* This is garbage for now.  */
 
  xcoff64_core_p_error:
   if (bfd_get_error () != bfd_error_system_call)

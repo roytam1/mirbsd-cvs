@@ -18,7 +18,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -52,8 +52,8 @@
 /* This stuff is somewhat copied from coffcode.h.  */
 static asection bfd_debug_section =
 {
-  /* name,      id,  index, next, flags, user_set_vma,             */
-     "*DEBUG*", 0,   0,     NULL, 0,     0,
+  /* name,      id,  index, next, prev, flags, user_set_vma,       */
+     "*DEBUG*", 0,   0,     NULL, NULL, 0,     0,
   /* linker_mark, linker_has_input, gc_mark, segment_mark,         */
      0,           0,                0,       0,
   /* sec_info_type, use_rela_p, has_tls_reloc, has_gp_reloc,       */
@@ -76,8 +76,8 @@ static asection bfd_debug_section =
      NULL,
   /* symbol_ptr_ptr,                                               */
      NULL,
-  /* link_order_head, link_order_tail                              */
-     NULL,            NULL
+  /* map_head, map_tail                                            */
+     { NULL }, { NULL }
 };
 
 /* Create an ECOFF object.  */
@@ -4523,7 +4523,7 @@ _bfd_ecoff_bfd_final_link (bfd *abfd, struct bfd_link_info *info)
       for (o = abfd->sections; o != NULL; o = o->next)
 	{
 	  o->reloc_count = 0;
-	  for (p = o->link_order_head;
+	  for (p = o->map_head.link_order;
 	       p != NULL;
 	       p = p->next)
 	    if (p->type == bfd_indirect_link_order)
@@ -4593,7 +4593,7 @@ _bfd_ecoff_bfd_final_link (bfd *abfd, struct bfd_link_info *info)
 
   for (o = abfd->sections; o != NULL; o = o->next)
     {
-      for (p = o->link_order_head;
+      for (p = o->map_head.link_order;
 	   p != NULL;
 	   p = p->next)
 	{

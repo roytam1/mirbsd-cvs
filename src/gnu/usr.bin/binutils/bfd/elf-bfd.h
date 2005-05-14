@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifndef _LIBELF_H_
 #define _LIBELF_H_ 1
@@ -873,7 +873,8 @@ struct elf_backend_data
   /* Emit relocations.  Overrides default routine for emitting relocs,
      except during a relocatable link, or if all relocs are being emitted.  */
   bfd_boolean (*elf_backend_emit_relocs)
-    (bfd *, asection *, Elf_Internal_Shdr *, Elf_Internal_Rela *);
+    (bfd *, asection *, Elf_Internal_Shdr *, Elf_Internal_Rela *,
+     struct elf_link_hash_entry **);
 
   /* Count relocations.  Not called for relocatable links
      or if all relocs are being preserved in the output.  */
@@ -973,12 +974,9 @@ struct elf_backend_data
 
   const struct elf_size_info *s;
 
-  /* An array of target specific special section map.  */
-  const struct bfd_elf_special_section *special_sections;
-
-  /* offset of the _GLOBAL_OFFSET_TABLE_ symbol from the start of the
-     .got section */
-  bfd_vma got_symbol_offset;
+  /* An array of 27 target specific special section map arrays,
+     covering 'a' to 'z', plus other.  */
+  const struct bfd_elf_special_section **special_sections;
 
   /* The size in bytes of the header for the GOT.  This includes the
      so-called reserved entries on some systems.  */
@@ -1115,7 +1113,7 @@ struct bfd_elf_section_data
   void *sec_info;
 };
 
-#define elf_section_data(sec)  ((struct bfd_elf_section_data*)sec->used_by_bfd)
+#define elf_section_data(sec)  ((struct bfd_elf_section_data*)(sec)->used_by_bfd)
 #define elf_linked_to_section(sec) (elf_section_data(sec)->linked_to)
 #define elf_section_type(sec)  (elf_section_data(sec)->this_hdr.sh_type)
 #define elf_section_flags(sec) (elf_section_data(sec)->this_hdr.sh_flags)
@@ -1372,7 +1370,7 @@ extern Elf_Internal_Sym *bfd_elf_get_elf_syms
   (bfd *, Elf_Internal_Shdr *, size_t, size_t, Elf_Internal_Sym *, void *,
    Elf_External_Sym_Shndx *);
 extern const char *bfd_elf_sym_name
-  (bfd *, Elf_Internal_Shdr *, Elf_Internal_Sym *);
+  (bfd *, Elf_Internal_Shdr *, Elf_Internal_Sym *, asection *);
 
 extern bfd_boolean _bfd_elf_copy_private_bfd_data
   (bfd *, bfd *);
@@ -1441,6 +1439,8 @@ extern void _bfd_elf_section_already_linked
   (bfd *, struct bfd_section *);
 extern void bfd_elf_set_group_contents
   (bfd *, asection *, void *);
+extern asection *_bfd_elf_check_kept_section
+  (asection *);
 extern void _bfd_elf_link_just_syms
   (asection *, struct bfd_link_info *);
 extern bfd_boolean _bfd_elf_copy_private_header_data
@@ -1604,7 +1604,8 @@ extern bfd_boolean _bfd_elf_link_size_reloc_section
   (bfd *, Elf_Internal_Shdr *, asection *);
 
 extern bfd_boolean _bfd_elf_link_output_relocs
-  (bfd *, asection *, Elf_Internal_Shdr *, Elf_Internal_Rela *);
+  (bfd *, asection *, Elf_Internal_Shdr *, Elf_Internal_Rela *,
+   struct elf_link_hash_entry **);
 
 extern bfd_boolean _bfd_elf_fix_symbol_flags
   (struct elf_link_hash_entry *, struct elf_info_failed *);
@@ -1726,6 +1727,10 @@ extern int bfd_elf_link_record_local_dynamic_symbol
 
 extern bfd_boolean _bfd_elf_close_and_cleanup
   (bfd *);
+
+extern void _bfd_dwarf2_cleanup_debug_info
+  (bfd *);
+
 extern bfd_reloc_status_type _bfd_elf_rel_vtable_reloc_fn
   (bfd *, arelent *, struct bfd_symbol *, void *,
    asection *, bfd *, char **);

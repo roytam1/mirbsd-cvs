@@ -20,7 +20,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* ??? Eventually more and more of this stuff can go to cpu-independent files.
    Keep that in mind.  */
@@ -1229,14 +1229,14 @@ frv_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case FRV_OPERAND_LABEL16 :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, FRV_OPERAND_LABEL16, 0, NULL,  & value);
         fields->f_label16 = value;
       }
       break;
     case FRV_OPERAND_LABEL24 :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = parse_call_label (cd, strp, FRV_OPERAND_LABEL24, 0, NULL,  & value);
         fields->f_label24 = value;
       }

@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* This is really a branch office of as-read.c. I split it out to clearly
    distinguish the world of expressions from the world of statements.
@@ -157,33 +157,6 @@ expr_build_uconstant (offsetT value)
   return make_expr_symbol (&e);
 }
 
-/* Build an expression for OP s1.  */
-
-symbolS *
-expr_build_unary (operatorT op, symbolS *s1)
-{
-  expressionS e;
-
-  e.X_op = op;
-  e.X_add_symbol = s1;
-  e.X_add_number = 0;
-  return make_expr_symbol (&e);
-}
-
-/* Build an expression for s1 OP s2.  */
-
-symbolS *
-expr_build_binary (operatorT op, symbolS *s1, symbolS *s2)
-{
-  expressionS e;
-
-  e.X_op = op;
-  e.X_add_symbol = s1;
-  e.X_op_symbol = s2;
-  e.X_add_number = 0;
-  return make_expr_symbol (&e);
-}
-
 /* Build an expression for the current location ('.').  */
 
 symbolS *
@@ -213,8 +186,6 @@ FLONUM_TYPE generic_floating_point_number = {
   0				/* sign.  */
 };
 
-/* If nonzero, we've been asked to assemble nan, +inf or -inf.  */
-int generic_floating_point_magic;
 
 static void
 floating_constant (expressionS *expressionP)

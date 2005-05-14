@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* Objdump overview.
 
@@ -299,6 +299,11 @@ dump_section_header (bfd *abfd, asection *section,
   char *comma = "";
   unsigned int opb = bfd_octets_per_byte (abfd);
 
+  /* Ignore linker created section.  See elfNN_ia64_object_p in
+     bfd/elfxx-ia64.c.  */
+  if (section->flags & SEC_LINKER_CREATED)
+    return;
+
   printf ("%3d %-13s %08lx  ", section->index,
 	  bfd_get_section_name (abfd, section),
 	  (unsigned long) bfd_section_size (abfd, section) / opb);
@@ -336,6 +341,7 @@ dump_section_header (bfd *abfd, asection *section,
   if (bfd_get_flavour (abfd) == bfd_target_coff_flavour)
     PF (SEC_COFF_SHARED, "SHARED");
   PF (SEC_THREAD_LOCAL, "THREAD_LOCAL");
+  PF (SEC_GROUP, "GROUP");
 
   if ((section->flags & SEC_LINK_ONCE) != 0)
     {
@@ -1376,7 +1382,7 @@ disassemble_bytes (struct disassemble_info * info,
 	    {
 	      sfile.pos = 0;
 	      info->fprintf_func = (fprintf_ftype) objdump_sprintf;
-	      info->stream = (FILE *) &sfile;
+	      info->stream = &sfile;
 	      info->bytes_per_line = 0;
 	      info->bytes_per_chunk = 0;
 	      info->flags = 0;
@@ -2345,8 +2351,9 @@ dump_symbols (bfd *abfd ATTRIBUTE_UNUSED, bfd_boolean dynamic)
 	printf (_("could not determine the type of symbol number %ld\n"),
 		count);
 
-      else if (dump_special_syms
-	       || !bfd_is_target_special_symbol (cur_bfd, *current))
+      else if (process_section_p ((* current)->section)
+	       && (dump_special_syms
+		   || !bfd_is_target_special_symbol (cur_bfd, *current)))
 	{
 	  const char *name = (*current)->name;
 
@@ -2369,6 +2376,7 @@ dump_symbols (bfd *abfd ATTRIBUTE_UNUSED, bfd_boolean dynamic)
 			      bfd_print_symbol_all);
 	  printf ("\n");
 	}
+
       current++;
     }
   printf ("\n\n");

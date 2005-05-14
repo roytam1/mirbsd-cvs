@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public
    License along with GAS; see the file COPYING.  If not, write
-   to the Free Software Foundation, 59 Temple Place - Suite 330, Cambridge, MA
+   to the Free Software Foundation, 51 Franklin Street - Fifth Floor, Cambridge, MA
    02139, USA.  */
 
 /* This file is a modified version of 'a.out.h'.  It is to be used in all GNU
@@ -197,8 +197,6 @@ struct relocation_info
    || (flag_strip_local_absolute			\
        && !S_IS_EXTERNAL(s)				\
        && S_GET_SEGMENT(s) == absolute_section))
-/* True if a symbol is not defined in this file.  */
-#define S_IS_EXTERN(s)		((s)->sy_symbol.n_type & N_EXT)
 /* True if the symbol has been generated because of a .stabd directive.  */
 #define S_IS_STABD(s)		(S_GET_NAME(s) == NULL)
 

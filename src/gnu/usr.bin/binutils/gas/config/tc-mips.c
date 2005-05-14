@@ -20,8 +20,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "as.h"
 #include "config.h"
@@ -860,6 +860,11 @@ static int mips_relax_branch;
 #define IS_SEXT_16BIT_NUM(x)						\
   (((x) &~ (offsetT) 0x7fff) == 0					\
    || (((x) &~ (offsetT) 0x7fff) == ~ (offsetT) 0x7fff))
+
+/* Is the given value a zero-extended 32-bit value?  Or a negated one?  */
+#define IS_ZEXT_32BIT_NUM(x)						\
+  (((x) &~ (offsetT) 0xffffffff) == 0					\
+   || (((x) &~ (offsetT) 0xffffffff) == ~ (offsetT) 0xffffffff))
 
 /* Replace bits MASK << SHIFT of STRUCT with the equivalent bits in
    VALUE << SHIFT.  VALUE is evaluated exactly once.  */
@@ -3254,6 +3259,33 @@ mips16_macro_build (expressionS *ep, const char *name, const char *fmt,
 }
 
 /*
+ * Sign-extend 32-bit mode constants that have bit 31 set and all
+ * higher bits unset.
+ */
+static void
+normalize_constant_expr (expressionS *ex)
+{
+  if (ex->X_op == O_constant
+      && IS_ZEXT_32BIT_NUM (ex->X_add_number))
+    ex->X_add_number = (((ex->X_add_number & 0xffffffff) ^ 0x80000000)
+			- 0x80000000);
+}
+
+/*
+ * Sign-extend 32-bit mode address offsets that have bit 31 set and
+ * all higher bits unset.
+ */
+static void
+normalize_address_expr (expressionS *ex)
+{
+  if (((ex->X_op == O_constant && HAVE_32BIT_ADDRESSES)
+	|| (ex->X_op == O_symbol && HAVE_32BIT_SYMBOLS))
+      && IS_ZEXT_32BIT_NUM (ex->X_add_number))
+    ex->X_add_number = (((ex->X_add_number & 0xffffffff) ^ 0x80000000)
+			- 0x80000000);
+}
+
+/*
  * Generate a "jalr" instruction with a relocation hint to the called
  * function.  This occurs in NewABI PIC code.
  */
@@ -3338,15 +3370,8 @@ macro_build_ldst_constoffset (expressionS *ep, const char *op,
   assert (ep->X_op == O_constant);
 
   /* Sign-extending 32-bit constants makes their handling easier.  */
-  if (! dbl && ! ((ep->X_add_number & ~((bfd_vma) 0x7fffffff))
-		  == ~((bfd_vma) 0x7fffffff)))
-    {
-      if (ep->X_add_number & ~((bfd_vma) 0xffffffff))
-	as_bad (_("constant too large"));
-
-      ep->X_add_number = (((ep->X_add_number & 0xffffffff) ^ 0x80000000)
-			  - 0x80000000);
-    }
+  if (!dbl)
+    normalize_constant_expr (ep);
 
   /* Right now, this routine can only handle signed 32-bit constants.  */
   if (! IS_SEXT_32BIT_NUM(ep->X_add_number + 0x8000))
@@ -3392,14 +3417,6 @@ set_at (int reg, int unsignedp)
     }
 }
 
-static void
-normalize_constant_expr (expressionS *ex)
-{
-  if (ex->X_op == O_constant && HAVE_32BIT_GPRS)
-    ex->X_add_number = (((ex->X_add_number & 0xffffffff) ^ 0x80000000)
-			- 0x80000000);
-}
-
 /* Warn if an expression is not a constant.  */
 
 static void
@@ -3408,9 +3425,11 @@ check_absolute_expr (struct mips_cl_insn *ip, expressionS *ex)
   if (ex->X_op == O_big)
     as_bad (_("unsupported large constant"));
   else if (ex->X_op != O_constant)
-    as_bad (_("Instruction %s requires absolute expression"), ip->insn_mo->name);
+    as_bad (_("Instruction %s requires absolute expression"),
+	    ip->insn_mo->name);
 
-  normalize_constant_expr (ex);
+  if (HAVE_32BIT_GPRS)
+    normalize_constant_expr (ex);
 }
 
 /* Count the leading zeroes by performing a binary chop. This is a
@@ -3504,15 +3523,8 @@ load_register (int reg, expressionS *ep, int dbl)
       assert (ep->X_op == O_constant);
 
       /* Sign-extending 32-bit constants makes their handling easier.  */
-      if (! dbl && ! ((ep->X_add_number & ~((bfd_vma) 0x7fffffff))
-		      == ~((bfd_vma) 0x7fffffff)))
-	{
-	  if (ep->X_add_number & ~((bfd_vma) 0xffffffff))
-	    as_bad (_("constant too large"));
-
-	  ep->X_add_number = (((ep->X_add_number & 0xffffffff) ^ 0x80000000)
-			      - 0x80000000);
-	}
+      if (!dbl)
+	normalize_constant_expr (ep);
 
       if (IS_SEXT_16BIT_NUM (ep->X_add_number))
 	{
@@ -3541,10 +3553,12 @@ load_register (int reg, expressionS *ep, int dbl)
 
   /* The value is larger than 32 bits.  */
 
-  if (HAVE_32BIT_GPRS)
+  if (!dbl || HAVE_32BIT_GPRS)
     {
-      as_bad (_("Number (0x%lx) larger than 32 bits"),
-	      (unsigned long) ep->X_add_number);
+      char value[32];
+
+      sprintf_vma (value, ep->X_add_number);
+      as_bad (_("Number (%s) larger than 32 bits"), value);
       macro_build (ep, "addiu", "t,r,j", reg, 0, BFD_RELOC_LO16);
       return;
     }
@@ -5785,16 +5799,22 @@ macro (struct mips_cl_insn *ip)
 	  offset_expr.X_op = O_constant;
 	}
 
+      if (HAVE_32BIT_ADDRESSES
+	  && !IS_SEXT_32BIT_NUM (offset_expr.X_add_number))
+	{
+	  char value [32];
+
+	  sprintf_vma (value, offset_expr.X_add_number);
+	  as_bad (_("Number (%s) larger than 32 bits"), value);
+	}
+
       /* A constant expression in PIC code can be handled just as it
 	 is in non PIC code.  */
       if (offset_expr.X_op == O_constant)
 	{
-	  if (HAVE_32BIT_ADDRESSES
-	      && !IS_SEXT_32BIT_NUM (offset_expr.X_add_number))
-	    as_bad (_("constant too large"));
-
 	  expr1.X_add_number = ((offset_expr.X_add_number + 0x8000)
 				& ~(bfd_vma) 0xffff);
+	  normalize_address_expr (&expr1);
 	  load_register (tempreg, &expr1, HAVE_64BIT_ADDRESSES);
 	  if (breg != 0)
 	    macro_build (NULL, ADDRESS_ADD_INSN, "d,v,t",
@@ -6373,6 +6393,15 @@ macro (struct mips_cl_insn *ip)
 	  offset_expr.X_op = O_constant;
 	}
 
+      if (HAVE_32BIT_ADDRESSES
+	  && !IS_SEXT_32BIT_NUM (offset_expr.X_add_number))
+	{
+	  char value [32];
+
+	  sprintf_vma (value, offset_expr.X_add_number);
+	  as_bad (_("Number (%s) larger than 32 bits"), value);
+	}
+
       /* Even on a big endian machine $fn comes before $fn+1.  We have
 	 to adjust when loading from memory.  We set coproc if we must
 	 load $fn+1 first.  */
@@ -6397,7 +6426,8 @@ macro (struct mips_cl_insn *ip)
 	     If there is a base register, we add it to $at after the
 	     lui instruction.  If there is a constant, we always use
 	     the last case.  */
-	  if ((valueT) offset_expr.X_add_number <= MAX_GPREL_OFFSET
+	  if (offset_expr.X_op == O_symbol
+	      && (valueT) offset_expr.X_add_number <= MAX_GPREL_OFFSET
 	      && !nopic_need_relax (offset_expr.X_add_symbol, 1))
 	    {
 	      relax_start (offset_expr.X_add_symbol);
@@ -8082,7 +8112,8 @@ do_msbd:
 		  if (imm2_expr.X_op != O_big
 		      && imm2_expr.X_op != O_constant)
 		  insn_error = _("absolute expression required");
-		  normalize_constant_expr (&imm2_expr);
+		  if (HAVE_32BIT_GPRS)
+		    normalize_constant_expr (&imm2_expr);
 		  s = expr_end;
 		  continue;
 
@@ -8550,12 +8581,14 @@ do_msbd:
 	      if (imm_expr.X_op != O_big
 		  && imm_expr.X_op != O_constant)
 		insn_error = _("absolute expression required");
-	      normalize_constant_expr (&imm_expr);
+	      if (HAVE_32BIT_GPRS)
+		normalize_constant_expr (&imm_expr);
 	      s = expr_end;
 	      continue;
 
 	    case 'A':
 	      my_getExpression (&offset_expr, s);
+	      normalize_address_expr (&offset_expr);
 	      *imm_reloc = BFD_RELOC_32;
 	      s = expr_end;
 	      continue;
@@ -10986,9 +11019,9 @@ md_apply_fix3 (fixS *fixP, valueT *valP, segT seg ATTRIBUTE_UNUSED)
 		hiv = 0xffffffff;
 	      else
 		hiv = 0;
-	      md_number_to_chars ((char *)(buf + target_big_endian ? 4 : 0),
+	      md_number_to_chars ((char *)(buf + (target_big_endian ? 4 : 0)),
 				  *valP, 4);
-	      md_number_to_chars ((char *)(buf + target_big_endian ? 0 : 4),
+	      md_number_to_chars ((char *)(buf + (target_big_endian ? 0 : 4)),
 				  hiv, 4);
 	    }
 	}

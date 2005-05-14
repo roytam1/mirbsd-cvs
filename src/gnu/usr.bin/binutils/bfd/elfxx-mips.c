@@ -23,7 +23,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* This file handles functionality common to the different MIPS ABI's.  */
 
@@ -242,7 +242,8 @@ struct mips_elf_link_hash_entry
      being called returns a floating point value.  */
   asection *call_fp_stub;
 
-  /* Are we forced local?  .*/
+  /* Are we forced local?  This will only be set if we have converted
+     the initial global GOT entry to a local GOT entry.  */
   bfd_boolean forced_local;
 
 #define GOT_NORMAL	0
@@ -477,6 +478,11 @@ static bfd *reldyn_sorting_bfd;
 /* The name of the options section.  */
 #define MIPS_ELF_OPTIONS_SECTION_NAME(abfd) \
   (NEWABI_P (abfd) ? ".MIPS.options" : ".options")
+
+/* True if NAME is the recognized name of any SHT_MIPS_OPTIONS section.
+   Some IRIX system files do not use MIPS_ELF_OPTIONS_SECTION_NAME.  */
+#define MIPS_ELF_OPTIONS_SECTION_NAME_P(NAME) \
+  (strcmp (NAME, ".MIPS.options") == 0 || strcmp (NAME, ".options") == 0)
 
 /* The name of the stub section.  */
 #define MIPS_ELF_STUB_SECTION_NAME(abfd) ".MIPS.stubs"
@@ -956,7 +962,7 @@ mips_elf_create_procedure_table (void *handle, bfd *abfd,
 
   /* Skip this section later on (I don't think this currently
      matters, but someday it might).  */
-  s->link_order_head = NULL;
+  s->map_head.link_order = NULL;
 
   if (epdr != NULL)
     free (epdr);
@@ -1902,15 +1908,14 @@ mips_elf_rel_dyn_section (bfd *dynobj, bfd_boolean create_p)
   sreloc = bfd_get_section_by_name (dynobj, dname);
   if (sreloc == NULL && create_p)
     {
-      sreloc = bfd_make_section (dynobj, dname);
+      sreloc = bfd_make_section_with_flags (dynobj, dname,
+					    (SEC_ALLOC
+					     | SEC_LOAD
+					     | SEC_HAS_CONTENTS
+					     | SEC_IN_MEMORY
+					     | SEC_LINKER_CREATED
+					     | SEC_READONLY));
       if (sreloc == NULL
-	  || ! bfd_set_section_flags (dynobj, sreloc,
-				      (SEC_ALLOC
-				       | SEC_LOAD
-				       | SEC_HAS_CONTENTS
-				       | SEC_IN_MEMORY
-				       | SEC_LINKER_CREATED
-				       | SEC_READONLY))
 	  || ! bfd_set_section_alignment (dynobj, sreloc,
 					  MIPS_ELF_LOG_FILE_ALIGN (dynobj)))
 	return NULL;
@@ -2458,7 +2463,7 @@ mips_elf_create_local_got_entry (bfd *abfd, bfd *ibfd,
      global entry then.  It doesn't matter whether an entry is local
      or global for TLS, since the dynamic linker does not
      automatically relocate TLS GOT entries.  */
-  BFD_ASSERT (h == NULL || h->forced_local);
+  BFD_ASSERT (h == NULL || h->root.forced_local);
   if (TLS_RELOC_P (r_type))
     {
       struct mips_got_entry *p;
@@ -3506,9 +3511,8 @@ mips_elf_create_compact_rel_section
       flags = (SEC_HAS_CONTENTS | SEC_IN_MEMORY | SEC_LINKER_CREATED
 	       | SEC_READONLY);
 
-      s = bfd_make_section (abfd, ".compact_rel");
+      s = bfd_make_section_with_flags (abfd, ".compact_rel", flags);
       if (s == NULL
-	  || ! bfd_set_section_flags (abfd, s, flags)
 	  || ! bfd_set_section_alignment (abfd, s,
 					  MIPS_ELF_LOG_FILE_ALIGN (abfd)))
 	return FALSE;
@@ -3549,9 +3553,8 @@ mips_elf_create_got_section (bfd *abfd, struct bfd_link_info *info,
 
   /* We have to use an alignment of 2**4 here because this is hardcoded
      in the function stub generation and in the linker script.  */
-  s = bfd_make_section (abfd, ".got");
+  s = bfd_make_section_with_flags (abfd, ".got", flags);
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, flags)
       || ! bfd_set_section_alignment (abfd, s, 4))
     return FALSE;
 
@@ -5122,7 +5125,7 @@ _bfd_mips_elf_section_from_shdr (bfd *abfd,
 	return FALSE;
       break;
     case SHT_MIPS_OPTIONS:
-      if (strcmp (name, MIPS_ELF_OPTIONS_SECTION_NAME (abfd)) != 0)
+      if (!MIPS_ELF_OPTIONS_SECTION_NAME_P (name))
 	return FALSE;
       break;
     case SHT_MIPS_DWARF:
@@ -5140,7 +5143,7 @@ _bfd_mips_elf_section_from_shdr (bfd *abfd,
 	return FALSE;
       break;
     default:
-      return FALSE;
+      break;
     }
 
   if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
@@ -5310,7 +5313,7 @@ _bfd_mips_elf_fake_sections (bfd *abfd, Elf_Internal_Shdr *hdr, asection *sec)
       hdr->sh_flags |= SHF_MIPS_NOSTRIP;
       /* The sh_info field is set in final_write_processing.  */
     }
-  else if (strcmp (name, MIPS_ELF_OPTIONS_SECTION_NAME (abfd)) == 0)
+  else if (MIPS_ELF_OPTIONS_SECTION_NAME_P (name))
     {
       hdr->sh_type = SHT_MIPS_OPTIONS;
       hdr->sh_entsize = 1;
@@ -5582,9 +5585,10 @@ _bfd_mips_elf_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
   if (bfd_get_section_by_name (abfd,
 			       MIPS_ELF_STUB_SECTION_NAME (abfd)) == NULL)
     {
-      s = bfd_make_section (abfd, MIPS_ELF_STUB_SECTION_NAME (abfd));
+      s = bfd_make_section_with_flags (abfd,
+				       MIPS_ELF_STUB_SECTION_NAME (abfd),
+				       flags | SEC_CODE);
       if (s == NULL
-	  || ! bfd_set_section_flags (abfd, s, flags | SEC_CODE)
 	  || ! bfd_set_section_alignment (abfd, s,
 					  MIPS_ELF_LOG_FILE_ALIGN (abfd)))
 	return FALSE;
@@ -5594,9 +5598,9 @@ _bfd_mips_elf_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
       && !info->shared
       && bfd_get_section_by_name (abfd, ".rld_map") == NULL)
     {
-      s = bfd_make_section (abfd, ".rld_map");
+      s = bfd_make_section_with_flags (abfd, ".rld_map",
+				       flags &~ (flagword) SEC_READONLY);
       if (s == NULL
-	  || ! bfd_set_section_flags (abfd, s, flags &~ (flagword) SEC_READONLY)
 	  || ! bfd_set_section_alignment (abfd, s,
 					  MIPS_ELF_LOG_FILE_ALIGN (abfd)))
 	return FALSE;
@@ -6790,7 +6794,7 @@ _bfd_mips_elf_size_dynamic_sections (bfd *output_bfd,
 
       if (strip)
 	{
-	  _bfd_strip_section_from_output (info, s);
+	  s->flags |= SEC_EXCLUDE;
 	  continue;
 	}
 
@@ -8631,7 +8635,7 @@ _bfd_mips_elf_set_section_contents (bfd *abfd, sec_ptr section,
 				    const void *location,
 				    file_ptr offset, bfd_size_type count)
 {
-  if (strcmp (section->name, MIPS_ELF_OPTIONS_SECTION_NAME (abfd)) == 0)
+  if (MIPS_ELF_OPTIONS_SECTION_NAME_P (section->name))
     {
       bfd_byte *c;
 
@@ -8754,30 +8758,21 @@ _bfd_elf_mips_get_relocated_section_contents
 	  /* Specific to MIPS: Deal with relocation types that require
 	     knowing the gp of the output bfd.  */
 	  asymbol *sym = *(*parent)->sym_ptr_ptr;
-	  if (bfd_is_abs_section (sym->section) && abfd)
-	    {
-	      /* The special_function wouldn't get called anyway.  */
-	    }
-	  else if (!gp_found)
-	    {
-	      /* The gp isn't there; let the special function code
-		 fall over on its own.  */
-	    }
-	  else if ((*parent)->howto->special_function
-		   == _bfd_mips_elf32_gprel16_reloc)
-	    {
-	      /* bypass special_function call */
-	      r = _bfd_mips_elf_gprel16_with_gp (input_bfd, sym, *parent,
-						 input_section, relocatable,
-						 data, gp);
-	      goto skip_bfd_perform_relocation;
-	    }
-	  /* end mips specific stuff */
 
-	  r = bfd_perform_relocation (input_bfd, *parent, data, input_section,
-				      relocatable ? abfd : NULL,
-				      &error_message);
-	skip_bfd_perform_relocation:
+	  /* If we've managed to find the gp and have a special
+	     function for the relocation then go ahead, else default
+	     to the generic handling.  */
+	  if (gp_found
+	      && (*parent)->howto->special_function
+	      == _bfd_mips_elf32_gprel16_reloc)
+	    r = _bfd_mips_elf_gprel16_with_gp (input_bfd, sym, *parent,
+					       input_section, relocatable,
+					       data, gp);
+	  else
+	    r = bfd_perform_relocation (input_bfd, *parent, data, 
+					input_section,
+					relocatable ? abfd : NULL,
+					&error_message);
 
 	  if (relocatable)
 	    {
@@ -8873,7 +8868,6 @@ _bfd_mips_elf_link_hash_table_create (bfd *abfd)
 bfd_boolean
 _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 {
-  asection **secpp;
   asection *o;
   struct bfd_link_order *p;
   asection *reginfo_sec, *mdebug_sec, *gptab_data_sec, *gptab_bss_sec;
@@ -8990,7 +8984,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 	  /* We have found the .reginfo section in the output file.
 	     Look through all the link_orders comprising it and merge
 	     the information together.  */
-	  for (p = o->link_order_head; p != NULL; p = p->next)
+	  for (p = o->map_head.link_order; p != NULL; p = p->next)
 	    {
 	      asection *input_section;
 	      bfd *input_bfd;
@@ -9033,7 +9027,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 
 	  /* Skip this section later on (I don't think this currently
 	     matters, but someday it might).  */
-	  o->link_order_head = NULL;
+	  o->map_head.link_order = NULL;
 
 	  reginfo_sec = o;
 	}
@@ -9106,7 +9100,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 		return FALSE;
 	    }
 
-	  for (p = o->link_order_head; p != NULL; p = p->next)
+	  for (p = o->map_head.link_order; p != NULL; p = p->next)
 	    {
 	      asection *input_section;
 	      bfd *input_bfd;
@@ -9217,9 +9211,10 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 		  flagword flags = (SEC_HAS_CONTENTS | SEC_IN_MEMORY
 				    | SEC_LINKER_CREATED | SEC_READONLY);
 
-		  rtproc_sec = bfd_make_section (abfd, ".rtproc");
+		  rtproc_sec = bfd_make_section_with_flags (abfd,
+							    ".rtproc",
+							    flags);
 		  if (rtproc_sec == NULL
-		      || ! bfd_set_section_flags (abfd, rtproc_sec, flags)
 		      || ! bfd_set_section_alignment (abfd, rtproc_sec, 4))
 		    return FALSE;
 		}
@@ -9246,7 +9241,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 
 	  /* Skip this section later on (I don't think this currently
 	     matters, but someday it might).  */
-	  o->link_order_head = NULL;
+	  o->map_head.link_order = NULL;
 
 	  mdebug_sec = o;
 	}
@@ -9265,7 +9260,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 	     not used in executables files.  */
 	  if (! info->relocatable)
 	    {
-	      for (p = o->link_order_head; p != NULL; p = p->next)
+	      for (p = o->map_head.link_order; p != NULL; p = p->next)
 		{
 		  asection *input_section;
 
@@ -9285,14 +9280,10 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 
 	      /* Skip this section later on (I don't think this
 		 currently matters, but someday it might).  */
-	      o->link_order_head = NULL;
+	      o->map_head.link_order = NULL;
 
 	      /* Really remove the section.  */
-	      for (secpp = &abfd->sections;
-		   *secpp != o;
-		   secpp = &(*secpp)->next)
-		;
-	      bfd_section_list_remove (abfd, secpp);
+	      bfd_section_list_remove (abfd, o);
 	      --abfd->section_count;
 
 	      continue;
@@ -9339,7 +9330,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 	  tab[0].gt_header.gt_unused = 0;
 
 	  /* Combine the input sections.  */
-	  for (p = o->link_order_head; p != NULL; p = p->next)
+	  for (p = o->map_head.link_order; p != NULL; p = p->next)
 	    {
 	      asection *input_section;
 	      bfd *input_bfd;
@@ -9462,7 +9453,7 @@ _bfd_mips_elf_final_link (bfd *abfd, struct bfd_link_info *info)
 
 	  /* Skip this section later on (I don't think this currently
 	     matters, but someday it might).  */
-	  o->link_order_head = NULL;
+	  o->map_head.link_order = NULL;
 	}
     }
 
@@ -9901,13 +9892,63 @@ _bfd_mips_elf_print_private_bfd_data (bfd *abfd, void *ptr)
   return TRUE;
 }
 
-struct bfd_elf_special_section const _bfd_mips_elf_special_sections[]=
+static struct bfd_elf_special_section const
+  mips_special_sections_l[]=
+{
+  { ".lit4",   5,  0, SHT_PROGBITS,   SHF_ALLOC + SHF_WRITE + SHF_MIPS_GPREL },
+  { ".lit8",   5,  0, SHT_PROGBITS,   SHF_ALLOC + SHF_WRITE + SHF_MIPS_GPREL },
+  { NULL,      0,  0, 0,              0 }
+};
+
+static struct bfd_elf_special_section const
+  mips_special_sections_m[]=
+{
+  { ".mdebug", 7,  0, SHT_MIPS_DEBUG, 0 },
+  { NULL,      0,  0, 0,              0 }
+};
+
+static struct bfd_elf_special_section const
+  mips_special_sections_s[]=
 {
   { ".sdata",  6, -2, SHT_PROGBITS,   SHF_ALLOC + SHF_WRITE + SHF_MIPS_GPREL },
   { ".sbss",   5, -2, SHT_NOBITS,     SHF_ALLOC + SHF_WRITE + SHF_MIPS_GPREL },
-  { ".lit4",   5,  0, SHT_PROGBITS,   SHF_ALLOC + SHF_WRITE + SHF_MIPS_GPREL },
-  { ".lit8",   5,  0, SHT_PROGBITS,   SHF_ALLOC + SHF_WRITE + SHF_MIPS_GPREL },
+};
+
+static struct bfd_elf_special_section const
+  mips_special_sections_u[]=
+{
   { ".ucode",  6,  0, SHT_MIPS_UCODE, 0 },
-  { ".mdebug", 7,  0, SHT_MIPS_DEBUG, 0 },
   { NULL,      0,  0, 0,              0 }
+};
+
+struct bfd_elf_special_section const *
+  _bfd_mips_elf_special_sections[27] =
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  NULL,				/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  NULL,				/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  NULL,				/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  mips_special_sections_l,	/* 'l' */
+  mips_special_sections_m,	/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  mips_special_sections_s,	/* 'm' */
+  NULL,				/* 't' */
+  mips_special_sections_u,	/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };

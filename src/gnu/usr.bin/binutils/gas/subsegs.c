@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* Segments & sub-segments.  */
 
@@ -524,7 +524,7 @@ section_symbol (segT sec)
   else
     {
       segT seg;
-      s = symbol_find_base (sec->symbol->name, 0);
+      s = symbol_find (sec->symbol->name);
       /* We have to make sure it is the right symbol when we
 	 have multiple sections with the same section name.  */
       if (s == NULL

@@ -15,7 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -470,16 +470,16 @@ xstormy16_elf_check_relocs (abfd, info, sec, relocs)
 	      splt = bfd_get_section_by_name (dynobj, ".plt");
 	      if (splt == NULL)
 		{
-		  splt = bfd_make_section (dynobj, ".plt");
+		  splt = bfd_make_section_with_flags (dynobj, ".plt",
+						      (SEC_ALLOC
+						       | SEC_LOAD
+						       | SEC_HAS_CONTENTS
+						       | SEC_IN_MEMORY
+						       | SEC_LINKER_CREATED
+						       | SEC_READONLY
+						       | SEC_CODE));
+
 		  if (splt == NULL
-		      || ! bfd_set_section_flags (dynobj, splt,
-						  (SEC_ALLOC
-						   | SEC_LOAD
-						   | SEC_HAS_CONTENTS
-						   | SEC_IN_MEMORY
-						   | SEC_LINKER_CREATED
-						   | SEC_READONLY
-						   | SEC_CODE))
 		      || ! bfd_set_section_alignment (dynobj, splt, 1))
 		    return FALSE;
 		}

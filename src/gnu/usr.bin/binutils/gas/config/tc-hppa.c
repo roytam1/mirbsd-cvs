@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* HP PA-RISC support was contributed by the Center for Software Science
    at the University of Utah.  */
@@ -811,6 +811,7 @@ static int print_errors = 1;
 
    %r26 - %r23 have %arg0 - %arg3 as synonyms
    %r28 - %r29 have %ret0 - %ret1 as synonyms
+   %fr4 - %fr7 have %farg0 - %farg3 as synonyms
    %r30 has %sp as a synonym
    %r27 has %dp as a synonym
    %r2  has %rp as a synonym
@@ -854,10 +855,10 @@ static const struct pd_reg pre_defined_registers[] =
   {"%dp",    27},
   {"%eiem",  15},
   {"%eirr",  23},
-  {"%farg0",  5},
-  {"%farg1",  6},
-  {"%farg2",  7},
-  {"%farg3",  8},
+  {"%farg0",  4 + FP_REG_BASE},
+  {"%farg1",  5 + FP_REG_BASE},
+  {"%farg2",  6 + FP_REG_BASE},
+  {"%farg3",  7 + FP_REG_BASE},
   {"%fr0",    0 + FP_REG_BASE},
   {"%fr0l",   0 + FP_REG_BASE},
   {"%fr0r",   0 + FP_REG_BASE + FP_REG_RSEL},
@@ -5949,6 +5950,12 @@ pa_block (z)
 #endif
 
   temp_size = get_absolute_expression ();
+
+  if (temp_size > 0x3FFFFFFF)
+    {
+      as_bad (_("Argument to .BLOCK/.BLOCKZ must be between 0 and 0x3fffffff"));
+      temp_size = 0;
+    }
 
   /* Always fill with zeros, that's what the HP assembler does.  */
   temp_fill = 0;

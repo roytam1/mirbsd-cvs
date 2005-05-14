@@ -18,7 +18,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /*
 SECTION
@@ -2063,6 +2063,19 @@ ENUMDOC
   Low 16 bits.
 
 ENUM
+  BFD_RELOC_HI16_PCREL
+ENUMDOC
+  High 16 bits of 32-bit pc-relative value
+ENUM
+  BFD_RELOC_HI16_S_PCREL
+ENUMDOC
+  High 16 bits of 32-bit pc-relative value, adjusted
+ENUM
+  BFD_RELOC_LO16_PCREL
+ENUMDOC
+  Low 16 bits of pc-relative value
+
+ENUM
   BFD_RELOC_MIPS16_HI16
 ENUMDOC
   MIPS16 high 16 bits of 32-bit value.
@@ -2678,6 +2691,22 @@ ENUMX
   BFD_RELOC_ARM_GOTOFF
 ENUMX
   BFD_RELOC_ARM_GOTPC
+ENUMX
+  BFD_RELOC_ARM_TLS_GD32
+ENUMX
+  BFD_RELOC_ARM_TLS_LDO32
+ENUMX
+  BFD_RELOC_ARM_TLS_LDM32
+ENUMX
+  BFD_RELOC_ARM_TLS_DTPOFF32
+ENUMX
+  BFD_RELOC_ARM_TLS_DTPMOD32
+ENUMX
+  BFD_RELOC_ARM_TLS_TPOFF32
+ENUMX
+  BFD_RELOC_ARM_TLS_IE32
+ENUMX
+  BFD_RELOC_ARM_TLS_LE32
 ENUMDOC
   These relocs are only used within the ARM assembler.  They are not
   (at present) written to any object files.

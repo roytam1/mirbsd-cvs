@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -631,15 +631,15 @@ elf_vax_check_relocs (abfd, info, sec, relocs)
 	      srelgot = bfd_get_section_by_name (dynobj, ".rela.got");
 	      if (srelgot == NULL)
 		{
-		  srelgot = bfd_make_section (dynobj, ".rela.got");
+		  srelgot = bfd_make_section_with_flags (dynobj,
+							 ".rela.got",
+							 (SEC_ALLOC
+							  | SEC_LOAD
+							  | SEC_HAS_CONTENTS
+							  | SEC_IN_MEMORY
+							  | SEC_LINKER_CREATED
+							  | SEC_READONLY));
 		  if (srelgot == NULL
-		      || !bfd_set_section_flags (dynobj, srelgot,
-						 (SEC_ALLOC
-						  | SEC_LOAD
-						  | SEC_HAS_CONTENTS
-						  | SEC_IN_MEMORY
-						  | SEC_LINKER_CREATED
-						  | SEC_READONLY))
 		      || !bfd_set_section_alignment (dynobj, srelgot, 2))
 		    return FALSE;
 		}
@@ -760,15 +760,15 @@ elf_vax_check_relocs (abfd, info, sec, relocs)
 		  sreloc = bfd_get_section_by_name (dynobj, name);
 		  if (sreloc == NULL)
 		    {
-		      sreloc = bfd_make_section (dynobj, name);
+		      sreloc = bfd_make_section_with_flags (dynobj,
+							    name,
+							    (SEC_ALLOC
+							     | SEC_LOAD
+							     | SEC_HAS_CONTENTS
+							     | SEC_IN_MEMORY
+							     | SEC_LINKER_CREATED
+							     | SEC_READONLY));
 		      if (sreloc == NULL
-			  || !bfd_set_section_flags (dynobj, sreloc,
-						     (SEC_ALLOC
-						      | SEC_LOAD
-						      | SEC_HAS_CONTENTS
-						      | SEC_IN_MEMORY
-						      | SEC_LINKER_CREATED
-						      | SEC_READONLY))
 			  || !bfd_set_section_alignment (dynobj, sreloc, 2))
 			return FALSE;
 		    }
@@ -1273,7 +1273,7 @@ elf_vax_size_dynamic_sections (output_bfd, info)
 
       if (strip)
 	{
-	  _bfd_strip_section_from_output (info, s);
+	  s->flags |= SEC_EXCLUDE;
 	  continue;
 	}
 

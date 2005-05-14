@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to
-   the Free Software Foundation, 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   the Free Software Foundation, 51 Franklin Street - Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 #include <stdio.h>
 #include "as.h"
@@ -2205,7 +2205,7 @@ m32r_fix_adjustable (fixS *fixP)
     return 1;
 
   /* Prevent all adjustments to global symbols.  */
-  if (S_IS_EXTERN (fixP->fx_addsy))
+  if (S_IS_EXTERNAL (fixP->fx_addsy))
     return 0;
   if (S_IS_WEAK (fixP->fx_addsy))
     return 0;

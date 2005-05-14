@@ -21,7 +21,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "hashtab.h"
 
@@ -415,7 +415,7 @@ extern bfd_boolean _bfd_stab_section_find_nearest_line
   (bfd *, asymbol **, asection *, bfd_vma, bfd_boolean *,
    const char **, const char **, unsigned int *, void **);
 
-/* Find the neaderst line using DWARF 1 debugging information.  */
+/* Find the nearest line using DWARF 1 debugging information.  */
 extern bfd_boolean _bfd_dwarf1_find_nearest_line
   (bfd *, asection *, asymbol **, bfd_vma, const char **,
    const char **, unsigned int *);

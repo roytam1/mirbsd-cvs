@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "alloca-conf.h"
 #include "bfd.h"
@@ -532,15 +532,14 @@ get_reloc_section (abfd, hppa_info, sec)
   srel = bfd_get_section_by_name (dynobj, srel_name);
   if (srel == NULL)
     {
-      srel = bfd_make_section (dynobj, srel_name);
+      srel = bfd_make_section_with_flags (dynobj, srel_name,
+					  (SEC_ALLOC
+					   | SEC_LOAD
+					   | SEC_HAS_CONTENTS
+					   | SEC_IN_MEMORY
+					   | SEC_LINKER_CREATED
+					   | SEC_READONLY));
       if (srel == NULL
-	  || !bfd_set_section_flags (dynobj, srel,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_LINKER_CREATED
-				      | SEC_READONLY))
 	  || !bfd_set_section_alignment (dynobj, srel, 3))
 	return FALSE;
     }
@@ -1232,14 +1231,13 @@ get_opd (abfd, info, hppa_info)
       if (!dynobj)
 	hppa_info->root.dynobj = dynobj = abfd;
 
-      opd = bfd_make_section (dynobj, ".opd");
+      opd = bfd_make_section_with_flags (dynobj, ".opd",
+					 (SEC_ALLOC
+					  | SEC_LOAD
+					  | SEC_HAS_CONTENTS
+					  | SEC_IN_MEMORY
+					  | SEC_LINKER_CREATED));
       if (!opd
-	  || !bfd_set_section_flags (dynobj, opd,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_LINKER_CREATED))
 	  || !bfd_set_section_alignment (abfd, opd, 3))
 	{
 	  BFD_ASSERT (0);
@@ -1270,14 +1268,13 @@ get_plt (abfd, info, hppa_info)
       if (!dynobj)
 	hppa_info->root.dynobj = dynobj = abfd;
 
-      plt = bfd_make_section (dynobj, ".plt");
+      plt = bfd_make_section_with_flags (dynobj, ".plt",
+					 (SEC_ALLOC
+					  | SEC_LOAD
+					  | SEC_HAS_CONTENTS
+					  | SEC_IN_MEMORY
+					  | SEC_LINKER_CREATED));
       if (!plt
-	  || !bfd_set_section_flags (dynobj, plt,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_LINKER_CREATED))
 	  || !bfd_set_section_alignment (abfd, plt, 3))
 	{
 	  BFD_ASSERT (0);
@@ -1308,14 +1305,13 @@ get_dlt (abfd, info, hppa_info)
       if (!dynobj)
 	hppa_info->root.dynobj = dynobj = abfd;
 
-      dlt = bfd_make_section (dynobj, ".dlt");
+      dlt = bfd_make_section_with_flags (dynobj, ".dlt",
+					 (SEC_ALLOC
+					  | SEC_LOAD
+					  | SEC_HAS_CONTENTS
+					  | SEC_IN_MEMORY
+					  | SEC_LINKER_CREATED));
       if (!dlt
-	  || !bfd_set_section_flags (dynobj, dlt,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_LINKER_CREATED))
 	  || !bfd_set_section_alignment (abfd, dlt, 3))
 	{
 	  BFD_ASSERT (0);
@@ -1346,15 +1342,13 @@ get_stub (abfd, info, hppa_info)
       if (!dynobj)
 	hppa_info->root.dynobj = dynobj = abfd;
 
-      stub = bfd_make_section (dynobj, ".stub");
+      stub = bfd_make_section_with_flags (dynobj, ".stub",
+					  (SEC_ALLOC | SEC_LOAD
+					   | SEC_HAS_CONTENTS
+					   | SEC_IN_MEMORY
+					   | SEC_READONLY
+					   | SEC_LINKER_CREATED));
       if (!stub
-	  || !bfd_set_section_flags (dynobj, stub,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_READONLY
-				      | SEC_LINKER_CREATED))
 	  || !bfd_set_section_alignment (abfd, stub, 3))
 	{
 	  BFD_ASSERT (0);
@@ -1424,46 +1418,46 @@ elf64_hppa_create_dynamic_sections (abfd, info)
   if (! get_opd (abfd, info, elf64_hppa_hash_table (info)))
     return FALSE;
 
-  s = bfd_make_section(abfd, ".rela.dlt");
+  s = bfd_make_section_with_flags (abfd, ".rela.dlt",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_READONLY
+				    | SEC_LINKER_CREATED));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_READONLY
-					   | SEC_LINKER_CREATED))
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
   elf64_hppa_hash_table (info)->dlt_rel_sec = s;
 
-  s = bfd_make_section(abfd, ".rela.plt");
+  s = bfd_make_section_with_flags (abfd, ".rela.plt",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_READONLY
+				    | SEC_LINKER_CREATED));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_READONLY
-					   | SEC_LINKER_CREATED))
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
   elf64_hppa_hash_table (info)->plt_rel_sec = s;
 
-  s = bfd_make_section(abfd, ".rela.data");
+  s = bfd_make_section_with_flags (abfd, ".rela.data",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_READONLY
+				    | SEC_LINKER_CREATED));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_READONLY
-					   | SEC_LINKER_CREATED))
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
   elf64_hppa_hash_table (info)->other_rel_sec = s;
 
-  s = bfd_make_section(abfd, ".rela.opd");
+  s = bfd_make_section_with_flags (abfd, ".rela.opd",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_READONLY
+				    | SEC_LINKER_CREATED));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_READONLY
-					   | SEC_LINKER_CREATED))
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
   elf64_hppa_hash_table (info)->opd_rel_sec = s;
@@ -1808,7 +1802,7 @@ elf64_hppa_size_dynamic_sections (output_bfd, info)
 
       if (strip)
 	{
-	  _bfd_strip_section_from_output (info, s);
+	  s->flags |= SEC_EXCLUDE;
 	  continue;
 	}
 
@@ -2677,11 +2671,50 @@ elf64_hppa_elf_get_symbol_type (elf_sym, type)
     return type;
 }
 
-static struct bfd_elf_special_section const elf64_hppa_special_sections[]=
+static struct bfd_elf_special_section const
+  hppa_special_sections_f[]=
 {
   { ".fini",    5, 0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
+  { NULL,        0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const
+  hppa_special_sections_i[]=
+{
   { ".init",    5, 0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { NULL,       0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *
+  elf64_hppa_special_sections[27] =
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  NULL,				/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  hppa_special_sections_f,	/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  hppa_special_sections_i,	/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  NULL,				/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'f' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  NULL,				/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };
 
 /* The hash bucket size is the standard one, namely 4.  */

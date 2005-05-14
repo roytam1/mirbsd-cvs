@@ -779,6 +779,15 @@ to compensate for the borrow when the low bits are added.
 @deffn {} BFD_RELOC_LO16
 Low 16 bits.
 @end deffn
+@deffn {} BFD_RELOC_HI16_PCREL
+High 16 bits of 32-bit pc-relative value
+@end deffn
+@deffn {} BFD_RELOC_HI16_S_PCREL
+High 16 bits of 32-bit pc-relative value, adjusted
+@end deffn
+@deffn {} BFD_RELOC_LO16_PCREL
+Low 16 bits of pc-relative value
+@end deffn
 @deffn {} BFD_RELOC_MIPS16_HI16
 MIPS16 high 16 bits of 32-bit value.
 @end deffn
@@ -1111,6 +1120,14 @@ field in the instruction.
 @deffnx {} BFD_RELOC_ARM_RELATIVE
 @deffnx {} BFD_RELOC_ARM_GOTOFF
 @deffnx {} BFD_RELOC_ARM_GOTPC
+@deffnx {} BFD_RELOC_ARM_TLS_GD32
+@deffnx {} BFD_RELOC_ARM_TLS_LDO32
+@deffnx {} BFD_RELOC_ARM_TLS_LDM32
+@deffnx {} BFD_RELOC_ARM_TLS_DTPOFF32
+@deffnx {} BFD_RELOC_ARM_TLS_DTPMOD32
+@deffnx {} BFD_RELOC_ARM_TLS_TPOFF32
+@deffnx {} BFD_RELOC_ARM_TLS_IE32
+@deffnx {} BFD_RELOC_ARM_TLS_LE32
 These relocs are only used within the ARM assembler.  They are not
 (at present) written to any object files.
 @end deffn

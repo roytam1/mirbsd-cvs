@@ -22,7 +22,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -952,15 +952,14 @@ elf32_hppa_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
   htab->srelplt = bfd_get_section_by_name (abfd, ".rela.plt");
 
   htab->sgot = bfd_get_section_by_name (abfd, ".got");
-  htab->srelgot = bfd_make_section (abfd, ".rela.got");
+  htab->srelgot = bfd_make_section_with_flags (abfd, ".rela.got",
+					       (SEC_ALLOC
+						| SEC_LOAD
+						| SEC_HAS_CONTENTS
+						| SEC_IN_MEMORY
+						| SEC_LINKER_CREATED
+						| SEC_READONLY));
   if (htab->srelgot == NULL
-      || ! bfd_set_section_flags (abfd, htab->srelgot,
-				  (SEC_ALLOC
-				   | SEC_LOAD
-				   | SEC_HAS_CONTENTS
-				   | SEC_IN_MEMORY
-				   | SEC_LINKER_CREATED
-				   | SEC_READONLY))
       || ! bfd_set_section_alignment (abfd, htab->srelgot, 2))
     return FALSE;
 
@@ -1388,13 +1387,14 @@ elf32_hppa_check_relocs (bfd *abfd,
 		    {
 		      flagword flags;
 
-		      sreloc = bfd_make_section (dynobj, name);
 		      flags = (SEC_HAS_CONTENTS | SEC_READONLY
 			       | SEC_IN_MEMORY | SEC_LINKER_CREATED);
 		      if ((sec->flags & SEC_ALLOC) != 0)
 			flags |= SEC_ALLOC | SEC_LOAD;
+		      sreloc = bfd_make_section_with_flags (dynobj,
+							    name,
+							    flags);
 		      if (sreloc == NULL
-			  || !bfd_set_section_flags (dynobj, sreloc, flags)
 			  || !bfd_set_section_alignment (dynobj, sreloc, 2))
 			return FALSE;
 		    }
@@ -2270,7 +2270,7 @@ elf32_hppa_size_dynamic_sections (bfd *output_bfd ATTRIBUTE_UNUSED,
 	     adjust_dynamic_symbol is called, and it is that
 	     function which decides whether anything needs to go
 	     into these sections.  */
-	  _bfd_strip_section_from_output (info, s);
+	  s->flags |= SEC_EXCLUDE;
 	  continue;
 	}
 
@@ -2376,7 +2376,7 @@ elf32_hppa_setup_section_lists (bfd *output_bfd, struct bfd_link_info *info)
 
   /* We can't use output_bfd->section_count here to find the top output
      section index as some sections may have been removed, and
-     _bfd_strip_section_from_output doesn't renumber the indices.  */
+     strip_excluded_output_sections doesn't renumber the indices.  */
   for (section = output_bfd->sections, top_index = 0;
        section != NULL;
        section = section->next)
