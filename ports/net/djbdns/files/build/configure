@@ -1,0 +1,17 @@
+#!/bin/sh
+# $MirOS$
+
+cd bins/include
+print -n >hasshsgr.h
+print -n >hasdevtcp.h
+
+cp $TOP/src/direntry.h2 direntry.h
+cp $TOP/src/iopause.h2 iopause.h
+cp $TOP/src/select.h2 select.h
+cp $TOP/src/uint32.h1 uint32.h
+cp $TOP/src/uint64.h1 uint64.h
+cd ../..
+
+${MAKE:-make} obj
+
+exit 0
