@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* Tag to validate a.out object file format processing */
 #define OBJ_AOUT 1
@@ -127,8 +127,6 @@ extern void obj_aout_frob_file_before_fix (void);
    || (flag_strip_local_absolute			\
        && ! S_IS_EXTERNAL(s)				\
        && S_GET_SEGMENT (s) == absolute_section))
-/* True if a symbol is not defined in this file.  */
-#define S_IS_EXTERN(s)		((s)->sy_symbol.n_type & N_EXT)
 /* True if the symbol has been generated because of a .stabd directive.  */
 #define S_IS_STABD(s)		(S_GET_NAME(s) == NULL)
 

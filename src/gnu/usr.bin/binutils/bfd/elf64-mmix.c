@@ -16,7 +16,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* No specific ABI or "processor-specific supplement" defined.  */
 
@@ -1890,19 +1890,17 @@ mmix_elf_check_common_relocs  (abfd, info, sec, relocs)
 	  if (allocated_gregs_section == NULL)
 	    {
 	      allocated_gregs_section
-		= bfd_make_section (bpo_greg_owner,
-				    MMIX_LD_ALLOCATED_REG_CONTENTS_SECTION_NAME);
+		= bfd_make_section_with_flags (bpo_greg_owner,
+					       MMIX_LD_ALLOCATED_REG_CONTENTS_SECTION_NAME,
+					       (SEC_HAS_CONTENTS
+						| SEC_IN_MEMORY
+						| SEC_LINKER_CREATED));
 	      /* Setting both SEC_ALLOC and SEC_LOAD means the section is
 		 treated like any other section, and we'd get errors for
 		 address overlap with the text section.  Let's set none of
 		 those flags, as that is what currently happens for usual
 		 GREG allocations, and that works.  */
 	      if (allocated_gregs_section == NULL
-		  || !bfd_set_section_flags (bpo_greg_owner,
-					     allocated_gregs_section,
-					     (SEC_HAS_CONTENTS
-					      | SEC_IN_MEMORY
-					      | SEC_LINKER_CREATED))
 		  || !bfd_set_section_alignment (bpo_greg_owner,
 						 allocated_gregs_section,
 						 3))
@@ -2249,7 +2247,6 @@ mmix_elf_final_link (abfd, info)
   /* We never output a register section, though we create one for
      temporary measures.  Check that nobody entered contents into it.  */
   asection *reg_section;
-  asection **secpp;
 
   reg_section = bfd_get_section_by_name (abfd, MMIX_REG_SECTION_NAME);
 
@@ -2260,11 +2257,7 @@ mmix_elf_final_link (abfd, info)
 	_bfd_abort (__FILE__, __LINE__, _("Register section has contents\n"));
 
       /* Really remove the section.  */
-      for (secpp = &abfd->sections;
-	   *secpp != reg_section;
-	   secpp = &(*secpp)->next)
-	;
-      bfd_section_list_remove (abfd, secpp);
+      bfd_section_list_remove (abfd, reg_section);
       --abfd->section_count;
     }
 

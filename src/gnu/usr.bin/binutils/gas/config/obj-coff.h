@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef OBJ_FORMAT_H
 #define OBJ_FORMAT_H
@@ -265,8 +265,6 @@
 #define SYM_AUXINFO(S) \
   (&coffsymbol (symbol_get_bfdsym (S))->native[1])
 
-#define DO_NOT_STRIP	0
-
 /* The number of auxiliary entries.  */
 #define S_GET_NUMBER_AUXILIARY(s) \
   (coffsymbol (symbol_get_bfdsym (s))->native->u.syment.n_numaux)
@@ -453,9 +451,6 @@ typedef struct
   unsigned int ost_flags;
 } obj_symbol_type;
 
-#ifndef DO_NOT_STRIP
-#define DO_NOT_STRIP	0
-#endif
 /* Symbol table macros and constants.  */
 
 /* Possible and useful section number in symbol table
@@ -506,10 +501,6 @@ typedef struct
    || (flag_strip_local_absolute \
        && !S_IS_EXTERNAL (s) \
        && (s)->sy_symbol.ost_entry.n_scnum == C_ABS_SECTION))
-
-/* True if a symbol is not defined in this file.  */
-#define S_IS_EXTERN(s)		((s)->sy_symbol.ost_entry.n_scnum == 0 \
-				 && S_GET_VALUE (s) == 0)
 
 /* True if a symbol can be multiply defined (bss symbols have this def
    though it is bad practice).  */

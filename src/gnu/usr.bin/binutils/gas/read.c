@@ -17,8 +17,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with GAS; see the file COPYING.  If not, write to the Free
-Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-02111-1307, USA.  */
+Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+02110-1301, USA.  */
 
 /* If your chars aren't 8 bits, you will change this a bit (eg. to 0xFF).
    But then, GNU isn't spozed to run on your machine anyway.
@@ -211,6 +211,7 @@ static int dwarf_file_string;
 #endif
 #endif
 
+static void do_s_func (int end_p, const char *default_prefix);
 static void do_align (int, char *, int, int);
 static void s_align (int, int);
 static void s_altmacro (int);
@@ -342,6 +343,7 @@ static const pseudo_typeS potable[] = {
   {"globl", s_globl, 0},
   {"hword", cons, 2},
   {"if", s_if, (int) O_ne},
+  {"ifb", s_ifb, 1},
   {"ifc", s_ifc, 0},
   {"ifdef", s_ifdef, 0},
   {"ifeq", s_if, (int) O_eq},
@@ -350,6 +352,7 @@ static const pseudo_typeS potable[] = {
   {"ifgt", s_if, (int) O_gt},
   {"ifle", s_if, (int) O_le},
   {"iflt", s_if, (int) O_lt},
+  {"ifnb", s_ifb, 0},
   {"ifnc", s_ifc, 1},
   {"ifndef", s_ifdef, 1},
   {"ifne", s_if, (int) O_ne},
@@ -438,6 +441,27 @@ static const pseudo_typeS potable[] = {
   {NULL, NULL, 0}			/* End sentinel.  */
 };
 
+static offsetT
+get_absolute_expr (expressionS *exp)
+{
+  expression (exp);
+  if (exp->X_op != O_constant)
+    {
+      if (exp->X_op != O_absent)
+	as_bad (_("bad or irreducible absolute expression"));
+      exp->X_add_number = 0;
+    }
+  return exp->X_add_number;
+}
+
+offsetT
+get_absolute_expression (void)
+{
+  expressionS exp;
+
+  return get_absolute_expr (&exp);
+}
+
 static int pop_override_ok = 0;
 static const char *pop_table_name;
 
@@ -520,6 +544,32 @@ scrub_from_string (char *buf, int buflen)
   return copy;
 }
 
+/* Helper function of read_a_source_file, which tries to expand a macro.  */
+static int
+try_macro (char term, const char *line)
+{
+  sb out;
+  const char *err;
+  macro_entry *macro;
+
+  if (check_macro (line, &out, &err, &macro))
+    {
+      if (err != NULL)
+	as_bad ("%s", err);
+      *input_line_pointer++ = term;
+      input_scrub_include_sb (&out,
+			      input_line_pointer, 1);
+      sb_kill (&out);
+      buffer_limit =
+	input_scrub_next_buffer (&input_line_pointer);
+#ifdef md_macro_info
+      md_macro_info (macro);
+#endif
+      return 1;
+    }
+  return 0;
+}
+
 /* We read the file, putting things into a web that represents what we
    have been reading.  */
 void
@@ -547,6 +597,13 @@ read_a_source_file (char *name)
 
   while ((buffer_limit = input_scrub_next_buffer (&input_line_pointer)) != 0)
     {				/* We have another line to parse.  */
+#ifndef NO_LISTING
+      /* In order to avoid listing macro expansion lines with labels
+	 multiple times, keep track of which line was last issued.  */
+      static char *last_eol;
+
+      last_eol = NULL;
+#endif
       know (buffer_limit[-1] == '\n');	/* Must have a sentinel.  */
 
       while (input_line_pointer < buffer_limit)
@@ -666,17 +723,21 @@ read_a_source_file (char *name)
 		    if (is_end_of_line[(unsigned char) *s])
 		      break;
 
-		  /* Copy it for safe keeping.  Also give an indication of
-		     how much macro nesting is involved at this point.  */
-		  len = s - (input_line_pointer - 1);
-		  copy = (char *) xmalloc (len + macro_nest + 2);
-		  memset (copy, '>', macro_nest);
-		  copy[macro_nest] = ' ';
-		  memcpy (copy + macro_nest + 1, input_line_pointer - 1, len);
-		  copy[macro_nest + 1 + len] = '\0';
+		  if (s != last_eol)
+		    {
+		      last_eol = s;
+		      /* Copy it for safe keeping.  Also give an indication of
+			 how much macro nesting is involved at this point.  */
+		      len = s - (input_line_pointer - 1);
+		      copy = (char *) xmalloc (len + macro_nest + 2);
+		      memset (copy, '>', macro_nest);
+		      copy[macro_nest] = ' ';
+		      memcpy (copy + macro_nest + 1, input_line_pointer - 1, len);
+		      copy[macro_nest + 1 + len] = '\0';
 
-		  /* Install the line with the listing facility.  */
-		  listing_newline (copy);
+		      /* Install the line with the listing facility.  */
+		      listing_newline (copy);
+		    }
 		}
 	      else
 		listing_newline (NULL);
@@ -816,9 +877,18 @@ read_a_source_file (char *name)
 		      /* Print the error msg now, while we still can.  */
 		      if (pop == NULL)
 			{
-			  as_bad (_("unknown pseudo-op: `%s'"), s);
+			  char *end = input_line_pointer;
+
 			  *input_line_pointer = c;
 			  s_ignore (0);
+			  c = *--input_line_pointer;
+			  *input_line_pointer = '\0';
+			  if (! macro_defined || ! try_macro (c, s))
+			    {
+			      *end = '\0';
+			      as_bad (_("unknown pseudo-op: `%s'"), s);
+			      *input_line_pointer++ = c;
+			    }
 			  continue;
 			}
 
@@ -874,28 +944,8 @@ read_a_source_file (char *name)
 
 		      generate_lineno_debug ();
 
-		      if (macro_defined)
-			{
-			  sb out;
-			  const char *err;
-			  macro_entry *macro;
-
-			  if (check_macro (s, &out, &err, &macro))
-			    {
-			      if (err != NULL)
-				as_bad ("%s", err);
-			      *input_line_pointer++ = c;
-			      input_scrub_include_sb (&out,
-						      input_line_pointer, 1);
-			      sb_kill (&out);
-			      buffer_limit =
-				input_scrub_next_buffer (&input_line_pointer);
-#ifdef md_macro_info
-			      md_macro_info (macro);
-#endif
-			      continue;
-			    }
-			}
+		      if (macro_defined && try_macro (c, s))
+			continue;
 
 		      if (mri_pending_align)
 			{
@@ -2298,7 +2348,6 @@ s_macro (int ignore ATTRIBUTE_UNUSED)
   char *file;
   unsigned int line;
   sb s;
-  sb label;
   const char *err;
   const char *name;
 
@@ -2308,18 +2357,24 @@ s_macro (int ignore ATTRIBUTE_UNUSED)
   while (!is_end_of_line[(unsigned char) *input_line_pointer])
     sb_add_char (&s, *input_line_pointer++);
 
-  sb_new (&label);
   if (line_label != NULL)
-    sb_add_string (&label, S_GET_NAME (line_label));
+    {
+      sb label;
 
-  err = define_macro (0, &s, &label, get_line_sb, &name);
+      sb_new (&label);
+      sb_add_string (&label, S_GET_NAME (line_label));
+      err = define_macro (0, &s, &label, get_line_sb, file, line, &name);
+      sb_kill (&label);
+    }
+  else
+    err = define_macro (0, &s, NULL, get_line_sb, file, line, &name);
   if (err != NULL)
-    as_bad_where (file, line, "%s", err);
+    as_bad_where (file, line, err, name);
   else
     {
       if (line_label != NULL)
 	{
-	  S_SET_SEGMENT (line_label, undefined_section);
+	  S_SET_SEGMENT (line_label, absolute_section);
 	  S_SET_VALUE (line_label, 0);
 	  symbol_set_frag (line_label, &zero_address_frag);
 	}
@@ -2329,7 +2384,9 @@ s_macro (int ignore ATTRIBUTE_UNUSED)
 	  || (!flag_m68k_mri
 	      && *name == '.'
 	      && hash_find (po_hash, name + 1) != NULL))
-	as_warn (_("attempt to redefine pseudo-op `%s' ignored"),
+	as_warn_where (file,
+		 line,
+		 _("attempt to redefine pseudo-op `%s' ignored"),
 		 name);
     }
 
@@ -2747,6 +2804,57 @@ end_repeat (int extra)
     buffer_limit = input_scrub_next_buffer (&input_line_pointer);
 }
 
+static void
+assign_symbol (char *name, int no_reassign)
+{
+  symbolS *symbolP;
+
+  if (name[0] == '.' && name[1] == '\0')
+    {
+      /* Turn '. = mumble' into a .org mumble.  */
+      segT segment;
+      expressionS exp;
+
+      segment = get_known_segmented_expression (&exp);
+
+      if (!need_pass_2)
+	do_org (segment, &exp, 0);
+
+      return;
+    }
+
+  if ((symbolP = symbol_find (name)) == NULL
+      && (symbolP = md_undefined_symbol (name)) == NULL)
+    {
+      symbolP = symbol_find_or_make (name);
+#ifndef NO_LISTING
+      /* When doing symbol listings, play games with dummy fragments living
+	 outside the normal fragment chain to record the file and line info
+	 for this symbol.  */
+      if (listing & LISTING_SYMBOLS)
+	{
+	  extern struct list_info_struct *listing_tail;
+	  fragS *dummy_frag = (fragS *) xcalloc (1, sizeof (fragS));
+	  dummy_frag->line = listing_tail;
+	  dummy_frag->fr_symbol = symbolP;
+	  symbol_set_frag (symbolP, dummy_frag);
+	}
+#endif
+#ifdef OBJ_COFF
+      /* "set" symbols are local unless otherwise specified.  */
+      SF_SET_LOCAL (symbolP);
+#endif
+    }
+
+  /* Permit register names to be redefined.  */
+  if (no_reassign
+      && S_IS_DEFINED (symbolP)
+      && S_GET_SEGMENT (symbolP) != reg_section)
+    as_bad (_("symbol `%s' is already defined"), name);
+
+  pseudo_set (symbolP);
+}
+
 /* Handle the .equ, .equiv and .set directives.  If EQUIV is 1, then
    this is .equiv, and it is an error if the symbol is already
    defined.  */
@@ -2754,10 +2862,9 @@ end_repeat (int extra)
 void
 s_set (int equiv)
 {
-  register char *name;
-  register char delim;
-  register char *end_name;
-  register symbolS *symbolP;
+  char *name;
+  char delim;
+  char *end_name;
 
   /* Especial apologies for the random logic:
      this just grew, and could be parsed much more simply!
@@ -2788,58 +2895,9 @@ s_set (int equiv)
   input_line_pointer++;
   *end_name = 0;
 
-  if (name[0] == '.' && name[1] == '\0')
-    {
-      /* Turn '. = mumble' into a .org mumble.  */
-      register segT segment;
-      expressionS exp;
-
-      segment = get_known_segmented_expression (&exp);
-
-      if (!need_pass_2)
-	do_org (segment, &exp, 0);
-
-      *end_name = delim;
-      return;
-    }
-
-  if ((symbolP = symbol_find (name)) == NULL
-      && (symbolP = md_undefined_symbol (name)) == NULL)
-    {
-#ifndef NO_LISTING
-      /* When doing symbol listings, play games with dummy fragments living
-	 outside the normal fragment chain to record the file and line info
-	 for this symbol.  */
-      if (listing & LISTING_SYMBOLS)
-	{
-	  extern struct list_info_struct *listing_tail;
-	  fragS *dummy_frag = (fragS *) xmalloc (sizeof (fragS));
-	  memset (dummy_frag, 0, sizeof (fragS));
-	  dummy_frag->fr_type = rs_fill;
-	  dummy_frag->line = listing_tail;
-	  symbolP = symbol_new (name, undefined_section, 0, dummy_frag);
-	  dummy_frag->fr_symbol = symbolP;
-	}
-      else
-#endif
-	symbolP = symbol_new (name, undefined_section, 0, &zero_address_frag);
-
-#ifdef OBJ_COFF
-      /* "set" symbols are local unless otherwise specified.  */
-      SF_SET_LOCAL (symbolP);
-#endif /* OBJ_COFF */
-    }
-
-  symbol_table_insert (symbolP);
-
+  assign_symbol (name, equiv);
   *end_name = delim;
 
-  if (equiv
-      && S_IS_DEFINED (symbolP)
-      && S_GET_SEGMENT (symbolP) != reg_section)
-    as_bad (_("symbol `%s' is already defined"), S_GET_NAME (symbolP));
-
-  pseudo_set (symbolP);
   demand_empty_rest_of_line ();
 }
 
@@ -3177,6 +3235,16 @@ discard_rest_of_line (void)
   know (is_end_of_line[(unsigned char) input_line_pointer[-1]]);
 }
 
+/* Sets frag for given symbol to zero_address_frag, except when the
+   symbol frag is already set to a dummy listing frag.  */
+
+static void
+set_zero_frag (symbolS *symbolP)
+{
+  if (symbol_get_frag (symbolP)->fr_type != rs_dummy)
+    symbol_set_frag (symbolP, &zero_address_frag);
+}
+
 /* In:	Pointer to a symbol.
 	Input_line_pointer->expression.
 
@@ -3188,14 +3256,12 @@ void
 pseudo_set (symbolS *symbolP)
 {
   expressionS exp;
+  segT seg;
 #if (defined (OBJ_AOUT) || defined (OBJ_BOUT)) && ! defined (BFD_ASSEMBLER)
   int ext;
 #endif /* OBJ_AOUT or OBJ_BOUT */
 
   know (symbolP);		/* NULL pointer is logic error.  */
-#if (defined (OBJ_AOUT) || defined (OBJ_BOUT)) && ! defined (BFD_ASSEMBLER)
-  ext = S_IS_EXTERNAL (symbolP);
-#endif /* OBJ_AOUT or OBJ_BOUT */
 
   (void) expression (&exp);
 
@@ -3220,6 +3286,15 @@ pseudo_set (symbolS *symbolP)
 			  - S_GET_VALUE (exp.X_op_symbol));
     }
 
+  if (symbol_section_p (symbolP))
+    {
+      as_bad ("attempt to set value of section symbol");
+      return;
+    }
+#if (defined (OBJ_AOUT) || defined (OBJ_BOUT)) && ! defined (BFD_ASSEMBLER)
+  ext = S_IS_EXTERNAL (symbolP);
+#endif /* OBJ_AOUT or OBJ_BOUT */
+
   switch (exp.X_op)
     {
     case O_illegal:
@@ -3229,53 +3304,59 @@ pseudo_set (symbolS *symbolP)
       /* Fall through.  */
     case O_constant:
       S_SET_SEGMENT (symbolP, absolute_section);
-#if (defined (OBJ_AOUT) || defined (OBJ_BOUT)) && ! defined (BFD_ASSEMBLER)
-      if (ext)
-	S_SET_EXTERNAL (symbolP);
-      else
-	S_CLEAR_EXTERNAL (symbolP);
-#endif /* OBJ_AOUT or OBJ_BOUT */
       S_SET_VALUE (symbolP, (valueT) exp.X_add_number);
-      if (exp.X_op != O_constant)
-	symbol_set_frag (symbolP, &zero_address_frag);
+      set_zero_frag (symbolP);
       break;
 
     case O_register:
       S_SET_SEGMENT (symbolP, reg_section);
       S_SET_VALUE (symbolP, (valueT) exp.X_add_number);
-      symbol_set_frag (symbolP, &zero_address_frag);
+      set_zero_frag (symbolP);
       break;
 
     case O_symbol:
-      if (S_GET_SEGMENT (exp.X_add_symbol) == undefined_section
-	  || exp.X_add_number != 0)
-	symbol_set_value_expression (symbolP, &exp);
-      else if (symbol_section_p (symbolP))
-	as_bad ("attempt to set value of section symbol");
-      else
+      seg = S_GET_SEGMENT (exp.X_add_symbol);
+      /* For x=undef+const, create an expression symbol.
+	 For x=x+const, just update x except when x is an undefined symbol
+	 For x=defined+const, evaluate x.  */
+      if (symbolP == exp.X_add_symbol
+	  && (seg != undefined_section
+	      || !symbol_constant_p (symbolP)))
+	{
+	  *symbol_X_add_number (symbolP) += exp.X_add_number;
+	  break;
+	}
+      else if (seg != undefined_section)
 	{
 	  symbolS *s = exp.X_add_symbol;
 
-	  S_SET_SEGMENT (symbolP, S_GET_SEGMENT (s));
-#if (defined (OBJ_AOUT) || defined (OBJ_BOUT)) && ! defined (BFD_ASSEMBLER)
-	  if (ext)
-	    S_SET_EXTERNAL (symbolP);
-	  else
-	    S_CLEAR_EXTERNAL (symbolP);
-#endif /* OBJ_AOUT or OBJ_BOUT */
-	  S_SET_VALUE (symbolP,
-		       exp.X_add_number + S_GET_VALUE (s));
+	  if (S_IS_COMMON (s))
+	    as_bad (_("`%s' can't be equated to common symbol '%s'"),
+		    S_GET_NAME (symbolP), S_GET_NAME (s));
+
+	  S_SET_SEGMENT (symbolP, seg);
+	  S_SET_VALUE (symbolP, exp.X_add_number + S_GET_VALUE (s));
 	  symbol_set_frag (symbolP, symbol_get_frag (s));
 	  copy_symbol_attributes (symbolP, s);
+	  break;
 	}
-      break;
+      /* Fall thru */
 
     default:
       /* The value is some complex expression.
-	 FIXME: Should we set the segment to anything?  */
+	 Set segment and frag back to that of a newly created symbol.  */
+      S_SET_SEGMENT (symbolP, undefined_section);
       symbol_set_value_expression (symbolP, &exp);
+      set_zero_frag (symbolP);
       break;
     }
+
+#if (defined (OBJ_AOUT) || defined (OBJ_BOUT)) && ! defined (BFD_ASSEMBLER)
+  if (ext)
+    S_SET_EXTERNAL (symbolP);
+  else
+    S_CLEAR_EXTERNAL (symbolP);
+#endif /* OBJ_AOUT or OBJ_BOUT */
 }
 
 /*			cons()
@@ -4409,7 +4490,7 @@ output_big_leb128 (char *p, LITTLENUM_TYPE *bignum, int size, int sign)
 /* Generate the appropriate fragments for a given expression to emit a
    leb128 value.  */
 
-void
+static void
 emit_leb128_expr (expressionS *exp, int sign)
 {
   operatorT op = exp->X_op;
@@ -4776,27 +4857,6 @@ get_known_segmented_expression (register expressionS *expP)
   return (retval);
 }
 
-offsetT
-get_absolute_expr (expressionS *exp)
-{
-  expression (exp);
-  if (exp->X_op != O_constant)
-    {
-      if (exp->X_op != O_absent)
-	as_bad (_("bad or irreducible absolute expression"));
-      exp->X_add_number = 0;
-    }
-  return exp->X_add_number;
-}
-
-offsetT
-get_absolute_expression (void)
-{
-  expressionS exp;
-
-  return get_absolute_expr (&exp);
-}
-
 char				/* Return terminator.  */
 get_absolute_expression_and_terminator (long *val_pointer /* Return value of expression.  */)
 {
@@ -4884,7 +4944,6 @@ is_it_end_of_statement (void)
 void
 equals (char *sym_name, int reassign)
 {
-  register symbolS *symbolP;	/* Symbol we are working with.  */
   char *stop = NULL;
   char stopc;
 
@@ -4898,44 +4957,10 @@ equals (char *sym_name, int reassign)
   if (flag_mri)
     stop = mri_comment_field (&stopc);
 
-  if (sym_name[0] == '.' && sym_name[1] == '\0')
-    {
-      /* Turn '. = mumble' into a .org mumble.  */
-      register segT segment;
-      expressionS exp;
-
-      segment = get_known_segmented_expression (&exp);
-      if (!need_pass_2)
-	do_org (segment, &exp, 0);
-    }
-  else
-    {
-#ifdef OBJ_COFF
-      int local;
-
-      symbolP = symbol_find (sym_name);
-      local = symbolP == NULL;
-      if (local)
-#endif /* OBJ_COFF */
-      symbolP = symbol_find_or_make (sym_name);
-      /* Permit register names to be redefined.  */
-      if (!reassign
-	  && S_IS_DEFINED (symbolP)
-	  && S_GET_SEGMENT (symbolP) != reg_section)
-	as_bad (_("symbol `%s' is already defined"), S_GET_NAME (symbolP));
-
-#ifdef OBJ_COFF
-      /* "set" symbols are local unless otherwise specified.  */
-      if (local)
-	SF_SET_LOCAL (symbolP);
-#endif /* OBJ_COFF */
-
-      pseudo_set (symbolP);
-    }
+  assign_symbol (sym_name, !reassign);
 
   if (flag_mri)
     {
-      /* Check garbage after the expression.  */
       demand_empty_rest_of_line ();
       mri_comment_end (stop, stopc);
     }
@@ -5192,7 +5217,7 @@ s_func (int end_p)
 /* Subroutine of s_func so targets can choose a different default prefix.
    If DEFAULT_PREFIX is NULL, use the target's "leading char".  */
 
-void
+static void
 do_s_func (int end_p, const char *default_prefix)
 {
   /* Record the current function so that we can issue an error message for

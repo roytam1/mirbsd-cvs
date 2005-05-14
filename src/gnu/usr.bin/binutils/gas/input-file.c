@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* Confines all details of reading source bytes to this module.
    All O/S specific crocks should live here.
@@ -78,12 +78,6 @@ unsigned int
 input_file_buffer_size (void)
 {
   return (BUFFER_SIZE);
-}
-
-int
-input_file_is_open (void)
-{
-  return f_in != (FILE *) 0;
 }
 
 /* Push the state of our input, returning a pointer to saved info that

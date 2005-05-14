@@ -16,13 +16,17 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef HASH_H
 #define HASH_H
 
 struct hash_control;
+
+/* Set the size of the hash table used.  */
+
+void set_gas_hash_table_size (unsigned long);
 
 /* Create a hash table.  This return a control block.  */
 

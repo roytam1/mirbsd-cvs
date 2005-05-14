@@ -128,20 +128,21 @@
 .\" ========================================================================
 .\"
 .IX Title "AS 1"
-.TH AS 1 "2005-03-28" "binutils-050328" "GNU Development Tools"
+.TH AS 1 "2005-05-14" "binutils-050514" "GNU Development Tools"
 .SH "NAME"
 AS \- the portable GNU assembler.
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 as [\fB\-a\fR[\fBcdhlns\fR][=\fIfile\fR]] [\fB\-\-alternate\fR] [\fB\-D\fR]
- [\fB\-\-defsym\fR \fIsym\fR=\fIval\fR] [\fB\-f\fR] [\fB\-g\fR] [\fB\-\-gstabs\fR] [\fB\-\-gstabs+\fR]
- [\fB\-\-gdwarf\-2\fR] [\fB\-\-help\fR] [\fB\-I\fR \fIdir\fR] [\fB\-J\fR] [\fB\-K\fR] [\fB\-L\fR]
- [\fB\-\-listing\-lhs\-width\fR=\fI\s-1NUM\s0\fR] [\fB\-\-listing\-lhs\-width2\fR=\fI\s-1NUM\s0\fR]
- [\fB\-\-listing\-rhs\-width\fR=\fI\s-1NUM\s0\fR] [\fB\-\-listing\-cont\-lines\fR=\fI\s-1NUM\s0\fR]
- [\fB\-\-keep\-locals\fR] [\fB\-o\fR \fIobjfile\fR] [\fB\-R\fR] [\fB\-\-statistics\fR] [\fB\-v\fR]
- [\fB\-version\fR] [\fB\-\-version\fR] [\fB\-W\fR] [\fB\-\-warn\fR] [\fB\-\-fatal\-warnings\fR] 
- [\fB\-w\fR] [\fB\-x\fR] [\fB\-Z\fR] [\fB\-\-target\-help\fR] [\fItarget-options\fR] 
- [\fB\-\-\fR|\fIfiles\fR ...]
+ [\fB\-\-defsym\fR \fIsym\fR=\fIval\fR] [\fB\-f\fR] [\fB\-g\fR] [\fB\-\-gstabs\fR]
+ [\fB\-\-gstabs+\fR] [\fB\-\-gdwarf\-2\fR] [\fB\-\-help\fR] [\fB\-I\fR \fIdir\fR] [\fB\-J\fR]
+ [\fB\-K\fR] [\fB\-L\fR] [\fB\-\-listing\-lhs\-width\fR=\fI\s-1NUM\s0\fR]
+ [\fB\-\-listing\-lhs\-width2\fR=\fI\s-1NUM\s0\fR] [\fB\-\-listing\-rhs\-width\fR=\fI\s-1NUM\s0\fR]
+ [\fB\-\-listing\-cont\-lines\fR=\fI\s-1NUM\s0\fR] [\fB\-\-keep\-locals\fR] [\fB\-o\fR
+ \fIobjfile\fR] [\fB\-R\fR] [\fB\-\-reduce\-memory\-overheads\fR] [\fB\-\-statistics\fR]
+ [\fB\-v\fR] [\fB\-version\fR] [\fB\-\-version\fR] [\fB\-W\fR] [\fB\-\-warn\fR]
+ [\fB\-\-fatal\-warnings\fR] [\fB\-w\fR] [\fB\-x\fR] [\fB\-Z\fR] [\fB\-\-target\-help\fR]
+ [\fItarget-options\fR] [\fB\-\-\fR|\fIfiles\fR ...]
 .PP
 \&\fITarget Alpha options:\fR
    [\fB\-m\fR\fIcpu\fR]
@@ -189,6 +190,7 @@ as [\fB\-a\fR[\fBcdhlns\fR][=\fIfile\fR]] [\fB\-\-alternate\fR] [\fB\-D\fR]
    [\fB\-mconstant\-gp\fR|\fB\-mauto\-pic\fR]
    [\fB\-milp32\fR|\fB\-milp64\fR|\fB\-mlp64\fR|\fB\-mp64\fR]
    [\fB\-mle\fR|\fBmbe\fR]
+   [\fB\-mtune=itanium1\fR|\fB\-mtune=itanium2\fR]
    [\fB\-munwind\-check=warning\fR|\fB\-munwind\-check=error\fR]
    [\fB\-mhint.b=ok\fR|\fB\-mhint.b=warning\fR|\fB\-mhint.b=error\fR]
    [\fB\-x\fR|\fB\-xexplicit\fR] [\fB\-xauto\fR] [\fB\-xdebug\fR]
@@ -458,6 +460,17 @@ Name the object-file output from \fBas\fR \fIobjfile\fR.
 .IP "\fB\-R\fR" 4
 .IX Item "-R"
 Fold the data section into the text section.
+.Sp
+Set the default size of \s-1GAS\s0's hash tables to a prime number close to
+\&\fInumber\fR.  Increasing this value can reduce the length of time it takes the
+assembler to perform its tasks, at the expense of increasing the assembler's
+memory requirements.  Similarly reducing this value can reduce the memory
+requirements at the expense of speed.
+.IP "\fB\-\-reduce\-memory\-overheads\fR" 4
+.IX Item "--reduce-memory-overheads"
+This option reduces \s-1GAS\s0's memory requirements, at the expense of making the
+assembly processes slower.  Currently this switch is a synonym for
+\&\fB\-\-hash\-size=4051\fR, but in the future it may have other effects as well.
 .IP "\fB\-\-statistics\fR" 4
 .IX Item "--statistics"
 Print the maximum space (in bytes) and total time (in seconds) used by

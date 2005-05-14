@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* We need a published ABI spec for this.  Until one comes out, don't
    assume this'll remain unchanged forever.  */
@@ -2371,11 +2371,11 @@ elf64_alpha_add_symbol_hook (abfd, info, sym, namep, flagsp, secp, valp)
 
       if (scomm == NULL)
 	{
-	  scomm = bfd_make_section (abfd, ".scommon");
-	  if (scomm == NULL
-	      || !bfd_set_section_flags (abfd, scomm, (SEC_ALLOC
-						       | SEC_IS_COMMON
-						       | SEC_LINKER_CREATED)))
+	  scomm = bfd_make_section_with_flags (abfd, ".scommon",
+					       (SEC_ALLOC
+						| SEC_IS_COMMON
+						| SEC_LINKER_CREATED));
+	  if (scomm == NULL)
 	    return FALSE;
 	}
 
@@ -2403,12 +2403,11 @@ elf64_alpha_create_got_section(abfd, info)
       return TRUE;
     }
 
-  s = bfd_make_section (abfd, ".got");
+  s = bfd_make_section_with_flags (abfd, ".got", (SEC_ALLOC | SEC_LOAD
+						  | SEC_HAS_CONTENTS
+						  | SEC_IN_MEMORY
+						  | SEC_LINKER_CREATED));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_LINKER_CREATED))
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
 
@@ -2430,13 +2429,13 @@ elf64_alpha_create_dynamic_sections (abfd, info)
 
   /* We need to create .plt, .rela.plt, .got, and .rela.got sections.  */
 
-  s = bfd_make_section (abfd, ".plt");
+  s = bfd_make_section_with_flags (abfd, ".plt",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_LINKER_CREATED
+				    | SEC_CODE));
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					    | SEC_HAS_CONTENTS
-					    | SEC_IN_MEMORY
-					    | SEC_LINKER_CREATED
-					    | SEC_CODE))
       || ! bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
 
@@ -2456,13 +2455,13 @@ elf64_alpha_create_dynamic_sections (abfd, info)
       && ! bfd_elf_link_record_dynamic_symbol (info, h))
     return FALSE;
 
-  s = bfd_make_section (abfd, ".rela.plt");
+  s = bfd_make_section_with_flags (abfd, ".rela.plt",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_LINKER_CREATED
+				    | SEC_READONLY));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_LINKER_CREATED
-					   | SEC_READONLY))
       || ! bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
 
@@ -2472,13 +2471,13 @@ elf64_alpha_create_dynamic_sections (abfd, info)
   if (!elf64_alpha_create_got_section (abfd, info))
     return FALSE;
 
-  s = bfd_make_section(abfd, ".rela.got");
+  s = bfd_make_section_with_flags (abfd, ".rela.got",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_LINKER_CREATED
+				    | SEC_READONLY));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_LINKER_CREATED
-					   | SEC_READONLY))
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
 
@@ -3147,13 +3146,14 @@ elf64_alpha_check_relocs (abfd, info, sec, relocs)
 		{
 		  flagword flags;
 
-		  sreloc = bfd_make_section (dynobj, rel_sec_name);
 		  flags = (SEC_HAS_CONTENTS | SEC_IN_MEMORY
 			   | SEC_LINKER_CREATED | SEC_READONLY);
 		  if (sec->flags & SEC_ALLOC)
 		    flags |= SEC_ALLOC | SEC_LOAD;
+		  sreloc = bfd_make_section_with_flags (dynobj,
+							rel_sec_name,
+							flags);
 		  if (sreloc == NULL
-		      || !bfd_set_section_flags (dynobj, sreloc, flags)
 		      || !bfd_set_section_alignment (dynobj, sreloc, 3))
 		    return FALSE;
 		}
@@ -4058,7 +4058,7 @@ elf64_alpha_size_dynamic_sections (output_bfd, info)
 	}
 
       if (strip)
-	_bfd_strip_section_from_output (info, s);
+	s->flags |= SEC_EXCLUDE;
       else
 	{
 	  /* Allocate memory for the section contents.  */
@@ -5184,7 +5184,7 @@ elf64_alpha_final_link (abfd, info)
 		}
 	    }
 
-	  for (p = o->link_order_head;
+	  for (p = o->map_head.link_order;
 	       p != (struct bfd_link_order *) NULL;
 	       p = p->next)
 	    {
@@ -5305,7 +5305,7 @@ elf64_alpha_final_link (abfd, info)
 
 	  /* Skip this section later on (I don't think this currently
 	     matters, but someday it might).  */
-	  o->link_order_head = (struct bfd_link_order *) NULL;
+	  o->map_head.link_order = (struct bfd_link_order *) NULL;
 
 	  mdebug_sec = o;
 	}
@@ -5370,11 +5370,44 @@ elf64_alpha_reloc_type_class (rela)
     }
 }
 
-static struct bfd_elf_special_section const elf64_alpha_special_sections[]=
+static struct bfd_elf_special_section const
+  alpha_special_sections_s[]=
 {
   { ".sdata", 6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_ALPHA_GPREL },
   { ".sbss",  5, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE + SHF_ALPHA_GPREL },
   { NULL,     0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *
+  elf64_alpha_special_sections[27] =
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  NULL,				/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  NULL,				/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  NULL,				/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  NULL,				/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  alpha_special_sections_s,	/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };
 
 /* ECOFF swapping routines.  These are used when dealing with the

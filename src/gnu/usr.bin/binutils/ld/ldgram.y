@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 %{
 /*
@@ -46,10 +46,9 @@
 #endif
 
 static enum section_type sectype;
+static lang_memory_region_type *region;
 
-lang_memory_region_type *region;
-
-bfd_boolean ldgram_want_filename = TRUE;
+static bfd_boolean ldgram_want_filename = TRUE;
 FILE *saved_script_handle = NULL;
 bfd_boolean force_make_executable = FALSE;
 
@@ -152,7 +151,7 @@ static int error_index;
 %token INPUT_SCRIPT INPUT_MRI_SCRIPT INPUT_DEFSYM CASE EXTERN START
 %token <name> VERS_TAG VERS_IDENTIFIER
 %token GLOBAL LOCAL VERSIONK INPUT_VERSION_SCRIPT
-%token KEEP ONLY_IF_RO ONLY_IF_RW
+%token KEEP ONLY_IF_RO ONLY_IF_RW SPECIAL
 %token EXCLUDE_FILE
 %type <versyms> vers_defns
 %type <versnode> vers_tag
@@ -900,6 +899,7 @@ opt_subalign:
 sect_constraint:
 		ONLY_IF_RO { $$ = ONLY_IF_RO; }
 	|	ONLY_IF_RW { $$ = ONLY_IF_RW; }
+	|	SPECIAL { $$ = SPECIAL; }
 	|	{ $$ = 0; }
 	;
 

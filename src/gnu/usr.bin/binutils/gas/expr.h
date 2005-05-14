@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /*
  * By popular demand, we define a struct to represent an expression.
@@ -166,6 +166,4 @@ extern symbolS *make_expr_symbol (expressionS * expressionP);
 extern int expr_symbol_where (symbolS *, char **, unsigned int *);
 
 extern symbolS *expr_build_uconstant (offsetT);
-extern symbolS *expr_build_unary (operatorT, symbolS *);
-extern symbolS *expr_build_binary (operatorT, symbolS *, symbolS *);
 extern symbolS *expr_build_dot (void);

@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #define SH64_ELF64
 
@@ -2530,15 +2530,15 @@ sh_elf64_check_relocs (bfd *abfd, struct bfd_link_info *info,
 	      srelgot = bfd_get_section_by_name (dynobj, ".rela.got");
 	      if (srelgot == NULL)
 		{
-		  srelgot = bfd_make_section (dynobj, ".rela.got");
+		  srelgot = bfd_make_section_with_flags (dynobj,
+							 ".rela.got",
+							 (SEC_ALLOC
+							  | SEC_LOAD
+							  | SEC_HAS_CONTENTS
+							  | SEC_IN_MEMORY
+							  | SEC_LINKER_CREATED
+							  | SEC_READONLY));
 		  if (srelgot == NULL
-		      || ! bfd_set_section_flags (dynobj, srelgot,
-						  (SEC_ALLOC
-						   | SEC_LOAD
-						   | SEC_HAS_CONTENTS
-						   | SEC_IN_MEMORY
-						   | SEC_LINKER_CREATED
-						   | SEC_READONLY))
 		      || ! bfd_set_section_alignment (dynobj, srelgot, 2))
 		    return FALSE;
 		}
@@ -2732,13 +2732,14 @@ sh_elf64_check_relocs (bfd *abfd, struct bfd_link_info *info,
 		    {
 		      flagword flags;
 
-		      sreloc = bfd_make_section (dynobj, name);
 		      flags = (SEC_HAS_CONTENTS | SEC_READONLY
 			       | SEC_IN_MEMORY | SEC_LINKER_CREATED);
 		      if ((sec->flags & SEC_ALLOC) != 0)
 			flags |= SEC_ALLOC | SEC_LOAD;
+		      sreloc = bfd_make_section_with_flags (dynobj,
+							    name,
+							    flags);
 		      if (sreloc == NULL
-			  || ! bfd_set_section_flags (dynobj, sreloc, flags)
 			  || ! bfd_set_section_alignment (dynobj, sreloc, 2))
 			return FALSE;
 		    }
@@ -3211,9 +3212,8 @@ sh64_elf64_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
   if (bed->plt_readonly)
     pltflags |= SEC_READONLY;
 
-  s = bfd_make_section (abfd, ".plt");
+  s = bfd_make_section_with_flags (abfd, ".plt", pltflags);
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, pltflags)
       || ! bfd_set_section_alignment (abfd, s, bed->plt_alignment))
     return FALSE;
 
@@ -3238,10 +3238,10 @@ sh64_elf64_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
 	return FALSE;
     }
 
-  s = bfd_make_section (abfd,
-			bed->default_use_rela_p ? ".rela.plt" : ".rel.plt");
+  s = bfd_make_section_with_flags (abfd,
+				   bed->default_use_rela_p ? ".rela.plt" : ".rel.plt",
+				   flags | SEC_READONLY);
   if (s == NULL
-      || ! bfd_set_section_flags (abfd, s, flags | SEC_READONLY)
       || ! bfd_set_section_alignment (abfd, s, ptralign))
     return FALSE;
 
@@ -3264,9 +3264,9 @@ sh64_elf64_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
 	relname = (char *) bfd_malloc (strlen (secname) + 6);
 	strcpy (relname, ".rela");
 	strcat (relname, secname);
-	s = bfd_make_section (abfd, relname);
+	s = bfd_make_section_with_flags (abfd, relname,
+					 flags | SEC_READONLY);
 	if (s == NULL
-	    || ! bfd_set_section_flags (abfd, s, flags | SEC_READONLY)
 	    || ! bfd_set_section_alignment (abfd, s, ptralign))
 	  return FALSE;
       }
@@ -3280,9 +3280,9 @@ sh64_elf64_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
 	 image and use a R_*_COPY reloc to tell the dynamic linker to
 	 initialize them at run time.  The linker script puts the .dynbss
 	 section into the .bss section of the final image.  */
-      s = bfd_make_section (abfd, ".dynbss");
-      if (s == NULL
-	  || ! bfd_set_section_flags (abfd, s, SEC_ALLOC))
+      s = bfd_make_section_with_flags (abfd, ".dynbss",
+				       SEC_ALLOC | SEC_LINKER_CREATED);
+      if (s == NULL)
 	return FALSE;
 
       /* The .rel[a].bss section holds copy relocs.  This section is not
@@ -3298,11 +3298,11 @@ sh64_elf64_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
 	 copy relocs.  */
       if (! info->shared)
 	{
-	  s = bfd_make_section (abfd,
-				(bed->default_use_rela_p
-				 ? ".rela.bss" : ".rel.bss"));
+	  s = bfd_make_section_with_flags (abfd,
+					   (bed->default_use_rela_p
+					    ? ".rela.bss" : ".rel.bss"),
+					   flags | SEC_READONLY);
 	  if (s == NULL
-	      || ! bfd_set_section_flags (abfd, s, flags | SEC_READONLY)
 	      || ! bfd_set_section_alignment (abfd, s, ptralign))
 	    return FALSE;
 	}
@@ -3640,7 +3640,7 @@ sh64_elf64_size_dynamic_sections (bfd *output_bfd,
 
       if (strip)
 	{
-	  _bfd_strip_section_from_output (info, s);
+	  s->flags |= SEC_EXCLUDE;
 	  continue;
 	}
 
@@ -4063,10 +4063,43 @@ sh64_elf64_merge_symbol_attribute (struct elf_link_hash_entry *h,
   return;
 }
 
-static struct bfd_elf_special_section const sh64_elf64_special_sections[]=
+static struct bfd_elf_special_section const
+  sh64_special_sections_c[] =
 {
   { ".cranges", 8, 0, SHT_PROGBITS, 0 },
-  { NULL,       0, 0, 0,            0 }
+  { NULL,        0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *
+  sh64_elf64_special_sections[27]=
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  sh64_special_sections_c,	/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  NULL,				/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  NULL,				/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  NULL,				/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  NULL,				/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };
 
 #define TARGET_BIG_SYM		bfd_elf64_sh64_vec

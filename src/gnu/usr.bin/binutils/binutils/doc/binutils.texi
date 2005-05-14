@@ -1102,8 +1102,8 @@ Strip all symbols that are not needed for relocation processing.
 
 @item -K @var{symbolname}
 @itemx --keep-symbol=@var{symbolname}
-Copy only symbol @var{symbolname} from the source file.  This option may
-be given more than once.
+When stripping symbols, keep symbol @var{symbolname} even if it would
+normally be stripped.  This option may be given more than once.
 
 @item -N @var{symbolname}
 @itemx --strip-symbol=@var{symbolname}
@@ -1428,8 +1428,9 @@ Creates a .gnu_debuglink section which contains a reference to @var{path-to-file
 and adds it to the output file.
 
 @item --only-keep-debug
-Strip a file, removing any sections that would be stripped by
-@option{--strip-debug} and leaving the debugging sections.
+Strip a file, removing contents of any sections that would not be
+stripped by @option{--strip-debug} and leaving the debugging sections
+intact.
 
 The intention is that this option will be used in conjunction with
 @option{--add-gnu-debuglink} to create a two part executable.  One a
@@ -1460,7 +1461,7 @@ optional.  You could instead do this:
 @item Run @code{objcopy --add-gnu-debuglink=foo.full foo}
 @end enumerate
 
-ie the file pointed to by the @option{--add-gnu-debuglink} can be the
+i.e. the file pointed to by the @option{--add-gnu-debuglink} can be the
 full executable.  It does not have to be a file created by the
 @option{--only-keep-debug} switch.
 
@@ -1792,6 +1793,13 @@ For any of the options listed above, @var{ABI} or
 rather than names, for the selected types of registers.
 You can list the available values of @var{ABI} and @var{ARCH} using
 the @option{--help} option.
+
+For VAX, you can specify function entry addresses with @option{-M
+entry:0xf00ba}.  You can use this multiple times to properly
+disassemble VAX binary files that don't contain symbol tables (like
+ROM dumps).  In these cases, the function entry mask would otherwise
+be decoded as VAX instructions, which would probably lead the the rest
+of the function being wrongly disassembled.
 
 @item -p
 @itemx --private-headers
@@ -2270,8 +2278,8 @@ Remove all symbols that are not needed for relocation processing.
 
 @item -K @var{symbolname}
 @itemx --keep-symbol=@var{symbolname}
-Keep only symbol @var{symbolname} from the source file.  This option may
-be given more than once.
+When stripping symbols, keep symbol @var{symbolname} even if it would
+normally be stripped.  This option may be given more than once.
 
 @item -N @var{symbolname}
 @itemx --strip-symbol=@var{symbolname}
@@ -3235,6 +3243,8 @@ readelf [@option{-a}|@option{--all}]
         [@option{-h}|@option{--file-header}]
         [@option{-l}|@option{--program-headers}|@option{--segments}]
         [@option{-S}|@option{--section-headers}|@option{--sections}]
+        [@option{-g}|@option{--section-groups}]
+        [@option{-N}|@option{--full-section-name}]
         [@option{-e}|@option{--headers}]
         [@option{-s}|@option{--syms}|@option{--symbols}]
         [@option{-n}|@option{--notes}]
@@ -3305,6 +3315,17 @@ has any.
 Displays the information contained in the file's section headers, if it
 has any.
 
+@item -g
+@itemx --section-groups
+@cindex ELF section group information
+Displays the information contained in the file's section groups, if it
+has any.
+
+@item -N
+@itemx --full-section-name
+@cindex ELF section name information
+Displays the full section name for @option{-S}.
+
 @item -s
 @itemx --symbols
 @itemx --syms
@@ -3324,12 +3345,6 @@ Displays the contents of the NOTE segments and/or sections, if any.
 @itemx --relocs
 @cindex ELF reloc information
 Displays the contents of the file's relocation section, if it has one.
-
-@item -u
-@itemx --unwind
-@cindex unwind information
-Displays the contents of the file's unwind section, if it has one.  Only
-the unwind sections for IA64 ELF files are currently supported.
 
 @item -u
 @itemx --unwind

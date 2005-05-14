@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #define SH64_ELF
 
@@ -754,10 +754,43 @@ sh64_elf_merge_symbol_attribute (struct elf_link_hash_entry *h,
   return;
 }
 
-static struct bfd_elf_special_section const sh64_elf_special_sections[]=
+static struct bfd_elf_special_section const
+  sh64_special_sections_c[] =
 {
   { ".cranges", 8, 0, SHT_PROGBITS, 0 },
-  { NULL,       0, 0, 0,            0 }
+  { NULL,        0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *
+  sh64_elf_special_sections[27]=
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  sh64_special_sections_c,	/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  NULL,				/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  NULL,				/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  NULL,				/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  NULL,				/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };
 
 #undef	TARGET_BIG_SYM

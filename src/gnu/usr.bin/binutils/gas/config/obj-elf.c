@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #define OBJ_HEADER "obj-elf.h"
 #include "as.h"
@@ -65,6 +65,7 @@ static void obj_elf_subsection (int);
 static void obj_elf_popsection (int);
 static void obj_elf_tls_common (int);
 static void obj_elf_lcomm (int);
+static void obj_elf_struct (int);
 
 static const pseudo_typeS elf_pseudo_table[] =
 {
@@ -113,6 +114,8 @@ static const pseudo_typeS elf_pseudo_table[] =
 
   /* We need to trap the section changing calls to handle .previous.  */
   {"data", obj_elf_data, 0},
+  {"offset", obj_elf_struct, 0},
+  {"struct", obj_elf_struct, 0},
   {"text", obj_elf_text, 0},
 
   {"tls_common", obj_elf_tls_common, 0},
@@ -1030,6 +1033,24 @@ obj_elf_text (int i)
   previous_section = now_seg;
   previous_subsection = now_subseg;
   s_text (i);
+
+#ifdef md_elf_section_change_hook
+  md_elf_section_change_hook ();
+#endif
+}
+
+/* Change to the *ABS* section.  */
+
+void
+obj_elf_struct (int i)
+{
+#ifdef md_flush_pending_output
+  md_flush_pending_output ();
+#endif
+
+  previous_section = now_seg;
+  previous_subsection = now_subseg;
+  s_struct (i);
 
 #ifdef md_elf_section_change_hook
   md_elf_section_change_hook ();

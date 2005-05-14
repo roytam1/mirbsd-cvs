@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* #define DEBUG_SYMS / * to debug symbol list maintenance.  */
 
@@ -113,11 +113,6 @@ save_symbol_name (const char *name)
   obstack_grow (&notes, name, name_length);
   ret = obstack_finish (&notes);
 
-#ifdef STRIP_UNDERSCORE
-  if (ret[0] == '_')
-    ++ret;
-#endif
-
 #ifdef tc_canonicalize_symbol_name
   ret = tc_canonicalize_symbol_name (ret);
 #endif
@@ -202,7 +197,7 @@ static unsigned long local_symbol_conversion_count;
 
 /* Create a local symbol and insert it into the local hash table.  */
 
-struct local_symbol *
+static struct local_symbol *
 local_symbol_make (const char *name, segT section, valueT value, fragS *frag)
 {
   char *name_copy;
@@ -600,16 +595,6 @@ symbol_temp_make (void)
    of a struct symbol associated with that name.  */
 
 symbolS *
-symbol_find (const char *name)
-{
-#ifdef STRIP_UNDERSCORE
-  return (symbol_find_base (name, 1));
-#else /* STRIP_UNDERSCORE */
-  return (symbol_find_base (name, 0));
-#endif /* STRIP_UNDERSCORE */
-}
-
-symbolS *
 symbol_find_exact (const char *name)
 {
 #ifdef BFD_ASSEMBLER
@@ -626,11 +611,8 @@ symbol_find_exact (const char *name)
 }
 
 symbolS *
-symbol_find_base (const char *name, int strip_underscore)
+symbol_find (const char *name)
 {
-  if (strip_underscore && *name == '_')
-    name++;
-
 #ifdef tc_canonicalize_symbol_name
   {
     char *copy;
@@ -810,19 +792,6 @@ verify_symbol_chain (symbolS *rootP, symbolS *lastP)
     }
 
   assert (lastP == symbolP);
-}
-
-void
-verify_symbol_chain_2 (symbolS *sym)
-{
-  symbolS *p = sym, *n = sym;
-#ifdef SYMBOLS_NEED_BACKPOINTERS
-  while (symbol_previous (p))
-    p = symbol_previous (p);
-#endif
-  while (symbol_next (n))
-    n = symbol_next (n);
-  verify_symbol_chain (p, n);
 }
 
 static void
@@ -1841,12 +1810,6 @@ S_IS_LOCAL (symbolS *s)
 }
 
 int
-S_IS_EXTERN (symbolS *s)
-{
-  return S_IS_EXTERNAL (s);
-}
-
-int
 S_IS_STABD (symbolS *s)
 {
   return S_GET_NAME (s) == 0;
@@ -2020,6 +1983,19 @@ symbol_set_value_expression (symbolS *s, const expressionS *exp)
   if (LOCAL_SYMBOL_CHECK (s))
     s = local_symbol_convert ((struct local_symbol *) s);
   s->sy_value = *exp;
+}
+
+/* Return a pointer to the X_add_number component of a symbol.  */
+
+offsetT *
+symbol_X_add_number (symbolS *s)
+{
+#ifdef BFD_ASSEMBLER
+  if (LOCAL_SYMBOL_CHECK (s))
+    return (offsetT *) &((struct local_symbol *) s)->lsy_value;
+#endif
+
+  return &s->sy_value.X_add_number;
 }
 
 /* Set the value of SYM to the current position in the current segment.  */
@@ -2372,7 +2348,7 @@ int indent_level;
 
 /* Maximum indent level.
    Available for modification inside a gdb session.  */
-int max_indent_level = 8;
+static int max_indent_level = 8;
 
 void
 print_symbol_value_1 (FILE *file, symbolS *sym)
@@ -2410,7 +2386,7 @@ print_symbol_value_1 (FILE *file, symbolS *sym)
 	fprintf (file, " used");
       if (S_IS_LOCAL (sym))
 	fprintf (file, " local");
-      if (S_IS_EXTERN (sym))
+      if (S_IS_EXTERNAL (sym))
 	fprintf (file, " extern");
       if (S_IS_DEBUG (sym))
 	fprintf (file, " debug");

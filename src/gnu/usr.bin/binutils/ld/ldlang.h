@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GLD; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef LDLANG_H
 #define LDLANG_H
@@ -298,7 +298,17 @@ typedef struct
   union lang_statement_union *file;
 } lang_afile_asection_pair_statement_type;
 
-typedef struct lang_wild_statement_struct
+typedef struct lang_wild_statement_struct lang_wild_statement_type;
+
+typedef void (*callback_t) (lang_wild_statement_type *, struct wildcard_list *,
+			    asection *, lang_input_statement_type *, void *);
+
+typedef void (*walk_wild_section_handler_t) (lang_wild_statement_type *,
+					     lang_input_statement_type *,
+					     callback_t callback,
+					     void *data);
+
+struct lang_wild_statement_struct
 {
   lang_statement_header_type header;
   const char *filename;
@@ -306,7 +316,10 @@ typedef struct lang_wild_statement_struct
   struct wildcard_list *section_list;
   bfd_boolean keep_sections;
   lang_statement_list_type children;
-} lang_wild_statement_type;
+
+  walk_wild_section_handler_t walk_wild_section_handler;
+  struct wildcard_list *handler_data[4];
+};
 
 typedef struct lang_address_statement_struct
 {
@@ -418,8 +431,6 @@ struct orphan_save {
   lang_statement_union_type **stmt;
   lang_output_section_statement_type **os_tail;
 };
-
-extern struct unique_sections *unique_section_list;
 
 extern lang_output_section_statement_type *abs_output_section;
 extern lang_statement_list_type lang_output_section_statement;
@@ -538,6 +549,8 @@ extern void lang_for_each_statement
   (void (*) (lang_statement_union_type *));
 extern void *stat_alloc
   (size_t);
+extern void strip_excluded_output_sections
+  (void);
 extern void dprint_statement
   (lang_statement_union_type *, int);
 extern bfd_vma lang_size_sections

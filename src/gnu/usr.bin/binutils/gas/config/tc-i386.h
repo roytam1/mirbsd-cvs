@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef TC_I386
 #define TC_I386 1
@@ -61,7 +61,10 @@ extern unsigned long i386_mach (void);
 
 #ifdef TE_FreeBSD
 #define ELF_TARGET_FORMAT	"elf32-i386-freebsd"
+#elif defined (TE_VXWORKS)
+#define ELF_TARGET_FORMAT	"elf32-i386-vxworks"
 #endif
+
 #ifndef ELF_TARGET_FORMAT
 #define ELF_TARGET_FORMAT	"elf32-i386"
 #endif

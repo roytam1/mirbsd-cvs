@@ -15,7 +15,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.
 #
 
 # This file is sourced from elf32.em, and defines extra powerpc64-elf
@@ -260,17 +260,7 @@ ppc_layout_sections_again (void)
      add even more stubs.  */
   need_laying_out = 0;
 
-  lang_reset_memory_regions ();
-
-  /* Resize the sections.  */
-  lang_size_sections (stat_ptr->head, abs_output_section,
-		      &stat_ptr->head, 0, 0, NULL, TRUE);
-
-  /* Recalculate TOC base.  */
-  ldemul_after_allocation ();
-
-  /* Do the assignments again.  */
-  lang_do_assignments (stat_ptr->head, abs_output_section, NULL, 0);
+  gld${EMULATION_NAME}_layout_sections_again ();
 }
 
 
@@ -389,7 +379,8 @@ ppc_finish (void)
     }
 
   ppc64_elf_restore_symbols (&link_info);
-  gld${EMULATION_NAME}_finish ();
+  gld${EMULATION_NAME}_strip_empty_sections ();
+  gld${EMULATION_NAME}_provide_init_fini_syms ();
 }
 
 

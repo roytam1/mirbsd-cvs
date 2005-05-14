@@ -161,9 +161,9 @@ case ${generic_target} in
   hppa-*-bsd*)				fmt=som em=hppa ;;
   hppa-*-hiux*)				fmt=som em=hppa ;;
 
-  h8300-*-rtems*)			fmt=coff ;;
+  h8300-*-rtemscoff*)			fmt=coff ;;
   h8300-*-coff)				fmt=coff ;;
-  h8300-*-elf)				fmt=elf ;;
+  h8300-*-elf | h8300-*-rtems*)		fmt=elf ;;
   h8500-*-rtems*)			fmt=coff ;;
   h8500-*-coff)				fmt=coff ;;
 
@@ -182,11 +182,14 @@ case ${generic_target} in
   i386-*-netbsd*-gnu* | \
   i386-*-knetbsd*-gnu | \
   i386-*-netbsdelf*)			fmt=elf em=nbsd ;;
-  i386-*-*n*bsd*)
+  i386-*-netbsd*)
     case ${cpu} in
       x86_64)				fmt=elf em=nbsd ;;
       *)				fmt=aout em=nbsd ;;
     esac ;;
+  i386-*-openbsd[0-2].* | \
+  i386-*-openbsd3.[0-2])		fmt=aout em=nbsd ;;
+  i386-*-openbsd*)			fmt=elf em=nbsd ;;
   i386-*-linux*aout*)			fmt=aout em=linux ;;
   i386-*-linux*oldld)			fmt=aout em=linux ;;
   i386-*-linux*coff*)			fmt=coff em=linux ;;
@@ -281,7 +284,6 @@ case ${generic_target} in
   mcore-*-pe)				fmt=coff em=pe bfd_gas=yes ;;
 
   # don't change em like *-*-bsd does
-  mips-dec-openbsd*)			fmt=elf endian=little ;;
   mips-sony-bsd*)			fmt=ecoff ;;
   mips-*-ultrix*)			fmt=ecoff endian=little ;;
   mips-*-osf*)				fmt=ecoff endian=little ;;
@@ -297,7 +299,7 @@ case ${generic_target} in
   mips-*-sysv*)				fmt=ecoff ;;
   mips-*-elf* | mips-*-rtems*)		fmt=elf ;;
   mips-*-netbsd*)			fmt=elf ;;
-  mips-*-openbsd*)			fmt=elf ;;
+  mips-*-openbsd*)			fmt=elf em=tmips ;;
 
   mmix-*-*)				fmt=elf ;;
 
@@ -373,11 +375,18 @@ case ${generic_target} in
   sparc-*-sysv4*)			fmt=elf ;;
   sparc-*-solaris*)			fmt=elf ;;
   sparc-*-netbsdelf*)			fmt=elf em=nbsd ;;
-  sparc-*-*n*bsd*)
+  sparc-*-netbsd*)
     case ${cpu} in
       sparc64)				fmt=elf em=nbsd ;;
       *)				fmt=aout em=nbsd ;;
     esac ;;
+  sparc-*-openbsd[0-2].* | \
+  sparc-*-openbsd3.[0-1])
+    case ${cpu} in
+      sparc64)				fmt=elf em=nbsd ;;
+      *)				fmt=aout em=nbsd ;;
+    esac ;;
+  sparc-*-openbsd*)			fmt=elf em=nbsd ;;
 
   tic30-*-*aout*)			fmt=aout bfd_gas=yes ;;
   tic30-*-*coff*)			fmt=coff bfd_gas=yes ;;

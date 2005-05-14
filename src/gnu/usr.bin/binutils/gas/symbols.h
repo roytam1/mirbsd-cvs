@@ -1,6 +1,6 @@
 /* symbols.h -
    Copyright 1987, 1990, 1992, 1993, 1994, 1995, 1997, 1999, 2000, 2001,
-   2002, 2003, 2004 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GAS, the GNU Assembler.
 
@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifdef BFD_ASSEMBLER
 /* The BFD code wants to walk the list in both directions.  */
@@ -50,15 +50,12 @@ extern int symbols_case_sensitive;
 char *decode_local_label_name (char *s);
 symbolS *symbol_find (const char *name);
 symbolS *symbol_find_exact (const char *name);
-symbolS *symbol_find_base (const char *name, int strip_underscore);
 symbolS *symbol_find_or_make (const char *name);
 symbolS *symbol_make (const char *name);
 symbolS *symbol_new (const char *name, segT segment, valueT value,
 		     fragS * frag);
 symbolS *symbol_create (const char *name, segT segment, valueT value,
 			fragS * frag);
-struct local_symbol *local_symbol_make (const char *name, segT section,
-					valueT value, fragS * frag);
 symbolS *symbol_temp_new (segT, valueT, fragS *);
 symbolS *symbol_temp_new_now (void);
 symbolS *symbol_temp_make (void);
@@ -99,7 +96,6 @@ extern int S_IS_DEFINED (symbolS *);
 extern int S_FORCE_RELOC (symbolS *, int);
 extern int S_IS_DEBUG (symbolS *);
 extern int S_IS_LOCAL (symbolS *);
-extern int S_IS_EXTERN (symbolS *);
 extern int S_IS_STABD (symbolS *);
 extern const char *S_GET_NAME (symbolS *);
 extern segT S_GET_SEGMENT (symbolS *);
@@ -166,7 +162,6 @@ extern symbolS *symbol_previous (symbolS *);
 #endif /* SYMBOLS_NEED_BACKPOINTERS */
 
 void verify_symbol_chain (symbolS * rootP, symbolS * lastP);
-void verify_symbol_chain_2 (symbolS * symP);
 
 void symbol_append (symbolS * addme, symbolS * target,
 		    symbolS ** rootP, symbolS ** lastP);
@@ -175,6 +170,7 @@ extern symbolS *symbol_next (symbolS *);
 
 extern expressionS *symbol_get_value_expression (symbolS *);
 extern void symbol_set_value_expression (symbolS *, const expressionS *);
+extern offsetT *symbol_X_add_number (symbolS *);
 extern void symbol_set_value_now (symbolS *);
 extern void symbol_set_frag (symbolS *, fragS *);
 extern fragS *symbol_get_frag (symbolS *);

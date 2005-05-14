@@ -14,6 +14,7 @@ YFLAGS = -d
 LEX = `if [ -f ../flex/flex ]; then echo ../flex/flex; else echo @LEX@; fi`
 
 WARN_CFLAGS = @WARN_CFLAGS@
+NO_WERROR = @NO_WERROR@
 AM_CFLAGS = $(WARN_CFLAGS)
 
 # We put the scripts in the directory $(scriptdir)/ldscripts.
@@ -190,6 +191,7 @@ ALL_EMULATIONS = \
 	eelf_i386_chaos.o \
 	eelf_i386_fbsd.o \
 	eelf_i386_ldso.o \
+	eelf_i386_vxworks.o \
 	eelf_s390.o \
 	egld960.o \
 	egld960coff.o \
@@ -416,6 +418,15 @@ OFILES = ldgram.o ldlex.o lexsup.o ldlang.o mri.o ldctor.o ldmain.o \
 	ldfile.o ldcref.o ${EMULATION_OFILES} ${EMUL_EXTRA_OFILES}
 
 STAGESTUFF = *.o ldscripts/* e*.c
+
+# Disable -Werror, if it has been enabled, since old versions of bison/
+# yacc will produce working code which contain compile time warnings. 
+ldgram.o:
+	$(COMPILE) -c $< $(NO_WERROR)
+ldlex.o:
+	$(COMPILE) -c $< $(NO_WERROR)
+deffilep.o:
+	$(COMPILE) -c $< $(NO_WERROR)
 
 # At the moment this is just a list of those emulation template files
 # that contain internationalised strings.
@@ -862,6 +873,10 @@ eelf_i386_fbsd.c: $(srcdir)/emulparams/elf_i386_fbsd.sh \
 eelf_i386_ldso.c: $(srcdir)/emulparams/elf_i386_ldso.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_i386_ldso "$(tdir_elf_i386_ldso)"
+eelf_i386_vxworks.c: $(srcdir)/emulparams/elf_i386_vxworks.sh \
+  $(srcdir)/emulparams/vxworks.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf_i386_vxworks "$(tdir_elf_i386_vxworks)"
 eelf_s390.c: $(srcdir)/emulparams/elf_s390.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_s390 "$(tdir_elf_s390)"
@@ -1739,8 +1754,8 @@ ldctor.o: ldctor.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/fopen-same.h \
   $(INCDIR)/bfdlink.h $(INCDIR)/safe-ctype.h ld.h $(INCDIR)/bin-bugs.h \
   ldexp.h ldlang.h ldmisc.h ldgram.h ldmain.h ldctor.h
-ldemul.o: ldemul.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
-  $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/fopen-same.h \
+ldemul.o: ldemul.c config.h ../bfd/bfd.h $(INCDIR)/ansidecl.h \
+  $(INCDIR)/symcat.h sysdep.h $(INCDIR)/fopen-same.h \
   ld.h $(INCDIR)/bin-bugs.h ldmisc.h ldexp.h ldlang.h \
   ldfile.h ldemul.h ldmain.h ldemul-list.h
 ldexp.o: ldexp.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
@@ -1781,8 +1796,8 @@ ldwrite.o: ldwrite.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/bfdlink.h $(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h \
   ld.h $(INCDIR)/bin-bugs.h ldexp.h ldlang.h ldwrite.h \
   ldmisc.h ldgram.h ldmain.h
-lexsup.o: lexsup.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
-  $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/fopen-same.h \
+lexsup.o: lexsup.c config.h ../bfd/bfd.h $(INCDIR)/ansidecl.h \
+  $(INCDIR)/symcat.h sysdep.h $(INCDIR)/fopen-same.h \
   $(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h $(INCDIR)/bfdlink.h \
   ld.h $(INCDIR)/bin-bugs.h ldmain.h ldmisc.h ldexp.h \
   ldlang.h ldgram.h ldlex.h ldfile.h ldver.h ldemul.h \

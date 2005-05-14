@@ -18,7 +18,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /*
 SECTION
@@ -163,6 +163,9 @@ CODE_FRAGMENT
 .
 .  {* The next section in the list belonging to the BFD, or NULL.  *}
 .  struct bfd_section *next;
+.
+.  {* The previous section in the list belonging to the BFD, or NULL.  *}
+.  struct bfd_section *prev;
 .
 .  {* The field flags contains attributes of the section. Some
 .     flags are read in from the object file, and some are
@@ -494,8 +497,14 @@ CODE_FRAGMENT
 .  struct bfd_symbol *symbol;
 .  struct bfd_symbol **symbol_ptr_ptr;
 .
-.  struct bfd_link_order *link_order_head;
-.  struct bfd_link_order *link_order_tail;
+.  {* Early in the link process, map_head and map_tail are used to build
+.     a list of input sections attached to an output section.  Later,
+.     output sections use these fields for a list of bfd_link_order
+.     structs.  *}
+.  union {
+.    struct bfd_link_order *link_order;
+.    struct bfd_section *s;
+.  } map_head, map_tail;
 .} asection;
 .
 .{* These sections are global, and are managed by BFD.  The application
@@ -538,27 +547,92 @@ CODE_FRAGMENT
 .{* Macros to handle insertion and deletion of a bfd's sections.  These
 .   only handle the list pointers, ie. do not adjust section_count,
 .   target_index etc.  *}
-.#define bfd_section_list_remove(ABFD, PS) \
+.#define bfd_section_list_remove(ABFD, S) \
 .  do							\
 .    {							\
-.      asection **_ps = PS;				\
-.      asection *_s = *_ps;				\
-.      *_ps = _s->next;					\
-.      if (_s->next == NULL)				\
-.        (ABFD)->section_tail = _ps;			\
-.    }							\
-.  while (0)
-.#define bfd_section_list_insert(ABFD, PS, S) \
-.  do							\
-.    {							\
-.      asection **_ps = PS;				\
 .      asection *_s = S;				\
-.      _s->next = *_ps;					\
-.      *_ps = _s;					\
-.      if (_s->next == NULL)				\
-.        (ABFD)->section_tail = &_s->next;		\
+.      asection *_next = _s->next;			\
+.      asection *_prev = _s->prev;			\
+.      if (_prev)					\
+.        _prev->next = _next;				\
+.      else						\
+.        (ABFD)->sections = _next;			\
+.      if (_next)					\
+.        _next->prev = _prev;				\
+.      else						\
+.        (ABFD)->section_last = _prev;			\
 .    }							\
 .  while (0)
+.#define bfd_section_list_append(ABFD, S) \
+.  do							\
+.    {							\
+.      asection *_s = S;				\
+.      bfd *_abfd = ABFD;				\
+.      _s->next = NULL;					\
+.      if (_abfd->section_last)				\
+.        {						\
+.          _s->prev = _abfd->section_last;		\
+.          _abfd->section_last->next = _s;		\
+.        }						\
+.      else						\
+.        {						\
+.          _s->prev = NULL;				\
+.          _abfd->sections = _s;			\
+.        }						\
+.      _abfd->section_last = _s;			\
+.    }							\
+.  while (0)
+.#define bfd_section_list_prepend(ABFD, S) \
+.  do							\
+.    {							\
+.      asection *_s = S;				\
+.      bfd *_abfd = ABFD;				\
+.      _s->prev = NULL;					\
+.      if (_abfd->sections)				\
+.        {						\
+.          _s->next = _abfd->sections;			\
+.          _abfd->sections->prev = _s;			\
+.        }						\
+.      else						\
+.        {						\
+.          _s->next = NULL;				\
+.          _abfd->section_last = _s;			\
+.        }						\
+.      _abfd->sections = _s;				\
+.    }							\
+.  while (0)
+.#define bfd_section_list_insert_after(ABFD, A, S) \
+.  do							\
+.    {							\
+.      asection *_a = A;				\
+.      asection *_s = S;				\
+.      asection *_next = _a->next;			\
+.      _s->next = _next;				\
+.      _s->prev = _a;					\
+.      _a->next = _s;					\
+.      if (_next)					\
+.        _next->prev = _s;				\
+.      else						\
+.        (ABFD)->section_last = _s;			\
+.    }							\
+.  while (0)
+.#define bfd_section_list_insert_before(ABFD, B, S) \
+.  do							\
+.    {							\
+.      asection *_b = B;				\
+.      asection *_s = S;				\
+.      asection *_prev = _b->prev;			\
+.      _s->prev = _prev;				\
+.      _s->next = _b;					\
+.      _b->prev = _s;					\
+.      if (_prev)					\
+.        _prev->next = _s;				\
+.      else						\
+.        (ABFD)->sections = _s;				\
+.    }							\
+.  while (0)
+.#define bfd_section_removed_from_list(ABFD, S) \
+.  ((S)->next == NULL ? (ABFD)->section_last != (S) : (S)->next->prev != (S))
 .
 */
 
@@ -588,8 +662,8 @@ static const asymbol global_syms[] =
 #define STD_SECTION(SEC, FLAGS, SYM, NAME, IDX)				\
   const asymbol * const SYM = (asymbol *) &global_syms[IDX]; 		\
   asection SEC = 							\
-    /* name, id,  index, next, flags, user_set_vma,                  */	\
-    { NAME,  IDX, 0,     NULL, FLAGS, 0,				\
+    /* name, id,  index, next, prev, flags, user_set_vma,            */	\
+    { NAME,  IDX, 0,     NULL, NULL, FLAGS, 0,				\
 									\
     /* linker_mark, linker_has_input, gc_mark, segment_mark,         */	\
        0,           0,                1,       0,			\
@@ -624,8 +698,8 @@ static const asymbol global_syms[] =
     /* symbol_ptr_ptr,                                               */	\
        (struct bfd_symbol **) &SYM,					\
 									\
-    /* link_order_head, link_order_tail                              */	\
-       NULL,            NULL						\
+    /* map_head, map_tail                                            */	\
+       { NULL }, { NULL }						\
     }
 
 STD_SECTION (bfd_com_section, SEC_IS_COMMON, bfd_com_symbol,
@@ -701,8 +775,7 @@ bfd_section_init (bfd *abfd, asection *newsect)
 
   section_id++;
   abfd->section_count++;
-  *abfd->section_tail = newsect;
-  abfd->section_tail = &newsect->next;
+  bfd_section_list_append (abfd, newsect);
   return newsect;
 }
 
@@ -732,7 +805,7 @@ void
 bfd_section_list_clear (bfd *abfd)
 {
   abfd->sections = NULL;
-  abfd->section_tail = &abfd->sections;
+  abfd->section_last = NULL;
   abfd->section_count = 0;
   memset (abfd->section_htab.table, 0,
 	  abfd->section_htab.size * sizeof (struct bfd_hash_entry *));
@@ -931,15 +1004,17 @@ bfd_make_section_old_way (bfd *abfd, const char *name)
 
 /*
 FUNCTION
-	bfd_make_section_anyway
+	bfd_make_section_anyway_with_flags
 
 SYNOPSIS
-	asection *bfd_make_section_anyway (bfd *abfd, const char *name);
+	asection *bfd_make_section_anyway_with_flags
+	  (bfd *abfd, const char *name, flagword flags);
 
 DESCRIPTION
    Create a new empty section called @var{name} and attach it to the end of
    the chain of sections for @var{abfd}.  Create a new section even if there
-   is already a section with that name.
+   is already a section with that name.  Also set the attributes of the
+   new section to the value @var{flags}.
 
    Return <<NULL>> and set <<bfd_error>> on error; possible errors are:
    o <<bfd_error_invalid_operation>> - If output has already started for @var{abfd}.
@@ -947,7 +1022,8 @@ DESCRIPTION
 */
 
 sec_ptr
-bfd_make_section_anyway (bfd *abfd, const char *name)
+bfd_make_section_anyway_with_flags (bfd *abfd, const char *name,
+				    flagword flags)
 {
   struct section_hash_entry *sh;
   asection *newsect;
@@ -980,26 +1056,53 @@ bfd_make_section_anyway (bfd *abfd, const char *name)
       newsect = &new_sh->section;
     }
 
+  newsect->flags = flags;
   newsect->name = name;
   return bfd_section_init (abfd, newsect);
 }
 
 /*
 FUNCTION
-	bfd_make_section
+	bfd_make_section_anyway
 
 SYNOPSIS
-	asection *bfd_make_section (bfd *, const char *name);
+	asection *bfd_make_section_anyway (bfd *abfd, const char *name);
+
+DESCRIPTION
+   Create a new empty section called @var{name} and attach it to the end of
+   the chain of sections for @var{abfd}.  Create a new section even if there
+   is already a section with that name.
+
+   Return <<NULL>> and set <<bfd_error>> on error; possible errors are:
+   o <<bfd_error_invalid_operation>> - If output has already started for @var{abfd}.
+   o <<bfd_error_no_memory>> - If memory allocation fails.
+*/
+
+sec_ptr
+bfd_make_section_anyway (bfd *abfd, const char *name)
+{
+  return bfd_make_section_anyway_with_flags (abfd, name, 0);
+}
+
+/*
+FUNCTION
+	bfd_make_section_with_flags
+
+SYNOPSIS
+	asection *bfd_make_section_with_flags
+	  (bfd *, const char *name, flagword flags);
 
 DESCRIPTION
    Like <<bfd_make_section_anyway>>, but return <<NULL>> (without calling
    bfd_set_error ()) without changing the section chain if there is already a
-   section named @var{name}.  If there is an error, return <<NULL>> and set
+   section named @var{name}.  Also set the attributes of the new section to
+   the value @var{flags}.  If there is an error, return <<NULL>> and set
    <<bfd_error>>.
 */
 
 asection *
-bfd_make_section (bfd *abfd, const char *name)
+bfd_make_section_with_flags (bfd *abfd, const char *name,
+			     flagword flags)
 {
   struct section_hash_entry *sh;
   asection *newsect;
@@ -1028,7 +1131,28 @@ bfd_make_section (bfd *abfd, const char *name)
     }
 
   newsect->name = name;
+  newsect->flags = flags;
   return bfd_section_init (abfd, newsect);
+}
+
+/*
+FUNCTION
+	bfd_make_section
+
+SYNOPSIS
+	asection *bfd_make_section (bfd *, const char *name);
+
+DESCRIPTION
+   Like <<bfd_make_section_anyway>>, but return <<NULL>> (without calling
+   bfd_set_error ()) without changing the section chain if there is already a
+   section named @var{name}.  If there is an error, return <<NULL>> and set
+   <<bfd_error>>.
+*/
+
+asection *
+bfd_make_section (bfd *abfd, const char *name)
+{
+  return bfd_make_section_with_flags (abfd, name, 0);
 }
 
 /*
@@ -1373,50 +1497,6 @@ DESCRIPTION
 .     BFD_SEND (obfd, _bfd_copy_private_section_data, \
 .		(ibfd, isection, obfd, osection))
 */
-
-/*
-FUNCTION
-	_bfd_strip_section_from_output
-
-SYNOPSIS
-	void _bfd_strip_section_from_output
-	  (struct bfd_link_info *info, asection *section);
-
-DESCRIPTION
-	Remove @var{section} from the output.  If the output section
-	becomes empty, remove it from the output bfd.
-
-	This function won't actually do anything except twiddle flags
-	if called too late in the linking process, when it's not safe
-	to remove sections.
-*/
-void
-_bfd_strip_section_from_output (struct bfd_link_info *info, asection *s)
-{
-  asection *os;
-  asection *is;
-  bfd *abfd;
-
-  s->flags |= SEC_EXCLUDE;
-
-  /* If the section wasn't assigned to an output section, or the
-     section has been discarded by the linker script, there's nothing
-     more to do.  */
-  os = s->output_section;
-  if (os == NULL || os->owner == NULL)
-    return;
-
-  /* If the output section has other (non-excluded) input sections, we
-     can't remove it.  */
-  for (abfd = info->input_bfds; abfd != NULL; abfd = abfd->link_next)
-    for (is = abfd->sections; is != NULL; is = is->next)
-      if (is->output_section == os && (is->flags & SEC_EXCLUDE) == 0)
-	return;
-
-  /* If the output section is empty, flag it for removal too.
-     See ldlang.c:strip_excluded_output_sections for the action.  */
-  os->flags |= SEC_EXCLUDE;
-}
 
 /*
 FUNCTION

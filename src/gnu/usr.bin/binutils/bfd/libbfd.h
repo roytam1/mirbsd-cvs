@@ -26,7 +26,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "hashtab.h"
 
@@ -420,7 +420,7 @@ extern bfd_boolean _bfd_stab_section_find_nearest_line
   (bfd *, asymbol **, asection *, bfd_vma, bfd_boolean *,
    const char **, const char **, unsigned int *, void **);
 
-/* Find the neaderst line using DWARF 1 debugging information.  */
+/* Find the nearest line using DWARF 1 debugging information.  */
 extern bfd_boolean _bfd_dwarf1_find_nearest_line
   (bfd *, asection *, asymbol **, bfd_vma, const char **,
    const char **, unsigned int *);
@@ -907,6 +907,9 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_HI16",
   "BFD_RELOC_HI16_S",
   "BFD_RELOC_LO16",
+  "BFD_RELOC_HI16_PCREL",
+  "BFD_RELOC_HI16_S_PCREL",
+  "BFD_RELOC_LO16_PCREL",
   "BFD_RELOC_MIPS16_HI16",
   "BFD_RELOC_MIPS16_HI16_S",
   "BFD_RELOC_MIPS16_LO16",
@@ -1177,6 +1180,14 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_ARM_RELATIVE",
   "BFD_RELOC_ARM_GOTOFF",
   "BFD_RELOC_ARM_GOTPC",
+  "BFD_RELOC_ARM_TLS_GD32",
+  "BFD_RELOC_ARM_TLS_LDO32",
+  "BFD_RELOC_ARM_TLS_LDM32",
+  "BFD_RELOC_ARM_TLS_DTPOFF32",
+  "BFD_RELOC_ARM_TLS_DTPMOD32",
+  "BFD_RELOC_ARM_TLS_TPOFF32",
+  "BFD_RELOC_ARM_TLS_IE32",
+  "BFD_RELOC_ARM_TLS_LE32",
   "BFD_RELOC_ARM_TARGET1",
   "BFD_RELOC_ARM_ROSEGREL32",
   "BFD_RELOC_ARM_SBREL32",

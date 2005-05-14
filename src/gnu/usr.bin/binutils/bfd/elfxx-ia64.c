@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -27,6 +27,16 @@
 #include "elf/ia64.h"
 #include "objalloc.h"
 #include "hashtab.h"
+
+#define ARCH_SIZE	NN
+
+#if ARCH_SIZE == 64
+#define	LOG_SECTION_ALIGN	3
+#endif
+
+#if ARCH_SIZE == 32
+#define	LOG_SECTION_ALIGN	2
+#endif
 
 /* THE RULES for all the stuff the linker creates --
 
@@ -1426,11 +1436,11 @@ elfNN_ia64_add_symbol_hook (abfd, info, sym, namep, flagsp, secp, valp)
 
       if (scomm == NULL)
 	{
-	  scomm = bfd_make_section (abfd, ".scommon");
-	  if (scomm == NULL
-	      || !bfd_set_section_flags (abfd, scomm, (SEC_ALLOC
-						       | SEC_IS_COMMON
-						       | SEC_LINKER_CREATED)))
+	  scomm = bfd_make_section_with_flags (abfd, ".scommon",
+					       (SEC_ALLOC
+						| SEC_IS_COMMON
+						| SEC_LINKER_CREATED));
+	  if (scomm == NULL)
 	    return FALSE;
 	}
 
@@ -1558,7 +1568,7 @@ elfNN_ia64_modify_segment_map (abfd, info)
 	int i;
 	for (i = m->count - 1; i >= 0; --i)
 	  {
-	    struct bfd_link_order *order = m->sections[i]->link_order_head;
+	    struct bfd_link_order *order = m->sections[i]->map_head.link_order;
 	    while (order)
 	      {
 		if (order->type == bfd_indirect_link_order)
@@ -1864,25 +1874,25 @@ elfNN_ia64_create_dynamic_sections (abfd, info)
   if (!get_pltoff (abfd, info, ia64_info))
     return FALSE;
 
-  s = bfd_make_section(abfd, ".rela.IA_64.pltoff");
+  s = bfd_make_section_with_flags (abfd, ".rela.IA_64.pltoff",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_LINKER_CREATED
+				    | SEC_READONLY));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_LINKER_CREATED
-					   | SEC_READONLY))
-      || !bfd_set_section_alignment (abfd, s, 3))
+      || !bfd_set_section_alignment (abfd, s, LOG_SECTION_ALIGN))
     return FALSE;
   ia64_info->rel_pltoff_sec = s;
 
-  s = bfd_make_section(abfd, ".rela.got");
+  s = bfd_make_section_with_flags (abfd, ".rela.got",
+				   (SEC_ALLOC | SEC_LOAD
+				    | SEC_HAS_CONTENTS
+				    | SEC_IN_MEMORY
+				    | SEC_LINKER_CREATED
+				    | SEC_READONLY));
   if (s == NULL
-      || !bfd_set_section_flags (abfd, s, (SEC_ALLOC | SEC_LOAD
-					   | SEC_HAS_CONTENTS
-					   | SEC_IN_MEMORY
-					   | SEC_LINKER_CREATED
-					   | SEC_READONLY))
-      || !bfd_set_section_alignment (abfd, s, 3))
+      || !bfd_set_section_alignment (abfd, s, LOG_SECTION_ALIGN))
     return FALSE;
   ia64_info->rel_got_sec = s;
 
@@ -2028,15 +2038,14 @@ get_fptr (abfd, info, ia64_info)
       if (!dynobj)
 	ia64_info->root.dynobj = dynobj = abfd;
 
-      fptr = bfd_make_section (dynobj, ".opd");
+      fptr = bfd_make_section_with_flags (dynobj, ".opd",
+					  (SEC_ALLOC
+					   | SEC_LOAD
+					   | SEC_HAS_CONTENTS
+					   | SEC_IN_MEMORY
+					   | (info->pie ? 0 : SEC_READONLY)
+					   | SEC_LINKER_CREATED));
       if (!fptr
-	  || !bfd_set_section_flags (dynobj, fptr,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | (info->pie ? 0 : SEC_READONLY)
-				      | SEC_LINKER_CREATED))
 	  || !bfd_set_section_alignment (abfd, fptr, 4))
 	{
 	  BFD_ASSERT (0);
@@ -2048,15 +2057,15 @@ get_fptr (abfd, info, ia64_info)
       if (info->pie)
 	{
 	  asection *fptr_rel;
-	  fptr_rel = bfd_make_section(dynobj, ".rela.opd");
+	  fptr_rel = bfd_make_section_with_flags (dynobj, ".rela.opd",
+						  (SEC_ALLOC | SEC_LOAD
+						   | SEC_HAS_CONTENTS
+						   | SEC_IN_MEMORY
+						   | SEC_LINKER_CREATED
+						   | SEC_READONLY));
 	  if (fptr_rel == NULL
-	      || !bfd_set_section_flags (dynobj, fptr_rel,
-					 (SEC_ALLOC | SEC_LOAD
-					  | SEC_HAS_CONTENTS
-					  | SEC_IN_MEMORY
-					  | SEC_LINKER_CREATED
-					  | SEC_READONLY))
-	      || !bfd_set_section_alignment (abfd, fptr_rel, 3))
+	      || !bfd_set_section_alignment (abfd, fptr_rel,
+					     LOG_SECTION_ALIGN))
 	    {
 	      BFD_ASSERT (0);
 	      return NULL;
@@ -2085,15 +2094,15 @@ get_pltoff (abfd, info, ia64_info)
       if (!dynobj)
 	ia64_info->root.dynobj = dynobj = abfd;
 
-      pltoff = bfd_make_section (dynobj, ELF_STRING_ia64_pltoff);
+      pltoff = bfd_make_section_with_flags (dynobj,
+					    ELF_STRING_ia64_pltoff,
+					    (SEC_ALLOC
+					     | SEC_LOAD
+					     | SEC_HAS_CONTENTS
+					     | SEC_IN_MEMORY
+					     | SEC_SMALL_DATA
+					     | SEC_LINKER_CREATED));
       if (!pltoff
-	  || !bfd_set_section_flags (dynobj, pltoff,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_SMALL_DATA
-				      | SEC_LINKER_CREATED))
 	  || !bfd_set_section_alignment (abfd, pltoff, 4))
 	{
 	  BFD_ASSERT (0);
@@ -2137,16 +2146,15 @@ get_reloc_section (abfd, ia64_info, sec, create)
   srel = bfd_get_section_by_name (dynobj, srel_name);
   if (srel == NULL && create)
     {
-      srel = bfd_make_section (dynobj, srel_name);
+      srel = bfd_make_section_with_flags (dynobj, srel_name,
+					  (SEC_ALLOC | SEC_LOAD
+					   | SEC_HAS_CONTENTS
+					   | SEC_IN_MEMORY
+					   | SEC_LINKER_CREATED
+					   | SEC_READONLY));
       if (srel == NULL
-	  || !bfd_set_section_flags (dynobj, srel,
-				     (SEC_ALLOC
-				      | SEC_LOAD
-				      | SEC_HAS_CONTENTS
-				      | SEC_IN_MEMORY
-				      | SEC_LINKER_CREATED
-				      | SEC_READONLY))
-	  || !bfd_set_section_alignment (dynobj, srel, 3))
+	  || !bfd_set_section_alignment (dynobj, srel,
+					 LOG_SECTION_ALIGN))
 	return NULL;
     }
 
@@ -2270,11 +2278,13 @@ elfNN_ia64_check_relocs (abfd, info, sec, relocs)
 	    info->flags |= DF_STATIC_TLS;
 	  break;
 
+	case R_IA64_DTPREL32MSB:
+	case R_IA64_DTPREL32LSB:
 	case R_IA64_DTPREL64MSB:
 	case R_IA64_DTPREL64LSB:
 	  if (info->shared || maybe_dynamic)
 	    need_entry = NEED_DYNREL;
-	  dynrel_type = R_IA64_DTPREL64LSB;
+	  dynrel_type = R_IA64_DTPRELNNLSB;
 	  break;
 
 	case R_IA64_LTOFF_DTPREL22:
@@ -2310,7 +2320,7 @@ elfNN_ia64_check_relocs (abfd, info, sec, relocs)
 	    need_entry = NEED_FPTR | NEED_DYNREL;
 	  else
 	    need_entry = NEED_FPTR;
-	  dynrel_type = R_IA64_FPTR64LSB;
+	  dynrel_type = R_IA64_FPTRNNLSB;
 	  break;
 
 	case R_IA64_LTOFF22:
@@ -2360,7 +2370,7 @@ elfNN_ia64_check_relocs (abfd, info, sec, relocs)
 	  /* Shared objects will always need at least a REL relocation.  */
 	  if (info->shared || maybe_dynamic)
 	    need_entry = NEED_DYNREL;
-	  dynrel_type = R_IA64_DIR64LSB;
+	  dynrel_type = R_IA64_DIRNNLSB;
 	  break;
 
 	case R_IA64_IPLTMSB:
@@ -2379,7 +2389,7 @@ elfNN_ia64_check_relocs (abfd, info, sec, relocs)
 	case R_IA64_PCREL64LSB:
 	  if (maybe_dynamic)
 	    need_entry = NEED_DYNREL;
-	  dynrel_type = R_IA64_PCREL64LSB;
+	  dynrel_type = R_IA64_PCRELNNLSB;
 	  break;
 	}
 
@@ -2543,7 +2553,7 @@ allocate_global_fptr_got (dyn_i, data)
 
   if (dyn_i->want_got
       && dyn_i->want_fptr
-      && elfNN_ia64_dynamic_symbol_p (dyn_i->h, x->info, R_IA64_FPTR64LSB))
+      && elfNN_ia64_dynamic_symbol_p (dyn_i->h, x->info, R_IA64_FPTRNNLSB))
     {
       dyn_i->got_offset = x->ofs;
       x->ofs += 8;
@@ -2750,6 +2760,7 @@ allocate_dynrel_entries (dyn_i, data)
 
       switch (rent->type)
 	{
+	case R_IA64_FPTR32LSB:
 	case R_IA64_FPTR64LSB:
 	  /* Allocate one iff !want_fptr and not PIE, which by this point
 	     will be true only if we're actually allocating one statically
@@ -2758,10 +2769,12 @@ allocate_dynrel_entries (dyn_i, data)
 	  if (dyn_i->want_fptr && !x->info->pie)
 	    continue;
 	  break;
+	case R_IA64_PCREL32LSB:
 	case R_IA64_PCREL64LSB:
 	  if (!dynamic_symbol)
 	    continue;
 	  break;
+	case R_IA64_DIR32LSB:
 	case R_IA64_DIR64LSB:
 	  if (!dynamic_symbol && !shared)
 	    continue;
@@ -2774,6 +2787,7 @@ allocate_dynrel_entries (dyn_i, data)
 	  if (!dynamic_symbol)
 	    count *= 2;
 	  break;
+	case R_IA64_DTPREL32LSB:
 	case R_IA64_TPREL64LSB:
 	case R_IA64_DTPREL64LSB:
 	case R_IA64_DTPMOD64LSB:
@@ -3052,7 +3066,7 @@ elfNN_ia64_size_dynamic_sections (output_bfd, info)
 	}
 
       if (strip)
-	_bfd_strip_section_from_output (info, sec);
+	sec->flags |= SEC_EXCLUDE;
       else
 	{
 	  /* Allocate memory for the section contents.  */
@@ -3413,6 +3427,7 @@ set_got_entry (abfd, info, dyn_i, dynindx, addend, value, dyn_r_type)
 	}
       got_offset = dyn_i->dtpmod_offset;
       break;
+    case R_IA64_DTPREL32LSB:
     case R_IA64_DTPREL64LSB:
       done = dyn_i->dtprel_done;
       dyn_i->dtprel_done = TRUE;
@@ -3437,9 +3452,12 @@ set_got_entry (abfd, info, dyn_i, dynindx, addend, value, dyn_r_type)
 	    && (!dyn_i->h
 		|| ELF_ST_VISIBILITY (dyn_i->h->other) == STV_DEFAULT
 		|| dyn_i->h->root.type != bfd_link_hash_undefweak)
+	    && dyn_r_type != R_IA64_DTPREL32LSB
 	    && dyn_r_type != R_IA64_DTPREL64LSB)
            || elfNN_ia64_dynamic_symbol_p (dyn_i->h, info, dyn_r_type)
-	   || (dynindx != -1 && dyn_r_type == R_IA64_FPTR64LSB))
+	   || (dynindx != -1
+	       && (dyn_r_type == R_IA64_FPTR32LSB
+		   || dyn_r_type == R_IA64_FPTR64LSB)))
 	  && (!dyn_i->want_ltoff_fptr
 	      || !info->pie
 	      || !dyn_i->h
@@ -3448,9 +3466,10 @@ set_got_entry (abfd, info, dyn_i, dynindx, addend, value, dyn_r_type)
 	  if (dynindx == -1
 	      && dyn_r_type != R_IA64_TPREL64LSB
 	      && dyn_r_type != R_IA64_DTPMOD64LSB
+	      && dyn_r_type != R_IA64_DTPREL32LSB
 	      && dyn_r_type != R_IA64_DTPREL64LSB)
 	    {
-	      dyn_r_type = R_IA64_REL64LSB;
+	      dyn_r_type = R_IA64_RELNNLSB;
 	      dynindx = 0;
 	      addend = value;
 	    }
@@ -3459,6 +3478,18 @@ set_got_entry (abfd, info, dyn_i, dynindx, addend, value, dyn_r_type)
 	    {
 	      switch (dyn_r_type)
 		{
+		case R_IA64_REL32LSB:
+		  dyn_r_type = R_IA64_REL32MSB;
+		  break;
+		case R_IA64_DIR32LSB:
+		  dyn_r_type = R_IA64_DIR32MSB;
+		  break;
+		case R_IA64_FPTR32LSB:
+		  dyn_r_type = R_IA64_FPTR32MSB;
+		  break;
+		case R_IA64_DTPREL32LSB:
+		  dyn_r_type = R_IA64_DTPREL32MSB;
+		  break;
 		case R_IA64_REL64LSB:
 		  dyn_r_type = R_IA64_REL64MSB;
 		  break;
@@ -3588,9 +3619,9 @@ set_pltoff_entry (abfd, info, dyn_i, value, is_plt)
 	  unsigned int dyn_r_type;
 
 	  if (bfd_big_endian (abfd))
-	    dyn_r_type = R_IA64_REL64MSB;
+	    dyn_r_type = R_IA64_RELNNMSB;
 	  else
-	    dyn_r_type = R_IA64_REL64LSB;
+	    dyn_r_type = R_IA64_RELNNLSB;
 
 	  elfNN_ia64_install_dyn_reloc (abfd, NULL, pltoff_sec,
 					ia64_info->rel_pltoff_sec,
@@ -3598,7 +3629,7 @@ set_pltoff_entry (abfd, info, dyn_i, value, is_plt)
 					dyn_r_type, 0, value);
 	  elfNN_ia64_install_dyn_reloc (abfd, NULL, pltoff_sec,
 					ia64_info->rel_pltoff_sec,
-					dyn_i->pltoff_offset + 8,
+					dyn_i->pltoff_offset + ARCH_SIZE / 8,
 					dyn_r_type, 0, gp);
 	}
 
@@ -3616,7 +3647,7 @@ set_pltoff_entry (abfd, info, dyn_i, value, is_plt)
 /* Return the base VMA address which should be subtracted from real addresses
    when resolving @tprel() relocation.
    Main program TLS (whose template starts at PT_TLS p_vaddr)
-   is assigned offset round(16, PT_TLS p_align).  */
+   is assigned offset round(2 * size of pointer, PT_TLS p_align).  */
 
 static bfd_vma
 elfNN_ia64_tprel_base (info)
@@ -3625,7 +3656,8 @@ elfNN_ia64_tprel_base (info)
   asection *tls_sec = elf_hash_table (info)->tls_sec;
 
   BFD_ASSERT (tls_sec != NULL);
-  return tls_sec->vma - align_power ((bfd_vma) 16, tls_sec->alignment_power);
+  return tls_sec->vma - align_power ((bfd_vma) ARCH_SIZE / 4,
+				     tls_sec->alignment_power);
 }
 
 /* Return the base VMA address which should be subtracted from real addresses
@@ -4014,7 +4046,9 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 		  (*_bfd_error_handler)
 		    (_("%B: non-pic code with imm relocation against dynamic symbol `%s'"),
 		     input_bfd,
-		     h->root.root.string);
+		     h ? h->root.root.string
+		       : bfd_elf_sym_name (input_bfd, symtab_hdr, sym,
+					   sym_sec));
 		  ret_val = FALSE;
 		  continue;
 
@@ -4078,7 +4112,10 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	    {
 	      (*_bfd_error_handler)
 		(_("%B: @gprel relocation against dynamic symbol %s"),
-		 input_bfd, h->root.root.string);
+		 input_bfd,
+		 h ? h->root.root.string
+		   : bfd_elf_sym_name (input_bfd, symtab_hdr, sym,
+				       sym_sec));
 	      ret_val = FALSE;
 	      continue;
 	    }
@@ -4091,7 +4128,7 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	case R_IA64_LTOFF64I:
           dyn_i = get_dyn_sym_info (ia64_info, h, input_bfd, rel, FALSE);
 	  value = set_got_entry (input_bfd, info, dyn_i, (h ? h->dynindx : -1),
-				 rel->r_addend, value, R_IA64_DIR64LSB);
+				 rel->r_addend, value, R_IA64_DIRNNLSB);
 	  value -= gp_val;
 	  r = elfNN_ia64_install_value (hit_addr, value, r_type);
 	  break;
@@ -4144,7 +4181,7 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 		    }
 		  dynindx = 0;
 		  addend = value;
-		  dyn_r_type = r_type + R_IA64_REL64LSB - R_IA64_FPTR64LSB;
+		  dyn_r_type = r_type + R_IA64_RELNNLSB - R_IA64_FPTRNNLSB;
 		}
 	      else if (h)
 		{
@@ -4208,7 +4245,7 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	      }
 
 	    value = set_got_entry (output_bfd, info, dyn_i, dynindx,
-				   rel->r_addend, value, R_IA64_FPTR64LSB);
+				   rel->r_addend, value, R_IA64_FPTRNNLSB);
 	    value -= gp_val;
 	    r = elfNN_ia64_install_value (hit_addr, value, r_type);
 	  }
@@ -4279,7 +4316,12 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 		msg = _("%B: speculation fixup to dynamic symbol %s");
 	      else
 		msg = _("%B: @pcrel relocation against dynamic symbol %s");
-	      (*_bfd_error_handler) (msg, input_bfd, h->root.root.string);
+	      (*_bfd_error_handler) (msg, input_bfd,
+				     h ? h->root.root.string
+				       : bfd_elf_sym_name (input_bfd,
+							   symtab_hdr,
+							   sym,
+							   sym_sec));
 	      ret_val = FALSE;
 	      continue;
 	    }
@@ -4402,6 +4444,8 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	case R_IA64_DTPREL14:
 	case R_IA64_DTPREL22:
 	case R_IA64_DTPREL64I:
+	case R_IA64_DTPREL32LSB:
+	case R_IA64_DTPREL32MSB:
 	case R_IA64_DTPREL64LSB:
 	case R_IA64_DTPREL64MSB:
 	  value -= elfNN_ia64_dtprel_base (info);
@@ -4440,7 +4484,7 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	      case R_IA64_LTOFF_DTPREL22:
 		if (!dynamic_symbol_p)
 		  value -= elfNN_ia64_dtprel_base (info);
-		got_r_type = R_IA64_DTPREL64LSB;
+		got_r_type = R_IA64_DTPRELNNLSB;
 		break;
 	      }
 	    dyn_i = get_dyn_sym_info (ia64_info, h, input_bfd, rel, FALSE);
@@ -4476,15 +4520,8 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	    if (h)
 	      name = h->root.root.string;
 	    else
-	      {
-		name = bfd_elf_string_from_elf_section (input_bfd,
-							symtab_hdr->sh_link,
-							sym->st_name);
-		if (name == NULL)
-		  return FALSE;
-		if (*name == '\0')
-		  name = bfd_section_name (input_bfd, input_section);
-	      }
+	      name = bfd_elf_sym_name (input_bfd, symtab_hdr, sym,
+				       sym_sec);
 	    if (!(*info->callbacks->warning) (info, _("unsupported reloc"),
 					      name, input_bfd,
 					      input_section, rel->r_offset))
@@ -4503,15 +4540,8 @@ elfNN_ia64_relocate_section (output_bfd, info, input_bfd, input_section,
 	    if (h)
 	      name = h->root.root.string;
 	    else
-	      {
-		name = bfd_elf_string_from_elf_section (input_bfd,
-							symtab_hdr->sh_link,
-							sym->st_name);
-		if (name == NULL)
-		  return FALSE;
-		if (*name == '\0')
-		  name = bfd_section_name (input_bfd, sym_sec);
-	      }
+	      name = bfd_elf_sym_name (input_bfd, symtab_hdr, sym,
+				       sym_sec);
 
 	    switch (r_type)
 	      {
@@ -4878,12 +4908,138 @@ elfNN_ia64_reloc_type_class (rela)
     }
 }
 
-static struct bfd_elf_special_section const elfNN_ia64_special_sections[]=
+static struct bfd_elf_special_section const
+  ia64_special_sections_s[]=
 {
   { ".sbss",  5, -1, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE + SHF_IA_64_SHORT },
   { ".sdata", 6, -1, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_IA_64_SHORT },
-  { NULL,     0,  0, 0,            0 }
+  { NULL,        0, 0, 0,            0 }
 };
+
+static struct bfd_elf_special_section const *
+  elfNN_ia64_special_sections[27] =
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  NULL,				/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  NULL,				/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  NULL,				/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  NULL,				/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  ia64_special_sections_s,	/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
+};
+
+static bfd_boolean
+elfNN_ia64_object_p (bfd *abfd)
+{
+  asection *sec;
+  asection *group, *unwi, *unw;
+  flagword flags;
+  const char *name;
+  char *unwi_name, *unw_name;
+  bfd_size_type amt;
+
+  if (abfd->flags & DYNAMIC)
+    return TRUE;
+
+  /* Flags for fake group section.  */
+  flags = (SEC_LINKER_CREATED | SEC_GROUP | SEC_LINK_ONCE
+	   | SEC_EXCLUDE);
+
+  /* We add a fake section group for each .gnu.linkonce.t.* section,
+     which isn't in a section group, and its unwind sections.  */
+  for (sec = abfd->sections; sec != NULL; sec = sec->next)
+    {
+      if (elf_sec_group (sec) == NULL
+	  && ((sec->flags & (SEC_LINK_ONCE | SEC_CODE | SEC_GROUP))
+	      == (SEC_LINK_ONCE | SEC_CODE))
+	  && strncmp (sec->name, ".gnu.linkonce.t.", 16) == 0)
+	{
+	  name = sec->name + 16;
+
+	  amt = strlen (name) + sizeof (".gnu.linkonce.ia64unwi.");
+	  unwi_name = bfd_alloc (abfd, amt);
+	  if (!unwi_name)
+	    return FALSE;
+
+	  strcpy (stpcpy (unwi_name, ".gnu.linkonce.ia64unwi."), name);
+	  unwi = bfd_get_section_by_name (abfd, unwi_name);
+
+	  amt = strlen (name) + sizeof (".gnu.linkonce.ia64unw.");
+	  unw_name = bfd_alloc (abfd, amt);
+	  if (!unw_name)
+	    return FALSE;
+
+	  strcpy (stpcpy (unw_name, ".gnu.linkonce.ia64unw."), name);
+	  unw = bfd_get_section_by_name (abfd, unw_name);
+
+	  /* We need to create a fake group section for it and its
+	     unwind sections.  */
+	  group = bfd_make_section_anyway_with_flags (abfd, name,
+						      flags);
+	  if (group == NULL)
+	    return FALSE;
+
+	  /* Move the fake group section to the beginning.  */
+	  bfd_section_list_remove (abfd, group);
+	  bfd_section_list_prepend (abfd, group);
+
+	  elf_next_in_group (group) = sec;
+
+	  elf_group_name (sec) = name;
+	  elf_next_in_group (sec) = sec;
+	  elf_sec_group (sec) = group;
+
+	  if (unwi)
+	    {
+	      elf_group_name (unwi) = name;
+	      elf_next_in_group (unwi) = sec;
+	      elf_next_in_group (sec) = unwi;
+	      elf_sec_group (unwi) = group;
+	    }
+
+	   if (unw)
+	     {
+	       elf_group_name (unw) = name;
+	       if (unwi)
+		 {
+		   elf_next_in_group (unw) = elf_next_in_group (unwi);
+		   elf_next_in_group (unwi) = unw;
+		 }
+	       else
+		 {
+		   elf_next_in_group (unw) = sec;
+		   elf_next_in_group (sec) = unw;
+		 }
+	       elf_sec_group (unw) = group;
+	     }
+
+	   /* Fake SHT_GROUP section header.  */
+	  elf_section_data (group)->this_hdr.bfd_section = group;
+	  elf_section_data (group)->this_hdr.sh_type = SHT_GROUP;
+	}
+    }
+  return TRUE;
+}
 
 static bfd_boolean
 elfNN_ia64_hpux_vec (const bfd_target *vec)
@@ -4967,6 +5123,9 @@ elfNN_hpux_backend_symbol_processing (bfd *abfd ATTRIBUTE_UNUSED,
 	elfNN_ia64_is_local_label_name
 #define bfd_elfNN_bfd_relax_section \
 	elfNN_ia64_relax_section
+
+#define elf_backend_object_p \
+	elfNN_ia64_object_p
 
 /* Stuff for the BFD linker: */
 #define bfd_elfNN_bfd_link_hash_table_create \

@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "as.h"
 
@@ -251,6 +251,10 @@ const pseudo_typeS md_pseudo_table[] =
   {"ffloat", float_cons, 'f'},
   {"gfloat", float_cons, 'g'},
   {"hfloat", float_cons, 'h'},
+  {"d_floating", float_cons, 'd'},
+  {"f_floating", float_cons, 'f'},
+  {"g_floating", float_cons, 'g'},
+  {"h_floating", float_cons, 'h'},
   {NULL, NULL, 0},
 };
 
@@ -343,6 +347,60 @@ md_chars_to_number (con, nbytes)
       retval |= *con;
     }
   return retval;
+}
+
+/*
+ * Copy a bignum from in to out.
+ * If the output is shorter than the input, copy lower-order
+ * littlenums.  Return 0 or the number of significant littlenums
+ * dropped.  Assumes littlenum arrays are densely packed: no unused
+ * chars between the littlenums. Uses memcpy() to move littlenums, and
+ * wants to know length (in chars) of the input bignum.
+ */
+
+static int
+bignum_copy (register LITTLENUM_TYPE *in,
+	     register int in_length,	/* in sizeof(littlenum)s */
+	     register LITTLENUM_TYPE *out,
+	     register int out_length	/* in sizeof(littlenum)s */)
+{
+  int significant_littlenums_dropped;
+
+  if (out_length < in_length)
+    {
+      LITTLENUM_TYPE *p;	/* -> most significant (non-zero) input
+				      littlenum.  */
+
+      memcpy ((void *) out, (void *) in,
+	      (unsigned int) out_length << LITTLENUM_SHIFT);
+      for (p = in + in_length - 1; p >= in; --p)
+	{
+	  if (*p)
+	    break;
+	}
+      significant_littlenums_dropped = p - in - in_length + 1;
+
+      if (significant_littlenums_dropped < 0)
+	{
+	  significant_littlenums_dropped = 0;
+	}
+    }
+  else
+    {
+      memcpy ((char *) out, (char *) in,
+	      (unsigned int) in_length << LITTLENUM_SHIFT);
+
+      if (out_length > in_length)
+	{
+	  memset ((char *) (out + in_length),
+		  '\0',
+		  (unsigned int) (out_length - in_length) << LITTLENUM_SHIFT);
+	}
+
+      significant_littlenums_dropped = 0;
+    }
+
+  return (significant_littlenums_dropped);
 }
 
 /* vax:md_assemble() emit frags for 1 instruction */
@@ -1132,18 +1190,17 @@ md_assemble (instruction_string)
 			  p[0] = (operandP->vop_mode << 4) | 0xF;
 			  if ((is_absolute) && (expP->X_op != O_big))
 			    {
-			      /*
-			       * If nbytes > 4, then we are scrod. We
-			       * don't know if the high order bytes
-			       * are to be 0xFF or 0x00.  BSD4.2 & RMS
-			       * say use 0x00. OK --- but this
-			       * assembler needs ANOTHER rewrite to
-			       * cope properly with this bug.  */
-			      md_number_to_chars (p + 1, this_add_number, min (4, nbytes));
-			      if (nbytes > 4)
-				{
-				  memset (p + 5, '\0', nbytes - 4);
-				}
+			      /* If nbytes > 4, then we are scrod. We
+			         don't know if the high order bytes
+			         are to be 0xFF or 0x00.  BSD4.2 & RMS
+			         say use 0x00. OK --- but this
+			         assembler needs ANOTHER rewrite to
+			         cope properly with this bug.  */
+			      md_number_to_chars (p + 1, this_add_number,
+						  min (sizeof (valueT),
+						       (size_t) nbytes));
+			      if ((size_t) nbytes > sizeof (valueT))
+				memset (p + 5, '\0', nbytes - sizeof (valueT));
 			    }
 			  else
 			    {

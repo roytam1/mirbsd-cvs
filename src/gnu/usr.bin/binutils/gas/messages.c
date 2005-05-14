@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "as.h"
 
@@ -468,24 +468,6 @@ as_abort (const char *file, int line, const char *fn)
 }
 
 /* Support routines.  */
-
-void
-fprint_value (FILE *file, valueT val)
-{
-  if (sizeof (val) <= sizeof (long))
-    {
-      fprintf (file, "%ld", (long) val);
-      return;
-    }
-#ifdef BFD_ASSEMBLER
-  if (sizeof (val) <= sizeof (bfd_vma))
-    {
-      fprintf_vma (file, val);
-      return;
-    }
-#endif
-  abort ();
-}
 
 void
 sprint_value (char *buf, valueT val)

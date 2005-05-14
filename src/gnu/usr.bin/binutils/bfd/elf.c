@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /*  SECTION
 
@@ -407,10 +407,13 @@ bfd_elf_get_elf_syms (bfd *ibfd,
 const char *
 bfd_elf_sym_name (bfd *abfd,
 		  Elf_Internal_Shdr *symtab_hdr,
-		  Elf_Internal_Sym *isym)
+		  Elf_Internal_Sym *isym,
+		  asection *sym_sec)
 {
+  const char *name;
   unsigned int iname = isym->st_name;
   unsigned int shindex = symtab_hdr->sh_link;
+
   if (iname == 0 && ELF_ST_TYPE (isym->st_info) == STT_SECTION
       /* Check for a bogus st_shndx to avoid crashing.  */
       && isym->st_shndx < elf_numsections (abfd)
@@ -420,7 +423,13 @@ bfd_elf_sym_name (bfd *abfd,
       shindex = elf_elfheader (abfd)->e_shstrndx;
     }
 
-  return bfd_elf_string_from_elf_section (abfd, shindex, iname);
+  name = bfd_elf_string_from_elf_section (abfd, shindex, iname);
+  if (name == NULL)
+    name = "(null)";
+  else if (sym_sec && *name == '\0')
+    name = bfd_section_name (abfd, sym_sec);
+
+  return name;
 }
 
 /* Elf_Internal_Shdr->contents is an array of these for SHT_GROUP
@@ -453,7 +462,7 @@ group_signature (bfd *abfd, Elf_Internal_Shdr *ghdr)
 			    &isym, esym, &eshndx) == NULL)
     return NULL;
 
-  return bfd_elf_sym_name (abfd, hdr, &isym);
+  return bfd_elf_sym_name (abfd, hdr, &isym, NULL);
 }
 
 /* Set next_in_group list pointer, and group name for NEWSECT.  */
@@ -481,14 +490,18 @@ setup_group (bfd *abfd, Elf_Internal_Shdr *hdr, asection *newsect)
 	}
 
       if (num_group == 0)
-	num_group = (unsigned) -1;
-      elf_tdata (abfd)->num_group = num_group;
-
-      if (num_group > 0)
+	{
+	  num_group = (unsigned) -1;
+	  elf_tdata (abfd)->num_group = num_group;
+	}
+      else
 	{
 	  /* We keep a list of elf section headers for group sections,
 	     so we can find them quickly.  */
-	  bfd_size_type amt = num_group * sizeof (Elf_Internal_Shdr *);
+	  bfd_size_type amt;
+	  
+	  elf_tdata (abfd)->num_group = num_group;
+	  amt = num_group * sizeof (Elf_Internal_Shdr *);
 	  elf_tdata (abfd)->group_sect_ptr = bfd_alloc (abfd, amt);
 	  if (elf_tdata (abfd)->group_sect_ptr == NULL)
 	    return FALSE;
@@ -737,25 +750,45 @@ _bfd_elf_make_section_from_shdr (bfd *abfd,
   if ((hdr->sh_flags & SHF_TLS) != 0)
     flags |= SEC_THREAD_LOCAL;
 
-  /* The debugging sections appear to be recognized only by name, not
-     any sort of flag.  */
-  {
-    static const char *debug_sec_names [] =
+  if ((flags & SEC_ALLOC) == 0)
     {
-      ".debug",
-      ".gnu.linkonce.wi.",
-      ".line",
-      ".stab"
-    };
-    int i;
-
-    for (i = ARRAY_SIZE (debug_sec_names); i--;)
-      if (strncmp (name, debug_sec_names[i], strlen (debug_sec_names[i])) == 0)
-	break;
-
-    if (i >= 0)
-      flags |= SEC_DEBUGGING;
-  }
+      /* The debugging sections appear to be recognized only by name,
+	 not any sort of flag.  Their SEC_ALLOC bits are cleared.  */
+      static const struct
+	{
+	  const char *name;
+	  int len;
+	} debug_sections [] =
+	{
+	  { "debug",		 5  },	/* 'd' */
+	  { NULL,		 0  },	/* 'e' */
+	  { NULL,		 0  },	/* 'f' */
+	  { "gnu.linkonce.wi.", 17 },	/* 'g' */
+	  { NULL,		 0  },	/* 'h' */
+	  { NULL,		 0  },	/* 'i' */
+	  { NULL,		 0  },	/* 'j' */
+	  { NULL,		 0  },	/* 'k' */
+	  { "line",		 4  },	/* 'l' */
+	  { NULL,		 0  },	/* 'm' */
+	  { NULL,		 0  },	/* 'n' */
+	  { NULL,		 0  },	/* 'o' */
+	  { NULL,		 0  },	/* 'p' */
+	  { NULL,		 0  },	/* 'q' */
+	  { NULL,		 0  },	/* 'r' */
+	  { "stab",		 4  }	/* 's' */
+	};
+      
+      if (name [0] == '.')
+	{
+	  int i = name [1] - 'd';
+	  if (i >= 0
+	      && i < (int) ARRAY_SIZE (debug_sections)
+	      && debug_sections [i].name != NULL
+	      && strncmp (&name [1], debug_sections [i].name,
+			  debug_sections [i].len) == 0)
+	    flags |= SEC_DEBUGGING;
+	}
+    }
 
   /* As a GNU extension, if the name begins with .gnu.linkonce, we
      only link a single copy of the section.  This is used to support
@@ -2104,25 +2137,23 @@ bfd_section_from_elf_index (bfd *abfd, unsigned int index)
   return elf_elfsections (abfd)[index]->bfd_section;
 }
 
-static struct bfd_elf_special_section const special_sections[] =
+static struct bfd_elf_special_section const special_sections_b[] =
 {
   { ".bss",            4, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE },
-  { ".gnu.linkonce.b",15, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_c[] =
+{
   { ".comment",        8,  0, SHT_PROGBITS, 0 },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_d[] =
+{
   { ".data",           5, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { ".data1",          6,  0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { ".debug",          6,  0, SHT_PROGBITS, 0 },
-  { ".fini",           5,  0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
-  { ".init",           5,  0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
-  { ".line",           5,  0, SHT_PROGBITS, 0 },
-  { ".rodata",         7, -2, SHT_PROGBITS, SHF_ALLOC },
-  { ".rodata1",        8,  0, SHT_PROGBITS, SHF_ALLOC },
-  { ".tbss",           5, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE + SHF_TLS },
-  { ".tdata",          6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_TLS },
-  { ".text",           5, -2, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
-  { ".init_array",    11,  0, SHT_INIT_ARRAY, SHF_ALLOC + SHF_WRITE },
-  { ".fini_array",    11,  0, SHT_FINI_ARRAY, SHF_ALLOC + SHF_WRITE },
-  { ".preinit_array", 14,  0, SHT_PREINIT_ARRAY, SHF_ALLOC + SHF_WRITE },
   { ".debug_line",    11,  0, SHT_PROGBITS, 0 },
   { ".debug_info",    11,  0, SHT_PROGBITS, 0 },
   { ".debug_abbrev",  13,  0, SHT_PROGBITS, 0 },
@@ -2130,33 +2161,143 @@ static struct bfd_elf_special_section const special_sections[] =
   { ".dynamic",        8,  0, SHT_DYNAMIC,  SHF_ALLOC },
   { ".dynstr",         7,  0, SHT_STRTAB,   SHF_ALLOC },
   { ".dynsym",         7,  0, SHT_DYNSYM,   SHF_ALLOC },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_f[] =
+{
+  { ".fini",           5,  0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
+  { ".fini_array",    11,  0, SHT_FINI_ARRAY, SHF_ALLOC + SHF_WRITE },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_g[] =
+{
+  { ".gnu.linkonce.b",15, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE },
   { ".got",            4,  0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
-  { ".hash",           5,  0, SHT_HASH,     SHF_ALLOC },
-  { ".interp",         7,  0, SHT_PROGBITS, 0 },
-  { ".plt",            4,  0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
-  { ".shstrtab",       9,  0, SHT_STRTAB,   0 },
-  { ".strtab",         7,  0, SHT_STRTAB,   0 },
-  { ".symtab",         7,  0, SHT_SYMTAB,   0 },
   { ".gnu.version",   12,  0, SHT_GNU_versym, 0 },
   { ".gnu.version_d", 14,  0, SHT_GNU_verdef, 0 },
   { ".gnu.version_r", 14,  0, SHT_GNU_verneed, 0 },
-  { ".note.GNU-stack",15,  0, SHT_PROGBITS, 0 },
-  { ".note",           5, -1, SHT_NOTE,     0 },
-  { ".rela",           5, -1, SHT_RELA,     0 },
-  { ".rel",            4, -1, SHT_REL,      0 },
-  { ".stabstr",        5,  3, SHT_STRTAB,   0 },
   { ".gnu.liblist",   12,  0, SHT_GNU_LIBLIST, SHF_ALLOC },
   { ".gnu.conflict",  13,  0, SHT_RELA,     SHF_ALLOC },
   { NULL,              0,  0, 0,            0 }
 };
 
+static struct bfd_elf_special_section const special_sections_h[] =
+{
+  { ".hash",           5,  0, SHT_HASH,     SHF_ALLOC },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_i[] =
+{
+  { ".init",           5,  0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
+  { ".init_array",    11,  0, SHT_INIT_ARRAY, SHF_ALLOC + SHF_WRITE },
+  { ".interp",         7,  0, SHT_PROGBITS, 0 },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_l[] =
+{
+  { ".line",           5,  0, SHT_PROGBITS, 0 },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_n[] =
+{
+  { ".note.GNU-stack",15,  0, SHT_PROGBITS, 0 },
+  { ".note",           5, -1, SHT_NOTE,     0 },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_p[] =
+{
+  { ".preinit_array", 14,  0, SHT_PREINIT_ARRAY, SHF_ALLOC + SHF_WRITE },
+  { ".plt",            4,  0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_r[] =
+{
+  { ".rodata",         7, -2, SHT_PROGBITS, SHF_ALLOC },
+  { ".rodata1",        8,  0, SHT_PROGBITS, SHF_ALLOC },
+  { ".rela",           5, -1, SHT_RELA,     0 },
+  { ".rel",            4, -1, SHT_REL,      0 },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_s[] =
+{
+  { ".shstrtab",       9,  0, SHT_STRTAB,   0 },
+  { ".strtab",         7,  0, SHT_STRTAB,   0 },
+  { ".symtab",         7,  0, SHT_SYMTAB,   0 },
+  { ".stabstr",        5,  3, SHT_STRTAB,   0 },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const special_sections_t[] =
+{
+  { ".text",           5, -2, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
+  { ".tbss",           5, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE + SHF_TLS },
+  { ".tdata",          6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_TLS },
+  { NULL,              0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *special_sections [27] =
+{
+  NULL,				/* 'a' */
+  special_sections_b,		/* 'b' */
+  special_sections_c,		/* 'b' */
+  special_sections_d,		/* 'd' */
+  NULL,				/* 'e' */
+  special_sections_f,		/* 'f' */
+  special_sections_g,		/* 'g' */
+  special_sections_h,		/* 'h' */
+  special_sections_i,		/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  special_sections_l,		/* 'l' */
+  NULL,				/* 'm' */
+  special_sections_n,		/* 'n' */
+  NULL,				/* 'o' */
+  special_sections_p,		/* 'p' */
+  NULL,				/* 'q' */
+  special_sections_r,		/* 'r' */
+  special_sections_s,		/* 's' */
+  special_sections_t,		/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
+};
+
 static const struct bfd_elf_special_section *
 get_special_section (const char *name,
-		     const struct bfd_elf_special_section *special_sections,
+		     const struct bfd_elf_special_section **special_sections_p,
 		     unsigned int rela)
 {
   int i;
-  int len = strlen (name);
+  int len;
+  const struct bfd_elf_special_section *special_sections;
+
+  if (name [0] == '.')
+    {
+      i = name [1] - 'a';
+      if (i < 0 || i > 25)
+	i = 26;
+    }
+  else
+    i = 26;
+
+  special_sections = special_sections_p [i];
+
+  if (!special_sections)
+    return special_sections;
+
+  len= strlen (name);
 
   for (i = 0; special_sections[i].prefix != NULL; i++)
     {
@@ -2232,12 +2373,18 @@ _bfd_elf_new_section_hook (bfd *abfd, asection *sec)
       sec->used_by_bfd = sdata;
     }
 
-  elf_section_type (sec) = SHT_NULL;
-  ssect = _bfd_elf_get_sec_type_attr (abfd, sec->name);
-  if (ssect != NULL)
+  /* When we read a file, we don't need section type and flags unless
+     it is a linker created section.  They will be overridden in
+     _bfd_elf_make_section_from_shdr anyway.  */
+  if (abfd->direction != read_direction
+      || (sec->flags & SEC_LINKER_CREATED) != 0)
     {
-      elf_section_type (sec) = ssect->type;
-      elf_section_flags (sec) = ssect->attr;
+      ssect = _bfd_elf_get_sec_type_attr (abfd, sec->name);
+      if (ssect != NULL)
+	{
+	  elf_section_type (sec) = ssect->type;
+	  elf_section_flags (sec) = ssect->attr;
+	}
     }
 
   /* Indicate whether or not this section should use RELA relocations.  */
@@ -2481,7 +2628,7 @@ elf_fake_sections (bfd *abfd, asection *asect, void *failedptrarg)
 	  struct bfd_link_order *l;
 	  asection *elt;
 
-	  for (l = asect->link_order_head; l != NULL; l = l->next)
+	  for (l = asect->map_head.link_order; l != NULL; l = l->next)
 	    if (l->type == bfd_indirect_link_order
 		&& (elt = elf_next_in_group (l->u.indirect.section)) != NULL)
 	      do
@@ -2598,7 +2745,7 @@ elf_fake_sections (bfd *abfd, asection *asect, void *failedptrarg)
 	  struct bfd_link_order *o;
 
 	  this_hdr->sh_size = 0;
-	  for (o = asect->link_order_head; o != NULL; o = o->next)
+	  for (o = asect->map_head.link_order; o != NULL; o = o->next)
 	    if (this_hdr->sh_size < o->offset + o->size)
 	      this_hdr->sh_size = o->offset + o->size;
 	  if (this_hdr->sh_size)
@@ -2635,7 +2782,9 @@ bfd_elf_set_group_contents (bfd *abfd, asection *sec, void *failedptrarg)
   struct bfd_link_order *l;
   bfd_boolean gas;
 
-  if (elf_section_data (sec)->this_hdr.sh_type != SHT_GROUP
+  /* Ignore linker created group section.  See elfNN_ia64_object_p in
+     elfxx-ia64.c.  */
+  if (((sec->flags & (SEC_GROUP | SEC_LINKER_CREATED)) != SEC_GROUP)
       || *failedptr)
     return;
 
@@ -2702,7 +2851,7 @@ bfd_elf_set_group_contents (bfd *abfd, asection *sec, void *failedptrarg)
   /* If this is a relocatable link, then the above did nothing because
      SEC is the output section.  Look through the input sections
      instead.  */
-  for (l = sec->link_order_head; l != NULL; l = l->next)
+  for (l = sec->map_head.link_order; l != NULL; l = l->next)
     if (l->type == bfd_indirect_link_order
 	&& (elt = elf_next_in_group (l->u.indirect.section)) != NULL)
       do
@@ -2726,7 +2875,7 @@ bfd_elf_set_group_contents (bfd *abfd, asection *sec, void *failedptrarg)
    in here too, while we're at it.  */
 
 static bfd_boolean
-assign_section_numbers (bfd *abfd)
+assign_section_numbers (bfd *abfd, struct bfd_link_info *link_info)
 {
   struct elf_obj_tdata *t = elf_tdata (abfd);
   asection *sec;
@@ -2739,16 +2888,29 @@ assign_section_numbers (bfd *abfd)
 
   _bfd_elf_strtab_clear_all_refs (elf_shstrtab (abfd));
 
-  /* Put SHT_GROUP sections first.  */
-  for (sec = abfd->sections; sec; sec = sec->next)
+  /* SHT_GROUP sections are in relocatable files only.  */
+  if (link_info == NULL || link_info->relocatable)
     {
-      d = elf_section_data (sec);
-
-      if (d->this_hdr.sh_type == SHT_GROUP)
+      /* Put SHT_GROUP sections first.  */
+      for (sec = abfd->sections; sec != NULL; sec = sec->next)
 	{
-	  if (section_number == SHN_LORESERVE)
-	    section_number += SHN_HIRESERVE + 1 - SHN_LORESERVE;
-	  d->this_idx = section_number++;
+	  d = elf_section_data (sec);
+
+	  if (d->this_hdr.sh_type == SHT_GROUP)
+	    { 
+	      if (sec->flags & SEC_LINKER_CREATED)
+		{
+		  /* Remove the linker created SHT_GROUP sections.  */
+		  bfd_section_list_remove (abfd, sec);
+		  abfd->section_count--;
+		}
+	      else 
+		{
+		  if (section_number == SHN_LORESERVE)
+		    section_number += SHN_HIRESERVE + 1 - SHN_LORESERVE;
+		  d->this_idx = section_number++;
+		}
+	    }
 	}
     }
 
@@ -2891,7 +3053,7 @@ assign_section_numbers (bfd *abfd)
 
 	      /* Find out what the corresponding section in output
 		 is.  */
-	      for (p = sec->link_order_head; p != NULL; p = p->next)
+	      for (p = sec->map_head.link_order; p != NULL; p = p->next)
 		{
 		  s = p->u.indirect.section;
 		  if (p->type == bfd_indirect_link_order
@@ -2905,7 +3067,7 @@ assign_section_numbers (bfd *abfd)
 		      elfsec = elf_shdrp[elfsec]->sh_link;
 		      /* PR 290:
 			 The Intel C compiler generates SHT_IA_64_UNWIND with
-			 SHF_LINK_ORDER.  But it doesn't set theh sh_link or
+			 SHF_LINK_ORDER.  But it doesn't set the sh_link or
 			 sh_info fields.  Hence we could get the situation
 		         where elfsec is 0.  */
 		      if (elfsec == 0)
@@ -2914,12 +3076,31 @@ assign_section_numbers (bfd *abfd)
 			    = get_elf_backend_data (abfd);
 			  if (bed->link_order_error_handler)
 			    bed->link_order_error_handler
-			      (_("%B: warning: sh_link not set for section `%S'"),
+			      (_("%B: warning: sh_link not set for section `%A'"),
 			       abfd, s);
 			}
 		      else
 			{
-			  s = elf_shdrp[elfsec]->bfd_section->output_section;
+			  s = elf_shdrp[elfsec]->bfd_section;
+			  if (elf_discarded_section (s))
+			    {
+			      asection *kept;
+			       (*_bfd_error_handler)
+				  (_("%B: sh_link of section `%A' points to discarded section `%A' of `%B'"),
+				   abfd, d->this_hdr.bfd_section,
+				   s, s->owner);
+			       /* Point to the kept section if it has
+				  the same size as the discarded
+				  one.  */
+			       kept = _bfd_elf_check_kept_section (s);
+			       if (kept == NULL)
+				 {
+				   bfd_set_error (bfd_error_bad_value);
+				   return FALSE;
+				 }
+			       s = kept;
+			    }
+			  s = s->output_section;
 			  BFD_ASSERT (s != NULL);
 			  d->this_hdr.sh_link = elf_section_data (s)->this_idx;
 			}
@@ -3256,7 +3437,7 @@ _bfd_elf_compute_section_file_positions (bfd *abfd,
   if (failed)
     return FALSE;
 
-  if (!assign_section_numbers (abfd))
+  if (!assign_section_numbers (abfd, link_info))
     return FALSE;
 
   /* The backend linker builds symbol table information itself.  */
@@ -4243,7 +4424,7 @@ assign_file_positions_for_segments (bfd *abfd, struct bfd_link_info *link_info)
 		  struct bfd_link_order *o;
 		  bfd_vma tbss_size = 0;
 
-		  for (o = sec->link_order_head; o != NULL; o = o->next)
+		  for (o = sec->map_head.link_order; o != NULL; o = o->next)
 		    if (tbss_size < o->offset + o->size)
 		      tbss_size = o->offset + o->size;
 
@@ -5475,9 +5656,14 @@ _bfd_elf_copy_private_section_data (bfd *ibfd,
 
   /* Set things up for objcopy.  The output SHT_GROUP section will
      have its elf_next_in_group pointing back to the input group
-     members.  */
-  elf_next_in_group (osec) = elf_next_in_group (isec);
-  elf_group_name (osec) = elf_group_name (isec);
+     members.  Ignore linker created group section.  See
+     elfNN_ia64_object_p in elfxx-ia64.c.  */
+  if (elf_sec_group (isec) == NULL
+      || (elf_sec_group (isec)->flags & SEC_LINKER_CREATED) == 0)
+    {
+      elf_next_in_group (osec) = elf_next_in_group (isec);
+      elf_group_name (osec) = elf_group_name (isec);
+    }
 
   osec->use_rela_p = isec->use_rela_p;
 
@@ -6625,6 +6811,7 @@ _bfd_elf_close_and_cleanup (bfd *abfd)
     {
       if (elf_shstrtab (abfd) != NULL)
 	_bfd_elf_strtab_free (elf_shstrtab (abfd));
+      _bfd_dwarf2_cleanup_debug_info (abfd);
     }
 
   return _bfd_generic_close_and_cleanup (abfd);
@@ -7335,7 +7522,7 @@ elfcore_grok_nto_status (bfd *abfd, Elf_Internal_Note *note, pid_t *tid)
     elf_tdata (abfd)->core_lwpid = *tid;
 
   /* Make a ".qnx_core_status/%d" section.  */
-  sprintf (buf, ".qnx_core_status/%d", *tid);
+  sprintf (buf, ".qnx_core_status/%ld", (long) *tid);
 
   name = bfd_alloc (abfd, strlen (buf) + 1);
   if (name == NULL)
@@ -7365,7 +7552,7 @@ elfcore_grok_nto_regs (bfd *abfd,
   asection *sect;
 
   /* Make a "(base)/%d" section.  */
-  sprintf (buf, "%s/%d", base, tid);
+  sprintf (buf, "%s/%ld", base, (long) tid);
 
   name = bfd_alloc (abfd, strlen (buf) + 1);
   if (name == NULL)

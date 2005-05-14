@@ -22,8 +22,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include <string.h>
 #define  NO_RELOC 0
@@ -82,6 +82,11 @@ static struct
   /* Nonzero if the last opcode restores sp from fp_reg.  */
   unsigned        sp_restored:1;
 } unwind;
+
+/* Bit N indicates that an R_ARM_NONE relocation has been output for
+   __aeabi_unwind_cpp_prN already if set. This enables dependencies to be
+   emitted only once per section, to save unnecessary bloat.  */
+static unsigned int marked_pr_dependency = 0;
 
 #endif /* OBJ_ELF */
 
@@ -1132,10 +1137,6 @@ symbol_locate (symbolS *    symbolP,
   name_length = strlen (name) + 1;   /* +1 for \0.  */
   obstack_grow (&notes, name, name_length);
   preserved_copy_of_name = obstack_finish (&notes);
-#ifdef STRIP_UNDERSCORE
-  if (preserved_copy_of_name[0] == '_')
-    preserved_copy_of_name++;
-#endif
 
 #ifdef tc_canonicalize_symbol_name
   preserved_copy_of_name =
@@ -1238,78 +1239,9 @@ validate_offset_imm (unsigned int val, int hwse)
 
 #ifdef OBJ_ELF
 /* This code is to handle mapping symbols as defined in the ARM ELF spec.
-   (This text is taken from version B-02 of the spec):
-
-      4.4.7 Mapping and tagging symbols
-
-      A section of an ARM ELF file can contain a mixture of ARM code,
-      Thumb code, and data.  There are inline transitions between code
-      and data at literal pool boundaries. There can also be inline
-      transitions between ARM code and Thumb code, for example in
-      ARM-Thumb inter-working veneers.  Linkers, machine-level
-      debuggers, profiling tools, and disassembly tools need to map
-      images accurately. For example, setting an ARM breakpoint on a
-      Thumb location, or in a literal pool, can crash the program
-      being debugged, ruining the debugging session.
-
-      ARM ELF entities are mapped (see section 4.4.7.1 below) and
-      tagged (see section 4.4.7.2 below) using local symbols (with
-      binding STB_LOCAL).  To assist consumers, mapping and tagging
-      symbols should be collated first in the symbol table, before
-      other symbols with binding STB_LOCAL.
-
-      To allow properly collated mapping and tagging symbols to be
-      skipped by consumers that have no interest in them, the first
-      such symbol should have the name $m and its st_value field equal
-      to the total number of mapping and tagging symbols (including
-      the $m) in the symbol table.
-
-      4.4.7.1 Mapping symbols
-
-      $a    Labels the first byte of a sequence of ARM instructions.
-            Its type is STT_FUNC.
-
-      $d    Labels the first byte of a sequence of data items.
-            Its type is STT_OBJECT.
-
-      $t    Labels the first byte of a sequence of Thumb instructions.
-            Its type is STT_FUNC.
-
-      This list of mapping symbols may be extended in the future.
-
-      Section-relative mapping symbols
-
-      Mapping symbols defined in a section define a sequence of
-      half-open address intervals that cover the address range of the
-      section. Each interval starts at the address defined by a
-      mapping symbol, and continues up to, but not including, the
-      address defined by the next (in address order) mapping symbol or
-      the end of the section. A corollary is that there must be a
-      mapping symbol defined at the beginning of each section.
-      Consumers can ignore the size of a section-relative mapping
-      symbol. Producers can set it to 0.
-
-      Absolute mapping symbols
-
-      Because of the need to crystallize a Thumb address with the
-      Thumb-bit set, absolute symbol of type STT_FUNC (symbols of type
-      STT_FUNC defined in section SHN_ABS) need to be mapped with $a
-      or $t.
-
-      The extent of a mapping symbol defined in SHN_ABS is [st_value,
-      st_value + st_size), or [st_value, st_value + 1) if st_size = 0,
-      where [x, y) denotes the half-open address range from x,
-      inclusive, to y, exclusive.
-
-      In the absence of a mapping symbol, a consumer can interpret a
-      function symbol with an odd value as the Thumb code address
-      obtained by clearing the least significant bit of the
-      value. This interpretation is deprecated, and it may not work in
-      the future.
-
-   Note - the Tagging symbols ($b, $f, $p $m) have been dropped from
-   the EABI (which is still under development), so they are not
-   implemented here.  */
+   (See "Mapping symbols", section 4.5.5, ARM AAELF version 1.0).
+   Note that previously, $a and $t has type STT_FUNC (BSF_OBJECT flag),
+   and $d has type STT_OBJECT (BSF_OBJECT flag). Now all three are untyped.  */
 
 static enum mstate mapstate = MAP_UNDEFINED;
 
@@ -1331,15 +1263,15 @@ mapping_state (enum mstate state)
     {
     case MAP_DATA:
       symname = "$d";
-      type = BSF_OBJECT;
+      type = BSF_NO_FLAGS;
       break;
     case MAP_ARM:
       symname = "$a";
-      type = BSF_FUNCTION;
+      type = BSF_NO_FLAGS;
       break;
     case MAP_THUMB:
       symname = "$t";
-      type = BSF_FUNCTION;
+      type = BSF_NO_FLAGS;
       break;
     case MAP_UNDEFINED:
       return;
@@ -1347,7 +1279,7 @@ mapping_state (enum mstate state)
       abort ();
     }
 
-  seg_info (now_seg)->tc_segment_info_data = state;
+  seg_info (now_seg)->tc_segment_info_data.mapstate = state;
 
   symbolP = symbol_new (symname, now_seg, (valueT) frag_now_fix (), frag_now);
   symbol_table_insert (symbolP);
@@ -1379,6 +1311,7 @@ void
 arm_elf_change_section (void)
 {
   flagword flags;
+  segment_info_type *seginfo;
 
   /* Link an unlinked unwind index table section to the .text section.  */
   if (elf_section_type (now_seg) == SHT_ARM_EXIDX
@@ -1394,7 +1327,9 @@ arm_elf_change_section (void)
   if ((flags & SEC_ALLOC) == 0)
     return;
 
-  mapstate = seg_info (now_seg)->tc_segment_info_data;
+  seginfo = seg_info (now_seg);
+  mapstate = seginfo->tc_segment_info_data.mapstate;
+  marked_pr_dependency = seginfo->tc_segment_info_data.marked_pr_dependency;
 }
 
 int
@@ -4873,6 +4808,11 @@ arm_parse_reloc (void)
     MAP ("(target1)", BFD_RELOC_ARM_TARGET1),
     MAP ("(sbrel)", BFD_RELOC_ARM_SBREL32),
     MAP ("(target2)", BFD_RELOC_ARM_TARGET2),
+    MAP ("(tlsgd)", BFD_RELOC_ARM_TLS_GD32),
+    MAP ("(tlsldm)", BFD_RELOC_ARM_TLS_LDM32),
+    MAP ("(tlsldo)", BFD_RELOC_ARM_TLS_LDO32),
+    MAP ("(gottpoff)", BFD_RELOC_ARM_TLS_IE32),
+    MAP ("(tpoff)", BFD_RELOC_ARM_TLS_LE32),
     { NULL, 0,         BFD_RELOC_UNUSED }
 #undef MAP
   };
@@ -12216,6 +12156,14 @@ md_apply_fix3 (fixS *   fixP,
       break;
 
 #ifdef OBJ_ELF
+     case BFD_RELOC_ARM_TLS_GD32:
+     case BFD_RELOC_ARM_TLS_LE32:
+     case BFD_RELOC_ARM_TLS_IE32:
+     case BFD_RELOC_ARM_TLS_LDM32:
+     case BFD_RELOC_ARM_TLS_LDO32:
+	S_SET_THREAD_LOCAL (fixP->fx_addsy);
+	/* fall through */
+
     case BFD_RELOC_ARM_GOT32:
     case BFD_RELOC_ARM_GOTOFF:
     case BFD_RELOC_ARM_TARGET2:
@@ -12539,6 +12487,18 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED,
     case BFD_RELOC_ARM_SBREL32:
     case BFD_RELOC_ARM_PREL31:
     case BFD_RELOC_ARM_TARGET2:
+    case BFD_RELOC_ARM_TLS_LE32:
+    case BFD_RELOC_ARM_TLS_LDO32:
+      code = fixp->fx_r_type;
+      break;
+
+    case BFD_RELOC_ARM_TLS_GD32:
+    case BFD_RELOC_ARM_TLS_IE32:
+    case BFD_RELOC_ARM_TLS_LDM32:
+      /* BFD will include the symbol's address in the addend.  
+	 But we don't want that, so subtract it out again here.  */
+      if (!S_IS_COMMON (fixp->fx_addsy))
+	reloc->addend -= (*reloc->sym_ptr_ptr)->value;
       code = fixp->fx_r_type;
       break;
 #endif
@@ -12910,7 +12870,7 @@ struct arm_option_table arm_opts[] =
   {"mapcs-reentrant", N_("re-entrant code"), &pic_code, 1, NULL},
   {"matpcs", N_("code is ATPCS conformant"), &atpcs, 1, NULL},
   {"mbig-endian", N_("assemble for big-endian"), &target_big_endian, 1, NULL},
-  {"mlittle-endian", N_("assemble for little-endian"), &target_big_endian, 1,
+  {"mlittle-endian", N_("assemble for little-endian"), &target_big_endian, 0,
    NULL},
 
   /* These are recognized by the assembler, but have no affect on code.  */
@@ -13705,14 +13665,17 @@ arm_adjust_symtab (void)
 	  elf_sym = elf_symbol (symbol_get_bfdsym (sym));
 	  bind = ELF_ST_BIND (elf_sym->internal_elf_sym.st_info);
 
-	  /* If it's a .thumb_func, declare it as so,
-	     otherwise tag label as .code 16.  */
-	  if (THUMB_IS_FUNC (sym))
-	    elf_sym->internal_elf_sym.st_info =
-	      ELF_ST_INFO (bind, STT_ARM_TFUNC);
-	  else
-	    elf_sym->internal_elf_sym.st_info =
-	      ELF_ST_INFO (bind, STT_ARM_16BIT);
+	  if (! bfd_is_arm_mapping_symbol_name (elf_sym->symbol.name))
+	    { 
+	      /* If it's a .thumb_func, declare it as so,
+		 otherwise tag label as .code 16.  */
+	      if (THUMB_IS_FUNC (sym))
+		elf_sym->internal_elf_sym.st_info =
+		  ELF_ST_INFO (bind, STT_ARM_TFUNC);
+	      else
+		elf_sym->internal_elf_sym.st_info =
+		  ELF_ST_INFO (bind, STT_ARM_16BIT);
+	    }
 	}
     }
 #endif
@@ -13835,6 +13798,11 @@ arm_fix_adjustable (fixS * fixP)
   if (fixP->fx_r_type == BFD_RELOC_ARM_PLT32
       || fixP->fx_r_type == BFD_RELOC_ARM_GOT32
       || fixP->fx_r_type == BFD_RELOC_ARM_GOTOFF
+      || fixP->fx_r_type == BFD_RELOC_ARM_TLS_GD32
+      || fixP->fx_r_type == BFD_RELOC_ARM_TLS_LE32
+      || fixP->fx_r_type == BFD_RELOC_ARM_TLS_IE32
+      || fixP->fx_r_type == BFD_RELOC_ARM_TLS_LDM32
+      || fixP->fx_r_type == BFD_RELOC_ARM_TLS_LDO32
       || fixP->fx_r_type == BFD_RELOC_ARM_TARGET2)
     return 0;
 
@@ -13890,8 +13858,12 @@ s_arm_elf_cons (int nbytes)
   do
     {
       bfd_reloc_code_real_type reloc;
+      char *sym_start;
+      int sym_len;
 
+      sym_start = input_line_pointer;
       expression (& exp);
+      sym_len = input_line_pointer - sym_start;
 
       if (exp.X_op == O_symbol
 	  && * input_line_pointer == '('
@@ -13905,9 +13877,22 @@ s_arm_elf_cons (int nbytes)
 		    howto->name, nbytes);
 	  else
 	    {
-	      char *p = frag_more ((int) nbytes);
+	      char *p;
 	      int offset = nbytes - size;
+	      char *saved_buf = alloca (sym_len), *saved_input;
 
+	      /* We've parsed an expression stopping at O_symbol.  But there
+		 may be more expression left now that we have parsed the
+		 relocation marker.  Parse it again.  */
+	      saved_input = input_line_pointer - sym_len;
+	      memcpy (saved_buf, saved_input, sym_len);
+	      memmove (saved_input, sym_start, sym_len);
+	      input_line_pointer = saved_input;
+	      expression (& exp);
+	      memcpy (saved_input, saved_buf, sym_len);
+	      assert (input_line_pointer >= saved_input + sym_len);
+
+	      p = frag_more ((int) nbytes);
 	      fix_new_exp (frag_now, p - frag_now->fr_literal + offset, size,
 			   &exp, 0, reloc);
 	    }
@@ -14303,13 +14288,6 @@ create_unwind_entry (int have_data)
       fix_new (frag_now, where, 4, unwind.personality_routine, 0, 1,
 	       BFD_RELOC_ARM_PREL31);
 
-      /* Indicate dependency to linker.  */
-        {
-          char *name = "__aeabi_unwind_cpp_pr0";
-	  symbolS *pr = symbol_find_or_make (name);
-	  fix_new (frag_now, where, 4, pr, 0, 1, BFD_RELOC_NONE);
-	}
-
       where += 4;
       ptr += 4;
 
@@ -14323,24 +14301,13 @@ create_unwind_entry (int have_data)
       /* Three opcodes bytes are packed into the first word.  */
       data = 0x80;
       n = 3;
-      goto emit_reloc;
+      break;
 
     case 1:
     case 2:
       /* The size and first two opcode bytes go in the first word.  */
       data = ((0x80 + unwind.personality_index) << 8) | size;
       n = 2;
-      goto emit_reloc;
-
-    emit_reloc:
-      {
-	/* Indicate dependency to linker.  */
-	char *name[] = { "__aeabi_unwind_cpp_pr0",
-	                 "__aeabi_unwind_cpp_pr1",
-			 "__aeabi_unwind_cpp_pr2" };
-	symbolS *pr = symbol_find_or_make (name[unwind.personality_index]);
-	fix_new (frag_now, where, 4, pr, 0, 1, BFD_RELOC_NONE);
-      }
       break;
 
     default:
@@ -14448,6 +14415,23 @@ s_arm_unwind_fnend (int ignored ATTRIBUTE_UNUSED)
   /* Self relative offset of the function start.  */
   fix_new (frag_now, where, 4, unwind.proc_start, 0, 1,
 	   BFD_RELOC_ARM_PREL31);
+
+  /* Indicate dependency on EHABI-defined personality routines to the
+     linker, if it hasn't been done already.  */
+  if (unwind.personality_index >= 0 && unwind.personality_index < 3)
+    {
+      char *name[] = { "__aeabi_unwind_cpp_pr0",
+		       "__aeabi_unwind_cpp_pr1",
+		       "__aeabi_unwind_cpp_pr2" };
+      if (!(marked_pr_dependency & (1 << unwind.personality_index)))
+	{
+	  symbolS *pr = symbol_find_or_make (name[unwind.personality_index]);
+	  fix_new (frag_now, where, 0, pr, 0, 1, BFD_RELOC_NONE);
+	  marked_pr_dependency |= 1 << unwind.personality_index;
+	  seg_info (now_seg)->tc_segment_info_data.marked_pr_dependency
+	    = marked_pr_dependency;
+        }
+    }
 
   if (val)
     /* Inline exception table entry.  */

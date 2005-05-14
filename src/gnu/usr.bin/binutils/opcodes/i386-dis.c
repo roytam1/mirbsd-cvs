@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* 80386 instruction printer by Pace Willisson (pace@prep.ai.mit.edu)
    July 1988
@@ -97,6 +97,7 @@ static void SIMD_Fixup (int, int);
 static void PNI_Fixup (int, int);
 static void INVLPG_Fixup (int, int);
 static void BadOp (void);
+static void SEG_Fixup (int, int);
 
 struct dis_private {
   /* Points to first byte not fetched.  */
@@ -196,7 +197,7 @@ fetch_data (struct disassemble_info *info, bfd_byte *addr)
 #define Eq OP_E, q_mode
 #define Edq OP_E, dq_mode
 #define Edqw OP_E, dqw_mode
-#define indirEv OP_indirE, v_mode
+#define indirEv OP_indirE, branch_v_mode
 #define indirEp OP_indirE, f_mode
 #define Ew OP_E, w_mode
 #define Ma OP_E, v_mode
@@ -221,6 +222,7 @@ fetch_data (struct disassemble_info *info, bfd_byte *addr)
 #define Cm OP_C, m_mode
 #define Dm OP_D, m_mode
 #define Td OP_T, d_mode
+#define Sv SEG_Fixup, v_mode
 
 #define RMeAX OP_REG, eAX_reg
 #define RMeBX OP_REG, eBX_reg
@@ -321,6 +323,7 @@ fetch_data (struct disassemble_info *info, bfd_byte *addr)
 #define dqw_mode 12 /* registers like dq_mode, memory like w_mode.  */
 #define f_mode 13 /* 4- or 6-byte pointer operand */
 #define const_1_mode 14
+#define branch_v_mode 15 /* v_mode for branch.  */
 
 #define es_reg 100
 #define cs_reg 101
@@ -642,9 +645,9 @@ static const struct dis386 dis386[] = {
   { "movS",		Ev, Gv, XX },
   { "movB",		Gb, Eb, XX },
   { "movS",		Gv, Ev, XX },
-  { "movQ",		Ev, Sw, XX },
+  { "movQ",		Sv, Sw, XX },
   { "leaS",		Gv, M, XX },
-  { "movQ",		Sw, Ev, XX },
+  { "movQ",		Sw, Sv, XX },
   { "popU",		Ev, XX, XX },
   /* 90 */
   { "nop",		NOP_Fixup, 0, XX, XX },
@@ -1467,14 +1470,14 @@ static const struct dis386 grps[][8] = {
   },
   /* GRPPADLCK1 */
   {
-    { "xstorerng", OP_0f07, 0, XX, XX },
-    { "xcryptecb", OP_0f07, 0, XX, XX },
-    { "xcryptcbc", OP_0f07, 0, XX, XX },
-    { "(bad)",	   OP_0f07, 0, XX, XX },
-    { "xcryptcfb", OP_0f07, 0, XX, XX },
-    { "xcryptofb", OP_0f07, 0, XX, XX },
-    { "(bad)",	   OP_0f07, 0, XX, XX },
-    { "(bad)",	   OP_0f07, 0, XX, XX },
+    { "xstore-rng", OP_0f07, 0, XX, XX },
+    { "xcrypt-ecb", OP_0f07, 0, XX, XX },
+    { "xcrypt-cbc", OP_0f07, 0, XX, XX },
+    { "xcrypt-ctr", OP_0f07, 0, XX, XX },
+    { "xcrypt-cfb", OP_0f07, 0, XX, XX },
+    { "xcrypt-ofb", OP_0f07, 0, XX, XX },
+    { "(bad)",	OP_0f07, 0, XX, XX },
+    { "(bad)",	OP_0f07, 0, XX, XX },
   },
   /* GRPPADLCK2 */
   {
@@ -3153,6 +3156,18 @@ OP_E (int bytemode, int sizeflag)
 	  else
 	    oappend (names32[rm + add]);
 	  break;
+	case branch_v_mode:
+	  if (mode_64bit)
+	    oappend (names64[rm + add]);
+	  else
+	    {
+	      if ((sizeflag & DFLAG) || bytemode != branch_v_mode)
+		oappend (names32[rm + add]);
+	      else
+		oappend (names16[rm + add]);
+	      used_prefixes |= (prefixes & PREFIX_DATA);
+	    }
+	  break;
 	case v_mode:
 	case dq_mode:
 	case dqw_mode:
@@ -3254,6 +3269,7 @@ OP_E (int bytemode, int sizeflag)
 		case dqw_mode:
 		  oappend ("WORD PTR ");
 		  break;
+		case branch_v_mode:
 		case v_mode:
 		case dq_mode:
 		  USED_REX (REX_MODE64);
@@ -4372,16 +4388,32 @@ PNI_Fixup (int extrachar ATTRIBUTE_UNUSED, int sizeflag)
 	{
 	  /* mwait %eax,%ecx  */
 	  strcpy (p, "mwait");
+	  if (!intel_syntax)
+	    strcpy (op1out, names32[0]);
 	}
       else
 	{
 	  /* monitor %eax,%ecx,%edx"  */
 	  strcpy (p, "monitor");
-	  strcpy (op3out, names32[2]);
+	  if (!intel_syntax)
+	    {
+	      if (!mode_64bit)
+		strcpy (op1out, names32[0]);
+	      else if (!(prefixes & PREFIX_ADDR))
+		strcpy (op1out, names64[0]);
+	      else
+		{
+		  strcpy (op1out, names32[0]);
+		  used_prefixes |= PREFIX_ADDR;
+		}
+	      strcpy (op3out, names32[2]);
+	    }
 	}
-      strcpy (op1out, names32[0]);
-      strcpy (op2out, names32[1]);
-      two_source_ops = 1;
+      if (!intel_syntax)
+	{
+	  strcpy (op2out, names32[1]);
+	  two_source_ops = 1;
+	}
 
       codep++;
     }
@@ -4392,16 +4424,23 @@ PNI_Fixup (int extrachar ATTRIBUTE_UNUSED, int sizeflag)
 static void
 INVLPG_Fixup (int bytemode, int sizeflag)
 {
-  if (*codep == 0xf8)
-    {
-      char *p = obuf + strlen (obuf);
+  const char *alt;
 
-      /* Override "invlpg".  */
-      strcpy (p - 6, "swapgs");
-      codep++;
+  switch (*codep)
+    {
+    case 0xf8:
+      alt = "swapgs";
+      break;
+    case 0xf9:
+      alt = "rdtscp";
+      break;
+    default:
+      OP_E (bytemode, sizeflag);
+      return;
     }
-  else
-    OP_E (bytemode, sizeflag);
+  /* Override "invlpg".  */
+  strcpy (obuf + strlen (obuf) - 6, alt);
+  codep++;
 }
 
 static void
@@ -4410,4 +4449,53 @@ BadOp (void)
   /* Throw away prefixes and 1st. opcode byte.  */
   codep = insn_codep + 1;
   oappend ("(bad)");
+}
+
+static void
+SEG_Fixup (int extrachar, int sizeflag)
+{
+  if (mod == 3)
+    {
+      /* We need to add a proper suffix with
+
+		movw %ds,%ax
+		movl %ds,%eax
+		movq %ds,%rax
+		movw %ax,%ds
+		movl %eax,%ds
+		movq %rax,%ds
+       */
+      const char *suffix;
+
+      if (prefixes & PREFIX_DATA)
+	suffix = "w";
+      else
+	{
+	  USED_REX (REX_MODE64);
+	  if (rex & REX_MODE64)
+	    suffix = "q";
+	  else
+	    suffix = "l";
+	}
+      strcat (obuf, suffix);
+    }
+  else
+    {
+      /* We need to fix the suffix for
+
+		movw %ds,(%eax)
+		movw %ds,(%rax)
+		movw (%eax),%ds
+		movw (%rax),%ds
+
+	 Override "mov[l|q]".  */
+      char *p = obuf + strlen (obuf) - 1;
+
+      /* We might not have a suffix.  */
+      if (*p == 'v')
+	++p;
+      *p = 'w';
+    }
+
+  OP_E (extrachar, sizeflag);
 }

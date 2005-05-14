@@ -18,8 +18,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GLD; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -1450,7 +1450,9 @@ reloc_overflow (struct bfd_link_info *info ATTRIBUTE_UNUSED,
 	case bfd_link_hash_defweak:
 	  einfo (_(" relocation truncated to fit: %s against symbol `%T' defined in %A section in %B"),
 		 reloc_name, entry->root.string,
-		 entry->u.def.section, entry->u.def.section->owner);
+		 entry->u.def.section,
+		 entry->u.def.section == bfd_abs_section_ptr
+		 ? output_bfd : entry->u.def.section->owner);
 	  break;
 	default:
 	  abort ();

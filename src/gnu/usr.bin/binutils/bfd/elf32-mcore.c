@@ -16,7 +16,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* This file is based on a preliminary RCE ELF ABI.  The
    information may not match the final RCE ELF ABI.   */
@@ -662,11 +662,50 @@ mcore_elf_check_relocs (abfd, info, sec, relocs)
   return TRUE;
 }
 
-static struct bfd_elf_special_section const mcore_elf_special_sections[]=
+static struct bfd_elf_special_section const
+  mcore_special_sections_c [] =
 {
   { ".ctors",   6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
+  { NULL,        0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const
+  mcore_special_sections_d[]=
+{
   { ".dtors",   6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { NULL,       0,  0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *
+  mcore_elf_special_sections[27]=
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  mcore_special_sections_c,	/* 'c' */
+  mcore_special_sections_d,	/* 'd' */
+  NULL,				/* 'e' */
+  NULL,				/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  NULL,				/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  NULL,				/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  NULL,				/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };
 
 #define TARGET_BIG_SYM		bfd_elf32_mcore_big_vec

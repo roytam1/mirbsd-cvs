@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef GAS
 #define GAS 1
@@ -127,21 +127,24 @@ extern void *alloca ();
 #endif /* !__MWERKS__ */
 
 /* Other stuff from config.h.  */
-#ifdef NEED_DECLARATION_STRSTR
-extern char *strstr ();
+#ifdef NEED_DECLARATION_ENVIRON
+extern char **environ;
+#endif
+#ifdef NEED_DECLARATION_ERRNO
+extern int errno;
+#endif
+#ifdef NEED_DECLARATION_FFS
+extern int ffs (int);
+#endif
+#ifdef NEED_DECLARATION_FREE
+extern void free ();
 #endif
 #ifdef NEED_DECLARATION_MALLOC
 extern PTR malloc ();
 extern PTR realloc ();
 #endif
-#ifdef NEED_DECLARATION_FREE
-extern void free ();
-#endif
-#ifdef NEED_DECLARATION_ERRNO
-extern int errno;
-#endif
-#ifdef NEED_DECLARATION_ENVIRON
-extern char **environ;
+#ifdef NEED_DECLARATION_STRSTR
+extern char *strstr ();
 #endif
 
 /* This is needed for VMS.  */
@@ -321,10 +324,13 @@ extern segT text_section, data_section, bss_section;
 
 enum _relax_state
 {
+  /* Dummy frag used by listing code.  */
+  rs_dummy = 0,
+
   /* Variable chars to be repeated fr_offset times.
      Fr_symbol unused. Used with fr_offset == 0 for a
      constant length frag.  */
-  rs_fill = 1,
+  rs_fill,
 
   /* Align.  The fr_offset field holds the power of 2 to which to
      align.  The fr_var field holds the number of characters in the
@@ -557,7 +563,6 @@ PRINTF_WHERE_LIKE (as_warn_where);
 
 void   as_assert (const char *, int, const char *);
 void   as_abort (const char *, int, const char *) ATTRIBUTE_NORETURN;
-void   fprint_value (FILE *, addressT);
 void   sprint_value (char *, addressT);
 int    had_errors (void);
 int    had_warnings (void);
@@ -579,7 +584,6 @@ void   cond_finish_check (int);
 void   cond_exit_macro (int);
 int    seen_at_least_1_file (void);
 void   app_pop (char *);
-void   as_howmuch (FILE *);
 void   as_perror (const char *, const char *);
 void   as_where (char **, unsigned int *);
 void   bump_line_counters (void);

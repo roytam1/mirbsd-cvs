@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* This thing should be set up to do byteordering correctly.  But...  */
 
@@ -95,6 +95,10 @@
 
 #ifndef	MD_PCREL_FROM_SECTION
 #define MD_PCREL_FROM_SECTION(FIX, SEC) md_pcrel_from (FIX)
+#endif
+
+#ifndef TC_FAKE_LABEL
+#define TC_FAKE_LABEL(NAME) (strcmp ((NAME), FAKE_LABEL_NAME) == 0)
 #endif
 
 /* Used to control final evaluation of expressions.  */
@@ -787,12 +791,20 @@ adjust_reloc_syms (bfd *abfd ATTRIBUTE_UNUSED,
 	if (fixp->fx_subsy != NULL)
 	  resolve_symbol_value (fixp->fx_subsy);
 
-	/* If this symbol is equated to an undefined symbol, convert
-           the fixup to being against that symbol.  */
+	/* If this symbol is equated to an undefined or common symbol,
+	   convert the fixup to being against that symbol.  */
 	if (symbol_equated_reloc_p (sym))
 	  {
+	    symbolS *new_sym
+	      = symbol_get_value_expression (sym)->X_add_symbol;
+	    const char *name = S_GET_NAME (sym);
+	    if (!S_IS_COMMON (new_sym)
+		&& !TC_FAKE_LABEL (name)
+		&& (!S_IS_EXTERNAL (sym) || S_IS_LOCAL (sym)))
+	      as_bad (_("Local symbol `%s' can't be equated to undefined symbol `%s'"),
+		      name, S_GET_NAME (new_sym));
 	    fixp->fx_offset += symbol_get_value_expression (sym)->X_add_number;
-	    sym = symbol_get_value_expression (sym)->X_add_symbol;
+	    sym = new_sym;
 	    fixp->fx_addsy = sym;
 	  }
 
@@ -1463,20 +1475,11 @@ write_object_file (void)
 #ifdef BFD_ASSEMBLER
   /* Remove the sections created by gas for its own purposes.  */
   {
-    asection **seclist;
     int i;
 
-    seclist = &stdoutput->sections;
-    while (*seclist)
-      {
-	if (*seclist == reg_section || *seclist == expr_section)
-	  {
-	    bfd_section_list_remove (stdoutput, seclist);
-	    stdoutput->section_count--;
-	  }
-	else
-	  seclist = &(*seclist)->next;
-      }
+    bfd_section_list_remove (stdoutput, reg_section);
+    bfd_section_list_remove (stdoutput, expr_section);
+    stdoutput->section_count -= 2;
     i = 0;
     bfd_map_over_sections (stdoutput, renumber_sections, &i);
   }
@@ -1927,9 +1930,15 @@ write_object_file (void)
              symbols.  */
 	  if (symbol_equated_reloc_p (symp))
 	    {
-	      if (S_IS_COMMON (symp))
-		as_bad (_("`%s' can't be equated to common symbol"),
-			S_GET_NAME (symp));
+	      const char *name = S_GET_NAME (symp);
+	      if (S_IS_COMMON (symp)
+		  && !TC_FAKE_LABEL (name)
+		  && (!S_IS_EXTERNAL (symp) || S_IS_LOCAL (symp)))
+		{
+		  expressionS *e = symbol_get_value_expression (symp);
+		  as_bad (_("Local symbol `%s' can't be equated to common symbol `%s'"),
+			  name, S_GET_NAME (e->X_add_symbol));
+		}
 	      symbol_remove (symp, &symbol_rootP, &symbol_lastP);
 	      continue;
 	    }
@@ -1956,10 +1965,10 @@ write_object_file (void)
 	  if (symp == abs_section_sym
 	      || (! EMIT_SECTION_SYMBOLS
 		  && symbol_section_p (symp))
-	      /* Note that S_IS_EXTERN and S_IS_LOCAL are not always
+	      /* Note that S_IS_EXTERNAL and S_IS_LOCAL are not always
 		 opposites.  Sometimes the former checks flags and the
 		 latter examines the name...  */
-	      || (!S_IS_EXTERN (symp)
+	      || (!S_IS_EXTERNAL (symp)
 		  && (punt || S_IS_LOCAL (symp))
 		  && ! symbol_used_in_reloc_p (symp)))
 	    {

@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -309,7 +309,7 @@ SUBSUBSECTION
 	of the <<bfd>> structure.
 
 	Each section in the output file will have a list of
-	<<link_order>> structures attached to the <<link_order_head>>
+	<<link_order>> structures attached to the <<map_head.link_order>>
 	field (the <<link_order>> structure is defined in
 	<<bfdlink.h>>).  These structures describe how to create the
 	contents of the output section in terms of the contents of
@@ -2009,7 +2009,7 @@ _bfd_generic_final_link (bfd *abfd, struct bfd_link_info *info)
 
   /* Mark all sections which will be included in the output file.  */
   for (o = abfd->sections; o != NULL; o = o->next)
-    for (p = o->link_order_head; p != NULL; p = p->next)
+    for (p = o->map_head.link_order; p != NULL; p = p->next)
       if (p->type == bfd_indirect_link_order)
 	p->u.indirect.section->linker_mark = TRUE;
 
@@ -2038,7 +2038,7 @@ _bfd_generic_final_link (bfd *abfd, struct bfd_link_info *info)
       for (o = abfd->sections; o != NULL; o = o->next)
 	{
 	  o->reloc_count = 0;
-	  for (p = o->link_order_head; p != NULL; p = p->next)
+	  for (p = o->map_head.link_order; p != NULL; p = p->next)
 	    {
 	      if (p->type == bfd_section_reloc_link_order
 		  || p->type == bfd_symbol_reloc_link_order)
@@ -2094,7 +2094,7 @@ _bfd_generic_final_link (bfd *abfd, struct bfd_link_info *info)
   /* Handle all the link order information for the sections.  */
   for (o = abfd->sections; o != NULL; o = o->next)
     {
-      for (p = o->link_order_head; p != NULL; p = p->next)
+      for (p = o->map_head.link_order; p != NULL; p = p->next)
 	{
 	  switch (p->type)
 	    {
@@ -2363,12 +2363,14 @@ _bfd_generic_link_output_symbols (bfd *output_bfd,
 	abort ();
 
       /* If this symbol is in a section which is not being included
-	 in the output file, then we don't want to output the symbol.
-
-	 Gross.  .bss and similar sections won't have the linker_mark
-	 field set.  */
-      if ((sym->section->flags & SEC_HAS_CONTENTS) != 0
-	  && ! sym->section->linker_mark)
+	 in the output file, then we don't want to output the
+	 symbol.  .bss and similar sections won't have the linker_mark
+	 field set.  We also check if its output section has been
+	 removed from the output file.  */
+      if (((sym->section->flags & SEC_HAS_CONTENTS) != 0
+	   && ! sym->section->linker_mark)
+	  || bfd_section_removed_from_list (output_bfd,
+					    sym->section->output_section))
 	output = FALSE;
 
       if (output)
@@ -2612,11 +2614,11 @@ bfd_new_link_order (bfd *abfd, asection *section)
 
   new->type = bfd_undefined_link_order;
 
-  if (section->link_order_tail != NULL)
-    section->link_order_tail->next = new;
+  if (section->map_tail.link_order != NULL)
+    section->map_tail.link_order->next = new;
   else
-    section->link_order_head = new;
-  section->link_order_tail = new;
+    section->map_head.link_order = new;
+  section->map_tail.link_order = new;
 
   return new;
 }

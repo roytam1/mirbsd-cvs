@@ -15,7 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "elf/common.h"
 #include "elf/internal.h"
@@ -126,7 +126,7 @@ extern bfd_boolean _bfd_mips_relax_section
 extern bfd_vma _bfd_mips_elf_sign_extend
   (bfd_vma, int);
 
-extern struct bfd_elf_special_section const _bfd_mips_elf_special_sections[];
+extern struct bfd_elf_special_section const *_bfd_mips_elf_special_sections[];
 #define elf_backend_name_local_section_symbols \
   _bfd_mips_elf_name_local_section_symbols
 #define elf_backend_special_sections _bfd_mips_elf_special_sections

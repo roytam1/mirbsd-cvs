@@ -25,6 +25,8 @@
 #		.text section.
 #	DATA_START_SYMBOLS - symbols that appear at the start of the
 #		.data section.
+#	DATA_END_SYMBOLS - symbols that appear at the end of the
+#		writeable data sections.
 #	OTHER_GOT_SYMBOLS - symbols defined just before .got.
 #	OTHER_GOT_SECTIONS - sections just after .got.
 #	OTHER_SDATA_SECTIONS - sections just after .sdata.
@@ -45,6 +47,8 @@
 # 	combination of .fini sections.
 #	STACK_ADDR - start of a .stack section.
 #	OTHER_END_SYMBOLS - symbols to place right at the end of the script.
+#	ETEXT_NAME - name of a symbol for the end of the text section,
+#		normally etext.
 #	SEPARATE_GOTPLT - if set, .got.plt should be separate output section,
 #		so that .got can be in the RELRO area.  It should be set to
 #		the number of bytes in the beginning of .got.plt which can be
@@ -84,31 +88,28 @@ if [ -z "$MACHINE" ]; then OUTPUT_ARCH=${ARCH}; else OUTPUT_ARCH=${ARCH}:${MACHI
 test -z "${ELFSIZE}" && ELFSIZE=32
 test -z "${ALIGNMENT}" && ALIGNMENT="${ELFSIZE} / 8"
 test "$LD_FLAG" = "N" && DATA_ADDR=.
+test -z "${ETEXT_NAME}" && ETEXT_NAME=etext
 test -n "$CREATE_SHLIB$CREATE_PIE" && test -n "$SHLIB_DATA_ADDR" && COMMONPAGESIZE=""
 test -z "$CREATE_SHLIB$CREATE_PIE" && test -n "$DATA_ADDR" && COMMONPAGESIZE=""
 test -n "$RELRO_NOW" && unset SEPARATE_GOTPLT
 DATA_SEGMENT_ALIGN="ALIGN(${SEGMENT_SIZE}) + (. & (${MAXPAGESIZE} - 1))"
 DATA_SEGMENT_RELRO_END=""
-DATA_SEGMENT_RELRO_GOTPLT_END=""
 DATA_SEGMENT_END=""
 if test -n "${COMMONPAGESIZE}"; then
   DATA_SEGMENT_ALIGN="ALIGN (${SEGMENT_SIZE}) - ((${MAXPAGESIZE} - .) & (${MAXPAGESIZE} - 1)); . = DATA_SEGMENT_ALIGN (${MAXPAGESIZE}, ${COMMONPAGESIZE})"
   DATA_SEGMENT_END=". = DATA_SEGMENT_END (.);"
-  if test -n "${SEPARATE_GOTPLT}"; then
-    DATA_SEGMENT_RELRO_GOTPLT_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT}, .);"
-  else
-    DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (0, .);"
-  fi
+  DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT-0}, .);"
 fi
 INTERP=".interp       ${RELOCATING-0} : { *(.interp) }"
-PLT=".plt          ${RELOCATING-0} : { *(.plt) }"
+if test -z "$PLT"; then
+  PLT=".plt          ${RELOCATING-0} : { *(.plt) }"
+fi
 if test -z "$GOT"; then
   if test -z "$SEPARATE_GOTPLT"; then
     GOT=".got          ${RELOCATING-0} : { *(.got.plt) *(.got) }"
   else
     GOT=".got          ${RELOCATING-0} : { *(.got) }"
-    GOTPLT="${RELOCATING+${DATA_SEGMENT_RELRO_GOTPLT_END}}
-  .got.plt      ${RELOCATING-0} : { *(.got.plt) }"
+    GOTPLT=".got.plt      ${RELOCATING-0} : { *(.got.plt) }"
   fi
 fi
 DYNAMIC=".dynamic      ${RELOCATING-0} : { *(.dynamic) }"
@@ -144,6 +145,16 @@ if test -z "${NO_SMALL_DATA}"; then
   .rela.sbss2   ${RELOCATING-0} : { *(.rela.sbss2${RELOCATING+ .rela.sbss2.* .rela.gnu.linkonce.sb2.*}) }"
 else
   NO_SMALL_DATA=" "
+fi
+if test -z "${DATA_GOT}"; then
+  if test -n "${NO_SMALL_DATA}"; then
+    DATA_GOT=" "
+  fi
+fi
+if test -z "${SDATA_GOT}"; then
+  if test -z "${NO_SMALL_DATA}"; then
+    SDATA_GOT=" "
+  fi
 fi
 test -n "$SEPARATE_GOTPLT" && SEPARATE_GOTPLT=" "
 CTOR=".ctors        ${CONSTRUCTING-0} : 
@@ -307,9 +318,9 @@ cat <<EOF
     KEEP (*(.fini))
     ${RELOCATING+${FINI_END}}
   } =${NOP-0}
-  ${RELOCATING+PROVIDE (__etext = .);}
-  ${RELOCATING+PROVIDE (_etext = .);}
-  ${RELOCATING+PROVIDE (etext = .);}
+  ${RELOCATING+PROVIDE (__${ETEXT_NAME} = .);}
+  ${RELOCATING+PROVIDE (_${ETEXT_NAME} = .);}
+  ${RELOCATING+PROVIDE (${ETEXT_NAME} = .);}
   ${WRITABLE_RODATA-${RODATA}}
   .rodata1      ${RELOCATING-0} : { *(.rodata1) }
   ${CREATE_SHLIB-${SDATA2}}
@@ -344,11 +355,12 @@ cat <<EOF
   ${RELOCATING+${DATARELRO}}
   ${OTHER_RELRO_SECTIONS}
   ${TEXT_DYNAMIC-${DYNAMIC}}
-  ${NO_SMALL_DATA+${RELRO_NOW+${GOT}}}
-  ${NO_SMALL_DATA+${RELRO_NOW-${SEPARATE_GOTPLT+${GOT}}}}
-  ${NO_SMALL_DATA+${RELRO_NOW-${SEPARATE_GOTPLT+${GOTPLT}}}}
+  ${DATA_GOT+${RELRO_NOW+${GOT}}}
+  ${DATA_GOT+${RELRO_NOW+${GOTPLT}}}
+  ${DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${GOT}}}}
   ${RELOCATING+${DATA_SEGMENT_RELRO_END}}
-  ${NO_SMALL_DATA+${RELRO_NOW-${SEPARATE_GOTPLT-${GOT}}}}
+  ${DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT-${GOT}}}}
+  ${DATA_GOT+${RELRO_NOW-${GOTPLT}}}
 
   ${DATA_PLT+${PLT_BEFORE_GOT-${PLT}}}
 
@@ -365,13 +377,14 @@ cat <<EOF
   ${SMALL_DATA_CTOR+${RELOCATING+${CTOR}}}
   ${SMALL_DATA_DTOR+${RELOCATING+${DTOR}}}
   ${DATA_PLT+${PLT_BEFORE_GOT+${PLT}}}
-  ${RELOCATING+${OTHER_GOT_SYMBOLS}}
-  ${NO_SMALL_DATA-${GOT}}
-  ${OTHER_GOT_SECTIONS}
+  ${SDATA_GOT+${RELOCATING+${OTHER_GOT_SYMBOLS}}}
+  ${SDATA_GOT+${GOT}}
+  ${SDATA_GOT+${OTHER_GOT_SECTIONS}}
   ${SDATA}
   ${OTHER_SDATA_SECTIONS}
-  ${RELOCATING+_edata = .;}
-  ${RELOCATING+PROVIDE (edata = .);}
+  ${RELOCATING+${DATA_END_SYMBOLS-_edata = .; PROVIDE (edata = .);}}
+  /* __bss_start is used by _bfd_elf_provide_section_bound_symbols in
+     elflink.c.  */
   ${RELOCATING+__bss_start = .;}
   ${RELOCATING+${OTHER_BSS_SYMBOLS}}
   ${SBSS}

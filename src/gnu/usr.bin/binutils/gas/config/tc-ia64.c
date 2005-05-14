@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to
-   the Free Software Foundation, 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   the Free Software Foundation, 51 Franklin Street - Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 /*
   TODO:
@@ -56,6 +56,9 @@
 #endif
 
 #define NELEMS(a)	((int) (sizeof (a)/sizeof ((a)[0])))
+
+/* Some systems define MIN in, e.g., param.h.  */
+#undef MIN
 #define MIN(a,b)	((a) < (b) ? (a) : (b))
 
 #define NUM_SLOTS	4
@@ -229,6 +232,13 @@ static struct
        that are predicatable.  */
     expressionS qp;
 
+    /* Optimize for which CPU.  */
+    enum
+      {
+	itanium1,
+	itanium2
+      } tune;
+
     /* What to do when hint.b is used.  */
     enum
       {
@@ -320,6 +330,21 @@ static struct
     int pointer_size_shift; /* shift size of a pointer for alignment */
   }
 md;
+
+/* These are not const, because they are modified to MMI for non-itanium1
+   targets below.  */
+/* MFI bundle of nops.  */
+static unsigned char le_nop[16] =
+{
+  0x0c, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+  0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00
+};
+/* MFI bundle of nops with stop-bit.  */
+static unsigned char le_nop_stop[16] =
+{
+  0x0d, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+  0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00
+};
 
 /* application registers:  */
 
@@ -3438,7 +3463,7 @@ static char *special_linkonce_name[] =
   };
 
 static void
-start_unwind_section (const segT text_seg, int sec_index, int linkonce_empty)
+start_unwind_section (const segT text_seg, int sec_index)
 {
   /*
     Use a slightly ugly scheme to derive the unwind section names from
@@ -3500,8 +3525,6 @@ start_unwind_section (const segT text_seg, int sec_index, int linkonce_empty)
       prefix = special_linkonce_name [sec_index - SPECIAL_SECTION_UNWIND];
       suffix += sizeof (".gnu.linkonce.t.") - 1;
     }
-  else if (linkonce_empty)
-    return;
 
   prefix_len = strlen (prefix);
   suffix_len = strlen (suffix);
@@ -3512,7 +3535,8 @@ start_unwind_section (const segT text_seg, int sec_index, int linkonce_empty)
   sec_name [sec_name_len] = '\0';
 
   /* Handle COMDAT group.  */
-  if (suffix == text_name && (text_seg->flags & SEC_LINK_ONCE) != 0)
+  if ((text_seg->flags & SEC_LINK_ONCE) != 0
+      && (elf_section_flags (text_seg) & SHF_GROUP) != 0)
     {
       char *section;
       size_t len, group_name_len;
@@ -3589,7 +3613,7 @@ generate_unwind_image (const segT text_seg)
       expressionS exp;
       bfd_reloc_code_real_type reloc;
 
-      start_unwind_section (text_seg, SPECIAL_SECTION_UNWIND_INFO, 0);
+      start_unwind_section (text_seg, SPECIAL_SECTION_UNWIND_INFO);
 
       /* Make sure the section has 4 byte alignment for ILP32 and
 	 8 byte alignment for LP64.  */
@@ -3630,8 +3654,6 @@ generate_unwind_image (const segT text_seg)
 	  unwind.personality_routine = 0;
 	}
     }
-  else
-    start_unwind_section (text_seg, SPECIAL_SECTION_UNWIND_INFO, 1);
 
   free_saved_prologue_counts ();
   unwind.list = unwind.tail = unwind.current_entry = NULL;
@@ -4404,7 +4426,7 @@ dot_endp (dummy)
       subseg_set (md.last_text_seg, 0);
       proc_end = expr_build_dot ();
 
-      start_unwind_section (saved_seg, SPECIAL_SECTION_UNWIND, 0);
+      start_unwind_section (saved_seg, SPECIAL_SECTION_UNWIND);
 
       /* Make sure that section has 4 byte alignment for ILP32 and
          8 byte alignment for LP64.  */
@@ -4444,9 +4466,6 @@ dot_endp (dummy)
 			    bytes_per_address);
 
     }
-  else
-    start_unwind_section (saved_seg, SPECIAL_SECTION_UNWIND, 1);
-
   subseg_set (saved_seg, saved_subseg);
 
   if (unwind.proc_start)
@@ -6957,6 +6976,16 @@ md_parse_option (c, arg)
 	  else
 	    return 0;
 	}
+      else if (strncmp (arg, "tune=", 5) == 0)
+	{
+	  arg += 5;
+	  if (strcmp (arg, "itanium1") == 0)
+	    md.tune = itanium1;
+	  else if (strcmp (arg, "itanium2") == 0)
+	    md.tune = itanium2;
+	  else
+	    return 0;
+	}
       else
 	return 0;
       break;
@@ -7069,6 +7098,8 @@ IA-64 options:\n\
 			  EF_IA_64_NOFUNCDESC_CONS_GP)\n\
   -milp32|-milp64|-mlp64|-mp64	select data model (default -mlp64)\n\
   -mle | -mbe		  select little- or big-endian byte order (default -mle)\n\
+  -mtune=[itanium1|itanium2]\n\
+			  tune for a specific CPU (default -mtune=itanium2)\n\
   -munwind-check=[warning|error]\n\
 			  unwind directive check (default -munwind-check=warning)\n\
   -mhint.b=[ok|warning|error]\n\
@@ -7122,11 +7153,30 @@ match (int templ, int type, int slot)
 static inline int
 extra_goodness (int templ, int slot)
 {
-  if (slot == 1 && match (templ, IA64_TYPE_F, slot))
-    return 2;
-  if (slot == 2 && match (templ, IA64_TYPE_B, slot))
-    return 1;
-  return 0;
+  switch (md.tune)
+    {
+    case itanium1:
+      if (slot == 1 && match (templ, IA64_TYPE_F, slot))
+	return 2;
+      else if (slot == 2 && match (templ, IA64_TYPE_B, slot))
+	return 1;
+      else
+	return 0;
+      break;
+    case itanium2:
+      if (match (templ, IA64_TYPE_M, slot)
+	  || match (templ, IA64_TYPE_I, slot))
+	/* Favor M- and I-unit NOPs.  We definitely want to avoid
+	   F-unit and B-unit may cause split-issue or less-than-optimal
+	   branch-prediction.  */
+	return 2;
+      else
+	return 0;
+      break;
+    default:
+      abort ();
+      return 0;
+    }
 }
 
 /* This function is called once, at assembler startup time.  It sets
@@ -7221,11 +7271,17 @@ md_begin ()
     symbol_new (".<iplt>", undefined_section, FUNC_IPLT_RELOC,
 		&zero_address_frag);
 
+ if (md.tune != itanium1)
+   {
+     /* Convert MFI NOPs bundles into MMI NOPs bundles.  */
+     le_nop[0] = 0x8;
+     le_nop_stop[0] = 0x9;
+   }
+
   /* Compute the table of best templates.  We compute goodness as a
-     base 4 value, in which each match counts for 3, each F counts
-     for 2, each B counts for 1.  This should maximize the number of
-     F and B nops in the chosen bundles, which is good because these
-     pipelines are least likely to be overcommitted.  */
+     base 4 value, in which each match counts for 3.  Match-failures
+     result in NOPs and we use extra_goodness() to pick the execution
+     units that are best suited for issuing the NOP.  */
   for (i = 0; i < IA64_NUM_TYPES; ++i)
     for (j = 0; j < IA64_NUM_TYPES; ++j)
       for (k = 0; k < IA64_NUM_TYPES; ++k)
@@ -7426,6 +7482,7 @@ ia64_init (argc, argv)
   /* FIXME: We should change it to unwind_check_error someday.  */
   md.unwind_check = unwind_check_warning;
   md.hint_b = hint_b_error;
+  md.tune = itanium2;
 }
 
 /* Return a string for the target object file format.  */
@@ -7969,8 +8026,6 @@ ia64_canonicalize_symbol_name (name)
     {
       if (full > 0)
 	as_bad ("Standalone `#' is illegal");
-      else
-	as_bad ("Zero-length symbol is illegal");
     }
   else if (len < full - 1)
     as_warn ("Redundant `#' suffix operators");
@@ -8120,9 +8175,15 @@ specify_resource (dep, idesc, type, specs, note, path)
   tmpl.qp_regno = CURR_SLOT.qp_regno;
   tmpl.link_to_qp_branch = 1;
   tmpl.mem_offset.hint = 0;
+  tmpl.mem_offset.offset = 0;
+  tmpl.mem_offset.base = 0;
   tmpl.specific = 1;
   tmpl.index = -1;
   tmpl.cmp_type = CMP_NONE;
+  tmpl.depind = 0;
+  tmpl.file = NULL;
+  tmpl.line = 0;
+  tmpl.path = 0;
 
 #define UNHANDLED \
 as_warn (_("Unhandled dependency %s for %s (%s), note %d"), \
@@ -10641,7 +10702,7 @@ md_assemble (str)
 	  else if (ar_is_only_in_memory_unit (CURR_SLOT.opnd[rop].X_add_number))
 	    unit = 'm';
 	  if (unit != 'a' && unit != idesc->name [4])
-	    as_bad ("AR %d cannot be accessed by %c-unit",
+	    as_bad ("AR %d can only be accessed by %c-unit",
 		    (int) (CURR_SLOT.opnd[rop].X_add_number - REG_AR),
 		    TOUPPER (unit));
 	}
@@ -10787,7 +10848,7 @@ ia64_fix_adjustable (fix)
      fixS *fix;
 {
   /* Prevent all adjustments to global symbols */
-  if (S_IS_EXTERN (fix->fx_addsy) || S_IS_WEAK (fix->fx_addsy))
+  if (S_IS_EXTERNAL (fix->fx_addsy) || S_IS_WEAK (fix->fx_addsy))
     return 0;
 
   switch (fix->fx_r_type)
@@ -11478,14 +11539,6 @@ void
 ia64_handle_align (fragp)
      fragS *fragp;
 {
-  /* Use mfi bundle of nops with no stop bits.  */
-  static const unsigned char le_nop[]
-    = { 0x0c, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-	0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00};
-  static const unsigned char le_nop_stop[]
-    = { 0x0d, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-	0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00};
-
   int bytes;
   char *p;
   const unsigned char *nop;

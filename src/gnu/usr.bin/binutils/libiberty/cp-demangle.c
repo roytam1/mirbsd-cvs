@@ -1,5 +1,5 @@
 /* Demangler for g++ V3 ABI.
-   Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
    Written by Ian Lance Taylor <ian@wasabisystems.com>.
 
    This file is part of the libiberty library, which is part of GCC.
@@ -25,7 +25,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA. 
 */
 
 /* This code implements a demangler for the g++ V3 ABI.  The ABI is
@@ -4144,7 +4144,7 @@ is_gnu_v3_mangled_dtor (const char *name)
 #include "getopt.h"
 #include "dyn-string.h"
 
-static void print_usage PARAMS ((FILE* fp, int exit_value));
+static void print_usage (FILE* fp, int exit_value);
 
 #define IS_ALPHA(CHAR)                                                  \
   (((CHAR) >= 'a' && (CHAR) <= 'z')                                     \

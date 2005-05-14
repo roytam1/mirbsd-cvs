@@ -15,8 +15,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to
-   the Free Software Foundation, 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   the Free Software Foundation, 51 Franklin Street - Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 /* This file defines SHmedia ISA-specific functions and includes tc-sh.c.
    The SHcompact ISA is in all useful aspects the "old" sh4 as implemented
@@ -284,7 +284,7 @@ shmedia_frob_file_before_adjust (void)
 
       if (mainsym != NULL
 	  && S_GET_OTHER (mainsym) != STO_SH5_ISA32
-	  && (S_IS_EXTERN (mainsym) || S_IS_WEAK (mainsym)))
+	  && (S_IS_EXTERNAL (mainsym) || S_IS_WEAK (mainsym)))
 	{
 	  symp->sy_value.X_op = O_symbol;
 	  symp->sy_value.X_add_symbol = mainsym;
@@ -823,7 +823,7 @@ shmedia_md_convert_frag (bfd *output_bfd ATTRIBUTE_UNUSED,
        || sh_relax
        || symbolP == NULL
        || ! S_IS_DEFINED (symbolP)
-       || S_IS_EXTERN (symbolP)
+       || S_IS_EXTERNAL (symbolP)
        || S_IS_WEAK (symbolP)
        || (S_GET_SEGMENT (fragP->fr_symbol) != absolute_section
 	   && S_GET_SEGMENT (fragP->fr_symbol) != seg));
@@ -3513,3 +3513,18 @@ sh64_vtable_inherit (int ignore ATTRIBUTE_UNUSED)
   input_line_pointer = eol;
 }
 
+int
+sh64_fake_label (const char *name)
+{
+  size_t len;
+
+  if (strcmp (name, FAKE_LABEL_NAME) == 0)
+    return 1;
+
+  len = strlen (name);
+  if (len >= (sizeof (DATALABEL_SUFFIX) - 1))
+    return strcmp (&name [len - sizeof (DATALABEL_SUFFIX) + 1],
+		   DATALABEL_SUFFIX) == 0;
+
+  return 0;
+}
