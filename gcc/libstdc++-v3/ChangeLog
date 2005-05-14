@@ -1,3 +1,65 @@
+2005-05-12  Mark Mitchell  <mark@codesourcery.com>
+
+	2005-04-04  Mark Mitchell  <mark@codesourcery.com>
+	* testsuite/Makefile.am (check-local): Remove.
+	(curent_symbols.txt): Likewise.
+	(check-abi): Do not depend on current_symbols.txt.
+	* testsuite/Makefile.in: Regenerated.
+	* testsuite/libstdc++-abi/abi.exp: Build current_symbols.txt.
+	2005-04-01  Mark Mitchell  <mark@codesourcery.com>
+	* testsuite/Makefile.am (noinst_PROGRAMS): Remove.
+	(site.exp): Write out the path to the baseline file.
+	(check-abi): Use DejaGNU.
+	(check-abi-verbose): Remove.
+	* testsuite/Makefile.in: Regenerated.
+	* testsuite/abi_check.cc (main): Check the return value from
+	compare_symbols.
+	* testsuite/testsuite_abi.cc (compare_symbols): Return a value.
+	* testsuite/testsuite_abi.h (compare_symbols): Adjust prototype.
+	* testsuite/libstdc++-abi/abi.exp: New file.
+	2004-03-19  Phil Edwards  <phil@codesourcery.com>
+	* testsuite/Makefile.am (site.exp):  New target, based on that
+	created by automake.  Also set libiconv.
+
+2005-05-04  Mark Mitchell  <mark@codesourcery.com>
+
+	* testsuite/lib/libstdc++.exp (v3-build_support): Look for
+	__GTHREADS, rather than _GLIBCXX_HAVE_GTHR_DEFAULT, to determine
+	whether or not thread support is available.
+
+2005-05-04  Mark Mitchell  <mark@codesourcery.com>
+
+	Backport:
+	2005-03-25  Mark Mitchell  <mark@codesourcery.com>
+	* testsuite/lib/libstdc++.exp (libstdc++_init): Define LOCALEDIR
+	when testing an installed compiler.
+	* testsuite/lib/libstdc++.exp (v3-build_support): Pass -w when
+	compiling support objects.
+	2005-03-23  Mark Mitchell  <mark@codesourcery.com>
+	* testsuite/libstdc++-dg/normal.exp: Read testsuite_files, if it
+	exists.
+	* testsuite/lib/libstdc++.exp (libstdc++_wchar_t): Rename to ...
+	(v3-wchar_t): ... this.
+	(libstdc++_threads): Rename to ...
+	(v3-threads): ... this.
+	(libstdc++_test_objs): Rename to ...
+	(v3-test_objs): ... this.
+	(libstdc++_build_support): Rename to ...
+	(v3-build_support): ... this.
+	* testsuite/libstdc++-dg/normal.exp: Adjust to use new names.
+	* testsuite/lib/libstdc++.exp (libstdc++_init): Improve handling
+	of compilers not in the build directory.
+	(libstdc++_wchar_t): New variable.
+	(libstdc++_threads): Likewise.
+	(libstdc++_test_objs): Likewise.
+	(v3_target_compile): Use libstdc++_test_objs.
+	(v3-list-tests): Remove.
+	(listdc++_build_support): New function.
+	* testsuite/libstdc++-dg/normal.exp: Rework to dynamically
+	generate list of tests.
+	2004-11-23  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+	* testsuite/lib/libstdc++.exp: Use new procs in target-libpath.exp.
+
 2005-04-26  Jones Desougi  <jones@ingate.com>
 
 	PR libstdc++/21131
