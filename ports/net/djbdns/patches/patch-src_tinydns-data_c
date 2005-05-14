@@ -1,0 +1,56 @@
+$MirOS$
+--- src/tinydns-data.c.orig	Sun Feb 11 21:11:23 2001
++++ src/tinydns-data.c	Sat May 14 22:27:18 2005
+@@ -8,6 +8,7 @@
+ #include "byte.h"
+ #include "fmt.h"
+ #include "ip4.h"
++#include "ip6.h"
+ #include "exit.h"
+ #include "case.h"
+ #include "scan.h"
+@@ -172,6 +173,7 @@ static stralloc f[NUMFIELDS];
+ static char *d1;
+ static char *d2;
+ char dptr[DNS_NAME4_DOMAIN];
++char d6ptr[DNS_NAME6_DOMAIN];
+ 
+ char strnum[FMT_ULONG];
+ 
+@@ -193,6 +195,7 @@ int main()
+   char loc[2];
+   unsigned long u;
+   char ip[4];
++  char ip6[16];
+   char type[2];
+   char soa[20];
+   char buf[4];
+@@ -335,6 +338,28 @@ int main()
+ 	    rr_start(DNS_T_PTR,ttl,ttd,loc);
+ 	    rr_addname(d1);
+ 	    rr_finish(dptr);
++	  }
++	}
++	break;
++
++      case '6': case '3':
++	if (!dns_domain_fromdot(&d1,f[0].s,f[0].len)) nomem();
++	if (!stralloc_0(&f[2])) nomem();
++	if (!scan_ulong(f[2].s,&ttl)) ttl = TTL_POSITIVE;
++	ttdparse(&f[3],ttd);
++	locparse(&f[4],loc);
++
++	if (!stralloc_0(&f[1])) nomem();
++	if (ip6_scan_flat(f[1].s,ip6)) {
++	  rr_start(DNS_T_AAAA,ttl,ttd,loc);
++	  rr_add(ip6,16);
++	  rr_finish(d1);
++
++	  if (line.s[0] == '6') {
++	    dns_name6_domain(d6ptr,ip6);
++	    rr_start(DNS_T_PTR,ttl,ttd,loc);
++	    rr_addname(d1);
++	    rr_finish(d6ptr);
+ 	  }
+ 	}
+ 	break;

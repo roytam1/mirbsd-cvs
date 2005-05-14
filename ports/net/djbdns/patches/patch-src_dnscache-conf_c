@@ -1,0 +1,78 @@
+$MirOS$
+--- src/dnscache-conf.c.orig	Sun Feb 11 21:11:23 2001
++++ src/dnscache-conf.c	Sat May 14 22:27:17 2005
+@@ -79,7 +79,11 @@ int main(int argc,char **argv)
+   if (!dir) usage();
+   if (dir[0] != '/') usage();
+   myip = argv[4];
++#ifndef DJB_V6ONLY
+   if (!myip) myip = "127.0.0.1";
++#else
++  if (!myip) myip = "::1";
++#endif /* DJB_V6ONLY */
+ 
+   pw = getpwnam(loguser);
+   seed_addtime();
+@@ -89,13 +93,26 @@ int main(int argc,char **argv)
+   if (chdir(auto_home) == -1)
+     strerr_die4sys(111,FATAL,"unable to switch to ",auto_home,": ");
+ 
++#ifndef DJB_V6ONLY
+   fdrootservers = open_read("/etc/dnsroots.local");
++#else
++  fdrootservers = open_read("/etc/dnsroots.local.v6");
++#endif /* DJB_V6ONLY */
+   if (fdrootservers == -1) {
+     if (errno != error_noent)
++#ifndef DJB_V6ONLY
+       strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.local: ");
+     fdrootservers = open_read("/etc/dnsroots.global");
++#else
++      strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.local.v6: ");
++    fdrootservers = open_read("/etc/dnsroots.global.v6");
++#endif /* DJB_V6ONLY */
+     if (fdrootservers == -1)
++#ifndef DJB_V6ONLY
+       strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.global: ");
++#else
++      strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.global.v6: ");
++#endif /* DJB_V6ONLY */
+   }
+ 
+   init(dir,FATAL);
+@@ -114,7 +131,11 @@ int main(int argc,char **argv)
+   seed_addtime(); perm(0644);
+   seed_addtime(); start("env/IP"); outs(myip); outs("\n"); finish();
+   seed_addtime(); perm(0644);
++#ifndef DJB_V6ONLY
+   seed_addtime(); start("env/IPSEND"); outs("0.0.0.0\n"); finish();
++#else
++  seed_addtime(); start("env/IPSEND"); outs("::\n"); finish();
++#endif /* DJB_V6ONLY */
+   seed_addtime(); perm(0644);
+   seed_addtime(); start("env/CACHESIZE"); outs("1000000\n"); finish();
+   seed_addtime(); perm(0644);
+@@ -123,7 +144,11 @@ int main(int argc,char **argv)
+   seed_addtime(); start("run");
+   outs("#!/bin/sh\nexec 2>&1\nexec <seed\nexec envdir ./env sh -c '\n  exec envuidgid "); outs(user);
+   outs(" softlimit -o250 -d \"$DATALIMIT\" ");
++#ifndef DJB_V6ONLY
+   outs(auto_home); outs("/bin/dnscache\n'\n"); finish();
++#else
++  outs(auto_home); outs("/bin/6dnscache\n'\n"); finish();
++#endif /* DJB_V6ONLY */
+   seed_addtime(); perm(0755);
+   seed_addtime(); start("log/run");
+   outs("#!/bin/sh\nexec setuidgid "); outs(loguser);
+@@ -133,7 +158,11 @@ int main(int argc,char **argv)
+   seed_addtime(); perm(02755);
+   seed_addtime(); makedir("root/ip");
+   seed_addtime(); perm(02755);
++#ifndef DJB_V6ONLY
+   seed_addtime(); start("root/ip/127.0.0.1"); finish();
++#else
++  seed_addtime(); start("root/ip/::1"); finish();
++#endif /* DJB_V6ONLY */
+   seed_addtime(); perm(0600);
+   seed_addtime(); makedir("root/servers");
+   seed_addtime(); perm(02755);
