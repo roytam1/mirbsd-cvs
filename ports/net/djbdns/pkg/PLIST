@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/djbdns/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:08 tg Exp $
 bin/axfr-get
 bin/axfrdns
 bin/axfrdns-conf
@@ -6,6 +6,8 @@ bin/dnscache
 bin/dnscache-conf
 bin/dnsfilter
 bin/dnsip
+bin/dnsip6
+bin/dnsip6q
 bin/dnsipq
 bin/dnsmx
 bin/dnsname
@@ -14,6 +16,7 @@ bin/dnsqr
 bin/dnstrace
 bin/dnstracesort
 bin/dnstxt
+bin/ignoreip-update
 bin/pickdns
 bin/pickdns-conf
 bin/pickdns-data
@@ -28,40 +31,41 @@ bin/tinydns-edit
 bin/tinydns-get
 bin/walldns
 bin/walldns-conf
-!%%no_ipv6%%
-!%%original%%
-man/man1/dnsfilter.1
-man/man1/dnsip.1
-man/man1/dnsipq.1
-man/man1/dnsmx.1
-man/man1/dnsname.1
-man/man1/dnsq.1
-man/man1/dnsqr.1
-man/man1/dnstrace.1
-man/man1/dnstracesort.1
-man/man1/dnstxt.1
-man/man5/qualification.5
-man/man8/axfr-get.8
-man/man8/axfrdns.8
-man/man8/dnscache-conf.8
-man/man8/dnscache.8
-man/man8/pickdns-conf.8
-man/man8/pickdns-data.8
-man/man8/pickdns.8
-man/man8/rbldns-conf.8
-man/man8/rbldns-data.8
-man/man8/rbldns.8
-man/man8/tinydns-conf.8
-man/man8/tinydns-data.8
-man/man8/tinydns-edit.8
-man/man8/tinydns.8
-man/man8/walldns-conf.8
-man/man8/walldns.8
+man/cat1/dnsfilter.0
+man/cat1/dnsip.0
+man/cat1/dnsipq.0
+man/cat1/dnsmx.0
+man/cat1/dnsname.0
+man/cat1/dnsq.0
+man/cat1/dnsqr.0
+man/cat1/dnstrace.0
+man/cat1/dnstracesort.0
+man/cat1/dnstxt.0
+man/cat5/qualification.0
+man/cat8/axfr-get.0
+man/cat8/axfrdns.0
+man/cat8/dnscache-conf.0
+man/cat8/dnscache.0
+man/cat8/pickdns-conf.0
+man/cat8/pickdns-data.0
+man/cat8/pickdns.0
+man/cat8/rbldns-conf.0
+man/cat8/rbldns-data.0
+man/cat8/rbldns.0
+man/cat8/tinydns-conf.0
+man/cat8/tinydns-data.0
+man/cat8/tinydns-edit.0
+man/cat8/tinydns.0
+man/cat8/walldns-conf.0
+man/cat8/walldns.0
 share/djbdns/dnsroots.global
-%%original%%
+@exec if [ -f /etc/%f ]; then echo "\n!! WARNING !!\t/etc/%f exists\n\t\tPlease verify with %D/%F"; else /bin/cp %D/%F /etc; fi
+share/djbdns/dnsroots.global.v6
 @exec if [ -f /etc/%f ]; then echo "\n!! WARNING !!\t/etc/%f exists\n\t\tPlease verify with %D/%F"; else /bin/cp %D/%F /etc; fi
 @dirrm share/djbdns
-@unexec echo "Please remove /etc/dnsroots.global manually"
+@unexec echo "Please remove /etc/dnsroots.global{,.v6} manually"
 @cwd ${SYSCONFDIR}
 @extra dnsroots.global
+@extra dnsroots.global.v6
 @extra dnsroots.local
+@extra dnsroots.local.v6
