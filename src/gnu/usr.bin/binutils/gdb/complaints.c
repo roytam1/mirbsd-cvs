@@ -202,6 +202,7 @@ vcomplaint (struct complaints **c, const char *file, int line, const char *fmt,
 	  wrap_here ("");
 	  if (series != SUBSEQUENT_MESSAGE)
 	    begin_line ();
+	  /* XXX: i18n */
 	  fprintf_filtered (gdb_stderr, "%s%s%s",
 			    complaints->explanation[series].prefix, msg,
 			    complaints->explanation[series].postfix);
@@ -297,7 +298,7 @@ clear_complaints (struct complaints **c, int less_verbose, int noisy)
       fputs_unfiltered ("\n", gdb_stderr);
       break;
     default:
-      internal_error (__FILE__, __LINE__, "bad switch");
+      internal_error (__FILE__, __LINE__, _("bad switch"));
     }
 
   if (!less_verbose)
@@ -308,14 +309,21 @@ clear_complaints (struct complaints **c, int less_verbose, int noisy)
     complaints->series = SHORT_FIRST_MESSAGE;
 }
 
+static void
+complaints_show_value (struct ui_file *file, int from_tty,
+		       struct cmd_list_element *cmd, const char *value)
+{
+  fprintf_filtered (file, _("Max number of complaints about incorrect"
+			    " symbols is %s.\n"),
+		    value);
+}
+
 void
 _initialize_complaints (void)
 {
-  add_setshow_zinteger_cmd ("complaints", class_support, &stop_whining, "\
-Set max number of complaints about incorrect symbols.", "\
-Show max number of complaints about incorrect symbols.", NULL, "\
-Max number of complaints about incorrect symbols is %s.",
-			    NULL, NULL,
+  add_setshow_zinteger_cmd ("complaints", class_support, &stop_whining, _("\
+Set max number of complaints about incorrect symbols."), _("\
+Show max number of complaints about incorrect symbols."), NULL,
+			    NULL, complaints_show_value,
 			    &setlist, &showlist);
-
 }

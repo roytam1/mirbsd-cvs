@@ -1,6 +1,7 @@
 /* Target-dependent code for GDB, the GNU debugger.
 
-   Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation,
+   Inc.
 
    Contributed by D.J. Barrow (djbarrow@de.ibm.com,barrow_dj@yahoo.com)
    for IBM Deutschland Entwicklung GmbH, IBM Corporation.
@@ -196,11 +197,11 @@ s390_dwarf_reg_to_regnum (int reg)
 {
   int regnum = -1;
 
-  if (reg >= 0 || reg < ARRAY_SIZE (s390_dwarf_regmap))
+  if (reg >= 0 && reg < ARRAY_SIZE (s390_dwarf_regmap))
     regnum = s390_dwarf_regmap[reg];
 
   if (regnum == -1)
-    warning ("Unmapped DWARF Register #%d encountered\n", reg);
+    warning (_("Unmapped DWARF Register #%d encountered."), reg);
 
   return regnum;
 }
@@ -226,7 +227,7 @@ s390_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
       break;
 
     default:
-      internal_error (__FILE__, __LINE__, "invalid regnum");
+      internal_error (__FILE__, __LINE__, _("invalid regnum"));
     }
 }
 
@@ -253,7 +254,7 @@ s390_pseudo_register_write (struct gdbarch *gdbarch, struct regcache *regcache,
       break;
 
     default:
-      internal_error (__FILE__, __LINE__, "invalid regnum");
+      internal_error (__FILE__, __LINE__, _("invalid regnum"));
     }
 }
 
@@ -275,7 +276,7 @@ s390x_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
       break;
 
     default:
-      internal_error (__FILE__, __LINE__, "invalid regnum");
+      internal_error (__FILE__, __LINE__, _("invalid regnum"));
     }
 }
 
@@ -299,7 +300,7 @@ s390x_pseudo_register_write (struct gdbarch *gdbarch, struct regcache *regcache,
       break;
 
     default:
-      internal_error (__FILE__, __LINE__, "invalid regnum");
+      internal_error (__FILE__, __LINE__, _("invalid regnum"));
     }
 }
 
@@ -2434,10 +2435,10 @@ extend_simple_arg (struct value *arg)
      register / memory word.  It's not really right to extract them as
      an integer, but it does take care of the extension.  */
   if (TYPE_UNSIGNED (type))
-    return extract_unsigned_integer (VALUE_CONTENTS (arg),
+    return extract_unsigned_integer (value_contents (arg),
                                      TYPE_LENGTH (type));
   else
-    return extract_signed_integer (VALUE_CONTENTS (arg),
+    return extract_signed_integer (value_contents (arg),
                                    TYPE_LENGTH (type));
 }
 
@@ -2518,7 +2519,7 @@ s390_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
         {
           sp -= length;
           sp = align_down (sp, alignment_of (type));
-          write_memory (sp, VALUE_CONTENTS (arg), length);
+          write_memory (sp, value_contents (arg), length);
           copy_addr[i] = sp;
         }
     }
@@ -2578,7 +2579,7 @@ s390_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 		/* When we store a single-precision value in an FP register,
 		   it occupies the leftmost bits.  */
 		regcache_cooked_write_part (regcache, S390_F0_REGNUM + fr,
-					    0, length, VALUE_CONTENTS (arg));
+					    0, length, value_contents (arg));
 		fr += 2;
 	      }
 	    else
@@ -2586,7 +2587,7 @@ s390_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 		/* When we store a single-precision value in a stack slot,
 		   it occupies the rightmost bits.  */
 		starg = align_up (starg + length, word_size);
-                write_memory (starg - length, VALUE_CONTENTS (arg), length);
+                write_memory (starg - length, value_contents (arg), length);
 	      }
 	  }
 	else if (s390_function_arg_integer (type) && length <= word_size)
@@ -2611,9 +2612,9 @@ s390_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	    if (gr <= 5)
 	      {
 		regcache_cooked_write (regcache, S390_R0_REGNUM + gr,
-				       VALUE_CONTENTS (arg));
+				       value_contents (arg));
 		regcache_cooked_write (regcache, S390_R0_REGNUM + gr + 1,
-				       VALUE_CONTENTS (arg) + word_size);
+				       value_contents (arg) + word_size);
 		gr += 2;
 	      }
 	    else
@@ -2622,12 +2623,12 @@ s390_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 		   in it, then don't go back and use it again later.  */
 		gr = 7;
 
-		write_memory (starg, VALUE_CONTENTS (arg), length);
+		write_memory (starg, value_contents (arg), length);
 		starg += length;
 	      }
 	  }
 	else
-	  internal_error (__FILE__, __LINE__, "unknown argument type");
+	  internal_error (__FILE__, __LINE__, _("unknown argument type"));
       }
   }
 
@@ -2728,11 +2729,11 @@ s390_return_value (struct gdbarch *gdbarch, struct type *type,
 				     (const char *)in + word_size);
 	    }
 	  else
-	    internal_error (__FILE__, __LINE__, "invalid return type");
+	    internal_error (__FILE__, __LINE__, _("invalid return type"));
 	  break;
 
 	case RETURN_VALUE_STRUCT_CONVENTION:
-	  error ("Cannot set function return value.");
+	  error (_("Cannot set function return value."));
 	  break;
 	}
     }
@@ -2761,11 +2762,11 @@ s390_return_value (struct gdbarch *gdbarch, struct type *type,
 				    (char *)out + word_size);
 	    }
 	  else
-	    internal_error (__FILE__, __LINE__, "invalid return type");
+	    internal_error (__FILE__, __LINE__, _("invalid return type"));
 	  break;
 
 	case RETURN_VALUE_STRUCT_CONVENTION:
-	  error ("Function return value unknown.");
+	  error (_("Function return value unknown."));
 	  break;
 	}
     }
@@ -3005,6 +3006,10 @@ s390_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
     }
 
   set_gdbarch_print_insn (gdbarch, print_insn_s390);
+
+  /* Enable TLS support.  */
+  set_gdbarch_fetch_tls_load_module_address (gdbarch,
+                                             svr4_fetch_objfile_link_map);
 
   return gdbarch;
 }

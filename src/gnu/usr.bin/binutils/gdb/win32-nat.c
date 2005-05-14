@@ -1,6 +1,6 @@
 /* Target-vector operations for controlling win32 child processes, for GDB.
 
-   Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    Contributed by Cygnus Solutions, A Red Hat Company.
@@ -30,6 +30,7 @@
 #include "frame.h"		/* required by inferior.h */
 #include "inferior.h"
 #include "target.h"
+#include "exceptions.h"
 #include "gdbcore.h"
 #include "command.h"
 #include "completer.h"
@@ -299,6 +300,7 @@ child_init_thread_list (void)
       (void) CloseHandle (here->h);
       xfree (here);
     }
+  thread_head.next = NULL;
 }
 
 /* Delete a thread from the list of threads */
@@ -476,14 +478,14 @@ psapi_get_dll_name (DWORD BaseAddress, char *dll_name_ret)
 					  DllHandle[i],
 					  &mi,
 					  sizeof (mi)))
-	error ("Can't get module info");
+	error (_("Can't get module info"));
 
       len = (*psapi_GetModuleFileNameExA) (current_process_handle,
 					   DllHandle[i],
 					   dll_name_ret,
 					   MAX_PATH);
       if (len == 0)
-	error ("Error getting dll name: %u\n", (unsigned) GetLastError ());
+	error (_("Error getting dll name: %u."), (unsigned) GetLastError ());
 
       if ((DWORD) (mi.lpBaseOfDll) == BaseAddress)
 	return 1;
@@ -716,7 +718,7 @@ handle_unload_dll (void *dummy)
 	xfree(sodel);
 	return 1;
       }
-  error ("Error: dll starting at 0x%lx not found.\n", (DWORD) lpBaseOfDll);
+  error (_("Error: dll starting at 0x%lx not found."), (DWORD) lpBaseOfDll);
 
   return 0;
 }
@@ -872,7 +874,7 @@ dll_symbol_command (char *args, int from_tty)
   dont_repeat ();
 
   if (args == NULL)
-    error ("dll-symbols requires a file name");
+    error (_("dll-symbols requires a file name"));
 
   n = strlen (args);
   if (n > 4 && strcasecmp (args + n - 4, ".dll") != 0)
@@ -919,7 +921,7 @@ handle_output_debug_string (struct target_waitstatus *ourstatus)
   if (strncmp (s, CYGWIN_SIGNAL_STRING, sizeof (CYGWIN_SIGNAL_STRING) - 1) != 0)
     {
       if (strncmp (s, "cYg", 3) != 0)
-	warning ("%s", s);
+	warning (("%s"), s);
     }
   else
     {
@@ -1075,6 +1077,14 @@ handle_exception (struct target_waitstatus *ourstatus)
     case EXCEPTION_ACCESS_VIOLATION:
       DEBUG_EXCEPTION_SIMPLE ("EXCEPTION_ACCESS_VIOLATION");
       ourstatus->value.sig = TARGET_SIGNAL_SEGV;
+      {
+	char *fn;
+	if (find_pc_partial_function ((CORE_ADDR) current_event.u.Exception
+				      .ExceptionRecord.ExceptionAddress,
+				      &fn, NULL, NULL)
+	    && strncmp (fn, "KERNEL32!IsBad", strlen ("KERNEL32!IsBad")) == 0)
+	  return 0;
+      }
       break;
     case STATUS_STACK_OVERFLOW:
       DEBUG_EXCEPTION_SIMPLE ("STATUS_STACK_OVERFLOW");
@@ -1358,6 +1368,8 @@ get_child_debug_event (int pid, struct target_waitstatus *ourstatus)
 	break;
       if (handle_exception (ourstatus))
 	retval = current_event.dwThreadId;
+      else
+	continue_status = DBG_EXCEPTION_NOT_HANDLED;
       break;
 
     case OUTPUT_DEBUG_STRING_EVENT:	/* message from the kernel */
@@ -1440,7 +1452,6 @@ do_initial_child_stuff (DWORD pid)
   current_event.dwProcessId = pid;
   memset (&current_event, 0, sizeof (current_event));
   push_target (&deprecated_child_ops);
-  child_init_thread_list ();
   disable_breakpoints_in_shlibs (1);
   child_clear_solibs ();
   clear_proceed_status ();
@@ -1576,7 +1587,7 @@ child_attach (char *args, int from_tty)
   DWORD pid;
 
   if (!args)
-    error_no_arg ("process-id to attach");
+    error_no_arg (_("process-id to attach"));
 
   if (set_process_privilege (SE_DEBUG_NAME, TRUE) < 0)
     {
@@ -1586,6 +1597,7 @@ child_attach (char *args, int from_tty)
 
   pid = strtoul (args, 0, 0);		/* Windows pid */
 
+  child_init_thread_list ();
   ok = DebugActiveProcess (pid);
   saw_create = 0;
 
@@ -1598,7 +1610,7 @@ child_attach (char *args, int from_tty)
 	ok = DebugActiveProcess (pid);
 
       if (!ok)
-	error ("Can't attach to process.");
+	error (_("Can't attach to process."));
     }
 
   if (has_detach_ability ())
@@ -1635,7 +1647,7 @@ child_detach (char *args, int from_tty)
       child_continue (DBG_CONTINUE, -1);
       if (!DebugActiveProcessStop (current_event.dwProcessId))
 	{
-	  error ("Can't detach process %lu (error %lu)",
+	  error (_("Can't detach process %lu (error %lu)"),
 		 current_event.dwProcessId, GetLastError ());
 	  detached = 0;
 	}
@@ -1696,7 +1708,7 @@ child_files_info (struct target_ops *ignore)
 static void
 child_open (char *arg, int from_tty)
 {
-  error ("Use the \"run\" command to start a Unix child process.");
+  error (_("Use the \"run\" command to start a Unix child process."));
 }
 
 /* Start an inferior win32 child process and sets inferior_ptid to its pid.
@@ -1725,7 +1737,7 @@ child_create_inferior (char *exec_file, char *allargs, char **env,
   int ostdin, ostdout, ostderr;
 
   if (!exec_file)
-    error ("No executable specified, use `target exec'.\n");
+    error (_("No executable specified, use `target exec'."));
 
   memset (&si, 0, sizeof (si));
   si.cb = sizeof (si);
@@ -1858,6 +1870,7 @@ child_create_inferior (char *exec_file, char *allargs, char **env,
 	}
     }
 
+  child_init_thread_list ();
   ret = CreateProcess (0,
 		       args,	/* command line */
 		       NULL,	/* Security */
@@ -1880,7 +1893,8 @@ child_create_inferior (char *exec_file, char *allargs, char **env,
     }
 
   if (!ret)
-    error ("Error creating process %s, (error %d)\n", exec_file, (unsigned) GetLastError ());
+    error (_("Error creating process %s, (error %d)."),
+	   exec_file, (unsigned) GetLastError ());
 
   CloseHandle (pi.hThread);
   CloseHandle (pi.hProcess);
@@ -2115,69 +2129,70 @@ _initialize_win32_nat (void)
   init_child_ops ();
 
   c = add_com ("dll-symbols", class_files, dll_symbol_command,
-	       "Load dll library symbols from FILE.");
+	       _("Load dll library symbols from FILE."));
   set_cmd_completer (c, filename_completer);
 
   add_com_alias ("sharedlibrary", "dll-symbols", class_alias, 1);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("shell", class_support, var_boolean,
-		  (char *) &useshell,
-		  "Set use of shell to start subprocess.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("shell", class_support, &useshell, _("\
+Set use of shell to start subprocess."), _("\
+Show use of shell to start subprocess."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("new-console", class_support, var_boolean,
-		  (char *) &new_console,
-		  "Set creation of new console when creating child process.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("new-console", class_support, &new_console, _("\
+Set creation of new console when creating child process."), _("\
+Show creation of new console when creating child process."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("new-group", class_support, var_boolean,
-		  (char *) &new_group,
-		  "Set creation of new group when creating child process.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("new-group", class_support, &new_group, _("\
+Set creation of new group when creating child process."), _("\
+Show creation of new group when creating child process."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("debugexec", class_support, var_boolean,
-		  (char *) &debug_exec,
-		  "Set whether to display execution in child process.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("debugexec", class_support, &debug_exec, _("\
+Set whether to display execution in child process."), _("\
+Show whether to display execution in child process."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("debugevents", class_support, var_boolean,
-		  (char *) &debug_events,
-		  "Set whether to display kernel events in child process.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("debugevents", class_support, &debug_events, _("\
+Set whether to display kernel events in child process."), _("\
+Show whether to display kernel events in child process."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("debugmemory", class_support, var_boolean,
-		  (char *) &debug_memory,
-		  "Set whether to display memory accesses in child process.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("debugmemory", class_support, &debug_memory, _("\
+Set whether to display memory accesses in child process."), _("\
+Show whether to display memory accesses in child process."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("debugexceptions", class_support, var_boolean,
-		  (char *) &debug_exceptions,
-		  "Set whether to display kernel exceptions in child process.",
-		  &setlist),
-     &showlist);
+  add_setshow_boolean_cmd ("debugexceptions", class_support,
+			   &debug_exceptions, _("\
+Set whether to display kernel exceptions in child process."), _("\
+Show whether to display kernel exceptions in child process."), NULL,
+			   NULL,
+			   NULL, /* FIXME: i18n: */
+			   &setlist, &showlist);
 
-  add_info ("dll", info_dll_command, "Status of loaded DLLs.");
+  add_info ("dll", info_dll_command, _("Status of loaded DLLs."));
   add_info_alias ("sharedlibrary", "dll", 1);
 
   add_prefix_cmd ("w32", class_info, info_w32_command,
-		  "Print information specific to Win32 debugging.",
+		  _("Print information specific to Win32 debugging."),
 		  &info_w32_cmdlist, "info w32 ", 0, &infolist);
 
   add_cmd ("selector", class_info, display_selectors,
-	   "Display selectors infos.",
+	   _("Display selectors infos."),
 	   &info_w32_cmdlist);
 
   add_target (&deprecated_child_ops);
@@ -2193,7 +2208,7 @@ cygwin_set_dr (int i, CORE_ADDR addr)
 {
   if (i < 0 || i > 3)
     internal_error (__FILE__, __LINE__,
-		    "Invalid register %d in cygwin_set_dr.\n", i);
+		    _("Invalid register %d in cygwin_set_dr.\n"), i);
   dr[i] = (unsigned) addr;
   debug_registers_changed = 1;
   debug_registers_used = 1;
@@ -2440,7 +2455,7 @@ fetch_elf_core_registers (char *core_reg_sect,
   int r;
   if (core_reg_size < sizeof (CONTEXT))
     {
-      error ("Core file register section too small (%u bytes).", core_reg_size);
+      error (_("Core file register section too small (%u bytes)."), core_reg_size);
       return;
     }
   for (r = 0; r < NUM_REGS; r++)
@@ -2486,7 +2501,7 @@ _initialize_check_for_gdb_ini (void)
 	  char *newini = alloca (len + 1);
 	  sprintf (newini, "%.*s.gdbinit",
 	    (int) (len - (sizeof ("gdb.ini") - 1)), oldini);
-	  warning ("obsolete '%s' found. Rename to '%s'.", oldini, newini);
+	  warning (_("obsolete '%s' found. Rename to '%s'."), oldini, newini);
 	}
     }
 }

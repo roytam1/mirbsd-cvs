@@ -1,5 +1,7 @@
 /* Java language support routines for GDB, the GNU debugger.
-   Copyright 1997, 1998, 1999, 2000, 2003, 2004 Free Software Foundation, Inc.
+
+   Copyright 1997, 1998, 1999, 2000, 2003, 2004, 2005 Free Software
+   Foundation, Inc.
 
    This file is part of GDB.
 
@@ -318,7 +320,7 @@ type_from_class (struct value *clas)
       temp = clas;
       /* Set array element type. */
       temp = value_struct_elt (&temp, NULL, "methods", NULL, "structure");
-      temp->type = lookup_pointer_type (value_type (clas));
+      deprecated_set_value_type (temp, lookup_pointer_type (value_type (clas)));
       TYPE_TARGET_TYPE (type) = type_from_class (temp);
     }
 
@@ -439,7 +441,7 @@ java_link_class_type (struct type *type, struct value *clas)
       else
 	{			/* Re-use field value for next field. */
 	  VALUE_ADDRESS (field) += TYPE_LENGTH (value_type (field));
-	  VALUE_LAZY (field) = 1;
+	  set_value_lazy (field, 1);
 	}
       temp = field;
       temp = value_struct_elt (&temp, NULL, "name", NULL, "structure");
@@ -509,7 +511,7 @@ java_link_class_type (struct type *type, struct value *clas)
       else
 	{			/* Re-use method value for next method. */
 	  VALUE_ADDRESS (method) += TYPE_LENGTH (value_type (method));
-	  VALUE_LAZY (method) = 1;
+	  set_value_lazy (method, 1);
 	}
 
       /* Get method name. */
@@ -578,7 +580,7 @@ get_java_object_type (void)
       sym = lookup_symbol ("java.lang.Object", NULL, STRUCT_DOMAIN,
 			   (int *) 0, (struct symtab **) NULL);
       if (sym == NULL)
-	error ("cannot find java.lang.Object");
+	error (_("cannot find java.lang.Object"));
       java_object_type = SYMBOL_TYPE (sym);
     }
   return java_object_type;
@@ -644,7 +646,7 @@ java_primitive_type (int signature)
     case 'V':
       return java_void_type;
     }
-  error ("unknown signature '%c' for primitive type", (char) signature);
+  error (_("unknown signature '%c' for primitive type"), (char) signature);
 }
 
 /* If name[0 .. namelen-1] is the name of a primitive Java type,
@@ -788,7 +790,7 @@ java_array_type (struct type *type, int dims)
 static struct value *
 java_value_string (char *ptr, int len)
 {
-  error ("not implemented - java_value_string");	/* FIXME */
+  error (_("not implemented - java_value_string"));	/* FIXME */
 }
 
 /* Print the character C on STREAM as part of the contents of a literal
@@ -888,7 +890,7 @@ evaluate_subexp_java (struct type *expect_type, struct expression *exp,
 	  /* Get CLASS_ELEMENT_TYPE of the array type. */
 	  temp = value_struct_elt (&temp, NULL, "methods",
 				   NULL, "structure");
-	  temp->type = value_type (clas);
+	  deprecated_set_value_type (temp, value_type (clas));
 	  el_type = type_from_class (temp);
 	  if (TYPE_CODE (el_type) == TYPE_CODE_STRUCT)
 	    el_type = lookup_pointer_type (el_type);
@@ -901,7 +903,7 @@ evaluate_subexp_java (struct type *expect_type, struct expression *exp,
 	  length = (long) extract_signed_integer (buf4, 4);
 	  index = (long) value_as_long (arg2);
 	  if (index >= length || index < 0)
-	    error ("array index (%ld) out of bounds (length: %ld)",
+	    error (_("array index (%ld) out of bounds (length: %ld)"),
 		   index, length);
 	  address = (address + 4) + index * TYPE_LENGTH (el_type);
 	  return value_at (el_type, address);
@@ -914,9 +916,9 @@ evaluate_subexp_java (struct type *expect_type, struct expression *exp,
 	    return value_subscript (arg1, arg2);
 	}
       if (name)
-	error ("cannot subscript something of type `%s'", name);
+	error (_("cannot subscript something of type `%s'"), name);
       else
-	error ("cannot subscript requested type");
+	error (_("cannot subscript requested type"));
 
     case OP_STRING:
       (*pos)++;

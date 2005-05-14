@@ -1,6 +1,6 @@
 /* GNU/Linux native-dependent code common to multiple platforms.
 
-   Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -82,6 +82,13 @@
 #endif
 
 static int debug_linux_nat;
+static void
+show_debug_linux_nat (struct ui_file *file, int from_tty,
+		      struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("Debugging of GNU/Linux lwp module is %s.\n"),
+		    value);
+}
 
 static int linux_parent_pid;
 
@@ -193,18 +200,18 @@ linux_test_for_tracefork (int original_pid)
 
   child_pid = fork ();
   if (child_pid == -1)
-    perror_with_name ("linux_test_for_tracefork: fork");
+    perror_with_name (("fork"));
 
   if (child_pid == 0)
     linux_tracefork_child ();
 
   ret = my_waitpid (child_pid, &status, 0);
   if (ret == -1)
-    perror_with_name ("linux_test_for_tracefork: waitpid");
+    perror_with_name (("waitpid"));
   else if (ret != child_pid)
-    error ("linux_test_for_tracefork: waitpid: unexpected result %d.", ret);
+    error (_("linux_test_for_tracefork: waitpid: unexpected result %d."), ret);
   if (! WIFSTOPPED (status))
-    error ("linux_test_for_tracefork: waitpid: unexpected status %d.", status);
+    error (_("linux_test_for_tracefork: waitpid: unexpected status %d."), status);
 
   ret = ptrace (PTRACE_SETOPTIONS, child_pid, 0, PTRACE_O_TRACEFORK);
   if (ret != 0)
@@ -212,16 +219,16 @@ linux_test_for_tracefork (int original_pid)
       ret = ptrace (PTRACE_KILL, child_pid, 0, 0);
       if (ret != 0)
 	{
-	  warning ("linux_test_for_tracefork: failed to kill child");
+	  warning (_("linux_test_for_tracefork: failed to kill child"));
 	  return;
 	}
 
       ret = my_waitpid (child_pid, &status, 0);
       if (ret != child_pid)
-	warning ("linux_test_for_tracefork: failed to wait for killed child");
+	warning (_("linux_test_for_tracefork: failed to wait for killed child"));
       else if (!WIFSIGNALED (status))
-	warning ("linux_test_for_tracefork: unexpected wait status 0x%x from "
-		 "killed child", status);
+	warning (_("linux_test_for_tracefork: unexpected wait status 0x%x from "
+		 "killed child"), status);
 
       return;
     }
@@ -233,7 +240,7 @@ linux_test_for_tracefork (int original_pid)
 
   ret = ptrace (PTRACE_CONT, child_pid, 0, 0);
   if (ret != 0)
-    warning ("linux_test_for_tracefork: failed to resume child");
+    warning (_("linux_test_for_tracefork: failed to resume child"));
 
   ret = my_waitpid (child_pid, &status, 0);
 
@@ -250,16 +257,16 @@ linux_test_for_tracefork (int original_pid)
 	  my_waitpid (second_pid, &second_status, 0);
 	  ret = ptrace (PTRACE_KILL, second_pid, 0, 0);
 	  if (ret != 0)
-	    warning ("linux_test_for_tracefork: failed to kill second child");
+	    warning (_("linux_test_for_tracefork: failed to kill second child"));
 	}
     }
   else
-    warning ("linux_test_for_tracefork: unexpected result from waitpid "
-	     "(%d, status 0x%x)", ret, status);
+    warning (_("linux_test_for_tracefork: unexpected result from waitpid "
+	     "(%d, status 0x%x)"), ret, status);
 
   ret = ptrace (PTRACE_KILL, child_pid, 0, 0);
   if (ret != 0)
-    warning ("linux_test_for_tracefork: failed to kill child");
+    warning (_("linux_test_for_tracefork: failed to kill child"));
   my_waitpid (child_pid, &status, 0);
 }
 
@@ -286,8 +293,11 @@ linux_supports_tracevforkdone (int pid)
 void
 linux_enable_event_reporting (ptid_t ptid)
 {
-  int pid = ptid_get_pid (ptid);
+  int pid = ptid_get_lwp (ptid);
   int options;
+
+  if (pid == 0)
+    pid = ptid_get_pid (ptid);
 
   if (! linux_supports_tracefork (pid))
     return;
@@ -333,7 +343,9 @@ child_follow_fork (int follow_child)
 
   get_last_target_status (&last_ptid, &last_status);
   has_vforked = (last_status.kind == TARGET_WAITKIND_VFORKED);
-  parent_pid = ptid_get_pid (last_ptid);
+  parent_pid = ptid_get_lwp (last_ptid);
+  if (parent_pid == 0)
+    parent_pid = ptid_get_pid (last_ptid);
   child_pid = last_status.value.related_pid;
 
   if (! follow_child)
@@ -347,9 +359,13 @@ child_follow_fork (int follow_child)
 	 also, but they'll be reinserted below.  */
       detach_breakpoints (child_pid);
 
-      fprintf_filtered (gdb_stdout,
-			"Detaching after fork from child process %d.\n",
-			child_pid);
+      if (debug_linux_nat)
+	{
+	  target_terminal_ours ();
+	  fprintf_unfiltered (gdb_stdlog,
+			      "Detaching after fork from child process %d.\n",
+			      child_pid);
+	}
 
       ptrace (PTRACE_DETACH, child_pid, 0, 0);
 
@@ -363,8 +379,8 @@ child_follow_fork (int follow_child)
 	      ptrace (PTRACE_CONT, parent_pid, 0, 0);
 	      waitpid (parent_pid, &status, __WALL);
 	      if ((status >> 16) != PTRACE_EVENT_VFORK_DONE)
-		warning ("Unexpected waitpid result %06x when waiting for "
-			 "vfork-done", status);
+		warning (_("Unexpected waitpid result %06x when waiting for "
+			 "vfork-done"), status);
 	    }
 	  else
 	    {
@@ -418,9 +434,13 @@ child_follow_fork (int follow_child)
       /* Before detaching from the parent, remove all breakpoints from it. */
       remove_breakpoints ();
 
-      fprintf_filtered (gdb_stdout,
-			"Attaching after fork to child process %d.\n",
-			child_pid);
+      if (debug_linux_nat)
+	{
+	  target_terminal_ours ();
+	  fprintf_unfiltered (gdb_stdlog,
+			      "Attaching after fork to child process %d.\n",
+			      child_pid);
+	}
 
       /* If we're vforking, we may want to hold on to the parent until
 	 the child exits or execs.  At exec time we can remove the old
@@ -479,13 +499,13 @@ linux_handle_extended_wait (int pid, int status,
 			   (event == PTRACE_EVENT_CLONE) ? __WCLONE : 0);
 	  } while (ret == -1 && errno == EINTR);
 	  if (ret == -1)
-	    perror_with_name ("waiting for new child");
+	    perror_with_name (_("waiting for new child"));
 	  else if (ret != new_pid)
 	    internal_error (__FILE__, __LINE__,
-			    "wait returned unexpected PID %d", ret);
+			    _("wait returned unexpected PID %d"), ret);
 	  else if (!WIFSTOPPED (status) || WSTOPSIG (status) != SIGSTOP)
 	    internal_error (__FILE__, __LINE__,
-			    "wait returned unexpected status 0x%x", status);
+			    _("wait returned unexpected status 0x%x"), status);
 	}
 
       if (event == PTRACE_EVENT_FORK)
@@ -517,35 +537,29 @@ linux_handle_extended_wait (int pid, int status,
     }
 
   internal_error (__FILE__, __LINE__,
-		  "unknown ptrace event %d", event);
+		  _("unknown ptrace event %d"), event);
 }
 
 
-int
+void
 child_insert_fork_catchpoint (int pid)
 {
   if (! linux_supports_tracefork (pid))
-    error ("Your system does not support fork catchpoints.");
-
-  return 0;
+    error (_("Your system does not support fork catchpoints."));
 }
 
-int
+void
 child_insert_vfork_catchpoint (int pid)
 {
   if (!linux_supports_tracefork (pid))
-    error ("Your system does not support vfork catchpoints.");
-
-  return 0;
+    error (_("Your system does not support vfork catchpoints."));
 }
 
-int
+void
 child_insert_exec_catchpoint (int pid)
 {
   if (!linux_supports_tracefork (pid))
-    error ("Your system does not support exec catchpoints.");
-
-  return 0;
+    error (_("Your system does not support exec catchpoints."));
 }
 
 void
@@ -828,7 +842,7 @@ lin_lwp_attach_lwp (ptid_t ptid, int verbose)
     }
 
   if (verbose)
-    printf_filtered ("[New %s]\n", target_pid_to_str (ptid));
+    printf_filtered (_("[New %s]\n"), target_pid_to_str (ptid));
 
   found_lp = lp = find_lwp_pid (ptid);
   if (lp == NULL)
@@ -846,7 +860,7 @@ lin_lwp_attach_lwp (ptid_t ptid, int verbose)
       int status;
 
       if (ptrace (PTRACE_ATTACH, GET_LWP (ptid), 0, 0) < 0)
-	error ("Can't attach %s: %s", target_pid_to_str (ptid),
+	error (_("Can't attach %s: %s"), target_pid_to_str (ptid),
 	       safe_strerror (errno));
 
       if (debug_linux_nat)
@@ -909,7 +923,7 @@ linux_nat_attach (char *args, int from_tty)
   pid = waitpid (GET_PID (inferior_ptid), &status, 0);
   if (pid == -1 && errno == ECHILD)
     {
-      warning ("%s is a cloned process", target_pid_to_str (inferior_ptid));
+      warning (_("%s is a cloned process"), target_pid_to_str (inferior_ptid));
 
       /* Try again with __WCLONE to check cloned processes.  */
       pid = waitpid (GET_PID (inferior_ptid), &status, __WCLONE);
@@ -946,7 +960,7 @@ detach_callback (struct lwp_info *lp, void *data)
       errno = 0;
       if (ptrace (PTRACE_CONT, GET_LWP (lp->ptid), 0,
 		  WSTOPSIG (lp->status)) < 0)
-	error ("Can't continue %s: %s", target_pid_to_str (lp->ptid),
+	error (_("Can't continue %s: %s"), target_pid_to_str (lp->ptid),
 	       safe_strerror (errno));
 
       if (debug_linux_nat)
@@ -975,7 +989,7 @@ detach_callback (struct lwp_info *lp, void *data)
       errno = 0;
       if (ptrace (PTRACE_DETACH, GET_LWP (lp->ptid), 0,
 		  WSTOPSIG (lp->status)) < 0)
-	error ("Can't detach %s: %s", target_pid_to_str (lp->ptid),
+	error (_("Can't detach %s: %s"), target_pid_to_str (lp->ptid),
 	       safe_strerror (errno));
 
       if (debug_linux_nat)
@@ -1224,7 +1238,7 @@ wait_lwp (struct lwp_info *lp)
 	  /* Core GDB cannot deal with us deleting the current thread.  */
 	  if (!ptid_equal (lp->ptid, inferior_ptid))
 	    delete_thread (lp->ptid);
-	  printf_unfiltered ("[%s exited]\n",
+	  printf_unfiltered (_("[%s exited]\n"),
 			     target_pid_to_str (lp->ptid));
 	}
 
@@ -1476,7 +1490,7 @@ flush_callback (struct lwp_info *lp, void *data)
   if (lp->status)
     {
       if (debug_linux_nat)
-	printf_unfiltered ("FC: LP has pending status %06x\n", lp->status);
+	printf_unfiltered (_("FC: LP has pending status %06x\n"), lp->status);
       if (WIFSTOPPED (lp->status) && sigismember (flush_mask, WSTOPSIG (lp->status)))
 	lp->status = 0;
     }
@@ -1759,7 +1773,7 @@ child_wait (ptid_t ptid, struct target_waitstatus *ourstatus)
 
   if (pid == -1)
     {
-      warning ("Child process unexpectedly missing: %s",
+      warning (_("Child process unexpectedly missing: %s"),
 	       safe_strerror (errno));
 
       /* Claim it exited with unknown signal.  */
@@ -1973,7 +1987,7 @@ retry:
 		    }
 
 		  add_thread (lp->ptid);
-		  printf_unfiltered ("[New %s]\n",
+		  printf_unfiltered (_("[New %s]\n"),
 				     target_pid_to_str (lp->ptid));
 		}
 	    }
@@ -2001,7 +2015,7 @@ retry:
 		     thread.  */
 		  if (!ptid_equal (lp->ptid, inferior_ptid))
 		    delete_thread (lp->ptid);
-		  printf_unfiltered ("[%s exited]\n",
+		  printf_unfiltered (_("[%s exited]\n"),
 				     target_pid_to_str (lp->ptid));
 		}
 
@@ -2054,7 +2068,7 @@ retry:
 		     thread.  */
 		  if (!ptid_equal (lp->ptid, inferior_ptid))
 		    delete_thread (lp->ptid);
-		  printf_unfiltered ("[%s exited]\n",
+		  printf_unfiltered (_("[%s exited]\n"),
 				     target_pid_to_str (lp->ptid));
 		}
 	      if (debug_linux_nat)
@@ -2477,7 +2491,7 @@ linux_nat_find_memory_regions (int (*func) (CORE_ADDR,
   /* Compose the filename for the /proc memory map, and open it.  */
   sprintf (mapsfilename, "/proc/%lld/maps", pid);
   if ((mapsfile = fopen (mapsfilename, "r")) == NULL)
-    error ("Could not open %s\n", mapsfilename);
+    error (_("Could not open %s."), mapsfilename);
 
   if (info_verbose)
     fprintf_filtered (gdb_stdout,
@@ -2729,13 +2743,13 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
       argv++;
     }
   if (pid == 0)
-    error ("No current process: you must name one.");
+    error (_("No current process: you must name one."));
 
   sprintf (fname1, "/proc/%lld", pid);
   if (stat (fname1, &dummy) != 0)
-    error ("No /proc directory: '%s'", fname1);
+    error (_("No /proc directory: '%s'"), fname1);
 
-  printf_filtered ("process %lld\n", pid);
+  printf_filtered (_("process %lld\n"), pid);
   if (cmdline_f || all)
     {
       sprintf (fname1, "/proc/%lld/cmdline", pid);
@@ -2746,7 +2760,7 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
 	  fclose (procfile);
 	}
       else
-	warning ("unable to open /proc file '%s'", fname1);
+	warning (_("unable to open /proc file '%s'"), fname1);
     }
   if (cwd_f || all)
     {
@@ -2755,7 +2769,7 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
       if (readlink (fname1, fname2, sizeof (fname2)) > 0)
 	printf_filtered ("cwd = '%s'\n", fname2);
       else
-	warning ("unable to read link '%s'", fname1);
+	warning (_("unable to read link '%s'"), fname1);
     }
   if (exe_f || all)
     {
@@ -2764,7 +2778,7 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
       if (readlink (fname1, fname2, sizeof (fname2)) > 0)
 	printf_filtered ("exe = '%s'\n", fname2);
       else
-	warning ("unable to read link '%s'", fname1);
+	warning (_("unable to read link '%s'"), fname1);
     }
   if (mappings_f || all)
     {
@@ -2774,7 +2788,7 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
 	  long long addr, endaddr, size, offset, inode;
 	  char permissions[8], device[8], filename[MAXPATHLEN];
 
-	  printf_filtered ("Mapped address spaces:\n\n");
+	  printf_filtered (_("Mapped address spaces:\n\n"));
 	  if (TARGET_ADDR_BIT == 32)
 	    {
 	      printf_filtered ("\t%10s %10s %10s %10s %7s\n",
@@ -2824,7 +2838,7 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
 	  fclose (procfile);
 	}
       else
-	warning ("unable to open /proc file '%s'", fname1);
+	warning (_("unable to open /proc file '%s'"), fname1);
     }
   if (status_f || all)
     {
@@ -2836,7 +2850,7 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
 	  fclose (procfile);
 	}
       else
-	warning ("unable to open /proc file '%s'", fname1);
+	warning (_("unable to open /proc file '%s'"), fname1);
     }
   if (stat_f || all)
     {
@@ -2847,34 +2861,34 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
 	  char ctmp;
 
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Process: %d\n", itmp);
+	    printf_filtered (_("Process: %d\n"), itmp);
 	  if (fscanf (procfile, "%s ", &buffer[0]) > 0)
-	    printf_filtered ("Exec file: %s\n", buffer);
+	    printf_filtered (_("Exec file: %s\n"), buffer);
 	  if (fscanf (procfile, "%c ", &ctmp) > 0)
-	    printf_filtered ("State: %c\n", ctmp);
+	    printf_filtered (_("State: %c\n"), ctmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Parent process: %d\n", itmp);
+	    printf_filtered (_("Parent process: %d\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Process group: %d\n", itmp);
+	    printf_filtered (_("Process group: %d\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Session id: %d\n", itmp);
+	    printf_filtered (_("Session id: %d\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("TTY: %d\n", itmp);
+	    printf_filtered (_("TTY: %d\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("TTY owner process group: %d\n", itmp);
+	    printf_filtered (_("TTY owner process group: %d\n"), itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Flags: 0x%x\n", itmp);
+	    printf_filtered (_("Flags: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Minor faults (no memory page): %u\n",
+	    printf_filtered (_("Minor faults (no memory page): %u\n"),
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Minor faults, children: %u\n",
+	    printf_filtered (_("Minor faults, children: %u\n"),
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Major faults (memory page faults): %u\n",
+	    printf_filtered (_("Major faults (memory page faults): %u\n"),
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Major faults, children: %u\n",
+	    printf_filtered (_("Major faults, children: %u\n"),
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
 	    printf_filtered ("utime: %d\n", itmp);
@@ -2885,53 +2899,53 @@ linux_nat_info_proc_cmd (char *args, int from_tty)
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
 	    printf_filtered ("stime, children: %d\n", itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("jiffies remaining in current time slice: %d\n",
+	    printf_filtered (_("jiffies remaining in current time slice: %d\n"),
 			     itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
 	    printf_filtered ("'nice' value: %d\n", itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("jiffies until next timeout: %u\n",
+	    printf_filtered (_("jiffies until next timeout: %u\n"),
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
 	    printf_filtered ("jiffies until next SIGALRM: %u\n",
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("start time (jiffies since system boot): %d\n",
+	    printf_filtered (_("start time (jiffies since system boot): %d\n"),
 			     itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Virtual memory size: %u\n",
+	    printf_filtered (_("Virtual memory size: %u\n"),
 			     (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Resident set size: %u\n", (unsigned int) itmp);
+	    printf_filtered (_("Resident set size: %u\n"), (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
 	    printf_filtered ("rlim: %u\n", (unsigned int) itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Start of text: 0x%x\n", itmp);
+	    printf_filtered (_("Start of text: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("End of text: 0x%x\n", itmp);
+	    printf_filtered (_("End of text: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)
-	    printf_filtered ("Start of stack: 0x%x\n", itmp);
+	    printf_filtered (_("Start of stack: 0x%x\n"), itmp);
 #if 0				/* Don't know how architecture-dependent the rest is...
 				   Anyway the signal bitmap info is available from "status".  */
 	  if (fscanf (procfile, "%u ", &itmp) > 0)	/* FIXME arch? */
-	    printf_filtered ("Kernel stack pointer: 0x%x\n", itmp);
+	    printf_filtered (_("Kernel stack pointer: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)	/* FIXME arch? */
-	    printf_filtered ("Kernel instr pointer: 0x%x\n", itmp);
+	    printf_filtered (_("Kernel instr pointer: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Pending signals bitmap: 0x%x\n", itmp);
+	    printf_filtered (_("Pending signals bitmap: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Blocked signals bitmap: 0x%x\n", itmp);
+	    printf_filtered (_("Blocked signals bitmap: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Ignored signals bitmap: 0x%x\n", itmp);
+	    printf_filtered (_("Ignored signals bitmap: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%d ", &itmp) > 0)
-	    printf_filtered ("Catched signals bitmap: 0x%x\n", itmp);
+	    printf_filtered (_("Catched signals bitmap: 0x%x\n"), itmp);
 	  if (fscanf (procfile, "%u ", &itmp) > 0)	/* FIXME arch? */
-	    printf_filtered ("wchan (system call): 0x%x\n", itmp);
+	    printf_filtered (_("wchan (system call): 0x%x\n"), itmp);
 #endif
 	  fclose (procfile);
 	}
       else
-	warning ("unable to open /proc file '%s'", fname1);
+	warning (_("unable to open /proc file '%s'"), fname1);
     }
 }
 
@@ -2983,7 +2997,7 @@ add_line_to_sigset (const char *line, sigset_t *sigs)
   int signum;
 
   if (line[len] != '\n')
-    error ("Could not parse signal set: %s", line);
+    error (_("Could not parse signal set: %s"), line);
 
   p = line;
   signum = len * 4;
@@ -2996,7 +3010,7 @@ add_line_to_sigset (const char *line, sigset_t *sigs)
       else if (*p >= 'a' && *p <= 'f')
 	digit = *p - 'a' + 10;
       else
-	error ("Could not parse signal set: %s", line);
+	error (_("Could not parse signal set: %s"), line);
 
       signum -= 4;
 
@@ -3029,7 +3043,7 @@ linux_proc_pending_signals (int pid, sigset_t *pending, sigset_t *blocked, sigse
   sprintf (fname, "/proc/%d/status", pid);
   procfile = fopen (fname, "r");
   if (procfile == NULL)
-    error ("Could not open %s", fname);
+    error (_("Could not open %s"), fname);
 
   while (fgets (buffer, MAXPATHLEN, procfile) != NULL)
     {
@@ -3063,14 +3077,14 @@ _initialize_linux_nat (void)
   deprecated_child_ops.to_find_memory_regions = linux_nat_find_memory_regions;
   deprecated_child_ops.to_make_corefile_notes = linux_nat_make_corefile_notes;
 
-  add_info ("proc", linux_nat_info_proc_cmd,
-	    "Show /proc process information about any running process.\n\
+  add_info ("proc", linux_nat_info_proc_cmd, _("\
+Show /proc process information about any running process.\n\
 Specify any process id, or use the program being debugged by default.\n\
 Specify any of the following keywords for detailed info:\n\
   mappings -- list of mapped memory regions.\n\
   stat     -- list a bunch of random process info.\n\
   status   -- list a different bunch of random process info.\n\
-  all      -- list all available /proc info.");
+  all      -- list all available /proc info."));
 
   init_linux_nat_ops ();
   add_target (&linux_nat_ops);
@@ -3090,11 +3104,13 @@ Specify any of the following keywords for detailed info:\n\
 
   sigemptyset (&blocked_mask);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("lin-lwp", no_class, var_zinteger,
-		  (char *) &debug_linux_nat,
-		  "Set debugging of GNU/Linux lwp module.\n\
-Enables printf debugging output.\n", &setdebuglist), &showdebuglist);
+  add_setshow_zinteger_cmd ("lin-lwp", no_class, &debug_linux_nat, _("\
+Set debugging of GNU/Linux lwp module."), _("\
+Show debugging of GNU/Linux lwp module."), _("\
+Enables printf debugging output."),
+			    NULL,
+			    show_debug_linux_nat,
+			    &setdebuglist, &showdebuglist);
 }
 
 

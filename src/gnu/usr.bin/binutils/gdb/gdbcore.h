@@ -86,7 +86,7 @@ CORE_ADDR read_memory_typed_address (CORE_ADDR addr, struct type *type);
    byteswapping, alignment, different sizes for host vs. target types,
    etc.  */
 
-extern void write_memory (CORE_ADDR memaddr, char *myaddr, int len);
+extern void write_memory (CORE_ADDR memaddr, const gdb_byte *myaddr, int len);
 
 /* Store VALUE at ADDR in the inferior as a LEN-byte unsigned integer.  */
 extern void write_memory_unsigned_integer (CORE_ADDR addr, int len,
@@ -106,13 +106,13 @@ extern void generic_search (int len, char *data, char *mask,
 extern void (*deprecated_exec_file_display_hook) (char *filename);
 
 /* Hook for "file_command", which is more useful than above
-   (because it is invoked AFTER symbols are read, not before) */
+   (because it is invoked AFTER symbols are read, not before).  */
 
 extern void (*deprecated_file_changed_hook) (char *filename);
 
 extern void specify_exec_file_hook (void (*hook) (char *filename));
 
-/* Binary File Diddlers for the exec and core files */
+/* Binary File Diddlers for the exec and core files.  */
 
 extern bfd *core_bfd;
 extern bfd *exec_bfd;

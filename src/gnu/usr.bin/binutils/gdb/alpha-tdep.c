@@ -1,6 +1,7 @@
 /* Target-dependent code for the ALPHA architecture, for GDB, the GNU Debugger.
-   Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
-   Free Software Foundation, Inc.
+
+   Copyright 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
+   2002, 2003, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -333,7 +334,7 @@ alpha_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	      sp = (sp & -16) - 16;
 
 	      /* Write the real data into the stack.  */
-	      write_memory (sp, VALUE_CONTENTS (arg), 16);
+	      write_memory (sp, value_contents (arg), 16);
 
 	      /* Construct the indirection.  */
 	      arg_type = lookup_pointer_type (arg_type);
@@ -354,7 +355,7 @@ alpha_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	      sp = (sp & -16) - 16;
 
 	      /* Write the real data into the stack.  */
-	      write_memory (sp, VALUE_CONTENTS (arg), 32);
+	      write_memory (sp, value_contents (arg), 32);
 
 	      /* Construct the indirection.  */
 	      arg_type = lookup_pointer_type (arg_type);
@@ -368,7 +369,7 @@ alpha_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
       m_arg->len = TYPE_LENGTH (arg_type);
       m_arg->offset = accumulate_size;
       accumulate_size = (accumulate_size + m_arg->len + 7) & ~7;
-      m_arg->contents = VALUE_CONTENTS (arg);
+      m_arg->contents = value_contents_writeable (arg);
     }
 
   /* Determine required argument register loads, loading an argument register
@@ -1585,17 +1586,13 @@ _initialize_alpha_tdep (void)
   /* We need to throw away the frame cache when we set this, since it
      might change our ability to get backtraces.  */
   add_setshow_zinteger_cmd ("heuristic-fence-post", class_support,
-			    &heuristic_fence_post,
-			    _("\
-Set the distance searched for the start of a function."),
-			    _("\
-Show the distance searched for the start of a function."),
-			    _("\
+			    &heuristic_fence_post, _("\
+Set the distance searched for the start of a function."), _("\
+Show the distance searched for the start of a function."), _("\
 If you are debugging a stripped executable, GDB needs to search through the\n\
 program for the start of a function.  This command sets the distance of the\n\
 search.  The only need to set it is when debugging a stripped executable."),
-			    _("\
-The distance searched for the start of a function is \"%d\"."),
-			    reinit_frame_cache_sfunc, NULL,
+			    reinit_frame_cache_sfunc,
+			    NULL, /* FIXME: i18n: The distance searched for the start of a function is \"%d\".  */
 			    &setlist, &showlist);
 }

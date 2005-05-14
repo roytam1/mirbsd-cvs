@@ -1,6 +1,6 @@
 /* Frame unwinder for frames with DWARF Call Frame Information.
 
-   Copyright 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2003, 2004, 2005 Free Software Foundation, Inc.
 
    Contributed by Mark Kettenis.
 
@@ -227,14 +227,14 @@ static void
 no_get_frame_base (void *baton, unsigned char **start, size_t *length)
 {
   internal_error (__FILE__, __LINE__,
-		  "Support for DW_OP_fbreg is unimplemented");
+		  _("Support for DW_OP_fbreg is unimplemented"));
 }
 
 static CORE_ADDR
 no_get_tls_address (void *baton, CORE_ADDR offset)
 {
   internal_error (__FILE__, __LINE__,
-		  "Support for DW_OP_GNU_push_tls_address is unimplemented");
+		  _("Support for DW_OP_GNU_push_tls_address is unimplemented"));
 }
 
 static CORE_ADDR
@@ -374,8 +374,8 @@ execute_cfa_program (unsigned char *insn_ptr, unsigned char *insn_end,
 
 		if (old_rs == NULL)
 		  {
-		    complaint (&symfile_complaints, "\
-bad CFI data; mismatched DW_CFA_restore_state at 0x%s", paddr (fs->pc));
+		    complaint (&symfile_complaints, _("\
+bad CFI data; mismatched DW_CFA_restore_state at 0x%s"), paddr (fs->pc));
 		  }
 		else
 		  {
@@ -445,13 +445,38 @@ bad CFI data; mismatched DW_CFA_restore_state at 0x%s", paddr (fs->pc));
 	      /* cfa_how deliberately not set.  */
 	      break;
 
+	    case DW_CFA_GNU_window_save:
+	      /* This is SPARC-specific code, and contains hard-coded
+		 constants for the register numbering scheme used by
+		 GCC.  Rather than having a architecture-specific
+		 operation that's only ever used by a single
+		 architecture, we provide the implementation here.
+		 Incidentally that's what GCC does too in its
+		 unwinder.  */
+	      {
+		struct gdbarch *gdbarch = get_frame_arch (next_frame);
+		int size = register_size(gdbarch, 0);
+		dwarf2_frame_state_alloc_regs (&fs->regs, 32);
+		for (reg = 8; reg < 16; reg++)
+		  {
+		    fs->regs.reg[reg].how = DWARF2_FRAME_REG_SAVED_REG;
+		    fs->regs.reg[reg].loc.reg = reg + 16;
+		  }
+		for (reg = 16; reg < 32; reg++)
+		  {
+		    fs->regs.reg[reg].how = DWARF2_FRAME_REG_SAVED_OFFSET;
+		    fs->regs.reg[reg].loc.offset = (reg - 16) * size;
+		  }
+	      }
+	      break;
+
 	    case DW_CFA_GNU_args_size:
 	      /* Ignored.  */
 	      insn_ptr = read_uleb128 (insn_ptr, insn_end, &utmp);
 	      break;
 
 	    default:
-	      internal_error (__FILE__, __LINE__, "Unknown CFI encountered.");
+	      internal_error (__FILE__, __LINE__, _("Unknown CFI encountered."));
 	    }
 	}
     }
@@ -585,9 +610,15 @@ struct dwarf2_frame_cache
   /* DWARF Call Frame Address.  */
   CORE_ADDR cfa;
 
+  /* Set if the return address column was marked as undefined.  */
+  int undefined_retaddr;
+
   /* Saved registers, indexed by GDB register number, not by DWARF
      register number.  */
   struct dwarf2_frame_state_reg *reg;
+
+  /* Return address register.  */
+  struct dwarf2_frame_state_reg retaddr_reg;
 };
 
 static struct dwarf2_frame_cache *
@@ -663,7 +694,7 @@ dwarf2_frame_cache (struct frame_info *next_frame, void **this_cache)
       break;
 
     default:
-      internal_error (__FILE__, __LINE__, "Unknown CFA rule.");
+      internal_error (__FILE__, __LINE__, _("Unknown CFA rule."));
     }
 
   /* Initialize the register state.  */
@@ -707,8 +738,8 @@ dwarf2_frame_cache (struct frame_info *next_frame, void **this_cache)
 	if (fs->regs.reg[column].how == DWARF2_FRAME_REG_UNSPECIFIED)
 	  {
 	    if (cache->reg[regnum].how == DWARF2_FRAME_REG_UNSPECIFIED)
-	      complaint (&symfile_complaints, "\
-incomplete CFI data; unspecified registers (e.g., %s) at 0x%s",
+	      complaint (&symfile_complaints, _("\
+incomplete CFI data; unspecified registers (e.g., %s) at 0x%s"),
 			 gdbarch_register_name (gdbarch, regnum),
 			 paddr_nz (fs->pc));
 	  }
@@ -717,13 +748,15 @@ incomplete CFI data; unspecified registers (e.g., %s) at 0x%s",
       }
   }
 
-  /* Eliminate any DWARF2_FRAME_REG_RA rules.  */
+  /* Eliminate any DWARF2_FRAME_REG_RA rules, and save the information
+     we need for evaluating DWARF2_FRAME_REG_RA_OFFSET rules.  */
   {
     int regnum;
 
     for (regnum = 0; regnum < num_regs; regnum++)
       {
-	if (cache->reg[regnum].how == DWARF2_FRAME_REG_RA)
+	if (cache->reg[regnum].how == DWARF2_FRAME_REG_RA
+	    || cache->reg[regnum].how == DWARF2_FRAME_REG_RA_OFFSET)
 	  {
 	    struct dwarf2_frame_state_reg *retaddr_reg =
 	      &fs->regs.reg[fs->retaddr_column];
@@ -733,20 +766,37 @@ incomplete CFI data; unspecified registers (e.g., %s) at 0x%s",
                what GCC does on some targets.  It turns out that GCC
                assumes that the return address can be found in the
                register corresponding to the return address column.
-               Incidentally, that's how should treat a return address
-               column specifying "same value" too.  */
+               Incidentally, that's how we should treat a return
+               address column specifying "same value" too.  */
 	    if (fs->retaddr_column < fs->regs.num_regs
 		&& retaddr_reg->how != DWARF2_FRAME_REG_UNSPECIFIED
 		&& retaddr_reg->how != DWARF2_FRAME_REG_SAME_VALUE)
-	      cache->reg[regnum] = *retaddr_reg;
+	      {
+		if (cache->reg[regnum].how == DWARF2_FRAME_REG_RA)
+		  cache->reg[regnum] = *retaddr_reg;
+		else
+		  cache->retaddr_reg = *retaddr_reg;
+	      }
 	    else
 	      {
-		cache->reg[regnum].loc.reg = fs->retaddr_column;
-		cache->reg[regnum].how = DWARF2_FRAME_REG_SAVED_REG;
+		if (cache->reg[regnum].how == DWARF2_FRAME_REG_RA)
+		  {
+		    cache->reg[regnum].loc.reg = fs->retaddr_column;
+		    cache->reg[regnum].how = DWARF2_FRAME_REG_SAVED_REG;
+		  }
+		else
+		  {
+		    cache->retaddr_reg.loc.reg = fs->retaddr_column;
+		    cache->retaddr_reg.how = DWARF2_FRAME_REG_SAVED_REG;
+		  }
 	      }
 	  }
       }
   }
+
+  if (fs->retaddr_column < fs->regs.num_regs
+      && fs->regs.reg[fs->retaddr_column].how == DWARF2_FRAME_REG_UNDEFINED)
+    cache->undefined_retaddr = 1;
 
   do_cleanups (old_chain);
 
@@ -760,6 +810,9 @@ dwarf2_frame_this_id (struct frame_info *next_frame, void **this_cache,
 {
   struct dwarf2_frame_cache *cache =
     dwarf2_frame_cache (next_frame, this_cache);
+
+  if (cache->undefined_retaddr)
+    return;
 
   (*this_id) = frame_id_build (cache->cfa, frame_func_unwind (next_frame));
 }
@@ -864,8 +917,23 @@ dwarf2_frame_prev_register (struct frame_info *next_frame, void **this_cache,
 	}
       break;
 
+    case DWARF2_FRAME_REG_RA_OFFSET:
+      *optimizedp = 0;
+      *lvalp = not_lval;
+      *addrp = 0;
+      *realnump = -1;
+      if (valuep)
+        {
+          CORE_ADDR pc = cache->reg[regnum].loc.offset;
+
+          regnum = DWARF2_REG_TO_REGNUM (cache->retaddr_reg.loc.reg);
+          pc += frame_unwind_register_unsigned (next_frame, regnum);
+          store_typed_address (valuep, builtin_type_void_func_ptr, pc);
+        }
+      break;
+
     default:
-      internal_error (__FILE__, __LINE__, "Unknown register rule.");
+      internal_error (__FILE__, __LINE__, _("Unknown register rule."));
     }
 }
 
@@ -1090,7 +1158,7 @@ encoding_for_size (unsigned int size)
     case 8:
       return DW_EH_PE_udata8;
     default:
-      internal_error (__FILE__, __LINE__, "Unsupported address size");
+      internal_error (__FILE__, __LINE__, _("Unsupported address size"));
     }
 }
 
@@ -1111,7 +1179,7 @@ size_of_encoded_value (unsigned char encoding)
     case DW_EH_PE_udata8:
       return 8;
     default:
-      internal_error (__FILE__, __LINE__, "Invalid or unsupported encoding");
+      internal_error (__FILE__, __LINE__, _("Invalid or unsupported encoding"));
     }
 }
 
@@ -1127,7 +1195,7 @@ read_encoded_value (struct comp_unit *unit, unsigned char encoding,
      FDE's.  */
   if (encoding & DW_EH_PE_indirect)
     internal_error (__FILE__, __LINE__, 
-		    "Unsupported encoding: DW_EH_PE_indirect");
+		    _("Unsupported encoding: DW_EH_PE_indirect"));
 
   *bytes_read_ptr = 0;
 
@@ -1164,7 +1232,7 @@ read_encoded_value (struct comp_unit *unit, unsigned char encoding,
 	}
       break;
     default:
-      internal_error (__FILE__, __LINE__, "Invalid or unsupported encoding");
+      internal_error (__FILE__, __LINE__, _("Invalid or unsupported encoding"));
     }
 
   if ((encoding & 0x07) == 0x00)
@@ -1205,7 +1273,7 @@ read_encoded_value (struct comp_unit *unit, unsigned char encoding,
       *bytes_read_ptr += 8;
       return (base + bfd_get_signed_64 (unit->abfd, (bfd_byte *) buf));
     default:
-      internal_error (__FILE__, __LINE__, "Invalid or unsupported encoding");
+      internal_error (__FILE__, __LINE__, _("Invalid or unsupported encoding"));
     }
 }
 
@@ -1587,21 +1655,21 @@ decode_frame_entry (struct comp_unit *unit, char *start, int eh_frame_p)
 
     case ALIGN4:
       complaint (&symfile_complaints,
-		 "Corrupt data in %s:%s; align 4 workaround apparently succeeded",
+		 _("Corrupt data in %s:%s; align 4 workaround apparently succeeded"),
 		 unit->dwarf_frame_section->owner->filename,
 		 unit->dwarf_frame_section->name);
       break;
 
     case ALIGN8:
       complaint (&symfile_complaints,
-		 "Corrupt data in %s:%s; align 8 workaround apparently succeeded",
+		 _("Corrupt data in %s:%s; align 8 workaround apparently succeeded"),
 		 unit->dwarf_frame_section->owner->filename,
 		 unit->dwarf_frame_section->name);
       break;
 
     default:
       complaint (&symfile_complaints,
-		 "Corrupt data in %s:%s",
+		 _("Corrupt data in %s:%s"),
 		 unit->dwarf_frame_section->owner->filename,
 		 unit->dwarf_frame_section->name);
       break;

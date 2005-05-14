@@ -1,7 +1,7 @@
 /* Target-dependent code for the Motorola 68000 series.
 
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1999, 2000,
-   2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -125,7 +125,7 @@ m68k_register_name (int regnum)
   if (regnum < 0 ||
       regnum >= sizeof (register_names) / sizeof (register_names[0]))
     internal_error (__FILE__, __LINE__,
-		    "m68k_register_name: illegal register number %d", regnum);
+		    _("m68k_register_name: illegal register number %d"), regnum);
   else
     return register_names[regnum];
 }
@@ -151,8 +151,8 @@ m68k_register_to_value (struct frame_info *frame, int regnum,
   /* We only support floating-point values.  */
   if (TYPE_CODE (type) != TYPE_CODE_FLT)
     {
-      warning ("Cannot convert floating-point register value "
-	       "to non-floating-point type.");
+      warning (_("Cannot convert floating-point register value "
+	       "to non-floating-point type."));
       return;
     }
 
@@ -174,8 +174,8 @@ m68k_value_to_register (struct frame_info *frame, int regnum,
   /* We only support floating-point values.  */
   if (TYPE_CODE (type) != TYPE_CODE_FLT)
     {
-      warning ("Cannot convert non-floating-point type "
-	       "to floating-point register value.");
+      warning (_("Cannot convert non-floating-point type "
+	       "to floating-point register value."));
       return;
     }
 
@@ -239,7 +239,7 @@ m68k_extract_return_value (struct type *type, struct regcache *regcache,
     }
   else
     internal_error (__FILE__, __LINE__,
-		    "Cannot extract return value of %d bytes long.", len);
+		    _("Cannot extract return value of %d bytes long."), len);
 }
 
 static void
@@ -279,7 +279,7 @@ m68k_store_return_value (struct type *type, struct regcache *regcache,
     }
   else
     internal_error (__FILE__, __LINE__,
-		    "Cannot store return value of %d bytes long.", len);
+		    _("Cannot store return value of %d bytes long."), len);
 }
 
 static void
@@ -417,7 +417,7 @@ m68k_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
   /* Push arguments in reverse order.  */
   for (i = nargs - 1; i >= 0; i--)
     {
-      struct type *value_type = VALUE_ENCLOSING_TYPE (args[i]);
+      struct type *value_type = value_enclosing_type (args[i]);
       int len = TYPE_LENGTH (value_type);
       int container_len = (len + 3) & ~3;
       int offset;
@@ -432,7 +432,7 @@ m68k_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
       else
 	offset = container_len - len;
       sp -= container_len;
-      write_memory (sp + offset, VALUE_CONTENTS_ALL (args[i]), len);
+      write_memory (sp + offset, value_contents_all (args[i]), len);
     }
 
   /* Store struct value address.  */
@@ -1061,7 +1061,7 @@ m68k_get_longjmp_target (CORE_ADDR *pc)
   if (tdep->jb_pc < 0)
     {
       internal_error (__FILE__, __LINE__,
-		      "m68k_get_longjmp_target: not implemented");
+		      _("m68k_get_longjmp_target: not implemented"));
       return 0;
     }
 

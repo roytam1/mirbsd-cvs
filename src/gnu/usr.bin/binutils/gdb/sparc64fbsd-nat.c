@@ -1,6 +1,6 @@
 /* Native-dependent code for FreeBSD/sparc64.
 
-   Copyright 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -20,7 +20,9 @@
    Boston, MA 02111-1307, USA.  */
 
 #include "defs.h"
+#include "target.h"
 
+#include "fbsd-nat.h"
 #include "sparc64-tdep.h"
 #include "sparc-nat.h"
 
@@ -30,8 +32,14 @@ void _initialize_sparc64fbsd_nat (void);
 void
 _initialize_sparc64fbsd_nat (void)
 {
-  sparc_gregset = &sparc64fbsd_gregset;
+  struct target_ops *t;
 
-  /* We've got nothing to add to the generic SPARC target.  */
-  add_target (sparc_target ());
+  /* Add some extra features to the generic SPARC target.  */
+  t = sparc_target ();
+  t->to_pid_to_exec_file = fbsd_pid_to_exec_file;
+  t->to_find_memory_regions = fbsd_find_memory_regions;
+  t->to_make_corefile_notes = fbsd_make_corefile_notes;
+  add_target (t);
+
+  sparc_gregset = &sparc64fbsd_gregset;
 }

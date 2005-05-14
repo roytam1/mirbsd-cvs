@@ -35,6 +35,8 @@
 #include "gdb_string.h"
 #include <errno.h>
 #include <sys/time.h>
+#include "exceptions.h"
+#include "gdb_assert.h"
 
 typedef struct gdb_event gdb_event;
 typedef void (event_handler_func) (int);
@@ -131,6 +133,11 @@ event_queue;
 #endif /* HAVE_POLL */
 
 static unsigned char use_poll = USE_POLL;
+
+#ifdef USE_WIN32API
+#include <windows.h>
+#include <io.h>
+#endif
 
 static struct
   {
@@ -451,7 +458,7 @@ add_file_handler (int fd, handler_func * proc, gdb_client_data client_data)
 	use_poll = 0;
 #else
       internal_error (__FILE__, __LINE__,
-		      "use_poll without HAVE_POLL");
+		      _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
     }
   if (use_poll)
@@ -460,7 +467,7 @@ add_file_handler (int fd, handler_func * proc, gdb_client_data client_data)
       create_file_handler (fd, POLLIN, proc, client_data);
 #else
       internal_error (__FILE__, __LINE__,
-		      "use_poll without HAVE_POLL");
+		      _("use_poll without HAVE_POLL"));
 #endif
     }
   else
@@ -518,7 +525,7 @@ create_file_handler (int fd, int mask, handler_func * proc, gdb_client_data clie
 	  (gdb_notifier.poll_fds + gdb_notifier.num_fds - 1)->revents = 0;
 #else
 	  internal_error (__FILE__, __LINE__,
-			  "use_poll without HAVE_POLL");
+			  _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
 	}
       else
@@ -596,7 +603,7 @@ delete_file_handler (int fd)
       gdb_notifier.num_fds--;
 #else
       internal_error (__FILE__, __LINE__,
-		      "use_poll without HAVE_POLL");
+		      _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
     }
   else
@@ -687,25 +694,25 @@ handle_file_event (int event_file_desc)
 		  /* Work in progress. We may need to tell somebody what
 		     kind of error we had. */
 		  if (error_mask_returned & POLLHUP)
-		    printf_unfiltered ("Hangup detected on fd %d\n", file_ptr->fd);
+		    printf_unfiltered (_("Hangup detected on fd %d\n"), file_ptr->fd);
 		  if (error_mask_returned & POLLERR)
-		    printf_unfiltered ("Error detected on fd %d\n", file_ptr->fd);
+		    printf_unfiltered (_("Error detected on fd %d\n"), file_ptr->fd);
 		  if (error_mask_returned & POLLNVAL)
-		    printf_unfiltered ("Invalid or non-`poll'able fd %d\n", file_ptr->fd);
+		    printf_unfiltered (_("Invalid or non-`poll'able fd %d\n"), file_ptr->fd);
 		  file_ptr->error = 1;
 		}
 	      else
 		file_ptr->error = 0;
 #else
 	      internal_error (__FILE__, __LINE__,
-			      "use_poll without HAVE_POLL");
+			      _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
 	    }
 	  else
 	    {
 	      if (file_ptr->ready_mask & GDB_EXCEPTION)
 		{
-		  printf_unfiltered ("Exception condition detected on fd %d\n", file_ptr->fd);
+		  printf_unfiltered (_("Exception condition detected on fd %d\n"), file_ptr->fd);
 		  file_ptr->error = 1;
 		}
 	      else
@@ -722,6 +729,84 @@ handle_file_event (int event_file_desc)
 	  break;
 	}
     }
+}
+
+/* Wrapper for select.  This function is not yet exported from this
+   file because it is not sufficiently general.  For example,
+   ser-base.c uses select to check for socket activity, and this
+   function does not support sockets under Windows, so we do not want
+   to use gdb_select in ser-base.c.  */
+
+static int 
+gdb_select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+	    struct timeval *timeout)
+{
+#ifdef USE_WIN32API
+  HANDLE handles[MAXIMUM_WAIT_OBJECTS];
+  HANDLE h;
+  DWORD event;
+  DWORD num_handles;
+  int fd;
+  int num_ready;
+
+  num_handles = 0;
+  for (fd = 0; fd < n; ++fd)
+    {
+      /* EXCEPTFDS is silently ignored.  GDB always sets GDB_EXCEPTION
+	 when calling add_file_handler, but there is no natural analog
+	 under Windows.  */
+      /* There is no support yet for WRITEFDS.  At present, this isn't
+	 used by GDB -- but we do not want to silently ignore WRITEFDS
+	 if something starts using it.  */
+      gdb_assert (!FD_ISSET (fd, writefds));
+      if (FD_ISSET (fd, readfds))
+	{
+	  gdb_assert (num_handles < MAXIMUM_WAIT_OBJECTS);
+	  handles[num_handles++] = (HANDLE) _get_osfhandle (fd);
+	}
+    }
+  event = WaitForMultipleObjects (num_handles,
+				  handles,
+				  FALSE,
+				  timeout 
+				  ? (timeout->tv_sec * 1000 + timeout->tv_usec)
+				  : INFINITE);
+  /* EVENT can only be a value in the WAIT_ABANDONED_0 range if the
+     HANDLES included an abandoned mutex.  Since GDB doesn't use
+     mutexes, that should never occur.  */
+  gdb_assert (!(WAIT_ABANDONED_0 <= event
+		&& event < WAIT_ABANDONED_0 + num_handles));
+  if (event == WAIT_FAILED)
+    return -1;
+  if (event == WAIT_TIMEOUT)
+    return 0;
+  /* Run through the READFDS, clearing bits corresponding to descriptors
+     for which input is unavailable.  */
+  num_ready = num_handles; 
+  h = handles[event - WAIT_OBJECT_0];
+  for (fd = 0; fd < n; ++fd)
+    {
+      HANDLE fd_h;
+      if (!FD_ISSET (fd, readfds))
+	continue;
+      fd_h = (HANDLE) _get_osfhandle (fd);
+      /* This handle might be ready, even though it wasn't the handle
+	 returned by WaitForMultipleObjects.  */
+      if (fd_h != h && WaitForSingleObject (fd_h, 0) != WAIT_OBJECT_0)
+	{
+	  FD_CLR (fd, readfds);
+	  --num_ready;
+	}
+    }
+  /* We never report any descriptors available for writing or with
+     exceptional conditions.  */ 
+  FD_ZERO (writefds);
+  FD_ZERO (exceptfds);
+
+  return num_ready;
+#else
+  return select (n, readfds, writefds, exceptfds, timeout);
+#endif
 }
 
 /* Called by gdb_do_one_event to wait for new events on the 
@@ -757,10 +842,10 @@ gdb_wait_for_event (void)
       /* Don't print anything if we get out of poll because of a
          signal. */
       if (num_found == -1 && errno != EINTR)
-	perror_with_name ("Poll");
+	perror_with_name (("poll"));
 #else
       internal_error (__FILE__, __LINE__,
-		      "use_poll without HAVE_POLL");
+		      _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
     }
   else
@@ -768,12 +853,12 @@ gdb_wait_for_event (void)
       gdb_notifier.ready_masks[0] = gdb_notifier.check_masks[0];
       gdb_notifier.ready_masks[1] = gdb_notifier.check_masks[1];
       gdb_notifier.ready_masks[2] = gdb_notifier.check_masks[2];
-      num_found = select (gdb_notifier.num_fds,
-			  &gdb_notifier.ready_masks[0],
-			  &gdb_notifier.ready_masks[1],
-			  &gdb_notifier.ready_masks[2],
-			  gdb_notifier.timeout_valid
-			  ? &gdb_notifier.select_timeout : NULL);
+      num_found = gdb_select (gdb_notifier.num_fds,
+			      &gdb_notifier.ready_masks[0],
+			      &gdb_notifier.ready_masks[1],
+			      &gdb_notifier.ready_masks[2],
+			      gdb_notifier.timeout_valid
+			      ? &gdb_notifier.select_timeout : NULL);
 
       /* Clear the masks after an error from select. */
       if (num_found == -1)
@@ -783,7 +868,7 @@ gdb_wait_for_event (void)
 	  FD_ZERO (&gdb_notifier.ready_masks[2]);
 	  /* Dont print anything is we got a signal, let gdb handle it. */
 	  if (errno != EINTR)
-	    perror_with_name ("Select");
+	    perror_with_name (("select"));
 	}
     }
 
@@ -822,7 +907,7 @@ gdb_wait_for_event (void)
 	}
 #else
       internal_error (__FILE__, __LINE__,
-		      "use_poll without HAVE_POLL");
+		      _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
     }
   else
@@ -1143,7 +1228,7 @@ poll_timers (void)
 	  gdb_notifier.poll_timeout = delta.tv_sec * 1000;
 #else
 	  internal_error (__FILE__, __LINE__,
-			  "use_poll without HAVE_POLL");
+			  _("use_poll without HAVE_POLL"));
 #endif /* HAVE_POLL */
 	}
       else

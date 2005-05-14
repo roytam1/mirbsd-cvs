@@ -1,7 +1,7 @@
 /* Read ELF (Executable and Linking Format) object files for GDB.
 
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    Written by Fred Fish at Cygnus Support.
 
@@ -177,7 +177,7 @@ elf_symtab_read (struct objfile *objfile, int dynamic)
     {
       storage_needed = bfd_get_symtab_upper_bound (objfile->obfd);
       if (storage_needed < 0)
-	error ("Can't read symbols from %s: %s", bfd_get_filename (objfile->obfd),
+	error (_("Can't read symbols from %s: %s"), bfd_get_filename (objfile->obfd),
 	       bfd_errmsg (bfd_get_error ()));
     }
   if (storage_needed > 0)
@@ -190,7 +190,7 @@ elf_symtab_read (struct objfile *objfile, int dynamic)
       else
 	number_of_symbols = bfd_canonicalize_symtab (objfile->obfd, symbol_table);
       if (number_of_symbols < 0)
-	error ("Can't read symbols from %s: %s", bfd_get_filename (objfile->obfd),
+	error (_("Can't read symbols from %s: %s"), bfd_get_filename (objfile->obfd),
 	       bfd_errmsg (bfd_get_error ()));
 
       for (i = 0; i < number_of_symbols; i++)
@@ -254,6 +254,8 @@ elf_symtab_read (struct objfile *objfile, int dynamic)
 			      &objfile->objfile_obstack);
 #endif
 	    }
+	  else if (sym->flags & BSF_SECTION_SYM)
+	    continue;
 	  else if (sym->flags & (BSF_GLOBAL | BSF_LOCAL | BSF_WEAK))
 	    {
 	      struct minimal_symbol *msym;
@@ -383,7 +385,7 @@ elf_symtab_read (struct objfile *objfile, int dynamic)
 			      if (filesym == NULL)
 				{
 				  complaint (&symfile_complaints,
-					     "elf/stab section information %s without a preceding file symbol",
+					     _("elf/stab section information %s without a preceding file symbol"),
 					     sym->name);
 				}
 			      else
@@ -394,7 +396,7 @@ elf_symtab_read (struct objfile *objfile, int dynamic)
 			    }
 			  if (sectinfo->sections[special_local_sect] != 0)
 			    complaint (&symfile_complaints,
-				       "duplicated elf/stab section information for %s",
+				       _("duplicated elf/stab section information for %s"),
 				       sectinfo->filename);
 			  /* BFD symbols are section relative.  */
 			  symaddr = sym->value + sym->section->vma;
@@ -704,7 +706,7 @@ elfstab_offset_sections (struct objfile *objfile, struct partial_symtab *pst)
   if (maybe == 0 && questionable != 0)
     {
       complaint (&symfile_complaints,
-		 "elf/stab section information questionable for %s", filename);
+		 _("elf/stab section information questionable for %s"), filename);
       maybe = questionable;
     }
 
@@ -723,7 +725,7 @@ elfstab_offset_sections (struct objfile *objfile, struct partial_symtab *pst)
   /* We were unable to find any offsets for this file.  Complain.  */
   if (dbx->stab_section_info)	/* If there *is* any info, */
     complaint (&symfile_complaints,
-	       "elf/stab section information missing for %s", filename);
+	       _("elf/stab section information missing for %s"), filename);
 }
 
 /* Register that we are able to handle ELF object file formats.  */

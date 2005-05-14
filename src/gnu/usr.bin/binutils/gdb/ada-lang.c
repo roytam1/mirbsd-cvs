@@ -1,6 +1,7 @@
 /* Ada language support routines for GDB, the GNU debugger.  Copyright
-   1992, 1993, 1994, 1997, 1998, 1999, 2000, 2003, 2004.
-   Free Software Foundation, Inc.
+
+   1992, 1993, 1994, 1997, 1998, 1999, 2000, 2003, 2004, 2005 Free
+   Software Foundation, Inc.
 
 This file is part of GDB.
 
@@ -50,6 +51,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #include "block.h"
 #include "infcall.h"
 #include "dictionary.h"
+#include "exceptions.h"
 
 #ifndef ADA_RETAIN_DOTS
 #define ADA_RETAIN_DOTS 0
@@ -160,7 +162,8 @@ static struct value *evaluate_subexp_type (struct expression *, int *);
 
 static int is_dynamic_field (struct type *, int);
 
-static struct type *to_fixed_variant_branch_type (struct type *, char *,
+static struct type *to_fixed_variant_branch_type (struct type *,
+						  const gdb_byte *,
                                                   CORE_ADDR, struct value *);
 
 static struct type *to_fixed_array_type (struct type *, struct value *, int);
@@ -411,14 +414,15 @@ is_suffix (const char *str, const char *suffix)
    ADDRESS.  */
 
 struct value *
-value_from_contents_and_address (struct type *type, char *valaddr,
+value_from_contents_and_address (struct type *type,
+				 const gdb_byte *valaddr,
                                  CORE_ADDR address)
 {
   struct value *v = allocate_value (type);
   if (valaddr == NULL)
-    VALUE_LAZY (v) = 1;
+    set_value_lazy (v, 1);
   else
-    memcpy (VALUE_CONTENTS_RAW (v), valaddr, TYPE_LENGTH (type));
+    memcpy (value_contents_raw (v), valaddr, TYPE_LENGTH (type));
   VALUE_ADDRESS (v) = address;
   if (address != 0)
     VALUE_LVAL (v) = lval_memory;
@@ -444,21 +448,21 @@ coerce_unspec_val_to_type (struct value *val, struct type *type)
 
       result = allocate_value (type);
       VALUE_LVAL (result) = VALUE_LVAL (val);
-      result->bitsize = value_bitsize (val);
-      result->bitpos = value_bitpos (val);
+      set_value_bitsize (result, value_bitsize (val));
+      set_value_bitpos (result, value_bitpos (val));
       VALUE_ADDRESS (result) = VALUE_ADDRESS (val) + value_offset (val);
-      if (VALUE_LAZY (val)
+      if (value_lazy (val)
           || TYPE_LENGTH (type) > TYPE_LENGTH (value_type (val)))
-        VALUE_LAZY (result) = 1;
+        set_value_lazy (result, 1);
       else
-        memcpy (VALUE_CONTENTS_RAW (result), VALUE_CONTENTS (val),
+        memcpy (value_contents_raw (result), value_contents (val),
                 TYPE_LENGTH (type));
       return result;
     }
 }
 
-static char *
-cond_offset_host (char *valaddr, long offset)
+static const gdb_byte *
+cond_offset_host (const gdb_byte *valaddr, long offset)
 {
   if (valaddr == NULL)
     return NULL;
@@ -1543,7 +1547,7 @@ ada_coerce_to_simple_array_type (struct type *type)
   struct value *mark = value_mark ();
   struct value *dummy = value_from_longest (builtin_type_long, 0);
   struct type *result;
-  dummy->type = type;
+  deprecated_set_value_type (dummy, type);
   result = ada_type_of_array (dummy, 0);
   value_free_to_mark (mark);
   return result;
@@ -1779,8 +1783,8 @@ has_negatives (struct type *type)
    Assumes 0 <= BIT_OFFSET < HOST_CHAR_BIT.  */
 
 struct value *
-ada_value_primitive_packed_val (struct value *obj, char *valaddr, long offset,
-                                int bit_offset, int bit_size,
+ada_value_primitive_packed_val (struct value *obj, const gdb_byte *valaddr,
+				long offset, int bit_offset, int bit_size,
                                 struct type *type)
 {
   struct value *v;
@@ -1807,7 +1811,7 @@ ada_value_primitive_packed_val (struct value *obj, char *valaddr, long offset,
       v = allocate_value (type);
       bytes = (unsigned char *) (valaddr + offset);
     }
-  else if (VALUE_LAZY (obj))
+  else if (value_lazy (obj))
     {
       v = value_at (type,
                     VALUE_ADDRESS (obj) + value_offset (obj) + offset);
@@ -1817,7 +1821,7 @@ ada_value_primitive_packed_val (struct value *obj, char *valaddr, long offset,
   else
     {
       v = allocate_value (type);
-      bytes = (unsigned char *) VALUE_CONTENTS (obj) + offset;
+      bytes = (unsigned char *) value_contents (obj) + offset;
     }
 
   if (obj != NULL)
@@ -1826,17 +1830,17 @@ ada_value_primitive_packed_val (struct value *obj, char *valaddr, long offset,
       if (VALUE_LVAL (obj) == lval_internalvar)
         VALUE_LVAL (v) = lval_internalvar_component;
       VALUE_ADDRESS (v) = VALUE_ADDRESS (obj) + value_offset (obj) + offset;
-      v->bitpos = bit_offset + value_bitpos (obj);
-      v->bitsize = bit_size;
+      set_value_bitpos (v, bit_offset + value_bitpos (obj));
+      set_value_bitsize (v, bit_size);
       if (value_bitpos (v) >= HOST_CHAR_BIT)
         {
           VALUE_ADDRESS (v) += 1;
-          v->bitpos -= HOST_CHAR_BIT;
+          set_value_bitpos (v, value_bitpos (v) - HOST_CHAR_BIT);
         }
     }
   else
-    v->bitsize = bit_size;
-  unpacked = (unsigned char *) VALUE_CONTENTS (v);
+    set_value_bitsize (v, bit_size);
+  unpacked = (unsigned char *) value_contents (v);
 
   srcBitsLeft = bit_size;
   nsrc = len;
@@ -1931,7 +1935,8 @@ ada_value_primitive_packed_val (struct value *obj, char *valaddr, long offset,
    TARGET, starting at bit offset TARG_OFFSET.  SOURCE and TARGET must
    not overlap.  */
 static void
-move_bits (char *target, int targ_offset, char *source, int src_offset, int n)
+move_bits (gdb_byte *target, int targ_offset, const gdb_byte *source,
+	   int src_offset, int n)
 {
   unsigned int accum, mask;
   int accum_bits, chunk_size;
@@ -2003,7 +2008,7 @@ ada_value_assign (struct value *toval, struct value *fromval)
   struct type *type = value_type (toval);
   int bits = value_bitsize (toval);
 
-  if (!toval->modifiable)
+  if (!deprecated_value_modifiable (toval))
     error (_("Left operand of assignment is not a modifiable lvalue."));
 
   toval = coerce_ref (toval);
@@ -2024,19 +2029,19 @@ ada_value_assign (struct value *toval, struct value *fromval)
       read_memory (VALUE_ADDRESS (toval) + value_offset (toval), buffer, len);
       if (BITS_BIG_ENDIAN)
         move_bits (buffer, value_bitpos (toval),
-                   VALUE_CONTENTS (fromval),
+                   value_contents (fromval),
                    TYPE_LENGTH (value_type (fromval)) * TARGET_CHAR_BIT -
                    bits, bits);
       else
-        move_bits (buffer, value_bitpos (toval), VALUE_CONTENTS (fromval),
+        move_bits (buffer, value_bitpos (toval), value_contents (fromval),
                    0, bits);
       write_memory (VALUE_ADDRESS (toval) + value_offset (toval), buffer,
                     len);
 
       val = value_copy (toval);
-      memcpy (VALUE_CONTENTS_RAW (val), VALUE_CONTENTS (fromval),
+      memcpy (value_contents_raw (val), value_contents (fromval),
               TYPE_LENGTH (type));
-      val->type = type;
+      deprecated_set_value_type (val, type);
 
       return val;
     }
@@ -3086,7 +3091,7 @@ user_select_syms (struct ada_symbol_info *syms, int nsyms, int max_results)
           else if (is_enumeral
                    && TYPE_NAME (SYMBOL_TYPE (syms[i].sym)) != NULL)
             {
-              printf_unfiltered ("[%d] ", i + first_choice);
+              printf_unfiltered (("[%d] "), i + first_choice);
               ada_print_type (SYMBOL_TYPE (syms[i].sym), NULL,
                               gdb_stdout, -1, 0);
               printf_unfiltered (_("'(%s) (enumeral)\n"),
@@ -3146,7 +3151,7 @@ get_selections (int *choices, int n_choices, int max_results,
   if (prompt == NULL)
     prompt = ">";
 
-  printf_unfiltered ("%s ", prompt);
+  printf_unfiltered (("%s "), prompt);
   gdb_flush (gdb_stdout);
 
   args = command_line_input ((char *) NULL, 0, annotation_suffix);
@@ -3499,7 +3504,7 @@ ensure_lval (struct value *val, CORE_ADDR *sp)
 	    *sp = gdbarch_frame_align (current_gdbarch, *sp);
 	}
 
-      write_memory (VALUE_ADDRESS (val), VALUE_CONTENTS_RAW (val), len);
+      write_memory (VALUE_ADDRESS (val), value_contents_raw (val), len);
     }
 
   return val;
@@ -3538,8 +3543,8 @@ convert_actual (struct value *actual, struct type *formal_type0,
               struct value *val;
               actual_type = ada_check_typedef (value_type (actual));
               val = allocate_value (actual_type);
-              memcpy ((char *) VALUE_CONTENTS_RAW (val),
-                      (char *) VALUE_CONTENTS (actual),
+              memcpy ((char *) value_contents_raw (val),
+                      (char *) value_contents (actual),
                       TYPE_LENGTH (actual_type));
               actual = ensure_lval (val, sp);
             }
@@ -3570,11 +3575,11 @@ make_array_descriptor (struct type *type, struct value *arr, CORE_ADDR *sp)
 
   for (i = ada_array_arity (ada_check_typedef (value_type (arr))); i > 0; i -= 1)
     {
-      modify_general_field (VALUE_CONTENTS (bounds),
+      modify_general_field (value_contents_writeable (bounds),
                             value_as_long (ada_array_bound (arr, i, 0)),
                             desc_bound_bitpos (bounds_type, i, 0),
                             desc_bound_bitsize (bounds_type, i, 0));
-      modify_general_field (VALUE_CONTENTS (bounds),
+      modify_general_field (value_contents_writeable (bounds),
                             value_as_long (ada_array_bound (arr, i, 1)),
                             desc_bound_bitpos (bounds_type, i, 1),
                             desc_bound_bitsize (bounds_type, i, 1));
@@ -3582,12 +3587,12 @@ make_array_descriptor (struct type *type, struct value *arr, CORE_ADDR *sp)
 
   bounds = ensure_lval (bounds, sp);
 
-  modify_general_field (VALUE_CONTENTS (descriptor),
+  modify_general_field (value_contents_writeable (descriptor),
                         VALUE_ADDRESS (ensure_lval (arr, sp)),
                         fat_pntr_data_bitpos (desc_type),
                         fat_pntr_data_bitsize (desc_type));
 
-  modify_general_field (VALUE_CONTENTS (descriptor),
+  modify_general_field (value_contents_writeable (descriptor),
                         VALUE_ADDRESS (bounds),
                         fat_pntr_bounds_bitpos (desc_type),
                         fat_pntr_bounds_bitsize (desc_type));
@@ -4994,7 +4999,8 @@ ada_value_tag (struct value *val)
    ADDRESS. */
 
 static struct value *
-value_tag_from_contents_and_address (struct type *type, char *valaddr,
+value_tag_from_contents_and_address (struct type *type,
+				     const gdb_byte *valaddr,
                                      CORE_ADDR address)
 {
   int tag_byte_offset, dummy1, dummy2;
@@ -5002,7 +5008,9 @@ value_tag_from_contents_and_address (struct type *type, char *valaddr,
   if (find_struct_field ("_tag", type, 0, &tag_type, &tag_byte_offset,
                          &dummy1, &dummy2))
     {
-      char *valaddr1 = (valaddr == NULL) ? NULL : valaddr + tag_byte_offset;
+      const gdb_byte *valaddr1 = ((valaddr == NULL)
+				  ? NULL
+				  : valaddr + tag_byte_offset);
       CORE_ADDR address1 = (address == 0) ? 0 : address + tag_byte_offset;
 
       return value_from_contents_and_address (tag_type, valaddr1, address1);
@@ -5320,7 +5328,7 @@ ada_value_primitive_field (struct value *arg1, int offset, int fieldno,
       int bit_pos = TYPE_FIELD_BITPOS (arg_type, fieldno);
       int bit_size = TYPE_FIELD_BITSIZE (arg_type, fieldno);
 
-      return ada_value_primitive_packed_val (arg1, VALUE_CONTENTS (arg1),
+      return ada_value_primitive_packed_val (arg1, value_contents (arg1),
                                              offset + bit_pos / 8,
                                              bit_pos % 8, bit_size, type);
     }
@@ -5528,7 +5536,7 @@ ada_value_struct_elt (struct value *arg, char *name, char *err)
       if (TYPE_CODE (t) == TYPE_CODE_PTR)
         address = value_as_address (arg);
       else
-        address = unpack_pointer (t, VALUE_CONTENTS (arg));
+        address = unpack_pointer (t, value_contents (arg));
 
       t1 = ada_to_fixed_type (ada_get_base_type (t1), NULL, address, NULL);
       if (find_struct_field (name, t1, 0,
@@ -5698,7 +5706,7 @@ BadName:
 
 int
 ada_which_variant_applies (struct type *var_type, struct type *outer_type,
-                           char *outer_valaddr)
+                           const gdb_byte *outer_valaddr)
 {
   int others_clause;
   int i;
@@ -6048,7 +6056,8 @@ empty_record (struct objfile *objfile)
    byte-aligned.  */
 
 struct type *
-ada_template_to_fixed_record_type_1 (struct type *type, char *valaddr,
+ada_template_to_fixed_record_type_1 (struct type *type,
+				     const gdb_byte *valaddr,
                                      CORE_ADDR address, struct value *dval0,
                                      int keep_dynamic_fields)
 {
@@ -6208,7 +6217,7 @@ ada_template_to_fixed_record_type_1 (struct type *type, char *valaddr,
    of 1.  */
 
 static struct type *
-template_to_fixed_record_type (struct type *type, char *valaddr,
+template_to_fixed_record_type (struct type *type, const gdb_byte *valaddr,
                                CORE_ADDR address, struct value *dval0)
 {
   return ada_template_to_fixed_record_type_1 (type, valaddr,
@@ -6275,7 +6284,7 @@ template_to_static_fixed_type (struct type *type0)
    contains the necessary discriminant values.  */
 
 static struct type *
-to_record_with_fixed_variant_part (struct type *type, char *valaddr,
+to_record_with_fixed_variant_part (struct type *type, const gdb_byte *valaddr,
                                    CORE_ADDR address, struct value *dval0)
 {
   struct value *mark = value_mark ();
@@ -6353,7 +6362,7 @@ to_record_with_fixed_variant_part (struct type *type, char *valaddr,
    shortcut and suspect the compiler should be altered.  FIXME.  */
 
 static struct type *
-to_fixed_record_type (struct type *type0, char *valaddr,
+to_fixed_record_type (struct type *type0, const gdb_byte *valaddr,
                       CORE_ADDR address, struct value *dval)
 {
   struct type *templ_type;
@@ -6388,7 +6397,7 @@ to_fixed_record_type (struct type *type0, char *valaddr,
    indicated in the union's type name.  */
 
 static struct type *
-to_fixed_variant_branch_type (struct type *var_type0, char *valaddr,
+to_fixed_variant_branch_type (struct type *var_type0, const gdb_byte *valaddr,
                               CORE_ADDR address, struct value *dval)
 {
   int which;
@@ -6407,7 +6416,7 @@ to_fixed_variant_branch_type (struct type *var_type0, char *valaddr,
 
   which =
     ada_which_variant_applies (var_type,
-                               value_type (dval), VALUE_CONTENTS (dval));
+                               value_type (dval), value_contents (dval));
 
   if (which < 0)
     return empty_record (TYPE_OBJFILE (var_type));
@@ -6494,7 +6503,7 @@ to_fixed_array_type (struct type *type0, struct value *dval,
    ADDRESS or in VALADDR contains these discriminants.  */
 
 struct type *
-ada_to_fixed_type (struct type *type, char *valaddr,
+ada_to_fixed_type (struct type *type, const gdb_byte *valaddr,
                    CORE_ADDR address, struct value *dval)
 {
   type = ada_check_typedef (type);
@@ -6846,8 +6855,8 @@ ada_aligned_type (struct type *type)
 /* The address of the aligned value in an object at address VALADDR
    having type TYPE.  Assumes ada_is_aligner_type (TYPE).  */
 
-char *
-ada_aligned_value_addr (struct type *type, char *valaddr)
+const gdb_byte *
+ada_aligned_value_addr (struct type *type, const gdb_byte *valaddr)
 {
   if (ada_is_aligner_type (type))
     return ada_aligned_value_addr (TYPE_FIELD_TYPE (type, 0),
@@ -7038,7 +7047,7 @@ coerce_for_assign (struct type *type, struct value *val)
           || TYPE_LENGTH (TYPE_TARGET_TYPE (type2))
           != TYPE_LENGTH (TYPE_TARGET_TYPE (type2)))
         error (_("Incompatible types in assignment"));
-      val->type = type;
+      deprecated_set_value_type (val, type);
     }
   return val;
 }
@@ -7095,7 +7104,7 @@ ada_value_binop (struct value *arg1, struct value *arg2, enum exp_opcode op)
     }
 
   val = allocate_value (type1);
-  store_unsigned_integer (VALUE_CONTENTS_RAW (val),
+  store_unsigned_integer (value_contents_raw (val),
                           TYPE_LENGTH (value_type (val)), v);
   return val;
 }
@@ -7116,7 +7125,7 @@ ada_value_equal (struct value *arg1, struct value *arg2)
          and do not have user-defined equality.  */
       return
         TYPE_LENGTH (value_type (arg1)) == TYPE_LENGTH (value_type (arg2))
-        && memcmp (VALUE_CONTENTS (arg1), VALUE_CONTENTS (arg2),
+        && memcmp (value_contents (arg1), value_contents (arg2),
                    TYPE_LENGTH (value_type (arg1))) == 0;
     }
   return value_equal (arg1, arg2);
@@ -8080,7 +8089,7 @@ get_var_value (char *name, char *err_msg)
       if (err_msg == NULL)
         return 0;
       else
-        error ("%s", err_msg);
+        error (("%s"), err_msg);
     }
 
   return value_of_variable (syms[0].sym, syms[0].block);

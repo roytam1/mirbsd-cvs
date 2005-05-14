@@ -191,7 +191,7 @@ allocate_objfile (bfd *abfd, int flags)
 
       if (build_objfile_section_table (objfile))
 	{
-	  error ("Can't find the file sections in `%s': %s",
+	  error (_("Can't find the file sections in `%s': %s"),
 		 objfile->name, bfd_errmsg (bfd_get_error ()));
 	}
     }
@@ -305,7 +305,7 @@ put_objfile_before (struct objfile *objfile, struct objfile *before_this)
     }
   
   internal_error (__FILE__, __LINE__,
-		  "put_objfile_before: before objfile not in list");
+		  _("put_objfile_before: before objfile not in list"));
 }
 
 /* Put OBJFILE at the front of the list.  */
@@ -357,7 +357,7 @@ unlink_objfile (struct objfile *objfile)
     }
 
   internal_error (__FILE__, __LINE__,
-		  "unlink_objfile: objfile already unlinked");
+		  _("unlink_objfile: objfile already unlinked"));
 }
 
 
@@ -410,7 +410,7 @@ free_objfile (struct objfile *objfile)
     {
       char *name = bfd_get_filename (objfile->obfd);
       if (!bfd_close (objfile->obfd))
-	warning ("cannot close \"%s\": %s",
+	warning (_("cannot close \"%s\": %s"),
 		 name, bfd_errmsg (bfd_get_error ()));
       xfree (name);
     }

@@ -1,9 +1,10 @@
 /* Abstraction of HP aCC ABI.
+
    Contributed by Daniel Berlin <dberlin@redhat.com>
    Most of the real code is from HP, i've just fiddled it to fit in
    the C++ ABI abstraction framework.
 
-   Copyright 2001 Free Software Foundation, Inc.
+   Copyright 2001, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -31,6 +32,7 @@
 #include "gdbtypes.h"
 #include "gdbcore.h"
 #include "cp-abi.h"
+#include "gnu-v2-abi.h"
 
 struct cp_abi_ops hpacc_abi_ops;
 
@@ -97,12 +99,12 @@ hpacc_virtual_fn_field (struct value **arg1p, struct fn_field * f, int j,
   argp = value_cast (type, *arg1p);
 
   if (VALUE_ADDRESS (argp) == 0)
-    error ("Address of object is null; object may not have been created.");
+    error (_("Address of object is null; object may not have been created."));
 
   /* pai: FIXME -- 32x64 possible problem? */
   /* First word (4 bytes) in object layout is the vtable pointer */
-  coreptr = *(CORE_ADDR *) (VALUE_CONTENTS (argp));	/* pai: (temp)  */
-  /* + offset + VALUE_EMBEDDED_OFFSET (argp)); */
+  coreptr = *(CORE_ADDR *) (value_contents (argp));	/* pai: (temp)  */
+  /* + offset + value_embedded_offset (argp)); */
 
   if (!coreptr)
     error
@@ -130,7 +132,7 @@ hpacc_virtual_fn_field (struct value **arg1p, struct fn_field * f, int j,
 		     coreptr + 4 * (TYPE_FN_FIELD_VOFFSET (f, j) +
 				    HP_ACC_VFUNC_START));
 
-      coreptr = *(CORE_ADDR *) (VALUE_CONTENTS (vp));
+      coreptr = *(CORE_ADDR *) (value_contents (vp));
       /* coreptr now contains the address of the virtual function */
       /* (Actually, it contains the pointer to the plabel for the function. */
     }
@@ -151,10 +153,10 @@ hpacc_virtual_fn_field (struct value **arg1p, struct fn_field * f, int j,
       /* Indirect once more, offset by function index */
       /* pai: FIXME 32x64 problem here, again multiplier could be 8 and value long */
       coreptr =
-	*(CORE_ADDR *) (VALUE_CONTENTS (vp) +
+	*(CORE_ADDR *) (value_contents (vp) +
 			4 * TYPE_FN_FIELD_VOFFSET (f, j));
       vp = value_at (builtin_type_int, coreptr);
-      coreptr = *(CORE_ADDR *) (VALUE_CONTENTS (vp));
+      coreptr = *(CORE_ADDR *) (value_contents (vp));
 
       /* coreptr now contains the address of the virtual function */
       /* (Actually, it contains the pointer to the plabel for the function.) */
@@ -162,11 +164,11 @@ hpacc_virtual_fn_field (struct value **arg1p, struct fn_field * f, int j,
     }
 
   if (!coreptr)
-    error ("Address of virtual function is null; error in virtual table?");
+    error (_("Address of virtual function is null; error in virtual table?"));
 
   /* Wrap this addr in a value and return pointer */
   vp = allocate_value (ftype);
-  vp->type = ftype;
+  deprecated_set_value_type (vp, ftype);
   VALUE_ADDRESS (vp) = coreptr;
 
   /* pai: (temp) do we need the value_ind stuff in value_fn_field? */
@@ -204,7 +206,7 @@ hpacc_value_rtti_type (struct value *v, int *full, int *top, int *using_enc)
    * we can't do anything. */
   if (!TYPE_HAS_VTABLE (known_type))
     {
-      known_type = VALUE_ENCLOSING_TYPE (v);
+      known_type = value_enclosing_type (v);
       CHECK_TYPEDEF (known_type);
       if ((TYPE_CODE (known_type) != TYPE_CODE_CLASS) ||
           !TYPE_HAS_VTABLE (known_type))
@@ -217,11 +219,11 @@ hpacc_value_rtti_type (struct value *v, int *full, int *top, int *using_enc)
     *using_enc = 1;
 
   /* First get the virtual table address */
-  coreptr = *(CORE_ADDR *) ((VALUE_CONTENTS_ALL (v))
+  coreptr = *(CORE_ADDR *) ((value_contents_all (v))
                             + value_offset (v)
                             + (using_enclosing
                                ? 0
-                               : VALUE_EMBEDDED_OFFSET (v)));
+                               : value_embedded_offset (v)));
   if (coreptr == 0)
     /* return silently -- maybe called on gdb-generated value */
     return NULL;
@@ -239,26 +241,26 @@ hpacc_value_rtti_type (struct value *v, int *full, int *top, int *using_enc)
   vp = value_at (builtin_type_int, coreptr + 4 * HP_ACC_TYPEINFO_OFFSET);
   /* Indirect through the typeinfo pointer and retrieve the pointer
    * to the string name */
-  coreptr = *(CORE_ADDR *) (VALUE_CONTENTS (vp));
+  coreptr = *(CORE_ADDR *) (value_contents (vp));
   if (!coreptr)
-    error ("Retrieved null typeinfo pointer in trying to determine "
-           "run-time type");
+    error (_("Retrieved null typeinfo pointer in trying to determine "
+           "run-time type"));
   /* 4 -> offset of name field */
   vp = value_at (builtin_type_int, coreptr + 4);
   /* FIXME possible 32x64 problem */
 
-  coreptr = *(CORE_ADDR *) (VALUE_CONTENTS (vp));
+  coreptr = *(CORE_ADDR *) (value_contents (vp));
 
   read_memory_string (coreptr, rtti_type_name, 256);
 
   if (strlen (rtti_type_name) == 0)
-    error ("Retrieved null type name from typeinfo");
+    error (_("Retrieved null type name from typeinfo"));
 
   /* search for type */
   rtti_type = lookup_typename (rtti_type_name, (struct block *) 0, 1);
 
   if (!rtti_type)
-    error ("Could not find run-time type: invalid type name %s in typeinfo??",
+    error (_("Could not find run-time type: invalid type name %s in typeinfo??"),
            rtti_type_name);
   CHECK_TYPEDEF (rtti_type);
 #if 0
@@ -276,17 +278,14 @@ hpacc_value_rtti_type (struct value *v, int *full, int *top, int *using_enc)
        ||
        /* Or we checked on the embedded object and top offset was the
           same as the embedded offset */
-       ((top_offset == VALUE_EMBEDDED_OFFSET (v)) &&
+       ((top_offset == value_embedded_offset (v)) &&
         !using_enclosing &&
-        TYPE_LENGTH (VALUE_ENCLOSING_TYPE (v)) == TYPE_LENGTH (rtti_type))))
+        TYPE_LENGTH (value_enclosing_type (v)) == TYPE_LENGTH (rtti_type))))
 
     *full = 1;
 
   return rtti_type;
 }
-
-extern int gnuv2_baseclass_offset (struct type *type, int index,
-				   char *valaddr, CORE_ADDR address);
 
 static void
 init_hpacc_ops (void)

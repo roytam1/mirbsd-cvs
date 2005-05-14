@@ -1,6 +1,6 @@
 /* Abstraction of GNU v2 abi.
 
-   Copyright 2001, 2002, 2003 Free Software Foundation, Inc.
+   Copyright 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
 
    Contributed by Daniel Berlin <dberlin@redhat.com>
 
@@ -31,14 +31,13 @@
 #include "demangle.h"
 #include "cp-abi.h"
 #include "cp-support.h"
+#include "gnu-v2-abi.h"
 
 #include <ctype.h>
 
 struct cp_abi_ops gnu_v2_abi_ops;
 
 static int vb_match (struct type *, int, struct type *);
-int gnuv2_baseclass_offset (struct type *type, int index, char *valaddr,
-			    CORE_ADDR address);
 
 static enum dtor_kinds
 gnuv2_is_destructor_name (const char *name)
@@ -163,11 +162,11 @@ gnuv2_virtual_fn_field (struct value **arg1p, struct fn_field * f, int j,
   if (TYPE_CODE (entry_type) == TYPE_CODE_STRUCT)
     {
       /* Move the `this' pointer according to the virtual function table. */
-      arg1->offset += value_as_long (value_field (entry, 0));
+      set_value_offset (arg1, value_offset (arg1) + value_as_long (value_field (entry, 0)));
 
-      if (!VALUE_LAZY (arg1))
+      if (!value_lazy (arg1))
 	{
-	  VALUE_LAZY (arg1) = 1;
+	  set_value_lazy (arg1, 1);
 	  value_fetch_lazy (arg1);
 	}
 
@@ -176,9 +175,9 @@ gnuv2_virtual_fn_field (struct value **arg1p, struct fn_field * f, int j,
   else if (TYPE_CODE (entry_type) == TYPE_CODE_PTR)
     vfn = entry;
   else
-    error ("I'm confused:  virtual function table has bad type");
+    error (_("I'm confused:  virtual function table has bad type"));
   /* Reinstantiate the function pointer with the correct type.  */
-  vfn->type = lookup_pointer_type (TYPE_FN_FIELD_TYPE (f, j));
+  deprecated_set_value_type (vfn, lookup_pointer_type (TYPE_FN_FIELD_TYPE (f, j)));
 
   *arg1p = arg1;
   return vfn;
@@ -347,8 +346,8 @@ vb_match (struct type *type, int index, struct type *basetype)
    -1 is returned on error. */
 
 int
-gnuv2_baseclass_offset (struct type *type, int index, char *valaddr,
-		  CORE_ADDR address)
+gnuv2_baseclass_offset (struct type *type, int index,
+			const bfd_byte *valaddr, CORE_ADDR address)
 {
   struct type *basetype = TYPE_BASECLASS (type, index);
 

@@ -163,21 +163,21 @@ static int has_line_numbers;
 static void
 unknown_symtype_complaint (const char *arg1)
 {
-  complaint (&symfile_complaints, "unknown symbol type %s", arg1);
+  complaint (&symfile_complaints, _("unknown symbol type %s"), arg1);
 }
 
 static void
 lbrac_mismatch_complaint (int arg1)
 {
   complaint (&symfile_complaints,
-	     "N_LBRAC/N_RBRAC symbol mismatch at symtab pos %d", arg1);
+	     _("N_LBRAC/N_RBRAC symbol mismatch at symtab pos %d"), arg1);
 }
 
 static void
 repeated_header_complaint (const char *arg1, int arg2)
 {
   complaint (&symfile_complaints,
-	     "\"repeated\" header file %s not previously seen, at symtab pos %d",
+	     _("\"repeated\" header file %s not previously seen, at symtab pos %d"),
 	     arg1, arg2);
 }
 
@@ -221,7 +221,7 @@ find_text_range (bfd * sym_bfd, struct objfile *objfile)
       }
 
   if (!found_any)
-    error ("Can't find any code sections in symbol file");
+    error (_("Can't find any code sections in symbol file"));
 
   DBX_TEXT_ADDR (objfile) = start;
   DBX_TEXT_SIZE (objfile) = end - start;
@@ -643,7 +643,7 @@ dbx_symfile_init (struct objfile *objfile)
 
   text_sect = bfd_get_section_by_name (sym_bfd, ".text");
   if (!text_sect)
-    error ("Can't find .text section in symbol file");
+    error (_("Can't find .text section in symbol file"));
   DBX_TEXT_ADDR (objfile) = bfd_section_vma (sym_bfd, text_sect);
   DBX_TEXT_SIZE (objfile) = bfd_section_size (sym_bfd, text_sect);
 
@@ -705,7 +705,7 @@ dbx_symfile_init (struct objfile *objfile)
 
 	  if (DBX_STRINGTAB_SIZE (objfile) < sizeof (size_temp)
 	      || DBX_STRINGTAB_SIZE (objfile) > bfd_get_size (sym_bfd))
-	    error ("ridiculous string table size (%d bytes).",
+	    error (_("ridiculous string table size (%d bytes)."),
 		   DBX_STRINGTAB_SIZE (objfile));
 
 	  DBX_STRINGTAB (objfile) =
@@ -829,7 +829,7 @@ fill_symbuf (bfd *sym_bfd)
   if (nbytes < 0)
     perror_with_name (bfd_get_filename (sym_bfd));
   else if (nbytes == 0)
-    error ("Premature end of file reading symbol table");
+    error (_("Premature end of file reading symbol table"));
   symbuf_end = nbytes / symbol_size;
   symbuf_idx = 0;
   symbuf_left -= nbytes;
@@ -966,7 +966,7 @@ set_namestring (struct objfile *objfile, struct internal_nlist nlist)
   if (((unsigned) nlist.n_strx + file_string_table_offset) >=
       DBX_STRINGTAB_SIZE (objfile))
     {
-      complaint (&symfile_complaints, "bad string table offset in symbol %d",
+      complaint (&symfile_complaints, _("bad string table offset in symbol %d"),
 		 symnum);
       namestring = "<bad string table offset>";
     } 
@@ -1168,7 +1168,7 @@ static void
 function_outside_compilation_unit_complaint (const char *arg1)
 {
   complaint (&symfile_complaints,
-	     "function `%s' appears to be defined outside of all compilation units",
+	     _("function `%s' appears to be defined outside of all compilation units"),
 	     arg1);
 }
 
@@ -1417,7 +1417,7 @@ read_dbx_symtab (struct objfile *objfile)
 	    next_file_string_table_offset =
 	      file_string_table_offset + nlist.n_value;
 	    if (next_file_string_table_offset < file_string_table_offset)
-	      error ("string table offset backs up at %d", symnum);
+	      error (_("string table offset backs up at %d"), symnum);
 	    /* FIXME -- replace error() with complaint.  */
 	    continue;
 	  }
@@ -1564,7 +1564,7 @@ read_dbx_symtab (struct objfile *objfile)
 	      /* FIXME: we should not get here without a PST to work on.
 		 Attempt to recover.  */
 	      complaint (&symfile_complaints,
-			 "N_BINCL %s not in entries for any file, at symtab pos %d",
+			 _("N_BINCL %s not in entries for any file, at symtab pos %d"),
 			 namestring, symnum);
 	      continue;
 	    }
@@ -1982,7 +1982,7 @@ read_dbx_symtab (struct objfile *objfile)
 	       time searching to the end of every string looking for
 	       a backslash.  */
 
-	    complaint (&symfile_complaints, "unknown symbol descriptor `%c'",
+	    complaint (&symfile_complaints, _("unknown symbol descriptor `%c'"),
 		       p[1]);
 
 	    /* Ignore it; perhaps it is an extension that we don't
@@ -2543,7 +2543,7 @@ read_ofile_symtab (struct partial_symtab *pst)
     fill_symbuf (abfd);
   bufp = &symbuf[symbuf_idx];
   if (bfd_h_get_8 (abfd, bufp->e_type) != N_SO)
-    error ("First symbol in segment of executable not a source symbol");
+    error (_("First symbol in segment of executable not a source symbol"));
 
   max_symnum = sym_size / symbol_size;
 
@@ -2811,9 +2811,9 @@ process_one_symbol (int type, int desc, CORE_ADDR valu, char *name,
 		 symbols within an LBRAC/RBRAC block; this complaint
 		 might also help sort out problems in which
 		 VARIABLES_INSIDE_BLOCK is incorrectly defined.  */
-	      complaint (&symfile_complaints, "\
+	      complaint (&symfile_complaints, _("\
 misplaced N_LBRAC entry; discarding local symbols which have \
-no enclosing block");
+no enclosing block"));
 	    }
 	  local_symbols = new->locals;
 	}
@@ -2835,7 +2835,7 @@ no enclosing block");
 	      if (new->start_addr > valu)
 		{
 		  complaint (&symfile_complaints,
-			     "block start larger than block end");
+			     _("block start larger than block end"));
 		  new->start_addr = valu;
 		}
 	      /* Make a block for the local symbols within.  */
@@ -3025,7 +3025,7 @@ no enclosing block");
 	    goto case_N_ROSYM;
 	  default:
 	    internal_error (__FILE__, __LINE__,
-			    "failed internal consistency check");
+			    _("failed internal consistency check"));
 	  }
       }
 
@@ -3130,7 +3130,7 @@ no enclosing block");
 	      if (context_stack_depth > 1)
 		{
 		  complaint (&symfile_complaints,
-			     "unmatched N_LBRAC before symtab pos %d", symnum);
+			     _("unmatched N_LBRAC before symtab pos %d"), symnum);
 		  break;
 		}
 
@@ -3279,7 +3279,7 @@ coffstab_build_psymtabs (struct objfile *objfile, int mainline,
   DBX_STRINGTAB_SIZE (objfile) = stabstrsize;
 
   if (stabstrsize > bfd_get_size (sym_bfd))
-    error ("ridiculous string table size: %d bytes", stabstrsize);
+    error (_("ridiculous string table size: %d bytes"), stabstrsize);
   DBX_STRINGTAB (objfile) = (char *)
     obstack_alloc (&objfile->objfile_obstack, stabstrsize + 1);
   OBJSTAT (objfile, sz_strtab += stabstrsize + 1);
@@ -3376,7 +3376,7 @@ elfstab_build_psymtabs (struct objfile *objfile, int mainline,
   DBX_STAB_SECTION (objfile) = stabsect;
 
   if (stabstrsize > bfd_get_size (sym_bfd))
-    error ("ridiculous string table size: %d bytes", stabstrsize);
+    error (_("ridiculous string table size: %d bytes"), stabstrsize);
   DBX_STRINGTAB (objfile) = (char *)
     obstack_alloc (&objfile->objfile_obstack, stabstrsize + 1);
   OBJSTAT (objfile, sz_strtab += stabstrsize + 1);
@@ -3450,7 +3450,7 @@ stabsect_build_psymtabs (struct objfile *objfile, int mainline, char *stab_name,
     return;
 
   if (!stabstrsect)
-    error ("stabsect_build_psymtabs:  Found stabs (%s), but not string section (%s)",
+    error (_("stabsect_build_psymtabs:  Found stabs (%s), but not string section (%s)"),
 	   stab_name, stabstr_name);
 
   objfile->deprecated_sym_stab_info = (struct dbx_symfile_info *)
@@ -3459,7 +3459,7 @@ stabsect_build_psymtabs (struct objfile *objfile, int mainline, char *stab_name,
 
   text_sect = bfd_get_section_by_name (sym_bfd, text_name);
   if (!text_sect)
-    error ("Can't find %s section in symbol file", text_name);
+    error (_("Can't find %s section in symbol file"), text_name);
   DBX_TEXT_ADDR (objfile) = bfd_section_vma (sym_bfd, text_sect);
   DBX_TEXT_SIZE (objfile) = bfd_section_size (sym_bfd, text_sect);
 
@@ -3470,7 +3470,7 @@ stabsect_build_psymtabs (struct objfile *objfile, int mainline, char *stab_name,
   DBX_SYMTAB_OFFSET (objfile) = stabsect->filepos;	/* XXX - FIXME: POKING INSIDE BFD DATA STRUCTURES */
 
   if (DBX_STRINGTAB_SIZE (objfile) > bfd_get_size (sym_bfd))
-    error ("ridiculous string table size: %d bytes", DBX_STRINGTAB_SIZE (objfile));
+    error (_("ridiculous string table size: %d bytes"), DBX_STRINGTAB_SIZE (objfile));
   DBX_STRINGTAB (objfile) = (char *)
     obstack_alloc (&objfile->objfile_obstack, DBX_STRINGTAB_SIZE (objfile) + 1);
   OBJSTAT (objfile, sz_strtab += DBX_STRINGTAB_SIZE (objfile) + 1);

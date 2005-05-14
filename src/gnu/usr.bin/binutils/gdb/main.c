@@ -1,8 +1,8 @@
 /* Top level stuff for GDB, the GNU debugger.
 
    Copyright 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
-   Foundation, Inc.
+   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -28,6 +28,7 @@
 #include "symfile.h"
 #include "gdbcore.h"
 
+#include "exceptions.h"
 #include "getopt.h"
 
 #include <sys/types.h>
@@ -142,7 +143,7 @@ captured_main (void *data)
   int ndir;
 
   struct stat homebuf, cwdbuf;
-  char *homedir, *homeinit;
+  char *homedir;
 
   int i;
 
@@ -189,9 +190,6 @@ captured_main (void *data)
   gdb_stdin = stdio_fileopen (stdin);
   gdb_stdtargerr = gdb_stderr;	/* for moment */
   gdb_stdtargin = gdb_stdin;	/* for moment */
-
-  /* initialize error() */
-  error_init ();
 
   /* Set the sysroot path.  */
 #ifdef TARGET_SYSTEM_ROOT_RELOCATABLE
@@ -517,7 +515,7 @@ extern int gdbtk_test (char *);
   }
 
   /* Initialize all files.  Give the interpreter a chance to take
-     control of the console via the deprecated_init_ui_hook().  */
+     control of the console via the deprecated_init_ui_hook ().  */
   gdb_init (argv[0]);
 
   /* Do these (and anything which might call wrap_here or *_filtered)
@@ -563,7 +561,7 @@ extern int gdbtk_test (char *);
     /* Find it.  */
     struct interp *interp = interp_lookup (interpreter_p);
     if (interp == NULL)
-      error ("Interpreter `%s' unrecognized", interpreter_p);
+      error (_("Interpreter `%s' unrecognized"), interpreter_p);
     /* Install it.  */
     if (!interp_set (interp))
       {
@@ -602,11 +600,7 @@ extern int gdbtk_test (char *);
   homedir = getenv ("HOME");
   if (homedir)
     {
-      homeinit = (char *) alloca (strlen (homedir) +
-				  strlen (gdbinit) + 10);
-      strcpy (homeinit, homedir);
-      strcat (homeinit, "/");
-      strcat (homeinit, gdbinit);
+      char *homeinit = xstrprintf ("%s/%s", homedir, gdbinit);
 
       if (!inhibit_gdbinit)
 	{
@@ -624,6 +618,7 @@ extern int gdbtk_test (char *);
       stat (homeinit, &homebuf);
       stat (gdbinit, &cwdbuf);	/* We'll only need this if
 				   homedir was set.  */
+      xfree (homeinit);
     }
 
   /* Now perform all the actions indicated by the arguments.  */
@@ -773,9 +768,9 @@ extern int gdbtk_test (char *);
       if (!SET_TOP_LEVEL ())
 	{
 	  do_cleanups (ALL_CLEANUPS);	/* Do complete cleanup */
-	  /* GUIs generally have their own command loop, mainloop, or whatever.
-	     This is a good place to gain control because many error
-	     conditions will end up here via longjmp(). */
+	  /* GUIs generally have their own command loop, mainloop, or
+	     whatever.  This is a good place to gain control because
+	     many error conditions will end up here via longjmp().  */
 	  if (deprecated_command_loop_hook)
 	    deprecated_command_loop_hook ();
 	  else
@@ -830,9 +825,6 @@ Options:\n\n\
 "), stream);
   fputs_unfiltered (_("\
   --args             Arguments after executable-file are passed to inferior\n\
-"), stream);
-  fputs_unfiltered (_("\
-  --[no]async        Enable (disable) asynchronous version of CLI\n\
 "), stream);
   fputs_unfiltered (_("\
   -b BAUDRATE        Set serial port baud rate used for remote debugging.\n\

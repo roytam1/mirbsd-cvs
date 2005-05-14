@@ -79,7 +79,7 @@ bsd_kvm_open (char *filename, int from_tty)
   execfile = get_exec_file (0);
   temp_kd = kvm_openfiles (execfile, filename, NULL, O_RDONLY, errbuf);
   if (temp_kd == NULL)
-    error ("%s", errbuf);
+    error (("%s"), errbuf);
 
   unpush_target (&bsd_kvm_ops);
   core_kd = temp_kd;
@@ -98,7 +98,7 @@ bsd_kvm_close (int quitting)
   if (core_kd)
     {
       if (kvm_close (core_kd) == -1)
-	warning ("%s", kvm_geterr(core_kd));
+	warning (("%s"), kvm_geterr(core_kd));
       core_kd = NULL;
     }
 }
@@ -124,7 +124,7 @@ bsd_kvm_fetch_pcb (struct pcb *paddr)
   struct pcb pcb;
 
   if (kvm_read (core_kd, (unsigned long) paddr, &pcb, sizeof pcb) == -1)
-    error ("%s", kvm_geterr (core_kd));
+    error (("%s"), kvm_geterr (core_kd));
 
   gdb_assert (bsd_kvm_supply_pcb);
   return bsd_kvm_supply_pcb (current_regcache, &pcb);
@@ -147,7 +147,7 @@ bsd_kvm_fetch_registers (int regnum)
   nl[0].n_name = "_dumppcb";
 
   if (kvm_nlist (core_kd, nl) == -1)
-    error ("%s", kvm_geterr (core_kd));
+    error (("%s"), kvm_geterr (core_kd));
 
   if (nl[0].n_value != 0)
     {
@@ -165,7 +165,7 @@ bsd_kvm_fetch_registers (int regnum)
   nl[0].n_name = "_proc0paddr";
 
   if (kvm_nlist (core_kd, nl) == -1)
-    error ("%s", kvm_geterr (core_kd));
+    error (("%s"), kvm_geterr (core_kd));
 
   if (nl[0].n_value != 0)
     {
@@ -173,7 +173,7 @@ bsd_kvm_fetch_registers (int regnum)
 
       /* Found proc0paddr.  */
       if (kvm_read (core_kd, nl[0].n_value, &paddr, sizeof paddr) == -1)
-	error ("%s", kvm_geterr (core_kd));
+	error (("%s"), kvm_geterr (core_kd));
 
       bsd_kvm_fetch_pcb (paddr);
       return;
@@ -189,7 +189,7 @@ bsd_kvm_fetch_registers (int regnum)
   nl[0].n_name = "_thread0";
 
   if (kvm_nlist (core_kd, nl) == -1)
-    error ("%s", kvm_geterr (core_kd));
+    error (("%s"), kvm_geterr (core_kd));
 
   if (nl[0].n_value != 0)
     {
@@ -198,14 +198,15 @@ bsd_kvm_fetch_registers (int regnum)
       /* Found thread0.  */
       nl[0].n_value += offsetof (struct thread, td_pcb);
       if (kvm_read (core_kd, nl[0].n_value, &paddr, sizeof paddr) == -1)
-	error ("%s", kvm_geterr (core_kd));
+	error (("%s"), kvm_geterr (core_kd));
 
       bsd_kvm_fetch_pcb (paddr);
       return;
     }
 #endif
 
-  error ("Cannot find a valid PCB");
+  /* i18n: PCB == "Process Control Block" */
+  error (_("Cannot find a valid PCB"));
 }
 
 
@@ -226,10 +227,10 @@ bsd_kvm_proc_cmd (char *arg, int fromtty)
   CORE_ADDR addr;
 
   if (arg == NULL)
-    error_no_arg ("proc address");
+    error_no_arg (_("proc address"));
 
   if (core_kd == NULL)
-    error ("No kernel memory image.");
+    error (_("No kernel memory image."));
 
   addr = parse_and_eval_address (arg);
 #ifdef HAVE_STRUCT_LWP
@@ -239,7 +240,7 @@ bsd_kvm_proc_cmd (char *arg, int fromtty)
 #endif
 
   if (kvm_read (core_kd, addr, &bsd_kvm_paddr, sizeof bsd_kvm_paddr) == -1)
-    error ("%s", kvm_geterr (core_kd));
+    error (("%s"), kvm_geterr (core_kd));
 
   target_fetch_registers (-1);
 
@@ -254,10 +255,11 @@ static void
 bsd_kvm_pcb_cmd (char *arg, int fromtty)
 {
   if (arg == NULL)
-    error_no_arg ("pcb address");
+    /* i18n: PCB == "Process Control Block" */
+    error_no_arg (_("pcb address"));
 
   if (core_kd == NULL)
-    error ("No kernel memory image.");
+    error (_("No kernel memory image."));
 
   bsd_kvm_paddr = (struct pcb *)(u_long) parse_and_eval_address (arg);
 
@@ -279,9 +281,9 @@ bsd_kvm_add_target (int (*supply_pcb)(struct regcache *, struct pcb *))
   bsd_kvm_supply_pcb = supply_pcb;
 
   bsd_kvm_ops.to_shortname = "kvm";
-  bsd_kvm_ops.to_longname = "Kernel memory interface";
-  bsd_kvm_ops.to_doc = "Use a kernel virtual memory image as a target.\n\
-Optionally specify the filename of a core dump.";
+  bsd_kvm_ops.to_longname = _("Kernel memory interface");
+  bsd_kvm_ops.to_doc = _("Use a kernel virtual memory image as a target.\n\
+Optionally specify the filename of a core dump.");
   bsd_kvm_ops.to_open = bsd_kvm_open;
   bsd_kvm_ops.to_close = bsd_kvm_close;
   bsd_kvm_ops.to_fetch_registers = bsd_kvm_fetch_registers;
@@ -294,14 +296,15 @@ Optionally specify the filename of a core dump.";
 
   add_target (&bsd_kvm_ops);
   
-  add_prefix_cmd ("kvm", class_obscure, bsd_kvm_cmd, "\
-Generic command for manipulating the kernel memory interface.",
+  add_prefix_cmd ("kvm", class_obscure, bsd_kvm_cmd, _("\
+Generic command for manipulating the kernel memory interface."),
 		  &bsd_kvm_cmdlist, "kvm ", 0, &cmdlist);
 
 #ifndef HAVE_STRUCT_THREAD_TD_PCB
   add_cmd ("proc", class_obscure, bsd_kvm_proc_cmd,
-	   "Set current context from proc address", &bsd_kvm_cmdlist);
+	   _("Set current context from proc address"), &bsd_kvm_cmdlist);
 #endif
   add_cmd ("pcb", class_obscure, bsd_kvm_pcb_cmd,
-	   "Set current context from pcb address", &bsd_kvm_cmdlist);
+	   /* i18n: PCB == "Process Control Block" */
+	   _("Set current context from pcb address"), &bsd_kvm_cmdlist);
 }
