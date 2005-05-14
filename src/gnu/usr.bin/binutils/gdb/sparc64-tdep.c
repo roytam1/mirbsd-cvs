@@ -1,6 +1,6 @@
 /* Target-dependent code for UltraSPARC.
 
-   Copyright 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -21,6 +21,7 @@
 
 #include "defs.h"
 #include "arch-utils.h"
+#include "dwarf2-frame.h"
 #include "floatformat.h"
 #include "frame.h"
 #include "frame-base.h"
@@ -519,6 +520,29 @@ sparc64_frame_prev_register (struct frame_info *next_frame, void **this_cache,
       return;
     }
 
+  /* Handle StackGhost.  */
+  {
+    ULONGEST wcookie = sparc_fetch_wcookie ();
+
+    if (wcookie != 0 && !cache->frameless_p && regnum == SPARC_I7_REGNUM)
+      {
+	*optimizedp = 0;
+	*lvalp = not_lval;
+	*addrp = 0;
+	*realnump = -1;
+	if (valuep)
+	  {
+	    CORE_ADDR addr = cache->base + (regnum - SPARC_L0_REGNUM) * 8;
+	    ULONGEST i7;
+
+	    /* Read the value in from memory.  */
+	    i7 = get_frame_memory_unsigned (next_frame, addr, 8);
+	    store_unsigned_integer (valuep, 8, i7 ^ wcookie);
+	  }
+	return;
+      }
+  }
+
   /* The previous frame's `local' and `in' registers have been saved
      in the register save area.  */
   if (!cache->frameless_p
@@ -526,7 +550,7 @@ sparc64_frame_prev_register (struct frame_info *next_frame, void **this_cache,
     {
       *optimizedp = 0;
       *lvalp = lval_memory;
-      *addrp = cache->base + BIAS + (regnum - SPARC_L0_REGNUM) * 8;
+      *addrp = cache->base + (regnum - SPARC_L0_REGNUM) * 8;
       *realnump = -1;
       if (valuep)
 	{
@@ -572,7 +596,7 @@ sparc64_frame_base_address (struct frame_info *next_frame, void **this_cache)
   struct sparc_frame_cache *cache =
     sparc64_frame_cache (next_frame, this_cache);
 
-  return cache->base + BIAS;
+  return cache->base;
 }
 
 static const struct frame_base sparc64_frame_base =
@@ -615,7 +639,7 @@ sparc64_16_byte_align_p (struct type *type)
 
 static void
 sparc64_store_floating_fields (struct regcache *regcache, struct type *type,
-			       char *valbuf, int element, int bitpos)
+			       const char *valbuf, int element, int bitpos)
 {
   gdb_assert (element < 16);
 
@@ -784,7 +808,7 @@ sparc64_store_arguments (struct regcache *regcache, int nargs,
                  a problem.  */
 	      sp &= ~0xf;
 
-	      write_memory (sp, VALUE_CONTENTS (args[i]), len);
+	      write_memory (sp, value_contents (args[i]), len);
 	      args[i] = value_from_pointer (lookup_pointer_type (type), sp);
 	      num_elements++;
 	    }
@@ -853,7 +877,7 @@ sparc64_store_arguments (struct regcache *regcache, int nargs,
 
   for (i = 0; i < nargs; i++)
     {
-      char *valbuf = VALUE_CONTENTS (args[i]);
+      const char *valbuf = value_contents (args[i]);
       struct type *type = value_type (args[i]);
       int len = TYPE_LENGTH (type);
       int regnum = -1;
@@ -939,7 +963,7 @@ sparc64_store_arguments (struct regcache *regcache, int nargs,
 	    }
 	}
 
-      /* Always store the argument in memeory.  */
+      /* Always store the argument in memory.  */
       write_memory (sp + element * 8, valbuf, len);
       element += ((len + 7) / 8);
     }
@@ -973,7 +997,7 @@ sparc64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
   /* Finally, update the stack pointer.  */
   regcache_cooked_write_unsigned (regcache, SPARC_SP_REGNUM, sp);
 
-  return sp;
+  return sp + BIAS;
 }
 
 
@@ -1080,6 +1104,32 @@ sparc64_return_value (struct gdbarch *gdbarch, struct type *type,
 }
 
 
+static void
+sparc64_dwarf2_frame_init_reg (struct gdbarch *gdbarch, int regnum,
+			       struct dwarf2_frame_state_reg *reg)
+{
+  switch (regnum)
+    {
+    case SPARC_G0_REGNUM:
+      /* Since %g0 is always zero, there is no point in saving it, and
+	 people will be inclined omit it from the CFI.  Make sure we
+	 don't warn about that.  */
+      reg->how = DWARF2_FRAME_REG_SAME_VALUE;
+      break;
+    case SPARC_SP_REGNUM:
+      reg->how = DWARF2_FRAME_REG_CFA;
+      break;
+    case SPARC64_PC_REGNUM:
+      reg->how = DWARF2_FRAME_REG_RA_OFFSET;
+      reg->loc.offset = 8;
+      break;
+    case SPARC64_NPC_REGNUM:
+      reg->how = DWARF2_FRAME_REG_RA_OFFSET;
+      reg->loc.offset = 12;
+      break;
+    }
+}
+
 void
 sparc64_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
 {
@@ -1113,6 +1163,11 @@ sparc64_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
     (gdbarch, default_stabs_argument_has_addr);
 
   set_gdbarch_skip_prologue (gdbarch, sparc64_skip_prologue);
+
+  /* Hook in the DWARF CFI frame unwinder.  */
+  dwarf2_frame_set_init_reg (gdbarch, sparc64_dwarf2_frame_init_reg);
+  /* FIXME: kettenis/20050423: Don't enable the unwinder until the
+     StackGhost issues have been resolved.  */
 
   frame_unwind_append_sniffer (gdbarch, sparc64_frame_sniffer);
   frame_base_set_default (gdbarch, &sparc64_frame_base);

@@ -1,8 +1,8 @@
 /* Print and select stack frames for GDB, the GNU debugger.
 
    Copyright 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free
-   Software Foundation, Inc.
+   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -43,8 +43,10 @@
 #include "stack.h"
 #include "gdb_assert.h"
 #include "dictionary.h"
+#include "exceptions.h"
 #include "reggroups.h"
 #include "regcache.h"
+#include "solib.h"
 
 /* Prototypes for exported functions. */
 
@@ -353,9 +355,7 @@ print_frame_args (struct symbol *func, struct frame_info *fi, int num,
 
 	  if (val)
 	    {
-	      val_print (value_type (val), VALUE_CONTENTS (val), 0,
-			 VALUE_ADDRESS (val),
-			 stb->stream, 0, 0, 2, Val_no_prettyprint);
+	      common_val_print (val, stb->stream, 0, 0, 2, Val_no_prettyprint);
 	      ui_out_field_stream (uiout, "value", stb);
 	    }
 	  else
@@ -512,7 +512,9 @@ print_frame_info (struct frame_info *fi, int print_level,
       if (!done)
 	{
 	  if (deprecated_print_frame_info_listing_hook)
-	    deprecated_print_frame_info_listing_hook (sal.symtab, sal.line, sal.line + 1, 0);
+	    deprecated_print_frame_info_listing_hook (sal.symtab, 
+						      sal.line, 
+						      sal.line + 1, 0);
 	  else
 	    {
 	      /* We used to do this earlier, but that is clearly
@@ -522,7 +524,7 @@ print_frame_info (struct frame_info *fi, int print_level,
 		 when we stepi/nexti into the middle of a source
 		 line. Only the command line really wants this
 		 behavior. Other UIs probably would like the
-		 ability to decide for themselves if it is desired. */
+		 ability to decide for themselves if it is desired.  */
 	      if (addressprint && mid_statement)
 		{
 		  ui_out_field_core_addr (uiout, "addr", get_frame_pc (fi));
@@ -685,10 +687,13 @@ print_frame (struct frame_info *fi,
       annotate_frame_source_end ();
     }
 
-#ifdef PC_SOLIB
   if (!funname || (!sal.symtab || !sal.symtab->filename))
     {
+#ifdef PC_SOLIB
       char *lib = PC_SOLIB (get_frame_pc (fi));
+#else
+      char *lib = solib_address (get_frame_pc (fi));
+#endif
       if (lib)
 	{
 	  annotate_frame_where ();
@@ -697,7 +702,6 @@ print_frame (struct frame_info *fi,
 	  ui_out_field_string (uiout, "from", lib);
 	}
     }
-#endif /* PC_SOLIB */
 
   /* do_cleanups will call ui_out_tuple_end() for us.  */
   do_cleanups (list_chain);
@@ -761,7 +765,7 @@ parse_frame_specification_1 (const char *frame_exp, const char *message,
 	     This avoids problems with expressions that contain
 	     side-effects.  */
 	  if (numargs >= ARRAY_SIZE (args))
-	    error ("Too many args in frame specification");
+	    error (_("Too many args in frame specification"));
 	  args[numargs++] = parse_and_eval (addr_string);
 
 	  do_cleanups (cleanup);
@@ -821,7 +825,7 @@ parse_frame_specification_1 (const char *frame_exp, const char *message,
 	 really should be used instead of spaces to delimit; using
 	 spaces normally works in an expression).  */
 #ifdef SETUP_ARBITRARY_FRAME
-      error ("No frame %s", paddr_d (addrs[0]));
+      error (_("No frame %s"), paddr_d (addrs[0]));
 #endif
       /* If (s)he specifies the frame with an address, he deserves
 	 what (s)he gets.  Still, give the highest one that matches.
@@ -847,7 +851,7 @@ parse_frame_specification_1 (const char *frame_exp, const char *message,
   else if (numargs == 2)
     return create_new_frame (addrs[0], addrs[1]);
   else
-    error ("Too many args in frame specification");
+    error (_("Too many args in frame specification"));
 }
 
 struct frame_info *
@@ -936,19 +940,19 @@ frame_info (char *addr_exp, int from_tty)
 
   if (selected_frame_p && frame_relative_level (fi) >= 0)
     {
-      printf_filtered ("Stack level %d, frame at ",
+      printf_filtered (_("Stack level %d, frame at "),
 		       frame_relative_level (fi));
-      print_address_numeric (get_frame_base (fi), 1, gdb_stdout);
+      deprecated_print_address_numeric (get_frame_base (fi), 1, gdb_stdout);
       printf_filtered (":\n");
     }
   else
     {
-      printf_filtered ("Stack frame at ");
-      print_address_numeric (get_frame_base (fi), 1, gdb_stdout);
+      printf_filtered (_("Stack frame at "));
+      deprecated_print_address_numeric (get_frame_base (fi), 1, gdb_stdout);
       printf_filtered (":\n");
     }
   printf_filtered (" %s = ", pc_regname);
-  print_address_numeric (get_frame_pc (fi), 1, gdb_stdout);
+  deprecated_print_address_numeric (get_frame_pc (fi), 1, gdb_stdout);
 
   wrap_here ("   ");
   if (funname)
@@ -963,13 +967,13 @@ frame_info (char *addr_exp, int from_tty)
   puts_filtered ("; ");
   wrap_here ("    ");
   printf_filtered ("saved %s ", pc_regname);
-  print_address_numeric (frame_pc_unwind (fi), 1, gdb_stdout);
+  deprecated_print_address_numeric (frame_pc_unwind (fi), 1, gdb_stdout);
   printf_filtered ("\n");
 
   if (calling_frame_info)
     {
       printf_filtered (" called by frame at ");
-      print_address_numeric (get_frame_base (calling_frame_info),
+      deprecated_print_address_numeric (get_frame_base (calling_frame_info),
 			     1, gdb_stdout);
     }
   if (get_next_frame (fi) && calling_frame_info)
@@ -978,7 +982,7 @@ frame_info (char *addr_exp, int from_tty)
   if (get_next_frame (fi))
     {
       printf_filtered (" caller of frame at ");
-      print_address_numeric (get_frame_base (get_next_frame (fi)), 1,
+      deprecated_print_address_numeric (get_frame_base (get_next_frame (fi)), 1,
 			     gdb_stdout);
     }
   if (get_next_frame (fi) || calling_frame_info)
@@ -998,7 +1002,7 @@ frame_info (char *addr_exp, int from_tty)
     else
       {
 	printf_filtered (" Arglist at ");
-	print_address_numeric (arg_list, 1, gdb_stdout);
+	deprecated_print_address_numeric (arg_list, 1, gdb_stdout);
 	printf_filtered (",");
 
 	if (!FRAME_NUM_ARGS_P ())
@@ -1030,7 +1034,7 @@ frame_info (char *addr_exp, int from_tty)
     else
       {
 	printf_filtered (" Locals at ");
-	print_address_numeric (arg_list, 1, gdb_stdout);
+	deprecated_print_address_numeric (arg_list, 1, gdb_stdout);
 	printf_filtered (",");
       }
   }
@@ -1068,14 +1072,14 @@ frame_info (char *addr_exp, int from_tty)
                may or may not be valid.  */
 	    sp = extract_unsigned_integer (value, register_size (current_gdbarch, SP_REGNUM));
 	    printf_filtered (" Previous frame's sp is ");
-	    print_address_numeric (sp, 1, gdb_stdout);
+	    deprecated_print_address_numeric (sp, 1, gdb_stdout);
 	    printf_filtered ("\n");
 	    need_nl = 0;
 	  }
 	else if (!optimized && lval == lval_memory)
 	  {
 	    printf_filtered (" Previous frame's sp at ");
-	    print_address_numeric (addr, 1, gdb_stdout);
+	    deprecated_print_address_numeric (addr, 1, gdb_stdout);
 	    printf_filtered ("\n");
 	    need_nl = 0;
 	  }
@@ -1108,7 +1112,7 @@ frame_info (char *addr_exp, int from_tty)
 		puts_filtered (",");
 	      wrap_here (" ");
 	      printf_filtered (" %s at ", REGISTER_NAME (i));
-	      print_address_numeric (addr, 1, gdb_stdout);
+	      deprecated_print_address_numeric (addr, 1, gdb_stdout);
 	      count++;
 	    }
 	}
@@ -1131,7 +1135,7 @@ backtrace_command_1 (char *count_exp, int show_locals, int from_tty)
   int trailing_level;
 
   if (!target_has_stack)
-    error ("No stack.");
+    error (_("No stack."));
 
   /* The following code must do two things.  First, it must
      set the variable TRAILING to the frame from which we should start
@@ -1142,7 +1146,7 @@ backtrace_command_1 (char *count_exp, int show_locals, int from_tty)
   /* The target can be in a state where there is no valid frames
      (e.g., just connected). */
   if (trailing == NULL)
-    error ("No stack.");
+    error (_("No stack."));
 
   trailing_level = 0;
   if (count_exp)
@@ -1215,7 +1219,7 @@ backtrace_command_1 (char *count_exp, int show_locals, int from_tty)
 
   /* If we've stopped before the end, mention that.  */
   if (fi && from_tty)
-    printf_filtered ("(More stack frames follow...)\n");
+    printf_filtered (_("(More stack frames follow...)\n"));
 }
 
 struct backtrace_command_args
@@ -1380,7 +1384,7 @@ print_block_frame_labels (struct block *b, int *have_default,
 	  if (addressprint)
 	    {
 	      fprintf_filtered (stream, " ");
-	      print_address_numeric (SYMBOL_VALUE_ADDRESS (sym), 1, stream);
+	      deprecated_print_address_numeric (SYMBOL_VALUE_ADDRESS (sym), 1, stream);
 	    }
 	  fprintf_filtered (stream, " in file %s, line %d\n",
 			    sal.symtab->filename, sal.line);
@@ -1457,9 +1461,9 @@ print_frame_label_vars (struct frame_info *fi, int this_level_only,
       int last_index;
 
       if (bl != blockvector_for_pc (end, &index))
-	error ("blockvector blotch");
+	error (_("blockvector blotch"));
       if (BLOCKVECTOR_BLOCK (bl, index) != block)
-	error ("blockvector botch");
+	error (_("blockvector botch"));
       last_index = BLOCKVECTOR_NBLOCKS (bl);
       index += 1;
 
@@ -1732,7 +1736,7 @@ up_silently_base (char *count_exp)
 
   fi = find_relative_frame (get_selected_frame ("No stack."), &count1);
   if (count1 != 0 && count_exp == 0)
-    error ("Initial frame selected; you cannot go up.");
+    error (_("Initial frame selected; you cannot go up."));
   select_frame (fi);
 }
 
@@ -1770,7 +1774,7 @@ down_silently_base (char *count_exp)
          impossible), but "down 9999" can be used to mean go all the way
          down without getting an error.  */
 
-      error ("Bottom (i.e., innermost) frame selected; you cannot go down.");
+      error (_("Bottom (i.e., innermost) frame selected; you cannot go down."));
     }
 
   select_frame (frame);
@@ -1821,7 +1825,7 @@ return_command (char *retval_exp, int from_tty)
 
       /* Make sure the value is fully evaluated.  It may live in the
          stack frame we're about to pop.  */
-      if (VALUE_LAZY (return_value))
+      if (value_lazy (return_value))
 	value_fetch_lazy (return_value);
 
       if (TYPE_CODE (return_type) == TYPE_CODE_VOID)
@@ -1863,13 +1867,13 @@ If you continue, the return value that you specified will be ignored.\n";
     {
       int confirmed;
       if (thisfun == NULL)
-	confirmed = query ("%sMake selected stack frame return now? ",
+	confirmed = query (_("%sMake selected stack frame return now? "),
 			   query_prefix);
       else
-	confirmed = query ("%sMake %s return now? ", query_prefix,
+	confirmed = query (_("%sMake %s return now? "), query_prefix,
 			   SYMBOL_PRINT_NAME (thisfun));
       if (!confirmed)
-	error ("Not confirmed");
+	error (_("Not confirmed"));
     }
 
   /* NOTE: cagney/2003-01-18: Is this silly?  Rather than pop each
@@ -1885,7 +1889,7 @@ If you continue, the return value that you specified will be ignored.\n";
 	if (frame_id_inner (selected_id, get_frame_id (get_current_frame ())))
 	  /* Caught in the safety net, oops!  We've gone way past the
              selected frame.  */
-	  error ("Problem while popping stack frames (corrupt stack?)");
+	  error (_("Problem while popping stack frames (corrupt stack?)"));
 	frame_pop (get_current_frame ());
       }
   }
@@ -1903,7 +1907,7 @@ If you continue, the return value that you specified will be ignored.\n";
 		  == RETURN_VALUE_REGISTER_CONVENTION);
       gdbarch_return_value (current_gdbarch, return_type,
 			    current_regcache, NULL /*read*/,
-			    VALUE_CONTENTS (return_value) /*write*/);
+			    value_contents (return_value) /*write*/);
     }
 
   /* If we are at the end of a call dummy now, pop the dummy frame
@@ -1974,7 +1978,7 @@ func_command (char *arg, int from_tty)
     xfree (func_bounds);
 
   if (!found)
-    printf_filtered ("'%s' not within current stack frame.\n", arg);
+    printf_filtered (_("'%s' not within current stack frame.\n"), arg);
   else if (fp != deprecated_selected_frame)
     select_and_print_frame (fp);
 }
@@ -2015,91 +2019,92 @@ _initialize_stack (void)
   backtrace_limit = 30;
 #endif
 
-  add_com ("return", class_stack, return_command,
-	   "Make selected stack frame return to its caller.\n\
+  add_com ("return", class_stack, return_command, _("\
+Make selected stack frame return to its caller.\n\
 Control remains in the debugger, but when you continue\n\
 execution will resume in the frame above the one now selected.\n\
-If an argument is given, it is an expression for the value to return.");
+If an argument is given, it is an expression for the value to return."));
 
-  add_com ("up", class_stack, up_command,
-	   "Select and print stack frame that called this one.\n\
-An argument says how many frames up to go.");
-  add_com ("up-silently", class_support, up_silently_command,
-	   "Same as the `up' command, but does not print anything.\n\
-This is useful in command scripts.");
+  add_com ("up", class_stack, up_command, _("\
+Select and print stack frame that called this one.\n\
+An argument says how many frames up to go."));
+  add_com ("up-silently", class_support, up_silently_command, _("\
+Same as the `up' command, but does not print anything.\n\
+This is useful in command scripts."));
 
-  add_com ("down", class_stack, down_command,
-	   "Select and print stack frame called by this one.\n\
-An argument says how many frames down to go.");
+  add_com ("down", class_stack, down_command, _("\
+Select and print stack frame called by this one.\n\
+An argument says how many frames down to go."));
   add_com_alias ("do", "down", class_stack, 1);
   add_com_alias ("dow", "down", class_stack, 1);
-  add_com ("down-silently", class_support, down_silently_command,
-	   "Same as the `down' command, but does not print anything.\n\
-This is useful in command scripts.");
+  add_com ("down-silently", class_support, down_silently_command, _("\
+Same as the `down' command, but does not print anything.\n\
+This is useful in command scripts."));
 
-  add_com ("frame", class_stack, frame_command,
-	   "Select and print a stack frame.\n\
+  add_com ("frame", class_stack, frame_command, _("\
+Select and print a stack frame.\n\
 With no argument, print the selected stack frame.  (See also \"info frame\").\n\
 An argument specifies the frame to select.\n\
 It can be a stack frame number or the address of the frame.\n\
 With argument, nothing is printed if input is coming from\n\
-a command file or a user-defined command.");
+a command file or a user-defined command."));
 
   add_com_alias ("f", "frame", class_stack, 1);
 
   if (xdb_commands)
     {
       add_com ("L", class_stack, current_frame_command,
-	       "Print the current stack frame.\n");
+	       _("Print the current stack frame.\n"));
       add_com_alias ("V", "frame", class_stack, 1);
     }
-  add_com ("select-frame", class_stack, select_frame_command,
-	   "Select a stack frame without printing anything.\n\
+  add_com ("select-frame", class_stack, select_frame_command, _("\
+Select a stack frame without printing anything.\n\
 An argument specifies the frame to select.\n\
-It can be a stack frame number or the address of the frame.\n");
+It can be a stack frame number or the address of the frame.\n"));
 
-  add_com ("backtrace", class_stack, backtrace_command,
-	   "Print backtrace of all stack frames, or innermost COUNT frames.\n\
+  add_com ("backtrace", class_stack, backtrace_command, _("\
+Print backtrace of all stack frames, or innermost COUNT frames.\n\
 With a negative argument, print outermost -COUNT frames.\n\
-Use of the 'full' qualifier also prints the values of the local variables.\n");
+Use of the 'full' qualifier also prints the values of the local variables.\n"));
   add_com_alias ("bt", "backtrace", class_stack, 0);
   if (xdb_commands)
     {
       add_com_alias ("t", "backtrace", class_stack, 0);
-      add_com ("T", class_stack, backtrace_full_command,
-	       "Print backtrace of all stack frames, or innermost COUNT frames \n\
+      add_com ("T", class_stack, backtrace_full_command, _("\
+Print backtrace of all stack frames, or innermost COUNT frames \n\
 and the values of the local variables.\n\
 With a negative argument, print outermost -COUNT frames.\n\
-Usage: T <count>\n");
+Usage: T <count>\n"));
     }
 
   add_com_alias ("where", "backtrace", class_alias, 0);
   add_info ("stack", backtrace_command,
-	    "Backtrace of the stack, or innermost COUNT frames.");
+	    _("Backtrace of the stack, or innermost COUNT frames."));
   add_info_alias ("s", "stack", 1);
   add_info ("frame", frame_info,
-	    "All about selected stack frame, or frame at ADDR.");
+	    _("All about selected stack frame, or frame at ADDR."));
   add_info_alias ("f", "frame", 1);
   add_info ("locals", locals_info,
-	    "Local variables of current stack frame.");
+	    _("Local variables of current stack frame."));
   add_info ("args", args_info,
-	    "Argument variables of current stack frame.");
+	    _("Argument variables of current stack frame."));
   if (xdb_commands)
     add_com ("l", class_info, args_plus_locals_info,
-	     "Argument and local variables of current stack frame.");
+	     _("Argument and local variables of current stack frame."));
 
   if (dbx_commands)
-    add_com ("func", class_stack, func_command,
-      "Select the stack frame that contains <func>.\nUsage: func <name>\n");
+    add_com ("func", class_stack, func_command, _("\
+Select the stack frame that contains <func>.\n\
+Usage: func <name>\n"));
 
   add_info ("catch", catch_info,
-	    "Exceptions that can be caught in the current stack frame.");
+	    _("Exceptions that can be caught in the current stack frame."));
 
 #if 0
-  add_cmd ("backtrace-limit", class_stack, set_backtrace_limit_command,
-  "Specify maximum number of frames for \"backtrace\" to print by default.",
+  add_cmd ("backtrace-limit", class_stack, set_backtrace_limit_command, _(\
+"Specify maximum number of frames for \"backtrace\" to print by default."),
 	   &setlist);
-  add_info ("backtrace-limit", backtrace_limit_info,
-     "The maximum number of frames for \"backtrace\" to print by default.");
+  add_info ("backtrace-limit", backtrace_limit_info, _("\
+The maximum number of frames for \"backtrace\" to print by default."));
 #endif
 }

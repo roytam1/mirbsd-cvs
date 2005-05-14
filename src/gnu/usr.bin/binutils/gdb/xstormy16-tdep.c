@@ -1,6 +1,7 @@
 /* Target-dependent code for the Sanyo Xstormy16a (LC590000) processor.
 
-   Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2001, 2002, 2003, 2004, 2005 Free Software Foundation,
+   Inc.
 
    This file is part of GDB.
 
@@ -115,7 +116,7 @@ xstormy16_register_name (int regnum)
 
   if (regnum < 0 || regnum >= E_NUM_REGS)
     internal_error (__FILE__, __LINE__,
-		    "xstormy16_register_name: illegal register number %d",
+		    _("xstormy16_register_name: illegal register number %d"),
 		    regnum);
   else
     return register_names[regnum];
@@ -256,12 +257,12 @@ xstormy16_push_dummy_call (struct gdbarch *gdbarch,
      would fit in the remaining unused registers.  */
   for (i = 0; i < nargs && argreg <= E_LST_ARG_REGNUM; i++)
     {
-      typelen = TYPE_LENGTH (VALUE_ENCLOSING_TYPE (args[i]));
+      typelen = TYPE_LENGTH (value_enclosing_type (args[i]));
       if (typelen > E_MAX_RETTYPE_SIZE (argreg))
 	break;
 
       /* Put argument into registers wordwise. */
-      val = VALUE_CONTENTS (args[i]);
+      val = value_contents (args[i]);
       for (j = 0; j < typelen; j += xstormy16_reg_size)
 	regcache_cooked_write_unsigned (regcache, argreg++,
 			extract_unsigned_integer (val + j,
@@ -277,10 +278,10 @@ xstormy16_push_dummy_call (struct gdbarch *gdbarch,
      wordaligned.  */
   for (j = nargs - 1; j >= i; j--)
     {
-      typelen = TYPE_LENGTH (VALUE_ENCLOSING_TYPE (args[j]));
+      typelen = TYPE_LENGTH (value_enclosing_type (args[j]));
       slacklen = typelen & 1;
       val = alloca (typelen + slacklen);
-      memcpy (val, VALUE_CONTENTS (args[j]), typelen);
+      memcpy (val, value_contents (args[j]), typelen);
       memset (val + typelen, 0, slacklen);
 
       /* Now write this data to the stack. The stack grows upwards. */

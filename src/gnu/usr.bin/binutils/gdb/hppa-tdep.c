@@ -1,7 +1,7 @@
 /* Target-dependent code for the HP PA architecture, for GDB.
 
    Copyright 1986, 1987, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
-   1996, 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
+   1996, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software
    Foundation, Inc.
 
    Contributed by the Center for Software Science at the
@@ -489,7 +489,7 @@ find_unwind_entry (CORE_ADDR pc)
 	read_unwind_info (objfile);
         priv = objfile_data (objfile, hppa_objfile_priv_data);
 	if (priv == NULL)
-	  error ("Internal error reading unwind information.");
+	  error (_("Internal error reading unwind information."));
         ui = ((struct hppa_objfile_private *) priv)->unwind_info;
       }
 
@@ -723,7 +723,7 @@ hppa32_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	      param_len = 4;
 	      struct_ptr += align_up (TYPE_LENGTH (type), 8);
 	      if (write_pass)
-		write_memory (struct_end - struct_ptr, VALUE_CONTENTS (arg),
+		write_memory (struct_end - struct_ptr, value_contents (arg),
 			      TYPE_LENGTH (type));
 	      store_unsigned_integer (param_val, 4, struct_end - struct_ptr);
 	    }
@@ -735,13 +735,13 @@ hppa32_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	      param_len = align_up (TYPE_LENGTH (type), 4);
 	      store_unsigned_integer (param_val, param_len,
 				      unpack_long (type,
-						   VALUE_CONTENTS (arg)));
+						   value_contents (arg)));
 	    }
 	  else if (TYPE_CODE (type) == TYPE_CODE_FLT)
             {
 	      /* Floating point value store, right aligned.  */
 	      param_len = align_up (TYPE_LENGTH (type), 4);
-	      memcpy (param_val, VALUE_CONTENTS (arg), param_len);
+	      memcpy (param_val, value_contents (arg), param_len);
             }
 	  else
 	    {
@@ -749,7 +749,7 @@ hppa32_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 
 	      /* Small struct value are stored right-aligned.  */
 	      memcpy (param_val + param_len - TYPE_LENGTH (type),
-		      VALUE_CONTENTS (arg), TYPE_LENGTH (type));
+		      value_contents (arg), TYPE_LENGTH (type));
 
 	      /* Structures of size 5, 6 and 7 bytes are special in that
 	         the higher-ordered word is stored in the lower-ordered
@@ -901,7 +901,7 @@ hppa64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
       struct value *arg = args[i];
       struct type *type = value_type (arg);
       int len = TYPE_LENGTH (type);
-      char *valbuf;
+      const bfd_byte *valbuf;
       int regnum;
 
       /* "Each parameter begins on a 64-bit (8-byte) boundary."  */
@@ -960,7 +960,7 @@ hppa64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 		     the right halves of the floating point registers;
 		     the left halves are unused."  */
 		  regcache_cooked_write_part (regcache, regnum, offset % 8,
-					      len, VALUE_CONTENTS (arg));
+					      len, value_contents (arg));
 		}
 	    }
 	}
@@ -978,9 +978,9 @@ hppa64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	}
 
       /* Always store the argument in memory.  */
-      write_memory (sp + offset, VALUE_CONTENTS (arg), len);
+      write_memory (sp + offset, value_contents (arg), len);
 
-      valbuf = VALUE_CONTENTS (arg);
+      valbuf = value_contents (arg);
       regnum = HPPA_ARG0_REGNUM - offset / 8;
       while (regnum > HPPA_ARG0_REGNUM - 8 && len > 0)
 	{
@@ -1830,7 +1830,7 @@ hppa_frame_cache (struct frame_info *next_frame, void **this_cache)
 	if (!safe_frame_unwind_memory (next_frame, pc, buf4, 
 				       sizeof buf4)) 
 	  {
-	    error ("Cannot read instruction at 0x%s\n", paddr_nz (pc));
+	    error (_("Cannot read instruction at 0x%s."), paddr_nz (pc));
 	    return (*this_cache);
 	  }
 
@@ -2167,8 +2167,8 @@ hppa_fallback_frame_cache (struct frame_info *next_frame, void **this_cache)
 
   if (start_pc == 0 || end_pc == 0)
     {
-      error ("Cannot find bounds of current function (@0x%s), unwinding will "
-	     "fail.", paddr_nz (pc));
+      error (_("Cannot find bounds of current function (@0x%s), unwinding will "
+	     "fail."), paddr_nz (pc));
       return cache;
     }
 
@@ -2327,7 +2327,7 @@ hppa_stub_frame_prev_register (struct frame_info *next_frame,
 				     optimizedp, lvalp, addrp, realnump, 
 				     valuep);
   else
-    error ("Requesting registers from null frame.\n");
+    error (_("Requesting registers from null frame."));
 }
 
 static const struct frame_unwind hppa_stub_frame_unwind = {
@@ -2762,7 +2762,7 @@ hppa_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
 					   hppa64_cannot_store_register);
         break;
       default:
-        internal_error (__FILE__, __LINE__, "Unsupported address size: %d",
+        internal_error (__FILE__, __LINE__, _("Unsupported address size: %d"),
                         tdep->bytes_per_address);
     }
 
@@ -2814,7 +2814,7 @@ hppa_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
       set_gdbarch_frame_align (gdbarch, hppa64_frame_align);
       break;
     default:
-      internal_error (__FILE__, __LINE__, "bad switch");
+      internal_error (__FILE__, __LINE__, _("bad switch"));
     }
       
   /* Struct return methods.  */
@@ -2827,7 +2827,7 @@ hppa_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
       set_gdbarch_return_value (gdbarch, hppa64_return_value);
       break;
     default:
-      internal_error (__FILE__, __LINE__, "bad switch");
+      internal_error (__FILE__, __LINE__, _("bad switch"));
     }
       
   set_gdbarch_breakpoint_from_pc (gdbarch, hppa_breakpoint_from_pc);
@@ -2868,15 +2868,18 @@ _initialize_hppa_tdep (void)
   hppa_objfile_priv_data = register_objfile_data ();
 
   add_cmd ("unwind", class_maintenance, unwind_command,
-	   "Print unwind table entry at given address.",
+	   _("Print unwind table entry at given address."),
 	   &maintenanceprintlist);
 
   /* Debug this files internals. */
-  add_setshow_boolean_cmd ("hppa", class_maintenance, &hppa_debug, "\
-Set whether hppa target specific debugging information should be displayed.", "\
-Show whether hppa target specific debugging information is displayed.", "\
+  add_setshow_boolean_cmd ("hppa", class_maintenance, &hppa_debug, _("\
+Set whether hppa target specific debugging information should be displayed."),
+			   _("\
+Show whether hppa target specific debugging information is displayed."), _("\
 This flag controls whether hppa target specific debugging information is\n\
 displayed.  This information is particularly useful for debugging frame\n\
-unwinding problems.", "hppa debug flag is %s.",
-			   NULL, NULL, &setdebuglist, &showdebuglist);
+unwinding problems."),
+			   NULL,
+			   NULL, /* FIXME: i18n: hppa debug flag is %s.  */
+			   &setdebuglist, &showdebuglist);
 }

@@ -181,6 +181,13 @@ static void dcache_info (char *exp, int tty);
 void _initialize_dcache (void);
 
 static int dcache_enabled_p = 0;
+static void
+show_dcache_enabled_p (struct ui_file *file, int from_tty,
+		       struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("Cache use for remote targets is %s.\n"), value);
+}
+
 
 DCACHE *last_cache;		/* Used by info dcache */
 
@@ -558,22 +565,22 @@ dcache_info (char *exp, int tty)
 {
   struct dcache_block *p;
 
-  printf_filtered ("Dcache line width %d, depth %d\n",
+  printf_filtered (_("Dcache line width %d, depth %d\n"),
 		   LINE_SIZE, DCACHE_SIZE);
 
   if (last_cache)
     {
-      printf_filtered ("Cache state:\n");
+      printf_filtered (_("Cache state:\n"));
 
       for (p = last_cache->valid_head; p; p = p->p)
 	{
 	  int j;
-	  printf_filtered ("Line at %s, referenced %d times\n",
+	  printf_filtered (_("Line at %s, referenced %d times\n"),
 			   paddr (p->addr), p->refs);
 
 	  for (j = 0; j < LINE_SIZE; j++)
 	    printf_filtered ("%02x", p->data[j] & 0xFF);
-	  printf_filtered ("\n");
+	  printf_filtered (("\n"));
 
 	  for (j = 0; j < LINE_SIZE; j++)
 	    printf_filtered ("%2x", p->state[j]);
@@ -585,20 +592,20 @@ dcache_info (char *exp, int tty)
 void
 _initialize_dcache (void)
 {
-  deprecated_add_show_from_set
-    (add_set_cmd ("remotecache", class_support, var_boolean,
-		  (char *) &dcache_enabled_p,
-		  "\
-Set cache use for remote targets.\n\
+  add_setshow_boolean_cmd ("remotecache", class_support,
+			   &dcache_enabled_p, _("\
+Set cache use for remote targets."), _("\
+Show cache use for remote targets."), _("\
 When on, use data caching for remote targets.  For many remote targets\n\
 this option can offer better throughput for reading target memory.\n\
 Unfortunately, gdb does not currently know anything about volatile\n\
 registers and thus data caching will produce incorrect results with\n\
-volatile registers are in use.  By default, this option is off.",
-		  &setlist),
-     &showlist);
+volatile registers are in use.  By default, this option is off."),
+			   NULL,
+			   show_dcache_enabled_p,
+			   &setlist, &showlist);
 
   add_info ("dcache", dcache_info,
-	    "Print information on the dcache performance.");
+	    _("Print information on the dcache performance."));
 
 }

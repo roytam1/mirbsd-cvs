@@ -1,7 +1,7 @@
 /* Perform an inferior function call, for GDB, the GNU debugger.
 
    Copyright 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GDB.
@@ -65,6 +65,14 @@
    with "set coerce-float-to-double 0".  */
 
 static int coerce_float_to_double_p = 1;
+static void
+show_coerce_float_to_double_p (struct ui_file *file, int from_tty,
+			       struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("\
+Coercion of floats to doubles when calling functions is %s.\n"),
+		    value);
+}
 
 /* This boolean tells what gdb should do if a signal is received while
    in a function called from gdb (call dummy).  If set, gdb unwinds
@@ -74,6 +82,15 @@ static int coerce_float_to_double_p = 1;
    The default is to stop in the frame where the signal was received. */
 
 int unwind_on_signal_p = 0;
+static void
+show_unwind_on_signal_p (struct ui_file *file, int from_tty,
+			 struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("\
+Unwinding of stack if a signal is received while in a call dummy is %s.\n"),
+		    value);
+}
+
 
 /* Perform the standard coercions that are specified
    for arguments to be passed to C functions.
@@ -96,7 +113,7 @@ value_arg_coerce (struct value *arg, struct type *param_type,
 	  && TYPE_CODE (arg_type) != TYPE_CODE_PTR)
 	{
 	  arg = value_addr (arg);
-	  arg->type = param_type;
+	  deprecated_set_value_type (arg, param_type);
 	  return arg;
 	}
       break;
@@ -204,7 +221,7 @@ find_function_addr (struct value *function, struct type **retval_type)
       value_type = builtin_type_int;
     }
   else
-    error ("Invalid data type for function to be called.");
+    error (_("Invalid data type for function to be called."));
 
   if (retval_type != NULL)
     *retval_type = value_type;
@@ -481,11 +498,11 @@ call_function_by_hand (struct value *function, int nargs, struct value **args)
 	break;
       }
     default:
-      internal_error (__FILE__, __LINE__, "bad switch");
+      internal_error (__FILE__, __LINE__, _("bad switch"));
     }
 
   if (nargs < TYPE_NFIELDS (ftype))
-    error ("too few arguments in function call");
+    error (_("too few arguments in function call"));
 
   {
     int i;
@@ -536,13 +553,14 @@ call_function_by_hand (struct value *function, int nargs, struct value **args)
 		       this point.  */
 		    /* Go see if the actual parameter is a variable of
 		       type pointer to function or just a function.  */
-		    if (args[i]->lval == not_lval)
+		    if (VALUE_LVAL (args[i]) == not_lval)
 		      {
 			char *arg_name;
-			if (find_pc_partial_function ((CORE_ADDR) args[i]->aligner.contents[0], &arg_name, NULL, NULL))
-			  error ("\
+			/* NOTE: cagney/2005-01-02: THIS IS BOGUS.  */
+			if (find_pc_partial_function ((CORE_ADDR) value_contents (args[i])[0], &arg_name, NULL, NULL))
+			  error (_("\
 You cannot use function <%s> as argument. \n\
-You must use a pointer to function type variable. Command ignored.", arg_name);
+You must use a pointer to function type variable. Command ignored."), arg_name);
 		      }
 	      }
 	  }
@@ -571,7 +589,7 @@ You must use a pointer to function type variable. Command ignored.", arg_name);
 	      CORE_ADDR addr;
 	      int len;		/*  = TYPE_LENGTH (arg_type); */
 	      int aligned_len;
-	      arg_type = check_typedef (VALUE_ENCLOSING_TYPE (args[i]));
+	      arg_type = check_typedef (value_enclosing_type (args[i]));
 	      len = TYPE_LENGTH (arg_type);
 
 	      aligned_len = len;
@@ -591,7 +609,7 @@ You must use a pointer to function type variable. Command ignored.", arg_name);
 		  sp += aligned_len;
 		}
 	      /* Push the structure.  */
-	      write_memory (addr, VALUE_CONTENTS_ALL (args[i]), len);
+	      write_memory (addr, value_contents_all (args[i]), len);
 	      /* The value we're going to pass is the address of the
 		 thing we just pushed.  */
 	      /*args[i] = value_from_longest (lookup_pointer_type (values_type),
@@ -647,7 +665,7 @@ You must use a pointer to function type variable. Command ignored.", arg_name);
     sp = DEPRECATED_PUSH_ARGUMENTS (nargs, args, sp, struct_return,
 				    struct_addr);
   else
-    error ("This target does not support function calls");
+    error (_("This target does not support function calls"));
 
   /* Set up a frame ID for the dummy frame so we can pass it to
      set_momentary_breakpoint.  We need to give the breakpoint a frame
@@ -769,11 +787,11 @@ You must use a pointer to function type variable. Command ignored.", arg_name);
 
 	      /* FIXME: Insert a bunch of wrap_here; name can be very
 		 long if it's a C++ name with arguments and stuff.  */
-	      error ("\
+	      error (_("\
 The program being debugged was signaled while in a function called from GDB.\n\
 GDB has restored the context to what it was before the call.\n\
 To change this behavior use \"set unwindonsignal off\"\n\
-Evaluation of the expression containing the function (%s) will be abandoned.",
+Evaluation of the expression containing the function (%s) will be abandoned."),
 		     name);
 	    }
 	  else
@@ -789,11 +807,11 @@ Evaluation of the expression containing the function (%s) will be abandoned.",
 	      discard_inferior_status (inf_status);
 	      /* FIXME: Insert a bunch of wrap_here; name can be very
 		 long if it's a C++ name with arguments and stuff.  */
-	      error ("\
+	      error (_("\
 The program being debugged was signaled while in a function called from GDB.\n\
 GDB remains in the frame where the signal was received.\n\
 To change this behavior use \"set unwindonsignal on\"\n\
-Evaluation of the expression containing the function (%s) will be abandoned.",
+Evaluation of the expression containing the function (%s) will be abandoned."),
 		     name);
 	    }
 	}
@@ -816,15 +834,15 @@ Evaluation of the expression containing the function (%s) will be abandoned.",
 	     someday this will be implemented (it would not be easy).  */
 	  /* FIXME: Insert a bunch of wrap_here; name can be very long if it's
 	     a C++ name with arguments and stuff.  */
-	  error ("\
+	  error (_("\
 The program being debugged stopped while in a function called from GDB.\n\
 When the function (%s) is done executing, GDB will silently\n\
 stop (instead of continuing to evaluate the expression containing\n\
-the function call).", name);
+the function call)."), name);
 	}
 
       /* The above code errors out, so ...  */
-      internal_error (__FILE__, __LINE__, "... should not be here");
+      internal_error (__FILE__, __LINE__, _("... should not be here"));
     }
 
   /* If we get here the called FUNCTION run to completion. */
@@ -861,7 +879,7 @@ the function call).", name);
 					  NULL, NULL, NULL)
 		    == RETURN_VALUE_REGISTER_CONVENTION);
 	gdbarch_return_value (current_gdbarch, values_type, retbuf,
-			      VALUE_CONTENTS_RAW (retval) /*read*/,
+			      value_contents_raw (retval) /*read*/,
 			      NULL /*write*/);
       }
     do_cleanups (retbuf_cleanup);
@@ -875,27 +893,29 @@ void
 _initialize_infcall (void)
 {
   add_setshow_boolean_cmd ("coerce-float-to-double", class_obscure,
-			   &coerce_float_to_double_p, "\
-Set coercion of floats to doubles when calling functions.", "\
-Show coercion of floats to doubles when calling functions", "\
+			   &coerce_float_to_double_p, _("\
+Set coercion of floats to doubles when calling functions."), _("\
+Show coercion of floats to doubles when calling functions"), _("\
 Variables of type float should generally be converted to doubles before\n\
 calling an unprototyped function, and left alone when calling a prototyped\n\
 function.  However, some older debug info formats do not provide enough\n\
 information to determine that a function is prototyped.  If this flag is\n\
 set, GDB will perform the conversion for a function it considers\n\
 unprototyped.\n\
-The default is to perform the conversion.\n", "\
-Coercion of floats to doubles when calling functions is %s.",
-			   NULL, NULL, &setlist, &showlist);
+The default is to perform the conversion.\n"),
+			   NULL,
+			   show_coerce_float_to_double_p,
+			   &setlist, &showlist);
 
   add_setshow_boolean_cmd ("unwindonsignal", no_class,
-			   &unwind_on_signal_p, "\
-Set unwinding of stack if a signal is received while in a call dummy.", "\
-Show unwinding of stack if a signal is received while in a call dummy.", "\
+			   &unwind_on_signal_p, _("\
+Set unwinding of stack if a signal is received while in a call dummy."), _("\
+Show unwinding of stack if a signal is received while in a call dummy."), _("\
 The unwindonsignal lets the user determine what gdb should do if a signal\n\
 is received while in a function called from gdb (call dummy).  If set, gdb\n\
 unwinds the stack and restore the context to what as it was before the call.\n\
-The default is to stop in the frame where the signal was received.", "\
-Unwinding of stack if a signal is received while in a call dummy is %s.",
-			   NULL, NULL, &setlist, &showlist);
+The default is to stop in the frame where the signal was received."),
+			   NULL,
+			   show_unwind_on_signal_p,
+			   &setlist, &showlist);
 }

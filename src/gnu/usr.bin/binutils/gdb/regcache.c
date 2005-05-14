@@ -51,7 +51,7 @@ struct regcache_descr
   /* The raw register cache.  Each raw (or hard) register is supplied
      by the target interface.  The raw cache should not contain
      redundant information - if the PC is constructed from two
-     registers then those regigisters and not the PC lives in the raw
+     registers then those registers and not the PC lives in the raw
      cache.  */
   int nr_raw_registers;
   long sizeof_raw_registers;
@@ -844,7 +844,7 @@ regcache_xfer_part (struct regcache *regcache, int regnum,
 		    regcache_read_ftype *read, regcache_write_ftype *write)
 {
   struct regcache_descr *descr = regcache->descr;
-  bfd_byte reg[MAX_REGISTER_SIZE];
+  gdb_byte reg[MAX_REGISTER_SIZE];
   gdb_assert (offset >= 0 && offset <= descr->sizeof_register[regnum]);
   gdb_assert (len >= 0 && offset + len <= descr->sizeof_register[regnum]);
   /* Something to do?  */
@@ -1076,7 +1076,7 @@ read_pc_pid (ptid_t ptid)
       pc_val = ADDR_BITS_REMOVE (raw_val);
     }
   else
-    internal_error (__FILE__, __LINE__, "read_pc_pid: Unable to find PC");
+    internal_error (__FILE__, __LINE__, _("read_pc_pid: Unable to find PC"));
 
   inferior_ptid = saved_inferior_ptid;
   return pc_val;
@@ -1095,7 +1095,7 @@ generic_target_write_pc (CORE_ADDR pc, ptid_t ptid)
     write_register_pid (PC_REGNUM, pc, ptid);
   else
     internal_error (__FILE__, __LINE__,
-		    "generic_target_write_pc");
+		    _("generic_target_write_pc"));
 }
 
 void
@@ -1131,7 +1131,7 @@ read_sp (void)
     /* Try SP_REGNUM last: this makes all sorts of [wrong] assumptions
        about the architecture so put it at the end.  */
     return read_register (SP_REGNUM);
-  internal_error (__FILE__, __LINE__, "read_sp: Unable to find SP");
+  internal_error (__FILE__, __LINE__, _("read_sp: Unable to find SP"));
 }
 
 static void
@@ -1140,7 +1140,7 @@ reg_flush_command (char *command, int from_tty)
   /* Force-flush the register cache.  */
   registers_changed ();
   if (from_tty)
-    printf_filtered ("Register cache flushed.\n");
+    printf_filtered (_("Register cache flushed.\n"));
 }
 
 static void
@@ -1166,7 +1166,7 @@ dump_endian_bytes (struct ui_file *file, enum bfd_endian endian,
 	fprintf_unfiltered (file, "%02x", buf[i]);
       break;
     default:
-      internal_error (__FILE__, __LINE__, "Bad switch");
+      internal_error (__FILE__, __LINE__, _("Bad switch"));
     }
 }
 
@@ -1373,7 +1373,7 @@ regcache_print (char *args, enum regcache_dump_what what_to_dump)
     {
       struct ui_file *file = gdb_fopen (args, "w");
       if (file == NULL)
-	perror_with_name ("maintenance print architecture");
+	perror_with_name (_("maintenance print architecture"));
       regcache_dump (current_regcache, file, what_to_dump);    
       ui_file_delete (file);
     }
@@ -1415,31 +1415,27 @@ _initialize_regcache (void)
   observer_attach_target_changed (regcache_observer_target_changed);
 
   add_com ("flushregs", class_maintenance, reg_flush_command,
-	   "Force gdb to flush its register cache (maintainer command)");
+	   _("Force gdb to flush its register cache (maintainer command)"));
 
    /* Initialize the thread/process associated with the current set of
       registers.  For now, -1 is special, and means `no current process'.  */
   registers_ptid = pid_to_ptid (-1);
 
-  add_cmd ("registers", class_maintenance,
-	   maintenance_print_registers,
-	   "Print the internal register configuration.\
-Takes an optional file parameter.",
-	   &maintenanceprintlist);
+  add_cmd ("registers", class_maintenance, maintenance_print_registers, _("\
+Print the internal register configuration.\n\
+Takes an optional file parameter."), &maintenanceprintlist);
   add_cmd ("raw-registers", class_maintenance,
-	   maintenance_print_raw_registers,
-	   "Print the internal register configuration including raw values.\
-Takes an optional file parameter.",
-	   &maintenanceprintlist);
+	   maintenance_print_raw_registers, _("\
+Print the internal register configuration including raw values.\n\
+Takes an optional file parameter."), &maintenanceprintlist);
   add_cmd ("cooked-registers", class_maintenance,
-	   maintenance_print_cooked_registers,
-	   "Print the internal register configuration including cooked values.\
-Takes an optional file parameter.",
-	   &maintenanceprintlist);
+	   maintenance_print_cooked_registers, _("\
+Print the internal register configuration including cooked values.\n\
+Takes an optional file parameter."), &maintenanceprintlist);
   add_cmd ("register-groups", class_maintenance,
-	   maintenance_print_register_groups,
-	   "Print the internal register configuration including each register's group.\
-Takes an optional file parameter.",
+	   maintenance_print_register_groups, _("\
+Print the internal register configuration including each register's group.\n\
+Takes an optional file parameter."),
 	   &maintenanceprintlist);
 
 }

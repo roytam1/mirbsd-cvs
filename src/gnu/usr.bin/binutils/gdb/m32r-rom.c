@@ -28,6 +28,7 @@
 #include "defs.h"
 #include "gdbcore.h"
 #include "target.h"
+#include "exceptions.h"
 #include "monitor.h"
 #include "serial.h"
 #include "symtab.h"
@@ -82,7 +83,7 @@ m32r_load_section (bfd *abfd, asection *s, void *obj)
 
       printf_filtered ("Loading section %s, size 0x%lx lma ",
 		       bfd_section_name (abfd, s), section_size);
-      print_address_numeric (section_base, 1, gdb_stdout);
+      deprecated_print_address_numeric (section_base, 1, gdb_stdout);
       printf_filtered ("\n");
       gdb_flush (gdb_stdout);
       monitor_printf ("%s mw\r", paddr_nz (section_base));
@@ -125,9 +126,9 @@ m32r_load (char *filename, int from_tty)
 
   abfd = bfd_openr (filename, 0);
   if (!abfd)
-    error ("Unable to open file %s\n", filename);
+    error (_("Unable to open file %s."), filename);
   if (bfd_check_format (abfd, bfd_object) == 0)
-    error ("File is not an object file\n");
+    error (_("File is not an object file."));
   start_time = time (NULL);
 #if 0
   for (s = abfd->sections; s; s = s->next)
@@ -141,7 +142,7 @@ m32r_load (char *filename, int from_tty)
 
 	printf_filtered ("Loading section %s, size 0x%lx vma ",
 			 bfd_section_name (abfd, s), section_size);
-	print_address_numeric (section_base, 1, gdb_stdout);
+	deprecated_print_address_numeric (section_base, 1, gdb_stdout);
 	printf_filtered ("\n");
 	gdb_flush (gdb_stdout);
 	monitor_printf ("%x mw\r", section_base);
@@ -414,7 +415,7 @@ m32r_upload_command (char *args, int from_tty)
   monitor_printf ("ust\r");
   resp_len = monitor_expect_prompt (buf, sizeof (buf));
   if (!strchr (buf, ':'))
-    error ("No ethernet connection!");
+    error (_("No ethernet connection!"));
 
   if (board_addr == 0)
     {
@@ -509,7 +510,7 @@ m32r_upload_command (char *args, int from_tty)
 
 	    printf_filtered ("Loading section %s, size 0x%lx lma ",
 			     bfd_section_name (abfd, s), section_size);
-	    print_address_numeric (section_base, 1, gdb_stdout);
+	    deprecated_print_address_numeric (section_base, 1, gdb_stdout);
 	    printf_filtered ("\n");
 	    gdb_flush (gdb_stdout);
 	  }
@@ -558,29 +559,32 @@ Specify the serial device it is connected to (e.g. /dev/ttya).";
   mon2000_ops.to_open = mon2000_open;
   add_target (&mon2000_ops);
 
-  add_setshow_string_cmd ("download-path", class_obscure, &download_path, "\
-Set the default path for downloadable SREC files.", "\
-Show the default path for downloadable SREC files.", "\
-Determines the default path for downloadable SREC files.", "\
-The default path for downloadable SREC files is %s.",
-		   NULL, NULL, &setlist, &showlist);
+  add_setshow_string_cmd ("download-path", class_obscure, &download_path, _("\
+Set the default path for downloadable SREC files."), _("\
+Show the default path for downloadable SREC files."), _("\
+Determines the default path for downloadable SREC files."),
+			  NULL,
+			  NULL, /* FIXME: i18n: The default path for downloadable SREC files is %s.  */
+			  &setlist, &showlist);
 
-  add_setshow_string_cmd ("board-address", class_obscure, &board_addr, "\
-Set IP address for M32R-EVA target board.", "\
-Show IP address for M32R-EVA target board.", "\
-Determine the IP address for M32R-EVA target board.", "\
-IP address for M32R-EVA target board is %s",
-		   NULL, NULL, &setlist, &showlist);
+  add_setshow_string_cmd ("board-address", class_obscure, &board_addr, _("\
+Set IP address for M32R-EVA target board."), _("\
+Show IP address for M32R-EVA target board."), _("\
+Determine the IP address for M32R-EVA target board."),
+			  NULL,
+			  NULL, /* FIXME: i18n: IP address for M32R-EVA target board is %s.  */
+			  &setlist, &showlist);
 
-  add_setshow_string_cmd ("server-address", class_obscure, &server_addr, "\
-Set IP address for download server (GDB's host computer).", "\
-Show IP address for download server (GDB's host computer).", "\
-Determine the IP address for download server (GDB's host computer).", "\
-IP address for download server (GDB's host computer) is %s.",
-		   NULL, NULL, &setlist, &showlist);
+  add_setshow_string_cmd ("server-address", class_obscure, &server_addr, _("\
+Set IP address for download server (GDB's host computer)."), _("\
+Show IP address for download server (GDB's host computer)."), _("\
+Determine the IP address for download server (GDB's host computer)."),
+			  NULL,
+			  NULL, /* FIXME: i18n: IP address for download server (GDB's host computer) is %s.  */
+			  &setlist, &showlist);
 
-  add_com ("upload", class_obscure, m32r_upload_command,
-	   "Upload the srec file via the monitor's Ethernet upload capability.");
+  add_com ("upload", class_obscure, m32r_upload_command, _("\
+Upload the srec file via the monitor's Ethernet upload capability."));
 
-  add_com ("tload", class_obscure, m32r_load, "test upload command.");
+  add_com ("tload", class_obscure, m32r_load, _("test upload command."));
 }

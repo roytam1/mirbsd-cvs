@@ -1,8 +1,8 @@
 /* Evaluate expressions for GDB.
 
    Copyright 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003 Free Software
-   Foundation, Inc.
+   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005 Free
+   Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -36,6 +36,7 @@
 #include "objc-lang.h"
 #include "block.h"
 #include "parser-defs.h"
+#include "cp-support.h"
 
 /* This is defined in valops.c */
 extern int overload_resolution;
@@ -209,7 +210,7 @@ evaluate_struct_tuple (struct value *struct_val,
       struct value *val = NULL;
       int nlabels = 0;
       int bitpos, bitsize;
-      char *addr;
+      bfd_byte *addr;
 
       /* Skip past the labels, and count them. */
       while (get_label (exp, pos) != NULL)
@@ -263,7 +264,7 @@ evaluate_struct_tuple (struct value *struct_val,
 			}
 		    }
 		}
-	      error ("there is no field named %s", label);
+	      error (_("there is no field named %s"), label);
 	    found:
 	      ;
 	    }
@@ -284,11 +285,11 @@ evaluate_struct_tuple (struct value *struct_val,
 		  fieldno++;
 		  subfieldno = fieldno;
 		  if (fieldno >= TYPE_NFIELDS (struct_type))
-		    error ("too many initializers");
+		    error (_("too many initializers"));
 		  field_type = TYPE_FIELD_TYPE (struct_type, fieldno);
 		  if (TYPE_CODE (field_type) == TYPE_CODE_UNION
 		      && TYPE_FIELD_NAME (struct_type, fieldno)[0] == '0')
-		    error ("don't know which variant you want to set");
+		    error (_("don't know which variant you want to set"));
 		}
 	    }
 
@@ -315,12 +316,12 @@ evaluate_struct_tuple (struct value *struct_val,
 	  bitpos = TYPE_FIELD_BITPOS (struct_type, fieldno);
 	  if (variantno >= 0)
 	    bitpos += TYPE_FIELD_BITPOS (substruct_type, subfieldno);
-	  addr = VALUE_CONTENTS (struct_val) + bitpos / 8;
+	  addr = value_contents_writeable (struct_val) + bitpos / 8;
 	  if (bitsize)
 	    modify_field (addr, value_as_long (val),
 			  bitpos % 8, bitsize);
 	  else
-	    memcpy (addr, VALUE_CONTENTS (val),
+	    memcpy (addr, value_contents (val),
 		    TYPE_LENGTH (value_type (val)));
 	}
       while (--nlabels > 0);
@@ -357,21 +358,21 @@ init_array_element (struct value *array, struct value *element,
       low = value_as_long (evaluate_subexp (NULL_TYPE, exp, pos, noside));
       high = value_as_long (evaluate_subexp (NULL_TYPE, exp, pos, noside));
       if (low < low_bound || high > high_bound)
-	error ("tuple range index out of range");
+	error (_("tuple range index out of range"));
       for (index = low; index <= high; index++)
 	{
-	  memcpy (VALUE_CONTENTS_RAW (array)
+	  memcpy (value_contents_raw (array)
 		  + (index - low_bound) * element_size,
-		  VALUE_CONTENTS (element), element_size);
+		  value_contents (element), element_size);
 	}
     }
   else
     {
       index = value_as_long (evaluate_subexp (NULL_TYPE, exp, pos, noside));
       if (index < low_bound || index > high_bound)
-	error ("tuple index out of range");
-      memcpy (VALUE_CONTENTS_RAW (array) + (index - low_bound) * element_size,
-	      VALUE_CONTENTS (element), element_size);
+	error (_("tuple index out of range"));
+      memcpy (value_contents_raw (array) + (index - low_bound) * element_size,
+	      value_contents (element), element_size);
     }
   return index;
 }
@@ -409,7 +410,7 @@ evaluate_subexp_standard (struct type *expect_type,
 				  &exp->elts[pc + 3].string,
 				  noside);
       if (arg1 == NULL)
-	error ("There is no field named %s", &exp->elts[pc + 3].string);
+	error (_("There is no field named %s"), &exp->elts[pc + 3].string);
       return arg1;
 
     case OP_LONG:
@@ -450,7 +451,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	struct value *val = value_of_register (regno, get_selected_frame (NULL));
 	(*pos) += 2;
 	if (val == NULL)
-	  error ("Value of register %s not available.",
+	  error (_("Value of register %s not available."),
 		 frame_map_regnum_to_name (get_selected_frame (NULL), regno));
 	else
 	  return val;
@@ -500,7 +501,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	  && TYPE_CODE (type) == TYPE_CODE_STRUCT)
 	{
 	  struct value *rec = allocate_value (expect_type);
-	  memset (VALUE_CONTENTS_RAW (rec), '\0', TYPE_LENGTH (type));
+	  memset (value_contents_raw (rec), '\0', TYPE_LENGTH (type));
 	  return evaluate_struct_tuple (rec, exp, pos, noside, nargs);
 	}
 
@@ -518,7 +519,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	      high_bound = (TYPE_LENGTH (type) / element_size) - 1;
 	    }
 	  index = low_bound;
-	  memset (VALUE_CONTENTS_RAW (array), 0, TYPE_LENGTH (expect_type));
+	  memset (value_contents_raw (array), 0, TYPE_LENGTH (expect_type));
 	  for (tem = nargs; --nargs >= 0;)
 	    {
 	      struct value *element;
@@ -543,10 +544,10 @@ evaluate_subexp_standard (struct type *expect_type,
 		{
 		  if (index > high_bound)
 		    /* to avoid memory corruption */
-		    error ("Too many array elements");
-		  memcpy (VALUE_CONTENTS_RAW (array)
+		    error (_("Too many array elements"));
+		  memcpy (value_contents_raw (array)
 			  + (index - low_bound) * element_size,
-			  VALUE_CONTENTS (element),
+			  value_contents (element),
 			  element_size);
 		}
 	      index++;
@@ -558,7 +559,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	  && TYPE_CODE (type) == TYPE_CODE_SET)
 	{
 	  struct value *set = allocate_value (expect_type);
-	  char *valaddr = VALUE_CONTENTS_RAW (set);
+	  char *valaddr = value_contents_raw (set);
 	  struct type *element_type = TYPE_INDEX_TYPE (type);
 	  struct type *check_type = element_type;
 	  LONGEST low_bound, high_bound;
@@ -569,7 +570,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	    check_type = TYPE_TARGET_TYPE (check_type);
 
 	  if (get_discrete_bounds (element_type, &low_bound, &high_bound) < 0)
-	    error ("(power)set type with unknown size");
+	    error (_("(power)set type with unknown size"));
 	  memset (valaddr, '\0', TYPE_LENGTH (type));
 	  for (tem = 0; tem < nargs; tem++)
 	    {
@@ -603,18 +604,18 @@ evaluate_subexp_standard (struct type *expect_type,
 		  (TYPE_CODE (range_low_type) == TYPE_CODE_ENUM &&
 		   (range_low_type != range_high_type)))
 		/* different element modes */
-		error ("POWERSET tuple elements of different mode");
+		error (_("POWERSET tuple elements of different mode"));
 	      if ((TYPE_CODE (check_type) != TYPE_CODE (range_low_type)) ||
 		  (TYPE_CODE (check_type) == TYPE_CODE_ENUM &&
 		   range_low_type != check_type))
-		error ("incompatible POWERSET tuple elements");
+		error (_("incompatible POWERSET tuple elements"));
 	      if (range_low > range_high)
 		{
-		  warning ("empty POWERSET tuple range");
+		  warning (_("empty POWERSET tuple range"));
 		  continue;
 		}
 	      if (range_low < low_bound || range_high > high_bound)
-		error ("POWERSET tuple element out of range");
+		error (_("POWERSET tuple element out of range"));
 	      range_low -= low_bound;
 	      range_high -= low_bound;
 	      for (; range_low <= range_high; range_low++)
@@ -778,14 +779,14 @@ evaluate_subexp_standard (struct type *expect_type,
 	  responds_selector = lookup_child_selector ("respondsTo:");
 	
 	if (responds_selector == 0)
-	  error ("no 'respondsTo:' or 'respondsToSelector:' method");
+	  error (_("no 'respondsTo:' or 'respondsToSelector:' method"));
 	
 	method_selector = lookup_child_selector ("methodForSelector:");
 	if (method_selector == 0)
 	  method_selector = lookup_child_selector ("methodFor:");
 	
 	if (method_selector == 0)
-	  error ("no 'methodFor:' or 'methodForSelector:' method");
+	  error (_("no 'methodFor:' or 'methodForSelector:' method"));
 
 	/* Call the verification method, to make sure that the target
 	 class implements the desired method. */
@@ -804,7 +805,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	    ret = call_function_by_hand (argvec[0], 3, argvec + 1);
 	  }
 	if (value_as_long (ret) == 0)
-	  error ("Target does not respond to this message selector.");
+	  error (_("Target does not respond to this message selector."));
 
 	/* Call "methodForSelector:" method, to get the address of a
 	   function method that implements this selector for this
@@ -886,7 +887,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	if (method)
 	  {
 	    if (TYPE_CODE (value_type (method)) != TYPE_CODE_FUNC)
-	      error ("method address has symbol information with non-function type; skipping");
+	      error (_("method address has symbol information with non-function type; skipping"));
 	    if (struct_return)
 	      VALUE_ADDRESS (method) = value_as_address (msg_send_stret);
 	    else
@@ -927,7 +928,7 @@ evaluate_subexp_standard (struct type *expect_type,
 		return allocate_value (type);
 	    }
 	    else
-	      error ("Expression of type other than \"method returning ...\" used as a method");
+	      error (_("Expression of type other than \"method returning ...\" used as a method"));
 	  }
 
 	/* Now depending on whether we found a symbol for the method,
@@ -945,8 +946,8 @@ evaluate_subexp_standard (struct type *expect_type,
 	if (gnu_runtime && (method != NULL))
 	  {
 	    /* Function objc_msg_lookup returns a pointer.  */
-	    argvec[0]->type
-	      = lookup_function_type (lookup_pointer_type (value_type (argvec[0])));
+	    deprecated_set_value_type (argvec[0],
+				       lookup_function_type (lookup_pointer_type (value_type (argvec[0]))));
 	    argvec[0] = call_function_by_hand (argvec[0], nargs + 2, argvec + 1);
 	  }
 
@@ -971,7 +972,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	     to the function, but possibly to some thunk. */
 	  if (deprecated_hp_som_som_object_present)
 	    {
-	      error ("Not implemented: function invocation through pointer to method with HP aCC");
+	      error (_("Not implemented: function invocation through pointer to method with HP aCC"));
 	    }
 
 	  nargs++;
@@ -1026,11 +1027,11 @@ evaluate_subexp_standard (struct type *expect_type,
 			}
 		}
 	      if (i < 0)
-		error ("virtual function at index %d not found", fnoffset);
+		error (_("virtual function at index %d not found"), fnoffset);
 	    }
 	  else
 	    {
-	      arg1->type = lookup_pointer_type (TYPE_TARGET_TYPE (value_type (arg1)));
+	      deprecated_set_value_type (arg1, lookup_pointer_type (TYPE_TARGET_TYPE (value_type (arg1))));
 	    }
 	got_it:
 
@@ -1148,7 +1149,7 @@ evaluate_subexp_standard (struct type *expect_type,
 		 reflect any ``this'' changes.  */
 	      arg2 = value_from_longest (lookup_pointer_type(value_type (temp)),
 					 VALUE_ADDRESS (temp) + value_offset (temp)
-					 + VALUE_EMBEDDED_OFFSET (temp));
+					 + value_embedded_offset (temp));
 	      argvec[1] = arg2;	/* the ``this'' pointer */
 	    }
 
@@ -1207,7 +1208,7 @@ evaluate_subexp_standard (struct type *expect_type,
       if (noside == EVAL_SKIP)
 	goto nosideret;
       if (argvec[0] == NULL)
-	error ("Cannot evaluate function -- may be inlined");
+	error (_("Cannot evaluate function -- may be inlined"));
       if (noside == EVAL_AVOID_SIDE_EFFECTS)
 	{
 	  /* If the return type doesn't look like a function type, call an
@@ -1223,7 +1224,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	  if (ftype)
 	    return allocate_value (TYPE_TARGET_TYPE (value_type (argvec[0])));
 	  else
-	    error ("Expression of type other than \"Function returning ...\" used as function");
+	    error (_("Expression of type other than \"Function returning ...\" used as function"));
 	}
       return call_function_by_hand (argvec[0], nargs, argvec + 1);
       /* pai: FIXME save value from call_function_by_hand, then adjust pc by adjust_fn_pc if +ve  */
@@ -1267,7 +1268,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	  goto do_call_it;
 
 	default:
-	  error ("Cannot perform substring on this type");
+	  error (_("Cannot perform substring on this type"));
 	}
 
     op_f77_substr:
@@ -1368,7 +1369,7 @@ evaluate_subexp_standard (struct type *expect_type,
       if (deprecated_hp_som_som_object_present &&
 	  (TYPE_CODE (value_type (arg2)) == TYPE_CODE_PTR) &&
       (TYPE_CODE (TYPE_TARGET_TYPE (value_type (arg2))) == TYPE_CODE_METHOD))
-	error ("Pointers to methods not supported with HP aCC");	/* 1997-08-19 */
+	error (_("Pointers to methods not supported with HP aCC"));	/* 1997-08-19 */
 
       mem_offset = value_as_long (arg2);
       goto handle_pointer_to_member;
@@ -1381,7 +1382,7 @@ evaluate_subexp_standard (struct type *expect_type,
       if (deprecated_hp_som_som_object_present &&
 	  (TYPE_CODE (value_type (arg2)) == TYPE_CODE_PTR) &&
       (TYPE_CODE (TYPE_TARGET_TYPE (value_type (arg2))) == TYPE_CODE_METHOD))
-	error ("Pointers to methods not supported with HP aCC");	/* 1997-08-19 */
+	error (_("Pointers to methods not supported with HP aCC"));	/* 1997-08-19 */
 
       mem_offset = value_as_long (arg2);
 
@@ -1391,7 +1392,7 @@ evaluate_subexp_standard (struct type *expect_type,
       if (deprecated_hp_som_som_object_present)
 	{
 	  if (!mem_offset)	/* no bias -> really null */
-	    error ("Attempted dereference of null pointer-to-member");
+	    error (_("Attempted dereference of null pointer-to-member"));
 	  mem_offset &= ~0x20000000;
 	}
       if (noside == EVAL_SKIP)
@@ -1401,7 +1402,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	goto bad_pointer_to_member;
       type = check_typedef (TYPE_TARGET_TYPE (type));
       if (TYPE_CODE (type) == TYPE_CODE_METHOD)
-	error ("not implemented: pointer-to-method in pointer-to-member construct");
+	error (_("not implemented: pointer-to-method in pointer-to-member construct"));
       if (TYPE_CODE (type) != TYPE_CODE_MEMBER)
 	goto bad_pointer_to_member;
       /* Now, convert these values to an address.  */
@@ -1411,7 +1412,7 @@ evaluate_subexp_standard (struct type *expect_type,
 				 value_as_long (arg1) + mem_offset);
       return value_ind (arg3);
     bad_pointer_to_member:
-      error ("non-pointer-to-member value used in pointer-to-member construct");
+      error (_("non-pointer-to-member value used in pointer-to-member construct"));
 
     case BINOP_CONCAT:
       arg1 = evaluate_subexp_with_coercion (exp, pos, noside);
@@ -1436,13 +1437,13 @@ evaluate_subexp_standard (struct type *expect_type,
 	     of the function as it would be in a naive implementation. */
 	  if ((TYPE_CODE (value_type (arg1)) == TYPE_CODE_PTR) &&
 	      (TYPE_CODE (TYPE_TARGET_TYPE (value_type (arg1))) == TYPE_CODE_METHOD))
-	    error ("Assignment to pointers to methods not implemented with HP aCC");
+	    error (_("Assignment to pointers to methods not implemented with HP aCC"));
 
 	  /* HP aCC pointers to data members require a constant bias */
 	  if ((TYPE_CODE (value_type (arg1)) == TYPE_CODE_PTR) &&
 	      (TYPE_CODE (TYPE_TARGET_TYPE (value_type (arg1))) == TYPE_CODE_MEMBER))
 	    {
-	      unsigned int *ptr = (unsigned int *) VALUE_CONTENTS (arg2);	/* forces evaluation */
+	      unsigned int *ptr = (unsigned int *) value_contents (arg2);	/* forces evaluation */
 	      *ptr |= 0x20000000;	/* set 29th bit */
 	    }
 	}
@@ -1517,7 +1518,7 @@ evaluate_subexp_standard (struct type *expect_type,
       arg2 = evaluate_subexp (NULL_TYPE, exp, pos, noside);
       if (noside == EVAL_SKIP)
 	goto nosideret;
-      error ("':' operator used in invalid context");
+      error (_("':' operator used in invalid context"));
 
     case BINOP_SUBSCRIPT:
       arg1 = evaluate_subexp_with_coercion (exp, pos, noside);
@@ -1538,10 +1539,10 @@ evaluate_subexp_standard (struct type *expect_type,
 	      && TYPE_CODE (type) != TYPE_CODE_PTR)
 	    {
 	      if (TYPE_NAME (type))
-		error ("cannot subscript something of type `%s'",
+		error (_("cannot subscript something of type `%s'"),
 		       TYPE_NAME (type));
 	      else
-		error ("cannot subscript requested type");
+		error (_("cannot subscript requested type"));
 	    }
 
 	  if (noside == EVAL_AVOID_SIDE_EFFECTS)
@@ -1592,7 +1593,7 @@ evaluate_subexp_standard (struct type *expect_type,
 		}
 	      else
 		{
-		  error ("cannot subscript something of type `%s'",
+		  error (_("cannot subscript something of type `%s'"),
 			 TYPE_NAME (value_type (arg1)));
 		}
 	    }
@@ -1617,13 +1618,13 @@ evaluate_subexp_standard (struct type *expect_type,
 	int offset_item;	/* The array offset where the item lives */
 
 	if (nargs > MAX_FORTRAN_DIMS)
-	  error ("Too many subscripts for F77 (%d Max)", MAX_FORTRAN_DIMS);
+	  error (_("Too many subscripts for F77 (%d Max)"), MAX_FORTRAN_DIMS);
 
 	tmp_type = check_typedef (value_type (arg1));
 	ndimensions = calc_f77_array_dims (type);
 
 	if (nargs != ndimensions)
-	  error ("Wrong number of subscripts");
+	  error (_("Wrong number of subscripts"));
 
 	/* Now that we know we have a legal array subscript expression 
 	   let us actually find out where this element exists in the array. */
@@ -1645,11 +1646,11 @@ evaluate_subexp_standard (struct type *expect_type,
 	  {
 	    retcode = f77_get_dynamic_upperbound (tmp_type, &upper);
 	    if (retcode == BOUND_FETCH_ERROR)
-	      error ("Cannot obtain dynamic upper bound");
+	      error (_("Cannot obtain dynamic upper bound"));
 
 	    retcode = f77_get_dynamic_lowerbound (tmp_type, &lower);
 	    if (retcode == BOUND_FETCH_ERROR)
-	      error ("Cannot obtain dynamic lower bound");
+	      error (_("Cannot obtain dynamic lower bound"));
 
 	    array_size_array[nargs - i - 1] = upper - lower + 1;
 
@@ -1688,7 +1689,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	   type, this will ensure that value_subscript()
 	   returns the correct type value */
 
-	arg1->type = tmp_type;
+	deprecated_set_value_type (arg1, tmp_type);
 	return value_ind (value_add (value_coerce_array (arg1), arg2));
       }
 
@@ -1841,7 +1842,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	goto nosideret;
       type = check_typedef (value_type (arg2));
       if (TYPE_CODE (type) != TYPE_CODE_INT)
-	error ("Non-integral right operand for \"@\" operator.");
+	error (_("Non-integral right operand for \"@\" operator."));
       if (noside == EVAL_AVOID_SIDE_EFFECTS)
 	{
 	  return allocate_repeat_value (value_type (arg1),
@@ -1854,6 +1855,15 @@ evaluate_subexp_standard (struct type *expect_type,
       evaluate_subexp (NULL_TYPE, exp, pos, noside);
       return evaluate_subexp (NULL_TYPE, exp, pos, noside);
 
+    case UNOP_PLUS:
+      arg1 = evaluate_subexp (NULL_TYPE, exp, pos, noside);
+      if (noside == EVAL_SKIP)
+	goto nosideret;
+      if (unop_user_defined_p (op, arg1))
+	return value_x_unop (arg1, op, noside);
+      else
+	return value_pos (arg1);
+      
     case UNOP_NEG:
       arg1 = evaluate_subexp (NULL_TYPE, exp, pos, noside);
       if (noside == EVAL_SKIP)
@@ -1892,7 +1902,7 @@ evaluate_subexp_standard (struct type *expect_type,
       if ((TYPE_TARGET_TYPE (value_type (arg1))) &&
 	  ((TYPE_CODE (TYPE_TARGET_TYPE (value_type (arg1))) == TYPE_CODE_METHOD) ||
 	   (TYPE_CODE (TYPE_TARGET_TYPE (value_type (arg1))) == TYPE_CODE_MEMBER)))
-	error ("Attempt to dereference pointer to member without an object");
+	error (_("Attempt to dereference pointer to member without an object"));
       if (noside == EVAL_SKIP)
 	goto nosideret;
       if (unop_user_defined_p (op, arg1))
@@ -1911,7 +1921,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	    /* GDB allows dereferencing an int.  */
 	    return value_zero (builtin_type_int, lval_memory);
 	  else
-	    error ("Attempt to take contents of a non-pointer value.");
+	    error (_("Attempt to take contents of a non-pointer value."));
 	}
       return value_ind (arg1);
 
@@ -1939,7 +1949,7 @@ evaluate_subexp_standard (struct type *expect_type,
 	      (TYPE_CODE (value_type (retvalp)) == TYPE_CODE_PTR) &&
 	      (TYPE_CODE (TYPE_TARGET_TYPE (value_type (retvalp))) == TYPE_CODE_MEMBER))
 	    {
-	      unsigned int *ptr = (unsigned int *) VALUE_CONTENTS (retvalp);	/* forces evaluation */
+	      unsigned int *ptr = (unsigned int *) value_contents (retvalp);	/* forces evaluation */
 	      *ptr |= 0x20000000;	/* set 29th bit */
 	    }
 	  return retvalp;
@@ -2045,7 +2055,7 @@ evaluate_subexp_standard (struct type *expect_type,
       return value_of_local ("self", 1);
 
     case OP_TYPE:
-      error ("Attempt to use a type name as an expression");
+      error (_("Attempt to use a type name as an expression"));
 
     default:
       /* Removing this case and compiling with gcc -Wall reveals that
@@ -2057,8 +2067,8 @@ evaluate_subexp_standard (struct type *expect_type,
          then they should be separate cases, with more descriptive
          error messages.  */
 
-      error ("\
-GDB does not (yet) know how to evaluate that kind of expression");
+      error (_("\
+GDB does not (yet) know how to evaluate that kind of expression"));
     }
 
 nosideret:
@@ -2113,7 +2123,7 @@ evaluate_subexp_for_address (struct expression *exp, int *pos,
 	      || sym_class == LOC_CONST_BYTES
 	      || sym_class == LOC_REGISTER
 	      || sym_class == LOC_REGPARM)
-	    error ("Attempt to take address of register or constant.");
+	    error (_("Attempt to take address of register or constant."));
 
 	  return
 	    value_zero (type, not_lval);
@@ -2133,7 +2143,7 @@ evaluate_subexp_for_address (struct expression *exp, int *pos,
 	    return value_zero (lookup_pointer_type (value_type (x)),
 			       not_lval);
 	  else
-	    error ("Attempt to take address of non-lval");
+	    error (_("Attempt to take address of non-lval"));
 	}
       return value_addr (evaluate_subexp (NULL_TYPE, exp, pos, noside));
     }
@@ -2143,7 +2153,7 @@ evaluate_subexp_for_address (struct expression *exp, int *pos,
    When used in contexts where arrays will be coerced anyway, this is
    equivalent to `evaluate_subexp' but much faster because it avoids
    actually fetching array contents (perhaps obsolete now that we have
-   VALUE_LAZY).
+   value_lazy()).
 
    Note that we currently only do the coercion for C expressions, where
    arrays are zero based and the coercion is correct.  For other languages,
@@ -2213,7 +2223,7 @@ evaluate_subexp_for_sizeof (struct expression *exp, int *pos)
       if (TYPE_CODE (type) != TYPE_CODE_PTR
 	  && TYPE_CODE (type) != TYPE_CODE_REF
 	  && TYPE_CODE (type) != TYPE_CODE_ARRAY)
-	error ("Attempt to take contents of a non-pointer value.");
+	error (_("Attempt to take contents of a non-pointer value."));
       type = check_typedef (TYPE_TARGET_TYPE (type));
       return value_from_longest (builtin_type_int, (LONGEST)
 				 TYPE_LENGTH (type));
@@ -2251,7 +2261,7 @@ parse_and_eval_type (char *p, int length)
   tmp[length + 3] = '\0';
   expr = parse_expression (tmp);
   if (expr->elts[0].opcode != UNOP_CAST)
-    error ("Internal error in eval_type.");
+    error (_("Internal error in eval_type."));
   return expr->elts[1].type;
 }
 
@@ -2262,7 +2272,7 @@ calc_f77_array_dims (struct type *array_type)
   struct type *tmp_type;
 
   if ((TYPE_CODE (array_type) != TYPE_CODE_ARRAY))
-    error ("Can't get dimensions for a non-array type");
+    error (_("Can't get dimensions for a non-array type"));
 
   tmp_type = array_type;
 

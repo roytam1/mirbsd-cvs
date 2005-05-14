@@ -2,9 +2,8 @@
 
 # Architecture commands for GDB, the GNU debugger.
 #
-# Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
-# Foundation, Inc.
-#
+# Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free
+# Software Foundation, Inc.
 #
 # This file is part of GDB.
 #
@@ -500,7 +499,7 @@ f:=:void:value_to_register:struct frame_info *frame, int regnum, struct type *ty
 #
 f:=:CORE_ADDR:pointer_to_address:struct type *type, const void *buf:type, buf::unsigned_pointer_to_address::0
 f:=:void:address_to_pointer:struct type *type, void *buf, CORE_ADDR addr:type, buf, addr::unsigned_address_to_pointer::0
-F:=:CORE_ADDR:integer_to_address:struct type *type, void *buf:type, buf
+M::CORE_ADDR:integer_to_address:struct type *type, const gdb_byte *buf:type, buf
 #
 # NOTE: cagney/2003-03-24: Replaced by PUSH_ARGUMENTS.
 F:=:void:deprecated_store_struct_return:CORE_ADDR addr, CORE_ADDR sp:addr, sp
@@ -522,8 +521,8 @@ M::enum return_value_convention:return_value:struct type *valtype, struct regcac
 
 f:=:void:extract_return_value:struct type *type, struct regcache *regcache, void *valbuf:type, regcache, valbuf::legacy_extract_return_value::0
 f:=:void:store_return_value:struct type *type, struct regcache *regcache, const void *valbuf:type, regcache, valbuf::legacy_store_return_value::0
-f:=:void:deprecated_extract_return_value:struct type *type, char *regbuf, char *valbuf:type, regbuf, valbuf
-f:=:void:deprecated_store_return_value:struct type *type, char *valbuf:type, valbuf
+f:=:void:deprecated_extract_return_value:struct type *type, gdb_byte *regbuf, gdb_byte *valbuf:type, regbuf, valbuf
+f:=:void:deprecated_store_return_value:struct type *type, gdb_byte *valbuf:type, valbuf
 f:=:int:deprecated_use_struct_convention:int gcc_p, struct type *value_type:gcc_p, value_type::generic_use_struct_convention::0
 
 # As of 2004-01-17 only the 32-bit SPARC ABI has been identified as an
@@ -550,10 +549,10 @@ F:=:CORE_ADDR:deprecated_extract_struct_value_address:struct regcache *regcache:
 #
 f:=:CORE_ADDR:skip_prologue:CORE_ADDR ip:ip:0:0
 f:=:int:inner_than:CORE_ADDR lhs, CORE_ADDR rhs:lhs, rhs:0:0
-f:=:const unsigned char *:breakpoint_from_pc:CORE_ADDR *pcptr, int *lenptr:pcptr, lenptr::0:
+f:=:const gdb_byte *:breakpoint_from_pc:CORE_ADDR *pcptr, int *lenptr:pcptr, lenptr::0:
 M::CORE_ADDR:adjust_breakpoint_address:CORE_ADDR bpaddr:bpaddr
-f:=:int:memory_insert_breakpoint:CORE_ADDR addr, char *contents_cache:addr, contents_cache:0:default_memory_insert_breakpoint::0
-f:=:int:memory_remove_breakpoint:CORE_ADDR addr, char *contents_cache:addr, contents_cache:0:default_memory_remove_breakpoint::0
+f:=:int:memory_insert_breakpoint:CORE_ADDR addr, gdb_byte *contents_cache:addr, contents_cache:0:default_memory_insert_breakpoint::0
+f:=:int:memory_remove_breakpoint:CORE_ADDR addr, gdb_byte *contents_cache:addr, contents_cache:0:default_memory_remove_breakpoint::0
 v:=:CORE_ADDR:decr_pc_after_break:::0:::0
 
 # A function can be addressed by either it's "pointer" (possibly a
@@ -567,6 +566,9 @@ v:=:CORE_ADDR:decr_pc_after_break:::0:::0
 v:=:CORE_ADDR:deprecated_function_start_offset:::0:::0
 
 m::void:remote_translate_xfer_address:struct regcache *regcache, CORE_ADDR gdb_addr, int gdb_len, CORE_ADDR *rem_addr, int *rem_len:regcache, gdb_addr, gdb_len, rem_addr, rem_len::generic_remote_translate_xfer_address::0
+
+# Fetch the target specific address used to represent a load module.
+F:=:CORE_ADDR:fetch_tls_load_module_address:struct objfile *objfile:objfile
 #
 v:=:CORE_ADDR:frame_args_skip:::0:::0
 M::CORE_ADDR:unwind_pc:struct frame_info *next_frame:next_frame
@@ -714,7 +716,7 @@ cat <<EOF
 
 /* Dynamic architecture support for GDB, the GNU debugger.
 
-   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free
+   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free
    Software Foundation, Inc.
 
    This file is part of GDB.
@@ -1177,6 +1179,12 @@ static void alloc_gdbarch_data (struct gdbarch *);
 #define GDBARCH_DEBUG 0
 #endif
 int gdbarch_debug = GDBARCH_DEBUG;
+static void
+show_gdbarch_debug (struct ui_file *file, int from_tty,
+                    struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("Architecture debugging is %s.\\n"), value);
+}
 
 static const char *
 pformat (const struct floatformat *format)
@@ -1463,7 +1471,7 @@ cat <<EOF
   make_cleanup (xfree, buf);
   if (strlen (buf) > 0)
     internal_error (__FILE__, __LINE__,
-                    "verify_gdbarch: the following are invalid ...%s",
+                    _("verify_gdbarch: the following are invalid ...%s"),
                     buf);
   do_cleanups (cleanups);
 }
@@ -1958,7 +1966,7 @@ gdbarch_printable_names (void)
       ap = bfd_lookup_arch (rego->bfd_architecture, 0);
       if (ap == NULL)
         internal_error (__FILE__, __LINE__,
-                        "gdbarch_architecture_names: multi-arch unknown");
+                        _("gdbarch_architecture_names: multi-arch unknown"));
       do
         {
           append_name (&arches, &nr_arches, ap->printable_name);
@@ -1983,7 +1991,7 @@ gdbarch_register (enum bfd_architecture bfd_architecture,
   if (bfd_arch_info == NULL)
     {
       internal_error (__FILE__, __LINE__,
-                      "gdbarch: Attempt to register unknown architecture (%d)",
+                      _("gdbarch: Attempt to register unknown architecture (%d)"),
                       bfd_architecture);
     }
   /* Check that we haven't seen this architecture before */
@@ -1993,7 +2001,7 @@ gdbarch_register (enum bfd_architecture bfd_architecture,
     {
       if (bfd_architecture == (*curr)->bfd_architecture)
 	internal_error (__FILE__, __LINE__,
-                        "gdbarch: Duplicate registraration of architecture (%s)",
+                        _("gdbarch: Duplicate registraration of architecture (%s)"),
 	                bfd_arch_info->printable_name);
     }
   /* log it */
@@ -2208,6 +2216,7 @@ deprecated_current_gdbarch_select_hack (struct gdbarch *new_gdbarch)
   current_gdbarch_swap_out_hack ();
   current_gdbarch_swap_in_hack (new_gdbarch);
   architecture_changed_event ();
+  flush_cached_frames ();
 }
 
 extern void _initialize_gdbarch (void);
@@ -2217,23 +2226,13 @@ _initialize_gdbarch (void)
 {
   struct cmd_list_element *c;
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("arch",
-	          class_maintenance,
-		  var_zinteger,
-		  (char *)&gdbarch_debug,
-		  "Set architecture debugging.\\n\\
-When non-zero, architecture debugging is enabled.", &setdebuglist),
-     &showdebuglist);
-  c = add_set_cmd ("archdebug",
-		   class_maintenance,
-		   var_zinteger,
-		   (char *)&gdbarch_debug,
-		   "Set architecture debugging.\\n\\
-When non-zero, architecture debugging is enabled.", &setlist);
-
-  deprecate_cmd (c, "set debug arch");
-  deprecate_cmd (deprecated_add_show_from_set (c, &showlist), "show debug arch");
+  add_setshow_zinteger_cmd ("arch", class_maintenance, &gdbarch_debug, _("\\
+Set architecture debugging."), _("\\
+Show architecture debugging."), _("\\
+When non-zero, architecture debugging is enabled."),
+                            NULL,
+                            show_gdbarch_debug,
+                            &setdebuglist, &showdebuglist);
 }
 EOF
 

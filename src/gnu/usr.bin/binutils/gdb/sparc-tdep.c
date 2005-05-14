@@ -1,6 +1,6 @@
 /* Target-dependent code for SPARC.
 
-   Copyright 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -188,6 +188,8 @@ sparc_address_from_register (int regnum)
 static int
 sparc_integral_or_pointer_p (const struct type *type)
 {
+  int len = TYPE_LENGTH (type);
+
   switch (TYPE_CODE (type))
     {
     case TYPE_CODE_INT:
@@ -195,22 +197,14 @@ sparc_integral_or_pointer_p (const struct type *type)
     case TYPE_CODE_CHAR:
     case TYPE_CODE_ENUM:
     case TYPE_CODE_RANGE:
-      {
-	/* We have byte, half-word, word and extended-word/doubleword
-           integral types.  The doubleword is an extension to the
-           original 32-bit ABI by the SCD 2.4.x.  */
-	int len = TYPE_LENGTH (type);
-	return (len == 1 || len == 2 || len == 4 || len == 8);
-      }
-      return 1;
+      /* We have byte, half-word, word and extended-word/doubleword
+	 integral types.  The doubleword is an extension to the
+	 original 32-bit ABI by the SCD 2.4.x.  */
+      return (len == 1 || len == 2 || len == 4 || len == 8);
     case TYPE_CODE_PTR:
     case TYPE_CODE_REF:
-      {
-	/* Allow either 32-bit or 64-bit pointers.  */
-	int len = TYPE_LENGTH (type);
-	return (len == 4 || len == 8);
-      }
-      return 1;
+      /* Allow either 32-bit or 64-bit pointers.  */
+      return (len == 4 || len == 8);
     default:
       break;
     }
@@ -394,7 +388,7 @@ sparc32_store_arguments (struct regcache *regcache, int nargs,
              correct, and wasting a few bytes shouldn't be a problem.  */
 	  sp &= ~0x7;
 
-	  write_memory (sp, VALUE_CONTENTS (args[i]), len);
+	  write_memory (sp, value_contents (args[i]), len);
 	  args[i] = value_from_pointer (lookup_pointer_type (type), sp);
 	  num_elements++;
 	}
@@ -429,7 +423,7 @@ sparc32_store_arguments (struct regcache *regcache, int nargs,
 
   for (i = 0; i < nargs; i++)
     {
-      char *valbuf = VALUE_CONTENTS (args[i]);
+      const bfd_byte *valbuf = value_contents (args[i]);
       struct type *type = value_type (args[i]);
       int len = TYPE_LENGTH (type);
 
@@ -679,6 +673,9 @@ sparc_frame_cache (struct frame_info *next_frame, void **this_cache)
 	frame_unwind_register_unsigned (next_frame, SPARC_FP_REGNUM);
     }
 
+  if (cache->base & 1)
+    cache->base += BIAS;
+
   return cache;
 }
 
@@ -865,6 +862,8 @@ sparc_unwind_dummy_id (struct gdbarch *gdbarch, struct frame_info *next_frame)
   CORE_ADDR sp;
 
   sp = frame_unwind_register_unsigned (next_frame, SPARC_SP_REGNUM);
+  if (sp & 1)
+    sp += BIAS;
   return frame_id_build (sp, frame_pc_unwind (next_frame));
 }
 
@@ -1273,6 +1272,16 @@ sparc_supply_rwindow (struct regcache *regcache, CORE_ADDR sp, int regnum)
 	  if (regnum == i || regnum == -1)
 	    {
 	      target_read_memory (sp + ((i - SPARC_L0_REGNUM) * 8), buf, 8);
+
+	      /* Handle StackGhost.  */
+	      if (i == SPARC_I7_REGNUM)
+		{
+		  ULONGEST wcookie = sparc_fetch_wcookie ();
+		  ULONGEST i7 = extract_unsigned_integer (buf + offset, 8);
+
+		  store_unsigned_integer (buf + offset, 8, i7 ^ wcookie);
+		}
+
 	      regcache_raw_supply (regcache, i, buf);
 	    }
 	}
@@ -1331,6 +1340,16 @@ sparc_collect_rwindow (const struct regcache *regcache,
 	  if (regnum == -1 || regnum == SPARC_SP_REGNUM || regnum == i)
 	    {
 	      regcache_raw_collect (regcache, i, buf);
+
+	      /* Handle StackGhost.  */
+	      if (i == SPARC_I7_REGNUM)
+		{
+		  ULONGEST wcookie = sparc_fetch_wcookie ();
+		  ULONGEST i7 = extract_unsigned_integer (buf + offset, 8);
+
+		  store_unsigned_integer (buf, 8, i7 ^ wcookie);
+		}
+
 	      target_write_memory (sp + ((i - SPARC_L0_REGNUM) * 8), buf, 8);
 	    }
 	}

@@ -1,6 +1,6 @@
 /* Target-dependent code for the IA-64 for GDB, the GNU debugger.
 
-   Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software
+   Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software
    Foundation, Inc.
 
    This file is part of GDB.
@@ -474,8 +474,8 @@ fetch_instruction (CORE_ADDR addr, instruction_type *it, long long *instr)
      at the assembly language level.  */
   if (slotnum > 2)
     {
-      warning ("Can't fetch instructions for slot numbers greater than 2.\n"
-	       "Using slot 0 instead");
+      warning (_("Can't fetch instructions for slot numbers greater than 2.\n"
+	       "Using slot 0 instead"));
       slotnum = 0;
     }
 
@@ -523,7 +523,7 @@ fetch_instruction (CORE_ADDR addr, instruction_type *it, long long *instr)
 #define IA64_BREAKPOINT 0x00003333300LL
 
 static int
-ia64_memory_insert_breakpoint (CORE_ADDR addr, char *contents_cache)
+ia64_memory_insert_breakpoint (CORE_ADDR addr, bfd_byte *contents_cache)
 {
   char bundle[BUNDLE_LEN];
   int slotnum = (int) (addr & 0x0f) / SLOT_MULTIPLIER;
@@ -532,7 +532,7 @@ ia64_memory_insert_breakpoint (CORE_ADDR addr, char *contents_cache)
   int template;
 
   if (slotnum > 2)
-    error("Can't insert breakpoint for slot numbers greater than 2.");
+    error (_("Can't insert breakpoint for slot numbers greater than 2."));
 
   addr &= ~0x0f;
 
@@ -556,7 +556,7 @@ ia64_memory_insert_breakpoint (CORE_ADDR addr, char *contents_cache)
 }
 
 static int
-ia64_memory_remove_breakpoint (CORE_ADDR addr, char *contents_cache)
+ia64_memory_remove_breakpoint (CORE_ADDR addr, bfd_byte *contents_cache)
 {
   char bundle[BUNDLE_LEN];
   int slotnum = (addr & 0x0f) / SLOT_MULTIPLIER;
@@ -1550,7 +1550,7 @@ ia64_frame_prev_register (struct frame_info *next_frame, void **this_cache,
   gdb_assert (regnum >= 0);
 
   if (!target_has_registers)
-    error ("No registers.");
+    error (_("No registers."));
 
   *optimizedp = 0;
   *addrp = 0;
@@ -1951,7 +1951,7 @@ ia64_sigtramp_frame_prev_register (struct frame_info *next_frame,
   gdb_assert (regnum >= 0);
 
   if (!target_has_registers)
-    error ("No registers.");
+    error (_("No registers."));
 
   *optimizedp = 0;
   *addrp = 0;
@@ -2524,7 +2524,7 @@ ia64_get_dyn_info_list (unw_addr_space_t as,
 
 static void
 ia64_libunwind_frame_this_id (struct frame_info *next_frame, void **this_cache,
-		      struct frame_id *this_id)
+			      struct frame_id *this_id)
 {
   char buf[8];
   CORE_ADDR bsp;
@@ -2744,7 +2744,7 @@ ia64_extract_return_value (struct type *type, struct regcache *regcache, void *v
 CORE_ADDR
 ia64_extract_struct_value_address (struct regcache *regcache)
 {
-  error ("ia64_extract_struct_value_address called and cannot get struct value address");
+  error (_("ia64_extract_struct_value_address called and cannot get struct value address"));
   return 0;
 }
 
@@ -3089,7 +3089,7 @@ ia64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	  char val_buf[8];
 
 	  store_unsigned_integer (val_buf, 8,
-				  find_func_descr (extract_unsigned_integer (VALUE_CONTENTS (arg), 8),
+				  find_func_descr (extract_unsigned_integer (value_contents (arg), 8),
 						   &funcdescaddr));
 	  if (slotnum < rseslots)
 	    write_memory (rse_address_add (bsp, slotnum), val_buf, 8);
@@ -3111,7 +3111,7 @@ ia64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	  char val_buf[8];
 
 	  memset (val_buf, 0, 8);
-	  memcpy (val_buf, VALUE_CONTENTS (arg) + argoffset, (len > 8) ? 8 : len);
+	  memcpy (val_buf, value_contents (arg) + argoffset, (len > 8) ? 8 : len);
 
 	  if (slotnum < rseslots)
 	    write_memory (rse_address_add (bsp, slotnum), val_buf, 8);
@@ -3132,7 +3132,7 @@ ia64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	  while (len > 0 && floatreg < IA64_FR16_REGNUM)
 	    {
 	      char to[MAX_REGISTER_SIZE];
-	      convert_typed_floating (VALUE_CONTENTS (arg) + argoffset, float_elt_type,
+	      convert_typed_floating (value_contents (arg) + argoffset, float_elt_type,
 				      to, builtin_type_ia64_ext);
 	      regcache_cooked_write (regcache, floatreg, (void *)to);
 	      floatreg++;

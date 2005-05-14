@@ -76,11 +76,26 @@ union type_stack_elt *type_stack;
 int type_stack_depth, type_stack_size;
 char *lexptr;
 char *prev_lexptr;
-char *namecopy;
 int paren_depth;
 int comma_terminates;
+
+/* A temporary buffer for identifiers, so we can null-terminate them.
+
+   We allocate this with xrealloc.  parse_exp_1 used to allocate with
+   alloca, using the size of the whole expression as a conservative
+   estimate of the space needed.  However, macro expansion can
+   introduce names longer than the original expression; there's no
+   practical way to know beforehand how large that might be.  */
+char *namecopy;
+size_t namecopy_size;
 
 static int expressiondebug = 0;
+static void
+show_expressiondebug (struct ui_file *file, int from_tty,
+		      struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("Expression debugging is %s.\n"), value);
+}
 
 static void free_funcalls (void *ignore);
 
@@ -752,8 +767,16 @@ find_template_name_end (char *p)
 char *
 copy_name (struct stoken token)
 {
+  /* Make sure there's enough space for the token.  */
+  if (namecopy_size < token.length + 1)
+    {
+      namecopy_size = token.length + 1;
+      namecopy = xrealloc (namecopy, token.length + 1);
+    }
+      
   memcpy (namecopy, token.ptr, token.length);
   namecopy[token.length] = 0;
+
   return namecopy;
 }
 
@@ -817,7 +840,7 @@ operator_length_standard (struct expression *expr, int endpos,
   int i;
 
   if (endpos < 1)
-    error ("?error in operator_length_standard");
+    error (_("?error in operator_length_standard"));
 
   i = (int) expr->elts[endpos - 1].opcode;
 
@@ -1025,7 +1048,7 @@ parse_exp_in_context (char **stringptr, struct block *block, int comma,
   comma_terminates = comma;
 
   if (lexptr == 0 || *lexptr == 0)
-    error_no_arg ("expression to compute");
+    error_no_arg (_("expression to compute"));
 
   old_chain = make_cleanup (free_funcalls, 0 /*ignore*/);
   funcall_chain = 0;
@@ -1038,7 +1061,6 @@ parse_exp_in_context (char **stringptr, struct block *block, int comma,
   else
     expression_context_block = get_selected_block (&expression_context_pc);
 
-  namecopy = (char *) alloca (strlen (lexptr) + 1);
   expout_size = 10;
   expout_ptr = 0;
   expout = (struct expression *)
@@ -1087,7 +1109,7 @@ parse_expression (char *string)
   struct expression *exp;
   exp = parse_exp_1 (&string, 0, 0);
   if (*string)
-    error ("Junk after end of expression.");
+    error (_("Junk after end of expression."));
   return exp;
 }
 
@@ -1101,7 +1123,7 @@ parse_expression_in_context (char *string, int void_context_p)
   struct expression *exp;
   exp = parse_exp_in_context (&string, 0, 0, void_context_p);
   if (*string != '\000')
-    error ("Junk after end of expression.");
+    error (_("Junk after end of expression."));
   return exp;
 }
 
@@ -1312,11 +1334,12 @@ _initialize_parse (void)
   DEPRECATED_REGISTER_GDBARCH_SWAP (msym_unknown_symbol_type);
   deprecated_register_gdbarch_swap (NULL, 0, build_parse);
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("expression", class_maintenance, var_zinteger,
-		  (char *) &expressiondebug,
-		  "Set expression debugging.\n\
-When non-zero, the internal representation of expressions will be printed.",
-		  &setdebuglist),
-     &showdebuglist);
+  add_setshow_zinteger_cmd ("expression", class_maintenance,
+			    &expressiondebug, _("\
+Set expression debugging."), _("\
+Show expression debugging."), _("\
+When non-zero, the internal representation of expressions will be printed."),
+			    NULL,
+			    show_expressiondebug,
+			    &setdebuglist, &showdebuglist);
 }

@@ -1,5 +1,7 @@
 /* DWARF 2 location expression support for GDB.
-   Copyright 2003 Free Software Foundation, Inc.
+
+   Copyright 2003, 2005 Free Software Foundation, Inc.
+
    Contributed by Daniel Jacobowitz, MontaVista Software, Inc.
 
    This file is part of GDB.
@@ -30,6 +32,7 @@
 #include "ax-gdb.h"
 #include "regcache.h"
 #include "objfiles.h"
+#include "exceptions.h"
 
 #include "elf/dwarf2.h"
 #include "dwarf2expr.h"
@@ -173,7 +176,7 @@ dwarf_expr_frame_base (void *baton, unsigned char **start, size_t * length)
     }
 
   if (*start == NULL)
-    error ("Could not find the frame base for \"%s\".",
+    error (_("Could not find the frame base for \"%s\"."),
 	   SYMBOL_NATURAL_NAME (framefunc));
 }
 
@@ -183,16 +186,84 @@ static CORE_ADDR
 dwarf_expr_tls_address (void *baton, CORE_ADDR offset)
 {
   struct dwarf_expr_baton *debaton = (struct dwarf_expr_baton *) baton;
-  CORE_ADDR addr;
+  volatile CORE_ADDR addr = 0;
 
-  if (target_get_thread_local_address_p ())
-    addr = target_get_thread_local_address (inferior_ptid,
-					    debaton->objfile,
-					    offset);
+  if (target_get_thread_local_address_p ()
+      && gdbarch_fetch_tls_load_module_address_p (current_gdbarch))
+    {
+      ptid_t ptid = inferior_ptid;
+      struct objfile *objfile = debaton->objfile;
+      volatile struct gdb_exception ex;
+
+      TRY_CATCH (ex, RETURN_MASK_ALL)
+	{
+	  CORE_ADDR lm_addr;
+	  
+	  /* Fetch the load module address for this objfile.  */
+	  lm_addr = gdbarch_fetch_tls_load_module_address (current_gdbarch,
+	                                                   objfile);
+	  /* If it's 0, throw the appropriate exception.  */
+	  if (lm_addr == 0)
+	    throw_error (TLS_LOAD_MODULE_NOT_FOUND_ERROR,
+			 _("TLS load module not found"));
+
+	  addr = target_get_thread_local_address (ptid, lm_addr, offset);
+	}
+      /* If an error occurred, print TLS related messages here.  Otherwise,
+         throw the error to some higher catcher.  */
+      if (ex.reason < 0)
+	{
+	  int objfile_is_library = (objfile->flags & OBJF_SHARED);
+
+	  switch (ex.error)
+	    {
+	    case TLS_NO_LIBRARY_SUPPORT_ERROR:
+	      error (_("Cannot find thread-local variables in this thread library."));
+	      break;
+	    case TLS_LOAD_MODULE_NOT_FOUND_ERROR:
+	      if (objfile_is_library)
+		error (_("Cannot find shared library `%s' in dynamic"
+		         " linker's load module list"), objfile->name);
+	      else
+		error (_("Cannot find executable file `%s' in dynamic"
+		         " linker's load module list"), objfile->name);
+	      break;
+	    case TLS_NOT_ALLOCATED_YET_ERROR:
+	      if (objfile_is_library)
+		error (_("The inferior has not yet allocated storage for"
+		         " thread-local variables in\n"
+		         "the shared library `%s'\n"
+		         "for %s"),
+		       objfile->name, target_pid_to_str (ptid));
+	      else
+		error (_("The inferior has not yet allocated storage for"
+		         " thread-local variables in\n"
+		         "the executable `%s'\n"
+		         "for %s"),
+		       objfile->name, target_pid_to_str (ptid));
+	      break;
+	    case TLS_GENERIC_ERROR:
+	      if (objfile_is_library)
+		error (_("Cannot find thread-local storage for %s, "
+		         "shared library %s:\n%s"),
+		       target_pid_to_str (ptid),
+		       objfile->name, ex.message);
+	      else
+		error (_("Cannot find thread-local storage for %s, "
+		         "executable file %s:\n%s"),
+		       target_pid_to_str (ptid),
+		       objfile->name, ex.message);
+	      break;
+	    default:
+	      throw_exception (ex);
+	      break;
+	    }
+	}
+    }
   /* It wouldn't be wrong here to try a gdbarch method, too; finding
      TLS is an ABI-specific thing.  But we don't do that yet.  */
   else
-    error ("Cannot find thread-local variables on this target");
+    error (_("Cannot find thread-local variables on this target"));
 
   return addr;
 }
@@ -214,7 +285,7 @@ dwarf2_evaluate_loc_desc (struct symbol *var, struct frame_info *frame,
     {
       retval = allocate_value (SYMBOL_TYPE (var));
       VALUE_LVAL (retval) = not_lval;
-      VALUE_OPTIMIZED_OUT (retval) = 1;
+      set_value_optimized_out (retval, 1);
     }
 
   baton.frame = frame;
@@ -232,8 +303,8 @@ dwarf2_evaluate_loc_desc (struct symbol *var, struct frame_info *frame,
     {
       /* We haven't implemented splicing together pieces from
          arbitrary sources yet.  */
-      error ("The value of variable '%s' is distributed across several\n"
-             "locations, and GDB cannot access its value.\n",
+      error (_("The value of variable '%s' is distributed across several\n"
+             "locations, and GDB cannot access its value.\n"),
              SYMBOL_NATURAL_NAME (var));
     }
   else if (ctx->in_reg)
@@ -248,7 +319,7 @@ dwarf2_evaluate_loc_desc (struct symbol *var, struct frame_info *frame,
 
       retval = allocate_value (SYMBOL_TYPE (var));
       VALUE_LVAL (retval) = lval_memory;
-      VALUE_LAZY (retval) = 1;
+      set_value_lazy (retval, 1);
       VALUE_ADDRESS (retval) = address;
     }
 
@@ -351,7 +422,7 @@ dwarf2_tracepoint_var_ref (struct symbol * symbol, struct agent_expr * ax,
 			   int size)
 {
   if (size == 0)
-    error ("Symbol \"%s\" has been optimized out.",
+    error (_("Symbol \"%s\" has been optimized out."),
 	   SYMBOL_PRINT_NAME (symbol));
 
   if (size == 1
@@ -378,7 +449,7 @@ dwarf2_tracepoint_var_ref (struct symbol * symbol, struct agent_expr * ax,
 
       buf_end = read_sleb128 (data + 1, data + size, &frame_offset);
       if (buf_end != data + size)
-	error ("Unexpected opcode after DW_OP_fbreg for symbol \"%s\".",
+	error (_("Unexpected opcode after DW_OP_fbreg for symbol \"%s\"."),
 	       SYMBOL_PRINT_NAME (symbol));
 
       TARGET_VIRTUAL_FRAME_POINTER (ax->scope, &frame_reg, &frame_offset);
@@ -391,7 +462,7 @@ dwarf2_tracepoint_var_ref (struct symbol * symbol, struct agent_expr * ax,
       value->kind = axs_lvalue_memory;
     }
   else
-    error ("Unsupported DWARF opcode in the location of \"%s\".",
+    error (_("Unsupported DWARF opcode in the location of \"%s\"."),
 	   SYMBOL_PRINT_NAME (symbol));
 }
 
@@ -510,9 +581,14 @@ loclist_read_variable (struct symbol *symbol, struct frame_info *frame)
   data = find_location_expression (dlbaton, &size,
 				   frame ? get_frame_pc (frame) : 0);
   if (data == NULL)
-    error ("Variable \"%s\" is not available.", SYMBOL_NATURAL_NAME (symbol));
-
-  val = dwarf2_evaluate_loc_desc (symbol, frame, data, size, dlbaton->objfile);
+    {
+      val = allocate_value (SYMBOL_TYPE (symbol));
+      VALUE_LVAL (val) = not_lval;
+      set_value_optimized_out (val, 1);
+    }
+  else
+    val = dwarf2_evaluate_loc_desc (symbol, frame, data, size,
+				    dlbaton->objfile);
 
   return val;
 }
@@ -551,7 +627,7 @@ loclist_tracepoint_var_ref (struct symbol * symbol, struct agent_expr * ax,
 
   data = find_location_expression (dlbaton, &size, ax->scope);
   if (data == NULL)
-    error ("Variable \"%s\" is not available.", SYMBOL_NATURAL_NAME (symbol));
+    error (_("Variable \"%s\" is not available."), SYMBOL_NATURAL_NAME (symbol));
 
   dwarf2_tracepoint_var_ref (symbol, ax, value, data, size);
 }

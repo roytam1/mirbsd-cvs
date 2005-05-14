@@ -1,6 +1,6 @@
 /* Target-dependent code for Motorola 68HC11 & 68HC12
 
-   Copyright 1999, 2000, 2001, 2002, 2003, 2004 Free Software
+   Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software
    Foundation, Inc.
 
    Contributed by Stephane Carrez, stcarrez@nerim.fr
@@ -262,10 +262,8 @@ m68hc11_initialize_register_info (void)
     }
 
   if (soft_regs[SOFT_FP_REGNUM].name == 0)
-    {
-      warning ("No frame soft register found in the symbol table.\n");
-      warning ("Stack backtrace will not work.\n");
-    }
+    warning (_("No frame soft register found in the symbol table.\n"
+	       "Stack backtrace will not work."));
   soft_reg_initialized = 1;
 }
 
@@ -1157,14 +1155,6 @@ m68hc11_print_registers_info (struct gdbarch *gdbarch, struct ui_file *file,
     }
 }
 
-/* Same as 'info reg' but prints the registers in a different way.  */
-static void
-show_regs (char *args, int from_tty)
-{
-  m68hc11_print_registers_info (current_gdbarch, gdb_stdout,
-                                get_current_frame (), -1, 1);
-}
-
 static CORE_ADDR
 m68hc11_stack_align (CORE_ADDR addr)
 {
@@ -1203,7 +1193,7 @@ m68hc11_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
         {
           ULONGEST v;
 
-          v = extract_unsigned_integer (VALUE_CONTENTS (args[0]), len);
+          v = extract_unsigned_integer (value_contents (args[0]), len);
           first_stack_argnum = 1;
 
           regcache_cooked_write_unsigned (regcache, HARD_D_REGNUM, v);
@@ -1227,7 +1217,7 @@ m68hc11_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
           sp--;
           write_memory (sp, &zero, 1);
         }
-      val = (char*) VALUE_CONTENTS (args[argnum]);
+      val = (char*) value_contents (args[argnum]);
       sp -= len;
       write_memory (sp, val, len);
     }
@@ -1290,7 +1280,7 @@ m68hc11_store_return_value (struct type *type, struct regcache *regcache,
       regcache_raw_write (regcache, HARD_D_REGNUM, (char*) valbuf + (len - 2));
     }
   else
-    error ("return of value > 4 is not supported.");
+    error (_("return of value > 4 is not supported."));
 }
 
 
@@ -1328,7 +1318,7 @@ m68hc11_extract_return_value (struct type *type, struct regcache *regcache,
       break;
 
     default:
-      error ("bad size for return value");
+      error (_("bad size for return value"));
     }
 }
 
@@ -1574,9 +1564,5 @@ _initialize_m68hc11_tdep (void)
   register_gdbarch_init (bfd_arch_m68hc11, m68hc11_gdbarch_init);
   register_gdbarch_init (bfd_arch_m68hc12, m68hc11_gdbarch_init);
   m68hc11_init_reggroups ();
-
-  deprecate_cmd (add_com ("regs", class_vars, show_regs,
-                          "Print all registers"),
-                 "info registers");
 } 
 

@@ -1,7 +1,7 @@
 /* Target-dependent code for the VAX.
 
    Copyright 1986, 1989, 1991, 1992, 1995, 1996, 1998, 1999, 2000,
-   2002, 2003, 2004 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -75,7 +75,7 @@ static void
 vax_supply_gregset (const struct regset *regset, struct regcache *regcache,
 		    int regnum, const void *gregs, size_t len)
 {
-  const char *regs = gregs;
+  const gdb_byte *regs = gregs;
   int i;
 
   for (i = 0; i < VAX_NUM_REGS; i++)
@@ -114,7 +114,7 @@ static CORE_ADDR
 vax_store_arguments (struct regcache *regcache, int nargs,
 		     struct value **args, CORE_ADDR sp)
 {
-  char buf[4];
+  gdb_byte buf[4];
   int count = 0;
   int i;
 
@@ -124,11 +124,11 @@ vax_store_arguments (struct regcache *regcache, int nargs,
   /* Push arguments in reverse order.  */
   for (i = nargs - 1; i >= 0; i--)
     {
-      int len = TYPE_LENGTH (VALUE_ENCLOSING_TYPE (args[i]));
+      int len = TYPE_LENGTH (value_enclosing_type (args[i]));
 
       sp -= (len + 3) & ~3;
       count += (len + 3) / 4;
-      write_memory (sp, VALUE_CONTENTS_ALL (args[i]), len);
+      write_memory (sp, value_contents_all (args[i]), len);
     }
 
   /* Push argument count.  */
@@ -150,7 +150,7 @@ vax_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 		     CORE_ADDR struct_addr)
 {
   CORE_ADDR fp = sp;
-  char buf[4];
+  gdb_byte buf[4];
 
   /* Set up the function arguments.  */
   sp = vax_store_arguments (regcache, nargs, args, sp);
@@ -207,7 +207,7 @@ vax_return_value (struct gdbarch *gdbarch, struct type *type,
 		  const void *writebuf)
 {
   int len = TYPE_LENGTH (type);
-  char buf[8];
+  gdb_byte buf[8];
 
   if (TYPE_CODE (type) == TYPE_CODE_STRUCT
       || TYPE_CODE (type) == TYPE_CODE_UNION
@@ -255,10 +255,10 @@ vax_return_value (struct gdbarch *gdbarch, struct type *type,
    *LEN and optionally adjust *PC to point to the correct memory
    location for inserting the breakpoint.  */
    
-static const unsigned char *
+static const gdb_byte *
 vax_breakpoint_from_pc (CORE_ADDR *pc, int *len)
 {
-  static unsigned char break_insn[] = { 3 };
+  static gdb_byte break_insn[] = { 3 };
 
   *len = sizeof (break_insn);
   return break_insn;
@@ -270,7 +270,7 @@ vax_breakpoint_from_pc (CORE_ADDR *pc, int *len)
 static CORE_ADDR
 vax_skip_prologue (CORE_ADDR pc)
 {
-  unsigned char op = read_memory_unsigned_integer (pc, 1);
+  gdb_byte op = read_memory_unsigned_integer (pc, 1);
 
   if (op == 0x11)
     pc += 2;			/* skip brb */

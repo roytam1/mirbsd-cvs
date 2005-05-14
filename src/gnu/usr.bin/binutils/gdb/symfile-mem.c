@@ -1,7 +1,7 @@
 /* Reading symbol files from memory.
 
    Copyright 1986, 1987, 1989, 1991, 1994, 1995, 1996, 1998, 2000,
-   2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -48,6 +48,7 @@
 #include "symtab.h"
 #include "gdbcore.h"
 #include "objfiles.h"
+#include "exceptions.h"
 #include "gdbcmd.h"
 #include "target.h"
 #include "value.h"
@@ -74,12 +75,12 @@ symbol_file_add_from_memory (struct bfd *templ, CORE_ADDR addr, char *name,
   unsigned int i;
 
   if (bfd_get_flavour (templ) != bfd_target_elf_flavour)
-    error ("add-symbol-file-from-memory not supported for this target");
+    error (_("add-symbol-file-from-memory not supported for this target"));
 
   nbfd = bfd_elf_bfd_from_remote_memory (templ, addr, &loadbase,
 					 target_read_memory);
   if (nbfd == NULL)
-    error ("Failed to read a valid object file image from memory.");
+    error (_("Failed to read a valid object file image from memory."));
 
   if (name == NULL)
     nbfd->filename = xstrdup ("shared object read from target memory");
@@ -92,7 +93,7 @@ symbol_file_add_from_memory (struct bfd *templ, CORE_ADDR addr, char *name,
          on error it does not free all the storage associated with the
          bfd).  */
       bfd_close (nbfd);
-      error ("Got object file from memory but can't read symbols: %s.",
+      error (_("Got object file from memory but can't read symbols: %s."),
 	     bfd_errmsg (bfd_get_error ()));
     }
 
@@ -125,7 +126,7 @@ add_symbol_file_from_memory_command (char *args, int from_tty)
   struct bfd *templ;
 
   if (args == NULL)
-    error ("add-symbol-file-from-memory requires an expression argument");
+    error (_("add-symbol-file-from-memory requires an expression argument"));
 
   addr = parse_and_eval_address (args);
 
@@ -135,8 +136,8 @@ add_symbol_file_from_memory_command (char *args, int from_tty)
   else
     templ = exec_bfd;
   if (templ == NULL)
-    error ("\
-Must use symbol-file or exec-file before add-symbol-file-from-memory.");
+    error (_("\
+Must use symbol-file or exec-file before add-symbol-file-from-memory."));
 
   symbol_file_add_from_memory (templ, addr, NULL, from_tty);
 }
@@ -190,8 +191,9 @@ add_vsyscall_page (struct target_ops *target, int from_tty)
 	  ``bfd_runtime'' (a BFD created using the loaded image) file
 	  format should fix this.  */
 	{
-	  warning ("could not load vsyscall page because no executable was specified");
-	  warning ("try using the \"file\" command first");
+	  warning (_("\
+Could not load vsyscall page because no executable was specified\n\
+try using the \"file\" command first."));
 	  return;
 	}
       args.bfd = bfd;
@@ -203,7 +205,7 @@ add_vsyscall_page (struct target_ops *target, int from_tty)
 	 typed "run" at the TTY.  */
       args.from_tty = 0;
       catch_exceptions (uiout, symbol_file_add_from_memory_wrapper,
-			&args, NULL, RETURN_MASK_ALL);
+			&args, RETURN_MASK_ALL);
     }
 }
 
@@ -212,10 +214,9 @@ void
 _initialize_symfile_mem (void)
 {
   add_cmd ("add-symbol-file-from-memory", class_files,
-           add_symbol_file_from_memory_command,
-           "\
+           add_symbol_file_from_memory_command, _("\
 Load the symbols out of memory from a dynamically loaded object file.\n\
-Give an expression for the address of the file's shared object file header.",
+Give an expression for the address of the file's shared object file header."),
            &cmdlist);
 
   /* Want to know of each new inferior so that its vsyscall info can

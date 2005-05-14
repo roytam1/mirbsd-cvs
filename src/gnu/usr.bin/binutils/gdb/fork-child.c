@@ -33,6 +33,7 @@
 #include "terminal.h"
 #include "gdbthread.h"
 #include "command.h" /* for dont_repeat () */
+#include "solib.h"
 
 #include <signal.h>
 
@@ -291,7 +292,7 @@ fork_inferior (char *exec_file_arg, char *allargs, char **env,
     pid = vfork ();
 
   if (pid < 0)
-    perror_with_name ("vfork");
+    perror_with_name (("vfork"));
 
   if (pid == 0)
     {
@@ -404,6 +405,8 @@ fork_inferior (char *exec_file_arg, char *allargs, char **env,
 
 #ifdef SOLIB_CREATE_INFERIOR_HOOK
   SOLIB_CREATE_INFERIOR_HOOK (pid);
+#else
+  solib_create_inferior_hook ();
 #endif
 }
 

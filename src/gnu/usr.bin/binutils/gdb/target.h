@@ -335,8 +335,8 @@ struct target_ops
 				   struct target_ops *target);
 
     void (*to_files_info) (struct target_ops *);
-    int (*to_insert_breakpoint) (CORE_ADDR, char *);
-    int (*to_remove_breakpoint) (CORE_ADDR, char *);
+    int (*to_insert_breakpoint) (CORE_ADDR, gdb_byte *);
+    int (*to_remove_breakpoint) (CORE_ADDR, gdb_byte *);
     int (*to_can_use_hw_breakpoint) (int, int, int);
     int (*to_insert_hw_breakpoint) (CORE_ADDR, char *);
     int (*to_remove_hw_breakpoint) (CORE_ADDR, char *);
@@ -358,12 +358,12 @@ struct target_ops
     void (*to_create_inferior) (char *, char *, char **, int);
     void (*to_post_startup_inferior) (ptid_t);
     void (*to_acknowledge_created_inferior) (int);
-    int (*to_insert_fork_catchpoint) (int);
+    void (*to_insert_fork_catchpoint) (int);
     int (*to_remove_fork_catchpoint) (int);
-    int (*to_insert_vfork_catchpoint) (int);
+    void (*to_insert_vfork_catchpoint) (int);
     int (*to_remove_vfork_catchpoint) (int);
     int (*to_follow_fork) (int);
-    int (*to_insert_exec_catchpoint) (int);
+    void (*to_insert_exec_catchpoint) (int);
     int (*to_remove_exec_catchpoint) (int);
     int (*to_reported_exec_events_per_exec_call) (void);
     int (*to_has_exited) (int, int, int *);
@@ -411,7 +411,7 @@ struct target_ops
        thread-local storage hasn't been allocated yet, this function
        may return an error.  */
     CORE_ADDR (*to_get_thread_local_address) (ptid_t ptid,
-					      struct objfile *objfile,
+					      CORE_ADDR load_module_addr,
 					      CORE_ADDR offset);
 
     /* Perform partial transfers on OBJECT.  See target_read_partial
@@ -537,9 +537,10 @@ extern int do_xfer_memory (CORE_ADDR memaddr, char *myaddr, int len, int write,
 
 extern int target_read_string (CORE_ADDR, char **, int, int *);
 
-extern int target_read_memory (CORE_ADDR memaddr, char *myaddr, int len);
+extern int target_read_memory (CORE_ADDR memaddr, gdb_byte *myaddr, int len);
 
-extern int target_write_memory (CORE_ADDR memaddr, char *myaddr, int len);
+extern int target_write_memory (CORE_ADDR memaddr, const gdb_byte *myaddr,
+				int len);
 
 extern int xfer_memory (CORE_ADDR, char *, int, int,
 			struct mem_attrib *, struct target_ops *);
@@ -571,11 +572,11 @@ extern void child_post_startup_inferior (ptid_t);
 
 extern void child_acknowledge_created_inferior (int);
 
-extern int child_insert_fork_catchpoint (int);
+extern void child_insert_fork_catchpoint (int);
 
 extern int child_remove_fork_catchpoint (int);
 
-extern int child_insert_vfork_catchpoint (int);
+extern void child_insert_vfork_catchpoint (int);
 
 extern int child_remove_vfork_catchpoint (int);
 
@@ -583,7 +584,7 @@ extern void child_acknowledge_created_inferior (int);
 
 extern int child_follow_fork (int);
 
-extern int child_insert_exec_catchpoint (int);
+extern void child_insert_exec_catchpoint (int);
 
 extern int child_remove_exec_catchpoint (int);
 
@@ -903,8 +904,6 @@ extern void target_load (char *arg, int from_tty);
 
 extern int target_async_mask (int mask);
 
-extern void target_link (char *, CORE_ADDR *);
-
 /* Converts a process id to a string.  Usually, the string just contains
    `process xyz', but on some systems it may contain
    `process xyz thread abc'.  */
@@ -1136,13 +1135,13 @@ struct section_table *target_section_by_addr (struct target_ops *target,
 
 /* From mem-break.c */
 
-extern int memory_remove_breakpoint (CORE_ADDR, char *);
+extern int memory_remove_breakpoint (CORE_ADDR, gdb_byte *);
 
-extern int memory_insert_breakpoint (CORE_ADDR, char *);
+extern int memory_insert_breakpoint (CORE_ADDR, gdb_byte *);
 
-extern int default_memory_remove_breakpoint (CORE_ADDR, char *);
+extern int default_memory_remove_breakpoint (CORE_ADDR, gdb_byte *);
 
-extern int default_memory_insert_breakpoint (CORE_ADDR, char *);
+extern int default_memory_insert_breakpoint (CORE_ADDR, gdb_byte *);
 
 
 /* From target.c */

@@ -2,7 +2,7 @@
 
 /* Dynamic architecture support for GDB, the GNU debugger.
 
-   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free
+   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free
    Software Foundation, Inc.
 
    This file is part of GDB.
@@ -61,6 +61,12 @@ static void alloc_gdbarch_data (struct gdbarch *);
 #define GDBARCH_DEBUG 0
 #endif
 int gdbarch_debug = GDBARCH_DEBUG;
+static void
+show_gdbarch_debug (struct ui_file *file, int from_tty,
+                    struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("Architecture debugging is %s.\n"), value);
+}
 
 static const char *
 pformat (const struct floatformat *format)
@@ -197,6 +203,7 @@ struct gdbarch
   CORE_ADDR decr_pc_after_break;
   CORE_ADDR deprecated_function_start_offset;
   gdbarch_remote_translate_xfer_address_ftype *remote_translate_xfer_address;
+  gdbarch_fetch_tls_load_module_address_ftype *fetch_tls_load_module_address;
   CORE_ADDR frame_args_skip;
   gdbarch_unwind_pc_ftype *unwind_pc;
   gdbarch_unwind_sp_ftype *unwind_sp;
@@ -323,6 +330,7 @@ struct gdbarch startup_gdbarch =
   0,  /* decr_pc_after_break */
   0,  /* deprecated_function_start_offset */
   generic_remote_translate_xfer_address,  /* remote_translate_xfer_address */
+  0,  /* fetch_tls_load_module_address */
   0,  /* frame_args_skip */
   0,  /* unwind_pc */
   0,  /* unwind_sp */
@@ -577,6 +585,7 @@ verify_gdbarch (struct gdbarch *current_gdbarch)
   /* Skip verify of decr_pc_after_break, invalid_p == 0 */
   /* Skip verify of deprecated_function_start_offset, invalid_p == 0 */
   /* Skip verify of remote_translate_xfer_address, invalid_p == 0 */
+  /* Skip verify of fetch_tls_load_module_address, has predicate */
   /* Skip verify of frame_args_skip, invalid_p == 0 */
   /* Skip verify of unwind_pc, has predicate */
   /* Skip verify of unwind_sp, has predicate */
@@ -613,7 +622,7 @@ verify_gdbarch (struct gdbarch *current_gdbarch)
   make_cleanup (xfree, buf);
   if (strlen (buf) > 0)
     internal_error (__FILE__, __LINE__,
-                    "verify_gdbarch: the following are invalid ...%s",
+                    _("verify_gdbarch: the following are invalid ...%s"),
                     buf);
   do_cleanups (cleanups);
 }
@@ -1084,6 +1093,24 @@ gdbarch_dump (struct gdbarch *current_gdbarch, struct ui_file *file)
   fprintf_unfiltered (file,
                       "gdbarch_dump: fetch_pointer_argument = <0x%lx>\n",
                       (long) current_gdbarch->fetch_pointer_argument);
+#ifdef FETCH_TLS_LOAD_MODULE_ADDRESS_P
+  fprintf_unfiltered (file,
+                      "gdbarch_dump: %s # %s\n",
+                      "FETCH_TLS_LOAD_MODULE_ADDRESS_P()",
+                      XSTRING (FETCH_TLS_LOAD_MODULE_ADDRESS_P ()));
+#endif
+  fprintf_unfiltered (file,
+                      "gdbarch_dump: gdbarch_fetch_tls_load_module_address_p() = %d\n",
+                      gdbarch_fetch_tls_load_module_address_p (current_gdbarch));
+#ifdef FETCH_TLS_LOAD_MODULE_ADDRESS
+  fprintf_unfiltered (file,
+                      "gdbarch_dump: %s # %s\n",
+                      "FETCH_TLS_LOAD_MODULE_ADDRESS(objfile)",
+                      XSTRING (FETCH_TLS_LOAD_MODULE_ADDRESS (objfile)));
+#endif
+  fprintf_unfiltered (file,
+                      "gdbarch_dump: fetch_tls_load_module_address = <0x%lx>\n",
+                      (long) current_gdbarch->fetch_tls_load_module_address);
 #ifdef TARGET_FLOAT_BIT
   fprintf_unfiltered (file,
                       "gdbarch_dump: TARGET_FLOAT_BIT # %s\n",
@@ -1203,21 +1230,9 @@ gdbarch_dump (struct gdbarch *current_gdbarch, struct ui_file *file)
   fprintf_unfiltered (file,
                       "gdbarch_dump: int_bit = %s\n",
                       paddr_d (current_gdbarch->int_bit));
-#ifdef INTEGER_TO_ADDRESS_P
-  fprintf_unfiltered (file,
-                      "gdbarch_dump: %s # %s\n",
-                      "INTEGER_TO_ADDRESS_P()",
-                      XSTRING (INTEGER_TO_ADDRESS_P ()));
-#endif
   fprintf_unfiltered (file,
                       "gdbarch_dump: gdbarch_integer_to_address_p() = %d\n",
                       gdbarch_integer_to_address_p (current_gdbarch));
-#ifdef INTEGER_TO_ADDRESS
-  fprintf_unfiltered (file,
-                      "gdbarch_dump: %s # %s\n",
-                      "INTEGER_TO_ADDRESS(type, buf)",
-                      XSTRING (INTEGER_TO_ADDRESS (type, buf)));
-#endif
   fprintf_unfiltered (file,
                       "gdbarch_dump: integer_to_address = <0x%lx>\n",
                       (long) current_gdbarch->integer_to_address);
@@ -2714,13 +2729,13 @@ gdbarch_integer_to_address_p (struct gdbarch *gdbarch)
 }
 
 CORE_ADDR
-gdbarch_integer_to_address (struct gdbarch *gdbarch, struct type *type, void *buf)
+gdbarch_integer_to_address (struct gdbarch *gdbarch, struct type *type, const gdb_byte *buf)
 {
   gdb_assert (gdbarch != NULL);
   gdb_assert (gdbarch->integer_to_address != NULL);
   if (gdbarch_debug >= 2)
     fprintf_unfiltered (gdb_stdlog, "gdbarch_integer_to_address called\n");
-  return gdbarch->integer_to_address (type, buf);
+  return gdbarch->integer_to_address (gdbarch, type, buf);
 }
 
 void
@@ -2814,7 +2829,7 @@ set_gdbarch_store_return_value (struct gdbarch *gdbarch,
 }
 
 void
-gdbarch_deprecated_extract_return_value (struct gdbarch *gdbarch, struct type *type, char *regbuf, char *valbuf)
+gdbarch_deprecated_extract_return_value (struct gdbarch *gdbarch, struct type *type, gdb_byte *regbuf, gdb_byte *valbuf)
 {
   gdb_assert (gdbarch != NULL);
   gdb_assert (gdbarch->deprecated_extract_return_value != NULL);
@@ -2831,7 +2846,7 @@ set_gdbarch_deprecated_extract_return_value (struct gdbarch *gdbarch,
 }
 
 void
-gdbarch_deprecated_store_return_value (struct gdbarch *gdbarch, struct type *type, char *valbuf)
+gdbarch_deprecated_store_return_value (struct gdbarch *gdbarch, struct type *type, gdb_byte *valbuf)
 {
   gdb_assert (gdbarch != NULL);
   gdb_assert (gdbarch->deprecated_store_return_value != NULL);
@@ -2922,7 +2937,7 @@ set_gdbarch_inner_than (struct gdbarch *gdbarch,
   gdbarch->inner_than = inner_than;
 }
 
-const unsigned char *
+const gdb_byte *
 gdbarch_breakpoint_from_pc (struct gdbarch *gdbarch, CORE_ADDR *pcptr, int *lenptr)
 {
   gdb_assert (gdbarch != NULL);
@@ -2964,7 +2979,7 @@ set_gdbarch_adjust_breakpoint_address (struct gdbarch *gdbarch,
 }
 
 int
-gdbarch_memory_insert_breakpoint (struct gdbarch *gdbarch, CORE_ADDR addr, char *contents_cache)
+gdbarch_memory_insert_breakpoint (struct gdbarch *gdbarch, CORE_ADDR addr, gdb_byte *contents_cache)
 {
   gdb_assert (gdbarch != NULL);
   gdb_assert (gdbarch->memory_insert_breakpoint != NULL);
@@ -2981,7 +2996,7 @@ set_gdbarch_memory_insert_breakpoint (struct gdbarch *gdbarch,
 }
 
 int
-gdbarch_memory_remove_breakpoint (struct gdbarch *gdbarch, CORE_ADDR addr, char *contents_cache)
+gdbarch_memory_remove_breakpoint (struct gdbarch *gdbarch, CORE_ADDR addr, gdb_byte *contents_cache)
 {
   gdb_assert (gdbarch != NULL);
   gdb_assert (gdbarch->memory_remove_breakpoint != NULL);
@@ -3046,6 +3061,30 @@ set_gdbarch_remote_translate_xfer_address (struct gdbarch *gdbarch,
                                            gdbarch_remote_translate_xfer_address_ftype remote_translate_xfer_address)
 {
   gdbarch->remote_translate_xfer_address = remote_translate_xfer_address;
+}
+
+int
+gdbarch_fetch_tls_load_module_address_p (struct gdbarch *gdbarch)
+{
+  gdb_assert (gdbarch != NULL);
+  return gdbarch->fetch_tls_load_module_address != NULL;
+}
+
+CORE_ADDR
+gdbarch_fetch_tls_load_module_address (struct gdbarch *gdbarch, struct objfile *objfile)
+{
+  gdb_assert (gdbarch != NULL);
+  gdb_assert (gdbarch->fetch_tls_load_module_address != NULL);
+  if (gdbarch_debug >= 2)
+    fprintf_unfiltered (gdb_stdlog, "gdbarch_fetch_tls_load_module_address called\n");
+  return gdbarch->fetch_tls_load_module_address (objfile);
+}
+
+void
+set_gdbarch_fetch_tls_load_module_address (struct gdbarch *gdbarch,
+                                           gdbarch_fetch_tls_load_module_address_ftype fetch_tls_load_module_address)
+{
+  gdbarch->fetch_tls_load_module_address = fetch_tls_load_module_address;
 }
 
 CORE_ADDR
@@ -3952,7 +3991,7 @@ gdbarch_printable_names (void)
       ap = bfd_lookup_arch (rego->bfd_architecture, 0);
       if (ap == NULL)
         internal_error (__FILE__, __LINE__,
-                        "gdbarch_architecture_names: multi-arch unknown");
+                        _("gdbarch_architecture_names: multi-arch unknown"));
       do
         {
           append_name (&arches, &nr_arches, ap->printable_name);
@@ -3977,7 +4016,7 @@ gdbarch_register (enum bfd_architecture bfd_architecture,
   if (bfd_arch_info == NULL)
     {
       internal_error (__FILE__, __LINE__,
-                      "gdbarch: Attempt to register unknown architecture (%d)",
+                      _("gdbarch: Attempt to register unknown architecture (%d)"),
                       bfd_architecture);
     }
   /* Check that we haven't seen this architecture before */
@@ -3987,7 +4026,7 @@ gdbarch_register (enum bfd_architecture bfd_architecture,
     {
       if (bfd_architecture == (*curr)->bfd_architecture)
 	internal_error (__FILE__, __LINE__,
-                        "gdbarch: Duplicate registraration of architecture (%s)",
+                        _("gdbarch: Duplicate registraration of architecture (%s)"),
 	                bfd_arch_info->printable_name);
     }
   /* log it */
@@ -4202,6 +4241,7 @@ deprecated_current_gdbarch_select_hack (struct gdbarch *new_gdbarch)
   current_gdbarch_swap_out_hack ();
   current_gdbarch_swap_in_hack (new_gdbarch);
   architecture_changed_event ();
+  flush_cached_frames ();
 }
 
 extern void _initialize_gdbarch (void);
@@ -4211,21 +4251,11 @@ _initialize_gdbarch (void)
 {
   struct cmd_list_element *c;
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("arch",
-	          class_maintenance,
-		  var_zinteger,
-		  (char *)&gdbarch_debug,
-		  "Set architecture debugging.\n\
-When non-zero, architecture debugging is enabled.", &setdebuglist),
-     &showdebuglist);
-  c = add_set_cmd ("archdebug",
-		   class_maintenance,
-		   var_zinteger,
-		   (char *)&gdbarch_debug,
-		   "Set architecture debugging.\n\
-When non-zero, architecture debugging is enabled.", &setlist);
-
-  deprecate_cmd (c, "set debug arch");
-  deprecate_cmd (deprecated_add_show_from_set (c, &showlist), "show debug arch");
+  add_setshow_zinteger_cmd ("arch", class_maintenance, &gdbarch_debug, _("\
+Set architecture debugging."), _("\
+Show architecture debugging."), _("\
+When non-zero, architecture debugging is enabled."),
+                            NULL,
+                            show_gdbarch_debug,
+                            &setdebuglist, &showdebuglist);
 }

@@ -1,6 +1,7 @@
 /* Target-dependent code for Atmel AVR, for GDB.
-   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
-   Free Software Foundation, Inc.
+
+   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+   2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -1081,10 +1082,8 @@ struct stack_item
   void *data;
 };
 
-static struct stack_item *push_stack_item (struct stack_item *prev,
-					   void *contents, int len);
 static struct stack_item *
-push_stack_item (struct stack_item *prev, void *contents, int len)
+push_stack_item (struct stack_item *prev, const bfd_byte *contents, int len)
 {
   struct stack_item *si;
   si = xmalloc (sizeof (struct stack_item));
@@ -1173,7 +1172,7 @@ avr_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
       int j;
       struct value *arg = args[i];
       struct type *type = check_typedef (value_type (arg));
-      char *contents = VALUE_CONTENTS (arg);
+      const bfd_byte *contents = value_contents (arg);
       int len = TYPE_LENGTH (type);
 
       /* Calculate the potential last register needed. */
@@ -1412,5 +1411,6 @@ _initialize_avr_tdep (void)
      io_registers' to signify it is not available on other platforms. */
 
   add_cmd ("io_registers", class_info, avr_io_reg_read_command,
-	   _("query remote avr target for io space register values"), &infolist);
+	   _("query remote avr target for io space register values"),
+	   &infolist);
 }

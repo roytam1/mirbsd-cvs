@@ -1,7 +1,7 @@
 /* Target-dependent code for GDB, the GNU debugger.
 
    Copyright 1986, 1987, 1989, 1991, 1992, 1993, 1994, 1995, 1996,
-   1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
+   1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software
    Foundation, Inc.
 
    This file is part of GDB.
@@ -58,6 +58,8 @@
 #include "trad-frame.h"
 #include "frame-unwind.h"
 #include "frame-base.h"
+
+#include "reggroups.h"
 
 /* If the kernel has to deliver a signal, it pushes a sigcontext
    structure on the stack and then calls the signal handler, passing
@@ -393,7 +395,7 @@ ppc_supply_fpregset (const struct regset *regset, struct regcache *regcache,
   offset = offsets->f0_offset;
   for (i = tdep->ppc_fp0_regnum;
        i < tdep->ppc_fp0_regnum + ppc_num_fprs;
-       i++, offset += 4)
+       i++, offset += 8)
     {
       if (regnum == -1 || regnum == i)
 	ppc_supply_reg (regcache, i, fpregs, offset);
@@ -472,10 +474,10 @@ ppc_collect_fpregset (const struct regset *regset,
   offset = offsets->f0_offset;
   for (i = tdep->ppc_fp0_regnum;
        i <= tdep->ppc_fp0_regnum + ppc_num_fprs;
-       i++, offset += 4)
+       i++, offset += 8)
     {
       if (regnum == -1 || regnum == i)
-	ppc_collect_reg (regcache, regnum, fpregs, offset);
+	ppc_collect_reg (regcache, i, fpregs, offset);
     }
 
   if (regnum == -1 || regnum == tdep->ppc_fpscr_regnum)
@@ -1495,7 +1497,7 @@ rs6000_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 
 	  regcache_cooked_write (regcache,
 	                         tdep->ppc_fp0_regnum + 1 + f_argno,
-	                         VALUE_CONTENTS (arg));
+	                         value_contents (arg));
 	  ++f_argno;
 	}
 
@@ -1508,7 +1510,7 @@ rs6000_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	      char word[MAX_REGISTER_SIZE];
 	      memset (word, 0, reg_size);
 	      memcpy (word,
-		      ((char *) VALUE_CONTENTS (arg)) + argbytes,
+		      ((char *) value_contents (arg)) + argbytes,
 		      (len - argbytes) > reg_size
 		        ? reg_size : len - argbytes);
 	      regcache_cooked_write (regcache,
@@ -1529,7 +1531,7 @@ rs6000_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 	  char word[MAX_REGISTER_SIZE];
 
 	  memset (word, 0, reg_size);
-	  memcpy (word, VALUE_CONTENTS (arg), len);
+	  memcpy (word, value_contents (arg), len);
 	  regcache_cooked_write (regcache, tdep->ppc_gp0_regnum + 3 +ii, word);
 	}
       ++argno;
@@ -1587,7 +1589,7 @@ ran_out_of_registers_for_arguments:
       if (argbytes)
 	{
 	  write_memory (sp + 24 + (ii * 4),
-			((char *) VALUE_CONTENTS (arg)) + argbytes,
+			((char *) value_contents (arg)) + argbytes,
 			len - argbytes);
 	  ++argno;
 	  ii += ((len - argbytes + 3) & -4) / 4;
@@ -1611,12 +1613,12 @@ ran_out_of_registers_for_arguments:
 
 	      regcache_cooked_write (regcache,
 				     tdep->ppc_fp0_regnum + 1 + f_argno,
-				     VALUE_CONTENTS (arg));
+				     value_contents (arg));
 	      ++f_argno;
 	    }
 
 	  write_memory (sp + 24 + (ii * 4),
-                        (char *) VALUE_CONTENTS (arg),
+                        (char *) value_contents (arg),
                         len);
 	  ii += ((len + 3) & -4) / 4;
 	}
@@ -1663,7 +1665,8 @@ rs6000_use_struct_convention (int gcc_p, struct type *value_type)
 }
 
 static void
-rs6000_extract_return_value (struct type *valtype, char *regbuf, char *valbuf)
+rs6000_extract_return_value (struct type *valtype, bfd_byte *regbuf,
+			     bfd_byte *valbuf)
 {
   int offset = 0;
   struct gdbarch_tdep *tdep = gdbarch_tdep (current_gdbarch);
@@ -1721,12 +1724,13 @@ rs6000_extract_return_value (struct type *valtype, char *regbuf, char *valbuf)
    back to where execution should continue.
 
    GDB should silently step over @FIX code, just like AIX dbx does.
-   Unfortunately, the linker uses the "b" instruction for the branches,
-   meaning that the link register doesn't get set.  Therefore, GDB's usual
-   step_over_function() mechanism won't work.
+   Unfortunately, the linker uses the "b" instruction for the
+   branches, meaning that the link register doesn't get set.
+   Therefore, GDB's usual step_over_function () mechanism won't work.
 
-   Instead, use the IN_SOLIB_RETURN_TRAMPOLINE and SKIP_TRAMPOLINE_CODE hooks
-   in handle_inferior_event() to skip past @FIX code.  */
+   Instead, use the IN_SOLIB_RETURN_TRAMPOLINE and
+   SKIP_TRAMPOLINE_CODE hooks in handle_inferior_event() to skip past
+   @FIX code.  */
 
 int
 rs6000_in_solib_return_trampoline (CORE_ADDR pc, char *name)
@@ -1770,7 +1774,9 @@ rs6000_skip_trampoline_code (CORE_ADDR pc)
 
   /* Check for bigtoc fixup code.  */
   msymbol = lookup_minimal_symbol_by_pc (pc);
-  if (msymbol && rs6000_in_solib_return_trampoline (pc, DEPRECATED_SYMBOL_NAME (msymbol)))
+  if (msymbol 
+      && rs6000_in_solib_return_trampoline (pc, 
+					    DEPRECATED_SYMBOL_NAME (msymbol)))
     {
       /* Double-check that the third instruction from PC is relative "b".  */
       op = read_memory_integer (pc + 8, 4);
@@ -1852,10 +1858,62 @@ rs6000_register_type (struct gdbarch *gdbarch, int n)
 	  return builtin_type_vec128;
 	  break;
 	default:
-	  internal_error (__FILE__, __LINE__, "Register %d size %d unknown",
+	  internal_error (__FILE__, __LINE__, _("Register %d size %d unknown"),
 			  n, size);
 	}
     }
+}
+
+/* Is REGNUM a member of REGGROUP?  */
+static int
+rs6000_register_reggroup_p (struct gdbarch *gdbarch, int regnum,
+			    struct reggroup *group)
+{
+  struct gdbarch_tdep *tdep = gdbarch_tdep (gdbarch);
+  int float_p;
+  int vector_p;
+  int general_p;
+
+  if (REGISTER_NAME (regnum) == NULL
+      || *REGISTER_NAME (regnum) == '\0')
+    return 0;
+  if (group == all_reggroup)
+    return 1;
+
+  float_p = (regnum == tdep->ppc_fpscr_regnum
+	     || (regnum >= tdep->ppc_fp0_regnum
+		 && regnum < tdep->ppc_fp0_regnum + 32));
+  if (group == float_reggroup)
+    return float_p;
+
+  vector_p = ((regnum >= tdep->ppc_vr0_regnum
+	       && regnum < tdep->ppc_vr0_regnum + 32)
+	      || (regnum >= tdep->ppc_ev0_regnum
+		  && regnum < tdep->ppc_ev0_regnum + 32)
+	      || regnum == tdep->ppc_vrsave_regnum
+	      || regnum == tdep->ppc_acc_regnum
+	      || regnum == tdep->ppc_spefscr_regnum);
+  if (group == vector_reggroup)
+    return vector_p;
+
+  /* Note that PS aka MSR isn't included - it's a system register (and
+     besides, due to GCC's CFI foobar you do not want to restore
+     it).  */
+  general_p = ((regnum >= tdep->ppc_gp0_regnum
+		&& regnum < tdep->ppc_gp0_regnum + 32)
+	       || regnum == tdep->ppc_toc_regnum
+	       || regnum == tdep->ppc_cr_regnum
+	       || regnum == tdep->ppc_lr_regnum
+	       || regnum == tdep->ppc_ctr_regnum
+	       || regnum == tdep->ppc_xer_regnum
+	       || regnum == PC_REGNUM);
+  if (group == general_reggroup)
+    return general_p;
+
+  if (group == save_reggroup || group == restore_reggroup)
+    return general_p || vector_p || float_p;
+
+  return 0;   
 }
 
 /* The register format for RS/6000 floating point registers is always
@@ -1968,8 +2026,8 @@ e500_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
     e500_move_ev_register (regcache_raw_read, regcache, reg_nr, buffer);
   else
     internal_error (__FILE__, __LINE__,
-                    "e500_pseudo_register_read: "
-                    "called on unexpected register '%s' (%d)",
+                    _("e500_pseudo_register_read: "
+                    "called on unexpected register '%s' (%d)"),
                     gdbarch_register_name (gdbarch, reg_nr), reg_nr);
 }
 
@@ -1989,8 +2047,8 @@ e500_pseudo_register_write (struct gdbarch *gdbarch, struct regcache *regcache,
                            regcache, reg_nr, (void *) buffer);
   else
     internal_error (__FILE__, __LINE__,
-                    "e500_pseudo_register_read: "
-                    "called on unexpected register '%s' (%d)",
+                    _("e500_pseudo_register_read: "
+                    "called on unexpected register '%s' (%d)"),
                     gdbarch_register_name (gdbarch, reg_nr), reg_nr);
 }
 
@@ -2126,8 +2184,8 @@ rs6000_store_return_value (struct type *type,
         regnum = tdep->ppc_vr0_regnum + 2;
       else
         internal_error (__FILE__, __LINE__,
-                        "rs6000_store_return_value: "
-                        "unexpected array return type");
+                        _("rs6000_store_return_value: "
+                        "unexpected array return type"));
     }
   else
     /* Everything else is returned in GPR3 and up.  */
@@ -3197,8 +3255,8 @@ rs6000_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
       }   
   else
     internal_error (__FILE__, __LINE__,
-                    "rs6000_gdbarch_init: "
-                    "received unexpected BFD 'arch' value");
+                    _("rs6000_gdbarch_init: "
+                    "received unexpected BFD 'arch' value"));
 
   /* Sanity check on registers.  */
   gdb_assert (strcmp (tdep->regs[tdep->ppc_gp0_regnum].name, "r0") == 0);
@@ -3215,6 +3273,7 @@ rs6000_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
   set_gdbarch_num_pseudo_regs (gdbarch, v->npregs);
   set_gdbarch_register_name (gdbarch, rs6000_register_name);
   set_gdbarch_register_type (gdbarch, rs6000_register_type);
+  set_gdbarch_register_reggroup_p (gdbarch, rs6000_register_reggroup_p);
 
   set_gdbarch_ptr_bit (gdbarch, wordsize * TARGET_CHAR_BIT);
   set_gdbarch_short_bit (gdbarch, 2 * TARGET_CHAR_BIT);
@@ -3361,6 +3420,6 @@ _initialize_rs6000_tdep (void)
 
   /* Add root prefix command for "info powerpc" commands */
   add_prefix_cmd ("powerpc", class_info, rs6000_info_powerpc_command,
-		  "Various POWERPC info specific commands.",
+		  _("Various POWERPC info specific commands."),
 		  &info_powerpc_cmdlist, "info powerpc ", 0, &infolist);
 }

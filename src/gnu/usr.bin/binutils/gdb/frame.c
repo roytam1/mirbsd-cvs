@@ -41,6 +41,7 @@
 #include "gdbcmd.h"
 #include "observer.h"
 #include "objfiles.h"
+#include "exceptions.h"
 
 static struct frame_info *get_prev_frame_1 (struct frame_info *this_frame);
 
@@ -111,12 +112,45 @@ struct frame_info
 /* Flag to control debugging.  */
 
 static int frame_debug;
+static void
+show_frame_debug (struct ui_file *file, int from_tty,
+		  struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("Frame debugging is %s.\n"), value);
+}
 
 /* Flag to indicate whether backtraces should stop at main et.al.  */
 
 static int backtrace_past_main;
+static void
+show_backtrace_past_main (struct ui_file *file, int from_tty,
+			  struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("\
+Whether backtraces should continue past \"main\" is %s.\n"),
+		    value);
+}
+
 static int backtrace_past_entry;
+static void
+show_backtrace_past_entry (struct ui_file *file, int from_tty,
+			   struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("\
+Whether backtraces should continue past the entry point of a program is %s.\n"),
+		    value);
+}
+
 static unsigned int backtrace_limit = UINT_MAX;
+static void
+show_backtrace_limit (struct ui_file *file, int from_tty,
+		      struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("\
+An upper bound on the number of backtrace levels is %s.\n"),
+		    value);
+}
+
 
 static void
 fprint_field (struct ui_file *file, const char *name, int p, CORE_ADDR addr)
@@ -420,7 +454,7 @@ frame_pc_unwind (struct frame_info *this_frame)
 	  pc = gdbarch_unwind_pc (current_gdbarch, this_frame);
 	}
       else
-	internal_error (__FILE__, __LINE__, "No unwind_pc method");
+	internal_error (__FILE__, __LINE__, _("No unwind_pc method"));
       this_frame->prev_pc.value = pc;
       this_frame->prev_pc.p = 1;
       if (frame_debug)
@@ -653,7 +687,7 @@ put_frame_register (struct frame_info *frame, int regnum, const void *buf)
   CORE_ADDR addr;
   frame_register (frame, regnum, &optim, &lval, &addr, &realnum, NULL);
   if (optim)
-    error ("Attempt to assign to a value that was optimized out.");
+    error (_("Attempt to assign to a value that was optimized out."));
   switch (lval)
     {
     case lval_memory:
@@ -669,7 +703,7 @@ put_frame_register (struct frame_info *frame, int regnum, const void *buf)
       regcache_cooked_write (current_regcache, realnum, buf);
       break;
     default:
-      error ("Attempt to assign to an unmodifiable value.");
+      error (_("Attempt to assign to an unmodifiable value."));
     }
 }
 
@@ -792,17 +826,17 @@ get_current_frame (void)
      explicitly checks that ``print $pc'' with no registers prints "No
      registers".  */
   if (!target_has_registers)
-    error ("No registers.");
+    error (_("No registers."));
   if (!target_has_stack)
-    error ("No stack.");
+    error (_("No stack."));
   if (!target_has_memory)
-    error ("No memory.");
+    error (_("No memory."));
   if (current_frame == NULL)
     {
       struct frame_info *sentinel_frame =
 	create_sentinel_frame (current_regcache);
       if (catch_exceptions (uiout, unwind_to_current_frame, sentinel_frame,
-			    NULL, RETURN_MASK_ERROR) != 0)
+			    RETURN_MASK_ERROR) != 0)
 	{
 	  /* Oops! Fake a current frame?  Is this useful?  It has a PC
              of zero, for instance.  */
@@ -829,7 +863,7 @@ get_selected_frame (const char *message)
       if (message != NULL && (!target_has_registers
 			      || !target_has_stack
 			      || !target_has_memory))
-	error ("%s", message);
+	error (("%s"), message);
       /* Hey!  Don't trust this.  It should really be re-finding the
 	 last selected frame of the currently selected thread.  This,
 	 though, is better than nothing.  */
@@ -1042,14 +1076,14 @@ get_prev_frame_1 (struct frame_info *this_frame)
   if (this_frame->next->level >= 0
       && this_frame->next->unwind->type != SIGTRAMP_FRAME
       && frame_id_inner (this_id, get_frame_id (this_frame->next)))
-    error ("Previous frame inner to this frame (corrupt stack?)");
+    error (_("Previous frame inner to this frame (corrupt stack?)"));
 
   /* Check that this and the next frame are not identical.  If they
      are, there is most likely a stack cycle.  As with the inner-than
      test above, avoid comparing the inner-most and sentinel frames.  */
   if (this_frame->level > 0
       && frame_id_eq (this_id, get_frame_id (this_frame->next)))
-    error ("Previous frame identical to this frame (corrupt stack?)");
+    error (_("Previous frame identical to this frame (corrupt stack?)"));
 
   /* Allocate the new frame but do not wire it in to the frame chain.
      Some (bad) code in INIT_FRAME_EXTRA_INFO tries to look along
@@ -1224,7 +1258,7 @@ get_prev_frame (struct frame_info *this_frame)
 
   if (this_frame->level > backtrace_limit)
     {
-      error ("Backtrace limit of %d exceeded", backtrace_limit);
+      error (_("Backtrace limit of %d exceeded"), backtrace_limit);
     }
 
   /* If we're already inside the entry function for the main objfile,
@@ -1510,7 +1544,7 @@ frame_sp_unwind (struct frame_info *next_frame)
       frame_unwind_unsigned_register (next_frame, SP_REGNUM, &sp);
       return sp;
     }
-  internal_error (__FILE__, __LINE__, "Missing unwind SP method");
+  internal_error (__FILE__, __LINE__, _("Missing unwind SP method"));
 }
 
 extern initialize_file_ftype _initialize_frame; /* -Wmissing-prototypes */
@@ -1537,53 +1571,60 @@ _initialize_frame (void)
 
   observer_attach_target_changed (frame_observer_target_changed);
 
-  add_prefix_cmd ("backtrace", class_maintenance, set_backtrace_cmd, "\
+  add_prefix_cmd ("backtrace", class_maintenance, set_backtrace_cmd, _("\
 Set backtrace specific variables.\n\
-Configure backtrace variables such as the backtrace limit",
+Configure backtrace variables such as the backtrace limit"),
 		  &set_backtrace_cmdlist, "set backtrace ",
 		  0/*allow-unknown*/, &setlist);
-  add_prefix_cmd ("backtrace", class_maintenance, show_backtrace_cmd, "\
+  add_prefix_cmd ("backtrace", class_maintenance, show_backtrace_cmd, _("\
 Show backtrace specific variables\n\
-Show backtrace variables such as the backtrace limit",
+Show backtrace variables such as the backtrace limit"),
 		  &show_backtrace_cmdlist, "show backtrace ",
 		  0/*allow-unknown*/, &showlist);
 
   add_setshow_boolean_cmd ("past-main", class_obscure,
-			   &backtrace_past_main, "\
-Set whether backtraces should continue past \"main\".", "\
-Show whether backtraces should continue past \"main\".", "\
+			   &backtrace_past_main, _("\
+Set whether backtraces should continue past \"main\"."), _("\
+Show whether backtraces should continue past \"main\"."), _("\
 Normally the caller of \"main\" is not of interest, so GDB will terminate\n\
 the backtrace at \"main\".  Set this variable if you need to see the rest\n\
-of the stack trace.", "\
-Whether backtraces should continue past \"main\" is %s.",
-			   NULL, NULL, &set_backtrace_cmdlist,
+of the stack trace."),
+			   NULL,
+			   show_backtrace_past_main,
+			   &set_backtrace_cmdlist,
 			   &show_backtrace_cmdlist);
 
   add_setshow_boolean_cmd ("past-entry", class_obscure,
-			   &backtrace_past_entry, "\
-Set whether backtraces should continue past the entry point of a program.", "\
-Show whether backtraces should continue past the entry point of a program.", "\
+			   &backtrace_past_entry, _("\
+Set whether backtraces should continue past the entry point of a program."),
+			   _("\
+Show whether backtraces should continue past the entry point of a program."),
+			   _("\
 Normally there are no callers beyond the entry point of a program, so GDB\n\
 will terminate the backtrace there.  Set this variable if you need to see \n\
-the rest of the stack trace.", "\
-Whether backtraces should continue past the entry point is %s.",
-			   NULL, NULL, &set_backtrace_cmdlist,
+the rest of the stack trace."),
+			   NULL,
+			   show_backtrace_past_entry,
+			   &set_backtrace_cmdlist,
 			   &show_backtrace_cmdlist);
 
   add_setshow_uinteger_cmd ("limit", class_obscure,
-			    &backtrace_limit, "\
-Set an upper bound on the number of backtrace levels.", "\
-Show the upper bound on the number of backtrace levels.", "\
+			    &backtrace_limit, _("\
+Set an upper bound on the number of backtrace levels."), _("\
+Show the upper bound on the number of backtrace levels."), _("\
 No more than the specified number of frames can be displayed or examined.\n\
-Zero is unlimited.", "\
-An upper bound on the number of backtrace levels is %s.",
-			    NULL, NULL, &set_backtrace_cmdlist,
+Zero is unlimited."),
+			    NULL,
+			    show_backtrace_limit,
+			    &set_backtrace_cmdlist,
 			    &show_backtrace_cmdlist);
 
   /* Debug this files internals. */
-  deprecated_add_show_from_set
-    (add_set_cmd ("frame", class_maintenance, var_zinteger,
-		  &frame_debug, "Set frame debugging.\n\
-When non-zero, frame specific internal debugging is enabled.", &setdebuglist),
-     &showdebuglist);
+  add_setshow_zinteger_cmd ("frame", class_maintenance, &frame_debug,  _("\
+Set frame debugging."), _("\
+Show frame debugging."), _("\
+When non-zero, frame specific internal debugging is enabled."),
+			    NULL,
+			    show_frame_debug,
+			    &setdebuglist, &showdebuglist);
 }

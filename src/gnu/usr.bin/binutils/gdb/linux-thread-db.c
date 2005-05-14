@@ -27,6 +27,7 @@
 #include "gdb_thread_db.h"
 
 #include "bfd.h"
+#include "exceptions.h"
 #include "gdbthread.h"
 #include "inferior.h"
 #include "symfile.h"
@@ -262,7 +263,7 @@ thread_get_info_callback (const td_thrhandle_t *thp, void *infop)
 
   err = td_thr_get_info_p (thp, &ti);
   if (err != TD_OK)
-    error ("thread_get_info_callback: cannot get thread info: %s",
+    error (_("thread_get_info_callback: cannot get thread info: %s"),
 	   thread_db_err_str (err));
 
   /* Fill the cache.  */
@@ -319,7 +320,7 @@ thread_db_map_id2thr (struct thread_info *thread_info, int fatal)
   if (err != TD_OK)
     {
       if (fatal)
-	error ("Cannot find thread %ld: %s",
+	error (_("Cannot find thread %ld: %s"),
 	       (long) GET_THREAD (thread_info->ptid),
 	       thread_db_err_str (err));
     }
@@ -341,7 +342,7 @@ thread_db_get_info (struct thread_info *thread_info)
   err =
     td_thr_get_info_p (&thread_info->private->th, &thread_info->private->ti);
   if (err != TD_OK)
-    error ("thread_db_get_info: cannot get thread info: %s",
+    error (_("thread_db_get_info: cannot get thread info: %s"),
 	   thread_db_err_str (err));
 
   thread_info->private->ti_valid = 1;
@@ -365,7 +366,7 @@ thread_from_lwp (ptid_t ptid)
 
   err = td_ta_map_lwp2thr_p (thread_agent, GET_LWP (ptid), &th);
   if (err != TD_OK)
-    error ("Cannot find user-level thread for LWP %ld: %s",
+    error (_("Cannot find user-level thread for LWP %ld: %s"),
 	   GET_LWP (ptid), thread_db_err_str (err));
 
   thread_info = NULL;
@@ -406,7 +407,7 @@ verbose_dlsym (void *handle, const char *name)
 {
   void *sym = dlsym (handle, name);
   if (sym == NULL)
-    warning ("Symbol \"%s\" not found in libthread_db: %s", name, dlerror ());
+    warning (_("Symbol \"%s\" not found in libthread_db: %s"), name, dlerror ());
   return sym;
 }
 
@@ -477,7 +478,7 @@ thread_db_load (void)
   err = td_init_p ();
   if (err != TD_OK)
     {
-      warning ("Cannot initialize libthread_db: %s", thread_db_err_str (err));
+      warning (_("Cannot initialize libthread_db: %s"), thread_db_err_str (err));
       return 0;
     }
 
@@ -545,7 +546,7 @@ enable_thread_event_reporting (void)
   err = td_ta_set_event_p (thread_agent, &events);
   if (err != TD_OK)
     {
-      warning ("Unable to set global thread event mask: %s",
+      warning (_("Unable to set global thread event mask: %s"),
 	       thread_db_err_str (err));
       return;
     }
@@ -559,7 +560,7 @@ enable_thread_event_reporting (void)
   err = enable_thread_event (thread_agent, TD_CREATE, &td_create_bp_addr);
   if (err != TD_OK)
     {
-      warning ("Unable to get location for thread creation breakpoint: %s",
+      warning (_("Unable to get location for thread creation breakpoint: %s"),
 	       thread_db_err_str (err));
       return;
     }
@@ -568,7 +569,7 @@ enable_thread_event_reporting (void)
   err = enable_thread_event (thread_agent, TD_DEATH, &td_death_bp_addr);
   if (err != TD_OK)
     {
-      warning ("Unable to get location for thread death breakpoint: %s",
+      warning (_("Unable to get location for thread death breakpoint: %s"),
 	       thread_db_err_str (err));
       return;
     }
@@ -641,7 +642,7 @@ thread_db_new_objfile (struct objfile *objfile)
 	if (library == NULL)
 	  /* Paranoid - don't let a NULL path slip through.  */
 	  library = LIBTHREAD_DB_SO;
-	printf_unfiltered ("Using host libthread_db library \"%s\".\n",
+	printf_unfiltered (_("Using host libthread_db library \"%s\".\n"),
 			   library);
 	dejavu = 1;
       }
@@ -682,7 +683,7 @@ thread_db_new_objfile (struct objfile *objfile)
       break;
 
     case TD_OK:
-      printf_unfiltered ("[Thread debugging using libthread_db enabled]\n");
+      printf_unfiltered (_("[Thread debugging using libthread_db enabled]\n"));
 
       /* The thread library was detected.  Activate the thread_db target.  */
       push_target (&thread_db_ops);
@@ -693,7 +694,7 @@ thread_db_new_objfile (struct objfile *objfile)
       break;
 
     default:
-      warning ("Cannot initialize thread debugging library: %s",
+      warning (_("Cannot initialize thread debugging library: %s"),
 	       thread_db_err_str (err));
       break;
     }
@@ -743,7 +744,7 @@ attach_thread (ptid_t ptid, const td_thrhandle_t *th_p,
   memset (tp->private, 0, sizeof (struct private_thread_info));
 
   if (verbose)
-    printf_unfiltered ("[New %s]\n", target_pid_to_str (ptid));
+    printf_unfiltered (_("[New %s]\n"), target_pid_to_str (ptid));
 
   if (ti_p->ti_state == TD_THR_UNKNOWN || ti_p->ti_state == TD_THR_ZOMBIE)
     return;			/* A zombie thread -- do not attach.  */
@@ -756,7 +757,7 @@ attach_thread (ptid_t ptid, const td_thrhandle_t *th_p,
   /* Enable thread event reporting for this thread.  */
   err = td_thr_event_enable_p (th_p, 1);
   if (err != TD_OK)
-    error ("Cannot enable thread event reporting for %s: %s",
+    error (_("Cannot enable thread event reporting for %s: %s"),
 	   target_pid_to_str (ptid), thread_db_err_str (err));
 }
 
@@ -783,7 +784,7 @@ detach_thread (ptid_t ptid, int verbose)
   struct thread_info *thread_info;
 
   if (verbose)
-    printf_unfiltered ("[%s exited]\n", target_pid_to_str (ptid));
+    printf_unfiltered (_("[%s exited]\n"), target_pid_to_str (ptid));
 
   /* Don't delete the thread now, because it still reports as active
      until it has executed a few instructions after the event
@@ -886,13 +887,13 @@ check_event (ptid_t ptid)
 	  if (err == TD_NOMSG)
 	    return;
 
-	  error ("Cannot get thread event message: %s",
+	  error (_("Cannot get thread event message: %s"),
 		 thread_db_err_str (err));
 	}
 
       err = td_thr_get_info_p (msg.th_p, &ti);
       if (err != TD_OK)
-	error ("Cannot get thread info: %s", thread_db_err_str (err));
+	error (_("Cannot get thread info: %s"), thread_db_err_str (err));
 
       ptid = ptid_build (GET_PID (ptid), ti.ti_lid, ti.ti_tid);
 
@@ -908,14 +909,14 @@ check_event (ptid_t ptid)
 	case TD_DEATH:
 
 	  if (!in_thread_list (ptid))
-	    error ("Spurious thread death event.");
+	    error (_("Spurious thread death event."));
 
 	  detach_thread (ptid, 1);
 
 	  break;
 
 	default:
-	  error ("Spurious thread event.");
+	  error (_("Spurious thread event."));
 	}
     }
   while (loop);
@@ -1005,12 +1006,12 @@ thread_db_fetch_registers (int regno)
 
   err = td_thr_getgregs_p (&thread_info->private->th, gregset);
   if (err != TD_OK)
-    error ("Cannot fetch general-purpose registers for thread %ld: %s",
+    error (_("Cannot fetch general-purpose registers for thread %ld: %s"),
 	   (long) GET_THREAD (inferior_ptid), thread_db_err_str (err));
 
   err = td_thr_getfpregs_p (&thread_info->private->th, &fpregset);
   if (err != TD_OK)
-    error ("Cannot get floating-point registers for thread %ld: %s",
+    error (_("Cannot get floating-point registers for thread %ld: %s"),
 	   (long) GET_THREAD (inferior_ptid), thread_db_err_str (err));
 
   /* Note that we must call supply_gregset after calling the thread_db
@@ -1052,11 +1053,11 @@ thread_db_store_registers (int regno)
 
   err = td_thr_setgregs_p (&thread_info->private->th, gregset);
   if (err != TD_OK)
-    error ("Cannot store general-purpose registers for thread %ld: %s",
+    error (_("Cannot store general-purpose registers for thread %ld: %s"),
 	   (long) GET_THREAD (inferior_ptid), thread_db_err_str (err));
   err = td_thr_setfpregs_p (&thread_info->private->th, &fpregset);
   if (err != TD_OK)
-    error ("Cannot store floating-point registers  for thread %ld: %s",
+    error (_("Cannot store floating-point registers  for thread %ld: %s"),
 	   (long) GET_THREAD (inferior_ptid), thread_db_err_str (err));
 }
 
@@ -1160,7 +1161,7 @@ find_new_threads_callback (const td_thrhandle_t *th_p, void *data)
 
   err = td_thr_get_info_p (th_p, &ti);
   if (err != TD_OK)
-    error ("find_new_threads_callback: cannot get thread info: %s",
+    error (_("find_new_threads_callback: cannot get thread info: %s"),
 	   thread_db_err_str (err));
 
   if (ti.ti_state == TD_THR_UNKNOWN || ti.ti_state == TD_THR_ZOMBIE)
@@ -1184,7 +1185,7 @@ thread_db_find_new_threads (void)
 			  TD_THR_ANY_STATE, TD_THR_LOWEST_PRIORITY,
 			  TD_SIGNO_MASK, TD_THR_ANY_USER_FLAGS);
   if (err != TD_OK)
-    error ("Cannot find new threads: %s", thread_db_err_str (err));
+    error (_("Cannot find new threads: %s"), thread_db_err_str (err));
 }
 
 static char *
@@ -1229,38 +1230,27 @@ thread_db_pid_to_str (ptid_t ptid)
   return normal_pid_to_str (ptid);
 }
 
-/* Get the address of the thread local variable in OBJFILE which is
-   stored at OFFSET within the thread local storage for thread PTID.  */
+/* Get the address of the thread local variable in load module LM which
+   is stored at OFFSET within the thread local storage for thread PTID.  */
 
 static CORE_ADDR
-thread_db_get_thread_local_address (ptid_t ptid, struct objfile *objfile,
+thread_db_get_thread_local_address (ptid_t ptid,
+				    CORE_ADDR lm,
 				    CORE_ADDR offset)
 {
   if (is_thread (ptid))
     {
-      int objfile_is_library = (objfile->flags & OBJF_SHARED);
       td_err_e err;
       void *address;
-      CORE_ADDR lm;
       struct thread_info *thread_info;
 
       /* glibc doesn't provide the needed interface.  */
       if (!td_thr_tls_get_addr_p)
-	error ("Cannot find thread-local variables in this thread library.");
+	throw_error (TLS_NO_LIBRARY_SUPPORT_ERROR,
+		     _("No TLS library support"));
 
-      /* Get the address of the link map for this objfile.  */
-      lm = svr4_fetch_objfile_link_map (objfile);
-
-      /* Whoops, we couldn't find one. Bail out.  */
-      if (!lm)
-	{
-	  if (objfile_is_library)
-	    error ("Cannot find shared library `%s' link_map in dynamic"
-		   " linker's module list", objfile->name);
-	  else
-	    error ("Cannot find executable file `%s' link_map in dynamic"
-		   " linker's module list", objfile->name);
-	}
+      /* Caller should have verified that lm != 0.  */
+      gdb_assert (lm != 0);
 
       /* Get info about the thread.  */
       thread_info = find_thread_pid (ptid);
@@ -1273,49 +1263,27 @@ thread_db_get_thread_local_address (ptid_t ptid, struct objfile *objfile,
 #ifdef THREAD_DB_HAS_TD_NOTALLOC
       /* The memory hasn't been allocated, yet.  */
       if (err == TD_NOTALLOC)
-	{
 	  /* Now, if libthread_db provided the initialization image's
 	     address, we *could* try to build a non-lvalue value from
 	     the initialization image.  */
-	  if (objfile_is_library)
-	    error ("The inferior has not yet allocated storage for"
-		   " thread-local variables in\n"
-		   "the shared library `%s'\n"
-		   "for the thread %ld",
-		   objfile->name, (long) GET_THREAD (ptid));
-	  else
-	    error ("The inferior has not yet allocated storage for"
-		   " thread-local variables in\n"
-		   "the executable `%s'\n"
-		   "for the thread %ld",
-		   objfile->name, (long) GET_THREAD (ptid));
-	}
+        throw_error (TLS_NOT_ALLOCATED_YET_ERROR,
+                     _("TLS not allocated yet"));
 #endif
 
       /* Something else went wrong.  */
       if (err != TD_OK)
-	{
-	  if (objfile_is_library)
-	    error ("Cannot find thread-local storage for thread %ld, "
-		   "shared library %s:\n%s",
-		   (long) GET_THREAD (ptid),
-		   objfile->name, thread_db_err_str (err));
-	  else
-	    error ("Cannot find thread-local storage for thread %ld, "
-		   "executable file %s:\n%s",
-		   (long) GET_THREAD (ptid),
-		   objfile->name, thread_db_err_str (err));
-	}
+        throw_error (TLS_GENERIC_ERROR,
+                     (("%s")), thread_db_err_str (err));
 
       /* Cast assuming host == target.  Joy.  */
       return (CORE_ADDR) address;
     }
 
   if (target_beneath->to_get_thread_local_address)
-    return target_beneath->to_get_thread_local_address (ptid, objfile,
-							offset);
-
-  error ("Cannot find thread-local values on this target.");
+    return target_beneath->to_get_thread_local_address (ptid, lm, offset);
+  else
+    throw_error (TLS_GENERIC_ERROR,
+	         _("TLS not supported on this target"));
 }
 
 static void

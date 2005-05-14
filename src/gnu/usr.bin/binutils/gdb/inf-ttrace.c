@@ -98,17 +98,17 @@ inf_ttrace_enable_syscall_events (pid_t pid)
 
   if (ttrace (TT_PROC_GET_EVENT_MASK, pid, 0,
 	      (uintptr_t)&tte, sizeof tte, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   tte.tte_events |= (TTEVT_SYSCALL_ENTRY | TTEVT_SYSCALL_RETURN);
 
   if (ttrace (TT_PROC_SET_EVENT_MASK, pid, 0,
 	      (uintptr_t)&tte, sizeof tte, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   if (ttrace (TT_PROC_GET_FIRST_LWP_STATE, pid, 0,
 	      (uintptr_t)&tts, sizeof tts, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   if (tts.tts_flags & TTS_INSYSCALL)
     inf_ttrace_num_lwps_in_syscall++;
@@ -127,13 +127,13 @@ inf_ttrace_disable_syscall_events (pid_t pid)
 
   if (ttrace (TT_PROC_GET_EVENT_MASK, pid, 0,
 	      (uintptr_t)&tte, sizeof tte, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   tte.tte_events &= ~(TTEVT_SYSCALL_ENTRY | TTEVT_SYSCALL_RETURN);
 
   if (ttrace (TT_PROC_SET_EVENT_MASK, pid, 0,
 	      (uintptr_t)&tte, sizeof tte, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   inf_ttrace_num_lwps_in_syscall = 0;
 }
@@ -190,7 +190,7 @@ inf_ttrace_add_page (pid_t pid, CORE_ADDR addr)
 
       if (ttrace (TT_PROC_GET_MPROTECT, pid, 0,
 		  addr, 0, (uintptr_t)&prot) == -1)
-	perror_with_name ("ttrace");
+	perror_with_name (("ttrace"));
       
       page = XMALLOC (struct inf_ttrace_page);
       page->addr = addr;
@@ -209,7 +209,7 @@ inf_ttrace_add_page (pid_t pid, CORE_ADDR addr)
 	{
 	  if (ttrace (TT_PROC_SET_MPROTECT, pid, 0,
 		      addr, pagesize, prot & ~PROT_WRITE) == -1)
-	    perror_with_name ("ttrace");
+	    perror_with_name (("ttrace"));
 	}
     }
 
@@ -249,7 +249,7 @@ inf_ttrace_remove_page (pid_t pid, CORE_ADDR addr)
 	{
 	  if (ttrace (TT_PROC_SET_MPROTECT, pid, 0,
 		      addr, pagesize, page->prot) == -1)
-	    perror_with_name ("ttrace");
+	    perror_with_name (("ttrace"));
 	}
 
       inf_ttrace_page_dict.count--;
@@ -283,7 +283,7 @@ inf_ttrace_mask_page_protections (pid_t pid, int prot)
 	{
 	  if (ttrace (TT_PROC_SET_MPROTECT, pid, 0,
 		      page->addr, pagesize, page->prot & ~prot) == -1)
-	    perror_with_name ("ttrace");
+	    perror_with_name (("ttrace"));
 
 	  page = page->next;
 	}
@@ -379,7 +379,7 @@ inf_ttrace_stopped_by_watchpoint (void)
     {
       if (ttrace (TT_LWP_GET_STATE, pid, lwpid,
 		  (uintptr_t)&tts, sizeof tts, 0) == -1)
-	perror_with_name ("ttrace");
+	perror_with_name (("ttrace"));
 
       if (tts.tts_event == TTEVT_SIGNAL
 	  && tts.tts_u.tts_signal.tts_signo == SIGBUS)
@@ -415,13 +415,13 @@ static void
 inf_ttrace_prepare (void)
 {
   if (pipe (inf_ttrace_pfd1) == -1)
-    perror_with_name ("pipe");
+    perror_with_name (("pipe"));
 
   if (pipe (inf_ttrace_pfd2) == -1)
     {
       close (inf_ttrace_pfd1[0]);
       close (inf_ttrace_pfd2[0]);
-      perror_with_name ("pipe");
+      perror_with_name (("pipe"));
     }
 }
 
@@ -435,15 +435,15 @@ inf_ttrace_me (void)
 
   /* "Trace me, Dr. Memory!"  */
   if (ttrace (TT_PROC_SETTRC, 0, 0, 0, TT_VERSION, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   /* Tell our parent that we are ready to be traced.  */
   if (write (inf_ttrace_pfd1[1], &c, sizeof c) != sizeof c)
-    perror_with_name ("write");
+    perror_with_name (("write"));
 
   /* Wait until our parent has set the initial event mask.  */
   if (read (inf_ttrace_pfd2[0], &c, sizeof c) != sizeof c)
-    perror_with_name ("read");
+    perror_with_name (("read"));
 
   do_cleanups (old_chain);
 }
@@ -459,7 +459,7 @@ inf_ttrace_him (int pid)
 
   /* Wait until our child is ready to be traced.  */
   if (read (inf_ttrace_pfd1[0], &c, sizeof c) != sizeof c)
-    perror_with_name ("read");
+    perror_with_name (("read"));
 
   /* Set the initial event mask.  */
   memset (&tte, 0, sizeof (tte));
@@ -471,11 +471,11 @@ inf_ttrace_him (int pid)
   tte.tte_opts = TTEO_NOSTRCCHLD;
   if (ttrace (TT_PROC_SET_EVENT_MASK, pid, 0,
 	      (uintptr_t)&tte, sizeof tte, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   /* Tell our child that we have set the initial event mask.  */
   if (write (inf_ttrace_pfd2[1], &c, sizeof c) != sizeof c)
-    perror_with_name ("write");
+    perror_with_name (("write"));
 
   do_cleanups (old_chain);
 
@@ -526,7 +526,7 @@ inf_ttrace_kill_inferior (void)
     return;
 
   if (ttrace (TT_PROC_EXIT, pid, 0, 0, 0, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
   /* ??? Is it necessary to call ttrace_wait() here?  */
   target_mourn_inferior ();
 }
@@ -568,25 +568,25 @@ inf_ttrace_attach (char *args, int from_tty)
   ttevent_t tte;
 
   if (!args)
-    error_no_arg ("process-id to attach");
+    error_no_arg (_("process-id to attach"));
 
   dummy = args;
   pid = strtol (args, &dummy, 0);
   if (pid == 0 && args == dummy)
-    error ("Illegal process-id: %s\n", args);
+    error (_("Illegal process-id: %s."), args);
 
   if (pid == getpid ())		/* Trying to masturbate?  */
-    error ("I refuse to debug myself!");
+    error (_("I refuse to debug myself!"));
 
   if (from_tty)
     {
       exec_file = (char *) get_exec_file (0);
 
       if (exec_file)
-	printf_unfiltered ("Attaching to program: %s, %s\n", exec_file,
+	printf_unfiltered (_("Attaching to program: %s, %s\n"), exec_file,
 			   target_pid_to_str (pid_to_ptid (pid)));
       else
-	printf_unfiltered ("Attaching to %s\n",
+	printf_unfiltered (_("Attaching to %s\n"),
 			   target_pid_to_str (pid_to_ptid (pid)));
 
       gdb_flush (gdb_stdout);
@@ -596,7 +596,7 @@ inf_ttrace_attach (char *args, int from_tty)
   gdb_assert (inf_ttrace_num_lwps_in_syscall == 0);
 
   if (ttrace (TT_PROC_ATTACH, pid, 0, TT_KILL_ON_EXIT, TT_VERSION, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
   attach_flag = 1;
 
   /* Set the initial event mask.  */
@@ -609,7 +609,7 @@ inf_ttrace_attach (char *args, int from_tty)
   tte.tte_opts = TTEO_NOSTRCCHLD;
   if (ttrace (TT_PROC_SET_EVENT_MASK, pid, 0,
 	      (uintptr_t)&tte, sizeof tte, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   inferior_ptid = pid_to_ptid (pid);
   push_target (ttrace_ops_hack);
@@ -630,7 +630,7 @@ inf_ttrace_detach (char *args, int from_tty)
       char *exec_file = get_exec_file (0);
       if (exec_file == 0)
 	exec_file = "";
-      printf_unfiltered ("Detaching from program: %s, %s\n", exec_file,
+      printf_unfiltered (_("Detaching from program: %s, %s\n"), exec_file,
 			 target_pid_to_str (pid_to_ptid (pid)));
       gdb_flush (gdb_stdout);
     }
@@ -640,7 +640,7 @@ inf_ttrace_detach (char *args, int from_tty)
   /* ??? The HP-UX 11.0 ttrace(2) manual page doesn't mention that we
      can pass a signal number here.  Does this really work?  */
   if (ttrace (TT_PROC_DETACH, pid, 0, 0, sig, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   inf_ttrace_num_lwps = 0;
   inf_ttrace_num_lwps_in_syscall = 0;
@@ -658,7 +658,7 @@ inf_ttrace_resume_callback (struct thread_info *info, void *arg)
       lwpid_t lwpid = ptid_get_lwp (info->ptid);
 
       if (ttrace (TT_LWP_CONTINUE, pid, lwpid, TT_NOPC, 0, 0) == -1)
-	perror_with_name ("ttrace");
+	perror_with_name (("ttrace"));
     }
 
   return 0;
@@ -679,7 +679,7 @@ inf_ttrace_resume (ptid_t ptid, int step, enum target_signal signal)
     }
 
   if (ttrace (request, pid, lwpid, TT_NOPC, sig, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   if (ptid_equal (ptid, minus_one_ptid) && inf_ttrace_num_lwps > 0)
     {
@@ -709,7 +709,7 @@ inf_ttrace_wait (ptid_t ptid, struct target_waitstatus *ourstatus)
       set_sigio_trap ();
 
       if (ttrace_wait (pid, lwpid, TTRACE_WAITOK, &tts, sizeof tts) == -1)
-	perror_with_name ("ttrace_wait");
+	perror_with_name (("ttrace_wait"));
 
       clear_sigio_trap ();
       clear_sigint_trap ();
@@ -757,14 +757,14 @@ inf_ttrace_wait (ptid_t ptid, struct target_waitstatus *ourstatus)
 	  add_thread (ptid_build (tts.tts_pid, tts.tts_lwpid, 0));
 	  inf_ttrace_num_lwps++;
 	}
-      printf_filtered ("[New %s]\n", target_pid_to_str (ptid));
+      printf_filtered (_("[New %s]\n"), target_pid_to_str (ptid));
       add_thread (ptid);
       inf_ttrace_num_lwps++;
       ptid = ptid_build (tts.tts_pid, tts.tts_lwpid, 0);
       break;
 
     case TTEVT_LWP_EXIT:
-      printf_filtered("[%s exited]\n", target_pid_to_str (ptid));
+      printf_filtered(_("[%s exited]\n"), target_pid_to_str (ptid));
       delete_thread (ptid);
       inf_ttrace_num_lwps--;
       /* If we don't return -1 here, core GDB will re-add the thread.  */
@@ -774,7 +774,7 @@ inf_ttrace_wait (ptid_t ptid, struct target_waitstatus *ourstatus)
     case TTEVT_LWP_TERMINATE:
       lwpid = tts.tts_u.tts_thread.tts_target_lwpid;
       ptid = ptid_build (tts.tts_pid, lwpid, 0);
-      printf_filtered("[%s has been terminated]\n", target_pid_to_str (ptid));
+      printf_filtered(_("[%s has been terminated]\n"), target_pid_to_str (ptid));
       delete_thread (ptid);
       inf_ttrace_num_lwps--;
       ptid = ptid_build (tts.tts_pid, tts.tts_lwpid, 0);
@@ -821,7 +821,7 @@ inf_ttrace_wait (ptid_t ptid, struct target_waitstatus *ourstatus)
 
   /* Make sure all threads within the process are stopped.  */
   if (ttrace (TT_PROC_STOP, tts.tts_pid, 0, 0, 0, 0) == -1)
-    perror_with_name ("ttrace");
+    perror_with_name (("ttrace"));
 
   /* HACK: Twiddle INFERIOR_PTID such that the initial thread of a
      process isn't recognized as a new thread.  */
@@ -890,7 +890,7 @@ inf_ttrace_xfer_partial (struct target_ops *ops, enum target_object object,
 static void
 inf_ttrace_files_info (struct target_ops *ignore)
 {
-  printf_unfiltered ("\tUsing the running image of %s %s.\n",
+  printf_unfiltered (_("\tUsing the running image of %s %s.\n"),
 		     attach_flag ? "attached" : "child",
 		     target_pid_to_str (inferior_ptid));
 }
@@ -908,9 +908,12 @@ inf_ttrace_pid_to_str (ptid_t ptid)
     {
       pid_t pid = ptid_get_pid (ptid);
       lwpid_t lwpid = ptid_get_lwp (ptid);
-      static char buf[80];
+      static char buf[128];
+      int size;
 
-      sprintf (buf, "process %ld, lwp %ld", (long)pid, (long)lwpid);
+      size = snprintf (buf, sizeof buf, "process %ld, lwp %ld",
+		       (long)pid, (long)lwpid);
+      gdb_assert (size < sizeof buf);
       return buf;
     }
 
