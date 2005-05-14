@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
  * Copyright (c) 1991-1995 by Xerox Corporation.  All rights reserved.
@@ -89,6 +91,11 @@
 
 #ifdef NEED_FIND_LIMIT
 #   include <setjmp.h>
+# ifdef OPENBSD
+    /* for GC_find_limit_openbsd() */
+#   include <dlfcn.h>
+#   include <pthread.h>
+# endif
 #endif
 
 #ifdef AMIGA
@@ -149,6 +156,8 @@
 # include "mm/PCR_MM.h"
 #endif
 
+__RCSID("$MirOS$");
+
 #if !defined(NO_EXECUTE_PERMISSION)
 # define OPT_PROT_EXEC PROT_EXEC
 #else
@@ -170,7 +179,7 @@ ssize_t GC_repeat_read(int fd, char *buf, size_t count)
 {
     ssize_t num_read = 0;
     ssize_t result;
-    
+
     while (num_read < count) {
 	result = READ(fd, buf + num_read, count - num_read);
 	if (result < 0) return result;
@@ -222,7 +231,7 @@ word GC_apply_to_maps(word (*fn)(char *))
 
 	close(f);
         maps_buf[result] = '\0';
-	
+
     /* Apply fn to result. */
 	return fn(maps_buf);
 }
@@ -239,7 +248,7 @@ word GC_apply_to_maps(word (*fn)(char *))
 //  ^^^^^^^^ ^^^^^^^^ ^^^^          ^^
 //  start    end      prot          maj_dev
 //  0        9        18            32
-//  
+//
 //  For 64 bit ABIs:
 //  0	     17	      34	    56
 //
@@ -303,7 +312,7 @@ char *GC_parse_map_entry(char *buf_ptr, word *start, word *end,
     return buf_ptr;
 }
 
-#endif /* Need to parse /proc/self/maps. */	
+#endif /* Need to parse /proc/self/maps. */
 
 #if defined(SEARCH_FOR_DATA_START)
   /* The I386 case can be handled without a search.  The Alpha case	*/
@@ -378,7 +387,7 @@ static void *tiny_sbrk(ptrdiff_t increment)
 #define sbrk tiny_sbrk
 # endif /* ECOS */
 
-#if (defined(NETBSD) || defined(OPENBSD)) && defined(__ELF__)
+#if defined(NETBSD) && defined(__ELF__)
   ptr_t GC_data_start;
 
   void GC_init_netbsd_elf()
@@ -392,27 +401,13 @@ static void *tiny_sbrk(ptrdiff_t increment)
 #endif
 
 #if defined(OPENBSD)
-  #if defined(__ELF__)
   ptr_t GC_data_start;
 
-  void GC_init_openbsd_elf()
+  void GC_init_openbsd()
   {
-    extern ptr_t GC_find_limit();
-	/* This may need to be environ, without the underscore, for	*/
-	/* some versions.						*/
-    GC_data_start = GC_find_limit((ptr_t)&end, FALSE);
+    extern ptr_t GC_find_limit_openbsd();
+    GC_data_start = GC_find_limit_openbsd((ptr_t)&end, FALSE);
   }
-  #else
-  ptr_t GC_data_start;
-
-  void GC_init_openbsd_aout()
-  {
-    extern ptr_t GC_find_limit();
-	/* This may need to be environ, without the underscore, for	*/
-	/* some versions.						*/
-    GC_data_start = GC_find_limit((ptr_t)&end, FALSE);
-  }
-  #endif
 #endif
 
 # ifdef OS2
@@ -428,19 +423,19 @@ struct exe_hdr {
 };
 
 #define E_MAGIC(x)      (x).magic_number
-#define EMAGIC          0x5A4D  
+#define EMAGIC          0x5A4D
 #define E_LFANEW(x)     (x).new_exe_offset
 
 struct e32_exe {
-    unsigned char       magic_number[2]; 
-    unsigned char       byte_order; 
-    unsigned char       word_order; 
+    unsigned char       magic_number[2];
+    unsigned char       byte_order;
+    unsigned char       word_order;
     unsigned long       exe_format_level;
-    unsigned short      cpu;       
+    unsigned short      cpu;
     unsigned short      os;
     unsigned long       padding1[13];
     unsigned long       object_table_offset;
-    unsigned long       object_count;    
+    unsigned long       object_count;
     unsigned long       padding2[31];
 };
 
@@ -458,11 +453,11 @@ struct e32_exe {
 #define E32_OBJCNT(x)   (x).object_count
 
 struct o32_obj {
-    unsigned long       size;  
+    unsigned long       size;
     unsigned long       base;
-    unsigned long       flags;  
+    unsigned long       flags;
     unsigned long       pagemap;
-    unsigned long       mapsize; 
+    unsigned long       mapsize;
     unsigned long       reserved;
 };
 
@@ -502,7 +497,7 @@ struct o32_obj {
 void GC_disable_signals(void)
 {
     ULONG nest;
-    
+
     DosEnterMustComplete(&nest);
     if (nest != 1) ABORT("nested GC_disable_signals");
 }
@@ -510,7 +505,7 @@ void GC_disable_signals(void)
 void GC_enable_signals(void)
 {
     ULONG nest;
-    
+
     DosExitMustComplete(&nest);
     if (nest != 0) ABORT("GC_enable_signals");
 }
@@ -572,7 +567,7 @@ void GC_disable_signals()
 #	endif
 #	ifdef SIGTRAP
 	    SIG_DEL(new_mask, SIGTRAP);
-#	endif 
+#	endif
 	mask_initialized = TRUE;
     }
 #   ifdef CHECK_SIGNALS
@@ -627,8 +622,8 @@ word GC_page_size;
 #   endif
 # endif
 
-/* 
- * Find the base of the stack. 
+/*
+ * Find the base of the stack.
  * Used only in single-threaded environment.
  * With threads, GC_mark_roots needs to know how to do this.
  * Called with allocator lock held.
@@ -647,7 +642,7 @@ word GC_get_writable_length(ptr_t p, ptr_t *base)
     MEMORY_BASIC_INFORMATION buf;
     word result;
     word protect;
-    
+
     result = VirtualQuery(p, &buf, sizeof(buf));
     if (result != sizeof(buf)) ABORT("Weird VirtualQuery result");
     if (base != 0) *base = (ptr_t)(buf.AllocationBase);
@@ -665,7 +660,7 @@ ptr_t GC_get_stack_base()
     ptr_t sp = (ptr_t)(&dummy);
     ptr_t trunc_sp = (ptr_t)((word)sp & ~(GC_page_size - 1));
     word size = GC_get_writable_length(trunc_sp, 0);
-   
+
     return(trunc_sp + size);
 }
 
@@ -688,7 +683,7 @@ ptr_t GC_get_stack_base()
 {
     PTIB ptib;
     PPIB ppib;
-    
+
     if (DosGetInfoBlocks(&ptib, &ppib) != NO_ERROR) {
     	GC_err_printf0("DosGetInfoBlocks failed\n");
     	ABORT("DosGetInfoBlocks failed\n");
@@ -720,7 +715,7 @@ ptr_t GC_get_stack_base()
 #   else
         static handler old_segv_handler, old_bus_handler;
 #   endif
-    
+
 #   ifdef __STDC__
       void GC_set_and_save_fault_handler(handler h)
 #   else
@@ -773,7 +768,7 @@ ptr_t GC_get_stack_base()
   /* Some tools to implement HEURISTIC2	*/
 #   define MIN_PAGE_SIZE 256	/* Smallest conceivable page size, bytes */
     /* static */ jmp_buf GC_jmp_buf;
-    
+
     /*ARGSUSED*/
     void GC_fault_handler(sig)
     int sig;
@@ -785,7 +780,7 @@ ptr_t GC_get_stack_base()
     {
 	GC_set_and_save_fault_handler(GC_fault_handler);
     }
-    
+
     void GC_reset_fault_handler()
     {
 #     if defined(SUNOS5SIGS) || defined(IRIX5) \
@@ -836,6 +831,33 @@ ptr_t GC_get_stack_base()
       }
       return(result);
     }
+
+#  ifdef OPENBSD
+    /* The regular GC_find_limit hangs when pthreads are loaded, because
+     * the SIGSEGV is never delivered. Fortunately, the pthreads
+     * implementation provides pthread_stackseg_np, which tells us the
+     * limits we need. This function uses pthread_stackseg_np when present,
+     * and reverts to GC_find_limit otherwise. */
+      ptr_t GC_find_limit_openbsd(p, up)
+      ptr_t p;
+      GC_bool up;
+      {
+        stack_t sinfo;
+        int (*pthread_stackseg_np) (pthread_t, stack_t*);
+        pthread_t (*pthread_self) ();
+
+        /* Detect pthread_stackseg_np presence */
+        if (pthread_stackseg_np = dlsym(RTLD_DEFAULT, "pthread_stackseg_np")) {
+          /* Get limit from pthread_stackseg_np */
+          pthread_self = dlsym(RTLD_DEFAULT, "pthread_self");
+          pthread_stackseg_np(pthread_self(), &sinfo);
+          return up ? sinfo.ss_sp : (sinfo.ss_sp - sinfo.ss_size);
+        } else {
+          /* Use GC_find_limit */
+          return GC_find_limit(p, up);
+        }
+      }
+#  endif
 # endif
 
 #if defined(ECOS) || defined(NOSYS)
@@ -869,7 +891,7 @@ ptr_t GC_get_stack_base()
       unsigned int maj_dev;
       word current_best = 0;
       word dummy;
-  
+
       for (;;) {
         buf_ptr = GC_parse_map_entry(buf_ptr, &start, &end, prot_buf, &maj_dev);
 	if (buf_ptr == NULL) return current_best;
@@ -905,7 +927,7 @@ ptr_t GC_get_stack_base()
 	  result += BACKING_STORE_ALIGNMENT - 1;
 	  result &= ~(BACKING_STORE_ALIGNMENT - 1);
 	  /* Verify that it's at least readable.  If not, we goofed. */
-	  GC_noop1(*(word *)result); 
+	  GC_noop1(*(word *)result);
 	}
 	return (ptr_t)result;
       }
@@ -916,7 +938,7 @@ ptr_t GC_get_stack_base()
   {
     /* We read the stack base value from /proc/self/stat.  We do this	*/
     /* using direct I/O system calls in order to avoid calling malloc   */
-    /* in case REDIRECT_MALLOC is defined.				*/ 
+    /* in case REDIRECT_MALLOC is defined.				*/
 #   define STAT_BUF_SIZE 4096
 #   define STAT_READ read
 	  /* Should probably call the real read, if read is wrapped.	*/
@@ -935,7 +957,7 @@ ptr_t GC_get_stack_base()
 	    return __libc_stack_end + 0x10;
 	  } /* Otherwise it's not safe to add 16 bytes and we fall	*/
 	    /* back to using /proc.					*/
-#	else 
+#	else
 #	ifdef SPARC
 	  /* Older versions of glibc for 64-bit Sparc do not set
 	   * this variable correctly, it gets set to either zero
@@ -987,7 +1009,7 @@ ptr_t GC_get_stack_base()
     ptr_t base;
     size_t len = sizeof(ptr_t);
     int r = sysctl(nm, 2, &base, &len, NULL, 0);
-    
+
     if (r) ABORT("Error getting stack base");
 
     return base;
@@ -1029,7 +1051,11 @@ ptr_t GC_get_stack_base()
 #	endif
 #	ifdef HEURISTIC2
 #	    ifdef STACK_GROWS_DOWN
+#             ifdef OPENBSD
+		result = GC_find_limit_openbsd((ptr_t)(&dummy), TRUE);
+#             else
 		result = GC_find_limit((ptr_t)(&dummy), TRUE);
+#             endif
 #           	ifdef HEURISTIC2_LIMIT
 		    if (result > HEURISTIC2_LIMIT
 		        && (ptr_t)(&dummy) < HEURISTIC2_LIMIT) {
@@ -1037,7 +1063,11 @@ ptr_t GC_get_stack_base()
 		    }
 #	        endif
 #	    else
+#             ifdef OPENBSD
+		result = GC_find_limit_openbsd((ptr_t)(&dummy), FALSE);
+#             else
 		result = GC_find_limit((ptr_t)(&dummy), FALSE);
+#             endif
 #           	ifdef HEURISTIC2_LIMIT
 		    if (result < HEURISTIC2_LIMIT
 		        && (ptr_t)(&dummy) > HEURISTIC2_LIMIT) {
@@ -1078,8 +1108,8 @@ void GC_register_data_segments()
     struct e32_exe hdr386;	/* Real header for my executable */
     struct o32_obj seg;	/* Currrent segment */
     int nsegs;
-    
-    
+
+
     if (DosGetInfoBlocks(&ptib, &ppib) != NO_ERROR) {
     	GC_err_printf0("DosGetInfoBlocks failed\n");
     	ABORT("DosGetInfoBlocks failed\n");
@@ -1149,7 +1179,7 @@ void GC_register_data_segments()
       if (flags & OBJINVALID) {
           GC_err_printf0("Object with invalid pages?\n");
           continue;
-      } 
+      }
       GC_add_roots_inner(O32_BASE(seg), O32_BASE(seg)+O32_SIZE(seg), FALSE);
     }
 }
@@ -1166,11 +1196,11 @@ void GC_register_data_segments()
   /* all real work is done by GC_register_dynamic_libraries.  Under	*/
   /* win32s, we cannot find the data segments associated with dll's.	*/
   /* We register the main data segment here.				*/
-  GC_bool GC_no_win32_dlls = FALSE;	 
+  GC_bool GC_no_win32_dlls = FALSE;
   	/* This used to be set for gcc, to avoid dealing with		*/
   	/* the structured exception handling issues.  But we now have	*/
   	/* assembly code to do that right.				*/
-  
+
   void GC_init_win32()
   {
     /* if we're running under win32s, assume that no DLLs will be loaded */
@@ -1182,13 +1212,13 @@ void GC_register_data_segments()
   /* returns correct results for all addresses between a and start.	*/
   /* Assumes VirtualQuery returns correct information for start.	*/
   ptr_t GC_least_described_address(ptr_t start)
-  {  
+  {
     MEMORY_BASIC_INFORMATION buf;
     DWORD result;
     LPVOID limit;
     ptr_t p;
     LPVOID q;
-    
+
     limit = GC_sysinfo.lpMinimumApplicationAddress;
     p = (ptr_t)((word)start & ~(GC_page_size - 1));
     for (;;) {
@@ -1210,7 +1240,7 @@ void GC_register_data_segments()
 
   /* In the long run, it would be more reliable to occasionally walk 	*/
   /* the malloc heap with HeapWalk on the default heap.  But that	*/
-  /* apparently works only for NT-based Windows. 			*/ 
+  /* apparently works only for NT-based Windows. 			*/
 
   /* In the long run, a better data structure would also be nice ...	*/
   struct GC_malloc_heap_list {
@@ -1275,17 +1305,17 @@ void GC_register_data_segments()
     GC_malloc_heap_l = new_l;
   }
 # endif /* REDIRECT_MALLOC */
-  
+
   /* Is p the start of either the malloc heap, or of one of our */
   /* heap sections?						*/
   GC_bool GC_is_heap_base (ptr_t p)
   {
-     
+
      unsigned i;
-     
+
 #    ifndef REDIRECT_MALLOC
        static word last_gc_no = -1;
-     
+
        if (last_gc_no != GC_gc_no) {
 	 GC_add_current_malloc_heap();
 	 last_gc_no = GC_gc_no;
@@ -1308,7 +1338,7 @@ void GC_register_data_segments()
       LPVOID p;
       char * base;
       char * limit, * new_limit;
-    
+
       if (!GC_no_win32_dlls) return;
       p = base = limit = GC_least_described_address(static_root);
       while (p < GC_sysinfo.lpMaximumApplicationAddress) {
@@ -1333,7 +1363,7 @@ void GC_register_data_segments()
       if (base != limit) GC_add_roots_inner(base, limit, FALSE);
   }
 #endif
-  
+
   void GC_register_data_segments()
   {
 #     ifdef MSWIN32
@@ -1359,7 +1389,7 @@ int * etext_addr;
     VOLATILE char * result = (char *)(next_page + page_offset);
     /* Note that this isnt equivalent to just adding		*/
     /* max_page_size to &etext if &etext is at a page boundary	*/
-    
+
     GC_setup_temporary_fault_handler();
     if (setjmp(GC_jmp_buf) == 0) {
     	/* Try writing to the address.	*/
@@ -1457,7 +1487,7 @@ void GC_register_data_segments()
 	  /* globals begin above stack and end at a5. */
 	  GC_add_roots_inner((ptr_t)GC_MacGetDataStart(),
           		     (ptr_t)LMGetCurrentA5(), FALSE);
-	  /* MATTHEW: Handle Far Globals */          		     
+	  /* MATTHEW: Handle Far Globals */
 #         if __option(far_data)
       /* Far globals follow he QD globals: */
 	  GC_add_roots_inner((ptr_t)LMGetCurrentA5(),
@@ -1510,7 +1540,7 @@ word bytes;
     caddr_t result;
     SBRK_ARG_T lsbs = (word)cur_brk & (GC_page_size-1);
     static caddr_t my_brk_val = 0;
-    
+
     if ((SBRK_ARG_T)bytes < 0) return(0); /* too big */
     if (lsbs != 0) {
         if((caddr_t)(sbrk(GC_page_size - lsbs)) == (caddr_t)(-1)) return(0);
@@ -1601,7 +1631,7 @@ word bytes;
   {
     ptr_t cur_brk = (ptr_t)sbrk(0);
     SBRK_ARG_T lsbs = (word)cur_brk & (GC_page_size-1);
-    
+
     if ((SBRK_ARG_T)bytes < 0) return(0); /* too big */
     if (lsbs != 0) {
         if((ptr_t)sbrk(GC_page_size - lsbs) == (ptr_t)(-1)) return(0);
@@ -1681,7 +1711,7 @@ word bytes;
     	/* only happen if HBLKSIZE > 64k or not a power of 2.	*/
     if (GC_n_heap_bases >= MAX_HEAP_SECTS) ABORT("Too many heap sections");
     GC_heap_bases[GC_n_heap_bases++] = result;
-    return(result);			  
+    return(result);
 }
 
 void GC_win32_free_heap ()
@@ -1753,7 +1783,7 @@ word bytes;
 	GC_heap_lengths[i] += bytes;
     }
 
-    return(result);			  
+    return(result);
 }
 # endif
 
@@ -1925,7 +1955,7 @@ PCR_ERes GC_push_thread_stack(PCR_Th_T *t, PCR_Any dummy)
 {
     struct PCR_ThCtl_TInfoRep info;
     PCR_ERes result;
-    
+
     info.ti_stkLow = info.ti_stkHi = 0;
     result = PCR_ThCtl_GetInfo(t, &info);
     GC_push_all_stack((ptr_t)(info.ti_stkLow), (ptr_t)(info.ti_stkHi));
@@ -1947,7 +1977,7 @@ void GC_default_push_other_roots GC_PROTO((void))
     /* Traverse data allocated by previous memory managers.		*/
 	{
 	  extern struct PCR_MM_ProcsRep * GC_old_allocator;
-	  
+
 	  if ((*(GC_old_allocator->mmp_enumerate))(PCR_Bool_false,
 	  					   GC_push_old_obj, 0)
 	      != PCR_ERes_okay) {
@@ -1990,7 +2020,7 @@ ptr_t dummy1, dummy2;
 int dummy3;
 {
     word q = *p;
-    
+
     GC_PUSH_ONE_STACK(q, p);
 }
 
@@ -2090,7 +2120,7 @@ struct hblk *h;
  * stacks, e.g. under Solaris 2.X.  Otherwise the following default
  * versions are adequate.
  */
- 
+
 /* Could any valid GC heap pointer ever have been written to this page?	*/
 /*ARGSUSED*/
 GC_bool GC_page_was_ever_dirty(h)
@@ -2141,7 +2171,7 @@ GC_bool is_ptrfree;
  * are not protected.  Another alternative is to wrap system calls
  * (see example for read below), but the current implementation holds
  * a lock across blocking calls, making it problematic for multithreaded
- * applications. 
+ * applications.
  * We assume the page size is a multiple of HBLKSIZE.
  * We prefer them to be the same.  We avoid protecting POINTERFREE
  * objects only if they are the same.
@@ -2163,7 +2193,7 @@ GC_bool is_ptrfree;
     	  	       PROT_WRITE | PROT_READ | OPT_PROT_EXEC ) < 0) { \
     	    ABORT("un-mprotect failed"); \
     	  }
-    	  
+
 # else
 
 # ifdef DARWIN
@@ -2182,7 +2212,7 @@ GC_bool is_ptrfree;
             ABORT("vm_portect failed"); \
         }
 # else
-    
+
 #   ifndef MSWINCE
 #     include <signal.h>
 #   endif
@@ -2363,7 +2393,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 #     define CODE_OK (code == EACCES)
 #   endif
 #   ifdef HURD
-#     define SIG_OK (sig == SIGBUS || sig == SIGSEGV) 	
+#     define SIG_OK (sig == SIGBUS || sig == SIGSEGV)
 #     define CODE_OK  TRUE
 #   endif
 # endif /* IRIX5 || OSF1 || HURD */
@@ -2420,7 +2450,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 # endif /* MSWIN32 || MSWINCE */
 {
     register unsigned i;
-#   if defined(HURD) 
+#   if defined(HURD)
 	char *addr = (char *) code;
 #   endif
 #   ifdef IRIX5
@@ -2442,7 +2472,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 	  struct sigcontext *scp = (struct sigcontext *)(sc);
 
 	  int format = (scp->sc_formatvec >> 12) & 0xf;
-	  unsigned long *framedata = (unsigned long *)(scp + 1); 
+	  unsigned long *framedata = (unsigned long *)(scp + 1);
 	  unsigned long ea;
 
 	  if (format == 0xa || format == 0xb) {
@@ -2462,7 +2492,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 	  		/* correct addr on misaligned access */
 	  		ea = (ea+4095)&(~4095);
 	  	}
-	  }	
+	  }
 	  addr = (char *)ea;
 #	else
 #	  ifdef ALPHA
@@ -2493,12 +2523,12 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 				-> ExceptionInformation[1]);
 #	define sig SIGSEGV
 #   endif
-    
+
     if (SIG_OK && CODE_OK) {
         register struct hblk * h =
         		(struct hblk *)((word)addr & ~(GC_page_size-1));
         GC_bool in_allocd_block;
-        
+
 #	ifdef SUNOS5SIGS
 	    /* Address is only within the correct physical page.	*/
 	    in_allocd_block = FALSE;
@@ -2513,7 +2543,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
         if (!in_allocd_block) {
 	    /* Heap blocks now begin and end on page boundaries */
             SIG_PF old_handler;
-            
+
             if (sig == SIGSEGV) {
             	old_handler = GC_old_segv_handler;
             } else {
@@ -2538,7 +2568,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 #		if defined (LINUX)
 #		    if defined(ALPHA) || defined(M68K)
 		        (*(REAL_SIG_PF)old_handler) (sig, code, sc);
-#		    else 
+#		    else
 #		      if defined(IA64) || defined(HP_PA)
 		        (*(REAL_SIG_PF)old_handler) (sig, si, scp);
 #		      else
@@ -2570,7 +2600,7 @@ SIG_PF GC_old_segv_handler;	/* Also old MSWIN32 ACCESS_VIOLATION filter */
 	/* flag, if necessary.						*/
         for (i = 0; i < divHBLKSZ(GC_page_size); i++) {
             register int index = PHT_HASH(h+i);
-            
+
             async_set_pht_entry_from_index(GC_dirty_pages, index);
         }
 #	if defined(OSF1)
@@ -2609,7 +2639,7 @@ GC_bool is_ptrfree;
     struct hblk * h_end;    /* Page boundary following block end */
     struct hblk * current;
     GC_bool found_clean;
-    
+
     if (!GC_dirty_maintained) return;
     h_trunc = (struct hblk *)((word)h & ~(GC_page_size-1));
     h_end = (struct hblk *)(((word)(h + nblocks) + GC_page_size-1)
@@ -2617,7 +2647,7 @@ GC_bool is_ptrfree;
     found_clean = FALSE;
     for (current = h_trunc; current < h_end; ++current) {
         int index = PHT_HASH(current);
-            
+
         if (!is_ptrfree || current < h || current >= h + nblocks) {
             async_set_pht_entry_from_index(GC_dirty_pages, index);
         }
@@ -2761,7 +2791,7 @@ void GC_protect_heap()
     struct hblk * current_start;  /* Start of block to be protected. */
     struct hblk * limit;
     unsigned i;
-    GC_bool protect_all = 
+    GC_bool protect_all =
 	  (0 != (GC_incremental_protection_needs() & GC_PROTECTS_PTRFREE_HEAP));
     for (i = 0; i < GC_n_heap_sects; i++) {
         start = GC_heap_sects[i].hs_start;
@@ -2805,7 +2835,7 @@ void GC_protect_heap()
 	    } else {
 	      current += nhblks;
 	    }
-	  } 
+	  }
 	  if (current_start < current) {
 	    PROTECT(current_start, (ptr_t)current - (ptr_t)current_start);
 	  }
@@ -2827,7 +2857,7 @@ GC_bool GC_page_was_dirty(h)
 struct hblk * h;
 {
     register word index = PHT_HASH(h);
-    
+
     return(HDR(h) == 0 || get_pht_entry_from_index(GC_grungy_pages, index));
 }
 
@@ -2840,7 +2870,7 @@ struct hblk * h;
  */
 
 static GC_bool syscall_acquired_lock = FALSE;	/* Protected by GC lock. */
- 
+
 void GC_begin_syscall()
 {
     if (!I_HOLD_LOCK()) {
@@ -2865,7 +2895,7 @@ word len;
     struct hblk * end_block;
     register struct hblk *h;
     ptr_t obj_start;
-    
+
     if (!GC_dirty_maintained) return;
     obj_start = GC_base(addr);
     if (obj_start == 0) return;
@@ -2877,7 +2907,7 @@ word len;
     end_block += GC_page_size/HBLKSIZE - 1;
     for (h = start_block; h <= end_block; h++) {
         register word index = PHT_HASH(h);
-        
+
         async_set_pht_entry_from_index(GC_dirty_pages, index);
     }
     UNPROTECT(start_block,
@@ -2917,7 +2947,7 @@ word len;
 # endif
 {
     int result;
-    
+
     GC_begin_syscall();
     GC_unprotect_range(buf, (word)nbyte);
 #   if defined(IRIX5) || defined(GC_LINUX_THREADS)
@@ -2934,7 +2964,7 @@ word len;
 	    result = readv(fd, &iov, 1);
 	}
 #   else
-#     if defined(HURD)	
+#     if defined(HURD)
 	result = __read(fd, buf, nbyte);
 #     else
  	/* The two zero args at the end of this list are because one
@@ -2994,7 +3024,7 @@ word n;
 /*
  * See DEFAULT_VDB for interface descriptions.
  */
- 
+
 /*
  * This implementaion assumes a Solaris 2.X like /proc pseudo-file-system
  * from which we can read page modified bits.  This facility is far from
@@ -3036,7 +3066,7 @@ void GC_or_pages(pht1, pht2)
 page_hash_table pht1, pht2;
 {
     register int i;
-    
+
     for (i = 0; i < PHT_SIZE; i++) pht1[i] |= pht2[i];
 }
 
@@ -3050,13 +3080,13 @@ void GC_dirty_init()
     GC_dirty_maintained = TRUE;
     if (GC_words_allocd != 0 || GC_words_allocd_before_gc != 0) {
     	register int i;
-    
+
         for (i = 0; i < PHT_SIZE; i++) GC_written_pages[i] = (word)(-1);
 #       ifdef PRINTSTATS
 	    GC_printf1("Allocated words:%lu:all pages may have been written\n",
 	    	       (unsigned long)
 	    	      		(GC_words_allocd + GC_words_allocd_before_gc));
-#	endif       
+#	endif
     }
     sprintf(buf, "/proc/%d", getpid());
     fd = open(buf, O_RDONLY);
@@ -3108,18 +3138,18 @@ void GC_read_dirty()
 int dummy;
 
     BZERO(GC_grungy_pages, (sizeof GC_grungy_pages));
-    
+
     bufp = GC_proc_buf;
     if (READ(GC_proc_fd, bufp, GC_proc_buf_size) <= 0) {
 #	ifdef PRINTSTATS
             GC_printf1("/proc read failed: GC_proc_buf_size = %lu\n",
             	       GC_proc_buf_size);
-#	endif       
+#	endif
         {
             /* Retry with larger buffer. */
             word new_size = 2 * GC_proc_buf_size;
             char * new_buf = GC_scratch_alloc(new_size);
-            
+
             if (new_buf != 0) {
                 GC_proc_buf = bufp = new_buf;
                 GC_proc_buf_size = new_size;
@@ -3131,7 +3161,7 @@ int dummy;
 		memset(GC_written_pages, 0xff, sizeof(page_hash_table));
 #		ifdef GC_SOLARIS_THREADS
 		    BZERO(GC_fresh_pages,
-		    	  MAX_FRESH_PAGES * sizeof (struct hblk *)); 
+		    	  MAX_FRESH_PAGES * sizeof (struct hblk *));
 #		endif
 		return;
             }
@@ -3154,15 +3184,15 @@ int dummy;
 	         current_addr < limit; current_addr += ps){
 	        if ((*bufp++) & PG_MODIFIED) {
 	            register struct hblk * h = (struct hblk *) current_addr;
-	            
+
 	            while ((ptr_t)h < current_addr + ps) {
 	                register word index = PHT_HASH(h);
-	                
+
 	                set_pht_entry_from_index(GC_grungy_pages, index);
 #			ifdef GC_SOLARIS_THREADS
 			  {
 			    register int slot = FRESH_PAGE_SLOT(h);
-			    
+
 			    if (GC_fresh_pages[slot] == h) {
 			        GC_fresh_pages[slot] = 0;
 			    }
@@ -3191,7 +3221,7 @@ struct hblk *h;
 {
     register word index = PHT_HASH(h);
     register GC_bool result;
-    
+
     result = get_pht_entry_from_index(GC_grungy_pages, index);
 #   ifdef GC_SOLARIS_THREADS
 	if (result && PAGE_IS_FRESH(h)) result = FALSE;
@@ -3209,7 +3239,7 @@ struct hblk *h;
 {
     register word index = PHT_HASH(h);
     register GC_bool result;
-    
+
     result = get_pht_entry_from_index(GC_written_pages, index);
 #   ifdef GC_SOLARIS_THREADS
 	if (result && PAGE_IS_FRESH(h)) result = FALSE;
@@ -3224,10 +3254,10 @@ word n;
 {
 
     register word index;
-    
+
 #   ifdef GC_SOLARIS_THREADS
       register word i;
-      
+
       if (GC_fresh_pages != 0) {
         for (i = 0; i < n; i++) {
           ADD_FRESH_PAGE(h + i);
@@ -3310,15 +3340,15 @@ GC_bool is_ptrfree;
    code:
       1. Apple's mach/xnu documentation
       2. Timothy J. Wood's "Mach Exception Handlers 101" post to the
-         omnigroup's macosx-dev list. 
+         omnigroup's macosx-dev list.
          www.omnigroup.com/mailman/archive/macosx-dev/2000-June/002030.html
       3. macosx-nat.c from Apple's GDB source code.
 */
-   
+
 /* The bug that caused all this trouble should now be fixed. This should
    eventually be removed if all goes well. */
 /* define BROKEN_EXCEPTION_HANDLING */
-    
+
 #include <mach/mach.h>
 #include <mach/mach_error.h>
 #include <mach/thread_status.h>
@@ -3391,13 +3421,13 @@ static void GC_mprotect_thread_notify(mach_msg_id_t id) {
     } buf;
     mach_msg_return_t r;
     /* remote, local */
-    buf.msg.head.msgh_bits = 
+    buf.msg.head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND,0);
     buf.msg.head.msgh_size = sizeof(buf.msg);
     buf.msg.head.msgh_remote_port = GC_ports.exception;
     buf.msg.head.msgh_local_port = MACH_PORT_NULL;
     buf.msg.head.msgh_id = id;
-            
+
     r = mach_msg(
         &buf.msg.head,
         MACH_SEND_MSG|MACH_RCV_MSG|MACH_RCV_LARGE,
@@ -3417,13 +3447,13 @@ static void GC_mprotect_thread_reply() {
     GC_msg_t msg;
     mach_msg_return_t r;
     /* remote, local */
-    msg.head.msgh_bits = 
+    msg.head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND,0);
     msg.head.msgh_size = sizeof(msg);
     msg.head.msgh_remote_port = GC_ports.reply;
     msg.head.msgh_local_port = MACH_PORT_NULL;
     msg.head.msgh_id = ID_ACK;
-            
+
     r = mach_msg(
         &msg.head,
         MACH_SEND_MSG,
@@ -3464,7 +3494,7 @@ static void *GC_mprotect_thread(void *arg) {
     } msg;
 
     mach_msg_id_t id;
-    
+
     for(;;) {
         r = mach_msg(
             &msg.head,
@@ -3475,9 +3505,9 @@ static void *GC_mprotect_thread(void *arg) {
             GC_ports.exception,
             GC_mprotect_state == GC_MP_DISCARDING ? 0 : MACH_MSG_TIMEOUT_NONE,
             MACH_PORT_NULL);
-        
+
         id = r == MACH_MSG_SUCCESS ? msg.head.msgh_id : -1;
-        
+
 #if defined(THREADS)
         if(GC_mprotect_state == GC_MP_DISCARDING) {
             if(r == MACH_RCV_TIMED_OUT) {
@@ -3489,13 +3519,13 @@ static void *GC_mprotect_thread(void *arg) {
                 ABORT("out of order mprotect thread request");
         }
 #endif
-        
+
         if(r != MACH_MSG_SUCCESS) {
-            GC_err_printf2("mach_msg failed with %d %s\n", 
+            GC_err_printf2("mach_msg failed with %d %s\n",
                 (int)r,mach_error_string(r));
             ABORT("mach_msg failed");
         }
-        
+
         switch(id) {
 #if defined(THREADS)
             case ID_STOP:
@@ -3555,7 +3585,7 @@ static int GC_sigbus_count;
 
 static void GC_darwin_sigbus(int num,siginfo_t *sip,void *context) {
     if(num != SIGBUS) ABORT("Got a non-sigbus signal in the sigbus handler");
-    
+
     /* Ugh... some seem safe to ignore, but too many in a row probably means
        trouble. GC_sigbus_count is reset for each mach exception that is
        handled */
@@ -3574,11 +3604,11 @@ void GC_dirty_init() {
     pthread_t thread;
     pthread_attr_t attr;
     exception_mask_t mask;
-    
+
 #   ifdef PRINTSTATS
         GC_printf0("Inititalizing mach/darwin mprotect virtual dirty bit "
             "implementation\n");
-#   endif  
+#   endif
 #	ifdef BROKEN_EXCEPTION_HANDLING
         GC_err_printf0("GC: WARNING: Enabling workarounds for various darwin "
             "exception handling bugs.\n");
@@ -3588,12 +3618,12 @@ void GC_dirty_init() {
         GC_err_printf0("Page size not multiple of HBLKSIZE\n");
         ABORT("Page size not multiple of HBLKSIZE");
     }
-    
+
     GC_task_self = me = mach_task_self();
-    
+
     r = mach_port_allocate(me,MACH_PORT_RIGHT_RECEIVE,&GC_ports.exception);
     if(r != KERN_SUCCESS) ABORT("mach_port_allocate failed (exception port)");
-    
+
     r = mach_port_insert_right(me,GC_ports.exception,GC_ports.exception,
     	MACH_MSG_TYPE_MAKE_SEND);
     if(r != KERN_SUCCESS)
@@ -3604,7 +3634,7 @@ void GC_dirty_init() {
         if(r != KERN_SUCCESS) ABORT("mach_port_allocate failed (reply port)");
     #endif
 
-    /* The exceptions we want to catch */  
+    /* The exceptions we want to catch */
     mask = EXC_MASK_BAD_ACCESS;
 
     r = task_get_exception_ports(
@@ -3617,7 +3647,7 @@ void GC_dirty_init() {
         GC_old_exc_ports.flavors
     );
     if(r != KERN_SUCCESS) ABORT("task_get_exception_ports failed");
-        
+
     r = task_set_exception_ports(
         me,
         mask,
@@ -3628,7 +3658,7 @@ void GC_dirty_init() {
     if(r != KERN_SUCCESS) ABORT("task_set_exception_ports failed");
 
     if(pthread_attr_init(&attr) != 0) ABORT("pthread_attr_init failed");
-    if(pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_DETACHED) != 0) 
+    if(pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_DETACHED) != 0)
         ABORT("pthread_attr_setdetachedstate failed");
 
 #	undef pthread_create
@@ -3636,9 +3666,9 @@ void GC_dirty_init() {
     if(pthread_create(&thread,&attr,GC_mprotect_thread,NULL) != 0)
         ABORT("pthread_create failed");
     pthread_attr_destroy(&attr);
-    
+
     /* Setup the sigbus handler for ignoring the meaningless SIGBUSs */
-    #ifdef BROKEN_EXCEPTION_HANDLING 
+    #ifdef BROKEN_EXCEPTION_HANDLING
     {
         struct sigaction sa, oldsa;
         sa.sa_handler = (SIG_PF)GC_darwin_sigbus;
@@ -3654,9 +3684,9 @@ void GC_dirty_init() {
     }
     #endif /* BROKEN_EXCEPTION_HANDLING  */
 }
- 
+
 /* The source code for Apple's GDB was used as a reference for the exception
-   forwarding code. This code is similar to be GDB code only because there is 
+   forwarding code. This code is similar to be GDB code only because there is
    only one way to do it. */
 static kern_return_t GC_forward_exception(
         mach_port_t thread,
@@ -3670,15 +3700,15 @@ static kern_return_t GC_forward_exception(
     mach_port_t port;
     exception_behavior_t behavior;
     thread_state_flavor_t flavor;
-    
+
     thread_state_data_t thread_state;
     mach_msg_type_number_t thread_state_count = THREAD_STATE_MAX;
-        
+
     for(i=0;i<GC_old_exc_ports.count;i++)
         if(GC_old_exc_ports.masks[i] & (1 << exception))
             break;
     if(i==GC_old_exc_ports.count) ABORT("No handler for exception!");
-    
+
     port = GC_old_exc_ports.ports[i];
     behavior = GC_old_exc_ports.behaviors[i];
     flavor = GC_old_exc_ports.flavors[i];
@@ -3688,7 +3718,7 @@ static kern_return_t GC_forward_exception(
         if(r != KERN_SUCCESS)
             ABORT("thread_get_state failed in forward_exception");
     }
-    
+
     switch(behavior) {
         case EXCEPTION_DEFAULT:
             r = exception_raise(port,thread,task,exception,data,data_count);
@@ -3708,13 +3738,13 @@ static kern_return_t GC_forward_exception(
             ABORT("forward_exception: unknown behavior");
             break;
     }
-    
+
     if(behavior != EXCEPTION_DEFAULT) {
         r = thread_set_state(thread,flavor,thread_state,thread_state_count);
         if(r != KERN_SUCCESS)
             ABORT("thread_set_state failed in forward_exception");
     }
-    
+
     return r;
 }
 
@@ -3740,14 +3770,14 @@ catch_exception_raise(
 #	error FIXME for non-ppc darwin
 #endif
 
-    
+
     if(exception != EXC_BAD_ACCESS || code[0] != KERN_PROTECTION_FAILURE) {
         #ifdef DEBUG_EXCEPTION_HANDLING
         /* We aren't interested, pass it on to the old handler */
         GC_printf3("Exception: 0x%x Code: 0x%x 0x%x in catch....\n",
             exception,
             code_count > 0 ? code[0] : -1,
-            code_count > 1 ? code[1] : -1); 
+            code_count > 1 ? code[1] : -1);
         #endif
         return FWD();
     }
@@ -3765,20 +3795,20 @@ catch_exception_raise(
             ABORT("thread_get_state failed in catch_exception_raise");
         #endif
     }
-    
+
     /* This is the address that caused the fault */
     addr = (char*) exc_state.dar;
-        
+
     if((HDR(addr)) == 0) {
-        /* Ugh... just like the SIGBUS problem above, it seems we get a bogus 
+        /* Ugh... just like the SIGBUS problem above, it seems we get a bogus
            KERN_PROTECTION_FAILURE every once and a while. We wait till we get
-           a bunch in a row before doing anything about it. If a "real" fault 
+           a bunch in a row before doing anything about it. If a "real" fault
            ever occurres it'll just keep faulting over and over and we'll hit
            the limit pretty quickly. */
         #ifdef BROKEN_EXCEPTION_HANDLING
             static char *last_fault;
             static int last_fault_count;
-            
+
             if(addr != last_fault) {
                 last_fault = addr;
                 last_fault_count = 0;
@@ -3790,7 +3820,7 @@ catch_exception_raise(
                         addr);
                 return KERN_SUCCESS;
             }
-            
+
             GC_err_printf1("Unexpected KERN_PROTECTION_FAILURE at %p\n",addr);
             /* Can't pass it along to the signal handler because that is
                ignoring SIGBUS signals. We also shouldn't call ABORT here as
@@ -3798,7 +3828,7 @@ catch_exception_raise(
             GC_err_printf0("Aborting\n");
             exit(EXIT_FAILURE);
         #else /* BROKEN_EXCEPTION_HANDLING */
-            /* Pass it along to the next exception handler 
+            /* Pass it along to the next exception handler
                (which should call SIGBUS/SIGSEGV) */
             return FWD();
         #endif /* !BROKEN_EXCEPTION_HANDLING */
@@ -3808,10 +3838,10 @@ catch_exception_raise(
         /* Reset the number of consecutive SIGBUSs */
         GC_sigbus_count = 0;
     #endif
-    
+
     if(GC_mprotect_state == GC_MP_NORMAL) { /* common case */
         h = (struct hblk*)((word)addr & ~(GC_page_size-1));
-        UNPROTECT(h, GC_page_size);	
+        UNPROTECT(h, GC_page_size);
         for (i = 0; i < divHBLKSZ(GC_page_size); i++) {
             register int index = PHT_HASH(h+i);
             async_set_pht_entry_from_index(GC_dirty_pages, index);
@@ -3841,7 +3871,7 @@ kern_return_t catch_exception_raise_state(mach_port_name_t exception_port,
 kern_return_t catch_exception_raise_state_identity(
     mach_port_name_t exception_port, mach_port_t thread, mach_port_t task,
     int exception, exception_data_t code, mach_msg_type_number_t codeCnt,
-    int flavor, thread_state_t old_state, int old_stateCnt, 
+    int flavor, thread_state_t old_state, int old_stateCnt,
     thread_state_t new_state, int new_stateCnt)
 {
     ABORT("catch_exception_raise_state_identity");
@@ -3928,13 +3958,13 @@ kern_return_t catch_exception_raise_state_identity(
 
 #include <execinfo.h>
 
-void GC_save_callers (info) 
+void GC_save_callers (info)
 struct callinfo info[NFRAMES];
 {
   void * tmp_info[NFRAMES + 1];
   int npcs, i;
 # define IGNORE_FRAMES 1
-  
+
   /* We retrieve NFRAMES+1 pc values, but discard the first, since it	*/
   /* points to our own frame.						*/
   GC_ASSERT(sizeof(struct callinfo) == sizeof(void *));
@@ -3959,7 +3989,7 @@ struct callinfo info[NFRAMES];
 #   define BIAS 0
 #endif
 
-void GC_save_callers (info) 
+void GC_save_callers (info)
 struct callinfo info[NFRAMES];
 {
   struct frame *frame;
@@ -3973,12 +4003,12 @@ struct callinfo info[NFRAMES];
     frame = (struct frame *) GC_save_regs_in_stack ();
     fp = (struct frame *)((long) frame -> FR_SAVFP + BIAS);
 #endif
-  
+
    for (; (!(fp HOTTER_THAN frame) && !(GC_stackbottom HOTTER_THAN (ptr_t)fp)
 	   && (nframes < NFRAMES));
        fp = (struct frame *)((long) fp -> FR_SAVFP + BIAS), nframes++) {
       register int i;
-      
+
       info[nframes].ci_pc = fp->FR_SAVPC;
 #     if NARGS > 0
         for (i = 0; i < NARGS; i++) {
@@ -4006,7 +4036,7 @@ struct callinfo info[NFRAMES];
     LOCK();
       ++reentry_count;
     UNLOCK();
-    
+
 #   if NFRAMES == 1
       GC_err_printf0("\tCaller at allocation:\n");
 #   else
@@ -4062,7 +4092,7 @@ struct callinfo info[NFRAMES];
 		/* Try to get it via a hairy and expensive scheme.	*/
 		/* First we get the name of the executable:		*/
 		if (will_fail) goto out;
-		if (!found_exe_name) { 
+		if (!found_exe_name) {
 		  ret_code = readlink("/proc/self/exe", exe_name, EXE_SZ);
 		  if (ret_code < 0 || ret_code >= EXE_SZ
 		      || exe_name[0] != '/') {
@@ -4088,7 +4118,7 @@ struct callinfo info[NFRAMES];
 		if (result_buf[result_len - 1] == '\n') --result_len;
 		result_buf[result_len] = 0;
 		if (result_buf[0] == '?'
-		    || result_buf[result_len-2] == ':' 
+		    || result_buf[result_len-2] == ':'
 		       && result_buf[result_len-1] == '0') {
 		    pclose(pipe);
 		    goto out;
@@ -4147,5 +4177,3 @@ void GC_print_address_map()
 }
 
 #endif
-
-

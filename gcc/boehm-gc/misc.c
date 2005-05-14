@@ -1,4 +1,6 @@
-/* 
+/* $MirOS$ */
+
+/*
  * Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
  * Copyright (c) 1991-1994 by Xerox Corporation.  All rights reserved.
  * Copyright (c) 1999-2001 by Hewlett-Packard Company. All rights reserved.
@@ -34,6 +36,8 @@
 # include <tchar.h>
 #endif
 
+__RCSID("$MirOS$");
+
 # ifdef THREADS
 #   ifdef PCR
 #     include "il/PCR_IL.h"
@@ -46,7 +50,7 @@
 #	ifdef GC_SOLARIS_THREADS
 	  mutex_t GC_allocate_ml;	/* Implicitly initialized.	*/
 #	else
-#          if defined(GC_WIN32_THREADS) 
+#          if defined(GC_WIN32_THREADS)
 #             if defined(GC_PTHREADS)
 		  pthread_mutex_t GC_allocate_ml = PTHREAD_MUTEX_INITIALIZER;
 #	      elif defined(GC_DLL)
@@ -63,7 +67,7 @@
 	          pthread_t GC_lock_holder = NO_THREAD;
 			/* Used only for assertions, and to prevent	 */
 			/* recursive reentry in the system call wrapper. */
-#		endif 
+#		endif
 #    	      else
 	          --> declare allocator lock here
 #	      endif
@@ -192,7 +196,7 @@ void *arg2;
 #	endif
 	/* We leave the rest of the array to be filled in on demand. */
     }
-    
+
     /* Fill in additional entries in GC_size_map, including the ith one */
     /* We assume the ith entry is currently 0.				*/
     /* Note that a filled in section of the array ending at n always    */
@@ -211,7 +215,7 @@ void *arg2;
     	register word low_limit;	/* The lowest indexed entry we 	*/
     					/* initialize.			*/
     	register word j;
-    	
+
     	if (GC_size_map[smaller_than_i] == 0) {
     	    low_limit = much_smaller_than_i;
     	    while (GC_size_map[low_limit] != 0) low_limit++;
@@ -230,7 +234,7 @@ void *arg2;
 	    word_sz = MAXOBJSZ;
 	}
 	/* If we can fit the same number of larger objects in a block,	*/
-	/* do so.							*/ 
+	/* do so.							*/
 	{
 	    size_t number_of_objs = BODY_SZ/word_sz;
 	    word_sz = BODY_SZ/number_of_objs;
@@ -244,7 +248,7 @@ void *arg2;
 	    byte_sz--;
 	}
 
-    	for (j = low_limit; j <= byte_sz; j++) GC_size_map[j] = word_sz;  
+    	for (j = low_limit; j <= byte_sz; j++) GC_size_map[j] = word_sz;
     }
 # endif
 
@@ -267,7 +271,7 @@ word GC_stack_last_cleared = 0;	/* GC_no when we last did this */
 
 word GC_min_sp;		/* Coolest stack pointer value from which we've */
 			/* already cleared the stack.			*/
-			
+
 word GC_high_water;
 			/* "hottest" stack pointer value we have seen	*/
 			/* recently.  Degrades over time.		*/
@@ -276,7 +280,7 @@ word GC_words_allocd_at_reset;
 
 #if defined(ASM_CLEAR_CODE)
   extern ptr_t GC_clear_stack_inner();
-#else  
+#else
 /* Clear the stack up to about limit.  Return arg. */
 /*ARGSUSED*/
 ptr_t GC_clear_stack_inner(arg, limit)
@@ -284,7 +288,7 @@ ptr_t arg;
 word limit;
 {
     word dummy[CLEAR_SIZE];
-    
+
     BZERO(dummy, CLEAR_SIZE*sizeof(word));
     if ((word)(dummy) COOLER_THAN limit) {
         (void) GC_clear_stack_inner(arg, limit);
@@ -311,7 +315,7 @@ ptr_t arg;
 				 /* chunk.				 */
 #   endif
     register word limit;
-    
+
 #   define SLOP 400
 	/* Extra bytes we clear every time.  This clears our own	*/
 	/* activation record, and should cause more frequent		*/
@@ -366,7 +370,7 @@ ptr_t arg;
     	MAKE_HOTTER(GC_min_sp, CLEAR_THRESHOLD/4);
     	if (GC_min_sp HOTTER_THAN GC_high_water) GC_min_sp = GC_high_water;
     	GC_words_allocd_at_reset = GC_words_allocd;
-    }  
+    }
     return(arg);
 # endif
 }
@@ -386,7 +390,7 @@ ptr_t arg;
     register bottom_index *bi;
     register hdr *candidate_hdr;
     register word limit;
-    
+
     r = (word)p;
     if (!GC_is_initialized) return 0;
     h = HBLKPTR(r);
@@ -407,7 +411,7 @@ ptr_t arg;
 	    register int offset = HBLKDISPL(r);
 	    register signed_word sz = candidate_hdr -> hb_sz;
 	    register signed_word map_entry;
-	      
+
 	    map_entry = MAP_ENTRY((candidate_hdr -> hb_map), offset);
 	    if (map_entry > CPP_MAX_OFFSET) {
             	map_entry = (signed_word)(BYTES_TO_WORDS(offset)) % sz;
@@ -436,7 +440,7 @@ ptr_t arg;
 {
     register int sz;
     register hdr * hhdr = HDR(p);
-    
+
     sz = WORDS_TO_BYTES(hhdr -> hb_sz);
     return(sz);
 }
@@ -466,7 +470,7 @@ GC_bool GC_is_initialized = FALSE;
 void GC_init()
 {
     DCL_LOCK_STATE;
-    
+
     DISABLE_SIGNALS();
 
 #if defined(GC_WIN32_THREADS) && !defined(GC_PTHREADS)
@@ -559,7 +563,7 @@ void GC_init_inner()
         word dummy;
 #   endif
     word initial_heap_sz = (word)MINHINCR;
-    
+
     if (GC_is_initialized) return;
 #   ifdef PRINTSTATS
       GC_print_stats = 1;
@@ -569,7 +573,7 @@ void GC_init_inner()
 #   endif
     if (0 != GETENV("GC_PRINT_STATS")) {
       GC_print_stats = 1;
-    } 
+    }
 #   ifndef NO_DEBUGGING
       if (0 != GETENV("GC_DUMP_REGULARLY")) {
         GC_dump_regularly = 1;
@@ -636,11 +640,7 @@ void GC_init_inner()
 	GC_init_linux_data_start();
 #   endif
 #   if defined(OPENBSD)
-#     if defined(__ELF__)
-	GC_init_openbsd_elf();
-#     else
-	GC_init_openbsd_aout();
-#     endif
+	GC_init_openbsd();
 #   endif
 #   if defined(NETBSD) && defined(__ELF__)
 	GC_init_netbsd_elf();
@@ -695,7 +695,7 @@ void GC_init_inner()
       /* word should be unsigned */
 #   endif
     GC_ASSERT((signed_word)(-1) < (signed_word)0);
-    
+
     /* Add initial guess of root sets.  Do this first, since sbrk(0)	*/
     /* might be used.							*/
       if (GC_REGISTER_MAIN_STATIC_DATA()) GC_register_data_segments();
@@ -709,7 +709,7 @@ void GC_init_inner()
 	  if (initial_heap_sz <= MINHINCR * HBLKSIZE) {
 	    WARN("Bad initial heap size %s - ignoring it.\n",
 		 sz_str);
-	  } 
+	  }
 	  initial_heap_sz = divHBLKSZ(initial_heap_sz);
 	}
     }
@@ -720,7 +720,7 @@ void GC_init_inner()
 	  if (max_heap_sz < initial_heap_sz * HBLKSIZE) {
 	    WARN("Bad maximum heap size %s - ignoring it.\n",
 		 sz_str);
-	  } 
+	  }
 	  if (0 == GC_max_retries) GC_max_retries = 2;
 	  GC_set_max_heap_size(max_heap_sz);
 	}
@@ -773,7 +773,7 @@ void GC_init_inner()
           extern char * GC_copyright[];
           extern int GC_read();
           extern void GC_register_finalizer_no_order();
-          
+
           GC_noop(GC_copyright, GC_find_header,
                   GC_push_one, GC_call_with_alloc_lock, GC_read,
                   GC_dont_expand,
@@ -790,13 +790,13 @@ void GC_enable_incremental GC_PROTO(())
 # if !defined(SMALL_CONFIG)
   if (!GC_find_leak) {
     DCL_LOCK_STATE;
-    
+
     DISABLE_SIGNALS();
     LOCK();
     if (GC_incremental) goto out;
     GC_setpagesize();
     if (GC_no_win32_dlls) goto out;
-#   ifndef GC_SOLARIS_THREADS 
+#   ifndef GC_SOLARIS_THREADS
       maybe_install_looping_handler();  /* Before write fault handler! */
       GC_dirty_init();
 #   endif
@@ -853,7 +853,7 @@ out:
 	  GC_stdout = CreateFile(LOG_FILE, GENERIC_WRITE,
         			 FILE_SHARE_READ | FILE_SHARE_WRITE,
         			 NULL, CREATE_ALWAYS, FILE_FLAG_WRITE_THROUGH,
-        			 NULL); 
+        			 NULL);
     	  if (GC_stdout == INVALID_HANDLE_VALUE) ABORT("Open of log file failed");
       }
       tmp = WriteFile(GC_stdout, buf, len, &written, NULL);
@@ -898,7 +898,7 @@ size_t len;
 {
      register int bytes_written = 0;
      register int result;
-     
+
      while (bytes_written < len) {
 #	ifdef GC_SOLARIS_THREADS
 	    result = syscall(SYS_write, fd, buf + bytes_written,
@@ -953,7 +953,7 @@ GC_CONST char * format;
 long a, b, c, d, e, f;
 {
     char buf[1025];
-    
+
     if (GC_quiet) return;
     buf[1024] = 0x15;
     (void) sprintf(buf, format, a, b, c, d, e, f);
@@ -966,7 +966,7 @@ GC_CONST char * format;
 long a, b, c, d, e, f;
 {
     char buf[1025];
-    
+
     buf[1024] = 0x15;
     (void) sprintf(buf, format, a, b, c, d, e, f);
     if (buf[1024] != 0x15) ABORT("GC_err_printf clobbered stack");
