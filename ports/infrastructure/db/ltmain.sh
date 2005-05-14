@@ -1,7 +1,7 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.8 2005/04/26 16:29:22 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.8 2005/04/26 16:29:22 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.14 2005/04/26 16:27:08 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.9 2005/05/14 16:20:21 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.9 2005/05/14 16:20:21 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.15 2005/05/14 16:16:25 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.16
-TIMESTAMP=" (MirLibtool-1.5 2005/04/26 16:26:01)"
+TIMESTAMP=" (MirLibtool-1.5 2005/05/14 16:19:05)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -279,8 +279,8 @@ func_extract_archives ()
 
     $show "${rm}r $my_gentop"
     $run ${rm}r "$my_gentop"
-    $show "$mkdir $my_gentop"
-    $run $mkdir "$my_gentop"
+    $show "$mkdir -m 0775 $my_gentop"
+    $run $mkdir -m 0775 "$my_gentop"
     my_status=$?
     if test "$my_status" -ne 0 && test ! -d "$my_gentop"; then
       exit $my_status
@@ -297,8 +297,8 @@ func_extract_archives ()
 
       $show "${rm}r $my_xdir"
       $run ${rm}r "$my_xdir"
-      $show "$mkdir $my_xdir"
-      $run $mkdir "$my_xdir"
+      $show "$mkdir -m 0775 $my_xdir"
+      $run $mkdir -m 0775 "$my_xdir"
       status=$?
       if test "$status" -ne 0 && test ! -d "$my_xdir"; then
 	exit $status
@@ -1523,6 +1523,7 @@ EOF
 	compiler_flags="$compiler_flags $arg"
 	compile_command="$compile_command $arg"
 	finalize_command="$finalize_command $arg"
+	deplibs="$deplibs $arg"
 	continue
 	;;
 
@@ -2011,10 +2012,10 @@ EOF
 	    compile_deplibs="$deplib $compile_deplibs"
 	    finalize_deplibs="$deplib $finalize_deplibs"
 	  else
-	    compiler_flags="$compiler_flags $deplib"
-	    if test "X$deplib" = "X-pthread"; then
-	      deplibs="$deplibs $deplib"
+	    if test "$linkmode" = "lib"; then
+	      newdependency_libs="$deplib $newdependency_libs"
 	    fi
+	    deplibs="$deplib $deplibs"
 	  fi
 	  continue
 	  ;;
