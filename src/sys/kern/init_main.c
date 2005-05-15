@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.3 2005/03/14 22:05:04 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.113 2004/04/01 00:27:51 tedu Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -102,11 +102,10 @@
 extern void nfs_init(void);
 #endif
 
-const char	copyright[] =
-"Copyright (c) 1982, 1986, 1989, 1991, 1993\n"
-"\tThe Regents of the University of California.  All rights reserved.\n"
-"Copyright (c) 1995-2004 OpenBSD. All rights reserved.  http://www.OpenBSD.org\n"
-"Copyright (c) 2002-2005 The MirOS Project.  http://www.MirBSD.org/\n";
+/* used by kernfs */
+const char copyright[] =
+    "Copyright (c) 2002-2005 The MirOS Project and its contributors.\n"
+    "For a full list of copyright statements see /usr/share/doc/legal/*";
 
 /* Components of the first process -- never freed. */
 struct	session session0;
