@@ -1,0 +1,21 @@
+$MirOS$
+--- configure.in.orig	Mon May 16 20:45:24 2005
++++ configure.in	Mon May 16 20:52:05 2005
+@@ -144,7 +144,7 @@ AC_CHECK_HEADER(FLAC/stream_decoder.h,,
+ 
+ if test "x$have_libFLAC" = xyes; then
+    if test "x$build_flac" = xyes; then
+-      AC_DEFINE(HAVE_LIBFLAC)
++      AC_DEFINE(HAVE_LIBFLAC, [], [Have libflac])
+    fi
+ else
+    build_flac="no"
+@@ -167,7 +167,7 @@ AC_CHECK_HEADER(speex.h,,
+ 
+ if test "x$have_libspeex" = xyes; then
+    if test "x$build_speex" = xyes; then
+-      AC_DEFINE(HAVE_LIBSPEEX)
++      AC_DEFINE(HAVE_LIBSPEEX, [], [Have libspeex])
+    fi
+ else
+    build_speex="no"

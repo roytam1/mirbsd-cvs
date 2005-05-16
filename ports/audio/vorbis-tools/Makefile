@@ -1,11 +1,10 @@
-# $MirOS$
+# $MirOS: ports/audio/vorbis-tools/Makefile,v 1.1.7.1 2005/03/18 15:43:15 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/12/14 00:52:22 naddy Exp $
 
 COMMENT=		"play, encode, and manage Ogg Vorbis files"
-
-DISTNAME=	vorbis-tools-1.0.1
-CATEGORIES=    	audio
-HOMEPAGE=	http://www.xiph.org/ogg/vorbis/
+DISTNAME=		vorbis-tools-1.0.1
+CATEGORIES=    		audio
+HOMEPAGE=		http://www.xiph.org/ogg/vorbis/
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -25,9 +24,7 @@ LIB_DEPENDS=	ao.3::audio/libao \
 
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	yes
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		PTHREAD_CFLAGS="-pthread" PTHREAD_LIBS="-pthread"
+CONFIGURE_ENV+=	PTHREAD_CFLAGS="-pthread" PTHREAD_LIBS="-pthread"
 SEPARATE_BUILD=	simple
 
 post-install:
