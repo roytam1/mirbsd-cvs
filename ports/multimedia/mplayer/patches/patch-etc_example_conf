@@ -1,52 +1,17 @@
-$MirOS$
---- etc/example.conf.orig	Tue Jan 13 09:55:18 2004
-+++ etc/example.conf	Sat Jul 24 19:02:04 2004
+$MirOS: ports/multimedia/mplayer/patches/patch-etc_example_conf,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- etc/example.conf.orig	Thu Mar  3 03:11:22 2005
++++ etc/example.conf	Thu May 19 20:34:05 2005
 @@ -1,3 +1,4 @@
-+# $MirOS$
++# $MirOS: ports/multimedia/mplayer/patches/patch-etc_example_conf,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
  ##
- ## MPlayer config file
+ ## MPlayer configuration file
  ##
-@@ -14,7 +15,7 @@
- # ao=oss		# To specify default audio driver (see -ao help for
- 			# list)
- 
--fs=yes			# Enlarges movie window to your desktop's size.
-+# fs=yes		# Enlarges movie window to your desktop's size.
- 			# Used by drivers: all
- 
- # vm=no			# Tries to change to a different videomode
-@@ -75,14 +76,14 @@ fs=yes			# Enlarges movie window to your
- # ffactor = 0.75
- 
- ##
--## FBdev driver: 
-+## FBdev driver:
- 
- # fb = /dev/fb0				# framebuffer device to use
- # fbmode = 640x480-120			# use this mode (read from fb.modes!)
- # fbmodeconfig = /etc/fb.modes		# the fb.modes file
- 
- ## VESA and FBdev driver: specify your monitor's timings
--## 
-+##
- ## (see for example /etc/X11/XF86Config for timings!)
- ## ** CAUTION! IF YOUR DISPLAY DOESN'T SUPPORT AUTOMATICALLY TURNING OFF WHEN
- ##    OVERDRIVED (AND EVEN IF IT DOES), THIS MAY CAUSE DAMAGE TO YOUR DISPLAY!
-@@ -112,7 +113,7 @@ fs=yes			# Enlarges movie window to your
+@@ -132,7 +133,7 @@
  ## Other (preferred to be default from configfile) switches
  ##
+ # Drop frames to preserve audio/video sync.
+-framedrop 	= yes
++# framedrop 	= yes
  
--framedrop 	= yes	# drop frames, when not in sync (slow CPU, videocard,
-+# framedrop 	= yes	# drop frames, when not in sync (slow CPU, videocard,
- 			# etc)
- 
- cache		= 8192	# use 8Mb input cache by default
-@@ -130,7 +131,5 @@ cache		= 8192	# use 8Mb input cache by d
- ## You can also include other configfiles
- ## Specify full path!
  ##
--## Delete this default :)
--##
- 
--include = /home/gabucino/.mplayer/i_did_not_RTFM_carefully_enough...
-+# include = /home/gabucino/.mplayer/i_did_not_RTFM_carefully_enough...
+ ## cache settings

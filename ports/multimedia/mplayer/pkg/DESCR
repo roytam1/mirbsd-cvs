@@ -24,8 +24,16 @@ be raised, eg.
 
 sysctl -w kern.shminfo.shmall=32768
 
+On i386 mplayer can use win32 codecs if they are installed (package
+win32-codecs) and if the machdep.userldt sysctl is enabled, e.g. by
+entering
 
-Flavors:
+sysctl machdep.userldt=1	# default on MirOS
+
+Both sysctl settings can also be achieved via /etc/sysctl.conf.
+
+
+Flavours:
 
   arts: enables arts, requires x11/kde/arts3
 
@@ -45,16 +53,7 @@ Flavors:
 
   caca: enables colourized ascii art, requires graphics/libcaca
 
-  win32: enables win32 codecs (i386-only)  To use this flavor, you
-	need to enable the machdep.userldt sysctl, either via
-	/etc/sysctl.conf, or by entering (as root):
-		sysctl -w machdep.userldt=1
-
   no_live, no_ungif: disables C++ code enabled by default
 	FAAD is a MPEG-4 and DivX decoder; LIVE is a common stream
 	format; UNGIF is a CompuServe GIF decoder; MKV is the
 	rare Matroska format used by some Anime subbers
-
-  mkv: enables external .mkv support, requires graphics/libmatroska
-
-  faad: enables external FAAD support, requires audio/faad

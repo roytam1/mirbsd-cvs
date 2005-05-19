@@ -1,11 +1,12 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.12 2004/05/06 07:27:49 biorn Exp $
+@comment $MirOS: ports/multimedia/mplayer/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+@comment $OpenBSD: PLIST,v 1.20 2005/05/09 12:24:38 biorn Exp $
 bin/mencoder
 bin/mplayer
 man/man1/mencoder.1
 man/man1/mplayer.1
 share/doc/mplayer/amiga.html
 share/doc/mplayer/aspect.html
+share/doc/mplayer/audio.html
 share/doc/mplayer/bsd.html
 share/doc/mplayer/bugreports.html
 share/doc/mplayer/bugreports_advusers.html
@@ -21,7 +22,6 @@ share/doc/mplayer/codecs.html
 share/doc/mplayer/commandline.html
 share/doc/mplayer/control.html
 share/doc/mplayer/custommatrices.html
-share/doc/mplayer/devices.html
 share/doc/mplayer/drives.html
 share/doc/mplayer/dvd.html
 share/doc/mplayer/edl.html
@@ -45,7 +45,6 @@ share/doc/mplayer/menc-feat-dvd-mpeg4.html
 share/doc/mplayer/menc-feat-enc-images.html
 share/doc/mplayer/menc-feat-enc-libavcodec.html
 share/doc/mplayer/menc-feat-extractsub.html
-share/doc/mplayer/menc-feat-fix-avi.html
 share/doc/mplayer/menc-feat-mpeg.html
 share/doc/mplayer/menc-feat-mpeg4.html
 share/doc/mplayer/menc-feat-rescale.html
@@ -71,10 +70,20 @@ share/doc/mplayer/tv-input.html
 share/doc/mplayer/usage.html
 share/doc/mplayer/users-vs-dev.html
 share/doc/mplayer/vcd.html
+share/doc/mplayer/video.html
 share/doc/mplayer/windows.html
+@sample ${CONFDIR}/
 share/examples/mplayer/codecs.conf
+@sample ${CONFDIR}/codecs.conf
 share/examples/mplayer/input.conf
+@sample ${CONFDIR}/input.conf
 share/examples/mplayer/menu.conf
+@sample ${CONFDIR}/menu.conf
 share/examples/mplayer/mplayer.conf
+@sample ${CONFDIR}/mplayer.conf
+@comment @exec mkdir -p %D/share/mplayer/font
+@comment @dirrm share/mplayer/font
+@comment @dirrm share/mplayer
 @dirrm share/examples/mplayer
 @dirrm share/doc/mplayer
+@extraunexec rm -rf ${CONFDIR}

@@ -1,6 +1,6 @@
-$MirOS$
---- libmpdemux/tvi_bsdbt848.c.orig	2004-06-18 13:00:56.000000000 +0000
-+++ libmpdemux/tvi_bsdbt848.c	2004-08-17 17:06:35.000000000 +0000
+$MirOS: ports/multimedia/mplayer/patches/patch-libmpdemux_tvi_bsdbt848_c,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- libmpdemux/tvi_bsdbt848.c.orig	Mon Dec 27 17:29:52 2004
++++ libmpdemux/tvi_bsdbt848.c	Thu May 19 20:32:10 2005
 @@ -40,7 +40,7 @@
  #include <string.h>
  
@@ -10,7 +10,7 @@ $MirOS$
  #include <dev/ic/bt8xx.h>
  #include <sys/audioio.h>
  #elif __FreeBSD_version >= 502100
-@@ -571,7 +571,7 @@ if(priv->tunerfd < 0)
+@@ -572,7 +572,7 @@ if(priv->tunerfd < 0)
  /* Audio Configuration */
  
  priv->dspready = TRUE;

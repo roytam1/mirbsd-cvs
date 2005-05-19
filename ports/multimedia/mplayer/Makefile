@@ -1,7 +1,5 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.4 2005/04/20 09:35:08 tg Exp $
-# $OpenBSD: Makefile,v 1.69 2004/05/06 07:27:36 biorn Exp $
-
-BROKEN=			Security problems, Update comming soon
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.5 2005/04/29 19:06:04 tg Exp $
+# $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
 # <mira> waldi: in mplayer sind mehr LP64 bugs pro KB source drin als in pine
@@ -34,7 +32,6 @@ MODULES=	converters/libiconv
 LIB_DEPENDS=	png::graphics/png \
 		jpeg::graphics/jpeg \
 		mp3lame::audio/lame,no_x11 \
-		vorbis.0,vorbisfile.1::audio/libvorbis \
 		cdda_paranoia,cdda_interface:cdparanoia->=3.a9.8:audio/cdparanoia
 
 CONFDIR=	${SYSCONFDIR}/mplayer
@@ -48,6 +45,8 @@ CONFIGURE_ARGS+=--disable-alsa \
 		--disable-nas \
 		--disable-liblzo \
 		--disable-i18n \
+		--disable-libdv \
+		--disable-smb \
 		--enable-select \
 		--enable-sunaudio \
 		--disable-vidix \
@@ -70,24 +69,17 @@ CONFIGURE_ENV+=	TMPDIR=${WRKBUILD}
 CONFIGURE_ARGS+=--disable-altivec
 .endif
 
-FLAVORS=	arts esd sdl ggi debug mad win32 no_x11 aa \
-		faad no_live no_ungif mkv caca
+FLAVORS=	arts esd sdl ggi debug mad no_x11 aa \
+		no_live no_ungif caca
 FLAVOR?=
-
-.if ${FLAVOR:L:Mfaad}
-USE_CXX=	Yes
-LIB_DEPENDS+=	faad::audio/faad
-CONFIGURE_ARGS+=--enable-external-faad
-.else
-CONFIGURE_ARGS+=--disable-external-faad
-.endif
 
 .if ${FLAVOR:L:Mno_live}
 CONFIGURE_ARGS+=--disable-live
 .else
 USE_CXX=	Yes
-BUILD_DEPENDS+=	livestream::graphics/livestream
-CONFIGURE_ARGS+=--enable-live
+BUILD_DEPENDS+=	livestream::multimedia/livestream
+CONFIGURE_ARGS+=--enable-live \
+		--with-livelibdir=${PREFIX}/lib/live
 .endif
 
 .if ${FLAVOR:L:Mno_ungif}
@@ -96,14 +88,6 @@ CONFIGURE_ARGS+=--disable-gif
 USE_CXX=	Yes
 LIB_DEPENDS+=	ungif,gif::graphics/libungif
 # don't --enable-gif here!
-.endif
-
-.if ${FLAVOR:L:Mmkv}
-USE_CXX=	Yes
-LIB_DEPENDS+=	matroska::graphics/libmatroska
-CONFIGURE_ARGS+=--enable-external-matroska
-.else
-CONFIGURE_ARGS+=--disable-external-matroska
 .endif
 
 .if ${FLAVOR:L:Marts}
@@ -126,7 +110,9 @@ ERRORS+=	"Fatal: nonsense combination of flavors"
 .  else
 CONFIGURE_ARGS+=--disable-gl \
 		--disable-xv \
-		--disable-x11
+		--disable-x11 \
+		--disable-fontconfig \
+		--disable-freetype
 .  endif
 .else
 CONFIGURE_ARGS+=--enable-gl \
@@ -161,11 +147,8 @@ LIB_DEPENDS+=	mad.2::audio/libmad
 CONFIGURE_ARGS+=--disable-mad
 .endif
 
-.if ${FLAVOR:L:Mwin32}
-ONLY_FOR_PLATFORM=	*:*:i386
-
-RUN_DEPENDS+=	:win32-codecs-*:graphics/win32-codecs
-BUILD_DEPENDS+=	:win32-codecs-*:graphics/win32-codecs
+.if ${MACHINE_ARCH:Mi386}
+RUN_DEPENDS+=	:win32-codecs-*:multimedia/win32-codecs
 CONFIGURE_ARGS+=--with-win32libdir=${LOCALBASE}/lib/win32 \
 		--enable-qtx \
 		--enable-real \

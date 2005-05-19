@@ -1,7 +1,7 @@
-$MirOS$
---- libmpdemux/demux_asf.c.orig	Sat Dec 18 17:48:55 2004
-+++ libmpdemux/demux_asf.c	Sat Dec 18 17:49:05 2004
-@@ -340,7 +340,8 @@ int demux_asf_fill_buffer(demuxer_t *dem
+$MirOS: ports/multimedia/mplayer/patches/patch-libmpdemux_demux_asf_c,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- libmpdemux/demux_asf.c.orig	Sat Jan 15 16:11:22 2005
++++ libmpdemux/demux_asf.c	Thu May 19 20:32:06 2005
+@@ -350,7 +350,8 @@ int demux_asf_fill_buffer(demuxer_t *dem
              return 1; // success
      }
      

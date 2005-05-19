@@ -1,27 +1,7 @@
-$MirOS$
---- get_path.c.orig	Fri Apr 30 16:55:38 2004
-+++ get_path.c	Sat Jul 24 18:26:16 2004
-@@ -1,3 +1,19 @@
-+/* $MirOS$
-+ *-
-+ * Copyright (c) 2003 Benny Siegert, Thorsten Glaser for the MirOS Project
-+ *
-+ * Subject to these terms, everybody who obtained a copy of this work
-+ * is hereby permitted to deal in the work without restriction inclu-
-+ * ding without limitation the rights to use, distribute, sell, modi-
-+ * fy, publically perform, give away, merge or sublicense it provided
-+ * this notice is kept and the authors and contributors are given due
-+ * credit in derivates or accompanying documents.
-+ * This work is provided "as is" with no explicit or implicit warran-
-+ * ties whatsoever to the maximum extend permitted by applicable law;
-+ * in no event may an author or contributor be held liable for damage
-+ * that is, directly or indirectly, caused by the work, even if advi-
-+ * sed of the possibility of such damage.
-+ */
- 
- char *get_path(char *filename){
- 	char *homedir;
-@@ -5,7 +21,7 @@ char *get_path(char *filename){
+$MirOS: ports/multimedia/mplayer/patches/patch-get_path_c,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- get_path.c.orig	Wed Apr 13 11:45:50 2005
++++ get_path.c	Thu May 19 20:32:06 2005
+@@ -24,7 +24,7 @@ char *get_path(char *filename){
  #if defined(__MINGW32__)
      static char *config_dir = "/mplayer";
  #else
@@ -29,8 +9,8 @@ $MirOS$
 +	static char *config_dir = "/.etc/mplayer";
  #endif
  	int len;
- 
-@@ -26,12 +42,12 @@ char *get_path(char *filename){
+ #ifdef MACOSX_BUNDLE
+@@ -48,12 +48,12 @@ char *get_path(char *filename){
  	if (filename == NULL) {
  		if ((buff = (char *) malloc(len)) == NULL)
  			return NULL;
@@ -43,5 +23,5 @@ $MirOS$
 -		sprintf(buff, "%s%s/%s", homedir, config_dir, filename);
 +		snprintf(buff, len, "%s%s/%s", homedir, config_dir, filename);
  	}
- 	mp_msg(MSGT_GLOBAL,MSGL_V,"get_path('%s') -> '%s'\n",filename,buff);
- 	return buff;
+ 
+ #ifdef MACOSX_BUNDLE

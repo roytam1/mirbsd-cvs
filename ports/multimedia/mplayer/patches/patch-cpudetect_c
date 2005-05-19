@@ -1,7 +1,7 @@
-$MirOS$
---- cpudetect.c.orig	2004-05-06 18:42:06.000000000 +0000
-+++ cpudetect.c	2004-05-06 18:42:39.000000000 +0000
-@@ -368,6 +368,7 @@ static void check_os_katmai_support( voi
+$MirOS: ports/multimedia/mplayer/patches/patch-cpudetect_c,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- cpudetect.c.orig	Wed Jan 12 21:56:03 2005
++++ cpudetect.c	Thu May 19 20:32:06 2005
+@@ -334,6 +334,7 @@ static void check_os_katmai_support( voi
  
  #elif defined(__NetBSD__) || defined (__OpenBSD__)
  #if __NetBSD_Version__ >= 105250000 || (defined __OpenBSD__)
@@ -9,7 +9,7 @@ $MirOS$
     int has_sse, has_sse2, ret, mib[2];
     size_t varlen;
  
-@@ -396,6 +397,7 @@ static void check_os_katmai_support( voi
+@@ -362,6 +363,7 @@ static void check_os_katmai_support( voi
        gCpuCaps.hasSSE2=1;
        mp_msg(MSGT_CPUDETECT,MSGL_V, "yes!\n" );
     }

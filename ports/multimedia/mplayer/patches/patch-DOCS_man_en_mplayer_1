@@ -1,6 +1,6 @@
-$MirOS$
---- DOCS/man/en/mplayer.1.orig	Wed Jul 14 22:07:14 2004
-+++ DOCS/man/en/mplayer.1	Sat Jul 24 18:28:04 2004
+$MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- DOCS/man/en/mplayer.1.orig	Thu May 19 20:32:35 2005
++++ DOCS/man/en/mplayer.1	Thu May 19 20:33:08 2005
 @@ -11,20 +11,20 @@
  .\" define indentation for suboptions
  .nr SS 5
@@ -26,7 +26,7 @@ $MirOS$
  .RE
  .PD 1
  ..
-@@ -196,57 +196,57 @@ using the \-input option.
+@@ -241,67 +241,67 @@ See the \-input option for ways to custo
  .TP
  .B general control
  .PD 0
@@ -34,101 +34,142 @@ $MirOS$
 -.IPs "<\- and \->"
 +.rS
 +.iP "<\- and \->"
- seek backward/\:forward 10 seconds
+ Seek backward/\:forward 10 seconds.
 -.IPs "up and down"
 +.iP "up and down"
- seek backward/\:forward  1 minute
+ Seek backward/\:forward 1 minute.
 -.IPs "pgup and pgdown"
 +.iP "pgup and pgdown"
- seek backward/\:forward 10 minutes
+ Seek backward/\:forward 10 minutes.
+-.IPs "[ and ]"
++.iP "[ and ]"
+ Decreases/increases current playback speed by 10%.
+-.IPs "{ and }"
++.iP "{ and }"
+ Halves/doubles current playback speed.
+-.IPs "Backspace"
++.iP "Backspace"
+ Reset playback speed to normal.
 -.IPs "< and >"
 +.iP "< and >"
  backward/\:forward in playlist
 -.IPs "HOME and END"
 +.iP "HOME and END"
- go to next/\:previous playtree entry in the parent list
+ next/\:previous playtree entry in the parent list
 -.IPs "INS and DEL"
 +.iP "INS and DEL"
- go to next/\:previous alternative source (ASX playlist only)
+ next/\:previous alternative source (ASX playlist only)
 -.IPs "p / SPACE"
 +.iP "p / SPACE"
- pause movie (any key unpauses)
+ Pause movie (pressing again unpauses).
+-.IPs .\ \ \ \ 
++.iP .\ \ \ \ 
+ Step forward.
+ Pressing once will pause movie, every consecutive press will play one frame
+ and then go into pause mode again (any other key unpauses).
 -.IPs "q / ESC"
 +.iP "q / ESC"
- stop playing and quit
+ Stop playing and quit.
 -.IPs "+ and -"
 +.iP "+ and -"
- adjust audio delay by +/\:- 0.1 second
+ Adjust audio delay by +/\:- 0.1 seconds.
 -.IPs "/ and *"
 +.iP "/ and *"
- decrease/\:increase volume
+ Decrease/\:increase volume.
 -.IPs "9 and 0"
 +.iP "9 and 0"
- decrease/\:increase volume
+ Decrease/\:increase volume.
 -.IPs m\ \ \ \ 
 +.iP m\ \ \ \ 
- mute sound
+ Mute sound.
+-.IPs "#" (MPEG and Matroska only)
++.iP "#" (MPEG and Matroska only)
+ Cycle through the available audio tracks.
 -.IPs f\ \ \ \ 
 +.iP f\ \ \ \ 
- toggle fullscreen
+ Toggle fullscreen (also see \-fs).
 -.IPs T\ \ \ \ 
 +.iP T\ \ \ \ 
- toggle stay-on-top.
- Supported by video out drivers which use X11, except SDL, as well as directx
- and gl2 under Windows.
+ Toggle stay-on-top (also see \-ontop).
 -.IPs "w and e"
 +.iP "w and e"
- decrease/\:increase panscan range
+ Decrease/\:increase pan-and-scan range.
 -.IPs o\ \ \ \ 
 +.iP o\ \ \ \ 
- toggle OSD states: none / seek / seek + timer / seek + timer + total time
+ Toggle OSD states: none / seek / seek + timer / seek + timer + total time.
 -.IPs d\ \ \ \ 
 +.iP d\ \ \ \ 
- toggle frame dropping states:  none / skip display / skip decoding
- (see \-framedrop and \-hardframedrop)
+ Toggle frame dropping states: none / skip display / skip decoding
+ (see \-framedrop and \-hardframedrop).
 -.IPs v\ \ \ \ 
 +.iP v\ \ \ \ 
- toggle subtitle visibility
--.IPs j\ \ \ \ 
-+.iP j\ \ \ \ 
- switch subtitle language
+ Toggle subtitle visibility.
+-.IPs "b / j"
++.iP "b / j"
+ Cycle through the available subtitles.
  .IP F\ \ \ \ 
- toggle display of "forced subtitles"
+ Toggle displaying "forced subtitles".
 -.IPs a\ \ \ \ 
 +.iP a\ \ \ \ 
- toggle subtitle aligment: top/middle/bottom
+ Toggle subtitle aligment: top/\:middle/\:bottom.
 -.IPs "z and x"
 +.iP "z and x"
- adjust subtitle delay by +/\:- 0.1 second
+ Adjust subtitle delay by +/\:- 0.1 seconds.
 -.IPs "r and t"
 +.iP "r and t"
- adjust subtitle position
+ Move subtitles up/\:down.
 -.IPs i\ \ \ \ 
 +.iP i\ \ \ \ 
- set EDL mark
+ Set EDL mark.
  .RE
  .PD 1
-@@ -256,14 +256,14 @@ output (xv, (x)vidix, (x)mga, etc), or t
- (\-vf eq or \-vf eq2).
+@@ -311,14 +311,14 @@ output (xv, (x)vidix, (x)mga, etc), the 
+ (\-vf eq or \-vf eq2) or hue filter (\-vf hue).
  .PP
  .PD 0
 -.RSs
 -.IPs "1 and 2"
 +.rS
 +.iP "1 and 2"
- adjust contrast
+ Adjust contrast.
 -.IPs "3 and 4"
 +.iP "3 and 4"
- adjust brightness
+ Adjust brightness.
 -.IPs "5 and 6"
 +.iP "5 and 6"
- adjust hue
+ Adjust hue.
 -.IPs "7 and 8"
 +.iP "7 and 8"
- adjust saturation
+ Adjust saturation.
  .RE
  .PD 1
-@@ -271,16 +271,16 @@ adjust saturation
+@@ -326,18 +326,18 @@ Adjust saturation.
+ (The following keys are valid only when using the quartz video output driver.)
+ .PP
+ .PD 0
+-.RSs
+-.IPs "option + 0"
++.rS
++.iP "option + 0"
+ Resize movie window to half its original size.
+-.IPs "option + 1"
++.iP "option + 1"
+ Resize movie window to its original size.
+-.IPs "option + 2"
++.iP "option + 2"
+ Resize movie window to double its original size.
+-.IPs "option + f"
++.iP "option + f"
+ Toggle fullscreen (also see \-fs).
+-.IPs "option + [ and option + ]"
++.iP "option + [ and option + ]"
+ Set movie window alpha.
+-.IPs T\ \ \ \ 
++.iP T\ \ \ \ 
+ Toggle video layer: ontop/\:below/\:normal (also see \-ontop).
+ .RE
+ .PD 1
+@@ -345,16 +345,16 @@ Toggle video layer: ontop/\:below/\:norm
  .TP
  .B GUI keyboard control
  .PD 0
@@ -136,22 +177,22 @@ $MirOS$
 -.IPs ENTER
 +.rS
 +.iP ENTER
- start playing
+ Start playing.
 -.IPs s\ \ \ \ 
 +.iP s\ \ \ \ 
- stop playing
+ Stop playing.
 -.IPs l\ \ \ \ 
 +.iP l\ \ \ \ 
- load file
+ Load file.
 -.IPs c\ \ \ \ 
 +.iP c\ \ \ \ 
- skin browser
+ Skin browser.
 -.IPs p\ \ \ \ 
 +.iP p\ \ \ \ 
- toggle playlist
+ Toggle playlist.
  .RE
  .PD 1
-@@ -288,12 +288,12 @@ toggle playlist
+@@ -362,12 +362,12 @@ Toggle playlist.
  .TP
  .B TV input control
  .PD 0
@@ -159,18 +200,27 @@ $MirOS$
 -.IPs "h and k"
 +.rS
 +.iP "h and k"
- select previous/\:next channel
+ Select previous/\:next channel.
 -.IPs n\ \ \ \ 
 +.iP n\ \ \ \ 
- change norm
+ Change norm.
 -.IPs u\ \ \ \ 
 +.iP u\ \ \ \ 
- change channel list
+ Change channel list.
  .RE
  .PD 1
-@@ -368,14 +368,14 @@ handle carriage return (i.e. \\r).
+@@ -438,7 +438,7 @@ handle carriage return (i.e.\& \\r).
+ .B \-priority <prio> (Windows only)
+ Set process priority for MPlayer according to Windows predefined priorities.
+ Possible values of <prio>:
+-.RSs
++.rS
+ idle|belownormal|normal|abovenormal|high|realtime
+ .RE
+ .sp 1
+@@ -451,14 +451,14 @@ Using realtime priority can cause system
+ .B \-v, \-verbose
  Increment verbose level (more \-v means more verbosity).
- .
  .PD 0
 -.RSs
 -.IPs 0
@@ -188,16 +238,17 @@ $MirOS$
  prints everything related to input parsers (parser debug)
  .RE
  .PD 1
-@@ -479,21 +479,21 @@ Autorepeat is currently only supported b
+@@ -586,22 +586,22 @@ Autorepeat is currently only supported b
  Available commands are:
- 
+ .sp 1
  .PD 0
 -.RSs
--.IPs conf=<file>
+-.IPs conf=<filename>
 +.rS
-+.iP conf=<file>
- Read alternative input.conf.
- If no full path is given, ~/\:.mplayer/<file> is assumed.
++.iP conf=<filename>
+ Specify input configuration file other than the default
+ ~/\:.mplayer/\:input.conf.
+ ~/\:.mplayer/\:<filename> is assumed if no full path is given.
 -.IPs ar-delay
 +.iP ar-delay
  Delay in msec before we start to autorepeat a key (0 to disable).
@@ -212,46 +263,50 @@ $MirOS$
  Prints all commands that can be bound to keys.
 -.IPs js-dev
 +.iP js-dev
- Specifies the joystick device to use (default is /dev/\:input/\:js0).
--.IPs file\ 
-+.iP file\ 
+ Specifies the joystick device to use (default: /dev/\:input/\:js0).
+-.IPs file=<filename>
++.iP file=<filename>
  Read commands from the given file.
- Mostly useful with a fifo.
+ Mostly useful with a FIFO.
  .br
-@@ -571,8 +571,8 @@ directories, /usr/local/share/mplayer/Sk
- 
+@@ -709,8 +709,8 @@ directories, /usr/\:local/\:share/\:mpla
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-skin fittyfene"
 +.rS
 +.iP "\-skin fittyfene"
- Tries /usr/local/share/mplayer/Skin/fittyfene
- and afterwards ~/.mplayer/Skin/fittyfene.
+ Tries /usr/\:local/\:share/\:mplayer/\:Skin/\:fittyfene
+ and afterwards ~/.mplayer/\:Skin/\:fittyfene.
  .RE
-@@ -623,8 +623,8 @@ output.
- 
+@@ -768,11 +768,11 @@ MPlayer prints the available languages w
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
--.IPs "\-alang hu,en"
+-.IPs "mplayer dvd://1 \-alang hu,en"
 +.rS
-+.iP "\-alang hu,en"
- Plays Hungarian and falls back to English if Hungarian is not available.
++.iP "mplayer dvd://1 \-alang hu,en"
+ Chooses the Hungarian language track on a DVD and falls back on English if
+ Hungarian is not available.
+-.IPs "mplayer \-alang jpn example.mkv"
++.iP "mplayer \-alang jpn example.mkv"
+ Plays a Matroska file in Japanese.
  .RE
  .PD 1
-@@ -661,32 +661,32 @@ This option can be used to tune the CD A
- 
+@@ -820,32 +820,32 @@ the cache prefill threshold set with thi
+ This option can be used to tune the CD Audio reading feature of MPlayer.
+ .sp 1
  Available options are:
- .
 -.RSs
 -.IPs speed=<value>
 +.rS
 +.iP speed=<value>
- set CD spin speed
+ Set CD spin speed.
 -.IPs paranoia=<0\-2>
 +.iP paranoia=<0\-2>
- set paranoia level
+ Set paranoia level.
 -.RSss
 +.rP
  0: disable checking
@@ -263,13 +318,13 @@ $MirOS$
 -.IPs generic-dev=<value>
 +.rE
 +.iP generic-dev=<value>
- use specified generic SCSI device
+ Use specified generic SCSI device.
 -.IPs sector-size=<value>
 +.iP sector-size=<value>
- atomic read size
+ Set atomic read size.
 -.IPs overlap=<value>
 +.iP overlap=<value>
- force minimum overlap search during verification to <value> sectors.
+ Force minimum overlap search during verification to <value> sectors.
 -.IPs toc-bias
 +.iP toc-bias
  Assume that the beginning offset of track 1 as reported in the TOC will be
@@ -281,12 +336,12 @@ $MirOS$
  May be negative.
 -.IPs (no)skip
 +.iP (no)skip
- (never) accept imperfect data reconstruction.
+ (Never) accept imperfect data reconstruction.
  .RE
  .
-@@ -714,12 +714,12 @@ This option is honored by codecs (AC3 on
+@@ -879,12 +879,12 @@ output drivers (OSS at least).
  Available options are:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs 2
@@ -301,49 +356,49 @@ $MirOS$
  full 5.1
  .RE
  .PD 1
-@@ -763,10 +763,10 @@ Pass the following parameters to the DVB
+@@ -934,10 +934,10 @@ Pass the following parameters to the DVB
  the default ones:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs card=<1\-4>
 +.rS
 +.iP card=<1\-4>
  Specifies using card number 1\-4 (default: 1).
--.IPs file=<file>
-+.iP file=<file>
- Instructs MPlayer to read the channels list from <file>.
- Default is ~/.mplayer/channels.conf.{sat,ter,cbl} (based on your card type)
- or ~/.mplayer/channels.conf as a last resort.
-@@ -838,14 +838,14 @@ Used when decoding from multiple PNG or 
+-.IPs file=<filename>
++.iP file=<filename>
+ Instructs MPlayer to read the channels list from <filename>.
+ Default is ~/.mplayer/\:channels.conf.{sat,ter,cbl,atsc} (based on your card type)
+ or ~/.mplayer/\:channels.conf as a last resort.
+@@ -1021,14 +1021,14 @@ Used when decoding from multiple PNG or 
  Available options are:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs w=<value>
 +.rS
 +.iP w=<value>
- width of the output (autodetect)
+ output width (default: autodetect)
 -.IPs h=<value>
 +.iP h=<value>
- height of the output (autodetect)
+ output height (default: autodetect)
 -.IPs fps=<value>
 +.iP fps=<value>
- fps of the output (default: 25)
+ output fps (default: 25)
 -.IPs type=<value>
 +.iP type=<value>
- type of input files (available types: jpeg, png, tga, sgi)
+ input file type (available: jpeg, png, tga, sgi)
  .RE
  .PD 1
-@@ -884,18 +884,18 @@ It may also be used to play audio CDs wh
+@@ -1074,18 +1074,18 @@ For playing raw AC3 streams use \-rawaud
  Available options are:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs on\ \ \ 
 +.rS
 +.iP on\ \ \ 
- use raw audio demuxer
+ Use raw audio demuxer.
 -.IPs channels=<value>
 +.iP channels=<value>
  number of channels
@@ -352,7 +407,7 @@ $MirOS$
  rate in samples per second
 -.IPs samplesize=<value>
 +.iP samplesize=<value>
- sample size in byte
+ sample size in bytes
 -.IPs bitrate=<value>
 +.iP bitrate=<value>
  bitrate for rawaudio files
@@ -361,18 +416,18 @@ $MirOS$
  fourcc in hex
  .RE
  .PD 1
-@@ -907,22 +907,22 @@ This option lets you play raw video file
+@@ -1097,22 +1097,22 @@ This option lets you play raw video file
  Available options are:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs on\ \ \ 
 +.rS
 +.iP on\ \ \ 
- use raw video demuxer
+ Use raw video demuxer.
 -.IPs fps=<value>
 +.iP fps=<value>
- rate in frames per second, default 25.0
+ rate in frames per second (default: 25.0)
 -.IPs sqcif|qcif|cif|4cif|pal|ntsc
 +.iP sqcif|qcif|cif|4cif|pal|ntsc
  set standard image size
@@ -382,8 +437,8 @@ $MirOS$
 -.IPs h=<value>
 +.iP h=<value>
  image height in pixels
--.IPs y420|yv12|yuy2|y8
-+.iP y420|yv12|yuy2|y8
+-.IPs i420|yv12|yuy2|y8
++.iP i420|yv12|yuy2|y8
  set colorspace
 -.IPs format=<value>
 +.iP format=<value>
@@ -393,24 +448,24 @@ $MirOS$
  frame size in Bytes
  .RE
  .PD 1
-@@ -955,10 +955,10 @@ Seek to given time position.
- 
+@@ -1158,10 +1158,10 @@ Seek to given time position.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-ss 56"
 +.rS
 +.iP "\-ss 56"
- seeks to 56 seconds
+ Seeks to 56 seconds.
 -.IPs "\-ss 01:10:00"
 +.iP "\-ss 01:10:00"
- seeks to 1\ hour 10\ min
+ Seeks to 1\ hour 10\ min.
  .RE
  .PD 1
-@@ -997,40 +997,40 @@ samplerate and use this codec.
- 
+@@ -1191,44 +1191,44 @@ or even 'tv://<channel_name> (see option
+ as a movie URL.
+ .sp 1
  Available options are:
- .
 -.RSs
 -.IPs noaudio
 +.rS
@@ -421,14 +476,14 @@ $MirOS$
  available: dummy, v4l, v4l2, bsdbt848
 -.IPs device=<value>
 +.iP device=<value>
- Specify other device than the default /dev/\:video0.
+ Specify TV device (default: /dev/\:video0).
 -.IPs input=<value>
 +.iP input=<value>
- Specify other input than the default 0 (Television) (see output for a list)
+ Specify input (default: 0 (TV), see console output for available inputs).
 -.IPs freq=<value>
 +.iP freq=<value>
  Specify the frequency to set the tuner to (e.g.\& 511.250).
- Not compatible with channels parameter.
+ Not compatible with the channels parameter.
 -.IPs outfmt=<value>
 +.iP outfmt=<value>
  Specify the output format of the tuner with a preset value supported by the
@@ -437,10 +492,10 @@ $MirOS$
  Try outfmt=help for a list of all available formats.
 -.IPs width=<value>
 +.iP width=<value>
- width of the output window
+ output window width
 -.IPs height=<value>
 +.iP height=<value>
- height of the output window
+ output window height
 -.IPs fps=<value>
 +.iP fps=<value>
  framerate at which to capture video (frames per second)
@@ -449,10 +504,14 @@ $MirOS$
  maximum size of the capture buffer in megabytes (default: dynamical)
 -.IPs norm=<value>
 +.iP norm=<value>
- available: PAL, SECAM, NTSC. For v4l2 use the normid option below.
--.IPs normid=<value>
-+.iP normid=<value>
- v4l2 only. See MPlayer output for a list of available TV norms.
+ For bsdbt848 and v4l, PAL, SECAM, NTSC are available.
+ For v4l2, see the console output for a list of all available norms,
+ also see the normid option below.
+-.IPs "normid=<value> (v4l2 only)"
++.iP "normid=<value> (v4l2 only)"
+ Sets the TV norm to the given numeric ID.
+ The TV norm depends on the capture card.
+ See the console output for a list of available TV norms.
 -.IPs channel=<value>
 +.iP channel=<value>
  Set tuner to <value> channel.
@@ -463,32 +522,32 @@ $MirOS$
 +.iP channels=<channel>\-<name>,<channel>\-<name>,...
  Set names for channels.
  Use _ for spaces in names (or play with quoting ;-).
- The channel names will then be written using OSD, and the commands tv_step_channel,
-@@ -1039,17 +1039,17 @@ Not compatible with frequency parameter.
- Warning: The channel number will then be the position in the 'channels' list,
- beginning with 1.
- Example: use tv://1, tv://2, tv://TV1, tv_set_channel 1, tv_set_channel 2, tv_set_channel TV1, etc.
+ The channel names will then be written using OSD, and the slave commands
+@@ -1242,17 +1242,17 @@ beginning with 1.
+ .br
+ .I EXAMPLE:
+ tv://1, tv://TV1, tv_set_channel 1, tv_set_channel TV1
 -.IPs [brightness|contrast|hue|saturation]=<-100\-100>
 +.iP [brightness|contrast|hue|saturation]=<-100\-100>
- set the color equalizer on the card
+ Set the image equalizer on the card.
 -.IPs audiorate=<value>
 +.iP audiorate=<value>
- set audio capture bitrate
+ Set audio capture bitrate.
 -.IPs forceaudio
 +.iP forceaudio
- capture audio even if there are no audio sources reported by v4l
+ Capture audio even if there are no audio sources reported by v4l.
 -.IPs alsa\ 
 +.iP alsa\ 
- capture from ALSA
+ Capture from ALSA.
 -.IPs amode=<0\-3>
 +.iP amode=<0\-3>
- choose an audio mode:
+ Choose an audio mode:
 -.RSss
 +.rP
  0: mono
  .br
  1: stereo
-@@ -1057,44 +1057,44 @@ choose an audio mode:
+@@ -1260,40 +1260,40 @@ Choose an audio mode:
  2: language 1
  .br
  3: language 2
@@ -497,55 +556,49 @@ $MirOS$
 +.rE
 +.iP forcechan=<1\-2>
  By default, the count of recorded audio channels is determined automatically
- by querying the audio mode from the tv card.
- This option allows to force stereo/\:mono recording regardless of the amode
+ by querying the audio mode from the TV card.
+ This option allows forcing stereo/\:mono recording regardless of the amode
  option and the values returned by v4l.
- This can be used for troubleshooting when the tv card is unable to report the
+ This can be used for troubleshooting when the TV card is unable to report the
  current audio mode.
 -.IPs adevice=<value>
 +.iP adevice=<value>
- set an audio device
--.RSss
-+.rP
- /dev/\:...\& for OSS
- .br
- hardware ID for ALSA
--.REss
+ Set an audio device.
+ <value> should be /dev/\:xxx for OSS and a hardware ID for ALSA.
+ See the \-ao alsa documentation to find out how to specify the hardware ID.
 -.IPs audioid=<value>
-+.rE
 +.iP audioid=<value>
- choose an audio output of the capture card, if it has more of them
--.IPs [volume|bass|treble|balance]=<0\-65535>
--.IPs [volume|bass|treble|balance]=<0\-100>
-+.iP [volume|bass|treble|balance]=<0\-65535>
-+.iP [volume|bass|treble|balance]=<0\-100>
+ Choose an audio output of the capture card, if it has more than one.
+-.IPs "[volume|bass|treble|balance]=<0\-65535> (v4l1)"
+-.IPs "[volume|bass|treble|balance]=<0\-100> (v4l2)"
++.iP "[volume|bass|treble|balance]=<0\-65535> (v4l1)"
++.iP "[volume|bass|treble|balance]=<0\-100> (v4l2)"
  These options set parameters of the mixer on the video capture card.
- They will have no effect, if your card doesn't have one.
- For v4l1, 0\-65535 is a valid range.
- For v4l2, the valid range is 0 to 100, and 50 maps to the default value of the
+ They will have no effect, if your card does not have one.
+ For v4l2 50 maps to the default value of the
  control, as reported by the driver.
 -.IPs immediatemode=<bool>
 +.iP immediatemode=<bool>
  A value of 0 means capture and buffer audio and video together
  (default for MEncoder).
  A value of 1 (default for MPlayer) means to do video capture only and let the
- audio go through a loopback cable from the TV card to the soundcard.
+ audio go through a loopback cable from the TV card to the sound card.
 -.IPs mjpeg
 +.iP mjpeg
- Use hardware mjpeg compression (if the card supports it). 
+ Use hardware MJPEG compression (if the card supports it).
  When using this option, you do not need to specify the width and height
- of the output window, because MPlayer will determine it automatically 
+ of the output window, because MPlayer will determine it automatically
  from the decimation value (see below).
--.IPs decimation=<1,2,4>
-+.iP decimation=<1,2,4>
+-.IPs decimation=<1|2|4>
++.iP decimation=<1|2|4>
  choose the size of the picture that will be compressed by hardware
- mjpeg compression:
+ MJPEG compression:
 -.RSss
 +.rP
  1: full size
      704x576    PAL
      704x480    NTSC
-@@ -1106,8 +1106,8 @@ mjpeg compression:
+@@ -1305,8 +1305,8 @@ MJPEG compression:
  4: small size
      176x144    PAL
      176x120    NTSC
@@ -553,12 +606,12 @@ $MirOS$
 -.IPs quality=<0\-100>
 +.rE
 +.iP quality=<0\-100>
- choose the quality of the jpeg compression
- .br
- (quality < 60 recommended for full size)
-@@ -1167,14 +1167,14 @@ Resample alphamap of the font.
+ Choose the quality of the JPEG compression
+ (< 60 recommended for full size).
+ .RE
+@@ -1375,14 +1375,14 @@ Also see the \-dump*sub and \-vobsubout*
+ Resample the font alphamap.
  Can be:
- .
  .PD 0
 -.RSs
 -.IPs 0
@@ -576,8 +629,8 @@ $MirOS$
  bold black outline
  .RE
  .PD 1
-@@ -1195,7 +1195,7 @@ With fontconfig, this option determines 
- 
+@@ -1408,7 +1408,7 @@ With fontconfig, this option determines 
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -585,9 +638,9 @@ $MirOS$
  \-font ~/\:.mplayer/\:arial-14/\:font.desc
  .br
  \-font ~/\:.mplayer/\:arialuni.ttf
-@@ -1227,14 +1227,14 @@ Turns off automatic loading of subtitle 
+@@ -1444,14 +1444,14 @@ Turns off automatic subtitle file loadin
+ .B \-osdlevel <0\-3> (MPlayer only)
  Specifies which mode the OSD should start in.
- .
  .PD 0
 -.RSs
 -.IPs 0
@@ -605,20 +658,24 @@ $MirOS$
  volume + seek + timer + percentage + total time
  .RE
  .PD 1
-@@ -1262,8 +1262,8 @@ priority when searching for subtitles.
- 
+@@ -1477,11 +1477,11 @@ MPlayer prints the available languages w
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
--.IPs "\-slang hu,en"
+-.IPs "mplayer dvd://1 \-slang hu,en"
 +.rS
-+.iP "\-slang hu,en"
- Selects Hungarian and falls back to English if Hungarian is not available.
++.iP "mplayer dvd://1 \-slang hu,en"
+ Chooses the Hungarian subtitle track on a DVD and falls back on English if
+ Hungarian is not available.
+-.IPs "mplayer \-slang jpn example.mkv"
++.iP "mplayer \-slang jpn example.mkv"
+ Plays a Matroska file with Japanese subtitles.
  .RE
  .PD 1
-@@ -1276,16 +1276,16 @@ when original and scaled frame size alre
- smooth subtitles with the gaussian blur.
- The available modes are:
+@@ -1494,16 +1494,16 @@ when original and scaled frame size alre
+ This can be employed to e.g.\& smooth subtitles with gaussian blur.
+ Available modes are:
  .PD 0
 -.RSs
 -.IPs 0
@@ -639,7 +696,27 @@ $MirOS$
  uses swscaler gaussian blur (looks very good)
  .RE
  .PD 1
-@@ -1324,12 +1324,12 @@ Give the demuxer ID as defined in subrea
+@@ -1512,14 +1512,14 @@ uses swscaler gaussian blur (looks very 
+ .B \-spualign <-1\-2> (OSD only)
+ Specify how SPU (DVD/\:VOBsub) subtitles should be aligned.
+ .PD 0
+-.RSs
+-.IPs "-1"
++.rS
++.iP "-1"
+ original position
+-.IPs " 0"
++.iP " 0"
+ align at top (original/\:default behavior)
+-.IPs " 1"
++.iP " 1"
+ align at center
+-.IPs " 2"
++.iP " 2"
+ align at bottom
+ .RE
+ .PD 1
+@@ -1556,12 +1556,12 @@ Give the demuxer ID as defined in subrea
  .B \-sub-fuzziness <mode>
  Adjust matching fuzziness when searching for subtitles:
  .PD 0
@@ -650,14 +727,31 @@ $MirOS$
  exact match
 -.IPs 1
 +.iP 1
- load all subs containing movie name
+ Load all subs containing movie name.
 -.IPs 2
 +.iP 2
- load all subs in the current directory
+ Load all subs in the current directory.
  .RE
  .PD 1
-@@ -1356,7 +1356,7 @@ specify codepage of the subtitle.
- 
+@@ -1575,12 +1575,12 @@ Used for debug purposes.
+ .B \-subalign <0\-2> (OSD only)
+ Specify how subtitles should be aligned with \-subpos.
+ .PD 0
+-.RSs
+-.IPs 0
++.rS
++.iP 0
+ Align at top (original/\:default behavior).
+-.IPs 1
++.iP 1
+ Align at center.
+-.IPs 2
++.iP 2
+ Align at bottom.
+ .RE
+ .PD 1
+@@ -1601,7 +1601,7 @@ specify the subtitle codepage.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -665,24 +759,24 @@ $MirOS$
  \-subcp latin2
  .br
  \-subcp cp1250
-@@ -1373,11 +1373,11 @@ autodetection fails.
- 
+@@ -1618,11 +1618,11 @@ Fallback codepage specifies the codepage
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-subcp enca:cs:latin2"
 +.rS
 +.iP "\-subcp enca:cs:latin2"
- Guess the encoding, assuming the subtitles are Czech, fall back to
+ Guess the encoding, assuming the subtitles are Czech, fall back on
  latin 2, if the detection fails.
 -.IPs "\-subcp enca:pl:cp1250"
 +.iP "\-subcp enca:pl:cp1250"
- Guess the encoding for Polish, fall back to cp1250.
+ Guess the encoding for Polish, fall back on cp1250.
  .RE
  .PD 1
-@@ -1400,14 +1400,14 @@ Zero means that text-scale and osd-scale
+@@ -1647,14 +1647,14 @@ Sets the autoscale mode.
  The mode can be:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs 0
@@ -700,85 +794,8 @@ $MirOS$
  proportional to movie diagonal (default)
  .RE
  .PD 1
-@@ -1475,21 +1475,21 @@ Specify audio plugin(s) and their option
- 
- Available options are:
- .
--.RSs
--.IPs list=[plugins]
-+.rS
-+.iP list=[plugins]
- comma separated list of plugins (resample, surround, format, volume,
- extrastereo, volnorm)
--.IPs delay=<sec>
-+.iP delay=<sec>
- example plugin, do not use.
--.IPs format=<format>
-+.iP format=<format>
- output format (format plugin only)
--.IPs fout=<Hz>
-+.iP fout=<Hz>
- output frequency (resample plugin only)
--.IPs volume=<0\-255>
-+.iP volume=<0\-255>
- volume (volume plugin only)
--.IPs mul=<value>
-+.iP mul=<value>
- stereo coefficient (default: 2.5) (extrastereo plugin only)
--.IPs softclip
-+.iP softclip
- compressor / 'soft-clipping' capabilities (volume plugin only)
- .RE
- .
-@@ -1502,32 +1502,32 @@ Select the format used for output from t
- defines in libao2/afmt.h):
- .
- .PD 0
--.RSs
--.IPs 1
-+.rS
-+.iP 1
- Mu-Law
--.IPs 2
-+.iP 2
- A-Law
--.IPs 4
-+.iP 4
- Ima-ADPCM
--.IPs 8
-+.iP 8
- Signed 8-bit
--.IPs 16
-+.iP 16
- Unsigned 8-bit
--.IPs 32
-+.iP 32
- Unsigned 16-bit (Little-Endian)
--.IPs 64
-+.iP 64
- Unsigned 16-bit (Big-Endian)
--.IPs 128
-+.iP 128
- Signed  16-bit (Little-Endian)
--.IPs 256
-+.iP 256
- Signed 16-bit (Big-Endian)
--.IPs 512
-+.iP 512
- MPEG (2) Audio
--.IPs 1024
-+.iP 1024
- AC3
--.IPs 4096
-+.iP 4096
- Signed 32-bit (Little-Endian)
--.IPs 8192
-+.iP 8192
- Signed 32-bit (Big-Endian)
- .RE
- .PD 1
-@@ -1569,10 +1569,10 @@ See \-ao help for a list of compiled-in 
- 
+@@ -1795,10 +1795,10 @@ See \-ao help for a list of compiled-in 
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -786,14 +803,14 @@ $MirOS$
 +.rS
 +.iP "\-ao alsa,oss,"
  Try the ALSA driver, then the OSS driver, then others.
--.IPs "\-ao alsa:mmap:noblock:device=hw#0.3"
-+.iP "\-ao alsa:mmap:noblock:device=hw#0.3"
+-.IPs "\-ao alsa:mmap:noblock:device=hw=0.3"
++.iP "\-ao alsa:mmap:noblock:device=hw=0.3"
  Sets noblock-mode, mmap-mode and the device-name as first card, fourth device.
  .RE
  .PD 1
-@@ -1587,12 +1587,12 @@ Available audio output drivers are:
+@@ -1809,12 +1809,12 @@ Available audio output drivers are:
  .B alsa\ \ \ 
- ALSA 0.9/1.x audio output driver.
+ ALSA 0.9/\:1.x audio output driver
  .PD 0
 -.RSs
 -.IPs mmap\ \ \ 
@@ -806,9 +823,9 @@ $MirOS$
 -.IPs device=<device>
 +.iP device=<device>
  Sets the device name.
- Replace any ',' with '.' and any ':' with '#' in the ALSA device name.
- .RE
-@@ -1612,8 +1612,8 @@ ALSA 0.5 audio output driver.
+ Replace any ',' with '.' and any ':' with '=' in the ALSA device name.
+ Make sure you do not set this when you want hwac3 output via S/PDIF, unless
+@@ -1830,8 +1830,8 @@ ALSA 0.5 audio output driver
  .B oss\ \ \ \ 
  OSS audio output driver
  .PD 0
@@ -816,11 +833,70 @@ $MirOS$
 -.IPs dsp-device
 +.rS
 +.iP dsp-device
- Sets the audio-output device (default: /dev/dsp).
+ Sets the audio-output device (default: /dev/\:dsp).
  .RE
  .PD 1
-@@ -1698,7 +1698,7 @@ on.
- 
+@@ -1841,8 +1841,8 @@ Sets the audio-output device (default: /
+ highly platform independent SDL (Simple Directmedia Layer) library
+ audio output driver
+ .PD 0
+-.RSs
+-.IPs <driver>
++.rS
++.iP <driver>
+ Explicitly choose the SDL audio driver to use (default: let SDL choose).
+ .RE
+ .PD 1
+@@ -1855,8 +1855,8 @@ audio output through the Arts daemon
+ .B esd\ \ \ \ 
+ audio output through the ESD daemon
+ .PD 0
+-.RSs
+-.IPs <server>
++.rS
++.iP <server>
+ Explicitly choose the ESD server to use (default: localhost).
+ .RE
+ .PD 1
+@@ -1881,8 +1881,8 @@ native SGI audio output driver
+ .B sun (Sun only)
+ native Sun audio output driver
+ .PD 0
+-.RSs
+-.IPs <device>
++.rS
++.iP <device>
+ Explicitly choose the audio device to use (default: /dev/\:audio).
+ .RE
+ .PD 1
+@@ -1895,8 +1895,8 @@ native Windows waveout audio output driv
+ .B dsound (Windows only)
+ DirectX DirectSound audio output driver
+ .PD 0
+-.RSs
+-.IPs device=<devicenum>
++.rS
++.iP device=<devicenum>
+ Sets the device number to use.
+ Playing a file with \-v will show a list of available devices.
+ .RE
+@@ -1919,11 +1919,11 @@ Use \-nosound for benchmarking.
+ .B pcm\ \ \ \ 
+ raw PCM/wave file writer audio output
+ .PD 0
+-.RSs
+-.IPs (no)waveheader
++.rS
++.iP (no)waveheader
+ Include or do not include the wave header (default: included).
+ When not included, raw PCM will be generated.
+-.IPs file=<filename>
++.iP file=<filename>
+ Write the sound to <filename> instead of the default
+ audiodump.wav.
+ If nowaveheader is specified, the default is audiodump.pcm.
+@@ -1971,7 +1971,7 @@ on.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -828,21 +904,21 @@ $MirOS$
  \-display xtest.localdomain:0
  .RE
  .PD 1
-@@ -1720,82 +1720,82 @@ Warning: may cause OSD/\:SUB corruption!
+@@ -1986,82 +1986,82 @@ May cause OSD/\:SUB corruption!
+ .TP
  .B \-dxr2 <option1:option2:...>
- This option is used to control the dxr2 driver.
- .
+ This option is used to control the dxr2 video output driver.
 -.RSs
 -.IPs ar-mode=<value>
 +.rS
 +.iP ar-mode=<value>
- aspect ratio mode (0 = normal, 1 = pan scan, 2 = letterbox (default))
+ aspect ratio mode (0 = normal, 1 = pan-and-scan, 2 = letterbox (default))
 -.IPs iec958-encoded
 +.iP iec958-encoded
- iec958 output mode
+ Set iec958 output mode to encoded.
 -.IPs iec958-decoded
 +.iP iec958-decoded
- set iec958 output mode to decoded (default)
+ Set iec958 output mode to decoded (default).
 -.IPs macrovision=<value>
 +.iP macrovision=<value>
  macrovision mode (0 = off (default), 1 = agc, 2 = agc 2 colorstripe,
@@ -858,8 +934,8 @@ $MirOS$
  path to the microcode
  .RE
  .RS
- 
- .I TV Out
+ .sp 1
+ .I TV output
  .RE
 -.RSs
 -.IPs 75ire
@@ -892,26 +968,26 @@ $MirOS$
  set pixel mode to ccir601
  .RE
  .RS
- 
- .I Overlay
+ .sp 1
+ .I overlay
  .RE
 -.RSs
 -.IPs cr-left=<0\-500>
 +.rS
 +.iP cr-left=<0\-500>
- set the left cropping value (default: 50)
+ Set the left cropping value (default: 50).
 -.IPs cr-right=<0\-500>
 +.iP cr-right=<0\-500>
- set the right cropping value (default: 300)
+ Set the right cropping value (default: 300).
 -.IPs cr-top=<0\-500>
 +.iP cr-top=<0\-500>
- set the top cropping value (default: 0)
+ Set the top cropping value (default: 0).
 -.IPs cr-bottom=<0\-500>
 +.iP cr-bottom=<0\-500>
- set the bottom cropping value (default: 0)
+ Set the bottom cropping value (default: 0).
 -.IPs ck-[r|g|b]=<0\-255>
 +.iP ck-[r|g|b]=<0\-255>
- set the r(ed), g(reen) or b(lue) gain of the overlay color-key
+ Set the r(ed), g(reen) or b(lue) gain of the overlay color-key.
 -.IPs ck-[r|g|b]min=<0\-255>
 +.iP ck-[r|g|b]min=<0\-255>
  minimum value for the respective color key
@@ -920,65 +996,81 @@ $MirOS$
  maximum value for the respective color key
 -.IPs ignore-cache
 +.iP ignore-cache
- ignore cached overlay settings
+ Ignore cached overlay settings.
 -.IPs update-cache
 +.iP update-cache
- update cached overlay settings
+ Update cached overlay settings.
 -.IPs ol-osd
 +.iP ol-osd
- enable overlay onscreen display
+ Enable overlay onscreen display.
 -.IPs nool-osd
 +.iP nool-osd
- disable overlay onscreen display (default)
+ Disable overlay onscreen display (default).
 -.IPs ol[h|w|x|y]-cor=<-20\-20>
 +.iP ol[h|w|x|y]-cor=<-20\-20>
- adjust the overlay size (h,w) and position (x,y) in case it doesn't match the
- window perfectly (default: 0)
+ Adjust the overlay size (h,w) and position (x,y) in case it does not
+ match the window perfectly (default: 0).
 -.IPs overlay
 +.iP overlay
- activate overlay (default)
+ Activate overlay (default).
 -.IPs nooverlay
 +.iP nooverlay
- activate TVout
+ Activate TVout.
 -.IPs overlay-ratio=<1\-2500>
 +.iP overlay-ratio=<1\-2500>
- tune the overlay (default 1000)
+ Tune the overlay (default: 1000).
  .RE
  .
-@@ -1833,22 +1833,22 @@ used.
+@@ -2103,34 +2103,34 @@ See \-fstype help for a full list of ava
  The available types are:
- 
+ .sp 1
  .PD 0
 -.RSs
 -.IPs above
 +.rS
 +.iP above
- Use _NETWM_STATE_ABOVE hint if available.
+ Use the _NETWM_STATE_ABOVE hint if available.
 -.IPs below
 +.iP below
- Use _NETWM_STATE_BELOW hint if available.
+ Use the _NETWM_STATE_BELOW hint if available.
 -.IPs fullscreen
 +.iP fullscreen
- Use _NETWM_STATE_FULLSCREEN hint if available.
+ Use the _NETWM_STATE_FULLSCREEN hint if available.
 -.IPs layer
 +.iP layer
- Use _WIN_LAYER hint with default layer.
--.IPs layer=<0..15>
-+.iP layer=<0..15>
- Use _WIN_LAYER hint with layer number.
+ Use the _WIN_LAYER hint with the default layer.
+-.IPs layer=<0...15>
++.iP layer=<0...15>
+ Use the _WIN_LAYER hint with the given layer number.
 -.IPs netwm
 +.iP netwm
  Force NETWM style.
 -.IPs none\ 
 +.iP none\ 
- Don't set fullscreen window layer.
+ Do not set fullscreen window layer.
 -.IPs stays_on_top
 +.iP stays_on_top
  Use _NETWM_STATE_STAYS_ON_TOP hint if available.
+-.REss
++.rE
+ .sp 1
+ .RS
+ .I EXAMPLE:
+ .RE
+ .PD 0
+-.RSs
+-.IPs layer,stays_on_top,above,fullscreen
++.rS
++.iP layer,stays_on_top,above,fullscreen
+ Default order, will be used as a fallback if incorrect or
+ unsupported modes are specified.
+-.IPs \-fullscreen
++.iP \-fullscreen
+ Fixes fullscreen switching on OpenBox 1.x.
  .RE
  .PD 1
-@@ -1885,14 +1885,14 @@ directx and tdfxfb.
- 
+@@ -2153,14 +2153,14 @@ directx and tdfxfb video output drivers.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -997,34 +1089,8 @@ $MirOS$
  Places the window at the bottom right corner of the screen.
  .RE
  .PD 1
-@@ -1913,18 +1913,18 @@ Specify options for the JPEG output.
- Available options are:
- 
- .PD 0
--.RSs
--.IPs [no]progressive
-+.rS
-+.iP [no]progressive
- Specify standard or progressive JPEG.
--.IPs [no]baseline
-+.iP [no]baseline
- Specify use of baseline or not.
--.IPs optimize=<value>
-+.iP optimize=<value>
- Optimization factor [0\-100]
--.IPs smooth=<value>
-+.iP smooth=<value>
- Smooth factor [0\-100]
--.IPs quality=<value>
-+.iP quality=<value>
- Quality factor [0\-100]
--.IPs outdir=<value>
-+.iP outdir=<value>
- Directory to save the JPEG files
- .RE
- .PD 1
-@@ -1944,7 +1944,7 @@ See also \-aspect for movie aspect.
- 
+@@ -2195,7 +2195,7 @@ Set the aspect ratio of your monitor or 
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -1032,22 +1098,8 @@ $MirOS$
  \-monitoraspect 4:3  or 1.3333
  .br
  \-monitoraspect 16:9 or 1.7777
-@@ -2019,10 +2019,10 @@ displays) this option tells MPlayer whic
- Specifies compression level for PNG output.
- .
- .PD 0
--.RSs
--.IPs 0
-+.rS
-+.iP 0
- no compression
--.IPs 9
-+.iP 9
- max compression
- .RE
- .PD 1
-@@ -2090,10 +2090,10 @@ See \-vo help for a list of compiled-in 
- 
+@@ -2367,10 +2367,10 @@ See \-vo help for a list of compiled-in 
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -1060,44 +1112,109 @@ $MirOS$
  Uses the DirectX driver with acceleration features turned off.
  .RE
  .PD 1
-@@ -2112,8 +2112,8 @@ accelerated playback.
- If you cannot use a hardware specific driver, this is probably
- the best option.
+@@ -2387,28 +2387,28 @@ For information about what colorkey is u
+ with \-v option and look out for the lines tagged with [xv common] at the
+ beginning.
  .PD 0
 -.RSs
 -.IPs port=<number>
 +.rS
 +.iP port=<number>
  Select a specific XVideo port.
+-.IPs ck=<cur|use|set>
++.iP ck=<cur|use|set>
+ Select the source from which the colorkey is taken (default: cur).
+-.RSss
+-.IPs cur
++.rP
++.iP cur
+ The default takes the colorkey currently set in Xv.
+-.IPs use
++.iP use
+ Use but do not set the colorkey from mplayer (use \-colorkey option to change
+ it).
+-.IPs set
++.iP set
+ Same as use but also sets the supplied colorkey.
  .RE
- .PD 1
-@@ -2130,18 +2130,18 @@ Currently only supported by tdfx_vid.
- Video output driver that uses the XvMC (X Video Motion Compensation)
- extension of XFree86 4.x to speed up MPEG1/2 and VCR2 decoding.
+-.IPs ck-method=<man|bg|auto>
++.iP ck-method=<man|bg|auto>
+ Sets the colorkey drawing method (default: man).
+-.RSss
+-.IPs man
++.rP
++.iP man
+ Draw the colorkey manually (reduces flicker in some cases).
+-.IPs bg
++.iP bg
+ Set the colorkey as window background.
+-.IPs auto
++.iP auto
+ Let Xv draw the colorkey.
+ .RE
+ .RE
+@@ -2424,8 +2424,8 @@ works whenever X11 is present.
+ Adds X11 support to all overlay based video output drivers.
+ Currently only supported by tdfx_vid.
  .PD 0
 -.RSs
--.IPs benchmark
+-.IPs <vo_driver>
 +.rS
-+.iP benchmark
++.iP <vo_driver>
+ Select the driver to use as source to overlay on top of X11.
+ .RE
+ .PD 1
+@@ -2435,23 +2435,23 @@ Select the driver to use as source to ov
+ Video output driver that uses the XvMC (X Video Motion Compensation)
+ extension of XFree86 4.x to speed up MPEG-1/2 and VCR2 decoding.
+ .PD 0
+-.RSs
+-.IPs port=<number>
++.rS
++.iP port=<number>
+ Select a specific XVideo port.
+-.IPs (no)benchmark
++.iP (no)benchmark
  Disables image display.
  Necessary for proper benchmarking of drivers that change
  image buffers on monitor retrace only (nVidia).
--.IPs queue
-+.iP queue
+ Default is not to disable image display (nobenchmark).
+-.IPs (no)queue
++.iP (no)queue
  Queue frames for display to allow more parallel work of the video hardware.
- May add a small (not noticeable) constant A/V desync.
--.IPs sleep
-+.iP sleep
+ May add a small (not noticeable) constant A/\:V desync (default: noqueue).
+-.IPs (no)sleep
++.iP (no)sleep
  Use sleep function while waiting for rendering to finish
- (not recomended on Linux).
--.IPs wait\ 
-+.iP wait\ 
- Do not use sleep function while waiting for rendering to finish
- (default).
+ (not recomended on Linux). Default is not to sleep (nosleep).
+-.IPs ck=cur|use|set
++.iP ck=cur|use|set
+ Same as \-vo xv:ck (see \-vo xv).
+-.IPs ck-method=man|bg|auto
++.iP ck-method=man|bg|auto
+ Same as \-vo xv:ck-method (see \-vo xv).
  .RE
-@@ -2160,8 +2160,8 @@ VIDIX (VIDeo Interface for *niX) is an i
+ .PD 1
+@@ -2468,12 +2468,12 @@ video output driver.
+ Since SDL uses its own X11 layer, MPlayer X11 options do not have
+ any effect on SDL.
+ .PD 0
+-.RSs
+-.IPs driver=<driver>
++.rS
++.iP driver=<driver>
+ Explicitly choose the SDL driver to use.
+-.IPs (no)forcexv
++.iP (no)forcexv
+ Use XVideo through the sdl video output driver (default: forcexv).
+-.IPs (no)hwaccel
++.iP (no)hwaccel
+ Use hardware accelerated scaler (default: hwaccel).
+ .RE
+ .PD 1
+@@ -2484,8 +2484,8 @@ VIDIX (VIDeo Interface for *niX) is an i
  video acceleration features of different graphics cards.
- Very fast output driver on cards that support it.
+ Very fast video output driver on cards that support it.
  .PD 0
 -.RSs
 -.IPs <subdevice>
@@ -1105,8 +1222,8 @@ $MirOS$
 +.iP <subdevice>
  Explicitly choose the VIDIX subdevice driver to use.
  Available subdevice drivers are cyberblade_vid, mach64_vid, mga_crtc2_vid,
- mga_vid, nvidia_vid, pm3_vid, radeon_vid, rage128_vid, sis_vid.
-@@ -2171,8 +2171,8 @@ mga_vid, nvidia_vid, pm3_vid, radeon_vid
+ mga_vid, nvidia_vid, pm3_vid, radeon_vid, rage128_vid, sis_vid and
+@@ -2497,8 +2497,8 @@ unichrome_vid.
  .B xvidix (X11 only)
  X11 frontend for VIDIX
  .PD 0
@@ -1117,7 +1234,7 @@ $MirOS$
  same as vidix
  .RE
  .PD 1
-@@ -2181,8 +2181,8 @@ same as vidix
+@@ -2508,8 +2508,8 @@ same as vidix
  Generic and platform independent VIDIX frontend, can even run in a
  textconsole with nVidia cards.
  .PD 0
@@ -1128,7 +1245,7 @@ $MirOS$
  same as vidix
  .RE
  .PD 1
-@@ -2190,8 +2190,8 @@ same as vidix
+@@ -2518,8 +2518,8 @@ same as vidix
  .B winvidix (Windows only)
  Windows frontend for VIDIX
  .PD 0
@@ -1139,9 +1256,9 @@ $MirOS$
  same as vidix
  .RE
  .PD 1
-@@ -2199,8 +2199,8 @@ same as vidix
+@@ -2528,8 +2528,8 @@ same as vidix
  .B directx (Windows only)
- Output driver that uses the DirectX interface.
+ Video output driver that uses the DirectX interface.
  .PD 0
 -.RSs
 -.IPs noaccel
@@ -1150,19 +1267,44 @@ $MirOS$
  Turns off hardware acceleration.
  Try this option if you have display problems.
  .RE
-@@ -2211,8 +2211,8 @@ Mac OS X Quartz output driver.
+@@ -2541,10 +2541,10 @@ Mac OS X Quartz video output driver.
  Under some circumstances, it might be more efficient to force a
- packed YUV output format, with e.g. \-vf format=yuy2
+ packed YUV output format, with e.g.\& \-vf format=yuy2.
  .PD 0
 -.RSs
 -.IPs device_id=<number>
 +.rS
 +.iP device_id=<number>
  Choose the display device to use in fullscreen.
+-.IPs fs_res=<width>:<height>
++.iP fs_res=<width>:<height>
+ Specify the fullscreen resolution (useful on slow systems).
  .RE
  .PD 1
-@@ -2228,14 +2228,14 @@ alternative implementation.
- Very general output driver that should work on any VESA VBE 2.0
+@@ -2553,8 +2553,8 @@ Specify the fullscreen resolution (usefu
+ .B fbdev (Linux only)
+ Uses the kernel framebuffer to play video.
+ .PD 0
+-.RSs
+-.IPs <device>
++.rS
++.iP <device>
+ Explicitly choose the fbdev device name to use (e.g.\& /dev/\:fb0) or the
+ name of the VIDIX subdevice if the device name starts with 'vidix'
+ (e.g.\& 'vidixsis_vid' for the sis driver).
+@@ -2566,8 +2566,8 @@ name of the VIDIX subdevice if the devic
+ Uses the kernel framebuffer to play video,
+ alternative implementation.
+ .PD 0
+-.RSs
+-.IPs <device>
++.rS
++.iP <device>
+ Explicitly choose the fbdev device name to use (default: /dev/\:fb0).
+ .RE
+ .PD 1
+@@ -2577,18 +2577,18 @@ Explicitly choose the fbdev device name 
+ Very general video output driver that should work on any VESA VBE 2.0
  compatible card.
  .PD 0
 -.RSs
@@ -1173,30 +1315,105 @@ $MirOS$
 -.IPs nodga
 +.iP nodga
  Turns off DGA mode.
+-.IPs neotv_pal
++.iP neotv_pal
+ Activate the NeoMagic TV out and set it to PAL norm.
+-.IPs neotv_ntsc
++.iP neotv_ntsc
+ Activate the NeoMagic TV out and set it to NTSC norm.
 -.IPs vidix
 +.iP vidix
- FIXME: document this
--.IPs lvo\ \ 
-+.iP lvo\ \ 
- FIXME: document this
+ Use the VIDIX driver.
+-.IPs lvo:\ \ \ 
++.iP lvo:\ \ \ 
+ Activate the Linux Video Overlay on top of VESA mode.
  .RE
  .PD 1
-@@ -2249,11 +2249,11 @@ Very simple version, no OSD support and 
+@@ -2597,23 +2597,23 @@ Activate the Linux Video Overlay on top 
+ .B svga\ \ \ 
+ Play video using the SVGA library.
+ .PD 0
+-.RSs
+-.IPs "<video mode>"
++.rS
++.iP "<video mode>"
+ Specify video mode to use.
+ The mode can be given in a <width>x<height>x<colors> format,
+ e.g.\& 640x480x16M or be a graphics mode number, e.g.\& 84.
+-.IPs bbosd
++.iP bbosd
+ Draw OSD into black bands below the movie (slower).
+-.IPs native
++.iP native
+ Use only native drawing functions.
+ This avoids direct rendering, OSD and hardware acceleration.
+-.IPs retrace
++.iP retrace
+ Force frame switch on vertical retrace.
+ Usable only with \-double.
+ It has the same effect as the \-vsync option.
+-.IPs sq\ \ \ 
++.iP sq\ \ \ 
+ Try to select a video mode with square pixels.
+-.IPs vidix
++.iP vidix
+ Use svga with VIDIX.
+ .RE
+ .PD 1
+@@ -2625,24 +2625,24 @@ Simple version, video size must be small
  the maximum texture size of your OpenGL implementation.
  Intended to work even with the most simple OpenGL implementations.
  .PD 0
 -.RSs
--.IPs manyfmts
+-.IPs (no)manyfmts
 +.rS
-+.iP manyfmts
++.iP (no)manyfmts
  Enables support for more (RGB and BGR) color formats.
- Needs OpenGL version >= 1.2, NOT yet WORKING correctly.
+ Needs OpenGL version >= 1.2.
 -.IPs slice-height=<0\-...>
 +.iP slice-height=<0\-...>
  Number of lines copied to texture in one piece (default: 4).
  0 for whole image.
+-.IPs (no)osd
++.iP (no)osd
+ Enable or disable support for OSD rendering via OpenGL (default: enabled).
+ Mostly for testing, you should use \-osdlevel 0 to disable OSD.
+-.IPs (no)scaled-osd
++.iP (no)scaled-osd
+ Changes the way the OSD behaves when the size of the
+ window changes (default: disabled).
+ When enabled behaves more like the other video output drivers,
+ which is better for fixed-size fonts.
+ Disabled looks much better with FreeType fonts and uses the
+ borders in fullscreen mode.
+-.IPs (no)aspect
++.iP (no)aspect
+ Enable or disable aspect scaling and pan-and-scan support (default: enabled).
+ Disabling might increase speed.
  .RE
-@@ -2283,22 +2283,22 @@ Output driver for the GGI graphics syste
+@@ -2673,8 +2673,8 @@ Color ASCII art video output driver that
+ Video playback using the Blinkenlights UDP protocol.
+ This driver is highly hardware specific.
+ .PD 0
+-.RSs
+-.IPs <subdevice>
++.rS
++.iP <subdevice>
+ Explicitly choose the Blinkenlights subdevice driver to use.
+ It's something like arcade:host=localhost:2323 or
+ hdl:file=name1,file=name2.
+@@ -2686,8 +2686,8 @@ You must specify a subdevice.
+ .B ggi\ \ \ \ 
+ GGI graphics system video output driver
+ .PD 0
+-.RSs
+-.IPs <driver>
++.rS
++.iP <driver>
+ Explicitly choose the GGI driver to use.
+ .RE
+ .PD 1
+@@ -2696,22 +2696,22 @@ Explicitly choose the GGI driver to use.
  .B directfb
  Play video using the DirectFB library.
  .PD 0
@@ -1217,15 +1434,15 @@ $MirOS$
  Valid values are top = top fields first, bottom = bottom fields first.
  This option doesn't have any effect on progressive film material
  like most MPEG movies are.
- You need to enable this option if you have tearing issues/unsmooth
+ You need to enable this option if you have tearing issues/\:unsmooth
  motions watching interlaced film material.
 -.IPs layer=N
 +.iP layer=N
- Will force layer with id N for playback (default: -1 - auto).
+ Will force layer with ID N for playback (default: -1 - auto).
  .RE
  .PD 1
-@@ -2307,33 +2307,33 @@ Will force layer with id N for playback 
- Matrox G400/G450/G550 specific output driver that uses the DirectFB library.
+@@ -2722,33 +2722,33 @@ Matrox G400/\:G450/\:G550 specific video
+ DirectFB library to make use of special hardware features.
  Enables CRTC2 (second head), displaying video independently of the first head.
  .PD 0
 -.RSs
@@ -1243,7 +1460,7 @@ $MirOS$
 +.iP (no)crtc2
  Turn on TV-out on the second head (default: enabled).
  The output quality is amazing as it's a full interlaced picture
- with proper sync to every odd/even field.
+ with proper sync to every odd/\:even field.
 -.IPs (no)input
 +.iP (no)input
  Use the DirectFB instead of the MPlayer keyboard code (default: disabled).
@@ -1259,29 +1476,70 @@ $MirOS$
  Valid values are top = top fields first, bottom = bottom fields first.
  This option doesn't have any effect on progressive film material
  like most MPEG movies are.
- You need to enable this option if you have tearing issues/unsmooth
+ You need to enable this option if you have tearing issues/\:unsmooth
  motions watching interlaced film material.
 -.IPs tvnorm=pal|ntsc|auto
 +.iP tvnorm=pal|ntsc|auto
  Will set the TV norm of the Matrox card without the need
  for modifying /etc/\:directfbrc (default: disabled).
  Valid norms are pal = PAL, ntsc = NTSC.
-@@ -2368,10 +2368,10 @@ Works in conjunction with a kernel modul
- Creative DXR2 specific output driver.
- Also see the \-dxr2 option.
+@@ -2763,8 +2763,8 @@ Matrox specific video output driver that
+ end scaler on Gxxx cards through a kernel module.
+ If you have a Matrox card, this is the fastest option.
  .PD 0
 -.RSs
--.IPs x11
+-.IPs <device>
 +.rS
-+.iP x11
- Enables overlay.
--.IPs xv
-+.iP xv
- Enables overlay.
++.iP <device>
+ Explicitly choose the Matrox device name to use (default: /dev/\:mga_vid).
  .RE
  .PD 1
-@@ -2381,16 +2381,16 @@ Sigma Designs em8300 MPEG decoder chip (
- Hollywood Plus) specific output driver.
+@@ -2773,8 +2773,8 @@ Explicitly choose the Matrox device name
+ .B xmga (Linux, X11 only)
+ The mga video output driver, running in an X11 window.
+ .PD 0
+-.RSs
+-.IPs <device>
++.rS
++.iP <device>
+ Explicitly choose the Matrox device name to use (default: /dev/\:mga_vid).
+ .RE
+ .PD 1
+@@ -2799,8 +2799,8 @@ This driver employs the tdfx framebuffer
+ YUV acceleration on 3Dfx cards.
+ FIXME: It' ok the difference between 3dfx, tdfxfb and tdfx_vid?
+ .PD 0
+-.RSs
+-.IPs <device>
++.rS
++.iP <device>
+ Explicitly choose the fbdev device name to use (default: /dev/\:fb0).
+ .RE
+ .PD 1
+@@ -2811,8 +2811,8 @@ Explicitly choose the fbdev device name 
+ This driver directly uses the tdfx_vid kernel module.
+ FIXME: It' ok the difference between 3dfx, tdfxfb and tdfx_vid?
+ .PD 0
+-.RSs
+-.IPs <device>
++.rS
++.iP <device>
+ Explicitly choose the device name to use (default: /dev/\:tdfx_vid).
+ .RE
+ .PD 1
+@@ -2821,8 +2821,8 @@ Explicitly choose the device name to use
+ .B dxr2 (also see \-dxr2) (DXR2 only)
+ Creative DXR2 specific video output driver.
+ .PD 0
+-.RSs
+-.IPs <vo_driver>
++.rS
++.iP <vo_driver>
+ Output video subdriver to use as overlay (x11, xv).
+ .RE
+ .PD 1
+@@ -2833,16 +2833,16 @@ Sigma Designs em8300 MPEG decoder chip (
+ Hollywood Plus) specific video output driver.
  Also see the lavc video filter.
  .PD 0
 -.RSs
@@ -1292,8 +1550,8 @@ $MirOS$
 -.IPs prebuf
 +.iP prebuf
  Turns on prebuffering.
--.IPs sync
-+.iP sync
+-.IPs sync\ 
++.iP sync\ 
  Will turn on the new sync-engine.
 -.IPs norm=<norm>
 +.iP norm=<norm>
@@ -1302,165 +1560,262 @@ $MirOS$
 +.rP
  0: Does not change current norm (default).
  .br
- 1: Auto-adjust using PAL/NTSC.
-@@ -2402,8 +2402,8 @@ Specifies the TV norm.
+ 1: Auto-adjust using PAL/\:NTSC.
+@@ -2854,8 +2854,8 @@ Specifies the TV norm.
  4: PAL-60
  .br
  5: NTSC
 -.REss
--.IPs device=<number>
+-.IPs <0\-3>
 +.rE
-+.iP device=<number>
++.iP <0\-3>
  Specifies the device number to use if you have more than one em8300 card.
  .RE
  .PD 1
-@@ -2465,14 +2465,14 @@ If the list has a trailing ',' it will f
- 
+@@ -2865,11 +2865,11 @@ Specifies the device number to use if yo
+ Video output driver for DVB cards that writes the output to an MPEG-PES file
+ if no DVB card is installed.
+ .PD 0
+-.RSs
+-.IPs card=<1\-4>
++.rS
++.iP card=<1\-4>
+ Specifies the device number to use if you have more than one DVB output card
+ (V3 API only, such as 1.x.y series drivers).
+-.IPs <filename>
++.iP <filename>
+ Allows specifying the output filename (default: ./grab.mpg).
+ .RE
+ .PD 1
+@@ -2883,16 +2883,16 @@ Video output driver for a number of MJPE
+ Video output driver for a number of MJPEG capture/\:playback cards,
+ second generation.
+ .PD 0
+-.RSs
+-.IPs dev=<device>
++.rS
++.iP dev=<device>
+ Specifies the device to use.
+-.IPs pal\ \ 
++.iP pal\ \ 
+ Activate PAL video norm.
+-.IPs secam
++.iP secam
+ Activate SECAM video norm.
+-.IPs ntsc\ 
++.iP ntsc\ 
+ Activate NTSC video norm.
+-.IPs prebuf
++.iP prebuf
+ Activate prebuffering, not yet supported.
+ .RE
+ .PD 1
+@@ -2903,8 +2903,8 @@ Calculate MD5 sums of each frame and wri
+ Supports RGB24 and YV12 colorspaces.
+ Useful for debugging.
+ .PD 0
+-.RSs
+-.IPs outfile=<value>
++.rS
++.iP outfile=<value>
+ Specify the output filename (default: ./md5sums).
+ .RE
+ .PD 1
+@@ -2919,14 +2919,14 @@ It supports the YV12, RGB (24 bpp) and B
+ You can combine it with the \-fixed-vo option to concatenate files
+ with the same dimensions and fps value.
+ .PD 0
+-.RSs
+-.IPs interlaced
++.rS
++.iP interlaced
+ Write the output as interlaced frames, top field first.
+-.IPs interlaced_bf
++.iP interlaced_bf
+ Write the output as interlaced frames, bottom field first.
+-.IPs file=<filename>
++.iP file=<filename>
+ Write the output to <filename> instead of the default stream.yuv.
+-.REss
++.rE
+ .PD 1
+ .RS
+ .sp 1
+@@ -2941,12 +2941,12 @@ Output each frame into a single animated
+ It supports only RGB format with 24 bpp and the output is converted to 256
+ colors.
+ .PD 0
+-.RSs
+-.IPs <fps>
++.rS
++.iP <fps>
+ Float value to specify framerate (default: 5.0).
+-.IPs <filename>
++.iP <filename>
+ Specify the output filename (default: ./out.gif).
+-.REss
++.rE
+ .PD 1
+ .RS
+ .sp 1
+@@ -2957,7 +2957,7 @@ be part of the filename.
+ .I EXAMPLE:
+ .RE
+ .PD 0
+-.RSs
++.rS
+ mplayer video.nut \-vo gif89a:15.0:test.gif
+ .RE
+ .PD 1
+@@ -2967,23 +2967,23 @@ mplayer video.nut \-vo gif89a:15.0:test.
+ Output each frame into a JPEG file in the current directory.
+ Each file takes the frame number padded with leading zeros as name.
+ .PD 0
+-.RSs
+-.IPs [no]progressive
++.rS
++.iP [no]progressive
+ Specify standard or progressive JPEG (default: noprogressive).
+-.IPs [no]baseline
++.iP [no]baseline
+ Specify use of baseline or not (default: baseline).
+-.IPs optimize=<0\-100>
++.iP optimize=<0\-100>
+ optimization factor (default: 100)
+-.IPs smooth=<0\-100>
++.iP smooth=<0\-100>
+ smooth factor (default: 0)
+-.IPs quality=<0\-100>
++.iP quality=<0\-100>
+ quality factor (default: 75)
+-.IPs outdir=<dirname>
++.iP outdir=<dirname>
+ Specify the directory to save the JPEG files to (default: ./).
+-.IPs subdirs=<prefix>
++.iP subdirs=<prefix>
+ Create numbered subdirectories with the specified prefix to
+ save the files in instead of the current directory.
+-.IPs maxfiles=<value> (subdirs only)
++.iP maxfiles=<value> (subdirs only)
+ Maximum number of files to be saved per subdirectory.
+ Must be equal to or larger than 1 (default: 1000).
+ .RE
+@@ -2996,25 +2996,25 @@ Each file takes the frame number padded 
+ It supports PPM, PGM and PGMYUV files in both raw and ASCII mode.
+ Also see pnm(5), ppm(5) and pgm(5).
+ .PD 0
+-.RSs
+-.IPs ppm\ \ 
++.rS
++.iP ppm\ \ 
+ Write PPM files (default).
+-.IPs pgm\ \ 
++.iP pgm\ \ 
+ Write PGM files.
+-.IPs pgmyuv
++.iP pgmyuv
+ Write PGMYUV files.
+ PGMYUV is like PGM, but it also contains the U and V plane, appended at the
+ bottom of the picture.
+-.IPs raw\ \ 
++.iP raw\ \ 
+ Write PNM files in raw mode (default).
+-.IPs ascii
++.iP ascii
+ Write PNM files in ASCII mode.
+-.IPs outdir=<dirname>
++.iP outdir=<dirname>
+ Specify the directory to save the PNM files to (default: ./).
+-.IPs subdirs=<prefix>
++.iP subdirs=<prefix>
+ Create numbered subdirectories with the specified prefix to
+ save the files in instead of the current directory.
+-.IPs maxfiles=<value> (subdirs only)
++.iP maxfiles=<value> (subdirs only)
+ Maximum number of files to be saved per subdirectory.
+ Must be equal to or larger than 1 (default: 1000).
+ .RE
+@@ -3026,8 +3026,8 @@ Output each frame into a PNG file in the
+ Each file takes the frame number padded with leading zeros as name.
+ 24bpp RGB and BGR formats are supported.
+ .PD 0
+-.RSs
+-.IPs z=<0-9>
++.rS
++.iP z=<0-9>
+ Specifies the compression level.
+ 0 is no compression, 9 is maximum compression.
+ .RE
+@@ -3045,7 +3045,7 @@ You can force a particular format with t
+ .I EXAMPLE:
+ .RE
+ .PD 0
+-.RSs
++.rS
+ mplayer video.nut \-vf format=bgr15 \-vo tga
+ .RE
+ .PD 1
+@@ -3067,14 +3067,14 @@ See \-ac help for a full list of availab
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-ac mp3acm"
 +.rS
 +.iP "\-ac mp3acm"
- force l3codeca.acm MP3 codec
+ Force the l3codeca.acm MP3 codec.
 -.IPs "\-ac mad,"
 +.iP "\-ac mad,"
- try libmad first, then fallback to others
+ Try libmad first, then fall back on others.
 -.IPs "\-ac hwac3,a52,"
 +.iP "\-ac hwac3,a52,"
- try hardware AC3 passthrough, then software AC3 codec, then others
+ Try hardware AC3 passthrough, software AC3, then others.
 -.IPs "\-ac -ffmp3,"
 +.iP "\-ac -ffmp3,"
- try other codecs except FFmpeg's MP3 decoder
+ Skip FFmpeg's MP3 decoder.
  .RE
  .PD 1
-@@ -2483,18 +2483,18 @@ Activate a comma separated list of audio
- .br
- Available filters are:
- .
--.RSs
--.IPs resample[=srate[:sloppy][:type]]
-+.rS
-+.iP resample[=srate[:sloppy][:type]]
- Changes the sample rate of the audio stream to an integer srate (Hz).
- It only supports the 16 bit little endian format.
--.IPs channels[=nch]
-+.iP channels[=nch]
- Change the number of channels to nch output channels.
- If the number of output channels is bigger than the number of input channels
- empty channels are inserted (except mixing from mono to stereo, then the mono
- channel is repeated in both of the output channels).
- If the number of output channels is smaller than the number of input channels
- the exceeding channels are truncated.
--.IPs format[=bps:f]
-+.iP format[=bps:f]
- Select the format f and bytes per sample bps used for output from the
- filter layer.
- The option bps is an integer and denotes Bytes per sample.
-@@ -2508,57 +2508,57 @@ unsigned or signed
- .br
- le or be (little or big endian)
- .br
--.IPs volume[=v:sc]
-+.iP volume[=v:sc]
- Select the output volume level.
- This filter is not reentrant and can therefore only be enabled once for every
- audio stream.
--.RSss
-+.rP
- v: desired gain in dB for all channels in the stream.
- The gain can be set from -200dB to +60dB (where -200dB mutes the sound
- completely and +60dB equals a gain of 1000).
- .br
- sc: enable soft clipping.
--.REss
--.IPs pan[=n:l01:l02:..l10:l11:l12:...ln0:ln1:ln2:...]
-+.rE
-+.iP pan[=n:l01:l02:..l10:l11:l12:...ln0:ln1:ln2:...]
- Mixes channels arbitrarily, see DOCS/HTML/en/devices.html#audio-dev for details.
--.RSss
-+.rP
- n: number of output channels (1\-6).
- .br
- lij: how much of input channel j is mixed into output channel i.
--.REss
--.IPs sub[=fc:ch]
-+.rE
-+.iP sub[=fc:ch]
- Add sub-woofer channel.
--.RSss
-+.rP
- fc: Cutoff frequency for low-pass filter (20Hz to 300Hz) default is 60Hz.
- .br
- ch: channel number for the sub-channel.
--.REss
--.IPs surround[=d]
-+.rE
-+.iP surround[=d]
- Decoder for matrix encoded surround sound, works on many 2 channel files.
--.RSss
-+.rP
- d: delay time in ms for the rear speakers (0ms to 1000ms) default is 15ms.
--.REss
--.IPs delay[=ch1:ch2:...]
-+.rE
-+.iP delay[=ch1:ch2:...]
- Delays the sound output.
- Specify the delay separately for each channel in milliseconds (floating point
- number between 0 and 1000).
--.IPs export[=mmapped_file[:nsamples]]
-+.iP export[=mmapped_file[:nsamples]]
- Exports the incoming signal to other processes using memory mapping (mmap()).
--.RSss
-+.rP
- mmapped_file: File to map data to (default: ~/.mplayer/mplayer-af_export).
- .br
- nsamples: number of samples per channel (default: 512)
--.REss
-+.rE
- .RE
- .
+@@ -3082,10 +3082,10 @@ Skip FFmpeg's MP3 decoder.
  .TP
- .B \-af-adv <force=(0\-3):list=(filters)> (see \-af option too)
+ .B \-af-adv <force=(0\-3):list=(filters)> (also see \-af)
  Specify advanced audio filter options:
- .
 -.RSs
--.IPs force=<0\-3>
+-.IPs force=<0\-7>
 +.rS
-+.iP force=<0\-3>
++.iP force=<0\-7>
  Forces the insertion of audio filters to one of the following:
 -.RSss
 +.rP
- 0: Completely automatic insertion of filters (default)
+ 0: completely automatic filter insertion (default)
  .br
- 1: Optimize for accuracy
-@@ -2566,8 +2566,8 @@ Forces the insertion of audio filters to
- 2: Optimize for speed
+ 1: Optimize for accuracy.
+@@ -3110,8 +3110,8 @@ but use floating point processing when p
  .br
- 3: Turn off auto
+ 7: Use no automatic insertion of filters according to 3 above,
+ and use floating point processing when possible.
 -.REss
 -.IPs list=<filters>
 +.rE
 +.iP list=<filters>
- Same as \-af (see \-af option).
+ Same as \-af.
  .RE
  .
-@@ -2582,10 +2582,10 @@ See \-afm help for a full list of availa
- 
+@@ -3126,10 +3126,10 @@ See \-afm help for a full list of availa
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-afm ffmpeg"
 +.rS
 +.iP "\-afm ffmpeg"
- try FFmpeg's libavcodec (mp1/\:2/\:3) codecs first
+ Try FFmpeg's libavcodec codecs first.
 -.IPs "\-afm acm,dshow"
 +.iP "\-afm acm,dshow"
- try Win32 codecs first
+ Try Win32 codecs first.
  .RE
  .PD 1
-@@ -2597,7 +2597,7 @@ It's autodetected on MPEG files, but can
- 
+@@ -3141,7 +3141,7 @@ incorrect or missing in the file being p
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -1468,8 +1823,8 @@ $MirOS$
  \-aspect 4:3  or \-aspect 1.3333
  .br
  \-aspect 16:9 or \-aspect 1.7777
-@@ -2616,7 +2616,7 @@ If decoding with libavcodec, you can spe
- 
+@@ -3162,7 +3162,7 @@ Specify libavcodec decoding parameters.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -1477,92 +1832,127 @@ $MirOS$
  \-lavdopts bug=1
  .RE
  .PD 1
-@@ -2628,19 +2628,19 @@ Just add the values of the things you wa
+@@ -3170,10 +3170,10 @@ Specify libavcodec decoding parameters.
+ .RS
  Available options are:
  .RE
- .
 -.RSs
--.IPs ec\ \ \ 
+-.IPs bug=<value>
 +.rS
-+.iP ec\ \ \ 
- error concealment:
++.iP bug=<value>
+ Manually work around encoder bugs.
 -.RSss
 +.rP
- 1: use strong deblock filter for damaged MBs
+ 0: nothing
  .br
- 2: iterative MV search (slow)
+ 1: autodetect bugs (default)
+@@ -3197,10 +3197,10 @@ Manually work around encoder bugs.
+ 512 (mpeg4): direct-qpel-blocksize bug (autodetected per fourcc/\:version)
+ .br
+ 1024 (mpeg4): edge padding bug (autodetected per fourcc/\:version)
+-.REss
+-.IPs debug=<value>
++.rE
++.iP debug=<value>
+ Display debugging information.
+-.RSss
++.rP
+ .br
+ 0: disabled
+ .br
+@@ -3229,19 +3229,19 @@ Display debugging information.
+ 0x0800: memory management control operations (H.264)
+ .br
+ 0x1000: bugs
+-.REss
+-.IPs ec=<value>
++.rE
++.iP ec=<value>
+ Set error concealment strategy.
+-.RSss
++.rP
+ 1: Use strong deblock filter for damaged MBs.
+ .br
+ 2: iterative motion vector (MV) search (slow)
  .br
  3: all (default)
 -.REss
 -.IPs er=<value>
 +.rE
 +.iP er=<value>
- error resilience:
+ Set error resilience strategy.
 -.RSss
 +.rP
  .br
  0: disabled
  .br
-@@ -2651,10 +2651,10 @@ error resilience:
- 3: agressive (more checks but might cause problems even for valid bitstreams)
+@@ -3252,23 +3252,23 @@ Set error resilience strategy.
+ 3: aggressive (More checks, but might cause problems even for valid bitstreams.)
  .br
- 4: very agressive
+ 4: very aggressive
 -.REss
--.IPs debug=<value>
+-.IPs fast\ 
 +.rE
-+.iP debug=<value>
- debug:
--.RSss
-+.rP
- .br
- 0: disabled
- .br
-@@ -2683,10 +2683,10 @@ debug:
- 0x0800: memory management control operations (H264)
- .br
- 0x1000: bugs
--.REss
--.IPs vismv=<value>
-+.rE
-+.iP vismv=<value>
- vismv:
--.RSss
-+.rP
- .br
- 0: disabled
- .br
-@@ -2695,10 +2695,10 @@ vismv:
- 2: visualize forward predicted MVs of B frames
- .br
- 4: visualize backward predicted MVs of B frames
--.REss
--.IPs bug=<value>
-+.rE
-+.iP bug=<value>
- manually work around encoder bugs:
--.RSss
-+.rP
- 0: nothing
- .br
- 1: autodetect bugs (default)
-@@ -2722,12 +2722,12 @@ manually work around encoder bugs:
- 512 (mpeg4): direct-qpel-blocksize bug (autodetected per fourcc/ver)
- .br
- 1024 (mpeg4): edge padding bug (autodetected per fourcc/ver)
--.REss
--.IPs idct=<0\-99>
-+.rE
-+.iP idct=<0\-99>
- (see lavcopts)
- For best decoding quality use the same idct algorithm for decoding and encoding.
- This may come at a price in accuracy, though.
++.iP fast\ 
+ Enable optimizations which do not comply to the specification and might
+ potentially cause problems, like simpler dequantization, assuming use
+ of the default quantization matrix, assuming YUV 4:2:0 and skipping a few
+ checks to detect damaged bitstreams.
 -.IPs gray\ 
 +.iP gray\ 
  grayscale only decoding (a bit faster than with color)
+-.IPs "idct=<0\-99> (see \-lavcopts)"
++.iP "idct=<0\-99> (see \-lavcopts)"
+ For best decoding quality use the same IDCT algorithm for decoding and encoding.
+ This may come at a price in accuracy, though.
+-.IPs lowres=<number>[,<w>]
++.iP lowres=<number>[,<w>]
+ Decode at lower resolutions.
+ Low resolution decoding is not supported by all codecs, and it will
+ often result in ugly artifacts.
+ This is not a bug, but a side effect of not decoding at full resolution.
+-.RSss
++.rP
+ .br
+ 0: disabled
+ .br
+@@ -3277,18 +3277,18 @@ This is not a bug, but a side effect of 
+ 2: 1/4 resolution
+ .br
+ 3: 1/8 resolution
+-.REss
++.rE
+ .RS
+ If <w> is specified lowres decoding will be used only if the width of the
+ video is major than or equal to <w>.
+ .RE
+-.IPs "sb=<number> (MPEG-2 only)"
++.iP "sb=<number> (MPEG-2 only)"
+ Skip the given number of macroblock rows at the bottom.
+-.IPs "st=<number> (MPEG-2 only)"
++.iP "st=<number> (MPEG-2 only)"
+ Skip the given number of macroblock rows at the top.
+-.IPs vismv=<value>
++.iP vismv=<value>
+ Visualize motion vectors.
+-.RSss
++.rP
+ .br
+ 0: disabled
+ .br
+@@ -3297,8 +3297,8 @@ Visualize motion vectors.
+ 2: Visualize forward predicted MVs of B-frames.
+ .br
+ 4: Visualize backward predicted MVs of B-frames.
+-.REss
+-.IPs vstats
++.rE
++.iP vstats
+ Prints some statistics and stores them in ./vstats_*.log.
  .RE
  .
-@@ -2769,24 +2769,24 @@ Specifies SwScaler parameters.
- 
+@@ -3344,23 +3344,23 @@ Specifies software scaler parameters.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -1570,16 +1960,15 @@ $MirOS$
  \-vf scale \-ssf lgb=3.0
  .RE
  .PD 1
- .
  .PD 0
 -.RSs
 -.IPs lgb=<0\-100>
 +.rS
 +.iP lgb=<0\-100>
- Gaussian blur filter (luma)
+ gaussian blur filter (luma)
 -.IPs cgb=<0\-100>
 +.iP cgb=<0\-100>
- Gaussian blur filter (chroma)
+ gaussian blur filter (chroma)
 -.IPs ls=<0\-100>
 +.iP ls=<0\-100>
  sharpen filter (luma)
@@ -1594,38 +1983,38 @@ $MirOS$
  chroma vertical shifting
  .RE
  .PD 1
-@@ -2796,12 +2796,12 @@ chroma vertical shifting
+@@ -3369,12 +3369,12 @@ chroma vertical shifting
+ .B \-stereo <mode>
  Select type of MP2/\:MP3 stereo output.
- .
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- Stereo
+ stereo
 -.IPs 1
 +.iP 1
- Left channel
+ left channel
 -.IPs 2
 +.iP 2
- Right channel
+ right channel
  .RE
  .PD 1
-@@ -2819,28 +2819,28 @@ of \-vf scale (0 (soft) \- 100 (sharp)),
- length (1 \- 10).
- 
+@@ -3387,28 +3387,28 @@ This affects video output drivers which 
+ Available types are:
+ .sp 1
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- fast bilinear (default)
+ fast bilinear
 -.IPs 1
 +.iP 1
  bilinear
 -.IPs 2
 +.iP 2
- bicubic (good quality)
+ bicubic (good quality) (default)
 -.IPs 3
 +.iP 3
  experimental
@@ -1649,72 +2038,84 @@ $MirOS$
  lanczos
 -.IPs 10
 +.iP 10
- bicubic spline
+ natural bicubic spline
  .RE
  .PD 1
-@@ -2858,14 +2858,14 @@ If the list has a trailing ',' it will f
- 
+@@ -3433,14 +3433,14 @@ See \-vc help for a full list of availab
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-vc divx"
 +.rS
 +.iP "\-vc divx"
- force Win32/\:VFW DivX codec, no fallback
+ Force Win32/\:VFW DivX codec, no fallback.
 -.IPs "\-vc divx4,"
 +.iP "\-vc divx4,"
- try divx4linux codec first, then fallback to others
+ Try divx4linux codec first, then fall back on others.
 -.IPs "\-vc -divxds,-divx,"
 +.iP "\-vc -divxds,-divx,"
- try other codecs except Win32 DivX codecs
+ Skip Win32 DivX codecs.
 -.IPs "\-vc ffmpeg12,mpeg12,"
 +.iP "\-vc ffmpeg12,mpeg12,"
- try libavcodec's MPEG1/\:2 codec, then libmpeg2, then others
+ Try libavcodec's MPEG-1/2 codec, then libmpeg2, then others.
  .RE
  .PD 1
-@@ -2886,11 +2886,11 @@ See \-vfm help for a full list of availa
- 
+@@ -3456,11 +3456,11 @@ See \-vfm help for a full list of availa
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-vfm ffmpeg,dshow,vfw"
 +.rS
 +.iP "\-vfm ffmpeg,dshow,vfw"
- try the libavcodec, then Directshow, then VFW codecs and fallback to the
- others, if still none is ok
+ Try the libavcodec, then Directshow, then VfW codecs and fall back
+ on others, if they do not work.
 -.IPs "\-vfm xanim"
 +.iP "\-vfm xanim"
- try XAnim codecs first
+ Try XAnim codecs first.
  .RE
  .PD 1
-@@ -2904,18 +2904,18 @@ Disables aspect calculations.
- Specify additional parameters when decoding with XviD.
- .
+@@ -3480,16 +3480,16 @@ postprocessing filter (\-vf pp) and deco
+ .sp 1
+ XviD's internal postprocessing filters:
  .PD 0
 -.RSs
--.IPs deblock-chroma
+-.IPs deblock-chroma (also see \-vf pp)
 +.rS
-+.iP deblock-chroma
- Activate XviD internal postprocessing filter: chroma deblock filter.
- See also \-vf pp, which is faster than XviD's own filter.
--.IPs deblock-luma
-+.iP deblock-luma
- Activate XviD internal postprocessing filter: luma deblock filter.
- See also \-vf pp, which is faster than XviD's own filter.
++.iP deblock-chroma (also see \-vf pp)
+ chroma deblock filter
+-.IPs deblock-luma (also see \-vf pp)
++.iP deblock-luma (also see \-vf pp)
+ luma deblock filter
+-.IPs dering-luma (also see \-vf pp)
++.iP dering-luma (also see \-vf pp)
+ luma deringing filter
+-.IPs dering-chroma (also see \-vf pp)
++.iP dering-chroma (also see \-vf pp)
+ chroma deringing filter
+-.IPs filmeffect (also see \-vf noise)
++.iP filmeffect (also see \-vf noise)
+ Adds artificial film grain to the video.
+ May increase perceived quality, while lowering true quality.
+ .RE
+@@ -3498,10 +3498,10 @@ May increase perceived quality, while lo
+ rendering methods:
+ .RE
+ .PD 0
+-.RSs
 -.IPs dr2\ \ 
++.rS
 +.iP dr2\ \ 
  Activate direct rendering method 2.
 -.IPs nodr2
 +.iP nodr2
  Deactivate direct rendering method 2.
--.IPs filmeffect
-+.iP filmeffect
- Activate XviD internal film grain effect.
- Adds artificial film grain to the video. 
- May increase perceived quality, while lowering true quality.
-@@ -2926,10 +2926,10 @@ Also see \-vf noise.
+ .RE
+ .PD 1
+@@ -3509,10 +3509,10 @@ Deactivate direct rendering method 2.
  .TP
- .B \-xy <value>
+ .B \-xy <value> (also see \-zoom)
  .PD 0
 -.RSs
 -.IPs value<=8
@@ -1726,60 +2127,460 @@ $MirOS$
  Set width to value and calculate height to keep correct aspect ratio.
  .RE
  .PD 1
-@@ -3005,10 +3005,10 @@ Available filters are:
+@@ -3555,27 +3555,27 @@ It only supports 16-bit integer and floa
+ .I NOTE:
+ With MEncoder, you need to also use \-srate <srate>.
+ .PD 0
+-.RSs
+-.IPs <srate>
++.rS
++.iP <srate>
+ output sample frequency in Hz.
+ The valid range for this parameter is 8000 to 192000.
+ If the input and output sample frequency are the same or if this
+ parameter is omitted the filter is automatically unloaded.
+ A high sample frequency normally improves the audio quality,
+ especially when used in combination with other filters.
+-.IPs <sloppy>
++.iP <sloppy>
+ Allow (1) or disallow (0) the output frequency to differ slightly
+ from the frequency given by <srate> (default: 1).
+ Can be used if the startup of the playback is extremely slow.
+-.IPs <type>
++.iP <type>
+ Selects which resampling method to use.
+-.RSss
++.rP
+ 0: linear interpolation (fast, poor quality especially when upsampling)
+ .br
+ 1: polyphase filterbank and integer processing
+ .br
+ 2: polyphase filterbank and floating point processing (slow, best quality)
+-.REss
++.rE
+ .PD 1
+ .RE
+ .sp 1
+@@ -3583,8 +3583,8 @@ Selects which resampling method to use.
+ .I EXAMPLE:
+ .RE
+ .PD 0
+-.RSs
+-.IPs "mplayer -af resample=44100:0:0"
++.rS
++.iP "mplayer -af resample=44100:0:0"
+ would set the output frequency of the resample filter to 44100Hz using
+ exact output frequency scaling and linear interpolation.
+ .RE
+@@ -3598,18 +3598,18 @@ It only supports the 16-bit native-endia
+ .I NOTE:
+ With MEncoder, you need to also use \-srate <srate>.
+ .PD 0
+-.RSs
+-.IPs <srate>
++.rS
++.iP <srate>
+ the output sample rate
+-.IPs <length>
++.iP <length>
+ length of the filter with respect to the lower sampling rate (default: 16)
+-.IPs <linear>
++.iP <linear>
+ if 1 then filters will be linearly interpolated between polyphase entries
+-.IPs <count>
++.iP <count>
+ log2 of the number of polyphase entries
+ (..., 10->1024, 11->2048, 12->4096, ...)
+ (default: 10->1024)
+-.IPs <cutoff>
++.iP <cutoff>
+ cutoff frequency (0.0-1.0), default set depending upon filter length
+ .RE
+ .PD 1
+@@ -3618,8 +3618,8 @@ cutoff frequency (0.0-1.0), default set 
+ .B sweep[=speed]
+ Produces a sine sweep.
+ .PD 0
+-.RSs
+-.IPs <0.0\-1.0>
++.rS
++.iP <0.0\-1.0>
+ Sine function delta, use very low values to hear the sweep.
+ .RE
+ .PD 1
+@@ -3631,10 +3631,10 @@ Head-related transfer function: Converts
+ .sp 1
+ .PD 0
+ .RS
+-.IPs "Flag  Meaning"
+-.IPs "m     matrix decoding of the rear channel"
+-.IPs "s     2-channel matrix decoding"
+-.IPs "0     no matrix decoding (default)"
++.iP "Flag  Meaning"
++.iP "m     matrix decoding of the rear channel"
++.iP "s     2-channel matrix decoding"
++.iP "0     no matrix decoding (default)"
+ .RE
+ .PD 1
+ .
+@@ -3646,17 +3646,17 @@ The center frequencies for the 10 bands 
+ .sp 1
+ .PD 0
+ .RS
+-.IPs "No. frequency"
+-.IPs "0    31.25 Hz"
+-.IPs "1    62.50 Hz"
+-.IPs "2   125.00 Hz"
+-.IPs "3   250.00 Hz"
+-.IPs "4   500.00 Hz"
+-.IPs "5    1.00 kHz"
+-.IPs "6    2.00 kHz"
+-.IPs "7    4.00 kHz"
+-.IPs "8    8.00 kHz"
+-.IPs "9   16.00 kHz"
++.iP "No. frequency"
++.iP "0    31.25 Hz"
++.iP "1    62.50 Hz"
++.iP "2   125.00 Hz"
++.iP "3   250.00 Hz"
++.iP "4   500.00 Hz"
++.iP "5    1.00 kHz"
++.iP "6    2.00 kHz"
++.iP "7    4.00 kHz"
++.iP "8    8.00 kHz"
++.iP "9   16.00 kHz"
+ .RE
+ .PD 1
+ .sp 1
+@@ -3670,8 +3670,8 @@ This problem can be worked around by ups
+ using the resample filter before it reaches this filter.
+ .RE
+ .PD 0
+-.RSs
+-.IPs <g1>:<g2>:<g3>:...:<g10>
++.rS
++.iP <g1>:<g2>:<g3>:...:<g10>
+ floating point numbers representing the gain in dB
+ for each frequency band (-12\-12)
+ .RE
+@@ -3679,8 +3679,8 @@ for each frequency band (-12\-12)
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer \-af equalizer=11:11:10:5:0:-12:0:5:12:12 media.avi"
++.rS
++.iP "mplayer \-af equalizer=11:11:10:5:0:-12:0:5:12:12 media.avi"
+ Would amplify the sound in the upper and lower frequency region
+ while canceling it almost completely around 1kHz.
+ .RE
+@@ -3697,25 +3697,25 @@ channels).
+ If the number of output channels is smaller than the number
+ of input channels the exceeding channels are truncated.
+ .PD 0
+-.RSs
+-.IPs <nch>
++.rS
++.iP <nch>
+ number of output channels (1\-6)
+-.IPs <nr>\ 
++.iP <nr>\ 
+ number of routes (1\-6)
+-.IPs <from1:to1:from2:to2:from3:to3:...>
++.iP <from1:to1:from2:to2:from3:to3:...>
+ Pairs of numbers between 0 and 5 that define where to route each channel.
+ .RE
+ .sp 1
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer -af channels=4:4:0:1:1:0:2:2:3:3 media.avi"
++.rS
++.iP "mplayer -af channels=4:4:0:1:1:0:2:2:3:3 media.avi"
+ Would change the number of channels to 4 and set up 4 routes that
+ swap channel 0 and channel 1 and leave channel 2 and 3 intact.
+ Observe that if media containing two channels was played back, channels
+ 2 and 3 would contain silence but 0 and 1 would still be swapped.
+-.IPs "mplayer -af channels=6:4:0:0:0:1:0:2:0:3 media.avi"
++.iP "mplayer -af channels=6:4:0:0:0:1:0:2:0:3 media.avi"
+ Would change the number of channels to 6 and set up 4 routes
+ that copy channel 0 to channels 0 to 3.
+ Channel 4 and 5 will contain silence.
+@@ -3727,8 +3727,8 @@ Channel 4 and 5 will contain silence.
+ Convert between different sample formats.
+ Automatically enabled when needed by the sound card or another filter.
+ .PD 0
+-.RSs
+-.IPs <format>
++.rS
++.iP <format>
+ Sets the desired format.
+ The general form is 'sbe', where 's' denotes the sign (either 's' for signed
+ or 'u' for unsigned), 'b' denotes the number of bits per sample (16, 24 or 32)
+@@ -3764,12 +3764,12 @@ MEncoder such that the maximum dynamic r
+ This filter is not reentrant and can therefore only be enabled
+ once for every audio stream.
+ .PD 0
+-.RSs
+-.IPs <v>\ \ 
++.rS
++.iP <v>\ \ 
+ Sets the desired gain in dB for all channels in the stream
+ from -200dB to +60dB, where -200dB mutes the sound
+ completely and +60dB equals a gain of 1000 (default: 0).
+-.IPs <sc>\ 
++.iP <sc>\ 
+ Turns soft clipping on (1) or off (0).
+ Soft-clipping can make the sound more smooth if very
+ high volume levels are used.
+@@ -3783,8 +3783,8 @@ This feature creates distortion and shou
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer -af volume=10.1:0 media.avi"
++.rS
++.iP "mplayer -af volume=10.1:0 media.avi"
+ would amplify the sound by 10.1dB and hard-clip if the
+ sound level is too high.
+ .RE
+@@ -3804,20 +3804,20 @@ the number of output channels.
+ An example how to downmix a six-channel file to two channels with
+ this filter can be found in the examples section near the end.
+ .PD 0
+-.RSs
+-.IPs <n>\ \ 
++.rS
++.iP <n>\ \ 
+ number of input channels (1\-6)
+-.IPs <lij>
++.iP <lij>
+ How much of input channel j is mixed into output channel i (0\-1).
+ .RE
+ .sp 1
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer -af pan=1:0.5:0.5 -channels 1 media.avi"
++.rS
++.iP "mplayer -af pan=1:0.5:0.5 -channels 1 media.avi"
+ Would down-mix from stereo to mono.
+-.IPs "mplayer -af pan=3:1:0:1:0.5:0.5 -channels 3 media.avi"
++.iP "mplayer -af pan=3:1:0:1:0.5:0.5 -channels 3 media.avi"
+ Would give 3 channel output leaving channels 0 and 1 intact,
+ and mix channels 0 and 1 into output channel 2 (which could
+ be sent to a subwoofer for example).
+@@ -3838,12 +3838,12 @@ Disable this filter when you are playing
+ Digital 5.1 sound, otherwise this filter will disrupt
+ the sound to the subwoofer.
+ .PD 0
+-.RSs
+-.IPs <fc>\ 
++.rS
++.iP <fc>\ 
+ cutoff frequency in Hz for the low-pass filter (20Hz to 300Hz) (default: 60Hz)
+ For the best result try setting the cutoff frequency as low as possible.
+ This will improve the stereo or surround sound experience.
+-.IPs <ch>\ 
++.iP <ch>\ 
+ Determines the channel number in which to insert the sub-channel audio.
+ Channel number can be between 0 and 5 (default: 5).
+ Observe that the number of channels will automatically
+@@ -3853,8 +3853,8 @@ be increased to <ch> if necessary.
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer -af sub=100:4 -channels 5 media.avi"
++.rS
++.iP "mplayer -af sub=100:4 -channels 5 media.avi"
+ would add a sub-woofer channel with a cutoff frequency of
+ 100Hz to output channel 4.
+ .RE
+@@ -3867,8 +3867,8 @@ May currently be low quality as it does 
+ high-pass filter for proper extraction yet, but averages and
+ halves the channels instead.
+ .PD 0
+-.RSs
+-.IPs <ch>\ 
++.rS
++.iP <ch>\ 
+ Determines the channel number in which to insert the center channel.
+ Channel number can be between 0 and 5 (default: 5).
+ Observe that the number of channels will automatically
+@@ -3882,8 +3882,8 @@ Decoder for matrix encoded surround soun
+ Many files with 2 channel audio actually contain matrixed surround sound.
+ Requires a sound card supporting at least 4 channels.
+ .PD 0
+-.RSs
+-.IPs <delay>
++.rS
++.iP <delay>
+ delay time in ms for the rear speakers (0 to 1000) (default: 20)
+ This delay should be set as follows: If d1 is the distance
+ from the listening position to the front speakers and d2 is the distance
+@@ -3894,8 +3894,8 @@ be set to 15ms if d1 <= d2 and to 15 + 5
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer \-af surround=15 \-channels 4 media.avi"
++.rS
++.iP "mplayer \-af surround=15 \-channels 4 media.avi"
+ Would add surround sound decoding with 15ms delay for the sound to the
+ rear speakers.
+ .RE
+@@ -3907,8 +3907,8 @@ Delays the sound to the loudspeakers suc
+ different channels arrives at the listening position simultaneously.
+ It is only useful if you have more than 2 loudspeakers.
+ .PD 0
+-.RSs
+-.IPs ch1,ch2,...
++.rS
++.iP ch1,ch2,...
+ The delay in ms that should be imposed on each channel
+ (floating point number between 0 and 1000).
+ .RE
+@@ -3932,8 +3932,8 @@ Calculate the required delays in ms as d
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer \-af delay=10.5:10.5:0:0:7:0 media.avi"
++.rS
++.iP "mplayer \-af delay=10.5:10.5:0:0:7:0 media.avi"
+ Would delay front left and right by 10.5ms, the two rear channels
+ and the sub by 0ms and the center channel by 7ms.
+ .RE
+@@ -3953,18 +3953,18 @@ unsigned long long counter   /*Used to k
+ .sp 1
+ The rest is payload (non-interleaved) 16 bit data.
+ .PD 0
+-.RSs
+-.IPs <mmapped_file>
++.rS
++.iP <mmapped_file>
+ file to map data to (default: ~/.mplayer/\:mplayer-af_export)
+-.IPs <nsamples>
++.iP <nsamples>
+ number of samples per channel (default: 512)
+ .RE
+ .sp 1
+ .RS
+ .I EXAMPLE:
+ .RE
+-.RSs
+-.IPs "mplayer \-af export=/tmp/mplayer-af_export:1024 media.avi"
++.rS
++.iP "mplayer \-af export=/tmp/mplayer-af_export:1024 media.avi"
+ Would export 1024 samples per channel to '/tmp/mplayer-af_export'.
+ .RE
+ .PD 1
+@@ -3974,8 +3974,8 @@ Would export 1024 samples per channel to
+ (Linearly) increases the difference between left and right channels
+ which adds some sort of "live" effect to playback.
+ .PD 0
+-.RSs
+-.IPs <mul>
++.rS
++.iP <mul>
+ Sets the difference coefficient (default: 2.5).
+ 0.0 means mono sound (average of both channels), with 1.0 sound will be
+ unchanged, with -1.0 left and right channels will be swapped.
+@@ -3991,17 +3991,17 @@ Maximizes the volume without distorting 
+ Load a LADSPA (Linux Audio Developer's Simple Plugin API) plugin.
+ This filter is reentrant, so multiple LADSPA plugins can be used at once.
+ .PD 0
+-.RSs
+-.IPs <file>
++.rS
++.iP <file>
+ Specifies the LADSPA plugin library file.
+ If LADSPA_PATH is set, it searches for the specified file.
+ If it is not set, you must supply a fully specified pathname.
+-.IPs <label>
++.iP <label>
+ Specifies the filter within the library.
+ Some libraries contain only one filter, but others contain many of them.
+ Entering 'help' here, will list all available filters within the specified
+ library, which eliminates the use of 'listplugins' from the LADSPA SDK.
+-.IPs <controls>
++.iP <controls>
+ Controls are zero or more floating point values that determine the
+ behaviour of the loaded plugin (for example delay, threshold or gain).
+ In verbose mode (add \-v to the MPlayer command line), all available controls
+@@ -4087,10 +4087,10 @@ Available filters are:
  Crops the given part of the image and discards the rest.
  Useful to remove black bands from widescreen movies.
  .PD 0
 -.RSs
--.IPs w,h
+-.IPs <w>,<h>
 +.rS
-+.iP w,h
++.iP <w>,<h>
  Cropped width and height, defaults to original width and height.
--.IPs x,y
-+.iP x,y
+-.IPs <x>,<y>
++.iP <x>,<y>
  Position of the cropped picture, defaults to center.
  .RE
  .PD 1
-@@ -3024,11 +3024,11 @@ The threshold can be optionally specifie
+@@ -4100,12 +4100,12 @@ Position of the cropped picture, default
+ Calculates necessary cropping parameters and prints the recommended parameters
+ to stdout.
+ .PD 0
+-.RSs
+-.IPs <limit>
++.rS
++.iP <limit>
+ Threshold, which can be optionally specified from nothing (0) to
+ everything (255) (default: 24).
+ .br
+-.IPs <round>
++.iP <round>
+ Value which the width/\:height should be divisible by (default: 16).
+ The offset is automatically adjusted to center the video.
+ Use 2 to get only even dimensions (needed for 4:2:2 video).
+@@ -4118,11 +4118,11 @@ Use 2 to get only even dimensions (neede
  The plugin responds to the input.conf directive 'change_rectangle'
  that takes two parameters.
  .PD 0
 -.RSs
--.IPs w,h
+-.IPs <w>,<h>
 +.rS
-+.iP w,h
++.iP <w>,<h>
  width and height (default: -1, maximum possible width where boundaries
- are still visible.
--.IPs x,y
-+.iP x,y
+ are still visible.)
+-.IPs <x>,<y>
++.iP <x>,<y>
  top left corner position (default: -1, uppermost leftmost)
  .RE
  .PD 1
-@@ -3037,27 +3037,27 @@ top left corner position (default: -1, u
+@@ -4132,27 +4132,27 @@ top left corner position (default: -1, u
  Expands (not scales) movie resolution to the given value and places the
  unscaled original at coordinates x, y.
  Can be used for placing subtitles/\:OSD in the resulting black bands.
 -.RSs
--.IPs w,h
+-.IPs <w>,<h>
 +.rS
-+.iP w,h
- expanded width,height (default: original width,height).
++.iP <w>,<h>
+ Expanded width,height (default: original width,height).
  Negative values for w and h are treated as offsets to the original size.
- 
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 +.rS
  .IP expand=0:-50:0:0
- adds a 50 pixel border to the bottom of the picture
+ Adds a 50 pixel border to the bottom of the picture.
  .RE
  .PD 1
--.IPs x,y
-+.iP x,y
+-.IPs <x>,<y>
++.iP <x>,<y>
  position of original image on the expanded image (default: center)
--.IPs o
-+.iP o
- OSD/subtitle rendering
+-.IPs <o>\ 
++.iP <o>\ 
+ OSD/\:subtitle rendering
 -.RSss
 +.rP
  0: disable (default)
@@ -1788,17 +2589,37 @@ $MirOS$
 -.REss
 +.rE
  .RE
+ .
  .TP
- .B flip\ \ \ 
-@@ -3075,14 +3075,14 @@ portrait and not landscape.
- .B scale[=w:h[:interlaced[:chr_drop[:param[:presize]]]]]
- Scales the image with the software scaler (slow) and performs a YUV<\->RGB
- colorspace conversion (also see \-sws option).
+@@ -4168,14 +4168,14 @@ Mirrors the image on the Y axis.
+ Rotates the image by 90 degrees and optionally flips it.
+ For values between 4\-7 rotation is only done if the movie geometry is
+ portrait and not landscape.
 -.RSs
--.IPs w,h\ \ 
+-.IPs 0
 +.rS
-+.iP w,h\ \ 
- scaled width/height (default: original width/height)
++.iP 0
+ Rotate by 90 degrees clockwise and flip (default).
+-.IPs 1
++.iP 1
+ Rotate by 90 degrees clockwise.
+-.IPs 2
++.iP 2
+ Rotate by 90 degrees counterclockwise.
+-.IPs 3
++.iP 3
+ Rotate by 90 degrees counterclockwise and flip.
+ .RE
+ .
+@@ -4183,14 +4183,14 @@ Rotate by 90 degrees counterclockwise an
+ .B scale[=w:h[:interlaced[:chr_drop[:param[:param2[:presize]]]]]]
+ Scales the image with the software scaler (slow) and performs a YUV<\->RGB
+ colorspace conversion (also see \-sws).
+-.RSs
+-.IPs <w>,<h>
++.rS
++.iP <w>,<h>
+ scaled width/\:height (default: original width/\:height)
  .br
  .I NOTE:
  If \-zoom is used, and underlying filters (including libvo) are
@@ -1808,59 +2629,69 @@ $MirOS$
   0:   scaled d_width/\:d_height
  .br
  -1:   original width/\:height
-@@ -3090,12 +3090,12 @@ incapable of scaling, it defaults to d_w
- -2:   Calculate w/\:h using the other dimension and the prescaled aspect ratio.
- .br
+@@ -4200,17 +4200,17 @@ incapable of scaling, it defaults to d_w
  -3:   Calculate w/\:h using the other dimension and the original aspect ratio.
+ .br
+ -(n+8): Like -n above, but rounding the dimension to the closest multiple of 16.
 -.REss
--.IPs interlaced
+-.IPs <interlaced>
 +.rE
-+.iP interlaced
++.iP <interlaced>
  Toggle interlaced scaling.
--.IPs chr_drop
-+.iP chr_drop
+-.RSss
++.rP
+ 0: off (default)
+ .br
+ 1: on
+-.REss
+-.IPs <chr_drop>
++.rE
++.iP <chr_drop>
  chroma skipping
 -.RSss
 +.rP
- 0: use all available input lines for chroma
+ 0: Use all available input lines for chroma.
  .br
- 1: use only every 2. input line for chroma
-@@ -3103,19 +3103,19 @@ chroma skipping
- 2: use only every 4. input line for chroma
+ 1: Use only every 2. input line for chroma.
+@@ -4218,11 +4218,11 @@ chroma skipping
+ 2: Use only every 4. input line for chroma.
  .br
- 3: use only every 8. input line for chroma
+ 3: Use only every 8. input line for chroma.
 -.REss
--.IPs param
+-.IPs "<param>[:<param2>] (also see \-sws)"
 +.rE
-+.iP param
- scaling parameter (depends upon the scaling method used)
++.iP "<param>[:<param2>] (also see \-sws)"
+ Set some scaling parameters depending on the type of scaler selected
+ with \-sws.
 -.RSss
 +.rP
- \-sws 2 (bicubic):  sharpness (0 (soft) \- 100 (sharp))
+ \-sws 2 (bicubic):  B (blurring) and C (ringing)
  .br
+ 0.00:0.60 default
+@@ -4238,10 +4238,10 @@ with \-sws.
  \-sws 7 (gaussian): sharpness (0 (soft) \- 100 (sharp))
  .br
  \-sws 9 (lanczos):  filter length (1\-10)
 -.REss
--.IPs presize
+-.IPs <presize>
 +.rE
-+.iP presize
++.iP <presize>
  Scale to preset sizes.
 -.RSss
 +.rP
  qntsc:   352x240 (NTSC quarter screen)
  .br
  qpal:    352x288 (PAL quarter screen)
-@@ -3127,7 +3127,7 @@ pal:     720x576 (standard PAL)
+@@ -4253,7 +4253,7 @@ pal:     720x576 (standard PAL)
  sntsc:   640x480 (square pixel NTSC)
  .br
  spal:    768x576 (square pixel PAL)
 -.REss
 +.rE
  .RE
+ .
  .TP
- .B dsize={aspect|w:h}
-@@ -3155,8 +3155,8 @@ Clamps YUV color values to the CCIR 601 
+@@ -4288,8 +4288,8 @@ Clamps YUV color values to the CCIR 601 
  .B rgb2bgr[=swap]
  RGB 24/\:32 <\-> BGR 24/\:32 colorspace conversion.
  .PD 0
@@ -1868,49 +2699,181 @@ $MirOS$
 -.IPs swap\ 
 +.rS
 +.iP swap\ 
- Also perform  R <\-> B swapping.
+ Also perform  R <-> B swapping.
  .RE
  .PD 1
-@@ -3169,8 +3169,8 @@ Restricts the colorspace for the next fi
- Use together with the scale filter for a real conversion.
+@@ -4306,8 +4306,8 @@ Use together with the scale filter for a
+ .I NOTE:
  For a list of available formats see format=fmt=help.
  .PD 0
 -.RSs
--.IPs fourcc
+-.IPs <fourcc>
 +.rS
-+.iP fourcc
++.iP <fourcc>
  format name like rgb15, bgr24, yv12, etc (default: yuy2)
  .RE
  .PD 1
-@@ -3182,8 +3182,8 @@ Unlike the format filter, this will allo
- the one you specify.
+@@ -4322,8 +4322,8 @@ the one you specify.
+ .I NOTE:
  For a list of available formats see noformat=fmt=help.
  .PD 0
 -.RSs
--.IPs fourcc
+-.IPs <fourcc>
 +.rS
-+.iP fourcc
++.iP <fourcc>
  format name like rgb15, bgr24, yv12, etc (default: yv12)
  .RE
  .PD 1
-@@ -3201,12 +3201,12 @@ The keywords accept a '-' prefix to disa
- A ':' followed by a letter may be appended to the option to indicate its
- scope:
+@@ -4337,14 +4337,14 @@ Each subfilter and some options have a s
+ used interchangeably, i.e.\& dr/dering are the same.
+ All subfilters share common options to determine their scope:
  .PD 0
 -.RSs
--.IPs a
+-.IPs a/autoq
 +.rS
-+.iP a
- Automatically switches the filter off if the CPU is too slow.
--.IPs c
-+.iP c
- Do chrominance filtering, too.
--.IPs y
-+.iP y
- Do not do chrominance filtering (only luminance filtering).
++.iP a/autoq
+ Automatically switch the subfilter off if the CPU is too slow.
+-.IPs c/chrom
++.iP c/chrom
+ Do chrominance filtering, too (default).
+-.IPs y/nochrom
++.iP y/nochrom
+ Do luminance filtering only (no chrominance).
+-.IPs n/noluma
++.iP n/noluma
+ Do chrominance filtering only (no luminance).
  .RE
  .PD 1
-@@ -3215,18 +3215,18 @@ Do not do chrominance filtering (only lu
+@@ -4356,95 +4356,95 @@ Do chrominance filtering only (no lumina
+ .sp 1
+ Available subfilters are
+ .RE
+-.RSs
+-.IPs hb/hdeblock[:difference[:flatness]]
++.rS
++.iP hb/hdeblock[:difference[:flatness]]
+ horizontal deblocking filter
+-.RSss
++.rP
+ <difference>: Difference factor where higher values mean
+ more deblocking (default: 32).
+ .br
+ <flatness>: Flatness threshold where lower values mean
+ more deblocking (default: 39).
+-.REss
+-.IPs vb/vdeblock[:difference[:flatness]]
++.rE
++.iP vb/vdeblock[:difference[:flatness]]
+ vertical deblocking filter
+-.RSss
++.rP
+ <difference>: Difference factor where higher values mean
+ more deblocking (default: 32).
+ .br
+ <flatness>: Flatness threshold where lower values mean
+ more deblocking (default: 39).
+-.REss
+-.IPs ha/hadeblock[:difference[:flatness]]
++.rE
++.iP ha/hadeblock[:difference[:flatness]]
+ accurate horizontal deblocking filter
+-.RSss
++.rP
+ <difference>: Difference factor where higher values mean
+ more deblocking (default: 32).
+ .br
+ <flatness>: Flatness threshold where lower values mean
+ more deblocking (default: 39).
+-.REss
+-.IPs va/vadeblock[:difference[:flatness]]
++.rE
++.iP va/vadeblock[:difference[:flatness]]
+ accurate vertical deblocking filter
+-.RSss
++.rP
+ <difference>: Difference factor where higher values mean
+ more deblocking (default: 32).
+ .br
+ <flatness>: Flatness threshold where lower values mean
+ more deblocking (default: 39).
+-.REss
++.rE
+ .sp 1
+ The horizontal and vertical deblocking filters share the
+ difference and flatness values so you cannot set
+ different horizontal and vertical thresholds.
+ .sp 1
+-.IPs h1/x1hdeblock
++.iP h1/x1hdeblock
+ experimental horizontal deblocking filter
+-.IPs v1/x1vdeblock
++.iP v1/x1vdeblock
+ experimental vertical deblocking filter
+-.IPs dr/dering
++.iP dr/dering
+ deringing filter
+-.IPs tn/tmpnoise[:threshold1[:threshold2[:threshold3]]]
++.iP tn/tmpnoise[:threshold1[:threshold2[:threshold3]]]
+ temporal noise reducer
+-.RSss
++.rP
+ <threshold1>: larger -> stronger filtering
+ .br
+ <threshold2>: larger -> stronger filtering
+ .br
+ <threshold3>: larger -> stronger filtering
+-.REss
+-.IPs al/autolevels[:f/fullyrange]
++.rE
++.iP al/autolevels[:f/fullyrange]
+ automatic brightness / contrast correction
+-.RSss
++.rP
+ f/fullyrange: Stretch luminance to (0\-255).
+-.REss
+-.IPs lb/linblenddeint
++.rE
++.iP lb/linblenddeint
+ Linear blend deinterlacing filter that deinterlaces the given block
+ by filtering all lines with a (1 2 1) filter.
+-.IPs li/linipoldeint
++.iP li/linipoldeint
+ Linear interpolating deinterlacing filter that deinterlaces the given block
+ by linearly interpolating every second line.
+-.IPs ci/cubicipoldeint
++.iP ci/cubicipoldeint
+ Cubic interpolating deinterlacing filter deinterlaces the given block
+ by cubically interpolating every second line.
+-.IPs md/mediandeint
++.iP md/mediandeint
+ Median deinterlacing filter that deinterlaces the given block
+ by applying a median filter to every second line.
+-.IPs fd/ffmpegdeint
++.iP fd/ffmpegdeint
+ FFmpeg deinterlacing filter that deinterlaces the given block
+ by filtering every second line with a (-1 4 2 4 -1) filter.
+-.IPs l5/lowpass5
++.iP l5/lowpass5
+ Vertically applied FIR lowpass deinterlacing filter that deinterlaces
+ the given block by filtering all lines with a (-1 2 6 2 -1) filter.
+-.IPs fq/forceQuant[:quantizer]
++.iP fq/forceQuant[:quantizer]
+ Overrides the quantizer table from the input with the constant
+ quantizer you specify.
+-.RSss
++.rP
+ <quantizer>: quantizer to use
+-.REss
+-.IPs de/default
++.rE
++.iP de/default
+ default pp filter combination (hb:a,vb:a,dr:a)
+-.IPs fa/fast
++.iP fa/fast
+ fast pp filter combination (h1:a,v1:a,dr:a)
+ .RE
+ .RS
+@@ -4452,15 +4452,15 @@ fast pp filter combination (h1:a,v1:a,dr
  .I EXAMPLE:
  .RE
  .PD 0
@@ -1920,81 +2883,88 @@ $MirOS$
 +.iP "\-vf pp=hb/vb/dr/al"
  horizontal and vertical deblocking, deringing and automatic
  brightness/\:contrast
--.IPs "\-vf pp=hb/vb/dr/al/lb"
-+.iP "\-vf pp=hb/vb/dr/al/lb"
- horizontal and vertical deblocking, deringing, automatic
- brightness/\:contrast and linear blend deinterlacer
 -.IPs "\-vf pp=de/-al"
 +.iP "\-vf pp=de/-al"
  default filters without brightness/\:contrast correction
--.IPs "\-vf pp=de/tn:1:2:3"
-+.iP "\-vf pp=de/tn:1:2:3"
+-.IPs "\-vf pp=default/tmpnoise:1:2:3"
++.iP "\-vf pp=default/tmpnoise:1:2:3"
  Enable default filters & temporal denoiser.
--.IPs "\-vf pp=hb:y/vb:a \-autoq 6"
-+.iP "\-vf pp=hb:y/vb:a \-autoq 6"
- Deblock horizontal only luminance and switch vertical deblocking on or
- off automatically depending on available CPU time.
+-.IPs "\-vf pp=hb:y/vb:a"
++.iP "\-vf pp=hb:y/vb:a"
+ Horizontal deblocking on luminance only, and switch vertical deblocking
+ on or off automatically depending on available CPU time.
  .RE
-@@ -3234,12 +3234,12 @@ off automatically depending on available
+@@ -4469,12 +4469,12 @@ on or off automatically depending on ava
  .TP
  .B spp[=quality[:qp[:mode]]]
  simple postprocessing filter
 -.RSs
--.IPs quality
+-.IPs <quality>
 +.rS
-+.iP quality
++.iP <quality>
  0\-6 (default: 3)
--.IPs qp\ \ \ 
-+.iP qp\ \ \ 
- force quantization parameter (default: 0, use qp from video)
--.IPs mode\ \ \ 
-+.iP mode\ \ \ 
+-.IPs <qp>\ 
++.iP <qp>\ 
+ Force quantization parameter (default: 0, use QP from video).
+-.IPs <mode>
++.iP <mode>
  0: hard thresholding (default)
  .br
  1: soft thresholding (better deringing, but blurrier)
-@@ -3247,8 +3247,8 @@ force quantization parameter (default: 0
+@@ -4483,8 +4483,8 @@ Force quantization parameter (default: 0
  .TP
  .B qp=equation
- qp change filter
+ quantization parameter (QP) change filter
 -.RSs
--.IPs equation
+-.IPs <equation>
 +.rS
-+.iP equation
++.iP <equation>
  some equation like "2+2*sin(PI*qp)"
  .RE
- .TP
-@@ -3262,14 +3262,14 @@ You should see a red, green and blue str
+ .
+@@ -4501,14 +4501,14 @@ You should see a red, green and blue str
  .B lavc[=quality:fps]
- Fast software YV12 to MPEG1 conversion with libavcodec for use with DVB/\:DXR3.
+ Fast software YV12 to MPEG-1 conversion with libavcodec for use with DVB/\:DXR3.
  Faster and of better quality than \-vf fame.
 -.RSs
--.IPs quality
+-.IPs <quality>
 -.RSss
 +.rS
-+.iP quality
++.iP <quality>
 +.rP
  1\-31: fixed qscale
  .br
  32\-:  fixed bitrate in kBits
 -.REss
--.IPs fps\ \ 
+-.IPs <fps>
 +.rE
-+.iP fps\ \ 
++.iP <fps>
  force output fps (float value) (default: 0, autodetect based on height)
  .RE
- .TP
-@@ -3281,8 +3281,8 @@ Set up optimal scaling for DVB cards, sc
- calculating the Y axis scaling in software to keep aspect.
- It's only useful together with expand+scale
- (\-vf dvbscale,scale=-1:0,expand=-1:576:-1:-1:1,lavc).
+ .
+@@ -4521,8 +4521,8 @@ Fast software YV12 to MPEG-1 conversion 
+ Set up optimal scaling for DVB cards, scaling the x axis in hardware and
+ calculating the y axis scaling in software to keep aspect.
+ Only useful together with expand and scale.
 -.RSs
--.IPs aspect
+-.IPs <aspect>
 +.rS
-+.iP aspect
- control aspect ratio, calculate as DVB_HEIGHT*ASPECTRATIO (default:
- 576*4/3=768), set it to 576*(16/9)=1024 for a 16:9 TV.
++.iP <aspect>
+ Control aspect ratio, calculate as DVB_HEIGHT*ASPECTRATIO (default:
+ 576*4/\:3=768), set it to 576*(16/\:9)=1024 for a 16:9 TV.
  .RE
-@@ -3290,20 +3290,20 @@ control aspect ratio, calculate as DVB_H
+@@ -4531,8 +4531,8 @@ Control aspect ratio, calculate as DVB_H
+ .I EXAMPLE:
+ .RE
+ .PD 0
+-.RSs
+-.IPs "\-vf dvbscale,scale=-1:0,expand=-1:576:-1:-1:1,lavc"
++.rS
++.iP "\-vf dvbscale,scale=-1:0,expand=-1:576:-1:-1:1,lavc"
+ FIXME: Explain what this does.
+ .RE
+ .PD 1
+@@ -4541,20 +4541,20 @@ FIXME: Explain what this does.
  .B noise[=luma[u][t|a][h][p]:chroma[u][t|a][h][p]]
  Adds noise.
  .PD 0
@@ -2023,59 +2993,214 @@ $MirOS$
  mix random noise with a (semi)regular pattern
  .RE
  .PD 1
-@@ -3315,12 +3315,12 @@ images really still (This should enhance
- It can be given from 0 to 3 parameters.  If you omit a parameter, a reasonable
- value will be inferred.
+@@ -4564,12 +4564,12 @@ mix random noise with a (semi)regular pa
+ This filter aims to reduce image noise producing smooth images and making still
+ images really still (This should enhance compressibility.).
  .PD 0
 -.RSs
--.IPs luma\ 
+-.IPs <luma>
 +.rS
-+.iP luma\ 
- spatial luma strength (default = 4)
--.IPs chroma
-+.iP chroma
- spatial chroma strength (default = 3)
--.IPs time\ 
-+.iP time\ 
- temporal strength (default = 6)
++.iP <luma>
+ spatial luma strength (default: 4)
+-.IPs <chroma>
++.iP <chroma>
+ spatial chroma strength (default: 3)
+-.IPs <time>
++.iP <time>
+ temporal strength (default: 6)
  .RE
  .PD 1
-@@ -3435,38 +3435,38 @@ Use libavcodec's deinterlace filter.
+@@ -4588,10 +4588,10 @@ Might also be useful with MEncoder, eith
+ movies, or for slightly reducing contrast to mask artifacts and get by
+ with lower bitrates.
+ .PD 0
+-.RSs
+-.IPs <-100\-100>
++.rS
++.iP <-100\-100>
+ initial brightness
+-.IPs <-100\-100>
++.iP <-100\-100>
+ initial contrast
+ .RE
+ .PD 1
+@@ -4605,23 +4605,23 @@ Note that it uses the same MMX optimized
+ gamma values are 1.0.
+ The parameters are given as floating point values.
+ .PD 0
+-.RSs
+-.IPs <0.1\-10>
++.rS
++.iP <0.1\-10>
+ initial gamma value (default: 1.0)
+-.IPs <-2\-2>
++.iP <-2\-2>
+ initial contrast, where negative values result in a
+ negative image (default: 1.0)
+-.IPs <-1\-1>
++.iP <-1\-1>
+ initial brightness (default: 0.0)
+-.IPs <0\-3>
++.iP <0\-3>
+ initial saturation (default: 1.0)
+-.IPs <0.1\-10>
++.iP <0.1\-10>
+ gamma value for the red component (default: 1.0)
+-.IPs <0.1\-10>
++.iP <0.1\-10>
+ gamma value for the green component (default: 1.0)
+-.IPs <0.1\-10>
++.iP <0.1\-10>
+ gamma value for the blue component (default: 1.0)
+-.IPs <0\-1>
++.iP <0\-1>
+ The weight parameter can be used to reduce the effect of a high gamma value on
+ bright image areas, e.g.\& keep them from getting overamplified and just plain
+ white.
+@@ -4636,10 +4636,10 @@ Software equalizer with interactive cont
+ equalizer, for cards/\:drivers that do not support hue and
+ saturation controls in hardware.
+ .PD 0
+-.RSs
+-.IPs <-180\-180>
++.rS
++.iP <-180\-180>
+ initial hue (default: 0.0)
+-.IPs <-100\-100>
++.iP <-100\-100>
+ initial saturation, where negative values result
+ in a negative chroma (default: 1.0)
+ .RE
+@@ -4654,15 +4654,15 @@ is poor quality or is not available.
+ Can also be used as a primitive luma-only deinterlacer with very low CPU
+ usage.
+ .PD 0
+-.RSs
+-.IPs <f>\ \ 
++.rS
++.iP <f>\ \ 
+ By default, halfpack averages pairs of lines when downsampling.
+ Any value different from 0 or 1 gives the default (averaging) behavior.
+-.RSss
++.rP
+ 0: Only use even lines when downsampling.
+ .br
+ 1: Only use odd lines when downsampling.
+-.REss
++.rE
+ .RE
+ .PD 1
+ .
+@@ -4675,14 +4675,14 @@ This filter packs the planar 4:2:0 data 
+ the chroma lines in their proper locations, so that in any given
+ scanline, the luma and chroma data both come from the same field.
+ .PD 0
+-.RSs
+-.IPs <mode>
++.rS
++.iP <mode>
+ Select the sampling mode.
+-.RSss
++.rP
+ 0: nearest-neighbor sampling, fast but incorrect
+ .br
+ 1: linear interpolation (default)
+-.REss
++.rE
+ .RE
+ .PD 1
+ .
+@@ -4715,12 +4715,12 @@ The main use of this filter is for very-
+ streaming over dialup modem), but it could in theory be used for
+ fixing movies that were inverse-telecined incorrectly.
+ .PD 0
+-.RSs
+-.IPs <max>
++.rS
++.iP <max>
+ Sets the maximum number of consecutive frames which can be
+ dropped (if positive), or the minimum interval between
+ dropped frames (if negative).
+-.IPs <hi>,<lo>,<frac>
++.iP <hi>,<lo>,<frac>
+ A frame is a candidate for dropping if no 8x8 region differs by more
+ than a threshold of <hi>, and if not more than <frac> portion (1
+ meaning the whole image) differs by more than a threshold of <lo>.
+@@ -4736,10 +4736,10 @@ block.
+ The drop-deinterlace (dint) filter detects and drops the first from a set
+ of interlaced video frames.
+ .PD 0
+-.RSs
+-.IPs <0.0\-1.0>
++.rS
++.iP <0.0\-1.0>
+ relative difference between neighboring pixels (default: 0.1)
+-.IPs <0.0\-1.0>
++.iP <0.0\-1.0>
+ What part of the image has to be detected as interlaced to
+ drop the frame (default: 0.15).
+ .RE
+@@ -4754,55 +4754,55 @@ FFmpeg deinterlacing filter, same as \-v
  Donald Graft's adaptive kernel deinterlacer.
  Deinterlaces parts of a video if a configurable threshold is exceeded.
  .PD 0
 -.RSs
--.IPs "thresh (0 - 255)"
+-.IPs <0\-255>
 +.rS
-+.iP "thresh (0 - 255)"
- Threshold (default 10).
--.IPs "map (0 or 1)"
-+.iP "map (0 or 1)"
- Paint pixels which exceed the threshold white (default: 0).
--.IPs "order (0 or 1)"
-+.iP "order (0 or 1)"
- Swap fields if 1 (default: 0).
--.IPs "sharp (0 or 1)"
-+.iP "sharp (0 or 1)"
- Enable additional sharpening (default: 0).
--.IPs "twoway (0 or 1)"
-+.iP "twoway (0 or 1)"
- Enable twoway sharpening (default: 0).
++.iP <0\-255>
+ threshold (default: 10)
+-.IPs <map>
+-.RSss
++.iP <map>
++.rP
+ 0: Ignore pixels exceeding the threshold (default).
+ .br
+ 1: Paint pixels exceeding the threshold white.
+-.REss
+-.IPs <order>
+-.RSss
++.rE
++.iP <order>
++.rP
+ 0: Leave fields alone (default).
+ .br
+ 1: Swap fields.
+-.REss
+-.IPs <sharp>
+-.RSss
++.rE
++.iP <sharp>
++.rP
+ 0: Disable additional sharpening (default).
+ .br
+ 1: Enable additional sharpening.
+-.REss
+-.IPs <twoway>
+-.RSss
++.rE
++.iP <twoway>
++.rP
+ 0: Disable twoway sharpening (default).
+ .br
+ 1: Enable twoway sharpening.
+-.REss
++.rE
  .RE
  .PD 1
+ .
  .TP
- .B unsharp=l|cWxH:amount[:l|cWxH:amount]
- Unsharp mask / gaussian blur.
+ .B unsharp[=l|cWxH:amount[:l|cWxH:amount]]
+ unsharp mask / gaussian blur
 -.RSs
--.IPs l
+-.IPs l\ \ \ \ 
 +.rS
-+.iP l
++.iP l\ \ \ \ 
  Apply effect on luma component.
--.IPs c
-+.iP c
+-.IPs c\ \ \ \ 
++.iP c\ \ \ \ 
  Apply effect on chroma components.
--.IPs WxH
-+.iP WxH
+-.IPs <width>x<height>
++.iP <width>x<height>
  width and height of the matrix, odd sized in both directions
  (min = 3x3, max = 13x11 or 11x13, usually something between 3x3 and 7x7)
 -.IPs amount
@@ -2090,9 +3215,9 @@ $MirOS$
 -.REss
 +.rE
  .RE
+ .
  .TP
- .B swapuv\ 
-@@ -3483,12 +3483,12 @@ permanently (by smoothing, averaging, et
+@@ -4821,12 +4821,12 @@ permanently (by smoothing, averaging, et
  2 fields (so called half pictures), so you can process (filter) them
  independently and then re-interleave them.
  .PD 0
@@ -2109,9 +3234,9 @@ $MirOS$
  swap fields (exchange even & odd lines)
  .RE
  .PD 1
-@@ -3501,10 +3501,10 @@ Especially if combined with other filter
+@@ -4840,10 +4840,10 @@ Especially if combined with other filter
  up images, so be happy if it works but don't complain if it doesn't for
- your combination of filters. 
+ your combination of filters.
  .PD 0
 -.RSs
 -.IPs d
@@ -2123,151 +3248,160 @@ $MirOS$
  Interleave fields again (reversing the effect of fil=d).
  .RE
  .PD 1
-@@ -3529,8 +3529,8 @@ Development on this filter is no longer 
+@@ -4870,10 +4870,10 @@ Development on this filter is no longer 
  and filmdint are better for most applications.
  The following arguments (see syntax above) may be used to control
  detc's behavior:
 -.RSs
--.IPs dr
+-.IPs <dr>\ 
 +.rS
-+.iP dr
++.iP <dr>\ 
  Set the frame dropping mode.
- 0 (default) means don't drop frames to maintain fixed output framerate.
- 1 means always drop a frame when there have been no drops or telecine
-@@ -3538,19 +3538,19 @@ merges in the past 5 frames.
- 2 means always maintain exact 5:4 input to output frame ratio.
+-.RSss
++.rP
+ 0: Do not drop frames to maintain fixed output framerate (default).
+ .br
+ 1: Always drop a frame when there have been no drops or telecine
+@@ -4883,22 +4883,22 @@ merges in the past 5 frames.
+ .br
  .I NOTE:
  Use mode 1 or 2 with MEncoder.
--.IPs am
-+.iP am
+-.REss
+-.IPs <am>\ 
++.rE
++.iP <am>\ 
  Analysis mode.
- Available values are 0 (fixed pattern with initial frame number
- specified by fr=#) and 1 (agressive search for telecine pattern).
- Default is 1.
--.IPs fr
-+.iP fr
+-.RSss
++.rP
+ 0: Fixed pattern with initial frame number specified by <fr>.
+ .br
+ 1: agressive search for telecine pattern (default)
+-.REss
+-.IPs <fr>\ 
++.rE
++.iP <fr>\ 
  Set initial frame number in sequence.
  0\-2 are the three clean progressive frames; 3 and 4 are the two
  interlaced frames.
  The default, -1, means 'not in telecine sequence'.
  The number specified here is the type for the imaginary previous
  frame before the movie starts.
--.IPs "tr0, tr1, tr2, tr3"
-+.iP "tr0, tr1, tr2, tr3"
+-.IPs "<t0>, <t1>, <t2>, <t3>"
++.iP "<t0>, <t1>, <t2>, <t3>"
  Threshold values to be used in certain modes.
  .RE
- .TP
-@@ -3611,28 +3611,28 @@ When this filter is used with mplayer, i
+ .
+@@ -4975,28 +4975,28 @@ When this filter is used with mplayer, i
  framerate during playback, but it is still generally better than using
  pp=lb or no deinterlacing at all.
  Multiple options can be specified separated by /.
 -.RSs
--.IPs crop=w:h:x:y
+-.IPs crop=<w>:<h>:<x>:<y>
 +.rS
-+.iP crop=w:h:x:y
++.iP crop=<w>:<h>:<x>:<y>
  Just like the crop filter, but faster, and works on mixed hard and soft
  telecined content as well as when y is not a multiple of 4.
  If x or y would require cropping fractional pixels from the chroma
  planes, the crop area is extended.
  This usually means that x and y must be even.
--.IPs io=ifps:ofps
-+.iP io=ifps:ofps
+-.IPs io=<ifps>:<ofps>
++.iP io=<ifps>:<ofps>
  For each ifps input frames the filter will output ofps frames.
- The ratio of ifps/ofps should match the \-fps/\-ofps ratio.
+ The ratio of ifps/\:ofps should match the \-fps/\-ofps ratio.
  This could be used to filter movies that are broadcast on TV at a frame
- rate different from their original frame rate.
--.IPs luma_only=n
-+.iP luma_only=n
+ rate different from their original framerate.
+-.IPs luma_only=<n>
++.iP luma_only=<n>
  If n is nonzero, the chroma plane is copied unchanged.
  This is useful for YV12 sampled TV, which discards one of the chroma
  fields.
--.IPs mmx2=n
-+.iP mmx2=n
+-.IPs mmx2=<n>
++.iP mmx2=<n>
  On x86, if n=1, use MMX2 optimized functions, if n=2, use 3DNow!
  optimized functions, othewise, use plain C.
  If this option is not specified, MMX2 and 3DNow! are auto-detected, use
  this option to override auto-detection.
--.IPs fast=n
-+.iP fast=n
+-.IPs fast=<n>
++.iP fast=<n>
  The larger n will speed up the filter at the expense of accuracy.
  The default value is n=3.
  If n is odd, a frame immediately following a frame marked with the
-@@ -3647,22 +3647,22 @@ much accuracy.
+@@ -5011,22 +5011,22 @@ much accuracy.
  If n=4 or 5, a faster, but much less accurate metric will be used to
  find the frame breaks, which is more likely to misdetect high vertical
  detail as interlaced content.
--.IPs verbose=n
-+.iP verbose=n
+-.IPs verbose=<n>
++.iP verbose=<n>
  If n is nonzero, print the detailed metrics for each frame.
  Useful for debugging.
--.IPs dint_thres=n
-+.iP dint_thres=n
+-.IPs dint_thres=<n>
++.iP dint_thres=<n>
  Deinterlace threshold.
  Used during de-interlacing of unmatched frames.
  Larger value means less deinterlacing, use n=256 to completely turn off
  deinterlacing.
  Default is n=8.
--.IPs comb_thres=n
-+.iP comb_thres=n
+-.IPs comb_thres=<n>
++.iP comb_thres=<n>
  Threshold for comparing a top and bottom fields.
  Defaults to 128.
--.IPs diff_thres=n
-+.iP diff_thres=n
+-.IPs diff_thres=<n>
++.iP diff_thres=<n>
  Threshold to detect temporal change of a field.
  Default is 128.
--.IPs sad_thres=n
-+.iP sad_thres=n
+-.IPs sad_thres=<n>
++.iP sad_thres=<n>
  Sum of Absolute Difference threshold, default is 64.
  .RE
- .TP
-@@ -3684,8 +3684,8 @@ original film frame rate.
- When using this filter, you must specify \-ofps that is 4/5 of the fps of the
- input file (23.976 if the input is 29.97fps).
+ .
+@@ -5048,8 +5048,8 @@ original film framerate.
+ When using this filter, you must specify \-ofps that is 4/\:5 of the fps of the
+ input file (24000/1001 if the input is 30000/1001 fps).
  The options are:
 -.RSs
 -.IPs pass=1|2
 +.rS
 +.iP pass=1|2
- Use two-pass mode.
+ Use two pass mode.
  This produces best results.
- Pass 1 analyzes the video and writes the results to a log file.
-@@ -3695,14 +3695,14 @@ process.
- In order to use divtc two-pass with two-pass video encoding, you must perform
- three passes: first divtc pass 1 and encoder pass 1, then divtc pass 2 and
- encoder pass 1, and finally divtc pass 2 and encoder pass 2.
--.IPs file=filename
-+.iP file=filename
- Set the 2-pass log file name (default: "framediff.log").
--.IPs threshold=value
-+.iP threshold=value
+ Pass one analyzes the video and writes the results to a log file.
+@@ -5061,14 +5061,14 @@ correspond to pass one and two of the en
+ In order to use divtc two pass with two pass video encoding, you must perform
+ three passes: first divtc pass one and encoder pass one, then divtc pass two
+ and encoder pass one, and finally divtc pass two and encoder pass two.
+-.IPs file=<filename>
++.iP file=<filename>
+ Set the two pass log filename (default: "framediff.log").
+-.IPs threshold=<value>
++.iP threshold=<value>
  Set the minimum strength the telecine pattern must have for the filter to
  believe in it (default: 0.5).
  This is used to avoid recognizing false pattern from the parts of the video
  that are very dark or very still.
--.IPs window=numframes 
-+.iP window=numframes 
+-.IPs window=<numframes>
++.iP window=<numframes>
  Set the number of past frames to look at when searching for pattern
  (default: 30).
  Longer window improves the reliability of the pattern search, but shorter
-@@ -3710,7 +3710,7 @@ window improves the reaction time to the
- This only affects the one-pass mode.
- The two-pass mode currently uses fixed window that extends to both future
+@@ -5076,7 +5076,7 @@ window improves the reaction time to the
+ This only affects the one pass mode.
+ The two pass mode currently uses fixed window that extends to both future
  and past.
 -.IPs phase=0|1|2|3|4
 +.iP phase=0|1|2|3|4
- Sets the initial telecine phase for one-pass mode (default: 0).
- The two-pass mode can see the future, so it is able to use the correct
- phase from the beginning, but one-pass mode can only guess.
-@@ -3718,7 +3718,7 @@ It catches the correct phase when it fin
+ Sets the initial telecine phase for one pass mode (default: 0).
+ The two pass mode can see the future, so it is able to use the correct
+ phase from the beginning, but one pass mode can only guess.
+@@ -5084,7 +5084,7 @@ It catches the correct phase when it fin
  to fix the possible juddering at the beginning.
- The first pass of the two-pass mode also uses this, so if you save the output
+ The first pass of the two pass mode also uses this, so if you save the output
  from the first pass, you get constant phase result.
--.IPs deghost=value
-+.iP deghost=value
- Set the deghosting threshold (0\-255 for one-pass mode, -255\-255 for two-pass
+-.IPs deghost=<value>
++.iP deghost=<value>
+ Set the deghosting threshold (0\-255 for one pass mode, -255\-255 for two pass
  mode, default 0).
  If nonzero, deghosting mode is used.
-@@ -3740,41 +3740,41 @@ changes.
+@@ -5107,41 +5107,41 @@ changes.
  The intended use is to fix PAL movies that have been captured with the
  opposite field order to the film-to-video transfer.
  The options are:
@@ -2320,28 +3454,28 @@ $MirOS$
  Verbose operation.
  Prints the selected mode for each frame and the average squared difference
  between fields for t, b, and p alternatives.
-@@ -3795,15 +3795,15 @@ frame, halving the framerate. Even frame
- field, odd frames to the lower field. This can be used to fully reverse
- the effect of the tfields filter (in mode 0). Available modes are:
+@@ -5165,15 +5165,15 @@ Even frames are moved into the upper fie
+ This can be used to fully reverse the effect of the tfields filter (in mode 0).
+ Available modes are:
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- odd frames into upper field, even to lower, generating a full-height
- frame at half the framerate
+ Move odd frames into the upper field, even into the lower field, generating
+ a full-height frame at half framerate.
 -.IPs 1
 +.iP 1
- only output odd frames, even frames are dropped, height unchanged
+ Only output odd frames, even frames are dropped; height unchanged.
 -.IPs 2
 +.iP 2
- only output even frames, odd frames are dropped, height unchanged
+ Only output even frames, odd frames are dropped; height unchanged.
 -.IPs 3
 +.iP 3
- expand each frame to full height, but pad alternate lines with black,
- framerate unchanged
+ Expand each frame to full height, but pad alternate lines with black;
+ framerate unchanged.
  .RE
-@@ -3817,14 +3817,14 @@ MEncoder, and only if both \-fps and \-o
+@@ -5188,14 +5188,14 @@ MEncoder, and only if both \-fps and \-o
  desired (double) framerate!
  Available modes are:
  .PD 0
@@ -2349,109 +3483,109 @@ $MirOS$
 -.IPs 0
 +.rS
 +.iP 0
- leave fields unchanged (this will jump/flicker)
+ Leave fields unchanged. (This will jump/\:flicker.)
 -.IPs 1
 +.iP 1
- interpolate missing lines (the algorithm used might not be so good)
+ Interpolate missing lines. (The algorithm used might not be so good.)
 -.IPs 2
 +.iP 2
- translate fields by 1/4 pixel with linear interp (no jump)
+ Translate fields by 1/4 pixel with linear interpolation (no jump).
 -.IPs 4
 +.iP 4
- translate fields by 1/4 pixel with 4tap filter (higher quality)
+ Translate fields by 1/4 pixel with 4tap filter (higher quality). (default)
  .RE
  .PD 1
-@@ -3832,10 +3832,10 @@ translate fields by 1/4 pixel with 4tap 
+@@ -5204,10 +5204,10 @@ Translate fields by 1/4 pixel with 4tap 
  .B boxblur=radius:power[:radius:power]
  box blur
  .PD 0
 -.RSs
--.IPs radius
+-.IPs <radius>
 +.rS
-+.iP radius
- size of the filter
--.IPs power
-+.iP power
- How often the filter should be applied.
++.iP <radius>
+ blur filter strength
+-.IPs <power>
++.iP <power>
+ number of filter applications
  .RE
  .PD 1
-@@ -3843,12 +3843,12 @@ How often the filter should be applied.
- .B sab=rad:pf:colorDiff[:rad:pf:colorDiff]
+@@ -5216,12 +5216,12 @@ number of filter applications
+ .B sab=radius:pf:colorDiff[:radius:pf:colorDiff]
  shape adaptive blur
  .PD 0
 -.RSs
--.IPs rad\ \ \ 
+-.IPs <radius>
 +.rS
-+.iP rad\ \ \ 
++.iP <radius>
  blur filter strength (~0.1\-4.0) (slower if larger)
--.IPs pf\ \ \ 
-+.iP pf\ \ \ 
+-.IPs <pf>\ 
++.iP <pf>\ 
  prefilter strength (~0.1\-2.0)
--.IPs colorDiff
-+.iP colorDiff
- How different the pixels are allowed to be considered.
- (~0.1\-100.0)
+-.IPs <colorDiff>
++.iP <colorDiff>
+ maximum difference between pixels to still be considered (~0.1\-100.0)
  .RE
-@@ -3857,12 +3857,12 @@ How different the pixels are allowed to 
- .B smartblur=rad:strength:thresh[:rad:strength:thresh]
+ .PD 1
+@@ -5230,12 +5230,12 @@ maximum difference between pixels to sti
+ .B smartblur=radius:strength:threshold[:radius:strength:threshold]
  smart blur
  .PD 0
 -.RSs
--.IPs rad\ \ 
+-.IPs <radius>
 +.rS
-+.iP rad\ \ 
++.iP <radius>
  blur filter strength (~0.1\-5.0) (slower if larger)
--.IPs strength
-+.iP strength
+-.IPs <strength>
++.iP <strength>
  blur (0.0\-1.0) or sharpen (-1.0\-0.0)
--.IPs thresh
-+.iP thresh
+-.IPs <threshold>
++.iP <threshold>
  filter all (0), filter flat areas (0\-30) or filter edges (-30\-0)
  .RE
  .PD 1
-@@ -3870,10 +3870,10 @@ filter all (0), filter flat areas (0\-30
+@@ -5244,10 +5244,10 @@ filter all (0), filter flat areas (0\-30
  .B perspective=x0:y0:x1:y1:x2:y2:x3:y3:t
- perspective correction
+ Correct the perspective of movies not filmed perpendicular to the screen.
  .PD 0
 -.RSs
--.IPs x0,y0,...
+-.IPs <x0>,<y0>,...
 +.rS
-+.iP x0,y0,...
++.iP <x0>,<y0>,...
  coordinates of the top left, top right, bottom left, bottom right corners
--.IPs t\ \ \ \ 
-+.iP t\ \ \ \ 
+-.IPs <t>\ \ 
++.iP <t>\ \ 
  linear (0) or cubic resampling (1)
  .RE
  .PD 1
-@@ -3889,8 +3889,8 @@ Reposition and resize stereoscopic image
+@@ -5266,8 +5266,8 @@ Reposition and resize stereoscopic image
  Extracts both stereo fields and places them side by side, resizing
  them to maintain the original movie aspect.
  .PD 0
 -.RSs
--.IPs lines
+-.IPs <lines>
 +.rS
-+.iP lines
++.iP <lines>
  number of lines to select from the middle of the image (default: 12)
  .RE
  .PD 1
-@@ -3899,12 +3899,12 @@ number of lines to select from the middl
- Read bitmaps from a FIFO and display them in a window.
- .
+@@ -5278,12 +5278,12 @@ The bitmap overlay filter reads bitmaps 
+ on top of the movie, allowing some transformations on the image.
+ Also see TOOLS/bmovl-test.c for a small bmovl test program.
  .PD 0
 -.RSs
--.IPs hidden
+-.IPs <hidden>
 +.rS
-+.iP hidden
- sets the default value of the 'hidden' flag (boolean)
--.IPs opaque
-+.iP opaque
- flag switching between alphablended (transparent) and opaque (fast) mode
--.IPs fifo\ 
-+.iP fifo\ 
- path/filename for the FIFO (named pipe connecting mplayer \-vf bmovl to the
++.iP <hidden>
+ Set the default value of the 'hidden' flag (0=visible, 1=hidden).
+-.IPs <opaque>
++.iP <opaque>
+ Set the default value of the 'opaque' flag (0=transparent, 1=opaque).
+-.IPs <fifo>
++.iP <fifo>
+ path/\:filename for the FIFO (named pipe connecting 'mplayer \-vf bmovl' to the
  controlling application)
  .RE
-@@ -3914,25 +3914,25 @@ controlling application)
+@@ -5293,25 +5293,25 @@ controlling application)
  FIFO commands are:
  .RE
  .PD 0
@@ -2465,126 +3599,126 @@ $MirOS$
  followed by width*height*4 Bytes of raw ABGR32 data.
 -.IPs "RGB24 width height xpos ypos alpha clear"
 +.iP "RGB24 width height xpos ypos alpha clear"
- followed by width*height*3 Bytes of raw RGB32 data.
+ followed by width*height*3 Bytes of raw RGB24 data.
 -.IPs "BGR24 width height xpos ypos alpha clear"
 +.iP "BGR24 width height xpos ypos alpha clear"
- followed by width*height*3 Bytes of raw BGR32 data.
+ followed by width*height*3 Bytes of raw BGR24 data.
 -.IPs "ALPHA width height xpos ypos alpha"
 +.iP "ALPHA width height xpos ypos alpha"
- change alpha for area
+ Change alpha transparency of the specified area.
 -.IPs "CLEAR width height xpos ypos"
 +.iP "CLEAR width height xpos ypos"
- clear area
+ Clear area.
 -.IPs OPAQUE
 +.iP OPAQUE
- disable all alpha transparency.
+ Disable all alpha transparency.
  Send "ALPHA 0 0 0 0 0" to enable it again.
 -.IPs HIDE\ 
 +.iP HIDE\ 
- hide bitmap
+ Hide bitmap.
 -.IPs SHOW\ 
 +.iP SHOW\ 
- show bitmap
+ Show bitmap.
  .RE
  .PD 1
-@@ -3941,30 +3941,30 @@ show bitmap
+@@ -5320,30 +5320,30 @@ Show bitmap.
  Arguments are:
  .RE
  .PD 0
 -.RSs
--.IPs "width, height"
+-.IPs "<width>, <height>"
 +.rS
-+.iP "width, height"
- size of image/area
--.IPs "xpos, ypos"
-+.iP "xpos, ypos"
- start blitting at X/Y position   
--.IPs alpha
-+.iP alpha
- set alpha difference.
++.iP "<width>, <height>"
+ image/area size
+-.IPs "<xpos>, <ypos>"
++.iP "<xpos>, <ypos>"
+ Start blitting at position x/y.
+-.IPs <alpha>
++.iP <alpha>
+ Set alpha difference.
  If you set this to -255 you can then send a sequence of ALPHA-commands to set
  the area to -225, -200, -175 etc for a nice fade-in-effect! ;)
 -.RSss
 +.rP
  0:    same as original
  .br
- 255:  makes everything opaque
+ 255:  Make everything opaque.
  .br
- -255: makes everything transparent
+ -255: Make everything transparent.
 -.REss
--.IPs clear
+-.IPs <clear>
 +.rE
-+.iP clear
- clear the framebuffer before blitting.
++.iP <clear>
+ Clear the framebuffer before blitting.
 -.RSss
 +.rP
- 0: The image will just be blitted on top of the old one, so you don't need to
- send 1,8MB of RGBA32 data everytime a small part of the screen is updated.
+ 0: The image will just be blitted on top of the old one, so you do not need to
+ send 1.8MB of RGBA32 data every time a small part of the screen is updated.
  .br
  1: clear
 -.REss
 +.rE
  .RE
  .PD 1
- .TP
-@@ -4001,20 +4001,20 @@ It is probably a good idea to put the sc
+ .
+@@ -5383,20 +5383,20 @@ It is probably a good idea to put the sc
  The parameters are:
- 
+ .sp 1
  .PD 0
 -.RSs
--.IPs xtile
+-.IPs <xtiles>
 +.rS
-+.iP xtile
++.iP <xtiles>
  number of tiles on the x axis (default: 5)
--.IPs ytile
-+.iP ytile
+-.IPs <ytiles>
++.iP <ytiles>
  number of tiles on the y axis (default: 5)
--.IPs output
-+.iP output
+-.IPs <output>
++.iP <output>
  Render the tile when 'output' number of frames are reached, where 'output'
  should be a number less than xtile * ytile.
  Missing tiles are left blank.
  You could, for example, write an 8 * 7 tile every 50 frames to have one
  image every 2 seconds @ 25 fps.
--.IPs start  
-+.iP start  
- pixel at the start (x/y) (default: 2)
--.IPs delta
-+.iP delta
- pixel between 2 tiles, (x/y) (default: 4)
+-.IPs <start>
++.iP <start>
+ outer border thickness in pixels (default: 2)
+-.IPs <delta>
++.iP <delta>
+ inner border thickness in pixels (default: 4)
  .RE
  .PD 1
-@@ -4025,12 +4025,12 @@ surrounding pixels. Just set a rectangle
- it disappear (and sometimes something even uglier appear \- your
- mileage may vary).
+@@ -5408,12 +5408,12 @@ surrounding pixels.
+ Just set a rectangle covering the logo and watch it disappear (and
+ sometimes something even uglier appear \- your mileage may vary).
  .PD 0
 -.RSs
--.IPs x,y
+-.IPs <x>,<y>
 +.rS
-+.iP x,y
- Position of the top left corner of the logo.
--.IPs w,h
-+.iP w,h
- Width and height of the cleared rectangle.
--.IPs t
-+.iP t
- Thickness of the fuzzy edge of the rectangle (added to w and h). When
- set to -1, a green rectangle is drawn on the screen to simplify finding
- the right x,y,w,h parameters.
-@@ -4040,25 +4040,25 @@ the right x,y,w,h parameters.
++.iP <x>,<y>
+ top left corner of the logo
+-.IPs <w>,<h>
++.iP <w>,<h>
+ width and height of the cleared rectangle
+-.IPs <t>
++.iP <t>
+ Thickness of the fuzzy edge of the rectangle (added to w and h).
+ When set to -1, a green rectangle is drawn on the screen to
+ simplify finding the right x,y,w,h parameters.
+@@ -5424,25 +5424,25 @@ simplify finding the right x,y,w,h param
  .B zrmjpeg[=options]
  Software YV12 to MJPEG encoder for use with the zr2 video
  output device.
 -.RSs
--.IPs maxheight=h|maxwidth=w
+-.IPs maxheight=<h>|maxwidth=<w>
 +.rS
-+.iP maxheight=h|maxwidth=w
++.iP maxheight=<h>|maxwidth=<w>
  These options set the maximum width and height the zr card
  can handle (the MPlayer filter layer currently cannot query those).
 -.IPs {dc10+,dc10,buz,lml33}-{PAL|NTSC}
 +.iP {dc10+,dc10,buz,lml33}-{PAL|NTSC}
- Use these options to set maxwidth and maxheight automatically to the 
- values known for card/mode combo.
+ Use these options to set maxwidth and maxheight automatically to the
+ values known for card/\:mode combo.
  For example, valid options are: dc10-PAL and buz-NTSC (default: dc10+PAL)
 -.IPs color|bw
 +.iP color|bw
@@ -2597,51 +3731,51 @@ $MirOS$
 -.IPs vdec={1,2,4}
 +.iP vdec={1,2,4}
  Vertical decimation 1, 2 or 4.
--.IPs quality=1-20
-+.iP quality=1-20
- Set JPEG compression quality [BEST] 1 - 20 [VERY BAD].
+-.IPs quality=1\-20
++.iP quality=1\-20
+ Set JPEG compression quality [BEST] 1 \- 20 [VERY BAD].
 -.IPs fd|nofd
 +.iP fd|nofd
  By default, decimation is only performed if the Zoran hardware
  can upscale the resulting MJPEG images to the original size.
  The option fd instructs the filter to always perform the requested
-@@ -4093,12 +4093,12 @@ a frame boundary.
- 
+@@ -5481,12 +5481,12 @@ a frame boundary.
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-endpos 56"
 +.rS
 +.iP "\-endpos 56"
- encode only 56 seconds
+ Encode only 56 seconds.
 -.IPs "\-endpos 01:10:00"
 +.iP "\-endpos 01:10:00"
- encode only 1 hour 10 minutes
+ Encode only 1 hour 10 minutes.
 -.IPs "\-endpos 100mb"
 +.iP "\-endpos 100mb"
- encode only 100 MBytes
+ Encode only 100 MBytes.
  .RE
  .PD 1
-@@ -4109,8 +4109,8 @@ Can be used to override the video fourcc
- 
+@@ -5497,8 +5497,8 @@ Can be used to override the video fourcc
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-ffourcc div3"
 +.rS
 +.iP "\-ffourcc div3"
- will have the output file contain 'div3' as video fourcc.
+ Will have the output file contain 'div3' as video fourcc.
  .RE
  .PD 1
-@@ -4125,22 +4125,22 @@ Specify the info header of the resulting
- .br
+@@ -5513,22 +5513,22 @@ This can be used to change the aspect ra
+ Specify the info header of the resulting AVI file.
+ .sp 1
  Available options are:
- .
 -.RSs
 -.IPs help\ 
 +.rS
 +.iP help\ 
- show this description
+ Show this description.
 -.IPs name=<value>
 +.iP name=<value>
  title of the work
@@ -2665,8 +3799,8 @@ $MirOS$
  general comments about the work
  .RE
  .
-@@ -4166,14 +4166,14 @@ Use \-oac help to get a list of availabl
- 
+@@ -5567,14 +5567,14 @@ Use \-oac help to get a list of availabl
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -2676,34 +3810,34 @@ $MirOS$
  no encoding, just streamcopy
 -.IPs "\-oac pcm"
 +.iP "\-oac pcm"
- encode to uncompressed PCM
+ Encode to uncompressed PCM.
 -.IPs "\-oac mp3lame"
 +.iP "\-oac mp3lame"
- encode to MP3 (using Lame)
+ Encode to MP3 (using LAME).
 -.IPs "\-oac lavc"
 +.iP "\-oac lavc"
- encode with a libavcodec codec
+ Encode with a libavcodec codec.
  .RE
  .PD 1
-@@ -4185,12 +4185,12 @@ Use \-of help to get a list of available
- 
+@@ -5588,12 +5588,12 @@ Use \-of help to get a list of available
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
 -.IPs "\-of avi"
 +.rS
 +.iP "\-of avi"
- encode to avi (default)
+ Encode to AVI.
 -.IPs "\-of mpeg"
 +.iP "\-of mpeg"
- encode to mpeg
+ Encode to MPEG.
 -.IPs "\-of rawvideo"
 +.iP "\-of rawvideo"
- raw video stream (no muxing - video only, one stream only)
+ raw video stream (no muxing \- one video stream only)
  .RE
  .PD 1
-@@ -4208,14 +4208,14 @@ Use \-ovc help to get a list of availabl
- 
+@@ -5614,14 +5614,14 @@ Use \-ovc help to get a list of availabl
+ .sp 1
  .I EXAMPLE:
  .PD 0
 -.RSs
@@ -2713,19 +3847,19 @@ $MirOS$
  no encoding, just streamcopy
 -.IPs "\-ovc divx4"
 +.iP "\-ovc divx4"
- encode to DivX4/\:DivX5
+ Encode to DivX4/\:DivX5.
 -.IPs "\-ovc raw"
 +.iP "\-ovc raw"
- encode to arbitrary uncompressed format (use \-vf format to select)
+ Encode to an arbitrary uncompressed format (use '\-vf format' to select).
 -.IPs "\-ovc lavc"
 +.iP "\-ovc lavc"
- encode with a libavcodec codecs
+ Encode with a libavcodec codec.
  .RE
  .PD 1
-@@ -4264,10 +4264,10 @@ get help
+@@ -5676,10 +5676,10 @@ get help
  .TP
  .B br=<value>
- specify bitrate
+ Specify bitrate.
 -.RSs
 -.IPs 4\-16000
 +.rS
@@ -2735,11 +3869,11 @@ $MirOS$
 +.iP 16001\-24000000
  (in bit)
  .RE
- .TP
-@@ -4307,13 +4307,13 @@ pass=2.
- Override the pass argument and use XviD VBR Library instead of DivX4 VBR.
- Available options are:
  .
+@@ -5729,13 +5729,13 @@ same parameters and pass=2.
+ .B vbrpass=<0\-2>
+ Override the pass argument and use the XviD VBR library instead of DivX4 VBR.
+ Available options are:
 -.RSs
 -.IPs 0
 +.rS
@@ -2748,13 +3882,13 @@ $MirOS$
 -.IPs 1
 +.iP 1
  Analysis (first) pass of two pass encoding.
- The resulting AVI file can be directed to /dev/null.
+ The resulting AVI file can be directed to /dev/\:null.
 -.IPs 2
 +.iP 2
  Final (second) pass of two pass encoding.
  .RE
  .
-@@ -4327,16 +4327,16 @@ get help
+@@ -5750,16 +5750,16 @@ get help
  .B vbr=<0\-4>
  variable bitrate method
  .PD 0
@@ -2777,7 +3911,7 @@ $MirOS$
  mtrh
  .RE
  .PD 1
-@@ -4367,26 +4367,26 @@ set audio input gain
+@@ -5797,14 +5797,14 @@ audio input gain
  .B mode=<0\-3>
  (default: auto)
  .PD 0
@@ -2797,6 +3931,7 @@ $MirOS$
  mono
  .RE
  .PD 1
+@@ -5812,12 +5812,12 @@ mono
  .TP
  .B padding=<0\-2>
  .PD 0
@@ -2804,7 +3939,7 @@ $MirOS$
 -.IPs 0
 +.rS
 +.iP 0
- no
+ none
 -.IPs 1
 +.iP 1
  all
@@ -2813,53 +3948,53 @@ $MirOS$
  adjust
  .RE
  .PD 1
-@@ -4409,16 +4409,16 @@ will let lame choose values automaticall
+@@ -5844,18 +5844,18 @@ will let LAME choose values automaticall
  .TP
  .B preset=<value>
  preset values
 -.RSs
--.IPs medium
+-.IPs help\ 
 +.rS
++.iP help\ 
+ Print additional options and information about presets settings.
+-.IPs medium
 +.iP medium
- VBR encoding, good quality, 150\-180 kbps bitrate range.
+ VBR encoding, good quality, 150\-180 kbps bitrate range
 -.IPs standard
 +.iP standard
- VBR encoding, high quality, 170\-210 kbps bitrate range.
+ VBR encoding, high quality, 170\-210 kbps bitrate range
 -.IPs extreme
 +.iP extreme
- VBR encoding, very high quality, 200\-240 kbps bitrate range.
+ VBR encoding, very high quality, 200\-240 kbps bitrate range
 -.IPs insane
 +.iP insane
- CBR encoding, highest preset quality, 320 kbps bitrate.
+ CBR encoding, highest preset quality, 320 kbps bitrate
 -.IPs <8\-320>
 +.iP <8\-320>
- ABR encoding at average given kbps bitrate.
+ ABR encoding at average given kbps bitrate
  .RE
- 
-@@ -4426,16 +4426,16 @@ ABR encoding at average given kbps bitra
- .I EXAMPLE:
+ .sp 1
+@@ -5863,14 +5863,14 @@ ABR encoding at average given kbps bitra
+ .I EXAMPLES:
  .RE
  .PD 0
 -.RSs
 -.IPs fast:preset=standard
 +.rS
 +.iP fast:preset=standard
- for most people on most music and already quite high in quality.
+ suitable for most people and most music types and already quite high quality
 -.IPs cbr:preset=192
 +.iP cbr:preset=192
- encode with ABR presets at a 192 kbps forced constant bitrate.
+ Encode with ABR presets at a 192 kbps forced constant bitrate.
 -.IPs preset=172
 +.iP preset=172
- encode with ABR presets at a 172 kbps average bitrate.
+ Encode with ABR presets at a 172 kbps average bitrate.
 -.IPs preset=extreme
 +.iP preset=extreme
- for people with extremely good hearing and similar equipment.
--.IPs preset=help
-+.iP preset=help
- print additional options and informations on presets settings.
+ for people with extremely good hearing and similar equipment
  .RE
  .PD 1
-@@ -4447,8 +4447,8 @@ Read the source for full details.
+@@ -5903,8 +5903,8 @@ Read the source for full details.
  .PP
  .I EXAMPLE:
  .PD 0
@@ -2870,29 +4005,29 @@ $MirOS$
  .RE
  .PD 1
  .
-@@ -4456,14 +4456,14 @@ Read the source for full details.
+@@ -5912,14 +5912,14 @@ Read the source for full details.
  .B acodec=<value>
- Audio codec (default: mp2):
+ audio codec (default: mp2)
  .PD 0
 -.RSs
--.IPs mp2
+-.IPs mp2\ \ 
 +.rS
-+.iP mp2
++.iP mp2\ \ 
  MPEG Layer 2
--.IPs mp3
-+.iP mp3
+-.IPs mp3\ \ 
++.iP mp3\ \ 
  MPEG Layer 3
--.IPs ac3
-+.iP ac3
+-.IPs ac3\ \ 
++.iP ac3\ \ 
  AC3
 -.IPs adpcm_ima_wav
 +.iP adpcm_ima_wav
  IMA Adaptive PCM (4bits per sample, 4:1 compression)
  .RE
  .PD 1
-@@ -4489,52 +4489,52 @@ Maximum number of threads to use (defaul
+@@ -5951,40 +5951,40 @@ May have a slight negative effect on mot
  .B vcodec=<value>
- use the specified codec (default: mpeg4):
+ Employ the specified codec (default: mpeg4).
  .PD 0
 -.RSs
 -.IPs mjpeg
@@ -2904,48 +4039,52 @@ $MirOS$
  Lossless JPEG
 -.IPs h263\ 
 +.iP h263\ 
- H263
+ H.263
 -.IPs h263p
 +.iP h263p
- H263 Plus
+ H.263+
 -.IPs mpeg4
 +.iP mpeg4
- DivX 4/\:5
+ MPEG-4 (DivX 4/5)
 -.IPs msmpeg4
 +.iP msmpeg4
  DivX 3
 -.IPs msmpeg4v2
 +.iP msmpeg4v2
  MS MPEG4v2
--.IPs wmv1
-+.iP wmv1
- Windows Media Video, version 1 (aka WMV7)
--.IPs wmv2
-+.iP wmv2
- Windows Media Video, version 2 (aka WMV8)
--.IPs rv10
-+.iP rv10
+-.IPs wmv1\ 
++.iP wmv1\ 
+ Windows Media Video, version 1 (AKA WMV7)
+-.IPs wmv2\ 
++.iP wmv2\ 
+ Windows Media Video, version 2 (AKA WMV8)
+-.IPs rv10\ 
++.iP rv10\ 
  an old RealVideo codec
 -.IPs mpeg1video
 +.iP mpeg1video
- MPEG1 video
+ MPEG-1 video
 -.IPs mpeg2video
 +.iP mpeg2video
- MPEG2 video
+ MPEG-2 video
 -.IPs huffyuv
 +.iP huffyuv
  HuffYUV
--.IPs asv1
-+.iP asv1
+-.IPs ffvhuff (also see: vstrict)
++.iP ffvhuff (also see: vstrict)
+ nonstandard 20% smaller HuffYUV using YV12
+-.IPs asv1\ 
++.iP asv1\ 
  ASUS Video v1
--.IPs asv2
-+.iP asv2
+-.IPs asv2\ 
++.iP asv2\ 
  ASUS Video v2
--.IPs ffv1
-+.iP ffv1
+-.IPs ffv1 (also see: vstrict)
++.iP ffv1 (also see: vstrict)
  FFmpeg's lossless video codec
  .RE
  .PD 1
+@@ -5992,14 +5992,14 @@ FFmpeg's lossless video codec
  .TP
  .B vqmin=<1\-31>
  minimum quantizer (pass\ 1/\:2)
@@ -2958,28 +4097,28 @@ $MirOS$
  resulting in lower quality and some decoders will not be able to decode it).
 -.IPs 2
 +.iP 2
- Recommended for normal mpeg4/mpeg1video encoding (default).
+ Recommended for normal mpeg4/\:mpeg1video encoding (default).
 -.IPs 3
 +.iP 3
- Recommended for h263(p)/msmpeg4.  The reason for preferring 3 over 2 is that
- 2 could lead to overflows (this will be fixed for h263(p) by changing the
- quantizer per MB in the future, msmpeg4 cannot be fixed as it does not support
-@@ -4570,10 +4570,10 @@ maximum quantizer difference between I o
+ Recommended for h263(p)/\:msmpeg4.
+ The reason for preferring 3 over 2 is that 2 could lead to overflows.
+ (This will be fixed for h263(p) by changing the quantizer per MB in
+@@ -6044,10 +6044,10 @@ maximum quantizer difference between con
  .B vmax_b_frames=<0\-4>
- maximum number of B frames between non B frames:
+ maximum number of B-frames between non-B-frames:
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- no B frames (default)
+ no B-frames (default)
 -.IPs 0\-2
 +.iP 0\-2
- sane range for MPEG4
+ sane range for MPEG-4
  .RE
  .PD 1
-@@ -4585,18 +4585,18 @@ motion estimation method.
- so quality may be low.
+@@ -6057,19 +6057,19 @@ sane range for MPEG-4
+ motion estimation method.
  Available methods are:
  .PD 0
 -.RSs
@@ -2989,22 +4128,23 @@ $MirOS$
  none (very low quality)
 -.IPs 1
 +.iP 1
- full (slow)
+ full (slow, currently unmaintained and disabled)
 -.IPs 2
 +.iP 2
- log (low quality)
+ log (low quality, currently unmaintained and disabled)
 -.IPs 3
 +.iP 3
- phods (low quality)
+ phods (low quality, currently unmaintained and disabled)
 -.IPs 4
 +.iP 4
- EPZS (default)
+ EPZS: size=1 diamond, size can be adjusted with the *dia options
+ (default)
 -.IPs 5
 +.iP 5
- X1 (experimental)
+ X1 (experimental, currently aliased to EPZS)
  .RE
  .PD 1
-@@ -4609,12 +4609,12 @@ Macroblock decision algorithm (high qual
+@@ -6091,12 +6091,12 @@ Macroblock decision algorithm (high qual
  block in all modes and choose the best.
  This is slow but results in better quality and file size.
  .PD 0
@@ -3012,73 +4152,76 @@ $MirOS$
 -.IPs 0
 +.rS
 +.iP 0
- use mbcmp (default)
+ Use mbcmp (default).
 -.IPs 1
 +.iP 1
- select the MB mode which needs the fewest bits (=vhq)
+ Select the MB mode which needs the fewest bits (=vhq).
 -.IPs 2
 +.iP 2
- select the MB mode which has the best rate distortion
+ Select the MB mode which has the best rate distortion.
  .RE
  .PD 1
-@@ -4655,10 +4655,10 @@ no scene changes are detected (default 0
- .TP
+@@ -6147,10 +6147,10 @@ no scene changes are detected (default: 
  .B vb_strategy=<0\-1>
- strategy to choose between I/\:P/\:B frames (pass\ 2):
+ strategy to choose between I/\:P/\:B-frames (pass\ 1):
+ .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- always use the maximum number of B frames (default)
+ Always use the maximum number of B-frames (default).
 -.IPs 1
 +.iP 1
- avoid B frames in high motion scenes (will cause bitrate misprediction)
+ Avoid B-frames in high motion scenes.
  .RE
- .TP
-@@ -4666,10 +4666,10 @@ avoid B frames in high motion scenes (wi
- Activates internal two pass mode, only specify if you wish to use two pass
- encoding (default: disabled).
+ .PD 1
+@@ -6160,12 +6160,12 @@ Avoid B-frames in high motion scenes.
+ Activates internal two (or more) pass mode, only specify if you wish to
+ use two (or more) pass encoding.
  .PD 0
 -.RSs
 -.IPs 1
 +.rS
 +.iP 1
- first pass
+ first pass (also see turbo)
 -.IPs 2
 +.iP 2
  second pass
+-.IPs 3
++.iP 3
+ Nth pass (second and subsequent passes of N-pass encoding)
  .RE
- .PD 1
-@@ -4678,10 +4678,10 @@ second pass
+ .RS
+@@ -6200,10 +6200,10 @@ satisfied with the encode.
  huffyuv:
  .RE
  .PD 0
 -.RSs
--.IPs pass 1
+-.IPs "pass 1"
 +.rS
-+.iP pass 1
- saves statistics
--.IPs pass 2
-+.iP pass 2
- encodes with an optimal Huffman table based upon pass 1 statistics.
++.iP "pass 1"
+ Saves statistics.
+-.IPs "pass 2"
++.iP "pass 2"
+ Encodes with an optimal Huffman table based upon statistics
+ from the first pass.
  .RE
- .PD 1
-@@ -4696,9 +4696,9 @@ The aspect parameter can be given as a r
+@@ -6227,9 +6227,9 @@ The aspect parameter can be given as a r
  .RS
  .I EXAMPLE:
  .RE
 -.RSs
 +.rS
  .PD 0
--.IPs "aspect=16/9 or aspect=1.78"
-+.iP "aspect=16/9 or aspect=1.78"
+-.IPs "aspect=16/\:9 or aspect=1.78"
++.iP "aspect=16/\:9 or aspect=1.78"
  .PD 1
  .RE
- .TP
-@@ -4709,12 +4709,12 @@ filter chain.
- .TP
- .B vbitrate=<value>
- specify bitrate (pass\ 1/\:2).  Warning: 1kBit = 1000 Bits.
+ .
+@@ -6248,10 +6248,10 @@ Specify bitrate (pass\ 1/\:2) (default: 
+ .I WARNING:
+ 1kBit = 1000 Bits
+ .PD 0
 -.RSs
 -.IPs 4\-16000
 +.rS
@@ -3087,31 +4230,25 @@ $MirOS$
 -.IPs 16001\-24000000
 +.iP 16001\-24000000
  (in bit)
--.IPs 800
-+.iP 800
- default
  .RE
- .TP
-@@ -4772,12 +4772,12 @@ lmin= <ip_quant>:lmax= <ip_quant>:vb_qfa
- .B vqblur=<0.0\-1.0> (pass 1)
- Quantizer blur, larger values will average the quantizer more over
- time (slower change).
+ .PD 1
+@@ -6326,10 +6326,10 @@ lmin= <ip_quant>:lmax= <ip_quant>:vb_qfa
+ Quantizer blur (default: 0.5), larger values will average the
+ quantizer more over time (slower change).
+ .PD 0
 -.RSs
 -.IPs 0.0
 +.rS
 +.iP 0.0
- qblur disabled
--.IPs 0.5
-+.iP 0.5
- (default)
+ Quantizer blur disabled.
 -.IPs 1.0
 +.iP 1.0
- average the quantizer over all previous frames
+ Average the quantizer over all previous frames.
  .RE
- .TP
-@@ -4791,14 +4791,14 @@ quantizer compression, depends upon vrc_
+ .PD 1
+@@ -6355,73 +6355,73 @@ Perceptual quality will be optimal somew
  .B vrc_eq=<equation>
- main ratecontrol equation (pass\ 1/\:2):
+ main ratecontrol equation (pass\ 1/\:2)
  .RE
 -.RSs
 -.IPs 1\ \ \ \ 
@@ -3129,7 +4266,15 @@ $MirOS$
  with qcomp 0.5 or something like that (default)
  .RE
  .PP
-@@ -4809,52 +4809,52 @@ infix operators: +,-,*,/,^
+ .RS
+ infix operators:
+ .RE
+-.RSs
+-.IPs +,-,*,/,^
++.rS
++.iP +,-,*,/,^
+ .RE
+ .PP
  .RS
  variables:
  .RE
@@ -3140,22 +4285,22 @@ $MirOS$
  texture complexity
 -.IPs iTex,pTex
 +.iP iTex,pTex
- intra, non intra texture complexity
+ intra, non-intra texture complexity
 -.IPs avgTex
 +.iP avgTex
  average texture complexity
 -.IPs avgIITex
 +.iP avgIITex
- average intra texture complexity in I frames
+ average intra texture complexity in I-frames
 -.IPs avgPITex
 +.iP avgPITex
- average intra texture complexity in P frames
+ average intra texture complexity in P-frames
 -.IPs avgPPTex
 +.iP avgPPTex
- average non intra texture complexity in P frames
+ average non-intra texture complexity in P-frames
 -.IPs avgBPTex
 +.iP avgBPTex
- average non intra texture complexity in B frames
+ average non-intra texture complexity in B-frames
 -.IPs mv\ \ \ 
 +.iP mv\ \ \ 
  Bits used for motion vectors
@@ -3164,7 +4309,7 @@ $MirOS$
  maximum length of motion vector in log2 scale
 -.IPs iCount
 +.iP iCount
- number of intra macro blocks / number of macro blocks
+ number of intra macroblocks / number of macroblocks
 -.IPs var\ \ 
 +.iP var\ \ 
  spatial complexity
@@ -3176,10 +4321,10 @@ $MirOS$
  qcomp from the command line
 -.IPs "isI, isP, isB"
 +.iP "isI, isP, isB"
- is 1 if picture type is I/\:P/\:B else 0
+ Is 1 if picture type is I/\:P/\:B else 0.
 -.IPs Pi,E\ 
 +.iP Pi,E\ 
- see your favorite math book
+ See your favorite math book.
  .RE
  .PP
  .RS
@@ -3204,10 +4349,10 @@ $MirOS$
  .RE
  .
  .TP
-@@ -4862,10 +4862,10 @@ is 1 if a==b, 0 otherwise
- User specified quality for specific parts (ending, credits, ..) (pass\ 1/\:2).
+@@ -6430,10 +6430,10 @@ User specified quality for specific part
  The options are <start-frame>, <end-frame>, <quality>[/\:<start-frame>,
- <end-frame>, <quality>[/...]]:
+ <end-frame>, <quality>[/\:...]]:
+ .PD 0
 -.RSs
 -.IPs "quality (2\-31)"
 +.rS
@@ -3217,23 +4362,23 @@ $MirOS$
 +.iP "quality (-500\-0)"
  quality correction in %
  .RE
- .TP
-@@ -4875,10 +4875,10 @@ initial complexity (pass\ 1)
- .B vqsquish=<0,1>
- specify how to keep the quantizer between qmin and qmax (pass\ 1/\:2):
+ .PD 1
+@@ -6446,10 +6446,10 @@ initial complexity (pass\ 1)
+ .B vqsquish=<0|1>
+ Specify how to keep the quantizer between qmin and qmax (pass\ 1/\:2).
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- use clipping
+ Use clipping.
 -.IPs 1
 +.iP 1
- use a nice differentiable function (default)
+ Use a nice differentiable function (default).
  .RE
  .PD 1
-@@ -4888,10 +4888,10 @@ single coefficient elimination threshold
- Negative values will also consider the dc coefficient (should be at least -4
+@@ -6460,10 +6460,10 @@ Sets single coefficient elimination thre
+ Negative values will also consider the DC coefficient (should be at least -4
  or lower for encoding at quant=1):
  .PD 0
 -.RSs
@@ -3243,11 +4388,11 @@ $MirOS$
  disabled (default)
 -.IPs -4
 +.iP -4
- (JVT recommendation)
+ JVT recommendation
  .RE
  .PD 1
-@@ -4901,22 +4901,22 @@ single coefficient elimination threshold
- Negative values will also consider the dc coefficient (should be at least -4
+@@ -6474,10 +6474,10 @@ Sets single coefficient elimination thre
+ Negative values will also consider the DC coefficient (should be at least -4
  or lower for encoding at quant=1):
  .PD 0
 -.RSs
@@ -3257,11 +4402,13 @@ $MirOS$
  disabled (default)
 -.IPs 7
 +.iP 7
- (JVT recommendation)
+ JVT recommendation
  .RE
- .TP
- .B vstrict=<-1,0,1>
+ .PD 1
+@@ -6486,13 +6486,13 @@ JVT recommendation
+ .B vstrict=<-1|0|1>
  strict standard compliance
+ .PD 0
 -.RSs
 -.IPs 0
 +.rS
@@ -3269,53 +4416,53 @@ $MirOS$
  disabled (default)
 -.IPs 1
 +.iP 1
- only recommended if you want to feed the output into the mpeg4 reference
- decoder
+ Only recommended if you want to feed the output into the
+ MPEG-4 reference decoder.
 -.IPs -1
 +.iP -1
- allows non-standard YV12 huffyuv encoding (20% smaller files, but cannot be
- played by the official huffyuv codec)
+ Allows some non-standard codecs to work (snow, ffvhuff, ffv1).
  .RE
-@@ -4928,12 +4928,12 @@ Adds 2 Bytes per video packet, improves 
- unreliable channels (eg.\& streaming over the internet)
+ .PD 1
+@@ -6504,12 +6504,12 @@ Adds 2 Bytes per video packet, improves 
+ unreliable channels (e.g.\& streaming over the internet).
  Each video packet will be encoded in 3 separate partitions:
  .PD 0
 -.RSs
 -.IPs "1. MVs"
 +.rS
 +.iP "1. MVs"
- (movement)
+ movement
 -.IPs "2. DC coefficients"
 +.iP "2. DC coefficients"
- (low res picture)
+ low res picture
 -.IPs "3. AC coefficients"
 +.iP "3. AC coefficients"
- (details)
+ details
  .RE
  .PD 1
-@@ -4948,10 +4948,10 @@ as without partitioning an error will tr
- .TP
- .B vpsize=<0\-10000>
- video packet size, improves error-resistance (see \-vdpart option too):
+@@ -6526,10 +6526,10 @@ as without partitioning an error will tr
+ .B vpsize=<0\-10000> (also see vdpart)
+ Video packet size, improves error-resistance.
+ .PD 0
 -.RSs
--.IPs 0
+-.IPs 0\ \ \ \ 
 +.rS
-+.iP 0
++.iP 0\ \ \ \ 
  disabled (default)
--.IPs 100-1000
-+.iP 100-1000
+-.IPs 100\-1000
++.iP 100\-1000
  good choice
  .RE
- .TP
-@@ -4964,20 +4964,20 @@ grayscale only encoding (faster) (defaul
+ .PD 1
+@@ -6546,20 +6546,20 @@ grayscale only encoding (faster)
  .B vfdct=<0\-10>
- dct algorithm:
+ DCT algorithm
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- automatically select a good one (default)
+ Automatically select a good one (default).
 -.IPs 1
 +.iP 1
  fast integer
@@ -3324,19 +4471,19 @@ $MirOS$
  accurate integer
 -.IPs 3
 +.iP 3
- mmx
+ MMX
 -.IPs 4
 +.iP 4
  mlib
 -.IPs 5
 +.iP 5
- altivec
+ AltiVec
 -.IPs 6
 +.iP 6
  floating point AAN
  .RE
  .PD 1
-@@ -4987,26 +4987,26 @@ idct algorithm.
+@@ -6571,26 +6571,26 @@ IDCT algorithm
  .I NOTE:
  To the best of our knowledge all these IDCTs do pass the IEEE1180 tests.
  .PD 0
@@ -3344,10 +4491,10 @@ $MirOS$
 -.IPs 0
 +.rS
 +.iP 0
- automatically select a good one (default)
+ Automatically select a good one (default).
 -.IPs 1
 +.iP 1
- jpeg reference integer
+ JPEG reference integer
 -.IPs 2
 +.iP 2
  simple
@@ -3356,7 +4503,7 @@ $MirOS$
  simplemmx
 -.IPs 4
 +.iP 4
- libmpeg2mmx (inaccurate, DON'T USE for encoding with keyint >100)
+ libmpeg2mmx (inaccurate, do not use for encoding with keyint >100)
 -.IPs 5
 +.iP 5
  ps2
@@ -3368,58 +4515,58 @@ $MirOS$
  arm
 -.IPs 8
 +.iP 8
- altivec
+ AltiVec
 -.IPs 9
 +.iP 9
  sh4
  .RE
  .PD 1
-@@ -5016,10 +5016,10 @@ luminance masking.
- Warning: Be careful, too large values can cause disastrous things.
- Warning2: Large values might look good on some monitors but may look horrible
- on other monitors:
+@@ -6611,10 +6611,10 @@ Be careful, overly large values can caus
+ Large values might look good on some monitors but may look horrible
+ on other monitors.
+ .PD 0
 -.RSs
--.IPs 0.0
+-.IPs 0.0\ \ 
 +.rS
-+.iP 0.0
++.iP 0.0\ \ 
  disabled (default)
 -.IPs 0.0\-0.3
 +.iP 0.0\-0.3
  sane range
  .RE
- .TP
-@@ -5028,10 +5028,10 @@ darkness masking.
- Warning: be careful, too large values can cause disasterous things.
- Warning2: large values might look good on some monitors but may look horrible
- on other monitors / TV / TFT:
+ .PD 1
+@@ -6635,10 +6635,10 @@ Be careful, overly large values can caus
+ Large values might look good on some monitors but may look horrible
+ on other monitors / TV / TFT.
+ .PD 0
 -.RSs
--.IPs 0.0
+-.IPs 0.0\ \ 
 +.rS
-+.iP 0.0
++.iP 0.0\ \ 
  disabled (default)
 -.IPs 0.0\-0.3
 +.iP 0.0\-0.3
  sane range
  .RE
- .TP
-@@ -5044,10 +5044,10 @@ Larger values help against blockiness, i
- decoding.
- Tip: Crop any black borders completely as they will reduce the quality
- of the macro blocks (also applies without scplx_mask).
+ .PD 1
+@@ -6671,10 +6671,10 @@ the sky and the house.
+ Crop any black borders completely as they will reduce the quality
+ of the macroblocks (also applies without scplx_mask).
+ .PD 0
 -.RSs
--.IPs 0.0
+-.IPs 0.0\ \ 
 +.rS
-+.iP 0.0
++.iP 0.0\ \ 
  disabled (default)
 -.IPs 0.0\-0.5
 +.iP 0.0\-0.5
  sane range
  .RE
- .TP
-@@ -5071,38 +5071,38 @@ use interlaced motion estimation
- use alternative scantable
+ .PD 1
+@@ -6718,12 +6718,12 @@ Use alternative scantable.
  .TP
  .B top=<-1\-1>\ \ \ 
+ .PD 0
 -.RSs
 -.IPs -1
 +.rS
@@ -3432,29 +4579,33 @@ $MirOS$
 +.iP 1
  top field first
  .RE
+ .PD 1
+@@ -6731,16 +6731,16 @@ top field first
  .TP
  .B format=<value>
+ .PD 0
 -.RSs
--.IPs YV12
+-.IPs YV12\ 
 +.rS
-+.iP YV12
++.iP YV12\ 
  default
--.IPs 444P
-+.iP 444P
+-.IPs 444P\ 
++.iP 444P\ 
  for ffv1
--.IPs 422P
-+.iP 422P
- for huffyuv, lossless jpeg and ffv1
+-.IPs 422P\ 
++.iP 422P\ 
+ for HuffYUV, lossless JPEG and ffv1
 -.IPs 411P,YVU9
 +.iP 411P,YVU9
- for lossless jpeg and ffv1
+ for lossless JPEG and ffv1
 -.IPs BGR32
 +.iP BGR32
- for lossless jpeg and ffv1
+ for lossless JPEG and ffv1
  .RE
- .TP
- .B pred
- (for huffyuv)
+ .PD 1
+@@ -6749,12 +6749,12 @@ for lossless JPEG and ffv1
+ .B pred\ \ \ 
+ (for HuffYUV)
  .PD 0
 -.RSs
 -.IPs 0
@@ -3463,15 +4614,15 @@ $MirOS$
  left prediction
 -.IPs 1
 +.iP 1
- plane/gradient prediction
+ plane/\:gradient prediction
 -.IPs 2
 +.iP 2
  median prediction
  .RE
  .PD 1
-@@ -5110,16 +5110,16 @@ median prediction
- .B pred
- (for lossless jpeg)
+@@ -6763,16 +6763,16 @@ median prediction
+ .B pred\ \ \ 
+ (for lossless JPEG)
  .PD 0
 -.RSs
 -.IPs 0
@@ -3486,27 +4637,27 @@ $MirOS$
  topleft prediction
 -.IPs 3
 +.iP 3
- plane/gradient prediction
+ plane/\:gradient prediction
 -.IPs 6
 +.iP 6
  mean prediction
  .RE
  .PD 1
-@@ -5127,10 +5127,10 @@ mean prediction
- .B coder
+@@ -6781,10 +6781,10 @@ mean prediction
+ .B coder\ \ 
  (for ffv1)
  .PD 0
 -.RSs
 -.IPs 0
 +.rS
 +.iP 0
- vlc coding (golomb rice)
+ vlc coding (Golomb-Rice)
 -.IPs 1
 +.iP 1
- arithmetic coding (cabac)
+ arithmetic coding (CABAC)
  .RE
  .PD 1
-@@ -5138,10 +5138,10 @@ arithmetic coding (cabac)
+@@ -6793,10 +6793,10 @@ arithmetic coding (CABAC)
  .B context
  (for ffv1)
  .PD 0
@@ -3520,9 +4671,23 @@ $MirOS$
  large context model
  .RE
  .PD 1
-@@ -5165,30 +5165,30 @@ comparison function for sub pel motion e
+@@ -6805,10 +6805,10 @@ large context model
+ (for ffvhuff)
+ .RE
+ .PD 0
+-.RSs
+-.IPs 0
++.rS
++.iP 0
+ predetermined huffman tables (builtin or two pass)
+-.IPs 1
++.iP 1
+ adaptive huffman tables
+ .RE
+ .PD 1
+@@ -6824,30 +6824,30 @@ This seems only useful for high bitrate 
  .B mbcmp=<0\-2000>
- comparison function for the macroblock decision, only used if mbd=0
+ Sets the comparison function for the macroblock decision, only used if mbd=0.
  .PD 0
 -.RSs
 -.IPs "0 (SAD)"
@@ -3534,13 +4699,13 @@ $MirOS$
  sum of squared errors
 -.IPs "2 (SATD)"
 +.iP "2 (SATD)"
- sum of absolute hadamard transformed differences
+ sum of absolute Hadamard transformed differences
 -.IPs "3 (DCT)"
 +.iP "3 (DCT)"
- sum of absolute dct transformed differences
+ sum of absolute DCT transformed differences
 -.IPs "4 (PSNR)"
 +.iP "4 (PSNR)"
- sum of the squared quantization errors (don't use, low quality)
+ sum of squared quantization errors (avoid, low quality)
 -.IPs "5 (BIT)"
 +.iP "5 (BIT)"
  number of bits needed for the block
@@ -3552,7 +4717,7 @@ $MirOS$
  0
 -.IPs "8 (VSAD)"
 +.iP "8 (VSAD)"
- sum of absolute vertical differences 
+ sum of absolute vertical differences
 -.IPs "9 (VSSE)"
 +.iP "9 (VSSE)"
  sum of squared vertical differences
@@ -3561,12 +4726,12 @@ $MirOS$
  noise preserving sum of squared differences
 -.IPs +256\ 
 +.iP +256\ 
- use chroma too, doesn't work (correctly) with B frames currently
+ Also use chroma, currently does not work (correctly) with B-frames.
  .RE
  .PD 1
-@@ -5205,14 +5205,14 @@ Diamond type & size for motion estimatio
+@@ -6902,14 +6902,14 @@ Shape-adaptive diamonds are a good trade
  .I NOTE:
- The sizes of the normal diamonds and shape adaptive ones don't have
+ The sizes of the normal diamonds and shape adaptive ones do not have
  the same meaning.
 -.RSs
 -.IPs -3
@@ -3578,30 +4743,30 @@ $MirOS$
  shape adaptive (fast) diamond with size 2
 -.IPs -1
 +.iP -1
- experimental
+ slightly special: Can be slower and/or better than dia=-2.
 -.IPs  1
 +.iP  1
  normal size=1 diamond (default) =EPZS type diamond
  .nf
  .ne
-@@ -5221,7 +5221,7 @@ normal size=1 diamond (default) =EPZS ty
-       0 
+@@ -6917,7 +6917,7 @@ normal size=1 diamond (default) =EPZS ty
+      000
+       0
  .fi
- .br
 -.IPs 2
 +.iP 2
  normal size=2 diamond
  .nf
  .ne
-@@ -5241,12 +5241,12 @@ vs bitrate sense (assuming that there wo
- by the IDCT, which is obviously not the case) it simply finds a block for
- the minimum of error and lambda*bits.
+@@ -6938,12 +6938,12 @@ the PSNR versus bitrate sense (Assuming 
+ errors introduced by the IDCT, which is obviously not the case.).
+ It simply finds a block for the minimum of error and lambda*bits.
  .PD 0
 -.RSs
 -.IPs lambda
 +.rS
 +.iP lambda
- qp dependant constant
+ quantization parameter (QP) dependent constant
 -.IPs bits\ 
 +.iP bits\ 
  amount of bits needed to encode the block
@@ -3610,9 +4775,9 @@ $MirOS$
  sum of squared errors of the quantization
  .RE
  .PD 1
-@@ -5267,10 +5267,10 @@ needs mbd=2
+@@ -6968,10 +6968,10 @@ lambda of each macroblock
  .B last_pred=<0\-99>
- Amount of motion predictors from the previous frame
+ amount of motion predictors from the previous frame
  .PD 0
 -.RSs
 -.IPs 0
@@ -3621,11 +4786,11 @@ $MirOS$
  (default)
 -.IPs a
 +.iP a
- will use 2a+1 x 2a+1 macro block square of motion vector predictors from the
- previous frame
+ Will use 2a+1 x 2a+1 macroblock square of motion vector predictors from the
+ previous frame.
  .RE
-@@ -5279,12 +5279,12 @@ previous frame
- .B preme=<0\-2> 
+@@ -6981,12 +6981,12 @@ previous frame.
+ .B preme=<0\-2>
  motion estimation pre-pass
  .PD 0
 -.RSs
@@ -3635,15 +4800,15 @@ $MirOS$
  disabled
 -.IPs 1
 +.iP 1
- only after I frames (default)
+ only after I-frames (default)
 -.IPs 2
 +.iP 2
  always
  .RE
  .PD 1
-@@ -5349,14 +5349,14 @@ this can and should be used together wit
- the trellis quantization (optimal for constant weight) will be used as startpoint
- for the iterative search.
+@@ -7060,14 +7060,14 @@ This can and should be used together wit
+ the trellis quantization (optimal for constant weight) will be used as
+ startpoint for the iterative search.
  .PD 0
 -.RSs
 -.IPs 0
@@ -3652,18 +4817,18 @@ $MirOS$
  disabled (default)
 -.IPs 1
 +.iP 1
- only lower the absolute value of coefficients
+ Only lower the absolute value of coefficients.
 -.IPs 2
 +.iP 2
- only change coefficients before the last non zero coefficient + 1
+ Only change coefficients before the last non-zero coefficient + 1.
 -.IPs 3
 +.iP 3
- try all
+ Try all.
  .RE
  .PD 1
-@@ -5535,16 +5535,16 @@ enable a better prediction of AC compone
- .B vhq=<0\-4>
- enable a higher quality ME search using DCT, faster to slower:
+@@ -7431,16 +7431,16 @@ to search for a motion vector that minim
+ difference but also the encoding length of the block.
+ Fastest to slowest:
  .PD 0
 -.RSs
 -.IPs 0
@@ -3672,7 +4837,7 @@ $MirOS$
  off (default)
 -.IPs 1
 +.iP 1
- mode decision (inter/intra MB)
+ mode decision (inter/\:intra MB) (default)
 -.IPs 2
 +.iP 2
  limited search
@@ -3684,3 +4849,110 @@ $MirOS$
  wide search
  .RE
  .PD 1
+@@ -7553,20 +7553,20 @@ one, giving the opportunity to specify a
+ ratio.
+ 5 standard modes can be specified:
+ .PD 0
+-.RSs
+-.IPs vga11
++.rS
++.iP vga11
+ It's the usual PAR for PC content.
+ Pixels are a square unit.
+-.IPs pal43
++.iP pal43
+ PAL standard 4:3 PAR.
+ Pixels are rectangles.
+-.IPs pal169
++.iP pal169
+ same as above
+-.IPs ntsc43
++.iP ntsc43
+ same as above
+-.IPs ntsc169
++.iP ntsc169
+ same as above (Don't forget to give the exact ratio.)
+-.IPs ext\ \ 
++.iP ext\ \ 
+ Allows you to specify your own pixel aspect ratio with par_width and
+ par_height.
+ .RE
+@@ -7643,12 +7643,12 @@ Enable 2 or 3-pass mode.
+ It is recommended to always encode in 2 or 3-pass mode as it leads to a
+ better bit distribution and improves overall quality.
+ .PD 0
+-.RSs
+-.IPs 1
++.rS
++.iP 1
+ first pass
+-.IPs 2
++.iP 2
+ second pass (of two pass encoding)
+-.IPs 3
++.iP 3
+ Nth pass (second and third passes of three pass encoding)
+ .RE
+ .RS
+@@ -7683,7 +7683,7 @@ NOTE:
+ x264 three pass support being quite recent in MEncoder, we welcome any
+ feedback you could give us on good combinations of x264 options that are
+ both fast and provide good quality.
+-.REss
++.rE
+ .
+ .TP
+ .B keyint=<value>
+@@ -7854,12 +7854,12 @@ higher values force it to vary more smoo
+ Determines the type of motion prediction used for direct macroblocks
+ in B-frames.
+ .PD 0
+-.RSs
+-.IPs 0
++.rS
++.iP 0
+ None: direct macroblocks are not used.
+-.IPs 1
++.iP 1
+ Spatial: motion vectors are extrapolated from neighboring blocks.
+-.IPs 2
++.iP 2
+ Temporal: motion vectors are interpolated from the following P-frame.
+ (default)
+ .RE
+@@ -7912,7 +7912,7 @@ Adjust subpel refinement quality.
+ This parameter controls quality versus speed tradeoffs involved in the motion
+ estimation decision process.
+ subq=5 can compress up to 10% better than subq=1.
+-.RSs
++.rS
+ 1: Runs fullpixel precision motion estimation on all candidate
+ macroblock types.
+ Then selects the best type.
+@@ -7935,7 +7935,7 @@ Then finishes the quarterpixel refinemen
+ 5: Runs best quality quarterpixel precision motion estimation on all
+ candidate macroblock types, before selecting the best type.
+ (best, default)
+-.REss
++.rE
+ In the above, "all candidates" doesn't exactly mean all enabled types:
+ 4x4, 4x8, 8x4 are tried only if 8x8 is better than 16x16.
+ .
+@@ -7961,7 +7961,7 @@ and you have a need to set it.
+ .TP
+ .B log=<-1\-3>
+ Adjust the amount of logging info printed to the screen.
+-.RSs
++.rS
+ -1: none
+ .br
+  0: Print errors only.
+@@ -7972,7 +7972,7 @@ Adjust the amount of logging info printe
+ (default)
+ .br
+  3: PSNR, QP, frametype, size, and other stats for every frame
+-.REss
++.rE
+ .
+ .TP
+ .B (no)psnr

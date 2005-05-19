@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/multimedia/mplayer/patches/patch-vidix_drivers_Makefile,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
 $OpenBSD: patch-vidix_drivers_Makefile,v 1.7 2003/12/16 17:17:33 biorn Exp $
---- vidix/drivers/Makefile.orig	2003-10-22 18:45:33.000000000 +0200
-+++ vidix/drivers/Makefile	2003-12-09 06:45:32.000000000 +0100
-@@ -138,7 +138,7 @@ depend:
+--- vidix/drivers/Makefile.orig	Mon Dec 27 18:10:44 2004
++++ vidix/drivers/Makefile	Thu May 19 20:32:10 2005
+@@ -162,7 +162,7 @@ depend:
  
  install:
  	mkdir -p $(LIBDIR)/mplayer/vidix

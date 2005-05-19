@@ -1,9 +1,9 @@
-$MirOS$
---- libmpdemux/demuxer.c.orig	Sat Jul 24 19:58:14 2004
-+++ libmpdemux/demuxer.c	Sat Jul 24 19:58:30 2004
-@@ -20,6 +20,10 @@
- 
- #include "../libvo/fastmemcpy.h"
+$MirOS: ports/multimedia/mplayer/patches/patch-libmpdemux_demuxer_c,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+--- libmpdemux/demuxer.c.orig	Sun Apr  3 14:08:04 2005
++++ libmpdemux/demuxer.c	Thu May 19 20:32:06 2005
+@@ -25,6 +25,10 @@
+ // new_sh_video don't match aids and vids it accepts from the command line
+ int demux_aid_vid_mismatch = 0;
  
 +#ifdef STREAMING_LIVE_DOT_COM
 +#include "demux_rtp.h"
