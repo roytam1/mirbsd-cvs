@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/include/stdint.h,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -68,13 +68,13 @@ typedef	uint64_t	uintmax_t;
 #define	INT16_MAX	0x7FFF
 #define	UINT16_MAX	0xFFFFU
 
-#define	INT32_MIN	(-0x7FFFFFFF-1)
-#define	INT32_MAX	0x7FFFFFFF
-#define	UINT32_MAX	0xFFFFFFFFU
+#define	INT32_MIN	(-0x7FFFFFFFL-1)
+#define	INT32_MAX	0x7FFFFFFFL
+#define	UINT32_MAX	0xFFFFFFFFUL
 
-#define	INT64_MIN	(-0x7FFFFFFFFFFFFFFF-1)
-#define	INT64_MAX	0x7FFFFFFFFFFFFFFF
-#define	UINT64_MAX	0xFFFFFFFFFFFFFFFFU
+#define	INT64_MIN	(-0x7FFFFFFFFFFFFFFFLL-1)
+#define	INT64_MAX	0x7FFFFFFFFFFFFFFFLL
+#define	UINT64_MAX	0xFFFFFFFFFFFFFFFFULL
 
 /* minimum types - same as basic types for now */
 
