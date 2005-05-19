@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/pppoe/client.c,v 1.2 2005/03/13 19:17:18 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.20 2004/09/03 06:37:14 tedu Exp $	*/
 
 /*
@@ -50,7 +50,7 @@
 
 #include "pppoe.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/pppoe/client.c,v 1.2 2005/03/13 19:17:18 tg Exp $");
 
 #define	STATE_EXPECT_PADO	1
 #define	STATE_EXPECT_PADS	2
@@ -497,6 +497,9 @@ recv_padt(int bfd, struct ether_addr *myea, struct ether_addr *rmea,
     struct ether_header *eh, struct pppoe_header *ph,
     u_long len, u_int8_t *pkt)
 {
+	if (ignorepadt)
+		return (0);
+
 	if (memcmp(&eh->ether_shost[0], rmea, ETHER_ADDR_LEN))
 		return (0);
 

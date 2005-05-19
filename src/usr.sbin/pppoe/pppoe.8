@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.sbin/pppoe/pppoe.8,v 1.2 2005/03/13 19:17:19 tg Exp $
 .\"	$OpenBSD: pppoe.8,v 1.17 2004/08/03 08:54:08 jmc Exp $
 .\"
 .\" Copyright (c) 2000 Network Security Technologies, Inc.
@@ -34,7 +34,7 @@
 .Nd PPP Over Ethernet translator
 .Sh SYNOPSIS
 .Nm pppoe
-.Op Fl sv
+.Op Fl stv
 .Op Fl i Ar interface
 .Op Fl n Ar service
 .Op Fl p Ar system
@@ -75,6 +75,14 @@ will run as a server.
 Otherwise,
 .Nm
 runs as a client.
+.It Fl t
+Instruct 
+.Nm
+to ignore PADT packets.  If you observe numerous
+"connection reset by peer" error messages and constantly
+lose connection soon after establishing one, it may because
+of spurious PADT tags being sent from the peer.  Ignoring them 
+may alleviate the problem. 
 .It Fl v
 For each use of the flag, the verbosity of
 .Nm pppoe
