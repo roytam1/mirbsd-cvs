@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.59 2005/05/06 00:37:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.60 2005/05/12 20:47:07 bsiegert Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2892,4 +2892,14 @@
  (with both the unfinished installation docs and the uncommitted #7 patches
  on the hard disk), so I cannot access the data at home over Pentecost
  (sp?). But still, I wish you all <i>ein gesegnetes Pfingstfest</i>.</p>
+<p>19.05.2005 by tg@<br />I'm a bit lost in all the spring mood but I need
+ a distraction from all the hacking, at the dayjob and in the evening. The
+ changes I've done are numerous, small and large; I know I'll kick myself,
+ later, when trying to collect new snapshot data. When trying to upload RC
+ 3 (via rsync) thor went wild, but Strato fixed that some days(!) later; I
+ haven't uploaded it tho. Today I've vamped mplayer and fixed these gcc or
+ boehm-gc bugs (some of which were introduced via threading gcc itself and
+ thus infecting libgcc). Maybe I'll start merging binutils/gdb-current now
+ since I'm not yet in the mood to drive home (Netzladen time again). We'll
+ have an IRC channel meeting this weekend, and I'm learning dutch.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
