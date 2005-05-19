@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/multimedia/livestream/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
 lib/live/BasicUsageEnvironment/include/BasicHashTable.hh
 lib/live/BasicUsageEnvironment/include/BasicUsageEnvironment.hh
 lib/live/BasicUsageEnvironment/include/BasicUsageEnvironment0.hh
@@ -22,14 +22,22 @@ lib/live/groupsock/include/NetInterface.hh
 lib/live/groupsock/include/TunnelEncaps.hh
 lib/live/groupsock/include/groupsock_version.hh
 lib/live/groupsock/libgroupsock.a
+lib/live/liveMedia/AVIFileSink.cpp
 lib/live/liveMedia/BitVector.hh
 lib/live/liveMedia/DarwinInjector.cpp
+lib/live/liveMedia/DigestAuthentication.cpp
+lib/live/liveMedia/H264VideoRTPSource.cpp
+lib/live/liveMedia/InputFile.cpp
 lib/live/liveMedia/MP3ADUdescriptor.hh
 lib/live/liveMedia/MP3Internals.hh
 lib/live/liveMedia/MP3InternalsHuffman.hh
 lib/live/liveMedia/MP3StreamState.hh
+lib/live/liveMedia/MPEG1or2VideoStreamDiscreteFramer.cpp
 lib/live/liveMedia/MPEG2TransportFileServerMediaSubsession.cpp
+lib/live/liveMedia/MPEG4LATMAudioRTPSink.cpp
+lib/live/liveMedia/MPEG4VideoStreamDiscreteFramer.cpp
 lib/live/liveMedia/MPEGVideoStreamParser.hh
+lib/live/liveMedia/OutputFile.cpp
 lib/live/liveMedia/StreamParser.hh
 lib/live/liveMedia/include/AC3AudioRTPSink.hh
 lib/live/liveMedia/include/AC3AudioRTPSource.hh
@@ -40,6 +48,7 @@ lib/live/liveMedia/include/AMRAudioFileSource.hh
 lib/live/liveMedia/include/AMRAudioRTPSink.hh
 lib/live/liveMedia/include/AMRAudioRTPSource.hh
 lib/live/liveMedia/include/AMRAudioSource.hh
+lib/live/liveMedia/include/AVIFileSink.hh
 lib/live/liveMedia/include/AudioInputDevice.hh
 lib/live/liveMedia/include/AudioRTPSink.hh
 lib/live/liveMedia/include/BasicUDPSink.hh
@@ -48,6 +57,7 @@ lib/live/liveMedia/include/ByteStreamFileSource.hh
 lib/live/liveMedia/include/ByteStreamMultiFileSource.hh
 lib/live/liveMedia/include/DarwinInjector.hh
 lib/live/liveMedia/include/DeviceSource.hh
+lib/live/liveMedia/include/DigestAuthentication.hh
 lib/live/liveMedia/include/FileServerMediaSubsession.hh
 lib/live/liveMedia/include/FileSink.hh
 lib/live/liveMedia/include/FramedFileSource.hh
@@ -57,7 +67,9 @@ lib/live/liveMedia/include/GSMAudioRTPSink.hh
 lib/live/liveMedia/include/H261VideoRTPSource.hh
 lib/live/liveMedia/include/H263plusVideoRTPSink.hh
 lib/live/liveMedia/include/H263plusVideoRTPSource.hh
+lib/live/liveMedia/include/H264VideoRTPSource.hh
 lib/live/liveMedia/include/HTTPSink.hh
+lib/live/liveMedia/include/InputFile.hh
 lib/live/liveMedia/include/JPEGVideoRTPSink.hh
 lib/live/liveMedia/include/JPEGVideoRTPSource.hh
 lib/live/liveMedia/include/JPEGVideoSource.hh
@@ -81,6 +93,7 @@ lib/live/liveMedia/include/MPEG1or2VideoFileServerMediaSubsession.hh
 lib/live/liveMedia/include/MPEG1or2VideoHTTPSink.hh
 lib/live/liveMedia/include/MPEG1or2VideoRTPSink.hh
 lib/live/liveMedia/include/MPEG1or2VideoRTPSource.hh
+lib/live/liveMedia/include/MPEG1or2VideoStreamDiscreteFramer.hh
 lib/live/liveMedia/include/MPEG1or2VideoStreamFramer.hh
 lib/live/liveMedia/include/MPEG2TransportFileServerMediaSubsession.hh
 lib/live/liveMedia/include/MPEG2TransportStreamFramer.hh
@@ -89,8 +102,10 @@ lib/live/liveMedia/include/MPEG4ESVideoRTPSink.hh
 lib/live/liveMedia/include/MPEG4ESVideoRTPSource.hh
 lib/live/liveMedia/include/MPEG4GenericRTPSink.hh
 lib/live/liveMedia/include/MPEG4GenericRTPSource.hh
+lib/live/liveMedia/include/MPEG4LATMAudioRTPSink.hh
 lib/live/liveMedia/include/MPEG4LATMAudioRTPSource.hh
 lib/live/liveMedia/include/MPEG4VideoFileServerMediaSubsession.hh
+lib/live/liveMedia/include/MPEG4VideoStreamDiscreteFramer.hh
 lib/live/liveMedia/include/MPEG4VideoStreamFramer.hh
 lib/live/liveMedia/include/MPEGVideoStreamFramer.hh
 lib/live/liveMedia/include/Media.hh
@@ -100,6 +115,7 @@ lib/live/liveMedia/include/MediaSource.hh
 lib/live/liveMedia/include/MultiFramedRTPSink.hh
 lib/live/liveMedia/include/MultiFramedRTPSource.hh
 lib/live/liveMedia/include/OnDemandServerMediaSubsession.hh
+lib/live/liveMedia/include/OutputFile.hh
 lib/live/liveMedia/include/PassiveServerMediaSubsession.hh
 lib/live/liveMedia/include/PrioritizedRTPStreamSelector.hh
 lib/live/liveMedia/include/QCELPAudioRTPSource.hh
@@ -127,7 +143,6 @@ lib/live/liveMedia/rtcp_from_spec.h
 lib/live/testProgs/openRTSP
 lib/live/testProgs/playCommon.hh
 lib/live/testProgs/playSIP
-lib/live/testProgs/qtParse
 lib/live/testProgs/sapWatch
 lib/live/testProgs/testAMRAudioStreamer
 lib/live/testProgs/testMP3-using-ADUs.sdp
@@ -142,6 +157,7 @@ lib/live/testProgs/testMPEG1or2Splitter
 lib/live/testProgs/testMPEG1or2Video.sdp
 lib/live/testProgs/testMPEG1or2VideoReceiver
 lib/live/testProgs/testMPEG1or2VideoStreamer
+lib/live/testProgs/testMPEG2Transport.sdp
 lib/live/testProgs/testMPEG2TransportStreamer
 lib/live/testProgs/testMPEG4VideoStreamer
 lib/live/testProgs/testMPEG4VideoToDarwin

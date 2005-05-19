@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/multimedia/livestream/files/BSDmakefile,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
 
 FILES=	\
 	BasicUsageEnvironment/include/BasicHashTable.hh \
@@ -24,14 +24,22 @@ FILES=	\
 	groupsock/include/TunnelEncaps.hh \
 	groupsock/include/groupsock_version.hh \
 	groupsock/libgroupsock.a \
+	liveMedia/AVIFileSink.cpp \
 	liveMedia/BitVector.hh \
 	liveMedia/DarwinInjector.cpp \
+	liveMedia/DigestAuthentication.cpp \
+	liveMedia/H264VideoRTPSource.cpp \
+	liveMedia/InputFile.cpp \
 	liveMedia/MP3ADUdescriptor.hh \
 	liveMedia/MP3Internals.hh \
 	liveMedia/MP3InternalsHuffman.hh \
 	liveMedia/MP3StreamState.hh \
+	liveMedia/MPEG1or2VideoStreamDiscreteFramer.cpp \
 	liveMedia/MPEG2TransportFileServerMediaSubsession.cpp \
+	liveMedia/MPEG4LATMAudioRTPSink.cpp \
+	liveMedia/MPEG4VideoStreamDiscreteFramer.cpp \
 	liveMedia/MPEGVideoStreamParser.hh \
+	liveMedia/OutputFile.cpp \
 	liveMedia/StreamParser.hh \
 	liveMedia/include/AC3AudioRTPSink.hh \
 	liveMedia/include/AC3AudioRTPSource.hh \
@@ -42,6 +50,7 @@ FILES=	\
 	liveMedia/include/AMRAudioRTPSink.hh \
 	liveMedia/include/AMRAudioRTPSource.hh \
 	liveMedia/include/AMRAudioSource.hh \
+	liveMedia/include/AVIFileSink.hh \
 	liveMedia/include/AudioInputDevice.hh \
 	liveMedia/include/AudioRTPSink.hh \
 	liveMedia/include/BasicUDPSink.hh \
@@ -50,6 +59,7 @@ FILES=	\
 	liveMedia/include/ByteStreamMultiFileSource.hh \
 	liveMedia/include/DarwinInjector.hh \
 	liveMedia/include/DeviceSource.hh \
+	liveMedia/include/DigestAuthentication.hh \
 	liveMedia/include/FileServerMediaSubsession.hh \
 	liveMedia/include/FileSink.hh \
 	liveMedia/include/FramedFileSource.hh \
@@ -59,7 +69,9 @@ FILES=	\
 	liveMedia/include/H261VideoRTPSource.hh \
 	liveMedia/include/H263plusVideoRTPSink.hh \
 	liveMedia/include/H263plusVideoRTPSource.hh \
+	liveMedia/include/H264VideoRTPSource.hh \
 	liveMedia/include/HTTPSink.hh \
+	liveMedia/include/InputFile.hh \
 	liveMedia/include/JPEGVideoRTPSink.hh \
 	liveMedia/include/JPEGVideoRTPSource.hh \
 	liveMedia/include/JPEGVideoSource.hh \
@@ -83,6 +95,7 @@ FILES=	\
 	liveMedia/include/MPEG1or2VideoHTTPSink.hh \
 	liveMedia/include/MPEG1or2VideoRTPSink.hh \
 	liveMedia/include/MPEG1or2VideoRTPSource.hh \
+	liveMedia/include/MPEG1or2VideoStreamDiscreteFramer.hh \
 	liveMedia/include/MPEG1or2VideoStreamFramer.hh \
 	liveMedia/include/MPEG2TransportFileServerMediaSubsession.hh \
 	liveMedia/include/MPEG2TransportStreamFramer.hh \
@@ -91,8 +104,10 @@ FILES=	\
 	liveMedia/include/MPEG4ESVideoRTPSource.hh \
 	liveMedia/include/MPEG4GenericRTPSink.hh \
 	liveMedia/include/MPEG4GenericRTPSource.hh \
+	liveMedia/include/MPEG4LATMAudioRTPSink.hh \
 	liveMedia/include/MPEG4LATMAudioRTPSource.hh \
 	liveMedia/include/MPEG4VideoFileServerMediaSubsession.hh \
+	liveMedia/include/MPEG4VideoStreamDiscreteFramer.hh \
 	liveMedia/include/MPEG4VideoStreamFramer.hh \
 	liveMedia/include/MPEGVideoStreamFramer.hh \
 	liveMedia/include/Media.hh \
@@ -102,6 +117,7 @@ FILES=	\
 	liveMedia/include/MultiFramedRTPSink.hh \
 	liveMedia/include/MultiFramedRTPSource.hh \
 	liveMedia/include/OnDemandServerMediaSubsession.hh \
+	liveMedia/include/OutputFile.hh \
 	liveMedia/include/PassiveServerMediaSubsession.hh \
 	liveMedia/include/PrioritizedRTPStreamSelector.hh \
 	liveMedia/include/QCELPAudioRTPSource.hh \
@@ -130,12 +146,12 @@ FILES=	\
 	testProgs/testMP3-using-ADUs.sdp \
 	testProgs/testMP3.sdp \
 	testProgs/testMPEG1or2AudioVideo.sdp \
-	testProgs/testMPEG1or2Video.sdp
+	testProgs/testMPEG1or2Video.sdp \
+	testProgs/testMPEG2Transport.sdp
 
 PROGS=	\
 	testProgs/openRTSP \
 	testProgs/playSIP \
-	testProgs/qtParse \
 	testProgs/sapWatch \
 	testProgs/testAMRAudioStreamer \
 	testProgs/testMP3Receiver \
@@ -170,11 +186,11 @@ install:
 	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${PREFIX}/lib/live/${_i}
 .endfor
 .for _i in ${FILES}
-	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 444 \
+	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
 	    ${WRKSRC}/${_i} ${PREFIX}/lib/live/${_i}
 .endfor
 .for _i in ${PROGS}
-	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 555 \
+	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
 	    ${WRKSRC}/${_i} ${PREFIX}/lib/live/${_i}
 .endfor
 
