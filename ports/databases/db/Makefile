@@ -9,7 +9,7 @@ DESCR=			${PKGDIR}/DESCR
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 VERSION=		4.2.52
-DASH_VER=		.2p1
+DASH_VER=		.4
 DISTNAME=		db-${VERSION}
 PKGNAME=		db-${VERSION}${DASH_VER}
 PKGNAME-doc=		db-doc-${VERSION}${DASH_VER}
@@ -17,7 +17,8 @@ PKGNAME-tcl=		db-tcl-${VERSION}${DASH_VER}
 PKGNAME-cxx=		db-cxx-${VERSION}${DASH_VER}
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sleepycat.com/
-MASTER_SITES=		${HOMEPAGE}/update/snapshot/
+MASTER_SITES=		ftp://sleepycat1.inetu.net/releases/ \
+			${HOMEPAGE}/update/snapshot/
 MASTER_SITES0=		${HOMEPAGE}/update/${VERSION}/
 DIST_SUBDIR=		db4
 
@@ -31,20 +32,22 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 PATCHFILES=		patch.4.2.52.1:0 patch.4.2.52.2:0
+PATCHFILES+=		patch.4.2.52.3:0 patch.4.2.52.4:0
 
 MULTI_PACKAGES=		-doc
 
-CONFIGURE_STYLE=	gnu
-CONFIGURE_SCRIPT=	../dist/configure
+CONFIGURE_STYLE=	autogen
+AUTOCONF_NEW=		Yes
+AUTOGEN=		${SHELL} -c 'cd dist && . ./s_config'
+SEPARATE_BUILD=		flavored
+CONFIGURE_SCRIPT=	${WRKSRC}/dist/configure
 CONFIGURE_ARGS+=	--enable-compat185 
 CONFIGURE_ARGS+=	--enable-dump185
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--includedir=$$\{prefix}/include/db4
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/dist
-
-WRKBUILD=		${WRKDIST}/build_unix
+MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/dist
 
 PSEUDO_FLAVORS=		no_tcl no_cxx
 FLAVOR?=
@@ -83,12 +86,5 @@ USE_CXX=		Yes
 .if defined(PACKAGING) && !empty(SUBPACKAGE) && ${SUBPACKAGE} != "-doc"
 RUN_DEPENDS+=		::databases/db
 .endif
-
-post-install:
-	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/db4
-	cd ${WRKSRC}/examples_c; ${INSTALL_DATA} *.c \
-		${PREFIX}/share/examples/db4
-	cd ${WRKSRC}/examples_cxx; ${INSTALL_DATA} *.cpp \
-		${PREFIX}/share/examples/db4
 
 .include <bsd.port.mk>

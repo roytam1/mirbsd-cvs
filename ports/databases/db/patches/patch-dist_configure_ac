@@ -1,0 +1,16 @@
+$MirOS$
+--- dist/configure.ac.orig	Thu May 19 16:26:28 2005
++++ dist/configure.ac	Thu May 19 16:34:37 2005
+@@ -314,10 +314,10 @@ JMODSUFFIX_CONFIG
+ INSTALLER="\$(LIBTOOL) --mode=install cp -p"
+ 
+ MAKEFILE_CC="\$(LIBTOOL) --mode=compile ${MAKEFILE_CC}"
+-MAKEFILE_SOLINK="\$(LIBTOOL) --mode=link ${MAKEFILE_CCLINK} -avoid-version"
++MAKEFILE_SOLINK="\$(LIBTOOL) --mode=link ${MAKEFILE_CCLINK} -version-info ${DB_VERSION_MAJOR}:${DB_VERSION_MINOR}"
+ MAKEFILE_CCLINK="\$(LIBTOOL) --mode=link ${MAKEFILE_CCLINK}"
+ MAKEFILE_CXX="\$(LIBTOOL) --mode=compile ${MAKEFILE_CXX}"
+-MAKEFILE_XSOLINK="\$(LIBTOOL) --mode=link ${MAKEFILE_CXXLINK} -avoid-version"
++MAKEFILE_XSOLINK="\$(LIBTOOL) --mode=link ${MAKEFILE_CXXLINK} -version-info ${DB_VERSION_MAJOR}:${DB_VERSION_MINOR}"
+ MAKEFILE_CXXLINK="\$(LIBTOOL) --mode=link ${MAKEFILE_CXXLINK}"
+ 
+ LIBTOOL="\$(SHELL) ./libtool"

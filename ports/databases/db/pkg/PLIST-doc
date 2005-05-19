@@ -1097,22 +1097,6 @@ share/doc/db/utility/db_stat.html
 share/doc/db/utility/db_upgrade.html
 share/doc/db/utility/db_verify.html
 share/doc/db/utility/index.html
-share/examples/db4/AccessExample.cpp
-share/examples/db4/BtRecExample.cpp
-share/examples/db4/EnvExample.cpp
-share/examples/db4/LockExample.cpp
-share/examples/db4/MpoolExample.cpp
-share/examples/db4/TpcbExample.cpp
-share/examples/db4/bench_001.c
-share/examples/db4/ex_access.c
-share/examples/db4/ex_btrec.c
-share/examples/db4/ex_dbclient.c
-share/examples/db4/ex_env.c
-share/examples/db4/ex_lock.c
-share/examples/db4/ex_mpool.c
-share/examples/db4/ex_thread.c
-share/examples/db4/ex_tpcb.c
-@dirrm share/examples/db4
 @dirrm share/doc/db/utility
 @dirrm share/doc/db/sleepycat
 @dirrm share/doc/db/ref/xa
