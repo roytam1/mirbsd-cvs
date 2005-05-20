@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/add/futil.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /*	$OpenBSD: futil.c,v 1.7 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/futil.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 /*
  * Assuming dir is a desired directory name, make it and all intervening
@@ -72,6 +72,7 @@ apply_perms(const char *dir, char *arg)
     else
 	cd_to = dir;
 
+#ifndef __INTERIX
     if (Owner || Group) {
 	const char *real_owner = Owner ? Owner : "";
 	const char *real_group = Group ? Group : "";
@@ -81,6 +82,7 @@ apply_perms(const char *dir, char *arg)
 	    pwarnx("couldn't change owner/group of '%s' to '%s:%s'",
 		   arg, real_owner, real_group);
     }
+#endif
     if (Mode)
 	if (vsystem("cd %s && chmod -R %s %s", cd_to, Mode, arg))
 	    pwarnx("couldn't change modes of '%s' to '%s'", arg, Mode);
