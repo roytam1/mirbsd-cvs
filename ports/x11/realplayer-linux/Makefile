@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/realplayer-linux/Makefile,v 1.3 2005/04/11 15:57:53 tg Exp $
+# $MirOS: ports/x11/realplayer-linux/Makefile,v 1.4 2005/05/20 01:07:56 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
@@ -72,7 +72,7 @@ do-install:
 	${INSTALL_DATA_DIR} ${RPDIR}/Plugins/ExtResources
 	${INSTALL_SCRIPT} ${WRKSRC}/Plugins/ExtResources/* \
 		${RPDIR}/Plugins/ExtResources/
-	cd ${PREFIX}/bin; ln -sf ../${RPDIR:S!${PREFIX}!!}realplay .
+	cd ${PREFIX}/bin; ln -sf ..${RPDIR:S!${PREFIX}!!}/realplay .
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/RealPlayer8/realplay/pics
 	${INSTALL_DATA} ${WRKSRC}/Help/readme ${WRKSRC}/Help/realplay.htm \
 	    ${PREFIX}/share/doc/RealPlayer8/
