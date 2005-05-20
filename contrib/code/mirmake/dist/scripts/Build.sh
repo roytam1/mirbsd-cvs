@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.19 2005/04/12 20:31:51 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.20 2005/04/13 19:08:13 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -166,6 +166,7 @@ set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
 \$i -c -s \$ug -m 555 ${d_build}/bmake \$DESTDIR${dt_bin}/${new_exenam}
 \$i -c \$ug -m 555 ${d_build}/mkdep.sh \$DESTDIR${dt_bin}/mkdep
+\$i -c \$ug -m 555 $d_src/usr.bin/lorder/lorder.sh \$DESTDIR${dt_bin}/lorder
 EOF
 for f in ${d_build}/mk/*.mk; do
 	cat >>Install.sh <<EOF
