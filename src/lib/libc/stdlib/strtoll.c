@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static const char rcsid[] = "$OpenBSD: strtoll.c,v 1.2 2003/06/02 20:18:38 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -38,6 +38,8 @@ static const char rcsid[] = "$OpenBSD: strtoll.c,v 1.2 2003/06/02 20:18:38 mille
 #include <limits.h>
 #include <stdlib.h>
 
+__RCSID("$MirOS$");
+
 /*
  * Convert a string to a long long.
  *
@@ -45,10 +47,7 @@ static const char rcsid[] = "$OpenBSD: strtoll.c,v 1.2 2003/06/02 20:18:38 mille
  * alphabets and digits are each contiguous.
  */
 long long
-strtoll(nptr, endptr, base)
-	const char *nptr;
-	char **endptr;
-	int base;
+strtoll(const char *nptr, char **endptr, int base)
 {
 	const char *s;
 	long long acc, cutoff;
@@ -151,12 +150,8 @@ strtoll(nptr, endptr, base)
 __weak_alias(strtoq, strtoll);
 #else
 quad_t
-strtoq(nptr, endptr, base)
-	const char *nptr;
-	char **endptr;
-	int base;
+strtoq(const char *nptr, char **endptr, int base)
 {
-
-        return ((quad_t)strtoll(nptr, endptr, base);
+        return ((quad_t)strtoll(nptr, endptr, base));
 }
 #endif
