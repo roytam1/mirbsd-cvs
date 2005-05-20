@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.20 2005/04/13 19:08:13 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.21 2005/05/20 22:50:41 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -200,6 +200,34 @@ cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 $d_src/lib/libc/string/strlfun.c \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
 EOF
+
+# build readlink
+rm -rf $d_build/readlink
+mkdir $d_build/readlink
+cd $d_build/readlink
+(cd $d_src/usr.bin/readlink; tar cf - * ) | tar xf -
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes
+cd $top
+cat >>Install.sh <<EOF
+\$i -c -s \$ug -m 555 ${d_build}/readlink/readlink \$DESTDIR${dt_bin}/
+EOF
+if [[ $is_catman = 1 ]]; then
+	cd $d_build/readlink
+	if ! nroff -mandoc readlink.1 >readlink.cat1; then
+		echo "Warning: manpage build failure."
+		is_catman=0
+	fi
+	cd $top
+fi
+if [[ $is_catman = 0 ]]; then
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/readlink/readlink.1 \$DESTDIR${dt_man}/readlink.1
+EOF
+else
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/readlink/readlink.cat1 \$DESTDIR${dt_man}/readlink.0
+EOF
+fi
 
 # build tsort
 rm -rf $d_build/tsort

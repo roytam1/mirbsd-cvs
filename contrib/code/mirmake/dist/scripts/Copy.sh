@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.4 2005/04/12 10:26:38 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.5 2005/05/20 22:50:41 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@ cd $(dirname $0)/..
 rm -rf src
 cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/usr.bin/make src/usr.bin/mkdep/mkdep.sh src/lib/libc/ohash \
-    src/usr.bin/lorder/lorder.sh src/usr.bin/tsort \
+    src/usr.bin/lorder/lorder.sh src/usr.bin/readlink src/usr.bin/tsort \
     src/include/getopt.h src/include/ohash.h src/include/sysexits.h \
     src/include/md4.h src/include/md5.h src/include/rmd160.h \
     src/include/sha1.h src/include/sha2.h src/lib/libc/hash \
