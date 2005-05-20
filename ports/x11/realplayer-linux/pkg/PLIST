@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/x11/realplayer-linux/pkg/PLIST,v 1.1.7.1 2005/03/18 16:00:51 tg Exp $
 bin/realplay
 lib/RealPlayer/Codecs/14_4.so.6.0
 lib/RealPlayer/Codecs/28_8.so.6.0
@@ -9,11 +9,13 @@ lib/RealPlayer/Codecs/dnet.so.6.0
 lib/RealPlayer/Codecs/drv1.so.6.0
 lib/RealPlayer/Codecs/drv2.so.6.0
 lib/RealPlayer/Codecs/drv3.so.6.0
+lib/RealPlayer/Codecs/drv4.so.6.0
 lib/RealPlayer/Codecs/dspr.so.6.0
 lib/RealPlayer/Codecs/rncolor.so.6.0
 lib/RealPlayer/Codecs/rv10.so.6.0
 lib/RealPlayer/Codecs/rv20.so.6.0
 lib/RealPlayer/Codecs/rv30.so.6.0
+lib/RealPlayer/Codecs/rv40.so.6.0
 lib/RealPlayer/Codecs/sipr.so.6.0
 lib/RealPlayer/Codecs/tokr.so.6.0
 lib/RealPlayer/Common/pnrscmgr.so.6.0
@@ -64,14 +66,10 @@ lib/RealPlayer/Plugins/swfrend.so.6.0
 lib/RealPlayer/Plugins/vidplin.so.6.0
 lib/RealPlayer/Plugins/vsrcplin.so.6.0
 lib/RealPlayer/Plugins/xlibsite.so.6.0
-lib/RealPlayer/README
 lib/RealPlayer/app.kdelnk
 lib/RealPlayer/audiosig.rm
 lib/RealPlayer/firstrun.rm
-lib/RealPlayer/mime.kdelnk
 lib/RealPlayer/mimeinstall.sh
-lib/RealPlayer/pluginstall.sh
-lib/RealPlayer/postinstall.sh
 lib/RealPlayer/raclass.zip
 lib/RealPlayer/realplay
 lib/RealPlayer/realplay.desktop
