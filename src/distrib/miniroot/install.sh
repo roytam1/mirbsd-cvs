@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: src/distrib/miniroot/install.sh,v 1.2 2005/03/06 18:58:04 tg Exp $
 # $OpenBSD: install.sh,v 1.142 2004/03/23 02:39:38 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -169,7 +169,8 @@ if [ ! -f /etc/fstab ]; then
 				mv $SWAPLIST.tmp $SWAPLIST
 			else
 				echo "ERROR: Unable to use $SWAPDEV for swap space."
-				DISK=
+				ask_yn "Do you REALLY want to go without any swap?"
+				[[ $resp = n ]] && DISK=
 			fi
 			[[ -n $DISK ]] || echo "You must reconfigure $ROOTDISK."
 		fi
