@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.16 2005/04/28 20:46:58 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.17 2005/04/29 18:32:22 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -411,7 +411,7 @@ CHECKSUM_FILE?=		${.CURDIR}/distinfo
 # Don't touch!!! Used for generating checksums.
 _CIPHERS=		rmd160 sha1 md5
 
-_PORTPATH?=		${WRKDIR}/bin:/usr/bin:/bin:/usr/sbin:/sbin:${LOCALBASE}/bin:${X11BASE}/bin
+_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/usr/bin:/bin:/usr/sbin:/sbin:${X11BASE}/bin
 PORTPATH?=		${_PORTPATH}
 
 # Add any COPTS to CFLAGS.
