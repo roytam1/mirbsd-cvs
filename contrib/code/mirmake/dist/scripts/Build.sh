@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.23 2005/05/21 14:56:47 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.24 2005/05/21 15:03:01 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -82,8 +82,7 @@ Interix:*:*)
 
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
-export CPPFLAGS="$CPPFLAGS -isystem $d_script/../contrib \
-    -include $d_script/../contrib/mirmake.h"
+export CPPFLAGS="$CPPFLAGS -isystem $d_build/F -include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 
 if [[ -z $new_binids ]]; then
@@ -117,6 +116,9 @@ cp $d_src/include/*.h $d_build/
 cp $d_src/lib/libc/stdlib/getopt_long.c $d_build/
 cp $d_src/lib/libc/string/strlfun.c $d_build/
 cp $d_src/usr.bin/mkdep/mkdep.sh $d_build/
+mkdir -p $d_build/F
+cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2}.h \
+    $d_script/../contrib/mirmake.h $d_build/F/
 
 # Patch sources
 for ps in Makefile.boot mk/bsd.man.mk mk/bsd.own.mk mk/bsd.prog.mk \
@@ -168,6 +170,7 @@ mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
 \$i -c -s \$ug -m 555 ${d_build}/bmake \$DESTDIR${dt_bin}/${new_exenam}
 \$i -c \$ug -m 555 ${d_build}/mkdep.sh \$DESTDIR${dt_bin}/mkdep
 \$i -c \$ug -m 555 $d_src/usr.bin/lorder/lorder.sh \$DESTDIR${dt_bin}/lorder
+\$i -c \$ug -m 444 $d_build/F/*.h \$DESTDIR${dt_mk}/
 EOF
 for f in ${d_build}/mk/*.mk; do
 	cat >>Install.sh <<EOF
@@ -196,11 +199,6 @@ if [[ -e $d_build/PSD12.make.txt ]]; then
 \$i -c \$ug -m 444 $d_build/PSD12.make.txt \$DESTDIR${dt_mk}/
 EOF
 fi
-
-cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
-\$i -c \$ug -m 444 $d_src/include/getopt.h \$DESTDIR${dt_mk}/
-EOF
 
 # build readlink
 rm -rf $d_build/readlink
@@ -280,19 +278,13 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
 ( cd $d_src/lib/libc/hash; \
   cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/libmirmake/ )
 cp $d_src/lib/libc/string/strlfun.c $d_src/lib/libc/stdlib/getopt_long.c .
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib \
-    INCS="-I$d_src/include" libmirmake.a
+${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
 \$i -c \$ug -m 600 $d_build/libmirmake/libmirmake.a \$DESTDIR${dt_mk}/
 ranlib \$DESTDIR${dt_mk}/libmirmake.a
 chmod 444 \$DESTDIR${dt_mk}/libmirmake.a
-\$i -c \$ug -m 444 $d_src/include/md4.h \$DESTDIR${dt_mk}/
-\$i -c \$ug -m 444 $d_src/include/md5.h \$DESTDIR${dt_mk}/
-\$i -c \$ug -m 444 $d_src/include/rmd160.h \$DESTDIR${dt_mk}/
-\$i -c \$ug -m 444 $d_src/include/sha1.h \$DESTDIR${dt_mk}/
-\$i -c \$ug -m 444 $d_src/include/sha2.h \$DESTDIR${dt_mk}/
 EOF
 fi
 
