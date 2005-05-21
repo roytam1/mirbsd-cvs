@@ -1,0 +1,30 @@
+@comment $MirOS$
+@unexec install-info --delete --info-dir=%D/info %D/info/info-stnd.info
+@unexec install-info --delete --info-dir=%D/info %D/info/info.info
+bin/info
+bin/infokey
+bin/install-info
+bin/makeinfo
+bin/texi2dvi
+bin/texi2pdf
+bin/texindex
+info/info-stnd.info
+info/info.info
+info/texinfo
+info/texinfo-1
+info/texinfo-2
+info/texinfo-3
+man/man1/info.1
+man/man1/infokey.1
+man/man1/install-info.1
+man/man1/makeinfo.1
+man/man1/texi2dvi.1
+man/man1/texindex.1
+man/man5/info.5
+man/man5/texinfo.5
+share/texinfo/texinfo.cat
+share/texinfo/texinfo.dtd
+share/texinfo/texinfo.xsl
+@dirrm share/texinfo
+@exec install-info --info-dir=%D/info %D/info/info-stnd.info
+@exec install-info --info-dir=%D/info %D/info/info.info
