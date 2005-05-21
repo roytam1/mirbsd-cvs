@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.6 2005/05/21 00:16:02 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.7 2005/05/21 01:07:14 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -48,8 +48,8 @@ td=$(cd $bd/../..; pwd)
 mirror=$1 # will be $2
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
-mksh=mirbsdksh-R20.cpio.gz
-make=mirmake-20050521.cpio.gz
+mksh=mirbsdksh-R20b.cpio.gz
+make=mirmake-20050521b.cpio.gz
 mtar=paxmirabilis-20050413.cpio.gz
 roff=mirnroff-20050413.cpio.gz
 mftp=mirftp-20050413.cpio.gz
@@ -98,11 +98,13 @@ cksum $mtar >>s
 cksum $roff >>s
 #cksum $mftp >>s
 cksum $mtre >>s
-echo "62583208 292816 mirbsdksh-R20.cpio.gz" >t
-echo "2398353143 281094 mirmake-20050521.cpio.gz" >>t
-echo "862398610 117237 paxmirabilis-20050413.cpio.gz" >>t
-echo "2807559264 222049 mirnroff-20050413.cpio.gz" >>t
-echo "1518604836 17212 mirmtree-20050413.cpio.gz" >>t
+cat >t <<EOF
+573946240 292817 mirbsdksh-R20b.cpio.gz
+1223689859 280930 mirmake-20050521b.cpio.gz
+862398610 117237 paxmirabilis-20050413.cpio.gz
+2807559264 222049 mirnroff-20050413.cpio.gz
+1518604836 17212 mirmtree-20050413.cpio.gz
+EOF
 
 if ! cmp -s s t; then
 	echo Checksum failure!
@@ -157,7 +159,13 @@ fi
 
 gzip -dc $mksh | cpio -id
 cd ksh
-CFLAGS="$CFLAGS -D_ALL_SOURCE" ksh ./Build.sh
+#if [ -e /usr/share/make/libmirmake.a ]; then
+#	CFLAGS="$CFLAGS -D_ALL_SOURCE -I/usr/share/make" \
+#	LIBS="$LIBS -L/usr/share/make -lmirmake" \
+#	ksh ./Build.sh
+#else
+	CFLAGS="$CFLAGS -D_ALL_SOURCE" ksh ./Build.sh
+#fi
 install -c -s -m 555 mksh /bin/mksh
 install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0
 if ! fgrep /bin/mksh /etc/shells >/dev/null 2>&1; then
@@ -199,7 +207,7 @@ gzip -dc $mtre | cpio -id
 cd mtree
 make obj
 make depend
-make INCS="-I\${.SYSMK}" LIBS="-L\${.SYSMK} -lhash"
+make LIBS="-L\${.SYSMK} -lmirmake"
 make install BINDIR=/usr/sbin MANDIR=/usr/share/man/cat
 cd ..
 rm -rf mtree

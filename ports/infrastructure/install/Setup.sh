@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.5 2005/05/21 01:52:45 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.6 2005/05/21 03:09:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -191,10 +191,9 @@ if [[ $os = Darwin ]]; then
 	    LIBS=/usr/mpkg/share/mmake/libhash.a
 	$MAKE install PREFIX=$localbase MANDIR=$localbase/man/cat
 elif [[ $os = Interix ]]; then
-	$MAKE depend INCS='-I/usr/share/make'
+	$MAKE depend
 	$MAKE PORTABLE=yes NEED_COMPAT=yes DB_DIR=$localbase/db \
-	    INCS='-I/usr/share/make' \
-	    LIBS='/usr/share/make/libhash.a -ldb'
+	    LIBS='-L\${.SYSMK} -lmirmake -ldb'
 	$MAKE install
 elif [[ $os = MirBSD ]]; then
 	$MAKE depend
