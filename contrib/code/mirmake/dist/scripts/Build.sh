@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.25 2005/05/21 15:24:00 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.26 2005/05/21 15:38:52 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -98,14 +98,14 @@ fi
 
 mkdir -p $d_build/mk
 
-sed_exp="-e 's#@@machine@@#${new_machin}#' \
-	 -e 's#@@march@@#${new_macarc}#' \
-	 -e 's#@@machos@@#${new_machos}#' \
-	 -e 's#@@mksh@@#${new_mirksh}#' \
-	 -e 's#@@ostype@@#${new_ostype}#' \
-	 -e 's#@@shmk@@#${dt_mk}#' \
-	 -e 's#@@ccom@@#${CC}#' \
-	 -e 's#@@bmake@@#${new_exenam}#'"
+sed_exp="-e 's#@@machine@@#${new_machin}#g' \
+	 -e 's#@@march@@#${new_macarc}#g' \
+	 -e 's#@@machos@@#${new_machos}#g' \
+	 -e 's#@@mksh@@#${new_mirksh}#g' \
+	 -e 's#@@ostype@@#${new_ostype}#g' \
+	 -e 's#@@shmk@@#${dt_mk}#g' \
+	 -e 's#@@ccom@@#${CC}#g' \
+	 -e 's#@@bmake@@#${new_exenam}#g'"
 
 
 # Copy sources
