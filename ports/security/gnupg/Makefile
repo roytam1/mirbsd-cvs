@@ -1,9 +1,10 @@
 # $MirOS$
-# $OpenBSD: Makefile,v 1.42 2004/02/24 19:48:16 naddy Exp $
+# $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		"GNU privacy guard - a free PGP replacement"
-VERSION=		1.2.4
+VERSION=		1.4.1
 DISTNAME=		gnupg-${VERSION}
+PKGNAME=		${DISTNAME}p0
 CATEGORIES=		security
 MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gnupg/ \
 			ftp://gd.tuwien.ac.at/privacy/gnupg/gnupg/ \
@@ -26,19 +27,31 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext
+LIB_DEPENDS=		bz2::archivers/bzip2
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-ldap
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
+CONFIGURE_ARGS+=	--disable-ldap --disable-gnupg-iconv
+.if ${MACHINE_ARCH} == "m68k"
+CONFIGURE_ARGS+=	--disable-asm
+.endif
+MAKE_FLAGS=		LIBINTL="-L${LOCALBASE}/lib -lintl -liconv" \
+			LIBICONV="-L${LOCALBASE}/lib -liconv"
 
-FLAVORS=		idea
+FLAVORS=		idea card
 FLAVOR?=
 
 .if ${FLAVOR:L:Midea}
 PERMIT_PACKAGE_CDROM=	"patented algorithm"
 PERMIT_DISTFILES_CDROM=	"patented algorithm"
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} idea.c.gz:0
+.else
+SUPDISTFILES=		idea.c.gz:0
+.endif
+
+.if ${FLAVOR:L:Mcard}
+LIB_DEPENDS+=		usb::devel/libusb
+.else
+CONFIGURE_ARGS+=	--disable-card-support --without-libusb
 .endif
 
 post-extract:
