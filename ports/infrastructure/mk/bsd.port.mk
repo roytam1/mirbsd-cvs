@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.17 2005/04/29 18:32:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.18 2005/05/20 22:04:43 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -401,7 +401,7 @@ _ALL_COOKIES=		${_EXTRACT_COOKIE} ${_PATCH_COOKIE} \
 			${_DEPbuild_COOKIES} ${_DEPrun_COOKIES} \
 			${_DEPregress_COOKIES}
 
-_MAKE_COOKIE=		touch -f
+_MAKE_COOKIE?=		touch -f
 
 # Miscellaneous overridable commands:
 GMAKE?=			gmake
