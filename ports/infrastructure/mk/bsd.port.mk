@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.20 2005/05/21 01:40:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.21 2005/05/21 01:52:46 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1249,6 +1249,11 @@ ${WRKPKG}/PLIST${SUBPACKAGE}: ${PLIST} ${WRKPKG}/depends${SUBPACKAGE}
 		    -e '//d' <${PLIST} ${SED_PLIST} \
 		    >>$@.tmp && mv -f $@.tmp $@; \
 	fi
+.elif ${OStype} == "Interix"
+	echo '@option so-links' >>$@.tmp; \
+	sed -e '/^!%%SHARED%%$$/d' -e '/^%%!SHARED%%$$/d' \
+	    -e '/^%%SHARED%%$$/r${PKGDIR}/PFRAG.shared${SUBPACKAGE}' \
+	    -e '//d' <${PLIST} ${SED_PLIST} >>$@.tmp && mv -f $@.tmp $@
 .else
 	sed -e '/^!%%SHARED%%$$/d' -e '/^%%!SHARED%%$$/d' \
 	    -e '/^%%SHARED%%$$/r${PKGDIR}/PFRAG.shared${SUBPACKAGE}' \
