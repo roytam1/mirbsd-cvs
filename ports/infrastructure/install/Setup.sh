@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.6 2005/05/21 03:09:58 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.7 2005/05/21 17:33:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -80,6 +80,8 @@ if ! chown $BINOWN $tmp; then
 	exit 1
 fi
 
+cp $ti/templates/fake.mtree $ti/db/
+
 case $os in
 Darwin)
 	localbase=/usr/mpkg
@@ -87,7 +89,7 @@ Darwin)
 	mtar=$localbase/bin/tar
 	pkgbin=$localbase/sbin
 
-	cat $ti/templates/fake.mtree >$tmp
+	cat $ti/db/fake.mtree >$tmp
 	(print '/@@local/d\ni\n'; IFS=/; s=;
 	 for pc in $(print "$localbase"); do
 		s="$s    "; print "$s$pc"
@@ -110,8 +112,8 @@ Interix)
 
 	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
 	    "uname=$BINOWN gname=$BINGRP /\nwq" \
-	    | ed -s $ti/templates/fake.mtree
-	cat $ti/templates/fake.mtree >$tmp
+	    | ed -s $ti/db/fake.mtree
+	cat $ti/db/fake.mtree >$tmp
 	(print '/@@local/d\ni\n'; IFS=/; s=;
 	 for pc in $(print "$localbase"); do
 		s="$s    "; print "$s$pc"
