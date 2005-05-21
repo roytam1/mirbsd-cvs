@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -449,8 +449,10 @@ pkg_do(char *pkg)
 	char contents[FILENAME_MAX];
 
 	umask(022);
+#ifndef __INTERIX
 	if (getuid() != 0)
 	    pwarnx("not running as root - trying to record install anyway");
+#endif
 	if (!PkgName) {
 	    pwarnx("no package name! can't record package, sorry");
 	    code = 1;
