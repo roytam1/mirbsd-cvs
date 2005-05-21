@@ -1,6 +1,4 @@
-@comment $MirOS$
-@unexec install-info --delete --info-dir=%D/info %D/info/info-stnd.info
-@unexec install-info --delete --info-dir=%D/info %D/info/info.info
+@comment $MirOS: ports/essentials/texinfo/pkg/PLIST,v 1.1 2005/05/21 02:22:38 tg Exp $
 bin/info
 bin/infokey
 bin/install-info
@@ -26,5 +24,3 @@ share/texinfo/texinfo.cat
 share/texinfo/texinfo.dtd
 share/texinfo/texinfo.xsl
 @dirrm share/texinfo
-@exec install-info --info-dir=%D/info %D/info/info-stnd.info
-@exec install-info --info-dir=%D/info %D/info/info.info
