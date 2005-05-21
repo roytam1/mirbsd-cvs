@@ -1,0 +1,33 @@
+# $MirOS$
+# 
+# vim:se ft=make:
+
+SRCDIR=		${.CURDIR}/..
+LIBDIR=		${PREFIX}/lib
+
+LIB=		bz2
+SRCS=		blocksort.c huffman.c crctable.c randtable.c compress.c \
+		decompress.c bzlib.c
+INCLUDES=	bzlib.h
+
+NOMAN=		Yes
+
+SHLIB_MAJOR=	10
+SHLIB_MINOR=	2
+
+.if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
+PREFIX:=	${TRUEPREFIX}
+.endif
+
+INSTALL_DATA_DIR=	${BSD_INSTALL_DATA_DIR}
+INSTALL_DATA=		${BSD_INSTALL_DATA}
+
+.PATH:		${SRCDIR}
+
+beforeinstall:
+	${INSTALL_DATA_DIR} ${DESTDIR}${PREFIX}/include
+.for file in ${INCLUDES}
+	${INSTALL_DATA} ${SRCDIR}/${file} ${DESTDIR}${PREFIX}/include
+.endfor
+
+.include <bsd.lib.mk>
