@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.21 2005/05/20 22:50:41 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.22 2005/05/20 23:18:34 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -197,7 +197,6 @@ EOF
 fi
 
 cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $d_src/lib/libc/string/strlfun.c \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
 EOF
 
@@ -258,10 +257,10 @@ else
 EOF
 fi
 
-# build the hash stuff
-rm -rf $d_build/hash
-mkdir $d_build/hash
-cd $d_build/hash
+# build libmirmake (hash stuff and necessities)
+rm -rf $d_build/libmirmake
+mkdir $d_build/libmirmake
+cd $d_build/libmirmake
 sed -e 's/hashinc/md4.h/g' -e 's/HASH/MD4/g' \
     $d_src/lib/libc/hash/helper.c >md4hl.c
 sed -e 's/hashinc/md5.h/g' -e 's/HASH/MD5/g' \
@@ -277,15 +276,16 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA384_/g' \
 sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
     $d_src/lib/libc/hash/helper.c >sha512hl.c
 ( cd $d_src/lib/libc/hash; \
-  cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/hash/ )
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.hash \
-    INCS="-I$d_src/include" libhash.a
+  cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/libmirmake/ )
+cp $d_src/lib/libc/string/strlfun.c .
+${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib \
+    INCS="-I$d_src/include" libmirmake.a
 cd $top
-if [[ -s $d_build/hash/libhash.a ]]; then
+if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
-\$i -c \$ug -m 600 $d_build/hash/libhash.a \$DESTDIR${dt_mk}/
-ranlib \$DESTDIR${dt_mk}/libhash.a
-chmod 444 \$DESTDIR${dt_mk}/libhash.a
+\$i -c \$ug -m 600 $d_build/libmirmake/libmirmake.a \$DESTDIR${dt_mk}/
+ranlib \$DESTDIR${dt_mk}/libmirmake.a
+chmod 444 \$DESTDIR${dt_mk}/libmirmake.a
 \$i -c \$ug -m 444 $d_src/include/md4.h \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_src/include/md5.h \$DESTDIR${dt_mk}/
 \$i -c \$ug -m 444 $d_src/include/rmd160.h \$DESTDIR${dt_mk}/
