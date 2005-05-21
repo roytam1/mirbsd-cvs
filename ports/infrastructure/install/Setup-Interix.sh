@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.5 2005/04/13 21:28:41 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.6 2005/05/21 00:16:02 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -49,7 +49,7 @@ mirror=$1 # will be $2
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
 mksh=mirbsdksh-R20.cpio.gz
-make=mirmake-20050520.cpio.gz
+make=mirmake-20050521.cpio.gz
 mtar=paxmirabilis-20050413.cpio.gz
 roff=mirnroff-20050413.cpio.gz
 mftp=mirftp-20050413.cpio.gz
@@ -99,7 +99,7 @@ cksum $roff >>s
 #cksum $mftp >>s
 cksum $mtre >>s
 echo "62583208 292816 mirbsdksh-R20.cpio.gz" >t
-echo "1776178915 280829 mirmake-20050520.cpio.gz" >>t
+echo "2398353143 281094 mirmake-20050521.cpio.gz" >>t
 echo "862398610 117237 paxmirabilis-20050413.cpio.gz" >>t
 echo "2807559264 222049 mirnroff-20050413.cpio.gz" >>t
 echo "1518604836 17212 mirmtree-20050413.cpio.gz" >>t
