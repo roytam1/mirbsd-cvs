@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/usr.bin/readlink/readlink.c,v 1.2 2005/05/20 23:15:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -22,18 +22,17 @@
 
 #include <err.h>
 #include <errno.h>
+#include <getopt.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/readlink/readlink.c,v 1.2 2005/05/20 23:15:54 tg Exp $");
 
 int main(int, char **);
 __dead void usage(void);
-
-extern int optind;
 
 int
 main(int argc, char *argv[])
