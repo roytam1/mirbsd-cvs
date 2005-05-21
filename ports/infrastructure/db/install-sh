@@ -1,6 +1,6 @@
 #!/bin/ksh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.2 2005/03/13 16:37:43 tg Exp $
-# _MirOS: contrib/gnu/aux/install-sh,v 1.2 2005/03/13 16:37:43 tg Exp $
+# $MirOS: contrib/gnu/aux/install-sh,v 1.3 2005/05/21 01:35:00 tg Exp $
+# _MirOS: contrib/gnu/aux/install-sh,v 1.3 2005/05/21 01:35:00 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -53,6 +53,7 @@ fi
 
 args=
 d=0
+m=
 
 while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 	case $opt in
@@ -63,7 +64,7 @@ while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 	d)	d=1; args="$args -d"	;;
 	f)	args="$args -f $OPTARG"	;;
 	g)	args="$args -g $OPTARG"	;;
-	m)	args="$args -m $OPTARG"	;;
+	m)	args="$args -m $OPTARG"; m="-m $OPTARG"	;;
 	o)	args="$args -o $OPTARG"	;;
 	p)	args="$args -p"		;;
 	S)	args="$args -S"		;;
@@ -73,7 +74,12 @@ while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 done
 shift $((OPTIND - 1))
 
-[[ $d = 1 ]] && exec /usr/bin/install $args "$@"
+[[ $d = 1 ]] && if [[ -n SFUDIR ]]; then
+	# we ignore UID/GID to set on Interix
+	exec /bin/mkdir -p $m "$@"
+else
+	exec /usr/bin/install $args "$@"
+fi
 
 set -A sources -- "$@"
 let numsrcs=${#sources[@]}
