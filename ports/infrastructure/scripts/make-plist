@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS$
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -393,6 +393,8 @@ find(
 				if (/\.so\.\d+\.\d+$/) {
 					$ldconfig{$File::Find::dir} = 1;
 					push(@libfiles, $File::Find::name);
+				} elsif (-l && /\.so\.\d+$/) {
+				} elsif (-l && /\.so$/) {
 				} elsif (/\.dylib$/) {
 					$dyldconfig{$File::Find::dir} = 1;
 					push(@dylibfiles, $File::Find::name);
