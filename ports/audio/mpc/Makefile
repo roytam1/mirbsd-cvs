@@ -2,7 +2,7 @@
 
 COMMENT=		"client for Music Play Daemon"
 CATEGORIES=		audio multimedia net
-DISTNAME=		mpc-0.11.1
+DISTNAME=		mpc-0.11.2
 HOMEPAGE=		http://www.musicpd.org/
 MASTER_SITES=		http://mercury.chem.pitt.edu/~shank/
 
