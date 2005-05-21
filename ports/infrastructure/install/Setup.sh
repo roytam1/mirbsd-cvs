@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.4 2005/05/21 00:16:02 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.5 2005/05/21 01:52:45 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -232,6 +232,7 @@ if [[ $SHELL != /bin/ksh ]]; then
 	for f in $ti/db/*; do
 		[[ -f $f ]] || continue
 		print "1g!/bin/ksh!s!!$SHELL!\nwq" | ed -s $f
+		chmod a+x $f
 	done
 	print done.
 fi

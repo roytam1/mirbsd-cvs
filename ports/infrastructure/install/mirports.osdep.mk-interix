@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.6 2005/05/21 02:05:11 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.7 2005/05/21 02:53:33 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -42,7 +42,7 @@ UNZIP=			/usr/contrib/bin/unzip
 CHOWN=			/bin/chown
 _MAKE_COOKIE=		/bin/touch
 GZIP_CMD=		/usr/contrib/bin/gzip -nf ${GZIP}
-INSTALL=		${MKSH} ${PORTSDIR}/infrastructure/db/install-sh
+INSTALL=		${PORTSDIR}/infrastructure/db/install-sh
 
 # These must be installed first!
 _CKSUM_A=		${LOCALBASE}/bin/cksum -a
