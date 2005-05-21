@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.2 2005/05/07 20:15:11 bsiegert Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,7 +27,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.2 2005/05/07 20:15:11 bsiegert Exp $");
 
 #define STARTSTRING "mirports_tar cf - "
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
@@ -63,7 +63,9 @@ rollback(char *name, const char *home, plist_t *start, plist_t *stop)
 	if (q->type == PLIST_FILE) {
 	    snprintf(try, sizeof(try), "%s/%s", dir, q->name);
 	    if (make_preserve_name(bup, sizeof(bup), name, try) && fexists(bup)) {
+#ifndef __INTERIX
 		(void)chflags(try, 0);
+#endif
 		(void)unlink(try);
 		if (rename(bup, try))
 		    pwarnx("rollback: unable to rename %s back to %s", bup, try);

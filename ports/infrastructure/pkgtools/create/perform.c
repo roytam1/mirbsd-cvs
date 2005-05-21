@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -23,7 +23,9 @@
 #include "lib.h"
 #include "create.h"
 
+#ifndef __INTERIX
 #include <sys/syslimits.h>
+#endif
 #include <sys/wait.h>
 
 #include <err.h>
@@ -31,7 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);

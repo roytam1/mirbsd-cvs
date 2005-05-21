@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -53,7 +53,7 @@
 #define __DBINTERFACE_PRIVATE
 #include "lib.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 DBT *
 rcdb_alloc(void *item, const size_t length)
@@ -126,6 +126,9 @@ rcdb_split(RCDB *handle, int64_t *value, char **key)
 RCDB *
 rcdb_open(const char *const dbfile)
 {
+#ifndef O_EXLOCK
+#define O_EXLOCK 0
+#endif
 	RECNOINFO dbinfo;
 	RCDB *handle = malloc(sizeof(RCDB));
 

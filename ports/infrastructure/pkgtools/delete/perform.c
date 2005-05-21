@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -21,12 +21,14 @@
  */
 
 #include <sys/param.h>
+#ifndef __INTERIX
 #include <sys/mount.h>
+#endif
 #include <err.h>
 #include "lib.h"
 #include "delete.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -179,6 +181,7 @@ try_again:
 	pwarnx("package '%s' doesn't have a prefix", pkg);
 	return 1;
     }
+#ifndef __INTERIX
     {
 	struct statfs buffer;
 
@@ -192,6 +195,7 @@ try_again:
 	    return 1;
 	}
     }
+#endif
 
     setenv(PKG_PREFIX_VNAME, p->name, 1);
     setenv("PKG_DELETE_EXTRA", (CleanConf ? "Yes" : "No"), 1);

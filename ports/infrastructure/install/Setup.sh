@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.2 2005/03/19 19:31:41 bsiegert Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.3 2005/04/20 22:24:27 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -67,7 +67,15 @@ fi
 trap 'rm -f $tmp ; exit 0' 0
 trap 'rm -f $tmp ; exit 1' 1 2 3 13 15
 
-if ! chown root $tmp; then
+if [[ $os = Interix ]]; then
+	BINOWN=$(cd ../db; make ___DISPLAY_MAKEVARS=BINOWN SHOW_ONLY=1)
+	BINGRP=$(cd ../db; make ___DISPLAY_MAKEVARS=BINGRP SHOW_ONLY=1)
+else
+	BINOWN=root
+	BINGRP=bin
+fi
+
+if ! chown $BINOWN $tmp; then
 	print need root
 	exit 1
 fi
@@ -93,6 +101,21 @@ Darwin)
 		f_end
 	fi
 	export PATH=$localbase/bin:$PATH
+	;;
+Interix)
+	localbase=/usr/mpkg
+	sysmk=/usr/share/make
+	mtar=/bin/tar
+	pkgbin=/usr/sbin
+
+	cat $ti/templates/fake.mtree >$tmp
+	(print 'g/[ug]name=[a-z]*/s///g\n/@@local/d\ni\n'; IFS=/; s=;
+	 for pc in $(print "$localbase"); do
+		s="$s    "; print "$s$pc"
+	 done; print '.\nwq') | ed -s $tmp
+	print "/^.set/s/   / uname=$BINOWN gname=$BINGRP /\nwq" | ed -s $tmp
+	/usr/sbin/mtree -U -e -d -n -p / -f $tmp
+	mkdir -p $localbase/{db/pkg,etc}
 	;;
 MirBSD)
 	localbase=/usr/local
@@ -165,6 +188,12 @@ if [[ $os = Darwin ]]; then
 	    INCS='-I/usr/mpkg/share/mmake' \
 	    LIBS=/usr/mpkg/share/mmake/libhash.a
 	$MAKE install PREFIX=$localbase MANDIR=$localbase/man/cat
+elif [[ $os = Interix ]]; then
+	$MAKE depend INCS='-I/usr/share/make'
+	$MAKE PORTABLE=yes NEED_COMPAT=yes DB_DIR=$localbase/db \
+	    INCS='-I/usr/share/make' \
+	    LIBS='/usr/share/make/libhash.a -ldb'
+	$MAKE install
 elif [[ $os = MirBSD ]]; then
 	$MAKE depend
 	if [[ $mirosnew = 1 ]]; then
@@ -216,6 +245,14 @@ Darwin)
 		exit 1
 	fi
 	;;
+Interix)
+	if ! install -c -m 644 \
+	    $ti/install/mirports.osdep.mk-interix \
+	    $ti/mk/mirports.osdep.mk; then
+		print failed.
+		exit 1
+	fi
+	;;
 MirBSD)
 	if [[ $mirosnew = 0 ]]; then
 		if ! install -c -o root -g wsrc -m 664 \
@@ -239,7 +276,7 @@ OpenBSD)
 	;;
 esac
 
-if install -c -o root -g bin -m 444 \
+if install -c -o $BINOWN -g $BINGRP -m 444 \
     $ti/install/*.mk $sysmk/; then
 	print done.
 else
@@ -285,6 +322,9 @@ case $os in
 Darwin)
 	print -p "PORTSDIR=		$top"
 	print -p "PKG_CMDDIR=		$localbase/sbin"
+	;;
+Interix)
+	print -p "PORTSDIR=		$top"
 	;;
 MirBSD)
 	# nothing else here yet

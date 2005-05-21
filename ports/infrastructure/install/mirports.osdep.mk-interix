@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-darwin,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.5 2005/04/13 21:28:41 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -22,31 +22,21 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# MirPorts support for the Apple(R) Mac OSX or Darwin operating
-# system family - http://www.apple.com/ http://www.opendarwin.org/
+# MirPorts support for stand-alone Interix/Services for Unix
+# http://www.microsoft.com/windows/sfu/
 
 # Let's pull a lazy one.
-MACHINE_OS=		Darwin
-OScompat=		3.6	# XXX
-OSREV!=			uname -r
-OSrev=			${OSREV:S/./_/g:S/_0$//}
-OStriplet=		${MACHINE_ARCH}-apple-darwin${OSREV}
+MACHINE_OS=		Interix
+OStype=			Interix
 
-# Darwin particulars
+# Interix particulars
+OStriplet=		i386-pc-interix3
 LOCALBASE=		/usr/mpkg
-SYSCONFDIR?=		${LOCALBASE}/etc
-PKG_CMDDIR=		${LOCALBASE}/sbin
+_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/opt/gcc.3.3/bin:/bin:/usr/contrib/bin:/usr/sbin:/sbin:${X11BASE}/bin:/usr/X11R5/bin
 PKG_DBDIR=		${LOCALBASE}/db/pkg
 MKSH=			/bin/mksh
-AUTOCONF_FAKEOS=	${OStriplet}
-OBJECT_FMT=		Mach-O
-NOPIC=			No
-LDCONFIG=
-_CKSUM_A=
+OBJECT_FMT=		PE
 USE_SYSTRACE=		No
-FETCH_CMD?=		/usr/bin/ftp
-TAR=			/usr/mpkg/bin/tar
-UNZIP=			/usr/bin/unzip
-BZIP2=			/usr/bin/bzip2
-CHOWN=			/usr/sbin/chown
-M4?=			/usr/bin/gm4
+TAR=			/bin/tar
+UNZIP=			/usr/contrib/bin/unzip
+CHOWN=			/bin/chown
