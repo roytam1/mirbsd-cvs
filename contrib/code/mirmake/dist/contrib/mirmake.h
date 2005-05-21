@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.12 2005/05/21 15:38:50 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.13 2005/05/21 17:03:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -175,8 +175,8 @@
 
 #ifndef _NO_DECLS
 __BEGIN_DECLS
-size_t	 strlcat(char *, const char *, size_t);
-size_t	 strlcpy(char *, const char *, size_t);
+size_t strlcat(char *, const char *, size_t);
+size_t strlcpy(char *, const char *, size_t);
 __END_DECLS
 #endif
 
