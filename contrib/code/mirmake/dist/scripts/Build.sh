@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.22 2005/05/20 23:18:34 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.23 2005/05/21 14:56:47 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -82,7 +82,8 @@ Interix:*:*)
 
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
-export CPPFLAGS="$CPPFLAGS -include $d_script/../contrib/mirmake.h"
+export CPPFLAGS="$CPPFLAGS -isystem $d_script/../contrib \
+    -include $d_script/../contrib/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 
 if [[ -z $new_binids ]]; then
@@ -198,6 +199,7 @@ fi
 
 cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 $d_script/../contrib/mirmake.h \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/getopt.h \$DESTDIR${dt_mk}/
 EOF
 
 # build readlink
@@ -277,7 +279,7 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
     $d_src/lib/libc/hash/helper.c >sha512hl.c
 ( cd $d_src/lib/libc/hash; \
   cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/libmirmake/ )
-cp $d_src/lib/libc/string/strlfun.c .
+cp $d_src/lib/libc/string/strlfun.c $d_src/lib/libc/stdlib/getopt_long.c .
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib \
     INCS="-I$d_src/include" libmirmake.a
 cd $top
