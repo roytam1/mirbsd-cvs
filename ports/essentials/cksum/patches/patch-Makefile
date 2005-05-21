@@ -1,0 +1,11 @@
+$MirOS$
+--- Makefile.orig	Sat May 21 01:19:29 2005
++++ Makefile	Sat May 21 01:19:37 2005
+@@ -3,6 +3,7 @@
+ 
+ PROG=	md5
+ SRCS=	crc.c md5.c suma.c
++SRCS+=	asprintf.c
+ .if ${MACHINE_ARCH} == "i386"
+ SRCS+=	suma-x86.S
+ .else

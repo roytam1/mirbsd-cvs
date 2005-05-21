@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.1 2005/04/12 21:07:00 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.2 2005/04/12 21:10:57 tg Exp $
 
 # only works with portable MirMake
 NOT_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -21,6 +21,15 @@ WRKDIST=		${WRKDIR}/md5
 CPPFLAGS+=		-isystem ${.SYSMK}
 EXTRA_XAKE_FLAGS=	LDADD="-L${.SYSMK} -lhash"
 EXTRA_FAKE_FLAGS=	BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man/cat
+
+.include <mirports.sys.mk>
+
+.if ${OBJECT_FMT} == "PE"
+MAKE_ENV+=		AFLAGS=-DUNDERSCORES
+.endif
+
+post-extract:
+	cp ${FILESDIR}/[!C]* ${WRKSRC}/
 
 do-configure:
 	@cd ${WRKBUILD} && exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \

@@ -1,0 +1,22 @@
+$MirOS$
+--- md5.c.orig	Tue Apr 12 20:57:51 2005
++++ md5.c	Sat May 21 01:25:00 2005
+@@ -539,6 +539,18 @@ digest_filelist(const char *file, struct
+ #define TEST_BLOCK_LEN 10000
+ #define TEST_BLOCK_COUNT 10000
+ 
++#ifndef timersub
++#define timersub(tvp, uvp, vvp)                                         \
++        do {                                                            \
++                (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec;          \
++                (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec;       \
++                if ((vvp)->tv_usec < 0) {                               \
++                        (vvp)->tv_sec--;                                \
++                        (vvp)->tv_usec += 1000000;                      \
++                }                                                       \
++        } while (0)
++#endif
++
+ void
+ digest_time(struct hash_functions **hashes)
+ {
