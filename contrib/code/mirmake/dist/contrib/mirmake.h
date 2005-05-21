@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.9 2005/04/12 17:47:02 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.10 2005/04/26 16:06:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -36,7 +36,7 @@
  * take care of CPP uses with assembly source.
  */
 
-#ifndef _MIRMAKE_H
+#if !defined(_MIRMAKE_H) && !defined(_ASM_SOURCE)
 #define _MIRMAKE_H
 
 #ifdef __INTERIX
@@ -180,4 +180,4 @@ size_t	 strlcpy(char *, const char *, size_t);
 __END_DECLS
 #endif
 
-#endif /* ndef _MIRMAKE_H */
+#endif /* ndef _MIRMAKE_H && ndef _ASM_SOURCE */
