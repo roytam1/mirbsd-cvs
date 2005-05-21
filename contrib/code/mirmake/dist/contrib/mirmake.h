@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.11 2005/05/21 01:04:02 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.12 2005/05/21 15:38:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -177,9 +177,6 @@
 __BEGIN_DECLS
 size_t	 strlcat(char *, const char *, size_t);
 size_t	 strlcpy(char *, const char *, size_t);
-uint32_t arc4random(void);
-void	 arc4random_push(int);
-void	 arc4random_stir(void);
 __END_DECLS
 #endif
 
