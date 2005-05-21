@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.3 2005/04/20 22:24:27 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.4 2005/05/21 00:16:02 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -108,12 +108,14 @@ Interix)
 	mtar=/bin/tar
 	pkgbin=/usr/sbin
 
+	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
+	    "uname=$BINOWN gname=$BINGRP /\nwq" \
+	    | ed -s $ti/templates/fake.mtree
 	cat $ti/templates/fake.mtree >$tmp
-	(print 'g/[ug]name=[a-z]*/s///g\n/@@local/d\ni\n'; IFS=/; s=;
+	(print '/@@local/d\ni\n'; IFS=/; s=;
 	 for pc in $(print "$localbase"); do
 		s="$s    "; print "$s$pc"
 	 done; print '.\nwq') | ed -s $tmp
-	print "/^.set/s/   / uname=$BINOWN gname=$BINGRP /\nwq" | ed -s $tmp
 	/usr/sbin/mtree -U -e -d -n -p / -f $tmp
 	mkdir -p $localbase/{db/pkg,etc}
 	;;
