@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/libltdl/Makefile,v 1.1.7.1 2005/03/18 15:44:51 tg Exp $
+# $MirOS: ports/devel/libltdl/Makefile,v 1.2 2005/04/26 16:14:54 tg Exp $
 
 COMMENT=		Libtool dynamic linking library
 CATEGORIES=		devel
-V=			1.5.16
+V=			1.5.18
 DISTNAME=		libtool-${V}
 PKGNAME=		ltdl-${V}
 MASTER_SITES=		${MASTER_SITE_GNU:=libtool/}

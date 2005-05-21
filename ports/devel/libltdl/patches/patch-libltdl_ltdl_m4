@@ -1,12 +1,23 @@
-$MirOS$
---- libltdl/ltdl.m4.orig	Sat Feb  5 14:03:59 2005
-+++ libltdl/ltdl.m4	Fri Feb 11 16:59:25 2005
-@@ -147,7 +147,7 @@ AC_CACHE_CHECK([whether deplibs are load
+$MirOS: ports/devel/libltdl/patches/patch-libltdl_ltdl_m4,v 1.1.7.1 2005/03/18 15:44:51 tg Exp $
+--- libltdl/ltdl.m4.orig	Sat Apr 30 06:15:55 2005
++++ libltdl/ltdl.m4	Sat May 21 14:10:36 2005
+@@ -134,6 +134,9 @@ AC_CACHE_CHECK([whether deplibs are load
+   hpux10*|hpux11*)
+     libltdl_cv_sys_dlopen_deplibs=yes
+     ;;
++  interix*)
++    libltdl_cv_sys_dlopen_deplibs=yes
++    ;;
+   irix[[12345]]*|irix6.[[01]]*)
+     # Catch all versions of IRIX before 6.2, and indicate that we don't
+     # know how it worked for any of those versions.
+@@ -142,6 +145,9 @@ AC_CACHE_CHECK([whether deplibs are load
+   irix*)
+     # The case above catches anything before 6.2, and it's known that
+     # at 6.2 and later dlopen does load deplibs.
++    libltdl_cv_sys_dlopen_deplibs=yes
++    ;;
++  mirbsd*)
+     libltdl_cv_sys_dlopen_deplibs=yes
+     ;;
    netbsd*)
-     libltdl_cv_sys_dlopen_deplibs=yes
-     ;;
--  openbsd*)
-+  ekkobsd* | microbsd* | mirbsd* | openbsd*)
-     libltdl_cv_sys_dlopen_deplibs=yes
-     ;;
-   osf[[1234]]*)
