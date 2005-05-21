@@ -1,6 +1,6 @@
 #!/bin/ksh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.3 2005/05/21 01:35:00 tg Exp $
-# _MirOS: contrib/gnu/aux/install-sh,v 1.3 2005/05/21 01:35:00 tg Exp $
+# $MirOS: contrib/gnu/aux/install-sh,v 1.4 2005/05/21 01:49:10 tg Exp $
+# _MirOS: contrib/gnu/aux/install-sh,v 1.4 2005/05/21 01:49:10 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -47,7 +47,7 @@ fi
 
 allargs="$*"
 
-if [[ $allargs != *@(-t=|-b=)* ]]; then
+if [[ $allargs != *@(-t=|-b=)* && -z $SFUDIR ]]; then
 	exec /usr/bin/install "$@"
 fi
 
