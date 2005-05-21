@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.12 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include "lib.h"
 #include "delete.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 static char Options[] = "chvDdnfp:q";
 
@@ -96,8 +96,10 @@ main(int argc, char **argv)
     if (pkgs == start)
 	pwarnx("missing package name(s)"), usage();
     *pkgs = NULL;
+#ifndef __INTERIX
     if (!Fake && getuid() != 0)
 	errx(1, "you must be root to delete packages");
+#endif
     if ((error = pkg_perform(start)) != 0) {
 	if (Verbose)
 	    pwarnx("%d package deletion(s) failed", error);
