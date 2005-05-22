@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS: ports/infrastructure/scripts/make-plist,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.2 2005/05/21 17:31:11 tg Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -88,10 +88,10 @@ sub annotate
 			# we don't warn for stuff we probably added...
 			next if m/^mkdir -p/||m/^install-info /;
 			$manual = 1;
-		} elsif (m/^\@comment\s+\$OpenBSD\:.*\$$/) {
+		} elsif (m/^\@comment\s+\$OpenBSD(\: .*)?\$$/) {
 			print $newfh "$_\n";
 			next;
-		} elsif (m/^\@comment\s+\$MirOS\:.*\$$/) {
+		} elsif (m/^\@comment\s+\$MirOS(\: .*)?\$$/) {
 			print $newfh "$_\n";
 			$our_rcsid_seen = 1;
 			next;
