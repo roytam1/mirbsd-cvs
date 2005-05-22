@@ -70,6 +70,8 @@
 #define MAXINDEXSIZE 72
 #endif
 
+/* Types */
+
 /* enumerated constants for plist entry types */
 typedef enum pl_ent_t {
 	PLIST_SHOW_ALL = -1,
@@ -104,7 +106,13 @@ typedef enum pl_ent_t {
 	PLIST_LDCACHE
 } pl_ent_t;
 
-/* Types */
+/* type of dynamic linker */
+typedef enum ld_type_t {
+	LD_STATIC,
+	LD_BSD,
+	LD_GNU,
+	LD_DYLD
+} ld_type_t;
 
 /* this structure describes a packing list entry */
 typedef struct plist_t {

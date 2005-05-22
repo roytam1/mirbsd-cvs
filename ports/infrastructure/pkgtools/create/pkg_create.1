@@ -278,6 +278,10 @@ will be called for the directories that contain libraries
 directives).
 .Ar value
 should be 0 on static architectures, 1 otherwise.
+.Sy Deprecated ,
+use
+.Cm @option ldcache
+et al instead.
 .It Cm @info Ar filename
 Special version of the file entry for
 .Tn GNU
@@ -500,9 +504,25 @@ By default, a package conflicts with other versions of the same package.
 With this option, the older package version will still be noticed, but the
 installation will proceed anyway.
 .It Ar dylib
-Enable support for Darwin-style shared libraries. This does nothing at the
-moment, but will automatically (try to) convert library names to the Darwin
-format in the future.
+Enable support for Darwin-style shared libraries.
+Shared library names
+.Pq Cm @lib
+are automatically converted into dylib names.
+The links are also automatically added.
+.It Ar gnu-ld
+Enable support for GNU-style shared libraries, needed for example
+under Interix.
+Automatically adds the library links to the packing list and execute
+.Cm ldconfig
+accordingly.
+.It Ar ldcache
+Support for "OpenBSD-style" shared libraries.
+Automatically execute
+.Cm ldconfig
+for the shared library directories during install and uninstall.
+.It Ar static
+Don't support shared libraries.
+This is the default if none of the other options are given.
 .El
 .El
 .Sh SEE ALSO

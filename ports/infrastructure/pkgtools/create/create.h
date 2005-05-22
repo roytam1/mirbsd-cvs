@@ -42,7 +42,7 @@ extern size_t	PlayPenSize;
 extern int	Dereference;
 extern bool	PlistOnly;
 extern int	WantUSTAR;
-extern int	IsDylib;
+extern ld_type_t LdType;
 
 void		check_list(char *, package_t *);
 void		copy_plist(char *, package_t *);

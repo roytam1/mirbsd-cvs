@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.2 2005/03/25 23:40:51 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.3 2005/04/12 19:31:37 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,9 +29,9 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.2 2005/03/25 23:40:51 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.3 2005/04/12 19:31:37 tg Exp $");
 
-int IsDylib = 0;
+ld_type_t LdType = LD_STATIC;
 
 /* library name conversion for darwin */
 static void
@@ -61,6 +61,39 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 	p->type = PLIST_FILE;
 }
 
+static void
+check_lib(package_t *pkg, plist_t *p, char *cwd)
+{
+	char *tmp;
+	size_t len;
+
+	switch (LdType) {
+	case LD_DYLD:
+		convert_dylib(pkg, p, cwd);
+		break;
+	case LD_GNU:
+		tmp = copy_string(p->name);
+		len = strlen(tmp);
+		while (strcmp(tmp + len - 3, ".so")) {
+			for (; len > 0 && tmp[len] != '.'; len--);
+			tmp[len] = '\0';
+			add_plist_at(pkg, p, PLIST_FILE, strdup(tmp));
+		}
+		free(tmp);
+		/* FALLTHROUGH */
+	case LD_BSD:
+		if (!find_plist(pkg, PLIST_UNEXEC, "ldconfig -R"))
+			add_plist(pkg, PLIST_UNEXEC, "ldconfig -R");
+		tmp = strconcat("ldconfig -m %D/", dirname(p->name));
+		if (!find_plist(pkg, PLIST_CMD, tmp)) {
+			plist_t *q;
+			for (q = p; q->next && q->next->type != PLIST_CWD;
+				q = q->next);
+			add_plist_at(pkg, q, PLIST_CMD, strdup(tmp));
+		}
+	}
+}
+
 /* Check a list for files that require preconversion */
 void
 check_list(char *home, package_t *pkg)
@@ -73,13 +106,18 @@ check_list(char *home, package_t *pkg)
 	char	name[FILENAME_MAX];
 	char	buf[LegibleChecksumLen];
 	int     len;
-	int	use_ldconfig = 0;
 
 	for (p = pkg->head ; p ; p = p->next) {
 		switch (p->type) {
 		case PLIST_OPTION:
 			if (!strcmp(p->name, "dylib"))
-				IsDylib = true;
+				LdType = LD_DYLD;
+			else if (!strcmp(p->name, "gnu-ld"))
+				LdType = LD_GNU;
+			else if (!strcmp(p->name, "ldcache"))
+				LdType = LD_BSD;
+			else if (!strcmp(p->name, "static"))
+				LdType = LD_STATIC;
 			break;
 		case PLIST_CWD:
 			cwd = p->name;
@@ -116,23 +154,7 @@ check_list(char *home, package_t *pkg)
 			p = p->prev;
 			break;
 		case PLIST_LIB:
-			if (IsDylib) {
-				convert_dylib(pkg, p, cwd);
-				goto libdone;
-			}
-			if (!use_ldconfig)
-				goto libdone;
-			/* we use the goto because of the 80c limit here */
-			if (!find_plist(pkg, PLIST_UNEXEC, "ldconfig -R"))
-				add_plist(pkg, PLIST_UNEXEC, "ldconfig -R");
-			cp = strconcat("ldconfig -m %D/", dirname(p->name));
-			if (!find_plist(pkg, PLIST_CMD, cp)) {
-				plist_t *q;
-				for (q = p; q->next && q->next->type != PLIST_CWD;
-					q = q->next);
-				add_plist_at(pkg, q, PLIST_CMD, strdup(cp));
-			}
-		libdone:
+			check_lib(pkg, p, cwd);
 			/* FALLTHROUGH */
 		case PLIST_SHELL:
 		case PLIST_FILE:
@@ -152,9 +174,9 @@ check_list(char *home, package_t *pkg)
 			break;
 		case PLIST_LDCACHE:
 			if (p->name && (p->name[0] == '1'))
-				use_ldconfig = 1;
+				LdType = LD_BSD;
 			else
-				use_ldconfig = 0;
+				LdType = LD_STATIC;
 			break;
 		default:
 			break;
