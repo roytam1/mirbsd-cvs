@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.60 2005/05/12 20:47:07 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.61 2005/05/19 22:55:43 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2902,4 +2902,12 @@
  thus infecting libgcc). Maybe I'll start merging binutils/gdb-current now
  since I'm not yet in the mood to drive home (Netzladen time again). We'll
  have an IRC channel meeting this weekend, and I'm learning dutch.</p>
+<p>23.05.2005 by tg@<br />I just discovered I had missed to 'cvs add' that
+ FAQ sample I wrote some time ago... done. While there, I've crafted a new
+ mirbsdksh, currently in beta testing by myself on MirOS, not amended with
+ the portable stuff yet, but smaller and more featureful. MirPorts/Interix
+ have become usable except for the lack of a downloader; with ${FETCH_CMD}
+ set to <tt>runwin32 C:/usr/local/wbin/wget -c</tt> in /etc/mk.conf I have
+ been able to build at least some of the stuff, awaiting further pkgtools,
+ infrastructure and PLIST changes by bsiegert@.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
