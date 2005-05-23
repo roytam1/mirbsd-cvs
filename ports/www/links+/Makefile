@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/www/links+/Makefile,v 1.1.7.1 2005/03/18 15:59:37 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2003/11/17 22:59:32 fgsch Exp $
 
 COMMENT=	"graphics and text browser with javascript support"
-VER=		2.1pre15
+VER=		2.1pre17
 DISTNAME=	links-${VER}
 PKGNAME=	links+-${VER}
 CATEGORIES=	www
@@ -18,9 +18,10 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVORS=	no_x11
 FLAVOR?=
 
-CONFIGURE_STYLE=autoconf
+CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--enable-javascript --with-ssl --without-pmshell \
-		--without-atheos --without-svgalib
+		--without-atheos --without-svgalib --without-gpm \
+		--without-fb --without-directfb --without-sdl
 
 .if !${FLAVOR:L:Mno_x11}
 LIB_DEPENDS=	jpeg.62::graphics/jpeg \
@@ -43,6 +44,6 @@ pre-configure:
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/links+
 	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCS} ${PREFIX}/share/links+/
-	${INSTALL_DATA} ${WRKSRC}/doc/links_cal/* ${PREFIX}/share/links+
+	${INSTALL_DATA} ${WRKSRC}/doc/links_cal/* ${PREFIX}/share/links+/
 
 .include <bsd.port.mk>

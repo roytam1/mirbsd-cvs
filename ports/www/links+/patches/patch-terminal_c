@@ -1,25 +1,8 @@
-$MirOS$
+$MirOS: ports/www/links+/patches/patch-terminal_c,v 1.1.7.1 2005/03/18 15:59:38 tg Exp $
 $OpenBSD: patch-terminal_c,v 1.2 2003/11/17 22:59:32 fgsch Exp $
---- terminal.c.orig	2004-04-20 08:08:23.000000000 +0000
-+++ terminal.c	2004-06-28 17:29:24.000000000 +0000
-@@ -1065,14 +1065,14 @@ void exec_thread(unsigned char *path, in
- 
- void close_handle(void *p)
- {
--	int h = (int)p;
-+	int h = (intptr_t)p;
- 	close(h);
- 	set_handlers(h, NULL, NULL, NULL, NULL);
- }
- 
- void unblock_terminal(struct terminal *term)
- {
--	close_handle((void *)term->blocked);
-+	close_handle((void *)(intptr_t)term->blocked);
- 	term->blocked = -1;
- 	if (!F) {
- 		set_handlers(term->fdin, (void (*)(void *))in_term, NULL, (void (*)(void *))destroy_terminal, term);
-@@ -1133,7 +1133,7 @@ void exec_on_terminal(struct terminal *t
+--- terminal.c.orig	Sun Jan  2 20:17:04 2005
++++ terminal.c	Mon May 23 22:00:23 2005
+@@ -1127,7 +1127,7 @@ void exec_on_terminal(struct terminal *t
  				if (!F) set_handlers(term->fdin, NULL, NULL, (void (*)(void *))destroy_terminal, term);
  				/*block_itrm(term->fdin);*/
  			} else {
