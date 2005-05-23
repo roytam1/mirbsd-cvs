@@ -1,4 +1,4 @@
-/**	$MirOS: mksh/misc.c,v 1.16 2005/05/23 02:20:36 tg Exp $ */
+/**	$MirOS: src/bin/mksh/misc.c,v 1.1 2005/05/23 03:06:08 tg Exp $ */
 /*	$OpenBSD: misc.c,v 1.28 2005/03/30 17:16:37 deraadt Exp $	*/
 /*	$OpenBSD: path.c,v 1.12 2005/03/30 17:16:37 deraadt Exp $	*/
 
@@ -7,7 +7,7 @@
 #include <sys/param.h>	/* for MAXPATHLEN */
 #include <sys/stat.h>
 
-__RCSID("$MirOS: mksh/misc.c,v 1.16 2005/05/23 02:20:36 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.1 2005/05/23 03:06:08 tg Exp $");
 
 short chtypes[UCHAR_MAX+1];	/* type bits for unsigned char */
 
@@ -471,7 +471,7 @@ bi_getn(const char *as, int *ai)
  */
 
 int
-gmatch(const char *s, const char *p, int isfile)
+gmatchx(const char *s, const char *p, int isfile)
 {
 	const char *se, *pe;
 
