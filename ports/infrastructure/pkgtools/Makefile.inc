@@ -1,5 +1,8 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.3 2005/04/11 21:05:02 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.4 2005/04/12 20:35:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
+
+.ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
+_MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC=1
 
 .if ${OStype} == "Darwin"
 LOCALBASE?=	/usr/mpkg
@@ -27,12 +30,4 @@ PORTABLE?=	no
 CFLAGS+=	-Wall -Werror
 .endif
 
-.ifdef CRAZY
-CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
-		-Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast \
-		-Wcast-qual -Wcast-align -Wwrite-strings -Wstrict-prototypes \
-		-Wold-style-definition -Wmissing-prototypes \
-		-Wmissing-declarations -Wmissing-noreturn \
-		-Wmissing-format-attribute -Wredundant-decls \
-		-Wno-unreachable-code -Winline -pedantic -std=c99
 .endif
