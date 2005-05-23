@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.2 2005/03/06 19:50:18 tg Exp $	*/
 /*	$OpenBSD: mount_ext2fs.c,v 1.12 2003/07/03 22:41:40 tedu Exp $	*/
 /*	$NetBSD: mount_ffs.c,v 1.3 1996/04/13 01:31:19 jtc Exp $	*/
 
@@ -32,7 +32,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.2 2005/03/06 19:50:18 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/mount.h>
@@ -53,6 +53,7 @@ static const struct mntopt mopts[] = {
 	MOPT_UPDATE,
 	MOPT_ASYNC,
 	MOPT_SYNC,
+	MOPT_RELOAD,
 	{ NULL }
 };
 

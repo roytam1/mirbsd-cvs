@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.2 2005/03/06 21:28:37 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.68 2004/08/12 07:48:53 otto Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
@@ -275,6 +275,12 @@ ffs_mount(mp, path, data, ndp, p)
 			}
 
 			if (fs->fs_clean == 0) {
+#ifdef DIAGNOSTIC
+				if (mp->mnt_flag & MNT_RELOAD)
+					printf(
+"WARNING: %s still dirty after reload\n",
+					    fs->fs_fsmnt);
+#endif
 #if 0
 				/*
 				 * It is safe mount unclean file system
