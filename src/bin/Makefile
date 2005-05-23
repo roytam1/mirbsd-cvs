@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/bin/Makefile,v 1.2 2005/03/06 18:55:17 tg Exp $
 
   SUBDIR+= cat
   SUBDIR+= chmod
@@ -16,6 +16,7 @@
   SUBDIR+= ls
   SUBDIR+= md5
   SUBDIR+= mkdir
+  SUBDIR+= mksh
   SUBDIR+= mt
   SUBDIR+= mv
   SUBDIR+= pax
