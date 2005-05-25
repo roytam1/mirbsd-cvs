@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $
+#!/bin/mksh
+# $MirOS: src/usr.bin/mkdep/mkdep.sh,v 1.2 2005/02/23 20:58:30 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

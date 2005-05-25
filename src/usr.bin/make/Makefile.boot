@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.4 2005/02/26 13:35:27 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.5 2005/04/13 17:12:26 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -19,7 +19,7 @@ MACHINE_ARCH=i386
 MACHINE_OS=BSD
 
 # set this to the true path of mirbsdksh
-MKSH=		/bin/ksh
+MKSH=		/bin/mksh
 
 # some make(1)s don't support +=
 DEFS=		-DMAKE_BOOTSTRAP -DNEED_FGETLN #-DNEED_VSNPRINTF

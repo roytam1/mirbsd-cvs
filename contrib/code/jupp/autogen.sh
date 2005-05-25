@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: contrib/code/jupp/autogen.sh,v 1.2 2005/02/11 21:37:29 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/code/jupp/autogen.sh,v 1.3 2005/02/11 22:04:27 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/Makefile,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,7 +29,7 @@
 .  include "Makefile.inc"
 .endif
 
-SHELL=	/bin/ksh
+SHELL=	/bin/mksh
 SERVER=	http://users.mirsolutions.de/~tg/.DNS/
 TDNS?=	/service/tinymaster
 HBCL?=	/service/mirdns

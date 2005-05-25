@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: contrib/code/Snippets/dynip.shar,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 #-
 # Copyright (c) 2000, 2001, 2002, 2003, 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -31,8 +31,8 @@
 #
 echo x - ip-up
 sed 's/^X//' >ip-up << 'END-of-ip-up'
-X#!/bin/ksh
-X# from $MirOS$
+X#!/bin/mksh
+X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 X# $Id$
 X
 X# This script is called with mirbsdksh when your ppp(8) or pppd(8)
@@ -40,7 +40,7 @@ X# connection goes up and the connection, including routing, has
 X# already been established.
 X
 Xexport PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/games
-Xexport SHELL=${SHELL:-/bin/ksh}
+Xexport SHELL=${SHELL:-/bin/mksh}
 X
 X# OpenIPF
 X#pfctl -f /etc/pf.conf
@@ -98,15 +98,15 @@ X#	| logger -t Freenet6 ) &
 END-of-ip-up
 echo x - ip-down
 sed 's/^X//' >ip-down << 'END-of-ip-down'
-X#!/bin/ksh
-X# from $MirOS$
+X#!/bin/mksh
+X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
 X# $Id$
 X
 X# This script is called with mirbsdksh after your ppp(8) or pppd(8)
 X# connection has gone down.
 X
 Xexport PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/games
-Xexport SHELL=${SHELL:-/bin/ksh}
+Xexport SHELL=${SHELL:-/bin/mksh}
 X
 X# MirDNS
 X#( /service/tinymaster/root/make.sh dialout 2>&1 | logger -t MirDNS ) &

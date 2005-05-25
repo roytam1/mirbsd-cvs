@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.5 2005/05/20 22:50:41 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.6 2005/05/20 23:18:34 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

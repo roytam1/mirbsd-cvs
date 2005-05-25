@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.3 2005/05/21 01:35:00 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/gnu/aux/install-sh,v 1.4 2005/05/21 01:49:10 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

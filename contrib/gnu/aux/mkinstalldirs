@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: contrib/gnu/aux/mkinstalldirs,v 1.1.7.1 2005/02/05 01:54:29 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

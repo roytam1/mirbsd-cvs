@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: contrib/gnu/aux/move-if-change,v 1.1.7.1 2005/02/05 01:54:29 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -33,7 +33,7 @@ else
 fi
 
 if [ $# -gt 2 ]; then
-	[[ -z $SHELL ]] && SHELL=/bin/ksh
+	[[ -z $SHELL ]] && SHELL=/bin/mksh
 	set -A parms -- "$@"
 	let i=${#parms[*]}-1
 	target="${parms[i]}"

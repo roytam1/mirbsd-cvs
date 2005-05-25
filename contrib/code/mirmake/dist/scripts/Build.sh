@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.27 2005/05/21 15:46:39 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.28 2005/05/21 17:03:52 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
