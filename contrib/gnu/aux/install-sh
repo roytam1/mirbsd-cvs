@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.4 2005/05/21 01:49:10 tg Exp $
+# $MirOS: contrib/gnu/aux/install-sh,v 1.5 2005/05/25 23:50:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -51,6 +51,8 @@ if [[ $allargs != *@(-t=|-b=)* && -z $SFUDIR ]]; then
 fi
 
 args=
+parg=
+marg=
 d=0
 m=
 
@@ -62,9 +64,9 @@ while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 	c)	args="$args -c"		;;
 	d)	d=1; args="$args -d"	;;
 	f)	args="$args -f $OPTARG"	;;
-	g)	args="$args -g $OPTARG"	;;
-	m)	args="$args -m $OPTARG"; m="-m $OPTARG"	;;
-	o)	args="$args -o $OPTARG"	;;
+	g)	parg="$parg -g $OPTARG"	;;
+	m)	marg="$marg -m $OPTARG"	;;
+	o)	parg="$parg -o $OPTARG"	;;
 	p)	args="$args -p"		;;
 	S)	args="$args -S"		;;
 	s)	args="$args -s"		;;
@@ -73,12 +75,14 @@ while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 done
 shift $((OPTIND - 1))
 
-[[ $d = 1 ]] && if [[ -n SFUDIR ]]; then
-	# we ignore UID/GID to set on Interix
-	exec /bin/mkdir -p $m "$@"
+# we ignore requests for setting UID/GID on Interix
+if [[ -n $SFUDIR ]]; then
+	# on Interix, install(1) cannot make directories
+	[[ $d = 1 ]] && exec /bin/mkdir -p $marg "$@"
 else
-	exec /usr/bin/install $args "$@"
+	args="$args $parg"
 fi
+args="$args $marg"
 
 set -A sources -- "$@"
 let numsrcs=${#sources[@]}
