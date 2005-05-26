@@ -1180,6 +1180,8 @@ ENTRY(copyinstr)
 
 1:	decl	%edx
 	jz	2f
+	cmpl    $VM_MAXUSER_ADDRESS,%esi
+	jae     _C_LABEL(copystr_fault)
 	lodsb
 	stosb
 	testb	%al,%al
