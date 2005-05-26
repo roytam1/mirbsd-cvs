@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.2 2005/05/02 17:18:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.3 2005/05/26 13:59:04 tg Exp $ */
 /*	$OpenBSD: apm.c,v 1.65 2005/05/24 08:54:14 marco Exp $	*/
 
 /*-
@@ -55,6 +55,7 @@
 #include <sys/ioctl.h>
 #include <sys/event.h>
 #include <sys/mount.h>	/* for vfs_syncwait() proto */
+#include <sys/dkstat.h>
 
 #include <machine/conf.h>
 #include <machine/cpu.h>
@@ -663,13 +664,13 @@ apm_cpu_idle(void)
 		__asm __volatile("sti;hlt");
 		return;
 	}
-		
-	/* 
-	 * We call the bios APM_IDLE routine here only when we 
+
+	/*
+	 * We call the bios APM_IDLE routine here only when we
 	 * have been idle for some time - otherwise we just hlt.
 	 */
 
-	if  (call_apm != curcpu()->ci_schedstate.spc_cp_time[CP_IDLE]) {
+	if  (call_apm != cp_time[CP_IDLE]) {
 		/* Always call BIOS halt/idle stuff */
 		bzero(&regs, sizeof(regs));
 		if (apmcall(APM_CPU_IDLE, 0, &regs) != 0) {
@@ -682,7 +683,7 @@ apm_cpu_idle(void)
 		if (apm_flags & APM_IDLE_SLOWS) {
 			__asm __volatile("sti;hlt");
 		}
-		call_apm = curcpu()->ci_schedstate.spc_cp_time[CP_IDLE];
+		call_apm = cp_time[CP_IDLE];
 	} else {
 		__asm __volatile("sti;hlt");
 	}
