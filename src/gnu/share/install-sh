@@ -1,6 +1,6 @@
-#!/bin/ksh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.2 2005/03/13 16:37:43 tg Exp $
-# _MirOS: contrib/gnu/aux/install-sh,v 1.2 2005/03/13 16:37:43 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/gnu/aux/install-sh,v 1.6 2005/05/26 21:21:18 tg Exp $
+# _MirOS: contrib/gnu/aux/install-sh,v 1.6 2005/05/26 21:21:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -47,12 +47,15 @@ fi
 
 allargs="$*"
 
-if [[ $allargs != *@(-t=|-b=)* ]]; then
+if [[ $allargs != *@(-t=|-b=)* && -z $SFUDIR ]]; then
 	exec /usr/bin/install "$@"
 fi
 
 args=
+parg=
+marg=
 d=0
+m=
 
 while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 	case $opt in
@@ -62,9 +65,9 @@ while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 	c)	args="$args -c"		;;
 	d)	d=1; args="$args -d"	;;
 	f)	args="$args -f $OPTARG"	;;
-	g)	args="$args -g $OPTARG"	;;
-	m)	args="$args -m $OPTARG"	;;
-	o)	args="$args -o $OPTARG"	;;
+	g)	parg="$parg -g $OPTARG"	;;
+	m)	marg="$marg -m $OPTARG"	;;
+	o)	parg="$parg -o $OPTARG"	;;
 	p)	args="$args -p"		;;
 	S)	args="$args -S"		;;
 	s)	args="$args -s"		;;
@@ -73,7 +76,14 @@ while getopts "B:b:Ccdf:g:m:o:pSst:" opt; do
 done
 shift $((OPTIND - 1))
 
-[[ $d = 1 ]] && exec /usr/bin/install $args "$@"
+# we ignore requests for setting UID/GID on Interix
+if [[ -n $SFUDIR ]]; then
+	# on Interix, install(1) cannot make directories
+	[[ $d = 1 ]] && exec /bin/mkdir -p $marg "$@"
+else
+	args="$args $parg"
+fi
+args="$args $marg"
 
 set -A sources -- "$@"
 let numsrcs=${#sources[@]}
