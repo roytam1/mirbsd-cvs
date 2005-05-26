@@ -1,3 +1,17 @@
+2005-05-19  Release Manager
+
+	* GCC 3.4.4 released.
+
+2005-05-18  Jonathan Wakely  <redi@gcc.gnu.org>
+
+	* docs/html/debug.html: Explain that _GLIBXX_DEBUG_PEDANTIC must
+	be defined for pedantic mode.
+
+2005-05-15  Andreas Schwab  <schwab@suse.de>
+
+	* testsuite/Makefile.am (check-local): Really remove.
+	* testsuite/Makefile.in: Regenerated.
+
 2005-05-12  Mark Mitchell  <mark@codesourcery.com>
 
 	2005-04-04  Mark Mitchell  <mark@codesourcery.com>
