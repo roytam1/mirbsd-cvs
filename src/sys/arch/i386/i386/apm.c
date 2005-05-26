@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: apm.c,v 1.61 2004/03/11 17:20:33 millert Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.2 2005/05/02 17:18:58 tg Exp $ */
+/*	$OpenBSD: apm.c,v 1.65 2005/05/24 08:54:14 marco Exp $	*/
 
 /*-
  * Copyright (c) 1998-2001 Michael Shalayeff. All rights reserved.
@@ -148,6 +148,7 @@ u_char apm_minver;
 int apm_dobusy = 1;
 int apm_doidle = 1;
 int apm_bebatt = 0;
+int apm_idle_called = 0;
 
 struct {
 	u_int32_t entry;
@@ -348,6 +349,8 @@ apm_resume(sc, regs)
 	struct apm_softc *sc;
 	struct apmregs *regs;
 {
+	extern int perflevel;
+
 	apm_resumes = APM_RESUME_HOLDOFF;
 
 	/* they say that some machines may require reinitializing the clock */
@@ -360,6 +363,10 @@ apm_resume(sc, regs)
 
 	/* acknowledge any rtc interrupt we may have missed */
 	rtcdrain(NULL);
+
+	/* restore hw.setperf */
+	if (cpu_setperf != NULL)
+		cpu_setperf(perflevel);
 }
 
 int
@@ -619,34 +626,65 @@ apm_set_powstate(dev, state)
 }
 
 void
-apm_cpu_busy()
+apm_cpu_busy(void)
 {
 	struct apmregs regs;
-	if (!apm_cd.cd_ndevs || !apm_doidle)
-		return;
-	bzero(&regs, sizeof(regs));
-	if ((apm_flags & APM_IDLE_SLOWS) &&
-		apmcall(APM_CPU_BUSY, 0, &regs) != 0) {
 
-#ifdef APMDEBUG
-		apm_perror("set CPU busy", &regs);
+	if (!apm_cd.cd_ndevs)	/* No APM device, punt */
+		return;
+	if (!apm_dobusy)
+		return;
+	if (!apm_idle_called)
+		return;
+
+	if (apm_flags & APM_IDLE_SLOWS) {
+		bzero(&regs, sizeof(regs));
+		if (apmcall(APM_CPU_BUSY, 0, &regs) != 0) {
+#ifdef DIAGNOSTIC
+			apm_perror("set CPU busy", &regs);
 #endif
+		}
+		apm_idle_called = 0;
 	}
 }
 
 void
-apm_cpu_idle()
+apm_cpu_idle(void)
 {
 	struct apmregs regs;
-	if (!apm_cd.cd_ndevs || !apm_doidle)
+	static int call_apm = 0;
+
+	if (!apm_cd.cd_ndevs) {	/* No APM device, wait for next interrupt */
+		__asm __volatile("sti;hlt");
 		return;
+	}
 
-	bzero(&regs, sizeof(regs));
-	if (apmcall(APM_CPU_IDLE, 0, &regs) != 0) {
+	if (!apm_doidle) {
+		__asm __volatile("sti;hlt");
+		return;
+	}
+		
+	/* 
+	 * We call the bios APM_IDLE routine here only when we 
+	 * have been idle for some time - otherwise we just hlt.
+	 */
 
+	if  (call_apm != curcpu()->ci_schedstate.spc_cp_time[CP_IDLE]) {
+		/* Always call BIOS halt/idle stuff */
+		bzero(&regs, sizeof(regs));
+		if (apmcall(APM_CPU_IDLE, 0, &regs) != 0) {
 #ifdef APMDEBUG
-		apm_perror("set CPU idle", &regs);
+			apm_perror("set CPU idle", &regs);
 #endif
+		}
+		apm_idle_called = 1;
+		/* If BIOS did halt, don't do it again! */
+		if (apm_flags & APM_IDLE_SLOWS) {
+			__asm __volatile("sti;hlt");
+		}
+		call_apm = curcpu()->ci_schedstate.spc_cp_time[CP_IDLE];
+	} else {
+		__asm __volatile("sti;hlt");
 	}
 }
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.2 2005/03/06 21:26:57 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.3 2005/03/13 19:18:44 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -1130,6 +1130,8 @@ ENTRY(copyinstr)
 
 1:	decl	%edx
 	jz	2f
+	cmpl    $VM_MAXUSER_ADDRESS,%esi
+	jae     _C_LABEL(copystr_fault)
 	lodsb
 	stosb
 	testb	%al,%al
@@ -1338,28 +1340,33 @@ NENTRY(remrunqueue)
 #endif
 /*
  * When no processes are on the runq, cpu_switch() branches to here to wait for
- * something to come ready.
+ * something to come ready. XXX jumps to idle_start in MirOS-nonSMP
  */
-ENTRY(idle)
-	cli
-	movl	_C_LABEL(whichqs),%ecx
-	testl	%ecx,%ecx
-	jnz	sw1
-	sti
+
+ENTRY(idle_loop)
 #if NAPM > 0
 	call	_C_LABEL(apm_cpu_idle)
-	cmpl	$0,_C_LABEL(apm_dobusy)
-	je	1f
-	call	_C_LABEL(apm_cpu_busy)
-1:
-#endif
-#if NPCTR > 0 && NAPM == 0
+#else
+#if NPCTR > 0
 	addl	$1,_C_LABEL(pctr_idlcnt)
 	adcl	$0,_C_LABEL(pctr_idlcnt)+4
-#else
+#endif
+	sti
 	hlt
 #endif
-	jmp	_C_LABEL(idle)
+ENTRY(idle_start)
+	cli
+	cmpl	$0,_C_LABEL(whichqs)
+	jz	_C_LABEL(idle_loop)
+ENTRY(idle_exit)
+#if NAPM > 0
+	movl	$IPL_HIGH,_C_LABEL(cpl)	# splhigh()
+	sti
+	call	_C_LABEL(apm_cpu_busy)
+	movl	$IPL_NONE,_C_LABEL(cpl)	# spl0()
+	call	_C_LABEL(Xspllower)	# process pending interrupts
+#endif
+	jmp	switch_search		# does a cli by itself
 
 #ifdef DIAGNOSTIC
 NENTRY(switch_error)
@@ -1413,7 +1420,7 @@ switch_search:
 	movl	_C_LABEL(whichqs),%ecx
 
 sw1:	bsfl	%ecx,%ebx		# find a full q
-	jz	_C_LABEL(idle)		# if none, idle
+	jz	_C_LABEL(idle_start)	# if none, idle
 
 	leal	_C_LABEL(qs)(,%ebx,8),%eax	# select q
 
