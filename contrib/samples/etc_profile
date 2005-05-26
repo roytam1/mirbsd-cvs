@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/samples/etc_profile,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
 # _MirBSD: src/etc/profile,v 1.51 2004/08/23 21:23:03 tg Stab $
 #-
 # Copyright (c) 1999, 2000, 2003, 2004, 2005
@@ -132,6 +132,7 @@ if [ -z "$KSH_VERSION" -a -z "$DONTWANTMKSH" ]; then
 		[ ! -x $F ] && F=$HOME/.bin/mksh
 		[ ! -x $F ] && F=$HOME/bin/mksh
 		[ ! -x $F ] && F=$HOME/mksh
+		[ ! -x $F ] && F=/bin/mksh
 		exec $F -l
 	fi
 fi
