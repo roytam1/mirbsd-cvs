@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.61 2005/05/19 22:55:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.62 2005/05/23 12:12:48 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2910,4 +2910,10 @@
  set to <tt>runwin32 C:/usr/local/wbin/wget -c</tt> in /etc/mk.conf I have
  been able to build at least some of the stuff, awaiting further pkgtools,
  infrastructure and PLIST changes by bsiegert@.</p>
+<p>26.05.2005 by tg@<br />Somehow I don't get to work on the areas where I
+ really should work &ndash; binutils, gdb, gcc, looking for da advertising
+ clauses, lynx. But we've got a damn well working newish mirbsdksh, and on
+ some webpages we have been mentioned... Linux from Scratch for example as
+ ProPolice is being heavily used by us, making us suitable for hosting the
+ NetBSD cross build environment.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

@@ -1,6 +1,15 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.21 2005/05/03 20:41:11 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.22 2005/05/06 00:37:58 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>26.05.2005<br />
+	<a href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> R22 is formally
+	released; this is the latest version of our portable shell sources
+	which we consider stable.<br />Most in-tree issues for the release
+	have settled down; there is still some work to do in the upgrading
+	third-party stuff (gcc, binutils, gdb, lynx) development. It's not
+	adviced to download the current sources and compile it yourself at
+	this time.</li>
 
 <li>05.05.2005<br />
 	K7 PowerNow support has been greatly revamped, the PST used can be
@@ -14,27 +23,6 @@
 	Yesterday's Snapshot comes with a broken httpd(8) that is fixed in
 	HEAD, and a broken gij(1) for which I cannot imagine a fix. Please
 	help investigating if you know GCJ.</li>
-
-<li>30.04.2005<br />
-	The current development version <em>really</em> fixes <em>all</em>
-	known C++ issues, as well as enables GCJ (and libjava) to build. I
-	also have successfully built Sun's JDK/JRE 1.4.2 and QT3. The work
-	(as far as I can see with my limited knowledge).</p>
-
-<li>28.04.2005<br />
-	MirOS #8 RC1 is out, for general testing. Please update bsd.own.mk
-	to src/share/mk/bsd.own.mk,v 1.8 because otherwise some programmes
-	fail to compile correctly. Installation documentation is currently
-	being written, system documentation being updated (so please, bear
-	with us or, better, send in patches or suggestions).</li>
-
-<li>25.04.2005<br />
-	MirOS-current (no snapshot yet) fixes the C++ problems, it's now a
-	fully supported programming language (leaving only GCJ open for my
-	desires &ndash; that's the reason gcc is built after X11 by a make
-	dist, by the way). It also contains some other minor yet important
-	fixes, but there's still an update of a component pending before a
-	new snapshot can be released.</li>
 
 </ul>
 <p>For older news, please refer to the <a href="/?older">historical news
