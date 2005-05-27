@@ -1,4 +1,4 @@
-{ $MirOS$ }
+{ $MirOS: gcc/gcc/p/rts/random.pas,v 1.2 2005/05/27 03:22:23 tg Exp $ }
 
 { Pseudo random number generator
 
@@ -127,11 +127,11 @@ begin
   if not (b.Bound and b.Special) then
     begin
       Assign (f, '/dev/urandom');
-      b := Binding (f)
+      b := Binding (f);
       if not (b.Bound and b.Special) then
         begin
           Assign (f, '/dev/srandom');
-          b := Binding (f)
+          b := Binding (f);
           if not (b.Bound and b.Special) then
             begin
               Assign (f, '/dev/random');
