@@ -1,3 +1,5 @@
+{ $MirOS$ }
+
 { Pseudo random number generator
 
   Copyright (C) 1997-2005 Free Software Foundation, Inc.
@@ -120,12 +122,22 @@ var
   f: file of RandomSeedType;
   b: BindingType;
 begin
-  Assign (f, '/dev/urandom');
+  Assign (f, '/dev/random');
   b := Binding (f);
   if not (b.Bound and b.Special) then
     begin
-      Assign (f, '/dev/random');
+      Assign (f, '/dev/urandom');
       b := Binding (f)
+      if not (b.Bound and b.Special) then
+        begin
+          Assign (f, '/dev/srandom');
+          b := Binding (f)
+          if not (b.Bound and b.Special) then
+            begin
+              Assign (f, '/dev/random');
+              b := Binding (f)
+            end;
+        end;
     end;
   if b.Bound and b.Special then
     begin
@@ -136,10 +148,7 @@ begin
       Close (f)
     end;
   if (IOResult <> 0) or (Seed = 0) then
-    begin
-      Seed := GetUnixTime (Null);
-      if Seed <= 0 then Seed := ProcessID
-    end;
+    Seed := (1 + GetUnixTime (Null)) * ProcessID;
   Default_SeedRandom (Seed)
 end;
 
