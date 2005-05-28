@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.20 2005/05/05 15:39:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.21 2005/05/19 22:55:43 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Software Patent Issues</h2>
 <p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
@@ -21,7 +21,8 @@
  left side. &quot;Download&quot; should be self-explanatory, and files
  are available as well as a full ISO image!</p>
 <p><big>We're looking</big> for people wanting to ensure quality of MirPorts
- under MirOS BSD, OpenBSD and Mac OSX. If you're interested and have &gt;1
+ under MirOS BSD, OpenBSD, Mac OSX Panther and Tiger, and Microsoft Services
+ for Unix (aka Interix). If you're interested and have &gt;1
  year of experience with the OpenBSD Ports Tree, and are not scared of
  &lt;bsd.port.mk&gt;; please contact us. We also <big>need web site
  hackers</big> who keep track of source changes.</p>

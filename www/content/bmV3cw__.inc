@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.22 2005/05/06 00:37:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.23 2005/05/26 00:30:12 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
@@ -9,7 +9,7 @@
 	have settled down; there is still some work to do in the upgrading
 	third-party stuff (gcc, binutils, gdb, lynx) development. It's not
 	adviced to download the current sources and compile it yourself at
-	this time.</li>
+	this time. (Update: R22c, some portability fixes.)</li>
 
 <li>05.05.2005<br />
 	K7 PowerNow support has been greatly revamped, the PST used can be

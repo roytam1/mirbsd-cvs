@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.62 2005/05/23 12:12:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.63 2005/05/26 00:30:12 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2916,4 +2916,13 @@
  some webpages we have been mentioned... Linux from Scratch for example as
  ProPolice is being heavily used by us, making us suitable for hosting the
  NetBSD cross build environment.</p>
+<p>28.05.2005 by tg@<br />As you can see on the MirbsdKsh page in the Wiki
+ I have created a Debian source package, and Han Boetes has made a port to
+ Crux GNU/Linux (not that I didn't have one either...) of mksh R22c. Maybe
+ it will be in Debian 3.2 in ten years or so ;) (j/k)<br />I have upgraded
+ the in-tree gcc to the first 3.4.5-prerelease (latest 3.4-stable) version
+ and will continue to work on GNU binutils later in order to make the tree
+ buildable again. Benny is slightly busy with port updates and creation of
+ new ones, and we've both dived a bit more into the particulars of Interix
+ and Darwin.<br />We may produce a release song ourselves...</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
