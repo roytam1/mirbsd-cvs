@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/string/strlfun.c,v 1.2 2005/03/14 22:34:13 tg Exp $ */
+/**	$MirOS: src/lib/libc/string/strlfun.c,v 1.3 2005/05/23 16:42:03 tg Exp $ */
 /*	$OpenBSD: strlcpy.c,v 1.8 2003/06/17 21:56:24 millert Exp $ */
 /*	$OpenBSD: strlcat.c,v 1.11 2003/06/17 21:56:24 millert Exp $ */
 
@@ -28,11 +28,13 @@
 #endif
 #include <sys/types.h>
 
+extern size_t strlen(const char *);
+
 #ifndef __RCSID
 #define __RCSID(x)	static const char __rcsid[] = (x)
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.2 2005/03/14 22:34:13 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.3 2005/05/23 16:42:03 tg Exp $");
 #else
 #include <lib/libkern/libkern.h>
 #undef HAVE_CONFIG_H
