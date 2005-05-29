@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/archivers/bzip2/files/Makefile.lib,v 1.1 2005/05/21 12:54:56 bsiegert Exp $
 # 
 # vim:se ft=make:
 
@@ -13,7 +13,9 @@ INCLUDES=	bzlib.h
 NOMAN=		Yes
 
 SHLIB_MAJOR=	10
-SHLIB_MINOR=	2
+SHLIB_MINOR=	3
+SHLIB_VERSION=	${SHLIB_MAJOR}.${SHLIB_MINOR}
+LIBbz2_VERSION=	${SHLIB_VERSION}
 
 .if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
 PREFIX:=	${TRUEPREFIX}

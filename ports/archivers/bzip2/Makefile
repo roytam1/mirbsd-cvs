@@ -1,13 +1,14 @@
-# $MirOS$
+# $MirOS: ports/archivers/bzip2/Makefile,v 1.2 2005/05/21 12:54:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.47 2004/04/06 06:33:29 brad Exp $
 
 COMMENT=		"block-sorting file compressor, unencumbered"
 
-DISTNAME=		bzip2-1.0.2
-PKGNAME=		${DISTNAME}p1
+VERSION=		1.0.3
+DISTNAME=		bzip2-${VERSION}
+PKGNAME=		${DISTNAME}
 CATEGORIES=		archivers
-MASTER_SITES=		${MASTER_SITE_SOURCEWARE:=bzip2/v102/}
-HOMEPAGE=		http://sources.redhat.com/bzip2/
+HOMEPAGE=		http://www.bzip.org/
+MASTER_SITES=		${HOMEPAGE}${VERSION}/
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -23,11 +24,5 @@ post-patch:
 	mkdir ${WRKSRC}/${dir}
 	cp ${FILESDIR}/Makefile.${dir} ${WRKSRC}/${dir}/Makefile
 .endfor
-
-post-install:
-	@cd ${WRKBUILD} && makeinfo --no-split manual.texi
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/bzip2
-	${INSTALL_DATA} ${WRKBUILD}/*.html ${PREFIX}/share/doc/bzip2
-	${INSTALL_DATA} ${WRKBUILD}/bzip2.info ${PREFIX}/info
 
 .include <bsd.port.mk>

@@ -1,6 +1,5 @@
 @comment $OpenBSD: PLIST,v 1.15 2002/02/03 06:16:09 brad Exp $
-@comment $MirOS$
-@unexec install-info --delete --info-dir=%D/info %D/info/bzip2.info
+@comment $MirOS: ports/archivers/bzip2/pkg/PLIST,v 1.2 2005/05/21 12:54:58 bsiegert Exp $
 bin/bunzip2
 bin/bzcat
 bin/bzcmp
@@ -13,7 +12,6 @@ bin/bzip2recover
 bin/bzless
 bin/bzmore
 include/bzlib.h
-info/bzip2.info
 lib/libbz2.a
 man/cat1/bunzip2.0
 man/cat1/bzcat.0
@@ -27,13 +25,5 @@ man/cat1/bzip2recover.0
 man/cat1/bzless.0
 man/cat1/bzmore.0
 share/doc/bzip2/manual.html
-share/doc/bzip2/manual_1.html
-share/doc/bzip2/manual_2.html
-share/doc/bzip2/manual_3.html
-share/doc/bzip2/manual_4.html
-share/doc/bzip2/manual_abt.html
-share/doc/bzip2/manual_ovr.html
-share/doc/bzip2/manual_toc.html
 %%SHARED%%
 @dirrm share/doc/bzip2
-@exec install-info --info-dir=%D/info %D/info/bzip2.info
