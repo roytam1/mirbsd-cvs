@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.5 2005/04/29 19:06:04 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.6 2005/05/19 21:44:55 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -149,11 +149,11 @@ CONFIGURE_ARGS+=--disable-mad
 
 .if ${MACHINE_ARCH:Mi386}
 RUN_DEPENDS+=	:win32-codecs-*:multimedia/win32-codecs
-CONFIGURE_ARGS+=--with-win32libdir=${LOCALBASE}/lib/win32 \
+CONFIGURE_ARGS+=--with-win32libdir=${LOCALBASE}/lib/codecs \
 		--enable-qtx \
 		--enable-real \
 		--enable-dshow \
-		--with-reallibdir=${LOCALBASE}/lib/win32
+		--with-reallibdir=${LOCALBASE}/lib/codecs
 .else
 CONFIGURE_ARGS+=--disable-win32 \
 		--disable-qtx \
