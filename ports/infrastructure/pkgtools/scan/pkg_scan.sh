@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: ports/infrastructure/pkgtools/scan/pkg_scan.sh,v 1.1.7.1 2005/03/18 15:47:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -22,20 +22,20 @@
 #-
 # Regenerates the "shared directories" database from scratch.
 
-if [ -z "$1" -o x"$1" = x"-h" ]; then
+if [[ -z $1 || $1 = -h ]]; then
 	echo "Usage:"
 	echo " $0 [-f | -d] [targetfilename]"
 	exit 1
 fi
 
-if [ x"$1" = x"-f" ]; then
+if [[ $1 = -f ]]; then
 	let FORCE=1
 	shift
 else
 	let FORCE=0
 fi
 
-if [ x"$1" = x"-d" ]; then
+if [[ $1 = -d ]]; then
 	let DRY=1
 	let FORCE=0
 	shift
@@ -44,8 +44,8 @@ else
 fi
 
 DB="$1"
-[ -z "$DB" ] && DB=@@dbdir@@/shareddirs.db
-[ -e "$DB" ] && if [ $FORCE -eq 0 ]; then
+[[ -z $DB ]] && DB=@@dbdir@@/shareddirs.db
+[[ -e $DB ]] && if (( FORCE == 0 )); then
 	echo "Error: destination ($DB) already exists!"
 	exit 1
 fi
@@ -64,8 +64,8 @@ END {
 		print dirs[i], i
 }' @@dbdir@@/pkg/*/+CONTENTS >"$T" 2>/dev/null
 
-if [ -s "$T" ]; then
-	if [ $DRY -eq 0 ]; then
+if [[ -s $T ]]; then
+	if (( DRY == 0 )); then
 		install -c -o root -g bin -m 644 "$T" "$DB"
 	else
 		install -c -m 400 "$T" "$DB"

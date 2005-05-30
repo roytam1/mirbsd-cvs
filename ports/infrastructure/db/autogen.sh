@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: ports/infrastructure/db/autogen.sh,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+#!/bin/mksh
+# $MirOS: ports/infrastructure/db/autogen.sh,v 1.2 2005/04/28 20:33:05 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

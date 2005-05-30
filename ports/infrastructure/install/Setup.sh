@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.7 2005/05/21 17:33:15 tg Exp $
+#!/bin/mksh
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.8 2005/05/21 18:08:39 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -56,7 +56,7 @@ else
 	os="$(uname -s)"
 fi
 osver=$(uname -r | sed 's/\./_/')
-[[ -z $SHELL ]] && SHELL=/bin/ksh
+[[ -z $SHELL ]] && SHELL=/bin/mksh
 export SHELL
 
 if ! tmp=$(mktemp /tmp/mirports.XXXXXXXXXX); then
@@ -228,11 +228,11 @@ else
 	fi
 fi
 
-if [[ $SHELL != /bin/ksh ]]; then
+if [[ $SHELL != /bin/mksh ]]; then
 	print -n "3. b) Patching infrastructure..."
 	for f in $ti/db/*; do
 		[[ -f $f ]] || continue
-		print "1g!/bin/ksh!s!!$SHELL!\nwq" | ed -s $f
+		print "1g!/bin/mksh!s!!$SHELL!\nwq" | ed -s $f
 		chmod a+x $f
 	done
 	print done.

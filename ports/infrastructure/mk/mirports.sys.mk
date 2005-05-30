@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.4 2005/04/10 21:50:06 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.5 2005/04/11 14:52:48 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -30,7 +30,7 @@ NOPIC_PLATFORMS?=
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 LOCALBASE?=		/usr/local
 X11BASE?=		/usr/X11R6
-MKSH?=			/bin/ksh	# path to mirbsdksh
+MKSH?=			/bin/mksh	# path to mirbsdksh
 SHELL=			${MKSH}		# missing ? not an oversight
 # assume osdep provides MACHINE_OS, OStype, OStriplet, OBJECT_FMT etc.
 
