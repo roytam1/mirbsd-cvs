@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.3 2005/04/12 19:31:37 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.4 2005/05/22 03:52:47 bsiegert Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.3 2005/04/12 19:31:37 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.4 2005/05/22 03:52:47 bsiegert Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -91,6 +91,10 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 				q = q->next);
 			add_plist_at(pkg, q, PLIST_CMD, strdup(tmp));
 		}
+		break;
+	case LD_STATIC:
+		/* We don't need to do anything on static arches */
+		break;
 	}
 }
 
