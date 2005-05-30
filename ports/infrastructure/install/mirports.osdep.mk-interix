@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.7 2005/05/21 02:53:33 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.8 2005/05/21 03:09:58 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,7 +34,6 @@ OStriplet=		i386-pc-interix3
 LOCALBASE=		/usr/mpkg
 _PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/opt/gcc.3.3/bin:/bin:/usr/contrib/bin:/usr/sbin:/sbin:${X11BASE}/bin:/usr/X11R5/bin
 PKG_DBDIR=		${LOCALBASE}/db/pkg
-MKSH=			/bin/mksh
 OBJECT_FMT=		PE
 USE_SYSTRACE=		No
 TAR=			/bin/tar

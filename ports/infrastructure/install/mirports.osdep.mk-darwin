@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-darwin,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-darwin,v 1.2 2005/05/21 00:16:02 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,7 +37,6 @@ LOCALBASE=		/usr/mpkg
 SYSCONFDIR?=		${LOCALBASE}/etc
 PKG_CMDDIR=		${LOCALBASE}/sbin
 PKG_DBDIR=		${LOCALBASE}/db/pkg
-MKSH=			/bin/mksh
 AUTOCONF_FAKEOS=	${OStriplet}
 OBJECT_FMT=		Mach-O
 NOPIC=			No

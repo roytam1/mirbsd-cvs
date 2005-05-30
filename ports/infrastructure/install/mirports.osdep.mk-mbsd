@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-mbsd,v 1.2 2005/03/27 18:41:33 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -30,6 +30,7 @@ OStype=			MirBSD
 # old MirOS particulars
 AUTOCONF_FAKEOS=	${OStriplet}
 OBJECT_FMT=		ELF
+MKSH=			/bin/ksh
 #@@PKG_CMDDIR=		/usr/local/sbin
 
 # Version specifics

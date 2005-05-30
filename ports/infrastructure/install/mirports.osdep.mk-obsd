@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -39,6 +39,8 @@ AUTOCONF_FAKEOS=	${OStriplet}
 MKC_USAP=		No
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
+# XXX may have to change
+MKSH=			/bin/ksh
 
 .if ${ELF_TOOLCHAIN:L} == yes
 OBJECT_FMT=		ELF
