@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/libexec/getty/main.c,v 1.2 2005/05/30 07:28:23 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.28 2003/07/29 18:39:22 deraadt Exp $	*/
 
 /*-
@@ -61,7 +61,7 @@ static char copyright[] =
 #include "extern.h"
 
 __SCCSID("@(#)main.c	8.1 (Berkeley) 6/20/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/getty/main.c,v 1.2 2005/05/30 07:28:23 tg Exp $");
 
 /*
  * Set the amount of running time that getty should accumulate
@@ -437,7 +437,7 @@ getname(void)
 			lower = 1;
 		else if (isupper(c))
 			upper = 1;
-		} else if (isdigit(c))
+		else if (isdigit(c))
 			digit++;
 		if (IG && (c <= ' ' || c > 0176))
 			continue;
