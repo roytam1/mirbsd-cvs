@@ -1,7 +1,7 @@
 # $MirOS$
 
 COMMENT=		"Subversion revision control system"
-VERSION=		1.1.2
+VERSION=		1.2.0
 DASH_VER=		
 DISTNAME=		subversion-${VERSION}
 PKGNAME=		subversion-${VERSION}${DASH_VER}
@@ -47,8 +47,8 @@ post-build:
 	nroff -mdoc ${FILESDIR}/svnup-cvs.1 > ${WRKSRC}/contrib/client-side/svnup-cvs.cat1
 
 post-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/contrib/client-side/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
-	${INSTALL_PROGRAM} ${FILESDIR}/svnup-cvs ${PREFIX}/bin
+	${INSTALL_SCRIPT} ${WRKSRC}/contrib/client-side/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
+	${INSTALL_SCRIPT} ${FILESDIR}/svnup-cvs ${PREFIX}/bin
 	${INSTALL_MAN} ${WRKSRC}/contrib/client-side/svnup-cvs.cat1 ${PREFIX}/man/cat1/svnup-cvs.0
 
 .include <bsd.port.mk>

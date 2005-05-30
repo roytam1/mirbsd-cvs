@@ -1,6 +1,6 @@
 @comment $MirOS$
-@lib lib/libapr-0.so.9.5
-@lib lib/libaprutil-0.so.9.5
+@lib lib/libapr-0.so.9.6
+@lib lib/libaprutil-0.so.9.6
 @lib lib/libsvn_client-1.so.0.0
 @lib lib/libsvn_delta-1.so.0.0
 @lib lib/libsvn_diff-1.so.0.0
