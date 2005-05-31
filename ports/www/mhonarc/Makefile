@@ -2,7 +2,7 @@
 # $OpenBSD: Makefile,v 1.20 2003/12/08 00:43:45 margarida Exp $
 
 COMMENT=		"highly customizable e-mail to HTML converter"
-VERSION=		2.6.8
+VERSION=		2.6.11
 DISTNAME=		MHonArc-${VERSION}
 PKGNAME=		${DISTNAME:L}
 CATEGORIES=     	www mail
