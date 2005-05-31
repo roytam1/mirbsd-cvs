@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.4 2005/05/22 03:52:47 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.5 2005/05/30 16:56:29 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.4 2005/05/22 03:52:47 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.5 2005/05/30 16:56:29 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -40,8 +40,6 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 	char *tmp, pattern[FILENAME_MAX];
 	size_t len;
 
-	if (!pkg || !p)
-		return;
 	tmp = strstr(p->name, ".so");
 	if (!tmp) {
 		return;
@@ -67,15 +65,24 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 	char *tmp;
 	size_t len;
 
+	if (!pkg || !p)
+		return;
+	if (!p->name) {
+		pwarnx("lib command without filename - the packing list is incorrect");
+		return;
+	}
+
 	switch (LdType) {
 	case LD_DYLD:
 		convert_dylib(pkg, p, cwd);
 		break;
 	case LD_GNU:
-		tmp = copy_string(p->name);
+		tmp = copy_string(p->name); 
 		len = strlen(tmp);
-		while (strcmp(tmp + len - 3, ".so")) {
+		while (len > 3 && strcmp(tmp + len - 3, ".so")) {
 			for (; len > 0 && tmp[len] != '.'; len--);
+			if (!len)
+				break;
 			tmp[len] = '\0';
 			add_plist_at(pkg, p, PLIST_FILE, strdup(tmp));
 		}
@@ -162,6 +169,8 @@ check_list(char *home, package_t *pkg)
 			/* FALLTHROUGH */
 		case PLIST_SHELL:
 		case PLIST_FILE:
+			if (!p->name)
+				break;
 			len = strlen(p->name);
 			tmp = NULL;
 			if (p->name[len - 1] != '/') {   /* not a dir/ entry */
