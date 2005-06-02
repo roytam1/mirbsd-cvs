@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.8 2005/05/21 18:08:39 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.9 2005/05/30 16:47:09 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -110,6 +110,7 @@ Interix)
 	mtar=/bin/tar
 	pkgbin=/usr/sbin
 
+	chmod a+x $ti/db/install-sh
 	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
 	    "uname=$BINOWN gname=$BINGRP /\nwq" \
 	    | ed -s $ti/db/fake.mtree
