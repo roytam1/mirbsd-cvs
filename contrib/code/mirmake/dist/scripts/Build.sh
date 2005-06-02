@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.30 2005/06/02 22:58:18 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.31 2005/06/02 23:05:03 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -74,8 +74,8 @@ Darwin:*:*)
 Interix:*:*)
 	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
-	cp $d_script/../contrib/mktemp.sh /usr/bin/
-	chmod 555 /usr/bin/mktemp.sh && mv /usr/bin/mktemp.sh /usr/bin/mktemp
+	/usr/bin/install -c -m 555 $d_script/../contrib/mktemp.sh \
+	    /usr/bin/mktemp
 	;;
 *:*:i[3456789x]86)
 	new_macarc=i386
