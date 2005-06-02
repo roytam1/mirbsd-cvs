@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.2 2005/06/02 22:43:30 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.40 2004/02/10 07:33:23 jmc Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -62,7 +62,7 @@ static char copyright[] =
 #include "pathnames.h"
 
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.2 2005/06/02 22:43:30 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -402,11 +402,13 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	 * Set owner, group, mode for target; do the chown first,
 	 * chown may lose the setuid bits.
 	 */
+#ifndef __INTERIX
 	if ((gid != (gid_t)-1 || uid != (uid_t)-1) && fchown(to_fd, uid, gid)) {
 		serrno = errno;
 		(void)unlink(to_name);
 		errx(EX_OSERR, "%s: chown/chgrp: %s", to_name, strerror(serrno));
 	}
+#endif
 	if (fchmod(to_fd, mode)) {
 		serrno = errno;
 		(void)unlink(to_name);
@@ -615,10 +617,12 @@ install_dir(char *path)
 				break;
  		}
 
+#ifndef __INTERIX
 	if (((gid != (gid_t)-1 || uid != (uid_t)-1) && chown(path, uid, gid)) ||
 	    chmod(path, mode)) {
 		warn("%s", path);
 	}
+#endif
 }
 
 /*
