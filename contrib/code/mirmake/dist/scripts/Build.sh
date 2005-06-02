@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.33 2005/06/02 23:11:27 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.34 2005/06/02 23:13:45 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -300,7 +300,8 @@ if [[ $new_machos = Interix ]]; then
 	rm -rf $d_build/xinstall
 	cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
 	cd $d_build/xinstall
-	${d_build}/bmake -m ${d_build}/mk NOMAN=yes
+	CPPFLAGS="$CPPFLAGS -I$d_src/include" \
+	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes
 	cd $top
 	cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
