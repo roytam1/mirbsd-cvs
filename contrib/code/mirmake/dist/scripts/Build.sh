@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.34 2005/06/02 23:13:45 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.35 2005/06/02 23:30:51 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -306,7 +306,7 @@ if [[ $new_machos = Interix ]]; then
 	cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
 mv \$DESTDIR${dt_bin}/xinstall \$DESTDIR${dt_bin}/install
-	EOF
+EOF
 	if [[ $is_catman = 1 ]]; then
 		cd $d_build/xinstall
 		if ! nroff -mandoc install.1 >install.cat1; then
@@ -318,11 +318,11 @@ mv \$DESTDIR${dt_bin}/xinstall \$DESTDIR${dt_bin}/install
 	if [[ $is_catman = 0 ]]; then
 		cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 ${d_build}/xinstall/install.1 \$DESTDIR${dt_man}/install.1
-	EOF
+EOF
 	else
 		cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 ${d_build}/xinstall/install.cat1 \$DESTDIR${dt_man}/install.0
-	EOF
+EOF
 	fi
 fi
 
