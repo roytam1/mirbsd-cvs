@@ -1,5 +1,5 @@
 #!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.7 2005/05/21 01:07:14 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.8 2005/05/21 17:33:15 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -226,4 +226,10 @@ set -e
 
 cd $td
 rm -rf $T
+
+if ! fgrep /usr/mpkg/lib /etc/profile.lcl >/dev/null 2>&1; then
+	echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/mpkg/lib"' \
+	    >>/etc/profile.lcl
+fi
+
 make setup SHELL=/bin/mksh
