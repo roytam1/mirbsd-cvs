@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.6 2005/05/20 23:18:34 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.7 2005/05/25 23:50:31 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -22,11 +22,12 @@
 cd $(dirname $0)/..
 rm -rf src
 cvs -Rqd ${CVSROOT:-/cvs} co -PA \
-    src/usr.bin/make src/usr.bin/mkdep/mkdep.sh src/lib/libc/ohash \
-    src/usr.bin/lorder/lorder.sh src/usr.bin/readlink src/usr.bin/tsort \
+    src/usr.bin/make src/usr.bin/mkdep/mkdep.sh src/usr.bin/lorder/lorder.sh \
+    src/usr.bin/readlink src/usr.bin/tsort src/usr.bin/xinstall \
     src/include/getopt.h src/include/ohash.h src/include/sysexits.h \
     src/include/md4.h src/include/md5.h src/include/rmd160.h \
-    src/include/sha1.h src/include/sha2.h src/lib/libc/hash \
+    src/include/sha1.h src/include/sha2.h \
+    src/lib/libc/hash src/lib/libc/ohash \
     src/lib/libc/stdlib/getopt_long.c src/lib/libc/string/strlfun.c \
     src/share/mk/bsd.sys.mk src/share/mk/bsd.dep.mk src/share/mk/bsd.lib.mk \
     src/share/mk/bsd.man.mk src/share/mk/bsd.obj.mk src/share/mk/bsd.own.mk \

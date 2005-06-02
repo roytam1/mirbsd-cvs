@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.28 2005/05/21 17:03:52 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.29 2005/05/25 23:50:31 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -74,6 +74,8 @@ Darwin:*:*)
 Interix:*:*)
 	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
+	cp $d_script/../contrib/mktemp.sh /usr/bin/
+	chmod 555 /usr/bin/mktemp.sh && mv /usr/bin/mktemp.sh /usr/bin/mktemp
 	;;
 *:*:i[3456789x]86)
 	new_macarc=i386
@@ -255,6 +257,37 @@ else
 	cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 ${d_build}/tsort/tsort.cat1 \$DESTDIR${dt_man}/tsort.0
 EOF
+fi
+
+if [[ $new_machos = Interix ]]; then
+	# build xinstall
+	rm -rf $d_build/xinstall
+	mkdir $d_build/xinstall
+	cd $d_build/xinstall
+	(cd $d_src/usr.bin/xinstall; tar cf - * ) | tar xf -
+	${d_build}/bmake -m ${d_build}/mk NOMAN=yes
+	cd $top
+	cat >>Install.sh <<EOF
+\$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
+mv \$DESTDIR${dt_bin}/xinstall \$DESTDIR${dt_bin}/install
+	EOF
+	if [[ $is_catman = 1 ]]; then
+		cd $d_build/xinstall
+		if ! nroff -mandoc install.1 >install.cat1; then
+			echo "Warning: manpage build failure."
+			is_catman=0
+		fi
+		cd $top
+	fi
+	if [[ $is_catman = 0 ]]; then
+		cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/xinstall/install.1 \$DESTDIR${dt_man}/install.1
+	EOF
+	else
+		cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/xinstall/install.cat1 \$DESTDIR${dt_man}/install.0
+	EOF
+	fi
 fi
 
 # build libmirmake (hash stuff and necessities)
