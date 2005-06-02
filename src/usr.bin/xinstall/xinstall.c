@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: xinstall.c,v 1.40 2004/02/10 07:33:23 jmc Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -36,13 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)xinstall.c	8.1 (Berkeley) 7/21/93";
-#endif
-static char rcsid[] = "$OpenBSD: xinstall.c,v 1.40 2004/02/10 07:33:23 jmc Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/wait.h>
 #include <sys/mman.h>
@@ -52,22 +46,46 @@ static char rcsid[] = "$OpenBSD: xinstall.c,v 1.40 2004/02/10 07:33:23 jmc Exp $
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <getopt.h>
 #include <grp.h>
+#include <limits.h>
 #include <paths.h>
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#undef EX_OK
 #include <sysexits.h>
 #include <utime.h>
 
 #include "pathnames.h"
 
+__SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
+__RCSID("$MirOS$");
+
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
+#ifndef UF_IMMUTABLE
+#define	UF_IMMUTABLE	0
+#endif
+#ifndef UF_APPEND
+#define	UF_APPEND	0
+#endif
+#ifndef UF_NODUMP
+#define	UF_NODUMP	0
+#endif
+#ifndef SF_IMMUTABLE
+#define	SF_IMMUTABLE	0
+#endif
+#ifndef SF_APPEND
+#define	SF_APPEND	0
+#endif
 #define NOCHANGEBITS	(UF_IMMUTABLE | UF_APPEND | SF_IMMUTABLE | SF_APPEND)
 #define BACKUP_SUFFIX	".old"
+#if !defined(S_BLKSIZE) && defined(S_BLOCK_SIZE)
+#define	S_BLKSIZE	S_BLOCK_SIZE
+#endif
 
 struct passwd *pp;
 struct group *gp;
@@ -115,10 +133,12 @@ main(int argc, char *argv[])
 			/* For backwards compatibility. */
 			break;
 		case 'f':
+#ifndef __INTERIX
 			flags = optarg;
 			if (strtofflags(&flags, &fset, NULL))
 				errx(EX_USAGE, "%s: invalid flag", flags);
 			iflags |= SETFLAGS;
+#endif
 			break;
 		case 'g':
 			group = optarg;
@@ -339,9 +359,11 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	 * and the files are different (or just not compared).
 	 */
 	if (safecopy && !files_match) {
+#ifndef __INTERIX
 		/* Try to turn off the immutable bits. */
 		if (to_sb.st_flags & (NOCHANGEBITS))
 			(void)chflags(to_name, to_sb.st_flags & ~(NOCHANGEBITS));
+#endif
 		if (dobackup) {
 			char backup[MAXPATHLEN];
 			(void)snprintf(backup, MAXPATHLEN, "%s%s", to_name,
@@ -391,6 +413,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		errx(EX_OSERR, "%s: chmod: %s", to_name, strerror(serrno));
 	}
 
+#ifndef __INTERIX
 	/*
 	 * If provided a set of flags, set them, otherwise, preserve the
 	 * flags, except for the dump flag.
@@ -400,6 +423,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		if (errno != EOPNOTSUPP || (from_sb.st_flags & ~UF_NODUMP) != 0)
 			warnx("%s: chflags: %s", to_name, strerror(errno));
 	}
+#endif
 
 	(void)close(to_fd);
 	if (!devnull)
@@ -544,7 +568,11 @@ strip(char *to_name)
 	int serrno, status;
 	char * volatile path_strip;
 
-	if (issetugid() || (path_strip = getenv("STRIP")) == NULL)
+	if (
+#ifndef __INTERIX
+	    issetugid() ||
+#endif
+	    (path_strip = getenv("STRIP")) == NULL)
 		path_strip = _PATH_STRIP;
 
 	switch (vfork()) {
@@ -641,8 +669,10 @@ create_newfile(char *path, struct stat *sbp)
 	 * off the append/immutable bits -- if we fail, go ahead,
 	 * it might work.
 	 */
+#ifndef __INTERIX
 	if (sbp->st_flags & (NOCHANGEBITS))
 		(void)chflags(path, sbp->st_flags & ~(NOCHANGEBITS));
+#endif
 
 	if (dobackup) {
 		(void)snprintf(backup, MAXPATHLEN, "%s%s", path, suffix);
