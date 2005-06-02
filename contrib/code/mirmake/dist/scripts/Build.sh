@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.29 2005/05/25 23:50:31 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.30 2005/06/02 22:58:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -111,10 +111,10 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 
 
 # Copy sources
-(cd $d_src/usr.bin/make; tar cf - * ) | (cd $d_build; tar xf - )
+(cd $d_src/usr.bin/make; find . | cpio -pdlu $d_build)
 cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/*.h $d_build/
-(cd $d_src/lib/libc; tar cf - ohash ) | (cd $d_build; tar xf - )
+(cd $d_src/lib/libc; find ohash | cpio -pdlu $d_build)
 cp $d_src/lib/libc/stdlib/getopt_long.c $d_build/
 cp $d_src/lib/libc/string/strlfun.c $d_build/
 cp $d_src/usr.bin/mkdep/mkdep.sh $d_build/
@@ -204,9 +204,8 @@ fi
 
 # build readlink
 rm -rf $d_build/readlink
-mkdir $d_build/readlink
+cd $d_src/usr.bin; find readlink | cpio -pdlu $d_build
 cd $d_build/readlink
-(cd $d_src/usr.bin/readlink; tar cf - * ) | tar xf -
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes
 cd $top
 cat >>Install.sh <<EOF
@@ -232,9 +231,8 @@ fi
 
 # build tsort
 rm -rf $d_build/tsort
-mkdir $d_build/tsort
+cd $d_src/usr.bin; find tsort | cpio -pdlu $d_build
 cd $d_build/tsort
-(cd $d_src/usr.bin/tsort; tar cf - * ) | tar xf -
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes \
     INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a"
 cd $top
@@ -262,9 +260,8 @@ fi
 if [[ $new_machos = Interix ]]; then
 	# build xinstall
 	rm -rf $d_build/xinstall
-	mkdir $d_build/xinstall
+	cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
 	cd $d_build/xinstall
-	(cd $d_src/usr.bin/xinstall; tar cf - * ) | tar xf -
 	${d_build}/bmake -m ${d_build}/mk NOMAN=yes
 	cd $top
 	cat >>Install.sh <<EOF
