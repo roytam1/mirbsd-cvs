@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.32 2005/06/02 23:08:03 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.33 2005/06/02 23:11:27 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -179,6 +179,7 @@ for f in ${d_build}/mk/*.mk; do
 \$i -c \$ug -m 444 $f \$DESTDIR${dt_mk}/
 EOF
 done
+# build make manpage
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
 	if ! nroff -mandoc make.1 >make.cat1; then
@@ -196,6 +197,25 @@ else
 \$i -c \$ug -m 444 ${d_build}/make.cat1 \$DESTDIR${dt_man}/${new_exenam}.0
 EOF
 fi
+# build mkdep manpage
+if [[ $is_catman = 1 ]]; then
+	cd $d_build
+	if ! nroff -mandoc $d_src/usr.bin/mkdep/mkdep.1 >mkdep.cat1; then
+		echo "Warning: manpage build failure."
+		is_catman=0
+	fi
+	cd $top
+fi
+if [[ $is_catman = 0 ]]; then
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 $d_src/usr.bin/mkdep/mkdep.1 \$DESTDIR${dt_man}/mkdep.1
+EOF
+else
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/mkdep.cat1 \$DESTDIR${dt_man}/mkdep.0
+EOF
+fi
+# build lorder manpage
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
 	if ! nroff -mandoc $d_src/usr.bin/lorder/lorder.1 >lorder.cat1; then
@@ -213,6 +233,7 @@ else
 \$i -c \$ug -m 444 ${d_build}/lorder.cat1 \$DESTDIR${dt_man}/lorder.0
 EOF
 fi
+# build make documentation
 if [[ -e $d_build/PSD12.make.txt ]]; then
 	cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 $d_build/PSD12.make.txt \$DESTDIR${dt_mk}/
