@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.23 2005/05/21 18:08:38 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.24 2005/05/31 20:45:32 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -702,7 +702,7 @@ ERRORS+=		"Missing port comment in Makefile."
 CHMOD?=			/bin/chmod
 CHOWN?=			/sbin/chown
 GUNZIP_CMD?=		/usr/bin/gunzip -f
-GZCAT?=			/usr/bin/gzcat
+GZCAT?=			/usr/bin/gzip -dc
 GZIP?=			-n9
 GZIP_CMD?=		/usr/bin/gzip -nf ${GZIP}
 LDCONFIG?=		[ ! -x /sbin/ldconfig ] || /sbin/ldconfig
