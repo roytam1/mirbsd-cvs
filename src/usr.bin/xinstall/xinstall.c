@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.2 2005/06/02 22:43:30 tg Exp $ */
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.3 2005/06/02 23:51:24 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.40 2004/02/10 07:33:23 jmc Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -62,7 +62,7 @@ static char copyright[] =
 #include "pathnames.h"
 
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.2 2005/06/02 22:43:30 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.3 2005/06/02 23:51:24 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -93,8 +93,10 @@ int dobackup, docompare, dodir, dopreserve, dostrip, safecopy;
 int mode = S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH;
 char pathbuf[MAXPATHLEN], tempfile[MAXPATHLEN];
 char *suffix = BACKUP_SUFFIX;
+#ifndef __INTERIX
 uid_t uid;
 gid_t gid;
+#endif
 
 void	copy(int, char *, int, char *, off_t, int);
 int	compare(int, const char *, size_t, int, const char *, size_t);
@@ -183,6 +185,7 @@ main(int argc, char *argv[])
 	if (docompare && dostrip)
 		safecopy = 1;
 
+#ifndef __INTERIX
 	/* get group and owner id's */
 	if (group && !(gp = getgrnam(group)) && !isdigit(*group))
 		errx(EX_NOUSER, "unknown group %s", group);
@@ -190,6 +193,7 @@ main(int argc, char *argv[])
 	if (owner && !(pp = getpwnam(owner)) && !isdigit(*owner))
 		errx(EX_NOUSER, "unknown user %s", owner);
 	uid = (owner) ? ((pp) ? pp->pw_uid : (uid_t)strtoul(owner, NULL, 10)) : (uid_t)-1;
+#endif
 
 	if (dodir) {
 		for (; *argv != NULL; ++argv)
