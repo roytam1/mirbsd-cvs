@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.8 2005/05/21 17:33:15 tg Exp $
+#!/bin/mksh
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.9 2005/06/02 21:08:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -28,28 +28,22 @@
 # DO NOT UNCOMMENT
 #testing=1
 
-# Since we're on NT, we can't exchange running binaries.
-[ x"$SHELL" = x"/bin/mksh" ] && exec /bin/ksh $0 "$@"
-
 PATH=/bin:/opt/gcc.3.3/bin:/usr/contrib/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11R6/bin
 [ -n "$PATH_WINDOWS" ] && PATH=$PATH:/usr/contrib/win32/bin:$PATH_WINDOWS
 PATH_ORIG=$PATH:/usr/X11R5:bin
 export PATH=$PATH_ORIG
-
-if [ -e mktemp.sh ]; then
-	rm -f /bin/mktemp
-	install -c -m 555 mktemp.sh /bin/mktemp
-fi
 
 bd=$(cd $(dirname $0); pwd)
 td=$(cd $bd/../..; pwd)
 
 #target=${1:-/usr/mpkg}
 mirror=$1 # will be $2
+ftp=ftp
+#ftp="runwin32 .../wget"
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
-mksh=mirbsdksh-R20b.cpio.gz
-make=mirmake-20050521b.cpio.gz
+mksh=mksh-R22c.cpio.gz
+make=mirmake-20050602.cpio.gz
 mtar=paxmirabilis-20050413.cpio.gz
 roff=mirnroff-20050413.cpio.gz
 mftp=mirftp-20050413.cpio.gz
@@ -77,18 +71,18 @@ case "$mirror" in
 	cp $mirror/$mtre .
 	;;
 *)	# http
-	echo ftp $mirror$mksh
-	ftp $mirror$mksh
-	echo ftp $mirror$make
-	ftp $mirror$make
-	echo ftp $mirror$mtar
-	ftp $mirror$mtar
-	echo ftp $mirror$roff
-	ftp $mirror$roff
-#	echo ftp $mirror$mftp
-#	ftp $mirror$mftp
-	echo ftp $mirror$mtre
-	ftp $mirror$mtre
+	echo $ftp $mirror$mksh
+	$ftp $mirror$mksh
+	echo $ftp $mirror$make
+	$ftp $mirror$make
+	echo $ftp $mirror$mtar
+	$ftp $mirror$mtar
+	echo $ftp $mirror$roff
+	$ftp $mirror$roff
+#	echo $ftp $mirror$mftp
+#	$ftp $mirror$mftp
+	echo $ftp $mirror$mtre
+	$ftp $mirror$mtre
 	;;
 esac
 echo 'checking CKSUMs... (no comment)'
@@ -99,8 +93,8 @@ cksum $roff >>s
 #cksum $mftp >>s
 cksum $mtre >>s
 cat >t <<EOF
-573946240 292817 mirbsdksh-R20b.cpio.gz
-1223689859 280930 mirmake-20050521b.cpio.gz
+4137564449 227585 mksh-R22c.cpio.gz
+109949125 292052 mirmake-20050602.cpio.gz
 862398610 117237 paxmirabilis-20050413.cpio.gz
 2807559264 222049 mirnroff-20050413.cpio.gz
 1518604836 17212 mirmtree-20050413.cpio.gz
@@ -129,11 +123,12 @@ mkdir -p /usr/share/man/{cat,man}{1,2,3,4,5,6,7,8,9} \
 
 if [ ! -x /usr/bin/nroff ]; then
 	gzip -dc $mksh | cpio -id
-	cd ksh
-	SHELL=/bin/ksh CFLAGS="$CFLAGS -D_ALL_SOURCE" ksh ./Build.sh
-	install -c -s -m 555 mksh /bin/mksh
+	cd mksh
+	SHELL=/bin/ksh CFLAGS="$CFLAGS -D_ALL_SOURCE" /bin/ksh ./Build.sh
+	install -c -s -m 555 mksh /bin/mksh2
+	mv /bin/mksh /bin/mksh1 && mv /bin/mksh2 /bin/mksh
 	cd ..
-	rm -rf ksh
+	rm -rf mksh
 
 	gzip -dc $make | cpio -id
 	cd mirmake
@@ -158,21 +153,22 @@ if [ ! -x /usr/bin/nroff ]; then
 fi
 
 gzip -dc $mksh | cpio -id
-cd ksh
+cd mksh
 #if [ -e /usr/share/make/libmirmake.a ]; then
 #	CFLAGS="$CFLAGS -D_ALL_SOURCE -I/usr/share/make" \
 #	LIBS="$LIBS -L/usr/share/make -lmirmake" \
 #	ksh ./Build.sh
 #else
-	CFLAGS="$CFLAGS -D_ALL_SOURCE" ksh ./Build.sh
+	CFLAGS="$CFLAGS -D_ALL_SOURCE" /bin/ksh ./Build.sh
 #fi
-install -c -s -m 555 mksh /bin/mksh
+install -c -s -m 555 mksh /bin/mksh2
+mv /bin/mksh /bin/mksh1 && mv /bin/mksh2 /bin/mksh
 install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0
 if ! fgrep /bin/mksh /etc/shells >/dev/null 2>&1; then
 	echo /bin/mksh >>/etc/shells
 fi
 cd ..
-rm -rf ksh
+rm -rf mksh
 
 gzip -dc $make | cpio -id
 cd mirmake
@@ -231,5 +227,7 @@ if ! fgrep /usr/mpkg/lib /etc/profile.lcl >/dev/null 2>&1; then
 	echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/mpkg/lib"' \
 	    >>/etc/profile.lcl
 fi
+[[ $LD_LIBRARY_PATH = */usr/mpkg/lib* ]] || \
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/mpkg/lib"
 
-make setup SHELL=/bin/mksh
+exec make setup SHELL=/bin/mksh
