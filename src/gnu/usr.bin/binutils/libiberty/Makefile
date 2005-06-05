@@ -1,9 +1,9 @@
-# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.2 2005/03/28 21:25:11 tg Exp $
 
 .include "../Makefile.inc"
 
-SHLIB_VERSION?=	9.1
 LIB=		iberty
+NOPIC=		Yes
 SRCS=		_gplwarn.c argv.c concat.c copysign.c cp-demangle.c \
 		cp-demint.c cplus-dem.c dyn-string.c fdmatch.c fibheap.c \
 		floatformat.c getpwd.c getruntime.c hashtab.c hex.c \
@@ -22,17 +22,22 @@ CPPFLAGS+=	-DHAVE_CONFIG_H -I${GNU_LIBIBERTY_SRC} -I${GNU_LIBIBERTY_INC}
 
 CFLAGS__gplwarn.o= -DMYNAME=\"libiberty\" -DGPLVER=\"2+\"
 
-CLEANFILES+=	test-demangle test-demangle.o
+CLEANFILES+=	test-demangle test-demangle.o test-pexecute test-pexecute.o
 
-check: test-demangle demangle-expected
-	LD_LIBRARY_PATH=. ./test-demangle \
-	    <${GNU_LIBIBERTY_SRC}/testsuite/demangle-expected
+check: test-demangle demangle-expected test-pexecute
+	./test-demangle <${GNU_LIBIBERTY_SRC}/testsuite/demangle-expected
+	./test-pexecute
 
 test-demangle: test-demangle.o ${_LIBS}
 	${CC} -L. -o $@ test-demangle.o -liberty
 
 test-demangle.o: test-demangle.c
 
-.depend: test-demangle.c
+test-pexecute: test-pexecute.o ${_LIBS}
+	${CC} -L. -o $@ test-pexecute.o -liberty
+
+test-pexecute.o: test-pexecute.c
+
+.depend: test-demangle.c test-pexecute.c
 
 .include <bsd.lib.mk>
