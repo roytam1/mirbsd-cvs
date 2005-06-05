@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+#!/bin/mksh
+# $MirOS: src/scripts/tarck,v 1.1 2005/03/06 16:08:16 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,7 +29,7 @@ trap 'rm -f $T ; exit 0' 0
 trap 'rm -f $T ; exit 1' 1 2 3 13 15
 
 for set in $(for i in */mi; do basename "${i%/mi}"; done); do
-	${SHELL:-/bin/ksh} "${0%/*}/tarsets" "$set"
+	${SHELL:-/bin/mksh} "${0%/*}/tarsets" "$set"
 done | cat - ignfiles 2>/dev/null | sort >$T
 
 ( cd "$DESTDIR"; find . \( -type d -o -type f -o -type l \) ) \

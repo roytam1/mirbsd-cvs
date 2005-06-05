@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/scripts/tarsets,v 1.1 2005/03/06 16:08:16 tg Exp $
+#!/bin/mksh
+# $MirOS: src/scripts/tarsets,v 1.2 2005/05/06 16:48:23 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

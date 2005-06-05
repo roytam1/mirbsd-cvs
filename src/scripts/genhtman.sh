@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/scripts/genhtman.sh,v 1.6 2005/03/29 12:21:16 tg Exp $
+#!/bin/mksh
+# $MirOS: src/scripts/genhtman.sh,v 1.7 2005/03/29 12:27:49 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

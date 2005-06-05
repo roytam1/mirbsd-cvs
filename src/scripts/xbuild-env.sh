@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+#!/bin/mksh
+# $MirOS: src/scripts/xbuild-env.sh,v 1.1 2005/03/06 16:08:16 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -59,7 +59,7 @@ esac
 
 [[ -z $TARGET ]] && TARGET=${MARCH}-unknown-mirbsd$(uname -r)
 [[ -z $BSDSRCDIR ]] && BSDSRCDIR=/usr/src
-[[ -z $SHELL ]] && SHELL=/bin/ksh
+[[ -z $SHELL ]] && SHELL=/bin/mksh
 if ! FOO=$($SHELL $BSDSRCDIR/gnu/share/config.sub $TARGET 2>/dev/null); then
 	print Invalid target $TARGET chosen, exiting.
 	exit 1
@@ -132,7 +132,7 @@ cat >$CROSSDIR/T_ENV <<-EOF
 EOF
 
 cat >$CROSSDIR/T_MAKE <<-EOF
-#!/bin/ksh
+#!/bin/mksh
 exec env \
 	CFLAGS='$CROSSCFLAGS' \
 	CPPFLAGS='$CROSSCPPFLAGS' \

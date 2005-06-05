@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/scripts/mnt-cvsroot,v 1.4 2005/05/23 13:14:33 tg Exp $
+#!/bin/mksh
+# $MirOS: src/scripts/mnt-cvsroot,v 1.5 2005/05/23 13:21:47 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

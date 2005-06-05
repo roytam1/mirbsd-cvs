@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/scripts/editdiff,v 1.1.7.1 2005/02/05 00:17:00 tg Exp $
+#!/bin/mksh
+# $MirOS: src/scripts/editdiff,v 1.2 2005/05/03 20:12:05 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
