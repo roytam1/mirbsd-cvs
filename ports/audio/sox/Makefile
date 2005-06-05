@@ -1,25 +1,24 @@
-# $OpenBSD: Makefile,v 1.25 2003/12/10 21:28:58 naddy Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.31 2005/05/15 19:40:36 naddy Exp $
 
 COMMENT=	"SOund eXchange - universal sound sample translator"
 
-DISTNAME=	sox-12.17.4
+DISTNAME=	sox-12.17.7
 CATEGORIES=	audio
 HOMEPAGE=	http://sox.sourceforge.net/
 
 
 # gsm library has bad license
 PERMIT_PACKAGE_CDROM=	"no redistribution"
-PERMIT_PACKAGE_FTP=	"no redistribution"
+PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	"no redistribution"
-PERMIT_DISTFILES_FTP=	"no redistribution"
+PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=sox/}
+MASTER_SITES=	http://www.cnpbagwell.com/ \
+		${MASTER_SITE_SOURCEFORGE:=sox/}
 
-CONFIGURE_STYLE=autoconf
-AUTOCONF_NEW=	Yes
-CONFIGURE_ARGS=	--disable-sun-audio
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
+CONFIGURE_STYLE=gnu dest
+CONFIGURE_ARGS=	--disable-oss-dsp
 
 FLAVORS=	mp3 vorbis
 FLAVOR?=
@@ -36,6 +35,7 @@ LIB_DEPENDS+=	mad.2::audio/libmad mp3lame.0::audio/lame
 CONFIGURE_ARGS+= --disable-mad --disable-lame
 .endif
 
-NO_REGRESS=	Yes
+do-regress:
+	@cd ${WRKSRC}/src && ./tests.sh && ./testall.sh
 
 .include <bsd.port.mk>
