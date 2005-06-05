@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcsgen.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* Generate RCS revisions.  */
 
@@ -143,7 +143,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcsgen.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 int interactiveflag;  /* Should we act as if stdin is a tty?  */
 struct buf curlogbuf;  /* buffer for current log message */
@@ -543,6 +543,8 @@ putdelta(node, fout)
 	}
 
 	aprintf(fout, ";\n%s\t%s;\n", Knext, node->next?node->next->num:"");
+	if (node->commitid)
+		aprintf(fout, "%s\t%s;\n", Kcommitid, node->commitid);
 	awrite(node->ig.string, node->ig.size, fout);
 }
 

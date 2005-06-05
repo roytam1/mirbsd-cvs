@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcsbase.h,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* RCS common definitions and data structures */
 
-#define RCSBASE "$MirOS$"
+#define RCSBASE "$MirOS: src/gnu/usr.bin/rcs/src/rcsbase.h,v 1.2 2005/03/13 15:36:38 tg Exp $"
 
 /* Copyright 1982, 1988, 1989 Walter F. Tichy, Purdue CS
    Copyright 1990, 1991, 1992, 1993, 1994, 1995 Paul Eggert
@@ -332,6 +332,7 @@ struct hshentry {
 	char const	  * lockedby; /* who locks the revision		    */
 	char const	  * state;    /* state of revision (Exp by default) */
 	char const	  * name;     /* name (if any) by which retrieved   */
+	char const	  * commitid; /* unique commit ID (CVS extension)   */
 	struct cbuf	    log;      /* log message requested at checkin   */
         struct branchhead * branches; /* list of first revisions on branches*/
 	struct cbuf	    ig;	      /* ignored phrases in admin part	    */
@@ -608,7 +609,7 @@ extern int               StrictLocks;
 extern int               TotalDeltas;
 extern char const *const expand_names[];
 extern char const
-	Kaccess[], Kauthor[], Kbranch[], Kcomment[],
+	Kaccess[], Kauthor[], Kbranch[], Kcomment[], Kcommitid[],
 	Kdate[], Kdesc[], Kexpand[], Khead[], Klocks[], Klog[],
 	Knext[], Kstate[], Kstrict[], Ksymbols[], Ktext[];
 __dead void unexpected_EOF(void);

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rlog.c,v 1.2 2005/03/13 15:36:39 tg Exp $ */
 
 /* Print log messages and other information about RCS files.  */
 
@@ -223,7 +223,7 @@ static struct stateattri *statelist;
 
 const char cmdid[] = "rlog";
 __IDSTRING(baseid,RCSBASE);
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rlog.c,v 1.2 2005/03/13 15:36:39 tg Exp $");
 
 int main(int argc, char *argv[])
 {
@@ -341,13 +341,13 @@ int main(int argc, char *argv[])
 	    accessListString = "\naccess list:   ";
 	    accessFormat = "  %s";
 	    headFormat = "RCS file:        %s;   Working file:    %s\nhead:           %s%s\nbranch:         %s%s\nlocks:         ";
-	    insDelFormat = "  lines added/del: %ld/%ld";
+	    insDelFormat = "  lines added/del: %ld/%ld;";
 	    symbolFormat = "  %s: %s;";
 	} else {
 	    accessListString = "\naccess list:";
 	    accessFormat = "\n\t%s";
 	    headFormat = "RCS file: %s\nWorking file: %s\nhead:%s%s\nbranch:%s%s\nlocks:%s";
-	    insDelFormat = "  lines: +%ld -%ld";
+	    insDelFormat = "  lines: +%ld -%ld;";
 	    symbolFormat = "\n\t%s: %s";
 	}
 
@@ -594,6 +594,9 @@ putadelta(node,editscript,trunk)
 	      aprintf(out, insDelFormat,
                              editscript->insertlns, editscript->deletelns);
 	}
+
+	if (node->commitid)
+		aprintf(out, "  commitid: %s;", node->commitid);
 
         newbranch = node->branches;
         if ( newbranch ) {

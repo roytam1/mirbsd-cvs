@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* RCS file syntactic analysis */
 
 /******************************************************************************
@@ -153,7 +155,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcssyn.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 static char const *getkeyval(char const*,enum tokens,int);
 static int getdelta(void);
@@ -170,6 +172,7 @@ char const
 	Kauthor[]   = "author",
 	Kbranch[]   = "branch",
 	Kcomment[]  = "comment",
+	Kcommitid[] = "commitid",
 	Kdate[]     = "date",
 	Kdesc[]     = "desc",
 	Kexpand[]   = "expand",
@@ -403,9 +406,9 @@ getdelta()
 	if (!(Delta = getdnum()))
 		return false;
 
-        hshenter = false; /*Don't enter dates into hashtable*/
+        hshenter = false;   /*Don't enter dates into hashtable*/
 	Delta->date = getkeyval(Kdate, NUM, false);
-        hshenter=true;    /*reset hshenter for revision numbers.*/
+        hshenter = true;    /*reset hshenter for revision numbers.*/
 
         Delta->author = getkeyval(Kauthor, ID, false);
 
@@ -428,6 +431,11 @@ getdelta()
 	Delta->lockedby = 0;
 	Delta->log.string = 0;
 	Delta->selector = true;
+	Delta->commitid = 0;
+	if (getkeyopt(Kcommitid)) {
+		Delta->commitid = getid();
+		getsemi(Kcomment);
+        }
 	Delta->ig = getphrases(Kdesc);
         TotalDeltas++;
         return (true);
