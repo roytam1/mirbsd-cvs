@@ -1,11 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/config.h,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $ */
 
 /* hand-edited */
 
 #include <sys/param.h>
 #include <sys/endian.h>
 
-#define BYTEORDER BYTE_ORDER
 #define HAVE_ASPRINTF 1
 #define HAVE_ATEXIT 1
 #define HAVE_BASENAME 1
@@ -15,6 +14,17 @@
 #define HAVE_BZERO 1
 #define HAVE_CALLOC 1
 #define HAVE_CLOCK 1
+#define HAVE_DECL_ASPRINTF 1
+#define HAVE_DECL_BASENAME 1
+#define HAVE_DECL_CALLOC 1
+#define HAVE_DECL_FFS 1
+#define HAVE_DECL_GETENV 1
+#define HAVE_DECL_MALLOC 1
+#define HAVE_DECL_REALLOC 1
+#define HAVE_DECL_SBRK 1
+#define HAVE_DECL_SNPRINTF 1
+#define HAVE_DECL_VASPRINTF 1
+#define HAVE_DECL_VSNPRINTF 1
 #define HAVE_FCNTL_H 1
 #define HAVE_FFS 1
 #define HAVE_FORK 1
@@ -84,13 +94,11 @@
 #define HAVE_VPRINTF 1
 #define HAVE_VSNPRINTF 1
 #define HAVE_VSPRINTF 1
+#define HAVE_WAIT3 1
+#define HAVE_WAIT4 1
 #define HAVE_WAITPID 1
 #define HAVE_WORKING_FORK 1
 #define HAVE_WORKING_VFORK 1
-#if BYTE_ORDER == BIG_ENDIAN
-#define HOST_WORDS_BIG_ENDIAN 1
-#define WORDS_BIGENDIAN 1
-#endif
 #define NEED_DECLARATION_CANONICALIZE_FILE_NAME 1
 #define PACKAGE_BUGREPORT ""
 #define PACKAGE_NAME ""
@@ -101,3 +109,6 @@
 #define STDC_HEADERS 1
 #define TIME_WITH_SYS_TIME 1
 #define UNSIGNED_64BIT_TYPE uint64_t
+#if BYTE_ORDER == BIG_ENDIAN
+#define WORDS_BIGENDIAN 1
+#endif
