@@ -1,6 +1,6 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.25 2005/05/25 23:50:33 tg Exp $
-# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.25 2005/05/25 23:50:33 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.26 2005/06/02 21:36:17 tg Exp $
+# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.26 2005/06/02 21:36:17 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -5558,7 +5558,7 @@ EOF
     interix*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
-      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname -o $lib'
       _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=yes
       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
       _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
