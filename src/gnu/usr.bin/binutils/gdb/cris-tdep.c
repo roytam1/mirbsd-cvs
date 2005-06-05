@@ -152,8 +152,8 @@ static int usr_cmd_cris_version;
 /* Indicates whether to trust the above variable.  */
 static int usr_cmd_cris_version_valid = 0;
 
-static const char cris_mode_normal[] = "CRIS_MODE_NORMAL";
-static const char cris_mode_guru[] = "CRIS_MODE_GURU";
+static const char cris_mode_normal[] = "normal";
+static const char cris_mode_guru[] = "guru";
 static const char *cris_modes[] = {
   cris_mode_normal,
   cris_mode_guru,
@@ -219,14 +219,14 @@ static CORE_ADDR
 cris_sigtramp_start (struct frame_info *next_frame)
 {
   CORE_ADDR pc = frame_pc_unwind (next_frame);
-  unsigned short buf[SIGTRAMP_LEN];
+  gdb_byte buf[SIGTRAMP_LEN];
 
   if (!safe_frame_unwind_memory (next_frame, pc, buf, SIGTRAMP_LEN))
     return 0;
 
-  if (buf[0] != SIGTRAMP_INSN0)
+  if (((buf[1] << 8) + buf[0]) != SIGTRAMP_INSN0)
     {
-      if (buf[0] != SIGTRAMP_INSN1)
+      if (((buf[1] << 8) + buf[0]) != SIGTRAMP_INSN1)
 	return 0;
 
       pc -= SIGTRAMP_OFFSET1;
@@ -247,14 +247,14 @@ static CORE_ADDR
 cris_rt_sigtramp_start (struct frame_info *next_frame)
 {
   CORE_ADDR pc = frame_pc_unwind (next_frame);
-  unsigned short buf[SIGTRAMP_LEN];
+  gdb_byte buf[SIGTRAMP_LEN];
 
   if (!safe_frame_unwind_memory (next_frame, pc, buf, SIGTRAMP_LEN))
     return 0;
 
-  if (buf[0] != SIGTRAMP_INSN0)
+  if (((buf[1] << 8) + buf[0]) != SIGTRAMP_INSN0)
     {
-      if (buf[0] != SIGTRAMP_INSN1)
+      if (((buf[1] << 8) + buf[0]) != SIGTRAMP_INSN1)
 	return 0;
 
       pc -= SIGTRAMP_OFFSET1;
@@ -435,13 +435,13 @@ static void cris_frame_prev_register (struct frame_info *next_frame,
 				      void **this_prologue_cache,
 				      int regnum, int *optimizedp,
 				      enum lval_type *lvalp, CORE_ADDR *addrp,
-				      int *realnump, void *bufferp);
+				      int *realnump, gdb_byte *bufferp);
 static void
 cris_sigtramp_frame_prev_register (struct frame_info *next_frame,
                                    void **this_cache,
                                    int regnum, int *optimizedp,
                                    enum lval_type *lvalp, CORE_ADDR *addrp,
-                                   int *realnump, void *valuep)
+                                   int *realnump, gdb_byte *valuep)
 {
   /* Make sure we've initialized the cache.  */
   cris_sigtramp_frame_unwind_cache (next_frame, this_cache);
@@ -724,6 +724,10 @@ static CORE_ADDR cris_scan_prologue (CORE_ADDR pc,
 				     struct frame_info *next_frame,
 				     struct cris_unwind_cache *info);
 
+static CORE_ADDR crisv32_scan_prologue (CORE_ADDR pc, 
+					struct frame_info *next_frame,
+					struct cris_unwind_cache *info);
+
 static CORE_ADDR cris_unwind_pc (struct gdbarch *gdbarch, 
 				 struct frame_info *next_frame);
 
@@ -795,7 +799,10 @@ cris_frame_unwind_cache (struct frame_info *next_frame,
   info->leaf_function = 0;
 
   /* Prologue analysis does the rest...  */
-  cris_scan_prologue (frame_func_unwind (next_frame), next_frame, info);
+  if (cris_version () == 32)
+    crisv32_scan_prologue (frame_func_unwind (next_frame), next_frame, info);
+  else
+    cris_scan_prologue (frame_func_unwind (next_frame), next_frame, info);
 
   return info;
 }
@@ -834,7 +841,7 @@ cris_frame_prev_register (struct frame_info *next_frame,
 			  void **this_prologue_cache,
 			  int regnum, int *optimizedp,
 			  enum lval_type *lvalp, CORE_ADDR *addrp,
-			  int *realnump, void *bufferp)
+			  int *realnump, gdb_byte *bufferp)
 {
   struct cris_unwind_cache *info
     = cris_frame_unwind_cache (next_frame, this_prologue_cache);
@@ -989,7 +996,8 @@ cris_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
   return sp;
 }
 
-static const struct frame_unwind cris_frame_unwind = {
+static const struct frame_unwind cris_frame_unwind = 
+{
   NORMAL_FRAME,
   cris_frame_this_id,
   cris_frame_prev_register
@@ -1009,7 +1017,8 @@ cris_frame_base_address (struct frame_info *next_frame, void **this_cache)
   return info->base;
 }
 
-static const struct frame_base cris_frame_base = {
+static const struct frame_base cris_frame_base = 
+{
   &cris_frame_unwind,
   cris_frame_base_address,
   cris_frame_base_address,
@@ -1373,6 +1382,42 @@ cris_scan_prologue (CORE_ADDR pc, struct frame_info *next_frame,
   return pc;
 }
 
+static CORE_ADDR 
+crisv32_scan_prologue (CORE_ADDR pc, struct frame_info *next_frame,
+		    struct cris_unwind_cache *info)
+{
+  ULONGEST this_base;
+
+  /* Unlike the CRISv10 prologue scanner (cris_scan_prologue), this is not
+     meant to be a full-fledged prologue scanner.  It is only needed for 
+     the cases where we end up in code always lacking DWARF-2 CFI, notably:
+
+       * PLT stubs (library calls)
+       * call dummys
+       * signal trampolines
+
+     For those cases, it is assumed that there is no actual prologue; that 
+     the stack pointer is not adjusted, and (as a consequence) the return
+     address is not pushed onto the stack.  */
+
+  /* We only want to know the end of the prologue when next_frame and info
+     are NULL (called from cris_skip_prologue i.e.).  */
+  if (next_frame == NULL && info == NULL)
+    {
+      return pc;
+    }
+
+  /* The SP is assumed to be unaltered.  */
+  frame_unwind_unsigned_register (next_frame, SP_REGNUM, &this_base);
+  info->base = this_base;
+  info->prev_sp = this_base;
+      
+  /* The PC is assumed to be found in SRP.  */
+  info->saved_regs[PC_REGNUM] = info->saved_regs[SRP_REGNUM];
+
+  return pc;
+}
+
 /* Advance pc beyond any function entry prologue instructions at pc
    to reach some "real" code.  */
 
@@ -1395,7 +1440,11 @@ cris_skip_prologue (CORE_ADDR pc)
 	return sal.end;
     }
 
-  pc_after_prologue = cris_scan_prologue (pc, NULL, NULL);
+  if (cris_version () == 32)
+    pc_after_prologue = crisv32_scan_prologue (pc, NULL, NULL);
+  else
+    pc_after_prologue = cris_scan_prologue (pc, NULL, NULL);
+
   return pc_after_prologue;
 }
 
@@ -1848,8 +1897,8 @@ cris_extract_return_value (struct type *type, struct regcache *regcache,
 
 static enum return_value_convention
 cris_return_value (struct gdbarch *gdbarch, struct type *type,
-		   struct regcache *regcache, void *readbuf,
-		   const void *writebuf)
+		   struct regcache *regcache, gdb_byte *readbuf,
+		   const gdb_byte *writebuf)
 {
   if (TYPE_CODE (type) == TYPE_CODE_STRUCT 
       || TYPE_CODE (type) == TYPE_CODE_UNION

@@ -210,7 +210,7 @@ s390_dwarf_reg_to_regnum (int reg)
 
 static void
 s390_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
-			   int regnum, void *buf)
+			   int regnum, gdb_byte *buf)
 {
   ULONGEST val;
 
@@ -233,7 +233,7 @@ s390_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
 
 static void
 s390_pseudo_register_write (struct gdbarch *gdbarch, struct regcache *regcache,
-			    int regnum, const void *buf)
+			    int regnum, const gdb_byte *buf)
 {
   ULONGEST val, psw;
 
@@ -260,7 +260,7 @@ s390_pseudo_register_write (struct gdbarch *gdbarch, struct regcache *regcache,
 
 static void
 s390x_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
-			    int regnum, void *buf)
+			    int regnum, gdb_byte *buf)
 {
   ULONGEST val;
 
@@ -282,7 +282,7 @@ s390x_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
 
 static void
 s390x_pseudo_register_write (struct gdbarch *gdbarch, struct regcache *regcache,
-			     int regnum, const void *buf)
+			     int regnum, const gdb_byte *buf)
 {
   ULONGEST val, psw;
 
@@ -316,9 +316,9 @@ s390_convert_register_p (int regno, struct type *type)
 
 static void
 s390_register_to_value (struct frame_info *frame, int regnum,
-                        struct type *valtype, void *out)
+                        struct type *valtype, gdb_byte *out)
 {
-  char in[8];
+  gdb_byte in[8];
   int len = TYPE_LENGTH (valtype);
   gdb_assert (len < 8);
 
@@ -328,9 +328,9 @@ s390_register_to_value (struct frame_info *frame, int regnum,
 
 static void
 s390_value_to_register (struct frame_info *frame, int regnum,
-                        struct type *valtype, const void *in)
+                        struct type *valtype, const gdb_byte *in)
 {
-  char out[8];
+  gdb_byte out[8];
   int len = TYPE_LENGTH (valtype);
   gdb_assert (len < 8);
 
@@ -1945,7 +1945,7 @@ s390_frame_prev_register (struct frame_info *next_frame,
 			  void **this_prologue_cache,
 			  int regnum, int *optimizedp,
 			  enum lval_type *lvalp, CORE_ADDR *addrp,
-			  int *realnump, void *bufferp)
+			  int *realnump, gdb_byte *bufferp)
 {
   struct s390_unwind_cache *info
     = s390_frame_unwind_cache (next_frame, this_prologue_cache);
@@ -2017,7 +2017,7 @@ s390_stub_frame_prev_register (struct frame_info *next_frame,
 			       void **this_prologue_cache,
 			       int regnum, int *optimizedp,
 			       enum lval_type *lvalp, CORE_ADDR *addrp,
-			       int *realnump, void *bufferp)
+			       int *realnump, gdb_byte *bufferp)
 {
   struct s390_stub_unwind_cache *info
     = s390_stub_frame_unwind_cache (next_frame, this_prologue_cache);
@@ -2160,7 +2160,7 @@ s390_sigtramp_frame_prev_register (struct frame_info *next_frame,
 				   void **this_prologue_cache,
 				   int regnum, int *optimizedp,
 				   enum lval_type *lvalp, CORE_ADDR *addrp,
-				   int *realnump, void *bufferp)
+				   int *realnump, gdb_byte *bufferp)
 {
   struct s390_sigtramp_unwind_cache *info
     = s390_sigtramp_frame_unwind_cache (next_frame, this_prologue_cache);
@@ -2694,7 +2694,8 @@ s390_return_value_convention (struct gdbarch *gdbarch, struct type *type)
 
 static enum return_value_convention
 s390_return_value (struct gdbarch *gdbarch, struct type *type, 
-		   struct regcache *regcache, void *out, const void *in)
+		   struct regcache *regcache, gdb_byte *out,
+		   const gdb_byte *in)
 {
   int word_size = gdbarch_ptr_bit (gdbarch) / 8;
   int length = TYPE_LENGTH (type);
@@ -2725,8 +2726,7 @@ s390_return_value (struct gdbarch *gdbarch, struct type *type,
 	  else if (length == 2*word_size)
 	    {
 	      regcache_cooked_write (regcache, S390_R2_REGNUM, in);
-	      regcache_cooked_write (regcache, S390_R3_REGNUM,
-				     (const char *)in + word_size);
+	      regcache_cooked_write (regcache, S390_R3_REGNUM, in + word_size);
 	    }
 	  else
 	    internal_error (__FILE__, __LINE__, _("invalid return type"));
@@ -2758,8 +2758,7 @@ s390_return_value (struct gdbarch *gdbarch, struct type *type,
 	  else if (length == 2*word_size)
 	    {
 	      regcache_cooked_read (regcache, S390_R2_REGNUM, out);
-	      regcache_cooked_read (regcache, S390_R3_REGNUM,
-				    (char *)out + word_size);
+	      regcache_cooked_read (regcache, S390_R3_REGNUM, out + word_size);
 	    }
 	  else
 	    internal_error (__FILE__, __LINE__, _("invalid return type"));
@@ -2777,10 +2776,10 @@ s390_return_value (struct gdbarch *gdbarch, struct type *type,
 
 /* Breakpoints.  */
 
-static const unsigned char *
+static const gdb_byte *
 s390_breakpoint_from_pc (CORE_ADDR *pcptr, int *lenptr)
 {
-  static unsigned char breakpoint[] = { 0x0, 0x1 };
+  static const gdb_byte breakpoint[] = { 0x0, 0x1 };
 
   *lenptr = sizeof (breakpoint);
   return breakpoint;

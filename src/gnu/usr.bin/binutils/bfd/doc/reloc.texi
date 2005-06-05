@@ -1092,44 +1092,23 @@ Thumb 22 bit pc-relative branch.  The lowest bit must be zero and is
 not stored in the instruction.  The 2nd lowest bit comes from a 1 bit
 field in the instruction.
 @end deffn
-@deffn {} BFD_RELOC_ARM_IMMEDIATE
-@deffnx {} BFD_RELOC_ARM_ADRL_IMMEDIATE
-@deffnx {} BFD_RELOC_ARM_OFFSET_IMM
-@deffnx {} BFD_RELOC_ARM_SHIFT_IMM
-@deffnx {} BFD_RELOC_ARM_SMI
-@deffnx {} BFD_RELOC_ARM_SWI
-@deffnx {} BFD_RELOC_ARM_MULTI
-@deffnx {} BFD_RELOC_ARM_CP_OFF_IMM
-@deffnx {} BFD_RELOC_ARM_CP_OFF_IMM_S2
-@deffnx {} BFD_RELOC_ARM_ADR_IMM
-@deffnx {} BFD_RELOC_ARM_LDR_IMM
-@deffnx {} BFD_RELOC_ARM_LITERAL
-@deffnx {} BFD_RELOC_ARM_IN_POOL
-@deffnx {} BFD_RELOC_ARM_OFFSET_IMM8
-@deffnx {} BFD_RELOC_ARM_HWLITERAL
-@deffnx {} BFD_RELOC_ARM_THUMB_ADD
-@deffnx {} BFD_RELOC_ARM_THUMB_IMM
-@deffnx {} BFD_RELOC_ARM_THUMB_SHIFT
-@deffnx {} BFD_RELOC_ARM_THUMB_OFFSET
-@deffnx {} BFD_RELOC_ARM_GOT12
-@deffnx {} BFD_RELOC_ARM_GOT32
-@deffnx {} BFD_RELOC_ARM_JUMP_SLOT
-@deffnx {} BFD_RELOC_ARM_COPY
-@deffnx {} BFD_RELOC_ARM_GLOB_DAT
-@deffnx {} BFD_RELOC_ARM_PLT32
-@deffnx {} BFD_RELOC_ARM_RELATIVE
-@deffnx {} BFD_RELOC_ARM_GOTOFF
-@deffnx {} BFD_RELOC_ARM_GOTPC
-@deffnx {} BFD_RELOC_ARM_TLS_GD32
-@deffnx {} BFD_RELOC_ARM_TLS_LDO32
-@deffnx {} BFD_RELOC_ARM_TLS_LDM32
-@deffnx {} BFD_RELOC_ARM_TLS_DTPOFF32
-@deffnx {} BFD_RELOC_ARM_TLS_DTPMOD32
-@deffnx {} BFD_RELOC_ARM_TLS_TPOFF32
-@deffnx {} BFD_RELOC_ARM_TLS_IE32
-@deffnx {} BFD_RELOC_ARM_TLS_LE32
-These relocs are only used within the ARM assembler.  They are not
-(at present) written to any object files.
+@deffn {} BFD_RELOC_THUMB_PCREL_BRANCH7
+@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH9
+@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH12
+@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH20
+@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH23
+@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH25
+Thumb 7-, 9-, 12-, 20-, 23-, and 25-bit pc-relative branches.
+The lowest bit must be zero and is not stored in the instruction.
+Note that the corresponding ELF R_ARM_THM_JUMPnn constant has an
+"nn" one smaller in all cases.  Note further that BRANCH23
+corresponds to R_ARM_THM_CALL.
+@end deffn
+@deffn {} BFD_RELOC_ARM_OFFSET_IMM
+12-bit immediate offset, used in ARM-format ldr and str instructions.
+@end deffn
+@deffn {} BFD_RELOC_ARM_THUMB_OFFSET
+5-bit immediate offset, used in Thumb-format ldr and str instructions.
 @end deffn
 @deffn {} BFD_RELOC_ARM_TARGET1
 Pc-relative or absolute relocation depending on target.  Used for
@@ -1142,12 +1121,54 @@ Read-only segment base relative address.
 Data segment base relative address.
 @end deffn
 @deffn {} BFD_RELOC_ARM_TARGET2
-This reloc is used for References to RTTI dta from exception handling
+This reloc is used for references to RTTI data from exception handling
 tables.  The actual definition depends on the target.  It may be a
 pc-relative or some form of GOT-indirect relocation.
 @end deffn
 @deffn {} BFD_RELOC_ARM_PREL31
 31-bit PC relative address.
+@end deffn
+@deffn {} BFD_RELOC_ARM_JUMP_SLOT
+@deffnx {} BFD_RELOC_ARM_GLOB_DAT
+@deffnx {} BFD_RELOC_ARM_GOT32
+@deffnx {} BFD_RELOC_ARM_PLT32
+@deffnx {} BFD_RELOC_ARM_RELATIVE
+@deffnx {} BFD_RELOC_ARM_GOTOFF
+@deffnx {} BFD_RELOC_ARM_GOTPC
+Relocations for setting up GOTs and PLTs for shared libraries.
+@end deffn
+@deffn {} BFD_RELOC_ARM_TLS_GD32
+@deffnx {} BFD_RELOC_ARM_TLS_LDO32
+@deffnx {} BFD_RELOC_ARM_TLS_LDM32
+@deffnx {} BFD_RELOC_ARM_TLS_DTPOFF32
+@deffnx {} BFD_RELOC_ARM_TLS_DTPMOD32
+@deffnx {} BFD_RELOC_ARM_TLS_TPOFF32
+@deffnx {} BFD_RELOC_ARM_TLS_IE32
+@deffnx {} BFD_RELOC_ARM_TLS_LE32
+ARM thread-local storage relocations.
+@end deffn
+@deffn {} BFD_RELOC_ARM_IMMEDIATE
+@deffnx {} BFD_RELOC_ARM_ADRL_IMMEDIATE
+@deffnx {} BFD_RELOC_ARM_T32_IMMEDIATE
+@deffnx {} BFD_RELOC_ARM_SHIFT_IMM
+@deffnx {} BFD_RELOC_ARM_SMI
+@deffnx {} BFD_RELOC_ARM_SWI
+@deffnx {} BFD_RELOC_ARM_MULTI
+@deffnx {} BFD_RELOC_ARM_CP_OFF_IMM
+@deffnx {} BFD_RELOC_ARM_CP_OFF_IMM_S2
+@deffnx {} BFD_RELOC_ARM_ADR_IMM
+@deffnx {} BFD_RELOC_ARM_LDR_IMM
+@deffnx {} BFD_RELOC_ARM_LITERAL
+@deffnx {} BFD_RELOC_ARM_IN_POOL
+@deffnx {} BFD_RELOC_ARM_OFFSET_IMM8
+@deffnx {} BFD_RELOC_ARM_T32_OFFSET_U8
+@deffnx {} BFD_RELOC_ARM_T32_OFFSET_IMM
+@deffnx {} BFD_RELOC_ARM_HWLITERAL
+@deffnx {} BFD_RELOC_ARM_THUMB_ADD
+@deffnx {} BFD_RELOC_ARM_THUMB_IMM
+@deffnx {} BFD_RELOC_ARM_THUMB_SHIFT
+These relocs are only used within the ARM assembler.  They are not
+(at present) written to any object files.
 @end deffn
 @deffn {} BFD_RELOC_SH_PCDISP8BY2
 @deffnx {} BFD_RELOC_SH_PCDISP12BY2
@@ -1240,12 +1261,6 @@ pc-relative or some form of GOT-indirect relocation.
 @deffnx {} BFD_RELOC_SH_TLS_DTPOFF32
 @deffnx {} BFD_RELOC_SH_TLS_TPOFF32
 Renesas / SuperH SH relocs.  Not all of these appear in object files.
-@end deffn
-@deffn {} BFD_RELOC_THUMB_PCREL_BRANCH9
-@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH12
-@deffnx {} BFD_RELOC_THUMB_PCREL_BRANCH23
-Thumb 23-, 12- and 9-bit pc-relative branches.  The lowest bit must
-be zero and is not stored in the instruction.
 @end deffn
 @deffn {} BFD_RELOC_ARC_B22_PCREL
 ARC Cores relocs.

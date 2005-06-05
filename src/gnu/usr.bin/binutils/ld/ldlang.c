@@ -91,6 +91,7 @@ lang_statement_list_type lang_output_section_statement;
 lang_statement_list_type *stat_ptr = &statement_list;
 lang_statement_list_type file_chain = { NULL, NULL };
 struct bfd_sym_chain entry_symbol = { NULL, NULL };
+static const char *entry_symbol_default = "start";
 const char *entry_section = ".text";
 bfd_boolean entry_from_cmdline;
 bfd_boolean lang_has_input_file = FALSE;
@@ -1024,6 +1025,7 @@ lang_output_section_statement_lookup_1 (const char *const name, int constraint)
       lookup->bfd_section = NULL;
       lookup->processed = 0;
       lookup->constraint = constraint;
+      lookup->ignored = FALSE;
       lookup->sectype = normal_section;
       lookup->addr_tree = NULL;
       lang_list_init (&lookup->children);
@@ -3042,6 +3044,95 @@ map_input_to_output_sections
     }
 }
 
+/* Worker function for lang_mark_used_section.  Recursiveness goes
+   here.  */
+
+static void
+lang_mark_used_section_1
+  (lang_statement_union_type *s,
+   lang_output_section_statement_type *output_section_statement)
+{
+  for (; s != NULL; s = s->header.next)
+    {
+      switch (s->header.type)
+	{
+	case lang_constructors_statement_enum:
+	  break;
+
+	case lang_output_section_statement_enum:
+	  {
+	    lang_output_section_statement_type *os;
+
+	    os = &(s->output_section_statement);
+	    if (os->bfd_section != NULL)
+	      {
+		lang_mark_used_section_1 (os->children.head, os);
+		if (os->load_base)
+		  exp_mark_used_section (os->load_base,
+					 bfd_abs_section_ptr);
+	      }
+	  }
+	  break;
+	case lang_wild_statement_enum:
+	  lang_mark_used_section_1 (s->wild_statement.children.head,
+				    output_section_statement);
+
+	  break;
+
+	case lang_object_symbols_statement_enum:
+	case lang_output_statement_enum:
+	case lang_target_statement_enum:
+	  break;
+	case lang_data_statement_enum:
+	  exp_mark_used_section (s->data_statement.exp,
+				 bfd_abs_section_ptr);
+	  break;
+
+	case lang_reloc_statement_enum:
+	  break;
+
+	case lang_input_section_enum:
+	  break;
+
+	case lang_input_statement_enum:
+	  break;
+	case lang_fill_statement_enum:
+	  break;
+	case lang_assignment_statement_enum:
+	  exp_mark_used_section (s->assignment_statement.exp,
+				 output_section_statement->bfd_section);
+	  break;
+	case lang_padding_statement_enum:
+	  break;
+
+	case lang_group_statement_enum:
+	  lang_mark_used_section_1 (s->group_statement.children.head,
+				    output_section_statement);
+	  break;
+
+	default:
+	  FAIL ();
+	  break;
+	case lang_address_statement_enum:
+	  break;
+	}
+    }
+}
+
+static void
+lang_mark_used_section (void)
+{
+  unsigned int gc_sections = link_info.gc_sections;
+
+  /* Callers of exp_fold_tree need to increment this.  */
+  lang_statement_iteration++;
+  lang_mark_used_section_1 (statement_list.head, abs_output_section);
+
+  link_info.gc_sections = 0;
+  bfd_gc_sections (output_bfd, &link_info);
+  link_info.gc_sections = gc_sections;
+}
+
 /* An output section might have been removed after its statement was
    added.  For example, ldemul_before_allocation can remove dynamic
    sections if they turn out to be not needed.  Clean them up here.  */
@@ -3051,32 +3142,54 @@ strip_excluded_output_sections (void)
 {
   lang_output_section_statement_type *os;
 
+  lang_mark_used_section ();
+
   for (os = &lang_output_section_statement.head->output_section_statement;
        os != NULL;
        os = os->next)
     {
-      asection *s;
+      asection *output_section;
+      bfd_boolean exclude;
 
       if (os->constraint == -1)
 	continue;
 
-      if (os->bfd_section == NULL || os->bfd_section->map_head.s == NULL)
+      output_section = os->bfd_section;
+      if (output_section == NULL)
 	continue;
 
-      for (s = os->bfd_section->map_head.s; s != NULL; s = s->map_head.s)
-	if ((s->flags & SEC_EXCLUDE) == 0)
-	  break;
-
-      os->bfd_section->map_head.link_order = NULL;
-      os->bfd_section->map_tail.link_order = NULL;
-
-      if (s == NULL)
+      exclude = FALSE;
+      if (output_section->map_head.s != NULL)
 	{
-	  s = os->bfd_section;
-	  os->bfd_section = NULL;
-	  if (!bfd_section_removed_from_list (output_bfd, s))
+	  asection *s;
+
+	  for (s = output_section->map_head.s; s != NULL;
+	       s = s->map_head.s)
+	    if ((s->flags & SEC_EXCLUDE) == 0)
+	      break;
+
+	  output_section->map_head.link_order = NULL;
+	  output_section->map_tail.link_order = NULL;
+
+	  if (s == NULL)
+	    exclude = TRUE;
+	}
+
+      if (exclude
+	  || (output_section->linker_has_input == 0
+	      && ((output_section->flags
+		   & (SEC_KEEP | SEC_HAS_CONTENTS)) == 0)))
+	{
+	  if (exclude)
+	    os->bfd_section = NULL;
+	  else
+	    /* We don't set bfd_section to NULL since bfd_section of the
+	     * removed output section statement may still be used.  */
+	    os->ignored = TRUE;
+	  if (!bfd_section_removed_from_list (output_bfd,
+					      output_section))
 	    {
-	      bfd_section_list_remove (output_bfd, s);
+	      bfd_section_list_remove (output_bfd, output_section);
 	      output_bfd->section_count--;
 	    }
 	}
@@ -3133,12 +3246,63 @@ print_output_section_statement
 			output_section_statement);
 }
 
+/* Scan for the use of the destination in the right hand side
+   of an expression.  In such cases we will not compute the
+   correct expression, since the value of DST that is used on
+   the right hand side will be its final value, not its value
+   just before this expression is evaluated.  */
+   
+static bfd_boolean
+scan_for_self_assignment (const char * dst, etree_type * rhs)
+{
+  if (rhs == NULL || dst == NULL)
+    return FALSE;
+
+  switch (rhs->type.node_class)
+    {
+    case etree_binary:
+      return scan_for_self_assignment (dst, rhs->binary.lhs)
+	||   scan_for_self_assignment (dst, rhs->binary.rhs);
+
+    case etree_trinary:
+      return scan_for_self_assignment (dst, rhs->trinary.lhs)
+	||   scan_for_self_assignment (dst, rhs->trinary.rhs);
+
+    case etree_assign:
+    case etree_provided:
+    case etree_provide:
+      if (strcmp (dst, rhs->assign.dst) == 0)
+	return TRUE;
+      return scan_for_self_assignment (dst, rhs->assign.src);
+
+    case etree_unary:
+      return scan_for_self_assignment (dst, rhs->unary.child);
+
+    case etree_value:
+      if (rhs->value.str)
+	return strcmp (dst, rhs->value.str) == 0;
+      return FALSE;
+
+    case etree_name:
+      if (rhs->name.name)
+	return strcmp (dst, rhs->name.name) == 0;
+      return FALSE;
+
+    default:
+      break;
+    }
+
+  return FALSE;
+}
+
+
 static void
 print_assignment (lang_assignment_statement_type *assignment,
 		  lang_output_section_statement_type *output_section)
 {
-  int i;
-  int is_dot;
+  unsigned int i;
+  bfd_boolean is_dot;
+  bfd_boolean computation_is_valid = TRUE;
   etree_type *tree;
   etree_value_type result;
 
@@ -3147,27 +3311,54 @@ print_assignment (lang_assignment_statement_type *assignment,
 
   if (assignment->exp->type.node_class == etree_assert)
     {
-      is_dot = 0;
+      is_dot = FALSE;
       tree = assignment->exp->assert_s.child;
+      computation_is_valid = TRUE;
     }
   else
     {
       const char *dst = assignment->exp->assign.dst;
-      is_dot = dst[0] == '.' && dst[1] == 0;
+
+      is_dot = (dst[0] == '.' && dst[1] == 0);
       tree = assignment->exp->assign.src;
+      computation_is_valid = is_dot || (scan_for_self_assignment (dst, tree) == FALSE);
     }
 
-  result = exp_fold_tree (tree, output_section, lang_final_phase_enum,
-			  print_dot, &print_dot);
+  result = exp_fold_tree (tree, output_section->bfd_section,
+			  lang_final_phase_enum, print_dot, &print_dot);
   if (result.valid_p)
     {
       bfd_vma value;
 
-      value = result.value + result.section->bfd_section->vma;
+      if (computation_is_valid)
+	{
+	  value = result.value;
 
-      minfo ("0x%V", value);
-      if (is_dot)
-	print_dot = value;
+	  if (result.section)
+	    value += result.section->vma;
+
+	  minfo ("0x%V", value);
+	  if (is_dot)
+	    print_dot = value;
+	}
+      else
+	{
+	  struct bfd_link_hash_entry *h;
+
+	  h = bfd_link_hash_lookup (link_info.hash, assignment->exp->assign.dst,
+				    FALSE, FALSE, TRUE);
+	  if (h)
+	    {
+	      value = h->u.def.value;
+
+	      if (result.section)
+	      value += result.section->vma;
+
+	      minfo ("[0x%V]", value);
+	    }
+	  else
+	    minfo ("[unresolved]");
+	}
     }
   else
     {
@@ -3858,8 +4049,8 @@ lang_size_sections_1
 	    lang_output_section_statement_type *os;
 
 	    os = &s->output_section_statement;
-	    if (os->bfd_section == NULL)
-	      /* This section was never actually created.  */
+	    if (os->bfd_section == NULL || os->ignored)
+	      /* This section was removed or never actually created.  */
 	      break;
 
 	    /* If this is a COFF shared library section, use the size and
@@ -3963,7 +4154,7 @@ lang_size_sections_1
 
 		    os->processed = -1;
 		    r = exp_fold_tree (os->addr_tree,
-				       abs_output_section,
+				       bfd_abs_section_ptr,
 				       lang_allocating_phase_enum,
 				       dot, &dot);
 		    os->processed = 0;
@@ -3973,7 +4164,7 @@ lang_size_sections_1
 			       " address expression for section %s\n"),
 			     os->name);
 
-		    dot = r.value + r.section->bfd_section->vma;
+		    dot = r.value + r.section->vma;
 		  }
 
 		/* The section starts here.
@@ -4013,7 +4204,7 @@ lang_size_sections_1
 	    os->processed = 1;
 
 	    if (os->update_dot_tree != 0)
-	      exp_fold_tree (os->update_dot_tree, abs_output_section,
+	      exp_fold_tree (os->update_dot_tree, bfd_abs_section_ptr,
 			     lang_allocating_phase_enum, dot, &dot);
 
 	    /* Update dot in the region ?
@@ -4072,7 +4263,7 @@ lang_size_sections_1
 
 	    /* We might refer to provided symbols in the expression, and
 	       need to mark them as needed.  */
-	    exp_fold_tree (s->data_statement.exp, abs_output_section,
+	    exp_fold_tree (s->data_statement.exp, bfd_abs_section_ptr,
 			   lang_allocating_phase_enum, dot, &dot);
 
 	    switch (s->data_statement.type)
@@ -4161,7 +4352,7 @@ lang_size_sections_1
 	    bfd_vma newdot = dot;
 
 	    exp_fold_tree (s->assignment_statement.exp,
-			   output_section_statement,
+			   output_section_statement->bfd_section,
 			   lang_allocating_phase_enum,
 			   dot,
 			   &newdot);
@@ -4354,7 +4545,7 @@ lang_do_assignments_1
 	    lang_output_section_statement_type *os;
 
 	    os = &(s->output_section_statement);
-	    if (os->bfd_section != NULL)
+	    if (os->bfd_section != NULL && !os->ignored)
 	      {
 		dot = os->bfd_section->vma;
 		lang_do_assignments_1 (os->children.head, os, os->fill, dot);
@@ -4368,7 +4559,7 @@ lang_do_assignments_1
 	      {
 		/* If nothing has been placed into the output section then
 		   it won't have a bfd_section.  */
-		if (os->bfd_section)
+		if (os->bfd_section && !os->ignored)
 		  {
 		    os->bfd_section->lma
 		      = exp_get_abs_int (os->load_base, 0, "load base",
@@ -4394,12 +4585,12 @@ lang_do_assignments_1
 	    etree_value_type value;
 
 	    value = exp_fold_tree (s->data_statement.exp,
-				   abs_output_section,
+				   bfd_abs_section_ptr,
 				   lang_final_phase_enum, dot, &dot);
 	    if (!value.valid_p)
 	      einfo (_("%F%P: invalid data statement\n"));
 	    s->data_statement.value
-	      = value.value + value.section->bfd_section->vma;
+	      = value.value + value.section->vma;
 	  }
 	  {
 	    unsigned int size;
@@ -4432,7 +4623,7 @@ lang_do_assignments_1
 	    etree_value_type value;
 
 	    value = exp_fold_tree (s->reloc_statement.addend_exp,
-				   abs_output_section,
+				   bfd_abs_section_ptr,
 				   lang_final_phase_enum, dot, &dot);
 	    s->reloc_statement.addend_value = value.value;
 	    if (!value.valid_p)
@@ -4458,7 +4649,7 @@ lang_do_assignments_1
 	case lang_assignment_statement_enum:
 	  {
 	    exp_fold_tree (s->assignment_statement.exp,
-			   output_section_statement,
+			   output_section_statement->bfd_section,
 			   lang_final_phase_enum,
 			   dot,
 			   &dot);
@@ -4558,9 +4749,9 @@ lang_finish (void)
 
   if (entry_symbol.name == NULL)
     {
-      /* No entry has been specified.  Look for start, but don't warn
-	 if we don't find it.  */
-      entry_symbol.name = "start";
+      /* No entry has been specified.  Look for the default entry, but
+	 don't warn if we don't find it.  */
+      entry_symbol.name = entry_symbol_default;
       warn = FALSE;
     }
 
@@ -5162,16 +5353,6 @@ lang_gc_sections (void)
     bfd_gc_sections (output_bfd, &link_info);
 }
 
-static void
-lang_mark_used_section (void)
-{
-  unsigned int gc_sections = link_info.gc_sections;
-
-  link_info.gc_sections = 0;
-  bfd_gc_sections (output_bfd, &link_info);
-  link_info.gc_sections = gc_sections;
-}
-
 void
 lang_process (void)
 {
@@ -5330,7 +5511,6 @@ lang_process (void)
     lang_check_section_addresses ();
 
   /* Final stuffs.  */
-  lang_mark_used_section ();
   ldemul_finish ();
   lang_finish ();
 }
@@ -5406,6 +5586,16 @@ lang_add_entry (const char *name, bfd_boolean cmdline)
       entry_symbol.name = name;
       entry_from_cmdline = cmdline;
     }
+}
+
+/* Set the default start symbol to NAME.  .em files should use this,
+   not lang_add_entry, to override the use of "start" if neither the
+   linker script nor the command line specifies an entry point.  NAME
+   must be permanently allocated.  */
+void
+lang_default_entry (const char *name)
+{
+  entry_symbol_default = name;
 }
 
 void

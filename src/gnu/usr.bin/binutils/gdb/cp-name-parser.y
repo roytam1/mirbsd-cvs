@@ -1498,7 +1498,7 @@ parse_escape (const char **string_ptr)
 	  return i;
 	}
       default:
-	return target_char;
+	return c;
       }
 }
 

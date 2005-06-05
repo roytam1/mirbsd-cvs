@@ -147,7 +147,8 @@ typedef struct lang_output_section_statement_struct
   int subsection_alignment;	/* Alignment of components.  */
   int section_alignment;	/* Alignment of start of section.  */
   int constraint;
-  bfd_boolean all_input_readonly;
+  unsigned int all_input_readonly : 1;
+  unsigned int ignored : 1; 
 
   union etree_union *load_base;
 
@@ -473,6 +474,8 @@ extern void lang_section_start
   (const char *, union etree_union *, const segment_type *);
 extern void lang_add_entry
   (const char *, bfd_boolean);
+extern void lang_default_entry
+  (const char *);
 extern void lang_add_target
   (const char *);
 extern void lang_add_wild

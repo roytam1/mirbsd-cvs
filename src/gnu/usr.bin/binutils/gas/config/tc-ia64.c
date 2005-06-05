@@ -695,8 +695,6 @@ typedef struct unw_rec_list {
   unwind_record r;
   unsigned long slot_number;
   fragS *slot_frag;
-  unsigned long next_slot_number;
-  fragS *next_slot_frag;
   struct unw_rec_list *next;
 } unw_rec_list;
 
@@ -711,6 +709,12 @@ typedef struct label_prologue_count
   unsigned int prologue_count;
 } label_prologue_count;
 
+typedef struct proc_pending
+{
+  symbolS *sym;
+  struct proc_pending *next;
+} proc_pending;
+
 static struct
 {
   /* Maintain a list of unwind entries for the current function.  */
@@ -722,7 +726,7 @@ static struct
   unw_rec_list *current_entry;
 
   /* These are used to create the unwind table entry for this function.  */
-  symbolS *proc_start;
+  proc_pending proc_pending;
   symbolS *info;		/* pointer to unwind info */
   symbolS *personality_routine;
   segT saved_text_seg;
@@ -1750,8 +1754,6 @@ alloc_record (unw_record_type t)
   ptr->next = NULL;
   ptr->slot_number = SLOT_NUM_NOT_SET;
   ptr->r.type = t;
-  ptr->next_slot_number = 0;
-  ptr->next_slot_frag = 0;
   return ptr;
 }
 
@@ -3074,17 +3076,20 @@ static void
 dot_radix (dummy)
      int dummy ATTRIBUTE_UNUSED;
 {
-  int radix;
+  char *radix;
+  int ch;
 
   SKIP_WHITESPACE ();
-  radix = *input_line_pointer++;
 
-  if (radix != 'C' && !is_end_of_line[(unsigned char) radix])
-    {
-      as_bad ("Radix `%c' unsupported", *input_line_pointer);
-      ignore_rest_of_line ();
-      return;
-    }
+  if (is_it_end_of_statement ())
+    return;
+  radix = input_line_pointer;
+  ch = get_symbol_end ();
+  ia64_canonicalize_symbol_name (radix);
+  if (strcasecmp (radix, "C"))
+    as_bad ("Radix `%s' unsupported or invalid", radix);
+  *input_line_pointer = ch;
+  demand_empty_rest_of_line ();
 }
 
 /* Helper function for .loc directives.  If the assembler is not generating
@@ -3132,7 +3137,7 @@ unwind_diagnostic (const char * region, const char *directive)
 static int
 in_procedure (const char *directive)
 {
-  if (unwind.proc_start
+  if (unwind.proc_pending.sym
       && (!unwind.saved_text_seg || strcmp (directive, "endp") == 0))
     return 1;
   return unwind_diagnostic ("procedure", directive);
@@ -4269,8 +4274,22 @@ dot_proc (dummy)
 {
   char *name, *p, c;
   symbolS *sym;
+  proc_pending *pending, *last_pending;
 
-  unwind.proc_start = 0;
+  if (unwind.proc_pending.sym)
+    {
+      (md.unwind_check == unwind_check_warning
+       ? as_warn
+       : as_bad) ("Missing .endp after previous .proc");
+      while (unwind.proc_pending.next)
+	{
+	  pending = unwind.proc_pending.next;
+	  unwind.proc_pending.next = pending->next;
+	  free (pending);
+	}
+    }
+  last_pending = NULL;
+
   /* Parse names of main and alternate entry points and mark them as
      function symbols:  */
   while (1)
@@ -4286,9 +4305,16 @@ dot_proc (dummy)
 	  sym = symbol_find_or_make (name);
 	  if (S_IS_DEFINED (sym))
 	    as_bad ("`%s' was already defined", name);
-	  else if (unwind.proc_start == 0)
+	  else if (!last_pending)
 	    {
-	      unwind.proc_start = sym;
+	      unwind.proc_pending.sym = sym;
+	      last_pending = &unwind.proc_pending;
+	    }
+	  else
+	    {
+	      pending = xmalloc (sizeof (*pending));
+	      pending->sym = sym;
+	      last_pending = last_pending->next = pending;
 	    }
 	  symbol_get_bfdsym (sym)->flags |= BSF_FUNCTION;
 	}
@@ -4298,8 +4324,12 @@ dot_proc (dummy)
 	break;
       ++input_line_pointer;
     }
-  if (unwind.proc_start == 0)
-    unwind.proc_start = expr_build_dot ();
+  if (!last_pending)
+    {
+      unwind.proc_pending.sym = expr_build_dot ();
+      last_pending = &unwind.proc_pending;
+    }
+  last_pending->next = NULL;
   demand_empty_rest_of_line ();
   ia64_do_align (16);
 
@@ -4387,13 +4417,11 @@ dot_endp (dummy)
      int dummy ATTRIBUTE_UNUSED;
 {
   expressionS e;
-  char *ptr;
   int bytes_per_address;
   long where;
   segT saved_seg;
   subsegT saved_subseg;
-  char *name, *default_name, *p, c;
-  symbolS *sym;
+  proc_pending *pending;
   int unwind_check = md.unwind_check;
 
   md.unwind_check = unwind_check_error;
@@ -4434,7 +4462,7 @@ dot_endp (dummy)
 
       /* Need space for 3 pointers for procedure start, procedure end,
 	 and unwind info.  */
-      ptr = frag_more (3 * md.pointer_size);
+      memset (frag_more (3 * md.pointer_size), 0, 3 * md.pointer_size);
       where = frag_now_fix () - (3 * md.pointer_size);
       bytes_per_address = bfd_arch_bits_per_address (stdoutput) / 8;
 
@@ -4442,7 +4470,13 @@ dot_endp (dummy)
       e.X_op = O_pseudo_fixup;
       e.X_op_symbol = pseudo_func[FUNC_SEG_RELATIVE].u.sym;
       e.X_add_number = 0;
-      e.X_add_symbol = unwind.proc_start;
+      if (!S_IS_LOCAL (unwind.proc_pending.sym)
+	  && S_IS_DEFINED (unwind.proc_pending.sym))
+	e.X_add_symbol = symbol_temp_new (S_GET_SEGMENT (unwind.proc_pending.sym),
+					  S_GET_VALUE (unwind.proc_pending.sym),
+					  symbol_get_frag (unwind.proc_pending.sym));
+      else
+	e.X_add_symbol = unwind.proc_pending.sym;
       ia64_cons_fix_new (frag_now, where, bytes_per_address, &e);
 
       e.X_op = O_pseudo_fixup;
@@ -4461,69 +4495,25 @@ dot_endp (dummy)
 	  ia64_cons_fix_new (frag_now, where + (bytes_per_address * 2),
 			     bytes_per_address, &e);
 	}
-      else
-	md_number_to_chars (ptr + (bytes_per_address * 2), 0,
-			    bytes_per_address);
-
     }
   subseg_set (saved_seg, saved_subseg);
 
-  if (unwind.proc_start)
-    default_name = (char *) S_GET_NAME (unwind.proc_start);
-  else
-    default_name = NULL;
-
-  /* Parse names of main and alternate entry points and set symbol sizes.  */
-  while (1)
+  /* Set symbol sizes.  */
+  pending = &unwind.proc_pending;
+  if (S_GET_NAME (pending->sym))
     {
-      SKIP_WHITESPACE ();
-      name = input_line_pointer;
-      c = get_symbol_end ();
-      p = input_line_pointer;
-      if (!*name)
+      do
 	{
-	  if (md.unwind_check == unwind_check_warning)
+	  symbolS *sym = pending->sym;
+
+	  if (!S_IS_DEFINED (sym))
+	    as_bad ("`%s' was not defined within procedure", S_GET_NAME (sym));
+	  else if (S_GET_SIZE (sym) == 0
+		   && symbol_get_obj (sym)->size == NULL)
 	    {
-	      if (default_name)
-		{
-		  as_warn ("Empty argument of .endp. Use the default name `%s'",
-			   default_name);
-		  name = default_name;
-		}
-	      else
-		as_warn ("Empty argument of .endp");
-	    }
-	  else
-	    as_bad ("Empty argument of .endp");
-	}
-      if (*name)
-	{
-	  sym = symbol_find (name);
-	  if (!sym
-	      && md.unwind_check == unwind_check_warning
-	      && default_name
-	      && default_name != name)
-	    {
-	      /* We have a bad name. Try the default one if needed.  */
-	      as_warn ("`%s' was not defined within procedure. Use the default name `%s'",
-		       name, default_name);
-	      name = default_name;
-	      sym = symbol_find (name);
-	    }
-	  if (!sym || !S_IS_DEFINED (sym))
-	    as_bad ("`%s' was not defined within procedure", name);
-	  else if (unwind.proc_start
-	      && (symbol_get_bfdsym (sym)->flags & BSF_FUNCTION)
-	      && S_GET_SIZE (sym) == 0 && symbol_get_obj (sym)->size == NULL)
-	    {
-	      fragS *fr = symbol_get_frag (unwind.proc_start);
 	      fragS *frag = symbol_get_frag (sym);
 
-	      /* Check whether the function label is at or beyond last
-		 .proc directive.  */
-	      while (fr && fr != frag)
-		fr = fr->fr_next;
-	      if (fr)
+	      if (frag)
 		{
 		  if (frag == frag_now && SEG_NORMAL (now_seg))
 		    S_SET_SIZE (sym, frag_now_fix () - S_GET_VALUE (sym));
@@ -4540,6 +4530,36 @@ dot_endp (dummy)
 		    }
 		}
 	    }
+	} while ((pending = pending->next) != NULL);
+    }
+
+  /* Parse names of main and alternate entry points.  */
+  while (1)
+    {
+      char *name, *p, c;
+
+      SKIP_WHITESPACE ();
+      name = input_line_pointer;
+      c = get_symbol_end ();
+      p = input_line_pointer;
+      if (!*name)
+	(md.unwind_check == unwind_check_warning
+	 ? as_warn
+	 : as_bad) ("Empty argument of .endp");
+      else
+	{
+	  symbolS *sym = symbol_find (name);
+
+	  for (pending = &unwind.proc_pending; pending; pending = pending->next)
+	    {
+	      if (sym == pending->sym)
+		{
+		  pending->sym = NULL;
+		  break;
+		}
+	    }
+	  if (!sym || !pending)
+	    as_warn ("`%s' was not specified with previous .proc", name);
 	}
       *p = c;
       SKIP_WHITESPACE ();
@@ -4548,7 +4568,21 @@ dot_endp (dummy)
       ++input_line_pointer;
     }
   demand_empty_rest_of_line ();
-  unwind.proc_start = unwind.info = 0;
+
+  /* Deliberately only checking for the main entry point here; the
+     language spec even says all arguments to .endp are ignored.  */
+  if (unwind.proc_pending.sym
+      && S_GET_NAME (unwind.proc_pending.sym)
+      && strcmp (S_GET_NAME (unwind.proc_pending.sym), FAKE_LABEL_NAME))
+    as_warn ("`%s' should be an operand to this .endp",
+	     S_GET_NAME (unwind.proc_pending.sym));
+  while (unwind.proc_pending.next)
+    {
+      pending = unwind.proc_pending.next;
+      unwind.proc_pending.next = pending->next;
+      free (pending);
+    }
+  unwind.proc_pending.sym = unwind.info = NULL;
 }
 
 static void
@@ -6479,7 +6513,6 @@ emit_one_bundle ()
   struct ia64_opcode *idesc;
   int end_of_insn_group = 0, user_template = -1;
   int n, i, j, first, curr, last_slot;
-  unw_rec_list *ptr, *last_ptr, *end_ptr;
   bfd_vma t0 = 0, t1 = 0;
   struct label_fix *lfix;
   struct insn_fix *ifix;
@@ -6534,7 +6567,9 @@ emit_one_bundle ()
   for (i = 0; i < 3 && md.num_slots_in_use > 0; ++i)
     {
       /* If we have unwind records, we may need to update some now.  */
-      ptr = md.slot[curr].unwind_record;
+      unw_rec_list *ptr = md.slot[curr].unwind_record;
+      unw_rec_list *end_ptr = NULL;
+
       if (ptr)
 	{
 	  /* Find the last prologue/body record in the list for the current
@@ -6544,9 +6579,11 @@ emit_one_bundle ()
 	     issued.  This matters because there may have been nops emitted
 	     meanwhile.  Any non-prologue non-body record followed by a
 	     prologue/body record must also refer to the current point.  */
-	  last_ptr = NULL;
-	  end_ptr = md.slot[(curr + 1) % NUM_SLOTS].unwind_record;
-	  for (; ptr != end_ptr; ptr = ptr->next)
+	  unw_rec_list *last_ptr;
+
+	  for (j = 1; end_ptr == NULL && j < md.num_slots_in_use; ++j)
+	    end_ptr = md.slot[(curr + j) % NUM_SLOTS].unwind_record;
+	  for (last_ptr = NULL; ptr != end_ptr; ptr = ptr->next)
 	    if (ptr->r.type == prologue || ptr->r.type == prologue_gr
 		|| ptr->r.type == body)
 	      last_ptr = ptr;
@@ -6814,7 +6851,6 @@ emit_one_bundle ()
 	  /* Set slot numbers for all remaining unwind records belonging to the
 	     current insn.  There can not be any prologue/body unwind records
 	     here.  */
-	  end_ptr = md.slot[(curr + 1) % NUM_SLOTS].unwind_record;
 	  for (; ptr != end_ptr; ptr = ptr->next)
 	    {
 	      ptr->slot_number = (unsigned long) f + i;
@@ -6916,12 +6952,6 @@ emit_one_bundle ()
 
   number_to_chars_littleendian (f + 0, t0, 8);
   number_to_chars_littleendian (f + 8, t1, 8);
-
-  if (unwind.list)
-    {
-      unwind.list->next_slot_number = (unsigned long) f + 16;
-      unwind.list->next_slot_frag = frag_now;
-    }
 }
 
 int
@@ -7147,8 +7177,9 @@ match (int templ, int type, int slot)
   return result;
 }
 
-/* Add a bit of extra goodness if a nop of type F or B would fit
-   in TEMPL at SLOT.  */
+/* For Itanium 1, add a bit of extra goodness if a nop of type F or B would fit
+   in TEMPL at SLOT.  For Itanium 2, add a bit of extra goodness if a nop of
+   type M or I would fit in TEMPL at SLOT.  */
 
 static inline int
 extra_goodness (int templ, int slot)
@@ -7294,7 +7325,7 @@ md_begin ()
 		{
 		  if (match (t, j, 1))
 		    {
-		      if (match (t, k, 2))
+		      if ((t == 2 && j == IA64_TYPE_X) || match (t, k, 2))
 			goodness = 3 + 3 + 3;
 		      else
 			goodness = 3 + 3 + extra_goodness (t, 2);
@@ -7310,7 +7341,7 @@ md_begin ()
 		}
 	      else if (match (t, i, 1))
 		{
-		  if (match (t, j, 2))
+		  if ((t == 2 && i == IA64_TYPE_X) || match (t, j, 2))
 		    goodness = 3 + 3;
 		  else
 		    goodness = 3 + extra_goodness (t, 2);
@@ -7325,6 +7356,21 @@ md_begin ()
 		}
 	    }
 	}
+
+#ifdef DEBUG_TEMPLATES
+  /* For debugging changes to the best_template calculations.  We don't care
+     about combinations with invalid instructions, so start the loops at 1.  */
+  for (i = 0; i < IA64_NUM_TYPES; ++i)
+    for (j = 0; j < IA64_NUM_TYPES; ++j)
+      for (k = 0; k < IA64_NUM_TYPES; ++k)
+	{
+	  char type_letter[IA64_NUM_TYPES] = { 'n', 'a', 'i', 'm', 'b', 'f',
+					       'x', 'd' };
+	  fprintf (stderr, "%c%c%c %s\n", type_letter[i], type_letter[j],
+		   type_letter[k],
+		   ia64_templ_desc[best_template[i][j][k]].name);
+	}
+#endif
 
   for (i = 0; i < NUM_SLOTS; ++i)
     md.slot[i].user_template = -1;
@@ -10772,7 +10818,7 @@ md_assemble (str)
       CURR_SLOT.unwind_record = unwind.current_entry;
       unwind.current_entry = NULL;
     }
-  if (unwind.proc_start && S_IS_DEFINED (unwind.proc_start))
+  if (unwind.proc_pending.sym && S_IS_DEFINED (unwind.proc_pending.sym))
     unwind.insn = 1;
 
   /* Check for dependency violations.  */
@@ -11254,6 +11300,7 @@ ia64_gen_real_reloc_type (sym, r_type)
 	case BFD_RELOC_IA64_DIR32LSB: width = 32; suffix = "LSB"; break;
 	case BFD_RELOC_IA64_DIR64MSB: width = 64; suffix = "MSB"; break;
 	case BFD_RELOC_IA64_DIR64LSB: width = 64; suffix = "LSB"; break;
+	case BFD_RELOC_UNUSED:        width = 13; break;
 	case BFD_RELOC_IA64_IMM14:    width = 14; break;
 	case BFD_RELOC_IA64_IMM22:    width = 22; break;
 	case BFD_RELOC_IA64_IMM64:    width = 64; suffix = "I"; break;

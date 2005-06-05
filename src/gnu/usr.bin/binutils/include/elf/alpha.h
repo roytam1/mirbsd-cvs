@@ -63,6 +63,9 @@ typedef struct
 #define STO_ALPHA_NOPV		0x80
 #define STO_ALPHA_STD_GPLOAD	0x88
 
+/* Special values for Elf64_Dyn tag.  */
+#define DT_ALPHA_PLTRO		DT_LOPROC
+
 #include "elf/reloc-macros.h"
 
 /* Alpha relocs.  */
@@ -122,5 +125,6 @@ END_RELOC_NUMBERS (R_ALPHA_max)
 #define LITUSE_ALPHA_JSR	3
 #define LITUSE_ALPHA_TLSGD	4
 #define LITUSE_ALPHA_TLSLDM	5
+#define LITUSE_ALPHA_JSRDIRECT	6
 
 #endif /* _ELF_ALPHA_H */
