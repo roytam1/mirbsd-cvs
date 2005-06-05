@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.1 2005/06/05 20:03:32 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.2 2005/06/05 20:06:37 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,9 +23,23 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-module="$1"; shift
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.2 2005/06/05 20:06:37 tg Exp $ ========='
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.1 2005/06/05 20:03:32 tg Exp $ ========='
+ignlist=0
+force=0
+while getopts "fnp" option; do
+	case $option {
+	f)	force=1
+		;;
+	n)	DO_CVS="print -- \$ cvs"
+		;;
+	p)	ignlist=1
+		;;
+	}
+done
+shift $((OPTIND - 1))
+
+module="$1"; shift
 
 case $module {
 binutils)
@@ -211,21 +225,18 @@ binutils)
 		texinfo \
 	"
 	vendor=FSF
-	branch=1.1.101
 	vpath=src/gnu/usr.bin/binutils
 	;;
 cvs)
 	IGNORELIST="\
 	"
 	vendor=FSF
-	branch=1.1.101
 	vpath=src/gnu/usr.bin/cvs
 	;;
 lynx)
 	IGNORELIST="\
 	"
 	vendor=
-	branch=
 	vpath=src/gnu/usr.bin/lynx
 	;;
 openbsd)
@@ -569,40 +580,131 @@ openbsd)
 		usr.sbin/ypset \
 	"
 	vendor=openbsd
-	branch=1.1.1
 	vpath=src
 	;;
 rcs)
 	IGNORELIST="\
 	"
 	vendor=FSF
-	branch=1.1.101
 	vpath=src/gnu/usr.bin/rcs
 	;;
 texinfo)
 	IGNORELIST="\
 	"
 	vendor=FSF
-	branch=1.1.101
 	vpath=src/gnu/usr.bin/texinfo
+	;;
+-)
+	IGNORELIST=
+	case $1 in
+	gcc)
+		if [[ -e gcc/gcc ]]; then
+			print 'Do you know what you are doing?'
+			pwd
+			abort=1
+		fi
+		vpath="$1" ;;
+	@(ports|contrib|testing|gcc)*)
+		if [[ -e $1 && $force != 1 ]]; then
+			print 'Do you know what you are doing?'
+			pwd
+			abort=1
+		fi
+		if [[ $force != 1 && $1 = ports* ]]; then
+			print 'Importing into ports is deprecated.'
+			abort=1
+		elif [[ $force != 1 && $1 = testing* ]]; then
+			print 'If so, try again with -f option.'
+			abort=1
+		fi
+		vpath="$1" ;;
+	[xX]11)
+		if [ ! -e xc ]; then
+			print 'Do you know what you are doing?'
+			pwd
+			abort=1
+		fi
+		if [[ $force != 1 ]]; then
+			print 'Before importing X, consult advice.'
+			abort=1
+		fi
+		vpath="X11" ;;
+	@(x11|X11)*)
+		if [[ -e $1 ]]; then
+			print 'Do you know what you are doing?'
+			pwd
+			abort=1
+		fi
+		if [[ $force != 1 ]]; then
+			print 'Before importing X, consult advice.'
+			abort=1
+		fi
+		vpath="X11${1#@(x11|X11)}" ;;
+	src*)
+		if [[ -e $1 && $force != 1 ]]; then
+			print 'Do you know what you are doing?'
+			pwd
+			abort=1
+		fi
+		if [[ $force = 1 ]]; then
+			vpath="$1"
+		elif [[ $2 != openbsd ]]; then
+			vpath="$1"
+		elif [[ $1 = src ]]; then
+			print Error: this is a different module...
+			abort=1
+		else
+			vpath="$1"
+		fi ;;
+	*)
+		if [[ $force != 1 ]]; then
+			print Error: you do not want to import here!
+			abort=1
+		fi ;;
+	esac
+	[[ $abort = 1 ]] && exit 1
+	shift
+	vendor=$1
+	if [[ -z $vendor ]]; then
+		print No vendor given.
+		exit 1
+	fi
+	shift
 	;;
 *)
 	print Error: unknown module "'$module'"
-	print known are: binutils cvs lynx openbsd rcs texinfo
+	print known are: binutils cvs lynx openbsd rcs texinfo -
 	exit 1
 	;;
 }
 
-while getopts "np" option; do
-	case $option {
-	n)	DO_CVS="print -- \$ cvs"
-		;;
-	p)	print $IGNORELIST
-		exit 0
-		;;
-	}
-done
-shift $((OPTIND - 1))
+if [[ $ignlist = 1 ]]; then
+	print -- $IGNORELIST
+	exit 0
+fi
+
+case $vendor {
+  openbsd)	B=1.1.1;   V=openbsd	;; # The OpenBSD project
+  tnf|netb*)	B=1.1.3;   V=TNF	;; # The NetBSD(TM) foundation
+  ekkobsd)	B=1.1.5;   V=ekkobsd	;; # The ekkoBSD project
+  mirbsd)	B=1.1.7;   V=mirbsd	;; # Old MirBSD/MirOS content
+  freeb*)	B=1.1.9;   V=freebsd	;; # The FreeBSD uhm...
+  fsf|FSF)	B=1.1.101; V=FSF	;; # The Free Software Foundation
+  [xX]@(11|c|f86)) B=1.1.103; V=xwindow	;; # X Consortium / XFree86(TM)
+  expat)	B=1.1.105; V=expat	;; # expat developer team
+  ?(lib)png)	B=1.1.107; V=libpng	;; # libpng whatever project
+  lynx|cdk)	B=1.1.109; V=lynx	;; # Thomas Dickey (lynx, cdk)
+  gpc)		B=1.1.111; V=gpc	;; # GNU Pascal
+  tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
+  bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
+# wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
+  cnuke)	B=1.1.207; V=cnuke	;; # Jupp (Josef) Söntgen
+# dave)		B=1.1.209; V=dave	;; # Dave Steinberg
+  sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
+  tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
+  *)		print -r -- Error: Vendor Branch $branch non-existant.
+		exit 1			;;
+}
 
 tag="$1"
 tagerr=0
@@ -647,6 +749,16 @@ texinfo)
 	print -u2 not implemented yet
 	exit 1
 	;;
+-)
+	if [[ $tag = 20[0-9][0-9][0-1][0-9]@([0-2][0-9]|3[01])[0-5][0-9][0-5][0-9] ]]; then
+		realtag=cvs-$tag
+	elif [[ $tag = -* ]]; then
+		realtag=${tag#-}
+	else
+		tagerr=1
+	fi
+	tagformat="YYYYMMDDhhmm or -free"
+	;;
 }
 
 if [[ $tagerr = 1 ]]; then
@@ -662,10 +774,10 @@ binutils)
 	;;
 }
 
-rm -rf $IGNORELIST
+[[ -n $IGNORELIST ]] && rm -rf $IGNORELIST
 find . -type f | xargs chmod a-x
 
 ${DO_CVS:-cvs} -z3 -d ${CVSROOT:-/cvs} import -I ! -I CVS -I .svn \
-    -b $branch $vpath $vendor $realtag 2>&1
+    -b $B $vpath $V $realtag 2>&1
 
 print ========= Imported with Tag: $realtag =========
