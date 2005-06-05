@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/binutils-import,v 1.4 2005/06/05 17:44:32 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.1 2005/06/05 20:03:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,6 +24,8 @@
 # of this work, even if advised of the possibility of such damage.
 
 module="$1"; shift
+
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.1 2005/06/05 20:03:32 tg Exp $ ========='
 
 case $module {
 binutils)
@@ -591,19 +593,18 @@ texinfo)
 	;;
 }
 
-print -r -- '========= $MirOS: src/scripts/binutils-import,v 1.4 2005/06/05 17:44:32 tg Exp $ ========='
+while getopts "np" option; do
+	case $option {
+	n)	DO_CVS="print -- \$ cvs"
+		;;
+	p)	print $IGNORELIST
+		exit 0
+		;;
+	}
+done
+shift $((OPTIND - 1))
 
-if [[ $1 = -n ]]; then
-	DO_CVS="print -- \$ cvs"
-	shift
-fi
-
-if [[ $1 = -p ]]; then
-	print $IGNORELIST
-	exit 0
-fi
-
-tag="$1"; shift
+tag="$1"
 tagerr=0
 
 case $module {
