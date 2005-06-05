@@ -471,6 +471,9 @@ Romig-Koch, Rob Savoye, Jamie Smith, Mike Stump, Ian Taylor, Angela
 Thomas, Michael Tiemann, Tom Tromey, Ron Unrau, Jim Wilson, and David
 Zuhn have made contributions both large and small.
 
+Andrew Cagney, Fernando Nasser, and Elena Zannoni, while working for
+Cygnus Solutions, implemented the original @sc{gdb/mi} interface.
+
 Jim Blandy added support for preprocessor macros, while working for Red
 Hat.
 
@@ -2902,7 +2905,6 @@ cannot set a hardware watchpoint, it sets a software watchpoint, which
 executes more slowly and reports the change in value at the next
 @emph{statement}, not the instruction, after the change occurs.
 
-@vindex can-use-hw-watchpoints
 @cindex use only software watchpoints
 You can force @value{GDBN} to use only software watchpoints with the
 @kbd{set can-use-hw-watchpoints 0} command.  With this variable set to
@@ -4147,8 +4149,8 @@ Inside your program, stack frames are identified by their addresses.  A
 stack frame consists of many bytes, each of which has its own address; each
 kind of computer has a convention for choosing one byte whose
 address serves as the address of the frame.  Usually this address is kept
-in a register called the @dfn{frame pointer register} while execution is
-going on in that frame.
+in a register called the @dfn{frame pointer register}
+(@pxref{Registers, $fp}) while execution is going on in that frame.
 
 @cindex frame number
 @value{GDBN} assigns numbers to all existing stack frames, starting with
@@ -6126,6 +6128,11 @@ the selected stack frame.  @var{regname} may be any register name valid on
 the machine you are using, with or without the initial @samp{$}.
 @end table
 
+@cindex stack pointer register
+@cindex program counter register
+@cindex process status register
+@cindex frame pointer register
+@cindex standard registers
 @value{GDBN} has four ``standard'' register names that are available (in
 expressions) on most machines---whenever they do not conflict with an
 architecture's canonical mnemonics for registers.  The register names
@@ -14665,21 +14672,30 @@ following CRIS-specific commands:
 @table @code
 @item set cris-version @var{ver}
 @cindex CRIS version
-Set the current CRIS version to @var{ver}.  The CRIS version affects
-register names and sizes.  This command is useful in case
-autodetection of the CRIS version fails.
+Set the current CRIS version to @var{ver}, either @samp{10} or @samp{32}.
+The CRIS version affects register names and sizes.  This command is useful in
+case autodetection of the CRIS version fails.
 
 @item show cris-version
 Show the current CRIS version.
 
 @item set cris-dwarf2-cfi
 @cindex DWARF-2 CFI and CRIS
-Set the usage of DWARF-2 CFI for CRIS debugging.  The default is off
-if using @code{gcc-cris} whose version is below @code{R59}, otherwise
-on.
+Set the usage of DWARF-2 CFI for CRIS debugging.  The default is @samp{on}.
+Change to @samp{off} when using @code{gcc-cris} whose version is below 
+@code{R59}.
 
 @item show cris-dwarf2-cfi
 Show the current state of using DWARF-2 CFI.
+
+@item set cris-mode @var{mode}
+@cindex CRIS mode
+Set the current CRIS mode to @var{mode}.  It should only be changed when
+debugging in guru mode, in which case it should be set to 
+@samp{guru} (the default is @samp{normal}).
+
+@item show cris-mode
+Show the current CRIS mode.
 @end table
 
 @node Super-H
@@ -15191,18 +15207,18 @@ Show the current pagination mode.
 You can always enter numbers in octal, decimal, or hexadecimal in
 @value{GDBN} by the usual conventions: octal numbers begin with
 @samp{0}, decimal numbers end with @samp{.}, and hexadecimal numbers
-begin with @samp{0x}.  Numbers that begin with none of these are, by
-default, entered in base 10; likewise, the default display for
-numbers---when no particular format is specified---is base 10.  You can
-change the default base for both input and output with the @code{set
-radix} command.
+begin with @samp{0x}.  Numbers that neither begin with @samp{0} or
+@samp{0x}, nor end with a @samp{.} are, by default, entered in base
+10; likewise, the default display for numbers---when no particular
+format is specified---is base 10.  You can change the default base for
+both input and output with the commands described below.
 
 @table @code
 @kindex set input-radix
 @item set input-radix @var{base}
 Set the default base for numeric input.  Supported choices
 for @var{base} are decimal 8, 10, or 16.  @var{base} must itself be
-specified either unambiguously or using the current default radix; for
+specified either unambiguously or using the current input radix; for
 example, any of
 
 @smallexample
@@ -15213,13 +15229,17 @@ set input-radix 0xa
 
 @noindent
 sets the input base to decimal.  On the other hand, @samp{set input-radix 10}
-leaves the input radix unchanged, no matter what it was.
+leaves the input radix unchanged, no matter what it was, since
+@samp{10}, being without any leading or trailing signs of its base, is
+interpreted in the current radix.  Thus, if the current radix is 16,
+@samp{10} is interpreted in hex, i.e.@: as 16 decimal, which doesn't
+change the radix.
 
 @kindex set output-radix
 @item set output-radix @var{base}
 Set the default base for numeric display.  Supported choices
 for @var{base} are decimal 8, 10, or 16.  @var{base} must itself be
-specified either unambiguously or using the current default radix.
+specified either unambiguously or using the current input radix.
 
 @kindex show input-radix
 @item show input-radix
@@ -16953,9 +16973,40 @@ consequence of @sc{gdb/mi} (e.g., a breakpoint modified) or a result of
 target activity (e.g., target stopped).
 
 The following is a preliminary list of possible out-of-band records.
+In particular, the @var{exec-async-output} records.
 
 @table @code
-@item "*" "stop"
+@item *stopped,reason="@var{reason}"
+@end table
+
+@var{reason} can be one of the following:
+
+@table @code
+@item breakpoint-hit
+A breakpoint was reached.
+@item watchpoint-trigger
+A watchpoint was triggered.
+@item read-watchpoint-trigger
+A read watchpoint was triggered.
+@item access-watchpoint-trigger 
+An access watchpoint was triggered.
+@item function-finished
+An -exec-finish or similar CLI command was accomplished.
+@item location-reached
+An -exec-until or similar CLI command was accomplished.
+@item watchpoint-scope
+A watchpoint has gone out of scope.
+@item end-stepping-range
+An -exec-next, -exec-next-instruction, -exec-step, -exec-step-instruction or 
+similar CLI command was accomplished.
+@item exited-signalled 
+The inferior exited because of a signal.
+@item exited 
+The inferior exited.
+@item exited-normally 
+The inferior exited normally.
+@item signal-received 
+A signal was received by the inferior.
 @end table
 
 
@@ -17431,7 +17482,8 @@ Setting a watchpoint on a variable in the @code{main} function:
 ^running
 ^done,reason="watchpoint-trigger",wpt=@{number="2",exp="x"@},
 value=@{old="-268439212",new="55"@},
-frame=@{func="main",args=[],file="recursive2.c",line="5"@}
+frame=@{func="main",args=[],file="recursive2.c",
+fullname="/home/foo/bar/devo/myproject/recursive2.c",line="5"@}
 (@value{GDBP})
 @end smallexample
 
@@ -17449,14 +17501,16 @@ for the watchpoint going out of scope.
 ^done,reason="watchpoint-trigger",
 wpt=@{number="5",exp="C"@},value=@{old="-276895068",new="3"@},
 frame=@{func="callee4",args=[],
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="13"@}
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="13"@}
 (@value{GDBP})
 -exec-continue
 ^running
 ^done,reason="watchpoint-scope",wpnum="5",
 frame=@{func="callee3",args=[@{name="strarg",
 value="0x11940 \"A string argument.\""@}],
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="18"@}
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="18"@}
 (@value{GDBP})
 @end smallexample
 
@@ -17488,7 +17542,8 @@ enabled="y",addr="",what="C",times="0"@}]@}
 ^done,reason="watchpoint-trigger",wpt=@{number="2",exp="C"@},
 value=@{old="-276895068",new="3"@},
 frame=@{func="callee4",args=[],
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="13"@}
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="13"@}
 (@value{GDBP})
 -break-list
 ^done,BreakpointTable=@{nr_rows="2",nr_cols="6",
@@ -17509,7 +17564,8 @@ enabled="y",addr="",what="C",times="-5"@}]@}
 ^done,reason="watchpoint-scope",wpnum="2",
 frame=@{func="callee3",args=[@{name="strarg",
 value="0x11940 \"A string argument.\""@}],
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="18"@}
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="18"@}
 (@value{GDBP})
 -break-list
 ^done,BreakpointTable=@{nr_rows="1",nr_cols="6",
@@ -17744,7 +17800,7 @@ On a PPC MBX board:
 
 (@value{GDBP})
 *stopped,reason="breakpoint-hit",bkptno="1",frame=@{func="main",
-args=[],file="try.c",line="5"@}
+args=[],file="try.c",fullname="/home/foo/bar/devo/myproject/try.c",line="5"@}
 (@value{GDBP})
 -data-list-changed-registers
 ^done,changed-registers=["0","1","2","4","5","6","7","8","9",
@@ -18351,7 +18407,7 @@ The corresponding @value{GDBN} corresponding is @samp{continue}.
 (@value{GDBP})
 @@Hello world
 *stopped,reason="breakpoint-hit",bkptno="2",frame=@{func="foo",args=[],
-file="hello.c",line="13"@}
+file="hello.c",fullname="/home/foo/bar/devo/myproject/hello.c",line="13"@}
 (@value{GDBP})
 @end smallexample
 
@@ -18383,7 +18439,7 @@ Function returning @code{void}.
 (@value{GDBP})
 @@hello from foo
 *stopped,reason="function-finished",frame=@{func="main",args=[],
-file="hello.c",line="7"@}
+file="hello.c",fullname="/home/foo/bar/devo/myproject/hello.c",line="7"@}
 (@value{GDBP})
 @end smallexample
 
@@ -18397,7 +18453,7 @@ value itself.
 (@value{GDBP})
 *stopped,reason="function-finished",frame=@{addr="0x000107b0",func="foo",
 args=[@{name="a",value="1"],@{name="b",value="9"@}@},
-file="recursive2.c",line="14"@},
+file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 gdb-result-var="$1",return-value="0"
 (@value{GDBP})
 @end smallexample
@@ -18434,7 +18490,8 @@ The corresponding @value{GDBN} command is @samp{interrupt}.
 222^done
 (@value{GDBP})
 111*stopped,signal-name="SIGINT",signal-meaning="Interrupt",
-frame=@{addr="0x00010140",func="foo",args=[],file="try.c",line="13"@}
+frame=@{addr="0x00010140",func="foo",args=[],file="try.c",
+fullname="/home/foo/bar/devo/myproject/try.c",line="13"@}
 (@value{GDBP})
 
 (@value{GDBP})
@@ -18532,7 +18589,8 @@ file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="8"@}
 (@value{GDBP})
 000*stopped,reason="breakpoint-hit",bkptno="1",
 frame=@{func="callee4",args=[],
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="8"@}
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="8"@}
 (@value{GDBP})
 205-break-delete
 205^done
@@ -18541,7 +18599,8 @@ file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="8"@}
 111^done,frame=@{level="0",func="callee3",
 args=[@{name="strarg",
 value="0x11940 \"A string argument.\""@}],
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="18"@}
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="18"@}
 (@value{GDBP})
 @end smallexample
 
@@ -18574,7 +18633,8 @@ The corresponding @value{GDBN} command is @samp{run}.
 ^running
 (@value{GDBP})
 *stopped,reason="breakpoint-hit",bkptno="1",
-frame=@{func="main",args=[],file="recursive2.c",line="4"@}
+frame=@{func="main",args=[],file="recursive2.c",
+fullname="/home/foo/bar/devo/myproject/recursive2.c",line="4"@}
 (@value{GDBP})
 @end smallexample
 
@@ -18627,7 +18687,8 @@ Stepping into a function:
 (@value{GDBP})
 *stopped,reason="end-stepping-range",
 frame=@{func="foo",args=[@{name="a",value="10"@},
-@{name="b",value="0"@}],file="recursive2.c",line="11"@}
+@{name="b",value="0"@}],file="recursive2.c",
+fullname="/home/foo/bar/devo/myproject/recursive2.c",line="11"@}
 (@value{GDBP})
 @end smallexample
 
@@ -18670,14 +18731,16 @@ The corresponding @value{GDBN} command is @samp{stepi}.
 
 (@value{GDBP})
 *stopped,reason="end-stepping-range",
-frame=@{func="foo",args=[],file="try.c",line="10"@}
+frame=@{func="foo",args=[],file="try.c",
+fullname="/home/foo/bar/devo/myproject/try.c",line="10"@}
 (@value{GDBP})
 -exec-step-instruction
 ^running
 
 (@value{GDBP})
 *stopped,reason="end-stepping-range",
-frame=@{addr="0x000100f4",func="foo",args=[],file="try.c",line="10"@}
+frame=@{addr="0x000100f4",func="foo",args=[],file="try.c",
+fullname="/home/foo/bar/devo/myproject/try.c",line="10"@}
 (@value{GDBP})
 @end smallexample
 
@@ -18709,7 +18772,7 @@ The corresponding @value{GDBN} command is @samp{until}.
 (@value{GDBP})
 x = 55
 *stopped,reason="location-reached",frame=@{func="main",args=[],
-file="recursive2.c",line="6"@}
+file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="6"@}
 (@value{GDBP})
 @end smallexample
 
@@ -19209,15 +19272,20 @@ functionality of @samp{-stack-list-arguments}.
 ^done,
 stack=[
 frame=@{level="0",addr="0x00010734",func="callee4",
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="8"@},
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="8"@},
 frame=@{level="1",addr="0x0001076c",func="callee3",
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="17"@},
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="17"@},
 frame=@{level="2",addr="0x0001078c",func="callee2",
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="22"@},
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="22"@},
 frame=@{level="3",addr="0x000107b4",func="callee1",
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="27"@},
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="27"@},
 frame=@{level="4",addr="0x000107e0",func="main",
-file="../../../devo/gdb/testsuite/gdb.mi/basics.c",line="32"@}]
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="32"@}]
 (@value{GDBP})
 -stack-list-arguments 0
 ^done,
@@ -19299,29 +19367,29 @@ Full stack backtrace:
 -stack-list-frames
 ^done,stack=
 [frame=@{level="0",addr="0x0001076c",func="foo",
-  file="recursive2.c",line="11"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="11"@},
 frame=@{level="1",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="2",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="3",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="4",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="5",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="6",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="7",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="8",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="9",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="10",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="11",addr="0x00010738",func="main",
-  file="recursive2.c",line="4"@}]
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="4"@}]
 (@value{GDBP})
 @end smallexample
 
@@ -19332,11 +19400,11 @@ Show frames between @var{low_frame} and @var{high_frame}:
 -stack-list-frames 3 5
 ^done,stack=
 [frame=@{level="3",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="4",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@},
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@},
 frame=@{level="5",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@}]
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@}]
 (@value{GDBP})
 @end smallexample
 
@@ -19347,7 +19415,7 @@ Show a single frame:
 -stack-list-frames 3 3
 ^done,stack=
 [frame=@{level="3",addr="0x000107a4",func="foo",
-  file="recursive2.c",line="14"@}]
+  file="recursive2.c",fullname="/home/foo/bar/devo/myproject/recursive2.c",line="14"@}]
 (@value{GDBP})
 @end smallexample
 
@@ -20526,7 +20594,7 @@ Interface, annotate, GDB's Obsolete Annotations}).
 @table @code
 @kindex set annotate
 @item set annotate @var{level}
-The @value{GDB} command @code{set annotate} sets the level of
+The @value{GDBN} command @code{set annotate} sets the level of
 annotations to the specified @var{level}.
 
 @item show annotate

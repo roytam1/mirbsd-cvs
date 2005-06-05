@@ -569,7 +569,7 @@ value_assign (struct value *toval, struct value *fromval)
 	const gdb_byte *dest_buffer;
 	CORE_ADDR changed_addr;
 	int changed_len;
-        char buffer[sizeof (LONGEST)];
+        gdb_byte buffer[sizeof (LONGEST)];
 
 	if (value_bitsize (toval))
 	  {
@@ -631,7 +631,7 @@ value_assign (struct value *toval, struct value *fromval)
 	       modify it, and copy it back in.  */
 	    int amount_copied;
 	    int amount_to_copy;
-	    char *buffer;
+	    gdb_byte *buffer;
 	    int reg_offset;
 	    int byte_offset;
 	    int regno;
@@ -655,7 +655,7 @@ value_assign (struct value *toval, struct value *fromval)
 	      amount_to_copy = byte_offset + TYPE_LENGTH (type);
 	    
 	    /* And a bounce buffer.  Be slightly over generous.  */
-	    buffer = (char *) alloca (amount_to_copy + MAX_REGISTER_SIZE);
+	    buffer = alloca (amount_to_copy + MAX_REGISTER_SIZE);
 
 	    /* Copy it in.  */
 	    for (regno = reg_offset, amount_copied = 0;
@@ -933,54 +933,6 @@ value_ind (struct value *arg1)
   return 0;			/* For lint -- never reached */
 }
 
-/* Pushing small parts of stack frames.  */
-
-/* Push one word (the size of object that a register holds).  */
-
-CORE_ADDR
-push_word (CORE_ADDR sp, ULONGEST word)
-{
-  int len = DEPRECATED_REGISTER_SIZE;
-  char buffer[MAX_REGISTER_SIZE];
-
-  store_unsigned_integer (buffer, len, word);
-  if (INNER_THAN (1, 2))
-    {
-      /* stack grows downward */
-      sp -= len;
-      write_memory (sp, buffer, len);
-    }
-  else
-    {
-      /* stack grows upward */
-      write_memory (sp, buffer, len);
-      sp += len;
-    }
-
-  return sp;
-}
-
-/* Push LEN bytes with data at BUFFER.  */
-
-CORE_ADDR
-push_bytes (CORE_ADDR sp, char *buffer, int len)
-{
-  if (INNER_THAN (1, 2))
-    {
-      /* stack grows downward */
-      sp -= len;
-      write_memory (sp, buffer, len);
-    }
-  else
-    {
-      /* stack grows upward */
-      write_memory (sp, buffer, len);
-      sp += len;
-    }
-
-  return sp;
-}
-
 /* Create a value for an array by allocating space in the inferior, copying
    the data into that space, and then setting up an array value.
 
@@ -1087,7 +1039,7 @@ value_string (char *ptr, int len)
      copy LEN bytes from PTR in gdb to that address in the inferior. */
 
   addr = allocate_space_in_inferior (len);
-  write_memory (addr, ptr, len);
+  write_memory (addr, (gdb_byte *) ptr, len);
 
   val = value_at_lazy (stringtype, addr);
   return (val);
@@ -2317,7 +2269,7 @@ check_field_in (struct type *type, const char *name)
    target structure/union is defined, otherwise, return 0.  */
 
 int
-check_field (struct value *arg1, const gdb_byte *name)
+check_field (struct value *arg1, const char *name)
 {
   struct type *t;
 

@@ -72,11 +72,6 @@ static void build_remote_gdbarch_data (void);
 
 static void remote_files_info (struct target_ops *ignore);
 
-static int remote_xfer_memory (CORE_ADDR memaddr, char *myaddr,
-			       int len, int should_write,
-			       struct mem_attrib *attrib,
-			       struct target_ops *target);
-
 static void remote_prepare_to_store (void);
 
 static void remote_fetch_registers (int regno);
@@ -1119,7 +1114,7 @@ struct gdb_ext_thread_info
     int active;			/* Has state interesting to GDB? 
 				   regs, stack.  */
     char display[256];		/* Brief state display, name, 
-				   blocked/syspended.  */
+				   blocked/suspended.  */
     char shortname[32];		/* To be used to name threads.  */
     char more_display[256];	/* Long info, statistics, queue depth, 
 				   whatever.  */
@@ -1494,7 +1489,7 @@ remote_unpack_thread_info_response (char *pkt, threadref *expectedref,
   int mask, length;
   unsigned int tag;
   threadref ref;
-  char *limit = pkt + (rs->remote_packet_size);	/* plausable parsing limit */
+  char *limit = pkt + (rs->remote_packet_size);	/* plausible parsing limit */
   int retval = 1;
 
   /* info->threadid = 0; FIXME: implement zero_threadref.  */
@@ -3871,7 +3866,7 @@ remote_read_bytes (CORE_ADDR memaddr, char *myaddr, int len)
    read; 0 for error.  TARGET is unused.  */
 
 static int
-remote_xfer_memory (CORE_ADDR mem_addr, char *buffer, int mem_len,
+remote_xfer_memory (CORE_ADDR mem_addr, gdb_byte *buffer, int mem_len,
 		    int should_write, struct mem_attrib *attrib,
 		    struct target_ops *target)
 {
@@ -4733,7 +4728,7 @@ remote_stopped_data_address (struct target_ops *target, CORE_ADDR *addr_p)
 
 
 static int
-remote_insert_hw_breakpoint (CORE_ADDR addr, char *shadow)
+remote_insert_hw_breakpoint (CORE_ADDR addr, gdb_byte *shadow)
 {
   int len = 0;
   struct remote_state *rs = get_remote_state ();
@@ -4775,7 +4770,7 @@ remote_insert_hw_breakpoint (CORE_ADDR addr, char *shadow)
 
 
 static int
-remote_remove_hw_breakpoint (CORE_ADDR addr, char *shadow)
+remote_remove_hw_breakpoint (CORE_ADDR addr, gdb_byte *shadow)
 {
   int len;
   struct remote_state *rs = get_remote_state ();
@@ -4954,8 +4949,8 @@ the loaded file\n"));
 
 static LONGEST
 remote_xfer_partial (struct target_ops *ops, enum target_object object,
-		     const char *annex, void *readbuf, const void *writebuf,
-		     ULONGEST offset, LONGEST len)
+		     const char *annex, gdb_byte *readbuf,
+		     const gdb_byte *writebuf, ULONGEST offset, LONGEST len)
 {
   struct remote_state *rs = get_remote_state ();
   int i;

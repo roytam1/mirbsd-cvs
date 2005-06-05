@@ -54,6 +54,7 @@ arm*-*-linux*)		gdb_target=linux
 arm*-*-netbsd* | arm*-*-knetbsd*-gnu)
 			gdb_target=nbsd ;;
 arm-*-nto*)		gdb_target=nto ;;
+arm*-*-openbsd*)	gdb_target=nbsd ;;
 arm*-*-* | thumb*-*-* | strongarm*-*-*)
 			gdb_target=embed
 			build_rdi_share=yes
@@ -146,7 +147,9 @@ powerpc-*-aix*)		gdb_target=aix ;;
 powerpc-*-linux*)	gdb_target=linux
 			build_gdbserver=yes
 			;;
-powerpc64-*-linux*)	gdb_target=linux ;;
+powerpc64-*-linux*)	gdb_target=linux
+			build_gdbserver=yes
+			;;
 powerpc*-*-*)		if test -f ../sim/ppc/Makefile; then
 			  gdb_target=ppc-sim
 			else
@@ -193,9 +196,11 @@ sparc64-*-*)		gdb_target=sparc64 ;;
 
 xstormy16-*-*)          gdb_target=xstormy16 ;;
 
+v850*-*-elf)		gdb_target=v850 ;;
+
 vax-*-netbsd* | vax-*-knetbsd*-gnu)
 			gdb_target=nbsd ;;
-vax-*-openbsd*)		gdb_target=nbsd ;;
+vax-*-openbsd*)		gdb_target=obsd ;;
 vax-*-*)		gdb_target=vax ;;
 
 x86_64-*-linux*)	gdb_target=linux64

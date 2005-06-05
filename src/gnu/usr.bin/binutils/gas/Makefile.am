@@ -475,6 +475,7 @@ stamp-mk.com: vmsconf.sh Makefile
 
 EXTRA_DIST = make-gas.com m68k-parse.c itbl-parse.c itbl-parse.h itbl-lex.c
 diststuff: $(EXTRA_DIST) info
+all: info
 
 DISTCLEANFILES = targ-cpu.h obj-format.h targ-env.h itbl-cpu.h cgen-desc.h
 
@@ -635,7 +636,7 @@ m68k-parse.c: $(srcdir)/config/m68k-parse.y
 	   cp config/m68k-parse.y . >/dev/null 2>/dev/null; \
 	  f=m68k-parse.y; \
 	else true; fi; \
-	$(SHELL) $(YLWRAP) "$(YACC)" $$f y.tab.c m68k-parse.c --; \
+	$(SHELL) $(YLWRAP) $$f y.tab.c m68k-parse.c -- $(YACCCOMPILE); \
 	if [ $$f = "m68k-parse.y" ]; then \
 	  rm -f m68k-parse.y; \
 	else true; fi
@@ -661,7 +662,7 @@ itbl-parse.o: itbl-parse.c itbl-parse.h $(srcdir)/itbl-ops.h $(srcdir)/itbl-lex.
 itbl-ops.o: $(srcdir)/itbl-ops.c $(srcdir)/itbl-ops.h itbl-parse.h
 
 itbl-parse.c itbl-parse.h: $(srcdir)/itbl-parse.y
-	$(SHELL) $(YLWRAP) "$(YACC)" $(srcdir)/itbl-parse.y y.tab.c itbl-parse.c y.tab.h itbl-parse.h -- -d
+	$(SHELL) $(YLWRAP) $(srcdir)/itbl-parse.y y.tab.c itbl-parse.c y.tab.h itbl-parse.h -- $(YACCCOMPILE) -d
 
 # stand-alone itbl assembler & disassembler
 

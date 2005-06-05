@@ -18,7 +18,7 @@ AC_ISC_POSIX
 changequote(,)dnl
 BFD_VERSION=`sed -n -e 's/^.._INIT_AUTOMAKE.*,[ 	]*\([^ 	]*\)[ 	]*).*/\1/p' < ${srcdir}/../bfd/configure.in`
 changequote([,])dnl
-AM_INIT_AUTOMAKE(gas, 050514)
+AM_INIT_AUTOMAKE(gas, 050605)
 
 AM_PROG_LIBTOOL
 

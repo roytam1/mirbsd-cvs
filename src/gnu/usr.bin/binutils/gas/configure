@@ -2833,7 +2833,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=gas
- VERSION=050514
+ VERSION=050605
 
 
 cat >>confdefs.h <<_ACEOF

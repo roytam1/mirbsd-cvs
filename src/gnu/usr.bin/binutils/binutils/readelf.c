@@ -1243,7 +1243,31 @@ dump_relocations (FILE *file,
       else
 	printf (do_wide ? "%-22.22s" : "%-17.17s", rtype);
 
-      if (symtab_index)
+      if (elf_header.e_machine == EM_ALPHA
+	  && streq (rtype, "R_ALPHA_LITUSE")
+	  && is_rela)
+	{
+	  switch (rels[i].r_addend)
+	    {
+	    case LITUSE_ALPHA_ADDR:   rtype = "ADDR";   break;
+	    case LITUSE_ALPHA_BASE:   rtype = "BASE";   break;
+	    case LITUSE_ALPHA_BYTOFF: rtype = "BYTOFF"; break;
+	    case LITUSE_ALPHA_JSR:    rtype = "JSR";    break;
+	    case LITUSE_ALPHA_TLSGD:  rtype = "TLSGD";  break;
+	    case LITUSE_ALPHA_TLSLDM: rtype = "TLSLDM"; break;
+	    case LITUSE_ALPHA_JSRDIRECT: rtype = "JSRDIRECT"; break;
+	    default: rtype = NULL;
+	    }
+	  if (rtype)
+	    printf (" (%s)", rtype);
+	  else
+	    {
+	      putchar (' ');
+	      printf (_("<unknown addend: %lx>"),
+		      (unsigned long) rels[i].r_addend);
+	    }
+	}
+      else if (symtab_index)
 	{
 	  if (symtab == NULL || symtab_index >= nsyms)
 	    printf (" bad symbol index: %08lx", (unsigned long) symtab_index);
@@ -1309,8 +1333,7 @@ dump_relocations (FILE *file,
 	  print_vma (rels[i].r_addend, LONG_HEX);
 	}
 
-      if (elf_header.e_machine == EM_SPARCV9
-	  && streq (rtype, "R_SPARC_OLO10"))
+      if (elf_header.e_machine == EM_SPARCV9 && streq (rtype, "R_SPARC_OLO10"))
 	printf (" + %lx", (unsigned long) ELF64_R_TYPE_DATA (info));
 
       putchar ('\n');
@@ -1471,6 +1494,17 @@ get_ia64_dynamic_type (unsigned long type)
 }
 
 static const char *
+get_alpha_dynamic_type (unsigned long type)
+{
+  switch (type)
+    {
+    case DT_ALPHA_PLTRO: return "ALPHA_PLTRO";
+    default:
+      return NULL;
+    }
+}
+
+static const char *
 get_dynamic_type (unsigned long type)
 {
   static char buff[64];
@@ -1571,6 +1605,9 @@ get_dynamic_type (unsigned long type)
 	      break;
 	    case EM_IA_64:
 	      result = get_ia64_dynamic_type (type);
+	      break;
+	    case EM_ALPHA:
+	      result = get_alpha_dynamic_type (type);
 	      break;
 	    default:
 	      result = NULL;
@@ -4187,8 +4224,8 @@ process_section_groups (FILE *file)
 
 	  if (do_section_groups)
 	    {
-	      printf ("\n%s group section `%s' [%s] contains %u sections:\n",
-		      get_group_flags (entry), name, group_name, size);
+	      printf ("\n%s group section [%5u] `%s' [%s] contains %u sections:\n",
+		      get_group_flags (entry), i, name, group_name, size);
 
 	      printf (_("   [Index]    Name\n"));
 	    }
@@ -4202,13 +4239,26 @@ process_section_groups (FILE *file)
 	      entry = byte_get (indices, 4);
 	      indices += 4;
 
+	      if (entry >= elf_header.e_shnum)
+		{
+		  error (_("section [%5u] in group section [%5u] > maximum section [%5u]\n"),
+			 entry, i, elf_header.e_shnum - 1);
+		  continue;
+		}
+	      else if (entry >= SHN_LORESERVE && entry <= SHN_HIRESERVE)
+		{
+		  error (_("invalid section [%5u] in group section [%5u]\n"),
+			 entry, i);
+		  continue;
+		}
+
 	      if (section_headers_groups [SECTION_HEADER_INDEX (entry)]
 		  != NULL)
 		{
 		  if (entry)
 		    {
-		      error (_("section [%5u] already in group section [%5u]\n"),
-			     entry,
+		      error (_("section [%5u] in group section [%5u] already in group section [%5u]\n"),
+			     entry, i,
 			     section_headers_groups [SECTION_HEADER_INDEX (entry)]->group_index);
 		      continue;
 		    }
@@ -7269,7 +7319,10 @@ fetch_indirect_string (unsigned long offset)
     return _("<no .debug_str section>");
 
   if (offset > debug_str_size)
-    return _("<offset is too big>");
+    {
+      warn (_("DW_FORM_strp offset too big: %x\n"), offset);
+      return _("<offset is too big>");
+    }
 
   return debug_str_contents + offset;
 }
@@ -8419,6 +8472,8 @@ read_and_display_attr_value (unsigned long attribute,
 	case DW_ATE_unsigned_char:	printf ("(unsigned char)"); break;
 	  /* DWARF 2.1 value.  */
 	case DW_ATE_imaginary_float:	printf ("(imaginary float)"); break;
+	  /* GNU extension.  */
+	case DW_ATE_GNU_decimal_float:	printf ("(decimal float)"); break;
 	default:
 	  if (uvalue >= DW_ATE_lo_user
 	      && uvalue <= DW_ATE_hi_user)
@@ -8798,7 +8853,7 @@ process_debug_info (Elf_Internal_Shdr *section, unsigned char *start,
 
       if (!do_loc)
 	{
-	  printf (_("  Compilation Unit @ %lx:\n"), cu_offset);
+	  printf (_("  Compilation Unit @ offset 0x%lx:\n"), cu_offset);
 	  printf (_("   Length:        %ld\n"), compunit.cu_length);
 	  printf (_("   Version:       %d\n"), compunit.cu_version);
 	  printf (_("   Abbrev Offset: %ld\n"), compunit.cu_abbrev_offset);
@@ -9086,7 +9141,7 @@ display_debug_lines (Elf_Internal_Shdr *section,
       /* Get the pointer size from the comp unit associated
 	 with this block of line number information.  */
       pointer_size = get_pointer_size_and_offset_of_comp_unit
-	(comp_unit, ".debug_lines", NULL);
+	(comp_unit, ".debug_line", NULL);
       comp_unit ++;
 
       printf (_("  Length:                      %ld\n"), info.li_length);
@@ -9197,7 +9252,7 @@ display_debug_lines (Elf_Internal_Shdr *section,
 		}
 
 	      data += process_extended_line_op (data, info.li_default_is_stmt,
-						  pointer_size);
+						pointer_size);
 	      break;
 
 	    case DW_LNS_copy:

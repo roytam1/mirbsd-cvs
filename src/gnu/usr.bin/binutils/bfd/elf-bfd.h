@@ -349,13 +349,15 @@ struct elf_link_hash_table
 
   /* The value to use when initialising got.refcount/offset and
      plt.refcount/offset in an elf_link_hash_entry.  Set to zero when
-     the values are refcounts.  Set to init_offset in
-     size_dynamic_sections when the values may be offsets.  */
-  union gotplt_union init_refcount;
+     the values are refcounts.  Set to init_got_offset/init_plt_offset
+     in size_dynamic_sections when the values may be offsets.  */
+  union gotplt_union init_got_refcount;
+  union gotplt_union init_plt_refcount;
 
   /* The value to use for got.refcount/offset and plt.refcount/offset
      when the values may be offsets.  Normally (bfd_vma) -1.  */
-  union gotplt_union init_offset;
+  union gotplt_union init_got_offset;
+  union gotplt_union init_plt_offset;
 
   /* The number of symbols found in the link which must be put into
      the .dynsym section.  */
@@ -1486,6 +1488,8 @@ extern bfd_boolean _bfd_elf_set_arch_mach
 extern bfd_boolean _bfd_elf_find_nearest_line
   (bfd *, asection *, asymbol **, bfd_vma, const char **, const char **,
    unsigned int *);
+extern bfd_boolean _bfd_elf_find_inliner_info
+  (bfd *, const char **, const char **, unsigned int *);
 #define _bfd_elf_read_minisymbols _bfd_generic_read_minisymbols
 #define _bfd_elf_minisymbol_to_symbol _bfd_generic_minisymbol_to_symbol
 extern int _bfd_elf_sizeof_headers

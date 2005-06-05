@@ -96,8 +96,8 @@ struct fix;
    deliberately not been updated to mark assembler created stabs
    symbols as Thumb.  */
 
-#define TC_FIX_TYPE PTR
-#define TC_INIT_FIX_DATA(FIX) ((FIX)->tc_fix_data = NULL)
+#define TC_FIX_TYPE int
+#define TC_INIT_FIX_DATA(FIX) ((FIX)->tc_fix_data = 0)
 
 /* We need to keep some local information on symbols.  */
 
@@ -140,7 +140,6 @@ struct fix;
 #define TC_FORCE_RELOCATION_LOCAL(FIX)			\
   (!(FIX)->fx_pcrel					\
    || (FIX)->fx_plt					\
-   || (FIX)->fx_r_type == BFD_RELOC_ARM_GOT12		\
    || (FIX)->fx_r_type == BFD_RELOC_ARM_GOT32		\
    || (FIX)->fx_r_type == BFD_RELOC_32			\
    || TC_FORCE_RELOCATION (FIX))

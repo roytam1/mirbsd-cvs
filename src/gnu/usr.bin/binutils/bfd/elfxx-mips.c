@@ -4987,6 +4987,13 @@ _bfd_mips_elf_section_processing (bfd *abfd, Elf_Internal_Shdr *hdr)
 
 	  bfd_mips_elf_swap_options_in (abfd, (Elf_External_Options *) l,
 					&intopt);
+	  if (intopt.size < sizeof (Elf_External_Options))
+	    {
+	      (*_bfd_error_handler)
+		(_("%B: Warning: bad `%s' option size %u smaller than its header"),
+		abfd, MIPS_ELF_OPTIONS_SECTION_NAME (abfd), intopt.size);
+	      break;
+	    }
 	  if (ABI_64_P (abfd) && intopt.kind == ODK_REGINFO)
 	    {
 	      bfd_byte buf[8];
@@ -5201,6 +5208,13 @@ _bfd_mips_elf_section_from_shdr (bfd *abfd,
 
 	  bfd_mips_elf_swap_options_in (abfd, (Elf_External_Options *) l,
 					&intopt);
+	  if (intopt.size < sizeof (Elf_External_Options))
+	    {
+	      (*_bfd_error_handler)
+		(_("%B: Warning: bad `%s' option size %u smaller than its header"),
+		abfd, MIPS_ELF_OPTIONS_SECTION_NAME (abfd), intopt.size);
+	      break;
+	    }
 	  if (ABI_64_P (abfd) && intopt.kind == ODK_REGINFO)
 	    {
 	      Elf64_Internal_RegInfo intreg;
@@ -5239,8 +5253,10 @@ bfd_boolean
 _bfd_mips_elf_fake_sections (bfd *abfd, Elf_Internal_Shdr *hdr, asection *sec)
 {
   register const char *name;
+  unsigned int sh_type;
 
   name = bfd_get_section_name (abfd, sec);
+  sh_type = hdr->sh_type;
 
   if (strcmp (name, ".liblist") == 0)
     {
@@ -5341,6 +5357,12 @@ _bfd_mips_elf_fake_sections (bfd *abfd, Elf_Internal_Shdr *hdr, asection *sec)
       hdr->sh_flags |= SHF_ALLOC;
       hdr->sh_entsize = 8;
     }
+
+  /* In the unlikely event a special section is empty it has to lose its
+     special meaning.  This may happen e.g. when using `strip' with the
+     "--only-keep-debug" option.  */
+  if (sec->size > 0 && !(sec->flags & SEC_HAS_CONTENTS))
+    hdr->sh_type = sh_type;
 
   /* The generic elf_fake_sections will set up REL_HDR using the default
    kind of relocations.  We used to set up a second header for the
@@ -7674,18 +7696,6 @@ _bfd_mips_elf_finish_dynamic_sections (bfd *output_bfd,
 	      dyn.d_un.d_ptr = s->vma;
 	      break;
 
-	    case DT_RELSZ:
-	      /* Reduce DT_RELSZ to account for any relocations we
-		 decided not to make.  This is for the n64 irix rld,
-		 which doesn't seem to apply any relocations if there
-		 are trailing null entries.  */
-	      s = mips_elf_rel_dyn_section (dynobj, FALSE);
-	      dyn.d_un.d_val = (s->reloc_count
-				* (ABI_64_P (output_bfd)
-				   ? sizeof (Elf64_Mips_External_Rel)
-				   : sizeof (Elf32_External_Rel)));
-	      break;
-
 	    default:
 	      swap_out_p = FALSE;
 	      break;
@@ -7744,6 +7754,55 @@ _bfd_mips_elf_finish_dynamic_sections (bfd *output_bfd,
 		return FALSE;
 	      BFD_ASSERT (addend == 0);
 	    }
+	}
+    }
+
+  /* The generation of dynamic relocations for the non-primary gots
+     adds more dynamic relocations.  We cannot count them until
+     here.  */
+
+  if (elf_hash_table (info)->dynamic_sections_created)
+    {
+      bfd_byte *b;
+      bfd_boolean swap_out_p;
+
+      BFD_ASSERT (sdyn != NULL);
+
+      for (b = sdyn->contents;
+	   b < sdyn->contents + sdyn->size;
+	   b += MIPS_ELF_DYN_SIZE (dynobj))
+	{
+	  Elf_Internal_Dyn dyn;
+	  asection *s;
+
+	  /* Read in the current dynamic entry.  */
+	  (*get_elf_backend_data (dynobj)->s->swap_dyn_in) (dynobj, b, &dyn);
+
+	  /* Assume that we're going to modify it and write it out.  */
+	  swap_out_p = TRUE;
+
+	  switch (dyn.d_tag)
+	    {
+	    case DT_RELSZ:
+	      /* Reduce DT_RELSZ to account for any relocations we
+		 decided not to make.  This is for the n64 irix rld,
+		 which doesn't seem to apply any relocations if there
+		 are trailing null entries.  */
+	      s = mips_elf_rel_dyn_section (dynobj, FALSE);
+	      dyn.d_un.d_val = (s->reloc_count
+				* (ABI_64_P (output_bfd)
+				   ? sizeof (Elf64_Mips_External_Rel)
+				   : sizeof (Elf32_External_Rel)));
+	      break;
+
+	    default:
+	      swap_out_p = FALSE;
+	      break;
+	    }
+
+	  if (swap_out_p)
+	    (*get_elf_backend_data (dynobj)->s->swap_dyn_out)
+	      (dynobj, &dyn, b);
 	}
     }
 
@@ -8625,6 +8684,20 @@ _bfd_mips_elf_find_nearest_line (bfd *abfd, asection *section,
 				     filename_ptr, functionname_ptr,
 				     line_ptr);
 }
+
+bfd_boolean
+_bfd_mips_elf_find_inliner_info (bfd *abfd,
+				 const char **filename_ptr,
+				 const char **functionname_ptr,
+				 unsigned int *line_ptr)
+{
+  bfd_boolean found;
+  found = _bfd_dwarf2_find_inliner_info (abfd, filename_ptr,
+					 functionname_ptr, line_ptr,
+					 & elf_tdata (abfd)->dwarf2_find_line_info);
+  return found;
+}
+
 
 /* When are writing out the .options or .MIPS.options section,
    remember the bytes we are writing out, so that we can install the

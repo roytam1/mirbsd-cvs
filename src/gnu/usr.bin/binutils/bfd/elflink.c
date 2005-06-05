@@ -2362,8 +2362,8 @@ _bfd_elf_adjust_dynamic_symbol (struct elf_link_hash_entry *h, void *data)
 
   if (h->root.type == bfd_link_hash_warning)
     {
-      h->plt = elf_hash_table (eif->info)->init_offset;
-      h->got = elf_hash_table (eif->info)->init_offset;
+      h->got = elf_hash_table (eif->info)->init_got_offset;
+      h->plt = elf_hash_table (eif->info)->init_plt_offset;
 
       /* When warning symbols are created, they **replace** the "real"
 	 entry in the hash table, thus we never get to see the real
@@ -2392,7 +2392,7 @@ _bfd_elf_adjust_dynamic_symbol (struct elf_link_hash_entry *h, void *data)
 	  || (!h->ref_regular
 	      && (h->u.weakdef == NULL || h->u.weakdef->dynindx == -1))))
     {
-      h->plt = elf_hash_table (eif->info)->init_offset;
+      h->plt = elf_hash_table (eif->info)->init_plt_offset;
       return TRUE;
     }
 
@@ -4986,7 +4986,10 @@ bfd_elf_size_dynamic_sections (bfd *output_bfd,
 
   /* Any syms created from now on start with -1 in
      got.refcount/offset and plt.refcount/offset.  */
-  elf_hash_table (info)->init_refcount = elf_hash_table (info)->init_offset;
+  elf_hash_table (info)->init_got_refcount
+    = elf_hash_table (info)->init_got_offset;
+  elf_hash_table (info)->init_plt_refcount
+    = elf_hash_table (info)->init_plt_offset;
 
   /* The backend may have to create some sections regardless of whether
      we're dynamic or not.  */
@@ -5377,7 +5380,7 @@ bfd_elf_size_dynamic_sections (bfd *output_bfd,
 	    {
 	      bfd_size_type indx;
 
-	      name = basename (output_bfd->filename);
+	      name = lbasename (output_bfd->filename);
 	      def.vd_hash = bfd_elf_hash (name);
 	      indx = _bfd_elf_strtab_add (elf_hash_table (info)->dynstr,
 					  name, FALSE);
@@ -5600,7 +5603,7 @@ bfd_elf_size_dynamic_sections (bfd *output_bfd,
 		indx = _bfd_elf_strtab_add (elf_hash_table (info)->dynstr,
 					    elf_dt_name (t->vn_bfd) != NULL
 					    ? elf_dt_name (t->vn_bfd)
-					    : basename (t->vn_bfd->filename),
+					    : lbasename (t->vn_bfd->filename),
 					    FALSE);
 		if (indx == (bfd_size_type) -1)
 		  return FALSE;
@@ -7084,14 +7087,10 @@ elf_link_input_bfd (struct elf_final_link_info *finfo, bfd *input_bfd)
 		    {
 		      BFD_ASSERT (r_symndx != 0);
 		      if (action & COMPLAIN)
-			{
-			  (*_bfd_error_handler)
-			    (_("`%s' referenced in section `%A' of %B: "
-			       "defined in discarded section `%A' of %B"),
-			     o, input_bfd, sec, sec->owner, sym_name);
-			  bfd_set_error (bfd_error_bad_value);
-			  return FALSE;
-			}
+			(*finfo->info->callbacks->einfo)
+			  (_("%X`%s' referenced in section `%A' of %B: "
+			     "defined in discarded section `%A' of %B"),
+			   sym_name, o, input_bfd, sec, sec->owner);
 
 		      /* Try to do the best we can to support buggy old
 			 versions of gcc.  If we've warned, or this is

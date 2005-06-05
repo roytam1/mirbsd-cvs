@@ -452,8 +452,11 @@ group_signature (bfd *abfd, Elf_Internal_Shdr *ghdr)
   Elf_External_Sym_Shndx eshndx;
   Elf_Internal_Sym isym;
 
-  /* First we need to ensure the symbol table is available.  */
-  if (! bfd_section_from_shdr (abfd, ghdr->sh_link))
+  /* First we need to ensure the symbol table is available.  Make sure
+     that it is a symbol table section.  */
+  hdr = elf_elfsections (abfd) [ghdr->sh_link];
+  if (hdr->sh_type != SHT_SYMTAB
+      || ! bfd_section_from_shdr (abfd, ghdr->sh_link))
     return NULL;
 
   /* Go read the symbol.  */
@@ -1411,7 +1414,8 @@ _bfd_elf_link_hash_newfunc (struct bfd_hash_entry *entry,
       /* Set local fields.  */
       ret->indx = -1;
       ret->dynindx = -1;
-      ret->got = ret->plt = htab->init_refcount;
+      ret->got = htab->init_got_refcount;
+      ret->plt = htab->init_plt_refcount;
       memset (&ret->size, 0, (sizeof (struct elf_link_hash_entry)
 			      - offsetof (struct elf_link_hash_entry, size)));
       /* Assume that we have been called by a non-ELF symbol reader.
@@ -1484,7 +1488,7 @@ _bfd_elf_link_hash_hide_symbol (struct bfd_link_info *info,
 				struct elf_link_hash_entry *h,
 				bfd_boolean force_local)
 {
-  h->plt = elf_hash_table (info)->init_offset;
+  h->plt = elf_hash_table (info)->init_plt_offset;
   h->needs_plt = 0;
   if (force_local)
     {
@@ -1509,14 +1513,14 @@ _bfd_elf_link_hash_table_init
 				      const char *))
 {
   bfd_boolean ret;
+  int can_refcount = get_elf_backend_data (abfd)->can_refcount;
 
   table->dynamic_sections_created = FALSE;
   table->dynobj = NULL;
-  /* Make sure can_refcount is extended to the width and signedness of
-     init_refcount before we subtract one from it.  */
-  table->init_refcount.refcount = get_elf_backend_data (abfd)->can_refcount;
-  table->init_refcount.refcount -= 1;
-  table->init_offset.offset = -(bfd_vma) 1;
+  table->init_got_refcount.refcount = can_refcount - 1;
+  table->init_plt_refcount.refcount = can_refcount - 1;
+  table->init_got_offset.offset = -(bfd_vma) 1;
+  table->init_plt_offset.offset = -(bfd_vma) 1;
   /* The first dynamic symbol is a dummy.  */
   table->dynsymcount = 1;
   table->dynstr = NULL;
@@ -1767,6 +1771,9 @@ bfd_section_from_shdr (bfd *abfd, unsigned int shindex)
 
     case SHT_DYNAMIC:	/* Dynamic linking information.  */
       if (! _bfd_elf_make_section_from_shdr (abfd, hdr, name, shindex))
+	return FALSE;
+      if (hdr->sh_link > elf_numsections (abfd)
+	  || elf_elfsections (abfd)[hdr->sh_link] == NULL)
 	return FALSE;
       if (elf_elfsections (abfd)[hdr->sh_link]->sh_type != SHT_STRTAB)
 	{
@@ -4145,22 +4152,20 @@ assign_file_positions_for_segments (bfd *abfd, struct bfd_link_info *link_info)
 	{
 	  bfd_size_type align;
 	  bfd_vma adjust;
+	  unsigned int align_power = 0;
 
-	  if ((abfd->flags & D_PAGED) != 0)
-	    align = bed->maxpagesize;
-	  else
+	  for (i = 0, secpp = m->sections; i < m->count; i++, secpp++)
 	    {
-	      unsigned int align_power = 0;
-	      for (i = 0, secpp = m->sections; i < m->count; i++, secpp++)
-		{
-		  unsigned int secalign;
+	      unsigned int secalign;
 
-		  secalign = bfd_get_section_alignment (abfd, *secpp);
-		  if (secalign > align_power)
-		    align_power = secalign;
-		}
-	      align = (bfd_size_type) 1 << align_power;
+	      secalign = bfd_get_section_alignment (abfd, *secpp);
+	      if (secalign > align_power)
+		align_power = secalign;
 	    }
+	  align = (bfd_size_type) 1 << align_power;
+
+	  if ((abfd->flags & D_PAGED) != 0 && bed->maxpagesize > align)
+	    align = bed->maxpagesize;
 
 	  adjust = vma_page_aligned_bias (m->sections[0]->vma, off, align);
 	  off += adjust;
@@ -4346,7 +4351,7 @@ assign_file_positions_for_segments (bfd *abfd, struct bfd_link_info *link_info)
 		  /* The section VMA must equal the file position
 		     modulo the page size.  */
 		  bfd_size_type page = align;
-		  if ((abfd->flags & D_PAGED) != 0)
+		  if ((abfd->flags & D_PAGED) != 0 && bed->maxpagesize > page)
 		    page = bed->maxpagesize;
 		  adjust = vma_page_aligned_bias (sec->vma,
 						  p->p_vaddr + p->p_memsz,
@@ -4932,8 +4937,9 @@ _bfd_elf_write_object_contents (bfd *abfd)
     }
 
   /* Write out the section header names.  */
-  if (bfd_seek (abfd, elf_tdata (abfd)->shstrtab_hdr.sh_offset, SEEK_SET) != 0
-      || ! _bfd_elf_strtab_emit (abfd, elf_shstrtab (abfd)))
+  if (elf_shstrtab (abfd) != NULL
+      && (bfd_seek (abfd, elf_tdata (abfd)->shstrtab_hdr.sh_offset, SEEK_SET) != 0
+          || ! _bfd_elf_strtab_emit (abfd, elf_shstrtab (abfd))))
     return FALSE;
 
   if (bed->elf_backend_final_write_processing)
@@ -6664,6 +6670,25 @@ _bfd_elf_find_nearest_line (bfd *abfd,
 
   *line_ptr = 0;
   return TRUE;
+}
+
+/* After a call to bfd_find_nearest_line, successive calls to
+   bfd_find_inliner_info can be used to get source information about
+   each level of function inlining that terminated at the address
+   passed to bfd_find_nearest_line.  Currently this is only supported
+   for DWARF2 with appropriate DWARF3 extensions. */
+
+bfd_boolean
+_bfd_elf_find_inliner_info (bfd *abfd,
+			    const char **filename_ptr,
+			    const char **functionname_ptr,
+			    unsigned int *line_ptr)
+{
+  bfd_boolean found;
+  found = _bfd_dwarf2_find_inliner_info (abfd, filename_ptr,
+					 functionname_ptr, line_ptr,
+					 & elf_tdata (abfd)->dwarf2_find_line_info);
+  return found;
 }
 
 int

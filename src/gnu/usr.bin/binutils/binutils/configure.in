@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-AC_PREREQ(2.13)
+AC_PREREQ(2.57)
 AC_INIT(ar.c)
 
 AC_CANONICAL_SYSTEM
@@ -9,7 +9,7 @@ AC_ISC_POSIX
 changequote(,)dnl
 BFD_VERSION=`sed -n -e 's/^.._INIT_AUTOMAKE.*,[ 	]*\([^ 	]*\)[ 	]*).*/\1/p' < ${srcdir}/../bfd/configure.in`
 changequote([,])dnl
-AM_INIT_AUTOMAKE(binutils, 050514)
+AM_INIT_AUTOMAKE(binutils, 050605)
 
 AM_PROG_LIBTOOL
 
@@ -86,7 +86,7 @@ AC_PROG_CC
 AC_PROG_YACC
 AM_PROG_LEX
 
-ALL_LINGUAS="fr tr ja es sv da zh_CN ru ro rw"
+ALL_LINGUAS="fr tr ja es sv da zh_CN ru ro rw zh_TW"
 CY_GNU_GETTEXT
 
 AM_MAINTAINER_MODE
@@ -217,6 +217,7 @@ BFD_NEED_DECLARATION(strstr)
 BFD_NEED_DECLARATION(sbrk)
 BFD_NEED_DECLARATION(getenv)
 BFD_NEED_DECLARATION(environ)
+AC_CHECK_DECLS(getc_unlocked)
 
 BFD_BINARY_FOPEN
 

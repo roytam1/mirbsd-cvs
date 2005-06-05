@@ -681,42 +681,174 @@ bfd_elfNN_ia64_after_parse (int itanium)
   oor_branch_size = itanium ? sizeof (oor_ip) : sizeof (oor_brl);
 }
 
-static void
-elfNN_ia64_relax_brl (bfd_byte *contents, bfd_vma off)
+#define BTYPE_SHIFT	6
+#define Y_SHIFT		26
+#define X6_SHIFT	27
+#define X4_SHIFT	27
+#define X3_SHIFT	33
+#define X2_SHIFT	31
+#define X_SHIFT		33
+#define OPCODE_SHIFT	37
+
+#define OPCODE_BITS	(0xfLL << OPCODE_SHIFT)
+#define X6_BITS		(0x3fLL << X6_SHIFT)
+#define X4_BITS		(0xfLL << X4_SHIFT)
+#define X3_BITS		(0x7LL << X3_SHIFT)
+#define X2_BITS		(0x3LL << X2_SHIFT)
+#define X_BITS		(0x1LL << X_SHIFT)
+#define Y_BITS		(0x1LL << Y_SHIFT)
+#define BTYPE_BITS	(0x7LL << BTYPE_SHIFT)
+#define PREDICATE_BITS	(0x3fLL)
+
+#define IS_NOP_B(i) \
+  (((i) & (OPCODE_BITS | X6_BITS)) == (2LL << OPCODE_SHIFT))
+#define IS_NOP_F(i) \
+  (((i) & (OPCODE_BITS | X_BITS | X6_BITS | Y_BITS)) \
+   == (0x1LL << X6_SHIFT))
+#define IS_NOP_I(i) \
+  (((i) & (OPCODE_BITS | X3_BITS | X6_BITS | Y_BITS)) \
+   == (0x1LL << X6_SHIFT))
+#define IS_NOP_M(i) \
+  (((i) & (OPCODE_BITS | X3_BITS | X2_BITS | X4_BITS | Y_BITS)) \
+   == (0x1LL << X4_SHIFT))
+#define IS_BR_COND(i) \
+  (((i) & (OPCODE_BITS | BTYPE_BITS)) == (0x4LL << OPCODE_SHIFT))
+#define IS_BR_CALL(i) \
+  (((i) & OPCODE_BITS) == (0x5LL << OPCODE_SHIFT))
+
+static bfd_boolean
+elfNN_ia64_relax_br (bfd_byte *contents, bfd_vma off)
 {
-  unsigned int template, t0, t1, t2, t3;
+  unsigned int template, mlx;
+  bfd_vma t0, t1, s0, s1, s2, br_code;
+  long br_slot;
   bfd_byte *hit_addr;
 
   hit_addr = (bfd_byte *) (contents + off);
+  br_slot = (long) hit_addr & 0x3;
+  hit_addr -= br_slot;
+  t0 = bfd_getl64 (hit_addr + 0);
+  t1 = bfd_getl64 (hit_addr + 8);
+
+  /* Check if we can turn br into brl.  A label is always at the start
+     of the bundle.  Even if there are predicates on NOPs, we still
+     perform this optimization.  */
+  template = t0 & 0x1e;
+  s0 = (t0 >> 5) & 0x1ffffffffffLL;
+  s1 = ((t0 >> 46) | (t1 << 18)) & 0x1ffffffffffLL;
+  s2 = (t1 >> 23) & 0x1ffffffffffLL;
+  switch (br_slot)
+    {
+    case 0:
+      /* Check if slot 1 and slot 2 are NOPs. Possible template is
+         BBB.  We only need to check nop.b.  */
+      if (!(IS_NOP_B (s1) && IS_NOP_B (s2)))
+	return FALSE;
+      br_code = s0;
+      break;
+    case 1:
+      /* Check if slot 2 is NOP. Possible templates are MBB and BBB.
+	 For BBB, slot 0 also has to be nop.b.  */
+      if (!((template == 0x12				/* MBB */
+	     && IS_NOP_B (s2))
+	    || (template == 0x16			/* BBB */
+		&& IS_NOP_B (s0)
+		&& IS_NOP_B (s2))))
+	return FALSE;
+      br_code = s1;
+      break;
+    case 2:
+      /* Check if slot 1 is NOP. Possible templates are MIB, MBB, BBB,
+	 MMB and MFB. For BBB, slot 0 also has to be nop.b.  */
+      if (!((template == 0x10				/* MIB */
+	     && IS_NOP_I (s1))
+	    || (template == 0x12			/* MBB */
+		&& IS_NOP_B (s1))
+	    || (template == 0x16			/* BBB */
+		&& IS_NOP_B (s0)
+		&& IS_NOP_B (s1))
+	    || (template == 0x18			/* MMB */
+		&& IS_NOP_M (s1))
+	    || (template == 0x1c			/* MFB */
+		&& IS_NOP_F (s1))))
+	return FALSE;
+      br_code = s2;
+      break;
+    default:
+      /* It should never happen.  */
+      abort ();
+    }
+  
+  /* We can turn br.cond/br.call into brl.cond/brl.call.  */
+  if (!(IS_BR_COND (br_code) || IS_BR_CALL (br_code)))
+    return FALSE;
+
+  /* Turn br into brl by setting bit 40.  */
+  br_code |= 0x1LL << 40;
+
+  /* Turn the old bundle into a MLX bundle with the same stop-bit
+     variety.  */
+  if (t0 & 0x1)
+    mlx = 0x5;
+  else
+    mlx = 0x4;
+
+  if (template == 0x16)
+    {
+      /* For BBB, we need to put nop.m in slot 0.  We keep the original
+	 predicate only if slot 0 isn't br.  */
+      if (br_slot == 0)
+	t0 = 0LL;
+      else
+	t0 &= PREDICATE_BITS << 5;
+      t0 |= 0x1LL << (X4_SHIFT + 5);
+    }
+  else
+    {
+      /* Keep the original instruction in slot 0.  */
+      t0 &= 0x1ffffffffffLL << 5;
+    }
+
+  t0 |= mlx;
+
+  /* Put brl in slot 1.  */
+  t1 = br_code << 23;
+
+  bfd_putl64 (t0, hit_addr);
+  bfd_putl64 (t1, hit_addr + 8);
+  return TRUE;
+}
+
+static void
+elfNN_ia64_relax_brl (bfd_byte *contents, bfd_vma off)
+{
+  int template;
+  bfd_byte *hit_addr;
+  bfd_vma t0, t1, i0, i1, i2;
+
+  hit_addr = (bfd_byte *) (contents + off);
   hit_addr -= (long) hit_addr & 0x3;
-  t0 = bfd_getl32 (hit_addr + 0);
-  t1 = bfd_getl32 (hit_addr + 4);
-  t2 = bfd_getl32 (hit_addr + 8);
-  t3 = bfd_getl32 (hit_addr + 12);
+  t0 = bfd_getl64 (hit_addr);
+  t1 = bfd_getl64 (hit_addr + 8);
+
+  /* Keep the instruction in slot 0. */
+  i0 = (t0 >> 5) & 0x1ffffffffffLL;
+  /* Use nop.b for slot 1. */
+  i1 = 0x4000000000LL;
+  /* For slot 2, turn brl into br by masking out bit 40.  */
+  i2 = (t1 >> 23) & 0x0ffffffffffLL;
 
   /* Turn a MLX bundle into a MBB bundle with the same stop-bit
      variety.  */
-  template = 0x12;
-  if ((t0 & 0x1f) == 5)
-    template += 1;
+  if (t0 & 0x1)
+    template = 0x13;
+  else
+    template = 0x12;
+  t0 = (i1 << 46) | (i0 << 5) | template;
+  t1 = (i2 << 23) | (i1 >> 18);
 
-  /* Keep the instruction in slot 0. */
-  t0 &= 0xffffffe0;
-  t1 &= 0x3fff;
-
-  t0 |= template;
-
-  /* For slot 2, turn brl into br by masking out bit 40.  */
-  t2 &= 0xff800000;
-  t3 &= 0x7fffffff;
-
-  /* Use nop.b for slot 1. */
-  t2 |= 0x100000;
-
-  bfd_putl32 (t0, hit_addr);
-  bfd_putl32 (t1, hit_addr + 4);
-  bfd_putl32 (t2, hit_addr + 8);
-  bfd_putl32 (t3, hit_addr + 12);
+  bfd_putl64 (t0, hit_addr);
+  bfd_putl64 (t1, hit_addr + 8);
 }
 
 /* These functions do relaxation for IA-64 ELF.  */
@@ -985,6 +1117,16 @@ elfNN_ia64_relax_section (abfd, sec, link_info, again)
 	    }
 	  else if (r_type == R_IA64_PCREL60B)
 	    continue;
+	  else if (elfNN_ia64_relax_br (contents, roff))
+	    {
+	      irel->r_info
+		= ELFNN_R_INFO (ELFNN_R_SYM (irel->r_info),
+				R_IA64_PCREL60B);
+
+	      /* Make the relocation offset point to slot 1.  */
+	      irel->r_offset = (irel->r_offset & ~((bfd_vma) 0x3)) + 1;
+	      continue;
+	    }
 
 	  /* We can't put a trampoline in a .init/.fini section. Issue
 	     an error.  */
