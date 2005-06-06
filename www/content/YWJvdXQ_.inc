@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.3 2005/03/16 15:13:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.4 2005/03/18 18:03:22 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
@@ -34,5 +34,6 @@
  <a href="/cvs.cgi/src/share/doc/legal/">1stREAD and LICENCE</a>
  files; the <a href="/LICENCE">website licence</a> is also available.
  We prefer new code and documentation to be placed under our
- <a href="/cvs.cgi/src/share/misc/licence.template">licence
- template</a> which is compliant to the Open Source Definition.</p>
+ <a href="/?licence">licence template</a> which is compliant to the
+ Open Source Definition and conforms to the Debian Free Software
+ Guidelines.</p>

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.4 2005/04/01 18:45:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.5 2005/05/06 18:05:02 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>.</p>
 <h2>Why this page?</h2>
@@ -14,9 +14,9 @@
 <p>I've translated the English language version of the "Anargeek Manifesto"
  into German, and bsiegert@ compared it with the original, French language,
  version afterwards. I've created a logo to proudly show you're an anargeek
- (it's covered by <a href="http://wiki.mirbsd.de/LicenceTemplate">the MirOS
- Licence</a> for formal reasons), whose design idea got approved by various
- Netzladen members (hacker and anarcho-syndicalist).</p>
+ (that is licenced, for formal reasons, under <a href="/?licence">the MirOS
+ Licence</a>), whose design idea got approved by various Netzladen members,
+ hackers and anarcho-syndicalists.</p>
 <p>The anargeek manifesto itself is covered by a "Creative Commons" Licence
  (<a href="http://creativecommons.org/licenses/by-nc-sa/2.0/">BY-NC-SA</a>)
  and so is the text below.</p>

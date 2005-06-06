@@ -11,6 +11,7 @@
     </ul></li>
 <li><a href="http://wiki.mirbsd.de/MirPorts">MirPorts</a></li>
 <li><a href="/?docs">Documentation</a></li>
+<li><a href="/?projects">Project Ideas</a></li>
 <li><a href="/?danke">Donate</a></li>
 <li style="list-style:none;"></li>
 <li><a href="http://wiki.mirbsd.de/HomePage">MirWiki</a></li>
