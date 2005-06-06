@@ -1,7 +1,7 @@
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.1 2005/06/06 10:19:51 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
-<pre>/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+<pre>/* $MirOS: www/content/bGljZW5jZQ__.inc,v 1.1 2005/06/06 10:19:51 tg Exp $ */
 
 /*-
  * Copyright (c) year, year, year...
@@ -48,17 +48,17 @@
  * RATIONALE:
  * This template contains the preferred licence for new work (code or
  * data, e.g. documentation, fonts, audio/video) added to MirOS. This
- * licence is OSD<a href="#fn1">[1]</a> 1.9 compliant.
+ * licence is OSD<a id="rf1" href="#fn1">[1]</a> 1.9 compliant.
  * Because in some (droit d'auteur) countries you cannot disclaim all
  * liabilities this licence is drafted to behave better under Europe-
  * an law but otherwise be equivalent to the "historic permission no-
- * tice"<a href="#fn2">[2]</a>. You can (e.g. in German law) only be held liable if mal-
+ * tice"<a id="rf2" href="#fn2">[2]</a>. You can (e.g. in German law) only be held liable if mal-
  * ware (such as backdoors) or intellectual property of third parties
  * (without a licence to do so) is added with intent; it equals a do-
  * nation.
  *
  * ADDITIONAL NOTES:
- * This template does not imply a choice of law; the MirOS project<a href="#fn3">[3]</a>
+ * This template does not imply a choice of law; the MirOS project<a id="rf3" href="#fn3">[3]</a>
  * sets forth applicable law to be German law and site of court to be
  * Bonn, Germany (in an extra provision and only for MirOS). We think
  * this licence thus is compatible to the GNU GPL (unless an explicit
@@ -78,7 +78,7 @@
  * led a "gross neglicence").
  *
  * REFERENCES:
- * [1] <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>
- * [2] <a href="http://www.opensource.org/licenses/historical.php">http://www.opensource.org/licenses/historical.php</a>
- * [3] <a href="http://mirbsd.de/">http://mirbsd.de/</a>
+ * <a href="#rf1" id="fn1">[1]</a> <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>
+ * <a href="#rf2" id="fn2">[2]</a> <a href="http://www.opensource.org/licenses/historical.php">http://www.opensource.org/licenses/historical.php</a>
+ * <a href="#rf3" id="fn3">[3]</a> <a href="http://mirbsd.de/">http://mirbsd.de/</a>
  */</pre>
