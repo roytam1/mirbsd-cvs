@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.63 2005/05/26 00:30:12 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.64 2005/05/28 23:19:00 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2925,4 +2925,6 @@
  buildable again. Benny is slightly busy with port updates and creation of
  new ones, and we've both dived a bit more into the particulars of Interix
  and Darwin.<br />We may produce a release song ourselves...</p>
+<p>07.06.2005 by tg@<br />Nothing important happening; some binutils merge
+ actions started, but not finished. Stay sleeping for a week or so.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
