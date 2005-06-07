@@ -1,18 +1,18 @@
-$MirOS$
---- lib/mc.lib.orig	Sat Aug 17 01:15:41 2002
-+++ lib/mc.lib	Fri Oct 15 18:09:39 2004
+$MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.1.7.1 2005/03/18 15:50:27 tg Exp $
+--- lib/mc.lib.orig	Sat Aug 17 01:16:03 2002
++++ lib/mc.lib	Tue Jun  7 08:10:17 2005
 @@ -1,8 +1,27 @@
-+# $MirOS$
++# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 +#-
-+# Copyright (c) 2003, 2004
++# Copyright (c) 2003, 2004, 2005
 +#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 +#
 +# Licensee is hereby permitted to deal in this work without restric-
-+# tion, including unlimited rights to use, publically perform, modi-
-+# fy, merge, distribute, sell, give away or sublicence, provided the
-+# above copyright notices, these terms and the disclaimer are retai-
-+# ned in all redistributions, or reproduced in accompanying documen-
-+# tation or other materials provided with binary redistributions.
++# tion, including unlimited rights to use, publicly perform, modify,
++# merge, distribute, sell, give away or sublicence, provided all co-
++# pyright notices above, these terms and the disclaimer are retained
++# in all redistributions or reproduced in accompanying documentation
++# or other materials provided with binary redistributions.
 +#
 +# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 +# any kind, expressed or implied, to the maximum extent permitted by
@@ -20,7 +20,7 @@ $MirOS$
 +# licious intent or gross negligence; in no event shall licensor, an
 +# author or contributor be held liable for any damage, direct, indi-
 +# rect or other, however caused, arising in any way out of the usage
-+# of covered work, even if advised of the possibility of such damage.
++# of this work, even if advised of the possibility of such damage.
 +
  [Special dirs]
  list=/afs,/coda,/:,/...,/net,/#smb
@@ -204,7 +204,7 @@ $MirOS$
  f11=\e[Y
  f12=\e[Z
  f13=\e[a
-@@ -150,8 +172,135 @@ f17=\e[e
+@@ -150,8 +172,140 @@ f17=\e[e
  f18=\e[f
  f19=\e[g
  f20=\e[h
@@ -217,7 +217,6 @@ $MirOS$
 +kpplus=\e[+
 +
 +# Sequences below are used in OpenBSD wscons, also via remote login
-+# $MirOS$
 +
 +[terminal:vt220]
 +bs=
@@ -272,6 +271,7 @@ $MirOS$
 +
 +# Not a real vt100, but NetBSD wscons in vt220 mode with
 +# $TERM set to vt100. Except F5-F9, this matches screen.
++
 +[terminal:vt100]
 +bs=
 +complete=‰
@@ -343,4 +343,9 @@ $MirOS$
 +down=\e[B
 +left=\e[D
 +right=\e[C
++delete=
++
++# Microsoft Services for Unix 3.5 (native terminal, xterm see above)
++[terminal:interix]
++home=\e[H
 +delete=
