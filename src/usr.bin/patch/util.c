@@ -1,15 +1,16 @@
+/**	$MirOS$ */
 /*	$OpenBSD: util.c,v 1.29 2004/11/19 20:00:57 otto Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
- * 
+ *
  * Copyright 1986, Larry Wall
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -21,14 +22,10 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- * 
+ *
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD
  * behaviour
  */
-
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: util.c,v 1.29 2004/11/19 20:00:57 otto Exp $";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -38,6 +35,7 @@ static const char rcsid[] = "$OpenBSD: util.c,v 1.29 2004/11/19 20:00:57 otto Ex
 #include <fcntl.h>
 #include <libgen.h>
 #include <paths.h>
+#include <signal.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,6 +47,7 @@ static const char rcsid[] = "$OpenBSD: util.c,v 1.29 2004/11/19 20:00:57 otto Ex
 #include "backupfile.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS$");
 
 /* Rename a file, copying it if necessary. */
 
