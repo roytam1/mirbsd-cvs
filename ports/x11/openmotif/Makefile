@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/openmotif/Makefile,v 1.2 2005/04/29 00:48:54 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/02/22 16:47:58 naddy Exp $
 
 CATEGORIES=		x11
@@ -11,7 +11,7 @@ PATCHLEVEL=		5
 PKGNAME=		openmotif-${VERSION}.${PATCHLEVEL}
 PKGNAME-demos=		openmotif-demos-${VERSION}.${PATCHLEVEL}
 PKGNAME-debuglibs=	openmotif-debuglibs-${VERSION}.${PATCHLEVEL}
-HOMEPAGE=	http://www.opengroup.org/openmotif/
+HOMEPAGE=		http://www.opengroup.org/openmotif/
 
 MASTER_SITES=	ftp://ftp.opengroup.org/pub/openmotif/R${VERSION}/tars/ \
 		ftp://openmotif.opengroup.org/pub/openmotif/R${VERSION}/tars/ \
@@ -74,10 +74,12 @@ post-patch:
 	@cd ${WRKSRC}/doc/man/man4 && perl -pi -e "s|special file|5|" *.4
 	@cd ${WRKSRC}/doc/man/man5 && perl -pi -e "s|file formats|5|" *.5
 # Import from our current X installation.
-	@cp -f `ls ${X11BASE}/lib/X11/config/* | egrep -v '(Motif|bsdLib.tmpl|cde|\/site.def|host.def)'` ${WRKDIR}/motif/config/cf
+	@cp -f $$(ls ${X11BASE}/lib/X11/config/* \
+	    | egrep -v '(Motif|bsdLib.tmpl|cde|\/site.def|host.def)') \
+	    ${WRKDIR}/motif/config/cf/
 	@mkdir -p ${WRKSRC}/imports/x11
-	@cd ${WRKSRC}/imports/x11 && for i in bin include lib ; do \
-	    if [ -f $$i ] ; then rm $$i; fi; \
+	@cd ${WRKSRC}/imports/x11 && for i in bin include lib; do \
+	    [ ! -f $$i ] || rm $$i; \
 	    ln -s ${X11BASE}/$$i $$i; \
 	done
 # respect PREFIX
