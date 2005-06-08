@@ -17,7 +17,6 @@
 -Tboolean_t
 -Tbpf_u_int32
 -Tbregister_t
--Tbuf
 -Tbus_addr_t
 -Tbus_dma_segment_t
 -Tbus_dma_tag_t
