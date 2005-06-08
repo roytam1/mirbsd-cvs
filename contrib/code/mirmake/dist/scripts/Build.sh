@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.35 2005/06/02 23:30:51 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.36 2005/06/02 23:35:08 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -347,6 +347,7 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
 ( cd $d_src/lib/libc/hash; \
   cp md4.c md5.c rmd160.c sha1.c sha2.c $d_build/libmirmake/ )
 cp $d_src/lib/libc/string/strlfun.c $d_src/lib/libc/stdlib/getopt_long.c .
+cp $d_script/../contrib/{,v}asprintf.c .
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
