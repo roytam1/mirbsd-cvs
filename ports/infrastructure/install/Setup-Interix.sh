@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.9 2005/06/02 21:08:16 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.10 2005/06/03 00:14:14 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -126,7 +126,8 @@ if [ ! -x /usr/bin/nroff ]; then
 	cd mksh
 	SHELL=/bin/ksh CFLAGS="$CFLAGS -D_ALL_SOURCE" /bin/ksh ./Build.sh
 	install -c -s -m 555 mksh /bin/mksh2
-	mv /bin/mksh /bin/mksh1 && mv /bin/mksh2 /bin/mksh
+	mv /bin/mksh /bin/mksh1p && mv /bin/mksh2 /bin/mksh
+	rm /bin/mksh1p || echo Warning: remove /bin/mksh1p later!
 	cd ..
 	rm -rf mksh
 
@@ -163,6 +164,7 @@ cd mksh
 #fi
 install -c -s -m 555 mksh /bin/mksh2
 mv /bin/mksh /bin/mksh1 && mv /bin/mksh2 /bin/mksh
+rm /bin/mksh1 || echo Warning: remove /bin/mksh1 later!
 install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0
 if ! fgrep /bin/mksh /etc/shells >/dev/null 2>&1; then
 	echo /bin/mksh >>/etc/shells
