@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.10 2005/06/02 23:04:52 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.11 2005/06/09 21:41:47 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -137,7 +137,7 @@ if [ -n "$OVERRIDE_MKSH" ]; then
 			fi
 		done
 	fi
-done
+fi
 
 if [ x"$ms" = x"NONE" ]; then
 	echo "Error: could not find mirbsdksh compatible shell."
