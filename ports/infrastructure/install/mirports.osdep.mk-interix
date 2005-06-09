@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.12 2005/06/02 22:21:32 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.13 2005/06/03 00:14:14 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -28,6 +28,9 @@
 # Let's pull a lazy one.
 MACHINE_OS=		Interix
 OStype=			Interix
+
+# Use a better working resolver
+CPPFLAGS+=		-I/usr/local/include/bind
 
 # Interix particulars
 OStriplet=		i386-pc-interix3
