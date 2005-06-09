@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.10 2005/06/02 23:13:46 tg Exp $
+#!/bin/sh
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.11 2005/06/09 21:51:57 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -19,6 +19,9 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
+version=$(date +%Y%m%d)
+echo version=$version >$(dirname $0)/Version.sh
+
 cd $(dirname $0)/..
 rm -rf src
 cvs -Rqd ${CVSROOT:-/cvs} co -PA \
@@ -37,4 +40,5 @@ topd=$(dirname $top)
 topf=$(basename $top)
 cd $topd
 find $topf -type f ! -path \*CVS\* | sort | cpio -oC512 \
-    | gzip -n9 >mirmake-$(date +%Y%m%d).cpio.gz
+    | gzip -n9 >mirmake-$version.cpio.gz
+[ -n "$DEBUG" ] || rm -rf $top/src $(dirname $0)/Version.sh

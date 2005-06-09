@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.39 2005/06/09 21:50:36 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.40 2005/06/09 21:51:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -90,6 +90,8 @@ export CPPFLAGS="$CPPFLAGS -isystem $d_build/F -include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 export NROFF="${NROFF:-nroff}"
 
+. $d_script/Version.sh
+
 if [[ -z $new_binids ]]; then
 	binown=root
 	bingrp=bin
@@ -110,6 +112,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@ostype@@#${new_ostype}#g' \
 	 -e 's#@@shmk@@#${dt_mk}#g' \
 	 -e 's#@@ccom@@#${CC}#g' \
+	 -e 's#@@vers@@#${version}#g' \
 	 -e 's#@@bmake@@#${new_exenam}#g'"
 
 
