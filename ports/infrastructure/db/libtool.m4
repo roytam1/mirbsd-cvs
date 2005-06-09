@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: ports/infrastructure/db/libtool.m4,v 1.5 2005/06/02 21:33:36 tg Exp $
+# $MirOS: ports/infrastructure/db/libtool.m4,v 1.6 2005/06/09 19:14:46 tg Exp $
 # _MirOS: contrib/gnu/libtool/libtool.m4,v 1.25 2005/05/25 23:50:33 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
@@ -1603,13 +1603,13 @@ hpux9* | hpux10* | hpux11*)
   postinstall_cmds='chmod 555 $lib'
   ;;
 
-interix*)
+interix3*)
   version_type=sunos
   need_lib_prefix=no
   need_version=no
   library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
   soname_spec='${libname}${release}${shared_ext}$major'
-  dynamic_linker='Interix GNU ld.so.1 (PE, like ELF)'
+  dynamic_linker='Interix 3.x GNU ld.so.1 (PE, like ELF)'
   shlibpath_var=LD_LIBRARY_PATH
   shlibpath_overrides_runpath=yes
   hardcode_into_libs=yes
@@ -2427,8 +2427,8 @@ hpux10.20* | hpux11*)
   esac
   ;;
 
-interix*)
-  lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so|_pic\.a)$'
+interix3*)
+  lt_cv_deplibs_check_method='match_pattern /lib[[^/]]+(\.so|\.a)$'
   ;;
 
 irix5* | irix6* | nonstopux*)
@@ -3347,7 +3347,7 @@ case $host_os in
 	;;
     esac
     ;;
-  interix*)
+  interix3*)
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname -o $lib'
     _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.exp && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.exp -o $lib'
     ;;
@@ -4924,6 +4924,11 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
       # DJGPP does not support shared libraries at all
       _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)=
       ;;
+    interix3*)
+      # Interix 3.0-3.5 gcc -fpic/-fPIC options generate broken
+      # code. Instead, we relocate shlibs at runtime (slow and
+      # very memory consuming).
+      ;;
     sysv4*MP*)
       if test -d /usr/nec; then
 	_LT_AC_TAGVAR(lt_prog_compiler_pic, $1)=-Kconform_pic
@@ -5015,6 +5020,8 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
 	esac
 	;;
       interix*)
+	# This is c89, which is MS Visual C++
+	# Unusable on all Interix systems for MirPorts
 	;;
       irix5* | irix6* | nonstopux*)
 	case $cc_basename in
@@ -5190,6 +5197,12 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
       # PIC is the default on this platform
       # Common symbols not allowed in MH_DYLIB files
       _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-fno-common'
+      ;;
+
+    interix3*)
+      # Interix 3.0-3.5 gcc -fpic/-fPIC options generate broken
+      # code. Instead, we relocate shlibs at runtime (slow and
+      # very memory consuming).
       ;;
 
     msdosdjgpp*)
@@ -5461,6 +5474,7 @@ ifelse([$1],[CXX],[
     fi
     ;;
   interix*)
+    # we just hope/assume this is gcc and not c89
     with_gnu_ld=yes
     ;;
   mirbsd*)
@@ -5565,7 +5579,7 @@ EOF
       fi
       ;;
 
-    interix*)
+    interix3*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname -o $lib'
