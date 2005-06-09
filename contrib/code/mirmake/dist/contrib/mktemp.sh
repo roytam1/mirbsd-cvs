@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: ports/infrastructure/install/mktemp.sh,v 1.2 2005/05/30 16:47:09 tg Exp $
+#!/bin/sh
+# $MirOS: contrib/code/mirmake/dist/contrib/mktemp.sh,v 1.1 2005/06/02 22:58:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# *INSECURE* mktemp(1) replacement. DO NOT USE.
+# *INSECURE* mktemp(1) replacement. DO NOT USE. Needs mksh.
 
 # Globals
 
