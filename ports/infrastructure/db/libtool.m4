@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: ports/infrastructure/db/libtool.m4,v 1.4 2005/05/30 16:47:06 tg Exp $
+# $MirOS: ports/infrastructure/db/libtool.m4,v 1.5 2005/06/02 21:33:36 tg Exp $
 # _MirOS: contrib/gnu/libtool/libtool.m4,v 1.25 2005/05/25 23:50:33 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
@@ -1611,7 +1611,7 @@ interix*)
   soname_spec='${libname}${release}${shared_ext}$major'
   dynamic_linker='Interix GNU ld.so.1 (PE, like ELF)'
   shlibpath_var=LD_LIBRARY_PATH
-  shlibpath_overrides_runpath=no
+  shlibpath_overrides_runpath=yes
   hardcode_into_libs=yes
   ;;
 
@@ -3349,7 +3349,7 @@ case $host_os in
     ;;
   interix*)
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname -o $lib'
-    _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file $wl$export_symbols -o $lib'
+    _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.exp && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.exp -o $lib'
     ;;
   irix5* | irix6*)
     case $cc_basename in
@@ -3937,6 +3937,16 @@ if AC_TRY_EVAL(ac_compile); then
 
     esac
   done
+
+  case "$host_os" in
+  interix3*)
+    # Interix installs completely hosed .la files for C++, so rather than
+    # hack all around it, let's just trust "g++" to DTRT.
+    predep_objects_CXX=
+    postdep_objects_CXX=
+    postdeps_CXX=
+    ;;
+  esac
 
   # Clean up.
   rm -f a.out a.exe
@@ -5559,7 +5569,6 @@ EOF
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname -o $lib'
-      _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=yes
       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
       _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
       ;;
