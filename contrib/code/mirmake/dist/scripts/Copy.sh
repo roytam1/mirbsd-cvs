@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.12 2005/06/09 21:57:46 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.14 2005/06/09 22:06:16 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -19,7 +19,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-wd=$(dirname $0)
+wd=$(readlink -f $(dirname $0))
 version=$(date +%Y%m%d)
 echo version=$version >$wd/Version.sh
 
