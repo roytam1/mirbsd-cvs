@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.40 2005/06/09 21:51:15 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.41 2005/06/09 21:57:46 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -161,15 +161,16 @@ $NROFF -ms PSD12.make.ms >PSD12.make.txt 2>/dev/null \
 
 # Generate installer
 cd $top
+if [[ $binown = - ]]; then
+	ug=
+else
+	ug="\"-o $binown -g $bingrp\""
+fi
 cat >Install.sh <<EOF
 #!${new_mirksh}
 
 i=\${1:-install}
-if [[ $binown = - ]]; then
-	ug=
-else
-	ug="-o $binown -g $bingrp"
-fi
+ug=$ug
 set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
 \$i -c -s \$ug -m 555 ${d_build}/bmake \$DESTDIR${dt_bin}/${new_exenam}
