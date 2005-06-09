@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.36 2005/06/02 23:35:08 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.37 2005/06/08 10:03:24 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -43,6 +43,8 @@ if [ -z "$new_mirksh" ]; then
 fi
 
 export SHELL=$new_mirksh
+
+[[ -n $BASH_VERSION ]] && shopt -s extglob
 
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
