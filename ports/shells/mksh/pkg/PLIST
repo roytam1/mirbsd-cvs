@@ -1,0 +1,4 @@
+@comment $MirOS$
+bin/mksh
+@sample /bin/mksh
+man/cat1/mksh.0
