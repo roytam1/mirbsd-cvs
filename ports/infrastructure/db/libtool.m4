@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: ports/infrastructure/db/libtool.m4,v 1.6 2005/06/09 19:14:46 tg Exp $
+# $MirOS: ports/infrastructure/db/libtool.m4,v 1.7 2005/06/09 19:27:24 tg Exp $
 # _MirOS: contrib/gnu/libtool/libtool.m4,v 1.25 2005/05/25 23:50:33 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
@@ -876,6 +876,10 @@ AC_CACHE_VAL([lt_cv_sys_max_cmd_len], [dnl
     # And add a safety zone
     lt_cv_sys_max_cmd_len=$(expr $lt_cv_sys_max_cmd_len \/ 4)
     lt_cv_sys_max_cmd_len=$(expr $lt_cv_sys_max_cmd_len \* 3)
+    ;;
+  interix*)
+    # We know the value 262144 and hardcode it with a safety zone
+    lt_cv_sys_max_cmd_len=196608
     ;;
   osf*)
     # Dr. Hans Ekkehard Plesser reports seeing a kernel panic running configure
