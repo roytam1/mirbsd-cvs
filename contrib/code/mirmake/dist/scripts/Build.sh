@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.37 2005/06/08 10:03:24 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.38 2005/06/09 21:45:14 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -38,7 +38,7 @@ new_mirksh="$8"
 new_binids="$9"
 
 if [ -z "$new_mirksh" ]; then
-	echo "Use ../../Build.sh instead!"
+	echo "Use ../../Build.sh instead!" >&2
 	exit 255
 fi
 
@@ -61,7 +61,7 @@ else
 	is_catman=0
 fi
 
-case "$new_machos:$new_machin:$new_macarc" {
+case "$new_machos:$new_machin:$new_macarc" in
 Darwin:*:powerpc)
 	;;
 Darwin:*:i686)
@@ -82,7 +82,7 @@ Interix:*:*)
 *:*:i[3456789x]86)
 	new_macarc=i386
 	;;
-}
+esac
 
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
@@ -100,7 +100,7 @@ else
 	bingrp=$new_binids
 fi
 
-mkdir -p $d_build/mk
+mkdir -p $d_build/mk $d_build/F
 
 sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@march@@#${new_macarc}#g' \
@@ -114,13 +114,10 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 
 # Copy sources
 (cd $d_src/usr.bin/make; find . | cpio -pdlu $d_build)
-cp $d_src/share/mk/*.mk $d_build/mk/
-cp $d_src/include/*.h $d_build/
 (cd $d_src/lib/libc; find ohash | cpio -pdlu $d_build)
-cp $d_src/lib/libc/stdlib/getopt_long.c $d_build/
-cp $d_src/lib/libc/string/strlfun.c $d_build/
-cp $d_src/usr.bin/mkdep/mkdep.sh $d_build/
-mkdir -p $d_build/F
+cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
+    $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
+cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
 
@@ -132,7 +129,7 @@ for ps in Makefile.boot mk/bsd.man.mk mk/bsd.own.mk mk/bsd.prog.mk \
 	if eval sed $sed_exp <$d_build/$ps.tmp >$d_build/$ps; then
 		rm $d_build/$ps.tmp
 	else
-		echo "Error in $d_build/$ps.tmp"
+		echo "Error in $d_build/$ps.tmp" >&2
 		exit 1
 	fi
 done
@@ -145,7 +142,7 @@ fi
 # Build bmake
 cd $d_build
 if ! make -f Makefile.boot bmake CC="$CC"; then
-	echo "Error: build failure"
+	echo "Error: build failure" >&2
 	exit 1
 fi
 
@@ -185,7 +182,7 @@ done
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
 	if ! nroff -mandoc make.1 >make.cat1; then
-		echo "Warning: manpage build failure."
+		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
 	cd $top
@@ -203,7 +200,7 @@ fi
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
 	if ! nroff -mandoc $d_src/usr.bin/mkdep/mkdep.1 >mkdep.cat1; then
-		echo "Warning: manpage build failure."
+		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
 	cd $top
@@ -221,7 +218,7 @@ fi
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
 	if ! nroff -mandoc $d_src/usr.bin/lorder/lorder.1 >lorder.cat1; then
-		echo "Warning: manpage build failure."
+		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
 	cd $top
@@ -254,7 +251,7 @@ EOF
 if [[ $is_catman = 1 ]]; then
 	cd $d_build/readlink
 	if ! nroff -mandoc readlink.1 >readlink.cat1; then
-		echo "Warning: manpage build failure."
+		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
 	cd $top
@@ -282,7 +279,7 @@ EOF
 if [[ $is_catman = 1 ]]; then
 	cd $d_build/tsort
 	if ! nroff -mandoc tsort.1 >tsort.cat1; then
-		echo "Warning: manpage build failure."
+		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
 	cd $top
@@ -312,7 +309,7 @@ EOF
 	if [[ $is_catman = 1 ]]; then
 		cd $d_build/xinstall
 		if ! nroff -mandoc install.1 >install.cat1; then
-			echo "Warning: manpage build failure."
+			echo "Warning: manpage build failure." >&2
 			is_catman=0
 		fi
 		cd $top
