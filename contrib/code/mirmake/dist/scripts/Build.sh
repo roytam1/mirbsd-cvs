@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.41 2005/06/09 21:57:46 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.42 2005/06/09 22:07:31 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -177,6 +177,7 @@ mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
 \$i -c \$ug -m 555 ${d_build}/mkdep.sh \$DESTDIR${dt_bin}/mkdep
 \$i -c \$ug -m 555 $d_src/usr.bin/lorder/lorder.sh \$DESTDIR${dt_bin}/lorder
 \$i -c \$ug -m 444 $d_build/F/*.h \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_src/include/sysexits.h \$DESTDIR${dt_mk}/
 EOF
 for f in ${d_build}/mk/*.mk; do
 	cat >>Install.sh <<EOF
