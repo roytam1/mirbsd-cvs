@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.9 2005/05/23 19:50:00 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.10 2005/06/02 23:04:52 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -120,6 +120,22 @@ for s in $MKS $mktest; do
 		echo "Found mirbsdksh: $s"
 		ms=$s
 		break
+	fi
+done
+
+if [ -n "$OVERRIDE_MKSH" ]; then
+	if test -x "$OVERRIDE_MKSH"; then
+		ms="$OVERRIDE_MKSH"
+	else
+		for s in $MKS $mktest; do
+			echo "Trying ${s} again..."
+			t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ -n $KSH_VERSION -o -n $BASH_VERSION ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+			if [ x"$t" = x"yes" ]; then
+				echo "Found some ksh or bash: $s"
+				ms=$s
+				break
+			fi
+		done
 	fi
 done
 
