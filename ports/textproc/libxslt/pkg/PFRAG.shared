@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.23 2004/04/08 06:32:43 marcm Exp $
-@lib lib/libexslt.so.8.4
-@lib lib/libxslt.so.2.5

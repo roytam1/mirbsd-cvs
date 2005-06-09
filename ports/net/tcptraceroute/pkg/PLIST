@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.3 2002/12/24 01:08:43 pvalchev Exp $
-sbin/tcptraceroute
-man/man8/tcptraceroute.8
-share/examples/tcptraceroute/examples.txt
-@dirrm share/examples/tcptraceroute
