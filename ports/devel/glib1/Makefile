@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/glib1/Makefile,v 1.1.7.1 2005/03/18 15:44:37 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2003/05/27 23:00:50 miod Exp $
 
 COMMENT=	"useful routines for C programming"
@@ -15,6 +15,11 @@ PERMIT_DISTFILES_FTP=	Yes
 SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --enable-static
+
+.include <mirports.sys.mk>
+.if ${OStype} == "Interix"
+CONFIGURE_ENV+=		ac_cv_func_poll=no
+.endif
 
 NO_REGRESS=	Yes
 

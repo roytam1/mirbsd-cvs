@@ -1,15 +1,7 @@
-$MirOS$
+$MirOS: ports/devel/glib1/patches/patch-configure_in,v 1.2 2005/06/09 19:34:42 tg Exp $
 --- configure.in.orig	Thu Mar 15 15:37:37 2001
-+++ configure.in	Thu Jun  9 19:32:52 2005
-@@ -284,6 +284,7 @@ AC_C_BIGENDIAN
- dnl header file checks
- AC_CHECK_HEADERS(float.h, AC_DEFINE(HAVE_FLOAT_H))
- AC_CHECK_HEADERS(limits.h, AC_DEFINE(HAVE_LIMITS_H))
-+AC_CHECK_HEADERS(poll.h, AC_DEFINE(HAVE_POLL_H))
- AC_CHECK_HEADERS(pwd.h, AC_DEFINE(HAVE_PWD_H))
- AC_CHECK_HEADERS(sys/param.h, AC_DEFINE(HAVE_SYS_PARAM_H))
- AC_CHECK_HEADERS(sys/poll.h, AC_DEFINE(HAVE_SYS_POLL_H))
-@@ -544,6 +545,13 @@ if test -z "$G_MODULE_IMPL"; then
++++ configure.in	Thu Jun  9 19:43:24 2005
+@@ -544,6 +544,13 @@ if test -z "$G_MODULE_IMPL"; then
  		G_MODULE_IMPL=G_MODULE_IMPL_DLD
  	,)
  fi
@@ -23,7 +15,7 @@ $MirOS$
  dnl *** additional checks for G_MODULE_IMPL_DL
  if test "$G_MODULE_IMPL" = "G_MODULE_IMPL_DL"; then
  	case "$host_os" in
-@@ -800,6 +808,12 @@ G_THREAD_CFLAGS="$G_THREAD_CFLAGS -D_REE
+@@ -800,6 +807,12 @@ G_THREAD_CFLAGS="$G_THREAD_CFLAGS -D_REE
  		# FreeBSD 2.2.x shiped with gcc 2.7.2.x, which doesn't support
  		# -mthreads flag.
  		;;
@@ -36,7 +28,7 @@ $MirOS$
      esac
  
      # if we are not finding the ctime_r function, then we probably are
-@@ -914,8 +928,6 @@ fi
+@@ -914,8 +927,6 @@ fi
  AC_DEFINE_UNQUOTED(G_THREAD_SOURCE,"gthread-$have_threads.c")
  AC_SUBST(G_THREAD_CFLAGS)
  AC_SUBST(G_THREAD_LIBS)
