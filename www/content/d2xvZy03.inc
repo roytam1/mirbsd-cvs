@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.64 2005/05/28 23:19:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.65 2005/06/07 20:51:14 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2927,4 +2927,19 @@
  and Darwin.<br />We may produce a release song ourselves...</p>
 <p>07.06.2005 by tg@<br />Nothing important happening; some binutils merge
  actions started, but not finished. Stay sleeping for a week or so.</p>
+<p>09.06.2005 by tg@<br />What a surprise; with new mirbsdksh and mirmake,
+ stuff works _way_ better on Interix, out of a sudden. Expect some further
+ improvements in that department soon.<br />I have my final examination on
+ June 20th; so far, I've been doing well, scoring 100% in some part of the
+ written qualification. They seem to have ignored a whole chapter that was
+ part of the documentation, though. Linuxtag is on June 21st and following
+ so I'll be there (donations for costs are welcome, as usual).<br />As for
+ MirOS #8 &ndash; some sudden lack in interest and time tells me that it's
+ probably not out there in time, but you can buy release candidats, burnt,
+ just in time, on CD-Rs there, as usual. There are also still some Shirts.
+ <br />Thanks to the NetBSD&reg; pkgsrc&reg; (yeah, it's a trademark, too,
+ now) guys, we also have better Interix support in MirLibtool (ports only,
+ as of the moment &ndash; still testing). The OpenBSD guys, and especially
+ <a href="http://mijncomputer.nl/">Han Boetes</a>, have provided us with a
+ bunch of fixes and improvements and ideas for mksh.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
