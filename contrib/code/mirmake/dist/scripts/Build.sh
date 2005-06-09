@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.38 2005/06/09 21:45:14 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.39 2005/06/09 21:50:36 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -88,6 +88,7 @@ export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 export CPPFLAGS="$CPPFLAGS -isystem $d_build/F -include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
+export NROFF="${NROFF:-nroff}"
 
 if [[ -z $new_binids ]]; then
 	binown=root
@@ -152,7 +153,7 @@ pic <PSD.doc/tutorial.ms >PSD12.make.ms.tbl 2>/dev/null \
     || cp PSD.doc/tutorial.ms PSD12.make.ms.tbl
 tbl <PSD12.make.ms.tbl >PSD12.make.ms 2>/dev/null \
     || cp PSD12.make.ms.tbl PSD12.make.ms
-nroff -ms PSD12.make.ms >PSD12.make.txt 2>/dev/null \
+$NROFF -ms PSD12.make.ms >PSD12.make.txt 2>/dev/null \
     || rm PSD12.make.txt
 
 # Generate installer
@@ -181,7 +182,7 @@ done
 # build make manpage
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
-	if ! nroff -mandoc make.1 >make.cat1; then
+	if ! $NROFF -mandoc make.1 >make.cat1; then
 		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
@@ -199,7 +200,7 @@ fi
 # build mkdep manpage
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
-	if ! nroff -mandoc $d_src/usr.bin/mkdep/mkdep.1 >mkdep.cat1; then
+	if ! $NROFF -mandoc $d_src/usr.bin/mkdep/mkdep.1 >mkdep.cat1; then
 		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
@@ -217,7 +218,7 @@ fi
 # build lorder manpage
 if [[ $is_catman = 1 ]]; then
 	cd $d_build
-	if ! nroff -mandoc $d_src/usr.bin/lorder/lorder.1 >lorder.cat1; then
+	if ! $NROFF -mandoc $d_src/usr.bin/lorder/lorder.1 >lorder.cat1; then
 		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
@@ -250,7 +251,7 @@ cat >>Install.sh <<EOF
 EOF
 if [[ $is_catman = 1 ]]; then
 	cd $d_build/readlink
-	if ! nroff -mandoc readlink.1 >readlink.cat1; then
+	if ! $NROFF -mandoc readlink.1 >readlink.cat1; then
 		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
@@ -278,7 +279,7 @@ cat >>Install.sh <<EOF
 EOF
 if [[ $is_catman = 1 ]]; then
 	cd $d_build/tsort
-	if ! nroff -mandoc tsort.1 >tsort.cat1; then
+	if ! $NROFF -mandoc tsort.1 >tsort.cat1; then
 		echo "Warning: manpage build failure." >&2
 		is_catman=0
 	fi
@@ -308,7 +309,7 @@ mv \$DESTDIR${dt_bin}/xinstall \$DESTDIR${dt_bin}/install
 EOF
 	if [[ $is_catman = 1 ]]; then
 		cd $d_build/xinstall
-		if ! nroff -mandoc install.1 >install.cat1; then
+		if ! $NROFF -mandoc install.1 >install.cat1; then
 			echo "Warning: manpage build failure." >&2
 			is_catman=0
 		fi
