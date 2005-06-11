@@ -8,6 +8,7 @@ man/man1/xloadimage.1
 man/man1/xsetbg.1
 man/man1/xview.1
 share/examples/xloadimage/xloadimagerc
+@sample ${SYSCONFDIR}/xloadimagerc
 @dirrm share/examples/xloadimage
 @cwd ${SYSCONFDIR}
 @extra xloadimagerc

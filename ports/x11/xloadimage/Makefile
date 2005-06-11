@@ -1,14 +1,12 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.24 2004/05/18 08:45:33 xsa Exp $
 
 COMMENT=	"graphics file viewer for X11"
-
 VERSION=	4.1
 REVISION=	14.2	# Debian
-
 DISTNAME=	xloadimage.${VERSION}
 PKGNAME=	xloadimage-${VERSION}.${REVISION}
 CATEGORIES=	x11 graphics
-
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -17,19 +15,18 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}
-MASTER_SITES0=	ftp://ftp.debian.org/debian/pool/main/x/xloadimage/ \
-		ftp://ftp.de.debian.org/debian/pool/main/x/xloadimage/
+MASTER_SITES0=	ftp://ftp.de.debian.org/debian/pool/main/x/xloadimage/ \
+		ftp://ftp.debian.org/debian/pool/main/x/xloadimage/
 
-PATCHFILES=	xloadimage_${VERSION}-${REVISION}.diff.gz:0
-PATCH_DIST_STRIP= -p1
+PATCHFILES=		xloadimage_${VERSION}-${REVISION}.diff.gz:0
+PATCH_DIST_STRIP=	-p1
 
-LIB_DEPENDS=	png.2::graphics/png tiff.35::graphics/tiff
+LIB_DEPENDS=		png.2::graphics/png \
+			tiff.35::graphics/tiff
 
-USE_X11=	Yes
-CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
-NO_REGRESS=	Yes
+USE_X11=		Yes
+CONFIGURE_STYLE=	gnu
+NO_REGRESS=		Yes
 
 post-distpatch:
 	@for p in ${WRKDIST}/debian/patches/*.dpatch; do \
