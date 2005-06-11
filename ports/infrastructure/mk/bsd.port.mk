@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.24 2005/05/31 20:45:32 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.25 2005/06/02 22:17:48 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1936,6 +1936,10 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 ${_INSTALL_COOKIE}:  ${_PACKAGE_COOKIES}
 	@cd ${.CURDIR} && DEPENDS_TARGET=install \
 	    exec ${MAKE} run-depends lib-depends
+	@cd ${.CURDIR} && exec ${MAKE} install-binpkg
+	@-${SUDO} ${_MAKE_COOKIE} $@
+
+install-binpkg:
 	@${ECHO_MSG} "===>  Installing ${FULLPKGNAME${SUBPACKAGE}} from ${PKGFILE${SUBPACKAGE}}"
 .  for _m in ${MODULES}
 .    if defined(MOD${_m:U}_pre_install)
@@ -1956,7 +1960,6 @@ ${_INSTALL_COOKIE}:  ${_PACKAGE_COOKIES}
 	    PKG_TMPDIR=${PKG_TMPDIR} PATH="${PKG_CMDDIR}:$$PATH" \
 	    ${PKG_CMD_ADD} ${PKGFILE${SUBPACKAGE}}
 .  endif
-	@-${SUDO} ${_MAKE_COOKIE} $@
 .endif
 
 # The real package
@@ -2787,7 +2790,7 @@ uninstall deinstall:
 	do-package do-regress extract \
 	fake fetch fetch-all \
 	fetch-makefile full-all-depends full-build-depends \
-	full-run-depends homepage-links install \
+	full-run-depends homepage-links install install-binpkg \
 	lib-depends lib-depends-check lib-depends-list \
 	link-categories makesum manpages-check \
 	package patch \
