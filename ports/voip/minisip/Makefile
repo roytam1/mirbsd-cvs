@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: ports/voip/minisip/Makefile,v 1.1 2005/06/11 23:37:31 tg Exp $
+
+BROKEN=			builds, but does not work correctly
 
 COMMENT=		"small, secure Voice over IP (SIP) client"
 CATEGORIES=		voip net
