@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.2 2005/03/13 17:19:39 tg Exp $
+#!/bin/mksh
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.3 2005/03/13 17:30:14 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -48,7 +48,7 @@ done
 
 set -e
 set -x
-if [[ -d m4 ]]; then
+[[ ! -e acinclude.m4 ]] || if [[ -d m4 ]]; then
 	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I m4
 elif [[ -d ../m4 ]]; then
 	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I ../m4
@@ -58,7 +58,7 @@ fi
 autoheader
 set +e
 let rv=0
-automake --foreign -a $AM_FLAGS || let rv=$?
+[[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || let rv=$?
 autoconf && chmod 664 configure
 rm -rf autom4te.cache
 find . -type l -print0 | xargs -0 rm
