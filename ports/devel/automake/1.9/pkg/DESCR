@@ -8,3 +8,7 @@ dependency tracking support, the use of GNU make is also required.
 
 This version of automake also supports a special --miros mode which
 lets it use GNUSYSTEM_AUX_DIR for contributed files.
+
+There is also support for overriding the install-man target execution
+on install-data, and no install target depends on its build target
+any more (if there is, please submit a bug report).
