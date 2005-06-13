@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.18 2005/04/29 19:57:40 tg Exp $
+# $MirOS: src/Makefile,v 1.19 2005/05/01 23:35:26 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -99,7 +99,7 @@ contrelease:
 do-htman:
 	-rm -rf ${BSDOBJDIR}/htman
 	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
-.for _set _dir in x11 X11R6 gcc share base share
+.for _set _dir in x11 X11R6 base share
 	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man \
 	    && find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .endfor
@@ -127,9 +127,9 @@ dist:
 	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 .ifdef QUICK_DIST
-_DISTS=	base gcc
+_DISTS=	base
 .else
-_DISTS=	base x11 gcc htman
+_DISTS=	base x11 htman
 .endif
 
 do-dist:
