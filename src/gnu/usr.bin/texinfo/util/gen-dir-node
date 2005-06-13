@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/texinfo/util/gen-dir-node,v 1.2 2005/03/13 15:19:46 tg Exp $
 # $Id$
 # Generate the top-level Info node, given a directory of Info files
 # and (optionally) a skeleton file.  The output will be suitable for a
@@ -52,7 +52,7 @@ echo "This version was generated on `date`"
 echo "by `whoami`@`hostname` for `(cd ${INFODIR}; pwd)`"
 
 cat << moobler
-\$Id$
+\$MirOS: gen-dir-node,v 1.3 2004/04/11 17:56:47 karl Exp $
 This is the file .../info/dir, which contains the topmost node of the
 Info hierarchy.  The first time you invoke Info you start off
 looking at that node, which is (dir)Top.
