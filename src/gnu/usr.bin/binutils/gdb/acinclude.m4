@@ -2,7 +2,7 @@ dnl written by Rob Savoye <rob@cygnus.com> for Cygnus Support
 dnl major rewriting for Tcl 7.5 by Don Libes <libes@nist.gov>
 
 dnl gdb/configure.in uses BFD_NEED_DECLARATION, so get its definition.
-sinclude(../bfd/acinclude.m4)
+sinclude(../bfd/bfd.m4)
 
 dnl This gets the standard macros, like the TCL, TK, etc ones.
 sinclude(../config/acinclude.m4)
@@ -734,13 +734,6 @@ AC_SUBST(ITKHDIR)
 #AC_SUBST(ITKLIB)
 ])
 
-
-dnl sinclude(../gettext.m4) already included by bfd/acinclude.m4
-dnl The lines below arrange for aclocal not to bring gettext.m4's
-dnl CY_GNU_GETTEXT into aclocal.m4.
-ifelse(yes,no,[
-AC_DEFUN([CY_GNU_GETTEXT],)
-])
 
 ## ----------------------------------------- ##
 ## ANSIfy the C compiler whenever possible.  ##
