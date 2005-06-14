@@ -1,0 +1,9 @@
+@comment $MirOS$
+include/osb/gtk-khtml.h
+include/osb/osb.h
+lib/libnrcit.a
+lib/libnrcit.la
+lib/pkgconfig/osb-nrcit.pc
+%%SHARED%%
+@dirrm lib/pkgconfig
+@dirrm include/osb
