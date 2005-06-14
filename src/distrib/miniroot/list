@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/miniroot/list,v 1.2 2005/03/06 18:58:04 tg Exp $
 # $OpenBSD: list,v 1.32 2004/01/04 00:29:51 deraadt Exp $
 # $NetBSD: list,v 1.4.4.1 1996/06/20 20:30:26 pk Exp $
 
@@ -18,11 +18,11 @@ LINK	instbin			bin/hostname
 LINK	instbin			bin/ln
 LINK	instbin			bin/ls
 LINK	instbin			bin/mkdir
+LINK	instbin			bin/mksh bin/sh
 LINK	instbin			bin/mt
 LINK	instbin			bin/mv
 LINK	instbin			bin/pax bin/tar bin/cpio
 LINK	instbin			bin/rm
-LINK	instbin			bin/ksh bin/sh
 LINK	instbin			bin/stty
 LINK	instbin			bin/sleep
 LINK	instbin			bin/sync
@@ -48,7 +48,7 @@ LINK	instbin			usr/bin/gzip usr/bin/gunzip usr/bin/gzcat
 LINK	instbin			usr/bin/sed
 
 # 'internal' crunchgen links
-ARGVLINK ksh		-sh
+ARGVLINK mksh			-sh
 
 # various files that we need in /etc for the install
 COPY	${DESTDIR}/etc/group		etc/group

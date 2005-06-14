@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/common/list,v 1.2 2005/03/06 18:58:03 tg Exp $
 # $OpenBSD: list,v 1.10 2003/08/08 19:39:14 deraadt Exp $
 
 SRCDIRS distrib/special usr.bin/ssh
@@ -14,11 +14,11 @@ LINK	instbin					bin/dd
 LINK	instbin					bin/df
 LINK	instbin					bin/ed
 LINK	instbin					bin/hostname
-LINK	instbin					bin/ksh bin/sh
 LINK	instbin					bin/ln
 LINK	instbin					bin/ls
 LINK	instbin					bin/md5 bin/cksum bin/sum bin/sha1 bin/rmd160
 LINK	instbin					bin/mkdir
+LINK	instbin					bin/mksh bin/sh
 LINK	instbin					bin/mv
 LINK	instbin					bin/pax bin/cpio bin/tar
 LINK	instbin					bin/rm
@@ -54,8 +54,9 @@ LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/sysctl
 LINK	instbin					usr/sbin/vnconfig
-ARGVLINK ksh					-ksh
-ARGVLINK ksh					-sh
+ARGVLINK mksh					-ksh
+ARGVLINK mksh					-mksh
+ARGVLINK mksh					-sh
 
 # needed by dhclient
 SCRIPT	${DESTDIR}/sbin/dhclient-script 	sbin/dhclient-script
@@ -63,7 +64,7 @@ SPECIAL	chmod 755 sbin/dhclient-script
 
 # copy the MAKEDEV script and make some devices
 SCRIPT ${DESTDIR}/dev/MAKEDEV			dev/MAKEDEV
-SPECIAL	cd dev; /bin/ksh MAKEDEV ramdisk
+SPECIAL	cd dev; /bin/mksh MAKEDEV ramdisk
 
 # we need the contents of /usr/mdec
 COPY	${DESTDIR}/usr/mdec/ffspbr		usr/mdec/ffspbr

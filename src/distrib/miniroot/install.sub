@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.5 2005/05/05 00:40:50 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.6 2005/05/09 08:47:15 tg Exp $
 # $OpenBSD: install.sub,v 1.382 2005/04/15 23:45:29 krw Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1735,10 +1735,10 @@ DEVSMADE=
 # the contents of the other sets, not the other way around.
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
-for _set in base etc gnu gcc xbase xetc ports pkgutl source xfree site; do
+for _set in base etc gnu dev xbase xetc pkgutl ports source xfree site; do
 	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
 	THESETS="$THESETS ${_set}${VERSION}.ngz"
-	isin $_set xbase xetc ports pkgutl source xfree site && continue
+	isin $_set xbase xetc pkgutl ports source xfree site && continue
 	DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
 done
 
@@ -1747,7 +1747,7 @@ if [ -z "$EDITOR" ]; then
 	EDITOR=ed
 	[ -x /usr/bin/vi ] && EDITOR=vi
 	export EDITOR
-	# for ksh line-editing (bsiegert@, leave this in, thanks)
+	# for mksh line-editing (bsiegert@, leave this in, thanks)
 	set -o emacs
 fi
 
