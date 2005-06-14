@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.20 2005/06/13 19:53:41 tg Exp $
+# $MirOS: src/Makefile,v 1.21 2005/06/13 20:48:48 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -154,8 +154,8 @@ do-dist:
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .endif
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
-	cd ${.CURDIR}/gnu/usr.bin/texinfo && \
-	    exec ${MAKE} mkinfodir DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${SUDO} ${MAKE} \
+	    -f Makefile.bsd-wrapper mkinfodir DESTDIR=${BSDRELDIR}/base
 .ifndef QUICK_DIST
 	cd ${.CURDIR} && exec ${MAKE} do-htman
 .endif
