@@ -1,0 +1,44 @@
+# $MirOS: ports/voip/iaxclient/files/BSDmakefile,v 1.1 2005/06/17 20:24:21 tg Exp $
+
+PROG=		iaxcomm
+NOMAN=		Yes
+DOCDIR=		${PREFIX}/share/doc/iaxcomm
+
+CFLAGS+=	-std=c99 -pthread
+LDFLAGS+=	-pthread
+CPPFLAGS+=	-DVERSION=\"1.0rc3\"
+
+WXCFLAGS!=	wx-config --cflags
+CFLAGS+=	${WXCFLAGS}
+
+.include <bsd.own.mk>
+.if ${OStype} == "Darwin"
+CPPFLAGS+=	-DMACOSX
+WXLDADD!=	wx-config --static --libs
+LDADD+=		-framework CoreAudio -framework AudioToolbox ${WXLDADD}
+
+all:
+	@echo Look at '$$(PROG).app' target in GNU Makefile and port it.
+	@exit 1
+.else
+CPPFLAGS+=	-DLINUX
+GTKCFLAGS!=	gtk-config --cflags
+CFLAGS+=	${GTKCFLAGS}
+WXLDADD!=	wx-config --static --libs
+LDADD+=		-lm ${WXLDADD}
+.endif
+
+SRCS+=		main.cc prefs.cc calls.cc directory.cc dial.cc frame.cc \
+		devices.cc xrc_res.cc accounts.cc ringer.cc
+LDADD+=		-liaxclient
+XRCS=		rc/devices.xrc rc/directory.xrc rc/frame.xrc \
+		rc/menubar.xrc rc/panel.xrc rc/prefs.xrc
+
+xrc_res.cc: $(XRCS)
+	wxrc -c $> -o $@
+
+afterinstall:
+	${BSD_INSTALL_DATA_DIR} ${DOCDIR}
+	${BSD_INSTALL_DATA} ${.CURDIR}/QUICKSTART ${DOCDIR}/
+
+.include <bsd.prog.mk>
