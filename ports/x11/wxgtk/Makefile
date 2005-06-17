@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/wxgtk/Makefile,v 1.1.7.1 2005/03/18 16:01:03 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/10/08 17:13:18 sturm Exp $
 
 COMMENT=	"C++ cross-platform GUI toolkit"
@@ -10,8 +10,8 @@ EXTRACT_SUFX=   .tar.gz
 PATCHFILES=	${DISTNAME}-patch1.patch.gz
 HOMEPAGE=	http://wesley.informatik.uni-freiburg.de/~wxxt/
 
-LIB_DEPENDS=	gdk.,gtk.::x11/gtk+ \
-		glib.,gmodule.,gthread.::devel/glib
+LIB_DEPENDS=	gdk.,gtk.::x11/gtk+1 \
+		glib.,gmodule.,gthread.::devel/glib1
 
 CONFIGURE_STYLE=gnu dest
 CONFIGURE_ENV=	CXXFLAGS="${CXXFLAGS} -I${LOCALBASE}/include" \
