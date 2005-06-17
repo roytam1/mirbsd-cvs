@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.1 2005/06/17 20:15:22 tg Exp $
 #-
 # This file replaces <bsd.own.mk> as EXTRA_SYS_MK_INCLUDES
 # during MirPorts builds.
@@ -11,5 +11,14 @@ _MIRPORTS_BSD_MK=1
 
 # Second, override where necessary.
 DEBUGLIBS=		No
+
+BINDIR=			${PREFIX}/bin
+LIBDIR=			${PREFIX}/lib
+MANDIR=			${PREFIX}/man/cat
+SHAREDIR=		${PREFIX}/share
+
+.if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
+PREFIX:=		${TRUEPREFIX}
+.endif
 
 .endif
