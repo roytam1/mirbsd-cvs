@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/wxgtk/Makefile,v 1.2 2005/06/17 21:00:29 tg Exp $
+# $MirOS: ports/x11/wxgtk/Makefile,v 1.3 2005/06/17 23:11:30 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/10/08 17:13:18 sturm Exp $
 
 COMMENT=		"C++ cross-platform GUI toolkit"
@@ -135,5 +135,7 @@ post-install:
 	cd ${PREFIX}/lib && for f in lib*.so; do \
 		mv $$f $$f.0.0; \
 	done
+	cd ${PREFIX}/bin; f="$(readlink wx-config)"; \
+	    rm wx-config; ln "$f" wx-config
 
 .include <bsd.port.mk>
