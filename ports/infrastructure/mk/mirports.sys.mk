@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.5 2005/04/11 14:52:48 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.6 2005/05/30 16:47:10 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -6,6 +6,9 @@
 .ifndef	BSD_OWN_MK
 .  include <bsd.own.mk>
 .endif
+
+# But provide a consistent MirPorts behaviour.
+DEBUGLIBS=		No
 
 # Basic defaults.
 .ifndef	OSname
