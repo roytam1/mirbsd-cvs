@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/voip/iaxclient/Makefile,v 1.1 2005/06/17 20:24:20 tg Exp $
 
 COMMENT=		"IAX/IAX2 client library"
 CATEGORIES=		voip devel net
@@ -13,8 +13,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
-
-USE_CXX=		Yes
 
 WRKDIST=		${WRKDIR}/iaxclient/lib
 MAKE_FILE=		BSDmakefile
