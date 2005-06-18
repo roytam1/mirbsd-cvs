@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/iaxclient/Makefile,v 1.1 2005/06/17 20:24:20 tg Exp $
+# $MirOS: ports/voip/iaxcomm/Makefile,v 1.1 2005/06/17 20:50:05 tg Exp $
 
 COMMENT=		"minimal IAX/IAX2 client programme"
 CATEGORIES=		voip devel net
@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-USE_CXX=		Yes
+MODULES=		x11/wxgtk
 LIB_DEPENDS=		iaxclient::voip/iaxclient
 
 WRKDIST=		${WRKDIR}/iaxclient/simpleclient/iaxcomm
