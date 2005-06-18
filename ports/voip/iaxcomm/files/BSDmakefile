@@ -1,9 +1,9 @@
-# $MirOS: ports/voip/iaxcomm/files/BSDmakefile,v 1.1 2005/06/17 20:50:06 tg Exp $
+# $MirOS: ports/voip/iaxcomm/files/BSDmakefile,v 1.2 2005/06/18 00:18:08 tg Exp $
 
 PROG=		iaxcomm
 NOMAN=		Yes
 DOCDIR=		${PREFIX}/share/doc/iaxcomm
-DOCDIR=		${PREFIX}/share/iaxcomm
+DATADIR=	${PREFIX}/share/iaxcomm
 
 CFLAGS+=	-pthread
 LDFLAGS+=	-pthread
