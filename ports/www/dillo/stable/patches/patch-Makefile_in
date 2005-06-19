@@ -1,28 +1,27 @@
 $MirOS$
-$OpenBSD: patch-Makefile_in,v 1.1 2004/02/26 13:43:26 couderc Exp $
---- Makefile.in.orig	2004-07-06 19:00:57.000000000 +0200
-+++ Makefile.in	2004-07-28 12:21:00.000000000 +0200
-@@ -48,7 +48,7 @@ am__configure_deps = $(am__aclocal_m4_de
- 	$(ACLOCAL_M4)
- am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
-  configure.lineno configure.status.lineno
--mkinstalldirs = $(mkdir_p)
-+mkinstalldirs = mkdir -p
- CONFIG_HEADER = config.h
- CONFIG_CLEAN_FILES =
- SOURCES =
-@@ -233,12 +233,11 @@ distclean-hdr:
+--- Makefile.in.orig	2005-06-18 01:30:59.000000000 +0200
++++ Makefile.in	2005-06-19 19:12:26.000000000 +0200
+@@ -177,6 +177,7 @@ program_transform_name = @program_transf
+ sbindir = @sbindir@
+ sharedstatedir = @sharedstatedir@
+ sysconfdir = @sysconfdir@
++exampledir = $(prefix)/share/examples/dillo
+ target = @target@
+ target_alias = @target_alias@
+ target_cpu = @target_cpu@
+@@ -242,12 +243,12 @@ distclean-hdr:
  uninstall-info-am:
  install-sysconfDATA: $(sysconf_DATA)
  	@$(NORMAL_INSTALL)
 -	test -z "$(sysconfdir)" || $(mkdir_p) "$(DESTDIR)$(sysconfdir)"
-+	$(mkinstalldirs) $(PREFIX)/share/examples/dillo/
++	test -z "$(exampledir)" || $(mkdir_p) "$(DESTDIR)$(exampledir)"
  	@list='$(sysconf_DATA)'; for p in $$list; do \
  	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
- 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+ 	  f=$(am__strip_dir) \
 -	  echo " $(sysconfDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(sysconfdir)/$$f'"; \
 -	  $(sysconfDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(sysconfdir)/$$f"; \
-+	  $(sysconfDATA_INSTALL) $$d$$p $(PREFIX)/share/examples/dillo/$$f; \
++	  echo " $(sysconfDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(exampledir)/$$f'"; \
++	  $(sysconfDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(exampledir)/$$f"; \
  	done
  
  uninstall-sysconfDATA:

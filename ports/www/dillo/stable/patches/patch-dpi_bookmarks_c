@@ -1,7 +1,7 @@
 $MirOS$
---- dpi/bookmarks.c.orig	2004-04-14 23:22:06.000000000 +0200
-+++ dpi/bookmarks.c	2004-05-22 18:33:12.000000000 +0200
-@@ -792,7 +792,7 @@ void Bms_check_import()
+--- dpi/bookmarks.c.orig	2005-05-14 11:16:07.000000000 +0200
++++ dpi/bookmarks.c	2005-06-19 18:41:14.000000000 +0200
+@@ -742,7 +742,7 @@ static void Bms_check_import(void)
  
     if (access(BmFile, F_OK) != 0) {
        OldBmFile = g_strconcat(g_get_home_dir(),
@@ -10,9 +10,9 @@ $MirOS$
        if (access(OldBmFile, F_OK) == 0) {
           g_string_sprintf(gstr, cmd1, BmFile);
           system(gstr->str);
-@@ -1810,7 +1810,7 @@ int main (void) {
-    /* Remove the old socket filename */
-    cleanup();
+@@ -1753,7 +1753,7 @@ int main (void) {
+    if (signal (SIGTERM, termination_handler) == SIG_IGN)
+      signal (SIGTERM, SIG_IGN);
  
 -   BmFile = g_strconcat(g_get_home_dir(), "/", ".dillo/bm.txt", NULL);
 +   BmFile = g_strconcat(g_get_home_dir(), "/", ".etc/dillo/bm.txt", NULL);

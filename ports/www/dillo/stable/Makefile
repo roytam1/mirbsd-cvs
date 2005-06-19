@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/www/dillo/stable/Makefile,v 1.2 2005/03/30 18:13:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
 COMMENT=		"Fast and light gtk-based web browser"
 
-VERSION=		0.8.4
-DASH_VER=		
+VERSION=		0.8.5
+DASH_VER=		-0
 DISTNAME=		dillo-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=     	www
@@ -32,5 +32,6 @@ CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-cookies --enable-ipv6
 CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng" \
 			LDFLAGS="-L${LOCALBASE}/lib"
+FAKE_ENV+=		sysconfdir="${LOCALBASE}/share/examples/dillo"
 
 .include <bsd.port.mk>

@@ -1,8 +1,8 @@
 $MirOS$
 $OpenBSD: patch-dpid_main_c,v 1.1 2004/02/21 01:37:19 couderc Exp $
---- dpid/main.c.orig	2004-05-22 00:13:27.000000000 +0200
-+++ dpid/main.c	2004-07-26 17:55:02.000000000 +0200
-@@ -67,7 +67,7 @@ int start_filter_plugin(struct dp dpi_at
+--- dpid/main.c.orig	2005-05-14 11:16:07.000000000 +0200
++++ dpid/main.c	2005-06-19 18:41:14.000000000 +0200
+@@ -68,7 +68,7 @@ static int start_filter_plugin(struct dp
     }
     if ( pid == 0) {
        /* Child, start plugin */
@@ -11,7 +11,7 @@ $OpenBSD: patch-dpid_main_c,v 1.1 2004/02/21 01:37:19 couderc Exp $
           ERRMSG("start_plugin", "execl", errno);
           fprintf(stderr, "ERROR in child proc for %s\n", dpi_attr.path);
           exit(1);
-@@ -99,7 +99,7 @@ void start_server_plugin(struct dp dpi_a
+@@ -100,7 +100,7 @@ static void start_server_plugin(struct d
        fprintf(stderr, "ERROR in child proc for %s\n", dpi_attr.path);
        exit(1);
     }
