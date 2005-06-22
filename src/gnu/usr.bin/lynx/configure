@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# From configure.in 2.8.6dev.11
+# From configure.in 2.8.6dev.13
 
 # Save the original $CFLAGS so we can distinguish whether the user set those
 # in the environment, or whether autoconf added -O and -g options:
@@ -19,7 +19,7 @@ rm -f config.cache
 
 # Guess values for system-dependent variables and create Makefiles.
 # Generated automatically using autoconf version 2.13.20040919 
-# $MirBSD$
+# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.4 2005/04/27 05:51:46 tg Exp $
 # Copyright (C) 1992, 1993, 1994, 1995, 1996, 2004
 #	Free Software Foundation, Inc.
 #
@@ -1103,7 +1103,7 @@ fi
 
 PACKAGE=lynx
 # $Format: "VERSION=$ProjectVersion$"$
-VERSION=2.8.6dev.11
+VERSION=2.8.6dev.13
 
 
 
