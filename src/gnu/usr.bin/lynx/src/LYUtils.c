@@ -1060,7 +1060,7 @@ void LYhighlight(int flag,
 
 	if (links[cur].type == WWW_FORM_LINK_TYPE) {
 	    int len;
-	    int avail_space = (LYcolLimit - LXP);
+	    int avail_space = (LYcolLimit - LXP) + (LYcolLimit * (LYlines - LYP));
 	    const char *text = LYGetHiliteStr(cur, 0);
 
 	    if (avail_space > links[cur].l_form->size)
@@ -1069,11 +1069,12 @@ void LYhighlight(int flag,
 		avail_space = (int) sizeof(buffer) - 1;
 
 	    LYstrncpy(buffer, NonNull(text), avail_space);
-	    LYaddstr(buffer);
-
 	    len = strlen(buffer);
-	    for (; len < links[cur].l_form->size && len < avail_space; len++)
-		LYaddch('_');
+	    while (len < avail_space) {
+		buffer[len++] = '_';
+	    }
+	    buffer[len] = 0;
+	    LYaddstr(buffer);
 
 #ifdef USE_COLOR_STYLE
 	} else if (flag == OFF) {
@@ -1419,10 +1420,10 @@ void statusline(const char *text)
 #else
 	/* draw the status bar in the STATUS style */
 	{
-	    int a = (strncmp(buffer, ALERT_FORMAT, ALERT_PREFIX_LEN)
-		     || !hashStyles[s_alert].name)
-	    ? s_status
-	    : s_alert;
+	    int a = ((strncmp(buffer, ALERT_FORMAT, ALERT_PREFIX_LEN)
+		      || !hashStyles[s_alert].name)
+		     ? s_status
+		     : s_alert);
 
 	    LynxChangeStyle(a, STACK_ON);
 	    LYaddstr(buffer);
