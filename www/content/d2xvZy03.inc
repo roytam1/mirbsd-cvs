@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.65 2005/06/07 20:51:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.66 2005/06/09 22:27:46 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2942,4 +2942,13 @@
  as of the moment &ndash; still testing). The OpenBSD guys, and especially
  <a href="http://mijncomputer.nl/">Han Boetes</a>, have provided us with a
  bunch of fixes and improvements and ideas for mksh.</p>
+<p>22.06.2005 by tg@<br />After finishing apprenticeship on Monday, Summer
+ finally started yesterday &ndash; in Karlsruhe, for me. I'm here as usual
+ for the LinuxTag, currently trying hard to get something to put on the CD
+ and sell. I've already had two people asking for CDs (not much today tho)
+ and sold an actual MirShirt to a friendly H+BEDV Antivir man. Also, I had
+ a nice chat with the GeNUA people again which too remembered me from last
+ year. LinuxTag is the usual fun with drunkards (not the OpenBSD guys, for
+ me, but rather the Holarse crowd &ndash; although Wim did look funny when
+ I talked a bit to him op nederlands; had to deliver greets from Han).</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
