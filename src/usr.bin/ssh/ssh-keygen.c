@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh-keygen.c,v 1.123 2005/04/05 13:45:31 otto Exp $");
+RCSID("$OpenBSD: ssh-keygen.c,v 1.127 2005/06/08 03:50:00 djm Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -36,7 +36,7 @@ RCSID("$OpenBSD: ssh-keygen.c,v 1.123 2005/04/05 13:45:31 otto Exp $");
 #include "dns.h"
 
 /* Number of bits in the RSA/DSA key.  This value can be changed on the command line. */
-int bits = 1024;
+u_int32_t bits = 2048;
 
 /*
  * Flag indicating that we just want to change the passphrase.  This can be
@@ -90,7 +90,7 @@ extern char *__progname;
 char hostname[MAXHOSTNAMELEN];
 
 /* moduli.c */
-int gen_candidates(FILE *, int, int, BIGNUM *);
+int gen_candidates(FILE *, u_int32_t, u_int32_t, BIGNUM *);
 int prime_test(FILE *, FILE *, u_int32_t, u_int32_t);
 
 static void
@@ -1007,12 +1007,13 @@ main(int ac, char **av)
 	Key *private, *public;
 	struct passwd *pw;
 	struct stat st;
-	int opt, type, fd, download = 0, memory = 0;
-	int generator_wanted = 0, trials = 100;
+	int opt, type, fd, download = 0;
+	u_int32_t memory = 0, generator_wanted = 0, trials = 100;
 	int do_gen_candidates = 0, do_screen_candidates = 0;
 	int log_level = SYSLOG_LEVEL_INFO;
 	BIGNUM *start = NULL;
 	FILE *f;
+	const char *errstr;
 
 	extern int optind;
 	extern char *optarg;
@@ -1035,11 +1036,10 @@ main(int ac, char **av)
 	    "degiqpclBHvxXyF:b:f:t:U:D:P:N:C:r:g:R:T:G:M:S:a:W:")) != -1) {
 		switch (opt) {
 		case 'b':
-			bits = atoi(optarg);
-			if (bits < 512 || bits > 32768) {
-				printf("Bits has bad value.\n");
-				exit(1);
-			}
+			bits = strtonum(optarg, 512, 32768, &errstr);
+			if (errstr)
+				fatal("Bits has bad value %s (%s)",
+					optarg, errstr);
 			break;
 		case 'F':
 			find_host = 1;
@@ -1065,7 +1065,9 @@ main(int ac, char **av)
 			change_comment = 1;
 			break;
 		case 'f':
-			strlcpy(identity_file, optarg, sizeof(identity_file));
+			if (strlcpy(identity_file, optarg, sizeof(identity_file)) >=
+			    sizeof(identity_file))
+				fatal("Identity filename too long");
 			have_identity = 1;
 			break;
 		case 'g':
@@ -1120,23 +1122,34 @@ main(int ac, char **av)
 			rr_hostname = optarg;
 			break;
 		case 'W':
-			generator_wanted = atoi(optarg);
-			if (generator_wanted < 1)
-				fatal("Desired generator has bad value.");
+			generator_wanted = strtonum(optarg, 1, UINT_MAX, &errstr);
+			if (errstr)
+				fatal("Desired generator has bad value: %s (%s)",
+					optarg, errstr);
 			break;
 		case 'a':
-			trials = atoi(optarg);
+			trials = strtonum(optarg, 1, UINT_MAX, &errstr);
+			if (errstr)
+				fatal("Invalid number of trials: %s (%s)",
+					optarg, errstr);
 			break;
 		case 'M':
-			memory = atoi(optarg);
+			memory = strtonum(optarg, 1, UINT_MAX, &errstr);
+			if (errstr) {
+				fatal("Memory limit is %s: %s", errstr, optarg);
+			}
 			break;
 		case 'G':
 			do_gen_candidates = 1;
-			strlcpy(out_file, optarg, sizeof(out_file));
+			if (strlcpy(out_file, optarg, sizeof(out_file)) >=
+			    sizeof(out_file))
+				fatal("Output filename too long");
 			break;
 		case 'T':
 			do_screen_candidates = 1;
-			strlcpy(out_file, optarg, sizeof(out_file));
+			if (strlcpy(out_file, optarg, sizeof(out_file)) >=
+			    sizeof(out_file))
+				fatal("Output filename too long");
 			break;
 		case 'S':
 			/* XXX - also compare length against bits */

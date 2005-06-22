@@ -10,7 +10,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: servconf.c,v 1.140 2005/03/10 22:01:05 deraadt Exp $");
+RCSID("$OpenBSD: servconf.c,v 1.142 2005/06/17 02:44:33 djm Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -363,7 +363,7 @@ parse_token(const char *cp, const char *filename,
 static void
 add_listen_addr(ServerOptions *options, char *addr, u_short port)
 {
-	int i;
+	u_int i;
 
 	if (options->num_ports == 0)
 		options->ports[options->num_ports++] = SSH_DEFAULT_PORT;
@@ -403,9 +403,10 @@ process_server_config_line(ServerOptions *options, char *line,
     const char *filename, int linenum)
 {
 	char *cp, **charptr, *arg, *p;
-	int *intptr, value, i, n;
+	int *intptr, value, n;
 	ServerOpCodes opcode;
 	u_short port;
+	u_int i;
 
 	cp = line;
 	arg = strdelim(&cp);
@@ -491,6 +492,9 @@ parse_time:
 
 	case sAddressFamily:
 		arg = strdelim(&cp);
+		if (!arg || *arg == '\0')
+			fatal("%s line %d: missing address family.",
+			    filename, linenum);
 		intptr = &options->address_family;
 		if (options->listen_addrs != NULL)
 			fatal("%s line %d: address family must be specified before "

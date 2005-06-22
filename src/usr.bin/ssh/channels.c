@@ -39,7 +39,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: channels.c,v 1.214 2005/03/14 11:46:56 markus Exp $");
+RCSID("$OpenBSD: channels.c,v 1.217 2005/06/17 02:44:32 djm Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -893,7 +893,7 @@ static int
 channel_decode_socks4(Channel *c, fd_set * readset, fd_set * writeset)
 {
 	char *p, *host;
-	int len, have, i, found;
+	u_int len, have, i, found;
 	char username[256];
 	struct {
 		u_int8_t version;
@@ -978,7 +978,7 @@ channel_decode_socks5(Channel *c, fd_set * readset, fd_set * writeset)
 	} s5_req, s5_rsp;
 	u_int16_t dest_port;
 	u_char *p, dest_addr[255+1];
-	int i, have, found, nmethods, addrlen, af;
+	u_int have, i, found, nmethods, addrlen, af;
 
 	debug2("channel %d: decode socks5", c->self);
 	p = buffer_ptr(&c->input);
@@ -1074,7 +1074,8 @@ static void
 channel_pre_dynamic(Channel *c, fd_set * readset, fd_set * writeset)
 {
 	u_char *p;
-	int have, ret;
+	u_int have;
+	int ret;
 
 	have = buffer_len(&c->input);
 	c->delayed = 0;
@@ -1177,7 +1178,7 @@ port_open_helper(Channel *c, char *rtype)
 	int direct;
 	char buf[1024];
 	char *remote_ipaddr = get_peer_ipaddr(c->sock);
-	u_short remote_port = get_peer_port(c->sock);
+	int remote_port = get_peer_port(c->sock);
 
 	direct = (strcmp(rtype, "direct-tcpip") == 0);
 
@@ -1207,7 +1208,7 @@ port_open_helper(Channel *c, char *rtype)
 		}
 		/* originator host and port */
 		packet_put_cstring(remote_ipaddr);
-		packet_put_int(remote_port);
+		packet_put_int((u_int)remote_port);
 		packet_send();
 	} else {
 		packet_start(SSH_MSG_PORT_OPEN);
@@ -2918,7 +2919,7 @@ deny_input_open(int type, u_int32_t seq, void *ctxt)
  * This should be called in the client only.
  */
 void
-x11_request_forwarding_with_spoofing(int client_session_id,
+x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
     const char *proto, const char *data)
 {
 	u_int data_len = (u_int) strlen(data) / 2;
@@ -2928,9 +2929,9 @@ x11_request_forwarding_with_spoofing(int client_session_id,
 	const char *cp;
 	u_int32_t rnd = 0;
 
-	cp = getenv("DISPLAY");
-	if (cp)
-		cp = strchr(cp, ':');
+	cp = disp;
+	if (disp)
+		cp = strchr(disp, ':');
 	if (cp)
 		cp = strchr(cp, '.');
 	if (cp)
