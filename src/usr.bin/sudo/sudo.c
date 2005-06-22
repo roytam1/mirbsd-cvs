@@ -275,6 +275,8 @@ main(argc, argv, envp)
 	/* Validate the user but don't search for pseudo-commands. */
 	validated = sudoers_lookup(pwflag);
     }
+    if (safe_cmnd == NULL)
+	safe_cmnd = user_cmnd;
 
     /*
      * If we are using set_perms_posix() and the stay_setuid flag was not set,
@@ -389,14 +391,6 @@ main(argc, argv, envp)
 	    sudo_ldap_list_matches();
 #endif
 	    exit(0);
-	}
-
-	/* This *must* have been set if we got a match but... */
-	if (safe_cmnd == NULL) {
-	    log_error(MSG_ONLY,
-		"internal error, safe_cmnd never got set for %s; %s",
-		user_cmnd,
-		"please report this error at http://courtesan.com/sudo/bugs/");
 	}
 
 	/* Override user's umask if configured to do so. */
@@ -901,10 +895,10 @@ check_sudoers()
 	    (statbuf.st_mode & 07777), SUDOERS_MODE);
     else if (statbuf.st_uid != SUDOERS_UID)
 	log_error(0, "%s is owned by uid %lu, should be %lu", _PATH_SUDOERS,
-	    (unsigned long) statbuf.st_uid, SUDOERS_UID);
+	    (unsigned long) statbuf.st_uid, (unsigned long) SUDOERS_UID);
     else if (statbuf.st_gid != SUDOERS_GID)
 	log_error(0, "%s is owned by gid %lu, should be %lu", _PATH_SUDOERS,
-	    (unsigned long) statbuf.st_gid, SUDOERS_GID);
+	    (unsigned long) statbuf.st_gid, (unsigned long) SUDOERS_GID);
     else {
 	/* Solaris sometimes returns EAGAIN so try 10 times */
 	for (i = 0; i < 10 ; i++) {
@@ -1086,7 +1080,7 @@ get_authpw()
     } else if (def_targetpw) {
 	if (runas_pw->pw_name == NULL)
 	    log_error(NO_MAIL|MSG_ONLY, "no passwd entry for %lu!",
-		runas_pw->pw_uid);
+		(unsigned long) runas_pw->pw_uid);
 	pw = runas_pw;
     } else
 	pw = sudo_user.pw;
