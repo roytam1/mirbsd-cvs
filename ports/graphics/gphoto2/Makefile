@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gphoto2/Makefile,v 1.1.7.1 2005/03/18 15:46:53 tg Exp $
+# $MirOS: ports/graphics/gphoto2/Makefile,v 1.2 2005/06/23 13:52:33 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/14 18:41:15 brad Exp $
 
 COMMENT=	'digital camera command-line interface'
@@ -18,8 +18,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 SEPARATE_BUILD=		simple
-CONFIGURE_ARGS=		--without-aalib --without-cdk
-MODULES=		devel/gettext
+CONFIGURE_ARGS=		--disable-nls --without-aalib --without-cdk
 
 LIB_DEPENDS+=	gphoto2,gphoto2_port::graphics/libgphoto2 \
 		jpeg::graphics/jpeg \
