@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/libgphoto2/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:59 tg Exp $
 @comment $OpenBSD: PLIST,v 1.4 2004/04/14 18:39:58 brad Exp $
 bin/gphoto2-config
 bin/gphoto2-port-config
@@ -134,7 +134,7 @@ man/man3/libgphoto2_port.3
 share/doc/libgphoto2/README
 @comment share/doc/libgphoto2_port/AUTHORS
 @comment share/doc/libgphoto2_port/NEWS
-share/doc/libgphoto2_port/README
+@comment share/doc/libgphoto2_port/README
 share/libgphoto2/${VERSION}/konica/english
 share/libgphoto2/${VERSION}/konica/french
 share/libgphoto2/${VERSION}/konica/german
