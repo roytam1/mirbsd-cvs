@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.26 2005/06/11 21:12:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.27 2005/06/17 20:15:21 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1041,6 +1041,12 @@ _noshared=		-noshared
 _noshared=
 .endif
 
+.if ${OBJECT_FMT} == "Mach-O"
+_dylib=			-dylib
+.else
+_dylib=
+.endif
+
 _libresolve_fragment= \
 	case "$$d" in \
 	*/*)	shprefix="$${d%/*}/"; shdir="${LOCALBASE}/$${d%/*}"; \
@@ -1048,7 +1054,7 @@ _libresolve_fragment= \
 	*)	shprefix=""; shdir="${LOCALBASE}/lib";; \
 	esac; \
 	check=$$(eval $$listlibs | perl \
-	    ${PORTSDIR}/infrastructure/scripts/resolve-lib ${_noshared} $$d) \
+	    ${PORTSDIR}/infrastructure/scripts/resolve-lib ${_noshared} ${_dylib} $$d) \
 	    || true
 
 _lib_depends_fragment= \
