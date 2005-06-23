@@ -1,9 +1,10 @@
+$MirOS$
 $OpenBSD: patch-create_make,v 1.1.1.1 2001/11/13 15:23:15 naddy Exp $
---- create.make.orig	Thu Jun 28 07:39:33 2001
-+++ create.make	Mon Nov 12 02:00:31 2001
-@@ -9,6 +9,11 @@
+--- create.make.orig	Mon Sep 23 04:18:08 2002
++++ create.make	Thu Jun 23 15:44:40 2005
+@@ -11,6 +11,11 @@
  
- #set -x
+ name_string="`uname`"
  
 +# where to read system-wide configuration from
 +
@@ -13,7 +14,7 @@ $OpenBSD: patch-create_make,v 1.1.1.1 2001/11/13 15:23:15 naddy Exp $
  # test for existence of termcap (exists on both BSD and SysV systems)
  
  if [ -f /etc/termcap -o -f /usr/share/lib/termcap -o -f /usr/share/misc/termcap ]
-@@ -244,7 +249,7 @@ then
+@@ -257,7 +262,7 @@ then
  	mv make.local make.lcl.old
  fi
  
@@ -22,7 +23,7 @@ $OpenBSD: patch-create_make,v 1.1.1.1 2001/11/13 15:23:15 naddy Exp $
  echo "" >> make.local
  echo "CFLAGS =	$HAS_UNISTD $HAS_STDARG $HAS_STDLIB $HAS_CTYPE $HAS_SYS_IOCTL $HAS_SYS_WAIT $five_lib $five_include $select_hdr $other_cflags $termcap_exists" >> make.local
  echo "" >> make.local
-@@ -254,16 +259,16 @@ echo "all :	$TARGET" >> make.local
+@@ -267,16 +272,16 @@ echo "all :	$TARGET" >> make.local
  cat  >> make.local << EOF
  
  curses :	ee.c

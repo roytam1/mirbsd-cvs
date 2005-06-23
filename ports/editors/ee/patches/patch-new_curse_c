@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-new_curse_c,v 1.1 2002/12/13 07:52:10 pvalchev Exp $
---- new_curse.c.orig	Thu Dec 12 00:18:31 2002
-+++ new_curse.c	Thu Dec 12 00:18:47 2002
-@@ -2324,7 +2324,7 @@ int first_char;				/* first character of
+--- new_curse.c.orig	Sat Sep 21 00:47:41 2002
++++ new_curse.c	Thu Jun 23 15:44:40 2005
+@@ -2328,7 +2328,7 @@ int first_char;				/* first character of
  {
  	int in_char;
  	int Count;
