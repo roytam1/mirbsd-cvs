@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.2 2005/05/22 03:52:48 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -167,6 +167,7 @@ char		*strnncpy(char *to, size_t tosize, char *from, size_t cc);
 /* File */
 bool		fexists(const char *);
 bool		isdir(const char *);
+bool		islink(const char *);
 bool		islinktodir(const char *);
 bool		isemptydir(const char *fname);
 bool		isemptyfile(const char *fname);

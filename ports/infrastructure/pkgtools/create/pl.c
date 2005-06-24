@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.6 2005/05/31 20:25:29 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.7 2005/06/02 20:44:05 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.6 2005/05/31 20:25:29 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.7 2005/06/02 20:44:05 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -181,6 +181,8 @@ check_list(char *home, package_t *pkg)
 				else
 					(void) snprintf(name, sizeof(name),
 					    "%s/%s", there ? there : cwd, p->name);
+				if (islink(name))	/* symbolic link */
+					break;
 				if ((cp = MD5File(name, buf)) != NULL)
 					add_plist_at(pkg, p, PLIST_COMMENT, strconcat("MD5:", cp));
 			}

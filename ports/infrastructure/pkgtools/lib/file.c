@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -30,7 +30,7 @@
 #include <pwd.h>
 #include <time.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 /* This fixes errant package names so they end up in .tgz/.cgz.
    XXX returns static storage, so beware! Consume the result
@@ -123,13 +123,22 @@ isdir(const char *fname)
 	return false;
 }
 
+/* Check if something is a symbolic link */
+bool
+islink(const char *fname)
+{
+    struct stat sb;
+
+    return (lstat(fname, &sb) != -1 && S_ISLNK(sb.st_mode));
+}
+
 /* Check if something is a link to a directory */
 bool
 islinktodir(const char *fname)
 {
     struct stat sb;
 
-    if (lstat(fname, &sb) != -1 && S_ISLNK(sb.st_mode))
+    if (islink(fname))
         if (stat(fname, &sb) != -1 && S_ISDIR(sb.st_mode))
 	    return true; /* link to dir! */
         else
