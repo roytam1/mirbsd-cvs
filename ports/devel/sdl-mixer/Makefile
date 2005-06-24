@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.1.7.1 2005/03/18 15:45:28 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/09/25 04:17:33 jolan Exp $
 
 COMMENT=	"SDL multi-channel audio mixer library"
@@ -23,8 +23,6 @@ LIB_DEPENDS=	SDL::devel/sdl \
 
 SEPARATE_BUILD= concurrent
 CONFIGURE_STYLE=autoconf no-autoheader
-CONFIGURE_ENV+=	LDFLAGS="${LDFLAGS} -L${X11BASE}/lib" \
-		CPPFLAGS="-I${LOCALBASE}/include"
 CONFIGURE_ARGS+=${CONFIGURE_SHARED}
 
 post-install:

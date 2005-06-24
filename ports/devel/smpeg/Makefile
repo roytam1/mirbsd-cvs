@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.2 2005/03/30 18:13:21 bsiegert Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.3 2005/06/24 16:45:02 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=	"mpeg video player library with sound support"
@@ -22,10 +22,10 @@ LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
-CONFIGURE_STYLE= autoconf no-autoheader
-CONFIGURE_ARGS+= ${CONFIGURE_SHARED} \
-		 --disable-opengl-player
+SEPARATE_BUILD=		concurrent
+CONFIGURE_STYLE=	autoconf no-autoheader
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--disable-opengl-player
 
 post-install:
 	${INSTALL_MAN} ${FILESDIR}/smpeg.3 ${PREFIX}/man/man3

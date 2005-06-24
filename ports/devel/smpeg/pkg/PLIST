@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.2 2002/12/25 02:09:03 wcobb Exp $
 bin/gtv
 bin/plaympeg
@@ -15,9 +16,10 @@ include/smpeg/MPEGvideo.h
 include/smpeg/smpeg.h
 lib/libsmpeg.a
 lib/libsmpeg.la
-%%SHARED%%
 man/man1/gtv.1
 man/man1/plaympeg.1
 man/man3/smpeg.3
 share/aclocal/smpeg.m4
+%%SHARED%%
+@dirrm share/aclocal
 @dirrm include/smpeg
