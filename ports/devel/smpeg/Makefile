@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/smpeg/Makefile,v 1.2 2005/03/30 18:13:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=	"mpeg video player library with sound support"
@@ -24,7 +24,6 @@ USE_CXX=	Yes
 
 SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf no-autoheader
-CONFIGURE_ENV+=	 LDFLAGS="-L${X11BASE}/lib"
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED} \
 		 --disable-opengl-player
 
