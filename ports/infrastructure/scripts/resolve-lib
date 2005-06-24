@@ -88,15 +88,19 @@ while(<>) {
 	chomp;
 	if (!$noshared) {
 		my $tmp;
+		my $major;
+		my $minor;
 		if($dylib) {
 			$tmp = m/^lib\Q$libname\E\.(\d+)\.(\d+).\d+.dylib$/;
+			$major = $1;
+			$minor = $2;
 		} else {
 			$tmp = m/^lib\Q$libname\E\.so\.(\d+)\.(\d+)$/;
+			$major = $1;
+			$minor = $2;
 		}
 		if ($tmp) {
 			$found_shared = 1;
-			my $major = $1;
-			my $minor = $2;
 			if ($strict) {
 				if ($major > $reqmajor) {
 					print "Error: strict library too high\n";
