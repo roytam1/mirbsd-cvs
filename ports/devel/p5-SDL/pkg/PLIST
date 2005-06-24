@@ -1,32 +1,45 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/p5-SDL/pkg/PLIST,v 1.1 2005/06/24 17:01:14 tg Exp $
+${P5ARCH}/SDL.pm
 ${P5ARCH}/SDL/App.pm
 ${P5ARCH}/SDL/Cdrom.pm
+${P5ARCH}/SDL/Color.pm
+${P5ARCH}/SDL/Console.pm
 ${P5ARCH}/SDL/Cursor.pm
 ${P5ARCH}/SDL/Event.pm
 ${P5ARCH}/SDL/Font.pm
+${P5ARCH}/SDL/FontTool.pm
+${P5ARCH}/SDL/GraphicTool.pm
 ${P5ARCH}/SDL/Mixer.pm
 ${P5ARCH}/SDL/Music.pm
-${P5ARCH}/SDL/OpenGL/App.pm
+${P5ARCH}/SDL/OpenGL.pm
+${P5ARCH}/SDL/OpenGL/Cube.pm
+${P5ARCH}/SDL/OpenGL/Model.pm
 ${P5ARCH}/SDL/Palette.pm
 ${P5ARCH}/SDL/Rect.pm
+${P5ARCH}/SDL/Shell.pm
 ${P5ARCH}/SDL/Sound.pm
 ${P5ARCH}/SDL/Surface.pm
-${P5ARCH}/SDL/sdlpl.pm
-${P5ARCH}/auto/SDL/sdlpl/.packlist
-${P5ARCH}/auto/SDL/sdlpl/autosplit.ix
-${P5ARCH}/auto/SDL/sdlpl/sdlpl.bs
-${P5ARCH}/auto/SDL/sdlpl/sdlpl.so
+${P5ARCH}/SDL/TTFont.pm
+${P5ARCH}/SDL/Timer.pm
+${P5ARCH}/SDL_perl.pm
+${P5ARCH}/auto/SDL/autosplit.ix
+${P5ARCH}/auto/SDL_perl/.packlist
+${P5ARCH}/auto/SDL_perl/SDL_perl.bs
+${P5ARCH}/auto/SDL_perl/SDL_perl.so
+man/man3/SDL.3p
 man/man3/SDL::App.3p
 man/man3/SDL::Cdrom.3p
+man/man3/SDL::Color.3p
+man/man3/SDL::Console.3p
 man/man3/SDL::Cursor.3p
 man/man3/SDL::Event.3p
 man/man3/SDL::Font.3p
 man/man3/SDL::Mixer.3p
-man/man3/SDL::OpenGL::App.3p
 man/man3/SDL::Rect.3p
 man/man3/SDL::Surface.3p
-man/man3/SDL::sdlpl.3p
-@dirrm ${P5ARCH}/auto/SDL/sdlpl
+man/man3/SDL::TTFont.3p
+man/man3/SDL::Timer.3p
+@dirrm ${P5ARCH}/auto/SDL_perl
 @dirrm ${P5ARCH}/auto/SDL
 @dirrm ${P5ARCH}/auto
 @dirrm ${P5ARCH}/SDL/OpenGL
