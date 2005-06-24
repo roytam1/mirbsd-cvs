@@ -1,4 +1,4 @@
-@comment $MirOS: ports/x11/realplayer-linux/pkg/PLIST,v 1.1.7.1 2005/03/18 16:00:51 tg Exp $
+@comment $MirOS: ports/x11/realplayer-linux/pkg/PLIST,v 1.2 2005/05/20 01:07:57 tg Exp $
 bin/realplay
 lib/RealPlayer/Codecs/14_4.so.6.0
 lib/RealPlayer/Codecs/28_8.so.6.0
@@ -68,7 +68,7 @@ lib/RealPlayer/Plugins/vsrcplin.so.6.0
 lib/RealPlayer/Plugins/xlibsite.so.6.0
 lib/RealPlayer/app.kdelnk
 lib/RealPlayer/audiosig.rm
-lib/RealPlayer/firstrun.rm
+@comment lib/RealPlayer/firstrun.rm
 lib/RealPlayer/mimeinstall.sh
 lib/RealPlayer/raclass.zip
 lib/RealPlayer/realplay
