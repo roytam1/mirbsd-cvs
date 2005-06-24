@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/sdl-image/Makefile,v 1.1.7.1 2005/03/18 15:45:28 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/05/12 08:23:46 jolan Exp $
 
 COMMENT=	"SDL image library"
@@ -22,10 +22,9 @@ LIB_DEPENDS=	SDL.::devel/sdl \
 USE_X11=	Yes
 USE_CXX=	Yes
 
+CPPFLAGS+=	-I${LOCALBASE}/include/libpng
 SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
-CONFIGURE_ENV+=	LDFLAGS="-L${X11BASE}/lib" \
-		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng"
 CONFIGURE_ARGS+=${CONFIGURE_SHARED}
 
 .include <bsd.port.mk>
