@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.2 2005/05/05 16:07:55 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.3 2005/05/26 00:41:44 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -44,6 +44,13 @@ fi
 
 WD="$(pwd)"
 
+if [[ $1 = -R ]]; then
+	fr=/CVSROOT
+	shift
+else
+	fr=
+fi
+
 CVSROOT="${1%%+(/)}"
 if [[ -z $CVSROOT ]]; then
 	print -r "Error: \$CVSROOT not given!"
@@ -73,7 +80,7 @@ print -- "------------------------------------------------------------"
 touch CVSROOT/{ChangeLog,history,val-tags}
 
 let cnt=42
-find "$CVSROOT" | while read pname; do
+find "$CVSROOT$fr" | while read pname; do
 	name="${pname#${CVSROOT}/}"
 	if (( cnt > 0 )); then
 		let cnt--
