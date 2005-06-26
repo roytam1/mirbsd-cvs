@@ -55,7 +55,6 @@ static char saveline[256];
 static int margc;
 static char *margv[20];
 
-#if	defined(SKEY)
 #include <sys/wait.h>
 #define PATH_SKEY	"/usr/bin/skey"
     int
@@ -84,7 +83,6 @@ skey_calc(argc, argv)
 		return (0);
 	}
 }
-#endif
    	
 
 
@@ -2521,9 +2519,7 @@ static char
         encrypthelp[] = "turn on (off) encryption ('encrypt ?' for more)",
 #endif
 	zhelp[] =	"suspend telnet",
-#ifdef SKEY
 	skeyhelp[] =	"compute response to s/key challenge",
-#endif
 	shellhelp[] =	"invoke a subshell",
 	envhelp[] =	"change environment variables ('environ ?' for more)",
 	modestring[] = "try to enter line or character mode ('mode ?' for more)";
@@ -2561,9 +2557,7 @@ static Command cmdtab[] = {
 #endif
 	{ "environ",	envhelp,	env_cmd,	0 },
 	{ "?",		helphelp,	help,		0 },
-#if	defined(SKEY)
 	{ "skey",	skeyhelp,	skey_calc,	0 },
-#endif		
 	{ 0,		0,		0,		0 }
 };
 
