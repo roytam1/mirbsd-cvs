@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/man/man4/pppoe.4,v 1.2 2005/03/06 19:38:39 tg Exp $
 .\"	$OpenBSD: pppoe.4,v 1.5 2004/11/30 12:42:21 jmc Exp $
 .\"	$NetBSD: pppoe.4,v 1.26 2003/10/02 07:06:36 wiz Exp $
 .\"
@@ -122,11 +122,12 @@ A typical
 file looks like this:
 .Bd -literal -offset indent
 pppoedev ne0
-! /sbin/ifconfig ne0 up
-! /usr/sbin/spppcontrol \e$if myauthproto=pap myauthname=testcaller \e
+!/sbin/ifconfig ne0 up
+!/usr/sbin/spppcontrol \e$if myauthproto=pap myauthname=testcaller \e
 	myauthkey=donttell
-! /sbin/ifconfig \e$if inet 0.0.0.0 0.0.0.1 netmask 0xffffffff
-! /sbin/route add default 0.0.0.1
+!/usr/sbin/ifwatchd -d /etc/ppp/ip-down -u /etc/ppp/ip-up \$if
+!/sbin/ifconfig \e$if inet 0.0.0.0 0.0.0.1 netmask 0xFFFFFFFF
+!/sbin/route -n add -inet default 0.0.0.1 -mtu 1454
 up
 .Ed
 .Pp
@@ -180,6 +181,7 @@ the orphaned session and allow a new one to be established.
 .Sh SEE ALSO
 .Xr hostname.if 5 ,
 .Xr ifconfig 8 ,
+.Xr ifwatchd 8 ,
 .Xr ppp 8 ,
 .Xr pppoe 8 ,
 .Xr spppcontrol 8
