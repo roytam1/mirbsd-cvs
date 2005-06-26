@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/livestream/files/BSDmakefile,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
+# $MirOS: ports/multimedia/livestream/files/BSDmakefile,v 1.2 2005/05/19 20:06:16 tg Exp $
 
 FILES=	\
 	BasicUsageEnvironment/include/BasicHashTable.hh \
@@ -181,17 +181,17 @@ all:
 	cd ${WRKSRC} && ${MAKE} -f Makefile
 
 install:
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${PREFIX}/lib/live
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${DESTDIR}${PREFIX}/lib/live
 .for _i in ${DIRS}
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${PREFIX}/lib/live/${_i}
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${DESTDIR}${PREFIX}/lib/live/${_i}
 .endfor
 .for _i in ${FILES}
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${WRKSRC}/${_i} ${PREFIX}/lib/live/${_i}
+	    ${WRKSRC}/${_i} ${DESTDIR}${PREFIX}/lib/live/${_i}
 .endfor
 .for _i in ${PROGS}
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-	    ${WRKSRC}/${_i} ${PREFIX}/lib/live/${_i}
+	    ${WRKSRC}/${_i} ${DESTDIR}${PREFIX}/lib/live/${_i}
 .endfor
 
 .PHONY:	configure all install
