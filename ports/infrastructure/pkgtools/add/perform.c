@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.2 2005/05/21 01:58:41 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.2 2005/05/21 01:58:41 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -547,7 +547,6 @@ pkg_do(char *pkg)
 		Pager = NULL;
 		break;
 	    case ENV:
-	    default:
 		Pager = getenv("PAGER");
 		break;
 	}
@@ -556,7 +555,7 @@ pkg_do(char *pkg)
 
 	snprintf(buf, sizeof buf, "%s/%s", LogDir, p->name);
 	if (stat(buf,&sbuf) == -1 || vsystem("%s %s", Pager, buf)) {
-	    pwarnx("cannot open `%s' as display file", buf);
+	    pwarnx("cannot open '%s' as display file", buf);
 	    DisplayMode = CAT;	/* in case the pager is just missing */
 	}
     }

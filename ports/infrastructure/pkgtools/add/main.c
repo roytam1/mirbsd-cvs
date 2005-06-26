@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 static char Options[] = "hvIRfnp:SMt:d:";
 
@@ -40,7 +40,7 @@ char	*PkgName	= NULL;
 const char *Directory	= NULL;
 char	FirstPen[FILENAME_MAX];
 add_mode_t AddMode	= NORMAL;
-display_mode_t DisplayMode = ENV;
+display_mode_t DisplayMode = CAT;
 
 char **pkgs;
 int pkg_count = 0;

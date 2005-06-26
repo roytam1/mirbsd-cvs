@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -117,7 +117,6 @@ Use the environment variable
 to determine the pager programme, or
 .Xr more 1
 if undefined.
-This is the default behaviour.
 .It m
 .Xr more 1
 is the pager.
@@ -128,7 +127,8 @@ This implies a stop (waiting for q) on every port.
 .It c
 .Xr cat 1
 is the pager.
-This should only be used for bulk unattended installs.
+This is the default behaviour.
+It should only be used for bulk unattended installs.
 .El
 .It Fl v
 Turn on verbose output.
