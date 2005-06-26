@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.66 2005/06/09 22:27:46 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.67 2005/06/22 16:15:51 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2951,4 +2951,7 @@
  year. LinuxTag is the usual fun with drunkards (not the OpenBSD guys, for
  me, but rather the Holarse crowd &ndash; although Wim did look funny when
  I talked a bit to him op nederlands; had to deliver greets from Han).</p>
+<p>26.06.2005 by tg@<br />LinuxTag is over, but the strain isn't. Some new
+ users, but less sales than ever. And lots of stuff todo. We will probably
+ appear on TV.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
