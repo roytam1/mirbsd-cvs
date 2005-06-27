@@ -1,7 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.25 2003/04/04 14:28:36 naddy Exp $
 
 COMMENT=	"tools to convert Xfig's .fig files"
-
 VERSION=	3.2.4
 DISTNAME=	transfig.${VERSION}
 PKGNAME=	transfig-${VERSION}
@@ -11,7 +11,7 @@ MASTER_SITES=	ftp://www-epb.lbl.gov/xfig/ \
 
 LIB_DEPENDS=	jpeg.62::graphics/jpeg \
 		png.2::graphics/png
-RUN_DEPENDS=	:ghostscript-*:print/ghostscript/gnu \
+RUN_DEPENDS=	:ghostscript-*:print/ghostscript/afpl \
 		:netpbm->=9.19:graphics/netpbm
 
 PERMIT_PACKAGE_CDROM=	Yes
@@ -19,15 +19,15 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE= imake
+CONFIGURE_STYLE=	imake
 
-FLAVORS=	a4
-FLAVOR?=
+FLAVORS=		a4
+FLAVOR?=		a4
 
 .if ${FLAVOR:L:Ma4}
-PATCH_LIST=	patch-* a4-*
+PATCH_LIST=		patch-* a4-*
 .endif
 
-NO_REGRESS=	Yes
+NO_REGRESS=		Yes
 
 .include <bsd.port.mk>
