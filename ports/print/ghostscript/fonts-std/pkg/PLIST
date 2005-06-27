@@ -1,4 +1,9 @@
-@comment $MirOS$
+@comment $MirOS: ports/print/ghostscript/fonts-std/pkg/PLIST,v 1.1.7.1 2005/03/18 15:51:03 tg Exp $
+@comment share/ghostscript/fonts/COPYING
+@comment share/ghostscript/fonts/ChangeLog
+@comment share/ghostscript/fonts/README
+@comment share/ghostscript/fonts/README.tweaks
+@comment share/ghostscript/fonts/TODO
 share/ghostscript/fonts/a010013l.afm
 share/ghostscript/fonts/a010013l.pfb
 share/ghostscript/fonts/a010013l.pfm
@@ -25,19 +30,14 @@ share/ghostscript/fonts/b018035l.pfb
 share/ghostscript/fonts/b018035l.pfm
 share/ghostscript/fonts/c059013l.afm
 share/ghostscript/fonts/c059013l.pfb
-share/ghostscript/fonts/c059013l.pfm
 share/ghostscript/fonts/c059016l.afm
 share/ghostscript/fonts/c059016l.pfb
-share/ghostscript/fonts/c059016l.pfm
 share/ghostscript/fonts/c059033l.afm
 share/ghostscript/fonts/c059033l.pfb
-share/ghostscript/fonts/c059033l.pfm
 share/ghostscript/fonts/c059036l.afm
 share/ghostscript/fonts/c059036l.pfb
-share/ghostscript/fonts/c059036l.pfm
 share/ghostscript/fonts/d050000l.afm
 share/ghostscript/fonts/d050000l.pfb
-share/ghostscript/fonts/d050000l.pfm
 share/ghostscript/fonts/fonts.dir
 share/ghostscript/fonts/fonts.scale
 share/ghostscript/fonts/n019003l.afm
@@ -54,13 +54,10 @@ share/ghostscript/fonts/n019024l.pfb
 share/ghostscript/fonts/n019024l.pfm
 share/ghostscript/fonts/n019043l.afm
 share/ghostscript/fonts/n019043l.pfb
-share/ghostscript/fonts/n019043l.pfm
 share/ghostscript/fonts/n019044l.afm
 share/ghostscript/fonts/n019044l.pfb
-share/ghostscript/fonts/n019044l.pfm
 share/ghostscript/fonts/n019063l.afm
 share/ghostscript/fonts/n019063l.pfb
-share/ghostscript/fonts/n019063l.pfm
 share/ghostscript/fonts/n019064l.afm
 share/ghostscript/fonts/n019064l.pfb
 share/ghostscript/fonts/n019064l.pfm
@@ -78,32 +75,24 @@ share/ghostscript/fonts/n021024l.pfb
 share/ghostscript/fonts/n021024l.pfm
 share/ghostscript/fonts/n022003l.afm
 share/ghostscript/fonts/n022003l.pfb
-share/ghostscript/fonts/n022003l.pfm
 share/ghostscript/fonts/n022004l.afm
 share/ghostscript/fonts/n022004l.pfb
-share/ghostscript/fonts/n022004l.pfm
 share/ghostscript/fonts/n022023l.afm
 share/ghostscript/fonts/n022023l.pfb
-share/ghostscript/fonts/n022023l.pfm
 share/ghostscript/fonts/n022024l.afm
 share/ghostscript/fonts/n022024l.pfb
-share/ghostscript/fonts/n022024l.pfm
 share/ghostscript/fonts/p052003l.afm
 share/ghostscript/fonts/p052003l.pfb
-share/ghostscript/fonts/p052003l.pfm
 share/ghostscript/fonts/p052004l.afm
 share/ghostscript/fonts/p052004l.pfb
-share/ghostscript/fonts/p052004l.pfm
 share/ghostscript/fonts/p052023l.afm
 share/ghostscript/fonts/p052023l.pfb
-share/ghostscript/fonts/p052023l.pfm
 share/ghostscript/fonts/p052024l.afm
 share/ghostscript/fonts/p052024l.pfb
-share/ghostscript/fonts/p052024l.pfm
 share/ghostscript/fonts/s050000l.afm
 share/ghostscript/fonts/s050000l.pfb
-share/ghostscript/fonts/s050000l.pfm
 share/ghostscript/fonts/z003034l.afm
 share/ghostscript/fonts/z003034l.pfb
 share/ghostscript/fonts/z003034l.pfm
 @dirrm share/ghostscript/fonts
+@dirrm share/ghostscript
