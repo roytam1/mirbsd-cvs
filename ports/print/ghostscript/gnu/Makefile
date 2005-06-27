@@ -1,18 +1,19 @@
-# $MirOS: ports/print/ghostscript/gnu/Makefile,v 1.2 2005/03/30 18:13:45 bsiegert Exp $
+# $MirOS: ports/print/ghostscript/gnu/Makefile,v 1.3 2005/04/10 21:50:52 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2004/02/25 01:28:07 brad Exp $
+
+BROKEN=		does not honour CC
 
 COMMENT=	"GNU PostScript interpreter"
 VERSION=	7.05
 DISTNAME=	ghostscript-${VERSION}
 PKGNAME=	${DISTNAME}p2
 CATEGORIES=	print lang
+HOMEPAGE=	http://www.cs.wisc.edu/~ghost/
+RESPONSIBLE=	Benny Siegert <bsiegert@$gmx.de>
 
 DIR=		gnu/gs${VERSION:S/.//}
 MASTER_SITES=	${GS_SITES} ${MASTER_SITE_GNU:=ghostscript/}
 MASTER_SITES1=	${PDF_SITES}
-
-HOMEPAGE=	http://www.cs.wisc.edu/~ghost/
-RESPONSIBLE=	Benny Siegert <bsiegert@$gmx.de>
 
 DISTFILES=	${GS_SOURCES} pdf_sec.ps:1
 DIST_SUBDIR=	gs
