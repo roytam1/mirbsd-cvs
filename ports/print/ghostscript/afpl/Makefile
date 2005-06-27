@@ -1,17 +1,16 @@
-# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.2 2005/03/30 18:13:44 bsiegert Exp $
+# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.3 2005/04/10 21:50:51 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		"AFPL PostScript interpreter"
-VERSION=		8.14
+VERSION=		8.51
 DISTNAME=		ghostscript-${VERSION}
 CATEGORIES=		print lang
 DIR=			AFPL/gs${VERSION:S/.//}
 MASTER_SITES=		${GS_SITES}
 MASTER_SITES1=		${PDF_SITES}
 HOMEPAGE=		http://www.cs.wisc.edu/~ghost/
-DISTFILES=		${GS_SOURCES} pdf_sec.ps:1
 
-SUBST_VARS=		OSREV	VERSION
+SUBST_VARS+=		VERSION
 DIST_SUBDIR=		gs
 
 # Aladdin license
@@ -24,11 +23,9 @@ PERMIT_PACKAGE_FTP=	Yes
 JPEGDIR=		graphics/jpeg
 PNGDIR=			graphics/png
 
-BUILD_DEPENDS=		::${JPEGDIR}:patch ::${PNGDIR}:patch
-RUN_DEPENDS=		:gs-fonts-std-*:print/ghostscript/fonts-std
-LIB_DEPENDS=		png.2::${PNGDIR}
-
-EXTRACT_ONLY=		${GS_SOURCES}
+BUILD_DEPENDS+=		::${JPEGDIR}:patch ::${PNGDIR}:patch
+RUN_DEPENDS+=		:gs-fonts-std-*:print/ghostscript/fonts-std
+LIB_DEPENDS+=		png.2::${PNGDIR}
 
 WRKDIST=		${WRKDIR}/${DISTNAME}
 WRKSRC=			${WRKDIST}/src
@@ -70,7 +67,8 @@ $$(DD)pnm.dev $$(DD)pnmraw.dev $$(DD)ppm.dev $$(DD)ppmraw.dev \
 $$(DD)pkm.dev $$(DD)pkmraw.dev $$(DD)plan9bm.dev $$(DD)pngmono.dev \
 $$(DD)pnggray.dev $$(DD)png16.dev $$(DD)png256.dev $$(DD)png16m.dev \
 $$(DD)psmono.dev $$(DD)psgray.dev $$(DD)psrgb.dev $$(DD)tiff12nc.dev \
-$$(DD)tiff24nc.dev $$(DD)tifflzw.dev $$(DD)tiffpack.dev $$(DD)ap3250.dev \
+$$(DD)tiff24nc.dev $$(DD)tiffgray.dev $$(DD)tiff32nc.dev $$(DD)tiffsep.dev \
+$$(DD)tifflzw.dev $$(DD)tiffpack.dev $$(DD)ap3250.dev \
 $$(DD)appledmp.dev $$(DD)bj10e.dev $$(DD)bj200.dev $$(DD)bjc600.dev \
 $$(DD)bjc800.dev $$(DD)cdeskjet.dev $$(DD)cdjcolor.dev \
 $$(DD)cdjmono.dev $$(DD)cdj500.dev $$(DD)cdj550.dev \
@@ -91,7 +89,6 @@ $$(DD)sgirgb.dev'
 
 MAKE_FLAGS=		${BASE_FLAGS} prefix=${PREFIX}
 CFLAGS+=		-DSYS_TYPES_HAS_STDINT_TYPES
-GS_SOURCES=		ghostscript-${VERSION}.tar.gz
 ALL_TARGET=		all
 INSTALL_TARGET=		install
 
@@ -149,6 +146,5 @@ post-install:
 		ln -sf ps2pdf.1 ps2pdf13.1 && \
 		ln -sf ps2pdf.1 ps2pdf14.1 && \
 		ln -sf ps2ps.1 eps2eps.1
-	${INSTALL_DATA} ${FULLDISTDIR}/pdf_sec.ps ${PREFIX}/${PDFDIR}
 
 .include <bsd.port.mk>

@@ -1,6 +1,8 @@
-@comment $MirOS$
+@comment $MirOS: ports/print/ghostscript/afpl/pkg/PLIST,v 1.1.7.1 2005/03/18 15:51:03 tg Exp $
 @comment $OpenBSD: PLIST,v 1.3 2004/05/23 18:51:59 sturm Exp $
+%%gtk%%
 bin/bdftops
+bin/dumphint
 bin/dvipdf
 bin/eps2eps
 bin/fixmswrd.pl
@@ -46,6 +48,7 @@ bin/wftopfa
 @comment man/de/man1/ps2pdf.1
 @comment man/de/man1/ps2pdf12.1
 @comment man/de/man1/ps2pdf13.1
+@comment man/de/man1/ps2pdf14.1
 @comment man/de/man1/ps2ps.1
 @comment man/de/man1/wftopfa.1
 man/man1/dvipdf.1
@@ -83,16 +86,57 @@ share/ghostscript/${VERSION}/Resource/CMap/78ms-RKSJ-H
 share/ghostscript/${VERSION}/Resource/CMap/78ms-RKSJ-V
 share/ghostscript/${VERSION}/Resource/CMap/83pv-RKSJ-H
 share/ghostscript/${VERSION}/Resource/CMap/90ms-RKSJ-H
+share/ghostscript/${VERSION}/Resource/CMap/90ms-RKSJ-UCS2
 share/ghostscript/${VERSION}/Resource/CMap/90ms-RKSJ-V
+share/ghostscript/${VERSION}/Resource/CMap/90msp-RKSJ-H
+share/ghostscript/${VERSION}/Resource/CMap/90msp-RKSJ-V
 share/ghostscript/${VERSION}/Resource/CMap/90pv-RKSJ-H
+share/ghostscript/${VERSION}/Resource/CMap/90pv-RKSJ-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/90pv-RKSJ-UCS2C
 share/ghostscript/${VERSION}/Resource/CMap/90pv-RKSJ-V
 share/ghostscript/${VERSION}/Resource/CMap/Add-H
 share/ghostscript/${VERSION}/Resource/CMap/Add-RKSJ-H
 share/ghostscript/${VERSION}/Resource/CMap/Add-RKSJ-V
 share/ghostscript/${VERSION}/Resource/CMap/Add-V
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-3
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-B5pc
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-ETenms-B5
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-H-CID
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-H-Host
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-H-Mac
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-CNS1-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-4
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-GBK-EUC
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-GBpc-EUC
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-H-CID
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-H-Host
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-H-Mac
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-GB1-UCS2
 share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-0
 share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-1
 share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-2
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-4
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-90ms-RKSJ
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-90pv-RKSJ
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-H-CID
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-H-Host
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-H-Mac
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-PS-H
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-PS-V
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Japan1-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-2
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-H-CID
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-H-Host
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-H-Mac
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-KSCms-UHC
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-KSCpc-EUC
+share/ghostscript/${VERSION}/Resource/CMap/Adobe-Korea1-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/B5pc-H
+share/ghostscript/${VERSION}/Resource/CMap/B5pc-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/B5pc-UCS2C
+share/ghostscript/${VERSION}/Resource/CMap/B5pc-V
+share/ghostscript/${VERSION}/Resource/CMap/CNS-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/CNS-EUC-V
 share/ghostscript/${VERSION}/Resource/CMap/ETHK-B5-H
 share/ghostscript/${VERSION}/Resource/CMap/ETHK-B5-V
 share/ghostscript/${VERSION}/Resource/CMap/ETen-B5-H
@@ -106,29 +150,72 @@ share/ghostscript/${VERSION}/Resource/CMap/Ext-H
 share/ghostscript/${VERSION}/Resource/CMap/Ext-RKSJ-H
 share/ghostscript/${VERSION}/Resource/CMap/Ext-RKSJ-V
 share/ghostscript/${VERSION}/Resource/CMap/Ext-V
+share/ghostscript/${VERSION}/Resource/CMap/GB-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/GB-EUC-V
 share/ghostscript/${VERSION}/Resource/CMap/GBK-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/GBK-EUC-UCS2
 share/ghostscript/${VERSION}/Resource/CMap/GBK-EUC-V
+share/ghostscript/${VERSION}/Resource/CMap/GBK2K-H
+share/ghostscript/${VERSION}/Resource/CMap/GBK2K-V
+share/ghostscript/${VERSION}/Resource/CMap/GBKp-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/GBKp-EUC-V
+share/ghostscript/${VERSION}/Resource/CMap/GBT-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/GBT-EUC-V
+share/ghostscript/${VERSION}/Resource/CMap/GBpc-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/GBpc-EUC-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/GBpc-EUC-UCS2C
+share/ghostscript/${VERSION}/Resource/CMap/GBpc-EUC-V
 share/ghostscript/${VERSION}/Resource/CMap/H
+share/ghostscript/${VERSION}/Resource/CMap/HKdla-B5-H
+share/ghostscript/${VERSION}/Resource/CMap/HKdla-B5-V
+share/ghostscript/${VERSION}/Resource/CMap/HKdlb-B5-H
+share/ghostscript/${VERSION}/Resource/CMap/HKdlb-B5-V
+share/ghostscript/${VERSION}/Resource/CMap/HKgccs-B5-H
+share/ghostscript/${VERSION}/Resource/CMap/HKgccs-B5-V
+share/ghostscript/${VERSION}/Resource/CMap/HKm314-B5-H
+share/ghostscript/${VERSION}/Resource/CMap/HKm314-B5-V
+share/ghostscript/${VERSION}/Resource/CMap/HKm471-B5-H
+share/ghostscript/${VERSION}/Resource/CMap/HKm471-B5-V
+share/ghostscript/${VERSION}/Resource/CMap/HKscs-B5-H
+share/ghostscript/${VERSION}/Resource/CMap/HKscs-B5-V
 share/ghostscript/${VERSION}/Resource/CMap/Hankaku
 share/ghostscript/${VERSION}/Resource/CMap/Hiragana
 share/ghostscript/${VERSION}/Resource/CMap/Identity-H
 share/ghostscript/${VERSION}/Resource/CMap/Identity-V
+share/ghostscript/${VERSION}/Resource/CMap/KSC-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/KSC-EUC-V
 share/ghostscript/${VERSION}/Resource/CMap/KSC-Johab-H
 share/ghostscript/${VERSION}/Resource/CMap/KSC-Johab-V
 share/ghostscript/${VERSION}/Resource/CMap/KSCms-UHC-H
+share/ghostscript/${VERSION}/Resource/CMap/KSCms-UHC-HW-H
+share/ghostscript/${VERSION}/Resource/CMap/KSCms-UHC-HW-V
+share/ghostscript/${VERSION}/Resource/CMap/KSCms-UHC-UCS2
 share/ghostscript/${VERSION}/Resource/CMap/KSCms-UHC-V
+share/ghostscript/${VERSION}/Resource/CMap/KSCpc-EUC-H
+share/ghostscript/${VERSION}/Resource/CMap/KSCpc-EUC-UCS2
+share/ghostscript/${VERSION}/Resource/CMap/KSCpc-EUC-UCS2C
 share/ghostscript/${VERSION}/Resource/CMap/Katakana
 share/ghostscript/${VERSION}/Resource/CMap/NWP-H
 share/ghostscript/${VERSION}/Resource/CMap/NWP-V
 share/ghostscript/${VERSION}/Resource/CMap/RKSJ-H
 share/ghostscript/${VERSION}/Resource/CMap/RKSJ-V
 share/ghostscript/${VERSION}/Resource/CMap/Roman
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-90ms-RKSJ
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-90pv-RKSJ
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-B5pc
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-ETen-B5
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-GBK-EUC
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-GBpc-EUC
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-KSCms-UHC
+share/ghostscript/${VERSION}/Resource/CMap/UCS2-KSCpc-EUC
 share/ghostscript/${VERSION}/Resource/CMap/UniCNS-UCS2-H
 share/ghostscript/${VERSION}/Resource/CMap/UniCNS-UCS2-V
 share/ghostscript/${VERSION}/Resource/CMap/UniGB-UCS2-H
 share/ghostscript/${VERSION}/Resource/CMap/UniGB-UCS2-V
 share/ghostscript/${VERSION}/Resource/CMap/UniHojo-UCS2-H
 share/ghostscript/${VERSION}/Resource/CMap/UniJIS-UCS2-H
+share/ghostscript/${VERSION}/Resource/CMap/UniJIS-UCS2-HW-H
+share/ghostscript/${VERSION}/Resource/CMap/UniJIS-UCS2-HW-V
 share/ghostscript/${VERSION}/Resource/CMap/UniJIS-UCS2-V
 share/ghostscript/${VERSION}/Resource/CMap/UniKS-UCS2-H
 share/ghostscript/${VERSION}/Resource/CMap/UniKS-UCS2-V
@@ -137,6 +224,7 @@ share/ghostscript/${VERSION}/Resource/CMap/WP-Symbol
 share/ghostscript/${VERSION}/Resource/ColorSpace/DefaultCMYK
 share/ghostscript/${VERSION}/Resource/ColorSpace/DefaultGray
 share/ghostscript/${VERSION}/Resource/ColorSpace/DefaultRGB
+share/ghostscript/${VERSION}/Resource/ColorSpace/TrivialCMYK
 share/ghostscript/${VERSION}/Resource/Decoding/Latin1
 share/ghostscript/${VERSION}/Resource/Decoding/StandardEncoding
 share/ghostscript/${VERSION}/Resource/Decoding/Unicode
@@ -167,7 +255,6 @@ share/ghostscript/${VERSION}/doc/Language.htm
 share/ghostscript/${VERSION}/doc/Lib.htm
 share/ghostscript/${VERSION}/doc/Maintain.htm
 share/ghostscript/${VERSION}/doc/Make.htm
-share/ghostscript/${VERSION}/doc/New-user.htm
 share/ghostscript/${VERSION}/doc/News.htm
 share/ghostscript/${VERSION}/doc/PUBLIC
 share/ghostscript/${VERSION}/doc/Projects.htm
@@ -180,7 +267,6 @@ share/ghostscript/${VERSION}/doc/README
 share/ghostscript/${VERSION}/doc/Readme.htm
 share/ghostscript/${VERSION}/doc/Release.htm
 share/ghostscript/${VERSION}/doc/Source.htm
-share/ghostscript/${VERSION}/doc/Tester.htm
 share/ghostscript/${VERSION}/doc/Unix-lpr.htm
 share/ghostscript/${VERSION}/doc/Use.htm
 share/ghostscript/${VERSION}/doc/Xfonts.htm
@@ -242,9 +328,11 @@ share/ghostscript/${VERSION}/lib/decrypt.ps
 share/ghostscript/${VERSION}/lib/dnj750c.upp
 share/ghostscript/${VERSION}/lib/dnj750m.upp
 share/ghostscript/${VERSION}/lib/docie.ps
+share/ghostscript/${VERSION}/lib/dumphint.ps
 share/ghostscript/${VERSION}/lib/errpage.ps
 share/ghostscript/${VERSION}/lib/font2c.ps
 share/ghostscript/${VERSION}/lib/font2pcl.ps
+share/ghostscript/${VERSION}/lib/ghostpdf.ppd
 share/ghostscript/${VERSION}/lib/gs_agl.ps
 share/ghostscript/${VERSION}/lib/gs_btokn.ps
 share/ghostscript/${VERSION}/lib/gs_ccfnt.ps
@@ -421,7 +509,6 @@ share/ghostscript/${VERSION}/lib/winmaps.ps
 share/ghostscript/${VERSION}/lib/wrfont.ps
 share/ghostscript/${VERSION}/lib/xlatmap
 share/ghostscript/${VERSION}/lib/zeroline.ps
-%%gtk%%
 @dirrm share/ghostscript/${VERSION}/lib
 @dirrm share/ghostscript/${VERSION}/examples
 @dirrm share/ghostscript/${VERSION}/doc
