@@ -1,5 +1,7 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.1.7.1 2005/03/18 15:46:43 tg Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.2 2005/06/27 10:56:35 tg Exp $
 # $OpenBSD: Makefile,v 1.64 2004/03/08 23:36:50 xsa Exp $
+
+BROKEN=		neither gnu nor autoconf styles work; update recommended
 
 COMMENT=	"display and manipulate images under X11"
 DISTNAME=	ImageMagick-5.2.9
