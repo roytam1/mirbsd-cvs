@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.1 2005/06/28 19:46:39 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -48,6 +48,7 @@ function header
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <meta name="RCSId" content="$MirOS$" />
  <title>$title (Page $num)</title>
 </head><body>
 <h1>$title</h1>
