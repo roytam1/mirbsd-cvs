@@ -1,12 +1,12 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2004/02/02 17:35:01 sturm Exp $
 
 COMMENT=	"ircII internet relay chat client"
-
-DISTNAME=	tkirc2.46
+V=		2.46
+DISTNAME=	tkirc$V
+PKGNAME=	tkirc-$V
 CATEGORIES=	net
-
 HOMEPAGE=	http://netsplit.de/tkirc2/
-
 
 PERMIT_PACKAGE_CDROM=   Yes
 PERMIT_PACKAGE_FTP=     Yes
