@@ -1,9 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2004/05/17 02:24:32 dons Exp $
 
 COMMENT=	"Haskell 98 interpreter"
 
 V=		Nov2003
 DISTNAME=	hugs98-${V}
+PKGNAME=	hugs98-200311
 CATEGORIES=	lang
 HOMEPAGE=	http://www.haskell.org/hugs/
 MASTER_SITES=	http://cvs.haskell.org/Hugs/downloads/${V}/
