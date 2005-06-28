@@ -1,10 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2004/05/19 12:19:14 xsa Exp $
 
 COMMENT=	"Pac-man-like game under X11"
-
 DISTNAME=	xchomp-pl1
+PKGNAME=	xchomp-1
 CATEGORIES=	games
-
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}
 
 # License: NONE
