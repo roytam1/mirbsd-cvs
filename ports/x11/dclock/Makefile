@@ -1,11 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2004/05/18 08:45:33 xsa Exp $
 # $FreeBSD: Makefile,v 1.9 1999/08/31 06:52:30 mharo Exp $
 
 COMMENT=	"digital clock with optional military time and alarm"
-
-PKGNAME=	dclock-pl4
 CATEGORIES=	x11
 DISTNAME=	dclock
+PKGNAME=	dclock-4
 EXTRACT_SUFX=	.shar.Z
 
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}
