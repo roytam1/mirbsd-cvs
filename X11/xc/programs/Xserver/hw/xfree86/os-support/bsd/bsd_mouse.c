@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/programs/Xserver/hw/xfree86/os-support/bsd/bsd_mouse.c,v 1.3 2005/03/20 20:04:15 tg Exp $ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/os-support/bsd/bsd_mouse.c,v 1.37 2005/02/10 01:37:52 dawes Exp $ */
 
 /*
@@ -484,10 +484,14 @@ SetupAuto(InputInfoPtr pInfo, int *protoPara)
     if (pInfo->fd == -1)
 	guess = GuessProtocol(pInfo, 0);
     if (!guess) {
+#ifndef __MirBSD__
 	if (haveWSCons())
+#endif
 	    guess = "wsmouse";
+#ifndef __MirBSD__
 	else
 	    guess = "ps/2";
+#endif
     }
 
     xf86MsgVerb(X_INFO, 3, "%s: SetupAuto: protocol is %s\n",
