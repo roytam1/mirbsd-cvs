@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.2 2005/05/21 01:58:41 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.3 2005/06/26 17:13:43 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.2 2005/05/21 01:58:41 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.3 2005/06/26 17:13:43 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -77,6 +77,7 @@ pkg_do(char *pkg)
     char playpen[FILENAME_MAX];
     char extract_contents[FILENAME_MAX];
     char solve_deps[FILENAME_MAX+50];
+    char installed[FILENAME_MAX];
     char *where_to, *tmp, *extract;
     const char *dbdir;
     FILE *cfile;
@@ -240,35 +241,22 @@ pkg_do(char *pkg)
     }
 
     /* See if some other version of us is already installed */
-    {
-	char buf[FILENAME_MAX];
-	char installed[FILENAME_MAX];
-	char *s;
+    tmp = nuke_version(PkgName, true);
+    
 
-	if ((s=strrchr(PkgName, '-')) != NULL){
-	    strlcpy(buf, PkgName, sizeof(buf));
-	    /* try to find a better version number */
-	    if (!isdigit(s[1])) {
-	    	char *t;
-		for (t = s-1; t >= PkgName; t--)
-			if (*t == '-' && isdigit(t[1])) {
-				s = t;
-				break;
-			}
-	    }
-	    strlcpy(buf+(s-PkgName+1), isdigit(s[1]) ? "[0-9]*" : "*", sizeof(buf)-(s-PkgName+1));
-
-            if (findmatchingname(dbdir, buf, check_if_installed, installed, sizeof(installed))) {
-		pwarnx("other version '%s' already installed", installed);
-	    	if (find_plist_option(&Plist, "no-default-conflict") != NULL) {
-		    pwarnx("proceeding with installation anyway");
-		} else {
-		    code = 1;
-		    goto success;	/* close enough for government work */
-		}
-	    }
+    if (findmatchingname(dbdir, tmp, check_if_installed, installed, sizeof(installed))) {
+	pwarnx("other version '%s' already installed", installed);
+	if (find_plist_option(&Plist, "no-default-conflict") != NULL) {
+	    pwarnx("proceeding with installation anyway");
+	} else {
+	    if (tmp)
+		free(tmp);
+	    code = 1;
+	    goto success;	/* close enough for government work */
 	}
     }
+    if (tmp)
+	free(tmp);
 
     /* See if there are conflicting packages installed */
     for (p = Plist.head; p ; p = p->next) {
@@ -549,9 +537,9 @@ pkg_do(char *pkg)
 	    case ENV:
 		Pager = getenv("PAGER");
 		break;
+	    default:
+		Pager = "/usr/bin/more";
 	}
-	if (Pager == NULL)
-	    Pager = "/usr/bin/more";
 
 	snprintf(buf, sizeof buf, "%s/%s", LogDir, p->name);
 	if (stat(buf,&sbuf) == -1 || vsystem("%s %s", Pager, buf)) {

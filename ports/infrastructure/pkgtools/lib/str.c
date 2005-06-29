@@ -105,6 +105,29 @@ nuke_suffix(char *str)
 	*idx = '\0';  /* Yow!  Don't try this on a const! */
 }
 
+/* Remove the version number from a package name. Optionally add a
+ * "-*" suffix at the end.
+ */
+char *
+nuke_version(char *name, bool wildcard)
+{
+    char *idx, *ret;
+
+    if (!name)
+	return NULL;
+
+    for (idx = name; idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
+    if (idx)
+	*idx = '\0';
+    if (asprintf(&ret, wildcard ? "%s-*" : "%s", name) == -1) {
+	printf("nuke_version: Could not allocate buffer\n");
+	return NULL;
+    }
+    if (idx)
+	*idx = '-';
+    return ret;
+} 
+
 /* Lowercase a whole string */
 void
 str_lowercase(char *str)

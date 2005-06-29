@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.2 2005/05/22 03:52:48 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.3 2005/06/24 15:18:57 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -155,6 +155,7 @@ char 		*get_dash_string(char **);
 char		*copy_string(const char *);
 bool		suffix(char *, char *);
 void		nuke_suffix(char *);
+char		*nuke_version(char *, bool);
 void		str_lowercase(char *);
 char		*toabs(const char *, const char *);
 char		*strconcat(const char *, const char *);
