@@ -1,24 +1,6 @@
-#!/bin/ksh
-# $MirOS: src/etc/rc,v 1.3 2005/04/15 17:17:58 tg Exp $
-# $OpenBSD: rc,v 1.258 2004/10/22 00:59:09 itojun Exp $
-#-
-# Copyright (c) 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
-#
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
-#
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
+#!/bin/mksh
+# $MirOS: src/etc/rc,v 1.4 2005/05/04 11:14:20 tg Exp $
+# $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console
@@ -39,6 +21,83 @@ function stripcom
 		[[ -n $_line ]] && echo $_line
 	done
 	set +o noglob
+}
+
+# Update resource limits when sysctl changes
+# Usage: update_limit -X loginconf_name
+update_limit() {
+	local _fl="$1"	# ulimit flag
+	local _lc="$2"	# login.conf name
+	local _new _suf
+
+	for _suf in "" -cur -max; do
+		_new=$(getcap -f /etc/login.conf -s ${_lc}${_suf} daemon 2>/dev/null)
+		if [[ -n $_new ]]; then
+			if [[ $_new = infinity ]]; then
+				_new=unlimited
+			fi
+			case "$_suf" in
+			-cur)
+				ulimit -S $_fl $_new
+				;;
+			-max)
+				ulimit -H $_fl $_new
+				;;
+			*)
+				ulimit $_fl $_new
+				return
+				;;
+			esac
+		fi
+	done
+}
+
+sysctl_conf() {
+	test -s /etc/sysctl.conf || return
+
+	# delete comments and blank lines
+	set -- $(stripcom /etc/sysctl.conf)
+	while [ $# -ge 1 ] ; do
+		sysctl $1
+		# update limits if needed
+		case $1 in
+		kern.maxproc=*)
+			update_limit -p maxproc
+			;;
+		kern.maxfiles=*)
+			update_limit -n openfiles
+			;;
+		esac
+		shift
+	done
+}
+
+mixerctl_conf()
+{
+	test -s /etc/mixerctl.conf || return
+
+	# delete comments and blank lines
+	set -- $(stripcom /etc/mixerctl.conf)
+	while [ $# -ge 1 ] ; do
+		mixerctl -q $1 >/dev/null 2>&1
+		shift
+	done
+}
+
+wsconsctl_conf()
+{
+	local save_IFS="$IFS"
+
+	test -x /sbin/wsconsctl -a -s /etc/wsconsctl.conf || return
+	# delete comments and blank lines
+	IFS="
+"
+	set -- $(stripcom /etc/wsconsctl.conf)
+	IFS="$save_IFS"
+	while [ $# -ge 1 ] ; do
+		eval /sbin/wsconsctl -w $1
+		shift
+	done
 }
 
 # Sort the "/etc/fstab" arrays:
@@ -98,6 +157,7 @@ export HOME=/
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 if [[ $1 == shutdown ]]; then
+	echo Received shutdown request.
 	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
 	    >/dev/null 2>&1
 	chmod 600 /var/db/host.random >/dev/null 2>&1
@@ -166,14 +226,11 @@ _fssort
 let i=0
 [[ $softdrives_ide = NO ]] && softdrives_ide=""
 while [[ $i -lt $_fstab ]]; do
-	case "${_dev[i]}" {
-	  /dev/wd+([0-9])[a-p])
+	if [[ ${_dev[i]} = /dev/wd+([0-9])[a-p] ]]; them
 		_fdev="${_dev[i]#/dev/}"
 		softdrives_ide="$softdrives_ide ${_fdev%[a-p]}"
-		;;
-	  *)	;;
-	}
-	let i='i+1'
+	fi
+	let i++
 done
 
 # Needed for softdep to work correctly (SCSI drives, too!)
@@ -183,16 +240,16 @@ if [[ -n $softdrives_ide ]]; then
 	set -o noglob
 	for drv in $softdrives_ide; do
 		case "$_flags" {
-			*${drv}*)
-				;;	# Already done
-			*)
-				echo -n " $drv"
-				/sbin/atactl /dev/r${drv}c secfreeze \
-				    >/dev/null 2>&1
-				/sbin/atactl /dev/r${drv}c writecachedisable \
-				    >/dev/null 2>&1 || echo -n !
-				_flags="$_flags $drv"
-				;;
+		*${drv}*)
+			;;	# Already done
+		*)
+			echo -n " $drv"
+			/sbin/atactl /dev/r${drv}c secfreeze \
+			    >/dev/null 2>&1
+			/sbin/atactl /dev/r${drv}c writecachedisable \
+			    >/dev/null 2>&1 || echo -n !
+			_flags="$_flags $drv"
+			;;
 		}
 	done
 	set +o noglob
@@ -202,34 +259,34 @@ fi
 # Check filesystems
 if [[ -e /fastboot ]]; then
 	echo "Fast boot: skipping disk checks."
-  elif [[ $1 == autoboot ]]; then
+elif [[ $1 == autoboot ]]; then
 	echo "Automatic boot in progress: starting file system checks."
 	fsck -p
 	case $? {
-	  0)
+	0)
 		;;
-	  2)
+	2)
 		exit 1
 		;;
-	  4)
+	4)
 		echo "Rebooting..."
 		reboot
 		echo "Reboot failed; help!"
 		exit 1
 		;;
-	  8)
+	8)
 		echo "Automatic file system check failed; help!"
 		exit 1
 		;;
-	  12)
+	12)
 		echo "Boot interrupted."
 		exit 1
 		;;
-	  130)
+	130)
 		# interrupt before catcher installed
 		exit 1
 		;;
-	  *)
+	*)
 		echo "Unknown error; help!"
 		exit 1
 		;;
@@ -245,26 +302,30 @@ while [[ $i -lt $_fstab ]]; do
 		mount -uwo "${_opt[i]}" "${_dev[i]}" / >/dev/null 2>&1
 		if [[ $? -ne 0 ]]; then
 			case "${_opt[i]}" {
-			  *softdep*)	;;
-			  *)	echo -n 'WARNING: Your root filesystem failed'
+			*softdep*)	;;
+			*)	echo -n 'WARNING: Your root filesystem failed'
 				echo -n ' to remount read-write! <forcing...>'
 				echo 'The system is probably severely damaged'
 				;;
 			}
 			mount -ufwo "${_opt[i]}" "${_dev[i]}" /
 		fi
-	  else
+	else
 		case "${_opt[i]}" {
-		  *noauto*)	;;
-		  sw*)		;;	# Swap
-		  xx*)		;;	# ignore totally
-		  *)	if [[ ${_fstype[i]} == ffs ]]; then
+		*noauto*)
+			;;
+		sw*)
+			;;	# Swap
+		xx*)
+			;;	# ignore totally
+		*)
+			if [[ ${_fstype[i]} == ffs ]]; then
 				mount -t ffs -o "${_opt[i]}" "${_dev[i]}" \
 					"${_mp[i]}" >/dev/null 2>&1
 				if [[ $? -ne 0 ]]; then
 					case "${_opt[i]}" {
-					  *softdep*)	;;
-					  *)	echo -n "Warning: force-mounti"
+					*softdep*)	;;
+					*)	echo -n "Warning: force-mounti"
 						echo -n "ng unchecked ffs file"
 						echo -n "system: ${_dev[i]}"
 						echo " -> ${_mp[i]}  nosoftdep"
@@ -273,14 +334,14 @@ while [[ $i -lt $_fstab ]]; do
 					mount -f -t ffs -o "${_opt[i]}" \
 					    "${_dev[i]}" "${_mp[i]}"
 				fi
-			  else
+			else
 				mount -t "${_fstype[i]}" -o "${_opt[i]}" \
 				    "${_dev[i]}" "${_mp[i]}"
 			fi
 			;;
 		}
 	fi
-	let i='i+1'
+	let i++
 done
 mount -a -t nonfs
 rm -f /fastboot
@@ -316,22 +377,20 @@ if [[ $pf != NO ]]; then
 		RULES="$RULES\npass out proto udp from any to any port { 111, 2049 }"
 		;;
 	esac
-	echo $RULES | pfctl -f - -e
+	echo $RULES | pfctl -f -
+	pfctl -e
 fi
 
-if [[ -f /etc/sysctl.conf ]]; then
-(
-	# delete comments and blank lines
-	set -- $(stripcom /etc/sysctl.conf)
-	while [[ $# -ge 1 ]]; do
-		sysctl $1
-		shift
-	done
-)
-fi
+sysctl_conf
+
+mixerctl_conf
 
 # set hostname, turn on network
 echo 'starting network'
+if [ -f /etc/resolv.conf.save ]; then
+	mv /etc/resolv.conf.save /etc/resolv.conf
+	touch /etc/resolv.conf
+fi
 . /etc/netstart
 
 # load arp tables
@@ -349,10 +408,10 @@ fi
 mount /usr >/dev/null 2>&1
 mount /var >/dev/null 2>&1
 
-# read in old random seed; if there's no /var/db/host.random, make
-# one through /dev/urandom; else reset seed file anyways, so that
-# if a shutdown-less reboot occurs, the next seed is not a repeat
-[[ -f /var/db/host.random ]] && cat /var/db/host.random >/dev/arandom
+# read old random seed; if there's no /var/db/host.random, make
+# one through /dev/urandom; else reset seed file anyway so that
+# if a shutdown-less reboot occurs the next seed is not a repeat
+cat /var/db/host.random >/dev/arandom 2>&1
 dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
     >/dev/null 2>&1
 chmod 600 /var/db/host.random >/dev/null 2>&1
@@ -376,7 +435,8 @@ if [[ -d /var/empty ]]; then
 fi
 syslogd $syslogd_flags
 
-if [[ $pf != NO && $pflogd_flags != NO ]]; then
+[[ $pf != NO && $pflogd_flags != NO ]] && if ifconfig pflog0 \
+    >/dev/null 2>&1; then
 	ifconfig pflog0 up
 	pflogd $pflogd_flags
 fi
@@ -393,7 +453,7 @@ echo -n 'starting rpc daemons:'
 # if $portmap == YES, the portmapper is started.
 if [[ $portmap == YES ]]; then
 	echo -n ' portmap';		portmap
-  else
+else
 	nfs_server=NO
 fi
 
@@ -421,9 +481,8 @@ if [[ $timed_flags != NO ]]; then
 	echo -n ' timed';		timed $timed_flags
 fi
 
-# run ntpd if asked for; set time once (at startup) via settimeofday(2)
 if [[ $ntpd_flags != NO ]]; then
-	echo -n ' ntpd';		ntpd -s $ntpd_flags
+	echo -n ' ntpd';		ntpd $ntpd_flags
 fi
 
 echo '.'
@@ -464,13 +523,13 @@ fi
 
 echo clearing /tmp
 
-if mount 2>&1 | grep -F "on /tmp" >/dev/null 2>&1; then
+if mount 2>&1 | grep -F " on /tmp" >/dev/null 2>&1; then
 	# prune quickly with one rm, then use find to clean up /tmp/[lq]*
 	# (not needed with mfs /tmp, but doesn't hurt there...)
 	(cd /tmp && rm -rf [a-km-pr-zA-Z]* &&
 	    find . ! -name . ! -name lost+found ! -name quota.user \
 		! -name quota.group -execdir rm -rf -- {} \; -type d -prune)
-  else
+else
 	# clean up as usual on small systems
 	rm -rf /tmp
 	mkdir /tmp
@@ -489,9 +548,9 @@ if [[ -d /usr/X11R6/lib ]]; then
 			if [[ $(ls -ld $d | cut -d' ' -f1) != drwxrwxrwt ]]; then
 				chmod 1777 $d
 			fi
-		  elif [[ -e $d ]]; then
+		elif [[ -e $d ]]; then
 			echo "Error: $d exists and isn't a directory."
-		  else
+		else
 			mkdir -m 1777 $d
 		fi
 	done
@@ -514,7 +573,7 @@ if [[ $? -eq 0 ]]; then
 	sed '1,/^$/d' </etc/motd >>$T
 	cmp -s $T /etc/motd || cp $T /etc/motd
 	rm -f $T
-  else
+else
 	echo 'warning: mktemp(1) failed. Please check for possible reasons.'
 fi
 
@@ -542,7 +601,7 @@ if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 	if /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key \
 	    -N ''; then
 		echo done.
-	  else
+	else
 		echo failed.
 	fi
 fi
@@ -602,6 +661,10 @@ if [[ $mrouted_flags != NO ]]; then
 	echo -n ' mrouted';		mrouted $mrouted_flags
 fi
 
+if [[ $ospfd_flags != NO ]]; then
+	echo -n ' ospfd';		/usr/sbin/ospfd $ospfd_flags
+fi
+
 if [[ $bgpd_flags != NO ]]; then
 	echo -n ' bgpd';		/usr/sbin/bgpd $bgpd_flags
 fi
@@ -626,7 +689,7 @@ if ifconfig lo0 inet6 >/dev/null 2>&1; then
 			echo -n ' rtsold'
 			/usr/sbin/rtsold $rtsold_flags
 		fi
-	  else
+	else
 		# $route6d_flags is imported from /etc/rc.conf;
 		# If $route6d_flags == NO, then route6d isn't run.
 		if [[ $route6d_flags != NO ]]; then
@@ -724,6 +787,8 @@ fi
 
 echo '.'
 
+wsconsctl_conf
+
 if [[ $sshagent_autostart != NO ]]; then
 	echo 'Setting up ssh-agent directories...'
 	mkdir -m 0755 /tmp/.ssh-agent
@@ -735,21 +800,6 @@ if [[ $sshagent_autostart != NO ]]; then
 	done
 fi
 
-if [[ -x /sbin/wsconsctl && -f /etc/wsconsctl.conf ]]; then
-(
-	# delete comments and blank lines
-	save_IFS="$IFS"
-	IFS="
-"
-	set -- $(stripcom /etc/wsconsctl.conf)
-	IFS="$save_IFS"
-	while [[ $# -ge 1 ]]; do
-		eval /sbin/wsconsctl -w $1
-		shift
-	done
-)
-fi
-
 [[ -f /etc/rc.local ]] && . /etc/rc.local
 
 echo -n standard daemons:
@@ -758,6 +808,10 @@ echo -n standard daemons:
 # don't run daemon if $apmd_flags == NO or /usr/sbin/apmd doesn't exist
 if [[ $apmd_flags != NO && -x /usr/sbin/apmd ]]; then
 	echo -n ' apmd';	/usr/sbin/apmd $apmd_flags
+fi
+
+if [[ $acpid_flags != NO && -x /usr/sbin/acpid ]]; then
+	echo -n ' acpid';	/usr/sbin/acpid $acpid_flags
 fi
 
 if [[ $sensorsd_flags != NO ]]; then
