@@ -1,5 +1,5 @@
-#!/bin/sh
-#	$OpenBSD: install.sh,v 1.142 2004/03/23 02:39:38 krw Exp $
+#!/bin/ksh
+#	$OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 #	$NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
@@ -85,7 +85,7 @@ if [ ! -f /etc/fstab ]; then
 	DISK=
 	_DKDEVS=$DKDEVS
 
-	while : ; do
+	while :; do
 		_DKDEVS=`rmel "$DISK" $_DKDEVS`
 
 		# Always do ROOTDISK first, and repeat until
@@ -105,6 +105,7 @@ if [ ! -f /etc/fstab ]; then
 		fi
 
 		DISK=$resp
+		makedev $DISK || continue
 
 		# Deal with disklabels, including editing the root disklabel
 		# and labeling additional disks. This is machine-dependent since
@@ -124,7 +125,7 @@ if [ ! -f /etc/fstab ]; then
 			if [[ $_pp == $ROOTDEV ]]; then
 				echo "$ROOTDEV /" >$FILESYSTEMS
 				continue
-			elif [[ $_type == swap ]]; then
+			elif [[ $_pp == $SWAPDEV || $_type == swap ]]; then
 				echo "$_pp" >>$SWAPLIST
 				continue
 			elif [[ $_type != *BSD ]]; then
@@ -134,7 +135,7 @@ if [ ! -f /etc/fstab ]; then
 			_partitions[$_i]=$_pp
 			_psizes[$_i]=$_ps
 
-			# If the user assigned a mount point, use it if possible.
+			# Set _mount_points[$_i].
 			if [[ -f /tmp/fstab.$DISK ]]; then
 				while read _pp _mp _rest; do
 					[[ $_pp == "/dev/${_partitions[$_i]}" ]] || continue
@@ -146,39 +147,23 @@ if [ ! -f /etc/fstab ]; then
 					[[ $_mp == '/' ]] && break
 					# Otherwise, record user specified mount point.
 					_mount_points[$_i]=$_mp
-				done < /tmp/fstab.$DISK
+				done </tmp/fstab.$DISK
 			fi
 			: $(( _i += 1 ))
-		done < /tmp/disklabel.$DISK
+		done </tmp/disklabel.$DISK
 
-		if [[ $DISK == $ROOTDISK ]]; then
-			# Ensure that ROOTDEV was configured.
-			if [[ -n $(grep "^$ROOTDEV /$" $FILESYSTEMS) ]]; then
-				echo "The root filesystem will be mounted on $ROOTDEV."
-			else
-				echo "ERROR: Unable to mount the root filesystem on $ROOTDEV."
-				DISK=
-			fi
-			# Ensure that $SWAPDEV was configured as swap space.
-			if [[ -n $(grep "^$SWAPDEV" $SWAPLIST) ]]; then
-				echo "$SWAPDEV will be used for swap space."
-				# But we really don't want it in the installed
-				# /etc/fstab.
-				grep -v "^$SWAPDEV" $SWAPLIST > $SWAPLIST.tmp
-				mv $SWAPLIST.tmp $SWAPLIST
-			else
-				echo "ERROR: Unable to use $SWAPDEV for swap space."
-				DISK=
-			fi
-			[[ -n $DISK ]] || echo "You must reconfigure $ROOTDISK."
+		if [[ $DISK == $ROOTDISK && -z $(grep "^$ROOTDEV /$" $FILESYSTEMS) ]]; then
+			echo "ERROR: No root partition ($ROOTDEV)."
+			DISK=
+			continue
 		fi
 
-		# If there are no BSD partitions, or $DISK has been reset, go on to next disk.
-		[[ ${#_partitions[*]} -gt 0 && -n $DISK ]] || continue
+		# If there are no BSD partitions go on to next disk.
+		[[ ${#_partitions[*]} -gt 0 ]] || continue
 
-		# Now prompt the user for the mount points. Loop until "done" entered.
+		# Now prompt the user for the mount points.
 		_i=0
-		while : ; do
+		while :; do
 			_pp=${_partitions[$_i]}
 			_ps=$(( ${_psizes[$_i]} / 2 ))
 			_mp=${_mount_points[$_i]}
@@ -231,17 +216,16 @@ if [ ! -f /etc/fstab ]; then
 		done
 	done
 
-	cat << __EOT
+	cat <<__EOT
 
-You have configured the following partitions and mount points:
-
+OpenBSD filesystems:
 $(<$FILESYSTEMS)
 
-The next step creates a filesystem on each partition, ERASING existing data.
+The next step *DESTROYS* all existing data on these partitions!
 __EOT
 
 	ask_yn "Are you really sure that you're ready to proceed?"
-	[[ $resp == n ]] && { echo "ok, try again later..." ; exit ; }
+	[[ $resp == n ]] && { echo "Ok, try again later." ; exit ; }
 
 	# Read $FILESYSTEMS, creating a new filesystem on each listed
 	# partition and saving the partition and mount point information
@@ -249,7 +233,9 @@ __EOT
 	_i=0
 	unset _partitions _mount_points
 	while read _pp _mp; do
-		newfs -q /dev/r$_pp
+		_OPT=
+		[[ $_mp == / ]] && _OPT=$MDROOTFSOPT
+		newfs -q $_OPT /dev/r$_pp
 
 		_partitions[$_i]=$_pp
 		_mount_points[$_i]=$_mp
@@ -310,12 +296,13 @@ __EOT
 			fi
 			: $(( _i += 1 ))
 		done
-	done >> /tmp/fstab
+	done >>/tmp/fstab
 
 	# Append all non-default swap devices to fstab.
 	while read _dev; do
-		echo "/dev/$_dev none swap sw 0 0" >>/tmp/fstab
-	done < $SWAPLIST
+		[[ $_dev == $SWAPDEV ]] || \
+			echo "/dev/$_dev none swap sw 0 0" >>/tmp/fstab
+	done <$SWAPLIST
 
 	munge_fstab
 fi
@@ -341,7 +328,7 @@ ask_until "\nSystem hostname? (short form, e.g. 'foo')" "$(hostname -s)"
 ( cd /tmp; rm -f host* my* resolv.* dhclient.* )
 
 # Always create new hosts file.
-cat > /tmp/hosts << __EOT
+cat >/tmp/hosts <<__EOT
 ::1 localhost
 127.0.0.1 localhost
 ::1 $(hostname -s)
@@ -353,16 +340,14 @@ ask_yn "Configure the network?" yes
 
 _oifs=$IFS
 IFS=
-resp=
-while [[ -z $resp ]]; do
+while :; do
 	askpass "Password for root account? (will not echo)"
 	_password=$resp
 
 	askpass "Password for root account? (again)"
-	if [ "$_password" != "$resp" ]; then
-		echo "Passwords do not match, try again."
-		resp=
-	fi
+	[[ $resp == $_password ]] && break
+
+	echo "Passwords do not match, try again."
 done
 IFS=$_oifs
 
@@ -373,7 +358,7 @@ install_sets
 # mount.
 while read _dev _mp _fstype _opt _rest; do
 	mount -u -o $_opt $_dev $_mp ||	exit
-done < /etc/fstab
+done </etc/fstab
 
 # Handle questions...
 questions
@@ -386,7 +371,7 @@ echo -n "Saving configuration files..."
 
 # Move configuration files from /tmp to /mnt/etc.
 ( cd /tmp
-hostname > myname
+hostname >myname
 
 # Add FQDN to /tmp/hosts entries, changing lines of the form '1.2.3.4 hostname'
 # to '1.2.3.4 hostname.$FQDN hostname'. Leave untouched any lines containing
@@ -398,7 +383,7 @@ while read _addr _hn _aliases; do
 	else
 		echo "$_addr $_hn.$_dn $_hn"
 	fi
-done < hosts > hosts.new
+done <hosts >hosts.new
 mv hosts.new hosts
 
 # Prepend interesting comments from installed hosts and dhclient.conf files
@@ -409,19 +394,19 @@ save_comments dhclient.conf
 # Possible files: fstab, kbdtype, myname, mygate, sysctl.conf
 #                 dhclient.conf resolv.conf resolv.conf.tail
 #		  hostname.* hosts
-for _f in fstab kbdtype my* *.conf *.tail host*; do
+for _f in fstab kbdtype my* *.conf *.tail host* ttys; do
 	[[ -f $_f ]] && mv $_f /mnt/etc/.
 done )
 
 _encr=`/mnt/usr/bin/encrypt -b 8 -- "$_password"`
 echo "1,s@^root::@root:${_encr}:@
 w
-q" | ed /mnt/etc/master.passwd 2> /dev/null
+q" | /mnt/bin/ed /mnt/etc/master.passwd 2>/dev/null
 /mnt/usr/sbin/pwd_mkdb -p -d /mnt/etc /etc/master.passwd
 
 echo -n "done.\nGenerating initial host.random file..."
 ( cd /mnt/var/db
-dd if=/mnt/dev/urandom of=host.random bs=1024 count=64 >/dev/null 2>&1
+/mnt/bin/dd if=/mnt/dev/urandom of=host.random bs=1024 count=64 >/dev/null 2>&1
 chmod 600 host.random >/dev/null 2>&1 )
 echo "done."
 
