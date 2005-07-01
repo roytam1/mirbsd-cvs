@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/rc,v 1.4 2005/05/04 11:14:20 tg Exp $
+# $MirOS: src/etc/rc,v 1.5 2005/07/01 15:19:20 tg Exp $
 # $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -661,11 +661,11 @@ if [[ $mrouted_flags != NO ]]; then
 	echo -n ' mrouted';		mrouted $mrouted_flags
 fi
 
-if [[ $ospfd_flags != NO ]]; then
+if [[ $ospfd_flags != NO && -x /usr/sbin/ospfd ]]; then
 	echo -n ' ospfd';		/usr/sbin/ospfd $ospfd_flags
 fi
 
-if [[ $bgpd_flags != NO ]]; then
+if [[ $bgpd_flags != NO && -x /usr/sbin/bgpd ]]; then
 	echo -n ' bgpd';		/usr/sbin/bgpd $bgpd_flags
 fi
 
@@ -814,7 +814,7 @@ if [[ $acpid_flags != NO && -x /usr/sbin/acpid ]]; then
 	echo -n ' acpid';	/usr/sbin/acpid $acpid_flags
 fi
 
-if [[ $sensorsd_flags != NO ]]; then
+if [[ $sensorsd_flags != NO && -x /usr/sbin/sensorsd ]]; then
 	echo -n ' sensorsd';	/usr/sbin/sensorsd ${sensorsd_flags}
 fi
 
@@ -833,7 +833,7 @@ if [[ $wsmoused_flags != NO && -x /usr/sbin/wsmoused ]]; then
 fi
 
 # Alternatively, on some architectures, xdm may be started in /etc/ttys.
-if [[ $xdm_flags != NO ]]; then
+if [[ $xdm_flags != NO && -x /usr/X11R6/bin/xdm ]]; then
 	echo 'starting xdm...';		/usr/X11R6/bin/xdm $xdm_flags
 fi
 
