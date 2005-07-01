@@ -1,4 +1,4 @@
-/*	$OpenBSD: netdb.h,v 1.21 2004/10/25 03:09:01 millert Exp $	*/
+/*	$OpenBSD: netdb.h,v 1.24 2005/06/08 18:32:32 millert Exp $	*/
 
 /*
  * ++Copyright++ 1980, 1983, 1988, 1993
@@ -266,7 +266,7 @@ void		endservent(void);
 #ifndef POSIX_SOURCE
 void		endservent_r(struct servent_data *);
 #endif
-struct hostent	*gethostbyaddr(const char *, int, int);
+struct hostent	*gethostbyaddr(const void *, socklen_t, int);
 struct hostent	*gethostbyname(const char *);
 struct hostent	*gethostbyname2(const char *, int);
 struct hostent	*gethostent(void);
