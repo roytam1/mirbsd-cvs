@@ -71,7 +71,7 @@ findname(XvAttribute table[], int nattr, const char *name)
 		if (strcasecmp(table[i].name+3, name) == 0)
 			return table+i;
 	}
-	warnx("No such attribute %s\n", name);
+	warnx("No such attribute %s", name);
 	return NULL;
 }
 
@@ -111,11 +111,11 @@ setvar(Display *dpy, XvPortID id, int nflag, XvAttribute table[], int nattr,
 	if (!at)
 		return;
 	if (!(at->flags & XvSettable)) {
-		warnx("Can't set %s\n", name);
+		warnx("Can't set %s", name);
 		return;
 	}
 	if ((at->max_value != -1 && v > at->max_value)  || v < at->min_value) {
-		warnx("Value %d for %s out of range (%d-%d)\n", v, name,
+		warnx("Value %d for %s out of range (%d-%d)", v, name,
 		    at->min_value, at->max_value);
 		return;
 	}
@@ -137,7 +137,7 @@ showvar(Display *dpy, XvPortID id, int nflag, XvAttribute table[], int nattr,
 	if (!at)
 		return;
     	if (!(at->flags & XvGettable)) {
-		warnx("Can't get %s\n", name);
+		warnx("Can't get %s", name);
 		return;
 	}
 	printattribute(dpy, id, nflag, at);
@@ -230,10 +230,10 @@ main(int argc, char *argv[])
 
 	dpy = XOpenDisplay(display);
 	if (!dpy)
-		errx(1, "Unable to open display %s\n", displayname(display));
+		errx(1, "Unable to open display %s", displayname(display));
 	if (Success != XvQueryExtension(dpy, &ver, &rev, &reqB, &eventB,
 	    &errorB))
-	    	errx(1, "No X-Video extension on %s\n", displayname(display));
+	    	errx(1, "No X-Video extension on %s", displayname(display));
 
 	if (!nflag)
 		printf("X-Video extension version %i.%i on %s\n", ver, rev,
