@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.2 2005/03/06 21:28:04 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.3 2005/07/01 13:57:29 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls.c,v 1.114 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
@@ -1500,46 +1500,6 @@ sys_symlink(p, v, retval)
 	error = VOP_SYMLINK(nd.ni_dvp, &nd.ni_vp, &nd.ni_cnd, &vattr, path);
 out:
 	pool_put(&namei_pool, path);
-	return (error);
-}
-
-/*
- * Delete a whiteout from the filesystem.
- */
-/* ARGSUSED */
-int
-sys_undelete(p, v, retval)
-	struct proc *p;
-	void *v;
-	register_t *retval;
-{
-	struct sys_undelete_args /* {
-		syscallarg(const char *) path;
-	} */ *uap = v;
-	int error;
-	struct nameidata nd;
-
-	NDINIT(&nd, DELETE, LOCKPARENT|DOWHITEOUT, UIO_USERSPACE,
-	    SCARG(uap, path), p);
-	error = namei(&nd);
-	if (error)
-		return (error);
-
-	if (nd.ni_vp != NULLVP || !(nd.ni_cnd.cn_flags & ISWHITEOUT)) {
-		VOP_ABORTOP(nd.ni_dvp, &nd.ni_cnd);
-		if (nd.ni_dvp == nd.ni_vp)
-			vrele(nd.ni_dvp);
-		else
-			vput(nd.ni_dvp);
-		if (nd.ni_vp)
-			vrele(nd.ni_vp);
-		return (EEXIST);
-	}
-
-	VOP_LEASE(nd.ni_dvp, p, p->p_ucred, LEASE_WRITE);
-	if ((error = VOP_WHITEOUT(nd.ni_dvp, &nd.ni_cnd, DELETE)) != 0)
-		VOP_ABORTOP(nd.ni_dvp, &nd.ni_cnd);
-	vput(nd.ni_dvp);
 	return (error);
 }
 
