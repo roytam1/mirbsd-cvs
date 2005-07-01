@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcp_subr.c,v 1.80 2004/05/07 14:42:27 millert Exp $	*/
+/*	$OpenBSD: tcp_subr.c,v 1.90 2005/06/30 08:51:31 markus Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
 /*
@@ -518,6 +518,10 @@ tcp_newtcpcb(struct inpcb *inp)
 	    TCPTV_MIN, TCPTV_REXMTMAX);
 	tp->snd_cwnd = TCP_MAXWIN << TCP_MAX_WINSHIFT;
 	tp->snd_ssthresh = TCP_MAXWIN << TCP_MAX_WINSHIFT;
+	
+	tp->t_pmtud_mtu_sent = 0;
+	tp->t_pmtud_mss_acked = 0;
+	
 #ifdef INET6
 	/* we disallow IPv4 mapped address completely. */
 	if ((inp->inp_flags & INP_IPV6) == 0)
@@ -803,6 +807,7 @@ tcp_ctlinput(cmd, sa, v)
 	struct tcphdr *th;
 	extern int inetctlerrmap[];
 	void (*notify)(struct inpcb *, int) = tcp_notify;
+	u_int mtu;
 	int errno;
 
 	if (sa->sa_family != AF_INET)
@@ -831,8 +836,40 @@ tcp_ctlinput(cmd, sa, v)
 			icp = (struct icmp *)((caddr_t)ip -
 					      offsetof(struct icmp, icmp_ip));
 
-			/* Calculate new mtu and create corresponding route */
-			icmp_mtudisc(icp);
+			/* 
+			 * If the ICMP message advertises a Next-Hop MTU
+			 * equal or larger than the maximum packet size we have
+			 * ever sent, drop the message.
+			 */
+			mtu = (u_int)ntohs(icp->icmp_nextmtu);
+			if (mtu >= tp->t_pmtud_mtu_sent)
+				return NULL;
+			if (mtu >= tcp_hdrsz(tp) + tp->t_pmtud_mss_acked) {
+				/* 
+				 * Calculate new MTU, and create corresponding
+				 * route (traditional PMTUD).
+				 */
+				tp->t_flags &= ~TF_PMTUD_PEND;
+				icmp_mtudisc(icp);    
+			} else {
+				/*
+				 * Record the information got in the ICMP
+				 * message; act on it later.
+				 * If we had already recorded an ICMP message,
+				 * replace the old one only if the new message
+				 * refers to an older TCP segment
+				 */
+				if (tp->t_flags & TF_PMTUD_PEND) {
+					if (SEQ_LT(tp->t_pmtud_th_seq, seq))
+						return NULL;
+				} else
+					tp->t_flags |= TF_PMTUD_PEND;
+				tp->t_pmtud_th_seq = seq;
+				tp->t_pmtud_nextmtu = icp->icmp_nextmtu;
+				tp->t_pmtud_ip_len = icp->icmp_ip.ip_len;
+				tp->t_pmtud_ip_hl = icp->icmp_ip.ip_hl;
+				return NULL;
+			}
 		}
 		notify = tcp_mtudisc, ip = 0;
 	} else if (cmd == PRC_MTUINC)
