@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcp_output.c,v 1.67 2004/05/07 14:42:27 millert Exp $	*/
+/*	$OpenBSD: tcp_output.c,v 1.79 2005/06/30 08:51:31 markus Exp $	*/
 /*	$NetBSD: tcp_output.c,v 1.16 1997/06/03 16:17:09 kml Exp $	*/
 
 /*
@@ -223,7 +223,7 @@ tcp_output(tp)
 	struct mbuf *m;
 	struct tcphdr *th;
 	u_char opt[MAX_TCPOPTLEN];
-	unsigned int optlen, hdrlen;
+	unsigned int optlen, hdrlen, packetlen;
 	int idle, sendalot = 0;
 #ifdef TCP_SACK
 	int i, sack_rxmit = 0;
@@ -1129,6 +1129,7 @@ send:
 
 			ip = mtod(m, struct ip *);
 			ip->ip_len = htons(m->m_pkthdr.len);
+			packetlen = m->m_pkthdr.len;
 			ip->ip_ttl = tp->t_inpcb->inp_ip.ip_ttl;
 			ip->ip_tos = tp->t_inpcb->inp_ip.ip_tos;
 #ifdef TCP_ECN
@@ -1151,6 +1152,7 @@ send:
 			ip6 = mtod(m, struct ip6_hdr *);
 			ip6->ip6_plen = m->m_pkthdr.len -
 				sizeof(struct ip6_hdr);
+			packetlen = m->m_pkthdr.len;
 			ip6->ip6_nxt = IPPROTO_TCP;
 			ip6->ip6_hlim = in6_selecthlim(tp->t_inpcb, NULL);
 #ifdef TCP_ECN
@@ -1205,6 +1207,10 @@ out:
 
 		return (error);
 	}
+	
+	if (packetlen > tp->t_pmtud_mtu_sent)
+		tp->t_pmtud_mtu_sent = packetlen;
+	
 	tcpstat.tcps_sndtotal++;
 	if (tp->t_flags & TF_DELACK)
 		tcpstat.tcps_delack++;

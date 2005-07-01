@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/netinet/tcp_var.h,v 1.2 2005/03/06 21:28:22 tg Exp $ */
-/*	$OpenBSD: tcp_var.h,v 1.61.2.1 2005/01/11 04:40:30 brad Exp $	*/
+/**	$MirOS: src/sys/netinet/tcp_var.h,v 1.3 2005/03/31 23:45:43 tg Exp $ */
+/*	$OpenBSD: tcp_var.h,v 1.68 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_var.h,v 1.17 1996/02/13 23:44:24 christos Exp $	*/
 
 /*
@@ -84,6 +84,9 @@ struct tcpcb {
 #define TF_DISABLE_ECN	0x00040000	/* disable ECN for this connection */
 #endif
 #define TF_REASSLOCK	0x00080000	/* reassembling or draining */
+#define TF_LASTIDLE	0x00100000	/* no outstanding ACK on last send */
+#define TF_DEAD		0x00200000	/* dead and to-be-released */
+#define TF_PMTUD_PEND	0x00400000	/* Path MTU Discovery pending */
 
 	struct	mbuf *t_template;	/* skeletal packet for transmit */
 	struct	inpcb *t_inpcb;		/* back pointer to internet pcb */
@@ -126,7 +129,6 @@ struct tcpcb {
 	int	rcv_numsacks;		/* # distinct sack blks present */
 	struct sackblk sackblks[MAX_SACK_BLKS]; /* seq nos. of sack blocks */
 #endif
-#define TF_REASSLOCK	0x00080000	/* reassembling or draining */
 
 /*
  * Additional variables for this implementation.
@@ -180,7 +182,17 @@ struct tcpcb {
 /* TUBA stuff */
 	caddr_t	t_tuba_pcb;		/* next level down pcb for TCP over z */
 
+/* Path-MTU Discovery Information */
+	u_int	t_pmtud_mss_acked;	/* MSS acked, lower bound for MTU */
+	u_int	t_pmtud_mtu_sent;	/* MTU used, upper bound for MTU */
+	tcp_seq	t_pmtud_th_seq;		/* TCP SEQ from ICMP payload */
+	u_int	t_pmtud_nextmtu;	/* Advertised Next-Hop MTU from ICMP */
+	u_short	t_pmtud_ip_len;		/* IP length from ICMP payload */
+	u_short	t_pmtud_ip_hl;		/* IP header length from ICMP payload */
+
 	int pf;
+
+	struct	timeout t_reap_to;	/* delayed cleanup timeout */
 };
 
 #define	intotcpcb(ip)	((struct tcpcb *)(ip)->inp_ppcb)
@@ -429,8 +441,6 @@ struct	tcpstat {
 	u_int32_t tcps_cwr_frecovery;	/* # of cwnd reduced by fastrecovery */
 	u_int32_t tcps_cwr_timeout;	/* # of cwnd reduced by timeout */
 
-	u_int64_t tcps_conndrained;	/* # of connections drained */
-
 	/* These statistics deal with the SYN cache. */
 	u_int64_t tcps_sc_added;	/* # of entries added */
 	u_int64_t tcps_sc_completed;	/* # of connections completed */
@@ -444,27 +454,29 @@ struct	tcpstat {
 	u_int64_t tcps_sc_dropped;	/* # of SYNs dropped (no route/mem) */
 	u_int64_t tcps_sc_collisions;	/* # of hash collisions */
 	u_int64_t tcps_sc_retransmitted;/* # of retransmissions */
+
+	u_int64_t tcps_conndrained;	/* # of connections drained */
 };
 
 /*
  * Names for TCP sysctl objects.
  */
 
-#define	TCPCTL_RFC1323		 1 /* enable/disable RFC1323 timestamps/scaling */
-#define	TCPCTL_KEEPINITTIME	 2 /* TCPT_KEEP value */
-#define TCPCTL_KEEPIDLE		 3 /* allow tcp_keepidle to be changed */
-#define TCPCTL_KEEPINTVL	 4 /* allow tcp_keepintvl to be changed */
-#define TCPCTL_SLOWHZ		 5 /* return kernel idea of PR_SLOWHZ */
-#define TCPCTL_BADDYNAMIC	 6 /* return bad dynamic port bitmap */
-#define	TCPCTL_RECVSPACE	 7 /* receive buffer space */
-#define	TCPCTL_SENDSPACE	 8 /* send buffer space */
-#define	TCPCTL_IDENT		 9 /* get connection owner */
-#define	TCPCTL_SACK		10 /* selective acknowledgement, rfc 2018 */
-#define TCPCTL_MSSDFLT		11 /* Default maximum segment size */
-#define	TCPCTL_RSTPPSLIMIT	12 /* RST pps limit */
-#define	TCPCTL_ACK_ON_PUSH	13 /* ACK immediately on PUSH */
-#define	TCPCTL_ECN		14 /* RFC3168 ECN */
-#define	TCPCTL_SYN_CACHE_LIMIT	15 /* max size of comp. state engine */
+#define	TCPCTL_RFC1323		1 /* enable/disable RFC1323 timestamps/scaling */
+#define	TCPCTL_KEEPINITTIME	2 /* TCPT_KEEP value */
+#define TCPCTL_KEEPIDLE		3 /* allow tcp_keepidle to be changed */
+#define TCPCTL_KEEPINTVL	4 /* allow tcp_keepintvl to be changed */
+#define TCPCTL_SLOWHZ		5 /* return kernel idea of PR_SLOWHZ */
+#define TCPCTL_BADDYNAMIC	6 /* return bad dynamic port bitmap */
+#define	TCPCTL_RECVSPACE	7 /* receive buffer space */
+#define	TCPCTL_SENDSPACE	8 /* send buffer space */
+#define	TCPCTL_IDENT		9 /* get connection owner */
+#define	TCPCTL_SACK	       10 /* selective acknowledgement, rfc 2018 */
+#define TCPCTL_MSSDFLT	       11 /* Default maximum segment size */
+#define	TCPCTL_RSTPPSLIMIT     12 /* RST pps limit */
+#define	TCPCTL_ACK_ON_PUSH     13 /* ACK immediately on PUSH */
+#define	TCPCTL_ECN	       14 /* RFC3168 ECN */
+#define	TCPCTL_SYN_CACHE_LIMIT 15 /* max size of comp. state engine */
 #define	TCPCTL_SYN_BUCKET_LIMIT	16 /* max size of hash bucket */
 #define	TCPCTL_RFC3390	       17 /* enable/disable RFC3390 increased cwnd */
 #define	TCPCTL_REASS_LIMIT     18 /* max entries for tcp reass queues */
@@ -557,6 +569,7 @@ int	 tcp_attach(struct socket *);
 void	 tcp_canceltimers(struct tcpcb *);
 struct tcpcb *
 	 tcp_close(struct tcpcb *);
+void	 tcp_reaper(void *);
 int	 tcp_freeq(struct tcpcb *);
 #if defined(INET6) && !defined(TCP6)
 void	 tcp6_ctlinput(int, struct sockaddr *, void *);
@@ -577,6 +590,7 @@ int	 tcp6_input(struct mbuf **, int *, int);
 void	 tcp_input(struct mbuf *, ...);
 int	 tcp_mss(struct tcpcb *, int);
 void	 tcp_mss_update(struct tcpcb *);
+u_int	 tcp_hdrsz(struct tcpcb *);
 void	 tcp_mtudisc(struct inpcb *, int);
 void	 tcp_mtudisc_increase(struct inpcb *, int);
 #ifdef INET6
@@ -651,6 +665,7 @@ void	 syn_cache_reset(struct sockaddr *, struct sockaddr *,
 int	 syn_cache_respond(struct syn_cache *, struct mbuf *);
 void	 syn_cache_timer(void *);
 void	 syn_cache_cleanup(struct tcpcb *);
+void	 syn_cache_reaper(void *);
 
 #endif /* _KERNEL */
 #endif /* _NETINET_TCP_VAR_H_ */

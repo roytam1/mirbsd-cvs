@@ -1,6 +1,7 @@
-/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.3 2005/03/31 23:45:42 tg Exp $ */
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.4 2005/04/09 13:25:02 tg Exp $ */
 /*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
+/*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_input.c,v 1.23 1996/02/13 23:43:44 christos Exp $	*/
 
 /*
@@ -1021,6 +1022,24 @@ after_listen:
 				tcpstat.tcps_rcvackbyte += acked;
 				ND6_HINT(tp);
 				sbdrop(&so->so_snd, acked);
+
+				/*
+				 * If we had a pending ICMP message that
+				 * referres to data that have just been 
+				 * acknowledged, disregard the recorded ICMP 
+				 * message.
+				 */
+				if ((tp->t_flags & TF_PMTUD_PEND) && 
+				    SEQ_GT(th->th_ack, tp->t_pmtud_th_seq))
+					tp->t_flags &= ~TF_PMTUD_PEND;
+
+				/*
+				 * Keep track of the largest chunk of data 
+				 * acknowledged since last PMTU update
+				 */
+				if (tp->t_pmtud_mss_acked < acked)
+					tp->t_pmtud_mss_acked = acked;
+
 				tp->snd_una = th->th_ack;
 #if defined(TCP_SACK) || defined(TCP_ECN)
 				/*
@@ -1813,6 +1832,23 @@ trimthenstep6:
 		}
 		if (sb_notify(&so->so_snd))
 			sowwakeup(so);
+
+		/*
+		 * If we had a pending ICMP message that referred to data
+		 * that have just been acknowledged, disregard the recorded
+		 * ICMP message.
+		 */
+		if ((tp->t_flags & TF_PMTUD_PEND) && 
+		    SEQ_GT(th->th_ack, tp->t_pmtud_th_seq))
+			tp->t_flags &= ~TF_PMTUD_PEND;
+
+		/*
+		 * Keep track of the largest chunk of data acknowledged
+		 * since last PMTU update
+		 */
+		if (tp->t_pmtud_mss_acked < acked)
+		    tp->t_pmtud_mss_acked = acked;
+
 		tp->snd_una = th->th_ack;
 #ifdef TCP_ECN
 		/* sync snd_last with snd_una */
@@ -3120,6 +3156,9 @@ tcp_mss(tp, offer)
 
 	if (offer == -1) {
 		/* mss changed due to Path MTU discovery */
+		tp->t_flags &= ~TF_PMTUD_PEND;
+		tp->t_pmtud_mtu_sent = 0;
+		tp->t_pmtud_mss_acked = 0;
 		if (mss < tp->t_maxseg) {
 			/*
 			 * Follow suggestion in RFC 2414 to reduce the
@@ -3138,6 +3177,36 @@ tcp_mss(tp, offer)
 	tp->t_maxseg = mss;
 
 	return (offer != -1 ? mssopt : mss);
+}
+
+u_int
+tcp_hdrsz(struct tcpcb *tp)
+{
+	u_int hlen;
+
+	switch (tp->pf) {
+#ifdef INET6
+	case AF_INET6:
+		hlen = sizeof(struct ip6_hdr);
+		break;
+#endif
+	case AF_INET:
+		hlen = sizeof(struct ip);
+		break;
+	default:
+		hlen = 0;
+		break;
+	}
+	hlen += sizeof(struct tcphdr);
+
+	if ((tp->t_flags & (TF_REQ_TSTMP|TF_NOOPT)) == TF_REQ_TSTMP &&
+	    (tp->t_flags & TF_RCVD_TSTMP) == TF_RCVD_TSTMP)
+		hlen += TCPOLEN_TSTAMP_APPA;
+#ifdef TCP_SIGNATURE
+	if (tp->t_flags & TF_SIGNATURE)
+		hlen += TCPOLEN_SIGLEN;
+#endif
+	return (hlen);
 }
 
 /*
@@ -3303,6 +3372,7 @@ do {									\
 
 #define	SYN_CACHE_RM(sc)						\
 do {									\
+	(sc)->sc_flags |= SCF_DEAD;					\
 	TAILQ_REMOVE(&tcp_syn_cache[(sc)->sc_bucketidx].sch_bucket,	\
 	    (sc), sc_bucketq);						\
 	(sc)->sc_tp = NULL;						\
@@ -3318,7 +3388,8 @@ do {									\
 		(void) m_free((sc)->sc_ipopts);				\
 	if ((sc)->sc_route4.ro_rt != NULL)				\
 		RTFREE((sc)->sc_route4.ro_rt);				\
-	pool_put(&syn_cache_pool, (sc));				\
+	timeout_set(&(sc)->sc_timer, syn_cache_reaper, (sc));		\
+	timeout_add(&(sc)->sc_timer, 0);				\
 } while (/*CONSTCOND*/0)
 
 struct pool syn_cache_pool;
@@ -3464,6 +3535,10 @@ syn_cache_timer(void *arg)
 	int s;
 
 	s = splsoftnet();
+	if (sc->sc_flags & SCF_DEAD) {
+		splx(s);
+		return;
+	}
 
 	if (__predict_false(sc->sc_rxtshift == TCP_MAXRXTSHIFT)) {
 		/* Drop it -- too many retransmissions. */
@@ -3494,6 +3569,18 @@ syn_cache_timer(void *arg)
 	SYN_CACHE_RM(sc);
 	SYN_CACHE_PUT(sc);
 	splx(s);
+}
+
+void
+syn_cache_reaper(void *arg)
+{
+	struct syn_cache *sc = arg;
+	int s;
+
+	s = splsoftnet();
+	pool_put(&syn_cache_pool, (sc));
+	splx(s);
+	return;
 }
 
 /*

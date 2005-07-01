@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.2 2005/03/06 21:28:21 tg Exp $	*/
-/*	$OpenBSD: tcp_subr.c,v 1.80 2004/05/07 14:42:27 millert Exp $	*/
+/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.3 2005/03/31 23:45:43 tg Exp $	*/
+/*	$OpenBSD: tcp_subr.c,v 1.85 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
 /*
@@ -307,8 +307,8 @@ tcp_template(tp)
 		}
 		break;
 #endif /* INET6 */
-    default:
-	return (NULL);
+	default:
+		return (NULL);
 	}
 
 	th->th_sport = inp->inp_lport;
@@ -414,8 +414,8 @@ tcp_respond(tp, template, m, ack, seq, flags)
 			xchg(ti->ti_dst.s_addr, ti->ti_src.s_addr, u_int32_t);
 			th = (void *)((caddr_t)ti + sizeof(struct ip));
 			break;
-	default:
-	    return;
+		default:
+			return;
 		}
 		xchg(th->th_dport, th->th_sport, u_int16_t);
 #undef xchg
@@ -432,8 +432,8 @@ tcp_respond(tp, template, m, ack, seq, flags)
 		tlen += sizeof (struct tcpiphdr);
 		th = (struct tcphdr *)((caddr_t)ti + sizeof(struct ip));
 		break;
-    default:
-	return;
+	default:
+		return;
 	}
 
 	m->m_len = tlen;
@@ -507,6 +507,7 @@ tcp_newtcpcb(struct inpcb *inp)
 	TCP_INIT_DELACK(tp);
 	for (i = 0; i < TCPT_NTIMERS; i++)
 		TCP_TIMER_INIT(tp, i);
+	timeout_set(&tp->t_reap_to, tcp_reaper, tp);
 
 #ifdef TCP_SACK
 	tp->sack_enable = tcp_do_sack;
@@ -525,6 +526,10 @@ tcp_newtcpcb(struct inpcb *inp)
 	    TCPTV_MIN, TCPTV_REXMTMAX);
 	tp->snd_cwnd = TCP_MAXWIN << TCP_MAX_WINSHIFT;
 	tp->snd_ssthresh = TCP_MAXWIN << TCP_MAX_WINSHIFT;
+	
+	tp->t_pmtud_mtu_sent = 0;
+	tp->t_pmtud_mss_acked = 0;
+	
 #ifdef INET6
 	/* we disallow IPv4 mapped address completely. */
 	if ((inp->inp_flags & INP_IPV6) == 0)
@@ -605,12 +610,26 @@ tcp_close(struct tcpcb *tp)
 #endif
 	if (tp->t_template)
 		(void) m_free(tp->t_template);
-	pool_put(&tcpcb_pool, tp);
+
+	tp->t_flags |= TF_DEAD;
+	timeout_add(&tp->t_reap_to, 0);
+
 	inp->inp_ppcb = 0;
 	soisdisconnected(so);
 	in_pcbdetach(inp);
-	tcpstat.tcps_closed++;
 	return ((struct tcpcb *)0);
+}
+
+void
+tcp_reaper(void *arg)
+{
+	struct tcpcb *tp = arg;
+	int s;
+
+	s = splsoftnet();
+	pool_put(&tcpcb_pool, tp);
+	splx(s);
+	tcpstat.tcps_closed++;
 }
 
 int
@@ -820,6 +839,7 @@ tcp_ctlinput(cmd, sa, v)
 	tcp_seq seq;
 	extern int inetctlerrmap[];
 	void (*notify)(struct inpcb *, int) = tcp_notify;
+	u_int mtu;
 	int errno;
 
 	if (sa->sa_family != AF_INET)
@@ -851,11 +871,40 @@ tcp_ctlinput(cmd, sa, v)
 			icp = (struct icmp *)((caddr_t)ip -
 					      offsetof(struct icmp, icmp_ip));
 
-			/* Calculate new mtu and create corresponding route */
-			icmp_mtudisc(icp);
-		} else {
-			/* ignore if we don't have a matching connection */
-			return NULL;
+			/* 
+			 * If the ICMP message advertises a Next-Hop MTU
+			 * equal or larger than the maximum packet size we have
+			 * ever sent, drop the message.
+			 */
+			mtu = (u_int)ntohs(icp->icmp_nextmtu);
+			if (mtu >= tp->t_pmtud_mtu_sent)
+				return NULL;
+			if (mtu >= tcp_hdrsz(tp) + tp->t_pmtud_mss_acked) {
+				/* 
+				 * Calculate new MTU, and create corresponding
+				 * route (traditional PMTUD).
+				 */
+				tp->t_flags &= ~TF_PMTUD_PEND;
+				icmp_mtudisc(icp);    
+			} else {
+				/*
+				 * Record the information got in the ICMP
+				 * message; act on it later.
+				 * If we had already recorded an ICMP message,
+				 * replace the old one only if the new message
+				 * refers to an older TCP segment
+				 */
+				if (tp->t_flags & TF_PMTUD_PEND) {
+					if (SEQ_LT(tp->t_pmtud_th_seq, seq))
+						return NULL;
+				} else
+					tp->t_flags |= TF_PMTUD_PEND;
+				tp->t_pmtud_th_seq = seq;
+				tp->t_pmtud_nextmtu = icp->icmp_nextmtu;
+				tp->t_pmtud_ip_len = icp->icmp_ip.ip_len;
+				tp->t_pmtud_ip_hl = icp->icmp_ip.ip_hl;
+				return NULL;
+			}
 		}
 		notify = tcp_mtudisc, ip = 0;
 	} else if (cmd == PRC_MTUINC)

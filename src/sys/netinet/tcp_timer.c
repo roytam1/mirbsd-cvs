@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: tcp_timer.c,v 1.34 2003/12/10 07:22:43 itojun Exp $	*/
+/*	$OpenBSD: tcp_timer.c,v 1.37 2005/06/30 08:51:31 markus Exp $	*/
 /*	$NetBSD: tcp_timer.c,v 1.14 1996/02/13 23:44:09 christos Exp $	*/
 
 /*
@@ -53,6 +52,7 @@
 #include <netinet/tcp_timer.h>
 #include <netinet/tcp_var.h>
 #include <netinet/ip_icmp.h>
+#include <netinet/tcp_seq.h>
 
 int	tcp_keepidle;
 int	tcp_keepintvl;
@@ -113,6 +113,10 @@ tcp_delack(void *arg)
 	 */
 
 	s = splsoftnet();
+	if (tp->t_flags & TF_DEAD) {
+		splx(s);
+		return;
+	}
 	tp->t_flags |= TF_ACKNOW;
 	(void) tcp_output(tp);
 	splx(s);
@@ -192,9 +196,37 @@ tcp_timer_rexmt(void *arg)
 	struct tcpcb *tp = arg;
 	uint32_t rto;
 	int s;
-	long trs;
 
 	s = splsoftnet();
+	if (tp->t_flags & TF_DEAD) {
+		splx(s);
+		return;
+	}
+
+	if ((tp->t_flags & TF_PMTUD_PEND) && tp->t_inpcb &&
+	    SEQ_GEQ(tp->t_pmtud_th_seq, tp->snd_una) &&
+	    SEQ_LT(tp->t_pmtud_th_seq, (int)(tp->snd_una + tp->t_maxseg))) {
+		extern struct sockaddr_in icmpsrc;
+		struct icmp icmp;
+
+		tp->t_flags &= ~TF_PMTUD_PEND;
+
+		/* XXX create fake icmp message with relevant entries */
+		icmp.icmp_nextmtu = tp->t_pmtud_nextmtu;
+		icmp.icmp_ip.ip_len = tp->t_pmtud_ip_len;
+		icmp.icmp_ip.ip_hl = tp->t_pmtud_ip_hl;
+		icmpsrc.sin_addr = tp->t_inpcb->inp_faddr;
+		icmp_mtudisc(&icmp);
+
+		/*
+		 * Notify all connections to the same peer about
+		 * new mss and trigger retransmit.
+		 */
+		in_pcbnotifyall(&tcbtable, sintosa(&icmpsrc), EMSGSIZE,
+		    tcp_mtudisc);
+		splx(s);
+		return;
+	}
 
 #ifdef TCP_SACK
 	tcp_timer_freesack(tp);
@@ -210,10 +242,9 @@ tcp_timer_rexmt(void *arg)
 	rto = TCP_REXMTVAL(tp);
 	if (rto < tp->t_rttmin)
 		rto = tp->t_rttmin;
-	TCPT_RANGESET(trs,
+	TCPT_RANGESET(tp->t_rxtcur,
 	    rto * tcp_backoff[tp->t_rxtshift],
 	    tp->t_rttmin, TCPTV_REXMTMAX);
-	tp->t_rxtcur = trs;
 	TCP_TIMER_ARM(tp, TCPT_REXMT, tp->t_rxtcur);
 
 	/*
@@ -360,6 +391,11 @@ tcp_timer_persist(void *arg)
 	int s;
 
 	s = splsoftnet();
+	if ((tp->t_flags & TF_DEAD) ||
+            TCP_TIMER_ISARMED(tp, TCPT_REXMT)) {
+		splx(s);
+		return;
+	}
 	tcpstat.tcps_persisttimeo++;
 	/*
 	 * Hack: if the peer is dead/unreachable, we do not
@@ -393,6 +429,10 @@ tcp_timer_keep(void *arg)
 	int s;
 
 	s = splsoftnet();
+	if (tp->t_flags & TF_DEAD) {
+		splx(s);
+		return;
+	}
 
 	tcpstat.tcps_keeptimeo++;
 	if (TCPS_HAVEESTABLISHED(tp->t_state) == 0)
@@ -447,6 +487,10 @@ tcp_timer_2msl(void *arg)
 	int s;
 
 	s = splsoftnet();
+	if (tp->t_flags & TF_DEAD) {
+		splx(s);
+		return;
+	}
 
 #ifdef TCP_SACK
 	tcp_timer_freesack(tp);
