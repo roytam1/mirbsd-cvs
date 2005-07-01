@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: install.md,v 1.22 2004/03/03 02:19:26 krw Exp $
+# $MirOS: src/distrib/i386/common/install.md,v 1.2 2005/03/06 18:58:03 tg Exp $
+# $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
 # Copyright (c) 1996 The NetBSD Foundation, Inc.
@@ -44,55 +44,9 @@ MDFSTYPE=ntfs
 MDFSOPTS=ro
 MDTERM=wsvtg
 MDXAPERTURE=2
+MDSERIAL="pccom com tty0"
 ARCH=ARCH
-
-md_set_term() {
-    if [ -x /sbin/kbd ]; then
-	local _tables
-
-	ask_yn "Do you wish to select a keyboard encoding table?"
-	[[ $resp == n ]] && return
-
-	while : ; do
-		ask "Select your keyboard type: (P)C-AT/XT, (U)SB or 'done'" P
-		case $resp in
-		P*|p*)  _tables="be br de dk es fr it jp lt no pt ru sf sg sv ua uk us"
-			;;
-		U*|u*)	_tables="br de dk es fr it jp no sf sg sv uk us"
-			;;
-		done)	;;
-		*)	echo "'$resp' is not a valid keyboard type."
-			resp=
-			continue
-			;;
-		esac
-		break;
-	done
-
-	[ -z "$_tables" ] && return
-
-	while : ; do
-		cat <<__EOT
-The available keyboard encoding tables are:
-
-	${_tables}
-
-__EOT
-		ask "Table name? (or 'done')" us
-		case $resp in
-		done)	;;
-		*)	if kbd $resp ; then
-				echo $resp >/tmp/kbdtype
-			else
-				echo "'${resp}' is not a valid table name."
-				continue
-			fi
-			;;
-		esac
-		break;
-	done
-    fi
-}
+MDDISKDEVS='/^\([sw]d\)*\(raid\)*\(ccd\)*[0-9][0-9]* /s/ .*//p'
 
 md_installboot() {
 	echo Installing boot block...
@@ -121,7 +75,7 @@ md_prep_fdisk() {
 	ask_yn "Do you want to use *all* of $_disk for MirBSD?"
 	if [[ $resp == y ]]; then
 		echo -n "Putting all of $_disk into an active MirBSD MBR partition (type 27)..."
-		fdisk -ef /nonexist ${_disk} <<__EOT >/dev/null
+		fdisk -ef /.nex ${_disk} <<__EOT >/dev/null
 r
 u
 w
@@ -134,9 +88,9 @@ __EOT
 	# Manually configure the MBR.
 	cat <<__EOT
 
-You will now create at least a single MBR partition to contain the disklabel.
-This *PRIMARY* partition must have an ID of 27 hex (or 0xA9 for compatibility
-reasons) and NOT overlap other partitions. You can create other MBR partitions,
+You will now create a single MBR partition to contain the disklabel. This
+partition must have an id of 27; must *NOT* overlap other partitions; and must
+be marked as the only active partition. You can create other MBR partitions,
 primary or extended ones, to contain the filesystems, but these must *NOT* be
 of type 27, A6, A5 or A9. It is recommended they be of type DB (CP/M-86), and
 they are only used to mark the space as USED for other operating systems that
@@ -159,20 +113,22 @@ __EOT
 
 md_prep_disklabel() {
 	local _disk=$1
+
 	md_prep_fdisk $_disk
+
 	cat <<__EOT
 
-You will now create a MirBSD disklabel inside the MirBSD MBR partition. The
-disklabel defines how MirBSD splits up the MBR partition (rather, the whole
-disk) into MirBSD slices in which filesystems and swap space are created.
+You will now create an MirBSD disklabel inside the MirBSD MBR partition.
+The disklabel defines how MirBSD splits up the whole disc into slices
+in which filesystems and swap space are created and other operating
+systems' filesystems are mapped.
 
 The offsets used in the disklabel are ABSOLUTE, i.e. relative to the
-start of the disk, NOT the start of the MirBSD MBR partition.
-
-If you have created a split space, i.e. one partition of type 27 and one or
-more partitions of type (e.g.) DB, use the command b<return>0<return>*<return>
-to enable using the entire disk for MirBSD. Be sure to create slices mapping
-the filesystems of any other operating systems in order to not overwrite them.
+start of the disk, NOT the start of the MirBSD MBR partition. If you
+have created a split space, i.e. one partition of type 27 and one or
+more partitions of type (e.g.) DB, use b<return>0<return>*<return>
+to enable using the entire disk for MirBSD. Be sure to create slices
+mapping all other operating systems' filesystems to not overwrite them.
 
 __EOT
 
