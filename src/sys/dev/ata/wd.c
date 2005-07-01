@@ -1,4 +1,4 @@
-/*	$OpenBSD: wd.c,v 1.40 2004/03/03 17:16:03 tedu Exp $ */
+/*	$OpenBSD: wd.c,v 1.42 2005/05/15 18:09:29 grange Exp $ */
 /*	$NetBSD: wd.c,v 1.193 1999/02/28 17:15:27 explorer Exp $ */
 
 /*
@@ -103,6 +103,8 @@
 #if 0
 #include "locators.h"
 #endif
+
+#define	LBA48_THRESHOLD		(0xfffffff)	/* 128GB / DEV_BSIZE */
 
 #define	WDIORETRIES_SINGLE 4	/* number of retries before single-sector */
 #define	WDIORETRIES	5	/* number of retries before giving up */
@@ -561,7 +563,8 @@ __wdstart(struct wd_softc *wd, struct buf *bp)
 	nblks = bp->b_bcount / wd->sc_dk.dk_label->d_secsize;
 	if ((wd->sc_flags & WDF_LBA48) &&
 	    /* use LBA48 only if really need */
-	    ((wd->sc_wdc_bio.blkno + nblks - 1 > 0xfffffff) || (nblks > 0xff)))
+	    ((wd->sc_wdc_bio.blkno + nblks - 1 > LBA48_THRESHOLD) ||
+	     (nblks > 0xff)))
 		wd->sc_wdc_bio.flags |= ATA_LBA48;
 	if (wd->sc_flags & WDF_LBA)
 		wd->sc_wdc_bio.flags |= ATA_LBA;
@@ -1271,7 +1274,8 @@ wd_flushcache(struct wd_softc *wd, int flags)
 	if (wd->drvp->ata_vers < 4) /* WDCC_FLUSHCACHE is here since ATA-4 */
 		return;
 	bzero(&wdc_c, sizeof(struct wdc_command));
-	wdc_c.r_command = WDCC_FLUSHCACHE;
+	wdc_c.r_command = (wd->sc_flags & WDF_LBA48 ? WDCC_FLUSHCACHE_EXT :
+	    WDCC_FLUSHCACHE);
 	wdc_c.r_st_bmask = WDCS_DRDY;
 	wdc_c.r_st_pmask = WDCS_DRDY;
 	if (flags != 0) {
