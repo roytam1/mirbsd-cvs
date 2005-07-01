@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcp_var.h,v 1.75 2005/06/30 08:51:31 markus Exp $	*/
+/*	$OpenBSD: tcp_var.h,v 1.68 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_var.h,v 1.17 1996/02/13 23:44:24 christos Exp $	*/
 
 /*
@@ -83,6 +83,7 @@ struct tcpcb {
 #define TF_DISABLE_ECN	0x00040000	/* disable ECN for this connection */
 #endif
 #define TF_REASSLOCK	0x00080000	/* reassembling or draining */
+#define TF_LASTIDLE	0x00100000	/* no outstanding ACK on last send */
 #define TF_DEAD		0x00200000	/* dead and to-be-released */
 #define TF_PMTUD_PEND	0x00400000	/* Path MTU Discovery pending */
 
@@ -189,6 +190,8 @@ struct tcpcb {
 	u_short	t_pmtud_ip_hl;		/* IP header length from ICMP payload */
 
 	int pf;
+
+	struct	timeout t_reap_to;	/* delayed cleanup timeout */
 };
 
 #define	intotcpcb(ip)	((struct tcpcb *)(ip)->inp_ppcb)
@@ -562,6 +565,7 @@ int	 tcp_attach(struct socket *);
 void	 tcp_canceltimers(struct tcpcb *);
 struct tcpcb *
 	 tcp_close(struct tcpcb *);
+void	 tcp_reaper(void *);
 int	 tcp_freeq(struct tcpcb *);
 #if defined(INET6) && !defined(TCP6)
 void	 tcp6_ctlinput(int, struct sockaddr *, void *);
@@ -657,6 +661,7 @@ void	 syn_cache_reset(struct sockaddr *, struct sockaddr *,
 int	 syn_cache_respond(struct syn_cache *, struct mbuf *);
 void	 syn_cache_timer(void *);
 void	 syn_cache_cleanup(struct tcpcb *);
+void	 syn_cache_reaper(void *);
 
 #endif /* _KERNEL */
 #endif /* _NETINET_TCP_VAR_H_ */

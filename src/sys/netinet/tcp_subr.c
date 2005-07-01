@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcp_subr.c,v 1.90 2005/06/30 08:51:31 markus Exp $	*/
+/*	$OpenBSD: tcp_subr.c,v 1.85 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
 /*
@@ -500,6 +500,7 @@ tcp_newtcpcb(struct inpcb *inp)
 	TCP_INIT_DELACK(tp);
 	for (i = 0; i < TCPT_NTIMERS; i++)
 		TCP_TIMER_INIT(tp, i);
+	timeout_set(&tp->t_reap_to, tcp_reaper, tp);
 
 #ifdef TCP_SACK
 	tp->sack_enable = tcp_do_sack;
@@ -602,12 +603,26 @@ tcp_close(struct tcpcb *tp)
 #endif
 	if (tp->t_template)
 		(void) m_free(tp->t_template);
-	pool_put(&tcpcb_pool, tp);
+
+	tp->t_flags |= TF_DEAD;
+	timeout_add(&tp->t_reap_to, 0);
+
 	inp->inp_ppcb = 0;
 	soisdisconnected(so);
 	in_pcbdetach(inp);
-	tcpstat.tcps_closed++;
 	return ((struct tcpcb *)0);
+}
+
+void
+tcp_reaper(void *arg)
+{
+	struct tcpcb *tp = arg;
+	int s;
+
+	s = splsoftnet();
+	pool_put(&tcpcb_pool, tp);
+	splx(s);
+	tcpstat.tcps_closed++;
 }
 
 int

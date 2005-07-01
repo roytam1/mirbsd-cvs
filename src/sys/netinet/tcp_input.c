@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcp_input.c,v 1.188 2005/06/30 08:51:31 markus Exp $	*/
+/*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_input.c,v 1.23 1996/02/13 23:43:44 christos Exp $	*/
 
 /*
@@ -3379,6 +3379,7 @@ do {									\
 
 #define	SYN_CACHE_RM(sc)						\
 do {									\
+	(sc)->sc_flags |= SCF_DEAD;					\
 	TAILQ_REMOVE(&tcp_syn_cache[(sc)->sc_bucketidx].sch_bucket,	\
 	    (sc), sc_bucketq);						\
 	(sc)->sc_tp = NULL;						\
@@ -3394,7 +3395,8 @@ do {									\
 		(void) m_free((sc)->sc_ipopts);				\
 	if ((sc)->sc_route4.ro_rt != NULL)				\
 		RTFREE((sc)->sc_route4.ro_rt);				\
-	pool_put(&syn_cache_pool, (sc));				\
+	timeout_set(&(sc)->sc_timer, syn_cache_reaper, (sc));		\
+	timeout_add(&(sc)->sc_timer, 0);				\
 } while (/*CONSTCOND*/0)
 
 struct pool syn_cache_pool;
@@ -3540,6 +3542,10 @@ syn_cache_timer(void *arg)
 	int s;
 
 	s = splsoftnet();
+	if (sc->sc_flags & SCF_DEAD) {
+		splx(s);
+		return;
+	}
 
 	if (__predict_false(sc->sc_rxtshift == TCP_MAXRXTSHIFT)) {
 		/* Drop it -- too many retransmissions. */
@@ -3570,6 +3576,18 @@ syn_cache_timer(void *arg)
 	SYN_CACHE_RM(sc);
 	SYN_CACHE_PUT(sc);
 	splx(s);
+}
+
+void
+syn_cache_reaper(void *arg)
+{
+	struct syn_cache *sc = arg;
+	int s;
+
+	s = splsoftnet();
+	pool_put(&syn_cache_pool, (sc));
+	splx(s);
+	return;
 }
 
 /*
