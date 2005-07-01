@@ -62,7 +62,7 @@ if [ -s "$startup" ]; then
 	fi
 else
 	if [ -f "$resources" ]; then
-		xrdb -load "$resources"
+		xrdb -undef -load "$resources"
 	fi
 	xterm &
 	twm

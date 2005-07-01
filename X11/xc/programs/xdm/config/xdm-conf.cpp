@@ -31,6 +31,9 @@ DisplayManager._0.authName:     MIT-MAGIC-COOKIE-1
 #ifdef XPM
 DisplayManager*loginmoveInterval:	10
 #endif /* XPM */
+!
+DisplayManager*xrdb: XRDB
+!
 ! SECURITY: do not listen for XDMCP or Chooser requests
 ! Comment out this line if you want to manage X terminals with xdm
 DisplayManager.requestPort:	0
