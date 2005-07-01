@@ -1,6 +1,16 @@
+$MirOS$
 $OpenBSD: patch-configure_in,v 1.7 2004/04/15 19:23:46 naddy Exp $
---- configure.in.orig	2004-02-23 21:40:22.000000000 +0000
-+++ configure.in	2004-06-29 13:09:21.000000000 +0000
+--- configure.in.orig	2004-02-23 22:40:22.000000000 +0100
++++ configure.in	2005-07-01 13:49:40.000000000 +0200
+@@ -73,7 +73,7 @@ LIBS="$LIBS $GTK_LIBS"
+ SM_LIBS=""
+ AC_CHECK_LIB(SM, SmcOpenConnection,[
+ AC_DEFINE(WITH_SM, , [Define if building with support for X11R6 session management])
+-SM_LIBS="-lSM -lICE"])
++SM_LIBS="-lSM -lICE"],, -lICE)
+ AC_SUBST(SM_LIBS)
+ LIBS=$LIBS_save
+ 
 @@ -432,7 +432,7 @@ then
  	*-*-freebsd*)
  	    AC_DEFINE(XMMS_CDROM_BSD,, [Define if cdrom access is in BSD style])

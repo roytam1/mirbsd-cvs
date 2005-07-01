@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.33 2004/05/24 13:17:40 robert Exp $
 
 COMMENT=		"Multimedia player for the X Window System"
@@ -7,11 +8,13 @@ COMMENT-mikmod=		"Mikmod input plugin for XMMS"
 COMMENT-mp3=		"MP3 input plugin for XMMS"
 
 VERSION=		1.2.10
+DASH_VER=		1
 DISTNAME=		xmms-${VERSION}
-PKGNAME-esd=		xmms-esd-${VERSION}
-PKGNAME-vorbis=		xmms-vorbis-${VERSION}
-PKGNAME-mikmod=		xmms-mikmod-${VERSION}
-PKGNAME-mp3=		xmms-mp3-${VERSION}
+PKGNAME=		${DISTNAME}-${DASH_VER}
+PKGNAME-esd=		xmms-esd-${VERSION}-${DASH_VER}
+PKGNAME-vorbis=		xmms-vorbis-${VERSION}-${DASH_VER}
+PKGNAME-mikmod=		xmms-mikmod-${VERSION}-${DASH_VER}
+PKGNAME-mp3=		xmms-mp3-${VERSION}-${DASH_VER}
 CATEGORIES=		audio
 HOMEPAGE=		http://www.xmms.org
 
