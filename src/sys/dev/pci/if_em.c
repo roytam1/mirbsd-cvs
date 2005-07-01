@@ -1018,7 +1018,7 @@ em_init_locked(struct em_softc *sc)
 		sc->num_tx_desc = EM_MIN_TXD;
 		sc->num_rx_desc = EM_MIN_RXD;
 	}
-
+	IFQ_SET_MAXLEN(&ifp->if_snd, sc->num_tx_desc - 1);
 
 #ifdef __FreeBSD__
         /* Get the latest mac address, User can use a LAA */
