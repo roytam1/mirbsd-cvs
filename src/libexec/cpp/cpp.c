@@ -11,7 +11,7 @@
 #include <paths.h>
 
 __SCCSID("@(#)cpp.c	1.22 11/7/90");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.2 2005/03/06 19:23:59 tg Exp $");
 
 /* C command
 /* written by John F. Reiser
@@ -157,6 +157,7 @@ int	passcom;	/* don't delete comments */
 int	incomment;	/* True if parsing a comment */
 STATIC	int rflag;	/* allow macro recursion */
 STATIC	int mflag;	/* generate makefile dependencies */
+int	uflag = 0;	/* -undef passed */
 STATIC	char *infile;	/* name of .o file to build dependencies from */
 STATIC 	FILE *mout;	/* file to place dependencies on */
 #define START 1
@@ -1166,6 +1167,9 @@ main(argc,argv)
 				case 't':
 				case '\0':
 					continue;
+				case 'u':
+					++uflag;
+					continue;
 				default: 
 					pperror("unknown flag %s", argv[i]);
 					continue;
@@ -1251,10 +1255,12 @@ main(argc,argv)
 	lneloc=ppsym("line");
 	identloc=ppsym("ident");	/* Sys 5r3 compatibility */
 	for (i=sizeof(macbit)/sizeof(macbit[0]); --i>=0; ) macbit[i]=0;
+	if (!uflag) {
 # if unix
-	ysysloc=stsym("unix");
+		ysysloc=stsym("unix");
 # endif
-	ysysloc=stsym(MACHINE);
+		ysysloc=stsym(MACHINE);
+	}
 	ulnloc=stsym ("__LINE__");
 	uflloc=stsym ("__FILE__");
 
