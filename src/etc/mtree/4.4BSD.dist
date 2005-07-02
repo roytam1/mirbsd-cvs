@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.2 2005/03/06 19:05:57 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.3 2005/04/10 20:40:01 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.165 2004/05/03 15:18:19 drahn Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -107,7 +107,7 @@ mtree
 ..
 
 # ./etc/ppp
-ppp		uname=root mode=0700
+ppp		uname=root mode=0750
 
 # ./etc/ppp/peers
 peers
