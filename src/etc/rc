@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/rc,v 1.6 2005/07/01 15:20:40 tg Exp $
+# $MirOS: src/etc/rc,v 1.7 2005/07/01 15:21:33 tg Exp $
 # $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -33,10 +33,8 @@ update_limit() {
 	for _suf in "" -cur -max; do
 		_new=$(getcap -f /etc/login.conf -s ${_lc}${_suf} daemon 2>/dev/null)
 		if [[ -n $_new ]]; then
-			if [[ $_new = infinity ]]; then
-				_new=unlimited
-			fi
-			case "$_suf" in
+			[[ $_new = infinity ]] && _new=unlimited
+			case "$_suf" {
 			-cur)
 				ulimit -S $_fl $_new
 				;;
@@ -47,7 +45,7 @@ update_limit() {
 				ulimit $_fl $_new
 				return
 				;;
-			esac
+			}
 		fi
 	done
 }
@@ -60,14 +58,14 @@ sysctl_conf() {
 	while [ $# -ge 1 ] ; do
 		sysctl $1
 		# update limits if needed
-		case $1 in
+		case $1 {
 		kern.maxproc=*)
 			update_limit -p maxproc
 			;;
 		kern.maxfiles=*)
 			update_limit -n openfiles
 			;;
-		esac
+		}
 		shift
 	done
 }
@@ -125,22 +123,23 @@ function _fsswap
 	_opt[$2]="$opt"
 	_rest[$2]="$rest"
 }
+
 function _fssort
 {
 	local i j k
 
 	let i=0
-	while [[ $i -lt $((_fstab-1)) ]]; do
+	while (( i < (_fstab - 1) )); do
 		let j=i
 		let k='i+1'
-		while [[ $k -lt $_fstab ]]; do
+		while (( k < _fstab )); do
 			if [[ ${_mp[k]} < ${_mp[j]} ]]; then
 				let j=k
 			fi
-			let k='k+1'
+			let k++
 		done
 		_fsswap $i $j
-		let i='i+1'
+		let i++
 	done
 }
 
@@ -156,12 +155,11 @@ trap : 3	# shouldn't be needed
 export HOME=/
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-if [[ $1 == shutdown ]]; then
+if [[ $1 = shutdown ]]; then
 	echo Received shutdown request.
 	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
-	    >/dev/null 2>&1
-	chmod 600 /var/db/host.random >/dev/null 2>&1
-	if [[ $? -eq 0 && -f /etc/rc.shutdown ]]; then
+	    >/dev/null 2>&1 && chmod 600 /var/db/host.random \
+	    >/dev/null 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -172,16 +170,10 @@ if [[ $1 == shutdown ]]; then
 			if=${hn#/etc/hostname.}
 			test "$if" = "carp[0-9]*" && continue
 
-			ifconfig $if >/dev/null 2>&1
-			if [[ $? != 0 ]]; then
-				ifconfig $if down
-			fi
+			ifconfig $if >/dev/null 2>&1 && ifconfig $if down
 		done
 
-		if [[ $powerdown == YES ]]; then
-			exit 2
-		fi
-
+		[[ $powerdown = YES ]] && exit 2
 	else
 		echo single user: not running /etc/rc.shutdown
 	fi
@@ -189,15 +181,12 @@ if [[ $1 == shutdown ]]; then
 fi
 
 # Configure ccd devices.
-if [[ -f /etc/ccd.conf ]]; then
-	ccdconfig -C
-fi
+[[ -f /etc/ccd.conf ]] && ccdconfig -C
 
 # Configure raid devices.
 for dev in 0 1 2 3 4 5 6 7; do
-	if [[ -f /etc/raid${dev}.conf ]]; then
-		raidctl -c /etc/raid${dev}.conf raid$dev
-	fi
+	[[ -f /etc/raid${dev}.conf ]] && raidctl \
+	    -c /etc/raid${dev}.conf raid$dev
 done
 
 # Check parity on raid devices.
@@ -218,7 +207,7 @@ while read -p _fdev _fmp _ffstype _fopt _frest; do
 	_fstype[_fstab]="$_ffstype"
 	_opt[_fstab]="${_fopt:-rw}"
 	_rest[_fstab]="$_frest"
-	let _fstab='_fstab+1'
+	let _fstab++
 done
 _fssort
 
@@ -226,7 +215,7 @@ _fssort
 let i=0
 [[ $softdrives_ide = NO ]] && softdrives_ide=""
 while [[ $i -lt $_fstab ]]; do
-	if [[ ${_dev[i]} = /dev/wd+([0-9])[a-p] ]]; them
+	if [[ ${_dev[i]} = /dev/wd+([0-9])[a-p] ]]; then
 		_fdev="${_dev[i]#/dev/}"
 		softdrives_ide="$softdrives_ide ${_fdev%[a-p]}"
 	fi
@@ -235,7 +224,7 @@ done
 
 # Needed for softdep to work correctly (SCSI drives, too!)
 if [[ -n $softdrives_ide ]]; then
-	echo -n "Disabling HDD hardware write caches..."
+	echo -n Disabling HDD hardware write caches...
 	_flags=""
 	set -o noglob
 	for drv in $softdrives_ide; do
@@ -258,9 +247,9 @@ fi
 
 # Check filesystems
 if [[ -e /fastboot ]]; then
-	echo "Fast boot: skipping disk checks."
-elif [[ $1 == autoboot ]]; then
-	echo "Automatic boot in progress: starting file system checks."
+	echo Fast boot: skipping disk checks.
+elif [[ $1 = autoboot ]]; then
+	echo Automatic boot in progress: starting file system checks.
 	fsck -p
 	case $? {
 	0)
@@ -269,7 +258,7 @@ elif [[ $1 == autoboot ]]; then
 		exit 1
 		;;
 	4)
-		echo "Rebooting..."
+		echo Rebooting...
 		reboot
 		echo "Reboot failed; help!"
 		exit 1
@@ -279,7 +268,7 @@ elif [[ $1 == autoboot ]]; then
 		exit 1
 		;;
 	12)
-		echo "Boot interrupted."
+		echo Boot interrupted.
 		exit 1
 		;;
 	130)
@@ -293,12 +282,12 @@ elif [[ $1 == autoboot ]]; then
 	}
 fi
 
-trap "echo 'Boot interrupted.'; exit 1" 3
+trap "echo Boot interrupted.; exit 1" 3
 
 umount -a >/dev/null 2>&1
 let i=0
-while [[ $i -lt $_fstab ]]; do
-	if [[ ${_mp[i]} == / ]]; then
+while (( i < _fstab )); do
+	if [[ ${_mp[i]} = / ]]; then
 		mount -uwo "${_opt[i]}" "${_dev[i]}" / >/dev/null 2>&1
 		if [[ $? -ne 0 ]]; then
 			case "${_opt[i]}" {
@@ -319,7 +308,7 @@ while [[ $i -lt $_fstab ]]; do
 		xx*)
 			;;	# ignore totally
 		*)
-			if [[ ${_fstype[i]} == ffs ]]; then
+			if [[ ${_fstype[i]} = ffs ]]; then
 				mount -t ffs -o "${_opt[i]}" "${_dev[i]}" \
 					"${_mp[i]}" >/dev/null 2>&1
 				if [[ $? -ne 0 ]]; then
@@ -344,15 +333,19 @@ while [[ $i -lt $_fstab ]]; do
 	let i++
 done
 mount -a -t nonfs
+# root on nfs may require this
+_flags="$(mount 2>/dev/null | fgrep ' on / ' 2>/dev/null)"
+[[ -z $_flags || $_flags = *\(*read-only* ]] && mount -uw /
+# root is now writable
 rm -f /fastboot
 
 # set flags on ttys.  (do early, in case they use tty for SLIP in netstart)
-echo 'setting tty flags'
+echo setting tty flags
 ttyflags -a
 
-if [[ -f /sbin/kbd && -f /etc/kbdtype ]]; then
+if [[ -x /sbin/kbd && -s /etc/kbdtype ]]; then
 	[[ -f /etc/wsconsctl.conf ]] && \
-	    echo "warning: better use wsconsctl.conf instead of /etc/kbdtype!"
+	    echo warning: better use wsconsctl.conf instead of /etc/kbdtype!
 	kbd $(</etc/kbdtype)
 fi
 
@@ -386,7 +379,7 @@ sysctl_conf
 mixerctl_conf
 
 # set hostname, turn on network
-echo 'starting network'
+echo starting network
 if [ -f /etc/resolv.conf.save ]; then
 	mv /etc/resolv.conf.save /etc/resolv.conf
 	touch /etc/resolv.conf
@@ -395,19 +388,23 @@ fi
 . /etc/netstart
 
 # load arp tables
-if [[ $arptables == YES && -e /etc/arp.conf ]]; then
-	echo 'Setting static ARP table entries'
+if [[ $arptables = YES && -s /etc/arp.conf ]]; then
+	echo Setting static ARP table entries
 	/usr/sbin/arp -f /etc/arp.conf
 fi
 
-if [[ $pf != NO ]]; then
-	if [[ -f $pf_rules ]]; then
-		pfctl -f "$pf_rules"
-	fi
-fi
+[[ $pf != NO && -s $pf_rules ]] && pfctl -f "$pf_rules"
 
-mount /usr >/dev/null 2>&1
-mount /var >/dev/null 2>&1
+# ensure /usr and /var are mounted, even if marked noauto
+let i=0
+while (( i < _fstab )); do
+	if [[ ${_mp[i]} = /@(usr|var) ]]; then
+		_flags="$(mount 2>/dev/null \
+		    | fgrep " on ${_mp[i]} " 2>/dev/null)"
+		[[ -z $_flags ]] && mount ${_mp[i]} >/dev/null 2>&1
+	fi
+	let i++
+done
 
 # read old random seed; if there's no /var/db/host.random, make
 # one through /dev/urandom; else reset seed file anyway so that
@@ -421,13 +418,13 @@ chmod 600 /var/db/host.random >/dev/null 2>&1
 rm -f /etc/nologin
 rm -f /var/spool/lock/LCK.*
 rm -f /var/spool/uucp/STST/*
-(cd /var/run && { rm -rf -- *; install -c -m 664 -g utmp /dev/null utmp; })
-(cd /var/authpf && rm -rf -- *)
+rm -rf /var/{run,authpf}/*
+install -c -m 664 -g utmp /dev/null /var/run/utmp
 
 # save a copy of the boot messages
 dmesg >/var/run/dmesg.boot
 
-echo 'starting system logger'
+echo starting system logger
 rm -f /dev/log
 if [[ -d /var/empty ]]; then
 	rm -f /var/empty/dev/log
@@ -445,14 +442,14 @@ fi
 # $isakmpd_flags is imported from /etc/rc.conf;
 # If $isakmpd_flags == NO, isakmpd isn't run.
 if [[ $isakmpd_flags != NO ]]; then
-	echo 'starting isakmpd';	isakmpd $isakmpd_flags
+	echo starting isakmpd;		isakmpd $isakmpd_flags
 fi
 
-echo -n 'starting rpc daemons:'
+echo -n starting rpc daemons:
 
 # $portmap is imported from /etc/rc.conf;
 # if $portmap == YES, the portmapper is started.
-if [[ $portmap == YES ]]; then
+if [[ $portmap = YES ]]; then
 	echo -n ' portmap';		portmap
 else
 	nfs_server=NO
@@ -460,13 +457,13 @@ fi
 
 # $nfs_server is imported from /etc/rc.conf;
 # if $nfs_server == YES, the machine is setup for being an nfs server
-if [[ $nfs_server == YES && -s /etc/exports && \
+if [[ $nfs_server = YES && -s /etc/exports && \
     $(sed -e '/^#/d' </etc/exports | wc -l) -ne 0 ]]; then
 	rm -f /var/db/mountdtab
 	echo -n >/var/db/mountdtab
 	echo -n ' mountd';		mountd
 	echo -n ' nfsd';		nfsd $nfsd_flags
-	if [[ $lockd == YES ]]; then
+	if [[ $lockd = YES ]]; then
 		echo -n ' rpc.lockd';	rpc.lockd
 	fi
 fi
@@ -486,7 +483,7 @@ if [[ $ntpd_flags != NO ]]; then
 	echo -n ' ntpd';		ntpd $ntpd_flags
 fi
 
-echo '.'
+echo .
 
 mount -a -t nfs
 
@@ -494,48 +491,43 @@ swapctl -A -t noblk
 
 # /var/crash should be a directory or a symbolic link
 # to the crash directory if core dumps are to be saved.
-if [[ -d /var/crash ]]; then
-	savecore ${savecore_flags} /var/crash
-fi
+[[ -d /var/crash ]] && savecore ${savecore_flags} /var/crash
 
-if [[ $check_quotas == YES ]]; then
-	echo -n 'checking quotas:'
+if [[ $check_quotas = YES ]]; then
+	echo -n 'checking quotas: '
 	quotacheck -a
-	echo ' done.'
+	echo done.
 	quotaon -a
 fi
 
 # build ps databases
-echo -n 'building ps databases:'
+echo -n building ps databases:
 echo -n " kvm"
 kvm_mkdb
 echo -n " dev"
 dev_mkdb
-echo "."
+echo .
 
 chmod 666 /dev/tty[pqrstuvwxyzPQRST]*
 chown root:wheel /dev/tty[pqrstuvwxyzPQRST]*
 
 # check the password temp/lock file
-if [[ -f /etc/ptmp ]]; then
-	logger -s -p auth.err \
-	'password file may be incorrect -- /etc/ptmp exists'
-fi
+[[ -f /etc/ptmp ]] && logger -s -p auth.err \
+    'password file may be incorrect -- /etc/ptmp exists'
 
 echo clearing /tmp
-
-if mount 2>&1 | grep -F " on /tmp" >/dev/null 2>&1; then
-	# prune quickly with one rm, then use find to clean up /tmp/[lq]*
-	# (not needed with mfs /tmp, but doesn't hurt there...)
-	(cd /tmp && rm -rf [a-km-pr-zA-Z]* &&
-	    find . ! -name . ! -name lost+found ! -name quota.user \
-		! -name quota.group -execdir rm -rf -- {} \; -type d -prune)
-else
+_flags="$(mount 2>/dev/null | fgrep " on /tmp" 2>/dev/null)"
+if [[ -z $_flags ]]; then
 	# clean up as usual on small systems
 	rm -rf /tmp
 	mkdir /tmp
 	chown 0:0 /tmp
 	chmod 01777 /tmp
+elif [[ $_flags != *@(type mfs)* ]]; then
+	# prune quickly with one rm, then use find to clean up /tmp/[lq]*
+	(cd /tmp && rm -rf [a-km-pr-zA-Z]* && \
+	    find . ! -name . ! -name lost+found ! -name quota.user \
+		! -name quota.group -execdir rm -rf -- {} \; -type d -prune)
 fi
 
 # create Unix sockets directories for X if needed and make sure they have
@@ -552,7 +544,7 @@ if [[ -d /usr/X11R6/lib ]]; then
 		elif [[ -e $d ]]; then
 			echo "Error: $d exists and isn't a directory."
 		else
-			mkdir -m 1777 $d
+			mkdir -p -m 1777 $d
 		fi
 	done
 fi
@@ -564,37 +556,30 @@ if [[ -n $securelevel ]]; then
 fi
 
 # patch /etc/motd
-if [[ ! -f /etc/motd ]]; then
-	install -c -o root -g wheel -m 664 /dev/null /etc/motd
-fi
-T=$(mktemp /tmp/_motd.XXXXXXXXXX)
-if [[ $? -eq 0 ]]; then
+[[ -f /etc/motd ]] || install -c -o root -g wheel -m 664 /dev/null /etc/motd
+if T=$(mktemp /tmp/_motd.XXXXXXXXXX); then
 	sysctl -n kern.version | sed 1q >$T
-	echo "" >>$T
+	echo >>$T
 	sed '1,/^$/d' </etc/motd >>$T
-	cmp -s $T /etc/motd || cp $T /etc/motd
+	cmp -s $T /etc/motd || install -c -o root -g wheel -m 664 $T /etc/motd
 	rm -f $T
 else
 	echo 'warning: mktemp(1) failed. Please check for possible reasons.'
 fi
 
 if [[ -f /var/account/acct ]]; then
-	echo 'turning on accounting';	accton /var/account/acct
+	echo turning on accounting;	accton /var/account/acct
 fi
 
 if [[ -f /sbin/ldconfig ]]; then
-	echo 'creating runtime link editor directory cache.'
-	if [[ -d /usr/local/lib ]]; then
-		shlib_dirs="/usr/local/lib $shlib_dirs"
-	fi
-	if [[ -d /usr/X11R6/lib ]]; then
-		shlib_dirs="/usr/X11R6/lib $shlib_dirs"
-	fi
+	echo creating runtime link editor directory cache.
+	[[ -d /usr/local/lib ]] && shlib_dirs="/usr/local/lib $shlib_dirs"
+	[[ -d /usr/X11R6/lib ]] && shlib_dirs="/usr/X11R6/lib $shlib_dirs"
 	ldconfig $shlib_dirs
 fi
 
-if [[ -x /usr/libexec/vi.recover && -e /var/tmp/vi.recover ]]; then
-	echo 'preserving editor files';	/usr/libexec/vi.recover
+if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
+	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
 if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
@@ -607,20 +592,19 @@ if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 	fi
 fi
 
-if [[ -d /var/anoncvs/anoncvs && -f /var/anoncvs/anoncvssh ]]; then
-	# Copy over /dev/{null,zero} into anoncvs chroot, it needs it
-	if [[ ! -c /var/anoncvs/anoncvs/dev/null \
-	    || ! -c /var/anoncvs/anoncvs/dev/zero ]]; then
-		(cd /dev; tar cf - null zero) \
-		    | (cd /var/anoncvs/anoncvs/dev; tar xpf -)
-	fi
-fi
+# Copy over /dev/{null,zero} into anoncvs chroot, it needs it
+[[ -d /var/anoncvs/anoncvs && -s /var/anoncvs/anoncvssh \
+    && ! ( -c /var/anoncvs/anoncvs/dev/null \
+    && -c /var/anoncvs/anoncvs/dev/zero ) ]] && \
+    pax -rw -pe /dev/{null,zero} /var/anoncvs/anoncvs
 
+# Generate all the RSA keys we might need
 if [[ ! -f /etc/ssl/private/default.key \
     || ! -f /etc/ssl/default.cer \
     || ! -f /etc/ssl/deflt-ca.cer ]]; then
 	echo -n "openssl: generating new host RSA key... "
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
+	# XXX 1024 is *weak*, even 2048 is less than minimum
 	if /usr/sbin/openssl genrsa -out /etc/ssl/private/default.key 1024 \
 	    >/dev/null 2>&1; then
 		chmod 600 /etc/ssl/private/default.key
@@ -652,12 +636,12 @@ echo -n starting network daemons:
 
 # $routed_flags are imported from /etc/rc.conf.
 # If $routed_flags == NO, routed isn't run.
+# Same for the other dæmons.
+
 if [[ $routed_flags != NO ]]; then
 	echo -n ' routed';		routed $routed_flags
 fi
 
-# $mrouted_flags is imported from /etc/rc.conf;
-# If $mrouted_flags == NO, then mrouted isn't run.
 if [[ $mrouted_flags != NO ]]; then
 	echo -n ' mrouted';		mrouted $mrouted_flags
 fi
@@ -670,35 +654,26 @@ if [[ $bgpd_flags != NO && -x /usr/sbin/bgpd ]]; then
 	echo -n ' bgpd';		/usr/sbin/bgpd $bgpd_flags
 fi
 
-# $dhcpd_flags is imported from /etc/rc.conf
-# If $dhcpd_flags == NO or /etc/dhcpd.conf doesn't exist, then dhcpd isn't run.
 if [[ $dhcpd_flags != NO && -f /etc/dhcpd.conf ]]; then
 	touch /var/db/dhcpd.leases
-	if [[ -f /etc/dhcpd.interfaces ]]; then
-		dhcpd_ifs=$(stripcom /etc/dhcpd.interfaces)
-	fi
+	[[ -f /etc/dhcpd.interfaces ]] && \
+	    dhcpd_ifs=$(stripcom /etc/dhcpd.interfaces)
 	_flags="$dhcpd_flags $dhcpd_ifs"
 	echo -n ' dhcpd';		/usr/sbin/dhcpd $_flags
 fi
 
 if ifconfig lo0 inet6 >/dev/null 2>&1; then
 	fw=$(sysctl -n net.inet6.ip6.forwarding)
-	if [[ $fw == 0 ]]; then
-		# $rtsold_flags is imported from /etc/rc.conf;
-		# If $rtsold_flags == NO, then rtsold isn't run.
+	if [[ $fw = 0 ]]; then
 		if [[ $rtsold_flags != NO ]]; then
 			echo -n ' rtsold'
 			/usr/sbin/rtsold $rtsold_flags
 		fi
 	else
-		# $route6d_flags is imported from /etc/rc.conf;
-		# If $route6d_flags == NO, then route6d isn't run.
 		if [[ $route6d_flags != NO ]]; then
 			echo -n ' route6d'
 			/usr/sbin/route6d $route6d_flags
 		fi
-		# $rtadvd_flags is imported from /etc/rc.conf;
-		# If $rtadvd_flags == NO, then rtadvd isn't run.
 		if [[ $rtadvd_flags != NO ]]; then
 			echo -n ' rtadvd'
 			/usr/sbin/rtadvd $rtadvd_flags
@@ -706,12 +681,10 @@ if ifconfig lo0 inet6 >/dev/null 2>&1; then
 	fi
 fi
 
-# $rwhod is imported from /etc/rc.conf;
 # if $rwhod == YES, rwhod is run.
-if [[ $rwhod == YES ]]; then
+if [[ $rwhod = YES ]]; then
 	echo -n ' rwhod';		rwhod
 fi
-
 
 if [[ $lpd_flags != NO ]]; then
 	echo -n ' printer';		lpd $lpd_flags
@@ -741,7 +714,7 @@ if [[ $identd_flags != NO ]]; then
 	echo -n ' identd';		/usr/libexec/identd $identd_flags
 fi
 
-if [[ $inetd == YES && -e /etc/inetd.conf ]]; then
+if [[ $inetd = YES && -s /etc/inetd.conf ]]; then
 	echo -n ' inetd';		inetd
 fi
 
@@ -750,9 +723,7 @@ if [[ $sshd_flags != NO ]]; then
 fi
 
 if [[ $spamd_flags != NO ]]; then
-	if [[ $spamd_grey != NO ]]; then
-		spamd_flags="${spamd_flags} -g"
-	fi
+	[[ $spamd_grey != NO ]] && spamd_flags="${spamd_flags} -g"
 	echo -n ' spamd';		eval /usr/libexec/spamd ${spamd_flags}
 	/usr/libexec/spamd-setup
 	if [[ $spamd_grey != NO ]]; then
@@ -761,21 +732,18 @@ if [[ $spamd_flags != NO ]]; then
 	fi
 fi
 
-# $rarpd_flags is imported from /etc/rc.conf;
 # If $rarpd_flags == NO or /etc/ethers doesn't exist, then
 # rarpd isn't run.
 if [[ $rarpd_flags != NO && -s /etc/ethers ]]; then
 	echo -n ' rarpd';		rarpd $rarpd_flags
 fi
 
-# $bootparamd_flags is imported from /etc/rc.conf;
 # If $bootparamd_flags == NO or /etc/bootparams doesn't exist, then
 # bootparamd isn't run.
 if [[ $bootparamd_flags != NO && -s /etc/bootparams ]]; then
 	echo -n ' rpc.bootparamd';	rpc.bootparamd $bootparamd_flags
 fi
 
-# $rbootd_flags is imported from /etc/rc.conf;
 # If $rbootd_flags == NO or /etc/rbootd.conf doesn't exist, then
 # rbootd isn't run.
 if [[ $rbootd_flags != NO && -s /etc/rbootd.conf ]]; then
@@ -786,12 +754,12 @@ if [[ $isdnd_flags != NO ]]; then
 	echo -n ' isdnd';		/usr/sbin/isdnd $isdnd_flags
 fi
 
-echo '.'
+echo .
 
 wsconsctl_conf
 
 if [[ $sshagent_autostart != NO ]]; then
-	echo 'Setting up ssh-agent directories...'
+	echo Setting up ssh-agent directories...
 	mkdir -m 0755 /tmp/.ssh-agent
 	chown root:daemon /tmp/.ssh-agent
 	for luser in $sshagent_autostart; do
@@ -804,9 +772,8 @@ fi
 [[ -f /etc/rc.local ]] && . /etc/rc.local
 
 echo -n standard daemons:
+# don't run daemon if $food_flags == NO or /usr/sbin/food doesn't exist
 
-# $apmd_flags is imported from /etc/rc.conf;
-# don't run daemon if $apmd_flags == NO or /usr/sbin/apmd doesn't exist
 if [[ $apmd_flags != NO && -x /usr/sbin/apmd ]]; then
 	echo -n ' apmd';	/usr/sbin/apmd $apmd_flags
 fi
@@ -825,17 +792,17 @@ fi
 
 echo -n ' cron';		cron
 
-echo '.'
+echo .
 
 date
 
 if [[ $wsmoused_flags != NO && -x /usr/sbin/wsmoused ]]; then
-	echo 'starting wsmoused...';	/usr/sbin/wsmoused $wsmoused_flags
+	echo starting wsmoused...;	/usr/sbin/wsmoused $wsmoused_flags
 fi
 
 # Alternatively, on some architectures, xdm may be started in /etc/ttys.
 if [[ $xdm_flags != NO && -x /usr/X11R6/bin/xdm ]]; then
-	echo 'starting xdm...';		/usr/X11R6/bin/xdm $xdm_flags
+	echo starting xdm...;		/usr/X11R6/bin/xdm $xdm_flags
 fi
 
 exit 0
