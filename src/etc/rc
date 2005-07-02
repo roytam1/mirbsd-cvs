@@ -1,11 +1,36 @@
-#!/bin/mksh
-# $MirOS: src/etc/rc,v 1.7 2005/07/01 15:21:33 tg Exp $
+# $MirOS: src/etc/rc,v 1.8 2005/07/02 11:28:30 tg Exp $
 # $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console
-# is the controlling terminal.
-# This script must be run with the korn shell as /bin/sh.
+# is the controlling terminal. This is called with _PATH_BSHELL.
+
+# Force a mirbsd korn shell
+case "x$KSH_VERSION" in
+*MIRBSD?KSH*)
+	unset KSH_TRY
+	;;
+x)
+	if test x"$KSH_TRY" = x"1"; then
+		echo "$0: FATAL: need mirbsdksh!"
+		exit 1
+	fi
+	KSH_TRY=1
+	export KSH_TRY
+	;;
+*)
+	if test x"$KSH_TRY" = x"1"; then
+		unset KSH_TRY
+	else
+		export KSH_TRY=1
+	fi
+	;;
+esac
+test x"$KSH_TRY" = x"1" && for x in mksh pdksh ksh93 ksh ksh88 ash sh; do
+	test -x /bin/$x && exec /bin/$x $0 "$@"
+done
+[[ $KSH_VERSION = @(@\(#\)MIRBSD KSH R)* ]] || \
+    echo "$0: WARNING: need mirbsdksh, not just any ksh!"
 
 # Subroutines (have to come first).
 
