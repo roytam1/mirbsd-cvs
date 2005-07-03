@@ -864,7 +864,7 @@ sys_open(p, v, retval)
 	struct flock lf;
 	struct nameidata nd;
 
-	fdplock(fdp);
+	fdplock(fdp, p);
 
 	if ((error = falloc(p, &fp, &indx)) != 0)
 		goto out;
@@ -1028,7 +1028,7 @@ sys_fhopen(p, v, retval)
 	if ((flags & O_CREAT))
 		return (EINVAL);
 
-	fdplock(fdp);
+	fdplock(fdp, p);
 	if ((error = falloc(p, &fp, &indx)) != 0) {
 		fp = NULL;
 		goto bad;
