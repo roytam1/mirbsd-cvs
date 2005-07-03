@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.32 2005/07/03 18:00:46 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.33 2005/07/03 18:26:27 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -311,7 +311,13 @@ old_archive_cmds='$AR $AR_FLAGS $oldlib$oldobjs$old_deplibs'
 old_postinstall_cmds='chmod 644 $oldlib'
 old_postuninstall_cmds=
 
-if test -n "$RANLIB"; then
+_lt_gnu_ar=no
+case $host_os in
+  mirbsd*)
+    _lt_gnu_ar=yes ;;
+esac
+
+test $_lt_gnu_ar = no && if test -n "$RANLIB"; then
   case $host_os in
   openbsd*)
     old_postinstall_cmds="\$RANLIB -t \$oldlib~$old_postinstall_cmds"
