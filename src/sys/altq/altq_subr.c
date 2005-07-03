@@ -851,8 +851,8 @@ read_machclk(void)
 	} else {
 		struct timeval tv;
 
-		microuptime(&tv);
-		val = (((u_int64_t)(tv.tv_sec) * 1000000
+		microtime(&tv);
+		val = (((u_int64_t)(tv.tv_sec - boottime.tv_sec) * 1000000
 		    + tv.tv_usec) << MACHCLK_SHIFT);
 	}
 	return (val);
