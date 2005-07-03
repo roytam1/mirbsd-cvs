@@ -220,7 +220,7 @@ struct ip6protosw inet6sw[] = {
 },
 #if NCARP > 0
 { SOCK_RAW,	&inet6domain,	IPPROTO_CARP,	PR_ATOMIC|PR_ADDR,
-  carp6_input,	rip6_output,	0,		rip6_ctloutput,
+  carp6_proto_input,	rip6_output,	0,		rip6_ctloutput,
   rip6_usrreq,
   0,		0,		0,		0,		carp_sysctl
 },

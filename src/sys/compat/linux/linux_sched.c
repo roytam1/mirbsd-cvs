@@ -1,4 +1,4 @@
-/*	$OpenBSD: linux_sched.c,v 1.3 2001/11/06 18:41:10 art Exp $	*/
+/*	$OpenBSD: linux_sched.c,v 1.5 2004/11/23 19:08:52 miod Exp $	*/
 /*	$NetBSD: linux_sched.c,v 1.6 2000/05/28 05:49:05 thorpej Exp $	*/
 
 /*-
@@ -96,7 +96,8 @@ linux_sys_clone(p, v, retval)
 	 * or down.  So, we pass a stack size of 0, so that the code
 	 * that makes this adjustment is a noop.
 	 */
-	return (fork1(p, sig, flags, SCARG(uap, stack), 0, NULL, NULL, retval));
+	return (fork1(p, sig, flags, SCARG(uap, stack), 0, NULL, NULL, retval,
+	    NULL));
 }
 
 int
@@ -272,7 +273,7 @@ linux_sys_sched_yield(cp, v, retval)
 	void *v;
 	register_t *retval;
 {
-	need_resched();
+	need_resched(curcpu());
 	return (0);
 }
 
