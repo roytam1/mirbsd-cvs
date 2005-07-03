@@ -3,9 +3,9 @@
  * (Modifications made here may easily be lost!)
  *
  * Created from the file:
- *	OpenBSD: vnode_if.src,v 1.24 2003/11/08 19:17:28 jmc Exp 
+ *	OpenBSD: vnode_if.src,v 1.27 2005/07/03 01:07:44 jaredy Exp 
  * by the script:
- *	OpenBSD: vnode_if.sh,v 1.13 2003/06/02 23:28:07 millert Exp 
+ *	OpenBSD: vnode_if.sh,v 1.14 2005/05/22 21:07:23 pedro Exp 
  */
 
 /*
@@ -379,15 +379,6 @@ struct vop_reallocblks_args {
 };
 extern struct vnodeop_desc vop_reallocblks_desc;
 int VOP_REALLOCBLKS(struct vnode *, struct cluster_save *);
-
-struct vop_whiteout_args {
-	struct vnodeop_desc *a_desc;
-	struct vnode *a_dvp;
-	struct componentname *a_cnp;
-	int a_flags;
-};
-extern struct vnodeop_desc vop_whiteout_desc;
-int VOP_WHITEOUT(struct vnode *, struct componentname *, int);
 
 struct vop_getextattr_args {
 	struct vnodeop_desc *a_desc;

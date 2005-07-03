@@ -1,4 +1,4 @@
-/*	$OpenBSD: vfs_syscalls.c,v 1.114 2004/07/13 21:04:29 millert Exp $	*/
+/*	$OpenBSD: vfs_syscalls.c,v 1.125 2005/06/17 20:39:14 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
 /*
@@ -66,17 +66,6 @@ static int change_dir(struct nameidata *, struct proc *);
 void checkdirs(struct vnode *);
 
 /*
- * Redirection info so we don't have to include the union fs routines in
- * the kernel directly.  This way, we can build unionfs as an LKM.  The
- * pointer gets filled in later, when we modload the LKM, or when the
- * compiled-in unionfs code gets initialized.  For now, we just set
- * it to a stub routine.
- */
-
-int (*union_check_p)(struct proc *, struct vnode **,
-    struct file *, struct uio, int *) = NULL;
-
-/*
  * Virtual File System System Calls
  */
 
@@ -107,7 +96,6 @@ sys_mount(p, v, retval)
 	struct vattr va;
 	struct nameidata nd;
 	struct vfsconf *vfsp;
-	struct timeval tv;
 
 	if (usermount == 0 && (error = suser(p, 0)))
 		return (error);
@@ -198,8 +186,10 @@ sys_mount(p, v, retval)
 		if (vp->v_mount->mnt_flag & MNT_NOEXEC)
 			SCARG(uap, flags) |= MNT_NOEXEC;
 	}
-	if ((error = vinvalbuf(vp, V_SAVE, p->p_ucred, p, 0, 0)) != 0)
+	if ((error = vinvalbuf(vp, V_SAVE, p->p_ucred, p, 0, 0)) != 0) {
+		vput(vp);
 		return (error);
+	}
 	if (vp->v_type != VDIR) {
 		vput(vp);
 		return (ENOTDIR);
@@ -269,18 +259,17 @@ update:
 	else if (mp->mnt_flag & MNT_RDONLY)
 		mp->mnt_flag |= MNT_WANTRDWR;
 	mp->mnt_flag &=~ (MNT_NOSUID | MNT_NOEXEC | MNT_NODEV |
-	    MNT_SYNCHRONOUS | MNT_UNION | MNT_ASYNC | MNT_SOFTDEP |
-	    MNT_NOATIME | MNT_FORCE);
+	    MNT_SYNCHRONOUS | MNT_ASYNC | MNT_SOFTDEP | MNT_NOATIME |
+	    MNT_FORCE);
 	mp->mnt_flag |= SCARG(uap, flags) & (MNT_NOSUID | MNT_NOEXEC |
-	    MNT_NODEV | MNT_SYNCHRONOUS | MNT_UNION | MNT_ASYNC |
-	    MNT_SOFTDEP | MNT_NOATIME | MNT_FORCE);
+	    MNT_NODEV | MNT_SYNCHRONOUS | MNT_ASYNC | MNT_SOFTDEP |
+	    MNT_NOATIME | MNT_FORCE);
 	/*
 	 * Mount the filesystem.
 	 */
 	error = VFS_MOUNT(mp, SCARG(uap, path), SCARG(uap, data), &nd, p);
 	if (!error) {
-		microtime(&tv);
-		mp->mnt_stat.f_ctime = tv.tv_sec;
+		mp->mnt_stat.f_ctime = time.tv_sec;
 	}
 	if (mp->mnt_flag & MNT_UPDATE) {
 		vrele(vp);
@@ -439,7 +428,6 @@ int
 dounmount(struct mount *mp, int flags, struct proc *p, struct vnode *olddp)
 {
 	struct vnode *coveredvp;
-	struct proc *p2;
 	int error;
 	int hadsyncer = 0;
 
@@ -455,7 +443,7 @@ dounmount(struct mount *mp, int flags, struct proc *p, struct vnode *olddp)
  	    (flags & MNT_FORCE))
  		error = VFS_UNMOUNT(mp, flags, p);
 	simple_lock(&mountlist_slock);
- 	if (error) {
+ 	if (error && error != EIO && !(flags & MNT_DOOMED)) {
  		if ((mp->mnt_flag & MNT_RDONLY) == 0 && hadsyncer)
  			(void) vfs_allocate_syncvnode(mp);
 		lockmgr(&mp->mnt_lock, LK_RELEASE | LK_INTERLOCK,
@@ -464,34 +452,11 @@ dounmount(struct mount *mp, int flags, struct proc *p, struct vnode *olddp)
 	}
 	CIRCLEQ_REMOVE(&mountlist, mp, mnt_list);
 	if ((coveredvp = mp->mnt_vnodecovered) != NULLVP) {
-		if (olddp) {
-			/* 
-			 * Try to put processes back in a real directory
-			 * after a forced unmount.
-			 * XXX We're not holding a ref on olddp, which may
-			 * change, so compare id numbers.
-			 */
-			LIST_FOREACH(p2, &allproc, p_list) {
-				struct filedesc *fdp = p2->p_fd;
-				if (fdp->fd_cdir &&
-				    fdp->fd_cdir->v_id == olddp->v_id) {
-					vrele(fdp->fd_cdir);
-					vref(coveredvp);
-					fdp->fd_cdir = coveredvp;
-				}
-				if (fdp->fd_rdir &&
-				    fdp->fd_rdir->v_id == olddp->v_id) {
-					vrele(fdp->fd_rdir);
-					vref(coveredvp);
-					fdp->fd_rdir = coveredvp;
-				}
-			}
-		}
 		coveredvp->v_mountedhere = NULL;
  		vrele(coveredvp);
  	}
 	mp->mnt_vfc->vfc_refcount--;
-	if (mp->mnt_vnodelist.lh_first != NULL)
+	if (!LIST_EMPTY(&mp->mnt_vnodelist))
 		panic("unmount: dangling vnode");
 	lockmgr(&mp->mnt_lock, LK_RELEASE | LK_INTERLOCK, &mountlist_slock, p);
 	free(mp, M_MOUNT);
@@ -899,7 +864,7 @@ sys_open(p, v, retval)
 	struct flock lf;
 	struct nameidata nd;
 
-	fdplock(fdp, p);
+	fdplock(fdp);
 
 	if ((error = falloc(p, &fp, &indx)) != 0)
 		goto out;
@@ -1063,7 +1028,7 @@ sys_fhopen(p, v, retval)
 	if ((flags & O_CREAT))
 		return (EINVAL);
 
-	fdplock(fdp, p);
+	fdplock(fdp);
 	if ((error = falloc(p, &fp, &indx)) != 0) {
 		fp = NULL;
 		goto bad;
@@ -1255,7 +1220,6 @@ sys_mknod(p, v, retval)
 	register struct vnode *vp;
 	struct vattr vattr;
 	int error;
-	int whiteout = 0;
 	struct nameidata nd;
 
 	if ((error = suser(p, 0)) != 0)
@@ -1272,7 +1236,6 @@ sys_mknod(p, v, retval)
 		VATTR_NULL(&vattr);
 		vattr.va_mode = (SCARG(uap, mode) & ALLPERMS) &~ p->p_fd->fd_cmask;
 		vattr.va_rdev = SCARG(uap, dev);
-		whiteout = 0;
 
 		switch (SCARG(uap, mode) & S_IFMT) {
 		case S_IFMT:	/* used by badsect to flag bad sectors */
@@ -1284,9 +1247,6 @@ sys_mknod(p, v, retval)
 		case S_IFBLK:
 			vattr.va_type = VBLK;
 			break;
-		case S_IFWHT:
-			whiteout = 1;
-			break;
 		default:
 			error = EINVAL;
 			break;
@@ -1294,15 +1254,7 @@ sys_mknod(p, v, retval)
 	}
 	if (!error) {
 		VOP_LEASE(nd.ni_dvp, p, p->p_ucred, LEASE_WRITE);
-		if (whiteout) {
-			error = VOP_WHITEOUT(nd.ni_dvp, &nd.ni_cnd, CREATE);
-			if (error)
-				VOP_ABORTOP(nd.ni_dvp, &nd.ni_cnd);
-			vput(nd.ni_dvp);
-		} else {
-			error = VOP_MKNOD(nd.ni_dvp, &nd.ni_vp,
-						&nd.ni_cnd, &vattr);
-		}
+		error = VOP_MKNOD(nd.ni_dvp, &nd.ni_vp, &nd.ni_cnd, &vattr);
 	} else {
 		VOP_ABORTOP(nd.ni_dvp, &nd.ni_cnd);
 		if (nd.ni_dvp == vp)
@@ -1448,46 +1400,6 @@ sys_symlink(p, v, retval)
 	error = VOP_SYMLINK(nd.ni_dvp, &nd.ni_vp, &nd.ni_cnd, &vattr, path);
 out:
 	pool_put(&namei_pool, path);
-	return (error);
-}
-
-/*
- * Delete a whiteout from the filesystem.
- */
-/* ARGSUSED */
-int
-sys_undelete(p, v, retval)
-	struct proc *p;
-	void *v;
-	register_t *retval;
-{
-	register struct sys_undelete_args /* {
-		syscallarg(const char *) path;
-	} */ *uap = v;
-	int error;
-	struct nameidata nd;
-
-	NDINIT(&nd, DELETE, LOCKPARENT|DOWHITEOUT, UIO_USERSPACE,
-	    SCARG(uap, path), p);
-	error = namei(&nd);
-	if (error)
-		return (error);
-
-	if (nd.ni_vp != NULLVP || !(nd.ni_cnd.cn_flags & ISWHITEOUT)) {
-		VOP_ABORTOP(nd.ni_dvp, &nd.ni_cnd);
-		if (nd.ni_dvp == nd.ni_vp)
-			vrele(nd.ni_dvp);
-		else
-			vput(nd.ni_dvp);
-		if (nd.ni_vp)
-			vrele(nd.ni_vp);
-		return (EEXIST);
-	}
-
-	VOP_LEASE(nd.ni_dvp, p, p->p_ucred, LEASE_WRITE);
-	if ((error = VOP_WHITEOUT(nd.ni_dvp, &nd.ni_cnd, DELETE)) != 0)
-		VOP_ABORTOP(nd.ni_dvp, &nd.ni_cnd);
-	vput(nd.ni_dvp);
 	return (error);
 }
 
@@ -2278,11 +2190,13 @@ sys_ftruncate(p, v, retval)
 	struct vattr vattr;
 	struct vnode *vp;
 	struct file *fp;
+	off_t len;
 	int error;
 
 	if ((error = getvnode(p->p_fd, SCARG(uap, fd), &fp)) != 0)
 		return (error);
-	if ((fp->f_flag & FWRITE) == 0) {
+	len = SCARG(uap, length);
+	if ((fp->f_flag & FWRITE) == 0 || len < 0) {
 		error = EINVAL;
 		goto bad;
 	}
@@ -2293,7 +2207,7 @@ sys_ftruncate(p, v, retval)
 		error = EISDIR;
 	else if ((error = vn_writechk(vp)) == 0) {
 		VATTR_NULL(&vattr);
-		vattr.va_size = SCARG(uap, length);
+		vattr.va_size = len;
 		error = VOP_SETATTR(vp, &vattr, fp->f_cred, p);
 	}
 	VOP_UNLOCK(vp, 0, p);
@@ -2556,7 +2470,6 @@ sys_getdirentries(p, v, retval)
 		goto bad;
 	}
 	vp = (struct vnode *)fp->f_data;
-unionread:
 	if (vp->v_type != VDIR) {
 		error = EINVAL;
 		goto bad;
@@ -2576,24 +2489,6 @@ unionread:
 	VOP_UNLOCK(vp, 0, p);
 	if (error)
 		goto bad;
-	if ((SCARG(uap, count) == auio.uio_resid) &&
-	    union_check_p &&
-	    (union_check_p(p, &vp, fp, auio, &error) != 0))
-		goto unionread;
-	if (error)
-		goto bad;
-
-	if ((SCARG(uap, count) == auio.uio_resid) &&
-	    (vp->v_flag & VROOT) &&
-	    (vp->v_mount->mnt_flag & MNT_UNION)) {
-		struct vnode *tvp = vp;
-		vp = vp->v_mount->mnt_vnodecovered;
-		VREF(vp);
-		fp->f_data = vp;
-		fp->f_offset = 0;
-		vrele(tvp);
-		goto unionread;
-	}
 	error = copyout(&loff, SCARG(uap, basep),
 	    sizeof(long));
 	*retval = SCARG(uap, count) - auio.uio_resid;
@@ -2650,7 +2545,7 @@ sys_revoke(p, v, retval)
 	if (p->p_ucred->cr_uid != vattr.va_uid &&
 	    (error = suser(p, 0)))
 		goto out;
-	if (vp->v_usecount > 1 || (vp->v_flag & (VALIASED | VLAYER)))
+	if (vp->v_usecount > 1 || (vp->v_flag & (VALIASED)))
 		VOP_REVOKE(vp, REVOKEALL);
 out:
 	vrele(vp);
@@ -2669,11 +2564,18 @@ getvnode(fdp, fd, fpp)
 	int fd;
 {
 	struct file *fp;
+	struct vnode *vp;
 
 	if ((fp = fd_getfile(fdp, fd)) == NULL)
 		return (EBADF);
+
 	if (fp->f_type != DTYPE_VNODE)
 		return (EINVAL);
+
+	vp = (struct vnode *)fp->f_data;
+	if (vp->v_type == VBAD)
+		return (EBADF);
+
 	FREF(fp);
 	*fpp = fp;
 
