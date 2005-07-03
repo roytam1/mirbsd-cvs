@@ -529,6 +529,7 @@ portal_getattr(v)
 	} */ *ap = v;
 	struct vnode *vp = ap->a_vp;
 	struct vattr *vap = ap->a_vap;
+	struct timeval tv;
 
 	bzero(vap, sizeof(*vap));
 	vattr_null(vap);
@@ -537,7 +538,8 @@ portal_getattr(v)
 	vap->va_fsid = vp->v_mount->mnt_stat.f_fsid.val[0];
 	vap->va_size = DEV_BSIZE;
 	vap->va_blocksize = DEV_BSIZE;
-	getnanotime(&vap->va_atime);
+	microtime(&tv);
+	TIMEVAL_TO_TIMESPEC(&tv, &vap->va_atime);
 	vap->va_mtime = vap->va_atime;
 	vap->va_ctime = vap->va_atime;
 	vap->va_gen = 0;
