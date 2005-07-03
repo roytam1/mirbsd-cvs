@@ -1,4 +1,4 @@
-/*	$OpenBSD: umass_scsi.c,v 1.7 2004/02/21 00:47:42 krw Exp $ */
+/*	$OpenBSD: umass_scsi.c,v 1.13 2005/05/25 21:12:54 krw Exp $ */
 /*	$NetBSD: umass_scsipi.c,v 1.9 2003/02/16 23:14:08 augustss Exp $	*/
 /*
  * Copyright (c) 2001 The NetBSD Foundation, Inc.
@@ -66,7 +66,6 @@ struct umass_scsi_softc {
 	struct scsi_link	sc_link;
 	struct scsi_adapter	sc_adapter;
 
-	usbd_status		sc_sync_status;
 	struct scsi_sense	sc_sense_cmd;
 };
 
@@ -100,6 +99,7 @@ umass_scsi_attach(struct umass_softc *sc)
 	scbus->sc_link.adapter_target = UMASS_SCSIID_HOST;
 	scbus->sc_link.luns = sc->maxlun + 1;
 	scbus->sc_link.flags &= ~SDEV_ATAPI;
+	scbus->sc_link.flags |= SDEV_UMASS;
 	scbus->sc_link.device = &umass_scsi_dev;
 
 	DPRINTF(UDMASS_USB, ("%s: umass_attach_bus: SCSI\n"
@@ -162,8 +162,7 @@ umass_scsi_setup(struct umass_softc *sc)
 	scbus->sc_link.adapter = &scbus->sc_adapter;
 	scbus->sc_link.adapter_softc = sc;
 	scbus->sc_link.openings = 1;
-	scbus->sc_link.quirks |= PQUIRK_ONLYBIG | PQUIRK_NOMODESENSE |
-		sc->sc_busquirks;
+	scbus->sc_link.quirks |= PQUIRK_ONLYBIG | sc->sc_busquirks;
 
 	return (scbus);
 }
@@ -173,16 +172,13 @@ umass_scsi_cmd(struct scsi_xfer *xs)
 {
 	struct scsi_link *sc_link = xs->sc_link;
 	struct umass_softc *sc = sc_link->adapter_softc;
-	struct umass_scsi_softc *scbus = (struct umass_scsi_softc *)sc->bus;
 
-	struct scsi_generic *cmd, trcmd;
+	struct scsi_generic *cmd;
 	int cmdlen, dir, s;
 
 #ifdef UMASS_DEBUG
 	microtime(&sc->tv);
 #endif
-
-	memset(&trcmd, 0, sizeof(trcmd));
 
 	DIF(UDMASS_UPPER, sc_link->flags |= SCSIDEBUG_LEVEL);
 
@@ -216,12 +212,6 @@ umass_scsi_cmd(struct scsi_xfer *xs)
 	cmd = xs->cmd;
 	cmdlen = xs->cmdlen;
 
-	if (cmd->opcode == MODE_SENSE &&
-	    (sc_link->quirks & SDEV_NOMODESENSE)) {
-		xs->error = XS_TIMEOUT;
-		goto done;
-	}
-
 	dir = DIR_NONE;
 	if (xs->datalen) {
 		switch (xs->flags & (SCSI_DATA_IN | SCSI_DATA_OUT)) {
@@ -241,28 +231,32 @@ umass_scsi_cmd(struct scsi_xfer *xs)
 	}
 
 	if (xs->flags & SCSI_POLL) {
-		/* Use sync transfer. XXX Broken! */
 		DPRINTF(UDMASS_SCSI, ("umass_scsi_cmd: sync dir=%d\n", dir));
+		usbd_set_polling(sc->sc_udev, 1);
 		sc->sc_xfer_flags = USBD_SYNCHRONOUS;
-		scbus->sc_sync_status = USBD_INVAL;
+		sc->polled_xfer_status = USBD_INVAL;
 		sc->sc_methods->wire_xfer(sc, sc_link->lun, cmd, cmdlen,
 					  xs->data, xs->datalen, dir,
-					  xs->timeout, 0, xs);
+					  xs->timeout, umass_scsi_cb, xs);
 		sc->sc_xfer_flags = 0;
 		DPRINTF(UDMASS_SCSI, ("umass_scsi_cmd: done err=%d\n",
-				      scbus->sc_sync_status));
-		switch (scbus->sc_sync_status) {
-		case USBD_NORMAL_COMPLETION:
-			xs->error = XS_NOERROR;
-			break;
-		case USBD_TIMEOUT:
-			xs->error = XS_TIMEOUT;
-			break;
-		default:
-			xs->error = XS_DRIVER_STUFFUP;
-			break;
+				      sc->polled_xfer_status));
+		if (xs->error == XS_NOERROR) {
+			switch (sc->polled_xfer_status) {
+			case USBD_NORMAL_COMPLETION:
+				xs->error = XS_NOERROR;
+				break;
+			case USBD_TIMEOUT:
+				xs->error = XS_TIMEOUT;
+				break;
+			default:
+				xs->error = XS_DRIVER_STUFFUP;
+				break;
+			}
 		}
-		goto done;
+		usbd_set_polling(sc->sc_udev, 0);
+		DPRINTF(UDMASS_SCSI, ("umass_scsi_cmd: done, error=%d\n",
+		    xs->error));
 	} else {
 		DPRINTF(UDMASS_SCSI,
 			("umass_scsi_cmd: async dir=%d, cmdlen=%d"
@@ -356,14 +350,13 @@ umass_scsi_cb(struct umass_softc *sc, void *priv, int residue, int status)
 		DPRINTF(UDMASS_CMD, ("umass_scsi_cb: status cmd failed for "
 		    "scsi op 0x%02x\n", xs->cmd->opcode));
 		/* fetch sense data */
+		sc->sc_sense = 1;
 		memset(&scbus->sc_sense_cmd, 0, sizeof(scbus->sc_sense_cmd));
 		scbus->sc_sense_cmd.opcode = REQUEST_SENSE;
 		scbus->sc_sense_cmd.byte2 = link->lun << SCSI_CMD_LUN_SHIFT;
 		scbus->sc_sense_cmd.length = sizeof(xs->sense);
 
 		cmdlen = sizeof(scbus->sc_sense_cmd);
-		if (sc->sc_cmd == UMASS_CPROTO_UFI) /* XXX */
-			cmdlen = UFI_COMMAND_LENGTH;
 		sc->sc_methods->wire_xfer(sc, link->lun,
 					  &scbus->sc_sense_cmd, cmdlen,
 					  &xs->sense, sizeof(xs->sense),
@@ -379,6 +372,9 @@ umass_scsi_cb(struct umass_softc *sc, void *priv, int residue, int status)
 		panic("%s: Unknown status %d in umass_scsi_cb",
 		      USBDEVNAME(sc->sc_dev), status);
 	}
+
+	if (xs->flags & SCSI_POLL)
+		return;
 
 	xs->flags |= ITSDONE;
 
@@ -405,20 +401,11 @@ umass_scsi_sense_cb(struct umass_softc *sc, void *priv, int residue,
 	DPRINTF(UDMASS_CMD,("umass_scsi_sense_cb: xs=%p residue=%d "
 		"status=%d\n", xs, residue, status));
 
+	sc->sc_sense = 0;
 	switch (status) {
 	case STATUS_CMD_OK:
 	case STATUS_CMD_UNKNOWN:
 		/* getting sense data succeeded */
-		if (xs->cmd->opcode == INQUIRY && (xs->resid < xs->datalen ||
-		    (sc->sc_quirks & UMASS_QUIRK_RS_NO_CLEAR_UA /* XXX */))) {
-			/*
-			 * Some drivers return SENSE errors even after INQUIRY.
-			 * The upper layer doesn't like that.
-			 */
-			xs->error = XS_NOERROR;
-			break;
-		}
-		/* XXX look at residue */
 		if (residue == 0 || residue == 14)/* XXX */
 			xs->error = XS_SENSE;
 		else
