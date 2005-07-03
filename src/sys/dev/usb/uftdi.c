@@ -1,4 +1,4 @@
-/*	$OpenBSD: uftdi.c,v 1.15 2004/04/09 16:54:35 deraadt Exp $ 	*/
+/*	$OpenBSD: uftdi.c,v 1.24 2005/05/24 03:26:05 pascoe Exp $ 	*/
 /*	$NetBSD: uftdi.c,v 1.14 2003/02/23 04:20:07 simonb Exp $	*/
 
 /*
@@ -65,8 +65,8 @@
 #include <dev/usb/uftdireg.h>
 
 #ifdef UFTDI_DEBUG
-#define DPRINTF(x)	if (uftdidebug) printf x
-#define DPRINTFN(n,x)	if (uftdidebug>(n)) printf x
+#define DPRINTF(x)	do { if (uftdidebug) printf x; } while (0)
+#define DPRINTFN(n,x)	do { if (uftdidebug>(n)) printf x; } while (0)
 int uftdidebug = 0;
 #else
 #define DPRINTF(x)
@@ -129,8 +129,12 @@ USB_MATCH(uftdi)
 {
 	USB_MATCH_START(uftdi, uaa);
 
-	if (uaa->iface != NULL)
+	if (uaa->iface != NULL) {
+		if (uaa->vendor == USB_VENDOR_FTDI &&
+		    (uaa->product == USB_PRODUCT_FTDI_SERIAL_2232C))
+			return (UMATCH_VENDOR_IFACESUBCLASS);
 		return (UMATCH_NONE);
+	}
 
 	DPRINTFN(20,("uftdi: vendor=0x%x, product=0x%x\n",
 		     uaa->vendor, uaa->product));
@@ -138,12 +142,31 @@ USB_MATCH(uftdi)
 	if (uaa->vendor == USB_VENDOR_FTDI &&
 	    (uaa->product == USB_PRODUCT_FTDI_SERIAL_8U100AX ||
 	     uaa->product == USB_PRODUCT_FTDI_SERIAL_8U232AM ||
-	     uaa->product == USB_PRODUCT_FTDI_LCD_MX200_USB ||
-	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA631_USB ||
-	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA632_USB ||
-	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA633_USB ||
-	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA634_USB))
+	     uaa->product == USB_PRODUCT_FTDI_SEMC_DSS20 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_LK202_24 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_LK204_24 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_MX200 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA_631 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA_632 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA_633 ||
+	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA_634))
 	    return (UMATCH_VENDOR_PRODUCT);
+	if (uaa->vendor == USB_VENDOR_SIIG2 &&
+	    (uaa->product == USB_PRODUCT_SIIG2_US2308))
+		return (UMATCH_VENDOR_PRODUCT);
+	if (uaa->vendor == USB_VENDOR_INTREPIDCS &&
+	    (uaa->product == USB_PRODUCT_INTREPIDCS_VALUECAN ||
+	     uaa->product == USB_PRODUCT_INTREPIDCS_NEOVI))
+		return (UMATCH_VENDOR_PRODUCT);
+	if (uaa->vendor == USB_VENDOR_BBELECTRONICS &&
+	    (uaa->product == USB_PRODUCT_BBELECTRONICS_USOTL4))
+		return (UMATCH_VENDOR_PRODUCT);
+	if (uaa->vendor == USB_VENDOR_FALCOM &&
+	    (uaa->product == USB_PRODUCT_FALCOM_TWIST))
+		 return (UMATCH_VENDOR_PRODUCT);
+	if (uaa->vendor == USB_VENDOR_SEALEVEL &&
+	    uaa->product == USB_PRODUCT_SEALEVEL_USBSERIAL)
+		return (UMATCH_VENDOR_PRODUCT);
 
 	return (UMATCH_NONE);
 }
@@ -163,20 +186,23 @@ USB_ATTACH(uftdi)
 
 	DPRINTFN(10,("\nuftdi_attach: sc=%p\n", sc));
 
-	/* Move the device into the configured state. */
-	err = usbd_set_config_index(dev, UFTDI_CONFIG_INDEX, 1);
-	if (err) {
-		printf("\n%s: failed to set configuration, err=%s\n",
-		       devname, usbd_errstr(err));
-		goto bad;
-	}
+	if (uaa->iface == NULL) {
+		/* Move the device into the configured state. */
+		err = usbd_set_config_index(dev, UFTDI_CONFIG_INDEX, 1);
+		if (err) {
+			printf("\n%s: failed to set configuration, err=%s\n",
+			       devname, usbd_errstr(err));
+			goto bad;
+		}
 
-	err = usbd_device2interface_handle(dev, UFTDI_IFACE_INDEX, &iface);
-	if (err) {
-		printf("\n%s: failed to get interface, err=%s\n",
-		       devname, usbd_errstr(err));
-		goto bad;
-	}
+		err = usbd_device2interface_handle(dev, UFTDI_IFACE_INDEX, &iface);
+		if (err) {
+			printf("\n%s: failed to get interface, err=%s\n",
+			       devname, usbd_errstr(err));
+			goto bad;
+		}
+	} else
+		iface = uaa->iface;
 
 	usbd_devinfo(dev, 0, devinfo, sizeof devinfo);
 	USB_ATTACH_SETUP;
@@ -187,34 +213,90 @@ USB_ATTACH(uftdi)
 	sc->sc_udev = dev;
 	sc->sc_iface = iface;
 
-	switch (uaa->product) {
-	case USB_PRODUCT_FTDI_SERIAL_8U100AX:
-		sc->sc_type = UFTDI_TYPE_SIO;
-		sc->sc_hdrlen = 1;
+	switch (uaa->vendor) {
+	case USB_VENDOR_FTDI:
+		switch (uaa->product) {
+		case USB_PRODUCT_FTDI_SERIAL_8U100AX:
+			sc->sc_type = UFTDI_TYPE_SIO;
+			sc->sc_hdrlen = 1;
+			break;
+
+		case USB_PRODUCT_FTDI_SEMC_DSS20:
+		case USB_PRODUCT_FTDI_SERIAL_8U232AM:
+		case USB_PRODUCT_FTDI_SERIAL_2232C:
+		case USB_PRODUCT_FTDI_LCD_LK202_24:
+		case USB_PRODUCT_FTDI_LCD_LK204_24:
+		case USB_PRODUCT_FTDI_LCD_MX200:
+		case USB_PRODUCT_FTDI_LCD_CFA_631:
+		case USB_PRODUCT_FTDI_LCD_CFA_632:
+		case USB_PRODUCT_FTDI_LCD_CFA_633:
+		case USB_PRODUCT_FTDI_LCD_CFA_634:
+		case USB_PRODUCT_SEALEVEL_USBSERIAL:
+			sc->sc_type = UFTDI_TYPE_8U232AM;
+			sc->sc_hdrlen = 0;
+			break;
+		
+		default:		/* Can't happen */
+			goto bad;
+		}
 		break;
 
-	case USB_PRODUCT_FTDI_SERIAL_8U232AM:
-	case USB_PRODUCT_FTDI_LCD_LK202_24_USB:
-	case USB_PRODUCT_FTDI_LCD_MX200_USB:
-	case USB_PRODUCT_FTDI_LCD_CFA631_USB:
-	case USB_PRODUCT_FTDI_LCD_CFA632_USB:
-	case USB_PRODUCT_FTDI_LCD_CFA633_USB:
-	case USB_PRODUCT_FTDI_LCD_CFA634_USB:
+	case USB_VENDOR_INTREPIDCS:
+		switch (uaa->product) {
+		case USB_PRODUCT_INTREPIDCS_VALUECAN:
+		case USB_PRODUCT_INTREPIDCS_NEOVI:
 		sc->sc_type = UFTDI_TYPE_8U232AM;
-		sc->sc_hdrlen = 0;
+			sc->sc_hdrlen = 0;
+			break;
+
+		default:                /* Can't happen */
+			goto bad;
+		}
 		break;
-	
-	default:		/* Can't happen */
-		goto bad;
-	}
+
+	case USB_VENDOR_SIIG2:
+		switch (uaa->product) {
+		case USB_PRODUCT_SIIG2_US2308:
+			sc->sc_type = UFTDI_TYPE_8U232AM;
+			sc->sc_hdrlen = 0;
+			break;
+
+		default:		/* Can't happen */
+			goto bad;
+		}
+		break;
+
+	case USB_VENDOR_BBELECTRONICS:
+		switch( uaa->product ){
+		case USB_PRODUCT_BBELECTRONICS_USOTL4:
+			sc->sc_type = UFTDI_TYPE_8U232AM;
+			sc->sc_hdrlen = 0;
+			break;
+		default:		/* Can't happen */
+			goto bad;
+		}
+		break;
+
+	case USB_VENDOR_FALCOM:
+		switch( uaa->product ){
+		case USB_PRODUCT_FALCOM_TWIST:
+			sc->sc_type = UFTDI_TYPE_8U232AM;
+			sc->sc_hdrlen = 0;
+			break;
+		default:		/* Can't happen */
+			goto bad;
+		}
+		break;
+	}		
+
 
 	uca.bulkin = uca.bulkout = -1;
 	for (i = 0; i < id->bNumEndpoints; i++) {
 		int addr, dir, attr;
 		ed = usbd_interface2endpoint_descriptor(iface, i);
 		if (ed == NULL) {
-			printf("%s: could not read endpoint descriptor"
-			       ": %s\n", devname, usbd_errstr(err));
+			printf("%s: could not read endpoint descriptor\n",
+			    devname);
 			goto bad;
 		}
 
@@ -241,7 +323,10 @@ USB_ATTACH(uftdi)
 		goto bad;
 	}
 
-	uca.portno = FTDI_PIT_SIOA;
+	if (uaa->iface == NULL)
+		uca.portno = FTDI_PIT_SIOA;
+	else
+		uca.portno = FTDI_PIT_SIOA + id->bInterfaceNumber;
 	/* bulkin, bulkout set above */
 	uca.ibufsize = UFTDIIBUFSIZE;
 	uca.obufsize = UFTDIOBUFSIZE - sc->sc_hdrlen;
@@ -474,6 +559,8 @@ uftdi_param(void *vsc, int portno, struct termios *t)
 		case 230400: rate = ftdi_8u232am_b230400; break;
 		case 460800: rate = ftdi_8u232am_b460800; break;
 		case 921600: rate = ftdi_8u232am_b921600; break;
+		case 2000000: rate = ftdi_8u232am_b2000000; break;
+		case 3000000: rate = ftdi_8u232am_b3000000; break;
 		default:
 			return (EINVAL);
 		}
