@@ -412,7 +412,7 @@ portal_open(v)
 		fdpunlock(p->p_fd);
 		error = soreceive(so, (struct mbuf **) 0, &auio,
 					&m, &cm, &flags);
-		fdplock(p->p_fd);
+		fdplock(p->p_fd, p);
 		if (error)
 			goto bad;
 
