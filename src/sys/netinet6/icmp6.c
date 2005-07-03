@@ -1841,8 +1841,8 @@ ni6_store_addrs(ni6, nni6, ifp0, resid)
 				ltime = ND6_INFINITE_LIFETIME;
 			else {
 				if (ifa6->ia6_lifetime.ia6t_expire >
-				    time_second)
-					ltime = htonl(ifa6->ia6_lifetime.ia6t_expire - time_second);
+				    time.tv_sec)
+					ltime = htonl(ifa6->ia6_lifetime.ia6t_expire - time.tv_sec);
 				else
 					ltime = 0;
 			}
