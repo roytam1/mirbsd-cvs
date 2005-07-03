@@ -269,7 +269,7 @@ struct	proc {
     ("\20\01ADVLOCK\02CTTY\03INMEM\04NOCLDSTOP\05PPWAIT\06PROFIL\07SELECT" \
      "\010SINTR\011SUGID\012SYSTEM\013TIMEOUT\014TRACED\015WAITED\016WEXIT" \
      "\017EXEC\020PWEUPC\021FSTRACE\022SSTEP\023SUGIDEXEC\024NOCLDWAIT" \
-     "\025NOZOMBIE\026INEXEC\027SYSTRACE\030CONTINUED")
+     "\025NOZOMBIE\026INEXEC\027SYSTRACE\030CONTINUED\031SWAPIN")
 
 /* Macro to compute the exit signal to be delivered. */
 #define P_EXITSIG(p) \
@@ -301,6 +301,16 @@ struct	pcred {
 };
 
 #ifdef _KERNEL
+
+struct uidinfo {
+	LIST_ENTRY(uidinfo) ui_hash;
+	uid_t   ui_uid;
+	long    ui_proccnt;	/* proc structs */
+	long	ui_lockcnt;	/* lockf structs */
+};
+
+struct uidinfo *uid_find(uid_t);
+
 /*
  * We use process IDs <= PID_MAX; PID_MAX + 1 must also fit in a pid_t,
  * as it is used to represent "no process group".
