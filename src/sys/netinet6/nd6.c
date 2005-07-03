@@ -1,4 +1,4 @@
-/*	$OpenBSD: nd6.c,v 1.68 2004/10/28 20:34:57 henning Exp $	*/
+/*	$OpenBSD: nd6.c,v 1.69 2005/05/09 05:37:36 brad Exp $	*/
 /*	$KAME: nd6.c,v 1.280 2002/06/08 19:52:07 itojun Exp $	*/
 
 /*
@@ -380,7 +380,7 @@ nd6_llinfo_settimer(struct llinfo_nd6 *ln, long tick)
 		ln->ln_ntick = 0;
 		timeout_del(&ln->ln_timer_ch);
 	} else {
-		ln->ln_expire = time.tv_sec + tick / hz;
+		ln->ln_expire = time_second + tick / hz;
 		if (tick > INT_MAX) {
 			ln->ln_ntick = tick - INT_MAX;
 			timeout_add(&ln->ln_timer_ch, INT_MAX);
@@ -523,7 +523,7 @@ nd6_timer(ignored_arg)
 	/* expire default router list */
 	dr = TAILQ_FIRST(&nd_defrouter);
 	while (dr) {
-		if (dr->expire && dr->expire < time.tv_sec) {
+		if (dr->expire && dr->expire < time_second) {
 			struct nd_defrouter *t;
 			t = TAILQ_NEXT(dr, dr_entry);
 			defrtrlist_del(dr);
@@ -566,7 +566,7 @@ nd6_timer(ignored_arg)
 		 * prefix is not necessary.
 		 */
 		if (pr->ndpr_vltime != ND6_INFINITE_LIFETIME &&
-		    time.tv_sec - pr->ndpr_lastupdate > pr->ndpr_vltime) {
+		    time_second - pr->ndpr_lastupdate > pr->ndpr_vltime) {
 			struct nd_prefix *t;
 			t = pr->ndpr_next;
 
@@ -622,6 +622,13 @@ nd6_purge(ifp)
 	for (pr = nd_prefix.lh_first; pr; pr = npr) {
 		npr = pr->ndpr_next;
 		if (pr->ndpr_ifp == ifp) {
+			/*
+			 * Because if_detach() does *not* release prefixes
+			 * while purging addresses the reference count will
+			 * still be above zero. We therefore reset it to
+			 * make sure that the prefix really gets purged.
+			 */
+			pr->ndpr_refcnt = 0;
 			/*
 			 * Previously, pr->ndpr_addr is removed as well,
 			 * but I strongly believe we don't have to do it.
@@ -863,9 +870,9 @@ nd6_free(rt, gc)
 			 * XXX: the check for ln_state would be redundant,
 			 *      but we intentionally keep it just in case.
 			 */
-			if (dr->expire > time.tv_sec * hz) {
+			if (dr->expire > time_second * hz) {
 				nd6_llinfo_settimer(ln,
-				    dr->expire - time.tv_sec * hz);
+				    dr->expire - time_second * hz);
 			} else
 				nd6_llinfo_settimer(ln, (long)nd6_gctimer * hz);
 			splx(s);
