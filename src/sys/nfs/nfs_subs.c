@@ -1256,7 +1256,7 @@ nfs_loadattrcache(vpp, mdp, dposp, vaper)
 		} else
 			np->n_size = vap->va_size;
 	}
-	np->n_attrstamp = time_second;
+	np->n_attrstamp = time.tv_sec;
 	if (vaper != NULL) {
 		bcopy((caddr_t)vap, (caddr_t)vaper, sizeof(*vap));
 		if (np->n_flag & NCHG) {
@@ -1275,7 +1275,7 @@ nfs_attrtimeo (np)
 {
 	struct vnode *vp = np->n_vnode;
 	struct nfsmount *nmp = VFSTONFS(vp->v_mount);
-	int tenthage = (time_second - np->n_mtime) / 10;
+	int tenthage = (time.tv_sec - np->n_mtime) / 10;
 	int minto, maxto;
 
 	if (vp->v_type == VDIR) {
@@ -1309,7 +1309,7 @@ nfs_getattrcache(vp, vaper)
 	struct vattr *vap;
 
 	if (np->n_attrstamp == 0 ||
-	    (time_second - np->n_attrstamp) >= nfs_attrtimeo(np)) {
+	    (time.tv_sec - np->n_attrstamp) >= nfs_attrtimeo(np)) {
 		nfsstats.attrcache_misses++;
 		return (ENOENT);
 	}

@@ -357,7 +357,7 @@ sys_nfssvc(p, v, retval)
 				    nuidp->nu_cr.cr_ngroups = NGROUPS;
 				nuidp->nu_cr.cr_ref = 1;
 				nuidp->nu_timestamp = nsd->nsd_timestamp;
-				nuidp->nu_expire = time_second + nsd->nsd_ttl;
+				nuidp->nu_expire = time.tv_sec + nsd->nsd_ttl;
 				/*
 				 * and save the session key in nu_key.
 				 */

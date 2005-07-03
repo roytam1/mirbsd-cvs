@@ -926,7 +926,7 @@ tryagain:
 	TAILQ_INSERT_TAIL(&nfs_reqq, rep, r_chain);
 
 	/* Get send time for nqnfs */
-	reqtime = time_second;
+	reqtime = time.tv_sec;
 
 	/*
 	 * If backing off another request or avoiding congestion, don't
@@ -1037,8 +1037,8 @@ tryagain:
 				error == NFSERR_TRYLATER) {
 				m_freem(mrep);
 				error = 0;
-				waituntil = time_second + trylater_delay;
-				while (time_second < waituntil)
+				waituntil = time.tv_sec + trylater_delay;
+				while (time.tv_sec < waituntil)
 					(void) tsleep((caddr_t)&lbolt,
 						PSOCK, "nqnfstry", 0);
 				trylater_delay *= nfs_backoff[trylater_cnt];

@@ -940,7 +940,7 @@ ffs_fragextend(ip, cg, bprev, osize, nsize)
 		brelse(bp);
 		return (0);
 	}
-	cgp->cg_time = time_second;
+	cgp->cg_time = time.tv_sec;
 	bno = dtogd(fs, bprev);
 	for (i = numfrags(fs, osize); i < frags; i++)
 		if (isclr(cg_blksfree(cgp), bno + i)) {
@@ -1007,7 +1007,7 @@ ffs_alloccg(ip, cg, bpref, size)
 		brelse(bp);
 		return (0);
 	}
-	cgp->cg_time = time_second;
+	cgp->cg_time = time.tv_sec;
 	if (size == fs->fs_bsize) {
 		bno = ffs_alloccgblk(ip, bp, bpref);
 		bdwrite(bp);
@@ -1338,7 +1338,7 @@ ffs_nodealloccg(ip, cg, ipref, mode)
 		brelse(bp);
 		return (0);
 	}
-	cgp->cg_time = time_second;
+	cgp->cg_time = time.tv_sec;
 	if (ipref) {
 		ipref %= fs->fs_ipg;
 		if (isclr(cg_inosused(cgp), ipref))
@@ -1431,7 +1431,7 @@ ffs_blkfree(ip, bno, size)
 		brelse(bp);
 		return;
 	}
-	cgp->cg_time = time_second;
+	cgp->cg_time = time.tv_sec;
 	bno = dtogd(fs, bno);
 	if (size == fs->fs_bsize) {
 		blkno = fragstoblks(fs, bno);
@@ -1537,7 +1537,7 @@ ffs_freefile(struct inode *pip, ino_t ino, mode_t mode)
 		brelse(bp);
 		return (0);
 	}
-	cgp->cg_time = time_second;
+	cgp->cg_time = time.tv_sec;
 	ino %= fs->fs_ipg;
 	if (isclr(cg_inosused(cgp), ino)) {
 		printf("dev = 0x%x, ino = %u, fs = %s\n",
