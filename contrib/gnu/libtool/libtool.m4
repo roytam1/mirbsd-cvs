@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.30 2005/07/03 17:12:12 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.31 2005/07/03 17:17:02 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -433,20 +433,26 @@ AC_DIVERT_POP
 ])# _LT_AC_SHELL_INIT
 
 
-# _LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
-# ---------------------------------
-AC_DEFUN([_LT_AC_LIBTOOL_SYS_PATH_SEPARATOR],
-[# Find the correct PATH separator.  Usually this is ':', but
-# DJGPP uses ';' like DOS.
-if test "X${PATH_SEPARATOR+set}" != Xset; then
-  UNAME=${UNAME-`uname 2>/dev/null`}
-  case X$UNAME in
-    *-DOS) lt_cv_sys_path_separator=';' ;;
-    *)     lt_cv_sys_path_separator=':' ;;
-  esac
-  PATH_SEPARATOR=$lt_cv_sys_path_separator
+dnl From Autoconf 2.59
+dnl m4_defun -> AC_DEFUN and renamed
+# _LT_AS_PATH_SEPARATOR_PREPARE
+# --------------------------
+# Compute the path separator.
+AC_DEFUN([_LT_AS_PATH_SEPARATOR_PREPARE],
+[# The user is always right.
+if test "${PATH_SEPARATOR+set}" != set; then
+  echo "#! /bin/sh" >conf$$.sh
+  echo  "exit 0"   >>conf$$.sh
+  chmod +x conf$$.sh
+  if (PATH="/nonexistent;."; conf$$.sh) >/dev/null 2>&1; then
+    PATH_SEPARATOR=';'
+  else
+    PATH_SEPARATOR=:
+  fi
+  rm -f conf$$.sh
 fi
-])# _LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
+])# _LT_AS_PATH_SEPARATOR_PREPARE
+
 
 # _LT_AC_PROG_ECHO_BACKSLASH
 # --------------------------
@@ -454,7 +460,7 @@ fi
 # will find an echo command which doesn't interpret backslashes.
 AC_DEFUN([_LT_AC_PROG_ECHO_BACKSLASH],
 [_LT_AC_SHELL_INIT([
-_LT_AC_LIBTOOL_SYS_PATH_SEPARATOR
+AC_REQUIRE([_LT_AS_PATH_SEPARATOR_PREPARE])
 # Check that we are running under the correct shell.
 SHELL=${CONFIG_SHELL-/bin/sh}
 
