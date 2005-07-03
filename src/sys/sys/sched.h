@@ -115,5 +115,19 @@ scheduler_wait_hook(parent, child)
 	parent->p_estcpu = ESTCPULIM(parent->p_estcpu + child->p_estcpu);
 }
 #endif	/* _SYS_PROC_H_ */
+
+#if !defined(__HAVE_CPUINFO) && !defined(splsched)
+#define splsched() splhigh()
+#endif
+#ifndef IPL_SCHED
+#define IPL_SCHED IPL_HIGH
+#endif
+
+#define	SCHED_ASSERT_LOCKED()		splassert(IPL_SCHED);
+#define	SCHED_ASSERT_UNLOCKED()		/* nothing */
+
+#define	SCHED_LOCK(s)			s = splsched()
+#define	SCHED_UNLOCK(s)			splx(s)
+
 #endif	/* _KERNEL */
 #endif	/* _SYS_SCHED_H_ */
