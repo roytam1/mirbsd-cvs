@@ -1,4 +1,4 @@
-/*	$OpenBSD: ufs_inode.c,v 1.24 2004/11/06 04:24:55 tedu Exp $	*/
+/*	$OpenBSD: ufs_inode.c,v 1.29 2005/06/10 17:37:41 pedro Exp $	*/
 /*	$NetBSD: ufs_inode.c,v 1.7 1996/05/11 18:27:52 mycroft Exp $	*/
 
 /*
@@ -58,21 +58,6 @@
 
 u_long	nextgennumber;		/* Next generation number to assign. */
 
-#if 0
-void
-ufs_init()
-{
-	static int done = 0;
-
-	if (done)
-		return;
-	done = 1;
-	ufs_ihashinit();
-	ufs_quota_init();
-
-	return;
-}
-#endif
 /*
  * Last reference to an inode.  If necessary, write or delete it.
  */
@@ -82,7 +67,7 @@ ufs_inactive(v)
 {
 	struct vop_inactive_args /* {
 		struct vnode *a_vp;
-		sturct proc *a_p;
+		struct proc *a_p;
 	} */ *ap = v;
 	struct vnode *vp = ap->a_vp;
 	struct inode *ip = VTOI(vp);
@@ -111,20 +96,20 @@ ufs_inactive(v)
 		ip->i_ffs_mode = 0;
 		ip->i_flag |= IN_CHANGE | IN_UPDATE;
 
-#if 0
-		/*
-		 * disabled.  this can wrap around to the point getnewvnode
-		 * will try to recycle us, causing a lockmgr panic.
-		 */
 		/*
 		 * Setting the mode to zero needs to wait for the inode to be
 		 * written just as does a change to the link count. So, rather
 		 * than creating a new entry point to do the same thing, we
-		 * just use softdep_change_linkcnt().
+		 * just use softdep_change_linkcnt(). Also, we can't let
+		 * softdep co-opt us to help on its worklist, as we may end up
+		 * trying to recycle vnodes and getting to this same point a
+		 * couple of times, blowing the kernel stack. However, this
+		 * could be optimized by checking if we are coming from
+		 * vrele(), vput() or vclean() (by checking for VXLOCK) and
+		 * just avoiding the co-opt to happen in the last case.
 		 */
 		if (DOINGSOFTDEP(vp))
-			softdep_change_linkcnt(ip);
-#endif
+			softdep_change_linkcnt(ip, 1);
 
 		UFS_INODE_FREE(ip, ip->i_number, mode);
 	}
