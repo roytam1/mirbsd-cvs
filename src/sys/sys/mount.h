@@ -423,6 +423,8 @@ struct mount {
 #define	MNT_FORCE	0x00080000	/* force unmount or readonly change */
 #define MNT_WANTRDWR	0x02000000	/* want upgrade to read/write */
 #define MNT_SOFTDEP     0x04000000      /* soft dependencies being done */
+#define MNT_DOOMED	0x08000000	/* device behind filesystem is gone */
+
 /*
  * Sysctl CTL_VFS definitions.
  *
