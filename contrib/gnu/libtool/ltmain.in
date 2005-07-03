@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.19 2005/07/03 16:31:56 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.20 2005/07/03 17:12:14 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -1204,7 +1204,7 @@ EOF
 	  if test -f "$arg"; then
 	    save_arg=$arg
 	    moreargs=
-	    while read fil
+	    for fil in `cat $save_arg`
 	    do
 #	      moreargs="$moreargs $fil"
 	      arg=$fil
@@ -1298,7 +1298,7 @@ EOF
 		  non_pic_objects="$non_pic_objects $non_pic_object"
 		fi
 	      fi
-	    done <$save_arg
+	    done
 	  else
 	    $echo "$modename: link input file '$save_arg' does not exist"
 	    exit $EXIT_FAILURE
