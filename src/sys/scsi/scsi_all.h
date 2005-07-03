@@ -1,4 +1,4 @@
-/*	$OpenBSD: scsi_all.h,v 1.16 2004/02/21 00:47:42 krw Exp $	*/
+/*	$OpenBSD: scsi_all.h,v 1.27 2005/06/18 01:09:03 krw Exp $	*/
 /*	$NetBSD: scsi_all.h,v 1.10 1996/09/12 01:57:17 thorpej Exp $	*/
 
 /*
@@ -88,7 +88,7 @@ struct scsi_inquiry {
 struct scsi_mode_sense {
 	u_int8_t opcode;
 	u_int8_t byte2;
-#define	SMS_DBD				0x08
+#define	SMS_DBD				0x08	/* Disable Block Descriptors */
 	u_int8_t page;
 #define	SMS_PAGE_CODE 			0x3F
 #define	SMS_PAGE_CTRL 			0xC0
@@ -103,8 +103,9 @@ struct scsi_mode_sense {
 
 struct scsi_mode_sense_big {
 	u_int8_t opcode;
-	u_int8_t byte2;		/* same bits as small version */
-	u_int8_t page; 		/* same bits as small version */
+	u_int8_t byte2;				/* same bits as small version */
+#define SMS_LLBAA			0x10	/*    plus: Long LBA Accepted */
+	u_int8_t page;				/* same bits as small version */
 	u_int8_t unused[4];
 	u_int8_t length[2];
 	u_int8_t control;
@@ -154,18 +155,6 @@ struct scsi_prevent {
 #define	PR_PREVENT 0x01
 #define PR_ALLOW   0x00
 
-struct scsi_changedef {
-	u_int8_t opcode;
-	u_int8_t byte2;
-	u_int8_t unused1;
-	u_int8_t how;
-	u_int8_t unused[4];
-	u_int8_t datalen;
-	u_int8_t control;
-};
-#define SC_SCSI_1 0x01
-#define SC_SCSI_2 0x03
-
 /*
  * Opcodes
  */
@@ -173,10 +162,12 @@ struct scsi_changedef {
 #define REQUEST_SENSE		0x03
 #define INQUIRY			0x12
 #define MODE_SELECT		0x15
-#define MODE_SENSE		0x1a
-#define START_STOP		0x1b
 #define RESERVE			0x16
 #define RELEASE			0x17
+#define MODE_SENSE		0x1a
+#define START_STOP		0x1b
+#define RECEIVE_DIAGNOSTIC	0x1c
+#define SEND_DIAGNOSTIC		0x1d
 #define PREVENT_ALLOW		0x1e
 #define POSITION_TO_ELEMENT	0x2b
 #define	CHANGE_DEFINITION	0x40
@@ -304,6 +295,19 @@ struct scsi_blk_desc {
 	u_int8_t blklen[3];
 };
 
+struct scsi_direct_blk_desc {
+	u_int8_t nblocks[4];
+	u_int8_t density;
+	u_int8_t blklen[3];
+};
+
+struct scsi_blk_desc_big {
+	u_int8_t nblocks[8];
+	u_int8_t density;
+	u_int8_t reserved[3];
+	u_int8_t blklen[4];
+};
+
 struct scsi_mode_header {
 	u_int8_t data_length;		/* Sense data length */
 	u_int8_t medium_type;
@@ -315,10 +319,57 @@ struct scsi_mode_header_big {
 	u_int8_t data_length[2];	/* Sense data length */
 	u_int8_t medium_type;
 	u_int8_t dev_spec;
-	u_int8_t unused[2];
+	u_int8_t reserved;
+#define LONGLBA	0x01	
+	u_int8_t reserved2;
 	u_int8_t blk_desc_len[2];
 };
 
+struct scsi_mode_sense_buf {
+	union {
+		struct scsi_mode_header hdr;
+		struct scsi_mode_header_big hdr_big;
+		u_char buf[255];	/* 256 bytes breaks some devices. */
+	} headers;
+};
+
+/*
+ * SPI status information unit. See section 14.3.5 of SPI-3.
+ */
+struct scsi_status_iu_header {
+/* 2*/	u_int8_t reserved[2];
+/* 3*/	u_int8_t flags;
+#define	SIU_SNSVALID 0x2
+#define	SIU_RSPVALID 0x1
+/* 4*/	u_int8_t status;
+/* 8*/	u_int8_t sense_length[4];
+/*12*/	u_int8_t pkt_failures_length[4];
+	u_int8_t data[1]; /* <pkt failure list><sense data> OR <sense_data> */
+};
+
+#define SIU_PKTFAIL_CODE(siu)	((siu)->data[3])
+#define		SIU_PFC_NONE			0x00
+#define		SIU_PFC_CIU_FIELDS_INVALID	0x02
+#define		SIU_PFC_TMF_NOT_SUPPORTED	0x04
+#define		SIU_PFC_TMF_FAILED		0x05
+#define		SIU_PFC_INVALID_TYPE_CODE	0x06
+#define		SIU_PFC_ILLEGAL_REQUEST		0x07
+
+#define SIU_SENSE_LENGTH(siu)	(_4btol((siu)->sense_length))
+#define SIU_SENSE_DATA(siu)	(((siu)->flags & SIU_RSPVALID) ?	\
+   &(siu)->data[_4btol((siu)->pkt_failures_length)] : &(siu)->data[0])
+
+/*
+ * Values for 'Task Management Flags' field of SPI command information unit.
+ * See section 14.3.1 of SPI-3.
+ */
+#define	SIU_TASKMGMT_NONE		0x00
+#define	SIU_TASKMGMT_ABORT_TASK		0x01
+#define	SIU_TASKMGMT_ABORT_TASK_SET	0x02
+#define	SIU_TASKMGMT_CLEAR_TASK_SET	0x04
+#define	SIU_TASKMGMT_LUN_RESET		0x08
+#define	SIU_TASKMGMT_TARGET_RESET	0x20
+#define	SIU_TASKMGMT_CLEAR_ACA		0x40
 
 /*
  * Status Byte

@@ -1,4 +1,4 @@
-/*	$OpenBSD: st.c,v 1.36 2004/05/09 04:01:59 krw Exp $	*/
+/*	$OpenBSD: st.c,v 1.48 2005/06/24 20:48:25 krw Exp $	*/
 /*	$NetBSD: st.c,v 1.71 1997/02/21 23:03:49 thorpej Exp $	*/
 
 /*
@@ -107,8 +107,6 @@ struct quirkdata {
 #define	ST_Q_IGNORE_LOADS	0x0004
 #define	ST_Q_BLKSIZE		0x0008	/* variable-block media_blksize > 0 */
 #define	ST_Q_UNIMODAL		0x0010	/* unimode drive rejects mode select */
-	u_int page_0_size;
-#define	MAX_PAGE_0_SIZE	64
 	struct modes modes[4];
 };
 
@@ -119,21 +117,21 @@ struct st_quirk_inquiry_pattern {
 
 const struct st_quirk_inquiry_pattern st_quirk_patterns[] = {
 	{{T_SEQUENTIAL, T_REMOV,
-	 "        ", "                ", "    "}, {0, 0, {
+	 "        ", "                ", "    "}, {0, {
 		{ST_Q_FORCE_BLKSIZE, 512, 0},		/* minor 0-3 */
 		{ST_Q_FORCE_BLKSIZE, 512, QIC_24},	/* minor 4-7 */
 		{ST_Q_FORCE_BLKSIZE, 0, HALFINCH_1600},	/* minor 8-11 */
 		{ST_Q_FORCE_BLKSIZE, 0, HALFINCH_6250}	/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "TANDBERG", " TDC 3600       ", ""},     {0, 12, {
+	 "TANDBERG", " TDC 3600       ", ""},     {0, {
 		{0, 0, 0},				/* minor 0-3 */
 		{ST_Q_FORCE_BLKSIZE, 0, QIC_525},	/* minor 4-7 */
 		{0, 0, QIC_150},			/* minor 8-11 */
 		{0, 0, QIC_120}				/* minor 12-15 */
 	}}},
  	{{T_SEQUENTIAL, T_REMOV,
- 	 "TANDBERG", " TDC 3800       ", ""},     {0, 0, {
+ 	 "TANDBERG", " TDC 3800       ", ""},     {0, {
 		{ST_Q_FORCE_BLKSIZE, 512, 0},		/* minor 0-3 */
 		{0, 0, QIC_525},			/* minor 4-7 */
 		{0, 0, QIC_150},			/* minor 8-11 */
@@ -144,7 +142,7 @@ const struct st_quirk_inquiry_pattern st_quirk_patterns[] = {
 	 * hear otherwise.  - mycroft, 31MAR1994
 	 */
 	{{T_SEQUENTIAL, T_REMOV,
-	 "ARCHIVE ", "VIPER 2525 25462", ""},     {0, 0, {
+	 "ARCHIVE ", "VIPER 2525 25462", ""},     {0, {
 		{ST_Q_SENSE_HELP, 0, 0},		/* minor 0-3 */
 		{ST_Q_SENSE_HELP, 0, QIC_525},		/* minor 4-7 */
 		{0, 0, QIC_150},			/* minor 8-11 */
@@ -155,70 +153,70 @@ const struct st_quirk_inquiry_pattern st_quirk_patterns[] = {
 	 * needs more work.  - mycroft, 09APR1994
 	 */
 	{{T_SEQUENTIAL, T_REMOV,
-	 "SANKYO  ", "CP525           ", ""},    {0, 0, {
+	 "SANKYO  ", "CP525           ", ""},    {0, {
 		{ST_Q_FORCE_BLKSIZE, 512, 0},		/* minor 0-3 */
 		{ST_Q_FORCE_BLKSIZE, 512, QIC_525},	/* minor 4-7 */
 		{0, 0, QIC_150},			/* minor 8-11 */
 		{0, 0, QIC_120}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "ANRITSU ", "DMT780          ", ""},     {0, 0, {
+	 "ANRITSU ", "DMT780          ", ""},     {0, {
 		{ST_Q_FORCE_BLKSIZE, 512, 0},		/* minor 0-3 */
 		{ST_Q_FORCE_BLKSIZE, 512, QIC_525},	/* minor 4-7 */
 		{0, 0, QIC_150},			/* minor 8-11 */
 		{0, 0, QIC_120}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "ARCHIVE ", "VIPER 150  21247", ""},     {0, 12, {
+	 "ARCHIVE ", "VIPER 150  21247", ""},     {0, {
 		{0, 0, 0},				/* minor 0-3 */
 		{0, 0, QIC_150},			/* minor 4-7 */
 		{0, 0, QIC_120},			/* minor 8-11 */
 		{0, 0, QIC_24}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "ARCHIVE ", "VIPER 150  21531", ""},     {0, 12, {
+	 "ARCHIVE ", "VIPER 150  21531", ""},     {0, {
 		{ST_Q_SENSE_HELP, 0, 0},		/* minor 0-3 */
 		{0, 0, QIC_150},			/* minor 4-7 */
 		{0, 0, QIC_120},			/* minor 8-11 */
 		{0, 0, QIC_24}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "WANGTEK ", "5099ES SCSI", ""},          {0, 0, {
+	 "WANGTEK ", "5099ES SCSI", ""},          {0, {
 		{ST_Q_FORCE_BLKSIZE, 512, 0},		/* minor 0-3 */
 		{0, 0, QIC_11},				/* minor 4-7 */
 		{0, 0, QIC_24},				/* minor 8-11 */
 		{0, 0, QIC_24}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "WANGTEK ", "5150ES SCSI", ""},          {0, 0, {
+	 "WANGTEK ", "5150ES SCSI", ""},          {0, {
 		{ST_Q_FORCE_BLKSIZE, 512, 0},		/* minor 0-3 */
 		{0, 0, QIC_24},				/* minor 4-7 */
 		{0, 0, QIC_120},			/* minor 8-11 */
 		{0, 0, QIC_150}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "WANGTEK ", "5525ES SCSI REV7", ""},     {0, 0, {
+	 "WANGTEK ", "5525ES SCSI REV7", ""},     {0, {
 		{0, 0, 0},				/* minor 0-3 */
 		{ST_Q_BLKSIZE, 0, QIC_525},		/* minor 4-7 */
 		{0, 0, QIC_150},			/* minor 8-11 */
 		{0, 0, QIC_120}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "WangDAT ", "Model 1300      ", ""},     {0, 0, {
+	 "WangDAT ", "Model 1300      ", ""},     {0, {
 		{0, 0, 0},				/* minor 0-3 */
 		{ST_Q_FORCE_BLKSIZE, 512, DDS},		/* minor 4-7 */
 		{ST_Q_FORCE_BLKSIZE, 1024, DDS},	/* minor 8-11 */
 		{ST_Q_FORCE_BLKSIZE, 0, DDS}		/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "EXABYTE ", "EXB-8200        ", "263H"}, {0, 5, {
+	 "EXABYTE ", "EXB-8200        ", "263H"}, {0, {
 		{0, 0, 0},				/* minor 0-3 */
 		{0, 0, 0},				/* minor 4-7 */
 		{0, 0, 0},				/* minor 8-11 */
 		{0, 0, 0}				/* minor 12-15 */
 	}}},
 	{{T_SEQUENTIAL, T_REMOV,
-	 "HP      ", "T4000s          ", ""},     {ST_Q_UNIMODAL, 0, {
+	 "HP      ", "T4000s          ", ""},     {ST_Q_UNIMODAL, {
 		{0, 0, QIC_3095},			/* minor 0-3 */
 		{0, 0, QIC_3095},			/* minor 4-7 */
 		{0, 0, QIC_3095},			/* minor 8-11 */
@@ -226,7 +224,7 @@ const struct st_quirk_inquiry_pattern st_quirk_patterns[] = {
 	}}},
 #if 0
 	{{T_SEQUENTIAL, T_REMOV,
-	 "EXABYTE ", "EXB-8200        ", ""},     {0, 12, {
+	 "EXABYTE ", "EXB-8200        ", ""},     {0, {
 		{0, 0, 0},				/* minor 0-3 */
 		{0, 0, 0},				/* minor 4-7 */
 		{0, 0, 0},				/* minor 8-11 */
@@ -234,12 +232,20 @@ const struct st_quirk_inquiry_pattern st_quirk_patterns[] = {
 	}}},
 #endif
 	{{T_SEQUENTIAL, T_REMOV,
-	 "WANGTEK ", "5150ES SCSI FA15\0""01 A", "????"}, {0, 0, {
+	 "WANGTEK ", "5150ES SCSI FA15\0""01 A", "????"}, {0, {
 		{0, ST_Q_IGNORE_LOADS, 0},		/* minor 0-3 */
 		{0, 0, 0},				/* minor 4-7 */
 		{0, 0, 0},				/* minor 8-11 */
 		{0, 0, 0}				/* minor 12-15 */
 	}}},
+	{{T_SEQUENTIAL, T_REMOV,
+	 "TEAC    ", "MT-2ST/N50      ", ""},     {ST_Q_IGNORE_LOADS, {
+		{0, 0, 0},				/* minor 0-3 */
+		{0, 0, 0},				/* minor 4-7 */
+		{0, 0, 0},				/* minor 8-11 */
+		{0, 0, 0}				/* minor 12-15 */
+	}}},
+
 };
 
 #define NOEJECT 0
@@ -255,7 +261,6 @@ struct st_softc {
 	u_int quirks;		/* quirks for the open mode           */
 	int blksize;		/* blksize we are using               */
 	u_int8_t density;	/* present density                    */
-	u_int page_0_size;	/* size of page 0 data		      */
 	u_int last_dsty;	/* last density opened                */
 	short mt_resid;		/* last (short) resid                 */
 	short mt_erreg;		/* last error (sense key) seen        */
@@ -266,9 +271,9 @@ struct st_softc {
 	int blkmax;		/* max blk size                       */
 	const struct quirkdata *quirkdata;	/* if we have a rogue entry */
 /*--------------------parameters reported by the device for this media--------*/
-	u_long numblks;		/* nominal blocks capacity            */
-	int media_blksize;	/* 0 if not ST_FIXEDBLOCKS            */
-	u_int8_t media_density;	/* this is what it said when asked    */
+	u_int64_t numblks;		/* nominal blocks capacity            */
+	u_int32_t media_blksize;	/* 0 if not ST_FIXEDBLOCKS            */
+	u_int32_t media_density;	/* this is what it said when asked    */
 /*--------------------quirks for the whole drive------------------------------*/
 	u_int drive_quirks;	/* quirks of this drive               */
 /*--------------------How we should set up when opening each minor device----*/
@@ -279,10 +284,6 @@ struct st_softc {
 #define BLKSIZE_SET_BY_USER	0x04
 #define BLKSIZE_SET_BY_QUIRK	0x08
 /*--------------------storage for sense data returned by the drive------------*/
-	u_char sense_data[MAX_PAGE_0_SIZE];	/*
-						 * additional sense data needed
-						 * for mode sense/select.
-						 */
 	struct buf buf_queue;		/* the queue of pending IO operations */
 };
 
@@ -386,7 +387,6 @@ stattach(parent, self, aux)
 	st->sc_link = sc_link;
 	sc_link->device = &st_switch;
 	sc_link->device_softc = st;
-	sc_link->openings = 1;
 
 	/*
 	 * Check if the drive is a known criminal and take
@@ -401,11 +401,12 @@ stattach(parent, self, aux)
 	 */
 	printf("\n");
 	printf("%s: %s", st->sc_dev.dv_xname, st->quirkdata ? "rogue, " : "");
-	if (scsi_test_unit_ready(sc_link, TEST_READY_RETRIES_DEFAULT,
+	if (scsi_test_unit_ready(sc_link, TEST_READY_RETRIES_TAPE,
 	    scsi_autoconf | SCSI_SILENT | SCSI_IGNORE_MEDIA_CHANGE) ||
 	    st_mode_sense(st,
-	    scsi_autoconf | SCSI_SILENT | SCSI_IGNORE_MEDIA_CHANGE))
-		printf("drive empty\n");
+	    scsi_autoconf | SCSI_SILENT | SCSI_IGNORE_MEDIA_CHANGE)) {
+		printf("drive empty or not ready\n");
+	}
 	else {
 		printf("density code 0x%x, ", st->media_density);
 		if (st->media_blksize > 0)
@@ -451,7 +452,6 @@ st_identify_drive(st, inqbuf)
 		st->quirkdata = &finger->quirkdata;
 		st->drive_quirks = finger->quirkdata.quirks;
 		st->quirks = finger->quirkdata.quirks;	/* start value */
-		st->page_0_size = finger->quirkdata.page_0_size;
 		st_loadquirks(st);
 	}
 }
@@ -523,7 +523,7 @@ stopen(dev, flags, mode, p)
 	 * Only allow one at a time
 	 */
 	if (sc_link->flags & SDEV_OPEN) {
-		printf("%s: already open\n", st->sc_dev.dv_xname);
+		SC_DEBUG(sc_link, SDEV_DB4, ("already open\n"));
 		return EBUSY;
 	}
 
@@ -959,7 +959,7 @@ ststart(v)
 {
 	struct st_softc *st = v;
 	struct scsi_link *sc_link = st->sc_link;
-	register struct buf *bp, *dp;
+	struct buf *bp, *dp;
 	struct scsi_rw_tape cmd;
 	int flags;
 
@@ -1288,7 +1288,7 @@ stioctl(dev, cmd, arg, flag, p)
 
 	default:
 		if (STMODE(dev) == CTLMODE)
-			error = scsi_do_safeioctl(st->sc_link, dev,
+			error = scsi_do_ioctl(st->sc_link, dev,
 			    cmd, arg, flag, p);
 		else
 			error = ENOTTY;
@@ -1421,54 +1421,47 @@ st_mode_sense(st, flags)
 	struct st_softc *st;
 	int flags;
 {
-	u_int scsi_sense_len;
-	int error;
-	struct scsi_mode_sense cmd;
-	struct scsi_sense {
-		struct scsi_mode_header header;
-		struct scsi_blk_desc blk_desc;
-		u_char sense_data[MAX_PAGE_0_SIZE];
-	} scsi_sense;
+	struct scsi_mode_sense_buf data;
 	struct scsi_link *sc_link = st->sc_link;
-
-	scsi_sense_len = 12 + st->page_0_size;
-
-	/*
-	 * Set up a mode sense
-	 */
-	bzero(&cmd, sizeof(cmd));
-	cmd.opcode = MODE_SENSE;
-	cmd.length = scsi_sense_len;
+	u_int64_t block_count;
+	u_int32_t density, block_size;
+	u_char *page0 = NULL;
+	u_int8_t dev_spec;
+	int error, big;
 
 	/*
-	 * do the command, but we don't need the results
-	 * just print them for our interest's sake, if asked,
-	 * or if we need it as a template for the mode select
-	 * store it away.
+	 * Ask for page 0 (vendor specific) mode sense data.
 	 */
-	error = scsi_scsi_cmd(sc_link, (struct scsi_generic *) &cmd,
-	    sizeof(cmd), (u_char *) &scsi_sense, scsi_sense_len,
-	    ST_RETRIES, ST_CTL_TIME, NULL, flags | SCSI_DATA_IN);
-	if (error)
-		return error;
+	error = scsi_do_mode_sense(sc_link, 0, &data, (void **)&page0,
+	    &density, &block_count, &block_size, 1, flags | SCSI_SILENT, &big);
+	if (error != 0)
+		return (error);
 
-	st->numblks = _3btol(scsi_sense.blk_desc.nblocks);
-	st->media_blksize = _3btol(scsi_sense.blk_desc.blklen);
-	st->media_density = scsi_sense.blk_desc.density;
-	if (scsi_sense.header.dev_spec & SMH_DSP_WRITE_PROT)
+	/* It is valid for no page0 to be available. */
+	
+	if (big)
+		dev_spec = data.headers.hdr_big.dev_spec;
+	else
+		dev_spec = data.headers.hdr.dev_spec;
+
+	if (dev_spec & SMH_DSP_WRITE_PROT)
 		st->flags |= ST_READONLY;
 	else
 		st->flags &= ~ST_READONLY;
+	
+	st->numblks = block_count;
+	st->media_blksize = block_size;
+	st->media_density = density;
+
 	SC_DEBUG(sc_link, SDEV_DB3,
 	    ("density code 0x%x, %d-byte blocks, write-%s, ",
 	    st->media_density, st->media_blksize,
 	    st->flags & ST_READONLY ? "protected" : "enabled"));
 	SC_DEBUGN(sc_link, SDEV_DB3,
-	    ("%sbuffered\n",
-	    scsi_sense.header.dev_spec & SMH_DSP_BUFF_MODE ? "" : "un"));
-	if (st->page_0_size)
-		bcopy(scsi_sense.sense_data, st->sense_data, st->page_0_size);
+	    ("%sbuffered\n", dev_spec & SMH_DSP_BUFF_MODE ? "" : "un"));
+
 	sc_link->flags |= SDEV_MEDIA_LOADED;
+
 	return 0;
 }
 
@@ -1481,21 +1474,16 @@ st_mode_select(st, flags)
 	struct st_softc *st;
 	int flags;
 {
-	u_int scsi_select_len;
-	struct scsi_mode_select cmd;
-	struct scsi_select {
-		struct scsi_mode_header header;
-		struct scsi_blk_desc blk_desc;
-		u_char sense_data[MAX_PAGE_0_SIZE];
-	} scsi_select;
+	struct scsi_mode_sense_buf inbuf, outbuf;
+	struct scsi_blk_desc general;
 	struct scsi_link *sc_link = st->sc_link;
-
-	scsi_select_len = 12 + st->page_0_size;
+	u_int8_t *page0 = NULL;
+	int error, big, page0_size;
 
 	/*
-	 * This quirk deals with drives that have only one valid mode
-	 * and think this gives them license to reject all mode selects,
-	 * even if the selected mode is the one that is supported.
+	 * This quirk deals with drives that have only one valid mode and think
+	 * this gives them license to reject all mode selects, even if the
+	 * selected mode is the one that is supported.
 	 */
 	if (st->quirks & ST_Q_UNIMODAL) {
 		SC_DEBUG(sc_link, SDEV_DB3,
@@ -1507,32 +1495,65 @@ st_mode_select(st, flags)
 	if (sc_link->flags & SDEV_ATAPI)
 		return 0;
 
-	/*
-	 * Set up for a mode select
-	 */
-	bzero(&cmd, sizeof(cmd));
-	cmd.opcode = MODE_SELECT;
-	cmd.length = scsi_select_len;
+	bzero(&outbuf, sizeof(outbuf));
+	bzero(&general, sizeof(general));
 
-	bzero(&scsi_select, scsi_select_len);
-	scsi_select.header.blk_desc_len = sizeof(struct scsi_blk_desc);
-	scsi_select.header.dev_spec &= ~SMH_DSP_BUFF_MODE;
-	scsi_select.blk_desc.density = st->density;
-	if (st->flags & ST_DONTBUFFER)
-		scsi_select.header.dev_spec |= SMH_DSP_BUFF_MODE_OFF;
-	else
-		scsi_select.header.dev_spec |= SMH_DSP_BUFF_MODE_ON;
+	general.density = st->density;
 	if (st->flags & ST_FIXEDBLOCKS)
-		_lto3b(st->blksize, scsi_select.blk_desc.blklen);
-	if (st->page_0_size)
-		bcopy(st->sense_data, scsi_select.sense_data, st->page_0_size);
+		_lto3b(st->blksize, general.blklen);
 
 	/*
-	 * do the command
+	 * Ask for page 0 (vendor specific) mode sense data.
 	 */
-	return scsi_scsi_cmd(sc_link, (struct scsi_generic *) &cmd,
-	    sizeof(cmd), (u_char *) &scsi_select, scsi_select_len,
-	    ST_RETRIES, ST_CTL_TIME, NULL, flags | SCSI_DATA_OUT);
+	error = scsi_do_mode_sense(sc_link, 0, &inbuf, (void **)&page0, NULL,
+	    NULL, NULL, 1, flags | SCSI_SILENT, &big);
+	if (error != 0)
+		return (error);
+
+	if (page0 == NULL) {
+		page0_size = 0;
+	} else if (big == 0) {
+		page0_size = inbuf.headers.hdr.data_length +
+		    sizeof(inbuf.headers.hdr.data_length) -
+		    sizeof(inbuf.headers.hdr) - inbuf.headers.hdr.blk_desc_len;
+		memcpy(&outbuf.headers.buf[sizeof(outbuf.headers.hdr)+
+		    sizeof(general)], page0, page0_size);
+	} else {
+		page0_size = _2btol(inbuf.headers.hdr_big.data_length) +
+		    sizeof(inbuf.headers.hdr_big.data_length) -
+		    sizeof(inbuf.headers.hdr_big) -
+		    _2btol(inbuf.headers.hdr_big.blk_desc_len);
+		memcpy(&outbuf.headers.buf[sizeof(outbuf.headers.hdr_big) + 
+		    sizeof(general)], page0, page0_size);
+	}
+
+	/*
+	 * Set up for a mode select.
+	 */
+	if (big == 0) {
+		outbuf.headers.hdr.data_length = sizeof(outbuf.headers.hdr) +
+		    sizeof(general) + page0_size -
+		    sizeof(outbuf.headers.hdr.data_length);
+		if ((st->flags & ST_DONTBUFFER) == 0)
+			outbuf.headers.hdr.dev_spec = SMH_DSP_BUFF_MODE_ON;
+		outbuf.headers.hdr.blk_desc_len = sizeof(general);
+		memcpy(&outbuf.headers.buf[sizeof(outbuf.headers.hdr)],
+		    &general, sizeof(general));
+		return (scsi_mode_select(st->sc_link, 0, &outbuf.headers.hdr,
+		    flags, ST_CTL_TIME)); 
+	}
+
+	/* MODE SENSE (10) header was returned, so use MODE SELECT (10). */
+	_lto2b((sizeof(outbuf.headers.hdr_big) + sizeof(general) + page0_size -
+	    sizeof(outbuf.headers.hdr_big.data_length)),
+	    outbuf.headers.hdr_big.data_length);
+	if ((st->flags & ST_DONTBUFFER) == 0)
+		outbuf.headers.hdr_big.dev_spec = SMH_DSP_BUFF_MODE_ON;
+	_lto2b(sizeof(general), outbuf.headers.hdr_big.blk_desc_len);
+	memcpy(&outbuf.headers.buf[sizeof(outbuf.headers.hdr_big)], &general,
+	    sizeof(general));
+	return (scsi_mode_select_big(st->sc_link, 0, &outbuf.headers.hdr_big,
+	    flags, ST_CTL_TIME)); 
 }
 
 /*
@@ -1799,12 +1820,28 @@ int
 st_interpret_sense(xs)
 	struct scsi_xfer *xs;
 {
-	struct scsi_link *sc_link = xs->sc_link;
 	struct scsi_sense_data *sense = &xs->sense;
-	struct buf *bp = xs->bp;
+	struct scsi_link *sc_link = xs->sc_link;
 	struct st_softc *st = sc_link->device_softc;
-	u_int8_t key;
+	struct buf *bp = xs->bp;
+	u_int8_t serr = sense->error_code & SSD_ERRCODE;
+	u_int8_t skey = sense->flags & SSD_KEY;
 	int32_t info;
+
+	if (((sc_link->flags & SDEV_OPEN) == 0) ||
+	    (serr != 0x70 && serr != 0x71))
+		return (EJUSTRETURN); /* let the generic code handle it */
+
+	switch (skey) {
+	case SKEY_NO_SENSE:
+	case SKEY_RECOVERED_ERROR:
+	case SKEY_MEDIUM_ERROR:
+	case SKEY_VOLUME_OVERFLOW:
+	case SKEY_BLANK_CHECK:
+		break;
+	default:
+		return (EJUSTRETURN);
+	}
 
 	/*
 	 * Get the sense fields and work out what code
@@ -1813,8 +1850,6 @@ st_interpret_sense(xs)
 		info = _4btol(sense->info);
 	else
 		info = xs->datalen;	/* bad choice if fixed blocks */
-	if ((sense->error_code & SSD_ERRCODE) != 0x70)
-		return SCSIRET_CONTINUE; /* let the generic code handle it */
 	if (st->flags & ST_FIXEDBLOCKS) {
 		xs->resid = info * st->blksize;
 		if (sense->flags & SSD_EOM) {
@@ -1893,17 +1928,15 @@ st_interpret_sense(xs)
 			xs->resid = info;
 			if (bp)
 				bp->b_resid = info;
-			return 0;
+			return (0);
 		}
 	}
-	key = sense->flags & SSD_KEY;
 
-	if (key == 0x8) {
+	if (skey == SKEY_BLANK_CHECK) {
 		/*
-		 * This quirk code helps the drive read the
-		 * first tape block, regardless of format.  That
-		 * is required for these drives to return proper
-		 * MODE SENSE information.
+		 * This quirk code helps the drive read the first tape block,
+		 * regardless of format.  That is required for these drives to
+		 * return proper MODE SENSE information.
 		 */
 		if ((st->quirks & ST_Q_SENSE_HELP) &&
 		    !(sc_link->flags & SDEV_MEDIA_LOADED)) {
@@ -1916,10 +1949,11 @@ st_interpret_sense(xs)
 				bp->b_resid = xs->resid;
 				/* return an EOF */
 			}
-			return 0;
+			return (0);
 		}
 	}
-	return SCSIRET_CONTINUE;
+
+	return (EJUSTRETURN);
 }
 
 /*
