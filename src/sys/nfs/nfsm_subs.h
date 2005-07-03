@@ -1,4 +1,4 @@
-/*	$OpenBSD: nfsm_subs.h,v 1.15 2004/06/24 19:35:26 tholo Exp $	*/
+/*	$OpenBSD: nfsm_subs.h,v 1.13 2003/06/02 23:28:20 millert Exp $	*/
 /*	$NetBSD: nfsm_subs.h,v 1.10 1996/03/20 21:59:56 fvdl Exp $	*/
 
 /*
@@ -259,7 +259,7 @@
 			*tl = nfs_false;					\
 		}								\
 		if ((a)->va_atime.tv_sec != VNOVAL) {				\
-			if ((a)->va_atime.tv_sec != time_second) {		\
+			if ((a)->va_atime.tv_sec != time.tv_sec) {		\
 				nfsm_build(tl, u_int32_t *, 3 * NFSX_UNSIGNED);	\
 				*tl++ = txdr_unsigned(NFSV3SATTRTIME_TOCLIENT);	\
 				txdr_nfsv3time(&(a)->va_atime, tl);		\
@@ -272,7 +272,7 @@
 			*tl = txdr_unsigned(NFSV3SATTRTIME_DONTCHANGE);		\
 		}								\
 		if ((a)->va_mtime.tv_sec != VNOVAL) {				\
-			if ((a)->va_mtime.tv_sec != time_second) {		\
+			if ((a)->va_mtime.tv_sec != time.tv_sec) {		\
 				nfsm_build(tl, u_int32_t *, 3 * NFSX_UNSIGNED);	\
 				*tl++ = txdr_unsigned(NFSV3SATTRTIME_TOCLIENT);	\
 				txdr_nfsv3time(&(a)->va_mtime, tl);		\
@@ -471,7 +471,8 @@
 			fxdr_nfsv3time(tl, &(a)->va_atime); \
 			break; \
 		case NFSV3SATTRTIME_TOSERVER: \
-			getnanotime(&(a)->va_atime); \
+			(a)->va_atime.tv_sec = time.tv_sec; \
+			(a)->va_atime.tv_nsec = time.tv_usec * 1000; \
 			break; \
 		}; \
 		nfsm_dissect(tl, u_int32_t *, NFSX_UNSIGNED); \
@@ -481,7 +482,8 @@
 			fxdr_nfsv3time(tl, &(a)->va_mtime); \
 			break; \
 		case NFSV3SATTRTIME_TOSERVER: \
-			getnanotime(&(a)->va_mtime); \
+			(a)->va_mtime.tv_sec = time.tv_sec; \
+			(a)->va_mtime.tv_nsec = time.tv_usec * 1000; \
 			break; \
 		}; }
 

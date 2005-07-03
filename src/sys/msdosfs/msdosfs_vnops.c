@@ -156,7 +156,7 @@ msdosfs_create(v)
 	ndirent.de_devvp = pdep->de_devvp;
 	ndirent.de_pmp = pdep->de_pmp;
 	ndirent.de_flag = DE_ACCESS | DE_CREATE | DE_UPDATE;
-	getnanotime(&ts);
+	TIMEVAL_TO_TIMESPEC(&time, &ts);
 	DETIMES(&ndirent, &ts, &ts, &ts);
 	if ((error = createde(&ndirent, pdep, &dep, cnp)) != 0)
 		goto bad;
@@ -219,7 +219,7 @@ msdosfs_close(v)
 	struct timespec ts;
 
 	if (vp->v_usecount > 1 && !VOP_ISLOCKED(vp)) {
-		getnanotime(&ts);
+		TIMEVAL_TO_TIMESPEC(&time, &ts);
 		DETIMES(dep, &ts, &ts, &ts);
 	}
 	return (0);
@@ -270,7 +270,7 @@ msdosfs_getattr(v)
 	struct timespec ts;
 	uint32_t fileid;
 
-	getnanotime(&ts);
+	TIMEVAL_TO_TIMESPEC(&time, &ts);
 	DETIMES(dep, &ts, &ts, &ts);
 	vap->va_fsid = dep->de_dev;
 
@@ -1287,7 +1287,7 @@ msdosfs_mkdir(v)
 	bzero(&ndirent, sizeof(ndirent));
 	ndirent.de_pmp = pmp;
 	ndirent.de_flag = DE_ACCESS | DE_CREATE | DE_UPDATE;
-	getnanotime(&ts);
+	TIMEVAL_TO_TIMESPEC(&time, &ts);
 	DETIMES(&ndirent, &ts, &ts, &ts);
 
 	/*
