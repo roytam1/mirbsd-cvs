@@ -1,4 +1,4 @@
-/*	$OpenBSD: sd.c,v 1.68 2004/05/09 04:01:59 krw Exp $	*/
+/*	$OpenBSD: sd.c,v 1.80 2005/07/02 15:39:55 krw Exp $	*/
 /*	$NetBSD: sd.c,v 1.111 1997/04/02 02:29:41 mycroft Exp $	*/
 
 /*-
@@ -103,6 +103,8 @@ void	sddone(struct scsi_xfer *);
 void	sd_shutdown(void *);
 int	sd_reassign_blocks(struct sd_softc *, u_long);
 int	sd_interpret_sense(struct scsi_xfer *);
+int	sd_get_parms(struct sd_softc *, struct disk_parms *, int);
+void	sd_flush(struct sd_softc *, int);
 
 void	viscpy(u_char *, u_char *, int);
 
@@ -138,9 +140,6 @@ const struct scsi_inquiry_pattern sd_patterns[] = {
 	{T_OPTICAL, T_REMOV,
 	 "",         "",                 ""},
 };
-
-extern struct sd_ops sd_scsibus_ops;
-extern struct sd_ops sd_atapibus_ops;
 
 #define sdlock(softc)   disk_lock(&(softc)->sc_dk)
 #define sdunlock(softc) disk_unlock(&(softc)->sc_dk)
@@ -181,7 +180,6 @@ sdattach(parent, self, aux)
 	 * Store information needed to contact our base driver
 	 */
 	sd->sc_link = sc_link;
-	sd->type = (sa->sa_inqbuf->device & SID_TYPE);
 	sc_link->device = &sd_switch;
 	sc_link->device_softc = sd;
 
@@ -194,12 +192,8 @@ sdattach(parent, self, aux)
 
 	dk_establish(&sd->sc_dk, &sd->sc_dev);
 
-	if (sc_link->flags & SDEV_ATAPI &&
-	    (sc_link->flags & SDEV_REMOVABLE)) {
-		sd->sc_ops = &sd_atapibus_ops;
-	} else {
-		sd->sc_ops = &sd_scsibus_ops;
-	}
+	if ((sc_link->flags & SDEV_ATAPI) && (sc_link->flags & SDEV_REMOVABLE))
+		sc_link->quirks |= SDEV_NOSYNCCACHE;
 
 	if (!(sc_link->inquiry_flags & SID_RelAdr))
 		sc_link->quirks |= SDEV_ONLYBIG;
@@ -222,6 +216,11 @@ sdattach(parent, self, aux)
 	    scsi_autoconf | SCSI_IGNORE_ILLEGAL_REQUEST |
 	    SCSI_IGNORE_MEDIA_CHANGE | SCSI_SILENT);
 
+	/* Try to start the unit if it wasn't ready. */
+	if (error == EIO)
+		error = scsi_start(sc_link, SSS_START,
+		    SCSI_IGNORE_ILLEGAL_REQUEST | SCSI_IGNORE_MEDIA_CHANGE);
+
 	/* Fill in name struct for spoofed label */
 	viscpy(sd->name.vendor, sa->sa_inqbuf->vendor, 8);
 	viscpy(sd->name.product, sa->sa_inqbuf->product, 16);
@@ -230,7 +229,7 @@ sdattach(parent, self, aux)
 	if (error)
 		result = SDGP_RESULT_OFFLINE;
 	else
-		result = (*sd->sc_ops->sdo_get_parms)(sd, &sd->params,
+		result = sd_get_parms(sd, &sd->params,
 		    scsi_autoconf | SCSI_SILENT | SCSI_IGNORE_MEDIA_CHANGE);
 
 	printf("%s: ", sd->sc_dev.dv_xname);
@@ -243,10 +242,6 @@ sdattach(parent, self, aux)
 
 	case SDGP_RESULT_OFFLINE:
 		printf("drive offline");
-		break;
-
-	case SDGP_RESULT_UNFORMATTED:
-		printf("unformatted media");
 		break;
 
 #ifdef DIAGNOSTIC
@@ -345,7 +340,7 @@ sdzeroref(self)
 }
 
 /*
- * open the device. Make sure the partition info is a up-to-date as can be.
+ * Open the device. Make sure the partition info is as up-to-date as can be.
  */
 int
 sdopen(dev, flag, fmt, p)
@@ -353,78 +348,84 @@ sdopen(dev, flag, fmt, p)
 	int flag, fmt;
 	struct proc *p;
 {
-	struct sd_softc *sd;
 	struct scsi_link *sc_link;
+	struct sd_softc *sd;
 	int unit, part;
-	int error;
+	int error = 0;
 
 	unit = SDUNIT(dev);
-	sd = sdlookup(unit);
-	if (sd == NULL)
-		return ENXIO;
-
-	sc_link = sd->sc_link;
 	part = SDPART(dev);
 
+	sd = sdlookup(unit);
+	if (sd == NULL)
+		return (ENXIO);
+
+	sc_link = sd->sc_link;
 	SC_DEBUG(sc_link, SDEV_DB1,
 	    ("sdopen: dev=0x%x (unit %d (of %d), partition %d)\n", dev, unit,
 	    sd_cd.cd_ndevs, part));
 
 	if ((error = sdlock(sd)) != 0) {
 		device_unref(&sd->sc_dev);
-		return error;
+		return (error);
 	}
 
 	if (sd->sc_dk.dk_openmask != 0) {
 		/*
 		 * If any partition is open, but the disk has been invalidated,
-		 * disallow further opens.
+		 * disallow further opens of non-raw partition.
 		 */
 		if ((sc_link->flags & SDEV_MEDIA_LOADED) == 0) {
+			if (part == RAW_PART && fmt == S_IFCHR)
+				goto out;
 			error = EIO;
-			goto bad3;
+			goto bad;
 		}
 	} else {
+		/* Use sd_interpret_sense() for sense errors. */
+		sc_link->flags |= SDEV_OPEN;
+
 		/* Check that it is still responding and ok. */
 		error = scsi_test_unit_ready(sc_link,
 		    TEST_READY_RETRIES_DEFAULT,
-		    SCSI_IGNORE_ILLEGAL_REQUEST |
-		    SCSI_IGNORE_MEDIA_CHANGE);
+		    (part == RAW_PART && fmt == S_IFCHR) ? SCSI_SILENT : 0 |
+		    SCSI_IGNORE_ILLEGAL_REQUEST | SCSI_IGNORE_MEDIA_CHANGE);
 
-		/* Start the pack spinning if necessary. */
+		/* Try to start the unit if it wasn't ready. */
 		if (error == EIO)
-			error = scsi_start(sc_link, SSS_START, 0);
+			error = scsi_start(sc_link, SSS_START,
+			    SCSI_IGNORE_ILLEGAL_REQUEST |
+			    SCSI_IGNORE_MEDIA_CHANGE);
 
-		if (error)
-			goto bad3;
-
-		sc_link->flags |= SDEV_OPEN;
+		if (error) {
+			if (part == RAW_PART && fmt == S_IFCHR) {
+				error = 0;
+				goto out;
+			} else
+				goto bad;
+		}
 
 		/* Lock the pack in. */
 		if ((sc_link->flags & SDEV_REMOVABLE) != 0) {
 			error = scsi_prevent(sc_link, PR_PREVENT,
 			    SCSI_IGNORE_ILLEGAL_REQUEST |
-			        SCSI_IGNORE_MEDIA_CHANGE);
+			    SCSI_IGNORE_MEDIA_CHANGE);
 			if (error)
 				goto bad;
 		}
-
-		if ((sc_link->flags & SDEV_MEDIA_LOADED) == 0) {
-			sc_link->flags |= SDEV_MEDIA_LOADED;
-
-			/* Load the physical device parameters. */
-			if ((*sd->sc_ops->sdo_get_parms)(sd, &sd->params,
-			    0) == SDGP_RESULT_OFFLINE) {
-				error = ENXIO;
-				goto bad2;
-			}
-			SC_DEBUG(sc_link, SDEV_DB3, ("Params loaded\n"));
-
-			/* Load the partition info if not already loaded. */
-			sdgetdisklabel(dev, sd, sd->sc_dk.dk_label,
-			    sd->sc_dk.dk_cpulabel, 0);
-			SC_DEBUG(sc_link, SDEV_DB3, ("Disklabel loaded\n"));
+		/* Load the physical device parameters. */
+		sc_link->flags |= SDEV_MEDIA_LOADED;
+		if (sd_get_parms(sd, &sd->params, 0) == SDGP_RESULT_OFFLINE) {
+			sc_link->flags &= ~SDEV_MEDIA_LOADED;
+			error = ENXIO;
+			goto bad;
 		}
+		SC_DEBUG(sc_link, SDEV_DB3, ("Params loaded\n"));
+
+		/* Load the partition info if not already loaded. */
+		sdgetdisklabel(dev, sd, sd->sc_dk.dk_label,
+		    sd->sc_dk.dk_cpulabel, 0);
+		SC_DEBUG(sc_link, SDEV_DB3, ("Disklabel loaded\n"));
 	}
 
 	/* Check that the partition exists. */
@@ -435,7 +436,7 @@ sdopen(dev, flag, fmt, p)
 		goto bad;
 	}
 
-	/* Insure only one open at a time. */
+out:	/* Insure only one open at a time. */
 	switch (fmt) {
 	case S_IFCHR:
 		sd->sc_dk.dk_copenmask |= (1 << part);
@@ -445,32 +446,25 @@ sdopen(dev, flag, fmt, p)
 		break;
 	}
 	sd->sc_dk.dk_openmask = sd->sc_dk.dk_copenmask | sd->sc_dk.dk_bopenmask;
-
 	SC_DEBUG(sc_link, SDEV_DB3, ("open complete\n"));
-	sdunlock(sd);
-	device_unref(&sd->sc_dev);
-	return 0;
 
-bad2:
-	sc_link->flags &= ~SDEV_MEDIA_LOADED;
-
+	/* It's OK to fall through because dk_openmask is now non-zero. */
 bad:
 	if (sd->sc_dk.dk_openmask == 0) {
-	    if ((sd->sc_link->flags & SDEV_REMOVABLE) != 0)
-		scsi_prevent(sc_link, PR_ALLOW,
-		    SCSI_IGNORE_ILLEGAL_REQUEST |
-		    SCSI_IGNORE_MEDIA_CHANGE);
-	    sc_link->flags &= ~SDEV_OPEN;
+		if ((sd->sc_link->flags & SDEV_REMOVABLE) != 0)
+			scsi_prevent(sc_link, PR_ALLOW,
+			    SCSI_IGNORE_ILLEGAL_REQUEST |
+			    SCSI_IGNORE_MEDIA_CHANGE);
+		sc_link->flags &= ~(SDEV_OPEN | SDEV_MEDIA_LOADED);
 	}
 
-bad3:
 	sdunlock(sd);
 	device_unref(&sd->sc_dev);
-	return error;
+	return (error);
 }
 
 /*
- * close the device.. only called if we are the LAST occurence of an open
+ * Close the device. Only called if we are the last occurrence of an open
  * device.  Convenient now but usually a pain.
  */
 int
@@ -501,14 +495,14 @@ sdclose(dev, flag, fmt, p)
 	sd->sc_dk.dk_openmask = sd->sc_dk.dk_copenmask | sd->sc_dk.dk_bopenmask;
 
 	if (sd->sc_dk.dk_openmask == 0) {
-		if ((sd->flags & SDF_DIRTY) != 0 &&
-		    sd->sc_ops->sdo_flush != NULL)
-			(*sd->sc_ops->sdo_flush)(sd, 0);
+		if ((sd->flags & SDF_DIRTY) != 0)
+			sd_flush(sd, 0);
 
 		if ((sd->sc_link->flags & SDEV_REMOVABLE) != 0)
 			scsi_prevent(sd->sc_link, PR_ALLOW,
-			    SCSI_IGNORE_ILLEGAL_REQUEST | SCSI_IGNORE_NOT_READY);
-		sd->sc_link->flags &= ~(SDEV_OPEN|SDEV_MEDIA_LOADED);
+			    SCSI_IGNORE_ILLEGAL_REQUEST |
+			    SCSI_IGNORE_NOT_READY);
+		sd->sc_link->flags &= ~(SDEV_OPEN | SDEV_MEDIA_LOADED);
 
 		if (sd->sc_link->flags & SDEV_EJECTING) {
 			scsi_start(sd->sc_link, SSS_STOP|SSS_LOEJ, 0);
@@ -543,13 +537,6 @@ sdstrategy(bp)
 	SC_DEBUG(sd->sc_link, SDEV_DB2, ("sdstrategy: %ld bytes @ blk %d\n",
 	    bp->b_bcount, bp->b_blkno));
 	/*
-	 * The transfer must be a whole number of blocks.
-	 */
-	if ((bp->b_bcount % sd->sc_dk.dk_label->d_secsize) != 0) {
-		bp->b_error = EINVAL;
-		goto bad;
-	}
-	/*
 	 * If the device has been made invalid, error out
 	 */
 	if ((sd->sc_link->flags & SDEV_MEDIA_LOADED) == 0) {
@@ -565,6 +552,13 @@ sdstrategy(bp)
 	if (bp->b_bcount == 0)
 		goto done;
 
+	/*
+	 * The transfer must be a whole number of blocks.
+	 */
+	if ((bp->b_bcount % sd->sc_dk.dk_label->d_secsize) != 0) {
+		bp->b_error = EINVAL;
+		goto bad;
+	}
 	/*
 	 * Do bounds checking, adjust transfer. if error, process.
 	 * If end of partition, just return.
@@ -625,10 +619,10 @@ done:
  */
 void
 sdstart(v)
-	register void *v;
+	void *v;
 {
-	register struct sd_softc *sd = v;
-	register struct	scsi_link *sc_link = sd->sc_link;
+	struct sd_softc *sd = v;
+	struct	scsi_link *sc_link = sd->sc_link;
 	struct buf *bp = 0;
 	struct buf *dp;
 	struct scsi_rw_big cmd_big;
@@ -994,7 +988,7 @@ sdgetdisklabel(dev, sd, lp, clp, spoofonly)
 	}
 
 	lp->d_type = DTYPE_SCSI;
-	if (sd->type == T_OPTICAL)
+	if ((sd->sc_link->inqdata.device & SID_TYPE) == T_OPTICAL)
 		strncpy(lp->d_typename, "SCSI optical",
 		    sizeof(lp->d_typename));
 	else
@@ -1062,8 +1056,8 @@ sd_shutdown(arg)
 	 * it, flush it.  We're cold at this point, so we poll for
 	 * completion.
 	 */
-	if ((sd->flags & SDF_DIRTY) != 0 && sd->sc_ops->sdo_flush != NULL)
-		(*sd->sc_ops->sdo_flush)(sd, SCSI_AUTOCONF);
+	if ((sd->flags & SDF_DIRTY) != 0)
+		sd_flush(sd, SCSI_AUTOCONF);
 }
 
 /*
@@ -1096,59 +1090,56 @@ int
 sd_interpret_sense(xs)
 	struct scsi_xfer *xs;
 {
-	struct scsi_link *sc_link = xs->sc_link;
 	struct scsi_sense_data *sense = &xs->sense;
+	struct scsi_link *sc_link = xs->sc_link;
 	struct sd_softc *sd = sc_link->device_softc;
-	int retval = SCSIRET_CONTINUE;
+	u_int8_t serr = sense->error_code & SSD_ERRCODE;
+	int retval;
 
 	/*
-	 * If the device is not open yet, let the generic code handle it.
+	 * Let the generic code handle everything except a few categories of
+	 * LUN not ready errors on open devices.
 	 */
-	if ((sc_link->flags & SDEV_MEDIA_LOADED) == 0) {
-		return (retval);
-	}
+	if (((sc_link->flags & SDEV_OPEN) == 0) ||
+	    (serr != 0x70 && serr != 0x71) ||
+	    ((sense->flags & SSD_KEY) != SKEY_NOT_READY) ||
+	    (sense->extra_len < 6) ||
+	    (sense->add_sense_code != 0x04))
+		return (EJUSTRETURN);
 
-	/*
-	 * If it isn't a extended or extended/deferred error, let
-	 * the generic code handle it.
-	 */
-	if ((sense->error_code & SSD_ERRCODE) != 0x70 &&
-	    (sense->error_code & SSD_ERRCODE) != 0x71) {	/* DEFFERRED */
-		return (retval);
-	}
-
-	if ((sense->flags & SSD_KEY) == SKEY_NOT_READY &&
-	    sense->add_sense_code == 0x4) {
-		if (sense->add_sense_code_qual == 0x01)	{
-			printf("%s: ..is spinning up...waiting\n",
+	switch (sense->add_sense_code_qual) {
+	case 0x01:
+		printf("%s: ..is spinning up...waiting\n", sd->sc_dev.dv_xname);
+		/*
+		 * I really need a sdrestart function I can call here.
+		 */
+		delay(1000000 * 5);	/* 5 seconds */
+		retval = ERESTART;
+		break;
+	case 0x02:
+		if (sd->sc_link->flags & SDEV_REMOVABLE) {
+			printf("%s: removable disk stopped - not restarting\n",
 			    sd->sc_dev.dv_xname);
-			/*
-			 * I really need a sdrestart function I can call here.
-			 */
-			delay(1000000 * 5);	/* 5 seconds */
-			retval = SCSIRET_RETRY;
-		} else if (sense->add_sense_code_qual == 0x2) {
-			if (sd->sc_link->flags & SDEV_REMOVABLE) {
-				printf(
-				"%s: removable disk stopped - not restarting\n",
-				    sd->sc_dev.dv_xname);
+			retval = EIO;
+		} else {
+			printf("%s: respinning up disk\n", sd->sc_dev.dv_xname);
+			retval = scsi_start(sd->sc_link, SSS_START,
+		    	    SCSI_IGNORE_ILLEGAL_REQUEST | SCSI_URGENT |
+			    SCSI_NOSLEEP);
+			if (retval != 0) {
+				printf("%s: respin of disk failed - %d\n",
+				    sd->sc_dev.dv_xname, retval);
 				retval = EIO;
 			} else {
-				printf("%s: respinning up disk\n",
-				    sd->sc_dev.dv_xname);
-				retval = scsi_start(sd->sc_link, SSS_START,
-				    SCSI_URGENT | SCSI_NOSLEEP);
-				if (retval != 0) {
-					printf(
-					    "%s: respin of disk failed - %d\n",
-					    sd->sc_dev.dv_xname, retval);
-					retval = EIO;
-				} else {
-					retval = SCSIRET_RETRY;
-				}
+				retval = ERESTART;
 			}
 		}
+		break;
+	default:
+		retval = EJUSTRETURN;
+		break;
 	}
+
 	return (retval);
 }
 
@@ -1328,4 +1319,142 @@ viscpy(dst, src, len)
 		len--;
 	}
 	*dst = '\0';
+}
+
+/*
+ * Fill out the disk parameter structure. Return SDGP_RESULT_OK if the
+ * structure is correctly filled in, SDGP_RESULT_OFFLINE otherwise. The caller
+ * is responsible for clearing the SDEV_MEDIA_LOADED flag if the structure
+ * cannot be completed.
+ */
+int
+sd_get_parms(sd, dp, flags)
+	struct sd_softc *sd;
+	struct disk_parms *dp;
+	int flags;
+{
+	struct scsi_mode_sense_buf buf;
+	union scsi_disk_pages *sense_pages;
+	u_int32_t heads = 0, sectors = 0, cyls = 0, blksize;
+	u_int16_t rpm = 0;
+
+	dp->disksize = scsi_size(sd->sc_link, flags, &blksize);
+
+	switch (sd->sc_link->inqdata.device & SID_TYPE) {
+	case T_OPTICAL:
+		/* No more information needed or available. */
+		break;
+
+	case T_RDIRECT:
+		/* T_RDIRECT only supports RBC Device Parameter Page (6). */
+		scsi_do_mode_sense(sd->sc_link, 6, &buf, (void **)&sense_pages,
+		    NULL, NULL, &blksize, sizeof(sense_pages->reduced_geometry),
+		    flags | SCSI_SILENT, NULL);
+		if (sense_pages) {
+			if (dp->disksize == 0)
+				dp->disksize = _5btol(sense_pages->
+				    reduced_geometry.sectors);
+			if (blksize == 0)
+				blksize = _2btol(sense_pages->
+				    reduced_geometry.bytes_s);
+		}
+		break;
+
+	default:
+		sense_pages = NULL;
+		if (((sd->sc_link->flags & SDEV_ATAPI) == 0) ||
+		    ((sd->sc_link->flags & SDEV_REMOVABLE) == 0))
+			/* Try mode sense page 4 (RIGID GEOMETRY). */
+			scsi_do_mode_sense(sd->sc_link, 4, &buf,
+			    (void **)&sense_pages, NULL, NULL, &blksize,
+			    sizeof(sense_pages->rigid_geometry),
+			    flags | SCSI_SILENT, NULL);
+		if (sense_pages) { 
+			heads = sense_pages->rigid_geometry.nheads;
+			cyls = _3btol(sense_pages->rigid_geometry.ncyl);
+			rpm = _2btol(sense_pages->rigid_geometry.rpm);
+			if (heads * cyls > 0)
+				sectors = dp->disksize / (heads * cyls);
+		} else {
+			/* * Try page 5 (FLEX GEOMETRY). */
+			scsi_do_mode_sense(sd->sc_link, 5, &buf,
+			    (void **)&sense_pages, NULL, NULL, &blksize,
+			    sizeof(sense_pages->flex_geometry),
+			    flags | SCSI_SILENT, NULL);
+			if (sense_pages) {
+				sectors = sense_pages->flex_geometry.ph_sec_tr;
+				heads = sense_pages->flex_geometry.nheads;
+				cyls = _2btol(sense_pages->flex_geometry.ncyl);
+				rpm = _2btol(sense_pages->flex_geometry.rpm);
+				if (blksize == 0)
+					blksize = _2btol(sense_pages->
+					    flex_geometry.bytes_s);
+				if (dp->disksize == 0)
+					dp->disksize = heads * cyls * sectors;
+			}	
+		}
+		break;
+	}
+
+	if (dp->disksize == 0)
+		return (SDGP_RESULT_OFFLINE);
+
+	/*
+	 * Use Adaptec standard geometry values for anything we still don't
+	 * know.
+	 */
+
+	dp->heads = (heads == 0) ? 64 : heads;
+	dp->blksize = (blksize == 0) ? 512 : blksize;
+	dp->sectors = (sectors == 0) ? 32 : sectors;
+	dp->rot_rate = (rpm == 0) ? 3600 : rpm;
+
+	/*
+	 * XXX THINK ABOUT THIS!!  Using values such that sectors * heads *
+	 * cyls is <= disk_size can lead to wasted space. We need a more
+	 * careful calculation/validation to make everything work out
+	 * optimally.
+	 */
+	dp->cyls = (cyls == 0) ? dp->disksize / (dp->heads * dp->sectors) :
+	    cyls;
+
+	return (SDGP_RESULT_OK);
+}
+
+void
+sd_flush(sd, flags)
+	struct sd_softc *sd;
+	int flags;
+{
+	struct scsi_link *sc_link = sd->sc_link;
+	struct scsi_synchronize_cache sync_cmd;
+
+	/*
+	 * If the device is SCSI-2, issue a SYNCHRONIZE CACHE.
+	 * We issue with address 0 length 0, which should be
+	 * interpreted by the device as "all remaining blocks
+	 * starting at address 0".  We ignore ILLEGAL REQUEST
+	 * in the event that the command is not supported by
+	 * the device, and poll for completion so that we know
+	 * that the cache has actually been flushed.
+	 *
+	 * Unless, that is, the device can't handle the SYNCHRONIZE CACHE
+	 * command, as indicated by our quirks flags.
+	 *
+	 * XXX What about older devices?
+	 */
+	if ((sc_link->scsi_version & SID_ANSII) >= 2 &&
+	    (sc_link->quirks & SDEV_NOSYNCCACHE) == 0) {
+		bzero(&sync_cmd, sizeof(sync_cmd));
+		sync_cmd.opcode = SYNCHRONIZE_CACHE;
+
+		if (scsi_scsi_cmd(sc_link,
+		    (struct scsi_generic *)&sync_cmd, sizeof(sync_cmd),
+		    NULL, 0, SDRETRIES, 100000, NULL,
+		    flags|SCSI_IGNORE_ILLEGAL_REQUEST))
+			printf("%s: WARNING: cache synchronization failed\n",
+			    sd->sc_dev.dv_xname);
+		else
+			sd->flags |= SDF_FLUSHING;
+	}
 }

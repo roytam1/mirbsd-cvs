@@ -1,4 +1,4 @@
-/*	$OpenBSD: ss.c,v 1.49 2004/05/09 04:01:59 krw Exp $	*/
+/*	$OpenBSD: ss.c,v 1.51 2005/04/06 02:51:13 krw Exp $	*/
 /*	$NetBSD: ss.c,v 1.10 1996/05/05 19:52:55 christos Exp $	*/
 
 /*
@@ -503,7 +503,7 @@ void
 ssminphys(bp)
 	struct buf *bp;
 {
-	register struct ss_softc *ss = ss_cd.cd_devs[SSUNIT(bp->b_dev)];
+	struct ss_softc *ss = ss_cd.cd_devs[SSUNIT(bp->b_dev)];
 
 	(ss->sc_link->adapter->scsi_minphys)(bp);
 
@@ -630,7 +630,7 @@ ssstart(v)
 {
 	struct ss_softc *ss = v;
 	struct scsi_link *sc_link = ss->sc_link;
-	register struct buf *bp, *dp;
+	struct buf *bp, *dp;
 	struct scsi_r_scanner read_cmd;
 	int flags;
 
@@ -734,7 +734,7 @@ ssioctl(dev, cmd, addr, flag, p)
 	default:
 		if (SSMODE(dev) != MODE_CONTROL)
 			return (ENOTTY);
-		return (scsi_do_safeioctl(ss->sc_link, dev, cmd, addr,
+		return (scsi_do_ioctl(ss->sc_link, dev, cmd, addr,
 		    flag, p));
 	}
 	return (error);
