@@ -759,7 +759,7 @@ linux_sys_times(p, v, retval)
 	struct timeval t;
 	struct linux_tms ltms;
 	struct rusage ru;
-	int error;
+	int error, s;
 
 	calcru(p, &ru.ru_utime, &ru.ru_stime, NULL);
 	ltms.ltms_utime = CONVTCK(ru.ru_utime);
@@ -771,7 +771,9 @@ linux_sys_times(p, v, retval)
 	if ((error = copyout(&ltms, SCARG(uap, tms), sizeof ltms)))
 		return error;
 
-	microuptime(&t);
+	s = splclock();
+	timersub(&time, &boottime, &t);
+	splx(s);
 
 	retval[0] = ((linux_clock_t)(CONVTCK(t)));
 	return 0;
@@ -838,7 +840,6 @@ linux_sys_alarm(p, v, retval)
 	} */ *uap = v;
 	int s;
 	struct itimerval *itp, it;
-	struct timeval tv;
 	int timo;
 
 	itp = &p->p_realtimer;
@@ -846,12 +847,12 @@ linux_sys_alarm(p, v, retval)
 	/*
 	 * Clear any pending timer alarms.
 	 */
-	getmicrouptime(&tv);
+
 	timeout_del(&p->p_realit_to);
 	timerclear(&itp->it_interval);
 	if (timerisset(&itp->it_value) &&
-	    timercmp(&itp->it_value, &tv, >))
-		timersub(&itp->it_value, &tv, &itp->it_value);
+	    timercmp(&itp->it_value, &time, >))
+		timersub(&itp->it_value, &time, &itp->it_value);
 	/*
 	 * Return how many seconds were left (rounded up)
 	 */
@@ -881,7 +882,9 @@ linux_sys_alarm(p, v, retval)
 
 	if (timerisset(&it.it_value)) {
 		timo = tvtohz(&it.it_value);
-		timeradd(&it.it_value, &tv, &it.it_value);
+		if (timo <= 0)
+			timo = 1;
+		timeradd(&it.it_value, &time, &it.it_value);
 		timeout_add(&p->p_realit_to, timo);
 	}
 	p->p_realtimer = it;
@@ -1439,7 +1442,7 @@ linux_sys_stime(p, v, retval)
 	struct linux_sys_time_args /* {
 		linux_time_t *t;
 	} */ *uap = v;
-	struct timespec ats;
+	struct timeval atv;
 	linux_time_t tt;
 	int error;
 
@@ -1449,10 +1452,10 @@ linux_sys_stime(p, v, retval)
 	if ((error = copyin(SCARG(uap, t), &tt, sizeof(tt))) != 0)
 		return (error);
 
-	ats.tv_sec = tt;
-	ats.tv_nsec = 0;
+	atv.tv_sec = tt;
+	atv.tv_usec = 0;
 
-	error = settime(&ats);
+	error = settime(&atv);
 
 	return (error);
 }
@@ -1507,10 +1510,9 @@ linux_sys_sysinfo(p, v, retval)
 	struct linux_sysinfo si;
 	struct loadavg *la;
 	extern int bufpages;
-	struct timeval tv;
 
-	getmicrouptime(&tv);
-	si.uptime = tv.tv_sec;
+
+	si.uptime = time.tv_sec - boottime.tv_sec;
 	la = &averunnable;
 	si.loads[0] = la->ldavg[0] * LINUX_SYSINFO_LOADS_SCALE / la->fscale;
 	si.loads[1] = la->ldavg[1] * LINUX_SYSINFO_LOADS_SCALE / la->fscale;
