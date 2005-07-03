@@ -885,7 +885,6 @@ nfsrv_writegather(ndp, slp, procp, mrq)
 	struct vnode *vp;
 	struct uio io, *uiop = &io;
 	u_quad_t frev, cur_usec;
-	struct timeval tv;
 
 	*mrq = NULL;
 	if (*ndp) {
@@ -899,8 +898,7 @@ nfsrv_writegather(ndp, slp, procp, mrq)
 	    LIST_INIT(&nfsd->nd_coalesce);
 	    nfsd->nd_mreq = NULL;
 	    nfsd->nd_stable = NFSV3WRITE_FILESYNC;
-	    getmicrotime(&tv);
-	    cur_usec = (u_quad_t)tv.tv_sec * 1000000 + (u_quad_t)tv.tv_usec;
+	    cur_usec = (u_quad_t)time.tv_sec * 1000000 + (u_quad_t)time.tv_usec;
 	    nfsd->nd_time = cur_usec + nfsrvw_procrastinate;
     
 	    /*
@@ -1012,8 +1010,7 @@ nfsmout:
 	 * and generate the associated reply mbuf list(s).
 	 */
 loop1:
-	getmicrotime(&tv);
-	cur_usec = (u_quad_t)tv.tv_sec * 1000000 + (u_quad_t)tv.tv_usec;
+	cur_usec = (u_quad_t)time.tv_sec * 1000000 + (u_quad_t)time.tv_usec;
 	s = splsoftclock();
 	for (nfsd = LIST_FIRST(&slp->ns_tq); nfsd != NULL; nfsd = owp) {
 		owp = LIST_NEXT(nfsd, nd_tq);
