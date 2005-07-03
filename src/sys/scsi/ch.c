@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ch.c,v 1.16 2003/05/18 16:06:35 mickey Exp $	*/
+/**	$MirOS: src/sys/scsi/ch.c,v 1.2 2005/03/06 21:28:32 tg Exp $ */
+/*	$OpenBSD: ch.c,v 1.20 2005/05/23 07:06:16 krw Exp $	*/
 /*	$NetBSD: ch.c,v 1.26 1997/02/21 22:06:52 thorpej Exp $	*/
 
 /*
@@ -343,7 +343,7 @@ chioctl(dev, cmd, data, flags, p)
 	/* Implement prevent/allow? */
 
 	default:
-		error = scsi_do_safeioctl(sc->sc_link, dev, cmd, data,
+		error = scsi_do_ioctl(sc->sc_link, dev, cmd, data,
 		    flags, p);
 		break;
 	}
@@ -612,11 +612,10 @@ ch_getelemstatus(sc, first, count, data, datalen)
  * softc.
  */
 int
-ch_get_params(sc, scsiflags)
+ch_get_params(sc, flags)
 	struct ch_softc *sc;
-	int scsiflags;
+	int flags;
 {
-	struct scsi_mode_sense cmd;
 	struct scsi_mode_sense_data {
 		struct scsi_mode_header header;
 		union {
@@ -629,17 +628,11 @@ ch_get_params(sc, scsiflags)
 	u_int8_t *moves, *exchanges;
 
 	/*
-	 * Grab info from the element address assignment page.
+	 * Grab info from the element address assignment page (0x1d).
 	 */
-	bzero(&cmd, sizeof(cmd));
-	bzero(&sense_data, sizeof(sense_data));
-	cmd.opcode = MODE_SENSE;
-	cmd.byte2 |= 0x08;	/* disable block descriptors */
-	cmd.page = 0x1d;
-	cmd.length = (sizeof(sense_data) & 0xff);
-	error = scsi_scsi_cmd(sc->sc_link, (struct scsi_generic *)&cmd,
-	    sizeof(cmd), (u_char *)&sense_data, sizeof(sense_data), CHRETRIES,
-	    6000, NULL, scsiflags | SCSI_DATA_IN);
+	error = scsi_mode_sense(sc->sc_link, SMS_DBD, 0x1d,
+	    (struct scsi_mode_header *)&sense_data, sizeof(sense_data), flags,
+	    6000);
 	if (error) {
 		printf("%s: could not sense element address page\n",
 		    sc->sc_dev.dv_xname);
@@ -658,17 +651,11 @@ ch_get_params(sc, scsiflags)
 	/* XXX ask for page trasport geom */
 
 	/*
-	 * Grab info from the capabilities page.
+	 * Grab info from the capabilities page (0x1f).
 	 */
-	bzero(&cmd, sizeof(cmd));
-	bzero(&sense_data, sizeof(sense_data));
-	cmd.opcode = MODE_SENSE;
-	cmd.byte2 |= 0x08;	/* disable block descriptors */
-	cmd.page = 0x1f;
-	cmd.length = (sizeof(sense_data) & 0xff);
-	error = scsi_scsi_cmd(sc->sc_link, (struct scsi_generic *)&cmd,
-	    sizeof(cmd), (u_char *)&sense_data, sizeof(sense_data), CHRETRIES,
-	    6000, NULL, scsiflags | SCSI_DATA_IN);
+	error = scsi_mode_sense(sc->sc_link, SMS_DBD, 0x1f,
+	    (struct scsi_mode_header *)&sense_data, sizeof(sense_data), flags,
+	    6000);
 	if (error) {
 		printf("%s: could not sense capabilities page\n",
 		    sc->sc_dev.dv_xname);
