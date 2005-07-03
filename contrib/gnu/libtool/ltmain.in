@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.16 2005/05/21 13:32:43 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.17 2005/07/03 13:40:00 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -240,8 +240,8 @@ func_infer_tag ()
 	  $echo "$modename: unable to infer tagged configuration"
 	  $echo "$modename: specify a tag with '--tag'" 1>&2
 	  exit $EXIT_FAILURE
-#        else
-#          $echo "$modename: using $tagname tagged configuration"
+#	else
+#	  $echo "$modename: using $tagname tagged configuration"
 	fi
 	;;
       esac
@@ -313,7 +313,7 @@ func_extract_archives ()
 	  darwin_curdir=`pwd`
 	  darwin_base_archive=`$echo "X$darwin_archive" | $Xsed -e 's%^.*/%%'`
 	  darwin_arches=`lipo -info "$darwin_archive" 2>/dev/null | $EGREP Architectures 2>/dev/null`
-	  if test -n "$darwin_arches"; then 
+	  if test -n "$darwin_arches"; then
 	    darwin_arches=`echo "$darwin_arches" | $SED -e 's/.*are://'`
 	    darwin_arch=
 	    $show "$darwin_base_archive has multiple architectures $darwin_arches"
@@ -337,13 +337,13 @@ func_extract_archives ()
 	    cd "$darwin_orig_dir"
 	  else
 	    cd "$darwin_orig_dir"
- 	    func_extract_an_archive "$my_xdir" "$my_xabs"
+	    func_extract_an_archive "$my_xdir" "$my_xabs"
 	  fi # $darwin_arches
 	fi # $run
       ;;
       *)
-        func_extract_an_archive "$my_xdir" "$my_xabs"
-        ;;
+	func_extract_an_archive "$my_xdir" "$my_xabs"
+	;;
       esac
       my_oldobjs="$my_oldobjs "`find $my_xdir -name \*.$objext -print -o -name \*.lo -print | $NL2SP`
     done
@@ -615,15 +615,15 @@ if test -z "$show_help"; then
 	  ;;
 
 	-Xcompiler)
-	  arg_mode=arg  #  the next one goes into the "base_compile" arg list
-	  continue      #  The current "srcfile" will either be retained or
-	  ;;            #  replaced later.  I would guess that would be a bug.
+	  arg_mode=arg	#  the next one goes into the "base_compile" arg list
+	  continue	#  The current "srcfile" will either be retained or
+	  ;;		#  replaced later.  I would guess that would be a bug.
 
 	-Wc,*)
 	  args=`$echo "X$arg" | $Xsed -e "s/^-Wc,//"`
 	  lastarg=
 	  save_ifs="$IFS"; IFS=','
- 	  for arg in $args; do
+	  for arg in $args; do
 	    IFS="$save_ifs"
 
 	    # Double-quote args containing other shell metacharacters.
@@ -1354,7 +1354,7 @@ EOF
 	  continue
 	  ;;
 	shrext)
-  	  shrext_cmds="$arg"
+	  shrext_cmds="$arg"
 	  prev=
 	  continue
 	  ;;
@@ -1491,7 +1491,7 @@ EOF
 	    # These systems don't actually have a C library (as such)
 	    test "X$arg" = "X-lc" && continue
 	    ;;
-	  *-*-openbsd* | *-*-freebsd* | *-*-dragonfly* | *-*-mirbsd*)
+	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    test "X$arg" = "X-lc" && continue
 	    ;;
@@ -1502,7 +1502,7 @@ EOF
 	  esac
 	elif test "X$arg" = "X-lc_r"; then
 	 case $host in
-	 *-*-openbsd* | *-*-freebsd* | *-*-dragonfly* | *-*-mirbsd*)
+	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
 	   # Do not include libc_r directly, use -pthread flag.
 	   continue
 	   ;;
@@ -1752,7 +1752,7 @@ EOF
 	  xdir=`$echo "X$arg" | $Xsed -e 's%/[^/]*$%%'`
 	  if test "X$xdir" = "X$arg"; then
 	    xdir=
- 	  else
+	  else
 	    xdir="$xdir/"
 	  fi
 
@@ -2141,7 +2141,7 @@ EOF
 	    case $deplibs_check_method in
 	      match_pattern*)
 		set dummy $deplibs_check_method
-	        match_pattern_regex=`expr "$deplibs_check_method" : "$2 \(.*\)"`
+		match_pattern_regex=`expr "$deplibs_check_method" : "$2 \(.*\)"`
 		if eval $echo \"$deplib\" 2>/dev/null \
 		    | $SED 10q \
 		    | $EGREP "$match_pattern_regex" > /dev/null; then
@@ -3188,8 +3188,8 @@ EOF
 	  major=`expr $current - $age + 1`
 
 	  case $version_type in
-	    nonstopux) verstring_prefix=nonstopux ;;
-	    *)         verstring_prefix=sgi ;;
+	    nonstopux)	verstring_prefix=nonstopux ;;
+	    *)		verstring_prefix=sgi ;;
 	  esac
 	  verstring="$verstring_prefix$major.$revision"
 
@@ -3377,11 +3377,11 @@ EOF
 	  *-*-netbsd*)
 	    # Don't link with libc until the a.out ld.so is fixed.
 	    ;;
-	  *-*-openbsd* | *-*-freebsd* | *-*-dragonfly* | *-*-mirbsd*)
+	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    test "X$arg" = "X-lc" && continue
 	    ;;
- 	  *)
+	  *)
 	    # Add libc to deplibs on all other systems if necessary.
 	    if test "$build_libtool_need_lc" = "yes"; then
 	      deplibs="$deplibs -lc"
@@ -3437,7 +3437,7 @@ EOF
 		    i=""
 		    ;;
 		  esac
-	        fi
+		fi
 		if test -n "$i" ; then
 		  libname=`eval \\$echo \"$libname_spec\"`
 		  deplib_matches=`eval \\$echo \"$library_names_spec\"`
@@ -3466,7 +3466,7 @@ EOF
 	    for i in $deplibs; do
 	      name="`expr $i : '-l\(.*\)'`"
 	      # If $name is empty we are operating on a -L argument.
-              if test "$name" != "" && test "$name" != "0"; then
+	      if test "$name" != "" && test "$name" != "0"; then
 		$rm conftest
 		$LTCC -o conftest conftest.c $i
 		# Did it work?
@@ -3518,7 +3518,7 @@ EOF
 	  for a_deplib in $deplibs; do
 	    name="`expr $a_deplib : '-l\(.*\)'`"
 	    # If $name is empty we are operating on a -L argument.
-            if test "$name" != "" && test  "$name" != "0"; then
+	    if test "$name" != "" && test  "$name" != "0"; then
 	      if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
 		case " $predeps $postdeps " in
 		*" $a_deplib "*)
@@ -3603,8 +3603,8 @@ EOF
 		  for potent_lib in $potential_libs; do
 		    potlib="$potent_lib" # see symlink-check above in file_magic test
 		    if eval $echo \"$potent_lib\" 2>/dev/null \
-		        | ${SED} 10q \
-		        | $EGREP "$match_pattern_regex" > /dev/null; then
+			| ${SED} 10q \
+			| $EGREP "$match_pattern_regex" > /dev/null; then
 		      newdeplibs="$newdeplibs $a_deplib"
 		      a_deplib=""
 		      break 2
@@ -3819,13 +3819,13 @@ EOF
 	      eval cmd=\"$cmd\"
 	      if len=`expr "X$cmd" : ".*"` &&
 	       test "$len" -le "$max_cmd_len" || test "$max_cmd_len" -le -1; then
-	        $show "$cmd"
-	        $run eval "$cmd" || exit $?
-	        skipped_export=false
+		$show "$cmd"
+		$run eval "$cmd" || exit $?
+		skipped_export=false
 	      else
-	        # The command line is too long to execute in one step.
-	        $show "using reloadable object file for export list..."
-	        skipped_export=:
+		# The command line is too long to execute in one step.
+		$show "using reloadable object file for export list..."
+		skipped_export=:
 	      fi
 	    done
 	    IFS="$save_ifs"
@@ -3865,7 +3865,7 @@ EOF
 	    libobjs="$libobjs $func_extract_archives_result"
 	  fi
 	fi
-	
+
 	if test "$thread_safe" = yes && test -n "$thread_safe_flag_spec"; then
 	  eval flag=\"$thread_safe_flag_spec\"
 	  linker_flags="$linker_flags $flag"
@@ -4200,12 +4200,12 @@ EOF
 
       case $host in
       *darwin*)
-        # Don't allow lazy linking, it breaks C++ global constructors
-        if test "$tagname" = CXX ; then
-        compile_command="$compile_command ${wl}-bind_at_load"
-        finalize_command="$finalize_command ${wl}-bind_at_load"
-        fi
-        ;;
+	# Don't allow lazy linking, it breaks C++ global constructors
+	if test "$tagname" = CXX ; then
+	compile_command="$compile_command ${wl}-bind_at_load"
+	finalize_command="$finalize_command ${wl}-bind_at_load"
+	fi
+	;;
       esac
 
       compile_command="$compile_command $compile_deplibs"
