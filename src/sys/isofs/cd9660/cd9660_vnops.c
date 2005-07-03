@@ -1,4 +1,4 @@
-/*	$OpenBSD: cd9660_vnops.c,v 1.30 2004/05/14 04:00:34 tedu Exp $	*/
+/*	$OpenBSD: cd9660_vnops.c,v 1.32 2004/11/29 17:05:05 grange Exp $	*/
 /*	$NetBSD: cd9660_vnops.c,v 1.42 1997/10/16 23:56:57 christos Exp $	*/
 
 /*-
@@ -98,7 +98,7 @@ cd9660_mknod(ndp, vap, cred, p)
 	struct proc *p;
 {
 #ifndef	ISODEVMAP
-	pool_put(i&namei_pool, ndp->ni_pnbuf);
+	pool_put(&namei_pool, ndp->ni_pnbuf);
 	vput(ndp->ni_dvp);
 	vput(ndp->ni_vp);
 	return (EINVAL);
@@ -421,7 +421,7 @@ cd9660_poll(v)
 	/*
 	 * We should really check to see if I/O is possible.
 	 */
-	return (seltrue(ap->a_vp->v_rdev, ap->a_events, ap->a_p));
+	return (ap->a_events & (POLLIN | POLLOUT | POLLRDNORM | POLLWRNORM));
 }
 
 /*

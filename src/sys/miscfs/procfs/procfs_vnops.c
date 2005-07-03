@@ -501,7 +501,6 @@ procfs_getattr(v)
 	struct pfsnode *pfs = VTOPFS(ap->a_vp);
 	struct vattr *vap = ap->a_vap;
 	struct proc *procp;
-	struct timeval tv;
 	int error;
 
 	/* first check the process still exists */
@@ -540,8 +539,7 @@ procfs_getattr(v)
 	 * p_stat structure is not addressible if u. gets
 	 * swapped out for that process.
 	 */
-	microtime(&tv);
-	TIMEVAL_TO_TIMESPEC(&tv, &vap->va_ctime);
+	getnanotime(&vap->va_ctime);
 	vap->va_atime = vap->va_mtime = vap->va_ctime;
 
 	switch (pfs->pfs_type) {
