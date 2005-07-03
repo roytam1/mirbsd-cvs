@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.17 2005/07/03 13:40:00 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.18 2005/07/03 14:49:04 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -5762,7 +5762,7 @@ relink_command=\"$relink_command\""
 	  # finese the cygwin/MSYS system by explicitly sourcing "foo."
 	  # which disallows the automatic-append-.exe behavior.
 	  case $build in
-	  *cygwin* | *mingw*` wrapperdot=${wrapper}. ;;
+	  *cygwin* | *mingw*) wrapperdot=${wrapper}. ;;
 	  *) wrapperdot=${wrapper} ;;
 	  esac
 	  # If there is no directory component, then add one.
