@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.28 2005/07/03 14:20:36 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.29 2005/07/03 14:49:03 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1609,7 +1609,7 @@ hpux9* | hpux10* | hpux11*)
   ;;
 
 interix3*)
-  version_type=sunos
+  version_type=linux
   need_lib_prefix=no
   need_version=no
   library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
@@ -3357,16 +3357,15 @@ case $host_os in
     esac
     ;;
   interix3*)
-    # Oy, what a hack.  (From NetBSD(R) pkgsrc(R).)
-    # Because shlibs are not compiled -fPIC due to broken code, we must
-    # choose an --image-base.  Otherwise, 0x10000000 will be chosen for
-    # all libraries, leading to runtime relocations -- slow and very
-    # memory consuming.  To do this, we pick a random 256KB-aligned
-    # start address between 0x50000000 and 0x6ffc0000 at link time.
-    # Moving up from 0x10000000 also allows more sbrk() space.
-    # XXX this is mirbsdksh-specific code
-    _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--image-base,$((RANDOM % 0x1000 / 2 * 0x40000 + 0x50000000)) -o $lib'
-    _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.expsym && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.expsym ${wl}--image-base,$((RANDOM % 0x1000 / 2 * 0x40000 + 0x50000000)) -o $lib'
+    # Hack: On Interix 3.x, we cannot compile PIC because of a broken gcc.
+    # Instead, shared libraries are loaded at an image base (0x10000000 by
+    # default) and relocated if they conflict, which is a slow very memory
+    # consuming and fragmenting process.  To avoid this, we pick a random,
+    # 256 KiB-aligned image base between 0x50000000 and 0x6FFC0000 at link
+    # time.  Moving up from 0x10000000 also allows more sbrk(2) space.  It
+    # is ksh-specific code, but on Interix, the system /bin/sh is a pdksh.
+    _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--image-base,$((RANDOM % 16#1000 / 2 * 16#40000 + 16#50000000)) -o $lib'
+    _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.expsym && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.expsym ${wl}--image-base,$((RANDOM % 16#1000 / 2 * 16#40000 + 16#50000000)) -o $lib'
     ;;
   irix5* | irix6*)
     case $cc_basename in
@@ -4943,8 +4942,7 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
       ;;
     interix3*)
       # Interix 3.x gcc -fpic/-fPIC options generate broken code.
-      # Instead, we relocate shlibs at runtime (slow, fragments
-      # memory and is very memory consuming).
+      # Instead, we relocate shared libraries at runtime.
       ;;
     sysv4*MP*)
       if test -d /usr/nec; then
@@ -5220,8 +5218,7 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
 
     interix3*)
       # Interix 3.x gcc -fpic/-fPIC options generate broken code.
-      # Instead, we relocate shlibs at runtime (slow, fragments
-      # memory and is very memory consuming).
+      # Instead, we relocate shared libraries at runtime.
       ;;
 
     msdosdjgpp*)
@@ -5603,16 +5600,15 @@ EOF
       _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
       _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
-      # Oy, what a hack.  (Again, from TNF - but fixed.)
-      # Because shlibs are not compiled -fPIC due to broken code, we must
-      # choose an --image-base.  Otherwise, 0x10000000 will be chosen for
-      # all libraries, leading to runtime relocations -- slow and very
-      # memory consuming.  To do this, we pick a random 256KB-aligned
-      # start address between 0x50000000 and 0x6ffc0000 at link time.
-      # Moving up from 0x10000000 also allows more sbrk() space.
-      # XXX this will only work with mirbsdksh
-      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--image-base,$((RANDOM % 0x1000 / 2 * 0x40000 + 0x50000000)) -o $lib'
-      _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.expsym && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.expsym ${wl}--image-base,$((RANDOM % 0x1000 / 2 * 0x40000 + 0x50000000)) -o $lib'
+      # Hack: On Interix 3.x, we cannot compile PIC because of a broken gcc.
+      # Instead, shared libraries are loaded at an image base (0x10000000 by
+      # default) and relocated if they conflict, which is a slow very memory
+      # consuming and fragmenting process.  To avoid this, we pick a random,
+      # 256 KiB-aligned image base between 0x50000000 and 0x6FFC0000 at link
+      # time.  Moving up from 0x10000000 also allows more sbrk(2) space.  It
+      # is ksh-specific code, but on Interix, the system /bin/sh is a pdksh.
+      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--image-base,$((RANDOM % 16#1000 / 2 * 16#40000 + 16#50000000)) -o $lib'
+      _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.expsym && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.expsym ${wl}--image-base,$((RANDOM % 16#1000 / 2 * 16#40000 + 16#50000000)) -o $lib'
       ;;
 
     linux*)
