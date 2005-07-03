@@ -1,4 +1,4 @@
-/*	$OpenBSD: nfs_serv.c,v 1.37 2004/05/14 04:00:34 tedu Exp $	*/
+/*	$OpenBSD: nfs_serv.c,v 1.39 2005/06/18 18:09:43 millert Exp $	*/
 /*     $NetBSD: nfs_serv.c,v 1.34 1997/05/12 23:37:12 fvdl Exp $       */
 
 /*
@@ -885,6 +885,7 @@ nfsrv_writegather(ndp, slp, procp, mrq)
 	struct vnode *vp;
 	struct uio io, *uiop = &io;
 	u_quad_t frev, cur_usec;
+	struct timeval tv;
 
 	*mrq = NULL;
 	if (*ndp) {
@@ -898,7 +899,8 @@ nfsrv_writegather(ndp, slp, procp, mrq)
 	    LIST_INIT(&nfsd->nd_coalesce);
 	    nfsd->nd_mreq = NULL;
 	    nfsd->nd_stable = NFSV3WRITE_FILESYNC;
-	    cur_usec = (u_quad_t)time.tv_sec * 1000000 + (u_quad_t)time.tv_usec;
+	    getmicrotime(&tv);
+	    cur_usec = (u_quad_t)tv.tv_sec * 1000000 + (u_quad_t)tv.tv_usec;
 	    nfsd->nd_time = cur_usec + nfsrvw_procrastinate;
     
 	    /*
@@ -1010,7 +1012,8 @@ nfsmout:
 	 * and generate the associated reply mbuf list(s).
 	 */
 loop1:
-	cur_usec = (u_quad_t)time.tv_sec * 1000000 + (u_quad_t)time.tv_usec;
+	getmicrotime(&tv);
+	cur_usec = (u_quad_t)tv.tv_sec * 1000000 + (u_quad_t)tv.tv_usec;
 	s = splsoftclock();
 	for (nfsd = LIST_FIRST(&slp->ns_tq); nfsd != NULL; nfsd = owp) {
 		owp = LIST_NEXT(nfsd, nd_tq);
@@ -2327,8 +2330,6 @@ out:
  * - it trims out records with d_fileno == 0
  *	this doesn't matter for Unix clients, but they might confuse clients
  *	for other os'.
- * - it trims out records with d_type == DT_WHT
- *	these cannot be seen through NFS (unless we extend the protocol)
  * NB: It is tempting to set eof to true if the VOP_READDIR() reads less
  *	than requested, but this may not apply to all filesystems. For
  *	example, client NFS does not { although it is never remote mounted
@@ -2505,8 +2506,7 @@ again:
 	dp = (struct dirent *)cpos;
 	cookiep = cookies;
 
-	while (cpos < cend && ncookies > 0 &&
-	    (dp->d_fileno == 0 || dp->d_type == DT_WHT)) {
+	while (cpos < cend && ncookies > 0 && dp->d_fileno == 0) {
 		cpos += dp->d_reclen;
 		dp = (struct dirent *)cpos;
 		cookiep++;
@@ -2531,7 +2531,7 @@ again:
 
 	/* Loop through the records and build reply */
 	while (cpos < cend && ncookies > 0) {
-		if (dp->d_fileno != 0 && dp->d_type != DT_WHT) {
+		if (dp->d_fileno != 0) {
 			nlen = dp->d_namlen;
 			rem = nfsm_rndup(nlen)-nlen;
 			len += (4 * NFSX_UNSIGNED + nlen + rem);
@@ -2761,8 +2761,7 @@ again:
 	dp = (struct dirent *)cpos;
 	cookiep = cookies;
 
-	while (cpos < cend && ncookies > 0 &&
-	    (dp->d_fileno == 0 || dp->d_type == DT_WHT)) {
+	while (cpos < cend && ncookies > 0 && dp->d_fileno == 0) {
 		cpos += dp->d_reclen;
 		dp = (struct dirent *)cpos;
 		cookiep++;
@@ -2797,7 +2796,7 @@ again:
 
 	/* Loop through the records and build reply */
 	while (cpos < cend && ncookies > 0) {
-		if (dp->d_fileno != 0 && dp->d_type != DT_WHT) {
+		if (dp->d_fileno != 0) {
 			nlen = dp->d_namlen;
 			rem = nfsm_rndup(nlen)-nlen;
 	
