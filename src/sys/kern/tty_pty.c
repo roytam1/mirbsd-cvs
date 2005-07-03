@@ -167,7 +167,7 @@ check_pty(int minor)
 {
 	struct pt_softc *pti;
 
-	rw_enter_write(&pt_softc_lock);
+	rw_enter_write(&pt_softc_lock, curproc);
 	if (minor >= npty) {
 		struct pt_softc **newpt;
 		int newnpty;
@@ -971,7 +971,7 @@ sysctl_pty(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
 	case KERN_TTY_MAXPTYS:
 		if (!newp)
 			return (sysctl_rdint(oldp, oldlenp, newp, maxptys));
-		rw_enter_write(&pt_softc_lock);
+		rw_enter_write(&pt_softc_lock, curproc);
 		oldmax = maxptys;
 		error = sysctl_int(oldp, oldlenp, newp, newlen, &maxptys);
 		/*
@@ -1060,14 +1060,6 @@ ptm_vn_open(struct nameidata *ndp)
 	 */
 	cred = crget();
 	error = VOP_OPEN(vp, FREAD|FWRITE, cred, p);
-	if (!error) {
-		/* update atime/mtime */
-		VATTR_NULL(&vattr);
-		getnanotime(&vattr.va_atime);
-		vattr.va_mtime = vattr.va_atime;
-		vattr.va_vaflags |= VA_UTIMES_NULL;
-		(void)VOP_SETATTR(vp, &vattr, p->p_ucred, p);
-	}
 	crfree(cred);
 
 	if (error)
@@ -1140,7 +1132,7 @@ ptmioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	error = 0;
 	switch (cmd) {
 	case PTMGET:
-		fdplock(fdp);
+		fdplock(fdp, p);
 		/* Grab two filedescriptors. */
 		if ((error = falloc(p, &cfp, &cindx)) != 0) {
 			fdpunlock(fdp);
