@@ -2627,9 +2627,9 @@ em_transmit_checksum_setup(struct em_softc * sc,
 	struct em_buffer *tx_buffer;
 	int curr_txd;
 
-	if (mp->m_pkthdr.csum_flags) {
+	if (mp->m_pkthdr.csum) {
 
-		if (mp->m_pkthdr.csum_flags & CSUM_TCP) {
+		if (mp->m_pkthdr.csum & CSUM_TCP) {
 			*txd_upper = E1000_TXD_POPTS_TXSM << 8;
 			*txd_lower = E1000_TXD_CMD_DEXT | E1000_TXD_DTYP_D;
 			if (sc->active_checksum_context == OFFLOAD_TCP_IP)
@@ -2637,7 +2637,7 @@ em_transmit_checksum_setup(struct em_softc * sc,
 			else
 				sc->active_checksum_context = OFFLOAD_TCP_IP;
 
-		} else if (mp->m_pkthdr.csum_flags & CSUM_UDP) {
+		} else if (mp->m_pkthdr.csum & CSUM_UDP) {
 			*txd_upper = E1000_TXD_POPTS_TXSM << 8;
 			*txd_lower = E1000_TXD_CMD_DEXT | E1000_TXD_DTYP_D;
 			if (sc->active_checksum_context == OFFLOAD_UDP_IP)
@@ -3279,7 +3279,7 @@ em_receive_checksum(struct em_softc *sc,
 	if ((sc->hw.mac_type < em_82543) ||
 	    /* Ignore Checksum bit is set */
 	    (rx_desc->status & E1000_RXD_STAT_IXSM)) {
-		mp->m_pkthdr.csum_flags = 0;
+		mp->m_pkthdr.csum = 0;
 		return;
 	}
 
@@ -3287,18 +3287,18 @@ em_receive_checksum(struct em_softc *sc,
 		/* Did it pass? */
 		if (!(rx_desc->errors & E1000_RXD_ERR_IPE)) {
 			/* IP Checksum Good */
-			mp->m_pkthdr.csum_flags = CSUM_IP_CHECKED;
-			mp->m_pkthdr.csum_flags |= CSUM_IP_VALID;
+			mp->m_pkthdr.csum = CSUM_IP_CHECKED;
+			mp->m_pkthdr.csum |= CSUM_IP_VALID;
 
 		} else {
-			mp->m_pkthdr.csum_flags = 0;
+			mp->m_pkthdr.csum = 0;
 		}
 	}
 
 	if (rx_desc->status & E1000_RXD_STAT_TCPCS) {
 		/* Did it pass? */	  
 		if (!(rx_desc->errors & E1000_RXD_ERR_TCPE)) {
-			mp->m_pkthdr.csum_flags |= 
+			mp->m_pkthdr.csum |= 
 			(CSUM_DATA_VALID | CSUM_PSEUDO_HDR);
 			mp->m_pkthdr.csum_data = htons(0xffff);
 		}
