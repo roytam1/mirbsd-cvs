@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_ray.c,v 1.23 2004/05/12 06:35:11 tedu Exp $	*/
+/*	$OpenBSD: if_ray.c,v 1.27 2005/04/03 01:35:06 uwe Exp $	*/
 /*	$NetBSD: if_ray.c,v 1.21 2000/07/05 02:35:54 onoe Exp $	*/
 
 /*
@@ -87,7 +87,8 @@
 #include <netinet/if_ether.h>
 #endif
 
-#include <net/if_ieee80211.h>	/* here, since ETHER_ADDR_LEN is in netinet */
+#include <net80211/ieee80211.h>
+#include <net80211/ieee80211_ioctl.h>
 
 #if NBPFILTER > 0
 #include <net/bpf.h>
@@ -735,7 +736,7 @@ ray_enable(sc)
 
 	if ((error = ray_init(sc)) == 0) {
 		sc->sc_ih = pcmcia_intr_establish(sc->sc_pf, IPL_NET,
-		    ray_intr, sc, "");
+		    ray_intr, sc, sc->sc_dev.dv_xname);
 		if (sc->sc_ih == NULL) {
 			ray_stop(sc);
 			return (EIO);
@@ -1007,15 +1008,16 @@ ray_ioctl(ifp, cmd, data)
 			ray_disable(sc);
 		break;
 	case SIOCADDMULTI:
-		RAY_DPRINTF(("%s: ioctl: cmd SIOCADDMULTI\n", ifp->if_xname));
 	case SIOCDELMULTI:
-		if (cmd == SIOCDELMULTI)
+		if (cmd == SIOCADDMULTI) {
+			RAY_DPRINTF(("%s: ioctl: cmd SIOCADDMULTI\n",
+			    ifp->if_xname));
+			error = ether_addmulti(ifr, &sc->sc_ec);
+		} else {
 			RAY_DPRINTF(("%s: ioctl: cmd SIOCDELMULTI\n",
 			    ifp->if_xname));
-		if (cmd == SIOCADDMULTI)
-			error = ether_addmulti(ifr, &sc->sc_ec);
-		else
 			error = ether_delmulti(ifr, &sc->sc_ec);
+		}
 		if (error == ENETRESET) {
 			error = 0;
 			ray_update_mcast(sc);
@@ -1030,6 +1032,8 @@ ray_ioctl(ifp, cmd, data)
 		error = ifmedia_ioctl(ifp, ifr, &sc->sc_media, cmd);
 		break;
 	case SIOCSRAYPARAM:
+		if ((error = suser(curproc, 0)) != 0)
+			break;
 		RAY_DPRINTF(("%s: ioctl: cmd SIOCSRAYPARAM\n", ifp->if_xname));
 		if ((error = copyin(ifr->ifr_data, &pr, sizeof(pr))))
 			break;
@@ -1056,6 +1060,8 @@ ray_ioctl(ifp, cmd, data)
 		error = error2 ? error2 : error;
 		break;
 	case SIOCS80211NWID:
+		if ((error = suser(curproc, 0)) != 0)
+			break;
 		RAY_DPRINTF(("%s: ioctl: cmd SIOCS80211NWID\n", ifp->if_xname));
 		/*
 		 * if later people overwrite thats ok -- the latest version

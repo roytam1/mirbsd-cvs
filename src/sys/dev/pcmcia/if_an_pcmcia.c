@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_an_pcmcia.c,v 1.12 2003/06/02 19:24:23 mickey Exp $	*/
+/*	$OpenBSD: if_an_pcmcia.c,v 1.14 2005/06/20 22:42:29 jsg Exp $	*/
 
 /*
  * Copyright (c) 1999 Michael Shalayeff
@@ -39,6 +39,8 @@
 
 #include <netinet/in.h>
 #include <netinet/if_ether.h>
+
+#include <net80211/ieee80211_var.h>
 
 #include <machine/bus.h>
 
@@ -99,6 +101,7 @@ an_pcmcia_attach(parent, self, aux)
 	struct an_softc *sc = (struct an_softc *)self;
 	struct pcmcia_attach_args *pa = aux;
 	struct pcmcia_config_entry *cfe;
+	const char *intrstr;
 
 	psc->sc_pf = pa->pf;
 	cfe = SIMPLEQ_FIRST(&pa->pf->cfe_head);
@@ -126,9 +129,11 @@ an_pcmcia_attach(parent, self, aux)
 	sc->an_btag = psc->sc_pcioh.iot;
 	sc->an_bhandle = psc->sc_pcioh.ioh;
 
-	sc->sc_ih = pcmcia_intr_establish(psc->sc_pf, IPL_NET, an_intr, sc, "");
-	if (sc->sc_ih == NULL)
-		printf("no irq");
+	sc->sc_ih = pcmcia_intr_establish(psc->sc_pf, IPL_NET, an_intr, sc,
+	    sc->sc_dev.dv_xname);
+	intrstr = pcmcia_intr_string(psc->sc_pf, sc->sc_ih);
+	if (*intrstr)
+		printf(", %s", intrstr);
 
 	an_attach(sc);
 }
@@ -140,7 +145,8 @@ an_pcmcia_detach(dev, flags)
 {
 	struct an_pcmcia_softc *psc = (struct an_pcmcia_softc *)dev;
 	struct an_softc *sc = (struct an_softc *)dev;
-	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
+	struct ieee80211com	*ic = &sc->sc_ic;
+	struct ifnet		*ifp = &ic->ic_if;
 
 	if (sc->an_gone) {
 		printf ("%s: already detached\n", sc->sc_dev.dv_xname);
@@ -168,7 +174,8 @@ an_pcmcia_activate(dev, act)
 {
 	struct an_pcmcia_softc *psc = (struct an_pcmcia_softc *)dev;
 	struct an_softc *sc = &psc->sc_an;
-	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
+	struct ieee80211com	*ic = &sc->sc_ic;
+	struct ifnet		*ifp = &ic->ic_if;
 	int s;
 
 	s = splnet();

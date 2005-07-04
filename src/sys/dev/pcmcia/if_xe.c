@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_xe.c,v 1.27 2004/05/12 06:35:11 tedu Exp $	*/
+/*	$OpenBSD: if_xe.c,v 1.29 2005/06/08 17:03:01 henning Exp $	*/
 
 /*
  * Copyright (c) 1999 Niklas Hallqvist, Brandon Creighton, Job de Haas
@@ -72,11 +72,6 @@
 #ifdef IPX
 #include <netipx/ipx.h>
 #include <netipx/ipx_if.h>
-#endif
-
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
 #endif
 
 #if NBPFILTER > 0
@@ -240,7 +235,7 @@ xe_pcmcia_attach(parent, self, aux)
 	struct pcmcia_mem_handle pcmh;
 	int ccr_window;
 	bus_addr_t ccr_offset;
-
+	const char *intrstr;
 
 	psc->sc_pf = pf;
 
@@ -384,13 +379,15 @@ xe_pcmcia_attach(parent, self, aux)
 	IFQ_SET_READY(&ifp->if_snd);
 
 	/* Establish the interrupt. */
-	sc->sc_ih = pcmcia_intr_establish(pa->pf, IPL_NET, xe_intr, sc, "");
+	sc->sc_ih = pcmcia_intr_establish(pa->pf, IPL_NET, xe_intr, sc,
+	    sc->sc_dev.dv_xname);
 	if (sc->sc_ih == NULL) {
 		printf(", couldn't establish interrupt\n");
 		goto bad;
 	}
-
-	printf(": address %s\n", ether_sprintf(sc->sc_arpcom.ac_enaddr));
+	intrstr = pcmcia_intr_string(psc->sc_pf, sc->sc_ih);
+	printf("%s%s: address %s\n", *intrstr ? ", " : "", intrstr,
+	    ether_sprintf(sc->sc_arpcom.ac_enaddr));
 
 	/* Reset and initialize the card. */
 	xe_full_reset(sc);
@@ -1180,9 +1177,6 @@ xe_ether_ioctl(ifp, cmd, data)
 {
 	struct ifaddr *ifa = (struct ifaddr *)data;
 	struct xe_softc *sc = ifp->if_softc;
-#ifdef NS
-	struct ns_addr *ina;
-#endif	/* NS */
 
 	switch (cmd) {
 	case SIOCSIFADDR:
@@ -1195,21 +1189,6 @@ xe_ether_ioctl(ifp, cmd, data)
 			arp_ifinit(&sc->sc_arpcom, ifa);
 			break;
 #endif	/* INET */
-
-#ifdef NS
-		case AF_NS:
-			ina = &IA_SNS(ifa)->sns_addr;
-
-			if (ns_nullhost(*ina))
-				ina->x_host =
-				    *(union ns_host *)sc->sc_arpcom.ac_enaddr;
-			else
-				bcopy(ina->x_host.c_host,
-				    sc->sc_arpcom.ac_enaddr, ifp->if_addrlen);
-			/* Set new address. */
-			xe_init(sc);
-			break;
-#endif	/* NS */
 
 		default:
 			xe_init(sc);
