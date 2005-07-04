@@ -1,4 +1,4 @@
-#	$OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
+#	$OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 #	$NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 #	@(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
 
@@ -47,7 +47,7 @@ SHLIB_MINOR=${minor}
 	@rm -f ${.TARGET}.o
 
 .c.ln:
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} -i ${.IMPSRC}
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 .cc.o .C.o .cxx.o:
 	@echo "${COMPILE.cc} ${.IMPSRC} -o ${.TARGET}"
@@ -75,7 +75,7 @@ SHLIB_MINOR=${minor}
 
 .S.o .s.o:
 .if (${MACHINE_ARCH} == "arm")
-	@echo ${COMPILE.S:Q} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC}
+	@echo ${COMPILE.S:Q} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC}
 	@${COMPILE.S} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o ${.TARGET}.o
 .else
 	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
@@ -126,7 +126,7 @@ _LIBS+=lib${LIB}_p.a
 .endif
 
 .if !defined(NOPIC)
-.if (${MACHINE_ARCH} != "mips")
+.if (${MACHINE_ARCH} != "mips64")
 _LIBS+=lib${LIB}_pic.a
 .endif
 .if defined(SHLIB_MAJOR) && defined(SHLIB_MINOR)
@@ -239,7 +239,7 @@ realinstall:
 .endif
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_p.a
 .endif
-.if !defined(NOPIC) && (${MACHINE_ARCH} != "mips") 
+.if !defined(NOPIC) && (${MACHINE_ARCH} != "mips64") 
 #	ranlib lib${LIB}_pic.a
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}
