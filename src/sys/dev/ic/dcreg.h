@@ -1,4 +1,4 @@
-/*	$OpenBSD: dcreg.h,v 1.33 2003/10/21 18:58:49 jmc Exp $ */
+/*	$OpenBSD: dcreg.h,v 1.42 2005/05/22 03:47:16 martin Exp $ */
 
 /*
  * Copyright (c) 1997, 1998, 1999
@@ -235,11 +235,16 @@
 #define DC_OPMODE_INTLOOP	0x00000400
 #define DC_OPMODE_EXTLOOP	0x00000800
 
+#if 0
 #define DC_TXTHRESH_72BYTES	0x00000000
 #define DC_TXTHRESH_96BYTES	0x00004000
 #define DC_TXTHRESH_128BYTES	0x00008000
 #define DC_TXTHRESH_160BYTES	0x0000C000
+#endif
 
+#define DC_TXTHRESH_MIN		0x00000000
+#define DC_TXTHRESH_INC		0x00004000
+#define DC_TXTHRESH_MAX		0x0000C000
 
 /*
  * Interrupt mask bits.
@@ -297,9 +302,15 @@
 
 /*
  * General purpose timer register
+ * (upper 15 bits exist on rev 0x41 chips only)
  */
-#define DC_TIMER_VALUE		0x0000FFFF
+#define DC_TIMER_CLKDIV		0x80000000	/* clock/16 */
+#define DC_TIMER_TXTIMER	0x78000000	/* TX intr delay timer */
+#define DC_TIMER_TXCOUNT	0x07000000	/* TX intr delay counter */
+#define DC_TIMER_RXTIMER	0x00F00000	/* RX intr delay timer */
+#define DC_TIMER_RXCOUNT	0x000E0000	/* RX intr delay counter */
 #define DC_TIMER_CONTINUOUS	0x00010000
+#define DC_TIMER_VALUE		0x0000FFFF	/* 81.92us */
 
 /*
  * 10baseT status register
@@ -407,6 +418,7 @@ struct dc_desc {
 #define DC_RXSTAT_FIFOOFLOW	0x00000001
 #define DC_RXSTAT_CRCERR	0x00000002
 #define DC_RXSTAT_DRIBBLE	0x00000004
+#define DC_RXSTAT_MIIERE	0x00000008
 #define DC_RXSTAT_WATCHDOG	0x00000010
 #define DC_RXSTAT_FRAMETYPE	0x00000020	/* 0 == IEEE 802.3 */
 #define DC_RXSTAT_COLLSEEN	0x00000040
@@ -416,6 +428,7 @@ struct dc_desc {
 #define DC_RXSTAT_MULTICAST	0x00000400
 #define DC_RXSTAT_RUNT		0x00000800
 #define DC_RXSTAT_RXTYPE	0x00003000
+#define DC_RXSTAT_DE		0x00004000
 #define DC_RXSTAT_RXERR		0x00008000
 #define DC_RXSTAT_RXLEN		0x3FFF0000
 #define DC_RXSTAT_OWN		0x80000000
@@ -462,8 +475,6 @@ struct dc_desc {
 #define DC_MAXFRAGS		16
 #define DC_RX_LIST_CNT		64
 #define DC_TX_LIST_CNT		256
-#define DC_MIN_FRAMELEN		64
-#define DC_RXLEN		1536
 
 #define DC_INC(x, y)	(x) = (x + 1) % y
 
@@ -471,7 +482,7 @@ struct dc_list_data {
 	struct dc_desc		dc_rx_list[DC_RX_LIST_CNT];
 	struct dc_desc		dc_tx_list[DC_TX_LIST_CNT];
 	u_int32_t		dc_sbuf[DC_SFRAME_LEN/sizeof(u_int32_t)];
-	u_int8_t		dc_pad[DC_MIN_FRAMELEN];
+	u_int8_t		dc_pad[ETHER_MIN_LEN];
 };
 
 /* software descriptor */
@@ -531,6 +542,7 @@ struct dc_mii_frame {
  * ADMtek specific registers and constants for the AL981 and AN983.
  * The AN983 doesn't use the magic PHY registers.
  */
+#define DC_AL_CR		0x88	/* Command register */
 #define DC_AL_PAR0		0xA4	/* station address */
 #define DC_AL_PAR1		0xA8	/* station address */
 #define DC_AL_MAR0		0xAC	/* multicast hash filter */
@@ -545,6 +557,7 @@ struct dc_mii_frame {
 
 #define DC_ADMTEK_PHYADDR	0x1
 #define DC_AL_EE_NODEADDR	8
+#define DC_AL_CR_ATUR		0x00000001	/* Enable automatic TX underrun recovery */
 /* End of ADMtek specific registers */
 
 /*
@@ -707,6 +720,7 @@ struct dc_softc {
 	bus_space_tag_t		dc_btag;	/* bus space tag */
 	void			*dc_intrhand;
 	void			*sc_dhook;
+	void			*sc_pwrhook;
 	struct resource		*dc_irq;
 	struct resource		*dc_res;
 	u_int8_t		dc_type;
@@ -756,7 +770,8 @@ struct dc_softc {
 #define DC_64BIT_HASH		0x00002000
 #define DC_TULIP_LEDS		0x00004000
 #define DC_TX_ONE		0x00008000
-#define DC_MOMENCO_BOTCH	0x00010000
+#define DC_TX_ALIGN		0x00010000	/* align mbuf on tx */
+#define DC_MOMENCO_BOTCH	0x00020000
 
 /*
  * register space access macros
@@ -768,7 +783,6 @@ struct dc_softc {
 	bus_space_read_4(sc->dc_btag, sc->dc_bhandle, reg)
 
 #define DC_TIMEOUT		1000
-#define ETHER_ALIGN		2
 
 /*
  * General constants that are fun to know.
@@ -836,9 +850,9 @@ struct dc_softc {
 #define DC_CFCS_IOSPACE		0x00000001 /* I/O space enable */
 #define DC_CFCS_MEMSPACE	0x00000002 /* memory space enable */
 #define DC_CFCS_BUSMASTER	0x00000004 /* bus master enable */
-#define DC_CFCS_MWI_ENB		0x00000008 /* mem write and inval enable */
-#define DC_CFCS_PARITYERR_ENB	0x00000020 /* parity error enable */
-#define DC_CFCS_SYSERR_ENB	0x00000080 /* system error enable */
+#define DC_CFCS_MWI_ENB		0x00000010 /* mem write and inval enable */
+#define DC_CFCS_PARITYERR_ENB	0x00000040 /* parity error enable */
+#define DC_CFCS_SYSERR_ENB	0x00000100 /* system error enable */
 #define DC_CFCS_NEWCAPS		0x00100000 /* new capabilities */
 #define DC_CFCS_FAST_B2B	0x00800000 /* fast back-to-back capable */
 #define DC_CFCS_DATAPARITY	0x01000000 /* Parity error report */
@@ -975,9 +989,17 @@ struct dc_eblock_hdr {
 struct dc_eblock_sia {
 	struct dc_eblock_hdr	dc_sia_hdr;
 	u_int8_t		dc_sia_code;
-	u_int8_t		dc_sia_mediaspec[6]; /* CSR13, CSR14, CSR15 */
-	u_int8_t		dc_sia_gpio_ctl[2];
-	u_int8_t		dc_sia_gpio_dat[2];
+	union {
+		struct dc_sia_ext { /* if (dc_sia_code & DC_SIA_CODE_EXT) */
+			u_int8_t dc_sia_mediaspec[6]; /* CSR13, CSR14, CSR15 */
+			u_int8_t dc_sia_gpio_ctl[2];
+			u_int8_t dc_sia_gpio_dat[2];
+		} dc_sia_ext;
+		struct dc_sia_noext {
+			u_int8_t dc_sia_gpio_ctl[2];
+			u_int8_t dc_sia_gpio_dat[2];
+		} dc_sia_noext;
+	} dc_un;
 };
 
 #define DC_SIA_CODE_10BT	0x00
