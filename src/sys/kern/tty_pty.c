@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: tty_pty.c,v 1.22 2004/04/11 18:04:36 millert Exp $	*/
+/**	$MirOS: src/sys/kern/tty_pty.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
+/*	$OpenBSD: tty_pty.c,v 1.29 2005/05/26 00:33:45 pedro Exp $	*/
 /*	$NetBSD: tty_pty.c,v 1.33.4.1 1996/06/02 09:08:11 mrg Exp $	*/
 
 /*
@@ -82,12 +82,12 @@ struct	pt_softc {
 	char	pty_sn[11];
 };
 
-#define	DEFAULT_NPTYS		8	/* default number of initial ptys */
-#define DEFAULT_MAXPTYS		992	/* default maximum number of ptys */
+#define	NPTY_MIN		8	/* number of initial ptys */
+#define NPTY_MAX		992	/* maximum number of ptys supported */
 
 static struct pt_softc **pt_softc = NULL;	/* pty array */
 static int npty = 0;				/* size of pty array */
-static int maxptys = DEFAULT_MAXPTYS;		/* maximum number of ptys */
+static int maxptys = NPTY_MAX;			/* maximum number of ptys */
 struct rwlock pt_softc_lock = RWLOCK_INITIALIZER;  /* for pty array */
 
 #define	PF_PKT		0x08		/* packet mode */
@@ -149,7 +149,7 @@ ptydevname(int minor, struct pt_softc *pti)
 /*
  * Allocate and zero array of nelem elements.
  */
-static struct pt_softc **
+struct pt_softc **
 ptyarralloc(int nelem)
 {
 	struct pt_softc **pt;
@@ -163,7 +163,7 @@ ptyarralloc(int nelem)
  * Check if the minor is correct and ensure necessary structures
  * are properly allocated.
  */
-static int
+int
 check_pty(int minor)
 {
 	struct pt_softc *pti;
@@ -222,7 +222,7 @@ ptyattach(int n)
 {
 	/* maybe should allow 0 => none? */
 	if (n <= 1)
-		n = DEFAULT_NPTYS;
+		n = NPTY_MIN;
 	pt_softc = ptyarralloc(n);
 	npty = n;
 
@@ -950,8 +950,7 @@ int
 sysctl_pty(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
     size_t newlen)
 {
-	int err;
-	int newmax;
+	int error, oldmax;
 
 	if (namelen != 1)
 		return (ENOTDIR);
@@ -960,20 +959,19 @@ sysctl_pty(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
 	case KERN_TTY_MAXPTYS:
 		if (!newp)
 			return (sysctl_rdint(oldp, oldlenp, newp, maxptys));
-		err = sysctl_int(oldp, oldlenp, newp, newlen, &newmax);
-		if (err)
-			return (err);
 		rw_enter_write(&pt_softc_lock, curproc);
+		oldmax = maxptys;
+		error = sysctl_int(oldp, oldlenp, newp, newlen, &maxptys);
 		/*
-		 * We can't set the max lower than the current
-		 * active value or to a value bigger than a dev_t minor
+		 * We can't set the max lower than the current active
+		 * value or to a value bigger than NPTY_MAX.
 		 */
-		if (newmax <= USHRT_MAX && newmax > npty)
-			maxptys = newmax;
-		else
-			err = EINVAL;
+		if (error == 0 && (maxptys > NPTY_MAX || maxptys < npty)) {
+			maxptys = oldmax;
+			error = ERANGE;
+		}
 		rw_exit_write(&pt_softc_lock);
-		return(err);
+		return (error);
 	case KERN_TTY_NPTYS:
 		return (sysctl_rdint(oldp, oldlenp, newp, npty));
 #ifdef notyet
@@ -1031,9 +1029,9 @@ pty_getfree(void)
 static int
 ptm_vn_open(struct nameidata *ndp)
 {
-	struct vnode *vp;
 	struct proc *p = ndp->ni_cnd.cn_proc;
 	struct ucred *cred;
+	struct vnode *vp;
 	int error;
 
 	if ((error = namei(ndp)) != 0)
@@ -1184,12 +1182,14 @@ retry:
 			cred = crget();
 			error = VOP_SETATTR(snd.ni_vp, &vattr, cred, p);
 			crfree(cred);
-			if (error)
+			if (error) {
+				vput(snd.ni_vp);
 				goto bad;
+			}
 		}
 		VOP_UNLOCK(snd.ni_vp, 0, p);
 		if (snd.ni_vp->v_usecount > 1 ||
-		    (snd.ni_vp->v_flag & (VALIASED | VLAYER)))
+		    (snd.ni_vp->v_flag & (VALIASED)))
 			VOP_REVOKE(snd.ni_vp, REVOKEALL);
 
 		/*

@@ -1,4 +1,4 @@
-/*	$OpenBSD: ufs_vnops.c,v 1.59 2004/09/18 22:01:18 tedu Exp $	*/
+/*	$OpenBSD: ufs_vnops.c,v 1.65 2005/06/18 18:09:43 millert Exp $	*/
 /*	$NetBSD: ufs_vnops.c,v 1.18 1996/05/11 18:28:04 mycroft Exp $	*/
 
 /*
@@ -714,7 +714,7 @@ ufs_link(v)
 	ip->i_ffs_nlink++;
 	ip->i_flag |= IN_CHANGE;
 	if (DOINGSOFTDEP(vp))
-		softdep_change_linkcnt(ip);
+		softdep_change_linkcnt(ip, 0);
 	if ((error = UFS_UPDATE(ip, !DOINGSOFTDEP(vp))) == 0) {
 		ufs_makedirentry(ip, cnp, &newdir);
 		error = ufs_direnter(dvp, vp, &newdir, cnp, NULL);
@@ -724,7 +724,7 @@ ufs_link(v)
 		ip->i_ffs_nlink--;
 		ip->i_flag |= IN_CHANGE;
 		if (DOINGSOFTDEP(vp))
-			softdep_change_linkcnt(ip);
+			softdep_change_linkcnt(ip, 0);
 	}
 	pool_put(&namei_pool, cnp->cn_pnbuf);
 	VN_KNOTE(vp, NOTE_LINK);
@@ -736,68 +736,6 @@ out2:
 	vput(dvp);
 	return (error);
 }
-
-/*
- * whiteout vnode call
- */
-int
-ufs_whiteout(v)
-	void *v;
-{
-	struct vop_whiteout_args /* {
-		struct vnode *a_dvp;
-		struct componentname *a_cnp;
-		int a_flags;
-	} */ *ap = v;
-	struct vnode *dvp = ap->a_dvp;
-	struct componentname *cnp = ap->a_cnp;
-	struct direct newdir;
-	int error = 0;
-
-	switch (ap->a_flags) {
-	case LOOKUP:
-		/* 4.4 format directories support whiteout operations */
-		if (dvp->v_mount->mnt_maxsymlinklen > 0)
-			return (0);
-		return (EOPNOTSUPP);
-
-	case CREATE:
-		/* create a new directory whiteout */
-#ifdef DIAGNOSTIC
-		if ((cnp->cn_flags & SAVENAME) == 0)
-			panic("ufs_whiteout: missing name");
-		if (dvp->v_mount->mnt_maxsymlinklen <= 0)
-			panic("ufs_whiteout: old format filesystem");
-#endif
-
-		newdir.d_ino = WINO;
-		newdir.d_namlen = cnp->cn_namelen;
-		bcopy(cnp->cn_nameptr, newdir.d_name, (unsigned)cnp->cn_namelen + 1);
-		newdir.d_type = DT_WHT;
-		error = ufs_direnter(dvp, NULL, &newdir, cnp, NULL);
-		break;
-
-	case DELETE:
-		/* remove an existing directory whiteout */
-#ifdef DIAGNOSTIC
-		if (dvp->v_mount->mnt_maxsymlinklen <= 0)
-			panic("ufs_whiteout: old format filesystem");
-#endif
-
-		cnp->cn_flags &= ~DOWHITEOUT;
-		error = ufs_dirremove(dvp, NULL, cnp->cn_flags, 0);
-		break;
-	default:
-		panic("ufs_whiteout: unknown op");
-		/* NOTREACHED */
-	}
-	if (cnp->cn_flags & HASBUF) {
-		pool_put(&namei_pool, cnp->cn_pnbuf);
-		cnp->cn_flags &= ~HASBUF;
-	}
-	return (error);
-}
-
 
 /*
  * Rename system call.
@@ -986,7 +924,7 @@ abortit:
 	ip->i_ffs_nlink++;
 	ip->i_flag |= IN_CHANGE;
 	if (DOINGSOFTDEP(fvp))
-		softdep_change_linkcnt(ip);
+		softdep_change_linkcnt(ip, 0);
 	if ((error = UFS_UPDATE(ip, !DOINGSOFTDEP(fvp))) != 0) {
 		VOP_UNLOCK(fvp, 0, p);
 		goto bad;
@@ -1053,14 +991,14 @@ abortit:
 			dp->i_ffs_nlink++;
 			dp->i_flag |= IN_CHANGE;
 			if (DOINGSOFTDEP(tdvp))
-                               softdep_change_linkcnt(dp);
+                               softdep_change_linkcnt(dp, 0);
 			if ((error = UFS_UPDATE(dp, !DOINGSOFTDEP(tdvp))) 
 			    != 0) {
 				dp->i_effnlink--;
 				dp->i_ffs_nlink--;
 				dp->i_flag |= IN_CHANGE;
 				if (DOINGSOFTDEP(tdvp))
-					softdep_change_linkcnt(dp);
+					softdep_change_linkcnt(dp, 0);
 				goto bad;
 			}
 		}
@@ -1071,7 +1009,7 @@ abortit:
 				dp->i_ffs_nlink--;
 				dp->i_flag |= IN_CHANGE;
 				if (DOINGSOFTDEP(tdvp))
-					softdep_change_linkcnt(dp);
+					softdep_change_linkcnt(dp, 0);
 				(void)UFS_UPDATE(dp, 1);
 			}
 			goto bad;
@@ -1127,11 +1065,11 @@ abortit:
 			if (!newparent) {
 				dp->i_effnlink--;
 				if (DOINGSOFTDEP(tdvp))
-					softdep_change_linkcnt(dp);
+					softdep_change_linkcnt(dp, 0);
 			}
 			xp->i_effnlink--;
 			if (DOINGSOFTDEP(tvp))
-				softdep_change_linkcnt(xp);
+				softdep_change_linkcnt(xp, 0);
 		}
 		if (doingdirectory && !DOINGSOFTDEP(tvp)) {
 		       /*
@@ -1238,7 +1176,7 @@ out:
 		ip->i_flag |= IN_CHANGE;
 		ip->i_flag &= ~IN_RENAME;
 		if (DOINGSOFTDEP(fvp))
-			softdep_change_linkcnt(ip);
+			softdep_change_linkcnt(ip, 0);
 		vput(fvp);
 	} else
 		vrele(fvp);
@@ -1305,10 +1243,7 @@ ufs_mkdir(v)
 	ip->i_effnlink = 2;
 	ip->i_ffs_nlink = 2;
 	if (DOINGSOFTDEP(tvp))
-		softdep_change_linkcnt(ip);
-
-	if (cnp->cn_flags & ISWHITEOUT)
-		ip->i_ffs_flags |= UF_OPAQUE;
+		softdep_change_linkcnt(ip, 0);
 
 	/*
 	 * Bump link count in parent directory to reflect work done below.
@@ -1319,7 +1254,7 @@ ufs_mkdir(v)
 	dp->i_ffs_nlink++;
 	dp->i_flag |= IN_CHANGE;
 	if (DOINGSOFTDEP(dvp))
-		softdep_change_linkcnt(dp);
+		softdep_change_linkcnt(dp, 0);
 	if ((error = UFS_UPDATE(dp, !DOINGSOFTDEP(dvp))) != 0)
 		goto bad;
 
@@ -1385,7 +1320,7 @@ bad:
                 dp->i_ffs_nlink--;
                 dp->i_flag |= IN_CHANGE;
 		if (DOINGSOFTDEP(dvp))
-			softdep_change_linkcnt(dp);
+			softdep_change_linkcnt(dp, 0);
                 /*
                  * No need to do an explicit VOP_TRUNCATE here, vrele will
                  * do this for us because we set the link count to 0.
@@ -1394,7 +1329,7 @@ bad:
                 ip->i_ffs_nlink = 0;
                 ip->i_flag |= IN_CHANGE;
 		if (DOINGSOFTDEP(tvp))
-			softdep_change_linkcnt(ip);
+			softdep_change_linkcnt(ip, 0);
 		vput(tvp);
 	}
 out:
@@ -1464,15 +1399,15 @@ ufs_rmdir(v)
 	dp->i_effnlink--;
 	ip->i_effnlink--;
 	if (DOINGSOFTDEP(vp)) {
-		softdep_change_linkcnt(dp);
-		softdep_change_linkcnt(ip);
+		softdep_change_linkcnt(dp, 0);
+		softdep_change_linkcnt(ip, 0);
 	}
 	if ((error = ufs_dirremove(dvp, ip, cnp->cn_flags, 1)) != 0) {
 		dp->i_effnlink++;
 		ip->i_effnlink++;
 		if (DOINGSOFTDEP(vp)) {
-			softdep_change_linkcnt(dp);
-			softdep_change_linkcnt(ip);
+			softdep_change_linkcnt(dp, 0);
+			softdep_change_linkcnt(ip, 0);
 		}
 		goto out;
 	}
@@ -1701,7 +1636,7 @@ ufs_lock(v)
 	struct vop_lock_args /* {
 		struct vnode *a_vp;
 		int a_flags;
-		sturct proc *a_p;
+		struct proc *a_p;
 	} */ *ap = v;
 	struct vnode *vp = ap->a_vp;
 
@@ -2042,7 +1977,7 @@ ufs_vinit(mntp, specops, fifoops, vpp)
 			nvp->v_data = vp->v_data;
 			vp->v_data = NULL;
 			vp->v_op = spec_vnodeop_p;
-#ifdef DIAGNOSTIC
+#ifdef VFSDEBUG
 			vp->v_flag &= ~VLOCKSWORK;
 #endif
 			vrele(vp);
@@ -2128,14 +2063,11 @@ ufs_makeinode(mode, dvp, vpp, cnp)
 	ip->i_effnlink = 1;
 	ip->i_ffs_nlink = 1;
 	if (DOINGSOFTDEP(tvp))
-		softdep_change_linkcnt(ip);
+		softdep_change_linkcnt(ip, 0);
 	if ((ip->i_ffs_mode & ISGID) &&
 		!groupmember(ip->i_ffs_gid, cnp->cn_cred) &&
 	    suser_ucred(cnp->cn_cred))
 		ip->i_ffs_mode &= ~ISGID;
-
-	if (cnp->cn_flags & ISWHITEOUT)
-		ip->i_ffs_flags |= UF_OPAQUE;
 
 	/*
 	 * Make sure inode goes to disk before directory entry.
@@ -2164,7 +2096,7 @@ bad:
 	ip->i_ffs_nlink = 0;
 	ip->i_flag |= IN_CHANGE;
 	if (DOINGSOFTDEP(tvp))
-		softdep_change_linkcnt(ip);
+		softdep_change_linkcnt(ip, 0);
 	tvp->v_type = VNON;
 	vput(tvp);
 

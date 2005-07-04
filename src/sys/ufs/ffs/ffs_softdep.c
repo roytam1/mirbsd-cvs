@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ffs_softdep.c,v 1.55 2004/12/09 17:41:53 millert Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.2 2005/03/06 21:28:36 tg Exp $ */
+/*	$OpenBSD: ffs_softdep.c,v 1.58 2005/06/18 18:09:43 millert Exp $	*/
 /*
  * Copyright 1998, 2000 Marshall Kirk McKusick. All Rights Reserved.
  *
@@ -2443,15 +2443,6 @@ softdep_setup_directory_add(bp, dp, diroffset, newinum, newdirbp)
 	struct inodedep *inodedep;
 	struct mkdir *mkdir1, *mkdir2;
 
-	/*
-	 * Whiteouts have no dependencies.
-	 */
-	if (newinum == WINO) {
-		if (newdirbp != NULL)
-			bdwrite(newdirbp);
-		return;
-	}
-
 	fs = dp->i_fs;
 	lbn = lblkno(fs, diroffset);
 	offset = blkoff(fs, diroffset);
@@ -2801,18 +2792,12 @@ softdep_setup_directory_change(bp, dp, ip, newinum, isrmdir)
 	struct inodedep *inodedep;
 
 	offset = blkoff(dp->i_fs, dp->i_offset);
-
-	/*
-	 * Whiteouts do not need diradd dependencies.
-	 */
-	if (newinum != WINO) {
-		dap = pool_get(&diradd_pool, PR_WAITOK);
-		bzero(dap,sizeof(struct diradd));
-		dap->da_list.wk_type = D_DIRADD;
-		dap->da_state = DIRCHG | ATTACHED | DEPCOMPLETE;
-		dap->da_offset = offset;
-		dap->da_newinum = newinum;
-	}
+	dap = pool_get(&diradd_pool, PR_WAITOK);
+	bzero(dap,sizeof(struct diradd));
+	dap->da_list.wk_type = D_DIRADD;
+	dap->da_state = DIRCHG | ATTACHED | DEPCOMPLETE;
+	dap->da_offset = offset;
+	dap->da_newinum = newinum;
 
 	/*
 	 * Allocate a new dirrem and ACQUIRE_LOCK.
@@ -2833,22 +2818,6 @@ softdep_setup_directory_change(bp, dp, ip, newinum, isrmdir)
 	 */
 	if (isrmdir > 1)
 		dirrem->dm_state |= DIRCHG;
-
-	/*
-	 * Whiteouts have no additional dependencies,
-	 * so just put the dirrem on the correct list.
-	 */
-	if (newinum == WINO) {
-		if ((dirrem->dm_state & COMPLETE) == 0) {
-			LIST_INSERT_HEAD(&pagedep->pd_dirremhd, dirrem,
-			    dm_next);
-		} else {
-			dirrem->dm_dirinum = pagedep->pd_ino;
-			add_to_worklist(&dirrem->dm_list);
-		}
-		FREE_LOCK(&lk);
-		return;
-	}
 
 	/*
 	 * If the COMPLETE flag is clear, then there were no active
@@ -2900,18 +2869,30 @@ softdep_setup_directory_change(bp, dp, ip, newinum, isrmdir)
  * inode has been written.
  */
 void
-softdep_change_linkcnt(ip)
+softdep_change_linkcnt(ip, nodelay)
 	struct inode *ip;	/* the inode with the increased link count */
+	int nodelay;		/* do background work or not */
 {
 	struct inodedep *inodedep;
+	int flags;
+
+	/*
+	 * If requested, do not allow background work to happen.
+	 */
+	flags = DEPALLOC;
+	if (nodelay)
+		flags |= NODELAY;
 
 	ACQUIRE_LOCK(&lk);
-	(void) inodedep_lookup(ip->i_fs, ip->i_number, DEPALLOC, &inodedep);
+
+	(void) inodedep_lookup(ip->i_fs, ip->i_number, flags, &inodedep);
 	if (ip->i_ffs_nlink < ip->i_effnlink) {
 		FREE_LOCK(&lk);
 		panic("softdep_change_linkcnt: bad delta");
 	}
+
 	inodedep->id_nlinkdelta = ip->i_ffs_nlink - ip->i_effnlink;
+
 	FREE_LOCK(&lk);
 }
 
@@ -4632,8 +4613,10 @@ flush_pagedep_deps(pvp, mp, diraddhdp)
 		FREE_LOCK(&lk);
 		if ((error = bread(ump->um_devvp,
 		    fsbtodb(ump->um_fs, ino_to_fsba(ump->um_fs, inum)),
-		    (int)ump->um_fs->fs_bsize, NOCRED, &bp)) != 0)
+		    (int)ump->um_fs->fs_bsize, NOCRED, &bp)) != 0) {
+		    	brelse(bp);
 			break;
+		}
 		if ((error = bwrite(bp)) != 0)
 			break;
 		ACQUIRE_LOCK(&lk);

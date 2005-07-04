@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*       $OpenBSD: vfs_sync.c,v 1.25 2003/09/01 18:06:03 henning Exp $  */
+/**	$MirOS: src/sys/kern/vfs_sync.c,v 1.2 2005/03/06 21:28:04 tg Exp $ */
+/*	$OpenBSD: vfs_sync.c,v 1.32 2005/05/31 11:35:33 art Exp $  */
 
 /*
  *  Portions of this code are:
@@ -51,6 +51,7 @@
 #include <sys/malloc.h>
 
 #include <sys/kernel.h>
+#include <sys/sched.h>
 
 #ifdef FFS_SOFTUPDATES
 int   softdep_process_worklist(struct mount *);
@@ -87,7 +88,7 @@ struct proc *syncerproc;
  * Similarly, directory updates are more critical, so are only delayed
  * about a third the time that file data is delayed. Thus, there are
  * SYNCER_MAXDELAY queues that are processed round-robin at a rate of
- * one each second (driven off the filesystem syner process). The
+ * one each second (driven off the filesystem syncer process). The
  * syncer_delayno variable indicates the next queue that is to be processed.
  * Items that need to be processed soon are placed in this queue:
  *
@@ -153,11 +154,13 @@ sched_sync(p)
 		/*
 		 * Push files whose dirty time has expired.
 		 */
+		s = splbio();
 		slp = &syncer_workitem_pending[syncer_delayno];
+
 		syncer_delayno += 1;
 		if (syncer_delayno == syncer_maxdelay)
 			syncer_delayno = 0;
-		s = splbio();
+
 		while ((vp = LIST_FIRST(slp)) != NULL) {
 			if (vn_lock(vp, LK_EXCLUSIVE | LK_NOWAIT, p) != 0) {
 				/*
@@ -180,8 +183,13 @@ sched_sync(p)
 				 * slot we are safe.
 				 */
 				if (LIST_FIRST(&vp->v_dirtyblkhd) == NULL &&
-				    vp->v_type != VBLK)
+				    vp->v_type != VBLK) {
+					vprint("fsync failed", vp);
+					if (vp->v_mount != NULL)
+						printf("mounted on: %s\n",
+						    vp->v_mount->mnt_stat.f_mntonname);
 					panic("sched_sync: fsync failed");
+				}
 				/*
 				 * Put us back on the worklist.  The worklist
 				 * routine will remove us from our current
@@ -238,10 +246,10 @@ speedup_syncer()
 {
 	int s;
 
-	s = splhigh();
+	SCHED_LOCK(s);
 	if (syncerproc && syncerproc->p_wchan == &lbolt)
 		setrunnable(syncerproc);
-	splx(s);
+	SCHED_UNLOCK(s);
 	if (rushjob < syncdelay / 2) {
 		rushjob += 1;
 		stat_rush_requests += 1;
@@ -379,16 +387,25 @@ sync_inactive(v)
 	} */ *ap = v;
 
 	struct vnode *vp = ap->a_vp;
+	int s;
 
 	if (vp->v_usecount == 0) {
 		VOP_UNLOCK(vp, 0, ap->a_p);
 		return (0);
 	}
+
 	vp->v_mount->mnt_syncer = NULL;
+
+	s = splbio();
+
 	LIST_REMOVE(vp, v_synclist);
 	vp->v_bioflag &= ~VBIOONSYNCLIST;
+
+	splx(s);
+
 	vp->v_writecount = 0;
 	vput(vp);
+
 	return (0);
 }
 

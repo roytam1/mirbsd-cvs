@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ramdisk.c,v 1.25 2004/04/03 15:43:53 krw Exp $	*/
+/**	$MirOS: src/sys/dev/ramdisk.c,v 1.2 2005/03/06 21:27:35 tg Exp $ */
+/*	$OpenBSD: ramdisk.c,v 1.26 2005/06/30 23:49:08 miod Exp $	*/
 /*	$NetBSD: ramdisk.c,v 1.8 1996/04/12 08:30:09 leo Exp $	*/
 
 /*
@@ -69,7 +69,7 @@
  * By default, include the user-space functionality.
  * Use:  option RAMDISK_SERVER=0 to turn it off.
  */
-#ifndef RAMDISK_SERVER
+#if !defined(RAMDISK_SERVER) && !defined(SMALL_KERNEL)
 #define	RAMDISK_SERVER 1
 #endif
 

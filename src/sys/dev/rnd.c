@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: rnd.c,v 1.75 2005/01/27 18:18:20 mickey Exp $	*/
+/**	$MirOS: src/sys/dev/rnd.c,v 1.2 2005/03/06 21:27:35 tg Exp $ */
+/*	$OpenBSD: rnd.c,v 1.77 2005/05/27 16:33:27 ho Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
@@ -487,10 +487,10 @@ rnd_qlen(void)
 void dequeue_randomness(void *);
 
 static void add_entropy_words(const u_int32_t *, u_int n);
-static __inline void extract_entropy(register u_int8_t *, int);
+void extract_entropy(register u_int8_t *, int);
 
 static u_int8_t arc4_getbyte(void);
-static __inline void arc4_stir(void);
+void arc4_stir(void);
 void arc4_reinit(void *v);
 void arc4maybeinit(void);
 
@@ -532,7 +532,7 @@ arc4_getbyte(void)
 	return (ret);
 }
 
-static void
+void
 arc4_stir(void)
 {
 	u_int8_t buf[256];
@@ -731,7 +731,7 @@ add_entropy_words(const u_int32_t *buf, u_int n)
  * delays.  It uses the timer_rand_state structure to make an estimate
  * of how many bits of entropy this call has added to the pool.
  *
- * The number "num" is also added to the pool - it should somehow describe
+ * The number "val" is also added to the pool - it should somehow describe
  * the type of event which just happened.  Currently the values of 0-255
  * are for keyboard scan codes, 256 and upwards - for interrupts.
  * On the i386, this is assumed to be at most 16 bits, and the high bits
@@ -902,7 +902,7 @@ dequeue_randomness(void *v)
  * bits of entropy are left in the pool, but it does not restrict the
  * number of bytes that are actually obtained.
  */
-static void
+void
 extract_entropy(register u_int8_t *buf, int nbytes)
 {
 	struct random_bucket *rs = &random_state;
