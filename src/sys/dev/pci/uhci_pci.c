@@ -1,4 +1,4 @@
-/*	$OpenBSD: uhci_pci.c,v 1.15 2003/08/11 02:21:28 mickey Exp $	*/
+/*	$OpenBSD: uhci_pci.c,v 1.19 2005/04/11 08:09:32 dlg Exp $	*/
 /*	$NetBSD: uhci_pci.c,v 1.24 2002/10/02 16:51:58 thorpej Exp $	*/
 
 /*
@@ -129,6 +129,7 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 	/* Map and establish the interrupt. */
 	if (pci_intr_map(pa, &ih)) {
 		printf(": couldn't map interrupt\n");
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		return;
 	}
 	intrstr = pci_intr_string(pc, ih);
@@ -139,6 +140,7 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 		if (intrstr != NULL)
 			printf(" at %s", intrstr);
 		printf("\n");
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		return;
 	}
 	printf(": %s\n", intrstr);
@@ -171,15 +173,15 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 	vendor = pci_findvendor(pa->pa_id);
 	sc->sc.sc_id_vendor = PCI_VENDOR(pa->pa_id);
 	if (vendor)
-		strncpy(sc->sc.sc_vendor, vendor,
-			sizeof(sc->sc.sc_vendor) - 1);
+		strlcpy(sc->sc.sc_vendor, vendor, sizeof (sc->sc.sc_vendor));
 	else
-		snprintf(sc->sc.sc_vendor, sizeof sc->sc.sc_vendor,
+		snprintf(sc->sc.sc_vendor, sizeof (sc->sc.sc_vendor),
 			"vendor 0x%04x", PCI_VENDOR(pa->pa_id));
 	
 	r = uhci_init(&sc->sc);
 	if (r != USBD_NORMAL_COMPLETION) {
 		printf("%s: init failed, error=%d\n", devname, r);
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		return;
 	}
 
