@@ -676,7 +676,8 @@ wskbd_deliver_event(struct wskbd_softc *sc, u_int type, int value)
 	}
 	ev->type = type;
 	ev->value = value;
-	nanotime(&ev->time);
+	microtime(&xxxtime);
+	TIMEVAL_TO_TIMESPEC(&xxxtime, &ev->time);
 	evar->put = put;
 	WSEVENT_WAKEUP(evar);
 }
