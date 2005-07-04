@@ -581,7 +581,6 @@ void
 wskbd_input(struct device *dev, u_int type, int value)
 {
 	struct wskbd_softc *sc = (struct wskbd_softc *)dev; 
-	struct timeval xxxtime;
 #if NWSDISPLAY > 0
 	int num, i;
 #endif
@@ -651,6 +650,7 @@ wskbd_deliver_event(struct wskbd_softc *sc, u_int type, int value)
 {
 	struct wseventvar *evar;
 	struct wscons_event *ev;
+	struct timeval xxxtime;
 	int put;
 
 	evar = sc->sc_base.me_evp;
