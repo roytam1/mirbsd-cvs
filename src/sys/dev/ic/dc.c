@@ -1,4 +1,4 @@
-/*	$OpenBSD: dc.c,v 1.66 2004/04/15 08:34:48 mickey Exp $	*/
+/*	$OpenBSD: dc.c,v 1.88 2005/06/25 23:27:43 brad Exp $	*/
 
 /*
  * Copyright (c) 1997, 1998, 1999
@@ -90,7 +90,6 @@
  */
 
 #include "bpfilter.h"
-#include "vlan.h"
 
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -132,6 +131,7 @@
 
 int dc_intr(void *);
 void dc_shutdown(void *);
+void dc_power(int, void *);
 struct dc_type *dc_devtype(void *);
 int dc_newbuf(struct dc_softc *, int, struct mbuf *);
 int dc_encap(struct dc_softc *, struct mbuf *, u_int32_t *);
@@ -142,6 +142,7 @@ int dc_rx_resync(struct dc_softc *);
 void dc_rxeof(struct dc_softc *);
 void dc_txeof(struct dc_softc *);
 void dc_tick(void *);
+void dc_tx_underrun(struct dc_softc *);
 void dc_start(struct ifnet *);
 int dc_ioctl(struct ifnet *, u_long, caddr_t);
 void dc_init(void *);
@@ -156,6 +157,7 @@ void dc_eeprom_idle(struct dc_softc *);
 void dc_eeprom_putbyte(struct dc_softc *, int);
 void dc_eeprom_getword(struct dc_softc *, int, u_int16_t *);
 void dc_eeprom_getword_pnic(struct dc_softc *, int, u_int16_t *);
+void dc_eeprom_getword_xircom(struct dc_softc *, int, u_int16_t *);
 void dc_read_eeprom(struct dc_softc *, caddr_t, int, int, int);
 
 void dc_mii_writebit(struct dc_softc *, int);
@@ -374,6 +376,26 @@ dc_eeprom_getword_pnic(sc, addr, dest)
 
 /*
  * Read a word of data stored in the EEPROM at address 'addr.'
+ * The Xircom X3201 has its own non-standard way to read
+ * the EEPROM, too.
+ */
+void
+dc_eeprom_getword_xircom(struct dc_softc *sc, int addr, u_int16_t *dest)
+{
+	SIO_SET(DC_SIO_ROMSEL | DC_SIO_ROMCTL_READ);
+
+	addr *= 2;
+	CSR_WRITE_4(sc, DC_ROM, addr | 0x160);
+	*dest = (u_int16_t)CSR_READ_4(sc, DC_SIO) & 0xff;
+	addr += 1;
+	CSR_WRITE_4(sc, DC_ROM, addr | 0x160);
+	*dest |= ((u_int16_t)CSR_READ_4(sc, DC_SIO) & 0xff) << 8;
+
+	SIO_CLR(DC_SIO_ROMSEL | DC_SIO_ROMCTL_READ);
+}
+
+/*
+ * Read a word of data stored in the EEPROM at address 'addr.'
  */
 void
 dc_eeprom_getword(sc, addr, dest)
@@ -435,6 +457,8 @@ void dc_read_eeprom(sc, dest, off, cnt, swap)
 	for (i = 0; i < cnt; i++) {
 		if (DC_IS_PNIC(sc))
 			dc_eeprom_getword_pnic(sc, off + i, &word);
+		else if (DC_IS_XIRCOM(sc))
+			dc_eeprom_getword_xircom(sc, off + i, &word);
 		else
 			dc_eeprom_getword(sc, off + i, &word);
 		ptr = (u_int16_t *)(dest + (i * 2));
@@ -567,8 +591,10 @@ dc_mii_readreg(sc, frame)
 	}
 
 	for (i = 0x8000; i; i >>= 1) {
-		if (dc_mii_readbit(sc))
-			frame->mii_data |= i;
+		if (!ack) {
+			if (dc_mii_readbit(sc))
+				frame->mii_data |= i;
+		}
 	}
 
 fail:
@@ -840,7 +866,6 @@ dc_miibus_statchg(self)
 	}
 }
 
-#define DC_POLY		0xEDB88320
 #define DC_BITS_512	9
 #define DC_BITS_128	7
 #define DC_BITS_64	6
@@ -850,15 +875,10 @@ dc_crc_le(sc, addr)
 	struct dc_softc *sc;
 	caddr_t addr;
 {
-	u_int32_t idx, bit, data, crc;
+	u_int32_t crc;
 
 	/* Compute CRC for the address value. */
-	crc = 0xFFFFFFFF; /* initial value */
-
-	for (idx = 0; idx < 6; idx++) {
-		for (data = *addr++, bit = 0; bit < 8; bit++, data >>= 1)
-			crc = (crc >> 1) ^ (((crc ^ data) & 1) ? DC_POLY : 0);
-	}
+	crc = ether_crc32_le(addr, ETHER_ADDR_LEN);
 
 	/*
 	 * The hash table on the PNIC II and the MX98715AEC-C/D/E
@@ -886,31 +906,8 @@ dc_crc_le(sc, addr)
 /*
  * Calculate CRC of a multicast group address, return the lower 6 bits.
  */
-u_int32_t
-dc_crc_be(addr)
-	caddr_t addr;
-{
-	u_int32_t crc, carry;
-	int i, j;
-	u_int8_t c;
-
-	/* Compute CRC for the address value. */
-	crc = 0xFFFFFFFF; /* initial value */
-
-	for (i = 0; i < 6; i++) {
-		c = *(addr + i);
-		for (j = 0; j < 8; j++) {
-			carry = ((crc & 0x80000000) ? 1 : 0) ^ (c & 0x01);
-			crc <<= 1;
-			c >>= 1;
-			if (carry)
-				crc = (crc ^ 0x04c11db6) | carry;
-		}
-	}
-
-	/* return the filter bit position */
-	return ((crc >> 26) & 0x0000003F);
-}
+#define dc_crc_be(addr)	((ether_crc32_be(addr,ETHER_ADDR_LEN) >> 26) \
+	& 0x0000003F)
 
 /*
  * 21143-style RX filter setup routine. Filter programming is done by
@@ -957,16 +954,24 @@ dc_setfilt_21143(sc)
 	else
 		DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_RX_PROMISC);
 
+allmulti:
 	if (ifp->if_flags & IFF_ALLMULTI)
 		DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_RX_ALLMULTI);
-	else
+	else {
 		DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_RX_ALLMULTI);
 
-	ETHER_FIRST_MULTI(step, ac, enm);
-	while (enm != NULL) {
-		h = dc_crc_le(sc, enm->enm_addrlo);
-		sp[h >> 4] |= htole32(1 << (h & 0xF));
-		ETHER_NEXT_MULTI(step, enm);
+		ETHER_FIRST_MULTI(step, ac, enm);
+		while (enm != NULL) {
+			if (bcmp(enm->enm_addrlo, enm->enm_addrhi,
+			    ETHER_ADDR_LEN)) {
+				ifp->if_flags |= IFF_ALLMULTI;
+				goto allmulti;
+			}
+
+			h = dc_crc_le(sc, enm->enm_addrlo);
+			sp[h >> 4] |= htole32(1 << (h & 0xF));
+			ETHER_NEXT_MULTI(step, enm);
+		}
 	}
 
 	if (ifp->if_flags & IFF_BROADCAST) {
@@ -1027,6 +1032,7 @@ dc_setfilt_admtek(sc)
 	else
 		DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_RX_PROMISC);
 
+allmulti:
 	if (ifp->if_flags & IFF_ALLMULTI)
 		DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_RX_ALLMULTI);
 	else
@@ -1046,6 +1052,11 @@ dc_setfilt_admtek(sc)
 	/* now program new ones */
 	ETHER_FIRST_MULTI(step, ac, enm);
 	while (enm != NULL) {
+		if (bcmp(enm->enm_addrlo, enm->enm_addrhi, ETHER_ADDR_LEN)) {
+			ifp->if_flags |= IFF_ALLMULTI;
+			goto allmulti;
+		}
+
 		if (DC_IS_CENTAUR(sc))
 			h = dc_crc_le(sc, enm->enm_addrlo);
 		else
@@ -1244,17 +1255,17 @@ dc_setcfg(sc, media)
 		DC_CLRBIT(sc, DC_NETCFG, (DC_NETCFG_TX_ON|DC_NETCFG_RX_ON));
 
 		for (i = 0; i < DC_TIMEOUT; i++) {
-			DELAY(10);
 			isr = CSR_READ_4(sc, DC_ISR);
-			if (isr & DC_ISR_TX_IDLE ||
-			    (isr & DC_ISR_RX_STATE) == DC_RXSTATE_STOPPED)
+			if (isr & DC_ISR_TX_IDLE &&
+			    ((isr & DC_ISR_RX_STATE) == DC_RXSTATE_STOPPED ||
+			    (isr & DC_ISR_RX_STATE) == DC_RXSTATE_WAIT))
 				break;
+			DELAY(10);
 		}
 
 		if (i == DC_TIMEOUT)
 			printf("%s: failed to force tx and "
 			    "rx to idle state\n", sc->sc_dev.dv_xname);
-
 	}
 
 	if (IFM_SUBTYPE(media) == IFM_100_TX) {
@@ -1467,20 +1478,37 @@ dc_decode_leaf_sia(sc, l)
 	if (m == NULL)
 		return;
 	bzero(m, sizeof(struct dc_mediainfo));
-	if (l->dc_sia_code == DC_SIA_CODE_10BT)
+	switch (l->dc_sia_code & ~DC_SIA_CODE_EXT) {
+	case DC_SIA_CODE_10BT:
 		m->dc_media = IFM_10_T;
-
-	if (l->dc_sia_code == DC_SIA_CODE_10BT_FDX)
+		break;
+	case DC_SIA_CODE_10BT_FDX:
 		m->dc_media = IFM_10_T|IFM_FDX;
-
-	if (l->dc_sia_code == DC_SIA_CODE_10B2)
+		break;
+	case DC_SIA_CODE_10B2:
 		m->dc_media = IFM_10_2;
-
-	if (l->dc_sia_code == DC_SIA_CODE_10B5)
+		break;
+	case DC_SIA_CODE_10B5:
 		m->dc_media = IFM_10_5;
+		break;
+	default:
+		break;
+	}
 
-	m->dc_gp_len = 2;
-	m->dc_gp_ptr = (u_int8_t *)&l->dc_sia_gpio_ctl;
+	/*
+	 * We need to ignore CSR13, CSR14, CSR15 for SIA mode.
+	 * Things apparently already work for cards that do
+	 * supply Media Specific Data.
+	 */
+	if (l->dc_sia_code & DC_SIA_CODE_EXT) {
+		m->dc_gp_len = 2;
+		m->dc_gp_ptr =
+		(u_int8_t *)&l->dc_un.dc_sia_ext.dc_sia_gpio_ctl;
+	} else {
+		m->dc_gp_len = 2;
+		m->dc_gp_ptr =
+		(u_int8_t *)&l->dc_un.dc_sia_noext.dc_sia_gpio_ctl;
+	}
 
 	m->dc_next = sc->dc_mi;
 	sc->dc_mi = m;
@@ -1562,12 +1590,31 @@ dc_parse_21143_srom(sc)
 {
 	struct dc_leaf_hdr *lhdr;
 	struct dc_eblock_hdr *hdr;
-	int i, loff;
+	int have_mii, i, loff;
 	char *ptr;
 
+	have_mii = 0;
 	loff = sc->dc_srom[27];
 	lhdr = (struct dc_leaf_hdr *)&(sc->dc_srom[loff]);
 
+	ptr = (char *)lhdr;
+	ptr += sizeof(struct dc_leaf_hdr) - 1;
+	/*
+	 * Look if we got a MII media block.
+	 */
+	for (i = 0; i < lhdr->dc_mcnt; i++) {
+		hdr = (struct dc_eblock_hdr *)ptr;
+		if (hdr->dc_type == DC_EBLOCK_MII)
+		    have_mii++;
+
+		ptr += (hdr->dc_len & 0x7F);
+		ptr++;
+	}
+
+	/*
+	 * Do the same thing again. Only use SIA and SYM media
+	 * blocks if no MII media block is available.
+	 */
 	ptr = (char *)lhdr;
 	ptr += sizeof(struct dc_leaf_hdr) - 1;
 	for (i = 0; i < lhdr->dc_mcnt; i++) {
@@ -1577,10 +1624,14 @@ dc_parse_21143_srom(sc)
 			dc_decode_leaf_mii(sc, (struct dc_eblock_mii *)hdr);
 			break;
 		case DC_EBLOCK_SIA:
-			dc_decode_leaf_sia(sc, (struct dc_eblock_sia *)hdr);
+			if (! have_mii)
+			    dc_decode_leaf_sia(sc,
+				(struct dc_eblock_sia *)hdr);
 			break;
 		case DC_EBLOCK_SYM:
-			dc_decode_leaf_sym(sc, (struct dc_eblock_sym *)hdr);
+			if (! have_mii)
+			    dc_decode_leaf_sym(sc,
+				(struct dc_eblock_sym *)hdr);
 			break;
 		default:
 			/* Don't care. Yet. */
@@ -1630,14 +1681,16 @@ dc_attach(sc)
 		break;
 	case DC_TYPE_AL981:
 	case DC_TYPE_AN983:
-		bcopy(&sc->dc_srom[DC_AL_EE_NODEADDR], &sc->sc_arpcom.ac_enaddr,
-		    ETHER_ADDR_LEN);
-		break;
-	case DC_TYPE_XIRCOM:
+		*(u_int32_t *)(&sc->sc_arpcom.ac_enaddr[0]) =
+			CSR_READ_4(sc, DC_AL_PAR0);
+		*(u_int16_t *)(&sc->sc_arpcom.ac_enaddr[4]) =
+			CSR_READ_4(sc, DC_AL_PAR1);
 		break;
 	case DC_TYPE_CONEXANT:
 		bcopy(&sc->dc_srom + DC_CONEXANT_EE_NODEADDR,
 		    &sc->sc_arpcom.ac_enaddr, ETHER_ADDR_LEN);
+		break;
+	case DC_TYPE_XIRCOM:
 		break;
 	default:
 		dc_read_eeprom(sc, (caddr_t)&sc->sc_arpcom.ac_enaddr,
@@ -1707,10 +1760,8 @@ hasmac:
 
 	ifp = &sc->sc_arpcom.ac_if;
 	ifp->if_softc = sc;
-	ifp->if_mtu = ETHERMTU;
 	ifp->if_flags = IFF_BROADCAST | IFF_SIMPLEX | IFF_MULTICAST;
 	ifp->if_ioctl = dc_ioctl;
-	ifp->if_output = ether_output;
 	ifp->if_start = dc_start;
 	ifp->if_watchdog = dc_watchdog;
 	ifp->if_baudrate = 10000000;
@@ -1718,9 +1769,7 @@ hasmac:
 	IFQ_SET_READY(&ifp->if_snd);
 	bcopy(sc->sc_dev.dv_xname, ifp->if_xname, IFNAMSIZ);
 
-#if NVLAN > 0
 	ifp->if_capabilities = IFCAP_VLAN_MTU;
-#endif
 
 	/* Do MII setup. If this is a 21143, check for a PHY on the
 	 * MII bus after applying any necessary fixups to twiddle the
@@ -1732,6 +1781,20 @@ hasmac:
 		dc_apply_fixup(sc, IFM_AUTO);
 		tmp = sc->dc_pmode;
 		sc->dc_pmode = DC_PMODE_MII;
+	}
+
+	/*
+	 * Setup General Purpose port mode and data so the tulip can talk
+	 * to the MII.  This needs to be done before mii_attach so that
+	 * we can actually see them.
+	 */
+	if (DC_IS_XIRCOM(sc)) {
+		CSR_WRITE_4(sc, DC_SIAGP, DC_SIAGP_WRITE_EN | DC_SIAGP_INT1_EN |
+		    DC_SIAGP_MD_GP2_OUTPUT | DC_SIAGP_MD_GP0_OUTPUT);
+		DELAY(10);
+		CSR_WRITE_4(sc, DC_SIAGP, DC_SIAGP_INT1_EN |
+		    DC_SIAGP_MD_GP2_OUTPUT | DC_SIAGP_MD_GP0_OUTPUT);
+		DELAY(10);
 	}
 
 	sc->sc_mii.mii_ifp = ifp;
@@ -1770,17 +1833,11 @@ hasmac:
 	if (DC_IS_DAVICOM(sc) && sc->dc_revision >= DC_REVISION_DM9102A)
 		ifmedia_add(&sc->sc_mii.mii_media, IFM_ETHER|IFM_HPNA_1,0,NULL);
 
-	if (DC_IS_XIRCOM(sc)) {
+	if (DC_IS_ADMTEK(sc)) {
 		/*
-		 * setup General Purpose Port mode and data so the tulip
-		 * can talk to the MII.
+		 * Set automatic TX underrun recovery for the ADMtek chips
 		 */
-		CSR_WRITE_4(sc, DC_SIAGP, DC_SIAGP_WRITE_EN | DC_SIAGP_INT1_EN |
-		    DC_SIAGP_MD_GP2_OUTPUT | DC_SIAGP_MD_GP0_OUTPUT);
-		DELAY(10);
-		CSR_WRITE_4(sc, DC_SIAGP, DC_SIAGP_INT1_EN |
-		    DC_SIAGP_MD_GP2_OUTPUT | DC_SIAGP_MD_GP0_OUTPUT);
-		DELAY(10);
+		DC_SETBIT(sc, DC_AL_CR, DC_AL_CR_ATUR);
 	}
 
 	/*
@@ -1790,6 +1847,7 @@ hasmac:
 	ether_ifattach(ifp);
 
 	sc->sc_dhook = shutdownhook_establish(dc_shutdown, sc);
+	sc->sc_pwrhook = powerhook_establish(dc_power, sc);
 
 fail:
 	return;
@@ -1813,6 +1871,7 @@ dc_detach(sc)
 	if_detach(ifp);
 
 	shutdownhook_disestablish(sc->sc_dhook);
+	powerhook_disestablish(sc->sc_pwrhook);
 
 	return (0);
 }
@@ -1950,7 +2009,7 @@ dc_newbuf(sc, i, m)
 	c->dc_data = htole32(
 	    sc->dc_cdata.dc_rx_chain[i].sd_map->dm_segs[0].ds_addr +
 	    sizeof(u_int64_t));
-	c->dc_ctl = htole32(DC_RXCTL_RLINK | DC_RXLEN);
+	c->dc_ctl = htole32(DC_RXCTL_RLINK | ETHER_MAX_DIX_LEN);
 	c->dc_status = htole32(DC_RXSTAT_OWN);
 
 	bus_dmamap_sync(sc->sc_dmat, sc->sc_listmap,
@@ -2029,15 +2088,15 @@ dc_pnic_rx_bug_war(sc, idx)
 	i = sc->dc_pnic_rx_bug_save;
 	cur_rx = &sc->dc_ldata->dc_rx_list[idx];
 	ptr = sc->dc_pnic_rx_buf;
-	bzero(ptr, DC_RXLEN * 5);
+	bzero(ptr, ETHER_MAX_DIX_LEN * 5);
 
 	/* Copy all the bytes from the bogus buffers. */
 	while (1) {
 		c = &sc->dc_ldata->dc_rx_list[i];
 		rxstat = letoh32(c->dc_status);
 		m = sc->dc_cdata.dc_rx_chain[i].sd_mbuf;
-		bcopy(mtod(m, char *), ptr, DC_RXLEN);
-		ptr += DC_RXLEN;
+		bcopy(mtod(m, char *), ptr, ETHER_MAX_DIX_LEN);
+		ptr += ETHER_MAX_DIX_LEN;
 		/* If this is the last buffer, break out. */
 		if (i == idx || rxstat & DC_RXSTAT_LASTFRAG)
 			break;
@@ -2171,29 +2230,25 @@ dc_rxeof(sc)
 		 * If an error occurs, update stats, clear the
 		 * status word and leave the mbuf cluster in place:
 		 * it should simply get re-used next time this descriptor
-	 	 * comes up in the ring.
+		 * comes up in the ring.  However, don't report long
+		 * frames as errors since they could be VLANs.
 		 */
-		if (rxstat & DC_RXSTAT_RXERR
-#if NVLAN > 0
-		/*
-		 * If VLANs are enabled, allow frames up to 4 bytes
-		 * longer than the MTU. This should really check if
-		 * the giant packet has a vlan tag
-		 */
-		 && ((rxstat & (DC_RXSTAT_GIANT|DC_RXSTAT_LASTFRAG)) == 0
-		 && total_len <= ifp->if_mtu + 4) 
-#endif
-		    ) {
-			ifp->if_ierrors++;
-			if (rxstat & DC_RXSTAT_COLLSEEN)
-				ifp->if_collisions++;
-			dc_newbuf(sc, i, m);
-			if (rxstat & DC_RXSTAT_CRCERR) {
-				DC_INC(i, DC_RX_LIST_CNT);
-				continue;
-			} else {
-				dc_init(sc);
-				return;
+		if ((rxstat & DC_RXSTAT_RXERR)) {
+			if (!(rxstat & DC_RXSTAT_GIANT) ||
+			    (rxstat & (DC_RXSTAT_CRCERR | DC_RXSTAT_DRIBBLE |
+				       DC_RXSTAT_MIIERE | DC_RXSTAT_COLLSEEN |
+				       DC_RXSTAT_RUNT   | DC_RXSTAT_DE))) {
+				ifp->if_ierrors++;
+				if (rxstat & DC_RXSTAT_COLLSEEN)
+					ifp->if_collisions++;
+				dc_newbuf(sc, i, m);
+				if (rxstat & DC_RXSTAT_CRCERR) {
+					DC_INC(i, DC_RX_LIST_CNT);
+					continue;
+				} else {
+					dc_init(sc);
+					return;
+				}
 			}
 		}
 
@@ -2238,9 +2293,6 @@ dc_txeof(sc)
 
 	ifp = &sc->sc_arpcom.ac_if;
 
-	/* Clear the timeout timer. */
-	ifp->if_timer = 0;
-
 	/*
 	 * Go through our tx list and free mbufs for those
 	 * frames that have been transmitted.
@@ -2262,7 +2314,6 @@ dc_txeof(sc)
 
 		if (!(cur_tx->dc_ctl & htole32(DC_TXCTL_LASTFRAG)) ||
 		    cur_tx->dc_ctl & htole32(DC_TXCTL_SETUP)) {
-			sc->dc_cdata.dc_tx_cnt--;
 			if (cur_tx->dc_ctl & htole32(DC_TXCTL_SETUP)) {
 				/*
 				 * Yes, the PNIC is so brain damaged
@@ -2279,6 +2330,7 @@ dc_txeof(sc)
 				}
 				sc->dc_cdata.dc_tx_chain[idx].sd_mbuf = NULL;
 			}
+			sc->dc_cdata.dc_tx_cnt--;
 			DC_INC(idx, DC_TX_LIST_CNT);
 			continue;
 		}
@@ -2340,9 +2392,12 @@ dc_txeof(sc)
 		DC_INC(idx, DC_TX_LIST_CNT);
 	}
 
-	sc->dc_cdata.dc_tx_cons = idx;
-	if (cur_tx != NULL)
+	if (idx != sc->dc_cdata.dc_tx_cons) {
+		/* some buffers have been freed */
+		sc->dc_cdata.dc_tx_cons = idx;
 		ifp->if_flags &= ~IFF_OACTIVE;
+	}
+	ifp->if_timer = (sc->dc_cdata.dc_tx_cnt == 0) ? 0 : 5;
 }
 
 void
@@ -2378,10 +2433,11 @@ dc_tick(xsc)
 		} else {
 			r = CSR_READ_4(sc, DC_ISR);
 			if ((r & DC_ISR_RX_STATE) == DC_RXSTATE_WAIT &&
-			    sc->dc_cdata.dc_tx_cnt == 0 && !DC_IS_ASIX(sc))
+			    sc->dc_cdata.dc_tx_cnt == 0 && !DC_IS_ASIX(sc)) {
 				mii_tick(mii);
-			if (!(mii->mii_media_status & IFM_ACTIVE))
-				sc->dc_link = 0;
+				if (!(mii->mii_media_status & IFM_ACTIVE))
+					sc->dc_link = 0;
+			}
 		}
 	} else
 		mii_tick(mii);
@@ -2405,14 +2461,11 @@ dc_tick(xsc)
 	 * that time, packets will stay in the send queue, and once the
 	 * link comes up, they will be flushed out to the wire.
 	 */
-	if (!sc->dc_link) {
-		mii_pollstat(mii);
-		if (mii->mii_media_status & IFM_ACTIVE &&
-		    IFM_SUBTYPE(mii->mii_media_active) != IFM_NONE) {
-			sc->dc_link++;
-			if (IFQ_IS_EMPTY(&ifp->if_snd) == 0)
-				dc_start(ifp);
-		}
+	if (!sc->dc_link && mii->mii_media_status & IFM_ACTIVE &&
+	    IFM_SUBTYPE(mii->mii_media_active) != IFM_NONE) {
+		sc->dc_link++;
+		if (IFQ_IS_EMPTY(&ifp->if_snd) == 0)
+	 	    dc_start(ifp);
 	}
 
 	if (sc->dc_flags & DC_21143_NWAY && !sc->dc_link)
@@ -2421,6 +2474,54 @@ dc_tick(xsc)
 		timeout_add(&sc->dc_tick_tmo, hz);
 
 	splx(s);
+}
+
+/* A transmit underrun has occurred.  Back off the transmit threshold,
+ * or switch to store and forward mode if we have to.
+ */
+void
+dc_tx_underrun(sc)
+	struct dc_softc	*sc;
+{
+	u_int32_t	isr;
+	int		i;
+
+	if (DC_IS_DAVICOM(sc))
+		dc_init(sc);
+
+	if (DC_IS_INTEL(sc)) {
+		/*
+		 * The real 21143 requires that the transmitter be idle
+		 * in order to change the transmit threshold or store
+		 * and forward state.
+		 */
+		DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_TX_ON);
+
+		for (i = 0; i < DC_TIMEOUT; i++) {
+			isr = CSR_READ_4(sc, DC_ISR);
+			if (isr & DC_ISR_TX_IDLE)
+				break;
+			DELAY(10);
+		}
+		if (i == DC_TIMEOUT) {
+			printf("%s: failed to force tx to idle state\n",
+			    sc->sc_dev.dv_xname);
+			dc_init(sc);
+		}
+	}
+
+	sc->dc_txthresh += DC_TXTHRESH_INC;
+	if (sc->dc_txthresh > DC_TXTHRESH_MAX) {
+		DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_STORENFWD);
+	} else {
+		DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_TX_THRESH);
+		DC_SETBIT(sc, DC_NETCFG, sc->dc_txthresh);
+	}
+
+	if (DC_IS_INTEL(sc))
+		DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_TX_ON);
+
+	return;
 }
 
 int
@@ -2433,9 +2534,10 @@ dc_intr(arg)
 	int claimed = 0;
 
 	sc = arg;
+
 	ifp = &sc->sc_arpcom.ac_if;
 
-	/* Supress unwanted interrupts */
+	/* Suppress unwanted interrupts */
 	if (!(ifp->if_flags & IFF_UP)) {
 		if (CSR_READ_4(sc, DC_ISR) & DC_INTRS)
 			dc_stop(sc);
@@ -2472,23 +2574,8 @@ dc_intr(arg)
 			}
 		}
 
-		if (status & DC_ISR_TX_UNDERRUN) {
-			u_int32_t		cfg;
-
-			if (DC_IS_DAVICOM(sc) || DC_IS_INTEL(sc))
-				dc_init(sc);
-			cfg = CSR_READ_4(sc, DC_NETCFG);
-			cfg &= ~DC_NETCFG_TX_THRESH;
-			if (sc->dc_txthresh == DC_TXTHRESH_160BYTES) {
-				DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_STORENFWD);
-			} else if (sc->dc_flags & DC_TX_STORENFWD) {
-			} else {
-				sc->dc_txthresh += 0x4000;
-				CSR_WRITE_4(sc, DC_NETCFG, cfg);
-				DC_SETBIT(sc, DC_NETCFG, sc->dc_txthresh);
-				DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_STORENFWD);
-			}
-		}
+		if (status & DC_ISR_TX_UNDERRUN)
+			dc_tx_underrun(sc);
 
 		if ((status & DC_ISR_RX_WATDOGTIMEO)
 		    || (status & DC_ISR_RX_NOBUF)) {
@@ -2584,12 +2671,10 @@ dc_encap(sc, m_head, txidx)
 	if (sc->dc_flags & DC_TX_USE_TX_INTR && sc->dc_cdata.dc_tx_cnt > 64)
 		sc->dc_ldata->dc_tx_list[cur].dc_ctl |=
 		    htole32(DC_TXCTL_FINT);
-#ifdef ALTQ
 	else if ((sc->dc_flags & DC_TX_USE_TX_INTR) &&
 		 TBR_IS_ENABLED(&sc->sc_arpcom.ac_if.if_snd))
 		sc->dc_ldata->dc_tx_list[cur].dc_ctl |=
 		    htole32(DC_TXCTL_FINT);
-#endif
 	bus_dmamap_sync(sc->sc_dmat, map, 0, map->dm_mapsize,
 	    BUS_DMASYNC_PREWRITE);
 
@@ -2657,7 +2742,7 @@ dc_start(ifp)
 
 	sc = ifp->if_softc;
 
-	if (!sc->dc_link)
+	if (!sc->dc_link && ifp->if_snd.ifq_len < 10)
 		return;
 
 	if (ifp->if_flags & IFF_OACTIVE)
@@ -2670,12 +2755,12 @@ dc_start(ifp)
 		if (m_head == NULL)
 			break;
 
-		if (sc->dc_flags & DC_TX_COALESCE) {
-#ifdef ALTQ
+		if (sc->dc_flags & DC_TX_COALESCE &&
+		    (m_head->m_next != NULL ||
+			sc->dc_flags & DC_TX_ALIGN)) {
 			/* note: dc_coal breaks the poll-and-dequeue rule.
 			 * if dc_coal fails, we lose the packet.
 			 */
-#endif
 			IFQ_DEQUEUE(&ifp->if_snd, m_head);
 			if (dc_coal(sc, &m_head)) {
 				ifp->if_flags |= IFF_OACTIVE;
@@ -2747,6 +2832,11 @@ dc_init(xsc)
 		CSR_WRITE_4(sc, DC_BUSCTL, 0);
 	else
 		CSR_WRITE_4(sc, DC_BUSCTL, DC_BUSCTL_MRME|DC_BUSCTL_MRLE);
+	/*
+	 * Evenly share the bus between receive and transmit process.
+	 */
+	if (DC_IS_INTEL(sc))
+		DC_SETBIT(sc, DC_BUSCTL, DC_BUSCTL_ARBITRATION);
 	if (DC_IS_DAVICOM(sc) || DC_IS_INTEL(sc)) {
 		DC_SETBIT(sc, DC_BUSCTL, DC_BURSTLEN_USECA);
 	} else {
@@ -2773,7 +2863,7 @@ dc_init(xsc)
 	if (sc->dc_flags & DC_TX_STORENFWD)
 		DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_STORENFWD);
 	else {
-		if (sc->dc_txthresh == DC_TXTHRESH_160BYTES) {
+		if (sc->dc_txthresh > DC_TXTHRESH_MAX) {
 			DC_SETBIT(sc, DC_NETCFG, DC_NETCFG_STORENFWD);
 		} else {
 			DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_STORENFWD);
@@ -2810,7 +2900,7 @@ dc_init(xsc)
 	}
 
 	DC_CLRBIT(sc, DC_NETCFG, DC_NETCFG_TX_THRESH);
-	DC_SETBIT(sc, DC_NETCFG, DC_TXTHRESH_72BYTES);
+	DC_SETBIT(sc, DC_NETCFG, DC_TXTHRESH_MIN);
 
 	/* Init circular RX list. */
 	if (dc_list_rx_init(sc) == ENOBUFS) {
@@ -3009,6 +3099,13 @@ dc_ioctl(ifp, command, data)
 		sc->dc_if_flags = ifp->if_flags;
 		error = 0;
 		break;
+	case SIOCSIFMTU:
+		if (ifr->ifr_mtu > ETHERMTU || ifr->ifr_mtu < ETHERMIN) {
+			error = EINVAL;
+		} else if (ifp->if_mtu != ifr->ifr_mtu) {
+			ifp->if_mtu = ifr->ifr_mtu;
+		}
+		break;
 	case SIOCADDMULTI:
 	case SIOCDELMULTI:
 		error = (command == SIOCADDMULTI) ?
@@ -3020,7 +3117,8 @@ dc_ioctl(ifp, command, data)
 			 * Multicast list has changed; set the hardware
 			 * filter accordingly.
 			 */
-			dc_setfilt(sc);
+			if (ifp->if_flags & IFF_RUNNING)
+				dc_setfilt(sc);
 			error = 0;
 		}
 		break;
@@ -3078,6 +3176,8 @@ dc_stop(sc)
 
 	timeout_del(&sc->dc_tick_tmo);
 
+	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
+
 	DC_CLRBIT(sc, DC_NETCFG, (DC_NETCFG_RX_ON|DC_NETCFG_TX_ON));
 	CSR_WRITE_4(sc, DC_IMR, 0x00000000);
 	CSR_WRITE_4(sc, DC_TXADDR, 0x00000000);
@@ -3130,8 +3230,6 @@ dc_stop(sc)
 	bus_dmamap_sync(sc->sc_dmat, sc->sc_listmap,
 	    0, sc->sc_listmap->dm_mapsize,
 	    BUS_DMASYNC_PREREAD | BUS_DMASYNC_PREWRITE);
-
-	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 }
 
 /*
@@ -3145,6 +3243,26 @@ dc_shutdown(v)
 	struct dc_softc *sc = (struct dc_softc *)v;
 
 	dc_stop(sc);
+}
+
+void
+dc_power(why, arg)
+	int why;
+	void *arg;
+{
+	struct dc_softc *sc = arg;
+	struct ifnet *ifp;
+	int s;
+
+	s = splimp();
+	if (why != PWR_RESUME)
+		dc_stop(sc);
+	else {
+		ifp = &sc->sc_arpcom.ac_if;
+		if (ifp->if_flags & IFF_UP)
+			dc_init(sc);
+	}
+	splx(s);
 }
 
 struct cfdriver dc_cd = {

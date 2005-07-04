@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_dc_pci.c,v 1.42 2003/10/21 21:48:07 deraadt Exp $	*/
+/*	$OpenBSD: if_dc_pci.c,v 1.50 2005/03/26 15:49:09 mickey Exp $	*/
 
 /*
  * Copyright (c) 1997, 1998, 1999
@@ -76,7 +76,9 @@
 #include <dev/ofw/openfirm.h>
 #endif
 
+#ifndef __hppa__
 #define DC_USEIOSPACE
+#endif
 
 #include <dev/ic/dcreg.h>
 
@@ -103,6 +105,7 @@ struct dc_type dc_devs[] = {
 	{ PCI_VENDOR_CONEXANT, PCI_PRODUCT_CONEXANT_RS7112 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_21145 },
 	{ PCI_VENDOR_3COM, PCI_PRODUCT_3COM_3CSHO100BTX },
+	{ PCI_VENDOR_MICROSOFT, PCI_PRODUCT_MICROSOFT_MN130 },
 	{ 0, 0 }
 };
 
@@ -213,7 +216,6 @@ void dc_pci_attach(parent, self, aux)
 	struct pci_attach_args	*pa = aux;
 	pci_chipset_tag_t	pc = pa->pa_pc;
 	pci_intr_handle_t	ih;
-	bus_addr_t		iobase;
 	bus_size_t		iosize;
 	u_int32_t		revision;
 	int			found = 0;
@@ -238,33 +240,17 @@ void dc_pci_attach(parent, self, aux)
 	sc->dc_csid = pci_conf_read(pc, pa->pa_tag, PCI_SUBSYS_ID_REG);
 
 #ifdef DC_USEIOSPACE
-	if (!(command & PCI_COMMAND_IO_ENABLE)) {
-		printf(": failed to enable I/O ports\n");
-		goto fail;
+	if (pci_mapreg_map(pa, DC_PCI_CFBIO, PCI_MAPREG_TYPE_IO, 0,
+	    &sc->dc_btag, &sc->dc_bhandle, NULL, &iosize, 0)) {
+		printf(": can't map i/o space\n");
+		return;
 	}
-	if (pci_io_find(pc, pa->pa_tag, DC_PCI_CFBIO, &iobase, &iosize)) {
-		printf(": can't find I/O space\n");
-		goto fail;
-	}
-	if (bus_space_map(pa->pa_iot, iobase, iosize, 0, &sc->dc_bhandle)) {
-		printf(": can't map I/O space\n");
-		goto fail;
-	}
-	sc->dc_btag = pa->pa_iot;
 #else
-	if (!(command & PCI_COMMAND_MEM_ENABLE)) {
-		printf(": failed to enable memory mapping\n");
-		goto fail;
-	}
-	if (pci_mem_find(pc, pa->pa_tag, DC_PCI_CFBMA, &iobase, &iosize, NULL)){
-		printf(": can't find mem space\n");
-		goto fail;
-	}
-	if (bus_space_map(pa->pa_memt, iobase, iosize, 0, &sc->dc_bhandle)) {
+	if (pci_mapreg_map(pa, DC_PCI_CFBMA, PCI_MAPREG_TYPE_MEM, 0,
+	    &sc->dc_btag, &sc->dc_bhandle, NULL, &iosize, 0)) {
 		printf(": can't map mem space\n");
-		goto fail;
+		return;
 	}
-	sc->dc_btag = pa->pa_memt;
 #endif
 
 	/* Allocate interrupt */
@@ -287,6 +273,11 @@ void dc_pci_attach(parent, self, aux)
 	/* Need this info to decide on a chip type. */
 	sc->dc_revision = revision = PCI_REVISION(pa->pa_class);
 
+	/* Get the eeprom width, but PNIC has no eeprom */
+	if (!(PCI_VENDOR(pa->pa_id) == PCI_VENDOR_LITEON &&
+	      PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_LITEON_PNIC))
+		dc_eeprom_width(sc);
+
 	switch (PCI_VENDOR(pa->pa_id)) {
 	case PCI_VENDOR_DEC:
 		if (PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_DEC_21140 ||
@@ -295,7 +286,6 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_type = DC_TYPE_21143;
 			sc->dc_flags |= DC_TX_POLL|DC_TX_USE_TX_INTR;
 			sc->dc_flags |= DC_REDUCED_MII_POLL;
-			dc_eeprom_width(sc);
 			dc_read_srom(sc, sc->dc_romwidth);
 		}
 		break;
@@ -305,7 +295,6 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_type = DC_TYPE_21145;
 			sc->dc_flags |= DC_TX_POLL|DC_TX_USE_TX_INTR;
 			sc->dc_flags |= DC_REDUCED_MII_POLL;
-			dc_eeprom_width(sc);
 			dc_read_srom(sc, sc->dc_romwidth);
 		}
 	case PCI_VENDOR_DAVICOM:
@@ -316,6 +305,7 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_type = DC_TYPE_DM9102;
 			sc->dc_flags |= DC_TX_COALESCE|DC_TX_INTR_ALWAYS;
 			sc->dc_flags |= DC_REDUCED_MII_POLL|DC_TX_STORENFWD;
+			sc->dc_flags |= DC_TX_ALIGN;
 			sc->dc_pmode = DC_PMODE_MII;
 
 			/* Increase the latency timer value. */
@@ -325,35 +315,28 @@ void dc_pci_attach(parent, self, aux)
 			pci_conf_write(pc, pa->pa_tag, DC_PCI_CFLT, command);
 		}
 		break;
-	case PCI_VENDOR_3COM:
-		if (PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_3COM_3CSHO100BTX) {
-			found = 1;
-			sc->dc_type = DC_TYPE_AN983;
-			sc->dc_flags |= DC_TX_USE_TX_INTR;
-			sc->dc_flags |= DC_TX_ADMTEK_WAR;
-			sc->dc_pmode = DC_PMODE_MII;
-		}
-		dc_eeprom_width(sc);
-		dc_read_srom(sc, sc->dc_romwidth);
-		break;
 	case PCI_VENDOR_ADMTEK:
+	case PCI_VENDOR_3COM:
+	case PCI_VENDOR_MICROSOFT:
 		if (PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_ADMTEK_AL981) {
 			found = 1;
 			sc->dc_type = DC_TYPE_AL981;
 			sc->dc_flags |= DC_TX_USE_TX_INTR;
 			sc->dc_flags |= DC_TX_ADMTEK_WAR;
 			sc->dc_pmode = DC_PMODE_MII;
+			dc_read_srom(sc, sc->dc_romwidth);
 		}
-		if (PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_ADMTEK_AN983) {
+		if (PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_ADMTEK_AN983 ||
+		    PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_3COM_3CSHO100BTX ||
+		    PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_MICROSOFT_MN130) {
 			found = 1;
 			sc->dc_type = DC_TYPE_AN983;
 			sc->dc_flags |= DC_TX_USE_TX_INTR;
 			sc->dc_flags |= DC_TX_ADMTEK_WAR;
 			sc->dc_flags |= DC_64BIT_HASH;
 			sc->dc_pmode = DC_PMODE_MII;
+			/* Don't read SROM for - auto-loaded on reset */
 		}
-		dc_eeprom_width(sc);
-		dc_read_srom(sc, sc->dc_romwidth);
 		break;
 	case PCI_VENDOR_MACRONIX:
 	case PCI_VENDOR_ACCTON:
@@ -362,10 +345,9 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_type = DC_TYPE_AN983;
 			sc->dc_flags |= DC_TX_USE_TX_INTR;
 			sc->dc_flags |= DC_TX_ADMTEK_WAR;
+			sc->dc_flags |= DC_64BIT_HASH;
 			sc->dc_pmode = DC_PMODE_MII;
-
-			dc_eeprom_width(sc);
-			dc_read_srom(sc, sc->dc_romwidth);
+			/* Don't read SROM for - auto-loaded on reset */
 		}
 		if (PCI_PRODUCT(pa->pa_id) == PCI_PRODUCT_MACRONIX_MX98713) {
 			found = 1;
@@ -421,7 +403,7 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_type = DC_TYPE_PNIC;
 			sc->dc_flags |= DC_TX_STORENFWD|DC_TX_INTR_ALWAYS;
 			sc->dc_flags |= DC_PNIC_RX_BUG_WAR;
-			sc->dc_pnic_rx_buf = malloc(DC_RXLEN * 5, M_DEVBUF,
+			sc->dc_pnic_rx_buf = malloc(ETHER_MAX_DIX_LEN * 5, M_DEVBUF,
 			    M_NOWAIT);
 			if (sc->dc_pnic_rx_buf == NULL)
 				panic("dc_pci_attach");
@@ -445,7 +427,6 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_flags |= DC_TX_INTR_ALWAYS;
 			sc->dc_flags |= DC_REDUCED_MII_POLL;
 			sc->dc_pmode = DC_PMODE_MII;
-			dc_eeprom_width(sc);
 			dc_read_srom(sc, sc->dc_romwidth);
 		}
 		break;
@@ -460,13 +441,9 @@ void dc_pci_attach(parent, self, aux)
 	/* Save the cache line size. */
 	if (DC_IS_DAVICOM(sc))
 		sc->dc_cachesize = 0;
-	else {
+	else
 		sc->dc_cachesize = pci_conf_read(pc, pa->pa_tag,
 		    DC_PCI_CFLT) & 0xFF;
-#ifdef __hppa__
-		sc->dc_cachesize = 16;
-#endif
-	}
 
 	/* Reset the adapter. */
 	dc_reset(sc);
@@ -552,7 +529,6 @@ void dc_pci_attach(parent, self, aux)
 			sc->dc_srm_media |= IFM_ACTIVE | IFM_ETHER;
 	}
 #endif
-	dc_eeprom_width(sc);
 	dc_attach(sc);
 
 fail:

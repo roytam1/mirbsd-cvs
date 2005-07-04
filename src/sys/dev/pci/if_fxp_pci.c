@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_fxp_pci.c,v 1.25 2004/02/25 12:25:09 markus Exp $	*/
+/*	$OpenBSD: if_fxp_pci.c,v 1.35 2005/05/27 06:37:21 brad Exp $	*/
 
 /*
  * Copyright (c) 1995, David Greenman
@@ -99,6 +99,8 @@ const struct pci_matchid fxp_pci_devices[] = {
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VE_4 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VE_5 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VE_6 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VE_7 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VE_8 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_0 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_1 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_2 },
@@ -134,9 +136,7 @@ fxp_pci_attach(parent, self, aux)
 	pci_chipset_tag_t pc = pa->pa_pc;
 	pci_intr_handle_t ih;
 	const char *intrstr = NULL;
-	u_int8_t enaddr[6];
 	bus_size_t iosize;
-	pcireg_t rev = PCI_REVISION(pa->pa_class);
 
 	if (pci_mapreg_map(pa, FXP_PCI_IOBA, PCI_MAPREG_TYPE_IO, 0,
 	    &sc->sc_st, &sc->sc_sh, NULL, &iosize, 0)) {
@@ -144,6 +144,8 @@ fxp_pci_attach(parent, self, aux)
 		return;
 	}
 	sc->sc_dmat = pa->pa_dmat;
+	
+	sc->sc_revision = PCI_REVISION(pa->pa_class);
 
 	/*
 	 * Allocate our interrupt.
@@ -167,47 +169,86 @@ fxp_pci_attach(parent, self, aux)
 	}
 
 	switch (PCI_PRODUCT(pa->pa_id)) {
-	case PCI_PRODUCT_INTEL_82562:
-		sc->sc_flags |= FXPF_HAS_RESUME_BUG;
-		/* FALLTHROUGH */
+	case PCI_PRODUCT_INTEL_82557:
 	case PCI_PRODUCT_INTEL_82559:
 	case PCI_PRODUCT_INTEL_82559ER:
-		sc->not_82557 = 1;
+	{
+		const char *chipname = NULL;
+
+		if (sc->sc_revision >= FXP_REV_82558_A4)
+			chipname = "i82558";
+		if (sc->sc_revision >= FXP_REV_82559_A0)
+			chipname = "i82559";
+		if (sc->sc_revision >= FXP_REV_82559S_A)
+			chipname = "i82559S";
+		if (sc->sc_revision >= FXP_REV_82550)
+			chipname = "i82550";
+		if (sc->sc_revision >= FXP_REV_82551_E)
+			chipname = "i82551";
+
+		if (chipname != NULL)
+			printf(", %s", chipname);
+
 		break;
-	case PCI_PRODUCT_INTEL_82557:
-		/*
-		 * revisions
-		 * 2 = 82557
-		 * 4-6 = 82558
-		 * 8 = 82559
-		 */
-		sc->not_82557 = (rev >= 4) ? 1 : 0;
+	}
 		break;
 	case PCI_PRODUCT_INTEL_PRO_100_VE_0:
 	case PCI_PRODUCT_INTEL_PRO_100_VE_1:
-	case PCI_PRODUCT_INTEL_PRO_100_VE_2:
-	case PCI_PRODUCT_INTEL_PRO_100_VE_3:
-	case PCI_PRODUCT_INTEL_PRO_100_VE_4:
 	case PCI_PRODUCT_INTEL_PRO_100_VM_0:
 	case PCI_PRODUCT_INTEL_PRO_100_VM_1:
 	case PCI_PRODUCT_INTEL_PRO_100_VM_2:
-	case PCI_PRODUCT_INTEL_PRO_100_VM_3:
-	case PCI_PRODUCT_INTEL_PRO_100_VM_4:
-		sc->sc_flags |= FXPF_HAS_RESUME_BUG;
-		sc->not_82557 = 0;
+	case PCI_PRODUCT_INTEL_82562EH_HPNA_0:
+	case PCI_PRODUCT_INTEL_82562EH_HPNA_1:
+	case PCI_PRODUCT_INTEL_82562EH_HPNA_2:
+		/*
+		 * ICH3 chips apparently have problems with the enhanced
+		 * features, so just treat them as an i82557.
+		 */
+		sc->sc_revision = 1;
 		break;
 	default:
-		sc->not_82557 = 0;
 		break;
 	}
+
+	/*
+	 * Cards for which we should WRITE TO THE EEPROM
+	 * to turn off dynamic standby mode to avoid
+	 * a problem where the card will fail to resume when
+	 * entering the IDLE state. We use this nasty if statement
+	 * and corresponding pci dev numbers directly so that people
+	 * know not to add new cards to this unless you are really
+	 * certain what you are doing and are not going to end up
+	 * killing people's eeproms.
+	 */
+	if ((PCI_VENDOR(pa->pa_id) == PCI_VENDOR_INTEL) &&
+	    (PCI_PRODUCT(pa->pa_id) == 0x2449 || 
+	    (PCI_PRODUCT(pa->pa_id) > 0x1030 && 
+	    PCI_PRODUCT(pa->pa_id) < 0x1039) || 
+	    (PCI_PRODUCT(pa->pa_id) == 0x1229 &&
+	    (sc->sc_revision >= 8 && sc->sc_revision <= 13))))
+		sc->sc_flags |= FXPF_DISABLE_STANDBY;
 
 	/* enable bus mastering */
 	pci_conf_write(pa->pa_pc, pa->pa_tag, PCI_COMMAND_STATUS_REG,
 	    PCI_COMMAND_MASTER_ENABLE |
 	    pci_conf_read(pa->pa_pc, pa->pa_tag, PCI_COMMAND_STATUS_REG));
 
+	/*
+	 * enable PCI Memory Write and Invalidate command
+	 */
+	if (sc->sc_revision >= FXP_REV_82558_A4)
+		if (PCI_CACHELINE(pci_conf_read(pa->pa_pc, pa->pa_tag,
+		    PCI_BHLC_REG))) {
+			pci_conf_write(pa->pa_pc, pa->pa_tag,
+			    PCI_COMMAND_STATUS_REG,
+			    PCI_COMMAND_INVALIDATE_ENABLE |
+			    pci_conf_read(pa->pa_pc, pa->pa_tag,
+			    PCI_COMMAND_STATUS_REG));
+			sc->sc_flags |= FXPF_MWI_ENABLE;
+		}
+
 	/* Do generic parts of attach. */
-	if (fxp_attach_common(sc, enaddr, intrstr)) {
+	if (fxp_attach_common(sc, intrstr)) {
 		/* Failed! */
 		pci_intr_disestablish(pc, sc->sc_ih);
 		bus_space_unmap(sc->sc_st, sc->sc_sh, iosize);
