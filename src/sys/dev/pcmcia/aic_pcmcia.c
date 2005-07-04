@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: aic_pcmcia.c,v 1.10 2002/03/14 01:27:00 millert Exp $	*/
+/**	$MirOS: src/sys/dev/pcmcia/aic_pcmcia.c,v 1.2 2005/03/06 21:27:53 tg Exp $ */
+/*	$OpenBSD: aic_pcmcia.c,v 1.11 2005/01/27 17:04:55 millert Exp $	*/
 /*	$NetBSD: aic_pcmcia.c,v 1.6 1998/07/19 17:28:15 christos Exp $	*/
 
 /*
@@ -109,6 +109,7 @@ aic_pcmcia_attach(parent, self, aux)
 	struct pcmcia_attach_args *pa = aux;
 	struct pcmcia_config_entry *cfe;
 	struct pcmcia_function *pf = pa->pf;
+	const char *intrstr;
 
 	psc->sc_pf = pf;
 
@@ -162,13 +163,11 @@ aic_pcmcia_attach(parent, self, aux)
 
 	/* Establish the interrupt handler. */
 	psc->sc_ih = pcmcia_intr_establish(pa->pf, IPL_BIO,
-	    aicintr, sc, "");
-	if (psc->sc_ih == NULL) {
-		printf(": couldn't establish interrupt\n");
+	    aicintr, sc, sc->sc_dev.dv_xname);
+	intrstr = pcmcia_intr_string(psc->sc_pf, psc->sc_ih);
+	printf("%s%s\n", *intrstr ? ", " : "", intrstr);
+	if (psc->sc_ih == NULL)
 		return;
-	}
-
-	printf("\n");
 
 	aicattach(sc);
 

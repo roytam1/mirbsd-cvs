@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: if_ep_pcmcia.c,v 1.31 2004/05/12 06:35:11 tedu Exp $	*/
+/**	$MirOS: src/sys/dev/pcmcia/if_ep_pcmcia.c,v 1.2 2005/03/06 21:27:54 tg Exp $ */
+/*	$OpenBSD: if_ep_pcmcia.c,v 1.33 2005/06/08 17:03:01 henning Exp $	*/
 /*	$NetBSD: if_ep_pcmcia.c,v 1.16 1998/08/17 23:20:40 thorpej Exp $  */
 
 /*-
@@ -92,11 +92,6 @@
 #include <netinet/in_var.h>
 #include <netinet/ip.h>
 #include <netinet/if_ether.h>
-#endif
-
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
 #endif
 
 #if NBPFILTER > 0
@@ -281,6 +276,7 @@ ep_pcmcia_attach(parent, self, aux)
 	struct ep_pcmcia_product *epp;
 	u_int8_t myla[ETHER_ADDR_LEN];
 	u_int8_t *enaddr = NULL;
+	const char *intrstr;
 	int i;
 
 	psc->sc_pf = pa->pf;
@@ -371,10 +367,11 @@ ep_pcmcia_attach(parent, self, aux)
 #endif
 
 	/* establish the interrupt. */
-	sc->sc_ih = pcmcia_intr_establish(pa->pf, IPL_NET, epintr,
-	    sc, "");
-	if (sc->sc_ih == NULL)
-		printf(", couldn't establish interrupt");
+	sc->sc_ih = pcmcia_intr_establish(pa->pf, IPL_NET, epintr, sc,
+	    sc->sc_dev.dv_xname);
+	intrstr = pcmcia_intr_string(psc->sc_pf, sc->sc_ih);
+	if (*intrstr)
+		printf(", %s", intrstr);
 
 	printf(":");
 
