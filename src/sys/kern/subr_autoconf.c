@@ -1,4 +1,4 @@
-/*	$OpenBSD: subr_autoconf.c,v 1.36 2003/06/02 23:28:06 millert Exp $	*/
+/*	$OpenBSD: subr_autoconf.c,v 1.39 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: subr_autoconf.c,v 1.21 1996/04/04 06:06:18 cgd Exp $	*/
 
 /*
@@ -50,6 +50,7 @@
 #include <sys/systm.h>
 /* Extra stuff from Matthias Drochner <drochner@zelux6.zel.kfa-juelich.de> */
 #include <sys/queue.h>
+#include <sys/proc.h>
 
 /*
  * Autoconfiguration subroutines.
@@ -97,6 +98,8 @@ void config_process_deferred_children(struct device *);
 
 struct devicelist alldevs;		/* list of all devices */
 struct evcntlist allevents;		/* list of all event counters */
+
+__volatile int config_pending;		/* semaphore for mountroot */
 
 /*
  * Initialize autoconfiguration data structures.  This occurs before console
@@ -670,6 +673,7 @@ config_defer(dev, func)
 	dc->dc_dev = dev;
 	dc->dc_func = func;
 	TAILQ_INSERT_TAIL(&deferred_config_queue, dc, dc_queue);
+	config_pending_incr();
 }
 
 /*
@@ -688,8 +692,32 @@ config_process_deferred_children(parent)
 			TAILQ_REMOVE(&deferred_config_queue, dc, dc_queue);
 			(*dc->dc_func)(dc->dc_dev);
 			free(dc, M_DEVBUF);
+			config_pending_decr();
 		}
 	}
+}
+
+/*
+ * Manipulate the config_pending semaphore.
+ */
+void
+config_pending_incr(void)
+{
+
+	config_pending++;
+}
+
+void
+config_pending_decr(void)
+{
+
+#ifdef DIAGNOSTIC
+	if (config_pending == 0)
+		panic("config_pending_decr: config_pending == 0");
+#endif
+	config_pending--;
+	if (config_pending == 0)
+		wakeup((void *)&config_pending);
 }
 
 int
