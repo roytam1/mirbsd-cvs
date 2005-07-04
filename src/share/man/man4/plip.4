@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/man/man4/plip.4,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
 .\"
 .\" Copyright (c) 2002 Martin Husemann <martin@rumolt.teuto.de>
 .\" Copyright (c) 2003 Thorsten Glaser <tg@66h.42h.de>
@@ -31,7 +31,6 @@
 .Nd networking via the standard PC parallel port
 .Sh SYNOPSIS
 .Cd "option	PLIP				# Ethernet over parallel port"
-.Cd "#option	PLIP_NO_INCOLL		# might help if not working otherwise"
 .Cd "lpt0	at isa? port 0x378 irq 7	# standard PC parallel ports"
 .Cd "lpt1	at isa? port 0x278 irq 5"
 .Cd "lpt2	at isa? port 0x3bc irq 5	# Hercules cards don't have an IRQ"
@@ -78,6 +77,9 @@ like every standard Ethernet interface and uses
 to find its neighbor.
 This is inefficient, but provides interoperability
 with other operating systems.
+.Pp
+Set the link2 flag on the interface if it is not working.
+Please report back if it helps for you.
 .Sh INTEROPERABILITY
 .Nm
 uses the
