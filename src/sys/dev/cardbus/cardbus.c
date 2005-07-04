@@ -1,4 +1,4 @@
-/*	$OpenBSD: cardbus.c,v 1.10 2004/05/04 16:59:31 grange Exp $ */
+/*	$OpenBSD: cardbus.c,v 1.20 2005/05/28 19:46:07 jsg Exp $ */
 /*	$NetBSD: cardbus.c,v 1.24 2000/04/02 19:11:37 mycroft Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <machine/bus.h>
 
 #include <dev/cardbus/cardbusvar.h>
-#include <dev/cardbus/cardbusdevs.h>
+#include <dev/pci/pcidevs.h>
 
 #include <dev/cardbus/cardbus_exrom.h>
 
@@ -166,6 +166,7 @@ cardbus_read_tuples(ca, cis_ptr, tuples, len)
 
     int i, j;
     int cardbus_space = cis_ptr & CARDBUS_CIS_ASIMASK;
+    bus_space_tag_t bar_tag;
     bus_space_handle_t bar_memh;
     bus_size_t bar_size;
     bus_addr_t bar_addr;
@@ -217,7 +218,7 @@ cardbus_read_tuples(ca, cis_ptr, tuples, len)
 	if(Cardbus_mapreg_map(ca->ca_ct, reg,
 			      CARDBUS_MAPREG_TYPE_MEM | PCI_MAPREG_MEM_TYPE_32BIT,
 			      0, 
-			      NULL, &bar_memh, &bar_addr, &bar_size)) {
+			      &bar_tag, &bar_memh, &bar_addr, &bar_size)) {
 	    printf("%s: failed to map memory\n", sc->sc_dev.dv_xname);
 	    return 1;
 	}
@@ -273,12 +274,9 @@ cardbus_read_tuples(ca, cis_ptr, tuples, len)
 	cardbus_conf_write(cc, cf, tag, CARDBUS_COMMAND_STATUS_REG, 
 			   command & ~CARDBUS_COMMAND_MEM_ENABLE);
 	cardbus_conf_write(cc, cf, tag, reg, 0);
-#if 0
-	/* XXX unmap memory */
-	(*ca->ca_ct->ct_cf->cardbus_space_free)(ca->ca_ct, 
-						ca->ca_ct->ct_sc->sc_rbus_memt, 
-						bar_memh, bar_size);
-#endif
+
+	Cardbus_mapreg_unmap(ca->ca_ct, reg, bar_tag, bar_memh,
+	    bar_size);
 	break;
 
 #ifdef DIAGNOSTIC
@@ -435,14 +433,9 @@ cardbus_attach_card(sc)
       return 0;
     }
   }
-  
-  bhlc = cardbus_conf_read(cc, cf, tag, CARDBUS_BHLC_REG);
-  if (CARDBUS_LATTIMER(bhlc) < 0x10) {
-    bhlc &= ~(CARDBUS_LATTIMER_MASK << CARDBUS_LATTIMER_SHIFT);
-    bhlc |= (0x10 << CARDBUS_LATTIMER_SHIFT);
-    cardbus_conf_write(cc, cf, tag, CARDBUS_BHLC_REG, bhlc);
-  }
 
+  bhlc = cardbus_conf_read(cc, cf, tag, CARDBUS_BHLC_REG);
+  DPRINTF(("%s bhlc 0x%08x -> ", sc->sc_dev.dv_xname, bhlc));
   nfunction = CARDBUS_HDRTYPE_MULTIFN(bhlc) ? 8 : 1;
 
   for(function = 0; function < nfunction; function++) {
@@ -455,7 +448,7 @@ cardbus_attach_card(sc)
     cis_ptr = cardbus_conf_read(cc, cf, tag, CARDBUS_CIS_REG);
   
     /* Invalid vendor ID value? */
-    if (CARDBUS_VENDOR(id) == CARDBUS_VENDOR_INVALID) {
+    if (CARDBUS_VENDOR(id) == PCI_VENDOR_INVALID) {
       continue;
     }
       
@@ -472,7 +465,26 @@ cardbus_attach_card(sc)
     cardbus_conf_write(cc, cf, tag, CARDBUS_BASE4_REG, 0);
     cardbus_conf_write(cc, cf, tag, CARDBUS_BASE5_REG, 0);
     cardbus_conf_write(cc, cf, tag, CARDBUS_ROM_REG, 0);
-    
+ 
+    /* set initial latency and cacheline size */
+    bhlc = cardbus_conf_read(cc, cf, tag, CARDBUS_BHLC_REG);
+    DPRINTF(("%s func%d bhlc 0x%08x -> ", sc->sc_dev.dv_xname,
+	function, bhlc));
+    bhlc &= ~((CARDBUS_LATTIMER_MASK << CARDBUS_LATTIMER_SHIFT) |
+	(CARDBUS_CACHELINE_MASK << CARDBUS_CACHELINE_SHIFT));
+    bhlc |= ((sc->sc_cacheline & CARDBUS_CACHELINE_MASK) << CARDBUS_CACHELINE_SHIFT);
+    bhlc |= ((sc->sc_lattimer & CARDBUS_LATTIMER_MASK) << CARDBUS_LATTIMER_SHIFT);
+
+    cardbus_conf_write(cc, cf, tag, CARDBUS_BHLC_REG, bhlc);
+    bhlc = cardbus_conf_read(cc, cf, tag, CARDBUS_BHLC_REG);
+    DPRINTF(("0x%08x\n", bhlc));
+
+    if (CARDBUS_LATTIMER(bhlc) < 0x10) {
+	bhlc &= ~(CARDBUS_LATTIMER_MASK << CARDBUS_LATTIMER_SHIFT);
+	bhlc |= (0x10 << CARDBUS_LATTIMER_SHIFT);
+	cardbus_conf_write(cc, cf, tag, CARDBUS_BHLC_REG, bhlc);
+    }
+
     /*
      * We need to allocate the ct here, since we might 
      * need it when reading the CIS
@@ -500,6 +512,11 @@ cardbus_attach_card(sc)
     ca.ca_memt = sc->sc_memt;
     ca.ca_dmat = sc->sc_dmat;
 
+#if rbus
+    ca.ca_rbus_iot = sc->sc_rbus_iot;
+    ca.ca_rbus_memt = sc->sc_rbus_memt;
+#endif
+
     ca.ca_tag = tag;
     ca.ca_bus = sc->sc_bus;
     ca.ca_device = sc->sc_device;
@@ -509,15 +526,15 @@ cardbus_attach_card(sc)
 
     ca.ca_intrline = sc->sc_intrline;
 
-    bzero(tuple, 2048);
-
-    if(cardbus_read_tuples(&ca, cis_ptr, tuple, sizeof(tuple))) {
-      printf("cardbus_attach_card: failed to read CIS\n");
-    } else {
+    if (cis_ptr != 0) {
+	if(cardbus_read_tuples(&ca, cis_ptr, tuple, sizeof(tuple))) {
+	   printf("cardbus_attach_card: failed to read CIS\n");
+	} else {
 #ifdef CARDBUS_DEBUG
-      decode_tuples(tuple, 2048, print_tuple, NULL);
+	   decode_tuples(tuple, 2048, print_tuple, NULL);
 #endif
-      decode_tuples(tuple, 2048, parse_tuple, &ca.ca_cis);
+	   decode_tuples(tuple, 2048, parse_tuple, &ca.ca_cis);
+	}
     }
 
     if (NULL == (csc = config_found_sm((void *)sc, &ca, cardbusprint, cardbussubmatch))) {
@@ -584,9 +601,11 @@ cardbusprint(aux, pnp)
 	}
 	if (i)
 	    printf(" ");
-	printf("(manufacturer 0x%x, product 0x%x)", ca->ca_cis.manufacturer,
-	       ca->ca_cis.product);
-	printf(" %s at %s", devinfo, pnp);
+	if (ca->ca_cis.manufacturer)
+		printf("(manufacturer 0x%x, product 0x%x) ",
+		    ca->ca_cis.manufacturer,
+		    ca->ca_cis.product);
+	printf("%s at %s", devinfo, pnp);
     }
     printf(" dev %d function %d", ca->ca_device, ca->ca_function);
 
@@ -594,7 +613,8 @@ cardbusprint(aux, pnp)
 	pci_devinfo(ca->ca_id, ca->ca_class, 1, devinfo, sizeof devinfo);
 	for (i = 0; i < 3 && ca->ca_cis.cis1_info[i]; i++)
 		printf("%s%s", i ? ", " : " \"", ca->ca_cis.cis1_info[i]);
-	printf("\"");
+	if (ca->ca_cis.cis1_info[0])
+		printf("\"");
     }
 
     return UNCONF;
@@ -629,7 +649,7 @@ cardbus_detach_card(sc)
 	/* call device detach function */
 
 	if (0 != config_detach(fndev, 0)) {
-	    printf("%s: cannot detaching dev %s, function %d\n",
+	    printf("%s: cannot detach dev %s, function %d\n",
 		   sc->sc_dev.dv_xname, fndev->dv_xname, ct->ct_func);
 	    prev_next = &(ct->ct_next);
 	} else {
@@ -812,7 +832,7 @@ cardbus_get_capability(cc, cf, tag, capid, offset, value)
 	while (ofs != 0) {
 #ifdef DIAGNOSTIC
 		if ((ofs & 3) || (ofs < 0x40))
-			panic("cardbus_get_capability");
+			panic("cardbus_get_capability 0x%x", ofs);
 #endif
 		reg = cardbus_conf_read(cc, cf, tag, ofs);
 		if (PCI_CAPLIST_CAP(reg) == capid) {
@@ -828,6 +848,19 @@ cardbus_get_capability(cc, cf, tag, capid, offset, value)
 	return (0);
 }
 
+int
+cardbus_matchbyid(struct cardbus_attach_args *ca, const struct cardbus_matchid *ids,
+    int nent)
+{
+	const struct cardbus_matchid *cm;
+	int i;
+
+	for (i = 0, cm = ids; i < nent; i++, cm++)
+		if (CARDBUS_VENDOR(ca->ca_id) == cm->cm_vid &&
+		    CARDBUS_PRODUCT(ca->ca_id) == cm->cm_pid)
+			return (1);
+	return (0);
+}
 
 /*
  * below this line, there are some functions for decoding tuples.

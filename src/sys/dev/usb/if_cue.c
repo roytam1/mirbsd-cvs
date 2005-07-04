@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_cue.c,v 1.19 2003/12/15 23:36:14 cedric Exp $ */
+/*	$OpenBSD: if_cue.c,v 1.26 2005/07/02 22:21:12 brad Exp $ */
 /*	$NetBSD: if_cue.c,v 1.40 2002/07/11 21:14:26 augustss Exp $	*/
 /*
  * Copyright (c) 1997, 1998, 1999, 2000
@@ -111,11 +111,6 @@
 #endif
 #endif /* defined(__OpenBSD__) */
 
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
-#endif
-
 #include <dev/usb/usb.h>
 #include <dev/usb/usbdi.h>
 #include <dev/usb/usbdi_util.h>
@@ -124,8 +119,8 @@
 #include <dev/usb/if_cuereg.h>
 
 #ifdef CUE_DEBUG
-#define DPRINTF(x)	if (cuedebug) logprintf x
-#define DPRINTFN(n,x)	if (cuedebug >= (n)) logprintf x
+#define DPRINTF(x)	do { if (cuedebug) logprintf x; } while (0)
+#define DPRINTFN(n,x)	do { if (cuedebug >= (n)) logprintf x; } while (0)
 int	cuedebug = 0;
 #else
 #define DPRINTF(x)
@@ -161,7 +156,6 @@ Static void cue_stop(struct cue_softc *);
 Static void cue_watchdog(struct ifnet *);
 
 Static void cue_setmulti(struct cue_softc *);
-Static u_int32_t cue_crc(caddr_t);
 Static void cue_reset(struct cue_softc *);
 
 Static int cue_csr_read_1(struct cue_softc *, int);
@@ -359,24 +353,7 @@ cue_getmac(struct cue_softc *sc, void *buf)
 	return (0);
 }
 
-#define CUE_POLY	0xEDB88320
 #define CUE_BITS	9
-
-Static u_int32_t
-cue_crc(caddr_t addr)
-{
-	u_int32_t		idx, bit, data, crc;
-
-	/* Compute CRC for the address value. */
-	crc = 0xFFFFFFFF; /* initial value */
-
-	for (idx = 0; idx < 6; idx++) {
-		for (data = *addr++, bit = 0; bit < 8; bit++, data >>= 1)
-			crc = (crc >> 1) ^ (((crc ^ data) & 1) ? CUE_POLY : 0);
-	}
-
-	return (crc & ((1 << CUE_BITS) - 1));
-}
 
 Static void
 cue_setmulti(struct cue_softc *sc)
@@ -416,7 +393,8 @@ allmulti:
 		    enm->enm_addrhi, ETHER_ADDR_LEN) != 0)
 			goto allmulti;
 
-		h = cue_crc(enm->enm_addrlo);
+		h = ether_crc32_le(enm->enm_addrlo, ETHER_ADDR_LEN) &
+		    ((1 << CUE_BITS) - 1);
 		sc->cue_mctab[h >> 3] |= 1 << (h & 0x7);
 		ETHER_NEXT_MULTI(step, enm);
 	}
@@ -428,7 +406,8 @@ allmulti:
 	 * so we can receive broadcast frames.
 	 */
 	if (ifp->if_flags & IFF_BROADCAST) {
-		h = cue_crc(etherbroadcastaddr);
+		h = ether_crc32_le(etherbroadcastaddr, ETHER_ADDR_LEN) &
+		    ((1 << CUE_BITS) - 1);
 		sc->cue_mctab[h >> 3] |= 1 << (h & 0x7);
 	}
 
@@ -568,12 +547,11 @@ USB_ATTACH(cue)
 	/* Initialize interface info.*/
 	ifp = GET_IFP(sc);
 	ifp->if_softc = sc;
-	ifp->if_mtu = ETHERMTU;
 	ifp->if_flags = IFF_BROADCAST | IFF_SIMPLEX | IFF_MULTICAST;
 	ifp->if_ioctl = cue_ioctl;
 	ifp->if_start = cue_start;
 	ifp->if_watchdog = cue_watchdog;
-	strncpy(ifp->if_xname, USBDEVNAME(sc->cue_dev), IFNAMSIZ);
+	strlcpy(ifp->if_xname, USBDEVNAME(sc->cue_dev), IFNAMSIZ);
 
 	IFQ_SET_READY(&ifp->if_snd);
 
@@ -1184,21 +1162,6 @@ cue_ioctl(struct ifnet *ifp, u_long command, caddr_t data)
 #endif
 			break;
 #endif /* INET */
-#ifdef NS
-		case AF_NS:
-		    {
-			struct ns_addr *ina = &IA_SNS(ifa)->sns_addr;
-
-			if (ns_nullhost(*ina))
-				ina->x_host = *(union ns_host *)
-					LLADDR(ifp->if_sadl);
-			else
-				memcpy(LLADDR(ifp->if_sadl),
-				       ina->x_host.c_host,
-				       ifp->if_addrlen);
-			break;
-		    }
-#endif /* NS */
 		}
 		break;
 
@@ -1232,8 +1195,19 @@ cue_ioctl(struct ifnet *ifp, u_long command, caddr_t data)
 		break;
 	case SIOCADDMULTI:
 	case SIOCDELMULTI:
-		cue_setmulti(sc);
-		error = 0;
+		error = (command == SIOCADDMULTI) ?
+		    ether_addmulti(ifr, &sc->arpcom) :
+		    ether_delmulti(ifr, &sc->arpcom);
+
+		if (error == ENETRESET) {
+			/*
+			 * Multicast list has changed; set the hardware
+			 * filter accordingly.
+			 */
+			if (ifp->if_flags & IFF_RUNNING)
+				cue_setmulti(sc);
+			error = 0;
+		}
 		break;
 	default:
 		error = EINVAL;
@@ -1286,6 +1260,7 @@ cue_stop(struct cue_softc *sc)
 
 	ifp = GET_IFP(sc);
 	ifp->if_timer = 0;
+	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 
 	cue_csr_write_1(sc, CUE_ETHCTL, 0);
 	cue_reset(sc);
@@ -1357,6 +1332,4 @@ cue_stop(struct cue_softc *sc)
 			sc->cue_cdata.cue_tx_chain[i].cue_xfer = NULL;
 		}
 	}
-
-	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 }

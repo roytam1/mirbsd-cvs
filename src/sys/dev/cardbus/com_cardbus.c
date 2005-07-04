@@ -1,4 +1,4 @@
-/* $OpenBSD: com_cardbus.c,v 1.7 2002/03/14 01:26:53 millert Exp $ */
+/* $OpenBSD: com_cardbus.c,v 1.12 2005/06/29 18:22:49 deraadt Exp $ */
 /* $NetBSD: com_cardbus.c,v 1.4 2000/04/17 09:21:59 joda Exp $ */
 
 /*
@@ -39,7 +39,7 @@
    is infact a 16x50 or 8250, which is not necessarily true (in
    practice this shouldn't be a problem). It also does not handle
    devices in the `multiport serial' or `modem' sub-classes, I've
-   never seen any of thise, so I don't know what they might look like.
+   never seen any of these, so I don't know what they might look like.
 
    If the CardBus device only has one BAR (that is not also the CIS
    BAR) listed in the CIS, it is assumed to be the one to use. For
@@ -52,7 +52,7 @@
 #include <sys/device.h>
 
 #include <dev/cardbus/cardbusvar.h>
-#include <dev/cardbus/cardbusdevs.h>
+#include <dev/pci/pcidevs.h>
 
 #include <dev/pcmcia/pcmciareg.h>
 
@@ -120,15 +120,17 @@ static struct csdev {
 	cardbusreg_t	reg;
 	int		type;
 } csdevs[] = {
-	{ CARDBUS_VENDOR_XIRCOM, CARDBUS_PRODUCT_XIRCOM_MODEM56,
+	{ PCI_VENDOR_XIRCOM, PCI_PRODUCT_XIRCOM_MODEM56,
 	  CARDBUS_BASE0_REG, CARDBUS_MAPREG_TYPE_IO },
-	{ CARDBUS_VENDOR_XIRCOM, CARDBUS_PRODUCT_XIRCOM_CBEM56G,
+	{ PCI_VENDOR_XIRCOM, PCI_PRODUCT_XIRCOM_CBEM56G,
 	  CARDBUS_BASE0_REG, CARDBUS_MAPREG_TYPE_IO },
-	{ CARDBUS_VENDOR_INTEL, CARDBUS_PRODUCT_INTEL_MODEM56,
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_MODEM56,
 	  CARDBUS_BASE0_REG, CARDBUS_MAPREG_TYPE_IO },
-	{ CARDBUS_VENDOR_3COM, CARDBUS_PRODUCT_3COM_MODEM56,
+	{ PCI_VENDOR_3COM, PCI_PRODUCT_3COM_MODEM56,
 	  CARDBUS_BASE0_REG, CARDBUS_MAPREG_TYPE_IO },
-	{ CARDBUS_VENDOR_3COM, CARDBUS_PRODUCT_3COM_GLOBALMODEM56,
+	{ PCI_VENDOR_3COM, PCI_PRODUCT_3COM_GLOBALMODEM56,
+	  CARDBUS_BASE0_REG, CARDBUS_MAPREG_TYPE_IO },
+	{ PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_SERIAL,
 	  CARDBUS_BASE0_REG, CARDBUS_MAPREG_TYPE_IO }
 };
 
@@ -235,7 +237,7 @@ com_cardbus_gofigure(struct cardbus_attach_args *ca,
 }
 
 void
-com_cardbus_attach (struct device *parent, struct device *self, void *aux)
+com_cardbus_attach(struct device *parent, struct device *self, void *aux)
 {
 	struct com_softc *sc = (struct com_softc*)self;
 	struct com_cardbus_softc *csc = (struct com_cardbus_softc*)self;
@@ -263,11 +265,12 @@ com_cardbus_attach (struct device *parent, struct device *self, void *aux)
 		csc->cc_csr |= CARDBUS_COMMAND_MEM_ENABLE;
 		csc->cc_cben = CARDBUS_MEM_ENABLE;
 	}
-	sc->sc_iobase = csc->cc_addr;
 
-#if 0
+	sc->sc_iobase = csc->cc_addr;
 	sc->sc_frequency = COM_FREQ;
-#endif
+
+	timeout_set(&sc->sc_dtr_tmo, com_raisedtr, sc);
+	timeout_set(&sc->sc_diag_tmo, comdiag, sc);
 
 	sc->enable = com_cardbus_enable;
 	sc->disable = com_cardbus_disable;
@@ -279,20 +282,10 @@ com_cardbus_attach (struct device *parent, struct device *self, void *aux)
 		printf("%s", DEVNAME(csc));
 	}
 
-#ifdef __OpenBSD__
 	if (com_cardbus_enable(sc))
 		printf(": function enable failed\n");
-
 	sc->enabled = 1;
-
 	com_cardbus_attach2(sc);
-#else
-	com_cardbus_setup(csc);
-
-	com_attach_subr(sc);
-
-	Cardbus_function_disable(csc->cc_ct);
-#endif
 }
 
 void
@@ -348,7 +341,7 @@ com_cardbus_enable(struct com_softc *sc)
 		return (1);
 	}
 
-	printf(": irq %d", psc->sc_intrline);
+	printf(": irq %d,", psc->sc_intrline);
 
 	return (0);
 }
@@ -484,6 +477,7 @@ com_cardbus_attach2(sc)
 	 * Print UART type and initialize ourself.
 	 */
 	sc->sc_fifolen = 1;	/* default */
+	printf(" ");
 	switch (sc->sc_uarttype) {
 	case COM_UART_UNKNOWN:
 		printf("unknown uart\n");

@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_aue.c,v 1.32 2003/12/15 23:36:14 cedric Exp $ */
+/*	$OpenBSD: if_aue.c,v 1.41 2005/07/02 22:21:12 brad Exp $ */
 /*	$NetBSD: if_aue.c,v 1.82 2003/03/05 17:37:36 shiba Exp $	*/
 /*
  * Copyright (c) 1997, 1998, 1999, 2000
@@ -133,11 +133,6 @@
 #endif
 #endif /* defined(__OpenBSD__) */
 
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
-#endif
-
 #include <dev/mii/mii.h>
 #include <dev/mii/miivar.h>
 
@@ -149,8 +144,8 @@
 #include <dev/usb/if_auereg.h>
 
 #ifdef AUE_DEBUG
-#define DPRINTF(x)	if (auedebug) logprintf x
-#define DPRINTFN(n,x)	if (auedebug >= (n)) logprintf x
+#define DPRINTF(x)	do { if (auedebug) logprintf x; } while (0)
+#define DPRINTFN(n,x)	do { if (auedebug >= (n)) logprintf x; } while (0)
 int	auedebug = 0;
 #else
 #define DPRINTF(x)
@@ -185,6 +180,12 @@ Static const struct aue_type aue_devs[] = {
  {{ USB_VENDOR_ACCTON,		USB_PRODUCT_ACCTON_SS1001},	  PII },
  {{ USB_VENDOR_ADMTEK,		USB_PRODUCT_ADMTEK_PEGASUS},	  PNA },
  {{ USB_VENDOR_ADMTEK,		USB_PRODUCT_ADMTEK_PEGASUSII},	  PII },
+ {{ USB_VENDOR_ADMTEK,		USB_PRODUCT_ADMTEK_PEGASUSII_2},  PII },
+ {{ USB_VENDOR_ADMTEK,		USB_PRODUCT_ADMTEK_PEGASUSII_3},  PII },
+ {{ USB_VENDOR_ADMTEK,		USB_PRODUCT_ADMTEK_PEGASUSII_4},  PII },
+ {{ USB_VENDOR_AEI,		USB_PRODUCT_AEI_FASTETHERNET},	  PII },
+ {{ USB_VENDOR_ALLIEDTELESYN,   USB_PRODUCT_ALLIEDTELESYN_ATUSB100}, PII },
+ {{ USB_VENDOR_ATEN,		USB_PRODUCT_ATEN_UC110T},	  PII },
  {{ USB_VENDOR_BELKIN,		USB_PRODUCT_BELKIN_USB2LAN},	  PII },
  {{ USB_VENDOR_BILLIONTON,	USB_PRODUCT_BILLIONTON_USB100},	  0 },
  {{ USB_VENDOR_BILLIONTON,	USB_PRODUCT_BILLIONTON_USBLP100}, PNA },
@@ -199,12 +200,16 @@ Static const struct aue_type aue_devs[] = {
  {{ USB_VENDOR_DLINK,		USB_PRODUCT_DLINK_DSB650TX3},	  LSYS|PII },
  {{ USB_VENDOR_DLINK,		USB_PRODUCT_DLINK_DSB650TX2},	  LSYS|PII },
  {{ USB_VENDOR_DLINK,		USB_PRODUCT_DLINK_DSB650},	  0 },
+ {{ USB_VENDOR_ELCON,		USB_PRODUCT_ELCON_PLAN},	  PNA|PII },
  {{ USB_VENDOR_ELECOM,		USB_PRODUCT_ELECOM_LDUSBTX0},	  0 },
  {{ USB_VENDOR_ELECOM,		USB_PRODUCT_ELECOM_LDUSBTX1},	  LSYS },
  {{ USB_VENDOR_ELECOM,		USB_PRODUCT_ELECOM_LDUSBTX2},	  0 },
  {{ USB_VENDOR_ELECOM,		USB_PRODUCT_ELECOM_LDUSBTX3},	  LSYS },
  {{ USB_VENDOR_ELECOM,		USB_PRODUCT_ELECOM_LDUSBLTX},	  PII },
  {{ USB_VENDOR_ELSA,		USB_PRODUCT_ELSA_USB2ETHERNET},	  0 },
+ {{ USB_VENDOR_GIGABYTE,	USB_PRODUCT_GIGABYTE_GNBR402W},	  0 },
+ {{ USB_VENDOR_HAWKING,		USB_PRODUCT_HAWKING_UF100},       PII },
+ {{ USB_VENDOR_HP,		USB_PRODUCT_HP_HN210E},           PII },
  {{ USB_VENDOR_IODATA,		USB_PRODUCT_IODATA_USBETTX},	  0 },
  {{ USB_VENDOR_IODATA,		USB_PRODUCT_IODATA_USBETTXS},	  PII },
  {{ USB_VENDOR_KINGSTON,	USB_PRODUCT_KINGSTON_KNU101TX},   0 },
@@ -214,15 +219,19 @@ Static const struct aue_type aue_devs[] = {
  {{ USB_VENDOR_LINKSYS,		USB_PRODUCT_LINKSYS_USB100H1},	  LSYS|PNA },
  {{ USB_VENDOR_LINKSYS,		USB_PRODUCT_LINKSYS_USB10TA},	  LSYS },
  {{ USB_VENDOR_LINKSYS,		USB_PRODUCT_LINKSYS_USB10TX2},	  LSYS|PII },
+ {{ USB_VENDOR_MICROSOFT,	USB_PRODUCT_MICROSOFT_MN110},     PII },
  {{ USB_VENDOR_MELCO, 		USB_PRODUCT_MELCO_LUATX1}, 	  0 },
  {{ USB_VENDOR_MELCO, 		USB_PRODUCT_MELCO_LUATX5}, 	  0 },
  {{ USB_VENDOR_MELCO, 		USB_PRODUCT_MELCO_LUA2TX5}, 	  PII },
+ {{ USB_VENDOR_MOBILITY,	USB_PRODUCT_MOBILITY_EASIDOCK},	  0 },
  {{ USB_VENDOR_NETGEAR,		USB_PRODUCT_NETGEAR_FA101},	  PII },
  {{ USB_VENDOR_SIEMENS,		USB_PRODUCT_SIEMENS_SPEEDSTREAM}, PII },
+ {{ USB_VENDOR_SIIG2,		USB_PRODUCT_SIIG2_USBTOETHER},	  PII },
  {{ USB_VENDOR_SMARTBRIDGES,	USB_PRODUCT_SMARTBRIDGES_SMARTNIC},PII },
  {{ USB_VENDOR_SMC,		USB_PRODUCT_SMC_2202USB},	  0 },
  {{ USB_VENDOR_SMC,		USB_PRODUCT_SMC_2206USB},	  PII },
  {{ USB_VENDOR_SOHOWARE,	USB_PRODUCT_SOHOWARE_NUB100},	  0 },
+ {{ USB_VENDOR_SOHOWARE,	USB_PRODUCT_SOHOWARE_NUB110},	  PII },
 };
 #define aue_lookup(v, p) ((struct aue_type *)usb_lookup(aue_devs, v, p))
 
@@ -811,12 +820,11 @@ USB_ATTACH(aue)
 
 	/* Initialize interface info.*/
 	ifp->if_softc = sc;
-	ifp->if_mtu = ETHERMTU;
 	ifp->if_flags = IFF_BROADCAST | IFF_SIMPLEX | IFF_MULTICAST;
 	ifp->if_ioctl = aue_ioctl;
 	ifp->if_start = aue_start;
 	ifp->if_watchdog = aue_watchdog;
-	strncpy(ifp->if_xname, USBDEVNAME(sc->aue_dev), IFNAMSIZ);
+	strlcpy(ifp->if_xname, USBDEVNAME(sc->aue_dev), IFNAMSIZ);
 
 	IFQ_SET_READY(&ifp->if_snd);
 
@@ -1254,16 +1262,13 @@ aue_tick_task(void *xsc)
 	s = splnet();
 
 	mii_tick(mii);
-	if (!sc->aue_link) {
-		mii_pollstat(mii); /* XXX FreeBSD has removed this call */
-		if (mii->mii_media_status & IFM_ACTIVE &&
-		    IFM_SUBTYPE(mii->mii_media_active) != IFM_NONE) {
-			DPRINTFN(2,("%s: %s: got link\n",
-				    USBDEVNAME(sc->aue_dev),__func__));
-			sc->aue_link++;
-			if (IFQ_IS_EMPTY(&ifp->if_snd) == 0)
-				aue_start(ifp);
-		}
+	if (!sc->aue_link && mii->mii_media_status & IFM_ACTIVE &&
+	    IFM_SUBTYPE(mii->mii_media_active) != IFM_NONE) {
+		DPRINTFN(2,("%s: %s: got link\n",
+			    USBDEVNAME(sc->aue_dev),__func__));
+		sc->aue_link++;
+		if (IFQ_IS_EMPTY(&ifp->if_snd) == 0)
+			aue_start(ifp);
 	}
 
 	usb_callout(sc->aue_stat_ch, hz, aue_tick, sc);
@@ -1561,21 +1566,6 @@ aue_ioctl(struct ifnet *ifp, u_long command, caddr_t data)
 #endif
 			break;
 #endif /* INET */
-#ifdef NS
-		case AF_NS:
-		    {
-			struct ns_addr *ina = &IA_SNS(ifa)->sns_addr;
-
-			if (ns_nullhost(*ina))
-				ina->x_host = *(union ns_host *)
-					LLADDR(ifp->if_sadl);
-			else
-				memcpy(LLADDR(ifp->if_sadl),
-				       ina->x_host.c_host,
-				       ifp->if_addrlen);
-			break;
-		    }
-#endif /* NS */
 		}
 		break;
 
@@ -1608,18 +1598,14 @@ aue_ioctl(struct ifnet *ifp, u_long command, caddr_t data)
 	case SIOCADDMULTI:
 	case SIOCDELMULTI:
 		error = (command == SIOCADDMULTI) ?
-#if defined(__NetBSD__)
-			ether_addmulti(ifr, &sc->aue_ec) :
-			ether_delmulti(ifr, &sc->aue_ec);
-#else
 			ether_addmulti(ifr, &sc->arpcom) :
 			ether_delmulti(ifr, &sc->arpcom);
-#endif
+
 		if (error == ENETRESET) {
-			aue_init(sc);
+			if (ifp->if_flags & IFF_RUNNING)
+				aue_setmulti(sc);
+			error = 0;
 		}
-		aue_setmulti(sc);
-		error = 0;
 		break;
 	case SIOCGIFMEDIA:
 	case SIOCSIFMEDIA:
@@ -1674,6 +1660,7 @@ aue_stop(struct aue_softc *sc)
 
 	ifp = GET_IFP(sc);
 	ifp->if_timer = 0;
+	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 
 	aue_csr_write_1(sc, AUE_CTL0, 0);
 	aue_csr_write_1(sc, AUE_CTL1, 0);
@@ -1748,6 +1735,4 @@ aue_stop(struct aue_softc *sc)
 	}
 
 	sc->aue_link = 0;
-
-	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 }

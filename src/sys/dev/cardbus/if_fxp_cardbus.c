@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_fxp_cardbus.c,v 1.6 2004/05/07 23:33:39 brad Exp $ */
+/*	$OpenBSD: if_fxp_cardbus.c,v 1.11 2005/05/16 01:36:25 brad Exp $ */
 /*	$NetBSD: if_fxp_cardbus.c,v 1.12 2000/05/08 18:23:36 thorpej Exp $	*/
 
 /*
@@ -85,12 +85,11 @@
 #include <dev/pci/pcidevs.h>
 
 #include <dev/cardbus/cardbusvar.h>
-#include <dev/cardbus/cardbusdevs.h>
 
 int fxp_cardbus_match(struct device *, void *, void *);
 void fxp_cardbus_attach(struct device *, struct device *, void *);
-int fxp_cardbus_detach(struct device * self, int flags);
-void fxp_cardbus_setup(struct fxp_softc * sc);
+int fxp_cardbus_detach(struct device *, int);
+void fxp_cardbus_setup(struct fxp_softc *);
 
 struct fxp_cardbus_softc {
 	struct fxp_softc sc;
@@ -105,6 +104,10 @@ struct cfattach fxp_cardbus_ca = {
 	    fxp_cardbus_detach
 };
 
+const struct cardbus_matchid fxp_cardbus_devices[] = {
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82557 },
+};
+
 #ifdef CBB_DEBUG
 #define DPRINTF(X) printf X
 #else
@@ -117,13 +120,9 @@ fxp_cardbus_match(parent, match, aux)
 	void *match;
 	void *aux;
 {
-	struct cardbus_attach_args *ca = aux;
-
-	if (CARDBUS_VENDOR(ca->ca_id) == CARDBUS_VENDOR_INTEL &&
-	    CARDBUS_PRODUCT(ca->ca_id) == CARDBUS_PRODUCT_INTEL_82557)
-		return (1);
-
-	return (0);
+	return (cardbus_matchbyid((struct cardbus_attach_args *)aux,
+	    fxp_cardbus_devices,
+	    sizeof(fxp_cardbus_devices)/sizeof(fxp_cardbus_devices[0])));
 }
 
 void
@@ -143,7 +142,6 @@ fxp_cardbus_attach(parent, self, aux)
 	cardbus_function_tag_t cf = psc->sc_cf;
 	bus_space_tag_t iot, memt;
 	bus_space_handle_t ioh, memh;
-	u_int8_t enaddr[6];
 
 	bus_addr_t adr;
 	bus_size_t size;
@@ -182,8 +180,6 @@ fxp_cardbus_attach(parent, self, aux)
 	sc->sc_enabled = 0;
 #endif
 
-	sc->not_82557 = 1;
-
 	Cardbus_function_enable(csc->ct);
 
 	fxp_cardbus_setup(sc);
@@ -197,8 +193,10 @@ fxp_cardbus_attach(parent, self, aux)
 		return;
 	}
 	snprintf(intrstr, sizeof(intrstr), "irq %d", ca->ca_intrline);
+	
+	sc->sc_revision = PCI_REVISION(ca->ca_class);
 
-	fxp_attach_common(sc, enaddr, intrstr);
+	fxp_attach_common(sc, intrstr);
 }
 
 void

@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_upl.c,v 1.15 2003/12/15 23:36:14 cedric Exp $ */
+/*	$OpenBSD: if_upl.c,v 1.19 2005/07/02 22:21:12 brad Exp $ */
 /*	$NetBSD: if_upl.c,v 1.19 2002/07/11 21:14:26 augustss Exp $	*/
 /*
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -92,11 +92,6 @@
 #error upl without INET?
 #endif
 
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
-#endif
-
 #include <dev/usb/usb.h>
 #include <dev/usb/usbdi.h>
 #include <dev/usb/usbdi_util.h>
@@ -188,8 +183,8 @@ struct upl_softc {
 };
 
 #ifdef UPL_DEBUG
-#define DPRINTF(x)	if (upldebug) logprintf x
-#define DPRINTFN(n,x)	if (upldebug >= (n)) logprintf x
+#define DPRINTF(x)	do { if (upldebug) logprintf x; } while (0)
+#define DPRINTFN(n,x)	do { if (upldebug >= (n)) logprintf x; } while (0)
 int	upldebug = 0;
 #else
 #define DPRINTF(x)
@@ -319,7 +314,7 @@ USB_ATTACH(upl)
 	ifp->if_ioctl = upl_ioctl;
 	ifp->if_start = upl_start;
 	ifp->if_watchdog = upl_watchdog;
-	strncpy(ifp->if_xname, USBDEVNAME(sc->sc_dev), IFNAMSIZ);
+	strlcpy(ifp->if_xname, USBDEVNAME(sc->sc_dev), IFNAMSIZ);
 
 	ifp->if_type = IFT_OTHER;
 	ifp->if_addrlen = 0;
@@ -898,21 +893,6 @@ upl_ioctl(struct ifnet *ifp, u_long command, caddr_t data)
 		case AF_INET:
 			break;
 #endif /* INET */
-#ifdef NS
-		case AF_NS:
-		    {
-			struct ns_addr *ina = &IA_SNS(ifa)->sns_addr;
-
-			if (ns_nullhost(*ina))
-				ina->x_host = *(union ns_host *)
-					LLADDR(ifp->if_sadl);
-			else
-				memcpy(LLADDR(ifp->if_sadl),
-				       ina->x_host.c_host,
-				       ifp->if_addrlen);
-			break;
-		    }
-#endif /* NS */
 		}
 		break;
 
@@ -978,6 +958,7 @@ upl_stop(struct upl_softc *sc)
 
 	ifp = &sc->sc_if;
 	ifp->if_timer = 0;
+	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 
 	/* Stop transfers. */
 	if (sc->sc_ep[UPL_ENDPT_RX] != NULL) {
@@ -1045,8 +1026,6 @@ upl_stop(struct upl_softc *sc)
 			sc->sc_cdata.upl_tx_chain[i].upl_xfer = NULL;
 		}
 	}
-
-	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 }
 
 Static int
