@@ -99,11 +99,15 @@ pcmcia*		at cardslot?
 cbb*		at pci? dev ? function ?
 cardslot*	at cbb?
 
-# PCI USB Controllers
+# USB Controllers
+ehci*	at pci?				# Enhanced Host Controller
+ehci*	at cardbus?			# Enhanced Host Controller
 uhci*	at pci?				# Universal Host Controller (Intel)
 ohci*	at pci?				# Open Host Controller
+ohci*	at cardbus?			# Open Host Controller
 
 # USB bus support
+usb*	at ehci?
 usb*	at uhci?
 usb*	at ohci?
 
@@ -152,21 +156,6 @@ uyap*	at uhub? port ?			# Y@P firmware loader
 udsbr*	at uhub? port ?			# D-Link DSB-R100 radio
 radio*	at udsbr?			# USB radio
 ugen*	at uhub? port ? configuration ? # USB Generic driver
-
-# FireWire Controllers
-#fwohci*	at pci? dev ? function ?	# PCI FireWire adapter
-#fwohci*	at cardbus? dev ? function ?	# CardBus FireWire adapter
-
-#fwnode*	at fwbus? idhi ? idlo ?
-
-#fwscsi*	at fwnode?			# SCSI over FireWire
-#scsibus* at fwscsi?
-
-#option	FWOHCI_DEBUG
-#option	FWNODE_DEBUG
-#option	P1212_DEBUG
-#option	SBP2_DEBUG
-#option	FWSCSI_DEBUG
 
 puc*	at pci?				# PCI "universal" communication device
 
@@ -398,6 +387,9 @@ stge*	at pci? dev ? function ?		# Sundance TC9021 GigE
 #lge*	at pci? dev ? function ?		# Level1 LXT1001 GigE
 hme*	at pci? dev ? function ?		# Sun Happy Meal
 bce*	at pci? dev ? function ?		# Broadcom BCM4401
+re*	at pci?				# Realtek 8169/8169S/8110S
+re*	at cardbus?			# Realtek 8169/8169S/8110S
+vge*	at pci?				# VIA VT612x
 
 # Wireless network cards
 wi*	at pci? dev ? function ?		# WaveLAN IEEE 802.11DS
@@ -431,6 +423,7 @@ eephy* at mii? phy ?				# Marvell 88E1000 series PHY
 xmphy*	at mii? phy ?				# XaQti XMAC-II PHYs
 nsgphy*	at mii? phy ?				# NS gigabit PHYs
 urlphy*	at mii? phy ?				# Realtek RTL8150L internal PHY
+rgephy*	at mii?				# Realtek 8169S/8110S PHY
 ukphy*	at mii? phy ?				# "unknown" PHYs
 
 pss0	at isa? port 0x220 irq 7 drq 6		# Personal Sound System

@@ -1,4 +1,4 @@
-/*	$OpenBSD: ohci_pci.c,v 1.19 2003/08/11 02:21:28 mickey Exp $	*/
+/*	$OpenBSD: ohci_pci.c,v 1.25 2005/04/21 12:30:02 pascoe Exp $	*/
 /*	$NetBSD: ohci_pci.c,v 1.23 2002/10/02 16:51:47 thorpej Exp $	*/
 
 /*
@@ -120,6 +120,10 @@ ohci_pci_attach(struct device *parent, struct device *self, void *aux)
 		return;
 	}
 
+	/* Record what interrupts were enabled by SMM/BIOS. */
+	sc->sc.sc_intre = bus_space_read_4(sc->sc.iot, sc->sc.ioh,
+	    OHCI_INTERRUPT_ENABLE);
+
 	/* Disable interrupts, so we don't get any spurious ones. */
 	bus_space_write_4(sc->sc.iot, sc->sc.ioh, OHCI_INTERRUPT_DISABLE,
 			  OHCI_MIE);
@@ -141,6 +145,7 @@ ohci_pci_attach(struct device *parent, struct device *self, void *aux)
 	/* Map and establish the interrupt. */
 	if (pci_intr_map(pa, &ih)) {
 		printf(": couldn't map interrupt\n");
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		splx(s);
 		return;
 	}
@@ -152,6 +157,7 @@ ohci_pci_attach(struct device *parent, struct device *self, void *aux)
 		if (intrstr != NULL)
 			printf(" at %s", intrstr);
 		printf("\n");
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		splx(s);
 		return;
 	}
@@ -161,19 +167,22 @@ ohci_pci_attach(struct device *parent, struct device *self, void *aux)
 	vendor = pci_findvendor(pa->pa_id);
 	sc->sc.sc_id_vendor = PCI_VENDOR(pa->pa_id);
 	if (vendor)
-		strncpy(sc->sc.sc_vendor, vendor, 
-			sizeof(sc->sc.sc_vendor) - 1);
+		strlcpy(sc->sc.sc_vendor, vendor, sizeof (sc->sc.sc_vendor));
 	else
-		snprintf(sc->sc.sc_vendor, sizeof sc->sc.sc_vendor,
+		snprintf(sc->sc.sc_vendor, sizeof (sc->sc.sc_vendor),
 		    "vendor 0x%04x", PCI_VENDOR(pa->pa_id));
 	
 	r = ohci_init(&sc->sc);
 	if (r != USBD_NORMAL_COMPLETION) {
 		printf("%s: init failed, error=%d\n",
 		    sc->sc.sc_bus.bdev.dv_xname, r);
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		splx(s);
 		return;
 	}
+
+	sc->sc.sc_powerhook = powerhook_establish(ohci_power, &sc->sc);
+
 	splx(s);
 
 	/* Attach usb device. */
@@ -190,6 +199,9 @@ ohci_pci_detach(device_ptr_t self, int flags)
 	rv = ohci_detach(&sc->sc, flags);
 	if (rv)
 		return (rv);
+
+	powerhook_disestablish(sc->sc.sc_powerhook);
+
 	if (sc->sc_ih != NULL) {
 		pci_intr_disestablish(sc->sc_pc, sc->sc_ih);
 		sc->sc_ih = NULL;

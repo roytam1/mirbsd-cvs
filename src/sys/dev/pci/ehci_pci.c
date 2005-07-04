@@ -1,13 +1,12 @@
-/*	$OpenBSD: uhci_pci.c,v 1.19 2005/04/11 08:09:32 dlg Exp $	*/
-/*	$NetBSD: uhci_pci.c,v 1.24 2002/10/02 16:51:58 thorpej Exp $	*/
+/*	$OpenBSD: ehci_pci.c,v 1.6 2005/04/11 08:09:32 dlg Exp $ */
+/*	$NetBSD: ehci_pci.c,v 1.15 2004/04/23 21:13:06 itojun Exp $	*/
 
 /*
- * Copyright (c) 1998 The NetBSD Foundation, Inc.
+ * Copyright (c) 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
  * This code is derived from software contributed to The NetBSD Foundation
- * by Lennart Augustsson (lennart@augustsson.net) at
- * Carlstedt Research & Technology.
+ * by Lennart Augustsson (lennart@augustsson.net).
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -38,6 +37,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
+#if defined(__NetBSD__)
+__KERNEL_RCSID(0, "$NetBSD: ehci_pci.c,v 1.15 2004/04/23 21:13:06 itojun Exp $");
+#endif
+
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
@@ -47,6 +51,7 @@
 
 #include <machine/bus.h>
 
+#include <dev/pci/pcidevs.h>
 #include <dev/pci/pcivar.h>
 
 #include <dev/usb/usb.h>
@@ -54,42 +59,53 @@
 #include <dev/usb/usbdivar.h>
 #include <dev/usb/usb_mem.h>
 
-#include <dev/usb/uhcireg.h>
-#include <dev/usb/uhcivar.h>
+#include <dev/usb/ehcireg.h>
+#include <dev/usb/ehcivar.h>
 
-int	uhci_pci_match(struct device *, void *, void *);
-void	uhci_pci_attach(struct device *, struct device *, void *);
-int	uhci_pci_detach(device_ptr_t, int);
+#ifdef EHCI_DEBUG
+#define DPRINTF(x)	if (ehcidebug) printf x
+extern int ehcidebug;
+#else
+#define DPRINTF(x)
+#endif
 
-struct uhci_pci_softc {
-	uhci_softc_t		sc;
+struct ehci_pci_softc {
+	ehci_softc_t		sc;
 	pci_chipset_tag_t	sc_pc;
 	pcitag_t		sc_tag;
 	void 			*sc_ih;		/* interrupt vectoring */
 };
 
-struct cfattach uhci_pci_ca = {
-	sizeof(struct uhci_pci_softc), uhci_pci_match, uhci_pci_attach,
-	uhci_pci_detach, uhci_activate
+int	ehci_pci_match(struct device *, void *, void *);
+void	ehci_pci_attach(struct device *, struct device *, void *);
+int	ehci_pci_detach(device_ptr_t, int);
+void	ehci_pci_givecontroller(struct ehci_pci_softc *);
+void	ehci_pci_takecontroller(struct ehci_pci_softc *);
+void	ehci_pci_shutdown(void *);
+
+struct cfattach ehci_pci_ca = {
+	sizeof(struct ehci_pci_softc), ehci_pci_match, ehci_pci_attach,
+	ehci_pci_detach, ehci_activate
 };
 
+
 int
-uhci_pci_match(struct device *parent, void *match, void *aux)
+ehci_pci_match(struct device *parent, void *match, void *aux)
 {
 	struct pci_attach_args *pa = (struct pci_attach_args *) aux;
 
 	if (PCI_CLASS(pa->pa_class) == PCI_CLASS_SERIALBUS &&
 	    PCI_SUBCLASS(pa->pa_class) == PCI_SUBCLASS_SERIALBUS_USB &&
-	    PCI_INTERFACE(pa->pa_class) == PCI_INTERFACE_UHCI)
+	    PCI_INTERFACE(pa->pa_class) == PCI_INTERFACE_EHCI)
 		return (1);
  
 	return (0);
 }
 
 void
-uhci_pci_attach(struct device *parent, struct device *self, void *aux)
+ehci_pci_attach(struct device *parent, struct device *self, void *aux)
 {
-	struct uhci_pci_softc *sc = (struct uhci_pci_softc *)self;
+	struct ehci_pci_softc *sc = (struct ehci_pci_softc *)self;
 	struct pci_attach_args *pa = (struct pci_attach_args *)aux;
 	pci_chipset_tag_t pc = pa->pa_pc;
 	pcitag_t tag = pa->pa_tag;
@@ -103,19 +119,17 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 #if defined(__NetBSD__)
 	char devinfo[256];
 
-	pci_devinfo(pa->pa_id, pa->pa_class, 0, devinfo);
-	printf(": %s (rev. 0x%02x)", devinfo, PCI_REVISION(pa->pa_class));
+	pci_devinfo(pa->pa_id, pa->pa_class, 0, devinfo, sizeof(devinfo));
+	printf(": %s (rev. 0x%02x)\n", devinfo,
+	    PCI_REVISION(pa->pa_class));
 #endif
 
 	/* Map I/O registers */
-	if (pci_mapreg_map(pa, PCI_CBIO, PCI_MAPREG_TYPE_IO, 0,
-		    &sc->sc.iot, &sc->sc.ioh, NULL, &sc->sc.sc_size, 0)) {
-		printf(": can't map i/o space\n");
+	if (pci_mapreg_map(pa, PCI_CBMEM, PCI_MAPREG_TYPE_MEM, 0,
+			   &sc->sc.iot, &sc->sc.ioh, NULL, &sc->sc.sc_size, 0)) {
+		printf(": can't map memory space\n");
 		return;
 	}
-
-	/* Disable interrupts, so we don't get any spurious ones. */
-	bus_space_write_2(sc->sc.iot, sc->sc.ioh, UHCI_INTR, 0);
 
 	sc->sc_pc = pc;
 	sc->sc_tag = tag;
@@ -126,6 +140,11 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 	pci_conf_write(pc, tag, PCI_COMMAND_STATUS_REG,
 		       csr | PCI_COMMAND_MASTER_ENABLE);
 
+	/* Disable interrupts, so we don't get any spurious ones. */
+	sc->sc.sc_offs = EREAD1(&sc->sc, EHCI_CAPLENGTH);
+	DPRINTF(("%s: offs=%d\n", devname, sc->sc.sc_offs));
+	EOWRITE2(&sc->sc, EHCI_USBINTR, 0);
+
 	/* Map and establish the interrupt. */
 	if (pci_intr_map(pa, &ih)) {
 		printf(": couldn't map interrupt\n");
@@ -133,8 +152,7 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 		return;
 	}
 	intrstr = pci_intr_string(pc, ih);
-	sc->sc_ih = pci_intr_establish(pc, ih, IPL_USB, uhci_intr, sc,
-				       devname);
+	sc->sc_ih = pci_intr_establish(pc, ih, IPL_USB, ehci_intr, sc, devname);
 	if (sc->sc_ih == NULL) {
 		printf(": couldn't establish interrupt");
 		if (intrstr != NULL)
@@ -145,45 +163,44 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 	}
 	printf(": %s\n", intrstr);
 
-	/* Set LEGSUP register to its default value. */
-	pci_conf_write(pc, tag, PCI_LEGSUP, PCI_LEGSUP_USBPIRQDEN);
-
 	switch(pci_conf_read(pc, tag, PCI_USBREV) & PCI_USBREV_MASK) {
 	case PCI_USBREV_PRE_1_0:
-		sc->sc.sc_bus.usbrev = USBREV_PRE_1_0;
-		break;
 	case PCI_USBREV_1_0:
-		sc->sc.sc_bus.usbrev = USBREV_1_0;
-		break;
 	case PCI_USBREV_1_1:
-		sc->sc.sc_bus.usbrev = USBREV_1_1;
+		sc->sc.sc_bus.usbrev = USBREV_UNKNOWN;
+		printf("%s: pre-2.0 USB rev\n", devname);
+		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
+		return;
+	case PCI_USBREV_2_0:
+		sc->sc.sc_bus.usbrev = USBREV_2_0;
 		break;
 	default:
 		sc->sc.sc_bus.usbrev = USBREV_UNKNOWN;
 		break;
 	}
 
-	uhci_run(&sc->sc, 0);			/* stop the controller */
-						/* disable interrupts */
-	bus_space_barrier(sc->sc.iot, sc->sc.ioh, 0, sc->sc.sc_size,
-	    BUS_SPACE_BARRIER_READ|BUS_SPACE_BARRIER_WRITE);
-	bus_space_write_2(sc->sc.iot, sc->sc.ioh, UHCI_INTR, 0);
-
 	/* Figure out vendor for root hub descriptor. */
 	vendor = pci_findvendor(pa->pa_id);
 	sc->sc.sc_id_vendor = PCI_VENDOR(pa->pa_id);
 	if (vendor)
-		strlcpy(sc->sc.sc_vendor, vendor, sizeof (sc->sc.sc_vendor));
+		strlcpy(sc->sc.sc_vendor, vendor, sizeof(sc->sc.sc_vendor));
 	else
-		snprintf(sc->sc.sc_vendor, sizeof (sc->sc.sc_vendor),
-			"vendor 0x%04x", PCI_VENDOR(pa->pa_id));
+		snprintf(sc->sc.sc_vendor, sizeof(sc->sc.sc_vendor),
+		    "vendor 0x%04x", PCI_VENDOR(pa->pa_id));
 	
-	r = uhci_init(&sc->sc);
+	/* Enable workaround for dropped interrupts as required */
+	if (sc->sc.sc_id_vendor == PCI_VENDOR_VIATECH)
+		sc->sc.sc_flags |= EHCIF_DROPPED_INTR_WORKAROUND;
+
+	ehci_pci_takecontroller(sc);
+	r = ehci_init(&sc->sc);
 	if (r != USBD_NORMAL_COMPLETION) {
 		printf("%s: init failed, error=%d\n", devname, r);
 		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		return;
 	}
+
+	sc->sc.sc_shutdownhook = shutdownhook_establish(ehci_pci_shutdown, sc);
 
 	/* Attach usb device. */
 	sc->sc.sc_child = config_found((void *)sc, &sc->sc.sc_bus,
@@ -191,12 +208,12 @@ uhci_pci_attach(struct device *parent, struct device *self, void *aux)
 }
 
 int
-uhci_pci_detach(device_ptr_t self, int flags)
+ehci_pci_detach(device_ptr_t self, int flags)
 {
-	struct uhci_pci_softc *sc = (struct uhci_pci_softc *)self;
+	struct ehci_pci_softc *sc = (struct ehci_pci_softc *)self;
 	int rv;
 
-	rv = uhci_detach(&sc->sc, flags);
+	rv = ehci_detach(&sc->sc, flags);
 	if (rv)
 		return (rv);
 	if (sc->sc_ih != NULL) {
@@ -207,6 +224,65 @@ uhci_pci_detach(device_ptr_t self, int flags)
 		bus_space_unmap(sc->sc.iot, sc->sc.ioh, sc->sc.sc_size);
 		sc->sc.sc_size = 0;
 	}
-
 	return (0);
+}
+
+void
+ehci_pci_givecontroller(struct ehci_pci_softc *sc)
+{
+	u_int32_t cparams, eec, legsup;
+	int eecp;
+
+	cparams = EREAD4(&sc->sc, EHCI_HCCPARAMS);
+	for (eecp = EHCI_HCC_EECP(cparams); eecp != 0;
+	    eecp = EHCI_EECP_NEXT(eec)) {
+		eec = pci_conf_read(sc->sc_pc, sc->sc_tag, eecp);
+		if (EHCI_EECP_ID(eec) != EHCI_EC_LEGSUP)
+			continue;
+		legsup = eec;
+		pci_conf_write(sc->sc_pc, sc->sc_tag, eecp,
+		    legsup & ~EHCI_LEGSUP_OSOWNED);
+	}
+}
+
+void
+ehci_pci_takecontroller(struct ehci_pci_softc *sc)
+{
+	u_int32_t cparams, eec, legsup;
+	int eecp, i;
+
+	cparams = EREAD4(&sc->sc, EHCI_HCCPARAMS);
+	/* Synchronise with the BIOS if it owns the controller. */
+	for (eecp = EHCI_HCC_EECP(cparams); eecp != 0;
+	    eecp = EHCI_EECP_NEXT(eec)) {
+		eec = pci_conf_read(sc->sc_pc, sc->sc_tag, eecp);
+		if (EHCI_EECP_ID(eec) != EHCI_EC_LEGSUP)
+			continue;
+		legsup = eec;
+		pci_conf_write(sc->sc_pc, sc->sc_tag, eecp,
+		    legsup | EHCI_LEGSUP_OSOWNED);
+		if (legsup & EHCI_LEGSUP_BIOSOWNED) {
+			DPRINTF(("%s: waiting for BIOS to give up control\n",
+			    USBDEVNAME(sc->sc.sc_bus.bdev)));
+			for (i = 0; i < 5000; i++) {
+				legsup = pci_conf_read(sc->sc_pc, sc->sc_tag,
+				    eecp);
+				if ((legsup & EHCI_LEGSUP_BIOSOWNED) == 0)
+					break;
+				DELAY(1000);
+			}
+			if (legsup & EHCI_LEGSUP_BIOSOWNED)
+				printf("%s: timed out waiting for BIOS\n",
+				    USBDEVNAME(sc->sc.sc_bus.bdev));
+		}
+	}
+}
+
+void
+ehci_pci_shutdown(void *v)
+{
+	struct ehci_pci_softc *sc = (struct ehci_pci_softc *)v;
+
+	ehci_shutdown(&sc->sc);
+	ehci_pci_givecontroller(sc);
 }
