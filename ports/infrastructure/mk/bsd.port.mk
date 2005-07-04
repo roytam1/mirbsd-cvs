@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.28 2005/06/23 16:53:48 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.29 2005/06/23 17:01:19 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1169,8 +1169,7 @@ README_NAME?=		${TEMPLATES}/README.port
 
 REORDER_DEPENDENCIES?=
 
-_size_fragment=		wc -c $$file 2>/dev/null | \
-			    awk '{print "SIZE (" $$2 ") = " $$1}'
+_size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
 
 ###
 ### end of variable setup. Only targets now
