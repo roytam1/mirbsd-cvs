@@ -689,7 +689,6 @@ file netccitt/pk_usrreq.c		ccitt
 file netinet/if_atm.c			atm
 file netinet/if_ether.c			ether | inet
 #file netinet/if_ieee1394arp.c		ieee1394 & inet
-file netinet/in4_cksum.c		inet
 file netinet/igmp.c			inet
 file netinet/in.c			inet
 file netinet/in_pcb.c			inet
