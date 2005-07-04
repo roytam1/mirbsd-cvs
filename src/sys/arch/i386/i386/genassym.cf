@@ -169,3 +169,6 @@ member	ih_arg
 member	ih_count
 member	ih_next
 endif
+
+define IP_SRC                  offsetof(struct ip, ip_src)
+define IP_DST                  offsetof(struct ip, ip_dst)
