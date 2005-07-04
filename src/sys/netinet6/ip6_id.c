@@ -210,7 +210,7 @@ initid(struct randomtab *p)
 	p->ru_g = pmod(p->ru_gen, j, p->ru_n);
 	p->ru_counter = 0;
 
-	p->ru_reseed = time.tv_sec + p->ru_out;
+	p->ru_reseed = time_second + p->ru_out;
 	p->ru_msb = p->ru_msb ? 0 : (1U << (p->ru_bits - 1));
 }
 
@@ -219,7 +219,7 @@ randomid(struct randomtab *p)
 {
 	int i, n;
 
-	if (p->ru_counter >= p->ru_max || time.tv_sec > p->ru_reseed)
+	if (p->ru_counter >= p->ru_max || time_second > p->ru_reseed)
 		initid(p);
 
 	/* Skip a random number of ids */

@@ -50,6 +50,29 @@ attach	re at cardbus with re_cardbus
 file	dev/cardbus/if_re_cardbus.c		re_cardbus
 
 #
+# Atheros AR5k
+#
+attach	ath at cardbus with ath_cardbus
+file	dev/cardbus/if_ath_cardbus.c		ath_cardbus
+
+#
+# ADMtek ADM8211
+#
+attach	atw at cardbus with atw_cardbus
+file	dev/cardbus/if_atw_cardbus.c		atw_cardbus
+
+# Realtek RTL8180
+#
+attach	rtw at cardbus with rtw_cardbus
+file	dev/cardbus/if_rtw_cardbus.c		rtw_cardbus
+
+#
+# Ralink RT2500
+#
+attach	ral at cardbus with ral_cardbus
+file	dev/cardbus/if_ral_cardbus.c		ral_cardbus
+
+#
 # EHCI USB controller
 #
 attach	ehci at cardbus with ehci_cardbus

@@ -1342,7 +1342,7 @@ ffs_sbupdate(mp, waitfor)
 	bp = getblk(mp->um_devvp, SBOFF >> (fs->fs_fshift - fs->fs_fsbtodb),
 		    (int)fs->fs_sbsize, 0, 0);
 	fs->fs_fmod = 0;
-	fs->fs_time = time.tv_sec;
+	fs->fs_time = time_second;
 	bcopy((caddr_t)fs, bp->b_data, (u_int)fs->fs_sbsize);
 	/* Restore compatibility to old file systems.		   XXX */
 	dfs = (struct fs *)bp->b_data;				/* XXX */

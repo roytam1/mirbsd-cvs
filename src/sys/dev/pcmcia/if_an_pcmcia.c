@@ -40,6 +40,8 @@
 #include <netinet/in.h>
 #include <netinet/if_ether.h>
 
+#include <net80211/ieee80211_var.h>
+
 #include <machine/bus.h>
 
 #include <dev/pcmcia/pcmciareg.h>

@@ -126,9 +126,9 @@
 #if 0 /* replaced by nfs_attrtimeo() in nfs_subs.c */
 #define	NFS_ATTRTIMEO(np) \
 	((((np)->n_flag & NMODIFIED) || \
-	 (time.tv_sec - (np)->n_mtime) / 10 < NFS_MINATTRTIMO) ? NFS_MINATTRTIMO : \
-	 ((time.tv_sec - (np)->n_mtime) / 10 > NFS_MAXATTRTIMO ? NFS_MAXATTRTIMO : \
-	  (time.tv_sec - (np)->n_mtime) / 10))
+	 (time_second - (np)->n_mtime) / 10 < NFS_MINATTRTIMO) ? NFS_MINATTRTIMO : \
+	 ((time_second - (np)->n_mtime) / 10 > NFS_MAXATTRTIMO ? NFS_MAXATTRTIMO : \
+	  (time_second - (np)->n_mtime) / 10))
 #endif
 
 /*

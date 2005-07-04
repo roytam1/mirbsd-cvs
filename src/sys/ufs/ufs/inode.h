@@ -274,7 +274,7 @@ struct indir {
 			(ip)->i_modrev++;				\
 		}							\
 		if ((ip)->i_flag & IN_CHANGE)				\
-			(ip)->i_ffs_ctime = time.tv_sec;		\
+			(ip)->i_ffs_ctime = time_second;		\
 		(ip)->i_flag &= ~(IN_ACCESS | IN_CHANGE | IN_UPDATE);	\
 	}								\
 }
@@ -289,7 +289,7 @@ struct indir {
 			(ip)->i_modrev++;				\
 		}							\
 		if ((ip)->i_flag & IN_CHANGE)				\
-			(ip)->i_e2fs_ctime = time.tv_sec;		\
+			(ip)->i_e2fs_ctime = time_second;		\
 		(ip)->i_flag &= ~(IN_ACCESS | IN_CHANGE | IN_UPDATE);	\
 	}								\
 }

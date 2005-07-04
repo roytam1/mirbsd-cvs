@@ -649,7 +649,7 @@ softdep_process_worklist(matchmnt)
 		wakeup_one(&proc_waiting);
 	}
 	loopcount = 1;
-	starttime = time;
+	getmicrouptime(&starttime);
 	while (num_on_worklist > 0) {
 		matchcnt += process_worklist_item(matchmnt, 0);
 
@@ -690,8 +690,10 @@ softdep_process_worklist(matchmnt)
 		 */
 		{
 			struct timeval diff;
+			struct timeval tv;
 
-			timersub(&time, &starttime, &diff);
+			getmicrouptime(&tv);
+			timersub(&tv, &starttime, &diff);
 			if (diff.tv_sec != 0 && matchmnt == NULL) {
 				matchcnt = -1;
 				break;

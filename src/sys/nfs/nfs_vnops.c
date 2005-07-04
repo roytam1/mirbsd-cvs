@@ -3170,8 +3170,7 @@ nfsspec_read(v)
 	 * Set access flag.
 	 */
 	np->n_flag |= NACC;
-	np->n_atim.tv_sec = time.tv_sec;
-	np->n_atim.tv_nsec = time.tv_usec * 1000;
+	getnanotime(&np->n_atim);
 	return (VOCALL(spec_vnodeop_p, VOFFSET(vop_read), ap));
 }
 
@@ -3194,8 +3193,7 @@ nfsspec_write(v)
 	 * Set update flag.
 	 */
 	np->n_flag |= NUPD;
-	np->n_mtim.tv_sec = time.tv_sec;
-	np->n_mtim.tv_nsec = time.tv_usec * 1000;
+	getnanotime(&np->n_mtim);
 	return (VOCALL(spec_vnodeop_p, VOFFSET(vop_write), ap));
 }
 
@@ -3254,8 +3252,7 @@ nfsfifo_read(v)
 	 * Set access flag.
 	 */
 	np->n_flag |= NACC;
-	np->n_atim.tv_sec = time.tv_sec;
-	np->n_atim.tv_nsec = time.tv_usec * 1000;
+	getnanotime(&np->n_atim);
 	return (VOCALL(fifo_vnodeop_p, VOFFSET(vop_read), ap));
 }
 
@@ -3279,8 +3276,7 @@ nfsfifo_write(v)
 	 * Set update flag.
 	 */
 	np->n_flag |= NUPD;
-	np->n_mtim.tv_sec = time.tv_sec;
-	np->n_mtim.tv_nsec = time.tv_usec * 1000;
+	getnanotime(&np->n_mtim);
 	return (VOCALL(fifo_vnodeop_p, VOFFSET(vop_write), ap));
 }
 
@@ -3306,12 +3302,10 @@ nfsfifo_close(v)
 
 	if (np->n_flag & (NACC | NUPD)) {
 		if (np->n_flag & NACC) {
-			np->n_atim.tv_sec = time.tv_sec;
-			np->n_atim.tv_nsec = time.tv_usec * 1000;
+			getnanotime(&np->n_atim);
 		}
 		if (np->n_flag & NUPD) {
-			np->n_mtim.tv_sec = time.tv_sec;
-			np->n_mtim.tv_nsec = time.tv_usec * 1000;
+			getnanotime(&np->n_mtim);
 		}
 		np->n_flag |= NCHG;
 		if (vp->v_usecount == 1 &&

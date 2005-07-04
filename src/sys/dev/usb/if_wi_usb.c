@@ -60,7 +60,8 @@
 
 #define ROUNDUP64(x) (((x)+63) & ~63)
 
-#include <net/if_ieee80211.h>
+#include <net80211/ieee80211.h>
+#include <net80211/ieee80211_ioctl.h>
 
 #if NBPFILTER > 0
 #include <net/bpf.h>

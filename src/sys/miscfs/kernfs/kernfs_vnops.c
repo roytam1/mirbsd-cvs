@@ -596,7 +596,7 @@ kernfs_getattr(v)
 	vap->va_fsid = vp->v_mount->mnt_stat.f_fsid.val[0];
 	vap->va_size = 0;
 	vap->va_blocksize = DEV_BSIZE;
-	TIMEVAL_TO_TIMESPEC(&time, &vap->va_atime);
+	getnanotime(&vap->va_atime);
 	vap->va_mtime = vap->va_atime;
 	vap->va_ctime = vap->va_atime;
 	vap->va_gen = 0;

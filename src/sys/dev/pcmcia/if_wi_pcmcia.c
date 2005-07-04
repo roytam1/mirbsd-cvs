@@ -58,7 +58,8 @@
 #include <netinet/if_ether.h>
 #endif
 
-#include <net/if_ieee80211.h>
+#include <net80211/ieee80211.h>
+#include <net80211/ieee80211_ioctl.h>
 
 #include <machine/bus.h>
 
