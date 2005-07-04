@@ -1,9 +1,9 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/dev/ic/lpt.c,v 1.2 2005/03/06 21:27:40 tg Exp $	*/
 /*	$OpenBSD: lpt.c,v 1.5 2002/03/14 01:26:54 millert Exp $ */
 /*	$NetBSD: lpt.c,v 1.42 1996/10/21 22:41:14 thorpej Exp $	*/
 
 /*
- * Copyright (c) 2003 Thorsten Glaser.
+ * Copyright (c) 2003, 2005 Thorsten Glaser <tg@MirBSD.org>
  * Copyright (c) 1994 Matthias Pfaller.
  * Copyright (c) 1994 Poul-Henning Kamp.
  * Copyright (c) 1993, 1994 Charles Hannum.
@@ -763,13 +763,13 @@ plipinput(struct lpt_softc *sc)
 	u_char *p = sc->sc_ifbuf, minibuf[4];
 	int s, len, cksum;
 
-#ifndef PLIP_NO_INCOLL
-	if (!(STABILIZE(iot, ioh, lpt_status) & LPS_NACK)) {
+	if (((ifp->if_flags & IFF_LINK2) == 0) &&
+	    (!(STABILIZE(iot, ioh, lpt_status) & LPS_NACK))) {
 		bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
 		ifp->if_collisions++;
 		return;
 	}
-#endif
+
 	bus_space_write_1(iot, ioh, lpt_data, 0x01);
 	bus_space_write_1(iot, ioh, lpt_control, sc->sc_control &= ~LPC_IENABLE);
 
