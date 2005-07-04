@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_vrreg.h,v 1.11 2003/10/12 02:53:59 jason Exp $	*/
+/*	$OpenBSD: if_vrreg.h,v 1.14 2005/05/27 00:18:59 pvalchev Exp $	*/
 
 /*
  * Copyright (c) 1997, 1998
@@ -393,7 +393,6 @@ struct vr_desc {
 #define VR_RX_LIST_CNT		64
 #define VR_TX_LIST_CNT		128
 #define VR_MIN_FRAMELEN		60
-#define VR_FRAMELEN		1536
 #define VR_RXLEN		1520
 
 #define VR_TXOWN(x)		x->vr_ptr->vr_status
@@ -495,7 +494,6 @@ struct vr_softc {
 	bus_space_read_1(sc->vr_btag, sc->vr_bhandle, reg)
 
 #define VR_TIMEOUT		1000
-#define ETHER_ALIGN		2
 
 /*
  * General constants that are fun to know.
@@ -591,9 +589,4 @@ struct vr_softc {
 
 #ifndef ETHER_CRC_LEN
 #define ETHER_CRC_LEN 4
-#endif
-
-#ifdef __alpha__
-#undef vtophys
-#define vtophys(va)		alpha_XXX_dmamap((vm_offset_t)va)
 #endif

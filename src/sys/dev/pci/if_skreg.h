@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_skreg.h,v 1.10 2003/08/12 05:23:06 nate Exp $	*/
+/*	$OpenBSD: if_skreg.h,v 1.16 2005/03/14 01:15:14 brad Exp $	*/
 
 /*
  * Copyright (c) 1997, 1998, 1999, 2000
@@ -49,10 +49,6 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
-/* Values to keep the different chip revisions apart */
-#define SK_GENESIS 0
-#define SK_YUKON 1
 
 /*
  * GEnesis registers. The GEnesis chip has a 256-byte I/O window
@@ -310,6 +306,26 @@
 #define SK_BLNKCTL	0x0178
 #define SK_BLNKSTS	0x0179
 #define SK_BLNKTST	0x017A
+
+/* Values for SK_CHIPVER */
+#define SK_GENESIS		0x0A
+#define SK_YUKON		0xB0
+#define SK_YUKON_LITE		0xB1
+#define SK_YUKON_LP		0xB2
+#define SK_YUKON_XL		0xB3
+#define SK_YUKON_EC		0xB6
+#define SK_YUKON_FE		0xB7
+
+#define SK_YUKON_FAMILY(x) ((x) & 0xB0)
+
+/* Known revisions in SK_CONFIG */
+#define SK_YUKON_LITE_REV_A0	0x0 /* invented, see test in skc_attach */
+#define SK_YUKON_LITE_REV_A1	0x3
+#define SK_YUKON_LITE_REV_A3	0x7
+
+#define SK_YUKON_EC_REV_A1	0x0
+#define SK_YUKON_EC_REV_A2	0x1
+#define SK_YUKON_EC_REV_A3	0x2
 
 #define SK_IMCTL_STOP	0x02
 #define SK_IMCTL_START	0x04
@@ -1314,21 +1330,14 @@ struct sk_tx_desc {
  * layers. To be safe, we allocate 1.5 times the number of
  * receive descriptors.
  */
-#define SK_JUMBO_FRAMELEN	9018
-#define SK_JUMBO_MTU		(SK_JUMBO_FRAMELEN-ETHER_HDR_LEN-ETHER_CRC_LEN)
 #define SK_JSLOTS		384
 
-#define SK_JRAWLEN	(SK_JUMBO_FRAMELEN + ETHER_ALIGN)
+#define SK_JRAWLEN	(ETHER_MAX_LEN_JUMBO + ETHER_ALIGN)
 #define SK_JLEN		SK_JRAWLEN
 #define SK_MCLBYTES	SK_JLEN
 #define SK_JPAGESZ	PAGE_SIZE
 #define SK_RESID	(SK_JPAGESZ - (SK_JLEN * SK_JSLOTS) % SK_JPAGESZ)
 #define SK_JMEM		((SK_JLEN * SK_JSLOTS) + SK_RESID)
-
-struct sk_jslot {
-	caddr_t			sk_buf;
-	int			sk_inuse;
-};
 
 struct sk_jpool_entry {
 	int                             slot;
@@ -1352,7 +1361,7 @@ struct sk_chain {
 
 struct sk_txmap_entry {
 	bus_dmamap_t			dmamap;
-	SLIST_ENTRY(sk_txmap_entry)	link;
+	SIMPLEQ_ENTRY(sk_txmap_entry)	link;
 };
 
 struct sk_chain_data {
@@ -1360,6 +1369,7 @@ struct sk_chain_data {
 	struct sk_chain		sk_rx_chain[SK_RX_RING_CNT];
 	struct sk_txmap_entry	*sk_tx_map[SK_TX_RING_CNT];
 	bus_dmamap_t		sk_rx_map[SK_RX_RING_CNT];
+	bus_dmamap_t		sk_rx_jumbo_map;
 	int			sk_tx_prod;
 	int			sk_tx_cons;
 	int			sk_tx_cnt;
@@ -1367,7 +1377,7 @@ struct sk_chain_data {
 	int			sk_rx_cons;
 	int			sk_rx_cnt;
 	/* Stick the jumbo mem management stuff here too. */
-	struct sk_jslot		sk_jslots[SK_JSLOTS];
+	caddr_t			sk_jslots[SK_JSLOTS];
 	void			*sk_jumbo_buf;
 
 };
@@ -1404,6 +1414,8 @@ struct sk_softc {
 	struct resource		*sk_irq;	/* IRQ resource handle */
 	struct resource		*sk_res;	/* I/O or shared mem handle */
 	u_int8_t		sk_type;
+	u_int8_t		sk_rev;
+	char			*sk_name;
 	char			*sk_vpd_prodname;
 	char			*sk_vpd_readonly;
 	u_int32_t		sk_rboff;	/* RAMbuffer offset */
@@ -1438,7 +1450,7 @@ struct sk_if_softc {
 	int			sk_if_flags;
 	LIST_HEAD(__sk_jfreehead, sk_jpool_entry)	sk_jfree_listhead;
 	LIST_HEAD(__sk_jinusehead, sk_jpool_entry)	sk_jinuse_listhead;
-	SLIST_HEAD(__sk_txmaphead, sk_txmap_entry)	sk_txmap_listhead;
+	SIMPLEQ_HEAD(__sk_txmaphead, sk_txmap_entry)	sk_txmap_head;
 };
 
 struct skc_attach_args {
@@ -1447,4 +1459,3 @@ struct skc_attach_args {
 
 #define SK_MAXUNIT	256
 #define SK_TIMEOUT	1000
-#define ETHER_ALIGN	2
