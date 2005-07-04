@@ -1,5 +1,5 @@
-/* $OpenBSD: wsdisplay.c,v 1.53 2004/03/09 22:41:57 miod Exp $ */
-/* $NetBSD: wsdisplay.c,v 1.37.4.1 2000/06/30 16:27:53 simonb Exp $ */
+/* $OpenBSD: wsdisplay.c,v 1.60 2005/06/02 07:34:14 miod Exp $ */
+/* $NetBSD: wsdisplay.c,v 1.82 2005/02/27 00:27:52 perry Exp $ */
 
 /*
  * Copyright (c) 1996, 1997 Christopher G. Demetriou.  All rights reserved.
@@ -31,7 +31,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#ifndef	SMALL_KERNEL
+#define WSMOUSED_SUPPORT
+#define	BURNER_SUPPORT
+#define	SCROLLBACK_SUPPORT
+#endif
 
 #include <sys/param.h>
 #include <sys/conf.h>
@@ -59,6 +63,7 @@
 
 #include <dev/ic/pcdisplay.h>
 
+#include "wsdisplay.h"
 #include "wskbd.h"
 #include "wsmouse.h"
 #include "wsmux.h"
@@ -69,8 +74,8 @@
 #endif
 
 #if NWSMOUSE > 0
-#include "wsmousevar.h"
-#endif /* NWSMOUSE > 0 */
+#include <dev/wscons/wsmousevar.h>
+#endif
 
 #include "wsmoused.h"
 
@@ -98,7 +103,7 @@ struct wsscreen {
 #define SCR_OPEN 1		/* is it open? */
 #define SCR_WAITACTIVE 2	/* someone waiting on activation */
 #define SCR_GRAPHICS 4		/* graphics mode, no text (emulation) output */
-#define	SCR_DUMBFB 8		/* in use as dumb framebuffer (iff SCR_GRAPHICS) */
+#define	SCR_DUMBFB 8		/* in use as dumb fb (iff SCR_GRAPHICS) */
 	const struct wscons_syncops *scr_syncops;
 	void *scr_synccookie;
 
@@ -108,6 +113,7 @@ struct wsscreen {
 
 	struct wsdisplay_softc *sc;
 
+#ifdef WSMOUSED_SUPPORT
 	/* mouse console support via wsmoused(8) */
 	unsigned short mouse;		/* mouse cursor position */
 	unsigned short cursor;		/* selection cursor position (if
@@ -135,18 +141,21 @@ struct wsscreen {
 #define IS_SEL_BY_WORD(ws) ((ws)->mouse_flags & SEL_BY_WORD)
 #define IS_SEL_BY_LINE(ws) ((ws)->mouse_flags & SEL_BY_LINE)
 	unsigned char mouse_flags;	/* flags, status of the mouse */
+#endif	/* WSMOUSED_SUPPORT */
 };
 
-struct wsscreen *wsscreen_attach(struct wsdisplay_softc *, int,
-	const char *, const struct wsscreen_descr *, void *, int, int, long);
-void wsscreen_detach(struct wsscreen *);
-int wsdisplay_addscreen(struct wsdisplay_softc *, int, const char *, const char *);
-int wsdisplay_getscreen(struct wsdisplay_softc *, struct wsdisplay_addscreendata *);
-void wsdisplay_shutdownhook(void *);
-void wsdisplay_addscreen_print(struct wsdisplay_softc *, int, int);
-void wsdisplay_closescreen(struct wsdisplay_softc *, struct wsscreen *);
-int wsdisplay_delscreen(struct wsdisplay_softc *, int, int);
-void wsdisplay_burner(void *v);
+struct wsscreen *wsscreen_attach(struct wsdisplay_softc *, int, const char *,
+	    const struct wsscreen_descr *, void *, int, int, long);
+void	wsscreen_detach(struct wsscreen *);
+int	wsdisplay_addscreen(struct wsdisplay_softc *, int, const char *,
+	    const char *);
+int	wsdisplay_getscreen(struct wsdisplay_softc *,
+	    struct wsdisplay_addscreendata *);
+void	wsdisplay_shutdownhook(void *);
+void	wsdisplay_addscreen_print(struct wsdisplay_softc *, int, int);
+void	wsdisplay_closescreen(struct wsdisplay_softc *, struct wsscreen *);
+int	wsdisplay_delscreen(struct wsdisplay_softc *, int, int);
+void	wsdisplay_burner(void *v);
 
 struct wsdisplay_softc {
 	struct device sc_dv;
@@ -160,12 +169,16 @@ struct wsdisplay_softc {
 	int sc_focusidx;	/* available only if sc_focus isn't null */
 	struct wsscreen *sc_focus;
 
+	struct wseventvar sc_evar;
+
+#ifdef BURNER_SUPPORT
 	struct timeout sc_burner;
 	int	sc_burnoutintvl;
 	int	sc_burninintvl;
 	int	sc_burnout;
 	int	sc_burnman;
 	int	sc_burnflags;
+#endif
 
 	struct wsdisplay_font sc_fonts[WSDISPLAY_MAXFONT];
 
@@ -176,26 +189,23 @@ struct wsdisplay_softc {
 	int sc_screenwanted, sc_oldscreen; /* valid with SC_SWITCHPENDING */
 
 #if NWSKBD > 0
-	struct wsmux_softc *sc_muxdv;
+	struct wsevsrc *sc_input;
 #ifdef WSDISPLAY_COMPAT_RAWKBD
 	int sc_rawkbd;
 #endif
 #endif /* NWSKBD > 0 */
 
+#ifdef WSMOUSED_SUPPORT
 	dev_t wsmoused_dev; /* device opened by wsmoused(8), when active */
 	int wsmoused_sleep; /* true when wsmoused(8) is sleeping */
+#endif
 };
 
 extern struct cfdriver wsdisplay_cd;
-#if NWSMUX > 0
-extern struct wsmux_softc **wsmuxdevs;
-#endif /* NWSMUX > 0 */
 
 /* Autoconfiguration definitions. */
-int wsdisplay_emul_match(struct device *, void *, void *);
-void wsdisplay_emul_attach(struct device *, struct device *, void *);
-int wsdisplay_noemul_match(struct device *, void *, void *);
-void wsdisplay_noemul_attach(struct device *, struct device *, void *);
+int	wsdisplay_emul_match(struct device *, void *, void *);
+void	wsdisplay_emul_attach(struct device *, struct device *, void *);
 
 struct cfdriver wsdisplay_cd = {
 	NULL, "wsdisplay", DV_TTY
@@ -206,14 +216,8 @@ struct cfattach wsdisplay_emul_ca = {
 	    wsdisplay_emul_attach,
 };
 
-struct cfattach wsdisplay_noemul_ca = {
-	sizeof(struct wsdisplay_softc), wsdisplay_noemul_match,
-	    wsdisplay_noemul_attach,
-};
-
-void wsdisplaystart(struct tty *);
-int wsdisplayparam(struct tty *, struct termios *);
-
+void	wsdisplaystart(struct tty *);
+int	wsdisplayparam(struct tty *, struct termios *);
 
 /* Internal macros, functions, and variables. */
 #define	WSDISPLAYUNIT(dev)		(minor(dev) >> 8)
@@ -224,24 +228,24 @@ int wsdisplayparam(struct tty *, struct termios *);
 #define	WSSCREEN_HAS_EMULATOR(scr)	((scr)->scr_dconf->wsemul != NULL)
 #define	WSSCREEN_HAS_TTY(scr)		((scr)->scr_tty != NULL)
 
-void wsdisplay_common_attach(struct wsdisplay_softc *sc,
-	    int console, const struct wsscreen_list *,
+void	wsdisplay_common_attach(struct wsdisplay_softc *sc,
+	    int console, int mux, const struct wsscreen_list *,
 	    const struct wsdisplay_accessops *accessops,
 	    void *accesscookie);
 
 #ifdef WSDISPLAY_COMPAT_RAWKBD
-int wsdisplay_update_rawkbd(struct wsdisplay_softc *, struct wsscreen *);
+int	wsdisplay_update_rawkbd(struct wsdisplay_softc *, struct wsscreen *);
 #endif
 
-int wsdisplay_console_initted;
+int	wsdisplay_console_initted;
 struct wsdisplay_softc *wsdisplay_console_device;
 struct wsscreen_internal wsdisplay_console_conf;
 
-int wsdisplay_getc_dummy(dev_t);
-void wsdisplay_pollc(dev_t, int);
+int	wsdisplay_getc_dummy(dev_t);
+void	wsdisplay_pollc(dev_t, int);
 
-int wsdisplay_cons_pollmode;
-void (*wsdisplay_cons_kbd_pollc)(dev_t, int);
+int	wsdisplay_cons_pollmode;
+void	(*wsdisplay_cons_kbd_pollc)(dev_t, int);
 
 struct consdev wsdisplay_cons = {
 	NULL, NULL, wsdisplay_getc_dummy, wsdisplay_cnputc,
@@ -249,36 +253,33 @@ struct consdev wsdisplay_cons = {
 };
 
 #ifndef WSDISPLAY_DEFAULTSCREENS
-# define WSDISPLAY_DEFAULTSCREENS	1
+#define WSDISPLAY_DEFAULTSCREENS	1
 #endif
-int wsdisplay_defaultscreens = WSDISPLAY_DEFAULTSCREENS;
+int	wsdisplay_defaultscreens = WSDISPLAY_DEFAULTSCREENS;
 
-int wsdisplay_switch1(void *, int, int);
-int wsdisplay_switch2(void *, int, int);
-int wsdisplay_switch3(void *, int, int);
+int	wsdisplay_switch1(void *, int, int);
+int	wsdisplay_switch2(void *, int, int);
+int	wsdisplay_switch3(void *, int, int);
 
-int wsdisplay_clearonclose;
+int	wsdisplay_clearonclose;
 
+#ifdef WSMOUSED_SUPPORT
 char *Copybuffer;
 u_int Copybuffer_size;
 char Paste_avail;
+#endif
 
 struct wsscreen *
-wsscreen_attach(sc, console, emul, type, cookie, ccol, crow, defattr)
-	struct wsdisplay_softc *sc;
-	int console;
-	const char *emul;
-	const struct wsscreen_descr *type;
-	void *cookie;
-	int ccol, crow;
-	long defattr;
+wsscreen_attach(struct wsdisplay_softc *sc, int console, const char *emul,
+    const struct wsscreen_descr *type, void *cookie, int ccol, int crow,
+    long defattr)
 {
 	struct wsscreen_internal *dconf;
 	struct wsscreen *scr;
 
 	scr = malloc(sizeof(struct wsscreen), M_DEVBUF, M_NOWAIT);
 	if (!scr)
-		return (scr);
+		return (NULL);
 
 	if (console) {
 		dconf = &wsdisplay_console_conf;
@@ -290,7 +291,7 @@ wsscreen_attach(sc, console, emul, type, cookie, ccol, crow, defattr)
 			(*dconf->wsemul->attach)(1, 0, 0, 0, 0, scr, 0);
 	} else { /* not console */
 		dconf = malloc(sizeof(struct wsscreen_internal),
-			       M_DEVBUF, M_NOWAIT);
+		    M_DEVBUF, M_NOWAIT);
 		if (dconf == NULL) {
 			free(scr, M_DEVBUF);
 			return (NULL);
@@ -305,8 +306,8 @@ wsscreen_attach(sc, console, emul, type, cookie, ccol, crow, defattr)
 				return (NULL);
 			}
 			dconf->wsemulcookie =
-			  (*dconf->wsemul->attach)(0, type, cookie,
-						   ccol, crow, scr, defattr);
+			    (*dconf->wsemul->attach)(0, type, cookie,
+				ccol, crow, scr, defattr);
 		} else
 			dconf->wsemul = NULL;
 		dconf->scrdata = type;
@@ -323,7 +324,9 @@ wsscreen_attach(sc, console, emul, type, cookie, ccol, crow, defattr)
 
 	scr->scr_syncops = 0;
 	scr->sc = sc;
+#ifdef WSMOUSED_SUPPORT
 	scr->mouse_flags = 0;
+#endif
 #ifdef WSDISPLAY_COMPAT_RAWKBD
 	scr->scr_rawkbd = 0;
 #endif
@@ -331,8 +334,7 @@ wsscreen_attach(sc, console, emul, type, cookie, ccol, crow, defattr)
 }
 
 void
-wsscreen_detach(scr)
-	struct wsscreen *scr;
+wsscreen_detach(struct wsscreen *scr)
 {
 	int ccol, crow; /* XXX */
 
@@ -342,15 +344,13 @@ wsscreen_detach(scr)
 	}
 	if (WSSCREEN_HAS_EMULATOR(scr))
 		(*scr->scr_dconf->wsemul->detach)(scr->scr_dconf->wsemulcookie,
-						  &ccol, &crow);
+		    &ccol, &crow);
 	free(scr->scr_dconf, M_DEVBUF);
 	free(scr, M_DEVBUF);
 }
 
 const struct wsscreen_descr *
-wsdisplay_screentype_pick(scrdata, name)
-	const struct wsscreen_list *scrdata;
-	const char *name;
+wsdisplay_screentype_pick(const struct wsscreen_list *scrdata, const char *name)
 {
 	int i;
 	const struct wsscreen_descr *scr;
@@ -373,9 +373,7 @@ wsdisplay_screentype_pick(scrdata, name)
  * print info about attached screen
  */
 void
-wsdisplay_addscreen_print(sc, idx, count)
-	struct wsdisplay_softc *sc;
-	int idx, count;
+wsdisplay_addscreen_print(struct wsdisplay_softc *sc, int idx, int count)
 {
 	printf("%s: screen %d", sc->sc_dv.dv_xname, idx);
 	if (count > 1)
@@ -383,16 +381,14 @@ wsdisplay_addscreen_print(sc, idx, count)
 	printf(" added (%s", sc->sc_scr[idx]->scr_dconf->scrdata->name);
 	if (WSSCREEN_HAS_EMULATOR(sc->sc_scr[idx])) {
 		printf(", %s emulation",
-			sc->sc_scr[idx]->scr_dconf->wsemul->name);
+		    sc->sc_scr[idx]->scr_dconf->wsemul->name);
 	}
 	printf(")\n");
 }
 
 int
-wsdisplay_addscreen(sc, idx, screentype, emul)
-	struct wsdisplay_softc *sc;
-	int idx;
-	const char *screentype, *emul;
+wsdisplay_addscreen(struct wsdisplay_softc *sc, int idx,
+    const char *screentype, const char *emul)
 {
 	const struct wsscreen_descr *scrdesc;
 	int error;
@@ -411,15 +407,14 @@ wsdisplay_addscreen(sc, idx, screentype, emul)
 	if (!scrdesc)
 		return (ENXIO);
 	error = (*sc->sc_accessops->alloc_screen)(sc->sc_accesscookie,
-			scrdesc, &cookie, &ccol, &crow, &defattr);
+	    scrdesc, &cookie, &ccol, &crow, &defattr);
 	if (error)
 		return (error);
 
 	scr = wsscreen_attach(sc, 0, emul, scrdesc,
-			      cookie, ccol, crow, defattr);
+	    cookie, ccol, crow, defattr);
 	if (scr == NULL) {
-		(*sc->sc_accessops->free_screen)(sc->sc_accesscookie,
-						 cookie);
+		(*sc->sc_accessops->free_screen)(sc->sc_accesscookie, cookie);
 		return (ENXIO);
 	}
 
@@ -429,21 +424,21 @@ wsdisplay_addscreen(sc, idx, screentype, emul)
 	s = spltty();
 	if (!sc->sc_focus) {
 		(*sc->sc_accessops->show_screen)(sc->sc_accesscookie,
-						 scr->scr_dconf->emulcookie,
-						 0, 0, 0);
+		    scr->scr_dconf->emulcookie, 0, 0, 0);
 		sc->sc_focusidx = idx;
 		sc->sc_focus = scr;
 	}
 	splx(s);
 
+#ifdef WSMOUSED_SUPPORT
 	allocate_copybuffer(sc); /* enlarge the copy buffer is necessary */
+#endif
 	return (0);
 }
 
 int
-wsdisplay_getscreen(sc, sd)
-	struct wsdisplay_softc *sc;
-	struct wsdisplay_addscreendata *sd;
+wsdisplay_getscreen(struct wsdisplay_softc *sc,
+    struct wsdisplay_addscreendata *sd)
 {
 	struct wsscreen *scr;
 
@@ -465,9 +460,7 @@ wsdisplay_getscreen(sc, sd)
 }
 
 void
-wsdisplay_closescreen(sc, scr)
-	struct wsdisplay_softc *sc;
-	struct wsscreen *scr;
+wsdisplay_closescreen(struct wsdisplay_softc *sc, struct wsscreen *scr)
 {
 	int maj, mn, idx;
 
@@ -496,9 +489,7 @@ wsdisplay_closescreen(sc, scr)
 }
 
 int
-wsdisplay_delscreen(sc, idx, flags)
-	struct wsdisplay_softc *sc;
-	int idx, flags;
+wsdisplay_delscreen(struct wsdisplay_softc *sc, int idx, int flags)
 {
 	struct wsscreen *scr;
 	int s;
@@ -506,8 +497,7 @@ wsdisplay_delscreen(sc, idx, flags)
 
 	if (idx < 0 || idx >= WSDISPLAY_MAXSCREEN)
 		return (EINVAL);
-	scr = sc->sc_scr[idx];
-	if (!scr)
+	if ((scr = sc->sc_scr[idx]) == NULL)
 		return (ENXIO);
 
 	if (scr->scr_dconf == &wsdisplay_console_conf ||
@@ -544,8 +534,7 @@ wsdisplay_delscreen(sc, idx, flags)
 
 	wsscreen_detach(scr);
 
-	(*sc->sc_accessops->free_screen)(sc->sc_accesscookie,
-					 cookie);
+	(*sc->sc_accessops->free_screen)(sc->sc_accesscookie, cookie);
 
 	printf("%s: screen %d deleted\n", sc->sc_dv.dv_xname, idx);
 	return (0);
@@ -555,22 +544,17 @@ wsdisplay_delscreen(sc, idx, flags)
  * Autoconfiguration functions.
  */
 int
-wsdisplay_emul_match(parent, match, aux)
-	struct device *parent;
-	void *match;
-	void *aux;
+wsdisplay_emul_match(struct device *parent, void *match, void *aux)
 {
 	struct cfdata *cf = match;
 	struct wsemuldisplaydev_attach_args *ap = aux;
 
-	if (cf->wsemuldisplaydevcf_console !=
-	    WSEMULDISPLAYDEVCF_CONSOLE_UNK) {
+	if (cf->wsemuldisplaydevcf_console != WSEMULDISPLAYDEVCF_CONSOLE_UNK) {
 		/*
 		 * If console-ness of device specified, either match
 		 * exactly (at high priority), or fail.
 		 */
-		if (cf->wsemuldisplaydevcf_console != 0 &&
-		    ap->console != 0)
+		if (cf->wsemuldisplaydevcf_console != 0 && ap->console != 0)
 			return (10);
 		else
 			return (0);
@@ -581,15 +565,14 @@ wsdisplay_emul_match(parent, match, aux)
 }
 
 void
-wsdisplay_emul_attach(parent, self, aux)
-	struct device *parent, *self;
-	void *aux;
+wsdisplay_emul_attach(struct device *parent, struct device *self, void *aux)
 {
 	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)self;
 	struct wsemuldisplaydev_attach_args *ap = aux;
 
-	wsdisplay_common_attach(sc, ap->console, ap->scrdata,
-				ap->accessops, ap->accesscookie);
+	wsdisplay_common_attach(sc, ap->console,
+	    sc->sc_dv.dv_cfdata->wsemuldisplaydevcf_mux, ap->scrdata,
+	    ap->accessops, ap->accesscookie);
 
 	if (ap->console && cn_tab == &wsdisplay_cons) {
 		int maj;
@@ -605,9 +588,7 @@ wsdisplay_emul_attach(parent, self, aux)
 
 /* Print function (for parent devices). */
 int
-wsemuldisplaydevprint(aux, pnp)
-	void *aux;
-	const char *pnp;
+wsemuldisplaydevprint(void *aux, const char *pnp)
 {
 #if 0 /* -Wunused */
 	struct wsemuldisplaydev_attach_args *ap = aux;
@@ -622,36 +603,9 @@ wsemuldisplaydevprint(aux, pnp)
 	return (UNCONF);
 }
 
-int
-wsdisplay_noemul_match(parent, match, aux)
-	struct device *parent;
-	void *match;
-	void *aux;
-{
-#if 0 /* -Wunused */
-	struct wsdisplaydev_attach_args *ap = aux;
-#endif
-
-	/* Always match. */
-	return (1);
-}
-
-void
-wsdisplay_noemul_attach(parent, self, aux)
-	struct device *parent, *self;
-	void *aux;
-{
-	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)self;
-	struct wsdisplaydev_attach_args *ap = aux;
-
-	wsdisplay_common_attach(sc, 0, NULL, ap->accessops, ap->accesscookie);
-}
-
 /* Print function (for parent devices). */
 int
-wsdisplaydevprint(aux, pnp)
-	void *aux;
-	const char *pnp;
+wsdisplaydevprint(void *aux, const char *pnp)
 {
 #if 0 /* -Wunused */
 	struct wsdisplaydev_attach_args *ap = aux;
@@ -664,23 +618,35 @@ wsdisplaydevprint(aux, pnp)
 }
 
 void
-wsdisplay_common_attach(sc, console, scrdata, accessops, accesscookie)
-	struct wsdisplay_softc *sc;
-	int console;
-	const struct wsscreen_list *scrdata;
-	const struct wsdisplay_accessops *accessops;
-	void *accesscookie;
+wsdisplay_common_attach(struct wsdisplay_softc *sc, int console, int kbdmux,
+    const struct wsscreen_list *scrdata,
+    const struct wsdisplay_accessops *accessops, void *accesscookie)
 {
 	static int hookset = 0;
 	int i, start = 0;
 #if NWSKBD > 0
-	struct device *dv;
+	struct wsevsrc *kme;
+#if NWSMUX > 0
+	struct wsmux_softc *mux;
 
-	sc->sc_muxdv = wsmux_create("dmux", sc->sc_dv.dv_unit);
-	if (!sc->sc_muxdv)
+	if (kbdmux >= 0)
+		mux = wsmux_getmux(kbdmux);
+	else
+		mux = wsmux_create("dmux", sc->sc_dv.dv_unit);
+	/* XXX panic()ing isn't nice, but attach cannot fail */
+	if (mux == NULL)
 		panic("wsdisplay_common_attach: no memory");
-	sc->sc_muxdv->sc_displaydv = &sc->sc_dv;
+	sc->sc_input = &mux->sc_base;
+	mux->sc_displaydv = &sc->sc_dv;
+	if (kbdmux >= 0)
+		printf(" mux %d", kbdmux);
+#else
+#if 0	/* not worth keeping, especially since the default value is not -1... */
+	if (kbdmux >= 0)
+		printf(" (mux ignored)");
 #endif
+#endif	/* NWSMUX > 0 */
+#endif	/* NWSKBD > 0 */
 
 	sc->sc_isconsole = console;
 
@@ -698,8 +664,12 @@ wsdisplay_common_attach(sc, console, scrdata, accessops, accesscookie)
 		       wsdisplay_console_conf.wsemul->name);
 
 #if NWSKBD > 0
-		if ((dv = wskbd_set_console_display(&sc->sc_dv, sc->sc_muxdv)))
-			printf(", using %s", dv->dv_xname);
+		kme = wskbd_set_console_display(&sc->sc_dv, sc->sc_input);
+		if (kme != NULL)
+			printf(", using %s", kme->me_dv.dv_xname);
+#if NWSMUX == 0
+		sc->sc_input = kme;
+#endif
 #endif
 
 		sc->sc_focusidx = 0;
@@ -707,6 +677,10 @@ wsdisplay_common_attach(sc, console, scrdata, accessops, accesscookie)
 		start = 1;
 	}
 	printf("\n");
+
+#if NWSKBD > 0 && NWSMUX > 0
+	wsmux_set_display(mux, &sc->sc_dv);
+#endif
 
 	sc->sc_accessops = accessops;
 	sc->sc_accesscookie = accesscookie;
@@ -725,12 +699,14 @@ wsdisplay_common_attach(sc, console, scrdata, accessops, accesscookie)
 	if (i > start)
 		wsdisplay_addscreen_print(sc, start, i-start);
 
+#ifdef BURNER_SUPPORT
 	sc->sc_burnoutintvl = (hz * WSDISPLAY_DEFBURNOUT) / 1000;
-	sc->sc_burninintvl  = (hz * WSDISPLAY_DEFBURNIN ) / 1000;
+	sc->sc_burninintvl = (hz * WSDISPLAY_DEFBURNIN ) / 1000;
 	sc->sc_burnflags = 0;	/* off by default */
 	timeout_set(&sc->sc_burner, wsdisplay_burner, sc);
 	sc->sc_burnout = sc->sc_burnoutintvl;
 	wsdisplay_burn(sc, sc->sc_burnflags);
+#endif
 
 	if (hookset == 0)
 		shutdownhook_establish(wsdisplay_shutdownhook, NULL);
@@ -738,11 +714,8 @@ wsdisplay_common_attach(sc, console, scrdata, accessops, accesscookie)
 }
 
 void
-wsdisplay_cnattach(type, cookie, ccol, crow, defattr)
-	const struct wsscreen_descr *type;
-	void *cookie;
-	int ccol, crow;
-	long defattr;
+wsdisplay_cnattach(const struct wsscreen_descr *type, void *cookie, int ccol,
+    int crow, long defattr)
 {
 	const struct wsemul_ops *wsemul;
 
@@ -758,9 +731,8 @@ wsdisplay_cnattach(type, cookie, ccol, crow, defattr)
 
 	wsemul = wsemul_pick(""); /* default */
 	wsdisplay_console_conf.wsemul = wsemul;
-	wsdisplay_console_conf.wsemulcookie = (*wsemul->cnattach)(type, cookie,
-								  ccol, crow,
-								  defattr);
+	wsdisplay_console_conf.wsemulcookie =
+	    (*wsemul->cnattach)(type, cookie, ccol, crow, defattr);
 
 	cn_tab = &wsdisplay_cons;
 
@@ -771,10 +743,7 @@ wsdisplay_cnattach(type, cookie, ccol, crow, defattr)
  * Tty and cdevsw functions.
  */
 int
-wsdisplayopen(dev, flag, mode, p)
-	dev_t dev;
-	int flag, mode;
-	struct proc *p;
+wsdisplayopen(dev_t dev, int flag, int mode, struct proc *p)
 {
 	struct wsdisplay_softc *sc;
 	struct tty *tp;
@@ -791,8 +760,7 @@ wsdisplayopen(dev, flag, mode, p)
 
 	if (WSDISPLAYSCREEN(dev) >= WSDISPLAY_MAXSCREEN)
 		return (ENXIO);
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
-	if (!scr)
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
 		return (ENXIO);
 
 	if (WSSCREEN_HAS_TTY(scr)) {
@@ -834,10 +802,7 @@ wsdisplayopen(dev, flag, mode, p)
 }
 
 int
-wsdisplayclose(dev, flag, mode, p)
-	dev_t dev;
-	int flag, mode;
-	struct proc *p;
+wsdisplayclose(dev_t dev, int flag, int mode, struct proc *p)
 {
 	struct wsdisplay_softc *sc;
 	struct tty *tp;
@@ -850,7 +815,8 @@ wsdisplayclose(dev, flag, mode, p)
 	if (ISWSDISPLAYCTL(dev))
 		return (0);
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (ENXIO);
 
 	if (WSSCREEN_HAS_TTY(scr)) {
 		if (scr->scr_hold_screen) {
@@ -883,25 +849,24 @@ wsdisplayclose(dev, flag, mode, p)
 	if (scr->scr_rawkbd) {
 		int kbmode = WSKBD_TRANSLATED;
 		(void) wsdisplay_internal_ioctl(sc, scr, WSKBDIO_SETMODE,
-						(caddr_t)&kbmode, 0, p);
+		    (caddr_t)&kbmode, 0, p);
 	}
 #endif
 
 	scr->scr_flags &= ~SCR_OPEN;
 
+#ifdef WSMOUSED_SUPPORT
 	/* remove the selection at logout */
 	if (Copybuffer)
 		bzero(Copybuffer, Copybuffer_size);
 	Paste_avail = 0;
+#endif
 
 	return (0);
 }
 
 int
-wsdisplayread(dev, uio, flag)
-	dev_t dev;
-	struct uio *uio;
-	int flag;
+wsdisplayread(dev_t dev, struct uio *uio, int flag)
 {
 	struct wsdisplay_softc *sc;
 	struct tty *tp;
@@ -914,7 +879,8 @@ wsdisplayread(dev, uio, flag)
 	if (ISWSDISPLAYCTL(dev))
 		return (0);
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (ENXIO);
 
 	if (!WSSCREEN_HAS_TTY(scr))
 		return (ENODEV);
@@ -924,10 +890,7 @@ wsdisplayread(dev, uio, flag)
 }
 
 int
-wsdisplaywrite(dev, uio, flag)
-	dev_t dev;
-	struct uio *uio;
-	int flag;
+wsdisplaywrite(dev_t dev, struct uio *uio, int flag)
 {
 	struct wsdisplay_softc *sc;
 	struct tty *tp;
@@ -940,7 +903,8 @@ wsdisplaywrite(dev, uio, flag)
 	if (ISWSDISPLAYCTL(dev))
 		return (0);
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (ENXIO);
 
 	if (!WSSCREEN_HAS_TTY(scr))
 		return (ENODEV);
@@ -950,8 +914,7 @@ wsdisplaywrite(dev, uio, flag)
 }
 
 struct tty *
-wsdisplaytty(dev)
-	dev_t dev;
+wsdisplaytty(dev_t dev)
 {
 	struct wsdisplay_softc *sc;
 	int unit;
@@ -963,18 +926,14 @@ wsdisplaytty(dev)
 	if (ISWSDISPLAYCTL(dev))
 		panic("wsdisplaytty() on ctl device");
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (NULL);
 
 	return (scr->scr_tty);
 }
 
 int
-wsdisplayioctl(dev, cmd, data, flag, p)
-	dev_t dev;
-	u_long cmd;
-	caddr_t data;
-	int flag;
-	struct proc *p;
+wsdisplayioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 {
 	struct wsdisplay_softc *sc;
 	struct tty *tp;
@@ -993,7 +952,8 @@ wsdisplayioctl(dev, cmd, data, flag, p)
 	if (ISWSDISPLAYCTL(dev))
 		return (wsdisplay_cfg_ioctl(sc, cmd, data, flag, p));
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (ENXIO);
 
 	if (WSSCREEN_HAS_TTY(scr)) {
 		tp = scr->scr_tty;
@@ -1022,28 +982,23 @@ wsdisplayioctl(dev, cmd, data, flag, p)
 }
 
 int
-wsdisplay_param(dev, cmd, dp)
-	struct device *dev;
-	u_long cmd;
-	struct wsdisplay_param *dp;
+wsdisplay_param(struct device *dev, u_long cmd, struct wsdisplay_param *dp)
 {
 	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)dev;
+
 	return ((*sc->sc_accessops->ioctl)(sc->sc_accesscookie, cmd,
-					   (caddr_t)dp, 0, NULL));
+	    (caddr_t)dp, 0, NULL));
 }
 
 int
-wsdisplay_internal_ioctl(sc, scr, cmd, data, flag, p)
-	struct wsdisplay_softc *sc;
-	struct wsscreen *scr;
-	u_long cmd;
-	caddr_t data;
-	int flag;
-	struct proc *p;
+wsdisplay_internal_ioctl(struct wsdisplay_softc *sc, struct wsscreen *scr,
+    u_long cmd, caddr_t data, int flag, struct proc *p)
 {
 	int error;
 
 #if NWSKBD > 0
+	struct wsevsrc *inp;
+
 #ifdef WSDISPLAY_COMPAT_RAWKBD
 	switch (cmd) {
 	    case WSKBDIO_SETMODE:
@@ -1055,7 +1010,10 @@ wsdisplay_internal_ioctl(sc, scr, cmd, data, flag, p)
 		return (0);
 	}
 #endif
-	error = wsmux_displayioctl(&sc->sc_muxdv->sc_dv, cmd, data, flag, p);
+	inp = sc->sc_input;
+	if (inp == NULL)
+		return (ENXIO);
+	error = wsevsrc_display_ioctl(inp, cmd, data, flag, p);
 	if (error >= 0)
 		return (error);
 #endif /* NWSKBD > 0 */
@@ -1086,27 +1044,35 @@ wsdisplay_internal_ioctl(sc, scr, cmd, data, flag, p)
 				((d == WSDISPLAYIO_MODE_DUMBFB) ?
 				    SCR_DUMBFB : 0);
 
+#ifdef WSMOUSED_SUPPORT
 			    /*
 			     * wsmoused cohabitation with X-Window support
 			     * X-Window is starting
 			     */
 			    wsmoused_release(sc);
+#endif
 
+#ifdef BURNER_SUPPORT
 			    /* disable the burner while X is running */
 			    if (sc->sc_burnout)
 				    timeout_del(&sc->sc_burner);
+#endif
 		    }
 		    else {
+#ifdef BURNER_SUPPORT
 			    /* reenable the burner after exiting from X */
 			    if (!sc->sc_burnman)
 				    wsdisplay_burn(sc, sc->sc_burnflags);
+#endif
 
+#ifdef WSMOUSED_SUPPORT
 			    /*
 			     * wsmoused cohabitation with X-Window support
 			     * X-Window is ending
 			     */
 
 			    wsmoused_wakeup(sc);
+#endif
 		    }
 	    } else if (d == WSDISPLAYIO_MODE_EMUL)
 		    return (EINVAL);
@@ -1129,6 +1095,7 @@ wsdisplay_internal_ioctl(sc, scr, cmd, data, flag, p)
 			    (scr->scr_dconf->wsemulcookie, WSEMUL_SYNCFONT);
 		return (error);
 #undef d
+#ifdef BURNER_SUPPORT
 	case WSDISPLAYIO_GVIDEO:
 		*(u_int *)data = !sc->sc_burnman;
 		break;
@@ -1176,11 +1143,13 @@ wsdisplay_internal_ioctl(sc, scr, cmd, data, flag, p)
 			if (!sc->sc_burnman) {
 				sc->sc_burnout = sc->sc_burnoutintvl;
 				/* reinit timeout if changed */
-				wsdisplay_burn(sc, sc->sc_burnflags);
+				if ((scr->scr_flags & SCR_GRAPHICS) == 0)
+					wsdisplay_burn(sc, sc->sc_burnflags);
 			}
 		}
 		return (error);
 #undef d
+#endif
 	case WSDISPLAYIO_GETSCREEN:
 		return (wsdisplay_getscreen(sc,
 		    (struct wsdisplay_addscreendata *)data));
@@ -1195,24 +1164,22 @@ wsdisplay_internal_ioctl(sc, scr, cmd, data, flag, p)
 }
 
 int
-wsdisplay_cfg_ioctl(sc, cmd, data, flag, p)
-	struct wsdisplay_softc *sc;
-	u_long cmd;
-	caddr_t data;
-	int flag;
-	struct proc *p;
+wsdisplay_cfg_ioctl(struct wsdisplay_softc *sc, u_long cmd, caddr_t data,
+    int flag, struct proc *p)
 {
 	int error;
 	void *buf;
 	size_t fontsz;
-#if defined(COMPAT_14) && NWSKBD > 0
-	struct wsmux_device wsmuxdata;
+#if NWSKBD > 0
+	struct wsevsrc *inp;
 #endif
 
 	switch (cmd) {
+#ifdef WSMOUSED_SUPPORT
 	case WSDISPLAYIO_WSMOUSED:
 		error = wsmoused(sc, cmd, data, flag, p);
 		return (error);
+#endif
 	case WSDISPLAYIO_ADDSCREEN:
 #define d ((struct wsdisplay_addscreendata *)data)
 		if ((error = wsdisplay_addscreen(sc, d->idx,
@@ -1265,43 +1232,19 @@ wsdisplay_cfg_ioctl(sc, cmd, data, flag, p)
 #undef d
 
 #if NWSKBD > 0
-#ifdef COMPAT_14
-	case _O_WSDISPLAYIO_SETKEYBOARD:
-#define d ((struct wsdisplay_kbddata *)data)
-		switch (d->op) {
-		case _O_WSDISPLAY_KBD_ADD:
-			if (d->idx == -1) {
-				d->idx = wskbd_pickfree();
-				if (d->idx == -1)
-					return (ENXIO);
-			}
-			wsmuxdata.type = WSMUX_KBD;
-			wsmuxdata.idx = d->idx;
-			return (wsmuxdoioctl(&sc->sc_muxdv->sc_dv,
-					     WSMUX_ADD_DEVICE,
-					     (caddr_t)&wsmuxdata, flag, p));
-		case _O_WSDISPLAY_KBD_DEL:
-			wsmuxdata.type = WSMUX_KBD;
-			wsmuxdata.idx = d->idx;
-			return (wsmuxdoioctl(&sc->sc_muxdv->sc_dv,
-					     WSMUX_REMOVE_DEVICE,
-					     (caddr_t)&wsmuxdata, flag, p));
-		default:
-			return (EINVAL);
-		}
-#undef d
-#endif
-
-	case WSMUX_ADD_DEVICE:
+	case WSMUXIO_ADD_DEVICE:
 #define d ((struct wsmux_device *)data)
 		if (d->idx == -1 && d->type == WSMUX_KBD)
 			d->idx = wskbd_pickfree();
 #undef d
 		/* fall into */
-	case WSMUX_INJECTEVENT:
-	case WSMUX_REMOVE_DEVICE:
-	case WSMUX_LIST_DEVICES:
-		return (wsmuxdoioctl(&sc->sc_muxdv->sc_dv, cmd, data, flag,p));
+	case WSMUXIO_INJECTEVENT:
+	case WSMUXIO_REMOVE_DEVICE:
+	case WSMUXIO_LIST_DEVICES:
+		inp = sc->sc_input;
+		if (inp == NULL)
+			return (ENXIO);
+		return (wsevsrc_ioctl(inp, cmd, data, flag,p));
 #endif /* NWSKBD > 0 */
 
 	}
@@ -1309,10 +1252,7 @@ wsdisplay_cfg_ioctl(sc, cmd, data, flag, p)
 }
 
 paddr_t
-wsdisplaymmap(dev, offset, prot)
-	dev_t dev;
-	off_t offset;
-	int prot;
+wsdisplaymmap(dev_t dev, off_t offset, int prot)
 {
 	struct wsdisplay_softc *sc = wsdisplay_cd.cd_devs[WSDISPLAYUNIT(dev)];
 	struct wsscreen *scr;
@@ -1320,7 +1260,8 @@ wsdisplaymmap(dev, offset, prot)
 	if (ISWSDISPLAYCTL(dev))
 		return (-1);
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (-1);
 
 	if (!(scr->scr_flags & SCR_GRAPHICS))
 		return (-1);
@@ -1330,10 +1271,7 @@ wsdisplaymmap(dev, offset, prot)
 }
 
 int
-wsdisplaypoll(dev, events, p)
-	dev_t dev;
-	int events;
-	struct proc *p;
+wsdisplaypoll(dev_t dev, int events, struct proc *p)
 {
 	struct wsdisplay_softc *sc = wsdisplay_cd.cd_devs[WSDISPLAYUNIT(dev)];
 	struct wsscreen *scr;
@@ -1341,18 +1279,17 @@ wsdisplaypoll(dev, events, p)
 	if (ISWSDISPLAYCTL(dev))
 		return (0);
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (ENXIO);
 
-	if (WSSCREEN_HAS_TTY(scr))
-		return (ttpoll(dev, events, p));
-	else
-		return (0);
+	if (!WSSCREEN_HAS_TTY(scr))
+		return (ENODEV);
+
+	return (ttpoll(dev, events, p));
 }
 
 int
-wsdisplaykqfilter(dev, kn)
-	dev_t dev;
-	struct knote *kn;
+wsdisplaykqfilter(dev_t dev, struct knote *kn)
 {
 	struct wsdisplay_softc *sc = wsdisplay_cd.cd_devs[WSDISPLAYUNIT(dev)];
 	struct wsscreen *scr;
@@ -1360,7 +1297,8 @@ wsdisplaykqfilter(dev, kn)
 	if (ISWSDISPLAYCTL(dev))
 		return (1);
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(dev)]) == NULL)
+		return (1);
 
 	if (WSSCREEN_HAS_TTY(scr))
 		return (ttkqfilter(dev, kn));
@@ -1369,8 +1307,7 @@ wsdisplaykqfilter(dev, kn)
 }
 
 void
-wsdisplaystart(tp)
-	struct tty *tp;
+wsdisplaystart(struct tty *tp)
 {
 	struct wsdisplay_softc *sc;
 	struct wsscreen *scr;
@@ -1390,7 +1327,10 @@ wsdisplaystart(tp)
 	if (tp->t_outq.c_cc == 0 && tp->t_wsel.si_selpid == 0)
 		goto low;
 
-	scr = sc->sc_scr[WSDISPLAYSCREEN(tp->t_dev)];
+	if ((scr = sc->sc_scr[WSDISPLAYSCREEN(tp->t_dev)]) == NULL) {
+		splx(s);
+		return;
+	}
 	if (scr->scr_hold_screen) {
 		tp->t_state |= TS_TIMEOUT;
 		splx(s);
@@ -1413,7 +1353,10 @@ wsdisplaystart(tp)
 
 	if (!(scr->scr_flags & SCR_GRAPHICS)) {
 		KASSERT(WSSCREEN_HAS_EMULATOR(scr));
+#ifdef BURNER_SUPPORT
 		wsdisplay_burn(sc, WSDISPLAY_BURN_OUTPUT);
+#endif
+#ifdef WSMOUSED_SUPPORT
 		if (scr == sc->sc_focus) {
 			if (IS_SEL_EXISTS(sc->sc_focus))
 				/* hide a potential selection */
@@ -1421,6 +1364,7 @@ wsdisplaystart(tp)
 			/* hide a potential mouse cursor */
 			mouse_hide(sc);
 		}
+#endif
 		(*scr->scr_dconf->wsemul->output)(scr->scr_dconf->wsemulcookie,
 		    buf, n, 0);
 	}
@@ -1431,7 +1375,9 @@ wsdisplaystart(tp)
 
 		if (!(scr->scr_flags & SCR_GRAPHICS)) {
 			KASSERT(WSSCREEN_HAS_EMULATOR(scr));
+#ifdef BURNER_SUPPORT
 			wsdisplay_burn(sc, WSDISPLAY_BURN_OUTPUT);
+#endif
 			(*scr->scr_dconf->wsemul->output)
 			    (scr->scr_dconf->wsemulcookie, buf, n, 0);
 		}
@@ -1440,13 +1386,14 @@ wsdisplaystart(tp)
 
 	s = spltty();
 	tp->t_state &= ~TS_BUSY;
-
-	tp->t_state |= TS_TIMEOUT;
-	timeout_add(&tp->t_rstrt_to, (hz > 128) ? (hz / 128) : 1);
-
+	/* Come back if there's more to do */
+	if (tp->t_outq.c_cc) {
+		tp->t_state |= TS_TIMEOUT;
+		timeout_add(&tp->t_rstrt_to, (hz > 128) ? (hz / 128) : 1);
+	}
 	if (tp->t_outq.c_cc <= tp->t_lowat) {
 low:
-		if (tp->t_state&TS_ASLEEP) {
+		if (tp->t_state & TS_ASLEEP) {
 			tp->t_state &= ~TS_ASLEEP;
 			wakeup((caddr_t)&tp->t_outq);
 		}
@@ -1456,9 +1403,7 @@ low:
 }
 
 int
-wsdisplaystop(tp, flag)
-	struct tty *tp;
-	int flag;
+wsdisplaystop(struct tty *tp, int flag)
 {
 	int s;
 
@@ -1473,9 +1418,7 @@ wsdisplaystop(tp, flag)
 
 /* Set line parameters. */
 int
-wsdisplayparam(tp, t)
-	struct tty *tp;
-	struct termios *t;
+wsdisplayparam(struct tty *tp, struct termios *t)
 {
 
 	tp->t_ispeed = t->c_ispeed;
@@ -1488,8 +1431,7 @@ wsdisplayparam(tp, t)
  * Callbacks for the emulation code.
  */
 void
-wsdisplay_emulbell(v)
-	void *v;
+wsdisplay_emulbell(void *v)
 {
 	struct wsscreen *scr = v;
 
@@ -1500,14 +1442,11 @@ wsdisplay_emulbell(v)
 		return;
 
 	(void) wsdisplay_internal_ioctl(scr->sc, scr, WSKBDIO_BELL, NULL,
-					FWRITE, NULL);
+	    FWRITE, NULL);
 }
 
 void
-wsdisplay_emulinput(v, data, count)
-	void *v;
-	const u_char *data;
-	u_int count;
+wsdisplay_emulinput(void *v, const u_char *data, u_int count)
 {
 	struct wsscreen *scr = v;
 	struct tty *tp;
@@ -1529,9 +1468,7 @@ wsdisplay_emulinput(v, data, count)
  * Calls from the keyboard interface.
  */
 void
-wsdisplay_kbdinput(dev, ks)
-	struct device *dev;
-	keysym_t ks;
+wsdisplay_kbdinput(struct device *dev, keysym_t ks)
 {
 	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)dev;
 	struct wsscreen *scr;
@@ -1560,35 +1497,40 @@ wsdisplay_kbdinput(dev, ks)
 
 #ifdef WSDISPLAY_COMPAT_RAWKBD
 int
-wsdisplay_update_rawkbd(sc, scr)
-	struct wsdisplay_softc *sc;
-	struct wsscreen *scr;
+wsdisplay_update_rawkbd(struct wsdisplay_softc *sc, struct wsscreen *scr)
 {
+#if NWSKBD > 0
 	int s, raw, data, error;
+	struct wsevsrc *inp;
+
 	s = spltty();
 
 	raw = (scr ? scr->scr_rawkbd : 0);
 
-	if (scr != sc->sc_focus ||
-	    sc->sc_rawkbd == raw) {
+	if (scr != sc->sc_focus || sc->sc_rawkbd == raw) {
 		splx(s);
 		return (0);
 	}
 
 	data = raw ? WSKBD_RAW : WSKBD_TRANSLATED;
-	error = wsmux_displayioctl(&sc->sc_muxdv->sc_dv, WSKBDIO_SETMODE,
-				   (caddr_t)&data, 0, 0);
+	inp = sc->sc_input;
+	if (inp == NULL) {
+		splx(s);
+		return (ENXIO);
+	}
+	error = wsevsrc_display_ioctl(inp, WSKBDIO_SETMODE, &data, 0, 0);
 	if (!error)
 		sc->sc_rawkbd = raw;
 	splx(s);
 	return (error);
+#else
+	return (0);
+#endif
 }
 #endif
 
 int
-wsdisplay_switch3(arg, error, waitok)
-	void *arg;
-	int error, waitok;
+wsdisplay_switch3(void *arg, int error, int waitok)
 {
 	struct wsdisplay_softc *sc = arg;
 	int no;
@@ -1617,7 +1559,7 @@ wsdisplay_switch3(arg, error, waitok)
 #ifdef WSDISPLAY_COMPAT_RAWKBD
 			wsdisplay_update_rawkbd(sc, 0);
 #endif
-		sc->sc_flags &= ~SC_SWITCHPENDING;
+			sc->sc_flags &= ~SC_SWITCHPENDING;
 			return (error);
 		}
 
@@ -1634,9 +1576,7 @@ wsdisplay_switch3(arg, error, waitok)
 }
 
 int
-wsdisplay_switch2(arg, error, waitok)
-	void *arg;
-	int error, waitok;
+wsdisplay_switch2(void *arg, int error, int waitok)
 {
 	struct wsdisplay_softc *sc = arg;
 	int no;
@@ -1682,7 +1622,8 @@ wsdisplay_switch2(arg, error, waitok)
 #define wsswitch_cb3 ((void (*)(void *, int, int))wsdisplay_switch3)
 	if (scr->scr_syncops) {
 		error = (*scr->scr_syncops->attach)(scr->scr_synccookie, waitok,
-	  sc->sc_isconsole && wsdisplay_cons_pollmode ? 0 : wsswitch_cb3, sc);
+		    sc->sc_isconsole && wsdisplay_cons_pollmode ?
+		      0 : wsswitch_cb3, sc);
 		if (error == EAGAIN) {
 			/* switch will be done asynchronously */
 			return (0);
@@ -1693,9 +1634,7 @@ wsdisplay_switch2(arg, error, waitok)
 }
 
 int
-wsdisplay_switch1(arg, error, waitok)
-	void *arg;
-	int error, waitok;
+wsdisplay_switch1(void *arg, int error, int waitok)
 {
 	struct wsdisplay_softc *sc = arg;
 	int no;
@@ -1730,9 +1669,8 @@ wsdisplay_switch1(arg, error, waitok)
 
 #define wsswitch_cb2 ((void (*)(void *, int, int))wsdisplay_switch2)
 	error = (*sc->sc_accessops->show_screen)(sc->sc_accesscookie,
-						 scr->scr_dconf->emulcookie,
-						 waitok,
-	  sc->sc_isconsole && wsdisplay_cons_pollmode ? 0 : wsswitch_cb2, sc);
+	    scr->scr_dconf->emulcookie, waitok,
+	    sc->sc_isconsole && wsdisplay_cons_pollmode ? 0 : wsswitch_cb2, sc);
 	if (error == EAGAIN) {
 		/* switch will be done asynchronously */
 		return (0);
@@ -1742,18 +1680,18 @@ wsdisplay_switch1(arg, error, waitok)
 }
 
 int
-wsdisplay_switch(dev, no, waitok)
-	struct device *dev;
-	int no, waitok;
+wsdisplay_switch(struct device *dev, int no, int waitok)
 {
 	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)dev;
 	int s, res = 0;
 	struct wsscreen *scr;
 
-
-	if (no != WSDISPLAY_NULLSCREEN &&
-	    (no < 0 || no >= WSDISPLAY_MAXSCREEN || !sc->sc_scr[no]))
-		return (ENXIO);
+	if (no != WSDISPLAY_NULLSCREEN) {
+		if (no < 0 || no >= WSDISPLAY_MAXSCREEN)
+			return (EINVAL);
+		if (sc->sc_scr[no] == NULL)
+			return (ENXIO);
+	}
 
 	s = spltty();
 
@@ -1781,6 +1719,7 @@ wsdisplay_switch(dev, no, waitok)
 		sc->sc_oldscreen = sc->sc_focusidx;
 
 
+#ifdef WSMOUSED_SUPPORT
 	/*
 	 *  wsmoused cohabitation with X-Window support
 	 *
@@ -1794,7 +1733,6 @@ wsdisplay_switch(dev, no, waitok)
 	 *  SCR_GRAPHICS when X-Window stops. In this case, the first of the
 	 *  three following 'if' statements is evaluated.
 	 *  We handle wsmoused(8) events the WSDISPLAYIO_SMODE ioctl.
-	 *
 	 */
 
 	if (!(scr->scr_flags & SCR_GRAPHICS) &&
@@ -1821,11 +1759,13 @@ wsdisplay_switch(dev, no, waitok)
 
 		wsmoused_wakeup(sc);
 	}
+#endif	/* WSMOUSED_SUPPORT */
 
 #define wsswitch_cb1 ((void (*)(void *, int, int))wsdisplay_switch1)
 	if (scr->scr_syncops) {
 		res = (*scr->scr_syncops->detach)(scr->scr_synccookie, waitok,
-	  sc->sc_isconsole && wsdisplay_cons_pollmode ? 0 : wsswitch_cb1, sc);
+		    sc->sc_isconsole && wsdisplay_cons_pollmode ?
+		      0 : wsswitch_cb1, sc);
 		if (res == EAGAIN) {
 			/* switch will be done asynchronously */
 			return (0);
@@ -1839,9 +1779,7 @@ wsdisplay_switch(dev, no, waitok)
 }
 
 void
-wsdisplay_reset(dev, op)
-	struct device *dev;
-	enum wsdisplay_resetops op;
+wsdisplay_reset(struct device *dev, enum wsdisplay_resetops op)
 {
 	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)dev;
 	struct wsscreen *scr;
@@ -1857,7 +1795,7 @@ wsdisplay_reset(dev, op)
 		if (!WSSCREEN_HAS_EMULATOR(scr))
 			break;
 		(*scr->scr_dconf->wsemul->reset)(scr->scr_dconf->wsemulcookie,
-						 WSEMUL_RESET);
+		    WSEMUL_RESET);
 		break;
 	case WSDISPLAY_RESETCLOSE:
 		wsdisplay_closescreen(sc, scr);
@@ -1869,10 +1807,8 @@ wsdisplay_reset(dev, op)
  * Interface for (external) VT switch / process synchronization code
  */
 int
-wsscreen_attach_sync(scr, ops, cookie)
-	struct wsscreen *scr;
-	const struct wscons_syncops *ops;
-	void *cookie;
+wsscreen_attach_sync(struct wsscreen *scr, const struct wscons_syncops *ops,
+    void *cookie)
 {
 	if (scr->scr_syncops) {
 		/*
@@ -1888,8 +1824,7 @@ wsscreen_attach_sync(scr, ops, cookie)
 }
 
 int
-wsscreen_detach_sync(scr)
-	struct wsscreen *scr;
+wsscreen_detach_sync(struct wsscreen *scr)
 {
 	if (!scr->scr_syncops)
 		return (EINVAL);
@@ -1898,10 +1833,9 @@ wsscreen_detach_sync(scr)
 }
 
 int
-wsscreen_lookup_sync(scr, ops, cookiep)
-	struct wsscreen *scr;
-	const struct wscons_syncops *ops; /* used as ID */
-	void **cookiep;
+wsscreen_lookup_sync(struct wsscreen *scr,
+    const struct wscons_syncops *ops, /* used as ID */
+    void **cookiep)
 {
 	if (!scr->scr_syncops || ops != scr->scr_syncops)
 		return (EINVAL);
@@ -1913,16 +1847,13 @@ wsscreen_lookup_sync(scr, ops, cookiep)
  * Interface to virtual screen stuff
  */
 int
-wsdisplay_maxscreenidx(sc)
-	struct wsdisplay_softc *sc;
+wsdisplay_maxscreenidx(struct wsdisplay_softc *sc)
 {
 	return (WSDISPLAY_MAXSCREEN - 1);
 }
 
 int
-wsdisplay_screenstate(sc, idx)
-	struct wsdisplay_softc *sc;
-	int idx;
+wsdisplay_screenstate(struct wsdisplay_softc *sc, int idx)
 {
 	if (idx < 0 || idx >= WSDISPLAY_MAXSCREEN)
 		return (EINVAL);
@@ -1932,16 +1863,13 @@ wsdisplay_screenstate(sc, idx)
 }
 
 int
-wsdisplay_getactivescreen(sc)
-	struct wsdisplay_softc *sc;
+wsdisplay_getactivescreen(struct wsdisplay_softc *sc)
 {
 	return (sc->sc_focus ? sc->sc_focusidx : WSDISPLAY_NULLSCREEN);
 }
 
 int
-wsscreen_switchwait(sc, no)
-	struct wsdisplay_softc *sc;
-	int no;
+wsscreen_switchwait(struct wsdisplay_softc *sc, int no)
 {
 	struct wsscreen *scr;
 	int s, res = 0;
@@ -1975,9 +1903,7 @@ wsscreen_switchwait(sc, no)
 }
 
 void
-wsdisplay_kbdholdscreen(dev, hold)
-	struct device *dev;
-	int hold;
+wsdisplay_kbdholdscreen(struct device *dev, int hold)
 {
 	struct wsdisplay_softc *sc = (struct wsdisplay_softc *)dev;
 	struct wsscreen *scr;
@@ -1993,15 +1919,23 @@ wsdisplay_kbdholdscreen(dev, hold)
 }
 
 #if NWSKBD > 0
-struct device *
-wsdisplay_set_console_kbd(kbddv)
-	struct device *kbddv;
+void
+wsdisplay_set_console_kbd(struct wsevsrc *src)
 {
-	if (!wsdisplay_console_device)
-		return (0);
-	if (wskbd_add_mux(kbddv->dv_unit, wsdisplay_console_device->sc_muxdv))
-		return (0);
-	return (&wsdisplay_console_device->sc_dv);
+	if (wsdisplay_console_device == NULL) {
+		src->me_dispdv = NULL;
+		return;
+	}
+#if NWSMUX > 0
+	if (wsmux_attach_sc((struct wsmux_softc *)
+			    wsdisplay_console_device->sc_input, src)) {
+		src->me_dispdv = NULL;
+		return;
+	}
+#else
+	wsdisplay_console_device->sc_input = src;
+#endif
+	src->me_dispdv = &wsdisplay_console_device->sc_dv;
 }
 #endif /* NWSKBD > 0 */
 
@@ -2009,9 +1943,7 @@ wsdisplay_set_console_kbd(kbddv)
  * Console interface.
  */
 void
-wsdisplay_cnputc(dev, i)
-	dev_t dev;
-	int i;
+wsdisplay_cnputc(dev_t dev, int i)
 {
 	struct wsscreen_internal *dc;
 	char c = i;
@@ -2020,38 +1952,35 @@ wsdisplay_cnputc(dev, i)
 		return;
 
 	if (wsdisplay_console_device != NULL &&
+	    (wsdisplay_console_device->sc_scr[0] != NULL) &&
 	    (wsdisplay_console_device->sc_scr[0]->scr_flags & SCR_GRAPHICS))
 		return;
 
 	dc = &wsdisplay_console_conf;
+#ifdef BURNER_SUPPORT
 	/*wsdisplay_burn(wsdisplay_console_device, WSDISPLAY_BURN_OUTPUT);*/
+#endif
 	(*dc->wsemul->output)(dc->wsemulcookie, &c, 1, 1);
 }
 
 int
-wsdisplay_getc_dummy(dev)
-	dev_t dev;
+wsdisplay_getc_dummy(dev_t dev)
 {
 	/* panic? */
 	return (0);
 }
 
 void
-wsdisplay_pollc(dev, on)
-	dev_t dev;
-	int on;
+wsdisplay_pollc(dev_t dev, int on)
 {
-	struct wsdisplay_softc *sc = NULL;
-	int unit = WSDISPLAYUNIT(dev);
-
-	if (unit < wsdisplay_cd.cd_ndevs)
-		sc = wsdisplay_cd.cd_devs[unit];
 
 	wsdisplay_cons_pollmode = on;
 
 	/* notify to fb drivers */
-	if (sc != NULL && sc->sc_accessops->pollc != NULL)
-		(*sc->sc_accessops->pollc)(sc->sc_accesscookie, on);
+	if (wsdisplay_console_device != NULL &&
+	    wsdisplay_console_device->sc_accessops->pollc != NULL)
+		(*wsdisplay_console_device->sc_accessops->pollc)
+		    (wsdisplay_console_device->sc_accesscookie, on);
 
 	/* notify to kbd drivers */
 	if (wsdisplay_cons_kbd_pollc)
@@ -2059,10 +1988,8 @@ wsdisplay_pollc(dev, on)
 }
 
 void
-wsdisplay_set_cons_kbd(get, poll, bell)
-	int (*get)(dev_t);
-	void (*poll)(dev_t, int);
-	void (*bell)(dev_t, u_int, u_int, u_int);
+wsdisplay_set_cons_kbd(int (*get)(dev_t), void (*poll)(dev_t, int),
+    void (*bell)(dev_t, u_int, u_int, u_int))
 {
 	wsdisplay_cons.cn_getc = get;
 	wsdisplay_cons.cn_bell = bell;
@@ -2088,16 +2015,16 @@ wsdisplay_switchtoconsole()
 
 	if (wsdisplay_console_device != NULL) {
 		sc = wsdisplay_console_device;
-		scr = sc->sc_scr[0];
+		if ((scr = sc->sc_scr[0]) == NULL)
+			return;
 		(*sc->sc_accessops->show_screen)(sc->sc_accesscookie,
 		    scr->scr_dconf->emulcookie, 0, NULL, NULL);
 	}
 }
 
+#ifdef SCROLLBACK_SUPPORT
 void
-wsscrollback(arg, op)
-	void *arg;
-	int op;
+wsscrollback(void *arg, int op)
 {
 	struct wsdisplay_softc *sc = arg;
 	int lines;
@@ -2115,11 +2042,11 @@ wsscrollback(arg, op)
 		    sc->sc_focus->scr_dconf->emulcookie, lines);
 	}
 }
+#endif
 
+#ifdef BURNER_SUPPORT
 void
-wsdisplay_burn(v, flags)
-	void *v;
-	u_int flags;
+wsdisplay_burn(void *v, u_int flags)
 {
 	struct wsdisplay_softc *sc = v;
 
@@ -2134,8 +2061,7 @@ wsdisplay_burn(v, flags)
 }
 
 void
-wsdisplay_burner(v)
-	void *v;
+wsdisplay_burner(void *v)
 {
 	struct wsdisplay_softc *sc = v;
 	int s;
@@ -2153,21 +2079,21 @@ wsdisplay_burner(v)
 		splx(s);
 	}
 }
+#endif
 
 /*
  * Switch the console at shutdown.
  */
 void
-wsdisplay_shutdownhook(arg)
-	void *arg;
+wsdisplay_shutdownhook(void *arg)
 {
 	wsdisplay_switchtoconsole();
 }
 
+#ifdef WSMOUSED_SUPPORT
 /*
  * wsmoused(8) support functions
  */
-
 
 /* pointer to the current screen wsdisplay_softc structure */
 static struct wsdisplay_softc *sc = NULL;
@@ -2177,7 +2103,7 @@ static struct wsdisplay_softc *sc = NULL;
  */
 int
 wsmoused(struct wsdisplay_softc *ws_sc, u_long cmd, caddr_t data,
-		int flag, struct proc *p)
+    int flag, struct proc *p)
 {
 	int error = -1;
 	struct wscons_event mouse_event = *(struct wscons_event *)data;
@@ -2530,7 +2456,8 @@ static const int charClass[256] = {
 /*   d   n~   o`   o'   o^   o~   o:   -: */
     48,  48,  48,  48,  48,  48,  48,  248,
 /*  o/   u`   u'   u^   u:   y'    P   y: */
-    48,  48,  48,  48,  48,  48,  48,  48};
+    48,  48,  48,  48,  48,  48,  48,  48
+};
 
 /*
  * Find the first blank beginning after the current cursor position
@@ -3153,8 +3080,6 @@ mouse_remove(struct wsdisplay_softc *sc)
 	mouse_hide(sc);
 }
 
-
-
 /* Send a wscons event to notify wsmoused(8) to release the mouse device */
 void
 wsmoused_release(struct wsdisplay_softc *sc)
@@ -3229,3 +3154,4 @@ wsmoused_wakeup(struct wsdisplay_softc *sc)
 	}
 #endif /* NWSMOUSE > 0 */
 }
+#endif /* WSMOUSED_SUPPORT */
