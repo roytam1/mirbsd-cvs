@@ -370,6 +370,7 @@ wsmux_do_ioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
 	int s, put, get, n;
 	struct wseventvar *evar;
 	struct wscons_event *ev;
+	struct timeval xxxtime;
 	struct wsmux_device_list *l;
 
 	DPRINTF(("wsmux_do_ioctl: %s: enter sc=%p, cmd=%08lx\n",
