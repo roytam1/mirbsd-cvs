@@ -154,7 +154,6 @@ void fxp_scb_wait(struct fxp_softc *);
 void fxp_start(struct ifnet *);
 int fxp_ioctl(struct ifnet *, u_long, caddr_t);
 void fxp_init(void *);
-void fxp_load_ucode(struct fxp_softc *);
 void fxp_stop(struct fxp_softc *, int);
 void fxp_watchdog(struct ifnet *);
 int fxp_add_rfabuf(struct fxp_softc *, struct mbuf *);
@@ -1224,9 +1223,6 @@ fxp_init(xsc)
 	CSR_WRITE_4(sc, FXP_CSR_SCB_GENERAL, 0);
 	fxp_scb_cmd(sc, FXP_SCB_COMMAND_RU_BASE);
 
-#ifndef SMALL_KERNEL
-	fxp_load_ucode(sc);
-#endif
 	/* Once through to set flags */
 	fxp_mc_setup(sc, 0);
 
@@ -1821,110 +1817,3 @@ fxp_mc_setup(sc, doit)
 		FXP_MCS_SYNC(sc, BUS_DMASYNC_POSTREAD|BUS_DMASYNC_POSTWRITE);
 	} while (!(mcsp->cb_status & htole16(FXP_CB_STATUS_C)));
 }
-
-#ifndef SMALL_KERNEL
-#include <dev/microcode/fxp/rcvbundl.h>
-struct ucode {
-	u_int16_t	revision;
-	u_int16_t	int_delay_offset;
-	u_int16_t	bundle_max_offset;
-	const char	*uname;
-} const ucode_table[] = {
-	{ FXP_REV_82558_A4, D101_CPUSAVER_DWORD, 0, "fxp-d101a" }, 
-
-	{ FXP_REV_82558_B0, D101_CPUSAVER_DWORD, 0, "fxp-d101b0" },
-
-	{ FXP_REV_82559_A0, D101M_CPUSAVER_DWORD, 
-	    D101M_CPUSAVER_BUNDLE_MAX_DWORD, "fxp-d101ma" },
-
-	{ FXP_REV_82559S_A, D101S_CPUSAVER_DWORD,
-	    D101S_CPUSAVER_BUNDLE_MAX_DWORD, "fxp-d101s" },
-
-	{ FXP_REV_82550, D102_B_CPUSAVER_DWORD,
-	    D102_B_CPUSAVER_BUNDLE_MAX_DWORD, "fxp-d102" },
-
-	{ FXP_REV_82550_C, D102_C_CPUSAVER_DWORD,
-	    D102_C_CPUSAVER_BUNDLE_MAX_DWORD, "fxp-d102c" },
-
-	{ FXP_REV_82551_F, D102_E_CPUSAVER_DWORD,
-	    D102_E_CPUSAVER_BUNDLE_MAX_DWORD, "fxp-d102e" },
-	
-	{ 0, 0, 0, NULL }
-};
-
-void
-fxp_load_ucode(struct fxp_softc *sc)
-{
-	const struct ucode *uc;
-	struct fxp_cb_ucode *cbp = &sc->sc_ctrl->u.code;
-	int i, error;
-	u_int32_t *ucode_buf;
-	size_t ucode_len;
-
-	if (sc->sc_flags & FXPF_UCODE)
-		return;
-
-	for (uc = ucode_table; uc->revision != 0; uc++)
-		if (sc->sc_revision == uc->revision)
-			break;
-	if (uc->revision == NULL)
-		return;	/* no ucode for this chip is found */
-
-	error = loadfirmware(uc->uname, (u_char **)&ucode_buf, &ucode_len);
-	if (error) {
-		printf("%s: failed loadfirmware of file %s: errno %d\n",
-		    sc->sc_dev.dv_xname, uc->uname, error);
-		sc->sc_flags |= FXPF_UCODE;
-		return;
-	}
-
-	cbp->cb_status = 0;
-	cbp->cb_command = htole16(FXP_CB_COMMAND_UCODE|FXP_CB_COMMAND_EL);
-	cbp->link_addr = 0xffffffff;	/* (no) next command */
-	for (i = 0; i < (ucode_len / sizeof(u_int32_t)); i++)
-		cbp->ucode[i] = ucode_buf[i];
-
-	if (uc->int_delay_offset)
-		*((u_int16_t *)&cbp->ucode[uc->int_delay_offset]) =
-			htole16(sc->sc_int_delay + sc->sc_int_delay / 2);
-
-	if (uc->bundle_max_offset)
-		*((u_int16_t *)&cbp->ucode[uc->bundle_max_offset]) =
-			htole16(sc->sc_bundle_max);
-
-	FXP_UCODE_SYNC(sc, BUS_DMASYNC_PREREAD|BUS_DMASYNC_PREWRITE);
-
-	/*
-	 * Download the ucode to the chip.
-	 */
-	fxp_scb_wait(sc);
-	CSR_WRITE_4(sc, FXP_CSR_SCB_GENERAL, sc->tx_cb_map->dm_segs->ds_addr
-	      + offsetof(struct fxp_ctrl, u.code));
-	fxp_scb_cmd(sc, FXP_SCB_COMMAND_CU_START);
-
-	/* ...and wait for it to complete. */
-	i = 10000;
-	do {
-		DELAY(2);
-		FXP_UCODE_SYNC(sc, BUS_DMASYNC_POSTREAD|BUS_DMASYNC_POSTWRITE);
-	} while (((cbp->cb_status & htole16(FXP_CB_STATUS_C)) == 0) && --i);
-	if (i == 0) {
-		printf("%s: timeout loading microcode\n", sc->sc_dev.dv_xname);
-		free(ucode_buf, M_DEVBUF);
-		return;
-	}
-
-#ifdef DEBUG
-	printf("%s: microcode loaded, int_delay: %d usec",
-	    sc->sc_dev.dv_xname, sc->sc_int_delay);
-
-	if (uc->bundle_max_offset)
-		printf(", bundle_max %d\n", sc->sc_bundle_max);
-	else
-		printf("\n");
-#endif
-
-	free(ucode_buf, M_DEVBUF);
-	sc->sc_flags |= FXPF_UCODE;
-}
-#endif /* SMALL_KERNEL */

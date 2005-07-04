@@ -729,15 +729,15 @@ usb_add_event(int type, struct usb_event *uep)
 {
 	struct usb_event_q *ueq;
 	struct usb_event ue;
-	struct timespec thetime;
+	struct timeval thetime;
 	int s;
 
-	nanotime(&thetime);
+	microtime(&thetime);
 	/* Don't want to wait here inside splusb() */
 	ueq = malloc(sizeof *ueq, M_USBDEV, M_WAITOK);
 	ueq->ue = *uep;
 	ueq->ue.ue_type = type;
-	ueq->ue.ue_time = thetime;
+	TIMEVAL_TO_TIMESPEC(&thetime, &ueq->ue.ue_time);
 
 	s = splusb();
 	if (++usb_nevents >= USB_MAX_EVENTS) {
