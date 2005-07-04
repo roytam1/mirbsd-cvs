@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_tun.c,v 1.64 2004/11/11 10:42:04 mpf Exp $	*/
+/*	$OpenBSD: if_tun.c,v 1.68 2005/06/08 06:53:32 henning Exp $	*/
 /*	$NetBSD: if_tun.c,v 1.24 1996/05/07 02:40:48 thorpej Exp $	*/
 
 /*
@@ -69,11 +69,6 @@
 #include <netinet/in_var.h>
 #include <netinet/ip.h>
 #include <netinet/if_ether.h>
-#endif
-
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
 #endif
 
 #ifdef IPX
@@ -330,9 +325,10 @@ tunopen(dev_t dev, int flag, int mode, struct proc *p)
 	ifp = &tp->tun_if;
 	tp->tun_flags |= TUN_OPEN;
 
-	/* automaticaly UP the interface on open */
+	/* automatically UP the interface on open */
 	s = splimp();
 	if_up(ifp);
+	ifp->if_flags |= IFF_RUNNING;
 	splx(s);
 
 	TUNDEBUG(("%s: open\n", ifp->if_xname));
@@ -891,12 +887,6 @@ tunwrite(dev_t dev, struct uio *uio, int ioflag)
 	case AF_INET6:
 		ifq = &ip6intrq;
 		isr = NETISR_IPV6;
-		break;
-#endif
-#ifdef NS
-	case AF_NS:
-		ifq = &nsintrq;
-		isr = NETISR_NS;
 		break;
 #endif
 #ifdef IPX
