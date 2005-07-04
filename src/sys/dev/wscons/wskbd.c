@@ -581,6 +581,7 @@ void
 wskbd_input(struct device *dev, u_int type, int value)
 {
 	struct wskbd_softc *sc = (struct wskbd_softc *)dev; 
+	struct timeval xxxtime;
 #if NWSDISPLAY > 0
 	int num, i;
 #endif
