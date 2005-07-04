@@ -127,6 +127,7 @@
 #include <dev/usb/usbdevs.h>
 
 #include <dev/usb/if_kuereg.h>
+#include <dev/microcode/kue/kue_fw.h>
 #include <dev/usb/if_kuevar.h>
 
 #ifdef KUE_DEBUG
@@ -245,7 +246,6 @@ kue_load_fw(struct kue_softc *sc)
 {
 	usb_device_descriptor_t dd;
 	usbd_status		err;
-	struct kue_firmware	*fw;
 	u_char			*buf;
 	size_t			buflen;
 
@@ -273,14 +273,6 @@ kue_load_fw(struct kue_softc *sc)
 		return (0);
 	}
 
-	err = loadfirmware("kue", &buf, &buflen);
-	if (err) {
-		printf("%s: failed loadfirmware of file %s: errno %d\n",
-		    USBDEVNAME(sc->kue_dev), "kue", err);
-		return (err);
-	}
-	fw = (struct kue_firmware *)buf;
-
 	printf("%s: cold boot, downloading firmware\n",
 	       USBDEVNAME(sc->kue_dev));
 
@@ -288,7 +280,7 @@ kue_load_fw(struct kue_softc *sc)
 	DPRINTFN(1,("%s: kue_load_fw: download code_seg\n",
 		    USBDEVNAME(sc->kue_dev)));
 	err = kue_ctl(sc, KUE_CTL_WRITE, KUE_CMD_SEND_SCAN,
-	    0, (void *)&fw->data[0], fw->codeseglen);
+	    0, (void *)kue_code_seg, sizeof(kue_code_seg));
 	if (err) {
 		printf("%s: failed to load code segment: %s\n",
 		    USBDEVNAME(sc->kue_dev), usbd_errstr(err));
@@ -300,7 +292,7 @@ kue_load_fw(struct kue_softc *sc)
 	DPRINTFN(1,("%s: kue_load_fw: download fix_seg\n",
 		    USBDEVNAME(sc->kue_dev)));
 	err = kue_ctl(sc, KUE_CTL_WRITE, KUE_CMD_SEND_SCAN,
-	    0, (void *)&fw->data[fw->codeseglen], fw->fixseglen);
+	    0, (void *)kue_fix_seg, sizeof(kue_fix_seg));
 	if (err) {
 		printf("%s: failed to load fixup segment: %s\n",
 		    USBDEVNAME(sc->kue_dev), usbd_errstr(err));
@@ -312,8 +304,7 @@ kue_load_fw(struct kue_softc *sc)
 	DPRINTFN(1,("%s: kue_load_fw: download trig_seg\n",
 		    USBDEVNAME(sc->kue_dev)));
 	err = kue_ctl(sc, KUE_CTL_WRITE, KUE_CMD_SEND_SCAN,
-	    0, (void *)&fw->data[fw->codeseglen + fw->fixseglen],
-	    fw->trigseglen);
+	    0, (void *)kue_trig_seg, sizeof(kue_trig_seg));
 	if (err) {
 		printf("%s: failed to load trigger segment: %s\n",
 		    USBDEVNAME(sc->kue_dev), usbd_errstr(err));
@@ -561,9 +552,6 @@ USB_ATTACH(kue)
 	sc->kue_product = uaa->product;
 	sc->kue_vendor = uaa->vendor;
 
-	if (rootvp == NULL)
-		mountroothook_establish(kue_attachhook, sc);
-	else
 		kue_attachhook(sc);
 
 	usbd_add_drv_event(USB_EVENT_DRIVER_ATTACH, sc->kue_udev,
