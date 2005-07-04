@@ -1,4 +1,4 @@
-/*	$OpenBSD: bktr_card.h,v 1.3 2004/02/25 08:42:38 jmc Exp $	*/
+/*	$OpenBSD: bktr_card.h,v 1.6 2005/02/24 20:23:39 mickey Exp $	*/
 /* $FreeBSD: src/sys/dev/bktr/bktr_card.h,v 1.4 2000/06/26 09:41:31 roger Exp $ */
 
 /*
@@ -77,7 +77,11 @@
 #define CARD_ASKEY_DYNALINK_MAGIC_TVIEW	14
 #define CARD_LEADTEK		15
 #define CARD_TERRATVPLUS	16
-#define Bt848_MAX_CARD		17
+#define CARD_TVWONDER		17
+#define CARD_IO_BCTV3		18
+#define CARD_AOPEN_VA1000	19
+#define CARD_ZOLTRIX_GENIE_FM	20
+#define Bt848_MAX_CARD		21
 
 
 int	signCard( bktr_ptr_t bktr, int offset, int count, u_char *sig );
