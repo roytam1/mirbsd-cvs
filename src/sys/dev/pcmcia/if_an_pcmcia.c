@@ -143,8 +143,7 @@ an_pcmcia_detach(dev, flags)
 {
 	struct an_pcmcia_softc *psc = (struct an_pcmcia_softc *)dev;
 	struct an_softc *sc = (struct an_softc *)dev;
-	struct ieee80211com	*ic = &sc->sc_ic;
-	struct ifnet		*ifp = &ic->ic_if;
+	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
 
 	if (sc->an_gone) {
 		printf ("%s: already detached\n", sc->sc_dev.dv_xname);
@@ -172,8 +171,7 @@ an_pcmcia_activate(dev, act)
 {
 	struct an_pcmcia_softc *psc = (struct an_pcmcia_softc *)dev;
 	struct an_softc *sc = &psc->sc_an;
-	struct ieee80211com	*ic = &sc->sc_ic;
-	struct ifnet		*ifp = &ic->ic_if;
+	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
 	int s;
 
 	s = splnet();
