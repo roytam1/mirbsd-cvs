@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/Makefile.i386,v 1.4 2005/05/04 21:58:37 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/Makefile.i386,v 1.5 2005/05/04 22:01:08 tg Exp $
 # $OpenBSD: Makefile.i386,v 1.40 2004/05/11 04:01:00 deraadt Exp $
 
 # Makefile for MirOS BSD and derived operating environments
@@ -160,7 +160,7 @@ install:
 		exit 1; \
 	else \
 		set -x; \
-		${SUDO} install -c -o root -g daemon -m 400 bsd /; \
+		install -c -o root -g daemon -m 400 bsd /; \
 	fi
 
 clean::
