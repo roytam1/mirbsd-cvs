@@ -87,8 +87,7 @@
 #include <netinet/if_ether.h>
 #endif
 
-#include <net80211/ieee80211.h>
-#include <net80211/ieee80211_ioctl.h>
+#include <net/if_ieee80211.h>	/* here, since ETHER_ADDR_LEN is in netinet */
 
 #if NBPFILTER > 0
 #include <net/bpf.h>
