@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_sisreg.h,v 1.16 2004/04/26 05:16:41 deraadt Exp $ */
+/*	$OpenBSD: if_sisreg.h,v 1.21 2005/05/22 05:40:52 brad Exp $ */
 /*
  * Copyright (c) 1997, 1998, 1999
  *	Bill Paul <wpaul@ee.columbia.edu>.  All rights reserved.
@@ -121,11 +121,18 @@
 #define SIS_CFG_OUTOFWIN_TIMER	0x00000020
 #define SIS_CFG_SINGLE_BACKOFF	0x00000040
 #define SIS_CFG_PCIREQ_ALG	0x00000080
+#define SIS_CFG_FAIR_BACKOFF	0x00000200 /* 635 & 900B Specific */
+#define SIS_CFG_RND_CNT		0x00000400 /* 635 & 900B Specific */
+#define SIS_CFG_EDB_MASTER_EN	0x00002000
 
 #define SIS_EECTL_DIN		0x00000001
 #define SIS_EECTL_DOUT		0x00000002
 #define SIS_EECTL_CLK		0x00000004
 #define SIS_EECTL_CSEL		0x00000008
+
+#define SIS96x_EECTL_GNT	0x00000100
+#define SIS96x_EECTL_DONE	0x00000200
+#define SIS96x_EECTL_REQ	0x00000400
 
 #define	SIS_MII_CLK		0x00000040
 #define	SIS_MII_DIR		0x00000020
@@ -214,6 +221,7 @@
 
 #define SIS_TXCFG_DRAIN_THRESH	0x0000003F /* 32-byte units */
 #define SIS_TXCFG_FILL_THRESH	0x00003F00 /* 32-byte units */
+#define SIS_TXCFG_MPII03D	0x00040000 /* "Must be 1" */
 #define SIS_TXCFG_DMABURST	0x00700000
 #define SIS_TXCFG_AUTOPAD	0x10000000
 #define SIS_TXCFG_LOOPBK	0x20000000
@@ -234,11 +242,11 @@
 
 #define SIS_TXCFG_100	\
 	(SIS_TXDMA_64BYTES|SIS_TXCFG_AUTOPAD|\
-	 SIS_TXCFG_FILL(64)|SIS_TXCFG_DRAIN(1536))
+	 SIS_TXCFG_FILL(ETHER_MIN_LEN)|SIS_TXCFG_DRAIN(ETHER_MAX_DIX_LEN))
 
 #define SIS_TXCFG_10	\
 	(SIS_TXDMA_32BYTES|SIS_TXCFG_AUTOPAD|\
-	 SIS_TXCFG_FILL(64)|SIS_TXCFG_DRAIN(1536))
+	 SIS_TXCFG_FILL(ETHER_MIN_LEN)|SIS_TXCFG_DRAIN(ETHER_MAX_DIX_LEN))
 
 #define SIS_RXCFG_DRAIN_THRESH	0x0000003E /* 8-byte units */
 #define SIS_RXCFG_DMABURST	0x00700000
@@ -258,8 +266,10 @@
 #define SIS_RXDMA_128BYTES	0x00600000
 #define SIS_RXDMA_256BYTES	0x00700000
 
-#define SIS_RXCFG \
+#define SIS_RXCFG256 \
 	(SIS_RXCFG_DRAIN(64)|SIS_RXDMA_256BYTES)
+#define SIS_RXCFG64 \
+	(SIS_RXCFG_DRAIN(64)|SIS_RXDMA_64BYTES)
 
 #define SIS_RXFILTCTL_ADDR	0x000F0000
 #define NS_RXFILTCTL_MCHASH	0x00200000
@@ -380,11 +390,14 @@ struct sis_ring_data {
 /*
  * SiS 900 PCI revision codes.
  */
+#define SIS_REV_900B		0x0003
+#define SIS_REV_630A		0x0080
 #define SIS_REV_630E		0x0081
 #define SIS_REV_630S		0x0082
 #define SIS_REV_630EA1		0x0083
 #define SIS_REV_630ET		0x0084
 #define SIS_REV_635		0x0090
+#define SIS_REV_96x		0x0091
 
 struct sis_type {
 	u_int16_t		sis_vid;
@@ -448,8 +461,6 @@ struct sis_softc {
 	bus_space_read_4(sc->sis_btag, sc->sis_bhandle, reg)
 
 #define SIS_TIMEOUT		1000
-#define ETHER_ALIGN		2
-#define SIS_RXLEN		1536
 #define SIS_MIN_FRAMELEN	60
 
 /*
