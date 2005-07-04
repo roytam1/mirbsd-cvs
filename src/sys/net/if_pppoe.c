@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/net/if_pppoe.c,v 1.2 2005/07/04 01:33:54 tg Exp $ */
 /* $OpenBSD: if_pppoe.c,v 1.4 2005/06/07 05:10:57 canacar Exp $ */
 /* $NetBSD: if_pppoe.c,v 1.51 2003/11/28 08:56:48 keihan Exp $ */
 
@@ -928,11 +928,19 @@ pppoe_ioctl(struct ifnet *ifp, unsigned long cmd, caddr_t data)
 	case SIOCSIFFLAGS:
 	{
 		struct ifreq *ifr = (struct ifreq *)data;
+		struct pppoe_softc *sc1;
 
 		if ((ifr->ifr_flags & IFF_LINK2) != 0)
 			term_unknown = 1;
 		else
 			term_unknown = 0;
+
+		LIST_FOREACH(sc1, &pppoe_softc_list, sc_list) {
+			if (term_unknown)
+				sc1->sc_sppp.pp_if.if_flags |= IFF_LINK2;
+			else
+				sc1->sc_sppp.pp_if.if_flags &= ~IFF_LINK2;
+		}
 
 		/*
 		 * Prevent running re-establishment timers overriding
