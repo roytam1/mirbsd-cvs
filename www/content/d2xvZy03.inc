@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.67 2005/06/22 16:15:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.68 2005/06/26 18:29:44 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2954,4 +2954,10 @@
 <p>26.06.2005 by tg@<br />LinuxTag is over, but the strain isn't. Some new
  users, but less sales than ever. And lots of stuff todo. We will probably
  appear on TV.</p>
+<p>03.07.2005 + 6 hours, by tg@<br />Next to shifting off MirLibtool diffs
+ into GNU Libtool, we also have (probably) USB 2 support and a much faster
+ system (overall and console) tonight. I have merged about everything from
+ the OpenBSD-current kernel which I found easily doable (just another hack
+ session without counting the hours, for my amateurish Frankenstein OS) or
+ even needed. The userland portions will follow later.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
