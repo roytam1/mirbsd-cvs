@@ -1,4 +1,4 @@
-/*	$OpenBSD: route.h,v 1.21 2004/05/04 22:50:18 claudio Exp $	*/
+/*	$OpenBSD: route.h,v 1.31 2005/06/25 19:25:06 henning Exp $	*/
 /*	$NetBSD: route.h,v 1.9 1996/02/13 22:00:49 christos Exp $	*/
 
 /*
@@ -116,22 +116,9 @@ struct rtentry {
 	struct	rtentry *rt_gwroute;	/* implied entry for gatewayed routes */
 	struct	rtentry *rt_parent;	/* If cloned, parent of this route. */
 	LIST_HEAD(, rttimer) rt_timer;  /* queue of timeouts for misc funcs */
+	u_int16_t rt_labelid;		/* route label ID */
 };
 #define	rt_use	rt_rmx.rmx_pksent
-
-/*
- * Following structure necessary for 4.3 compatibility;
- * We should eventually move it to a compat file.
- */
-struct ortentry {
-	u_int32_t rt_hash;		/* to speed lookups */
-	struct sockaddr rt_dst;		/* key */
-	struct sockaddr rt_gateway;	/* value */
-	int16_t	  rt_flags;		/* up/down?, host/net */
-	int16_t	  rt_refcnt;		/* # held references */
-	u_int32_t rt_ouse;		/* raw # packets forwarded (was: rt_use) */
-	struct ifnet *rt_ifp;		/* the answer: interface to use */
-};
 
 #define	RTF_UP		0x1		/* route usable */
 #define	RTF_GATEWAY	0x2		/* destination is a gateway */
@@ -150,6 +137,9 @@ struct ortentry {
 #define RTF_PROTO2	0x4000		/* protocol specific routing flag */
 #define RTF_PROTO1	0x8000		/* protocol specific routing flag */
 #define RTF_CLONED	0x10000		/* this is a cloned route */
+#define RTF_SOURCE	0x20000		/* this route has a source selector */
+#define RTF_MPATH	0x40000		/* multipath route or operation */
+#define RTF_JUMBO	0x80000		/* try to use jumbo frames */
 
 #ifndef _KERNEL
 /* obsoleted */
@@ -181,6 +171,7 @@ struct rt_msghdr {
 	int	rtm_seq;	/* for sender to identify action */
 	int	rtm_errno;	/* why failed */
 	int	rtm_use;	/* from rtentry */
+#define rtm_fmask	rtm_use	/* bitmask used in RTM_CHANGE message */
 	u_long	rtm_inits;	/* which metrics we are initializing */
 	struct	rt_metrics rtm_rmx; /* metrics themselves */
 };
@@ -195,8 +186,6 @@ struct rt_msghdr {
 #define RTM_REDIRECT	0x6	/* Told to use different route */
 #define RTM_MISS	0x7	/* Lookup failed on this address */
 #define RTM_LOCK	0x8	/* fix specified metrics */
-#define RTM_OLDADD	0x9	/* caused by SIOCADDRT */
-#define RTM_OLDDEL	0xa	/* caused by SIOCDELRT */
 #define RTM_RESOLVE	0xb	/* req to resolve dst to LL addr */
 #define RTM_NEWADDR	0xc	/* address being added to iface */
 #define RTM_DELADDR	0xd	/* address being removed from iface */
@@ -223,6 +212,9 @@ struct rt_msghdr {
 #define RTA_IFA		0x20	/* interface addr sockaddr present */
 #define RTA_AUTHOR	0x40	/* sockaddr for author of redirect */
 #define RTA_BRD		0x80	/* for NEWADDR, broadcast or p-p dest addr */
+#define RTA_SRC		0x100	/* source sockaddr present */
+#define RTA_SRCMASK	0x200	/* source netmask present */
+#define	RTA_LABEL	0x400	/* route label present */
 
 /*
  * Index offsets for sockaddr array for alternate internal encoding.
@@ -235,7 +227,10 @@ struct rt_msghdr {
 #define RTAX_IFA	5	/* interface addr sockaddr present */
 #define RTAX_AUTHOR	6	/* sockaddr for author of redirect */
 #define RTAX_BRD	7	/* for NEWADDR, broadcast or p-p dest addr */
-#define RTAX_MAX	8	/* size of array to allocate */
+#define RTAX_SRC	8	/* source sockaddr present */
+#define RTAX_SRCMASK	9	/* source netmask present */
+#define RTAX_LABEL	10	/* route label present */
+#define RTAX_MAX	11	/* size of array to allocate */
 
 struct rt_addrinfo {
 	int	rti_addrs;
@@ -249,8 +244,6 @@ struct rt_addrinfo {
 struct route_cb {
 	int	ip_count;
 	int	ip6_count;
-	int	ns_count;
-	int	iso_count;
 	int	any_count;
 };
 
@@ -277,7 +270,19 @@ struct rttimer_queue {
 	LIST_ENTRY(rttimer_queue)	rtq_link;
 };
 
+#define	RTLABEL_LEN	32
+
+struct sockaddr_rtlabel {
+	u_int8_t	sr_len;			/* total length */
+	sa_family_t	sr_family;		/* address family */
+	char		sr_label[RTLABEL_LEN];
+};
+
 #ifdef _KERNEL
+const char	*rtlabel_id2name(u_int16_t);
+u_int16_t	 rtlabel_name2id(char *);
+void		 rtlabel_unref(u_int16_t);
+
 #define	RTFREE(rt) do { \
 	if ((rt)->rt_refcnt <= 1) \
 		rtfree(rt); \
@@ -295,6 +300,7 @@ struct rttimer_queue {
 extern struct route_cb route_cb;
 extern struct rtstat rtstat;
 extern struct radix_node_head *rt_tables[];
+extern const struct sockaddr_rtin rt_defmask4;
 
 struct	socket;
 void	 route_init(void);
@@ -340,5 +346,6 @@ int	 rtrequest(int, struct sockaddr *,
 			struct sockaddr *, struct sockaddr *, int,
 			struct rtentry **);
 int	 rtrequest1(int, struct rt_addrinfo *, struct rtentry **);
+
 #endif /* _KERNEL */
 #endif /* _NET_ROUTE_H_ */

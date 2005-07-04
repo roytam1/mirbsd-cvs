@@ -1,4 +1,4 @@
-/*	$OpenBSD: route.c,v 1.40 2004/04/25 02:48:04 itojun Exp $	*/
+/*	$OpenBSD: route.c,v 1.54 2005/06/08 06:43:07 henning Exp $	*/
 /*	$NetBSD: route.c,v 1.14 1996/02/13 22:00:46 christos Exp $	*/
 
 /*
@@ -111,6 +111,8 @@
 #include <sys/protosw.h>
 #include <sys/ioctl.h>
 #include <sys/kernel.h>
+#include <sys/queue.h>
+#include <sys/pool.h>
 
 #include <net/if.h>
 #include <net/route.h>
@@ -119,14 +121,11 @@
 #include <netinet/in.h>
 #include <netinet/in_var.h>
 
-#ifdef NS
-#include <netns/ns.h>
-#endif
-
 #ifdef IPSEC
 #include <netinet/ip_ipsp.h>
 
 extern struct ifnet encif; 
+struct ifaddr * encap_findgwifa(struct sockaddr *);
 #endif
 
 #define	SA(p) ((struct sockaddr *)(p))
@@ -138,14 +137,28 @@ struct	radix_node_head *rt_tables[AF_MAX+1];
 int	rttrash;		/* routes not in table but not freed */
 struct	sockaddr wildcard;	/* zero valued cookie for wildcard searches */
 
-static int okaytoclone(u_int, int);
-static int rtdeletemsg(struct rtentry *);
-static int rtflushclone1(struct radix_node *, void *);
-static void rtflushclone(struct radix_node_head *, struct rtentry *);
+struct	pool rtentry_pool;	/* pool for rtentry structures */
+struct	pool rttimer_pool;	/* pool for rttimer structures */
+
+int okaytoclone(u_int, int);
+int rtdeletemsg(struct rtentry *);
+int rtflushclone1(struct radix_node *, void *);
+void rtflushclone(struct radix_node_head *, struct rtentry *);
+
+#define	LABELID_MAX	50000
+
+struct rt_label {
+	TAILQ_ENTRY(rt_label)	rtl_entry;
+	char			rtl_name[RTLABEL_LEN];
+	u_int16_t		rtl_id;
+	int			rtl_ref;
+};
+
+TAILQ_HEAD(rt_labels, rt_label)	rt_labels = TAILQ_HEAD_INITIALIZER(rt_labels);
 
 #ifdef IPSEC
 
-static struct ifaddr *
+struct ifaddr *
 encap_findgwifa(struct sockaddr *gw)
 {
 	return (TAILQ_FIRST(&encif.if_addrlist));
@@ -154,8 +167,7 @@ encap_findgwifa(struct sockaddr *gw)
 #endif
 
 void
-rtable_init(table)
-	void **table;
+rtable_init(void **table)
 {
 	struct domain *dom;
 	for (dom = domains; dom != NULL; dom = dom->dom_next)
@@ -167,24 +179,22 @@ rtable_init(table)
 void
 route_init()
 {
+	pool_init(&rtentry_pool, sizeof(struct rtentry), 0, 0, 0, "rtentpl",
+	    NULL);
 	rn_init();	/* initialize all zeroes, all ones, mask table */
 	rtable_init((void **)rt_tables);
 }
 
 void
-rtalloc_noclone(ro, howstrict)
-	struct route *ro;
-	int howstrict;
+rtalloc_noclone(struct route *ro, int howstrict)
 {
 	if (ro->ro_rt && ro->ro_rt->rt_ifp && (ro->ro_rt->rt_flags & RTF_UP))
 		return;		/* XXX */
 	ro->ro_rt = rtalloc2(&ro->ro_dst, 1, howstrict);
 }
 
-static int
-okaytoclone(flags, howstrict)
-	u_int flags;
-	int howstrict;
+int
+okaytoclone(u_int flags, int howstrict)
 {
 	if (howstrict == ALL_CLONING)
 		return (1);
@@ -194,9 +204,7 @@ okaytoclone(flags, howstrict)
 }
 
 struct rtentry *
-rtalloc2(dst, report,howstrict)
-	struct sockaddr *dst;
-	int report,howstrict;
+rtalloc2(struct sockaddr *dst, int report, int howstrict)
 {
 	struct radix_node_head *rnh = rt_tables[dst->sa_family];
 	struct rtentry *rt;
@@ -239,8 +247,7 @@ miss:		if (report) {
  * Packet routing routines.
  */
 void
-rtalloc(ro)
-	struct route *ro;
+rtalloc(struct route *ro)
 {
 	if (ro->ro_rt && ro->ro_rt->rt_ifp && (ro->ro_rt->rt_flags & RTF_UP))
 		return;				 /* XXX */
@@ -248,9 +255,7 @@ rtalloc(ro)
 }
 
 struct rtentry *
-rtalloc1(dst, report)
-	struct sockaddr *dst;
-	int report;
+rtalloc1(struct sockaddr *dst, int report)
 {
 	struct radix_node_head *rnh = rt_tables[dst->sa_family];
 	struct rtentry *rt;
@@ -306,8 +311,7 @@ rtalloc1(dst, report)
 }
 
 void
-rtfree(rt)
-	struct rtentry *rt;
+rtfree(struct rtentry *rt)
 {
 	struct ifaddr *ifa;
 
@@ -326,14 +330,14 @@ rtfree(rt)
 		ifa = rt->rt_ifa;
 		if (ifa)
 			IFAFREE(ifa);
+		rtlabel_unref(rt->rt_labelid);
 		Free(rt_key(rt));
-		Free(rt);
+		pool_put(&rtentry_pool, rt);
 	}
 }
 
 void
-ifafree(ifa)
-	struct ifaddr *ifa;
+ifafree(struct ifaddr *ifa)
 {
 	if (ifa == NULL)
 		panic("ifafree");
@@ -352,10 +356,9 @@ ifafree(ifa)
  * N.B.: must be called at splsoftnet
  */
 void
-rtredirect(dst, gateway, netmask, flags, src, rtp)
-	struct sockaddr *dst, *gateway, *netmask, *src;
-	int flags;
-	struct rtentry **rtp;
+rtredirect(struct sockaddr *dst, struct sockaddr *gateway,
+    struct sockaddr *netmask, int flags, struct sockaddr *src,
+    struct rtentry **rtp)
 {
 	struct rtentry *rt;
 	int error = 0;
@@ -409,6 +412,7 @@ rtredirect(dst, gateway, netmask, flags, src, rtp)
 			if (rt)
 				rtfree(rt);
 			flags |=  RTF_GATEWAY | RTF_DYNAMIC;
+			bzero(&info, sizeof(info));
 			info.rti_info[RTAX_DST] = dst;
 			info.rti_info[RTAX_GATEWAY] = gateway;
 			info.rti_info[RTAX_NETMASK] = netmask;
@@ -454,9 +458,8 @@ out:
 /*
  * Delete a route and generate a message
  */
-static int
-rtdeletemsg(rt)
-	struct rtentry *rt;
+int
+rtdeletemsg(struct rtentry *rt)
 {
 	int error;
 	struct rt_addrinfo info;
@@ -483,10 +486,8 @@ rtdeletemsg(rt)
 	return (error);
 }
 
-static int
-rtflushclone1(rn, arg)
-	struct radix_node *rn;
-	void *arg;
+int
+rtflushclone1(struct radix_node *rn, void *arg)
 {
 	struct rtentry *rt, *parent;
 
@@ -497,10 +498,8 @@ rtflushclone1(rn, arg)
 	return 0;
 }
 
-static void
-rtflushclone(rnh, parent)
-	struct radix_node_head *rnh;
-	struct rtentry *parent;
+void
+rtflushclone(struct radix_node_head *rnh, struct rtentry *parent)
 {
 
 #ifdef DIAGNOSTIC
@@ -516,18 +515,13 @@ rtflushclone(rnh, parent)
 * Routing table ioctl interface.
 */
 int
-rtioctl(req, data, p)
-	u_long req;
-	caddr_t data;
-	struct proc *p;
+rtioctl(u_long req, caddr_t data, struct proc *p)
 {
 	return (EOPNOTSUPP);
 }
 
 struct ifaddr *
-ifa_ifwithroute(flags, dst, gateway)
-	int flags;
-	struct sockaddr	*dst, *gateway;
+ifa_ifwithroute(int flags, struct sockaddr *dst, struct sockaddr *gateway)
 {
 	struct ifaddr *ifa;
 
@@ -589,10 +583,8 @@ ifa_ifwithroute(flags, dst, gateway)
 #define ROUNDUP(a) (a>0 ? (1 + (((a) - 1) | (sizeof(long) - 1))) : sizeof(long))
 
 int
-rtrequest(req, dst, gateway, netmask, flags, ret_nrt)
-	int req, flags;
-	struct sockaddr *dst, *gateway, *netmask;
-	struct rtentry **ret_nrt;
+rtrequest(int req, struct sockaddr *dst, struct sockaddr *gateway,
+    struct sockaddr *netmask, int flags, struct rtentry **ret_nrt)
 {
 	struct rt_addrinfo info;
 
@@ -616,8 +608,7 @@ rtrequest(req, dst, gateway, netmask, flags, ret_nrt)
 #define flags	info->rti_flags
 
 int
-rt_getifa(info)
-	struct rt_addrinfo *info;
+rt_getifa(struct rt_addrinfo *info)
 {
 	struct ifaddr *ifa;
 	int error = 0;
@@ -653,10 +644,7 @@ rt_getifa(info)
 }
 
 int
-rtrequest1(req, info, ret_nrt)
-	int req;
-	struct rt_addrinfo *info;
-	struct rtentry **ret_nrt;
+rtrequest1(int req, struct rt_addrinfo *info, struct rtentry **ret_nrt)
 {
 	int s = splsoftnet(); int error = 0;
 	struct rtentry *rt, *crt;
@@ -664,6 +652,7 @@ rtrequest1(req, info, ret_nrt)
 	struct radix_node_head *rnh;
 	struct ifaddr *ifa;
 	struct sockaddr *ndst;
+	struct sockaddr_rtlabel	*sa_rl;
 #define senderr(x) { error = x ; goto bad; }
 
 	if ((rnh = rt_tables[dst->sa_family]) == 0)
@@ -735,14 +724,14 @@ rtrequest1(req, info, ret_nrt)
 			senderr(error);
 		ifa = info->rti_ifa;
 	makeroute:
-		R_Malloc(rt, struct rtentry *, sizeof(*rt));
+		rt = pool_get(&rtentry_pool, PR_NOWAIT);
 		if (rt == NULL)
 			senderr(ENOBUFS);
 		Bzero(rt, sizeof(*rt));
 		rt->rt_flags = RTF_UP | flags;
 		LIST_INIT(&rt->rt_timer);
 		if (rt_setgate(rt, dst, gateway)) {
-			Free(rt);
+			pool_put(&rtentry_pool, rt);
 			senderr(ENOBUFS);
 		}
 		ndst = rt_key(rt);
@@ -757,10 +746,17 @@ rtrequest1(req, info, ret_nrt)
 			if (rt->rt_gwroute)
 				rtfree(rt->rt_gwroute);
 			Free(rt_key(rt));
-			Free(rt);
+			pool_put(&rtentry_pool, rt);
 			senderr(EEXIST);
 		}
 #endif
+
+		if (info->rti_info[RTAX_LABEL] != NULL) {
+			sa_rl = (struct sockaddr_rtlabel *)
+			    info->rti_info[RTAX_LABEL];
+			rt->rt_labelid = rtlabel_name2id(sa_rl->sr_label);
+		}
+
 		ifa->ifa_refcnt++;
 		rt->rt_ifa = ifa;
 		rt->rt_ifp = ifa->ifa_ifp;
@@ -791,7 +787,7 @@ rtrequest1(req, info, ret_nrt)
 			if (rt->rt_gwroute)
 				rtfree(rt->rt_gwroute);
 			Free(rt_key(rt));
-			Free(rt);
+			pool_put(&rtentry_pool, rt);
 			senderr(EEXIST);
 		}
 		if (ifa->ifa_rtrequest)
@@ -819,9 +815,7 @@ bad:
 #undef flags
 
 int
-rt_setgate(rt0, dst, gate)
-	struct rtentry *rt0;
-	struct sockaddr *dst, *gate;
+rt_setgate(struct rtentry *rt0, struct sockaddr *dst, struct sockaddr *gate)
 {
 	caddr_t new, old;
 	int dlen = ROUNDUP(dst->sa_len), glen = ROUNDUP(gate->sa_len);
@@ -867,8 +861,8 @@ rt_setgate(rt0, dst, gate)
 }
 
 void
-rt_maskedcopy(src, dst, netmask)
-	struct sockaddr *src, *dst, *netmask;
+rt_maskedcopy(struct sockaddr *src, struct sockaddr *dst,
+	       struct sockaddr *netmask)
 {
 	u_char *cp1 = (u_char *)src;
 	u_char *cp2 = (u_char *)dst;
@@ -891,9 +885,7 @@ rt_maskedcopy(src, dst, netmask)
  * for an interface.
  */
 int
-rtinit(ifa, cmd, flags)
-	struct ifaddr *ifa;
-	int cmd, flags;
+rtinit(struct ifaddr *ifa, int cmd, int flags)
 {
 	struct rtentry *rt;
 	struct sockaddr *dst;
@@ -991,17 +983,15 @@ static int rt_init_done = 0;
  * that this is run when the first queue is added...
  */
 
-void	 
+void
 rt_timer_init()
 {
 	static struct timeout rt_timer_timeout;
 
-	assert(rt_init_done == 0);
+	KASSERT(rt_init_done == 0);
 
-#if 0
 	pool_init(&rttimer_pool, sizeof(struct rttimer), 0, 0, 0, "rttmrpl",
 	    NULL);
-#endif
 
 	LIST_INIT(&rttimer_queue_head);
 	timeout_set(&rt_timer_timeout, rt_timer_timer, &rt_timer_timeout);
@@ -1010,8 +1000,7 @@ rt_timer_init()
 }
 
 struct rttimer_queue *
-rt_timer_queue_create(timeout)
-	u_int	timeout;
+rt_timer_queue_create(u_int timeout)
 {
 	struct rttimer_queue *rtq;
 
@@ -1032,18 +1021,14 @@ rt_timer_queue_create(timeout)
 }
 
 void
-rt_timer_queue_change(rtq, timeout)
-	struct rttimer_queue *rtq;
-	long timeout;
+rt_timer_queue_change(struct rttimer_queue *rtq, long timeout)
 {
 
 	rtq->rtq_timeout = timeout;
 }
 
 void
-rt_timer_queue_destroy(rtq, destroy)
-	struct rttimer_queue *rtq;
-	int destroy;
+rt_timer_queue_destroy(struct rttimer_queue *rtq, int destroy)
 {
 	struct rttimer *r;
 
@@ -1052,11 +1037,7 @@ rt_timer_queue_destroy(rtq, destroy)
 		TAILQ_REMOVE(&rtq->rtq_head, r, rtt_next);
 		if (destroy)
 			RTTIMER_CALLOUT(r);
-#if 0
 		pool_put(&rttimer_pool, r);
-#else
-		free(r, M_RTABLE);
-#endif
 		if (rtq->rtq_count > 0)
 			rtq->rtq_count--;
 		else
@@ -1071,16 +1052,14 @@ rt_timer_queue_destroy(rtq, destroy)
 }
 
 unsigned long
-rt_timer_count(rtq)
-	struct rttimer_queue *rtq;
+rt_timer_count(struct rttimer_queue *rtq)
 {
 
 	return (rtq->rtq_count);
 }
 
 void     
-rt_timer_remove_all(rt)
-	struct rtentry *rt;
+rt_timer_remove_all(struct rtentry *rt)
 {
 	struct rttimer *r;
 
@@ -1091,19 +1070,13 @@ rt_timer_remove_all(rt)
 			r->rtt_queue->rtq_count--;
 		else
 			printf("rt_timer_remove_all: rtq_count reached 0\n");
-#if 0
 		pool_put(&rttimer_pool, r);
-#else
-		free(r, M_RTABLE);
-#endif
 	}
 }
 
 int      
-rt_timer_add(rt, func, queue)
-	struct rtentry *rt;
-	void(*func)(struct rtentry *, struct rttimer *);
-	struct rttimer_queue *queue;
+rt_timer_add(struct rtentry *rt, void (*func)(struct rtentry *,
+	     struct rttimer *), struct rttimer_queue *queue)
 {
 	struct rttimer *r;
 	long current_time;
@@ -1123,20 +1096,12 @@ rt_timer_add(rt, func, queue)
 				r->rtt_queue->rtq_count--;
 			else
 				printf("rt_timer_add: rtq_count reached 0\n");
-#if 0
 			pool_put(&rttimer_pool, r);
-#else
-			free(r, M_RTABLE);
-#endif
 			break;  /* only one per list, so we can quit... */
 		}
 	}
 
-#if 0
 	r = pool_get(&rttimer_pool, PR_NOWAIT);
-#else
-	r = (struct rttimer *)malloc(sizeof(*r), M_RTABLE, M_NOWAIT);
-#endif
 	if (r == NULL)
 		return (ENOBUFS);
 	Bzero(r, sizeof(*r));
@@ -1154,8 +1119,7 @@ rt_timer_add(rt, func, queue)
 
 /* ARGSUSED */
 void
-rt_timer_timer(arg)
-	void *arg;
+rt_timer_timer(void *arg)
 {
 	struct timeout *to = (struct timeout *)arg;
 	struct rttimer_queue *rtq;
@@ -1173,11 +1137,7 @@ rt_timer_timer(arg)
 			LIST_REMOVE(r, rtt_link);
 			TAILQ_REMOVE(&rtq->rtq_head, r, rtt_next);
 			RTTIMER_CALLOUT(r);
-#if 0
 			pool_put(&rttimer_pool, r);
-#else
-			free(r, M_RTABLE);
-#endif
 			if (rtq->rtq_count > 0)
 				rtq->rtq_count--;
 			else
@@ -1187,4 +1147,82 @@ rt_timer_timer(arg)
 	splx(s);
 
 	timeout_add(to, hz);		/* every second */
+}
+
+u_int16_t
+rtlabel_name2id(char *name)
+{
+	struct rt_label		*label, *p = NULL;
+	u_int16_t		 new_id = 1;
+
+	if (!name[0])
+		return (0);
+
+	TAILQ_FOREACH(label, &rt_labels, rtl_entry)
+		if (strcmp(name, label->rtl_name) == 0) {
+			label->rtl_ref++;
+			return (label->rtl_id);
+		}
+
+	/*
+	 * to avoid fragmentation, we do a linear search from the beginning
+	 * and take the first free slot we find. if there is none or the list
+	 * is empty, append a new entry at the end.
+	 */
+
+	if (!TAILQ_EMPTY(&rt_labels))
+		for (p = TAILQ_FIRST(&rt_labels); p != NULL &&
+		    p->rtl_id == new_id; p = TAILQ_NEXT(p, rtl_entry))
+			new_id = p->rtl_id + 1;
+
+	if (new_id > LABELID_MAX)
+		return (0);
+
+	label = (struct rt_label *)malloc(sizeof(struct rt_label),
+	    M_TEMP, M_NOWAIT);
+	if (label == NULL)
+		return (0);
+	bzero(label, sizeof(struct rt_label));
+	strlcpy(label->rtl_name, name, sizeof(label->rtl_name));
+	label->rtl_id = new_id;
+	label->rtl_ref++;
+
+	if (p != NULL)	/* insert new entry before p */
+		TAILQ_INSERT_BEFORE(p, label, rtl_entry);
+	else		/* either list empty or no free slot in between */
+		TAILQ_INSERT_TAIL(&rt_labels, label, rtl_entry);
+
+	return (label->rtl_id);
+}
+
+const char *
+rtlabel_id2name(u_int16_t id)
+{
+	struct rt_label	*label;
+
+	TAILQ_FOREACH(label, &rt_labels, rtl_entry)
+		if (label->rtl_id == id)
+			return (label->rtl_name);
+
+	return (NULL);
+}
+
+void
+rtlabel_unref(u_int16_t id)
+{
+	struct rt_label	*p, *next;
+
+	if (id == 0)
+		return;
+
+	for (p = TAILQ_FIRST(&rt_labels); p != NULL; p = next) {
+		next = TAILQ_NEXT(p, rtl_entry);
+		if (id == p->rtl_id) {
+			if (--p->rtl_ref == 0) {
+				TAILQ_REMOVE(&rt_labels, p, rtl_entry);
+				free(p, M_TEMP);
+			}
+			break;
+		}
+	}
 }
