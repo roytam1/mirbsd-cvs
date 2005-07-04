@@ -273,7 +273,7 @@ linux_sys_sched_yield(cp, v, retval)
 	void *v;
 	register_t *retval;
 {
-	need_resched(curcpu());
+	need_resched();
 	return (0);
 }
 
