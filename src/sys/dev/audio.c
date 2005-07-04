@@ -1,5 +1,5 @@
-/*	$OpenBSD: audio.c,v 1.43 2004/01/09 21:32:23 brad Exp $	*/
-/*	$NetBSD: audio.c,v 1.105 1998/09/27 16:43:56 christos Exp $	*/
+/*	$OpenBSD: audio.c,v 1.46 2005/06/02 19:04:18 joris Exp $	*/
+/*	$NetBSD: audio.c,v 1.119 1999/11/09 16:50:47 augustss Exp $	*/
 
 /*
  * Copyright (c) 1991-1993 Regents of the University of California.
@@ -328,7 +328,7 @@ audioattach(parent, self, aux)
 		au_check_ports(sc, &sc->sc_outports, &mi, oclass,
 		    AudioNoutput, AudioNmaster, otable);
 		if (mi.mixer_class == oclass &&
-		    strcmp(mi.label.name, AudioNmonitor) == 0)
+		    (strcmp(mi.label.name, AudioNmonitor) == 0))
 			sc->sc_monitor_port = mi.index;
 	}
 	DPRINTF(("audio_attach: inputs ports=0x%x, output ports=0x%x\n",
@@ -891,24 +891,22 @@ audio_initbufs(sc)
 	}
 
 #ifdef AUDIO_INTR_TIME
-#define double u_long
 	sc->sc_pnintr = 0;
 	sc->sc_pblktime = (u_long)(
-	    (double)sc->sc_pr.blksize * 100000 /
-	    (double)(sc->sc_pparams.precision / NBBY *
+	    (u_long)sc->sc_pr.blksize * 100000 /
+	    (u_long)(sc->sc_pparams.precision / NBBY *
 		sc->sc_pparams.channels *
 		sc->sc_pparams.sample_rate)) * 10;
 	DPRINTF(("audio: play blktime = %lu for %d\n",
 		 sc->sc_pblktime, sc->sc_pr.blksize));
 	sc->sc_rnintr = 0;
 	sc->sc_rblktime = (u_long)(
-	    (double)sc->sc_rr.blksize * 100000 /
-	    (double)(sc->sc_rparams.precision / NBBY *
+	    (u_long)sc->sc_rr.blksize * 100000 /
+	    (u_long)(sc->sc_rparams.precision / NBBY *
 		sc->sc_rparams.channels *
 		sc->sc_rparams.sample_rate)) * 10;
 	DPRINTF(("audio: record blktime = %lu for %d\n",
 		 sc->sc_rblktime, sc->sc_rr.blksize));
-#undef double
 #endif
 
 	return 0;
@@ -1036,7 +1034,8 @@ audio_open(dev, sc, flags, ifmt, p)
 	 */
 	if (sc->sc_rparams.precision == 0 || sc->sc_pparams.precision == 0) {
 		printf("audio_open: 0 precision\n");
-		return EINVAL;
+		error = EINVAL;
+		goto bad;
 	}
 #endif
 
@@ -1284,16 +1283,16 @@ audio_read(dev, uio, ioflag)
 	while (uio->uio_resid > 0 && !error) {
 		s = splaudio();
 		while (cb->used <= 0) {
-			if (ioflag & IO_NDELAY) {
-				splx(s);
-				return EWOULDBLOCK;
-			}
 			if (!sc->sc_rbus) {
 				error = audiostartr(sc);
 				if (error) {
 					splx(s);
 					return error;
 				}
+			}
+			if (ioflag & IO_NDELAY) {
+				splx(s);
+				return (EWOULDBLOCK);
 			}
 			DPRINTFN(2, ("audio_read: sleep used=%d\n", cb->used));
 			error = audio_sleep(&sc->sc_rchan, "aud_rd");
