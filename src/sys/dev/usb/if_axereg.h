@@ -1,3 +1,5 @@
+/*	$OpenBSD: if_axereg.h,v 1.4 2004/11/11 12:47:14 dlg Exp $	*/
+
 /*
  * Copyright (c) 1997, 1998, 1999, 2000-2003
  *	Bill Paul <wpaul@windriver.com>.  All rights reserved.
@@ -83,6 +85,10 @@
 #define AXE_CMD_READ_GPIO			0x101E
 #define AXE_CMD_WRITE_GPIO			0x011F
 
+#define AXE_MEDIA_FULL_DUPLEX			0x02
+#define AXE_MEDIA_TX_ABORT_ALLOW		0x04
+#define AXE_MEDIA_FLOW_CONTROL_EN		0x10
+
 #define AXE_RXCMD_PROMISC			0x0001
 #define AXE_RXCMD_ALLMULTI			0x0002
 #define AXE_RXCMD_UNICAST			0x0004
@@ -107,7 +113,6 @@
 #define AXE_CONFIG_NO		1
 #define AXE_IFACE_IDX		0
 
-#define ETHER_ALIGN		2
 /*
  * The interrupt endpoint is currently unused
  * by the ASIX part.

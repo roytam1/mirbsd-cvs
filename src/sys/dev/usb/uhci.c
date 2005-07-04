@@ -1,4 +1,4 @@
-/*	$OpenBSD: uhci.c,v 1.31 2004/05/04 16:59:32 grange Exp $	*/
+/*	$OpenBSD: uhci.c,v 1.38 2005/04/19 08:33:26 damien Exp $	*/
 /*	$NetBSD: uhci.c,v 1.172 2003/02/23 04:19:26 simonb Exp $	*/
 /*	$FreeBSD: src/sys/dev/usb/uhci.c,v 1.33 1999/11/17 22:33:41 n_hibma Exp $	*/
 
@@ -110,7 +110,7 @@ int uhcinoloop = 0;
 
 /*
  * The UHCI controller is little endian, so on big endian machines
- * the data strored in memory needs to be swapped.
+ * the data stored in memory needs to be swapped.
  */
 #if defined(__FreeBSD__)
 #if BYTE_ORDER == BIG_ENDIAN
@@ -1177,10 +1177,9 @@ uhci_intr(void *arg)
 	if (sc->sc_dying)
 		return (0);
 
-	DPRINTFN(15,("uhci_intr: real interrupt\n"));
 	if (sc->sc_bus.use_polling) {
 #ifdef DIAGNOSTIC
-		printf("uhci_intr: ignored interrupt while polling\n");
+		DPRINTFN(16, ("uhci_intr: ignored interrupt while polling\n"));
 #endif
 		return (0);
 	}
@@ -1250,7 +1249,7 @@ uhci_intr1(uhci_softc_t *sc)
 	sc->sc_bus.no_intrs++;
 	usb_schedsoftintr(&sc->sc_bus);
 
-	DPRINTFN(10, ("%s: uhci_intr: exit\n", USBDEVNAME(sc->sc_bus.bdev)));
+	DPRINTFN(15, ("%s: uhci_intr: exit\n", USBDEVNAME(sc->sc_bus.bdev)));
 
 	return (1);
 }
@@ -1259,7 +1258,7 @@ void
 uhci_softintr(void *v)
 {
 	uhci_softc_t *sc = v;
-	uhci_intr_info_t *ii;
+	uhci_intr_info_t *ii, *nextii;
 
 	DPRINTFN(10,("%s: uhci_softintr (%d)\n", USBDEVNAME(sc->sc_bus.bdev),
 		     sc->sc_bus.intr_context));
@@ -1277,8 +1276,10 @@ uhci_softintr(void *v)
 	 * We scan all interrupt descriptors to see if any have
 	 * completed.
 	 */
-	for (ii = LIST_FIRST(&sc->sc_intrhead); ii; ii = LIST_NEXT(ii, list))
+	for (ii = LIST_FIRST(&sc->sc_intrhead); ii; ii = nextii) {
+		nextii = LIST_NEXT(ii, list);
 		uhci_check_intr(sc, ii);
+	}
 
 #ifdef USB_USE_SOFTINTR
 	if (sc->sc_softwake) {
@@ -1426,8 +1427,17 @@ uhci_idone(uhci_intr_info_t *ii)
 
 		status = nstatus;
 		if (UHCI_TD_GET_PID(le32toh(std->td.td_token)) !=
-			UHCI_TD_PID_SETUP)
+		    UHCI_TD_PID_SETUP)
 			actlen += UHCI_TD_GET_ACTLEN(status);
+		else {
+			/*
+			 * UHCI will report CRCTO in addition to a STALL or NAK
+			 * for a SETUP transaction.  See section 3.2.2, "TD
+			 * CONTROL AND STATUS".
+			 */
+			if (status & (UHCI_TD_STALLED | UHCI_TD_NAK))
+				status &= ~UHCI_TD_CRCTO;
+		}
 	}
 	/* If there are left over TDs we need to update the toggle. */
 	if (std != NULL)
@@ -1521,7 +1531,7 @@ uhci_waitintr(uhci_softc_t *sc, usbd_xfer_handle xfer)
 	for (; timo >= 0; timo--) {
 		usb_delay_ms(&sc->sc_bus, 1);
 		DPRINTFN(20,("uhci_waitintr: 0x%04x\n", UREAD2(sc, UHCI_STS)));
-		if (UREAD2(sc, UHCI_STS) & UHCI_STS_USBINT) {
+		if (UREAD2(sc, UHCI_STS) & UHCI_STS_ALLINTRS) {
 			uhci_intr1(sc);
 			if (xfer->status != USBD_IN_PROGRESS)
 				return;
@@ -1546,7 +1556,7 @@ uhci_poll(struct usbd_bus *bus)
 {
 	uhci_softc_t *sc = (uhci_softc_t *)bus;
 
-	if (UREAD2(sc, UHCI_STS) & UHCI_STS_USBINT)
+	if (UREAD2(sc, UHCI_STS) & UHCI_STS_ALLINTRS)
 		uhci_intr1(sc);
 }
 
@@ -1953,8 +1963,6 @@ uhci_abort_xfer(usbd_xfer_handle xfer, usbd_status status)
 	/*
 	 * Step 3: Execute callback.
 	 */
-	xfer->hcpriv = ii;
-
 	DPRINTFN(1,("uhci_abort_xfer: callback\n"));
 	s = splusb();
 #ifdef DIAGNOSTIC
@@ -2593,9 +2601,8 @@ uhci_device_isoc_done(usbd_xfer_handle xfer)
 		return;
 
 #ifdef DIAGNOSTIC
-	if (xfer->busy_free != XFER_BUSY) {
-		printf("uhci_device_isoc_done: xfer=%p not busy 0x%08x\n",
-		       xfer, xfer->busy_free);
+	if (xfer->busy_free == XFER_FREE) {
+		printf("uhci_device_isoc_done: xfer=%p is free\n", xfer);
 		return;
 	}
 
@@ -3304,7 +3311,7 @@ uhci_root_ctrl_start(usbd_xfer_handle xfer)
 		}
 		break;
 	case C(UR_GET_DESCRIPTOR, UT_READ_CLASS_DEVICE):
-		if (value != 0) {
+		if ((value & 0xff) != 0) {
 			err = USBD_IOERROR;
 			goto ret;
 		}

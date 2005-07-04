@@ -1,4 +1,4 @@
-/*	$OpenBSD: nsgphy.c,v 1.9 2002/11/26 06:01:28 nate Exp $	*/
+/*	$OpenBSD: nsgphy.c,v 1.16 2005/05/27 09:24:01 brad Exp $	*/
 /*
  * Copyright (c) 2001 Wind River Systems
  * Copyright (c) 2001
@@ -31,7 +31,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $FreeBSD$
  */
 
 /*
@@ -52,7 +51,6 @@
 #include <sys/systm.h>
 #include <sys/kernel.h>
 #include <sys/device.h>
-#include <sys/malloc.h>
 #include <sys/socket.h>
 
 #include <net/if.h>
@@ -79,57 +77,48 @@ struct cfdriver nsgphy_cd = {
 int	nsgphy_service(struct mii_softc *, struct mii_data *, int);
 void	nsgphy_status(struct mii_softc *);
 
-static int	nsgphy_mii_phy_auto(struct mii_softc *, int);
-extern void	mii_phy_auto_timeout(void *);
+const struct mii_phy_funcs nsgphy_funcs = {
+	nsgphy_service, nsgphy_status, mii_phy_reset,
+};
+
+static const struct mii_phydesc nsgphys[] = {
+	{ MII_OUI_NATSEMI,		MII_MODEL_NATSEMI_DP83861,
+	  MII_STR_NATSEMI_DP83861 },
+	{ MII_OUI_NATSEMI,		MII_MODEL_NATSEMI_DP83891,
+	  MII_STR_NATSEMI_DP83891 },
+
+	{ 0,			0,
+	  NULL },
+};
 
 int
-
-nsgphymatch(parent, match, aux)
-	struct device *parent;
-	void *match;
-	void *aux;
+nsgphymatch(struct device *parent, void *match, void *aux)
 {
 	struct mii_attach_args *ma = aux;
 
-	if (MII_OUI(ma->mii_id1, ma->mii_id2) == MII_OUI_NATSEMI &&
-	    (MII_MODEL(ma->mii_id2) == MII_MODEL_NATSEMI_DP83891 ||
-	     MII_MODEL(ma->mii_id2) == MII_MODEL_NATSEMI_DP83861))
+	if (mii_phy_match(ma, nsgphys) != NULL)
 		return (10);
 
 	return (0);
 }
 
 void
-nsgphyattach(parent, self, aux)
-	struct device *parent;
-	struct device *self;
-	void *aux;
+nsgphyattach(struct device *parent, struct device *self, void *aux)
 {
 	struct mii_softc *sc = (struct mii_softc *)self;
 	struct mii_attach_args *ma = aux;
 	struct mii_data *mii = ma->mii_data;
+	const struct mii_phydesc *mpd;
 
-	switch(MII_MODEL(ma->mii_id2)) {
-	case MII_MODEL_NATSEMI_DP83861:
-	  printf(": %s, rev. %d\n", MII_STR_NATSEMI_DP83861,
-		 MII_REV(ma->mii_id2));
-	  break;
-
-	case MII_MODEL_NATSEMI_DP83891:
-	  printf(": %s, rev. %d\n", MII_STR_NATSEMI_DP83891,
-		 MII_REV(ma->mii_id2));
-	  break;
-	}
+	mpd = mii_phy_match(ma, nsgphys);
+	printf(": %s, rev. %d\n", mpd->mpd_name, MII_REV(ma->mii_id2));
 
 	sc->mii_inst = mii->mii_instance;
 	sc->mii_phy = ma->mii_phyno;
-	sc->mii_service = nsgphy_service;
-	sc->mii_status = nsgphy_status;
+	sc->mii_funcs = &nsgphy_funcs;
 	sc->mii_pdata = mii;
-	sc->mii_flags = mii->mii_flags;
-	sc->mii_anegticks = 10;
-
-	mii_phy_reset(sc);
+	sc->mii_flags = ma->mii_flags;
+	sc->mii_anegticks = MII_ANEGTICKS;
 
 	sc->mii_capabilities =
 		PHY_READ(sc, MII_BMSR) & ma->mii_capmask;
@@ -138,22 +127,10 @@ nsgphyattach(parent, self, aux)
         if ((sc->mii_capabilities & BMSR_MEDIAMASK) ||
             (sc->mii_extcapabilities & EXTSR_MEDIAMASK))
                 mii_phy_add_media(sc);
-
-#if 0
-        strap = PHY_READ(sc, MII_GPHYTER_STRAP);
-        printf("%s: strapped to %s mode", sc->mii_dev.dv_xname,
-	       (strap & STRAP_MS_VAL) ? "master" : "slave");
-        if (strap & STRAP_NC_MODE)
-                printf(", pre-C5 BCM5400 compat enabled");
-        printf("\n");
-#endif
 }
 
 int
-nsgphy_service(sc, mii, cmd)
-	struct mii_softc *sc;
-	struct mii_data *mii;
-	int cmd;
+nsgphy_service(struct mii_softc *sc, struct mii_data *mii, int cmd)
 {
 	struct ifmedia_entry *ife = mii->mii_media.ifm_cur;
 	int reg;
@@ -187,53 +164,7 @@ nsgphy_service(sc, mii, cmd)
 		if ((mii->mii_ifp->if_flags & IFF_UP) == 0)
 			break;
 
-		switch (IFM_SUBTYPE(ife->ifm_media)) {
-		case IFM_AUTO:
-			(void) nsgphy_mii_phy_auto(sc, 0);
-			break;
-		case IFM_1000_T:
-			if ((ife->ifm_media & IFM_GMASK) == IFM_FDX) {
-				PHY_WRITE(sc, NSGPHY_MII_BMCR,
-				    NSGPHY_BMCR_FDX|NSGPHY_BMCR_SPD1);
-			} else {
-				PHY_WRITE(sc, NSGPHY_MII_BMCR,
-				    NSGPHY_BMCR_SPD1);
-			}
-			PHY_WRITE(sc, NSGPHY_MII_ANAR, NSGPHY_SEL_TYPE);
-
-			/*
-			 * When setting the link manually, one side must
-			 * be the master and the other the slave. However
-			 * ifmedia doesn't give us a good way to specify
-			 * this, so we fake it by using one of the LINK
-			 * flags. If LINK0 is set, we program the PHY to
-			 * be a master, otherwise it's a slave.
-			 */
-			if ((mii->mii_ifp->if_flags & IFF_LINK0)) {
-				PHY_WRITE(sc, NSGPHY_MII_1000CTL,
-				    NSGPHY_1000CTL_MSE|NSGPHY_1000CTL_MSC);
-			} else {
-				PHY_WRITE(sc, NSGPHY_MII_1000CTL,
-				    NSGPHY_1000CTL_MSE);
-			}
-			break;
-		case IFM_100_T4:
-			/*
-			 * XXX Not supported as a manual setting right now.
-			 */
-			return (EINVAL);
-		case IFM_NONE:
-			PHY_WRITE(sc, MII_BMCR, BMCR_ISO|BMCR_PDOWN);
-			break;
-		default:
-			/*
-			 * BMCR data is stored in the ifmedia entry.
-			 */
-			PHY_WRITE(sc, MII_ANAR,
-			    mii_anar(ife->ifm_media));
-			PHY_WRITE(sc, MII_BMCR, ife->ifm_data);
-			break;
-		}
+		mii_phy_setmedia(sc);
 		break;
 
 	case MII_TICK:
@@ -243,36 +174,8 @@ nsgphy_service(sc, mii, cmd)
 		if (IFM_INST(ife->ifm_media) != sc->mii_inst)
 			return (0);
 
-		/*
-		 * Only used for autonegotiation.
-		 */
-		if (IFM_SUBTYPE(ife->ifm_media) != IFM_AUTO)
+		if (mii_phy_tick(sc) == EJUSTRETURN)
 			return (0);
-
-		/*
-		 * Is the interface even up?
-		 */
-		if ((mii->mii_ifp->if_flags & IFF_UP) == 0)
-			return (0);
-
-		/*
-		 * Only retry autonegotiation if we've hit the timeout.
-		 */
-		if (++sc->mii_ticks != sc->mii_anegticks)
-			return (0);
-
-		sc->mii_ticks = 0;
-
-		/*
-		 * Check to see if we have link.
-		 */
-		reg = PHY_READ(sc, NSGPHY_MII_PHYSUP);
-		if (reg & NSGPHY_PHYSUP_LNKSTS)
-			break;
-
-		mii_phy_reset(sc);
-		if (nsgphy_mii_phy_auto(sc, 0) == EJUSTRETURN)
-			return(0);
 		break;
 	case MII_DOWN:
 		mii_phy_down(sc);
@@ -288,129 +191,61 @@ nsgphy_service(sc, mii, cmd)
 }
 
 void
-nsgphy_status(sc)
-	struct mii_softc *sc;
+nsgphy_status(struct mii_softc *sc)
 {
 	struct mii_data *mii = sc->mii_pdata;
-	int bmsr, bmcr, physup, anlpar, gstat;
+	struct ifmedia_entry *ife = mii->mii_media.ifm_cur;
+	int bmsr, bmcr, physup, gtsr;
 
 	mii->mii_media_status = IFM_AVALID;
 	mii->mii_media_active = IFM_ETHER;
 
-	bmsr = PHY_READ(sc, NSGPHY_MII_BMSR) | PHY_READ(sc, NSGPHY_MII_BMSR);
+	bmsr = PHY_READ(sc, MII_BMSR) | PHY_READ(sc, MII_BMSR);
+
 	physup = PHY_READ(sc, NSGPHY_MII_PHYSUP);
-	if (physup & NSGPHY_PHYSUP_LNKSTS)
+
+	if (physup & PHY_SUP_LINK)
 		mii->mii_media_status |= IFM_ACTIVE;
 
-	bmcr = PHY_READ(sc, NSGPHY_MII_BMCR);
+	bmcr = PHY_READ(sc, MII_BMCR);
+	if (bmcr & BMCR_ISO) {
+		mii->mii_media_active |= IFM_NONE;
+		mii->mii_media_status = 0;
+		return;
+	}
 
-	if (bmcr & NSGPHY_BMCR_LOOP)
+	if (bmcr & BMCR_LOOP)
 		mii->mii_media_active |= IFM_LOOP;
 
-	if (bmcr & NSGPHY_BMCR_AUTOEN) {
-		if ((bmsr & NSGPHY_BMSR_ACOMP) == 0) {
+	if (bmcr & BMCR_AUTOEN) {
+		if ((bmsr & BMSR_ACOMP) == 0) {
 			/* Erg, still trying, I guess... */
 			mii->mii_media_active |= IFM_NONE;
 			return;
 		}
-		anlpar = PHY_READ(sc, NSGPHY_MII_ANLPAR);
-		gstat = PHY_READ(sc, NSGPHY_MII_1000STS);
-		if (gstat & NSGPHY_1000STS_LPFD)
-			mii->mii_media_active |= IFM_1000_T|IFM_FDX;
-		else if (gstat & NSGPHY_1000STS_LPHD)
-			mii->mii_media_active |= IFM_1000_T|IFM_HDX;
-		else if (anlpar & NSGPHY_ANLPAR_100T4)
-			mii->mii_media_active |= IFM_100_T4;
-		else if (anlpar & NSGPHY_ANLPAR_100FDX)
-			mii->mii_media_active |= IFM_100_TX|IFM_FDX;
-		else if (anlpar & NSGPHY_ANLPAR_100HDX)
+
+		switch (physup & (PHY_SUP_SPEED1|PHY_SUP_SPEED0)) {
+		case PHY_SUP_SPEED1:
+			mii->mii_media_active |= IFM_1000_T;
+			gtsr = PHY_READ(sc, MII_100T2SR);
+			if (gtsr & GTSR_MS_RES)
+				mii->mii_media_active |= IFM_ETH_MASTER;
+			break;
+
+		case PHY_SUP_SPEED0:
 			mii->mii_media_active |= IFM_100_TX;
-		else if (anlpar & NSGPHY_ANLPAR_10FDX)
-			mii->mii_media_active |= IFM_10_T|IFM_FDX;
-		else if (anlpar & NSGPHY_ANLPAR_10HDX)
-			mii->mii_media_active |= IFM_10_T|IFM_HDX;
-		else
+			break;
+
+		case 0:
+			mii->mii_media_active |= IFM_10_T;
+			break;
+
+		default:
 			mii->mii_media_active |= IFM_NONE;
-		return;
-	}
-
-	switch(bmcr & (NSGPHY_BMCR_SPD1|NSGPHY_BMCR_SPD0)) {
-	case NSGPHY_S1000:
-		mii->mii_media_active |= IFM_1000_T;
-		break;
-	case NSGPHY_S100:
-		mii->mii_media_active |= IFM_100_TX;
-		break;
-	case NSGPHY_S10:
-		mii->mii_media_active |= IFM_10_T;
-		break;
-	default:
-		break;
-	}
-
-	if (bmcr & NSGPHY_BMCR_FDX)
-		mii->mii_media_active |= IFM_FDX;
-	else
-		mii->mii_media_active |= IFM_HDX;
-
-	return;
-}
-
-
-static int
-nsgphy_mii_phy_auto(mii, waitfor)
-	struct mii_softc *mii;
-	int waitfor;
-{
-	int bmsr, ktcr = 0, i;
-
-	if ((mii->mii_flags & MIIF_DOINGAUTO) == 0) {
-		mii_phy_reset(mii);
-		PHY_WRITE(mii, NSGPHY_MII_BMCR, 0);
-		DELAY(1000);
-		ktcr = PHY_READ(mii, NSGPHY_MII_1000CTL);
-		PHY_WRITE(mii, NSGPHY_MII_1000CTL, ktcr |
-		    (NSGPHY_1000CTL_AFD|NSGPHY_1000CTL_AHD));
-		ktcr = PHY_READ(mii, NSGPHY_MII_1000CTL);
-		DELAY(1000);
-		PHY_WRITE(mii, NSGPHY_MII_ANAR,
-		    BMSR_MEDIA_TO_ANAR(mii->mii_capabilities) | ANAR_CSMA);
-		DELAY(1000);
-		PHY_WRITE(mii, NSGPHY_MII_BMCR,
-		    NSGPHY_BMCR_AUTOEN | NSGPHY_BMCR_STARTNEG);
-	}
-
-	if (waitfor) {
-		/* Wait 500ms for it to complete. */
-		for (i = 0; i < 500; i++) {
-			if ((bmsr = PHY_READ(mii, NSGPHY_MII_BMSR)) &
-			    NSGPHY_BMSR_ACOMP)
-				return (0);
-			DELAY(1000);
-#if 0
-		if ((bmsr & BMSR_ACOMP) == 0)
-			printf("%s: autonegotiation failed to complete\n",
-			    mii->mii_dev.dv_xname);
-#endif
+			mii->mii_media_status = 0;
 		}
-
-		/*
-		 * Don't need to worry about clearing MIIF_DOINGAUTO.
-		 * If that's set, a timeout is pending, and it will
-		 * clear the flag.
-		 */
-		return (EIO);
-	}
-
-	/*
-	 * Just let it finish asynchronously.  This is for the benefit of
-	 * the tick handler driving autonegotiation.  Don't want 500ms
-	 * delays all the time while the system is running!
-	 */
-	if ((mii->mii_flags & MIIF_DOINGAUTO) == 0) {
-		mii->mii_flags |= MIIF_DOINGAUTO;
-		timeout_set(&mii->mii_phy_timo, mii_phy_auto_timeout, mii);
-		timeout_add(&mii->mii_phy_timo, hz >> 1);
-	}
-	return (EJUSTRETURN);
+		if (physup & PHY_SUP_DUPLEX)
+			mii->mii_media_active |= IFM_FDX;
+	} else
+		mii->mii_media_active = ife->ifm_media;
 }

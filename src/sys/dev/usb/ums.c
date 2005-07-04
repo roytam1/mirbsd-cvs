@@ -1,4 +1,4 @@
-/*	$OpenBSD: ums.c,v 1.13 2003/05/19 00:37:19 nate Exp $ */
+/*	$OpenBSD: ums.c,v 1.15 2004/12/06 11:08:23 dlg Exp $ */
 /*	$NetBSD: ums.c,v 1.60 2003/03/11 16:44:00 augustss Exp $	*/
 
 /*
@@ -69,8 +69,8 @@
 #include <dev/wscons/wsmousevar.h>
 
 #ifdef USB_DEBUG
-#define DPRINTF(x)	if (umsdebug) logprintf x
-#define DPRINTFN(n,x)	if (umsdebug>(n)) logprintf x
+#define DPRINTF(x)	do { if (umsdebug) logprintf x; } while (0)
+#define DPRINTFN(n,x)	do { if (umsdebug>(n)) logprintf x; } while (0)
 int	umsdebug = 0;
 #else
 #define DPRINTF(x)
@@ -86,7 +86,7 @@ int	umsdebug = 0;
 #define PS2MBUTMASK	x04
 #define PS2BUTMASK 0x0f
 
-#define MAX_BUTTONS	7	/* must not exceed size of sc_buttons */
+#define MAX_BUTTONS	16	/* must not exceed size of sc_buttons */
 
 struct ums_softc {
 	struct uhidev sc_hdev;

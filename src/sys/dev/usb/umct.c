@@ -1,4 +1,4 @@
-/*	$OpenBSD: umct.c,v 1.10 2004/04/20 16:28:36 pvalchev Exp $	*/
+/*	$OpenBSD: umct.c,v 1.13 2004/09/20 21:34:46 deraadt Exp $	*/
 /*	$NetBSD: umct.c,v 1.10 2003/02/23 04:20:07 simonb Exp $	*/
 /*
  * Copyright (c) 2001 The NetBSD Foundation, Inc.
@@ -70,7 +70,7 @@
 #include <dev/usb/umct.h>
 
 #ifdef UMCT_DEBUG
-#define DPRINTFN(n, x)  if (umctdebug > (n)) logprintf x
+#define DPRINTFN(n, x)  do { if (umctdebug > (n)) logprintf x; } while (0)
 int	umctdebug = 0;
 #else
 #define DPRINTFN(n, x)
@@ -151,6 +151,8 @@ static const struct usb_devno umct_devs[] = {
 	{ USB_VENDOR_MCT, USB_PRODUCT_MCT_DU_H3SP_USB232 },
 	/* BELKIN F5U109 */
 	{ USB_VENDOR_BELKIN, USB_PRODUCT_BELKIN_F5U109 },
+	/* BELKIN F5U409 */
+	{ USB_VENDOR_BELKIN, USB_PRODUCT_BELKIN_F5U409 },
 };
 #define umct_lookup(v, p) usb_lookup(umct_devs, v, p)
 
@@ -178,7 +180,7 @@ USB_ATTACH(umct)
 	char devinfo[1024];
 	char *devname = USBDEVNAME(sc->sc_dev);
 	usbd_status err;
-	int i, found;
+	int i;
 	struct ucom_attach_args uca;
 
         usbd_devinfo(dev, 0, devinfo, sizeof devinfo);
@@ -228,7 +230,6 @@ USB_ATTACH(umct)
 
 	id = usbd_get_interface_descriptor(sc->sc_iface);
 	sc->sc_iface_number = id->bInterfaceNumber;
-	found = 0;
 
 	for (i = 0; i < id->bNumEndpoints; i++) {
 		ed = usbd_interface2endpoint_descriptor(sc->sc_iface, i);
@@ -239,11 +240,15 @@ USB_ATTACH(umct)
 			USB_ATTACH_ERROR_RETURN;
 		}
 
+		/*
+		 * The Bulkin endpoint is marked as an interrupt. Since
+		 * we can't rely on the endpoint descriptor order, we'll
+		 * check the wMaxPacketSize field to differentiate.
+		 */
 		if (UE_GET_DIR(ed->bEndpointAddress) == UE_DIR_IN &&
 		    UE_GET_XFERTYPE(ed->bmAttributes) == UE_INTERRUPT &&
-		    found == 0) {
+		    UGETW(ed->wMaxPacketSize) != 0x2) {
 			uca.bulkin = ed->bEndpointAddress;
-			found = 1;
 		} else if (UE_GET_DIR(ed->bEndpointAddress) == UE_DIR_OUT &&
 		    UE_GET_XFERTYPE(ed->bmAttributes) == UE_BULK) {
 			uca.bulkout = ed->bEndpointAddress;

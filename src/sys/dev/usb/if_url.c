@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_url.c,v 1.13 2003/12/23 09:16:11 deraadt Exp $ */
+/*	$OpenBSD: if_url.c,v 1.24 2005/07/02 22:21:12 brad Exp $ */
 /*	$NetBSD: if_url.c,v 1.6 2002/09/29 10:19:21 martin Exp $	*/
 /*
  * Copyright (c) 2001, 2002
@@ -12,10 +12,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by Shingo WATANABE.
- * 4. Neither the name of the author nor the names of any co-contributors
+ * 3. Neither the name of the author nor the names of any co-contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
@@ -97,11 +94,6 @@
 #endif
 #endif /* defined(__OpenBSD__) */
 
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
-#endif
-
 #include <dev/mii/mii.h>
 #include <dev/mii/miivar.h>
 #include <dev/mii/urlphyreg.h>
@@ -151,8 +143,8 @@ Static int url_mem(struct url_softc *, int, int, void *, int);
 
 /* Macros */
 #ifdef URL_DEBUG
-#define DPRINTF(x)	if (urldebug) logprintf x
-#define DPRINTFN(n,x)	if (urldebug >= (n)) logprintf x
+#define DPRINTF(x)	do { if (urldebug) logprintf x; } while (0)
+#define DPRINTFN(n,x)	do { if (urldebug >= (n)) logprintf x; } while (0)
 int urldebug = 0;
 #else
 #define DPRINTF(x)
@@ -179,7 +171,17 @@ static const struct url_type {
 	/* MELCO LUA-KTX */
 	{{ USB_VENDOR_MELCO, USB_PRODUCT_MELCO_LUAKTX }, 0},
 	/* GREEN HOUSE USBKR100 */
-	{{ USB_VENDOR_GREENHOUSE2, USB_PRODUCT_GREENHOUSE2_USBKR100}, 0}
+	{{ USB_VENDOR_GREENHOUSE2, USB_PRODUCT_GREENHOUSE2_USBKR100}, 0},
+	/* GREEN HOUSE USBKR100PNA */
+	{{ USB_VENDOR_GREENHOUSE2, USB_PRODUCT_GREENHOUSE2_USBKR100PNA}, 0},
+	/* Longshine LCS-8138TX */
+	{{ USB_VENDOR_ABOCOM, USB_PRODUCT_ABOCOM_LCS8138TX}, 0},
+	/* Micronet SP128AR */
+	{{ USB_VENDOR_MICRONET, USB_PRODUCT_MICRONET_SP128AR}, 0},
+	/* Abocom RTL8151 and TrendNet TU-ET100C */
+	{{ USB_VENDOR_ABOCOM, USB_PRODUCT_ABOCOM_RTL8151}, 0},
+	/* OQO model 01 */
+	{{ USB_VENDOR_OQO, USB_PRODUCT_OQO_ETHER01}, 0}
 };
 #define url_lookup(v, p) ((struct url_type *)usb_lookup(url_devs, v, p))
 
@@ -289,8 +291,7 @@ USB_ATTACH(url)
 	/* initialize interface infomation */
 	ifp = GET_IFP(sc);
 	ifp->if_softc = sc;
-	ifp->if_mtu = ETHERMTU;
-	strncpy(ifp->if_xname, devname, IFNAMSIZ);
+	strlcpy(ifp->if_xname, devname, IFNAMSIZ);
 	ifp->if_flags = IFF_BROADCAST | IFF_SIMPLEX | IFF_MULTICAST;
 	ifp->if_start = url_start;
 	ifp->if_ioctl = url_ioctl;
@@ -1144,21 +1145,6 @@ url_ioctl(struct ifnet *ifp, u_long cmd, caddr_t data)
 			arp_ifinit(&sc->sc_ac, ifa);
 			break;
 #endif /* INET */
-#ifdef NS
-		case AF_NS:
-		    {
-			struct ns_addr *ina = &IA_SNS(ifa)->sns_addr;
-
-			if (ns_nullhost(*ina))
-				ina->x_host = *(union ns_host *)
-					LLADDR(ifp->if_sadl);
-			else
-				memcpy(LLADDR(ifp->if_sadl),
-				       ina->x_host.c_host,
-				       ifp->if_addrlen);
-			break;
-		    }
-#endif /* NS */
 		}
 		break;
 
@@ -1192,11 +1178,12 @@ url_ioctl(struct ifnet *ifp, u_long cmd, caddr_t data)
 		error = (cmd == SIOCADDMULTI) ?
 			ether_addmulti(ifr, &sc->sc_ac) :
 			ether_delmulti(ifr, &sc->sc_ac);
+
 		if (error == ENETRESET) {
-			url_init(ifp);
+			if (ifp->if_flags & IFF_RUNNING)
+				url_setmulti(sc);
+			error = 0;
 		}
-		url_setmulti(sc);
-		error = 0;
 		break;
 	case SIOCGIFMEDIA:
 	case SIOCSIFMEDIA:
@@ -1253,6 +1240,7 @@ url_stop(struct ifnet *ifp, int disable)
 	DPRINTF(("%s: %s: enter\n", USBDEVNAME(sc->sc_dev), __func__));
 
 	ifp->if_timer = 0;
+	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 
 	url_reset(sc);
 
@@ -1326,7 +1314,6 @@ url_stop(struct ifnet *ifp, int disable)
 	}
 
 	sc->sc_link = 0;
-	ifp->if_flags &= ~(IFF_RUNNING | IFF_OACTIVE);
 }
 
 /* Set media options */
@@ -1419,16 +1406,13 @@ url_tick_task(void *xsc)
 	s = splnet();
 
 	mii_tick(mii);
-	if (!sc->sc_link) {
-		mii_pollstat(mii);
-		if (mii->mii_media_status & IFM_ACTIVE &&
-		    IFM_SUBTYPE(mii->mii_media_active) != IFM_NONE) {
-			DPRINTF(("%s: %s: got link\n",
-				 USBDEVNAME(sc->sc_dev), __func__));
-			sc->sc_link++;
-			if (IFQ_IS_EMPTY(&ifp->if_snd) == 0)
-				   url_start(ifp);
-		}
+	if (!sc->sc_link && mii->mii_media_status & IFM_ACTIVE &&
+	    IFM_SUBTYPE(mii->mii_media_active) != IFM_NONE) {
+		DPRINTF(("%s: %s: got link\n",
+			 USBDEVNAME(sc->sc_dev), __func__));
+		sc->sc_link++;
+		if (IFQ_IS_EMPTY(&ifp->if_snd) == 0)
+			   url_start(ifp);
 	}
 
 	usb_callout(sc->sc_stat_ch, hz, url_tick, sc);

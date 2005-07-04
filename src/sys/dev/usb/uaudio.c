@@ -1,4 +1,4 @@
-/*	$OpenBSD: uaudio.c,v 1.18 2003/11/07 11:10:47 jmc Exp $ */
+/*	$OpenBSD: uaudio.c,v 1.21 2004/10/18 11:26:52 deraadt Exp $ */
 /*	$NetBSD: uaudio.c,v 1.67 2003/05/03 18:11:41 wiz Exp $	*/
 
 /*
@@ -72,8 +72,8 @@
 #include <dev/usb/uaudioreg.h>
 
 #ifdef UAUDIO_DEBUG
-#define DPRINTF(x)	if (uaudiodebug) logprintf x
-#define DPRINTFN(n,x)	if (uaudiodebug>(n)) logprintf x
+#define DPRINTF(x)	do { if (uaudiodebug) logprintf x; } while (0)
+#define DPRINTFN(n,x)	do { if (uaudiodebug>(n)) logprintf x; } while (0)
 int	uaudiodebug = 0;
 #else
 #define DPRINTF(x)
@@ -411,7 +411,7 @@ USB_ATTACH(uaudio)
 		}
 	}
 
-	printf("%s: audio rev %d.%02x\n", USBDEVNAME(sc->sc_dev),
+	printf("%s: audio rev %d.%02x", USBDEVNAME(sc->sc_dev),
 	       sc->sc_audio_rev >> 8, sc->sc_audio_rev & 0xff);
 
 	sc->sc_playchan.sc = sc->sc_recchan.sc = sc;
@@ -424,8 +424,9 @@ USB_ATTACH(uaudio)
 #if defined(__NetBSD__) && !defined(UAUDIO_DEBUG)
 	if (bootverbose)
 #endif
-		printf("%s: %d mixer controls\n", USBDEVNAME(sc->sc_dev),
-		    sc->sc_nctls);
+		printf(", %d mixer controls", sc->sc_nctls);
+
+	printf("\n");
 
 	usbd_add_drv_event(USB_EVENT_DRIVER_ATTACH, sc->sc_udev,
 			   USBDEV(sc->sc_dev));
@@ -573,14 +574,19 @@ uaudio_mixer_add_ctl(struct uaudio_softc *sc, struct mixerctl *mc)
 {
 	int res;
 	size_t len = sizeof(*mc) * (sc->sc_nctls + 1);
-	struct mixerctl *nmc = sc->sc_nctls == 0 ?
-	    malloc(len, M_USBDEV, M_NOWAIT) :
-	    realloc(sc->sc_ctls, len, M_USBDEV, M_NOWAIT);
+	struct mixerctl *nmc = malloc(len, M_USBDEV, M_NOWAIT);
 
 	if (nmc == NULL) {
 		printf("uaudio_mixer_add_ctl: no memory\n");
 		return;
 	}
+
+	/* Copy old data, if there was any */
+	if (sc->sc_nctls != 0) {
+	    bcopy(sc->sc_ctls, nmc, sizeof(*mc) * (sc->sc_nctls));
+	    free(sc->sc_ctls, M_USBDEV);
+	}
+
 	sc->sc_ctls = nmc;
 
 	mc->delta = 0;
@@ -1079,13 +1085,17 @@ void
 uaudio_add_alt(struct uaudio_softc *sc, struct as_info *ai)
 {
 	size_t len = sizeof(*ai) * (sc->sc_nalts + 1);
-	struct as_info *nai = (sc->sc_nalts == 0) ?
-	    malloc(len, M_USBDEV, M_NOWAIT) :
-	    realloc(sc->sc_alts, len, M_USBDEV, M_NOWAIT);
+	struct as_info *nai = malloc(len, M_USBDEV, M_NOWAIT);
 
 	if (nai == NULL) {
 		printf("uaudio_add_alt: no memory\n");
 		return;
+	}
+
+	/* Copy old data, if there was any */
+	if (sc->sc_nalts != 0) { 
+	    bcopy(sc->sc_alts, nai, sizeof(*ai) * (sc->sc_nalts));
+	    free(sc->sc_alts, M_USBDEV);
 	}
 
 	sc->sc_alts = nai;

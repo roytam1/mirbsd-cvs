@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_dc_cardbus.c,v 1.13 2003/04/29 21:39:34 jason Exp $	*/
+/*	$OpenBSD: if_dc_cardbus.c,v 1.21 2005/06/15 20:53:32 brad Exp $	*/
 
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -29,7 +29,6 @@
 #include <dev/pci/pcidevs.h>
 
 #include <dev/cardbus/cardbusvar.h>
-#include <dev/cardbus/cardbusdevs.h>
 
 #include <dev/ic/dcreg.h>
 
@@ -62,14 +61,18 @@ struct cfattach dc_cardbus_ca = {
 	    dc_cardbus_detach
 };
 
-struct dc_type dc_cardbus_devs[] = {
+const struct cardbus_matchid dc_cardbus_devices[] = {
 	{ PCI_VENDOR_DEC, PCI_PRODUCT_DEC_21142 },
 	{ PCI_VENDOR_XIRCOM, PCI_PRODUCT_XIRCOM_X3201_3_21143 },
 	{ PCI_VENDOR_ADMTEK, PCI_PRODUCT_ADMTEK_AN985 },
 	{ PCI_VENDOR_ACCTON, PCI_PRODUCT_ACCTON_EN2242 },
-	{ CARDBUS_VENDOR_ABOCOM, CARDBUS_PRODUCT_ABOCOM_FE2500 },
-	{ CARDBUS_VENDOR_ABOCOM, CARDBUS_PRODUCT_ABOCOM_PCM200 },
-	{ 0 }
+	{ PCI_VENDOR_ABOCOM, PCI_PRODUCT_ABOCOM_FE2500 },
+	{ PCI_VENDOR_ABOCOM, PCI_PRODUCT_ABOCOM_FE2500MX },
+	{ PCI_VENDOR_ABOCOM, PCI_PRODUCT_ABOCOM_PCM200 },
+	{ PCI_VENDOR_LINKSYS, PCI_PRODUCT_LINKSYS_PCMPC200 },
+	{ PCI_VENDOR_LINKSYS, PCI_PRODUCT_LINKSYS_PCM200 },
+	{ PCI_VENDOR_HAWKING, PCI_PRODUCT_HAWKING_PN672TX },
+	{ PCI_VENDOR_MICROSOFT, PCI_PRODUCT_MICROSOFT_MN120 },
 };
 
 int
@@ -77,16 +80,9 @@ dc_cardbus_match(parent, match, aux)
 	struct device *parent;
 	void *match, *aux;
 {
-	struct cardbus_attach_args *ca = aux;
-	struct dc_type *t;
-
-	for (t = dc_cardbus_devs; t->dc_vid != 0; t++) {
-		if ((PCI_VENDOR(ca->ca_id) == t->dc_vid) &&
-		    (PCI_PRODUCT(ca->ca_id) == t->dc_did))
-			return (1);
-	}
-
-	return (0);
+	return (cardbus_matchbyid((struct cardbus_attach_args *)aux,
+	    dc_cardbus_devices,
+	    sizeof(dc_cardbus_devices)/sizeof(dc_cardbus_devices[0])));
 }
 
 void
@@ -130,13 +126,17 @@ dc_cardbus_attach(parent, self, aux)
 
 	dc_cardbus_setup(csc);
 
+	/* Get the eeprom width, but XIRCOM has no eeprom */
+	if (!(PCI_VENDOR(ca->ca_id) == PCI_VENDOR_XIRCOM &&
+	      PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_XIRCOM_X3201_3_21143))
+		dc_eeprom_width(sc);
+
 	switch (PCI_VENDOR(ca->ca_id)) {
 	case PCI_VENDOR_DEC:
 		if (PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_DEC_21142) {
 			sc->dc_type = DC_TYPE_21143;
 			sc->dc_flags |= DC_TX_POLL|DC_TX_USE_TX_INTR;
 			sc->dc_flags |= DC_REDUCED_MII_POLL;
-			dc_eeprom_width(sc);
 			dc_read_srom(sc, sc->dc_romwidth);
 			dc_parse_21143_srom(sc);
 		}
@@ -145,7 +145,8 @@ dc_cardbus_attach(parent, self, aux)
 		if (PCI_PRODUCT(ca->ca_id) ==
 		    PCI_PRODUCT_XIRCOM_X3201_3_21143) {
 			sc->dc_type = DC_TYPE_XIRCOM;
-			sc->dc_flags |= DC_TX_INTR_ALWAYS|DC_TX_COALESCE;
+			sc->dc_flags |= DC_TX_INTR_ALWAYS|DC_TX_COALESCE |
+					DC_TX_ALIGN;
 			sc->dc_pmode = DC_PMODE_MII;
 
 			bcopy(ca->ca_cis.funce.network.netid,
@@ -155,16 +156,24 @@ dc_cardbus_attach(parent, self, aux)
 		break;
 	case PCI_VENDOR_ADMTEK:
 	case PCI_VENDOR_ACCTON:
-	case CARDBUS_VENDOR_ABOCOM:
+	case PCI_VENDOR_ABOCOM:
+	case PCI_VENDOR_LINKSYS:
+	case PCI_VENDOR_HAWKING:
+	case PCI_VENDOR_MICROSOFT:
 		if (PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_ADMTEK_AN985 ||
 		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_ACCTON_EN2242 ||
-		    PCI_PRODUCT(ca->ca_id) == CARDBUS_PRODUCT_ABOCOM_FE2500 ||
-		    PCI_PRODUCT(ca->ca_id) == CARDBUS_PRODUCT_ABOCOM_PCM200) {
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_ABOCOM_FE2500 ||
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_ABOCOM_FE2500MX ||
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_ABOCOM_PCM200 ||
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_LINKSYS_PCMPC200 ||
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_LINKSYS_PCM200 ||
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_HAWKING_PN672TX ||
+		    PCI_PRODUCT(ca->ca_id) == PCI_PRODUCT_MICROSOFT_MN120) {
 			sc->dc_type = DC_TYPE_AN983;
-			sc->dc_flags |= DC_TX_USE_TX_INTR|DC_TX_ADMTEK_WAR;
+			sc->dc_flags |= DC_TX_USE_TX_INTR|DC_TX_ADMTEK_WAR |
+					DC_64BIT_HASH;
 			sc->dc_pmode = DC_PMODE_MII;
-			dc_eeprom_width(sc);
-			dc_read_srom(sc, sc->dc_romwidth);
+			/* Don't read SROM for - auto-loaded on reset */
 		}
 		break;
 	default:
