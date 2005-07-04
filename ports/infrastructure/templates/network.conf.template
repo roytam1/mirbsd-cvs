@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 # $OpenBSD: network.conf.template,v 1.69 2004/05/25 10:31:08 xsa Exp $
 
 #
@@ -127,6 +127,7 @@ MASTER_SITE_SUNSITE+=	\
 	ftp://ftp.chg.ru/pub/Linux/sunsite/
 
 MASTER_SITE_SOURCEFORGE+=	\
+	http://mesh.dl.sourceforge.net/sourceforge/ \
 	http://eu.dl.sourceforge.net/ \
 	http://belnet.dl.sourceforge.net/sourceforge/ \
 	http://switch.dl.sourceforge.net/sourceforge/ \
