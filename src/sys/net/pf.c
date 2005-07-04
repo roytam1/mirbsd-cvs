@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf.c,v 1.2 2005/03/06 21:28:16 tg Exp $ */
+/**	$MirOS: src/sys/net/pf.c,v 1.3 2005/04/14 19:35:49 tg Exp $ */
 /*	$OpenBSD: pf.c,v 1.433.2.8 2005/02/19 22:47:44 brad Exp $ */
 
 /*
@@ -3866,8 +3866,8 @@ pf_test_state_tcp(struct pf_state **state, int direction, struct pfi_kif *kif,
 		if (src->state >= TCPS_FIN_WAIT_2 &&
 		    dst->state >= TCPS_FIN_WAIT_2)
 			(*state)->timeout = PFTM_TCP_CLOSED;
-		else if (src->state >= TCPS_FIN_WAIT_2 ||
-		    dst->state >= TCPS_FIN_WAIT_2)
+		else if (src->state >= TCPS_CLOSING &&
+		    dst->state >= TCPS_CLOSING)
 			(*state)->timeout = PFTM_TCP_FIN_WAIT;
 		else if (src->state < TCPS_ESTABLISHED ||
 		    dst->state < TCPS_ESTABLISHED)
