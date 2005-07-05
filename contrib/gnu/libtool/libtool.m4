@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.34 2005/07/03 19:09:10 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.35 2005/07/05 21:01:13 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1893,7 +1893,7 @@ test "$dynamic_linker" = no && can_build_shared=no
 AC_DEFUN([_LT_AC_TAGCONFIG],
 [AC_ARG_WITH([tags],
     [AC_HELP_STRING([--with-tags@<:@=TAGS@:>@],
-        [include additional configurations @<:@automatic@:>@])],
+	[include additional configurations @<:@automatic@:>@])],
     [tagnames="$withval"])
 
 if test -f "$ltmain" && test -n "$tagnames"; then
@@ -3206,20 +3206,20 @@ case $host_os in
       _LT_AC_TAGVAR(module_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC $allow_undefined_flag  -o $lib -bundle $libobjs $deplibs$compiler_flags~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
     else
       case $cc_basename in
-        xlc*)
-         output_verbose_link_cmd='echo'
-          _LT_AC_TAGVAR(archive_cmds, $1)='$CC -qmkshrobj ${wl}-single_module $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}`echo $rpath/$soname` $verstring'
-          _LT_AC_TAGVAR(module_cmds, $1)='$CC $allow_undefined_flag -o $lib -bundle $libobjs $deplibs$compiler_flags'
-          # Don't fix this by using the ld -exported_symbols_list flag, it doesn't exist in older darwin lds
-          _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC -qmkshrobj ${wl}-single_module $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}$rpath/$soname $verstring~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
-          _LT_AC_TAGVAR(module_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC $allow_undefined_flag  -o $lib -bundle $libobjs $deplibs$compiler_flags~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
-          ;;
-       *)
-	 _LT_AC_TAGVAR(ld_shlibs, $1)=no
-	  ;;
+      xlc*)
+	output_verbose_link_cmd='echo'
+	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -qmkshrobj ${wl}-single_module $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}`echo $rpath/$soname` $verstring'
+	_LT_AC_TAGVAR(module_cmds, $1)='$CC $allow_undefined_flag -o $lib -bundle $libobjs $deplibs$compiler_flags'
+	# Don't fix this by using the ld -exported_symbols_list flag, it doesn't exist in older darwin lds
+	_LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC -qmkshrobj ${wl}-single_module $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}$rpath/$soname $verstring~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
+	_LT_AC_TAGVAR(module_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC $allow_undefined_flag  -o $lib -bundle $libobjs $deplibs$compiler_flags~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
+	;;
+      *)
+	_LT_AC_TAGVAR(ld_shlibs, $1)=no
+	;;
       esac
       fi
-	;;
+      ;;
 
   dgux*)
     case $cc_basename in
@@ -5279,13 +5279,13 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
       darwin*)
 	# PIC is the default on this platform
 	# Common symbols not allowed in MH_DYLIB files
-       case $cc_basename in
-	 xlc*)
-	 _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-qnocommon'
-	 _LT_AC_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
-	 ;;
-       esac
-       ;;
+	case $cc_basename in
+	xlc*)
+	  _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-qnocommon'
+	  _LT_AC_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
+	  ;;
+	esac
+	;;
 
     mingw* | pw32* | os2*)
       # This hack is so that the source file can tell whether it is being
@@ -5326,7 +5326,7 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
 	_LT_AC_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
 	_LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-KPIC'
 	_LT_AC_TAGVAR(lt_prog_compiler_static, $1)='-static'
-        ;;
+	;;
       pgcc* | pgf77* | pgf90* | pgf95*)
 	# Portland Group compilers (*not* the Pentium gcc compiler,
 	# which looks to be a dead project)
@@ -5826,11 +5826,11 @@ EOF
 	# Warning - without using the other runtime loading flags (-brtl),
 	# -berok will link without error, but may produce a broken library.
 	_LT_AC_TAGVAR(allow_undefined_flag, $1)='-berok'
-       # Determine the default libpath from the value encoded in an empty executable.
-       _LT_AC_SYS_LIBPATH_AIX
-       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-blibpath:$libdir:'"$aix_libpath"
+	# Determine the default libpath from the value encoded in an empty executable.
+	_LT_AC_SYS_LIBPATH_AIX
+	_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-blibpath:$libdir:'"$aix_libpath"
 	_LT_AC_TAGVAR(archive_expsym_cmds, $1)="\$CC"' -o $output_objdir/$soname $libobjs $deplibs $compiler_flags `if test "x${allow_undefined_flag}" != "x"; then echo "${wl}${allow_undefined_flag}"; else :; fi` '"\${wl}$no_entry_flag \${wl}$exp_sym_flag:\$export_symbols $shared_flag"
-       else
+      else
 	if test "$host_cpu" = ia64; then
 	  _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-R $libdir:/usr/lib:/lib'
 	  _LT_AC_TAGVAR(allow_undefined_flag, $1)="-z nodefs"
@@ -5889,23 +5889,23 @@ EOF
 
     darwin* | rhapsody*)
       case $host_os in
-        rhapsody* | darwin1.[[012]])
-         _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-undefined ${wl}suppress'
-         ;;
-       *) # Darwin 1.3 on
-	 if test -z ${MACOSX_DEPLOYMENT_TARGET} ; then
-	   _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-flat_namespace ${wl}-undefined ${wl}suppress'
-	 else
-	   case ${MACOSX_DEPLOYMENT_TARGET} in
-	     10.[[012]])
-	       _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-flat_namespace ${wl}-undefined ${wl}suppress'
-	       ;;
-	     10.*)
-	       _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-undefined ${wl}dynamic_lookup'
-	       ;;
-	   esac
-	 fi
-	 ;;
+      rhapsody* | darwin1.[[012]])
+	_LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-undefined ${wl}suppress'
+	;;
+      *) # Darwin 1.3 on
+	if test -z ${MACOSX_DEPLOYMENT_TARGET} ; then
+	  _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-flat_namespace ${wl}-undefined ${wl}suppress'
+	else
+	  case ${MACOSX_DEPLOYMENT_TARGET} in
+	  10.[[012]])
+	    _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-flat_namespace ${wl}-undefined ${wl}suppress'
+	    ;;
+	  10.*)
+	    _LT_AC_TAGVAR(allow_undefined_flag, $1)='${wl}-undefined ${wl}dynamic_lookup'
+	    ;;
+	  esac
+	fi
+	;;
       esac
       _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
       _LT_AC_TAGVAR(hardcode_direct, $1)=no
@@ -5922,20 +5922,20 @@ EOF
       _LT_AC_TAGVAR(module_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC $allow_undefined_flag  -o $lib -bundle $libobjs $deplibs$compiler_flags~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
     else
       case $cc_basename in
-        xlc*)
-         output_verbose_link_cmd='echo'
-         _LT_AC_TAGVAR(archive_cmds, $1)='$CC -qmkshrobj $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}`echo $rpath/$soname` $verstring'
-         _LT_AC_TAGVAR(module_cmds, $1)='$CC $allow_undefined_flag -o $lib -bundle $libobjs $deplibs$compiler_flags'
-          # Don't fix this by using the ld -exported_symbols_list flag, it doesn't exist in older darwin lds
-         _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC -qmkshrobj $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}$rpath/$soname $verstring~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
-          _LT_AC_TAGVAR(module_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC $allow_undefined_flag  -o $lib -bundle $libobjs $deplibs$compiler_flags~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
-          ;;
-       *)
-	 _LT_AC_TAGVAR(ld_shlibs, $1)=no
-	  ;;
+      xlc*)
+	output_verbose_link_cmd='echo'
+	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -qmkshrobj $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}`echo $rpath/$soname` $verstring'
+	_LT_AC_TAGVAR(module_cmds, $1)='$CC $allow_undefined_flag -o $lib -bundle $libobjs $deplibs$compiler_flags'
+	# Don't fix this by using the ld -exported_symbols_list flag, it doesn't exist in older darwin lds
+	_LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC -qmkshrobj $allow_undefined_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-install_name ${wl}$rpath/$soname $verstring~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
+	_LT_AC_TAGVAR(module_expsym_cmds, $1)='sed -e "s,#.*,," -e "s,^[    ]*,," -e "s,^\(..*\),_&," < $export_symbols > $output_objdir/${libname}-symbols.expsym~$CC $allow_undefined_flag  -o $lib -bundle $libobjs $deplibs$compiler_flags~nmedit -s $output_objdir/${libname}-symbols.expsym ${lib}'
+	;;
+      *)
+	_LT_AC_TAGVAR(ld_shlibs, $1)=no
+	;;
       esac
     fi
-      ;;
+    ;;
 
     dgux*)
       _LT_AC_TAGVAR(archive_cmds, $1)='$LD -G -h $soname -o $lib $libobjs $deplibs $linker_flags'
@@ -6082,16 +6082,16 @@ EOF
 	_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
 	_LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
       else
-       case $host_os in
-	 openbsd[[01]].* | openbsd2.[[0-7]] | openbsd2.[[0-7]].*)
-	   _LT_AC_TAGVAR(archive_cmds, $1)='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'
-	   _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='-R$libdir'
-	   ;;
-	 *)
-	   _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
-	   _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
-	   ;;
-       esac
+	case $host_os in
+	openbsd[[01]].* | openbsd2.[[0-7]] | openbsd2.[[0-7]].*)
+	  _LT_AC_TAGVAR(archive_cmds, $1)='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'
+	  _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='-R$libdir'
+	  ;;
+	*)
+	  _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
+	  _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
+	  ;;
+	esac
       fi
       ;;
 

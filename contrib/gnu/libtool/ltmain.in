@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.21 2005/07/03 19:47:35 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.22 2005/07/05 21:01:14 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -3294,7 +3294,7 @@ EOF
 	for p in $tempremovelist; do
 	  case $p in
 	    *.$objext)
-	       ;;
+	      ;;
 	    $output_objdir/$outputname | $output_objdir/$libname.* | $output_objdir/${libname}${release}.*)
 	       if test "X$precious_files_regex" != "X"; then
 		 if echo $p | $EGREP -e "$precious_files_regex" >/dev/null 2>&1
@@ -5091,7 +5091,7 @@ fi\
 
       # Do each command in the archive commands.
       if test -n "$old_archive_from_new_cmds" && test "$build_libtool_libs" = yes; then
-       cmds=$old_archive_from_new_cmds
+	cmds=$old_archive_from_new_cmds
       else
 	# POSIX demands no paths to be encoded in archives.  We have
 	# to avoid creating archives with duplicate basenames if we
