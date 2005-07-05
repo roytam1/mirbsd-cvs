@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/libstdc++-v3/Makefile.am,v 1.2 2005/03/26 09:22:56 tg Exp $
 #
 ## Makefile for the toplevel directory of the GNU C++ Standard library.
 ##
@@ -53,10 +53,6 @@ doxygen-man:
 	            --mode=man $${srcdir} $${builddir})
 
 .PHONY: doxygen doxygen-maint doxygen-man
-
-# Handy forwarding targets.
-check-%:
-	cd testsuite && $(MAKE) $@
 
 # Multilib support.
 MAKEOVERRIDES=
