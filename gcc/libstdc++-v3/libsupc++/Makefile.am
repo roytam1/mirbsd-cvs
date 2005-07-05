@@ -102,7 +102,7 @@ LTCOMPILE = $(LIBTOOL) --tag CC --tag disable-shared --mode=compile $(CC) \
 
 cp-demangle.c:
 	rm -f $@
-	$(LN_S) $(toplevel_srcdir)/libiberty/cp-demangle.c $@
+	$(LN_S) $(LIBIBERTY_SRC)/cp-demangle.c $@
 cp-demangle.lo: cp-demangle.c
 	$(LTCOMPILE) -DIN_GLIBCPP_V3 -Wno-error -c $<
 cp-demangle.o: cp-demangle.c
