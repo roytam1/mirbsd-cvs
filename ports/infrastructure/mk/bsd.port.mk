@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.32 2005/07/05 19:31:46 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.33 2005/07/05 20:08:29 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2140,6 +2140,7 @@ clean:
 plist update-plist: fake
 	@mkdir -p ${PKGDIR}
 	@DESTDIR=${WRKINST} PREFIX=${WRKINST}${PREFIX} LDCONFIG="${LDCONFIG}" \
+	LOCALBASE=${PREFIX} \
 	MTREE_FILE=${WRKPKG}/mtree.spec \
 	INSTALL_PRE_COOKIE=${_INSTALL_PRE_COOKIE} \
 	PKGREPOSITORY=${PKGREPOSITORY} \

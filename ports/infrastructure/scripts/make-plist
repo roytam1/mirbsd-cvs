@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS: ports/infrastructure/scripts/make-plist,v 1.4 2005/07/05 20:36:17 bsiegert Exp $
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.5 2005/07/05 21:50:27 bsiegert Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -248,7 +248,7 @@ sub libtoolise_plist
 		chomp;
 		next unless m/^([^=]+)='(.*)'$/;
 		if ($1 eq 'libdir') {
-			$prefix = File::Spec->abs2rel($2, '/usr/local');
+			$prefix = File::Spec->abs2rel($2, $ENV{LOCALBASE});
 		} elsif (	  ($1 eq 'dlname')
 				||($1 eq 'library_names')
 				||($1 eq 'old_library')) {
