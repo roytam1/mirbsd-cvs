@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/infrastructure/scripts/check_register,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 # $OpenBSD: check_register,v 1.2 2003/08/02 10:53:52 espie Exp $
 # Copyright (c) 2001
 # Marc Espie.  All rights reserved.
@@ -37,9 +37,9 @@ known2=$(mktemp ${TMPDIR}/known.XXXXXXXXX)
 cd ${PORTSDIR} && make show=FULLPKGPATH ECHO_MSG=: | tee ${known1}
 sort -o ${known1} -u ${known1}
 
-cd ${PORTSDIR} && find . -path ./distfiles -prune -o \
-	-path ./packages\* -prune -o -path ./logs\* -prune -o 
-	-path ./bulk\* -prune -o \
+cd ${PORTSDIR} && find . -path ./Distfiles -prune -o \
+	-path ./Packages\* -prune -o -path ./Logs\* -prune -o 
+	-path ./Bulk\* -prune -o \
 	-name w-\* -prune -o -name Makefile -print | \
 	xargs fgrep -l bsd.port.mk| \
 	while read f

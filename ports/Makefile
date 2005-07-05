@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.2 2005/03/19 22:26:37 bsiegert Exp $
+# $MirOS: ports/Makefile,v 1.3 2005/07/05 19:42:28 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -94,7 +94,7 @@ search:	${.CURDIR}/INDEX
 .endif
 
 
-MIRROR_MK?= ${.CURDIR}/distfiles/Makefile
+MIRROR_MK?= ${.CURDIR}/Distfiles/Makefile
 
 mirror-maker:
 	@mkdir -p ${MIRROR_MK:H}

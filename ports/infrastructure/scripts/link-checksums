@@ -8,7 +8,7 @@
 
 # Also see REFETCH in bsd.port.mk, and mirroring-ports (7)
 
-DISTDIR=${DISTDIR:-/usr/ports/distfiles}
+DISTDIR=${DISTDIR:-/usr/ports/Distfiles}
 cd ${DISTDIR}
 CIPHERS=${CIPHERS:-sha1 md5 rmd160}
 

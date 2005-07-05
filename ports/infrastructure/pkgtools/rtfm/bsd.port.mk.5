@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.1.7.1 2005/03/18 15:47:18 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.2 2005/04/12 19:20:44 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -589,7 +589,7 @@ See
 .It Ev BULK_COOKIES_DIR
 User settings.
 Used to store cookies for successful bulk-package builds, defaults to
-.Pa ${PORTSDIR}/bulk/${MACHINE_ARCH} .
+.Pa ${PORTSDIR}/Bulk .
 .It Ev BULK_FLAGS
 Flags to pass to build each target in
 .Ev BULK_TARGETS .
@@ -617,7 +617,7 @@ is set.
 User settings.
 Base location where packages suitable for a CDROM (see
 PERMIT_PACKAGE_CDROM) will be placed
-(default: ${PKGREPOSITORYBASE}/cdrom)
+(default: ${PKGREPOSITORY}/CDROM)
 .It Ev CDROM_SITE
 Path to a local database that holds distribution files (usually a CD-ROM
 or other similar media), used to retrieve distribution files before going
@@ -782,7 +782,7 @@ so that those few directories do not get in the way.
 .It Ev DISTDIR
 Directory where all ports distribution files and patchfiles are stashed.
 Defaults to
-.Pa ${PORTSDIR}/distfiles .
+.Pa ${PORTSDIR}/Distfiles .
 Override if distribution files are stored elsewhere.
 Always use
 .Ev FULLDISTDIR
@@ -947,7 +947,7 @@ See
 User settings.
 Base location where packages suitable for ftp (see
 PERMIT_PACKAGE_FTP) will be placed
-(default: ${PKGREPOSITORYBASE}/ftp)
+(default: ${PKGREPOSITORY}/FTP)
 .It Ev FULLPKGNAME
 Full name of the main created package, taking flavors into account.
 Defaults to ${PKGNAME}${FLAVOR_EXT}.
@@ -1279,10 +1279,7 @@ Defaults to
 User settings.
 .It Ev PKGREPOSITORY
 User settings.
-Location for packages built (default ${PKGREPOSITORYBASE}/all)
-.It Ev PKGREPOSITORYBASE
-User settings.
-Base location for packages built (default ${PORTSDIR}/packages/${ARCH}).
+Location for packages built (default ${PORTSDIR}/Packages).
 .It Ev PORTHOME
 Setting of env variable
 .Ev HOME
@@ -1299,7 +1296,7 @@ Path used by dependencies and
 .Pa bsd.port.subdir.mk
 to look up package specifications.
 Defaults to
-.Pa ${PORTSDIR}:${PORTSDIR}/mystuff .
+.Pa ${PORTSDIR}:${PORTSDIR}/Mystuff .
 .It Ev PKGDIR
 Location for packaging information (packing list, port description, port
 short description).
@@ -1633,15 +1630,15 @@ Specification used for populating ${WRKINST} at the start of
 Use
 .Ar pre-fake
 if this is incomplete.
-.It Pa ${PORTSDIR}/packages/${MACHINE_ARCH}/cdrom
+.It Pa ${PORTSDIR}/Packages/CDROM
 Default setup of ${CDROM_PACKAGES}.
-.It Pa ${PORTSDIR}/packages/${MACHINE_ARCH}/ftp
+.It Pa ${PORTSDIR}/Packages/FTP
 Default setup of ${FTP_PACKAGES}.
-.It Pa ${PORTSDIR}/packages/${MACHINE_ARCH}/all
+.It Pa ${PORTSDIR}/Packages
 Default setup of ${PKGREPOSITORY}.
-.It Pa ${PORTSDIR}/bulk/${MACHINE_ARCH}
+.It Pa ${PORTSDIR}/Bulk
 Default setup of ${BULK_COOKIES_DIR}.
-.It Pa ${PORTSDIR}/mystuff
+.It Pa ${PORTSDIR}/Mystuff
 Extra directory used to store local ports before committing them.
 All depend targets will normally look there after the normal lookup fails.
 See

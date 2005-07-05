@@ -31,7 +31,7 @@ db/network.conf
 	Distfiles configuration. Tweakable by the user
 
 fetch/check-distfiles
-	heuristic to check the whole contents of /usr/ports/distfiles against
+	heuristic to check the whole contents of /usr/ports/Distfiles against
 	all MD5 files in the ports tree.
 
 fetch/check-license

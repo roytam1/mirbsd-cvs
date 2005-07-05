@@ -42,8 +42,8 @@
 	native-fswrite: filename match "${TMPDIR}" then permit
 	native-fswrite: filename match "${DISTDIR}" then permit
 	native-fswrite: filename match "${WRKDIR}" then permit
-	native-fswrite: filename match "${PORTSDIR}/bulk" then permit
-	native-fswrite: filename match "${PORTSDIR}/packages" then permit
+	native-fswrite: filename match "${PORTSDIR}/Bulk" then permit
+	native-fswrite: filename match "${PORTSDIR}/Packages" then permit
 	native-fswrite: filename match "${PKG_TMPDIR}" then permit
 	native-fswrite: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-fsync: permit

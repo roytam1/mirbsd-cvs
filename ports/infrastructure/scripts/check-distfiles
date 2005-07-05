@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+# $MirOS$
 # $OpenBSD: check-distfiles,v 1.4 2003/02/25 11:36:55 espie Exp $
 #
 # Copyright (c) 1999 Marc Espie.
@@ -29,7 +29,7 @@ PATH=/bin:/usr/bin
 export PATH
 
 # This script does a full-scale check of everything that lives under
-# /usr/ports/distfiles
+# /usr/ports/Distfiles
 PORTS=/usr/ports
 ALLSUMS=`mktemp /tmp/checksums.XXXXXX` || exit 1
 GREP_RESULT=`mktemp /tmp/grep.XXXXXX` || exit 1
@@ -45,7 +45,7 @@ do
 	fi
 done
 
-cd $PORTS/distfiles 
+cd $PORTS/Distfiles 
 find . -type f|sed -e 's|^\./||'|while read name
 do
 	if grep "^SHA1 ($name) = " $ALLSUMS >$GREP_RESULT

@@ -27,7 +27,7 @@
 # build a locate-style database of all distfiles we can.
 
 PORTSDIR=${PORTSDIR:-/usr/ports}
-DISTDIR=${DISTDIR:-$PORTSDIR/distfiles}
+DISTDIR=${DISTDIR:-$PORTSDIR/Distfiles}
 OUTFILE=${1:-$PORTSDIR/infrastructure/db/locate.database}
 set -e
 { cd $DISTDIR

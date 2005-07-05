@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.31 2005/07/05 18:50:20 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.32 2005/07/05 19:31:46 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -55,15 +55,14 @@ PATCH_CHECK_ONLY?=	No
 REFETCH?=		false
 
 # Global path locations.
-DISTDIR?=		${PORTSDIR}/distfiles
-BULK_COOKIES_DIR?=	${PORTSDIR}/bulk/${MACHINE_ARCH}
+DISTDIR?=		${PORTSDIR}/Distfiles
+BULK_COOKIES_DIR?=	${PORTSDIR}/Bulk
 TEMPLATES?=		${PORTSDIR}/infrastructure/templates
 TMPDIR?=		/tmp
 
-PKGREPOSITORYBASE?=	${PORTSDIR}/packages/${MACHINE_ARCH}
-PKGREPOSITORY?=		${PKGREPOSITORYBASE}/all
-CDROM_PACKAGES?=	${PKGREPOSITORYBASE}/cdrom
-FTP_PACKAGES?=		${PKGREPOSITORYBASE}/ftp
+PKGREPOSITORY?=		${PORTSDIR}/Packages
+CDROM_PACKAGES?=	${PKGREPOSITORY}/CDROM
+FTP_PACKAGES?=		${PKGREPOSITORY}/FTP
 
 WRKOBJDIR_${PKGPATH}?=		${WRKOBJDIR}
 FAKEOBJDIR_${PKGPATH}?=		${FAKEOBJDIR}

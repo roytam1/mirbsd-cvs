@@ -30,7 +30,7 @@
 
 set -e
 : ${PORTSDIR=/usr/ports}
-: ${DISTDIR=${PORTSDIR}/distfiles}
+: ${DISTDIR=${PORTSDIR}/Distfiles}
 : ${TMPDIR=/tmp}
 if [ ! -f $DISTDIR/Makefile ]
 then

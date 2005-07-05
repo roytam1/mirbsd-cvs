@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.7 2005/06/17 20:09:15 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.8 2005/07/05 18:50:21 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -84,7 +84,7 @@ PKGDEPTH=
 PKGDEPTH=		${PKGPATH:C|[^./][^/]*|..|g}/
 .endif
 
-PORTSDIR_PATH?=		${PORTSDIR}:${PORTSDIR}/mystuff
+PORTSDIR_PATH?=		${PORTSDIR}:${PORTSDIR}/Mystuff
 HTMLIFY=		sed -e 's/&/\&amp;/g' -e 's/>/\&gt;/g' -e 's/</\&lt;/g'
 
 # Code to invoke to split dir,-multi,flavour
