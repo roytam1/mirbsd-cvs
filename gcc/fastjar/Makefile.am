@@ -59,6 +59,8 @@ grepjar_DEPENDENCIES = $(ZDEPS) $(LIBIBERTY)
 AM_CFLAGS = @fastjar_warn_cflags@
 AM_MAKEINFOFLAGS = -I $(srcdir)/../gcc/doc/include
 
+DISTCLEANFILES = *.info*
+
 TEXINFO_TEX = ../gcc/doc/include/texinfo.tex
 info_TEXINFOS = fastjar.texi
 fastjar_TEXINFOS = \
