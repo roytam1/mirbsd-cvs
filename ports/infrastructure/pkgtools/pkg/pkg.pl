@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS$
+# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.1.7.1 2005/03/18 15:47:18 tg Exp $
 # $OpenBSD: pkg.pl,v 1.7 2001/11/17 10:42:11 espie Exp $
 #
 # Copyright (c) 2001 Marc Espie.
@@ -70,16 +70,16 @@ sub dewey_compare
 	my ($a, $b) = @_;
 	my ($pa, $pb);
 
-	unless ($b =~ m/p\d+$/) { 		# does the Dewey hold a p<number> ?
-		$a =~ s/p\d+$//; 	# No -> strip it from version.
+	unless ($b =~ m/-\d+$/) { 		# does the Dewey hold a -<number> ?
+		$a =~ s/-\d+$//; 	# No -> strip it from version.
 	}
 
 	return 0 if $a =~ /^$b$/; 	# bare equality
 
-	if ($a =~ s/p(\d+)$//) {	# extract patchlevels
+	if ($a =~ s/-(\d+)$//) {	# extract patchlevels
 		$pa = $1;
 	}
-	if ($b =~ s/p(\d+)$//) {
+	if ($b =~ s/-(\d+)$//) {
 		$pb = $1;
 	}
 
@@ -111,7 +111,7 @@ sub check_version
 	my @specs = split(/,/, $spec);
 	for (grep /^\d/, @specs) { 		# exact number: check match
 		return 1 if $v =~ /^$_$/;
-		return 1 if $v =~ /^${_}p\d+$/; # allows for recent patches
+		return 1 if $v =~ /^${_}-\d+$/; # allows for recent patches
 	}
 
 	# Last chance: dewey specs ?
@@ -183,11 +183,11 @@ sub subpattern_match
 
 	# then, guess at where the version number is if any,
 
-	# this finds patterns like -<=2.3,>=3.4.p1-
+	# this finds patterns like -<=2.3,>=3.4-1-
 	# the only constraint is that the actual number
 	# - must start with a digit,
 	# - not contain - or ,
-	if ($p =~ m/\-((?:\>|\>\=|\<|\<\=)?\d[^-]*)/) {
+	if ($p =~ m/\-((?:\>|\>\=|\<|\<\=)?\d[^-]*(-\d+)?)/) {
 		($stemspec, $vspec, $flavorspec) = ($`, $1, $');
 	# `any version' matcher
 	} elsif ($p =~ m/\-(\.\*)/) {
@@ -206,7 +206,7 @@ sub subpattern_match
 	# Now, have to extract the version number, and the flavor...
 	for (@l) {
 		my ($stem, $v, $flavor);
-		if (m/\-(\d[^-]*)/) {
+		if (m/\-(\d[^-]*(-\d+)?)/) {
 			($stem, $v, $flavor) = ($`, $1, $');
 			if ($stem =~ m/^$stemspec$/ &&
 			    check_version($v, $vspec) &&
@@ -263,8 +263,10 @@ sub check_lib_specs
 				return undef;
 			}
 			my @candidates =
-			    grep { /^lib\Q$libname\E\.so\.$major\.(\d+)$/
-			    	&& $1 >= $minor }
+			    grep { (/^lib\Q$libname\E\.so\.$major\.(\d+)$/
+			    	&& $1 >= $minor) ||
+				(/^lib\Q$libname\E}.$major\.(\d+)\.\d+\.dylib$/
+				&& $1 >= $minor) }
 			    readdir(DIRECTORY);
 			close(DIRECTORY);
 			if (@candidates == 0) {
