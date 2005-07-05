@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/net/centericq/patches/patch-kkconsui-0_1_src_cmenus_cc,v 1.1.7.1 2005/03/18 15:48:03 tg Exp $
 $OpenBSD: patch-kkconsui-0_1_src_cmenus_cc,v 1.6 2003/12/23 21:08:29 pvalchev Exp $
---- kkconsui-0.1/src/cmenus.cc.orig	2004-03-28 11:38:13.000000000 +0000
-+++ kkconsui-0.1/src/cmenus.cc	2004-04-15 19:02:39.000000000 +0000
+--- kkconsui-0.1/src/cmenus.cc.orig	Sun Mar 28 11:38:13 2004
++++ kkconsui-0.1/src/cmenus.cc	Tue Jul  5 15:14:01 2005
 @@ -252,6 +252,7 @@ int verticalmenu::open() {
  		    return 0;
  		    break;

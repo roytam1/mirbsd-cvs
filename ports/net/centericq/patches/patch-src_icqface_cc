@@ -1,6 +1,6 @@
-$MirOS$
---- src/icqface.cc.orig	Fri Apr 22 23:37:24 2005
-+++ src/icqface.cc	Fri Apr 22 23:38:20 2005
+$MirOS: ports/net/centericq/patches/patch-src_icqface_cc,v 1.1 2005/04/22 23:44:48 tg Exp $
+--- src/icqface.cc.orig	Wed Feb  2 23:25:49 2005
++++ src/icqface.cc	Tue Jul  5 15:14:01 2005
 @@ -88,7 +88,7 @@ const char *strint(unsigned int i) {
      static char buf[64];
  

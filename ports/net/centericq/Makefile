@@ -1,8 +1,9 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.2 2005/04/22 23:44:47 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.3 2005/04/27 06:26:28 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
 DISTNAME=		centericq-4.20.0
+PKGNAME=		${DISTNAME}-0
 CATEGORIES=		net
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
@@ -25,7 +26,6 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--with-openssl \
 			--without-gpgme \
 			--without-libjpeg \
-			--disable-msn \
 			--disable-nls
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
