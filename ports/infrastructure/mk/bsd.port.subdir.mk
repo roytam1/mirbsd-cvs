@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -82,7 +82,7 @@ _subdir_fragment= \
 	done; \
 	for d in ${_FULLSUBDIR}; do \
 		dir=$$d; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		set +e; \
 		if [ -r bulklist ]; then \
 			while read flavour; do \
@@ -123,7 +123,7 @@ clean:
 	@{ target=all-dir-depends; echo_msg=:; \
 	${_depfile_fragment}; ${_subdir_fragment}; }| tsort -r|while read dir; do \
 		unset FLAVOR SUBPACKAGE || true; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _CLEANDEPENDS=No clean; \
 	done
 .else
@@ -148,7 +148,7 @@ README=		${TEMPLATES}/README.category
 README.html:
 	@>$@.tmp
 .for d in ${_FULLSUBDIR}
-	@dir=$d; ${_flavor_fragment}; \
+	@dir=$d; ${_flavour_fragment}; \
 	name=`eval $$toset ${MAKE} _print-packagename`; \
 	case $$name in \
 		README) comment='';; \

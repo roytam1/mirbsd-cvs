@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.6 2005/05/30 16:47:10 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.7 2005/06/17 20:09:15 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -63,7 +63,6 @@ FETCH_CMD?=		/usr/bin/ftp -V -m
 HAS_CXX?=		base
 HAS_DLADDR?=		Yes
 HAS_TIMET64?=		No
-MIRBSD_PKGTOOLS?=	Yes
 MKC_USAP?=		No
 MODPERL_DESTDIR?=
 PKG_ARGS_ADD?=
@@ -88,10 +87,10 @@ PKGDEPTH=		${PKGPATH:C|[^./][^/]*|..|g}/
 PORTSDIR_PATH?=		${PORTSDIR}:${PORTSDIR}/mystuff
 HTMLIFY=		sed -e 's/&/\&amp;/g' -e 's/>/\&gt;/g' -e 's/</\&lt;/g'
 
-# Code to invoke to split dir,-multi,flavor
+# Code to invoke to split dir,-multi,flavour
 
-_flavor_fragment= \
-	multi=''; flavor=''; space=''; sawflavor=false; \
+_flavour_fragment= \
+	multi=''; flavour=''; space=''; sawflavour=false; \
 	case "$$dir" in \
 	  *,*) \
 		IFS=,; first=true; for i in $$dir; do \
@@ -102,8 +101,8 @@ _flavor_fragment= \
 					  X-*) \
 						multi="$$i"	;; \
 					  *) \
-						sawflavor=true; \
-						flavor="$$flavor$$space$$i"; \
+						sawflavour=true; \
+						flavour="$$flavour$$space$$i"; \
 						space=' '	;; \
 				esac \
 			fi; \
@@ -113,8 +112,8 @@ _flavor_fragment= \
 	case X$$multi in "X");; *) \
 		toset="$$toset SUBPACKAGE=\"$$multi\""	;; \
 	esac; \
-	if $$sawflavor; then \
-		toset="$$toset FLAVOR=\"$$flavor\""; \
+	if $$sawflavour; then \
+		toset="$$toset FLAVOR=\"$$flavour\""; \
 	fi; \
 	IFS=:; found_dir=false; bases=${PORTSDIR_PATH}; \
 	for base in $$bases; do \

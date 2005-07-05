@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.29 2005/06/23 17:01:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.30 2005/07/04 18:41:40 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -292,13 +292,13 @@ ERRORS+=		"Subpackage ${SUBPACKAGE} does not exist."
 .  endfor
 .endif
 
-# Support architecture and flavor dependent packing lists
+# Support architecture and flavour dependent packing lists
 SED_PLIST?=
 
-# Build FLAVOR_EXT, checking that no flavors are misspelled
+# Build FLAVOR_EXT, checking that no flavours are misspelled
 FLAVOR_EXT:=
 # _FLAVOR_EXT2 is used internally for working directories.
-# It encodes flavors and pseudo-flavors.
+# It encodes flavours and pseudo-flavours.
 _FLAVOR_EXT2:=
 
 # Create the basic sed substitution pipeline for fragments
@@ -340,12 +340,6 @@ ERRORS+=		"No flavours for this port."
 .  endif
 .endif
 
-.if ${MIRBSD_PKGTOOLS:L} == "no"
-PKG_ARGS_ADD+=		-A${PKG_ARCH:Q}
-.  if ${LOCALBASE} != "/usr/local"
-PKG_ARGS_ADD+=		-L${LOCALBASE}
-.  endif
-.endif
 PKGNAME?=		${DISTNAME}
 FULLPKGNAME?=		${PKGNAME}${FLAVOR_EXT}
 PKGFILE=		${PKGREPOSITORY}/${FULLPKGNAME}${PKG_SUFX}
@@ -1375,7 +1369,7 @@ ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
 	    _MASTER WRKDIR|| true; \
 	echo '${_i}'|{ \
 		IFS=:; read dep pkg dir target; \
-		${_flavor_fragment}; defaulted=false; \
+		${_flavour_fragment}; defaulted=false; \
 		case "X$$target" in X) target=${DEPENDS_TARGET};; esac; \
 		case "X$$target" in \
 		Xinstall|Xreinstall) early_exit=false;; \
@@ -2073,7 +2067,7 @@ clean:
 .if ${_clean:L:Mdepends} && ${_CLEANDEPENDS:L} == "yes"
 	@${MAKE} all-dir-depends | tsort -r | while read dir; do \
 		unset FLAVOR SUBPACKAGE || true; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _CLEANDEPENDS=No clean; \
 	done
 .else
@@ -2441,7 +2435,7 @@ full-${_i}-depends:
 	@${MAKE} ${_i}-dir-depends | tsort -r | sed -e '$$d' \
 	    | while read dir; do \
 		unset FLAVOR SUBPACKAGE || true; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _print-packagename ; \
 	done
 .endfor
@@ -2452,7 +2446,7 @@ relevant-checks:
 	@${MAKE} all-dir-depends | tsort -r | sed -e '$$d' \
 	    | while read dir; do \
 		unset FLAVOR SUBPACKAGE || true; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		export _MASTER_PERMIT_CDROM=${PERMIT_PACKAGE_CDROM:Q} \
 		    _MASTER_PERMIT_FTP=${PERMIT_PACKAGE_FTP:Q} \
 		    _MASTER_USE_CXX=${USE_CXX:Q} \
@@ -2502,7 +2496,7 @@ _recurse-lib-depends-check:
 		IFS=,; for j in $$dep; do echo $$j; done; \
 		if ! fgrep -q "|$$dir|" $${_DEPENDS_FILE}; then \
 			echo "|$$dir|" >>$${_DEPENDS_FILE}; \
-			${_flavor_fragment}; \
+			${_flavour_fragment}; \
 			eval $$toset ${MAKE} _recurse-lib-depends-check; \
 		fi; \
 	}
@@ -2513,7 +2507,7 @@ _recurse-lib-depends-check:
 		IFS=:; read dep pkg dir target; \
 		if ! fgrep -q "|$$dir|" $${_DEPENDS_FILE}; then \
 			echo "|$$dir|" >>$${_DEPENDS_FILE}; \
-			${_flavor_fragment}; \
+			${_flavour_fragment}; \
 			eval $$toset ${MAKE} _recurse-lib-depends-check; \
 		fi; \
 	}
@@ -2527,7 +2521,7 @@ _recurse-solve-package-depends:
 	echo '${_i}' |{ \
 		IFS=:; read dep pkg dir target; \
 		if [[ -n $$dir ]]; then \
-			${_flavor_fragment}; \
+			${_flavour_fragment}; \
 			default=$$(eval $$toset ${MAKE} _print-packagename); \
 		else \
 			default=nonexistent; \
@@ -2551,7 +2545,7 @@ _recurse-solve-package-depends:
 	@unset FLAVOR SUBPACKAGE || true; \
 	echo '${_i}'|{ \
 		IFS=:; read dep pkg dir target; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		libspecs='';comma=''; \
 		default=$$(eval $$toset ${MAKE} _print-packagename); \
 		case "X$$pkg" in \
@@ -2619,7 +2613,7 @@ _recurse-run-dir-depends:
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
 		echo "|${_dir}|" >>$${_DEPENDS_FILE}; \
 		dir=${_dir}; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		toset="$$toset self=\"${_dir}\""; \
 		if ! eval $$toset ${MAKE} _recurse-run-dir-depends; then  \
 			echo 1>&2 "*** Problem checking deps in \"$$dir\"."; \
@@ -2649,7 +2643,7 @@ _recurse-all-dir-depends:
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
 		echo "|${_dir}|" >>$${_DEPENDS_FILE}; \
 		dir=${_dir}; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		toset="$$toset self=\"${_dir}\""; \
 		if ! eval $$toset ${MAKE} _recurse-all-dir-depends; then  \
 			echo 1>&2 "*** Problem checking deps in \"$$dir\"."; \
@@ -2666,7 +2660,7 @@ _build-dir-depends:
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
 		echo "|${_dir}|" >>$${_DEPENDS_FILE}; \
 		dir=${_dir}; \
-		${_flavor_fragment}; \
+		${_flavour_fragment}; \
 		toset="$$toset self=\"${_dir}\""; \
 		if ! eval $$toset ${MAKE} _recurse-all-dir-depends; then  \
 			echo 1>&2 "*** Problem checking deps in \"$$dir\"."; \
