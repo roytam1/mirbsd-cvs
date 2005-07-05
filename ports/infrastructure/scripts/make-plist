@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS: ports/infrastructure/scripts/make-plist,v 1.3 2005/05/22 19:45:54 tg Exp $
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.4 2005/07/05 20:36:17 bsiegert Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -38,7 +38,7 @@ use File::Spec;
 use File::Temp qw/ tempdir /;
 
 my $manual = 0;
-my %out;
+my (%out, %ignored);
 my @has_shared;
 my ($plist, $pshared, $pdylib);
 
@@ -236,6 +236,34 @@ sub handle_file
     }
 }
 
+# Given the name of a .la file, return a list of files referenced by it.
+sub libtoolise_plist
+{
+	my $file = shift;
+	my $prefix;
+	my @libnames;
+
+	open(FILE, '<', $file) || die "Cannot open $file";
+	while (<FILE>) {
+		chomp;
+		next unless m/^([^=]+)='(.*)'$/;
+		if ($1 eq 'libdir') {
+			$prefix = File::Spec->abs2rel($2, '/usr/local');
+		} elsif (	  ($1 eq 'dlname')
+				||($1 eq 'library_names')
+				||($1 eq 'old_library')) {
+			push(@libnames, split(/ /, $2));
+		}
+	}
+	close(FILE);
+
+	foreach (@libnames) {
+		$_ = File::Spec->catfile($prefix, $_);
+	}
+	# remove duplicates
+	return %{{ map { $_ => 1 } File::Spec->no_upwards(@libnames) }};
+}
+
 sub may_annotate_and_move
 {
 	my $p = shift;
@@ -321,6 +349,13 @@ my @date = (stat $ENV{INSTALL_PRE_COOKIE})[9, 10];
 
 my %okay_files=map { $_=>1 } split(/\s+/, $ENV{'OKAY_FILES'});
 
+# first, find any .la files for ignoring
+find(
+	sub {
+		return unless /\.la$/;
+		%ignored = (%ignored, libtoolise_plist($File::Find::name));
+	}, $destdir);
+
 # check the installation directory, try to make certain there is
 # no file or directory outside of $base
 find(
@@ -353,6 +388,8 @@ find(
 			if (-d _) {
 				$newdir{$File::Find::name} = 1;
 			} else {
+				return if defined $ignored{File::Spec->abs2rel(
+					   $File::Find::name, $base)};
 				if (/\.so\.\d+\.\d+$/) {
 					$ldconfig{$File::Find::dir} = 1;
 					push(@libfiles, $File::Find::name);
