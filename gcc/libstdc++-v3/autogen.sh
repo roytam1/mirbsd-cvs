@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.5 2005/07/05 22:11:00 tg Exp $
+# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.6 2005/07/05 22:44:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -46,7 +46,7 @@ for a in $files ChangeLog ltmain.sh; do
 	[[ -e $a ]] || ln -s /tmp/empty $a
 done
 
-for f in libtool.m4 m4salt.inc m4sugar.inc; do
+for f in libtool.m4 ltmain.sh m4salt.inc m4sugar.inc; do
 	ln -s /usr/src/gnu/share/$f ..
 done
 
@@ -69,7 +69,7 @@ let rv=0
 [[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || let rv=$?
 autoconf && chmod 664 configure
 rm -rf autom4te.cache
-for f in libtool.m4 m4salt.inc m4sugar.inc; do
+for f in libtool.m4 ltmain.sh m4salt.inc m4sugar.inc; do
 	rm ../$f
 done
 find . -type l -print0 | xargs -0 rm
