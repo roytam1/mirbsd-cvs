@@ -146,7 +146,7 @@ CXXLINK = $(LIBTOOL) --tag CXX --tag disable-shared \
 
 # We have to have rules modified from the default to counteract SUN make
 # prepending each of $(glibcxxinstall_HEADERS) with VPATH below.
-install-glibcxxinstallHEADERS: $(glibcxxinstall_HEADERS)
+install-glibcxxinstallHEADERS: #$(glibcxxinstall_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(glibcxxinstalldir)
 	@list='$(glibcxxinstall_HEADERS)'; for p in $$list; do \

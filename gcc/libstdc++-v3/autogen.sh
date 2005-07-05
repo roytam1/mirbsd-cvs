@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.4 2005/03/26 10:18:22 tg Exp $
+#!/bin/mksh
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.5 2005/07/05 22:11:00 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -52,7 +52,7 @@ done
 
 set -e
 set -x
-if [[ -d m4 ]]; then
+[[ ! -e acinclude.m4 ]] || if [[ -d m4 ]]; then
 	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I m4
 elif [[ -d ../m4 ]]; then
 	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I ../m4
@@ -61,10 +61,12 @@ else
 fi
 print '1,$g!\${multi_basedir}/config-ml\.in!s!!${GNUSYSTEM_AUX_DIR}/config-ml.in!\nwq' \
     | ed -s aclocal.m4
-autoheader
+f=configure.ac
+[[ ! -e $f ]] && f=configure.in
+fgrep -q AC_CONFIG_HEADER $f && autoheader
 set +e
 let rv=0
-#automake --foreign -a $AM_FLAGS || let rv=$?
+[[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || let rv=$?
 autoconf && chmod 664 configure
 rm -rf autom4te.cache
 for f in libtool.m4 m4salt.inc m4sugar.inc; do
