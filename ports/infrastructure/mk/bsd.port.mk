@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.33 2005/07/05 20:08:29 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.34 2005/07/05 22:26:56 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -293,6 +293,8 @@ ERRORS+=		"Subpackage ${SUBPACKAGE} does not exist."
 
 # Support architecture and flavour dependent packing lists
 SED_PLIST?=
+
+SED_PLIST+=	|(cd ${WRKINST} ; perl ${SCRIPTDIR}/unlibtoolise)
 
 # Build FLAVOR_EXT, checking that no flavours are misspelled
 FLAVOR_EXT:=
