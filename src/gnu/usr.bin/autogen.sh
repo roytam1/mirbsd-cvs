@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.3 2005/03/13 17:30:14 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.4 2005/06/13 20:34:01 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -55,7 +55,9 @@ elif [[ -d ../m4 ]]; then
 else
 	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I .
 fi
-autoheader
+f=configure.ac
+[[ ! -e $f ]] && f=configure.in
+fgrep -q AC_CONFIG_HEADER $f && autoheader
 set +e
 let rv=0
 [[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || let rv=$?
