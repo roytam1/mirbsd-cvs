@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.10 2005/06/02 20:35:47 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.11 2005/06/03 00:14:14 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,7 +29,7 @@
 # 1) detect which OS we are running on
 # 2) build and install package tools to
 #    /usr/sbin (MirOS), /usr/local/sbin (OpenBSD), /usr/mpkg/sbin (Darwin)
-# 3) patch <bsd.sys.mk> if necessary
+# 3) patch <bsd.sys.mk> if necessary; other upgrade stuff
 # 4) install generic makefile includes
 #    and, if necessary, mirports.osdep.mk
 # 5) patch /etc/mk.conf
@@ -236,6 +236,16 @@ if [[ $SHELL != /bin/mksh ]]; then
 		chmod a+x $f
 	done
 	print done.
+fi
+
+if [[ -d $top/distfiles ]]; then
+	print -n "3. c) Upgrading..."
+	mv $top/distfiles $top/Distfiles
+	rm -rf $top/packages
+	print done.
+	let x="$(pkg_info | wc -l)"
+	(( x > 0 )) && \
+	    print 'WARNING: You *must* de-install _all_ packages *NOW*!'
 fi
 
 print -n "4. Installing MirPorts system makefile includes..."
