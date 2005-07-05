@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.20 2005/07/03 17:12:14 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.20 2005/07/03 17:12:14 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.24 2005/07/05 21:11:22 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.24 2005/07/05 21:11:22 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -47,8 +47,8 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.5.18
-TIMESTAMP=" (MirLibtool-1.5 2005/07/03 18:27:38)"
+VERSION=1.5.19a
+TIMESTAMP=" (MirLibtool-1.5 2005/07/05 21:12:23)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -137,7 +137,6 @@ show_help=
 execute_dlfiles=
 lo2o="s/\\.lo\$/.${objext}/"
 o2lo="s/\\.${objext}\$/.lo/"
-quote_scanset='[[~#^*{};<>?'"'"' 	]'
 
 #####################################
 # Shell function definitions:
@@ -196,7 +195,7 @@ func_infer_tag ()
       CC_quoted=
       for arg in $CC; do
 	case $arg in
-	  *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	  *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	  arg="\"$arg\""
 	  ;;
 	esac
@@ -217,7 +216,7 @@ func_infer_tag ()
 	    for arg in $CC; do
 	    # Double-quote args containing other shell metacharacters.
 	    case $arg in
-	      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	      arg="\"$arg\""
 	      ;;
 	    esac
@@ -341,7 +340,7 @@ func_extract_archives ()
 	    func_extract_an_archive "$my_xdir" "$my_xabs"
 	  fi # $darwin_arches
 	fi # $run
-      ;;
+	;;
       *)
 	func_extract_an_archive "$my_xdir" "$my_xabs"
 	;;
@@ -580,7 +579,7 @@ if test -z "$show_help"; then
 
     for arg
     do
-      case "$arg_mode" in
+      case $arg_mode in
       arg  )
 	# do not "continue".  Instead, add this to base_compile
 	lastarg="$arg"
@@ -631,7 +630,7 @@ if test -z "$show_help"; then
 	    # Many Bourne shells cannot handle close brackets correctly
 	    # in scan sets, so we specify it separately.
 	    case $arg in
-	      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	      arg="\"$arg\""
 	      ;;
 	    esac
@@ -666,7 +665,7 @@ if test -z "$show_help"; then
       # in scan sets (worked around with variable expansion),
       # and furthermore cannot handle '|' '&' '(' ')' in scan sets
       # at all, so we specify them separately.
-      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	lastarg="\"$lastarg\""
 	;;
       esac
@@ -741,13 +740,12 @@ if test -z "$show_help"; then
 
     qlibobj=`$echo "X$libobj" | $Xsed -e "$sed_quote_subst"`
     case $qlibobj in
-      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	qlibobj="\"$qlibobj\"" ;;
     esac
-    if test "X$libobj" != "X$qlibobj"; then
-	$echo "$modename: libobj name '$libobj' may not contain shell special characters."
-	exit $EXIT_FAILURE
-    fi
+    test "X$libobj" != "X$qlibobj" \
+	&& $echo "X$libobj" | grep '[]~#^*{};<>?"'"'"' 	&()|`$[]' \
+	&& $echo "$modename: libobj name '$libobj' may not contain shell special characters."
     objname=`$echo "X$obj" | $Xsed -e 's%^.*/%%'`
     xdir=`$echo "X$obj" | $Xsed -e 's%/[^/]*$%%'`
     if test "X$xdir" = "X$obj"; then
@@ -828,7 +826,7 @@ compiler."
     fi
     qsrcfile=`$echo "X$srcfile" | $Xsed -e "$sed_quote_subst"`
     case $qsrcfile in
-      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
       qsrcfile="\"$qsrcfile\"" ;;
     esac
 
@@ -1115,7 +1113,7 @@ EOF
       arg="$1"
       shift
       case $arg in
-      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	qarg=\"`$echo "X$arg" | $Xsed -e "$sed_quote_subst"`\" ### testsuite: skip nested quoting test
 	;;
       *) qarg=$arg ;;
@@ -1205,7 +1203,7 @@ EOF
 	  if test -f "$arg"; then
 	    save_arg=$arg
 	    moreargs=
-	    while read fil
+	    for fil in `cat $save_arg`
 	    do
 #	      moreargs="$moreargs $fil"
 	      arg=$fil
@@ -1299,7 +1297,7 @@ EOF
 		  non_pic_objects="$non_pic_objects $non_pic_object"
 		fi
 	      fi
-	    done <$save_arg
+	    done
 	  else
 	    $echo "$modename: link input file '$save_arg' does not exist"
 	    exit $EXIT_FAILURE
@@ -1424,7 +1422,7 @@ EOF
 	continue
 	;;
 
-      -framework)
+      -framework|-arch)
 	prev=darwin_framework
 	compiler_flags="$compiler_flags $arg"
 	compile_command="$compile_command $arg"
@@ -1548,7 +1546,7 @@ EOF
 	# to be aesthetically quoted because they are evaled later.
 	arg=`$echo "X$arg" | $Xsed -e "$sed_quote_subst"`
 	case $arg in
-	*$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	*[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	  arg="\"$arg\""
 	  ;;
 	esac
@@ -1664,7 +1662,7 @@ EOF
 	for flag in $args; do
 	  IFS="$save_ifs"
 	  case $flag in
-	    *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	    *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	    flag="\"$flag\""
 	    ;;
 	  esac
@@ -1682,7 +1680,7 @@ EOF
 	for flag in $args; do
 	  IFS="$save_ifs"
 	  case $flag in
-	    *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	    *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	    flag="\"$flag\""
 	    ;;
 	  esac
@@ -1715,7 +1713,7 @@ EOF
 	# to be aesthetically quoted because they are evaled later.
 	arg=`$echo "X$arg" | $Xsed -e "$sed_quote_subst"`
 	case $arg in
-	*$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	*[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	  arg="\"$arg\""
 	  ;;
 	esac
@@ -1849,7 +1847,7 @@ EOF
 	# to be aesthetically quoted because they are evaled later.
 	arg=`$echo "X$arg" | $Xsed -e "$sed_quote_subst"`
 	case $arg in
-	*$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+	*[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	  arg="\"$arg\""
 	  ;;
 	esac
@@ -2417,7 +2415,7 @@ EOF
 	      case "$temp_rpath " in
 	      *" $dir "*) ;;
 	      *" $absdir "*) ;;
-	      *) temp_rpath="$temp_rpath $dir" ;;
+	      *) temp_rpath="$temp_rpath $absdir" ;;
 	      esac
 	    fi
 
@@ -2603,7 +2601,7 @@ EOF
 		add_dir="-L$dir"
 		# Try looking first in the location we're being installed to.
 		if test -n "$inst_prefix_dir"; then
-		  case "$libdir" in
+		  case $libdir in
 		    [\\/]*)
 		      add_dir="$add_dir -L$inst_prefix_dir$libdir"
 		      ;;
@@ -2676,7 +2674,7 @@ EOF
 	      add_dir="-L$libdir"
 	      # Try looking first in the location we're being installed to.
 	      if test -n "$inst_prefix_dir"; then
-		case "$libdir" in
+		case $libdir in
 		  [\\/]*)
 		    add_dir="$add_dir -L$inst_prefix_dir$libdir"
 		    ;;
@@ -2737,8 +2735,6 @@ EOF
 	      fi
 	    fi
 	  else
-	    convenience="$convenience $dir/$old_library"
-	    old_convenience="$old_convenience $dir/$old_library"
 	    deplibs="$dir/$old_library $deplibs"
 	    link_static=yes
 	  fi
@@ -3299,7 +3295,7 @@ EOF
 	for p in $tempremovelist; do
 	  case $p in
 	    *.$objext)
-	       ;;
+	      ;;
 	    $output_objdir/$outputname | $output_objdir/$libname.* | $output_objdir/${libname}${release}.*)
 	       if test "X$precious_files_regex" != "X"; then
 		 if echo $p | $EGREP -e "$precious_files_regex" >/dev/null 2>&1
@@ -3431,7 +3427,7 @@ EOF
 	  if test "$?" -eq 0 ; then
 	    ldd_output=`ldd conftest`
 	    for i in $deplibs; do
-	      name="`expr $i : '-l\(.*\)'`"
+	      name=`expr $i : '-l\(.*\)'`
 	      # If $name is empty we are operating on a -L argument.
 	      if test "$name" != "" && test "$name" -ne "0"; then
 		if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
@@ -3468,7 +3464,7 @@ EOF
 	    # Error occurred in the first compile.  Let's try to salvage
 	    # the situation: Compile a separate program for each library.
 	    for i in $deplibs; do
-	      name="`expr $i : '-l\(.*\)'`"
+	      name=`expr $i : '-l\(.*\)'`
 	      # If $name is empty we are operating on a -L argument.
 	      if test "$name" != "" && test "$name" != "0"; then
 		$rm conftest
@@ -3520,7 +3516,7 @@ EOF
 	  set dummy $deplibs_check_method
 	  file_magic_regex=`expr "$deplibs_check_method" : "$2 \(.*\)"`
 	  for a_deplib in $deplibs; do
-	    name="`expr $a_deplib : '-l\(.*\)'`"
+	    name=`expr $a_deplib : '-l\(.*\)'`
 	    # If $name is empty we are operating on a -L argument.
 	    if test "$name" != "" && test  "$name" != "0"; then
 	      if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
@@ -3589,7 +3585,7 @@ EOF
 	  set dummy $deplibs_check_method
 	  match_pattern_regex=`expr "$deplibs_check_method" : "$2 \(.*\)"`
 	  for a_deplib in $deplibs; do
-	    name="`expr $a_deplib : '-l\(.*\)'`"
+	    name=`expr $a_deplib : '-l\(.*\)'`
 	    # If $name is empty we are operating on a -L argument.
 	    if test -n "$name" && test "$name" != "0"; then
 	      if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
@@ -5040,13 +5036,13 @@ else
 	# Backslashes separate directories on plain windows
 	*-*-mingw | *-*-os2*)
 	  $echo >> $output "\
-      exec \$progdir\\\\\$program \${1+\"\$@\"}
+      exec \"\$progdir\\\\\$program\" \${1+\"\$@\"}
 "
 	  ;;
 
 	*)
 	  $echo >> $output "\
-      exec \$progdir/\$program \${1+\"\$@\"}
+      exec \"\$progdir/\$program\" \${1+\"\$@\"}
 "
 	  ;;
 	esac
@@ -5056,7 +5052,7 @@ else
     fi
   else
     # The program doesn't exist.
-    \$echo \"\$0: error: \$progdir/\$program does not exist\" 1>&2
+    \$echo \"\$0: error: '\$progdir/\$program' does not exist\" 1>&2
     \$echo \"This script is just a wrapper for \$program.\" 1>&2
     $echo \"See the $PACKAGE documentation for more information.\" 1>&2
     exit $EXIT_FAILURE
@@ -5096,7 +5092,7 @@ fi\
 
       # Do each command in the archive commands.
       if test -n "$old_archive_from_new_cmds" && test "$build_libtool_libs" = yes; then
-       cmds=$old_archive_from_new_cmds
+	cmds=$old_archive_from_new_cmds
       else
 	# POSIX demands no paths to be encoded in archives.  We have
 	# to avoid creating archives with duplicate basenames if we
@@ -5380,7 +5376,7 @@ relink_command=\"$relink_command\""
       # Aesthetically quote it.
       arg=`$echo "X$nonopt" | $Xsed -e "$sed_quote_subst"`
       case $arg in
-      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	arg="\"$arg\""
 	;;
       esac
@@ -5396,7 +5392,7 @@ relink_command=\"$relink_command\""
     # Aesthetically quote it.
     arg=`$echo "X$arg" | $Xsed -e "$sed_quote_subst"`
     case $arg in
-    *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+    *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
       arg="\"$arg\""
       ;;
     esac
@@ -5444,7 +5440,7 @@ relink_command=\"$relink_command\""
       # Aesthetically quote the argument.
       arg=`$echo "X$arg" | $Xsed -e "$sed_quote_subst"`
       case $arg in
-      *$quote_scanset* | *]* | *\|* | *\&* | *\(* | *\)* | "")
+      *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	arg="\"$arg\""
 	;;
       esac
