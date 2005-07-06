@@ -88,11 +88,8 @@ ${_INSTALL_COOKIE}: ${_BUILD_COOKIE}
 	@${SUDO} ${_MAKE_COOKIE} $@
 
 # Figure out where the local mtree file is
-.if ${PREFIX} == "/usr/local"
-MTREE_FILE?=	/etc/mtree/BSD.local.dist
-.else
-ERRORS+=	Can't figure out MTREE_FILE
-.endif
+# XXX needs testing
+MTREE_FILE?=	${PORTSDIR}/infrastructure/db/fake.mtree
 
 plist: install
 	@DESTDIR=${PREFIX} PREFIX=${PREFIX} LDCONFIG="${LDCONFIG}" MTREE_FILE=${MTREE_FILE} \
