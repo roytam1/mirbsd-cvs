@@ -4,7 +4,7 @@
 COMMENT=		"clone of plan9 shell"
 
 VERSION=		1.7.1
-DASH_VER=		
+DASH_VER=		-0
 DISTNAME=		rc-${VERSION}
 PKGNAME=		rc-${VERSION}${DASH_VER}
 CATEGORIES=		plan9 shells

@@ -2,7 +2,7 @@
 
 COMMENT=		"Subversion revision control system"
 VERSION=		1.2.0
-DASH_VER=		
+DASH_VER=		-0
 DISTNAME=		subversion-${VERSION}
 PKGNAME=		subversion-${VERSION}${DASH_VER}
 CATEGORIES=		devel net

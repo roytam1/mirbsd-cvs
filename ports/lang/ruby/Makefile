@@ -4,7 +4,7 @@
 COMMENT=		"object oriented script language with threads"
 
 VERSION=		1.8.1
-DASH_VER=		p1
+DASH_VER=		-1
 DISTNAME=		ruby-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=		lang

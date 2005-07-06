@@ -2,7 +2,7 @@
 
 COMMENT=		"meta-package to install all of GNOME 2"
 VERSION=		2.8.1
-DASH_VER=		
+DASH_VER=		-0
 PKGNAME=		meta-gnome2-${VERSION}${DASH_VER}
 CATEGORIES=		meta x11/gnome
 HOMEPAGE=		http://www.gnome.org/

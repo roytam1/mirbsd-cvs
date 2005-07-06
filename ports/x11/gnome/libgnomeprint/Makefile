@@ -5,7 +5,7 @@ COMMENT=		"printing framework for GNOME"
 COMMENT-cups=		"CUPS module for printing framework for GNOME"
 
 VERSION=		2.8.1
-DASH_VER=
+DASH_VER=		-0
 DISTNAME=		libgnomeprint-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 PKGNAME-cups=		libgnomeprint-cups-${VERSION}${DASH_VER}

@@ -3,7 +3,7 @@
 COMMENT=		"Common Unix Printing System"
 
 VERSION=		1.1.23
-DASH_VER=		
+DASH_VER=		-0
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}${DASH_VER}
 CATEGORIES=		print sysutils

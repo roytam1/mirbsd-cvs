@@ -7,7 +7,7 @@ COMMENT-server=	"PostgreSQL RDBMS server software"
 COMMENT-docs=	"PostgreSQL RDBMS documentation"
 
 VERSION=	8.0.1
-DASH_VER=	p1
+DASH_VER=	-1
 DISTNAME=	postgresql-${VERSION}
 PKGNAME=	${DISTNAME}${DASH_VER}
 PKGNAME-server=	postgresql-server-${VERSION}${DASH_VER}

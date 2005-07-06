@@ -3,7 +3,7 @@
 COMMENT=		"themes collection for GNOME"
 
 VERSION=		0.4
-DASH_VER=
+DASH_VER=		-0
 DISTNAME=		gnome-themes-extras-${VERSION}${DASH_VER}
 CATEGORIES=		x11 x11/gnome
 

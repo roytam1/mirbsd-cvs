@@ -2,7 +2,7 @@
 
 COMMENT=		"ESP Ghostscript, a PostScript interpreter"
 VERSION=		7.07.1
-DASH_VER=
+DASH_VER=		-0
 DISTNAME=		espgs-${VERSION}-source
 PKGNAME=		ghostscript-${VERSION}${DASH_VER}
 CATEGORIES=		print

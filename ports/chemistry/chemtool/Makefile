@@ -3,7 +3,7 @@
 COMMENT=		"drawing tool for chemical structure formulae"
 
 VERSION=		1.6.6
-DASH_VER=		
+DASH_VER=		-0
 DISTNAME=		chemtool-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=		misc graphics

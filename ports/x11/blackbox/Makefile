@@ -4,7 +4,7 @@
 COMMENT=	"small & pretty window manager for 8 and more bits displays"
 
 VERSION=		0.65.0
-DASH_VER=		p1
+DASH_VER=		-1
 DISTNAME=		blackbox-${VERSION}
 PKGNAME=		blackbox-${VERSION}${DASH_VER}
 CATEGORIES=		x11

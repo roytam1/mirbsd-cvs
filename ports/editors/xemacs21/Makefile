@@ -4,7 +4,7 @@
 COMMENT=		"heavily customizable and extensible editor"
 
 VERSION=		21.4.12
-DASH_VER=		p0
+DASH_VER=		-1
 DISTNAME=		xemacs-${VERSION}
 PKGNAME=		xemacs-${VERSION}${DASH_VER}
 CATEGORIES=     	editors

@@ -5,7 +5,7 @@ COMMENT=		'C++ toolkit for GUI'
 
 CATEGORIES=		devel x11
 VERSION=		1.1.41
-DASH_VER=
+DASH_VER=		-0
 DISTNAME=		fox-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 HOMEPAGE=		http://www.fox-toolkit.org/

@@ -3,7 +3,7 @@
 
 COMMENT=	"extensible SNMP implementation"
 VERSION=	4.2.6
-DASH_VER=	p1
+DASH_VER=	-1
 DISTNAME=	ucd-snmp-${VERSION}
 PKGNAME=	${DISTNAME}${DASH_VER}
 CATEGORIES=     net

@@ -4,7 +4,7 @@
 COMMENT=		"hacked 9wm with support for virtual screens"
 
 VERSION=		0.4.2
-DASH_VER=		
+DASH_VER=		-0
 DISTNAME=		w9wm-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=		plan9

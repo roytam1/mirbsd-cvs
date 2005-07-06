@@ -3,7 +3,7 @@
 COMMENT=		"GNOME games"
 
 VERSION=		2.8.3
-DASH_VER=
+DASH_VER=		-0
 DISTNAME=		gnome-games-${VERSION}${DASH_VER}
 CATEGORIES=		x11/gnome games
 

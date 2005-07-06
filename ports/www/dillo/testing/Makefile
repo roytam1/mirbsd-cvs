@@ -4,7 +4,7 @@
 COMMENT=		"Fast and light gtk-based web browser (alpha ssl support)"
 
 VERSION=		0.8.3
-DASH_VER=		-ssl
+DASH_VER=		-0-ssl
 DISTNAME=		dillo-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=     	www

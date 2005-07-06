@@ -4,7 +4,7 @@
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		"one of the successors to the Netscape browser engine"
 VERSION=		0.8
-DASH_VER=		p1
+DASH_VER=		-1
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VERSION}${DASH_VER}
 CATEGORIES=		www

@@ -4,7 +4,7 @@
 COMMENT=		"GNU's Ubiquitous Intelligent Language for Extension"
 
 VERSION=		1.4
-DASH_VER=		p1
+DASH_VER=		-1
 DISTNAME=		guile-${VERSION}
 PKGNAME=		guile-${VERSION}${DASH_VER}
 CATEGORIES=		lang

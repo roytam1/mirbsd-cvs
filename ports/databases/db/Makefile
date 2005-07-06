@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.1.7.1 2005/03/18 15:44:07 tg Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.3 2005/05/19 19:58:28 bsiegert Exp $
 
 COMMENT=		"Berkeley DB, revision 4"
 COMMENT-doc=		"Berkeley DB documentation, revision 4"
@@ -9,7 +9,7 @@ DESCR=			${PKGDIR}/DESCR
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 VERSION=		4.2.52
-DASH_VER=		.4
+DASH_VER=		.4-0
 DISTNAME=		db-${VERSION}
 PKGNAME=		db-${VERSION}${DASH_VER}
 PKGNAME-doc=		db-doc-${VERSION}${DASH_VER}

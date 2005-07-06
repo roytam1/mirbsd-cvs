@@ -3,7 +3,7 @@
 
 COMMENT=		"text mode RSS newsreader"
 VERSION=                1.4.4
-DASH_VER=		p0
+DASH_VER=		-1
 DISTNAME=		snownews-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=		www
