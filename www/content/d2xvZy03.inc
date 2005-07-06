@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.68 2005/06/26 18:29:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.69 2005/07/04 05:35:42 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2960,4 +2960,14 @@
  the OpenBSD-current kernel which I found easily doable (just another hack
  session without counting the hours, for my amateurish Frankenstein OS) or
  even needed. The userland portions will follow later.</p>
+<p>06.07.2005 by tg@<br />Okay, some people say that USB 2 works. Just the
+ system's much faster and more reliable to me. Some more work will follow,
+ then the userland. In the meanwhile, I'm playing around with libtool, and
+ the gcc module. I just can't bring myself to like symlinks in /usr/lib at
+ all.<br />Software patents fight is over, we did not win but did not lose
+ either. Does anyone know if IDEA is still patented in Europe, then? Or do
+ we have to fight every single illegal patent out of the 30'000 which got,
+ wrongly, issued then? Anyone knows of a good lawyer who would work for us
+ without pay?<br />MirPorts are undergoing some grave changes (a flag day)
+ so don't update. benz should keep you informed on this.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.3 2005/03/16 23:55:51 tg Exp $</small>
 <p class="admin">ATTN: Candidate for moving into MirWiki!</p>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
@@ -21,11 +21,11 @@
  or <a href="http://mirbsd.agentdero.com/">mirbsd.agentdero.com</a>, 
  click <a href="/cvs.cgi/">here to access CVSWeb</a>)<br/>
  If you are currently on a different mirror of the MirOS
- Project homepage, feel free to directly <a
- href="https://MirBSD.BSDadvocacy.org:8890/cvs.cgi/">jump into
- the MirOS CVSweb</a> utility service at <a
- href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">various</a> <a
- href="http://mirbsd.agentdero.com/cvs.cgi/">mirrors</a>.</p>
+ Project homepage, feel free to directly <!-- a
+ href="https://MirBSD.BSDadvocacy.org:8890/cvs.cgi/" -->jump into
+ the MirOS CVSweb<!-- /a --> utility service at <a
+ href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">various</a> <!-- a
+ href="http://mirbsd.agentdero.com/cvs.cgi/" -->mirrors<!-- /a -->.</p>
 
 <h3>Tags</h3><ul>
 <li>HEAD - contains current MirOS development code</li>

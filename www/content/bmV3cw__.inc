@@ -1,6 +1,15 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.23 2005/05/26 00:30:12 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.24 2005/05/28 23:19:00 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>06.07.2005<br />
+	The European Parliament has finally stopped patents on algorithms,
+	data structures and business models. MirOS has gained speed, USB 2
+	support and probably a few other things, among more stability. The
+	MirPorts Framework is undergoing an infrastructural change of deep
+	impact; we will keep you informed. The MirWiki is about to be shut
+	down end of July, 2005; content will be merged back into the MirOS
+	website (www module); this is due to lack of interest.</li>
 
 <li>26.05.2005<br />
 	<a href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> R22 is formally

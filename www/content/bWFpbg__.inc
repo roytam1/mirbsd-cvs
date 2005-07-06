@@ -1,17 +1,5 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.22 2005/05/28 23:19:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.23 2005/05/30 16:48:31 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
-<h2>Software Patent Issues</h2>
-<p>The <tt>MirOS Project</tt> warns about the dangers of algorithm, data
- structure and business model patentability and jointly protests against
- the European Union trying to legalise them. But we have failed so far,
- and what happens next, nobody knows. We can only say for sure that the
- EU <em>as well</em> as every single country which joined the European
- Patent Convention, including Switzerland etc., is <strong>not</strong>
- a democracy. Our German developers are deeply ashamed that our executive
- leadership willingly ignores the mandate from the legislative to stop
- the new EU directive.</p>
-<p class="erecta">More information at <a href="http://swpat.ffii.org/">FFII
- website</a>.</p>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
  website isn't always up to date. It's optimised for lynx and works well in
@@ -32,6 +20,10 @@
  signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
+<p>Please do <b>not</b> use any of the snapshots still available on our
+ servers; they are very outdated and broken. If you had the chance to
+ get a CD at the LinuxTag 2005, lucky you but don't update Ports yet.
+ If not, you will have to wait for MirOS #8 RC5.</p>
 <p>CURRENT: May 2nd, 2005: #8-gamma snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <!--<p>CURRENT: May 5th, 2005: #8-gamma snapshot available for <a
