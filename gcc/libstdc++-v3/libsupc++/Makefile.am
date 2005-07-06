@@ -1,3 +1,5 @@
+# $MirOS: gcc/libstdc++-v3/Makefile.am,v 1.3 2005/07/05 22:59:12 tg Exp $
+#
 ## Makefile for the GNU C++ Support library.
 ##
 ## Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -90,7 +92,7 @@ AM_MAKEFLAGS = \
 # Use special rules for pulling things out of libiberty.  These
 # objects should be compiled with the "C" compiler, not the C++
 # compiler, and also should not use the C++ includes.
-C_INCLUDES = -I.. -I$(toplevel_srcdir)/libiberty -I$(toplevel_srcdir)/include
+C_INCLUDES = -I.. -I$(LIBIBERTY_SRC) -I$(LIBIBERTY_HDRS)
 C_COMPILE = \
 	$(CC) $(DEFS) $(C_INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
