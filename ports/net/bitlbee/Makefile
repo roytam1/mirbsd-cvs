@@ -2,7 +2,7 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/01 07:12:39 pvalchev Exp $
 
 COMMENT=		"IRC proxy to connect to ICQ, AOL, MSN and Jabber"
-DISTNAME=		bitlbee-0.83
+DISTNAME=		bitlbee-0.92
 CATEGORIES=		net
 HOMEPAGE=		http://bitlbee.org
 
@@ -13,9 +13,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://get.bitlbee.org/src/
-MASTER_SITES0=		http://get.bitlbee.org/fink/
-PATCHFILES=		bitlbee-0.83-1-darwin.patch:0
-PATCH_DIST_STRIP=	-p1
 
 DB_DIR?=		/var/bitlbee
 ETCDIR=			${SYSCONFDIR}/bitlbee
@@ -36,7 +33,8 @@ CONFIGURE_ARGS+=	--bindir=${PREFIX}/libexec \
 			--mandir=${PREFIX}/man \
 			--config=${DB_DIR} \
 			--etcdir=${ETCDIR} \
-			--tcpd=0
+			--tcpd=0 \
+			--ssl=openssl
 
 USE_GMAKE=		Yes
 MAKE_ENV=		CC="${CC}"
