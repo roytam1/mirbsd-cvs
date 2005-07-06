@@ -2,7 +2,7 @@
 # $OpenBSD: Makefile,v 1.29 2004/03/04 17:49:26 espie Exp $
 # $FreeBSD: Makefile,v 1.4 1999/01/10 20:12:06 steve Exp $
 
-NOT_FOR_PLATFORM=	*:*:hppa *:*:powerpc *:*:vax
+NOT_FOR_PLATFORM=	*:*:hppa {Open,Mir}BSD:*:powerpc *:*:vax
 
 COMMENT=	"garbage collection and memory leak detection for C and C++"
 VERSION=	6.2
@@ -11,13 +11,16 @@ PKGNAME=	boehm-gc-${VERSION}
 CATEGORIES=	devel
 MASTER_SITES=	${HOMEPAGE}gc_source/
 HOMEPAGE=	http://www.hpl.hp.com/personal/Hans_Boehm/gc/
-NOT_FOR_PLATFORM=	*:*:hppa *:*:powerpc *:*:vax
 
 # BSD-style, lacks permission to sell
 PERMIT_PACKAGE_CDROM=	No
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	Yes
+
+# don't include mirmake.h, it breaks the assembly parts
+# missing + not an oversight
+CPPFLAGS=	-idirafter ${LOCALBASE}/include
 
 MAKE_ENV=	CP="cp" \
 		INSTALL_DATA="${INSTALL_DATA}" \
