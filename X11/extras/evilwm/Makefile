@@ -10,7 +10,10 @@ INCLUDES = -I$(XROOT)/include
 LDPATH   = -L$(XROOT)/lib
 LIBS     = -lX11
 
-# Configure evilwm by editing the following DEFINES lines.
+DEFINES  = $(EXTRA_DEFINES)
+# Configure evilwm by editing the following DEFINES lines.  You can also
+# add options by setting EXTRA_DEFINES on the make(1) command line,
+# e.g., make EXTRA_DEFINES="-DDEBUG".
 
 # Uncomment to enable solid window drags.  This can be slow on old systems.
 DEFINES += -DSOLIDDRAG
@@ -24,12 +27,9 @@ DEFINES += -DINFOBANNER
 # To use this option, you need to have the Motif development files installed.
 DEFINES += -DMWM_HINTS
 
-# To support virtual desktops, uncomment one or both of the following 2 lines.
+# To support virtual desktops, uncomment the following line.
 DEFINES += -DVWM
-#DEFINES += -DVDESK
-# VWM enables the built-in virtual desktop code and VDESK allows the use
-# of the extern pager program "vdesk".
-#
+
 # To support shaped windows properly, uncomment the following two lines:
 DEFINES += -DSHAPE
 LIBS	+= -lXext
@@ -43,10 +43,11 @@ DEFINES += -DSNAP
 
 # Uncomment to compile in certain text messages like help.  You want this too
 # unless you *really* want to trim the bytes.
+# Note that snprintf(3) is always part of the build.
 DEFINES += -DSTDIO
 
 # You can save a few bytes if you know you won't need colour map support
-# (eg for 16 or more bit displays)
+# (e.g., for 16 or more bit displays)
 DEFINES += -DCOLOURMAP
 
 # Uncomment the following line if you want to use Ctrl+Alt+q to kill windows
@@ -55,27 +56,23 @@ DEFINES += -DCOLOURMAP
 #DEFINES += -DKEY_KILL=XK_q
 
 # Print whatever debugging messages I've left in this release.
-#DEFINES += -DDEBUG	# miscellaneous debugging
+DEFINES += -DDEBUG	# miscellaneous debugging
 
 # ----- You shouldn't need to change anything under this line ------ #
 
-version = 0
-revision = 99
-subrev = 17
+version = 0.99.18
 
-distdir = evilwm-$(version).$(revision).$(subrev).orig
-disttar = evilwm_$(version).$(revision).$(subrev).orig.tar.gz
+distname = evilwm-$(version)
 
-#DEFINES += -DSANITY	# active sanity checks
-#DEFINES += -DXDEBUG	# show some X calls
+DEFINES += -DXDEBUG	# show some X calls
 
-DEFINES += -DVERSION=\"$(version).$(revision).$(subrev)\" $(DEBIAN)
+DEFINES += -DVERSION=\"$(version)\" $(DEBIAN)
 CFLAGS  += $(INCLUDES) $(DEFINES) -Os -Wall
 #CFLAGS  += $(INCLUDES) $(DEFINES) -g -Wall
-CFLAGS  += -Wstrict-prototypes -Wpointer-arith -Wcast-align -Wcast-qual -Wshadow -Waggregate-return -Wnested-externs -Winline -Wwrite-strings -Wundef
+CFLAGS  += -W -Wstrict-prototypes -Wpointer-arith -Wcast-align -Wcast-qual -Wshadow -Waggregate-return -Wnested-externs -Winline -Wwrite-strings -Wundef -Wsign-compare -Wmissing-prototypes -Wredundant-decls
 LDFLAGS += $(LDPATH) $(LIBS)
 
-HEADERS  = evilwm.h
+HEADERS  = evilwm.h log.h
 SRCS     = client.c events.c main.c misc.c new.c screen.c
 OBJS     = $(SRCS:.c=.o)
 
@@ -84,10 +81,10 @@ all: evilwm
 evilwm: $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
-allinone:
-	cat evilwm.h $(SRCS) | sed 's/^#include.*evilwm.*$$//' > allinone.c
-	$(CC) $(CFLAGS) -o evilwm allinone.c $(LDFLAGS)
-	rm allinone.c
+#allinone:
+#	cat evilwm.h $(SRCS) | sed 's/^#include.*evilwm.*$$//' > allinone.c
+#	$(CC) $(CFLAGS) -o evilwm allinone.c $(LDFLAGS)
+#	rm allinone.c
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $<
@@ -101,19 +98,17 @@ doinstall:
 
 install: doinstall
 
-dist: clean
-	cd debian && debuild clean
-	mkdir /var/tmp/$(distdir)
-	cp -a . /var/tmp/$(distdir)/
-	cd /var/tmp && tar cfz $(disttar) $(distdir) --exclude=$(distdir)/CVS --exclude=$(distdir)/debian --exclude=$(distdir)/.\#\* && rm -rf $(distdir)
-	mv /var/tmp/$(disttar) ..
+dist:
+	darcs dist --dist-name $(distname)
+	mv $(distname).tar.gz ..
 
 debuild: dist
-	-cd ..; rm -rf $(distdir)/
-	cd ..; tar xfz $(disttar)
-	cp -a debian ../$(distdir)/
-	rm -rf ../$(distdir)/debian/CVS/
-	cd ../$(distdir); debuild
+	-cd ..; rm -rf $(distname)/ $(distname).orig/
+	cd ..; mv $(distname).tar.gz evilwm_$(version).orig.tar.gz
+	cd ..; tar xfz evilwm_$(version).orig.tar.gz
+	cp -a debian ../$(distname)/
+	rm -rf ../$(distname)/debian/_darcs/
+	cd ../$(distname); debuild
 
 clean:
 	rm -f evilwm evilwm.exe $(OBJS)

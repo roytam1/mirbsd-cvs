@@ -1,4 +1,4 @@
-.TH evilwm 1 "October 15, 2003" "" ""
+.TH evilwm 1 "March 20, 2005" "" ""
 .SH NAME
 evilwm \- Minimalist Window Manager for X
 .SH SYNOPSIS
@@ -14,7 +14,18 @@ evilwm \- Minimalist Window Manager for X
 .I borderwidth
 .B ] [ \-snap
 .I num
-.B ] [ \-V ]
+.B ] [ \-mask1
+.I modifiers
+.B ] [ \-mask2
+.I modifiers
+.B ] [ \-app
+.I name/class
+.B [ \-g
+.I geometry
+.B ] [ \-v
+.I vdesk
+.B ]
+.B ]... [ \-V ]
 .SH DESCRIPTION
 .B evilwm
 is a minimalist window manager based on aewm, extended to feature
@@ -22,7 +33,7 @@ many keyboard controls, and otherwise altered to be more friendly.
 .PP
 In
 .BR evilwm ,
-the focus follows the mouse pointer, and focus if not lost is
+the focus follows the mouse pointer, and focus is not lost if
 you stray onto the root window.  The current window border is shaded
 gold, with other windows left as a dark grey.
 .PP
@@ -59,7 +70,7 @@ Maximise current window (toggle).
 If compiled with virtual desktop support, these functions are also available: 
 .IP F
 Fix or unfix current window.
-.IP "1 - 8"
+.IP "1--8"
 Switch virtual desktop.
 .IP Left
 Previous virtual desktop.
@@ -73,20 +84,49 @@ To make
 .B evilwm
 exit, you have to kill the process.
 .SH OPTIONS
-.IP "-display display"
+.IP "\-display display"
 specifies the X display to run on.
-.IP "-term termprog"
+.IP "\-term termprog"
 specifies an alternative program to run when spawning a new terminal (defaults
-to xterm, or x-terminal-emulator in Debian).
-.IP "-fg foreground"
+to xterm, or x\-terminal\-emulator in Debian).
+.IP "\-fg foreground"
 frame colour of currently active window.
-.IP "-bg background"
+.IP "\-bg background"
 frame colour of inactive windows.
-.IP "-bw borderwidth"
+.IP "\-bw borderwidth"
 width of window borders in pixels.
-.IP "-snap num"
+.IP "\-snap num"
 enable snap-to-border support.  num gives the proximity in pixels to snap to.
-.IP "-V"
+.IP "\-mask1 modifiers"
+.IP "\-mask2 modifiers"
+override the default keyboard modifiers used to grab keys for window manager
+functionality.
+.I mask1
+is used for most keyboard controls (default: control+alt), and
+.I mask2
+is used for mousebutton controls and cycling windows (default: alt).  Modifiers
+may be separated with + signs.  Valid modifiers are shift, lock, control, alt,
+mod1, mod2, mod3, mod4, mod5.
+.IP "\-app name/class"
+match an application by instance name and class (for help in finding these,
+use the
+.BR xlsclients
+tool with the
+.I \-l
+option).  Subsequent
+.I \-g
+and
+.I \-v
+options will apply to this match.
+.IP "\-g geometry"
+apply a geometry (using a standard X geometry string) to applications matching
+the last
+.I \-app.
+.IP "\-v vdesk"
+specify a default virtual desktop for applications matching the last
+.I \-app.
+Use 0 for vdesk to set window as sticky.
+.IP "\-V"
 print version number.
 .SH BUGS
 The author's idea of friendly may differ to that of many other people.
@@ -97,4 +137,5 @@ aewm was written by Decklin Foster <fosterd@hartwick.edu>.
 .br
 9wm was written by David Hogan <dhog@cs.su.oz.au>.
 .SH "SEE ALSO"
-.BR xterm (1)
+.BR xterm (1),
+.BR xlsclients (1)
