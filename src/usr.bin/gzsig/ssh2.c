@@ -87,11 +87,14 @@ _keyfromstr(char *str, int len)
 static int
 _read_int(struct iovec *iov, int *ival)
 {
+	register u_char *tmp = (u_char *)iov->iov_base;
+
 	iov->iov_len -= 4;
 	if (iov->iov_len < 0)
 		return (-1);
-	*ival = GET_32BIT((u_char *)iov->iov_base);
-	(u_char*)iov->iov_base += 4;
+	*ival = GET_32BIT(tmp);
+	tmp += 4;
+	iov->iov_base = tmp;
 
 	return (0);
 }
@@ -99,6 +102,8 @@ _read_int(struct iovec *iov, int *ival)
 static int
 _read_opaque(struct iovec *iov, u_char **buf, int *len)
 {
+	register u_char *tmp = (u_char *)iov->iov_base;
+
 	if (_read_int(iov, len) < 0 || *len < 0)
 		return (-1);
 
@@ -107,7 +112,8 @@ _read_opaque(struct iovec *iov, u_char **buf, int *len)
 		return (-1);
 
 	*buf = iov->iov_base;
-	(u_char*)iov->iov_base += *len;
+	tmp += *len;
+	iov->iov_base = tmp;
 
 	return (0);
 }
