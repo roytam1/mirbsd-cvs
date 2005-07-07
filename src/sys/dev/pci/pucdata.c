@@ -1,4 +1,4 @@
-/*	$OpenBSD: pucdata.c,v 1.35 2004/05/14 16:39:25 henning Exp $	*/
+/*	$OpenBSD: pucdata.c,v 1.40 2005/03/07 13:28:26 deraadt Exp $	*/
 /*	$NetBSD: pucdata.c,v 1.6 1999/07/03 05:55:23 cgd Exp $	*/
 
 /*
@@ -829,6 +829,17 @@ const struct puc_device_description puc_devices[] = {
 	    },
 	},
 
+	/*
+	 * Lava Computers LavaPort-single serial port.
+	 */
+	{   /* "Lava Computers high-speed port", */
+	    {	PCI_VENDOR_LAVA, PCI_PRODUCT_LAVA_LAVAPORT_2,	0, 0	},
+	    {	0xffff,	0xfffc,					0, 0	},
+	    {
+		{ PUC_PORT_TYPE_COM, 0x10, 0x00, COM_FREQ*4 },
+	    },
+	},
+
 	/* Lava Computers LavaPort-650 */
 	{   /* "Lava Computers high-speed port", */
 	    {	PCI_VENDOR_LAVA, PCI_PRODUCT_LAVA_650,		0, 0	},
@@ -985,6 +996,26 @@ const struct puc_device_description puc_devices[] = {
 	    },
 	},
 
+	/* NetMos 4S PCI 16C650 : 4S, 0P */
+	{   /* "NetMos NM9845 Quad UART" */
+	    {   PCI_VENDOR_NETMOS, PCI_PRODUCT_NETMOS_4S,	0, 0	},
+	    {	0xffff,	0xffff,					0, 0	},
+	    {
+		{ PUC_PORT_TYPE_COM, 0x10, 0x00, COM_FREQ },
+		{ PUC_PORT_TYPE_COM, 0x14, 0x00, COM_FREQ },
+		{ PUC_PORT_TYPE_COM, 0x18, 0x00, COM_FREQ },
+		{ PUC_PORT_TYPE_COM, 0x1c, 0x00, COM_FREQ },
+	    },
+	},
+
+	/* NetMos 1P PCI: 1P */
+	{   /* "NetMos NM9805 1284 Printer Port" */
+	    {   PCI_VENDOR_NETMOS, PCI_PRODUCT_NETMOS_1P,	0, 0	},
+	    {	0xffff,	0xffff,					0, 0	},
+	    {
+		{ PUC_PORT_TYPE_LPT, 0x10, 0x00, 0x00 },
+	    },
+	},
 	{ /* Sunix 4018A : 2-port parallel */
 	    {   PCI_VENDOR_SUNIX, PCI_PRODUCT_SUNIX_4018A,	0, 0	},
 	    {	0xffff,	0xffff,					0, 0	},
@@ -1125,6 +1156,18 @@ const struct puc_device_description puc_devices[] = {
 		{ PUC_PORT_TYPE_COM, 0x18, 0x28, COM_FREQ * 4 },
 		{ PUC_PORT_TYPE_COM, 0x18, 0x30, COM_FREQ * 4 },
 		{ PUC_PORT_TYPE_COM, 0x18, 0x38, COM_FREQ * 4 },
+	    },
+	},
+
+	/* Avlab Technology, Inc. Low Profile PCI 4 Serial: 4S */
+	{   /* "Avlab Low Profile PCI 4 Serial" */
+	    {	PCI_VENDOR_AVLAB, PCI_PRODUCT_AVLAB_LPPCI4S,	0, 0  },
+	    {	0xffff,	0xffff,					0, 0  },
+	    {
+		{ PUC_PORT_TYPE_COM, 0x10, 0x00, COM_FREQ },
+		{ PUC_PORT_TYPE_COM, 0x14, 0x00, COM_FREQ },
+		{ PUC_PORT_TYPE_COM, 0x18, 0x00, COM_FREQ },
+		{ PUC_PORT_TYPE_COM, 0x1c, 0x00, COM_FREQ },
 	    },
 	},
 
