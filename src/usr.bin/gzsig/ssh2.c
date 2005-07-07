@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: ssh2.c,v 1.2 2005/05/29 09:10:23 djm Exp $ */
 /*
  * ssh2.c
@@ -36,6 +37,8 @@
 
 #include "key.h"
 #include "ssh2.h"
+
+__RCSID("$MirOS$");
 
 #define GET_32BIT(cp) (((u_long)(u_char)(cp)[0] << 24) | \
 		       ((u_long)(u_char)(cp)[1] << 16) | \
@@ -102,7 +105,7 @@ _read_int(struct iovec *iov, int *ival)
 static int
 _read_opaque(struct iovec *iov, u_char **buf, int *len)
 {
-	register u_char *tmp = (u_char *)iov->iov_base;
+	register u_char *tmp;
 
 	if (_read_int(iov, len) < 0 || *len < 0)
 		return (-1);
@@ -111,7 +114,8 @@ _read_opaque(struct iovec *iov, u_char **buf, int *len)
 	if (iov->iov_len < 0)
 		return (-1);
 
-	*buf = iov->iov_base;
+	tmp = (u_char *)iov->iov_base;
+	*buf = tmp;
 	tmp += *len;
 	iov->iov_base = tmp;
 
