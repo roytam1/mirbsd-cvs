@@ -56,6 +56,8 @@ typedef unsigned char	unchar;		/* Sys V compatibility */
 typedef	unsigned short	ushort;		/* Sys V compatibility */
 typedef	unsigned int	uint;		/* Sys V compatibility */
 typedef unsigned long	ulong;		/* Sys V compatibility */
+
+typedef	unsigned long	cpuid_t;
 #endif
 
 typedef	u_int64_t	u_quad_t;	/* quads */

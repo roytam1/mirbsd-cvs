@@ -1,4 +1,4 @@
-/*	$OpenBSD: socket.h,v 1.47 2004/02/24 21:43:56 tedu Exp $	*/
+/*	$OpenBSD: socket.h,v 1.52 2005/05/27 04:55:28 mcbride Exp $	*/
 /*	$NetBSD: socket.h,v 1.14 1996/02/09 18:25:36 christos Exp $	*/
 
 /*
@@ -66,6 +66,7 @@
 #define	SO_LINGER	0x0080		/* linger on close if data present */
 #define	SO_OOBINLINE	0x0100		/* leave received OOB data in line */
 #define	SO_REUSEPORT	0x0200		/* allow local address & port reuse */
+#define SO_JUMBO	0x0400		/* try to use jumbograms */
 
 /*
  * Additional options, not kept in so_options.
@@ -132,7 +133,9 @@ struct	linger {
 #define AF_KEY		30
 #define pseudo_AF_HDRCMPLT 31		/* Used by BPF to not rewrite headers
 					   in interface output routine */
-#define	AF_MAX		32
+#define	AF_BLUETOOTH	32		/* Bluetooth */
+
+#define	AF_MAX		33
 
 /*
  * Structure used by kernel to store most
@@ -202,7 +205,7 @@ struct sockproto {
 #define	PF_CNT		AF_CNT
 #define	PF_IPX		AF_IPX		/* same format as AF_NS */
 #define PF_INET6	AF_INET6
-#define PF_RTIP		pseudo_AF_FTIP	/* same format as AF_INET */
+#define PF_RTIP		pseudo_AF_RTIP	/* same format as AF_INET */
 #define PF_PIP		pseudo_AF_PIP
 #define PF_ISDN		AF_ISDN
 #define PF_NATM		AF_NATM
@@ -210,6 +213,7 @@ struct sockproto {
 #define	PF_SIP		AF_SIP
 #define PF_KEY		AF_KEY
 #define PF_BPF		pseudo_AF_HDRCMPLT
+#define	PF_BLUETOOTH	AF_BLUETOOTH
 #define	PF_MAX		AF_MAX
 
 /*
@@ -303,6 +307,19 @@ struct sockcred {
 }
 
 /*
+ * PF_KEY - Key Management
+ */
+#define NET_KEY_SADB_DUMP	1	/* return SADB */
+#define NET_KEY_SPD_DUMP	2	/* return SPD */
+#define NET_KEY_MAXID		3
+
+#define CTL_NET_KEY_NAMES { \
+	{ 0, 0 }, \
+	{ "sadb_dump", CTLTYPE_STRUCT }, \
+	{ "spd_dump", CTLTYPE_STRUCT }, \
+}
+
+/*
  * PF_BPF  not really a family, but connected under CTL_NET
  */
 #define NET_BPF_BUFSIZE		1		/* default buffer size */
@@ -314,7 +331,6 @@ struct sockcred {
 	{ "bufsize", CTLTYPE_INT }, \
 	{ "maxbufsize", CTLTYPE_INT }, \
 }
-
 
 /*
  * Maximum queue length specifiable by listen(2).

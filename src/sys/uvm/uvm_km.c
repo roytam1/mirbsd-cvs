@@ -1,4 +1,4 @@
-/*	$OpenBSD: uvm_km.c,v 1.38 2004/04/28 02:20:58 markus Exp $	*/
+/*	$OpenBSD: uvm_km.c,v 1.39 2004/05/27 04:55:28 tedu Exp $	*/
 /*	$NetBSD: uvm_km.c,v 1.42 2001/01/14 02:10:01 thorpej Exp $	*/
 
 /* 
@@ -912,14 +912,25 @@ struct km_page {
 void uvm_km_createthread(void *);
 void uvm_km_thread(void *);
 
+/*
+ * Allocate the initial reserve, and create the thread which will
+ * keep the reserve full.  For bootstrapping, we allocate more than
+ * the lowat amount, because it may be a while before the thread is
+ * running.
+ */
 void
 uvm_km_page_init(void)
 {
-	struct km_page *head, *page;
+	struct km_page *page;
 	int i;
 
+	if (!uvm_km_pages_lowat) {
+		/* based on physmem, calculate a good value here */
+		uvm_km_pages_lowat = physmem / 256;
+		if (uvm_km_pages_lowat < 128)
+			uvm_km_pages_lowat = 128;
+	}
 
-	head = NULL;
 	for (i = 0; i < uvm_km_pages_lowat * 4; i++) {
 #if defined(PMAP_MAP_POOLPAGE)
 		struct vm_page *pg;
@@ -938,11 +949,14 @@ uvm_km_page_init(void)
 #else
 		page = (void *)uvm_km_alloc(kernel_map, PAGE_SIZE);
 #endif
-		page->next = head;
-		head = page;
+		page->next = uvm_km_pages_head;
+		uvm_km_pages_head = page;
 	}
-	uvm_km_pages_head = head;
 	uvm_km_pages_free = i;
+
+	/* tone down if really high */
+	if (uvm_km_pages_lowat > 512)
+		uvm_km_pages_lowat = 512;
 
 	kthread_create_deferred(uvm_km_createthread, NULL);
 }
@@ -953,6 +967,12 @@ uvm_km_createthread(void *arg)
 	kthread_create(uvm_km_thread, NULL, NULL, "kmthread");
 }
 
+/*
+ * Endless loop.  We grab pages in increments of 16 pages, then
+ * quickly swap them into the list.  At some point we can consider
+ * returning memory to the system if we have too many free pages,
+ * but that's not implemented yet.
+ */
 void
 uvm_km_thread(void *arg)
 {
@@ -962,9 +982,7 @@ uvm_km_thread(void *arg)
 	for (;;) {
 		if (uvm_km_pages_free >= uvm_km_pages_lowat)
 			tsleep(&uvm_km_pages_head, PVM, "kmalloc", 0);
-		want = uvm_km_pages_lowat - uvm_km_pages_free;
-		if (want < 16)
-			want = 16;
+		want = 16;
 		for (i = 0; i < want; i++) {
 #if defined(PMAP_MAP_POOLPAGE)
 			struct vm_page *pg;
@@ -992,21 +1010,32 @@ uvm_km_thread(void *arg)
 		uvm_km_pages_head = head;
 		uvm_km_pages_free += i;
 		splx(s);
+		wakeup(&uvm_km_pages_free);
 	}
 }
 
 
+/*
+ * Allocate one page.  We can sleep for more if the caller
+ * permits it.  Wake up the thread if we've dropped below lowat.
+ */
 void *
-uvm_km_getpage(void)
+uvm_km_getpage(boolean_t waitok)
 {
-	struct km_page *page;
+	struct km_page *page = NULL;
 	int s;
 
 	s = splvm();
-	page = uvm_km_pages_head;
-	if (page) {
-		uvm_km_pages_head = page->next;
-		uvm_km_pages_free--;
+	for (;;) {
+		page = uvm_km_pages_head;
+		if (page) {
+			uvm_km_pages_head = page->next;
+			uvm_km_pages_free--;
+			break;
+		}
+		if (!waitok)
+			break;
+		tsleep(&uvm_km_pages_free, PVM, "getpage", 0);
 	}
 	splx(s);
 	if (uvm_km_pages_free < uvm_km_pages_lowat)

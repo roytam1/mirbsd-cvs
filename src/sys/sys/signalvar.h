@@ -1,4 +1,4 @@
-/*	$OpenBSD: signalvar.h,v 1.11 2004/04/06 17:24:12 mickey Exp $	*/
+/*	$OpenBSD: signalvar.h,v 1.15 2005/06/17 22:33:34 niklas Exp $	*/
 /*	$NetBSD: signalvar.h,v 1.17 1996/04/22 01:23:31 christos Exp $	*/
 
 /*

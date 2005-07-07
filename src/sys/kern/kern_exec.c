@@ -1,4 +1,4 @@
-/*	$OpenBSD: kern_exec.c,v 1.85 2004/05/14 04:00:33 tedu Exp $	*/
+/*	$OpenBSD: kern_exec.c,v 1.92 2005/04/11 20:05:51 deraadt Exp $	*/
 /*	$NetBSD: kern_exec.c,v 1.75 1996/02/09 18:59:28 christos Exp $	*/
 
 /*-
@@ -65,6 +65,12 @@
 #include <machine/reg.h>
 
 #include <dev/rndvar.h>
+
+#include "systrace.h"
+
+#if NSYSTRACE > 0
+#include <dev/systrace.h>
+#endif
 
 /*
  * Map the shared signal code.
@@ -177,7 +183,7 @@ check_exec(p, epp)
 			continue;
 		newerror = (*execsw[i].es_check)(p, epp);
 		if (!newerror && !(epp->ep_emul->e_flags & EMUL_ENABLED))
-			newerror = ENOEXEC;
+			newerror = EPERM;
 		/* make sure the first "interesting" error code is saved. */
 		if (!newerror || error == ENOEXEC)
 			error = newerror;
@@ -255,6 +261,12 @@ sys_execve(p, v, retval)
 	struct vmspace *vm = p->p_vmspace;
 	char **tmpfap;
 	extern struct emul emul_native;
+#if NSYSTRACE > 0
+	int wassugid =
+	    ISSET(p->p_flag, P_SUGID) || ISSET(p->p_flag, P_SUGIDEXEC);
+	char pathbuf[MAXPATHLEN];
+	size_t pathbuflen;
+#endif
 
 	/*
 	 * Cheap solution to complicated problems.
@@ -262,13 +274,28 @@ sys_execve(p, v, retval)
 	 */
 	p->p_flag |= P_INEXEC;
 
+#if NSYSTRACE > 0
+	if (ISSET(p->p_flag, P_SYSTRACE))
+		systrace_execve0(p);
+
+	error = copyinstr(SCARG(uap, path), pathbuf, MAXPATHLEN, &pathbuflen);
+	if (error != 0)
+		goto clrflag;
+
+	NDINIT(&nid, LOOKUP, NOFOLLOW, UIO_SYSSPACE, pathbuf, p);
+#else
 	/* init the namei data to point the file user's program name */
 	NDINIT(&nid, LOOKUP, NOFOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
+#endif
 
 	/*
 	 * initialize the fields of the exec package.
 	 */
+#if NSYSTRACE > 0
+	pack.ep_name = pathbuf;
+#else
 	pack.ep_name = (char *)SCARG(uap, path);
+#endif
 	pack.ep_hdr = malloc(exec_maxhdrsz, M_EXEC, M_WAITOK);
 	pack.ep_hdrlen = exec_maxhdrsz;
 	pack.ep_hdrvalid = 0;
@@ -392,6 +419,7 @@ sys_execve(p, v, retval)
 	vm->vm_dsize = btoc(pack.ep_dsize);
 	vm->vm_ssize = btoc(pack.ep_ssize);
 	vm->vm_maxsaddr = (char *)pack.ep_maxsaddr;
+	vm->vm_minsaddr = (char *)pack.ep_minsaddr;
 
 	/* create the new process's VM space by running the vmcmds */
 #ifdef DIAGNOSTIC
@@ -621,7 +649,16 @@ sys_execve(p, v, retval)
 	if (KTRPOINT(p, KTR_EMUL))
 		ktremul(p, p->p_emul->e_name);
 #endif
+
 	p->p_flag &= ~P_INEXEC;
+
+#if NSYSTRACE > 0
+	if (ISSET(p->p_flag, P_SYSTRACE) &&
+	    wassugid && !ISSET(p->p_flag, P_SUGID) &&
+	    !ISSET(p->p_flag, P_SUGIDEXEC))
+		systrace_execve1(pathbuf, p);
+#endif
+
 	return (0);
 
 bad:
@@ -641,8 +678,11 @@ bad:
 	pool_put(&namei_pool, nid.ni_cnd.cn_pnbuf);
 	uvm_km_free_wakeup(exec_map, (vaddr_t) argp, NCARGS);
 
-freehdr:
+ freehdr:
 	free(pack.ep_hdr, M_EXEC);
+#if NSYSTRACE > 0
+ clrflag:
+#endif
 	p->p_flag &= ~P_INEXEC;
 	return (error);
 
