@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: X11/extras/evilwm/events.c,v 1.2 2005/03/19 13:30:08 tg Exp $ */
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -21,18 +21,15 @@
  */
 
 /* evilwm - Minimalist Window Manager for X
- * Copyright (C) 1999-2002 Ciaran Anscomb <evilwm@6809.org.uk>
+ * Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
  * see README for license and other details. */
 
-#include "evilwm.h"
 #include <stdlib.h>
 #include <X11/Xatom.h>
-#include <stdio.h>
-#ifdef SHAPE
-#include <X11/extensions/shape.h>
-#endif
+#include "evilwm.h"
+#include "log.h"
 
-void handle_key_event(XKeyEvent *e) {
+static void handle_key_event(XKeyEvent *e) {
 	Client *c = find_client(e->window);
 	KeySym key = XKeycodeToKeysym(dpy,e->keycode,0);
 
@@ -58,23 +55,25 @@ void handle_key_event(XKeyEvent *e) {
 			{ c->x = c->border; c->y = DisplayHeight(dpy, c->screen->screen)-c->height-c->border; } if (0)
 		case KEY_BOTTOMRIGHT:
 			{ c->x = DisplayWidth(dpy, c->screen->screen)-c->width-c->border; c->y = DisplayHeight(dpy, c->screen->screen)-c->height-c->border; }
-			move(c, 1);
+			moveresize(c);
 			setmouse(c->window, c->width + c->border - 1,
 					c->height + c->border - 1);
+			/* Need to think about this - see note about shaped
+			 * windows in TODO */
 			break;
 		case KEY_SLEFT:
-			c->width -= c->size->width_inc; if (0)
+			c->width -= c->width_inc; if (0)
 		case KEY_SDOWN:
-			c->height += c->size->height_inc; if (0)
+			c->height += c->height_inc; if (0)
 		case KEY_SUP:
-			c->height -= c->size->height_inc; if (0)
+			c->height -= c->height_inc; if (0)
 		case KEY_SRIGHT:
-			c->width += c->size->width_inc;
+			c->width += c->width_inc;
 			if (c->width < 1)
 				c->width = 1;
 			if (c->height < 1)
 				c->height = 1;
-			resize(c, 1);
+			moveresize(c);
 			break;
 		case KEY_KILL:
 			send_wm_delete(c); break;
@@ -88,16 +87,13 @@ void handle_key_event(XKeyEvent *e) {
 			maximise_horiz(c);
 		case KEY_MAXVERT:
 			maximise_vert(c);
-			resize(c, 1);
+			moveresize(c);
 			setmouse(c->window, c->width + c->border - 1,
 					c->height + c->border - 1);
 			break;
 #ifdef VWM
 		case KEY_FIX:
 			c->vdesk = c->vdesk == STICKY ? vdesk : STICKY;
-#ifdef VDESK_BOTH
-			spawn_vdesk(c->vdesk, c);
-#endif
 			client_update_current(c, current);
 			break;
 #endif
@@ -130,15 +126,15 @@ void handle_key_event(XKeyEvent *e) {
 }
 
 #ifdef MOUSE
-void handle_button_event(XButtonEvent *e) {
+static void handle_button_event(XButtonEvent *e) {
 	Client *c = find_client(e->window);
 
 	if (c && e->window != c->screen->root) {
 		switch (e->button) {
 			case Button1:
-				move(c, 0); break;
+				drag(c); break;
 			case Button2:
-				resize(c, 0); break;
+				sweep(c); break;
 			case Button3:
 				XLowerWindow(dpy, c->parent); break;
 		}
@@ -146,7 +142,7 @@ void handle_button_event(XButtonEvent *e) {
 }
 #endif
 
-void handle_configure_request(XConfigureRequestEvent *e) {
+static void handle_configure_request(XConfigureRequestEvent *e) {
 	Client *c = find_client(e->window);
 	XWindowChanges wc;
 
@@ -173,9 +169,7 @@ void handle_configure_request(XConfigureRequestEvent *e) {
 		wc.border_width = 0;
 		XConfigureWindow(dpy, c->parent, e->value_mask, &wc);
 		send_config(c);
-#ifdef DEBUG
-		fprintf(stderr, "handle_configure_request() : window configured to %dx%d+%d+%d\n", wc.width, wc.height, wc.x, wc.y);
-#endif
+		LOG_DEBUG("handle_configure_request() : window configured to %dx%d+%d+%d\n", c->width, c->height, c->x, c->y);
 	}
 
 	wc.x = c ? c->border : e->x;
@@ -185,7 +179,7 @@ void handle_configure_request(XConfigureRequestEvent *e) {
 	XConfigureWindow(dpy, e->window, e->value_mask, &wc);
 }
 
-void handle_map_request(XMapRequestEvent *e) {
+static void handle_map_request(XMapRequestEvent *e) {
 	Client *c = find_client(e->window);
 
 	if (c) {
@@ -196,38 +190,40 @@ void handle_map_request(XMapRequestEvent *e) {
 		unhide(c, RAISE);
 	} else {
 		XWindowAttributes attr;
-#ifdef DEBUG
-		fprintf(stderr, "handle_map_request() : don't know this window, calling make_new_client();\n");
-#endif
+		LOG_DEBUG("handle_map_request() : don't know this window, calling make_new_client();\n");
 		XGetWindowAttributes(dpy, e->window, &attr);
 		make_new_client(e->window, find_screen(attr.root));
 	}
 }
 
-void handle_unmap_event(XUnmapEvent *e) {
+static void handle_unmap_event(XUnmapEvent *e) {
 	Client *c = find_client(e->window);
 
 	if (c) {
-#ifdef DEBUG
-		/* fprintf(stderr, "handle_unmap_event() : ignore_unmap = %d\n", c->ignore_unmap);
-		 * */
-#endif
 		if (c->ignore_unmap) c->ignore_unmap--;
 		else remove_client(c);
 	}
 }
 
-#ifdef VDESK
-void handle_client_message(XClientMessageEvent *e) {
+static void handle_reparent_event(XReparentEvent *e) {
 	Client *c = find_client(e->window);
-
-	if (c && e->message_type == xa_wm_change_state &&
-		e->format == 32 && e->data.l[0] == IconicState) hide(c);
+	/* If an unmanaged window is reparented such that its new parent is
+	 * a root window and it is not in WithdrawnState, manage it */
+	if (!c) {
+		ScreenInfo *s = find_screen(e->parent);
+		if (s) {
+			XWindowAttributes attr;
+			XGetWindowAttributes(dpy, e->window, &attr);
+			if (attr.map_state != WithdrawnState) {
+				LOG_DEBUG("handle_reparent_event(): window reparented to root - making client\n");
+				make_new_client(e->window, s);
+			}
+		}
+	}
 }
-#endif
 
 #ifdef COLOURMAP
-void handle_colormap_change(XColormapEvent *e) {
+static void handle_colormap_change(XColormapEvent *e) {
 	Client *c = find_client(e->window);
 
 	if (c && e->new) {
@@ -237,55 +233,74 @@ void handle_colormap_change(XColormapEvent *e) {
 }
 #endif
 
-void handle_property_change(XPropertyEvent *e) {
+static void handle_property_change(XPropertyEvent *e) {
 	Client *c = find_client(e->window);
-	long dummy;
 
 	if (c) {
-		if (e->atom == XA_WM_NORMAL_HINTS)
-				XGetWMNormalHints(dpy, c->window, c->size, &dummy);
+		if (e->atom == XA_WM_NORMAL_HINTS) {
+			get_wm_normal_hints(c);
+		}
 	}
 }
 
-void handle_enter_event(XCrossingEvent *e) {
+static void handle_enter_event(XCrossingEvent *e) {
 	Client *c;
-#ifdef VWM
-	int wdesk;
-#endif
 
 	current_screen = find_screen(e->root);
-	/* if (e->window == root && !current) {
-		XSetInputFocus(dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
-		return;
-	} */
 	if ((c = find_client(e->window))) {
 #ifdef VWM
-		wdesk = c->vdesk;
-		if (wdesk != vdesk && wdesk != STICKY)
+		if (c->vdesk != vdesk && c->vdesk != STICKY)
 			return;
 #endif
-#ifdef COLOURMAP
-		XInstallColormap(dpy, c->cmap);
-#endif
-		client_update_current(current, c);
-		client_update_current(c, current);
-		XSetInputFocus(dpy, c->window, RevertToPointerRoot, CurrentTime);
+		select_client(c);
 #ifdef MOUSE
-		grab_button(c->parent, Mod1Mask, AnyButton);
+		grab_button(c->parent, grabmask2, AnyButton);
 #endif
 	}
-}
-
-void handle_leave_event(XCrossingEvent *e) {
-	/* if (e->window == root && !e->same_screen) {
-		client_update_current(current, NULL);
-	} */
 }
 
 #ifdef SHAPE
-void handle_shape_event(XShapeEvent *e) {
+static void handle_shape_event(XShapeEvent *e) {
 	Client *c = find_client(e->window);
 	if (c)
 		set_shape(c);
 }
 #endif
+
+void event_main_loop(void) {
+	XEvent ev;
+	/* main event loop here */
+	for (;;) {
+		XNextEvent(dpy, &ev);
+		switch (ev.type) {
+			case KeyPress:
+				handle_key_event(&ev.xkey); break;
+#ifdef MOUSE
+			case ButtonPress:
+				handle_button_event(&ev.xbutton); break;
+#endif
+			case ConfigureRequest:
+				handle_configure_request(&ev.xconfigurerequest); break;
+			case MapRequest:
+				handle_map_request(&ev.xmaprequest); break;
+#ifdef COLOURMAP
+			case ColormapNotify:
+				handle_colormap_change(&ev.xcolormap); break;
+#endif
+			case EnterNotify:
+				handle_enter_event(&ev.xcrossing); break;
+			case PropertyNotify:
+				handle_property_change(&ev.xproperty); break;
+			case UnmapNotify:
+				handle_unmap_event(&ev.xunmap); break;
+			case ReparentNotify:
+				handle_reparent_event(&ev.xreparent); break;
+#ifdef SHAPE
+			default:
+				if (have_shape && ev.type == shape_event) {
+					handle_shape_event((XShapeEvent *)&ev);
+				}
+#endif
+		}
+	}
+}

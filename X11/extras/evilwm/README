@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: X11/extras/evilwm/README,v 1.2 2005/03/19 13:30:07 tg Exp $
 
 evilwm 1.0 by Ciaran Anscomb <evilwm@6809.org.uk>
 
@@ -103,7 +103,7 @@ http://www.red-bean.com/~decklin/aewm/
 LICENCE
 
 evilwm 1.0
-Copyright (C) 1999-2002 Ciaran Anscomb <evilwm@6809.org.uk>
+Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
 
 This is free software.  You can do what you want to it, but if it
 breaks something, you get to pay for the counselling.  The code was

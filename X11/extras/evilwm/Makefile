@@ -1,21 +1,12 @@
-# $MirOS$
+# $MirOS: X11/extras/evilwm/Makefile,v 1.2 2005/03/19 13:30:07 tg Exp $
 
 PROG=		evilwm
 MAN=		evilwm.1
-SRCS=		allinone.c
+SRCS=		client.c events.c main.c misc.c new.c screen.c
 
 LDADD+=		-L${X11LIBDIR} -lX11 -lXext
-CPPFLAGS+=	-DSHAPE -DVERSION=\"0.99.17\"
-CLEANFILES+=	allinone.c
-
-CPPFLAGS+=	-DMOUSE
-CPPFLAGS+=	-DSTDIO
-CPPFLAGS+=	-DSOLIDDRAG
-CPPFLAGS+=	-DCOLOURMAP
-
-# To support virtual desktops, uncomment exactly one of the following lines:
-CPPFLAGS+=	-DVWM
-#CPPFLAGS+=	-DVDESK
+CPPFLAGS+=	-DVERSION=\"0.99.18\"
+CPPFLAGS+=	-DSHAPE -DMOUSE -DSTDIO -DSOLIDDRAG -DCOLOURMAP -DVWM
 
 # Enable a more informative and clear banner to be displayed on Ctrl+Alt+I.
 CPPFLAGS+=	-DINFOBANNER
@@ -47,8 +38,5 @@ CPPFLAGS+=	-DSNAP
 #CPPFLAGS+=	-DSANITY		# active sanity checks
 #CPPFLAGS+=	-DDEBUG			# miscellaneous debugging
 #CPPFLAGS+=	-DXDEBUG		# show some X calls
-
-allinone.c: evilwm.h client.c events.c main.c misc.c new.c screen.c
-	cat ${.ALLSRC} | sed 's/^#include.*evilwm.*$$//' >$@
 
 .include <bsd.prog.mk>
