@@ -64,8 +64,15 @@
 #include <machine/bus.h>
 #include <machine/intr.h>
 
+#include <dev/microcode/yds/yds_hwmcode.h>
+
 #include <dev/pci/ydsreg.h>
 #include <dev/pci/ydsvar.h>
+
+#ifdef AUDIO_DEBUG
+#include <uvm/uvm_extern.h>    /* for vtophys */
+#include <uvm/uvm_pmap.h>      /* for vtophys */
+#endif
 
 /* Debug */
 #undef YDS_USE_REC_SLOT
@@ -183,7 +190,7 @@ int     yds_get_portnum_by_name(struct yds_softc *, char *, char *,
 static u_int yds_get_dstype(int);
 static int yds_download_mcode(struct yds_softc *);
 static int yds_allocate_slots(struct yds_softc *);
-static void yds_configure_legacy(struct yds_softc *arg);
+static void yds_configure_legacy(struct device *arg);
 static void yds_enable_dsp(struct yds_softc *);
 static int yds_disable_dsp(struct yds_softc *);
 static int yds_ready_codec(struct yds_codec_softc *);
@@ -194,7 +201,6 @@ static struct yds_dma *yds_find_dma(struct yds_softc *, void *);
 
 void yds_powerhook(int, void *);
 int	yds_init(void *sc);
-void	yds_attachhook(void *);
 
 #ifdef AUDIO_DEBUG
 static void yds_dump_play_slot(struct yds_softc *, int);
@@ -341,31 +347,25 @@ yds_download_mcode(sc)
 	u_int ctrl;
 	const u_int32_t *p;
 	size_t size;
-	u_char *buf;
-	size_t buflen;
-	int error;
-	struct yds_firmware *yf;
+	int dstype;
 
-	error = loadfirmware("yds", &buf, &buflen);
-	if (error)
-		return 1;
-	yf = (struct yds_firmware *)buf;
+	static struct {
+		const u_int32_t *mcode;
+		size_t size;
+	} ctrls[] = {
+		{yds_ds1_ctrl_mcode, sizeof(yds_ds1_ctrl_mcode)},
+		{yds_ds1e_ctrl_mcode, sizeof(yds_ds1e_ctrl_mcode)},
+	};
 
-	if (sc->sc_flags & YDS_CAP_MCODE_1) {
-		p = (u_int32_t *)&yf->data[yf->dsplen];
-		size = yf->ds1len;
-	} else if (sc->sc_flags & YDS_CAP_MCODE_1E) {
-		p = (u_int32_t *)&yf->data[yf->dsplen + yf->ds1len];
-		size = yf->ds1elen;
-	} else {
-		free(buf, M_DEVBUF);
+	if (sc->sc_flags & YDS_CAP_MCODE_1)
+		dstype = YDS_DS_1;
+	else if (sc->sc_flags & YDS_CAP_MCODE_1E)
+		dstype = YDS_DS_1E;
+	else
 		return 1;	/* unknown */
-	}
 
-	if (yds_disable_dsp(sc)) {
-		free(buf, M_DEVBUF);
+	if (yds_disable_dsp(sc))
 		return 1;
-	}
 
 	/* Software reset */
         YWRITE4(sc, YDS_MODE, YDS_MODE_RESET);
@@ -382,15 +382,18 @@ yds_download_mcode(sc)
         YWRITE2(sc, YDS_GLOBAL_CONTROL, ctrl & ~0x0007);
 
 	/* Download DSP microcode. */
-	YWRITEREGION4(sc, YDS_DSP_INSTRAM, (u_int32_t *)&yf->data[0], yf->dsplen);
+	p = yds_dsp_mcode;
+	size = sizeof(yds_dsp_mcode);
+	YWRITEREGION4(sc, YDS_DSP_INSTRAM, p, size);
 
 	/* Download CONTROL microcode. */
+	p = ctrls[dstype].mcode;
+	size = ctrls[dstype].size;
 	YWRITEREGION4(sc, YDS_CTRL_INSTRAM, p, size);
 
 	yds_enable_dsp(sc);
 	delay(10*1000);		/* neccesary on my 724F (??) */
 
-	free(buf, M_DEVBUF);
 	return 0;
 }
 
@@ -550,11 +553,12 @@ yds_match(parent, match, aux)
  * to avoid conflict.
  */
 static void
-yds_configure_legacy (sc)
-	struct yds_softc *sc;
+yds_configure_legacy (arg)
+	struct device *arg;
 #define FLEXIBLE	(sc->sc_flags & YDS_CAP_LEGACY_FLEXIBLE)
 #define SELECTABLE	(sc->sc_flags & YDS_CAP_LEGACY_SELECTABLE)
 {
+	struct yds_softc *sc = (struct yds_softc*) arg;
 	pcireg_t reg;
 	struct device *dev;
 	int i;
@@ -661,7 +665,12 @@ yds_attach(parent, self, aux)
 	pci_intr_handle_t ih;
 	bus_size_t size;
 	pcireg_t reg;
-	int i;
+	struct yds_codec_softc *codec;
+	char devinfo[256];
+	mixer_ctrl_t ctl;
+	int i, r;
+
+	pci_devinfo(pa->pa_id, pa->pa_class, 0, devinfo, sizeof devinfo);
 
 	/* Map register to memory */
 	if (pci_mapreg_map(pa, YDS_PCI_MBA, PCI_MAPREG_TYPE_MEM, 0,
@@ -721,21 +730,8 @@ yds_attach(parent, self, aux)
 	for (i = 0x80; i < 0xc0; i += 2)
 		YWRITE2(sc, i, 0);
 
-	sc->sc_legacy_iot = pa->pa_iot;
-	mountroothook_establish(yds_attachhook, sc);
-}
-
-void
-yds_attachhook(void *xsc)
-{
-	struct yds_softc *sc = xsc;
-	struct yds_codec_softc *codec;
-	mixer_ctrl_t ctl;
-	int r, i;
-	
 	/* Initialize the device */
-	if (yds_init(sc) == -1)
-		return;
+	yds_init(sc);
 
 	/*
 	 * Attach ac97 codec
@@ -805,11 +801,12 @@ yds_attachhook(void *xsc)
 
 	audio_attach_mi(&yds_hw_if, sc, &sc->sc_dev);
 
+	sc->sc_legacy_iot = pa->pa_iot;
+	config_defer((struct device*) sc, yds_configure_legacy);
+
 	/* Watch for power changes */
 	sc->suspend = PWR_RESUME;
 	sc->powerhook = powerhook_establish(yds_powerhook, sc);
-
-	yds_configure_legacy(sc);
 }
 
 int
