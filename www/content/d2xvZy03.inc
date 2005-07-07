@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.69 2005/07/04 05:35:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.70 2005/07/06 23:17:57 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2970,4 +2970,8 @@
  wrongly, issued then? Anyone knows of a good lawyer who would work for us
  without pay?<br />MirPorts are undergoing some grave changes (a flag day)
  so don't update. benz should keep you informed on this.</p>
+<p>07.07.2005 by tg@<br />As a side effect, we also have SATA support (for
+ those who think they need it, I go with SCSI not cheap crap), and I found
+ a bug in mksh(1) which was introduced by one of the Debian patches; broke
+ &lt;bsd.subdir.mk&gt; in an unfixable way.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
