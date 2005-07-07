@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: sbdsp.c,v 1.23 2004/01/09 21:32:24 brad Exp $	*/
+/**	$MirOS: src/sys/dev/isa/sbdsp.c,v 1.2 2005/03/06 21:27:43 tg Exp $ */
+/*	$OpenBSD: sbdsp.c,v 1.24 2005/04/15 13:05:14 mickey Exp $	*/
 
 /*
  * Copyright (c) 1991-1993 Regents of the University of California.
@@ -852,7 +852,7 @@ sbdsp_round_blocksize(addr, blk)
 	void *addr;
 	int blk;
 {
-	return blk & -4;	/* round to biggest sample size */
+	return (blk + 3) & -4;	/* round to biggest sample size */
 }
 
 int

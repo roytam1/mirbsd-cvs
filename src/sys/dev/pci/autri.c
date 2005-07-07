@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: autri.c,v 1.13 2003/04/27 11:22:53 ho Exp $	*/
+/**	$MirOS: src/sys/dev/pci/autri.c,v 1.2 2005/03/06 21:27:47 tg Exp $ */
+/*	$OpenBSD: autri.c,v 1.15 2005/04/16 21:57:23 mickey Exp $	*/
 
 /*
  * Copyright (c) 2001 SOMEYA Yoshihiko and KUROSAWA Takahiro.
@@ -139,7 +139,6 @@ int	autri_mixer_set_port(void *, mixer_ctrl_t *);
 int	autri_mixer_get_port(void *, mixer_ctrl_t *);
 void   *autri_malloc(void *, int, size_t, int, int);
 void	autri_free(void *, void *, int);
-size_t	autri_round_buffersize(void *, int, size_t);
 paddr_t	autri_mappage(void *, void *, off_t, int);
 int	autri_get_props(void *);
 int	autri_query_devinfo(void *addr, mixer_devinfo_t *dip);
@@ -168,7 +167,7 @@ struct audio_hw_if autri_hw_if = {
 	autri_query_devinfo,
 	autri_malloc,
 	autri_free,
-	autri_round_buffersize,
+	NULL,
 	autri_mappage,
 	autri_get_props,
 	autri_trigger_output,
@@ -1049,7 +1048,7 @@ autri_round_blocksize(addr, block)
 	void *addr;
 	int block;
 {
-	return (block & -4);
+	return ((block + 3) & -4);
 }
 
 int
@@ -1216,15 +1215,6 @@ autri_find_dma(sc, addr)
 		;
 
 	return p;
-}
-
-size_t
-autri_round_buffersize(addr, direction, size)
-	void *addr;
-	int direction;
-	size_t size;
-{
-	return size;
 }
 
 paddr_t

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: wds.c,v 1.18 2002/03/14 01:26:56 millert Exp $	*/
+/**	$MirOS: src/sys/dev/isa/wds.c,v 1.2 2005/03/06 21:27:43 tg Exp $ */
+/*	$OpenBSD: wds.c,v 1.20 2005/02/17 18:07:36 jfb Exp $	*/
 /*	$NetBSD: wds.c,v 1.13 1996/11/03 16:20:31 mycroft Exp $	*/
 
 #undef	WDSDIAG
@@ -470,7 +470,7 @@ wds_free_scb(sc, scb)
 	 * If there were none, wake anybody waiting for one to come free,
 	 * starting with queued entries.
 	 */
-	if (scb->chain.tqe_next == 0)
+	if (TAILQ_NEXT(scb, chain) == NULL)
 		wakeup(&sc->sc_free_scb);
 
 	splx(s);
@@ -492,7 +492,7 @@ wds_free_buf(sc, buf)
 	 * If there were none, wake anybody waiting for one to come free,
 	 * starting with queued entries.
 	 */
-	if (buf->chain.tqe_next == 0)
+	if (TAILQ_NEXT(buf, chain) == NULL)
 		wakeup(&wds_free_buffer);
 
 	splx(s);
@@ -549,7 +549,7 @@ wds_get_scb(sc, flags, needbuffer)
 	 * but only if we can't allocate a new one.
 	 */
 	for (;;) {
-		scb = sc->sc_free_scb.tqh_first;
+		scb = TAILQ_FIRST(&sc->sc_free_scb);
 		if (scb) {
 			TAILQ_REMOVE(&sc->sc_free_scb, scb, chain);
 			break;
@@ -611,7 +611,7 @@ wds_get_buf(sc, flags)
 	s = splbio();
 
 	for (;;) {
-		buf = wds_free_buffer.tqh_first;
+		buf = TAILQ_FIRST(&wds_free_buffer);
 		if (buf) {
 			TAILQ_REMOVE(&wds_free_buffer, buf, chain);
 			break;
@@ -703,7 +703,7 @@ wds_start_scbs(sc)
 
 	wmbo = wmbx->tmbo;
 
-	while ((scb = sc->sc_waiting_scb.tqh_first) != NULL) {
+	while ((scb = TAILQ_FIRST(&sc->sc_waiting_scb)) != NULL) {
 		if (sc->sc_mbofull >= WDS_MBX_SIZE) {
 			wds_collect_mbo(sc);
 			if (sc->sc_mbofull >= WDS_MBX_SIZE) {
@@ -1158,7 +1158,7 @@ wds_scsi_cmd(xs)
 				while (datalen && thisphys == nextphys) {
 					/*
 					 * This page is contiguous (physically)
-					 * with the the last, just extend the
+					 * with the last, just extend the
 					 * length
 					 */
 					/* check it fits on the ISA bus */
