@@ -1,5 +1,5 @@
+.\" $MirOS$
 .\" $OpenBSD: gzsig.1,v 1.6 2005/06/01 08:14:53 jmc Exp $
-.\" $Id$
 .\"
 .\"  Copyright (c) 2001 Dug Song <dugsong@arbor.net>
 .\"  Copyright (c) 2001 Arbor Networks, Inc.
@@ -35,13 +35,13 @@
 .Nd gzip signing utility
 .Sh SYNOPSIS
 .Nm gzsig sign
-.Op Fl q
+.Op Fl qv
+.Op Fl f Ar secret_file
 .Ar privkey
 .Op Ar
 .Pp
 .Nm gzsig verify
-.Op Fl q
-.Op Fl f Ar secret_file
+.Op Fl qv
 .Ar pubkey
 .Op Ar
 .Sh DESCRIPTION
@@ -71,6 +71,8 @@ Verify the signature using the public key in
 .Ar pubkey .
 .It Fl q
 Enable quiet mode.
+.It Fl v
+Disable quiet mode.
 .It Fl f Ar secret_file
 Indicates that the passphrase for the key should be read from
 .Ar secret_file
