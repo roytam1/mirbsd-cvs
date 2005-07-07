@@ -3,7 +3,7 @@
 
 COMMENT=	"SDL image library"
 DISTNAME=	SDL_image-1.2.3
-PKGNAME=	${DISTNAME:L:S/_/-/}
+PKGNAME=	${DISTNAME:L:S/_/-/}-0
 CATEGORIES=	devel graphics
 MASTER_SITES=	http://www.libsdl.org/projects/SDL_image/release/
 HOMEPAGE=	http://www.libsdl.org/projects/SDL_image/

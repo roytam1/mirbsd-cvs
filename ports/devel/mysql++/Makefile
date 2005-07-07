@@ -5,7 +5,7 @@ COMMENT=		"C++ API for MySQL"
 COMMENT-docs=		"C++ API for MySQL documentation"
 VERSION=		1.7.9
 DISTNAME=		mysql++-${VERSION}
-PKGNAME-docs=		mysql++-docs-${VERSION}
+PKGNAME-docs=		mysql++-docs-${VERSION}-0
 CATEGORIES=		devel
 HOMEPAGE=		http://www.mysql.com/downloads/api-mysql++.html
 

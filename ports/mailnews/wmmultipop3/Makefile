@@ -3,7 +3,7 @@
 COMMENT=		"wm-dockapp; multiple pop3 mailbox checker"
 
 DISTNAME=		wmMultiPop3-0.9
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		mail x11/windowmaker
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=wmmultipop3/}
 

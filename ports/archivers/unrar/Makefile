@@ -4,7 +4,7 @@
 COMMENT=	"extract, list, and test RAR archives"
 
 DISTNAME=	unrarsrc-3.3.6
-PKGNAME=	unrar-3.30
+PKGNAME=	unrar-3.30-0
 CATEGORIES=	archivers
 USE_CXX=	Yes
 

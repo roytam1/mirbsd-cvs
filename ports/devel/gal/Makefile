@@ -4,7 +4,7 @@ COMMENT=		"GNOME Application Libs"
 
 VERSION=		1.99.10
 DISTNAME=		gal-${VERSION}
-PKGNAME=		gal2-${VERSION}
+PKGNAME=		gal2-${VERSION}-0
 CATEGORIES=    		devel x11/gnome
 
 HOMEPAGE=		http://www.gnome.org/

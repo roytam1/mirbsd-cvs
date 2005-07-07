@@ -6,8 +6,8 @@ COMMENT=	"toolkit for converting images between different formats"
 COMMENT-hpcd=	"convert photo CD images into ppm format"
 VERSION=	9.24
 DISTNAME=	netpbm-${VERSION}
-PKGNAME=	${DISTNAME}p2
-PKGNAME-hpcd=	hpcdtoppm-${VERSION}p2
+PKGNAME=	${DISTNAME}-2
+PKGNAME-hpcd=	hpcdtoppm-${VERSION}-2
 CATEGORIES=	graphics
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=netpbm/}
 EXTRACT_SUFX=	.tgz

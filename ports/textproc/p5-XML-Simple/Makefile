@@ -3,7 +3,7 @@
 COMMENT=	"trivial perl API for reading/writing XML"
 
 DISTNAME=	XML-Simple-2.12
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
 

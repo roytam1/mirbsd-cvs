@@ -3,7 +3,7 @@
 COMMENT=	"Wiki engine for Zope"
 
 DISTNAME=	ZWiki-0.27.1
-PKGNAME=	zope-${DISTNAME:L}
+PKGNAME=	zope-${DISTNAME:L}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://zwiki.org/

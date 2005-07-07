@@ -3,7 +3,7 @@
 
 COMMENT=	"IJG's JPEG compression utilities"
 DISTNAME=	jpegsrc.v6b
-PKGNAME=	jpeg-6bp2
+PKGNAME=	jpeg-6b-2
 CATEGORIES=	graphics
 MASTER_SITES=	ftp://ftp.uu.net/graphics/jpeg/ \
 		ftp://ftp.shellhung.org/pub/Mirror/enlightenment/enlightenment/libs/

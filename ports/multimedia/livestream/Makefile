@@ -3,7 +3,7 @@
 COMMENT=		"library for live.com streaming servers"
 V=			2005.05.12
 DISTNAME=		live.$V
-PKGNAME=		liblivestream-$V
+PKGNAME=		liblivestream-$V-0
 CATEGORIES=		graphics net multimedia
 MASTER_SITES=		http://www.live.com/liveMedia/public/
 HOMEPAGE=		http://www.live.com/liveMedia/

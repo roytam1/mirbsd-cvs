@@ -4,7 +4,7 @@ COMMENT=		"flexible and small GTK+ editor"
 
 VERSION=		1.54
 DISTNAME=		scite${VERSION:S/.//}
-PKGNAME=		scite-${VERSION}
+PKGNAME=		scite-${VERSION}-0
 CATEGORIES=		editors x11
 
 HOMEPAGE=		http://www.scintilla.org/SciTE.html

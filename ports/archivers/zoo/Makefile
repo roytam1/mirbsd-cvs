@@ -3,7 +3,7 @@
 COMMENT=	"handle the old .ZOO archive format"
 
 DISTNAME=	zoo-2.10pl1
-PKGNAME=	zoo-2.10.1
+PKGNAME=	zoo-2.10.1-0
 CATEGORIES=	archivers
 MASTER_SITES=	ftp://ftp.kiarchive.ru/pub/unix/arcers/
 

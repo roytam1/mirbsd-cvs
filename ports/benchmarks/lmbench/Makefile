@@ -2,7 +2,7 @@
 
 COMMENT=	"system performance measurement"
 DISTNAME=	lmbench
-PKGNAME=	lmbench-1.1
+PKGNAME=	lmbench-1.1-0
 CATEGORIES=	benchmarks
 
 # License: GPL

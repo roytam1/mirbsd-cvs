@@ -6,7 +6,7 @@ COMMENT=	"X11 IRC client"
 MAJOR=		1.8
 VERSION=	${MAJOR}.11
 DISTNAME=	xchat-${VERSION}
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net x11
 MASTER_SITES=	http://xchat.org/files/source/${MAJOR}/ \
 		http://xchat.linuxpower.org/files/source/${MAJOR}/

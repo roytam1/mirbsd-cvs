@@ -4,7 +4,7 @@ COMMENT=		"Pure Perl MySQL network protocol interface"
 
 VERSION=		0.08
 DISTNAME=		Net-MySQL-${VERSION}
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net perl5
 
 

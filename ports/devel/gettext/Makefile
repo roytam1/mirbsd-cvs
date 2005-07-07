@@ -4,7 +4,7 @@
 
 COMMENT=	"GNU gettext"
 DISTNAME=	gettext-0.10.40
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=gettext/}
 HOMEPAGE=	http://www.gnu.org/software/gettext/

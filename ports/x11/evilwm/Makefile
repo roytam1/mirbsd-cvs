@@ -4,7 +4,7 @@ COMMENT=		"minimalist window manager for keyboard or mouse"
 CATEGORIES=		x11
 V=			0.99.17
 DISTNAME=		evilwm_${V}.orig
-PKGNAME=		evilwm-${V}p0
+PKGNAME=		evilwm-${V}-1
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=evilwm/}
 HOMEPAGE=		http://evilwm.sourceforge.net/
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>

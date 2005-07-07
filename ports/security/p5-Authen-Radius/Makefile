@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/28 16:30:34 naddy Exp $
 
 DISTNAME=	RadiusPerl-0.05
-PKGNAME=	p5-Authen-Radius-0.05
+PKGNAME=	p5-Authen-Radius-0.05-0
 CATEGORIES=	security perl5
 
 PERMIT_PACKAGE_CDROM=	Yes

@@ -6,7 +6,7 @@ COMMENT=	"class 1 and 2 DAV server for the Apache webserver"
 # and has Apache that supports DSO's.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-PKGNAME=	mod_dav-1.0.3
+PKGNAME=	mod_dav-1.0.3-0
 DISTNAME=	mod_dav-1.0.3-1.3.6
 CATEGORIES=	www
 

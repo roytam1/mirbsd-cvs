@@ -33,7 +33,7 @@ LIB_DEPENDS=	gmp::devel/gmp
 
 MULTI_PACKAGES=	-doc
 SUBPACKAGE?=
-FULLPKGNAME-doc=ghc-doc-${V}
+FULLPKGNAME-doc=ghc-doc-${V}-0
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-doc"
 PKG_ARCH=	*
 .endif

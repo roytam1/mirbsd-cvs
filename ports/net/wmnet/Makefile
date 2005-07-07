@@ -3,7 +3,7 @@
 COMMENT=	"little X dock.app network monitor"
 
 DISTNAME=	wmnet-1.06
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net x11 x11/windowmaker
 HOMEPAGE=	http://www.digitalkaos.net/linux/wmnet/
 MASTER_SITES=	${HOMEPAGE}download/

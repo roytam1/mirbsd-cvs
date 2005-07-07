@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"library of advanced math functions"
 
 DISTNAME=	Bit-Vector-6.3
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 

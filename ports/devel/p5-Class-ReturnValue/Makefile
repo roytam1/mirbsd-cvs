@@ -3,7 +3,7 @@
 COMMENT=	"smart return-value object"
 
 DISTNAME=	Class-ReturnValue-0.52
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 HOMEPAGE=	http://search.cpan.org/dist/Class-ReturnValue/

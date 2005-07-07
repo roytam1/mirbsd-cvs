@@ -5,7 +5,7 @@ COMMENT=	"graphical toolkit for Tcl"
 VERSION=	8.3.5
 
 DISTNAME=	tk${VERSION}-src
-PKGNAME=	tk-${VERSION}
+PKGNAME=	tk-${VERSION}-0
 CATEGORIES=	x11 x11/tk
 MASTER_SITES=	${MASTER_SITE_TCLTK:=tcl8_3/}
 

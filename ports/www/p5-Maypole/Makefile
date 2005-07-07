@@ -3,7 +3,7 @@
 COMMENT=	"Perl MVC for web applications"
 
 DISTNAME=	Maypole-1.4
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 

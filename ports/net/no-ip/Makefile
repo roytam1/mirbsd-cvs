@@ -4,7 +4,7 @@ COMMENT=		"No-IP.com Dynamic DNS client"
 
 V=			2.1.1
 DISTNAME=		noip-${V}
-PKGNAME=		no-ip-${V}
+PKGNAME=		no-ip-${V}-0
 CATEGORIES=		net
 
 HOMEPAGE=		http://www.no-ip.com/

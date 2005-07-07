@@ -3,7 +3,7 @@
 COMMENT=	"perl DBI driver for CSV files"
 
 DISTNAME=	DBD-CSV-0.2002
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5 
 
 

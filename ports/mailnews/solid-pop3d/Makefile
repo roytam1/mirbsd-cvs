@@ -33,7 +33,7 @@ NO_REGRESS=	Yes
 # enable support for APOP authentication.
 .if ${FLAVOR:L:Mapop}
 CONFIGURE_ARGS+= --enable-userconfig --enable-apop
-PKGNAME=${DISTNAME}p1
+PKGNAME=${DISTNAME}-1
 .else
 CONFIGURE_ARGS+= --disable-userconfig --disable-apop
 .endif

@@ -4,7 +4,7 @@
 COMMENT=	"USB access library"
 VERSION=	0.1.7
 DISTNAME=	libusb-${VERSION}
-PKGNAME=	${DISTNAME}p3
+PKGNAME=	${DISTNAME}-3
 CATEGORIES=	devel
 HOMEPAGE=	http://libusb.sourceforge.net/
 

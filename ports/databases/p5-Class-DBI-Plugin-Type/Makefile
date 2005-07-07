@@ -3,7 +3,7 @@
 COMMENT=	"determine type information for columns "
 
 DISTNAME=	Class-DBI-Plugin-Type-0.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 

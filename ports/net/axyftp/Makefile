@@ -3,7 +3,7 @@
 COMMENT=	"ftp client for X window system"
 
 DISTNAME=	axyftp-0.5.1
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.sunsite.auc.dk/disk2/linuxberg.com/files/x11/network/
 

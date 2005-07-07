@@ -3,7 +3,7 @@
 COMMENT=	"simple IRC relay proxy with support for virtual hosting"
 
 DISTNAME=	${PKGNAME:S,-,,}
-PKGNAME=	bnc-2.8.6
+PKGNAME=	bnc-2.8.6-0
 CATEGORIES=	net
 MASTER_SITES=	${HOMEPAGE}files/
 

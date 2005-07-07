@@ -4,7 +4,7 @@ COMMENT=	"python DNS library"
 
 VERSION=	2.3.0
 DISTNAME=	pydns-${VERSION}
-PKGNAME=	py-dns-${VERSION}
+PKGNAME=	py-dns-${VERSION}-0
 CATEGORIES=    	net
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=pydns/}

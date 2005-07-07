@@ -3,7 +3,7 @@
 COMMENT=	"track sessions and, optionally, users"
 
 DISTNAME=	Maypole-Authentication-UserSessionCookie-1.1
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 

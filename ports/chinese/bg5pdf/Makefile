@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"convert Big5 encoded files to PDF"
 
 DISTNAME=       bg5pdf-1.0.0
-PKGNAME=	zh-${DISTNAME}
+PKGNAME=	zh-${DISTNAME}-0
 CATEGORIES=     chinese print
 
 HOMEPAGE=	http://cschin.yydolphin.net/bg5pdf/

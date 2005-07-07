@@ -3,7 +3,7 @@
 COMMENT=	"blockout style game for X11"
 
 DISTNAME=	xboing2.4
-PKGNAME=	xboing-2.4
+PKGNAME=	xboing-2.4-0
 CATEGORIES=	games
 
 PERMIT_PACKAGE_CDROM=	Yes

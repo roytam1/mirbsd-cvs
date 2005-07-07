@@ -3,7 +3,7 @@
 COMMENT=	"spreadsheet program under X11"
 
 DISTNAME=	xspread3.1.1c
-PKGNAME=	xspread-3.1.1c
+PKGNAME=	xspread-3.1.1c-0
 CATEGORIES=	math
 
 # GPLv2

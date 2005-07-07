@@ -5,7 +5,7 @@ COMMENT=	"alternative ircII color client"
 
 VERSION=	1.0c18
 DISTNAME=	ircii-pana-${VERSION}
-PKGNAME=	BitchX-${VERSION}p3
+PKGNAME=	BitchX-${VERSION}-3
 CATEGORIES=	net
 
 MASTER_SITES=	ftp://ftp.bitchx.com/pub/BitchX/source/old/ \

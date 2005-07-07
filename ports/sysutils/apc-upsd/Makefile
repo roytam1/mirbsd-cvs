@@ -3,7 +3,7 @@
 COMMENT=	"UPS software for APC UPS models"
 
 DISTNAME=	apc-upsd
-PKGNAME=	${DISTNAME}-19991128
+PKGNAME=	${DISTNAME}-19991128-0
 CATEGORIES=	sysutils
 
 MASTER_SITES=	http://www.knienieder.com/software/

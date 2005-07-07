@@ -3,7 +3,7 @@
 COMMENT=		"network sed"
 
 DISTNAME=		netsed
-PKGNAME=		${DISTNAME}-0.01c
+PKGNAME=		${DISTNAME}-0.01c-0
 CATEGORIES=    		net
 EXTRACT_SUFX=		.tgz
 

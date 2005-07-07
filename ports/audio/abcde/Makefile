@@ -6,7 +6,7 @@ V=		2.1.19
 # cd-diskid version number
 V2=		0.9
 DISTNAME=	abcde_$V.orig
-PKGNAME=	abcde-$V
+PKGNAME=	abcde-$V-0
 CATEGORIES=	audio
 
 HOMEPAGE=	http://www.hispalinux.es/~data/abcde.php

@@ -3,7 +3,7 @@
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"New Jersey Standard ML"
-PKGNAME=	smlnj-110.0.7
+PKGNAME=	smlnj-110.0.7-0
 CATEGORIES=	lang
 
 

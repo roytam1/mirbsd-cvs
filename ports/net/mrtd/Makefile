@@ -5,7 +5,7 @@ COMMENT=		"daemon/libs/toolkit for routing BGP4+, RIP, OSPF, etc."
 
 V=			2.2.2a
 DISTNAME=		mrt-${V}-src
-PKGNAME=		mrtd-${V}
+PKGNAME=		mrtd-${V}-0
 HOMEPAGE=		http://www.mrtd.net/
 
 CATEGORIES=     	net

@@ -3,7 +3,7 @@
 COMMENT=	"small, Lisp-like interpreted language"
 
 DISTNAME=	Klone359
-PKGNAME=	klone-2.1a
+PKGNAME=	klone-2.1a-0
 CATEGORIES=	lang
 
 MASTER_SITES=	http://koala.ilog.fr/ftp/pub/Klone/

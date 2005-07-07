@@ -3,7 +3,7 @@
 COMMENT=	"web proxy with advanced filtering capabilities"
 
 DISTNAME=	privoxy-3.0.2-stable
-PKGNAME=	${DISTNAME:S/-stable//}p1
+PKGNAME=	${DISTNAME:S/-stable//}-1
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.privoxy.org/

@@ -6,7 +6,7 @@ COMMENT=		'change terminal modes, and perform non-blocking reads'
 
 V=			2.21
 DISTNAME=		TermReadKey-${V}
-PKGNAME=		p5-Term-ReadKey-${V}
+PKGNAME=		p5-Term-ReadKey-${V}-0
 CATEGORIES=		devel perl5
 
 

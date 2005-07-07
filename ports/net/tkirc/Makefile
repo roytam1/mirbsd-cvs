@@ -4,7 +4,7 @@
 COMMENT=	"ircII internet relay chat client"
 V=		2.46
 DISTNAME=	tkirc$V
-PKGNAME=	tkirc-$V
+PKGNAME=	tkirc-$V-0
 CATEGORIES=	net
 HOMEPAGE=	http://netsplit.de/tkirc2/
 

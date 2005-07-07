@@ -6,7 +6,7 @@ COMMENT=	"embperl allows you to embed perl in your HTML documents"
 
 VERSION=	1.3.3
 DISTNAME=	HTML-Embperl-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=HTML/}
 

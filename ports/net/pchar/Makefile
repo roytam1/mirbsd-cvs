@@ -5,7 +5,7 @@ COMMENT=	"Sandia Internet path characterization tool"
 
 V=		1.4
 DISTNAME=	pchar-${V}
-PKGNAME=	pchar-${V}p1
+PKGNAME=	pchar-${V}-1
 CATEGORIES=	net
 
 MASTER_SITES=	${HOMEPAGE}

@@ -3,7 +3,7 @@
 COMMENT=		"proof assistant based on a typed lambda calculus"
 
 DISTNAME=		coq-7.3.1
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		math
 HOMEPAGE=		http://coq.inria.fr/
 

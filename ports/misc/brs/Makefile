@@ -4,7 +4,7 @@ COMMENT=	"bible reader"
 
 DISTNAME=	brs.4.00.l1
 
-PKGNAME=	brs-4.00l1
+PKGNAME=	brs-4.00l1-0
 CATEGORIES=	misc
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=apps/religion/}
 

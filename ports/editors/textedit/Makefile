@@ -3,7 +3,7 @@
 COMMENT=	"standard OpenLook text editor for X11"
 
 DISTNAME=	textedit
-PKGNAME=	textedit-1.0
+PKGNAME=	textedit-1.0-0
 CATEGORIES=	editors
 
 

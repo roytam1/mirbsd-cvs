@@ -4,7 +4,7 @@
 COMMENT=	"X11/Motif schedule planner with calendar"
 
 DISTNAME=	plan-1.6.1
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	misc
 
 PERMIT_PACKAGE_CDROM=	"license requests a copy of the cd"

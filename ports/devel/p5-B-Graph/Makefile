@@ -3,7 +3,7 @@
 COMMENT=	"backend to diagram op trees"
 
 DISTNAME=	B-Graph-0.51
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

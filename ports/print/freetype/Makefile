@@ -6,8 +6,8 @@ COMMENT=	"free and portable TrueType font rendering engine"
 COMMENT-doc=	"documentation for FreeType"
 VERSION=	1.3.1
 DISTNAME=	freetype-${VERSION}
-PKGNAME=	${DISTNAME}p1
-PKGNAME-doc=	freetype-doc-${VERSION}
+PKGNAME=	${DISTNAME}p1-0
+PKGNAME-doc=	freetype-doc-${VERSION}-0
 CATEGORIES=	print
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=freetype/}
 HOMEPAGE=	http://www.freetype.org/

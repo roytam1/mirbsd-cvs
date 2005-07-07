@@ -3,7 +3,7 @@
 
 COMMENT=	"japanese groff"
 CATEGORIES=	japanese textproc print
-PKGNAME=	ja-groff-1.10_0.99
+PKGNAME=	ja-groff-1.10_0.99-0
 DISTNAME=	groff-1.10
 
 PATCHFILES=	jgroff-0.99.diff.gz:0

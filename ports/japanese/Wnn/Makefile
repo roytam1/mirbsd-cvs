@@ -19,14 +19,14 @@ DISTNAME=	Wnn4.2
 
 MULTI_PACKAGES=-dict -zh -zhdict -ko -kodict -xwnmo -data
 
-PKGNAME=	ja-Wnn-4.2p0
-PKGNAME-dict=	ja-Wnndict-4.2p0
-PKGNAME-zh=	zh-Wnn-4.2p0
-PKGNAME-zhdict=	zh-Wnndict-4.2p0
-PKGNAME-ko=	ko-Wnn-4.2p0
-PKGNAME-kodict=	ko-Wnndict-4.2p0
-PKGNAME-xwnmo=	Wnn-xwnmo-4.2
-PKGNAME-data=	Wnn-data-4.2
+PKGNAME=	ja-Wnn-4.2p0-0
+PKGNAME-dict=	ja-Wnndict-4.2p0-0
+PKGNAME-zh=	zh-Wnn-4.2p0-0
+PKGNAME-zhdict=	zh-Wnndict-4.2p0-0
+PKGNAME-ko=	ko-Wnn-4.2p0-0
+PKGNAME-kodict=	ko-Wnndict-4.2p0-0
+PKGNAME-xwnmo=	Wnn-xwnmo-4.2-0
+PKGNAME-data=	Wnn-data-4.2-0
 
 WNNDICDIR=/var/dict/Wnn
 WNNBASE=${LOCALBASE}

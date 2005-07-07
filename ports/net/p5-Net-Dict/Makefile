@@ -3,7 +3,7 @@
 COMMENT=	"Perl Interface to the DICT protocol"
 
 DISTNAME=	Net-Dict-2.07
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

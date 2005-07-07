@@ -4,7 +4,7 @@
 COMMENT=	"simple and easy to use TCP port scanner"
 
 DISTNAME=	PortScanner-1.2
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	security
 MASTER_SITES=	http://www.ameth.org/~veilleux/PortScan/
 

@@ -5,7 +5,7 @@ EMUL=			linux
 
 COMMENT=	"fast and customizable WWW browser"
 
-PKGNAME=	opera-7.50
+PKGNAME=	opera-7.50-0
 DISTNAME=	opera-7.50-20040511.1-static-qt.i386-en
 CATEGORIES=	www
 

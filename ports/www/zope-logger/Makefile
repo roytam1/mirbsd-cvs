@@ -4,7 +4,7 @@ COMMENT=	"logging product for Zope"
 
 VERSION=	1.0.3
 DISTNAME=	Logger-${VERSION:S/./-/g}
-PKGNAME=	zope-logger-${VERSION}
+PKGNAME=	zope-logger-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.zope.org/Members/Zen/Logger/

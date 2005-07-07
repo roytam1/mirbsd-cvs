@@ -3,7 +3,7 @@
 COMMENT=	"produce HTML form elements for database columns"
 
 DISTNAME=	Class-DBI-AsForm-2.2
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www databases perl5
 
 # Same as Perl

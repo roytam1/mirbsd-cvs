@@ -4,7 +4,7 @@ COMMENT=	"clone of the Plan9 editor 'acme'"
 
 VERSION=	0.13.41
 DISTNAME=	wily-9libs
-PKGNAME=	${DISTNAME}-${VERSION}
+PKGNAME=	${DISTNAME}-${VERSION}-0
 CATEGORIES=	plan9 editors
 MASTER_SITES=	ftp://ftp.cs.yorku.ca/pub/wily/src/
 

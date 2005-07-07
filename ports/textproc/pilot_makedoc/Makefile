@@ -2,7 +2,7 @@
 
 COMMENT=	"convert text into the Doc format used by PalmPilots"
 
-PKGNAME=	pilot_makedoc-0.7
+PKGNAME=	pilot_makedoc-0.7-0
 CATEGORIES=	textproc palm
 
 MASTER_SITES=	http://www.concentric.net/~rbram/

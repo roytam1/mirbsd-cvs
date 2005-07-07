@@ -3,7 +3,7 @@
 COMMENT=	"create & extract files from DOS .ARC files"
 
 DISTNAME=       arc521e.pl8
-PKGNAME=        arc-5.21e
+PKGNAME=        arc-5.21e-0
 CATEGORIES=	archivers
 MASTER_SITES=   ftp://ftp.kiarchive.ru/pub/unix/arcers/
 EXTRACT_SUFX=   .tar.Z

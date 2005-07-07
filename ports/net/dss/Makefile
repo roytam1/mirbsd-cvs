@@ -12,11 +12,11 @@ COMMENT-proxy=		"Darwin Streaming Proxy"
 VERSION=	4.1.3
 DISTNAME=	DSS-4_1_3.src
 
-PKGNAME=		dss-${VERSION}
-FULLPKGNAME=		dss-server-${VERSION}
-PKGNAME-admin=		dss-admin-${VERSION}
-PKGNAME-examples=	dss-examples-${VERSION}
-PKGNAME-proxy=		dss-proxy-${VERSION}
+PKGNAME=		dss-${VERSION}-0
+FULLPKGNAME=		dss-server-${VERSION}-0
+PKGNAME-admin=		dss-admin-${VERSION}-0
+PKGNAME-examples=	dss-examples-${VERSION}-0
+PKGNAME-proxy=		dss-proxy-${VERSION}-0
 
 CATEGORIES=    	net
 

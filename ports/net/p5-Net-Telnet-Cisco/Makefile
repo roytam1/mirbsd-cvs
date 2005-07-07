@@ -3,7 +3,7 @@
 COMMENT=		"module to interact with a Cisco router"
 
 DISTNAME=		Net-Telnet-Cisco-1.10
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net perl5
 
 HOMEPAGE=		http://nettelnetcisco.sourceforge.net/

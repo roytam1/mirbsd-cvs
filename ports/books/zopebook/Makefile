@@ -2,7 +2,7 @@
 
 COMMENT=        "Zope documentation"
 DISTNAME=	ZopeBook-2_6
-PKGNAME=	${DISTNAME:L:S/_/./}
+PKGNAME=	${DISTNAME:L:S/_/./}-0
 CATEGORIES=	books
 HOMEPAGE=	http://zope.org/Documentation/Books/ZopeBook/
 

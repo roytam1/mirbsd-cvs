@@ -5,7 +5,7 @@ EMUL=			linux
 
 COMMENT=		Real Networks streaming audio/video client
 DISTNAME=		rp8_linux20_libc6_i386_cs2
-PKGNAME=		realplayer-linux-8.0.1p3
+PKGNAME=		realplayer-linux-8.0.1-3
 CATEGORIES=		audio graphics x11 multimedia
 DISTFILES=		rp8_linux20_libc6_i386_cs2_rpm \
 			rv9_libc6_i386_cs2.tgz

@@ -3,7 +3,7 @@
 COMMENT=	"X11 animation player with support for lots of formats"
 
 DISTNAME=xanim-2.80.1
-PKGNAME=${DISTNAME}p0
+PKGNAME=${DISTNAME}-1
 WRKDIST=${WRKDIR}/xanim2801
 CATEGORIES= graphics x11
 

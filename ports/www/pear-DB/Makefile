@@ -3,7 +3,7 @@
 COMMENT=	"OOP database abstraction layer for PHP"
 V=		1.6.8
 DISTNAME=	DB-${V}
-PKGNAME=	pear-DB-${V}
+PKGNAME=	pear-DB-${V}-0
 CATEGORIES=	devel www pear
 MASTER_SITES=	http://pear.php.net/get/
 EXTRACT_SUFX=	.tgz

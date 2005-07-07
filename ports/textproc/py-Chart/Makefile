@@ -5,7 +5,7 @@ COMMENT=	"python library for creating postscript or PDF charts"
 
 VERSION=	1.35
 DISTNAME=	PyChart-${VERSION}
-PKGNAME=	py-Chart-${VERSION}
+PKGNAME=	py-Chart-${VERSION}-0
 CATEGORIES=	textproc devel
 
 HOMEPAGE=	http://www.hpl.hp.com/personal/Yasushi_Saito/pychart/

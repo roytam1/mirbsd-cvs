@@ -4,7 +4,7 @@ COMMENT=	"Tie hashes to DBI relational databases"
 
 VERSION=	0.91
 DISTNAME=	Tie-DBI-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 HOMEPAGE=	http://stein.cshl.org/~lstein/Tie-DBI/

@@ -2,7 +2,7 @@
 
 COMMENT=		"Smartcard backend driver for egate tokens"
 DISTNAME=		ifd-egate-0.05
-PKGNAME=		${DISTNAME}p2
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security
 MASTER_SITES=		http://secure.netroedge.com/~phil/egate/
 HOMEPAGE=		http://www.linuxnet.com/sourcedrivers.html

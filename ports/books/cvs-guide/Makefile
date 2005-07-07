@@ -4,7 +4,7 @@ COMMENT=	"the definitive guide to CVS"
 
 V=		1.21
 DISTNAME=	cvsbook-${V}-all
-PKGNAME=	cvs-guide-${V}
+PKGNAME=	cvs-guide-${V}-0
 CATEGORIES=	books
 MASTER_SITES=	http://cvsbook.red-bean.com/
 

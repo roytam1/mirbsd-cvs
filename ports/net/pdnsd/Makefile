@@ -7,7 +7,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		"threaded DNS daemon, optimized for caching"
 DISTNAME=		pdnsd-1.1.7a
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	net
 HOMEPAGE=		http://home.t-online.de/home/Moestl/
 

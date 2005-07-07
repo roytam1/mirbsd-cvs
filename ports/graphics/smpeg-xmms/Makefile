@@ -4,7 +4,7 @@ COMMENT=	"MPEG and VCD video playback in XMMS"
 
 VERSION=	0.3.5
 DISTNAME=	smpeg-xmms-${VERSION}
-PKGNAME=	xmms-smpeg-${VERSION}
+PKGNAME=	xmms-smpeg-${VERSION}-0
 CATEGORIES=	graphics
 HOMEPAGE=	http://www.xmms.org/files/plugins/smpeg-xmms/
 

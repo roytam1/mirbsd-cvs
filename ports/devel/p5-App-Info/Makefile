@@ -3,7 +3,7 @@
 COMMENT=	"interface for providing metadata about installed packages"
 
 DISTNAME=	App-Info-0.23
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

@@ -4,7 +4,7 @@
 COMMENT=		"X11/Motif GUI text editor"
 
 DISTNAME=		nedit-5.4-source
-PKGNAME=		nedit-5.4
+PKGNAME=		nedit-5.4-0
 WRKDIST=		${WRKDIR}/${PKGNAME}
 CATEGORIES=		editors x11
 

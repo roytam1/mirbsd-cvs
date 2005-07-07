@@ -5,7 +5,7 @@ COMMENT=	"graphics file viewer for X11"
 VERSION=	4.1
 REVISION=	14.2	# Debian
 DISTNAME=	xloadimage.${VERSION}
-PKGNAME=	xloadimage-${VERSION}.${REVISION}
+PKGNAME=	xloadimage-${VERSION}.${REVISION}-0
 CATEGORIES=	x11 graphics
 
 # BSD

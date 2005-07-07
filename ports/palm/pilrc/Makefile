@@ -4,7 +4,7 @@
 COMMENT=	"generate resources for PalmOS applications from text descr"
 
 DISTNAME=	pilrc-2.8p5
-PKGNAME=	${DISTNAME:S/p5/.5/}
+PKGNAME=	${DISTNAME:S/p5/.5/}-0
 CATEGORIES=	palm devel
 
 HOMEPAGE=	http://www.ardiri.com/index.php?redir=palm\&cat=pilrc

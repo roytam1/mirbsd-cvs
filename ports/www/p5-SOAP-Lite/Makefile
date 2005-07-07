@@ -3,7 +3,7 @@
 
 COMMENT=	"client and server-side SOAP implementation"
 DISTNAME=	SOAP-Lite-0.55
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 # Artistic License

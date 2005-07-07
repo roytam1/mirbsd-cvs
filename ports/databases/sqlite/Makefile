@@ -3,7 +3,7 @@
 COMMENT=		"Embedded SQL implementation"
 _V=			3.2.1
 DISTNAME=		sqlite-${_V}
-PKGNAME=		sqlite3-${_V}
+PKGNAME=		sqlite3-${_V}-0
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sqlite.org/
 MASTER_SITES=		${HOMEPAGE}

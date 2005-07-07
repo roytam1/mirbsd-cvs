@@ -3,7 +3,7 @@
 COMMENT=	"Pretty Good Privacy 2.6.3in"
 DISTNAME=	pgp263in010323
 CATEGORIES=	security
-PKGNAME=	pgp-2.6.3in-p0
+PKGNAME=	pgp-2.6.3in--1
 EXTRACT_SUFX=	.tgz
 HOMEPAGE=	ftp://ftp.iks-jena.de/pub/mitarb/lutz/crypt/software/pgp/pgp263in/
 RESPONSIBLE=	Thorsten "mirabile" Glaser <tg@${_DOMAIN_DU_JOUR}>

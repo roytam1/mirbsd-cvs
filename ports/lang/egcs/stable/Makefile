@@ -35,13 +35,13 @@ COMMENT-java=	${COM}: java compiler
 COMMENT-objc=	${COM}: obj C compiler
 COMMENT-ada=	${COM}: Ada compiler
 
-PKGNAME=	gcc-$V
-PKGNAME-c++ =	g++-$V
-PKGNAME-estdc =	libstdc++-$V
-PKGNAME-g77=	g77-$V
-PKGNAME-java=	gcj-$V
-PKGNAME-objc=	gobjc-$V
-PKGNAME-ada=	gnat-$V
+PKGNAME=	gcc-$V-0
+PKGNAME-c++ =	g++-$V-0
+PKGNAME-estdc =	libstdc++-$V-0
+PKGNAME-g77=	g77-$V-0
+PKGNAME-java=	gcj-$V-0
+PKGNAME-objc=	gobjc-$V-0
+PKGNAME-ada=	gnat-$V-0
 
 BUILD_DEPENDS=	::devel/autoconf/2.13
 BUILD_DEPENDS+=	::devel/metaauto

@@ -9,7 +9,7 @@ COMMENT-themes=		"Sylpheed-claws themes"
 
 VERSION=		0.9.0
 DISTNAME=		sylpheed-${VERSION}claws
-PKGNAME=		sylpheed-claws-${VERSION}
+PKGNAME=		sylpheed-claws-${VERSION}-0
 THEMEFILE=		sylpheed-iconset-20030523
 CATEGORIES=		mail news x11
 

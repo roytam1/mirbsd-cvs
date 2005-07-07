@@ -4,7 +4,7 @@
 COMMENT=	"graphical multi-player real-time strategy game for X11"
 
 DISTNAME=       xblast-2.6.beta
-PKGNAME=	xblast-2.6b
+PKGNAME=	xblast-2.6b-0
 CATEGORIES=	games
 
 # License: GPL

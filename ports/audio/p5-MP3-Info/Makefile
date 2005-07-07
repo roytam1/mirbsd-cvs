@@ -3,7 +3,7 @@
 COMMENT=	"Perl5 module for reading MPEG1-Layer3 tags"
 
 DISTNAME=	MP3-Info-1.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	audio perl5
 
 HOMEPAGE=	http://search.cpan.org/~cnandor/MP3-Info/

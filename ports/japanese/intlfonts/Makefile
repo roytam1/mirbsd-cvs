@@ -4,7 +4,7 @@ COMMENT=	"extra japanese fonts"
 
 CATEGORIES=	japanese x11
 DISTNAME=	intlfonts-1.2
-PKGNAME=	ja-fonts-gnu-1.2
+PKGNAME=	ja-fonts-gnu-1.2-0
 
 MASTER_SITES=	${MASTER_SITE_GNU:=intlfonts/}
 

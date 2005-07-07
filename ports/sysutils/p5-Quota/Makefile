@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"quota manipulation module"
 
 DISTNAME=	Quota-1.4.10
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	sysutils perl5
 
 

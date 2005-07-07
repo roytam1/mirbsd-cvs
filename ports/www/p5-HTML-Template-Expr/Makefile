@@ -4,7 +4,7 @@ COMMENT=	"use HTML Templates which allows expressions"
 
 VERSION=	0.04
 DISTNAME=	HTML-Template-Expr-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 HOMEPAGE=	http://sourceforge.net/projects/html-template/

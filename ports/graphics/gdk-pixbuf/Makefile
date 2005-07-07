@@ -5,7 +5,7 @@ COMMENT=	"GdkPixbuf graphics library"
 COMMENT-gnome=	"GdkPixbuf graphics library (GNOME Canvas)"
 VERSION=	0.22.0
 DISTNAME=	gdk-pixbuf-${VERSION}
-PKGNAME-gnome=	gdk-pixbuf-gnome-${VERSION}
+PKGNAME-gnome=	gdk-pixbuf-gnome-${VERSION}-0
 CATEGORIES=	graphics
 HOMEPAGE=	http://developer.gnome.org/arch/imaging/gdkpixbuf.html
 

@@ -3,7 +3,7 @@
 COMMENT=	"Mahjongg"
 
 DISTNAME=       xmj
-PKGNAME=	xmj-1.0
+PKGNAME=	xmj-1.0-0
 CATEGORIES=	games
 
 MASTER_SITES=	${MASTER_SITE_BACKUP}

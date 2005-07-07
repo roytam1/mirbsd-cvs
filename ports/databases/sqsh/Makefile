@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/16 18:18:25 jcs Exp $
 
 DISTNAME=	sqsh-2.1
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	databases shells
 
 PERMIT_PACKAGE_CDROM=	Yes

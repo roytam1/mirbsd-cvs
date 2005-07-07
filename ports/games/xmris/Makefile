@@ -3,7 +3,7 @@
 COMMENT=	"Mr Do video arcade game for X11"
 
 DISTNAME=	xmris.4.04
-PKGNAME=	xmris-4.04
+PKGNAME=	xmris-4.04-0
 CATEGORIES=	games
 
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=games/}

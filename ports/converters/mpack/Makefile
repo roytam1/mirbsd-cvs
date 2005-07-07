@@ -4,7 +4,7 @@ COMMENT=	"external MIME packer/unpacker"
 
 V=		1.5
 DISTNAME=	mpack-${V}-src
-PKGNAME=	mpack-${V}p1
+PKGNAME=	mpack-${V}-1
 CATEGORIES=	converters mail news
 
 # License: BSD

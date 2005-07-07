@@ -3,7 +3,7 @@
 COMMENT=	"module to map charset names registered with IANA"
 
 DISTNAME=	I18N-Charset-1.371
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	misc perl5
 
 

@@ -3,7 +3,7 @@
 COMMENT=	"decoder for the CEPT (Btx) protocol"
 
 DISTNAME=	xcept-2.1.2
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	comms
 MASTER_SITES=	${MASTER_SITE_LOCAL}
 

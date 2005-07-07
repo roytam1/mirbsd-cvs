@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"emulates the Super Nintendo Entertainment System"
-PKGNAME=	snes9x-1.37cp1
+PKGNAME=	snes9x-1.37c-1
 DISTNAME=	s9x.linuxc6.137.i386
 CATEGORIES=	emulators games
 HOMEPAGE=	http://www.snes9x.com

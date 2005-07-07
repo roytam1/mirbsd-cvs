@@ -3,7 +3,7 @@
 
 COMMENT=		"extract digital camera info tags from JPEG images"
 DISTNAME=		libexif-0.6.12
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-1-0
 CATEGORIES=		graphics
 HOMEPAGE=		http://sourceforge.net/projects/libexif/
 

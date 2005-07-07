@@ -6,7 +6,7 @@ COMMENT=	"python interface to MySQL"
 
 VERSION=	0.9.2
 DISTNAME=	MySQL-python-${VERSION}
-PKGNAME=	py-mysql-${VERSION}
+PKGNAME=	py-mysql-${VERSION}-0
 CATEGORIES=	databases
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=mysql-python/}

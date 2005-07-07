@@ -2,7 +2,7 @@
 
 COMMENT=		"free Norton Commander clone with many useful features"
 DISTNAME=		mc-4.6.0
-PKGNAME=		${DISTNAME}p3
+PKGNAME=		${DISTNAME}-3
 CATEGORIES=		misc
 HOMEPAGE=		http://www.ibiblio.org/mc/
 MASTER_SITES=		http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/

@@ -5,7 +5,7 @@ COMMENT=	"converts Japanese fonts in PostScript documents"
 CATEGORIES=japanese print
 
 DISTNAME=kanjips
-PKGNAME=${DISTNAME}-19900310
+PKGNAME=${DISTNAME}-19900310-0
 
 MASTER_SITES=ftp://ftp.funet.fi/pub/culture/japan/unix/
 MASTER_SITES0=ftp://ftp.funet.fi/pub/culture/japan/fonts/

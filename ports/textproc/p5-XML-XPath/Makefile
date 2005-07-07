@@ -3,7 +3,7 @@
 COMMENT=	"modules for parsing and evaluating XPath statements"
 
 DISTNAME=	XML-XPath-1.13
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}

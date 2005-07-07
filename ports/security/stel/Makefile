@@ -3,7 +3,7 @@
 COMMENT=	"Secure Telnet, encrypted version of the telnet daemon"
 
 DISTNAME=	stel
-PKGNAME=	${DISTNAME}-19960505
+PKGNAME=	${DISTNAME}-19960505-0
 CATEGORIES=	security
 
 MASTER_SITES=	ftp://ftp.ox.ac.uk/pub/crypto/misc/ \

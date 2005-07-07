@@ -4,8 +4,8 @@ COMMENT=		"Quake/Quake-world client"
 COMMENT-server=		"Quake world server"
 CATEGORIES=		games
 
-FULLPKGNAME-server=	quakeworld-server-20000101
-PKGNAME=		quake-20000101
+FULLPKGNAME-server=	quakeworld-server-20000101-0
+PKGNAME=		quake-20000101-0
 DISTNAME=		quake-v6-bsd-kame
 PATCHFILES=		quake6-00-v6-20000202b.diff.gz:0
 PATCH_DIST_STRIP=	-p1

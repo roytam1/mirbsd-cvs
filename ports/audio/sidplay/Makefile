@@ -3,7 +3,7 @@
 COMMENT=	"Commodore 64 music player and SID chip emulator"
 
 DISTNAME=	sidplay-base-1.0.9
-PKGNAME=	${DISTNAME:S/-base//}
+PKGNAME=	${DISTNAME:S/-base//}-0
 CATEGORIES=	audio
 
 HOMEPAGE=	http://www.geocities.com/SiliconValley/Lakes/5147/sidplay/

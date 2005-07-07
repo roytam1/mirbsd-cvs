@@ -3,7 +3,7 @@
 COMMENT=	"Perl5 module for CDDB"
 
 DISTNAME=	CDDB-1.12
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	audio perl5
 
 

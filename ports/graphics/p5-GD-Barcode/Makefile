@@ -3,7 +3,7 @@
 COMMENT=	"create barcode image with GD"
 
 DISTNAME=	GD-Barcode-1.13
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	graphics perl5
 
 

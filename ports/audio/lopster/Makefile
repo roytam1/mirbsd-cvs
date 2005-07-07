@@ -2,7 +2,7 @@
 
 COMMENT=	"full featured GTK Napster client"
 DISTNAME=	lopster-1.2.0
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	audio
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=lopster/}
 

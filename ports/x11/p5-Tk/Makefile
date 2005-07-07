@@ -7,8 +7,8 @@ COMMENT-demo=	"demonstrate the features of ptk"
 
 VERSION=	800.024
 DISTNAME=	Tk-${VERSION}
-PKGNAME=	p5-Tk-${VERSION}
-PKGNAME-demo=	p5-Tk-demo-${VERSION}
+PKGNAME=	p5-Tk-${VERSION}-0
+PKGNAME-demo=	p5-Tk-demo-${VERSION}-0
 CATEGORIES=	x11 devel perl5
 
 

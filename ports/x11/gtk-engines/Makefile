@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=		"collection of theme engines for GTK+2"
 
 DISTNAME=		gtk-engines-2.2.0
-PKGNAME=		gtk-engines2-2.2.0
+PKGNAME=		gtk-engines2-2.2.0-0
 CATEGORIES=		x11
 
 HOMEPAGE=		http://www.gnome.org

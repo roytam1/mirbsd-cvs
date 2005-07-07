@@ -3,7 +3,7 @@
 COMMENT=		"Quote strings for passing through the shell"
 
 DISTNAME=		String-ShellQuote-1.00
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		textproc perl5
 
 

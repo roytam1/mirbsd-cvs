@@ -3,7 +3,7 @@
 COMMENT=	"PostgreSQL database adapter for Python"
 VERSION=	1.1.4
 DISTNAME=	psycopg-${VERSION}
-PKGNAME=	py-psycopg-${VERSION}
+PKGNAME=	py-psycopg-${VERSION}-0
 CATEGORIES=	databases
 MASTER_SITES=	http://initd.org/pub/software/psycopg/
 HOMEPAGE=	http://initd.org/software/psycopg

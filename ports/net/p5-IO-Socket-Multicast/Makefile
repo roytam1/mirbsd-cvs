@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"module for sending and receiving multicast messages"
 
 DISTNAME=	IO-Socket-Multicast-0.25
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5 
 
 

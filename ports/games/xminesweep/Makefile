@@ -3,7 +3,7 @@
 COMMENT=	"Windows minesweeper"
 
 DISTNAME=	xminesweep3.0
-PKGNAME=	xminesweep-3.0
+PKGNAME=	xminesweep-3.0-0
 CATEGORIES=	games
 
 MASTER_SITES=	ftp://ftp.netlab.is.tsukuba.ac.jp/pub/X/our_collections/games/ \

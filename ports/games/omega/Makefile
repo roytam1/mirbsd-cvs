@@ -3,7 +3,7 @@
 COMMENT=	"complex rogue-style game of dungeon exploration"
 
 VERSION=	0.90.4
-PKGNAME=	omega-${VERSION}
+PKGNAME=	omega-${VERSION}-0
 DISTNAME=	${PKGNAME}-src
 CATEGORIES=     games
 MASTER_SITES=   http://www.alcyone.com/binaries/omega/

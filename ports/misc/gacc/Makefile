@@ -5,7 +5,7 @@ COMMENT=	"personal accounts manager"
 
 VERSION=	0.7.5
 DISTNAME=	gacc_${VERSION}.orig
-PKGNAME=	gacc-${VERSION}
+PKGNAME=	gacc-${VERSION}-0
 CATEGORIES=	misc productivity
 
 HOMEPAGE=	http://tnemeth.free.fr/projets/gAcc-en.html

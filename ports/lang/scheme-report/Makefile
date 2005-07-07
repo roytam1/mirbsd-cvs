@@ -5,7 +5,7 @@ COMMENT=	"revised^5 report on scheme"
 CATEGORIES=	lang books
 
 DISTNAME=	r5rs
-PKGNAME=	${DISTNAME}-19980421
+PKGNAME=	${DISTNAME}-19980421-0
 EXTRACT_SUFX=	.txi
 
 EXTRACT_CASES=	*.txi) cp ${FULLDISTDIR}/$$archive ${WRKDIR};;

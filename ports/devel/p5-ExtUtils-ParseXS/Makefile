@@ -3,7 +3,7 @@
 COMMENT=	"converts Perl XS code into C code" 
 
 DISTNAME=	ExtUtils-ParseXS-2.08
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 

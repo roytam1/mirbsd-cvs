@@ -2,7 +2,7 @@
 
 COMMENT=	"edit id3v1 tags from an audio mpeg layer 3"
 DISTNAME=	MP3-ID3v1Tag-1.11
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	audio perl5
 
 

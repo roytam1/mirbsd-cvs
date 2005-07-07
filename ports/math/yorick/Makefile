@@ -4,7 +4,7 @@ COMMENT=	"interpreted language for scientific computing"
 
 VERSION=	1.5
 DISTNAME=	yorick-${VERSION}.08
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	math devel
 MASTER_SITES=	ftp://ftp-icf.llnl.gov/pub/Yorick/
 EXTRACT_SUFX=	.tgz

@@ -4,7 +4,7 @@ COMMENT=	"fast, compact and portable XSL/XSLT processor"
 
 V=		1.0.1
 DISTNAME=	Sablot-${V}
-PKGNAME=	sablotron-${V}
+PKGNAME=	sablotron-${V}-0
 CATEGORIES=    	textproc
 
 HOMEPAGE=	http://www.gingerall.com/

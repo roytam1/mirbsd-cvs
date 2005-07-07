@@ -2,7 +2,7 @@
 
 COMMENT=	"simple document format"
 
-PKGNAME=	p5-sdf-2.001
+PKGNAME=	p5-sdf-2.001-0
 DISTNAME=	sdf-2.001
 CATEGORIES=	textproc perl5
 

@@ -6,7 +6,7 @@ COMMENT=	"perl interface to the sync() system functions"
 
 V=		0.09
 DISTNAME=	File-Sync-${V}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=File/}

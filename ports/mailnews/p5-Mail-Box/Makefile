@@ -3,7 +3,7 @@
 
 COMMENT=		"perl module to manage mail folders"
 DISTNAME=		Mail-Box-2.018
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5
 
 PERMIT_PACKAGE_CDROM=	Yes

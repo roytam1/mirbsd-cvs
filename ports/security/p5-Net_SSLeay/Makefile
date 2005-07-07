@@ -6,7 +6,7 @@ COMMENT=	"perl module for using OpenSSL"
 
 VERSION=	1.23
 DISTNAME=	Net_SSLeay.pm-${VERSION}
-PKGNAME=	p5-Net-SSLeay-${VERSION}
+PKGNAME=	p5-Net-SSLeay-${VERSION}-0
 CATEGORIES=	security perl5
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 

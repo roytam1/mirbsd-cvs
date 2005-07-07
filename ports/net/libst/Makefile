@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386
 COMMENT=		"threaded library for writing Internet applications"
 
 DISTNAME=		st-1.4
-PKGNAME=		lib${DISTNAME}
+PKGNAME=		lib${DISTNAME}-0
 CATEGORIES=		net devel
 HOMEPAGE=		http://state-threads.sourceforge.net/
 

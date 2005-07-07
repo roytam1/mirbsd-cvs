@@ -3,7 +3,7 @@
 COMMENT=		"simple SMTP client"
 
 DISTNAME=		smtpclient-1.0.0
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		mail
 
 HOMEPAGE=		http://www.engelschall.com/sw/smtpclient/

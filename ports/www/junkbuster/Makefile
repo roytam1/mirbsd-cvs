@@ -2,7 +2,7 @@
 
 COMMENT=	"banner-ad blocking proxy server"
 
-PKGNAME=	junkbuster-2.0.2p1
+PKGNAME=	junkbuster-2.0.2-1
 DISTNAME=	ijb20
 CATEGORIES=	www
 

@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; shows sunrise/sunset times'
 
 DISTNAME=		wmSun-1.03
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		astro x11 x11/windowmaker
 
 HOMEPAGE=		http://nis-www.lanl.gov/~mgh/WindowMaker/DockApps.shtml

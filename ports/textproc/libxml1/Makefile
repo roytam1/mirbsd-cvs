@@ -5,7 +5,7 @@ COMMENT=	"XML parsing library for GNOME"
 
 VERSION=	1.8.17
 DISTNAME=	libxml-${VERSION}
-PKGNAME=	libxml1-${VERSION}
+PKGNAME=	libxml1-${VERSION}-0
 CATEGORIES=	textproc
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/libxml/1.8/}
 

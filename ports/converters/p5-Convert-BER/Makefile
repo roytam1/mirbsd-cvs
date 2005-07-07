@@ -3,7 +3,7 @@
 COMMENT=	"module to encode and decode objects"
 
 DISTNAME=	Convert-BER-1.3101
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5
 
 

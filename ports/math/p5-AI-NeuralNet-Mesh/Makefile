@@ -3,7 +3,7 @@
 COMMENT=	"module to implement an accurate neural network mesh"
 
 DISTNAME=	AI-NeuralNet-Mesh-0.44
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 

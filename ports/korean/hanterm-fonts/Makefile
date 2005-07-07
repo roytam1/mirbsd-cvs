@@ -2,7 +2,7 @@
 
 COMMENT=	"extra Korean fonts"
 
-PKGNAME=	hanterm-fonts-3.1
+PKGNAME=	hanterm-fonts-3.1-0
 DISTNAME=	hanterm-font-3.1
 CATEGORIES=	korean x11
 

@@ -2,7 +2,7 @@
 
 COMMENT=	"benchmarking tool for analysing TCP and UDP performance"
 
-PKGNAME=	ttcp-1.12
+PKGNAME=	ttcp-1.12-0
 CATEGORIES=	net
 
 MASTER_SITES=	ftp://ftp.sgi.com/sgi/src/ttcp/

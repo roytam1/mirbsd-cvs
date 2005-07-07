@@ -3,7 +3,7 @@
 
 COMMENT=		'sound server for Window Maker'
 DISTNAME=		WSoundServer-0.4.0
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		audio
 
 # BSD

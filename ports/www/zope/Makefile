@@ -6,7 +6,7 @@ VERSION=	2.6.1
 PORT_VERSION=	${VERSION}
 
 DISTNAME=	Zope-${VERSION}-src
-PKGNAME=	zope-${PORT_VERSION}
+PKGNAME=	zope-${PORT_VERSION}-0
 CATEGORIES=     www
 
 HOMEPAGE=	http://www.zope.org/

@@ -15,7 +15,7 @@ EXTRACT_SUFX=	.tar.bz2
 MULTI_PACKAGES=	-utils
 SUBPACKAGE?=
 
-FULLPKGNAME-utils= courier-utils-${V}
+FULLPKGNAME-utils= courier-utils-${V}-0
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes

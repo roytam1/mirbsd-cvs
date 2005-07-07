@@ -3,7 +3,7 @@
 COMMENT=	"module for writing rpc servers and clients"
 
 DISTNAME=	PlRPC-0.2017
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

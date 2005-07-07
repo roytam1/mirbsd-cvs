@@ -7,8 +7,8 @@ V=			4.1
 DISTNAME=		fileutils-$V
 CATEGORIES=		misc
 
-PKGNAME=		${DISTNAME}p1
-PKGNAME-ls=		gnuls-$V
+PKGNAME=		${DISTNAME}p1-0
+PKGNAME-ls=		gnuls-$V-0
 
 
 PERMIT_PACKAGE_CDROM=	Yes

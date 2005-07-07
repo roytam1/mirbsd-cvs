@@ -4,7 +4,7 @@
 COMMENT=	"base package for HTML handling in PHP"
 V=		1.2.1
 DISTNAME=	HTML_Common-${V}
-PKGNAME=	pear-HTML-Common-${V}
+PKGNAME=	pear-HTML-Common-${V}-0
 CATEGORIES=	devel www pear
 MASTER_SITES=	http://pear.php.net/get/
 EXTRACT_SUFX=	.tgz

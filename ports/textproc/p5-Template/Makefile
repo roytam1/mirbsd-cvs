@@ -3,7 +3,7 @@
 COMMENT=		'Template Toolkit'
 
 DISTNAME=		Template-Toolkit-2.13
-PKGNAME=		p5-Template-2.13
+PKGNAME=		p5-Template-2.13-0
 CATEGORIES=		textproc perl5
 
 # Same as PERL: Artistic/GPL

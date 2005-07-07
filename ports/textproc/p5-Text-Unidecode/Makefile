@@ -3,7 +3,7 @@
 COMMENT=	"US-ASCII transliterations of Unicode text"
 
 DISTNAME=	Text-Unidecode-0.04
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5 
 
 

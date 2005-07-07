@@ -8,7 +8,7 @@ V2:=		${PROGRAM_V:S/.//}
 EMUL=		linux
 
 DISTNAME=	communicator-v${V2}-us.x86-unknown-linux2.2
-PKGNAME=	communicator-linux-${PROGRAM_V}p1
+PKGNAME=	communicator-linux-${PROGRAM_V}-1
 LOCATION=	linux22/complete_install
 DIRNAME=	communicator-v${V2}.x86-unknown-linux2.2
 

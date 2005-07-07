@@ -3,7 +3,7 @@
 COMMENT=	"module to scan C language files"
 
 DISTNAME=	Log-Log4perl-0.41
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 # Artistic/GPL

@@ -3,7 +3,7 @@
 COMMENT=	"perl modules for creating and manipulating PDF"
 
 DISTNAME=	Text-PDF-0.25
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 

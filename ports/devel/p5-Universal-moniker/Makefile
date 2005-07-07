@@ -3,7 +3,7 @@
 COMMENT=	"Perl module for aliasing class names"
 
 DISTNAME=	UNIVERSAL-moniker-0.07
-PKGNAME=	p5-Universal-moniker-0.07
+PKGNAME=	p5-Universal-moniker-0.07-0
 CATEGORIES=	devel perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=UNIVERSAL/}

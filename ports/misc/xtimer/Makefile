@@ -3,7 +3,7 @@
 COMMENT=	"super simple digital timer for X11"
 
 DISTNAME=	xtimer-8089
-PKGNAME=	xtimer-0.8089
+PKGNAME=	xtimer-0.8089-0
 CATEGORIES=	misc
 
 MASTER_SITES=	http://hp.vector.co.jp/authors/VA004959/xtimer/

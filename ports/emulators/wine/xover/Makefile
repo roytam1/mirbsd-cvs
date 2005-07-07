@@ -13,7 +13,7 @@ IS_INTERACTIVE=	Yes
 COMMENT=	"experimental: Microsoft Windows emulator Crossover Office"
 VERSION=	2.0.0
 DISTNAME=	xover-${VERSION}
-PKGNAME=	xover-linux-${VERSION}
+PKGNAME=	xover-linux-${VERSION}-0
 CATEGORIES=	emulators
 
 HOMEPAGE=	http://www.codeweavers.com/products/office/

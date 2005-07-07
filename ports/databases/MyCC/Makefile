@@ -4,7 +4,7 @@ COMMENT=		"GUI client for MySQL"
 
 VERSION=		0.9.4
 DISTNAME=		mysqlcc-${VERSION}-src
-PKGNAME=		mysqlcc-${VERSION}
+PKGNAME=		mysqlcc-${VERSION}-0
 CATEGORIES=		databases
 
 HOMEPAGE=		http://mysql.com/products/mysqlcc/index.html

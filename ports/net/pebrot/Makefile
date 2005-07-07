@@ -3,7 +3,7 @@
 COMMENT=	"text-based MSN messenger client"
 
 DISTNAME=	pebrot-0.8.6
-PKGNAME=	py-${DISTNAME}
+PKGNAME=	py-${DISTNAME}-0
 CATEGORIES=	net
 
 HOMEPAGE=	http://pebrot.sourceforge.net/

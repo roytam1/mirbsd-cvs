@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; WWW image monitor'
 
 DISTNAME=		wmGrabImage-0.72
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		graphics x11 x11/windowmaker
 EXTRACT_SUFX=		.tgz
 

@@ -5,7 +5,7 @@ COMMENT-maps=		"additional maps of the Earth for sunclock"
 
 VERSION=		3.50pre1
 DISTNAME=		sunclock-${VERSION}
-PKGNAME-maps=		sunclock-maps-${VERSION}
+PKGNAME-maps=		sunclock-maps-${VERSION}-0
 CATEGORIES=		astro
 
 HOMEPAGE=		http://frmas.free.fr/li_1.htm

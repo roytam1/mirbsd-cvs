@@ -2,7 +2,7 @@
 
 COMMENT=	"OpenLook applications and man pages"
 
-PKGNAME=	xview-clients-${XVIEW_VERSION}
+PKGNAME=	xview-clients-${XVIEW_VERSION}-0
 MASTER_SITES=	${MASTER_SITE_LOCAL}
 DISTFILES=	xview3.2p1-X11R6.tar.gz
 CATEGORIES=	x11

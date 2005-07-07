@@ -5,7 +5,7 @@ NO_REGRESS=	Yes
 
 CATEGORIES=	net
 DISTNAME=	ucspi-tcp-0.88
-PKGNAME=	ucspi-tcp-0.88
+PKGNAME=	ucspi-tcp-0.88-0
 
 HOMEPAGE=	http://cr.yp.to/ucspi-tcp.html
 # I don't maintain this, I just include it for completeness  -tg

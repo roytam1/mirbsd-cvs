@@ -4,7 +4,7 @@ COMMENT=	"list information about open files"
 
 VERSION=	4.69
 DISTNAME=	lsof_${VERSION}
-PKGNAME=	${DISTNAME:S/_/-/}
+PKGNAME=	${DISTNAME:S/_/-/}-0
 CATEGORIES=	sysutils
 MASTER_SITES=	ftp://vic.cc.purdue.edu/pub/tools/unix/lsof/ \
 		ftp://ftp.ayamura.org/pub/lsof/ \

@@ -3,7 +3,7 @@
 COMMENT=	"big5/gb enhanced truetype font manager"
 
 DISTNAME=       ttfm-0.9.5
-PKGNAME=        zh-${DISTNAME}
+PKGNAME=        zh-${DISTNAME}-0
 CATEGORIES=     chinese 
 
 

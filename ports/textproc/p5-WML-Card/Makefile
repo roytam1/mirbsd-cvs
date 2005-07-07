@@ -3,7 +3,7 @@
 COMMENT=	'perl module to create WML cards'
 
 DISTNAME=	WML-Card-0.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc www
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=WML/}
 

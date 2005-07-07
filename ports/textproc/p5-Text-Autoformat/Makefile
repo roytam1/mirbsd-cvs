@@ -2,7 +2,7 @@
 
 COMMENT=		"perl module for formatting plaintext"
 DISTNAME=		Text-Autoformat-1.12
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		textproc perl5
 
 # Artistic

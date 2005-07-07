@@ -3,7 +3,7 @@
 COMMENT=	"taint checking and input validation from web forms"
 
 DISTNAME=	CGI-Untaint-1.00
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 

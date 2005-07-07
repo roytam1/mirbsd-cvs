@@ -3,7 +3,7 @@
 COMMENT=	"animated simulation of an ideal gas"
 
 DISTNAME=	xgas
-PKGNAME=        xgas-1.0
+PKGNAME=        xgas-1.0-0
 CATEGORIES=     misc
 
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=X11/demos/}

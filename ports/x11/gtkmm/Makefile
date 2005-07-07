@@ -6,7 +6,7 @@ COMMENT-docs=		"C++ interface for gtk+ documentation"
 
 VERSION=		1.2.10
 DISTNAME=		gtkmm-${VERSION}
-PKGNAME-docs=		gtkmm-docs-${VERSION}
+PKGNAME-docs=		gtkmm-docs-${VERSION}-0
 CATEGORIES=		devel x11
 
 HOMEPAGE=		http://gtkmm.sourceforge.net/

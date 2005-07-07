@@ -3,7 +3,7 @@
 
 COMMENT=	"library for creating easy mail filters"
 DISTNAME=	Mail-Audit-2.1
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	mail perl5
 HOMEPAGE=	http://simon-cozens.org/writings/mail-audit.html
 

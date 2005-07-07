@@ -6,7 +6,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"set of modules to use Gtk+ libraries from Perl"
 VERSION=	0.7008
 DISTNAME=	Gtk-Perl-${VERSION}
-PKGNAME=	p5-Gtk-${VERSION}
+PKGNAME=	p5-Gtk-${VERSION}-0
 CATEGORIES=	x11 devel perl5
 
 # GPL

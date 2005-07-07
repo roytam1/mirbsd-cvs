@@ -3,7 +3,7 @@
 COMMENT=	"mailing list manager"
 
 DISTNAME=	majordomo-1.94.5
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=     mail
 
 HOMEPAGE=	http://www.greatcircle.com/majordomo/

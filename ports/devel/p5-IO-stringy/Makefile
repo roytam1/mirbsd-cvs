@@ -4,7 +4,7 @@ COMMENT=		"in-core objects like strings and arrays for I/O"
 
 VERSION=		2.108
 DISTNAME=		IO-stringy-${VERSION}
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel perl5
 
 

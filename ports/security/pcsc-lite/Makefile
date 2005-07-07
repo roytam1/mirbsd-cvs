@@ -2,7 +2,7 @@
 
 COMMENT=		"Smartcard middleware"
 DISTNAME=		pcsc-lite-1.2.0
-PKGNAME=		${DISTNAME}p2
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security
 MASTER_SITES=		http://alioth.debian.org/download.php/419/
 HOMEPAGE=		http://alioth.debian.org/projects/pcsclite/

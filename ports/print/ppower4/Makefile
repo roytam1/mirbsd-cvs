@@ -4,7 +4,7 @@
 COMMENT=	"PDF presentation post processor"
 
 DISTNAME=	ppower4-0.9.4
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	print
 
 HOMEPAGE=	http://www-sp.iti.informatik.tu-darmstadt.de/software/ppower4/

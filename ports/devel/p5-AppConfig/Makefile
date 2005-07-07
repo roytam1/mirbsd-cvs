@@ -3,7 +3,7 @@
 COMMENT=	"Module bundle for reading and parsing config files"
 
 DISTNAME=	AppConfig-1.56
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=AppConfig/}

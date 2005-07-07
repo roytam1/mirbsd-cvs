@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	'ATI drivers with full xvideo support'
 
 DISTNAME=	ATI-4.3.0-9.i386
-PKGNAME=	ATI-4.3.0.9
+PKGNAME=	ATI-4.3.0.9-0
 CATEGORIES=	x11
 
 PERMIT_DISTFILES_CDROM=	"no license"

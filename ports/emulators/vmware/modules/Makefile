@@ -7,7 +7,7 @@ IGNORE="Fatal: This port requires kernel sources to build"
 .endif
 
 COMMENT=	"LKMs to allow vmware to run under MirBSD"
-PKGNAME=	vmware-modules-1.1
+PKGNAME=	vmware-modules-1.1-0
 DISTNAME=	vmware-openbsd-1.1
 CATEGORIES=	emulators
 MASTER_SITES=	${HOMEPAGE}

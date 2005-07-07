@@ -3,7 +3,7 @@
 COMMENT=	"perl5 module for Wake On LAN"
 
 DISTNAME=	Net-Wake-0.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

@@ -3,7 +3,7 @@
 COMMENT=	"minimal wm based on GNU screen"
 
 DISTNAME=	ratpoison-1.3.0-rc1
-PKGNAME=	ratpoison-1.3.0rc1
+PKGNAME=	ratpoison-1.3.0rc1-0
 CATEGORIES=	x11
 HOMEPAGE=	http://ratpoison.sourceforge.net/
 

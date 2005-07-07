@@ -3,7 +3,7 @@
 COMMENT=	"interface to compute differences between two objects"
 
 DISTNAME=	Algorithm-Diff-1.15
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

@@ -3,7 +3,7 @@
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"CDDB audio CD track info access in Python"
 DISTNAME=	CDDB-1.4
-PKGNAME=	py-${DISTNAME:L}
+PKGNAME=	py-${DISTNAME:L}-0
 CATEGORIES=	audio
 HOMEPAGE=	http://cddb-py.sourceforge.net/
 

@@ -5,7 +5,7 @@ COMMENT=		"GNOME Virtual File System"
 
 VERSION=		2.8.3
 DISTNAME=		gnome-vfs-${VERSION}
-PKGNAME=		gnome-vfs2-${VERSION}
+PKGNAME=		gnome-vfs2-${VERSION}-0
 CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/
 

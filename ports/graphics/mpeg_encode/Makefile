@@ -4,7 +4,7 @@
 COMMENT=	"UCB's MPEG-I video stream encoder"
 
 DISTNAME=	mpeg_encode-1.5b-src
-PKGNAME=	${DISTNAME:S/-src//}
+PKGNAME=	${DISTNAME:S/-src//}-0
 CATEGORIES=	graphics
 
 # BSD

@@ -4,7 +4,7 @@
 COMMENT=	"from Kernighan & Pike: High Order Calculator"
 
 DISTNAME=	hoc
-PKGNAME=	hoc-1.1
+PKGNAME=	hoc-1.1-0
 CATEGORIES=	math
 
 MASTER_SITES=	http://cm.bell-labs.com/cm/cs/who/bwk/

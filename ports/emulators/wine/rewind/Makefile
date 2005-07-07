@@ -8,7 +8,7 @@ COMMENT=		"Microsoft Windows 3.1/95/NT emulator for Unix"
 CATEGORIES=		emulators
 V=			200xyyzz
 DISTNAME=		rewind-cvs-$(V)
-PKGNAME=		wine-$(V)_rewind
+PKGNAME=		wine-$(V)_rewind-0
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
 HOMEPAGE=		http://rewind.sf.net/
 

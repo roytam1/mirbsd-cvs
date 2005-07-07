@@ -3,7 +3,7 @@
 COMMENT=	"Python-powered template engine and code generator"
 
 DISTNAME=	Cheetah-0.9.15
-PKGNAME=	py-${DISTNAME:L}
+PKGNAME=	py-${DISTNAME:L}-0
 CATEGORIES=	devel textproc
 
 HOMEPAGE=	http://www.cheetahtemplate.org/

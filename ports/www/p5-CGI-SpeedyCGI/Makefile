@@ -6,7 +6,7 @@ COMMENT=	"speed up perl scripts by running them persistently"
 
 VERSION=	2.22
 DISTNAME=	CGI-SpeedyCGI-${VERSION}
-PKGNAME=	p5-CGI-SpeedyCGI-${VERSION}
+PKGNAME=	p5-CGI-SpeedyCGI-${VERSION}-0
 CATEGORIES=	www perl5
 
 MASTER_SITES=   ${MASTER_SITE_PERL_CPAN:=CGI/}

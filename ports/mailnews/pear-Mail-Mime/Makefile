@@ -5,7 +5,7 @@ COMMENT=	"classes to create and decode MIME messages in PHP"
 
 V=		1.2.1
 DISTNAME=	Mail_Mime-${V}
-PKGNAME=	pear-Mail-Mime-${V}
+PKGNAME=	pear-Mail-Mime-${V}-0
 CATEGORIES=	mail pear
 
 MASTER_SITES=	http://pear.php.net/get/

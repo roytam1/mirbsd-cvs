@@ -3,7 +3,7 @@
 COMMENT=	"Athena port of xminesweeper"
 
 DISTNAME=	xmine-1.0.3-Xaw
-PKGNAME=	xmine-1.0.3
+PKGNAME=	xmine-1.0.3-0
 CATEGORIES=	games
 
 

@@ -4,7 +4,7 @@ COMMENT=	"perl module collection for working with XML"
 
 VERSION=	0.07
 DISTNAME=	libxml-perl-${VERSION}
-PKGNAME=	p5-Libxml-${VERSION}
+PKGNAME=	p5-Libxml-${VERSION}-0
 CATEGORIES=	textproc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
 

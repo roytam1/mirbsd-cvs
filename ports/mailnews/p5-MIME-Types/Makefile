@@ -3,7 +3,7 @@
 COMMENT=	"perl module to manage MIME types"
 
 DISTNAME=	MIME-Types-1.13
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	mail perl5
 
 # Perl

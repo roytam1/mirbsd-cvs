@@ -3,7 +3,7 @@
 
 COMMENT=	"GNU Standards-compliant Makefile generator"
 DISTNAME=	automake-1.4-p6
-PKGNAME=	${DISTNAME}p3
+PKGNAME=	${DISTNAME}-3
 SUFFIX=		-1.4
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=automake/}

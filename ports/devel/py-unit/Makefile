@@ -5,7 +5,7 @@ COMMENT=		"unit testing framework for python"
 
 VERSION=		1.4.1
 DISTNAME=		pyunit-${VERSION}
-PKGNAME=		py-unit-${VERSION}
+PKGNAME=		py-unit-${VERSION}-0
 CATEGORIES=     	devel
 
 HOMEPAGE=		http://pyunit.sourceforge.net/

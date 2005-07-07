@@ -3,7 +3,7 @@
 COMMENT=	"web-based java SSH client"
 VERSION=	2.1
 DISTNAME=	mindterm_${VERSION}-bin
-PKGNAME=	mindterm-${VERSION}
+PKGNAME=	mindterm-${VERSION}-0
 CATEGORIES=	www security
 MASTER_SITES=	http://support.appgate.com/mindterm/personal/
 EXTRACT_SUFX=	.zip

@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"perl module for parsing XML documents"
 
 DISTNAME=	XML-Parser-2.31
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 HOMEPAGE=	http://wwwx.netheaven.com/~coopercc/xmlparser/

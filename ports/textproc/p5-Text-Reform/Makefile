@@ -3,7 +3,7 @@
 COMMENT=		"perl module to formating plaintext"
 
 DISTNAME=		Text-Reform-1.11
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		textproc perl5
 HOMEPAGE=		http://search.cpan.org/author/DCONWAY/${DISTNAME}/lib/Text/Reform.pm
 

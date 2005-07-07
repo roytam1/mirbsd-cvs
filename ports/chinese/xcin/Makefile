@@ -3,7 +3,7 @@
 COMMENT=	"chinese input utility for X"
 
 DISTNAME=	xcin-2.3.04-3
-PKGNAME=	zh-xcin-2.3.04
+PKGNAME=	zh-xcin-2.3.04-0
 CATEGORIES=	chinese
 
 MASTER_SITES=	ftp://xcin.linux.org.tw/pub/xcin/old/ \

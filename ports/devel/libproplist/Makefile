@@ -3,7 +3,7 @@
 
 COMMENT=	"GNUstep/OPENSTEP property lists compatibility library"
 DISTNAME=	libPropList-0.10.1
-PKGNAME=	libproplist-0.10.1
+PKGNAME=	libproplist-0.10.1-0
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_WINDOWMAKER:=libs/}
 HOMEPAGE=	http://www.windowmaker.org/

@@ -3,7 +3,7 @@
 COMMENT=	"block action game"
 
 DISTNAME=	xdeblock
-PKGNAME=	xdeblock-1.0
+PKGNAME=	xdeblock-1.0-0
 CATEGORIES=	games
 
 MASTER_SITES=	http://www.vector.co.jp/pack/unix/game/action/block/

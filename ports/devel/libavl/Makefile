@@ -4,7 +4,7 @@ COMMENT=	"library for balanced binary trees"
 
 VERSION=	1.4.0
 DISTNAME=	avl-${VERSION}
-PKGNAME=	libavl-${VERSION}
+PKGNAME=	libavl-${VERSION}-0
 CATEGORIES=	devel
 
 HOMEPAGE=	http://www.msu.edu/user/pfaffben/avl/

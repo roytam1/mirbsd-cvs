@@ -5,7 +5,7 @@
 COMMENT=		"verify email addresses and mailing lists"
 
 DISTNAME=		vrfy_990522
-PKGNAME=		vrfy-99.05.22
+PKGNAME=		vrfy-99.05.22-0
 CATEGORIES=		mail
 
 

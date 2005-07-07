@@ -4,7 +4,7 @@
 COMMENT=	"automatically configure source code on many Un*x platforms"
 VERSION=	2.13
 DISTNAME=	autoconf-${VERSION}
-PKGNAME=	autoconf-${VERSION}-op2
+PKGNAME=	autoconf-${VERSION}-2-o
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=	http://www.gnu.org/software/autoconf/

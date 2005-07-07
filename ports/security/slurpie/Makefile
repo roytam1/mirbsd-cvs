@@ -5,7 +5,7 @@ COMMENT=	"distributed passwd file cracker"
 
 VERSION=	2.0b
 DISTNAME=	slurpie
-PKGNAME=	${DISTNAME}-${VERSION}
+PKGNAME=	${DISTNAME}-${VERSION}-0
 CATEGORIES=	security
 
 MASTER_SITES=	http://www.jps.net/coati/archives/

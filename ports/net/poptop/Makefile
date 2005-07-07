@@ -3,7 +3,7 @@
 COMMENT=		"PPTP Server"
 
 VERSION=		1.1.4-b4
-PKGNAME=		poptop-${VERSION:S/-b/.b/}
+PKGNAME=		poptop-${VERSION:S/-b/.b/}-0
 DISTNAME=		pptpd-${VERSION}
 CATEGORIES=		net
 

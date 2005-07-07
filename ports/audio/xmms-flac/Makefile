@@ -6,7 +6,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"XMMS input plugin for playing FLAC files"
 
 VERSION=	1.1.0
-PKGNAME=	xmms-flac-${VERSION}
+PKGNAME=	xmms-flac-${VERSION}-0
 DISTNAME=	flac-${VERSION}
 CATEGORIES=	audio
 HOMEPAGE=	http://flac.sourceforge.net/

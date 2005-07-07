@@ -3,7 +3,7 @@
 COMMENT=	"Cisco AAA protocol daemon"
 
 DISTNAME=	tac_plus.F4.0.4.alpha
-PKGNAME=	tacacs+-4.0.4ap0
+PKGNAME=	tacacs+-4.0.4a-1
 CATEGORIES=	net security
 
 HOMEPAGE=       http://www.gazi.edu.tr/tacacs/

@@ -3,7 +3,7 @@
 
 COMMENT=	"Linux compatibility package based on RedHat GNU/Linux 8.0"
 EMUL=		linux
-PKGNAME=	redhat_base-8.0p5
+PKGNAME=	redhat_base-8.0-5
 MASTER_SITES=	${MASTER_SITE_REDHAT:=redhat/linux/8.0/en/os/i386/RedHat/RPMS/}
 MASTER_SITES0=	${MASTER_SITE_REDHAT:=redhat/linux/updates/8.0/en/os/i386/}
 DISTFILES=	${RPMS}

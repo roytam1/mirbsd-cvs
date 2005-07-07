@@ -3,7 +3,7 @@
 COMMENT=	"convert Big5/GB encoded files to postscript"
 
 DISTNAME=       bg5ps-1.3.0
-PKGNAME=	zh-${DISTNAME}
+PKGNAME=	zh-${DISTNAME}-0
 CATEGORIES=     chinese x11
 
 

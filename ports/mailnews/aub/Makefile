@@ -2,7 +2,7 @@
 
 COMMENT=	"assemble usenet binaries"
 
-PKGNAME=	aub-2.0.5
+PKGNAME=	aub-2.0.5-0
 DISTNAME=	aub
 CATEGORIES=	news
 

@@ -6,7 +6,7 @@ EMUL=			linux
 
 COMMENT=	"Blackdown Java Development Kit for Java 2 platform"
 DISTNAME=	jdk-blackdown-1.2pre2
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	devel lang
 HOMEPAGE=	http://www.blackdown.org/
 

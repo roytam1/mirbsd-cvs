@@ -3,7 +3,7 @@
 
 COMMENT=	"Pac-man-like game under X11"
 DISTNAME=	xchomp-pl1
-PKGNAME=	xchomp-1
+PKGNAME=	xchomp-1-0
 CATEGORIES=	games
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}
 

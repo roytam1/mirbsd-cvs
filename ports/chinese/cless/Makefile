@@ -9,7 +9,7 @@
 COMMENT=	"pager utility that speaks Chinese"
 
 DISTNAME=       cless-290
-PKGNAME=        zh-${DISTNAME}
+PKGNAME=        zh-${DISTNAME}-0
 CATEGORIES=     chinese misc
 MASTER_SITES=   ftp://ftp.cuhk.hk/pub/chinese/ifcss/software/unix/c-utils/ 
 

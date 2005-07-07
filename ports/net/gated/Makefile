@@ -4,7 +4,7 @@
 COMMENT=	"routing protocol daemon"
 
 DISTNAME=	gated-3-6
-PKGNAME=	gated-3.6
+PKGNAME=	gated-3.6-0
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.gated.merit.edu/net-research/gated/ \
    		ftp://ftp.funet.fi/pub/mirrors/ftp.gated.merit.edu/research.and.development/gated/

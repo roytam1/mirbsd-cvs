@@ -6,7 +6,7 @@ COMMENT=	"converts documents from text/html to isilo format"
 
 VER=		2.58
 DISTNAME=	iSiloBSD
-PKGNAME=	isilo-${VER}
+PKGNAME=	isilo-${VER}-0
 CATEGORIES=	palm textproc
 EXTRACT_SUFX=	.zip
 

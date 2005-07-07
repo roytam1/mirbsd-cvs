@@ -51,7 +51,7 @@ DOCS+=		README.img
 .endif
 
 .if ${FLAVOR:L:Mjapanese}
-FULLPKGNAME=	ja-${PKGNAME}${FLAVOR_EXT:S/-japanese//}
+FULLPKGNAME=	ja-${PKGNAME}${FLAVOR_EXT:S/-japanese//}-0
 CATEGORIES+=	japanese
 CONFIGURE_ARGS+= --lang=ja --code=n
 DOCS+=		README.SSL README.cookie README.keymap \
@@ -64,13 +64,13 @@ DOCSRC=		${WRKSRC}/doc
 
 .if ${FLAVOR:L:Mm17n}
 DISTNAME=	w3m-${VERSION}-stable-m17n-${M17N_VERSION}
-PKGNAME=	w3m-${VERSION}.${M17N_VERSION}${REVISION}
+PKGNAME=	w3m-${VERSION}.${M17N_VERSION}${REVISION}-0
 DISTFILES=	${SUP-m17n}
 CONFIGURE_ARGS+= --suffix="" --charset=UTF-8
 DOCS+=		README.m17n
 .else
 DISTNAME=	w3m-${VERSION}
-PKGNAME=	${DISTNAME}${REVISION}
+PKGNAME=	${DISTNAME}${REVISION}-0
 DISTFILES=	${SUP-norm}
 .endif
 

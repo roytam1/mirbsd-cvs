@@ -3,7 +3,7 @@
 COMMENT=	"manage sets of integers"
 
 DISTNAME=	Set-IntSpan-1.07
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 

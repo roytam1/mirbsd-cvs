@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"fast Java decompiler"
 
 DISTNAME=	jadob158
-PKGNAME=	jad-1.5.8c
+PKGNAME=	jad-1.5.8c-0
 CATEGORIES=	devel
 
 

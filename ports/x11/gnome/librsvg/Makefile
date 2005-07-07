@@ -5,7 +5,7 @@ COMMENT=		"SAX-based render library for SVG files"
 
 VERSION=		2.8.1
 DISTNAME=		librsvg-${VERSION}
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel x11/gnome
 
 HOMEPAGE=		http://www.gnome.org

@@ -4,7 +4,7 @@
 COMMENT=	"TeX distribution, executables"
 VERSION=	2.0.2
 DISTNAME=	tetex-base-${VERSION}
-PKGNAME=	${DISTNAME:S/tetex-/teTeX_/}
+PKGNAME=	${DISTNAME:S/tetex-/teTeX_/}-0
 CATEGORIES=	print
 
 DISTFILES=	tetex-src-${VERSION}.tar.gz

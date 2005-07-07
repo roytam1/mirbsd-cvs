@@ -2,7 +2,7 @@
 COMMENT=	"accept email on behalf of real sendmail"
 COMMENT-chroot=	"static mini_sendmail for chrooted apache"
 DISTNAME=	mini_sendmail-1.3.4
-PKGNAME-chroot=	mini_sendmail-chroot-1.3.4
+PKGNAME-chroot=	mini_sendmail-chroot-1.3.4-0
 CATEGORIES=	mail www
 MASTER_SITES=	${HOMEPAGE}
 

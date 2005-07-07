@@ -6,7 +6,7 @@ COMMENT=	"perl interface to the libxml2 library"
 
 VERSION=	1.54
 DISTNAME=	XML-LibXML-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}

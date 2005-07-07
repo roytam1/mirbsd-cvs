@@ -10,7 +10,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=		"Apache-Tomcat AJP Connector"
 V=			1.2.5
 DISTNAME=		jakarta-tomcat-connectors-jk-${V}-src
-PKGNAME=		mod_jk-${V}
+PKGNAME=		mod_jk-${V}-0
 CATEGORIES=		www
 HOMEPAGE=		http://jakarta.apache.org/tomcat/tomcat-4.1-doc/jk2/
 

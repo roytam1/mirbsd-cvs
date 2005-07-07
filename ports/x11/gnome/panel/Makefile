@@ -5,7 +5,7 @@ COMMENT=		"GNOME panel"
 
 VERSION=		2.8.2
 DISTNAME=		gnome-panel-${VERSION}
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org

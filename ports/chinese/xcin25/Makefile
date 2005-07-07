@@ -4,7 +4,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"Chinese input method Linux binary"
 
-PKGNAME=	zh-xcin25-2.5.3p0
+PKGNAME=	zh-xcin25-2.5.3-1
 CATEGORIES=	chinese
 
 

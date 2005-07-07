@@ -4,7 +4,7 @@ COMMENT=	"clustering algorithm for graphs"
 
 V=		04-105
 DISTNAME=	mcl-${V}
-PKGNAME=	mcl-${V:S,-,_,}
+PKGNAME=	mcl-${V:S,-,_,}-0
 CATEGORIES=	math
 
 HOMEPAGE=	http://micans.org/mcl/

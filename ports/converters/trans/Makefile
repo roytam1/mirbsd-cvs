@@ -3,7 +3,7 @@
 COMMENT=	"character encoding converter generator package"
 
 DISTNAME=       trans120
-PKGNAME=        trans-1.20
+PKGNAME=        trans-1.20-0
 CATEGORIES=     converters russian
 
 PERMIT_PACKAGE_CDROM=	"no fee"

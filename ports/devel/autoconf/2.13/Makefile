@@ -4,7 +4,7 @@
 COMMENT=	"automatically configure source code on many Un*x platforms"
 SUFFIX=		-2.13
 DISTNAME=	autoconf${SUFFIX}
-PKGNAME=	autoconf${SUFFIX}.20050228p1
+PKGNAME=	autoconf${SUFFIX}.20050228-1
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=	http://dickey.his.com/autoconf/autoconf.html

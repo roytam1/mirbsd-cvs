@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; calendar/clock'
 
 DISTNAME=		wmCalClock-1.25
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		x11 x11/windowmaker
 
 HOMEPAGE=		http://nis-www.lanl.gov/~mgh/WindowMaker/DockApps.shtml

@@ -6,7 +6,7 @@ COMMENT=	"fast array facility to the Python language"
 
 VERSION=	23.1
 DISTNAME=	Numeric-${VERSION}
-PKGNAME=	py-${DISTNAME}
+PKGNAME=	py-${DISTNAME}-0
 CATEGORIES=	math
 
 

@@ -3,7 +3,7 @@
 COMMENT=	"fast-light window manager"
 
 DISTNAME=	flwm-1.00
-PKGNAME=	flwm-1.0.0
+PKGNAME=	flwm-1.0.0-0
 CATEGORIES=	x11
 MASTER_SITES=	${HOMEPAGE}
 

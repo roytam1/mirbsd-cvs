@@ -3,7 +3,7 @@
 COMMENT=	"highly flexible sniffer/NIDS"
 
 DISTNAME=	snort-2.1.2
-PKGNAME=	${DISTNAME}
+PKGNAME=	${DISTNAME}-0
 CATEGORIES=	net security
 MASTER_SITES=	${HOMEPAGE}/dl/
 

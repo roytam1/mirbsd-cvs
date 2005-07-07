@@ -3,7 +3,7 @@
 COMMENT=	"module for managing newsrc files"
 
 DISTNAME=	News-Newsrc-1.08
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	news perl5
 
 

@@ -6,7 +6,7 @@ COMMENT=	"perl interface for several perl XML modules"
 
 VERSION=	0.13
 DISTNAME=	XML-LibXML-Common-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}

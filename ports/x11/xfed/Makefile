@@ -3,7 +3,7 @@
 
 COMMENT=	"X11 fonts (.bdf files) editor"
 DISTNAME=	xfed
-PKGNAME=	xfed-1.0
+PKGNAME=	xfed-1.0-0
 CATEGORIES=	x11
 MASTER_SITES=	ftp://ftp.demon.co.uk/pub/graphics/systems/X11.old/pub/R6untarred/contrib/programs/
 

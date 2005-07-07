@@ -9,9 +9,9 @@ VERSION=		9.2.3p1
 DASHVER=		20031222
 DISTNAME=		bind9-${DASHVER}
 
-FULLPKGNAME=		bind-lib-${VERSION}
-PKGNAME-server=		bind-server-${VERSION}
-PKGNAME-client=		bind-client-${VERSION}
+FULLPKGNAME=		bind-lib-${VERSION}-0
+PKGNAME-server=		bind-server-${VERSION}-0
+PKGNAME-client=		bind-client-${VERSION}-0
 
 CATEGORIES=		net
 

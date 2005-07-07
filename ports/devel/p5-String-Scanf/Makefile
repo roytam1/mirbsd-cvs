@@ -4,7 +4,7 @@ COMMENT=	"Emulates the sscanf() of the C stdio library"
 
 VERSION=	2.0
 DISTNAME=	String-Scanf-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 HOMEPAGE=	http://iki.fi/jhi/

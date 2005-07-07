@@ -3,7 +3,7 @@
 COMMENT=	"extended module player"
 COMMENT-xmms=	"extended module player plugin for XMMS"
 DISTNAME=	xmp-2.0.4
-PKGNAME-xmms=	xmms-${DISTNAME}
+PKGNAME-xmms=	xmms-${DISTNAME}-0
 CATEGORIES=	audio
 
 HOMEPAGE=	http://xmp.sourceforge.net/

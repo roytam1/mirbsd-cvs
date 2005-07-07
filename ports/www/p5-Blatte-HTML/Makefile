@@ -3,7 +3,7 @@
 COMMENT=	"Blatte functions to generate (X)HTML"
 
 DISTNAME=	Blatte-HTML-0.9
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 HOMEPAGE=	http://www.blatte.org/
 
 CATEGORIES=	www perl5

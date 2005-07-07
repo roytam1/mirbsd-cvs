@@ -4,7 +4,7 @@ COMMENT=	'perl5 module for getting and parsing whois entries'
 
 VERSION=	1.9
 DISTNAME=	Net-Whois-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 HOMEPAGE=	http://www.hudes.org/netwhois.html

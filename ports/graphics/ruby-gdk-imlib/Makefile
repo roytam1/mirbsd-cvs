@@ -4,7 +4,7 @@ COMMENT=	"Ruby binding to Gdk-imlib"
 
 VERSION=	0.34
 DISTNAME=	ruby-gnome-all-${VERSION}
-PKGNAME=	ruby-gdk-imlib-${VERSION}
+PKGNAME=	ruby-gdk-imlib-${VERSION}-0
 CATEGORIES=	graphics devel
 
 HOMEPAGE=	http://ruby-gnome.sourceforge.net/

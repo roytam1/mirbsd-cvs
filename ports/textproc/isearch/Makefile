@@ -5,7 +5,7 @@ COMMENT=	"text search engine by CNIDR"
 #BROKEN=		C++ syntax errors, index.cxx:533: ANSI C++ forbids declaration PhraseLength with no type
 
 DISTNAME=	Isearch-1.14
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	textproc databases
 
 # License: BSD

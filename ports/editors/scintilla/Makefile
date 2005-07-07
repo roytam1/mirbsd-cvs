@@ -5,7 +5,7 @@ COMMENT=	"source code editing component for GTK+"
 
 VERSION=	1.54
 DISTNAME=	scintilla${VERSION:S/.//}
-PKGNAME=	scintilla-${VERSION}
+PKGNAME=	scintilla-${VERSION}-0
 CATEGORIES=	editors x11
 
 HOMEPAGE=	http://www.scintilla.org/

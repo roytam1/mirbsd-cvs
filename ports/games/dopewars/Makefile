@@ -3,7 +3,7 @@
 COMMENT=	"game where you deal drugs on the streets of NY"
 
 DISTNAME=	dopewars-1.5.7
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	games
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=dopewars/}
 

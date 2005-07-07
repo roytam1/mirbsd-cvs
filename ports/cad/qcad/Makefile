@@ -2,7 +2,7 @@
 
 COMMENT=		"Qt-based 2D CAD system"
 
-PKGNAME=		${DISTNAME:S/-src//}
+PKGNAME=		${DISTNAME:S/-src//}-0
 DISTNAME=		qcad-1.5.4-src
 CATEGORIES=     	cad x11
 

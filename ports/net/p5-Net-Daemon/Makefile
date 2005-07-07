@@ -3,7 +3,7 @@
 COMMENT=	"extension for portable daemons"
 
 DISTNAME=	Net-Daemon-0.38
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

@@ -2,7 +2,7 @@
 
 COMMENT=	"pure Python Expect-like module"
 DISTNAME=	pexpect-0.99
-PKGNAME=	py-${DISTNAME}
+PKGNAME=	py-${DISTNAME}-0
 CATEGORIES=	devel
 HOMEPAGE=	http://pexpect.sourceforge.net/
 

@@ -5,7 +5,7 @@ COMMENT=	"Internet Relay Chat client"
 
 VERSION=	20030709
 DISTNAME=	ircii-${VERSION}
-PKGNAME=	ircII-${VERSION}
+PKGNAME=	ircII-${VERSION}-0
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.warped.com/pub/ircII/ \
 		ftp://ircftp.au.eterna.com.au/pub/ircII/ \

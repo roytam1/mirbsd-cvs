@@ -10,7 +10,7 @@ PROGRAM_V=	4.8
 V2:=		${PROGRAM_V:S/.//}
 
 DISTNAME=	navigator-v${V2}-us.x86-unknown-linux2.2
-PKGNAME=	navigator-linux-${PROGRAM_V}p1
+PKGNAME=	navigator-linux-${PROGRAM_V}-1
 LOCATION=	linux22/navigator_standalone
 DIRNAME=	navigator-v${V2}.x86-unknown-linux2.2
 

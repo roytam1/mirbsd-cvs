@@ -4,7 +4,7 @@ COMMENT=	"convert Excel and PowerPoint to HTML"
 
 V=		0.2.9.8
 DISTNAME=	xlHtml-${V}
-PKGNAME=	xlhtml-${V}
+PKGNAME=	xlhtml-${V}-0
 CATEGORIES=	converters
 
 MASTER_SITES=	http://www.xlhtml.org/

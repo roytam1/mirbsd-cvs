@@ -2,7 +2,7 @@
 
 COMMENT=	"OpenLook Toolkit libs, includes, and man pages"
 
-PKGNAME=	xview-lib-${XVIEW_VERSION}
+PKGNAME=	xview-lib-${XVIEW_VERSION}-0
 EXTRACT_ONLY=	
 CATEGORIES=	x11
 

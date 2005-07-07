@@ -6,7 +6,7 @@ COMMENT=	"access to PostgreSQL databases perl"
 
 VERSION=	1.9.0
 DISTNAME=	pgsql_perl5-${VERSION}
-PKGNAME=	p5-pgsql-${VERSION}
+PKGNAME=	p5-pgsql-${VERSION}-0
 CATEGORIES=	databases perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Pg/}
 

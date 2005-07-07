@@ -4,7 +4,7 @@ COMMENT=	"perl module to detect dangerous HTML code"
 
 VERSION=	0.90
 DISTNAME=	HTML-CGIChecker-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www security perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=HTML/}

@@ -3,7 +3,7 @@
 COMMENT=	"simple parallel processing fork manager"
 
 DISTNAME=	Parallel-ForkManager-0.7.5
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 HOMEPAGE=	http://hacks.dlux.hu/Parallel-ForkManager/

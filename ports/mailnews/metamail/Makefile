@@ -4,7 +4,7 @@
 COMMENT=	"MIME implementation"
 
 DISTNAME=	mm2.7
-PKGNAME=	metamail-2.7p0
+PKGNAME=	metamail-2.7-1
 CATEGORIES=	mail
 
 MASTER_SITES=	ftp://thumper.bellcore.com/pub/nsb/

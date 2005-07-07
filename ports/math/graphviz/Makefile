@@ -5,7 +5,7 @@ IGNORE=		"might be broken, used to use Libtool"
 
 CATEGORIES=	math devel graphics
 COMMENT=	'graph drawing software'
-PKGNAME=	graphviz-1.7.6
+PKGNAME=	graphviz-1.7.6-0
 DISTFILES=	gviz176.tgz
 DISTNAME=	gv1.7.6
 HOMEPAGE=	http://www.research.att.com/sw/tools/graphviz/

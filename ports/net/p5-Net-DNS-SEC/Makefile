@@ -4,7 +4,7 @@ COMMENT=	"extends the Net::DNS module with DNSSEC functionality"
 
 VERSION=	0.11
 DISTNAME=	Net-DNS-SEC-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}
 

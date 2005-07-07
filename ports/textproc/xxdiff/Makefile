@@ -3,7 +3,7 @@
 COMMENT=	"graphical file comparator and merge tool"
 
 DISTNAME=	xxdiff-2.9.1
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	textproc x11
 MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=xxdiff/}
 

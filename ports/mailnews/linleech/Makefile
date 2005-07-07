@@ -6,7 +6,7 @@ COMMENT=		"retrieve usenet posts via script"
 
 DISTNAME=		linleech_2.2.1.orig
 
-PKGNAME=		linleech-2.2.1
+PKGNAME=		linleech-2.2.1-0
 CATEGORIES=     	news
 
 

@@ -3,7 +3,7 @@
 COMMENT=		"traceroute implementation using TCP packets"
 
 DISTNAME=		tcptraceroute-1.4
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=    		net
 
 HOMEPAGE=		http://michael.toren.net/code/tcptraceroute/

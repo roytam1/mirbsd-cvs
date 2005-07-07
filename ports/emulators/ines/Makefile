@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"emulates the Nintendo Entertainment System"
-PKGNAME=	ines-1.2p1
+PKGNAME=	ines-1.2-1
 DISTNAME=	iNES12-Linux-80x86-bin
 
 CATEGORIES=	emulators games

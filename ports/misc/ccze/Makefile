@@ -4,7 +4,7 @@
 COMMENT=		"log colorizer"
 
 DISTNAME=		ccze-0.2.1	
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		misc
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>

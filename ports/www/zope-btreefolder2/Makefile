@@ -3,7 +3,7 @@
 COMMENT=	"Zope folder-like product to store many more items"
 
 DISTNAME=	BTreeFolder2-1.0
-PKGNAME=	zope-${DISTNAME:L:S/_/./}
+PKGNAME=	zope-${DISTNAME:L:S/_/./}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://hathaway.freezope.org/Software/BTreeFolder2/

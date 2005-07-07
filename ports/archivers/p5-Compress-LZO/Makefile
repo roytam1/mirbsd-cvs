@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"interface to lzo compression library"
 
 DISTNAME=	perl-lzo-1.08
-PKGNAME=	p5-Compress-LZO-1.08
+PKGNAME=	p5-Compress-LZO-1.08-0
 CATEGORIES=	archivers perl5
 MASTER_SITES=	http://www.oberhumer.com/opensource/lzo/download/
 

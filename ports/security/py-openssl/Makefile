@@ -6,7 +6,7 @@ COMMENT=	"Python interface to the OpenSSL library"
 
 VERSION=	0.5.1
 DISTNAME=	pyOpenSSL-${VERSION}
-PKGNAME=	py-openssl-${VERSION}
+PKGNAME=	py-openssl-${VERSION}-0
 CATEGORIES=    	security devel
 
 HOMEPAGE=	http://www.sourceforge.net/projects/pyopenssl/

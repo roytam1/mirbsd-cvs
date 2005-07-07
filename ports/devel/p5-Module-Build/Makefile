@@ -4,7 +4,7 @@ COMMENT=	"build and install Perl modules"
 
 V=		0.25
 DISTNAME=	Module-Build-${V}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 

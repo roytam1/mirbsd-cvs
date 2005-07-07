@@ -2,7 +2,7 @@
 
 COMMENT=	"eboard extra piece sets and sounds"
 
-PKGNAME=	${DISTNAME}-0.1
+PKGNAME=	${DISTNAME}-0.1-0
 DISTNAME=	eboard-extras
 DISTFILES=	${DISTNAME}-1pl2${EXTRACT_SUFX} \
 		${DISTNAME}-2${EXTRACT_SUFX}

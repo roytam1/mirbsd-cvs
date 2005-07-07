@@ -8,7 +8,7 @@ COMMENT=	"Apache LDAP authentication module"
 
 VERSION=	1.6.0
 DISTNAME=	auth_ldap-${VERSION}
-PKGNAME=	mod_auth_ldap-${VERSION}
+PKGNAME=	mod_auth_ldap-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.rudedog.org/auth_ldap/

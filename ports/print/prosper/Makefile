@@ -4,7 +4,7 @@
 COMMENT=	"LaTeX class to produce high quality slides"
 
 DISTNAME=	prosper-1.00.4
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	print
 
 # BSD style

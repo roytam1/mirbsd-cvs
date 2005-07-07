@@ -5,8 +5,8 @@ COMMENT-docs=	"XML security library documentation"
 
 VERSION=	1.2.5
 DISTNAME=	xmlsec1-${VERSION}
-PKGNAME=	xmlsec-${VERSION}
-PKGNAME-docs=	xmlsec-docs-${VERSION}
+PKGNAME=	xmlsec-${VERSION}-0
+PKGNAME-docs=	xmlsec-docs-${VERSION}-0
 CATEGORIES=	security
 
 HOMEPAGE=	http://www.aleksey.com/xmlsec/

@@ -6,9 +6,9 @@ COMMENT-mp3=	"MP3 input plugin for bmp"
 COMMENT-vorbis=	"Ogg Vorbis input plugin for bmp"
 V=		0.9.7
 DISTNAME=	bmp-$V
-PKGNAME=	bmp-$Vp1
-PKGNAME-mp3=	bmp-mp3-$Vp1
-PKGNAME-vorbis=	bmp-vorbis-$Vp1
+PKGNAME=	bmp-$V-1
+PKGNAME-mp3=	bmp-mp3-$V-1
+PKGNAME-vorbis=	bmp-vorbis-$V-1
 CATEGORIES=	audio
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=beepmp/}
 

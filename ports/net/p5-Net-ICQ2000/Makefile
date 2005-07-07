@@ -3,7 +3,7 @@
 COMMENT=	"module for ICQv7 protocol realisation"
 
 DISTNAME=	Net-ICQ2000-0.2.1
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

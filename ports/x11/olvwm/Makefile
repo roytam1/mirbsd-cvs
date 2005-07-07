@@ -3,7 +3,7 @@
 COMMENT=	"OpenLook Virtual Window manager"
 
 DISTNAME=	olvwm4
-PKGNAME=	olvwm-4.2
+PKGNAME=	olvwm-4.2-0
 CATEGORIES=	x11
 
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}

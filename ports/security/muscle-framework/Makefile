@@ -2,7 +2,7 @@
 
 COMMENT=		"Smartcard access framework"
 DISTNAME=		muscleframework-1.1.5
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		security
 MASTER_SITES=		http://alioth.debian.org/download.php/463/
 HOMEPAGE=		http://www.linuxnet.com/musclecard/index.html

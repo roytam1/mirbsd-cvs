@@ -5,7 +5,7 @@ COMMENT=	"RFC 1878 subnet calculator / helper"
 
 BROKEN=		distfile not available
 
-PKGNAME=	cidr-2.3
+PKGNAME=	cidr-2.3-0
 DISTNAME=	cidr-2.3
 CATEGORIES=	net
 

@@ -3,7 +3,7 @@
 COMMENT=		"perl i18n routines"
 
 DISTNAME=		Locale-PGetText-0.16
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=     	devel
 
 

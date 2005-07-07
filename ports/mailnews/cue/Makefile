@@ -3,7 +3,7 @@
 COMMENT=	"mh-e like mail user agent"
 
 DISTNAME=	cue-snap-20040209
-PKGNAME=	cue-20040209
+PKGNAME=	cue-20040209-0
 CATEGORIES=	mail
 
 MASTER_SITES=	ftp://sh.wide.ad.jp/WIDE/free-ware/cue/snap/

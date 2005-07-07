@@ -7,8 +7,8 @@ COMMENT-esd=	"ESounD module for portable audio output library"
 
 VERSION=	0.8.4
 DISTNAME=	libao-${VERSION}
-PKGNAME-arts=	libao-arts-${VERSION}
-PKGNAME-esd=	libao-esd-${VERSION}
+PKGNAME-arts=	libao-arts-${VERSION}-0
+PKGNAME-esd=	libao-esd-${VERSION}-0
 CATEGORIES=    	audio
 HOMEPAGE=	http://www.xiph.org/ao/
 

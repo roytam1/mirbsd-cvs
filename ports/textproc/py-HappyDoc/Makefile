@@ -3,7 +3,7 @@
 COMMENT=	"python tool for generate Python API documents"
 
 DISTNAME=	HappyDoc_r2_1
-PKGNAME=	py-HappyDoc-2.1
+PKGNAME=	py-HappyDoc-2.1-0
 CATEGORIES=    	textproc
 
 HOMEPAGE=	http://happydoc.sf.net/

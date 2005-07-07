@@ -5,7 +5,7 @@ COMMENT-docs=		"C++ interface for the GNOME libraries documentation"
 
 VERSION=		1.2.3
 DISTNAME=		gnomemm-${VERSION}
-PKGNAME-docs=		gnomemm-docs-${VERSION}
+PKGNAME-docs=		gnomemm-docs-${VERSION}-0
 CATEGORIES=		devel x11
 
 HOMEPAGE=		http://gtkmm.sourceforge.net/

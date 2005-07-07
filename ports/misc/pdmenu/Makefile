@@ -3,7 +3,7 @@
 COMMENT=		"simple slang-based menu program"
 
 DISTNAME=		pdmenu_1.2.69
-PKGNAME=		pdmenu-1.2.69
+PKGNAME=		pdmenu-1.2.69-0
 CATEGORIES=     	misc
 
 HOMEPAGE=		http://kitenet.net/programs/pdmenu/

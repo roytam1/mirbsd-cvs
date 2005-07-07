@@ -3,7 +3,7 @@
 COMMENT=	"Simulation Program for Integrated Circuit Electronics"
 
 DISTNAME=		sp3f4.kit
-PKGNAME=		spice-3f5p1
+PKGNAME=		spice-3f5-1
 CATEGORIES=     	cad
 
 PERMIT_PACKAGE_CDROM=	"no fee"

@@ -3,7 +3,7 @@
 COMMENT=	"perl extension for unparsed raw whois information"
 
 DISTNAME=	Net-Whois-Raw-0.23
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

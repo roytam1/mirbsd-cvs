@@ -5,7 +5,7 @@ COMMENT-cgi=		"CGIs for monitoring Nut-based UPSs"
 
 VERSION=		1.4.1
 DISTNAME=		nut-${VERSION}
-PKGNAME-cgi=		nut-cgi-${VERSION}
+PKGNAME-cgi=		nut-cgi-${VERSION}-0
 CATEGORIES=		sysutils
 HOMEPAGE=		http://www.networkupstools.org/
 

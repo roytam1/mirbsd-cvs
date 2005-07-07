@@ -3,7 +3,7 @@
 COMMENT=		"Samba security scanner"
 
 DISTNAME=       	ADMsmb-v0.2
-PKGNAME=        	ADMsmb-0.2
+PKGNAME=        	ADMsmb-0.2-0
 CATEGORIES=		security
 EXTRACT_SUFX=		.tgz
 

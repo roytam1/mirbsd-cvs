@@ -3,7 +3,7 @@
 COMMENT=	"Perl interface to RFC2445 (iCalendar) objects"
 
 DISTNAME=	Net-ICal-0.15
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}
 

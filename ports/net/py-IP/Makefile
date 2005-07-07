@@ -4,7 +4,7 @@ COMMENT=	"python module to handle IPv4 and IPv6 address"
 
 VERSION=	0.41
 DISTNAME=	IPy-${VERSION}
-PKGNAME=	py-IP-${VERSION}
+PKGNAME=	py-IP-${VERSION}-0
 CATEGORIES=    	net
 
 HOMEPAGE=	http://c0re.23.nu/c0de/IPy/

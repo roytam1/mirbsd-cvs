@@ -4,7 +4,7 @@ COMMENT=	"perl module to the SAX2 NamespaceSupport class"
 
 VERSION=	1.08
 DISTNAME=	XML-NamespaceSupport-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 

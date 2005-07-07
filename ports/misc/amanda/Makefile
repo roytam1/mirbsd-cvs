@@ -11,8 +11,8 @@ PKGVERSION=	${DISTVERSION:S/p/./}
 
 DISTNAME=	amanda-${DISTVERSION}
 
-PKGNAME=	amanda-${PKGVERSION}
-PKGNAME-client=	amanda-client-${PKGVERSION}
+PKGNAME=	amanda-${PKGVERSION}-0
+PKGNAME-client=	amanda-client-${PKGVERSION}-0
 
 CATEGORIES=	misc
 

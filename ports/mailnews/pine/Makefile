@@ -14,12 +14,12 @@ PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
 #PL_CCLIENT=		p0
 DISTNAME=		pine${VERSION}
-PKGNAME=		pine-${VERSION}${PL_CCLIENT}
-PKGNAME-cclient=	c-client-${VERSION}${PL_CCLIENT}
-PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCLIENT}
-PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCLIENT}
-FULLPKGNAME-pico=	pico-${PICO_VERSION}
-FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}
+PKGNAME=		pine-${VERSION}${PL_CCLIENT}-0
+PKGNAME-cclient=	c-client-${VERSION}${PL_CCLIENT}-0
+PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCLIENT}-0
+PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCLIENT}-0
+FULLPKGNAME-pico=	pico-${PICO_VERSION}-0
+FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}-0
 MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/old/ \
 			ftp://ftp.cac.washington.edu/pine/ \

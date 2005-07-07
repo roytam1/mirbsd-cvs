@@ -3,7 +3,7 @@
 COMMENT=	"chinese big5/gb truetype fonts"
 
 DISTNAME=       zh-arphicttf-2.11
-PKGNAME=	zh-fonts-arphicttf-2.11
+PKGNAME=	zh-fonts-arphicttf-2.11-0
 CATEGORIES=     chinese x11
 
 

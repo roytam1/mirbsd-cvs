@@ -4,7 +4,7 @@ COMMENT=	"perl5 interface to GnuPG using scalars"
 
 VERSION=	0.06
 DISTNAME=	GPG-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=../../authors/id/M/MI/MILES}
 

@@ -2,7 +2,7 @@
 
 COMMENT=	"8 1/2-like Window Manager for X11"
 
-PKGNAME=	9wm-1.2pre
+PKGNAME=	9wm-1.2pre-0
 DISTNAME=	pre-9wm-1.2
 CATEGORIES=	plan9
 

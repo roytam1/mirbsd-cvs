@@ -3,7 +3,7 @@
 COMMENT=	"module to bubble-babble fingerprints"
 
 DISTNAME=	Digest-BubbleBabble-0.01
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 
 

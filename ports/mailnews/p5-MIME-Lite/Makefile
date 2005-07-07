@@ -3,7 +3,7 @@
 COMMENT=		"low-calorie MIME generator"
 
 DISTNAME=		MIME-Lite-3.01
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5
 
 HOMEPAGE=		http://www.zeegee.com/code/perl/MIME-Lite/

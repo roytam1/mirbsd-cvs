@@ -2,7 +2,7 @@
 
 COMMENT= 	"extra Korean fonts"
 
-PKGNAME=	baekmuk-fonts-2.0
+PKGNAME=	baekmuk-fonts-2.0-0
 DISTNAME=	baekmuk-2.0
 CATEGORIES=	korean x11
 

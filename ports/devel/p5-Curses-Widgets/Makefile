@@ -4,7 +4,7 @@ COMMENT=	"curses(3) based terminal widgets"
 
 VERSION=	1.997
 DISTNAME=	CursesWidgets-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 HOMEPAGE=	http://www.odinicfoundation.org/arthur/

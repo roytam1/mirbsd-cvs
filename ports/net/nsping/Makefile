@@ -3,7 +3,7 @@
 COMMENT=	"DNS ping"
 
 DISTNAME=	nsping
-PKGNAME=	nsping-0.8
+PKGNAME=	nsping-0.8-0
 CATEGORIES=	net
 
 MASTER_SITES=	http://www.enteract.com/~tqbf/

@@ -3,7 +3,7 @@
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Python wrapper module for the ao library"
 DISTNAME=	pyao-0.82
-PKGNAME=	${DISTNAME:S/py/py-/}
+PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	audio
 HOMEPAGE=	http://www.andrewchatham.com/pyogg/
 

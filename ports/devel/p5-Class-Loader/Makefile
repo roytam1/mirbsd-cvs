@@ -3,7 +3,7 @@
 COMMENT=	"load modules and create objects on demand"
 
 DISTNAME=	Class-Loader-2.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

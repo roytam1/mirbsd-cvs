@@ -4,7 +4,7 @@
 COMMENT=	"Demos Commander, a free Norton Commander clone"
 
 DISTNAME=	deco383
-PKGNAME=	deco-3.8.3
+PKGNAME=	deco-3.8.3-0
 CATEGORIES=	misc
 MASTER_SITES=	ftp://ftp.cronyx.ru/cronyx/deco/
 EXTRACT_SUFX=	.tgz

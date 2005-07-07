@@ -2,7 +2,7 @@
 
 COMMENT=	"audio/video converter and streamer with bktr(4) support"
 DISTNAME=	ffmpeg-0.4.8
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 SV=		${DISTNAME:S/ffmpeg-0.//}
 CATEGORIES=	graphics x11
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ffmpeg/}

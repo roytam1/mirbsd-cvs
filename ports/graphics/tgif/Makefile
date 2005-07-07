@@ -3,7 +3,7 @@
 COMMENT=	"two-dimensional drawing tool and hyper-object browser"
 
 DISTNAME=	tgif-QPL-4.1.43
-PKGNAME=	${DISTNAME:S/-QPL//}
+PKGNAME=	${DISTNAME:S/-QPL//}-0
 CATEGORIES=	graphics
 
 MASTER_SITES=	ftp://bourbon.usc.edu/pub/tgif/ \

@@ -4,7 +4,7 @@
 COMMENT=	"view complete directories of X bitmaps and X pixmaps"
 
 DISTNAME=	xbmbrowser5.1
-PKGNAME=	xbmbrowser-5.1
+PKGNAME=	xbmbrowser-5.1-0
 CATEGORIES=	graphics
 
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=utilities/}

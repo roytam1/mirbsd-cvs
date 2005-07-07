@@ -3,7 +3,7 @@
 COMMENT=	"GNU utility to indent C source files"
 
 DISTNAME=	indent-2.2.8
-PKGNAME=	g${DISTNAME}
+PKGNAME=	g${DISTNAME}-0
 CATEGORIES=	devel
 
 HOMEPAGE=	http://www.gnu.org/software/indent/

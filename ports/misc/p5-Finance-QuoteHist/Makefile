@@ -2,7 +2,7 @@
 
 COMMENT=	"module to obtain historical financial quotes from exchanges"
 DISTNAME=	Finance-QuoteHist-0.32
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	misc perl5
 HOMEPAGE=	http://www.mojotoad.com/sisk/projects/Finance-QuoteHist/
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Finance/} \

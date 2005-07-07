@@ -5,7 +5,7 @@ COMMENT=	"framework to benchmark PHP scripts or function calls"
 
 V=		1.2.1
 DISTNAME=	Benchmark-${V}
-PKGNAME=	pear-Benchmark-${V}
+PKGNAME=	pear-Benchmark-${V}-0
 CATEGORIES=	benchmarks pear
 
 MASTER_SITES=	http://pear.php.net/get/

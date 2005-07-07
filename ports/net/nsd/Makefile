@@ -4,7 +4,7 @@ COMMENT=	"authoritative-only name server daemon"
 
 VERSION=	2.1.0
 DISTNAME=	nsd-${VERSION}
-PKGNAME=	nsd-${VERSION}p0
+PKGNAME=	nsd-${VERSION}-1
 CATEGORIES=	net
 
 MASTER_SITES=	http://www.nlnetlabs.nl/downloads/nsd/

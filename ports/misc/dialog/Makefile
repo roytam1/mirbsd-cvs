@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/misc/dialog/Makefile,v 1.2 2005/04/20 21:34:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2002/10/27 21:07:53 naddy Exp $
 
 COMMENT=	"format the display of a shell script"
 
 DISTNAME= 	dialog-0.6z	
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	misc
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=utils/shell/}
 

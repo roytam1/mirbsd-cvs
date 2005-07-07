@@ -3,7 +3,7 @@
 COMMENT=		"filter to print a wide range of file formats"
 
 DISTNAME=		apsfilter-7.2.5
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		print
 
 HOMEPAGE=		http://www.apsfilter.org/

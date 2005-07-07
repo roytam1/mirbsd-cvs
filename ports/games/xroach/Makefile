@@ -6,7 +6,7 @@ COMMENT=	"cockroaches hide under your windows"
 # (4.4BSD-Lite and 4.4BSD-Lite2) on the dist site.
 
 DISTNAME=	xroach
-PKGNAME=	xroach-4.4
+PKGNAME=	xroach-4.4-0
 CATEGORIES=	x11 games
 MASTER_SITES=	ftp://ftp.freesoftware.com/pub/4.4BSD-Lite/4.4BSD-Lite2/usr/src/games/
 EXTRACT_SUFX=	.tar

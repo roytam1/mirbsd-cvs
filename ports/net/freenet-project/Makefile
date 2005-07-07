@@ -3,7 +3,7 @@
 COMMENT=	"fully anonymous distributed storage system"
 VERSION=	0.5.2-rc2
 # If you want an update, make sunjdk-1.4.1 work first ;-)
-PKGNAME=	freenet-${VERSION}
+PKGNAME=	freenet-${VERSION}-0
 EXTRACT_SUFX=	.jar
 CATEGORIES=	net
 HOMEPAGE=	http://www.freenetproject.org/

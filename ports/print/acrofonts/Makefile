@@ -2,7 +2,7 @@
 
 COMMENT=		"asian font pack for acroread"
 
-PKGNAME=		acrofonts-5.0
+PKGNAME=		acrofonts-5.0-0
 CATEGORIES=		print
 
 HOMEPAGE=		http://www.adobe.com/products/acrobat/readstep.html

@@ -5,7 +5,7 @@ COMMENT=	"userland smbfs --- SMB to NFS protocols converter"
 
 VERSION=	1.2
 DISTNAME=	Sharity-Light.${VERSION}
-PKGNAME=	sharity-light-${VERSION}
+PKGNAME=	sharity-light-${VERSION}-0
 CATEGORIES=	net
 
 MASTER_SITES=	ftp://ftp.obdev.at/pub/Products/Sharity-Light/	\

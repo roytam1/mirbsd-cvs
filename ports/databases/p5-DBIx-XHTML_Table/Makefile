@@ -4,7 +4,7 @@ COMMENT=	"create HTML table from sql queries"
 
 VERSION=	1.22
 DISTNAME=	DBIx-XHTML_Table-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases www perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=DBIx/}

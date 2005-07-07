@@ -2,7 +2,7 @@
 
 COMMENT=	"parser generator in Python"
 DISTNAME=	TPG-3.0.3
-PKGNAME=	py-${DISTNAME:L}
+PKGNAME=	py-${DISTNAME:L}-0
 CATEGORIES=	devel
 HOMEPAGE=	http://christophe.delord.free.fr/en/tpg/
 

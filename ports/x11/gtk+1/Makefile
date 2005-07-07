@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/gtk+1/Makefile,v 1.1.7.1 2005/03/18 16:00:44 tg Exp $
+# $MirOS: ports/x11/gtk+1/Makefile,v 1.3 2005/04/20 22:24:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.55 2004/01/20 13:41:41 marcm Exp $
 
 COMMENT=	"General Toolkit for X11 GUI"
 DISTNAME=	gtk+-1.2.10
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	x11 devel
 MASTER_SITES=   ${MASTER_SITE_GNOME:=sources/gtk+/1.2/}
 HOMEPAGE=	http://www.gtk.org/

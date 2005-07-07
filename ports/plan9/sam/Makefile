@@ -3,7 +3,7 @@
 COMMENT=	"X11 version of Rob Pike's editor, sam"
 
 DISTNAME=	sam
-PKGNAME=	sam-4.3.19980506
+PKGNAME=	sam-4.3.19980506-0
 CATEGORIES=	plan9
 
 MASTER_SITES=	ftp://netlib.bell-labs.com/netlib/research/ \

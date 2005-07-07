@@ -4,7 +4,7 @@
 COMMENT=	"GNU version of Shogi"
 
 DISTNAME=	gnushogi-1.2p03
-PKGNAME=	gnushogi-1.2.3
+PKGNAME=	gnushogi-1.2.3-0
 CATEGORIES=	games
 
 # License: GPL

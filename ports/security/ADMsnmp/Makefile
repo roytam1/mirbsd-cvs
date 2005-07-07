@@ -3,7 +3,7 @@
 COMMENT=		"SNMP audit scanner"
 
 DISTNAME=       	ADMsnmp.0.1
-PKGNAME=        	ADMsnmp-0.1
+PKGNAME=        	ADMsnmp-0.1-0
 CATEGORIES=		security
 EXTRACT_SUFX=		.tgz
 

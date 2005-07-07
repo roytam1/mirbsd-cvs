@@ -3,7 +3,7 @@
 COMMENT=	"perl module for validating XML"
 
 DISTNAME=	XML-Checker-0.13
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
 

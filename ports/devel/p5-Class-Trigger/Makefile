@@ -3,7 +3,7 @@
 COMMENT=	"add / call inheritable triggers"
 
 DISTNAME=	Class-Trigger-0.08
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 

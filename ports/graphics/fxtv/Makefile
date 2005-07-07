@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 
 COMMENT=	"Display and capture for Brooktree-based cards"
 DISTNAME=	fxtv-1.03
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 
 CATEGORIES=	graphics
 HOMEPAGE=	http://people.freebsd.org/~rhh/fxtv/

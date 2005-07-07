@@ -3,7 +3,7 @@
 COMMENT=	"real-time magnifying glass for X11"
 
 DISTNAME=	lupe008c
-PKGNAME=	lupe-0.08
+PKGNAME=	lupe-0.08-0
 CATEGORIES=	x11
 
 MASTER_SITES=	${HOMEPAGE}

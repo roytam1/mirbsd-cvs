@@ -3,7 +3,7 @@
 COMMENT=	"extension for simple-minded recipe-controlled build of data"
 
 DISTNAME=	Data-Flow-0.09
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

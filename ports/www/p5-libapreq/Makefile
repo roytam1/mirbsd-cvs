@@ -6,7 +6,7 @@ BROKEN=		"mod_perl.pm nonexistent (wtf?)"
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Generic Apache Request Library"
 DISTNAME=	libapreq-1.3
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 HOMEPAGE=	http://httpd.apache.org/apreq/
 

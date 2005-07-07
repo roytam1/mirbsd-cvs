@@ -4,7 +4,7 @@
 IGNORE=		"might be broken, used to use Libtool"
 
 COMMENT=	"network security scanner"
-PKGNAME=	nessus-${VERS}
+PKGNAME=	nessus-${VERS}-0
 CATEGORIES=	security
 VERS=		2.0.10a
 DIST_SUBDIR=	nessus

@@ -3,7 +3,7 @@
 COMMENT=	"Classic Gnu Chess"
 
 DISTNAME=	gnuchess-4.0.pl80
-PKGNAME=	gnuchess-4.0.80
+PKGNAME=	gnuchess-4.0.80-0
 CATEGORIES=	games
 MASTER_SITES=	${MASTER_SITE_GNU:=gnuchess/}
 

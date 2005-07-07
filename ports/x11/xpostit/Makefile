@@ -3,7 +3,7 @@
 COMMENT=	"PostIt (R) messages onto your X11 screen"
 
 DISTNAME=	xpostit3.3.1
-PKGNAME=	xpostit-3.3.1
+PKGNAME=	xpostit-3.3.1-0
 CATEGORIES=	x11
 
 # Not all servers archie could find actually still have it.  Alas, some

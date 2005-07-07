@@ -2,7 +2,7 @@
 
 COMMENT=	"free MPEG-2 video stream decoder"
 DISTNAME=	mpeg2dec-0.4.0b
-PKGNAME=	${DISTNAME:S/mpeg2dec/libmpeg2/}
+PKGNAME=	${DISTNAME:S/mpeg2dec/libmpeg2/}-0
 CATEGORIES=	graphics x11
 MASTER_SITES=	${HOMEPAGE}files/
 

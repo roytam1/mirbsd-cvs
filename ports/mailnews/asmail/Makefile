@@ -3,7 +3,7 @@
 COMMENT=	"biff-type program, designed to match AfterStep"
 
 DISTNAME=	asmail-0.56
-PKGNAME=	asmail-0.56p1
+PKGNAME=	asmail-0.56-1
 CATEGORIES=	mail
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=asmail/} \

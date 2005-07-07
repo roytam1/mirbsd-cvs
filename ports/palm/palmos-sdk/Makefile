@@ -5,7 +5,7 @@ COMMENT=	"PalmOS include files"
 
 VERSION=	4.0
 DISTNAME=	sdk40
-PKGNAME=	palmos-sdk-${VERSION}
+PKGNAME=	palmos-sdk-${VERSION}-0
 CATEGORIES=	palm devel
 
 HOMEPAGE=	http://www.palmos.com/dev/tools/

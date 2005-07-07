@@ -3,7 +3,7 @@
 
 COMMENT=	"SDL TrueType fonts library"
 DISTNAME=	SDL_ttf-2.0.6
-PKGNAME=	${DISTNAME:L:S/_/-/}
+PKGNAME=	${DISTNAME:L:S/_/-/}-0
 CATEGORIES=	devel graphics
 MASTER_SITES=	http://www.libsdl.org/projects/SDL_ttf/release/
 HOMEPAGE=	http://www.libsdl.org/projects/SDL_ttf/

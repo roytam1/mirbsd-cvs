@@ -4,7 +4,7 @@ COMMENT=	"content management system built on top of Zope"
 
 VERSION=	1.0.5
 DISTNAME=	CMFPlone${VERSION}
-PKGNAME=	plone-${VERSION}
+PKGNAME=	plone-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.plone.org/

@@ -4,7 +4,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"interface to gettext() internationalization function"
 DISTNAME=	gettext-1.02
-PKGNAME=	p5-Locale-${DISTNAME}
+PKGNAME=	p5-Locale-${DISTNAME}-0
 CATEGORIES=	converters perl5
 
 # GNU GPLv2

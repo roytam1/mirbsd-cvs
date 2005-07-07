@@ -2,7 +2,7 @@
 
 COMMENT=	"graphical tetris clone"
 DISTNAME=	Tutris-1.0.1
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	games x11
 MASTER_SITES=	http://www.2ndpoint.fi/projektit/filut/
 

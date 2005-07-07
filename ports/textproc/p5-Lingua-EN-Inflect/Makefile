@@ -3,7 +3,7 @@
 COMMENT=	"Convert singular to plural. Select a or an."
 
 DISTNAME=	Lingua-EN-Inflect-1.86
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 

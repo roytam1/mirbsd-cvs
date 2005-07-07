@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"MS-Windows 3.1/95/NT emulator for Unix (Alpha release)"
 DATE= 		990225
 DISTNAME= 	Wine-${DATE}
-PKGNAME=	wine-${DATE}
+PKGNAME=	wine-${DATE}-0
 CATEGORIES=	emulators x11
 
 # MIT/X11-like

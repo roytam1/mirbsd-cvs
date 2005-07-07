@@ -6,7 +6,7 @@ COMMENT-canna-wnn=	"X input method for Japanese, canna and wnn support"
 COMMENT-wnn=		"X input method for Japanese, wnn support"
 
 DISTNAME=		kinput2-v3.1
-PKGNAME=		ja-kinput2-3.1
+PKGNAME=		ja-kinput2-3.1-0
 MASTER_SITES=		ftp://ftp.sra.co.jp/pub/x11/kinput2/
 CATEGORIES=		japanese x11
 

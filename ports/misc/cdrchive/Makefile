@@ -3,7 +3,7 @@
 
 COMMENT=		"Qt-based CD creation tool"
 
-PKGNAME=		${DISTNAME:S/-OpenBSD//}
+PKGNAME=		${DISTNAME:S/-OpenBSD//}-0
 DISTNAME=		cdrchive-1.0.1-OpenBSD
 CATEGORIES=		misc x11
 HOMEPAGE=		http://www.drahthaar.clara.net/cdr.htm

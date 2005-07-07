@@ -3,7 +3,7 @@
 COMMENT=	"aids with merging configuration files during an upgrade"
 
 DISTNAME=	mergemaster-1.46
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	sysutils
 
 

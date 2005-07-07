@@ -3,7 +3,7 @@
 COMMENT=	"tk extension"
 
 DISTNAME=	Tktable2.8
-PKGNAME=	Tktable-2.8
+PKGNAME=	Tktable-2.8-0
 CATEGORIES=	x11
 
 HOMEPAGE= 	http://tktable.sourceforge.net/

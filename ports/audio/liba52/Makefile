@@ -4,7 +4,7 @@
 CATEGORIES=	audio
 COMMENT=	'AC-3 decoding library'
 DISTNAME=	a52dec-0.7.4
-PKGNAME=	liba52-0.7.4p0
+PKGNAME=	liba52-0.7.4-1
 MASTER_SITES=	http://liba52.sourceforge.net/files/
 HOMEPAGE=	http://liba52.sourceforge.net/
 

@@ -3,7 +3,7 @@
 
 COMMENT=	"powerful command-line front end to diff"
 
-PKGNAME=	idiff-1.0
+PKGNAME=	idiff-1.0-0
 DISTNAME=	idiff-1.0
 CATEGORIES=	textproc
 MASTER_SITES=	http://www.darwinsys.com/freeware/

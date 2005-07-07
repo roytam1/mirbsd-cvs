@@ -4,7 +4,7 @@ COMMENT=	"Amiga Workbench lookalike window manager"
 
 VERSION=	0.20pl48
 DISTNAME=	amiwm${VERSION}
-PKGNAME=	amiwm-0.20.48
+PKGNAME=	amiwm-0.20.48-0
 CATEGORIES=	x11
 
 MASTER_SITES=	ftp://ftp.lysator.liu.se/pub/X11/wm/amiwm/

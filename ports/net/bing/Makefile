@@ -3,7 +3,7 @@
 COMMENT=	"point-to-point bandwidth measurement tool"
 
 DISTNAME=	bing-1.0.4
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.lip6.fr/pub/networking/
 

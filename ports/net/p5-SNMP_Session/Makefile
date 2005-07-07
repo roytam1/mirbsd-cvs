@@ -4,7 +4,7 @@ COMMENT=	"provides rudimentary access to remote SNMP agents"
 
 VERSION=	0.99
 DISTNAME=	SNMP_Session-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 MASTER_SITES=	ftp://ftp.switch.ch/software/sources/network/snmp/perl/
 

@@ -11,7 +11,7 @@
 COMMENT=	"less + zcat + ISO-2022 - a pager similar to more and pg"
 
 DISTNAME=	less-332
-PKGNAME=	ja-less-3.32p2.48
+PKGNAME=	ja-less-3.32p2.48-0
 CATEGORIES=	japanese
 MASTER_SITES=	${MASTER_SITE_GNU:=less/}
 HOMEPAGE=	http://www.pobox.com/~jam/less/

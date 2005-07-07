@@ -4,7 +4,7 @@ COMMENT=	"make pretty graphs from Analog logfiles"
 
 VERSION=	2.21
 DISTNAME=	rmagic-${VERSION}
-PKGNAME=	reportmagic-${VERSION}
+PKGNAME=	reportmagic-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.reportmagic.org/

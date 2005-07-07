@@ -3,7 +3,7 @@
 COMMENT=	"library for decoding/generating MPEG TS/DVB PSI tables"
 VER=		0.1.4
 DISTNAME=	libdvbpsi3-${VER}
-PKGNAME=	libdvbpsi-${VER}
+PKGNAME=	libdvbpsi-${VER}-0
 CATEGORIES=	devel
 MASTER_SITES=	http://www.videolan.org/pub/libdvbpsi/${VER}/ \
 		http://www.fr.videolan.org/pub/libdvbpsi/${VER}/

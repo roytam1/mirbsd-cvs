@@ -3,7 +3,7 @@
 COMMENT=	"pager utility"
 
 DISTNAME=	Data-Page-1.01
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 

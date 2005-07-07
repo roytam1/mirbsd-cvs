@@ -4,7 +4,7 @@ COMMENT=		"widgets library"
 
 VERSION=		0.2.2
 DISTNAME=		Mowitz-${VERSION}
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		x11 devel
 
 HOMEPAGE=		http://siag.nu/mowitz/

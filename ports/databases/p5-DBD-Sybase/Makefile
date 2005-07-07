@@ -3,7 +3,7 @@
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Sybase database driver for the DBI module"
 DISTNAME=	DBD-Sybase-1.02
-PKGNAME=	p5-${DISTNAME}p0
+PKGNAME=	p5-${DISTNAME}-1
 CATEGORIES=	databases perl5
 
 # GPL/Artistic License

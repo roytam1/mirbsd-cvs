@@ -2,7 +2,7 @@
 
 COMMENT=	"manipulate dates in perl"
 DISTNAME=	DateManip-5.42a
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Date/}
 

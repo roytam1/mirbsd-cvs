@@ -8,7 +8,7 @@ EMUL=			linux
 COMMENT=	"evaluation version of a DOS/Windows file virus scanner"
 VERSION=	4.16.0
 DISTNAME=	vlnx416e
-PKGNAME=	uvscan-${VERSION}
+PKGNAME=	uvscan-${VERSION}-0
 CATEGORIES=	security
 HOMEPAGE=	http://www.networkassociates.com/us/downloads/evals/
 

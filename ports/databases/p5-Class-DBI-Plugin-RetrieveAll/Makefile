@@ -3,7 +3,7 @@
 COMMENT=	"more complex retrieve_all() for Class::DBI"
 
 DISTNAME=	Class-DBI-Plugin-RetrieveAll-1
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 # Same as Perl

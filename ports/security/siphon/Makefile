@@ -3,7 +3,7 @@
 COMMENT=		"passive network mapping tool"
 
 DISTNAME=		siphon-v.666
-PKGNAME=		siphon-0.666
+PKGNAME=		siphon-0.666-0
 CATEGORIES=    		security net
 
 

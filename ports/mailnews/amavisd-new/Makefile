@@ -7,7 +7,7 @@ COMMENT=		"interface between mailer MTA and content checkers"
 V=			20030616
 VPATCH=			p9
 DISTNAME=		amavisd-new-${V}-${VPATCH}
-PKGNAME=		amavisd-new-${V}pl9
+PKGNAME=		amavisd-new-${V}pl9-0
 CATEGORIES=		mail security
 HOMEPAGE=		http://www.ijs.si/software/amavisd/
 

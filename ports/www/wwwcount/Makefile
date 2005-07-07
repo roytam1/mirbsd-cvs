@@ -3,7 +3,7 @@
 COMMENT=	"access counter, clock and date for WWW pages"
 
 DISTNAME=	wwwcount2.5
-PKGNAME=	wwwcount-2.5
+PKGNAME=	wwwcount-2.5-0
 CATEGORIES=	www
 MASTER_SITES=	http://wwwcount.yeehaw.net/mirror/$S/ \
 		http://mirror.njit.edu/counter/$S/ \

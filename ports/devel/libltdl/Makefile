@@ -4,7 +4,7 @@ COMMENT=		Libtool dynamic linking library
 CATEGORIES=		devel
 V=			1.5.18
 DISTNAME=		libtool-${V}
-PKGNAME=		ltdl-${V}
+PKGNAME=		ltdl-${V}-0
 MASTER_SITES=		${MASTER_SITE_GNU:=libtool/}
 HOMEPAGE=		http://www.gnu.org/software/libtool/
 

@@ -3,7 +3,7 @@
 COMMENT=	"module to determine the size of images in several formats"
 
 DISTNAME=	Image-Size-2.991
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	graphics perl5 
 
 HOMEPAGE=       http://www.blackperl.com/Image::Size/

@@ -3,7 +3,7 @@
 COMMENT=	"slide rule component of X11R3's xcalc"
 
 DISTNAME=	sliderule
-PKGNAME=	sliderule-1.0
+PKGNAME=	sliderule-1.0-0
 CATEGORIES=	x11
 
 PERMIT_PACKAGE_CDROM=	"no license"

@@ -3,7 +3,7 @@
 COMMENT=	"module for containing a set of scalars"
 
 DISTNAME=	Set-Scalar-1.17
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

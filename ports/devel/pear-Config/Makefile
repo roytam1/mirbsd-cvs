@@ -5,7 +5,7 @@ COMMENT=	"configuration file library for PHP"
 
 V=		1.10
 DISTNAME=	Config-${V}
-PKGNAME=	pear-${DISTNAME}
+PKGNAME=	pear-${DISTNAME}-0
 CATEGORIES=	devel pear
 
 MASTER_SITES=	http://pear.php.net/get/

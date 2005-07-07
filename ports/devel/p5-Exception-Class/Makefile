@@ -3,7 +3,7 @@
 COMMENT=	"module to declare real exception classes in perl"
 
 DISTNAME=	Exception-Class-1.19
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 # Artistic License

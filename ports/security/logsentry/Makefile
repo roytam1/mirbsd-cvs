@@ -3,7 +3,7 @@
 COMMENT=	"logfile auditing tool"
 
 DISTNAME=	logsentry-1.1.1
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	security
 
 

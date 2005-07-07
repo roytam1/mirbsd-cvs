@@ -2,7 +2,7 @@
 
 COMMENT=	"Back Orifice Unix client by the cDc"
 
-PKGNAME=	bounix-1.21
+PKGNAME=	bounix-1.21-0
 DISTNAME=	bo121unix
 
 CATEGORIES=     security

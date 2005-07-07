@@ -3,7 +3,7 @@
 COMMENT=	"display the moon's phase"
 
 DISTNAME=	luna19s
-PKGNAME=	luna-1.9
+PKGNAME=	luna-1.9-0
 CATEGORIES=	astro
 EXTRACT_SUFX=	.lzh
 

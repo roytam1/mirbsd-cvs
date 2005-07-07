@@ -4,7 +4,7 @@ COMMENT=	"perl module for an IMAP Client API"
 
 VERSION=	2.2.9
 DISTNAME=	Mail-IMAPClient-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	mail perl5
 
 

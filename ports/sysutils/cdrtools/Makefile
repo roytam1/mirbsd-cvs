@@ -3,7 +3,7 @@
 
 COMMENT=		"ISO 9660 filesystem and CD creation tools"
 DISTNAME=		cdrtools-2.00.3
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils
 HOMEPAGE=		http://www.fokus.gmd.de/research/cc/glone/employees/joerg.schilling/private/cdrecord.html
 MASTER_SITES=		ftp://ftp.berlios.de/pub/cdrecord/

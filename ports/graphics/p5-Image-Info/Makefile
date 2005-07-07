@@ -4,7 +4,7 @@ COMMENT=	"perl module for getting image information"
 
 VERSION=	1.11
 DISTNAME=	Image-Info-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	graphics perl5
 
 

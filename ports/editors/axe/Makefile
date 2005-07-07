@@ -2,7 +2,7 @@
 
 COMMENT=		"simple to use text editor for X11"
 
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 DISTNAME=		aXe-6.1.2
 CATEGORIES=		editors
 

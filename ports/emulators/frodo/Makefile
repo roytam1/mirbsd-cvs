@@ -3,7 +3,7 @@
 COMMENT=	"Commodore 64 emulator"
 
 DISTNAME=	FrodoV4_1b.Src
-PKGNAME=	frodo-4.1bp1
+PKGNAME=	frodo-4.1b-1
 DISTFILES=	FrodoV4_1b.Src${EXTRACT_SUFX}
 
 CATEGORIES=	emulators games

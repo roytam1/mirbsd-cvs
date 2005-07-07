@@ -3,7 +3,7 @@
 
 COMMENT=	"perl module to create/verify PGP signatures"
 DISTNAME=	PGP-Sign-0.17
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=PGP/}
 

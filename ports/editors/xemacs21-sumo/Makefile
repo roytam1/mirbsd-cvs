@@ -4,7 +4,7 @@
 # What port/package will be created
 #
 VERSION=		2002-09-19
-PKGNAME=		xemacs-sumo-21.${VERSION:S/-//g}
+PKGNAME=		xemacs-sumo-21.${VERSION:S/-//g}-0
 EXTRACT_SUFX=		.tar.bz2
 DISTFILES=		xemacs-sumo-${VERSION}${EXTRACT_SUFX}
 SUP_mule=		xemacs-mule-sumo-${VERSION}${EXTRACT_SUFX}

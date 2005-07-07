@@ -6,7 +6,7 @@ PATCHLEVEL=		.4
 PKG_PATCHLEVEL=
 
 COMMENT-bsddb=		"Berkeley db module for Python"
-FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
 
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS=		--enable-ipv6

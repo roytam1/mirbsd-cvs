@@ -6,7 +6,7 @@ COMMENT=	'GIMP Printing System'
 V=		5.0.0-alpha3
 DISTNAME=	gimp-print-${V}
 EXTRACT_SUFX=	.tar.bz2
-PKGNAME=	gimp-print-${V:S/-//g}
+PKGNAME=	gimp-print-${V:S/-//g}-0
 CATEGORIES=	print graphics
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=gimp-print/}
 HOMEPAGE=	http://gimp-print.sourceforge.net/

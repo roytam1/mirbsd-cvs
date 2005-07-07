@@ -3,7 +3,7 @@
 COMMENT=	"base class to treat unhandled method calls as errors"
 
 DISTNAME=	Class-WhiteHole-0.04
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 

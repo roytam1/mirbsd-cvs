@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; shows the moon phase'
 
 DISTNAME=		wmMoonClock-1.27
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		astro x11 x11/windowmaker
 
 HOMEPAGE=		http://nis-www.lanl.gov/~mgh/WindowMaker/DockApps.shtml

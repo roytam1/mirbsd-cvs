@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"java foundation classes (jfc)/swing"
 JDK_VERSION=    1.1.8
 DISTNAME=	swing1_1_1
-PKGNAME=	jfc-1.1.1
+PKGNAME=	jfc-1.1.1-0
 CATEGORIES=	devel
 
 EXTRACT_SUFX=	.zip

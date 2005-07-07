@@ -5,7 +5,7 @@ COMMENT=	"logging utilities for PHP"
 
 V=		1.8.4
 DISTNAME=	Log-${V}
-PKGNAME=	pear-${DISTNAME}
+PKGNAME=	pear-${DISTNAME}-0
 CATEGORIES=	devel pear
 
 MASTER_SITES=	http://pear.php.net/get/

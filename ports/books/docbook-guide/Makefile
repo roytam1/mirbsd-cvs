@@ -4,7 +4,7 @@ COMMENT=	"the definite guide to DocBook"
 
 V=		2.0.8
 DISTNAME=	tdg-en-html-${V}
-PKGNAME=	docbook-guide-${V}
+PKGNAME=	docbook-guide-${V}-0
 EXTRACT_SUFX=	.zip
 CATEGORIES=	books
 

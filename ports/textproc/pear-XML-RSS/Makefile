@@ -5,7 +5,7 @@ COMMENT=	"parser for RDF Site Summary files in PHP"
 
 V=		0.9.2
 DISTNAME=	XML_RSS-${V}
-PKGNAME=	pear-XML-RSS-${V}
+PKGNAME=	pear-XML-RSS-${V}-0
 CATEGORIES=	textproc pear
 
 MASTER_SITES=	http://pear.php.net/get/

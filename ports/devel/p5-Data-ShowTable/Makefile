@@ -3,7 +3,7 @@
 COMMENT=		'print arrays of data in a nicely formatted listing'
 
 DISTNAME=		Data-ShowTable-3.3
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel perl5
 
 

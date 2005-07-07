@@ -3,7 +3,7 @@
 COMMENT=		"ICQ console client with encryption support"
 
 DISTNAME=		ysmv7_2_9_2
-PKGNAME=		${DISTNAME:S/_/-/:S/_/./g}
+PKGNAME=		${DISTNAME:S/_/-/:S/_/./g}-0
 CATEGORIES=		net
 
 HOMEPAGE=		http://ysmv7.sourceforge.net/

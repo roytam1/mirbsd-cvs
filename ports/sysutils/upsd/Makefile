@@ -9,7 +9,7 @@
 COMMENT=	"APC Smart UPS Monitoring Daemon"
 
 DISTNAME=	upsd-2.0.1.6
-PKGNAME=	upsd-2.0
+PKGNAME=	upsd-2.0-0
 CATEGORIES=	sysutils
 MASTER_SITES=	${MASTER_SITE_LOCAL}
 

@@ -3,7 +3,7 @@
 COMMENT=	"classic BSD4.4 cat-and-mouse"
 
 DISTNAME=	xneko
-PKGNAME=	xneko-4.4
+PKGNAME=	xneko-4.4-0
 CATEGORIES=	x11 games
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 EXTRACT_SUFX=	.tar

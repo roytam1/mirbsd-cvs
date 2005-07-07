@@ -3,7 +3,7 @@
 COMMENT=	"PostIt (R) messages onto your X11 screen"
 
 DISTNAME=	XPostitPlus-2.3
-PKGNAME=	$(DISTNAME)p1
+PKGNAME=	$(DISTNAME)-1
 CATEGORIES=	x11
 
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=office/}

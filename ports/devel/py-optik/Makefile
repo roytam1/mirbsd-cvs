@@ -4,7 +4,7 @@ COMMENT=	"command line parsing library for Python"
 
 VERSION=	1.3
 DISTNAME=	Optik-${VERSION}
-PKGNAME=	py-optik-${VERSION}
+PKGNAME=	py-optik-${VERSION}-0
 CATEGORIES=    	devel
 
 HOMEPAGE=	http://optik.sourceforge.net/

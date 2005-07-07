@@ -3,7 +3,7 @@
 COMMENT=	"update Class::DBI objects through CGI::Untaint"
 
 DISTNAME=	Class-DBI-FromCGI-0.94
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5 www
 
 # Same as Perl

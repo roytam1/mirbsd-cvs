@@ -6,7 +6,7 @@ COMMENT=	"access to PostgreSQL databases through the DBI"
 
 VERSION=	1.32
 DISTNAME=	DBD-Pg-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=DBD/}
 

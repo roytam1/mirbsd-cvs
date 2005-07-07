@@ -5,7 +5,7 @@
 COMMENT=	"Tool Command Language"
 VERSION=	8.4.9
 DISTNAME=	tcl${VERSION}-src
-PKGNAME=	tcl-${VERSION}
+PKGNAME=	tcl-${VERSION}-0
 CATEGORIES=	lang lang/tcl
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=tcl/}
 HOMEPAGE=	http://www.tcl.tk/

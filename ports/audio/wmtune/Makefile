@@ -3,7 +3,7 @@
 COMMENT=	"premier dockable radio tuner"
 
 DISTNAME=	wmtune-1.1c
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio x11 x11/windowmaker
 
 HOMEPAGE=	http://www.soren.org/linux/wmtune/

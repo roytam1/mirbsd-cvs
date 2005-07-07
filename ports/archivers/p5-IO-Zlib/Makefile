@@ -3,7 +3,7 @@
 COMMENT=	"IO:: style interface to Compress::Zlib"
 
 DISTNAME=	IO-Zlib-1.01
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	archivers perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=IO/}
 

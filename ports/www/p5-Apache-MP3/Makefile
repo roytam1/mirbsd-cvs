@@ -2,7 +2,7 @@
 
 COMMENT=	"mod_perl class for generating browsable MP3 directory lists"
 DISTNAME=	Apache-MP3-3.05
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www audio perl5
 
 

@@ -3,7 +3,7 @@
 COMMENT=	"convert a MySQL dump to a PostgreSQL dump"
 
 DISTNAME=	mysql2pgsql
-PKGNAME=	mysql2pgsql-20010320
+PKGNAME=	mysql2pgsql-20010320-0
 CATEGORIES=	databases
 
 MASTER_SITES=	http://www.rot13.org/~dpavlin/projects/sql/

@@ -3,7 +3,7 @@
 COMMENT=	"binary editor and viewer"
 
 DISTNAME=	beav_1.40-15
-PKGNAME=	beav-1.40.15
+PKGNAME=	beav-1.40.15-0
 CATEGORIES=	editors
 
 

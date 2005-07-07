@@ -3,7 +3,7 @@
 COMMENT=	"NetBus client"
 
 DISTNAME=       linux-netbus-client-v0.4
-PKGNAME=	lxnb-0.4
+PKGNAME=	lxnb-0.4-0
 CATEGORIES=	security
 
 PERMIT_PACKAGE_CDROM=	"no obvious license"

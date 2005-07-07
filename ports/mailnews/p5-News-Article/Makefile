@@ -3,7 +3,7 @@
 COMMENT=	"perl module for accessing NNTP articles"
 
 DISTNAME=	News-Article-1.13
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	news perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=News/}
 

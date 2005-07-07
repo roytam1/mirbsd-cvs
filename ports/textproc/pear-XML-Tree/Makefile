@@ -5,7 +5,7 @@ COMMENT=	"classes to represent XML data in PHP"
 
 V=		1.1
 DISTNAME=	XML_Tree-${V}
-PKGNAME=	pear-XML-Tree-${V}
+PKGNAME=	pear-XML-Tree-${V}-0
 CATEGORIES=	textproc pear
 
 MASTER_SITES=	http://pear.php.net/get/

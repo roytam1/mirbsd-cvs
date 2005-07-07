@@ -7,7 +7,7 @@ COMMENT=	"Network Kanji code conversion Filter"
 
 VERSION=	1.92
 DISTNAME=	nkf-${VERSION}
-PKGNAME=	ja-nkf-${VERSION}
+PKGNAME=	ja-nkf-${VERSION}-0
 CATEGORIES=	japanese textproc
 DISTFILES=	nkf192.shar
 

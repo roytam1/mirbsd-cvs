@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/mailnews/exim/Makefile,v 1.2 2005/03/28 14:50:24 bsiegert Exp $
 
 COMMENT=		"flexible mail transfer agent"
 VERSION=		4.50
 DISTNAME=		exim-${VERSION}
-PKGNAME=		exim-${VERSION}
+PKGNAME=		exim-${VERSION}-0
 CATEGORIES=		mail
 MASTER_SITES=		ftp://ftp.csx.cam.ac.uk/pub/software/email/exim/exim4/ \
 			http://ftp.planetmirror.com/pub/exim/exim4/ \

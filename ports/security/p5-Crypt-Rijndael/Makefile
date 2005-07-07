@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"interface to the rijndael encryption algorithm aka AES"
 
 DISTNAME=	Crypt-Rijndael-0.05
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 
 

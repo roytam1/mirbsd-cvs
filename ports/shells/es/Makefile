@@ -3,7 +3,7 @@
 COMMENT=	"extensible shell, derived from plan9's rc"
 
 DISTNAME=	es-0.9-beta1
-PKGNAME=	es-0.9b1
+PKGNAME=	es-0.9b1-0
 CATEGORIES=	shells
 
 MASTER_SITES=	ftp://ftp.sys.toronto.edu/pub/es/

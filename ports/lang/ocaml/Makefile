@@ -3,7 +3,7 @@
 
 COMMENT=	"ML language based on complete class-based objective system"
 DISTNAME=	ocaml-3.07
-PKGNAME=	${DISTNAME}pl2
+PKGNAME=	${DISTNAME}pl2-0
 CATEGORIES=	lang
 MASTER_SITES=	http://caml.inria.fr/distrib/${DISTNAME}/
 DISTFILES=	${PKGNAME}.tar.gz ${DOCFILES}

@@ -3,7 +3,7 @@
 COMMENT=	"module to encode and decode ASN.1 data structures"
 
 DISTNAME=	Convert-ASN1-0.18
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5
 
 

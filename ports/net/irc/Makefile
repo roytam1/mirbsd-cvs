@@ -4,7 +4,7 @@
 
 COMMENT=	"internet relay chat (irc) server"
 DISTNAME=       irc2.10.3p1
-PKGNAME=        irc-2.10.3p1p1
+PKGNAME=        irc-2.10.3-1p1
 CATEGORIES=	net
 
 MASTER_SITES=   ftp://ftp.irc.org/irc/server/Old/ \

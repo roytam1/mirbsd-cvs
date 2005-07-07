@@ -8,8 +8,8 @@ COMMENT-client=	"single process stack of system monitors for GTK+2"
 
 V=		2.2.0
 DISTNAME=	gkrellm-${V}
-PKGNAME=	gkrellm-server-${V}
-PKGNAME-client=	gkrellm-${V}
+PKGNAME=	gkrellm-server-${V}-0
+PKGNAME-client=	gkrellm-${V}-0
 CATEGORIES=	sysutils sysutils/gkrellm
 
 HOMEPAGE=	http://www.gkrellm.net/

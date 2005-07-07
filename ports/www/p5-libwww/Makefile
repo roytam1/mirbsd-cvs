@@ -3,7 +3,7 @@
 COMMENT=	"library for WWW access in Perl"
 
 DISTNAME=	libwww-perl-5.69
-PKGNAME=	p5-${DISTNAME:S/-perl-/-/}
+PKGNAME=	p5-${DISTNAME:S/-perl-/-/}-0
 CATEGORIES=	www perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=LWP/}
 

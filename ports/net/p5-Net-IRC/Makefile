@@ -3,7 +3,7 @@
 COMMENT=	"modules to implement the irc protocol"
 
 DISTNAME=	Net-IRC-0.73
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 HOMEPAGE=	http://theoryx5.uwinnipeg.ca/CPAN/data/Net-IRC/Connection.html

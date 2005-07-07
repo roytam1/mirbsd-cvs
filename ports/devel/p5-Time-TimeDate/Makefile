@@ -4,7 +4,7 @@ COMMENT=	"library for parsing and formatting dates and times"
 
 VERSION=	1.16
 DISTNAME=	TimeDate-${VERSION}
-PKGNAME=	p5-Time-${DISTNAME}
+PKGNAME=	p5-Time-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 

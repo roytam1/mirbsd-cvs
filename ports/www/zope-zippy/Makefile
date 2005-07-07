@@ -5,7 +5,7 @@ COMMENT=	"insert random 'Zippy the Pinhead' quotes in your documents"
 # unversioned, so impose a version
 VERSION=	1.0	
 DISTNAME=	Zippy
-PKGNAME=	zope-zippy-${VERSION}
+PKGNAME=	zope-zippy-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.zope.org/Members/michel/Products/Zippy/

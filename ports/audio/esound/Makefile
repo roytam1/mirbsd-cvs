@@ -5,7 +5,7 @@
 COMMENT=	"sound library for Enlightenment"
 
 DISTNAME=	esound-0.2.34
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/esound/0.2/}
 

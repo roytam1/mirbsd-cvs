@@ -5,7 +5,7 @@
 COMMENT=	"cross-platform multimedia library"
 VERSION=	1.2.7
 DISTNAME=	SDL-${VERSION}
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	devel
 HOMEPAGE=	http://www.libsdl.org/
 

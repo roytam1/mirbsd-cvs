@@ -3,7 +3,7 @@
 COMMENT=		"network performance measuring tool"
 
 DISTNAME=		oproute-0.7
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=    		net
 EXTRACT_SUFX=		.tgz
 

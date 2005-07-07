@@ -4,7 +4,7 @@ COMMENT=	"Perl extension for formatting numbers"
 
 VERSION=	1.45
 DISTNAME=	Number-Format-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 HOMEPAGE=	http://www.bayview.com/software/perl.shtml

@@ -3,7 +3,7 @@
 COMMENT=	"sql parsing and processing"
 
 DISTNAME=	SQL-Statement-1.09
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5 
 
 

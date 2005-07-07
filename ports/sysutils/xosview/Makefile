@@ -4,7 +4,7 @@
 COMMENT=	"graphical performance meter"
 
 DISTNAME=	xosview-1.8.0
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	sysutils
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=xosview/}

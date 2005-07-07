@@ -4,7 +4,7 @@
 COMMENT=	"side-view, fast-action, kill everything type of game"
 
 DISTNAME=	xevil1.5
-PKGNAME=	xevil-1.5
+PKGNAME=	xevil-1.5-0
 CATEGORIES=	games
 
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=games/xevil1.5/}

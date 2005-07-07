@@ -3,7 +3,7 @@
 COMMENT=	"handle GIF89a transparent option and interlace mode"
 
 DISTNAME=	giftrans
-PKGNAME=        giftrans-1.12
+PKGNAME=        giftrans-1.12-0
 CATEGORIES=	graphics
 
 # BSD-like, badly worded

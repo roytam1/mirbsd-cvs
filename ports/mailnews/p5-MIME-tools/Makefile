@@ -3,7 +3,7 @@
 
 COMMENT=		"modules for parsing (and creating!) MIME entities"
 DISTNAME=		MIME-tools-5.411a
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5
 HOMEPAGE=		http://www.zeegee.com/code/perl/MIME-tools/
 

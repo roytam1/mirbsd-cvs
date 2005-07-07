@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"FM radio input plug-in for XMMS"
 
 DISTNAME=	xmms-FMRadio-1.5
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	audio x11
 
 HOMEPAGE=	http://silicone.free.fr/xmms-FMRadio/

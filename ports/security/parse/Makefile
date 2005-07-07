@@ -3,7 +3,7 @@
 COMMENT=	"watch a tcpdump trace in real-time"
 
 DISTNAME=	parse
-PKGNAME=	parse-1.0
+PKGNAME=	parse-1.0-0
 CATEGORIES=	security
 
 PERMIT_PACKAGE_CDROM=	"commercial. licensing restrictions."

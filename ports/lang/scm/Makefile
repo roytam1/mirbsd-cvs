@@ -11,7 +11,7 @@ CATEGORIES=	lang
 
 V=5d3
 DISTNAME=	scm$V
-PKGNAME=	scm-$V
+PKGNAME=	scm-$V-0
 EXTRACT_SUFX=	.zip
 
 HOMEPAGE=	http://swissnet.ai.mit.edu/~jaffer/SCM.html

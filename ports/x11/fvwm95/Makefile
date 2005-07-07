@@ -3,7 +3,7 @@
 COMMENT=	"win95-like window manager based on fvwm 2.x"
 
 DISTNAME=	fvwm95-2.0.43a-Autoconf
-PKGNAME=	fvwm95-2.0.43a
+PKGNAME=	fvwm95-2.0.43a-0
 CATEGORIES=     x11
 MASTER_SITES=	ftp://mitac11.uia.ac.be/pub/fvwm95/	\
 		ftp://ftp.plig.org/pub/fvwm95/

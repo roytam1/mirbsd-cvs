@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"high speed arbitrary-size integer math"
 
 DISTNAME=	Math-GMP-2.03
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Math/}

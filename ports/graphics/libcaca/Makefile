@@ -3,7 +3,7 @@
 
 COMMENT=		"colour ascii art library"
 DISTNAME=		libcaca-0.9
-PKGNAME=		${DISTNAME}p0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		graphics
 HOMEPAGE=		http://sam.zoy.org/projects/libcaca/
 MASTER_SITES=		${HOMEPAGE}

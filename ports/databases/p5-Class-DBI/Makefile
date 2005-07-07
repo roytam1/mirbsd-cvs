@@ -3,7 +3,7 @@
 COMMENT=	"simple database abstraction"
 
 DISTNAME=	Class-DBI-0.95
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 # Same as Perl

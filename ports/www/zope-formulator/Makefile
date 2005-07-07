@@ -3,7 +3,7 @@
 COMMENT=	"framework that eases the creation and validation of web forms"
 
 DISTNAME=	Formulator-1.6.2
-PKGNAME=	zope-${DISTNAME:L}
+PKGNAME=	zope-${DISTNAME:L}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://zope.org/Members/infrae/Formulator/

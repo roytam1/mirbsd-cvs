@@ -3,7 +3,7 @@
 COMMENT=	"archive files using the HSC compression method"
 
 DISTNAME=	ha0999
-PKGNAME=	ha-0.999b
+PKGNAME=	ha-0.999b-0
 CATEGORIES=	archivers
 MASTER_SITES=	ftp://ftp.kiarchive.ru/pub/unix/arcers/
 EXTRACT_SUFX=	.tgz

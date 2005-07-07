@@ -3,7 +3,7 @@
 
 COMMENT=	"experimental GNU automatic Makefile generator"
 DISTNAME=	automake-1.9.5
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 SUFFIX=		-1.9
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=automake/}

@@ -3,7 +3,7 @@
 COMMENT=		"wireless auditing suite"
 
 DISTNAME=		bsd-airtools-v0.2
-PKGNAME=		bsd-airtools-0.2p2
+PKGNAME=		bsd-airtools-0.2-2
 CATEGORIES=    		security net
 EXTRACT_SUFX=           .tgz
 

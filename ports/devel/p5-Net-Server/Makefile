@@ -3,7 +3,7 @@
 COMMENT=	"extensible framework for Perl server engines"
 
 DISTNAME=	Net-Server-0.87
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel net perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}
 

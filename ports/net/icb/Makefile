@@ -4,7 +4,7 @@
 COMMENT=	"Internet CB - mostly-defunct chat client"
 
 DISTNAME=	icb-5.0.9
-PKGNAME=	icb-5.0.9p1
+PKGNAME=	icb-5.0.9-1
 CATEGORIES=	net
 
 MASTER_SITES=	ftp://ftp.swcp.com/pub/icb/clients/unix/

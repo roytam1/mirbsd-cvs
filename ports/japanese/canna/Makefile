@@ -9,9 +9,9 @@ CATEGORIES=	japanese
 DISTNAME=	Canna35b2
 HOMEPAGE=	http://www.nec.co.jp/japanese/product/computer/soft/canna/
 
-PKGNAME=	cannalib-3.5b2p1
-PKGNAME-dict=	cannadict-3.5b2
-PKGNAME-server=	cannaserver-3.5b2p1
+PKGNAME=	cannalib-3.5b2p1-0
+PKGNAME-dict=	cannadict-3.5b2-0
+PKGNAME-server=	cannaserver-3.5b2p1-0
 
 MASTER_SITES=	ftp://ftp.nec.co.jp/pub/Canna/Canna35/
 MASTER_SITES0=	http://www.jaist.ac.jp/~fujieda/canna/

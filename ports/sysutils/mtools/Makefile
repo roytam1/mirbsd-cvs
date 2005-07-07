@@ -4,7 +4,7 @@ COMMENT=	"read/write/list/format DOS disks under Unix"
 
 DATE=		20030718
 DISTNAME=	mtools-3.9.9
-PKGNAME=	${DISTNAME}.${DATE}
+PKGNAME=	${DISTNAME}.${DATE}-0
 CATEGORIES=	sysutils
 MASTER_SITES=	http://www.tux.org/pub/knaff/mtools/ \
 		${HOMEPAGE}

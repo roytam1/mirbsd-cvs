@@ -3,7 +3,7 @@
 COMMENT=	"Safe/Fast I/O Library"
 
 VERSION=	2002
-PKGNAME=	sfio-${VERSION}
+PKGNAME=	sfio-${VERSION}-0
 DISTNAME=	sfio_${VERSION}.src.unix_tar
 CATEGORIES=	devel
 HOMEPAGE=	http://www.research.att.com/sw/tools/sfio/

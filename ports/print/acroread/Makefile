@@ -7,7 +7,7 @@ EMUL=			linux
 COMMENT=		"view, distribute and print PDF documents"
 CATEGORIES=		print
 DISTNAME=		linux-5010
-PKGNAME=		acroread-5.10
+PKGNAME=		acroread-5.10-0
 MASTER_SITES=		http://ardownload.adobe.com/pub/adobe/acrobatreader/unix/5.x/
 
 PERMIT_PACKAGE_CDROM=	"commercial software"

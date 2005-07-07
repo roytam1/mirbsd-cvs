@@ -4,7 +4,7 @@ COMMENT=	"use HTML Templates from CGI scripts"
 
 VERSION=	2.6
 DISTNAME=	HTML-Template-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 HOMEPAGE=	http://sourceforge.net/projects/html-template/

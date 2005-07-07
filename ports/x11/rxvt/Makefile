@@ -5,7 +5,7 @@ COMMENT-clock=	"analog clock for X11 w/appoint. reminder and mail notif"
 
 VER=		2.6.4
 DISTNAME=	rxvt-${VER}
-PKGNAME-clock=	rclock-${VER}
+PKGNAME-clock=	rclock-${VER}-0
 CATEGORIES=	x11
 MASTER_SITES=	ftp://ftp.rxvt.org/pub/rxvt/ \
 		ftp://ftp.ics.es.osaka-u.ac.jp/pub/mirrors/rxvt/ \

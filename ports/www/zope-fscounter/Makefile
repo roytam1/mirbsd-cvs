@@ -4,7 +4,7 @@ COMMENT=	"web page hit counter for Zope"
 
 VERSION=	1.2
 DISTNAME=	FSCounter.${VERSION}
-PKGNAME=	zope-fscounter-${VERSION}
+PKGNAME=	zope-fscounter-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.zope.org/Members/andym/FSCounter/	

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.6 2002/11/13 00:12:24 jakob Exp $
 
 DISTNAME=	Net-SNMP-4.0.3
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net devel
 
 

@@ -4,7 +4,7 @@ COMMENT=	"convert text to HTML with controlling options"
 
 VERSION=	2.05
 DISTNAME=	HTML-FromText-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=HTML/}
 

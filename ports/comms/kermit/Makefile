@@ -2,7 +2,7 @@
 
 COMMENT=	"serial and network communications package"
 
-PKGNAME=	kermit-8.0.211
+PKGNAME=	kermit-8.0.211-0
 DISTNAME=	cku211
 CATEGORIES=	comms
 HOMEPAGE=	http://www.kermit-project.org/

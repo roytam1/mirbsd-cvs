@@ -3,7 +3,7 @@
 COMMENT=	"challenging double decked solitaire game"
 
 DISTNAME=	spider
-PKGNAME=	spider-1.1
+PKGNAME=	spider-1.1-0
 CATEGORIES=	games
 
 MASTER_SITES=	ftp://ftp.uni-koeln.de/windows/xcontrib/

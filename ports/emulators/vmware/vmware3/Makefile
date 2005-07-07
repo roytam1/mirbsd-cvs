@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"commercial x86-32 machine emulator"
 DISTNAME=	VMware-workstation-3.2.1-2242
-PKGNAME=	vmware-3.2.1_2242
+PKGNAME=	vmware-3.2.1_2242-0
 CATEGORIES=	emulators
 MASTER_SITES=	http://vmware-chil.www.conxion.com/software/ \
 		http://vmware-svca.www.conxion.com/software/ \

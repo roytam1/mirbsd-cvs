@@ -4,7 +4,7 @@
 COMMENT=	"C++ wrapper for the Simple DirectMedia Layer"
 VERSION=	0.1.8
 DISTNAME=	SDLmm-${VERSION}
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	devel
 HOMEPAGE=	http://sdlmm.sourceforge.net/
 

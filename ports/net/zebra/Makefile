@@ -5,7 +5,7 @@
 COMMENT=	"multi-threaded routing daemon"
 
 DISTNAME=	zebra-0.93a
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.zebra.org/pub/zebra/ \
 		ftp://ftp.knowledge.com/pub/mirrors/zebra/ \

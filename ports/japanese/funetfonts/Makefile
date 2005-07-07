@@ -6,7 +6,7 @@ CATEGORIES=	japanese x11
 DIST_SUBDIR=	ja-fonts
 
 DISTNAME=		ja-fonts-funet
-PKGNAME=		${DISTNAME}-19911117
+PKGNAME=		${DISTNAME}-19911117-0
 
 MASTER_SITES=	ftp://ftp.funet.fi/pub/culture/japan/fonts/bdf/
 

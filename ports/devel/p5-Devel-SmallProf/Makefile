@@ -3,7 +3,7 @@
 COMMENT=		"per-line Perl profiler"
 
 DISTNAME=		Devel-SmallProf-1.15
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel perl5
 
 

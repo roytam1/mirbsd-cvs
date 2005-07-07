@@ -4,7 +4,7 @@ COMMENT=	"signal or reprioritize specified processes"
 
 VERSION=		4.1
 DISTNAME=		skill-${VERSION}
-PKGNAME=		skill-${VERSION}p2
+PKGNAME=		skill-${VERSION}-2
 CATEGORIES=     	sysutils
 
 

@@ -4,7 +4,7 @@
 COMMENT=		"mailfilter to identify and mark spam"
 
 DISTNAME=		Mail-SpamAssassin-2.63
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5
 HOMEPAGE=		http://spamassassin.org/
 

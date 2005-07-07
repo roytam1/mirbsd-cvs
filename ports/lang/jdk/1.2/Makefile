@@ -10,11 +10,11 @@ COMMENT-demos=		"Java2(TM) Standard Edition Dev Kit Demo Files v${V}"
 COMMENT-jre=		"Java2(TM) Standard Edition Runtime Environment v${V}"
 V=			1.2.2
 DISTNAME=		jdk1_2_2-src
-PKGNAME=		jdk-${V}
-FULLPKGNAME=		${PKGNAME}
-FULLPKGNAME-debug=	jdk-debug-${V}
-FULLPKGNAME-demos=	jdk-demos-${V}
-FULLPKGNAME-jre=	jre-${V}
+PKGNAME=		jdk-${V}-0
+FULLPKGNAME=		${PKGNAME}-0
+FULLPKGNAME-debug=	jdk-debug-${V}-0
+FULLPKGNAME-demos=	jdk-demos-${V}-0
+FULLPKGNAME-jre=	jre-${V}-0
 
 RELEASE_NAME=		"jdk-$(V)/`uname`[bsd-patchset-11]:`whoami`:`date '+%Y/%m/%d-%H:%M'`"
 
@@ -96,8 +96,8 @@ do-install:
 	@mkdir -p ${PREFIX}/${FULLPKGNAME} && \
 	 cd ${JDKIMAGEDIR} && tar -cf - * | tar -C ${PREFIX}/${FULLPKGNAME} -xvf - 
 	@cd ${JDKIMAGEDIR_G} && tar -cf - * | tar -C ${PREFIX}/${FULLPKGNAME} -xvf - 
-	@mkdir -p ${PREFIX}/${FULLPKGNAME-jre} && \
-	 cd ${JREIMAGEDIR} && tar -cf - * | tar -C ${PREFIX}/${FULLPKGNAME-jre} -xvf -
+	@mkdir -p ${PREFIX}/${FULLPKGNAME-jre} && \-0
+	 cd ${JREIMAGEDIR} && tar -cf - * | tar -C ${PREFIX}/${FULLPKGNAME-jre} -xvf --0
 	@cd ${PREFIX}/${FULLPKGNAME}/include && ln -s openbsd/* .
 	@cd ${PREFIX}/${FULLPKGNAME}/include-old && ln -s openbsd/* .
 #	@cd ${PREFIX}/${FULLPKGNAME}/jre/lib && ln -s ../../lib/tools.jar 

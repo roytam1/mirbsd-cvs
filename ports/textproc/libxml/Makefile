@@ -4,7 +4,7 @@
 COMMENT=		"XML parsing library"
 VERSION=		2.6.14
 DISTNAME=		libxml2-${VERSION}
-PKGNAME=		libxml-${VERSION}
+PKGNAME=		libxml-${VERSION}-0
 CATEGORIES=		textproc
 MASTER_SITES=		${HOMEPAGE}sources/ \
 			ftp://xmlsoft.org/ \

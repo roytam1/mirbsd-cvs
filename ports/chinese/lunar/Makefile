@@ -3,7 +3,7 @@
 COMMENT=	"convert solar calendar to lunar calendar"
 
 DISTNAME=	lunar-2.1
-PKGNAME=	zh-lunar-2.1
+PKGNAME=	zh-lunar-2.1-0
 CATEGORIES=	chinese
 
 MASTER_SITES=   ftp://ftp.cuhk.hk/pub/chinese/ifcss/software/unix/c-utils/

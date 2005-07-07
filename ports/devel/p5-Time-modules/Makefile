@@ -2,7 +2,7 @@
 
 COMMENT=		"perl modules for a diversaty of time-conversions"
 DISTNAME=		Time-modules-2003.1126
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=Time/}
 RESPONSIBLE=		Thomas Kopp <templis@opennerds.org>

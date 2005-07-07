@@ -3,7 +3,7 @@
 COMMENT=	"web server log file analysis program"
 
 DISTNAME=	webalizer-2.01-10-src
-PKGNAME=	webalizer-2.01.10p1
+PKGNAME=	webalizer-2.01.10-1
 CATEGORIES=     www
 MASTER_SITES=	ftp://ftp.mrunix.net/pub/webalizer/
 EXTRACT_SUFX=	.tgz

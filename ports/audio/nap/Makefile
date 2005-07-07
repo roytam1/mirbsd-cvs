@@ -4,7 +4,7 @@ COMMENT=	"gnu curses-based napster client"
 
 VERSION=	1.5.1
 DISTNAME=	nap-${VERSION}
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=    	audio
 
 HOMEPAGE=	http://nap.sourceforge.net/

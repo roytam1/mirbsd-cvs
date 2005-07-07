@@ -3,7 +3,7 @@
 COMMENT=	"HTTP latency performance testing client"
 
 DISTNAME=	http_ping_03apr2002
-PKGNAME=	http_ping-20020403
+PKGNAME=	http_ping-20020403-0
 CATEGORIES=	www benchmarks
 
 HOMEPAGE=	http://www.acme.com/software/http_ping/

@@ -4,7 +4,7 @@
 COMMENT=	"graphical toolkit for Tcl"
 
 DISTNAME=	tk8.0.5
-PKGNAME=	tk-8.0.5
+PKGNAME=	tk-8.0.5-0
 CATEGORIES=	x11 x11/tk
 MASTER_SITES=	${MASTER_SITE_TCLTK:=tcl8_0/}
 

@@ -4,7 +4,7 @@
 COMMENT=	"Tool Command Language"
 
 DISTNAME=	tcl8.0.5
-PKGNAME=	tcl-8.0.5
+PKGNAME=	tcl-8.0.5-0
 CATEGORIES=	lang lang/tcl
 MASTER_SITES=	${MASTER_SITE_TCLTK:=tcl8_0/}
 

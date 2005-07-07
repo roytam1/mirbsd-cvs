@@ -2,7 +2,7 @@
 
 COMMENT=	"graphical display for the current uvm status"
 
-PKGNAME=	xuvmstat-20010220
+PKGNAME=	xuvmstat-20010220-0
 DISTNAME=	${PKGNAME:S/-//}
 CATEGORIES=     sysutils x11
 

@@ -5,7 +5,7 @@ COMMENT=	'digital camera library'
 CATEGORIES=	graphics devel
 VERSION=	2.1.4
 DISTNAME=	libgphoto2-${VERSION}
-PKGNAME=	libgphoto-${VERSION}
+PKGNAME=	libgphoto-${VERSION}-0
 HOMEPAGE=	http://gphoto.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=gphoto/}
 

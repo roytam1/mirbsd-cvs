@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"commercial spreadsheet"
 
 DISTNAME=	Wingz-142
-PKGNAME=	${DISTNAME:L}p1
+PKGNAME=	${DISTNAME:L}-1
 CATEGORIES=	math
 EMUL=		linux
 

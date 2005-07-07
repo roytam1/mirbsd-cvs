@@ -5,7 +5,7 @@
 COMMENT=	"UCB/LBNL Network Animator"
 
 DISTNAME=	nam-src-1.9
-PKGNAME=	nam-1.9
+PKGNAME=	nam-1.9-0
 CATEGORIES=	net
 
 MASTER_SITES= 	ftp://ftp.ee.surrey.ac.uk/pub/Mirrors/ftp.isi.edu/nsnam/ \

@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/devel/soup/Makefile,v 1.3 2005/05/13 21:10:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/12/04 23:07:25 pvalchev Exp $
 
 COMMENT=		"SOAP (Simple Object Access Protocol) implementation in C"
 
 DISTNAME=		soup-0.7.11
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/

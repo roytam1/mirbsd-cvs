@@ -4,7 +4,7 @@
 COMMENT=		Filesharing client/server for multiple networks
 CATEGORIES=		net
 DISTNAME=		mldonkey-2.5-4
-PKGNAME=		mldonkey-2.5.4p0
+PKGNAME=		mldonkey-2.5.4-1
 HOMEPAGE=		http://savannah.nongnu.org/projects/mldonkey/
 MASTER_SITES=		http://savannah.nongnu.org/download/mldonkey/release-2.5-4/official/
 

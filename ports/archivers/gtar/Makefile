@@ -3,7 +3,7 @@
 
 COMMENT=		"GNU version of the traditional tar archiver"
 DISTNAME=		tar-1.15.1
-PKGNAME=		g${DISTNAME}
+PKGNAME=		g${DISTNAME}-0
 CATEGORIES=		archivers
 HOMEPAGE=		http://www.gnu.org/software/tar/
 MASTER_SITES=		${MASTER_SITE_GNU:=tar/}

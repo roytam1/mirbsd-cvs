@@ -3,7 +3,7 @@
 COMMENT=		"implementation of 3DES encryption on ECB mode"
 
 DISTNAME=		Crypt-TripleDES-0.24
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		security perl5
 
 

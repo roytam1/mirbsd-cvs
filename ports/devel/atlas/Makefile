@@ -4,7 +4,7 @@
 COMMENT=	"C++ reference implementation of the Atlas protocol"
 VERSION=	0.4.3.1
 DISTNAME=	Atlas-C++-${VERSION}
-PKGNAME=	${DISTNAME:S/C++-//:L}
+PKGNAME=	${DISTNAME:S/C++-//:L}-0
 CATEGORIES=	devel
 
 PERMIT_PACKAGE_CDROM=   Yes

@@ -5,8 +5,8 @@ COMMENT=		"general-purpose utility library"
 COMMENT-docs=           "glib2 documentation"
 VERSION=		2.4.8
 DISTNAME=		glib-${VERSION}
-PKGNAME=		glib2-${VERSION}p1
-PKGNAME-docs=           glib2-docs-${VERSION}p0
+PKGNAME=		glib2-${VERSION}-1
+PKGNAME-docs=           glib2-docs-${VERSION}-1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gtk.org
 

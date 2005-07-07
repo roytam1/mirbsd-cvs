@@ -4,7 +4,7 @@
 COMMENT= 	"PostScript and PDF previewer"
 
 DISTNAME=	gv-3.5.8
-PKGNAME=	${DISTNAME}p3
+PKGNAME=	${DISTNAME}-3
 CATEGORIES=	print
 
 RESPONSIBLE=	Benny Siegert <bsiegert@gmx.de>

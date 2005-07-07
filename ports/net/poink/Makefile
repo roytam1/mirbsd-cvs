@@ -3,7 +3,7 @@
 COMMENT=	"nosuid, secure TCP/IP ping"
 
 DISTNAME=	poink
-PKGNAME=	${DISTNAME}-1.6
+PKGNAME=	${DISTNAME}-1.6-0
 CATEGORIES=	net
 
 HOMEPAGE=	http://lcamtuf.coredump.cx/

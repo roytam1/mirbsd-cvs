@@ -4,7 +4,7 @@
 COMMENT=	"multi-screen window manager"
 VERSION=	4.0.2
 DISTNAME=	screen-${VERSION}
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	misc
 MASTER_SITES=	ftp://ftp.uni-erlangen.de/pub/utilities/screen/
 HOMEPAGE=	http://www.gnu.org/software/screen/

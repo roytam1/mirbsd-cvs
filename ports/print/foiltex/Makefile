@@ -4,7 +4,7 @@
 COMMENT=	"LaTeX2e class for overhead transparencies"
 
 DISTNAME=	foiltex-2.1.4a
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	print
 
 

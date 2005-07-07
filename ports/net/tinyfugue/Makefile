@@ -3,7 +3,7 @@
 
 COMMENT=	"programmable MUD client, with macro support and more"
 
-PKGNAME=	tinyfugue-4.0s1p2
+PKGNAME=	tinyfugue-4.0s1-2
 DISTNAME=	tf-40s1
 CATEGORIES=	net games
 

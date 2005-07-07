@@ -5,7 +5,7 @@
 COMMENT=	"Curses-based interpreter for Infocom-compatible games"
 
 DISTNAME=		UnixFrotz232R2Std10
-PKGNAME=		frotz-2.32
+PKGNAME=		frotz-2.32-0
 CATEGORIES=     	games
 
 HOMEPAGE=		http://www.cs.csubak.edu/~dgriffi/proj/frotz/

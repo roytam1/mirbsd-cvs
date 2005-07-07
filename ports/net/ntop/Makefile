@@ -4,7 +4,7 @@
 COMMENT=	"network usage, interface similar to top(1)"
 
 DISTNAME=	ntop-1.1-src
-PKGNAME=	ntop-1.1
+PKGNAME=	ntop-1.1-0
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.unipi.it/pub/local/ntop/source/ \
 		ftp://totem.fix.no/pub/mirrors/misc/

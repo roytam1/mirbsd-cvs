@@ -4,7 +4,7 @@ COMMENT=	"Java program analyzer and checker"
 
 VERSION=	2.3
 DISTNAME=	jlint
-PKGNAME=	${DISTNAME}-${VERSION}
+PKGNAME=	${DISTNAME}-${VERSION}-0
 CATEGORIES=	java
 
 HOMEPAGE=	http://artho.com/jlint/

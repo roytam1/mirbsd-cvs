@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/gmake/Makefile,v 1.1.7.1 2005/03/18 15:44:42 tg Exp $
+# $MirOS: ports/devel/gmake/Makefile,v 1.3 2005/04/20 21:34:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
 
 COMMENT=	"GNU make"
 DISTNAME=	make-3.80
-PKGNAME=	g${DISTNAME}p1
+PKGNAME=	g${DISTNAME}-1
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=make/}
 HOMEPAGE=	http://www.gnu.org/software/make/

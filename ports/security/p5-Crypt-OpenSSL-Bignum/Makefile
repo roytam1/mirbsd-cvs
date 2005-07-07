@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"OpenSSL's multiprecision integer arithmetic"
 
 DISTNAME=	Crypt-OpenSSL-Bignum-0.03
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 
 HOMEPAGE=	http://perl-openssl.sourceforge.net/

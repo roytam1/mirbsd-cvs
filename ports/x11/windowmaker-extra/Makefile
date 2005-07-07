@@ -3,7 +3,7 @@
 COMMENT=		'themes and icons for Window Maker'
 
 DISTNAME=		WindowMaker-extra-0.1
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		x11 x11/windowmaker
 
 HOMEPAGE=		http://www.windowmaker.org/

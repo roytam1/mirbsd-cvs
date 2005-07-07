@@ -4,8 +4,8 @@
 COMMENT=	"SMB and CIFS client and server for UNIX"
 COMMENT-docs=	"documentation and examples for samba"
 
-PKGNAME=	${DISTNAME}
-PKGNAME-docs=	samba-docs-${VERSION}
+PKGNAME=	${DISTNAME}-0
+PKGNAME-docs=	samba-docs-${VERSION}-0
 
 VERSION=	3.0.11
 DISTNAME=	samba-${VERSION}

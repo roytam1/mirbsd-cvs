@@ -7,7 +7,7 @@ COMMENT=	"gtk+2 Python bindings"
 
 V=		2.0.0
 DISTNAME=	pygtk-${V}
-PKGNAME=	py-gtk2-${V}
+PKGNAME=	py-gtk2-${V}-0
 CATEGORIES=	x11
 
 HOMEPAGE=	http://www.pygtk.org/

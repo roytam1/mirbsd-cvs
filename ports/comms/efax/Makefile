@@ -3,7 +3,7 @@
 COMMENT=	"small & simple FAX send/receive program"
 
 DISTNAME=	efax-0.9
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	comms
 
 

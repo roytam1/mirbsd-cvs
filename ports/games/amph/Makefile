@@ -5,7 +5,7 @@ COMMENT=	"jump'n run game with unique video effects"
 VERSION=	0.8.10
 DVERSION=	0.8.6
 DISTNAME=	amphetamine-${VERSION}
-PKGNAME=	amph-${VERSION}
+PKGNAME=	amph-${VERSION}-0
 CATEGORIES=	games x11
 EXTRACT_SUFX=	.tar.bz2
 

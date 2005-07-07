@@ -4,7 +4,7 @@ COMMENT=		'Text Editor for FLTK'
 
 V=			0.4.5
 DISTNAME=		fl_editor-${V}
-PKGNAME=		fleditor-${V}
+PKGNAME=		fleditor-${V}-0
 CATEGORIES=		x11
 
 HOMEPAGE=		http://www.robertk.com/source/

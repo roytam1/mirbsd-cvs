@@ -3,7 +3,7 @@
 COMMENT=	"implementation of the MSN messaging protocol in Python"
 
 DISTNAME=	msnp.py-0.4.1
-PKGNAME=	py-${DISTNAME:S/.py//}
+PKGNAME=	py-${DISTNAME:S/.py//}-0
 CATEGORIES=	net
 
 HOMEPAGE=	http://msnp.sourceforge.net/

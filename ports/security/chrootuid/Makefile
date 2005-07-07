@@ -4,7 +4,7 @@ COMMENT=		"control chroot and su access rights by application"
 
 VERSION=		1.3
 DISTNAME=		chrootuid${VERSION}
-PKGNAME=		chrootuid-${VERSION}
+PKGNAME=		chrootuid-${VERSION}-0
 CATEGORIES=		security
 
 HOMEPAGE=		http://www.porcupine.org/

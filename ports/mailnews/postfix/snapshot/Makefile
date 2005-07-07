@@ -3,7 +3,7 @@
 VERSION=	2.2-20040422
 
 DISTNAME=	postfix-${VERSION}
-PKGNAME=	postfix-${VERSION}
+PKGNAME=	postfix-${VERSION}-0
 
 
 MASTER_SITES=	${MASTER_SITE_POSTFIX:=experimental/}

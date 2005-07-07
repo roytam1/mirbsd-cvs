@@ -6,7 +6,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"LDAP client API for Python"
 VERSION=	2.0.0pre19
 DISTNAME=	python-ldap-${VERSION}
-PKGNAME=	py-ldap-${VERSION}
+PKGNAME=	py-ldap-${VERSION}-0
 CATEGORIES=	databases
 HOMEPAGE=	http://python-ldap.sourceforge.net/
 

@@ -3,7 +3,7 @@
 COMMENT=	"breakout game with many levels, powerups, good graphics" 
 
 DISTNAME=	lbreakout2-2.2.2
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	games x11
 
 HOMEPAGE=	http://lgames.sourceforge.net/index.php?action=show_project&project=LBreakout2

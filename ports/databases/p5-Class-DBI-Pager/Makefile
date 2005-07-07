@@ -3,7 +3,7 @@
 COMMENT=	"pager utility for Class::DBI"
 
 DISTNAME=	Class-DBI-Pager-0.05
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 # Same as Perl

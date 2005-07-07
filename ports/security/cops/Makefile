@@ -3,7 +3,7 @@
 COMMENT=	"system secureness checker"
 
 DISTNAME=	cops.1.04
-PKGNAME=	cops-1.04
+PKGNAME=	cops-1.04-0
 CATEGORIES=	security
 
 MASTER_SITES=	ftp://ftp.cerias.purdue.edu/pub/tools/unix/scanners/cops/

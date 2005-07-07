@@ -3,7 +3,7 @@
 COMMENT=	"technical documentation XML/SGML definitions"
 
 DISTNAME=	docbook-4.2
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 DIST_SUBDIR=	docbook
 CATEGORIES=	textproc
 

@@ -4,7 +4,7 @@ COMMENT=		"Check validity of Internet email addresses"
 
 VERSION=		0.15
 DISTNAME=		Email-Valid-${VERSION}
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5
 
 MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=Email/}

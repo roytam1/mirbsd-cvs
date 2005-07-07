@@ -6,7 +6,7 @@ COMMENT-examples=	"examples for swig"
 VERSION=	1.3.11
 
 DISTNAME=	swig-${VERSION}
-PKGNAME-examples= swig-examples-${VERSION}
+PKGNAME-examples= swig-examples-${VERSION}-0
 CATEGORIES=	devel
 MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=swig/}
 

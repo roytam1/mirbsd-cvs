@@ -2,7 +2,7 @@
 
 COMMENT=	"quick start-up utility for applications on an X11 display"
 
-PKGNAME=	bricons-3.0
+PKGNAME=	bricons-3.0-0
 DISTNAME=	bricons-athena-3.0
 CATEGORIES=	x11
 

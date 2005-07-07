@@ -3,7 +3,7 @@
 
 COMMENT=	"library to parse Uniform Resource Identifiers"
 DISTNAME=	URI-1.35
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=URI/}
 

@@ -3,7 +3,7 @@
 COMMENT=	"Prospero client for the archie service"
 
 DISTNAME=	c-archie-1.4.1-FIXED
-PKGNAME=	archie-1.4.1
+PKGNAME=	archie-1.4.1-0
 CATEGORIES=	net
 
 MASTER_SITES=	ftp://ftp.uu.net/networking/info-service/archie/clients/

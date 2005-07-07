@@ -5,7 +5,7 @@ COMMENT=		"retrieve files via HTTP and FTP"
 V=			1.10
 P=			2
 DISTNAME=		wget-${V}
-PKGNAME=		wget-${V}-${P}-0
+PKGNAME=		wget-${V}-${P}
 CATEGORIES=		net
 MASTER_SITES=		${MASTER_SITE_GNU:=wget/}
 MASTER_SITES0=		ftp://ftp.us.debian.org/debian/pool/main/w/wget/

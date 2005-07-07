@@ -2,7 +2,7 @@
 
 COMMENT=	"interactive process killer"
 
-PKGNAME=	zap-1.3
+PKGNAME=	zap-1.3-0
 DISTNAME=	zap-1.3
 WRKDIST=	${WRKDIR}/zap
 CATEGORIES=	sysutils

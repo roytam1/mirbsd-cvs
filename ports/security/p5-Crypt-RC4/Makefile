@@ -3,7 +3,7 @@
 COMMENT=	"implementation of the RC4 encryption algorithm"
 
 DISTNAME=	Crypt-RC4-2.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 
 

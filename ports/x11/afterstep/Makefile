@@ -3,7 +3,7 @@
 COMMENT=	"Window manager, continuation of the Bowman NeXTSTEP clone"
 
 DISTNAME=	AfterStep-1.8.9
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=     x11
 MASTER_SITES=   ftp://ftp.afterstep.org/stable/
 

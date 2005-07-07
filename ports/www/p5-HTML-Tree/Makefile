@@ -4,7 +4,7 @@ COMMENT=	"perl parser that builds an HTML tree"
 
 VERSION=	3.18
 DISTNAME=	HTML-Tree-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 HOMEPAGE=	http://www.speech.cs.cmu.edu/~sburke/

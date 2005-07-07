@@ -4,7 +4,7 @@ COMMENT=	"BIND 8 compatible stub resolver library"
 
 VERSION=	9.2.2
 DISTNAME=	bind-${VERSION}
-PKGNAME=	libbind-${VERSION}
+PKGNAME=	libbind-${VERSION}-0
 CATEGORIES=	net
 
 MASTER_SITES+=	ftp://ftp.isc.org/isc/bind9/${VERSION}/ \

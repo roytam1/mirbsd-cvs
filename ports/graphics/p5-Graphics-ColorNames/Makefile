@@ -4,7 +4,7 @@ COMMENT=	"defines RGB values for common color names"
 
 VERSION=	0.31
 DISTNAME=	Graphics-ColorNames-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	graphics perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Graphics/}

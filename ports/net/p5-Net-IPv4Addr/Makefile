@@ -4,7 +4,7 @@ COMMENT=	"perl module for IPv4 address parsing"
 
 VERSION=	0.10
 DISTNAME=	Net-IPv4Addr-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}

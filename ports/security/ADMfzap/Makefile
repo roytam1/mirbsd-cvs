@@ -6,7 +6,7 @@ COMMENT=		"connect() and bind() wrapper to evade packet filtering"
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=		ADMfzap
-PKGNAME=        	ADMfzap-0.1
+PKGNAME=        	ADMfzap-0.1-0
 CATEGORIES=		security
 
 

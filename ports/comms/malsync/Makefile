@@ -4,7 +4,7 @@ COMMENT=		"command line tool to synchronize Palm pilot to AvantGo"
 
 VERSION=		2.0.6
 DISTNAME=		malsync_${VERSION}.src
-PKGNAME=		malsync-${VERSION}
+PKGNAME=		malsync-${VERSION}-0
 CATEGORIES=             comms palm
 
 HOMEPAGE=		http://www.tomw.org/malsync/

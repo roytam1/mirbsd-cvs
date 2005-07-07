@@ -4,7 +4,7 @@
 COMMENT=	"XEVIOUS-like shooting game"
 
 DISTNAME=	xev111
-PKGNAME=        xbat-1.11
+PKGNAME=        xbat-1.11-0
 CATEGORIES=     games
 
 HOMEPAGE=	http://www.nemoto.ecei.tohoku.ac.jp/~wai/index_e.html

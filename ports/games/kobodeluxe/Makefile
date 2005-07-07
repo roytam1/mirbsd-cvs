@@ -2,7 +2,7 @@
 
 COMMENT=	"sdl port of xkobo"
 DISTNAME=	KoboDeluxe-0.4pre8
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	games x11
 MASTER_SITES=	${HOMEPAGE}download/
 

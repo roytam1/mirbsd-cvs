@@ -6,8 +6,8 @@ SUBPACKAGE?=
 
 COMMENT=		"server-side HTML-embedded scripting language"
 COMMENT-pear=		"base classes for common PHP tasks"
-PKGNAME=		php-core-${V}${PV}
-FULLPKGNAME-pear=	php-pear-${V}${PV}
+PKGNAME=		php-core-${V}${PV}-0
+FULLPKGNAME-pear=	php-pear-${V}${PV}-0
 
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--without-mysql \

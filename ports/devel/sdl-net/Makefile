@@ -3,7 +3,7 @@
 
 COMMENT=	"SDL cross-platform networking library"
 DISTNAME=	SDL_net-1.2.5
-PKGNAME=	${DISTNAME:L:S/_/-/}
+PKGNAME=	${DISTNAME:L:S/_/-/}-0
 CATEGORIES=	devel net
 MASTER_SITES=	http://www.libsdl.org/projects/SDL_net/release/
 HOMEPAGE=	http://www.libsdl.org/projects/SDL_net/

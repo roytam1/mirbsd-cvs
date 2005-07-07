@@ -3,7 +3,7 @@
 COMMENT=	"read and manipulate ID3 tags on MP3 files with Python"
 VERSION=	1.2
 DISTNAME=	id3-py_${VERSION}
-PKGNAME=	py-id3-${VERSION}
+PKGNAME=	py-id3-${VERSION}-0
 CATEGORIES=	audio
 HOMEPAGE=	http://id3-py.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=id3-py/}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/04/23 20:29:20 jcs Exp $
 
-PKGNAME=	wmwave-0.4p1
+PKGNAME=	wmwave-0.4-1
 DISTNAME=	wmwave-0-4
 CATEGORIES=	net x11 x11/windowmaker
 

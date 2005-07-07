@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"686 class CPU optimized mp3 encoder"
 DISTNAME=	gogo226a	
-PKGNAME=	gogo-2.26a
+PKGNAME=	gogo-2.26a-0
 CATEGORIES=	audio
 MASTER_SITES=	http://www.kurims.kyoto-u.ac.jp/~shigeo/soft/gogo2/src/
 HOMEPAGE=	http://homepage1.nifty.com/herumi/gogo_e.html

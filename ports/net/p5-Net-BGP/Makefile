@@ -3,7 +3,7 @@
 COMMENT= 	"Border Gateway Protocol version 4 speaker/listener library"
 
 DISTNAME=	Net-BGP-0.07
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

@@ -7,7 +7,7 @@ IGNORE=		"might be broken, used to use Libtool"
 
 COMMENT=	"Motif widget capable of displaying HTML 3.2 conforming text"
 DISTNAME=	XmHTML-1.1.7
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=     www x11
 HOMEPAGE=	http://www.xs4all.nl/~ripley/XmHTML
 

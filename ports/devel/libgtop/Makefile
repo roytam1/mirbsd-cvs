@@ -5,7 +5,7 @@ COMMENT=		"portable library for obtaining system information"
 
 V=			2.8.2
 DISTNAME=		libgtop-${V}
-PKGNAME=		libgtop2-${V}
+PKGNAME=		libgtop2-${V}-0
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org

@@ -4,7 +4,7 @@
 COMMENT=	"easy-to-use, robust, and highly configurable VPN"
 VERSION=	2.0_rc6
 DISTNAME=	openvpn-${VERSION}
-PKGNAME=	openvpn-${VERSION:S/_//}
+PKGNAME=	openvpn-${VERSION:S/_//}-0
 CATEGORIES=	net security
 HOMEPAGE=	http://openvpn.net/
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=openvpn/}

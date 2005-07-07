@@ -4,7 +4,7 @@ COMMENT=	"Cistron RADIUS server"
 
 VERSION=	1.6.6
 DISTNAME=	radiusd-cistron-${VERSION}
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net
 MASTER_SITES=	ftp://ftp.radius.cistron.nl/pub/radius/ \
 		ftp://ftp.freeradius.org/pub/radius/ \

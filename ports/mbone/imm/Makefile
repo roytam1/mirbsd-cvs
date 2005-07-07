@@ -3,7 +3,7 @@
 COMMENT=	"Internet Image (or other data) Multicaster (and receiver)"
 
 DISTNAME=	imm.source
-PKGNAME=	imm-3.5a1
+PKGNAME=	imm-3.5a1-0
 CATEGORIES=	mbone
 
 MASTER_SITES=	ftp://ftp.hawaii.edu/paccom/imm-3.5a1/

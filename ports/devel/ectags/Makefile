@@ -3,7 +3,7 @@
 COMMENT=	"multilanguage implementation of ctags"
 
 DISTNAME=	ctags-5.5
-PKGNAME=	e${DISTNAME}
+PKGNAME=	e${DISTNAME}-0
 CATEGORIES=	devel
 HOMEPAGE=	http://ctags.sourceforge.net/
 

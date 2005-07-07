@@ -4,7 +4,7 @@ COMMENT=	"publishing and presentation tool"
 
 VERSION=	1.1b9
 DISTNAME=	imp${VERSION}
-PKGNAME=	impress-${VERSION}
+PKGNAME=	impress-${VERSION}-0
 CATEGORIES=	misc
 
 MASTER_SITES=	${HOMEPAGE}

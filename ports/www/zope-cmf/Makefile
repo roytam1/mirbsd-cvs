@@ -3,7 +3,7 @@
 COMMENT=	"Zope content management framework"
 
 DISTNAME=	CMF-1.3.3
-PKGNAME=	zope-${DISTNAME:L}
+PKGNAME=	zope-${DISTNAME:L}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://cmf.zope.org/

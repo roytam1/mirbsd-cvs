@@ -3,7 +3,7 @@
 
 COMMENT=	"X11-based presentation tool"
 DISTNAME=	magicpoint-1.10a
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	misc productivity
 MASTER_SITES=	ftp://ftp.mew.org/pub/MagicPoint/
 HOMEPAGE=	http://www.mew.org/mgp/

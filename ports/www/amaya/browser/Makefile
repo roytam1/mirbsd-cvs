@@ -6,7 +6,7 @@ COMMENT=		"test-bed browser/authoring tool of the W3C"
 
 AMAYA_VERSION=		5.1
 DISTNAME=		amaya-src-${AMAYA_VERSION}
-PKGNAME=		amaya-${AMAYA_VERSION}p1
+PKGNAME=		amaya-${AMAYA_VERSION}-1
 
 HOMEPAGE=		http://www.w3.org/Amaya/
 

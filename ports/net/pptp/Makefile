@@ -5,7 +5,7 @@
 COMMENT=		'PPTP client package for Microsoft VPN servers'
 VERSION=		1.5.0
 DISTNAME=		pptp-linux-${VERSION}
-PKGNAME=		pptp-${VERSION}
+PKGNAME=		pptp-${VERSION}-0
 CATEGORIES=		net
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=pptpclient/} \
 			${_MASTER_SITE_MIRBSD}

@@ -5,7 +5,7 @@
 COMMENT=	"extract files from ARJ archives"
 
 DISTNAME=	unarj-2.43
-PKGNAME=	unarj-2.43p1
+PKGNAME=	unarj-2.43-1
 CATEGORIES=	archivers
 MASTER_SITES=	ftp://ftp.kiarchive.ru/pub/unix/arcers/
 EXTRACT_SUFX=	.tgz

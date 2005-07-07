@@ -2,7 +2,7 @@
 
 COMMENT=		"several programs to handle macintosh files and archives"
 DISTNAME=		macutil2.0b3
-PKGNAME=		macutil-2.0b3
+PKGNAME=		macutil-2.0b3-0
 CATEGORIES=		archivers
 
 # None

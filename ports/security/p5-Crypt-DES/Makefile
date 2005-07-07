@@ -6,7 +6,7 @@ COMMENT= 	"interface to the DES encryption algorithm"
 
 VERSION=	2.03
 DISTNAME=	Crypt-DES-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Crypt/}
 

@@ -3,7 +3,7 @@
 COMMENT=		"module for dealing with time periods"
 
 DISTNAME=		Period-1.20
-PKGNAME=		p5-Time-${DISTNAME}
+PKGNAME=		p5-Time-${DISTNAME}-0
 CATEGORIES=		devel perl5
 
 

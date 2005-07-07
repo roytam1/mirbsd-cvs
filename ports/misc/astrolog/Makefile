@@ -3,7 +3,7 @@
 COMMENT=	"astrology program for X11 and alpha-numeric terminals"
 
 DISTNAME=	ast53unx
-PKGNAME=	astrolog-5.30
+PKGNAME=	astrolog-5.30-0
 CATEGORIES=	misc
 
 MASTER_SITES=	http://www.astrolog.org/ftp/ephem/ \

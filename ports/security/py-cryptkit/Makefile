@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Python Cryptographic Toolkit"
 
 DISTNAME=	cryptkit-0.9
-PKGNAME=	py-${DISTNAME}
+PKGNAME=	py-${DISTNAME}-0
 CATEGORIES=    	security devel
 
 HOMEPAGE=	http://eevolved.com/cryptkit/

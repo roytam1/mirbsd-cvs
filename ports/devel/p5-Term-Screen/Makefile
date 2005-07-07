@@ -3,7 +3,7 @@
 COMMENT=		"positioning screen based module"
 
 DISTNAME=		Term-Screen-1.02
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel perl5
 
 

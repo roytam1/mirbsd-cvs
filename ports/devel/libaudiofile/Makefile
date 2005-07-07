@@ -3,7 +3,7 @@
 
 COMMENT=	"SGI audiofile library clone"
 DISTNAME=	audiofile-0.2.5
-PKGNAME=	lib${DISTNAME}
+PKGNAME=	lib${DISTNAME}-0
 CATEGORIES=	devel audio
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/audiofile/0.2/}
 HOMEPAGE=	http://www.68k.org/~michael/audiofile/

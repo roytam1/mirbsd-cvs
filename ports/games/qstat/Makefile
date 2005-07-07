@@ -3,7 +3,7 @@
 COMMENT=	"displays the status of multi-player Internet Game servers"
 
 DISTNAME=	qstat24e
-PKGNAME=	qstat-2.4e
+PKGNAME=	qstat-2.4e-0
 CATEGORIES=	games
 
 

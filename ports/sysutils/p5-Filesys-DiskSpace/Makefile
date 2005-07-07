@@ -3,7 +3,7 @@
 COMMENT=		"filesystem information display"
 
 DISTNAME=		Filesys-DiskSpace-0.05
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		sysutils perl5
 
 

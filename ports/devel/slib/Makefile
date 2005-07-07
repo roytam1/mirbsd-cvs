@@ -6,7 +6,7 @@ CATEGORIES=	devel
 
 V=2c9
 DISTNAME=	slib$V
-PKGNAME=	slib-$V
+PKGNAME=	slib-$V-0
 EXTRACT_SUFX=	.zip
 
 HOMEPAGE=	http://swissnet.ai.mit.edu/~jaffer/SCM.html

@@ -6,7 +6,7 @@ COMMENT=	"RSA encoding and decoding using OpenSSL"
 
 VERSION=	0.19
 DISTNAME=	Crypt-OpenSSL-RSA-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 HOMEPAGE=	http://perl-openssl.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Crypt/}

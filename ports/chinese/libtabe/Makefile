@@ -3,7 +3,7 @@
 COMMENT=	"library for Chinese language processing"
 
 DISTNAME=	libtabe-0.2.5
-PKGNAME=	zh-${DISTNAME}
+PKGNAME=	zh-${DISTNAME}-0
 CATEGORIES=	chinese
 
 HOMEPAGE=	http://libtabe.sourceforge.net/

@@ -6,7 +6,7 @@ EMUL=			linux
 
 COMMENT=	"graphical word processor ported from Windows"
 FAKE=		No
-PKGNAME=	wordperfect-8.0
+PKGNAME=	wordperfect-8.0-0
 CATEGORIES=     editors
 BROKEN=		Home page does not exist anymore.  Alternate 400mb iso exists
 

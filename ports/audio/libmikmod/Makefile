@@ -4,7 +4,7 @@
 COMMENT=	"mikmod sound library"
 VERSION=	3.1.10
 DISTNAME=	libmikmod-${VERSION}
-PKGNAME=	${DISTNAME}p3
+PKGNAME=	${DISTNAME}-3
 CATEGORIES=    	audio devel
 HOMEPAGE=	http://mikmod.raphnet.net/
 

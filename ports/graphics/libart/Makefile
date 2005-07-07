@@ -4,7 +4,7 @@ COMMENT=		"high-performance 2D graphics library"
 
 VERSION=		2.3.16
 DISTNAME=		libart_lgpl-${VERSION}
-PKGNAME=		libart-${VERSION}
+PKGNAME=		libart-${VERSION}-0
 CATEGORIES=		graphics
 
 HOMEPAGE=		http://www.artofcode.com/libart.html

@@ -3,7 +3,7 @@
 COMMENT=		'X11 file manager. Dockable in Window Maker'
 
 DISTNAME=		ASFiles-1.0
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		x11 x11/windowmaker
 
 

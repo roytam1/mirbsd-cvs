@@ -8,7 +8,7 @@ BROKEN=		"alignment issues"
 COMMENT=	"packet sniffer program; for educational use"
 
 DISTNAME=	sniffit.0.3.7.beta
-PKGNAME=	sniffit-0.3.7b
+PKGNAME=	sniffit-0.3.7b-0
 CATEGORIES=	net security
 MASTER_SITES=	http://reptile.rug.ac.be/~coder/sniffit/files/
 MASTER_SITES0=	http://ftp.debian.org/debian/dists/stable/main/source/net/ \

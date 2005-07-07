@@ -5,7 +5,7 @@ EMUL=			linux
 
 COMMENT=	"emulates the Sega GameGear and MasterSystem"
 
-PKGNAME=	mastergear-1.4
+PKGNAME=	mastergear-1.4-0
 DISTNAME=	MG14-Linux-80x86-bin
 
 CATEGORIES=	emulators games

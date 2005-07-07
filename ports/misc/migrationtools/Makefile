@@ -3,7 +3,7 @@
 COMMENT=	"perl scripts for migrating system information to LDAP"
 
 DISTNAME=	MigrationTools
-PKGNAME=	migrationtools-45
+PKGNAME=	migrationtools-45-0
 CATEGORIES=	misc
 
 MASTER_SITES=   ${_MASTER_SITE_MIRBSD}

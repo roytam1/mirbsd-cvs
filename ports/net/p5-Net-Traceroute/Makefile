@@ -3,7 +3,7 @@
 COMMENT=		"traceroute(1) functionality in perl"
 
 DISTNAME=		Net-Traceroute-1.07
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net
 
 HOMEPAGE=		http://www.linnaean.org/~hag/perl/traceroute/traceroute.html

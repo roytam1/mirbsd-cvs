@@ -7,8 +7,8 @@ COMMENT-server=	"network file distribution server"
 
 VERSION=	16.1g
 DISTNAME=	cvsup-snap-${VERSION}
-PKGNAME=	cvsup-${VERSION}
-PKGNAME-server=	cvsupd-${VERSION}
+PKGNAME=	cvsup-${VERSION}-0
+PKGNAME-server=	cvsupd-${VERSION}-0
 CATEGORIES=	net devel
 HOMEPAGE=	http://www.polstra.com/projects/freeware/CVSup/
 

@@ -3,7 +3,7 @@
 COMMENT=	"display X11 color names and colors"
 
 DISTNAME=	xco
-PKGNAME=	xco-1.3
+PKGNAME=	xco-1.3-0
 CATEGORIES=	x11
 
 MASTER_SITES=	ftp://ftp.cs.purdue.edu/pub/bingle/

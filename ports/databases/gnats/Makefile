@@ -3,7 +3,7 @@
 COMMENT=	"GNU Problem Report Management System"
 
 DISTNAME=	gnats-3.113.1
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	databases devel
 MASTER_SITES=	${MASTER_SITE_GNU:=gnats/}
 

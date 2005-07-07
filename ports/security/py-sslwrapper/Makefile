@@ -6,7 +6,7 @@ COMMENT=	"OpenSSL Wrappers for Python"
 
 VERSION=	0.6.1
 DISTNAME=	POW-${VERSION}
-PKGNAME=	py-sslwrapper-${VERSION}
+PKGNAME=	py-sslwrapper-${VERSION}-0
 CATEGORIES=    	security devel
 
 HOMEPAGE=	http://www.sourceforge.net/projects/pow/

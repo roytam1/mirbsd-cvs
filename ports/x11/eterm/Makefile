@@ -3,8 +3,8 @@
 
 COMMENT=		"color X11 terminal emulator with transparency support"
 COMMENT-kanji=		"color japanese terminal emulator with transparency support"
-PKGNAME=		eterm-0.8.10
-FULLPKGNAME-kanji=	ja-eterm-0.8.10
+PKGNAME=		eterm-0.8.10-0
+FULLPKGNAME-kanji=	ja-eterm-0.8.10-0
 DISTNAME=		Eterm-0.8.10
 CATEGORIES=		x11
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=eterm/}

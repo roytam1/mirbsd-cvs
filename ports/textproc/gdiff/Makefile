@@ -4,7 +4,7 @@ COMMENT=	"GNU versions of the diff utilities"
 
 VERSION=	2.8.1
 DISTNAME=	diffutils-${VERSION}
-PKGNAME=	gdiff-${VERSION}
+PKGNAME=	gdiff-${VERSION}-0
 CATEGORIES=	textproc
 HOMEPAGE=	http://www.gnu.org/software/diffutils/
 

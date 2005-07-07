@@ -3,7 +3,7 @@
 COMMENT=		"Perl Interface to Amazon.{co.uk,com} Web Services"
 
 DISTNAME=		Net-Amazon-0.21
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net perl5
 
 # GPL/Artistic License

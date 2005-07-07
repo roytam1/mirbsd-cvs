@@ -5,7 +5,7 @@ COMMENT=	"GTK+2 IRC client"
 MAJOR=		2.0
 VERSION=	${MAJOR}.8
 DISTNAME=	xchat-${VERSION}
-PKGNAME=	xchat2-${VERSION}
+PKGNAME=	xchat2-${VERSION}-0
 CATEGORIES=	net x11
 HOMEPAGE=	http://www.xchat.org/
 

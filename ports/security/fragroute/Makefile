@@ -3,7 +3,7 @@
 COMMENT=		"intercept, modify, and rewrite egress traffic"
 
 DISTNAME=		fragroute-1.2
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=    		security net
 
 HOMEPAGE=		http://www.monkey.org/~dugsong/fragroute/

@@ -4,7 +4,7 @@ COMMENT=	"Motif tool for editing X11 bitmap fonts"
 
 VERSION=	4.7
 DISTNAME=	xmbdfed-${VERSION}
-PKGNAME=	${DISTNAME}.1
+PKGNAME=	${DISTNAME}.1-0
 CATEGORIES=	x11
 HOMEPAGE=	http://crl.nmsu.edu/~mleisher/xmbdfed.html
 

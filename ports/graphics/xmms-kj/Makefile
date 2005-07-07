@@ -6,7 +6,7 @@ COMMENT=	"XMMS visualization plugin, to display Kjofol skins"
 
 VERSION=	0.95
 DISTNAME=	kint_xmms-${VERSION}
-PKGNAME=	xmms-kj-${VERSION}
+PKGNAME=	xmms-kj-${VERSION}-0
 CATEGORIES=	graphics
 HOMEPAGE=	http://www.csse.monash.edu.au/~timf/
 

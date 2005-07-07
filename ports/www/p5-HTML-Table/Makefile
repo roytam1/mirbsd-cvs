@@ -3,7 +3,7 @@
 COMMENT=	"generate HTML tables for cgi scripts"
 
 DISTNAME=	HTML-Table-1.18a
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 HOMEPAGE=	http://www.chime.ucl.ac.uk/~rmhiajp/htmltable/index.htm

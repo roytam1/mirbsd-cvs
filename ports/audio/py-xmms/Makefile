@@ -3,7 +3,7 @@
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Python interface to XMMS"
 DISTNAME=	pyxmms-1.06
-PKGNAME=	${DISTNAME:S/py/py-/}
+PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	audio
 HOMEPAGE=	http://www.via.ecp.fr/~flo/index.en.html\#PyXMMS_and_PyXMMS-remote
 MASTER_SITES=	http://www.via.ecp.fr/~flo/2002/PyXMMS/dist/

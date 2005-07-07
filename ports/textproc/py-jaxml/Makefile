@@ -3,7 +3,7 @@
 COMMENT=	"Python module to easily generate XML/XHTML/HTML documents"
 
 DISTNAME=	jaxml-3.01
-PKGNAME=	py-${DISTNAME}
+PKGNAME=	py-${DISTNAME}-0
 CATEGORIES=	textproc
 
 HOMEPAGE=	http://www.librelogiciel.com/software/jaxml/action_Presentation

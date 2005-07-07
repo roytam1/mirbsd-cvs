@@ -3,7 +3,7 @@
 COMMENT=		"alternative Perl interface to ping(1)"
 
 DISTNAME=		Net-Ping-External-0.06
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net
 
 

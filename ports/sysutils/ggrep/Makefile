@@ -3,7 +3,7 @@
 COMMENT=	GNU versions of grep pattern matching utilities
 
 DISTNAME=	grep-2.5.1
-PKGNAME=	g${DISTNAME}p0
+PKGNAME=	g${DISTNAME}-1
 CATEGORIES=	sysutils
 HOMEPAGE=	http://www.gnu.org/software/grep/grep.html
 

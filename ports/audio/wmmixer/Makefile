@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; audio mixer'
 
 DISTNAME=		wmmixer-1.0-beta1
-PKGNAME=		wmmixer-1.0b1
+PKGNAME=		wmmixer-1.0b1-0
 CATEGORIES=		audio x11 x11/windowmaker
 
 

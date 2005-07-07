@@ -3,7 +3,7 @@
 
 COMMENT=	"WWW and FTP proxy cache and accelerator"
 DISTNAME=	squid-2.5.STABLE5
-PKGNAME=	${DISTNAME}p2
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	www
 MASTER_SITES=	${HOMEPAGE}Versions/v2/2.5/
 MASTER_SITES0=	${HOMEPAGE}Versions/v2/2.5/bugs/

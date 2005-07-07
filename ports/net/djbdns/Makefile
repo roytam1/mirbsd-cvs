@@ -4,7 +4,7 @@ COMMENT=		"collection of Domain Name System server and tools"
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-PKGNAME=		djbdns-${VERSION}q-11
+PKGNAME=		djbdns-${VERSION}q-11-0
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
 

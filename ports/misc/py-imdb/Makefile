@@ -4,7 +4,7 @@ COMMENT=	"Python package to retrieve data of the IMDb movie database"
 
 V=		1.2
 DISTNAME=	imdbpy-${V}
-PKGNAME=	py-imdb-${V}
+PKGNAME=	py-imdb-${V}-0
 CATEGORIES=	misc
 
 HOMEPAGE=	http://imdbpy.sourceforge.net/

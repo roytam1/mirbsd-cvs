@@ -3,7 +3,7 @@
 COMMENT=	"multi-radix integer desk calculator"
 
 DISTNAME=	hc
-PKGNAME=	hc-1.1
+PKGNAME=	hc-1.1-0
 CATEGORIES=	math
 
 HOMEPAGE=	http://www.geocities.com/connorbd/software/hc.html

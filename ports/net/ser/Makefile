@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc
 
 VERSION=	0.8.10
 DISTNAME=	ser-${VERSION}_src
-PKGNAME=	ser-${VERSION}
+PKGNAME=	ser-${VERSION}-0
 CATEGORIES=	net
 
 MASTER_SITES+=	ftp://ftp.berlios.de/pub/ser/${VERSION}/src/

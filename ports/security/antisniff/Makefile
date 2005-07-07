@@ -2,7 +2,7 @@
 
 COMMENT=	"promiscuous mode interface detector"
 
-PKGNAME=	antisniff-1.1.2
+PKGNAME=	antisniff-1.1.2-0
 CATEGORIES=	security
 
 MASTER_SITES=	http://www.securitysoftwaretech.com/antisniff/dist/

@@ -7,9 +7,9 @@ COMMENT-fvwm2=	"multiple virtual desktop window manager, without icons"
 
 VERSION=	2.4.16
 DISTNAME=	fvwm-${VERSION}
-PKGNAME=	fvwm2+fvicons-${VERSION}
-FULLPKGNAME-fvicons=fvicons-${VERSION}
-PKGNAME-fvwm2=	fvwm2-${VERSION}
+PKGNAME=	fvwm2+fvicons-${VERSION}-0
+FULLPKGNAME-fvicons=fvicons-${VERSION}-0
+PKGNAME-fvwm2=	fvwm2-${VERSION}-0
 CATEGORIES=     x11
 
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} fvwm_icons.tgz:0

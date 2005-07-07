@@ -7,7 +7,7 @@ COMMENT-examples=	"examples for python imaging library"
 
 VERSION=		1.1.4
 DISTNAME=		Imaging-${VERSION}
-PKGNAME=		py-${DISTNAME}
+PKGNAME=		py-${DISTNAME}-0
 CATEGORIES=		graphics
 
 HOMEPAGE=		http://www.pythonware.com/products/pil/
@@ -33,7 +33,7 @@ LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 MULTI_PACKAGES=		-examples
 SUBPACKAGE?=
 
-PKGNAME-examples=	py-Imaging-examples-${VERSION}
+PKGNAME-examples=	py-Imaging-examples-${VERSION}-0
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-examples"
 RUN_DEPENDS=		:py-Imaging-*:graphics/py-Imaging
 LIB_DEPENDS=

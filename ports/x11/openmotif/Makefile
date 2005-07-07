@@ -8,9 +8,9 @@ COMMENT-demos=		"Motif toolkit demos"
 VERSION=		2.1.30
 DISTNAME=		motif
 PATCHLEVEL=		5
-PKGNAME=		openmotif-${VERSION}.${PATCHLEVEL}
-PKGNAME-demos=		openmotif-demos-${VERSION}.${PATCHLEVEL}
-PKGNAME-debuglibs=	openmotif-debuglibs-${VERSION}.${PATCHLEVEL}
+PKGNAME=		openmotif-${VERSION}.${PATCHLEVEL}-0
+PKGNAME-demos=		openmotif-demos-${VERSION}.${PATCHLEVEL}-0
+PKGNAME-debuglibs=	openmotif-debuglibs-${VERSION}.${PATCHLEVEL}-0
 HOMEPAGE=		http://www.opengroup.org/openmotif/
 
 MASTER_SITES=	ftp://ftp.opengroup.org/pub/openmotif/R${VERSION}/tars/ \

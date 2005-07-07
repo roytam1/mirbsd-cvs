@@ -4,7 +4,7 @@ COMMENT=		"Plan 9 compatibility libraries"
 
 VERSION=		1.0
 DISTNAME=		9libs-${VERSION}
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		plan9 devel
 
 HOMEPAGE=		http://www.netlib.org/research/9libs/

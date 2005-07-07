@@ -4,7 +4,7 @@ COMMENT=	"Ruby binding to Gdk-pixbuf"
 
 VERSION=	0.34
 DISTNAME=	ruby-gnome-all-${VERSION}
-PKGNAME=	ruby-gdk-pixbuf-${VERSION}
+PKGNAME=	ruby-gdk-pixbuf-${VERSION}-0
 CATEGORIES=	graphics
 
 HOMEPAGE=	http://ruby-gnome.sourceforge.net/

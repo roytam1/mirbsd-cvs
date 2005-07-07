@@ -3,7 +3,7 @@
 COMMENT=	"expand template text with embedded perl"
 
 DISTNAME=	Text-Template-1.43
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Text/}

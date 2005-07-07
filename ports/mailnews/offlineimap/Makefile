@@ -4,7 +4,7 @@ COMMENT=	"powerful IMAP/Maildir synchronization and reader support"
 
 DISTNAME=	offlineimap_4.0.0
 CATEGORIES=	mail
-PKGNAME=        ${DISTNAME:S/_/-/}
+PKGNAME=        ${DISTNAME:S/_/-/}-0
 
 HOMEPAGE=	http://gopher.quux.org:70/devel/offlineimap/
 

@@ -2,7 +2,7 @@
 
 COMMENT=	"NFS auditing tool"
 
-PKGNAME=	nfsshell-1.0
+PKGNAME=	nfsshell-1.0-0
 DISTNAME=	nfsshell
 CATEGORIES=	security
 

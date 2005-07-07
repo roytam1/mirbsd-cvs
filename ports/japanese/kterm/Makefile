@@ -4,7 +4,7 @@
 COMMENT=	"Japanese-capable xterm"
 VERSION=	6.2.0
 DISTNAME=	kterm-${VERSION}
-PKGNAME=	ja-kterm-${VERSION}p1
+PKGNAME=	ja-kterm-${VERSION}-1
 CATEGORIES=	japanese x11
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=applications/}
 

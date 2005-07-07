@@ -3,7 +3,7 @@
 COMMENT=		"simple object oriented framework for Tcl"
 
 VERSION=		0.7
-PKGNAME=		snit-${VERSION}
+PKGNAME=		snit-${VERSION}-0
 DISTNAME=		snit${VERSION}
 CATEGORIES=		devel
 

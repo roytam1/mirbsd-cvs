@@ -3,7 +3,7 @@
 COMMENT=	"tiny/turbo/throttling HTTP server"
 
 DISTNAME=	thttpd-2.25b
-PKGNAME=	thttpd-2.25b
+PKGNAME=	thttpd-2.25b-0
 CATEGORIES=    	www
 
 HOMEPAGE=	http://www.acme.com/software/thttpd/

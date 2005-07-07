@@ -3,7 +3,7 @@
 COMMENT=	"html editor designed for the experienced web designer"
 
 DISTNAME=	august0.63b.src
-PKGNAME=	august-0.63b
+PKGNAME=	august-0.63b-0
 CATEGORIES=     www
 
 HOMEPAGE=	http://www.bostream.nu/johanb/august/

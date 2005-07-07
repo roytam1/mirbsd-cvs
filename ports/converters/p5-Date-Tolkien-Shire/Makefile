@@ -2,7 +2,7 @@
 
 COMMENT=	"convert dates into the Shire Calendar"
 DISTNAME=	Date-Tolkien-Shire-1.12
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5
 
 PERMIT_PACKAGE_CDROM=	Yes

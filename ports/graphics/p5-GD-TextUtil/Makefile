@@ -4,7 +4,7 @@ COMMENT=	"text utilities for use with GD drawing package"
 
 VERSION=	0.83
 DISTNAME=	GDTextUtil-${VERSION}
-PKGNAME=	p5-GD-TextUtil-${VERSION}
+PKGNAME=	p5-GD-TextUtil-${VERSION}-0
 CATEGORIES=	graphics perl5
 
 

@@ -4,7 +4,7 @@
 COMMENT=	"Visual Audio Tool, multicast audioconferencing"
 
 DISTNAME=	vatsrc-4.0b2
-PKGNAME=	vat-4.0b2
+PKGNAME=	vat-4.0b2-0
 CATEGORIES=	mbone
 
 MASTER_SITES=	ftp://ftp.ee.lbl.gov/conferencing/vat/alpha-test/

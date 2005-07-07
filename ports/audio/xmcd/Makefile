@@ -2,7 +2,7 @@
 
 COMMENT=	"Motif CD player"
 
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 DISTNAME=	xmcd-2.6
 CATEGORIES=	audio
 HOMEPAGE=	http://metalab.unc.edu/tkan/xmcd/

@@ -2,7 +2,7 @@
 
 COMMENT=		"list processes as a tree"
 DISTNAME=		pstree-2.17
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	sysutils
 
 

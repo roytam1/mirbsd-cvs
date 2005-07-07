@@ -9,8 +9,8 @@ VERSION=	0.10.3
 DISTNAME=	ethereal-${VERSION}
 CATEGORIES=	net x11
 
-FULLPKGNAME=		tethereal-${VERSION}${FLAVOR_EXT}
-FULLPKGNAME-x11=	ethereal-${VERSION}${FLAVOR_EXT}
+FULLPKGNAME=		tethereal-${VERSION}${FLAVOR_EXT}-0
+FULLPKGNAME-x11=	ethereal-${VERSION}${FLAVOR_EXT}-0
 
 MASTER_SITES=	http://www.ethereal.com/distribution/all-versions/ \
 		http://ethereal.zing.org/distribution/all-versions/ \

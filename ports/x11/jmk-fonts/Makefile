@@ -3,7 +3,7 @@
 COMMENT=		"nice fixed width fonts, easy on the eye"
 
 DISTNAME=		jmk-x11-fonts-3.0
-PKGNAME=		${DISTNAME:S/-x11//}
+PKGNAME=		${DISTNAME:S/-x11//}-0
 CATEGORIES=		x11
 
 HOMEPAGE=		http://www.jmknoble.net/fonts/

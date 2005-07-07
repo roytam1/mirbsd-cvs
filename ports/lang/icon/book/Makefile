@@ -14,10 +14,10 @@ FLAVORS=two_sided
 FLAVOR?=
 .if ${FLAVOR:L} == "two_sided"
 DISTFILES=	lb2up.pdf
-FULLPKGNAME=	icon-book-two_sided-$V
+FULLPKGNAME=	icon-book-two_sided-$V-0
 .else
 DISTFILES=	lb1up.pdf
-FULLPKGNAME=	icon-book-$V
+FULLPKGNAME=	icon-book-$V-0
 .endif
 
 SUPDISTFILES=	lb1up.pdf lb2up.pdf

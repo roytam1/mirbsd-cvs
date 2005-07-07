@@ -4,7 +4,7 @@
 COMMENT=		"gtk file manager with desktop features"
 VERSION=		2.1.1
 DISTNAME=		rox-${VERSION}
-PKGNAME=		rox-filer-${VERSION}
+PKGNAME=		rox-filer-${VERSION}-0
 CATEGORIES=		x11
 HOMEPAGE=		http://rox.sourceforge.net/
 

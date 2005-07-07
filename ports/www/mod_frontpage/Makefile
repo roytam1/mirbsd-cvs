@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"Microsoft FrontPage Server extensions for Apache"
 VERSION=	1.6.2
 DISTNAME=	mod_frontpage_mirfak-${VERSION}
-PKGNAME=	mod_frontpage-${VERSION}
+PKGNAME=	mod_frontpage-${VERSION}-0
 CATEGORIES=	www
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=mirfak/}
 

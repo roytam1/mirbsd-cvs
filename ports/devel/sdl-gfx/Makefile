@@ -2,7 +2,7 @@
 
 COMMENT=	"primitives drawing/other support functions for SDL"
 DISTNAME=	SDL_gfx-2.0.11
-PKGNAME=	${DISTNAME:L:S/_/-/}
+PKGNAME=	${DISTNAME:L:S/_/-/}-0
 CATEGORIES=	devel graphics x11
 MASTER_SITES=	${HOMEPAGE}
 

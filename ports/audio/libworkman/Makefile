@@ -3,7 +3,7 @@
 COMMENT=		'multi-platform CD-Player library'
 
 DISTNAME=		libworkman-1999-06-20
-PKGNAME=		libworkman-1.4
+PKGNAME=		libworkman-1.4-0
 CATEGORIES=		audio
 
 

@@ -2,7 +2,7 @@
 
 COMMENT=	"scripting language for reminders, with a Tk front end"
 DISTNAME=	remind-03.00.22
-PKGNAME=        remind-3.0.22
+PKGNAME=        remind-3.0.22-0
 CATEGORIES=	misc
 MASTER_SITES = 	http://www.roaringpenguin.com/
 HOMEPAGE=	http://www.roaringpenguin.com/remind.html

@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"calculate Fast Fourier Transforms in perl"
 
 DISTNAME=	Math-FFT-0.25
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 

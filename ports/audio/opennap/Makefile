@@ -3,7 +3,7 @@
 COMMENT=	"opensource Napster(tm) server"
 
 DISTNAME=	opennap-0.44
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio net
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=opennap/}
 

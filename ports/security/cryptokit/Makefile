@@ -4,7 +4,7 @@ COMMENT=	"cryptographic framework for the Objective-ML language"
 CATEGORIES=	security
 
 DISTNAME=	cryptokit-1.2
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 MASTER_SITES=	http://caml.inria.fr/distrib/bazar-ocaml/
 
 HOMEPAGE=	http://pauillac.inria.fr/~xleroy/software.html

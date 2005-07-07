@@ -4,8 +4,8 @@ COMMENT=	"network time protocol implementation"
 COMMENT-doc=	"network time protocol documentation"
 
 DISTNAME=	ntp-${NTP_VERSION}
-PKGNAME=	ntp-${NTP_VERSION:C/-rc.*//}
-PKGNAME-doc=	ntp-doc-${NTP_VERSION:C/-rc.*//}
+PKGNAME=	ntp-${NTP_VERSION:C/-rc.*//}-0
+PKGNAME-doc=	ntp-doc-${NTP_VERSION:C/-rc.*//}-0
 CATEGORIES=	net
 MASTER_SITES=	http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ \
 		ftp://ftp.udel.edu/pub/ntp/ntp4/ \

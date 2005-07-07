@@ -4,7 +4,7 @@ COMMENT=	"X11 keyboard accessibility tool"
 COMMENT-gui=	"GUI for xkbset"
 
 DISTNAME=	xkbset-0.5
-PKGNAME-gui=	xkbset-gui-0.5
+PKGNAME-gui=	xkbset-gui-0.5-0
 CATEGORIES=	x11
 
 # BSD

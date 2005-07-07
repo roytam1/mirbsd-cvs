@@ -7,7 +7,7 @@ COMMENT=	"Huge compilation of mostly Win32 binary codecs for MPlayer"
 RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
 _V=		20050412
 DISTNAME=	all-${_V}
-PKGNAME=	win32-codecs-${_V}
+PKGNAME=	win32-codecs-${_V}-0
 CATEGORIES=	graphics multimedia
 
 # royalty-free decoder; for personal use royalty-free encoder up to 56 kb/s

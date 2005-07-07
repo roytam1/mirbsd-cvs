@@ -4,7 +4,7 @@ COMMENT=	"object oriented interface for CGI script applications"
 
 VERSION=	1.1.1
 DISTNAME=	CGI-XMLApplication-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=    	www perl5
 
 

@@ -9,8 +9,8 @@ COMMENT=		"Java2(TM) Standard Edition Dev Kit v${V}"
 COMMENT-jre=		"Java2(TM) Standard Edition Runtime Environment v${V}"
 V=			1.4.2
 DISTNAME=		j2sdk-1_4_2
-PKGNAME=		jdk-${V}
-PKGNAME-jre=		jre-${V}
+PKGNAME=		jdk-${V}-0
+PKGNAME-jre=		jre-${V}-0
 # explanations at http://www.intricatesoftware.com/OpenBSD/java/jdk14.html
 # wwws is not a typo in the following:
 HOMEPAGE=		http://wwws.sun.com/software/communitysource/j2se/java2/

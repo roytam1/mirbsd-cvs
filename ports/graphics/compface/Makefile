@@ -3,7 +3,7 @@
 COMMENT=	"programs and library for the 'X-face' mail and news header"
 
 DISTNAME=	compface
-PKGNAME=	compface-1.0
+PKGNAME=	compface-1.0-0
 CATEGORIES=	graphics
 MASTER_SITES=	ftp://ftp.xemacs.org/pub/xemacs/aux/
 

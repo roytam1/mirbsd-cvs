@@ -7,7 +7,7 @@ IGNORE+=	"If you use MirOS 7-stable, you are fucked up and get the package"
 
 COMMENT=		"GNU Compiler Collection for the MirOS system"
 CATEGORIES=		lang devel
-PKGNAME=		gcc-3.3.3-system
+PKGNAME=		gcc-3.3.3-system-0
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes

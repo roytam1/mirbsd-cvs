@@ -7,7 +7,7 @@ COMMENT=	"AntiVirus DAT file for uvscan"
 
 VERSION=	4312
 DISTNAME=	dat-${VERSION}
-PKGNAME=	uvscan_${DISTNAME}
+PKGNAME=	uvscan_${DISTNAME}-0
 CATEGORIES=	security
 
 HOMEPAGE=	http://www.networkassociates.com/us/downloads/updates/

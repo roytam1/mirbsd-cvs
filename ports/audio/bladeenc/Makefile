@@ -4,7 +4,7 @@ COMMENT=	"high-quality MP3 encoder"
 
 VERSION=	0.94.2
 DISTNAME=	bladeenc-${VERSION}-src-stable
-PKGNAME=	bladeenc-${VERSION}p1
+PKGNAME=	bladeenc-${VERSION}-1
 CATEGORIES=	audio
 MASTER_SITES=	http://bladeenc.mp3.no/source/ \
 		http://www.physik.TU-Berlin.DE/~ibex/ports/distfiles/

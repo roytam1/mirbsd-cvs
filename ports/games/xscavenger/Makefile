@@ -3,7 +3,7 @@
 DISTNAME=	xscavenger-143
 EXTRACT_SUFX=	.tgz
 CATEGORIES=	games
-PKGNAME=	xscavenger-1.4.3
+PKGNAME=	xscavenger-1.4.3-0
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

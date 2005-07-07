@@ -3,7 +3,7 @@
 COMMENT=		"screen positioning and coloring module"
 
 DISTNAME=		Term-ScreenColor-1.09
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel perl5
 
 HOMEPAGE=		http://p-f-m.sourceforge.net/

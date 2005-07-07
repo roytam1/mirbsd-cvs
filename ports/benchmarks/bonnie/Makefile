@@ -3,7 +3,7 @@
 COMMENT=	"performance test of filesystem I/O"
 
 DISTNAME=	Bonnie
-PKGNAME=	bonnie-1.0
+PKGNAME=	bonnie-1.0-0
 CATEGORIES=	benchmarks
 
 MASTER_SITES=	ftp://ftp.sunet.se/pub/benchmark/Bonnie/ \

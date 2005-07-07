@@ -5,7 +5,7 @@ COMMENT=		"block-sorting file compressor, unencumbered"
 
 VERSION=		1.0.3
 DISTNAME=		bzip2-${VERSION}
-PKGNAME=		${DISTNAME}
+PKGNAME=		${DISTNAME}-0
 CATEGORIES=		archivers
 HOMEPAGE=		http://www.bzip.org/
 MASTER_SITES=		${HOMEPAGE}${VERSION}/

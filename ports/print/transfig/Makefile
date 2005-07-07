@@ -4,7 +4,7 @@
 COMMENT=	"tools to convert Xfig's .fig files"
 VERSION=	3.2.4
 DISTNAME=	transfig.${VERSION}
-PKGNAME=	transfig-${VERSION}
+PKGNAME=	transfig-${VERSION}-0
 CATEGORIES=	print
 MASTER_SITES=	ftp://www-epb.lbl.gov/xfig/ \
 		ftp://www-epb.lbl.gov/xfig/previous_versions/

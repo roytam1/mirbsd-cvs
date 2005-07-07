@@ -41,9 +41,9 @@ USE_X11=	Yes
 
 MULTI_PACKAGES=	-mame -mess
 
-PKGNAME=	xmame+xmess-${VERSION}
-PKGNAME-mame=	xmame-${VERSION}
-PKGNAME-mess=	xmess-${VERSION}
+PKGNAME=	xmame+xmess-${VERSION}-0
+PKGNAME-mame=	xmame-${VERSION}-0
+PKGNAME-mess=	xmess-${VERSION}-0
 
 VIDEOF=		x11 gl sdl
 

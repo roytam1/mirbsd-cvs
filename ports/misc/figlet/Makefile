@@ -2,7 +2,7 @@
 
 COMMENT=	"generates ASCII banner art"
 
-PKGNAME=	figlet-2.2.1p1
+PKGNAME=	figlet-2.2.1-1
 DISTNAME=	figlet221
 CATEGORIES=	misc graphics
 

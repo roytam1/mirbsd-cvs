@@ -8,7 +8,7 @@ V2:=		${PROGRAM_V:S/.//}
 EMUL=		bsdos
 
 DISTNAME=	navigator-v${V2}-us.x86-bsdi-bsd2
-PKGNAME=	navigator-bsdi-${PROGRAM_V}p1
+PKGNAME=	navigator-bsdi-${PROGRAM_V}-1
 LOCATION=	bsdi21/navigator_standalone
 DIRNAME=	navigator-v${V2}.x86-bsdi-bsd2
 

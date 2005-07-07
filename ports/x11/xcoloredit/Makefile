@@ -3,7 +3,7 @@
 COMMENT=	"find color values by graphical color mixing"
 
 DISTNAME=	xcoloredit
-PKGNAME=	xcoloredit-1.2
+PKGNAME=	xcoloredit-1.2-0
 CATEGORIES=	x11
 
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}

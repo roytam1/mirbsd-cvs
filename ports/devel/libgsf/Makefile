@@ -6,7 +6,7 @@ COMMENT-gnome=		"GNOME specific extensions to libgsf"
 
 VERSION=		1.11.1
 DISTNAME=		libgsf-${VERSION}
-PKGNAME-gnome=		libgsf-gnome-${VERSION}
+PKGNAME-gnome=		libgsf-gnome-${VERSION}-0
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/

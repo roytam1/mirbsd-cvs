@@ -6,7 +6,7 @@ COMMENT=	"regression testing utility for use with the Java language"
 JDK_VERSION=	1.3.1-linux
 VERSION=	3.8.1
 DISTNAME=	junit${VERSION}
-PKGNAME=	junit-${VERSION}
+PKGNAME=	junit-${VERSION}-0
 CATEGORIES=	java
 
 HOMEPAGE=	http://www.junit.org/

@@ -3,7 +3,7 @@
 COMMENT=		"DNS zone verification tool"
 
 DISTNAME=		dlint1.4.0
-PKGNAME=		dlint-1.4.0
+PKGNAME=		dlint-1.4.0-0
 CATEGORIES=    		net
 
 HOMEPAGE=		http://www.domtools.com/dns/dlint.shtml

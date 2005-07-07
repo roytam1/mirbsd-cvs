@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; POP3 mail check'
 
 DISTNAME=		WMPop3-0.5.6a
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		mail x11/windowmaker
 
 # GPL

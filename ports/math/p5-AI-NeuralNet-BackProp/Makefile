@@ -3,7 +3,7 @@
 COMMENT=	"implement a back-propagation feed-forward neural network"
 
 DISTNAME=	AI-NeuralNet-BackProp-0.89
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 

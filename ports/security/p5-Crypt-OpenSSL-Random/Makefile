@@ -6,7 +6,7 @@ COMMENT=	"routines for accessing the OpenSSL prng"
 
 VERSION=	0.03
 DISTNAME=	Crypt-OpenSSL-Random-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 HOMEPAGE=	http://perl-openssl.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Crypt/}

@@ -5,7 +5,7 @@ COMMENT=	"regression testing framework for PHP"
 
 V=		0.6.2
 DISTNAME=	PHPUnit-${V}
-PKGNAME=	pear-${DISTNAME}
+PKGNAME=	pear-${DISTNAME}-0
 CATEGORIES=	devel pear
 
 MASTER_SITES=	http://pear.php.net/get/

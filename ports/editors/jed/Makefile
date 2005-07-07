@@ -3,7 +3,7 @@
 COMMENT=	"text editor"
 
 DISTNAME=	jed-0.99-16
-PKGNAME=	jed-0.99.16
+PKGNAME=	jed-0.99.16-0
 CATEGORIES=	editors
 MASTER_SITES=   ftp://space.mit.edu/pub/davis/jed/v0.99/ \
 		ftp://ftp.ntua.gr/pub/lang/slang/jed/v0.99/ \

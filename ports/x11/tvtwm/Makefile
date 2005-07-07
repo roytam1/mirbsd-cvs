@@ -4,7 +4,7 @@
 COMMENT=	"twm with a virtual desktop"
 
 DISTNAME=	tvtwm.pl11
-PKGNAME=	tvtwm-0pl11
+PKGNAME=	tvtwm-0pl11-0
 CATEGORIES=	x11
 
 # BSD-like/badly worded

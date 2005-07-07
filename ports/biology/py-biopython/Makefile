@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"Python tools for computational molecular biology"
 
 DISTNAME=	biopython-1.24
-PKGNAME=	py-${DISTNAME:L}
+PKGNAME=	py-${DISTNAME:L}-0
 CATEGORIES=	biology
 
 HOMEPAGE=	http://www.biopython.org/

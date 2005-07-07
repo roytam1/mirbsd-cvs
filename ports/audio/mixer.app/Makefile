@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; sound mixer'
 
 DISTNAME=		Mixer.app-1.8.0
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		audio x11 x11/windowmaker
 
 HOMEPAGE=		http://www.fukt.hk-r.se/~per/mixer/

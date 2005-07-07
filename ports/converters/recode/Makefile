@@ -3,7 +3,7 @@
 
 COMMENT=	"convert files between character sets and usages"
 DISTNAME=	recode-3.6
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	converters textproc
 HOMEPAGE=	http://www.gnu.org/software/recode/
 MODULES=	devel/gettext

@@ -3,7 +3,7 @@
 COMMENT=	"dynamic definition of Class::DBI sub classes"
 
 DISTNAME=	Class-DBI-Loader-0.02
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5 
 
 # Same as Perl

@@ -5,7 +5,7 @@ COMMENT=	"PalmPilot communication utilities"
 
 VERSION=	0.9.5
 DISTNAME=	pilot-link.${VERSION}
-PKGNAME=	pilot-link-${VERSION}p1
+PKGNAME=	pilot-link-${VERSION}-1
 CATEGORIES=	comms palm
 EXTRACT_SUFX=	.tar.bz2
 

@@ -3,7 +3,7 @@
 COMMENT=	"solitaire"
 
 DISTNAME=       xsol-new
-PKGNAME=	xsol-2.1.1
+PKGNAME=	xsol-2.1.1-0
 CATEGORIES=	games
 
 MASTER_SITES=	${MASTER_SITE_BACKUP}

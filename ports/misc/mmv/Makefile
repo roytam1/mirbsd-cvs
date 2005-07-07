@@ -3,7 +3,7 @@
 COMMENT=	"move/copy/append/link multiple files with wildcards"
 
 DISTNAME=	mmv
-PKGNAME=	mmv-1.01b
+PKGNAME=	mmv-1.01b-0
 CATEGORIES=	misc
 
 MASTER_SITES=	ftp://gatekeeper.dec.com/pub/usenet/comp.sources.unix/volume21/mmv/

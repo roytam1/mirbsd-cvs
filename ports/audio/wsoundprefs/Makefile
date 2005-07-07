@@ -3,7 +3,7 @@
 COMMENT=		'preferences program for wsoundserver'
 
 DISTNAME=		WSoundPrefs-1.1.1
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		audio
 
 

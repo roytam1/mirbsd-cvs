@@ -4,7 +4,7 @@ COMMENT=		"USENET software package designed for small sites"
 
 VERSION=		1.9.53
 DISTNAME=		leafnode-${VERSION}.rel
-PKGNAME=		leafnode-${VERSION}
+PKGNAME=		leafnode-${VERSION}-0
 CATEGORIES=		news
 
 HOMEPAGE=		http://www.leafnode.org/

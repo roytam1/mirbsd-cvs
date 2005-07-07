@@ -5,7 +5,7 @@ COMMENT=	"useful and interesting programs for Icon"
 
 VERSION=9.4
 DISTNAME=	icon.v940src
-PKGNAME=	icon-lib-${VERSION}
+PKGNAME=	icon-lib-${VERSION}-0
 #DIST_SUBDIR=icon/${VERSION}
 DISTFILES=	icon.v940src.tgz
 

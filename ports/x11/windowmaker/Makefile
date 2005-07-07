@@ -6,7 +6,7 @@ COMMENT-lang=		"language subpackage for Window Maker"
 
 V=			0.91.0
 DISTNAME=		WindowMaker-${V}
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		x11 x11/windowmaker
 
 HOMEPAGE=		http://www.windowmaker.org/

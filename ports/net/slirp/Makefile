@@ -4,7 +4,7 @@ COMMENT=	"SLIP/CSLIP emulator for users with shell accounts"
 
 V=		1.0c
 DISTNAME=	slirp-${V}
-PKGNAME=	slirp-${V}p1
+PKGNAME=	slirp-${V}-1
 CATEGORIES=	net
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 

@@ -4,7 +4,7 @@
 COMMENT=	"CAD drawing program for X11"
 VERSION=	3.2.4
 DISTNAME=	xfig.${VERSION}.full
-PKGNAME=	xfig-${VERSION}
+PKGNAME=	xfig-${VERSION}-0
 CATEGORIES=	graphics x11
 HOMEPAGE=	http://www.xfig.org/
 

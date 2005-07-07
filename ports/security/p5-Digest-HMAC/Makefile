@@ -3,7 +3,7 @@
 COMMENT=	"interface to HMAC Message-Digest Algorithms"
 
 DISTNAME=	Digest-HMAC-1.01
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 
 

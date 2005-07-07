@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"perl interface to the Sablotron XSLT engine"
 DISTNAME=	XML-Sablotron-1.0
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 MASTER_SITES=	http://download-1.gingerall.cz/download/sablot/
 HOMEPAGE=	http://www.gingerall.cz/

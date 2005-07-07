@@ -4,7 +4,7 @@
 COMMENT=		"highly customizable e-mail to HTML converter"
 VERSION=		2.6.11
 DISTNAME=		MHonArc-${VERSION}
-PKGNAME=		${DISTNAME:L}
+PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=     	www mail
 HOMEPAGE=		http://www.mhonarc.org/
 MASTER_SITES=		http://www.mhonarc.org/release/MHonArc/tar/ \

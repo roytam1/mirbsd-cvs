@@ -6,7 +6,7 @@
 COMMENT=		"open source 68k Macintosh emulator"
 
 DISTNAME=		BasiliskII_src_31052001
-PKGNAME=		BasiliskII-0.9.1
+PKGNAME=		BasiliskII-0.9.1-0
 CATEGORIES=		emulators
 
 HOMEPAGE=		http://www.uni-mainz.de/~bauec002/B2Main.html

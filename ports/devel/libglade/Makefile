@@ -4,7 +4,7 @@
 COMMENT=		"library for loading GLADE interface files at runtime"
 V=			2.4.0
 DISTNAME=		libglade-${V}
-PKGNAME=		libglade2-${V}p0
+PKGNAME=		libglade2-${V}-1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libglade/2.4/}

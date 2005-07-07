@@ -3,7 +3,7 @@
 COMMENT=	"high-performance dynamic web authoring system"
 
 DISTNAME=	HTML-Mason-1.26
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 HOMEPAGE=	http://www.masonhq.com/

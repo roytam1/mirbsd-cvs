@@ -7,7 +7,7 @@ COMMENT=	"shoot them nasty little bugs"
 
 DISTNAME=       xinvaders
 DIST_SUBDIR=	xinvaders
-PKGNAME=	xinvaders-2.0
+PKGNAME=	xinvaders-2.0-0
 CATEGORIES=	games
 
 

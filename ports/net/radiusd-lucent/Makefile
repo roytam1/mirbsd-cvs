@@ -3,7 +3,7 @@
 COMMENT=	"Lucent remote access RADIUS server"
 
 DISTNAME=	radius21
-PKGNAME=	radiusd-lucent-2.1p6
+PKGNAME=	radiusd-lucent-2.1-6
 CATEGORIES=	net
 MASTER_SITES=	http://www.vergenet.net/linux/radius/download/
 PATCHFILES=	radius-2.1.comprehensive.6.patch.gz

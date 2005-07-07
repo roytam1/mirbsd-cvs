@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"unified perl interface for database access"
 
 DISTNAME=	DBI-1.42
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=DBI/}

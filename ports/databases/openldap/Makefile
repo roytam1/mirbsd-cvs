@@ -6,8 +6,8 @@ COMMENT-server=	"Open source LDAP software (server)"
 VERSION=	2.2.26
 
 DISTNAME=	openldap-${VERSION}
-FULLPKGNAME=	openldap-client-${VERSION}
-PKGNAME-server=	openldap-server-${VERSION}
+FULLPKGNAME=	openldap-client-${VERSION}-0
+PKGNAME-server=	openldap-server-${VERSION}-0
 CATEGORIES=	databases net
 HOMEPAGE=	http://www.openldap.org/
 

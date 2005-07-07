@@ -4,7 +4,7 @@ COMMENT=	"perl module to implementing delay loading of object-data"
 
 VERSION=	0.14
 DISTNAME=	Object-Realize-Later-${VERSION}
-PKGNAME=	p5-Object-Realize-${VERSION}
+PKGNAME=	p5-Object-Realize-${VERSION}-0
 CATEGORIES=	devel perl5
 
 HOMEPAGE=	http://perl.overmeer.net/

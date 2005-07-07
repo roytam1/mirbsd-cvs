@@ -3,7 +3,7 @@
 COMMENT=	"extensions to Class::DBI for MySQL "
 
 DISTNAME=	Class-DBI-mysql-0.22
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 

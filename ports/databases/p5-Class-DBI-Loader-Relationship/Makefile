@@ -3,7 +3,7 @@
 COMMENT=	"easier relationship specification in CDBI::L"
 
 DISTNAME=	Class-DBI-Loader-Relationship-1.2
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5 
 
 # Same as Perl

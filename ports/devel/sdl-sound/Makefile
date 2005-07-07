@@ -2,7 +2,7 @@
 
 COMMENT=	"library that handles the decoding of sound file formats"
 DISTNAME=	SDL_sound-1.0.1
-PKGNAME=	${DISTNAME:L:S/_/-/}p0
+PKGNAME=	${DISTNAME:L:S/_/-/}-1
 CATEGORIES=	devel audio
 MASTER_SITES=	${HOMEPAGE}downloads/
 

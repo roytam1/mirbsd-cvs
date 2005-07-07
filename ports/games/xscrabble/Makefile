@@ -3,7 +3,7 @@
 COMMENT=	"X11 version of the popular board game"
 
 DISTNAME=	xscrabble
-PKGNAME=	xscrabble-1.0
+PKGNAME=	xscrabble-1.0-0
 CATEGORIES=	games
 
 MASTER_SITES=	http://people.freebsd.org/~mph/distfiles/

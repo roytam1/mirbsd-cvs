@@ -3,7 +3,7 @@
 COMMENT=	"translate character sets"
 
 DISTNAME=	tcs
-PKGNAME=	tcs-19950325
+PKGNAME=	tcs-19950325-0
 CATEGORIES=	plan9
 
 MASTER_SITES= 	ftp://plan9.bell-labs.com/plan9/unixsrc/ \

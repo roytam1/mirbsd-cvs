@@ -4,7 +4,7 @@
 COMMENT=	"character entity sets from ISO 8879:1986 (SGML)"
 
 DISTNAME=	isoENTS
-PKGNAME=	iso8879-1986
+PKGNAME=	iso8879-1986-0
 CATEGORIES=	textproc
 
 MASTER_SITES=	http://fallout.campusview.indiana.edu/ports/distfiles/

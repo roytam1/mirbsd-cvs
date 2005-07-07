@@ -3,7 +3,7 @@
 
 COMMENT=	"desktop organizer software for the palm pilot"
 DISTNAME=	jpilot-0.99.2
-PKGNAME=	${DISTNAME}
+PKGNAME=	${DISTNAME}-0
 CATEGORIES=	comms palm
 MASTER_SITES=	${HOMEPAGE}
 HOMEPAGE=	http://www.jpilot.org/

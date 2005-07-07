@@ -3,7 +3,7 @@
 COMMENT=		"GNU copy-in/out (cpio)"
 
 DISTNAME=		cpio-2.5
-PKGNAME=		g${DISTNAME}
+PKGNAME=		g${DISTNAME}-0
 CATEGORIES=		archivers
 
 

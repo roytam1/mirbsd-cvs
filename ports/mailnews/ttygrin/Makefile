@@ -4,7 +4,7 @@ COMMENT=	"tty-based mail and news client"
 
 VERSION=	0.4.8
 DISTNAME=	tty-grin-${VERSION}
-PKGNAME=	ttygrin-${VERSION}
+PKGNAME=	ttygrin-${VERSION}-0
 CATEGORIES=	mail
 
 MASTER_SITES=	${MASTER_SITE_BACKUP}

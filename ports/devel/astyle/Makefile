@@ -3,7 +3,7 @@
 COMMENT=		"indenter and formatter of C/C++/Java source files"
 
 DISTNAME=		astyle_1.15.3
-PKGNAME=		${DISTNAME:S/_/-/}
+PKGNAME=		${DISTNAME:S/_/-/}-0
 CATEGORIES=		devel
 
 HOMEPAGE=		http://astyle.sourceforge.net/

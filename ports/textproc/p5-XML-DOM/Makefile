@@ -3,7 +3,7 @@
 COMMENT=	"perl module to build DOM Level 1 structures"
 
 DISTNAME=	XML-DOM-1.42
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
 

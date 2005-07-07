@@ -4,7 +4,7 @@ COMMENT=		"Ruby interface to ncurses"
 
 VERSION=		0.8
 DISTNAME=		ncurses-ruby-${VERSION}
-PKGNAME=		ruby-ncurses-${VERSION}
+PKGNAME=		ruby-ncurses-${VERSION}-0
 CATEGORIES=		devel
 
 HOMEPAGE=		http://ncurses-ruby.berlios.de/

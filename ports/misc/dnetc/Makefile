@@ -18,7 +18,7 @@ V=			2.9002
 SV=			479
 .endif
 
-PKGNAME=		dnetc-${V}.${SV}
+PKGNAME=		dnetc-${V}.${SV}-0
 DISTNAME=              	dnetc${SV}-openbsd-${A}
 
 CATEGORIES=		misc

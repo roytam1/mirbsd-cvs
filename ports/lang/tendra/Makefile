@@ -7,7 +7,7 @@ COMMENT=	"TenDRA: advanced BSD-licensed C compiler"
 
 V=		20030803
 DISTNAME=	tendra-${V}
-PKGNAME=	tendra-${V}p1
+PKGNAME=	tendra-${V}-1
 CATEGORIES=	lang
 
 HOMEPAGE=	http://www.tendra.org/

@@ -5,7 +5,7 @@
 COMMENT=	"digital clock with optional military time and alarm"
 CATEGORIES=	x11
 DISTNAME=	dclock
-PKGNAME=	dclock-4
+PKGNAME=	dclock-4-0
 EXTRACT_SUFX=	.shar.Z
 
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}

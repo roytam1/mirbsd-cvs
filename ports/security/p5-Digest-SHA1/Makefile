@@ -6,7 +6,7 @@ COMMENT=	"module to calculate SHA1 digests"
 
 VERSION=	2.10
 DISTNAME=	Digest-SHA1-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Digest/}
 

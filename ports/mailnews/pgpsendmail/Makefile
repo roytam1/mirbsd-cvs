@@ -3,7 +3,7 @@
 COMMENT=	"PGP sign/encrypt/decrypt messages automatically"
 
 DISTNAME=       PGPsendmail-v1.4.5
-PKGNAME=	pgpsendmail-1.4.5
+PKGNAME=	pgpsendmail-1.4.5-0
 CATEGORIES=	mail
 
 MASTER_SITES=   ftp://ftp.atnf.csiro.au/pub/people/rgooch/ \

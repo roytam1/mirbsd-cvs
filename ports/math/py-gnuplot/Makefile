@@ -3,7 +3,7 @@
 COMMENT=	"Python interface to the gnuplot plotting program"
 
 DISTNAME=	gnuplot-py-1.7
-PKGNAME=	py-${DISTNAME:S/py-//}
+PKGNAME=	py-${DISTNAME:S/py-//}-0
 CATEGORIES=	math graphics
 
 HOMEPAGE=	http://gnuplot-py.sourceforge.net/

@@ -5,7 +5,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"handles various Japanese charsets"
 
 DISTNAME=	Jcode-0.83
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters japanese perl5
 
 HOMEPAGE=	http://openlab.ring.gr.jp/Jcode/

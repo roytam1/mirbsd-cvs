@@ -4,7 +4,7 @@ COMMENT=	"cryptographic cipher block chaining mode"
 
 VERSION=	2.08
 DISTNAME=	Crypt-CBC-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Crypt/}
 

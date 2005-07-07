@@ -2,7 +2,7 @@
 # $OpenBSD: Makefile,v 1.11 2002/12/29 19:49:40 fgsch Exp $
 
 COMMENT=	"redhat package manager"
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 DISTNAME=	rpm-3.0.6
 CATEGORIES=	misc archivers emulators
 

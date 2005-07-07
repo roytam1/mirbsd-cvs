@@ -3,7 +3,7 @@
 COMMENT=	"database connection caching and organization"
 
 DISTNAME=	Ima-DBI-0.33
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 

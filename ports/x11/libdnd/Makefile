@@ -3,7 +3,7 @@
 COMMENT=		'drag and drop library'
 
 DISTNAME=		dnd.1.1
-PKGNAME=		libdnd-1.1
+PKGNAME=		libdnd-1.1-0
 CATEGORIES=		x11 devel
 
 

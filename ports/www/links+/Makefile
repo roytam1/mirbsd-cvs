@@ -4,7 +4,7 @@
 COMMENT=	"graphics and text browser with javascript support"
 VER=		2.1pre17
 DISTNAME=	links-${VER}
-PKGNAME=	links+-${VER}
+PKGNAME=	links+-${VER}-0
 CATEGORIES=	www
 MASTER_SITES=	${HOMEPAGE}download/
 HOMEPAGE=	http://atrey.karlin.mff.cuni.cz/~clock/twibright/links/

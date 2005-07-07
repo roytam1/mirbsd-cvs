@@ -5,7 +5,7 @@ COMMENT=	"Haskell 98 interpreter"
 
 V=		Nov2003
 DISTNAME=	hugs98-${V}
-PKGNAME=	hugs98-200311
+PKGNAME=	hugs98-200311-0
 CATEGORIES=	lang
 HOMEPAGE=	http://www.haskell.org/hugs/
 MASTER_SITES=	http://cvs.haskell.org/Hugs/downloads/${V}/

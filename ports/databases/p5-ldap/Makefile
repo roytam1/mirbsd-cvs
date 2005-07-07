@@ -4,7 +4,7 @@ COMMENT=	"client interface to LDAP servers"
 
 VERSION=	0.26
 DISTNAME=	perl-ldap-${VERSION}
-PKGNAME=	p5-ldap-${VERSION}
+PKGNAME=	p5-ldap-${VERSION}-0
 CATEGORIES=	databases perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}

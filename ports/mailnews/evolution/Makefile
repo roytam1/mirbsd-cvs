@@ -9,7 +9,7 @@ COMMENT-devguide=	"Evolution Developer's Guide"
 V=			1.2
 VERSION=		${V}.4
 DISTNAME=		evolution-${VERSION}
-FULLPKGNAME-devguide=	evolution-devguide-${VERSION}
+FULLPKGNAME-devguide=	evolution-devguide-${VERSION}-0
 CATEGORIES=    		mail x11
 
 HOMEPAGE=		http://www.ximian.com/products/ximian_evolution/

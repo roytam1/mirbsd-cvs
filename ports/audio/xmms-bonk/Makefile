@@ -7,7 +7,7 @@ COMMENT=		"XMMS input plugin to play bonk files"
 
 VERSION=		0.12
 DISTNAME=		bonk-xmms-${VERSION}
-PKGNAME=		xmms-bonk-${VERSION}
+PKGNAME=		xmms-bonk-${VERSION}-0
 CATEGORIES=		audio
 
 

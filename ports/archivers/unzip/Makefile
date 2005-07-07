@@ -4,7 +4,7 @@
 COMMENT=	"extract, list & test files in a ZIP archive"
 VERSION=	5.50
 DISTNAME=	unzip${VERSION:S/.//}
-PKGNAME=	unzip-${VERSION}p2
+PKGNAME=	unzip-${VERSION}-2
 CATEGORIES=	archivers
 MASTER_SITES=	ftp://ftp.info-zip.org/pub/infozip/src/ \
 		ftp://ftp.uu.net/pub/archiving/zip/src/ \

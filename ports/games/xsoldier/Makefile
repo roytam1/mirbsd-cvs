@@ -3,7 +3,7 @@
 COMMENT=	"shooting game for X11"
 
 DISTNAME=	xsoldier-0.96
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	games x11
 
 # License: GPL

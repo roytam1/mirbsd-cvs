@@ -3,7 +3,7 @@
 COMMENT=	"gtk+ chess board interface"
 
 DISTNAME=	eboard-0.9.0
-PKGNAME=	${DISTNAME}
+PKGNAME=	${DISTNAME}-0
 CATEGORIES=	games x11
 
 HOMEPAGE=	http://eboard.sourceforge.net/

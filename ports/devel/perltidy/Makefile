@@ -4,7 +4,7 @@ COMMENT=	"tool to indent and reformat perl scripts"
 
 V=		20031021
 DISTNAME=	Perl-Tidy-${V}
-PKGNAME=	perltidy-${V}
+PKGNAME=	perltidy-${V}-0
 CATEGORIES=	devel
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=perltidy/}

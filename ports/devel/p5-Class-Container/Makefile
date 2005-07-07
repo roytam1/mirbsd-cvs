@@ -3,7 +3,7 @@
 COMMENT=	"validate method/function parameters"
 
 DISTNAME=	Class-Container-0.11
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 

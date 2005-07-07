@@ -2,7 +2,7 @@
 
 COMMENT=		"temporary file auditing tool"
 
-PKGNAME=		tempwatch-1.0
+PKGNAME=		tempwatch-1.0-0
 CATEGORIES=		security
 
 

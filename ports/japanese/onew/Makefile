@@ -5,7 +5,7 @@ COMMENT=	"library for Japanese Input Method Wnn4"
 COMMENT-wnn4= 		"library for Japanese Input Method Wnn4"
 COMMENT-canna=		"library for Japanese Input Method canna"
 COMMENT-wnn4-canna=	"library for Japanese Input Method canna or wnn4"
-FULLPKGNAME=		ja-onew${FLAVOR_EXT}-2.2.10
+FULLPKGNAME=		ja-onew${FLAVOR_EXT}-2.2.10-0
 
 DISTNAME=	jvim2.0r+onew2.2.10
 CATEGORIES=	japanese

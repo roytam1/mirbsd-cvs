@@ -3,7 +3,7 @@
 
 COMMENT=		"module to support getaddrinfo() and getnameinfo()"
 DISTNAME=		Socket6-0.17
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net perl5
 MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=Socket6/}
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>

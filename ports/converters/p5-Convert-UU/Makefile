@@ -3,7 +3,7 @@
 COMMENT=	"Perl5 module for uuencode and uudecode"
 
 DISTNAME=	Convert-UU-0.52
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Convert/}
 

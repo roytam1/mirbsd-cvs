@@ -3,7 +3,7 @@
 COMMENT=	"curses spreadsheet-calculator program"
 
 DISTNAME=	sc-7.15
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	math
 
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=apps/financial/spreadsheet/}

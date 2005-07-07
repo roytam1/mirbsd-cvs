@@ -3,7 +3,7 @@
 COMMENT=	"animate your root-cursor"
 
 DISTNAME=	xaniroc
-PKGNAME=	xaniroc-1.02
+PKGNAME=	xaniroc-1.02-0
 CATEGORIES=	x11
 
 MASTER_SITES=	ftp://ftp.freebird.org/unixware/freebird/x11/utils/ \

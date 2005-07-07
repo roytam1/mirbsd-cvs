@@ -5,7 +5,7 @@ COMMENT-no_x11=	"programming language with generators"
 COMMENT-compiler="icon compiler"
 VERSION=	9.4
 DISTNAME=	icon.v940src
-PKGNAME=	icon-interp-${VERSION}
+PKGNAME=	icon-interp-${VERSION}-0
 CATEGORIES=	lang
 MASTER_SITES= http://www.cs.arizona.edu/icon/ftp/packages/unix/
 #DIST_SUBDIR=	icon/${VERSION}
@@ -13,7 +13,7 @@ DISTFILES=	icon.v940src.tgz
 
 MULTI_PACKAGES=	-compiler
 
-PKGNAME-compiler= icon-compiler-${VERSION}
+PKGNAME-compiler= icon-compiler-${VERSION}-0
 
 # Public domain
 PERMIT_PACKAGE_CDROM=	Yes

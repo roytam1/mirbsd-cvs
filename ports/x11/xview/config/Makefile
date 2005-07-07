@@ -2,7 +2,7 @@
 
 COMMENT=	"OpenLook Toolkit config files"
 
-PKGNAME=	xview-config-${XVIEW_VERSION}
+PKGNAME=	xview-config-${XVIEW_VERSION}-0
 CATEGORIES=	x11
 
 WRKSRC=		${WRKDIST}/config

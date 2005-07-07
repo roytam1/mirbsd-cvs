@@ -2,7 +2,7 @@
 
 COMMENT=	"common data for the nethack/slash ports"
 DISTNAME=	nethack-3.4.1
-PKGNAME=	hackdata-3.4.1
+PKGNAME=	hackdata-3.4.1-0
 CATEGORIES=	games
 
 MASTER_SITES=	ftp://ftp.nethack.org/pub/nethack/nh340/src/ \

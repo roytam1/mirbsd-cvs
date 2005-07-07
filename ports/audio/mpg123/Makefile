@@ -3,7 +3,7 @@
 
 COMMENT=	"MPEG audio 1/2 Layer 1, 2 and 3 player"
 DISTNAME=	mpg123-0.59r
-PKGNAME=	${DISTNAME}p3
+PKGNAME=	${DISTNAME}-3
 CATEGORIES=	audio
 HOMEPAGE=	http://www.mpg123.de/
 

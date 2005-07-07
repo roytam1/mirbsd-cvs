@@ -37,7 +37,7 @@ ERRORS+="Fatal: invalid value for PAPERSIZE: \"${PAPERSIZE}\"" \
 	"   Possible values are:  A3, A4 (default), A5, B5, letter, legal," \
 	"   ledger, tabloid, statement, executive, folio, quarto, and 10x14."
 .endif
-PKGNAME=	psutils-1.17-${PP}
+PKGNAME=	psutils-1.17-${PP}-0
 MAKE_FLAGS=	\
 	BINDIR=${PREFIX}/bin \
 	INCLUDEDIR=${PREFIX}/share/psutils \

@@ -3,7 +3,7 @@
 COMMENT=	"framework for parsing the Perl Pod format"
 
 DISTNAME=	Pod-Simple-2.05
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Pod/}

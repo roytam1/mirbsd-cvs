@@ -23,11 +23,11 @@ DISTFILES=		${PDIST} ${CDIST}
 SUPDISTFILES=		${MDIST} ${VDIST} ${RM1DIST} ${RM2DIST}
 DIST_SUBDIR=		uqm
 CATEGORIES=		games x11
-PKGNAME=		uqm-${VER}
-PKGNAME-3domusic=	uqm-3domusic-${VER}
-PKGNAME-remix1=		uqm-remix1-${VER}
-PKGNAME-remix2=		uqm-remix2-${VER}
-PKGNAME-voice=		uqm-voice-${VER}
+PKGNAME=		uqm-${VER}-0
+PKGNAME-3domusic=	uqm-3domusic-${VER}-0
+PKGNAME-remix1=		uqm-remix1-${VER}-0
+PKGNAME-remix2=		uqm-remix2-${VER}-0
+PKGNAME-voice=		uqm-voice-${VER}-0
 EXTRACT_ONLY=		${PDIST}
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=sc2/}
 HOMEPAGE=		http://sc2.sourceforge.net/

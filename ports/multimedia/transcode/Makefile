@@ -10,9 +10,9 @@ COMMENT-xvidcore=	"transcode plugins utilizing xvidcore"
 
 VERSION=		0.6.12
 DISTNAME=		transcode-${VERSION}
-PKGNAME-dv=		transcode-dv-${VERSION}
-PKGNAME-mjpegtools=	transcode-mjpegtools-${VERSION}
-PKGNAME-xvidcore=	transcode-xvidcore-${VERSION}
+PKGNAME-dv=		transcode-dv-${VERSION}-0
+PKGNAME-mjpegtools=	transcode-mjpegtools-${VERSION}-0
+PKGNAME-xvidcore=	transcode-xvidcore-${VERSION}-0
 
 CATEGORIES=	multimedia graphics audio
 HOMEPAGE=	http://zebra.fh-weingarten.de/~transcode/

@@ -9,11 +9,11 @@ COMMENT-pgsql=	"pgsql authentication module for courier-imap"
 
 COURIERVER=	1.7.2
 DISTNAME=	courier-imap-${COURIERVER}
-FULLPKGNAME=	courier-imap-${COURIERVER}p0
-FULLPKGNAME-pop3= courier-pop3-${COURIERVER}p0
-FULLPKGNAME-ldap= courier-ldap-${COURIERVER}
-FULLPKGNAME-mysql= courier-mysql-${COURIERVER}
-FULLPKGNAME-pgsql= courier-pgsql-${COURIERVER}
+FULLPKGNAME=	courier-imap-${COURIERVER}p0-0
+FULLPKGNAME-pop3= courier-pop3-${COURIERVER}p0-0
+FULLPKGNAME-ldap= courier-ldap-${COURIERVER}-0
+FULLPKGNAME-mysql= courier-mysql-${COURIERVER}-0
+FULLPKGNAME-pgsql= courier-pgsql-${COURIERVER}-0
 
 CATEGORIES=	mail
 MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=courier/}

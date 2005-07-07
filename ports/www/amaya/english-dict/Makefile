@@ -4,7 +4,7 @@
 
 COMMENT=	"English dictionary for the Amaya browser/page composer"
 
-PKGNAME=		amaya-english-dict-20011029
+PKGNAME=		amaya-english-dict-20011029-0
 DISTNAME=		English
 
 RUN_DEPENDS=		${DICT_RUN_DEPENDS}

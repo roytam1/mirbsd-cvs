@@ -6,7 +6,7 @@ COMMENT=		TK-based setup for wine
 V=			0-73
 DISTNAME=		winesetuptk-${V}
 EXTRACT_SUFX=		.tar.bz2
-PKGNAME=		winesetup-${V:C/-/./}
+PKGNAME=		winesetup-${V:C/-/./}-0
 CATEGORIES=		emulators x11
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=wine/}
 

@@ -3,7 +3,7 @@
 COMMENT=		"perl5 module for interactive network functions"
 
 DISTNAME=		Net-Telnet-3.03
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net
 
 # Artistic License

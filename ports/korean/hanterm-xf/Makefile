@@ -3,7 +3,7 @@
 
 COMMENT=	"XFree86-based xterm with Korean language support"
 DISTNAME=	hanterm-xf-p19
-PKGNAME=	hanterm-xf-19
+PKGNAME=	hanterm-xf-19-0
 CATEGORIES=	korean x11
 MASTER_SITES=	http://www.hanterm.org/download/hanterm-xf/
 HOMEPAGE=	http://www.hanterm.org/

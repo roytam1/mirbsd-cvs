@@ -7,7 +7,7 @@ COMMENT=	"Apache module for finding the country of web requests"
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=	mod_geoip_1.2.0
-PKGNAME=	mod_geoip-1.2.0
+PKGNAME=	mod_geoip-1.2.0-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.maxmind.com/app/mod_geoip

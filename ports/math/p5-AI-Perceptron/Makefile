@@ -3,7 +3,7 @@
 COMMENT=	"module to internal operations of neural networks"
 
 DISTNAME=	AI-Perceptron-0.01
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	math perl5
 
 

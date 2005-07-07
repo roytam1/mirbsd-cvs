@@ -4,7 +4,7 @@
 COMMENT=		"modern look Athena widgets"
 VERSION=		1.5
 DISTNAME=		XawM-${VERSION}u
-PKGNAME=		XawMu-${VERSION}
+PKGNAME=		XawMu-${VERSION}-0
 CATEGORIES=		x11 devel
 HOMEPAGE=		http://xawm.sourceforge.net/
 MASTER_SITES=		http://siag.nu/pub/widgets/

@@ -1,7 +1,7 @@
 # $MirOS: ports/www/php/extensions/Makefile,v 1.4 2005/05/04 16:12:31 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/10/18 15:58:53 robert Exp $
 
-FULLPKGNAME=		php-extensions-${V}${PV}
+FULLPKGNAME=		php-extensions-${V}${PV}-0
 COMMENT=		"informational package about PHP5 extensions"
 
 MULTI_PACKAGES=
@@ -115,7 +115,7 @@ USE_X11=		yes
 CONFIGURE_ARGS+=	--with-xpm-dir=${X11BASE}
 .  else
 CONFIGURE_ARGS+=	--without-xpm-dir
-FULLPKGNAME-gd=		php-gd-${V}${PV}-no_x11
+FULLPKGNAME-gd=		php-gd-${V}${PV}-no_x11-0
 .  endif
 .endif
 

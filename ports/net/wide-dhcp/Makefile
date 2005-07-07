@@ -3,7 +3,7 @@
 COMMENT=	"client and servers for the WIDE DHCP protocol"
 
 DISTNAME=       dhcp-1.4.0p3
-PKGNAME=        wide-dhcp-1.4.0.3
+PKGNAME=        wide-dhcp-1.4.0.3-0
 CATEGORIES=     net
 MASTER_SITES=   ftp://sh.wide.ad.jp/WIDE/free-ware/dhcp/
 

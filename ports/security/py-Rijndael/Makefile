@@ -4,7 +4,7 @@ COMMENT=	"Python implementation of the Rijndael encryption algorithm"
 
 VERSION=	1.3
 DISTNAME=	pyrijndael-${VERSION}-src
-PKGNAME=	py-Rijndael-${VERSION}
+PKGNAME=	py-Rijndael-${VERSION}-0
 CATEGORIES=     security devel
 
 HOMEPAGE=	http://jclement.ca/software/pyrijndael/

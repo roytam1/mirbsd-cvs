@@ -4,7 +4,7 @@
 COMMENT=	'sensible unix password cracker'
 
 DISTNAME=	crack5.0
-PKGNAME=	crack-5.0p0
+PKGNAME=	crack-5.0-1
 CATEGORIES=	security
 
 HOMEPAGE=	http://www.crypticide.org/users/alecm/

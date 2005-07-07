@@ -4,7 +4,7 @@ COMMENT=	"console napster client"
 
 VERSION=	1.3g
 DISTNAME=	TekNap-${VERSION}
-PKGNAME=	teknap-${VERSION}
+PKGNAME=	teknap-${VERSION}-0
 CATEGORIES=	audio
 MASTER_SITES=	ftp://ftp.teknap.com/pub/TekNap/
 

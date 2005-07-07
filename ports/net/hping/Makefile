@@ -3,7 +3,7 @@
 COMMENT=	"TCP/UDP ping/traceroute tool"
 
 DISTNAME=	hping2.0.0-rc2
-PKGNAME=	hping-2.0.0rc2
+PKGNAME=	hping-2.0.0rc2-0
 CATEGORIES=	net
 HOMEPAGE=	http://www.hping.org/
 

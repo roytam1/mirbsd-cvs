@@ -3,7 +3,7 @@
 COMMENT=	"display kanji files in large letters"
 
 DISTNAME=	kbanner2
-PKGNAME=	kbanner-2
+PKGNAME=	kbanner-2-0
 CATEGORIES=	japanese
 
 MASTER_SITES=	http://kanji.zinbun.kyoto-u.ac.jp/~yasuoka/ftp/program/

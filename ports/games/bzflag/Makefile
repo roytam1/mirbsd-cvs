@@ -5,7 +5,7 @@ BROKEN=		doesn't respect CXXFLAGS, problems loading data files
 
 COMMENT=	"graphical multiplayer 3-d tank war game"
 DISTNAME=	bzflag-1.10.4.20040125
-PKGNAME=	bzflag-1.10.4
+PKGNAME=	bzflag-1.10.4-0
 CATEGORIES=	games x11
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bzflag/}
 

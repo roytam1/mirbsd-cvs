@@ -4,7 +4,7 @@ COMMENT=	"Python module for GnuPG interface"
 
 VERSION=	0.3.2
 DISTNAME=	GnuPGInterface-${VERSION}
-PKGNAME=	py-gnupg-${VERSION}
+PKGNAME=	py-gnupg-${VERSION}-0
 CATEGORIES=    	security devel
 
 HOMEPAGE=	http://py-gnupg.sourceforge.net/

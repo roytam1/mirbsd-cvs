@@ -3,7 +3,7 @@
 
 COMMENT=	"image manipulation library"
 DISTNAME=	imlib2-1.1.0
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	graphics
 HOMEPAGE=	http://www.enlightenment.org/pages/imlib2.html
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=enlightenment/}

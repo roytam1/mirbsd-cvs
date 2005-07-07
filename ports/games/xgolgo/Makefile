@@ -4,7 +4,7 @@
 COMMENT=	"watch what you are doing -- are you hostile"
 
 DISTNAME=	xeyes-g
-PKGNAME=	xgolgo-1.0
+PKGNAME=	xgolgo-1.0-0
 CATEGORIES=	games
 
 # License: BSD

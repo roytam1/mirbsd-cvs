@@ -15,7 +15,7 @@ COMMENT-tests=	"Python test suite"
 COMMENT-tkinter="tk GUI module for Python"
 COMMENT-tools=	"extra tools for Python"
 
-PKGNAME=	python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+PKGNAME=	python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
 DISTNAME=	Python-${VERSION}${PATCHLEVEL}
 CATEGORIES=	lang
 MASTER_SITES=	ftp://ftp.python.org/pub/${PSUBDIR}/ \
@@ -164,16 +164,16 @@ LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
 # building the "monster" Python for platforms without shared libraries.
 
 .if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
-FULLPKGNAME=${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}
+FULLPKGNAME=${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}-0
 .endif
 
-FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-gdbm=	python-gdbm-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-idle=	python-idle-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-mpz=	python-mpz-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-gdbm=	python-gdbm-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-idle=	python-idle-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-mpz=	python-mpz-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
 
 CONFIGURE_STYLE?=	autoconf dest no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

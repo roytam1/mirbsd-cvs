@@ -4,7 +4,7 @@ COMMENT=	"text to speech utility"
 
 VERSION=	1.2
 DISTNAME=	flite-${VERSION}-release
-PKGNAME=	flite-${VERSION}
+PKGNAME=	flite-${VERSION}-0
 DISTNAME=	${PKGNAME}-release
 CATEGORIES=	audio
 

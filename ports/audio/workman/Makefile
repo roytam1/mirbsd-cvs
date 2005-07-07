@@ -2,7 +2,7 @@
 
 COMMENT=	"OpenLook-based CD player"
 DISTNAME=	WorkMan-1.3a
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	audio
 
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=applications/WorkMan/}

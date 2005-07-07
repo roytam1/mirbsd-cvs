@@ -3,7 +3,7 @@
 COMMENT=	"extensions to Class::DBI for SQLite"
 
 DISTNAME=	Class-DBI-SQLite-0.04
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 

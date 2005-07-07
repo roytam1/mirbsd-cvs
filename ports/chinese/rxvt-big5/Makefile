@@ -8,7 +8,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=	"color terminal emulator Linux binary"
 
-PKGNAME=	zh-rxvt-big5-2.7.8p0
+PKGNAME=	zh-rxvt-big5-2.7.8-1
 CATEGORIES=	chinese
 
 

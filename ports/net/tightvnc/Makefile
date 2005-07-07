@@ -4,7 +4,7 @@ COMMENT=	"cross-platform remote desktop access"
 COMMENT-viewer=	"client for cross-platform remote desktop access"
 
 VERSION=	1.2.7
-PKGNAME=        tightvnc-${VERSION}
+PKGNAME=        tightvnc-${VERSION}-0
 DISTNAME=       ${PKGNAME}_unixsrc
 CATEGORIES=	net
 MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=vnc-tight/}

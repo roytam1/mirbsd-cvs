@@ -5,7 +5,7 @@ COMMENT=	"python codes checker"
 
 VERSION=	0.8.13
 DISTNAME=	pychecker-${VERSION}
-PKGNAME=	py-Checker-${VERSION}
+PKGNAME=	py-Checker-${VERSION}-0
 CATEGORIES=    	devel
 
 HOMEPAGE=	http://pychecker.sourceforge.net/

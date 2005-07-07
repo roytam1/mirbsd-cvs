@@ -4,7 +4,7 @@
 COMMENT=	"tool to mirror contents of HTTP and FTP servers"
 
 DISTNAME=	pavuk-0.9pl28
-PKGNAME=	${DISTNAME}a
+PKGNAME=	${DISTNAME}a-0
 CATEGORIES=	net
 EXTRACT_SUFX=	.tgz
 

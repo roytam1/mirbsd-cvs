@@ -3,7 +3,7 @@
 COMMENT=	"perl interface to Adobe Font Metrics files"
 
 DISTNAME=	Font-AFM-1.19
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
  
 # GPL/Artistic

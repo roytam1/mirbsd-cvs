@@ -3,7 +3,7 @@
 COMMENT=	"Convert PNG images to Windows .ico files"
 
 VERSION=	2002-12-08
-PKGNAME=	png2ico-${VERSION:S/-//g}
+PKGNAME=	png2ico-${VERSION:S/-//g}-0
 DISTNAME=	png2ico-src-${VERSION}
 CATEGORIES=	graphics www
 HOMEPAGE=	http://www.winterdrache.de/freeware/png2ico/

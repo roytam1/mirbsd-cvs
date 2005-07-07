@@ -3,7 +3,7 @@
 VERSION=	2.1.1
 
 DISTNAME=	postfix-${VERSION}
-PKGNAME=	postfix-${VERSION}p0
+PKGNAME=	postfix-${VERSION}-1
 
 
 MASTER_SITES=	${MASTER_SITE_POSTFIX:=official/}

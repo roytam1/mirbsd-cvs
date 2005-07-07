@@ -3,7 +3,7 @@
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
 DISTNAME=		centericq-4.20.0
-PKGNAME=		${DISTNAME}-0
+PKGNAME=		${DISTNAME}-0-0
 CATEGORIES=		net
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \

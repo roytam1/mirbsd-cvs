@@ -3,7 +3,7 @@
 COMMENT=	"TeX distribution, common support files"
 
 DISTNAME=	tetex-texmf-2.0.2
-PKGNAME=	${DISTNAME:S/tetex-/teTeX_/}p0
+PKGNAME=	${DISTNAME:S/tetex-/teTeX_/}-1
 CATEGORIES=	print
 
 MASTER_SITES0=	ftp://ftp.erisiandiscord.de/pub/OpenBSD/distfiles/

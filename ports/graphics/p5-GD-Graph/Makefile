@@ -3,7 +3,7 @@
 COMMENT=	"module for graph plotting"
 
 DISTNAME=	GDGraph-1.35
-PKGNAME=	p5-GD-Graph-1.35
+PKGNAME=	p5-GD-Graph-1.35-0
 CATEGORIES=	graphics perl5
 
 

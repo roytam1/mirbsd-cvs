@@ -6,7 +6,7 @@ COMMENT=	"python module for writing basic XML applications"
 
 VERSION=	0.7.1
 DISTNAME=	PyXML-${VERSION}
-PKGNAME=	py-xml-${VERSION}
+PKGNAME=	py-xml-${VERSION}-0
 CATEGORIES=	textproc devel
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=pyxml/}

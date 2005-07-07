@@ -5,7 +5,7 @@ COMMENT=	"stack-based interpreter for terminal applications"
 
 VERSION=	1.4.9
 DISTNAME=	slang-${VERSION}
-PKGNAME=	libslang-${VERSION}p1
+PKGNAME=	libslang-${VERSION}-1
 CATEGORIES=	devel
 MASTER_SITES=	ftp://space.mit.edu/pub/davis/slang/v1.4/ \
 		http://gd.tuwien.ac.at/editors/davis/slang/v1.4/

@@ -3,7 +3,7 @@
 COMMENT=	"interface to read EXIF tags in JPEG images"
 
 DISTNAME=	Image-EXIF-0.98.6
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	graphics perl5 
 
 HOMEPAGE=       http://search.cpan.org/dist/Image-EXIF/

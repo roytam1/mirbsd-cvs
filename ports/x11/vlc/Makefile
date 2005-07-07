@@ -5,7 +5,7 @@ COMMENT=	"videolan client; multimedia player"
 
 VER=		0.7.1
 DISTNAME=	vlc-${VER}
-PKGNAME=	${DISTNAME}p0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	x11
 MASTER_SITES=	http://www.videolan.org/pub/videolan/vlc/${VER}/ \
 		http://www.fr.videolan.org/pub/videolan/vlc/${VER}/

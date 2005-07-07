@@ -6,7 +6,7 @@ COMMENT=	"cryptographic tools for Python"
 
 VERSION=	1.9a6
 DISTNAME=	pycrypto-${VERSION}
-PKGNAME=	py-crypto-${VERSION}
+PKGNAME=	py-crypto-${VERSION}-0
 CATEGORIES=    	security devel
 
 HOMEPAGE=	http://www.amk.ca/python/code/crypto.html

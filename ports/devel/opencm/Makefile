@@ -6,8 +6,8 @@ COMMENT-docs=		"OpenCM Documentation"
 V=			0.1.2alpha7pl1
 sV=			-1
 DISTNAME=		opencm-${V}${sV}-src
-PKGNAME=		opencm-${V}
-FULLPKGNAME-docs=	opencm-docs-${V}
+PKGNAME=		opencm-${V}-0
+FULLPKGNAME-docs=	opencm-docs-${V}-0
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.opencm.org

@@ -3,7 +3,7 @@
 COMMENT=	"mold spreading over your X11 screen"
 
 DISTNAME=	xmold
-PKGNAME=        xmold-1.0
+PKGNAME=        xmold-1.0-0
 CATEGORIES=	x11
 
 HOMEPAGE=	http://cclub.cc.tut.ac.jp/lib/xwin/xmold.html

@@ -3,7 +3,7 @@
 COMMENT=	"force number of words to singular or plural"
 
 DISTNAME=	Lingua-EN-Inflect-Number-1.1
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5
 
 

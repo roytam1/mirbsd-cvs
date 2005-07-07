@@ -3,7 +3,7 @@
 COMMENT=	"X11 trippy color-cycling toy"
 
 DISTNAME=	xtacy114
-PKGNAME=	xtacy-1.14
+PKGNAME=	xtacy-1.14-0
 CATEGORIES=	x11
 
 MASTER_SITES=	ftp://sidehack.gweep.net/pub/software/ \

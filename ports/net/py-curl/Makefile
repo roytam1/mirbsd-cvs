@@ -6,7 +6,7 @@ COMMENT=	"python interface to cURL library"
 
 VERSION=	7.11.1
 DISTNAME=	pycurl-${VERSION}
-PKGNAME=	py-curl-${VERSION}
+PKGNAME=	py-curl-${VERSION}-0
 CATEGORIES=    	net
 
 HOMEPAGE=	http://pycurl.sourceforge.net/

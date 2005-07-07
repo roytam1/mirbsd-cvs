@@ -3,7 +3,7 @@
 
 COMMENT=		"easy to use Bayesian spam filter"
 DISTNAME=		bmf-0.9.4
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		mail
 HOMEPAGE=		http://sourceforge.net/projects/bmf
 

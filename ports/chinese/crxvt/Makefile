@@ -4,7 +4,7 @@
 COMMENT=	"Chinese(Big5) VT100 terminal emulator for X"
 
 DISTNAME=       crxvt-2.10-2
-PKGNAME=        zh-crxvt-2.10.2
+PKGNAME=        zh-crxvt-2.10.2-0
 CATEGORIES=     chinese 
 
 MASTER_SITES=   ftp://ftp.linux.org.tw/pub/xcin/old/ \

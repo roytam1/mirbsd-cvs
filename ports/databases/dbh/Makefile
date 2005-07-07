@@ -3,7 +3,7 @@
 
 COMMENT=	"library to create Disk Based Hashtables on POSIX systems"
 DISTNAME=	dbh_1.0-18
-PKGNAME=	${DISTNAME:L:S/-/./:S/_/-/}
+PKGNAME=	${DISTNAME:L:S/-/./:S/_/-/}-0
 CATEGORIES=	databases
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=dbh/}
 EXTRACT_SUFX=	.tar.bz2

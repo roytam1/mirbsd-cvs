@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=	"emulates the Nintendo Gameboy"
-PKGNAME=	vgb-2.1p1
+PKGNAME=	vgb-2.1-1
 DISTNAME=	VGB21-Linux-80x86-bin
 CATEGORIES=	emulators games
 HOMEPAGE=	http://www.komkon.org/fms/VGB/

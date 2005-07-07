@@ -4,7 +4,7 @@ COMMENT=	"English PK fonts (300dpi) for ghostscript, xdvi, etc."
 
 DISTNAME=	pkfonts
 VERSION=	1.0
-PKGNAME=	pkfonts-dpi300-${VERSION}
+PKGNAME=	pkfonts-dpi300-${VERSION}-0
 CATEGORIES=	print
 
 PERMIT_PACKAGE_CDROM=	"no license"
@@ -26,7 +26,7 @@ DISTFILES=	pk300.tar.gz
 
 .for dpi in ${MULTI_PACKAGES:S/-dpi//} 
 DISTFILES+=  		pk${dpi}.tar.gz
-PKGNAME-dpi${dpi}=	pkfonts-dpi${dpi}-${VERSION}
+PKGNAME-dpi${dpi}=	pkfonts-dpi${dpi}-${VERSION}-0
 COMMENT-dpi${dpi}=	${COMMENT:S/300dpi/${dpi}dpi/}
 .endfor
 

@@ -4,7 +4,7 @@
 
 COMMENT=	"French dictionary for the Amaya browser/page composer"
 
-PKGNAME=		amaya-french-dict-20011029
+PKGNAME=		amaya-french-dict-20011029-0
 DISTNAME=		French
 
 RUN_DEPENDS=		${DICT_RUN_DEPENDS}

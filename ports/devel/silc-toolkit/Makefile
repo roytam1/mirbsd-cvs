@@ -3,7 +3,7 @@
 
 COMMENT=	"toolkit for the development of SILC applications"
 DISTNAME=	silc-toolkit-0.9.12
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	devel
 MASTER_SITES=	http://www.silcnet.org/download/toolkit/sources/
 HOMEPAGE=	http://www.silcnet.org/software/developers/toolkit/

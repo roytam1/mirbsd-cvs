@@ -14,10 +14,10 @@ FLAVORS=two_sided
 FLAVOR?=
 .if ${FLAVOR:L} == "two_sided"
 DISTFILES=	ib2up.pdf
-FULLPKGNAME=	implementation-of-icon-two_sided-$V
+FULLPKGNAME=	implementation-of-icon-two_sided-$V-0
 .else
 DISTFILES=	ib1up.pdf
-FULLPKGNAME=	implementation-of-icon-$V
+FULLPKGNAME=	implementation-of-icon-$V-0
 .endif
 
 SUPDISTFILES=	ib1up.pdf ib2up.pdf

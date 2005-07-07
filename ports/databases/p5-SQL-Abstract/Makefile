@@ -3,7 +3,7 @@
 COMMENT=	"generate SQL from Perl data structures"
 
 DISTNAME=	SQL-Abstract-1.15
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 

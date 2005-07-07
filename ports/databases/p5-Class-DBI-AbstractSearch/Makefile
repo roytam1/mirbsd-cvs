@@ -3,7 +3,7 @@
 COMMENT=	"abstract Class::DBI's SQL with SQL::Abstract"
 
 DISTNAME=	Class-DBI-AbstractSearch-0.03
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	databases perl5
 
 # Same as Perl

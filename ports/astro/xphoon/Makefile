@@ -2,7 +2,7 @@
 
 COMMENT=	"set the root window to the moon in its current phase"
 DISTNAME=	xphoon
-PKGNAME=	xphoon-91.9.18
+PKGNAME=	xphoon-91.9.18-0
 CATEGORIES=	astro x11
 MASTER_SITES=	${MASTER_SITE_R5CONTRIB}
 EXTRACT_SUFX=	.tar.Z

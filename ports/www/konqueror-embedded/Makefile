@@ -8,7 +8,7 @@ MODULES=	x11/qt2
 
 DATE=	20030705
 DISTNAME=konqueror-embedded-snapshot-${DATE}
-PKGNAME=konqueror-${DATE}
+PKGNAME=konqueror-${DATE}-0
 HOMEPAGE=http://www.konqueror.org/embedded.html
 MASTER_SITES= http://devel-home.kde.org/~hausmann/snapshots/
 

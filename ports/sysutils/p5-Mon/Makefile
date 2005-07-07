@@ -3,7 +3,7 @@
 COMMENT=		"module for interfacing with Mon"
 
 DISTNAME=		Mon-0.11
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		sysutils perl5
 
 HOMEPAGE=		http://www.kernel.org/software/mon/

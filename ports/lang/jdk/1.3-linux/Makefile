@@ -8,7 +8,7 @@ COMMENT=	"Java(TM) Development Kit for Java(TM) 2 Standard Edition 1.3"
 VERSION=	1.3.1_13
 
 DISTNAME=	jdk${VERSION}
-PKGNAME=	jdk-linux-${VERSION}
+PKGNAME=	jdk-linux-${VERSION}-0
 CATEGORIES=	devel java lang
 HOMEPAGE=	http://java.sun.com/j2se/
 BUILD_DEPENDS=	:redhat_base->=6.2:emulators/redhat/base

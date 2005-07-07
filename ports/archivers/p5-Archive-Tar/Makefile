@@ -3,7 +3,7 @@
 COMMENT=	"perl interface to tar archives"
 VERSION=	1.08
 DISTNAME=	Archive-Tar-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	archivers perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Archive/}

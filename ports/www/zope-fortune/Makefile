@@ -4,7 +4,7 @@ COMMENT=	"insert randomly-selected fortunes in your documents"
 
 VERSION=	0.5.2
 DISTNAME=	Fortune-${VERSION}
-PKGNAME=	zope-fortune-${VERSION}
+PKGNAME=	zope-fortune-${VERSION}-0
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.zope.org/Members/lalo/Fortune/

@@ -3,7 +3,7 @@
 COMMENT=	"conversions to and from arbitrary character sets and UTF8"
 
 DISTNAME=	Unicode-MapUTF8-1.09
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5
 
 PERMIT_PACKAGE_CDROM=	Yes

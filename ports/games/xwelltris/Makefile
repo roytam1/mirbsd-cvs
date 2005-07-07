@@ -3,7 +3,7 @@
 COMMENT=	"2.5 dimensional tetris-like game"
 
 DISTNAME=	${PKGNAME}.src
-PKGNAME=	xwelltris-1.0.1
+PKGNAME=	xwelltris-1.0.1-0
 CATEGORIES=	games x11
 MASTER_SITES=	${HOMEPAGE}src/
 

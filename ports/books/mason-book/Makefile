@@ -6,7 +6,7 @@ CATEGORIES=	books
 # unversioned, so impose a version on it
 V=		1.0
 DISTNAME=	mason-book
-PKGNAME=	${DISTNAME}-${V}
+PKGNAME=	${DISTNAME}-${V}-0
 DIST_SUBDIR=	mason-book-${V}
 
 HOMEPAGE=	http://www.masonbook.com/

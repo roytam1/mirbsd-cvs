@@ -3,7 +3,7 @@
 
 COMMENT=	"CDDA reading utility with extra data verification features"
 DISTNAME=	cdparanoia-III-alpha9.8
-PKGNAME=	cdparanoia-3.a9.8
+PKGNAME=	cdparanoia-3.a9.8-0
 CATEGORIES=	audio
 HOMEPAGE=	http://www.xiph.org/paranoia/
 

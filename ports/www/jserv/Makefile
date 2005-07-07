@@ -10,7 +10,7 @@ BROKEN=	"HANDLER THREAD PROBLEM: java.net.SocketException: Resource temporarily 
 # Build just the Tomcat connector for our in-tree Apache
 COMMENT=	"Tomcat (Servlet/JSP) - Apache Connector"
 V=		3.2.4
-PKGNAME=	jserv-${V}
+PKGNAME=	jserv-${V}-0
 DISTNAME=	jakarta-tomcat-${V}-src
 CATEGORIES=	www
 MASTER_SITES=	http://archive.apache.org/dist/jakarta/tomcat-3/archive/v${V}/src/

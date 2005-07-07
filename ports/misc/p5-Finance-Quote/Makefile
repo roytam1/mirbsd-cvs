@@ -3,7 +3,7 @@
 COMMENT=	"module to obtain financial quotes from exchanges"
 
 DISTNAME=	Finance-Quote-1.08
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	misc perl5
 
 HOMEPAGE=	http://finance-quote.sourceforge.net

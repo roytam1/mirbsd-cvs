@@ -4,7 +4,8 @@ COMMENT=	"Z shell, Bourne shell-compatible, release flavor"
 COMMENT-zftp=	"Z shell embedded ftp client"
 
 VERSION=	4.2.0
-PKGNAME=	zsh-${VERSION:C/-//g}
+DASH_VER=	-0
+PKGNAME=	zsh-${VERSION:C/-//g}${DASH_VER}
 DISTNAME=	zsh-${VERSION}
 CATEGORIES=	shells
 MASTER_SITES=	ftp://ftp.zsh.org/zsh/ \
@@ -45,7 +46,7 @@ CONFIGURE_ARGS+=--disable-dynamic
 MULTI_PACKAGES=	-zftp
 SUBPACKAGE?=
 .  for i in ${MULTI_PACKAGES}
-PKGNAME$i=	zsh$i-${VERSION:C/-//g}
+PKGNAME$i=	zsh$i-${VERSION:C/-//g}${DASH_VER}
 .  endfor
 .  if defined(PACKAGING) && !empty(SUBPACKAGE)
 RUN_DEPENDS=	::shells/zsh/stable

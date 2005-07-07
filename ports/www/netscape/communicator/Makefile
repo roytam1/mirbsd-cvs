@@ -8,7 +8,7 @@ V2:=		${PROGRAM_V:S/.//}
 EMUL=		bsdos
 
 DISTNAME=	communicator-v${V2}-us.x86-bsdi-bsd2
-PKGNAME=	communicator-bsdi-${PROGRAM_V}p2
+PKGNAME=	communicator-bsdi-${PROGRAM_V}-2
 LOCATION=	bsdi21/complete_install
 DIRNAME=	communicator-v${V2}.x86-bsdi-bsd2
 

@@ -3,7 +3,7 @@
 COMMENT=	"clone of the classic Eliza program"
 
 DISTNAME=	Chatbot-Eliza-1.04
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	net perl5
 
 

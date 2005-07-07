@@ -3,7 +3,7 @@
 COMMENT=	"Python module to access the NOAA's METAR weather reports"
 
 DISTNAME=	pymetar-0.8
-PKGNAME=	${DISTNAME:S/py/py-/}
+PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	astro
 
 HOMEPAGE=	http://www.schwarzvogel.de/software-pymetar.shtml

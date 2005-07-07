@@ -3,7 +3,7 @@
 COMMENT=	"new MH mail handling program"
 
 DISTNAME=		nmh-1.0.4
-PKGNAME=		${DISTNAME}p1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	mail
 MASTER_SITES=           ftp://ftp.mhost.com/pub/nmh/ 
 HOMEPAGE=		http://www.nongnu.org/nmh/

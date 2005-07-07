@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"xml parser for Java"
 JDK_VERSION=	1.3.1
 DISTNAME=	Xerces-J-bin.2.4.0
-PKGNAME=	xerces-2.4.0
+PKGNAME=	xerces-2.4.0-0
 CATEGORIES=	textproc
 
 HOMEPAGE=	http://xml.apache.org/xerces2-j/index.html

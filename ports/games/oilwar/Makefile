@@ -3,7 +3,7 @@
 COMMENT=	"sdl shoot 'em up; stop evil army from getting your oil"
 
 DISTNAME=	OilWar-1.2.1
-PKGNAME=	${DISTNAME:L}p0
+PKGNAME=	${DISTNAME:L}-1
 CATEGORIES=	games x11
 MASTER_SITES=	http://www.2ndpoint.fi/projektit/filut/
 

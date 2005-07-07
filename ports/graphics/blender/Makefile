@@ -6,7 +6,7 @@ EMUL=			linux
 
 COMMENT=	"3D creation software"
 V=		2.23
-PKGNAME=	blender-${V}p1
+PKGNAME=	blender-${V}-1
 DISTNAME=	blender-creator-${V}-linux-glibc2.1.2-i386-static
 CATEGORIES=	graphics
 HOMEPAGE=	http://www.blender.nl/

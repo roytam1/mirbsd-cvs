@@ -3,7 +3,7 @@
 COMMENT=	"ls that can use color to display file attributes"
 
 DISTNAME=	ls-3.5
-PKGNAME=	color${DISTNAME}
+PKGNAME=	color${DISTNAME}-0
 CATEGORIES=	sysutils
 
 

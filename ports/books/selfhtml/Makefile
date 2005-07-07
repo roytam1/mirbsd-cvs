@@ -4,7 +4,7 @@ COMMENT=		"German HTML compendium"
 CATEGORIES=		books www
 DISTNAME=		selfhtml81
 EXTRACT_SUFX=		.zip
-PKGNAME=		selfhtml-8.1
+PKGNAME=		selfhtml-8.1-0
 HOMEPAGE=		http://aktuell.de.selfhtml.org/
 RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
 

@@ -3,7 +3,7 @@
 COMMENT=	"ant hill simulation on X11 root window"
 
 DISTNAME=	xantfarm
-PKGNAME=        xantfarm-1.16
+PKGNAME=        xantfarm-1.16-0
 CATEGORIES=	x11
 
 MASTER_SITES=   ftp://ftp.kuis.kyoto-u.ac.jp/Linux/JG/other-sources/

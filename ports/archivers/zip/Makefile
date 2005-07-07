@@ -5,7 +5,7 @@
 COMMENT=	"create/update ZIP files compatible with PKZip(tm)"
 
 DISTNAME=	zip23
-PKGNAME=	zip-2.3
+PKGNAME=	zip-2.3-0
 CATEGORIES=	archivers
 MASTER_SITES=	ftp://ftp.uu.net/pub/archiving/zip/src/ \
 		ftp://ftp.icce.rug.nl/infozip/src/

@@ -4,7 +4,7 @@ COMMENT=	"GkrellM2 plugin to monitor wireless strength"
 
 VERSION=	2.0.3
 DISTNAME=	gkrellmwireless-${VERSION}
-PKGNAME=	gkrellm-wireless-${VERSION}
+PKGNAME=	gkrellm-wireless-${VERSION}-0
 CATEGORIES=	net sysutils/gkrellm
 
 HOMEPAGE=	http://gkrellm.luon.net/gkrellmwireless.phtml

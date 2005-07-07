@@ -11,7 +11,7 @@ COMMENT-gnome=	"Gtk and Gnome bindings for Python"
 # py-gnome's version number, even for py-gtk.
 
 V=		1.4.2		## For py-gtk, this really is 0.6.9
-PKGNAME=	py-Gtk-${V}
+PKGNAME=	py-Gtk-${V}-0
 DISTNAME=	gnome-python-${V}
 CATEGORIES=	x11 devel
 

@@ -3,7 +3,7 @@
 COMMENT=	"compare two nmap scans and outputs the differences"
 
 DISTNAME=	NDiff-0.04
-PKGNAME=	${DISTNAME:L}
+PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	net perl5
 
 HOMEPAGE=	http://www.vinecorp.com/ndiff/

@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=	"Libretto BIOS Setting Program"
 
 DISTNAME=	libapm-linux-1.0beta5
-PKGNAME=	libretto-config-1.0b5
+PKGNAME=	libretto-config-1.0b5-0
 CATEGORIES=	sysutils
 
 PERMIT_PACKAGE_CDROM=	No

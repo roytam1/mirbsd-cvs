@@ -9,7 +9,7 @@
 COMMENT=	"lazy functional language"
 
 DISTNAME=	gofer230a
-PKGNAME=	gofer-2.30a
+PKGNAME=	gofer-2.30a-0
 CATEGORIES=	lang
 
 MASTER_SITES=	http://www.cse.ogi.edu/~mpj/goferarc/

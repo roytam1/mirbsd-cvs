@@ -3,7 +3,7 @@
 COMMENT=	"X11 solitaire with 14 variations"
 
 DISTNAME=	xpat2-1.04
-PKGNAME=	${DISTNAME}p1
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	games
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 EXTRACT_SUFX=	-src.tar.gz

@@ -3,7 +3,7 @@
 
 COMMENT=	"MPEG2 and MPEG-4 AAC decoder"
 DISTNAME=	faad2-2.0
-PKGNAME=	faad-2.0
+PKGNAME=	faad-2.0-0
 CATEGORIES=    	audio
 MASTER_SITES=	http://users.codefusionis.com/~jolan/
 HOMEPAGE=	http://faac.sourceforge.net/

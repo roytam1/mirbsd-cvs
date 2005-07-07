@@ -4,7 +4,7 @@ COMMENT=		"MS-DOS Telix-like serial communication program"
 
 VER=			2.00.0
 DISTNAME=		minicom-${VER}.src
-PKGNAME=		minicom-${VER}p1
+PKGNAME=		minicom-${VER}-1
 CATEGORIES=		comms
 MASTER_SITES=		${MASTER_SITE_SUNSITE:=apps/serialcomm/dialout/}
 

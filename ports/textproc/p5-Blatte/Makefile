@@ -3,7 +3,7 @@
 COMMENT=	"text macro/markup/template language"
 
 DISTNAME=	Blatte-0.9.4
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 HOMEPAGE=	http://www.blatte.org/
 
 CATEGORIES=	textproc perl5

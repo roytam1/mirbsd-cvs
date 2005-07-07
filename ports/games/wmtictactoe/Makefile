@@ -3,7 +3,7 @@
 COMMENT=		'wm-dockapp; TicTacToe game'
 
 DISTNAME=		wmtictactoe-1.1-1
-PKGNAME=		wmtictactoe-1.1.1
+PKGNAME=		wmtictactoe-1.1.1-0
 CATEGORIES=		games x11 x11/windowmaker
 
 

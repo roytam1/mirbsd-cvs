@@ -3,7 +3,7 @@
 COMMENT=	"free spreadsheet with graphical user interface"
 
 DISTNAME=	abs-src-0.8
-PKGNAME=	${DISTNAME:S/-src//}
+PKGNAME=	${DISTNAME:S/-src//}-0
 CATEGORIES=	math
 
 HOMEPAGE=	http://www.ping.be/bertin/abs.shtml

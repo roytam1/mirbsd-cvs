@@ -3,7 +3,7 @@
 COMMENT=	"SOCKS v5 application layer gateway and clients"
 
 DISTNAME=	socks5-v1.0r11
-PKGNAME=	socks5-1.0.11
+PKGNAME=	socks5-1.0.11-0
 CATEGORIES=	security net
 
 HOMEPAGE=	http://www.socks.permeo.com/AboutSOCKS/SOCKSvF.asp

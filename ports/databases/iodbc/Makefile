@@ -3,7 +3,7 @@
 
 COMMENT=	"ODBC 2.x driver manager"
 DISTNAME=	libiodbc-2.50.3
-PKGNAME=	iodbc-2.50.3
+PKGNAME=	iodbc-2.50.3-0
 CATEGORIES=	databases
 MASTER_SITES=	http://www.iodbc.org/dist/
 HOMEPAGE=	http://www.iodbc.org/

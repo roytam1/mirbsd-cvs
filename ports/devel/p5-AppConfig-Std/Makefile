@@ -3,7 +3,7 @@
 COMMENT=	"subclass of AppConfig that provides standard options"
 
 DISTNAME=	AppConfig-Std-1.07
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5 
 
 

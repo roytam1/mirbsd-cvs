@@ -4,7 +4,7 @@ COMMENT=		"Pure Perl MySQL driver for the Perl DBI"
 
 VERSION=		0.04
 DISTNAME=		DBD-mysqlPP-${VERSION}
-PKGNAME=		p5-${DISTNAME}
+PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		databases perl5
 
 

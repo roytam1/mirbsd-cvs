@@ -7,7 +7,7 @@ COMMENT=	"SQLite adapter for Python"
 
 VERSION=	0.5.0
 DISTNAME=	pysqlite-${VERSION}
-PKGNAME=	py-sqlite-${VERSION}
+PKGNAME=	py-sqlite-${VERSION}-0
 CATEGORIES=	databases
 WRKDIST=	${WRKDIR}/pysqlite
 

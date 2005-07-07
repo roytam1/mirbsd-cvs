@@ -3,7 +3,7 @@
 COMMENT=	"clone of the ex/vi text editor"
 
 DISTNAME=	elvis-2.1_4
-PKGNAME=	${DISTNAME:S/_/./}
+PKGNAME=	${DISTNAME:S/_/./}-0
 CATEGORIES=	editors
 HOMEPAGE=	http://www.fh-wedel.de/elvis/
 

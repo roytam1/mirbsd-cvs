@@ -3,7 +3,7 @@
 COMMENT=	"module to extract text contained within HTML tables"
 
 DISTNAME=	HTML-TableExtract-1.08
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 
 

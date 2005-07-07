@@ -3,7 +3,7 @@
 COMMENT=	"screen bottom ripples like a pool of water"
 
 DISTNAME=	xripple
-PKGNAME=	xripple-1.0
+PKGNAME=	xripple-1.0-0
 CATEGORIES=	games
 
 MASTER_SITES=	ftp://crydee.sai.msu.ru/zeus/X11/contrib/ \

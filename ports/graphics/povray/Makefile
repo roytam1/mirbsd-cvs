@@ -2,7 +2,7 @@
 
 COMMENT=			"3D image rendering package"
 
-PKGNAME=			povray-3.1g
+PKGNAME=			povray-3.1g-0
 CATEGORIES=			graphics
 
 HOMEPAGE=			http://www.povray.org

@@ -3,7 +3,7 @@
 COMMENT=	"stack trace and stack trace frame objects"
 
 DISTNAME=	Devel-StackTrace-1.11
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	devel perl5
 
 # Artistic License

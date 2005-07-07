@@ -6,7 +6,7 @@ COMMENT=	"implements DSA using OpenSSL"
 
 VERSION=	0.11
 DISTNAME=	Crypt-OpenSSL-DSA-${VERSION}
-PKGNAME=	p5-${DISTNAME}
+PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5
 HOMEPAGE=	http://perl-openssl.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Crypt/}

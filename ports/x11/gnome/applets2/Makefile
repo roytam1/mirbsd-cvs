@@ -6,8 +6,8 @@ COMMENT-battstat=	"GNOME applet for monitoring battery level"
 
 VERSION=		2.8.2
 DISTNAME=		gnome-applets-${VERSION}
-PKGNAME=		gnome-applets2-${VERSION}p0
-PKGNAME-battstat=	gnome-applets2-battstat-${VERSION}p0
+PKGNAME=		gnome-applets2-${VERSION}-1
+PKGNAME-battstat=	gnome-applets2-battstat-${VERSION}-1
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
