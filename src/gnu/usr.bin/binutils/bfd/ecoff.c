@@ -54,12 +54,12 @@ static asection bfd_debug_section =
 {
   /* name,      id,  index, next, prev, flags, user_set_vma,       */
      "*DEBUG*", 0,   0,     NULL, NULL, 0,     0,
-  /* linker_mark, linker_has_input, gc_mark, segment_mark,         */
-     0,           0,                0,       0,
-  /* sec_info_type, use_rela_p, has_tls_reloc, has_gp_reloc,       */
-     0,		    0,		0,	       0,
-  /* need_finalize_relax, reloc_done,                              */
-     0,			  0,
+  /* linker_mark, linker_has_input, gc_mark, gc_mark_from_eh,      */
+     0,           0,                1,       0,
+  /* segment_mark, sec_info_type, use_rela_p, has_tls_reloc,       */
+     0,            0,             0,          0,
+  /* has_gp_reloc, need_finalize_relax, reloc_done,                */
+     0,            0,                   0,
   /* vma, lma, size, rawsize,                                      */
      0,   0,   0,    0,
   /* output_offset, output_section, alignment_power,               */
@@ -68,7 +68,7 @@ static asection bfd_debug_section =
      NULL,       NULL,        0,           0,       0,
   /* line_filepos, userdata, contents, lineno, lineno_count,       */
      0,            NULL,     NULL,     NULL,   0,
-  /* entsize, kept_section, moving_line_filepos,	           */
+  /* entsize, kept_section, moving_line_filepos,                   */
      0,       NULL,         0,
   /* target_index, used_by_bfd, constructor_chain, owner,          */
      0,            NULL,        NULL,              NULL,
@@ -2633,6 +2633,7 @@ _bfd_ecoff_write_object_contents (bfd *abfd)
 	  reloc_ptr_ptr = current->orelocation;
 	  reloc_end = reloc_ptr_ptr + current->reloc_count;
 	  out_ptr = (char *) reloc_buff;
+
 	  for (;
 	       reloc_ptr_ptr < reloc_end;
 	       reloc_ptr_ptr++, out_ptr += external_reloc_size)
@@ -2645,6 +2646,11 @@ _bfd_ecoff_write_object_contents (bfd *abfd)
 
 	      reloc = *reloc_ptr_ptr;
 	      sym = *reloc->sym_ptr_ptr;
+
+	      /* If the howto field has not been initialised then skip this reloc.
+		 This assumes that an error message has been issued elsewhere.  */
+	      if (reloc->howto == NULL)
+		continue;
 
 	      in.r_vaddr = (reloc->address
 			    + bfd_get_section_vma (abfd, current));
@@ -3182,11 +3188,13 @@ _bfd_ecoff_archive_p (bfd *abfd)
     }
 
   bfd_ardata (abfd)->first_file_filepos = SARMAG;
-  bfd_ardata (abfd)->cache = NULL;
-  bfd_ardata (abfd)->archive_head = NULL;
-  bfd_ardata (abfd)->symdefs = NULL;
-  bfd_ardata (abfd)->extended_names = NULL;
-  bfd_ardata (abfd)->tdata = NULL;
+  /* Already cleared by bfd_zalloc above.
+     bfd_ardata (abfd)->cache = NULL;
+     bfd_ardata (abfd)->archive_head = NULL;
+     bfd_ardata (abfd)->symdefs = NULL;
+     bfd_ardata (abfd)->extended_names = NULL;
+     bfd_ardata (abfd)->extended_names_size = 0;
+     bfd_ardata (abfd)->tdata = NULL;  */
 
   if (! _bfd_ecoff_slurp_armap (abfd)
       || ! _bfd_ecoff_slurp_extended_name_table (abfd))

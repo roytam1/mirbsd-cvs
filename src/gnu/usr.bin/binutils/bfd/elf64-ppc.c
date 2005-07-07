@@ -100,7 +100,7 @@ static bfd_vma opd_entry_value
 #define elf_backend_reloc_type_class	      ppc64_elf_reloc_type_class
 #define elf_backend_finish_dynamic_sections   ppc64_elf_finish_dynamic_sections
 #define elf_backend_link_output_symbol_hook   ppc64_elf_output_symbol_hook
-#define elf_backend_special_sections	      ppc64_elf_special_sections
+#define elf_backend_get_sec_type_attr	      ppc64_elf_get_sec_type_attr
 
 /* The name of the dynamic interpreter.  This is put in the .interp
    section.  */
@@ -2117,8 +2117,13 @@ ppc64_elf_info_to_howto (bfd *abfd ATTRIBUTE_UNUSED, arelent *cache_ptr,
     ppc_howto_init ();
 
   type = ELF64_R_TYPE (dst->r_info);
-  BFD_ASSERT (type < (sizeof (ppc64_elf_howto_table)
-		      / sizeof (ppc64_elf_howto_table[0])));
+  if (type >= (sizeof (ppc64_elf_howto_table)
+	       / sizeof (ppc64_elf_howto_table[0])))
+    {
+      (*_bfd_error_handler) (_("%B: invalid relocation type %d"),
+			     abfd, (int) type);
+      type = R_PPC64_NONE;
+    }
   cache_ptr->howto = ppc64_elf_howto_table[type];
 }
 
@@ -2508,61 +2513,34 @@ ppc64_elf_merge_private_bfd_data (bfd *ibfd, bfd *obfd)
 
 /* Add extra PPC sections.  */
 
-static struct bfd_elf_special_section const
-  ppc64_special_sections_p[]=
+static const struct bfd_elf_special_section ppc64_elf_special_sections[]=
 {
   { ".plt",     4,  0, SHT_NOBITS,   0 },
-  { NULL,        0, 0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  ppc64_special_sections_s[]=
-{
-  { ".sdata",   6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { ".sbss",    5, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE },
-  { NULL,        0, 0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  ppc64_special_sections_t[]=
-{
+  { ".sdata",   6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { ".toc",     4,  0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { ".toc1",    5,  0, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE },
   { ".tocbss",  7,  0, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE },
   { NULL,       0,  0, 0,            0 }
 };
 
-static struct bfd_elf_special_section const *
-  ppc64_elf_special_sections[27]=
+static const struct bfd_elf_special_section *
+ppc64_elf_get_sec_type_attr (bfd *abfd, asection *sec)
 {
-  NULL,				/* 'a' */
-  NULL,				/* 'b' */
-  NULL,				/* 'c' */
-  NULL,				/* 'd' */
-  NULL,				/* 'e' */
-  NULL,				/* 'f' */
-  NULL,				/* 'g' */
-  NULL,				/* 'h' */
-  NULL,				/* 'i' */
-  NULL,				/* 'j' */
-  NULL,				/* 'k' */
-  NULL,				/* 'l' */
-  NULL,				/* 'm' */
-  NULL,				/* 'n' */
-  NULL,				/* 'o' */
-  ppc64_special_sections_p,	/* 'p' */
-  NULL,				/* 'q' */
-  NULL,				/* 'r' */
-  ppc64_special_sections_s,	/* 's' */
-  ppc64_special_sections_t,	/* 't' */
-  NULL,				/* 'u' */
-  NULL,				/* 'v' */
-  NULL,				/* 'w' */
-  NULL,				/* 'x' */
-  NULL,				/* 'y' */
-  NULL,				/* 'z' */
-  NULL				/* other */
-};
+  const struct bfd_elf_special_section *ssect;
+
+  /* See if this is one of the special sections.  */
+  if (sec->name == NULL)
+    return NULL;
+
+  ssect = _bfd_elf_get_special_section (sec->name,
+					ppc64_elf_special_sections,
+					sec->use_rela_p);
+  if (ssect != NULL)
+    return ssect;
+
+  return _bfd_elf_get_sec_type_attr (abfd, sec);
+}
 
 struct _ppc64_elf_section_data
 {
@@ -3581,26 +3559,26 @@ ppc_stub_name (const asection *input_section,
     {
       len = 8 + 1 + strlen (h->elf.root.root.string) + 1 + 8 + 1;
       stub_name = bfd_malloc (len);
-      if (stub_name != NULL)
-	{
-	  sprintf (stub_name, "%08x.%s+%x",
-		   input_section->id & 0xffffffff,
-		   h->elf.root.root.string,
-		   (int) rel->r_addend & 0xffffffff);
-	}
+      if (stub_name == NULL)
+	return stub_name;
+
+      sprintf (stub_name, "%08x.%s+%x",
+	       input_section->id & 0xffffffff,
+	       h->elf.root.root.string,
+	       (int) rel->r_addend & 0xffffffff);
     }
   else
     {
       len = 8 + 1 + 8 + 1 + 8 + 1 + 8 + 1;
       stub_name = bfd_malloc (len);
-      if (stub_name != NULL)
-	{
-	  sprintf (stub_name, "%08x.%x:%x+%x",
-		   input_section->id & 0xffffffff,
-		   sym_sec->id & 0xffffffff,
-		   (int) ELF64_R_SYM (rel->r_info) & 0xffffffff,
-		   (int) rel->r_addend & 0xffffffff);
-	}
+      if (stub_name == NULL)
+	return stub_name;
+
+      sprintf (stub_name, "%08x.%x:%x+%x",
+	       input_section->id & 0xffffffff,
+	       sym_sec->id & 0xffffffff,
+	       (int) ELF64_R_SYM (rel->r_info) & 0xffffffff,
+	       (int) rel->r_addend & 0xffffffff);
     }
   if (stub_name[len - 2] == '+' && stub_name[len - 1] == '0')
     stub_name[len - 2] = 0;
@@ -4365,7 +4343,12 @@ ppc64_elf_check_relocs (bfd *abfd, struct bfd_link_info *info,
       if (r_symndx < symtab_hdr->sh_info)
 	h = NULL;
       else
-	h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+	{
+	  h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+	  while (h->root.type == bfd_link_hash_indirect
+		 || h->root.type == bfd_link_hash_warning)
+	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
+	}
 
       r_type = ELF64_R_TYPE (rel->r_info);
       switch (r_type)
@@ -5064,7 +5047,7 @@ ppc64_elf_gc_mark_hook (asection *sec,
 	  if (!rsec->gc_mark)
 	    _bfd_elf_gc_mark (info, rsec, ppc64_elf_gc_mark_hook);
 
-	  rsec = opd_sym_section[sym->st_value / 8];
+	  rsec = opd_sym_section[(sym->st_value + rel->r_addend) / 8];
 	}
     }
 
@@ -6155,6 +6138,7 @@ dec_dynrel_count (bfd_vma r_info,
 
 bfd_boolean
 ppc64_elf_edit_opd (bfd *obfd, struct bfd_link_info *info,
+		    bfd_boolean no_opd_opt,
 		    bfd_boolean non_overlapping)
 {
   bfd *ibfd;
@@ -6175,7 +6159,7 @@ ppc64_elf_edit_opd (bfd *obfd, struct bfd_link_info *info,
       bfd_size_type cnt_16b = 0;
 
       sec = bfd_get_section_by_name (ibfd, ".opd");
-      if (sec == NULL)
+      if (sec == NULL || sec->size == 0)
 	continue;
 
       amt = sec->size * sizeof (long) / 8;
@@ -6184,10 +6168,15 @@ ppc64_elf_edit_opd (bfd *obfd, struct bfd_link_info *info,
 	{
 	  /* check_relocs hasn't been called.  Must be a ld -r link
 	     or --just-symbols object.   */
-	  opd_adjust = bfd_zalloc (obfd, amt);
+	  opd_adjust = bfd_alloc (obfd, amt);
+	  if (opd_adjust == NULL)
+	    return FALSE;
 	  ppc64_elf_section_data (sec)->opd.adjust = opd_adjust;
 	}
       memset (opd_adjust, 0, amt);
+
+      if (no_opd_opt)
+	continue;
 
       if (sec->sec_info_type == ELF_INFO_TYPE_JUST_SYMS)
 	continue;
@@ -6358,18 +6347,16 @@ ppc64_elf_edit_opd (bfd *obfd, struct bfd_link_info *info,
 
 	  elf_section_data (sec)->relocs = relstart;
 
-	  wptr = sec->contents;
-	  rptr = sec->contents;
 	  new_contents = sec->contents;
-
 	  if (add_aux_fields)
 	    {
 	      new_contents = bfd_malloc (sec->size + cnt_16b * 8);
 	      if (new_contents == NULL)
 		return FALSE;
 	      need_pad = FALSE;
-	      wptr = new_contents;
 	    }
+	  wptr = new_contents;
+	  rptr = sec->contents;
 
 	  write_rel = relstart;
 	  skip = FALSE;

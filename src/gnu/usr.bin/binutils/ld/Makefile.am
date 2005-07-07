@@ -57,14 +57,8 @@ HOSTING_LIBS = @HOSTING_LIBS@
 HOSTING_EMU = -m $(EMUL)
 
 # Setup the testing framework, if you have one
-EXPECT = `if [ -f $$r/../expect/expect ] ; \
-	then echo $$r/../expect/expect ; \
-	else echo expect ; fi`
-
-RUNTEST = `if [ -f $${srcroot}/../dejagnu/runtest ] ; \
-	then echo $${srcroot}/../dejagnu/runtest ; \
-	else echo runtest ; fi`
-
+EXPECT = expect
+RUNTEST = runtest
 RUNTESTFLAGS =
 
 CC_FOR_TARGET = ` \
@@ -179,6 +173,7 @@ ALL_EMULATIONS = \
 	eelf32lppcsim.o \
 	eelf32mcore.o \
 	eelf32mipswindiss.o \
+	eelf32ms1.o \
 	eelf32openrisc.o \
 	eelf32ppc.o \
 	eelf32ppc_fbsd.o \
@@ -186,6 +181,7 @@ ALL_EMULATIONS = \
 	eelf32ppcnto.o \
 	eelf32ppcsim.o \
 	eelf32ppcwindiss.o \
+	eelf32ppcvxworks.o \
 	eelf32vax.o \
 	eelf32xstormy16.o \
 	eelf32xtensa.o \
@@ -750,6 +746,9 @@ eelf32ppcnto.c: $(srcdir)/emulparams/elf32ppcnto.sh \
 eelf32ppcwindiss.c: $(srcdir)/emulparams/elf32ppcwindiss.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32ppcwindiss "$(tdir_elf32ppcwindiss)"
+eelf32ppcvxworks.c: $(srcdir)/emulparams/elf32ppcvxworks.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32ppcvxworks "$(tdir_elf32ppcvxworks)"
 eelf32lsmip.c: $(srcdir)/emulparams/elf32lsmip.sh \
   $(srcdir)/emulparams/elf32lmip.sh $(srcdir)/emulparams/elf32bmip.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
@@ -1532,6 +1531,9 @@ eelf32frvfd.c: $(srcdir)/emulparams/elf32frvfd.sh \
   $(srcdir)/emulparams/elf32frv.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32frvfd "$(tdir_frv)"
+eelf32ms1.c: $(srcdir)/emulparams/elf32ms1.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32ms1 "$(tdir_ms1)"
 
 # We need this for automake to use YLWRAP.
 EXTRA_ld_new_SOURCES = deffilep.y
@@ -1554,10 +1556,6 @@ check-DEJAGNU: site.exp
 	r=`pwd`; export r; \
 	LC_COLLATE=; LC_ALL=; LANG=; export LC_COLLATE LC_ALL LANG; \
 	EXPECT=$(EXPECT); export EXPECT; \
-	if [ -f $(top_builddir)/../expect/expect ]; then \
-	  TCL_LIBRARY=`cd $(top_srcdir)/../tcl/library && pwd`; \
-	  export TCL_LIBRARY; \
-	fi; \
 	runtest=$(RUNTEST); \
 	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
 	  $$runtest --tool $(DEJATOOL) --srcdir $${srcroot}/testsuite \

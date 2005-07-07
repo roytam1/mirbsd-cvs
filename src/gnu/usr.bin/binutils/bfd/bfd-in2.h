@@ -143,6 +143,9 @@ typedef unsigned long bfd_size_type;
 
 #endif /* not BFD64  */
 
+#define HALF_BFD_SIZE_TYPE \
+  (((bfd_size_type) 1) << (8 * sizeof (bfd_size_type) / 2))
+
 #ifndef BFD_HOST_64_BIT
 /* Fall back on a 32 bit type.  The idea is to make these types always
    available for function return types, but in the case that
@@ -705,7 +708,7 @@ extern struct bfd_section *_bfd_elf_tls_setup
   (bfd *, struct bfd_link_info *);
 
 extern void _bfd_elf_provide_symbol
-  (struct bfd_link_info *, const char *, bfd_vma);
+  (struct bfd_link_info *, const char *, bfd_vma, struct bfd_section *);
 
 extern void _bfd_elf_provide_section_bound_symbols
   (struct bfd_link_info *, struct bfd_section *sec, const char *, const char *);
@@ -893,6 +896,9 @@ extern struct coff_comdat_info *bfd_coff_get_comdat_section
 void bfd_init (void);
 
 /* Extracted from opncls.c.  */
+bfd *bfd_fopen (const char *filename, const char *target,
+    const char *mode, int fd);
+
 bfd *bfd_openr (const char *filename, const char *target);
 
 bfd *bfd_fdopenr (const char *filename, const char *target, int fd);
@@ -1259,8 +1265,9 @@ typedef struct bfd_section
      output sections that have an input section.  */
   unsigned int linker_has_input : 1;
 
-  /* A mark flag used by some linker backends for garbage collection.  */
+  /* Mark flags used by some linker backends for garbage collection.  */
   unsigned int gc_mark : 1;
+  unsigned int gc_mark_from_eh : 1;
 
   /* The following flags are used by the ELF linker. */
 
@@ -1851,6 +1858,9 @@ enum bfd_architecture
  bfd_arch_iq2000,     /* Vitesse IQ2000.  */
 #define bfd_mach_iq2000        1
 #define bfd_mach_iq10          2
+  bfd_arch_ms1,
+#define bfd_mach_ms1           1
+#define bfd_mach_mrisc2        2
   bfd_arch_pj,
   bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
 #define bfd_mach_avr1          1
@@ -2611,6 +2621,8 @@ in the instruction.  */
   BFD_RELOC_X86_64_DTPOFF32,
   BFD_RELOC_X86_64_GOTTPOFF,
   BFD_RELOC_X86_64_TPOFF32,
+  BFD_RELOC_X86_64_GOTOFF64,
+  BFD_RELOC_X86_64_GOTPC32,
 
 /* ns32k relocations  */
   BFD_RELOC_NS32K_IMM_8,
@@ -4307,6 +4319,10 @@ bfd_boolean bfd_set_private_flags (bfd *abfd, flagword flags);
        BFD_SEND (abfd, _bfd_find_nearest_line, \
                  (abfd, sec, syms, off, file, func, line))
 
+#define bfd_find_line(abfd, syms, sym, file, line) \
+       BFD_SEND (abfd, _bfd_find_line, \
+                 (abfd, syms, sym, file, line))
+
 #define bfd_find_inliner_info(abfd, file, func, line) \
        BFD_SEND (abfd, _bfd_find_inliner_info, \
                  (abfd, file, func, line))
@@ -4647,6 +4663,7 @@ typedef struct bfd_target
   NAME##_bfd_is_target_special_symbol, \
   NAME##_get_lineno, \
   NAME##_find_nearest_line, \
+  _bfd_generic_find_line, \
   NAME##_find_inliner_info, \
   NAME##_bfd_make_debug_symbol, \
   NAME##_read_minisymbols, \
@@ -4669,6 +4686,9 @@ typedef struct bfd_target
   bfd_boolean (*_bfd_find_nearest_line)
     (bfd *, struct bfd_section *, struct bfd_symbol **, bfd_vma,
      const char **, const char **, unsigned int *);
+  bfd_boolean (*_bfd_find_line)
+    (bfd *, struct bfd_symbol **, struct bfd_symbol *,
+     const char **, unsigned int *);
   bfd_boolean (*_bfd_find_inliner_info)
     (bfd *, const char **, const char **, unsigned int *);
  /* Back-door to allow format-aware applications to create debug symbols

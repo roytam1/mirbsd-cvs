@@ -182,15 +182,19 @@ typedef struct
 #define CpuSSE2	       0x4000	/* Streaming SIMD extensions 2 required */
 #define Cpu3dnow       0x8000	/* 3dnow! support required */
 #define Cpu3dnowA     0x10000	/* 3dnow!Extensions support required */
-#define CpuPNI	      0x20000	/* Prescott New Instructions required */
+#define CpuSSE3	      0x20000	/* Streaming SIMD extensions 3 required */
+#define CpuPNI	      CpuSSE3	/* Prescott New Instructions required */
 #define CpuPadLock    0x40000	/* VIA PadLock required */
+#define CpuSVME	      0x80000	/* AMD Secure Virtual Machine Ext-s required */
 
   /* These flags are set by gas depending on the flag_code.  */
 #define Cpu64	     0x4000000   /* 64bit support required  */
 #define CpuNo64      0x8000000   /* Not supported in the 64bit mode  */
 
   /* The default value for unknown CPUs - enable all features to avoid problems.  */
-#define CpuUnknownFlags (Cpu086|Cpu186|Cpu286|Cpu386|Cpu486|Cpu586|Cpu686|CpuP4|CpuSledgehammer|CpuMMX|CpuMMX2|CpuSSE|CpuSSE2|CpuPNI|Cpu3dnow|Cpu3dnowA|CpuK6|CpuAthlon|CpuPadLock)
+#define CpuUnknownFlags (Cpu086|Cpu186|Cpu286|Cpu386|Cpu486|Cpu586|Cpu686 \
+	|CpuP4|CpuSledgehammer|CpuMMX|CpuMMX2|CpuSSE|CpuSSE2|CpuPNI \
+	|Cpu3dnow|Cpu3dnowA|CpuK6|CpuAthlon|CpuPadLock|CpuSVME)
 
   /* the bits in opcode_modifier are used to generate the final opcode from
      the base_opcode.  These bits also are used to detect alternate forms of
@@ -413,7 +417,7 @@ void i386_validate_fix PARAMS ((struct fix *));
 #define tc_fix_adjustable(X)  tc_i386_fix_adjustable(X)
 extern int tc_i386_fix_adjustable PARAMS ((struct fix *));
 
-/* Values passed to md_apply_fix3 don't include the symbol value.  */
+/* Values passed to md_apply_fix don't include the symbol value.  */
 #define MD_APPLY_SYM_VALUE(FIX) 0
 
 /* ELF wants external syms kept, as does PE COFF.  */

@@ -2833,7 +2833,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=gas
- VERSION=050605
+ VERSION=050707
 
 
 cat >>confdefs.h <<_ACEOF
@@ -4686,6 +4686,10 @@ _ACEOF
 	if test $? -ne 0 ; then
 	  extra_objects="$extra_objects itbl-ops.o"
 	fi
+	;;
+
+      ms1)
+        using_cgen=yes
 	;;
 
       i386 | s390 | sparc)

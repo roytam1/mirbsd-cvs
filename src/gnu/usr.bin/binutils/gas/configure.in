@@ -18,7 +18,7 @@ AC_ISC_POSIX
 changequote(,)dnl
 BFD_VERSION=`sed -n -e 's/^.._INIT_AUTOMAKE.*,[ 	]*\([^ 	]*\)[ 	]*).*/\1/p' < ${srcdir}/../bfd/configure.in`
 changequote([,])dnl
-AM_INIT_AUTOMAKE(gas, 050605)
+AM_INIT_AUTOMAKE(gas, 050707)
 
 AM_PROG_LIBTOOL
 
@@ -315,6 +315,10 @@ changequote([,])dnl
 	if test $? -ne 0 ; then
 	  extra_objects="$extra_objects itbl-ops.o"
 	fi
+	;;
+
+      ms1)
+        using_cgen=yes
 	;;
 
       i386 | s390 | sparc)

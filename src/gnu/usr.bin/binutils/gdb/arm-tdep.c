@@ -953,7 +953,7 @@ arm_prologue_prev_register (struct frame_info *next_frame,
 			    enum lval_type *lvalp,
 			    CORE_ADDR *addrp,
 			    int *realnump,
-			    void *valuep)
+			    gdb_byte *valuep)
 {
   struct arm_prologue_cache *cache;
 
@@ -1113,7 +1113,7 @@ arm_sigtramp_prev_register (struct frame_info *next_frame,
 			    enum lval_type *lvalp,
 			    CORE_ADDR *addrp,
 			    int *realnump,
-			    void *valuep)
+			    gdb_byte *valuep)
 {
   struct arm_prologue_cache *cache;
 
@@ -2481,7 +2481,7 @@ arm_register_name (int i)
 static void
 set_disassembly_style (void)
 {
-  const char *setname, *setdesc, **regnames;
+  const char *setname, *setdesc, *const *regnames;
   int numregs, j;
 
   /* Find the style that the user wants in the opcodes table.  */
@@ -2875,7 +2875,7 @@ _initialize_arm_tdep (void)
   struct cmd_list_element *new_set, *new_show;
   const char *setname;
   const char *setdesc;
-  const char **regnames;
+  const char *const *regnames;
   int numregs, i, j;
   static char *helptext;
   char regdesc[1024], *rdptr = regdesc;

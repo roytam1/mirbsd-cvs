@@ -72,21 +72,21 @@ extern char *strrchr ();
 #endif
 #endif
 
-#ifdef NEED_DECLARATION_STRSTR
+#if !HAVE_DECL_STRSTR
 extern char *strstr ();
 #endif
 
 #ifdef HAVE_SBRK
-#ifdef NEED_DECLARATION_SBRK
+#if !HAVE_DECL_SBRK
 extern char *sbrk ();
 #endif
 #endif
 
-#ifdef NEED_DECLARATION_GETENV
+#if !HAVE_DECL_GETENV
 extern char *getenv ();
 #endif
 
-#ifdef NEED_DECLARATION_ENVIRON
+#if !HAVE_DECL_ENVIRON
 extern char **environ;
 #endif
 
@@ -147,7 +147,14 @@ void *alloca ();
 # define N_(String) (String)
 #endif
 
+/* Used by ar.c and objcopy.c.  */
+#define BUFSIZE 8192
+
 /* bucomm.c */
+
+/* Return the filename in a static buffer.  */
+const char *bfd_get_archive_filename (bfd *);
+
 void bfd_nonfatal (const char *);
 
 void bfd_fatal (const char *) ATTRIBUTE_NORETURN;

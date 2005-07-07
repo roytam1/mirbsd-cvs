@@ -4912,7 +4912,12 @@ elf32_arm_check_relocs (bfd *abfd, struct bfd_link_info *info,
       if (r_symndx < symtab_hdr->sh_info)
         h = NULL;
       else
-        h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+	{
+	  h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+	  while (h->root.type == bfd_link_hash_indirect
+		 || h->root.type == bfd_link_hash_warning)
+	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
+	}
 
       eh = (struct elf32_arm_link_hash_entry *) h;
 
@@ -5927,7 +5932,7 @@ elf32_arm_size_dynamic_sections (bfd * output_bfd ATTRIBUTE_UNUSED,
 #define add_dynamic_entry(TAG, VAL) \
   _bfd_elf_add_dynamic_entry (info, TAG, VAL)
 
-      if (!info->shared)
+     if (info->executable)
 	{
 	  if (!add_dynamic_entry (DT_DEBUG, 0))
 	    return FALSE;
@@ -5960,10 +5965,9 @@ elf32_arm_size_dynamic_sections (bfd * output_bfd ATTRIBUTE_UNUSED,
 	{
 	  if (!add_dynamic_entry (DT_TEXTREL, 0))
 	    return FALSE;
-	  info->flags |= DF_TEXTREL;
 	}
     }
-#undef add_synamic_entry
+#undef add_dynamic_entry
 
   return TRUE;
 }
@@ -6937,8 +6941,8 @@ elf32_arm_symbian_link_hash_table_create (bfd *abfd)
   return ret;
 }     
 
-static struct bfd_elf_special_section const
-  symbian_special_sections_d[]=
+static const struct bfd_elf_special_section
+elf32_arm_symbian_special_sections[] =
 {
   /* In a BPABI executable, the dynamic linking sections do not go in
      the loadable read-only segment.  The post-linker may wish to
@@ -6947,92 +6951,34 @@ static struct bfd_elf_special_section const
   { ".dynamic",        8,  0, SHT_DYNAMIC,  0 },
   { ".dynstr",         7,  0, SHT_STRTAB,   0 },
   { ".dynsym",         7,  0, SHT_DYNSYM,   0 },
-  { NULL,              0,  0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  symbian_special_sections_g[]=
-{
-  /* In a BPABI executable, the dynamic linking sections do not go in
-     the loadable read-only segment.  The post-linker may wish to
-     refer to these sections, but they are not part of the final
-     program image.  */
   { ".got",            4,  0, SHT_PROGBITS, 0 },
-  { NULL,              0,  0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  symbian_special_sections_h[]=
-{
-  /* In a BPABI executable, the dynamic linking sections do not go in
-     the loadable read-only segment.  The post-linker may wish to
-     refer to these sections, but they are not part of the final
-     program image.  */
   { ".hash",           5,  0, SHT_HASH,     0 },
-  { NULL,              0,  0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  symbian_special_sections_i[]=
-{
   /* These sections do not need to be writable as the SymbianOS
      postlinker will arrange things so that no dynamic relocation is
      required.  */
   { ".init_array",    11,  0, SHT_INIT_ARRAY, SHF_ALLOC },
-  { NULL,              0,  0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  symbian_special_sections_f[]=
-{
-  /* These sections do not need to be writable as the SymbianOS
-     postlinker will arrange things so that no dynamic relocation is
-     required.  */
   { ".fini_array",    11,  0, SHT_FINI_ARRAY, SHF_ALLOC },
-  { NULL,              0,  0, 0,            0 }
-};
-
-static struct bfd_elf_special_section const
-  symbian_special_sections_p[]=
-{
-  /* These sections do not need to be writable as the SymbianOS
-     postlinker will arrange things so that no dynamic relocation is
-     required.  */
   { ".preinit_array", 14,  0, SHT_PREINIT_ARRAY, SHF_ALLOC },
   { NULL,              0,  0, 0,            0 }
 };
 
-static struct bfd_elf_special_section const *
-  elf32_arm_symbian_special_sections[27]=
+static const struct bfd_elf_special_section *
+elf32_arm_symbian_get_sec_type_attr (bfd *abfd, asection *sec)
 {
-  NULL,				/* 'a' */
-  NULL,				/* 'b' */
-  NULL,				/* 'c' */
-  symbian_special_sections_d,	/* 'd' */
-  NULL,				/* 'e' */
-  symbian_special_sections_f,	/* 'f' */
-  symbian_special_sections_g,	/* 'g' */
-  symbian_special_sections_h,	/* 'h' */
-  symbian_special_sections_i,	/* 'i' */
-  NULL,				/* 'j' */
-  NULL,				/* 'k' */
-  NULL,				/* 'l' */
-  NULL,				/* 'm' */
-  NULL,				/* 'n' */
-  NULL,				/* 'o' */
-  symbian_special_sections_p,	/* 'p' */
-  NULL,				/* 'q' */
-  NULL,				/* 'r' */
-  NULL,				/* 's' */
-  NULL,				/* 't' */
-  NULL,				/* 'u' */
-  NULL,				/* 'v' */
-  NULL,				/* 'w' */
-  NULL,				/* 'x' */
-  NULL,				/* 'y' */
-  NULL,				/* 'z' */
-  NULL				/* other */
-};
+  const struct bfd_elf_special_section *ssect;
+
+  /* See if this is one of the special sections.  */
+  if (sec->name == NULL)
+    return NULL;
+
+  ssect = _bfd_elf_get_special_section (sec->name,
+					elf32_arm_symbian_special_sections,
+					sec->use_rela_p);
+  if (ssect != NULL)
+    return ssect;
+
+  return _bfd_elf_get_sec_type_attr (abfd, sec);
+}
 
 static void
 elf32_arm_symbian_begin_write_processing (bfd *abfd, 
@@ -7086,8 +7032,8 @@ elf32_arm_symbian_modify_segment_map (bfd *abfd,
 #define bfd_elf32_bfd_link_hash_table_create \
   elf32_arm_symbian_link_hash_table_create
 
-#undef elf_backend_special_sections
-#define elf_backend_special_sections elf32_arm_symbian_special_sections
+#undef elf_backend_get_sec_type_attr
+#define elf_backend_get_sec_type_attr elf32_arm_symbian_get_sec_type_attr
 
 #undef elf_backend_begin_write_processing
 #define elf_backend_begin_write_processing \

@@ -1294,10 +1294,12 @@ _bfd_xcoff_archive_p (abfd)
   if (bfd_ardata (abfd) == (struct artdata *) NULL)
     goto error_ret_restore;
 
-  bfd_ardata (abfd)->cache = NULL;
-  bfd_ardata (abfd)->archive_head = NULL;
-  bfd_ardata (abfd)->symdefs = NULL;
-  bfd_ardata (abfd)->extended_names = NULL;
+  /* Cleared by bfd_zalloc above.
+     bfd_ardata (abfd)->cache = NULL;
+     bfd_ardata (abfd)->archive_head = NULL;
+     bfd_ardata (abfd)->symdefs = NULL;
+     bfd_ardata (abfd)->extended_names = NULL;
+     bfd_ardata (abfd)->extended_names_size = 0;  */
 
   /* Now handle the two formats.  */
   if (magic[1] != 'b')
@@ -4166,6 +4168,7 @@ const bfd_target rs6000coff_vec =
     coff_bfd_is_target_special_symbol,
     coff_get_lineno,
     coff_find_nearest_line,
+    _bfd_generic_find_line,
     coff_find_inliner_info,
     coff_bfd_make_debug_symbol,
     _bfd_generic_read_minisymbols,
@@ -4414,6 +4417,7 @@ const bfd_target pmac_xcoff_vec =
     coff_bfd_is_target_special_symbol,
     coff_get_lineno,
     coff_find_nearest_line,
+    _bfd_generic_find_line,
     coff_find_inliner_info,
     coff_bfd_make_debug_symbol,
     _bfd_generic_read_minisymbols,

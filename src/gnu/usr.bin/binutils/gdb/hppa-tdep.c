@@ -1035,7 +1035,7 @@ hppa64_push_dummy_call (struct gdbarch *gdbarch, struct value *function,
 static enum return_value_convention
 hppa32_return_value (struct gdbarch *gdbarch,
 		     struct type *type, struct regcache *regcache,
-		     void *readbuf, const void *writebuf)
+		     gdb_byte *readbuf, const gdb_byte *writebuf)
 {
   if (TYPE_LENGTH (type) <= 2 * 4)
     {
@@ -1061,9 +1061,9 @@ hppa32_return_value (struct gdbarch *gdbarch,
       for (b = part; b < TYPE_LENGTH (type); b += 4)
 	{
 	  if (readbuf != NULL)
-	    regcache_cooked_read (regcache, reg, (char *) readbuf + b);
+	    regcache_cooked_read (regcache, reg, readbuf + b);
 	  if (writebuf != NULL)
-	    regcache_cooked_write (regcache, reg, (const char *) writebuf + b);
+	    regcache_cooked_write (regcache, reg, writebuf + b);
 	  reg++;
 	}
       return RETURN_VALUE_REGISTER_CONVENTION;
@@ -1075,7 +1075,7 @@ hppa32_return_value (struct gdbarch *gdbarch,
 static enum return_value_convention
 hppa64_return_value (struct gdbarch *gdbarch,
 		     struct type *type, struct regcache *regcache,
-		     void *readbuf, const void *writebuf)
+		     gdb_byte *readbuf, const gdb_byte *writebuf)
 {
   int len = TYPE_LENGTH (type);
   int regnum, offset;
@@ -1139,12 +1139,11 @@ hppa64_return_value (struct gdbarch *gdbarch,
 
   if (readbuf)
     {
-      char *buf = readbuf;
       while (len > 0)
 	{
 	  regcache_cooked_read_part (regcache, regnum, offset,
-				     min (len, 8), buf);
-	  buf += min (len, 8);
+				     min (len, 8), readbuf);
+	  readbuf += min (len, 8);
 	  len -= min (len, 8);
 	  regnum++;
 	}
@@ -1152,12 +1151,11 @@ hppa64_return_value (struct gdbarch *gdbarch,
 
   if (writebuf)
     {
-      const char *buf = writebuf;
       while (len > 0)
 	{
 	  regcache_cooked_write_part (regcache, regnum, offset,
-				      min (len, 8), buf);
-	  buf += min (len, 8);
+				      min (len, 8), writebuf);
+	  writebuf += min (len, 8);
 	  len -= min (len, 8);
 	  regnum++;
 	}
@@ -2109,7 +2107,7 @@ hppa_frame_prev_register (struct frame_info *next_frame,
 			  void **this_cache,
 			  int regnum, int *optimizedp,
 			  enum lval_type *lvalp, CORE_ADDR *addrp,
-			  int *realnump, void *valuep)
+			  int *realnump, gdb_byte *valuep)
 {
   struct hppa_frame_cache *info = hppa_frame_cache (next_frame, this_cache);
   hppa_frame_prev_register_helper (next_frame, info->saved_regs, regnum,
@@ -2146,72 +2144,65 @@ static struct hppa_frame_cache *
 hppa_fallback_frame_cache (struct frame_info *next_frame, void **this_cache)
 {
   struct hppa_frame_cache *cache;
-  unsigned int frame_size;
-  int found_rp;
-  CORE_ADDR pc, start_pc, end_pc, cur_pc;
+  unsigned int frame_size = 0;
+  int found_rp = 0;
+  CORE_ADDR start_pc;
 
   if (hppa_debug)
-    fprintf_unfiltered (gdb_stdlog, "{ hppa_fallback_frame_cache (frame=%d)-> ",
-      frame_relative_level(next_frame));
+    fprintf_unfiltered (gdb_stdlog,
+			"{ hppa_fallback_frame_cache (frame=%d) -> ",
+			frame_relative_level (next_frame));
 
   cache = FRAME_OBSTACK_ZALLOC (struct hppa_frame_cache);
   (*this_cache) = cache;
   cache->saved_regs = trad_frame_alloc_saved_regs (next_frame);
 
-  pc = frame_func_unwind (next_frame);
-  cur_pc = frame_pc_unwind (next_frame);
-  frame_size = 0;
-  found_rp = 0;
-
-  find_pc_partial_function (pc, NULL, &start_pc, &end_pc);
-
-  if (start_pc == 0 || end_pc == 0)
+  start_pc = frame_func_unwind (next_frame);
+  if (start_pc)
     {
-      error (_("Cannot find bounds of current function (@0x%s), unwinding will "
-	     "fail."), paddr_nz (pc));
-      return cache;
-    }
+      CORE_ADDR cur_pc = frame_pc_unwind (next_frame);
+      CORE_ADDR pc;
 
-  if (end_pc > cur_pc)
-    end_pc = cur_pc;
+      for (pc = start_pc; pc < cur_pc; pc += 4)
+	{
+	  unsigned int insn;
 
-  for (pc = start_pc; pc < end_pc; pc += 4)
-    {
-      unsigned int insn;
+	  insn = read_memory_unsigned_integer (pc, 4);
+	  frame_size += prologue_inst_adjust_sp (insn);
 
-      insn = read_memory_unsigned_integer (pc, 4);
-
-      frame_size += prologue_inst_adjust_sp (insn);
-
-      /* There are limited ways to store the return pointer into the
-	 stack.  */
-      if (insn == 0x6bc23fd9) /* stw rp,-0x14(sr0,sp) */
-	 {
-	   cache->saved_regs[HPPA_RP_REGNUM].addr = -20;
-	   found_rp = 1;
-	 }
-      else if (insn == 0x0fc212c1) /* std rp,-0x10(sr0,sp) */
-	 {
-	   cache->saved_regs[HPPA_RP_REGNUM].addr = -16;
-	   found_rp = 1;
-	 }
+	  /* There are limited ways to store the return pointer into the
+	     stack.  */
+	  if (insn == 0x6bc23fd9) /* stw rp,-0x14(sr0,sp) */
+	    {
+	      cache->saved_regs[HPPA_RP_REGNUM].addr = -20;
+	      found_rp = 1;
+	    }
+	  else if (insn == 0x0fc212c1) /* std rp,-0x10(sr0,sp) */
+	    {
+	      cache->saved_regs[HPPA_RP_REGNUM].addr = -16;
+	      found_rp = 1;
+	    }
+	}
     }
 
   if (hppa_debug)
-    fprintf_unfiltered (gdb_stdlog, " frame_size = %d, found_rp = %d }\n",
-      frame_size, found_rp);
+    fprintf_unfiltered (gdb_stdlog, " frame_size=%d, found_rp=%d }\n",
+			frame_size, found_rp);
 
-  cache->base = frame_unwind_register_unsigned (next_frame, HPPA_SP_REGNUM) - frame_size;
+  cache->base = frame_unwind_register_unsigned (next_frame, HPPA_SP_REGNUM);
+  cache->base -= frame_size;
   trad_frame_set_value (cache->saved_regs, HPPA_SP_REGNUM, cache->base);
 
   if (trad_frame_addr_p (cache->saved_regs, HPPA_RP_REGNUM))
     {
       cache->saved_regs[HPPA_RP_REGNUM].addr += cache->base;
-      cache->saved_regs[HPPA_PCOQ_HEAD_REGNUM] = cache->saved_regs[HPPA_RP_REGNUM];
+      cache->saved_regs[HPPA_PCOQ_HEAD_REGNUM] = 
+	cache->saved_regs[HPPA_RP_REGNUM];
     }
   else
     {
-      ULONGEST rp = frame_unwind_register_unsigned (next_frame, HPPA_RP_REGNUM);
+      ULONGEST rp;
+      rp = frame_unwind_register_unsigned (next_frame, HPPA_RP_REGNUM);
       trad_frame_set_value (cache->saved_regs, HPPA_PCOQ_HEAD_REGNUM, rp);
     }
 
@@ -2232,7 +2223,7 @@ hppa_fallback_frame_prev_register (struct frame_info *next_frame,
 			  void **this_cache,
 			  int regnum, int *optimizedp,
 			  enum lval_type *lvalp, CORE_ADDR *addrp,
-			  int *realnump, void *valuep)
+			  int *realnump, gdb_byte *valuep)
 {
   struct hppa_frame_cache *info = 
     hppa_fallback_frame_cache (next_frame, this_cache);
@@ -2317,7 +2308,7 @@ hppa_stub_frame_prev_register (struct frame_info *next_frame,
 			       void **this_prologue_cache,
 			       int regnum, int *optimizedp,
 			       enum lval_type *lvalp, CORE_ADDR *addrp,
-			       int *realnump, void *valuep)
+			       int *realnump, gdb_byte *valuep)
 {
   struct hppa_stub_unwind_cache *info
     = hppa_stub_frame_unwind_cache (next_frame, this_prologue_cache);
@@ -2404,16 +2395,6 @@ hppa_lookup_stub_minimal_symbol (const char *name,
   return NULL;
 }
 
-/* Instead of this nasty cast, add a method pvoid() that prints out a
-   host VOID data type (remember %p isn't portable).  */
-
-static CORE_ADDR
-hppa_pointer_to_address_hack (void *ptr)
-{
-  gdb_assert (sizeof (ptr) == TYPE_LENGTH (builtin_type_void_data_ptr));
-  return POINTER_TO_ADDRESS (builtin_type_void_data_ptr, &ptr);
-}
-
 static void
 unwind_command (char *exp, int from_tty)
 {
@@ -2435,8 +2416,7 @@ unwind_command (char *exp, int from_tty)
       return;
     }
 
-  printf_unfiltered ("unwind_table_entry (0x%s):\n",
-		     paddr_nz (hppa_pointer_to_address_hack (u)));
+  printf_unfiltered ("unwind_table_entry (0x%lx):\n", (unsigned long)u);
 
   printf_unfiltered ("\tregion_start = ");
   print_address (u->region_start, gdb_stdout);
@@ -2529,7 +2509,7 @@ hppa_pc_requires_run_before_use (CORE_ADDR pc)
      minimal symbols, I'm resorting to the gross hack of checking the
      top byte of the address for all 1's.  Sigh.  */
 
-  return (!target_has_stack && (pc & 0xFF000000));
+  return (!target_has_stack && (pc & 0xFF000000) == 0xFF000000);
 }
 
 /* Return the GDB type object for the "standard" data type of data in
@@ -2587,26 +2567,25 @@ hppa_smash_text_address (CORE_ADDR addr)
   return (addr &= ~0x3);
 }
 
-/* Get the ith function argument for the current function.  */
+/* Get the ARGIth function argument for the current function.  */
+
 static CORE_ADDR
 hppa_fetch_pointer_argument (struct frame_info *frame, int argi, 
 			     struct type *type)
 {
-  CORE_ADDR addr;
-  get_frame_register (frame, HPPA_R0_REGNUM + 26 - argi, &addr);
-  return addr;
+  return get_frame_register_unsigned (frame, HPPA_R0_REGNUM + 26 - argi);
 }
 
 static void
 hppa_pseudo_register_read (struct gdbarch *gdbarch, struct regcache *regcache,
-			   int regnum, void *buf)
+			   int regnum, gdb_byte *buf)
 {
     ULONGEST tmp;
 
     regcache_raw_read_unsigned (regcache, regnum, &tmp);
     if (regnum == HPPA_PCOQ_HEAD_REGNUM || regnum == HPPA_PCOQ_TAIL_REGNUM)
       tmp &= ~0x3;
-    store_unsigned_integer (buf, sizeof(tmp), tmp);
+    store_unsigned_integer (buf, sizeof tmp, tmp);
 }
 
 static CORE_ADDR

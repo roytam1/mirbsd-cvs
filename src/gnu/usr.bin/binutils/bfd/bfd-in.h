@@ -136,6 +136,9 @@ typedef unsigned long bfd_size_type;
 
 #endif /* not BFD64  */
 
+#define HALF_BFD_SIZE_TYPE \
+  (((bfd_size_type) 1) << (8 * sizeof (bfd_size_type) / 2))
+
 #ifndef BFD_HOST_64_BIT
 /* Fall back on a 32 bit type.  The idea is to make these types always
    available for function return types, but in the case that
@@ -698,7 +701,7 @@ extern struct bfd_section *_bfd_elf_tls_setup
   (bfd *, struct bfd_link_info *);
 
 extern void _bfd_elf_provide_symbol
-  (struct bfd_link_info *, const char *, bfd_vma);
+  (struct bfd_link_info *, const char *, bfd_vma, struct bfd_section *);
 
 extern void _bfd_elf_provide_section_bound_symbols
   (struct bfd_link_info *, struct bfd_section *sec, const char *, const char *);

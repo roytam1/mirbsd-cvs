@@ -945,6 +945,8 @@ i386/elf relocations
 @deffnx {} BFD_RELOC_X86_64_DTPOFF32
 @deffnx {} BFD_RELOC_X86_64_GOTTPOFF
 @deffnx {} BFD_RELOC_X86_64_TPOFF32
+@deffnx {} BFD_RELOC_X86_64_GOTOFF64
+@deffnx {} BFD_RELOC_X86_64_GOTPC32
 x86-64/elf relocations
 @end deffn
 @deffn {} BFD_RELOC_NS32K_IMM_8
@@ -2270,7 +2272,8 @@ bfd_boolean bfd_generic_gc_sections
 @end example
 @strong{Description}@*
 Provides default handling for relaxing for back ends which
-don't do section gc -- i.e., does nothing.
+don't do section gc -- i.e., does nothing besides the special
+case for marking sections having global symbols.
 
 @findex bfd_generic_merge_sections
 @subsubsection @code{bfd_generic_merge_sections}

@@ -230,7 +230,7 @@ md_number_to_chars (char con[], valueT value, int nbytes)
    that they reference.  Knows about order of bytes in address.  */
 
 void
-md_apply_fix3 (fixS *fixP,
+md_apply_fix (fixS *fixP,
 	       valueT * valP,
 	       segT seg ATTRIBUTE_UNUSED)
 {
@@ -243,7 +243,7 @@ md_apply_fix3 (fixS *fixP,
 
   buf = fixP->fx_where + fixP->fx_frag->fr_literal;
   size = fixP->fx_size;
-  code = md_chars_to_number (buf, size);
+  code = md_chars_to_number ((unsigned char *) buf, size);
 
   switch (fixP->fx_r_type)
     {
@@ -1400,7 +1400,7 @@ tc_gen_reloc (asection *section ATTRIBUTE_UNUSED,
   *reloc->sym_ptr_ptr = symbol_get_bfdsym (fixp->fx_addsy);
   reloc->address = fixp->fx_frag->fr_address + fixp->fx_where;
 
-  /* This is taken account for in md_apply_fix3().  */
+  /* This is taken account for in md_apply_fix().  */
   reloc->addend = -symbol_get_bfdsym (fixp->fx_addsy)->section->vma;
 
   switch (fixp->fx_r_type)
