@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.11 2003/06/03 20:31:07 deraadt Exp $	*/
 
 /*-
@@ -44,12 +44,12 @@
 #include <dev/rndvar.h>
 
 #include <machine/biosvar.h>
-#define	_BSD_STANDXX
-#include <lib/libz/zlib.h>
 
 #define	b_cylin	b_resid
 
 dev_t dev_rawpart(struct device *);	/* XXX */
+
+extern unsigned long adler32(unsigned long, const char *, unsigned);
 
 extern u_int32_t bios_cksumlen;
 extern bios_diskinfo_t *bios_diskinfo;
