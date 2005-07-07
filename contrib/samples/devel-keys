@@ -15,7 +15,11 @@ Instead of the MirOS Root CA, please use the CAcert.org service, whose
 root certificate comes with the stock MirOS distribution.
 
 If you want 100% security, you can exchange ripemd-160 checksums or keys
-with the developers, but then, Theo or someone could be feeding _us_ a
+with the developers; but then, Theo or someone _could_ be feeding _us_ a
 trojan and we wouldn't easily know.
 
-$MirOS: contrib/samples/devel-keys,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
+gzsig(1) public keys are not kept in this file, and not used for ssh ac-
+cess; they are shown in src/share/doc/README in the base system instead.
+The ssh(1) public keys above are usually not used for gzsig(1) work.
+
+$MirOS: contrib/samples/devel-keys,v 1.2 2005/03/29 21:22:47 tg Exp $
