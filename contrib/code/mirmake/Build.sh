@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.11 2005/06/09 21:41:47 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.12 2005/06/09 22:00:09 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -115,7 +115,7 @@ ms=NONE
 echo "Checking for mirbsdksh..."
 for s in $MKS $mktest; do
 	echo "Trying ${s}..."
-	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)+([0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
 	if [ x"$t" = x"yes" ]; then
 		echo "Found mirbsdksh: $s"
 		ms=$s
