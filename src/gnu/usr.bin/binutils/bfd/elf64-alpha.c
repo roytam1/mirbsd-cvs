@@ -1204,25 +1204,22 @@ static bfd_boolean
 elf64_alpha_create_got_section (bfd *abfd,
 				struct bfd_link_info *info ATTRIBUTE_UNUSED)
 {
+  flagword flags;
   asection *s;
 
-  if ((s = bfd_get_section_by_name (abfd, ".got")))
-    {
-      /* Check for a non-linker created .got?  */
-      if (alpha_elf_tdata (abfd)->got == NULL)
-	alpha_elf_tdata (abfd)->got = s;
-      return TRUE;
-    }
-
-  s = bfd_make_section_with_flags (abfd, ".got", (SEC_ALLOC | SEC_LOAD
-						  | SEC_HAS_CONTENTS
-						  | SEC_IN_MEMORY
-						  | SEC_LINKER_CREATED));
+  flags = (SEC_ALLOC | SEC_LOAD | SEC_HAS_CONTENTS | SEC_IN_MEMORY
+	   | SEC_LINKER_CREATED);
+  s = bfd_make_section_anyway_with_flags (abfd, ".got", flags);
   if (s == NULL
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
 
   alpha_elf_tdata (abfd)->got = s;
+
+  /* Make sure the object's gotobj is set to itself so that we default
+     to every object with its own .got.  We'll merge .gots later once
+     we've collected each object's info.  */
+  alpha_elf_tdata (abfd)->gotobj = abfd;
 
   return TRUE;
 }
@@ -1233,18 +1230,16 @@ static bfd_boolean
 elf64_alpha_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
 {
   asection *s;
+  flagword flags;
   struct elf_link_hash_entry *h;
   struct bfd_link_hash_entry *bh;
 
   /* We need to create .plt, .rela.plt, .got, and .rela.got sections.  */
 
-  s = bfd_make_section_with_flags (abfd, ".plt",
-				   (SEC_ALLOC | SEC_LOAD | SEC_CODE
-				    | SEC_HAS_CONTENTS
-				    | SEC_IN_MEMORY
-				    | SEC_LINKER_CREATED
-				    | (elf64_alpha_use_secureplt
-				       ? SEC_READONLY : 0)));
+  flags = (SEC_ALLOC | SEC_LOAD | SEC_CODE | SEC_HAS_CONTENTS | SEC_IN_MEMORY
+	   | SEC_LINKER_CREATED
+	   | (elf64_alpha_use_secureplt ? SEC_READONLY : 0));
+  s = bfd_make_section_anyway_with_flags (abfd, ".plt", flags);
   if (s == NULL || ! bfd_set_section_alignment (abfd, s, 4))
     return FALSE;
 
@@ -1263,19 +1258,16 @@ elf64_alpha_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
   if (info->shared && ! bfd_elf_link_record_dynamic_symbol (info, h))
     return FALSE;
 
-  s = bfd_make_section_with_flags (abfd, ".rela.plt",
-				   (SEC_ALLOC | SEC_LOAD
-				    | SEC_HAS_CONTENTS
-				    | SEC_IN_MEMORY
-				    | SEC_LINKER_CREATED
-				    | SEC_READONLY));
+  flags = (SEC_ALLOC | SEC_LOAD | SEC_HAS_CONTENTS | SEC_IN_MEMORY
+	   | SEC_LINKER_CREATED | SEC_READONLY);
+  s = bfd_make_section_anyway_with_flags (abfd, ".rela.plt", flags);
   if (s == NULL || ! bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
 
   if (elf64_alpha_use_secureplt)
     {
-      s = bfd_make_section_with_flags (abfd, ".got.plt",
-				       SEC_ALLOC | SEC_LINKER_CREATED);
+      flags = SEC_ALLOC | SEC_LINKER_CREATED;
+      s = bfd_make_section_anyway_with_flags (abfd, ".got.plt", flags);
       if (s == NULL || ! bfd_set_section_alignment (abfd, s, 3))
 	return FALSE;
     }
@@ -1283,15 +1275,15 @@ elf64_alpha_create_dynamic_sections (bfd *abfd, struct bfd_link_info *info)
   /* We may or may not have created a .got section for this object, but
      we definitely havn't done the rest of the work.  */
 
-  if (!elf64_alpha_create_got_section (abfd, info))
-    return FALSE;
+  if (alpha_elf_tdata(abfd)->gotobj == NULL)
+    {
+      if (!elf64_alpha_create_got_section (abfd, info))
+	return FALSE;
+    }
 
-  s = bfd_make_section_with_flags (abfd, ".rela.got",
-				   (SEC_ALLOC | SEC_LOAD
-				    | SEC_HAS_CONTENTS
-				    | SEC_IN_MEMORY
-				    | SEC_LINKER_CREATED
-				    | SEC_READONLY));
+  flags = (SEC_ALLOC | SEC_LOAD | SEC_HAS_CONTENTS | SEC_IN_MEMORY
+	   | SEC_LINKER_CREATED | SEC_READONLY);
+  s = bfd_make_section_anyway_with_flags (abfd, ".rela.got", flags);
   if (s == NULL
       || !bfd_set_section_alignment (abfd, s, 3))
     return FALSE;
@@ -1746,7 +1738,6 @@ elf64_alpha_check_relocs (bfd *abfd, struct bfd_link_info *info,
   Elf_Internal_Shdr *symtab_hdr;
   struct alpha_elf_link_hash_entry **sym_hashes;
   const Elf_Internal_Rela *rel, *relend;
-  bfd_boolean got_created;
   bfd_size_type amt;
 
   if (info->relocatable)
@@ -1769,7 +1760,6 @@ elf64_alpha_check_relocs (bfd *abfd, struct bfd_link_info *info,
   rel_sec_name = NULL;
   symtab_hdr = &elf_tdata(abfd)->symtab_hdr;
   sym_hashes = alpha_elf_sym_hashes(abfd);
-  got_created = FALSE;
 
   relend = relocs + sec->reloc_count;
   for (rel = relocs; rel < relend; ++rel)
@@ -1881,18 +1871,10 @@ elf64_alpha_check_relocs (bfd *abfd, struct bfd_link_info *info,
 
       if (need & NEED_GOT)
 	{
-	  if (!got_created)
+	  if (alpha_elf_tdata(abfd)->gotobj == NULL)
 	    {
 	      if (!elf64_alpha_create_got_section (abfd, info))
 		return FALSE;
-
-	      /* Make sure the object's gotobj is set to itself so
-		 that we default to every object with its own .got.
-		 We'll merge .gots later once we've collected each
-		 object's info.  */
-	      alpha_elf_tdata(abfd)->gotobj = abfd;
-
-	      got_created = 1;
 	    }
 	}
 
@@ -5180,45 +5162,30 @@ elf64_alpha_reloc_type_class (const Elf_Internal_Rela *rela)
     }
 }
 
-static struct bfd_elf_special_section const
-  alpha_special_sections_s[]=
+static const struct bfd_elf_special_section elf64_alpha_special_sections[] =
 {
-  { ".sdata", 6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_ALPHA_GPREL },
   { ".sbss",  5, -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE + SHF_ALPHA_GPREL },
+  { ".sdata", 6, -2, SHT_PROGBITS, SHF_ALLOC + SHF_WRITE + SHF_ALPHA_GPREL },
   { NULL,     0,  0, 0,            0 }
 };
 
-static struct bfd_elf_special_section const *
-  elf64_alpha_special_sections[27] =
+static const struct bfd_elf_special_section *
+elf64_alpha_get_sec_type_attr (bfd *abfd, asection *sec)
 {
-  NULL,				/* 'a' */
-  NULL,				/* 'b' */
-  NULL,				/* 'c' */
-  NULL,				/* 'd' */
-  NULL,				/* 'e' */
-  NULL,				/* 'f' */
-  NULL,				/* 'g' */
-  NULL,				/* 'h' */
-  NULL,				/* 'i' */
-  NULL,				/* 'j' */
-  NULL,				/* 'k' */
-  NULL,				/* 'l' */
-  NULL,				/* 'm' */
-  NULL,				/* 'n' */
-  NULL,				/* 'o' */
-  NULL,				/* 'p' */
-  NULL,				/* 'q' */
-  NULL,				/* 'r' */
-  alpha_special_sections_s,	/* 's' */
-  NULL,				/* 't' */
-  NULL,				/* 'u' */
-  NULL,				/* 'v' */
-  NULL,				/* 'w' */
-  NULL,				/* 'x' */
-  NULL,				/* 'y' */
-  NULL,				/* 'z' */
-  NULL				/* other */
-};
+  const struct bfd_elf_special_section *ssect;
+
+  /* See if this is one of the special sections.  */
+  if (sec->name == NULL)
+    return NULL;
+
+  ssect = _bfd_elf_get_special_section (sec->name,
+					elf64_alpha_special_sections,
+					sec->use_rela_p);
+  if (ssect != NULL)
+    return ssect;
+
+  return _bfd_elf_get_sec_type_attr (abfd, sec);
+}
 
 /* ECOFF swapping routines.  These are used when dealing with the
    .mdebug section, which is in the ECOFF debugging format.  Copied
@@ -5358,8 +5325,8 @@ static const struct elf_size_info alpha_elf_size_info =
 #define elf_backend_size_info \
   alpha_elf_size_info
 
-#define elf_backend_special_sections \
-  elf64_alpha_special_sections
+#define elf_backend_get_sec_type_attr \
+  elf64_alpha_get_sec_type_attr
 
 /* A few constants that determine how the .plt section is set up.  */
 #define elf_backend_want_got_plt 0

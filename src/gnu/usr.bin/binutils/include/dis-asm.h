@@ -237,6 +237,7 @@ extern int print_insn_mcore		(bfd_vma, disassemble_info *);
 extern int print_insn_mmix		(bfd_vma, disassemble_info *);
 extern int print_insn_mn10200		(bfd_vma, disassemble_info *);
 extern int print_insn_mn10300		(bfd_vma, disassemble_info *);
+extern int print_insn_ms1               (bfd_vma, disassemble_info *);
 extern int print_insn_msp430		(bfd_vma, disassemble_info *);
 extern int print_insn_ns32k		(bfd_vma, disassemble_info *);
 extern int print_insn_crx               (bfd_vma, disassemble_info *);
@@ -273,7 +274,7 @@ extern void print_arm_disassembler_options (FILE *);
 extern void parse_arm_disassembler_option (char *);
 extern int get_arm_regname_num_options (void);
 extern int set_arm_regname_option (int);
-extern int get_arm_regnames (int, const char **, const char **, const char ***);
+extern int get_arm_regnames (int, const char **, const char **, const char *const **);
 extern bfd_boolean arm_symbol_is_valid (asymbol *, struct disassemble_info *);
 
 /* Fetch the disassembler for a given BFD, if that support is available.  */

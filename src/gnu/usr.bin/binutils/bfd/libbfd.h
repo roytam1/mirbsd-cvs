@@ -69,6 +69,7 @@ struct artdata {
   carsym *symdefs;		/* the symdef entries */
   symindex symdef_count;	/* how many there are */
   char *extended_names;		/* clever intel extension */
+  bfd_size_type extended_names_size; /* Size of extended names */
   /* when more compilers are standard C, this can be a time_t */
   long  armap_timestamp;	/* Timestamp value written into armap.
 				   This is used for BSD archives to check
@@ -98,6 +99,12 @@ extern void *bfd_realloc
   (void *, bfd_size_type);
 extern void *bfd_zmalloc
   (bfd_size_type);
+extern void *bfd_malloc2
+  (bfd_size_type, bfd_size_type);
+extern void *bfd_realloc2
+  (void *, bfd_size_type, bfd_size_type);
+extern void *bfd_zmalloc2
+  (bfd_size_type, bfd_size_type);
 
 extern void _bfd_default_error_handler (const char *s, ...);
 extern bfd_error_handler_type _bfd_error_handler;
@@ -108,6 +115,10 @@ extern void *bfd_alloc
   (bfd *, bfd_size_type);
 extern void *bfd_zalloc
   (bfd *, bfd_size_type);
+extern void *bfd_alloc2
+  (bfd *, bfd_size_type, bfd_size_type);
+extern void *bfd_zalloc2
+  (bfd *, bfd_size_type, bfd_size_type);
 extern void bfd_release
   (bfd *, void *);
 
@@ -432,6 +443,14 @@ extern bfd_boolean _bfd_dwarf1_find_nearest_line
 extern bfd_boolean _bfd_dwarf2_find_nearest_line
   (bfd *, asection *, asymbol **, bfd_vma, const char **, const char **,
    unsigned int *, unsigned int, void **);
+
+/* Find the line using DWARF 2 debugging information.  */
+extern bfd_boolean _bfd_dwarf2_find_line
+  (bfd *, asymbol **, asymbol *, const char **,
+   unsigned int *, unsigned int, void **);
+
+bfd_boolean _bfd_generic_find_line
+  (bfd *, asymbol **, asymbol *, const char **, unsigned int *);
 
 /* Find inliner info after calling bfd_find_nearest_line. */
 extern bfd_boolean _bfd_dwarf2_find_inliner_info
@@ -1041,6 +1060,8 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
   "BFD_RELOC_X86_64_DTPOFF32",
   "BFD_RELOC_X86_64_GOTTPOFF",
   "BFD_RELOC_X86_64_TPOFF32",
+  "BFD_RELOC_X86_64_GOTOFF64",
+  "BFD_RELOC_X86_64_GOTPC32",
   "BFD_RELOC_NS32K_IMM_8",
   "BFD_RELOC_NS32K_IMM_16",
   "BFD_RELOC_NS32K_IMM_32",

@@ -141,9 +141,9 @@
 
 /* Internal functions.  */
 
-static enum m68k_register m68k_reg_parse PARAMS ((char **));
-static int yylex PARAMS ((void));
-static void yyerror PARAMS ((const char *));
+static enum m68k_register m68k_reg_parse (char **);
+static int yylex (void);
+static void yyerror (const char *);
 
 /* The parser sets fields pointed to by this global variable.  */
 static struct m68k_op *op;

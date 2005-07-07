@@ -349,6 +349,7 @@ BFD_JUMP_TABLE macros.
 .  NAME##_bfd_is_target_special_symbol, \
 .  NAME##_get_lineno, \
 .  NAME##_find_nearest_line, \
+.  _bfd_generic_find_line, \
 .  NAME##_find_inliner_info, \
 .  NAME##_bfd_make_debug_symbol, \
 .  NAME##_read_minisymbols, \
@@ -371,6 +372,9 @@ BFD_JUMP_TABLE macros.
 .  bfd_boolean (*_bfd_find_nearest_line)
 .    (bfd *, struct bfd_section *, struct bfd_symbol **, bfd_vma,
 .     const char **, const char **, unsigned int *);
+.  bfd_boolean (*_bfd_find_line)
+.    (bfd *, struct bfd_symbol **, struct bfd_symbol *,
+.     const char **, unsigned int *);
 .  bfd_boolean (*_bfd_find_inliner_info)
 .    (bfd *, const char **, const char **, unsigned int *);
 . {* Back-door to allow format-aware applications to create debug symbols
@@ -602,6 +606,7 @@ extern const bfd_target bfd_elf32_pj_vec;
 extern const bfd_target bfd_elf32_pjl_vec;
 extern const bfd_target bfd_elf32_powerpc_vec;
 extern const bfd_target bfd_elf32_powerpcle_vec;
+extern const bfd_target bfd_elf32_powerpc_vxworks_vec;
 extern const bfd_target bfd_elf32_s390_vec;
 extern const bfd_target bfd_elf32_sh64_vec;
 extern const bfd_target bfd_elf32_sh64l_vec;
@@ -786,6 +791,7 @@ extern const bfd_target sco5_core_vec;
 extern const bfd_target trad_core_vec;
 
 extern const bfd_target bfd_elf32_am33lin_vec;
+extern const bfd_target bfd_elf32_ms1_vec;
 static const bfd_target * const _bfd_target_vector[] = {
 
 #ifdef SELECT_VECS
@@ -907,6 +913,7 @@ static const bfd_target * const _bfd_target_vector[] = {
 	&bfd_elf32_pj_vec,
 	&bfd_elf32_pjl_vec,
 	&bfd_elf32_powerpc_vec,
+	&bfd_elf32_powerpc_vxworks_vec,
 	&bfd_elf32_powerpcle_vec,
 	&bfd_elf32_s390_vec,
         &bfd_elf32_sh_vec,
@@ -1116,6 +1123,7 @@ static const bfd_target * const _bfd_target_vector[] = {
 	&we32kcoff_vec,
 	&z8kcoff_vec,
 	&bfd_elf32_am33lin_vec,
+	&bfd_elf32_ms1_vec,
 #endif /* not SELECT_VECS */
 
 /* Always support S-records, for convenience.  */

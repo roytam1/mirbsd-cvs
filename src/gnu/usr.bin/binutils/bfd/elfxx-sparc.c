@@ -397,7 +397,12 @@ _bfd_sparc_elf_info_to_howto_ptr (unsigned int r_type)
       return &sparc_rev32_howto;
 
     default:
-      BFD_ASSERT (r_type < (unsigned int) R_SPARC_max_std);
+      if (r_type >= (unsigned int) R_SPARC_max_std)
+	{
+	  (*_bfd_error_handler) (_("invalid relocation type %d"),
+				 (int) r_type);
+	  r_type = R_SPARC_NONE;
+	}
       return &_bfd_sparc_elf_howto_table[r_type];
     }
 }
@@ -1019,7 +1024,12 @@ _bfd_sparc_elf_check_relocs (bfd *abfd, struct bfd_link_info *info,
       if (r_symndx < symtab_hdr->sh_info)
 	h = NULL;
       else
-	h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+	{
+	  h = sym_hashes[r_symndx - symtab_hdr->sh_info];
+	  while (h->root.type == bfd_link_hash_indirect
+		 || h->root.type == bfd_link_hash_warning)
+	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
+	}
 
       /* Compatibility with old R_SPARC_REV32 reloc conflicting
 	 with R_SPARC_TLS_GD_HI22.  */
