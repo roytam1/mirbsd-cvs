@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: subr_disk.c,v 1.25 2004/02/15 02:45:46 tedu Exp $	*/
+/**	$MirOS: src/sys/kern/subr_disk.c,v 1.2 2005/03/06 21:28:02 tg Exp $ */
+/*	$OpenBSD: subr_disk.c,v 1.29 2004/12/26 21:22:13 miod Exp $	*/
 /*	$NetBSD: subr_disk.c,v 1.17 1996/03/16 23:17:08 christos Exp $	*/
 
 /*
@@ -225,9 +225,6 @@ diskerr(bp, dname, what, pri, blkdone, lp)
 		    bp->b_blkno + (bp->b_bcount - 1) / DEV_BSIZE);
 	}
 	if (lp && (blkdone >= 0 || bp->b_bcount <= lp->d_secsize)) {
-#ifdef tahoe
-		sn *= DEV_BSIZE / lp->d_secsize;		/* XXX */
-#endif
 		sn += lp->d_partitions[part].p_offset;
 		(*pr)(" (%s%d bn %d; cn %d", dname, unit, sn,
 		    sn / lp->d_secpercyl);
@@ -260,8 +257,7 @@ disk_find(name)
 	if ((name == NULL) || (disk_count <= 0))
 		return (NULL);
 
-	for (diskp = disklist.tqh_first; diskp != NULL;
-	    diskp = diskp->dk_link.tqe_next)
+	TAILQ_FOREACH(diskp, &disklist, dk_link)
 		if (strcmp(diskp->dk_name, name) == 0)
 			return (diskp);
 
@@ -540,6 +536,9 @@ bufq_default_alloc(void)
 	struct bufq_default *bq;
 
 	bq = malloc(sizeof(*bq), M_DEVBUF, M_NOWAIT);
+	if (bq == NULL)
+		panic("bufq_default_alloc: no memory");
+
 	memset(bq, 0, sizeof(*bq));
 	bq->bufq.bufq_free = bufq_default_free;
 	bq->bufq.bufq_add = bufq_default_add;
