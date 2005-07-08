@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.23 2005/05/30 16:48:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.24 2005/07/06 23:17:57 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -16,8 +16,10 @@
  hackers</big> who keep track of source changes.</p>
 <h3>News</h3>
 <p>Attention: All announcements from the MirOS team are <a
- href="/cvs.cgi/contrib/samples/devel-keys">cryptographically
- signed using PGP or OpenSSL</a> in order to prevent abuse of our name.</p>
+ href="/cvs.cgi/src/share/doc/README?rev=HEAD">cryptographically signed</a>
+ using <a href="/man1/gzsig.htm">gzsig(1)</a> or the older, deprecated, <a
+ href="/cvs.cgi/contrib/samples/devel-keys">PGP (RFC1991) or OpenSSL</a>,
+ in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
 <p>Please do <b>not</b> use any of the snapshots still available on our
