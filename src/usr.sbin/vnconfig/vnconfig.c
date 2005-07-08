@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.2 2005/03/13 19:17:37 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.12 2003/06/24 23:26:58 millert Exp $	*/
 /*
  * Copyright (c) 1993 University of Utah.
@@ -54,6 +54,8 @@
 #include <unistd.h>
 #include <util.h>
 
+__RCSID("$MirOS$");
+
 #define VND_CONFIG	1
 #define VND_UNCONFIG	2
 
@@ -96,7 +98,8 @@ main(int argc, char **argv)
 	if (action == VND_CONFIG && argc == 2)
 		rv = config(argv[0], argv[1], action, key, flags);
 	else if (action == VND_UNCONFIG && argc == 1)
-		rv = config(argv[0], NULL, action, key, flags);
+		rv = config(argv[0], NULL, action, key,
+		    flags | VNDIOC_OPT_RDONLY);
 	else
 		usage();
 	exit(rv);
@@ -161,6 +164,6 @@ usage(void)
 
 	(void)fprintf(stderr,
 	    "usage: %s [-c] [-vkr] rawdev regular-file\n"
-	    "       %s -u [-vr] rawdev\n", __progname, __progname);
+	    "       %s -u [-v] rawdev\n", __progname, __progname);
 	exit(1);
 }
