@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.1.7.1 2005/03/06 16:33:37 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.2 2005/06/14 13:36:08 tg Exp $
 
 # base
 
@@ -34,11 +34,11 @@ SPECIAL	cd dev; /bin/mksh MAKEDEV isdns
 
 LINK	instbin					usr/bin/less usr/bin/more
 
-# NTFS
+# NFS
 
 LINK	instbin					sbin/mount_nfs
 
-# NFS
+# NTFS
 
 LINK	instbin					sbin/mount_ntfs
 
@@ -59,6 +59,10 @@ LINK	instbin					usr/sbin/pppoe
 #COPY	${DESTDIR}/etc/ppp/pap-secrets		etc/ppp/pap-secrets
 #COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
 #COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample	etc/ppp/peers/isp.chat
+
+# kernel PPPoE
+
+LINK	instbin					usr/sbin/spppcontrol
 
 # RAIDframe
 
