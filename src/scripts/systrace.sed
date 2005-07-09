@@ -34,17 +34,17 @@ Policy: @@PROG@@, Emulation: native
 	native-fsread: true then permit
 	native-fstat: permit
 	native-fstatfs: permit
-	native-fswrite: filename eq "" then permit
+	native-fswrite: filename eq "" then deny[enoent]
 	native-fswrite: filename eq "/dev/crypto" then permit
 	native-fswrite: filename eq "/dev/null" then permit
 	native-fswrite: filename eq "/dev/stdout" then permit
 	native-fswrite: filename eq "/dev/tty" then permit
 	native-fswrite: filename eq "/dev/zero" then permit
-	native-fswrite: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-fswrite: filename match "/tmp" then permit
 	native-fswrite: filename match "/var/tmp" then permit
 	native-fswrite: filename match "@@RO_DIR@@" then deny[eperm]
 	native-fswrite: filename match "@@RW_DIR@@" then permit
+	native-fswrite: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-fsync: permit
 	native-ftruncate: permit
 	native-futimes: permit
@@ -70,9 +70,15 @@ Policy: @@PROG@@, Emulation: native
 	native-getuid: permit
 	native-ioctl: permit
 	native-issetugid: permit
+	native-kevent: permit
 	native-kill: permit
+	native-kqueue: permit
 	native-lchown: permit
-	native-link: permit
+	native-link: filename match "/tmp" and filename[1] match "/tmp" then permit
+	native-link: filename match "/var/tmp" and filename[1] match "/var/tmp" then permit
+	native-link: filename match "@@RO_DIR@@" or filename[1] match "@@RO_DIR@@" then deny[eperm]
+	native-link: filename match "@@RW_DIR@@" and filename[1] match "@@RW_DIR@@" then permit
+	native-link: filename[1] match "/<non-existent filename>: *" then deny[enoent]
 	native-listen: true then permit log
 	native-lseek: permit
 	native-madvise: permit
@@ -127,7 +133,12 @@ Policy: @@PROG@@, Emulation: native
 	native-socket: permit
 	native-socketpair: permit
 	native-statfs: permit
-	native-symlink: permit
+	native-symlink: filename match "/tmp" then permit
+	native-symlink: filename match "/var/tmp" then permit
+	native-symlink: filename match "@@RO_DIR@@" then deny[eperm]
+	native-symlink: filename match "@@RW_DIR@@" then permit
+	native-symlink: filename match "/<non-existent filename>: *" then deny[enoent]
+	native-symlink: string eq "" and filename eq "" then deny[enoent]
 	native-sync: permit
 	native-umask: permit
 	native-utimes: permit
