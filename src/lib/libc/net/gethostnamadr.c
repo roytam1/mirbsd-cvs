@@ -479,7 +479,7 @@ gethostbyname(const char *name)
 	struct hostent *hp;
 	extern struct hostent *_gethtbyname2(const char *, int);
 
-	if (_res_init(0) == -1)
+	if (res_init(0) == -1)
 		hp = _gethtbyname2(name, AF_INET);
 
 	else if (_resp->options & RES_USE_INET6) {
@@ -505,7 +505,7 @@ gethostbyname2(const char *name, int af)
 	extern struct hostent *_gethtbyname2(const char *, int);
 	extern struct hostent *_yp_gethtbyname(const char *);
 
-	if (_res_init(0) == -1)
+	if (res_init(0) == -1)
 		return (_gethtbyname2(name, af));
 
 	switch (af) {
@@ -653,7 +653,7 @@ gethostbyaddr(const void *addr, socklen_t len, int af)
 	extern struct hostent *_gethtbyaddr(const void *, socklen_t, int);
 	extern struct hostent *_yp_gethtbyaddr(const void *);
 	
-	if (_res_init(0) == -1) {
+	if (res_init(0) == -1) {
 		res = _gethtbyaddr(addr, len, af);
 		return (res);
 	}
