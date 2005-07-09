@@ -1,13 +1,11 @@
-# $MirOS: src/libexec/Makefile,v 1.4 2005/05/04 13:02:52 tg Exp $
+# $MirOS: src/libexec/Makefile,v 1.5 2005/06/26 17:34:44 tg Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= anoncvssh
   SUBDIR+= cpp
   SUBDIR+= fingerd
-# SUBDIR+= ftp-proxy
   SUBDIR+= ftpd
-  SUBDIR+= getNAME
   SUBDIR+= getty
   SUBDIR+= identd
 .if (${OBJECT_FMT:U} == "ELF") && !(defined(NOPIC) && ${NOPIC:L} != "no")
