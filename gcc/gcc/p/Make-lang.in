@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.10 2005/03/29 01:15:33 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.11 2005/03/29 01:19:36 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -129,6 +129,9 @@ GPCSOLIBSHORTNAME=libgpc.so
 GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor)
 GPCSOLIBDIR=lib
 
+#GPCALIBDIR=$(libsubdir)
+GPCALIBDIR=$(prefix)/$(GPCSOLIBDIR)
+
 BISON=bison
 BISONFLAGS=
 LEX=flex
@@ -178,6 +181,7 @@ GPC_INSTALL_FLAGS_TO_PASS=\
 	"GPC_FOR_TARGET=$(GPC_FOR_TARGET)" \
 	"GPCSOLIBSHORTNAME=$(GPCSOLIBSHORTNAME)" \
 	"GPCSOLIBDIR=$(GPCSOLIBDIR)" \
+	"GPCALIBDIR=$(GPCALIBDIR)" \
 	"GPC_EXTRA_INSTALL_LIBS=$(GPC_EXTRA_INSTALL_LIBS)" \
 	"WITH_SHARED=$(WITH_SHARED)" \
 	"FLOAT_H=$(FLOAT_H)" \
@@ -449,14 +453,14 @@ pascal.install-utils:
 
 pascal.install-lib: pascal.install-dir
 	if [ -f libgpc.a ]; then \
-	  rm -f $(DESTDIR)$(libsubdir)/libgpc.a; \
-	  $(INSTALL_DATA) libgpc.a $(DESTDIR)$(libsubdir)/libgpc.a && \
-	  chmod a-x $(DESTDIR)$(libsubdir)/libgpc.a || exit 1; \
-	  $(RANLIB_FOR_TARGET) $(DESTDIR)$(libsubdir)/libgpc.a 2> /dev/null || true; \
+	  rm -f $(DESTDIR)$(GPCALIBDIR)/libgpc.a; \
+	  $(INSTALL_DATA) libgpc.a $(DESTDIR)$(GPCALIBDIR)/libgpc.a && \
+	  chmod a-x $(DESTDIR)$(GPCALIBDIR)/libgpc.a || exit 1; \
+	  $(RANLIB_FOR_TARGET) $(DESTDIR)$(GPCALIBDIR)/libgpc.a 2> /dev/null || true; \
 	fi
 	for f in .. $(GPC_EXTRA_INSTALL_LIBS); do \
 	  if [ x"$$f" != x.. ]; then \
-	    $(INSTALL_DATA) "$$f" "$(DESTDIR)$(libsubdir)/`echo "$$f" | sed -e 's,.*/,,'`" || exit 1; \
+	    $(INSTALL_DATA) "$$f" "$(DESTDIR)$(GPCALIBDIR)/`echo "$$f" | sed -e 's,.*/,,'`" || exit 1; \
 	  fi; \
 	done
 	if [ x$(WITH_SHARED) = xyes ] && [ -f $(GPCSOLIBNAME) ]; then \
