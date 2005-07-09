@@ -31,6 +31,7 @@ Policy: @@PROG@@, Emulation: native
 	native-fcntl: permit
 	native-flock: permit
 	native-fork: permit
+	native-fsread: filename eq "" then deny[enoent]
 	native-fsread: true then permit
 	native-fstat: permit
 	native-fstatfs: permit
