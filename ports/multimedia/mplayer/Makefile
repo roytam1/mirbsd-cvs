@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.7 2005/05/29 19:27:14 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.9 2005/07/07 21:23:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -8,7 +8,7 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 COMMENT=		"Movie player supporting MPEG, DivX, AVI, ASF, MOV & more"
 DISTNAME=		MPlayer-1.0pre7
 DIST_SUBDIR=		mplayer
-PKGNAME=		${DISTNAME:L}m-1
+PKGNAME=		${DISTNAME:L}-2
 CATEGORIES=		x11 multimedia
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.mplayerhq.hu/
@@ -32,6 +32,7 @@ MODULES=	converters/libiconv
 LIB_DEPENDS=	png::graphics/png \
 		jpeg::graphics/jpeg \
 		mp3lame::audio/lame,no_x11 \
+		theora::multimedia/libtheora \
 		cdda_paranoia,cdda_interface:cdparanoia->=3.a9.8:audio/cdparanoia
 
 CONFDIR=	${SYSCONFDIR}/mplayer
@@ -51,6 +52,7 @@ CONFIGURE_ARGS+=--disable-alsa \
 		--enable-sunaudio \
 		--disable-vidix \
 		--enable-vorbis \
+		--enable-theora \
 		--enable-menu \
 		--enable-iconv \
 		--disable-vesa \
