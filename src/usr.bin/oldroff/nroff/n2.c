@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.3 2005/04/13 18:28:00 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -323,7 +323,8 @@ done3(x) int x;{
 	error |= x;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
-	unlink(unlkp);
+	if (unlkp != NULL)
+		unlink(unlkp);
 #ifdef NROFF
 	twdone();
 #endif

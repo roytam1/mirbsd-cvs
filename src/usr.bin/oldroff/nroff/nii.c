@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/nii.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/nii.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -181,5 +181,5 @@ int esct;
 int ttysave = 0;
 struct termios ttysavespace;
 int dotT;
-char *unlkp;
+char *unlkp = NULL;
 int no_out;

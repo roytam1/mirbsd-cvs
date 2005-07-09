@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -67,7 +67,7 @@ jmp_buf sjbuf;
 #include <termios.h>
 
 __SCCSID("@(#)n1.c	4.13 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.2 2005/04/13 18:21:17 tg Exp $");
 
 /*
 troff1.c
@@ -398,10 +398,10 @@ acctg() {
 init1(a)
 char a;
 {
-	register char *p;
 	char *mktemp();
 	static char tempname[] = "/tmp/taXXXXX";
 	register i;
+	register char *p = tempname;
 
 #ifndef NROFF
 	acctg();/*open troff actg file while mode 4755*/
@@ -416,7 +416,6 @@ char a;
 	ibf = open(p, 2);
 #else
 	ibf = mkstemp(tempname);
-	unlink(tempname);
 #endif
 	for(i=256; --i;)trtab[i]=i;
 	trtab[UNPAD] = ' ';
