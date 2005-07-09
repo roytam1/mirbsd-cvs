@@ -1,4 +1,4 @@
-/*	$OpenBSD: rm.c,v 1.15 2003/06/02 23:32:09 millert Exp $	*/
+/*	$OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $	*/
 /*	$NetBSD: rm.c,v 1.19 1995/09/07 06:48:50 jtc Exp $	*/
 
 /*-
@@ -40,7 +40,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)rm.c	8.8 (Berkeley) 4/27/95";
 #else
-static char rcsid[] = "$OpenBSD: rm.c,v 1.15 2003/06/02 23:32:09 millert Exp $";
+static char rcsid[] = "$OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -63,12 +63,13 @@ static char rcsid[] = "$OpenBSD: rm.c,v 1.15 2003/06/02 23:32:09 millert Exp $";
 
 extern char *__progname;
 
-int dflag, eval, fflag, iflag, Pflag, Wflag, stdin_ok;
+int dflag, eval, fflag, iflag, Pflag, stdin_ok;
 
 int	check(char *, char *, struct stat *);
 void	checkdot(char **);
 void	rm_file(char **);
-void	rm_overwrite(char *, struct stat *);
+int	rm_overwrite(char *, struct stat *);
+int	pass(int, int, off_t, char *, size_t);
 void	rm_tree(char **);
 void	usage(void);
 
@@ -87,7 +88,7 @@ main(int argc, char *argv[])
 	setlocale(LC_ALL, "");
 
 	Pflag = rflag = 0;
-	while ((ch = getopt(argc, argv, "dfiPRrW")) != -1)
+	while ((ch = getopt(argc, argv, "dfiPRr")) != -1)
 		switch(ch) {
 		case 'd':
 			dflag = 1;
@@ -106,9 +107,6 @@ main(int argc, char *argv[])
 		case 'R':
 		case 'r':			/* Compatibility. */
 			rflag = 1;
-			break;
-		case 'W':
-			Wflag = 1;
 			break;
 		default:
 			usage();
@@ -156,8 +154,6 @@ rm_tree(char **argv)
 	flags = FTS_PHYSICAL;
 	if (!needstat)
 		flags |= FTS_NOSTAT;
-	if (Wflag)
-		flags |= FTS_WHITEOUT;
 	if (!(fts = fts_open(argv, flags, NULL)))
 		err(1, NULL);
 	while ((p = fts_read(fts)) != NULL) {
@@ -216,15 +212,10 @@ rm_tree(char **argv)
 				continue;
 			break;
 
-		case FTS_W:
-			if (!undelete(p->fts_accpath) ||
-			    (fflag && errno == ENOENT))
-				continue;
-			break;
-
 		default:
 			if (Pflag)
-				rm_overwrite(p->fts_accpath, NULL);
+				if (!rm_overwrite(p->fts_accpath, NULL))
+					continue;
 			if (!unlink(p->fts_accpath) ||
 			    (fflag && errno == ENOENT))
 				continue;
@@ -250,18 +241,10 @@ rm_file(char **argv)
 	while ((f = *argv++) != NULL) {
 		/* Assume if can't stat the file, can't unlink it. */
 		if (lstat(f, &sb)) {
-			if (Wflag) {
-				sb.st_mode = S_IFWHT|S_IWUSR|S_IRUSR;
-			} else {
-				if (!fflag || errno != ENOENT) {
-					warn("%s", f);
-					eval = 1;
-				}
-				continue;
+			if (!fflag || errno != ENOENT) {
+				warn("%s", f);
+				eval = 1;
 			}
-		} else if (Wflag) {
-			warnx("%s: %s", f, strerror(EEXIST));
-			eval = 1;
 			continue;
 		}
 
@@ -270,15 +253,14 @@ rm_file(char **argv)
 			eval = 1;
 			continue;
 		}
-		if (!fflag && !S_ISWHT(sb.st_mode) && !check(f, f, &sb))
+		if (!fflag && !check(f, f, &sb))
 			continue;
-		if (S_ISWHT(sb.st_mode))
-			rval = undelete(f);
 		else if (S_ISDIR(sb.st_mode))
 			rval = rmdir(f);
 		else {
 			if (Pflag)
-				rm_overwrite(f, &sb);
+				if (!rm_overwrite(f, &sb))
+					continue;
 			rval = unlink(f);
 		}
 		if (rval && (!fflag || errno != ENOENT)) {
@@ -298,14 +280,15 @@ rm_file(char **argv)
  * Also, this assumes a fixed-block file system (like FFS, or a V7 or a
  * System V file system).  In a logging file system, you'll have to have
  * kernel support.
+ * Returns 1 for success.
  */
-void
+int
 rm_overwrite(char *file, struct stat *sbp)
 {
 	struct stat sb;
 	struct statfs fsb;
-	off_t len;
-	int bsize, fd, wlen;
+	size_t bsize;
+	int fd;
 	char *buf = NULL;
 
 	fd = -1;
@@ -315,46 +298,53 @@ rm_overwrite(char *file, struct stat *sbp)
 		sbp = &sb;
 	}
 	if (!S_ISREG(sbp->st_mode))
-		return;
+		return (1);
 	if (sbp->st_nlink > 1) {
 		warnx("%s (inode %u): not overwritten due to multiple links",
 		    file, sbp->st_ino);
-		return;
+		return (0);
 	}
 	if ((fd = open(file, O_WRONLY, 0)) == -1)
 		goto err;
 	if (fstatfs(fd, &fsb) == -1)
 		goto err;
-	bsize = MAX(fsb.f_iosize, 1024);
+	bsize = MAX(fsb.f_iosize, 1024U);
 	if ((buf = malloc(bsize)) == NULL)
-		err(1, "malloc");
+		err(1, "%s: malloc", file);
 
-#define	PASS(byte) {							\
-	memset(buf, byte, bsize);					\
-	for (len = sbp->st_size; len > 0; len -= wlen) {		\
-		wlen = len < bsize ? len : bsize;			\
-		if (write(fd, buf, wlen) != wlen)			\
-			goto err;					\
-	}								\
-}
-	PASS(0xff);
-	if (fsync(fd) || lseek(fd, (off_t)0, SEEK_SET))
+	if (!pass(0xff, fd, sbp->st_size, buf, bsize) || fsync(fd) ||
+	    lseek(fd, (off_t)0, SEEK_SET))
 		goto err;
-	PASS(0x00);
-	if (fsync(fd) || lseek(fd, (off_t)0, SEEK_SET))
+	if (!pass(0x00, fd, sbp->st_size, buf, bsize) || fsync(fd) ||
+	    lseek(fd, (off_t)0, SEEK_SET))
 		goto err;
-	PASS(0xff);
-	if (!fsync(fd) && !close(fd)) {
-		free(buf);
-		return;
-	}
+	if (!pass(0xff, fd, sbp->st_size, buf, bsize) || fsync(fd))
+		goto err;
+	close(fd);
+	free(buf);
+	return (1);
 
-err:	eval = 1;
-	if (buf)
-		free(buf);
+err:
 	warn("%s", file);
+	close(fd);
+	eval = 1;
+	free(buf);
+	return (0);
 }
 
+int
+pass(int val, int fd, off_t len, char *buf, size_t bsize)
+{
+	size_t wlen;
+
+	memset(buf, val, bsize);
+	for (; len > 0; len -= wlen) {
+		wlen = len < bsize ? len : bsize;
+		if (write(fd, buf, wlen) != wlen)
+			return (0);
+	}
+	return (1);
+}
 
 int
 check(char *path, char *name, struct stat *sp)
