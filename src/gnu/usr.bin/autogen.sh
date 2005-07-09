@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.4 2005/06/13 20:34:01 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.5 2005/07/05 22:11:00 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -57,7 +57,7 @@ else
 fi
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
-fgrep -q AC_CONFIG_HEADER $f && autoheader
+fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f && autoheader
 set +e
 let rv=0
 [[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || let rv=$?
