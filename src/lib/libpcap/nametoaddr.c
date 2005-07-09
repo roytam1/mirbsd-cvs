@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: nametoaddr.c,v 1.10 2004/01/27 06:58:03 tedu Exp $	*/
 
 /*
@@ -25,7 +26,6 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>				/* concession to AIX */
 #include <sys/socket.h>
 #include <sys/time.h>
 
@@ -349,7 +349,7 @@ pcap_ether_hostton(const char *name)
 }
 #else
 
-#if !defined(sgi) && !defined(__NetBSD__)
+#if !defined(sgi) && !defined(__NetBSD__) && !defined(__OpenBSD__)
 extern int ether_hostton(char *, struct ether_addr *);
 #endif
 
