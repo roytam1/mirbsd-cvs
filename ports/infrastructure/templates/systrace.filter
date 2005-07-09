@@ -1,3 +1,4 @@
+	native-__semctl: permit
 	native-__sysctl: permit
 	native-accept: true then permit log
 	native-bind: sockaddr match "/tmp" then permit
@@ -102,6 +103,7 @@
 	native-recvmsg: permit
 	native-rename: permit
 	native-select: permit
+	native-semget: permit
 	native-sendmsg: permit
 	native-sendto: permit
 	native-setegid: permit
