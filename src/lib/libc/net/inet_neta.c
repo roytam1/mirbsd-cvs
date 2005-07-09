@@ -1,4 +1,4 @@
-/*	$OpenBSD: inet_neta.c,v 1.4 2002/08/19 03:01:54 itojun Exp $	*/
+/*	$OpenBSD: inet_neta.c,v 1.6 2005/03/25 13:24:12 otto Exp $	*/
 
 /*
  * Copyright (c) 1996 by Internet Software Consortium.
@@ -18,11 +18,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static const char rcsid[] = "$Id$";
-#else
-static const char rcsid[] = "$OpenBSD: inet_neta.c,v 1.4 2002/08/19 03:01:54 itojun Exp $";
-#endif
+static const char rcsid[] = "$OpenBSD: inet_neta.c,v 1.6 2005/03/25 13:24:12 otto Exp $";
 #endif
 
 #include <sys/types.h>
@@ -46,10 +42,7 @@ static const char rcsid[] = "$OpenBSD: inet_neta.c,v 1.4 2002/08/19 03:01:54 ito
  *	Paul Vixie (ISC), July 1996
  */
 char *
-inet_neta(src, dst, size)
-	in_addr_t src;
-	char *dst;
-	size_t size;
+inet_neta(in_addr_t src, char *dst, size_t size)
 {
 	char *odst = dst;
 	char *ep;

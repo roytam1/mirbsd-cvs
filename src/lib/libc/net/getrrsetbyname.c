@@ -1,4 +1,4 @@
-/* $OpenBSD: getrrsetbyname.c,v 1.8 2004/07/18 19:07:38 jakob Exp $ */
+/* $OpenBSD: getrrsetbyname.c,v 1.10 2005/03/30 02:58:28 tedu Exp $ */
 
 /*
  * Copyright (c) 2001 Jakob Schlyter. All rights reserved.
@@ -126,7 +126,7 @@ getrrsetbyname(const char *hostname, unsigned int rdclass,
 	}
 
 	/* initialize resolver */
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	if (_res_init(0) == -1) {
 		result = ERRSET_FAIL;
 		goto fail;
 	}
@@ -397,7 +397,8 @@ parse_dns_qsection(const u_char *answer, int size, const u_char **cp, int count)
 }
 
 static struct dns_rr *
-parse_dns_rrsection(const u_char *answer, int size, const u_char **cp, int count)
+parse_dns_rrsection(const u_char *answer, int size, const u_char **cp,
+    int count)
 {
 	struct dns_rr *head, *curr, *prev;
 	int i, length;
