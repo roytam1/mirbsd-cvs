@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.14 2005/06/09 22:06:16 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.15 2005/06/09 22:12:12 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -33,6 +33,7 @@ cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/include/sha1.h src/include/sha2.h \
     src/lib/libc/hash src/lib/libc/ohash \
     src/lib/libc/stdlib/getopt_long.c src/lib/libc/string/strlfun.c \
+    src/share/mk/bsd.cfwrap.mk \
     src/share/mk/bsd.sys.mk src/share/mk/bsd.dep.mk src/share/mk/bsd.lib.mk \
     src/share/mk/bsd.man.mk src/share/mk/bsd.obj.mk src/share/mk/bsd.own.mk \
     src/share/mk/bsd.prog.mk src/share/mk/bsd.subdir.mk src/share/mk/sys.mk
