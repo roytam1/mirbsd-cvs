@@ -15,11 +15,11 @@ static void create_info_window(Client *c) {
 	char *name;
 	char buf[24];
 	int namew, iwinx, iwiny, iwinw, iwinh;
-	int width_inc = c->width_inc, height_inc = c->height_inc;
 
 	LOG_DEBUG("create_info_window() : Creating...\n");
-	snprintf(buf, sizeof(buf), "%dx%d+%d+%d", (c->width-c->base_width)/width_inc,
-		(c->height-c->base_height)/height_inc, c->x, c->y);
+	snprintf(buf, sizeof(buf), "%dx%d+%d+%d",
+	    (c->width-c->base_width)/c->width_inc,
+	    (c->height-c->base_height)/c->height_inc, c->x, c->y);
 	iwinw = XTextWidth(font, buf, strlen(buf)) + 2;
 	iwinh = font->max_bounds.ascent + font->max_bounds.descent;
 	XFetchName(dpy, c->window, &name);
@@ -66,7 +66,6 @@ static void remove_info_window(void) {
 static void draw_outline(Client *c) {
 #ifndef INFOBANNER_MOVERESIZE
 	char buf[24];
-	int width_inc = c->width_inc, height_inc = c->height_inc;
 #endif  /* ndef INFOBANNER */
 
 	XDrawRectangle(dpy, c->screen->root, c->screen->invert_gc,
@@ -74,8 +73,9 @@ static void draw_outline(Client *c) {
 		c->width + c->border, c->height + c->border);
 
 #ifndef INFOBANNER_MOVERESIZE
-	snprintf(buf, sizeof(buf), "%dx%d+%d+%d", (c->width-c->base_width)/width_inc,
-			(c->height-c->base_height)/height_inc, c->x, c->y);
+	snprintf(buf, sizeof(buf), "%dx%d+%d+%d",
+	    (c->width-c->base_width)/c->width_inc,
+	    (c->height-c->base_height)/c->height_inc, c->x, c->y);
 	XDrawString(dpy, c->screen->root, c->screen->invert_gc,
 		c->x + c->width - XTextWidth(font, buf, strlen(buf)) - SPACE,
 		c->y + c->height - SPACE,
