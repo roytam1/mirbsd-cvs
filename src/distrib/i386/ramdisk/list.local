@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.4 2005/07/14 21:45:46 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.5 2005/07/14 22:02:13 tg Exp $
 
 # extra
 
@@ -22,6 +22,8 @@ COPY	${DESTDIR}/etc/dhcpd.conf		etc/dhcpd.conf
 COPY	${CURDIR}/inetd.conf			etc/inetd.conf
 
 COPY	${DESTDIR}/etc/ntpd.conf		etc/ntpd.conf
+
+SPECIAL	fgrep ssh-rsa ${DESTDIR}/usr/share/doc/README >gzsig.keys
 
 # kernel PPPD
 
@@ -70,7 +72,9 @@ LINK	instbin					usr/bin/less usr/bin/more
 LINK	instbin					usr/bin/mktemp
 LINK	instbin					usr/bin/passwd
 LINK	instbin					usr/bin/printf
+LINK	instbin					usr/bin/rpcinfo
 LINK	instbin					usr/bin/scp
+LINK	instbin					usr/bin/showmount
 LINK	instbin					usr/bin/ssh
 LINK	instbin					usr/bin/ssh-keygen
 LINK	instbin					usr/libexec/tftpd
