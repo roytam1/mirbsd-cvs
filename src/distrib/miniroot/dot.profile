@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.2 2005/03/06 18:58:04 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -53,8 +53,6 @@ sshd() {
 
 export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/
 umask 022
-set -o emacs # emacs-style command line editing
-set +o emacs-usemeta
 
 alias ls='/bin/ls -F'
 alias la='ls -a '
@@ -87,6 +85,12 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	# set up some sane defaults
 	echo 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
+
+	# look if we're DHCP/TFTP enabled
+	if [ -e /usr/mdec/pxeboot ]; then
+		mkdir /tmp/tftpboot
+		cp /usr/mdec/pxeboot /tmp/tftpboot/
+	fi
 
 	# don't run this twice
 	echo -n >/.profile.done
