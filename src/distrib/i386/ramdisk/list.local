@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.2 2005/06/14 13:36:08 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.3 2005/07/08 19:37:54 tg Exp $
 
 # base
 
@@ -18,38 +18,9 @@ SPECIAL	chmod 755 upgrade
 COPY	${DESTDIR}/usr/share/man/cat1/ed.0	ed.hlp
 SPECIAL	chmod 444 ed.hlp
 SPECIAL	cd dev; /bin/mksh MAKEDEV rambig
-
-# IPv6
-
-LINK	instbin					sbin/ping6
-LINK	instbin					sbin/rtsol
-
-# ISDN
-
-LINK	instbin					usr/sbin/isdnd
+COPY	${DESTDIR}/etc/ppp/ppp.conf.sample	etc/ppp/ppp.conf
 COPY	${DESTDIR}/etc/isdn/isdnd.sppp.sample	etc/isdn/isdnd.rc
 SPECIAL	cd dev; /bin/mksh MAKEDEV isdns
-
-# use bigger less(1) for more and less
-
-LINK	instbin					usr/bin/less usr/bin/more
-
-# NFS
-
-LINK	instbin					sbin/mount_nfs
-
-# NTFS
-
-LINK	instbin					sbin/mount_ntfs
-
-# userland PPP
-
-LINK	instbin					usr/sbin/ppp
-COPY	${DESTDIR}/etc/ppp/ppp.conf.sample	etc/ppp/ppp.conf
-
-# userland PPPoE
-
-LINK	instbin					usr/sbin/pppoe
 
 # kernel PPPD
 
@@ -60,25 +31,9 @@ LINK	instbin					usr/sbin/pppoe
 #COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
 #COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample	etc/ppp/peers/isp.chat
 
-# kernel PPPoE
-
-LINK	instbin					usr/sbin/spppcontrol
-
-# RAIDframe
-
-LINK	instbin					sbin/raidctl
-
-# SSH and assorted tools
+# SSH requirements
 
 LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh  -lutil -lotermcap -ll -lm -lssl -lcrypto -ldes -lkvm -lz
-
-LINK	instbin					bin/ps
-LINK	instbin					usr/bin/passwd
-LINK	instbin					usr/bin/scp
-LINK	instbin					usr/bin/ssh
-LINK	instbin					usr/bin/ssh-keygen
-LINK	instbin					usr/sbin/pwd_mkdb
-LINK	instbin					usr/sbin/sshd
 
 COPY	${CURDIR}/../../miniroot/login.conf	etc/login.conf
 COPY	${DESTDIR}/etc/ssh/ssh_config		etc/ssh/ssh_config
@@ -89,6 +44,23 @@ SPECIAL	sed 's!^root.*!root:x:0:0:daemon:0:0:MirOS Ramdisk Root:/:/bin/mksh!' <$
 
 SPECIAL	/usr/sbin/pwd_mkdb -d ./etc /etc/master.passwd
 
-# when we have libssl anyways...
+# stuff
 
+LINK	instbin					bin/ps
+LINK	instbin					sbin/mount_nfs
+LINK	instbin					sbin/mount_ntfs
+LINK	instbin					sbin/ping6
+LINK	instbin					sbin/raidctl
+LINK	instbin					sbin/rtsol
+LINK	instbin					usr/bin/less usr/bin/more
+LINK	instbin					usr/bin/passwd
+LINK	instbin					usr/bin/scp
+LINK	instbin					usr/bin/ssh
+LINK	instbin					usr/bin/ssh-keygen
+LINK	instbin					usr/sbin/isdnd
 LINK	instbin					usr/sbin/openssl
+LINK	instbin					usr/sbin/ppp
+LINK	instbin					usr/sbin/pppoe
+LINK	instbin					usr/sbin/pwd_mkdb
+LINK	instbin					usr/sbin/spppcontrol
+LINK	instbin					usr/sbin/sshd
