@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
 			grabmask2 = parse_modifiers(argv[i]);
 #ifdef STDIO
 		} else if (!strcmp(argv[i], "-V")) {
-			LOG_INFO("evilwm version " VERSION " $MirOS$\n");
+			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.3 2005/07/07 18:27:14 tg Exp $\n");
 			exit(0);
 #endif
 		} else {

@@ -1,4 +1,5 @@
 /* evilwm - Minimalist Window Manager for X
+ * Copyright (c) 2004-2005 Thorsten Glaser <tg@MirBSD.org>
  * Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
  * see README for license and other details. */
 
@@ -89,6 +90,8 @@ void make_new_client(Window w, ScreenInfo *s) {
 	}
 
 	init_geometry(c);
+	c->x -= c->border;
+	c->y -= c->border;
 
 #ifdef VWM
 	c->vdesk = vdesk;
