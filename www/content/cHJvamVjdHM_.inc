@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.1 2005/06/06 10:19:51 tg Exp $</small>
 <h1>Project Ideas</h1>
 
 <p>The following project ideas can be submitted to the MirOS Project
@@ -40,6 +40,15 @@
  discarded, for security reasons.<br />
 
  Estimated effort: Time - medium; Skill - medium</li>
+
+<li>Communicate with upstream and send back diffs. This is urgent for
+ XFree86&reg;, high priority for GNU binutils; low priority for all
+ other stuff (probably not interesting for gcc at all). The project
+ assignee will have to make himself familiar with the MirOS-local
+ diffs first &ndash; not always an easy task because we inherited a
+ lot of them from OpenBSD.<br />
+
+ Estimated effort: Time - medium to high; Skill - low but specialised</li>
 
 </ul>
 
