@@ -34,11 +34,12 @@ __RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.7 2005/06/02 20:4
 ld_type_t LdType = LD_STATIC;
 
 /* library name conversion for darwin */
-static void
+static bool
 convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 {
 	char *tmp, pattern[FILENAME_MAX];
 	size_t len;
+	bool rv = false;
 
 	tmp = strstr(p->name, ".so");
 	if (!tmp) {
@@ -46,7 +47,7 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 	}
 	*tmp = '\0';
 	snprintf(pattern, sizeof(pattern), "%s.[0-9]*.dylib", p->name);
-	add_plist_glob(pkg, p, strconcat(BaseDir, cwd), pattern);
+	add_plist_glob(pkg, p, strconcat(BaseDir, cwd), pattern, true);
 
 	len = strlen(p->name) + 7;	/* .dylib\0 */
 	tmp = realloc(p->name, len);
@@ -55,15 +56,20 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 		return;
 	}
 	strlcat(tmp, ".dylib", len);
+	p->name = NULL;
+	if (find_plist(pkg, PLIST_FILE, tmp))
+		rv = true;
 	p->name = tmp;
 	p->type = PLIST_FILE;
+	return rv;
 }
 
-static void
+static bool
 check_lib(package_t *pkg, plist_t *p, char *cwd)
 {
 	char *tmp;
 	size_t len;
+	bool rv = false;
 
 	if (!pkg || !p)
 		return;
@@ -74,7 +80,7 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 
 	switch (LdType) {
 	case LD_DYLD:
-		convert_dylib(pkg, p, cwd);
+		rv = convert_dylib(pkg, p, cwd);
 		break;
 	case LD_GNU:
 		tmp = copy_string(p->name); 
@@ -103,6 +109,7 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 		/* We don't need to do anything on static arches */
 		break;
 	}
+	return rv;
 }
 
 /* Check a list for files that require preconversion */
@@ -153,7 +160,7 @@ check_list(char *home, package_t *pkg)
 			/* search for other chapter files */
 			memset(name, 0, sizeof(name));
 			snprintf(name, sizeof(name), "%s-*", p->name);
-			add_plist_glob(pkg, p, strconcat(BaseDir, cwd), name);
+			add_plist_glob(pkg, p, strconcat(BaseDir, cwd), name, true);
 			add_plist_at(pkg, p, PLIST_CMD, strconcat(
 			    "install-info --info-dir=%D/info %D/", p->name));
 			add_plist_at(pkg, p->next, PLIST_UNEXEC, strconcat(
@@ -165,7 +172,12 @@ check_list(char *home, package_t *pkg)
 			p = p->prev;
 			break;
 		case PLIST_LIB:
-			check_lib(pkg, p, cwd);
+			if (check_lib(pkg, p, cwd)) {
+				p = p->prev;
+				delete_plist(pkg, false, p->next->type,
+						p->next->name);
+				break;
+			}
 			/* FALLTHROUGH */
 		case PLIST_SHELL:
 		case PLIST_FILE:

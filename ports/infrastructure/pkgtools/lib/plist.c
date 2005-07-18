@@ -123,8 +123,11 @@ void add_plist_at(package_t *p, plist_t *after, pl_ent_t type, const char *arg)
 		p->tail = tmp;
 }
 
-/* glob for files and add them to the packing list */
-void add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char *pattern)
+/* glob for files and add them to the packing list; if nodups is set,
+ * the file is only added if it is not already in the plist as a file
+ * entry.
+ */
+void add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char *pattern, bool nodups)
 {
 	glob_t pglob;
 	int fd, i;
@@ -135,9 +138,11 @@ void add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char 
 	glob(pattern, 0, NULL, &pglob);
 	fchdir(fd);
 	close(fd);
-	for (i = 0; i < pglob.gl_pathc; i++)
-		add_plist_at(pkg, after, PLIST_FILE,
-		    strdup(pglob.gl_pathv[i]));
+	for (i = 0; i < pglob.gl_pathc; i++) {
+		if (!nodups || !find_plist(pkg, PLIST_FILE, pglob.gl_pathv[i]))
+			add_plist_at(pkg, after, PLIST_FILE,
+			    strdup(pglob.gl_pathv[i]));
+	}
 	globfree(&pglob);
 
 }

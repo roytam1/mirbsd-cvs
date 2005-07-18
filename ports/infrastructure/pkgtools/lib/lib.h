@@ -202,7 +202,7 @@ void		csum_plist_entry(char *, plist_t *);
 void		add_plist(package_t *, pl_ent_t, const char *);
 void		add_plist_top(package_t *, pl_ent_t, const char *);
 void		add_plist_at(package_t *, plist_t *, pl_ent_t, const char *);
-void		add_plist_glob(package_t *, plist_t *, const char *, const char *);
+void		add_plist_glob(package_t *, plist_t *, const char *, const char *, bool);
 void		delete_plist(package_t *pkg, bool all, pl_ent_t type, char *name);
 void		write_plist(package_t *, FILE *);
 void		read_plist(package_t *, FILE *);
