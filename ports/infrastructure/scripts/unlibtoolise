@@ -23,6 +23,7 @@
 use strict;
 use File::Spec;
 
+# Given the name of a .la file, return a list of files referenced by it.
 sub libtoolise_plist
 {
 	my $file = shift;
@@ -50,18 +51,27 @@ sub libtoolise_plist
 	return %{{ map { $_ => 1 } File::Spec->no_upwards(@libnames) }};
 }
 
-while (<>) {
-	chomp;
-	if (m/\.la$/) {
-		print $_ . "\n";
-		foreach (keys %{{ libtoolise_plist($_) }}) {
-			if (m/lib.*\.so\.\d+\.\d+/) {
-				print "\@lib $_\n";
-			} else {
-				print $_ . "\n";
-			}
-		}
+my %ltlibs = ();
+my @plist = <>;
+
+foreach my $entry (@plist) {
+	chomp $entry;
+	%ltlibs = (%ltlibs, %{{ libtoolise_plist($entry) }}) if ($entry =~ m/\.la$/);
+}
+# twofold iteration not an oversight
+foreach (@plist) {
+	print $_ . "\n";
+	$ltlibs{$_} = 0 if defined $ltlibs{$_};
+	if (m/^\@lib /) {
+		$ltlibs{$'} = 0 if defined $ltlibs{$'};
+	}
+}
+
+while (my ($key, $value) = each(%ltlibs)) {
+	next unless $value == 1;
+	if ($key =~ m/lib.*\.so\.\d+\.\d+/) {
+		print "\@lib $key\n";
 	} else {
-		print $_ . "\n";
+		print $key . "\n";
 	}
 }

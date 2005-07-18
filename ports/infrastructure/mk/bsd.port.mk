@@ -294,8 +294,6 @@ ERRORS+=		"Subpackage ${SUBPACKAGE} does not exist."
 # Support architecture and flavour dependent packing lists
 SED_PLIST?=
 
-SED_PLIST+=	|(cd ${WRKINST} ; perl ${SCRIPTDIR}/unlibtoolise)
-
 # Build FLAVOR_EXT, checking that no flavours are misspelled
 FLAVOR_EXT:=
 # _FLAVOR_EXT2 is used internally for working directories.
@@ -340,6 +338,8 @@ ERRORS+=		"Possible flavours are: ${FLAVORS}"
 ERRORS+=		"No flavours for this port."
 .  endif
 .endif
+
+SED_PLIST+=	|(cd ${WRKINST} ; perl ${SCRIPTDIR}/unlibtoolise)
 
 PKGNAME?=		${DISTNAME}-0
 FULLPKGNAME?=		${PKGNAME}${FLAVOR_EXT}
