@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/08/31 03:54:58 wcobb Exp $
-bin/zsnes
-man/man1/zsnes.1
-share/doc/zsnes/opengl.txt
-share/doc/zsnes/whatsnew.txt
-@dirrm share/doc/zsnes

@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/06/18 18:19:05 lebel Exp $
-bin/id3ed
-man/man1/id3ed.1

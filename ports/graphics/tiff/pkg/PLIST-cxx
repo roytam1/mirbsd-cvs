@@ -1,5 +1,0 @@
-@comment $MirOS$
-include/tiffio.hxx
-lib/libtiffxx.a
-lib/libtiffxx.la
-%%SHARED%%
