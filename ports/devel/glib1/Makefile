@@ -3,6 +3,7 @@
 
 COMMENT=	"useful routines for C programming"
 DISTNAME=	glib-1.2.10
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/glib/1.2/}
 HOMEPAGE=	http://www.gtk.org/

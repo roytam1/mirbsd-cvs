@@ -6,18 +6,14 @@ include/glib-1.2/glib.h
 include/glib-1.2/glibconfig.h
 include/glib-1.2/gmodule.h
 info/glib.info
-lib/libglib.a
 lib/libglib.la
-lib/libgmodule.a
 lib/libgmodule.la
-lib/libgthread.a
 lib/libgthread.la
 lib/pkgconfig/glib.pc
 lib/pkgconfig/gmodule.pc
 lib/pkgconfig/gthread.pc
 man/man1/glib-config.1
 share/aclocal/glib.m4
-%%SHARED%%
 @dirrm share/aclocal
 @dirrm lib/pkgconfig
 @dirrm include/glib-1.2
