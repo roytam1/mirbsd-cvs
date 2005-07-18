@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.11 2005/06/03 00:14:14 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.12 2005/07/05 20:25:59 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -81,6 +81,7 @@ if ! chown $BINOWN $tmp; then
 fi
 
 cp $ti/templates/fake.mtree $ti/db/
+has_stamp=0
 
 case $os in
 Darwin)
@@ -88,6 +89,19 @@ Darwin)
 	sysmk=$localbase/share/mmake
 	mtar=$localbase/bin/tar
 	pkgbin=$localbase/sbin
+
+	if [[ -d $localbase/distfiles || -d $localbase/Distfiles ]]; then
+		if [[ -e $localbase/distfiles/.stamp \
+		    || -e $localbase/Distfiles/.stamp ]]; then
+			has_stamp=1
+		else
+			has_stamp=0
+		fi
+	else
+		mkdir -p $localbase/Distfiles
+		print -n >$localbase/Distfiles/.stamp
+		has_stamp=1
+	fi
 
 	cat $ti/db/fake.mtree >$tmp
 	(print '/@@local/d\ni\n'; IFS=/; s=;
@@ -238,7 +252,7 @@ if [[ $SHELL != /bin/mksh ]]; then
 	print done.
 fi
 
-if [[ -d $top/distfiles ]]; then
+if [[ -d $top/distfiles && $has_stamp = 0 ]]; then
 	print -n "3. c) Upgrading..."
 	mv $top/distfiles $top/Distfiles
 	rm -rf $top/packages
