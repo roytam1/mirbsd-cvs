@@ -17,7 +17,7 @@
  CONFIGURE_DEPENDENCIES = acglib.m4		
  
 -libglib_la_LDFLAGS =  	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 	-release $(LT_RELEASE) 	-export-dynamic
-+libglib_la_LDFLAGS =  	-version-info 1:2:0	-export-dynamic
++libglib_la_LDFLAGS =  	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 	-export-dynamic
  
  
  noinst_PROGRAMS = testglib testgdate testgdateparser

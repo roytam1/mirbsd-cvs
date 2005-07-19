@@ -5,7 +5,7 @@
  
  libgmodule_la_SOURCES = gmodule.c
 -libgmodule_la_LDFLAGS =  	@G_MODULE_LDFLAGS@ 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 	-release $(LT_RELEASE) 	-export-dynamic
-+libgmodule_la_LDFLAGS =  	@G_MODULE_LDFLAGS@ 	-version-info 1:2:0	-export-dynamic
++libgmodule_la_LDFLAGS =  	@G_MODULE_LDFLAGS@ 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) 	-export-dynamic
  
  
  libgmodule_la_LIBADD = @G_MODULE_LIBS@ # $(libglib)
