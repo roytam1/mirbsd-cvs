@@ -1,9 +1,9 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.2 2005/04/20 21:34:54 bsiegert Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.3 2005/07/07 21:18:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
 COMMENT=	"character set conversion library"
 DISTNAME=	libiconv-1.9.1
-PKGNAME=	${DISTNAME}-1
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	converters devel
 MASTER_SITES=	${MASTER_SITE_GNU:=libiconv/}
 HOMEPAGE=	http://www.gnu.org/software/libiconv/
