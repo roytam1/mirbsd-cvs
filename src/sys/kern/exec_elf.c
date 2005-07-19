@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/exec_elf.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: exec_elf.c,v 1.49 2003/11/03 19:58:22 tedu Exp $	*/
 
 /*
@@ -525,6 +525,7 @@ ELFNAME2(exec,makecmds)(struct proc *p, struct exec_package *epp)
 	char interp[MAXPATHLEN];
 	u_long pos = 0, phsize;
 	u_int8_t os = OOS_NULL;
+	extern struct emul emul_native;
 
 	if (epp->ep_hdrvalid < sizeof(Elf_Ehdr))
 		return (ENOEXEC);
@@ -628,9 +629,11 @@ native:
 		switch (ph[i].p_type) {
 		case PT_LOAD:
 			/*
-			 * Calcuates size of text and data segments
+			 * Calculates size of text and data segments
 			 * by starting at first and going to end of last.
-			 * 'rwx' sections are treated as data.
+			 * 'rwx' sections are treated as data, except for
+			 * executables running on emulation if the entry
+			 * point is in this section (this is gross).
 			 * this is correct for BSS_PLT, but may not be
 			 * for DATA_PLT, is fine for TEXT_PLT.
 			 */
@@ -640,7 +643,10 @@ native:
 			 * Decide whether it's text or data by looking
 			 * at the protection of the section
 			 */
-			if (prot & VM_PROT_WRITE) {
+			if ((prot & VM_PROT_WRITE) &&
+			    (epp->ep_emul == &emul_native ||
+			     (eh->e_entry < addr ||
+			      eh->e_entry >= (addr + size)))) {
 				/* data section */
 				if (epp->ep_dsize == ELFDEFNNAME(NO_ADDR)) {
 					epp->ep_daddr = addr;
