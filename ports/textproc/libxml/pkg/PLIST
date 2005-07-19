@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.34 2004/04/06 06:50:34 kevlo Exp $
 bin/xml2-config
 bin/xmlcatalog
@@ -47,7 +48,6 @@ include/libxml2/libxml/xmlwriter.h
 include/libxml2/libxml/xpath.h
 include/libxml2/libxml/xpathInternals.h
 include/libxml2/libxml/xpointer.h
-lib/libxml2.a
 lib/libxml2.la
 lib/pkgconfig/libxml-2.0.pc
 lib/xml2Conf.sh
@@ -174,7 +174,6 @@ share/doc/libxml2/html/tutorial/ix01.html
 share/doc/libxml2/html/tutorial/xmltutorial.pdf
 share/doc/libxml2/html/w3c.png
 share/doc/libxml2/html/xml.html
-%%SHARED%%
 @dirrm share/doc/libxml2/html/tutorial/images/callouts
 @dirrm share/doc/libxml2/html/tutorial/images
 @dirrm share/doc/libxml2/html/tutorial
