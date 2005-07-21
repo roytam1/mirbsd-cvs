@@ -1,4 +1,4 @@
-/*	$OpenBSD: mv.c,v 1.29 2003/07/29 00:24:15 deraadt Exp $	*/
+/*	$OpenBSD: mv.c,v 1.32 2005/06/30 15:13:24 millert Exp $	*/
 /*	$NetBSD: mv.c,v 1.9 1995/03/21 09:06:52 cgd Exp $	*/
 
 /*
@@ -43,7 +43,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)mv.c	8.2 (Berkeley) 4/2/94";
 #else
-static char rcsid[] = "$OpenBSD: mv.c,v 1.29 2003/07/29 00:24:15 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: mv.c,v 1.32 2005/06/30 15:13:24 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -235,7 +235,7 @@ do_move(char *from, char *to)
 		char path[MAXPATHLEN];
 
 		if (realpath(from, path) == NULL) {
-			warnx("cannot resolve %s: %s", from, path);
+			warnx("cannot resolve %s", from);
 			return (1);
 		}
 		if (!statfs(path, &sfs) && !strcmp(path, sfs.f_mntonname)) {
@@ -333,9 +333,8 @@ err:		if (unlink(to))
 		if (errno != EOPNOTSUPP || sbp->st_flags != 0)
 			warn("%s: set flags", to);
 
-	tval[0].tv_sec = sbp->st_atime;
-	tval[1].tv_sec = sbp->st_mtime;
-	tval[0].tv_usec = tval[1].tv_usec = 0;
+	TIMESPEC_TO_TIMEVAL(&tval[0], &sbp->st_atimespec);
+	TIMESPEC_TO_TIMEVAL(&tval[1], &sbp->st_mtimespec);
 	if (utimes(to, tval))
 		warn("%s: set times", to);
 
@@ -367,11 +366,11 @@ copy(char *from, char *to)
 		return (1);
 	}
 	if (!WIFEXITED(status)) {
-		warn("%s: did not terminate normally", _PATH_CP);
+		warnx("%s: did not terminate normally", _PATH_CP);
 		return (1);
 	}
 	if (WEXITSTATUS(status)) {
-		warn("%s: terminated with %d (non-zero) status",
+		warnx("%s: terminated with %d (non-zero) status",
 		    _PATH_CP, WEXITSTATUS(status));
 		return (1);
 	}
@@ -385,11 +384,11 @@ copy(char *from, char *to)
 		return (1);
 	}
 	if (!WIFEXITED(status)) {
-		warn("%s: did not terminate normally", _PATH_RM);
+		warnx("%s: did not terminate normally", _PATH_RM);
 		return (1);
 	}
 	if (WEXITSTATUS(status)) {
-		warn("%s: terminated with %d (non-zero) status",
+		warnx("%s: terminated with %d (non-zero) status",
 		    _PATH_RM, WEXITSTATUS(status));
 		return (1);
 	}

@@ -1,4 +1,4 @@
-/*	$OpenBSD: brconfig.c,v 1.30 2004/03/08 17:23:33 mcbride Exp $	*/
+/*	$OpenBSD: brconfig.c,v 1.33 2004/09/14 22:13:03 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1999, 2000 Jason L. Wright (jason@thought.net)
@@ -490,10 +490,8 @@ bridge_show_all(int s)
 	while (1) {
 		ifc.ifc_len = len;
 		inb = realloc(inbuf, len);
-		if (inb == NULL) {
-			free(inbuf);
+		if (inb == NULL)
 			err(1, "malloc");
-		}
 		ifc.ifc_buf = inbuf = inb;
 		if (ioctl(s, SIOCGIFCONF, &ifc) < 0)
 			err(1, "ioctl(SIOCGIFCONF)");
@@ -647,10 +645,8 @@ bridge_list(int s, char *brdg, char *delim)
 	while (1) {
 		bifc.ifbic_len = len;
 		inb = realloc(inbuf, len);
-		if (inb == NULL) {
-			free(inbuf);
+		if (inb == NULL)
 			err(1, "malloc");
-		}
 		bifc.ifbic_buf = inbuf = inb;
 		strlcpy(bifc.ifbic_name, brdg, sizeof(bifc.ifbic_name));
 		if (ioctl(s, SIOCBRDGIFS, &bifc) < 0)
@@ -1000,10 +996,8 @@ bridge_addrs(int s, char *brdg, char *delim)
 	while (1) {
 		ifbac.ifbac_len = len;
 		inb = realloc(inbuf, len);
-		if (inb == NULL) {
-			free(inbuf);
+		if (inb == NULL)
 			err(EX_IOERR, "malloc");
-		}
 		ifbac.ifbac_buf = inbuf = inb;
 		strlcpy(ifbac.ifbac_name, brdg, sizeof(ifbac.ifbac_name));
 		if (ioctl(s, SIOCBRDGRTS, &ifbac) < 0) {
@@ -1119,27 +1113,25 @@ bridge_rules(int s, char *brdg, char *ifname, char *delim)
 {
 	char *inbuf = NULL, *inb;
 	struct ifbrlconf ifc;
-	struct ifbrlreq *ifrp, ifreq;
+	struct ifbrlreq *ifrp;
 	int len = 8192, i;
 
 	while (1) {
 		ifc.ifbrl_len = len;
 		inb = realloc(inbuf, len);
-		if (inb == NULL) {
-			free(inbuf);
+		if (inb == NULL)
 			err(1, "malloc");
-		}
 		ifc.ifbrl_buf = inbuf = inb;
 		strlcpy(ifc.ifbrl_name, brdg, sizeof(ifc.ifbrl_name));
 		strlcpy(ifc.ifbrl_ifsname, ifname, sizeof(ifc.ifbrl_ifsname));
 		if (ioctl(s, SIOCBRDGGRL, &ifc) < 0)
 			err(1, "ioctl(SIOCBRDGGRL)");
-		if (ifc.ifbrl_len + sizeof(ifreq) < len)
+		if (ifc.ifbrl_len + sizeof(*ifrp) < len)
 			break;
 		len *= 2;
 	}
 	ifrp = ifc.ifbrl_req;
-	for (i = 0; i < ifc.ifbrl_len; i += sizeof(ifreq)) {
+	for (i = 0; i < ifc.ifbrl_len; i += sizeof(*ifrp)) {
 		ifrp = (struct ifbrlreq *)((caddr_t)ifc.ifbrl_req + i);
 		bridge_showrule(ifrp, delim);
 	}
@@ -1298,8 +1290,8 @@ int
 bridge_rulefile(int s, char *brdg, char *fname)
 {
 	FILE *f;
-	char *str, *argv[MAXRULEWORDS], buf[1024], xbuf[1024];
-	int ln = 1, argc = 0, err = 0, xerr;
+	char *str, *argv[MAXRULEWORDS], buf[1024];
+	int ln = 0, argc = 0, err = 0, xerr;
 
 	f = fopen(fname, "r");
 	if (f == NULL) {
@@ -1307,29 +1299,23 @@ bridge_rulefile(int s, char *brdg, char *fname)
 		return (EX_IOERR);
 	}
 
-	while (1) {
-		fgets(buf, sizeof(buf), f);
-		if (feof(f))
-			break;
+	while (fgets(buf, sizeof(buf), f) != NULL) {
 		ln++;
 		if (buf[0] == '#' || buf[0] == '\n')
 			continue;
 
 		argc = 0;
 		str = strtok(buf, "\n\t\r ");
-		strlcpy(xbuf, buf, sizeof(xbuf));
-		while (str != NULL) {
+		while (str != NULL && argc < MAXRULEWORDS) {
 			argv[argc++] = str;
-			if (argc > MAXRULEWORDS) {
-				fprintf(stderr, "invalid rule: %d: %s\n",
-				    ln, xbuf);
-				break;
-			}
 			str = strtok(NULL, "\n\t\r ");
 		}
 
-		if (argc > MAXRULEWORDS)
+		/* Rule is too long if there's more. */
+		if (str != NULL) {
+			fprintf(stderr, "invalid rule: %d: %s ...\n", ln, buf);
 			continue;
+		}
 
 		xerr = bridge_rule(s, brdg, argc, argv, ln);
 		if (xerr)

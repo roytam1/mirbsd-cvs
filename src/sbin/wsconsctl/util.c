@@ -1,4 +1,4 @@
-/*	$OpenBSD: util.c,v 1.25 2004/04/24 13:37:41 miod Exp $ */
+/*	$OpenBSD: util.c,v 1.30 2005/05/31 15:33:57 brad Exp $ */
 /*	$NetBSD: util.c,v 1.8 2000/03/14 08:11:53 sato Exp $ */
 
 /*-
@@ -70,7 +70,9 @@ static const struct nameint kbtype_tab[] = {
 	{ WSKBD_TYPE_SUN5,	"sun5" },
 	{ WSKBD_TYPE_HIL,	"hil" },
 	{ WSKBD_TYPE_GSC,	"hp-ps2" },
-	{ WSKBD_TYPE_LUNA,	"luna" }
+	{ WSKBD_TYPE_LUNA,	"luna" },
+	{ WSKBD_TYPE_ZAURUS,	"zaurus" },
+	{ WSKBD_TYPE_DOMAIN,	"domain" }
 };
 
 static const struct nameint mstype_tab[] = {
@@ -79,12 +81,13 @@ static const struct nameint mstype_tab[] = {
 	{ WSMOUSE_TYPE_USB,	"usb" },
 	{ WSMOUSE_TYPE_LMS,	"lms" },
 	{ WSMOUSE_TYPE_MMS,	"mms" },
-	{ WSMOUSE_TYPE_TPANEL,	"touch-pannel" },
+	{ WSMOUSE_TYPE_TPANEL,	"touch-panel" },
 	{ WSMOUSE_TYPE_NEXT,	"NeXT" },
 	{ WSMOUSE_TYPE_ARCHIMEDES, "archimedes" },
 	{ WSMOUSE_TYPE_ADB,	"adb" },
 	{ WSMOUSE_TYPE_HIL,	"hil" },
-	{ WSMOUSE_TYPE_LUNA,	"luna" }
+	{ WSMOUSE_TYPE_LUNA,	"luna" },
+	{ WSMOUSE_TYPE_DOMAIN,	"domain" }
 };
 
 static const struct nameint dpytype_tab[] = {
@@ -130,7 +133,13 @@ static const struct nameint dpytype_tab[] = {
 	{ WSDISPLAY_TYPE_MGX,		"mgx" },
 	{ WSDISPLAY_TYPE_SB_P9000,	"p9000" },
 	{ WSDISPLAY_TYPE_RFLEX,		"rasterflex" },
-	{ WSDISPLAY_TYPE_LUNA,		"luna" }
+	{ WSDISPLAY_TYPE_LUNA,		"luna" },
+	{ WSDISPLAY_TYPE_DVBOX,		"davinci" },
+	{ WSDISPLAY_TYPE_GBOX,		"gatorbox" },
+	{ WSDISPLAY_TYPE_RBOX,		"renaissance" },
+	{ WSDISPLAY_TYPE_HYPERION,	"hyperion" },
+	{ WSDISPLAY_TYPE_TOPCAT,	"topcat" },
+	{ WSDISPLAY_TYPE_PXALCD,	"pxalcd" }
 };
 
 static const struct nameint kbdenc_tab[] = {

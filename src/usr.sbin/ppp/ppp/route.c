@@ -25,7 +25,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $OpenBSD: route.c,v 1.30 2005/01/20 14:58:14 markus Exp $
+ * $OpenBSD: route.c,v 1.34 2005/07/17 20:43:14 brad Exp $
  */
 
 #include <sys/param.h>
@@ -41,6 +41,7 @@
 #include <sys/un.h>
 
 #include <errno.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -277,10 +278,15 @@ Index2Nam(int idx)
         }
         if (ifs[ifm->ifm_index-1] == NULL) {
           ifs[ifm->ifm_index-1] = (char *)malloc(dl->sdl_nlen+1);
-          memcpy(ifs[ifm->ifm_index-1], dl->sdl_data, dl->sdl_nlen);
-          ifs[ifm->ifm_index-1][dl->sdl_nlen] = '\0';
-          if (route_nifs < ifm->ifm_index)
-            route_nifs = ifm->ifm_index;
+          if (ifs[ifm->ifm_index-1] == NULL)
+	    log_Printf(LogDEBUG, "Skipping interface %d: Out of memory\n",
+                  ifm->ifm_index);
+	  else {
+	    memcpy(ifs[ifm->ifm_index-1], dl->sdl_data, dl->sdl_nlen);
+	    ifs[ifm->ifm_index-1][dl->sdl_nlen] = '\0';
+	    if (route_nifs < ifm->ifm_index)
+	      route_nifs = ifm->ifm_index;
+	  }
         }
       } else if (log_IsKept(LogDEBUG))
         log_Printf(LogDEBUG, "Skipping out-of-range interface %d!\n",
@@ -611,8 +617,13 @@ route_Add(struct sticky_route **rp, int type, const struct ncprange *dst,
       rp = &(*rp)->next;
   }
 
-  if (!r)
+  if (r == NULL) {
     r = (struct sticky_route *)malloc(sizeof(struct sticky_route));
+    if (r == NULL) {
+      log_Printf(LogERROR, "route_Add: Out of memory!\n");
+      return;
+    }
+  }
   r->type = type;
   r->next = NULL;
   ncprange_copy(&r->dst, dst);
@@ -707,6 +718,24 @@ memcpy_roundup(char *cp, const void *data, size_t len)
   return padlen;
 }
 
+#if defined(__KAME__) && !defined(NOINET6)
+static void
+add_scope(struct sockaddr *sa, int ifindex)
+{
+  struct sockaddr_in6 *sa6;
+
+  if (sa->sa_family != AF_INET6)
+    return;
+  sa6 = (struct sockaddr_in6 *)sa;
+  if (!IN6_IS_ADDR_LINKLOCAL(&sa6->sin6_addr) &&
+      !IN6_IS_ADDR_MC_LINKLOCAL(&sa6->sin6_addr))
+    return;
+  if (*(u_int16_t *)&sa6->sin6_addr.s6_addr[2] != 0)
+    return;
+  *(u_int16_t *)&sa6->sin6_addr.s6_addr[2] = htons(ifindex);
+}
+#endif
+
 int
 rt_Set(struct bundle *bundle, int cmd, const struct ncprange *dst,
        const struct ncpaddr *gw, int bang, int quiet)
@@ -747,6 +776,9 @@ rt_Set(struct bundle *bundle, int cmd, const struct ncprange *dst,
   }
 
   ncprange_getsa(dst, &sadst, &samask);
+#if defined(__KAME__) && !defined(NOINET6)
+  add_scope((struct sockaddr *)&sadst, bundle->iface->index);
+#endif
 
   cp = rtmes.m_space;
   cp += memcpy_roundup(cp, &sadst, sadst.ss_len);
@@ -757,6 +789,9 @@ rt_Set(struct bundle *bundle, int cmd, const struct ncprange *dst,
       return result;
     }
     ncpaddr_getsa(gw, &sagw);
+#if defined(__KAME__) && !defined(NOINET6)
+    add_scope((struct sockaddr *)&sagw, bundle->iface->index);
+#endif
     if (ncpaddr_isdefault(gw)) {
       if (!quiet)
         log_Printf(LogERROR, "rt_Set: Cannot add a route with"

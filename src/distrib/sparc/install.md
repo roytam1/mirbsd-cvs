@@ -1,4 +1,4 @@
-#	$OpenBSD: install.md,v 1.50 2003/10/12 13:18:37 krw Exp $
+#	$OpenBSD: install.md,v 1.52 2005/04/03 19:33:59 krw Exp $
 #	$NetBSD: install.md,v 1.3.2.5 1996/08/26 15:45:28 gwr Exp $
 #
 #
@@ -41,11 +41,8 @@
 #
 
 MDTERM=sun
-MDDISKDEVS='/^sd[0-9] /s/ .*//p;/^x[dy][0-9] /s/ .*//p'
+MDDKDEVS='/^sd[0-9] /s/ .*//p;/^x[dy][0-9] /s/ .*//p'
 ARCH=ARCH
-
-md_set_term() {
-}
 
 md_installboot() {
 	local _rawdev=/dev/r${1}c _prefix

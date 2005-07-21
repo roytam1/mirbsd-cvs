@@ -1,4 +1,4 @@
-/*	$OpenBSD: stdlib.h,v 1.32 2004/08/03 19:59:42 millert Exp $	*/
+/*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
 /*-
@@ -84,7 +84,8 @@ typedef struct {
 
 #define	RAND_MAX	0x7fffffff
 
-#define	MB_CUR_MAX	1	/* XXX */
+extern size_t	__mb_cur_max;
+#define	MB_CUR_MAX	__mb_cur_max
 
 #include <sys/cdefs.h>
 
@@ -121,6 +122,10 @@ ldiv_t	 ldiv(long, long);
 long long
 	 llabs(long long);
 void	*malloc(size_t);
+char	*mkdtemp(char *);
+int	 mkstemp(char *);
+int	 mkstemps(char *, int);
+char	*mktemp(char *);
 void	 qsort(void *, size_t, size_t, int (*)(const void *, const void *));
 int	 rand(void);
 int	 rand_r(unsigned int *);

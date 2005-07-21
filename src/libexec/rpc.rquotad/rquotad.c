@@ -1,4 +1,4 @@
-/*	$OpenBSD: rquotad.c,v 1.18 2003/07/29 18:39:23 deraadt Exp $	*/
+/*	$OpenBSD: rquotad.c,v 1.20 2004/09/14 23:49:49 deraadt Exp $	*/
 
 /*
  * by Manuel Bouyer (bouyer@ensta.fr). Public domain.
@@ -44,11 +44,12 @@ struct fs_stat {
 	char   *fs_file;		/* mount point of the filesystem */
 	char   *qfpathname;		/* pathname of the quota file */
 	dev_t   st_dev;			/* device of the filesystem */
-} fs_stat;
+};
 struct fs_stat *fs_begin = NULL;
 
 int from_inetd = 1;
 
+/* ARGSUSED */
 static void
 cleanup(int signo)
 {
@@ -62,7 +63,7 @@ main(int argc, char *argv[])
 	SVCXPRT *transp;
 	int sock = 0;
 	int proto = 0;
-	struct sockaddr_in from;
+	struct sockaddr_storage from;
 	socklen_t fromlen;
 
 	fromlen = sizeof(from);

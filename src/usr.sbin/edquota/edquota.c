@@ -420,7 +420,7 @@ writeprivs(struct quotause *quplist, int outfd, char *name, int quotatype)
 	(void)fprintf(fd, "Quotas for %s %s:\n", qfextension[quotatype], name);
 	for (qup = quplist; qup; qup = qup->next) {
 		(void)fprintf(fd, "%s: %s %d, limits (soft = %d, hard = %d)\n",
-		    qup->fsname, "blocks in use:",
+		    qup->fsname, "KBytes in use:",
 		    (int)(dbtob((u_quad_t)qup->dqblk.dqb_curblocks) / 1024),
 		    (int)(dbtob((u_quad_t)qup->dqblk.dqb_bsoftlimit) / 1024),
 		    (int)(dbtob((u_quad_t)qup->dqblk.dqb_bhardlimit) / 1024));
@@ -466,7 +466,7 @@ readprivs(struct quotause *quplist, int infd)
 			return(0);
 		}
 		cnt = sscanf(cp,
-		    " blocks in use: %d, limits (soft = %d, hard = %d)",
+		    " KBytes in use: %d, limits (soft = %d, hard = %d)",
 		    &dqblk.dqb_curblocks, &dqblk.dqb_bsoftlimit,
 		    &dqblk.dqb_bhardlimit);
 		if (cnt != 3) {

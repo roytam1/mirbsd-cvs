@@ -1,4 +1,4 @@
-/*	$OpenBSD: iostat.c,v 1.19 2004/02/15 02:45:47 tedu Exp $	*/
+/*	$OpenBSD: iostat.c,v 1.22 2005/04/01 03:32:47 deraadt Exp $	*/
 /*	$NetBSD: iostat.c,v 1.10 1996/10/25 18:21:58 scottr Exp $	*/
 
 /*
@@ -196,14 +196,14 @@ main(int argc, char *argv[])
 			break;
 		select(0, NULL, NULL, NULL, &tv);
 		dkreadstats();
-		if (last.dk_ndrive != cur.dk_ndrive) wantheader = 1;
+		if (last.dk_ndrive != cur.dk_ndrive)
+			wantheader = 1;
 	}
 	exit(0);
 }
 
 static void
-sigheader(signo)
-	int signo;
+sigheader(int signo)
 {
 	wantheader = 1;
 }
@@ -254,8 +254,7 @@ header(void)
 }
 
 static void
-disk_stats(etime)
-double etime;
+disk_stats(double etime)
 {
 	int dn;
 	double atime, mbps;
@@ -266,10 +265,11 @@ double etime;
 
 		/* average Kbytes per transfer. */
 		if (cur.dk_rxfer[dn] + cur.dk_wxfer[dn])
-			mbps = ((cur.dk_rxfer[dn] + cur.dk_wxfer[dn]) /
+			mbps = ((cur.dk_rbytes[dn] + cur.dk_wbytes[dn]) /
 			    (1024.0)) / (cur.dk_rxfer[dn] + cur.dk_wxfer[dn]);
 		else
 			mbps = 0.0;
+
 		(void)printf(" %5.2f", mbps);
 
 		/* average transfers per second. */
@@ -291,8 +291,7 @@ double etime;
 }
 
 static void
-disk_stats2(etime)
-double etime;
+disk_stats2(double etime)
 {
 	int dn;
 	double atime;
@@ -311,13 +310,13 @@ double etime;
 
 		/* average time busy in disk activity. */
 		atime = (double)cur.dk_time[dn].tv_sec +
-			((double)cur.dk_time[dn].tv_usec / (double)1000000);
+		    ((double)cur.dk_time[dn].tv_usec / (double)1000000);
 		(void)printf(" %4.2f ", atime / etime);
 	}
 }
 
 static void
-cpustats()
+cpustats(void)
 {
 	int state;
 	double time;
@@ -333,7 +332,7 @@ cpustats()
 }
 
 static void
-usage()
+usage(void)
 {
 	(void)fprintf(stderr,
 "usage: iostat [-CdDIT] [-c count] [-M core] [-N system] [-w wait] [drives]\n");
@@ -341,7 +340,7 @@ usage()
 }
 
 static void
-display()
+display(void)
 {
 	int	i;
 	double	etime;
@@ -379,9 +378,7 @@ display()
 }
 
 static void
-selectdrives(argc, argv)
-int	argc;
-char	*argv[];
+selectdrives(int argc, char *argv[])
 {
 	int	i, ndrives;
 

@@ -28,7 +28,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: clnt_perror.c,v 1.15 2002/09/10 05:39:07 deraadt Exp $";
+static char *rcsid = "$OpenBSD: clnt_perror.c,v 1.17 2005/04/11 18:34:09 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 /*
@@ -51,7 +51,7 @@ static char *auth_errmsg(enum auth_stat stat);
 static char *buf;
 
 static char *
-_buf()
+_buf(void)
 {
 
 	if (buf == NULL)
@@ -63,9 +63,7 @@ _buf()
  * Print reply error info
  */
 char *
-clnt_sperror(rpch, s)
-	CLIENT *rpch;
-	char *s;
+clnt_sperror(CLIENT *rpch, char *s)
 {
 	char *err, *str = _buf(), *strstart;
 	struct rpc_err e;
@@ -79,6 +77,8 @@ clnt_sperror(rpch, s)
 	ret = snprintf(str, len, "%s: %s", s, clnt_sperrno(e.re_status));
 	if (ret == -1)
 		ret = 0;
+	else if (ret >= len)
+		ret = len;
 	str += ret;
 	len -= ret;
 	if (str > strstart + CLNT_PERROR_BUFLEN)
@@ -114,15 +114,17 @@ clnt_sperror(rpch, s)
 		ret = snprintf(str, len, "; why = ");
 		if (ret == -1)
 			ret = 0;
+		else if (ret >= len)
+			ret = len;
 		str += ret;
 		len -= ret;
 		if (str > strstart + CLNT_PERROR_BUFLEN)
 			goto truncated;
 		err = auth_errmsg(e.re_why);
 		if (err != NULL) {
-			ret = snprintf(str, len, "%s\n", err);
+			snprintf(str, len, "%s\n", err);
 		} else {
-			ret = snprintf(str, len,
+			snprintf(str, len,
 			    "(unknown authentication error - %d)\n",
 			    (int) e.re_why);
 		}
@@ -148,9 +150,7 @@ truncated:
 }
 
 void
-clnt_perror(rpch, s)
-	CLIENT *rpch;
-	char *s;
+clnt_perror(CLIENT *rpch, char *s)
 {
 	(void) fprintf(stderr, "%s", clnt_sperror(rpch, s));
 }
@@ -181,8 +181,7 @@ static const char *const rpc_errlist[] = {
  * This interface for use by clntrpc
  */
 char *
-clnt_sperrno(stat)
-	enum clnt_stat stat;
+clnt_sperrno(enum clnt_stat stat)
 {
 	unsigned int errnum = stat;
 
@@ -193,16 +192,14 @@ clnt_sperrno(stat)
 }
 
 void
-clnt_perrno(num)
-	enum clnt_stat num;
+clnt_perrno(enum clnt_stat num)
 {
 	(void) fprintf(stderr, "%s\n", clnt_sperrno(num));
 }
 
 
 char *
-clnt_spcreateerror(s)
-	char *s;
+clnt_spcreateerror(char *s)
 {
 	char *str = _buf();
 
@@ -233,8 +230,7 @@ clnt_spcreateerror(s)
 }
 
 void
-clnt_pcreateerror(s)
-	char *s;
+clnt_pcreateerror(char *s)
 {
 	(void) fprintf(stderr, "%s", clnt_spcreateerror(s));
 }
@@ -251,8 +247,7 @@ static const char *const auth_errlist[] = {
 };
 
 static char *
-auth_errmsg(stat)
-	enum auth_stat stat;
+auth_errmsg(enum auth_stat stat)
 {
 	unsigned int errnum = stat;
 

@@ -1,4 +1,4 @@
-/*	$OpenBSD: privsep.c,v 1.11 2004/04/08 14:32:47 avsm Exp $	*/
+/*	$OpenBSD: privsep.c,v 1.13 2004/12/22 09:21:02 otto Exp $	*/
 
 /*
  * Copyright (c) 2003 Can Erkin Acar
@@ -112,10 +112,12 @@ priv_init(void)
 	}
 
 	/* Father */
-	/* Pass ALRM/TERM/HUP through to child, and accept CHLD */
+	/* Pass ALRM/TERM/HUP/INT/QUIT through to child, and accept CHLD */
 	signal(SIGALRM, sig_pass_to_chld);
 	signal(SIGTERM, sig_pass_to_chld);
 	signal(SIGHUP,  sig_pass_to_chld);
+	signal(SIGINT,  sig_pass_to_chld);
+	signal(SIGQUIT,  sig_pass_to_chld);
 	signal(SIGCHLD, sig_chld);
 
 	setproctitle("[priv]");
@@ -213,7 +215,7 @@ priv_open_log(void)
 	int cmd, fd;
 
 	if (priv_fd < 0)
-		errx(1, "%s: called from privileged portion\n", __func__);
+		errx(1, "%s: called from privileged portion", __func__);
 
 	cmd = PRIV_OPEN_LOG;
 	must_write(priv_fd, &cmd, sizeof(int));

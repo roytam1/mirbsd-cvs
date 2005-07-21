@@ -1,4 +1,4 @@
-/*	$OpenBSD: rs.c,v 1.11 2004/03/13 20:08:21 tedu Exp $	*/
+/*	$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $	*/
 
 /*-
  * Copyright (c) 1993
@@ -30,13 +30,17 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
 #ifndef lint
-static char sccsid[] = "@(#)rs.c	8.1 (Berkeley) 6/6/93";
+#if 0
+static const char sccsid[] = "@(#)rs.c	8.1 (Berkeley) 6/6/93";
+#else
+static const char rcsid[] = "$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $";
+#endif
 #endif /* not lint */
 
 /*
@@ -47,6 +51,8 @@ static char sccsid[] = "@(#)rs.c	8.1 (Berkeley) 6/6/93";
 
 #include <ctype.h>
 #include <err.h>
+#include <errno.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -88,12 +94,11 @@ int	propgutter;
 char	isep = ' ', osep = ' ';
 int	owidth = 80, gutter = 2;
 
-void	  usage(char *, char *);
+void	  usage(void);
 void	  getargs(int, char *[]);
 void	  getfile(void);
 int	  getline(void);
 char	 *getlist(short **, char *);
-char	 *getnum(int *, char *, int);
 char	**getptrs(char **);
 void	  prepfile(void);
 void	  prints(char *, int);
@@ -228,11 +233,13 @@ prints(char *s, int col)
 }
 
 void
-usage(char *msg, char *s)
+usage(void)
 {
-	warnx(msg, s);
+	extern char *__progname;
+
 	fprintf(stderr,
-"Usage:  rs [ -[csCS][x][kKgGw][N]tTeEnyjhHm ] [ rows [ cols ] ]\n");
+	    "usage: %s [-CcSs[x]] [-KkGgw N] [-EeHhjmnTtyz] [rows [cols]]\n",
+	    __progname);
 	exit(1);
 }
 
@@ -297,21 +304,10 @@ prepfile(void)
 						max = n;
 				colwidths[i] = max + gutter;
 			}
-	}
-	/*	for (i = 0; i < orows; i++) {
-			for (j = i; j < nelem; j += orows)
-				prints(ep[j], (j - i) / orows);
-			putchar('\n');
-		}
-	else
-		for (i = 0; i < orows; i++) {
-			for (j = 0; j < ocols; j++)
-				prints(*ep++, j);
-			putchar('\n');
-		}*/
-	else
+	} else {
 		for (i = 0; i < ocols; i++)
 			colwidths[i] = colw;
+	}
 	if (!(flags & NOTRIMENDCOL)) {
 		if (flags & RIGHTADJUST)
 			colwidths[0] -= gutter;
@@ -321,9 +317,6 @@ prepfile(void)
 	n = orows * ocols;
 	if (n > nelem && (flags & RECYCLE))
 		nelem = n;
-	/*for (i = 0; i < ocols; i++)
-		fprintf(stderr, "%d ",colwidths[i]);
-	fprintf(stderr, "is colwidths, nelem %d\n", nelem);*/
 }
 
 #define	BSIZE	2048
@@ -347,12 +340,9 @@ getline(void)	/* get line; maintain curline, curlen; manage storage */
 			printf(" %d line %d\n", curlen, irows);
 	}
 	if (!putlength && endblock - curline < BUFSIZ) {   /* need storage */
-		/*ww = endblock-curline; tt += ww;*/
-		/*printf("#wasted %d total %d\n",ww,tt);*/
 		if (!(curline = (char *) malloc(BSIZE)))
 			errx(1, "File too large");
 		endblock = curline + BSIZE;
-		/*printf("#endb %d curline %d\n",endblock,curline);*/
 	}
 	for (p = curline, i = 1; i < BUFSIZ; *p++ = c, i++)
 		if ((c = getchar()) == EOF || c == '\n')
@@ -384,109 +374,136 @@ getptrs(char **sp)
 void
 getargs(int ac, char *av[])
 {
-	char *p;
+	int ch;
+	const char *errstr;
 
-	if (ac == 1) {
+	if (ac == 1)
 		flags |= NOARGS | TRANSPOSE;
-	}
-	while (--ac && **++av == '-')
-		for (p = *av+1; *p; p++)
-			switch (*p) {
-			case 'T':
-				flags |= MTRANSPOSE;
-			case 't':
-				flags |= TRANSPOSE;
-				break;
-			case 'c':		/* input col. separator */
-				flags |= ONEISEPONLY;
-			case 's':		/* one or more allowed */
-				if (p[1])
-					isep = *++p;
-				else
-					isep = '\t';	/* default is ^I */
-				break;
-			case 'C':
-				flags |= ONEOSEPONLY;
-			case 'S':
-				if (p[1])
-					osep = *++p;
-				else
-					osep = '\t';	/* default is ^I */
-				break;
-			case 'w':		/* window width, default 80 */
-				p = getnum(&owidth, p, 0);
-				if (owidth <= 0)
-				usage("Width must be a positive integer", "");
-				break;
-			case 'K':			/* skip N lines */
-				flags |= SKIPPRINT;
-			case 'k':			/* skip, do not print */
-				p = getnum(&skip, p, 0);
-				if (!skip)
-					skip = 1;
-				break;
-			case 'm':
-				flags |= NOTRIMENDCOL;
-				break;
-			case 'g':		/* gutter space */
-				p = getnum(&gutter, p, 0);
-				break;
-			case 'G':
-				p = getnum(&propgutter, p, 0);
-				break;
-			case 'e':		/* each line is an entry */
-				flags |= ONEPERLINE;
-				break;
-			case 'E':
-				flags |= ONEPERCHAR;
-				break;
-			case 'j':			/* right adjust */
-				flags |= RIGHTADJUST;
-				break;
-			case 'n':	/* null padding for missing values */
-				flags |= NULLPAD;
-				break;
-			case 'y':
-				flags |= RECYCLE;
-				break;
-			case 'H':			/* print shape only */
-				flags |= DETAILSHAPE;
-			case 'h':
-				flags |= SHAPEONLY;
-				break;
-			case 'z':			/* squeeze col width */
-				flags |= SQUEEZE;
-				break;
-			/*case 'p':
-				ipagespace = atoi(++p);	(default is 1)
-				break;*/
-			case 'o':			/* col order */
-				p = getlist(&cord, p);
-				break;
-			case 'b':
-				flags |= ICOLBOUNDS;
-				p = getlist(&icbd, p);
-				break;
-			case 'B':
-				flags |= OCOLBOUNDS;
-				p = getlist(&ocbd, p);
-				break;
-			default:
-				usage("Bad flag:  %.1s", p);
+	while ((ch = getopt(ac, av, "c::C::s::S::k:K:g:G:w:tTeEnyjhHmz")) != -1) {
+		switch (ch) {
+		case 'T':
+			flags |= MTRANSPOSE;
+			/* FALLTHROUGH */
+		case 't':
+			flags |= TRANSPOSE;
+			break;
+		case 'c':		/* input col. separator */
+			flags |= ONEISEPONLY;
+			/* FALLTHROUGH */
+		case 's':		/* one or more allowed */
+			if (optarg == NULL)
+				isep = '\t';	/* default is ^I */
+			else if (optarg[1] != '\0')
+				usage();	/* single char only */
+			else
+				isep = *optarg;
+			break;
+		case 'C':
+			flags |= ONEOSEPONLY;
+			/* FALLTHROUGH */
+		case 'S':
+			if (optarg == NULL)
+				osep = '\t';	/* default is ^I */
+			else if (optarg[1] != '\0')
+				usage();	/* single char only */
+			else
+				osep = *optarg;
+			break;
+		case 'w':		/* window width, default 80 */
+			owidth = strtonum(optarg, 1, INT_MAX, &errstr);
+			if (errstr) {
+				warnx("width %s", errstr);
+				usage();
 			}
-	/*if (!osep)
-		osep = isep;*/
+			break;
+		case 'K':			/* skip N lines */
+			flags |= SKIPPRINT;
+			/* FALLTHROUGH */
+		case 'k':			/* skip, do not print */
+			skip = strtonum(optarg, 0, INT_MAX, &errstr);
+			if (errstr) {
+				warnx("skip value %s", errstr);
+				usage();
+			}
+			if (skip == 0)
+				skip = 1;
+			break;
+		case 'm':
+			flags |= NOTRIMENDCOL;
+			break;
+		case 'g':		/* gutter width */
+			gutter = strtonum(optarg, 0, INT_MAX, &errstr);
+			if (errstr) {
+				warnx("gutter width %s", errstr);
+				usage();
+			}
+			break;
+		case 'G':
+			propgutter = strtonum(optarg, 0, INT_MAX, &errstr);
+			if (errstr) {
+				warnx("gutter proportion %s", errstr);
+				usage();
+			}
+			break;
+		case 'e':		/* each line is an entry */
+			flags |= ONEPERLINE;
+			break;
+		case 'E':
+			flags |= ONEPERCHAR;
+			break;
+		case 'j':			/* right adjust */
+			flags |= RIGHTADJUST;
+			break;
+		case 'n':	/* null padding for missing values */
+			flags |= NULLPAD;
+			break;
+		case 'y':
+			flags |= RECYCLE;
+			break;
+		case 'H':			/* print shape only */
+			flags |= DETAILSHAPE;
+			/* FALLTHROUGH */
+		case 'h':
+			flags |= SHAPEONLY;
+			break;
+		case 'z':			/* squeeze col width */
+			flags |= SQUEEZE;
+			break;
+		case 'o':			/* col order */
+			getlist(&cord, optarg);
+			break;
+		case 'b':
+			flags |= ICOLBOUNDS;
+			getlist(&icbd, optarg);
+			break;
+		case 'B':
+			flags |= OCOLBOUNDS;
+			getlist(&ocbd, optarg);
+			break;
+		default:
+			usage();
+		}
+	}
+	ac -= optind;
+	av += optind;
+
 	switch (ac) {
-	/*case 3:
-		opages = atoi(av[2]);*/
 	case 2:
-		ocols = atoi(av[1]);
+		ocols = strtonum(av[1], 0, INT_MAX, &errstr);
+		if (errstr) {
+			warnx("columns value %s", errstr);
+			usage();
+		}
 	case 1:
-		orows = atoi(av[0]);
+		orows = strtonum(av[0], 0, INT_MAX, &errstr);
+		if (errstr) {
+			warnx("columns value %s", errstr);
+			usage();
+		}
 	case 0:
 		break;
 	default:
-		usage("Too many arguments.", "");
+		usage();
 	}
 }
 
@@ -494,11 +511,14 @@ char *
 getlist(short **list, char *p)
 {
 	int count = 1;
-	char *t;
+	char *t, *ep;
+	long l;
 
 	for (t = p + 1; *t; t++) {
-		if (!isdigit(*t))
-			usage("Option %.1s requires a list of unsigned numbers separated by commas", t);
+		if (!isdigit(*t)) {
+			warnx("option -%c requires a list of unsigned numbers separated by commas", *t);
+			usage();
+		}
 		count++;
 		while (*t && isdigit(*t))
 			t++;
@@ -509,34 +529,21 @@ getlist(short **list, char *p)
 		errx(1, "No list space");
 	count = 0;
 	for (t = p + 1; *t; t++) {
-		(*list)[count++] = atoi(t);
+		errno = 0;
+		l = strtol(t, &ep, 10);
+		if (t == ep)
+			break;		/* can't happen */
+		if ((errno == ERANGE && (l == LONG_MAX || l == LONG_MIN)) ||
+		    (l > SHRT_MAX || l < SHRT_MIN)) {
+			warnx("list value out of range");
+			usage();
+		}
+		(*list)[count++] = (short)l;
 		printf("++ %d ", (*list)[count-1]);
 		fflush(stdout);
-		while (*t && isdigit(*t))
-			t++;
-		if (*t != ',')
+		if (*(t = ep) != ',')
 			break;
 	}
 	(*list)[count] = 0;
 	return(t - 1);
-}
-
-/* num = number p points to; if (strict) complain */
-/* returns pointer to end of num */
-char *
-getnum(int *num, char *p, int strict)
-{
-	char *t = p;
-
-	if (!isdigit(*++t)) {
-		if (strict || *t == '-' || *t == '+')
-			usage("Option %.1s requires an unsigned integer", p);
-		*num = 0;
-		return(p);
-	}
-	*num = atoi(t);
-	while (*++t)
-		if (!isdigit(*t))
-			break;
-	return(--t);
 }

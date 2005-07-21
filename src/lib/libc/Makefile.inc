@@ -1,4 +1,4 @@
-#	$OpenBSD: Makefile.inc,v 1.9 2004/04/28 16:56:49 millert Exp $
+#	$OpenBSD: Makefile.inc,v 1.11 2005/06/17 20:37:31 drahn Exp $
 #
 # This file contains make rules used to build libc
 #
@@ -11,7 +11,7 @@ all:
 CFLAGS+=	-DLIBC_SCCS -DSYSLIBC_SCCS -I${LIBCSRCDIR}/include
 
 # Include link-time warnings about unsafe API uses (ie. strcpy)
-#CFLAGS+=-DAPIWARN
+CFLAGS+=-DAPIWARN
 
 .if (${YP:L} == "yes")
 CFLAGS+=-DYP -I${LIBCSRCDIR}/yp
@@ -51,7 +51,6 @@ AINC+=  -nostdinc -idirafter ${DESTDIR}/usr/include
 .include "${LIBCSRCDIR}/thread/Makefile.inc"
 .include "${LIBCSRCDIR}/time/Makefile.inc"
 .include "${LIBCSRCDIR}/sys/Makefile.inc"
-.include "${LIBCSRCDIR}/posix1e/Makefile.inc"
 .if (${YP:L} == "yes")
 .include "${LIBCSRCDIR}/yp/Makefile.inc"
 .endif

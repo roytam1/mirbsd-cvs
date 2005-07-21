@@ -1,4 +1,4 @@
-/* $OpenBSD: keynote-ver.y,v 1.8 2001/09/03 20:14:51 deraadt Exp $ */
+/* $OpenBSD: keynote-ver.y,v 1.10 2004/06/29 11:35:56 msf Exp $ */
 /*
  * The author of this code is Angelos D. Keromytis (angelos@dsl.cis.upenn.edu)
  *
@@ -28,17 +28,13 @@
 %nonassoc EQ
 %start program
 %{
-#if HAVE_CONFIG_H
-#include "config.h"
-#endif /* HAVE_CONFIG_H */
 
 #include <sys/types.h>
-#include <stdlib.h>
-#include <stdio.h>
 
-#if STDC_HEADERS
+#include <regex.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#endif /* STDC_HEADERS */
 
 #include "header.h"
 #include "keynote.h"

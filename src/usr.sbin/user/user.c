@@ -1,4 +1,4 @@
-/* $OpenBSD: user.c,v 1.59 2004/05/10 18:41:11 otto Exp $ */
+/* $OpenBSD: user.c,v 1.64 2005/07/08 18:58:32 millert Exp $ */
 /* $NetBSD: user.c,v 1.69 2003/04/14 17:40:07 agc Exp $ */
 
 /*
@@ -77,8 +77,8 @@ typedef struct user_t {
 	const char     *u_groupv[NGROUPS_MAX];	/* secondary groups */
 	char	       *u_shell;		/* user's shell */
 	char	       *u_basedir;		/* base directory for home */
-	char	       *u_expire;		/* when password will expire */
-	char	       *u_inactive;		/* when account will expire */
+	char	       *u_expire;		/* when account will expire */
+	char	       *u_inactive;		/* when password will expire */
 	char	       *u_skeldir;		/* directory for startup files */
 	char	       *u_class;		/* login class */
 	unsigned int	u_rsize;		/* size of range array */
@@ -540,7 +540,9 @@ append_group(char *user, int ngroups, const char **groups)
 			continue;
 		}
 		for (i = 0 ; i < ngroups ; i++) {
-			if (strncmp(groups[i], buf, colon - buf) == 0) {
+			j = (int)(colon - buf);
+			if (strncmp(groups[i], buf, j) == 0 &&
+			    groups[i][j] == '\0') {
 				while (isspace(buf[cc - 1]))
 					cc--;
 				buf[(j = cc)] = '\0';
@@ -948,7 +950,8 @@ adduser(char *login_name, user_t *up)
 	int		ptmpfd;
 	gid_t		gid;
 	int		cc;
-	int		i;
+	int		i, yp = 0;
+	FILE		*fp;
 
 	if (!valid_login(login_name)) {
 		errx(EXIT_FAILURE, "`%s' is not a valid login name", login_name);
@@ -969,13 +972,31 @@ adduser(char *login_name, user_t *up)
 		(void) close(masterfd);
 		err(EXIT_FAILURE, "can't obtain pw_lock");
 	}
-	while ((cc = read(masterfd, buf, sizeof(buf))) > 0) {
+	if ((fp = fdopen(masterfd, "r")) == NULL) {
+		(void) close(masterfd);
+		(void) close(ptmpfd);
+		pw_abort();
+		err(EXIT_FAILURE, "can't fdopen `%s' for reading",
+		    _PATH_MASTERPASSWD);
+	}
+	while (fgets(buf, sizeof(buf), fp) != NULL) {
+		cc = strlen(buf);
+		if (cc > 1 && buf[0] == '+' && buf[1] == ':') {
+			yp = 1;
+			continue;
+		}
 		if (write(ptmpfd, buf, (size_t)(cc)) != cc) {
-			(void) close(masterfd);
+			(void) fclose(fp);
 			(void) close(ptmpfd);
 			pw_abort();
 			err(EXIT_FAILURE, "short write to /etc/ptmp (not %d chars)", cc);
 		}
+	}
+	if (ferror(fp)) {
+		(void) fclose(fp);
+		(void) close(ptmpfd);
+		pw_abort();
+		err(EXIT_FAILURE, "read error on %s", _PATH_MASTERPASSWD);
 	}
 	/* if no uid was specified, get next one in [low_uid..high_uid] range */
 	sync_uid_gid = (strcmp(up->u_primgrp, "=uid") == 0);
@@ -1045,11 +1066,11 @@ adduser(char *login_name, user_t *up)
 		    login_name);
 	}
 	if (!scantime(&inactive, up->u_inactive)) {
-		warnx("Warning: inactive time `%s' invalid, account expiry off",
+		warnx("Warning: inactive time `%s' invalid, password expiry off",
 				up->u_inactive);
 	}
 	if (!scantime(&expire, up->u_expire)) {
-		warnx("Warning: expire time `%s' invalid, password expiry off",
+		warnx("Warning: expire time `%s' invalid, account expiry off",
 				up->u_expire);
 	}
 	if (lstat(home, &st) < 0 && !(up->u_flags & F_MKDIR) &&
@@ -1093,6 +1114,19 @@ adduser(char *login_name, user_t *up)
 		pw_abort();
 		err(EXIT_FAILURE, "can't add `%s'", buf);
 	}
+	if (yp) {
+		cc = snprintf(buf, sizeof(buf), "+:*::::::::\n");
+		if (cc == -1 || cc >= sizeof(buf)) {
+			(void) close(ptmpfd);
+			pw_abort();
+			errx(EXIT_FAILURE, "can't add `%s', line too long", buf);
+		}
+		if (write(ptmpfd, buf, (size_t) cc) != cc) {
+			(void) close(ptmpfd);
+			pw_abort();
+			err(EXIT_FAILURE, "can't add `%s'", buf);
+		}
+	}
 	if (up->u_flags & F_MKDIR) {
 		if (lstat(home, &st) == 0) {
 			(void) close(ptmpfd);
@@ -1122,7 +1156,7 @@ adduser(char *login_name, user_t *up)
 		errx(EXIT_FAILURE, "can't append `%s' to new groups", login_name);
 	}
 	(void) close(ptmpfd);
-	if (pw_mkdb(login_name, 0) < 0) {
+	if (pw_mkdb(yp ? NULL : login_name, 0) < 0) {
 		pw_abort();
 		err(EXIT_FAILURE, "pw_mkdb failed");
 	}
@@ -1382,7 +1416,7 @@ moduser(char *login_name, char *newlogin, user_t *up)
 		}
 		if (up->u_flags & F_EXPIRE) {
 			if (!scantime(&pwp->pw_expire, up->u_expire)) {
-				warnx("Warning: expire time `%s' invalid, password expiry off",
+				warnx("Warning: expire time `%s' invalid, account expiry off",
 					up->u_expire);
 			}
 		}

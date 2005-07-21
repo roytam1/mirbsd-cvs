@@ -1,4 +1,4 @@
-.\"	$OpenBSD: mount.8,v 1.47 2004/01/02 06:14:14 david Exp $
+.\"	$OpenBSD: mount.8,v 1.52 2005/06/27 08:55:39 jmc Exp $
 .\"	$NetBSD: mount.8,v 1.11 1995/07/12 06:23:21 cgd Exp $
 .\"
 .\" Copyright (c) 1980, 1989, 1991, 1993
@@ -135,10 +135,17 @@ Either force mounting of dirty file systems or, in the case of a
 downgrade from read-write to read-only operation, the revocation of
 opened files with write access.
 .It Fl o Ar options
-Options are specified with a
-.Fl o
-flag followed by a comma separated string of options.
-Available options are as follows:
+Options can be given with (or without) a
+.Sq no
+prefix to invert their meaning.
+The options listed below specify non-default values.
+For example,
+.Sq noasync
+is the default, so
+.Sq async
+can be used to mount a file system asynchronously.
+Multiple options can be specified in a comma-separated list.
+The available options are as follows:
 .Bl -tag -width Ds
 .It async
 All
@@ -179,6 +186,13 @@ not want the extra disk activity associated with updating the atime.
 .It noaccesstime
 Synonym for noatime provided for compatibility with
 other operating systems.
+.It noauto
+Do not mount the file system automatically
+(either at boot or with the
+.Fl A
+or
+.Fl a
+options).
 .It nodev
 Do not interpret character or block special devices on the file system.
 This option is useful for a server that has file systems containing
@@ -201,13 +215,6 @@ to the file system should be done synchronously.
 The same as
 .Fl u ;
 indicate that the status of an already mounted file system should be changed.
-.It union
-Causes the namespace at the mount point to appear as the union
-of the mounted file system root and the existing directory.
-Lookups will be done in the mounted file system first.
-If those operations fail due to a non-existent file the underlying
-directory is then accessed.
-All creates are done in the mounted file system.
 .El
 .Pp
 Any additional options specific to a given file system type (see the
@@ -318,15 +325,31 @@ manual page.
 file system table
 .El
 .Sh EXAMPLES
-.Bd -literal
+Mount a CD-ROM on node
+.Pa /mnt/cdrom :
 .Pp
-.Li # mount -t cd9660 -r /dev/cd0a /mnt/cdrom
+.Dl # mount -t cd9660 -r /dev/cd0a /mnt/cdrom
 .Pp
-.Li # mount -t msdos /dev/fd0a /mnt/floppy
+Mount an MS-DOS floppy on node
+.Pa /mnt/floppy :
 .Pp
-.Li # mount host:/path/name /mnt/nfs
+.Dl # mount -t msdos /dev/fd0a /mnt/floppy
 .Pp
-.Ed
+Graft a remote NFS file system on host
+.Ar host ,
+path
+.Pa /path/name ,
+on node
+.Pa /mnt/nfs :
+.Pp
+.Dl # mount host:/path/name /mnt/nfs
+.Pp
+Remount
+.Pa /var
+with option
+.Dq dev :
+.Pp
+.Dl # mount -u -o dev /var
 .Sh SEE ALSO
 .Xr mount 2 ,
 .Xr fstab 5 ,
@@ -341,11 +364,9 @@ file system table
 .Xr mount_msdos 8 ,
 .Xr mount_nfs 8 ,
 .Xr mount_ntfs 8 ,
-.Xr mount_null 8 ,
 .Xr mount_portal 8 ,
 .Xr mount_procfs 8 ,
-.Xr mount_umap 8 ,
-.Xr mount_union 8 ,
+.Xr mount_udf 8 ,
 .Xr mount_xfs 8 ,
 .Xr sysctl 8 ,
 .Xr umount 8

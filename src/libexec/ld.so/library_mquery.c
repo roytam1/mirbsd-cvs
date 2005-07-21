@@ -1,4 +1,4 @@
-/*	$OpenBSD: library_mquery.c,v 1.18 2005/04/06 00:16:53 deraadt Exp $ */
+/*	$OpenBSD: library_mquery.c,v 1.22 2005/05/31 14:31:36 drahn Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -58,11 +58,11 @@ _dl_load_list_free(struct load_list *load_list)
 	}
 }
 
+
 void
 _dl_unload_shlib(elf_object_t *object)
 {
-	if (--object->refcount == 0) {
-		_dl_run_dtors(object);
+	if (object->refcount == 0) {
 		_dl_load_list_free(object->load_list);
 		_dl_remove_object(object);
 	}

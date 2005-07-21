@@ -208,7 +208,7 @@ repquota(struct fstab *fs, int type, char *qfpathname)
 		fup->fu_dqblk = dqbuf;
 	}
 	fclose(qf);
-	printf("                        Block limits               File limits\n");
+	printf("                        KByte limits               File limits\n");
 	printf("User            used    soft    hard  grace    used  soft  hard  grace\n");
 	for (id = 0; id <= highid[type]; id++) {
 		fup = lookup(id, type);
@@ -218,7 +218,7 @@ repquota(struct fstab *fs, int type, char *qfpathname)
 		    fup->fu_dqblk.dqb_curblocks == 0)
 			continue;
 		printf("%-10s", fup->fu_name);
-		printf("%c%c%8d%8d%8d%7s",
+		printf("%c%c %7d %7d %7d %6s",
 			fup->fu_dqblk.dqb_bsoftlimit && 
 			    fup->fu_dqblk.dqb_curblocks >= 
 			    fup->fu_dqblk.dqb_bsoftlimit ? '+' : '-',
@@ -235,7 +235,7 @@ repquota(struct fstab *fs, int type, char *qfpathname)
 			    fup->fu_dqblk.dqb_curblocks >= 
 			    fup->fu_dqblk.dqb_bsoftlimit ?
 			    timeprt(fup->fu_dqblk.dqb_btime) : "");
-		printf("  %6d%6d%6d%7s\n",
+		printf("  %6d %5d %5d %6s\n",
 			fup->fu_dqblk.dqb_curinodes,
 			fup->fu_dqblk.dqb_isoftlimit,
 			fup->fu_dqblk.dqb_ihardlimit,

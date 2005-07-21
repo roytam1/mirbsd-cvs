@@ -1,4 +1,4 @@
-/*	$OpenBSD: cdio.c,v 1.33 2004/01/16 12:10:55 espie Exp $	*/
+/*	$OpenBSD: cdio.c,v 1.39 2005/01/22 10:21:26 robert Exp $	*/
 
 /*  Copyright (c) 1995 Serge V. Vakulenko
  * All rights reserved.
@@ -109,7 +109,7 @@ struct cmdtab {
 	char *args;
 } cmdtab[] = {
 { CMD_CLOSE,    "close",        1, "" },
-{ CMD_DEBUG,    "debug",        1, "on | off" },
+{ CMD_DEBUG,    "debug",        3, "on | off" },
 { CMD_DEVICE,   "device",       1, "devname" },
 { CMD_EJECT,    "eject",        1, "" },
 { CMD_HELP,     "?",            1, 0 },
@@ -132,6 +132,7 @@ struct cmdtab {
 { CMD_VOLUME,   "volume",       1, "<l> <r> | left | right | mute | mono | stereo" },
 { CMD_CDDB,   	"cddbinfo",     2, "[n]" },
 { CMD_CDID,	"cdid",		3, "" },
+{ CMD_QUIT,	"exit",		1, "" },
 { 0, 0, 0, 0}
 };
 
@@ -206,7 +207,7 @@ help(void)
 void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-sv] [-f device] [command args ...]\n",
+	fprintf(stderr, "usage: %s [-sv] [-d host:port] [-f device] [command args ...]\n",
 	    __progname);
 	exit(1);
 }
@@ -263,7 +264,7 @@ main(int argc, char **argv)
 			len = snprintf(p, buf + sizeof buf - p,
 			   "%s%s", (p > buf) ? " " : "", *argv);
 
-			if (len >= buf + sizeof buf - p)
+			if (len == -1 || len >= buf + sizeof buf - p)
 				errx(1, "argument list too long.");
 
 			p += len;
@@ -382,6 +383,11 @@ run(int cmd, char *arg)
 			(void) ioctl(fd, CDIOCALLOW);
 			close(fd);
 			fd = -1;
+		}
+
+		if (strlen(arg) == 0) {
+			printf("%s: Invalid parameter\n", __progname);
+			return (0);
 		}
 
 		/* open new device */
@@ -774,6 +780,7 @@ Clean_up:
 	return (0);
 }
 
+/* ARGSUSED */
 int
 play_prev(char *arg)
 {
@@ -798,6 +805,7 @@ play_prev(char *arg)
 	return (0);
 }
 
+/* ARGSUSED */
 int
 play_same(char *arg)
 {
@@ -817,6 +825,7 @@ play_same(char *arg)
 	return (0);
 }
 
+/* ARGSUSED */
 int
 play_next(char *arg)
 {
@@ -868,6 +877,7 @@ strstatus(int sts)
 	}
 }
 
+/* ARGSUSED */
 int
 pstatus(char *arg)
 {
@@ -908,7 +918,7 @@ pstatus(char *arg)
 		if (ss.data->what.media_catalog.mc_valid &&
 		    ss.data->what.media_catalog.mc_number[0]) {
 		    	strvisx(vis_catalog,
-			   ss.data->what.media_catalog.mc_number,
+			   (char *)ss.data->what.media_catalog.mc_number,
 			   15, VIS_SAFE);
 			printf(", number \"%.15s\"", vis_catalog);
 		}
@@ -955,6 +965,7 @@ cdid(void)
 	return id ? 0 : 1;
 }
 
+/* ARGSUSED */
 int
 info(char *arg)
 {

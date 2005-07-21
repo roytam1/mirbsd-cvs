@@ -1,4 +1,4 @@
-/*	$OpenBSD: gencode.c,v 1.21 2004/01/27 06:58:03 tedu Exp $	*/
+/*	$OpenBSD: gencode.c,v 1.24 2005/06/04 18:00:45 joel Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998
@@ -571,6 +571,15 @@ init_linktype(type)
 		off_nl = 4;
 		return;
 
+	case DLT_PPP_ETHER:
+		/*
+		 * This does not include the Ethernet header, and
+		 * only covers session state.
+ 		 */
+		off_linktype = 6;
+		off_nl = 8;
+		return;
+
 	case DLT_PPP_BSDOS:
 		off_linktype = 5;
 		off_nl = 24;
@@ -600,6 +609,11 @@ init_linktype(type)
 	case DLT_IEEE802_11:
 		off_linktype = 30; /* XXX variable */
 		off_nl = 32;
+		return;
+
+	case DLT_IEEE802_11_RADIO:
+		off_linktype = 30 + 64; /* XXX variable */
+		off_nl = 32 + 64;
 		return;
 
 	case DLT_ATM_RFC1483:
@@ -694,6 +708,7 @@ gen_linktype(proto)
 		return gen_false();
 
 	case DLT_PPP:
+	case DLT_PPP_ETHER:
 		if (proto == ETHERTYPE_IP)
 			proto = PPP_IP;			/* XXX was 0x21 */
 #ifdef INET6
@@ -2970,7 +2985,7 @@ gen_pf_ifname(char *ifname)
 }
 
 
-/* PF firewall log matched interface */
+/* PF firewall log ruleset name */
 struct block *
 gen_pf_ruleset(char *ruleset)
 {

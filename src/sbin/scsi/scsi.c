@@ -1,4 +1,4 @@
-/*	$OpenBSD: scsi.c,v 1.15 2004/01/14 19:39:59 otto Exp $	*/
+/*	$OpenBSD: scsi.c,v 1.19 2005/04/13 02:33:08 deraadt Exp $	*/
 /*	$FreeBSD: scsi.c,v 1.11 1996/04/06 11:00:28 joerg Exp $	*/
 
 /*
@@ -53,6 +53,7 @@
 #include <ctype.h>
 #include <signal.h>
 #include <err.h>
+#include <paths.h>
 
 #include "libscsi.h"
 
@@ -342,26 +343,23 @@ do_cmd(int fd, char *fmt, int argc, char **argv)
 		}
 
 		count = scsireq->datalen = iget(&h, 0);
-		if (count)
-		{
+		if (count) {
 			data_fmt = cget(&h, 0);
 
 			scsireq->databuf = malloc(count);
 
-			if (data_phase == out)
-			{
-				if (strcmp(data_fmt, "-") == 0)	/* Read data from stdin */
-				{
+			if (data_phase == out) {
+				if (strcmp(data_fmt, "-") == 0)	{
 					bp = (char *)scsireq->databuf;
-					while (count > 0 && (amount = read(0, bp, count)) > 0)
-					{
+					while (count > 0 &&
+					    (amount = read(STDIN_FILENO,
+					    bp, count)) > 0) {
 						count -= amount;
 						bp += amount;
 					}
 					if (amount == -1)
 						err(errno, "read");
-					else if (amount == 0)
-					{
+					else if (amount == 0) {
 						/* early EOF */
 						fprintf(stderr,
 							"Warning: only read %lu bytes out of %lu.\n",
@@ -615,7 +613,7 @@ volatile int edit_opened;
 static FILE *edit_file;
 static char edit_name[L_tmpnam];
 
-static inline void
+static void
 edit_rewind(void)
 {
 	editind = 0;
@@ -735,11 +733,13 @@ edit_edit(void)
 	char *system_line;
 	char *editor = getenv("EDITOR");
 	if (!editor)
-		editor = "vi";
+		editor = _PATH_VI;
 
 	fclose(edit_file);
 
-	asprintf(&system_line, "%s %s", editor, edit_name);
+	if (asprintf(&system_line, "%s %s", editor, edit_name) == -1)
+		err(1, NULL);
+
 	system(system_line);
 	free(system_line);
 

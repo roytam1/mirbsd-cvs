@@ -1,9 +1,9 @@
-/*	$OpenBSD: slstats.c,v 1.17 2003/09/06 17:27:53 jmc Exp $	*/
+/*	$OpenBSD: slstats.c,v 1.20 2005/04/04 09:03:08 deraadt Exp $	*/
 /*	$NetBSD: slstats.c,v 1.6.6.1 1996/06/07 01:42:30 thorpej Exp $	*/
 
 /*
  * print serial line IP statistics:
- *	slstats [-i interval] [-v] [interface] [system [core]]
+ *	slstats [-i interval] [-v] [interface]
  *
  * Contributed by Van Jacobson (van@ee.lbl.gov), Dec 31, 1989.
  *
@@ -36,7 +36,7 @@
  */
 
 #ifndef lint
-static char rcsid[] = "$OpenBSD: slstats.c,v 1.17 2003/09/06 17:27:53 jmc Exp $";
+static char rcsid[] = "$OpenBSD: slstats.c,v 1.20 2005/04/04 09:03:08 deraadt Exp $";
 #endif
 
 #define INET
@@ -66,7 +66,6 @@ static char rcsid[] = "$OpenBSD: slstats.c,v 1.17 2003/09/06 17:27:53 jmc Exp $"
 #include <stdio.h>
 #include <stdlib.h>
 #include <paths.h>
-#include <nlist.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -74,11 +73,10 @@ extern	char *__progname;	/* from crt0.o */
 
 int	vflag;
 u_int	interval = 5;
-int	unit;
 int	s;
 char    interface[IFNAMSIZ];
 
-void	catchalarm(void);
+void	catchalarm(int);
 void	intpr(void);
 void	usage(void);
 
@@ -86,7 +84,7 @@ int
 main(int argc, char *argv[])
 {
 	struct ifreq ifr;
-	int ch;
+	int ch, unit;
 
 	(void)strlcpy(interface, "sl0", sizeof(interface));
 
@@ -97,13 +95,12 @@ main(int argc, char *argv[])
 			if (interval <= 0)
 				usage();
 			break;
-
 		case 'v':
 			++vflag;
 			break;
-
 		default:
 			usage();
+			/* NOTREACHED */
 		}
 	}
 	argc -= optind;
@@ -122,7 +119,7 @@ main(int argc, char *argv[])
 	if (s < 0)
 		err(1, "couldn't create IP socket");
 	(void)strlcpy(ifr.ifr_name, interface, sizeof(ifr.ifr_name));
-	if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) < 0)
+	if (ioctl(s, SIOCGIFFLAGS, &ifr) < 0)
 		errx(1, "nonexistent interface '%s' specified", interface);
 
 	intpr();
@@ -132,11 +129,11 @@ main(int argc, char *argv[])
 #define V(offset) ((line % 20)? cur.offset - old.offset : cur.offset)
 
 void
-usage()
+usage(void)
 {
 
-	fprintf(stderr, "usage: %s [-v] %s",
-	    __progname, "[-i interval] [unit-number]\n");
+	fprintf(stderr, "usage: %s [-v] [-i interval] [interface]\n",
+	    __progname);
 	exit(1);
 }
 
@@ -228,8 +225,9 @@ intpr(void)
  * Called if an interval expires before sidewaysintpr has completed a loop.
  * Sets a flag to not wait for the alarm.
  */
+/* ARGSUSED */
 void
-catchalarm()
+catchalarm(int signo)
 {
 	signalled = 1;
 }

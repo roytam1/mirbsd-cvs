@@ -1,4 +1,4 @@
-/*	$OpenBSD: apm.c,v 1.9 2003/07/30 21:44:32 deraadt Exp $	*/
+/*	$OpenBSD: apm.c,v 1.11 2005/03/30 20:00:55 deraadt Exp $	*/
 
 /*
  *  Copyright (c) 1996 John T. Kohl
@@ -80,13 +80,12 @@ send_command(int fd, struct apm_command *cmd, struct apm_reply *reply)
 	if (send(fd, cmd, sizeof(*cmd), 0) == sizeof(*cmd)) {
 		if (recv(fd, reply, sizeof(*reply), 0) != sizeof(*reply)) {
 			warn("invalid reply from APM daemon");
-		return (1);
+			return (1);
 		}
 	} else {
 		warn("invalid send to APM daemon");
 		return (1);
 	}
-
 	return 0;
 }
 
@@ -131,7 +130,6 @@ open_socket(const char *sockname)
 		errno = errr;
 		err(1, "cannot open connection to APM daemon");
 	}
-
 	return sock;
 }
 
@@ -198,7 +196,6 @@ main(int argc, char *argv[])
 			doac = TRUE;
 			action = GETSTATUS;
 			break;
-		case '?':
 		default:
 			usage();
 		}
@@ -244,9 +241,14 @@ main(int argc, char *argv[])
 			if (dopct)
 				printf("%d\n",
 				    reply.batterystate.battery_life);
-			if (domin)
-				printf("%d\n",
-				    reply.batterystate.minutes_left);
+			if (domin) {
+				if (reply.batterystate.minutes_left ==
+				    (u_int)-1)
+					printf("unknown\n");
+				else
+					printf("%d\n",
+					    reply.batterystate.minutes_left);
+			}
 			if (doac)
 				printf("%d\n",
 				    reply.batterystate.ac_state);
@@ -273,8 +275,15 @@ main(int argc, char *argv[])
 				    "not available\n");
 			else
 #endif
-			printf("Battery life estimate: %d minutes\n",
-			    reply.batterystate.minutes_left);
+			{
+				printf("Battery life estimate: ");
+				if (reply.batterystate.minutes_left ==
+				    (u_int)-1)
+					printf("unknown\n");
+				else
+					printf("%d minutes\n",
+					    reply.batterystate.minutes_left);
+			}
 		}
 		if (doac)
 			printf("A/C adapter state: %s\n",

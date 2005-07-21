@@ -1,4 +1,4 @@
-/*	$OpenBSD: mount.c,v 1.35 2004/03/16 21:27:47 otto Exp $	*/
+/*	$OpenBSD: mount.c,v 1.40 2005/05/26 20:16:21 fgsch Exp $	*/
 /*	$NetBSD: mount.c,v 1.24 1995/11/18 03:34:29 cgd Exp $	*/
 
 /*
@@ -40,7 +40,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)mount.c	8.19 (Berkeley) 4/19/94";
 #else
-static char rcsid[] = "$OpenBSD: mount.c,v 1.35 2004/03/16 21:27:47 otto Exp $";
+static char rcsid[] = "$OpenBSD: mount.c,v 1.40 2005/05/26 20:16:21 fgsch Exp $";
 #endif
 #endif /* not lint */
 
@@ -109,7 +109,6 @@ static struct opt {
 	{ MNT_ROOTFS,		1,	"root file system",	"" },
 	{ MNT_SYNCHRONOUS,	0,	"synchronous",		"sync" },
 	{ MNT_SOFTDEP,		0,	"softdep", 		"softdep" },
-	{ MNT_UNION,		0,	"union",		"" },
 	{ NULL,			0,	"",			"" }
 };
 
@@ -216,7 +215,7 @@ main(int argc, char * const argv[])
 			usage();
 
 		if (realpath(*argv, mntpath) == NULL)
-			err(1, "realpath %s", mntpath);
+			err(1, "realpath %s", *argv);
 		if (hasopt(options, "update")) {
 			if ((mntbuf = getmntpt(mntpath)) == NULL)
 				errx(1,
@@ -348,7 +347,7 @@ mountfs(const char *vfstype, const char *spec, const char *name,
 	char *optbuf, execname[MAXPATHLEN], mntpath[MAXPATHLEN];
 
 	if (realpath(name, mntpath) == NULL) {
-		warn("realpath %s", mntpath);
+		warn("realpath %s", name);
 		return (1);
 	}
 
@@ -375,7 +374,7 @@ mountfs(const char *vfstype, const char *spec, const char *name,
 	} else if (skipmounted) {
 		if (statfs(name, &sf) < 0)
 			err(1, "statfs %s", name);
-		/* XXX can't check f_mntfromname, thanks to mfs, union, etc. */
+		/* XXX can't check f_mntfromname, thanks to mfs, etc. */
 		if (strncmp(name, sf.f_mntonname, MNAMELEN) == 0 &&
 		    strncmp(vfstype, sf.f_fstypename, MFSNAMELEN) == 0) {
 			if (verbose)
@@ -537,6 +536,16 @@ prmount(struct statfs *sf)
 		if (verbose || nfs_args->readahead != NFS_DEFRAHEAD)
 			(void)printf("%s%s=%d", !f++ ? " (" : ", ",
 			    "readahead", nfs_args->readahead);
+		if (verbose) {
+			(void)printf("%s%s=%d", !f++ ? " (" : ", ",
+			    "acregmin", nfs_args->acregmin);
+			(void)printf(", %s=%d",
+			    "acregmax", nfs_args->acregmax);
+			(void)printf(", %s=%d",
+			    "acdirmin", nfs_args->acdirmin);
+			(void)printf(", %s=%d",
+			    "acdirmax", nfs_args->acdirmax);
+		}
 	} else if (strcmp(sf->f_fstypename, MOUNT_MFS) == 0) {
 		int headerlen;
 		long blocksize;
@@ -733,6 +742,9 @@ disklabelcheck(struct fstab *fs)
 			    fs->fs_spec);
 			return (0);
 		}
+		if (strcmp(fs->fs_vfstype, "mfs") == 0 &&
+		    strcmp(labelfs, "ffs") == 0)
+			return (0);
 		warnx("%s: fstab type %s != disklabel type %s",
 		    fs->fs_spec, fs->fs_vfstype, labelfs);
 		return (1);

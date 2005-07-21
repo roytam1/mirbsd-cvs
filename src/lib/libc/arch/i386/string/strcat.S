@@ -7,14 +7,14 @@
 
 #if defined(APIWARN)
 #APP
-	.stabs "warning: strcat() is almost always misused, consider using strlcat()",30,0,0,0
-	.stabs "_strcat",1,0,0,0
+	.section .gnu.warning.strcat
+	.ascii "warning: strcat() is almost always misused, please use strlcat()"
 #NO_APP
 #endif
 
 #if defined(LIBC_SCCS)
 	.text
-	.asciz "$OpenBSD: strcat.S,v 1.5 2003/07/24 01:15:42 deraadt Exp $"
+	.asciz "$OpenBSD: strcat.S,v 1.7 2005/03/25 22:22:30 kettenis Exp $"
 #endif
 
 /*

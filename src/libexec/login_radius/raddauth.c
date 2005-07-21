@@ -1,4 +1,4 @@
-/*	$OpenBSD: raddauth.c,v 1.16 2004/03/10 21:30:27 millert Exp $	*/
+/*	$OpenBSD: raddauth.c,v 1.18 2005/03/02 21:51:17 cloder Exp $	*/
 
 /*-
  * Copyright (c) 1996, 1997 Berkeley Software Design, Inc. All rights reserved.
@@ -131,9 +131,9 @@ typedef struct {
 void servtimeout(int);
 in_addr_t get_ipaddr(char *);
 in_addr_t gethost(void);
-int rad_recv(char *, char *);
+int rad_recv(char *, char *, u_char *);
 void parse_challenge(auth_hdr_t *, char *, char *);
-void rad_request(pid_t, char *, char *, int, char *, char *);
+void rad_request(u_char, char *, char *, int, char *, char *);
 void getsecret(void);
 
 /*
@@ -144,7 +144,7 @@ int
 raddauth(char *username, char *class, char *style, char *challenge,
     char *password, char **emsg)
 {
-	volatile pid_t req_id;
+	volatile u_char req_id;
 	char * volatile userstyle, * volatile passwd, * volatile pwstate;
 	volatile int auth_port;
 	char vector[AUTH_VECTOR_LEN+1], _pwstate[1024], *p, *v;
@@ -230,7 +230,7 @@ raddauth(char *username, char *class, char *style, char *challenge,
 	sin.sin_addr.s_addr = INADDR_ANY;
 	sin.sin_port = svp->s_port;
 
-	req_id = getpid();
+	req_id = (u_char) arc4random();
 	auth_port = ttyslot();
 	if (auth_port == 0)
 		auth_port = (int)getppid();
@@ -278,7 +278,7 @@ retry:
 		rad_request(req_id, userstyle, passwd, auth_port, vector,
 		    pwstate);
 
-		switch (i = rad_recv(_pwstate, challenge)) {
+		switch (i = rad_recv(_pwstate, challenge, vector)) {
 		case PW_AUTHENTICATION_ACK:
 			/*
 			 * Make sure we don't think a challenge was issued.
@@ -328,7 +328,7 @@ retry:
  * Build a radius authentication digest and submit it to the radius server
  */
 void
-rad_request(pid_t id, char *name, char *password, int port, char *vector,
+rad_request(u_char id, char *name, char *password, int port, char *vector,
     char *state)
 {
 	auth_hdr_t auth;
@@ -437,11 +437,13 @@ rad_request(pid_t id, char *name, char *password, int port, char *vector,
  * Receive UDP responses from the radius server
  */
 int
-rad_recv(char *state, char *challenge)
+rad_recv(char *state, char *challenge, u_char *req_vector)
 {
 	auth_hdr_t auth;
 	socklen_t salen;
 	struct sockaddr_in sin;
+	u_char recv_vector[AUTH_VECTOR_LEN], test_vector[AUTH_VECTOR_LEN];
+	MD5_CTX context;
 
 	salen = sizeof(sin);
 
@@ -456,6 +458,16 @@ rad_recv(char *state, char *challenge)
 
 	if (sin.sin_addr.s_addr != auth_server)
 		errx(1, "bogus authentication server");
+
+	/* verify server's shared secret */
+	memcpy(recv_vector, auth.vector, AUTH_VECTOR_LEN);
+	memcpy(auth.vector, req_vector, AUTH_VECTOR_LEN);
+	MD5Init(&context);
+	MD5Update(&context, (u_char *)&auth, ntohs(auth.length));
+	MD5Update(&context, auth_secret, strlen(auth_secret));
+	MD5Final(test_vector, &context);
+	if (memcmp(recv_vector, test_vector, AUTH_VECTOR_LEN) != 0)
+		errx(1, "shared secret incorrect");
 
 	if (auth.code == PW_ACCESS_CHALLENGE)
 		parse_challenge(&auth, state, challenge);

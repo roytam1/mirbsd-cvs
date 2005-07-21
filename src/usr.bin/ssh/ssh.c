@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh.c,v 1.245 2005/06/18 04:30:36 djm Exp $");
+RCSID("$OpenBSD: ssh.c,v 1.248 2005/07/16 01:35:24 djm Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -600,6 +600,12 @@ again:
 				*p = tolower(*p);
 	}
 
+	/* Get default port if port has not been set. */
+	if (options.port == 0) {
+		sp = getservbyname(SSH_SERVICE_NAME, "tcp");
+		options.port = sp ? ntohs(sp->s_port) : SSH_DEFAULT_PORT;
+	}
+
 	if (options.proxy_command != NULL &&
 	    strcmp(options.proxy_command, "none") == 0)
 		options.proxy_command = NULL;
@@ -619,12 +625,6 @@ again:
 		fatal("No ControlPath specified for \"-O\" command");
 	if (options.control_path != NULL)
 		control_client(options.control_path);
-
-	/* Get default port if port has not been set. */
-	if (options.port == 0) {
-		sp = getservbyname(SSH_SERVICE_NAME, "tcp");
-		options.port = sp ? ntohs(sp->s_port) : SSH_DEFAULT_PORT;
-	}
 
 	/* Open a connection to the remote host. */
 	if (ssh_connect(host, &hostaddr, options.port,
@@ -779,8 +779,8 @@ ssh_init_forwarding(void)
 	for (i = 0; i < options.num_remote_forwards; i++) {
 		debug("Remote connections from %.200s:%d forwarded to "
 		    "local address %.200s:%d",
-		    (options.remote_forwards[i].listen_host == NULL) ? 
-		    (options.gateway_ports ? "*" : "LOCALHOST") : 
+		    (options.remote_forwards[i].listen_host == NULL) ?
+		    (options.gateway_ports ? "*" : "LOCALHOST") :
 		    options.remote_forwards[i].listen_host,
 		    options.remote_forwards[i].listen_port,
 		    options.remote_forwards[i].connect_host,
@@ -1025,7 +1025,7 @@ ssh_session2_setup(int id, void *arg)
 	const char *display;
 	int interactive = tty_flag;
 
-	display = getenv("DISPLAY");	
+	display = getenv("DISPLAY");
 	if (options.forward_x11 && display != NULL) {
 		char *proto, *data;
 		/* Get reasonable local authentication information. */
@@ -1241,7 +1241,7 @@ control_client(const char *path)
  		close(sock);
  		return;
  	}
- 
+
  	if (stdin_null_flag) {
  		if ((fd = open(_PATH_DEVNULL, O_RDONLY)) == -1)
  			fatal("open(/dev/null): %s", strerror(errno));
@@ -1250,29 +1250,32 @@ control_client(const char *path)
  		if (fd > STDERR_FILENO)
  			close(fd);
  	}
-  
-	if ((term = getenv("TERM")) == NULL)
-		term = "";
+
+	term = getenv("TERM");
 
 	flags = 0;
 	if (tty_flag)
 		flags |= SSHMUX_FLAG_TTY;
 	if (subsystem_flag)
 		flags |= SSHMUX_FLAG_SUBSYS;
+	if (options.forward_x11)
+		flags |= SSHMUX_FLAG_X11_FWD;
+	if (options.forward_agent)
+		flags |= SSHMUX_FLAG_AGENT_FWD;
 
 	buffer_init(&m);
 
 	/* Send our command to server */
 	buffer_put_int(&m, mux_command);
 	buffer_put_int(&m, flags);
-	if (ssh_msg_send(sock, /* version */1, &m) == -1)
+	if (ssh_msg_send(sock, SSHMUX_VER, &m) == -1)
 		fatal("%s: msg_send", __func__);
 	buffer_clear(&m);
 
 	/* Get authorisation status and PID of controlee */
 	if (ssh_msg_recv(sock, &m) == -1)
 		fatal("%s: msg_recv", __func__);
-	if (buffer_get_char(&m) != 1)
+	if (buffer_get_char(&m) != SSHMUX_VER)
 		fatal("%s: wrong version", __func__);
 	if (buffer_get_int(&m) != 1)
 		fatal("Connection to master denied");
@@ -1296,7 +1299,7 @@ control_client(const char *path)
 	}
 
 	/* SSHMUX_COMMAND_OPEN */
-	buffer_put_cstring(&m, term);
+	buffer_put_cstring(&m, term ? term : "");
 	buffer_append(&command, "\0", 1);
 	buffer_put_cstring(&m, buffer_ptr(&command));
 
@@ -1318,7 +1321,7 @@ control_client(const char *path)
 			}
 	}
 
-	if (ssh_msg_send(sock, /* version */1, &m) == -1)
+	if (ssh_msg_send(sock, SSHMUX_VER, &m) == -1)
 		fatal("%s: msg_send", __func__);
 
 	mm_send_fd(sock, STDIN_FILENO);
@@ -1329,7 +1332,7 @@ control_client(const char *path)
 	buffer_clear(&m);
 	if (ssh_msg_recv(sock, &m) == -1)
 		fatal("%s: msg_recv", __func__);
-	if (buffer_get_char(&m) != 1)
+	if (buffer_get_char(&m) != SSHMUX_VER)
 		fatal("%s: wrong version", __func__);
 	buffer_free(&m);
 

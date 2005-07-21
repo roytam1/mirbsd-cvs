@@ -1,4 +1,4 @@
-/*	$OpenBSD: ps.c,v 1.38 2004/02/24 11:53:45 jmc Exp $	*/
+/*	$OpenBSD: ps.c,v 1.40 2004/11/24 19:17:10 deraadt Exp $	*/
 /*	$NetBSD: ps.c,v 1.15 1995/05/18 20:33:25 mycroft Exp $	*/
 
 /*-
@@ -40,7 +40,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)ps.c	8.4 (Berkeley) 4/2/94";
 #else
-static char rcsid[] = "$OpenBSD: ps.c,v 1.38 2004/02/24 11:53:45 jmc Exp $";
+static char rcsid[] = "$OpenBSD: ps.c,v 1.40 2004/11/24 19:17:10 deraadt Exp $";
 #endif
 #endif /* not lint */
 
@@ -72,13 +72,15 @@ static char rcsid[] = "$OpenBSD: ps.c,v 1.38 2004/02/24 11:53:45 jmc Exp $";
 
 extern char *__progname;
 
-struct varent *vhead, *vtail;
+struct varent *vhead;
 
 int	eval;			/* exit value */
 int	rawcpu;			/* -C */
 int	sumrusage;		/* -S */
 int	termwidth;		/* width of screen (0 == infinity) */
 int	totwidth;		/* calculated width of requested variables */
+
+int	ncpu = 1;
 
 int	needcomm, needenv, commandonly;
 
@@ -312,6 +314,12 @@ main(int argc, char *argv[])
 		what = KERN_PROC_ALL;
 		flag = 0;
 	}
+
+	mib[0] = CTL_HW;
+	mib[1] = HW_NCPU;
+	size = sizeof(ncpu);
+	(void) sysctl(mib, 2, &ncpu, &size, NULL, 0);
+
 	/*
 	 * select procs
 	 */
@@ -362,7 +370,7 @@ main(int argc, char *argv[])
 	 * for each proc, call each variable output function.
 	 */
 	for (i = lineno = 0; i < nentries; i++) {
-		if (xflg == 0 && (kinfo[i]->p_tdev == NODEV ||
+		if (xflg == 0 && ((int)kinfo[i]->p_tdev == NODEV ||
 		    (kinfo[i]->p_flag & P_CONTROLT ) == 0))
 			continue;
 		for (vent = vhead; vent; vent = vent->next) {

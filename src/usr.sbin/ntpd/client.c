@@ -1,4 +1,4 @@
-/*	$OpenBSD: client.c,v 1.60 2005/04/19 11:08:41 henning Exp $ */
+/*	$OpenBSD: client.c,v 1.64 2005/07/11 08:04:28 dtucker Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -71,11 +71,13 @@ client_addr_init(struct ntp_peer *p)
 			sa_in = (struct sockaddr_in *)&h->ss;
 			if (ntohs(sa_in->sin_port) == 0)
 				sa_in->sin_port = htons(123);
+			p->state = STATE_DNS_DONE;
 			break;
 		case AF_INET6:
 			sa_in6 = (struct sockaddr_in6 *)&h->ss;
 			if (ntohs(sa_in6->sin6_port) == 0)
 				sa_in6->sin6_port = htons(123);
+			p->state = STATE_DNS_DONE;
 			break;
 		default:
 			fatal("king bula sez: wrong AF in client_addr_init");
@@ -97,6 +99,7 @@ client_nextaddr(struct ntp_peer *p)
 
 	if (p->addr_head.a == NULL) {
 		priv_host_dns(p->addr_head.name, p->id);
+		p->state = STATE_DNS_INPROGRESS;
 		return (-1);
 	}
 
@@ -118,6 +121,9 @@ client_query(struct ntp_peer *p)
 		set_next(p, error_interval());
 		return (0);
 	}
+
+	if (p->state < STATE_DNS_DONE || p->addr == NULL)
+		return (-1);
 
 	if (p->query->fd == -1) {
 		struct sockaddr *sa = (struct sockaddr *)&p->addr->ss;
@@ -182,7 +188,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	    NULL, NULL)) == -1) {
 		if (errno == EHOSTUNREACH || errno == EHOSTDOWN ||
 		    errno == ENETUNREACH || errno == ENETDOWN ||
-		    errno == ECONNREFUSED) {
+		    errno == ECONNREFUSED || errno == EADDRNOTAVAIL) {
 			client_log_error(p, "recvfrom", errno);
 			set_next(p, error_interval());
 			return (0);
@@ -245,6 +251,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	p->reply[p->shift].status.rootdelay = sfp_to_d(msg.rootdelay);
 	p->reply[p->shift].status.rootdispersion = sfp_to_d(msg.dispersion);
 	p->reply[p->shift].status.refid = ntohl(msg.refid);
+	p->reply[p->shift].status.refid4 = msg.xmttime.fractionl;
 	p->reply[p->shift].status.reftime = lfp_to_d(msg.reftime);
 	p->reply[p->shift].status.poll = msg.ppoll;
 	p->reply[p->shift].status.stratum = msg.stratum;
@@ -327,7 +334,7 @@ client_log_error(struct ntp_peer *peer, const char *operation, int error)
 
 	address = log_sockaddr((struct sockaddr *)&peer->addr->ss);
 	if (peer->lasterror == error) {
-		log_debug("%s %s", operation, address);
+		log_debug("%s %s: %s", operation, address, strerror(error));
 		return;
 	}
 	peer->lasterror = error;

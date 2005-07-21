@@ -1,4 +1,4 @@
-.\"	$OpenBSD: getdirentries.2,v 1.17 2004/10/03 00:11:26 jmc Exp $
+.\"	$OpenBSD: getdirentries.2,v 1.19 2005/06/18 18:09:42 millert Exp $
 .\"	$NetBSD: getdirentries.2,v 1.7 1995/10/12 15:40:50 jtc Exp $
 .\"
 .\" Copyright (c) 1989, 1991, 1993
@@ -91,9 +91,8 @@ is the type of file, where the following are possible types:
 .Dv DT_BLK ,
 .Dv DT_REG ,
 .Dv DT_LNK ,
-.Dv DT_SOCK ,
 and
-.Dv DT_WHT .
+.Dv DT_SOCK .
 .Pp
 The
 .Fa d_namlen
@@ -169,7 +168,7 @@ while ((nbytes = getdirentries(fd, buf, bufsize, &base)) > 0) {
 	cp = buf;
 	while (cp < ebuf) {
 		dp = (struct dirent *)cp;
-		printf("%\en", dp->d_name);
+		printf("%s\en", dp->d_name);
 		cp += dp->d_reclen;
 	}
 }

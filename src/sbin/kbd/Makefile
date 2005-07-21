@@ -1,14 +1,11 @@
-#	$OpenBSD: Makefile,v 1.22 2004/05/03 15:18:19 drahn Exp $
+#	$OpenBSD: Makefile,v 1.26 2005/05/02 23:14:34 martin Exp $
 
 #
-# Be sure to change src/distrib/special/kbd/Makefile as well if you add
-# architectures to this list!
+# Be sure to change src/distrib/special/kbd/Makefile as well if you add or
+# remove architectures on this list!
 #
-.if (${MACHINE} == "i386") || (${MACHINE} == "amd64") || \
-    (${MACHINE} == "macppc") || (${MACHINE} == "alpha") || \
-    (${MACHINE} == "hppa") || (${MACHINE} == "sparc") || \
-    (${MACHINE} == "sparc64") || (${MACHINE} == "vax") || \
-    (${MACHINE} == "cats")
+.if ${MACHINE} != "mac68k" && ${MACHINE} != "mvme68k" && \
+    ${MACHINE} != "mvme88k"
     
 PROG=	kbd
 
@@ -21,6 +18,8 @@ NOPROG=	Yes
 .endif
 
 MAN=		kbd.8
-MANSUBDIR=	alpha hppa i386 macppc sparc sparc64 vax amd64 cats
+MANSUBDIR=	alpha hppa i386 macppc sgi sparc sparc64 vax amd64 cats zaurus
+MANSUBDIR=	alpha amd64 cats hp300 hppa i386 macppc sgi sparc sparc64 vax \
+		zaurus
 
 .include <bsd.prog.mk>

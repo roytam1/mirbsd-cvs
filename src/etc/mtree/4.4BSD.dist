@@ -1,4 +1,4 @@
-#	$OpenBSD: 4.4BSD.dist,v 1.165 2004/05/03 15:18:19 drahn Exp $
+#	$OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
 # .
@@ -41,6 +41,16 @@ authpf		uname=root mode=0755
 # ./etc/disklabels
 disklabels
 # ./etc/disklabels
+..
+
+# ./etc/firmware
+firmware
+# ./etc/firmware
+..
+
+# ./etc/hotplug
+hotplug
+# ./etc/hotplug
 ..
 
 # ./etc/isakmpd
@@ -231,6 +241,11 @@ kadm5			gname=bin uname=root mode=0755
 ..
 
 # ./usr/include/kerberosV
+..
+
+# ./usr/include/libmilter
+libmilter		gname=bin uname=root mode=0755
+# ./usr/include/libmilter
 ..
 
 # ./usr/include/openssl
@@ -564,6 +579,12 @@ bind
 curses
 
 # ./usr/share/doc/html/curses
+..
+
+# ./usr/share/doc/html/milter
+milter
+
+# ./usr/share/doc/html/milter
 ..
 
 # ./usr/share/doc/html
@@ -1077,6 +1098,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1091,11 +1114,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/cat1
@@ -1118,6 +1145,18 @@ i386
 # ./usr/share/man/cat2/i386
 ..
 
+# ./usr/share/man/cat2/cats
+cats
+
+# ./usr/share/man/cat2/cats
+..
+
+# ./usr/share/man/cat2/zaurus
+zaurus
+
+# ./usr/share/man/cat2/zaurus
+..
+
 # ./usr/share/man/cat2
 ..
 
@@ -1134,6 +1173,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1148,11 +1189,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/cat3
@@ -1176,6 +1221,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1190,11 +1237,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/cat4
@@ -1213,6 +1264,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1227,11 +1280,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/cat5
@@ -1260,6 +1317,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1274,11 +1333,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/cat8
@@ -1297,6 +1360,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1311,11 +1376,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/cat9
@@ -1334,6 +1403,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1348,11 +1419,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/ps1
@@ -1365,7 +1440,11 @@ alpha
 ..
 amd64
 ..
+cats
+..
 i386
+..
+zaurus
 ..
 
 # ./usr/share/man/ps2
@@ -1384,6 +1463,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1398,11 +1479,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/ps3
@@ -1426,6 +1511,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1440,11 +1527,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/ps4
@@ -1463,6 +1554,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1477,11 +1570,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/ps5
@@ -1510,6 +1607,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1524,11 +1623,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/ps8
@@ -1547,6 +1650,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1561,11 +1666,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/ps9
@@ -1584,6 +1693,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1598,11 +1709,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/man1
@@ -1636,6 +1751,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1650,11 +1767,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/man4
@@ -1688,6 +1809,8 @@ hp300
 ..
 hppa
 ..
+hppa64
+..
 i386
 ..
 luna88k
@@ -1702,11 +1825,15 @@ mvme88k
 ..
 mvmeppc
 ..
+sgi
+..
 sparc
 ..
 sparc64
 ..
 vax
+..
+zaurus
 ..
 
 # ./usr/share/man/man8

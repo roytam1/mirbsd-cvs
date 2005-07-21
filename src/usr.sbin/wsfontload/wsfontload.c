@@ -1,4 +1,4 @@
-/* $OpenBSD: wsfontload.c,v 1.6 2003/04/19 23:50:06 millert Exp $ */
+/* $OpenBSD: wsfontload.c,v 1.10 2005/05/27 05:03:47 millert Exp $ */
 /* $NetBSD: wsfontload.c,v 1.2 2000/01/05 18:46:43 ad Exp $ */
 
 /*
@@ -33,12 +33,14 @@
  *
  */
 
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/ioctl.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/ioctl.h>
 #include <string.h>
 #include <err.h>
 
@@ -56,15 +58,14 @@ static void usage(void);
 static int getencoding(char *);
 
 static void
-usage()
+usage(void)
 {
 	extern char *__progname;
 
 	(void)fprintf(stderr,
-	    "usage: %s [-f file] -l\n"
-	    "       %s [-B] [-b] [-e encoding] [-f file] [-h height] [-N name]\n"
+	    "usage: %s [-Bbl] [-e encoding] [-f file] [-h height] [-N name]\n"
 	    "       %*s [-w width] [fontfile]\n",
-	    __progname, __progname, (int)strlen(__progname), "");
+	    __progname, (int)strlen(__progname), "");
 	exit(1);
 }
 
@@ -81,9 +82,7 @@ struct {
 };
 
 int
-main(argc, argv)
-	int argc;
-	char **argv;
+main(int argc, char *argv[])
 {
 	char *wsdev, *p;
 	struct wsdisplay_font f;
@@ -211,8 +210,7 @@ main(argc, argv)
 }
 
 static int
-getencoding(name)
-	char *name;
+getencoding(char *name)
 {
 	int i;
 

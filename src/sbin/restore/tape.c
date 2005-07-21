@@ -1,4 +1,4 @@
-/*	$OpenBSD: tape.c,v 1.28 2004/04/13 21:51:18 henning Exp $	*/
+/*	$OpenBSD: tape.c,v 1.31 2005/06/14 19:46:05 millert Exp $	*/
 /*	$NetBSD: tape.c,v 1.26 1997/04/15 07:12:25 lukem Exp $	*/
 
 /*
@@ -39,7 +39,7 @@
 #if 0
 static char sccsid[] = "@(#)tape.c	8.6 (Berkeley) 9/13/94";
 #else
-static const char rcsid[] = "$OpenBSD: tape.c,v 1.28 2004/04/13 21:51:18 henning Exp $";
+static const char rcsid[] = "$OpenBSD: tape.c,v 1.31 2005/06/14 19:46:05 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -47,6 +47,7 @@ static const char rcsid[] = "$OpenBSD: tape.c,v 1.28 2004/04/13 21:51:18 henning
 #include <sys/ioctl.h>
 #include <sys/mtio.h>
 #include <sys/stat.h>
+#include <sys/endian.h>
 
 #include <ufs/ufs/dinode.h>
 #include <protocols/dumprestore.h>
@@ -96,9 +97,7 @@ static void	 findtapeblksize(void);
 static int	 gethead(struct s_spcl *);
 static void	 readtape(char *);
 static void	 setdumpnum(void);
-static u_long	 swabl(u_long);
-static u_char	*swablong(u_char *, int);
-static u_char	*swabshort(u_char *, int);
+static void	 swap_header(struct s_spcl *);
 static void	 terminateinput(void);
 static void	 xtrfile(char *, size_t);
 static void	 xtrlnkfile(char *, size_t);
@@ -111,8 +110,7 @@ static void	 xtrskip(char *, size_t);
  * Set up an input source
  */
 void
-setinput(source)
-	char *source;
+setinput(char *source)
 {
 	FLUSHTAPEBUF();
 	if (bflag)
@@ -148,8 +146,7 @@ setinput(source)
 }
 
 void
-newtapebuf(size)
-	long size;
+newtapebuf(long size)
 {
 	static long tapebufsize = -1;
 
@@ -169,7 +166,7 @@ newtapebuf(size)
  * that it actually is a dump tape.
  */
 void
-setup()
+setup(void)
 {
 	int i, j, *ip;
 	struct stat stbuf;
@@ -248,13 +245,6 @@ setup()
 	dumpmap = map;
 	curfile.action = USING;
 	getfile(xtrmap, xtrmapskip);
-	/*
-	 * If there may be whiteout entries on the tape, pretend that the
-	 * whiteout inode exists, so that the whiteout entries can be
-	 * extracted.
-	 */
-	if (oldinofmt == 0)
-		SETINO(WINO, dumpmap);
 }
 
 /*
@@ -265,8 +255,7 @@ setup()
  * the user when only extracting a subset of the files.
  */
 void
-getvol(nextvol)
-	long nextvol;
+getvol(long nextvol)
 {
 	long newvol = 0, savecnt, wantnext, i;
 	union u_spcl tmpspcl;
@@ -432,7 +421,7 @@ gethdr:
  * Handle unexpected EOF.
  */
 static void
-terminateinput()
+terminateinput(void)
 {
 
 	if (gettingfile && curfile.action == USING) {
@@ -454,7 +443,7 @@ terminateinput()
  * appropriate one.
  */
 static void
-setdumpnum()
+setdumpnum(void)
 {
 	struct mtop tcom;
 
@@ -474,7 +463,7 @@ setdumpnum()
 }
 
 void
-printdumpinfo()
+printdumpinfo(void)
 {
 	fprintf(stdout, "Dump   date: %s", ctime(&spcl.c_date));
 	fprintf(stdout, "Dumped from: %s",
@@ -487,8 +476,7 @@ printdumpinfo()
 }
 
 int
-extractfile(name)
-	char *name;
+extractfile(char *name)
 {
 	u_int flags;
 	mode_t mode;
@@ -610,7 +598,7 @@ extractfile(name)
  * skip over bit maps on the tape
  */
 void
-skipmaps()
+skipmaps(void)
 {
 
 	while (spcl.c_type == TS_BITS || spcl.c_type == TS_CLRI)
@@ -621,7 +609,7 @@ skipmaps()
  * skip over a file on the tape
  */
 void
-skipfile()
+skipfile(void)
 {
 
 	curfile.action = SKIP;
@@ -638,9 +626,7 @@ skipfile()
  * and no blocks should be skipped.
  */
 void
-getfile(fill, skip)
-	void	(*fill)(char *, size_t);
-	void	(*skip)(char *, size_t);
+getfile(void (*fill)(char *, size_t), void (*skip)(char *, size_t))
 {
 	int i;
 	volatile int curblk = 0;
@@ -701,9 +687,7 @@ loop:
  * Write out the next block of a file.
  */
 static void
-xtrfile(buf, size)
-	char	*buf;
-	size_t	size;
+xtrfile(char *buf, size_t size)
 {
 
 	if (Nflag)
@@ -718,9 +702,7 @@ xtrfile(buf, size)
  */
 /* ARGSUSED */
 static void
-xtrskip(buf, size)
-	char *buf;
-	size_t size;
+xtrskip(char *buf, size_t size)
 {
 
 	if (lseek(ofile, (off_t)size, SEEK_CUR) == -1)
@@ -732,9 +714,7 @@ xtrskip(buf, size)
  * Collect the next block of a symbolic link.
  */
 static void
-xtrlnkfile(buf, size)
-	char	*buf;
-	size_t	size;
+xtrlnkfile(char *buf, size_t size)
 {
 
 	pathlen += size;
@@ -749,9 +729,7 @@ xtrlnkfile(buf, size)
  */
 /* ARGSUSED */
 static void
-xtrlnkskip(buf, size)
-	char *buf;
-	size_t size;
+xtrlnkskip(char *buf, size_t size)
 {
 
 	errx(1, "unallocated block in symbolic link %s", curfile.name);
@@ -761,9 +739,7 @@ xtrlnkskip(buf, size)
  * Collect the next block of a bit map.
  */
 static void
-xtrmap(buf, size)
-	char	*buf;
-	size_t	size;
+xtrmap(char *buf, size_t size)
 {
 
 	memcpy(map, buf, size);
@@ -775,9 +751,7 @@ xtrmap(buf, size)
  */
 /* ARGSUSED */
 static void
-xtrmapskip(buf, size)
-	char *buf;
-	size_t size;
+xtrmapskip(char *buf, size_t size)
 {
 
 	panic("hole in map\n");
@@ -789,9 +763,7 @@ xtrmapskip(buf, size)
  */
 /* ARGSUSED */
 void
-xtrnull(buf, size)
-	char *buf;
-	size_t size;
+xtrnull(char *buf, size_t size)
 {
 
 	return;
@@ -802,8 +774,7 @@ xtrnull(buf, size)
  * Handle read errors, and end of media.
  */
 static void
-readtape(buf)
-	char *buf;
+readtape(char *buf)
 {
 	long rd, newvol, i;
 	int cnt, seek_failed;
@@ -918,7 +889,7 @@ getmore:
 }
 
 static void
-findtapeblksize()
+findtapeblksize(void)
 {
 	long i;
 
@@ -945,7 +916,7 @@ findtapeblksize()
 }
 
 void
-closemt()
+closemt(void)
 {
 
 	if (mt < 0)
@@ -965,8 +936,7 @@ closemt()
  * If it is not any valid header, return an error.
  */
 static int
-gethead(buf)
-	struct s_spcl *buf;
+gethead(struct s_spcl *buf)
 {
 	long i;
 	union {
@@ -1004,7 +974,7 @@ gethead(buf)
 	if (!cvtflag) {
 		readtape((char *)buf);
 		if (buf->c_magic != NFS_MAGIC) {
-			if (swabl(buf->c_magic) != NFS_MAGIC)
+			if (swap32(buf->c_magic) != NFS_MAGIC)
 				return (FAIL);
 			if (!Bcvt) {
 				Vprintf(stdout, "Note: Doing Byte swapping\n");
@@ -1014,7 +984,7 @@ gethead(buf)
 		if (checksum((int *)buf) == FAIL)
 			return (FAIL);
 		if (Bcvt)
-			swabst((u_char *)"8l4s31l528b1l192b2l", (u_char *)buf);
+			swap_header(buf);
 		goto good;
 	}
 	readtape((char *)(&u_ospcl.s_ospcl));
@@ -1104,8 +1074,7 @@ good:
  * Check that a header is where it belongs and predict the next header
  */
 static void
-accthdr(header)
-	struct s_spcl *header;
+accthdr(struct s_spcl *header)
 {
 	static ino_t previno = 0x7fffffff;
 	static int prevtype;
@@ -1173,8 +1142,7 @@ newcalc:
  * Complain if had to skip, and complain is set.
  */
 static void
-findinode(header)
-	struct s_spcl *header;
+findinode(struct s_spcl *header)
 {
 	static long skipcnt = 0;
 	long i;
@@ -1238,14 +1206,13 @@ findinode(header)
 }
 
 static int
-checksum(buf)
-	int *buf;
+checksum(int *buf)
 {
 	int i, j;
 
 	j = sizeof(union u_spcl) / sizeof(int);
 	i = 0;
-	if(!Bcvt) {
+	if (!Bcvt) {
 		do
 			i += *buf++;
 		while (--j);
@@ -1253,7 +1220,7 @@ checksum(buf)
 		/* What happens if we want to read restore tapes
 			for a 16bit int machine??? */
 		do
-			i += swabl(*buf++);
+			i += swap32(*buf++);
 		while (--j);
 	}
 
@@ -1279,75 +1246,40 @@ msg(const char *fmt, ...)
 }
 #endif /* RRESTORE */
 
-static u_char *
-swabshort(sp, n)
-	u_char *sp;
-	int n;
+static void
+swap_header(struct s_spcl *s)
 {
-	char c;
+	s->c_type = swap32(s->c_type);
+	s->c_date = swap32(s->c_date);
+	s->c_ddate = swap32(s->c_ddate);
+	s->c_volume = swap32(s->c_volume);
+	s->c_tapea = swap32(s->c_tapea);
+	s->c_inumber = swap32(s->c_inumber);
+	s->c_magic = swap32(s->c_magic);
+	s->c_checksum = swap32(s->c_checksum);
 
-	while (--n >= 0) {
-		c = sp[0]; sp[0] = sp[1]; sp[1] = c;
-		sp += 2;
-	}
-	return (sp);
-}
+	s->c_dinode.di_mode = swap16(s->c_dinode.di_mode);
+	s->c_dinode.di_nlink = swap16(s->c_dinode.di_nlink);
+	s->c_dinode.di_ouid = swap16(s->c_dinode.di_ouid);
+	s->c_dinode.di_ogid = swap16(s->c_dinode.di_ogid);
 
-static u_char *
-swablong(sp, n)
-	u_char *sp;
-	int n;
-{
-	char c;
+	s->c_dinode.di_size = swap64(s->c_dinode.di_size);
 
-	while (--n >= 0) {
-		c = sp[0]; sp[0] = sp[3]; sp[3] = c;
-		c = sp[2]; sp[2] = sp[1]; sp[1] = c;
-		sp += 4;
-	}
-	return (sp);
-}
+	s->c_dinode.di_atime = swap32(s->c_dinode.di_atime);
+	s->c_dinode.di_atimensec = swap32(s->c_dinode.di_atimensec);
+	s->c_dinode.di_mtime = swap32(s->c_dinode.di_mtime);
+	s->c_dinode.di_mtimensec = swap32(s->c_dinode.di_mtimensec);
+	s->c_dinode.di_ctime = swap32(s->c_dinode.di_ctime);
+	s->c_dinode.di_ctimensec = swap32(s->c_dinode.di_ctimensec);
 
-void
-swabst(cp, sp)
-	u_char *cp, *sp;
-{
-	int n = 0;
+	s->c_dinode.di_flags = swap32(s->c_dinode.di_flags);
+	s->c_dinode.di_blocks = swap32(s->c_dinode.di_blocks);
+	s->c_dinode.di_gen = swap32(s->c_dinode.di_gen);
+	s->c_dinode.di_uid = swap32(s->c_dinode.di_uid);
+	s->c_dinode.di_gid = swap32(s->c_dinode.di_gid);
 
-	while (*cp) {
-		switch (*cp) {
-		case '0': case '1': case '2': case '3': case '4':
-		case '5': case '6': case '7': case '8': case '9':
-			n = (n * 10) + (*cp++ - '0');
-			continue;
-
-		case 's': case 'w': case 'h':
-			if (n == 0)
-				n = 1;
-			sp = swabshort(sp, n);
-			break;
-
-		case 'l':
-			if (n == 0)
-				n = 1;
-			sp = swablong(sp, n);
-			break;
-
-		default: /* Any other character, like 'b' counts as byte. */
-			if (n == 0)
-				n = 1;
-			sp += n;
-			break;
-		}
-		cp++;
-		n = 0;
-	}
-}
-
-static u_long
-swabl(x)
-	u_long x;
-{
-	swabst((u_char *)"l", (u_char *)&x);
-	return (x);
+	s->c_count = swap32(s->c_count);
+	s->c_level = swap32(s->c_level);
+	s->c_flags = swap32(s->c_flags);
+	s->c_firstrec = swap32(s->c_firstrec);
 }

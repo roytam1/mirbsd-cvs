@@ -1,4 +1,4 @@
-/*	$OpenBSD: vnconfig.c,v 1.12 2003/06/24 23:26:58 millert Exp $	*/
+/*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 1993 University of Utah.
  * Copyright (c) 1990, 1993
@@ -40,6 +40,7 @@
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/mount.h>
+#include <sys/stat.h>
 
 #include <dev/vndioctl.h>
 
@@ -53,13 +54,17 @@
 #include <unistd.h>
 #include <util.h>
 
+#define DEFAULT_VND	"vnd0"
+
 #define VND_CONFIG	1
 #define VND_UNCONFIG	2
+#define VND_GET		3
 
 int verbose = 0;
 
 __dead void usage(void);
 int config(char *, char *, int, char *);
+int getinfo(const char *);
 
 int
 main(int argc, char **argv)
@@ -67,10 +72,13 @@ main(int argc, char **argv)
 	int ch, rv, action = VND_CONFIG;
 	char *key = NULL;
 
-	while ((ch = getopt(argc, argv, "cuvk")) != -1) {
+	while ((ch = getopt(argc, argv, "cluvk")) != -1) {
 		switch (ch) {
 		case 'c':
 			action = VND_CONFIG;
+			break;
+		case 'l':
+			action = VND_GET;
 			break;
 		case 'u':
 			action = VND_UNCONFIG;
@@ -86,6 +94,7 @@ main(int argc, char **argv)
 			/* NOTREACHED */
 		}
 	}
+
 	argc -= optind;
 	argv += optind;
 
@@ -93,9 +102,53 @@ main(int argc, char **argv)
 		rv = config(argv[0], argv[1], action, key);
 	else if (action == VND_UNCONFIG && argc == 1)
 		rv = config(argv[0], NULL, action, key);
+	else if (action == VND_GET)
+		rv = getinfo(argc ? argv[0] : NULL);
 	else
 		usage();
+
 	exit(rv);
+}
+
+int
+getinfo(const char *vname)
+{
+	int vd, print_all = 0;
+	struct vnd_user vnu;
+
+	if (vname == NULL) {
+		vname = DEFAULT_VND;
+		print_all = 1;
+	}
+
+	vd = opendev((char *)vname, O_RDONLY, OPENDEV_PART, NULL);
+	if (vd < 0)
+		err(1, "open: %s", vname);
+
+	vnu.vnu_unit = -1;
+
+query:
+	if (ioctl(vd, VNDIOCGET, &vnu) == -1) {
+		close(vd);
+		return (!(errno == ENXIO && print_all));
+	}
+
+	fprintf(stdout, "vnd%d: ", vnu.vnu_unit);
+
+	if (!vnu.vnu_ino)
+		fprintf(stdout, "not in use\n");
+	else
+		fprintf(stdout, "covering %s on %s, inode %d\n", vnu.vnu_file,
+		    devname(vnu.vnu_dev, S_IFBLK), vnu.vnu_ino);
+
+	if (print_all) {
+		vnu.vnu_unit++;
+		goto query;
+	}
+
+	close(vd);
+
+	return (0);
 }
 
 int
@@ -115,7 +168,7 @@ config(char *dev, char *file, int action, char *key)
 		goto out;
 	}
 	vndio.vnd_file = file;
-	vndio.vnd_key = key;
+	vndio.vnd_key = (u_char *)key;
 	vndio.vnd_keylen = key == NULL ? 0 : strlen(key);
 
 	/*
@@ -155,6 +208,7 @@ usage(void)
 
 	(void)fprintf(stderr,
 	    "usage: %s [-c] [-vk] rawdev regular-file\n"
-	    "       %s -u [-v] rawdev\n", __progname, __progname);
+	    "       %s -u [-v] rawdev\n"
+	    "       %s -l [rawdev]\n", __progname, __progname, __progname);
 	exit(1);
 }

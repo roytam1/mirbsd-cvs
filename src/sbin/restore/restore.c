@@ -1,4 +1,4 @@
-/*	$OpenBSD: restore.c,v 1.12 2003/07/29 18:38:36 deraadt Exp $	*/
+/*	$OpenBSD: restore.c,v 1.14 2005/06/14 19:46:05 millert Exp $	*/
 /*	$NetBSD: restore.c,v 1.9 1997/06/18 07:10:16 lukem Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)restore.c	8.3 (Berkeley) 9/13/94";
 #else
-static const char rcsid[] = "$OpenBSD: restore.c,v 1.12 2003/07/29 18:38:36 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: restore.c,v 1.14 2005/06/14 19:46:05 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -56,10 +56,7 @@ static char *keyval(int);
  * List entries on the tape.
  */
 long
-listfile(name, ino, type)
-	char *name;
-	ino_t ino;
-	int type;
+listfile(char *name, ino_t ino, int type)
 {
 	long descend = hflag ? GOOD : FAIL;
 
@@ -75,10 +72,7 @@ listfile(name, ino, type)
  * Request that new entries be extracted.
  */
 long
-addfile(name, ino, type)
-	char *name;
-	ino_t ino;
-	int type;
+addfile(char *name, ino_t ino, int type)
 {
 	struct entry *ep;
 	long descend = hflag ? GOOD : FAIL;
@@ -88,8 +82,6 @@ addfile(name, ino, type)
 		Dprintf(stdout, "%s: not on the tape\n", name);
 		return (descend);
 	}
-	if (ino == WINO && command == 'i' && !vflag)
-		return (descend);
 	if (!mflag) {
 		(void)snprintf(buf, sizeof(buf), "./%u", ino);
 		name = buf;
@@ -119,10 +111,7 @@ addfile(name, ino, type)
  */
 /* ARGSUSED */
 long
-deletefile(name, ino, type)
-	char *name;
-	ino_t ino;
-	int type;
+deletefile(char *name, ino_t ino, int type)
 {
 	long descend = hflag ? GOOD : FAIL;
 	struct entry *ep;
@@ -155,33 +144,16 @@ deletefile(name, ino, type)
 static struct entry *removelist;
 
 /*
- *	Remove invalid whiteouts from the old tree.
  *	Remove unneeded leaves from the old tree.
  *	Remove directories from the lookup chains.
  */
 void
-removeoldleaves()
+removeoldleaves(void)
 {
 	struct entry *ep, *nextep;
 	ino_t i, mydirino;
 
 	Vprintf(stdout, "Mark entries to be removed.\n");
-	if ((ep = lookupino(WINO))) {
-		Vprintf(stdout, "Delete whiteouts\n");
-		for ( ; ep != NULL; ep = nextep) {
-			nextep = ep->e_links;
-			mydirino = ep->e_parent->e_ino;
-			/*
-			 * We remove all whiteouts that are in directories
-			 * that have been removed or that have been dumped.
-			 */
-			if (TSTINO(mydirino, usedinomap) &&
-			    !TSTINO(mydirino, dumpmap))
-				continue;
-			delwhiteout(ep);
-			freeentry(ep);
-		}
-	}
 	for (i = ROOTINO + 1; i < maxino; i++) {
 		ep = lookupino(i);
 		if (ep == NULL)
@@ -213,10 +185,7 @@ removeoldleaves()
  *	Renames are done at the same time.
  */
 long
-nodeupdates(name, ino, type)
-	char *name;
-	ino_t ino;
-	int type;
+nodeupdates(char *name, ino_t ino, int type)
 {
 	struct entry *ep, *np, *ip;
 	long descend = GOOD;
@@ -503,8 +472,7 @@ nodeupdates(name, ino, type)
  * Calculate the active flags in a key.
  */
 static char *
-keyval(key)
-	int key;
+keyval(int key)
 {
 	static char keybuf[32];
 
@@ -525,7 +493,7 @@ keyval(key)
  * Find unreferenced link names.
  */
 void
-findunreflinks()
+findunreflinks(void)
 {
 	struct entry *ep, *np;
 	ino_t i;
@@ -573,7 +541,7 @@ findunreflinks()
  * time O(N).
  */
 void
-removeoldnodes()
+removeoldnodes(void)
 {
 	struct entry *ep, **prev;
 	long change;
@@ -602,8 +570,7 @@ removeoldnodes()
  * Extract new leaves.
  */
 void
-createleaves(symtabfile)
-	char *symtabfile;
+createleaves(char *symtabfile)
 {
 	struct entry *ep;
 	ino_t first;
@@ -682,7 +649,7 @@ createleaves(symtabfile)
  * Efficiently extract a subset of the files on a tape.
  */
 void
-createfiles()
+createfiles(void)
 {
 	ino_t first, next, last;
 	struct entry *ep;
@@ -770,21 +737,12 @@ createfiles()
  * Add links.
  */
 void
-createlinks()
+createlinks(void)
 {
 	struct entry *np, *ep;
 	ino_t i;
 	char name[BUFSIZ];
 
-	if ((ep = lookupino(WINO))) {
-		Vprintf(stdout, "Add whiteouts\n");
-		for ( ; ep != NULL; ep = ep->e_links) {
-			if ((ep->e_flags & NEW) == 0)
-				continue;
-			(void)addwhiteout(myname(ep));
-			ep->e_flags &= ~NEW;
-		}
-	}
 	Vprintf(stdout, "Add links\n");
 	for (i = ROOTINO; i < maxino; i++) {
 		ep = lookupino(i);
@@ -810,13 +768,13 @@ createlinks()
  * that no temporary names remain.
  */
 void
-checkrestore()
+checkrestore(void)
 {
 	struct entry *ep;
 	ino_t i;
 
 	Vprintf(stdout, "Check the symbol table.\n");
-	for (i = WINO; i < maxino; i++) {
+	for (i = ROOTINO; i < maxino; i++) {
 		for (ep = lookupino(i); ep != NULL; ep = ep->e_links) {
 			ep->e_flags &= ~KEEP;
 			if (ep->e_type == NODE)
@@ -832,10 +790,7 @@ checkrestore()
  * A paranoid check that things are as they should be.
  */
 long
-verifyfile(name, ino, type)
-	char *name;
-	ino_t ino;
-	int type;
+verifyfile(char *name, ino_t ino, int type)
 {
 	struct entry *np, *ep;
 	long descend = GOOD;

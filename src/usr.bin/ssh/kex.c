@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: kex.c,v 1.61 2005/06/17 02:44:32 djm Exp $");
+RCSID("$OpenBSD: kex.c,v 1.63 2005/07/17 07:17:55 djm Exp $");
 
 #include <openssl/crypto.h>
 
@@ -392,7 +392,7 @@ kex_choose_conf(Kex *kex)
 
 	/* ignore the next message if the proposals do not match */
 	if (first_kex_follows && !proposals_match(my, peer) &&
-	   !(datafellows & SSH_BUG_FIRSTKEX)) {
+	    !(datafellows & SSH_BUG_FIRSTKEX)) {
 		type = packet_read();
 		debug2("skipping next packet (type %u)", type);
 	}
@@ -411,7 +411,7 @@ derive_key(Kex *kex, int id, u_int need, u_char *hash, BIGNUM *shared_secret)
 	u_int have;
 	int mdsz = EVP_MD_size(evp_md);
 	u_char *digest;
-	
+
 	if (mdsz < 0)
 		fatal("derive_key: mdsz < 0");
 	digest = xmalloc(roundup(need, mdsz));

@@ -1,4 +1,4 @@
-/*	$OpenBSD: quota.c,v 1.23 2003/06/10 22:20:49 deraadt Exp $	*/
+/*	$OpenBSD: quota.c,v 1.27 2005/05/05 19:17:11 jmc Exp $	*/
 
 /*
  * Copyright (c) 1980, 1990, 1993
@@ -41,7 +41,7 @@ static const char copyright[] =
 #ifndef lint
 /*static char sccsid[] = "from: @(#)quota.c	8.1 (Berkeley) 6/6/93";*/
 static const char rcsid[] =
-"$OpenBSD: quota.c,v 1.23 2003/06/10 22:20:49 deraadt Exp $";
+"$OpenBSD: quota.c,v 1.27 2005/05/05 19:17:11 jmc Exp $";
 #endif /* not lint */
 
 /*
@@ -181,9 +181,9 @@ usage(void)
 {
 
 	fprintf(stderr, "%s\n%s\n%s\n",
-	    "Usage: quota [-guqv]",
-	    "\tquota [-qv] -u username ...",
-	    "\tquota [-qv] -g groupname ...");
+	    "Usage: quota [-q | -v] [-gu]",
+	    "\tquota [-q | -v] -g group ...",
+	    "\tquota [-q | -v] -u user ...");
 	exit(1);
 }
 
@@ -360,7 +360,7 @@ showquotas(int type, u_long id, const char *name)
 				printf("%s\n", qup->fsname);
 				nam = "";
 			} 
-			printf("%15s%8d%c%7d%8d%8s",
+			printf("%12s %7d%c %7d %7d %7s",
 			    nam,
 			    (int)(dbtob((u_quad_t)qup->dqblk.dqb_curblocks)
 				/ 1024),
@@ -371,7 +371,7 @@ showquotas(int type, u_long id, const char *name)
 				/ 1024),
 			    (msgb == (char *)0) ? ""
 			        : timeprt(qup->dqblk.dqb_btime));
-			printf("%8d%c%7d%8d%8s\n",
+			printf(" %7d%c %7d %7d %7s\n",
 			    qup->dqblk.dqb_curinodes,
 			    (msgi == (char *)0) ? ' ' : '*',
 			    qup->dqblk.dqb_isoftlimit,
@@ -393,9 +393,9 @@ heading(int type, u_long id, const char *name, const char *tag)
 	printf("Disk quotas for %s %s (%cid %ld): %s\n", qfextension[type],
 	    name, *qfextension[type], id, tag);
 	if (!qflag && tag[0] == '\0') {
-		printf("%15s%8s %7s%8s%8s%8s %7s%8s%8s\n",
+		printf("%12s%8s%9s%8s%8s%9s%8s%8s%8s\n",
 		    "Filesystem",
-		    "blocks",
+		    "KBytes",
 		    "quota",
 		    "limit",
 		    "grace",
@@ -565,7 +565,7 @@ getufsquota(struct statfs *fst, struct fstab *fs, struct quotause *qup,
 		case sizeof(struct dqblk):	/* OK */
 			break;
 		default:		/* ERROR */
-			warn("read error `%s'", qfpathname);
+			warn("%s", qfpathname);
 			close(fd);
 			return (0);
 		}

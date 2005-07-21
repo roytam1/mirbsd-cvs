@@ -1,4 +1,4 @@
-/*	$OpenBSD: units.c,v 1.9 2003/07/02 01:57:15 deraadt Exp $	*/
+/*	$OpenBSD: units.c,v 1.11 2004/12/02 22:54:55 pat Exp $	*/
 /*	$NetBSD: units.c,v 1.6 1996/04/06 06:01:03 thorpej Exp $	*/
 
 /*
@@ -171,18 +171,23 @@ readunits(char *userfile)
 				    linenum);
 				continue;
 			}
+
 			lineptr[strlen(lineptr) - 1] = 0;
+			for (i = 0; i < prefixcount; i++) {
+				if (!strcmp(prefixtable[i].prefixname, lineptr))
+					break;
+			}
+			if (i < prefixcount) {
+				fprintf(stderr, "Redefinition of prefix '%s' "
+				    "on line %d ignored\n", lineptr, linenum);
+				continue;	/* skip duplicate prefix */
+			}
+
 			prefixtable[prefixcount].prefixname = dupstr(lineptr);
-			for (i = 0; i < prefixcount; i++)
-				if (!strcmp(prefixtable[i].prefixname, lineptr)) {
-					fprintf(stderr,
-					    "Redefinition of prefix '%s' on line %d ignored\n",
-					    lineptr, linenum);
-					continue;
-				}
 			lineptr += len + 1;
 			if (!strlen(lineptr)) {
 				readerror(linenum);
+				free(prefixtable[prefixcount].prefixname);
 				continue;
 			}
 			lineptr += strspn(lineptr, " \n\t");
@@ -196,18 +201,23 @@ readunits(char *userfile)
 				    linenum);
 				continue;
 			}
+
+			for (i = 0; i < unitcount; i++) {
+				if (!strcmp(unittable[i].uname, lineptr))
+					break;
+			}
+			if (i < unitcount) {
+				fprintf(stderr, "Redefinition of unit '%s' "
+				    "on line %d ignored\n", lineptr, linenum);
+				continue;	/* skip duplicate unit */
+			}
+
 			unittable[unitcount].uname = dupstr(lineptr);
-			for (i = 0; i < unitcount; i++)
-				if (!strcmp(unittable[i].uname, lineptr)) {
-					fprintf(stderr,
-					    "Redefinition of unit '%s' on line %d ignored\n",
-					    lineptr, linenum);
-					continue;
-				}
 			lineptr += len + 1;
 			lineptr += strspn(lineptr, " \n\t");
 			if (!strlen(lineptr)) {
 				readerror(linenum);
+				free(unittable[unitcount].uname);
 				continue;
 			}
 			len = strcspn(lineptr, "\n\t");
@@ -332,6 +342,7 @@ addunit(struct unittype *theunit, char *toadd, int flip)
 					num = atof(item);
 					if (!num) {
 						zeroerror();
+						free(savescr);
 						return 1;
 					}
 					if (doingtop ^ flip)
@@ -341,6 +352,7 @@ addunit(struct unittype *theunit, char *toadd, int flip)
 					num = atof(divider + 1);
 					if (!num) {
 						zeroerror();
+						free(savescr);
 						return 1;
 					}
 					if (doingtop ^ flip)
@@ -351,6 +363,7 @@ addunit(struct unittype *theunit, char *toadd, int flip)
 					num = atof(item);
 					if (!num) {
 						zeroerror();
+						free(savescr);
 						return 1;
 					}
 					if (doingtop ^ flip)
@@ -368,8 +381,12 @@ addunit(struct unittype *theunit, char *toadd, int flip)
 					item[strlen(item) - 1] = 0;
 				}
 				for (; repeat; repeat--)
-					if (addsubunit(doingtop ^ flip ? theunit->numerator : theunit->denominator, item))
+					if (addsubunit(doingtop ^ flip
+					    ? theunit->numerator
+					    : theunit->denominator, item)) {
+						free(savescr);
 						return 1;
+					}
 			}
 			item = strtok(NULL, " *\t/\n");
 		}

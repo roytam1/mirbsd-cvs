@@ -3,10 +3,10 @@
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
 #
-#	OpenBSD: etc.sparc/MAKEDEV.md,v 1.24 2004/04/11 18:05:23 millert Exp 
-#	OpenBSD: MAKEDEV.common,v 1.7 2004/04/11 18:14:59 millert Exp 
-#	OpenBSD: MAKEDEV.mi,v 1.72 2004/02/16 18:58:53 miod Exp 
-#	OpenBSD: MAKEDEV.sub,v 1.12 2004/02/20 19:13:01 miod Exp 
+#	OpenBSD: etc.sparc/MAKEDEV.md,v 1.27 2005/03/29 16:40:10 miod Exp 
+#	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
+#	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
+#	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
 #
 #
 # Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
@@ -46,10 +46,17 @@
 # Terminal ports:
 #	cua[a-z]*	Zilog 8530 serial ports
 #	tty[a-z]*	Zilog 8530 serial ports
+#	tty[0-7][0-9a-f]	NS16x50 serial ports
+#	magma*	Magma multiport cards
+#	spif*	"spif" multiport cards
 # Pseudo terminals:
 #	ptm	pty master device
 #	pty*	Set of 62 master pseudo terminals
 #	tty*	Set of 62 slave pseudo terminals
+# Printers:
+#	bpp*	Parallel port
+#	bppmag[mno]	Magma parallel port
+#	bpp[jkl]	"spif" parallel port
 # Console ports:
 #	ttyC0	Minimal wscons devices
 #	ttyC-F*	wscons display devices
@@ -58,23 +65,19 @@
 # Pointing devices:
 #	wsmouse*	wscons mice
 # Special purpose devices:
+#	apm	Power management device
 #	audio*	Audio devices
 #	bpf*	Berkeley Packet Filter
-#	bpp*	Parallel port
-#	bppmag[mno]	Magma parallel port
-#	bpp[jkl]	"spif" parallel port
 #	fd	fd/* nodes for fdescfs
 #	lkm	Loadable kernel modules interface
-#	openprom	
-#	magma*	Magma multiport cards
+#	openprom	PROM settings
 #	pf*	Packet Filter
 #	*random	In-kernel random data source
-#	spif*	"spif" multiport cards
 #	ses*	SES/SAF-TE SCSI devices
 #	ss*	SCSI scanners
 #	systrace*	System call tracing device
 #	tun*	Network tunnel driver
-#	uk*	SCSI unknown devices
+#	uk*	Unknown SCSI devices
 #	xfs*	XFS filesystem node
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 T=$0
@@ -97,7 +100,7 @@ hex()
 
 alph2d()
 {
-	local t="$1"  
+	local t="$1"
 	local p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	local sub=${p%${t}*}
 	echo ${#sub}
@@ -257,24 +260,6 @@ ses*)
 	M ses$U c 124 $U 640 operator
 	;;
 
-spif*)
-	case $U in
-	0)	offset=0  nam=j;;
-	1)	offset=16 nam=k;;
-	2)	offset=32 nam=l;;
-	*)	echo "bad unit for $i: $U"; exit 127;;
-	esac
-	offset=$(($U*64))
-	n=0
-	while [ $n -lt 8 ]
-	do
-		name=${nam}`hex $n`
-		M tty$name c 102 $(($offset+$n)) 660 dialer uucp
-		n=$(($n+1))
-	done
-	M bpp${nam}0 c 103 $(($offset+0)) 600
-	;;
-
 *random)
 	n=0
 	for pre in " " s u p a
@@ -286,25 +271,6 @@ spif*)
 
 pf*)
 	M pf c 59 0 600
-	;;
-
-magma*)
-	case $U in
-	0)	offset=0  nam=m;;
-	1)	offset=16 nam=n;;
-	2)	offset=32 nam=o;;
-	*)	echo "bad unit for $i: $U"; exit 127;;
-	esac
-	offset=$(($U*64))
-	n=0
-	while [ $n -lt 16 ]
-	do
-		name=${nam}`hex $n`
-		M tty$name c 100 $(($offset+$n)) 660 dialer uucp
-		n=$(($n+1))
-	done
-	M bpp${nam}0 c 101 $(($offset+0)) 600
-	M bpp${nam}1 c 101 $(($offset+1)) 600
 	;;
 
 openprom)
@@ -321,10 +287,6 @@ fd)
 	MKlist="$MKlist;chmod 555 fd"
 	;;
 
-bpp*)
-	M bpp$U c 104 $U 600
-	;;
-
 bpf*)
 	M bpf$U c 105 $U 600
 	;;
@@ -338,6 +300,11 @@ audio*)
 	MKlist="$MKlist;[ -e mixer ] || ln -s mixer$U mixer"
 	MKlist="$MKlist;[ -e sound ] || ln -s sound$U sound"
 	MKlist="$MKlist;[ -e audioctl ] || ln -s audioctl$U audioctl"
+	;;
+
+apm*)
+	M apm	c 30 0 644
+	M apmctl	c 30 8 644
 	;;
 
 wsmouse*)
@@ -362,7 +329,7 @@ tty[C-F]*)
 	ttyF*) n=F m=768;;
 	esac
 	case $U in
-	[0-9a-f]) M tty$n$U c 78 $(( 16#$U + $m )) 600;;
+	[0-9a-f]) M tty$n$U c 78 $((16#$U+$m)) 600;;
 	cfg) M tty${n}cfg c 78 $((255+$m)) 600;;
 	*) echo bad unit $U for $i; exit 1;;
 	esac
@@ -376,6 +343,10 @@ wscons)
 	R ttyDcfg ttyD0 ttyD1 ttyD2 ttyD3 ttyD4 ttyD5 ttyD6 ttyD7
 	R ttyD8 ttyD9 ttyDa ttyDb ttyCcfg ttyC0 ttyC1 ttyC2 ttyC3
 	R ttyC4 ttyC5 ttyC6 ttyC7 ttyC8 ttyC9 ttyCa ttyCb
+	;;
+
+bpp*)
+	M bpp$U c 104 $U 600
 	;;
 
 pty*)
@@ -402,6 +373,50 @@ pty*)
 
 ptm)
 	M ptm c 125 0 666
+	;;
+
+spif*)
+	case $U in
+	0)	offset=0  nam=j;;
+	1)	offset=16 nam=k;;
+	2)	offset=32 nam=l;;
+	*)	echo "bad unit for $i: $U"; exit 127;;
+	esac
+	offset=$(($U*64))
+	n=0
+	while [ $n -lt 8 ]
+	do
+		name=${nam}`hex $n`
+		M tty$name c 102 $(($offset+$n)) 660 dialer uucp
+		n=$(($n+1))
+	done
+	M bpp${nam}0 c 103 $(($offset+0)) 600
+	;;
+
+magma*)
+	case $U in
+	0)	offset=0  nam=m;;
+	1)	offset=16 nam=n;;
+	2)	offset=32 nam=o;;
+	*)	echo "bad unit for $i: $U"; exit 127;;
+	esac
+	offset=$(($U*64))
+	n=0
+	while [ $n -lt 16 ]
+	do
+		name=${nam}`hex $n`
+		M tty$name c 100 $(($offset+$n)) 660 dialer uucp
+		n=$(($n+1))
+	done
+	M bpp${nam}0 c 101 $(($offset+0)) 600
+	M bpp${nam}1 c 101 $(($offset+1)) 600
+	;;
+
+tty[0-7][0-9a-f])
+	U=${i#tty*}
+	o=$(h2d $U)
+	M tty$U c 36 $o 660 dialer uucp
+	M cua$U c 36 $(($o+128)) 660 dialer uucp
 	;;
 
 tty[a-z])
@@ -498,8 +513,8 @@ all)
 	R fd1 fd1B fd1C fd1D fd1E fd1F fd1G fd1H fd0 fd0B fd0C fd0D
 	R fd0E fd0F fd0G fd0H xfs0 ss0 ss1 ch0 ses0 cuaa cuab cuac
 	R cuad ttya ttyb ttyc ttyd ptm local wscons audio0 uk0 random
-	R lkm pf systrace xd0 xd1 xd2 xd3 raid0 raid1 raid2 raid3 std
-	R st0 st1 fd
+	R lkm tty00 tty01 tty02 tty03 apm pf systrace xd0 xd1 xd2 xd3
+	R raid0 raid1 raid2 raid3 std st0 st1 fd
 	;;
 
 presto*|xd*|xy*|sd*|raid*|ccd*)

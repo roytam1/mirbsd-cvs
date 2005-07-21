@@ -1,4 +1,4 @@
-/*	$OpenBSD: mail.local.c,v 1.25 2003/06/02 19:38:24 millert Exp $	*/
+/*	$OpenBSD: mail.local.c,v 1.27 2005/05/29 02:11:49 millert Exp $	*/
 
 /*-
  * Copyright (c) 1996-1998 Theo de Raadt <deraadt@theos.com>
@@ -41,7 +41,7 @@ char copyright[] =
 #if 0
 static char sccsid[] = "from: @(#)mail.local.c	5.6 (Berkeley) 6/19/91";
 #else
-static char rcsid[] = "$OpenBSD: mail.local.c,v 1.25 2003/06/02 19:38:24 millert Exp $";
+static char rcsid[] = "$OpenBSD: mail.local.c,v 1.27 2005/05/29 02:11:49 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -155,7 +155,7 @@ store(char *from)
 			if ((tbuf = malloc(len + 1)) == NULL)
 				merr(FATAL, "unable to allocate memory");
 			memcpy(tbuf, line, len);
-			tbuf[len++] = '\0';
+			tbuf[len] = '\0';
 			line = tbuf;
 		}
 		if (line[0] == '\0')
@@ -215,7 +215,7 @@ retry:
 			goto bad;
 		}
 		if ((mbfd = open(path, O_APPEND|O_CREAT|O_EXCL|O_WRONLY|O_EXLOCK,
-		     S_IRUSR|S_IWUSR)) < 0) {
+		    S_IRUSR|S_IWUSR)) < 0) {
 			if (errno == EEXIST) {
 				/* file appeared since lstat */
 				goto retry;

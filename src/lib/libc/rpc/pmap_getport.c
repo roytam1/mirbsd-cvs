@@ -28,7 +28,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: pmap_getport.c,v 1.7 2001/09/15 13:51:01 deraadt Exp $";
+static char *rcsid = "$OpenBSD: pmap_getport.c,v 1.9 2005/04/01 07:44:03 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 /*
@@ -54,11 +54,8 @@ static struct timeval tottimeout = { 60, 0 };
  * Returns 0 if no map exists.
  */
 u_short
-pmap_getport(address, program, version, protocol)
-	struct sockaddr_in *address;
-	u_long program;
-	u_long version;
-	u_int protocol;
+pmap_getport(struct sockaddr_in *address, u_long program, u_long version,
+    u_int protocol)
 {
 	u_short port = 0;
 	int sock = -1;
@@ -68,7 +65,7 @@ pmap_getport(address, program, version, protocol)
 	address->sin_port = htons(PMAPPORT);
 	client = clntudp_bufcreate(address, PMAPPROG,
 	    PMAPVERS, timeout, &sock, RPCSMALLMSGSIZE, RPCSMALLMSGSIZE);
-	if (client != (CLIENT *)NULL) {
+	if (client != NULL) {
 		parms.pm_prog = program;
 		parms.pm_vers = version;
 		parms.pm_prot = protocol;

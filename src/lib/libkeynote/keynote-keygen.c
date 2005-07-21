@@ -1,4 +1,4 @@
-/* $OpenBSD: keynote-keygen.c,v 1.19 2003/07/05 17:01:49 deraadt Exp $ */
+/* $OpenBSD: keynote-keygen.c,v 1.21 2004/06/29 11:35:56 msf Exp $ */
 /*
  * The author of this code is Angelos D. Keromytis (angelos@dsl.cis.upenn.edu)
  *
@@ -19,29 +19,21 @@
  * PURPOSE.
  */
 
-#if HAVE_CONFIG_H
-#include "config.h"
-#endif /* HAVE_CONFIG_H */
-
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <stdlib.h>
-#include <stdio.h>
+
 #include <ctype.h>
-
-#if STDC_HEADERS
-#include <string.h>
-#endif /* STDC_HEADERS */
-
-#if HAVE_FCNTL_H
 #include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-
-#if HAVE_IO_H
-#include <io.h>
-#elif HAVE_UNISTD_H
+#include <regex.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
-#endif /* HAVE_IO_H */
+
+#include <openssl/dsa.h>
+#include <openssl/err.h>
+#include <openssl/rand.h>
+#include <openssl/rsa.h>
 
 #include "header.h"
 #include "keynote.h"
@@ -106,7 +98,6 @@ void
 keynote_keygen(int argc, char *argv[])
 {
     int begin = KEY_PRINT_OFFSET, prlen = KEY_PRINT_LENGTH;
-#if defined(CRYPTO) || defined(PGPLIB)
     char *foo, *privalgname, seed[SEED_LEN];
     int alg, enc, ienc, len = 0, counter;
     struct keynote_deckey dc;
@@ -114,7 +105,6 @@ keynote_keygen(int argc, char *argv[])
     DSA *dsa;
     RSA *rsa;
     FILE *fp;
-#endif /* CRYPTO || PGPLIB */
     char *algname;
 
     if ((argc != 5) && (argc != 6) && (argc != 7))
@@ -171,7 +161,6 @@ keynote_keygen(int argc, char *argv[])
 	exit(1);
     }
 
-#if defined(CRYPTO) || defined(PGPLIB)
     alg = keynote_get_key_algorithm(algname, &enc, &ienc);
     len = atoi(argv[2]);
 
@@ -188,10 +177,7 @@ keynote_keygen(int argc, char *argv[])
         RAND_bytes(seed, SEED_LEN);
 
 	dsa = DSA_generate_parameters(len, seed, SEED_LEN, &counter, &h, NULL
-#if SSLEAY_VERSION_NUMBER >= 0x0900
-				      , NULL
-#endif /* SSLEAY_VERSION_NUMBER */
-				     );
+				      , NULL);
 
 	if (dsa == (DSA *) NULL)
 	{
@@ -278,11 +264,7 @@ keynote_keygen(int argc, char *argv[])
 	(ienc == INTERNAL_ENC_PKCS1) &&
 	((enc == ENCODING_HEX) || (enc == ENCODING_BASE64)))
     {
-	rsa = RSA_generate_key(len, DEFAULT_PUBLIC, NULL
-#if SSLEAY_VERSION_NUMBER >= 0x0900
-			       , NULL
-#endif /* SSLEAY_VERSION_NUMBER */
-				     );
+	rsa = RSA_generate_key(len, DEFAULT_PUBLIC, NULL, NULL);
 
 	if (rsa == (RSA *) NULL)
 	{
@@ -360,7 +342,6 @@ keynote_keygen(int argc, char *argv[])
     }
 
     /* More algorithms here */
-#endif /* CRYPTO */
 
     fprintf(stderr, "Unknown/unsupported algorithm [%s]\n", algname);
     exit(1);

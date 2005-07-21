@@ -1,4 +1,4 @@
-/*	$OpenBSD: checknr.c,v 1.11 2003/06/25 21:09:09 deraadt Exp $	*/
+/*	$OpenBSD: checknr.c,v 1.14 2005/03/29 23:46:19 jaredy Exp $	*/
 /*	$NetBSD: checknr.c,v 1.4 1995/03/26 04:10:19 glass Exp $	*/
 
 /*
@@ -31,16 +31,16 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1980, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
 #ifndef lint
 #if 0
-static char sccsid[] = "@(#)checknr.c	8.1 (Berkeley) 6/6/93";
+static const char sccsid[] = "@(#)checknr.c	8.1 (Berkeley) 6/6/93";
 #else 
-static char rcsid[] = "$OpenBSD: checknr.c,v 1.11 2003/06/25 21:09:09 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: checknr.c,v 1.14 2005/03/29 23:46:19 jaredy Exp $";
 #endif
 #endif /* not lint */
 
@@ -56,6 +56,7 @@ static char rcsid[] = "$OpenBSD: checknr.c,v 1.11 2003/06/25 21:09:09 deraadt Ex
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <err.h>
 
 #define MAXSTK	100	/* Stack size */
 #define MAXBR	100	/* Max number of bracket pairs known */
@@ -140,7 +141,7 @@ struct brstr {
 	{ "TS",	"TE" },
 	/* Refer */
 	{ "[",	"]" },
-	{ 0,	 },
+	{ 0,	 }
 };
 
 /*
@@ -213,10 +214,14 @@ main(int argc, char *argv[])
 			for (i=0; br[i].opbr; i++)
 				;
 			for (cp=argv[1]+3; cp[-1]; cp += 6) {
-				br[i].opbr = malloc(3);
-				strncpy(br[i].opbr, cp, 2);
-				br[i].clbr = malloc(3);
-				strncpy(br[i].clbr, cp+3, 2);
+				if (i >= MAXBR)
+					errx(1, "too many pairs");
+				if ((br[i].opbr = malloc(3)) == NULL)
+					err(1, "malloc");
+				strlcpy(br[i].opbr, cp, 3);
+				if ((br[i].clbr = malloc(3)) == NULL)
+					err(1, "malloc");
+				strlcpy(br[i].clbr, cp+3, 3);
 				addmac(br[i].opbr);	/* knows pairs are also known cmds */
 				addmac(br[i].clbr);
 				i++;
@@ -258,7 +263,7 @@ main(int argc, char *argv[])
 			cfilename = argv[i];
 			f = fopen(cfilename, "r");
 			if (f == NULL)
-				perror(cfilename);
+				warn("%s", cfilename);
 			else
 				process(f);
 		}
@@ -272,9 +277,10 @@ main(int argc, char *argv[])
 void
 usage(void)
 {
+	extern char *__progname;
 	(void)fprintf(stderr,
-	    "usage: checknr [-fs] [-a.x1.y1.x2.y2. ... .xn.yn] "
-	    "[-c.x1.x2.x3. ... .xn] [file]\n");
+	    "usage: %s [-fs] [-a.x1.y1.x2.y2. ... .xn.yn] "
+	    "[-c.x1.x2.x3. ... .xn] [file]\n", __progname);
 	exit(1);
 }
 
@@ -566,7 +572,8 @@ printf("binsrch(%s) -> %d\n", mac, slot);
 	dest = src+1;
 	while (dest > loc)
 		*dest-- = *src--;
-	*loc = strdup(mac);
+	if ((*loc = strdup(mac)) == NULL)
+		err(1, "strdup");
 	ncmds++;
 #ifdef DEBUG
 printf("after: %s %s %s %s %s, %d cmds\n", knowncmds[slot-2], knowncmds[slot-1], knowncmds[slot], knowncmds[slot+1], knowncmds[slot+2], ncmds);

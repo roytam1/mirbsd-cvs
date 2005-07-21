@@ -1,4 +1,4 @@
-/*	$OpenBSD: ifstated.c,v 1.17 2004/04/27 11:55:27 jmc Exp $	*/
+/*	$OpenBSD: ifstated.c,v 1.21 2005/02/07 12:38:44 mcbride Exp $	*/
 
 /*
  * Copyright (c) 2004 Marco Pfatschbacher <mpf@openbsd.org>
@@ -67,7 +67,6 @@ void	external_evtimer_setup(struct ifsd_state *, int);
 int	scan_ifstate(int, int, struct ifsd_state *);
 void	fetch_state(void);
 void	usage(void);
-void	doconfig(const char*);
 void	adjust_expressions(struct ifsd_expression_list *, int);
 void	eval_state(struct ifsd_state *);
 void	state_change(void);
@@ -75,23 +74,23 @@ void	do_action(struct ifsd_action *);
 void	remove_action(struct ifsd_action *, struct ifsd_state *);
 void	remove_expression(struct ifsd_expression *, struct ifsd_state *);
 void	log_init(int);
-void	logit(int level, const char *fmt, ...);
+void	logit(int, const char *, ...);
 
 void
 usage(void)
 {
-	extern char* __progname;
+	extern char *__progname;
 
 	fprintf(stderr, "usage: %s [-dhinv] [-D macro=value] [-f file]\n",
-		__progname);
+	    __progname);
 	exit(1);
 }
 
 int
 main(int argc, char *argv[])
 {
-	int ch;
 	struct timeval tv;
+	int ch;
 
 	while ((ch = getopt(argc, argv, "dD:f:hniv")) != -1) {
 		switch (ch) {
@@ -199,7 +198,9 @@ load_config(void)
 		logit(IFSD_LOG_NORMAL,
 		    "initial state: %s", conf->curstate->name);
 		conf->curstate->entered = time(NULL);
-		eval_state(conf->curstate);
+		conf->nextstate = conf->curstate;
+		conf->curstate = NULL;
+		eval_state(conf->nextstate);
 	}
 	external_evtimer_setup(&conf->always, IFSD_EVTIMER_ADD);
 	return (0);
@@ -208,9 +209,9 @@ load_config(void)
 void
 rt_msg_handler(int fd, short event, void *arg)
 {
-	struct if_msghdr ifm;
 	char msg[2048];
 	struct rt_msghdr *rtm = (struct rt_msghdr *)&msg;
+	struct if_msghdr ifm;
 	int len;
 
 	len = read(fd, msg, sizeof(msg));
@@ -262,13 +263,13 @@ external_handler(int fd, short event, void *arg)
 void
 external_async_exec(struct ifsd_external *external)
 {
-	pid_t pid;
 	char *argp[] = {"sh", "-c", NULL, NULL};
+	pid_t pid;
 
 	if (external->pid > 0) {
 		logit(IFSD_LOG_NORMAL,
-		    "previous command %s still running, killing it",
-		    external->command);
+		    "previous command %s [%d] still running, killing it",
+		    external->command, external->pid);
 		kill(external->pid, SIGKILL);
 		external->pid = 0;
 	}
@@ -486,7 +487,8 @@ void
 eval_state(struct ifsd_state *state)
 {
 	struct ifsd_external *external = TAILQ_FIRST(&state->external_tests);
-	if (external == NULL || external->lastexec >= state->entered) {
+	if (external == NULL || external->lastexec >= state->entered ||
+	    external->lastexec == 0) {
 		do_action(state->always);
 		state_change();
 	}
@@ -501,10 +503,11 @@ state_change(void)
 	if (conf->nextstate != NULL && conf->curstate != conf->nextstate) {
 		logit(IFSD_LOG_NORMAL, "changing state to %s",
 		    conf->nextstate->name);
-		evtimer_del(&conf->curstate->ev);
-		if (conf->curstate != NULL)
+		if (conf->curstate != NULL) {
+			evtimer_del(&conf->curstate->ev);
 			external_evtimer_setup(conf->curstate,
 			    IFSD_EVTIMER_DEL);
+		}
 		conf->curstate = conf->nextstate;
 		conf->nextstate = NULL;
 		conf->curstate->entered = time(NULL);
@@ -703,7 +706,7 @@ logit(int level, const char *fmt, ...)
 			fprintf(stderr, "\n");
 		}
 	} else
-		vsyslog(LOG_DAEMON, fmt, ap);
+		vsyslog(LOG_NOTICE, fmt, ap);
 
 	va_end(ap);
 }

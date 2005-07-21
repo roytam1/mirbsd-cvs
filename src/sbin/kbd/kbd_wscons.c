@@ -1,4 +1,4 @@
-/*	$OpenBSD: kbd_wscons.c,v 1.16 2004/05/09 03:21:52 deraadt Exp $ */
+/*	$OpenBSD: kbd_wscons.c,v 1.23 2005/05/07 15:31:23 miod Exp $ */
 
 /*
  * Copyright (c) 2001 Mats O Jansson.  All rights reserved.
@@ -42,27 +42,6 @@
 
 #define	NUM_KBD	10
 
-#define SA_PCKBD 0
-#define SA_UKBD  1
-#define SA_AKBD	 2
-#define SA_ZSKBD 3
-#define SA_SUNKBD 4
-#define SA_SUN5KBD 5
-#define SA_HILKBD 6
-#define	SA_GSCKBD 7
-
-struct nlist nl[] = {
-	{ "_pckbd_keydesctab" },
-	{ "_ukbd_keydesctab" },
-	{ "_akbd_keydesctab" },
-	{ "_zskbd_keydesctab" },
-	{ "_sunkbd_keydesctab" },
-	{ "_sunkbd5_keydesctab" },
-	{ "_hilkbd_keydesctab" },
-	{ "_gsckbd_keydesctab" },
-	{ NULL },
-};
-
 char *kbtype_tab[] = {
 	"pc-xt/pc-at",
 	"usb",
@@ -72,7 +51,37 @@ char *kbtype_tab[] = {
 	"sun5",
 	"hil",
 	"gsc",
+	"domain"
 };
+enum {	SA_PCKBD,
+	SA_UKBD,
+	SA_AKBD,
+	SA_ZSKBD,
+	SA_SUNKBD,
+	SA_SUN5KBD,
+	SA_HILKBD,
+	SA_GSCKBD,
+	SA_DOMAINKBD,
+
+	SA_MAX
+};
+
+#ifndef NOKVM
+struct nlist nl[] = {
+	{ "_pckbd_keydesctab" },
+	{ "_ukbd_keydesctab" },
+	{ "_akbd_keydesctab" },
+	{ "_zskbd_keydesctab" },
+	{ "_sunkbd_keydesctab" },
+	{ "_sunkbd5_keydesctab" },
+	{ "_hilkbd_keydesctab" },
+	{ "_gsckbd_keydesctab" },
+	{ "_dnkbd_keydesctab" },
+	{ NULL },
+};
+#endif /* NOKVM */
+
+int rebuild = 0;
 
 struct nameint {
 	int value;
@@ -92,25 +101,40 @@ struct nameint kbdvar_tab[] = {
 };
 
 extern char *__progname;
-int rebuild = 0;
 
 void	kbd_show_enc(kvm_t *kd, int idx);
 void	kbd_list(void);
 void	kbd_set(char *name, int verbose);
 
-#ifndef NOKVM
 void
 kbd_show_enc(kvm_t *kd, int idx)
 {
+#ifndef NOKVM
 	struct wscons_keydesc r;
 	unsigned long p;
-	struct nameint *n;
 	int found;
 	u_int32_t variant;
+	struct nameint *n;
+#else
+	int i;
+#endif /* NOKVM */
+
+#ifndef NOKVM
+	p = nl[idx].n_value;
+	if (p == 0) {
+		printf("no tables available for %s keyboard\n\n",
+		    kbtype_tab[idx]);
+		return;
+	}
+#endif
 
 	printf("tables available for %s keyboard:\nencoding\n\n",
-	       kbtype_tab[idx]);
-	p = nl[idx].n_value;
+	    kbtype_tab[idx]);
+
+#ifdef NOKVM
+	for (i = 0; kbdenc_tab[i].value; i++)
+		printf("%s\n", kbdenc_tab[i].name);
+#else
 	kvm_read(kd, p, &r, sizeof(r));
 	while (r.name != 0) {
 		n = &kbdenc_tab[0];
@@ -144,25 +168,22 @@ kbd_show_enc(kvm_t *kd, int idx)
 		p += sizeof(r);
 		kvm_read(kd, p, &r, sizeof(r));
 	}
+#endif
 	printf("\n");
 }
-#endif
 
 void
 kbd_list(void)
 {
+	int	kbds[SA_MAX];
 	int	fd, i, kbtype;
-	kvm_t	*kd;
 	char	device[MAXPATHLEN];
-	char	errbuf[_POSIX2_LINE_MAX];
-	int	pc_kbd = 0;
-	int	usb_kbd = 0;
-	int	adb_kbd = 0;
-	int	zs_kbd = 0;
-	int	sun_kbd = 0;
-	int	sun5_kbd = 0;
-	int	hil_kbd = 0;
-	int	gsc_kbd = 0;
+	kvm_t	*kd = NULL;
+#ifndef NOKVM
+	char	errbuf[LINE_MAX];
+#endif
+
+	bzero(kbds, sizeof(kbds));
 
 	/* Go through all keyboards. */
 	for (i = 0; i < NUM_KBD; i++) {
@@ -173,23 +194,36 @@ kbd_list(void)
 		if (fd >= 0) {
 			if (ioctl(fd, WSKBDIO_GTYPE, &kbtype) < 0)
 				err(1, "WSKBDIO_GTYPE");
-			if ((kbtype == WSKBD_TYPE_PC_XT) ||
-			    (kbtype == WSKBD_TYPE_PC_AT))
-				pc_kbd++;
-			if (kbtype == WSKBD_TYPE_USB)
-				usb_kbd++;
-			if (kbtype == WSKBD_TYPE_ADB)
-				adb_kbd++;
-			if (kbtype == WSKBD_TYPE_LK201)
-				zs_kbd++;
-			if (kbtype == WSKBD_TYPE_SUN)
-				sun_kbd++;
-			if (kbtype == WSKBD_TYPE_SUN5)
-				sun5_kbd++;
-			if (kbtype == WSKBD_TYPE_HIL)
-				hil_kbd++;
-			if (kbtype == WSKBD_TYPE_GSC)
-				gsc_kbd++;
+			switch (kbtype) {
+			case WSKBD_TYPE_PC_XT:
+			case WSKBD_TYPE_PC_AT:
+				kbds[SA_PCKBD]++;
+				break;
+			case WSKBD_TYPE_USB:
+				kbds[SA_UKBD]++;
+				break;
+			case WSKBD_TYPE_ADB:
+				kbds[SA_AKBD]++;
+				break;
+			case WSKBD_TYPE_LK201:
+				kbds[SA_ZSKBD]++;
+				break;
+			case WSKBD_TYPE_SUN:
+				kbds[SA_SUNKBD]++;
+				break;
+			case WSKBD_TYPE_SUN5:
+				kbds[SA_SUN5KBD]++;
+				break;
+			case WSKBD_TYPE_HIL:
+				kbds[SA_HILKBD]++;
+				break;
+			case WSKBD_TYPE_GSC:
+				kbds[SA_GSCKBD]++;
+				break;
+			case WSKBD_TYPE_DOMAIN:
+				kbds[SA_DOMAINKBD]++;
+				break;
+			};
 			close(fd);
 		}
 	}
@@ -200,61 +234,35 @@ kbd_list(void)
 
 	if (kvm_nlist(kd, nl) == -1)
 		errx(1, "kvm_nlist: %s", kvm_geterr(kd));
-
-	if (pc_kbd > 0)
-		kbd_show_enc(kd, SA_PCKBD);
-
-	if (usb_kbd > 0)
-		kbd_show_enc(kd, SA_UKBD);
-
-	if (adb_kbd > 0)
-		kbd_show_enc(kd, SA_AKBD);
-
-	if (zs_kbd > 0)
-		kbd_show_enc(kd, SA_ZSKBD);
-
-	if (sun_kbd > 0)
-		kbd_show_enc(kd, SA_SUNKBD);
-
-	if (sun5_kbd > 0)
-		kbd_show_enc(kd, SA_SUN5KBD);
-
-	if (hil_kbd > 0)
-		kbd_show_enc(kd, SA_HILKBD);
-
-	if (gsc_kbd > 0)
-		kbd_show_enc(kd, SA_GSCKBD);
-
-	kvm_close(kd);
-
-	if (rebuild > 0) {
-		printf("Unknown encoding or variant. kbd(1) needs to be rebuilt.\n");
-	}
-#else
-	printf("List not available; sorry.\n");
 #endif
+
+	for (i = 0; i < SA_MAX; i++)
+		if (kbds[i] != 0)
+			kbd_show_enc(kd, i);
+
+#ifndef NOKVM
+	kvm_close(kd);
+#endif
+	if (rebuild > 0)
+		printf("Unknown encoding or variant. kbd(8) needs to be rebuilt.\n");
 }
 
 void
 kbd_set(char *name, int verbose)
 {
-	char	buf[_POSIX2_LINE_MAX];
-	char	*c,*b;
+	char	buf[LINE_MAX], *c, *b, device[sizeof "/dev/wskbd00"];
+	int	map = 0, v, i, fd;
 	struct nameint *n;
-	int	map = 0,v,i,fd;
-	char	device[sizeof "/dev/wskbd00"];
 
 	c = name;
 	b = buf;
-	while ((*c != '.') && (*c != '\0')) {
+	while (*c != '.' && *c != '\0' && b < buf + sizeof(buf) - 1)
 		*b++ = *c++;
-	}
 	*b = '\0';
 	n = &kbdenc_tab[0];
 	while (n->value) {
-		if (strcmp(n->name,buf) == 0) {
+		if (strcmp(n->name, buf) == 0)
 			map = n->value;
-		}
 		n++;
 	}
 	if (map == 0)
@@ -262,16 +270,14 @@ kbd_set(char *name, int verbose)
 	while (*c == '.') {
 		b = buf;
 		c++;
-		while ((*c != '.') && (*c != '\0')) {
+		while (*c != '.' && *c != '\0' && b < buf + sizeof(buf) - 1)
 			*b++ = *c++;
-		}
 		*b = '\0';
 		v = 0;
 		n = &kbdvar_tab[0];
 		while (n->value) {
-			if (strcmp(n->name,buf) == 0) {
+			if (strcmp(n->name, buf) == 0)
 				v = n->value;
-			}
 			n++;
 		}
 		if (v == 0)
@@ -292,9 +298,8 @@ kbd_set(char *name, int verbose)
 					fprintf(stderr,
 					    "%s: unsupported encoding %s on %s\n",
 					    __progname, name, device);
-				} else {
+				} else
 					err(1, "WSKBDIO_SETENCODING: %s", device);
-				}
 				v--;
 			}
 			v++;
@@ -303,5 +308,5 @@ kbd_set(char *name, int verbose)
 	}
 
 	if (verbose && v > 0)
-		fprintf(stderr, "keyboard mapping set to %s\n", name);
+		fprintf(stderr, "kbd: keyboard mapping set to %s\n", name);
 }

@@ -1,4 +1,4 @@
-.\"	$OpenBSD: doc-common,v 1.40 2004/08/10 22:21:31 jmc Exp $
+.\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -171,11 +171,10 @@
 .	if "\\$3"amd64" .as vT \ (AMD64)
 .	if "\\$3"amiga" .as vT \ (Amiga)
 .	if "\\$3"arc" .as vT \ (ARC)
-.	if "\\$3"arm32" .as vT \ (Arm32)
-.	if "\\$3"atari" .as vT \ (Atari)
 .	if "\\$3"cats" .as vT \ (Cats)
 .	if "\\$3"hp300" .as vT \ (HP300)
 .	if "\\$3"hppa" .as vT \ (HPPA)
+.	if "\\$3"hppa64" .as vT \ (HPPA64)
 .	if "\\$3"i386"  .as vT \ (i386)
 .	if "\\$3"luna88k" .as vT \ (Luna88K)
 .	if "\\$3"mac68k" .as vT \ (Mac68K)
@@ -183,16 +182,13 @@
 .	if "\\$3"mvme68k" .as vT \ (MVME68K)
 .	if "\\$3"mvme88k" .as vT \ (MVME88K)
 .	if "\\$3"mvmeppc" .as vT \ (MVMEPPC)
-.	if "\\$3"pc532" .as vT \ (PC532)
-.	if "\\$3"pegasos" .as vT \ (Pegasos)
 .	if "\\$3"pmax"  .as vT \ (PMAX)
 .	if "\\$3"sgi"  .as vT \ (SGI)
 .	if "\\$3"sparc" .as vT \ (SPARC)
 .	if "\\$3"sparc64" .as vT \ (SPARC64)
 .	if "\\$3"sun3"  .as vT \ (Sun3)
-.	if "\\$3"tahoe" .as vT \ (Tahoe)
 .	if "\\$3"vax"   .as vT \ (VAX)
-.	if "\\$3"x68k"  .as vT \ (X68K)
+.	if "\\$3"zaurus"  .as vT \ (Zaurus)
 .	if "\\*(vT"LOCAL" .ds vT \\$3
 .\}
 ..
@@ -204,7 +200,7 @@
 .de Os
 .ds oS Null
 .if "\\$1"" \{\
-.	ds oS OpenBSD 3.6
+.	ds oS OpenBSD 3.7
 .\}
 .if "\\$2"" \{\
 .	ds aa Non-Null
@@ -275,6 +271,7 @@
 .	if "\\$2"3.4"  .as oS \03.4
 .	if "\\$2"3.5"  .as oS \03.5
 .	if "\\$2"3.6"  .as oS \03.6
+.	if "\\$2"3.7"  .as oS \03.7
 .\}
 .if "\\*(oS"Null" .ds oS \0\\$1
 .if "\\*(aa"Non-Null" .as oS \0\\$2

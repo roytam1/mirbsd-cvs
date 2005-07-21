@@ -1,4 +1,4 @@
-/*	$OpenBSD: kdump.c,v 1.24 2004/03/04 20:39:27 miod Exp $	*/
+/*	$OpenBSD: kdump.c,v 1.27 2005/06/02 17:32:02 mickey Exp $	*/
 
 /*-
  * Copyright (c) 1988, 1993
@@ -39,7 +39,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)kdump.c	8.4 (Berkeley) 4/28/95";
 #endif
-static char *rcsid = "$OpenBSD: kdump.c,v 1.24 2004/03/04 20:39:27 miod Exp $";
+static char *rcsid = "$OpenBSD: kdump.c,v 1.27 2005/06/02 17:32:02 mickey Exp $";
 #endif /* not lint */
 
 #include <sys/param.h>
@@ -73,16 +73,18 @@ pid_t pid = -1;
 
 #include <sys/syscall.h>
 
-#include "../../sys/compat/bsdos/bsdos_syscall.h"
-#include "../../sys/compat/freebsd/freebsd_syscall.h"
-#include "../../sys/compat/netbsd/netbsd_syscall.h"
-#include "../../sys/compat/hpux/hpux_syscall.h"
-#include "../../sys/compat/ibcs2/ibcs2_syscall.h"
-#include "../../sys/compat/linux/linux_syscall.h"
-#include "../../sys/compat/osf1/osf1_syscall.h"
-#include "../../sys/compat/sunos/sunos_syscall.h"
-#include "../../sys/compat/svr4/svr4_syscall.h"
-#include "../../sys/compat/ultrix/ultrix_syscall.h"
+#include <compat/bsdos/bsdos_syscall.h>
+#include <compat/freebsd/freebsd_syscall.h>
+#include <compat/netbsd/netbsd_syscall.h>
+#if defined(__hppa__) || defined(__m68k__)
+#include <compat/hpux/hpux_syscall.h>
+#endif
+#include <compat/ibcs2/ibcs2_syscall.h>
+#include <compat/linux/linux_syscall.h>
+#include <compat/osf1/osf1_syscall.h>
+#include <compat/sunos/sunos_syscall.h>
+#include <compat/svr4/svr4_syscall.h>
+#include <compat/ultrix/ultrix_syscall.h>
 
 #define KTRACE
 #define PTRACE
@@ -93,18 +95,20 @@ pid_t pid = -1;
 #define SYSVSHM
 #define LFS
 #define UFS_EXTATTR
-#include "../../sys/kern/syscalls.c"
+#include <kern/syscalls.c>
 
-#include "../../sys/compat/bsdos/bsdos_syscalls.c"
-#include "../../sys/compat/freebsd/freebsd_syscalls.c"
-#include "../../sys/compat/netbsd/netbsd_syscalls.c"
-#include "../../sys/compat/hpux/hpux_syscalls.c"
-#include "../../sys/compat/ibcs2/ibcs2_syscalls.c"
-#include "../../sys/compat/linux/linux_syscalls.c"
-#include "../../sys/compat/osf1/osf1_syscalls.c"
-#include "../../sys/compat/sunos/sunos_syscalls.c"
-#include "../../sys/compat/svr4/svr4_syscalls.c"
-#include "../../sys/compat/ultrix/ultrix_syscalls.c"
+#include <compat/bsdos/bsdos_syscalls.c>
+#include <compat/freebsd/freebsd_syscalls.c>
+#include <compat/netbsd/netbsd_syscalls.c>
+#if defined(__hppa__) || defined(__m68k__)
+#include <compat/hpux/hpux_syscalls.c>
+#endif
+#include <compat/ibcs2/ibcs2_syscalls.c>
+#include <compat/linux/linux_syscalls.c>
+#include <compat/osf1/osf1_syscalls.c>
+#include <compat/sunos/sunos_syscalls.c>
+#include <compat/svr4/svr4_syscalls.c>
+#include <compat/ultrix/ultrix_syscalls.c>
 #undef KTRACE
 #undef PTRACE
 #undef NFSCLIENT
@@ -123,7 +127,9 @@ struct emulation {
 
 static struct emulation emulations[] = {
 	{ "native",	syscallnames,		SYS_MAXSYSCALL },
+#if defined(__hppa__) || defined(__m68k__)
 	{ "hpux",	hpux_syscallnames,	HPUX_SYS_MAXSYSCALL },
+#endif
 	{ "ibcs2",	ibcs2_syscallnames,	IBCS2_SYS_MAXSYSCALL },
 	{ "linux",	linux_syscallnames,	LINUX_SYS_MAXSYSCALL },
 	{ "osf1",	osf1_syscallnames,	OSF1_SYS_MAXSYSCALL },
@@ -353,16 +359,17 @@ ktrsyscall(struct ktr_syscall *ktr)
 	else
 		(void)printf("%s", current->sysnames[ktr->ktr_code]);
 	ap = (register_t *)((char *)ktr + sizeof(struct ktr_syscall));
+	(void)putchar('(');
 	if (argsize) {
-		char c = '(';
+		char c = '\0';
 		if (fancy) {
 			if (ktr->ktr_code == SYS_ioctl) {
 				const char *cp;
 
 				if (decimal)
-					(void)printf("(%ld", (long)*ap);
+					(void)printf("%ld", (long)*ap);
 				else
-					(void)printf("(%#lx", (long)*ap);
+					(void)printf("%#lx", (long)*ap);
 				ap++;
 				argsize -= sizeof(register_t);
 				if ((cp = ioctlname(*ap)) != NULL)
@@ -372,39 +379,54 @@ ktrsyscall(struct ktr_syscall *ktr)
 				c = ',';
 				ap++;
 				argsize -= sizeof(register_t);
+			} else if (ktr->ktr_code == SYS___sysctl) {
+				int *np, n;
+
+				n = ap[1];
+				np = (int *)(ap + 6);
+				for (; n--; np++) {
+					if (c)
+						putchar(c);
+					printf("%d", *np);
+					c = '.';
+				}
+
+				c = ',';
+				ap += 2;
+				argsize -= 2 * sizeof(register_t);
 			} else if (ktr->ktr_code == SYS_ptrace) {
 				if (*ap >= 0 && *ap <
 				    sizeof(ptrace_ops) / sizeof(ptrace_ops[0]))
-					(void)printf("(%s", ptrace_ops[*ap]);
+					(void)printf("%s", ptrace_ops[*ap]);
 				else switch(*ap) {
 #ifdef PT_GETFPREGS
 				case PT_GETFPREGS:
-					(void)printf("(PT_GETFPREGS");
+					(void)printf("PT_GETFPREGS");
 					break;
 #endif
 				case PT_GETREGS:
-					(void)printf("(PT_GETREGS");
+					(void)printf("PT_GETREGS");
 					break;
 #ifdef PT_SETFPREGS
 				case PT_SETFPREGS:
-					(void)printf("(PT_SETFPREGS");
+					(void)printf("PT_SETFPREGS");
 					break;
 #endif
 				case PT_SETREGS:
-					(void)printf("(PT_SETREGS");
+					(void)printf("PT_SETREGS");
 					break;
 #ifdef PT_STEP
 				case PT_STEP:
-					(void)printf("(PT_STEP");
+					(void)printf("PT_STEP");
 					break;
 #endif
 #ifdef PT_WCOOKIE
 				case PT_WCOOKIE:
-					(void)printf("(PT_WCOOKIE");
+					(void)printf("PT_WCOOKIE");
 					break;
 #endif
 				default:
-					(void)printf("(%ld", (long)*ap);
+					(void)printf("%ld", (long)*ap);
 					break;
 				}
 				c = ',';
@@ -413,17 +435,18 @@ ktrsyscall(struct ktr_syscall *ktr)
 			}
 		}
 		while (argsize) {
+			if (c)
+				putchar(c);
 			if (decimal)
-				(void)printf("%c%ld", c, (long)*ap);
+				(void)printf("%ld", (long)*ap);
 			else
-				(void)printf("%c%#lx", c, (long)*ap);
+				(void)printf("%#lx", (long)*ap);
 			c = ',';
 			ap++;
 			argsize -= sizeof(register_t);
 		}
-		(void)putchar(')');
 	}
-	(void)putchar('\n');
+	(void)printf(")\n");
 }
 
 static void

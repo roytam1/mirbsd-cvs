@@ -1,4 +1,4 @@
-/*	$OpenBSD: interactive.c,v 1.19 2003/07/28 06:13:26 tedu Exp $	*/
+/*	$OpenBSD: interactive.c,v 1.23 2005/06/16 14:51:21 millert Exp $	*/
 /*	$NetBSD: interactive.c,v 1.10 1997/03/19 08:42:52 lukem Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)interactive.c	8.3 (Berkeley) 9/13/94";
 #else
-static const char rcsid[] = "$OpenBSD: interactive.c,v 1.19 2003/07/28 06:13:26 tedu Exp $";
+static const char rcsid[] = "$OpenBSD: interactive.c,v 1.23 2005/06/16 14:51:21 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -97,7 +97,7 @@ static void	 printlist(char *, char *);
  * Read and execute commands from the terminal.
  */
 void
-runcmdshell()
+runcmdshell(void)
 {
 	struct entry *np;
 	ino_t ino;
@@ -305,12 +305,8 @@ loop:
  * eliminate any embedded ".." components.
  */
 static void
-getcmd(curdir, cmd, cmdlen, name, namelen, ap)
-	char *curdir, *cmd;
-	size_t cmdlen;
-	char *name;
-	size_t namelen;
-	struct arglist *ap;
+getcmd(char *curdir, char *cmd, size_t cmdlen, char *name, size_t namelen,
+       struct arglist *ap)
 {
 	char *cp;
 	static char input[BUFSIZ];
@@ -413,8 +409,7 @@ retnext:
  * Strip off the next token of the input.
  */
 static char *
-copynext(input, output)
-	char *input, *output;
+copynext(char *input, char *output)
 {
 	char *cp, *bp;
 	char quote;
@@ -463,9 +458,7 @@ copynext(input, output)
  * remove any imbedded "." and ".." components.
  */
 void
-canon(rawname, canonname, canonnamelen)
-	char *rawname, *canonname;
-	size_t canonnamelen;
+canon(char *rawname, char *canonname, size_t canonnamelen)
 {
 	char *cp, *np;
 
@@ -514,20 +507,18 @@ canon(rawname, canonname, canonnamelen)
  * Do an "ls" style listing of a directory
  */
 static void
-printlist(name, basename)
-	char *name;
-	char *basename;
+printlist(char *name, char *basename)
 {
 	struct afile *fp, *list, *listp = NULL;
 	struct direct *dp;
 	struct afile single;
 	RST_DIR *dirp;
-	int entries, len, namelen;
+	size_t namelen;
+	int entries, len;
 	char locname[MAXPATHLEN];
 
 	dp = pathsearch(name);
-	if (dp == NULL || (!dflag && TSTINO(dp->d_ino, dumpmap) == 0) ||
-	    (!vflag && dp->d_ino == WINO))
+	if (dp == NULL || (!dflag && TSTINO(dp->d_ino, dumpmap) == 0))
 		return;
 	if ((dirp = rst_opendir(name)) == NULL) {
 		entries = 1;
@@ -554,16 +545,17 @@ printlist(name, basename)
 		fprintf(stderr, "%s:\n", name);
 		entries = 0;
 		listp = list;
-		namelen = snprintf(locname, sizeof(locname), "%s/", name);
-		if (namelen >= sizeof(locname))
-			namelen = sizeof(locname) - 1;
+		namelen = strlcpy(locname, name, sizeof(locname));
+		if (namelen >= sizeof(locname) - 1)
+			namelen = sizeof(locname) - 2;
+		locname[namelen++] = '/';
+		locname[namelen] = '\0';
 		while ((dp = rst_readdir(dirp))) {
 			if (dp == NULL)
 				break;
 			if (!dflag && TSTINO(dp->d_ino, dumpmap) == 0)
 				continue;
-			if (!vflag && (dp->d_ino == WINO ||
-			     strcmp(dp->d_name, ".") == 0 ||
+			if (!vflag && (strcmp(dp->d_name, ".") == 0 ||
 			     strcmp(dp->d_name, "..") == 0))
 				continue;
 			locname[namelen] = '\0';
@@ -598,10 +590,7 @@ printlist(name, basename)
  * Read the contents of a directory.
  */
 static void
-mkentry(name, dp, fp)
-	char *name;
-	struct direct *dp;
-	struct afile *fp;
+mkentry(char *name, struct direct *dp, struct afile *fp)
 {
 	char *cp;
 	struct entry *np;
@@ -642,10 +631,6 @@ mkentry(name, dp, fp)
 		fp->postfix = '#';
 		break;
 
-	case DT_WHT:
-		fp->postfix = '%';
-		break;
-
 	case DT_UNKNOWN:
 	case DT_DIR:
 		if (inodetype(dp->d_ino) == NODE)
@@ -661,9 +646,7 @@ mkentry(name, dp, fp)
  * Print out a pretty listing of a directory
  */
 static void
-formatf(list, nentry)
-	struct afile *list;
-	int nentry;
+formatf(struct afile *list, int nentry)
 {
 	struct afile *fp, *endlist;
 	int width, bigino, haveprefix, havepostfix;
@@ -734,15 +717,12 @@ formatf(list, nentry)
 #undef d_ino
 
 struct dirent *
-glob_readdir(dirp)
-	RST_DIR *dirp;
+glob_readdir(RST_DIR *dirp)
 {
 	struct direct *dp;
 	static struct dirent adirent;
 
 	while ((dp = rst_readdir(dirp)) != NULL) {
-		if (!vflag && dp->d_ino == WINO)
-			continue;
 		if (dflag || TSTINO(dp->d_ino, dumpmap))
 			break;
 	}
@@ -758,15 +738,12 @@ glob_readdir(dirp)
  * Return st_mode information in response to stat or lstat calls
  */
 static int
-glob_stat(name, stp)
-	const char *name;
-	struct stat *stp;
+glob_stat(const char *name, struct stat *stp)
 {
 	struct direct *dp;
 
 	dp = pathsearch(name);
-	if (dp == NULL || (!dflag && TSTINO(dp->d_ino, dumpmap) == 0) ||
-	    (!vflag && dp->d_ino == WINO))
+	if (dp == NULL || (!dflag && TSTINO(dp->d_ino, dumpmap) == 0))
 		return (-1);
 	if (inodetype(dp->d_ino) == NODE)
 		stp->st_mode = S_IFDIR;
@@ -779,8 +756,7 @@ glob_stat(name, stp)
  * Comparison routine for qsort.
  */
 static int
-fcmp(f1, f2)
-	const void *f1, *f2;
+fcmp(const void *f1, const void *f2)
 {
 	return (strcmp(((struct afile *)f1)->fname,
 	    ((struct afile *)f2)->fname));
@@ -790,8 +766,7 @@ fcmp(f1, f2)
  * respond to interrupts
  */
 void
-onintr(signo)
-	int signo;
+onintr(int signo)
 {
 	int save_errno = errno;
 

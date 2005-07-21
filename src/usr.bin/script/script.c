@@ -1,4 +1,4 @@
-/*	$OpenBSD: script.c,v 1.19 2003/06/10 22:20:50 deraadt Exp $	*/
+/*	$OpenBSD: script.c,v 1.23 2005/04/11 19:59:07 deraadt Exp $	*/
 /*	$NetBSD: script.c,v 1.3 1994/12/21 08:55:43 jtc Exp $	*/
 
 /*
@@ -56,16 +56,16 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
 #ifndef lint
 #if 0
-static char sccsid[] = "@(#)script.c	8.1 (Berkeley) 6/6/93";
+static const char sccsid[] = "@(#)script.c	8.1 (Berkeley) 6/6/93";
 #endif
-static char rcsid[] = "$OpenBSD: script.c,v 1.19 2003/06/10 22:20:50 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: script.c,v 1.23 2005/04/11 19:59:07 deraadt Exp $";
 #endif /* not lint */
 
 #include <sys/types.h>
@@ -90,7 +90,8 @@ static char rcsid[] = "$OpenBSD: script.c,v 1.19 2003/06/10 22:20:50 deraadt Exp
 
 FILE	*fscript;
 int	master, slave;
-pid_t	child, subchild;
+volatile sig_atomic_t child;
+pid_t	subchild;
 char	*fname;
 
 volatile sig_atomic_t dead;
@@ -110,6 +111,7 @@ void handlesigwinch(int);
 int
 main(int argc, char *argv[])
 {
+	extern char *__progname;
 	struct sigaction sa;
 	struct termios rtt;
 	struct winsize win;
@@ -124,7 +126,7 @@ main(int argc, char *argv[])
 			aflg = 1;
 			break;
 		default:
-			(void)fprintf(stderr, "usage: script [-a] [file]\n");
+			fprintf(stderr, "usage: %s [-a] [file]\n", __progname);
 			exit(1);
 		}
 	argc -= optind;
@@ -160,13 +162,13 @@ main(int argc, char *argv[])
 
 	child = fork();
 	if (child < 0) {
-		perror("fork");
+		warn("fork");
 		fail();
 	}
 	if (child == 0) {
 		subchild = child = fork();
 		if (child < 0) {
-			perror("fork");
+			warn("fork");
 			fail();
 		}
 		if (child)
@@ -195,6 +197,7 @@ main(int argc, char *argv[])
 	done(sigdeadstatus);
 }
 
+/* ARGSUSED */
 void
 finish(int signo)
 {
@@ -203,7 +206,7 @@ finish(int signo)
 	pid_t pid;
 
 	while ((pid = wait3(&status, WNOHANG, 0)) > 0) {
-		if (pid == child) {
+		if (pid == (pid_t)child) {
 			if (WIFEXITED(status))
 				e = WEXITSTATUS(status);
 		}
@@ -213,6 +216,7 @@ finish(int signo)
 	errno = save_errno;
 }
 
+/* ARGSUSED */
 void
 handlesigwinch(int signo)
 {
@@ -233,6 +237,7 @@ dooutput(void)
 {
 	struct sigaction sa;
 	struct itimerval value;
+	sigset_t blkalrm;
 	char obuf[BUFSIZ];
 	time_t tvec;
 	ssize_t outcc = 0, cc, off;
@@ -241,6 +246,8 @@ dooutput(void)
 	tvec = time(NULL);
 	(void)fprintf(fscript, "Script started on %s", ctime(&tvec));
 
+	sigemptyset(&blkalrm);
+	sigaddset(&blkalrm, SIGALRM);
 	bzero(&sa, sizeof sa);
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = scriptflush;
@@ -263,8 +270,9 @@ dooutput(void)
 			continue;
 		if (cc <= 0)
 			break;
+		sigprocmask(SIG_BLOCK, &blkalrm, NULL);
 		for (off = 0; off < cc; ) {
-			ssize_t n = write(1, obuf + off, cc - off);
+			ssize_t n = write(STDOUT_FILENO, obuf + off, cc - off);
 			if (n == 0)
 				break;	/* skip writing */
 			if (n > 0)
@@ -272,10 +280,12 @@ dooutput(void)
 		}
 		(void)fwrite(obuf, 1, cc, fscript);
 		outcc += cc;
+		sigprocmask(SIG_UNBLOCK, &blkalrm, NULL);
 	}
 	done(0);
 }
 
+/* ARGSUSED */
 void
 scriptflush(int signo)
 {
@@ -295,7 +305,7 @@ doshell(void)
 	(void)fclose(fscript);
 	login_tty(slave);
 	execl(shell, shell, "-i", (char *)NULL);
-	perror(shell);
+	warn("%s", shell);
 	fail();
 }
 

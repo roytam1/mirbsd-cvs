@@ -1,4 +1,4 @@
-.\"	$OpenBSD: recv.2,v 1.31 2004/07/26 08:59:00 jmc Exp $
+.\"	$OpenBSD: recv.2,v 1.34 2005/07/04 05:02:15 jaredy Exp $
 .\"	$NetBSD: recv.2,v 1.6 1995/02/27 12:36:08 cgd Exp $
 .\"
 .\" Copyright (c) 1983, 1990, 1991, 1993
@@ -51,7 +51,9 @@
 .Fn recvfrom
 and
 .Fn recvmsg
-are used to receive messages from a socket, and may be used to receive
+are used to receive messages from a socket,
+.Fa s ,
+and may be used to receive
 data on a socket whether or not it is connection-oriented.
 .Pp
 If
@@ -201,11 +203,12 @@ struct cmsghdr {
 };
 .Ed
 .Pp
+See
+.Xr CMSG_DATA 3
+for how these messages are constructed and decomposed.
+.Pp
 As an example, one could use this to learn of changes in the data-stream
-in XNS/SPP, or in ISO, to obtain user-connection-request data by requesting
-a recvmsg with no data buffer provided immediately after an
-.Fn accept
-call.
+in XNS/SPP.
 .Pp
 Open file descriptors are now passed as ancillary data for
 .Dv AF_UNIX
@@ -337,7 +340,8 @@ was less than 0 or larger than
 .Xr read 2 ,
 .Xr select 2 ,
 .Xr socket 2 ,
-.Xr socketpair 2
+.Xr socketpair 2 ,
+.Xr CMSG_DATA 3
 .Sh HISTORY
 The
 .Fn recv

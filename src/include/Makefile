@@ -1,4 +1,4 @@
-#	$OpenBSD: Makefile,v 1.126 2004/05/17 22:11:32 drahn Exp $
+#	$OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 #	$NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 
 #	@(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -21,7 +21,8 @@ FILES=	a.out.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h cast.h \
 	readpassphrase.h regex.h resolv.h rmd160.h search.h setjmp.h \
 	sgtty.h sha1.h sha2.h skipjack.h signal.h stab.h stdbool.h stddef.h \
 	stdio.h stdlib.h string.h strings.h struct.h sysexits.h tar.h \
-	time.h ttyent.h tzfile.h unistd.h utime.h utmp.h vis.h
+	time.h ttyent.h tzfile.h unistd.h utime.h utmp.h vis.h \
+	wchar.h wctype.h
 
 FILES+=	link.h link_aout.h link_elf.h
 
@@ -33,17 +34,17 @@ MFILES=	float.h frame.h
 LFILES=	errno.h fcntl.h syslog.h termios.h stdarg.h varargs.h
 
 DIRS=	arpa protocols rpc rpcsvc
-LDIRS=	crypto ddb dev isofs miscfs net netatalk netccitt netinet altq \
-	netinet6 netipx netiso netnatm netns nfs scsi sys ufs uvm xfs
+LDIRS=	crypto ddb dev isofs miscfs net netatalk netinet altq \
+	netinet6 netipx netnatm net80211 netbt nfs scsi sys ufs uvm xfs
 
 # Directories with an includes target
 RDIRS=	../lib/libpthread ../lib/libcompat ../lib/libcurses \
-	../lib/libcurses++ ../lib/libform ../lib/libssl ../lib/libmenu \
+	../lib/libform ../lib/libssl ../lib/libmenu \
 	../lib/libocurses ../lib/libossaudio ../lib/libpanel ../lib/librpcsvc \
 	../lib/libskey ../lib/libsectok ../lib/libedit ../lib/libpcap \
 	../lib/libutil ../lib/libusbhid ../lib/libwrap ../lib/libz \
-	../lib/libkeynote ../lib/libevent \
-	../usr.bin/lex ../gnu/lib/libreadline \
+	../lib/libkeynote ../lib/libevent ../usr.bin/lex \
+	../gnu/lib/libreadline ../gnu/usr.sbin/sendmail/libmilter \
 	../sys/arch/${MACHINE}
 
 # Places using Makefile that needs a prerequisite target met before includes
@@ -62,7 +63,7 @@ WDIRS+= ../gnu/lib/libstdc++ ../gnu/usr.bin/gcc ../gnu/lib/libobjc \
 PWDIRS+= ../gnu/lib/libstdc++ ../gnu/lib/libf2c
 .else
 WDIRS+= ../gnu/egcs/libio ../gnu/egcs/libstdc++ \
-	../gnu/egcs/libf2c ../gnu/egcs/libobjc ../gnu/egcs/gcc
+	../gnu/egcs/libf2c ../gnu/lib/libobjc ../gnu/egcs/gcc
 PWDIRS+= ../gnu/egcs/libf2c
 .endif
 

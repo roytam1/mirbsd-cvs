@@ -1,4 +1,4 @@
-/*	$OpenBSD: top.c,v 1.33 2004/05/09 22:16:26 deraadt Exp $	*/
+/*	$OpenBSD: top.c,v 1.40 2005/06/17 09:40:48 markus Exp $	*/
 
 /*
  *  Top users/processes display for Unix
@@ -40,7 +40,9 @@ const char	copyright[] = "Copyright (c) 1984 through 1996, William LeFebvre";
 #include <string.h>
 #include <poll.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 /* includes specific to top */
 #include "display.h"		/* interface to display package */
@@ -78,7 +80,7 @@ int order_index;
 /* pointers to display routines */
 void		(*d_loadave)(int, double *) = i_loadave;
 void		(*d_procstates)(int, int *) = i_procstates;
-void		(*d_cpustates)(int *) = i_cpustates;
+void		(*d_cpustates)(int64_t *) = i_cpustates;
 void		(*d_memory)(int *) = i_memory;
 void		(*d_message)(void) = i_message;
 void		(*d_header)(char *) = i_header;
@@ -94,6 +96,8 @@ double delay = Default_DELAY;
 char *order_name = NULL;
 int topn = Default_TOPN;
 int no_command = Yes;
+int old_system = No;
+int show_args = No;
 
 #if Default_TOPN == Infinity
 char topn_specified = No;
@@ -121,6 +125,8 @@ char topn_specified = No;
 #define CMD_user	14
 #define CMD_system	15
 #define CMD_order	16
+#define CMD_pid		17
+#define CMD_command	18
 
 static void
 usage(void)
@@ -128,7 +134,7 @@ usage(void)
 	extern char *__progname;
 
 	fprintf(stderr,
-	    "usage: %s [-biInqSu] [-d count] [-o field] [-s time] [-U username] [number]\n",
+	    "usage: %s [-bIinqSu] [-d count] [-o field] [-p pid] [-s time] [-U username] [number]\n",
 	    __progname);
 }
 
@@ -138,7 +144,7 @@ parseargs(int ac, char **av)
 	char *endp;
 	int i;
 
-	while ((i = getopt(ac, av, "SIbinqus:d:U:o:")) != -1) {
+	while ((i = getopt(ac, av, "SIbinqus:d:p:U:o:")) != -1) {
 		switch (i) {
 		case 'u':	/* toggle uid/username display */
 			do_unames = !do_unames;
@@ -151,8 +157,23 @@ parseargs(int ac, char **av)
 			}
 			break;
 
+		case 'p': {	/* display only process id */
+			unsigned long long num;
+			const char *errstr;
+
+			num = strtonum(optarg, 0, INT_MAX, &errstr);
+			if (errstr != NULL || !find_pid(num)) {
+				fprintf(stderr, "%s: unknown pid\n", optarg);
+				exit(1);
+			}
+			ps.pid = (pid_t)num;
+			ps.system = Yes;
+			break;
+		}
+
 		case 'S':	/* show system processes */
-			ps.system = !ps.system;
+			ps.system = Yes;
+			old_system = Yes;
 			break;
 
 		case 'I':	/* show idle processes */
@@ -249,6 +270,7 @@ main(int argc, char *argv[])
 	ps.idle = Yes;
 	ps.system = No;
 	ps.uid = (uid_t)-1;
+	ps.pid = (pid_t)-1;
 	ps.command = NULL;
 
 	/* get preset options from the environment */
@@ -492,7 +514,7 @@ rundisplay(void)
 	int change, i;
 	struct pollfd pfd[1];
 	uid_t uid;
-	static char command_chars[] = "\f qh?en#sdkriIuSo";
+	static char command_chars[] = "\f qh?en#sdkriIuSopC";
 
 	/*
 	 * assume valid command unless told
@@ -574,7 +596,7 @@ rundisplay(void)
 		 * command strchr
 		 */
 		while (1) {
-			len = read(0, &ch, 1);
+			len = read(STDIN_FILENO, &ch, 1);
 			if (len == -1 && errno == EINTR)
 				continue;
 			if (len == 0)
@@ -631,7 +653,7 @@ rundisplay(void)
 			standout("Hit any key to continue: ");
 			fflush(stdout);
 			while (1) {
-				len = read(0, &ch, 1);
+				len = read(STDIN_FILENO, &ch, 1);
 				if (len == -1 && errno == EINTR)
 					continue;
 				if (len == 0)
@@ -654,7 +676,7 @@ rundisplay(void)
 				standout("Hit any key to continue: ");
 				fflush(stdout);
 				while (1) {
-					len = read(0, &ch, 1);
+					len = read(STDIN_FILENO, &ch, 1);
 					if (len == -1 && errno == EINTR)
 						continue;
 					if (len == 0)
@@ -772,6 +794,7 @@ rundisplay(void)
 
 		case CMD_system:
 			ps.system = !ps.system;
+			old_system = ps.system;
 			new_message(MT_standout | MT_delayed,
 			    " %sisplaying system processes.",
 			    ps.system ? "D" : "Not d");
@@ -794,6 +817,41 @@ rundisplay(void)
 					exit(1);
 			} else
 				clear_message();
+			break;
+
+		case CMD_pid:
+			new_message(MT_standout, "Process ID to show: ");
+			if (readline(tempbuf2, sizeof(tempbuf2), No) > 0) {
+				if (tempbuf2[0] == '+' &&
+				    tempbuf2[1] == '\0') {
+					ps.pid = (pid_t)-1;
+					ps.system = old_system;
+				} else {
+					unsigned long long num;
+					const char *errstr;
+
+					num = strtonum(tempbuf2, 0, INT_MAX,
+					    &errstr);
+					if (errstr != NULL || !find_pid(num)) {
+						new_message(MT_standout,
+						    " %s: unknown pid",
+						    tempbuf2);
+						no_command = Yes;
+					} else {
+						if (ps.system == No)
+							old_system = No;
+						ps.pid = (pid_t)num;
+						ps.system = Yes;
+					}
+				}
+				if (putchar('\r') == EOF)
+					exit(1);
+			} else
+				clear_message();
+			break;
+
+		case CMD_command:
+			show_args = (show_args == No) ? Yes : No;
 			break;
 
 		default:
@@ -825,24 +883,28 @@ reset_display(void)
 	d_process = i_process;
 }
 
+/* ARGSUSED */
 void
 leave(int signo)
 {
 	leaveflag = 1;
 }
 
+/* ARGSUSED */
 void
 tstop(int signo)
 {
 	tstopflag = 1;
 }
 
+/* ARGSUSED */
 void
 winch(int signo)
 {
 	winchflag = 1;
 }
 
+/* ARGSUSED */
 void
 onalrm(int signo)
 {

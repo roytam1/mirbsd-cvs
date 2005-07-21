@@ -1,4 +1,4 @@
-/*	$OpenBSD: tape.c,v 1.20 2003/07/29 18:38:35 deraadt Exp $	*/
+/*	$OpenBSD: tape.c,v 1.24 2005/03/13 19:10:49 cloder Exp $	*/
 /*	$NetBSD: tape.c,v 1.11 1997/06/05 11:13:26 lukem Exp $	*/
 
 /*-
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)tape.c	8.2 (Berkeley) 3/17/94";
 #else
-static const char rcsid[] = "$OpenBSD: tape.c,v 1.20 2003/07/29 18:38:35 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: tape.c,v 1.24 2005/03/13 19:10:49 cloder Exp $";
 #endif
 #endif /* not lint */
 
@@ -56,7 +56,6 @@ static const char rcsid[] = "$OpenBSD: tape.c,v 1.20 2003/07/29 18:38:35 deraadt
 
 #include <errno.h>
 #include <fcntl.h>
-#include <setjmp.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -105,7 +104,7 @@ struct slave {
 				/* after EOT) */
 	int inode;		/* inode that we are currently dealing with */
 	int fd;			/* FD for this slave */
-	int pid;		/* PID for this slave */
+	pid_t pid;		/* PID for this slave */
 	int sent;		/* 1 == we've sent this slave requests */
 	int firstrec;		/* record number of this block */
 	char (*tblock)[TP_BSIZE]; /* buffer for data blocks */
@@ -118,13 +117,9 @@ char	(*nextblock)[TP_BSIZE];
 static time_t tstart_volume;	/* time of volume start */
 static int tapea_volume;	/* value of spcl.c_tapea at volume start */
 
-int master;		/* pid of master, for sending error signals */
+pid_t master;		/* pid of master, for sending error signals */
 int tenths;		/* length of tape used per block written */
-static int caught;	/* have we caught the signal to proceed? */
-static int ready;	/* have we reached the lock point without having */
-			/* received the SIGUSR2 signal from the prev slave? */
-static jmp_buf jmpbuf;	/* where to jump to if we are ready when the */
-			/* SIGUSR2 arrives from the previous slave */
+static volatile sig_atomic_t caught;	/* have we caught the signal to proceed? */
 
 int
 alloctape(void)
@@ -202,9 +197,11 @@ dumpblock(daddr_t blkno, int size)
 
 int	nogripe = 0;
 
+/* ARGSUSED */
 void
 tperror(int signo)
 {
+	/* XXX - signal races */
 
 	if (pipeout) {
 		msg("write error on %s\n", tape);
@@ -223,6 +220,7 @@ tperror(int signo)
 	Exit(X_REWRITE);
 }
 
+/* ARGSUSED */
 void
 sigpipe(int signo)
 {
@@ -260,8 +258,9 @@ do_stats(void)
  *	(derived from optr.c::timeest())
  * XXX not safe
  */
+/* ARGSUSED */
 void
-statussig(int notused)
+statussig(int signo)
 {
 	time_t	tnow, deltat;
 	char	msgbuf[128];
@@ -549,10 +548,10 @@ rollforward(void)
 void
 startnewtape(int top)
 {
-	int	parentpid;
-	int	childpid;
+	pid_t	parentpid;
+	pid_t	childpid;
 	int	status;
-	int	waitpid;
+	pid_t	waitingpid;
 	char	*p;
 #ifdef sunos
 	void	(*interrupt_save)();
@@ -587,9 +586,9 @@ restore_check_point:
 		msg("Tape: %d; parent process: %d child process %d\n",
 			tapeno+1, parentpid, childpid);
 #endif /* TDEBUG */
-		while ((waitpid = wait(&status)) != childpid)
+		while ((waitingpid = wait(&status)) != childpid)
 			msg("Parent %d waiting for child %d has another child %d return\n",
-				parentpid, childpid, waitpid);
+				parentpid, childpid, waitingpid);
 		if (status & 0xFF) {
 			msg("Child %d returns LOB status %o\n",
 				childpid, status&0xFF);
@@ -615,8 +614,10 @@ restore_check_point:
 		switch(status) {
 			case X_FINOK:
 				Exit(X_FINOK);
+				break;
 			case X_ABORT:
 				Exit(X_ABORT);
+				break;
 			case X_REWRITE:
 				goto restore_check_point;
 			default:
@@ -683,6 +684,7 @@ restore_check_point:
 	}
 }
 
+/* ARGSUSED */
 void
 dumpabort(int signo)
 {
@@ -713,12 +715,10 @@ Exit(int status)
 /*
  * proceed - handler for SIGUSR2, used to synchronize IO between the slaves.
  */
+/* ARGSUSED */
 void
 proceed(int signo)
 {
-
-	if (ready)
-		longjmp(jmpbuf, 1);
 	caught++;
 }
 
@@ -788,10 +788,8 @@ killall(void)
 static void
 doslave(int cmd, int slave_number)
 {
-	int nread;
-	int nextslave, size, eot_count;
-	volatile int wrote;
-	sigset_t sigset;
+	int nread, nextslave, size, wrote, eot_count;
+	sigset_t nsigset, osigset;
 
 	/*
 	 * Need our own seek pointer.
@@ -826,13 +824,14 @@ doslave(int cmd, int slave_number)
 				       quit("master/slave protocol botched.\n");
 			}
 		}
-		if (setjmp(jmpbuf) == 0) {
-			ready = 1;
-			if (!caught)
-				(void) pause();
-		}
-		ready = 0;
+
+		sigemptyset(&nsigset);
+		sigaddset(&nsigset, SIGUSR2);
+		sigprocmask(SIG_BLOCK, &nsigset, &osigset);
+		while (!caught)
+			sigsuspend(&osigset);
 		caught = 0;
+		sigprocmask(SIG_SETMASK, &osigset, NULL);
 
 		/* Try to write the data... */
 		eot_count = 0;
@@ -876,9 +875,9 @@ doslave(int cmd, int slave_number)
 
 		if (size < 0) {
 			(void) kill(master, SIGUSR1);
-			sigemptyset(&sigset);
+			sigemptyset(&nsigset);
 			for (;;)
-				sigsuspend(&sigset);
+				sigsuspend(&nsigset);
 		} else {
 			/*
 			 * pass size of write back to master

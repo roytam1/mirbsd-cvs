@@ -1,4 +1,4 @@
-/*	$OpenBSD: ntpd.c,v 1.35 2005/04/18 20:46:02 henning Exp $ */
+/*	$OpenBSD: ntpd.c,v 1.39 2005/07/11 08:08:06 dtucker Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -37,7 +37,7 @@ __dead void	usage(void);
 int		main(int, char *[]);
 int		check_child(pid_t, const char *);
 int		dispatch_imsg(struct ntpd_conf *);
-void		ntpd_adjtime(double);
+int		ntpd_adjtime(double);
 void		ntpd_settime(double);
 
 volatile sig_atomic_t	 quit = 0;
@@ -131,7 +131,7 @@ main(int argc, char *argv[])
 			if (daemon(1, 0))
 				fatal("daemon");
 	} else
-		timeout = 15 * 1000;
+		timeout = SETTIME_TIMEOUT * 1000;
 
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_chld) == -1)
 		fatal("socketpair");
@@ -168,8 +168,8 @@ main(int argc, char *argv[])
 			conf.settime = 0;
 			timeout = INFTIM;
 			log_init(conf.debug);
-			log_debug("no reply received, skipping initial time "
-			    "setting");
+			log_debug("no reply received in time, skipping initial "
+			    "time setting");
 			if (!conf.debug)
 				if (daemon(1, 0))
 					fatal("daemon");
@@ -217,7 +217,8 @@ main(int argc, char *argv[])
 int
 check_child(pid_t pid, const char *pname)
 {
-	int	status;
+	int	 status, sig;
+	char 	*signame;
 
 	if (waitpid(pid, &status, WNOHANG) > 0) {
 		if (WIFEXITED(status)) {
@@ -225,8 +226,10 @@ check_child(pid_t pid, const char *pname)
 			return (1);
 		}
 		if (WIFSIGNALED(status)) {
-			log_warnx("Lost child: %s terminated; signal %d",
-			    pname, WTERMSIG(status));
+			sig = WTERMSIG(status);
+			signame = strsignal(sig) ? strsignal(sig) : "unknown";
+			log_warnx("Lost child: %s terminated; signal %d (%s)",
+			    pname, sig, signame);
 			return (1);
 		}
 	}
@@ -264,7 +267,8 @@ dispatch_imsg(struct ntpd_conf *conf)
 			if (imsg.hdr.len != IMSG_HEADER_SIZE + sizeof(d))
 				fatalx("invalid IMSG_ADJTIME received");
 			memcpy(&d, imsg.data, sizeof(d));
-			ntpd_adjtime(d);
+			n = ntpd_adjtime(d);
+			imsg_compose(ibuf, IMSG_ADJTIME, 0, 0, &n, sizeof(n));
 			break;
 		case IMSG_SETTIME:
 			if (imsg.hdr.len != IMSG_HEADER_SIZE + sizeof(d))
@@ -288,17 +292,17 @@ dispatch_imsg(struct ntpd_conf *conf)
 			if (name[imsg.hdr.len] != '\0' ||
 			    strlen(name) != imsg.hdr.len)
 				fatalx("invalid IMSG_HOST_DNS received");
-			if ((cnt = host_dns(name, &hn)) > 0) {
-				buf = imsg_create(ibuf, IMSG_HOST_DNS,
-				    imsg.hdr.peerid, 0,
-				    cnt * sizeof(struct sockaddr_storage));
-				if (buf == NULL)
-					break;
-				for (h = hn; h != NULL; h = h->next) {
+			cnt = host_dns(name, &hn);
+			buf = imsg_create(ibuf, IMSG_HOST_DNS,
+			    imsg.hdr.peerid, 0,
+			    cnt * sizeof(struct sockaddr_storage));
+			if (buf == NULL)
+				break;
+			if (cnt > 0)
+				for (h = hn; h != NULL; h = h->next)
 					imsg_add(buf, &h->ss, sizeof(h->ss));
-				}
-				imsg_close(ibuf, buf);
-			}
+
+			imsg_close(ibuf, buf);
 			break;
 		default:
 			break;
@@ -308,10 +312,12 @@ dispatch_imsg(struct ntpd_conf *conf)
 	return (0);
 }
 
-void
+int
 ntpd_adjtime(double d)
 {
-	struct timeval	tv;
+	struct timeval	tv, olddelta;
+	int		synced = 0;
+	static int	firstadj = 1;
 
 	if (d >= (double)LOG_NEGLIGEE / 1000 ||
 	    d <= -1 * (double)LOG_NEGLIGEE / 1000)
@@ -319,8 +325,12 @@ ntpd_adjtime(double d)
 	else
 		log_debug("adjusting local clock by %fs", d);
 	d_to_tv(d, &tv);
-	if (adjtime(&tv, NULL) == -1)
+	if (adjtime(&tv, &olddelta) == -1)
 		log_warn("adjtime failed");
+	else if (!firstadj && olddelta.tv_sec == 0 && olddelta.tv_usec == 0)
+		synced = 1;
+	firstadj = 0;
+	return (synced);
 }
 
 void

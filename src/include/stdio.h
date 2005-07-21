@@ -1,4 +1,4 @@
-/*	$OpenBSD: stdio.h,v 1.30 2004/06/07 21:11:23 marc Exp $	*/
+/*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
 /*-
@@ -119,8 +119,9 @@ typedef	struct __sFILE {
 	fpos_t	(*_seek)(void *, fpos_t, int);
 	int	(*_write)(void *, const char *, int);
 
-	/* separate buffer for long sequences of ungetc() */
-	struct	__sbuf _ub;	/* ungetc buffer */
+	/* extension data, to avoid further ABI breakage */
+	struct	__sbuf _ext;
+	/* data for long sequences of ungetc() */
 	unsigned char *_up;	/* saved _p when _p is doing ungetc data */
 	int	_ur;		/* saved _r when _r is counting ungetc data */
 
@@ -326,14 +327,10 @@ int	 vscanf(const char *, _BSD_VA_LIST_)
 int	 vsscanf(const char *, const char *, _BSD_VA_LIST_)
 		__attribute__((__format__ (scanf, 2, 0)))
 		__attribute__((__nonnull__ (2)));
+int	 vfscanf(FILE *, const char *, _BSD_VA_LIST_)
+		__attribute__((__format__ (scanf, 2, 0)))
+		__attribute__((__nonnull__ (2)));
 __END_DECLS
-
-/*
- * This is a #define because the function is used internally and
- * (unlike vfscanf) the name __svfscanf is guaranteed not to collide
- * with a user function when _ANSI_SOURCE or _POSIX_SOURCE is defined.
- */
-#define	 vfscanf	__svfscanf
 
 /*
  * Stdio function-access interface.
@@ -354,7 +351,6 @@ __END_DECLS
  */
 __BEGIN_DECLS
 int	__srget(FILE *);
-int	__svfscanf(FILE *, const char *, _BSD_VA_LIST_);
 int	__swbuf(int, FILE *);
 __END_DECLS
 

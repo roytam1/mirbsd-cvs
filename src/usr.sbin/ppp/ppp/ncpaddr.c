@@ -23,7 +23,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $OpenBSD: ncpaddr.c,v 1.7 2004/11/17 02:31:30 itojun Exp $
+ * $OpenBSD: ncpaddr.c,v 1.12 2005/07/17 20:42:03 brad Exp $
  */
 
 #include <sys/types.h>
@@ -159,10 +159,16 @@ mask62bits(const struct in6_addr *mask)
   return masklen;
 }
 
+#if 0
 static void
 adjust_linklocal(struct sockaddr_in6 *sin6)
 {
     /* XXX: ?????!?!?!!!!!  This is horrible ! */
+    /*
+     * The kernel does not understand sin6_scope_id for routing at this moment.
+     * We should rather keep the embedded ID.
+     * jinmei@kame.net, 20011026
+     */
     if (IN6_IS_ADDR_LINKLOCAL(&sin6->sin6_addr) ||
         IN6_IS_ADDR_MC_LINKLOCAL(&sin6->sin6_addr)) {
       sin6->sin6_scope_id =
@@ -170,6 +176,7 @@ adjust_linklocal(struct sockaddr_in6 *sin6)
       *(u_short *)&sin6->sin6_addr.s6_addr[2] = 0;
     }
 }
+#endif
 #endif
 
 void
@@ -378,7 +385,9 @@ ncpaddr_ntowa(const struct ncpaddr *addr)
     sin6.sin6_len = sizeof(sin6);
     sin6.sin6_family = AF_INET6;
     sin6.sin6_addr = addr->ncpaddr_ip6addr;
+#if 0
     adjust_linklocal(&sin6);
+#endif
     if (getnameinfo((struct sockaddr *)&sin6, sizeof sin6, res, sizeof(res),
                     NULL, 0, NI_NUMERICHOST) != 0)
       break;
@@ -406,13 +415,15 @@ ncpaddr_aton(struct ncpaddr *addr, struct ncp *ncp, const char *data)
   if (!ncprange_aton(&range, ncp, data))
     return 0;
 
-  if (range.ncprange_family == AF_INET && range.ncprange_ip4width != 32) {
+  if (range.ncprange_family == AF_INET && range.ncprange_ip4width != 32 &&
+      range.ncprange_ip4addr.s_addr != INADDR_ANY) {
     log_Printf(LogWARN, "ncpaddr_aton: %s: Only 32 bits allowed\n", data);
     return 0;
   }
 
 #ifndef NOINET6
-  if (range.ncprange_family == AF_INET6 && range.ncprange_ip6width != 128) {
+  if (range.ncprange_family == AF_INET6 && range.ncprange_ip6width != 128 &&
+      !IN6_IS_ADDR_UNSPECIFIED(&range.ncprange_ip6addr)) {
     log_Printf(LogWARN, "ncpaddr_aton: %s: Only 128 bits allowed\n", data);
     return 0;
   }
@@ -713,7 +724,10 @@ ncprange_setsa(struct ncprange *range, const struct sockaddr *host,
   case AF_INET6:
     range->ncprange_family = AF_INET6;
     range->ncprange_ip6addr = host6->sin6_addr;
-    range->ncprange_ip6width = mask6 ? mask62bits(&mask6->sin6_addr) : 128;
+    if (IN6_IS_ADDR_UNSPECIFIED(&host6->sin6_addr))
+      range->ncprange_ip6width = 0;
+    else
+      range->ncprange_ip6width = mask6 ? mask62bits(&mask6->sin6_addr) : 128;
     break;
 #endif
 
@@ -905,7 +919,9 @@ ncprange_aton(struct ncprange *range, struct ncp *ncp, const char *data)
     return 1;
 #ifndef NOINET6
   } else if (ncp && strncasecmp(data, "HISADDR6", len) == 0) {
-    ncprange_sethost(range, &ncp->ipv6cp.hisaddr);
+    range->ncprange_family = AF_INET6;
+    range->ncprange_ip6addr = ncp->ipv6cp.hisaddr.ncpaddr_ip6addr;
+    range->ncprange_ip6width = 128;
     return 1;
 #endif
   } else if (ncp && strncasecmp(data, "MYADDR", len) == 0) {
@@ -916,7 +932,9 @@ ncprange_aton(struct ncprange *range, struct ncp *ncp, const char *data)
     return 1;
 #ifndef NOINET6
   } else if (ncp && strncasecmp(data, "MYADDR6", len) == 0) {
-    ncprange_sethost(range, &ncp->ipv6cp.myaddr);
+    range->ncprange_family = AF_INET6;
+    range->ncprange_ip6addr = ncp->ipv6cp.myaddr.ncpaddr_ip6addr;
+    range->ncprange_ip6width = 128;
     return 1;
 #endif
   } else if (ncp && strncasecmp(data, "DNS0", len) == 0) {

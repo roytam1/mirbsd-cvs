@@ -1,4 +1,4 @@
-/*	$OpenBSD: udp_encap.c,v 1.15 2005/04/08 23:15:26 hshoexer Exp $	*/
+/*	$OpenBSD: udp_encap.c,v 1.17 2005/06/04 21:54:55 hshoexer Exp $	*/
 
 /*
  * Copyright (c) 1998, 1999, 2001 Niklas Hallqvist.  All rights reserved.

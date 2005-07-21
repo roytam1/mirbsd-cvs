@@ -1,4 +1,4 @@
-/*	$OpenBSD: skeyinit.c,v 1.45 2003/11/26 00:05:27 espie Exp $	*/
+/*	$OpenBSD: skeyinit.c,v 1.51 2005/07/06 22:15:11 jmc Exp $	*/
 
 /* OpenBSD S/Key (skeyinit.c)
  *
@@ -41,7 +41,6 @@
 void	usage(void);
 void	secure_mode(int *, char *, char *, size_t, char *, size_t);
 void	normal_mode(char *, int, char *, char *);
-void	timedout(int);
 void	convert_db(void);
 void	enable_db(int);
 
@@ -93,12 +92,12 @@ main(int argc, char **argv)
 			case 'a':
 				if (argv[++i] == NULL || argv[i][0] == '\0')
 					usage();
-				if (auth_type == NULL)
-					auth_type = argv[i];
+				auth_type = argv[i];
 				break;
 			case 's':
 				defaultsetup = 0;
-				auth_type = "skey";
+				if (auth_type == NULL)
+					auth_type = "skey";
 				break;
 			case 'x':
 				hexmode = 1;
@@ -179,7 +178,7 @@ main(int argc, char **argv)
 		/* existing user */
 		break;
 	case 1:
-		if (!defaultsetup) {
+		if (!defaultsetup && strcmp(auth_type, "skey") == 0) {
 			fprintf(stderr,
 "You must authenticate yourself before using S/Key for the first time.  In\n"
 "secure mode this is normally done via an existing S/Key key.  However, since\n"
@@ -290,7 +289,7 @@ main(int argc, char **argv)
 	    fchmod(fileno(skey.keyfile), S_IRUSR | S_IWUSR) != 0)
 		err(1, "can't set owner/mode for %s", pp->pw_name);
 	if (n == 0)
-		n = 99;
+		n = 100;
 
 	/* Set hash type if asked to */
 	if (ht && strcmp(ht, skey_get_algorithm()) != 0)
@@ -412,7 +411,7 @@ normal_mode(char *username, int n, char *key, char *seed)
 		if (i > 2)
 			errx(1, "S/Key entry not updated");
 
-		if (readpassphrase("Enter secret passphrase: ", passwd,
+		if (readpassphrase("Enter new secret passphrase: ", passwd,
 		    sizeof(passwd), 0) == NULL || passwd[0] == '\0')
 			exit(1);
 
@@ -425,7 +424,7 @@ normal_mode(char *username, int n, char *key, char *seed)
 			(void)fputs("ERROR: Your passphrase may not be the "
 			    "same as your user name.\n", stderr);
 			continue;
-		} else if (strspn(passwd, "abcdefghijklmnopqrstuvwxyz") == 
+		} else if (strspn(passwd, "abcdefghijklmnopqrstuvwxyz") ==
 		    strlen(passwd)) {
 			(void)fputs("ERROR: Your passphrase must contain more "
 			    "than just lower case letters.\nWhitespace, "
@@ -552,22 +551,12 @@ convert_db(void)
 	    "work.\n", _PATH_SKEYDIR, _PATH_SKEYKEYS);
 }
 
-#define TIMEOUT_MSG	"Timed out waiting for input.\n"
-void
-timedout(int signo)
-{
-
-	write(STDERR_FILENO, TIMEOUT_MSG, sizeof(TIMEOUT_MSG) - 1);
-	_exit(1);
-}
-
 void
 usage(void)
 {
 	extern char *__progname;
 
-	(void)fprintf(stderr, "usage: %s [-r] [-s] [-x] [-C] [-D] [-E] "
-	    "[-a auth_type] [-n count]\n                "
-	    "[-md4|-md5|-sha1|-rmd160] [user]\n", __progname);
+	(void)fprintf(stderr, "usage: %s [-CDErsx] [-a auth-type] [-n count]"
+	    "\n\t[-md4 | -md5 | -rmd160 | -sha1] [user]\n", __progname);
 	exit(1);
 }

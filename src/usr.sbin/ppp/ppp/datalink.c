@@ -23,7 +23,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	$OpenBSD: datalink.c,v 1.43 2003/04/07 23:58:53 deraadt Exp $
+ *	$OpenBSD: datalink.c,v 1.47 2005/07/18 22:51:03 brad Exp $
  */
 
 #include <sys/param.h>
@@ -34,6 +34,7 @@
 #include <sys/un.h>
 
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,6 +80,7 @@
 
 static void datalink_LoginDone(struct datalink *);
 static void datalink_NewState(struct datalink *, int);
+static char *datalink_NextName(struct datalink *);
 
 static void
 datalink_OpenTimeout(void *v)
@@ -267,7 +269,7 @@ datalink_UpdateSet(struct fdescriptor *d, fd_set *r, fd_set *w, fd_set *e,
         datalink_Up(dl, 1, 1);
       else
         break;
-      /* fall through */
+      /* FALLTHROUGH */
 
     case DATALINK_OPENING:
       if (dl->dial.timer.state != TIMER_RUNNING) {
@@ -621,7 +623,7 @@ datalink_NCPUp(struct datalink *dl)
         /* First link in the bundle */
         auth_Select(dl->bundle, dl->peer.authname);
         bundle_CalculateBandwidth(dl->bundle);
-        /* fall through */
+        /* FALLTHROUGH */
       case MP_ADDED:
         /* We're in multilink mode ! */
         dl->physical->link.ccp.fsm.open_mode = OPEN_PASSIVE;	/* override */
@@ -756,12 +758,12 @@ datalink_LayerDown(void *v, struct fsm *fp)
         fsm2initial(&dl->physical->link.ccp.fsm);
         datalink_NewState(dl, DATALINK_LCP);  /* before parent TLD */
         (*dl->parent->LayerDown)(dl->parent->object, fp);
-        /* fall through (just in case) */
+        /* FALLTHROUGH (just in case) */
 
       case DATALINK_CBCP:
         if (!dl->cbcp.required)
           cbcp_Down(&dl->cbcp);
-        /* fall through (just in case) */
+        /* FALLTHROUGH (just in case) */
 
       case DATALINK_AUTH:
         timer_Stop(&dl->pap.authtimer);
@@ -960,7 +962,8 @@ datalink_Destroy(struct datalink *dl)
 void
 datalink_Up(struct datalink *dl, int runscripts, int packetmode)
 {
-  if (dl->physical->type & (PHYS_DIRECT|PHYS_DEDICATED))
+  if (!Enabled(dl->bundle, OPT_FORCE_SCRIPTS) &&
+      (dl->physical->type & (PHYS_DIRECT|PHYS_DEDICATED)))
     /* Ignore scripts */
     runscripts = 0;
 
@@ -980,7 +983,7 @@ datalink_Up(struct datalink *dl, int runscripts, int packetmode)
     case DATALINK_OPENING:
       if (!dl->script.run && runscripts)
         dl->script.run = 1;
-      /* fall through */
+      /* FALLTHROUGH */
 
     case DATALINK_DIAL:
     case DATALINK_LOGIN:
@@ -1004,7 +1007,7 @@ datalink_Close(struct datalink *dl, int how)
     case DATALINK_OPEN:
       peerid_Init(&dl->peer);
       fsm2initial(&dl->physical->link.ccp.fsm);
-      /* fall through */
+      /* FALLTHROUGH */
 
     case DATALINK_CBCP:
     case DATALINK_AUTH:
@@ -1030,7 +1033,7 @@ datalink_Down(struct datalink *dl, int how)
     case DATALINK_OPEN:
       peerid_Init(&dl->peer);
       fsm2initial(&dl->physical->link.ccp.fsm);
-      /* fall through */
+      /* FALLTHROUGH */
 
     case DATALINK_CBCP:
     case DATALINK_AUTH:
@@ -1038,7 +1041,7 @@ datalink_Down(struct datalink *dl, int how)
       fsm2initial(&dl->physical->link.lcp.fsm);
       if (dl->state == DATALINK_OPENING)
         return;			/* we're doing a callback... */
-      /* fall through */
+      /* FALLTHROUGH */
 
     default:
       datalink_ComeDown(dl, how);
@@ -1291,7 +1294,7 @@ iov2datalink(struct bundle *bundle, struct iovec *iov, int *niov, int maxiov,
 {
   struct datalink *dl, *cdl;
   struct fsm_retry copy;
-  char *oname;
+  char *oname, *pname;
 
   dl = (struct datalink *)iov[(*niov)++].iov_base;
   dl->name = iov[*niov].iov_base;
@@ -1307,10 +1310,14 @@ iov2datalink(struct bundle *bundle, struct iovec *iov, int *niov, int maxiov,
   do {
     for (cdl = bundle->links; cdl; cdl = cdl->next)
       if (!strcasecmp(dl->name, cdl->name)) {
-        if (oname)
-          free(datalink_NextName(dl));
+        if ((pname = datalink_NextName(dl)) == NULL) {
+	  for ((*niov)--; *niov < maxiov; (*niov)++)
+	    free(iov[*niov].iov_base);
+	  return NULL;
+	} else if (oname)
+          free(pname);
         else
-          oname = datalink_NextName(dl);
+          oname = pname;
         break;	/* Keep renaming 'till we have no conflicts */
       }
   } while (cdl);
@@ -1422,7 +1429,7 @@ datalink_Rename(struct datalink *dl, const char *name)
   dl->physical->link.name = dl->name = strdup(name);
 }
 
-char *
+static char *
 datalink_NextName(struct datalink *dl)
 {
   int f, n;
@@ -1430,7 +1437,10 @@ datalink_NextName(struct datalink *dl)
   size_t len;
 
   len = strlen(dl->name);
-  name = (char *)malloc(len+3);
+  if ((name = (char *)malloc(len+3)) == NULL) {
+    log_Printf(LogERROR, "datalink_NextName: Out of memory !\n");
+    return NULL;
+  }
   for (f = len - 1; f >= 0; f--)
     if (!isdigit(dl->name[f]))
       break;

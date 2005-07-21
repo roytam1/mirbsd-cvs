@@ -1,3 +1,5 @@
+/*	$OpenBSD: spray.c,v 1.6 2004/10/01 04:08:46 jsg Exp $	*/
+
 /*
  * Copyright (c) 1993 Winning Strategies, Inc.
  * All rights reserved.

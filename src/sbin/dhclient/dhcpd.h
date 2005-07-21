@@ -1,4 +1,4 @@
-/*	$OpenBSD: dhcpd.h,v 1.33 2004/05/06 22:29:15 deraadt Exp $	*/
+/*	$OpenBSD: dhcpd.h,v 1.45 2005/07/17 19:33:55 krw Exp $	*/
 
 /*
  * Copyright (c) 2004 Henning Brauer <henning@openbsd.org>
@@ -71,19 +71,23 @@
 #include <unistd.h>
 
 #include "dhcp.h"
-#include "tree.h"
 
 #define	LOCAL_PORT	68
 #define	REMOTE_PORT	67
 
+struct option {
+	char *name;
+	char *format;
+};
+
 struct option_data {
-	int		 len;
+	unsigned int	 len;
 	u_int8_t	*data;
 };
 
 struct string_list {
 	struct string_list	*next;
-	char			*string;
+	char			string[1];	/* Actually bigger. */
 };
 
 struct iaddr {
@@ -183,8 +187,6 @@ struct client_state {
 	struct client_config	 *config;
 	char			**scriptEnv;
 	int			  scriptEnvsize;
-	struct string_list	 *env;
-	int			  envc;
 };
 
 struct interface_info {
@@ -220,20 +222,6 @@ struct protocol {
 	void *local;
 };
 
-#define DEFAULT_HASH_SIZE 97
-
-struct hash_bucket {
-	struct hash_bucket *next;
-	unsigned char *name;
-	int len;
-	unsigned char *value;
-};
-
-struct hash_table {
-	int hash_count;
-	struct hash_bucket *buckets[DEFAULT_HASH_SIZE];
-};
-
 /* Default path to dhcpd config file. */
 #define	_PATH_DHCLIENT_CONF	"/etc/dhclient.conf"
 #define	_PATH_DHCLIENT_DB	"/var/db/dhclient.leases"
@@ -245,10 +233,8 @@ struct hash_table {
 /* External definitions... */
 
 /* options.c */
-int cons_options(struct packet *, struct dhcp_packet *, int,
-    struct tree_cache **, int, int, int, u_int8_t *, int);
-char *pretty_print_option(unsigned int,
-    unsigned char *, int, int, int);
+int cons_options(unsigned char *, const int, struct option_data *);
+char *pretty_print_option(unsigned int, unsigned char *, int, int, int);
 void do_packet(struct interface_info *, struct dhcp_packet *,
     int, unsigned int, struct iaddr, struct hardware *);
 
@@ -263,9 +249,6 @@ int parse_warn(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
 /* conflex.c */
 extern int lexline, lexchar;
 extern char *token_line, *tlname;
-extern char comments[4096];
-extern int comment_index;
-extern int eol_token;
 void new_parse(char *);
 int next_token(char **, FILE *);
 int peek_token(char **, FILE *);
@@ -277,18 +260,9 @@ char *parse_string(FILE *);
 int parse_ip_addr(FILE *, struct iaddr *);
 void parse_hardware_param(FILE *, struct hardware *);
 void parse_lease_time(FILE *, time_t *);
-unsigned char *parse_numeric_aggregate(FILE *, unsigned char *, int *,
-    int, int, int);
+int parse_numeric_aggregate(FILE *, unsigned char *, int, int, int);
 void convert_num(unsigned char *, char *, int, int);
 time_t parse_date(FILE *);
-
-/* tree.c */
-pair cons(caddr_t, pair);
-
-/* alloc.c */
-struct string_list	*new_string_list(size_t size);
-struct hash_table	*new_hash_table(int);
-struct hash_bucket	*new_hash_bucket(void);
 
 /* bpf.c */
 int if_register_bpf(struct interface_info *);
@@ -312,18 +286,8 @@ void add_protocol(char *, int, void (*)(struct protocol *), void *);
 void remove_protocol(struct protocol *);
 int interface_link_status(char *);
 
-/* hash.c */
-struct hash_table *new_hash(void);
-void add_hash(struct hash_table *, unsigned char *, int, unsigned char *);
-unsigned char *hash_lookup(struct hash_table *, unsigned char *, int);
-
 /* tables.c */
-extern struct option dhcp_options[256];
-extern unsigned char dhcp_option_default_priority_list[];
-extern int sizeof_dhcp_option_default_priority_list;
-extern struct hash_table universe_hash;
-extern struct universe dhcp_universe;
-void initialize_universes(void);
+extern const struct option dhcp_options[256];
 
 /* convert.c */
 u_int32_t getULong(unsigned char *);
@@ -345,7 +309,6 @@ char *piaddr(struct iaddr);
 extern char *path_dhclient_conf;
 extern char *path_dhclient_db;
 extern time_t cur_time;
-extern int log_priority;
 extern int log_perror;
 
 extern struct client_config top_level_config;
@@ -387,7 +350,7 @@ void client_envadd(struct client_state *,
 void script_set_env(struct client_state *, const char *, const char *,
     const char *);
 void script_flush_env(struct client_state *);
-int dhcp_option_ev_name(char *, size_t, struct option *);
+int dhcp_option_ev_name(char *, size_t, const struct option *);
 
 struct client_lease *packet_to_lease(struct packet *);
 void go_daemon(void);
@@ -425,7 +388,7 @@ void make_client_config(struct interface_info *, struct client_config *);
 void parse_client_lease_statement(FILE *, int);
 void parse_client_lease_declaration(FILE *, struct client_lease *,
     struct interface_info **);
-struct option *parse_option_decl(FILE *, struct option_data *);
+int parse_option_decl(FILE *, struct option_data *);
 void parse_string_list(FILE *, struct string_list **, int);
 void parse_reject_statement(FILE *, struct client_config *);
 

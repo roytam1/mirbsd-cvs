@@ -1,4 +1,4 @@
-.\" $OpenBSD: usermod.8,v 1.16 2003/09/04 08:32:15 jmc Exp $
+.\" $OpenBSD: usermod.8,v 1.19 2004/06/26 09:40:52 jmc Exp $
 .\" $NetBSD: usermod.8,v 1.17 2003/02/14 16:11:37 grant Exp $
 .\"
 .\" Copyright (c) 1999 Alistair G. Crooks.  All rights reserved.
@@ -86,15 +86,14 @@ without populating it; if the
 option is specified, tries to move the old home directory to
 .Ar home-directory .
 .It Fl e Ar expiry-time
-sets the time at which the current password expires.
-This can be used to implement password aging.
+sets the time at which the account expires.
 It should be entered in the form
 .Dq month day year ,
 where month is the month name (the first three characters are
 sufficient), day is the day of the month, and year is the year.
 Time in seconds since the epoch (UTC) is also valid.
 A value of 0 can be used to disable this feature.
-This value can be preset for all users using the
+This value can be preset for new users using the
 .Ar expire
 field in the
 .Pa /etc/usermgmt.conf
@@ -103,7 +102,7 @@ See
 .Xr usermgmt.conf 5
 for more details.
 .It Fl f Ar inactive-time
-sets the time at which the account expires.
+sets the time at which the password expires.
 See the
 .Fl e
 option.
@@ -223,6 +222,19 @@ utility exits 0 on success, and \*(Gt0 if an error occurs.
 .Xr passwd 5 ,
 .Xr usermgmt.conf 5 ,
 .Xr pwd_mkdb 8
+.Sh STANDARDS
+Other implementations of the
+.Nm usermod
+utility use the
+.Ar inactive-time
+parameter to refer to the maximum number of days allowed between logins (this
+is used to lock "stale" accounts that have not been used for a period of time).
+However, on
+.Ox
+systems this parameter refers instead to the password change time.
+This is due to differences in the
+.Xr passwd 5
+database compared to other operating systems.
 .Sh HISTORY
 The
 .Nm

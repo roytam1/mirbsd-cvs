@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$OpenBSD: MAKEDEV.md,v 1.24 2004/04/11 18:05:23 millert Exp $-},
+	{-$OpenBSD: MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp $-},
 etc.MACHINE)dnl
 dnl
 dnl Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
@@ -46,6 +46,7 @@ _mkdev(s64_czs, cua[a-z], {-u=${i#cua*}
 	M cua$u c major_s64_czs_c Add($n, 128) 660 dialer uucp-})dnl
 __devitem(presto, presto*, Prestoserve NVRAM memory)dnl
 disk_q(presto)dnl
+__devitem(apm, apm, Power management device, tctrl)dnl
 dnl
 dnl *** MAKEDEV itself
 dnl
@@ -71,11 +72,17 @@ _DEV(st, 18, 11)
 _TITLE(term)
 _DEV(s64_czs, 12)
 _DEV(s64_tzs, 12)
+_DEV(com, 36)
+_DEV(mag, 100)
+_DEV(spif, 102)
 _TITLE(pty)
 _DEV(ptm, 125)
 _DEV(pty, 21)
 _DEV(tty, 20)
-dnl _TTILE(prn)
+_TITLE(prn)
+_DEV(bpp, 104)
+_DEV(bppmag, 101)
+_DEV(bppsp, 103)
 _TITLE(cons)
 _DEV(wscons)
 _DEV(wsdisp, 78)
@@ -84,18 +91,14 @@ _DEV(wsmux, 81)
 _TITLE(point)
 _DEV(wsmouse, 80)
 _TITLE(spec)
+_DEV(apm, 30)
 _DEV(au, 69)
 _DEV(bpf, 105)
-_DEV(bpp, 104)
-_DEV(bppmag, 101)
-_DEV(bppsp, 103)
 _DEV(fdesc, 24)
 _DEV(lkm, 112)
 _DEV(oppr)
-_DEV(mag, 100)
 _DEV(pf, 59)
 _DEV(rnd, 119)
-_DEV(spif, 102)
 _DEV(ses, 124)
 _DEV(ss, 121)
 _DEV(systrace, 50)

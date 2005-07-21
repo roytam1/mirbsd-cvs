@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcpdump.c,v 1.39 2004/09/16 11:29:51 markus Exp $	*/
+/*	$OpenBSD: tcpdump.c,v 1.46 2005/05/28 09:01:52 reyk Exp $	*/
 
 /*
  * Copyright (c) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997
@@ -40,6 +40,7 @@ static const char rcsid[] =
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/ioctl.h>
+#include <sys/wait.h>
 
 #include <netinet/in.h>
 
@@ -51,6 +52,7 @@ static const char rcsid[] =
 #include <unistd.h>
 #include <ctype.h>
 #include <err.h>
+#include <errno.h>
 
 #include "interface.h"
 #include "addrtoname.h"
@@ -70,6 +72,7 @@ int aflag;			/* translate network and broadcast addresses */
 int dflag;			/* print filter code */
 int eflag;			/* print ethernet header */
 int fflag;			/* don't translate "foreign" IP address */
+int Lflag;			/* List available link types */
 int nflag;			/* leave addresses as numbers */
 int Nflag;			/* remove domains from printed host names */
 int Oflag = 1;			/* run filter code optimizer */
@@ -88,12 +91,15 @@ char *program_name;
 
 int32_t thiszone;		/* seconds offset from gmt to local time */
 
+extern volatile pid_t child_pid;
+
 /* Externs */
 extern void bpf_dump(struct bpf_program *, int);
 extern int esp_init(char *);
 
 /* Forwards */
 RETSIGTYPE cleanup(int);
+RETSIGTYPE gotchld(int);
 extern __dead void usage(void);
 
 /* Length of saved portion of packet. */
@@ -126,9 +132,7 @@ static struct printer printers[] = {
 	{ pfsync_if_print,		DLT_PFSYNC },
 	{ ppp_ether_if_print,		DLT_PPP_ETHER },
 	{ ieee802_11_if_print,		DLT_IEEE802_11 },
-#ifdef DLT_IEEE802_11_RADIO
 	{ ieee802_11_radio_if_print,	DLT_IEEE802_11_RADIO },
-#endif
 	{ NULL,				0 },
 };
 
@@ -159,6 +163,7 @@ init_pfosfp(void)
 static pcap_t *pd;
 
 /* Multiple DLT support */
+void		 pcap_list_linktypes(pcap_t *);
 void		 pcap_print_linktype(u_int);
 int		 pcap_datalink_name_to_val(const char *);
 const char	*pcap_datalink_val_to_name(u_int);
@@ -189,9 +194,7 @@ const struct pcap_linktype {
 	{ DLT_PPP_ETHER,	"PPP_ETHER" },
 	{ DLT_IEEE802_11,	"IEEE802_11" },
 	{ DLT_PFLOG,		"PFLOG" },
-#ifdef DLT_IEEE802_11_RADIO
 	{ DLT_IEEE802_11_RADIO,	"IEEE802_11_RADIO" },
-#endif
 	{ 0,			NULL }
 };
 
@@ -232,6 +235,34 @@ pcap_print_linktype(u_int dlt)
 		fprintf(stderr, "<unknown: %u>\n", dlt);
 }
 
+void
+pcap_list_linktypes(pcap_t *p)
+{
+	int fd = p->fd;
+	u_int n;
+
+#define MAXDLT	100
+
+	u_int dltlist[MAXDLT];
+	struct bpf_dltlist dl = {MAXDLT, dltlist};
+
+	if (fd < 0)
+		error("Invalid bpf descriptor");
+
+	if (ioctl(fd, BIOCGDLTLIST, &dl) < 0)
+		err(1, "BIOCGDLTLIST");
+
+	if (dl.bfl_len > MAXDLT)
+		error("Invalid number of linktypes: %u\n", dl.bfl_len);
+
+	fprintf(stderr, "%d link types supported:\n", dl.bfl_len);
+
+	for (n = 0; n < dl.bfl_len; n++) {
+		fprintf(stderr, "\t");
+		pcap_print_linktype(dltlist[n]);
+	}
+}
+
 extern int optind;
 extern int opterr;
 extern char *optarg;
@@ -269,7 +300,7 @@ main(int argc, char **argv)
 
 	opterr = 0;
 	while ((op = getopt(argc, argv,
-	    "ac:deE:fF:i:lnNOopqr:s:StT:vw:xXy:Y")) != -1)
+	    "ac:deE:fF:i:lLnNOopqr:s:StT:vw:xXy:Y")) != -1)
 		switch (op) {
 
 		case 'a':
@@ -308,7 +339,9 @@ main(int argc, char **argv)
 			setvbuf(stdout, NULL, _IOLBF, 0);
 #endif
 			break;
-
+		case 'L':
+			++Lflag;
+			break;
 		case 'n':
 			++nflag;
 			break;
@@ -418,11 +451,12 @@ main(int argc, char **argv)
 
 	if (snaplen == 0) {
 		switch (dlt) {
-#ifdef DLT_IEEE802_11_RADIO
-		case DLT_IEEE802_11_RADIO:
-			snaplen = RADIOTAP_SNAPLEN;
+		case DLT_IEEE802_11:
+			snaplen = IEEE802_11_SNAPLEN;
 			break;
-#endif
+		case DLT_IEEE802_11_RADIO:
+			snaplen = IEEE802_11_RADIO_SNAPLEN;
+			break;
 		default:
 			snaplen = DEFAULT_SNAPLEN;
 			break;
@@ -465,6 +499,11 @@ main(int argc, char **argv)
 		}
 	}
 
+	if (Lflag) {
+		pcap_list_linktypes(pd);
+		exit(0);
+	}
+
 	fcode = priv_pcap_setfilter(pd, Oflag, netmask);
 	/* state: STATE_FILTER */
 	if (fcode == NULL)
@@ -477,6 +516,7 @@ main(int argc, char **argv)
 
 	setsignal(SIGTERM, cleanup);
 	setsignal(SIGINT, cleanup);
+	setsignal(SIGCHLD, gotchld);
 	/* Cooperate with nohup(1) XXX is this still necessary/working? */
 	if ((oldhandler = setsignal(SIGHUP, cleanup)) != SIG_DFL)
 		(void)setsignal(SIGHUP, oldhandler);
@@ -528,14 +568,15 @@ RETSIGTYPE
 cleanup(int signo)
 {
 	struct pcap_stat stat;
+	sigset_t allsigs;
 	char buf[1024];
 
+	sigfillset(&allsigs);
+	sigprocmask(SIG_BLOCK, &allsigs, NULL);
+
 	/* Can't print the summary if reading from a savefile */
+	(void)write(STDERR_FILENO, "\n", 1);
 	if (pd != NULL && pcap_file(pd) == NULL) {
-#if 0
-		(void)fflush(stdout);	/* XXX unsafe */
-#endif
-		(void)write(STDERR_FILENO, "\n", 1);
 		if (pcap_stats(pd, &stat) < 0) {
 			(void)snprintf(buf, sizeof buf,
 			    "pcap_stats: %s\n", pcap_geterr(pd));
@@ -550,6 +591,25 @@ cleanup(int signo)
 		}
 	}
 	_exit(0);
+}
+
+RETSIGTYPE
+gotchld(int signo)
+{
+	pid_t pid;
+	int status;
+	int save_err = errno;
+
+	do {
+		pid = waitpid(child_pid, &status, WNOHANG);
+		if (pid > 0 && (WIFEXITED(status) || WIFSIGNALED(status)))
+			cleanup(0);
+	} while (pid == -1 && errno == EINTR);
+
+	if (pid == -1)
+		_exit(1);
+
+	errno = save_err;
 }
 
 /* dump the buffer in `emacs-hexl' style */
@@ -665,7 +725,7 @@ usage(void)
 	(void)fprintf(stderr, "%s version %s\n", program_name, version);
 	(void)fprintf(stderr, "libpcap version %s\n", pcap_version);
 	(void)fprintf(stderr,
-"Usage: %s [-adeflNnOopqStvXx] [-c count] [-E [espalg:]espkey] [-F file]\n",
+"Usage: %s [-adefLlNnOopqStvXx] [-c count] [-E [espalg:]espkey] [-F file]\n",
 	    program_name);
 	(void)fprintf(stderr,
 "\t\t[-i interface] [-r file] [-s snaplen] [-T type] [-w file]\n");

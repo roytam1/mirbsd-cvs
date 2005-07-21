@@ -1,4 +1,4 @@
-/* $OpenBSD: commands.c,v 1.14 2004/05/09 22:14:15 deraadt Exp $	 */
+/* $OpenBSD: commands.c,v 1.17 2005/06/17 09:40:48 markus Exp $	 */
 
 /*
  *  Top users/processes display for Unix
@@ -92,13 +92,15 @@ show_help(void)
 		    "k       - kill processes; send a signal to a list of processes\n"
 		    "n or #  - change number of processes to display\n", stdout);
 		fputs(
-		    "o       - specify sort order (size, res, cpu, time)\n",
+		    "o       - specify sort order (size, res, cpu, time)\n"
+		    "p       - display one process (+ selects all processes)\n",
 		    stdout);
 		fputs(
 		    "r       - renice a process\n"
 		    "s       - change number of seconds to delay between updates\n"
 		    "S       - toggle the display of system processes\n"
 		    "u       - display processes for only one user (+ selects all users)\n"
+		    "C       - toggle the display of the command line arguments\n"
 		    "\n\n", stdout);
 	}
 }
@@ -156,7 +158,7 @@ scanint(char *str, int *intp)
 #define ERRMAX 20
 
 struct errs {			/* structure for a system-call error */
-	int             errno;	/* value of errno (that is, the actual error) */
+	int             err;	/* value of errno (that is, the actual error) */
 	char           *arg;	/* argument that caused the error */
 };
 
@@ -173,7 +175,7 @@ static char    *err_listem =
 		return(err_toomany); \
 	} else { \
 		errs[errcnt].arg = (p); \
-		errs[errcnt++].errno = (e); \
+		errs[errcnt++].err = (e); \
 	}
 
 #define STRMAX 80
@@ -205,7 +207,7 @@ err_string(void)
 	/* loop thru the sorted list, building an error string */
 	while (cnt < errcnt) {
 		errp = &(errs[cnt++]);
-		if (errp->errno != currerr) {
+		if (errp->err != currerr) {
 			if (currerr != -1) {
 				if (str_adderr(string, sizeof string, currerr) >
 				    sizeof string - 2)
@@ -214,7 +216,7 @@ err_string(void)
 				/* we know there's more */
 				(void) strlcat(string, "; ", sizeof string);
 			}
-			currerr = errp->errno;
+			currerr = errp->err;
 			first = Yes;
 		}
 		if (str_addarg(string, sizeof string, errp->arg, first) >=
@@ -278,7 +280,7 @@ err_compar(const void *e1, const void *e2)
 	const struct errs *p2 = (struct errs *) e2;
 	int result;
 
-	if ((result = p1->errno - p2->errno) == 0)
+	if ((result = p1->err - p2->err) == 0)
 		return (strcmp(p1->arg, p2->arg));
 	return (result);
 }
@@ -304,7 +306,7 @@ show_errors(void)
 	printf("%d error%s:\n\n", errcnt, errcnt == 1 ? "" : "s");
 	while (cnt++ < errcnt) {
 		printf("%5s: %s\n", errp->arg,
-		    errp->errno == 0 ? "Not a number" : strerror(errp->errno));
+		    errp->err == 0 ? "Not a number" : strerror(errp->err));
 		errp++;
 	}
 }
