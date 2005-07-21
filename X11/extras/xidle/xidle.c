@@ -24,10 +24,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <X11/Xlib.h>
-#include <X11/extensions/scrnsaver.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <X11/Xlib.h>
+#include <X11/extensions/scrnsaver.h>
 #include <err.h>
 #include <getopt.h>
 #include <limits.h>
@@ -36,6 +36,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 #ifndef PATH_PROG
 #define PATH_PROG	"/usr/X11R6/bin/xlock"

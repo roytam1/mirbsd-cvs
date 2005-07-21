@@ -1,3 +1,4 @@
+/*	$OpenBSD: xvctl.c,v 1.3 2005/06/11 17:52:31 fgsch Exp $	*/
 /*
  * Copyright (c) 2001 Marc Espie.
  *
@@ -23,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/Xvlib.h>
@@ -32,6 +34,8 @@
 #include <err.h>
 #include <string.h>
 #include <ctype.h>
+
+__RCSID("$MirOS$");
 
 void
 usage()
