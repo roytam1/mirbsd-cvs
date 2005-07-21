@@ -1,6 +1,3 @@
-/*	$OpenBSD: lshrdi3.c,v 1.3 2003/06/02 23:28:08 millert Exp $	*/
-/*	$NetBSD: lshrdi3.c,v 1.5 1995/10/07 09:26:30 mycroft Exp $	*/
-
 /*-
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -35,11 +32,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)lshrdi3.c	8.1 (Berkeley) 6/4/93";
-#else
-static char rcsid[] = "$OpenBSD: lshrdi3.c,v 1.3 2003/06/02 23:28:08 millert Exp $";
-#endif
+static char rcsid[] = "$OpenBSD: lshrdi3.c,v 1.5 2004/11/28 07:23:41 mickey Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include "quad.h"
@@ -48,20 +41,19 @@ static char rcsid[] = "$OpenBSD: lshrdi3.c,v 1.3 2003/06/02 23:28:08 millert Exp
  * Shift an (unsigned) quad value right (logical shift right).
  */
 quad_t
-__lshrdi3(a, shift)
-	quad_t a;
-	qshift_t shift;
+__lshrdi3(quad_t a, qshift_t shift)
 {
 	union uu aa;
 
+	if (shift == 0)
+		return(a);
 	aa.q = a;
-	if (shift >= LONG_BITS) {
-		aa.ul[L] = shift >= QUAD_BITS ? 0 :
-		    aa.ul[H] >> (shift - LONG_BITS);
+	if (shift >= INT_BITS) {
+		aa.ul[L] = aa.ul[H] >> (shift - INT_BITS);
 		aa.ul[H] = 0;
-	} else if (shift > 0) {
+	} else {
 		aa.ul[L] = (aa.ul[L] >> shift) |
-		    (aa.ul[H] << (LONG_BITS - shift));
+		    (aa.ul[H] << (INT_BITS - shift));
 		aa.ul[H] >>= shift;
 	}
 	return (aa.q);

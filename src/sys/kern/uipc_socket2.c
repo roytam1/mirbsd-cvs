@@ -1,4 +1,4 @@
-/*	$OpenBSD: uipc_socket2.c,v 1.38 2004/04/25 16:25:05 markus Exp $	*/
+/*	$OpenBSD: uipc_socket2.c,v 1.40 2005/07/18 02:43:27 fgsch Exp $	*/
 /*	$NetBSD: uipc_socket2.c,v 1.11 1996/02/04 02:17:55 christos Exp $	*/
 
 /*
@@ -814,7 +814,7 @@ sbcompress(struct sockbuf *sb, struct mbuf *m, struct mbuf *n)
 		if (n)
 			n->m_flags |= eor;
 		else
-			printf("semi-panic: sbcompress\n");
+			printf("semi-panic: sbcompress");
 	}
 	SBLASTMBUFCHK(sb, __func__);
 }

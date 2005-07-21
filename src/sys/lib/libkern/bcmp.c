@@ -1,4 +1,4 @@
-/*	$OpenBSD: bcmp.c,v 1.6 2003/06/02 23:28:08 millert Exp $	*/
+/*	$OpenBSD: bcmp.c,v 1.8 2004/11/28 07:23:41 mickey Exp $	*/
 
 /*
  * Copyright (c) 1987 Regents of the University of California.
@@ -30,8 +30,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-/*static char *sccsid = "from: @(#)bcmp.c	5.6 (Berkeley) 2/24/91";*/
-static char *rcsid = "$OpenBSD: bcmp.c,v 1.6 2003/06/02 23:28:08 millert Exp $";
+static char *rcsid = "$OpenBSD: bcmp.c,v 1.8 2004/11/28 07:23:41 mickey Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
@@ -48,12 +47,12 @@ bcmp(b1, b2, length)
 	const void *b1, *b2;
 	register size_t length;
 {
-	register const char *p1, *p2;
+	register char *p1, *p2;
 
 	if (length == 0)
 		return(0);
-	p1 = (const char *)b1;
-	p2 = (const char *)b2;
+	p1 = (char *)b1;
+	p2 = (char *)b2;
 	do
 		if (*p1++ != *p2++)
 			break;
