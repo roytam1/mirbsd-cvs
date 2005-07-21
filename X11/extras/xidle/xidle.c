@@ -1,4 +1,4 @@
-/*	$OpenBSD: xidle.c,v 1.3 2005/07/08 21:03:59 fgsch Exp $	*/
+/*	$OpenBSD: xidle.c,v 1.6 2005/07/21 15:25:08 fgsch Exp $	*/
 /*
  * Copyright (c) 2005 Federico G. Schwindt.
  *
@@ -172,7 +172,7 @@ action(struct xinfo *xi, char **args)
 
 	case 0:
 		execv(*args, args);
-		exit(0);
+		exit(1);
 		/* NOTREACHED */
 
 	default:
@@ -252,6 +252,11 @@ main(int argc, char **argv)
 		}
 	}
 
+	if ((argc - optind) != 0) {
+		usage();
+		/* NOTREACHED */
+	}
+
 	for (ap = args; ap < &args[9] && 
 	    (*ap = strsep(&program, " ")) != NULL;) {
 		if (**ap != '\0')
@@ -288,8 +293,10 @@ main(int argc, char **argv)
 			    &ce->state);
 
 			/* Check it was for real. */
-			if (ce->y > x.coord_y + area ||
-			    ce->x > x.coord_x + area)
+			if (ce->x_root < x.coord_x ||
+			    ce->y_root < x.coord_y ||
+			    ce->x_root > x.coord_x + area ||
+			    ce->y_root > x.coord_y + area)
 				break;
 			/* FALLTHROUGH */
 
