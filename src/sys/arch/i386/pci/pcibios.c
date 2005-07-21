@@ -1,4 +1,4 @@
-/*	$OpenBSD: pcibios.c,v 1.29 2003/06/03 20:10:32 mickey Exp $	*/
+/*	$OpenBSD: pcibios.c,v 1.32 2005/01/08 18:17:58 mickey Exp $	*/
 /*	$NetBSD: pcibios.c,v 1.5 2000/08/01 05:23:59 uch Exp $	*/
 
 /*
@@ -182,7 +182,7 @@ pcibiosattach(parent, self, aux)
 	    &rev_min, &mech1, &mech2,
 	    &scmech1, &scmech2, &sc->max_bus);
 
-	printf(": rev. %d.%d @ 0x%lx/0x%lx\n",
+	printf(": rev %d.%d @ 0x%lx/0x%lx\n",
 	    rev_maj, rev_min >> 4, pcibios_entry_info.bei_base,
 	    pcibios_entry_info.bei_size);
 
@@ -252,7 +252,8 @@ pcibios_pir_init(sc)
 		struct pcibios_pir_header *pirh;
 		int i;
 
-		pirh = (struct pcibios_pir_header *)p = ISA_HOLE_VADDR(pa);
+		p = ISA_HOLE_VADDR(pa);
+		pirh = (struct pcibios_pir_header *)p;
 		/*
 		 * Some laptops (such as the Toshiba Libretto L series)
 		 * use _PIR instead of the standard $PIR for the signature
@@ -269,7 +270,7 @@ pcibios_pir_init(sc)
 		for (i = 0; i < pirh->tablesize; i++)
 			cksum += p[i];
 
-		printf("%s: PCI IRQ Routing Table rev. %d.%d @ 0x%lx/%d "
+		printf("%s: PCI IRQ Routing Table rev %d.%d @ 0x%lx/%d "
 		    "(%d entries)\n", sc->sc_dev.dv_xname,
 		    pirh->version >> 8, pirh->version & 0xff, pa,
 		    pirh->tablesize, (pirh->tablesize - sizeof(*pirh)) / 16);
@@ -296,13 +297,15 @@ pcibios_pir_init(sc)
 		 */
 		pcibios_pir_header = *pirh;
 		pcibios_pir_table =
-		    malloc(pirh->tablesize - 32, M_DEVBUF, M_NOWAIT);
+		    malloc(pirh->tablesize - sizeof(*pirh), M_DEVBUF, M_NOWAIT);
 		if (pcibios_pir_table == NULL) {
 			printf("%s: no memory for $PIR\n", sc->sc_dev.dv_xname);
 			return NULL;
 		}
-		bcopy(p + 32, pcibios_pir_table, pirh->tablesize - 32);
-		pcibios_pir_table_nentries = (pirh->tablesize - 32) / 16;
+		bcopy(p + sizeof(*pirh), pcibios_pir_table,
+		    pirh->tablesize - sizeof(*pirh));
+		pcibios_pir_table_nentries =
+		    (pirh->tablesize - sizeof(*pirh)) / 16;
 
 	}
 

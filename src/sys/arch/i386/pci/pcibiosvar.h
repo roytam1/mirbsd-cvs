@@ -1,4 +1,4 @@
-/*	$OpenBSD: pcibiosvar.h,v 1.12 2003/11/16 20:30:06 avsm Exp $	*/
+/*	$OpenBSD: pcibiosvar.h,v 1.14 2004/09/26 20:17:42 mickey Exp $	*/
 /*	$NetBSD: pcibios.h,v 1.2 2000/04/28 17:15:16 uch Exp $	*/
 
 /*
@@ -36,6 +36,7 @@
 #define	PCIBIOS_INTR_GUESS	0x008
 #define	PCIBIOS_VERBOSE		0x010
 #define	PCIBIOS_INTRDEBUG	0x020
+#define	PCIBIOS_FIXUP_FORCE	0x040
 
 /*
  * PCI BIOS return codes.
@@ -172,5 +173,7 @@ int	sis85c503_init(pci_chipset_tag_t, bus_space_tag_t, pcitag_t,
 int	amd756_init(pci_chipset_tag_t, bus_space_tag_t, pcitag_t,
 	    pciintr_icu_tag_t *, pciintr_icu_handle_t *);
 int	ali1543_init(pci_chipset_tag_t, bus_space_tag_t, pcitag_t,
+	    pciintr_icu_tag_t *, pciintr_icu_handle_t *);
+int	osb4_init(pci_chipset_tag_t, bus_space_tag_t, pcitag_t,
 	    pciintr_icu_tag_t *, pciintr_icu_handle_t *);
 
