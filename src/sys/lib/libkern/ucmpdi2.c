@@ -1,6 +1,3 @@
-/*	$OpenBSD: ucmpdi2.c,v 1.3 2003/06/02 23:28:08 millert Exp $	*/
-/*	$NetBSD: ucmpdi2.c,v 1.5 1995/10/07 09:26:53 mycroft Exp $	*/
-
 /*-
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -35,11 +32,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)ucmpdi2.c	8.1 (Berkeley) 6/4/93";
-#else
-static char rcsid[] = "$OpenBSD: ucmpdi2.c,v 1.3 2003/06/02 23:28:08 millert Exp $";
-#endif
+static char rcsid[] = "$OpenBSD: ucmpdi2.c,v 1.5 2004/11/28 07:23:41 mickey Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include "quad.h"
@@ -49,8 +42,7 @@ static char rcsid[] = "$OpenBSD: ucmpdi2.c,v 1.3 2003/06/02 23:28:08 millert Exp
  * Neither a nor b are considered signed.
  */
 int
-__ucmpdi2(a, b)
-	u_quad_t a, b;
+__ucmpdi2(u_quad_t a, u_quad_t b)
 {
 	union uu aa, bb;
 
