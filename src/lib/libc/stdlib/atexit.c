@@ -29,7 +29,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: atexit.c,v 1.7 2002/09/14 22:03:14 dhartmei Exp $";
+static char *rcsid = "$OpenBSD: atexit.c,v 1.9 2005/06/17 21:38:59 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/types.h>
@@ -59,11 +59,10 @@ struct atexit *__atexit;
  * Register a function to be performed at exit.
  */
 int
-atexit(fn)
-	void (*fn)();
+atexit(void (*fn)(void))
 {
-	register struct atexit *p = __atexit;
-	register int pgsize = getpagesize();
+	struct atexit *p = __atexit;
+	int pgsize = getpagesize();
 
 	if (pgsize < sizeof(*p))
 		return (-1);
@@ -74,10 +73,6 @@ atexit(fn)
 			return (-1);
 	}
 	if (p == NULL) {
-		if (__atexit_invalid) {
-			free(malloc(1));
-			__atexit_invalid = 0;
-		}
 		p = mmap(NULL, pgsize, PROT_READ | PROT_WRITE,
 		    MAP_ANON | MAP_PRIVATE, -1, 0);
 		if (p == MAP_FAILED)
@@ -91,6 +86,8 @@ atexit(fn)
 		    sizeof(p->fns[0]);
 		p->next = __atexit;
 		__atexit = p;
+		if (__atexit_invalid)
+			__atexit_invalid = 0;
 	}
 	p->fns[p->ind++] = fn;
 	if (mprotect(p, pgsize, PROT_READ))
@@ -102,21 +99,16 @@ atexit(fn)
  * Register the cleanup function
  */
 void
-__atexit_register_cleanup(fn)
-	void (*fn)();
+__atexit_register_cleanup(void (*fn)(void))
 {
-	register struct atexit *p = __atexit;
-	register int pgsize = getpagesize();
+	struct atexit *p = __atexit;
+	int pgsize = getpagesize();
 
 	if (pgsize < sizeof(*p))
 		return;
 	while (p != NULL && p->next != NULL)
 		p = p->next;
 	if (p == NULL) {
-		if (__atexit_invalid) {
-			free(malloc(1));
-			__atexit_invalid = 0;
-		}
 		p = mmap(NULL, pgsize, PROT_READ | PROT_WRITE,
 		    MAP_ANON | MAP_PRIVATE, -1, 0);
 		if (p == MAP_FAILED)
@@ -126,6 +118,8 @@ __atexit_register_cleanup(fn)
 		    sizeof(p->fns[0]);
 		p->next = NULL;
 		__atexit = p;
+		if (__atexit_invalid)
+			__atexit_invalid = 0;
 	} else {
 		if (mprotect(p, pgsize, PROT_READ | PROT_WRITE))
 		    return;

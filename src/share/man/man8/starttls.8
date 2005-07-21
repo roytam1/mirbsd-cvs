@@ -1,4 +1,4 @@
-.\" $OpenBSD: starttls.8,v 1.11 2003/10/01 13:36:49 grange Exp $
+.\" $OpenBSD: starttls.8,v 1.14 2005/07/04 08:44:37 jmc Exp $
 .\"
 .\" Copyright (c) 2001 Jose Nazario <jose@monkey.org>
 .\" All rights reserved.
@@ -86,7 +86,7 @@ parameter set with a command like the following:
 .Pp
 This would generate
 .Ar DSA
-parameters for 1024 bit
+parameters for 1024-bit
 .Ar DSA
 keys, and save them to the
 file
@@ -119,7 +119,7 @@ with the following command:
 .Pp
 If you don't intend to use TLS for authentication (and if you are using
 self-signed certificates you probably don't) you can simply link
-your new key to
+your new certificate to
 .Pa CAcert.pem .
 .Pp
 .Dl # ln -s /etc/mail/certs/mycert.pem /etc/mail/certs/CAcert.pem
@@ -269,8 +269,6 @@ you should receive something like the following back.
 250-localhost Hello localhost [IPv6:::1], pleased to meet you
 250-ENHANCEDSTATUSCODES
 250-PIPELINING
-250-EXPN
-250-VERB
 250-8BITMIME
 250-SIZE
 250-DSN
@@ -321,13 +319,13 @@ VERIFY can also accept the argument for {cipher_bits}.
 Here are a few example entries that illustrate these features, and
 the role based granularity as well:
 .Pp
-Force strong (112 bit) encryption for communications for this server:
+Force strong (112-bit) encryption for communications for this server:
 .Pp
 .Dl server1.example.net	ENCR:112
 .Pp
 For a TLS client, force string verification depths to at least 80 bits:
 .Pp
-.Dl TLS_Clt:desktop.example:net VERIFY:80
+.Dl TLS_Clt:desktop.example.net VERIFY:80
 .Pp
 Much more complicated access maps are possible, and error conditions (such
 as permanent or temporary, PERM+ or TEMP+) can be set on the basis of

@@ -1,4 +1,4 @@
-/*	$OpenBSD: clparse.c,v 1.18 2004/09/15 18:15:18 henning Exp $	*/
+/*	$OpenBSD: clparse.c,v 1.25 2005/07/16 18:38:45 krw Exp $	*/
 
 /* Parser for dhclient config and lease files... */
 
@@ -64,9 +64,6 @@ read_client_conf(void)
 	struct client_config	*config;
 
 	new_parse(path_dhclient_conf);
-
-	/* Set up the initial dhcp option universe. */
-	initialize_universes();
 
 	/* Initialize the top level client configuration. */
 	memset(&top_level_config, 0, sizeof(top_level_config));
@@ -188,34 +185,32 @@ void
 parse_client_statement(FILE *cfile, struct interface_info *ip,
     struct client_config *config)
 {
-	int		 token;
+	int		 token, code;
 	char		*val;
-	struct option	*option;
 
 	switch (next_token(&val, cfile)) {
 	case SEND:
 		parse_option_decl(cfile, &config->send_options[0]);
 		return;
 	case DEFAULT:
-		option = parse_option_decl(cfile, &config->defaults[0]);
-		if (option)
-			config->default_actions[option->code] = ACTION_DEFAULT;
+		code = parse_option_decl(cfile, &config->defaults[0]);
+		if (code != -1)
+			config->default_actions[code] = ACTION_DEFAULT;
 		return;
 	case SUPERSEDE:
-		option = parse_option_decl(cfile, &config->defaults[0]);
-		if (option)
-			config->default_actions[option->code] =
-			    ACTION_SUPERSEDE;
+		code = parse_option_decl(cfile, &config->defaults[0]);
+		if (code != -1)
+			config->default_actions[code] = ACTION_SUPERSEDE;
 		return;
 	case APPEND:
-		option = parse_option_decl(cfile, &config->defaults[0]);
-		if (option)
-			config->default_actions[option->code] = ACTION_APPEND;
+		code = parse_option_decl(cfile, &config->defaults[0]);
+		if (code != -1)
+			config->default_actions[code] = ACTION_APPEND;
 		return;
 	case PREPEND:
-		option = parse_option_decl(cfile, &config->defaults[0]);
-		if (option)
-			config->default_actions[option->code] = ACTION_PREPEND;
+		code = parse_option_decl(cfile, &config->defaults[0]);
+		if (code != -1)
+			config->default_actions[code] = ACTION_PREPEND;
 		return;
 	case MEDIA:
 		parse_string_list(cfile, &config->media, 1);
@@ -662,7 +657,7 @@ parse_client_lease_declaration(FILE *cfile, struct client_lease *lease,
 	}
 }
 
-struct option *
+int
 parse_option_decl(FILE *cfile, struct option_data *options)
 {
 	char		*val;
@@ -670,13 +665,10 @@ parse_option_decl(FILE *cfile, struct option_data *options)
 	u_int8_t	 buf[4];
 	u_int8_t	 hunkbuf[1024];
 	int		 hunkix = 0;
-	char		*vendor;
 	char		*fmt;
-	struct universe	*universe;
-	struct option	*option;
 	struct iaddr	 ip_addr;
 	u_int8_t	*dp;
-	int		 len;
+	int		 len, code;
 	int		 nul_term = 0;
 
 	token = next_token(&val, cfile);
@@ -684,64 +676,24 @@ parse_option_decl(FILE *cfile, struct option_data *options)
 		parse_warn("expecting identifier after option keyword.");
 		if (token != SEMI)
 			skip_to_semi(cfile);
-		return (NULL);
-	}
-	if ((vendor = strdup(val)) == NULL)
-		error("no memory for vendor information.");
-
-	token = peek_token(&val, cfile);
-	if (token == DOT) {
-		/* Go ahead and take the DOT token... */
-		token = next_token(&val, cfile);
-
-		/* The next token should be an identifier... */
-		token = next_token(&val, cfile);
-		if (!is_identifier(token)) {
-			parse_warn("expecting identifier after '.'");
-			if (token != SEMI)
-				skip_to_semi(cfile);
-			return (NULL);
-		}
-
-		/* Look up the option name hash table for the specified
-		   vendor. */
-		universe = ((struct universe *)hash_lookup(&universe_hash,
-		    (unsigned char *)vendor, 0));
-		/* If it's not there, we can't parse the rest of the
-		   declaration. */
-		if (!universe) {
-			parse_warn("no vendor named %s.", vendor);
-			skip_to_semi(cfile);
-			return (NULL);
-		}
-	} else {
-		/* Use the default hash table, which contains all the
-		   standard dhcp option names. */
-		val = vendor;
-		universe = &dhcp_universe;
+		return (-1);
 	}
 
-	/* Look up the actual option info... */
-	option = (struct option *)hash_lookup(universe->hash,
-	    (unsigned char *)val, 0);
+	/* Look up the actual option info. */
+	fmt = NULL;
+	for (code=0; code < 256; code++)
+		if (strcmp(dhcp_options[code].name, val) == 0)
+			break;
 
-	/* If we didn't get an option structure, it's an undefined option. */
-	if (!option) {
-		if (val == vendor)
-			parse_warn("no option named %s", val);
-		else
-			parse_warn("no option named %s for vendor %s",
-				    val, vendor);
+	if (code > 255) {
+		parse_warn("no option named %s", val);
 		skip_to_semi(cfile);
-		return (NULL);
+		return (-1);
 	}
-
-	/* Free the initial identifier token. */
-	free(vendor);
 
 	/* Parse the option data... */
 	do {
-		for (fmt = option->format; *fmt; fmt++) {
+		for (fmt = dhcp_options[code].format; *fmt; fmt++) {
 			if (*fmt == 'A')
 				break;
 			switch (*fmt) {
@@ -755,14 +707,14 @@ parse_option_decl(FILE *cfile, struct option_data *options)
 				if (token != STRING) {
 					parse_warn("expecting string.");
 					skip_to_semi(cfile);
-					return (NULL);
+					return (-1);
 				}
 				len = strlen(val);
 				if (hunkix + len + 1 > sizeof(hunkbuf)) {
 					parse_warn("option data buffer %s",
 					    "overflow");
 					skip_to_semi(cfile);
-					return (NULL);
+					return (-1);
 				}
 				memcpy(&hunkbuf[hunkix], val, len + 1);
 				nul_term = 1;
@@ -770,7 +722,7 @@ parse_option_decl(FILE *cfile, struct option_data *options)
 				break;
 			case 'I': /* IP address. */
 				if (!parse_ip_addr(cfile, &ip_addr))
-					return (NULL);
+					return (-1);
 				len = ip_addr.len;
 				dp = ip_addr.iabuf;
 alloc:
@@ -778,7 +730,7 @@ alloc:
 					parse_warn("option data buffer "
 					    "overflow");
 					skip_to_semi(cfile);
-					return (NULL);
+					return (-1);
 				}
 				memcpy(&hunkbuf[hunkix], dp, len);
 				hunkix += len;
@@ -791,7 +743,7 @@ need_number:
 					parse_warn("expecting number.");
 					if (token != SEMI)
 						skip_to_semi(cfile);
-					return (NULL);
+					return (-1);
 				}
 				convert_num(buf, val, 0, 32);
 				len = 4;
@@ -822,7 +774,7 @@ need_number:
 bad_flag:
 					if (token != SEMI)
 						skip_to_semi(cfile);
-					return (NULL);
+					return (-1);
 				}
 				if (!strcasecmp(val, "true") ||
 				    !strcasecmp(val, "on"))
@@ -841,7 +793,7 @@ bad_flag:
 				warning("Bad format %c in parse_option_param.",
 				    *fmt);
 				skip_to_semi(cfile);
-				return (NULL);
+				return (-1);
 			}
 		}
 		token = next_token(&val, cfile);
@@ -850,15 +802,15 @@ bad_flag:
 	if (token != SEMI) {
 		parse_warn("semicolon expected.");
 		skip_to_semi(cfile);
-		return (NULL);
+		return (-1);
 	}
 
-	options[option->code].data = malloc(hunkix + nul_term);
-	if (!options[option->code].data)
+	options[code].data = malloc(hunkix + nul_term);
+	if (!options[code].data)
 		error("out of memory allocating option data.");
-	memcpy(options[option->code].data, hunkbuf, hunkix + nul_term);
-	options[option->code].len = hunkix;
-	return (option);
+	memcpy(options[code].data, hunkbuf, hunkix + nul_term);
+	options[code].len = hunkix;
+	return (code);
 }
 
 void
@@ -883,7 +835,7 @@ parse_string_list(FILE *cfile, struct string_list **lp, int multiple)
 			return;
 		}
 
-		tmp = new_string_list(strlen(val) + 1);
+		tmp = malloc(sizeof(struct string_list) + strlen(val));
 		if (tmp == NULL)
 			error("no memory for string list entry.");
 		strlcpy(tmp->string, val, strlen(val) + 1);

@@ -1,4 +1,4 @@
-/*	$OpenBSD: rusersd.c,v 1.13 2003/07/05 17:02:37 deraadt Exp $	*/
+/*	$OpenBSD: rusersd.c,v 1.15 2004/09/15 19:03:19 deraadt Exp $	*/
 
 /*-
  *  Copyright (c) 1993 John Brezak
@@ -29,7 +29,7 @@
  */
 
 #ifndef lint
-static char rcsid[] = "$OpenBSD: rusersd.c,v 1.13 2003/07/05 17:02:37 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: rusersd.c,v 1.15 2004/09/15 19:03:19 deraadt Exp $";
 #endif /* not lint */
 
 #include <sys/types.h>
@@ -52,6 +52,7 @@ extern void rusers_service(struct svc_req *, SVCXPRT *);
 int from_inetd = 1;
 int utmp_fd;
 
+/* ARGSUSED */
 static void
 cleanup(int signo)
 {
@@ -66,7 +67,7 @@ main(int argc, char *argv[])
 {
 	int sock = 0, proto = 0;
 	socklen_t fromlen;
-	struct sockaddr_in from;
+	struct sockaddr_storage from;
 	struct passwd *pw;
 	SVCXPRT *transp;
 

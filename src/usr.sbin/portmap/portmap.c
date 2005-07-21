@@ -1,4 +1,4 @@
-/*	$OpenBSD: portmap.c,v 1.31 2004/03/16 01:11:09 tedu Exp $	*/
+/*	$OpenBSD: portmap.c,v 1.34 2005/05/22 21:19:39 henning Exp $	*/
 
 /*-
  * Copyright (c) 1996, 1997 Theo de Raadt (OpenBSD). All rights reserved.
@@ -40,7 +40,7 @@ char copyright[] =
 #if 0
 static char sccsid[] = "from: @(#)portmap.c	5.4 (Berkeley) 4/19/91";
 #else
-static char rcsid[] = "$OpenBSD: portmap.c,v 1.31 2004/03/16 01:11:09 tedu Exp $";
+static char rcsid[] = "$OpenBSD: portmap.c,v 1.34 2005/05/22 21:19:39 henning Exp $";
 #endif
 #endif /* not lint */
 
@@ -248,12 +248,14 @@ main(int argc, char *argv[])
 	}
 	chdir("/");
 	if (pw) {
-		setgroups(1, &pw->pw_gid);
-		setegid(pw->pw_gid);
-		setgid(pw->pw_gid);
-		seteuid(pw->pw_uid);
-		setuid(pw->pw_uid);
+		if (setgroups(1, &pw->pw_gid) == -1 ||
+		    setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) == -1 ||
+		    setresuid(pw->pw_uid, pw->pw_uid, pw->pw_uid) == -1) {
+			syslog(LOG_ERR, "revoke privs: %s", strerror(errno));
+			exit(1);
+		}
 	}
+	endpwent();
 
 	if (svc_register(xprt, PMAPPROG, PMAPVERS, reg_service, FALSE) == 0) {
 		syslog(LOG_ERR, "svc_register failed.");
@@ -651,6 +653,7 @@ callit(struct svc_req *rqstp, SVCXPRT *xprt)
 	exit(0);
 }
 
+/* ARGSUSED */
 void
 reap(int signo)
 {

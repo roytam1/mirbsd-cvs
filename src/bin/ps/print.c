@@ -1,4 +1,4 @@
-/*	$OpenBSD: print.c,v 1.32 2004/01/08 18:18:35 millert Exp $	*/
+/*	$OpenBSD: print.c,v 1.38 2005/07/06 21:41:24 millert Exp $	*/
 /*	$NetBSD: print.c,v 1.27 1995/09/29 21:58:12 cgd Exp $	*/
 
 /*-
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)print.c	8.6 (Berkeley) 4/16/94";
 #else
-static char rcsid[] = "$OpenBSD: print.c,v 1.32 2004/01/08 18:18:35 millert Exp $";
+static char rcsid[] = "$OpenBSD: print.c,v 1.38 2005/07/06 21:41:24 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -120,9 +120,10 @@ command(const struct kinfo_proc2 *kp, VARENT *ve)
 		argv = kvm_getenvv2(kd, kp, termwidth);
 		if ((p = argv) != NULL) {
 			while (*p) {
+				if (p != argv)
+					fmt_putc(' ', &left);
 				fmt_puts(*p, &left);
 				p++;
-				fmt_putc(' ', &left);
 			}
 		}
 	} else
@@ -133,14 +134,17 @@ command(const struct kinfo_proc2 *kp, VARENT *ve)
 				argv = kvm_getargv2(kd, kp, termwidth);
 				if ((p = argv) != NULL) {
 					while (*p) {
+						if (p != argv)
+							fmt_putc(' ', &left);
 						fmt_puts(*p, &left);
 						p++;
-						fmt_putc(' ', &left);
 					}
 				}
 			}
 			if (argv == NULL || argv[0] == '\0' ||
 			    strcmp(cmdpart(argv[0]), kp->p_comm)) {
+				if (argv != NULL && argv[0] != '\0')
+					fmt_putc(' ', &left);
 				fmt_putc('(', &left);
 				fmt_puts(kp->p_comm, &left);
 				fmt_putc(')', &left);
@@ -182,8 +186,9 @@ logname(const struct kinfo_proc2 *kp, VARENT *ve)
 void
 state(const struct kinfo_proc2 *kp, VARENT *ve)
 {
+	extern int ncpu;
 	int flag;
-	char *cp;
+	char *cp, state = '\0';
 	VAR *v;
 	char buf[16];
 
@@ -206,7 +211,8 @@ state(const struct kinfo_proc2 *kp, VARENT *ve)
 
 	case SRUN:
 	case SIDL:
-		*cp = 'R';
+	case SONPROC:
+		state = *cp = 'R';
 		break;
 
 	case SZOMB:
@@ -217,6 +223,7 @@ state(const struct kinfo_proc2 *kp, VARENT *ve)
 		*cp = '?';
 	}
 	cp++;
+
 	if (flag & P_INMEM) {
 	} else
 		*cp++ = 'W';
@@ -245,6 +252,16 @@ state(const struct kinfo_proc2 *kp, VARENT *ve)
 	if ((flag & P_CONTROLT) && kp->p__pgid == kp->p_tpgid)
 		*cp++ = '+';
 	*cp = '\0';
+
+	if (state == 'R' && ncpu && kp->p_cpuid != KI_NOCPU) {
+		char pbuf[16];
+
+		snprintf(pbuf, sizeof pbuf, "/%d", kp->p_cpuid);
+		*++cp = '\0';
+		strlcat(buf, pbuf, sizeof buf);
+		cp = buf + strlen(buf);
+	}
+
 	(void)printf("%-*s", v->width, buf);
 }
 
@@ -258,7 +275,7 @@ pri(const struct kinfo_proc2 *kp, VARENT *ve)
 }
 
 void
-uname(const struct kinfo_proc2 *kp, VARENT *ve)
+euname(const struct kinfo_proc2 *kp, VARENT *ve)
 {
 	VAR *v;
 

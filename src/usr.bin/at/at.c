@@ -1,4 +1,4 @@
-/*	$OpenBSD: at.c,v 1.40 2003/09/26 21:26:40 tedu Exp $	*/
+/*	$OpenBSD: at.c,v 1.43 2005/06/23 14:39:35 jmc Exp $	*/
 
 /*
  *  at.c : Put file into atrun queue
@@ -42,7 +42,7 @@
 #define TIMESIZE 50		/* Size of buffer passed to strftime() */
 
 #ifndef lint
-static const char rcsid[] = "$OpenBSD: at.c,v 1.40 2003/09/26 21:26:40 tedu Exp $";
+static const char rcsid[] = "$OpenBSD: at.c,v 1.43 2005/06/23 14:39:35 jmc Exp $";
 #endif
 
 /* Variables to remove from the job's environment. */
@@ -71,7 +71,7 @@ static int check_permission(void);
 static void panic(const char *);
 static void perr(const char *);
 static void perr2(const char *, const char *);
-static void usage(void);
+static __dead void usage(void);
 time_t parsetime(int, char **);
 
 /*
@@ -93,7 +93,7 @@ panic(const char *a)
 /*
  * Two-parameter version of panic().
  */
-static __dead void 
+static __dead void
 panic2(const char *a, const char *b)
 {
 	(void)fprintf(stderr, "%s: %s%s\n", ProgramName, a, b);
@@ -126,7 +126,7 @@ perr(const char *a)
 /*
  * Two-parameter version of perr().
  */
-static __dead void 
+static __dead void
 perr2(const char *a, const char *b)
 {
 	if (!force)
@@ -134,7 +134,7 @@ perr2(const char *a, const char *b)
 	perr(b);
 }
 
-static void 
+static void
 sigc(int signo)
 {
 	/* If the user presses ^C, remove the spool file and exit. */
@@ -147,7 +147,7 @@ sigc(int signo)
 	_exit(ERROR_EXIT);
 }
 
-static void 
+static void
 alarmc(int signo)
 {
 	/* just return */
@@ -293,8 +293,9 @@ writefile(const char *cwd, time_t runtimer, char queue)
 		if (fpin == NULL)
 			perr("Cannot open input file");
 	}
-	(void)fprintf(fp, "#!/bin/sh\n# atrun uid=%ld gid=%ld\n# mail %*s %d\n",
-	    (long)real_uid, (long)real_gid, MAX_UNAME, mailname, send_mail);
+	(void)fprintf(fp, "#!/bin/sh\n# atrun uid=%lu gid=%lu\n# mail %*s %d\n",
+	    (unsigned long)real_uid, (unsigned long)real_gid,
+	    MAX_UNAME, mailname, send_mail);
 
 	/* Write out the umask at the time of invocation */
 	(void)fprintf(fp, "umask %o\n", cmask);
@@ -801,10 +802,10 @@ ttime(const char *arg)
 	struct tm *t;
 	int yearset;
 	char *p;
-	
+
 	if (gettimeofday(&tv[0], NULL))
 		panic("Cannot get current time");
-	
+
 	/* Start with the current time. */
 	now = tv[0].tv_sec;
 	if ((t = localtime(&now)) == NULL)
@@ -818,7 +819,7 @@ ttime(const char *arg)
 		*p++ = '\0';
 		t->tm_sec = ATOI2(p);
 	}
-	
+
 	yearset = 0;
 	switch(strlen(arg)) {
 	case 12:			/* CCYYMMDDhhmm */
@@ -846,7 +847,7 @@ ttime(const char *arg)
 	default:
 		goto terr;
 	}
-	
+
 	t->tm_isdst = -1;		/* Figure out DST. */
 	tv[0].tv_sec = tv[1].tv_sec = mktime(t);
 	if (tv[0].tv_sec != -1)
@@ -878,7 +879,7 @@ check_permission(void)
 	return (ok);
 }
 
-static void
+static __dead void
 usage(void)
 {
 	/* Print usage and exit.  */
@@ -886,15 +887,13 @@ usage(void)
 	case AT:
 	case CAT:
 		(void)fprintf(stderr,
-		    "usage: at [-bm] [-f file] [-q queue] -t time_arg\n"
-		    "       at [-bm] [-f file] [-q queue] timespec\n"
-		    "       at -c job [job ...]\n"
-		    "       at -l [-q queue] [job ...]\n"
-		    "       at -r job [job ...]\n");
+		    "usage: at [-blm] [-f file] [-q queue] -t time_arg\n"
+		    "       at [-blm] [-f file] [-q queue] timespec\n"
+		    "       at -c | -r job [job ...]\n");
 		break;
 	case ATQ:
 		(void)fprintf(stderr,
-		    "usage: atq [-cnv] [-q queue] [name...]\n");
+		    "usage: atq [-cnv] [-q queue] [name ...]\n");
 		break;
 	case ATRM:
 		(void)fprintf(stderr,
@@ -920,6 +919,9 @@ main(int argc, char **argv)
 	int aflag = 0;
 	int cflag = 0;
 	int nflag = 0;
+
+	if (argc < 1)
+		usage();
 
 	if ((ProgramName = strrchr(argv[0], '/')) != NULL)
 		ProgramName++;

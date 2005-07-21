@@ -1,4 +1,4 @@
-/*	$OpenBSD: fmt_scaled.c,v 1.2 2003/12/27 19:49:51 otto Exp $	*/
+/*	$OpenBSD: fmt_scaled.c,v 1.6 2005/03/09 09:27:57 otto Exp $	*/
 
 /*
  * Copyright (c) 2001, 2002, 2003 Ian F. Darwin.  All rights reserved.
@@ -37,7 +37,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static const char ident[] = "$OpenBSD: fmt_scaled.c,v 1.2 2003/12/27 19:49:51 otto Exp $";
+static const char ident[] = "$OpenBSD: fmt_scaled.c,v 1.6 2005/03/09 09:27:57 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <stdio.h>
@@ -126,7 +126,8 @@ scan_scaled(char *scaled, long long *result)
 		i = (*p) - '0';			/* whew! finally a digit we can use */
 		if (fract_digits > 0) {
 			if (fract_digits >= MAX_DIGITS-1)
-				continue;		/* ignore extra fractional digits */
+				/* ignore extra fractional digits */
+				continue;
 			fract_digits++;		/* for later scaling */
 			fpart *= 10;
 			fpart += i;
@@ -221,17 +222,12 @@ fmt_scaled(long long number, char *result)
 			unit = units[i];
 			fract = (i == 0) ? 0 : abval % scale_factors[i];
 			number /= scale_factors[i];
+			if (i > 0)
+				fract /= scale_factors[i - 1];
 			break;
 		}
 	}
 
-	/* scale fraction to one digit (by rounding) - thnx pjanzen */
-	for (i = SCALE_LENGTH-1; i > 0; i--) {
-		if (fract > scale_factors[i]) {
-			fract /= scale_factors[i];
-			break;
-		}
-	}
 	fract = (10 * fract + 512) / 1024;
 	/* if the result would be >= 10, round main number */
 	if (fract == 10) {
@@ -244,10 +240,16 @@ fmt_scaled(long long number, char *result)
 
 	if (number == 0)
 		strlcpy(result, "0B", FMT_SCALED_STRSIZE);
-	else if (unit == NONE || number >= 100 || number <= -100)
+	else if (unit == NONE || number >= 100 || number <= -100) {
+		if (fract >= 5) {
+			if (number >= 0)
+				number++;
+			else
+				number--;
+		}
 		(void)snprintf(result, FMT_SCALED_STRSIZE, "%lld%c",
 			number, scale_chars[unit]);
-	else
+	} else
 		(void)snprintf(result, FMT_SCALED_STRSIZE, "%lld.%1lld%c",
 			number, fract, scale_chars[unit]);
 

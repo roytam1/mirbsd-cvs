@@ -1,4 +1,4 @@
-.\" $OpenBSD: moduli.5,v 1.8 2003/07/04 08:03:13 markus Exp $
+.\" $OpenBSD: moduli.5,v 1.10 2005/02/21 10:22:04 djm Exp $
 .\"
 .\" Copyright 1997, 2000 William Allen Simpson <wsimpson@greendragon.com>
 .\" All rights reserved.
@@ -68,7 +68,7 @@ meets basic structural requirements.
 .It 3 :
 Schnorr.
 .It 4 :
-Sophie-Germaine (q = (p-1)/2);
+Sophie-Germain (q = (p-1)/2);
 usually generated in the process of testing safe or strong primes.
 .It 5 :
 strong;
@@ -144,9 +144,14 @@ Time, Size and Generator criteria.
 When more than one meet the criteria,
 the selection should be weighted toward newer moduli,
 without completely disqualifying older moduli.
+.Pp
+New moduli may be generated using the
+.Xr ssh-keygen 1
+tool.
 .Sh FILES
 .Bl -tag -width /etc/moduli -compact
 .It Pa /etc/moduli
 .El
 .Sh SEE ALSO
+.Xr ssh-keygen 1 ,
 .Xr sshd 8

@@ -1,4 +1,4 @@
-/*	$OpenBSD: list.c,v 1.14 2003/10/13 00:46:08 tedu Exp $	*/
+/*	$OpenBSD: list.c,v 1.16 2005/07/11 14:08:23 millert Exp $	*/
 /*	$NetBSD: list.c,v 1.7 1997/07/09 05:23:36 mikel Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static const char sccsid[] = "@(#)list.c	8.4 (Berkeley) 5/1/95";
 #else
-static const char rcsid[] = "$OpenBSD: list.c,v 1.14 2003/10/13 00:46:08 tedu Exp $";
+static const char rcsid[] = "$OpenBSD: list.c,v 1.16 2005/07/11 14:08:23 millert Exp $";
 #endif
 #endif /* not lint */
 
@@ -543,7 +543,8 @@ scan(char **sp)
 		lexnumber = 0;
 		while (isdigit(c)) {
 			lexnumber = lexnumber*10 + c - '0';
-			*cp2++ = c;
+			if (cp2 - lexstring < STRINGLEN - 1)
+				*cp2++ = c;
 			c = *cp++;
 		}
 		*cp2 = '\0';
@@ -658,7 +659,7 @@ matchsender(char *str, int mesg)
 	while (*cp2) {
 		if (*cp == 0)
 			return(1);
-		if (raise(*cp++) != raise(*cp2++)) {
+		if (chraise(*cp++) != chraise(*cp2++)) {
 			cp2 = ++backup;
 			cp = str;
 		}
@@ -693,7 +694,7 @@ matchto(char *str, int mesg)
 			while (*cp2) {
 				if (*cp == 0)
 					return(1);
-				if (raise(*cp++) != raise(*cp2++)) {
+				if (chraise(*cp++) != chraise(*cp2++)) {
 					cp2 = ++backup;
 					cp = str;
 				}
@@ -732,7 +733,7 @@ matchsubj(char *str, int mesg)
 	 */
 	if (value("searchheaders") && (cp = strchr(str, ':'))) {
 		/* Check for special case "/To:" */
-		if (raise(str[0]) == 'T' && raise(str[1]) == 'O' &&
+		if (chraise(str[0]) == 'T' && chraise(str[1]) == 'O' &&
 		    str[2] == ':')
 			return(matchto(cp, mesg));
 		*cp++ = '\0';
@@ -749,7 +750,7 @@ matchsubj(char *str, int mesg)
 	while (*cp2) {
 		if (*cp == 0)
 			return(1);
-		if (raise(*cp++) != raise(*cp2++)) {
+		if (chraise(*cp++) != chraise(*cp2++)) {
 			cp2 = ++backup;
 			cp = str;
 		}

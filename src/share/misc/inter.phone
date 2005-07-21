@@ -1,4 +1,4 @@
-#	$OpenBSD: inter.phone,v 1.30 2002/06/06 22:34:11 fgsch Exp $
+#	$OpenBSD: inter.phone,v 1.34 2005/06/23 22:19:34 pedro Exp $
 #	@(#)inter.phone	8.1 (Berkeley) 6/9/93
 #	$FreeBSD-Id: inter.phone,v 1.15 1997/02/22 13:56:06 peter Exp $
 #
@@ -9269,10 +9269,7 @@
 44:996:Broadband Services:United Kingdom
 44:997:Broadband Services:United Kingdom
 44:998:Broadband Services:United Kingdom
-45:3:Copenhagen:Denmark
-45:6:Aarhus:Denmark
-45:8:Aalborg:Denmark
-45:9:Odense:Denmark
+45:::Denmark
 46:11:Norrkoping (Norrköping):Sweden
 46:120:Atvidaberg (Åtvidaberg):Sweden
 46:121:Soderkoping (Söderköping):Sweden
@@ -9645,14 +9642,41 @@
 54:221:La Plata:Argentina
 54:341:Rosario:Argentina
 54:351:Cordoba:Argentina
-55:11:San Paulo:Brazil
+55:11:Sao Paulo:Brazil
+55:13:Santos:Brazil
+55:19:Campinas:Brazil
 55:21:Rio de Janeiro:Brazil
+55:21:Niteroi:Brazil
+55:24:Petropolis:Brazil
+55:24:Angra dos Reis:Brazil
+55:27:Vitoria:Brazil
 55:31:Belo Horizonte:Brazil
-55:512:Porto Alegre:Brazil
+55:31:Ouro Preto:Brazil
+55:32:Juiz de Fora:Brazil
+55:34:Uberlandia:Brazil
+55:41:Curitiba:Brazil
+55:48:Florianopolis:Brazil
+55:51:Porto Alegre:Brazil
 55:61:Brasilia:Brazil
+55:62:Goiania:Brazil
+55:63:Palmas:Brazil
+55:65:Cuiaba:Brazil
+55:67:Campo Grande:Brazil
+55:68:Rio Branco:Brazil
+55:69:Porto Velho:Brazil
 55:71:Salvador:Brazil
+55:79:Aracaju:Brazil
 55:81:Recife:Brazil
+55:82:Maceio:Brazil
+55:83:Joao Pessoa:Brazil
+55:84:Natal:Brazil
+55:85:Fortaleza:Brazil
+55:86:Teresina:Brazil
 55:91:Belem:Brazil
+55:92:Manaus:Brazil
+55:95:Boa Vista:Brazil
+55:96:Macapa:Brazil
+55:98:Sao Luis:Brazil
 56:2:Santiago:Chile
 56:31:Valparaiso:Chile
 57:3:Cali:Colombia
@@ -10574,7 +10598,7 @@
 380:5678:Pokrovske:Ukraine
 380:5679:Vasylkivka:Ukraine
 380:5692:Dniprodzerzhynsk:Ukraine
-380:572:Kharkiv:Ukraine
+380:57:Kharkiv:Ukraine
 380:5740:Nova Vodolaha:Ukraine
 380:5741:Volchansk:Ukraine
 380:5742:Kupyansk:Ukraine

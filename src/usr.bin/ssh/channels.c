@@ -39,7 +39,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: channels.c,v 1.217 2005/06/17 02:44:32 djm Exp $");
+RCSID("$OpenBSD: channels.c,v 1.223 2005/07/17 07:17:54 djm Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -110,6 +110,9 @@ static int all_opens_permitted = 0;
 
 /* Maximum number of fake X11 displays to try. */
 #define MAX_DISPLAYS  1000
+
+/* Saved X11 local (client) display. */
+static char *x11_saved_display = NULL;
 
 /* Saved X11 authentication protocol name. */
 static char *x11_saved_proto = NULL;
@@ -726,8 +729,8 @@ channel_pre_open(Channel *c, fd_set * readset, fd_set * writeset)
 			FD_SET(c->wfd, writeset);
 		} else if (c->ostate == CHAN_OUTPUT_WAIT_DRAIN) {
 			if (CHANNEL_EFD_OUTPUT_ACTIVE(c))
-			       debug2("channel %d: obuf_empty delayed efd %d/(%d)",
-				   c->self, c->efd, buffer_len(&c->extended));
+				debug2("channel %d: obuf_empty delayed efd %d/(%d)",
+				    c->self, c->efd, buffer_len(&c->extended));
 			else
 				chan_obuf_empty(c);
 		}
@@ -1804,8 +1807,8 @@ channel_output_poll(void)
 			 * hack for extended data: delay EOF if EFD still in use.
 			 */
 			if (CHANNEL_EFD_INPUT_ACTIVE(c))
-			       debug2("channel %d: ibuf_empty delayed efd %d/(%d)",
-				   c->self, c->efd, buffer_len(&c->extended));
+				debug2("channel %d: ibuf_empty delayed efd %d/(%d)",
+				    c->self, c->efd, buffer_len(&c->extended));
 			else
 				chan_ibuf_empty(c);
 		}
@@ -2190,11 +2193,11 @@ channel_setup_fwd_listener(int type, const char *listen_addr, u_short listen_por
 
 	if (host == NULL) {
 		error("No forward host name.");
-		return success;
+		return 0;
 	}
 	if (strlen(host) > SSH_CHANNEL_PATH_LEN - 1) {
 		error("Forward host name too long.");
-		return success;
+		return 0;
 	}
 
 	/*
@@ -2245,12 +2248,10 @@ channel_setup_fwd_listener(int type, const char *listen_addr, u_short listen_por
 			packet_disconnect("getaddrinfo: fatal error: %s",
 			    gai_strerror(r));
 		} else {
-			verbose("channel_setup_fwd_listener: "
-			    "getaddrinfo(%.64s): %s", addr, gai_strerror(r));
-			packet_send_debug("channel_setup_fwd_listener: "
+			error("channel_setup_fwd_listener: "
 			    "getaddrinfo(%.64s): %s", addr, gai_strerror(r));
 		}
-		aitop = NULL;
+		return 0;
 	}
 
 	for (ai = aitop; ai; ai = ai->ai_next) {
@@ -2646,7 +2647,7 @@ channel_send_window_changes(void)
  */
 int
 x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
-    int single_connection, u_int *display_numberp)
+    int single_connection, u_int *display_numberp, int **chanids)
 {
 	Channel *nc = NULL;
 	int display_number, sock;
@@ -2714,6 +2715,8 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 	}
 
 	/* Allocate a channel for each socket. */
+	if (chanids != NULL)
+		*chanids = xmalloc(sizeof(**chanids) * (num_socks + 1));
 	for (n = 0; n < num_socks; n++) {
 		sock = socks[n];
 		nc = channel_new("x11 listener",
@@ -2721,7 +2724,11 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 		    CHAN_X11_WINDOW_DEFAULT, CHAN_X11_PACKET_DEFAULT,
 		    0, "X11 inet listener", 1);
 		nc->single_connection = single_connection;
+		if (*chanids != NULL)
+			(*chanids)[n] = nc->self;
 	}
+	if (*chanids != NULL)
+		(*chanids)[n] = -1;
 
 	/* Return the display number for the DISPLAY environment variable. */
 	*display_numberp = display_number;
@@ -2923,11 +2930,19 @@ x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
     const char *proto, const char *data)
 {
 	u_int data_len = (u_int) strlen(data) / 2;
-	u_int i, value, len;
+	u_int i, value;
 	char *new_data;
 	int screen_number;
 	const char *cp;
 	u_int32_t rnd = 0;
+
+	if (x11_saved_display == NULL)
+		x11_saved_display = xstrdup(disp);
+	else if (strcmp(disp, x11_saved_display) != 0) {
+		error("x11_request_forwarding_with_spoofing: different "
+		    "$DISPLAY already forwarded");
+		return;
+	}
 
 	cp = disp;
 	if (disp)
@@ -2939,33 +2954,31 @@ x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
 	else
 		screen_number = 0;
 
-	/* Save protocol name. */
-	x11_saved_proto = xstrdup(proto);
-
-	/*
-	 * Extract real authentication data and generate fake data of the
-	 * same length.
-	 */
-	x11_saved_data = xmalloc(data_len);
-	x11_fake_data = xmalloc(data_len);
-	for (i = 0; i < data_len; i++) {
-		if (sscanf(data + 2 * i, "%2x", &value) != 1)
-			fatal("x11_request_forwarding: bad authentication data: %.100s", data);
-		if (i % 4 == 0)
-			rnd = arc4random();
-		x11_saved_data[i] = value;
-		x11_fake_data[i] = rnd & 0xff;
-		rnd >>= 8;
+	if (x11_saved_proto == NULL) {
+		/* Save protocol name. */
+		x11_saved_proto = xstrdup(proto);
+		/*
+		 * Extract real authentication data and generate fake data
+		 * of the same length.
+		 */
+		x11_saved_data = xmalloc(data_len);
+		x11_fake_data = xmalloc(data_len);
+		for (i = 0; i < data_len; i++) {
+			if (sscanf(data + 2 * i, "%2x", &value) != 1)
+				fatal("x11_request_forwarding: bad "
+				    "authentication data: %.100s", data);
+			if (i % 4 == 0)
+				rnd = arc4random();
+			x11_saved_data[i] = value;
+			x11_fake_data[i] = rnd & 0xff;
+			rnd >>= 8;
+		}
+		x11_saved_data_len = data_len;
+		x11_fake_data_len = data_len;
 	}
-	x11_saved_data_len = data_len;
-	x11_fake_data_len = data_len;
 
 	/* Convert the fake data into hex. */
-	len = 2 * data_len + 1;
-	new_data = xmalloc(len);
-	for (i = 0; i < data_len; i++)
-		snprintf(new_data + 2 * i, len - 2 * i,
-		    "%02x", (u_char) x11_fake_data[i]);
+	new_data = tohex(x11_fake_data, data_len);
 
 	/* Send the request packet. */
 	if (compat20) {

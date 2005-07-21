@@ -1,4 +1,4 @@
-/*	$OpenBSD: asprintf.c,v 1.10 2003/06/17 21:56:24 millert Exp $	*/
+/*	$OpenBSD: asprintf.c,v 1.13 2005/05/28 00:54:50 millert Exp $	*/
 
 /*
  * Copyright (c) 1997 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -17,30 +17,34 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: asprintf.c,v 1.10 2003/06/17 21:56:24 millert Exp $";
+static char rcsid[] = "$OpenBSD: asprintf.c,v 1.13 2005/05/28 00:54:50 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <stdarg.h>
+#include "local.h"
 
 int
-asprintf(char **str, char const *fmt, ...)
+asprintf(char **str, const char *fmt, ...)
 {
 	int ret;
 	va_list ap;
 	FILE f;
+	struct __sfileext fext;
 	unsigned char *_base;
 
-	va_start(ap, fmt);
+	_FILEEXT_SETUP(&f, &fext);
 	f._file = -1;
 	f._flags = __SWR | __SSTR | __SALC;
 	f._bf._base = f._p = (unsigned char *)malloc(128);
 	if (f._bf._base == NULL)
 		goto err;
 	f._bf._size = f._w = 127;		/* Leave room for the NUL */
+	va_start(ap, fmt);
 	ret = vfprintf(&f, fmt, ap);
+	va_end(ap);
 	if (ret == -1)
 		goto err;
 	*f._p = '\0';
@@ -48,11 +52,9 @@ asprintf(char **str, char const *fmt, ...)
 	if (_base == NULL)
 		goto err;
 	*str = (char *)_base;
-	va_end(ap);
 	return (ret);
 
 err:
-	va_end(ap);
 	if (f._bf._base) {
 		free(f._bf._base);
 		f._bf._base = NULL;

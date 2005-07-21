@@ -1,4 +1,4 @@
-/*	$OpenBSD: cal.c,v 1.10 2003/06/10 22:20:45 deraadt Exp $	*/
+/*	$OpenBSD: cal.c,v 1.14 2005/07/06 06:45:58 deraadt Exp $	*/
 /*	$NetBSD: cal.c,v 1.6 1995/03/26 03:10:24 glass Exp $	*/
 
 /*
@@ -34,16 +34,13 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
 #if 0
 static char sccsid[] = "@(#)cal.c	8.4 (Berkeley) 4/2/94";
 #else
-static char rcsid[] = "$OpenBSD: cal.c,v 1.10 2003/06/10 22:20:45 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: cal.c,v 1.14 2005/07/06 06:45:58 deraadt Exp $";
 #endif
 #endif /* not lint */
 
@@ -59,20 +56,20 @@ static char rcsid[] = "$OpenBSD: cal.c,v 1.10 2003/06/10 22:20:45 deraadt Exp $"
 #include <unistd.h>
 
 #define	THURSDAY		4		/* for reformation */
-#define	SATURDAY 		6		/* 1 Jan 1 was a Saturday */
+#define	SATURDAY		6		/* 1 Jan 1 was a Saturday */
 
-#define	FIRST_MISSING_DAY 	639799		/* 3 Sep 1752 */
-#define	NUMBER_MISSING_DAYS 	11		/* 11 day correction */
+#define	FIRST_MISSING_DAY	639799		/* 3 Sep 1752 */
+#define	NUMBER_MISSING_DAYS	11		/* 11 day correction */
 
 #define	MAXDAYS			42		/* max slots in a month array */
 #define	SPACE			-1		/* used in day array */
 
-static int days_in_month[2][13] = {
+static const int days_in_month[2][13] = {
 	{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
 	{0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
 };
 
-int sep1752[MAXDAYS] = {
+const int sep1752[MAXDAYS] = {
 	SPACE,	SPACE,	1,	2,	14,	15,	16,
 	17,	18,	19,	20,	21,	22,	23,
 	24,	25,	26,	27,	28,	29,	30,
@@ -95,13 +92,13 @@ int sep1752[MAXDAYS] = {
 	SPACE,	SPACE,	SPACE,	SPACE,	SPACE,	SPACE,	SPACE,
 };
 
-char *month_names[12] = {
+const char *month_names[12] = {
 	"January", "February", "March", "April", "May", "June",
 	"July", "August", "September", "October", "November", "December",
 };
 
-char *day_headings = "Su Mo Tu We Th Fr Sa";
-char *j_day_headings = " Su  Mo  Tu  We  Th  Fr  Sa";
+const char *day_headings = "Su Mo Tu We Th Fr Sa";
+const char *j_day_headings = " Su  Mo  Tu  We  Th  Fr  Sa";
 
 /* leap year -- account for gregorian reformation in 1752 */
 #define	leap_year(yr) \
@@ -123,7 +120,7 @@ char *j_day_headings = " Su  Mo  Tu  We  Th  Fr  Sa";
 int julian;
 
 void	ascii_day(char *, int);
-void	center(char *, int, int);
+void	center(const char *, int, int);
 void	day_array(int, int, int *);
 int	day_in_week(int, int, int);
 int	day_in_year(int, int, int);
@@ -132,6 +129,7 @@ void	monthly(int, int);
 void	trim_trailing_spaces(char *);
 void	usage(void);
 void	yearly(int);
+int	parsemonth(const char *);
 
 int
 main(int argc, char *argv[])
@@ -159,12 +157,22 @@ main(int argc, char *argv[])
 	month = 0;
 	switch(argc) {
 	case 2:
-		if ((month = atoi(*argv++)) < 1 || month > 12)
-			errx(1, "illegal month value: use 1-12");
+		month = parsemonth(*argv++);
+		if (!month)
+			errx(1, "Unable to parse month");
 		/* FALLTHROUGH */
 	case 1:
-		if ((year = atoi(*argv)) < 1 || year > 9999)
-			errx(1, "illegal year value: use 1-9999");
+		if (argc == 1 && !isdigit(*argv[0])) {
+			month = parsemonth(*argv);
+			if (!month)
+				errx(1, "illegal year value: use 1-9999");
+			(void)time(&now);
+			local_time = localtime(&now);
+			year = local_time->tm_year + TM_YEAR_BASE;
+		} else {
+			if ((year = atoi(*argv)) < 1 || year > 9999)
+				errx(1, "illegal year value: use 1-9999");
+		}
 		break;
 	case 0:
 		(void)time(&now);
@@ -200,8 +208,9 @@ monthly(int month, int year)
 	char *p, lineout[30];
 
 	day_array(month, year, days);
-	len = snprintf(lineout, sizeof lineout, "%s %d",
+	(void)snprintf(lineout, sizeof lineout, "%s %d",
 	    month_names[month - 1], year);
+	len = strlen(lineout);
 	(void)printf("%*s%s\n%s\n",
 	    ((julian ? J_WEEK_LEN : WEEK_LEN) - len) / 2, "",
 	    lineout, julian ? j_day_headings : day_headings);
@@ -298,7 +307,7 @@ day_array(int month, int year, int *days)
 
 	if (month == 9 && year == 1752) {
 		memmove(days,
-			julian ? j_sep1752 : sep1752, MAXDAYS * sizeof(int));
+		    julian ? j_sep1752 : sep1752, MAXDAYS * sizeof(int));
 		return;
 	}
 	memmove(days, empty, MAXDAYS * sizeof(int));
@@ -349,7 +358,7 @@ void
 ascii_day(char *p, int day)
 {
 	int display, val;
-	static char *aday[] = {
+	static const char *aday[] = {
 		"",
 		" 1", " 2", " 3", " 4", " 5", " 6", " 7",
 		" 8", " 9", "10", "11", "12", "13", "14",
@@ -400,7 +409,7 @@ trim_trailing_spaces(char *s)
 }
 
 void
-center(char *str, int len, int separate)
+center(const char *str, int len, int separate)
 {
 
 	len -= strlen(str);
@@ -415,4 +424,21 @@ usage(void)
 
 	(void)fprintf(stderr, "usage: cal [-jy] [[month] year]\n");
 	exit(1);
+}
+
+int
+parsemonth(const char *s)
+{
+	int v;
+	char *cp;
+	struct tm tm;
+
+	v = (int)strtol(s, &cp, 10);
+	if (cp != s)
+		return (v);
+	if (strptime(s, "%B", &tm) != NULL)
+		return (tm.tm_mon + 1);
+	if (strptime(s, "%b", &tm) != NULL)
+		return (tm.tm_mon + 1);
+	return (0);
 }

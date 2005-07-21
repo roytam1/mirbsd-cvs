@@ -1,4 +1,4 @@
-/*	$OpenBSD: dmesg.c,v 1.17 2003/06/02 20:06:14 millert Exp $	*/
+/*	$OpenBSD: dmesg.c,v 1.19 2005/04/28 11:10:03 henning Exp $	*/
 /*	$NetBSD: dmesg.c,v 1.8 1995/03/18 14:54:49 cgd Exp $	*/
 
 /*-
@@ -29,20 +29,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1991, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)dmesg.c	8.1 (Berkeley) 6/5/93";
-#else
-static char rcsid[] = "$OpenBSD: dmesg.c,v 1.17 2003/06/02 20:06:14 millert Exp $";
-#endif
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/msgbuf.h>
@@ -180,20 +166,22 @@ main(int argc, char *argv[])
 		if (ch == '\0')
 			continue;
 		newl = ch == '\n';
-		(void)vis(buf, ch, 0, 0);
+		vis(buf, ch, 0, 0);
 		if (buf[1] == 0)
-			(void)putchar(buf[0]);
+			putchar(buf[0]);
 		else
-			(void)printf("%s", buf);
+			printf("%s", buf);
 	}
 	if (!newl)
-		(void)putchar('\n');
+		putchar('\n');
 	return (0);
 }
 
 void
 usage(void)
 {
-	(void)fprintf(stderr, "usage: dmesg [-M core] [-N system]\n");
+	extern char *__progname;
+
+	fprintf(stderr, "usage: %s [-M core] [-N system]\n", __progname);
 	exit(1);
 }

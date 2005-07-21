@@ -1,4 +1,4 @@
-/*	$OpenBSD: pstat.c,v 1.46 2004/03/16 23:11:20 jmc Exp $	*/
+/*	$OpenBSD: pstat.c,v 1.52 2005/05/26 01:45:02 pedro Exp $	*/
 /*	$NetBSD: pstat.c,v 1.27 1996/10/23 22:50:06 cgd Exp $	*/
 
 /*-
@@ -40,7 +40,7 @@ static char copyright[] =
 #if 0
 from: static char sccsid[] = "@(#)pstat.c	8.9 (Berkeley) 2/16/94";
 #else
-static char *rcsid = "$OpenBSD: pstat.c,v 1.46 2004/03/16 23:11:20 jmc Exp $";
+static char *rcsid = "$OpenBSD: pstat.c,v 1.52 2005/05/26 01:45:02 pedro Exp $";
 #endif
 #endif /* not lint */
 
@@ -144,9 +144,10 @@ main(int argc, char *argv[])
 {
 	int fileflag = 0, swapflag = 0, ttyflag = 0, vnodeflag = 0;
 	char buf[_POSIX2_LINE_MAX];
-	int ch, ret;
+	int ch;
 	extern char *optarg;
 	extern int optind;
+	gid_t gid;
 
 	while ((ch = getopt(argc, argv, "TM:N:fiknstv")) != -1)
 		switch (ch) {
@@ -188,20 +189,21 @@ main(int argc, char *argv[])
 	 * Discard setgid privileges if not the running kernel so that bad
 	 * guys can't print interesting stuff from kernel memory.
 	 */
-	if (nlistf != NULL || memf != NULL) {
-		(void)setegid(getgid());
-		(void)setgid(getgid());
-	}
+	gid = getgid();
+	if (nlistf != NULL || memf != NULL)
+		if (setresgid(gid, gid, gid) == -1)
+			err(1, "setresgid");
 
 	if (vnodeflag)
 		if ((kd = kvm_openfiles(nlistf, memf, NULL, O_RDONLY, buf)) == 0)
 			errx(1, "kvm_openfiles: %s", buf);
 
-	(void)setegid(getgid());
-	(void)setgid(getgid());
+	if (nlistf == NULL && memf == NULL)
+		if (setresgid(gid, gid, gid) == -1)
+			err(1, "setresgid");
 
 	if (vnodeflag)
-		if ((ret = kvm_nlist(kd, nl)) == -1)
+		if (kvm_nlist(kd, nl) == -1)
 			errx(1, "kvm_nlist: %s", kvm_geterr(kd));
 
 	if (!(fileflag | vnodeflag | ttyflag | swapflag | totalflag))
@@ -533,7 +535,7 @@ mount_print(struct mount *mp)
 		char *comma = "(";
 
 		putchar(' ');
-		/* user visable flags */
+		/* user visible flags */
 		if (flags & MNT_RDONLY) {
 			(void)printf("%srdonly", comma);
 			flags &= ~MNT_RDONLY;
@@ -557,11 +559,6 @@ mount_print(struct mount *mp)
 		if (flags & MNT_NODEV) {
 			(void)printf("%snodev", comma);
 			flags &= ~MNT_NODEV;
-			comma = ",";
-		}
-		if (flags & MNT_UNION) {
-			(void)printf("%sunion", comma);
-			flags &= ~MNT_UNION;
 			comma = ",";
 		}
 		if (flags & MNT_ASYNC) {
@@ -916,12 +913,8 @@ filemode(void)
 			*fbp++ = 'W';
 		if (fp.f_flag & FAPPEND)
 			*fbp++ = 'A';
-#ifdef FSHLOCK	/* currently gone */
-		if (fp.f_flag & FSHLOCK)
-			*fbp++ = 'S';
-		if (fp.f_flag & FEXLOCK)
-			*fbp++ = 'X';
-#endif
+		if (fp.f_flag & FHASLOCK)
+			*fbp++ = 'L';
 		if (fp.f_flag & FASYNC)
 			*fbp++ = 'I';
 		*fbp = '\0';
@@ -961,6 +954,7 @@ getfiles(char **abuf, size_t *alen)
 		err(1, "malloc: KERN_FILE");
 	if (sysctl(mib, 2, buf, &len, NULL, 0) == -1) {
 		warn("sysctl: KERN_FILE");
+		free(buf);
 		return (-1);
 	}
 	*abuf = buf;
@@ -976,7 +970,7 @@ void
 swapmode(void)
 {
 	char *header;
-	int hlen = 10, nswap, rnswap;
+	int hlen = 10, nswap;
 	int div, i, avail, nfree, npfree, used;
 	long blocksize;
 	struct swapent *swdev;
@@ -1000,7 +994,8 @@ swapmode(void)
 	}
 	if ((swdev = malloc(nswap * sizeof(*swdev))) == NULL)
 		err(1, "malloc");
-	rnswap = swapctl(SWAP_STATS, swdev, nswap);
+	if (swapctl(SWAP_STATS, swdev, nswap) == -1)
+		err(1, "swapctl");
 
 	if (!totalflag)
 		(void)printf("%-11s %*s %8s %8s %8s  %s\n",
@@ -1040,6 +1035,7 @@ swapmode(void)
 		    (double)used / (double)xsize * 100.0,
 		    swdev[i].se_priority);
 	}
+	free(swdev);
 
 	/*
 	 * If only one partition has been set up via swapon(8), we don't
@@ -1057,8 +1053,6 @@ swapmode(void)
 		    "Total", hlen, avail / div, used / div, nfree / div,
 		    (double)used / (double)avail * 100.0);
 	}
-
-	free(swdev);
 }
 
 void

@@ -1,4 +1,4 @@
-.\"	$OpenBSD: mtree.8,v 1.27 2003/09/05 18:34:27 henning Exp $
+.\"	$OpenBSD: mtree.8,v 1.29 2004/12/30 10:01:47 jmc Exp $
 .\"	$NetBSD: mtree.8,v 1.4 1995/03/07 21:26:25 cgd Exp $
 .\"
 .\" Copyright (c) 1989, 1990, 1993
@@ -54,6 +54,9 @@ specification read from the standard input.
 Messages are written to the standard output for any files whose
 characteristics do not match the specification, or which are
 missing from either the file hierarchy or the specification.
+For an explanation of the directory hierarchy,
+see
+.Xr hier 7 .
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -301,7 +304,7 @@ To detect system binaries that have been
 it is recommended
 that
 .Nm mtree
-.Fl K
+.Fl cK
 .Cm sha1digest
 be run on the file systems, and a copy of the results stored on a different
 machine, or, at least, in encrypted form.
@@ -339,6 +342,7 @@ distribution.
 .Xr md5 3 ,
 .Xr rmd160 3 ,
 .Xr sha1 3 ,
+.Xr hier 7 ,
 .Xr chown 8
 .Sh HISTORY
 The

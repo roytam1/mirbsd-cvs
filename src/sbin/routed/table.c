@@ -1,4 +1,4 @@
-/*	$OpenBSD: table.c,v 1.15 2004/04/25 15:50:35 markus Exp $	*/
+/*	$OpenBSD: table.c,v 1.18 2005/04/12 15:26:47 cloder Exp $	*/
 
 /*
  * Copyright (c) 1983, 1988, 1993
@@ -713,7 +713,7 @@ again:
 		       addrname(dst, mask, 0), naddr_ntoa(gate),
 		       strerror(errno));
 	} else {
-		msglog("write(rt_sock) wrote %d instead of %d",
+		msglog("write(rt_sock) wrote %ld instead of %d",
 		       cc, w.w_rtm.rtm_msglen);
 	}
 #endif
@@ -1053,6 +1053,10 @@ read_rt(void)
 			}
 			continue;
 		}
+
+		/* ignore routes from bgpd and ospfd */
+		if (m.r.rtm.rtm_flags & (RTF_PROTO1|RTF_PROTO2))
+			continue;
 
 		if (m.r.rtm.rtm_type == RTM_IFINFO
 		    || m.r.rtm.rtm_type == RTM_NEWADDR

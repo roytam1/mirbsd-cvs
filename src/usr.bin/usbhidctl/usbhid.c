@@ -1,4 +1,4 @@
-/*	$OpenBSD: usbhid.c,v 1.5 2004/04/03 21:01:25 jmc Exp $	*/
+/*	$OpenBSD: usbhid.c,v 1.7 2004/10/04 05:21:27 jsg Exp $	*/
 /*      $NetBSD: usbhid.c,v 1.22 2002/02/20 20:30:42 christos Exp $ */
 
 /*
@@ -281,7 +281,7 @@ hidtestrule(struct Susbvar *var, struct usagedata *cache)
 
 /*
  * hidmatch() determines whether the item specified in 'item', and
- * nested within a heirarchy of collections specified in 'collist'
+ * nested within a hierarchy of collections specified in 'collist'
  * matches any of the rules in the list 'varlist'.  Returns the
  * matching rule on success, or NULL on no match.
  */
@@ -932,7 +932,8 @@ main(int argc, char **argv)
 		/* NOTREACHED */
 	}
 
-	hid_init(table);
+	if (hid_start(table) == -1)
+		errx(1, "hid_init");
 
 	if (dev[0] != '/') {
 		snprintf(devnamebuf, sizeof(devnamebuf), "/dev/%s%s",

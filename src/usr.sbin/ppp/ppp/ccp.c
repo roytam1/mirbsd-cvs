@@ -25,7 +25,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $OpenBSD: ccp.c,v 1.30 2002/07/02 00:13:19 brian Exp $
+ * $OpenBSD: ccp.c,v 1.32 2005/07/17 19:13:24 brad Exp $
  */
 
 #include <sys/param.h>
@@ -35,6 +35,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>	/* memcpy() on some archs */
@@ -364,7 +365,11 @@ CcpSendConfigReq(struct fsm *fp)
             break;
 
       if (alloc || *o == NULL) {
-        *o = (struct ccp_opt *)malloc(sizeof(struct ccp_opt));
+        if ((*o = (struct ccp_opt *)malloc(sizeof(struct ccp_opt))) == NULL) {
+	  log_Printf(LogERROR, "%s: Not enough memory for CCP REQ !\n",
+		     fp->link->name);
+	  break;
+	}
         (*o)->val.hdr.id = algorithm[f]->id;
         (*o)->val.hdr.len = 2;
         (*o)->next = NULL;

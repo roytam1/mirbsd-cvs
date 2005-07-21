@@ -1,4 +1,4 @@
-/* $OpenBSD: funcs.c,v 1.2 2004/05/19 02:36:26 tedu Exp $ */
+/* $OpenBSD: funcs.c,v 1.3 2005/04/11 16:31:35 deraadt Exp $ */
 /*
  * Copyright (c) Christos Zoulas 2003.
  * All Rights Reserved.
@@ -49,7 +49,8 @@ file_printf(struct magic_set *ms, const char *fmt, ...)
 
 	va_start(ap, fmt);
 
-	if ((len = vsnprintf(ms->o.ptr, ms->o.len, fmt, ap)) >= ms->o.len) {
+	len = vsnprintf(ms->o.ptr, ms->o.len, fmt, ap);
+	if (len == -1 || len >= ms->o.len) {
 		va_end(ap);
 		if ((buf = realloc(ms->o.buf, len + 1024)) == NULL) {
 			file_oomem(ms);

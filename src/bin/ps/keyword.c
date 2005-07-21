@@ -1,4 +1,4 @@
-/*	$OpenBSD: keyword.c,v 1.21 2004/01/08 18:18:35 millert Exp $	*/
+/*	$OpenBSD: keyword.c,v 1.23 2004/09/14 23:45:14 deraadt Exp $	*/
 /*	$NetBSD: keyword.c,v 1.12.6.1 1996/05/30 21:25:13 cgd Exp $	*/
 
 /*-
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)keyword.c	8.5 (Berkeley) 4/2/94";
 #else
-static char rcsid[] = "$OpenBSD: keyword.c,v 1.21 2004/01/08 18:18:35 millert Exp $";
+static char rcsid[] = "$OpenBSD: keyword.c,v 1.23 2004/09/14 23:45:14 deraadt Exp $";
 #endif
 #endif /* not lint */
 
@@ -95,6 +95,7 @@ VAR var[] = {
 	{"comm", "", "ucomm"},
 	{"command", "COMMAND", NULL, COMM|LJUST|USER, command, 16},
 	{"cpu", "CPU", NULL, 0, pvar, 3, 0, POFF(p_estcpu), UINT32, "d"},
+	{"cpuid", "CPUID", NULL, 0, pvar, 8, 0, POFF(p_cpuid), UINT64, "lld"},
 	{"cputime", "", "time"},
 	{"dsiz", "DSIZ", NULL, 0, dsize, 4},
 	{"emul", "EMUL", NULL, LJUST, emulname, EMULNAMELEN},
@@ -175,7 +176,7 @@ VAR var[] = {
 	{"ucomm", "UCOMM", NULL, LJUST, ucomm, MAXCOMLEN},
 	UID("uid", "UID", pvar, POFF(p_uid)),
 	{"upr", "UPR", NULL, 0, pvar, 3, 0, POFF(p_usrpri), UINT8, "d"},
-	{"user", "USER", NULL, LJUST, uname, USERLEN},
+	{"user", "USER", NULL, LJUST, euname, USERLEN},
 	{"usrpri", "", "upr"},
 	{"vsize", "", "vsz"},
 	{"vsz", "VSZ", NULL, 0, vsize, 5},

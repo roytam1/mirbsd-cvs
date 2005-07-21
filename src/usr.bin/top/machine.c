@@ -1,4 +1,4 @@
-/* $OpenBSD: machine.c,v 1.38 2004/05/09 22:14:15 deraadt Exp $	 */
+/* $OpenBSD: machine.c,v 1.49 2005/06/17 09:40:48 markus Exp $	 */
 
 /*-
  * Copyright (c) 1994 Thorsten Lockert <tholo@sigmasoft.com>
@@ -75,13 +75,13 @@ struct handle {
  *  These definitions control the format of the per-process area
  */
 static char header[] =
-	"  PID X        PRI NICE  SIZE   RES STATE WAIT     TIME    CPU COMMAND";
+	"  PID X        PRI NICE  SIZE   RES STATE    WAIT     TIME    CPU COMMAND";
 
 /* 0123456   -- field to fill in starts at header+6 */
 #define UNAME_START 6
 
 #define Proc_format \
-	"%5d %-8.8s %3d %4d %5s %5s %-5s %-6.6s %6s %5.2f%% %.14s"
+	"%5d %-8.8s %3d %4d %5s %5s %-8s %-6.6s %6s %5.2f%% %.51s"
 
 /* process state names for the "STATE" column of the display */
 /*
@@ -90,26 +90,26 @@ static char header[] =
  */
 
 char	*state_abbrev[] = {
-	"", "start", "run\0\0\0", "sleep", "stop", "zomb",
+	"", "start", "run", "sleep", "stop", "zomb", "dead", "onproc"
 };
 
 static int      stathz;
 
 /* these are for calculating cpu state percentages */
-static long     cp_time[CPUSTATES];
-static long     cp_old[CPUSTATES];
-static long     cp_diff[CPUSTATES];
+static int64_t     **cp_time;
+static int64_t     **cp_old;
+static int64_t     **cp_diff;
 
 /* these are for detailing the process states */
-int process_states[7];
+int process_states[8];
 char *procstatenames[] = {
 	"", " starting, ", " running, ", " idle, ",
-	" stopped, ", " zombie, ",
+	" stopped, ", " zombie, ", " dead, ", " on processor, ",
 	NULL
 };
 
 /* these are for detailing the cpu states */
-int cpu_states[CPUSTATES];
+int64_t *cpu_states;
 char *cpustatenames[] = {
 	"user", "nice", "system", "interrupt", "idle", NULL
 };
@@ -140,6 +140,8 @@ static int      pageshift;	/* log base 2 of the pagesize */
 /* define pagetok in terms of pageshift */
 #define pagetok(size) ((size) << pageshift)
 
+int		ncpu;
+
 unsigned int	maxslp;
 
 static int
@@ -159,7 +161,29 @@ getstathz(void)
 int
 machine_init(struct statics *statics)
 {
-	int pagesize;
+	size_t size = sizeof(ncpu);
+	int mib[2], pagesize, cpu;
+
+	mib[0] = CTL_HW;
+	mib[1] = HW_NCPU;
+	if (sysctl(mib, 2, &ncpu, &size, NULL, 0) == -1)
+		return (-1);
+	cpu_states = malloc(ncpu * CPUSTATES * sizeof(int64_t));
+	if (cpu_states == NULL)
+		err(1, NULL);
+	cp_time = malloc(ncpu * sizeof(int64_t *));
+	cp_old  = malloc(ncpu * sizeof(int64_t *));
+	cp_diff = malloc(ncpu * sizeof(int64_t *));
+	if (cp_time == NULL || cp_old == NULL || cp_diff == NULL)
+		err(1, NULL);
+	for (cpu = 0; cpu < ncpu; cpu++) {
+		cp_time[cpu] = malloc(CPUSTATES * sizeof(int64_t));
+		cp_old[cpu] = malloc(CPUSTATES * sizeof(int64_t));
+		cp_diff[cpu] = malloc(CPUSTATES * sizeof(int64_t));
+		if (cp_time[cpu] == NULL || cp_old[cpu] == NULL ||
+		    cp_diff[cpu] == NULL)
+			err(1, NULL);
+	}
 
 	stathz = getstathz();
 	if (stathz == -1)
@@ -208,16 +232,37 @@ get_system_info(struct system_info *si)
 {
 	static int sysload_mib[] = {CTL_VM, VM_LOADAVG};
 	static int vmtotal_mib[] = {CTL_VM, VM_METER};
-	static int cp_time_mib[] = {CTL_KERN, KERN_CPTIME};
 	struct loadavg sysload;
 	struct vmtotal vmtotal;
 	double *infoloadp;
 	size_t size;
 	int i;
+	int64_t *tmpstate;
 
-	size = sizeof(cp_time);
-	if (sysctl(cp_time_mib, 2, &cp_time, &size, NULL, 0) < 0)
-		warn("sysctl kern.cp_time failed");
+	if (ncpu > 1) {
+		size = CPUSTATES * sizeof(int64_t);
+		for (i = 0; i < ncpu; i++) {
+			int cp_time_mib[] = {CTL_KERN, KERN_CPTIME2, i};
+			tmpstate = cpu_states + (CPUSTATES * i);
+			if (sysctl(cp_time_mib, 3, cp_time[i], &size, NULL, 0) < 0)
+				warn("sysctl kern.cp_time2 failed");
+			/* convert cp_time2 counts to percentages */
+			(void) percentages(CPUSTATES, tmpstate, cp_time[i],
+			    cp_old[i], cp_diff[i]);
+		}
+	} else {
+		int cp_time_mib[] = {CTL_KERN, KERN_CPTIME};
+		long cp_time_tmp[CPUSTATES];
+
+		size = sizeof(cp_time_tmp);
+		if (sysctl(cp_time_mib, 2, cp_time_tmp, &size, NULL, 0) < 0)
+			warn("sysctl kern.cp_time failed");
+		for (i = 0; i < CPUSTATES; i++)
+			cp_time[0][i] = cp_time_tmp[i];
+		/* convert cp_time counts to percentages */
+		(void) percentages(CPUSTATES, cpu_states, cp_time[0],
+		    cp_old[0], cp_diff[0]);
+	}
 
 	size = sizeof(sysload);
 	if (sysctl(sysload_mib, 2, &sysload, &size, NULL, 0) < 0)
@@ -226,8 +271,6 @@ get_system_info(struct system_info *si)
 	for (i = 0; i < 3; i++)
 		*infoloadp++ = ((double) sysload.ldavg[i]) / sysload.fscale;
 
-	/* convert cp_time counts to percentages */
-	(void) percentages(CPUSTATES, cpu_states, cp_time, cp_old, cp_diff);
 
 	/* get total -- systemwide main memory usage structure */
 	size = sizeof(vmtotal);
@@ -256,7 +299,7 @@ get_system_info(struct system_info *si)
 
 static struct handle handle;
 
-static struct kinfo_proc2 *
+struct kinfo_proc2 *
 getprocs(int op, int arg, int *cnt)
 {
 	size_t size;
@@ -299,8 +342,8 @@ caddr_t
 get_process_info(struct system_info *si, struct process_select *sel,
     int (*compare) (const void *, const void *))
 {
-	int show_idle, show_system, show_uid;
-	int total_procs, active_procs, i;
+	int show_idle, show_system, show_uid, show_pid;
+	int total_procs, active_procs;
 	struct kinfo_proc2 **prefp, *pp;
 
 	if ((pbase = getprocs(KERN_PROC_KTHREAD, 0, &nproc)) == NULL) {
@@ -321,13 +364,14 @@ get_process_info(struct system_info *si, struct process_select *sel,
 	show_idle = sel->idle;
 	show_system = sel->system;
 	show_uid = sel->uid != (uid_t)-1;
+	show_pid = sel->pid != (pid_t)-1;
 
 	/* count up process states and get pointers to interesting procs */
 	total_procs = 0;
 	active_procs = 0;
 	memset((char *) process_states, 0, sizeof(process_states));
 	prefp = pref;
-	for (pp = pbase, i = 0; i < nproc; pp++, i++) {
+	for (pp = pbase; pp < &pbase[nproc]; pp++) {
 		/*
 		 *  Place pointers to each valid proc structure in pref[].
 		 *  Process slots that are actually in use have a non-zero
@@ -341,7 +385,8 @@ get_process_info(struct system_info *si, struct process_select *sel,
 			if (pp->p_stat != SZOMB &&
 			    (show_idle || pp->p_pctcpu != 0 ||
 			    pp->p_stat == SRUN) &&
-			    (!show_uid || pp->p_ruid == sel->uid)) {
+			    (!show_uid || pp->p_ruid == sel->uid) &&
+			    (!show_pid || pp->p_pid == sel->pid)) {
 				*prefp++ = pp;
 				active_procs++;
 			}
@@ -363,6 +408,56 @@ get_process_info(struct system_info *si, struct process_select *sel,
 }
 
 char fmt[MAX_COLS];	/* static area where result is built */
+
+char *
+state_abbr(struct kinfo_proc2 *pp)
+{
+	static char buf[10];
+
+	if (ncpu > 1 && pp->p_cpuid != KI_NOCPU)
+		snprintf(buf, sizeof buf, "%s/%llu",
+		    state_abbrev[(unsigned char)pp->p_stat], pp->p_cpuid);
+	else
+		snprintf(buf, sizeof buf, "%s",
+		    state_abbrev[(unsigned char)pp->p_stat]);
+	return buf;
+}
+
+char *
+format_comm(struct kinfo_proc2 *kp)
+{
+#define ARG_SIZE 60
+	static char **s, buf[ARG_SIZE];
+	size_t siz = 100;
+	char **p;
+	int mib[4];
+	extern int show_args;
+
+	if (!show_args)
+		return (kp->p_comm);
+
+	for (;; siz *= 2) {
+		if ((s = realloc(s, siz)) == NULL)
+			err(1, NULL);
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_PROC_ARGS;
+		mib[2] = kp->p_pid;
+		mib[3] = KERN_PROC_ARGV;
+		if (sysctl(mib, 4, s, &siz, NULL, 0) == 0)
+			break;
+		if (errno != ENOMEM)
+			return (kp->p_comm);
+	}
+	buf[0] = '\0';
+	for (p = s; *p != NULL; p++) {
+		if (p != s)
+			strlcat(buf, " ", sizeof(buf));
+		strlcat(buf, *p, sizeof(buf));
+	}
+	if (buf[0] == '\0')
+		return (kp->p_comm);
+	return (buf);
+}
 
 char *
 format_next_process(caddr_t handle, char *(*get_userid)(uid_t))
@@ -410,9 +505,9 @@ format_next_process(caddr_t handle, char *(*get_userid)(uid_t))
 	    format_k(pagetok(PROCSIZE(pp))),
 	    format_k(pagetok(pp->p_vm_rssize)),
 	    (pp->p_stat == SSLEEP && pp->p_slptime > maxslp) ?
-	    "idle" : state_abbrev[(unsigned char)pp->p_stat],
+	    "idle" : state_abbr(pp),
 	    p_wait, format_time(cputime), 100.0 * pct,
-	    printable(pp->p_comm));
+	    printable(format_comm(pp)));
 
 	/* return the result */
 	return (fmt);
@@ -587,7 +682,7 @@ int (*proc_compares[])(const void *, const void *) = {
 /*
  * proc_owner(pid) - returns the uid that owns process "pid", or -1 if
  *		the process does not exist.
- *		It is EXTREMLY IMPORTANT that this function work correctly.
+ *		It is EXTREMELY IMPORTANT that this function work correctly.
  *		If top runs setuid root (as in SVR4), then this function
  *		is the only thing that stands in the way of a serious
  *		security problem.  It validates requests for the "kill"

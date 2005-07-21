@@ -1,4 +1,4 @@
-/* $OpenBSD: udp.c,v 1.88 2005/04/08 23:15:26 hshoexer Exp $	 */
+/* $OpenBSD: udp.c,v 1.90 2005/06/04 21:54:55 hshoexer Exp $	 */
 /* $EOM: udp.c,v 1.57 2001/01/26 10:09:57 niklas Exp $	 */
 
 /*

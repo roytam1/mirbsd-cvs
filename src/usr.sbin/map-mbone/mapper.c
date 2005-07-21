@@ -1,3 +1,4 @@
+/*	$OpenBSD: mapper.c,v 1.18 2005/06/22 14:50:21 robert Exp $	*/
 /*	$NetBSD: mapper.c,v 1.3 1995/12/10 11:12:04 mycroft Exp $	*/
 
 /* Mapper for connections between MRouteD multicast routers.
@@ -97,14 +98,10 @@ char *			graph_name(u_int32_t addr, char *buf, size_t len);
 void			graph_edges(Node *node);
 void			elide_aliases(Node *node);
 void			graph_map(void);
-int			get_number(int *var, int deflt, char ***pargv,
-			    int *pargc);
 u_int32_t		host_addr(char *name);
+void			usage(void);
 
-
-Node *find_node(addr, ptr)
-    u_int32_t addr;
-    Node **ptr;
+Node *find_node(u_int32_t addr, Node **ptr)
 {
     Node *n = *ptr;
 
@@ -125,9 +122,7 @@ Node *find_node(addr, ptr)
 }
 
 
-Interface *find_interface(addr, node)
-    u_int32_t addr;
-    Node *node;
+Interface *find_interface(u_int32_t addr, Node *node)
 {
     Interface *ifc;
 
@@ -145,9 +140,7 @@ Interface *find_interface(addr, node)
 }
 
 
-Neighbor *find_neighbor(addr, node)
-    u_int32_t addr;
-    Node *node;
+Neighbor *find_neighbor(u_int32_t addr, Node *node)
 {
     Interface *ifc;
 
@@ -202,15 +195,13 @@ logit(int severity, int syserr, char *format, ...)
 /*
  * Send a neighbors-list request.
  */
-void ask(dst)
-    u_int32_t dst;
+void ask(u_int32_t dst)
 {
     send_igmp(our_addr, dst, IGMP_DVMRP, DVMRP_ASK_NEIGHBORS,
 		htonl(MROUTED_LEVEL), 0);
 }
 
-void ask2(dst)
-    u_int32_t dst;
+void ask2(u_int32_t dst)
 {
     send_igmp(our_addr, dst, IGMP_DVMRP, DVMRP_ASK_NEIGHBORS2,
 		htonl(MROUTED_LEVEL), 0);
@@ -220,9 +211,8 @@ void ask2(dst)
 /*
  * Process an incoming group membership report.
  */
-void accept_group_report(src, dst, group, r_type)
-    u_int32_t src, dst, group;
-    int r_type;
+void accept_group_report(u_int32_t src, u_int32_t dst, u_int32_t group,
+    int r_type)
 {
     logit(LOG_INFO, 0, "ignoring IGMP group membership report from %s to %s",
 	inet_fmt(src, s1), inet_fmt(dst, s2));
@@ -232,10 +222,8 @@ void accept_group_report(src, dst, group, r_type)
 /*
  * Process an incoming neighbor probe message.
  */
-void accept_probe(src, dst, p, datalen, level)
-    u_int32_t src, dst, level;
-    char *p;
-    int datalen;
+void accept_probe(u_int32_t src, u_int32_t dst, char *p, int datalen,
+    u_int32_t level)
 {
     logit(LOG_INFO, 0, "ignoring DVMRP probe from %s to %s",
 	inet_fmt(src, s1), inet_fmt(dst, s2));
@@ -245,10 +233,8 @@ void accept_probe(src, dst, p, datalen, level)
 /*
  * Process an incoming route report message.
  */
-void accept_report(src, dst, p, datalen, level)
-    u_int32_t src, dst, level;
-    char *p;
-    int datalen;
+void accept_report(u_int32_t src, u_int32_t dst, char *p, int datalen,
+    u_int32_t level)
 {
     logit(LOG_INFO, 0, "ignoring DVMRP routing report from %s to %s",
 	inet_fmt(src, s1), inet_fmt(dst, s2));
@@ -258,8 +244,7 @@ void accept_report(src, dst, p, datalen, level)
 /*
  * Process an incoming neighbor-list request message.
  */
-void accept_neighbor_request(src, dst)
-    u_int32_t src, dst;
+void accept_neighbor_request(u_int32_t src, u_int32_t dst)
 {
     if (src != our_addr)
 	logit(LOG_INFO, 0,
@@ -267,8 +252,7 @@ void accept_neighbor_request(src, dst)
 	    inet_fmt(src, s1), inet_fmt(dst, s2));
 }
 
-void accept_neighbor_request2(src, dst)
-    u_int32_t src, dst;
+void accept_neighbor_request2(u_int32_t src, u_int32_t dst)
 {
     if (src != our_addr)
 	logit(LOG_INFO, 0,
@@ -280,10 +264,8 @@ void accept_neighbor_request2(src, dst)
 /*
  * Process an incoming neighbor-list message.
  */
-void accept_neighbors(src, dst, p, datalen, level)
-    u_int32_t src, dst, level;
-    u_char *p;
-    int datalen;
+void accept_neighbors(u_int32_t src, u_int32_t dst, u_char *p, int datalen,
+    u_int32_t level)
 {
     Node       *node = find_node(src, &routers);
 
@@ -441,10 +423,8 @@ void accept_neighbors(src, dst, p, datalen, level)
     }
 }
 
-void accept_neighbors2(src, dst, p, datalen, level)
-    u_int32_t src, dst, level;
-    u_char *p;
-    int datalen;
+void accept_neighbors2(u_int32_t src, u_int32_t dst, u_char *p, int datalen,
+    u_int32_t level)
 {
     Node       *node = find_node(src, &routers);
     u_int broken_cisco = ((level & 0xffff) == 0x020a); /* 10.2 */
@@ -588,14 +568,13 @@ void accept_neighbors2(src, dst, p, datalen, level)
 }
 
 
-void check_vif_state()
+void check_vif_state(void)
 {
     logit(LOG_NOTICE, 0, "network marked down...");
 }
 
 
-int retry_requests(node)
-    Node *node;
+int retry_requests(Node *node)
 {
     int	result;
 
@@ -615,8 +594,7 @@ int retry_requests(node)
 }
 
 
-char *inet_name(addr)
-    u_int32_t addr;
+char *inet_name(u_int32_t addr)
 {
     struct hostent *e;
 
@@ -626,8 +604,7 @@ char *inet_name(addr)
 }
 
 
-void print_map(node)
-    Node *node;
+void print_map(Node *node)
 {
     if (node) {
 	char *name, *addr;
@@ -694,10 +671,7 @@ void print_map(node)
 }
 
 
-char *graph_name(addr, buf, len)
-    u_int32_t addr;
-    char *buf;
-    size_t len;
+char *graph_name(u_int32_t addr, char *buf, size_t len)
 {
     char *name;
 
@@ -710,8 +684,7 @@ char *graph_name(addr, buf, len)
 }
 
 
-void graph_edges(node)
-    Node *node;
+void graph_edges(Node *node)
 {
     Interface *ifc;
     Neighbor *nb;
@@ -755,8 +728,7 @@ void graph_edges(node)
     }
 }
 
-void elide_aliases(node)
-    Node *node;
+void elide_aliases(Node *node)
 {
     if (node) {
 	elide_aliases(node->left);
@@ -778,7 +750,7 @@ void elide_aliases(node)
     }
 }
 
-void graph_map()
+void graph_map(void)
 {
     time_t now = time(0);
     char *nowstr = ctime(&now);
@@ -792,33 +764,7 @@ void graph_map()
 }
 
 
-int get_number(var, deflt, pargv, pargc)
-    int *var, *pargc, deflt;
-    char ***pargv;
-{
-    if ((*pargv)[0][2] == '\0') { /* Get the value from the next argument */
-	if (*pargc > 1  &&  isdigit((*pargv)[1][0])) {
-	    (*pargv)++, (*pargc)--;
-	    *var = atoi((*pargv)[0]);
-	    return 1;
-	} else if (deflt >= 0) {
-	    *var = deflt;
-	    return 1;
-	} else
-	    return 0;
-    } else {			/* Get value from the rest of this argument */
-	if (isdigit((*pargv)[0][2])) {
-	    *var = atoi((*pargv)[0] + 2);
-	    return 1;
-	} else {
-	    return 0;
-	}
-    }
-}
-
-
-u_int32_t host_addr(name)
-    char *name;
+u_int32_t host_addr(char *name)
 {
     struct hostent *e = gethostbyname(name);
     int addr;
@@ -834,12 +780,26 @@ u_int32_t host_addr(name)
     return addr;
 }
 
+void usage(void)
+{
+    extern char *__progname;
 
-int main(argc, argv)
-    int argc;
-    char *argv[];
+    fprintf(stderr,
+	    "Usage: %s [-f] [-g] [-n] [-t timeout] [-r retries] "
+	    "[-d [debug-level]] [router]\n\n", __progname);
+    fprintf(stderr, "\t-f  Flood the routing graph with queries\n");
+    fprintf(stderr, "\t    (True by default unless `router' is given)\n");
+    fprintf(stderr, "\t-g  Generate output in GraphEd format\n");
+    fprintf(stderr, "\t-n  Don't look up DNS names for routers\n");
+
+    exit(1);
+}
+
+int main(int argc, char *argv[])
 {
     int flood = FALSE, graph = FALSE;
+    int ch;
+    const char *errstr;
     
     if (geteuid() != 0) {
       fprintf(stderr, "map-mbone: must be root\n");
@@ -851,47 +811,52 @@ int main(argc, argv)
 
     setlinebuf(stderr);
 
-    argv++, argc--;
-    while (argc > 0 && argv[0][0] == '-') {
-	switch (argv[0][1]) {
-	  case 'd':
-	    if (!get_number(&debug, DEFAULT_DEBUG, &argv, &argc))
-		goto usage;
-	    break;
-	  case 'f':
-	    flood = TRUE;
-	    break;
-	  case 'g':
-	    graph = TRUE;
-	    break;
-	  case 'n':
-	    show_names = FALSE;
-	    break;
-	  case 'r':
-	    if (!get_number(&retries, -1, &argv, &argc))
-		goto usage;
-	    break;
-	  case 't':
-	    if (!get_number(&timeout, -1, &argv, &argc))
-		goto usage;
-	    break;
-	  default:
-	    goto usage;
-	}
-	argv++, argc--;
+    while ((ch = getopt(argc, argv, "d::fgnr:t:")) != -1) {
+	    switch (ch) {
+	    case 'd':
+		    if (!optarg)
+			    debug = DEFAULT_DEBUG;
+		    else {
+			    debug = strtonum(optarg, 0, 3, &errstr);
+			    if (errstr) {
+				    warnx("debug level %s", errstr);
+				    debug = DEFAULT_DEBUG;
+			    }
+		    }
+		    break;
+	    case 'f':
+		    flood = TRUE;
+		    break;
+	    case 'g':
+		    graph = TRUE;
+		    break;
+	    case 'n':
+		    show_names = FALSE;
+		    break;
+	    case 'r':
+		    retries = strtonum(optarg, 0, INT_MAX, &errstr);
+		    if (errstr) {
+			    warnx("retries %s", errstr);
+			    usage();
+		    }
+		    break;
+	    case 't':
+		    timeout = strtonum(optarg, 0, INT_MAX, &errstr);
+		    if (errstr) {
+			    warnx("timeout %s", errstr);
+			    usage();
+		    }
+		    break;
+	    default:
+		    usage();
+	    }
     }
-
-    if (argc > 1) {
-      usage:	
-	fprintf(stderr,
-		"Usage: map-mbone [-f] [-g] [-n] [-t timeout] %s\n\n",
-		"[-r retries] [-d [debug-level]] [router]");
-        fprintf(stderr, "\t-f  Flood the routing graph with queries\n");
-        fprintf(stderr, "\t    (True by default unless `router' is given)\n");
-        fprintf(stderr, "\t-g  Generate output in GraphEd format\n");
-        fprintf(stderr, "\t-n  Don't look up DNS names for routers\n");
-	exit(1);
-    } else if (argc == 1 && !(target_addr = host_addr(argv[0]))) {
+    argc -= optind;
+    argv += optind;
+    
+    if (argc > 1)
+	usage();
+    else if (argc == 1 && !(target_addr = host_addr(argv[0]))) {
 	fprintf(stderr, "Unknown host: %s\n", argv[0]);
 	exit(2);
     }
@@ -977,53 +942,40 @@ int main(argc, argv)
 }
 
 /* dummies */
-void accept_prune(src, dst, p, datalen)
-	u_int32_t src, dst;
-	char *p;
-	int datalen;
+void accept_prune(u_int32_t src, u_int32_t dst, char *p, int datalen)
 {
 }
-void accept_graft(src, dst, p, datalen)
-	u_int32_t src, dst;
-	char *p;
-	int datalen;
+
+void accept_graft(u_int32_t src, u_int32_t dst, char *p, int datalen)
 {
 }
-void accept_g_ack(src, dst, p, datalen)
-	u_int32_t src, dst;
-	char *p;
-	int datalen;
+
+void accept_g_ack(u_int32_t src, u_int32_t dst, char *p, int datalen)
 {
 }
-void add_table_entry(origin, mcastgrp)
-	u_int32_t origin, mcastgrp;
+
+void add_table_entry(u_int32_t origin, u_int32_t mcastgrp)
 {
 }
-void accept_leave_message(src, dst, group)
-	u_int32_t src, dst, group;
+
+void accept_leave_message(u_int32_t src, u_int32_t dst, u_int32_t group)
 {
 }
-void accept_mtrace(src, dst, group, data, no, datalen)
-	u_int32_t src, dst, group;
-	char *data;
-	u_int no;
-	int datalen;
+
+void accept_mtrace(u_int32_t src, u_int32_t dst, u_int32_t group, char *data,
+    u_int no, int datalen)
 {
 }
-void accept_membership_query(src, dst, group, tmo)
-	u_int32_t src, dst, group;
-	int tmo;
+
+void accept_membership_query(u_int32_t src, u_int32_t dst, u_int32_t group,
+    int tmo)
 {
 }
-void accept_info_request(src, dst, p, datalen)
-	u_int32_t src, dst;
-	u_char *p;
-	int datalen;
+
+void accept_info_request(u_int32_t src, u_int32_t dst, u_char *p, int datalen)
 {
 }
-void accept_info_reply(src, dst, p, datalen)
-	u_int32_t src, dst;
-	u_char *p;
-	int datalen;
+
+void accept_info_reply(u_int32_t src, u_int32_t dst, u_char *p, int datalen)
 {
 }

@@ -25,7 +25,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	$OpenBSD: getopt.3,v 1.28 2003/09/22 23:47:26 millert Exp $
+.\"	$OpenBSD: getopt.3,v 1.33 2005/07/01 05:18:57 jmc Exp $
 .\"
 .Dd December 17, 2002
 .Dt GETOPT 3
@@ -36,9 +36,9 @@
 .Sh SYNOPSIS
 .Fd #include <unistd.h>
 .Vt extern char *optarg;
+.Vt extern int   opterr;
 .Vt extern int   optind;
 .Vt extern int   optopt;
-.Vt extern int   opterr;
 .Vt extern int   optreset;
 .Ft int
 .Fn getopt "int argc" "char * const *argv" "const char *optstring"
@@ -61,9 +61,8 @@ may contain the following elements: individual characters,
 characters followed by a colon, and characters followed by two colons.
 A character followed by a single colon indicates that an argument
 is to follow the option on the command line.
-Two colons indicates that the argument is optional--this is an
-extension not covered by
-.Px .
+Two colons indicates that the argument is optional \- this is an
+extension not covered by POSIX.
 For example, an option string
 .Qq x
 recognizes an option
@@ -95,9 +94,15 @@ and
 are both initialized to 1.
 The
 .Va optind
-variable may be set to another value before a set of calls to
+variable may be set to another value larger than 0 before a set of calls to
 .Fn getopt
-in order to skip over more or less argv entries.
+in order to skip over more or less
+.Fa argv
+entries.
+An
+.Va optind
+value of 0 is reserved for compatibility with GNU
+.Fn getopt .
 .Pp
 In order to use
 .Fn getopt
@@ -230,6 +235,20 @@ variable was added to make it possible to call the
 .Fn getopt
 function multiple times.
 .It Li o
+If the
+.Va optind
+variable is set to 0,
+.Fn getopt
+will behave as if the
+.Va optreset
+variable has been set.
+This is for compatibility with
+.Tn GNU
+.Fn getopt .
+New code should use
+.Va optreset
+instead.
+.It Li o
 If the first character of
 .Fa optstring
 is a plus sign
@@ -292,6 +311,19 @@ the
 .Ox
 .Fn getopt
 supports optional arguments separated by whitespace.
+.Pp
+Historic
+.Bx
+versions of
+.Fn getopt
+set
+.Fa optopt
+to the last option character processed.
+However, this conflicts with
+.St -p1003.1
+which stipulates that
+.Fa optopt
+be set to the last character that caused an error.
 .Sh HISTORY
 The
 .Fn getopt
@@ -319,22 +351,34 @@ as an option.
 This practice is wrong, and should not be used in any current development.
 It is provided for backward compatibility
 .Em only .
-The following code fragment works in most cases.
-.Bd -literal -offset indent
-int ch;
-long length;
-char *p;
+The following code fragment works in most cases and can handle mixed
+number and letter arguments.
 
-while ((ch = getopt(argc, argv, "0123456789")) != -1) {
+.Bd -literal -offset indent
+int aflag = 0, bflag = 0, ch, lastch = '\e0';
+int length = -1, newarg = 1, prevoptind = 1;
+
+while ((ch = getopt(argc, argv, "0123456789ab")) != -1) {
 	switch (ch) {
 	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
-		p = argv[optind - 1];
-		if (p[0] == '-' && p[1] == ch && !p[2])
-			length = ch - '0';
-		else
-			length = strtol(argv[optind] + 1, NULL, 10);
+		if (newarg || !isdigit(lastch))
+			length = 0;
+		else if (length > INT_MAX / 10)
+			usage();
+		length = (length * 10) + (ch - '0');
 		break;
+	case 'a':
+		aflag = 1;
+		break;
+	case 'b':
+		bflag = 1;
+		break;
+	default:
+		usage();
 	}
+	lastch = ch;
+	newarg = optind != prevoptind;
+	prevoptind = optind;
 }
 .Ed

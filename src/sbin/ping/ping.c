@@ -1,4 +1,4 @@
-/*	$OpenBSD: ping.c,v 1.67 2004/05/03 20:55:46 millert Exp $	*/
+/*	$OpenBSD: ping.c,v 1.71 2005/05/27 04:55:27 mcbride Exp $	*/
 /*	$NetBSD: ping.c,v 1.20 1995/08/11 22:37:58 cgd Exp $	*/
 
 /*
@@ -43,7 +43,7 @@ static const char copyright[] =
 #if 0
 static char sccsid[] = "@(#)ping.c	8.1 (Berkeley) 6/5/93";
 #else
-static const char rcsid[] = "$OpenBSD: ping.c,v 1.67 2004/05/03 20:55:46 millert Exp $";
+static const char rcsid[] = "$OpenBSD: ping.c,v 1.71 2005/05/27 04:55:27 mcbride Exp $";
 #endif
 #endif /* not lint */
 
@@ -107,18 +107,19 @@ struct tvi {
 
 /* various options */
 int options;
-#define	F_FLOOD		0x001
-#define	F_INTERVAL	0x002
-#define	F_NUMERIC	0x004
-#define	F_PINGFILLED	0x008
-#define	F_QUIET		0x010
-#define	F_RROUTE	0x020
-#define	F_SO_DEBUG	0x040
-#define	F_SO_DONTROUTE	0x080
-#define	F_VERBOSE	0x100
-#define	F_SADDR		0x200
-#define	F_HDRINCL	0x400
-#define	F_TTL		0x800
+#define	F_FLOOD		0x0001
+#define	F_INTERVAL	0x0002
+#define	F_NUMERIC	0x0004
+#define	F_PINGFILLED	0x0008
+#define	F_QUIET		0x0010
+#define	F_RROUTE	0x0020
+#define	F_SO_DEBUG	0x0040
+#define	F_SO_DONTROUTE	0x0080
+#define	F_VERBOSE	0x0100
+#define	F_SADDR		0x0200
+#define	F_HDRINCL	0x0400
+#define	F_TTL		0x0800
+#define	F_SO_JUMBO	0x1000
 
 /* multicast options */
 int moptions;
@@ -193,8 +194,8 @@ main(int argc, char *argv[])
 	socklen_t maxsizelen;
 	u_char *datap, *packet;
 	char *target, hnamebuf[MAXHOSTNAMELEN];
-	u_char ttl = MAXTTL, loop = 1, df = 0;
-	int tos = 0;
+	u_char ttl = MAXTTL, loop = 1;
+	int df = 0, tos = 0;
 #ifdef IP_OPTIONS
 	char rspace[3 + 4 * NROUTES + 1];	/* record route space */
 #endif
@@ -210,7 +211,8 @@ main(int argc, char *argv[])
 
 	preload = 0;
 	datap = &outpack[8 + sizeof(struct tvi)];
-	while ((ch = getopt(argc, argv, "DI:LRS:c:dfi:l:np:qrs:T:t:vw:")) != -1)
+	while ((ch = getopt(argc, argv,
+	    "DI:LRS:c:dfi:jl:np:qrs:T:t:vw:")) != -1)
 		switch(ch) {
 		case 'c':
 			npackets = strtonum(optarg, 1, INT_MAX, &errstr);
@@ -221,7 +223,7 @@ main(int argc, char *argv[])
 			break;
 		case 'D':
 			options |= F_HDRINCL;
-			df = -1;
+			df = 1;
 			break;
 		case 'd':
 			options |= F_SO_DEBUG;
@@ -257,6 +259,9 @@ main(int argc, char *argv[])
 				interval = 0.01;
 
 			options |= F_INTERVAL;
+			break;
+		case 'j':
+			options |= F_SO_JUMBO;
 			break;
 		case 'L':
 			moptions |= MULTICAST_NOLOOP;
@@ -380,6 +385,9 @@ main(int argc, char *argv[])
 	if (options & F_SO_DONTROUTE)
 		(void)setsockopt(s, SOL_SOCKET, SO_DONTROUTE, (char *)&hold,
 		    sizeof(hold));
+	if (options & F_SO_JUMBO)
+		(void)setsockopt(s, SOL_SOCKET, SO_JUMBO, (char *)&hold,
+		    sizeof(hold));
 
 	if (options & F_TTL) {
 		if (IN_MULTICAST(ntohl(to->sin_addr.s_addr)))
@@ -400,10 +408,13 @@ main(int argc, char *argv[])
 		ip->ip_hl = sizeof(struct ip) >> 2;
 		ip->ip_tos = tos;
 		ip->ip_id = 0;
-		ip->ip_off = htons(df?IP_DF:0);
+		ip->ip_off = htons(df ? IP_DF : 0);
 		ip->ip_ttl = ttl;
 		ip->ip_p = IPPROTO_ICMP;
-		ip->ip_src.s_addr = INADDR_ANY;
+		if (options & F_SADDR)
+			ip->ip_src = saddr;
+		else
+			ip->ip_src.s_addr = INADDR_ANY;
 		ip->ip_dst = to->sin_addr;
 	}
 
@@ -536,6 +547,7 @@ main(int argc, char *argv[])
  * launched exactly at 1-second intervals).  This does not affect the
  * quality of the delay and loss statistics.
  */
+/* ARGSUSED */
 void
 catcher(int signo)
 {
@@ -563,6 +575,7 @@ catcher(int signo)
  * Print statistics when SIGINFO is received.
  * XXX not race safe
  */
+/* ARGSUSED */
 void
 prtsig(int signo)
 {
@@ -1331,7 +1344,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: ping [-DdfLnqRrv] [-c count] [-I ifaddr] [-i wait]\n"
+	    "usage: ping [-DdfjLnqRrv] [-c count] [-I ifaddr] [-i wait]\n"
 	    "\t[-l preload] [-p pattern] [-s packetsize] [-T tos] [-t ttl]\n"
 	    "\t[-w maxwait] host\n");
 	exit(1);

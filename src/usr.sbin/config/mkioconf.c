@@ -1,4 +1,4 @@
-/*	$OpenBSD: mkioconf.c,v 1.25 2004/01/04 18:30:05 deraadt Exp $	*/
+/*	$OpenBSD: mkioconf.c,v 1.27 2005/01/02 21:59:33 deraadt Exp $	*/
 /*	$NetBSD: mkioconf.c,v 1.41 1996/11/11 14:18:49 mycroft Exp $	*/
 
 /*

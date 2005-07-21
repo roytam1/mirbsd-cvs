@@ -1,4 +1,4 @@
-/*	$OpenBSD: library.c,v 1.38 2005/04/06 00:16:53 deraadt Exp $ */
+/*	$OpenBSD: library.c,v 1.40 2005/05/23 19:22:11 drahn Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -57,8 +57,7 @@ _dl_load_list_free(struct load_list *load_list)
 void
 _dl_unload_shlib(elf_object_t *object)
 {
-	if (--object->refcount == 0) {
-		_dl_run_dtors(object);
+	if (object->refcount == 0) {
 		_dl_load_list_free(object->load_list);
 		_dl_munmap((void *)object->load_addr, object->load_size);
 		_dl_remove_object(object);

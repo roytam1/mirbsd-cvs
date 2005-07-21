@@ -1,4 +1,4 @@
-/*	$OpenBSD: ipcrm.c,v 1.6 2003/10/06 07:31:24 fgsch Exp $*/
+/*	$OpenBSD: ipcrm.c,v 1.9 2005/02/22 14:56:21 jmc Exp $*/
 
 /*
  * Copyright (c) 1994 Adam Glass
@@ -59,8 +59,10 @@ void	not_configured(int);
 void
 usage(void)
 {
-        fprintf(stderr, "usage: ipcrm [ [-q msqid] [-m shmid] [-s semid]\n");
-	fprintf(stderr, "        [-Q msgkey] [-M shmkey] [-S semkey] ...]\n");
+	extern char *__progname;
+	fprintf(stderr, "usage: %s [-M shmkey] [-m shmid] [-Q msgkey]\n"
+			"         [-q msqid] [-S semkey] [-s semid] ...\n",
+		__progname);
 	exit(1);
 }
 
@@ -99,6 +101,7 @@ semrm(key_t key, int id)
 	return (semctl(id, 0, IPC_RMID, arg));
 }
 
+/* ARGSUSED */
 void
 not_configured(int signo)
 {
@@ -161,16 +164,16 @@ main(int argc, char *argv[])
 			}
 			break;
 		case ':':
-			fprintf(stderr, "option -%c requires an argument\n", optopt);
+			warnx("option -%c requires an argument", optopt);
 			usage();
 		default:
-			fprintf(stderr, "unrecognized option: -%c\n", optopt);
+			warnx("unrecognized option: -%c", optopt);
 			usage();
 		}
 	}
 
 	if (optind != argc) {
-		fprintf(stderr, "unknown argument: %s\n", argv[optind]);
+		warnx("unknown argument: %s", argv[optind]);
 		usage();
 	}
 	exit(errflg);

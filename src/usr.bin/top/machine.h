@@ -1,4 +1,4 @@
-/* $OpenBSD: machine.h,v 1.10 2004/05/09 22:14:15 deraadt Exp $	 */
+/* $OpenBSD: machine.h,v 1.13 2005/06/08 22:36:43 millert Exp $	 */
 
 /*
  *  Top users/processes display for Unix
@@ -55,7 +55,7 @@ struct system_info {
 	int             p_active;	/* number of procs considered
 					 * "active" */
 	int            *procstates;
-	int            *cpustates;
+	int64_t        *cpustates;
 	int            *memory;
 };
 
@@ -73,6 +73,7 @@ struct process_select {
 	int             idle;	/* show idle processes */
 	int             system;	/* show system processes */
 	uid_t           uid;	/* only this uid (unless uid == -1) */
+	pid_t           pid;	/* only this pid (unless pid == -1) */
 	char           *command;/* only this command (unless == NULL) */
 };
 
@@ -87,5 +88,6 @@ extern caddr_t
 get_process_info(struct system_info *, struct process_select *,
 		 int (*) (const void *, const void *));
 extern char    *format_next_process(caddr_t, char *(*)(uid_t));
-extern int      proc_compate(const void *, const void *);
 extern uid_t    proc_owner(pid_t);
+
+extern struct kinfo_proc2	*getprocs(int, int, int *);

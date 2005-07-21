@@ -1,4 +1,4 @@
-/*	$OpenBSD: logwtmp.c,v 1.6 2003/06/02 20:18:42 millert Exp $	*/
+/*	$OpenBSD: logwtmp.c,v 1.8 2004/09/18 19:22:09 deraadt Exp $	*/
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -45,11 +45,10 @@ static const char rcsid[] = "$Id$";
 #include "util.h"
 
 void
-logwtmp(line, name, host)
-	const char *line, *name, *host;
+logwtmp(const char *line, const char *name, const char *host)
 {
-	struct utmp ut;
 	struct stat buf;
+	struct utmp ut;
 	int fd;
 
 	if ((fd = open(_PATH_WTMP, O_WRONLY|O_APPEND, 0)) < 0)
@@ -59,7 +58,7 @@ logwtmp(line, name, host)
 		(void) strncpy(ut.ut_name, name, sizeof(ut.ut_name));
 		(void) strncpy(ut.ut_host, host, sizeof(ut.ut_host));
 		(void) time(&ut.ut_time);
-		if (write(fd, (char *)&ut, sizeof(struct utmp)) !=
+		if (write(fd, &ut, sizeof(struct utmp)) !=
 		    sizeof(struct utmp))
 			(void) ftruncate(fd, buf.st_size);
 	}

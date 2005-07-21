@@ -1,4 +1,4 @@
-/* $OpenBSD: ipsec.c,v 1.118 2005/05/04 10:05:01 hshoexer Exp $	 */
+/* $OpenBSD: ipsec.c,v 1.121 2005/06/25 23:20:43 hshoexer Exp $	 */
 /* $EOM: ipsec.c,v 1.143 2000/12/11 23:57:42 niklas Exp $	 */
 
 /*
@@ -1007,8 +1007,7 @@ ipsec_responder(struct message *msg)
 		script = isakmp_cfg_responder;
 		break;
 	case ISAKMP_EXCH_INFO:
-		for (p = payload_first(msg, ISAKMP_PAYLOAD_NOTIFY); p;
-		    p = TAILQ_NEXT(p, link)) {
+		TAILQ_FOREACH(p, &msg->payload[ISAKMP_PAYLOAD_NOTIFY], link) {
 			type = GET_ISAKMP_NOTIFY_MSG_TYPE(p->p);
 			LOG_DBG((LOG_EXCHANGE, 10,
 			    "ipsec_responder: got NOTIFY of type %s",
@@ -1151,7 +1150,9 @@ ipsec_is_attribute_incompatible(u_int16_t type, u_int8_t *value, u_int16_t len,
 			return dv != IPSEC_ENCAP_TUNNEL &&
 			    dv != IPSEC_ENCAP_TRANSPORT &&
 			    dv != IPSEC_ENCAP_UDP_ENCAP_TUNNEL &&
-			    dv != IPSEC_ENCAP_UDP_ENCAP_TRANSPORT;
+			    dv != IPSEC_ENCAP_UDP_ENCAP_TRANSPORT &&
+			    dv != IPSEC_ENCAP_UDP_ENCAP_TUNNEL_DRAFT &&
+			    dv != IPSEC_ENCAP_UDP_ENCAP_TRANSPORT_DRAFT;
 		case IPSEC_ATTR_AUTHENTICATION_ALGORITHM:
 			return dv < IPSEC_AUTH_HMAC_MD5 ||
 			    dv > IPSEC_AUTH_HMAC_RIPEMD;
@@ -1657,7 +1658,7 @@ ipsec_esp_enckeylength(struct proto *proto)
 	case IPSEC_ESP_AES_128_CTR:
 		if (!iproto->keylen)
 			return 16;
-		/* Fallthrough */
+		/* FALLTHROUGH */
 	default:
 		return iproto->keylen / 8;
 	}

@@ -172,8 +172,9 @@ sigstr(int s)
 
 volatile sig_atomic_t die;
 
+/* ARGSUSED */
 void
-hup_handler(int s)
+hup_handler(int signo)
 {
 	die = 1;
 }

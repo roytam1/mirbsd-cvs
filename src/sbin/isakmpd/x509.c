@@ -1,4 +1,4 @@
-/* $OpenBSD: x509.c,v 1.101 2005/04/08 22:32:10 cloder Exp $	 */
+/* $OpenBSD: x509.c,v 1.103 2005/05/28 17:42:50 moritz Exp $	 */
 /* $EOM: x509.c,v 1.54 2001/01/16 18:42:16 ho Exp $	 */
 
 /*
@@ -102,7 +102,8 @@ x509_generate_kn(int id, X509 *cert)
 {
 	char	*fmt = "Authorizer: \"rsa-hex:%s\"\nLicensees: \"rsa-hex:%s"
 		    "\"\nConditions: %s >= \"%s\" && %s <= \"%s\";\n";
-	char	*ikey, *skey, *buf, isname[256], subname[256];
+	char	*ikey = NULL, *skey = NULL, *buf = NULL;
+	char	isname[256], subname[256];
 	char	*fmt2 = "Authorizer: \"DN:%s\"\nLicensees: \"DN:%s\"\n"
 		    "Conditions: %s >= \"%s\" && %s <= \"%s\";\n";
 	X509_NAME *issuer, *subject;
@@ -110,7 +111,7 @@ x509_generate_kn(int id, X509 *cert)
 	X509_STORE_CTX csc;
 	X509_OBJECT obj;
 	X509	*icert;
-	RSA	*key;
+	RSA	*key = NULL;
 	time_t	tt;
 	char	before[15], after[15], *timecomp, *timecomp2;
 	ASN1_TIME *tm;
@@ -139,18 +140,18 @@ x509_generate_kn(int id, X509 *cert)
 	if (keynote_errno == ERROR_MEMORY) {
 		log_print("x509_generate_kn: failed to get memory for "
 		    "public key");
-		RSA_free(key);
 		LOG_DBG((LOG_POLICY, 30, "x509_generate_kn: cannot get "
 		    "subject key"));
-		return 0;
+		goto fail;
 	}
 	if (!ikey) {
-		RSA_free(key);
 		LOG_DBG((LOG_POLICY, 30, "x509_generate_kn: cannot get "
 		    "subject key"));
-		return 0;
+		goto fail;
 	}
+
 	RSA_free(key);
+	key = NULL;
 
 	/* Now find issuer's certificate so we can get the public key.  */
 	X509_STORE_CTX_init(&csc, x509_cas, cert, NULL);
@@ -164,7 +165,7 @@ x509_generate_kn(int id, X509 *cert)
 			LOG_DBG((LOG_POLICY, 30,
 			    "x509_generate_kn: no certificate found for "
 			    "issuer"));
-			return 0;
+			goto fail;
 		}
 	}
 	X509_STORE_CTX_cleanup(&csc);
@@ -173,14 +174,12 @@ x509_generate_kn(int id, X509 *cert)
 	if (icert == NULL) {
 		LOG_DBG((LOG_POLICY, 30, "x509_generate_kn: "
 		    "missing certificates, cannot construct X509 chain"));
-		free(ikey);
-		return 0;
+		goto fail;
 	}
 	if (!x509_cert_get_key(icert, &key)) {
 		LOG_DBG((LOG_POLICY, 30,
 		    "x509_generate_kn: failed to get public key from cert"));
-		free(ikey);
-		return 0;
+		goto fail;
 	}
 	X509_OBJECT_free_contents(&obj);
 
@@ -191,20 +190,18 @@ x509_generate_kn(int id, X509 *cert)
 	if (keynote_errno == ERROR_MEMORY) {
 		log_error("x509_generate_kn: failed to get memory for public "
 		    "key");
-		free(ikey);
-		RSA_free(key);
 		LOG_DBG((LOG_POLICY, 30, "x509_generate_kn: cannot get issuer "
 		    "key"));
-		return 0;
+		goto fail;
 	}
 	if (!skey) {
-		free(ikey);
-		RSA_free(key);
 		LOG_DBG((LOG_POLICY, 30, "x509_generate_kn: cannot get issuer "
 		    "key"));
-		return 0;
+		goto fail;
 	}
+
 	RSA_free(key);
+	key = NULL;
 
 	buf_len = strlen(fmt) + strlen(ikey) + strlen(skey) + 56;
 	buf = calloc(buf_len, sizeof(char));
@@ -212,9 +209,7 @@ x509_generate_kn(int id, X509 *cert)
 	if (!buf) {
 		log_error("x509_generate_kn: "
 		    "failed to allocate memory for KeyNote credential");
-		free(ikey);
-		free(skey);
-		return 0;
+		goto fail;
 	}
 	if (((tm = X509_get_notBefore(cert)) == NULL) ||
 	    (tm->type != V_ASN1_UTCTIME &&
@@ -236,10 +231,7 @@ x509_generate_kn(int id, X509 *cert)
 				LOG_DBG((LOG_POLICY, 30,
 				    "x509_generate_kn: invalid data in "
 				    "NotValidBefore time field"));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 		}
 
@@ -249,10 +241,7 @@ x509_generate_kn(int id, X509 *cert)
 				    "x509_generate_kn: invalid length "
 				    "of NotValidBefore time field (%d)",
 				    tm->length));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			/* Validity checks.  */
 			if ((tm->data[2] != '0' && tm->data[2] != '1') ||
@@ -267,10 +256,7 @@ x509_generate_kn(int id, X509 *cert)
 				LOG_DBG((LOG_POLICY, 30,
 				    "x509_generate_kn: invalid value in "
 				    "NotValidBefore time field"));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			/* Stupid UTC tricks.  */
 			if (tm->data[0] < '5')
@@ -285,10 +271,7 @@ x509_generate_kn(int id, X509 *cert)
 				    "x509_generate_kn: invalid length of "
 				    "NotValidBefore time field (%d)",
 				    tm->length));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			/* Validity checks.  */
 			if ((tm->data[4] != '0' && tm->data[4] != '1') ||
@@ -303,10 +286,7 @@ x509_generate_kn(int id, X509 *cert)
 				LOG_DBG((LOG_POLICY, 30,
 				    "x509_generate_kn: invalid value in "
 				    "NotValidBefore time field"));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			snprintf(before, sizeof before, "%s", tm->data);
 		}
@@ -341,10 +321,7 @@ x509_generate_kn(int id, X509 *cert)
 				LOG_DBG((LOG_POLICY, 30,
 				    "x509_generate_kn: invalid data in "
 				    "NotValidAfter time field"));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 		}
 
@@ -354,10 +331,7 @@ x509_generate_kn(int id, X509 *cert)
 				    "x509_generate_kn: invalid length of "
 				    "NotValidAfter time field (%d)",
 				    tm->length));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			/* Validity checks. */
 			if ((tm->data[2] != '0' && tm->data[2] != '1') ||
@@ -372,10 +346,7 @@ x509_generate_kn(int id, X509 *cert)
 				LOG_DBG((LOG_POLICY, 30,
 				    "x509_generate_kn: invalid value in "
 				    "NotValidAfter time field"));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			/* Stupid UTC tricks.  */
 			if (tm->data[0] < '5')
@@ -390,10 +361,7 @@ x509_generate_kn(int id, X509 *cert)
 				    "x509_generate_kn: invalid length of "
 				    "NotValidAfter time field (%d)",
 				    tm->length));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			/* Validity checks.  */
 			if ((tm->data[4] != '0' && tm->data[4] != '1') ||
@@ -408,10 +376,7 @@ x509_generate_kn(int id, X509 *cert)
 				LOG_DBG((LOG_POLICY, 30,
 				    "x509_generate_kn: invalid value in "
 				    "NotValidAfter time field"));
-				free(ikey);
-				free(skey);
-				free(buf);
-				return 0;
+				goto fail;
 			}
 			snprintf(after, sizeof after, "%s", tm->data);
 		}
@@ -426,31 +391,34 @@ x509_generate_kn(int id, X509 *cert)
 
 	snprintf(buf, buf_len, fmt, skey, ikey, timecomp, before, timecomp2,
 	    after);
+	
 	free(ikey);
+	ikey = NULL;
 	free(skey);
+	skey = NULL;
 
 	if (kn_add_assertion(id, buf, strlen(buf), ASSERT_FLAG_LOCAL) == -1) {
 		LOG_DBG((LOG_POLICY, 30,
 		    "x509_generate_kn: failed to add new KeyNote credential"));
-		free(buf);
-		return 0;
+		goto fail;
 	}
 	/* We could print the assertion here, but log_print() truncates...  */
 	LOG_DBG((LOG_POLICY, 60, "x509_generate_kn: added credential"));
 
 	free(buf);
+	buf = NULL;
 
 	if (!X509_NAME_oneline(issuer, isname, 256)) {
 		LOG_DBG((LOG_POLICY, 50,
 		    "x509_generate_kn: "
 		    "X509_NAME_oneline (issuer, ...) failed"));
-		return 0;
+		goto fail;
 	}
 	if (!X509_NAME_oneline(subject, subname, 256)) {
 		LOG_DBG((LOG_POLICY, 50,
 		    "x509_generate_kn: "
 		    "X509_NAME_oneline (subject, ...) failed"));
-		return 0;
+		goto fail;
 	}
 	buf_len = strlen(fmt2) + strlen(isname) + strlen(subname) + 56;
 	buf = malloc(buf_len);
@@ -464,14 +432,25 @@ x509_generate_kn(int id, X509 *cert)
 	if (kn_add_assertion(id, buf, strlen(buf), ASSERT_FLAG_LOCAL) == -1) {
 		LOG_DBG((LOG_POLICY, 30,
 		    "x509_generate_kn: failed to add new KeyNote credential"));
-		free(buf);
-		return 0;
+		goto fail;
 	}
 	LOG_DBG((LOG_POLICY, 80, "x509_generate_kn: added credential:\n%s",
 	    buf));
 
 	free(buf);
 	return 1;
+
+fail:
+	if (buf)
+		free(buf);
+	if (skey)
+		free(skey);
+	if (ikey)
+		free(ikey);
+	if (key)
+		RSA_free(key);
+
+	return 0;
 }
 
 static u_int16_t
@@ -604,13 +583,12 @@ x509_hash_enter(X509 *cert)
 int
 x509_read_from_dir(X509_STORE *ctx, char *name, int hash)
 {
-	struct dirent  *file;
-	struct monitor_dirents *dir;
 	FILE		*certfp;
 	X509		*cert;
 	struct stat	sb;
 	char		fullname[PATH_MAX];
-	int		fd, off, size;
+	char		file[PATH_MAX];
+	int		fd;
 
 	if (strlen(name) >= sizeof fullname - 1) {
 		log_print("x509_read_from_dir: directory name too long");
@@ -619,34 +597,17 @@ x509_read_from_dir(X509_STORE *ctx, char *name, int hash)
 	LOG_DBG((LOG_CRYPTO, 40, "x509_read_from_dir: reading certs from %s",
 	    name));
 
-	dir = monitor_opendir(name);
-	if (!dir) {
+	if (monitor_req_readdir(name) == -1) {
 		LOG_DBG((LOG_CRYPTO, 10,
 		    "x509_read_from_dir: opendir (\"%s\") failed: %s",
 		    name, strerror(errno)));
 		return 0;
 	}
-	strlcpy(fullname, name, sizeof fullname);
-	off = strlen(fullname);
-	size = sizeof fullname - off;
 
-	while ((file = monitor_readdir(dir)) != NULL) {
-		strlcpy(fullname + off, file->d_name, size);
-
-		if (file->d_type != DT_UNKNOWN) {
-			if (file->d_type != DT_REG && file->d_type != DT_LNK)
-				continue;
-		}
-
+	while ((fd = monitor_readdir(file, sizeof file)) != -1) {
 		LOG_DBG((LOG_CRYPTO, 60,
 		    "x509_read_from_dir: reading certificate %s",
-		    file->d_name));
-
-		if ((fd = monitor_open(fullname, O_RDONLY, 0)) == -1) {
-			log_error("x509_read_from_dir: monitor_open"
-			    "(\"%s\", O_RDONLY, 0) failed", fullname);
-			continue;
-		}
+		    file));
 
 		if (fstat(fd, &sb) == -1) {
 			log_error("x509_read_from_dir: fstat failed");
@@ -674,7 +635,7 @@ x509_read_from_dir(X509_STORE *ctx, char *name, int hash)
 
 		if (cert == NULL) {
 			log_print("x509_read_from_dir: PEM_read_X509 "
-			    "failed for %s", file->d_name);
+			    "failed for %s", file);
 			continue;
 		}
 		if (!X509_STORE_add_cert(ctx, cert)) {
@@ -686,16 +647,14 @@ x509_read_from_dir(X509_STORE *ctx, char *name, int hash)
 			*/
 			LOG_DBG((LOG_CRYPTO, 50,
 			    "x509_read_from_dir: X509_STORE_add_cert failed "
-			    "for %s", file->d_name));
+			    "for %s", file));
 		}
 		if (hash)
 			if (!x509_hash_enter(cert))
 				log_print("x509_read_from_dir: "
 				    "x509_hash_enter (%s) failed",
-				    file->d_name);
+				    file);
 	}
-
-	monitor_closedir(dir);
 
 	return 1;
 }
@@ -705,12 +664,11 @@ int
 x509_read_crls_from_dir(X509_STORE *ctx, char *name)
 {
 #if OPENSSL_VERSION_NUMBER >= 0x00907000L
-	struct dirent	*file;
-	struct monitor_dirents *dir;
 	FILE		*crlfp;
 	X509_CRL	*crl;
 	struct stat	sb;
 	char		fullname[PATH_MAX];
+	char		file[PATH_MAX];
 	int		fd, off, size;
 
 	if (strlen(name) >= sizeof fullname - 1) {
@@ -720,8 +678,7 @@ x509_read_crls_from_dir(X509_STORE *ctx, char *name)
 	LOG_DBG((LOG_CRYPTO, 40, "x509_read_crls_from_dir: reading CRLs "
 	    "from %s", name));
 
-	dir = monitor_opendir(name);
-	if (!dir) {
+	if (monitor_req_readdir(name) == -1) {
 		LOG_DBG((LOG_CRYPTO, 10, "x509_read_crls_from_dir: opendir "
 		    "(\"%s\") failed: %s", name, strerror(errno)));
 		return 0;
@@ -730,22 +687,9 @@ x509_read_crls_from_dir(X509_STORE *ctx, char *name)
 	off = strlen(fullname);
 	size = sizeof fullname - off;
 
-	while ((file = monitor_readdir(dir)) != NULL) {
-		strlcpy(fullname + off, file->d_name, size);
-
-		if (file->d_type != DT_UNKNOWN) {
-			if (file->d_type != DT_REG && file->d_type != DT_LNK)
-				continue;
-		}
-
+	while ((fd = monitor_readdir(file, sizeof file)) != -1) {
 		LOG_DBG((LOG_CRYPTO, 60, "x509_read_crls_from_dir: reading "
-		    "CRL %s", file->d_name));
-
-		if ((fd = monitor_open(fullname, O_RDONLY, 0)) == -1) {
-			log_error("x509_read_crls_from_dir: monitor_open"
-			    "(\"%s\", O_RDONLY, 0) failed", fullname);
-			continue;
-		}
+		    "CRL %s", file));
 
 		if (fstat(fd, &sb) == -1) {
 			log_error("x509_read_crls_from_dir: fstat failed");
@@ -771,12 +715,12 @@ x509_read_crls_from_dir(X509_STORE *ctx, char *name)
 		if (crl == NULL) {
 			log_print("x509_read_crls_from_dir: "
 			    "PEM_read_X509_CRL failed for %s",
-			    file->d_name);
+			    file);
 			continue;
 		}
 		if (!X509_STORE_add_crl(ctx, crl)) {
 			LOG_DBG((LOG_CRYPTO, 50, "x509_read_crls_from_dir: "
-			    "X509_STORE_add_crl failed for %s", file->d_name));
+			    "X509_STORE_add_crl failed for %s", file));
 			continue;
 		}
 		/*
@@ -790,7 +734,6 @@ x509_read_crls_from_dir(X509_STORE *ctx, char *name)
 		X509_STORE_set_flags(ctx, X509_V_FLAG_CRL_CHECK);
 	}
 
-	monitor_closedir(dir);
 #endif				/* OPENSSL_VERSION_NUMBER >= 0x00907000L */
 
 	return 1;

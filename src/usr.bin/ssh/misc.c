@@ -24,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: misc.c,v 1.32 2005/06/17 02:44:32 djm Exp $");
+RCSID("$OpenBSD: misc.c,v 1.34 2005/07/08 09:26:18 dtucker Exp $");
 
 #include "misc.h"
 #include "log.h"
@@ -419,7 +419,7 @@ tilde_expand_filename(const char *filename, uid_t uid)
 /*
  * Expand a string with a set of %[char] escapes. A number of escapes may be
  * specified as (char *escape_chars, char *replacement) pairs. The list must
- * be terminated by an escape_char of -1. Returns replaced string in memory
+ * be terminated by a NULL escape_char. Returns replaced string in memory
  * allocated by xmalloc.
  */
 char *
@@ -500,3 +500,20 @@ read_keyfile_line(FILE *f, const char *filename, char *buf, size_t bufsz,
 	}
 	return -1;
 }
+
+char *
+tohex(const u_char *d, u_int l)
+{
+	char b[3], *r;
+	u_int i, hl;
+
+	hl = l * 2 + 1;
+	r = xmalloc(hl);
+	*r = '\0';
+	for (i = 0; i < l; i++) {
+		snprintf(b, sizeof(b), "%02x", d[i]);
+		strlcat(r, b, hl);
+	}
+	return (r);
+}
+

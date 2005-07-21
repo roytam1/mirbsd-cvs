@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshconnect.c,v 1.166 2005/06/17 22:53:47 djm Exp $");
+RCSID("$OpenBSD: sshconnect.c,v 1.168 2005/07/17 07:17:55 djm Exp $");
 
 #include <openssl/bn.h>
 
@@ -400,7 +400,7 @@ ssh_exchange_identification(void)
 		for (i = 0; i < sizeof(buf) - 1; i++) {
 			size_t len = atomicio(read, connection_in, &buf[i], 1);
 
-			if (len != 1 && errno == EPIPE) 
+			if (len != 1 && errno == EPIPE)
 				fatal("ssh_exchange_identification: Connection closed by remote host");
 			else if (len != 1)
 				fatal("ssh_exchange_identification: read: %.100s", strerror(errno));
@@ -542,7 +542,7 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 	switch (hostaddr->sa_family) {
 	case AF_INET:
 		local = (ntohl(((struct sockaddr_in *)hostaddr)->
-		   sin_addr.s_addr) >> 24) == IN_LOOPBACKNET;
+		    sin_addr.s_addr) >> 24) == IN_LOOPBACKNET;
 		break;
 	case AF_INET6:
 		local = IN6_IS_ADDR_LOOPBACK(
@@ -672,8 +672,8 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 
 			if (show_other_keys(host, host_key))
 				snprintf(msg1, sizeof(msg1),
-				   "\nbut keys of different type are already"
-				   " known for this host.");
+				    "\nbut keys of different type are already"
+				    " known for this host.");
 			else
 				snprintf(msg1, sizeof(msg1), ".");
 			/* The default */

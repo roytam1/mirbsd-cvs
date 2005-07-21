@@ -1,4 +1,4 @@
-/*	$OpenBSD: talkd.c,v 1.20 2003/06/26 07:53:26 deraadt Exp $	*/
+/*	$OpenBSD: talkd.c,v 1.21 2004/08/08 19:32:45 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1983 Regents of the University of California.
@@ -42,7 +42,7 @@ static char rcsid[] = "$Id$";
 
 /*
  * The top level of the daemon, the format is heavily borrowed
- * from rwhod.c. Basically: find out who and where you are; 
+ * from rwhod.c. Basically: find out who and where you are;
  * disconnect all descriptors and ttys, and then endless
  * loop on waiting for and processing requests
  */

@@ -1,4 +1,4 @@
-/*	$OpenBSD: compile.c,v 1.17 2004/02/17 16:13:33 otto Exp $	*/
+/*	$OpenBSD: compile.c,v 1.21 2005/04/11 07:11:44 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
@@ -35,7 +35,7 @@
 
 #ifndef lint
 /* from: static char sccsid[] = "@(#)compile.c	8.2 (Berkeley) 4/28/95"; */
-static char *rcsid = "$OpenBSD: compile.c,v 1.17 2004/02/17 16:13:33 otto Exp $";
+static char *rcsid = "$OpenBSD: compile.c,v 1.21 2005/04/11 07:11:44 deraadt Exp $";
 #endif /* not lint */
 
 #include <sys/types.h>
@@ -262,7 +262,7 @@ nonsel:		/* Now parse the command */
 			cmd->t = duptoeol(p, "w command", NULL);
 			if (aflag)
 				cmd->u.fd = -1;
-			else if ((cmd->u.fd = open(p, 
+			else if ((cmd->u.fd = open(p,
 			    O_WRONLY|O_APPEND|O_CREAT|O_TRUNC,
 			    DEFFILEMODE)) == -1)
 				err(FATAL, "%s: %s", p, strerror(errno));
@@ -440,6 +440,7 @@ compile_subst(char *p, struct s_subst *s)
 	static char lbuf[_POSIX2_LINE_MAX + 1];
 	int asize, ref, size;
 	char c, *text, *op, *sp;
+	int sawesc = 0;
 
 	c = *p++;			/* Terminator character */
 	if (c == '\0')
@@ -453,9 +454,29 @@ compile_subst(char *p, struct s_subst *s)
 	do {
 		op = sp = text + size;
 		for (; *p; p++) {
-			if (*p == '\\') {
-				p++;
-				if (strchr("123456789", *p) != NULL) {
+			if (*p == '\\' || sawesc) {
+				/*
+				 * If this is a continuation from the last
+				 * buffer, we won't have a character to
+				 * skip over.
+				 */
+				if (sawesc)
+					sawesc = 0;
+				else
+					p++;
+
+				if (*p == '\0') {
+					/*
+					 * This escaped character is continued
+					 * in the next part of the line.  Note
+					 * this fact, then cause the loop to
+					 * exit w/ normal EOL case and reenter
+					 * above with the new buffer.
+					 */
+					sawesc = 1;
+					p--;
+					continue;
+				} else if (strchr("123456789", *p) != NULL) {
 					*sp++ = '\\';
 					ref = *p - '0';
 					if (s->re != NULL &&
@@ -482,7 +503,7 @@ compile_subst(char *p, struct s_subst *s)
 		size += sp - op;
 		if (asize - size < _POSIX2_LINE_MAX + 1) {
 			asize *= 2;
-			text = xmalloc(asize);
+			text = xrealloc(text, asize);
 		}
 	} while (cu_fgets(p = lbuf, sizeof(lbuf)));
 	err(COMPILE, "unterminated substitute in regular expression");
@@ -596,7 +617,7 @@ compile_tr(char *p, char **transtab)
 		return (NULL);
 	}
 	/* We assume characters are 8 bits */
-	lt = xmalloc(UCHAR_MAX);
+	lt = xmalloc(UCHAR_MAX + 1);
 	for (i = 0; i <= UCHAR_MAX; i++)
 		lt[i] = (char)i;
 	for (op = old, np = new; *op; op++, np++)
@@ -665,7 +686,7 @@ compile_addr(char *p, struct s_addr *a)
 		a->type = AT_LAST;
 		return (p + 1);
 						/* Line number */
-	case '0': case '1': case '2': case '3': case '4': 
+	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
 		a->type = AT_LINE;
 		a->u.l = strtoul(p, &end, 10);
@@ -787,7 +808,7 @@ findlabel(char *name)
 	return (NULL);
 }
 
-/* 
+/*
  * Warn about any unused labels.  As a side effect, release the label hash
  * table space.
  */

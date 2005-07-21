@@ -1,4 +1,4 @@
-/* $OpenBSD: wsconscfg.c,v 1.8 2003/07/18 22:58:56 david Exp $ */
+/* $OpenBSD: wsconscfg.c,v 1.12 2005/05/27 05:01:28 millert Exp $ */
 /* $NetBSD: wsconscfg.c,v 1.4 1999/07/29 18:24:10 augustss Exp $ */
 
 /*
@@ -33,13 +33,15 @@
  *
  */
 
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/ioctl.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/ioctl.h>
 #include <err.h>
 #include <errno.h>
 
@@ -51,20 +53,18 @@ static void usage(void);
 int main(int, char**);
 
 static void
-usage()
+usage(void)
 {
 	extern char *__progname;
 
 	(void)fprintf(stderr,
-		      "Usage: %s [-f wsdev] [-d [-F]] [-k] [-m] [-t type] "
-		      "[-e emul] {vt | [kbd] | [mux]}\n", __progname);
+		      "Usage: %s [-dFkm] [-e emul] [-f ctldev] "
+		      "[-t type] index\n", __progname);
 	exit(1);
 }
 
 int
-main(argc, argv)
-	int argc;
-	char **argv;
+main(int argc, char *argv[])
 {
 	char *wsdev;
 	int c, delete, kbd, idx, wsfd, res, mux;

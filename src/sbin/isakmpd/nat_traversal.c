@@ -1,4 +1,4 @@
-/*	$OpenBSD: nat_traversal.c,v 1.13 2005/04/08 22:32:10 cloder Exp $	*/
+/*	$OpenBSD: nat_traversal.c,v 1.15 2005/06/02 19:49:23 hshoexer Exp $	*/
 
 /*
  * Copyright (c) 2004 Håkan Olsson.  All rights reserved.
@@ -290,7 +290,7 @@ nat_t_add_nat_d(struct message *msg, struct sockaddr *sa)
 	memcpy(buf + ISAKMP_NAT_D_DATA_OFF, hbuf, hbuflen);
 	free(hbuf);
 
-	if (message_add_payload(msg, ISAKMP_PAYLOAD_NAT_D, buf, buflen, 1)) {
+	if (message_add_payload(msg, ISAKMP_PAYLOAD_NAT_D_DRAFT, buf, buflen, 1)) {
 		free(buf);
 		return -1;
 	}
@@ -327,8 +327,8 @@ nat_t_match_nat_d_payload(struct message *msg, struct sockaddr *sa)
 	 * If there are no NAT-D payloads in the message, return "found"
 	 * as this will avoid NAT-T (see nat_t_exchange_check_nat_d()).
 	 */
-	p = payload_first(msg, ISAKMP_PAYLOAD_NAT_D);
-	if (!p)
+	if ((p = payload_first(msg, ISAKMP_PAYLOAD_NAT_D_DRAFT)) == NULL &&
+	    (p = payload_first(msg, ISAKMP_PAYLOAD_NAT_D)) == NULL)
 		return 1;
 
 	hbuf = nat_t_generate_nat_d_hash(msg, sa, &hbuflen);

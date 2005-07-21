@@ -1,4 +1,4 @@
-.\" $OpenBSD: crypt.3,v 1.22 2004/04/06 11:00:32 djm Exp $
+.\" $OpenBSD: crypt.3,v 1.24 2005/05/26 22:10:54 millert Exp $
 .\"
 .\" FreeSec: libcrypt
 .\"
@@ -47,7 +47,7 @@
 .Ft char *
 .Fn crypt "const char *key" "const char *setting"
 .Ft int
-.Fn setkey "char *key"
+.Fn setkey "const char *key"
 .Ft int
 .Fn encrypt "char *block" "int flag"
 .Ft int
@@ -72,7 +72,7 @@ stronger hashing algorithms.
 The first argument to
 .Fn crypt
 is a
-.Dv null Ns -terminated
+.Dv NUL Ns -terminated
 string, typically a user's typed password.
 The second is in one of three forms:
 if it begins with an underscore
@@ -198,8 +198,8 @@ The DES key is used to encrypt a 64-bit constant using
 iterations of
 .Tn DES .
 The value returned is a
-.Dv null Ns -terminated
-string, 20 or 13 bytes (plus null) in length, consisting of the
+.Dv NUL Ns -terminated
+string, 20 or 13 bytes (plus NUL) in length, consisting of the
 .Ar setting
 followed by the encoded 64-bit encryption.
 .Pp

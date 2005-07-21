@@ -1,4 +1,4 @@
-/*	$OpenBSD: uucplock.c,v 1.11 2003/06/02 20:18:42 millert Exp $	*/
+/*	$OpenBSD: uucplock.c,v 1.13 2005/03/03 00:14:17 cloder Exp $	*/
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -61,22 +61,19 @@ static pid_t get_pid(int fd,int *err);
 /*
  * uucp style locking routines
  */
-
 int
-uu_lock(ttyname)
-	const char *ttyname;
+uu_lock(const char *ttyname)
 {
-	int fd, tmpfd, i;
-	pid_t pid, pid_old;
 	char lckname[sizeof(_PATH_UUCPLOCK) + MAXNAMLEN],
 	     lcktmpname[sizeof(_PATH_UUCPLOCK) + MAXNAMLEN];
-	int err, uuerr;
+	int fd, tmpfd, i, err, uuerr;
+	pid_t pid, pid_old;
 
 	pid = getpid();
 	(void)snprintf(lcktmpname, sizeof(lcktmpname), _PATH_UUCPLOCK LOCKTMP,
-			(long)pid);
+	    (long)pid);
 	(void)snprintf(lckname, sizeof(lckname), _PATH_UUCPLOCK LOCKFMT,
-			ttyname);
+	    ttyname);
 	if ((tmpfd = creat(lcktmpname, 0664)) < 0)
 		GORET(0, UU_LOCK_CREAT_ERR);
 
@@ -126,30 +123,28 @@ ret0:
 }
 
 int
-uu_lock_txfr(ttyname, pid)
-	const char *ttyname;
-	pid_t pid;
+uu_lock_txfr(const char *ttyname, pid_t pid)
 {
-	int fd, err;
 	char lckname[sizeof(_PATH_UUCPLOCK) + MAXNAMLEN];
+	int fd, err, ret;
 
 	snprintf(lckname, sizeof(lckname), _PATH_UUCPLOCK LOCKFMT, ttyname);
 
 	if ((fd = open(lckname, O_RDWR)) < 0)
 		return UU_LOCK_OWNER_ERR;
 	if (get_pid(fd, &err) != getpid())
-		return UU_LOCK_OWNER_ERR;
-        lseek(fd, 0, SEEK_SET);
-	if (put_pid(fd, pid))
-		return UU_LOCK_WRITE_ERR;
-	close(fd);
+		ret = UU_LOCK_OWNER_ERR;
+	else {
+		lseek(fd, 0, SEEK_SET);
+		ret = put_pid(fd, pid) ? UU_LOCK_OK : UU_LOCK_WRITE_ERR;
+	}
 
-	return UU_LOCK_OK;
+	close(fd);
+	return ret;
 }
 
 int
-uu_unlock(ttyname)
-	const char *ttyname;
+uu_unlock(const char *ttyname)
 {
 	char tbuf[sizeof(_PATH_UUCPLOCK) + MAXNAMLEN];
 
@@ -158,8 +153,7 @@ uu_unlock(ttyname)
 }
 
 const char *
-uu_lockerr(uu_lockresult)
-	int uu_lockresult;
+uu_lockerr(int uu_lockresult)
 {
 	static char errbuf[128];
 	char *fmt;
@@ -200,16 +194,14 @@ uu_lockerr(uu_lockresult)
 }
 
 static int
-put_pid(fd, pid)
-	int fd;
-	pid_t pid;
+put_pid(int fd, pid_t pid)
 {
 	char buf[32];
 	int len;
 
 	len = snprintf(buf, sizeof buf, "%10ld\n", (long)pid);
 
-	if (write (fd, buf, len) == len) {
+	if (len < sizeof buf && len != -1 && write (fd, buf, len) == len) {
 		/* We don't mind too much if ftruncate() fails - see get_pid */
 		ftruncate(fd, len);
 		return 1;
@@ -218,9 +210,7 @@ put_pid(fd, pid)
 }
 
 static pid_t
-get_pid(fd, err)
-	int fd;
-	int *err;
+get_pid(int fd, int *err)
 {
 	int bytes_read;
 	char buf[32];

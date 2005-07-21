@@ -1,4 +1,4 @@
-.\"     $OpenBSD: dhcp.8,v 1.13 2003/06/04 19:36:33 deraadt Exp $
+.\"     $OpenBSD: dhcp.8,v 1.17 2004/12/23 15:19:56 espie Exp $
 .\"
 .\"
 .\" Copyright (c) 1999 Aaron Campbell
@@ -98,9 +98,9 @@ interfaces, this step is not required.
 Be sure to leave this file empty (or even delete it) if this is the case.
 .It
 Edit
-.Pa /etc/rc.conf
+.Pa /etc/rc.conf.local
 and set
-.Cm dhcpd_flags="-q" .
+.Cm dhcpd_flags="" .
 This will cause
 .Ox
 to start the
@@ -121,10 +121,8 @@ troubleshooting options have failed.
 .Pp
 See
 .Xr dhcpd 8
-for information on other available options; for example,
-.Fl p ,
-which allows specification of a port to listen on other than the default (67).
-However, most of the flags are useful only for debugging purposes.
+for information on other available options.
+Note, however, that most of the flags are useful only for debugging purposes.
 .Sh FILES
 .Bl -tag -width /etc/dhcpd.interfaces -compact
 .It Pa /etc/dhcpd.conf
@@ -132,7 +130,7 @@ DHCP server configuration file
 .It Pa /etc/dhcpd.interfaces
 list of network interfaces served by
 .Xr dhcpd 8
-.It Pa /etc/rc.conf
+.It Pa /etc/rc.conf.local
 configuration file where
 .Cm dhcpd_flags
 must be set
@@ -146,4 +144,5 @@ interface-specific configuration files
 .Xr dhcpd.conf 5 ,
 .Xr hostname.if 5 ,
 .Xr dhclient 8 ,
-.Xr dhcpd 8
+.Xr dhcpd 8 ,
+.Xr dhcrelay 8
