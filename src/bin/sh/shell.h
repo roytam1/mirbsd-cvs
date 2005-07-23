@@ -42,8 +42,6 @@
  *	define SYSV if you are running under System V.
  *	define DEBUG=1 to compile in debugging ('set -o debug' to turn on)
  *	define DEBUG=2 to compile in and turn on debugging.
- *	define DO_SHAREDVFORK to indicate that vfork(2) shares its address
- *	       with its parent.
  *
  * When debugging is on, debugging info will be written to ./trace and
  * a quit signal will generate a core dump.
@@ -54,12 +52,6 @@
 #define JOBS 1
 #ifndef BSD
 #define BSD 1
-#endif
-
-#ifndef DO_SHAREDVFORK
-#if __NetBSD_Version__ >= 104000000
-#define DO_SHAREDVFORK
-#endif
 #endif
 
 typedef void *pointer;

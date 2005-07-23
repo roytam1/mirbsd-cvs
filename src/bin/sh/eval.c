@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/eval.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
+/**	$MirOS: src/bin/sh/eval.c,v 1.3 2005/07/23 19:34:32 tg Exp $ */
 /*	$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)eval.c	8.9 (Berkeley) 6/8/95");
-__RCSID("$MirOS: src/bin/sh/eval.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/eval.c,v 1.3 2005/07/23 19:34:32 tg Exp $");
 
 #include <sys/fcntl.h>
 #include <sys/times.h>
@@ -807,7 +807,6 @@ evalcommand(union node *cmd, int flags, struct backcmd *backcmd)
 			if (sh_pipe(pip) < 0)
 				error("Pipe call failed");
 		}
-#ifdef DO_SHAREDVFORK
 		/* It is essential that if DO_SHAREDVFORK is defined that the
 		 * child's address space is actually shared with the parent as
 		 * we rely on this.
@@ -862,13 +861,10 @@ evalcommand(union node *cmd, int flags, struct backcmd *backcmd)
 			}
 		} else {
 normal_fork:
-#endif
 			if (forkshell(jp, cmd, mode) != 0)
 				goto parent;	/* at end of routine */
 			FORCEINTON;
-#ifdef DO_SHAREDVFORK
 		}
-#endif
 		if (flags & EV_BACKCMD) {
 			if (!vforked) {
 				FORCEINTON;
