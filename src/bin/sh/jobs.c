@@ -49,22 +49,18 @@ __RCSID("$NetBSD: jobs.c,v 1.63 2005/06/01 15:41:19 lukem Exp $");
 #include <paths.h>
 #include <sys/types.h>
 #include <sys/param.h>
-#ifdef BSD
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#endif
 #include <sys/ioctl.h>
 
 #include "shell.h"
-#if JOBS
 #if OLD_TTY_DRIVER
 #include "sgtty.h"
 #else
 #include <termios.h>
 #endif
 #undef CEOF			/* syntax.h redefines this */
-#endif
 #include "redir.h"
 #include "show.h"
 #include "main.h"
@@ -85,10 +81,8 @@ static struct job *jobtab;		/* array of jobs */
 static int njobs;			/* size of array */
 static int jobs_invalid;		/* set in child */
 MKINIT pid_t backgndpid = -1;	/* pid of last background process */
-#if JOBS
 int initialpgrp;		/* pgrp of shell on invocation */
 static int curjob = -1;		/* current job */
-#endif
 static int ttyfd = -1;
 
 STATIC void restartjob(struct job *);
@@ -228,7 +222,6 @@ out:
 }
 
 
-#if JOBS
 int
 fgcmd(int argc, char **argv)
 {
@@ -353,7 +346,6 @@ restartjob(struct job *jp)
 	}
 	INTON;
 }
-#endif
 
 static void
 showjob(struct output *out, struct job *jp, int mode)
@@ -364,13 +356,11 @@ showjob(struct output *out, struct job *jp, int mode)
 	int col;
 	char s[64];
 
-#if JOBS
 	if (mode & SHOW_PGID) {
 		/* just output process (group) id of pipeline */
 		outfmt(out, "%ld\n", (long)jp->ps->pid);
 		return;
 	}
-#endif
 
 	procno = jp->nprocs;
 	if (!procno)
@@ -411,11 +401,9 @@ showjob(struct output *out, struct job *jp, int mode)
 		if (ps == jp->ps)
 			fmtstr(s, 16, "[%ld] %c ",
 				(long)(jp - jobtab + 1),
-#if JOBS
 				jp == jobtab + curjob ? '+' :
 				curjob != -1 && jp == jobtab +
 					    jobtab[curjob].prev_job ? '-' :
-#endif
 				' ');
 		else
 			fmtstr(s, 16, "      " );
@@ -433,11 +421,9 @@ showjob(struct output *out, struct job *jp, int mode)
 			else
 				fmtstr(s + col, 16, "Done");
 		} else {
-#if JOBS
 			if (WIFSTOPPED(ps->status)) 
 				st = WSTOPSIG(ps->status);
 			else /* WIFSIGNALED(ps->status) */
-#endif
 				st = WTERMSIG(ps->status);
 			st &= 0x7f;
 			if (st < NSIG && sys_siglist[st])
@@ -520,7 +506,6 @@ showjobs(struct output *out, int mode)
 	gotpid = dowait(0, NULL);
 	while (dowait(0, NULL) > 0)
 		continue;
-#ifdef JOBS
 	/*
 	 * Check if we are not in our foreground group, and if not
 	 * put us in it.
@@ -532,7 +517,6 @@ showjobs(struct output *out, int mode)
 		TRACE(("repaired tty process group\n"));
 		silent = 1;
 	}
-#endif
 	if (jobs_invalid)
 		return;
 
@@ -567,9 +551,7 @@ freejob(struct job *jp)
 	}
 	jp->nprocs = 0;
 	jp->used = 0;
-#if JOBS
 	set_curjob(jp, 0);
-#endif
 	INTON;
 }
 
@@ -619,10 +601,8 @@ waitcmd(int argc, char **argv)
 		status = job->ps[job->nprocs].status;
 		if (WIFEXITED(status))
 			retval = WEXITSTATUS(status);
-#if JOBS
 		else if (WIFSTOPPED(status))
 			retval = WSTOPSIG(status) + 128;
-#endif
 		else {
 			/* XXX: limits number of signals */
 			retval = WTERMSIG(status) + 128;
@@ -675,16 +655,13 @@ getjob(const char *name, int noerror)
 	const char *err_msg = "No such job: %s";
 		
 	if (name == NULL) {
-#if JOBS
 		jobno = curjob;
-#endif
 		err_msg = "No current job";
 	} else if (name[0] == '%') {
 		if (is_number(name + 1)) {
 			jobno = number(name + 1) - 1;
 		} else if (!name[2]) {
 			switch (name[1]) {
-#if JOBS
 			case 0:
 			case '+':
 			case '%':
@@ -697,7 +674,6 @@ getjob(const char *name, int noerror)
 					jobno = jobtab[jobno].prev_job;
 				err_msg = "No previous job";
 				break;
-#endif
 			default:
 				goto check_pattern;
 			}
@@ -790,10 +766,8 @@ makejob(union node *node, int nprocs)
 	jp->used = 1;
 	jp->changed = 0;
 	jp->nprocs = 0;
-#if JOBS
 	jp->jobctl = jobctl;
 	set_curjob(jp, 1);
-#endif
 	if (nprocs > 1) {
 		jp->ps = ckmalloc(nprocs * sizeof (struct procstat));
 	} else {
@@ -883,7 +857,6 @@ forkchild(struct job *jp, union node *n, int mode, int vforked)
 
 	closescript(vforked);
 	clear_traps(vforked);
-#if JOBS
 	if (!vforked)
 		jobctl = 0;		/* do job control only in root shell */
 	if (wasroot && mode != FORK_NOJOB && mflag) {
@@ -910,18 +883,6 @@ forkchild(struct job *jp, union node *n, int mode, int vforked)
 				error(nullerr, devnull);
 		}
 	}
-#else
-	if (mode == FORK_BG) {
-		ignoresig(SIGINT, vforked);
-		ignoresig(SIGQUIT, vforked);
-		if ((jp == NULL || jp->nprocs == 0) &&
-		    ! fd0_redirected_p ()) {
-			close(0);
-			if (open(devnull, O_RDONLY) != 0)
-				error(nullerr, devnull);
-		}
-	}
-#endif
 	if (wasroot && iflag) {
 		setsignal(SIGINT, vforked);
 		setsignal(SIGQUIT, vforked);
@@ -954,9 +915,7 @@ forkchild(struct job *jp, union node *n, int mode, int vforked)
 int
 waitforjob(struct job *jp)
 {
-#if JOBS
 	int mypgrp = getpgrp();
-#endif
 	int status;
 	int st;
 
@@ -965,7 +924,6 @@ waitforjob(struct job *jp)
 	while (jp->state == JOBRUNNING) {
 		dowait(1, jp);
 	}
-#if JOBS
 	if (jp->jobctl) {
 		if (tcsetpgrp(ttyfd, mypgrp) == -1)
 			error("Cannot set tty process group (%s) at %d",
@@ -973,20 +931,16 @@ waitforjob(struct job *jp)
 	}
 	if (jp->state == JOBSTOPPED && curjob != jp - jobtab)
 		set_curjob(jp, 2);
-#endif
 	status = jp->ps[jp->nprocs - 1].status;
 	/* convert to 8 bits */
 	if (WIFEXITED(status))
 		st = WEXITSTATUS(status);
-#if JOBS
 	else if (WIFSTOPPED(status))
 		st = WSTOPSIG(status) + 128;
-#endif
 	else
 		st = WTERMSIG(status) + 128;
 	TRACE(("waitforjob: job %d, nproc %d, status %x, st %x\n",
 		jp - jobtab + 1, jp->nprocs, status, st ));
-#if JOBS
 	if (jp->jobctl) {
 		/*
 		 * This is truly gross.
@@ -999,8 +953,7 @@ waitforjob(struct job *jp)
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 			raise(SIGINT);
 	}
-#endif
-	if (! JOBS || jp->state == JOBDONE)
+	if (jp->state == JOBDONE)
 		freejob(jp);
 	INTON;
 	return st;
@@ -1055,10 +1008,8 @@ dowait(int block, struct job *job)
 				if (jp->state != state) {
 					TRACE(("Job %d: changing state from %d to %d\n", jp - jobtab + 1, jp->state, state));
 					jp->state = state;
-#if JOBS
 					if (done)
 						set_curjob(jp, 0);
-#endif
 				}
 			}
 		}
@@ -1106,12 +1057,6 @@ dowait(int block, struct job *job)
  * this (mis)feature by installing a signal handler for SIGCLD and
  * then checking to see whether it was called.  If there are any
  * children to be waited for, it will be.
- *
- * If neither SYSV nor BSD is defined, we don't implement nonblocking
- * waits at all.  In this case, the user will not be informed when
- * a background process until the next time she runs a real program
- * (as opposed to running a builtin command or just typing return),
- * and the jobs command may give out of date information.
  */
 
 #ifdef SYSV
@@ -1126,34 +1071,13 @@ STATIC int onsigchild() {
 STATIC int
 waitproc(int block, struct job *jp, int *status)
 {
-#ifdef BSD
 	int flags = 0;
 
-#if JOBS
 	if (jp != NULL && jp->jobctl)
 		flags |= WUNTRACED;
-#endif
 	if (block == 0)
 		flags |= WNOHANG;
 	return wait3(status, flags, (struct rusage *)NULL);
-#else
-#ifdef SYSV
-	int (*save)();
-
-	if (block == 0) {
-		gotsigchild = 0;
-		save = signal(SIGCLD, onsigchild);
-		signal(SIGCLD, save);
-		if (gotsigchild == 0)
-			return 0;
-	}
-	return wait(status);
-#else
-	if (block == 0)
-		return 0;
-	return wait(status);
-#endif
-#endif
 }
 
 /*

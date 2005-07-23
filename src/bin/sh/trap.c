@@ -258,13 +258,11 @@ setsignal(int signo, int vforked)
 			if (iflag)
 				action = S_IGN;
 			break;
-#if JOBS
 		case SIGTSTP:
 		case SIGTTOU:
 			if (mflag)
 				action = S_IGN;
 			break;
-#endif
 		}
 	}
 
@@ -448,9 +446,7 @@ exitshell(int status)
 	}
 l1:   handler = &loc2;			/* probably unnecessary */
 	flushall();
-#if JOBS
 	setjobctl(0);
-#endif
 l2:   _exit(status);
 	/* NOTREACHED */
 }

@@ -110,8 +110,5 @@ void sh_exit(int) __attribute__((__noreturn__));
  * BSD setjmp saves the signal mask, which violates ANSI C and takes time,
  * so we use _setjmp instead.
  */
-
-#if defined(BSD) && !defined(__SVR4)
 #define setjmp(jmploc)	_setjmp(jmploc)
 #define longjmp(jmploc, val)	_longjmp(jmploc, val)
-#endif

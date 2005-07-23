@@ -76,10 +76,8 @@ struct job {
 #define	JOBDONE		2	/* all procs are completed */
 	char	used;		/* true if this entry is in used */
 	char	changed;	/* true if status has changed */
-#if JOBS
 	char 	jobctl;		/* job running under job control */
 	int	prev_job;	/* previous job index */
-#endif
 };
 
 extern pid_t backgndpid;	/* pid of last background process */
@@ -100,7 +98,3 @@ int waitforjob(struct job *);
 int stoppedjobs(void);
 void commandtext(struct procstat *, union node *);
 int getjobpgrp(const char *);
-
-#if ! JOBS
-#define setjobctl(on)	/* do nothing */
-#endif
