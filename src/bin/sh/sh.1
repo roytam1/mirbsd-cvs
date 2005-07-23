@@ -1,4 +1,5 @@
-.\"	$NetBSD: sh.1,v 1.82 2005/07/15 22:33:48 wiz Exp $
+.\" $MirOS$
+.\" $NetBSD: sh.1,v 1.82 2005/07/15 22:33:48 wiz Exp $
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
 .\"
@@ -88,7 +89,7 @@ is in the process of being changed to conform with the
 This version has many
 features which make it appear similar in some respects to the Korn shell,
 but it is not a Korn shell clone (see
-.Xr ksh 1 ) .
+.Xr mksh 1 ) .
 Only features designated by
 .Tn POSIX ,
 plus a few Berkeley extensions, are being incorporated into this shell.
@@ -106,8 +107,7 @@ It is the program that is running when a user logs into the system
 command).
 The shell implements a language that has flow control
 constructs, a macro facility that provides a variety of features in
-addition to data storage, along with built in history and line editing
-capabilities.
+addition to data storage.
 It incorporates many features to aid interactive use and
 has the advantage that the interpretative language is common to both
 interactive and non-interactive use (shell scripts).
@@ -224,7 +224,7 @@ operand and the positional parameters ($1, $2, etc.)
 set from the remaining argument operands.
 .It Fl C Em noclobber
 Don't overwrite existing files with
-.Dq \*[Gt] .
+.Dq \*(Gt .
 .It Fl e Em errexit
 If not interactive, exit immediately if any untested command fails.
 The exit status of a command is considered to be
@@ -235,7 +235,7 @@ explicitly tested if the command is used to control an
 or
 .Ic until ;
 or if the command is the left hand operand of an
-.Dq \*[Am]\*[Am]
+.Dq \*(Am\*(Am
 or
 .Dq ||
 operator.
@@ -279,23 +279,6 @@ are present).
 This option has no effect when set after the shell has
 already started running (i.e. with
 .Ic set ) .
-.It Fl V Em vi
-Enable the built-in
-.Xr vi 1
-command line editor (disables
-.Fl E
-if it has been set).
-(See the
-.Sx Command Line Editing
-section below.)
-.It Fl E Em emacs
-Enable the built-in emacs style
-command line editor (disables
-.Fl V
-if it has been set).
-(See the
-.Sx Command Line Editing
-section below.)
 .It Fl b Em notify
 Enable asynchronous notification of background job completion.
 (UNIMPLEMENTED for 4.4alpha)
@@ -304,12 +287,6 @@ Make an interactive shell always print the new directory name when
 changed by the
 .Ic cd
 command.
-.It "\ \ " Em tabcomplete
-Enables filename completion in the command line editor.
-Typing a tab character will extend the current input word to match a
-filename.
-If more than one filename matches it is only extended to be the common prefix.
-Typing a second tab character will list all the matching names.
 .El
 .Ss Lexical Structure
 The shell reads input in terms of lines from a file and breaks it up into
@@ -321,9 +298,9 @@ operators (their meaning is discussed later).
 Following is a list of operators:
 .Bl -ohang -offset indent
 .It "Control operators:"
-.Dl \*[Am]  \*[Am]\*[Am]  \&(  \&)  \&;  ;; | || \*[Lt]newline\*[Gt]
+.Dl \*(Am  \*(Am\*(Am  \&(  \&)  \&;  ;; | || \*(Ltnewline\*(Gt
 .It "Redirection operators:"
-.Dl \*[Lt]  \*[Gt]  \*[Gt]|  \*[Lt]\*[Lt]  \*[Gt]\*[Gt]  \*[Lt]\*[Am]  \*[Gt]\*[Am]  \*[Lt]\*[Lt]-  \*[Lt]\*[Gt]
+.Dl \*(Lt  \*(Gt  \*(Gt|  \*(Lt\*(Lt  \*(Gt\*(Gt  \*(Lt\*(Am  \*(Gt\*(Am  \*(Lt\*(Lt-  \*(Lt\*(Gt
 .El
 .Ss Quoting
 Quoting is used to remove the special meaning of certain characters or
@@ -351,7 +328,7 @@ and backslash
 .Pq \e .
 The backslash inside double quotes is historically weird, and serves to
 quote only the following characters:
-.Dl $  `  \*q  \e  \*[Lt]newline\*[Gt] .
+.Dl $  `  \*q  \e  \*(Ltnewline\*(Gt .
 Otherwise it remains literal.
 .Ss Reserved Words
 Reserved words are words that have special meaning to the
@@ -444,25 +421,25 @@ is an optional number, as in
 .Sq Bq 3 ) ,
 that refers to a file descriptor.
 .Bl -tag -width aaabsfiles -offset indent
-.It [n] Ns \*[Gt] file
+.It [n] Ns \*(Gt file
 Redirect standard output (or n) to file.
-.It [n] Ns \*[Gt]| file
+.It [n] Ns \*(Gt| file
 Same, but override the
 .Fl C
 option.
-.It [n] Ns \*[Gt]\*[Gt] file
+.It [n] Ns \*(Gt\*(Gt file
 Append standard output (or n) to file.
-.It [n] Ns \*[Lt] file
+.It [n] Ns \*(Lt file
 Redirect standard input (or n) from file.
-.It [n1] Ns \*[Lt]\*[Am] Ns n2
+.It [n1] Ns \*(Lt\*(Am Ns n2
 Duplicate standard input (or n1) from file descriptor n2.
-.It [n] Ns \*[Lt]\*[Am]-
+.It [n] Ns \*(Lt\*(Am-
 Close standard input (or n).
-.It [n1] Ns \*[Gt]\*[Am] Ns n2
+.It [n1] Ns \*(Gt\*(Am Ns n2
 Duplicate standard output (or n1) to n2.
-.It [n] Ns \*[Gt]\*[Am]-
+.It [n] Ns \*(Gt\*(Am-
 Close standard output (or n).
-.It [n] Ns \*[Lt]\*[Gt] file
+.It [n] Ns \*(Lt\*(Gt file
 Open file for reading and writing on standard input (or n).
 .El
 .Pp
@@ -470,7 +447,7 @@ The following redirection is often called a
 .Dq here-document .
 .Bl -item -offset indent
 .It
-.Li [n]\*[Lt]\*[Lt] delimiter
+.Li [n]\*(Lt\*(Lt delimiter
 .Dl here-doc-text ...
 .Li delimiter
 .El
@@ -484,9 +461,9 @@ subjected to parameter expansion, command substitution, and arithmetic
 expansion (as described in the section on
 .Dq Expansions ) .
 If the operator is
-.Dq \*[Lt]\*[Lt]-
+.Dq \*(Lt\*(Lt-
 instead of
-.Dq \*[Lt]\*[Lt] ,
+.Dq \*(Lt\*(Lt ,
 then leading tabs in the here-doc-text are stripped.
 .Ss Search and Execution
 There are three types of commands: shell functions, built-in commands, and
@@ -616,7 +593,7 @@ Because pipeline assignment of standard input or standard output or both
 takes place before redirection, it can be modified by redirection.
 For example:
 .Pp
-.Dl $ command1 2\*[Gt]\*[Am]1 | command2
+.Dl $ command1 2\*(Gt\*(Am1 | command2
 .Pp
 sends both the standard output and standard error of command1
 to the standard input of command2.
@@ -624,21 +601,21 @@ to the standard input of command2.
 A ; or
 .Aq newline
 terminator causes the preceding AND-OR-list (described
-next) to be executed sequentially; a \*[Am] causes asynchronous execution of
+next) to be executed sequentially; a \*(Am causes asynchronous execution of
 the preceding AND-OR-list.
 .Pp
 Note that unlike some other shells, each process in the pipeline is a
 child of the invoking shell (unless it is a shell built-in, in which case
 it executes in the current shell -- but any effect it has on the
 environment is wiped).
-.Ss Background Commands -- \*[Am]
-If a command is terminated by the control operator ampersand (\*[Am]), the
+.Ss Background Commands -- \*(Am
+If a command is terminated by the control operator ampersand (\*(Am), the
 shell executes the command asynchronously -- that is, the shell does not
 wait for the command to finish before executing the next command.
 .Pp
 The format for running a command in background is:
 .Pp
-.Dl command1 \*[Am] [command2 \*[Am] ...]
+.Dl command1 \*(Am [command2 \*(Am ...]
 .Pp
 If the shell is not interactive, the standard input of an asynchronous
 command is set to
@@ -652,22 +629,22 @@ If command is followed by an ampersand, the shell starts the
 command and immediately proceed onto the next command; otherwise it waits
 for the command to terminate before proceeding to the next one.
 .Ss Short-Circuit List Operators
-.Dq \*[Am]\*[Am]
+.Dq \*(Am\*(Am
 and
 .Dq ||
 are AND-OR list operators.
-.Dq \*[Am]\*[Am]
+.Dq \*(Am\*(Am
 executes the first command, and then executes the second command if and only
 if the exit status of the first command is zero.
 .Dq ||
 is similar, but executes the second command if and only if the exit status
 of the first command is nonzero.
-.Dq \*[Am]\*[Am]
+.Dq \*(Am\*(Am
 and
 .Dq ||
 both have the same priority.
 Note that these operators are left-associative, so
-.Dq true || echo bar \*[Am]\*[Am] echo baz
+.Dq true || echo bar \*(Am\*(Am echo baz
 writes
 .Dq baz
 and nothing else.
@@ -749,7 +726,7 @@ Grouping commands together this way allows you to redirect
 their output as though they were one program:
 .Pp
 .Bd -literal -offset indent
-{ echo -n \*q hello \*q ; echo \*q world" ; } \*[Gt] greeting
+{ echo -n \*q hello \*q ; echo \*q world" ; } \*(Gt greeting
 .Ed
 .Pp
 Note that
@@ -815,7 +792,7 @@ numeric.
 A parameter can also be denoted by a number or a special
 character as explained below.
 .Ss Positional Parameters
-A positional parameter is a parameter denoted by a number (n \*[Gt] 0).
+A positional parameter is a parameter denoted by a number (n \*(Gt 0).
 The shell sets these initially to the values of its command line arguments
 that follow the name of the shell script.
 The
@@ -1270,92 +1247,6 @@ With no arguments the export command lists the names of all exported variables.
 With the
 .Fl p
 option specified the output will be formatted suitably for non-interactive use.
-.It Xo fc Op Fl e Ar editor
-.Op Ar first Op Ar last
-.Xc
-.It Xo fc Fl l
-.Op Fl nr
-.Op Ar first Op Ar last
-.Xc
-.It Xo fc Fl s Op Ar old=new
-.Op Ar first
-.Xc
-The
-.Ic fc
-built-in lists, or edits and re-executes, commands previously entered
-to an interactive shell.
-.Bl -tag -width 5n
-.It Fl e No editor
-Use the editor named by editor to edit the commands.
-The editor string is a command name, subject to search via the
-.Ev PATH
-variable.
-The value in the
-.Ev FCEDIT
-variable is used as a default when
-.Fl e
-is not specified.
-If
-.Ev FCEDIT
-is null or unset, the value of the
-.Ev EDITOR
-variable is used.
-If
-.Ev EDITOR
-is null or unset,
-.Xr ed 1
-is used as the editor.
-.It Fl l No (ell)
-List the commands rather than invoking an editor on them.
-The commands are written in the sequence indicated by
-the first and last operands, as affected by
-.Fl r ,
-with each command preceded by the command number.
-.It Fl n
-Suppress command numbers when listing with -l.
-.It Fl r
-Reverse the order of the commands listed (with
-.Fl l )
-or edited (with neither
-.Fl l
-nor
-.Fl s ) .
-.It Fl s
-Re-execute the command without invoking an editor.
-.It first
-.It last
-Select the commands to list or edit.
-The number of previous commands that
-can be accessed are determined by the value of the
-.Ev HISTSIZE
-variable.
-The value of first or last or both are one of the following:
-.Bl -tag -width 5n
-.It [+]number
-A positive number representing a command number; command numbers can be
-displayed with the
-.Fl l
-option.
-.It Fl number
-A negative decimal number representing the command that was executed
-number of commands previously.
-For example, \-1 is the immediately previous command.
-.El
-.It string
-A string indicating the most recently entered command that begins with
-that string.
-If the old=new operand is not also specified with
-.Fl s ,
-the string form of the first operand cannot contain an embedded equal sign.
-.El
-.Pp
-The following environment variables affect the execution of fc:
-.Bl -tag -width HISTSIZE
-.It Ev FCEDIT
-Name of the editor to use.
-.It Ev HISTSIZE
-The number of previous commands that are accessible.
-.El
 .It fg Op Ar job
 Move the specified job or the current job to the foreground.
 .It getopts Ar optstring var
@@ -1485,11 +1376,6 @@ The
 .Fl r
 option causes the hash command to delete all the entries in the hash table
 except for functions.
-.It inputrc Ar file
-Read the
-.Va file
-to set keybindings as defined by
-.Xr editrc 5 .
 .It jobid Op Ar job
 Print the process id's of the processes in the job.
 If the
@@ -1793,46 +1679,6 @@ last process in the job.
 If the argument is omitted, wait for all jobs to
 complete and then return an exit status of zero.
 .El
-.Ss Command Line Editing
-When
-.Nm
-is being used interactively from a terminal, the current command
-and the command history (see
-.Ic fc
-in
-.Sx Built-ins )
-can be edited using emacs-mode or vi-mode command-line editing.
-The command
-.Ql set -o emacs
-enables emacs-mode editing.
-The command
-.Ql set -o vi
-enables vi-mode editing and places sh into vi insert mode.
-(See the
-.Sx Argument List Processing
-section above.)
-.Pp
-The vi mode uses commands similar to a subset of those described in the
-.Xr vi 1
-man page.
-With vi-mode
-enabled, sh can be switched between insert mode and command mode.
-It's similar to vi: typing
-.Aq ESC
-will throw you into command VI command mode.
-Hitting
-.Aq return
-while in command mode will pass the line to the shell.
-.Pp
-The emacs mode uses commands similar to a subset available in
-the emacs editor.
-With emacs-mode enabled, special keys can be used to modify the text
-in the buffer using the control key.
-.Pp
-.Nm
-uses the
-.Xr editline 3
-library.
 .Sh EXIT STATUS
 Errors that are detected by the shell, such as a syntax error, will cause the
 shell to exit with a non-zero exit status.
@@ -1889,7 +1735,7 @@ unless you are the superuser, in which case it defaults to
 .Dq # \  .
 .It Ev PS2
 The secondary prompt string, which defaults to
-.Dq \*[Gt] \  .
+.Dq \*(Gt \  .
 .It Ev PS4
 Output before each line when execution trace (set -x) is enabled,
 defaults to
@@ -1907,9 +1753,7 @@ section for more details.
 .It Ev TERM
 The default terminal setting for the shell.
 This is inherited by
-children of the shell, and is used in the history editing modes.
-.It Ev HISTSIZE
-The number of lines in the history buffer for the shell.
+children of the shell.
 .El
 .Sh FILES
 .Bl -item -width HOMEprofilexxxx
@@ -1922,17 +1766,15 @@ The number of lines in the history buffer for the shell.
 .Xr csh 1 ,
 .Xr echo 1 ,
 .Xr getopt 1 ,
-.Xr ksh 1 ,
 .Xr login 1 ,
+.Xr mksh 1 ,
 .Xr printf 1 ,
 .Xr test 1 ,
-.Xr editline 3 ,
 .Xr getopt 3 ,
 .\" .Xr profile 4 ,
-.Xr editrc 5 ,
 .Xr passwd 5 ,
 .Xr environ 7 ,
-.Xr nls 7 ,
+.Xr script 7 ,
 .Xr sysctl 8
 .Sh HISTORY
 A
@@ -1950,3 +1792,5 @@ being displayed.
 The characters generated by filename completion should probably be quoted
 to ensure that the filename is still valid after the input line has been
 processed.
+.Pp
+This manual page is slightly broken, and wrongly formatted.

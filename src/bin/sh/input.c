@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/sh/input.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
 /*	$NetBSD: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)input.c	8.3 (Berkeley) 6/9/95");
-__RCSID("$MirOS: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $");
+__RCSID("$MirOS: src/bin/sh/input.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 
 #include <stdio.h>	/* defines BUFSIZ */
 #include <fcntl.h>
@@ -98,8 +98,6 @@ MKINIT char basebuf[BUFSIZ];	/* buffer for top level input file */
 struct parsefile *parsefile = &basepf;	/* current input file */
 int init_editline = 0;		/* editline library initialized? */
 int whichprompt;		/* 1 == PS1, 2 == PS2 */
-
-EditLine *el;			/* cookie for editline package */
 
 STATIC void pushfile(void);
 static int preadfd(void);
