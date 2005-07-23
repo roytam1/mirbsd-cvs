@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.c,v 1.4 2005/07/23 19:45:01 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.c,v 1.5 2005/07/23 20:07:47 tg Exp $ */
 /*	$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)var.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/bin/sh/var.c,v 1.4 2005/07/23 19:45:01 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/var.c,v 1.5 2005/07/23 20:07:47 tg Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -70,9 +70,6 @@ struct varinit {
 };
 
 
-#if ATTY
-struct var vatty;
-#endif
 struct var vifs;
 struct var vpath;
 struct var vps1;
@@ -82,10 +79,6 @@ struct var vvers;
 struct var voptind;
 
 const struct varinit varinit[] = {
-#if ATTY
-	{ &vatty,	VSTRFIXED|VTEXTFIXED|VUNSET,	"ATTY=",
-	  NULL },
-#endif
 	{ &vifs,	VSTRFIXED|VTEXTFIXED,		"IFS= \t\n",
 	  NULL },
 	{ &vpath,	VSTRFIXED|VTEXTFIXED,		"PATH=" _PATH_DEFPATH,

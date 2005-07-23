@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.h,v 1.3 2005/07/23 19:45:01 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.h,v 1.4 2005/07/23 20:07:47 tg Exp $ */
 /*	$NetBSD: var.h,v 1.23 2004/10/02 12:16:53 dsl Exp $	*/
 
 /*-
@@ -71,9 +71,6 @@ struct localvar {
 
 struct localvar *localvars;
 
-#if ATTY
-extern struct var vatty;
-#endif
 extern struct var vifs;
 extern struct var vpath;
 extern struct var vps1;
@@ -93,10 +90,6 @@ extern struct var vps4;
 #define ps2val()	(vps2.text + 4)
 #define ps4val()	(vps4.text + 4)
 #define optindval()	(voptind.text + 7)
-
-#if ATTY
-#define attyset()	((vatty.flags & VUNSET) == 0)
-#endif
 
 void initvar(void);
 void setvar(const char *, const char *, int);

@@ -39,7 +39,7 @@ __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 #endif /* not lint */
 
 __SCCSID("@(#)main.c	8.7 (Berkeley) 7/19/95");
-__RCSID("$MirOS: src/bin/sh/main.c,v 1.3 2005/07/23 19:45:01 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/main.c,v 1.4 2005/07/23 20:07:46 tg Exp $");
 
 #include <sys/stat.h>
 #include <errno.h>
@@ -130,11 +130,7 @@ main(int argc, char **argv)
 				exitshell(exitstatus);
 		}
 		reset();
-		if (exception == EXINT
-#if ATTY
-		 && (! attyset() || !strcmp(termval(), "emacs"))
-#endif
-		 ) {
+		if (exception == EXINT) {
 			out2c('\n');
 			flushout(&errout);
 		}

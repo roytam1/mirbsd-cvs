@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/parser.c,v 1.3 2005/07/23 19:34:33 tg Exp $ */
+/**	$MirOS: src/bin/sh/parser.c,v 1.4 2005/07/23 20:07:47 tg Exp $ */
 /*	$NetBSD: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)parser.c	8.7 (Berkeley) 5/16/95");
-__RCSID("$MirOS: src/bin/sh/parser.c,v 1.3 2005/07/23 19:34:33 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/parser.c,v 1.4 2005/07/23 20:07:47 tg Exp $");
 
 #include <stdlib.h>
 
@@ -921,16 +921,6 @@ readtoken1(int firstc, char const *syntax, char *eofmark, int striptabs)
 
 	STARTSTACKSTR(out);
 	loop: {	/* for each line, until end of word */
-#if ATTY
-		if (c == '\034' && doprompt
-		 && attyset() && strcmp(termval(), "emacs")) {
-			attyline();
-			if (syntax == BASESYNTAX)
-				return readtoken();
-			c = pgetc();
-			goto loop;
-		}
-#endif
 		CHECKEND();	/* set c to PEOF if at end of here document */
 		for (;;) {	/* until end of line or end of word */
 			CHECKSTRSPACE(4, out);	/* permit 4 calls to USTPUTC */
