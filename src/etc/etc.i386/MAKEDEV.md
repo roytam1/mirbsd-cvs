@@ -1,7 +1,7 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.2 2005/03/06 19:05:55 tg Exp $-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.3 2005/03/15 16:45:45 tg Exp $-})dnl
 vers(__file__,
-	{-$OpenBSD: MAKEDEV.md,v 1.23 2004/04/11 18:05:23 millert Exp $-},
+	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
 dnl
 dnl Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
@@ -19,6 +19,10 @@ dnl WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 dnl ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 dnl OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 dnl
+__devitem(apm, apm, Power management device)dnl
+__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
+__devitem(nvram, nvram, NVRAM access)dnl
+_mkdev(nvram, nvram, {-M nvram c major_nvram_c 0 440 kmem-})dnl
 _TITLE(make)
 _DEV(all)
 _DEV(ramdisk)
@@ -43,8 +47,6 @@ _DEV(wt, 10, 3)
 _TITLE(term)
 _DEV(com, 8)
 _DEV(ttyc, 38)
-_TITLE(call)
-_DEV(tun, 40)
 _TITLE(pty)
 _DEV(ptm, 82)
 _DEV(pty, 6)
@@ -70,16 +72,21 @@ _DEV(usb, 61)
 _DEV(uscan, 77)
 _TITLE(spec)
 _DEV(apm, 21)
+_DEV(acpi, 85)
 _DEV(au, 42)
+_DEV(bio, 79)
 _DEV(bktr, 49)
 _DEV(bpf, 23)
 _DEV(cry, 70)
 _DEV(fdesc, 22)
+_DEV(gpio, 83)
 _DEV(gpr, 80)
+_DEV(hotplug, 82)
 _DEV(iop, 75)
 _DEV(joy, 26)
 _DEV(lkm, 28)
 _DEV(music, 53)
+_DEV(nvram, 84)
 _DEV(pci, 72)
 _DEV(pctr, 46)
 _DEV(pf, 73)
@@ -90,6 +97,7 @@ _DEV(ses, 24)
 _DEV(speak, 27)
 _DEV(ss, 19)
 _DEV(systrace, 78)
+_DEV(tun, 40)
 _DEV(tuner, 49)
 _DEV(uk, 20)
 _DEV(wdt, 55)
@@ -103,8 +111,8 @@ dnl
 divert(__mddivert)dnl
 dnl
 ramdisk)
-	_recurse std bpf0 fd0 wd0 wd1 wd2 sd0 sd1 sd2 tty00 tty01 rd0
-	_recurse st0 cd0 ttyC0 random wskbd0 vnd0
+	_recurse std bpf0 fd0 wd0 sd0 tty00 tty01 rd0
+	_recurse st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm vnd0
 	;;
 rambig)
 	_recurse pty0 raid0 raid1 tun0 vnd1
@@ -129,6 +137,7 @@ twrget(all, flo, fd, 0, 0B, 0C, 0D, 0E, 0F, 0G, 0H)dnl
 twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl
 target(all, bpf, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)dnl
+target(all, bio)dnl
 target(all, tun, 0, 1, 2, 3)dnl
 target(all, xy, 0, 1, 2, 3)dnl
 target(all, rd, 0)dnl
@@ -137,6 +146,8 @@ target(all, sd, 0, 1, 2, 3, 4)dnl
 target(all, vnd, 0, 1, 2, 3)dnl
 target(all, ccd, 0, 1, 2, 3)dnl
 target(all, bktr, 0)dnl
+target(all, gpio, 0, 1, 2)dnl
+target(all, nvram)dnl
 target(ramd, tty0, 0, 1, 2, 3)dnl
 twrget(ramd, wsdisp, ttyC, 0)dnl
 target(ramd, wt, 0)dnl
