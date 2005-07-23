@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/conf.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.106 2004/02/10 01:31:21 millert Exp $	*/
 /*	$NetBSD: conf.c,v 1.75 1996/05/03 19:40:20 christos Exp $	*/
 
@@ -334,8 +334,7 @@ struct cdevsw	cdevsw[] =
 	cdev_systrace_init(NSYSTRACE,systrace),	/* 78: system call tracing */
  	cdev_oci_init(NBIO,bio),	/* 79: ioctl tunnel */
 	cdev_ch_init(NGPR,gpr),		/* 80: GPR400 SmartCard reader */
-	cdev_notdef(),
-	cdev_ptm_init(NPTY,ptm),	/* 82: pseudo-tty ptm device */
+	cdev_ptm_init(NPTY,ptm),	/* 81: pseudo-tty ptm device */
 };
 int	nchrdev = sizeof(cdevsw) / sizeof(cdevsw[0]);
 

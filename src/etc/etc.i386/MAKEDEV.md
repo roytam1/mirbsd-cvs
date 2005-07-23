@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.3 2005/03/15 16:45:45 tg Exp $-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.4 2005/07/23 15:00:32 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
@@ -20,8 +20,8 @@ dnl ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 dnl OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 dnl
 __devitem(apm, apm, Power management device)dnl
-__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
-__devitem(nvram, nvram, NVRAM access)dnl
+#notyet#__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
+#notyet#__devitem(nvram, nvram, NVRAM access)dnl
 _mkdev(nvram, nvram, {-M nvram c major_nvram_c 0 440 kmem-})dnl
 _TITLE(make)
 _DEV(all)
@@ -48,7 +48,7 @@ _TITLE(term)
 _DEV(com, 8)
 _DEV(ttyc, 38)
 _TITLE(pty)
-_DEV(ptm, 82)
+_DEV(ptm, 81)
 _DEV(pty, 6)
 _DEV(tty, 5)
 _TITLE(cons)
@@ -72,21 +72,21 @@ _DEV(usb, 61)
 _DEV(uscan, 77)
 _TITLE(spec)
 _DEV(apm, 21)
-_DEV(acpi, 85)
+#notyet#_DEV(acpi, 85)
 _DEV(au, 42)
 _DEV(bio, 79)
 _DEV(bktr, 49)
 _DEV(bpf, 23)
 _DEV(cry, 70)
 _DEV(fdesc, 22)
-_DEV(gpio, 83)
+#notyet#_DEV(gpio, 83)
 _DEV(gpr, 80)
-_DEV(hotplug, 82)
+#notyet#_DEV(hotplug, 82)
 _DEV(iop, 75)
 _DEV(joy, 26)
 _DEV(lkm, 28)
 _DEV(music, 53)
-_DEV(nvram, 84)
+#notyet#_DEV(nvram, 84)
 _DEV(pci, 72)
 _DEV(pctr, 46)
 _DEV(pf, 73)
@@ -146,8 +146,8 @@ target(all, sd, 0, 1, 2, 3, 4)dnl
 target(all, vnd, 0, 1, 2, 3)dnl
 target(all, ccd, 0, 1, 2, 3)dnl
 target(all, bktr, 0)dnl
-target(all, gpio, 0, 1, 2)dnl
-target(all, nvram)dnl
+#notyet#target(all, gpio, 0, 1, 2)dnl
+#notyet#target(all, nvram)dnl
 target(ramd, tty0, 0, 1, 2, 3)dnl
 twrget(ramd, wsdisp, ttyC, 0)dnl
 target(ramd, wt, 0)dnl
