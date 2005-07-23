@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)parser.c	8.7 (Berkeley) 5/16/95";
-#else
-__RCSID("$NetBSD: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)parser.c	8.7 (Berkeley) 5/16/95");
+__RCSID("$MirOS: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $");
 
 #include <stdlib.h>
 
@@ -59,9 +55,6 @@ __RCSID("$NetBSD: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $");
 #include "mystring.h"
 #include "alias.h"
 #include "show.h"
-#ifndef SMALL
-#include "myhistedit.h"
-#endif
 
 /*
  * Shell command parser.
@@ -1624,11 +1617,7 @@ STATIC void
 setprompt(int which)
 {
 	whichprompt = which;
-
-#ifndef SMALL
-	if (!el)
-#endif
-		out2str(getprompt(NULL));
+	out2str(getprompt(NULL));
 }
 
 /*

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $	*/
 
 /*-
@@ -33,24 +34,18 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)eval.c	8.9 (Berkeley) 6/8/95";
-#else
-__RCSID("$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)eval.c	8.9 (Berkeley) 6/8/95");
+__RCSID("$MirOS: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $");
 
+#include <sys/fcntl.h>
+#include <sys/times.h>
+#include <sys/param.h>
+#include <sys/wait.h>
+#include <sys/sysctl.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/fcntl.h>
-#include <sys/times.h>
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/sysctl.h>
 
 /*
  * Evaluate a command.
@@ -76,9 +71,6 @@ __RCSID("$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $");
 #include "show.h"
 #include "mystring.h"
 #include "main.h"
-#ifndef SMALL
-#include "myhistedit.h"
-#endif
 
 
 /* flags in argument to evaltree */
@@ -221,9 +213,6 @@ evaltree(union node *n, int flags)
 		exitstatus = 0;
 		goto out;
 	}
-#ifndef SMALL
-	displayhist = 1;	/* show history substitutions done with fc */
-#endif
 	TRACE(("pid %d, evaltree(%p: %d, %d) called\n",
 	    getpid(), n, n->type, flags));
 	switch (n->type) {

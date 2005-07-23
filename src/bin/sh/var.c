@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)var.c	8.3 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)var.c	8.3 (Berkeley) 5/4/95");
+__RCSID("$MirOS: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -65,16 +61,8 @@ __RCSID("$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $");
 #include "mystring.h"
 #include "parser.h"
 #include "show.h"
-#ifndef SMALL
-#include "myhistedit.h"
-#endif
 
-#ifdef SMALL
 #define VTABSIZE 39
-#else
-#define VTABSIZE 517
-#endif
-
 
 struct varinit {
 	struct var *var;
@@ -86,10 +74,6 @@ struct varinit {
 
 #if ATTY
 struct var vatty;
-#endif
-#ifndef SMALL
-struct var vhistsize;
-struct var vterm;
 #endif
 struct var vifs;
 struct var vmail;
@@ -106,10 +90,6 @@ const struct varinit varinit[] = {
 	{ &vatty,	VSTRFIXED|VTEXTFIXED|VUNSET,	"ATTY=",
 	  NULL },
 #endif
-#ifndef SMALL
-	{ &vhistsize,	VSTRFIXED|VTEXTFIXED|VUNSET,	"HISTSIZE=",
-	  sethistsize },
-#endif
 	{ &vifs,	VSTRFIXED|VTEXTFIXED,		"IFS= \t\n",
 	  NULL },
 	{ &vmail,	VSTRFIXED|VTEXTFIXED|VUNSET,	"MAIL=",
@@ -125,10 +105,6 @@ const struct varinit varinit[] = {
 	  NULL },
 	{ &vps4,	VSTRFIXED|VTEXTFIXED,		"PS4=+ ",
 	  NULL },
-#ifndef SMALL
-	{ &vterm,	VSTRFIXED|VTEXTFIXED|VUNSET,	"TERM=",
-	  setterm },
-#endif
 	{ &voptind,	VSTRFIXED|VTEXTFIXED|VNOFUNC,	"OPTIND=1",
 	  getoptsreset },
 	{ NULL,	0,				NULL,

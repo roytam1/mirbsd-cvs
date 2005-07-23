@@ -1,0 +1,23 @@
+# $MirOS$
+# $NetBSD: Makefile,v 1.80 2005/06/26 19:10:49 christos Exp $
+
+PROG=		sh
+SRCS=		alias.c arith.c arith_lex.l builtins.c cd.c echo.c \
+		error.c eval.c exec.c expand.c histedit.c init.c input.c \
+		jobs.c kill.c mail.c main.c memalloc.c miscbltin.c \
+		mystring.c nodes.c options.c output.c parser.c printf.c \
+		redir.c show.c syntax.c test.c trap.c var.c
+CPPFLAGS+=	-DSHELL
+LFLAGS=		-8
+DPADD+=		${LIBL}
+LDADD+=		-ll
+
+.include <bsd.own.mk>
+.PATH: ${BSDSRCDIR}/bin/echo ${BSDSRCDIR}/bin/kill ${BSDSRCDIR}/usr.bin/printf
+
+arith.c arith.h: arith.y
+	${YACC} -d $>
+	mv y.tab.c arith.c
+	mv y.tab.h arith.h
+
+.include <bsd.prog.mk>

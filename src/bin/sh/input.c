@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)input.c	8.3 (Berkeley) 6/9/95";
-#else
-__RCSID("$NetBSD: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)input.c	8.3 (Berkeley) 6/9/95");
+__RCSID("$MirOS: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $");
 
 #include <stdio.h>	/* defines BUFSIZ */
 #include <fcntl.h>
@@ -62,7 +58,6 @@ __RCSID("$NetBSD: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $");
 #include "error.h"
 #include "alias.h"
 #include "parser.h"
-#include "myhistedit.h"
 
 #define EOF_NLEFT -99		/* value of parsenleft when EOF pushed back */
 
@@ -178,31 +173,7 @@ preadfd(void)
 	parsenextc = buf;
 
 retry:
-#ifndef SMALL
-	if (parsefile->fd == 0 && el) {
-		static const char *rl_cp;
-		static int el_len;
-
-		if (rl_cp == NULL)
-			rl_cp = el_gets(el, &el_len);
-		if (rl_cp == NULL)
-			nr = 0;
-		else {
-			nr = el_len;
-			if (nr > BUFSIZ - 8)
-				nr = BUFSIZ - 8;
-			memcpy(buf, rl_cp, nr);
-			if (nr != el_len) {
-				el_len -= nr;
-				rl_cp += nr;
-			} else
-				rl_cp = 0;
-		}
-
-	} else
-#endif
-		nr = read(parsefile->fd, buf, BUFSIZ - 8);
-
+	nr = read(parsefile->fd, buf, BUFSIZ - 8);
 
 	if (nr <= 0) {
                 if (nr < 0) {
@@ -297,16 +268,6 @@ check:
 
 	savec = *q;
 	*q = '\0';
-
-#ifndef SMALL
-	if (parsefile->fd == 0 && hist && something) {
-		HistEvent he;
-		INTOFF;
-		history(hist, &he, whichprompt == 1? H_ENTER : H_APPEND,
-		    parsenextc);
-		INTON;
-	}
-#endif
 
 	if (vflag) {
 		out2str(parsenextc);

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: var.h,v 1.23 2004/10/02 12:16:53 dsl Exp $	*/
 
 /*-
@@ -80,11 +81,6 @@ extern struct var vpath;
 extern struct var vps1;
 extern struct var vps2;
 extern struct var vps4;
-#ifndef SMALL
-extern struct var vterm;
-extern struct var vtermcap;
-extern struct var vhistsize;
-#endif
 
 /*
  * The following macros access the values of the above variables.
@@ -101,10 +97,6 @@ extern struct var vhistsize;
 #define ps2val()	(vps2.text + 4)
 #define ps4val()	(vps4.text + 4)
 #define optindval()	(voptind.text + 7)
-#ifndef SMALL
-#define histsizeval()	(vhistsize.text + 9)
-#define termval()	(vterm.text + 5)
-#endif
 
 #if ATTY
 #define attyset()	((vatty.flags & VUNSET) == 0)

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)options.c	8.2 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)options.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $");
 
 #include <signal.h>
 #include <unistd.h>
@@ -59,9 +55,6 @@ __RCSID("$NetBSD: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $");
 #include "memalloc.h"
 #include "error.h"
 #include "mystring.h"
-#ifndef SMALL
-#include "myhistedit.h"
-#endif
 #include "show.h"
 
 char *arg0;			/* value of $0 */
@@ -139,9 +132,6 @@ void
 optschanged(void)
 {
 	setinteractive(iflag);
-#ifndef SMALL
-	histedit();
-#endif
 	setjobctl(mflag);
 }
 
