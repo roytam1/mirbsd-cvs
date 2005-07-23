@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: alias.h,v 1.6 2003/08/07 09:05:29 agc Exp $	*/
 
 /*-
@@ -45,6 +46,4 @@ struct alias {
 
 struct alias *lookupalias(char *, int);
 char *get_alias_text(char *);
-int aliascmd(int, char **);
-int unaliascmd(int, char **);
 void rmaliases(void);

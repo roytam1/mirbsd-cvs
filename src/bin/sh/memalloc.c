@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: memalloc.c,v 1.28 2003/08/07 09:05:34 agc Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)memalloc.c	8.3 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: memalloc.c,v 1.28 2003/08/07 09:05:34 agc Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)memalloc.c	8.3 (Berkeley) 5/4/95");
+__RCSID("$MirOS: memalloc.c,v 1.28 2003/08/07 09:05:34 agc Exp $");
 
 #include <stdlib.h>
 #include <unistd.h>

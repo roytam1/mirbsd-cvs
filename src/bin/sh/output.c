@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: output.c,v 1.28 2003/08/07 09:05:36 agc Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)output.c	8.2 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: output.c,v 1.28 2003/08/07 09:05:36 agc Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)output.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS: output.c,v 1.28 2003/08/07 09:05:36 agc Exp $");
 
 /*
  * Shell output routines.  We use our own output routines because:

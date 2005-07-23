@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: miscbltin.c,v 1.35 2005/03/19 14:22:50 dsl Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)miscbltin.c	8.4 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: miscbltin.c,v 1.35 2005/03/19 14:22:50 dsl Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)miscbltin.c	8.4 (Berkeley) 5/4/95");
+__RCSID("$MirOS: miscbltin.c,v 1.35 2005/03/19 14:22:50 dsl Exp $");
 
 /*
  * Miscelaneous builtins.

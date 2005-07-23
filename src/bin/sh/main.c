@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: main.c,v 1.49 2005/07/15 17:49:43 christos Exp $	*/
 
 /*-
@@ -39,7 +40,8 @@ __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 #endif /* not lint */
 
 __SCCSID("@(#)main.c	8.7 (Berkeley) 7/19/95");
-__RCSID("$MirOS: src/bin/sh/main.c,v 1.4 2005/07/23 20:07:46 tg Exp $");
+__SCCSID("@(#)histedit.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS: src/bin/sh/main.c,v 1.5 2005/07/23 20:08:49 tg Exp $");
 
 #include <sys/stat.h>
 #include <errno.h>
@@ -364,5 +366,18 @@ exitcmd(int argc, char **argv)
 	if (argc > 1)
 		exitstatus = number(argv[1]);
 	exitshell(exitstatus);
+	/* NOTREACHED */
+}
+
+int
+histcmd(int argc, char **argv)
+{
+	error("not compiled with history support");
+	/* NOTREACHED */
+}
+int
+inputrc(int argc, char **argv)
+{
+	error("not compiled with history support");
 	/* NOTREACHED */
 }

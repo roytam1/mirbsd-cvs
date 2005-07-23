@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: alias.c,v 1.12 2003/08/07 09:05:29 agc Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)alias.c	8.3 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: alias.c,v 1.12 2003/08/07 09:05:29 agc Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)alias.c	8.3 (Berkeley) 5/4/95");
+__RCSID("$MirOS: alias.c,v 1.12 2003/08/07 09:05:29 agc Exp $");
 
 #include <stdlib.h>
 #include "shell.h"
@@ -51,6 +47,7 @@ __RCSID("$NetBSD: alias.c,v 1.12 2003/08/07 09:05:29 agc Exp $");
 #include "alias.h"
 #include "options.h"	/* XXX for argptr (should remove?) */
 #include "var.h"
+#include "builtins.h"
 
 #define ATABSIZE 39
 
@@ -237,7 +234,8 @@ aliascmd(int argc, char **argv)
 }
 
 int
-unaliascmd(int argc, char **argv)
+unaliascmd(int argc __attribute__((unused)),
+    char **argv __attribute__((unused)))
 {
 	int i;
 

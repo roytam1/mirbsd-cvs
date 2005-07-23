@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/eval.c,v 1.4 2005/07/23 19:37:01 tg Exp $ */
+/**	$MirOS: src/bin/sh/eval.c,v 1.5 2005/07/23 20:07:46 tg Exp $ */
 /*	$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)eval.c	8.9 (Berkeley) 6/8/95");
-__RCSID("$MirOS: src/bin/sh/eval.c,v 1.4 2005/07/23 19:37:01 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/eval.c,v 1.5 2005/07/23 20:07:46 tg Exp $");
 
 #include <sys/fcntl.h>
 #include <sys/times.h>
@@ -648,6 +648,8 @@ evalcommand(union node *cmd, int flags, struct backcmd *backcmd)
 	(void) &argc;
 	(void) &lastarg;
 	(void) &flags;
+	(void) &mode;
+	(void) &path;
 #endif
 
 	vforked = 0;
@@ -1050,7 +1052,7 @@ prehash(union node *n)
  */
 
 int
-bltincmd(int argc, char **argv)
+bltincmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	/*
 	 * Preserve exitstatus of a previous possible redirection
@@ -1110,14 +1112,14 @@ returncmd(int argc, char **argv)
 
 
 int
-falsecmd(int argc, char **argv)
+falsecmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	return 1;
 }
 
 
 int
-truecmd(int argc, char **argv)
+truecmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	return 0;
 }
@@ -1167,7 +1169,7 @@ conv_time(clock_t ticks, char *seconds, size_t l)
 }
 
 int
-timescmd(int argc, char **argv)
+timescmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	struct tms tms;
 	int u, s, cu, cs;

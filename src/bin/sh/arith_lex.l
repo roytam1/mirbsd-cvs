@@ -54,6 +54,22 @@ extern char *arith_buf, *arith_startbuf;
 #define YY_INPUT(buf,result,max) \
 	result = (*buf = *arith_buf++) ? 1 : YY_NULL;
 #define YY_NO_UNPUT
+
+#ifndef YY_STACK_USED
+#define YY_STACK_USED 0
+#endif
+
+#ifndef YY_ALWAYS_INTERACTIVE
+#define YY_ALWAYS_INTERACTIVE 0
+#endif
+
+#ifndef YY_NEVER_INTERACTIVE
+#define YY_NEVER_INTERACTIVE 0
+#endif
+
+#ifndef YY_MAIN
+#define YY_MAIN 0
+#endif
 %}
 
 %%
@@ -95,7 +111,7 @@ extern char *arith_buf, *arith_startbuf;
 %%
 
 void
-arith_lex_reset() {
+arith_lex_reset(void) {
 #ifdef YY_NEW_FILE
 	YY_NEW_FILE;
 #endif

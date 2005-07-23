@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: options.h,v 1.18 2005/05/07 19:52:17 dsl Exp $	*/
 
 /*-
@@ -122,8 +123,5 @@ void procargs(int, char **);
 void optschanged(void);
 void setparam(char **);
 void freeparam(volatile struct shparam *);
-int shiftcmd(int, char **);
-int setcmd(int, char **);
-int getoptscmd(int, char **);
 int nextopt(const char *);
 void getoptsreset(const char *);

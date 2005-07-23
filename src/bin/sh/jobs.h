@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: jobs.h,v 1.19 2003/11/27 21:16:14 dsl Exp $	*/
 
 /*-
@@ -84,12 +85,7 @@ extern pid_t backgndpid;	/* pid of last background process */
 extern int job_warning;		/* user was warned about stopped jobs */
 
 void setjobctl(int);
-int fgcmd(int, char **);
-int bgcmd(int, char **);
-int jobscmd(int, char **);
 void showjobs(struct output *, int);
-int waitcmd(int, char **);
-int jobidcmd(int, char **);
 struct job *makejob(union node *, int);
 int forkshell(struct job *, union node *, int);
 void forkchild(struct job *, union node *, int, int);

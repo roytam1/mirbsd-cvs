@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: expand.c,v 1.71 2005/06/01 15:41:19 lukem Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)expand.c	8.5 (Berkeley) 5/15/95";
-#else
-__RCSID("$NetBSD: expand.c,v 1.71 2005/06/01 15:41:19 lukem Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)expand.c	8.5 (Berkeley) 5/15/95");
+__RCSID("$MirOS: expand.c,v 1.71 2005/06/01 15:41:19 lukem Exp $");
 
 #include <sys/types.h>
 #include <sys/time.h>
@@ -71,6 +67,7 @@ __RCSID("$NetBSD: expand.c,v 1.71 2005/06/01 15:41:19 lukem Exp $");
 #include "memalloc.h"
 #include "error.h"
 #include "mystring.h"
+#include "builtins.h"
 
 /*
  * Structure specifying which parts of the string should be searched
@@ -1064,7 +1061,7 @@ char *expdir;
 
 
 STATIC void
-expandmeta(struct strlist *str, int flag)
+expandmeta(struct strlist *str, int flag __attribute__((unused)))
 {
 	char *p;
 	struct strlist **savelastp;

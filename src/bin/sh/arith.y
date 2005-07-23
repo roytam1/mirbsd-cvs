@@ -1,4 +1,5 @@
 %{
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: arith.y,v 1.17 2003/09/17 17:33:36 jmmv Exp $	*/
 
 /*-
@@ -34,13 +35,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)arith.y	8.3 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: arith.y,v 1.17 2003/09/17 17:33:36 jmmv Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)arith.y	8.3 (Berkeley) 5/4/95");
+__RCSID("$MirOS: arith.y,v 1.17 2003/09/17 17:33:36 jmmv Exp $");
 
 #include <stdlib.h>
 #include "expand.h"
@@ -48,6 +44,7 @@ __RCSID("$NetBSD: arith.y,v 1.17 2003/09/17 17:33:36 jmmv Exp $");
 #include "error.h"
 #include "output.h"
 #include "memalloc.h"
+#include "builtins.h"
 
 const char *arith_buf, *arith_startbuf;
 
@@ -110,8 +107,7 @@ expr:	ARITH_LPAREN expr ARITH_RPAREN { $$ = $2; }
 	;
 %%
 int
-arith(s)
-	const char *s;
+arith(const char *s)
 {
 	long result;
 
@@ -130,9 +126,7 @@ arith(s)
  *  The exp(1) builtin.
  */
 int
-expcmd(argc, argv)
-	int argc;
-	char **argv;
+expcmd(int argc, char *argv[])
 {
 	const char *p;
 	char *concat;
@@ -166,9 +160,8 @@ expcmd(argc, argv)
 	return (! i);
 }
 
-void
-yyerror(s)
-	const char *s;
+__dead void
+yyerror(const char *s)
 {
 
 	yyerrok;

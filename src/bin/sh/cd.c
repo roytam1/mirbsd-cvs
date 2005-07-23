@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: cd.c,v 1.35 2005/07/15 17:49:43 christos Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cd.c	8.2 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: cd.c,v 1.35 2005/07/15 17:49:43 christos Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)cd.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS: cd.c,v 1.35 2005/07/15 17:49:43 christos Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -75,7 +71,7 @@ char *prevdir;			/* previous working directory */
 STATIC char *cdcomppath;
 
 int
-cdcmd(int argc, char **argv)
+cdcmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	const char *dest;
 	const char *path;
@@ -208,7 +204,7 @@ docd(char *dest, int print)
  */
 
 STATIC char *
-getcomponent()
+getcomponent(void)
 {
 	char *p;
 	char *start;
@@ -302,7 +298,7 @@ updatepwd(char *dir)
  */
 
 int
-pwdcmd(int argc, char **argv)
+pwdcmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	int i;
 	char opt = 'L';

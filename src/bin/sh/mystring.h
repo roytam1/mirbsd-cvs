@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: mystring.h,v 1.11 2003/08/07 09:05:35 agc Exp $	*/
 
 /*-

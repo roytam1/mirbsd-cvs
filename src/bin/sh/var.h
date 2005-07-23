@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.h,v 1.4 2005/07/23 20:07:47 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.h,v 1.5 2005/07/23 20:08:50 tg Exp $ */
 /*	$NetBSD: var.h,v 1.23 2004/10/02 12:16:53 dsl Exp $	*/
 
 /*-
@@ -101,13 +101,9 @@ char *bltinlookup(const char *, int);
 char **environment(void);
 void shprocvar(void);
 int showvars(const char *, int, int);
-int exportcmd(int, char **);
-int localcmd(int, char **);
 void mklocal(const char *, int);
 void listmklocal(struct strlist *, int);
 void poplocalvars(void);
-int setvarcmd(int, char **);
-int unsetcmd(int, char **);
 int unsetvar(const char *, int);
 int setvarsafe(const char *, const char *, int);
 void print_quoted(const char *);

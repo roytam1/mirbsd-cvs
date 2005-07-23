@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: redir.c,v 1.29 2004/07/08 03:57:33 christos Exp $	*/
 
 /*-
@@ -33,16 +34,10 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)redir.c	8.2 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: redir.c,v 1.29 2004/07/08 03:57:33 christos Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)redir.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS: redir.c,v 1.29 2004/07/08 03:57:33 christos Exp $");
 
-#include <sys/types.h>
-#include <sys/param.h>	/* PIPE_BUF */
+#include <sys/param.h>
 #include <signal.h>
 #include <string.h>
 #include <fcntl.h>

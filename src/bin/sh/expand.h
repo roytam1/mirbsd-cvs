@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: expand.h,v 1.16 2004/07/13 15:05:59 seb Exp $	*/
 
 /*-
@@ -63,10 +64,8 @@ void expari(int);
 int patmatch(char *, char *, int);
 void rmescapes(char *);
 int casematch(union node *, char *);
-int wordexpcmd(int, char **);
 
 /* From arith.y */
 int arith(const char *);
-int expcmd(int , char **);
 void arith_lex_reset(void);
 int yylex(void);

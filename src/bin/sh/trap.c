@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: trap.c,v 1.33 2005/07/15 17:23:48 christos Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)trap.c	8.5 (Berkeley) 6/5/95";
-#else
-__RCSID("$NetBSD: trap.c,v 1.33 2005/07/15 17:23:48 christos Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)trap.c	8.5 (Berkeley) 6/5/95");
+__RCSID("$MirOS: trap.c,v 1.33 2005/07/15 17:23:48 christos Exp $");
 
 #include <signal.h>
 #include <unistd.h>

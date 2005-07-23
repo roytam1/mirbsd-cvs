@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: error.c,v 1.31 2003/08/07 09:05:30 agc Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)error.c	8.2 (Berkeley) 5/4/95";
-#else
-__RCSID("$NetBSD: error.c,v 1.31 2003/08/07 09:05:30 agc Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)error.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS: error.c,v 1.31 2003/08/07 09:05:30 agc Exp $");
 
 /*
  * Errors and exceptions.

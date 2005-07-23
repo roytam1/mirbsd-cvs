@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/sh/bltin.h,v 1.2 2005/07/23 19:16:50 tg Exp $ */
 /*	$NetBSD: exec.c,v 1.37 2003/08/07 09:05:31 agc Exp $	*/
 
 /*-
@@ -33,13 +34,8 @@
  */
 
 #include <sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)exec.c	8.4 (Berkeley) 6/8/95";
-#else
-__RCSID("$NetBSD: exec.c,v 1.37 2003/08/07 09:05:31 agc Exp $");
-#endif
-#endif /* not lint */
+__SCCSID("@(#)exec.c	8.4 (Berkeley) 6/8/95");
+__RCSID("$MirOS: exec.c,v 1.37 2003/08/07 09:05:31 agc Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -228,7 +224,7 @@ padvance(const char **path, const char *name)
 
 
 int
-hashcmd(int argc, char **argv)
+hashcmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	struct tblentry **pp;
 	struct tblentry *cmdp;
@@ -490,8 +486,7 @@ success:
  */
 
 int
-(*find_builtin(name))(int, char **)
-	char *name;
+(*find_builtin(char *name))(int, char **)
 {
 	const struct builtincmd *bp;
 
@@ -503,8 +498,7 @@ int
 }
 
 int
-(*find_splbltin(name))(int, char **)
-	char *name;
+(*find_splbltin(char *name))(int, char **)
 {
 	const struct builtincmd *bp;
 
@@ -789,7 +783,7 @@ unsetfunc(char *name)
  */
 
 int
-typecmd(int argc, char **argv)
+typecmd(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
 	struct cmdentry entry;
 	struct tblentry *cmdp;
