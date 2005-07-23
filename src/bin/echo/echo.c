@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/echo/echo.c,v 1.2 2005/07/23 18:54:12 tg Exp $ */
 /*	$OpenBSD: echo.c,v 1.6 2003/06/02 23:32:07 millert Exp $	*/
 /*	$NetBSD: echo.c,v 1.6 1995/03/21 09:04:27 cgd Exp $	*/
 
@@ -42,10 +42,11 @@ static char copyright[] =
 #include <string.h>
 
 __SCCSID("@(#)echo.c	8.1 (Berkeley) 5/31/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/echo/echo.c,v 1.2 2005/07/23 18:54:12 tg Exp $");
 
 #ifdef SHELL
 #define	main	echocmd
+#include "bltin.h"
 #endif
 
 /* ARGSUSED */
