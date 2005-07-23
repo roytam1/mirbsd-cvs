@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: bltin.h,v 1.11 2003/08/07 09:05:40 agc Exp $	*/
 
 /*-
@@ -40,11 +41,11 @@
  * routines to ash routines using defines.
  */
 
-#include "../shell.h"
-#include "../mystring.h"
+#include "shell.h"
+#include "mystring.h"
 #ifdef SHELL
-#include "../output.h"
-#include "../error.h"
+#include "output.h"
+#include "error.h"
 #undef stdout
 #undef stderr
 #undef putc
