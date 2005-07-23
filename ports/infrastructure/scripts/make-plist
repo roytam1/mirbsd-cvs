@@ -242,6 +242,7 @@ sub libtoolise_plist
 	my $file = shift;
 	my $prefix;
 	my @libnames;
+	local $_;
 
 	open(FILE, '<', $file) || die "Cannot open $file";
 	while (<FILE>) {

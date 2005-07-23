@@ -1,5 +1,5 @@
 #!/usr/bin/perl -W
-# $MirOS$
+# $MirOS: ports/infrastructure/scripts/unlibtoolise,v 1.2 2005/07/18 17:14:32 bsiegert Exp $
 #-
 # Copyright (c) 2005,
 #	Benny Siegert <bsiegert@gmx.de>
@@ -19,6 +19,12 @@
 # rect or other, however caused, arising in any way out of the usage
 # of covered work, even if advised of the possibility of such damage.
 #-
+# This script is the reverse of the libtoolise routine in make-plist.
+# It uses the same routine to re-add the files referenced by a .la
+# (libtool library info file) into the PLIST. It is called from
+# within bsd.port.mk in the w-pkgname/fake-arch/usr/local directory.
+# It is called as a filter with the list on stdin and the LOCALBASE
+# environment variable set to something like /usr/local.
 
 use strict;
 use File::Spec;
@@ -29,6 +35,7 @@ sub libtoolise_plist
 	my $file = shift;
 	my $prefix;
 	my @libnames;
+	local $_;
 
 	open(FILE, '<', $file) || die "Cannot open $file";
 	while (<FILE>) {
@@ -51,27 +58,45 @@ sub libtoolise_plist
 	return %{{ map { $_ => 1 } File::Spec->no_upwards(@libnames) }};
 }
 
+sub print_lib
+{
+	my $libs = shift;
+	
+	foreach my $name (keys %$libs) {
+		if ($name =~ m/lib.*\.so\.\d+\.\d+/) {
+			print "\@lib $name\n";
+		} else {
+			print $name . "\n";
+		}
+	}
+}
+
 my %ltlibs = ();
 my @plist = <>;
 
+# for all .la files, create a hash of hashes with dependent files
 foreach my $entry (@plist) {
 	chomp $entry;
-	%ltlibs = (%ltlibs, %{{ libtoolise_plist($entry) }}) if ($entry =~ m/\.la$/);
+	$ltlibs{$entry} = \%{{ libtoolise_plist($entry) }}
+		if ($entry =~ m/\.la$/);
 }
-# twofold iteration not an oversight
+
+# now kill those files that are already in the plist
 foreach (@plist) {
-	print $_ . "\n";
-	$ltlibs{$_} = 0 if defined $ltlibs{$_};
+	my $entry;
 	if (m/^\@lib /) {
-		$ltlibs{$'} = 0 if defined $ltlibs{$'};
+		$entry = $';
+	} else {
+		$entry = $_;
+	}
+	foreach my $key (keys %ltlibs) {
+		delete $ltlibs{$key}->{$entry}
+			if defined $ltlibs{$key}->{$entry};
 	}
 }
 
-while (my ($key, $value) = each(%ltlibs)) {
-	next unless $value == 1;
-	if ($key =~ m/lib.*\.so\.\d+\.\d+/) {
-		print "\@lib $key\n";
-	} else {
-		print $key . "\n";
-	}
+# and now print the whole thing
+foreach (@plist) {
+	print_lib($ltlibs{$_}) if (m/\.la$/ && defined $ltlibs{$_});
+	print $_ . "\n";
 }
