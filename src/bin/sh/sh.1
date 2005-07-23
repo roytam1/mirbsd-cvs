@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/bin/sh/sh.1,v 1.2 2005/07/23 19:27:16 tg Exp $
 .\" $NetBSD: sh.1,v 1.82 2005/07/15 22:33:48 wiz Exp $
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -1689,7 +1689,7 @@ the shell will return the exit status of the last command executed, or
 if the exit built-in is used with a numeric argument, it will return the
 argument.
 .Sh ENVIRONMENT
-.Bl -tag -width MAILCHECK
+.Bl -tag -width CDPATH
 .It Ev HOME
 Set automatically by
 .Xr login 1
@@ -1708,26 +1708,6 @@ The string used to specify localization information that allows users
 to work with different culture-specific and language conventions.
 See
 .Xr nls 7 .
-.It Ev MAIL
-The name of a mail file, that will be checked for the arrival of new mail.
-Overridden by
-.Ev MAILPATH .
-.It Ev MAILCHECK
-The frequency in seconds that the shell checks for the arrival of mail
-in the files specified by the
-.Ev MAILPATH
-or the
-.Ev MAIL
-file.
-If set to 0, the check will occur at each prompt.
-.It Ev MAILPATH
-A colon
-.Dq \&:
-separated list of file names, for the shell to check for incoming mail.
-This environment setting overrides the
-.Ev MAIL
-setting.
-There is a maximum of 10 mailboxes that can be monitored at once.
 .It Ev PS1
 The primary prompt string, which defaults to
 .Dq $ \  ,

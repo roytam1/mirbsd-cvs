@@ -39,7 +39,7 @@ __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 #endif /* not lint */
 
 __SCCSID("@(#)main.c	8.7 (Berkeley) 7/19/95");
-__RCSID("$MirOS: main.c,v 1.49 2005/07/15 17:49:43 christos Exp $");
+__RCSID("$MirOS: src/bin/sh/main.c,v 1.2 2005/07/23 19:16:50 tg Exp $");
 
 #include <sys/stat.h>
 #include <errno.h>
@@ -52,7 +52,6 @@ __RCSID("$MirOS: main.c,v 1.49 2005/07/15 17:49:43 christos Exp $");
 
 #include "shell.h"
 #include "main.h"
-#include "mail.h"
 #include "options.h"
 #include "output.h"
 #include "parser.h"
@@ -240,7 +239,6 @@ cmdloop(int top)
 		if (iflag == 1 && top) {
 			inter = 1;
 			showjobs(out2, SHOW_CHANGED);
-			chkmail(0);
 			flushout(&errout);
 		}
 		n = parsecmd(inter);

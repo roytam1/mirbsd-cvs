@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.c,v 1.3 2005/07/23 19:34:33 tg Exp $ */
 /*	$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)var.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/bin/sh/var.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/var.c,v 1.3 2005/07/23 19:34:33 tg Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -54,7 +54,6 @@ __RCSID("$MirOS: src/bin/sh/var.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 #include "exec.h"
 #include "syntax.h"
 #include "options.h"
-#include "mail.h"
 #include "var.h"
 #include "memalloc.h"
 #include "error.h"
@@ -76,8 +75,6 @@ struct varinit {
 struct var vatty;
 #endif
 struct var vifs;
-struct var vmail;
-struct var vmpath;
 struct var vpath;
 struct var vps1;
 struct var vps2;
@@ -91,10 +88,6 @@ const struct varinit varinit[] = {
 	  NULL },
 #endif
 	{ &vifs,	VSTRFIXED|VTEXTFIXED,		"IFS= \t\n",
-	  NULL },
-	{ &vmail,	VSTRFIXED|VTEXTFIXED|VUNSET,	"MAIL=",
-	  NULL },
-	{ &vmpath,	VSTRFIXED|VTEXTFIXED|VUNSET,	"MAILPATH=",
 	  NULL },
 	{ &vpath,	VSTRFIXED|VTEXTFIXED,		"PATH=" _PATH_DEFPATH,
 	  changepath },
@@ -260,12 +253,6 @@ setvareq(char *s, int flags)
 		vp->flags |= flags & ~VNOFUNC;
 		vp->text = s;
 
-		/*
-		 * We could roll this to a function, to handle it as
-		 * a regular variable function callback, but why bother?
-		 */
-		if (vp == &vmpath || (vp == &vmail && ! mpathset()))
-			chkmail(1);
 		INTON;
 		return;
 	}

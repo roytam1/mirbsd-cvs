@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+4/**	$MirOS: src/bin/sh/var.h,v 1.2 2005/07/23 19:12:49 tg Exp $ */
 /*	$NetBSD: var.h,v 1.23 2004/10/02 12:16:53 dsl Exp $	*/
 
 /*-
@@ -75,8 +75,6 @@ struct localvar *localvars;
 extern struct var vatty;
 #endif
 extern struct var vifs;
-extern struct var vmail;
-extern struct var vmpath;
 extern struct var vpath;
 extern struct var vps1;
 extern struct var vps2;
@@ -90,8 +88,6 @@ extern struct var vps4;
 
 #define ifsval()	(vifs.text + 4)
 #define ifsset()	((vifs.flags & VUNSET) == 0)
-#define mailval()	(vmail.text + 5)
-#define mpathval()	(vmpath.text + 9)
 #define pathval()	(vpath.text + 5)
 #define ps1val()	(vps1.text + 4)
 #define ps2val()	(vps2.text + 4)
@@ -101,7 +97,6 @@ extern struct var vps4;
 #if ATTY
 #define attyset()	((vatty.flags & VUNSET) == 0)
 #endif
-#define mpathset()	((vmpath.flags & VUNSET) == 0)
 
 void initvar(void);
 void setvar(const char *, const char *, int);
