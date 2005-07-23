@@ -1,10 +1,10 @@
-# $MirOS: src/etc/profile,v 1.4 2005/06/26 17:09:32 tg Exp $
+# $MirOS: src/etc/profile,v 1.5 2005/07/23 13:55:04 tg Exp $
 
+umask 022
+[ -z "$KSH_VERSION" ] && alias print='echo -e'
 [ -s "${HOME}/.profile.preinit" ] && . ${HOME}/.profile.preinit
 
-[ -z "$KSH_VERSION" ] && alias print='echo -e'
-umask 022
-[ -z "$TERM" ] && if test -x /usr/bin/tset; then
+[ -z "$TERM" -o x"$TERM" = x"unknown" ] && if [ -x /usr/bin/tset ]; then
 	x=$(ulimit -c 0; /usr/bin/tset -sQ \?vt220)
 	TERM=vt100
 	eval $x
@@ -50,22 +50,23 @@ OSNAME="$(ulimit -c 0; uname -s 2>/dev/null)"
 OSNAME="${OSNAME:-unknown}"
 PAGER=/usr/bin/less
 if [ -n "$KSH_VERSION" ]; then
-	[[ ${COLUMNS:-1} -le 1 ]] && export COLUMNS=80
-	[[ -n $USER ]] && \
-	    PS1='${USER}@'"$HOSTNAME"':$(
-		local _PWD_TEMP="$PWD";
-		local _PWD_TEMP2=
-		while (( (${#_PWD_TEMP2} + ${#_PWD_TEMP}) > (COLUMNS / 3))); do
-			if [[ $_PWD_TEMP = *@(/)* ]]; then
-				_PWD_TEMP2=".../"
-				_PWD_TEMP="${_PWD_TEMP#*/}";
+	function __shortpath {
+		typeset dots= path="${1:-${PWD:-$(pwd)}}"
+		let cmax="${COLUMNS:-80} / 3"
+		(( cmax < 7 )) && let cmax=7
+		while (( (${#dots} + ${#path}) > cmax )); do
+			if [[ $path = *@(/)* ]]; then
+				dots=.../
+				path="${path#*/}"
 			else
-				_PWD_TEMP2="..."
-				_PWD_TEMP="${_PWD_TEMP#?????}";
+				dots=...
+				path="${path#?????}"
 			fi
 		done
-		print "${_PWD_TEMP2}${_PWD_TEMP}"
-	    )'" $PSX"
+		print -nr -- "$dots$path"
+	}
+	[[ -n $USER ]] && \
+	    PS1="\${USER}@$HOSTNAME:\$(__shortpath) $PSX"
 	alias ls='/bin/ls -F'
 elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
