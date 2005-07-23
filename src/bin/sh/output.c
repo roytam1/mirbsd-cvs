@@ -52,8 +52,7 @@ __RCSID("$NetBSD: output.c,v 1.28 2003/08/07 09:05:36 agc Exp $");
  *	Our output routines may be smaller than the stdio routines.
  */
 
-#include <sys/types.h>		/* quad_t */
-#include <sys/param.h>		/* BSD4_4 */
+#include <sys/param.h>
 #include <sys/ioctl.h>
 
 #include <stdio.h>	/* defines BUFSIZ */
@@ -81,39 +80,6 @@ struct output memout = {NULL, 0, NULL, 0, MEM_OUT, 0};
 struct output *out1 = &output;
 struct output *out2 = &errout;
 
-
-
-#ifdef mkinit
-
-INCLUDE "output.h"
-INCLUDE "memalloc.h"
-
-RESET {
-	out1 = &output;
-	out2 = &errout;
-	if (memout.buf != NULL) {
-		ckfree(memout.buf);
-		memout.buf = NULL;
-	}
-}
-
-#endif
-
-
-#ifdef notdef	/* no longer used */
-/*
- * Set up an output file to write to memory rather than a file.
- */
-
-void
-open_mem(char *block, int length, struct output *file)
-{
-	file->nextc = block;
-	file->nleft = --length;
-	file->fd = BLOCK_OUT;
-	file->flags = 0;
-}
-#endif
 
 
 void
@@ -272,201 +238,14 @@ fmtstr(char *outbuf, size_t length, const char *fmt, ...)
 
 #define TEMPSIZE 24
 
-#ifdef BSD4_4
-#define HAVE_VASPRINTF 1
-#endif
-
 void
 doformat(struct output *dest, const char *f, va_list ap)
 {
-#if	HAVE_VASPRINTF
 	char *s;
 
 	vasprintf(&s, f, ap);
 	outstr(s, dest);
 	free(s);     
-#else	/* !HAVE_VASPRINTF */
-	static const char digit[] = "0123456789ABCDEF";
-	char c;
-	char temp[TEMPSIZE];
-	int flushleft;
-	int sharp;
-	int width;
-	int prec;
-	int islong;
-	int isquad;
-	char *p;
-	int sign;
-#ifdef BSD4_4
-	quad_t l;
-	u_quad_t num;
-#else
-	long l;
-	u_long num;
-#endif
-	unsigned base;
-	int len;
-	int size;
-	int pad;
-
-	while ((c = *f++) != '\0') {
-		if (c != '%') {
-			outc(c, dest);
-			continue;
-		}
-		flushleft = 0;
-		sharp = 0;
-		width = 0;
-		prec = -1;
-		islong = 0;
-		isquad = 0;
-		for (;;) {
-			if (*f == '-')
-				flushleft++;
-			else if (*f == '#')
-				sharp++;
-			else
-				break;
-			f++;
-		}
-		if (*f == '*') {
-			width = va_arg(ap, int);
-			f++;
-		} else {
-			while (is_digit(*f)) {
-				width = 10 * width + digit_val(*f++);
-			}
-		}
-		if (*f == '.') {
-			if (*++f == '*') {
-				prec = va_arg(ap, int);
-				f++;
-			} else {
-				prec = 0;
-				while (is_digit(*f)) {
-					prec = 10 * prec + digit_val(*f++);
-				}
-			}
-		}
-		if (*f == 'l') {
-			f++;
-			if (*f == 'l') {
-				isquad++;
-				f++;
-			} else
-				islong++;
-		} else if (*f == 'q') {
-			isquad++;
-			f++;
-		}
-		switch (*f) {
-		case 'd':
-#ifdef BSD4_4
-			if (isquad)
-				l = va_arg(ap, quad_t);
-			else
-#endif
-			if (islong)
-				l = va_arg(ap, long);
-			else
-				l = va_arg(ap, int);
-			sign = 0;
-			num = l;
-			if (l < 0) {
-				num = -l;
-				sign = 1;
-			}
-			base = 10;
-			goto number;
-		case 'u':
-			base = 10;
-			goto uns_number;
-		case 'o':
-			base = 8;
-			goto uns_number;
-		case 'p':
-			outc('0', dest);
-			outc('x', dest);
-			/*FALLTHROUGH*/
-		case 'x':
-			/* we don't implement 'x'; treat like 'X' */
-		case 'X':
-			base = 16;
-uns_number:	  /* an unsigned number */
-			sign = 0;
-#ifdef BSD4_4
-			if (isquad)
-				num = va_arg(ap, u_quad_t);
-			else
-#endif
-			if (islong)
-				num = va_arg(ap, unsigned long);
-			else
-				num = va_arg(ap, unsigned int);
-number:		  /* process a number */
-			p = temp + TEMPSIZE - 1;
-			*p = '\0';
-			while (num) {
-				*--p = digit[num % base];
-				num /= base;
-			}
-			len = (temp + TEMPSIZE - 1) - p;
-			if (prec < 0)
-				prec = 1;
-			if (sharp && *f == 'o' && prec <= len)
-				prec = len + 1;
-			pad = 0;
-			if (width) {
-				size = len;
-				if (size < prec)
-					size = prec;
-				size += sign;
-				pad = width - size;
-				if (flushleft == 0) {
-					while (--pad >= 0)
-						outc(' ', dest);
-				}
-			}
-			if (sign)
-				outc('-', dest);
-			prec -= len;
-			while (--prec >= 0)
-				outc('0', dest);
-			while (*p)
-				outc(*p++, dest);
-			while (--pad >= 0)
-				outc(' ', dest);
-			break;
-		case 's':
-			p = va_arg(ap, char *);
-			pad = 0;
-			if (width) {
-				len = strlen(p);
-				if (prec >= 0 && len > prec)
-					len = prec;
-				pad = width - len;
-				if (flushleft == 0) {
-					while (--pad >= 0)
-						outc(' ', dest);
-				}
-			}
-			prec++;
-			while (--prec != 0 && *p)
-				outc(*p++, dest);
-			while (--pad >= 0)
-				outc(' ', dest);
-			break;
-		case 'c':
-			c = va_arg(ap, int);
-			outc(c, dest);
-			break;
-		default:
-			outc(*f, dest);
-			break;
-		}
-		f++;
-	}
-#endif	/* !HAVE_VASPRINTF */
 }
 
 

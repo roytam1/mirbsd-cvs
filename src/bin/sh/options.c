@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/sh/options.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
 /*	$NetBSD: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)options.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $");
+__RCSID("$MirOS: src/bin/sh/options.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 
 #include <signal.h>
 #include <unistd.h>
@@ -240,20 +240,6 @@ setoption(int flag, int val)
 	/* NOTREACHED */
 }
 
-
-
-#ifdef mkinit
-INCLUDE "options.h"
-
-SHELLPROC {
-	int i;
-
-	for (i = 0; optlist[i].name; i++)
-		optlist[i].val = 0;
-	optschanged();
-
-}
-#endif
 
 
 /*

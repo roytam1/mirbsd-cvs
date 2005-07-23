@@ -1,4 +1,4 @@
-# $MirOS: src/bin/sh/Makefile,v 1.1 2005/07/23 19:12:49 tg Exp $
+# $MirOS: src/bin/sh/Makefile,v 1.2 2005/07/23 19:27:16 tg Exp $
 # $NetBSD: Makefile,v 1.80 2005/06/26 19:10:49 christos Exp $
 
 PROG=		sh
@@ -9,7 +9,7 @@ SRCS=		alias.c arith.y arith_lex.l builtins.c cd.c echo.c \
 		redir.c show.c syntax.c test.c trap.c var.c
 CPPFLAGS+=	-DSHELL
 LFLAGS=		-8
-CLEANFILES+=	arith.c arith.h
+CLEANFILES+=	arith.c arith.h arith_lex.c
 DPADD+=		${LIBL}
 LDADD+=		-ll
 

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/sh/var.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
 /*	$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)var.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $");
+__RCSID("$MirOS: src/bin/sh/var.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -119,22 +119,6 @@ STATIC struct var *find_var(const char *, struct var ***, int *);
 /*
  * Initialize the varable symbol tables and import the environment
  */
-
-#ifdef mkinit
-INCLUDE "var.h"
-MKINIT char **environ;
-INIT {
-	char **envp;
-
-	initvar();
-	for (envp = environ ; *envp ; envp++) {
-		if (strchr(*envp, '=')) {
-			setvareq(*envp, VEXPORT|VTEXTFIXED);
-		}
-	}
-}
-#endif
-
 
 /*
  * This routine initializes the builtin variables.  It is called when the
@@ -404,14 +388,6 @@ environment(void)
  * variables.  It is also necessary to reallocate variables of with
  * VSTACK set since these are currently allocated on the stack.
  */
-
-#ifdef mkinit
-void shprocvar(void);
-
-SHELLPROC {
-	shprocvar();
-}
-#endif
 
 void
 shprocvar(void)

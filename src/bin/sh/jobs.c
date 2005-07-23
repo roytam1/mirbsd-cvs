@@ -228,20 +228,6 @@ out:
 }
 
 
-#ifdef mkinit
-INCLUDE <stdlib.h>
-
-SHELLPROC {
-	backgndpid = -1;
-#if JOBS
-	jobctl = 0;
-#endif
-}
-
-#endif
-
-
-
 #if JOBS
 int
 fgcmd(int argc, char **argv)

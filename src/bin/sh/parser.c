@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/sh/parser.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
 /*	$NetBSD: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)parser.c	8.7 (Berkeley) 5/16/95");
-__RCSID("$MirOS: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $");
+__RCSID("$MirOS: src/bin/sh/parser.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 
 #include <stdlib.h>
 
@@ -1526,15 +1526,6 @@ parsearith: {
 }
 
 } /* end of readtoken */
-
-
-
-#ifdef mkinit
-RESET {
-	tokpushback = 0;
-	checkkwd = 0;
-}
-#endif
 
 /*
  * Returns true if the text contains nothing to expand (no dollar signs

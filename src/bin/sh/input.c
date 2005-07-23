@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/input.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
+/**	$MirOS: src/bin/sh/input.c,v 1.3 2005/07/23 19:27:16 tg Exp $ */
 /*	$NetBSD: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)input.c	8.3 (Berkeley) 6/9/95");
-__RCSID("$MirOS: src/bin/sh/input.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/input.c,v 1.3 2005/07/23 19:27:16 tg Exp $");
 
 #include <stdio.h>	/* defines BUFSIZ */
 #include <fcntl.h>
@@ -101,27 +101,6 @@ int whichprompt;		/* 1 == PS1, 2 == PS2 */
 
 STATIC void pushfile(void);
 static int preadfd(void);
-
-#ifdef mkinit
-INCLUDE <stdio.h>
-INCLUDE "input.h"
-INCLUDE "error.h"
-
-INIT {
-	basepf.nextc = basepf.buf = basebuf;
-}
-
-RESET {
-	if (exception != EXSHELLPROC)
-		parselleft = parsenleft = 0;	/* clear input buffer */
-	popallfiles();
-}
-
-SHELLPROC {
-	popallfiles();
-}
-#endif
-
 
 /*
  * Read a line from the script.

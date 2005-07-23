@@ -146,14 +146,6 @@ unalias(char *name)
 	return (1);
 }
 
-#ifdef mkinit
-MKINIT void rmaliases(void);
-
-SHELLPROC {
-	rmaliases();
-}
-#endif
-
 void
 rmaliases(void)
 {

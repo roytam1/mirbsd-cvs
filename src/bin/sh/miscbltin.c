@@ -45,8 +45,7 @@ __RCSID("$NetBSD: miscbltin.c,v 1.35 2005/03/19 14:22:50 dsl Exp $");
  * Miscelaneous builtins.
  */
 
-#include <sys/types.h>		/* quad_t */
-#include <sys/param.h>		/* BSD4_4 */
+#include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -415,11 +414,7 @@ ulimitcmd(int argc, char **argv)
 			else
 			{
 				val /= l->factor;
-#ifdef BSD4_4
 				out1fmt("%lld\n", (long long) val);
-#else
-				out1fmt("%ld\n", (long) val);
-#endif
 			}
 		}
 		return 0;
@@ -444,11 +439,7 @@ ulimitcmd(int argc, char **argv)
 		else
 		{
 			val /= l->factor;
-#ifdef BSD4_4
 			out1fmt("%lld\n", (long long) val);
-#else
-			out1fmt("%ld\n", (long) val);
-#endif
 		}
 	}
 	return 0;

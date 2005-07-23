@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/sh/eval.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
 /*	$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)eval.c	8.9 (Berkeley) 6/8/95");
-__RCSID("$MirOS: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $");
+__RCSID("$MirOS: src/bin/sh/eval.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 
 #include <sys/fcntl.h>
 #include <sys/times.h>
@@ -103,20 +103,6 @@ STATIC void prehash(union node *);
 /*
  * Called to reset things after an exception.
  */
-
-#ifdef mkinit
-INCLUDE "eval.h"
-
-RESET {
-	evalskip = 0;
-	loopnest = 0;
-	funcnest = 0;
-}
-
-SHELLPROC {
-	exitstatus = 0;
-}
-#endif
 
 static int
 sh_pipe(int fds[2])

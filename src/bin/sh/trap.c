@@ -357,24 +357,6 @@ ignoresig(int signo, int vforked)
 		sigmode[signo - 1] = S_HARD_IGN;
 }
 
-
-#ifdef mkinit
-INCLUDE <signal.h>
-INCLUDE "trap.h"
-
-SHELLPROC {
-	char *sm;
-
-	clear_traps(0);
-	for (sm = sigmode ; sm < sigmode + NSIG ; sm++) {
-		if (*sm == S_IGN)
-			*sm = S_HARD_IGN;
-	}
-}
-#endif
-
-
-
 /*
  * Signal handler.
  */

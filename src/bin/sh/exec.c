@@ -764,19 +764,6 @@ clearcmdentry(int firstchange)
  * Delete all functions.
  */
 
-#ifdef mkinit
-MKINIT void deletefuncs(void);
-MKINIT void hash_special_builtins(void);
-
-INIT {
-	hash_special_builtins();
-}
-
-SHELLPROC {
-	deletefuncs();
-}
-#endif
-
 void
 deletefuncs(void)
 {
