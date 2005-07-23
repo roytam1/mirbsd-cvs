@@ -74,14 +74,12 @@ __RCSID("$NetBSD: redir.c,v 1.29 2004/07/08 03:57:33 christos Exp $");
 #endif
 
 
-MKINIT
 struct redirtab {
 	struct redirtab *next;
 	short renamed[10];
 };
 
-
-MKINIT struct redirtab *redirlist;
+struct redirtab *redirlist;
 
 /*
  * We keep track of whether or not fd0 has been redirected.  This is for

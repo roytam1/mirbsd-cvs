@@ -76,7 +76,6 @@ __RCSID("$NetBSD: exec.c,v 1.37 2003/08/07 09:05:31 agc Exp $");
 #include "error.h"
 #include "init.h"
 #include "mystring.h"
-#include "show.h"
 #include "jobs.h"
 #include "alias.h"
 
@@ -148,8 +147,6 @@ shellexec(char **argv, char **envp, const char *path, int idx, int vforked)
 		exerrno = 2;
 		break;
 	}
-	TRACE(("shellexec failed for %s, errno %d, vforked %d, suppressint %d\n",
-		argv[0], e, vforked, suppressint ));
 	exerror(EXEXEC, "%s: %s", argv[0], errmsg(e, E_EXEC));
 	/* NOTREACHED */
 }
@@ -160,13 +157,7 @@ tryexec(char *cmd, char **argv, char **envp, int vforked)
 {
 	int e;
 
-#ifdef SYSV
-	do {
-		execve(cmd, argv, envp);
-	} while (errno == EINTR);
-#else
 	execve(cmd, argv, envp);
-#endif
 	e = errno;
 	if (e == ENOEXEC) {
 		if (vforked) {
@@ -347,10 +338,6 @@ find_command(char *name, struct cmdentry *entry, int act, const char *path)
 	if (strchr(name, '/') != NULL) {
 		if (act & DO_ABS) {
 			while (stat(name, &statb) < 0) {
-#ifdef SYSV
-				if (errno == EINTR)
-					continue;
-#endif
 				if (errno != ENOENT && errno != ENOTDIR)
 					e = errno;
 				entry->cmdtype = CMDUNKNOWN;
@@ -437,14 +424,9 @@ loop:
 		if (fullname[0] == '/' && idx <= prev) {
 			if (idx < prev)
 				goto loop;
-			TRACE(("searchexec \"%s\": no change\n", name));
 			goto success;
 		}
 		while (stat(fullname, &statb) < 0) {
-#ifdef SYSV
-			if (errno == EINTR)
-				continue;
-#endif
 			if (errno != ENOENT && errno != ENOTDIR)
 				e = errno;
 			goto loop;
@@ -463,21 +445,6 @@ loop:
 			stunalloc(fullname);
 			goto success;
 		}
-#ifdef notdef
-		/* XXX this code stops root executing stuff, and is buggy
-		   if you need a group from the group list. */
-		if (statb.st_uid == geteuid()) {
-			if ((statb.st_mode & 0100) == 0)
-				goto loop;
-		} else if (statb.st_gid == getegid()) {
-			if ((statb.st_mode & 010) == 0)
-				goto loop;
-		} else {
-			if ((statb.st_mode & 01) == 0)
-				goto loop;
-		}
-#endif
-		TRACE(("searchexec \"%s\" returns \"%s\"\n", name, fullname));
 		INTOFF;
 		if (act & DO_ALTPATH) {
 			stalloc(strlen(fullname) + 1);
@@ -529,7 +496,7 @@ int
 	const struct builtincmd *bp;
 
 	for (bp = builtincmd ; bp->name ; bp++) {
-		if (*bp->name == *name && equal(bp->name, name))
+		if (*bp->name == *name && !strcmp(bp->name, name))
 			return bp->builtin;
 	}
 	return 0;
@@ -542,7 +509,7 @@ int
 	const struct builtincmd *bp;
 
 	for (bp = splbltincmd ; bp->name ; bp++) {
-		if (*bp->name == *name && equal(bp->name, name))
+		if (*bp->name == *name && !strcmp(bp->name, name))
 			return bp->builtin;
 	}
 	return 0;
@@ -724,7 +691,7 @@ cmdlookup(const char *name, int add)
 	hashval &= 0x7FFF;
 	pp = &cmdtable[hashval % CMDTABLESIZE];
 	for (cmdp = *pp ; cmdp ; cmdp = cmdp->next) {
-		if (equal(cmdp->cmdname, name))
+		if (!strcmp(cmdp->cmdname, name))
 			break;
 		pp = &cmdp->next;
 	}
@@ -757,25 +724,6 @@ delete_cmd_entry(void)
 	ckfree(cmdp);
 	INTON;
 }
-
-
-
-#ifdef notdef
-void
-getcmdentry(char *name, struct cmdentry *entry)
-{
-	struct tblentry *cmdp = cmdlookup(name, 0);
-
-	if (cmdp) {
-		entry->u = cmdp->param;
-		entry->cmdtype = cmdp->cmdtype;
-	} else {
-		entry->cmdtype = CMDUNKNOWN;
-		entry->u.index = 0;
-	}
-}
-#endif
-
 
 /*
  * Add a new command entry, replacing any existing command entry for
@@ -870,7 +818,7 @@ typecmd(int argc, char **argv)
 			out1str(arg);
 		/* First look at the keywords */
 		for (pp = parsekwd; *pp; pp++)
-			if (**pp == *arg && equal(*pp, arg))
+			if (**pp == *arg && !strcmp(*pp, arg))
 				break;
 
 		if (*pp) {

@@ -55,14 +55,9 @@ __RCSID("$NetBSD: jobs.c,v 1.63 2005/06/01 15:41:19 lukem Exp $");
 #include <sys/ioctl.h>
 
 #include "shell.h"
-#if OLD_TTY_DRIVER
-#include "sgtty.h"
-#else
 #include <termios.h>
-#endif
 #undef CEOF			/* syntax.h redefines this */
 #include "redir.h"
-#include "show.h"
 #include "main.h"
 #include "parser.h"
 #include "nodes.h"
@@ -80,9 +75,9 @@ __RCSID("$NetBSD: jobs.c,v 1.63 2005/06/01 15:41:19 lukem Exp $");
 static struct job *jobtab;		/* array of jobs */
 static int njobs;			/* size of array */
 static int jobs_invalid;		/* set in child */
-MKINIT pid_t backgndpid = -1;	/* pid of last background process */
-int initialpgrp;		/* pgrp of shell on invocation */
-static int curjob = -1;		/* current job */
+pid_t backgndpid = -1;			/* pid of last background process */
+int initialpgrp;			/* pgrp of shell on invocation */
+static int curjob = -1;			/* current job */
 static int ttyfd = -1;
 
 STATIC void restartjob(struct job *);
@@ -95,27 +90,6 @@ STATIC void cmdtxt(union node *);
 STATIC void cmdlist(union node *, int);
 STATIC void cmdputs(const char *);
 
-#ifdef OLD_TTY_DRIVER
-static pid_t tcgetpgrp(int fd);
-static int tcsetpgrp(int fd, pid_t pgrp);
-
-static pid_t
-tcgetpgrp(int fd)
-{
-	pid_t pgrp;
-	if (ioctl(fd, TIOCGPGRP, (char *)&pgrp) == -1)
-		return -1;
-	else
-		return pgrp;
-}
-
-static int
-tcsetpgrp(int fd, pid_tpgrp)
-{
-	return ioctl(fd, TIOCSPGRP, (char *)&pgrp);
-}
-#endif
-
 /*
  * Turn job control on and off.
  *
@@ -124,15 +98,11 @@ tcsetpgrp(int fd, pid_tpgrp)
  * System V doesn't have job control yet, this isn't a problem now.
  */
 
-MKINIT int jobctl;
+int jobctl;
 
 void
 setjobctl(int on)
 {
-#ifdef OLD_TTY_DRIVER
-	int ldisc;
-#endif
-
 	if (on == jobctl || rootshell == 0)
 		return;
 	if (on) {
@@ -188,14 +158,6 @@ out:
 			}
 		} while (0);
 
-#ifdef OLD_TTY_DRIVER
-		if (ioctl(ttyfd, TIOCGETD, (char *)&ldisc) < 0
-		    || ldisc != NTTYDISC) {
-			out2str("sh: need new tty driver to run job control; job control turned off\n");
-			mflag = 0;
-			return;
-		}
-#endif
 		setsignal(SIGTSTP, 0);
 		setsignal(SIGTTOU, 0);
 		setsignal(SIGTTIN, 0);
@@ -391,7 +353,6 @@ showjob(struct output *out, struct job *jp, int mode)
 
 	if (mode & SHOW_SIGNALLED && !(mode & SHOW_ISSIG)) {
 		if (jp->state == JOBDONE && !(mode & SHOW_NO_FREE)) {
-			TRACE(("showjob: freeing job %d\n", jp - jobtab + 1));
 			freejob(jp);
 		}
 		return;
@@ -413,7 +374,7 @@ showjob(struct output *out, struct job *jp, int mode)
 			     col += strlen(s + col);
 		}
 		if (ps->status == -1) {
-			scopy("Running", s + col);
+			strcpy(s + col, "Running");
 		} else if (WIFEXITED(ps->status)) {
 			st = WEXITSTATUS(ps->status);
 			if (st)
@@ -427,12 +388,12 @@ showjob(struct output *out, struct job *jp, int mode)
 				st = WTERMSIG(ps->status);
 			st &= 0x7f;
 			if (st < NSIG && sys_siglist[st])
-				scopyn(sys_siglist[st], s + col, 32);
+				strlcpy(s + col, sys_siglist[st], 32);
 			else
 				fmtstr(s + col, 16, "Signal %d", st);
 			if (WCOREDUMP(ps->status)) {
 				col += strlen(s + col);
-				scopyn(" (core dumped)", s + col,  64 - col);
+				strlcpy(s + col, " (core dumped)", 64 - col);
 			}
 		}
 		col += strlen(s + col);
@@ -500,8 +461,6 @@ showjobs(struct output *out, int mode)
 	struct job *jp;
 	int silent = 0, gotpid;
 
-	TRACE(("showjobs(%x) called\n", mode));
-
 	/* If not even one one job changed, there is nothing to do */
 	gotpid = dowait(0, NULL);
 	while (dowait(0, NULL) > 0)
@@ -514,7 +473,6 @@ showjobs(struct output *out, int mode)
 		if (tcsetpgrp(ttyfd, getpid()) == -1)
 			error("Cannot set tty process group (%s) at %d",
 			    strerror(errno), __LINE__);
-		TRACE(("repaired tty process group\n"));
 		silent = 1;
 	}
 	if (jobs_invalid)
@@ -774,8 +732,6 @@ makejob(union node *node, int nprocs)
 		jp->ps = &jp->ps0;
 	}
 	INTON;
-	TRACE(("makejob(0x%lx, %d) returns %%%d\n", (long)node, nprocs,
-	    jp - jobtab + 1));
 	return jp;
 }
 
@@ -800,10 +756,8 @@ forkshell(struct job *jp, union node *n, int mode)
 {
 	int pid;
 
-	TRACE(("forkshell(%%%d, %p, %d) called\n", jp - jobtab, n, mode));
 	switch ((pid = fork())) {
 	case -1:
-		TRACE(("Fork failed, errno=%d\n", errno));
 		INTON;
 		error("Cannot fork");
 		break;
@@ -838,7 +792,6 @@ forkparent(struct job *jp, union node *n, int mode, pid_t pid)
 		if (/* iflag && rootshell && */ n)
 			commandtext(ps, n);
 	}
-	TRACE(("In parent shell:  child = %d\n", pid));
 	return pid;
 }
 
@@ -851,7 +804,6 @@ forkchild(struct job *jp, union node *n, int mode, int vforked)
 	const char *nullerr = "Can't open %s";
 
 	wasroot = rootshell;
-	TRACE(("Child shell %d\n", getpid()));
 	if (!vforked)
 		rootshell = 0;
 
@@ -920,7 +872,6 @@ waitforjob(struct job *jp)
 	int st;
 
 	INTOFF;
-	TRACE(("waitforjob(%%%d) called\n", jp - jobtab + 1));
 	while (jp->state == JOBRUNNING) {
 		dowait(1, jp);
 	}
@@ -939,8 +890,6 @@ waitforjob(struct job *jp)
 		st = WSTOPSIG(status) + 128;
 	else
 		st = WTERMSIG(status) + 128;
-	TRACE(("waitforjob: job %d, nproc %d, status %x, st %x\n",
-		jp - jobtab + 1, jp->nprocs, status, st ));
 	if (jp->jobctl) {
 		/*
 		 * This is truly gross.
@@ -977,10 +926,8 @@ dowait(int block, struct job *job)
 	int stopped;
 	extern volatile char gotsig[];
 
-	TRACE(("dowait(%d) called\n", block));
 	do {
 		pid = waitproc(block, job, &status);
-		TRACE(("wait returns pid %d, status %d\n", pid, status));
 	} while (pid == -1 && errno == EINTR && gotsig[SIGINT - 1] == 0);
 	if (pid <= 0)
 		return pid;
@@ -994,7 +941,6 @@ dowait(int block, struct job *job)
 				if (sp->pid == -1)
 					continue;
 				if (sp->pid == pid) {
-					TRACE(("Job %d: changing status of proc %d from 0x%x to 0x%x\n", jp - jobtab + 1, pid, sp->status, status));
 					sp->status = status;
 					thisjob = jp;
 				}
@@ -1006,7 +952,6 @@ dowait(int block, struct job *job)
 			if (stopped) {		/* stopped or done */
 				int state = done ? JOBDONE : JOBSTOPPED;
 				if (jp->state != state) {
-					TRACE(("Job %d: changing state from %d to %d\n", jp - jobtab + 1, jp->state, state));
 					jp->state = state;
 					if (done)
 						set_curjob(jp, 0);
@@ -1024,8 +969,6 @@ dowait(int block, struct job *job)
 		if (mode)
 			showjob(out2, thisjob, mode);
 		else {
-			TRACE(("Not printing status, rootshell=%d, job=%p\n",
-				rootshell, job));
 			thisjob->changed = 1;
 		}
 	}
@@ -1040,33 +983,7 @@ dowait(int block, struct job *job)
  * Do a wait system call.  If job control is compiled in, we accept
  * stopped processes.  If block is zero, we return a value of zero
  * rather than blocking.
- *
- * System V doesn't have a non-blocking wait system call.  It does
- * have a SIGCLD signal that is sent to a process when one of it's
- * children dies.  The obvious way to use SIGCLD would be to install
- * a handler for SIGCLD which simply bumped a counter when a SIGCLD
- * was received, and have waitproc bump another counter when it got
- * the status of a process.  Waitproc would then know that a wait
- * system call would not block if the two counters were different.
- * This approach doesn't work because if a process has children that
- * have not been waited for, System V will send it a SIGCLD when it
- * installs a signal handler for SIGCLD.  What this means is that when
- * a child exits, the shell will be sent SIGCLD signals continuously
- * until is runs out of stack space, unless it does a wait call before
- * restoring the signal handler.  The code below takes advantage of
- * this (mis)feature by installing a signal handler for SIGCLD and
- * then checking to see whether it was called.  If there are any
- * children to be waited for, it will be.
  */
-
-#ifdef SYSV
-STATIC int gotsigchild;
-
-STATIC int onsigchild() {
-	gotsigchild = 1;
-}
-#endif
-
 
 STATIC int
 waitproc(int block, struct job *jp, int *status)
@@ -1133,8 +1050,6 @@ commandtext(struct procstat *ps, union node *n)
 		p[3] = 0;
 	} else
 		*cmdnextc = '\0';
-	TRACE(("commandtext: ps->cmd %x, end %x, left %d\n\t\"%s\"\n",
-		ps->cmd, cmdnextc, cmdnleft, ps->cmd));
 }
 
 

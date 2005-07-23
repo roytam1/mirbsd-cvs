@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/options.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
+/**	$MirOS: src/bin/sh/options.c,v 1.3 2005/07/23 19:34:33 tg Exp $ */
 /*	$NetBSD: options.c,v 1.39 2005/07/15 17:46:54 christos Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)options.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/bin/sh/options.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/options.c,v 1.3 2005/07/23 19:34:33 tg Exp $");
 
 #include <signal.h>
 #include <unistd.h>
@@ -55,7 +55,6 @@ __RCSID("$MirOS: src/bin/sh/options.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 #include "memalloc.h"
 #include "error.h"
 #include "mystring.h"
-#include "show.h"
 
 char *arg0;			/* value of $0 */
 struct shparam shellparam;	/* current positional parameters */
@@ -98,9 +97,6 @@ procargs(int argc, char **argv)
 	for (i = 0; i < NOPTS; i++)
 		if (optlist[i].val == 2)
 			optlist[i].val = 0;
-#if DEBUG == 2
-	debug = 1;
-#endif
 	arg0 = argv[0];
 	if (sflag == 0 && minusc == NULL) {
 		commandname = argv[0];
@@ -199,10 +195,6 @@ set_opt_val(int i, int val)
 			optlist[j].val = 0;
 	}
 	optlist[i].val = val;
-#ifdef DEBUG
-	if (&optlist[i].val == &debug)
-		opentrace();
-#endif
 }
 
 STATIC void
@@ -217,7 +209,7 @@ minus_o(char *name, int val)
 				optlist[i].val ? "on" : "off");
 	} else {
 		for (i = 0; i < NOPTS; i++)
-			if (equal(name, optlist[i].name)) {
+			if (!strcmp(name, optlist[i].name)) {
 				set_opt_val(i, val);
 				return;
 			}

@@ -68,7 +68,7 @@ setalias(char *name, char *val)
 
 	app = hashalias(name);
 	for (ap = *app; ap; ap = ap->next) {
-		if (equal(name, ap->name)) {
+		if (!strcmp(name, ap->name)) {
 			INTOFF;
 			ckfree(ap->val);
 			ap->val	= savestr(val);
@@ -121,7 +121,7 @@ unalias(char *name)
 	app = hashalias(name);
 
 	for (ap = *app; ap; app = &(ap->next), ap = ap->next) {
-		if (equal(name, ap->name)) {
+		if (!strcmp(name, ap->name)) {
 			/*
 			 * if the alias is currently in use (i.e. its
 			 * buffer is being used by the input routine) we
@@ -173,7 +173,7 @@ lookupalias(char *name, int check)
 	struct alias *ap = *hashalias(name);
 
 	for (; ap; ap = ap->next) {
-		if (equal(name, ap->name)) {
+		if (!strcmp(name, ap->name)) {
 			if (check && (ap->flag & ALIASINUSE))
 				return (NULL);
 			return (ap);

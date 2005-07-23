@@ -39,7 +39,7 @@ __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 #endif /* not lint */
 
 __SCCSID("@(#)main.c	8.7 (Berkeley) 7/19/95");
-__RCSID("$MirOS: src/bin/sh/main.c,v 1.2 2005/07/23 19:16:50 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/main.c,v 1.3 2005/07/23 19:45:01 tg Exp $");
 
 #include <sys/stat.h>
 #include <errno.h>
@@ -62,7 +62,6 @@ __RCSID("$MirOS: src/bin/sh/main.c,v 1.2 2005/07/23 19:16:50 tg Exp $");
 #include "input.h"
 #include "trap.h"
 #include "var.h"
-#include "show.h"
 #include "memalloc.h"
 #include "error.h"
 #include "init.h"
@@ -76,10 +75,6 @@ int rootpid;
 int rootshell;
 STATIC union node *curcmd;
 STATIC union node *prevcmd;
-#if PROFILE
-short profile_buf[16384];
-extern int etext();
-#endif
 
 STATIC void read_profile(const char *);
 STATIC char *find_dot_file(char *);
@@ -103,9 +98,6 @@ main(int argc, char **argv)
 
 	setlocale(LC_ALL, "");
 
-#if PROFILE
-	monitor(4, etext, profile_buf, sizeof profile_buf, 50);
-#endif
 	state = 0;
 	if (setjmp(jmploc.loc)) {
 		/*
@@ -140,7 +132,7 @@ main(int argc, char **argv)
 		reset();
 		if (exception == EXINT
 #if ATTY
-		 && (! attyset() || equal(termval(), "emacs"))
+		 && (! attyset() || !strcmp(termval(), "emacs"))
 #endif
 		 ) {
 			out2c('\n');
@@ -158,13 +150,6 @@ main(int argc, char **argv)
 			goto state4;
 	}
 	handler = &jmploc;
-#ifdef DEBUG
-#if DEBUG == 2
-	debug = 1;
-#endif
-	opentrace();
-	trputs("Shell args:  ");  trargs(argv);
-#endif
 	rootpid = getpid();
 	rootshell = 1;
 	init();
@@ -209,9 +194,6 @@ state3:
 state4:	/* XXX ??? - why isn't this before the "if" statement */
 		cmdloop(1);
 	}
-#if PROFILE
-	monitor(0);
-#endif
 	exitshell(exitstatus);
 	/* NOTREACHED */
 }
@@ -230,7 +212,6 @@ cmdloop(int top)
 	int inter;
 	int numeof = 0;
 
-	TRACE(("cmdloop(%d) called\n", top));
 	setstackmark(&smark);
 	for (;;) {
 		if (pendingsigs)
@@ -242,7 +223,6 @@ cmdloop(int top)
 			flushout(&errout);
 		}
 		n = parsecmd(inter);
-		/* showtree(n); DEBUG */
 		if (n == NEOF) {
 			if (!top || numeof >= 50)
 				break;

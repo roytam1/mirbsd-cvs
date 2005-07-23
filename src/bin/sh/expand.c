@@ -71,7 +71,6 @@ __RCSID("$NetBSD: expand.c,v 1.71 2005/06/01 15:41:19 lukem Exp $");
 #include "memalloc.h"
 #include "error.h"
 #include "mystring.h"
-#include "show.h"
 
 /*
  * Structure specifying which parts of the string should be searched
@@ -447,7 +446,6 @@ expbackq(union node *cmd, int quoted, int flag)
 			if (in.fd < 0)
 				break;
 			while ((i = read(in.fd, buf, sizeof buf)) < 0 && errno == EINTR);
-			TRACE(("expbackq: read returns %d\n", i));
 			if (i <= 0)
 				break;
 			p = buf;
@@ -474,10 +472,6 @@ expbackq(union node *cmd, int quoted, int flag)
 		back_exitstatus = waitforjob(in.jp);
 	if (quoted == 0)
 		recordregion(startloc, dest - stackblock(), 0);
-	TRACE(("evalbackq: size=%d: \"%.*s\"\n",
-		(dest - stackblock()) - startloc,
-		(dest - stackblock()) - startloc,
-		stackblock() + startloc));
 	expdest = dest;
 	INTON;
 }
@@ -1231,7 +1225,7 @@ expmeta(char *enddir, char *name)
 			continue;
 		if (patmatch(start, dp->d_name, 0)) {
 			if (atend) {
-				scopy(dp->d_name, enddir);
+				strcpy(enddir, dp->d_name);
 				addfname(expdir);
 			} else {
 				for (p = enddir, cp = dp->d_name;
@@ -1259,7 +1253,7 @@ addfname(char *name)
 	struct strlist *sp;
 
 	p = stalloc(strlen(name) + 1);
-	scopy(name, p);
+	strcpy(p, name);
 	sp = (struct strlist *)stalloc(sizeof *sp);
 	sp->text = p;
 	*exparg.lastp = sp;
@@ -1335,12 +1329,7 @@ msort(struct strlist *list, int len)
 int
 patmatch(char *pattern, char *string, int squoted)
 {
-#ifdef notdef
-	if (pattern[0] == '!' && pattern[1] == '!')
-		return 1 - pmatch(pattern + 2, string);
-	else
-#endif
-		return pmatch(pattern, string, squoted);
+	return pmatch(pattern, string, squoted);
 }
 
 

@@ -50,7 +50,6 @@ __RCSID("$NetBSD: trap.c,v 1.33 2005/07/15 17:23:48 christos Exp $");
 #include "nodes.h"	/* for other headers */
 #include "eval.h"
 #include "jobs.h"
-#include "show.h"
 #include "options.h"
 #include "syntax.h"
 #include "output.h"
@@ -75,7 +74,7 @@ __RCSID("$NetBSD: trap.c,v 1.33 2005/07/15 17:23:48 christos Exp $");
 
 
 char *trap[NSIG+1];		/* trap handler commands */
-MKINIT char sigmode[NSIG];	/* current value of signal */
+char sigmode[NSIG];		/* current value of signal */
 char gotsig[NSIG];		/* indicates specified signal received */
 int pendingsigs;		/* indicates some signal received */
 
@@ -249,10 +248,6 @@ setsignal(int signo, int vforked)
 				action = S_CATCH;
 			break;
 		case SIGQUIT:
-#ifdef DEBUG
-			if (debug)
-				break;
-#endif
 			/* FALLTHROUGH */
 		case SIGTERM:
 			if (iflag)
@@ -432,7 +427,6 @@ exitshell(int status)
 	struct jmploc loc1, loc2;
 	char *p;
 
-	TRACE(("pid %d, exitshell(%d)\n", getpid(), status));
 	if (setjmp(loc1.loc)) {
 		goto l1;
 	}

@@ -34,35 +34,9 @@
  *	@(#)shell.h	8.2 (Berkeley) 5/4/95
  */
 
-/*
- * The follow should be set to reflect the type of system you have:
- *	SHORTNAMES -> 1 if your linker cannot handle long names.
- *	define SYSV if you are running under System V.
- *	define DEBUG=1 to compile in debugging ('set -o debug' to turn on)
- *	define DEBUG=2 to compile in and turn on debugging.
- *
- * When debugging is on, debugging info will be written to ./trace and
- * a quit signal will generate a core dump.
- */
-
 #include <sys/param.h>
 
 typedef void *pointer;
-#ifndef NULL
-#define NULL (void *)0
-#endif
 #define STATIC	/* empty */
-#define MKINIT	/* empty */
-
-#include <sys/cdefs.h>
 
 extern char nullstr[1];		/* null string */
-
-
-#ifdef DEBUG
-#define TRACE(param)	trace param
-#define TRACEV(param)	tracev param
-#else
-#define TRACE(param)
-#define TRACEV(param)
-#endif

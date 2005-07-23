@@ -63,7 +63,6 @@ __RCSID("$NetBSD: cd.c,v 1.35 2005/07/15 17:49:43 christos Exp $");
 #include "exec.h"
 #include "redir.h"
 #include "mystring.h"
-#include "show.h"
 #include "cd.h"
 
 STATIC int docd(char *, int);
@@ -156,8 +155,6 @@ docd(char *dest, int print)
 	int first;
 	int badstat;
 
-	TRACE(("docd(\"%s\", %d) called\n", dest, print));
-
 	/*
 	 *  Check each component of the path. If we find a symlink or
 	 *  something we can't stat, clear curdir to force a getcwd()
@@ -165,7 +162,7 @@ docd(char *dest, int print)
 	 */
 	badstat = 0;
 	cdcomppath = stalloc(strlen(dest) + 1);
-	scopy(dest, cdcomppath);
+	strcpy(cdcomppath, dest);
 	STARTSTACKSTR(p);
 	if (*dest == '/') {
 		STPUTC('/', p);
@@ -181,7 +178,7 @@ docd(char *dest, int print)
 		component = q;
 		while (*q)
 			STPUTC(*q++, p);
-		if (equal(component, ".."))
+		if (!strcmp(component, ".."))
 			continue;
 		STACKSTRNUL(p);
 		if ((lstat(stackblock(), &statb) < 0)
@@ -266,7 +263,7 @@ updatepwd(char *dir)
 		return;
 	}
 	cdcomppath = stalloc(strlen(dir) + 1);
-	scopy(dir, cdcomppath);
+	strcpy(cdcomppath, dir);
 	STARTSTACKSTR(new);
 	if (*dir != '/') {
 		p = curdir;
@@ -276,9 +273,9 @@ updatepwd(char *dir)
 			STUNPUTC(new);
 	}
 	while ((p = getcomponent()) != NULL) {
-		if (equal(p, "..")) {
+		if (!strcmp(p, "..")) {
 			while (new > stackblock() && (STUNPUTC(new), *new) != '/');
-		} else if (*p != '\0' && ! equal(p, ".")) {
+		} else if (*p != '\0' && strcmp(p, ".")) {
 			STPUTC('/', new);
 			while (*p)
 				STPUTC(*p++, new);

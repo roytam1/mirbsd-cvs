@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/parser.c,v 1.2 2005/07/23 19:12:49 tg Exp $ */
+/**	$MirOS: src/bin/sh/parser.c,v 1.3 2005/07/23 19:34:33 tg Exp $ */
 /*	$NetBSD: parser.c,v 1.59 2005/03/21 20:10:29 dsl Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)parser.c	8.7 (Berkeley) 5/16/95");
-__RCSID("$MirOS: src/bin/sh/parser.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/parser.c,v 1.3 2005/07/23 19:34:33 tg Exp $");
 
 #include <stdlib.h>
 
@@ -54,7 +54,6 @@ __RCSID("$MirOS: src/bin/sh/parser.c,v 1.2 2005/07/23 19:12:49 tg Exp $");
 #include "memalloc.h"
 #include "mystring.h"
 #include "alias.h"
-#include "show.h"
 
 /*
  * Shell command parser.
@@ -84,9 +83,9 @@ int parsebackquote;		/* nonzero if we are inside backquotes */
 int doprompt;			/* if set, prompt the user */
 int needprompt;			/* true if interactive and at start of line */
 int lasttoken;			/* last token read */
-MKINIT int tokpushback;		/* last token pushed back */
+int tokpushback;		/* last token pushed back */
 char *wordtext;			/* text of last word returned by readtoken */
-MKINIT int checkkwd;            /* 1 == check for kwds, 2 == also eat newlines */
+int checkkwd;			/* 1 == check for kwds, 2 == also eat newlines */
 struct nodelist *backquotelist;
 union node *redirnode;
 struct heredoc *heredoc;
@@ -244,7 +243,6 @@ pipeline(void)
 	int negate;
 
 	negate = 0;
-	TRACE(("pipeline: entered\n"));
 	while (readtoken() == TNOT)
 		negate = !negate;
 	tokpushback++;
@@ -300,7 +298,6 @@ command(void)
 	tokpushback++;
 
 	while (readtoken() == TNOT) {
-		TRACE(("command: TNOT recognized\n"));
 		negate = !negate;
 	}
 	tokpushback++;
@@ -340,7 +337,6 @@ command(void)
 		n1->type = (lasttoken == TWHILE)? NWHILE : NUNTIL;
 		n1->nbinary.ch1 = list(0);
 		if ((got=readtoken()) != TDO) {
-TRACE(("expecting DO got %s %s\n", tokname[got], got == TWORD ? wordtext : ""));
 			synexpect(TDO);
 		}
 		n1->nbinary.ch2 = list(0);
@@ -355,7 +351,7 @@ TRACE(("expecting DO got %s %s\n", tokname[got], got == TWORD ? wordtext : ""));
 		n1 = (union node *)stalloc(sizeof (struct nfor));
 		n1->type = NFOR;
 		n1->nfor.var = wordtext;
-		if (readtoken() == TWORD && ! quoteflag && equal(wordtext, "in")) {
+		if (readtoken() == TWORD && ! quoteflag && !strcmp(wordtext, "in")) {
 			app = &ap;
 			while (readtoken() == TWORD) {
 				n2 = (union node *)stalloc(sizeof (struct narg));
@@ -408,7 +404,7 @@ TRACE(("expecting DO got %s %s\n", tokname[got], got == TWORD ? wordtext : ""));
 		n2->narg.backquote = backquotelist;
 		n2->narg.next = NULL;
 		while (readtoken() == TNL);
-		if (lasttoken != TWORD || ! equal(wordtext, "in"))
+		if (lasttoken != TWORD || strcmp(wordtext, "in"))
 			synerror("expecting \"in\"");
 		cpp = &n1->ncase.cases;
 		noalias = 1;
@@ -541,7 +537,6 @@ simplecmd(union node **rpp, union node *redir)
 	orig_rpp = rpp;
 
 	while (readtoken() == TNOT) {
-		TRACE(("command: TNOT recognized\n"));
 		negate = !negate;
 	}
 	tokpushback++;
@@ -563,10 +558,6 @@ simplecmd(union node **rpp, union node *redir)
 			/* We have a function */
 			if (readtoken() != TRP)
 				synexpect(TRP);
-#ifdef notdef
-			if (! goodname(n->narg.text))
-				synerror("Bad function name");
-#endif
 			n->type = NDEFUN;
 			n->narg.next = command();
 			goto checkneg;
@@ -609,7 +600,6 @@ makename(void)
 
 void fixredir(union node *n, const char *text, int err)
 	{
-	TRACE(("Fix redir %s %d\n", text, err));
 	if (!err)
 		n->ndup.vname = NULL;
 
@@ -641,7 +631,6 @@ parsefname(void)
 
 		if (quoteflag == 0)
 			n->type = NXHERE;
-		TRACE(("Here document %d\n", n->type));
 		if (here->striptabs) {
 			while (*wordtext == '\t')
 				wordtext++;
@@ -708,9 +697,6 @@ readtoken(void)
 {
 	int t;
 	int savecheckkwd = checkkwd;
-#ifdef DEBUG
-	int alreadyseen = tokpushback;
-#endif
 	struct alias *ap;
 
 	top:
@@ -736,11 +722,10 @@ readtoken(void)
 			const char *const *pp;
 
 			for (pp = parsekwd; *pp; pp++) {
-				if (**pp == *wordtext && equal(*pp, wordtext))
+				if (**pp == *wordtext && !strcmp(*pp, wordtext))
 				{
 					lasttoken = t = pp - 
 					    parsekwd + KWDOFFSET;
-					TRACE(("keyword %s recognized\n", tokname[t]));
 					goto out;
 				}
 			}
@@ -754,12 +739,6 @@ readtoken(void)
 out:
 		checkkwd = (t == TNOT) ? savecheckkwd : 0;
 	}
-#ifdef DEBUG
-	if (!alreadyseen)
-	    TRACE(("token %s %s\n", tokname[t], t == TWORD ? wordtext : ""));
-	else
-	    TRACE(("reread token %s %s\n", tokname[t], t == TWORD ? wordtext : ""));
-#endif
 	return (t);
 }
 
@@ -944,7 +923,7 @@ readtoken1(int firstc, char const *syntax, char *eofmark, int striptabs)
 	loop: {	/* for each line, until end of word */
 #if ATTY
 		if (c == '\034' && doprompt
-		 && attyset() && ! equal(termval(), "emacs")) {
+		 && attyset() && strcmp(termval(), "emacs")) {
 			attyline();
 			if (syntax == BASESYNTAX)
 				return readtoken();

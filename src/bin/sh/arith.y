@@ -52,10 +52,6 @@ __RCSID("$NetBSD: arith.y,v 1.17 2003/09/17 17:33:36 jmmv Exp $");
 const char *arith_buf, *arith_startbuf;
 
 void yyerror(const char *);
-#ifdef TESTARITH
-int main(int , char *[]);
-int error(char *);
-#endif
 
 %}
 %token ARITH_NUM ARITH_LPAREN ARITH_RPAREN
@@ -169,22 +165,6 @@ expcmd(argc, argv)
 	out1fmt("%ld\n", i);
 	return (! i);
 }
-
-/*************************/
-#ifdef TEST_ARITH
-#include <stdio.h>
-main(argc, argv)
-	char *argv[];
-{
-	printf("%d\n", exp(argv[1]));
-}
-error(s)
-	char *s;
-{
-	fprintf(stderr, "exp: %s\n", s);
-	exit(1);
-}
-#endif
 
 void
 yyerror(s)

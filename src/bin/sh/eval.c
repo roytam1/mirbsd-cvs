@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/eval.c,v 1.3 2005/07/23 19:34:32 tg Exp $ */
+/**	$MirOS: src/bin/sh/eval.c,v 1.4 2005/07/23 19:37:01 tg Exp $ */
 /*	$NetBSD: eval.c,v 1.84 2005/06/23 23:05:29 christos Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)eval.c	8.9 (Berkeley) 6/8/95");
-__RCSID("$MirOS: src/bin/sh/eval.c,v 1.3 2005/07/23 19:34:32 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/eval.c,v 1.4 2005/07/23 19:37:01 tg Exp $");
 
 #include <sys/fcntl.h>
 #include <sys/times.h>
@@ -68,7 +68,6 @@ __RCSID("$MirOS: src/bin/sh/eval.c,v 1.3 2005/07/23 19:34:32 tg Exp $");
 #include "var.h"
 #include "memalloc.h"
 #include "error.h"
-#include "show.h"
 #include "mystring.h"
 #include "main.h"
 
@@ -80,7 +79,7 @@ __RCSID("$MirOS: src/bin/sh/eval.c,v 1.3 2005/07/23 19:34:32 tg Exp $");
 
 int evalskip;			/* set if we are skipping commands */
 STATIC int skipcount;		/* number of levels to skip */
-MKINIT int loopnest;		/* current loop nesting level */
+int loopnest;			/* current loop nesting level */
 int funcnest;			/* depth of function calls */
 
 
@@ -195,12 +194,9 @@ void
 evaltree(union node *n, int flags)
 {
 	if (n == NULL) {
-		TRACE(("evaltree(NULL) called\n"));
 		exitstatus = 0;
 		goto out;
 	}
-	TRACE(("pid %d, evaltree(%p: %d, %d) called\n",
-	    getpid(), n, n->type, flags));
 	switch (n->type) {
 	case NSEMI:
 		evaltree(n->nbinary.ch1, flags & EV_TESTED);
@@ -466,7 +462,6 @@ evalpipe(union node *n)
 	int prevfd;
 	int pip[2];
 
-	TRACE(("evalpipe(0x%lx) called\n", (long)n));
 	pipelen = 0;
 	for (lp = n->npipe.cmdlist ; lp ; lp = lp->next)
 		pipelen++;
@@ -506,7 +501,6 @@ evalpipe(union node *n)
 	}
 	if (n->npipe.backgnd == 0) {
 		exitstatus = waitforjob(jp);
-		TRACE(("evalpipe:  job done exit status %d\n", exitstatus));
 	}
 	INTON;
 }
@@ -535,18 +529,6 @@ evalbackcmd(union node *n, struct backcmd *result)
 	if (n == NULL) {
 		goto out;
 	}
-#ifdef notyet
-	/*
-	 * For now we disable executing builtins in the same
-	 * context as the shell, because we are not keeping
-	 * enough state to recover from changes that are
-	 * supposed only to affect subshells. eg. echo "`cd /`"
-	 */
-	if (n->type == NCMD) {
-		exitstatus = oexitstatus;
-		evalcommand(n, EV_BACKCMD, result);
-	} else
-#endif
 	{
 		INTOFF;
 		if (sh_pipe(pip) < 0)
@@ -571,8 +553,6 @@ evalbackcmd(union node *n, struct backcmd *result)
 	}
 out:
 	popstackmark(&smark);
-	TRACE(("evalbackcmd done: fd=%d buf=0x%x nleft=%d jp=0x%x\n",
-		result->fd, result->buf, result->nleft, result->jp));
 }
 
 static const char *
@@ -672,7 +652,6 @@ evalcommand(union node *cmd, int flags, struct backcmd *backcmd)
 
 	vforked = 0;
 	/* First expand the arguments. */
-	TRACE(("evalcommand(0x%lx, %d) called\n", (long)cmd, flags));
 	setstackmark(&smark);
 	back_exitstatus = 0;
 
@@ -716,7 +695,6 @@ evalcommand(union node *cmd, int flags, struct backcmd *backcmd)
 	argv = stalloc(sizeof (char *) * (argc + 1));
 
 	for (sp = arglist.list ; sp ; sp = sp->next) {
-		TRACE(("evalcommand arg: %s\n", sp->text));
 		*argv++ = sp->text;
 	}
 	*argv = NULL;
@@ -819,7 +797,6 @@ evalcommand(union node *cmd, int flags, struct backcmd *backcmd)
 			vforked = 1;
 			switch (pid = vfork()) {
 			case -1:
-				TRACE(("Vfork failed, errno=%d\n", errno));
 				INTON;
 				error("Cannot vfork");
 				break;
@@ -883,9 +860,6 @@ normal_fork:
 	/* Execute the command. */
 	switch (cmdentry.cmdtype) {
 	case CMDFUNCTION:
-#ifdef DEBUG
-		trputs("Shell function:  ");  trargs(argv);
-#endif
 		redirect(cmd->ncmd.redirect, REDIR_PUSH);
 		saveparam = shellparam;
 		shellparam.malloc = 0;
@@ -936,9 +910,6 @@ normal_fork:
 
 	case CMDBUILTIN:
 	case CMDSPLBLTIN:
-#ifdef DEBUG
-		trputs("builtin command:  ");  trargs(argv);
-#endif
 		mode = (cmdentry.u.bltin == execcmd) ? 0 : REDIR_PUSH;
 		if (flags == EV_BACKCMD) {
 			memout.nleft = 0;
@@ -1014,9 +985,6 @@ normal_fork:
 		break;
 
 	default:
-#ifdef DEBUG
-		trputs("normal command:  ");  trargs(argv);
-#endif
 		clearredir(vforked);
 		redirect(cmd->ncmd.redirect, vforked ? REDIR_VFORK : 0);
 		if (!vforked)

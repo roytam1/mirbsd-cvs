@@ -1,4 +1,4 @@
-4/**	$MirOS: src/bin/sh/var.h,v 1.2 2005/07/23 19:12:49 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.h,v 1.3 2005/07/23 19:45:01 tg Exp $ */
 /*	$NetBSD: var.h,v 1.23 2004/10/02 12:16:53 dsl Exp $	*/
 
 /*-

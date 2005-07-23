@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/input.c,v 1.3 2005/07/23 19:27:16 tg Exp $ */
+/**	$MirOS: src/bin/sh/input.c,v 1.4 2005/07/23 19:34:33 tg Exp $ */
 /*	$NetBSD: input.c,v 1.39 2003/08/07 09:05:32 agc Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)input.c	8.3 (Berkeley) 6/9/95");
-__RCSID("$MirOS: src/bin/sh/input.c,v 1.3 2005/07/23 19:27:16 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/input.c,v 1.4 2005/07/23 19:34:33 tg Exp $");
 
 #include <stdio.h>	/* defines BUFSIZ */
 #include <fcntl.h>
@@ -61,7 +61,6 @@ __RCSID("$MirOS: src/bin/sh/input.c,v 1.3 2005/07/23 19:27:16 tg Exp $");
 
 #define EOF_NLEFT -99		/* value of parsenleft when EOF pushed back */
 
-MKINIT
 struct strpush {
 	struct strpush *prev;	/* preceding string on stack */
 	char *prevstring;
@@ -75,7 +74,6 @@ struct strpush {
  * contains information about the current file being read.
  */
 
-MKINIT
 struct parsefile {
 	struct parsefile *prev;	/* preceding file on stack */
 	int linno;		/* current line */
@@ -91,10 +89,10 @@ struct parsefile {
 
 int plinno = 1;			/* input line number */
 int parsenleft;			/* copy of parsefile->nleft */
-MKINIT int parselleft;		/* copy of parsefile->lleft */
+int parselleft;			/* copy of parsefile->lleft */
 char *parsenextc;		/* copy of parsefile->nextc */
-MKINIT struct parsefile basepf;	/* top level input file */
-MKINIT char basebuf[BUFSIZ];	/* buffer for top level input file */
+struct parsefile basepf;	/* top level input file */
+char basebuf[BUFSIZ];		/* buffer for top level input file */
 struct parsefile *parsefile = &basepf;	/* current input file */
 int init_editline = 0;		/* editline library initialized? */
 int whichprompt;		/* 1 == PS1, 2 == PS2 */

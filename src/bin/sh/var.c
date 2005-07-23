@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.c,v 1.3 2005/07/23 19:34:33 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.c,v 1.4 2005/07/23 19:45:01 tg Exp $ */
 /*	$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)var.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/bin/sh/var.c,v 1.3 2005/07/23 19:34:33 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/var.c,v 1.4 2005/07/23 19:45:01 tg Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -59,7 +59,6 @@ __RCSID("$MirOS: src/bin/sh/var.c,v 1.3 2005/07/23 19:34:33 tg Exp $");
 #include "error.h"
 #include "mystring.h"
 #include "parser.h"
-#include "show.h"
 
 #define VTABSIZE 39
 
@@ -214,7 +213,7 @@ setvar(const char *name, const char *val, int flags)
 	*d++ = '=';
 	*d = '\0';
 	if (val)
-		scopy(val, d);
+		strcpy(d, val);
 	setvareq(nameeq, flags);
 }
 
@@ -615,7 +614,6 @@ poplocalvars(void)
 	while ((lvp = localvars) != NULL) {
 		localvars = lvp->next;
 		vp = lvp->vp;
-		TRACE(("poplocalvar %s", vp ? vp->text : "-"));
 		if (vp == NULL) {	/* $- saved */
 			memcpy(optlist, lvp->text, sizeof_optlist);
 			ckfree(lvp->text);

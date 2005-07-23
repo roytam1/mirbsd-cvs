@@ -91,7 +91,7 @@ savestr(const char *s)
 	char *p;
 
 	p = ckmalloc(strlen(s) + 1);
-	scopy(s, p);
+	strcpy(p, s);
 	return p;
 }
 
@@ -151,7 +151,7 @@ stalloc(int nbytes)
 void
 stunalloc(pointer p)
 {
-	if (p == NULL) {		/*DEBUG */
+	if (p == NULL) {
 		write(2, "stunalloc\n", 10);
 		abort();
 	}

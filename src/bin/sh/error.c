@@ -57,7 +57,6 @@ __RCSID("$NetBSD: error.c,v 1.31 2003/08/07 09:05:30 agc Exp $");
 #include "options.h"
 #include "output.h"
 #include "error.h"
-#include "show.h"
 
 
 /*
@@ -156,14 +155,6 @@ exverror(int cond, const char *msg, va_list ap)
 	CLEAR_PENDING_INT;
 	INTOFF;
 
-#ifdef DEBUG
-	if (msg) {
-		TRACE(("exverror(%d, \"", cond));
-		TRACEV((msg, ap));
-		TRACE(("\") pid=%d\n", getpid()));
-	} else
-		TRACE(("exverror(%d, NULL) pid=%d\n", cond, getpid()));
-#endif
 	if (msg)
 		exvwarning(-1, msg, ap);
 

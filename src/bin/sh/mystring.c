@@ -44,9 +44,6 @@ __RCSID("$NetBSD: mystring.c,v 1.16 2003/08/07 09:05:35 agc Exp $");
 /*
  * String functions.
  *
- *	equal(s1, s2)		Return true if strings are equal.
- *	scopy(from, to)		Copy a string.
- *	scopyn(from, to, n)	Like scopy, but checks for overflow.
  *	number(s)		Convert a string of digits to an integer.
  *	is_number(s)		Return true if s is a string of digits.
  */
@@ -57,35 +54,7 @@ __RCSID("$NetBSD: mystring.c,v 1.16 2003/08/07 09:05:35 agc Exp $");
 #include "error.h"
 #include "mystring.h"
 
-
 char nullstr[1];		/* zero length string */
-
-/*
- * equal - #defined in mystring.h
- */
-
-/*
- * scopy - #defined in mystring.h
- */
-
-
-/*
- * scopyn - copy a string from "from" to "to", truncating the string
- *		if necessary.  "To" is always nul terminated, even if
- *		truncation is performed.  "Size" is the size of "to".
- */
-
-void
-scopyn(const char *from, char *to, int size)
-{
-
-	while (--size > 0) {
-		if ((*to++ = *from++) == '\0')
-			return;
-	}
-	*to = '\0';
-}
-
 
 /*
  * prefix -- see if pfx is a prefix of string.
