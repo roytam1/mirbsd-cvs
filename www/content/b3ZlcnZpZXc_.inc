@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.1 2005/07/24 18:03:22 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -77,9 +77,6 @@
  Note that this is only a kind of timestamping, and we do not
  accept any responsibility or endorse their service or certificate.</p>
 
-<p><a href="/man1/ssh-keygen.htm">ssh-keygen(1)</a> in MirOS has
- options <b>-E</b> and <b>-I</b> which can convert keys between
- the OpenSSL X.509 and the gzsig OpenSSH format, so you can use
- your OpenSSL/CAcert private key to gzsign files, and recipients
- can use ssh-keygen to convert your X.509 certificate into the
- OpenSSH format then verify the signature.</p>
+<p>gzsig can also make use of X.509 certificates (which are just
+ public keys and signatures of the CA for that key) to verify
+ signed files, so you can make use of the CA trust chain.</p>
