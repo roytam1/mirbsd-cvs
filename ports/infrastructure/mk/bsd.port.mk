@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.37 2005/07/18 17:41:13 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.38 2005/07/18 20:00:49 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1213,50 +1213,46 @@ ${WRKPKG}/COMMENT${SUBPACKAGE}:
 	@echo ${_COMMENT} >$@
 
 ${WRKPKG}/PLIST${SUBPACKAGE}: ${PLIST} ${WRKPKG}/depends${SUBPACKAGE}
-	@echo "@comment subdir=${FULLPKGPATH}" \
+	echo "@comment subdir=${FULLPKGPATH}" \
 	    "cdrom=${PERMIT_PACKAGE_CDROM:L:S/"/\"/g}" \
 	    "ftp=${PERMIT_PACKAGE_FTP:L:S/"/\"/g}" \
 	    >$@.tmp
-	@echo "@comment" \
-	    "portdir=http://mirbsd.bsdadvocacy.org/cvs.cgi/ports/${PKGPATH}/" \
+	echo "@comment" \
+	    "portdir=http://mirbsd.mirsolutions.de/cvs.cgi/ports/${PKGPATH}/" \
 	    >>$@.tmp
-	@t="0${_noshared}"; if [[ $$t = 0-noshared ]]; then \
-		t=0; \
-	elif [ -x /sbin/ldconfig ]; then \
-		t=1; \
-	fi; echo "@ldcache $$t" >>$@.tmp
-	@sort -u <${WRKPKG}/depends${SUBPACKAGE} >>$@.tmp
+	sort -u <${WRKPKG}/depends${SUBPACKAGE} >>$@.tmp
 .if ${NO_SHARED_LIBS:L} == "yes"
-	@sed -e '/^!%%SHARED%%$$/r${PKGDIR}/PFRAG.no-shared${SUBPACKAGE}' \
+	sed -e '/^!%%SHARED%%$$/r${PKGDIR}/PFRAG.no-shared${SUBPACKAGE}' \
 	    -e '//d' \
 	    -e '/^%%!SHARED%%$$/r${PKGDIR}/PFRAG.no-shared${SUBPACKAGE}' \
-	    -e '//d' -e '/^%%SHARED%%$$/d' <${PLIST} ${SED_PLIST} \
-	    >>$@.tmp && mv -f $@.tmp $@
+	    -e '//d' -e '/^%%SHARED%%$$/d' <${PLIST} ${SED_PLIST} >>$@.tmp
 .elif ${OBJECT_FMT} == "Mach-O"
 	if [ -e ${PKGDIR}/PFRAG.dylib${SUBPACKAGE} ]; then \
 		sed -e '/^!%%SHARED%%$$/d' \
 		    -e '/^%%!SHARED%%$$/d' \
 		    -e '/^%%SHARED%%$$/r${PKGDIR}/PFRAG.dylib${SUBPACKAGE}' \
 		    -e '//d' <${PLIST} ${SED_PLIST} \
-		    >>$@.tmp && mv -f $@.tmp $@; \
+		    >>$@.tmp; \
 	else \
 		echo '@option dylib' >>$@.tmp; \
 		sed -e '/^!%%SHARED%%$$/d' \
 		    -e '/^%%!SHARED%%$$/d' \
 		    -e '/^%%SHARED%%$$/r${PKGDIR}/PFRAG.shared${SUBPACKAGE}' \
 		    -e '//d' <${PLIST} ${SED_PLIST} \
-		    >>$@.tmp && mv -f $@.tmp $@; \
+		    >>$@.tmp; \
 	fi
 .elif ${OStype} == "Interix"
 	echo '@option gnu-ld' >>$@.tmp; \
 	sed -e '/^!%%SHARED%%$$/d' -e '/^%%!SHARED%%$$/d' \
 	    -e '/^%%SHARED%%$$/r${PKGDIR}/PFRAG.shared${SUBPACKAGE}' \
-	    -e '//d' <${PLIST} ${SED_PLIST} >>$@.tmp && mv -f $@.tmp $@
+	    -e '//d' <${PLIST} ${SED_PLIST} >>$@.tmp
 .else
+	echo '@option ldcache' >>$@.tmp; \
 	sed -e '/^!%%SHARED%%$$/d' -e '/^%%!SHARED%%$$/d' \
 	    -e '/^%%SHARED%%$$/r${PKGDIR}/PFRAG.shared${SUBPACKAGE}' \
-	    -e '//d' <${PLIST} ${SED_PLIST} >>$@.tmp && mv -f $@.tmp $@
+	    -e '//d' <${PLIST} ${SED_PLIST} >>$@.tmp
 .endif
+	mv -f $@.tmp $@
 
 ${WRKPKG}/depends${SUBPACKAGE}:
 	@mkdir -p ${WRKPKG}
