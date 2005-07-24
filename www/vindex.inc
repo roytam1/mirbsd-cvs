@@ -1,3 +1,4 @@
+<li><a href="/?overview">All in 1 page</a></li>
 <li><a href="/?main">Main</a><ul class="lv2">
 	<li><a href="/?news">News</a></li>
 	<li><a href="/?wlog-7">Weblog</a> for #7</li>
@@ -14,7 +15,6 @@
 <li><a href="/?projects">Project Ideas</a></li>
 <li><a href="/?danke">Donate</a></li>
 <li style="list-style:none;"></li>
-<li><a href="http://wiki.mirbsd.de/HomePage">MirWiki</a></li>
 <li><a href="/cman/">Manpages</a></li>
 <li style="list-style:none;"></li>
 <li><a href="/?style">StyleSelect</a></li>

@@ -1,9 +1,8 @@
-<small class="rcsid">$MirOS: www/content/ZG9jcw__.inc,v 1.2 2005/01/07 02:47:03 tg Exp $</small>
-<p class="admin">ATTN: Candidate for moving into MirWiki!</p>
+<small class="rcsid">$MirOS: www/content/ZG9jcw__.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
 <h1>Documentation</h1>
 
 <p>There should probably be some documentation here.
- For now, there's only the <a href="http://wiki.mirbsd.de/">MirWiki</a>
+ For now, there's only the <big><big><a href="http://wiki.mirbsd.de/">MirWiki</a></big></big>
  and the following unsorted list of various documents:</p><ul>
 <li><a href="/?bsd-intro">BSD Introduction</a>
  (English, generic)</li>
@@ -23,5 +22,3 @@
 <li><a href="/?isdn">ISDN HOWTO</a>
  (quickstart, how to do ISDN with MirBSD)</li>
 </ul>
-
-<p>Most of the documentation above will move to the MirWiki.</p>
