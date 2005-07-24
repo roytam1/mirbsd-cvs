@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.8 2005/07/02 11:28:30 tg Exp $
+# $MirOS: src/etc/rc,v 1.9 2005/07/02 12:17:55 tg Exp $
 # $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -56,7 +56,8 @@ update_limit() {
 	local _new _suf
 
 	for _suf in "" -cur -max; do
-		_new=$(getcap -f /etc/login.conf -s ${_lc}${_suf} daemon 2>/dev/null)
+		_new=$(getcap -f /etc/login.conf -s ${_lc}${_suf} \
+		    daemon 2>/dev/null)
 		if [[ -n $_new ]]; then
 			[[ $_new = infinity ]] && _new=unlimited
 			case "$_suf" {
@@ -368,12 +369,6 @@ rm -f /fastboot
 echo setting tty flags
 ttyflags -a
 
-if [[ -x /sbin/kbd && -s /etc/kbdtype ]]; then
-	[[ -f /etc/wsconsctl.conf ]] && \
-	    echo warning: better use wsconsctl.conf instead of /etc/kbdtype!
-	kbd $(</etc/kbdtype)
-fi
-
 if [[ $pf != NO ]]; then
 	RULES="block all"
 	RULES="$RULES\npass on lo0"
@@ -559,17 +554,12 @@ fi
 # correct permissions
 if [[ -d /usr/X11R6/lib ]]; then
 	for d in /tmp/.X11-unix /tmp/.ICE-unix; do
+		[[ -e $d ]] || mkdir -p $d
 		if [[ -d $d ]]; then
-			if [[ $(ls -ld $d | cut -d' ' -f4) != root ]]; then
-				chown root $d
-			fi
-			if [[ $(ls -ld $d | cut -d' ' -f1) != drwxrwxrwt ]]; then
-				chmod 1777 $d
-			fi
+			[[ $(stat -f %u $d) = 0 ]] || chown 0 $d
+			[[ $(stat -f %p $d) = 41777 ]] || chmod 1777 $d
 		elif [[ -e $d ]]; then
 			echo "Error: $d exists and isn't a directory."
-		else
-			mkdir -p -m 1777 $d
 		fi
 	done
 fi
