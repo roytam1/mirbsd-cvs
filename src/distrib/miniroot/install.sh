@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.3 2005/05/20 19:40:23 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.4 2005/07/01 13:31:29 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -412,12 +412,15 @@ mv hosts.new hosts
 save_comments hosts
 save_comments dhclient.conf
 
-# Possible files: fstab, kbdtype, myname, sysctl.conf
+# Possible files: fstab, myname, sysctl.conf
 #                 dhclient.conf resolv.conf resolv.conf.tail
 #		  hostname.* hosts
-for _f in fstab kbdtype my* *.conf *.tail host* ttys; do
+for _f in fstab my* *.conf *.tail host* ttys; do
 	[[ -f $_f ]] && mv $_f /mnt/etc/.
 done )
+
+[[ -s /tmp/kbdtype ]] && \
+    print keyboard.encoding=$(</tmp/kbdtype) >>/mnt/etc/wsconsctl.conf
 
 # Amend target fstab by kernfs (BSD) / sysfs (Linux) and procfs (both)
 [[ $MODE == install ]] && cat >>/mnt/etc/fstab <<__EOF
