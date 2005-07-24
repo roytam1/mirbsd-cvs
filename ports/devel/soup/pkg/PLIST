@@ -29,11 +29,8 @@ include/soup/libwsdl/wsdl-soap-memory.h
 include/soup/libwsdl/wsdl-soap-parse.h
 include/soup/libwsdl/wsdl-typecodes.h
 include/soup/libwsdl/wsdl.h
-lib/libsoup-apache.a
 lib/libsoup-apache.la
-lib/libsoup.a
 lib/libsoup.la
-lib/libwsdl.a
 lib/libwsdl.la
 lib/pkgconfig/soup.pc
 lib/soupConf.sh
