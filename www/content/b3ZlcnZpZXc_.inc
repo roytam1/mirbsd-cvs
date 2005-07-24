@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.1 2005/07/24 18:03:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.2 2005/07/24 18:12:08 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -59,11 +59,11 @@
 
 <p>We used to have RFC1991 compatible PGP keys with which releases and
  snapshots were signed. These are the keys used (most recent first):</p><ul>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&fingerprint=on&search=0x5CE51C3D">0x5CE51C3D</a> (deprecated)</li>
- <li>bsiegert@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&fingerprint=on&search=0xC246B025">0xC246B025</a></li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&fingerprint=on&search=0x68ED2381">0x68ED2381 (on server)</a> (deprecated)</li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&fingerprint=on&search=0xD7967B31">0xD7967B31</a> (revoked)</li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&fingerprint=on&search=0x8F1F22ED">0x8F1F22ED (well known)</a> (revoked)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x5CE51C3D">0x5CE51C3D</a> (deprecated)</li>
+ <li>bsiegert@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xC246B025">0xC246B025</a></li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x68ED2381">0x68ED2381 (on server)</a> (deprecated)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xD7967B31">0xD7967B31</a> (revoked)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x8F1F22ED">0x8F1F22ED (well known)</a> (revoked)</li>
 </ul>
 
 <h3>X.509</h3>
