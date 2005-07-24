@@ -12,7 +12,6 @@ bin/xgettext
 include/libintl.h
 info/gettext.info
 @comment lib/charset.alias
-lib/libintl.a
 lib/libintl.la
 man/man3/bind_textdomain_codeset.3
 man/man3/bindtextdomain.3
