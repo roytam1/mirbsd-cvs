@@ -1,17 +1,17 @@
-#!/bin/ksh
-# $MirOS: src/etc/MAKEDEV.mi,v 1.4 2005/05/06 12:46:32 tg Exp $
+#!/bin/mksh
+# $MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
 #
-#	OpenBSD: etc.sparc/MAKEDEV.md,v 1.24 2004/04/11 18:05:23 millert Exp 
-#	$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.3 2005/03/15 16:45:45 tg Exp $
-#	OpenBSD: MAKEDEV.common,v 1.7 2004/04/11 18:14:59 millert Exp 
-#	MirOS: src/etc/MAKEDEV.common,v 1.3 2005/05/06 13:01:54 tg Exp 
-#	OpenBSD: MAKEDEV.mi,v 1.72 2004/02/16 18:58:53 miod Exp 
-#	MirOS: src/etc/MAKEDEV.mi,v 1.4 2005/05/06 12:46:32 tg Exp 
-#	OpenBSD: MAKEDEV.sub,v 1.12 2004/02/20 19:13:01 miod Exp 
-#	MirOS: src/etc/MAKEDEV.sub,v 1.3 2005/03/15 16:45:44 tg Exp 
+#	OpenBSD: etc.sparc/MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp 
+#	$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.5 2005/07/23 15:36:57 tg Exp $
+#	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.4 2005/07/24 12:49:10 tg Exp 
+#	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
+#	MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp 
+#	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
+#	MirOS: src/etc/MAKEDEV.sub,v 1.4 2005/07/24 12:49:10 tg Exp 
 #
 #
 # Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
@@ -52,10 +52,16 @@
 # Terminal ports:
 #	cua[a-z]*	Zilog 8530 serial ports
 #	tty[a-z]*	Zilog 8530 serial ports
+#	magma*	Magma multiport cards
+#	spif*	"spif" multiport cards
 # Pseudo terminals:
 #	ptm	pty master device
 #	pty*	Set of 62 master pseudo terminals
 #	tty*	Set of 62 slave pseudo terminals
+# Printers:
+#	bpp*	Parallel port
+#	bppmag[mno]	Magma parallel port
+#	bpp[jkl]	"spif" parallel port
 # Console ports:
 #	ttyC0	Minimal wscons devices
 #	ttyC-F*	wscons display devices
@@ -66,22 +72,16 @@
 # Special purpose devices:
 #	audio*	Audio devices
 #	bpf*	Berkeley Packet Filter
-#	bpp*	Parallel port
-#	bppmag[mno]	Magma parallel port
-#	bpp[jkl]	"spif" parallel port
 #	fd	fd/* nodes for fdescfs
 #	lkm	Loadable kernel modules interface
-#	openprom	
-#	magma*	Magma multiport cards
+#	openprom	PROM settings
 #	pf*	Packet Filter
 #	*random	In-kernel random data source
-#	spif*	"spif" multiport cards
 #	ses*	SES/SAF-TE SCSI devices
 #	ss*	SCSI scanners
 #	systrace*	System call tracing device
 #	tun*	Network tunnel driver
-#	uk*	SCSI unknown devices
-#	xfs*	XFS filesystem node
+#	uk*	Unknown SCSI devices
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 T=$0
 
@@ -103,7 +103,7 @@ hex()
 
 alph2d()
 {
-	local t="$1"  
+	local t="$1"
 	local p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	local sub=${p%${t}*}
 	echo ${#sub}
@@ -241,10 +241,6 @@ std)
 	M openprom	c 70 0	640 kmem
 	;;
 
-xfs*)
-	M xfs$U c 51 $U 600
-	;;
-
 uk*)
 	M uk$U c 120 $U 640 operator
 	;;
@@ -269,24 +265,6 @@ ses*)
 	M ses$U c 124 $U 640 operator
 	;;
 
-spif*)
-	case $U in
-	0)	offset=0  nam=j;;
-	1)	offset=16 nam=k;;
-	2)	offset=32 nam=l;;
-	*)	echo "bad unit for $i: $U"; exit 127;;
-	esac
-	offset=$(($U*64))
-	n=0
-	while [ $n -lt 8 ]
-	do
-		name=${nam}`hex $n`
-		M tty$name c 102 $(($offset+$n)) 660 dialer uucp
-		n=$(($n+1))
-	done
-	M bpp${nam}0 c 103 $(($offset+0)) 600
-	;;
-
 *random)
 	n=0
 	for pre in " " s u p a
@@ -298,25 +276,6 @@ spif*)
 
 pf*)
 	M pf c 59 0 600
-	;;
-
-magma*)
-	case $U in
-	0)	offset=0  nam=m;;
-	1)	offset=16 nam=n;;
-	2)	offset=32 nam=o;;
-	*)	echo "bad unit for $i: $U"; exit 127;;
-	esac
-	offset=$(($U*64))
-	n=0
-	while [ $n -lt 16 ]
-	do
-		name=${nam}`hex $n`
-		M tty$name c 100 $(($offset+$n)) 660 dialer uucp
-		n=$(($n+1))
-	done
-	M bpp${nam}0 c 101 $(($offset+0)) 600
-	M bpp${nam}1 c 101 $(($offset+1)) 600
 	;;
 
 openprom)
@@ -331,10 +290,6 @@ fd)
 	RMlist="mkdir -p fd;$RMlist" n=0
 	while [ $n -lt 64 ];do M fd/$n c 24 $n;n=$(($n+1));done
 	MKlist="$MKlist;chmod 555 fd"
-	;;
-
-bpp*)
-	M bpp$U c 104 $U 600
 	;;
 
 bpf*)
@@ -374,7 +329,7 @@ tty[C-F]*)
 	ttyF*) n=F m=768;;
 	esac
 	case $U in
-	[0-9a-f]) M tty$n$U c 78 $(( 16#$U + $m )) 600;;
+	[0-9a-f]) M tty$n$U c 78 $((16#$U+$m)) 600;;
 	cfg) M tty${n}cfg c 78 $((255+$m)) 600;;
 	*) echo bad unit $U for $i; exit 1;;
 	esac
@@ -388,6 +343,10 @@ wscons)
 	R ttyDcfg ttyD0 ttyD1 ttyD2 ttyD3 ttyD4 ttyD5 ttyD6 ttyD7
 	R ttyD8 ttyD9 ttyDa ttyDb ttyCcfg ttyC0 ttyC1 ttyC2 ttyC3
 	R ttyC4 ttyC5 ttyC6 ttyC7 ttyC8 ttyC9 ttyCa ttyCb
+	;;
+
+bpp*)
+	M bpp$U c 104 $U 600
 	;;
 
 pty*)
@@ -414,6 +373,43 @@ pty*)
 
 ptm)
 	M ptm c 125 0 666
+	;;
+
+spif*)
+	case $U in
+	0)	offset=0  nam=j;;
+	1)	offset=16 nam=k;;
+	2)	offset=32 nam=l;;
+	*)	echo "bad unit for $i: $U"; exit 127;;
+	esac
+	offset=$(($U*64))
+	n=0
+	while [ $n -lt 8 ]
+	do
+		name=${nam}`hex $n`
+		M tty$name c 102 $(($offset+$n)) 660 dialer uucp
+		n=$(($n+1))
+	done
+	M bpp${nam}0 c 103 $(($offset+0)) 600
+	;;
+
+magma*)
+	case $U in
+	0)	offset=0  nam=m;;
+	1)	offset=16 nam=n;;
+	2)	offset=32 nam=o;;
+	*)	echo "bad unit for $i: $U"; exit 127;;
+	esac
+	offset=$(($U*64))
+	n=0
+	while [ $n -lt 16 ]
+	do
+		name=${nam}`hex $n`
+		M tty$name c 100 $(($offset+$n)) 660 dialer uucp
+		n=$(($n+1))
+	done
+	M bpp${nam}0 c 101 $(($offset+0)) 600
+	M bpp${nam}1 c 101 $(($offset+1)) 600
 	;;
 
 tty[a-z])
@@ -508,10 +504,10 @@ all)
 	R sd1 sd2 sd3 sd4 cd0 cd1 rd0 xy0 xy1 xy2 xy3 tun0 tun1 tun2
 	R tun3 bpf0 bpf1 bpf2 bpf3 bpf4 bpf5 bpf6 bpf7 bpf8 bpf9 pty0
 	R fd1 fd1B fd1C fd1D fd1E fd1F fd1G fd1H fd0 fd0B fd0C fd0D
-	R fd0E fd0F fd0G fd0H xfs0 ss0 ss1 ch0 ses0 cuaa cuab cuac
-	R cuad ttya ttyb ttyc ttyd ptm local wscons audio0 uk0 random
-	R lkm pf systrace xd0 xd1 xd2 xd3 raid0 raid1 raid2 raid3 std
-	R st0 st1 fd
+	R fd0E fd0F fd0G fd0H ss0 ss1 ch0 ses0 cuaa cuab cuac cuad
+	R ttya ttyb ttyc ttyd ptm local wscons audio0 uk0 random lkm
+	R pf systrace xd0 xd1 xd2 xd3 raid0 raid1 raid2 raid3 std st0
+	R st1 fd
 	;;
 
 presto*|xd*|xy*|sd*|raid*|ccd*)
