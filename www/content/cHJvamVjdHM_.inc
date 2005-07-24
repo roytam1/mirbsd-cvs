@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.1 2005/06/06 10:19:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.2 2005/07/18 01:26:07 tg Exp $</small>
 <h1>Project Ideas</h1>
 
 <p>The following project ideas can be submitted to the MirOS Project
@@ -46,9 +46,16 @@
  other stuff (probably not interesting for gcc at all). The project
  assignee will have to make himself familiar with the MirOS-local
  diffs first &ndash; not always an easy task because we inherited a
- lot of them from OpenBSD.<br />
+ lot of them from OpenBSD. (Optionally, add support for cross-building
+ to OpenBSD targets first.)<br />
 
  Estimated effort: Time - medium to high; Skill - low but specialised</li>
+
+<li>Merge improvements from NetBSD&reg; &ndash; especially in the
+ following fields: make(1); binutils and gcc (so we can cross-build
+ to all or almost all NetBSD&reg; targets); ...<br />
+
+ Estimated effort: Time - medium to high; Skill - medium</li>
 
 </ul>
 
