@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.3 2005/03/26 10:56:10 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:52 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.7 1996/11/15 22:38:50 jtc Exp $	*/
 
@@ -65,22 +65,14 @@
 #define _BSD_TIMER_T_	int
 
 /*
- * Runes (wchar_t) is declared to be an "int" instead of the more natural
- * "unsigned long" or "long".  Two things are happening here.  It is not
- * unsigned so that EOF (-1) can be naturally assigned to it and used.  Also,
- * it looks like 10646 will be a 31 bit standard.  This means that if your
- * ints cannot hold 32 bits, you will be in trouble.  The reason an int was
- * chosen over a long is that the is*() and to*() routines take ints (says
- * ANSI C), but they use _RUNE_T_ instead of int.  By changing it here, you
- * lose a bit of ANSI conformance, but your programs will still work.
- *
- * Note that _WCHAR_T_ and _RUNE_T_ must be of the same type.  When wchar_t
- * and rune_t are typedef'd, _WCHAR_T_ will be undef'd, but _RUNE_T remains
- * defined for ctype.h.
+ * wchar_t is declared to be an "unsigned short" for size reasons on MirOS,
+ * so we can only support the BMP, but this is okay for us.  We also only
+ * support UTF-8 and ISO-8859-1/transparent encodings externally, and UCS-2
+ * is only being used internally, in machine endianness.
+ * wint_t must be an int or unsigned int because of integer promotion rules.
  */
-#define	_BSD_WCHAR_T_	int			/* wchar_t */
+#define	_BSD_WCHAR_T_	unsigned short		/* wchar_t */
 #define _BSD_WINT_T_	int			/* wint_t */
-#define	_BSD_RUNE_T_	int			/* rune_t */
 
 /*
  * We describe off_t here so its declaration can be visible to
