@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.5 2005/02/10 21:57:09 tg Exp $
+# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.6 2005/05/14 16:20:21 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -26,7 +26,7 @@ do-it:
 	  autoconf )
 	rm -f ltmain.sh Makefile libtoolize
 	CONFIG_SHELL="${SHELL}" CC="${CC}" ${SHELL} ./configure
-	${MAKE} ./ltmain.sh
+	${MAKE} ltmain.sh
 
 love:
 	@echo not war?
