@@ -1,5 +1,5 @@
-# $MirOS: src/include/Makefile,v 1.2 2005/03/06 19:13:40 tg Exp $
-# $OpenBSD: Makefile,v 1.126 2004/05/17 22:11:32 drahn Exp $
+# $MirOS: src/include/Makefile,v 1.3 2005/03/29 13:09:07 tg Exp $
+# $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
 
@@ -22,6 +22,7 @@ FILES=	a.out.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h cast.h \
 	stddef.h stdint.h stdio.h stdlib.h string.h strings.h struct.h \
 	sysexits.h tar.h time.h ttyent.h tzfile.h unistd.h utime.h \
 	utmp.h vis.h
+#	wchar.h wctype.h
 
 MFILES=	float.h frame.h
 LFILES=	errno.h fcntl.h syslog.h termios.h stdarg.h varargs.h
@@ -57,15 +58,17 @@ includes:
 	@echo installing ${FILES}
 	@for i in ${FILES}; do \
 		cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		    ${INSTALL} ${INSTALL_COPY} -m 444 $$i ${DESTDIR}/usr/include/$$i; \
+		    ${INSTALL} ${INSTALL_COPY} -m ${NONBINMODE} \
+		    $$i ${DESTDIR}/usr/include/$$i; \
 	done
 	@echo installing ${DIRS}
 	@for i in ${DIRS}; do \
-		${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
-			${DESTDIR}/usr/include/$$i; \
+		${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+		    ${DESTDIR}/usr/include/$$i; \
 		cd ${.CURDIR}/$$i && for j in *.[ih]; do \
 			cmp -s $$j ${DESTDIR}/usr/include/$$i/$$j || \
-			${INSTALL} ${INSTALL_COPY} -m 444 $$j ${DESTDIR}/usr/include/$$i/$$j; \
+			    ${INSTALL} ${INSTALL_COPY} -m ${NONBINMODE} \
+			    $$j ${DESTDIR}/usr/include/$$i/$$j; \
 		done; \
 	done
 	@rm -rf ${DESTDIR}/usr/include/openssl ${DESTDIR}/usr/include/ssl \
@@ -84,10 +87,8 @@ includes:
 		ln -s machine/$$i ${DESTDIR}/usr/include/$$i; \
 	done
 	chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/include
-	find ${DESTDIR}/usr/include -type f | \
-		xargs chmod a=r
-	find ${DESTDIR}/usr/include -type d | \
-		xargs chmod u=rwx,go=rx
+	find ${DESTDIR}/usr/include -type f | xargs chmod a=r
+	find ${DESTDIR}/usr/include -type d | xargs chmod u=rwx,go=rx
 	@for i in ${RDIRS}; do \
 		echo installing in ${.CURDIR}/$$i; \
 		cd ${.CURDIR}/$$i && ${MAKE} includes; \
@@ -97,22 +98,22 @@ copies:
 	@echo copies: ${LDIRS}
 	@for i in ${LDIRS}; do \
 		rm -rf ${DESTDIR}/usr/include/$$i && \
-		${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
-			${DESTDIR}/usr/include/$$i ; \
+		${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+		    ${DESTDIR}/usr/include/$$i ; \
 	done
 	cd ../sys; \
 	pax -rw -pa -L \
 	    $$(find ${LDIRS} -follow -type f -name '*.h' \
 	    '!' -path 'dev/microcode/*' -print) ${DESTDIR}/usr/include
 	cd ${DESTDIR}/usr/include && rm -rf ${MACHINE} ${MACHINE_ARCH} machine
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
-		${DESTDIR}/usr/include/${MACHINE}
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+	    ${DESTDIR}/usr/include/${MACHINE}
 	pax -rw -pa -s "|\.\./sys/arch/${MACHINE}/include||" \
 	    ../sys/arch/${MACHINE}/include/*.h \
 	    ${DESTDIR}/usr/include/${MACHINE}
 	if test ${MACHINE} != ${MACHINE_ARCH} -a \
 	    -d ../sys/arch/${MACHINE_ARCH}/include; then \
-		${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
+		${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
     	    	    ${DESTDIR}/usr/include/${MACHINE_ARCH}; \
 		pax -rw -pa -s "|\.\./sys/arch/${MACHINE_ARCH}/include||" \
 		    ../sys/arch/${MACHINE_ARCH}/include/*.h \

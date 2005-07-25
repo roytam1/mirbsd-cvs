@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: unistd.h,v 1.52 2004/01/13 18:10:53 millert Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.2 2005/03/06 19:13:40 tg Exp $ */
+/*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
 /*-
@@ -167,10 +167,6 @@ int	 initgroups(const char *, gid_t);
 int	 iruserok(u_int32_t, int, const char *, const char *);
 int	 iruserok_sa(const void *, int, int, const char *, const char *);
 int	 lchown(const char *, uid_t, gid_t);
-char	*mkdtemp(char *);
-int	 mkstemp(char *);
-int	 mkstemps(char *, int);
-char	*mktemp(char *);
 int	 nfssvc(int, void *);
 int	 nice(int);
 void	 psignal(unsigned int, const char *);

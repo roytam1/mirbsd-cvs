@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: stddef.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
+/**	$MirOS: src/include/stddef.h,v 1.2 2005/03/06 19:13:40 tg Exp $ */
+/*	$OpenBSD: stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $	*/
 /*	$NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $	*/
 
 /*-
@@ -53,7 +53,12 @@ typedef	_BSD_WCHAR_T_	wchar_t;
 #endif
 #endif
 
-#ifndef NULL
+#ifdef	_BSD_WINT_T_
+typedef	_BSD_WINT_T_	wint_t;
+#undef	_BSD_WINT_T_
+#endif
+
+#ifndef	NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
 #elif defined(lint)
