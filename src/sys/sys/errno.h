@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.3 2005/07/07 14:39:27 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
 /*
+ * Copyright (c) 2003, 2005
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.org>.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -101,6 +103,9 @@ __END_DECLS
 /* math software */
 #define	EDOM		33		/* Numerical argument out of domain */
 #define	ERANGE		34		/* Result too large */
+#ifndef _POSIX_SOURCE
+#define	EOVERFLOW	ERANGE
+#endif /* _POSIX_SOURCE */
 
 /* non-blocking and interrupt i/o */
 #define	EAGAIN		35		/* Resource temporarily unavailable */
@@ -120,6 +125,7 @@ __END_DECLS
 #endif /* _POSIX_SOURCE */
 #define	EOPNOTSUPP	45		/* Operation not supported */
 #ifndef _POSIX_SOURCE
+#define	ENOTSUP		EOPNOTSUPP
 #define	EPFNOSUPPORT	46		/* Protocol family not supported */
 #endif /* _POSIX_SOURCE */
 #define	EAFNOSUPPORT	47		/* Address family not supported by protocol family */
