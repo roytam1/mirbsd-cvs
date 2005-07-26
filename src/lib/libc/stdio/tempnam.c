@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: tempnam.c,v 1.13 2004/09/28 18:12:44 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -38,6 +38,8 @@ static char rcsid[] = "$OpenBSD: tempnam.c,v 1.13 2004/09/28 18:12:44 otto Exp $
 #include <string.h>
 #include <unistd.h>
 #include <paths.h>
+
+__RCSID("$MirOS$");
 
 __warn_references(tempnam,
     "warning: tempnam() possibly used unsafely; consider using mkstemp()");
@@ -58,14 +60,16 @@ tempnam(const char *dir, const char *pfx)
 
 	if (issetugid() == 0 && (f = getenv("TMPDIR"))) {
 		(void)snprintf(name, MAXPATHLEN, "%s%s%sXXXXXXXXXX", f,
-		    *(f + strlen(f) - 1) == '/'? "": "/", pfx);
+		    *(f + strlen(f) - (*f == '\0' ? 0 : 1)) == '/'? "": "/",
+		    pfx);
 		if ((f = _mktemp(name)))
 			return(f);
 	}
 
 	if ((f = (char *)dir)) {
 		(void)snprintf(name, MAXPATHLEN, "%s%s%sXXXXXXXXXX", f,
-		    *(f + strlen(f) - 1) == '/'? "": "/", pfx);
+		    *(f + strlen(f) - (*f == '\0' ? 0 : 1)) == '/'? "": "/",
+		    pfx);
 		if ((f = _mktemp(name)))
 			return(f);
 	}
