@@ -1,9 +1,9 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.3 2005/04/27 06:26:28 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.5 2005/07/07 21:24:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
 DISTNAME=		centericq-4.20.0
-PKGNAME=		${DISTNAME}-0-0
+PKGNAME=		${DISTNAME}-0
 CATEGORIES=		net
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
