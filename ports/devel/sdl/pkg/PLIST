@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/sdl/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:28 tg Exp $
 @comment $OpenBSD: PLIST,v 1.7 2003/12/15 16:51:05 naddy Exp $
 bin/sdl-config
 include/SDL/SDL.h
@@ -31,7 +31,6 @@ include/SDL/SDL_version.h
 include/SDL/SDL_video.h
 include/SDL/begin_code.h
 include/SDL/close_code.h
-lib/libSDL.a
 lib/libSDL.la
 lib/libSDLmain.a
 man/man3/SDLKey.3
