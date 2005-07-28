@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.6 2005/04/30 21:34:16 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.7 2005/07/25 17:45:22 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -144,7 +144,7 @@ Boston, MA 02111-1307, USA.  */
    making them agree with <machine/ansi.h>.  */
 
 #undef WCHAR_TYPE
-#define WCHAR_TYPE "unsigned short"
+#define WCHAR_TYPE "short unsigned int"
 
 #undef WCHAR_TYPE_SIZE
 #define WCHAR_TYPE_SIZE 16
