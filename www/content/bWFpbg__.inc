@@ -1,5 +1,11 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.24 2005/07/06 23:17:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.25 2005/07/08 00:11:01 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
+<h2>Aus besonderem Anla&szlig; &ndash; Currently happening problems</h2>
+<p>Der <a href="http://www.ffii.org/">FFII</a> wird zur Zeit <a
+ href="http://wiki.ffii.org/NutzwerkTerror0507De">diffamiert</a> von &quot;<a
+ href="http://nutzwerk.ffii.org/index.de.html">Nutzwerk</a>&quot; <a
+ href="http://wiki.ffii.org/NutzwerkDe">(Nutzen? Hah!)</a>. Bitte helfen.</p>
+<p>(no english translation yet)</p>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
  website isn't always up to date. It's optimised for lynx and works well in
