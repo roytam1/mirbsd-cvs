@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.3 2005/06/24 16:45:02 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.4 2005/06/24 16:50:41 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=	"mpeg video player library with sound support"
@@ -16,7 +16,7 @@ MASTER_SITES=	ftp://ftp.lokigames.com/pub/open-source/smpeg/ \
 		ftp://sunsite.auc.dk/pub/os/linux/loki/open-source/smpeg/ \
 		ftp://snuffleupagus.animearchive.org/loki/open-source/smpeg/
 
-LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
+LIB_DEPENDS=	gtk,gdk::x11/gtk+1 \
 		SDL::devel/sdl
 
 USE_X11=	Yes
