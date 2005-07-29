@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/x11/gtk+1/pkg/PLIST,v 1.1.7.1 2005/03/18 16:00:44 tg Exp $
 @comment $OpenBSD: PLIST,v 1.29 2003/12/18 16:32:24 naddy Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/gdk.info
 @unexec install-info --delete --info-dir=%D/info %D/info/gtk.info
@@ -125,9 +125,7 @@ include/gtk-1.2/gtk/gtkwidget.h
 include/gtk-1.2/gtk/gtkwindow.h
 info/gdk.info
 info/gtk.info
-lib/libgdk.a
 lib/libgdk.la
-lib/libgtk.a
 lib/libgtk.la
 lib/pkgconfig/gdk.pc
 lib/pkgconfig/gtk+.pc
