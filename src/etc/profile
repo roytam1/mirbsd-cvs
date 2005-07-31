@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.6 2005/07/23 14:24:22 tg Exp $
+# $MirOS: src/etc/profile,v 1.7 2005/07/26 17:40:38 tg Exp $
 
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -97,8 +97,8 @@ alias lo='ll -o'
 [ -x /emul/linux/bin/bash ] && alias lx='/emul/linux/bin/bash --login'
 function bye
 {
-	[ "$1" = k ] && ssh-agent -k
-	M='\033c'
+	[[ $1 = k ]] && ssh-agent -k
+	typeset M='\033c'
 	[ $? -ne 0 ] && M='\033c Warning: ssh-agent returned error!\n'
 	print -n -- "$M"
 	exit
@@ -127,8 +127,7 @@ function klynx		# kterm lynx (EUC-JP)
 }
 function Lstripcom	# strip comments from file
 {
-	local _line
-
+	typeset _line
 	set -o noglob
 	cat "$@" | while read _line; do
 		_line=${_line%%#*}
