@@ -24,10 +24,6 @@ device	sd: disk
 attach	sd at scsibus
 file	scsi/sd.c			sd needs-flag
 
-device	ses: disk
-attach	ses at scsibus
-file	scsi/ses.c			ses needs-flag
-
 device	st: tape
 attach	st at scsibus
 file	scsi/st.c			st needs-flag
