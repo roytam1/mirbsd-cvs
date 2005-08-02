@@ -181,11 +181,7 @@ struct cdevsw	cdevsw[] =
 	cdev_notdef(),			/* 48 */
 	cdev_notdef(),			/* 49 */
 	cdev_systrace_init(NSYSTRACE,systrace),	/* 50 system call tracing */
-#ifdef XFS
-	cdev_xfs_init(NXFS,xfs_dev),	/* 51: xfs communication device */
-#else
 	cdev_notdef(),			/* 51 */
-#endif
 	cdev_notdef(),			/* 52 */
 	cdev_notdef(),			/* 53 */
 	cdev_disk_init(NFD,fd),		/* 54: floppy disk */
