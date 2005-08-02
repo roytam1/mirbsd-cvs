@@ -1,14 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<!-- Copyright (c) 2005 by Thorsten "mirabile" Glaser <tg@MirBSD.org> -->
 <svg xmlns="http://www.w3.org/2000/svg" version="1.0"
  x="0" y="0" width="120" height="120" id="anargeek">
  <title>Anargeek Logo</title>
  <desc>
   The Anargeek Emblem
-  $MirOS$
-  Copyright (c) 2005 by Thorsten "mirabile" Glaser &#x3C;tg@MirBSD.org&#x3E;
+  $MirOS: www/pics/anargeek.svg,v 1.1 2005/03/16 22:04:15 tg Exp $
+  Copyright (c) 2005 by Thorsten "mirabile" Glaser &#x3C;tg@mirbsd.org&#x3E;
   This work is covered by the standard MirOS licence template.
  </desc>
  <defs>
