@@ -1,5 +1,6 @@
-.\" $MirOS$
-.\"
+.\" $MirOS: src/share/man/man9/style.9,v 1.2 2005/03/06 19:38:47 tg Exp $
+.\" $OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
+.\"-
 .\" Copyright (c) 2002-2004 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
@@ -25,9 +26,7 @@
 .\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
-.\"
-.\"	$OpenBSD: style.9,v 1.38 2004/04/10 09:10:16 jmc Exp $
-.\"
+.\"-
 .Dd June 18, 2001
 .Dt STYLE 9
 .Os
@@ -85,6 +84,7 @@ and it's okay to depend on that.
 #include <sys/types.h>	/* Non-local includes in brackets */
 .Ed
 .Pp
+Machine and device includes follow.
 If it's a network programme, put the network include files next.
 .Bd -literal -offset indent
 #include <net/if.h>
@@ -124,7 +124,7 @@ These two macros are defined in
 .Aq Pa sys/cdefs.h .
 .Bd -literal -offset indent
 __SCCSID("@(#)foo.c     4.5 (Berkeley) 4/18/91");
-__RCSID("$MirBSD\&$");
+__RCSID("$MirOS\&$");
 .Ed
 .Pp
 All functions are prototyped somewhere.
@@ -160,7 +160,7 @@ void	function(int a);
 .Ed
 .Pp
 Prototypes may have an extra space after a tab to enable function names
-to line up, although lining up needs not be used:
+to line up, although lining up is deprecated:
 .Bd -literal -offset indent
 static char	*function(int, const char *);
 static void	 usage(void);
@@ -261,7 +261,7 @@ the code unusable from C++.
 .Bd -literal -offset indent
 /* Make the structure name match the typedef */
 typedef struct _bar {
-	int	level;
+	int level;
 } BAR;
 .Ed
 .Bd -literal -offset indent
@@ -321,6 +321,10 @@ Use a space after keywords
 .Li for ,
 .Li return ,
 .Li switch ) .
+It is recommended to put parentheses around the
+.Li return
+argument, although this is not a strict requirement.
+.Pp
 No braces are
 used for control statements with zero or only a single statement unless that
 statement is more than a single line, in which case they are permitted.
@@ -553,11 +557,8 @@ is the preferred null pointer constant.
 Use
 .Dv NULL
 instead of
-(type\ *)0 or (type\ *)NULL in contexts where the compiler knows the
-type, e.g., in assignments.
-Use (type\ *)NULL in other contexts, in particular for all function args.
-(Casting is essential for variadic args and is necessary for other args
-if the function prototype might not be in scope.)
+(type\ *)0 or (type\ *)NULL in all cases except for arguments to variadic
+functions where the compiler does not know the type.
 Test pointers
 against
 .Dv NULL ,
@@ -684,6 +685,10 @@ Whenever possible, code should be run through a code checker
 .Dq Li gcc -Wall -W -Wtraditional -Wpointer-arith -Wbad-function-cast ... ,
 .Xr lint 1
 or lclint from the ports tree) and produce minimal warnings.
+.Pp
+Note that documentation follows its own style guide,
+as documented in
+.Xr mdoc.samples 7 .
 .Sh FILES
 .Bl -tag -width "/usr/share/misc/licence.template " -compact
 .It Pa /usr/share/misc/licence.template
@@ -759,7 +764,8 @@ Be warned.
 .Xr indent 1 ,
 .Xr err 3 ,
 .Xr queue 3 ,
-.Xr warn 3
+.Xr warn 3 ,
+.Xr mdoc.samples 7
 .Sh HISTORY
 This man page is largely based on the src/admin/style/style file from
 the
@@ -767,6 +773,6 @@ the
 4.4-Lite2 release, with updates to reflect the current practice and
 desire of the
 .Ox
-project, with a few annotations for the
+project, with a few annotations and changes for the
 .Mx
 source.
