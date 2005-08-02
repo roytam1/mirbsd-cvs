@@ -1,5 +1,4 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: uvm_unix.c,v 1.26 2003/03/04 18:24:05 mickey Exp $	*/
+/*	$OpenBSD: uvm_unix.c,v 1.27 2005/07/26 07:11:55 art Exp $	*/
 /*	$NetBSD: uvm_unix.c,v 1.18 2000/09/13 15:00:25 thorpej Exp $	*/
 
 /*
@@ -94,17 +93,6 @@ sys_obreak(p, v, retval)
 	 * grow or shrink?
 	 */
 	if (new > old) {
-		/*
-		 * Since uvm_map_protect will not do the optimizations that
-		 * we need in uvm_map, we can't just change the protection
-		 * on the underlying range. We need to unmap it and then do
-		 * the mapping the way we need it.
-		 * XXX - the problem is that we really need to lock
-		 * XXX - the vm space properly when doing this to avoid
-		 * XXX - trouble with multiple processes accessing this
-		 * XXX - memory area. At this moment we don't.
-		 */
-		uvm_unmap(&vm->vm_map, old, new);
 		error = uvm_map(&vm->vm_map, &old, new - old, NULL,
 		    UVM_UNKNOWN_OFFSET, 0,
 		    UVM_MAPFLAG(UVM_PROT_RW, UVM_PROT_RWX, UVM_INH_COPY,
@@ -117,8 +105,7 @@ sys_obreak(p, v, retval)
 		}
 		vm->vm_dsize += atop(new - old);
 	} else {
-		uvm_map_protect(&vm->vm_map, new, old - new,
-		    VM_PROT_NONE, FALSE);
+		uvm_deallocate(&vm->vm_map, new, old - new);
 		vm->vm_dsize -= atop(old - new);
 	}
 
@@ -219,6 +206,13 @@ uvm_coredump(p, vp, cred, chdr)
 		if (!(entry->protection & VM_PROT_WRITE))
 			continue;
 
+		/*
+		 * Don't dump mmaped devices.
+		 */
+		if (entry->object.uvm_obj != NULL &&
+		    UVM_OBJ_IS_DEVICE(entry->object.uvm_obj))
+			continue;
+
 		start = entry->start;
 		end = entry->end;
 
@@ -256,7 +250,11 @@ uvm_coredump(p, vp, cred, chdr)
 		    (caddr_t)&cseg, chdr->c_seghdrsize,
 		    offset, UIO_SYSSPACE,
 		    IO_NODELOCKED|IO_UNIT, cred, NULL, p);
-		if (error)
+		/*
+		 * We might get an EFAULT on objects mapped beyond
+		 * EOF. Ignore the error.
+		 */
+		if (error && error != EFAULT)
 			break;
 
 		offset += chdr->c_seghdrsize;
