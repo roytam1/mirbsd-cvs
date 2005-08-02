@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
-/*	$OpenBSD: dkcsum.c,v 1.11 2003/06/03 20:31:07 deraadt Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.3 2005/07/07 15:39:03 tg Exp $ */
+/*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
- * Copyright (c) 2004 Thorsten Glaser.
+ * Copyright (c) 2004, 2005 Thorsten Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -56,13 +56,13 @@ extern bios_diskinfo_t *bios_diskinfo;
 extern dev_t bootdev;
 
 void
-dkcsumattach()
+dkcsumattach(void)
 {
 	struct device *dv;
 	struct buf *bp;
 	struct bdevsw *bdsw;
-	dev_t dev;
-	int error;
+	dev_t dev, pribootdev, altbootdev;
+	int error, picked;
 	u_int32_t csum;
 	bios_diskinfo_t *bdi, *hit;
 
@@ -70,14 +70,23 @@ dkcsumattach()
 	if (bios_diskinfo == NULL || bios_cksumlen * DEV_BSIZE > MAXBSIZE)
 		return;
 
+#ifdef DEBUG
+	printf("dkcsum: bootdev=%#x\n", bootdev);
+	for (bdi = bios_diskinfo; bdi->bios_number != -1; bdi++)
+		if (bdi->bios_number & 0x80)
+			printf("dkcsum: BIOS drive %#x checksum is %#x\n",
+			    bdi->bios_number, bdi->checksum);
+#endif
+	pribootdev = altbootdev = 0;
+
 	/*
-	 * XXX Whatif DEV_BSIZE is changed to something else than the BIOS
+	 * XXX What if DEV_BSIZE is changed to something else than the BIOS
 	 * blocksize?  Today, /boot doesn't cover that case so neither need
 	 * I care here.
 	 */
 	bp = geteblk(bios_cksumlen * DEV_BSIZE);	/* XXX error check?  */
 
-	for (dv = alldevs.tqh_first; dv; dv = dv->dv_list.tqe_next) {
+	TAILQ_FOREACH(dv, &alldevs, dv_list) {
 		if (dv->dv_class != DV_DISK)
 			continue;
 		bp->b_dev = dev = dev_rawpart(dv);
@@ -92,9 +101,10 @@ dkcsumattach()
 		error = (*bdsw->d_open)(dev, FREAD, S_IFCHR, curproc);
 		if (error) {
 			/* XXX What to do here? */
-			if (error != EIO)
-				printf("dkcsum: open of %s failed (%d)\n",
-				    dv->dv_xname, error);
+#ifdef DEBUG
+			printf("dkcsum: %s open failed (%d)\n",
+			    dv->dv_xname, error);
+#endif
 			continue;
 		}
 
@@ -104,27 +114,33 @@ dkcsumattach()
 		bp->b_flags = B_BUSY | B_READ;
 		bp->b_cylin = 0;
 		(*bdsw->d_strategy)(bp);
-		if (biowait(bp)) {
+		if ((error = biowait(bp))) {
 			/* XXX What to do here? */
-			printf("dkcsum: read of %s failed (%d)\n",
+#ifdef DEBUG
+			printf("dkcsum: %s read failed (%d)\n",
 			    dv->dv_xname, error);
+#endif
 			error = (*bdsw->d_close)(dev, 0, S_IFCHR, curproc);
+#ifdef DEBUG
 			if (error)
-				printf("dkcsum: close of %s failed (%d)\n",
+				printf("dkcsum: %s close failed (%d)\n",
 				    dv->dv_xname, error);
+#endif
 			continue;
 		}
 		error = (*bdsw->d_close)(dev, FREAD, S_IFCHR, curproc);
 		if (error) {
 			/* XXX What to do here? */
-			printf("dkcsum: close of %s failed (%d)\n",
+#ifdef DEBUG
+			printf("dkcsum: %s closed failed (%d)\n",
 			    dv->dv_xname, error);
+#endif
 			continue;
 		}
 
 		csum = adler32(0, bp->b_data, bios_cksumlen * DEV_BSIZE);
 #ifdef DEBUG
-		printf("dkcsum: checksum of %s is %x\n", dv->dv_xname, csum);
+		printf("dkcsum: %s checksum is %#x\n", dv->dv_xname, csum);
 #endif
 
 		/* Find the BIOS device */
@@ -136,60 +152,71 @@ dkcsumattach()
 			if ((!(bdi->bios_number & 0x80)) ||
 			    (bdi->flags & BDI_ELTORITO))
 				continue;
-#ifdef DEBUG
-			printf("dkcsum: "
-			    "attempting to match with BIOS drive %x csum %x\n",
-			    bdi->bios_number, bdi->checksum);
-#endif
-			if (bdi->checksum == csum) {
-				if (!hit && !(bdi->flags & BDI_PICKED))
-					hit = bdi;
-				else {
-					rnd_addpool_add((bdi->bios_number
-					    + csum) ^ arc4random());
-					/* XXX add other heuristics here.  */
-					printf("dkcsum: warning: "
-					    "dup BSD->BIOS disk mapping\n");
-				}
-			}
+			if (bdi->checksum != csum)
+				continue;
+			picked = hit || (bdi->flags & BDI_PICKED);
+			if (!picked)
+				hit = bdi;
+			else
+				rnd_addpool_add((bdi->bios_number + csum)
+				    ^ arc4random());
+			printf("dkcsum: %s matches BIOS drive %#x%s (%08X)\n",
+			    dv->dv_xname, bdi->bios_number,
+			    (picked ? " IGNORED" : ""), bdi->checksum);
 		}
 
 		/*
 		 * If we have no hit, that's OK, we can see a lot more devices
 		 * than the BIOS can, so this case is pretty normal.
 		 */
-		if (hit) {
-			rnd_addpool_add((hit->bios_number + csum)
-			    ^ arc4random());
-#ifdef DIAGNOSTIC
-			printf("dkcsum: %s matched BIOS disk %x\n",
-			    dv->dv_xname, hit->bios_number);
-#endif
-		} else {
+		if (!hit) {
 			rnd_addpool_add((0x100 + csum) ^ arc4random());
-#ifdef DIAGNOSTIC
-			printf("dkcsum: %s had no matching BIOS disk\n",
+#ifdef DEBUG
+			printf("dkcsum: %s has no matching BIOS drive\n",
 			    dv->dv_xname);
-#endif
+#endif	
 			continue;
 		}
 
-		/* Fixup bootdev if units match.  This means that all of
+		/*
+		 * Fixup bootdev if units match.  This means that all of
 		 * hd*, sd*, wd*, will be interpreted the same.  Not 100%
 		 * backwards compatible, but sd* and wd* should be phased-
 		 * out in the bootblocks.
 		 */
-		if (B_UNIT(bootdev) == (hit->bios_number & 0x7F)) {
+
+		/* B_TYPE dependent hd unit counting bootblocks */ 
+		if ((B_TYPE(bootdev) == B_TYPE(hit->bsd_dev)) &&
+		    (B_UNIT(bootdev) == B_UNIT(hit->bsd_dev))) {
 			int type, ctrl, adap, part, unit;
 
-			/* Translate to MAKEBOOTDEV() style */
 			type = major(bp->b_dev);
 			adap = B_ADAPTOR(bootdev);
 			ctrl = B_CONTROLLER(bootdev);
 			unit = DISKUNIT(bp->b_dev);
 			part = B_PARTITION(bootdev);
 
-			bootdev = MAKEBOOTDEV(type, ctrl, adap, unit, part);
+			pribootdev = MAKEBOOTDEV(type, ctrl, adap, unit, part);
+#ifdef DEBUG
+			printf("dkcsum: %s is primary boot disk\n",
+			    dv->dv_xname);
+#endif
+		}
+		/* B_TYPE independent hd unit counting bootblocks */
+		if (B_UNIT(bootdev) == (hit->bios_number & 0x7F)) {
+			int type, ctrl, adap, part, unit;
+
+			type = major(bp->b_dev);
+			adap = B_ADAPTOR(bootdev);
+			ctrl = B_CONTROLLER(bootdev);
+			unit = DISKUNIT(bp->b_dev);
+			part = B_PARTITION(bootdev);
+
+			altbootdev = MAKEBOOTDEV(type, ctrl, adap, unit, part);
+#ifdef DEBUG
+			printf("dkcsum: %s is alternate boot disk\n",
+			    dv->dv_xname);
+#endif
 		}
 
 		/* This will overwrite /boot's guess, just so you remember */
@@ -197,6 +224,8 @@ dkcsumattach()
 		    DISKUNIT(bp->b_dev), RAW_PART);
 		hit->flags |= BDI_PICKED;
 	}
+	bootdev = pribootdev ? pribootdev : altbootdev ? altbootdev : bootdev;
+
 	bp->b_flags |= B_INVAL;
 	brelse(bp);
 }
