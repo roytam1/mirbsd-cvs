@@ -1,4 +1,4 @@
-/*	$OpenBSD: ufs_vnops.c,v 1.65 2005/06/18 18:09:43 millert Exp $	*/
+/*	$OpenBSD: ufs_vnops.c,v 1.67 2005/07/24 05:43:36 millert Exp $	*/
 /*	$NetBSD: ufs_vnops.c,v 1.18 1996/05/11 18:28:04 mycroft Exp $	*/
 
 /*
@@ -61,7 +61,6 @@
 #include <miscfs/specfs/specdev.h>
 #include <miscfs/fifofs/fifo.h>
 
-#include <ufs/ufs/extattr.h>
 #include <ufs/ufs/quota.h>
 #include <ufs/ufs/inode.h>
 #include <ufs/ufs/dir.h>
@@ -851,13 +850,9 @@ abortit:
 		if ((fcnp->cn_flags & SAVESTART) == 0)
 			panic("ufs_rename: lost from startdir");
 		fcnp->cn_nameiop = DELETE;
-		error = relookup(fdvp, &fvp, fcnp);
+		if ((error = relookup(fdvp, &fvp, fcnp)) != 0)
+			return (error);		/* relookup did vrele() */
 		vrele(fdvp);
-		if (error)
-			return (error);
-		if (fvp == NULL) {
-			return (ENOENT);
-		}
 		return (VOP_REMOVE(fdvp, fvp, fcnp));
 	}
 
@@ -1108,12 +1103,11 @@ abortit:
 	fcnp->cn_flags |= LOCKPARENT | LOCKLEAF;
 	if ((fcnp->cn_flags & SAVESTART) == 0)
 		panic("ufs_rename: lost from startdir");
-	error = relookup(fdvp, &fvp, fcnp);
-	vrele(fdvp);
-	if (error) {
+	if ((error = relookup(fdvp, &fvp, fcnp)) != 0) {
 		vrele(ap->a_fvp);
 		return (error);
 	}
+	vrele(fdvp);
 	if (fvp == NULL) {
 		/*
 		 * From name has disappeared.
