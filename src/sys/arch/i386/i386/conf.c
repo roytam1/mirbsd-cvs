@@ -1,4 +1,4 @@
-/*	$OpenBSD: conf.c,v 1.106 2004/02/10 01:31:21 millert Exp $	*/
+/*	$OpenBSD: conf.c,v 1.111 2005/07/31 06:39:07 dlg Exp $	*/
 /*	$NetBSD: conf.c,v 1.75 1996/05/03 19:40:20 christos Exp $	*/
 
 /*
@@ -51,7 +51,6 @@ bdev_decl(fd);
 #include "wt.h"
 bdev_decl(wt);
 #include "sd.h"
-#include "ses.h"
 #include "st.h"
 #include "cd.h"
 #include "uk.h"
@@ -119,6 +118,13 @@ int	nblkdev = sizeof(bdevsw) / sizeof(bdevsw[0]);
 	dev_init(c,n,open), dev_init(c,n,close), (dev_type_read((*))) enodev, \
 	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
 	(dev_type_stop((*))) enodev, 0, seltrue, (dev_type_mmap((*))) enodev }
+
+/* open, close, read */
+#define cdev_nvram_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
+	(dev_type_write((*))) enodev, (dev_type_ioctl((*))) enodev, \
+	(dev_type_stop((*))) enodev, 0, seltrue, \
+	(dev_type_mmap((*))) enodev, 0 }
 
 
 #define	mmread	mmrw
@@ -233,7 +239,7 @@ struct cdevsw	cdevsw[] =
 	cdev_apm_init(NAPM,apm),	/* 21: Advancded Power Management */
 	cdev_fd_init(1,filedesc),	/* 22: file descriptor pseudo-device */
 	cdev_bpftun_init(NBPFILTER,bpf),/* 23: Berkeley packet filter */
-	cdev_ses_init(NSES,ses),	/* 24: SES/SAF-TE SCSI */
+	cdev_notdef(),			/* 24 */
 #if 0
 	cdev_ocis_init(NPCMCIA,pcmcia), /* 25: PCMCIA Bus */
 #else

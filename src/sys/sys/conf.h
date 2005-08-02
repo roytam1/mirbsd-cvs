@@ -1,4 +1,4 @@
-/*	$OpenBSD: conf.h,v 1.73 2004/02/10 01:31:21 millert Exp $	*/
+/*	$OpenBSD: conf.h,v 1.76 2005/07/31 06:39:07 dlg Exp $	*/
 /*	$NetBSD: conf.h,v 1.33 1996/05/03 20:03:32 christos Exp $	*/
 
 /*-
@@ -323,13 +323,6 @@ extern struct cdevsw cdevsw[];
 	(dev_type_stop((*))) enodev, 0, (dev_type_poll((*))) enodev, \
 	(dev_type_mmap((*))) enodev }
 
-/* open, close, ioctl */
-#define       cdev_ses_init(c,n) { \
-	dev_init(c,n,open), dev_init(c,n,close), (dev_type_read((*))) enodev, \
-	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
-	(dev_type_stop((*))) enodev, 0, (dev_type_poll((*))) enodev, \
-	(dev_type_mmap((*))) enodev }
-
 /* open, close, read, ioctl */
 #define cdev_ss_init(c,n) { \
 	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
@@ -465,7 +458,21 @@ void	randomattach(void);
 	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
 	(dev_type_stop((*))) enodev, 0, seltrue, \
 	dev_init(c,n,mmap) }
-				 
+
+/* open, close, read, ioctl, poll, kqfilter */
+#define cdev_hotplug_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
+	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
+	(dev_type_stop((*))) enodev, 0, dev_init(c,n,poll), \
+	(dev_type_mmap((*))) enodev, D_KQFILTER, dev_init(c,n,kqfilter) }
+
+/* open, close, ioctl */
+#define cdev_gpio_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), (dev_type_read((*))) enodev, \
+	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
+	(dev_type_stop((*))) enodev, 0, (dev_type_poll((*))) enodev, \
+	(dev_type_mmap((*))) enodev }
+
 /* symbolic sleep message strings */
 extern char devopn[], devio[], devwait[], devin[], devout[];
 extern char devioc[], devcls[];
