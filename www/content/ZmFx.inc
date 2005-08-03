@@ -1,6 +1,12 @@
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.1 2005/05/23 12:12:48 tg Exp $</small>
 
 <h1>FAQ</h1>
+
+<h2>Other languages</h2>
+
+<ul>
+<li><a href="/?faq.es">spanish</a> (espa&ntilde;ol)</li>
+</ul>
 
 <h2 id="toc">Table of Contents</h2>
 
@@ -28,7 +34,7 @@
 
 <h2 id="s_comm">General</h2>
 
-<h3 id="comm_donate">Do you guys eat air or what?</a></h3>
+<h3 id="comm_donate">Do you guys eat air or what?</h3>
 <p>Of course not. We do this as volunteer work besides our normal
  day job. You can help us by <a href="/?danke">donating</a> to
  support us personally. Since we already invest nearly all our spare
@@ -38,7 +44,7 @@
 
 <h2 id="s_down">Downloading</h2>
 
-<h3 id="down_bt">Where is the BitTorrent server?</a></h3>
+<h3 id="down_bt">Where is the BitTorrent server?</h3>
 <p>The MirOS torrents are hosted at a large tracker reachable at <a
  href="http://f.scarywater.net/miros/">http://f.scarywater.net/miros/</a>
  (plase consider sponsoring the server administrator as well).</p>
