@@ -1,5 +1,4 @@
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.3 2005/02/12 21:17:00 tg Exp $</small>
-<p class="admin">ATTN: Candidate for moving into MirWiki!</p>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.4 2005/03/06 14:47:49 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever

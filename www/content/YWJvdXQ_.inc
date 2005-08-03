@@ -1,5 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.4 2005/03/18 18:03:22 tg Exp $</small>
-<p class="admin">ATTN: Candidate for moving into MirWiki!</p>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.5 2005/06/06 10:19:51 tg Exp $</small>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
 <p>The MirOS project presents a Europe-based open source operating

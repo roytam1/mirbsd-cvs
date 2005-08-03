@@ -1,11 +1,7 @@
-# $MirOS: www/.htaccess,v 1.2 2004/05/09 00:02:45 tg Exp $
+# $MirOS: www/.htaccess,v 1.2 2005/02/05 22:43:35 tg Exp $
 
 # custom 404 document
 ErrorDocument 404 /404.php
-
-# privacy alert
-deny from 212.123.114
-deny from 212.123.115
 
 # "hidden" files
 <Files cvsweb.conf>

@@ -1,6 +1,16 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.24 2005/05/28 23:19:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.25 2005/07/06 23:17:57 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>02.08.2005<br />
+	MirOS hasn't stopped, it's just progressing slowly because current
+	development is progressing in rather big steps. There is a status,
+	mirror and "all-in-one overview" page now which we will keep up to
+	date if no other one. There are also some hardware issues to solve
+	(such as a broken Socket 7 fan, and a non-working coffee machine),
+	but we will continue development and fighting lobbyism, politician
+	nonsense etc.<br />mksh R24 has been released some time ago and is
+	the first one who actually made it into Debian testing, hooray!</li>
 
 <li>06.07.2005<br />
 	The European Parliament has finally stopped patents on algorithms,

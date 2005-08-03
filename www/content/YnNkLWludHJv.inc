@@ -1,5 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.8 2004/11/12 17:54:21 tg Exp $</small>
-<p class="admin">ATTN: Candidate for moving into MirWiki!</p>
+<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
 <h1>What is BSD? What is OpenBSD?</h1>
 
 <h2>Introduction</h2>

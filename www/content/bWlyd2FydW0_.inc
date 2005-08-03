@@ -1,5 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWlyd2FydW0_.inc,v 1.4 2004/11/12 17:54:23 tg Exp $</small>
-<p class="admin">ATTN: Candidate for moving into MirWiki!</p>
+<small class="rcsid">$MirOS: www/content/bWlyd2FydW0_.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
 <pre>Warum MirBSD?
 
 OpenBSD ist das (inoffiziell) sicherste Betriebssystem, das

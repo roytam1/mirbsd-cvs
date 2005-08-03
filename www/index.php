@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.9 2005/04/15 09:47:39 tg Exp $ */
+/* $MirOS: www/index.php,v 1.10 2005/04/19 22:30:28 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -92,6 +92,17 @@
  ?>
 </div>
 <div class="heading">
- <?php include("vhead.inc"); ?>
+ <img class="hdrlnks" src="pics/logosmw.png"
+  alt="MirOS Logo" />
+<pre class="hdrflf">     ___                                                  __
+    -   ---___- ,,                  /\\,/\\,            ,-||-,     -_-/
+       (' ||    ||                 /| || ||   '        ('|||  )   (_ /
+      ((  ||    ||/\\  _-_         || || ||  \\ ,._-_ (( |||--)) (_ --_
+     ((   ||    || || || \\        ||=|= ||  ||  ||   (( |||--))   --_ )
+      (( //     || || ||/         ~|| || ||  ||  ||    ( / |  )   _/  ))
+        -____-  \\ |/ \\,/         |, \\,\\, \\  \\,    -____-   (_-_-
+                  _/              _-</pre>
+ <img class="hdrrhts" src="pics/quilt.png"
+  alt="Collage with MirOS and MirPorts impressions" />
 </div>
 <?php include("vend.php"); ?>

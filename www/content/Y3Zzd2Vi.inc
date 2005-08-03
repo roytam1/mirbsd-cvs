@@ -1,5 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.3 2005/03/16 23:55:51 tg Exp $</small>
-<p class="admin">ATTN: Candidate for moving into MirWiki!</p>
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.4 2005/07/06 23:17:57 tg Exp $</small>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
 <h3>Short introduction into CVSweb</h3>

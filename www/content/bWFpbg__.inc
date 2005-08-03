@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.25 2005/07/08 00:11:01 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.26 2005/07/29 18:54:48 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Aus besonderem Anla&szlig; &ndash; Currently happening problems</h2>
 <p>Der <a href="http://www.ffii.org/">FFII</a> wird zur Zeit <a
@@ -31,11 +31,11 @@
 <p>Please do <b>not</b> use any of the snapshots still available on our
  servers; they are very outdated and broken. If you had the chance to
  get a CD at the LinuxTag 2005, lucky you but don't update Ports yet.
- If not, you will have to wait for MirOS #8 RC5.</p>
-<p>CURRENT: May 2nd, 2005: #8-gamma snapshot available via our <a
+ If not, you will have to wait for the next MirOS #8 snapshot.</p>
+<!-- p>CURRENT: May 2nd, 2005: #8-gamma snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
-<!--<p>CURRENT: May 5th, 2005: #8-gamma snapshot available for <a
- href="/MirOS/current/i386-20050505/">download</a> via the usual mirrors.</p>-->
+<p>CURRENT: May 5th, 2005: #8-gamma snapshot available for <a
+ href="/MirOS/current/i386-20050505/">download</a> via the usual mirrors.</p>
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p>
@@ -48,4 +48,4 @@
  seed file (156 MiB) for reducing the initial transfer costs. We would like
  to offer CTM; it's available on request but nobody uses it.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
- final and complete seed file (325 MB) for the historic old repository.</p>
+ final and complete seed file (325 MB) for the historic old repository.</p -->

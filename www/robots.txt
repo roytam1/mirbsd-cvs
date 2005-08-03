@@ -1,4 +1,4 @@
-# $MirOS: www/robots.txt,v 1.2 2004/11/12 17:54:19 tg Exp $
+# $MirOS: www/robots.txt,v 1.2 2005/02/05 22:43:35 tg Exp $
 
 
 # Disallow the W3C Linkchecker
@@ -15,8 +15,8 @@ Disallow: /man6/
 Disallow: /man7/
 Disallow: /man8/
 Disallow: /man9/
-Disallow: /r7man/
 Disallow: /r8man/
+Disallow: /r9man/
 # content which is out of date
 Disallow: /mbsd7/
 Disallow: /MirOS/
