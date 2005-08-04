@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/openvpn/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:42 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2003/11/25 17:27:50 sturm Exp $
 man/man8/openvpn.8
 sbin/openvpn
@@ -8,6 +8,7 @@ share/examples/openvpn/easy-rsa/build-dh
 share/examples/openvpn/easy-rsa/build-inter
 share/examples/openvpn/easy-rsa/build-key
 share/examples/openvpn/easy-rsa/build-key-pass
+share/examples/openvpn/easy-rsa/build-key-pkcs12
 share/examples/openvpn/easy-rsa/build-key-server
 share/examples/openvpn/easy-rsa/build-req
 share/examples/openvpn/easy-rsa/build-req-pass
@@ -16,6 +17,7 @@ share/examples/openvpn/easy-rsa/list-crl
 share/examples/openvpn/easy-rsa/make-crl
 share/examples/openvpn/easy-rsa/openssl.cnf
 share/examples/openvpn/easy-rsa/revoke-crt
+share/examples/openvpn/easy-rsa/revoke-full
 share/examples/openvpn/easy-rsa/sign-req
 share/examples/openvpn/easy-rsa/vars
 share/examples/openvpn/sample-config-files/README
@@ -54,4 +56,3 @@ share/examples/openvpn/sample-scripts/verify-cn
 @dirrm share/examples/openvpn/sample-config-files
 @dirrm share/examples/openvpn/easy-rsa
 @dirrm share/examples/openvpn
-@exec echo "Warning: OpenVPN can cause system freezes!"
