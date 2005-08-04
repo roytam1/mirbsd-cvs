@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.4 2005/06/26 16:58:45 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.5 2005/07/04 05:34:43 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -27,18 +27,16 @@
 # MirOS Project's CVSROOT (or the MirBSD[tm] CVS Rep, for which this
 # script was originally designed).
 
-set +o sh +o posix +o noglob +o interactive
-
-fixperm()
+function fixperm
 {
-	m=$1; shift
+	m="$1"; shift
 	for pname in "$@"; do
-		[[ -e $pname ]] && chmod $m $pname
+		[[ -e $pname ]] && chmod "$m" "$pname"
 	done
 }
 
-if [[ $(id -u) != 0 ]]; then
-	print -r "Error: $0 must be run as root!"
+if [[ $(id -u 2>&1) != 0 ]]; then
+	print -ru2 "Error: $0 must be run as root!"
 	exit 1
 fi
 
@@ -53,21 +51,19 @@ fi
 
 CVSROOT="${1%%+(/)}"
 if [[ -z $CVSROOT ]]; then
-	print -r "Error: \$CVSROOT not given!"
-	print -r "Syntax: $0 /cvs"
+	print -ru2 "Error: \$CVSROOT not given!"
+	print -ru2 "Syntax: $0 /cvs"
 	exit 1
 fi
-[[ -L $CVSROOT ]] && CVSROOT=$(readlink -fn $CVSROOT)
+CVSROOT=$(readlink -fn $CVSROOT)
 if [[ ! -d $CVSROOT ]]; then
-	print -r "Error: \$CVSROOT (${CVSROOT}) does not exist!"
-	print -r "Syntax: $0 /cvs"
+	print -ru2 "Error: \$CVSROOT (${CVSROOT}) does not exist!"
+	print -ru2 "Syntax: $0 /cvs"
 	exit 1
 fi
-cd "$CVSROOT"
-CVSROOT="$(pwd)"
 cd "$CVSROOT"
 N=$(mktemp "${CVSROOT}/genperm.log.XXXXXXXXXX") || {
-	print "Error: could not make temporary file!"
+	print -ru2 "Error: could not make temporary file!"
 	exit 1
 }
 
@@ -82,15 +78,14 @@ touch CVSROOT/{ChangeLog,history,val-tags}
 let cnt=42
 find "$CVSROOT$fr" | while read pname; do
 	name="${pname#${CVSROOT}/}"
+	[[ -z $name || $name = @(.|..) ]] && continue
 	if (( cnt > 0 )); then
 		let cnt--
 	else
 		print -r "  $name"
 		let cnt=42
 	fi
-	if [[ -z $name || $name = @(.|..) ]]; then
-		:
-	elif [[ $name = @(|CVSROOT/).* ]]; then
+	if [[ $name = @(|CVSROOT/).* ]]; then
 		print -r "Found invalid '$name'"
 		rm -rf "$pname"
 	elif [[ $name = +([-_+,./:=@0-9A-Za-z]) ]]; then
