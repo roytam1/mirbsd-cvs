@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/getnam.php,v 1.5 2005/04/13 09:18:33 tg Exp $ */
+/* $MirOS: www/getnam.php,v 1.6 2005/04/13 21:51:34 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -39,7 +39,7 @@
 	google_ad_width = 728;
 	google_ad_height = 90;
 	google_ad_format = "728x90_as";
-	google_ad_channel ="";
+	google_ad_channel = "5681440722";
 	google_color_border = "555555";
 	google_color_bg = "000000";
 	google_color_link = "995555";

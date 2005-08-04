@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/404.php,v 1.5 2005/03/15 17:13:04 tg Exp $ */
+/* $MirOS: www/404.php,v 1.6 2005/04/13 09:10:56 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -19,7 +19,7 @@
 	$rq = mybase64($rq).".inc";
 ?>
  <title>404 - N&uuml;s jefonde!</title>
- <meta name="RCSId" content="$MirOS: www/404.php,v 1.5 2005/03/15 17:13:04 tg Exp $" />
+ <meta name="RCSId" content="$MirOS: www/404.php,v 1.6 2005/04/13 09:10:56 tg Exp $" />
  <meta name="robots" content="index, follow" />
  <style type="text/css"><!--
 a.wmd {
@@ -68,7 +68,7 @@ body {
 	google_ad_width = 728;
 	google_ad_height = 90;
 	google_ad_format = "728x90_as";
-	google_ad_channel ="";
+	google_ad_channel = "5681440722";
 	google_color_border = "CCCCCC";
 	google_color_bg = "FFFFFF";
 	google_color_link = "000000";
