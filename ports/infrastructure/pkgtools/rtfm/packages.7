@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: packages.7,v 1.18 2003/12/25 18:35:00 espie Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -31,38 +32,30 @@
 .Nm packages
 .Nd overview of the binary package system
 .Sh DESCRIPTION
-The
-.Ox
-ports collection features a vast array of third-party software ready
+MirPorts features a vast array of third-party software ready
 to be compiled and installed on a new machine.
 As an alternative, most of these ports are also available as binary
 packages.
 Adding a new package is as simple as
 .Pp
-.Dl pkg_add foo-1.0-vanilla.tgz
+.Dl pkg_add foo-1.0-0-vanilla.cgz
 .Pp
-In appearance, packages seem to be .tgz archives, and as such, can be
+In appearance, packages seem to be .cgz archives, and as such, can be
 examined on almost any computer system, but there is a bit more to it:
 a package will also hold a description, a complete list of the files
 installed by the package, a list of prerequisite packages, along with
 shell script fragments to finish the actual installation.
 .Sh SECURITY CAVEAT
 The packages are not as thoroughly audited as the main
-.Ox
+.Mx
 source tree (in many cases, they have not been audited at all).
 This is in part a scale issue: the source tree is under 100MB, compressed,
 whereas source to the ports tree approaches 3GB.
-Also, most
-.Ox
-developers concentrate on making the release as safe as possible and,
-correspondingly, human resources for the ports tree are somewhat lacking.
 .Sh MANAGING FILES
-As of
-.Ox 2.7 ,
-the package systems should offer a few basic warranties.
+The package systems should offer a few basic warranties.
 .Ss "Installing a package won't erase existing files"
 .Xr pkg_add 1
-will instead identify conflicts, back the existing files up, display a
+will instead identify conflicts, back up the existing files, display a
 warning message and finish installing itself.
 However, if backups occurred, note that package deletion is no longer fully
 automatic.
@@ -98,6 +91,9 @@ to function correctly (e.g.,
 .Nm squid ,
 or
 .Nm mysql ) .
+On Darwin and Interix, packages use
+.Pa /usr/mpkg
+as the default installation path.
 .Pp
 The current package system has some major limitations.
 .Ss "The package system is not aware of shared network installations"
@@ -180,12 +176,14 @@ install a basic
 package that holds those files, and is not useful as a stand-alone package.
 .Sh PACKAGE NAMING
 Most package names follow the pattern
-.Qq name-version-flavor ,
+.Qq name-version-patchlevel-flavor ,
 where
 .Qq name
 is the actual package name,
 .Qq version
-is the version number, and
+is the version number,
+.Qq patchlevel
+is the "revision" of the package and
 .Qq flavor
 denotes some options that were used when creating the package.
 .Pp
@@ -196,13 +194,11 @@ Hence,
 does not allow several packages with the same name to be installed
 simultaneously, and prints an error message instead.
 .Pp
-The most notable exception is the tcl/tk suite, where several versions
-of the tcl/tk packages will coexist peacefully on a single machine.
+There are some exceptions to this rule, i.e. packages that use the
+.Ar no-default-conflict
+option. Examples are autoconf and the Tcl/Tk suite.
 .Pp
-Members of the
-.Ox
-project routinely scan built packages for conflicting files.
-Most packages should contain correct annotations, and not allow themselves
+Packages should contain correct annotations, and not allow themselves
 to be installed on top of a conflicting package.
 .Sh PACKAGE DEPENDENCIES
 Each package holds a full list of pre-required packages.
@@ -211,15 +207,13 @@ will automatically install required dependencies before installing a given
 package.
 Installs through
 .Xr ftp 1
-are supported:  pointing
+are supported: setting the environment variable
 .Ev PKG_PATH
-to a distant package repository, e.g.,
-.Pp
-.Dl setenv PKG_PATH ftp://ftp.openbsd.org/pub/OpenBSD/2.9/packages/i386
-.Pp
-will let
+to a distant package repository will let
 .Xr pkg_add 1
 automatically download dependencies as well.
+For the moment, there is no official package repository from the
+MirPorts developers.
 .Pp
 In theory, a package need only record direct dependencies, i.e., packages
 it does require, and let required packages do the same.

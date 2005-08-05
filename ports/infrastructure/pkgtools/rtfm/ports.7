@@ -33,16 +33,19 @@
 .Nm ports
 .Nd contributed applications
 .Sh DESCRIPTION
-The
-.Ox
+MirPorts, the
+.Mx
 Ports Collection
 (shamelessly stolen from the
-.Fx
-Ports Collection) offers a simple way
+.Ox
+Ports Collection, which in turn was inspired by
+.Fx )
+offers a simple way
 for users and administrators to install applications.
 Each port contains any patches necessary to make the original
 application source code compile and run on
-.Ox .
+.Mx , Ox ,
+Darwin (Mac OS X) and Interix.
 Compiling an application is as simple as typing
 .Ic make
 in the port directory!
@@ -56,19 +59,28 @@ If all goes well, simply type
 to install the application.
 .Pp
 For more information about using ports, see
+.Pa http://mirbsd.bsdadvocacy.org/?ports ,
 The
 .Ox
 Ports Mechanism
-(http://www.openbsd.org/ports.html) and the
+.Pq Pa http://www.openbsd.org/ports.html
+and the
 .Ox
-FAQ (http://www.openbsd.org/faq/).
-For information about creating new ports, see
+FAQ
+.Pq Pa http://www.openbsd.org/faq/ .
+For information about creating new ports, see also
 the
 .Ox
-Porting Checklist (http://www.openbsd.org/checklist.html).
+Porting Checklist
+.Pq Pa http://www.openbsd.org/checklist.html .
 .Pp
-For a detailed description of the build process, see
+For a detailed description of the build process and all the variables
+in a port Makefile, see
 .Xr bsd.port.mk 5 .
+For a detailed description of the packing list
+.Pq Pa PLIST
+format, see
+.Xr pkg_create 1 .
 .Sh PORTS MASTER MAKEFILE
 The ports master Makefile, normally located in
 .Pa /usr/ports/Makefile
@@ -320,20 +332,18 @@ site when fetching files.
 .It Ev MASTER_SITE_OVERRIDE
 Go to this site first for all files.
 .El
-.Sh FLAVORS
-The
-.Ox
-ports tree comes with a mechanism called
-.Ic FLAVORS .
+.Sh FLAVOURS
+MirPorts comes with a mechanism called
+.Ic FLAVOURS .
 Thanks to this mechanism, users can select specific options provided by
 a given port.
 .Pp
-If a port is "flavored", there should be a terse description of
-available flavors in the
+If a port is "flavoured", there should be a terse description of
+available flavours in the
 .Pa pkg/DESCR
 file.
 .Pp
-For example, the shells/bash port comes with a flavor called
+For example, the shells/tcsh port comes with a flavour called
 .Ic static .
 This changes the building process so a statically compiled version of
 the program will be built.
@@ -342,9 +352,9 @@ the package name will be extended with a dash-separated list of
 the selected flavors.
 .Pp
 In this instance, the corresponding package will be called
-.Ic bash-1.14.7p1-static .
+.Ic tcsh-6.13.00-0-static .
 .Pp
-To build a port with a specific flavor, just pass
+To build a port with a specific flavour, just pass
 .Ev FLAVOR
 in the environment of the
 .Xr make 1
@@ -359,28 +369,26 @@ $ env FLAVOR="static" make package
 $ env FLAVOR="static" make clean
 .Ed
 .Pp
-More than one flavor may be specified:
+More than one flavour may be specified:
 .Bd -literal -offset indent
 $ cd /usr/ports/mail/exim
 $ env FLAVOR="mysql ldap" make package
 .Ed
 .Pp
-Specifying a flavor that does not exist is an error.
-Additionally, some ports impose some further restrictions on flavor
+Specifying a flavour that does not exist is an error.
+Additionally, some ports impose some further restrictions on flavour
 combinations, when such combinations do not make sense.
 .Pp
 Lots of ports can be built without X11 requirement and accordingly
 have a
 .Ic no_x11
-flavor.
+flavour.
 .Pp
-Flavor settings are not propagated to dependencies.
+Flavour settings are not propagated to dependencies.
 If a specific combination is needed, careful hand-building of the
 required set of packages is still necessary.
 .Sh MULTI_PACKAGES
-The
-.Ox
-ports tree comes with a mechanism called
+MirPorts comes with a mechanism called
 .Ic MULTI_PACKAGES.
 This mechanism is used when a larger package is broken down into
 several smaller components referred to as subpackages.
@@ -400,6 +408,12 @@ corresponding to each subpackage. In the case of our mysql example,
 the subpackages will be called
 .Ic mysql-tests-<version> and mysql-server-<version> .
 .Pp
+When
+.Ic make install
+is invoked, all subpackages are installed by default.
+See
+.Ev PREFER_SUBPKG_INSTALL
+below for how to change this.
 To install/deinstall a specific subpackage of a port, you may
 .Xr pkg_add 1
 them manually, or alternatively, you may set
@@ -426,22 +440,46 @@ instead of simply being defined, for uniformity and future compatibility.
 Variable names starting with _ are private to the ports infrastructure,
 should not be changed by the user, and are liable to change without notice.
 .Bl -tag -width MASTER_SITES
-.It Ev PORTSDIR
-Location of the ports tree
-.Po
-usually
-.Pa /usr/ports
-.Pc
+.It Ev BATCH
+If defined, only operate on a port if it can be installed 100% automatically.
+.It Ev BULK_COOKIES_DIR
+During bulk package building, used to store cookies for already built
+packages to avoid rebuilding them, since the actual
+working directory will already have been cleaned out.
+Defaults to bulk/${MACHINE_ARCH} under
+.Ev PORTSDIR .
+.It Ev CLEANDEPENDS
+If set to
+.Dv Yes ,
+let
+.Sq clean
+recurse to dependencies.
 .It Ev DISTDIR
 Where to find/put distfiles, normally
 .Pa Distfiles/
 in
 .Ev PORTSDIR .
+.It Ev FETCH_CMD
+Command to use to fetch files.
+Normally
+.Xr ftp 1 .
+.It Ev INTERACTIVE
+If defined, only operate on a port if it requires interaction.
+.It Ev LOCALBASE
+Where to install things in general
+.Pq usually Pa /usr/local .
+.It Ev MASTER_SITES
+Primary sites for distribution files if not found locally.
+.It Ev PATCH_DEBUG
+If defined, display verbose output when applying each patch.
+.It Ev PATCH_SITES
+Primary location(s) for distribution patch files if not found
+locally.
 .It Ev PKGREPOSITORYBASE
 Used only for the
 .Ar package
 target; the base directory for the packages tree, normally
-.Pa packages/${MACHINE_ARCH}
+.Pa Packages/
 in
 .Ev PORTSDIR .
 If this directory exists, the package tree will be (partially) constructed.
@@ -453,39 +491,13 @@ Directory to put the package in.
 .It Ev PKGFILE
 The full path to the package.
 .El
-.It Ev BULK_COOKIES_DIR
-During bulk package building, used to store cookies for already built
-packages to avoid rebuilding them, since the actual
-working directory will already have been cleaned out.
-Defaults to bulk/${MACHINE_ARCH} under
-.Ev PORTSDIR .
-.It Ev LOCALBASE
-Where to install things in general
-.Po
-usually
-.Pa /usr/local
-.Pc
-.It Ev MASTER_SITES
-Primary sites for distribution files if not found locally.
-.It Ev PATCH_SITES
-Primary location(s) for distribution patch files if not found
-locally.
-.It Ev CLEANDEPENDS
-If set to
-.Dv Yes ,
-let
-.Sq clean
-recurse to dependencies.
-.It Ev FETCH_CMD
-Command to use to fetch files.
-Normally
-.Xr ftp 1 .
-.It Ev PATCH_DEBUG
-If defined, display verbose output when applying each patch.
-.It Ev INTERACTIVE
-If defined, only operate on a port if it requires interaction.
-.It Ev BATCH
-If defined, only operate on a port if it can be installed 100% automatically.
+.It Ev PORTSDIR
+Location of the ports tree
+.Pq usually Pa /usr/ports .
+.It Ev PREFER_SUBPKG_INSTALL
+If set to No, don't install all subpackages when executing
+.Ic make install .
+Default is Yes.
 .It Ev USE_SYSTRACE
 Set to
 .Sq Yes
@@ -540,23 +552,23 @@ List of users and groups created by ports.
 .Xr bsd.port.mk 5 ,
 .Xr packages 7
 .Pp
-The
-.Ox
-Ports Mechanism: http://www.openbsd.org/ports.html
+The MirPorts Homepage:
+.Pa http://mirbsd.bsdadvocacy.org/?ports 
 .Pp
 The
 .Ox
-Porting Checklist: http://www.openbsd.org/checklist.html
+Ports Mechanism:
+.Pa http://www.openbsd.org/ports.html
+.Pp
+The
+.Ox
+Porting Checklist:
+.Pa http://www.openbsd.org/checklist.html
 .Sh HISTORY
 .Nm The Ports Collection
 appeared in
 .Fx 1.0 .
-It was introduced in
-.Ox
-by Ejovi Nuwere, with much initial effort by Angelos D. Keromytis.
-Maintenance passed then to Marco S. Hyman, and then to Christopher Turan.
-It is currently managed by Marc Espie, Brad Smith, and Christian Weisgerber,
-along with a host of others found at ports@openbsd.org.
+MirPorts is currently maintained by Benny Siegert and Thorsten Glaser.
 .Sh AUTHORS
 This man page was originated by
 David O'Brien, from the

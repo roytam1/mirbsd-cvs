@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: packages-specs.7,v 1.7 2003/09/02 18:37:08 jmc Exp $
 .\"
 .\" Copyright (c) 2001 Marc Espie
@@ -31,9 +32,9 @@
 .Nm packages-specs
 .Nd binary package names specifications
 .Sh DESCRIPTION
-Each package has a name consisting of at most three parts:
+Each package has a name consisting of at most four parts:
 .Bd -literal -offset indent
-stem-version[-flavors]
+stem-version-patchlevel[-flavours]
 .Ed
 .Pp
 The
@@ -44,34 +45,32 @@ For instance, japanese packages usually
 start with a
 .Sq ja
 prefix, e.g.,
-.Qq ja-kterm-6.2.0 .
+.Qq ja-kterm-6.2.0-0 .
 .Pp
 The
 .Ar version
 part starts at the first digit that follows a
 .Sq - ,
 and goes on up to the following
-.Sq - ,
-or to the end of the package name, if no flavor modifier is present.
-It is highly recommended that all packages have a version number.
+.Sq - .
+All packages must have a version number and a patch level.
 Normally, the version number directly matches the original software
 distribution version number, or release date.
-In case there are substantial changes in the
-.Ox
-package, a patch level marker should be appended, e.g.,
-.Sq p1 ,
-.Sq p2 ...
-For example, assuming that the screen package for release 2.8 was
-named
-.Qq screen-2.9.8
-and that an important security patch led to a newer package,
-the new package would be called
-.Qq screen-2.9.8p1 .
-Obviously, these specific markers are reserved for
-.Ox
-purposes.
+The patch level is set to 0 on the first revision published of a port.
+When the package contents change and the version stays the same, the
+patch level is incremented.
+When the port is updated to a new version, the patch level is set back
+to 0.
+A patch level is always a simple integer number.
+For example, when libtiff was updated to version 3.7.2, the resulting
+package was named
+.Qq tiff-3.7.2-0 .
+When a patch was applied that made the package contents change, the new
+package was called
+.Qq tiff-3.7.2-1 .
+Obviously, these specific markers are reserved for MirPorts purposes.
 .Pp
-Flavored packages will also contain a list of flavors after the version
+Flavoured packages will also contain a list of flavours after the version
 identifier, in a canonical order determined by
 .Ev FLAVORS
 in the corresponding port's
@@ -79,9 +78,9 @@ in the corresponding port's
 For instance, kterm has an xaw3d flavor:
 .Qq ja-kterm-xaw3d .
 .Pp
-Note that, to uniquely identify the version part, no flavor shall ever
+Note that, to uniquely identify the version part, no flavour shall ever
 start with a digit.
-Usually, flavored packages are slightly different versions of the same
+Usually, flavoured packages are slightly different versions of the same
 package that offer very similar functionalities.
 .Sh CONFLICTS
 Most conflicts between packages are handled on a package name basis.
@@ -112,14 +111,14 @@ and
 Packages may depend on other packages, as specified by their port's
 Makefile.
 The
-.Ar directory,[-multi],[flavor...]
+.Ar directory,[-multi],[flavour...]
 part of the dependency is always used to obtain the default dependency for
 the given package (the package that will be installed if no package
 is found).
 The corresponding package name is also used as a package specification,
 unless a more specific specification has been given.
 .Pp
-Package specifications are extended package names, that may use
+Package specifications are extended package names, which may use
 .Xr sh 1
 -style wildcards, like
 .Sq *
@@ -212,3 +211,6 @@ and so would check on
 .Sh HISTORY
 Support for these package specifications first appeared in
 .Ox 2.9 .
+Mandatory patch levels were introduced by
+.Mx
+in 2005.
