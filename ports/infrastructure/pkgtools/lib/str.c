@@ -116,7 +116,7 @@ nuke_version(char *name, bool wildcard)
     if (!name)
 	return NULL;
 
-    for (idx = name; idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
+    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
     if (idx)
 	*idx = '\0';
     if (asprintf(&ret, wildcard ? "%s-*" : "%s", name) == -1) {
