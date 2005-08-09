@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.70 2005/07/06 23:17:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.71 2005/07/07 22:04:27 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2974,4 +2974,6 @@
  those who think they need it, I go with SCSI not cheap crap), and I found
  a bug in mksh(1) which was introduced by one of the Debian patches; broke
  &lt;bsd.subdir.mk&gt; in an unfixable way.</p>
+<p>09.08.2005 by tg@<br />I've started auto-converting the JuppEditor, and
+ MirbsdKsh, pages from the ex-MirWiki, because nobody else did.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
