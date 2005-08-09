@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.26 2005/07/29 18:54:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.27 2005/08/03 00:07:06 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Aus besonderem Anla&szlig; &ndash; Currently happening problems</h2>
 <p>Der <a href="http://www.ffii.org/">FFII</a> wird zur Zeit <a
@@ -41,11 +41,12 @@
  for further information - where you can buy CDs or download the sets.</p>
 <p>PORTS: May 30th, 2005: There have been some infrastructural changes
  in <a href="http://wiki.mirbsd.de/MirPorts">MirPorts</a>; all users must
- re-execute <tt>make setup</tt>. mksh is now the default shell.</p>
+ re-execute <tt>make setup</tt>. mksh is now the default shell.</p -->
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
-<p><a href="/MirOS/CVS/cvsrepo-20050505.cgz">CVSREPO</a>: May 5th, 2005:
- seed file (156 MiB) for reducing the initial transfer costs. We would like
- to offer CTM; it's available on request but nobody uses it.</p>
+<p><a href="/MirOS/CVS/cvsrepo-20050804.cgz">CVSREPO</a>: August 4th, 2005:
+ seed file (153 MiB, <a href="/man1/gzsig.htm">gzsig</a>d) for reducing the
+ initial transfer costs. We would like to offer CTM too; it is available on
+ request but nobody uses it yet.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
- final and complete seed file (325 MB) for the historic old repository.</p -->
+ final and complete seed file (325 MB) for the historic old repository.</p>
