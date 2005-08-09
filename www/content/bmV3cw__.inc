@@ -1,6 +1,11 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.25 2005/07/06 23:17:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.26 2005/08/03 00:07:06 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>09.08.2005<br />
+	The <a href="http://wiki.mirbsd.de/">MirWiki</a> is read-only, for
+	a transition phase. The content will be merged into the main page,
+	as time permits. After that, it will be shut down entirely.</li>
 
 <li>02.08.2005<br />
 	MirOS hasn't stopped, it's just progressing slowly because current
