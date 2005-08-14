@@ -1,4 +1,4 @@
-# $MirOS: www/LICENCE,v 1.4 2005/03/16 15:13:16 tg Exp $
+# $MirOS: www/LICENCE,v 1.5 2005/03/16 23:55:50 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
 # Copyright (c) 1999, 2002, 2003, 2004, 2005
@@ -76,9 +76,6 @@ The GIMP <http://www.isc.tamu.edu/~lewing/gimp/> if asked.
 The anargeek emblem is covered by the MirOS licence template,
 as shown on "wikipass.sh" in the current directory.
 
-The MirWiki and CVSweb CGI scripts are covered by different licences,
-the GNU GPL Version 2 and a two-clause UCB-style BSD licence respectively.
+The CVSweb CGI script is covered by a two-clause UCB-style BSD licence.
 
-The content of the MirWiki is copyrighted by their respective owners
-and, unless stated otherwise, available under the standard MirOS licence
-template. Relicensing under the GNU Free Documentation License is prohibited.
+Relicensing of any work under the GNU Free Documentation License is prohibited.

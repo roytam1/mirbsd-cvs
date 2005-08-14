@@ -1,4 +1,4 @@
-# $MirOS: www/robots.txt,v 1.2 2005/02/05 22:43:35 tg Exp $
+# $MirOS: www/robots.txt,v 1.3 2005/08/03 00:07:05 tg Exp $
 
 
 # Disallow the W3C Linkchecker
@@ -30,4 +30,8 @@ Disallow: /?wlog-6
 Disallow: /clogs/
 Disallow: /content/
 Disallow: /GBG/
-Disallow: /wikidir/
+
+# Disallow other bots
+
+User-Agent: *
+Disallow: /GBG/
