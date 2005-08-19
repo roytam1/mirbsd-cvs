@@ -1,6 +1,6 @@
-.\" $MirOS$
+.\" $MirOS: src/share/man/man7/gas-intel-howto.7,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
 .\"-
-.\" Copyright (c) 2004
+.\" Copyright (c) 2004, 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\"
 .\" Licensee is hereby permitted to deal in this work without restric-
@@ -122,7 +122,7 @@ The \fBbyte ptr\fR is a must.
 .TP 3
 jmp 0xF000,0xFFF0
 This is the way long jumps (\fBjmp far\fR) are defined.
-The manual states one has to use \fBjmpl\fR or \fBljmp\fR.
+The manual states wrongly that one has to use \fBjmpl\fR or \fBljmp\fR.
 .TP 3
 \&. = 0x40 + _start
 The \fBorg\fR directive refined.
@@ -149,5 +149,6 @@ and YASM projects and the Free Software Foundation.
 .SH BUGS
 Probably some typos and omissions.
 Also, my nroff isn't the best.
+Should convert to mdoc.
 .br
 Suggestions to <miros-discuss@66h.42h.de> please.
