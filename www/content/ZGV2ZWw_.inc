@@ -1,14 +1,16 @@
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.4 2005/03/06 14:47:49 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.5 2005/08/03 00:07:06 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
  the person wants to disclose about himself.</p>
-<h2>Developers - active and inactive</h2><ul>
+<h2>Developers</h2>
+<h3>active</h3><ul>
 <li><a href="http://wiki.mirbsd.de/BennySiegert">bsiegert@</a> (Benny Siegert)</li>
+<li><a href="http://wiki.mirbsd.de/MirAbile">tg@</a> (Thorsten Glaser)</li>
+</ul><h3>inactive</h3><ul>
 <li>cnuke@ (Josef S&ouml;ntgen)</li>
 <li>dave@ (Dave Steinberg)</li>
 <li><a href="http://wiki.mirbsd.de/StephenPaskaluk">sap@</a> (Stephen Paskaluk)</li>
-<li><a href="http://wiki.mirbsd.de/MirAbile">tg@</a> (Thorsten Glaser)</li>
 <li><a href="http://wiki.mirbsd.de/RTyler">tyler@</a> (R. Tyler Ballance)</li>
 <li>wbx@ (Waldemar Brodkorb)</li>
 </ul><h2>Sponsors</h2>
