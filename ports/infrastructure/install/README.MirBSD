@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/infrastructure/install/README.MirBSD,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 
 MirPorts sysmake files for old MirOS
 ====================================
@@ -13,39 +13,12 @@ older default settings further up this file. The user settings
 will not be overwritten by a later 'make setup' in contrast
 to these marked by "#@@MIRPORTS start" (system settings).
 
-Package tools
--------------
 
-The package tools of MirOS #7quater are sufficiently recent
-so that they work with the current version of MirPorts. On
-older (MirOS #7ter) systems, you must build the new MirPorts
-package tools, see below.
+Installation
+------------
 
-Systems older than MirOS #7ter are not supported, but might
-work (MirOS #7bis will do).
-
-
-Installing the MirPorts package tools
--------------------------------------
-
-Go to the mpsup/pkgtools directory and issue the usual sequence
-of make obj, make depend, make, sudo make install.
-
-
-Patching the system Makefile includes
--------------------------------------
-
-Copy the files in ports/infrastructure/compat/generic/ over their
-corresponding (or non-existant) files in /usr/share/mk.
-
-Then change to the directory ports/infrastructure/compat/miros/X
-where X is your MirOS release, and apply the patches to the other
-Makefiles. On systems older than MirOS #7ter you might have to
-add other patches manually.
-
-Finally, please copy ports/infrastructure/compat/miros/mirports.osdep.mk
-to the directory /usr/ports/infrastructure/mk/ or whereever you placed
-the MirPorts Framework.
+Please use the provided installer.
+XXX fill in better
 
 
 Adding support for ancient MirOS releases

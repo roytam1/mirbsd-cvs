@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/infrastructure/install/README.MacOSX,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 
 Quick notes on running MirPorts on Darwin
 -----------------------------------------
@@ -9,6 +9,7 @@ whole shebang manually.
 
 You must use /bin/mksh as your shell (login or temporary,
 using "/bin/mksh -l" to start) when compiling ports.
+(Recent versions of MirMake take care of this automatically.)
 
 It works like
 $ cd /usr/mirports/editors/jupp; mmake install clean

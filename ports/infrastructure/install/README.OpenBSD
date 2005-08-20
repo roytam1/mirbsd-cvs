@@ -1,10 +1,12 @@
-$MirOS$
+$MirOS: ports/infrastructure/install/README.OpenBSD,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 
 MirPorts sysmake files for OpenBSD
 ==================================
 
 Quick intro
 -----------
+
+XXX this should probably be Setup.sh aka make setup?
 
 There are two ways to switch. Either, just use the provided
 setup-mirports.sh script, or read and execute the hints below.
@@ -39,19 +41,14 @@ old OpenBSD package tools, with added compatibility to the
 new OpenBSD package tools as well as some enhancements of our
 own.
 
-Currently, we do not support running MirPorts on OpenBSD with
-"new" package tools, but support for that might come in the
-future.
+We do not support running MirPorts on OpenBSD with the "new"
+package tools.
 
 
 Installing the MirPorts package tools
 -------------------------------------
 
-Go to the ports/infrastructure/stools directory and issue the
-usual sequence of make obj, make depend, make, sudo make install.
-
-Please be aware that this will render you unable to use the
-OpenBSD ports tree in parallel to the MirPorts framework any more.
+This is now done automatically by the installer.
 
 
 Patching the system Makefile includes
@@ -73,6 +70,8 @@ the MirPorts Framework.
 
 Using the OpenBSD ports tree *AND* the MirPorts Framework
 =========================================================
+
+XXX outdated
 
 As outlined further above, you can currently use both frameworks at
 the same time. Care should be taken because both use the same registry
