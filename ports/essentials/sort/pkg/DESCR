@@ -1,8 +1,0 @@
-This package contains the sort(1) utility from the MirOS base system.
-It sorts text files by lines.  Comparisons are based on one or more sort
-keys extracted from each line of input, and are performed
-lexicographically.
-
-This port is necessary because on some systems (notably Darwin), the
-standard sort(1) is incompatible with the MirPorts infrastructure, e.g.
-when doing recursive builds or recreating the index.

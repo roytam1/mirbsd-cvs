@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2000/07/18 09:09:37 brad Exp $
-@lib lib/libtcl83.so.1.3

@@ -1,5 +1,0 @@
-C++ implementation of the SIP (RFC3261) protocol
-
-libmsip implements the Session Initiation Protocol, in a C++
-library. The SIP protocol is used mostly to initialize Voice over IP
-calls.

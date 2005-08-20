@@ -1,6 +1,0 @@
-@comment $MirOS$
-@lib lib/libgnomeprint-2-2.so.1.0
-lib/libgnomeprint/${VERSION}/modules/libgnomeprintlpd.so
-lib/libgnomeprint/${VERSION}/modules/transports/libgnomeprint-custom.so
-lib/libgnomeprint/${VERSION}/modules/transports/libgnomeprint-file.so
-lib/libgnomeprint/${VERSION}/modules/transports/libgnomeprint-lpr.so

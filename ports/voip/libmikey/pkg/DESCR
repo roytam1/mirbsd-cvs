@@ -1,5 +1,0 @@
-C++ implementation of the MIKEY (RFC3830) protocol
-
-libmikey implements the Multimedia Internet KEYing protocol, in a C++
-library. The MIKEY protocol provides authentication and key agreement
-for secure multimedia session.
