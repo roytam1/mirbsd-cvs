@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.8 2005/04/13 21:44:23 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.9 2005/05/21 01:07:13 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -39,8 +39,8 @@ binown=$(echo "${2:-root:bin}" | sed 's/:.*$//') # will be $3
 bingrp=$(echo "${2:-root:bin}" | sed 's/^.*://') # will be $3
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
 
-mksh=mirbsdksh-R20.cpio.gz
-make=mirmake-20050521.cpio.gz
+mksh=mksh-R24.cpio.gz
+make=mirmake-20050820.cpio.gz
 mtar=paxmirabilis-20050413.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
@@ -71,8 +71,8 @@ echo 'checking MD5 sums... (tell Apple to make RMD160 part of the base OS!)'
 md5 $mksh >s
 md5 $make >>s
 md5 $mtar >>s
-echo "MD5 ($mksh) = 2267876639a682dd8d43f28aa697241c" >t
-echo "MD5 ($make) = 436949ce3f3163e5cb6cbf41a84cdb10" >>t
+echo "MD5 ($mksh) = e9156dcd8236f2f6210bd3758f08fefb" >t
+echo "MD5 ($make) = 40bebd7e2192cf7cebebf168e2dea9d2" >>t
 echo "MD5 ($mtar) = 8f48631579a700b5328025c7dbc7ac7d" >>t
 
 if ! cmp -s s t; then
@@ -95,15 +95,15 @@ set -e # XXX should set up a trap, but...
 set -x
 
 gzip -dc $mksh | cpio -id
-cd ksh
-SHELL=/bin/bash WEIRD_OS=1 bash ./Build.sh
+cd mksh
+SHELL=/bin/bash bash ./Build.sh -d -r
 install -c -s -o $binown -g $bingrp -m 555 mksh /bin/mksh
 install -c -o $binown -g $bingrp -m 444 mksh.1 /usr/share/man/man1/mksh.1
 if ! fgrep /bin/mksh /etc/shells >/dev/null 2>&1; then
 	echo /bin/mksh >>/etc/shells
 fi
 cd ..
-rm -rf ksh
+rm -rf mksh
 
 gzip -dc $make | cpio -id
 cd mirmake
