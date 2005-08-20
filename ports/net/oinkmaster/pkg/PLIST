@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2004/04/14 18:59:08 xsa Exp $
-bin/oinkmaster
-share/examples/oinkmaster/oinkmaster.conf
-@dirrm share/examples/oinkmaster
-@cwd ${SYSCONFDIR}
-@extra oinkmaster.conf

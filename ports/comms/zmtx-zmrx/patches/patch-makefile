@@ -1,8 +1,0 @@
-$MirOS$
---- makefile.orig	2003-11-07 03:28:42.000000000 +0000
-+++ makefile	2003-11-07 03:28:51.000000000 +0000
-@@ -1,4 +1,3 @@
--CC=gcc
- #CFLAGS=-O -DUNITE
- CFLAGS=-O -DSUNOS4
- 
