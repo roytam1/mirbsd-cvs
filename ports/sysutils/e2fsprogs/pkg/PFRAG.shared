@@ -1,8 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
-@lib lib/libblkid.so.1.0
-@lib lib/libe2p.so.2.3
-@lib lib/libext2fs.so.2.4
-@lib lib/libext2fs_com_err.so.2.1
-@lib lib/libss.so.2.0
-@lib lib/libuuid.so.1.2
