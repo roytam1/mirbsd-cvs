@@ -1,8 +1,0 @@
-@comment $MirOS: ports/devel/sdl-mixer/pkg/PLIST,v 1.2 2005/06/24 16:54:51 tg Exp $
-@comment $OpenBSD: PLIST,v 1.4 2003/06/18 09:24:42 jolan Exp $
-bin/playmus
-bin/playwave
-include/SDL/SDL_mixer.h
-lib/libSDL_mixer.la
-%%SHARED%%
-@dirrm include/SDL

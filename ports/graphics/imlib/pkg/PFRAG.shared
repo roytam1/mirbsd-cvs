@@ -1,4 +1,0 @@
-@comment $MirOS: ports/graphics/imlib/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:46:54 tg Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.5 2002/05/17 02:42:15 brad Exp $
-@lib lib/libImlib.so.19.15
-@lib lib/libgdk_imlib.so.19.15

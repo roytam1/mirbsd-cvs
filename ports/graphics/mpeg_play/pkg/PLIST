@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2001/04/21 13:36:18 avsm Exp $
-bin/mpeg_play
-man/man1/mpeg_play.1
