@@ -1,0 +1,5 @@
+@comment $MirOS$
+include/pixman.h
+lib/libpixman.la
+lib/pkgconfig/
+lib/pkgconfig/libpixman.pc

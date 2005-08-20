@@ -1,0 +1,9 @@
+@comment $MirOS$
+include/glitz-glx.h
+include/glitz.h
+lib/libglitz-glx.la
+lib/libglitz.la
+lib/pkgconfig/
+lib/pkgconfig/glitz-glx.pc
+lib/pkgconfig/glitz.pc
+%%agl%%
