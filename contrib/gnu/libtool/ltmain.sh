@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.24 2005/07/05 21:11:22 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.24 2005/07/05 21:11:22 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.25 2005/08/20 12:51:06 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.25 2005/08/20 12:51:06 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.19a
-TIMESTAMP=" (MirLibtool-1.5 2005/07/05 21:12:23)"
+TIMESTAMP=" (MirLibtool 2005/08/20 12:52:18)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -240,8 +240,8 @@ func_infer_tag ()
 	  $echo "$modename: unable to infer tagged configuration"
 	  $echo "$modename: specify a tag with '--tag'" 1>&2
 	  exit $EXIT_FAILURE
-#	else
-#	  $echo "$modename: using $tagname tagged configuration"
+#        else
+#          $echo "$modename: using $tagname tagged configuration"
 	fi
 	;;
       esac
@@ -3823,9 +3823,12 @@ EOF
 		$run eval "$cmd" || exit $?
 		skipped_export=false
 	      else
-		# The command line is too long to execute in one step.
-		$show "using reloadable object file for export list..."
-		skipped_export=:
+	        # The command line is too long to execute in one step.
+	        $show "using reloadable object file for export list..."
+	        skipped_export=:
+		# Break out early, otherwise skipped_export may be
+		# set to false by a later but shorter cmd.
+		break
 	      fi
 	    done
 	    IFS="$save_ifs"
@@ -3895,7 +3898,8 @@ EOF
 	  fi
 	fi
 
-	if test "X$skipped_export" != "X:" && len=`expr "X$test_cmds" : ".*"` &&
+	if test "X$skipped_export" != "X:" &&
+	   len=`expr "X$test_cmds" : ".*" 2>/dev/null` &&
 	   test "$len" -le "$max_cmd_len" || test "$max_cmd_len" -le -1; then
 	  :
 	else
@@ -3930,7 +3934,7 @@ EOF
 	  do
 	    eval test_cmds=\"$reload_cmds $objlist $last_robj\"
 	    if test "X$objlist" = X ||
-	       { len=`expr "X$test_cmds" : ".*"` &&
+	       { len=`expr "X$test_cmds" : ".*" 2>/dev/null` &&
 		 test "$len" -le "$max_cmd_len"; }; then
 	      objlist="$objlist $obj"
 	    else
@@ -4020,13 +4024,30 @@ EOF
 	  IFS="$save_ifs"
 	  eval cmd=\"$cmd\"
 	  $show "$cmd"
-	  $run eval "$cmd" || exit $?
+	  $run eval "$cmd" || {
+	    lt_exit=$?
+
+	    # Restore the uninstalled library and exit
+	    if test "$mode" = relink; then
+	      $run eval '(cd $output_objdir && $rm ${realname}T && $mv ${realname}U $realname)'
+	    fi
+
+	    exit $lt_exit
+	  }
 	done
 	IFS="$save_ifs"
 
 	# Restore the uninstalled library and exit
 	if test "$mode" = relink; then
 	  $run eval '(cd $output_objdir && $rm ${realname}T && $mv $realname ${realname}T && $mv "$realname"U $realname)' || exit $?
+
+	  if test -n "$convenience"; then
+	    if test -z "$whole_archive_flag_spec"; then
+	      $show "${rm}r $gentop"
+	      $run ${rm}r "$gentop"
+	    fi
+	  fi
+
 	  exit $EXIT_SUCCESS
 	fi
 
@@ -4371,7 +4392,7 @@ extern \"C\" {
 	    if test -z "$export_symbols"; then
 	      export_symbols="$output_objdir/$outputname.exp"
 	      $run $rm $export_symbols
-	      $run eval "${SED} -n -e '/^: @PROGRAM@$/d' -e 's/^.* \(.*\)$/\1/p' "'< "$nlist" > "$export_symbols"'
+	      $run eval "${SED} -n -e '/^: @PROGRAM@ $/d' -e 's/^.* \(.*\)$/\1/p' "'< "$nlist" > "$export_symbols"'
 	    else
 	      $run eval "${SED} -e 's/\([ ][.*^$]\)/\\\1/g' -e 's/^/ /' -e 's/$/$/'"' < "$export_symbols" > "$output_objdir/$outputname.exp"'
 	      $run eval 'grep -f "$output_objdir/$outputname.exp" < "$nlist" > "$nlist"T'
@@ -5175,7 +5196,7 @@ fi\
 	    oldobjs="$objlist $obj"
 	    objlist="$objlist $obj"
 	    eval test_cmds=\"$old_archive_cmds\"
-	    if len=`expr "X$test_cmds" : ".*"` &&
+	    if len=`expr "X$test_cmds" : ".*" 2>/dev/null` &&
 	       test "$len" -le "$max_cmd_len"; then
 	      :
 	    else
@@ -5372,7 +5393,7 @@ relink_command=\"$relink_command\""
     # install_prog (especially on Windows NT).
     if test "$nonopt" = "$SHELL" || test "$nonopt" = /bin/sh ||
        # Allow the use of GNU shtool's install command.
-       $echo "X$nonopt" | $Xsed | grep shtool > /dev/null; then
+       $echo "X$nonopt" | grep shtool > /dev/null; then
       # Aesthetically quote it.
       arg=`$echo "X$nonopt" | $Xsed -e "$sed_quote_subst"`
       case $arg in
@@ -5385,7 +5406,7 @@ relink_command=\"$relink_command\""
       shift
     else
       install_prog=
-      arg="$nonopt"
+      arg=$nonopt
     fi
 
     # The real first argument should be the name of the installation program.
@@ -5410,28 +5431,31 @@ relink_command=\"$relink_command\""
     do
       if test -n "$dest"; then
 	files="$files $dest"
-	dest="$arg"
+	dest=$arg
 	continue
       fi
 
       case $arg in
       -d) isdir=yes ;;
-      -f) prev="-f" ;;
-      -g) prev="-g" ;;
-      -m) prev="-m" ;;
-      -o) prev="-o" ;;
+      -f) 
+      	case " $install_prog " in
+	*[\\\ /]cp\ *) ;;
+	*) prev=$arg ;;
+	esac
+	;;
+      -g | -m | -o) prev=$arg ;;
       -s)
 	stripme=" -s"
 	continue
 	;;
-      -*) ;;
-
+      -*)
+	;;
       *)
 	# If the previous option needed an argument, then skip it.
 	if test -n "$prev"; then
 	  prev=
 	else
-	  dest="$arg"
+	  dest=$arg
 	  continue
 	fi
 	;;
@@ -5626,7 +5650,16 @@ relink_command=\"$relink_command\""
 	    IFS="$save_ifs"
 	    eval cmd=\"$cmd\"
 	    $show "$cmd"
-	    $run eval "$cmd" || exit $?
+	    $run eval "$cmd" || {
+	      lt_exit=$?
+
+	      # Restore the uninstalled library and exit
+	      if test "$mode" = relink; then
+		$run eval '(cd $output_objdir && $rm ${realname}T && $mv ${realname}U $realname)'
+	      fi
+
+	      exit $lt_exit
+	    }
 	  done
 	  IFS="$save_ifs"
 	fi
@@ -5720,17 +5753,15 @@ relink_command=\"$relink_command\""
 	  notinst_deplibs=
 	  relink_command=
 
-	  # To insure that "foo" is sourced, and not "foo.exe",
-	  # finese the cygwin/MSYS system by explicitly sourcing "foo."
-	  # which disallows the automatic-append-.exe behavior.
-	  case $build in
-	  *cygwin* | *mingw*) wrapperdot=${wrapper}. ;;
-	  *) wrapperdot=${wrapper} ;;
-	  esac
+	  # Note that it is not necessary on cygwin/mingw to append a dot to
+	  # foo even if both foo and FILE.exe exist: automatic-append-.exe
+	  # behavior happens only for exec(3), not for open(2)!  Also, sourcing
+	  # `FILE.' does not work on cygwin managed mounts.
+	  #
 	  # If there is no directory component, then add one.
-	  case $file in
-	  */* | *\\*) . ${wrapperdot} ;;
-	  *) . ./${wrapperdot} ;;
+	  case $wrapper in
+	  */* | *\\*) . ${wrapper} ;;
+	  *) . ./${wrapper} ;;
 	  esac
 
 	  # Check the variables that should have been set.
@@ -5758,17 +5789,15 @@ relink_command=\"$relink_command\""
 	  done
 
 	  relink_command=
-	  # To insure that "foo" is sourced, and not "foo.exe",
-	  # finese the cygwin/MSYS system by explicitly sourcing "foo."
-	  # which disallows the automatic-append-.exe behavior.
-	  case $build in
-	  *cygwin* | *mingw*) wrapperdot=${wrapper}. ;;
-	  *) wrapperdot=${wrapper} ;;
-	  esac
+	  # Note that it is not necessary on cygwin/mingw to append a dot to
+	  # foo even if both foo and FILE.exe exist: automatic-append-.exe
+	  # behavior happens only for exec(3), not for open(2)!  Also, sourcing
+	  # `FILE.' does not work on cygwin managed mounts.
+	  #
 	  # If there is no directory component, then add one.
-	  case $file in
-	  */* | *\\*) . ${wrapperdot} ;;
-	  *) . ./${wrapperdot} ;;
+	  case $wrapper in
+	  */* | *\\*) . ${wrapper} ;;
+	  *) . ./${wrapper} ;;
 	  esac
 
 	  outputname=
