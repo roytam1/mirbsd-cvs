@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.3 2005/06/02 23:51:24 tg Exp $ */
-/*	$OpenBSD: xinstall.c,v 1.40 2004/02/10 07:33:23 jmc Exp $	*/
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.4 2005/06/03 00:03:58 tg Exp $ */
+/*	$OpenBSD: xinstall.c,v 1.42 2004/10/04 05:21:27 jsg Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
 /*
@@ -62,7 +62,7 @@ static char copyright[] =
 #include "pathnames.h"
 
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.3 2005/06/02 23:51:24 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.4 2005/06/03 00:03:58 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -113,7 +113,7 @@ int
 main(int argc, char *argv[])
 {
 	struct stat from_sb, to_sb;
-	mode_t *set;
+	void *set;
 	u_int32_t fset;
 	u_int iflags;
 	int ch, no_target;
@@ -598,7 +598,7 @@ strip(char *to_name)
 
 /*
  * install_dir --
- *	build directory heirarchy
+ *	build directory hierarchy
  */
 void
 install_dir(char *path)

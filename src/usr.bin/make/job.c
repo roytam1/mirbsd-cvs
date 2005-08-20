@@ -1,6 +1,6 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/job.c,v 1.2 2005/02/23 20:36:53 tg Exp $ */
 /*	$OpenPackages$ */
-/*	$OpenBSD: job.c,v 1.58 2004/11/29 06:20:03 jsg Exp $	*/
+/*	$OpenBSD: job.c,v 1.59 2005/04/13 02:33:08 deraadt Exp $	*/
 /*	$NetBSD: job.c,v 1.16 1996/11/06 17:59:08 christos Exp $	*/
 
 /*
@@ -126,7 +126,7 @@
 #include "timestamp.h"
 #include "main.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/job.c,v 1.2 2005/02/23 20:36:53 tg Exp $");
 
 /* From MirBSD: src/sys/sys/types.h,v 1.2 2004/06/13 20:56:51 tg Exp $ */
 #ifndef howmany
@@ -1345,7 +1345,7 @@ JobExec(Job *job, char **argv)
 
 	   (void)execv(shellPath, argv);
 
-	(void)write(2, "Could not execute shell\n",
+	(void)write(STDERR_FILENO, "Could not execute shell\n",
 		     sizeof("Could not execute shell"));
 	_exit(1);
     } else {

@@ -1,6 +1,6 @@
-/**	$MirOS: src/usr.bin/make/main.c,v 1.3 2005/04/12 10:09:27 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/main.c,v 1.4 2005/04/12 20:29:21 tg Exp $ */
 /*	$OpenPackages$ */
-/*	$OpenBSD: main.c,v 1.65 2004/04/21 13:17:49 jmc Exp $ */
+/*	$OpenBSD: main.c,v 1.66 2005/02/17 02:37:21 jolan Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
 
 /*
@@ -85,7 +85,7 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.3 2005/04/12 10:09:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.4 2005/04/12 20:29:21 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
@@ -550,7 +550,7 @@ main(int argc, char **argv)
 	 *
 	 * Once things are initted,
 	 * have to add the original directory to the search path,
-	 * and modify the paths for the Makefiles apropriately.  The
+	 * and modify the paths for the Makefiles appropriately.  The
 	 * current directory is also placed as a variable for make scripts.
 	 */
 	mdpath = NULL;
