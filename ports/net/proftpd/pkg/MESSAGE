@@ -1,7 +1,0 @@
-In order to start ProFTPd at boot-time, add something like this to
-/etc/rc.local:
-
-if [ -x ${PREFIX}/sbin/proftpd ]; then
-  echo Starting proftpd
-  ${PREFIX}/sbin/proftpd
-fi

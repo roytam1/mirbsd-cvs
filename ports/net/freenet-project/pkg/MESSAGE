@@ -1,9 +1,0 @@
-+-----------------------------------------------------------------------
-| You can now symlink ${PREFIX}/freenet-project into /service
-| and run /service/freenet-project/configure as root in order
-| to set up Fred.
-| Then use the svc(8) command to start the daemon.
-|
-| You can update using the ${PREFIX}/freenet-project/update.sh
-| script, but current versions need sunjdk-1.4.1 which is not ported.
-+-----------------------------------------------------------------------

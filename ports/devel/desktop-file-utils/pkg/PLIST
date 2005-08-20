@@ -1,4 +1,0 @@
-@comment $MirOS$
-bin/desktop-file-install
-bin/desktop-file-validate
-bin/update-desktop-database
