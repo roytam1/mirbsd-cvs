@@ -1,6 +1,6 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.38 2005/07/07 17:54:14 tg Exp $
-# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.38 2005/07/07 17:54:14 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.39 2005/08/20 12:51:05 tg Exp $
+# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.39 2005/08/20 12:51:05 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -811,7 +811,7 @@ AC_DEFUN([AC_LIBTOOL_LINKER_OPTION],
    LDFLAGS="$LDFLAGS $3"
    printf "$lt_simple_link_test_code" > conftest.$ac_ext
    if (eval $ac_link 2>conftest.err) && test -s conftest$ac_exeext; then
-     # The compiler can only warn and ignore the option if not recognized
+     # The linker can only warn and ignore the option if not recognized
      # So say no if there are warnings
      if test -s conftest.err; then
        # Append any errors to the config.log.
@@ -1446,7 +1446,8 @@ cygwin* | mingw* | pw32*)
       dlpath=`$SHELL 2>&1 -c '\''. $dir/'\''\${base_file}'\''i;echo \$dlname'\''`~
       dldir=$destdir/`dirname \$dlpath`~
       test -d \$dldir || mkdir -p \$dldir~
-      $install_prog $dir/$dlname \$dldir/$dlname'
+      $install_prog $dir/$dlname \$dldir/$dlname~
+      chmod a+x \$dldir/$dlname'
     postuninstall_cmds='dldll=`$SHELL 2>&1 -c '\''. $file; echo \$dlname'\''`~
       dlpath=$dir/\$dldll~
        $rm \$dlpath'
@@ -1537,7 +1538,14 @@ kfreebsd*-gnu)
 freebsd* | dragonfly*)
   # DragonFly does not have aout.  When/if they implement a new
   # versioning mechanism, adjust this.
-  objformat=`test -x /usr/bin/objformat && /usr/bin/objformat || echo aout`
+  if test -x /usr/bin/objformat; then
+    objformat=`/usr/bin/objformat`
+  else
+    case $host_os in
+    freebsd[[123]]*) objformat=aout ;;
+    *) objformat=elf ;;
+    esac
+  fi
   version_type=freebsd-$objformat
   case $version_type in
     freebsd-elf*)
@@ -2905,7 +2913,7 @@ _LT_AC_TAGVAR(postdeps, $1)=
 _LT_AC_TAGVAR(compiler_lib_search_path, $1)=
 
 # Source file extension for C++ test sources.
-ac_ext=cc
+ac_ext=cpp
 
 # Object file extension for compiled C++ test sources.
 objext=o
@@ -3708,10 +3716,11 @@ case $host_os in
     case $cc_basename in
       CC*)
 	# Sun C++ 4.2, 5.x and Centerline C++
+        _LT_AC_TAGVAR(archive_cmds_need_lc,$1)=yes
 	_LT_AC_TAGVAR(no_undefined_flag, $1)=' -zdefs'
-	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -G${allow_undefined_flag} -nolib -h$soname -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
+	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -G${allow_undefined_flag}  -h$soname -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
 	_LT_AC_TAGVAR(archive_expsym_cmds, $1)='$echo "{ global:" > $lib.exp~cat $export_symbols | $SED -e "s/\(.*\)/\1;/" >> $lib.exp~$echo "local: *; };" >> $lib.exp~
-	$CC -G${allow_undefined_flag} -nolib ${wl}-M ${wl}$lib.exp -h$soname -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags~$rm $lib.exp'
+	$CC -G${allow_undefined_flag}  ${wl}-M ${wl}$lib.exp -h$soname -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags~$rm $lib.exp'
 
 	_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='-R$libdir'
 	_LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
@@ -3731,15 +3740,7 @@ case $host_os in
 	esac
 	_LT_AC_TAGVAR(link_all_deplibs, $1)=yes
 
-	# Commands to make compiler produce verbose output that lists
-	# what "hidden" libraries, object files and flags are used when
-	# linking a shared library.
-	#
-	# There doesn't appear to be a way to prevent this compiler from
-	# explicitly linking system object files so we need to strip them
-	# from the output so that they don't get included in the library
-	# dependencies.
-	output_verbose_link_cmd='templist=`$CC -G $CFLAGS -v conftest.$objext 2>&1 | grep "\-[[LR]]"`; list=""; for z in $templist; do case $z in conftest.$objext) list="$list $z";; *.$objext);; *) list="$list $z";;esac; done; echo $list'
+	output_verbose_link_cmd='echo'
 
 	# Archives containing C++ object files must be created using
 	# "CC -xar", where "CC" is the Sun C++ compiler.  This is
@@ -3985,6 +3986,18 @@ else
 fi
 
 $rm -f confest.$objext
+
+# PORTME: override above test on systems where it is broken
+ifelse([$1],[CXX],
+[case $host_os in
+solaris*)
+  case $cc_basename in
+  CC*)
+    _LT_AC_TAGVAR(postdeps,$1)='-lCstd -lCrun'
+    ;;
+  esac
+esac
+])
 
 case " $_LT_AC_TAGVAR(postdeps, $1) " in
 *" -lc "*) _LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no ;;
