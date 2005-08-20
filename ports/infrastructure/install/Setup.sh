@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.12 2005/07/05 20:25:59 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.13 2005/07/18 20:12:02 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -27,8 +27,7 @@
 #
 # What does this thing do?
 # 1) detect which OS we are running on
-# 2) build and install package tools to
-#    /usr/sbin (MirOS), /usr/local/sbin (OpenBSD), /usr/mpkg/sbin (Darwin)
+# 2) build and install package tools to /usr/mpkg/sbin
 # 3) patch <bsd.sys.mk> if necessary; other upgrade stuff
 # 4) install generic makefile includes
 #    and, if necessary, mirports.osdep.mk
@@ -136,10 +135,10 @@ Interix)
 	mkdir -p $localbase/{db/pkg,etc}
 	;;
 MirBSD)
-	localbase=/usr/local
+	localbase=/usr/mpkg
 	sysmk=/usr/share/mk
 	mtar=/bin/tar
-	pkgbin=/usr/sbin
+	pkgbin=$localbase/sbin
 
 	ospl=$(uname -l | sed -e 's/^#//' -e 's/-.*$//' -e 's/^\(.\)./\1_/')
 	ospm=${ospl%_*}
@@ -162,7 +161,7 @@ MirBSD)
 	  [[ $b != nein && ! -e libpng.so.4.0 ]] && ln -s $b libpng.so.4.0 )
 	;;
 OpenBSD)
-	localbase=/usr/local
+	localbase=/usr/mpkg
 	sysmk=/usr/share/mk
 	mtar=/bin/tar
 	pkgbin=$localbase/sbin
@@ -202,28 +201,25 @@ $MAKE obj
 $MAKE cleandir
 if [[ $os = Darwin ]]; then
 	$MAKE depend INCS='-I/usr/mpkg/share/mmake'
-	$MAKE PORTABLE=yes DB_DIR=$localbase/db \
+	$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase \
 	    INCS='-I/usr/mpkg/share/mmake' \
 	    LIBS=/usr/mpkg/share/mmake/libhash.a
-	$MAKE install PREFIX=$localbase MANDIR=$localbase/man/cat
 elif [[ $os = Interix ]]; then
 	$MAKE depend
-	$MAKE PORTABLE=yes NEED_COMPAT=yes DB_DIR=$localbase/db \
+	$MAKE PORTABLE=yes NEED_COMPAT=yes NEW_LOCALBASE=$localbase \
 	    LIBS='-L\${.SYSMK} -lmirmake -ldb'
-	$MAKE install
 elif [[ $os = MirBSD ]]; then
 	$MAKE depend
 	if [[ $mirosnew = 1 ]]; then
-		$MAKE
+		$MAKE NEW_LOCALBASE=$localbase
 	else
-		$MAKE PORTABLE=yes
+		$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase
 	fi
-	$MAKE install
 elif [[ $os = OpenBSD ]]; then
 	$MAKE depend
-	$MAKE PORTABLE=yes
-	$MAKE install PREFIX=$localbase MANDIR=$localbase/man/cat
+	$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase
 fi
+$MAKE install PREFIX=$localbase MANDIR=$localbase/man/cat
 set +e
 rm -rf */obj
 
@@ -300,7 +296,6 @@ OpenBSD)
 		print failed.
 		exit 1
 	fi
-	print '/^#@@PKG_CMDDIR/s/^#@@//\nwq' | ed -s $ti/mk/mirports.osdep.mk
 	;;
 esac
 
@@ -349,7 +344,6 @@ print -p
 case $os in
 Darwin)
 	print -p "PORTSDIR=		$top"
-	print -p "PKG_CMDDIR=		$localbase/sbin"
 	;;
 Interix)
 	print -p "PORTSDIR=		$top"
@@ -358,19 +352,15 @@ MirBSD)
 	# nothing else here yet
 	;;
 OpenBSD)
-	if [[ $top = /usr/ports ]]; then
-		print -p "PKG_CMDDIR=		$localbase/sbin"
-	else
+	if [[ $top != /usr/ports ]]; then
 		print -p "USE_MIRPORTS?=\t	yes"
 		print -p
 		print -p '.if ${USE_MIRPORTS:L} == "yes"'
 		print -p "PORTSDIR=		$top"
-		print -p "PKG_CMDDIR=		$localbase/sbin"
 		print -p ".else"
 		print -p "PORTSDIR=		/usr/ports"
 		print -p ".endif"
 	fi
-	print -p
 	;;
 esac
 

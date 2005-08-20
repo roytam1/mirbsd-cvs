@@ -1,20 +1,19 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.5 2005/05/23 11:02:41 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.6 2005/05/23 11:59:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
 _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC=1
 
-.if ${OStype} == "Darwin"
+NEW_LOCALBASE?=	/usr/mpkg
+DB_DIR?=	${NEW_LOCALBASE}/db
+
 LOCALBASE?=	/usr/mpkg
 PREFIX?=	${LOCALBASE}
+.if ${OStype} == "Darwin"
 MANDIR=		${LOCALBASE}/man/cat
 INCS=		-I${.SYSMK}
 LIBS=		${.SYSMK}/libhash.a
 PORTABLE=	Yes
-DB_DIR?=	${LOCALBASE}/db
-.else
-PREFIX?=	/usr
-DB_DIR?=	/var/db
 .endif
 
 BINDIR=		${PREFIX}/sbin

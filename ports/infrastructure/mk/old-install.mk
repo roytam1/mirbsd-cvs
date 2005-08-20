@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.3 2005/07/06 18:34:55 bsiegert Exp $
 # $OpenBSD: old-install.mk,v 1.10 2002/06/27 12:47:23 mpech Exp $
 # Stuff that is needed for old, pre-fake, port installations.
 
@@ -12,6 +12,9 @@
 # FORCE_PKG_REGISTER - If set, it will overwrite any existing package
 #				  registration information in ${PKG_DBDIR}/${FULLPKGNAME}.
 
+
+# XXX
+PREFIX=/usr/local
 
 ${_FAKE_COOKIE}: ${_BUILD_COOKIE}
 	@echo 1>&2 "*** ${FULLPKGNAME} does not use fake installation yet"

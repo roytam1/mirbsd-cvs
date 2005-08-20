@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.38 2005/07/18 20:00:49 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.39 2005/07/24 12:34:26 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -71,9 +71,9 @@ BULK_TARGETS_${PKGPATH}?=	${BULK_TARGETS}
 CLEANDEPENDS_${PKGPATH}?=	${CLEANDEPENDS}
 
 # Commands and command settings.
-PKG_DBDIR?=		/var/db/pkg
+PKG_DBDIR?=		${LOCALBASE}/db/pkg
 PKG_TMPDIR?=		/var/tmp
-PKG_CMDDIR?=		/usr/sbin
+PKG_CMDDIR?=		${LOCALBASE}/sbin
 PKG_CMD_ADD?=		${PKG_CMDDIR}/pkg_add
 PKG_CMD_CREATE?=	${PKG_CMDDIR}/pkg_create
 PKG_CMD_DELETE?=	${PKG_CMDDIR}/pkg_delete

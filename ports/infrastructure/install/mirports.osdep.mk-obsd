@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.2 2005/05/30 18:08:50 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -47,7 +47,6 @@ OBJECT_FMT=		ELF
 .else
 OBJECT_FMT=		a.out
 .endif
-#@@PKG_CMDDIR=		/usr/local/sbin
 
 # Version specifics
 
