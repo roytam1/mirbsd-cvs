@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.2 2004/03/17 08:49:32 pvalchev Exp $
-bin/jad
-share/doc/jad/Readme.txt
-@dirrm share/doc/jad

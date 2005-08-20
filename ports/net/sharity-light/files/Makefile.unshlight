@@ -1,6 +1,0 @@
-# $MirOS$
-
-PROG=	unshlight
-NOMAN=	yes
-
-.include <bsd.prog.mk>
