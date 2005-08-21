@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.13 2005/07/18 20:12:02 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14 2005/08/20 12:33:48 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -199,27 +199,17 @@ set -e
 $MAKE cleandir
 $MAKE obj
 $MAKE cleandir
-if [[ $os = Darwin ]]; then
-	$MAKE depend INCS='-I/usr/mpkg/share/mmake'
-	$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase \
-	    INCS='-I/usr/mpkg/share/mmake' \
-	    LIBS=/usr/mpkg/share/mmake/libhash.a
-elif [[ $os = Interix ]]; then
-	$MAKE depend
-	$MAKE PORTABLE=yes NEED_COMPAT=yes NEW_LOCALBASE=$localbase \
-	    LIBS='-L\${.SYSMK} -lmirmake -ldb'
-elif [[ $os = MirBSD ]]; then
-	$MAKE depend
+$MAKE depend
+if [[ $os = MirBSD ]]; then
 	if [[ $mirosnew = 1 ]]; then
-		$MAKE NEW_LOCALBASE=$localbase
+		$MAKE
 	else
-		$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase
+		$MAKE PORTABLE=yes
 	fi
-elif [[ $os = OpenBSD ]]; then
-	$MAKE depend
-	$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase
+else
+	$MAKE
 fi
-$MAKE install PREFIX=$localbase MANDIR=$localbase/man/cat
+$MAKE install
 set +e
 rm -rf */obj
 
