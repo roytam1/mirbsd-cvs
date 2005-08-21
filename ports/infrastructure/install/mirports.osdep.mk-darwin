@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-darwin,v 1.4 2005/08/20 12:33:48 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-darwin,v 1.4.2.1 2005/08/21 11:08:23 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,6 +37,7 @@ AUTOCONF_FAKEOS=	${OStriplet}
 NOPIC=			No	# XXX
 LDCONFIG=
 _CKSUM_A=
+HAS_TIMET64=		No
 USE_SYSTRACE=		No
 MMAKE?=			${LOCALBASE}/bin/mmake
 FETCH_CMD?=		/usr/bin/ftp
