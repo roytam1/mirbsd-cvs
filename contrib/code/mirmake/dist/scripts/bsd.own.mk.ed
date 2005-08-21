@@ -1,5 +1,5 @@
 0a
-# $MirOS: contrib/code/mirmake/dist/scripts/bsd.own.mk.ed,v 1.2 2005/02/23 21:29:44 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/bsd.own.mk.ed,v 1.3 2005/02/23 21:59:41 tg Exp $
 .
 /^CROSS_MODE?=/;/^BINGRP?=/-1d
 -i
@@ -9,7 +9,7 @@ BSDSRCDIR?=		/usr/src
 BSDOBJDIR?=		/usr/obj
 .
 /^MKSH?=/s/\(MKSH?=[	 ]*\).*$/\1@@mksh@@/
-/nrcon/s//nroff/
+/nrcon/s//@@nroff@@/
 /^# this used to be in .bsd.prog.mk/;/^# old stuff/d
 .;/^$/d
 wq

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.42 2005/06/09 22:07:31 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.43 2005/06/09 22:14:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -112,6 +112,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@ostype@@#${new_ostype}#g' \
 	 -e 's#@@shmk@@#${dt_mk}#g' \
 	 -e 's#@@ccom@@#${CC}#g' \
+	 -e 's#@@nroff@@#${NROFF}#g' \
 	 -e 's#@@vers@@#${version}#g' \
 	 -e 's#@@bmake@@#${new_exenam}#g'"
 
