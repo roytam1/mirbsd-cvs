@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.15 2005/08/20 12:33:48 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.15.2.1 2005/08/21 11:08:23 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -35,6 +35,7 @@ CPPFLAGS+=		-I/usr/local/include/bind
 # Interix particulars
 OStriplet=		i386-pc-interix3
 _PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/opt/gcc.3.3/bin:/bin:/usr/contrib/bin:${LOCALBASE}/sbin:/usr/sbin:/sbin:${X11BASE}/bin:/usr/X11R5/bin
+HAS_TIMET64=		No
 USE_SYSTRACE=		No
 MMAKE?=			${LOCALBASE}/bin/make
 TAR=			/bin/tar
