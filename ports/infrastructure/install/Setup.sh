@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.13 2005/08/21 18:46:58 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.14 2005/08/21 18:56:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -33,6 +33,8 @@ xfbase=/usr/X11R6
 # ... in case we have XFree86(R) as a port
 test -r $localbase/X11/include/X11/X.h && xfbase=$localbase/X11
 test -f $localbase/X11/bin/xterm && xfbase=$localbase/X11
+export localbase
+export xfbase
 
 #mksh_ver=24 # unused
 mksh_date="24 2005/08/21"
@@ -50,12 +52,13 @@ export mirror
 test x"$1" = x || shift
 
 # Are we Interix?
-interix=no
-test -n "$SFUDIR" && interix=yes
-test -n "$OPENNT_ROOT" && interix=yes
+isinterix=no
+test -n "$SFUDIR" && isinterix=yes
+test -n "$OPENNT_ROOT" && isinterix=yes
+export isinterix
 
 # Set the PATHs
-if test $interix = no; then
+if test $isinterix = no; then
 	p=$localbase/bin
 	for a in /usr/local/bin $xfbase/bin /usr/X11R6/bin /usr/bin /bin; do
 		case :$p: in
@@ -102,10 +105,11 @@ fi
 
 # Where are we?
 ourpath=`dirname $0`
+export ourpath
 
 # Divine a fetching utility
 fetch=false
-if test $interix = yes; then
+if test $isinterix = yes; then
 	# check for Weihenstephan wget
 	test -f /dev/fs/C/usr/local/wbin/wget.exe && \
 	    fetch="runwin32 c:/usr/local/wbin/wget.exe"
@@ -148,7 +152,7 @@ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNAp
 tempdir=$T; export tempdir
 
 # Check for Interix
-if test $interix = yes; then
+if test $isinterix = yes; then
 	# We know /bin/ksh is sufficient
 	# Check for nroff
 	test -f /usr/bin/nroff || \
