@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.2 2005/08/21 13:25:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.3 2005/08/21 13:50:18 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
@@ -217,7 +217,7 @@ Get a preformatted manual page from another operating system.
 
 <p>
 <ul>
- <li>cd mksh; env CPPFLAGS='-D_FILE_OFFSET_BITS=64' bash Build.sh -r</li>
+ <li>cd mksh; sh Build.sh -d -r</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
  <li>install -c -o root -g bin -m 444 mksh.1 /usr/share/man/man1/mksh.1</li>
@@ -227,7 +227,8 @@ Get a preformatted manual page from another operating system.
 </ul>
 <p>
 If you want a fully dynamic build (you depend on the PAM
-shared libraries anyway), add -d to the command line.
+shared libraries anyway), add -d to the command line, as shown
+above; without -d it's statically linked but dlopen()s.
 <p>
 There is an mksh port for Crux - <a href="http://crux.nu/">http://crux.nu/</a> - available
 at <a href="http://www.xs4all.nl/~hanb/software/crux/han/mksh/">http://www.xs4all.nl/~hanb/software/crux/han/mksh/</a> (thanks
