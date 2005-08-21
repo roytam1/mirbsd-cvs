@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.8 2005/08/21 17:48:46 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.9 2005/08/21 17:58:37 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -115,17 +115,19 @@ fi
 export fetch
 
 # Divine a temporary directory
-if ! T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
+if T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
+	:
+else
 	# May be Interix without mktemp.sh
-	T=/tmp/mirports.$$
+	T=/tmp/mirports.$$.$RANDOM
 	if [ -d $T ]; then
-		echo Cannot generate temporary directory! >&2
+		echo Cannot generate temporary directory >&2
 		exit 1
 	fi
-	if ! mkdir -p $T; then
-		echo Cannot generate temporary directory! >&2
+	mkdir -p $T || {
+		echo Cannot generate temporary directory >&2
 		exit 1
-	fi
+	}
 fi
 echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNApd6D5OnV98FO8Ofbfm4CF1Cvwr+IPnyKyPglQnaFgHF3LVynKMYSupKXnd0JrBR79TBmIVImBnIaTPcApRdWZEbMW5IdYhrWFHKlzk4vDxBXdcVE6QfiemWsYqkiuoJvLTLHXq7WUCQ5z7KuQetMnnP2bswV8SZuYy0IvzQRBVJbiTQzBvsHfyZUERLBZvjtPE9jTaLdTOkKvCuhuTzQAMmG8aYFt9S0p1K20eCCgWvJ5vu3ir875yBrtVPl2VzdFdo7Wv3kg1HOV+Sy7dQ2bIJ52mV8CnHI1W+ZMEjzQ64m75wH/AGsVb35E0sPJzFNCGj//8/kyKxRR1I0DSDOb+iE48twOrBRrUF5+ApwocqVdIa//Cbe1ArjzrEhwaKY0SitPcFwbVV8XadtsHXfdM5QnFwTsNobk2w+XLt9I5yL/SdE1NVVXBsAN1nejzDo8XTheD6o/m5O29WO3MSS7jt1PCYItVjN4ONK/Ztaa+zQcNK9itMy2tEJ1R/gI+AipOQi0JaHHAjcdYKxDbbJpurJAHvtLvKiJNqNUJPGpqCSfL8YqmDwf3Gs1SntRjgZNeOpAdiHl2qUewcB2vujROmLTQgxJ2HJTK8hKr+2nkZdEMkYYQ/wDtsGYohokU1GOGTjdr5d2vXW8MAWaF5UQDXQzPCT4RGjDLfvod4SM+GHn8t2eDJH8uHvUPU6AXcohM30zw/h9FPf18q7Oo0srwFpc0qjvwDxl9lgilsfaL23K2V5YFeTkO1llxnRdsTmSZ7UMsugBFu5bjGEL4hC/Sml0oH9F8hiV50fXWetsQvNB637Q== Thorsten "mirabile" Glaser <tg@MirBSD.org> SIGN' >$T/signkey
 tempdir=$T; export tempdir
@@ -134,12 +136,13 @@ tempdir=$T; export tempdir
 if [ -n "$SFUDIR" -o -n "$OPENNT_ROOT" ]; then
 	# We know /bin/ksh is sufficient
 	# Check for nroff
-	if [ ! -x /usr/bin/nroff ]; then
-		set -e
-		OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
-		    /bin/ksh `dirname $0`/setup.ksh -i
-		set +e
-	fi
+	test -x /usr/bin/nroff || \
+	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
+	    /bin/ksh `dirname $0`/setup.ksh -i
+	test -x /usr/bin/nroff || {
+		echo Cannot install nroff >&2
+		exit 1
+	}
 fi
 
 # Look if this is a sufficient mksh, search for one
@@ -180,7 +183,7 @@ fi
 if [ x"$ms" != x"false" ]; then
 	SHELL=$ms; export SHELL
 	exec $ms `dirname $0`/setup.ksh
-	echo Warning: executing old mksh failed! >&2
+	echo Warning: executing old mksh failed >&2
 fi
 
 # Download mksh
@@ -221,15 +224,15 @@ test $sum = bad || if gzsig -q verify signkey $mksh_dist 2>/dev/null; then
 fi
 if test $sum = unchecked; then
 	echo Warning: Cannot check hashes for $mksh_dist >&2
-	echo Please compare the following two lines manually! >&2
+	echo Please compare the following two lines manually >&2
 	echo ': -r--r--r--  1 tg  miros-cvsall  224290 Aug 21 13:08 mksh-R24b.cpio.gz' >&2
 	echo ": `/bin/ls -l $mksh_dist`" >&2
-	echo Press RETURN to continue! >&2
+	echo Press RETURN to continue >&2
 	read s
 fi
 
 if test $sum = bad; then
-	echo Checksum verification failed! >&2
+	echo Checksum verification failed >&2
 	echo "false: $s" >&2
 	cd
 	rm -rf $T
@@ -237,29 +240,35 @@ if test $sum = bad; then
 fi
 
 # Extract and build mksh
-if ! gzip -dc $mksh_dist | cpio -id; then
-	echo Build failed! >&2
+if gzip -dc $mksh_dist | cpio -id; then
+	:
+else
+	echo Build failed >&2
 	cd
 	rm -rf $T
 	exit 1
 fi
 
 cd mksh
-if ! SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh; then
-	if ! SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh -d -r; then
-		echo Build failed! >&2
+if SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh; then
+	:
+else
+	if SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh -d -r; then
+		:
+	else
+		echo Build failed >&2
 		cd
 		rm -rf $T
 		exit 1
 	fi
 fi
 
-if [ ! -x mksh ]; then
-	echo Build failed! >&2
+test -x mksh || {
+	echo Build failed >&2
 	cd
 	rm -rf $T
 	exit 1
-fi
+}
 
 # Install mksh
 set -e
@@ -267,11 +276,13 @@ rm -f /bin/mksh.$$.1
 install -c -s -m 555 mksh /bin/mksh.$$.1
 mv /bin/mksh /bin/mksh.$$.2 && mv /bin/mksh.$$.1 /bin/mksh
 set +e
-if ! rm /bin/mksh.$$.2; then
-	if ! mv /bin/mksh.$$.2 /tmp/deleteme.$$; then
-		echo Warning: remove /bin/mksh.$$.2 later! >&2
+if rm /bin/mksh.$$.2; then
+	:
+else
+	if mv /bin/mksh.$$.2 /tmp/deleteme.$$.$RANDOM; then
+		echo Don't forget to clean up /tmp/deleteme.$$.* >&2
 	else
-		echo Don't forget to clean up /tmp/deleteme.$$ >&2
+		echo Warning: remove /bin/mksh.$$.2 later >&2
 	fi
 fi
 
