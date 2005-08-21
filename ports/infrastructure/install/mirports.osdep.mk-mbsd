@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-mbsd,v 1.4.2.1 2005/08/21 11:08:23 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-mbsd,v 1.4.2.2 2005/08/21 12:41:19 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -66,15 +66,15 @@ CXX=			eg++
 .  else
 NO_CXX=			not enabled via MKC_EGCC
 .  endif
+_SYSTRACE_ARGS=		-i -a
+FETCH_CMD=		/usr/bin/ftp -V -m
 .endif
 
 # MirOS #7-current (pre #8-beta)
 .if ${OSrev} == 7 && defined(OSrpl)
 .  if ${OSrpl} >= 160
-FETCH_CMD=		/usr/bin/ftp -EV -m
 HAS_DLADDR=		No
 OScompat=		3.5
-SYSTRACE_ARGS_ADD+=	-e
 .  endif
 .  if ${OSrpl} >= 182
 HAS_TIMET64=		Yes
