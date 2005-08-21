@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.3 2005/08/21 16:58:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -63,6 +63,22 @@ if [ "$fetch" = false ]; then
 fi
 export fetch mirror
 
+# Divine a temporary directory
+if ! T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
+	# May be Interix without mktemp.sh
+	T=/tmp/mirports.$$
+	if [ -d $T ]; then
+		echo Cannot generate temporary directory! >&2
+		exit 1
+	fi
+	if ! mkdir -p $T; then
+		echo Cannot generate temporary directory! >&2
+		exit 1
+	fi
+fi
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNApd6D5OnV98FO8Ofbfm4CF1Cvwr+IPnyKyPglQnaFgHF3LVynKMYSupKXnd0JrBR79TBmIVImBnIaTPcApRdWZEbMW5IdYhrWFHKlzk4vDxBXdcVE6QfiemWsYqkiuoJvLTLHXq7WUCQ5z7KuQetMnnP2bswV8SZuYy0IvzQRBVJbiTQzBvsHfyZUERLBZvjtPE9jTaLdTOkKvCuhuTzQAMmG8aYFt9S0p1K20eCCgWvJ5vu3ir875yBrtVPl2VzdFdo7Wv3kg1HOV+Sy7dQ2bIJ52mV8CnHI1W+ZMEjzQ64m75wH/AGsVb35E0sPJzFNCGj//8/kyKxRR1I0DSDOb+iE48twOrBRrUF5+ApwocqVdIa//Cbe1ArjzrEhwaKY0SitPcFwbVV8XadtsHXfdM5QnFwTsNobk2w+XLt9I5yL/SdE1NVVXBsAN1nejzDo8XTheD6o/m5O29WO3MSS7jt1PCYItVjN4ONK/Ztaa+zQcNK9itMy2tEJ1R/gI+AipOQi0JaHHAjcdYKxDbbJpurJAHvtLvKiJNqNUJPGpqCSfL8YqmDwf3Gs1SntRjgZNeOpAdiHl2qUewcB2vujROmLTQgxJ2HJTK8hKr+2nkZdEMkYYQ/wDtsGYohokU1GOGTjdr5d2vXW8MAWaF5UQDXQzPCT4RGjDLfvod4SM+GHn8t2eDJH8uHvUPU6AXcohM30zw/h9FPf18q7Oo0srwFpc0qjvwDxl9lgilsfaL23K2V5YFeTkO1llxnRdsTmSZ7UMsugBFu5bjGEL4hC/Sml0oH9F8hiV50fXWetsQvNB637Q== Thorsten "mirabile" Glaser <tg@MirBSD.org> SIGN' >$T/signkey
+tempdir=$T; export tempdir
+
 # Check for Interix
 if [ -n "$SFUDIR" -o -n "$OPENNT_ROOT" ]; then
 	# We know /bin/ksh is sufficient
@@ -116,20 +132,6 @@ if [ x"$ms" != x"false" ]; then
 	echo Warning: executing old mksh failed! >&2
 fi
 
-# Divine a temporary directory
-if ! T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
-	# May be Interix without mktemp.sh
-	T=/tmp/mirports.$$
-	if [ -d $T ]; then
-		echo Cannot generate temporary directory! >&2
-		exit 1
-	fi
-	if ! mkdir -p $T; then
-		echo Cannot generate temporary directory! >&2
-		exit 1
-	fi
-fi
-
 # Download mksh
 cd $T
 case "$mirror" in
@@ -141,8 +143,7 @@ case "$mirror" in
 	;;
 esac
 sum=good
-echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNApd6D5OnV98FO8Ofbfm4CF1Cvwr+IPnyKyPglQnaFgHF3LVynKMYSupKXnd0JrBR79TBmIVImBnIaTPcApRdWZEbMW5IdYhrWFHKlzk4vDxBXdcVE6QfiemWsYqkiuoJvLTLHXq7WUCQ5z7KuQetMnnP2bswV8SZuYy0IvzQRBVJbiTQzBvsHfyZUERLBZvjtPE9jTaLdTOkKvCuhuTzQAMmG8aYFt9S0p1K20eCCgWvJ5vu3ir875yBrtVPl2VzdFdo7Wv3kg1HOV+Sy7dQ2bIJ52mV8CnHI1W+ZMEjzQ64m75wH/AGsVb35E0sPJzFNCGj//8/kyKxRR1I0DSDOb+iE48twOrBRrUF5+ApwocqVdIa//Cbe1ArjzrEhwaKY0SitPcFwbVV8XadtsHXfdM5QnFwTsNobk2w+XLt9I5yL/SdE1NVVXBsAN1nejzDo8XTheD6o/m5O29WO3MSS7jt1PCYItVjN4ONK/Ztaa+zQcNK9itMy2tEJ1R/gI+AipOQi0JaHHAjcdYKxDbbJpurJAHvtLvKiJNqNUJPGpqCSfL8YqmDwf3Gs1SntRjgZNeOpAdiHl2qUewcB2vujROmLTQgxJ2HJTK8hKr+2nkZdEMkYYQ/wDtsGYohokU1GOGTjdr5d2vXW8MAWaF5UQDXQzPCT4RGjDLfvod4SM+GHn8t2eDJH8uHvUPU6AXcohM30zw/h9FPf18q7Oo0srwFpc0qjvwDxl9lgilsfaL23K2V5YFeTkO1llxnRdsTmSZ7UMsugBFu5bjGEL4hC/Sml0oH9F8hiV50fXWetsQvNB637Q==' >key
-if gzsig -q verify key $mksh_dist 2>/dev/null; then
+if gzsig -q verify signkey $mksh_dist 2>/dev/null; then
 	:
 elif s="`md5 $mksh_dist 2>/dev/null`"; then
 	[ x"$s" = x"$mksh_md5" ] || sum=bad
@@ -217,8 +218,8 @@ if [ $s = 0 ]; then
 fi
 
 # Clean up
-cd
-rm -rf $T
+cd $T
+rm -rf mksh
 
 # Jump into final script
 SHELL=/bin/mksh; export SHELL
