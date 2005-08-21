@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.10 2005/08/21 18:07:51 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.11 2005/08/21 18:32:49 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -161,14 +161,11 @@ if test x"$ms" != x"false"; then
 	old=no
 #	t=`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`
 #	# first check version, then date
-#	if [ $t -lt $mksh_ver ]; then
-#		old=yes
-#	fi
+#	test $t -lt $mksh_ver && old=yes
 	# check if date matches
 	t=`$ms -c 'print ${KSH_VERSION#*KSH?R}'`
-	if test x"$t" != x"$mksh_date"; then
-		old=yes
-	fi
+	test x"$t" != x"$mksh_date" && old=yes
+
 	# If old, check if we can upgrade
 	test $old = yes && if test x"$UPGRADE" != "no"; then
 		# But use it as build shell
