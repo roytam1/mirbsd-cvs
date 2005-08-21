@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.11 2005/06/08 10:21:18 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Interix.sh,v 1.12 2005/06/09 22:25:06 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -153,6 +153,12 @@ if [ ! -x /usr/bin/nroff ]; then
 		cd ../../../..
 	done
 	rm -rf mirnroff
+fi
+
+if [ -x /usr/bin/nrcon ]; then
+	export NROFF=/usr/bin/nrcon
+else
+	export NROFF="/usr/bin/nroff -Tascii"
 fi
 
 gzip -dc $mksh | cpio -id
