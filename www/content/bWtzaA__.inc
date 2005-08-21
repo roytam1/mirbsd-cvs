@@ -1,9 +1,9 @@
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.1 2005/08/09 13:10:36 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
 
-<h1>mksh R24</h1>
+<h1>mksh R24b</h1>
 <p>
  This is a more or less portable version of the pdksh derivate
  Korn shell which comes, as an alternative to the default (and
@@ -11,17 +11,18 @@
 </p>
 
 <h3>Recent Changes</h3>
-<p>
-Changes in the current development version:
-<ul>
+<p>Changes in the current development version:</p><ul>
+</ul>
+<p>R24b is a minor clean-up relase, recommended especially on Darwin.</p><ul>
  <li>please GCC 4 with the usual crazy set of warning flags</li>
  <li>remove 'version' editor binding and remap emacs ^V to quote-meta ('literal')</li>
  <li>use <a href="/man2/open.htm">open(2)</a> instead of <a href="/man3/creat.htm">creat(3)</a>, from OpenBSD</li>
+ <li>fix order of includes</li>
+ <li>some code simplification; no explicit LFS needed any more</li>
 </ul>
-<p>
-R24 is an <b>important bug fix</b> release and the new required
-minimum version to be installed for <a href="wiki.cgi?MirMake" class=wikipagelink>MirMake</a>. Changes are:
-<ul>
+<p>R24 is an <b>important bug fix</b> release and the new required
+ minimum version to be installed for MirMake. Changes are:
+</p><ul>
  <li>GNU/Cygwin is now supported but not officially tested</li>
  <li>DragonFly BSD is now supported and officially tested</li>
  <li>FreeBSD should work as a side effect of the above</li>
@@ -121,41 +122,43 @@ integer type to 64 bits signed (any takers?).
 <p>
 The current version is
 <ul>
- <li><a href="https://mirbsd.bsdadvocacy.org:8890/MirOS/distfiles/mksh-R24.cpio.gz">https://mirbsd.bsdadvocacy.org:8890/MirOS/distfiles/mksh-R24.cpio.gz</a></li>
- <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/distfiles/mksh-R24.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/distfiles/mksh-R24.cpio.gz</a></li>
+ <li><a href="https://mirbsd.bsdadvocacy.org:8890/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz</a></li>
+ <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz</a></li>
 </ul>
 <p>
 <ul>
- <li>RMD160 (mksh-R24.cpio.gz) = 9cc0cd981f869ddced20c840c6902a19c2e3c4df</li>
- <li>1865971357 224684 /MirOS/distfiles/mksh-R24.cpio.gz</li>
- <li>MD5 (mksh-R24.cpio.gz) = e9156dcd8236f2f6210bd3758f08fefb</li>
+ <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
+  the integrity of the distfile instead!</li>
+ <li>RMD160 (mksh-R24b.cpio.gz) = 2f056c264120871d670b2eb53960e5d6e3d1cce8</li>
+ <li>240923212 224290 /MirOS/dist/mir/mksh/mksh-R24b.cpio.gz</li>
+ <li>MD5 (mksh-R24b.cpio.gz) = 48d0df73eba1ef4e9c0758f69262eb66</li>
 </ul>
 <p>
 If you ever sit in front of an unfriendly operating
 environment such as FreeBSD<a href="wiki.cgi?action=edit&id=FreeBSD" class=wikipageedit>?</a> or the default Interix,
 first, do not use the sh or ksh which comes with them.
 Use the C shell instead. (Kidding? No.)
-Then, try wget, <a href="/man1/ftp.htm">ftp(1)</a> or fetch to retrieve above file;
+Then, try wget, <a href="/man1/ftp.htm">ftp(1)</a> or fetch or GNU wget to retrieve above file;
 usually, one of them succeeds.
 If you must use a web browser for downloading the file,
 please note that most of them, seen on Mozilla(TM) and
 its derivates as well as Microsoft Internet Explorer,
 have a bug where the file is saved correctly
-as <em>mksh-R24.cpio.gz</em> but already decompressed.
+as <em>mksh-R24b.cpio.gz</em> but already decompressed.
 <p>
 <h2>Unpacking</h2>
 
 <p>
 On decent systems, you can just use
 <ul>
- <li>tar xzf mksh-R24.cpio.gz</li>
+ <li>tar xzf mksh-R24b.cpio.gz</li>
 </ul>
 to extract the file.
 <p>
 On quite damaged systems such as everything which is not
 <a href="wiki.cgi?MirOS" class=wikipagelink>MirOS</a> or anything else with <a href="wiki.cgi?MirCpio" class=wikipagelink>MirCpio</a> (paxmirabilis), use
 <ul>
- <li>gzip -dc mksh-R24.cpio.gz | cpio -mid</li>
+ <li>gzip -dc mksh-R24b.cpio.gz | cpio -mid</li>
 </ul>
 <p>
 Of course, skip the gzip stage (use cat) or the 'z' flag
@@ -288,7 +291,7 @@ The <a href="wiki.cgi?MirOS" class=wikipagelink>MirOS</a> Project has tested mir
 
 <p>
 <DL >
-<dt><dd> mksh R24
+<dt><dd> mksh R24b
 </DL>
 Obviously works, as part of the base install.
 <p>
@@ -311,7 +314,7 @@ with the Korn shell.
 
 <p>
 <DL >
-<dt><dd> mksh R24
+<dt><dd> mksh R24b
 </DL>
 Portable mksh builds; the test suite succeeds.
 <p>
@@ -319,7 +322,7 @@ Portable mksh builds; the test suite succeeds.
 
 <p>
 <DL >
-<dt><dd> mksh R24
+<dt><dd> mksh R24b
 </DL>
 The test suite succeeds. Basic
 command line usage works as well. The binary is not statically
@@ -331,7 +334,7 @@ package management system.
 
 <p>
 <DL >
-<dt><dd> mksh R24
+<dt><dd> mksh R24b
 </DL>
 The testsuite works (must use <a href="/man1/locate.htm">locate(1)</a> to look where h2ph
 is installed... *sigh*), and I'm using it on my shell account.
