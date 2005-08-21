@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40 2005/08/20 12:33:53 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.1 2005/08/21 11:08:26 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -588,8 +588,7 @@ SCRIPTS_ENV+=		${_INSTALL_MACROS}
 # setup systrace variables
 NO_SYSTRACE?=		No
 .if ${USE_SYSTRACE:L} == "yes" && ${NO_SYSTRACE:L} == "no"
-_SYSTRACE_CMD?=		/bin/systrace ${SYSTRACE_ARGS_ADD} -i -a \
-			    -f ${_SYSTRACE_COOKIE}
+_SYSTRACE_CMD?=		/bin/systrace ${_SYSTRACE_ARGS} -f ${_SYSTRACE_COOKIE}
 .else
 _SYSTRACE_CMD=
 .endif
