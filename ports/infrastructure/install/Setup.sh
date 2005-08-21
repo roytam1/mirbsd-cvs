@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.3 2005/08/21 16:58:43 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.4 2005/08/21 17:12:49 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,34 +34,39 @@ mksh_path=mir/mksh/$mksh_dist
 mksh_md5="MD5 ($mksh_dist) = 48d0df73eba1ef4e9c0758f69262eb66"
 mksh_sum="240923212 224290 $mksh_dist"
 mksh_md5sum="48d0df73eba1ef4e9c0758f69262eb66  $mksh_dist"
-mirror="${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}"
+
+mirror="${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}"; export mirror
+
+# Are we Interix?
+interix=no
+test -n "$SFUDIR" && interix=yes
+test -n "$OPENNT_ROOT" && interix=yes
 
 # Divine a fetching utility
 fetch=false
-if [ -n "$SFUDIR" -o -n "$OPENNT_ROOT" ]; then
-	# Interix: check for Weihenstephan wget
-	if [ -x /dev/fs/C/usr/local/wbin/wget.exe ]; then
-		fetch="runwin32 c:/usr/local/wbin/wget.exe"
-	fi
+if test $interix = yes; then
+	# check for Weihenstephan wget
+	test -x /dev/fs/C/usr/local/wbin/wget.exe && \
+	    fetch="runwin32 c:/usr/local/wbin/wget.exe"
 fi
-if [ "$fetch" = false ]; then
+if test x"$fetch" = x"false"; then
 	# Check for ftp/wget/fetch
 	for dir in /usr/mpkg/bin /usr/local/bin /bin /usr/bin; do
-		if [ -x $dir/wget ]; then
+		if test -x $dir/wget; then
 			fetch=$dir/wget
 			break
 		fi
-		if [ -x $dir/fetch ]; then
+		if test -x $dir/fetch; then
 			fetch=$dir/fetch
 			break
 		fi
-		if [ -x $dir/ftp ]; then
+		if test -x $dir/ftp; then
 			fetch=$dir/ftp
 			break
 		fi
 	fi
 fi
-export fetch mirror
+export fetch
 
 # Divine a temporary directory
 if ! T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
