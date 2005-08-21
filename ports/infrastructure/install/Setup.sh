@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.4 2005/08/21 17:12:49 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.5 2005/08/21 17:30:22 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -27,6 +27,8 @@
 # On Interix, nroff is also installed first.
 
 # Constants
+localbase=/usr/mpkg
+
 #mksh_ver=24 # unused
 mksh_date="24 2005/08/21"
 mksh_dist=mksh-R24b.cpio.gz
@@ -41,6 +43,45 @@ mirror="${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}"; export mirror
 interix=no
 test -n "$SFUDIR" && interix=yes
 test -n "$OPENNT_ROOT" && interix=yes
+
+# Set the PATHs
+if test $interix = no; then
+	p=$localbase/bin
+	for a in /usr/local/bin /usr/X11R6/bin /usr/bin /bin; do
+		case :$p: in
+		*:$a:*)	continue ;;
+		esac
+		test -d $a && p=$p:$a
+	fi
+	p=$p:$localbase/sbin
+	for a in /usr/local/sbin /usr/sbin /sbin; do
+		case :$p: in
+		*:$a:*)	continue ;;
+		esac
+		test -d $a && p=$p:$a
+	fi
+	PATH=$p; export $PATH
+else
+	# On Interix, /usr/bin is /bin; gzip lives in /usr/contrib/bin;
+	# gcc has yet its own directory; we have X11R5 as well
+	p=$localbase/bin
+	for a in /usr/local/bin /opt/gcc.3.3/bin /usr/contrib/bin /bin; do
+		case :$p: in
+		*:$a:*)	continue ;;
+		esac
+		test -d $a && p=$p:$a
+	fi
+	p=$p:$localbase/sbin
+	for a in /usr/local/sbin /usr/sbin /sbin /usr/X11R6/bin; do
+		case :$p: in
+		*:$a:*)	continue ;;
+		esac
+		test -d $a && p=$p:$a
+	fi
+	test -n "$PATH_WINDOWS" && p=$p:/usr/contrib/win32/bin:$PATH_WINDOWS
+	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
+	PATH=$p; export $PATH
+fi
 
 # Divine a fetching utility
 fetch=false
