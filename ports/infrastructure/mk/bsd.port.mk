@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.39 2005/07/24 12:34:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40 2005/08/20 12:33:53 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -230,8 +230,6 @@ FAKE_FLAGS+=		${EXTRA_FAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
 
 CONFIGURE_STYLE?=
 
-# where configuration files should go
-SYSCONFDIR?=		/etc
 .if ${USE_GMAKE:L} == "yes" || ${USE_SCHILY:L} != "no"
 BUILD_DEPENDS+=		::devel/gmake
 MAKE_PROGRAM=		${GMAKE}
@@ -339,7 +337,7 @@ ERRORS+=		"No flavours for this port."
 .  endif
 .endif
 
-SED_PLIST+=	|(cd ${WRKINST}${PREFIX} ; LOCALBASE=${LOCALBASE} perl -W ${PORTSDIR}/infrastructure/scripts/unlibtoolise)
+SED_PLIST+=		| (cd ${WRKINST}${PREFIX}; LOCALBASE=${LOCALBASE} perl -W ${PORTSDIR}/infrastructure/scripts/unlibtoolise)
 
 PKGNAME?=		${DISTNAME}-0
 FULLPKGNAME?=		${PKGNAME}${FLAVOR_EXT}
@@ -406,7 +404,7 @@ CHECKSUM_FILE?=		${.CURDIR}/distinfo
 # Don't touch!!! Used for generating checksums.
 _CIPHERS=		rmd160 sha1 md5
 
-_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/usr/bin:/bin:/usr/sbin:/sbin:${X11BASE}/bin
+_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/usr/bin:/bin:${LOCALBASE}/sbin:/usr/sbin:/sbin:${X11BASE}/bin
 PORTPATH?=		${_PORTPATH}
 
 # Add any COPTS to CFLAGS.
@@ -420,9 +418,6 @@ CFLAGS+=		${CDIAGFLAGS}
 .  if defined(CXXDIAGFLAGS)
 CXXFLAGS+=		${CXXDIAGFLAGS}
 .  endif
-.endif
-.if ${CFLAGS:M-g}
-LDFLAGS+=		-L${LOCALBASE}/lib/debug
 .endif
 LDFLAGS+=		-L${LOCALBASE}/lib ${LDSTATIC}
 .if ${OStype} == "MirBSD" && ${_CC_IS_GCC:M3.4*}
@@ -599,8 +594,7 @@ _SYSTRACE_CMD?=		/bin/systrace ${SYSTRACE_ARGS_ADD} -i -a \
 _SYSTRACE_CMD=
 .endif
 SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/templates/systrace.filter
-_SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env /usr/bin/make \
-			    ${LOCALBASE}/bin/gmake
+_SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env ${MMAKE} ${LOCALBASE}/bin/gmake
 SYSTRACE_SUBST_VARS+=	DISTDIR PKG_TMPDIR PORTSDIR TMPDIR WRKDIR
 .for _v in ${SYSTRACE_SUBST_VARS}
 _SYSTRACE_SED_SUBST+=	-e 's,$${${_v}},${${_v}},g'
