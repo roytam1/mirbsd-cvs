@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.14 2005/06/09 20:24:15 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-interix,v 1.15 2005/08/20 12:33:48 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,10 +34,9 @@ CPPFLAGS+=		-I/usr/local/include/bind
 
 # Interix particulars
 OStriplet=		i386-pc-interix3
-LOCALBASE=		/usr/mpkg
-_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/opt/gcc.3.3/bin:/bin:/usr/contrib/bin:/usr/sbin:/sbin:${X11BASE}/bin:/usr/X11R5/bin
-OBJECT_FMT=		PE
+_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/opt/gcc.3.3/bin:/bin:/usr/contrib/bin:${LOCALBASE}/sbin:/usr/sbin:/sbin:${X11BASE}/bin:/usr/X11R5/bin
 USE_SYSTRACE=		No
+MMAKE?=			${LOCALBASE}/bin/make
 TAR=			/bin/tar
 UNZIP=			/usr/contrib/bin/unzip
 CHOWN=			/bin/chown
@@ -47,5 +46,8 @@ GZCAT?=			/usr/contrib/bin/gzip -dc
 SETENV?=		/usr/bin/env -i LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
 
 # These must be installed first!
+.ifndef BOOTSTRAP
 _CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
+FETCH_CMD?=		${LOCALBASE}/bin/wget
+.endif
