@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/freenet-project/Makefile,v 1.2 2005/07/07 21:24:10 bsiegert Exp $
 
 COMMENT=	"fully anonymous distributed storage system"
 VERSION=	0.5.2-rc2
@@ -8,7 +8,7 @@ EXTRACT_SUFX=	.jar
 CATEGORIES=	net
 HOMEPAGE=	http://www.freenetproject.org/
 MASTER_SITES=	${HOMEPAGE}snapshots/
-RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 
 DISTFILES=	freenet-${VERSION}.jar freenet-ext.jar
 SCRIPTS=	configure run j update.sh

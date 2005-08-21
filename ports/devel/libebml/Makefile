@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/libebml/Makefile,v 1.1.7.1 2005/03/18 15:44:50 tg Exp $
 
 COMMENT=		"access library for the EBML format"
 CATEGORIES=		devel graphics
 DISTNAME=		libebml-0.7.0
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://matroska.org/
 MASTER_SITES=		http://dl.matroska.org/downloads/libebml/
 EXTRACT_SUFX=		.tar.bz2

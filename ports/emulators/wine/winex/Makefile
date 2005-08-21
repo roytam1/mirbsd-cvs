@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/wine/winex/Makefile,v 1.2 2005/04/10 21:49:52 tg Exp $
+# $MirOS: ports/emulators/wine/winex/Makefile,v 1.4 2005/07/07 21:20:54 bsiegert Exp $
 
 BROKEN=			builds but stalls in WaitForWin16Mutex
 
@@ -10,7 +10,7 @@ DISTNAME=		winex-cvs-${V}
 PKGNAME=		wine-${V}_winex-0
 V=			20040225
 VER=			"ReWind/WineX CVS version $(V)"
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://www.transgaming.com/
 
 # Aladdin, GNU LGPLv2.1, MIT-style

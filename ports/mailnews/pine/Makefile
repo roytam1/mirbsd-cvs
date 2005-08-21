@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.4 2005/05/04 23:37:38 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.6 2005/07/07 21:23:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -26,7 +26,7 @@ MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/
 EXTRACT_SUFX=		.tar.Z
 HOMEPAGE=		http://www.washington.edu/pine/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # Free, but cannot distribute with non-opensource on same media.
 # Modified versions must be marked as such.

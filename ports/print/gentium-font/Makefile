@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/print/gentium-font/Makefile,v 1.2 2005/07/07 21:25:30 bsiegert Exp $
 
 COMMENT=	"freeware font with many latin and greek glyphs"
 CATEGORIES=	print graphics textproc productivity x11
@@ -6,7 +6,7 @@ V=		101
 DISTNAME=	Gentium_${V}_W
 PKGNAME=	gentium-${V}-0
 HOMEPAGE=	http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&cat_id=FontDownloadsGentium
-RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 
 # They call it "copyrighted freeware"
 PERMIT_DISTFILES_FTP=	Yes

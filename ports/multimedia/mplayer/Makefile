@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.9 2005/07/07 21:23:57 bsiegert Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.10 2005/07/09 19:29:53 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -12,7 +12,7 @@ PKGNAME=		${DISTNAME:L}-2
 CATEGORIES=		x11 multimedia
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.mplayerhq.hu/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # GNU GPLv2
 # XXX unsure of GPL-compatibility of _all_ components -tg@

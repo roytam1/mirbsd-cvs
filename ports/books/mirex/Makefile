@@ -1,10 +1,10 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.1.7.1 2005/03/18 15:43:29 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.2 2005/03/29 21:28:39 tg Exp $
 
 COMMENT=		"MirOS sample files, keys and information"
 CATEGORIES=		books
 DISTNAME=		mirex-6
 EXTRACT_SUFX=		.cpio.gz
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://MirBSD.org/
 
 # MirOS licence

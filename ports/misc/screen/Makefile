@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.1.7.1 2005/03/18 15:50:35 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.3 2005/07/07 21:23:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 COMMENT=	"multi-screen window manager"
@@ -8,7 +8,7 @@ PKGNAME=	${DISTNAME}-1
 CATEGORIES=	misc
 MASTER_SITES=	ftp://ftp.uni-erlangen.de/pub/utilities/screen/
 HOMEPAGE=	http://www.gnu.org/software/screen/
-RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=	Yes

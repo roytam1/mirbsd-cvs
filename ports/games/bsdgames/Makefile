@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/bsdgames/Makefile,v 1.2 2005/07/07 21:20:57 bsiegert Exp $
 
 COMMENT=		"BSD base system games"
 CATEGORIES=		games
@@ -8,7 +8,7 @@ PKGNAME=		bsdgames-${V}-0
 EXTRACT_SUFX=		.cpio.gz
 HOMEPAGE=		http://mirbsd.de/
 MASTER_SITES=		${_MASTER_SITE_MIRBSD}
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # BSD
 PERMIT_DISTFILES_CDROM=	Yes

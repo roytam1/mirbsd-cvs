@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/iaxclient/Makefile,v 1.1 2005/06/17 20:24:20 tg Exp $
+# $MirOS: ports/voip/iaxclient/Makefile,v 1.3 2005/07/07 21:27:29 bsiegert Exp $
 
 COMMENT=		"IAX/IAX2 client library"
 CATEGORIES=		voip devel net
@@ -6,7 +6,7 @@ DISTNAME=		iaxclient-20050617
 EXTRACT_SUFX=		.cpio.gz
 PKGNAME=		${DISTNAME}-0
 HOMEPAGE=		http://iaxclient.sourceforge.net/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # GNU GPL and LGPL; some BSD
 PERMIT_DISTFILES_CDROM=	Yes

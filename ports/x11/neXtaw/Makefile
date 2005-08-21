@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/neXtaw/Makefile,v 1.1.7.1 2005/03/18 16:00:45 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/10/08 17:13:17 sturm Exp $
 
 COMMENT=		"libXaw widget set replacement with NeXTstep-like look"
@@ -7,7 +7,7 @@ DISTNAME=		neXtaw-${VERSION}
 CATEGORIES=		x11 devel
 HOMEPAGE=		http://siag.nu/neXtaw/
 MASTER_SITES=		http://siag.nu/pub/neXtaw/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # simple X11
 PERMIT_PACKAGE_CDROM=	Yes

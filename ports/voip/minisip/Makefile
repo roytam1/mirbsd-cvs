@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/minisip/Makefile,v 1.1 2005/06/11 23:37:31 tg Exp $
+# $MirOS: ports/voip/minisip/Makefile,v 1.2 2005/06/12 11:03:26 tg Exp $
 
 BROKEN=			builds, but does not work correctly
 
@@ -6,7 +6,7 @@ COMMENT=		"small, secure Voice over IP (SIP) client"
 CATEGORIES=		voip net
 DISTNAME=		minisip-0.7.0
 HOMEPAGE=		http://www.minisip.org/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		http://www.minisip.org/source/
 
 # GNU GPL Version 2 or later

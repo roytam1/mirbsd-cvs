@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/pgp+/Makefile,v 1.2 2005/07/07 21:26:15 bsiegert Exp $
 
 COMMENT=	"Pretty Good Privacy 2.6.3in"
 DISTNAME=	pgp263in010323
@@ -6,7 +6,7 @@ CATEGORIES=	security
 PKGNAME=	pgp-2.6.3in--1
 EXTRACT_SUFX=	.tgz
 HOMEPAGE=	ftp://ftp.iks-jena.de/pub/mitarb/lutz/crypt/software/pgp/pgp263in/
-RESPONSIBLE=	Thorsten "mirabile" Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 MASTER_SITES=	${HOMEPAGE}
 
 # see ${FILESDIR}/README.MirPorts for details

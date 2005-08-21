@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.9 2005/07/05 20:08:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10 2005/08/20 12:33:54 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -26,8 +26,7 @@ PORTSDIR?=		/usr/ports
 
 
 # Let's assume a sane environment now.
-_DOMAIN_DU_JOUR=	MirBSD.org
-_MIRPORTS_ADDRESS=	<miros-discuss@${_DOMAIN_DU_JOUR}>
+_MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 ARCH?=			${MACHINE_ARCH}
 NOPIC_PLATFORMS?=
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64

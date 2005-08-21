@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/wine/rewind/Makefile,v 1.3 2005/04/11 15:55:19 tg Exp $
+# $MirOS: ports/emulators/wine/rewind/Makefile,v 1.5 2005/07/07 21:20:52 bsiegert Exp $
 
 BROKEN=			this port is not complete
 
@@ -9,7 +9,7 @@ CATEGORIES=		emulators
 V=			200xyyzz
 DISTNAME=		rewind-cvs-$(V)
 PKGNAME=		wine-$(V)_rewind-0
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://rewind.sf.net/
 
 # X11 Licence

@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/rar-linux/Makefile,v 1.2 2005/04/10 21:48:55 tg Exp $
+# $MirOS: ports/archivers/rar-linux/Makefile,v 1.4 2005/07/07 21:17:02 bsiegert Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
@@ -9,7 +9,7 @@ V=			3.4.1
 DISTNAME=		rarlinux-${V}
 PKGNAME=		rar-${V}-linux-0
 MASTER_SITES=		http://www.rarlab.com/rar/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://www.win-rar.com/index.php
 
 # try-before-buy, 40 day test version

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.5 2005/07/07 21:24:05 bsiegert Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.6 2005/07/27 19:55:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
@@ -9,7 +9,7 @@ MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
 			http://centericq.de/archive/source/releases/
 HOMEPAGE=		http://konst.org.ua/en/centericq
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=   Yes

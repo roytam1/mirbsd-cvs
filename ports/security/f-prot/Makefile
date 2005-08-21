@@ -1,4 +1,4 @@
-# $MirOS: ports/security/f-prot/Makefile,v 1.2 2005/04/10 21:50:53 tg Exp $
+# $MirOS: ports/security/f-prot/Makefile,v 1.4 2005/07/07 21:25:47 bsiegert Exp $
 
 .include <mirports.sys.mk>
 
@@ -14,7 +14,7 @@ DISTNAME=		fp-openbsd-ws-${V}
 PKGNAME=		f-prot-${V}-0
 HOMEPAGE=		http://www.f-prot.com/
 MASTER_SITES=		http://files.f-prot.com/files/bsd-x86/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # free for personal use
 PERMIT_DISTFILES_CDROM=	"must not distribute"

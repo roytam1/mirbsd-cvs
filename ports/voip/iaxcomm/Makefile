@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/iaxcomm/Makefile,v 1.2 2005/06/18 00:18:06 tg Exp $
+# $MirOS: ports/voip/iaxcomm/Makefile,v 1.4 2005/07/07 21:27:30 bsiegert Exp $
 
 BROKEN=			severe ressource problems; segfaults if run from wrksrc
 
@@ -9,7 +9,7 @@ DISTNAME=		iaxclient-${V}
 EXTRACT_SUFX=		.cpio.gz
 PKGNAME=		iaxcomm-${V}-0
 HOMEPAGE=		http://iaxclient.sourceforge.net/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # GNU GPL
 PERMIT_DISTFILES_CDROM=	Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.3 2005/05/14 23:24:02 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.5 2005/07/07 21:24:07 bsiegert Exp $
 
 COMMENT=		"collection of Domain Name System server and tools"
 VERSION=		1.05
@@ -6,7 +6,7 @@ CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
 PKGNAME=		djbdns-${VERSION}q-11-0
 HOMEPAGE=		http://cr.yp.to/djbdns.html
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # May distribute unchanged distfiles. May distribute patches.
 # Must not distribute binaries (changed or not).

@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/voip/libmutil/Makefile,v 1.1 2005/06/11 23:37:29 tg Exp $
 
 COMMENT=		"various C++ classes (strings, crypto, threads)"
 CATEGORIES=		voip devel
 DISTNAME=		libmutil-0.3.0
 HOMEPAGE=		http://www.minisip.org/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		http://www.minisip.org/source/
 
 # GNU GPL Version 2 or later

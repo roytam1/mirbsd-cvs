@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/sirc/Makefile,v 1.1.7.1 2005/03/18 15:49:04 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/02/20 23:51:29 pvalchev Exp $
 
 COMMENT=	"programmable small perl irc client (utf-8, IPv6)"
@@ -6,7 +6,7 @@ CATEGORIES=	net
 DISTNAME=	sirc-2.211
 PKGNAME=	${DISTNAME}p11
 MASTER_SITES=	http://www.iagora.com/~espel/sirc/
-RESPONSIBLE=	Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=	http://www.iagora.com/~espel/sirc/sirc.html
 
 # GNU GPLv2
