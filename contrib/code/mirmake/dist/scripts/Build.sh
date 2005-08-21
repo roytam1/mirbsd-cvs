@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.44 2005/08/21 11:28:07 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.45 2005/08/21 11:56:04 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -84,6 +84,44 @@ Interix:*:*)
 	;;
 esac
 
+case $new_machos in
+Darwin)
+	_obfm=Mach-O
+	_rtld=dyld
+	;;
+*Interix)
+	_obfm=PE
+	_rtld=GNU
+	;;
+BSD)
+	# MirOS BSD
+	_obfm=ELF
+	_rtld=BSD
+
+	# OpenBSD
+	if fgrep ELF_TOOLCHAIN /usr/share/mk/bsd.own.mk >/dev/null 2>&1; then
+		if ! T=$(mktemp /tmp/mmake.XXXXXXXXXX); then
+			print -u2 Error: cannot mktemp
+			exit 1
+		fi
+		print '.include <bsd.own.mk>' >$T
+		print 'all:' >>$T
+		print '\t@echo ${ELF_TOOLCHAIN:L}' >>$T
+		if X=$(make -f $T all); then
+			[[ $X = no ]] && _obfm=a.out
+		fi
+		rm -f $T
+	fi
+
+	# XXX what about NetBSD? They have ELF a.out PE coff ...
+	;;
+Linux)
+	_obfm=ELF
+	_rtld=GNU
+	# XXX noone sane uses Linux with a.out libc4 these days?
+	;;
+esac
+
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 export CPPFLAGS="$CPPFLAGS -isystem $d_build/F -include $d_build/F/mirmake.h"
@@ -114,6 +152,8 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@ccom@@#${CC}#g' \
 	 -e 's#@@nroff@@#${NROFF}#g' \
 	 -e 's#@@vers@@#${version}#g' \
+	 -e 's#@@obfm@@#${_obfm}#g' \
+	 -e 's#@@rtld@@#${_rtld}#g' \
 	 -e 's#@@bmake@@#${new_exenam}#g'"
 
 
