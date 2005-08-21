@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.10 2005/08/20 13:13:15 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.11 2005/08/21 13:39:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -39,7 +39,7 @@ binown=$(echo "${2:-root:bin}" | sed 's/:.*$//') # will be $3
 bingrp=$(echo "${2:-root:bin}" | sed 's/^.*://') # will be $3
 [ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/dist/
 
-mksh=mir/mksh/mksh-R24.cpio.gz
+mksh=mir/mksh/mksh-R24b.cpio.gz
 make=mir/make/mirmake-20050820.cpio.gz
 mtar=mir/cpio/paxmirabilis-20050413.cpio.gz
 
