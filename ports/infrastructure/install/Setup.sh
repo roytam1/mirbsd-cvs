@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.7 2005/08/21 17:45:10 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.8 2005/08/21 17:48:46 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -193,17 +193,34 @@ case "$mirror" in
 	$fetch $mirror$mksh_path
 	;;
 esac
-sum=good
-if gzsig -q verify signkey $mksh_dist 2>/dev/null; then
-	:
-elif s=`md5 $mksh_dist 2>/dev/null`; then
-	[ x"$s" = x"$mksh_md5" ] || sum=bad
-elif s=`cksum $mksh_dist 2>/dev/null`; then
-	[ x"$s" = x"$mksh_sum" ] || sum=bad
-elif s=`md5sum $mksh_dist 2>/dev/null`; then
-	[ x"$s" = x"$mksh_md5sum" ] || sum=bad
-else
-	echo Warning: Cannot check sum of $mksh_dist >&2
+sum=unchecked
+if s=`md5 $mksh_dist 2>/dev/null`; then
+	if test x"$s" = x"$mksh_md5"; then
+		sum=good
+	else
+		sum=bad
+	fi
+fi
+test $sum = bad || if s=`cksum $mksh_dist 2>/dev/null`; then
+	if test x"$s" = x"$mksh_sum"; then
+		sum=good
+	else
+		sum=bad
+	fi
+fi
+test $sum = bad || if s=`md5sum $mksh_dist 2>/dev/null`; then
+	if test x"$s" = x"$mksh_md5sum"; then
+		sum=good
+	else
+		sum=bad
+	fi
+fi
+test $sum = bad || if gzsig -q verify signkey $mksh_dist 2>/dev/null; then
+	echo Note: cryptographically strong checksum verified successfully >&2
+	sum=verygood
+fi
+if test $sum = unchecked; then
+	echo Warning: Cannot check hashes for $mksh_dist >&2
 	echo Please compare the following two lines manually! >&2
 	echo ': -r--r--r--  1 tg  miros-cvsall  224290 Aug 21 13:08 mksh-R24b.cpio.gz' >&2
 	echo ": `/bin/ls -l $mksh_dist`" >&2
@@ -211,7 +228,7 @@ else
 	read s
 fi
 
-if [ $sum = bad ]; then
+if test $sum = bad; then
 	echo Checksum verification failed! >&2
 	echo "false: $s" >&2
 	cd
