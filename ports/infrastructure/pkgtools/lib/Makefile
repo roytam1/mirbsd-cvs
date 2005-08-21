@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/lib/Makefile,v 1.2 2005/05/21 00:16:05 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/lib/Makefile,v 1.3 2005/05/21 17:15:40 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2001/04/08 16:45:47 espie Exp $
 
 LIB=		install
@@ -8,14 +8,9 @@ NOPIC=		yes
 
 .if defined(NEED_COMPAT)
 SRCS+=		mktemp.c strtoll.c
-.PATH:	${.CURDIR}/../mbcompat
-.endif
-
-.if defined(INSTALLMANS)
-install: maninstall
+.PATH: ${.CURDIR}/../mbcompat
 .endif
 
 install:
-	# Nothing to do...
 
 .include <bsd.lib.mk>
