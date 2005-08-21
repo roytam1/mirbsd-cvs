@@ -1,7 +1,7 @@
-#!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.1 2005/08/21 11:17:53 tg Exp $
+#!/bin/sh
+# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
-# Copyright (c) 2004, 2005
+# Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -23,365 +23,207 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# MirPorts Framework - Installation script
-#
-# What does this thing do?
-# 1) detect which OS we are running on
-# 2) build and install package tools to /usr/mpkg/sbin
-# 3) patch <bsd.sys.mk> if necessary; other upgrade stuff
-# 4) install generic makefile includes
-#    and, if necessary, mirports.osdep.mk
-# 5) patch /etc/${MAKE}.cfg
-# 6) augment user and group list
+# This script installs mksh if needed, then calls setup.ksh with it.
+# On Interix, nroff is also installed first.
 
-print "1. Detecting environment..."
+# Constants
+#mksh_ver=24 # unused
+mksh_date="24 2005/08/21"
+mksh_dist=mksh-R24b.cpio.gz
+mksh_path=mir/mksh/$mksh_dist
+mksh_md5="MD5 ($mksh_dist) = 48d0df73eba1ef4e9c0758f69262eb66"
+mksh_sum="240923212 224290 $mksh_dist"
+mksh_md5sum="48d0df73eba1ef4e9c0758f69262eb66  $mksh_dist"
+mirror="${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}"
 
-function f_start
-{
-	cat >>$1 |&
-}
-
-function f_end
-{
-	exec 3>&p; exec 3>&-
-}
-
-cd $(dirname $0)
-top=$(cd ../..; pwd)
-ti=$top/infrastructure
-if os="$(uname -M 2>/dev/null)"; then
-	os=${os%% *}
-else
-	os="$(uname -s)"
+# Divine a fetching utility
+fetch=false
+if [ -n "$SFUDIR" -o -n "$OPENNT_ROOT" ]; then
+	# Interix: check for Weihenstephan wget
+	if [ -x /dev/fs/C/usr/local/wbin/wget.exe ]; then
+		fetch="runwin32 c:/usr/local/wbin/wget.exe"
+	fi
 fi
-osver=$(uname -r | sed 's/\./_/')
-[[ -z $SHELL ]] && SHELL=/bin/mksh
-export SHELL
-
-if ! tmp=$(mktemp /tmp/mirports.XXXXXXXXXX); then
-	print cannot make temporary file
-	exit 1
-fi
-
-trap 'rm -f $tmp ; exit 0' 0
-trap 'rm -f $tmp ; exit 1' 1 2 3 13 15
-
-makecfg=/etc/$(cd ../db; make ___DISPLAY_MAKEVARS=MAKE:T SHOW_ONLY=1).cfg
-
-if [[ $os = Interix ]]; then
-	BINOWN=$(cd ../db; make ___DISPLAY_MAKEVARS=BINOWN SHOW_ONLY=1)
-	BINGRP=$(cd ../db; make ___DISPLAY_MAKEVARS=BINGRP SHOW_ONLY=1)
-else
-	BINOWN=root
-	BINGRP=bin
-fi
-
-if ! chown $BINOWN $tmp; then
-	print need root
-	exit 1
-fi
-
-cp $ti/templates/fake.mtree $ti/db/
-has_stamp=0
-
-case $os in
-Darwin)
-	localbase=/usr/mpkg
-	sysmk=$localbase/share/mmake
-	mtar=$localbase/bin/tar
-	pkgbin=$localbase/sbin
-
-	if [[ -d $localbase/distfiles || -d $localbase/Distfiles ]]; then
-		if [[ -e $localbase/distfiles/.stamp \
-		    || -e $localbase/Distfiles/.stamp ]]; then
-			has_stamp=1
-		else
-			has_stamp=0
+if [ "$fetch" = false ]; then
+	# Check for ftp/wget/fetch
+	for dir in /usr/mpkg/bin /usr/local/bin /bin /usr/bin; do
+		if [ -x $dir/wget ]; then
+			fetch=$dir/wget
+			break
 		fi
-	else
-		mkdir -p $localbase/Distfiles
-		print -n >$localbase/Distfiles/.stamp
-		has_stamp=1
+		if [ -x $dir/fetch ]; then
+			fetch=$dir/fetch
+			break
+		fi
+		if [ -x $dir/ftp ]; then
+			fetch=$dir/ftp
+			break
+		fi
 	fi
+fi
+export fetch mirror
 
-	cat $ti/db/fake.mtree >$tmp
-	(print '/@@local/d\ni\n'; IFS=/; s=;
-	 for pc in $(print "$localbase"); do
-		s="$s    "; print "$s$pc"
-	 done; print '.\nwq') | ed -s $tmp
-	mtree -U -e -d -n -p / -f $tmp
-	mkdir -p $localbase/{db/pkg,etc}
-	if ! fgrep $localbase /etc/profile >/dev/null 2>&1; then
-		f_start /etc/profile
-		print -p "export MANPATH=\$(manpath -q):$localbase/man"
-		print -p "export PATH=$localbase/bin:\$PATH"
-		f_end
+# Check for Interix
+if [ -n "$SFUDIR" -o -n "$OPENNT_ROOT" ]; then
+	# We know /bin/ksh is sufficient
+	# Check for nroff
+	if [ ! -x /usr/bin/nroff ]; then
+		set -e
+		OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
+		    /bin/ksh `dirname $0`/setup.ksh -i
+		set +e
 	fi
-	export PATH=$localbase/bin:$PATH
-	;;
-Interix)
-	localbase=/usr/mpkg
-	sysmk=/usr/share/make
-	mtar=/bin/tar
-	pkgbin=/usr/sbin
+fi
 
-	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
-	    "uname=$BINOWN gname=$BINGRP /\nwq" \
-	    | ed -s $ti/db/fake.mtree
-	cat $ti/db/fake.mtree >$tmp
-	(print '/@@local/d\ni\n'; IFS=/; s=;
-	 for pc in $(print "$localbase"); do
-		s="$s    "; print "$s$pc"
-	 done; print '.\nwq') | ed -s $tmp
-	/usr/sbin/mtree -U -e -d -n -p / -f $tmp
-	mkdir -p $localbase/{db/pkg,etc}
-	;;
-MirBSD)
-	localbase=/usr/mpkg
-	sysmk=/usr/share/mk
-	mtar=/bin/tar
-	pkgbin=$localbase/sbin
-
-	ospl=$(uname -l | sed -e 's/^#//' -e 's/-.*$//' -e 's/^\(.\)./\1_/')
-	ospm=${ospl%_*}
-	ospl=${ospl#*_}
-	# test is ancient -current or older, or modern
-	if [[ $ospm -gt 7 ]]; then
-		mirosnew=1
-	else
-		mirosnew=0
+# Look if this is a sufficient mksh, search for one
+ms=false
+for s in $SHELL /bin/mksh; do
+	# This is from MirMake; it ensures mksh R24 or higher
+	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+	if [ x"$t" = x"yes" ]; then
+		ms=$s
+		break
 	fi
-	( cd /usr/lib;
-	  [[ -e libresolv.a && ! -e libdl.a ]] \
-	    && ln libresolv.a libdl.a; \
-	  [[ -e libexpat.so.0.0 && ! -e libexpat.so.4.0 ]] \
-	    && ln -s libexpat.so.0.0 libexpat.so.4.0; \
-	  for a in libpng.so.[01].*; do \
-		b="$a"; \
-		[[ -e $b ]] || b=nein; \
-	  done; \
-	  [[ $b != nein && ! -e libpng.so.4.0 ]] && ln -s $b libpng.so.4.0 )
-	;;
-OpenBSD)
-	localbase=/usr/mpkg
-	sysmk=/usr/share/mk
-	mtar=/bin/tar
-	pkgbin=$localbase/sbin
+done
 
-	( cd /usr/lib;
-	  [[ -e libresolv.a && ! -e libdl.a ]] \
-	    && ln libresolv.a libdl.a )
+# If suitable mksh found, retrieve its version number
+if [ x"$ms" != x"false" ]; then
+	old=no
+#	t="`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`"
+#	# first check version, then date
+#	if [ $t -lt $mksh_ver ]; then
+#		old=yes
+#	fi
+	# check if date matches
+	t="`$ms -c 'print ${KSH_VERSION#*KSH?R}'`"
+	if [ x"$t" != x"$mksh_date" ]; then
+		old=yes
+	fi
+	# If old, check if we can upgrade
+	if [ $old = yes -a x"$UPGRADE" != "no" ]; then
+		# But use it as build shell
+		SHELL="$ms"
+		# Fake no suitable mksh found
+		ms=false
+	fi
+fi
+
+# If no suitable mksh found, or too old, build one,
+# else jump to the "real" set-up script
+if [ x"$ms" != x"false" ]; then
+	SHELL="$ms"; export SHELL
+	exec $ms `dirname $0`/setup.ksh
+	echo Warning: executing old mksh failed! >&2
+fi
+
+# Divine a temporary directory
+if ! T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
+	# May be Interix without mktemp.sh
+	T=/tmp/mirports.$$
+	if [ -d $T ]; then
+		echo Cannot generate temporary directory! >&2
+		exit 1
+	fi
+	if ! mkdir -p $T; then
+		echo Cannot generate temporary directory! >&2
+		exit 1
+	fi
+fi
+
+# Download mksh
+cd $T
+case "$mirror" in
+/*)	# file
+	cp $mirror/$mksh_path .
 	;;
-*)
-	print No support for the $os operating system.
-	exit 1
+*)	# http
+	$fetch $mirror$mksh_path
 	;;
 esac
-
-( cd $pkgbin
-  rm -f mirports_tar
-  print "#!$SHELL" >mirports_tar
-  print "exec $mtar "'"$@"' >>mirports_tar
-  chmod 555 mirports_tar
-)
-
-# detect compiler version and if it's GCC
-if gv=$($ourCC -v 2>&1 | grep '/specs$'); then
-	gv=${gv%/specs}
-	gv=${gv##*/}
+sum=good
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNApd6D5OnV98FO8Ofbfm4CF1Cvwr+IPnyKyPglQnaFgHF3LVynKMYSupKXnd0JrBR79TBmIVImBnIaTPcApRdWZEbMW5IdYhrWFHKlzk4vDxBXdcVE6QfiemWsYqkiuoJvLTLHXq7WUCQ5z7KuQetMnnP2bswV8SZuYy0IvzQRBVJbiTQzBvsHfyZUERLBZvjtPE9jTaLdTOkKvCuhuTzQAMmG8aYFt9S0p1K20eCCgWvJ5vu3ir875yBrtVPl2VzdFdo7Wv3kg1HOV+Sy7dQ2bIJ52mV8CnHI1W+ZMEjzQ64m75wH/AGsVb35E0sPJzFNCGj//8/kyKxRR1I0DSDOb+iE48twOrBRrUF5+ApwocqVdIa//Cbe1ArjzrEhwaKY0SitPcFwbVV8XadtsHXfdM5QnFwTsNobk2w+XLt9I5yL/SdE1NVVXBsAN1nejzDo8XTheD6o/m5O29WO3MSS7jt1PCYItVjN4ONK/Ztaa+zQcNK9itMy2tEJ1R/gI+AipOQi0JaHHAjcdYKxDbbJpurJAHvtLvKiJNqNUJPGpqCSfL8YqmDwf3Gs1SntRjgZNeOpAdiHl2qUewcB2vujROmLTQgxJ2HJTK8hKr+2nkZdEMkYYQ/wDtsGYohokU1GOGTjdr5d2vXW8MAWaF5UQDXQzPCT4RGjDLfvod4SM+GHn8t2eDJH8uHvUPU6AXcohM30zw/h9FPf18q7Oo0srwFpc0qjvwDxl9lgilsfaL23K2V5YFeTkO1llxnRdsTmSZ7UMsugBFu5bjGEL4hC/Sml0oH9F8hiV50fXWetsQvNB637Q==' >key
+if gzsig -q verify key $mksh_dist 2>/dev/null; then
+	:
+elif s="`md5 $mksh_dist 2>/dev/null`"; then
+	[ x"$s" = x"$mksh_md5" ] || sum=bad
+elif s="`cksum $mksh_dist 2>/dev/null`"; then
+	[ x"$s" = x"$mksh_sum" ] || sum=bad
+elif s="`md5sum $mksh_dist 2>/dev/null`"; then
+	[ x"$s" = x"$mksh_md5sum" ] || sum=bad
 else
-	gv=no
+	echo Warning: Cannot check sum of $mksh_dist >&2
+	echo Please compare the following two lines manually! >&2
+	echo ': -r--r--r--  1 tg  miros-cvsall  224290 Aug 21 13:08 mksh-R24b.cpio.gz' >&2
+	echo ": `/bin/ls -l $mksh_dist`" >&2
+	echo Press RETURN to continue! >&2
+	read s
 fi
 
-print "2. Building package tools..."
+if [ $sum = bad ]; then
+	echo Checksum verification failed! >&2
+	echo "false: $s" >&2
+	cd
+	rm -rf $T
+	exit 1
+fi
 
-cd $ti/pkgtools
-rm -rf */obj
+# Extract and build mksh
+if ! gzip -dc $mksh_dist | cpio -id; then
+	echo Build failed! >&2
+	cd
+	rm -rf $T
+	exit 1
+fi
+
+cd mksh
+if ! SHELL="${SHELL:-/bin/sh}" ${SHELL:-/bin/sh} ./Build.sh; then
+	if ! SHELL="${SHELL:-/bin/sh}" ${SHELL:-/bin/sh} ./Build.sh -d -r; then
+		echo Build failed! >&2
+		cd
+		rm -rf $T
+		exit 1
+	fi
+fi
+
+if [ ! -x mksh ]; then
+	echo Build failed! >&2
+	cd
+	rm -rf $T
+	exit 1
+fi
+
+# Install mksh
 set -e
-$MAKE cleandir
-$MAKE obj
-$MAKE cleandir
-$MAKE depend
-if [[ $os = MirBSD ]]; then
-	if [[ $mirosnew = 1 ]]; then
-		$MAKE
-	else
-		$MAKE PORTABLE=yes
-	fi
-else
-	$MAKE
-fi
-$MAKE install
+rm -f /bin/mksh.$$.1
+install -c -s -m 555 mksh /bin/mksh.$$.1
+mv /bin/mksh /bin/mksh.$$.2 && mv /bin/mksh.$$.1 /bin/mksh
 set +e
-rm -rf */obj
-
-print -n "3. a) Patching <bsd.sys.mk>..."
-
-if grep '\.ifndef.TRUEPREFIX' $sysmk/bsd.sys.mk >/dev/null 2>&1; then
-	print not needed.
-else
-	if patch $sysmk/bsd.sys.mk \
-	    $ti/install/patch-bsd_sys_mk; then
-		print done.
-		rm -f $sysmk/bsd.sys.mk.orig
+if ! rm /bin/mksh.$$.2; then
+	if ! mv /bin/mksh.$$.2 /tmp/deleteme.$$; then
+		echo Warning: remove /bin/mksh.$$.2 later! >&2
 	else
-		print failed.
-		exit 1
+		echo Don't forget to clean up /tmp/deleteme.$$ >&2
 	fi
 fi
 
-if [[ $SHELL != /bin/mksh ]]; then
-	print -n "3. b) Patching infrastructure..."
-	for f in $ti/db/*; do
-		[[ -f $f ]] || continue
-		print "1g!/bin/mksh!s!!$SHELL!\nwq" | ed -s $f
-		chmod a+x $f
-	done
-	print done.
+# Install some kind of man page
+s=0
+if [ -s mksh.cat1 ]; then
+	install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0 \
+	    && s=1
+fi
+if [ $s = 0 ]; then
+	install -c -m 444 mksh.1 /usr/share/man/man1/mksh.1
 fi
 
-if [[ -d $top/distfiles && $has_stamp = 0 ]]; then
-	print -n "3. c) Upgrading..."
-	mv $top/distfiles $top/Distfiles
-	rm -rf $top/packages
-	print done.
-	let x="$(pkg_info | wc -l)"
-	(( x > 0 )) && \
-	    print 'WARNING: You *must* de-install _all_ packages *NOW*!'
-fi
+# Clean up
+cd
+rm -rf $T
 
-print -n "4. Installing MirPorts system makefile includes..."
+# Jump into final script
+SHELL=/bin/mksh; export SHELL
+SHELL=/bin/mksh exec /bin/mksh `dirname $0`/setup.ksh
 
-case $os in
-Darwin)
-	if ! install -c -o root -g wheel -m 644 \
-	    $ti/install/mirports.osdep.mk-darwin \
-	    $ti/mk/mirports.osdep.mk; then
-		print failed.
-		exit 1
-	fi
-	;;
-Interix)
-	if ! install -c -m 644 \
-	    $ti/install/mirports.osdep.mk-interix \
-	    $ti/mk/mirports.osdep.mk; then
-		print failed.
-		exit 1
-	fi
-	;;
-MirBSD)
-	if [[ $mirosnew = 0 ]]; then
-		if ! install -c -o root -g wsrc -m 664 \
-		    $ti/install/mirports.osdep.mk-mbsd \
-		    $ti/mk/mirports.osdep.mk; then
-			print failed.
-			exit 1
-		fi
-	else
-		rm -f $ti/mk/mirports.osdep.mk
-	fi
-	;;
-OpenBSD)
-	if ! install -c -o root -g wsrc -m 664 \
-	    $ti/install/mirports.osdep.mk-obsd \
-	    $ti/mk/mirports.osdep.mk; then
-		print failed.
-		exit 1
-	fi
-	;;
-esac
-
-if install -c -o $BINOWN -g $BINGRP -m 444 \
-    $ti/install/*.mk $sysmk/; then
-	print done.
-else
-	print failed.
-	exit 1
-fi
-
-print -n "5. Preparing ${makecfg}..."
-
-touch $makecfg
-if fgrep '#@@MIRPORTS start' $makecfg >/dev/null 2>&1; then
-	ed -s $makecfg 2>/dev/null <<-EOF
-		/#@@MIRPORTS start/,/#@@MIRPORTS end/c
-		#@@MIRPORTS deleteme
-		.
-		w
-		+g/^$/d
-		-,.g/#@@MIRPORTS deleteme/d
-		wq
-	EOF
-	print 'g/#@@MIRPORTS deleteme/d\nwq' | ed -s $makecfg
-fi
-
-f_start $makecfg
-if ! fgrep '#@@MIRPORTS user1' $makecfg >/dev/null 2>&1; then
-	print -p '#@@MIRPORTS user1'
-	print -p '### Options for MirPorts (recommended)'
-	print -p '# make clean descends into dependencies'
-	print -p '# is overriden by certain ports though'
-	print -p 'CLEANDEPENDS?=		yes'
-	print -p '# install all subpackages by default on make install'
-	print -p '# NOTE: earlier MirPorts versions defaulted to off!'
-	print -p '#PREFER_SUBPKG_INSTALL?=no	# default: yes'
-	print -p
-fi
-
-print -p '#@@MIRPORTS start'
-print -p
-print -p "_CC_IS_GCC=		$gv"
-print -p
-
-case $os in
-Darwin)
-	print -p "PORTSDIR=		$top"
-	;;
-Interix)
-	print -p "PORTSDIR=		$top"
-	;;
-MirBSD)
-	# nothing else here yet
-	;;
-OpenBSD)
-	if [[ $top != /usr/ports ]]; then
-		print -p "USE_MIRPORTS?=\t	yes"
-		print -p
-		print -p '.if ${USE_MIRPORTS:L} == "yes"'
-		print -p "PORTSDIR=		$top"
-		print -p ".else"
-		print -p "PORTSDIR=		/usr/ports"
-		print -p ".endif"
-	fi
-	;;
-esac
-
-print -p '#@@MIRPORTS end'
-print -p
-f_end
-print done.
-
-print -n "6. Augmenting user and group database..."
-
-if [[ $os = @(Open|Mir)BSD ]]; then
-	$SHELL $ti/scripts/mkuserdb
-	print done.
-else
-	print not supported on $os, please do so manually!
-fi
-
-cat <<EOF
-
-================================================
-               Congratulations!
-------------------------------------------------
- Your MirPorts Framework system is now set up
- completely and ready to run.
- If you have not yet done so, read the README
- file appropriate for your operating system for
- further information about how to use MirPorts:
- $ti/compat/README.${os}
-================================================
-
-EOF
-exit 0
+# This line is never run
+echo Could not call mksh on setup.ksh >&2
+exit 2
