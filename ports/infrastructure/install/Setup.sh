@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.5 2005/08/21 17:30:22 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.6 2005/08/21 17:40:11 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -27,7 +27,12 @@
 # On Interix, nroff is also installed first.
 
 # Constants
+
 localbase=/usr/mpkg
+xfbase=/usr/X11R6
+# ... in case we have XFree86(R) as a port
+test -f $localbase/X11/include/X11/X.h && xfbase=$localbase/X11
+test -x $localbase/X11/bin/xterm && xfbase=$localbase/X11
 
 #mksh_ver=24 # unused
 mksh_date="24 2005/08/21"
@@ -47,7 +52,7 @@ test -n "$OPENNT_ROOT" && interix=yes
 # Set the PATHs
 if test $interix = no; then
 	p=$localbase/bin
-	for a in /usr/local/bin /usr/X11R6/bin /usr/bin /bin; do
+	for a in /usr/local/bin $xfbase/bin /usr/X11R6/bin /usr/bin /bin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
@@ -72,7 +77,7 @@ else
 		test -d $a && p=$p:$a
 	fi
 	p=$p:$localbase/sbin
-	for a in /usr/local/sbin /usr/sbin /sbin /usr/X11R6/bin; do
+	for a in /usr/local/sbin /usr/sbin /sbin $xfbase/bin /usr/X11R6/bin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
