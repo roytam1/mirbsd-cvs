@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.1 2005/08/21 11:08:28 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.2 2005/08/21 12:32:56 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -20,10 +20,18 @@ PORTSDIR?=		/usr/ports
 # Do we have overrides?
 .if exists(${PORTSDIR}/infrastructure/mk/mirports.osdep.mk)
 .  include "${PORTSDIR}/infrastructure/mk/mirports.osdep.mk"
-.else
-.  include "${PORTSDIR}/infrastructure/mk/mirports.miros.mk"
 .endif
 
+.if ${OSNAME} == "MirBSD"
+.  if ${OSrev} >= 8
+SYSTRACE_ARGS_ADD+=	-e
+.  endif
+
+.  if (${OSrev} == 8) && (${OSrpl} < 40)
+HAS_CXX=		reason
+NO_CXX=			C++ is still broken, please update
+.  endif
+.endif
 
 # Let's assume a sane environment now.
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
@@ -61,6 +69,7 @@ USE_X11?=		No
 # (where they differ from defaults); only fill in changes.
 # this is supposed to be alphabetically supported.
 AUTOCONF_FAKEOS?=	${ARCH}-ecce-openbsd${OScompat}
+FETCH_CMD?=		/usr/bin/ftp -EV -m
 FETCH_CMD?=		/usr/bin/ftp -V -m
 HAS_CXX?=		base
 HAS_DLADDR?=		Yes
@@ -72,6 +81,7 @@ PKG_SUFX?=		.cgz
 SYSTRACE_ARGS_ADD?=
 _CKSUM_A?=		cksum -a
 _GDIFFLAG?=
+OSREV?=			${OSrev}
 
 # former pkgpath.mk
 
