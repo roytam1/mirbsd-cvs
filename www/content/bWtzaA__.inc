@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.1 2005/08/09 13:10:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.2 2005/08/21 13:25:32 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
@@ -389,6 +389,10 @@ so you need not to rely on <em>chsh -s</em> and root to add mksh to
 /etc/shells. Define DONTWANTMKSH=1 in ${HOME}/.profile.preinit
 to disable this behaviour.
 <p>
+<h2>The history file</h2>
+<p>If you don't want mksh to overwrite your other shell's history file
+ with its own format...</p>
+<pre>echo '[ -n "$KSH_VERSION" ] &amp;&amp; unset HISTFILE' &gt;&gt;~/.profile</pre>
 <h2>The Manual Page</h2>
 
 <p>
