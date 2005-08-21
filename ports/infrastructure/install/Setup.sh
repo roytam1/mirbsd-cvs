@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.6 2005/08/21 17:40:11 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.7 2005/08/21 17:45:10 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -42,7 +42,7 @@ mksh_md5="MD5 ($mksh_dist) = 48d0df73eba1ef4e9c0758f69262eb66"
 mksh_sum="240923212 224290 $mksh_dist"
 mksh_md5sum="48d0df73eba1ef4e9c0758f69262eb66  $mksh_dist"
 
-mirror="${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}"; export mirror
+mirror=${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}; export mirror
 
 # Are we Interix?
 interix=no
@@ -146,7 +146,7 @@ fi
 ms=false
 for s in $SHELL /bin/mksh; do
 	# This is from MirMake; it ensures mksh R24 or higher
-	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if [ x"$t" = x"yes" ]; then
 		ms=$s
 		break
@@ -156,20 +156,20 @@ done
 # If suitable mksh found, retrieve its version number
 if [ x"$ms" != x"false" ]; then
 	old=no
-#	t="`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`"
+#	t=`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`
 #	# first check version, then date
 #	if [ $t -lt $mksh_ver ]; then
 #		old=yes
 #	fi
 	# check if date matches
-	t="`$ms -c 'print ${KSH_VERSION#*KSH?R}'`"
+	t=`$ms -c 'print ${KSH_VERSION#*KSH?R}'`
 	if [ x"$t" != x"$mksh_date" ]; then
 		old=yes
 	fi
 	# If old, check if we can upgrade
 	if [ $old = yes -a x"$UPGRADE" != "no" ]; then
 		# But use it as build shell
-		SHELL="$ms"
+		SHELL=$ms
 		# Fake no suitable mksh found
 		ms=false
 	fi
@@ -178,7 +178,7 @@ fi
 # If no suitable mksh found, or too old, build one,
 # else jump to the "real" set-up script
 if [ x"$ms" != x"false" ]; then
-	SHELL="$ms"; export SHELL
+	SHELL=$ms; export SHELL
 	exec $ms `dirname $0`/setup.ksh
 	echo Warning: executing old mksh failed! >&2
 fi
@@ -196,11 +196,11 @@ esac
 sum=good
 if gzsig -q verify signkey $mksh_dist 2>/dev/null; then
 	:
-elif s="`md5 $mksh_dist 2>/dev/null`"; then
+elif s=`md5 $mksh_dist 2>/dev/null`; then
 	[ x"$s" = x"$mksh_md5" ] || sum=bad
-elif s="`cksum $mksh_dist 2>/dev/null`"; then
+elif s=`cksum $mksh_dist 2>/dev/null`; then
 	[ x"$s" = x"$mksh_sum" ] || sum=bad
-elif s="`md5sum $mksh_dist 2>/dev/null`"; then
+elif s=`md5sum $mksh_dist 2>/dev/null`; then
 	[ x"$s" = x"$mksh_md5sum" ] || sum=bad
 else
 	echo Warning: Cannot check sum of $mksh_dist >&2
@@ -228,8 +228,8 @@ if ! gzip -dc $mksh_dist | cpio -id; then
 fi
 
 cd mksh
-if ! SHELL="${SHELL:-/bin/sh}" ${SHELL:-/bin/sh} ./Build.sh; then
-	if ! SHELL="${SHELL:-/bin/sh}" ${SHELL:-/bin/sh} ./Build.sh -d -r; then
+if ! SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh; then
+	if ! SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh -d -r; then
 		echo Build failed! >&2
 		cd
 		rm -rf $T
