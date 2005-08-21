@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10 2005/08/20 12:33:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.1 2005/08/21 11:08:28 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -31,6 +31,7 @@ ARCH?=			${MACHINE_ARCH}
 NOPIC_PLATFORMS?=
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 LOCALBASE?=		/usr/mpkg
+SYSCONFDIR?=		/etc		# comment out for co-existence
 SYSCONFDIR?=		${LOCALBASE}/etc
 X11BASE?=		/usr/X11R6	# may be subject to change
 MKSH?=			/bin/mksh	# path to mirbsdksh
