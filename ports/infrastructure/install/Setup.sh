@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.9 2005/08/21 17:58:37 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.10 2005/08/21 18:07:51 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -31,8 +31,8 @@
 localbase=/usr/mpkg
 xfbase=/usr/X11R6
 # ... in case we have XFree86(R) as a port
-test -f $localbase/X11/include/X11/X.h && xfbase=$localbase/X11
-test -x $localbase/X11/bin/xterm && xfbase=$localbase/X11
+test -r $localbase/X11/include/X11/X.h && xfbase=$localbase/X11
+test -f $localbase/X11/bin/xterm && xfbase=$localbase/X11
 
 #mksh_ver=24 # unused
 mksh_date="24 2005/08/21"
@@ -92,21 +92,21 @@ fi
 fetch=false
 if test $interix = yes; then
 	# check for Weihenstephan wget
-	test -x /dev/fs/C/usr/local/wbin/wget.exe && \
+	test -f /dev/fs/C/usr/local/wbin/wget.exe && \
 	    fetch="runwin32 c:/usr/local/wbin/wget.exe"
 fi
 if test x"$fetch" = x"false"; then
 	# Check for ftp/wget/fetch
 	for dir in /usr/mpkg/bin /usr/local/bin /bin /usr/bin; do
-		if test -x $dir/wget; then
+		if test -f $dir/wget; then
 			fetch=$dir/wget
 			break
 		fi
-		if test -x $dir/fetch; then
+		if test -f $dir/fetch; then
 			fetch=$dir/fetch
 			break
 		fi
-		if test -x $dir/ftp; then
+		if test -f $dir/ftp; then
 			fetch=$dir/ftp
 			break
 		fi
@@ -120,7 +120,7 @@ if T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
 else
 	# May be Interix without mktemp.sh
 	T=/tmp/mirports.$$.$RANDOM
-	if [ -d $T ]; then
+	if test -d $T; then
 		echo Cannot generate temporary directory >&2
 		exit 1
 	fi
@@ -133,16 +133,16 @@ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNAp
 tempdir=$T; export tempdir
 
 # Check for Interix
-if [ -n "$SFUDIR" -o -n "$OPENNT_ROOT" ]; then
+if test $interix = yes; then
 	# We know /bin/ksh is sufficient
 	# Check for nroff
-	test -x /usr/bin/nroff || \
+	test -f /usr/bin/nroff || \
 	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
 	    /bin/ksh `dirname $0`/setup.ksh -i
-	test -x /usr/bin/nroff || {
+	if test ! -f /usr/bin/nroff; then
 		echo Cannot install nroff >&2
 		exit 1
-	}
+	fi
 fi
 
 # Look if this is a sufficient mksh, search for one
@@ -150,14 +150,14 @@ ms=false
 for s in $SHELL /bin/mksh; do
 	# This is from MirMake; it ensures mksh R24 or higher
 	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`
-	if [ x"$t" = x"yes" ]; then
+	if test x"$t" = x"yes"; then
 		ms=$s
 		break
 	fi
 done
 
 # If suitable mksh found, retrieve its version number
-if [ x"$ms" != x"false" ]; then
+if test x"$ms" != x"false"; then
 	old=no
 #	t=`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`
 #	# first check version, then date
@@ -166,11 +166,11 @@ if [ x"$ms" != x"false" ]; then
 #	fi
 	# check if date matches
 	t=`$ms -c 'print ${KSH_VERSION#*KSH?R}'`
-	if [ x"$t" != x"$mksh_date" ]; then
+	if test x"$t" != x"$mksh_date"; then
 		old=yes
 	fi
 	# If old, check if we can upgrade
-	if [ $old = yes -a x"$UPGRADE" != "no" ]; then
+	test $old = yes && if test x"$UPGRADE" != "no"; then
 		# But use it as build shell
 		SHELL=$ms
 		# Fake no suitable mksh found
@@ -180,7 +180,7 @@ fi
 
 # If no suitable mksh found, or too old, build one,
 # else jump to the "real" set-up script
-if [ x"$ms" != x"false" ]; then
+if test x"$ms" != x"false"; then
 	SHELL=$ms; export SHELL
 	exec $ms `dirname $0`/setup.ksh
 	echo Warning: executing old mksh failed >&2
@@ -250,25 +250,20 @@ else
 fi
 
 cd mksh
-if SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh; then
-	:
+SHELL=${SHELL:-/bin/sh}; export SHELL
+if test -f /usr/lib/libc.dylib; then
+	# Darwin
+	d=-d
 else
-	if SHELL=${SHELL:-/bin/sh} ${SHELL:-/bin/sh} ./Build.sh -d -r; then
-		:
-	else
-		echo Build failed >&2
-		cd
-		rm -rf $T
-		exit 1
-	fi
+	d=
 fi
-
-test -x mksh || {
+$SHELL ./Build.sh $d || rm -f mksh
+if test ! -s mksh; then
 	echo Build failed >&2
 	cd
 	rm -rf $T
 	exit 1
-}
+fi
 
 # Install mksh
 set -e
@@ -288,13 +283,10 @@ fi
 
 # Install some kind of man page
 s=0
-if [ -s mksh.cat1 ]; then
-	install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0 \
-	    && s=1
+if test -s mksh.cat1; then
+	install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0 && s=1
 fi
-if [ $s = 0 ]; then
-	install -c -m 444 mksh.1 /usr/share/man/man1/mksh.1
-fi
+test $s = 0 && install -c -m 444 mksh.1 /usr/share/man/man1/mksh.1
 
 # Clean up
 cd $T
@@ -302,7 +294,7 @@ rm -rf mksh
 
 # Jump into final script
 SHELL=/bin/mksh; export SHELL
-SHELL=/bin/mksh exec /bin/mksh `dirname $0`/setup.ksh
+exec /bin/mksh `dirname $0`/setup.ksh
 
 # This line is never run
 echo Could not call mksh on setup.ksh >&2
