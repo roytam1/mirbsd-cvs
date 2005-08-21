@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.9 2005/07/05 20:08:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10 2005/08/20 12:33:54 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -26,14 +26,15 @@ PORTSDIR?=		/usr/ports
 
 
 # Let's assume a sane environment now.
-_DOMAIN_DU_JOUR=	MirBSD.org
-_MIRPORTS_ADDRESS=	<miros-discuss@${_DOMAIN_DU_JOUR}>
+_MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 ARCH?=			${MACHINE_ARCH}
 NOPIC_PLATFORMS?=
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 LOCALBASE?=		/usr/mpkg
-X11BASE?=		/usr/X11R6
+SYSCONFDIR?=		${LOCALBASE}/etc
+X11BASE?=		/usr/X11R6	# may be subject to change
 MKSH?=			/bin/mksh	# path to mirbsdksh
+MMAKE?=			/usr/bin/make	# path to mirmake
 SHELL=			${MKSH}		# missing ? not an oversight
 # assume osdep provides MACHINE_OS, OStype, OStriplet, OBJECT_FMT etc.
 
@@ -74,8 +75,8 @@ _GDIFFLAG?=
 # former pkgpath.mk
 
 .ifndef	PKGPATH
-_PORTSDIR!=		cd ${PORTSDIR} && pwd -P
-_CURDIR!=		cd ${.CURDIR} && pwd -P
+_PORTSDIR!=		readlink -nf ${PORTSDIR}
+_CURDIR!=		readlink -nf ${.CURDIR}
 PKGPATH=		${_CURDIR:S,${_PORTSDIR}/,,}
 .endif
 .if empty(PKGPATH)
@@ -92,52 +93,51 @@ HTMLIFY=		sed -e 's/&/\&amp;/g' -e 's/>/\&gt;/g' -e 's/</\&lt;/g'
 _flavour_fragment= \
 	multi=''; flavour=''; space=''; sawflavour=false; \
 	case "$$dir" in \
-	  *,*) \
+	*,*) \
 		IFS=,; first=true; for i in $$dir; do \
 			if $$first; then \
 				dir=$$i; first=false; \
 			else \
 				case X"$$i" in \
-					  X-*) \
-						multi="$$i"	;; \
-					  *) \
-						sawflavour=true; \
-						flavour="$$flavour$$space$$i"; \
-						space=' '	;; \
+				X-*) \
+					multi="$$i"	;; \
+				*) \
+					sawflavour=true; \
+					flavour="$$flavour$$space$$i"; \
+					space=' '	;; \
 				esac \
 			fi; \
 		done; unset IFS	;; \
 	esac; \
 	toset="PKGPATH=$$dir"; \
-	case X$$multi in "X");; *) \
-		toset="$$toset SUBPACKAGE=\"$$multi\""	;; \
-	esac; \
+	[[ -z $$multi ]] || toset="$$toset SUBPACKAGE=\"$$multi\""; \
 	if $$sawflavour; then \
 		toset="$$toset FLAVOR=\"$$flavour\""; \
 	fi; \
 	IFS=:; found_dir=false; bases=${PORTSDIR_PATH}; \
 	for base in $$bases; do \
-	    cd $$base 2>/dev/null || continue; \
-	    if [ -L "$$dir" ]; then \
-		    echo 1>&2 ">> Broken dependency: $$base/$$dir is a symbolic link"; \
-		    exit 1; \
-	    fi; \
-	    if cd $$dir 2>/dev/null; then \
-	    	found_dir=true; \
-		break; \
-	    fi; \
+		cd $$base 2>/dev/null || continue; \
+		if [ -L "$$dir" ]; then \
+			print -u2 ">> Broken dependency:" \
+			    "$$base/$$dir is a symbolic link"; \
+			exit 1; \
+		fi; \
+		if cd $$dir 2>/dev/null; then \
+			found_dir=true; \
+			break; \
+		fi; \
 	done; unset IFS; \
 	if ! $$found_dir; then \
-	    echo 1>&2 ">> Broken dependency: $$dir non existent"; \
-	    exit 1; \
+		print -u2 ">> Broken dependency: $$dir non-existent"; \
+		exit 1; \
 	fi
 
 _depfile_fragment= \
-	case X$${_DEPENDS_FILE} in \
-		X) _DEPENDS_FILE=$$(mktemp /tmp/depends.XXXXXXXXXXXX|| exit 1); \
+	if [[ -z $$_DEPENDS_FILE ]]; then \
+		_DEPENDS_FILE=$$(mktemp /tmp/depends.XXXXXXXXXXXX|| exit 1); \
 		export _DEPENDS_FILE; \
-		trap "rm -f $${_DEPENDS_FILE}" 0 1 2 3 13 15	;; \
-	esac
+		trap "rm -f $${_DEPENDS_FILE}" 0 1 2 3 13 15; \
+	fi
 
 
 MIRPORTS_SYS_MK=	done
