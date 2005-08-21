@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14 2005/08/20 12:33:48 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.1 2005/08/21 11:17:53 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -31,7 +31,7 @@
 # 3) patch <bsd.sys.mk> if necessary; other upgrade stuff
 # 4) install generic makefile includes
 #    and, if necessary, mirports.osdep.mk
-# 5) patch /etc/mk.conf
+# 5) patch /etc/${MAKE}.cfg
 # 6) augment user and group list
 
 print "1. Detecting environment..."
@@ -65,6 +65,8 @@ fi
 
 trap 'rm -f $tmp ; exit 0' 0
 trap 'rm -f $tmp ; exit 1' 1 2 3 13 15
+
+makecfg=/etc/$(cd ../db; make ___DISPLAY_MAKEVARS=MAKE:T SHOW_ONLY=1).cfg
 
 if [[ $os = Interix ]]; then
 	BINOWN=$(cd ../db; make ___DISPLAY_MAKEVARS=BINOWN SHOW_ONLY=1)
@@ -297,11 +299,11 @@ else
 	exit 1
 fi
 
-print -n "5. Preparing /etc/mk.conf..."
+print -n "5. Preparing ${makecfg}..."
 
-touch /etc/mk.conf
-if fgrep '#@@MIRPORTS start' /etc/mk.conf >/dev/null 2>&1; then
-	ed -s /etc/mk.conf 2>/dev/null <<-EOF
+touch $makecfg
+if fgrep '#@@MIRPORTS start' $makecfg >/dev/null 2>&1; then
+	ed -s $makecfg 2>/dev/null <<-EOF
 		/#@@MIRPORTS start/,/#@@MIRPORTS end/c
 		#@@MIRPORTS deleteme
 		.
@@ -310,11 +312,11 @@ if fgrep '#@@MIRPORTS start' /etc/mk.conf >/dev/null 2>&1; then
 		-,.g/#@@MIRPORTS deleteme/d
 		wq
 	EOF
-	print 'g/#@@MIRPORTS deleteme/d\nwq' | ed -s /etc/mk.conf
+	print 'g/#@@MIRPORTS deleteme/d\nwq' | ed -s $makecfg
 fi
 
-f_start /etc/mk.conf
-if ! fgrep '#@@MIRPORTS user1' /etc/mk.conf >/dev/null 2>&1; then
+f_start $makecfg
+if ! fgrep '#@@MIRPORTS user1' $makecfg >/dev/null 2>&1; then
 	print -p '#@@MIRPORTS user1'
 	print -p '### Options for MirPorts (recommended)'
 	print -p '# make clean descends into dependencies'
