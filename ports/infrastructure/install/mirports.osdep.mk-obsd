@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.3.2.1 2005/08/21 11:08:23 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.3.2.2 2005/08/21 12:41:19 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -41,6 +41,7 @@ PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
 MMAKE?=			${LOCALBASE}/bin/mmake
 HAS_TIMET64=		No
+FETCH_CMD=		/usr/bin/ftp -V -m
 
 # Version specifics
 
@@ -52,25 +53,13 @@ _CKSUM_A=
 _GDIFFLAG=		NEED_GDIFF=yes
 .endif
 
+.if ${OSrev} < 35
+_SYSTRACE_ARGS=		-i -a
+.endif
+
 # OpenBSD 3.5
 .if ${OSrev} == "35"
 HAS_DLADDR=		No
-SYSTRACE_ARGS_ADD+=	-e
 _CKSUM_A=
 _GDIFFLAG=		NEED_GDIFF=yes
-.endif
-
-# OpenBSD 3.6
-.if ${OSrev} == "36"
-SYSTRACE_ARGS_ADD+=	-e
-.endif
-
-# OpenBSD 3.7
-.if ${OSrev} == "37"
-SYSTRACE_ARGS_ADD+=	-e
-.endif
-
-# OpenBSD 3.8 (or -current)
-.if ${OSrev} == "38"
-SYSTRACE_ARGS_ADD+=	-e
 .endif
