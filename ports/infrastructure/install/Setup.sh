@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.11 2005/08/21 18:32:49 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.12 2005/08/21 18:33:58 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -86,6 +86,13 @@ else
 	test -n "$PATH_WINDOWS" && p=$p:/usr/contrib/win32/bin:$PATH_WINDOWS
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
 	PATH=$p; export $PATH
+
+	case :$LD_LIBRARY_PATH: in
+	*:$localbase/lib:*) ;;
+	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH
+		export LD_LIBRARY_PATH
+		;;
+	esac
 fi
 
 # Divine a fetching utility
@@ -295,4 +302,6 @@ exec /bin/mksh `dirname $0`/setup.ksh
 
 # This line is never run
 echo Could not call mksh on setup.ksh >&2
+cd /
+rm -rf $T
 exit 2
