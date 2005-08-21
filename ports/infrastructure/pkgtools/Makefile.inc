@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.7 2005/08/20 12:33:54 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.7.2.1 2005/08/21 11:17:54 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -31,7 +31,6 @@ LDADD+=		-L\${.SYSMK} -lmirmake
 
 .if ${OStype} == "Interix"
 LDADD+=		-ldb
-NEED_COMPAT=	Yes
 .endif
 
 CPPFLAGS+=	-D_PATH_REFCNTDB=\"${DB_DIR}/shareddirs.db\"
