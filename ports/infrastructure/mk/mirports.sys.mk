@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.2 2005/08/21 12:32:56 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.3 2005/08/21 12:41:20 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -23,10 +23,6 @@ PORTSDIR?=		/usr/ports
 .endif
 
 .if ${OSNAME} == "MirBSD"
-.  if ${OSrev} >= 8
-SYSTRACE_ARGS_ADD+=	-e
-.  endif
-
 .  if (${OSrev} == 8) && (${OSrpl} < 40)
 HAS_CXX=		reason
 NO_CXX=			C++ is still broken, please update
@@ -70,7 +66,6 @@ USE_X11?=		No
 # this is supposed to be alphabetically supported.
 AUTOCONF_FAKEOS?=	${ARCH}-ecce-openbsd${OScompat}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
-FETCH_CMD?=		/usr/bin/ftp -V -m
 HAS_CXX?=		base
 HAS_DLADDR?=		Yes
 HAS_TIMET64?=		No
@@ -78,7 +73,7 @@ MKC_USAP?=		No
 MODPERL_DESTDIR?=
 PKG_ARGS_ADD?=
 PKG_SUFX?=		.cgz
-SYSTRACE_ARGS_ADD?=
+_SYSTRACE_ARGS?=	-i -a -e
 _CKSUM_A?=		cksum -a
 _GDIFFLAG?=
 OSREV?=			${OSrev}
