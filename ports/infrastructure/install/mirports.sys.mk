@@ -1,19 +1,18 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/install/mirports.sys.mk,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
 #
-# Please install these using the ports/setup.sh script provided.
+# To install use the provided ports/infrastructure/install/Setup.sh script.
 
 .ifndef MIRPORTS_SYS_MK
 
-.  ifndef BSD_OWN_MK
-.    include <bsd.own.mk>
-.  endif
+.ifndef BSD_OWN_MK
+.  include <bsd.own.mk>
+.endif
 
 PORTSDIR?=	/usr/ports
 
-# If the user wants to use the OpenBSD ports tree and the
-# MirPorts framework in parallel, he shall do so.
-.  if exists(${PORTSDIR}/infrastructure/mk/mirports.sys.mk)
-.    include "${PORTSDIR}/infrastructure/mk/mirports.sys.mk"
-.  endif
+# In case we are being used for "the other ports tree"...
+.if exists(${PORTSDIR}/infrastructure/mk/mirports.sys.mk)
+.  include "${PORTSDIR}/infrastructure/mk/mirports.sys.mk"
+.endif
 
 .endif
