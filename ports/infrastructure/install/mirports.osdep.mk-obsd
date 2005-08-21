@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.3 2005/08/20 12:33:48 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.osdep.mk-obsd,v 1.3.2.1 2005/08/21 11:08:23 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -40,13 +40,7 @@ MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
 MMAKE?=			${LOCALBASE}/bin/mmake
-
-# XXX this must be done by mirmake on build time!
-.if ${ELF_TOOLCHAIN:L} == yes
-OBJECT_FMT=		ELF
-.else
-OBJECT_FMT=		a.out
-.endif
+HAS_TIMET64=		No
 
 # Version specifics
 
