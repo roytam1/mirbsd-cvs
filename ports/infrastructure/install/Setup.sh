@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.12 2005/08/21 18:33:58 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.13 2005/08/21 18:46:58 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -42,7 +42,12 @@ mksh_md5="MD5 ($mksh_dist) = 48d0df73eba1ef4e9c0758f69262eb66"
 mksh_sum="240923212 224290 $mksh_dist"
 mksh_md5sum="48d0df73eba1ef4e9c0758f69262eb66  $mksh_dist"
 
-mirror=${1:-http://mirbsd.mirsolutions.de/MirOS/dist/}; export mirror
+mirror=$1
+if test x"$mirror" = x"-" || test x"$mirror" = x; then
+	mirror=http://mirbsd.mirsolutions.de/MirOS/dist/
+fi
+export mirror
+test x"$1" = x || shift
 
 # Are we Interix?
 interix=no
@@ -95,6 +100,9 @@ else
 	esac
 fi
 
+# Where are we?
+ourpath=`dirname $0`
+
 # Divine a fetching utility
 fetch=false
 if test $interix = yes; then
@@ -145,7 +153,7 @@ if test $interix = yes; then
 	# Check for nroff
 	test -f /usr/bin/nroff || \
 	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
-	    /bin/ksh `dirname $0`/setup.ksh -i
+	    /bin/ksh $ourpath/setup.ksh -i
 	if test ! -f /usr/bin/nroff; then
 		echo Cannot install nroff >&2
 		exit 1
@@ -186,7 +194,10 @@ fi
 # else jump to the "real" set-up script
 if test x"$ms" != x"false"; then
 	SHELL=$ms; export SHELL
-	exec $ms `dirname $0`/setup.ksh
+	case $# in
+	0)	exec $ms $ourpath/setup.ksh ;;
+	*)	exec $ms $ourpath/setup.ksh "$@" ;;
+	esac
 	echo Warning: executing old mksh failed >&2
 fi
 
@@ -298,7 +309,10 @@ rm -rf mksh
 
 # Jump into final script
 SHELL=/bin/mksh; export SHELL
-exec /bin/mksh `dirname $0`/setup.ksh
+case $# in
+0)	exec /bin/mksh $ourpath/setup.ksh ;;
+*)	exec /bin/mksh $ourpath/setup.ksh "$@" ;;
+esac
 
 # This line is never run
 echo Could not call mksh on setup.ksh >&2
