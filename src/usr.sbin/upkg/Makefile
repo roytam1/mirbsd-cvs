@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/upgrade/Makefile,v 1.1 2005/08/21 13:02:59 bsiegert Exp $
+# $MirOS: src/usr.sbin/upkg/Makefile,v 1.1 2005/08/23 20:57:28 bsiegert Exp $
 
 PROG=	upkg
 SRCS=	upkg.sh
@@ -8,7 +8,5 @@ NOMAN=	Yes
 
 ${PROG}: ${SRCS}
 	sed -e 's#@@dbdir@@#${DB_DIR}#' <$< >$@
-
-depend:
 
 .include <bsd.prog.mk>
