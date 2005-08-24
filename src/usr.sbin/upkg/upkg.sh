@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.1 2005/08/21 13:02:59 bsiegert Exp $
+# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.1 2005/08/23 20:57:28 bsiegert Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -19,12 +19,28 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# a minimal version of pkg_add, written in shell.
+# a minimal version of pkg_add, written in shell. Requires mksh.
 
-if [[ -z $1 || $1 = -h ]]; then
-	echo "Usage:"
-	echo " $0 install [pkgname]"
+function usage
+{
+	print -u2 "Usage:"
+	print -u2 " $0 [-L localbase] install [pkgname]"
 	exit 1
-fi
+}
 
-PKG_DBDIR=@@dbdir@@/pkg
+[[ -n $1 ]] || usage
+
+localbase=/usr/mpkg
+while getopts "hL" c; do
+	case $c {
+	(h)	usage
+		;;
+	(L)	localbase=$OPTARG
+		;;
+	(*)	usage
+		;;
+	}
+done
+shift $((OPTIND - 1))
+
+PKG_DBDIR=$localbase/pkg

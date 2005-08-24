@@ -1,12 +1,8 @@
-# $MirOS: src/usr.sbin/upkg/Makefile,v 1.1 2005/08/23 20:57:28 bsiegert Exp $
+# $MirOS: src/usr.sbin/upkg/Makefile,v 1.2 2005/08/23 21:02:13 tg Exp $
 
 PROG=	upkg
 SRCS=	upkg.sh
 INSTALL_STRIP=
-
 NOMAN=	Yes
-
-${PROG}: ${SRCS}
-	sed -e 's#@@dbdir@@#${DB_DIR}#' <$< >$@
 
 .include <bsd.prog.mk>
