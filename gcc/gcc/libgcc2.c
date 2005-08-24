@@ -1794,7 +1794,6 @@ __guard_setup (void)
   ((char*)__guard)[3] = 255;
 }
 
-extern void __stack_smash_handler (char func[], ATTRIBUTE_UNUSED int damaged);
 void
 __stack_smash_handler (char func[], ATTRIBUTE_UNUSED int damaged)
 {

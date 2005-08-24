@@ -1958,9 +1958,7 @@ alter_reg (int i, int from_reg)
 	 inherent space, and no less total space, then the previous slot.  */
       if (from_reg == -1)
 	{
-	  /* No known place to spill from => no slot to reuse.
-	     For the stack protection, an allocated slot should be placed in
-	     the safe region from the stack smaching attack.  */
+	  /* No known place to spill from => no slot to reuse.  */
 	  x = assign_stack_local_for_pseudo_reg (GET_MODE (regno_reg_rtx[i]), total_size,
 				  inherent_size == total_size ? 0 : -1);
 	  if (BYTES_BIG_ENDIAN)

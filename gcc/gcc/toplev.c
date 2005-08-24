@@ -98,10 +98,6 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 				   declarations for e.g. AIX 4.x.  */
 #endif
 
-#ifdef STACK_PROTECTOR
-#include "protector.h"
-#endif
-
 #ifndef HAVE_conditional_execution
 #define HAVE_conditional_execution 0
 #endif
@@ -2705,9 +2701,6 @@ rest_of_handle_inlining (tree decl)
 
   insns = get_insns ();
 
-  if (flag_propolice_protection)
-    prepare_stack_protection (inlinable);
-
   /* Dump the rtl code if we are dumping rtl.  */
 
   if (open_dump_file (DFI_rtl, decl))
@@ -3181,6 +3174,11 @@ rest_of_compilation (tree decl)
      collector to reclaim the memory used by the notes.  */
   remove_unnecessary_notes ();
   reorder_blocks ();
+
+  /* In propolice-protection mode, we will change the variables in the
+     stack to be able to detect buffer overflows.  */
+  if (flag_propolice_protection)
+    prepare_stack_protection (DECL_INLINE (decl));
 
   ggc_collect ();
 
