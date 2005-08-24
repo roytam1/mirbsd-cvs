@@ -1,3 +1,253 @@
+2005-08-21  Jakub Jelinek  <jakub@redhat.com>
+
+	* simplify-rtx.c (simplify_immed_subreg) <case CONST_DOUBLE>: Only clear
+	up to elem_bitsize bits, not max_bitsize.
+
+2005-07-20  Steve Ellcey  <sje@cup.hp.com>
+
+	PR target/21841
+	* doc/invoke.texi (-mgnu-ld): Update description.
+	(-mhp-ld): Ditto.
+
+2005-08-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	PR rtl-optimization/17860
+	* loop.c (check_dbra_loop): Do not try to use an end condition
+	like "i != 0" in the reversed loop.
+
+2005-08-08  Josh Conner  <jconner@apple.com>
+
+	PR rtl-optimization/23241
+	* combine.c (simplify_comparison): Fix error in determining
+	whether to lift a subreg from comparison.
+
+2005-08-08  Richard Sandiford  <richard@codesourcery.com>
+
+	PR middle-end/21964
+	* stmt.c (tail_recursion_args): Insert a call to emit_queue.
+
+2005-08-08  Richard Sandiford  <richard@codesourcery.com>
+
+	PR c/22458
+	* c-decl.c (c_begin_compound_stmt): Set the initial body to
+	error_mark_node, not NULL.
+
+2005-08-07  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* pa64-regs.h (CONDITIONAL_REGISTER_USAGE): Fix loop upper bound.
+
+2005-08-06  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR pch/14940
+	Backport from mainline:
+
+	* config.host (hppa*-*-hpux*, hppa*-*-linux): Define out_host_hook_obj
+	and host_xmake_file using new host configuration files.
+	* config/pa/pa-host.c, config/pa/x-hpux, config/pa/x-linux: New files.
+
+2005-08-06  Christian Joensson  <christian.joensson@gmail.com>
+
+	PR target/20673
+	Backport from mainline:
+
+	2005-04-15  David S. Miller  <davem@davemloft.net>
+
+	* config/sparc/sparc.h (sparc_hard_reg_printed): Mark as GTY(()).
+
+2005-08-05  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	* pa.c (function_arg): Fix typo in last change.
+
+	* pa.c (function_value): Handle small aggregates on 32-bit targets.
+	(function_arg): Pass small aggregates in general registers on 32-bit
+	targets.
+	* som.h (MEMBER_TYPE_FORCES_BLK): Delete define.
+
+2005-08-04  Gerald Pfeifer  <gerald@pfeifer.com>
+
+	* doc/install.texi (Specific): Adjust link to openavr.org.
+	(Specific): Remove broken reference to GCC 2.8.1 for OS/2.
+	(Binaries): Adjust HP-UX Porting Center link.
+	(Binaries): Adjust Free Software Foundation ordering link.
+	(Binaries): Remove broken link to Sinix/Reliant Unix binaries.
+
+2005-08-04  Eric Botcazou  <ebotcazou@adacore.com>
+
+	* doc/invoke.texi (Optimize Options): Document that -funswitch-loops
+	is enabled at -O3.
+
+2005-08-03  John David Anglin  <dave.anglin@nrc-cnrc.gc.ca>
+
+	PR target/21723
+	* pa.md: Remove fcpy alternative from movhi and movqi patterns.
+	* pa32-regs.h (HARD_REGNO_NREGS): Return two floating point registers
+	for complex modes when generating code for PA 1.0.
+	(VALID_FP_MODE_P): New macro.
+	(HARD_REGNO_MODE_OK): Use VALID_FP_MODE_P.  Use non-overlapping register
+	sets for all general and floating point modes.  Align wide floating
+	point modes to even register boundaries to comply with architectural
+	requirements.
+	(CLASS_MAX_NREGS): Update to align with change to HARD_REGNO_NREGS.
+	* pa64-regs.h (HARD_REGNO_NREGS): Update comment and formatting.
+	(VALID_FP_MODE_P): New macro.
+	(HARD_REGNO_MODE_OK): Use VALID_FP_MODE_P.  Use non-overlapping register
+	sets for all general and floating point modes.  Align wide floating
+	point modes to even register boundaries to comply with architectural
+	requirements.
+
+2005-08-03  Richard Sandiford  <richard@codesourcery.com>
+
+	PR target/18582
+	* config/i386/i386.c (ix86_expand_unop_builtin): Force the target
+	to be a register if do_load is true.
+
+2005-08-02  Ian Lance Taylor  <ian@airs.com>
+
+	PR pch/14400
+	Backport from mainline:
+
+	2005-08-01  Ian Lance Taylor  <ian@airs.com>
+
+	* config/host-linux.c (linux_gt_pch_get_address): Add new name
+	randomize_va_space for virtual address randomization control.
+
+	2005-02-15  James A. Morrison  <phython@gcc.gnu.org>
+
+	PR pch/14940
+	PR target/19300
+	* config/host-linux.c (linux_gt_pch_use_address): Copy from
+	config/pa/pa-host.c:pa_gt_pch_use_address.
+
+	2004-11-09  James A. Morrison  <phython@gcc.gnu.org>
+
+	PR pch/14940
+	* config/host-linux.c (TRY_EMPTY_VM_SPACE): Add __sparc__
+	definitions.
+
+	2004-10-15  Jon Grimm <jgrimm2@us.ibm.com>
+
+	* config/host-linux.c (TRY_EMPTY_VM_SPACE): Add __powerpc__
+	definition.
+
+	2004-04-24  Ulrich Weigand  <uweigand@de.ibm.com>
+
+	* config/host-linux.c (TRY_EMPTY_VM_SPACE): Define for __s390__
+	and __s390x__ hosts.
+
+	2004-04-08  Ian Lance Taylor  <ian@wasabisystems.com>
+
+	* config/rs6000/host-darwin.c (darwin_rs6000_gt_pch_use_address):
+	Return 1 if file was successfully mapped.
+
+	2004-03-15  Ian Lance Taylor  <ian@wasabisystems.com>
+
+	* config/rs6000/host-darwin.c (darwin_rs6000_gt_pch_use_address):
+	Fix the check for abort and only do the mmap if we can.
+
+	2004-03-12  Andrew Pinski  <apinski@apple.com>
+
+	* config/rs6000/host-darwin.c (darwin_rs6000_gt_pch_use_address):
+	Use ret instead of result. Use addr instead of base.
+
+	2004-03-10  Richard Henderson  <rth@redhat.com>
+
+	* c-pch.c (c_common_no_more_pch): Update for gt_pch_use_address
+	extra arguments.
+	* config.host (*-*-solaris2*, *-*-linux*): Add out_host_hook_obj
+	and host_xmake_file fragments.
+	* ggc-common.c (gt_pch_save): Update for gt_pch_get_address change.
+	(gt_pch_restore): Similarly for gt_pch_use_address.
+	(default_gt_pch_get_address): New.
+	(mmap_gt_pch_get_address): Split out of gt_pch_save.
+	(default_gt_pch_use_address): Split out of gt_pch_restore.
+	(mmap_gt_pch_use_address): Likewise.
+	* hooks.c (hook_voidp_size_t_null): Remove.
+	(hook_bool_voidp_size_t_false): Remove.
+	* hooks.h: Likewise.
+	* hosthooks-def.h (HOST_HOOKS_GT_PCH_GET_ADDRESS): Use one of the
+	default_ or mmap_ definitions.
+	(HOST_HOOKS_GT_PCH_USE_ADDRESS): Likewise.
+	* hosthooks.h (struct host_hooks): Update gt_pch_get_address
+	and gt_pch_use_address.
+	* config/host-linux.c, config/host-solaris.c: New files.
+	* config/x-linux, config/x-solaris: New files.
+	* config/rs6000/host-darwin.c darwin_rs6000_gt_pch_get_address): 
+	Update for changed definition.
+	(darwin_rs6000_gt_pch_use_address): Likewise.
+	* doc/hostconfig.texi: Update docs.
+
+2005-07-31  Richard Sandiford  <richard@codesourcery.com>
+
+	PR target/20621
+	Backport from mainline:
+
+	2004-08-01  Richard Sandiford  <rsandifo@redhat.com>
+	* config/mips/mips.md (cprestore): Provide two alternatives, one for
+	an in-range offset and one for an out-of-range offset.  Wrap the latter
+	in .set macro/.set nomacro if it's inside a .set nomacro block.
+
+	2004-08-01  Richard Sandiford  <rsandifo@redhat.com>
+	* config/mips/mips-protos.h (mips_gp_save_slot): Remove.
+	(mips_restore_gp): Declare.
+	* config/mips/mips.c (mips_add_offset): Add a scratch register
+	argument.  Reimplement in rtl only, reusing MIPS16 logic from
+	mips_output_mi_thunk.
+	(mips_legitimize_address, mips_legitimize_const_move): Adjust calls
+	to mips_add_offset.
+	(mips_gp_save_slot): Delete.
+	(mips_restore_gp): New function.
+	(mips_set_return_address, mips_output_mi_thunk): Use mips_add_offset.
+	* config/mips/mips.md (exception_receiver): Turn into a
+	define_insn_and_split.  Use mips_restore_gp to do the split.
+	(call_internal, call_value_internal, call_value_multiple_internal): Use
+	mips_restore_gp to restore $gp.
+
+2005-07-29  Alan Modra  <amodra@bigpond.net.au>
+
+	* config/rs6000/sysv4.h (TARGET_ASM_EXCEPTION_SECTION): Delete.
+
+2005-07-28  Richard Henderson  <rth@redhat.com>
+
+	PR rtl-opt/22619
+	* cfgcleanup.c (try_forward_edges): Watch out for end of
+	insn chain.
+
+2005-07-28  Joseph S. Myers  <joseph@codesourcery.com>
+
+	PR c/17188
+	PR c/21899
+	* c-decl.c (diagnose_mismatched_decls): Check for duplicate
+	declarations of enumerators.
+	(start_struct): Check TYPE_SIZE rather than TYPE_FIELDS to check
+	for redefinition.  Check for nested redefinition.
+	(finish_struct): Don't check for nested redefinition.
+	(start_enum): Check for nested redefinition.
+
+2005-07-28  Joseph S. Myers  <joseph@codesourcery.com>
+
+	PR c/21873
+	* c-typeck.c (push_init_level): Don't pop levels without braces if
+	implicit == 1.
+
+2005-07-28  Gerald Pfeifer  <gerald@pfeifer.com>
+  
+  	* doc/install.texi (Configuration): Update Valgrind homepage.
+ 
+2005-07-28  Richard Sandiford  <richard@codesourcery.com>
+
+	PR c/20187
+	* fold-const.c (fold): When shortening comparisons of widened operands,
+	check whether the tree returned by get_unwidened really is wider.
+
+2005-07-28  Richard Sandiford  <richard@codesourcery.com>
+
+	PR c/22589
+	Backport from mainline:
+
+	2004-06-16  Alexandre Oliva  <aoliva@redhat.com>
+	* tree.c (get_narrower): Don't narrow integral types into
+	non-integral types.
+
 2005-07-26  Bernardo Innocenti  <bernie@develer.com>
 
 	Backport from mainline:
@@ -67,9 +317,9 @@
 
 2005-06-04  Richard Henderson  <rth@redhat.com>
 
-        PR target/21888
-        * config/alpha/alpha.c (alpha_align_insns): Don't insert nops
-        until we've passed initial ldgp.
+	PR target/21888
+	* config/alpha/alpha.c (alpha_align_insns): Don't insert nops
+	until we've passed initial ldgp.
 
 2005-06-01  Richard Henderson  <rth@redhat.com>
 
