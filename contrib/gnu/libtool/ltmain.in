@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.24 2005/07/05 21:11:22 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.25 2005/08/20 12:51:06 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -4793,6 +4793,7 @@ EOF
 EOF
 
 	    cat >> $cwrappersource <<"EOF"
+  return 127;
 }
 
 void *
@@ -5632,11 +5633,14 @@ relink_command=\"$relink_command\""
 
 	  if test "$#" -gt 0; then
 	    # Delete the old symlinks, and create new ones.
+	    # Try 'ln -sf' first, because the 'ln' binary might depend on
+	    # the symlink we replace!  Solaris /bin/ln does not understand -f,
+	    # so we also need to try rm && ln -s.
 	    for linkname
 	    do
 	      if test "$linkname" != "$realname"; then
-		$show "(cd $destdir && $rm $linkname && $LN_S $realname $linkname)"
-		$run eval "(cd $destdir && $rm $linkname && $LN_S $realname $linkname)"
+                $show "(cd $destdir && { $LN_S -f $realname $linkname || { $rm $linkname && $LN_S $realname $linkname; }; })"
+                $run eval "(cd $destdir && { $LN_S -f $realname $linkname || { $rm $linkname && $LN_S $realname $linkname; }; })"
 	      fi
 	    done
 	  fi

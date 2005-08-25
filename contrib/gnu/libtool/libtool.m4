@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.38 2005/07/07 17:54:14 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.39 2005/08/20 12:51:05 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1185,7 +1185,7 @@ AC_CACHE_CHECK([if $compiler supports -c -o file.$ac_objext],
        _LT_AC_TAGVAR(lt_cv_prog_compiler_c_o, $1)=yes
      fi
    fi
-   chmod u+w .
+   chmod u+w . 2>&AS_MESSAGE_LOG_FD
    $rm conftest*
    # SGI C++ compiler will create directory out/ii_files/ for
    # template instantiation
