@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.25 2005/08/20 12:51:06 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.25 2005/08/20 12:51:06 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.26 2005/08/25 13:25:37 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.26 2005/08/25 13:25:37 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.19a
-TIMESTAMP=" (MirLibtool 2005/08/20 12:52:18)"
+TIMESTAMP=" (MirLibtool 2005/08/25 13:26:45)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -4794,6 +4794,7 @@ EOF
 EOF
 
 	    cat >> $cwrappersource <<"EOF"
+  return 127;
 }
 
 void *
@@ -5633,11 +5634,14 @@ relink_command=\"$relink_command\""
 
 	  if test "$#" -gt 0; then
 	    # Delete the old symlinks, and create new ones.
+	    # Try 'ln -sf' first, because the 'ln' binary might depend on
+	    # the symlink we replace!  Solaris /bin/ln does not understand -f,
+	    # so we also need to try rm && ln -s.
 	    for linkname
 	    do
 	      if test "$linkname" != "$realname"; then
-		$show "(cd $destdir && $rm $linkname && $LN_S $realname $linkname)"
-		$run eval "(cd $destdir && $rm $linkname && $LN_S $realname $linkname)"
+                $show "(cd $destdir && { $LN_S -f $realname $linkname || { $rm $linkname && $LN_S $realname $linkname; }; })"
+                $run eval "(cd $destdir && { $LN_S -f $realname $linkname || { $rm $linkname && $LN_S $realname $linkname; }; })"
 	      fi
 	    done
 	  fi
