@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
 
 Readme for GNU software on MirOS
 ================================
@@ -14,7 +14,7 @@ Documentation
 Do you wonder where the documentation is?
 
 Well, the Free Software Foundation USA has ensured we cannot
-distribute the documentation enclosed with gcc 3.4.4 because
+distribute the documentation enclosed with gcc 3.4.5 because
 of licence issues.
 
 (However, see below, there is a compromise.)

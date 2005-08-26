@@ -1,10 +1,10 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.2 2005/03/19 11:49:19 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.3 2005/04/27 08:51:44 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
 
-This is /usr/share/doc/legal/LICENCE, available online under
-<http://mirbsd.bsdadvocacy.org/cvs.cgi/src/share/doc/legal/>
+This is /usr/share/doc/legal/LICENCE, available online at
+http://mirbsd.mirsolutios.de/cvs.cgi/src/share/doc/legal/
 or any other CVSweb enabled mirror.
 
 This file contains the terms and conditions which MirOS base
@@ -23,10 +23,10 @@ and MirPorts.
 # MirOS is Copyright (c) 2003, 2004, 2005
 #		The MirOS Project <miros-dev@MirBSD.org>
 #   consisting of the following developers:
-#	R. Tyler Ballance <tyler@66h.42h.de>
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #	Benny Siegert <bsiegert@gmx.de>
 #   and the following former/inactive contributors:
+#	R. Tyler Ballance <tyler@66h.42h.de>
 #	Waldemar Brodkorb <wbx@thinknow.de>
 #	Stephen Paskaluk <sap@66h.42h.de>
 #	Joseph Soentgen <cnuke@66h.42h.de>
@@ -79,7 +79,8 @@ and MirPorts.
  * including the MirPorts Framework and the (OpenBSD-derived) kernel,
  * excluding single ports, the contributed sections (the modules gcc,
  * x11 and contrib) and any part of MirOS licenced under the GFDL and
- * with copyright assigned back to the FSF.
+ * with copyright assigned back to the FSF. (Note that, for the modu-
+ * les x11 and contrib, some work is also covered by this licence.)
  * I hereby also limit the above advertising clause to cease to exist
  * after my death or removal of all other advertising clauses, which-
  * ever comes first.
@@ -92,7 +93,10 @@ rectory.
 The MirOS Project strives to make as much of our work as po-
 ssible, as well as inherited work we redistribute, available
 under OSD compliant licences (see www.opensource.org), where
-OSI certification is not a need.
+OSI certification is not a requirement, due to braindead Po-
+licies of OSI.
+We strongly request people to not reuse our work in material
+covered by problematic licences such as the GNU FDL.
 
 We ask all of our contributors to publish their work under a
 licence boilerplate derived from the "licence.template" file
