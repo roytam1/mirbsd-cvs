@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.6 2005/05/26 21:21:18 tg Exp $
-# _MirOS: contrib/gnu/aux/install-sh,v 1.6 2005/05/26 21:21:18 tg Exp $
+# $MirOS: contrib/gnu/aux/install-sh,v 1.7 2005/08/26 22:55:56 tg Exp $
+# _MirOS: contrib/gnu/aux/install-sh,v 1.7 2005/08/26 22:55:56 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -36,19 +36,21 @@ elif [ -n "$SH_VERSION" ]; then
 		;;
 	esac
 elif [[ -n $KSH_VERSION ]]; then
-	set +o sh +o posix
 	p=print
 fi
 
 if [ -z "$p" ]; then
-	echo "Shell not supported; go to http://wiki.mirbsd.de/MirbsdKsh"
+	echo "Shell not supported; go to http://mirbsd.mirsolutions.de/?mksh"
 	exit 1
 fi
 
 allargs="$*"
 
+installprog=/usr/bin/install
+test -x /usr/ucb/install && installprog=/usr/ucb/install
+
 if [[ $allargs != *@(-t=|-b=)* && -z $SFUDIR ]]; then
-	exec /usr/bin/install "$@"
+	exec $installprog "$@"
 fi
 
 args=
@@ -116,8 +118,8 @@ while (( i < dstoff )); do
 		[[ -n $dsttmp ]] && dstfile="$dsttmp"
 	fi
 
-	/usr/bin/install $args "$src" "${dstdir}/${dstfile}" || exit 1
+	$installprog $args "$src" "${dstdir}/${dstfile}" || exit 1
 
-	let i+=1
+	let i++
 done
 exit 0
