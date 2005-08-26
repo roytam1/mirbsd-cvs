@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/gnu/aux/mkinstalldirs,v 1.1.7.1 2005/02/05 01:54:29 tg Exp $
+# $MirOS: contrib/gnu/aux/mkinstalldirs,v 1.2 2005/05/25 23:50:32 tg Exp $
 #-
-# Copyright (c) 2004
+# Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -36,12 +36,11 @@ elif [ -n "$SH_VERSION" ]; then
 		;;
 	esac
 elif [[ -n $KSH_VERSION ]]; then
-	set +o sh +o posix
 	p=print
 fi
 
 if [ -z "$p" ]; then
-	echo "Shell not supported; go to http://wiki.mirbsd.de/MirbsdKsh"
+	echo "Shell not supported; go to http://mirbsd.mirsolutions.de/?mksh"
 	exit 1
 fi
 
