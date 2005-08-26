@@ -1,7 +1,7 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/printf/printf.c,v 1.2 2005/07/23 18:53:22 tg Exp $ */
 /*	$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $	*/
 
-/*
+/*-
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
  *
@@ -45,7 +45,7 @@ char copyright[] =
 #include <err.h>
 
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.2 2005/07/23 18:53:22 tg Exp $");
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -72,6 +72,10 @@ static char  **gargv;
 #include "bltin.h"
 #include <stdarg.h>
 #endif /* SHELL */
+
+#ifdef BUILTIN
+int progprintf(int, char *[]);
+#endif
 
 #define PF(f, func) { \
 	if (fieldwidth) \
