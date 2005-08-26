@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.3 2005/08/21 13:50:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.4 2005/08/21 13:54:23 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
@@ -12,6 +12,9 @@
 
 <h3>Recent Changes</h3>
 <p>Changes in the current development version:</p><ul>
+ <li>Document stance on quoting policy in here documents</li>
+ <li>On MirOS, integrate <a href="/man1/printf.htm">printf(1)</a>
+  as shell builtin, mostly to speed up libtool and stuff</li>
 </ul>
 <p>R24b is a minor clean-up relase, recommended especially on Darwin.</p><ul>
  <li>please GCC 4 with the usual crazy set of warning flags</li>
@@ -303,7 +306,7 @@ some basic usability tests.
 
 <p>
 <DL >
-<dt><dd> mksh R24
+<dt><dd> mksh R24b
 </DL>
 I have replaced the standard shell on <a href="wiki.cgi?NetBSD" class=wikipagelink>NetBSD</a> 1.6.1/pmax
 with mksh with good success and only one testsuite failure
