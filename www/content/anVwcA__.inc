@@ -1,7 +1,7 @@
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.1 2005/08/09 13:10:36 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
- The current version is <em>joe-3.1jupp3</em>.
+ The current version is <em>joe-3.1jupp4</em>.
 </p>
 
 <h2>About</h2>
@@ -16,6 +16,11 @@
 </p>
 
 <h3>ChangeLog</h3>
+
+<p>Changes for joe-3.1jupp4:<br />
+ Keyboard fixes and DEC VT320/VT420 support in jupprc.
+ Update of externally fetched subsystems. gzsig'd distfile.
+</p>
 
 <p>Changes for joe-3.1jupp3:<br />
  Overhaul of jupprc, especially improving Linux and MS-DOS keybindings.
@@ -47,15 +52,17 @@
 
 <h3>Download</h3>
 <ul>
- <li><a href="http://mirbsd.bsdadvocacy.org/MirOS/distfiles/joe-3.1jupp3.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/distfiles/joe-3.1jupp3.cpio.gz</a></li>
- <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/distfiles/joe-3.1jupp3.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/distfiles/joe-3.1jupp3.cpio.gz</a></li>
+ <li><a href="http://mirbsd.bsdadvocacy.org/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
+ <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
 </ul>
 
 <p>Check the sums!</p>
 <ul>
- <li>RMD160 (joe-3.1jupp3.cpio.gz) = 1b6a14550a2eb465486c1d1b6f1a0f7ba56ac3d5</li>
- <li>267665491 391868 /MirOS/distfiles/joe-3.1jupp3.cpio.gz</li>
- <li>MD5 (joe-3.1jupp3.cpio.gz) = 123b0f21f823687a081c43d3ebc2972d</li>
+ <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
+  the integrity of the distfile instead!</li>
+ <li>RMD160 (joe-3.1jupp3.cpio.gz) = 577e5b491f5b9283f03f2971cb0f4b8b34f9b206</li>
+ <li>610826335 381871 /MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp3.cpio.gz) = cec044997dfd352ab1f5d57fd996b0cc</li>
 </ul>
 
 <h3>Unpacking</h3>
