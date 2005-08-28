@@ -1,6 +1,3 @@
-# $MirOS$
-# XXX workaround
-#
 # template-makefile for Lynx src directory
 
 SHELL		= @CONFIG_SHELL@
@@ -202,10 +199,6 @@ chrtrans/makeuctb$(BUILD_EXEEXT):
 
 UCAux$o : UCAux.c $(CMN)UCAux.h $(CMN)UCDefs.h
 LYCookie$o : $(top_srcdir)/userdefs.h
-
-HTML$o: HTML.c
-@RULE_CC@
-	@ECHO_CC@$(CC) $(CC_OPTS) -c $(srcdir)/HTML.c -funit-at-a-time
 
 depend : $(TABLES)
 	makedepend -fmakefile -- $(CC_OPTS) -- $(C_SRC)
