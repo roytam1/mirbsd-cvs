@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.7 2005/07/25 17:45:22 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.8 2005/07/28 19:19:37 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -203,10 +203,7 @@ Boston, MA 02111-1307, USA.  */
   "%{assert*} %{R*} %{rpath*}			\
    %{!shared:					\
      -dc -dp					\
-     %{!nostdlib:				\
-       %{g:-L/usr/lib/debug}			\
-       %{!r*:					\
-	 %{!e*:-e __start}}}			\
+     %{!nostdlib:%{!r*:%{!e*:-e __start}}}	\
      %{!static:					\
        %{rdynamic:-export-dynamic}		\
        %{!dynamic-linker:			\

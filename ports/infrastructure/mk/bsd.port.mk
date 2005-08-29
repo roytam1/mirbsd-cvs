@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.39 2005/07/24 12:34:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40 2005/08/20 12:33:53 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -420,9 +420,6 @@ CFLAGS+=		${CDIAGFLAGS}
 .  if defined(CXXDIAGFLAGS)
 CXXFLAGS+=		${CXXDIAGFLAGS}
 .  endif
-.endif
-.if ${CFLAGS:M-g}
-LDFLAGS+=		-L${LOCALBASE}/lib/debug
 .endif
 LDFLAGS+=		-L${LOCALBASE}/lib ${LDSTATIC}
 .if ${OStype} == "MirBSD" && ${_CC_IS_GCC:M3.4*}
