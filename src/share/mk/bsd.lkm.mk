@@ -1,5 +1,5 @@
-#	$MirOS$
-#	$OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
 # XXX untested
 
 .if exists(${.CURDIR}/../Makefile.inc)
@@ -12,8 +12,8 @@
 
 .SUFFIXES: .out .o .c .cc .C .y .l .s .8 .7 .6 .5 .4 .3 .2 .1 .0
 
-CFLAGS+=	${COPTS} -D_KERNEL -D_LKM \
-		-I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/arch
+CFLAGS+=	${COPTS} -ffreestanding -fno-builtin-printf -fno-builtin-log \
+		-D_KERNEL -D_LKM -I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/arch
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
 .endif
@@ -65,7 +65,7 @@ realinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m ${LKMMODE} \
 	    ${COMBINED} ${DESTDIR}${LKMDIR}/${LKM}.o
 .      if exists(${.CURDIR}/${POSTINSTALL})
-	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m 555 \
+	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m ${BINMODE} \
 	    ${.CURDIR}/${POSTINSTALL} ${DESTDIR}${LKMDIR}/
 .      endif
 .    endif
@@ -73,7 +73,8 @@ realinstall:
 
 load:	${COMBINED}
 	if [ -x ${.CURDIR}/${POSTINSTALL} ]; then \
-		modload -d -o $(LKM) -e$(LKM) -p${.CURDIR}/${POSTINSTALL} $(COMBINED); \
+		modload -d -o $(LKM) -e$(LKM) -p${.CURDIR}/${POSTINSTALL} \
+		    $(COMBINED); \
 	else \
 		modload -d -o $(LKM) -e$(LKM) $(COMBINED); \
 	fi
