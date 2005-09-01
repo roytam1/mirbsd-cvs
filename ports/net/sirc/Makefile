@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/sirc/Makefile,v 1.3 2005/09/01 20:38:50 tg Exp $
 
 COMMENT=		"programmable small perl irc client (utf-8, IPv6 ready)"
 CATEGORIES=		net
@@ -17,6 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 RUN_DEPENDS=		:p5-Socket6->=0.08:net/p5-Socket6 \
 			:ssfe-*:comms/ssfe
+NO_REGRESS=		Yes
 
 SCRIPTS=		dsircp sirc
 MANS=			sirc.1
