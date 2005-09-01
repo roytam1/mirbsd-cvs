@@ -17,8 +17,8 @@
    /usr/share/doc/legal/COPYING-2 for details.
 */
 
-#include <sys/time.h>
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/ioctl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +41,8 @@
 #ifdef _AIX
 #include <sys/select.h>
 #endif
+
+__RCSID("$MirOS$");
 
 #define BUF_SIZE 512
 #define MAX_COLS 512
