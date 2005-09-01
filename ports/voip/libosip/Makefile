@@ -1,11 +1,11 @@
-# $MirOS: ports/comms/libosip/Makefile,v 1.1.7.1 2005/03/18 15:43:37 tg Exp $
+# $MirOS: ports/voip/libosip/Makefile,v 1.1.1.1 2005/09/01 20:55:24 tg Exp $
 
 COMMENT=		"SIP telephony (VoIP) library"
-CATEGORIES=		comms net
+CATEGORIES=		comms net voip
 DISTNAME=		libosip-0.9.7
 HOMEPAGE=		http://www.linphone.org/?lang=us
 MASTER_SITES=		http://simon.morlat.free.fr/download/0.12.2/source/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # GNU LGPLv2.1
 PERMIT_DISTFILES_CDROM=	Yes

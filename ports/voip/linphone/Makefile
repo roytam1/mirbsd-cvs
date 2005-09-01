@@ -1,12 +1,12 @@
-# $MirOS: ports/comms/linphone/Makefile,v 1.2 2005/03/20 16:46:22 bsiegert Exp $
+# $MirOS: ports/voip/linphone/Makefile,v 1.1.1.1 2005/09/01 20:55:49 tg Exp $
 
 COMMENT=		"SIP telephony (VoIP) client"
-CATEGORIES=		comms net
+CATEGORIES=		comms net voip
 _V=			0.12.2
 DISTNAME=		linphone-${_V}
 HOMEPAGE=		http://www.linphone.org/?lang=us
 MASTER_SITES=		http://simon.morlat.free.fr/download/${_V}/source/
-RESPONSIBLE=		Thorsten Glaser <tg@${_DOMAIN_DU_JOUR}>
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # GNU GPL
 PERMIT_DISTFILES_CDROM=	Yes
@@ -27,7 +27,7 @@ ERRORS+=		"Not yet."
 
 MODULES=		devel/gettext
 LIB_DEPENDS+=		ogg.5::audio/libogg \
-			fsmtl.9,osip.9::comms/libosip \
+			fsmtl.9,osip.9::voip/libosip \
 			gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib
 
 CONFIGURE_STYLE=	autoconf no-autoheader
