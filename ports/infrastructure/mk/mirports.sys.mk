@@ -1,13 +1,8 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.5 2005/09/01 21:08:32 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.6 2005/09/01 22:15:26 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
-# First, let's have a look at what the OS says.
-.ifndef	BSD_OWN_MK
-.  include <bsd.own.mk>
-.endif
-
-# But provide a consistent MirPorts behaviour.
+# Provide consistent MirPorts behaviour. (Sync with mirports.bsd.mk)
 DEBUGLIBS=		No
 DEBUGPROGS=		No
 
@@ -16,7 +11,6 @@ DEBUGPROGS=		No
 OSNAME!=		uname -s
 OSname=			${OSNAME:L}
 .endif
-PORTSDIR?=		/usr/ports
 
 # Do we have overrides?
 .if exists(${PORTSDIR}/infrastructure/mk/mirports.osdep.mk)
