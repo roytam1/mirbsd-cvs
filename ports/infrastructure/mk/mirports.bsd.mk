@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.3 2005/09/01 21:07:02 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.4 2005/09/01 21:08:32 tg Exp $
 #-
 # This file replaces <bsd.own.mk> as EXTRA_SYS_MK_INCLUDES
 # during MirPorts builds.
@@ -6,21 +6,15 @@
 .ifndef _MIRPORTS_BSD_MK
 _MIRPORTS_BSD_MK=1
 
-# If we have TRUEPREFIX, this is MirPorts; if DESTDIR is not
-# empty, there is no need to carry it around in PREFIX
-.if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
-PREFIX:=		${TRUEPREFIX}
+.if defined(TRUEPREFIX) && !empty(TRUEPREFIX)
+BSD_PREFIX=		${TRUEPREFIX}
+.elif defined(PREFIX) && !empty(PREFIX)
+BSD_PREFIX=		${PREFIX}
 .endif
 
-# MirMake uses BSD_PREFIX internally now
-BSD_PREFIX=		${PREFIX}
-
-# Now, system configuration. Sync this with <mirports.sys.mk>
-
-# First, get the defaults.
 .include <bsd.own.mk>
 
-# Second, override where necessary.
+# Override where necessary. Sync this with <mirports.sys.mk>
 DEBUGLIBS=		No
 DEBUGPROGS=		No
 
