@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/mirports.sys.mk,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+# $MirOS: ports/infrastructure/install/mirports.sys.mk,v 1.1.7.1.2.1 2005/08/21 10:38:00 tg Exp $
 #
 # To install use the provided ports/infrastructure/install/Setup.sh script.
 
@@ -8,9 +8,15 @@
 .  include <bsd.own.mk>
 .endif
 
-PORTSDIR?=	/usr/ports
+# Note these two are not necessarily coupled to each other
+# Also don't change the defaults; this is being done by Setup.sh
+PORTSDIR?=	/usr/ports	# Location of MirPorts Framework source
+LOCALBASE?=	/usr/mpkg	# Location of MirPorts Packages and DB
 
-# In case we are being used for "the other ports tree"...
+.if exists(${LOCALBASE}/db/SetEnv.make)
+.  include "${LOCALBASE}/db/SetEnv.make"
+.endif
+
 .if exists(${PORTSDIR}/infrastructure/mk/mirports.sys.mk)
 .  include "${PORTSDIR}/infrastructure/mk/mirports.sys.mk"
 .endif
