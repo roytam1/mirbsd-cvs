@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.8 2005/09/01 22:45:02 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.9 2005/09/01 22:58:45 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -95,26 +95,28 @@ MMAKE?=			${LOCALBASE}/bin/mmake
 HAS_TIMET64=		No
 FETCH_CMD=		/usr/bin/ftp -V -m
 
-.if ${OSrev} < 35
+.  if ${OSrev} < 35
 MODPERL_DESTDIR=	$${${DESTDIRNAME}}
 _SYSTRACE_ARGS=		-i -a
-.endif
+.  endif
 
-.if ${OSrev} < 36
+.  if ${OSrev} < 36
 HAS_DLADDR=		No
 _CKSUM_A=
 _GDIFFLAG=		NEED_GDIFF=yes
+.  endif
 .endif
 
 #---
 
 .if ${OStype} == "MirBSD"
 .  if ${OSrev} < 8
-	ERROR: operating system too old
-.  endif
-.  if (${OSrev} == 8) && (${OSrpl} < 40)
+.    error Operating System too old and unsupported.
+.  elif ${OSrev} == 8
+.    if ${OSrpl} < 40
 HAS_CXX=		reason
 NO_CXX=			C++ is still broken, please update
+.    endif
 .  endif
 .endif
 
