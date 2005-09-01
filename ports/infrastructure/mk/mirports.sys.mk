@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.6 2005/09/01 22:15:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.7 2005/09/01 22:31:01 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -12,17 +12,91 @@ OSNAME!=		uname -s
 OSname=			${OSNAME:L}
 .endif
 
-# Do we have overrides?
-.if exists(${PORTSDIR}/infrastructure/mk/mirports.osdep.mk)
-.  include "${PORTSDIR}/infrastructure/mk/mirports.osdep.mk"
+#--- Specific OS Dependencies
+
+.if ${OStype} == "Darwin"
+MACHINE_OS=		Darwin
+OSREV!=			uname -r
+OSrev=			${OSREV:S/./_/g:S/_0$//}
+
+NOPIC=			No	# XXX
+LDCONFIG=
+_CKSUM_A=
+HAS_TIMET64=		No
+USE_SYSTRACE=		No
+MMAKE?=			${LOCALBASE}/bin/mmake
+FETCH_CMD?=		/usr/bin/ftp
+TAR=			${LOCALBASE}/bin/tar
+UNZIP=			/usr/bin/unzip
+BZIP2=			/usr/bin/bzip2
+CHOWN=			/usr/sbin/chown
+M4?=			/usr/bin/gm4
 .endif
 
-.if ${OSNAME} == "MirBSD"
+#---
+
+.if ${OStype} == "Interix"
+MACHINE_OS=		Interix
+OStype=			Interix
+
+# Use a better working resolver
+CPPFLAGS+=		-I/usr/local/include/bind
+
+HAS_TIMET64=		No
+USE_SYSTRACE=		No
+MMAKE?=			${LOCALBASE}/bin/make
+UNZIP=			/usr/contrib/bin/unzip
+CHOWN=			/bin/chown
+_MAKE_COOKIE=		/bin/touch
+GZIP_CMD=		/usr/contrib/bin/gzip -nf ${GZIP}
+GZCAT?=			/usr/contrib/bin/gzip -dc
+SETENV?=		/usr/bin/env -i LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
+
+.  ifndef BOOTSTRAP	# Install these first
+_CKSUM_A=		${LOCALBASE}/bin/cksum -a
+M4=			${LOCALBASE}/bin/gm4
+FETCH_CMD?=		${LOCALBASE}/bin/wget
+TAR=			${LOCALBASE}/bin/tar
+.  else			# Half-working versions
+TAR=			/bin/tar
+.  endif
+.endif
+
+#---
+
+.if ${OStype} == "OpenBSD"
+MACHINE_OS=		BSD
+MKC_USAP?=		Yes
+PKG_ARGS_ADD+=		-Z
+PKG_SUFX=		.tgz
+MMAKE?=			${LOCALBASE}/bin/mmake
+HAS_TIMET64=		No
+FETCH_CMD=		/usr/bin/ftp -V -m
+
+.if ${OSrev} < 35
+MODPERL_DESTDIR=	$${${DESTDIRNAME}}
+_SYSTRACE_ARGS=		-i -a
+.endif
+
+.if ${OSrev} < 36
+HAS_DLADDR=		No
+_CKSUM_A=
+_GDIFFLAG=		NEED_GDIFF=yes
+.endif
+
+#---
+
+.if ${OStype} == "MirBSD"
+.  if ${OSrev} < 8
+	ERROR: operating system too old
+.  endif
 .  if (${OSrev} == 8) && (${OSrpl} < 40)
 HAS_CXX=		reason
 NO_CXX=			C++ is still broken, please update
 .  endif
 .endif
+
+#--- End of OS Dependencies
 
 # Let's assume a sane environment now.
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
@@ -52,10 +126,7 @@ USE_SCHILY?=		No
 USE_SYSTRACE?=		Yes
 USE_X11?=		No
 
-# mirports.osdep.mk is expected to provide these variables
-# (where they differ from defaults); only fill in changes.
 # this is supposed to be alphabetically supported.
-AUTOCONF_FAKEOS?=	${ARCH}-ecce-openbsd${OScompat}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX?=		base
 HAS_DLADDR?=		Yes
@@ -69,7 +140,7 @@ _CKSUM_A?=		cksum -a
 _GDIFFLAG?=
 OSREV?=			${OSrev}
 
-# former pkgpath.mk
+#--- former pkgpath.mk
 
 .ifndef	PKGPATH
 _PORTSDIR!=		readlink -nf ${PORTSDIR}
