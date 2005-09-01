@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.15 2005/06/09 22:12:12 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.16 2005/07/12 11:18:13 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -26,6 +26,7 @@ echo version=$version >$wd/Version.sh
 cd $wd/..
 rm -rf src
 cvs -Rqd ${CVSROOT:-/cvs} co -PA \
+    contrib/gnu/config/config.guess \
     src/usr.bin/make src/usr.bin/mkdep src/usr.bin/lorder \
     src/usr.bin/readlink src/usr.bin/tsort src/usr.bin/xinstall \
     src/include/getopt.h src/include/ohash.h src/include/sysexits.h \

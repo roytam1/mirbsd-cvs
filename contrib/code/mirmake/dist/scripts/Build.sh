@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.45 2005/08/21 11:56:04 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.46 2005/08/21 12:15:22 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -141,6 +141,11 @@ else
 	bingrp=$new_binids
 fi
 
+if ! gnuos=$($SHELL $top/dist/contrib/gnu/config/config.guess); then
+	print -u2 Please report also to the MirMake maintainers.
+	exit 1
+fi
+
 mkdir -p $d_build/mk $d_build/F
 
 sed_exp="-e 's#@@machine@@#${new_machin}#g' \
@@ -151,6 +156,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@shmk@@#${dt_mk}#g' \
 	 -e 's#@@ccom@@#${CC}#g' \
 	 -e 's#@@nroff@@#${NROFF}#g' \
+	 -e 's#@@gnuos@@#${gnuos}#g' \
 	 -e 's#@@vers@@#${version}#g' \
 	 -e 's#@@obfm@@#${_obfm}#g' \
 	 -e 's#@@rtld@@#${_rtld}#g' \
