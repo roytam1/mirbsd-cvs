@@ -1,0 +1,162 @@
+.TH SIRC 1 "" "Roger Espel Llima"
+.SH NAME
+sirc \- an IRC client in perl
+.SH SYNOPSIS
+.B sirc
+[options] [nickname [server]]
+.SH OPTIONS
+.TP
+.BR "-d"
+Starts
+.B sirc
+in dumb mode (without the full-screen front-end).
+.TP
+.BR "-p \fI<port>\fR"
+Specifies the port number to connect to.
+.TP
+.BR "-i \fI<name>\fR"
+Specifies the IRCNAME to use (the default being ``sirc user'').
+.TP
+.BR "-n \fI<nick>\fR"
+Sets the nickname.
+.TP
+.BR "-s \fI<server>\fR"
+Sets the server that 
+.B sirc
+should connect to.
+.TP
+.BR "-l \fI<filename>\fR"
+Specifies a file to be loaded instead of ~/.sircrc.pl.
+.TP
+.BR "-L \fI<filename>\fR"
+Specifies a file of commands to run, instead of ~/.sircrc.
+.TP
+.BR "-H \fI<hostname>\fR"
+Specifies a hostname to bind to, as a virtual host.
+.TP
+.BR "-q"
+Doesn't load ~/.sircrc.pl or the system-wide sircrc.pl.
+.TP
+.BR "-Q"
+Doesn't run commands from ~/.sircrc or the system-wide sircrc.
+.TP
+.BR "-R"
+Runs in restricted mode (no shell access, no access to files).
+.TP
+.BR "-8"
+Runs in eight-bit mode, not stripping iso-latin-1 accented characters.
+.SH ARGUMENTS
+.TP
+.BR "nickname"
+Specifies the nickname to use on IRC.  The default is taken from
+the environment variables SIRCNAME or IRCNAME.
+.TP 
+.BR "server"
+Specifies the IRC server to connect to; an optional port and connection
+password can be given in the form \fIserver.host\fR:\fIport\fR:\fIpasswd\fR.
+
+.SH DESCRIPTION
+.B sirc
+is an IRC client that is designed to act much like ircII, except for
+the scripting interface, which uses perl.
+.PP
+All IRC commands start with a /, and a detailed description of them is given by
+the command /help.  
+.PP
+The standard IRC commands that
+.B sirc 
+recognizes are:
+.PP
+.RS 5
+ADMIN, ALIAS, AWAY, BYE, CD, CLEAR, CONNECT, CTCP, DCC, DESCRIBE, DIE,
+EVAL, EXIT, HELP, IGNORE, INFO, INVITE, JOIN, KICK, KILL, LEAVE, LINKS,
+LIST, LOAD, LUSERS, MAP, ME, MODE, MOTD, MSG, NAMES, NICK, NOTE, NOTICE,
+NOTIFY, OPER, QUERY, PART, PING, QUERY, QUIT, QUOTE, RPING, SAY, SERVER,
+SET, SIGNOFF, SILENCE, SQUIT, STATS, TIME, TOPIC, TRACE, UPING,
+USERHOST, USERS, VERSION, WALLOPS, WHO, WHOIS, WHOWAS.
+.RE
+.PP
+In addition, 
+.B sirc
+understands these shortcuts and additional commands, which are also
+described in the /help:
+.PP
+.RS 5
+CL, D, DEOP, DE, HOP, IG, I, INV, J, K, LL, M, MO, N, NEXT, NO, O, OP, P,
+SYSTEM, T, UMODE, W, WI
+.RE
+.PP
+For general information about IRC, please look at http://www.irchelp.org/.
+
+.SH COPYING
+.B sirc
+is free software. You can redistribute it and/or modify it under the GNU
+General Public License as published by the Free Software Foundation.  See
+the file LICENSE for details.
+
+.SH SEE ALSO
+.BR ssfe (1),
+.BR irc (1),
+.BR ircd (8),
+.BR talk (1),
+.BR ytalk (1)
+
+.SH FILES
+.TP
+.BR "~/.sircrc"
+user commands to run on startup.
+.TP
+.BR "~/.sircrc.pl"
+perl script to load on startup.
+.TP
+.BR "~/.sirc"
+directory where sirc looks for files to load with the /LOAD command.
+.TP
+.BR "README"
+information about sirc, installing and using it.
+.TP
+.BR "PROGRAMMING"
+information about how to use perl to make scripts for sirc.
+
+.SH ENVIRONMENT VARIABLES
+.TP
+.BR "SSFE"
+options to pass to 
+.B ssfe
+(see also
+.BR ssfe (1))
+.TP
+.BR "SIRCSERVER, IRCSERVER"
+default server to connect to.
+.TP
+.BR "SIRCPORT, IRCPORT"
+default port to connect to.
+.TP
+.BR "SIRCNAME, IRCNAME"
+default IRCNAME to use; this is usually your name or a quote.
+.TP
+.BR "SIRCNICK, IRCNICK"
+default nickname to use.
+.TP
+.BR "SIRCRC"
+location of your .sircrc file; defaults to ~/.sircrc.
+.TP
+.BR "SIRCRCPL"
+location of your .sircrc.pl file; defaults to ~/.sircrc.pl.
+.TP
+.BR "IRCFINGER"
+default reply to CTCP FINGERs.
+.TP
+.BR "USERINFO
+default reply to CTCP USERINFOs.
+.TP
+.BR "SIRCHOST, IRCHOST, LOCALHOST"
+hostname to bind to, for hosts with  multiple (virtual) addresses.
+
+.SH BUGS
+None known, please report to the author.
+
+.SH AUTHOR
+.B sirc
+was written by Roger Espel Llima <roger.espel.llima@pobox.com>. 
+
