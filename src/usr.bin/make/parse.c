@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS$ */
 /*	$OpenBSD: parse.c,v 1.69 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: parse.c,v 1.29 1997/03/10 21:20:04 christos Exp $	*/
 
@@ -789,7 +789,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 		 * Dir module could have added a directory to the path...
 		 */
 		LIST	    emptyPath;
-		LIST	    curTargs;	/* list of target names to be found 
+		LIST	    curTargs;	/* list of target names to be found
 					 * and added to the targets list */
 
 		Lst_Init(&emptyPath);
@@ -1242,7 +1242,7 @@ ParseConditionalInclude(char *file)/* file specification */
 
 /* Common part to lookup and read an include file.  */
 static void
-ParseLookupIncludeFile(char *spec, char *endSpec, bool isSystem, 
+ParseLookupIncludeFile(char *spec, char *endSpec, bool isSystem,
     bool errIfNotFound)
 {
     char *file;
@@ -1299,7 +1299,7 @@ ParseLookupIncludeFile(char *spec, char *endSpec, bool isSystem,
 
     if (fullname == NULL && errIfNotFound)
 	    Parse_Error(PARSE_FATAL, "Could not find %s", file);
-	
+
 
     free(file);
 
@@ -1416,6 +1416,12 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 	Var_Delete(line);
 	return true;
     }
+    case COND_ISUERR:
+	line += 5;
+	while (*line != '\0' && isspace(*line))
+		++line;
+	Parse_Error(PARSE_FATAL, "Aborting: %s", line);
+	return true;
     default:
 	break;
     }
@@ -1486,7 +1492,7 @@ Parse_File(
 		stripped = strip_comments(&copy, line);
 		if (*stripped == '.' && ParseIsCond(&buf, &copy, stripped+1))
 		    ;
-		else if (FEATURES(FEATURE_SYSVINCLUDE) && 
+		else if (FEATURES(FEATURE_SYSVINCLUDE) &&
 		    strncmp(stripped, "include", 7) == 0 &&
 		    isspace(stripped[7]) &&
 		    strchr(stripped, ':') == NULL) {
@@ -1494,7 +1500,7 @@ Parse_File(
 			ParseTraditionalInclude(stripped + 7);
 		} else if (FEATURES(FEATURE_CONDINCLUDE) &&
 		    (*stripped == '-' || *stripped == 's') &&
-		    strncmp(stripped+1, "include", 7) == 0 && 
+		    strncmp(stripped+1, "include", 7) == 0 &&
 		    isspace(stripped[8]) &&
 		    strchr(stripped, ':') == NULL) {
 		    	ParseConditionalInclude(stripped+8);
@@ -1568,7 +1574,7 @@ Parse_Init(void)
     Static_Lst_Init(sysIncPath);
     Array_Init(&gsources, SOURCES_SIZE);
     Array_Init(&gtargets, TARGETS_SIZE);
-    
+
     LowParse_Init();
 #ifdef CLEANUP
     Static_Lst_Init(&targCmds);
@@ -1601,4 +1607,3 @@ Parse_MainName(Lst listmain)	/* result list */
     else
 	Lst_AtEnd(listmain, mainNode);
 }
-
