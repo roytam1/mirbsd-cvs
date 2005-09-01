@@ -1,4 +1,26 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.7 2005/09/01 22:31:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.8 2005/09/01 22:45:02 tg Exp $
+#-
+# Copyright (c) 2005
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#
+# Licensee is hereby permitted to deal in this work without restric-
+# tion, including unlimited rights to use, publicly perform, modify,
+# merge, distribute, sell, give away or sublicence, provided all co-
+# pyright notices above, these terms and the disclaimer are retained
+# in all redistributions or reproduced in accompanying documentation
+# or other materials provided with binary redistributions.
+#
+# All advertising materials mentioning features or use of this soft-
+# ware must display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
+#
+# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+# any kind, expressed or implied, to the maximum extent permitted by
+# applicable law, but with the warranty of being written without ma-
+# licious intent or gross negligence; in no event shall licensor, an
+# author or contributor be held liable for any damage, direct, indi-
+# rect or other, however caused, arising in any way out of the usage
+# of this work, even if advised of the possibility of such damage.
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -98,15 +120,27 @@ NO_CXX=			C++ is still broken, please update
 
 #--- End of OS Dependencies
 
-# Let's assume a sane environment now.
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
-ARCH?=			${MACHINE_ARCH}
-NOPIC_PLATFORMS?=
-LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
-MKSH?=			/bin/mksh	# path to mirbsdksh
-MMAKE?=			/usr/bin/make	# path to mirmake
 SHELL=			${MKSH}		# missing ? not an oversight
-# assume osdep provides MACHINE_OS, OStype, OStriplet, OBJECT_FMT etc.
+
+# this is supposed to be alphabetically supported.
+ARCH?=			${MACHINE_ARCH}
+FETCH_CMD?=		/usr/bin/ftp -EV -m
+HAS_CXX?=		base
+HAS_DLADDR?=		Yes
+HAS_TIMET64?=		No
+LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
+MKC_USAP?=		No
+MKSH?=			/bin/mksh
+MMAKE?=			/usr/bin/make
+MODPERL_DESTDIR?=
+NOPIC_PLATFORMS?=
+OSREV?=			${OSrev}
+PKG_ARGS_ADD?=
+PKG_SUFX?=		.cgz
+_CKSUM_A?=		cksum -a
+_GDIFFLAG?=
+_SYSTRACE_ARGS?=	-i -a -e
 
 .if defined(NOPIC) && ${NOPIC:L} != "no"
 NO_SHARED_LIBS?=	Yes
@@ -125,20 +159,6 @@ USE_MOTIF?=		No
 USE_SCHILY?=		No
 USE_SYSTRACE?=		Yes
 USE_X11?=		No
-
-# this is supposed to be alphabetically supported.
-FETCH_CMD?=		/usr/bin/ftp -EV -m
-HAS_CXX?=		base
-HAS_DLADDR?=		Yes
-HAS_TIMET64?=		No
-MKC_USAP?=		No
-MODPERL_DESTDIR?=
-PKG_ARGS_ADD?=
-PKG_SUFX?=		.cgz
-_SYSTRACE_ARGS?=	-i -a -e
-_CKSUM_A?=		cksum -a
-_GDIFFLAG?=
-OSREV?=			${OSrev}
 
 #--- former pkgpath.mk
 
