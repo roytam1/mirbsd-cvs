@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.14 2005/08/21 18:56:55 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.15 2005/08/21 19:02:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -28,8 +28,8 @@
 
 # Constants
 
-localbase=/usr/mpkg
-xfbase=/usr/X11R6
+test -d ${localbase:-/nonexist} || localbase=/usr/mpkg
+test -d ${xfbase:-/nonexist} || xfbase=/usr/X11R6
 # ... in case we have XFree86(R) as a port
 test -r $localbase/X11/include/X11/X.h && xfbase=$localbase/X11
 test -f $localbase/X11/bin/xterm && xfbase=$localbase/X11
@@ -95,9 +95,11 @@ else
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
 	PATH=$p; export $PATH
 
+	export LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
 	case :$LD_LIBRARY_PATH: in
 	*:$localbase/lib:*) ;;
 	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH
+		LD_LIBRARY_PATH=${LD_LIBRARY_PATH%:}
 		export LD_LIBRARY_PATH
 		;;
 	esac
@@ -157,7 +159,7 @@ if test $isinterix = yes; then
 	# Check for nroff
 	test -f /usr/bin/nroff || \
 	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
-	    /bin/ksh $ourpath/setup.ksh -i
+	    /bin/ksh $ourpath/setup.ksh -i "$@"
 	if test ! -f /usr/bin/nroff; then
 		echo Cannot install nroff >&2
 		exit 1
