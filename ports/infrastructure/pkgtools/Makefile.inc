@@ -1,24 +1,18 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.7.2.1 2005/08/21 11:17:54 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.7.2.2 2005/08/21 11:56:43 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
 _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC=1
 
-# Where MirPorts live
-LOCALBASE?=	/usr/mpkg
+LOCALBASE?=	/usr/mpkg	# overridden by setup.ksh
+PKG_DB_DIR?=	${LOCALBASE}/db	# path for package databases, etc.
+				# can also be overridden by environment
+BSD_PREFIX?=	${LOCALBASE}	# path for binaries, man page, etc.
+				# usually not overridden
 
-# Where we live
-PREFIX?=	${LOCALBASE}
-# Where we place our database
-DB_DIR?=	${LOCALBASE}/db
-
-
-BINDIR=		${PREFIX}/sbin
-.if ${PREFIX} == "/usr"
-MANDIR=		${PREFIX}/share/man/cat
-.else
-MANDIR=		${PREFIX}/man/cat
-.endif
+BINDIR=		${BSD_PREFIX}/sbin
+CPPFLAGS+=	-D_PATH_REFCNTDB=\"${PKG_DB_DIR}/shareddirs.db\"
+CPPFLAGS+=	-DDEF_LOG_DIR=\"${PKG_DB_DIR}/pkg\"
 
 .if ${OStype} != "MirBSD"
 PORTABLE=	Yes
@@ -26,15 +20,12 @@ PORTABLE=	Yes
 
 .if (${OStype} == "Darwin") || (${OStype} == "Interix")
 CPPFLAGS+=	-I${.SYSMK}
-LDADD+=		-L\${.SYSMK} -lmirmake
+LDADD+=		-L${.SYSMK} -lmirmake
 .endif
 
 .if ${OStype} == "Interix"
 LDADD+=		-ldb
 .endif
-
-CPPFLAGS+=	-D_PATH_REFCNTDB=\"${DB_DIR}/shareddirs.db\"
-CPPFLAGS+=	-DDEF_LOG_DIR=\"${DB_DIR}/pkg\"
 
 PORTABLE?=	no
 .if ${PORTABLE:L} != "yes"
