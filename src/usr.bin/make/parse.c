@@ -1,8 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/parse.c,v 1.2 2005/09/01 23:14:22 tg Exp $ */
 /*	$OpenBSD: parse.c,v 1.69 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: parse.c,v 1.29 1997/03/10 21:20:04 christos Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1999 Marc Espie.
  *
  * Extensive code changes for the OpenBSD project.
@@ -1420,7 +1421,12 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 	line += 5;
 	while (*line != '\0' && isspace(*line))
 		++line;
-	Parse_Error(PARSE_FATAL, "Aborting: %s", line);
+	{
+		char *t = Var_Subst(line, NULL, false);
+		Parse_Error(PARSE_FATAL, "Aborting: %s", t ? t : line);
+		if (t)
+			free(t);
+	}
 	return true;
     default:
 	break;
