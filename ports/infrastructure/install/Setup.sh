@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.15 2005/08/21 19:02:55 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.16 2005/09/01 21:57:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -95,14 +95,17 @@ else
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
 	PATH=$p; export $PATH
 
-	export LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
+	LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
+	case :$LD_LIBRARY_PATH: in
+	*:$xfbase/lib:*) ;;
+	*)	LD_LIBRARY_PATH=$xfbase/lib:$LD_LIBRARY_PATH ;;
+	esac
 	case :$LD_LIBRARY_PATH: in
 	*:$localbase/lib:*) ;;
-	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH
-		LD_LIBRARY_PATH=${LD_LIBRARY_PATH%:}
-		export LD_LIBRARY_PATH
-		;;
+	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH ;;
 	esac
+	LD_LIBRARY_PATH=${LD_LIBRARY_PATH%%+(:)}
+	export LD_LIBRARY_PATH LD_LIBRARY_PATH_ORG
 fi
 
 # Where are we?
