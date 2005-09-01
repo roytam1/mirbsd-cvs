@@ -1,13 +1,13 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.1.7.1 2005/03/18 15:49:04 tg Exp $
-# $OpenBSD: Makefile,v 1.7 2004/02/20 23:51:29 pvalchev Exp $
+# $MirOS$
 
-COMMENT=	"programmable small perl irc client (utf-8, IPv6)"
-CATEGORIES=	net
-DISTNAME=	sirc-2.211
-PKGNAME=	${DISTNAME}p11
-MASTER_SITES=	http://www.iagora.com/~espel/sirc/
-RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
-HOMEPAGE=	http://www.iagora.com/~espel/sirc/sirc.html
+COMMENT=		"programmable small perl irc client (utf-8, IPv6 ready)"
+CATEGORIES=		net
+DIST_NAME=		sirc
+DIST_DATE=		20050901
+#PKGNAME=		${DIST_NAME}-1:${DIST_DATE}-0
+DIST_SOURCE=		port
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+HOMEPAGE=		http://www.iagora.com/~espel/sirc/sirc.html
 
 # GNU GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
@@ -15,27 +15,25 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-RUN_DEPENDS=		:p5-Socket6->=0.08:net/p5-Socket6
+RUN_DEPENDS=		:p5-Socket6->=0.08:net/p5-Socket6 \
+			:ssfe-*:comms/ssfe
 
-post-extract:
-	@cp ${FILESDIR}/Makefile ${WRKSRC}/
+SCRIPTS=		dsircp sirc
+MANS=			sirc.1
+DATADIR=		${PREFIX}/share/sirc
+DATA=			PROGRAMMING README README.socks n0thing.pl \
+			sirc.help socks.pl
 
-pre-patch:
-	@gzip -d ${WRKSRC}/sirc.help.gz
-
-post-patch:
-	@sed s!PREFIX.SED!${PREFIX}!g ${FILESDIR}/sirc-script >${WRKSRC}/sirc
-	@sed s!PREFIX.SED!${PREFIX}!g ${WRKSRC}/dsirc >${WRKSRC}/dsircp
+do-build:
+.for _i in ${SCRIPTS}
+	@cd ${WRKSRC}; f=$$(readlink -nf ${_i}); rm -f ${_i} && cp $$f ${_i}
+	print '%g#@PREFIX@#s##${PREFIX}#g\nwq' | ed -s ${WRKSRC}/${_i}
+.endfor
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/ssfe ${PREFIX}/bin/
-	${INSTALL_SCRIPT} ${WRKSRC}/sirc ${WRKSRC}/dsircp \
-	    ${PREFIX}/bin/
-	${INSTALL_MAN} ${WRKSRC}/sirc.1 ${WRKSRC}/ssfe.1 \
-	    ${PREFIX}/man/man1/
-	${INSTALL_DATA_DIR} ${PREFIX}/share/sirc
-	${INSTALL_DATA} ${WRKSRC}/sirc.help ${WRKSRC}/PROGRAMMING \
-	    ${WRKSRC}/README ${WRKSRC}/README.socks ${WRKSRC}/n0thing.pl \
-	    ${PREFIX}/share/sirc/
+	${INSTALL_DATA_DIR} ${DATADIR}
+	cd ${WRKSRC} && ${INSTALL_SCRIPT} ${SCRIPTS} ${PREFIX}/bin/
+	cd ${WRKSRC} && ${INSTALL_MAN} ${MANS} ${PREFIX}/man/man1/
+	cd ${WRKSRC} && ${INSTALL_DATA} ${DATA} ${DATADIR}/
 
 .include <bsd.port.mk>

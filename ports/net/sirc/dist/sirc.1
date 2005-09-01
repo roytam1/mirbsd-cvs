@@ -1,4 +1,4 @@
-.TH SIRC 1 "" "Roger Espel Llima"
+.TH SIRC 1 "" "Roger Espel Llima" "BSD Reference Manual"
 .SH NAME
 sirc \- an IRC client in perl
 .SH SYNOPSIS
@@ -15,42 +15,56 @@ in dumb mode (without the full-screen front-end).
 Specifies the port number to connect to.
 .TP
 .BR "-i \fI<name>\fR"
-Specifies the IRCNAME to use (the default being ``sirc user'').
+Specifies the IRCNAME to use (the default being "sirc user").
 .TP
 .BR "-n \fI<nick>\fR"
 Sets the nickname.
 .TP
 .BR "-s \fI<server>\fR"
-Sets the server that 
+Sets the server that
 .B sirc
 should connect to.
 .TP
 .BR "-l \fI<filename>\fR"
-Specifies a file to be loaded instead of ~/.sircrc.pl.
+Specifies a file to be loaded instead of ~/.etc/sircrc.pl.
 .TP
 .BR "-L \fI<filename>\fR"
-Specifies a file of commands to run, instead of ~/.sircrc.
+Specifies a file of commands to run, instead of ~/.etc/sircrc.
 .TP
 .BR "-H \fI<hostname>\fR"
 Specifies a hostname to bind to, as a virtual host.
 .TP
 .BR "-q"
-Doesn't load ~/.sircrc.pl or the system-wide sircrc.pl.
+Doesn't load ~/.etc/sircrc.pl or the system-wide sircrc.pl.
 .TP
 .BR "-Q"
-Doesn't run commands from ~/.sircrc or the system-wide sircrc.
+Doesn't run commands from ~/.etc/sircrc or the system-wide sircrc.
 .TP
 .BR "-R"
 Runs in restricted mode (no shell access, no access to files).
 .TP
-.BR "-8"
-Runs in eight-bit mode, not stripping iso-latin-1 accented characters.
+.BR "-7"
+Runs in seven-bit mode, stripping iso-8859-1 and utf-8 accented characters.
+.TP
+.BR "-U"
+Disables the automatic conversion from iso-8859-1 on the local terminal
+to utf-8 on the wire, and, vice versa, iso-8859-1, iso-8859-15, windows-1252
+and utf-8 on the wire to iso-8859-1 on the local terminal.
+The input is still tried to be parsed as utf-8 first.
+.TP
+.BR "-C \fI<charset>\fR"
+Sets the local character set from iso-8859-1 (see the \fB-U\fR option above)
+to \fIcharset\fR.
+Supported charsets are listed in Encode(3p).
+.TP
+.BR "-X"
+Sets the local character set (see the \fB-C\fR option above) to UTF-8.
 .SH ARGUMENTS
 .TP
 .BR "nickname"
 Specifies the nickname to use on IRC.  The default is taken from
 the environment variables SIRCNAME or IRCNAME.
-.TP 
+.TP
 .BR "server"
 Specifies the IRC server to connect to; an optional port and connection
 password can be given in the form \fIserver.host\fR:\fIport\fR:\fIpasswd\fR.
@@ -61,10 +75,10 @@ is an IRC client that is designed to act much like ircII, except for
 the scripting interface, which uses perl.
 .PP
 All IRC commands start with a /, and a detailed description of them is given by
-the command /help.  
+the command /help.
 .PP
 The standard IRC commands that
-.B sirc 
+.B sirc
 recognizes are:
 .PP
 .RS 5
@@ -76,23 +90,17 @@ SET, SIGNOFF, SILENCE, SQUIT, STATS, TIME, TOPIC, TRACE, UPING,
 USERHOST, USERS, VERSION, WALLOPS, WHO, WHOIS, WHOWAS.
 .RE
 .PP
-In addition, 
+In addition,
 .B sirc
 understands these shortcuts and additional commands, which are also
 described in the /help:
 .PP
 .RS 5
 CL, D, DEOP, DE, HOP, IG, I, INV, J, K, LL, M, MO, N, NEXT, NO, O, OP, P,
-SYSTEM, T, UMODE, W, WI
+Q, SYSTEM, T, UMODE, W, WI
 .RE
 .PP
 For general information about IRC, please look at http://www.irchelp.org/.
-
-.SH COPYING
-.B sirc
-is free software. You can redistribute it and/or modify it under the GNU
-General Public License as published by the Free Software Foundation.  See
-the file LICENSE for details.
 
 .SH SEE ALSO
 .BR ssfe (1),
@@ -103,13 +111,13 @@ the file LICENSE for details.
 
 .SH FILES
 .TP
-.BR "~/.sircrc"
+.BR "~/.etc/sircrc"
 user commands to run on startup.
 .TP
-.BR "~/.sircrc.pl"
+.BR "~/.etc/sircrc.pl"
 perl script to load on startup.
 .TP
-.BR "~/.sirc"
+.BR "~/.etc/sirc"
 directory where sirc looks for files to load with the /LOAD command.
 .TP
 .BR "README"
@@ -121,10 +129,15 @@ information about how to use perl to make scripts for sirc.
 .SH ENVIRONMENT VARIABLES
 .TP
 .BR "SSFE"
-options to pass to 
+options to pass to
 .B ssfe
 (see also
 .BR ssfe (1))
+.TP
+.BR "SIRCOPTS"
+options to pass to the
+.B dsircp
+script.
 .TP
 .BR "SIRCSERVER, IRCSERVER"
 default server to connect to.
@@ -139,10 +152,10 @@ default IRCNAME to use; this is usually your name or a quote.
 default nickname to use.
 .TP
 .BR "SIRCRC"
-location of your .sircrc file; defaults to ~/.sircrc.
+location of your .sircrc file; defaults to ~/.etc/sircrc.
 .TP
 .BR "SIRCRCPL"
-location of your .sircrc.pl file; defaults to ~/.sircrc.pl.
+location of your .sircrc.pl file; defaults to ~/.etc/sircrc.pl.
 .TP
 .BR "IRCFINGER"
 default reply to CTCP FINGERs.
@@ -158,5 +171,7 @@ None known, please report to the author.
 
 .SH AUTHOR
 .B sirc
-was written by Roger Espel Llima <roger.espel.llima@pobox.com>. 
-
+was written by Roger Espel Llima <roger.espel.llima@pobox.com>.
+IPv6 support was added by Hubert Feyrer <hubertf@netbsd.org>.
+UTF-8 support, later charset support, and optimizations
+were applied for \fBMirOS BSD\fR by Thorsten Glaser <tg@66h.42h.de>.
