@@ -1,10 +1,6 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.3 2005/04/28 20:33:06 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.4 2005/06/09 20:21:21 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
-#-
-# Largely improved support for GNU stuff, including automatic
-# conversion to MirLibtool.
 
-# Variables
 AUTOCONF_NEW?=		No
 .if ${AUTOCONF_NEW:L} == "yes"
 AUTOCONF_VERSION?=	2.59
