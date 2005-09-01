@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.1 2005/09/01 21:57:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -101,14 +101,17 @@ else
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
 	PATH=$p; export $PATH
 
-	export LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
+	LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
+	case :$LD_LIBRARY_PATH: in
+	*:$xfbase/lib:*) ;;
+	*)	LD_LIBRARY_PATH=$xfbase/lib:$LD_LIBRARY_PATH ;;
+	esac
 	case :$LD_LIBRARY_PATH: in
 	*:$localbase/lib:*) ;;
-	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH
-		LD_LIBRARY_PATH=${LD_LIBRARY_PATH%:}
-		export LD_LIBRARY_PATH
-		;;
+	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH ;;
 	esac
+	LD_LIBRARY_PATH=${LD_LIBRARY_PATH%%+(:)}
+	export LD_LIBRARY_PATH LD_LIBRARY_PATH_ORG
 fi
 
 # Check some stuff
