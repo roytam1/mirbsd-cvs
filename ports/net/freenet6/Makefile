@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/freenet6/Makefile,v 1.1.7.1 2005/03/18 15:48:18 tg Exp $
 
 COMMENT=	"Freenet6 IPv6 Tunnel Broker Client"
 NO_REGRESS=	Yes
@@ -36,14 +36,14 @@ do-install:
 	cd ${WRKSRC} && ${MAKE} install target=mirbsd installdir=${PREFIX}
 	$(STRIP) ${PREFIX}/bin/tspc
 .for i in $(BINFILES)
-	chmod 555 ${PREFIX}/$i; chown root:bin ${PREFIX}/$i
+	chmod ${BINMODE} ${PREFIX}/$i; chown ${BINOWN}:${BINGRP} ${PREFIX}/$i
 .endfor
 .for i in $(DATAFILES)
 	mv ${PREFIX}/$i ${PREFIX}/${i}.fake
 	sed 's#^tsp_dir=.*$$#tsp_dir=${TSPDIR}#' \
 		<${PREFIX}/$i.fake \
 		>${PREFIX}/$i; 
-	chmod 600 ${PREFIX}/$i; chown root:bin ${PREFIX}/$i
+	chmod 600 ${PREFIX}/$i; chown ${BINOWN}:${BINGRP} ${PREFIX}/$i
 .endfor
 
 .include <bsd.port.mk>
