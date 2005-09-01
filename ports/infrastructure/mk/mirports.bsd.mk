@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.2 2005/08/28 18:59:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.3 2005/09/01 21:07:02 tg Exp $
 #-
 # This file replaces <bsd.own.mk> as EXTRA_SYS_MK_INCLUDES
 # during MirPorts builds.
@@ -15,7 +15,7 @@ PREFIX:=		${TRUEPREFIX}
 # MirMake uses BSD_PREFIX internally now
 BSD_PREFIX=		${PREFIX}
 
-# Now, system configuration.
+# Now, system configuration. Sync this with <mirports.sys.mk>
 
 # First, get the defaults.
 .include <bsd.own.mk>
