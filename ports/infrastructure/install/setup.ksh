@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.1 2005/09/01 21:57:43 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.2 2005/09/01 21:59:46 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,7 +29,9 @@ me=$(basename $0)
 
 function usage
 {
-	print -u2 "Syntax: $me [-u|-U user[:group]]] [-l localbase] [-X xfbase]"
+	print -u2 "Syntax: $me [-u|-U user[:group]]] [-e|-E sysconfdir]"
+	print -u2 "\t[-l localbase] [-X xfbase]"
+	print -u2 "  -e\tset sysconfdir (default /etc; -e: \$localbase/etc)"
 	print -u2 "  -u\tinstall as user (default root:bin except on Interix)"
 	exit 1
 }
@@ -48,9 +50,12 @@ if [[ $interix = yes ]]; then
 else
 	user=root:bin
 fi
+etc=/etc
 iopt=0
-while getopts "il:U:uX:" opt; do
+while getopts "E:eil:U:uX:" opt; do
 	case $opt {
+	(E)	etc=$OPTARG ;;
+	(e)	etc=@LOCALBASE@/etc ;;
 	(i)	iopt=1 ;;
 	(l)	localbase=$OPTARG ;;
 	(U)	user=$OPTARG ;;
@@ -62,6 +67,7 @@ done
 shift $((OPTIND - 1))
 
 [[ $isinterix = yes ]] && LD_LIBRARY_PATH=$LD_LIBRARY_PATH_ORG
+[[ $etc = @LOCALBASE@* ]] && etc=$localbase${etc#@LOCALBASE@}
 
 # Divine paths again (copied from Setup.sh)
 if test $isinterix = no; then
