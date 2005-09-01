@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.3 2005/08/21 12:41:20 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.4 2005/08/21 12:47:09 tg Exp $
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -9,6 +9,7 @@
 
 # But provide a consistent MirPorts behaviour.
 DEBUGLIBS=		No
+DEBUGPROGS=		No
 
 # Basic defaults.
 .ifndef	OSname
