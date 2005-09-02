@@ -12,7 +12,7 @@ PREFIX?=	${LOCALBASE}
 .if ${OStype} == "Darwin"
 MANDIR=		${LOCALBASE}/man/cat
 INCS=		-I${.SYSMK}
-LIBS=		${.SYSMK}/libhash.a
+LIBS=		${.SYSMK}/libmirmake.a
 PORTABLE=	Yes
 .endif
 

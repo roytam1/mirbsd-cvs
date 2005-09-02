@@ -203,7 +203,7 @@ if [[ $os = Darwin ]]; then
 	$MAKE depend INCS='-I/usr/mpkg/share/mmake'
 	$MAKE PORTABLE=yes NEW_LOCALBASE=$localbase \
 	    INCS='-I/usr/mpkg/share/mmake' \
-	    LIBS=/usr/mpkg/share/mmake/libhash.a
+	    LIBS=/usr/mpkg/share/mmake/libmirmake.a
 elif [[ $os = Interix ]]; then
 	$MAKE depend
 	$MAKE PORTABLE=yes NEED_COMPAT=yes NEW_LOCALBASE=$localbase \
