@@ -19,7 +19,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/md5
 CPPFLAGS+=		-isystem ${.SYSMK}
-EXTRA_XAKE_FLAGS=	LDADD="-L${.SYSMK} -lhash"
+EXTRA_XAKE_FLAGS=	LDADD="-L${.SYSMK} -lmirmake"
 EXTRA_FAKE_FLAGS=	BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man/cat
 
 .include <mirports.sys.mk>
