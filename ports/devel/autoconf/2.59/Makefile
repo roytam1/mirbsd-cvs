@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/devel/autoconf/2.59/Makefile,v 1.2 2005/07/07 21:18:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/10 00:00:14 espie Exp $
 
 COMMENT=	"automatically configure source code on many Un*x platforms"
 SUFFIX=		-2.59
 DISTNAME=	autoconf${SUFFIX}
-PKGNAME=	${DISTNAME}-1
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=	http://www.gnu.org/software/autoconf/
