@@ -1,9 +1,9 @@
-/**	$MirOS$ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/compat.c,v 1.2 2005/02/23 20:36:53 tg Exp $ */
 /*	$OpenBSD: compat.c,v 1.50 2004/04/07 13:11:35 espie Exp $	*/
 /*	$NetBSD: compat.c,v 1.14 1996/11/06 17:59:01 christos Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1988, 1989, 1990 The Regents of the University of California.
  * Copyright (c) 1988, 1989 by Adam de Boor
  * Copyright (c) 1989 by Berkeley Softworks
@@ -67,7 +67,7 @@
 #include "lst.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/compat.c,v 1.2 2005/02/23 20:36:53 tg Exp $");
 
 /* The following array is used to make a fast determination of which
  * characters are interpreted specially by the shell.  If a command
@@ -84,7 +84,7 @@ static int shellneed(char **);
 
 static volatile sig_atomic_t interrupted;
 
-static void 
+static void
 CompatInterrupt(int signo)
 {
     if (interrupted != SIGINT)
@@ -109,8 +109,9 @@ static int
 shellneed(char **av)
 {
 	char *runsh[] = {
-		"alias", "cd", "eval", "exec", "exit", "read", "set",
-		"typeset", "ulimit", "unalias", "unset", "wait",
+		"alias", "builtin", "cd", "eval", "exec", "exit", "export",
+		"let", "print", "read", "readonly", "set", "times", "trap",
+		"typeset", "ulimit", "unalias", "unset", "wait", "whence",
 		NULL
 	};
 
