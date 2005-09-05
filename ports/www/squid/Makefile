@@ -2,22 +2,22 @@
 # $OpenBSD: Makefile,v 1.61 2004/04/21 11:11:19 brad Exp $
 
 COMMENT=	"WWW and FTP proxy cache and accelerator"
-DISTNAME=	squid-2.5.STABLE5
-PKGNAME=	${DISTNAME}-2
+DISTNAME=	squid-2.5.STABLE10
+PKGNAME=	${DISTNAME}-0
 CATEGORIES=	www
 MASTER_SITES=	${HOMEPAGE}Versions/v2/2.5/
 MASTER_SITES0=	${HOMEPAGE}Versions/v2/2.5/bugs/
 DIST_SUBDIR=	squid
 
-PATCH_DIST_STRIP= -p1
-PATCHFILES=	${DISTNAME}-helper_warning.patch:0 \
-		${DISTNAME}-vary.patch:0 \
-		${DISTNAME}-deny_info.patch:0 \
-		${DISTNAME}-CONNECT_timeout.patch:0 \
-		${DISTNAME}-cache_swap_log.patch:0 \
-		${DISTNAME}-rfc1035NameUnpack.patch:0 \
-		${DISTNAME}-digest_blank.patch:0 \
-		${DISTNAME}-post_assert.patch:0
+#PATCH_DIST_STRIP= -p1
+#PATCHFILES=	${DISTNAME}-helper_warning.patch:0 \
+#		${DISTNAME}-vary.patch:0 \
+#		${DISTNAME}-deny_info.patch:0 \
+#		${DISTNAME}-CONNECT_timeout.patch:0 \
+#		${DISTNAME}-cache_swap_log.patch:0 \
+#		${DISTNAME}-rfc1035NameUnpack.patch:0 \
+#		${DISTNAME}-digest_blank.patch:0 \
+#		${DISTNAME}-post_assert.patch:0
 
 HOMEPAGE=	http://www.squid-cache.org/
 
@@ -33,8 +33,8 @@ SUBST_VARS=	SQUIDDIR
 FLAVORS=	transparent
 FLAVOR?=
 
-SEPARATE_BUILD=	concurrent
-CONFIGURE_STYLE= autoconf
+#SEPARATE_BUILD=	concurrent
+CONFIGURE_STYLE= autoconf no-autoheader
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/cfgaux
 CONFIGURE_ARGS=	--enable-removal-policies="lru heap" \
 		--enable-storeio="ufs diskd" \
