@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.3 2005/05/21 01:57:33 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.5 2005/09/02 13:57:08 bsiegert Exp $
 
 # only works with portable MirMake
 NOT_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -6,6 +6,7 @@ NOT_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 COMMENT=		"MirOS cksum(1)"
 CATEGORIES=		essentials
 DISTNAME=		mircksum-20050412
+PKGNAME=		${DISTNAME}-1
 EXTRACT_SUFX=		.cpio.gz
 HOMEPAGE=		http://wiki.mirbsd.de/MirCksum
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
