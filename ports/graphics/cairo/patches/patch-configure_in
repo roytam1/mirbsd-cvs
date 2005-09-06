@@ -1,0 +1,28 @@
+$MirOS$
+--- configure.in.orig	Wed May 18 03:38:23 2005
++++ configure.in	Sat Aug 20 15:55:16 2005
+@@ -181,7 +181,7 @@ AC_ARG_ENABLE(png,
+ if test "x$use_png" = "xyes"; then
+   use_png=no
+   # libpng13 is GnuWin32's libpng-1.2.8 :-(
+-  for l in libpng12 libpng13 libpng10 ; do
++  for l in libpng libpng12 libpng13 libpng10 ; do
+     if $PKG_CONFIG --exists $l ; then
+       PNG_REQUIRES=$l
+       use_png=yes
+@@ -193,7 +193,14 @@ if test "x$use_png" = "xyes"; then
+     # Sets PNG_CFLAGS, PNG_LIBS
+     PKG_CHECK_MODULES(PNG, $PNG_REQUIRES)
+   else
+-    AC_MSG_WARN([Could not find libpng in the pkg-config search path])
++    AC_CHECK_LIB(png, png_read_info,
++      [AC_CHECK_HEADER(libpng/png.h,
++	use_png=yes,
++	use_png=no)],
++      AC_MSG_WARN(PNG library not found), -lz -lm)
++    if test "x$use_png" = xyes; then
++      PNG_CFLAGS='-I${PREFIX}/include/libpng'; PNG_LIBS='-lpng -lz -lm'
++    fi
+   fi    
+ fi
+ 
