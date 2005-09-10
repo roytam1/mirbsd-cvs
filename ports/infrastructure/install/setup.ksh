@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.2 2005/09/01 21:59:46 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.3 2005/09/01 22:15:26 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -39,9 +39,13 @@ function usage
 if [[ $isinterix != @(yes|no) || -z $mirror \
     || -z $ourpath || -z $tempdir ]]; then
 	print -u2 ERROR: Do not call this script directly!
+	rm -rf $tempdir
 	exit 1
 fi
 T=$tempdir
+
+trap 'rm -rf $T; exit 1' 1 2 3 13 15
+trap 'rm -rf $T; exit 0' 0
 
 [[ -n $localbase ]] || localbase=/usr/mpkg
 [[ -n $xfbase ]] || xfbase=/usr/X11R6
@@ -130,3 +134,69 @@ if [[ $x = 0 ]]; then
 	exit 1
 fi
 
+let isopenbsd=0
+let ismirbsd=0
+let isdarwin=0
+
+case $(uname -s 2>/dev/null || uname) {
+(MirBSD*)
+	let ismirbsd=1 ;;
+(OpenBSD*)
+	if uname -M >/dev/null 2>&1; then
+		let ismirbsd=1
+	else
+		let isopenbsd=1
+	fi
+	;;
+(Darwin*)
+	let isdarwin=1 ;;
+(*)
+	print -u2 Cannot determine operating system.
+	exit 1
+	;;
+}
+
+# XXX this is the place to install other stuff
+# XXX mmake nroff cpio mtree wget
+# XXX install <mirports.sys.mk> with/instead mmake
+(( ismirbsd == 1 )) || exit 1
+MAKE=make
+
+portsdir=$(readlink -nf $ourpath/../..)
+
+cat >$localbase/db/SetEnv.sh <<-EOF
+	LOCALBASE='$localbase'
+	PORTSDIR='$portsdir'
+	SYSCONFDIR='$etc'
+	X11BASE='$xfbase'
+	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE
+EOF
+
+cat >$localbase/db/SetEnv.csh <<-EOF
+	# unsupported, untested, etc.pp
+	setenv LOCALBASE '$localbase'
+	setenv PORTSDIR '$portsdir'
+	setenv SYSCONFDIR '$etc'
+	setenv X11BASE '$xfbase'
+EOF
+
+cat >$localbase/db/SetEnv.make <<-EOF
+	LOCALBASE=	$localbase
+	PORTSDIR?=	$portsdir
+	SYSCONFDIR?=	$etc
+	X11BASE?=	$xfbase
+EOF
+
+cd $portsdir/infrastructure/pkgtools
+export LOCALBASE=$localbase
+$MAKE cleandir
+$MAKE obj
+$MAKE cleandir
+$MAKE depend
+$MAKE PORTABLE=Yes
+$MAKE install
+unset LOCALBASE
+
+print Should be done now... have fun.
+print Source $localbase/db/SetEnv.sh for playing.
+exit 0
