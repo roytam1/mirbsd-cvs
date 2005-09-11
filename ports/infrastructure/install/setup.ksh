@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.8 2005/09/11 01:09:50 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.9 2005/09/11 01:40:40 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -223,7 +223,7 @@ $MAKE cleandir
 $MAKE obj
 $MAKE cleandir
 $MAKE depend
-$MAKE PORTABLE=Yes
+$MAKE PORTABLE=Yes PKG_USER="$myuid"
 $MAKE install
 set +e
 rm -rf {rtfm,pkg,lib,info,delete,create,add}/obj
