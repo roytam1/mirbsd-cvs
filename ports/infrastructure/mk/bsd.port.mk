@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.4 2005/09/11 01:20:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.5 2005/09/11 01:24:56 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -708,6 +708,10 @@ YACC?=			yacc
 # XXX ${SETENV} is needed in front of var=value lists whenever the next
 # command is expanded from a variable, as this could be a shell construct
 SETENV?=		/usr/bin/env -i
+# For Interix and installs as regular user
+.if defined(_OUR_LDLIBPATH) && !empty(_OUR_LDLIBPATH)
+SETENV+=		LD_LIBRARY_PATH="${_OUR_LDLIBPATH}"
+.endif
 # Override only if port depends e.g. on GNU bash features. Not recommended.
 SH?=			${SHELL}
 
