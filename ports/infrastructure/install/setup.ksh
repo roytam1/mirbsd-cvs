@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.3 2005/09/01 22:15:26 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.4 2005/09/10 23:37:02 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -134,22 +134,22 @@ if [[ $x = 0 ]]; then
 	exit 1
 fi
 
-let isopenbsd=0
-let ismirbsd=0
-let isdarwin=0
+isopenbsd=no
+ismirbsd=no
+isdarwin=no
 
 case $(uname -s 2>/dev/null || uname) {
 (MirBSD*)
-	let ismirbsd=1 ;;
+	ismirbsd=yes ;;
 (OpenBSD*)
 	if uname -M >/dev/null 2>&1; then
-		let ismirbsd=1
+		ismirbsd=yes
 	else
-		let isopenbsd=1
+		isopenbsd=yes
 	fi
 	;;
 (Darwin*)
-	let isdarwin=1 ;;
+	let isdarwin=yes ;;
 (*)
 	print -u2 Cannot determine operating system.
 	exit 1
@@ -186,6 +186,20 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	SYSCONFDIR?=	$etc
 	X11BASE?=	$xfbase
 EOF
+
+cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
+if [[ $myuid != root ]]; then
+	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
+	    "uname=$myuid gname=$mygid /\nwq" \
+	    | ed -s $portsdir/infrastructure/db/fake.mtree
+fi
+cat $portsdir/infrastructure/db/fake.mtree >$T/fake.mtree
+(print '/@@local/d\ni\n'; IFS=/; s=;
+ for pc in $(print "$localbase"); do
+	s="$s    "; print "$s$pc"
+ done; print '.\nwq') | ed -s $T/fake.mtree
+mtree -U -e -d -n -p / -f $T/fake.mtree
+mkdir -p $etc
 
 cd $portsdir/infrastructure/pkgtools
 export LOCALBASE=$localbase
