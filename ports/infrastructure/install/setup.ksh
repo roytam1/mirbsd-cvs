@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.9 2005/09/11 01:40:40 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.10 2005/09/11 02:04:02 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -138,6 +138,23 @@ if [[ $x = 0 ]]; then
 fi
 [[ $myuid = root ]] || export BINOWN=$myuid
 [[ $mygid = bin ]] || export BINGRP=$mygid
+if [[ $isinterix = no && $myuid != root ]]; then
+	# mostly copied from above, except for the export
+	case :$LD_LIBRARY_PATH: in
+	*:$xfbase/lib:*) ;;
+	*)	LD_LIBRARY_PATH=$xfbase/lib:$LD_LIBRARY_PATH ;;
+	esac
+	case :$LD_LIBRARY_PATH: in
+	*:$localbase/lib:*) ;;
+	*)	LD_LIBRARY_PATH=$localbase/lib:$LD_LIBRARY_PATH ;;
+	esac
+	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH%%+(:)}
+fi
+if [[ $isinterix = yes || $myuid != root ]]; then
+	need_llp=yes
+else
+	need_llp=no
+fi
 
 isopenbsd=no
 ismirbsd=no
@@ -191,10 +208,15 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	BINOWN='$myuid'
 	BINGRP='$mygid'
 	PATH='$PATH'
-	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE BINOWN BINGRP PATH
 EOF
-[[ $isinterix = yes ]] && \
-    echo "export LD_LIBRARY_PATH='$LD_LIBRARY_PATH'" >>$localbase/db/SetEnv.sh
+[[ $need_llp = yes ]] && \
+    cat >>$localbase/db/SetEnv.sh <<-EOF
+	LD_LIBRARY_PATH='$LD_LIBRARY_PATH'
+EOF
+cat >>$localbase/db/SetEnv.sh <<-EOF
+	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE
+	export BINOWN BINGRP PATH LD_LIBRARY_PATH
+EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
 	# unsupported, untested, etc.pp
@@ -206,6 +228,10 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv BINGRP '$mygid'
 	setenv PATH '$PATH'
 EOF
+[[ $need_llp = yes ]] && \
+    cat >>$localbase/db/SetEnv.csh <<-EOF
+	setenv LD_LIBRARY_PATH '$LD_LIBRARY_PATH'
+EOF
 
 cat >$localbase/db/SetEnv.make <<-EOF
 	LOCALBASE=	$localbase
@@ -214,6 +240,10 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	X11BASE?=	$xfbase
 	BINOWN?=	$myuid
 	BINGRP?=	$mygid
+EOF
+[[ $need_llp = yes ]] && \
+    cat >>$localbase/db/SetEnv.make <<-EOF
+	_OUR_LDLIBPATH=	$LD_LIBRARY_PATH
 EOF
 
 cd $portsdir/infrastructure/pkgtools
