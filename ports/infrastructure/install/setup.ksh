@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.4 2005/09/10 23:37:02 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.5 2005/09/11 00:23:53 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -56,8 +56,10 @@ else
 fi
 etc=/etc
 iopt=0
-while getopts "E:eil:U:uX:" opt; do
+d=0
+while getopts "DE:eil:U:uX:" opt; do
 	case $opt {
+	(D)	d=1 ;;
 	(E)	etc=$OPTARG ;;
 	(e)	etc=@LOCALBASE@/etc ;;
 	(i)	iopt=1 ;;
@@ -72,6 +74,7 @@ shift $((OPTIND - 1))
 
 [[ $isinterix = yes ]] && LD_LIBRARY_PATH=$LD_LIBRARY_PATH_ORG
 [[ $etc = @LOCALBASE@* ]] && etc=$localbase${etc#@LOCALBASE@}
+[[ $d = 1 ]] && set -x
 
 # Divine paths again (copied from Setup.sh)
 if test $isinterix = no; then
@@ -81,15 +84,15 @@ if test $isinterix = no; then
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
+	done
 	p=$p:$localbase/sbin
 	for a in /usr/local/sbin /usr/sbin /sbin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
-	PATH=$p; export $PATH
+	done
+	PATH=$p; export PATH
 else
 	# On Interix, /usr/bin is /bin; gzip lives in /usr/contrib/bin;
 	# gcc has yet its own directory; we have X11R5 as well
@@ -99,17 +102,17 @@ else
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
+	done
 	p=$p:$localbase/sbin
 	for a in /usr/local/sbin /usr/sbin /sbin $xfbase/bin /usr/X11R6/bin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
+	done
 	test -n "$PATH_WINDOWS" && p=$p:/usr/contrib/win32/bin:$PATH_WINDOWS
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
-	PATH=$p; export $PATH
+	PATH=$p; export PATH
 
 	LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
 	case :$LD_LIBRARY_PATH: in
@@ -133,6 +136,8 @@ if [[ $x = 0 ]]; then
 	print -u2 "Error: Cannot use UID '$myuid', GID '$mygid'!"
 	exit 1
 fi
+[[ $myuid = root ]] || export BINOWN=$myuid
+[[ $mygid = bin ]] || export BINGRP=$mygid
 
 isopenbsd=no
 ismirbsd=no
@@ -156,13 +161,27 @@ case $(uname -s 2>/dev/null || uname) {
 	;;
 }
 
+portsdir=$(readlink -nf $ourpath/../.. 2>/dev/null || (cd $ourpath/../.. && pwd -P))
+
+cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
+if [[ $myuid != root ]]; then
+	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
+	    "uname=$myuid gname=$mygid /\nwq" \
+	    | ed -s $portsdir/infrastructure/db/fake.mtree
+fi
+cat $portsdir/infrastructure/db/fake.mtree >$T/fake.mtree
+(print '/@@local/d\ni\n'; IFS=/; s=;
+ for pc in $(print "$localbase"); do
+	s="$s    "; print "$s$pc"
+ done; print '.\nwq') | ed -s $T/fake.mtree
+mtree -U -e -d -n -p / -f $T/fake.mtree
+mkdir -p $etc
+
 # XXX this is the place to install other stuff
 # XXX mmake nroff cpio mtree wget
 # XXX install <mirports.sys.mk> with/instead mmake
-(( ismirbsd == 1 )) || exit 1
+[[ $ismirbsd = yes ]] || exit 1
 MAKE=make
-
-portsdir=$(readlink -nf $ourpath/../..)
 
 cat >$localbase/db/SetEnv.sh <<-EOF
 	LOCALBASE='$localbase'
@@ -186,20 +205,6 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	SYSCONFDIR?=	$etc
 	X11BASE?=	$xfbase
 EOF
-
-cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
-if [[ $myuid != root ]]; then
-	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
-	    "uname=$myuid gname=$mygid /\nwq" \
-	    | ed -s $portsdir/infrastructure/db/fake.mtree
-fi
-cat $portsdir/infrastructure/db/fake.mtree >$T/fake.mtree
-(print '/@@local/d\ni\n'; IFS=/; s=;
- for pc in $(print "$localbase"); do
-	s="$s    "; print "$s$pc"
- done; print '.\nwq') | ed -s $T/fake.mtree
-mtree -U -e -d -n -p / -f $T/fake.mtree
-mkdir -p $etc
 
 cd $portsdir/infrastructure/pkgtools
 export LOCALBASE=$localbase
