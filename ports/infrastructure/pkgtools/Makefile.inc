@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.7.2.2 2005/08/21 11:56:43 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.7.2.3 2005/09/01 22:05:38 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -6,9 +6,9 @@ _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC=1
 
 LOCALBASE?=	/usr/mpkg	# overridden by setup.ksh
 PKG_DB_DIR?=	${LOCALBASE}/db	# path for package databases, etc.
-				# can also be overridden by environment
-BSD_PREFIX?=	${LOCALBASE}	# path for binaries, man page, etc.
-				# usually not overridden
+#				# can also be overridden by environment
+BSD_PREFIX=	${LOCALBASE}	# path for binaries, man page, etc.
+#				# usually not overridden
 
 BINDIR=		${BSD_PREFIX}/sbin
 CPPFLAGS+=	-D_PATH_REFCNTDB=\"${PKG_DB_DIR}/shareddirs.db\"
