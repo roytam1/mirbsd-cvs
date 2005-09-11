@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.11 2005/09/11 02:12:20 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.12 2005/09/11 15:07:50 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -198,13 +198,13 @@ mkdir -p $etc
 # XXX mmake nroff cpio mtree wget
 # XXX install <mirports.sys.mk> with/instead mmake
 [[ $ismirbsd = yes ]] || exit 1
-MAKE=make
 
 cat >$localbase/db/SetEnv.sh <<-EOF
 	LOCALBASE='$localbase'
 	PORTSDIR='$portsdir'
 	SYSCONFDIR='$etc'
 	X11BASE='$xfbase'
+	MAKECONF='$localbase/db/make.cfg'
 	BINOWN='$myuid'
 	BINGRP='$mygid'
 	PATH='$PATH'
@@ -214,7 +214,7 @@ EOF
 	LD_LIBRARY_PATH='$LD_LIBRARY_PATH'
 EOF
 cat >>$localbase/db/SetEnv.sh <<-EOF
-	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE
+	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE MAKECONF
 	export BINOWN BINGRP PATH LD_LIBRARY_PATH
 EOF
 
@@ -224,6 +224,7 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv PORTSDIR '$portsdir'
 	setenv SYSCONFDIR '$etc'
 	setenv X11BASE '$xfbase'
+	setenv MAKECONF '$localbase/db/make.cfg'
 	setenv BINOWN '$myuid'
 	setenv BINGRP '$mygid'
 	setenv PATH '$PATH'
@@ -238,6 +239,7 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	PORTSDIR?=	$portsdir
 	SYSCONFDIR?=	$etc
 	X11BASE?=	$xfbase
+	MAKECONF=	$localbase/db/make.cfg
 	BINOWN?=	$myuid
 	BINGRP?=	$mygid
 EOF
@@ -246,15 +248,22 @@ EOF
 	_OUR_LDLIBPATH=	$LD_LIBRARY_PATH
 EOF
 
+cat >$localbase/db/make.cfg <<-EOF
+	# Default to include system-wide configuration
+	.if exists(/etc/\${MAKE:T}.cfg)
+	.  include "/etc/\${MAKE:T}.cfg"
+	.endif
+EOF
+
 cd $portsdir/infrastructure/pkgtools
 export LOCALBASE=$localbase
 set -e
-$MAKE cleandir
-$MAKE obj
-$MAKE cleandir
-$MAKE depend
-$MAKE PORTABLE=Yes PKG_USER="$myuid"
-$MAKE install
+make cleandir
+make obj
+make cleandir
+make depend
+make PORTABLE=Yes PKG_USER="$myuid"
+make install
 set +e
 rm -rf {rtfm,pkg,lib,info,delete,create,add}/obj
 unset LOCALBASE
