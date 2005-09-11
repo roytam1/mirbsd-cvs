@@ -1,19 +1,40 @@
-# $MirOS$
+# $MirOS: ports/graphics/jpeg/Makefile,v 1.2 2005/07/07 21:21:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2002/12/29 20:08:46 fgsch Exp $
 
 COMMENT=	"IJG's JPEG compression utilities"
 DISTNAME=	jpegsrc.v6b
-PKGNAME=	jpeg-6b-2
+PKGNAME=	jpeg-6b-3
 CATEGORIES=	graphics
+DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
+		jpeg-ari-28mar98.tar.gz:0
 MASTER_SITES=	ftp://ftp.uu.net/graphics/jpeg/ \
 		ftp://ftp.shellhung.org/pub/Mirror/enlightenment/enlightenment/libs/
+MASTER_SITES0=	http://sylvana.net/jpeg-ari/
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-WRKDIST=	${WRKDIR}/jpeg-6b
+WRKDIST=		${WRKDIR}/jpeg-6b
+SUBST_VARS+=		HAS_ARI
+
+.include <mirports.sys.mk>
+
+.if ${MKC_USAP:L} != "yes"
+CPPFLAGS+=		-DMIRPORTS_ARI_OK
+HAS_ARI=		enabled
+.else
+HAS_ARI=		disabled
+.endif
+
+pre-patch:
+	# Prepare for arithmetic compression
+	cp ${WRKDIR}/jpeg-ari-28mar98/patchv6b/*.[ch] ${WRKSRC}/
+.if ${MKC_USAP:L} != "yes"
+	# Integrate arithmetic compression
+	cp ${WRKDIR}/jpeg-ari-28mar98/*.c ${WRKSRC}/
+.endif
 
 post-patch:
 	cp ${FILESDIR}/jconfig.h ${WRKSRC}

@@ -1,18 +1,11 @@
-# $MirOS$
+# $MirOS: ports/graphics/jpeg/files/Makefile.rdjpgcom,v 1.1.7.1 2005/03/18 15:46:58 tg Exp $
 
 SRCDIR=		${.CURDIR}/..
-BINDIR=		${PREFIX}/bin
-MANDIR=		${PREFIX}/man/cat
 
 PROG=		rdjpgcom
 SRCS=		rdjpgcom.c
-MAN=		rdjpgcom.1
 LDADD+=		-L${SRCDIR}/lib -ljpeg
 
 .PATH:		${SRCDIR}
-
-.if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
-PREFIX:=	${TRUEPREFIX}
-.endif
 
 .include <bsd.prog.mk>
