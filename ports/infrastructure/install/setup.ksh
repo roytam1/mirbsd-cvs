@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.13 2005/09/11 15:15:30 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.14 2005/09/11 22:13:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -161,23 +161,32 @@ ismirbsd=no
 isdarwin=no
 
 case $(uname -s 2>/dev/null || uname) {
+(Darwin*)
+	isdarwin=yes
+	defmanpath= #XXX
+	;;
+(Interix*)
+	defmanpath='/usr/share/man:/usr/X11R6/man:/usr/X11R5/man'
+	;;
 (MirBSD*)
-	ismirbsd=yes ;;
+	ismirbsd=yes
+	defmanpath='/usr/{local,share,X11R6}/man/'
+	;;
 (OpenBSD*)
 	if uname -M >/dev/null 2>&1; then
 		ismirbsd=yes
 	else
 		isopenbsd=yes
 	fi
+	defmanpath='/usr/{local,share,X11R6}/man/' #XXX
 	;;
-(Darwin*)
-	let isdarwin=yes ;;
 (*)
 	print -u2 Cannot determine operating system.
 	exit 1
 	;;
 }
 
+newmanpath="$localbase/man:${MANPATH:-$defmanpath}"
 portsdir=$(readlink -nf $ourpath/../.. 2>/dev/null || (cd $ourpath/../.. && pwd -P))
 
 cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
@@ -208,6 +217,7 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	BINOWN='$myuid'
 	BINGRP='$mygid'
 	PATH='$PATH'
+	MANPATH='$newmanpath'
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.sh <<-EOF
@@ -215,7 +225,7 @@ EOF
 EOF
 cat >>$localbase/db/SetEnv.sh <<-EOF
 	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE MAKECONF
-	export BINOWN BINGRP PATH LD_LIBRARY_PATH
+	export BINOWN BINGRP PATH MANPATH LD_LIBRARY_PATH
 EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
@@ -228,6 +238,7 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv BINOWN '$myuid'
 	setenv BINGRP '$mygid'
 	setenv PATH '$PATH'
+	setenv MANPATH '$newmanpath'
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.csh <<-EOF
