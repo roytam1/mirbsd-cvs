@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.1 2005/08/21 11:08:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.42 2005/09/01 20:09:37 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -99,7 +99,7 @@ PROTECT_MOUNT_POINTS?=
 ERRORS+=		"The licencing info for ${FULLPKGNAME} is incomplete."
 ERRORS+=		"Please notify the MirPorts maintainer:"
 ERRORS+=		"    ${RESPONSIBLE}"
-_BAD_LICENSING=		Yes
+_BAD_LICENCING=		Yes
 PERMIT_PACKAGE_CDROM=	No
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_PACKAGE_FTP=	No
@@ -339,7 +339,12 @@ ERRORS+=		"No flavours for this port."
 
 SED_PLIST+=		| (cd ${WRKINST}${PREFIX}; LOCALBASE=${LOCALBASE} perl -W ${PORTSDIR}/infrastructure/scripts/unlibtoolise)
 
+.if defined(DIST_NAME) && defined(DIST_DATE)
+PKGNAME?=		${DIST_NAME}-${DIST_DATE}-0
+WRKDIST?=		${WRKDIR}/${DIST_NAME}
+.else
 PKGNAME?=		${DISTNAME}-0
+.endif
 FULLPKGNAME?=		${PKGNAME}${FLAVOR_EXT}
 PKGFILE=		${PKGREPOSITORY}/${FULLPKGNAME}${PKG_SUFX}
 _MASTER?=
@@ -769,6 +774,23 @@ _CDROM_OVERRIDE=	if cp -f ${CDROM_SITE}/$$f .; then exit 0; fi
 _CDROM_OVERRIDE=	:
 .endif
 
+DIST_SOURCE?=		distfile
+.if ${DIST_SOURCE:L} == "port"
+DIST_SOURCEDIR?=	${.CURDIR}/dist
+.  if (${PERMIT_DISTFILES_CDROM:L} != "yes") || (${PERMIT_DISTFILES_FTP:L} != "yes")
+ERRORS+=		"If using DIST_SOURCE=port the distfiles must be licenced appropriately."
+ERRORS+=		"Please notify the MirPorts maintainer:"
+ERRORS+=		"    ${RESPONSIBLE}"
+_BAD_LICENCING=		Yes
+.  endif
+.elif ${DIST_SOURCE:L} == "module"
+DIST_SOURCEDIR?=	${PORTSDIR}/Extras/${DIST_NAME}
+.endif
+.if ${DIST_SOURCE:L} != "distfile"
+DISTFILES=
+NO_CHECKSUM=		defined
+NO_DISTFILES=		defined
+.endif
 EXTRACT_SUFX?=		.tar.gz
 DISTFILES?=		${DISTNAME}${EXTRACT_SUFX}
 
@@ -1491,21 +1513,23 @@ manpages-check: ${_FAKE_COOKIE}
 # can be run several times in a row.
 
 fetch:
+.  ifndef NO_DISTFILES
 	@${ECHO_MSG} "===>  Checking files for ${FULLPKGNAME}${_MASTER}"
-.  if target(pre-fetch)
+.    if target(pre-fetch)
 	@cd ${.CURDIR} && exec ${MAKE} pre-fetch
-.  endif
-.  if target(do-fetch)
-	@cd ${.CURDIR} && exec ${MAKE} do-fetch
-.  else
-# What FETCH normally does:
-.    if !empty(ALLFILES)
-	@cd ${.CURDIR} && exec ${MAKE} ${ALLFILES:S@^@${FULLDISTDIR}/@}
 .    endif
+.    if target(do-fetch)
+	@cd ${.CURDIR} && exec ${MAKE} do-fetch
+.    else
+# What FETCH normally does:
+.      if !empty(ALLFILES)
+	@cd ${.CURDIR} && exec ${MAKE} ${ALLFILES:S@^@${FULLDISTDIR}/@}
+.      endif
 # End of FETCH
-.  endif
-.  if target(post-fetch)
+.    endif
+.    if target(post-fetch)
 	@cd ${.CURDIR} && exec ${MAKE} post-fetch
+.    endif
 .  endif
 
 
@@ -1580,12 +1604,14 @@ checksum: fetch
 .  endif
 
 _refetch:
-.  for file cipher value in ${_PROBLEMS}
+.  ifndef NO_DISTFILES
+.    for file cipher value in ${_PROBLEMS}
 	@rm ${DISTDIR}/${file}
 	@cd ${.CURDIR} && exec ${MAKE} ${DISTDIR}/${file} \
 	    MASTER_SITE_OVERRIDE="ftp://ftp.openbsd.org/pub/OpenBSD/distfiles/${cipher}/${value}/"
-.  endfor
+.    endfor
 	cd ${.CURDIR} && exec ${MAKE} checksum REFETCH=false
+.  endif
 
 
 # The cookie's recipe hold the real rule for each of those targets.
@@ -1635,13 +1661,20 @@ ${_WRKDIR_COOKIE}:
 	@${_MAKE_COOKIE} $@
 
 ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
+.if ${DIST_SOURCE:L} == "distfile"
 	@cd ${.CURDIR} && exec ${MAKE} NOSUPDISTFILES=1 \
 	    checksum build-depends lib-depends
 	@${ECHO_MSG} "===>  Extracting for ${FULLPKGNAME}${_MASTER}"
-.if target(pre-extract)
+.  if target(pre-extract)
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} pre-extract
-.endif
+.  endif
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} do-extract
+.else
+	@cd ${.CURDIR} && exec ${MAKE} build-depends lib-depends
+	@${ECHO_MSG} "===>  Copying source for ${FULLPKGNAME}${_MASTER}"
+	@mkdir -p ${WRKSRC}
+	cd ${WRKSRC} && lndir ${DIST_SOURCEDIR}
+.endif
 .if target(post-extract)
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} post-extract
 .endif
@@ -2302,7 +2335,7 @@ describe:
 	*)	echo -n "${ONLY_FOR_PLATFORM}|" ;; \
 	esac
 
-.  if defined(_BAD_LICENSING)
+.  if defined(_BAD_LICENCING)
 	@echo "?|?|?|?"
 .  else
 .    if ${PERMIT_PACKAGE_CDROM:L} == "yes"
