@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.5 2005/09/11 00:23:53 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.6 2005/09/11 00:49:37 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -208,12 +208,15 @@ EOF
 
 cd $portsdir/infrastructure/pkgtools
 export LOCALBASE=$localbase
+set -e
 $MAKE cleandir
 $MAKE obj
 $MAKE cleandir
 $MAKE depend
 $MAKE PORTABLE=Yes
 $MAKE install
+set +e
+rm -rf {rtfm,pkg,lib,info,delete,create,add}/obj
 unset LOCALBASE
 
 print Should be done now... have fun.
