@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.3 2005/06/24 15:18:57 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.6 2005/08/21 20:15:45 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -189,6 +189,8 @@ int		delete_hierarchy(char *, bool, bool);
 int		unpack(char *, const char *);
 int		format_cmd(char *, size_t , const char *, const char *,
 		    const char *);
+int		trim_end(char *);
+int		glob_package(char *, size_t, const char *);
 
 /* Packing list */
 plist_t		*new_plist_entry(void);
