@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.3 2005/09/01 19:36:51 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.6 2005/09/11 01:05:42 tg Exp $
 #-
 # This file replaces <bsd.own.mk> as EXTRA_SYS_MK_INCLUDES
 # during MirPorts builds.
@@ -11,6 +11,8 @@ BSD_PREFIX=		${TRUEPREFIX}
 .elif defined(PREFIX) && !empty(PREFIX)
 BSD_PREFIX=		${PREFIX}
 .endif
+
+BINDIR?=		${BSD_PREFIX}/bin
 
 .include <bsd.own.mk>
 
