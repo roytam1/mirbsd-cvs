@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.16 2005/09/01 21:57:43 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.17 2005/09/01 21:59:46 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -45,11 +45,15 @@ mksh_sum="240923212 224290 $mksh_dist"
 mksh_md5sum="48d0df73eba1ef4e9c0758f69262eb66  $mksh_dist"
 
 mirror=$1
-if test x"$mirror" = x"-" || test x"$mirror" = x; then
+case x$1 in
+	x-*)	mirror= ;;
+	x)	;;
+	*)	shift ;;
+esac
+if test x"$mirror" = x; then
 	mirror=http://mirbsd.mirsolutions.de/MirOS/dist/
 fi
 export mirror
-test x"$1" = x || shift
 
 # Are we Interix?
 isinterix=no
@@ -65,15 +69,15 @@ if test $isinterix = no; then
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
+	done
 	p=$p:$localbase/sbin
 	for a in /usr/local/sbin /usr/sbin /sbin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
-	PATH=$p; export $PATH
+	done
+	PATH=$p; export PATH
 else
 	# On Interix, /usr/bin is /bin; gzip lives in /usr/contrib/bin;
 	# gcc has yet its own directory; we have X11R5 as well
@@ -83,17 +87,17 @@ else
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
+	done
 	p=$p:$localbase/sbin
 	for a in /usr/local/sbin /usr/sbin /sbin $xfbase/bin /usr/X11R6/bin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
-	fi
+	done
 	test -n "$PATH_WINDOWS" && p=$p:/usr/contrib/win32/bin:$PATH_WINDOWS
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
-	PATH=$p; export $PATH
+	PATH=$p; export PATH
 
 	LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
 	case :$LD_LIBRARY_PATH: in
@@ -134,7 +138,7 @@ if test x"$fetch" = x"false"; then
 			fetch=$dir/ftp
 			break
 		fi
-	fi
+	done
 fi
 export fetch
 
