@@ -6,13 +6,13 @@ $OpenBSD: patch-cgi-bin_openwebmail_etc_openwebmail_conf_default,v 1.2 2003/07/1
  # openwebmail system configuration
  ##############################################################################
 -ow_cgidir		/usr/local/www/cgi-bin/openwebmail
-+ow_cgidir		/var/www/cgi-bin/openwebmail
++ow_cgidir		${WWW_PREFIX}/cgi-bin/openwebmail
  ow_cgiurl		/cgi-bin/openwebmail
 -ow_htmldir		/usr/local/www/data/openwebmail
-+ow_htmldir		/var/www/htdocs/openwebmail
++ow_htmldir		${WWW_PREFIX}/htdocs/openwebmail
  ow_htmlurl		/openwebmail
 -ow_etcdir		%ow_cgidir%/etc
-+ow_etcdir		/var/www/conf/openwebmail
++ow_etcdir		${WWW_PREFIX}/conf/openwebmail
  ow_stylesdir		%ow_etcdir%/styles
  ow_langdir		%ow_etcdir%/lang
  ow_templatesdir		%ow_etcdir%/templates

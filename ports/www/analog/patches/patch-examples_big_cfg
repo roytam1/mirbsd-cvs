@@ -6,7 +6,7 @@ $OpenBSD: patch-examples_big_cfg,v 1.2 2001/11/22 11:10:39 form Exp $
  # LOGFORMAT MICROSOFT-NA
  # The logfile(s) to be analysed
 -LOGFILE logfile.log
-+LOGFILE /var/www/logs/access_log
++LOGFILE ${WWW_PREFIX}/logs/access_log
  # LOGFILE /old/logs/access_log.*
  #
  # Your organisation's name and URL for the top line of the report

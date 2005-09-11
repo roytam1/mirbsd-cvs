@@ -23,7 +23,7 @@ MULTI_PACKAGES=	-chroot
 SUBPACKAGE?=
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
-PREFIX=	/var/www
+PREFIX=	${WWW_PREFIX}
 .endif
 
 do-install:
@@ -31,8 +31,8 @@ do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mini_sendmail
 	${INSTALL_MAN} ${WRKSRC}/mini_sendmail.8 ${PREFIX}/man/man8
 	${INSTALL_DATA} ${WRKSRC}/README ${PREFIX}/share/doc/mini_sendmail
-	${INSTALL_PROGRAM_DIR} ${WRKINST}/var/www/bin
+	${INSTALL_PROGRAM_DIR} ${WRKINST}${WWW_PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKSRC}/mini_sendmail-static \
-		${WRKINST}/var/www/bin/mini_sendmail
+		${WRKINST}${WWW_PREFIX}/bin/mini_sendmail
 
 .include <bsd.port.mk>

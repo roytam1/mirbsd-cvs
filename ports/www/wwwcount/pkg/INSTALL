@@ -8,12 +8,12 @@
 set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 PREFIX=${PKG_PREFIX:-/usr/local}
-DATA_DIR=/var/www/wwwcount/data
-CONFIG_DIR=/var/www/wwwcount/conf
+DATA_DIR=${WWW_PREFIX}/wwwcount/data
+CONFIG_DIR=${WWW_PREFIX}/wwwcount/conf
 CONFIG_FILE=${CONFIG_DIR}/count.cfg
 SAMPLE_CONFIG_FILE=${PREFIX}/lib/wwwcount/count.cfg.sample
 COUNT_SCRIPT=${PREFIX}/lib/wwwcount/Count.cgi
-CGI_DIR=/var/www/cgi-bin
+CGI_DIR=${WWW_PREFIX}/cgi-bin
 
 # Function: tell the user what s/he needs to do to use the port just installed
 #

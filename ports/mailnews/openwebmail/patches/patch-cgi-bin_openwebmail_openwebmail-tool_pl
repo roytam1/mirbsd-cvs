@@ -22,10 +22,10 @@ $OpenBSD: patch-cgi-bin_openwebmail_openwebmail-tool_pl,v 1.6 2004/03/04 06:34:1
 +         qq|the first line of file %%SYSCONFDIR%%/openwebmail/openwebmail_path.conf\n\n|.
           qq|For example, if the script is\n\n|.
 -         qq|/usr/local/www/cgi-bin/openwebmail/openwebmail-tool.pl,\n\n|.
-+         qq|/var/www/cgi-bin/openwebmail/openwebmail-tool.pl,\n\n|.
++         qq|${WWW_PREFIX}/cgi-bin/openwebmail/openwebmail-tool.pl,\n\n|.
           qq|then the content of /etc/openwebmail_path.conf should be:\n\n|.
 -         qq|/usr/local/www/cgi-bin/openwebmail/\n\n|;
-+         qq|/var/www/cgi-bin/openwebmail/\n\n|;
++         qq|${WWW_PREFIX}/cgi-bin/openwebmail/\n\n|;
     exit 0;
  }
  push (@INC, $SCRIPT_DIR);

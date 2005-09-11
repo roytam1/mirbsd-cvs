@@ -28,7 +28,7 @@ PERMIT_DISTFILES_FTP=	Yes
 ANALOGDIR=	${PREFIX}/share/analog
 CONFIGFILE=	${SYSCONFDIR}/analog.cfg
 DOCDIR=		${PREFIX}/share/doc/analog
-HTTPDIR=	/var/www
+HTTPDIR=	${WWW_PREFIX}
 IMAGEDIR=	/analog-images
 
 CFLAGS+=	-DANALOGDIR=\"${ANALOGDIR}/\" \

@@ -5,8 +5,8 @@
 
 set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
-COUNT_DIR=/var/www/wwwcount
-COUNT_SCRIPT=/var/www/cgi-bin/Count.cgi
+COUNT_DIR=${WWW_PREFIX}/wwwcount
+COUNT_SCRIPT=${WWW_PREFIX}/cgi-bin/Count.cgi
 
 rm -f ${COUNT_SCRIPT}
 if [ ${PKG_DELETE_EXTRA} != Yes -a -d ${COUNT_DIR} ]; then
@@ -16,7 +16,7 @@ if [ ${PKG_DELETE_EXTRA} != Yes -a -d ${COUNT_DIR} ]; then
 	echo "| these steps as root:"
 	echo "|"
 	echo "|           rm -rf ${COUNT_DIR}"
-	echo "|           rm -f /var/www/logs/Count.log"
+	echo "|           rm -f ${WWW_PREFIX}/logs/Count.log"
 	echo "|"
 	echo "| Do not do this if you plan on re-installing $1"
 	echo "| at some future time."

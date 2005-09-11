@@ -6,7 +6,7 @@ set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 HTTPD_CONF=`apxs -q SYSCONFDIR`/httpd.conf
-#HTTPD_CONF=/var/www/conf/httpd.conf
+#HTTPD_CONF=${WWW_PREFIX}/conf/httpd.conf
 MODULE=y0y0y0/lib/mod_jserv.so
 XML=y0y0y0/share/examples/jserv/server.xml
 

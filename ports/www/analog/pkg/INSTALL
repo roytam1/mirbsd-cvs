@@ -65,16 +65,16 @@ case $2 in
 	: nothing to pre-install for this port
 	;;
     POST-INSTALL)
-	install -d -o root -g bin -m 755 /var/www/htdocs/analog-images
-	[ -d /var/www/cgi-bin ] || \
-		install -d -o root -g daemon -m 755 /var/www/cgi-bin
+	install -d -o root -g bin -m 755 ${WWW_PREFIX}/htdocs/analog-images
+	[ -d ${WWW_PREFIX}/cgi-bin ] || \
+		install -d -o root -g daemon -m 755 ${WWW_PREFIX}/cgi-bin
 	for img in ${IMAGES}; do
 		install -o root -g bin -m 444 \
 			${PREFIX}/share/analog/images/${img} \
-			/var/www/htdocs/analog-images
+			${WWW_PREFIX}/htdocs/analog-images
 	done
 	install -o root -g bin -m 111 ${PREFIX}/share/analog/anlgform.pl \
-		/var/www/cgi-bin
+		${WWW_PREFIX}/cgi-bin
 	if [ -f ${CONFIG_FILE} ]; then
 		do_notice $1
 	else

@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/devel/cvsweb/patches/patch-cvsweb_conf,v 1.1.7.1 2005/03/18 15:44:31 tg Exp $
 --- cvsweb.conf.orig	Sat Feb  5 05:41:59 2005
 +++ cvsweb.conf	Sat Feb  5 05:46:02 2005
 @@ -5,6 +5,7 @@
@@ -23,7 +23,7 @@ $MirOS$
  # See above where this gets used.
  #
 -$mime_types = '/usr/local/etc/apache/mime.types';
-+$mime_types = '/var/www/conf/mime.types';
++$mime_types = '${WWW_PREFIX}/conf/mime.types';
  
  # Charset appended to the Content-Type HTTP header for text/* MIME types.
  # Note that the web server may default to some charset which may take effect

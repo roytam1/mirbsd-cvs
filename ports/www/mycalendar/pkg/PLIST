@@ -14,4 +14,4 @@ cgi-bin/calendar/protected/update.cgi
 cgi-bin/calendar/sitevariables.pl
 cgi-bin/calendar/template.html
 @dirrm cgi-bin/calendar/protected
-@extraunexec rm -rf /var/www/cgi-bin/calendar
+@extraunexec rm -rf ${WWW_PREFIX}/cgi-bin/calendar

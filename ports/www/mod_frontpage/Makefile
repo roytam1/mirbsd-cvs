@@ -31,7 +31,7 @@ DEF=	-DFPEXEC_BIN=\\\"/usr/local/sbin/fpexec\\\" \
 DEF2=	-DFP_HTTPD_USER=\"www\" -DFP_UID_MIN=1000 -DFP_GID_MIN=1000 \
 	-DFP_LOG_EXEC=\"/var/log/fpexec_log\" \
 	-DFP_USERDIR_SUFFIX=\"public_html\" \
-	-DFP_DOC_ROOT=\"/var/www/htdocs\" \
+	-DFP_DOC_ROOT=\"${WWW_PREFIX}/htdocs\" \
 	-DFP_SAFE_PATH=\"/usr/bin:/bin:/usr/local/bin\" \
 	-DFPDIR=\"/usr/local/frontpage/version5.0/exes\" \
 	-DFPBASE=\"/usr/local/frontpage/version5.0\" \

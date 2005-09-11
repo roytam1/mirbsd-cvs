@@ -25,12 +25,11 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=gnu
-
-WWWDIR=		/var/www
+CONFIGURE_STYLE=	gnu
+SUBST_VARS+=		WWW_PREFIX
 
 pre-configure:
-	@sed -e "s,@PREFIX@,${PREFIX},g" -e "s,@WWWDIR@,${WWWDIR},g" \
+	@sed -e "s,@PREFIX@,${PREFIX},g" -e "s,@WWWDIR@,${WWW_PREFIX},g" \
 		${FILESDIR}/config.h.in > ${WRKSRC}/src/config.h
 
 NO_REGRESS=	Yes

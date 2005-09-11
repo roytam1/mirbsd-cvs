@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.5 2005/05/06 17:46:47 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.6 2005/08/21 11:50:39 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
@@ -31,7 +31,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	"modified versions must not be called PHP"
 PERMIT_PACKAGE_FTP=	"modified versions must not be called PHP"
 
-PHP_CONFIG_PATH=	/var/www/conf
+PHP_CONFIG_PATH=	${WWW_PREFIX}/conf
 PHP_CONFIG_FILE=	${PHP_CONFIG_PATH}/php.ini
 
 # where the main php module is stored (outside the chroot)
@@ -39,7 +39,7 @@ HTTPD_MODULE_SUBDIR=	lib/php
 HTTPD_MODULE_DIR=	${LOCALBASE}/${HTTPD_MODULE_SUBDIR}
 
 # where the PEAR and extension modules are (inside the chroot)
-CHROOT_DIR?=		/var/www
+CHROOT_DIR?=		${WWW_PREFIX}
 PEAR_DIR?=		${CHROOT_DIR}/pear
 MODULES_SUBDIR=		lib/php/modules
 MODULES_DIR=		${CHROOT_DIR}/${MODULES_SUBDIR}

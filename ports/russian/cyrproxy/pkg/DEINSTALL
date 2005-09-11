@@ -7,7 +7,7 @@ set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 PREFIX=${PKG_PREFIX:-/usr/local}
 CONFIG_FILE=${SYSCONFDIR}/cyrproxy.conf
-CGIDIR=/var/www/cgi-bin
+CGIDIR=${WWW_PREFIX}/cgi-bin
 
 if [ ${PKG_DELETE_EXTRA} != Yes -a -f ${CONFIG_FILE} ]; then
 	echo

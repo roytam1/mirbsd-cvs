@@ -24,7 +24,8 @@ PKG_ARCH=	*
 
 WRKDIST=	${WRKDIR}/calendar
 
-PREFIX=		/var/www
+PREFIX=		${WWW_PREFIX}
+SUBST_VARS+=	WWW_PREFIX
 INSTDIR=	${PREFIX}/cgi-bin
 
 do-install:

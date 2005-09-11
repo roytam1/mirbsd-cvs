@@ -19,9 +19,9 @@ set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 CONFIG_FILE=${SYSCONFDIR}/analog.cfg
 
-for img in ${IMAGES}; do rm -f /var/www/htdocs/analog-images/${img}; done
-rmdir /var/www/htdocs/analog-images
-rm -f /var/www/cgi-bin/anlgform.pl
+for img in ${IMAGES}; do rm -f ${WWW_PREFIX}/htdocs/analog-images/${img}; done
+rmdir ${WWW_PREFIX}/htdocs/analog-images
+rm -f ${WWW_PREFIX}/cgi-bin/anlgform.pl
 
 if [ ${PKG_DELETE_EXTRA} != Yes -a -f ${CONFIG_FILE} ]; then
     echo

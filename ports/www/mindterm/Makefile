@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	"may not distribute as part of a commercial product"
 PERMIT_DISTFILES_CDROM=	"may not sell"
 PERMIT_DISTFILES_FTP=	Yes
 
-PREFIX?=	/var/www/htdocs
+PREFIX?=	${WWW_PREFIX}/htdocs
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

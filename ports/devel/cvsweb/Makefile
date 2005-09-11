@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/cvsweb/Makefile,v 1.1.7.1 2005/03/18 15:44:31 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/02/01 19:47:27 naddy Exp $
 # $FreeBSD: ports/devel/cvsweb/Makefile,v 1.28 2000/09/23 20:48:45 knu Exp $
 
@@ -23,7 +23,7 @@ PKG_ARCH=	*
 RUN_DEPENDS=	::devel/p5-IPC-Run \
 		::www/p5-URI
 
-PREFIX=		/var/www
+PREFIX=		${WWW_PREFIX}
 CONFDIR=	${PREFIX}/conf
 
 CONFFILES=	cvsweb.conf cvsweb.conf-freebsd cvsweb.conf-netbsd \
@@ -34,7 +34,7 @@ CSS=		cvsweb.css
 ENSCRIPT=	lang_cvsweb.st lang_cvsweb_diff.st
 SAMPLES=	cvsweb-httpd.conf
 
-SUBST_VARS=	CONFDIR
+SUBST_VARS=	CONFDIR WWW_PREFIX
 
 do-configure:
 	print '1,$$g@%%CONFDIR%%@s@@${CONFDIR}@g\nwq' \

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/horde/Makefile,v 1.2 2005/03/19 22:55:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/05/01 16:16:34 avsm Exp $ 
 
 BROKEN=		needs upgrading to PHP5
@@ -22,9 +22,9 @@ NO_REGRESS=	Yes
 PKG_ARCH=	*
 EXTRACT_ONLY=
 
-PREFIX=		/var/www
+PREFIX=		${WWW_PREFIX}
 INSTDIR=	${PREFIX}/horde
-SUBST_VARS=	INSTDIR
+SUBST_VARS=	INSTDIR WWW_PREFIX
 
 RUN_DEPENDS=	:php4-core->=4.3.1:www/php4/core \
 		:php4-mcrypt->=4.3.1:www/php4/extensions,-mcrypt \

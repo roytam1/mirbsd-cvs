@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/www/php/core/pkg/INSTALL,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+# $MirOS: ports/www/php/core/pkg/INSTALL,v 1.2 2005/03/27 22:20:25 tg Exp $
 # $OpenBSD: INSTALL,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 #
 # php installation
@@ -18,7 +18,7 @@ do_notice()
     echo "|	$PREFIX/sbin/phpxs -s"
     echo "|"
     echo "| To enable parsing of PHP scripts, add the following to"
-    echo "| /var/www/conf/httpd.conf:"
+    echo "| ${WWW_PREFIX}/conf/httpd.conf:"
     echo "|"
     echo "|       AddType application/x-httpd-php .php"
     echo "|"
@@ -27,9 +27,9 @@ do_notice()
     echo "|"
     echo "| The .ini file scan directory is ${PHP_CONFIG_PATH}/php/"
     echo "|"
-    echo "| Don't forget that the default httpd chroots into /var/www"
+    echo "| Don't forget that the default httpd chroots into ${WWW_PREFIX}"
     echo "| so you may need to create support directories such as"
-    echo "| /var/www/tmp for PHP to work correctly."
+    echo "| ${WWW_PREFIX}/tmp for PHP to work correctly."
     echo "+---------------"
     echo
 }

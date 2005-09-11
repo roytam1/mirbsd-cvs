@@ -316,6 +316,6 @@
         </Host>
          -->
         <Context path="" 
-                 docBase="/var/www/htdocs" />
+                 docBase="${WWW_PREFIX}/htdocs" />
     </ContextManager>
 </Server>

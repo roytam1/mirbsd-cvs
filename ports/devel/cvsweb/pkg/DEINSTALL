@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/devel/cvsweb/pkg/DEINSTALL,v 1.1.7.1 2005/03/18 15:44:31 tg Exp $
 # $OpenBSD: DEINSTALL,v 1.4 2003/08/22 15:58:00 naddy Exp $
 #
 # De-installation setup of cvsweb
@@ -21,7 +21,7 @@ do_notice()
     echo "| you need to perform these steps as root:"
     echo "|"
     echo "|       rm -rf ${CONFIG_DIR}"
-    echo "|       rm -f /var/www/css/cvsweb.css"
+    echo "|       rm -f ${PREFIX}/css/cvsweb.css"
     echo "|"
     echo "| Do not do this if you plan on re-installing"
     echo "| $1 at some future time."

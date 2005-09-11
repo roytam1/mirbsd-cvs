@@ -171,6 +171,6 @@ share/doc/wwwcount/prehtml/whatsnew.prehtml
 @dirrm lib/wwwcount/digits/A
 @dirrm lib/wwwcount/digits
 @dirrm lib/wwwcount
-@cwd /var/www/logs
+@cwd ${WWW_PREFIX}/logs
 @extra Count.log
-@extraunexec rm -rf /var/www/wwwcount
+@extraunexec rm -rf ${WWW_PREFIX}/wwwcount

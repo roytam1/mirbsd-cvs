@@ -6,7 +6,7 @@ $OpenBSD: patch-src_procmime_c,v 1.2 2003/07/04 13:06:13 wilfried Exp $
  		return mime_type_list;
  
 -	if ((fp = fopen("/etc/mime.types", "rb")) == NULL) {
-+	if ((fp = fopen("/var/www/conf/mime.types", "rb")) == NULL) {
++	if ((fp = fopen("${WWW_PREFIX}/conf/mime.types", "rb")) == NULL) {
  		if ((fp = fopen(SYSCONFDIR "/mime.types", "rb")) == NULL) {
  			FILE_OP_ERROR(SYSCONFDIR "/mime.types", "fopen");
  			return NULL;
