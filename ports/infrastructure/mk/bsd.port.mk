@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.3 2005/09/11 01:05:41 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.4 2005/09/11 01:20:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -43,7 +43,7 @@ ERRORS+=		"Use 'env SUBPACKAGE=${SUBPACKAGE:Q} ${MAKE}' instead."
 # User settings
 TRUST_PACKAGES?=	No
 BIN_PACKAGES?=		No
-CLEANDEPENDS?=		No
+CLEANDEPENDS?=		Yes
 BULK?=			No
 RECURSIVE_FETCH_LIST?=	Yes
 WRKOBJDIR?=
