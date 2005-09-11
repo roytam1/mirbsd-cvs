@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.3 2005/08/21 20:15:45 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -29,8 +29,89 @@
 #include <netdb.h>
 #include <pwd.h>
 #include <time.h>
+#include <glob.h>
+#include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.3 2005/08/21 20:15:45 bsiegert Exp $");
+
+/* Try to find the log dir for an incomplete package specification.
+ * Used in pkg_info and pkg_delete. Returns the number of matches,
+ * or -1 on error.
+ */
+int
+glob_package(char *log_dir, size_t len, const char *pkg)
+{
+	const char *tmp;
+	glob_t pglob;
+	int matches;
+
+	if (!(tmp = getenv(PKG_DBDIR)))
+		tmp = DEF_LOG_DIR;
+
+	if (strchr(pkg, '/')) {
+		if (strncmp(pkg, tmp, strlen(tmp))) {
+			pwarnx("package name contains a / and is not under the '%s' directory!", tmp);
+			return -1;
+		}
+		(void) snprintf(log_dir, len, "%s", pkg);
+	} else
+		(void) snprintf(log_dir, len, "%s/%s", tmp, pkg);
+
+	if (fexists(log_dir))
+		return 1;
+	if (trim_end(log_dir) && fexists(log_dir))
+		return 1;
+
+	/* if all else fails, do the glob */
+	memset(&pglob, 0, sizeof(pglob));
+	(void) snprintf(log_dir, len, "%s/%s-[0-9]*", tmp, pkg);
+	glob(log_dir, 0, NULL, &pglob);
+	matches = pglob.gl_pathc;
+	if (matches > 0)
+		(void) snprintf(log_dir, len, "%s",
+				pglob.gl_pathv[0]);
+	else
+		*log_dir = '\0';
+	if (matches > 1) {
+		int i;
+		printf("Hint: The following versions of this package are installed:\n");
+		for (i = 0; i < matches; i++) 
+			printf(" %s\n", basename(pglob.gl_pathv[i]));
+	}
+
+	globfree(&pglob);
+	return matches;
+}
+
+/* Try to remove the extension from a package name */
+int
+trim_end(char *name)
+{
+	size_t n, m;
+	n = strlen(name);
+	m = strlen(".tgz");
+	if (n > m && strcmp(name+n-m, ".tgz") == 0) {
+		name[n-m] = 0;
+		return 1;
+	}
+	m = strlen(".tar.gz");
+	if (n > m && strcmp(name+n-m, ".tar.gz") == 0) {
+		name[n-m] = 0;
+		return 1;
+	}
+	m = strlen(".cgz");
+	if (n > m && strcmp(name+n-m, ".cgz") == 0) {
+		name[n-m] = 0;
+		return 1;
+	}
+	m = strlen(".tar");
+	if (n > m && strcmp(name+n-m, ".tar") == 0) {
+		name[n-m] = 0;
+		return 1;
+	}
+	return 0;
+}
+
 
 /* This fixes errant package names so they end up in .tgz/.cgz.
    XXX returns static storage, so beware! Consume the result

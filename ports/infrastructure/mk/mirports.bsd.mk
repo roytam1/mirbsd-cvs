@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.4 2005/09/01 21:08:32 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.3 2005/09/01 19:36:51 tg Exp $
 #-
 # This file replaces <bsd.own.mk> as EXTRA_SYS_MK_INCLUDES
 # during MirPorts builds.

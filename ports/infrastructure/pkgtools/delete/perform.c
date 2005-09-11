@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.3 2005/08/21 20:15:47 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -27,8 +27,9 @@
 #include <err.h>
 #include "lib.h"
 #include "delete.h"
+#include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.3 2005/08/21 20:15:47 bsiegert Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -46,34 +47,6 @@ pkg_perform(char **pkgs)
 }
 
 static package_t Plist;
-
-static int
-trim_end(char *name)
-{
-   size_t n, m;
-   n = strlen(name);
-   m = strlen(".tgz");
-   if (n > m && strcmp(name+n-m, ".tgz") == 0) {
-	name[n-m] = 0;
-	return 1;
-   }
-   m = strlen(".tar.gz");
-   if (n > m && strcmp(name+n-m, ".tar.gz") == 0) {
-	name[n-m] = 0;
-	return 1;
-   }
-   m = strlen(".cgz");
-   if (n > m && strcmp(name+n-m, ".cgz") == 0) {
-	name[n-m] = 0;
-	return 1;
-   }
-   m = strlen(".tar");
-   if (n > m && strcmp(name+n-m, ".tar") == 0) {
-	name[n-m] = 0;
-	return 1;
-   }
-   return 0;
-}
 
 /* remove all links to the package as well */
 static void
@@ -131,17 +104,24 @@ pkg_do(char *pkg)
 
     dbdir = getenv(PKG_DBDIR);
     if (!dbdir)
-	dbdir = DEF_LOG_DIR;
-try_again:
-    (void) snprintf(LogDir, sizeof(LogDir), "%s/%s", dbdir, pkg);
-    if (!fexists(LogDir)) {
-	if (trim_end(pkg))
-	    goto try_again;
-	else {
-	    pwarnx("no such package installed");
-	    return 1;
-	}
+       dbdir = DEF_LOG_DIR;
+
+    switch (glob_package(LogDir, sizeof(LogDir), pkg)) {
+    case -1:
+	pwarnx("error while handling package name");
+	return 1;
+    case 0:
+	pwarnx("no such package installed");
+	return 1;
+    case 1:
+	/* good */
+	break;
+    default:
+	pwarnx("more than one match for package specification");
+	return 1;
     }
+    pkg = strdup(basename(LogDir));
+
     if (!getcwd(home, FILENAME_MAX)) {
 	cleanup(0);
 	errx(2, "unable to get current working directory!");
@@ -247,6 +227,7 @@ try_again:
 	if (!Fake)
 	    findmatchingname(dbdir, p->name, undepend, pkg, 0);
     }
+    free(pkg);
     return 0;
 }
 
