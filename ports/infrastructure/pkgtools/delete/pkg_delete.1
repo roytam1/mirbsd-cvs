@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: ports/infrastructure/pkgtools/delete/pkg_delete.1,v 1.2 2005/08/22 16:44:15 bsiegert Exp $
 .\"	$OpenBSD: pkg_delete.1,v 1.17 2003/08/21 20:24:56 espie Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -37,13 +37,22 @@ with the
 .Xr pkg_add 1
 command.
 .Pp
-Package names may be specified either as the package name itself, or as filenames which consist of the package name plus the
-.Dq .cgz ,
-.Dq .tgz ,
-.Dq .tar.gz ,
-or the
-.Dq .tar
-suffix.
+Package names may be specified either as the package name with or without
+version, as the path of the installation log directory, or as a filename
+with suffix.
+If a name without version is given and there are multiple versions of the
+package installed
+.Pq for example, with the autoconf packages ,
+.Nm
+will fail.
+.Pp
+For example, the following will work:
+.Bd -literal -offset indent
+% pkg_delete libpixman-0.1.6-0
+% pkg_delete libpixman
+% pkg_delete /usr/mpkg/db/pkg/libpixman-0.1.6-0/
+% pkg_delete libpixman-0.1.6-0.cgz
+.Ed
 .Pp
 The options are as follows:
 .Bl -tag -width Ds

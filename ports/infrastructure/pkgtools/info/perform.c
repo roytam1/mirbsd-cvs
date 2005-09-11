@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.2 2005/08/21 20:15:47 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/23 09:14:43 tedu Exp $	*/
 
 /* This is MirPorts pkg_install, based on:
@@ -31,40 +31,13 @@
 #include <signal.h>
 #include <dirent.h>
 #include <ctype.h>
+#include <libgen.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
 static char    *Home;
 
 __dead void cleanup_and_exit(int);
-
-/* retrieve info on installed packages from the base name:
- * find a full name of the form pkg-xxx.
- */
-static char *
-find_prefix(char *buffer, int bufsize, const char *base, char *pkg)
-{
-	DIR 		*dirp;
-	struct dirent 	*dp;
-	char 		*res;
-	int 		 pkg_length = strlen(pkg);
-
-
-	if (! (dirp = opendir(base)) )
-		return 0;
-	while ( (dp = readdir(dirp)) ) {
-		if (strncmp(dp->d_name, pkg, pkg_length) == 0
-		    && dp->d_name[pkg_length] == '-') {
-			snprintf(buffer, bufsize, "%s/%s", base, dp->d_name);
-			  /* pedantic: need to dup res before closedir() */
-			res = strdup(dp->d_name);
-			(void)closedir(dirp);
-			return res;
-		}
-	}
-	(void)closedir(dirp);
-	return 0;
-}
 
 static int
 pkg_do(char *pkg)
@@ -77,7 +50,6 @@ pkg_do(char *pkg)
 	struct stat     sb;
 	char           *cp = NULL;
 	int             code = 0;
-	char           *pkg2 = 0; /* hold full name of package, storage to free */
 	int             len;
 	int		isurl = 0;
 
@@ -155,25 +127,15 @@ pkg_do(char *pkg)
 	else
 installed:
 	{
-		const char *tmp;
-
-		if (!(tmp = getenv(PKG_DBDIR)))
-			tmp = DEF_LOG_DIR;
-
-		(void) snprintf(log_dir, sizeof(log_dir), "%s/%s", tmp,
-			pkg);
-		if (!fexists(log_dir) &&
-			! (pkg2 = find_prefix(log_dir, sizeof(log_dir), tmp, pkg))) {
+		if (glob_package(log_dir, sizeof(log_dir), pkg) < 1) {
 			pwarnx("can't find package `%s' installed or in a file!", pkg);
 			return 1;
 		}
-		if (pkg2)
-			pkg = pkg2;
 		if (chdir(log_dir) == -1) {
 			pwarnx("can't change directory to '%s'!", log_dir);
-			free(pkg2);
 			return 1;
 		}
+		pkg = strdup(basename(log_dir));
 		installed = true;
 	}
 
@@ -228,7 +190,6 @@ installed:
 		free_plist(&plist);
 	}
 bail:
-	free(pkg2);
 	leave_playpen(Home);
 	if (isTMP)
 		unlink(fname);
