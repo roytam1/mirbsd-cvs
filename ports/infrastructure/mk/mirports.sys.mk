@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.10 2005/09/01 23:31:44 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.11 2005/09/11 01:05:42 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -72,7 +72,6 @@ CHOWN=			/bin/chown
 _MAKE_COOKIE=		/bin/touch
 GZIP_CMD=		/usr/contrib/bin/gzip -nf ${GZIP}
 GZCAT?=			/usr/contrib/bin/gzip -dc
-SETENV?=		/usr/bin/env -i LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
 
 .  ifndef BOOTSTRAP	# Install these first
 _CKSUM_A=		${LOCALBASE}/bin/cksum -a
