@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.5 2005/07/23 15:00:34 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.6 2005/08/29 01:49:27 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1358,12 +1358,6 @@ tabs		gname=crontab mode=01730
 
 # ./var/db
 db
-
-# ./var/db/pkg
-pkg
-# ./var/db/pkg
-..
-
 # ./var/db
 ..
 
