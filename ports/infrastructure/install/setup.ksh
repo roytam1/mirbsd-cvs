@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.15 2005/09/11 23:02:07 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.16 2005/09/11 23:05:00 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -193,7 +193,10 @@ case $(uname -s 2>/dev/null || uname) {
 	;;
 }
 
-newmanpath="$localbase/man:${MANPATH:-$defmanpath}"
+newmanpath=${MANPATH:-$defmanpath}
+[[ :$newmanpath: = *:$localbase/man:* ]] || \
+    newmanpath=$localbase/man:$newmanpath
+newmanpath=${newmanpath%%+(:)}
 portsdir=$(readlink -nf $ourpath/../.. 2>/dev/null || (cd $ourpath/../.. && pwd -P))
 
 cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
