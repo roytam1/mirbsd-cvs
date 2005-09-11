@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.9 2005/05/21 01:07:13 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.12 2005/08/21 13:48:30 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,11 +37,11 @@ td=$(cd $bd/../..; pwd)
 mirror=$1 # will be $2
 binown=$(echo "${2:-root:bin}" | sed 's/:.*$//') # will be $3
 bingrp=$(echo "${2:-root:bin}" | sed 's/^.*://') # will be $3
-[ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/distfiles/
+[ -z $mirror ] && mirror=http://mirbsd.mirsolutions.de/MirOS/dist/
 
-mksh=mksh-R24.cpio.gz
-make=mirmake-20050820.cpio.gz
-mtar=paxmirabilis-20050413.cpio.gz
+mksh=mir/mksh/mksh-R24b.cpio.gz
+make=mir/make/mirmake-20050820.cpio.gz
+mtar=mir/cpio/paxmirabilis-20050413.cpio.gz
 
 T=$(mktemp -d /tmp/mirports.XXXXXXXXXX) || { echo Cannot generate temp dir; \
     exit 1; }
@@ -67,11 +67,14 @@ case "$mirror" in
 	ftp $mirror$mtar
 	;;
 esac
+mksh=$(basename $mksh)	#XXX better way?
+make=$(basename $make)
+mtar=$(basename $mtar)
 echo 'checking MD5 sums... (tell Apple to make RMD160 part of the base OS!)'
 md5 $mksh >s
 md5 $make >>s
 md5 $mtar >>s
-echo "MD5 ($mksh) = e9156dcd8236f2f6210bd3758f08fefb" >t
+echo "MD5 ($mksh) = 48d0df73eba1ef4e9c0758f69262eb66" >t
 echo "MD5 ($make) = 40bebd7e2192cf7cebebf168e2dea9d2" >>t
 echo "MD5 ($mtar) = 8f48631579a700b5328025c7dbc7ac7d" >>t
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.9 2005/09/01 22:58:45 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.10 2005/09/01 23:31:44 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -122,10 +122,10 @@ NO_CXX=			C++ is still broken, please update
 
 #--- End of OS Dependencies
 
-_MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 SHELL=			${MKSH}		# missing ? not an oversight
 
 # this is supposed to be alphabetically supported.
+_MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX?=		base
