@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/x11/xloadimage/Makefile,v 1.4 2005/07/07 21:29:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/18 08:45:33 xsa Exp $
 
 COMMENT=	"graphics file viewer for X11"
 VERSION=	4.1
 REVISION=	14.2	# Debian
 DISTNAME=	xloadimage.${VERSION}
-PKGNAME=	xloadimage-${VERSION}.${REVISION}-0
+PKGNAME=	xloadimage-${VERSION}.${REVISION}-1
 CATEGORIES=	x11 graphics
 
 # BSD
@@ -22,6 +22,7 @@ PATCHFILES=		xloadimage_${VERSION}-${REVISION}.diff.gz:0
 PATCH_DIST_STRIP=	-p1
 
 LIB_DEPENDS=		png.2::graphics/png \
+			jpeg::graphics/jpeg \
 			tiff.35::graphics/tiff
 
 USE_X11=		Yes
@@ -30,7 +31,7 @@ NO_REGRESS=		Yes
 
 post-distpatch:
 	@for p in ${WRKDIST}/debian/patches/*.dpatch; do \
-		${PATCH} ${PATCH_DIST_ARGS} < $$p; \
+		${PATCH} ${PATCH_DIST_ARGS} <$$p; \
 	done
 
 post-patch:
