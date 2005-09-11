@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.3 2005/06/26 17:13:43 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.4 2005/06/29 17:20:17 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.3 2005/06/26 17:13:43 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.4 2005/06/29 17:20:17 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -260,28 +260,28 @@ pkg_do(char *pkg)
 
     /* See if there are conflicting packages installed */
     for (p = Plist.head; p ; p = p->next) {
-	char installed[FILENAME_MAX];
+	char insttst[FILENAME_MAX];
 
 	if (p->type != PLIST_PKGCFL)
 	    continue;
 	if (Verbose)
 	    printf("Package `%s' conflicts with `%s'\n", PkgName, p->name);
 
-	if(findmatchingname(dbdir, p->name, check_if_installed, installed, sizeof(installed))){
-	    pwarnx("Conflicting package installed, please use\n\t\"pkg_delete %s\" first to remove it!",  installed);
+	if(findmatchingname(dbdir, p->name, check_if_installed, insttst, sizeof(insttst))){
+	    pwarnx("Conflicting package installed, please use\n\t\"pkg_delete %s\" first to remove it!",  insttst);
 	    ++code;
 	}
     }
 
     /* Now check the packing list for dependencies */
     for (p = Plist.head; p ; p = p->next) {
-	char installed [FILENAME_MAX];
+	char insttst[FILENAME_MAX];
 
 	if (p->type != PLIST_PKGDEP)
 	    continue;
 	if (Verbose)
 	    printf("Package `%s' depends on `%s'\n", PkgName, p->name);
-	if (!findmatchingname(dbdir, p->name, check_if_installed, installed, sizeof(installed))) {
+	if (!findmatchingname(dbdir, p->name, check_if_installed, insttst, sizeof(insttst))) {
 	    char path[FILENAME_MAX], *cp = NULL;
 
 	    if (!Fake) {
@@ -367,7 +367,7 @@ pkg_do(char *pkg)
 	    }
 	}
 	else if (Verbose)
-	    printf(" - `%s' already installed\n", installed);
+	    printf(" - `%s' already installed\n", insttst);
     }
 
     if (code != 0)
@@ -437,7 +437,7 @@ pkg_do(char *pkg)
 	char contents[FILENAME_MAX];
 
 	umask(022);
-#ifndef __INTERIX
+#ifndef AS_USER
 	if (getuid() != 0)
 	    pwarnx("not running as root - trying to record install anyway");
 #endif
