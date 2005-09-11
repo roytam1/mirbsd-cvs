@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.14 2005/09/11 22:13:16 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.15 2005/09/11 23:02:07 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -130,10 +130,17 @@ fi
 # Check some stuff
 myuid=${user%%:*}
 mygid=${user##*:}
-x=0; print -n >$T/test && chown $myuid $T/test && chgrp $mygid $T/test \
-    && chown $myuid:$mygid $T/test && rm $T/test && x=1
+test=.mirports.test.$$.$RANDOM
+x=0; print -n >$T/$test && chown $myuid $T/$test && chgrp $mygid $T/$test \
+    && chown $myuid:$mygid $T/$test && rm $T/$test && x=1
 if [[ $x = 0 ]]; then
 	print -u2 "Error: Cannot use UID '$myuid', GID '$mygid'!"
+	exit 1
+fi
+x=0; print -n >$etc/$test && chown $myuid $etc/$test && chgrp $mygid $etc/$test \
+    && chown $myuid:$mygid $etc/$test && rm $etc/$test && x=1
+if [[ $x = 0 ]]; then
+	print -u2 "Error: Cannot access '$etc' for UID '$myuid', GID '$mygid'!"
 	exit 1
 fi
 [[ $myuid = root ]] || export BINOWN=$myuid
