@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.42 2005/09/01 20:09:37 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.3 2005/09/11 01:05:41 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -455,6 +455,7 @@ MAKE_ENV+=		HOME='${PORTHOME}' PATH='${PORTPATH}' \
 			LOCALBASE='${LOCALBASE}' X11BASE='${X11BASE}' \
 			CC='${CC}' CFLAGS='${CFLAGS:C/ *$//}' \
 			LDFLAGS='${LDFLAGS}' ${DESTDIRNAME}= \
+			BINOWN='${BINOWN}' BINGRP='${BINGRP}' \
 			EXTRA_SYS_MK_INCLUDES="\"${PORTSDIR}/infrastructure/mk/mirports.bsd.mk\""
 
 DISTORIG?=		.bak.orig
