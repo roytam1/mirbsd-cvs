@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.17 2005/09/01 21:59:46 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.18 2005/09/11 00:49:37 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -115,6 +115,7 @@ fi
 # Where are we?
 ourpath=`dirname $0`
 export ourpath
+mkdir -p $ourpath/../../Distfiles
 
 # Divine a fetching utility
 fetch=false
@@ -214,9 +215,30 @@ if test x"$ms" != x"false"; then
 	echo Warning: executing old mksh failed >&2
 fi
 
+# Check permissions
+rm -rf /bin/mksh.$$.1
+badp=0
+if test -d /bin/mksh.$$.1; then
+	badp=1
+else
+	mkdir /bin/mksh.$$.1 2>/dev/null
+	test -d /bin/mksh.$$.1 || badp=1
+	rmdir /bin/mksh.$$.1 2>/dev/null
+	test -d /bin/mksh.$$.1 && badp=1
+	(echo test >/bin/mksh.$$.1) 2>/dev/null
+	test -r /bin/mksh.$$.1 || badp=1
+fi
+if test $badp = 1; then
+	echo 'You need superuser privilegues to continue installation.' >&2
+	echo 'Ask your system operator to install a recent mksh (R24b)' >&2
+	cd
+	rm -rf $T /bin/mksh.$$.1
+	exit 1
+fi
+
 # Download mksh
-cd $T
-case "$mirror" in
+cd $ourpath/../../Distfiles
+test -r $mksh_path || case "$mirror" in
 /*)	# file
 	cp $mirror/$mksh_path .
 	;;
@@ -268,7 +290,7 @@ if test $sum = bad; then
 fi
 
 # Extract and build mksh
-if gzip -dc $mksh_dist | cpio -id; then
+if gzip -dc $mksh_dist | (cd $T && cpio -id); then
 	:
 else
 	echo Build failed >&2
@@ -277,7 +299,7 @@ else
 	exit 1
 fi
 
-cd mksh
+cd $T/mksh
 SHELL=${SHELL:-/bin/sh}; export SHELL
 if test -f /usr/lib/libc.dylib; then
 	# Darwin
