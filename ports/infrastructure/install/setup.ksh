@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.6 2005/09/11 00:49:37 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.7 2005/09/11 00:53:33 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -188,7 +188,9 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	PORTSDIR='$portsdir'
 	SYSCONFDIR='$etc'
 	X11BASE='$xfbase'
-	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE
+	BINOWN='$myuid'
+	BINGRP='$mygid'
+	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE BINOWN BINGRP
 EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
@@ -197,6 +199,8 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv PORTSDIR '$portsdir'
 	setenv SYSCONFDIR '$etc'
 	setenv X11BASE '$xfbase'
+	setenv BINOWN '$myuid'
+	setenv BINGRP '$mygid'
 EOF
 
 cat >$localbase/db/SetEnv.make <<-EOF
@@ -204,6 +208,8 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	PORTSDIR?=	$portsdir
 	SYSCONFDIR?=	$etc
 	X11BASE?=	$xfbase
+	BINOWN?=	$myuid
+	BINGRP?=	$mygid
 EOF
 
 cd $portsdir/infrastructure/pkgtools
