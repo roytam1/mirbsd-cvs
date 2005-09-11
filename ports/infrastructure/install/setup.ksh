@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.12 2005/09/11 15:07:50 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.13 2005/09/11 15:15:30 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -248,7 +248,11 @@ EOF
 	_OUR_LDLIBPATH=	$LD_LIBRARY_PATH
 EOF
 
-cat >$localbase/db/make.cfg <<-EOF
+[[ -s $localbase/db/make.cfg ]] && cat >&2 <<-EOF
+	Warning: $localbase/db/make.cfg already exists!
+	Please verify if this file contains desired settings.
+EOF
+[[ -s $localbase/db/make.cfg ]] || cat >$localbase/db/make.cfg <<-EOF
 	# Default to include system-wide configuration
 	.if exists(/etc/\${MAKE:T}.cfg)
 	.  include "/etc/\${MAKE:T}.cfg"
