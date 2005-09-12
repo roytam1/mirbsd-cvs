@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.4 2005/09/12 21:46:43 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.5 2005/09/12 22:17:14 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -57,6 +57,7 @@ test -n "$OPENNT_ROOT" && isinterix=yes
 export isinterix
 
 # Set the PATHs
+#%%BEGIN sync Setup.sh with setup.ksh %% paths
 if test $isinterix = no; then
 	p=$localbase/bin
 	for a in /usr/local/bin $xfbase/bin /usr/X11R6/bin /usr/bin /bin; do
@@ -106,6 +107,7 @@ else
 	LD_LIBRARY_PATH=${LD_LIBRARY_PATH%%+(:)}
 	export LD_LIBRARY_PATH LD_LIBRARY_PATH_ORG
 fi
+#%%END sync Setup.sh with setup.ksh %% paths
 
 # Where are we?
 ourpath=`dirname $0`
@@ -248,6 +250,7 @@ fi
 
 # Download mksh
 what=mksh
+#%%BEGIN sync Setup.sh with setup.ksh %% getfile
 . $ourpath/infrastructure/install/distinfo.sh
 cd $ourpath/Distfiles
 test -r $f_dist || case "$mirror" in
@@ -311,6 +314,7 @@ else
 	rm -rf $T
 	exit 1
 fi
+#%%END sync Setup.sh with setup.ksh %% getfile
 
 cd $T/mksh
 SHELL=${SHELL:-/bin/sh}; export SHELL

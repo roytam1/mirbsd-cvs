@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.26 2005/09/12 22:47:12 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.2 2005/09/12 22:53:17 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,6 +37,7 @@ function usage
 function dependdist
 {
 	what=$1
+	#%%BEGIN sync Setup.sh with setup.ksh %% getfile
 	. $ourpath/infrastructure/install/distinfo.sh
 	cd $ourpath/Distfiles
 	test -r $f_dist || case "$mirror" in
@@ -99,6 +100,7 @@ function dependdist
 		rm -rf $T
 		exit 1
 	fi
+	#%%END sync Setup.sh with setup.ksh %% getfile
 
 	cd $T
 }
@@ -145,7 +147,8 @@ shift $((OPTIND - 1))
 [[ $etc = @LOCALBASE@* ]] && etc=$localbase${etc#@LOCALBASE@}
 [[ $d = 1 ]] && set -x
 
-# Divine paths again (copied from Setup.sh)
+# Divine paths again
+#%%BEGIN sync Setup.sh with setup.ksh %% paths
 if test $isinterix = no; then
 	p=$localbase/bin
 	for a in /usr/local/bin $xfbase/bin /usr/X11R6/bin /usr/bin /bin; do
@@ -195,6 +198,7 @@ else
 	LD_LIBRARY_PATH=${LD_LIBRARY_PATH%%+(:)}
 	export LD_LIBRARY_PATH LD_LIBRARY_PATH_ORG
 fi
+#%%END sync Setup.sh with setup.ksh %% paths
 
 # Check some stuff
 myuid=${user%%:*}
@@ -217,7 +221,7 @@ fi
 [[ $myuid = root ]] || export BINOWN=$myuid
 [[ $mygid = bin ]] || export BINGRP=$mygid
 if [[ $isinterix = no && $myuid != root ]]; then
-	# mostly copied from above, except for the export
+	# mostly copied from above (%% paths), except for the export
 	case :$LD_LIBRARY_PATH: in
 	*:$xfbase/lib:*) ;;
 	*)	LD_LIBRARY_PATH=$xfbase/lib:$LD_LIBRARY_PATH ;;
@@ -284,10 +288,6 @@ cat $portsdir/infrastructure/db/fake.mtree >$T/fake.mtree
 mtree -U -e -d -n -p / -f $T/fake.mtree
 mkdir -p $etc
 
-# XXX this is the place to install other stuff
-# XXX mmake nroff cpio mtree wget
-# XXX install <mirports.sys.mk> with/instead mmake
-[[ $ismirbsd = yes ]] || exit 1
 
 # Check if we need to install mirmake
 cd $T
@@ -353,6 +353,12 @@ EOF
 install -c -o $myuid -g $mygid -m 444 bsd.port.mk $shmk/
 install -c -o $myuid -g $mygid -m 444 bsd.port.subdir.mk $shmk/
 install -c -o $myuid -g $mygid -m 444 $T/mirports.sys.mk $shmk/
+
+
+# Check if we need to install nroff
+
+
+# Check if we need to install mtree
 
 
 # Write environmental stuff
@@ -448,6 +454,15 @@ make install
 set +e
 rm -rf {rtfm,pkg,lib,info,delete,create,add}/obj
 unset LOCALBASE
+
+
+# Check if we need to install cpio
+
+
+# Check if we need to install GNU wget
+
+
+# End of installation programme
 
 print Should be done now... have fun.
 print Source $localbase/db/SetEnv.sh for playing.
