@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.3 2005/09/12 20:41:15 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.4 2005/09/12 21:46:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -282,7 +282,7 @@ test $sum = bad || if s=`md5sum $f_dist 2>/dev/null`; then
 	fi
 fi
 test $sum = bad || if gzsig verify -q $T/signkey $f_dist 2>/dev/null; then
-	echo Note: cryptographically strong checksum verified successfully >&2
+	echo Note: cryptographically strong checksum verified successfully for $f_dist >&2
 	sum=verygood
 fi
 if test $sum = unchecked; then
