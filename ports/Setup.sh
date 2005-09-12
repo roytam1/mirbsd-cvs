@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.2 2005/09/12 20:36:31 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.3 2005/09/12 20:41:15 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -138,6 +138,18 @@ if test x"$fetch" = x"false"; then
 	done
 fi
 export fetch
+
+# Divine a C compiler
+if test -z "$CC"; then
+	if mgcc -v >/dev/null 2>&1; then
+		CC=mgcc
+	elif gcc -v >/dev/null 2>&1; then
+		CC=gcc
+	else
+		CC=cc
+	fi
+	export CC
+fi
 
 # Divine a temporary directory
 if T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
