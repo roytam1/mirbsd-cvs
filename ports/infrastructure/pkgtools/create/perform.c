@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.2 2005/05/21 00:16:03 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.3 2005/05/22 03:52:46 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.2 2005/05/21 00:16:03 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.3 2005/05/22 03:52:46 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -339,7 +339,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     if ( pid < 0 )
 	err(2, "failed to fork");
     else if ( pid == 0 ) {
-	execvp("mirports_tar", args);
+	execvp("tar", args);
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
 	err(2, "failed to execute tar command");

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.9.2.1 2005/09/11 02:04:04 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.10 2005/09/12 22:53:21 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.9.2.1 2005/09/11 02:04:04 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.10 2005/09/12 22:53:21 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -229,11 +229,11 @@ trylink(const char *from, const char *to)
 	return -1;
 }
 
-#define STARTSTRING "mirports_tar cf -"
+#define STARTSTRING "tar cf -"
 #define TOOBIG(str) strlen(str) + 6 + strlen(home) + where_count > maxargs
 #define PUSHOUT() /* push out string */					\
 	if (where_count > sizeof(STARTSTRING)-1) {			\
-		    strlcat(where_args, "|mirports_tar xpf -", maxargs); \
+		    strlcat(where_args, "|tar xpf -", maxargs); \
 		    if (system(where_args)) {				\
 			cleanup(0);					\
 			errx(2, "can't invoke tar pipeline");		\

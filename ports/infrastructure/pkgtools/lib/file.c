@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.2.2.1 2005/09/11 01:05:44 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.4 2005/09/12 22:53:24 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <glob.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.2.2.1 2005/09/11 01:05:44 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.4 2005/09/12 22:53:24 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -416,7 +416,7 @@ fileGetURL(char *base, char *spec)
 	    tpid = fork();
 	    if (!tpid) {
 		dup2(fileno(ftp), 0);
-		i = execlp("mirports_tar",
+		i = execlp("tar",
 		    "tar", Verbose ? "-xpzvf" : "-xpzf", "-", NULL);
 		exit(i);
 	    }
@@ -646,11 +646,11 @@ copy_hierarchy(const char *dir, char *fname, bool to)
 	/* If absolute path, use it */
 	if (*fname == '/')
 	    dir = "/";
-	snprintf(cmd, sizeof(cmd), "mirports_tar cf - -C %s %s | tar xpf -",
+	snprintf(cmd, sizeof(cmd), "tar cf - -C %s %s | tar xpf -",
  		 dir, fname);
     }
     else
-	snprintf(cmd, sizeof(cmd), "mirports_tar cf - %s | tar xpf - -C %s",
+	snprintf(cmd, sizeof(cmd), "tar cf - %s | tar xpf - -C %s",
  		 fname, dir);
 #ifdef DEBUG
     printf("Using '%s' to copy trees.\n", cmd);
@@ -683,7 +683,7 @@ unpack(char *pkg, const char *flist)
     else
 	strlcpy(args, "z", sizeof(args));
     strlcat(args, "xpf", sizeof(args));
-    if (vsystem("mirports_tar %s %s %s", args, pkg, flist ? flist : "")) {
+    if (vsystem("tar %s %s %s", args, pkg, flist ? flist : "")) {
 	pwarnx("tar extract of %s failed!", pkg);
 	return 1;
     }

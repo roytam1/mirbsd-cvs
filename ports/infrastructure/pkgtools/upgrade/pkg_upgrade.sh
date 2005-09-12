@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.1.2.2 2005/09/11 01:05:45 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.2 2005/09/12 22:53:28 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -41,7 +41,7 @@ trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 13 15
 
 OLDPWD=$PWD
 cd $TMPDIR
-mirports_tar xfz $1 +CONTENTS
+tar xfz $1 +CONTENTS
 cd $PKG_DBDIR
 PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
 OLDPKGS=$(eval echo ${PKGNAME%%-[0-9]*}-[0-9]*)

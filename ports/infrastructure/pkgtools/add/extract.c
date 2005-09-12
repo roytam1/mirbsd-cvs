@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.2 2005/05/07 20:15:11 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.3 2005/05/21 00:16:03 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,15 +27,15 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.2 2005/05/07 20:15:11 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.3 2005/05/21 00:16:03 tg Exp $");
 
-#define STARTSTRING "mirports_tar cf - "
+#define STARTSTRING "tar cf - "
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
 		|| (strlen(str) + FILENAME_MAX + perm_count > maxargs))
 
 #define PUSHOUT(todir) /* push out string */				\
         if (where_count > sizeof(STARTSTRING)-1) {			\
-		    strlcat(where_args, "|mirports_tar xpf - -C ", maxargs); \
+		    strlcat(where_args, "|tar xpf - -C ", maxargs); \
 		    strlcat(where_args, todir, maxargs);		\
 		    if (system(where_args)) {				\
 			cleanup(0);					\
