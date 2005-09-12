@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.18 2005/09/12 20:13:24 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.19 2005/09/12 20:41:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -129,7 +129,8 @@ iopt=0
 d=0
 while getopts "DE:ehil:U:uX:" opt; do
 	case $opt {
-	(D)	d=1 ;;
+	(D)	trap - 0 1 2 3 13 15
+		d=1 ;;
 	(E)	etc=$OPTARG ;;
 	(e)	etc=@LOCALBASE@/etc ;;
 	(i)	iopt=1 ;;
