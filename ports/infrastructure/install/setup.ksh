@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.17 2005/09/11 23:09:57 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.18 2005/09/12 20:13:24 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -36,8 +36,78 @@ function usage
 	exit 1
 }
 
+function dependdist
+{
+	what=$1
+	. $ourpath/infrastructure/install/distinfo.sh
+	cd $ourpath/Distfiles
+	test -r $f_dist || case "$mirror" in
+	/*)	# file
+		test -r $mirror/$f_path && cp $mirror/$f_path .
+		test -r $mirror/$f_dist && cp $mirror/$f_dist .
+		;;
+	*)	# http
+		$fetch $mirror$f_path
+		;;
+	esac
+	sum=unchecked
+	if s=`md5 $f_dist 2>/dev/null`; then
+		if test x"$s" = x"$f_md5"; then
+			sum=good
+		else
+			sum=bad
+		fi
+	fi
+	test $sum = bad || if s=`cksum $f_dist 2>/dev/null`; then
+		if test x"$s" = x"$f_sum"; then
+			sum=good
+		else
+			sum=bad
+		fi
+	fi
+	test $sum = bad || if s=`md5sum $f_dist 2>/dev/null`; then
+		if test x"$s" = x"$f_md5sum"; then
+			sum=good
+		else
+			sum=bad
+		fi
+	fi
+	test $sum = bad || if gzsig verify -q $T/signkey $f_dist 2>/dev/null; then
+		echo Note: cryptographically strong checksum verified successfully >&2
+		sum=verygood
+	fi
+	if test $sum = unchecked; then
+		echo Warning: Cannot check hashes for $f_dist >&2
+		echo Please compare the following two lines manually >&2
+		echo "$f_lsline" >&2
+		echo ": `TZ=UTC /bin/ls -l $f_dist`" >&2
+		echo Press RETURN to continue or abort if unsure. >&2
+		read s
+	fi
+
+	if test $sum = bad; then
+		echo Checksum verification failed >&2
+		echo "false: $s" >&2
+		cd
+		rm -rf $T
+		exit 1
+	fi
+
+	if gzip -dc $f_dist | (cd $T && cpio -id); then
+		:
+	else
+		echo Build failed >&2
+		cd
+		rm -rf $T
+		exit 1
+	fi
+
+	cd $T
+}
+
+
 if [[ $isinterix != @(yes|no) || -z $mirror \
-    || -z $ourpath || -z $tempdir ]]; then
+    || -z $ourpath || -z $tempdir || -z $fetch ]]; then
 	print -u2 ERROR: Do not call this script directly!
 	rm -rf $tempdir
 	exit 1
