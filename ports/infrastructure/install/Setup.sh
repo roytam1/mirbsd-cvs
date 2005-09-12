@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.18 2005/09/11 00:49:37 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.19 2005/09/11 15:07:50 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -38,11 +38,6 @@ export xfbase
 
 #mksh_ver=24 # unused
 mksh_date="24 2005/08/21"
-mksh_dist=mksh-R24b.cpio.gz
-mksh_path=mir/mksh/$mksh_dist
-mksh_md5="MD5 ($mksh_dist) = 48d0df73eba1ef4e9c0758f69262eb66"
-mksh_sum="240923212 224290 $mksh_dist"
-mksh_md5sum="48d0df73eba1ef4e9c0758f69262eb66  $mksh_dist"
 
 mirror=$1
 case x$1 in
@@ -114,6 +109,7 @@ fi
 
 # Where are we?
 ourpath=`dirname $0`
+ourpath=`(cd $ourpath && pwd -P)`
 export ourpath
 mkdir -p $ourpath/../../Distfiles
 
@@ -158,6 +154,7 @@ else
 		exit 1
 	}
 fi
+echo Notice: Temporary Directory: $T >&2
 echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNApd6D5OnV98FO8Ofbfm4CF1Cvwr+IPnyKyPglQnaFgHF3LVynKMYSupKXnd0JrBR79TBmIVImBnIaTPcApRdWZEbMW5IdYhrWFHKlzk4vDxBXdcVE6QfiemWsYqkiuoJvLTLHXq7WUCQ5z7KuQetMnnP2bswV8SZuYy0IvzQRBVJbiTQzBvsHfyZUERLBZvjtPE9jTaLdTOkKvCuhuTzQAMmG8aYFt9S0p1K20eCCgWvJ5vu3ir875yBrtVPl2VzdFdo7Wv3kg1HOV+Sy7dQ2bIJ52mV8CnHI1W+ZMEjzQ64m75wH/AGsVb35E0sPJzFNCGj//8/kyKxRR1I0DSDOb+iE48twOrBRrUF5+ApwocqVdIa//Cbe1ArjzrEhwaKY0SitPcFwbVV8XadtsHXfdM5QnFwTsNobk2w+XLt9I5yL/SdE1NVVXBsAN1nejzDo8XTheD6o/m5O29WO3MSS7jt1PCYItVjN4ONK/Ztaa+zQcNK9itMy2tEJ1R/gI+AipOQi0JaHHAjcdYKxDbbJpurJAHvtLvKiJNqNUJPGpqCSfL8YqmDwf3Gs1SntRjgZNeOpAdiHl2qUewcB2vujROmLTQgxJ2HJTK8hKr+2nkZdEMkYYQ/wDtsGYohokU1GOGTjdr5d2vXW8MAWaF5UQDXQzPCT4RGjDLfvod4SM+GHn8t2eDJH8uHvUPU6AXcohM30zw/h9FPf18q7Oo0srwFpc0qjvwDxl9lgilsfaL23K2V5YFeTkO1llxnRdsTmSZ7UMsugBFu5bjGEL4hC/Sml0oH9F8hiV50fXWetsQvNB637Q== Thorsten "mirabile" Glaser <tg@MirBSD.org> SIGN' >$T/signkey
 tempdir=$T; export tempdir
 
@@ -228,55 +225,59 @@ else
 	(echo test >/bin/mksh.$$.1) 2>/dev/null
 	test -r /bin/mksh.$$.1 || badp=1
 fi
+rm -f /bin/mksh.$$.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
 	echo 'Ask your system operator to install a recent mksh (R24b)' >&2
 	cd
-	rm -rf $T /bin/mksh.$$.1
+	rm -rf $T
 	exit 1
 fi
 
 # Download mksh
+what=mksh
+. $ourpath/distinfo.sh
 cd $ourpath/../../Distfiles
-test -r $mksh_path || case "$mirror" in
+test -r $f_dist || case "$mirror" in
 /*)	# file
-	cp $mirror/$mksh_path .
+	test -r $mirror/$f_path && cp $mirror/$f_path .
+	test -r $mirror/$f_dist && cp $mirror/$f_dist .
 	;;
 *)	# http
-	$fetch $mirror$mksh_path
+	$fetch $mirror$f_path
 	;;
 esac
 sum=unchecked
-if s=`md5 $mksh_dist 2>/dev/null`; then
-	if test x"$s" = x"$mksh_md5"; then
+if s=`md5 $f_dist 2>/dev/null`; then
+	if test x"$s" = x"$f_md5"; then
 		sum=good
 	else
 		sum=bad
 	fi
 fi
-test $sum = bad || if s=`cksum $mksh_dist 2>/dev/null`; then
-	if test x"$s" = x"$mksh_sum"; then
+test $sum = bad || if s=`cksum $f_dist 2>/dev/null`; then
+	if test x"$s" = x"$f_sum"; then
 		sum=good
 	else
 		sum=bad
 	fi
 fi
-test $sum = bad || if s=`md5sum $mksh_dist 2>/dev/null`; then
-	if test x"$s" = x"$mksh_md5sum"; then
+test $sum = bad || if s=`md5sum $f_dist 2>/dev/null`; then
+	if test x"$s" = x"$f_md5sum"; then
 		sum=good
 	else
 		sum=bad
 	fi
 fi
-test $sum = bad || if gzsig -q verify signkey $mksh_dist 2>/dev/null; then
+test $sum = bad || if gzsig verify -q $T/signkey $f_dist 2>/dev/null; then
 	echo Note: cryptographically strong checksum verified successfully >&2
 	sum=verygood
 fi
 if test $sum = unchecked; then
-	echo Warning: Cannot check hashes for $mksh_dist >&2
+	echo Warning: Cannot check hashes for $f_dist >&2
 	echo Please compare the following two lines manually >&2
-	echo ': -r--r--r--  1 tg  miros-cvsall  224290 Aug 21 13:08 mksh-R24b.cpio.gz' >&2
-	echo ": `/bin/ls -l $mksh_dist`" >&2
+	echo "$f_lsline" >&2
+	echo ": `/bin/ls -l $f_dist`" >&2
 	echo Press RETURN to continue >&2
 	read s
 fi
@@ -290,7 +291,7 @@ if test $sum = bad; then
 fi
 
 # Extract and build mksh
-if gzip -dc $mksh_dist | (cd $T && cpio -id); then
+if gzip -dc $f_dist | (cd $T && cpio -id); then
 	:
 else
 	echo Build failed >&2
@@ -317,18 +318,14 @@ fi
 
 # Install mksh
 set -e
-rm -f /bin/mksh.$$.1
 install -c -s -m 555 mksh /bin/mksh.$$.1
 mv /bin/mksh /bin/mksh.$$.2 && mv /bin/mksh.$$.1 /bin/mksh
 set +e
-if rm /bin/mksh.$$.2; then
-	:
+rm -f /bin/mksh.$$.2
+test -f /bin/mksh.$$.2 && if mv /bin/mksh.$$.2 /tmp/deleteme.$$.$RANDOM; then
+	echo Do not forget to clean up /tmp/deleteme.$$.\* >&2
 else
-	if mv /bin/mksh.$$.2 /tmp/deleteme.$$.$RANDOM; then
-		echo Don't forget to clean up /tmp/deleteme.$$.* >&2
-	else
-		echo Warning: remove /bin/mksh.$$.2 later >&2
-	fi
+	echo Warning: remove /bin/mksh.$$.2 later >&2
 fi
 
 # Install some kind of man page
