@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.24 2005/09/12 21:46:43 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.25 2005/09/12 22:17:15 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -412,12 +412,29 @@ EOF
 	Warning: $localbase/db/make.cfg already exists!
 	Please verify if this file contains desired settings.
 EOF
-[[ -s $localbase/db/make.cfg ]] || cat >$localbase/db/make.cfg <<-EOF
-	# Default to include system-wide configuration
-	.if exists(/etc/\${MAKE:T}.cfg)
-	.  include "/etc/\${MAKE:T}.cfg"
-	.endif
-EOF
+if [[ ! -s $localbase/db/make.cfg ]]; then
+	cat >$localbase/db/make.cfg <<-EOF
+		# Default to include system-wide configuration
+		.if exists(/etc/\${MAKE:T}.cfg)
+		.  include "/etc/\${MAKE:T}.cfg"
+		.endif
+
+		# Some stubs
+	EOF
+	if [[ $myuid = root ]]; then
+		cat >>$localbase/db/make.cfg <<-EOF
+			SUDO=		sudo		# Default on for root
+		EOF
+	else
+		cat >>$localbase/db/make.cfg <<-EOF
+			SUDO=				# Default off for user
+		EOF
+	fi
+	cat >>$localbase/db/make.cfg <<-EOF
+		#CLEANDEPENDS=	No		# Default to yes
+		#PREFER_SUBPKG_INSTALL=No	# Default to yes
+	EOF
+fi
 
 cd $portsdir/infrastructure/pkgtools
 export LOCALBASE=$localbase
