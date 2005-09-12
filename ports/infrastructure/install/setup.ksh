@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.23 2005/09/12 21:41:55 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.24 2005/09/12 21:46:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -71,7 +71,7 @@ function dependdist
 		fi
 	fi
 	test $sum = bad || if gzsig verify -q $T/signkey $f_dist 2>/dev/null; then
-		echo Note: cryptographically strong checksum verified successfully >&2
+		echo Note: cryptographically strong checksum verified successfully for $f_dist >&2
 		sum=verygood
 	fi
 	if test $sum = unchecked; then
