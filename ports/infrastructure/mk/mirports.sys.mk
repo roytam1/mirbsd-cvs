@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.12 2005/09/11 02:12:21 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.13 2005/09/12 22:10:44 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -49,7 +49,6 @@ LDCONFIG=
 _CKSUM_A=
 HAS_TIMET64=		No
 USE_SYSTRACE=		No
-MMAKE?=			${LOCALBASE}/bin/mmake
 FETCH_CMD?=		/usr/bin/ftp
 TAR=			${LOCALBASE}/bin/tar
 UNZIP=			/usr/bin/unzip
@@ -69,7 +68,6 @@ CPPFLAGS+=		-I/usr/local/include/bind
 
 HAS_TIMET64=		No
 USE_SYSTRACE=		No
-MMAKE?=			${LOCALBASE}/bin/make
 UNZIP=			/usr/contrib/bin/unzip
 CHOWN=			/bin/chown
 _MAKE_COOKIE=		/bin/touch
@@ -93,7 +91,6 @@ MACHINE_OS=		BSD
 MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
-MMAKE?=			${LOCALBASE}/bin/mmake
 HAS_TIMET64=		No
 FETCH_CMD=		/usr/bin/ftp -V -m
 
@@ -139,7 +136,6 @@ HAS_TIMET64?=		No
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 MKC_USAP?=		No
 MKSH?=			/bin/mksh
-MMAKE?=			/usr/bin/make
 MODPERL_DESTDIR?=
 NOPIC_PLATFORMS?=
 OSREV?=			${OSrev}
