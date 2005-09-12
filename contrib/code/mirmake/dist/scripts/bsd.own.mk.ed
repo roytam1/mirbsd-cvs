@@ -1,13 +1,7 @@
 0a
-# $MirOS: contrib/code/mirmake/dist/scripts/bsd.own.mk.ed,v 1.4 2005/08/21 11:28:07 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/bsd.own.mk.ed,v 1.5 2005/08/21 12:15:22 tg Exp $
 .
-/^CROSS_MODE?=/;/^BINGRP?=/-1d
--i
-WARNINGS?=		No
-DEBUGLIBS?=		No
-BSDSRCDIR?=		/usr/src
-BSDOBJDIR?=		/usr/obj
-.
+/^SKEY?=/;/^.ifdef __CRAZY/-1d
 /^OBJECT_FMT=/s/\(OBJECT_FMT=[	 ]*\).*$/\1@@obfm@@/
 /^RTLD_TYPE=/s/\(RTLD_TYPE=[	 ]*\).*$/\1@@rtld@@/
 /^MKSH?=/s/\(MKSH?=[	 ]*\).*$/\1@@mksh@@/
