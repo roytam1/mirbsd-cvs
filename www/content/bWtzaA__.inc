@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.5 2005/08/26 22:19:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.6 2005/09/12 20:27:23 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
@@ -18,6 +18,7 @@
 </ul>
 <p>R24c is another clean-up release, with no change to KSH_VERSION.</p><ul>
  <li>Document stance on quoting policy in here documents</li>
+ <li>More fixes for GCC 4 warnings</li>
 </ul>
 <p>R24b is a minor clean-up relase, recommended especially on Darwin.</p><ul>
  <li>please GCC 4 with the usual crazy set of warning flags</li>
