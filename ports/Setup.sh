@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.1 2005/09/12 20:15:47 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.2 2005/09/12 20:36:31 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -278,7 +278,7 @@ if test $sum = unchecked; then
 	echo Please compare the following two lines manually >&2
 	echo "$f_lsline" >&2
 	echo ": `TZ=UTC /bin/ls -l $f_dist`" >&2
-	echo Press RETURN to continue >&2
+	echo Press RETURN to continue or abort if unsure. >&2
 	read s
 fi
 
