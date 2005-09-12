@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.22 2005/09/12 21:41:04 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.23 2005/09/12 21:41:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -297,7 +297,7 @@ all:
 	@echo \${_MIRMAKE_VER}
 EOF
 shmk=$localbase/share/make
-if [[ $(make -f f all) -ge 20040912 ]]; then
+if [[ $(make -f f all) -ge 20050912 ]]; then
 	# Version matches; check for ${.SYSMK}
 	sysmk=$(make -f f ___DISPLAY_MAKEVARS=.SYSMK)
 	if [[ $ismirbsd = yes && $sysmk = /usr/share/mk \
