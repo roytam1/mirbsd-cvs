@@ -1,9 +1,9 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.1 2005/06/09 21:14:45 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.2 2005/07/08 00:13:53 tg Exp $
 
 COMMENT=		"MirBSD Korn Shell"
-DISTNAME=		mksh-R24
+DISTNAME=		mksh-R24c
 CATEGORIES=		shells
-HOMEPAGE=		http://wiki.mirbsd.de/MirbsdKsh
+HOMEPAGE=		http://mirbsd.mirsolutions.de/?mksh
 
 # MirOS licence; 2-clause UCB-style licence
 PERMIT_DISTFILES_CDROM=	Yes
@@ -11,8 +11,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-MASTER_SITES=		http://mirbsd.bsdadvocacy.org/MirOS/distfiles/ \
-			http://mirbsd.mirsolutions.de/MirOS/distfiles/
+MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/}
 EXTRACT_SUFX=		.cpio.gz
 
 WRKDIST=		${WRKDIR}/mksh
