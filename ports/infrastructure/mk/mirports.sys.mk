@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.11 2005/09/11 01:05:42 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.12 2005/09/11 02:12:21 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,13 +34,16 @@ OSNAME!=		uname -s
 OSname=			${OSNAME:L}
 .endif
 
+.ifndef OSREV
+OSREV!=			uname -r
+.endif
+.ifndef OSrev
+OSrev=			${OSREV:S/./_/g}
+.endif
+
 #--- Specific OS Dependencies
 
 .if ${OStype} == "Darwin"
-MACHINE_OS=		Darwin
-OSREV!=			uname -r
-OSrev=			${OSREV:S/./_/g:S/_0$//}
-
 NOPIC=			No	# XXX
 LDCONFIG=
 _CKSUM_A=
@@ -112,6 +115,9 @@ _GDIFFLAG=		NEED_GDIFF=yes
 .  if ${OSrev} < 8
 .    error Operating System too old and unsupported.
 .  elif ${OSrev} == 8
+.    ifndef OSrpl
+OSrpl!=			x=$(uname -l); x=16#${x#@(#[0-9][a-z])}; let x=${x%%-*}; print $x
+.    endif
 .    if ${OSrpl} < 40
 HAS_CXX=		reason
 NO_CXX=			C++ is still broken, please update
