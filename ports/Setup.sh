@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.5 2005/09/12 22:17:14 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.6 2005/09/12 23:23:49 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -250,7 +250,7 @@ fi
 
 # Download mksh
 what=mksh
-#%%BEGIN sync Setup.sh with setup.ksh %% getfile
+#%%BEGIN ^K. sync Setup.sh with setup.ksh %% getfile
 . $ourpath/infrastructure/install/distinfo.sh
 cd $ourpath/Distfiles
 test -r $f_dist || case "$mirror" in
@@ -305,7 +305,7 @@ if test $sum = bad; then
 	exit 1
 fi
 
-# Extract and build mksh
+# Extract the distfile
 if gzip -dc $f_dist | (cd $T && cpio -id); then
 	:
 else
@@ -316,6 +316,7 @@ else
 fi
 #%%END sync Setup.sh with setup.ksh %% getfile
 
+# Build mksh
 cd $T/mksh
 SHELL=${SHELL:-/bin/sh}; export SHELL
 if test -f /usr/lib/libc.dylib; then

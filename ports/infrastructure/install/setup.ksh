@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.2 2005/09/12 22:53:17 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.3 2005/09/12 23:23:53 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,7 +37,7 @@ function usage
 function dependdist
 {
 	what=$1
-	#%%BEGIN sync Setup.sh with setup.ksh %% getfile
+	#%%BEGIN ^K. sync Setup.sh with setup.ksh %% getfile
 	. $ourpath/infrastructure/install/distinfo.sh
 	cd $ourpath/Distfiles
 	test -r $f_dist || case "$mirror" in
@@ -92,6 +92,7 @@ function dependdist
 		exit 1
 	fi
 
+	# Extract the distfile
 	if gzip -dc $f_dist | (cd $T && cpio -id); then
 		:
 	else
