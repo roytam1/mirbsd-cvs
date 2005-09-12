@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/uname/uname.c,v 1.2 2005/03/13 18:33:50 tg Exp $ */
 /*	$OpenBSD: uname.c,v 1.8 2003/07/10 00:06:51 david Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include <sys/sysctl.h>
 #include <err.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/uname/uname.c,v 1.2 2005/03/13 18:33:50 tg Exp $");
 
 static void usage(void);
 
@@ -160,6 +160,6 @@ main(int argc, char *argv[])
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: uname [-amnplrsvM]\n");
+	fprintf(stderr, "usage: uname [-amnplrsv]\n");
 	exit(1);
 }
