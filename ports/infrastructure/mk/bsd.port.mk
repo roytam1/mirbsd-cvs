@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.6 2005/09/11 02:12:20 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.7 2005/09/11 02:35:31 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -600,7 +600,9 @@ _SYSTRACE_CMD?=		/bin/systrace ${_SYSTRACE_ARGS} -f ${_SYSTRACE_COOKIE}
 _SYSTRACE_CMD=
 .endif
 SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/templates/systrace.filter
-_SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env ${MMAKE} ${LOCALBASE}/bin/gmake
+_SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env \
+			/usr/bin/make ${LOCALBASE}/bin/make \
+			${LOCALBASE}/bin/gmake
 SYSTRACE_SUBST_VARS+=	DISTDIR PKG_TMPDIR PORTSDIR TMPDIR WRKDIR
 .for _v in ${SYSTRACE_SUBST_VARS}
 _SYSTRACE_SED_SUBST+=	-e 's,$${${_v}},${${_v}},g'
