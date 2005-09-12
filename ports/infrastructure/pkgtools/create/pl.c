@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.7 2005/06/02 20:44:05 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.9.2.1 2005/09/11 02:04:04 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.7 2005/06/02 20:44:05 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.9.2.1 2005/09/11 02:04:04 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -43,7 +43,7 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 
 	tmp = strstr(p->name, ".so");
 	if (!tmp) {
-		return;
+		return false;
 	}
 	*tmp = '\0';
 	snprintf(pattern, sizeof(pattern), "%s.[0-9]*.dylib", p->name);
@@ -53,7 +53,7 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 	tmp = realloc(p->name, len);
 	if (!tmp) {
 		pwarn("dylib realloc failed");
-		return;
+		return false;
 	}
 	strlcat(tmp, ".dylib", len);
 	p->name = NULL;
@@ -72,10 +72,10 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 	bool rv = false;
 
 	if (!pkg || !p)
-		return;
+		return false;
 	if (!p->name) {
 		pwarnx("lib command without filename - the packing list is incorrect");
-		return;
+		return false;
 	}
 
 	switch (LdType) {

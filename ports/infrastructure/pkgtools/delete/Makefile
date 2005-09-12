@@ -1,10 +1,11 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/pkgtools/delete/Makefile,v 1.1.7.1.2.1 2005/09/11 00:49:40 tg Exp $
 # $OpenBSD: Makefile,v 1.3 1996/08/26 07:00:30 deraadt Exp $
 
 PROG=		pkg_delete
 SRCS=		main.c perform.c
 CPPFLAGS+=	${DEBUG} -I${.CURDIR}/../lib
 
+.include "../Makefile.inc"
 .include <bsd.obj.mk>
 
 .if exists(${.CURDIR}/../lib/${__objdir})

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2 2005/06/17 20:20:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.bsd.mk,v 1.2.2.7 2005/09/11 01:33:49 tg Exp $
 #-
 # This file replaces <bsd.own.mk> as EXTRA_SYS_MK_INCLUDES
 # during MirPorts builds.
@@ -6,20 +6,18 @@
 .ifndef _MIRPORTS_BSD_MK
 _MIRPORTS_BSD_MK=1
 
-# First, get the defaults.
+.if defined(TRUEPREFIX) && !empty(TRUEPREFIX)
+BSD_PREFIX=		${TRUEPREFIX}
+.elif defined(PREFIX) && !empty(PREFIX)
+BSD_PREFIX=		${PREFIX}
+.endif
+
+BINDIR?=		${BSD_PREFIX}/bin
+
 .include <bsd.own.mk>
 
-# Second, override where necessary.
+# Override where necessary. Sync this with <mirports.sys.mk>
 DEBUGLIBS=		No
-
-BINDIR=			${PREFIX}/bin
-LIBDIR=			${PREFIX}/lib
-MANDIR=			${PREFIX}/man/cat
-SHAREDIR=		${PREFIX}/share
-
-.if defined(DESTDIR) && !empty(DESTDIR) && defined(TRUEPREFIX)
-PREFIX:=		${TRUEPREFIX}
-.endif
-BSD_PREFIX=		${PREFIX}
+DEBUGPROGS=		No
 
 .endif

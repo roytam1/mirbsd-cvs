@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.11 2005/08/21 13:39:35 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup-Darwin.sh,v 1.10.2.1 2005/09/11 01:05:40 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

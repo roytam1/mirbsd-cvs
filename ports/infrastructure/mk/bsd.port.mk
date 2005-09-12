@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.42 2005/09/01 20:09:37 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.8 2005/09/12 22:13:47 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -43,7 +43,7 @@ ERRORS+=		"Use 'env SUBPACKAGE=${SUBPACKAGE:Q} ${MAKE}' instead."
 # User settings
 TRUST_PACKAGES?=	No
 BIN_PACKAGES?=		No
-CLEANDEPENDS?=		No
+CLEANDEPENDS?=		Yes
 BULK?=			No
 RECURSIVE_FETCH_LIST?=	Yes
 WRKOBJDIR?=
@@ -231,8 +231,6 @@ FAKE_FLAGS+=		${EXTRA_FAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
 
 CONFIGURE_STYLE?=
 
-# where configuration files should go
-SYSCONFDIR?=		/etc
 .if ${USE_GMAKE:L} == "yes" || ${USE_SCHILY:L} != "no"
 BUILD_DEPENDS+=		::devel/gmake
 MAKE_PROGRAM=		${GMAKE}
@@ -412,7 +410,7 @@ CHECKSUM_FILE?=		${.CURDIR}/distinfo
 # Don't touch!!! Used for generating checksums.
 _CIPHERS=		rmd160 sha1 md5
 
-_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/usr/bin:/bin:/usr/sbin:/sbin:${X11BASE}/bin
+_PORTPATH?=		${WRKDIR}/bin:${LOCALBASE}/bin:/usr/bin:/bin:${LOCALBASE}/sbin:/usr/sbin:/sbin:${X11BASE}/bin
 PORTPATH?=		${_PORTPATH}
 
 # Add any COPTS to CFLAGS.
@@ -458,6 +456,7 @@ MAKE_ENV+=		HOME='${PORTHOME}' PATH='${PORTPATH}' \
 			LOCALBASE='${LOCALBASE}' X11BASE='${X11BASE}' \
 			CC='${CC}' CFLAGS='${CFLAGS:C/ *$//}' \
 			LDFLAGS='${LDFLAGS}' ${DESTDIRNAME}= \
+			BINOWN='${BINOWN}' BINGRP='${BINGRP}' \
 			EXTRA_SYS_MK_INCLUDES="\"${PORTSDIR}/infrastructure/mk/mirports.bsd.mk\""
 
 DISTORIG?=		.bak.orig
@@ -596,14 +595,14 @@ SCRIPTS_ENV+=		${_INSTALL_MACROS}
 # setup systrace variables
 NO_SYSTRACE?=		No
 .if ${USE_SYSTRACE:L} == "yes" && ${NO_SYSTRACE:L} == "no"
-_SYSTRACE_CMD?=		/bin/systrace ${SYSTRACE_ARGS_ADD} -i -a \
-			    -f ${_SYSTRACE_COOKIE}
+_SYSTRACE_CMD?=		/bin/systrace ${_SYSTRACE_ARGS} -f ${_SYSTRACE_COOKIE}
 .else
 _SYSTRACE_CMD=
 .endif
 SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/templates/systrace.filter
-_SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env /usr/bin/make \
-			    ${LOCALBASE}/bin/gmake
+_SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env \
+			/usr/bin/make ${LOCALBASE}/bin/make \
+			${LOCALBASE}/bin/gmake
 SYSTRACE_SUBST_VARS+=	DISTDIR PKG_TMPDIR PORTSDIR TMPDIR WRKDIR
 .for _v in ${SYSTRACE_SUBST_VARS}
 _SYSTRACE_SED_SUBST+=	-e 's,$${${_v}},${${_v}},g'
@@ -712,6 +711,10 @@ YACC?=			yacc
 # XXX ${SETENV} is needed in front of var=value lists whenever the next
 # command is expanded from a variable, as this could be a shell construct
 SETENV?=		/usr/bin/env -i
+# For Interix and installs as regular user
+.if defined(_OUR_LDLIBPATH) && !empty(_OUR_LDLIBPATH)
+SETENV+=		LD_LIBRARY_PATH="${_OUR_LDLIBPATH}"
+.endif
 # Override only if port depends e.g. on GNU bash features. Not recommended.
 SH?=			${SHELL}
 
