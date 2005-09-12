@@ -1,13 +1,12 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.1.7.1 2005/03/18 15:45:43 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.2 2005/08/21 11:48:42 tg Exp $
 
 COMMENT=		"Joe's Own Editor"
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp3
+DISTNAME=		joe-3.1jupp4
 EXTRACT_SUFX=		.cpio.gz
-HOMEPAGE=		http://wiki.mirbsd.de/JuppEditor \
-			http://sourceforge.net/projects/joe-editor/
+HOMEPAGE=		http://mirbsd.mirsolutions.de/?jupp
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
-MASTER_SITES=		${_MASTER_SITE_MIRBSD}
+MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/jupp/}
 
 # GNU GPL Version 1
 PERMIT_DISTFILES_CDROM=	Yes
