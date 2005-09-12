@@ -1,9 +1,9 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.4 2005/08/21 13:54:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.5 2005/08/26 22:19:28 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
 
-<h1>mksh R24b</h1>
+<h1>mksh R24c</h1>
 <p>
  This is a more or less portable version of the pdksh derivate
  Korn shell which comes, as an alternative to the default (and
@@ -12,9 +12,12 @@
 
 <h3>Recent Changes</h3>
 <p>Changes in the current development version:</p><ul>
- <li>Document stance on quoting policy in here documents</li>
  <li>On MirOS, integrate <a href="/man1/printf.htm">printf(1)</a>
-  as shell builtin, mostly to speed up libtool and stuff</li>
+  as shell builtin, mostly to speed up libtool and stuff
+  (currently broken, thus disabled again).</li>
+</ul>
+<p>R24c is another clean-up release, with no change to KSH_VERSION.</p><ul>
+ <li>Document stance on quoting policy in here documents</li>
 </ul>
 <p>R24b is a minor clean-up relase, recommended especially on Darwin.</p><ul>
  <li>please GCC 4 with the usual crazy set of warning flags</li>
@@ -125,16 +128,16 @@ integer type to 64 bits signed (any takers?).
 <p>
 The current version is
 <ul>
- <li><a href="https://mirbsd.bsdadvocacy.org:8890/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz</a></li>
- <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24b.cpio.gz</a></li>
+ <li><a href="https://mirbsd.bsdadvocacy.org:8890/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</a></li>
+ <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</a></li>
 </ul>
 <p>
 <ul>
  <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R24b.cpio.gz) = 2f056c264120871d670b2eb53960e5d6e3d1cce8</li>
- <li>240923212 224290 /MirOS/dist/mir/mksh/mksh-R24b.cpio.gz</li>
- <li>MD5 (mksh-R24b.cpio.gz) = 48d0df73eba1ef4e9c0758f69262eb66</li>
+ <li>RMD160 (mksh-R24c.cpio.gz) = d51083b237b74cb6c6035fe8fe4ea9f9382cdf26</li>
+ <li>2460615772 224603 /MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</li>
+ <li>MD5 (mksh-R24c.cpio.gz) = 7b7b7afb595da75d27b2f08655320600</li>
 </ul>
 <p>
 If you ever sit in front of an unfriendly operating
@@ -147,21 +150,21 @@ If you must use a web browser for downloading the file,
 please note that most of them, seen on Mozilla(TM) and
 its derivates as well as Microsoft Internet Explorer,
 have a bug where the file is saved correctly
-as <em>mksh-R24b.cpio.gz</em> but already decompressed.
+as <em>mksh-R24c.cpio.gz</em> but already decompressed.
 <p>
 <h2>Unpacking</h2>
 
 <p>
 On decent systems, you can just use
 <ul>
- <li>tar xzf mksh-R24b.cpio.gz</li>
+ <li>tar xzf mksh-R24c.cpio.gz</li>
 </ul>
 to extract the file.
 <p>
 On quite damaged systems such as everything which is not
 <a href="wiki.cgi?MirOS" class=wikipagelink>MirOS</a> or anything else with <a href="wiki.cgi?MirCpio" class=wikipagelink>MirCpio</a> (paxmirabilis), use
 <ul>
- <li>gzip -dc mksh-R24b.cpio.gz | cpio -mid</li>
+ <li>gzip -dc mksh-R24c.cpio.gz | cpio -mid</li>
 </ul>
 <p>
 Of course, skip the gzip stage (use cat) or the 'z' flag
@@ -295,7 +298,7 @@ The <a href="wiki.cgi?MirOS" class=wikipagelink>MirOS</a> Project has tested mir
 
 <p>
 <DL >
-<dt><dd> mksh R24b
+<dt><dd> mksh R24c
 </DL>
 Obviously works, as part of the base install.
 <p>
@@ -349,7 +352,7 @@ dynamically linked.
 
 <p>
 <DL >
-<dt><dd> mksh R24
+<dt><dd> mksh R24c
 </DL>
 The testsuite works, and it can be used to play around.
 Apple does not install the tools needed for a static build.
