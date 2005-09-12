@@ -1,16 +1,16 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.5 2005/09/02 13:57:08 bsiegert Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.6 2005/09/06 16:22:26 bsiegert Exp $
 
-# only works with portable MirMake
-NOT_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+.if ${.SYSMK} == "/usr/share/mk"
+ERRORS+=		"This port only works with MirMake"
+.endif
 
 COMMENT=		"MirOS cksum(1)"
 CATEGORIES=		essentials
-DISTNAME=		mircksum-20050412
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		mircksum-20050912
 EXTRACT_SUFX=		.cpio.gz
 HOMEPAGE=		http://wiki.mirbsd.de/MirCksum
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
-MASTER_SITES=		${_MASTER_SITE_MIRBSD}
+MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/cksum/}
 
 # BSD, ISC, MirOS
 PERMIT_DISTFILES_CDROM=	Yes
@@ -21,19 +21,11 @@ PERMIT_PACKAGE_FTP=	Yes
 WRKDIST=		${WRKDIR}/md5
 CPPFLAGS+=		-isystem ${.SYSMK}
 EXTRA_XAKE_FLAGS=	LDADD="-L${.SYSMK} -lmirmake"
-EXTRA_FAKE_FLAGS=	BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man/cat
 
 .include <mirports.sys.mk>
 
 .if ${OBJECT_FMT} == "PE"
 MAKE_ENV+=		AFLAGS=-DUNDERSCORES
 .endif
-
-post-extract:
-	cp ${FILESDIR}/[!C]* ${WRKSRC}/
-
-do-configure:
-	@cd ${WRKBUILD} && exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
-	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} obj
 
 .include <bsd.port.mk>
