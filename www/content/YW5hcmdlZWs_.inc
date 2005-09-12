@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.5 2005/05/06 18:05:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.6 2005/06/06 10:19:51 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>.</p>
 <h2>Why this page?</h2>
@@ -113,7 +113,7 @@
  erzeugt, wegschmei&szlig;t und Ressourcen verschwendet, w&auml;hrend er
  den Verstand der Leute manipuliert, erzwingt, widerstehen m&ouml;chte.
  Ich verwende Hardware, die andere als veraltet ansehen, weiter, belebe sie
- mit unbenutzten Komponenten sowie befreie sie mit offener Software. Ich
+ mit unbenutzten Komponenten sowie befreie sie mit offener Software. Ich mag
  es, die Grenzen aus der Mode gekommener Maschinen zu erforschen; statt
  verbrauchend sch&ouml;pferisch Kreativit&auml;t im Umgang mit dem System,
  Vorstellungskraft und Experimentierfreude bei meinen elektronischen
@@ -137,16 +137,17 @@
  &uuml;ber die ganze Welt verteilt offen f&uuml;r alle ist, das die Grenzen
  zwischen Handelnden, Zuschauenden und Journalisten aufbricht und Probleme
  zum Vorschein kommen l&auml;&szlig;t, die die Massenmedien vorsichtig
- ignorieren oder &uuml;ber die sie gar Disinformationen verbreiten.</p>
+ ignorieren oder &uuml;ber die sie gar Desinformationen verbreiten.</p>
 <p>Ich m&ouml;chte nicht dumm und nichtswissend bleiben, ebensowenig
- m&ouml;chte ich ein Besserwisser sein und auf meinem Standpunkt stehen
- bleiben ohne jemals hinzulernen zu wollen &ndash; auch darum bin ich
- ein Anargeek. Ich &ouml;ffne mich neuem Wissen, lerne und lehre, teile
- und entdecke F&auml;higkeiten, von denen ich noch nie geh&ouml;rt habe,
- schaue &uuml;ber den Tellerrand hinaus. Ich weigere mich anzuerkennen,
- da&szlig; &ndash; in einer Art traditioneller Hierarchie &ndash; die
- &Auml;lteren oder Vorgesetzten immer und &uuml;berall Recht haben, nur
- weil sie &auml;lter oder l&auml;nger dabei sind.</p>
+ m&ouml;chte ich ein Besserwisser oder Fachidiot sein und auf meinem
+ Standpunkt stehen bleiben, ohne jemals hinzulernen zu wollen &ndash;
+ auch darum bin ich ein Anargeek. Ich &ouml;ffne mich neuem Wissen,
+ lerne und lehre, teile und entdecke F&auml;higkeiten, von denen ich
+ noch nie geh&ouml;rt habe, schaue &uuml;ber den Tellerrand hinaus.
+ Ich weigere mich anzuerkennen, da&szlig; &ndash; in einer Art
+ traditioneller Hierarchie &ndash; die &Auml;lteren oder Vorgesetzten
+ immer und &uuml;berall Recht haben, nur weil sie &auml;lter sind
+ oder l&auml;nger partizipieren.</p>
 <p>Schlie&szlig;lich bin ich ein Anargeek, weil ich glaube, da&szlig;
  Computer nicht nur Instrumente der Datensammlung, Beherrschung und
  Entfremdung darstellen, sondern auch als Hilfsmittel zur St&auml;rkung
