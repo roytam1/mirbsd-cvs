@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.13 2005/09/12 22:10:44 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.14 2005/09/12 22:13:48 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -60,9 +60,6 @@ M4?=			/usr/bin/gm4
 #---
 
 .if ${OStype} == "Interix"
-MACHINE_OS=		Interix
-OStype=			Interix
-
 # Use a better working resolver
 CPPFLAGS+=		-I/usr/local/include/bind
 
@@ -79,15 +76,12 @@ _CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
 FETCH_CMD?=		${LOCALBASE}/bin/wget
 TAR=			${LOCALBASE}/bin/tar
-.  else			# Half-working versions
-TAR=			/bin/tar
 .  endif
 .endif
 
 #---
 
 .if ${OStype} == "OpenBSD"
-MACHINE_OS=		BSD
 MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
