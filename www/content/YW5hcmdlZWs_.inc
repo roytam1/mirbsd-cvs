@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.6 2005/06/06 10:19:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.7 2005/09/12 00:41:36 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>.</p>
 <h2>Why this page?</h2>
@@ -139,7 +139,7 @@
  zum Vorschein kommen l&auml;&szlig;t, die die Massenmedien vorsichtig
  ignorieren oder &uuml;ber die sie gar Desinformationen verbreiten.</p>
 <p>Ich m&ouml;chte nicht dumm und nichtswissend bleiben, ebensowenig
- m&ouml;chte ich ein Besserwisser oder Fachidiot sein und auf meinem
+ m&ouml;chte ich ein Besserwisser oder Fachidiot sein oder auf meinem
  Standpunkt stehen bleiben, ohne jemals hinzulernen zu wollen &ndash;
  auch darum bin ich ein Anargeek. Ich &ouml;ffne mich neuem Wissen,
  lerne und lehre, teile und entdecke F&auml;higkeiten, von denen ich
