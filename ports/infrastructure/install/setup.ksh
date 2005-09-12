@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.20 2005/09/12 21:39:43 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.1.2.19 2005/09/12 20:41:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -290,6 +290,74 @@ mkdir -p $etc
 # XXX mmake nroff cpio mtree wget
 # XXX install <mirports.sys.mk> with/instead mmake
 [[ $ismirbsd = yes ]] || exit 1
+
+# Check if we need to install mirmake
+cd $T
+cat >f <<EOF
+_MIRMAKE_VER?=0
+all:
+	@echo \${_MIRMAKE_VER}
+EOF
+shmk=$localbase/share/make
+if [[ $(make -f f all) -ge 20040912 ]]; then
+	# Version matches; check for ${.SYSMK}
+	sysmk=$(make -f f ___DISPLAY_MAKEVARS=.SYSMK)
+	if [[ $ismirbsd = yes && $sysmk = /usr/share/mk \
+	    && $localbase = /usr/mpkg && $myuid = root && $mygid = bin ]]; then
+		# On MirOS-Default, use /usr/share/mk
+		shmk=/usr/share/mk
+	elif [[ $sysmk = $shmk ]]; then
+		: # Everything OK, we don't need to update
+	else
+		# Write a wrapper
+		m=$(whence -p make)
+		cat >$localbase/bin/make <<-EOF
+			#!/bin/mksh
+			exec $m -m $localbase/share/make -m $sysmk "\$@"
+		EOF
+		chown $myuid:$mygid $localbase/bin/make
+		chmod 555 $localbase/bin/make
+		mkdir -p $shmk
+	fi
+else
+	# Too old, install new mirmake
+	dependdist make
+	cd mirmake
+	osmandir=man/cat
+	if [[ $isinterix = yes ]]; then
+		ostype=Interix
+	elif [[ $ismirbsd = yes ]]; then
+		ostype=MirBSD
+	elif [[ $isopenbsd = yes ]]; then
+		ostype=OpenBSD
+	elif [[ $isdarwin = yes ]]; then
+		ostype=Darwin
+		osmandir=man/man
+	fi
+	u=$myuid:$mygid
+	[[ $u = root:bin ]] && u=
+	set -e
+	$SHELL ./Build.sh $ostype $localbase $osmandir make "" "" "" $SHELL $u
+	$SHELL ./Install.sh
+	set +e
+	cd $T
+	rm -rf mirmake
+fi
+
+# Copy <*.mk> includes
+cd $portsdir/infrastructure/install
+cp mirports.sys.mk $T/
+ed -s $T/mirports.sys.mk <<-EOF
+	/^PORTSDIR/s#@#$portsdir#
+	/^LOCALBASE/s#@#$localbase#
+	wq
+EOF
+install -c -o $myuid -g $mygid -m 444 bsd.port.mk $shmk/
+install -c -o $myuid -g $mygid -m 444 bsd.port.subdir.mk $shmk/
+install -c -o $myuid -g $mygid -m 444 $T/mirports.sys.mk $shmk/
+
+
+# Write environmental stuff
 
 cat >$localbase/db/SetEnv.sh <<-EOF
 	LOCALBASE='$localbase'
