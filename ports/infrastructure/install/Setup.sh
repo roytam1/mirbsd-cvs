@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.19 2005/09/11 15:07:50 tg Exp $
+# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.20 2005/09/12 20:10:09 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -109,9 +109,9 @@ fi
 
 # Where are we?
 ourpath=`dirname $0`
-ourpath=`(cd $ourpath && pwd -P)`
+ourpath=`(cd $ourpath/../.. && pwd)`
 export ourpath
-mkdir -p $ourpath/../../Distfiles
+mkdir -p $ourpath/Distfiles
 
 # Divine a fetching utility
 fetch=false
@@ -164,7 +164,7 @@ if test $isinterix = yes; then
 	# Check for nroff
 	test -f /usr/bin/nroff || \
 	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
-	    /bin/ksh $ourpath/setup.ksh -i "$@"
+	    /bin/ksh $ourpath/infrastructure/install/setup.ksh -i "$@"
 	if test ! -f /usr/bin/nroff; then
 		echo Cannot install nroff >&2
 		exit 1
@@ -206,8 +206,8 @@ fi
 if test x"$ms" != x"false"; then
 	SHELL=$ms; export SHELL
 	case $# in
-	0)	exec $ms $ourpath/setup.ksh ;;
-	*)	exec $ms $ourpath/setup.ksh "$@" ;;
+	0)	exec $ms $ourpath/infrastructure/install/setup.ksh ;;
+	*)	exec $ms $ourpath/infrastructure/install/setup.ksh "$@" ;;
 	esac
 	echo Warning: executing old mksh failed >&2
 fi
@@ -236,8 +236,8 @@ fi
 
 # Download mksh
 what=mksh
-. $ourpath/distinfo.sh
-cd $ourpath/../../Distfiles
+. $ourpath/infrastructure/install/distinfo.sh
+cd $ourpath/Distfiles
 test -r $f_dist || case "$mirror" in
 /*)	# file
 	test -r $mirror/$f_path && cp $mirror/$f_path .
@@ -342,8 +342,8 @@ rm -rf mksh
 # Jump into final script
 SHELL=/bin/mksh; export SHELL
 case $# in
-0)	exec /bin/mksh $ourpath/setup.ksh ;;
-*)	exec /bin/mksh $ourpath/setup.ksh "$@" ;;
+0)	exec /bin/mksh $ourpath/infrastructure/install/setup.ksh ;;
+*)	exec /bin/mksh $ourpath/infrastructure/install/setup.ksh "$@" ;;
 esac
 
 # This line is never run
