@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.46 2005/08/21 12:15:22 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.47 2005/09/01 22:27:33 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -124,7 +124,7 @@ esac
 
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
-export CPPFLAGS="$CPPFLAGS -isystem $d_build/F -include $d_build/F/mirmake.h"
+export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 export NROFF="${NROFF:-nroff}"
 

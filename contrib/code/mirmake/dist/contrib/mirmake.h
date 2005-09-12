@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.13 2005/05/21 17:03:49 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
 /*-
  * Copyright (c) 2005
@@ -31,7 +31,8 @@
  * of this work, even if advised of the possibility of such damage.
  *-
  * Add here: macros not defined on every operating system, for easier
- * patching of ported apps.
+ * patching of ported apps. Same for definitions of libmirmake, these
+ * are only declared if _MIRMAKE_DEFNS is defined first.
  * Suggest to use with CPPFLAGS+= -include "/path/to/mirmake.h" - but
  * take care of CPP uses with assembly source.
  */
@@ -173,7 +174,7 @@
 #endif
 #endif
 
-#ifndef _NO_DECLS
+#ifdef _MIRMAKE_DEFNS
 __BEGIN_DECLS
 size_t strlcat(char *, const char *, size_t);
 size_t strlcpy(char *, const char *, size_t);
