@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/install/Setup.sh,v 1.14.2.21 2005/09/12 20:13:23 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.1 2005/09/12 20:15:47 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -277,7 +277,7 @@ if test $sum = unchecked; then
 	echo Warning: Cannot check hashes for $f_dist >&2
 	echo Please compare the following two lines manually >&2
 	echo "$f_lsline" >&2
-	echo ": `/bin/ls -l $f_dist`" >&2
+	echo ": `TZ=UTC /bin/ls -l $f_dist`" >&2
 	echo Press RETURN to continue >&2
 	read s
 fi
