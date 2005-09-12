@@ -1,6 +1,13 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.27 2005/08/09 13:15:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.28 2005/08/20 12:34:22 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>12.09.2005<br />
+	The MirPorts Framework now can be installed as user too. The newly
+	written infrastructure is active; Support for Darwin, OpenBSD and,
+	eventually, Interix will make it into the framework the next days.
+	Along with this, new versions of the Mir* tools have been released
+	(gzsig'd as usual).</li>
 
 <li>20.08.2005<br />
 	The MirPorts Framework now installs into <tt>/usr/mpkg</tt> on all
