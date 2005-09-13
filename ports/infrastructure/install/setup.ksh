@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.6 2005/09/13 10:26:40 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.7 2005/09/13 10:52:36 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -341,6 +341,16 @@ else
 	set +e
 	cd $T
 	rm -rf mirmake
+	if [[ $MKSH != /bin/mksh ]]; then
+		for f in $localbase/bin/{lorder,mkdep}; do
+			chmod u+w $f
+			ed -s $f <<-EOF
+				1s#/bin/mksh#$MKSH#
+				wq
+			EOF
+			chmod u-w $f
+		done
+	fi
 fi
 
 # Copy <*.mk> includes
