@@ -1,11 +1,11 @@
-# $MirOS: ports/infrastructure/db/Makefile,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $
+# $MirOS: ports/infrastructure/db/Makefile,v 1.2 2005/05/21 00:16:01 tg Exp $
 
 .MAIN: all
 
 all:
 	@echo "Not a normal Makefile."
 
-.if defined(SHOW_ONLY)
+.if defined(SHOW_ONLY) || make(update)
 .  include <bsd.own.mk>
 .else
 .  include <mirports.sys.mk>

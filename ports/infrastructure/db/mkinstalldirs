@@ -1,8 +1,8 @@
-#!/bin/mksh
-# $MirOS: contrib/gnu/aux/mkinstalldirs,v 1.2 2005/05/25 23:50:32 tg Exp $
-# _MirOS: contrib/gnu/aux/mkinstalldirs,v 1.2 2005/05/25 23:50:32 tg Exp $
+#!/bin/sh
+# $MirOS: contrib/gnu/aux/mkinstalldirs,v 1.4 2005/09/13 10:42:27 tg Exp $
+# _MirOS: contrib/gnu/aux/mkinstalldirs,v 1.4 2005/09/13 10:42:27 tg Exp $
 #-
-# Copyright (c) 2004
+# Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -25,6 +25,31 @@
 # of this work, even if advised of the possibility of such damage.
 
 
+if test x"$KSH_VERSION" = x; then
+	if test x"$MKSH" = x; then
+		MKSH=/bin/mksh
+	fi
+	if test -f $MKSH; then
+		SHELL=$MKSH
+		export SHELL
+		case $# in
+		0)	exec $MKSH "$0" ;;
+		*)	exec $MKSH "$0" "$@" ;;
+		esac
+	fi
+	# Only here if spawning mksh failed
+	test x"$BASH_VERSION" = x && for i in {,/usr{,/local},/sw}/bin; do
+		if test -f $i/bash; then
+			SHELL=$i/bash
+			export SHELL
+			case $# in
+			0)	exec $i/bash "$0" ;;
+			*)	exec $i/bash "$0" "$@" ;;
+			esac
+		fi
+	done
+fi
+
 # XXX how to check for ksh88?
 if [ -n "$BASH_VERSION" ]; then
 	shopt -s extglob
@@ -37,12 +62,11 @@ elif [ -n "$SH_VERSION" ]; then
 		;;
 	esac
 elif [[ -n $KSH_VERSION ]]; then
-	set +o sh +o posix
 	p=print
 fi
 
 if [ -z "$p" ]; then
-	echo "Shell not supported; go to http://wiki.mirbsd.de/MirbsdKsh"
+	echo "Shell not supported; go to http://mirbsd.mirsolutions.de/?mksh"
 	exit 1
 fi
 
