@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.10.2.15 2005/09/12 22:50:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.12 2005/09/12 22:53:19 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,11 +34,11 @@ OSNAME!=		uname -s
 OSname=			${OSNAME:L}
 .endif
 
-.ifndef OSREV
+.if !defined(OSREV) || empty(OSREV)
 OSREV!=			uname -r
 .endif
-.ifndef OSrev
-OSrev=			${OSREV:S/./_/g}
+.if !defined(OSrev) || empty(OSrev)
+OSrev=			${OSREV:S/.//g}
 .endif
 
 #--- Specific OS Dependencies
