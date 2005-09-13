@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.4 2005/09/12 23:25:56 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.5 2005/09/13 00:12:23 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -467,6 +467,13 @@ unset LOCALBASE
 
 
 # End of installation programme
+
+if [[ $ismirbsd$isopenbsd = *yes* && $myuid = root ]]; then
+	print Augmenting user and group database...
+	$SHELL $portsdir/infrastructure/install/mkuserdb.ksh
+else
+	print Please add the required users to your system manually.
+fi
 
 print Should be done now... have fun.
 print Source $localbase/db/SetEnv.sh for playing.
