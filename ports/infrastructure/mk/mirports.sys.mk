@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.12 2005/09/12 22:53:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.13 2005/09/13 11:18:52 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,8 +29,10 @@ DEBUGLIBS=		No
 DEBUGPROGS=		No
 
 # Basic defaults.
-.ifndef	OSname
+.if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=		uname -s
+.endif
+.if !defined(OSname) || empty(OSname)
 OSname=			${OSNAME:L}
 .endif
 
