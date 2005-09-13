@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/mkuserdb,v 1.3 2005/07/24 15:27:36 tg Exp $
+# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.1 2005/09/13 10:26:40 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -75,13 +75,13 @@ while read uid uname gecos; do
 		[[ $gecos = @(!)* ]] && LINE="$MYLINE"
 		print -r -- "${LINE}" >>$1/etc/master.passwd
 	fi
-done <userlist
+done <userlist.db
 [[ $G_CHANGED = 1 ]] && sort -t: -nk3 -o $1/etc/group $1/etc/group
 [[ $P_CHANGED = 0 && $fflag = 0 ]] && exit 0
 sort -t: -nk3 -o $1/etc/master.passwd $1/etc/master.passwd
 if [[ $fflag = 1 ]]; then
 	{
-		print '# $MirOS: ports/infrastructure/scripts/mkuserdb,v 1.3 2005/07/24 15:27:36 tg Exp $'
+		print '# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.1 2005/09/13 10:26:40 tg Exp $'
 		print '#'
 		print '# Users who are not allowed to use ftp access; read by ftpd(8)'
 		print
