@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.2 2005/09/12 22:53:28 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.3 2005/09/12 22:59:56 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
