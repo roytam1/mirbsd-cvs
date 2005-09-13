@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.5 2005/09/13 00:12:23 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.6 2005/09/13 10:26:40 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -311,7 +311,7 @@ if [[ $(make -f f all) -ge 20050912 ]]; then
 		# Write a wrapper
 		m=$(whence -p make)
 		cat >$localbase/bin/make <<-EOF
-			#!/bin/mksh
+			#!$MKSH
 			exec $m -m $localbase/share/make -m $sysmk "\$@"
 		EOF
 		chown $myuid:$mygid $localbase/bin/make
@@ -379,9 +379,13 @@ EOF
     cat >>$localbase/db/SetEnv.sh <<-EOF
 	LD_LIBRARY_PATH='$LD_LIBRARY_PATH'
 EOF
+[[ $MKSH = /bin/mksh ]] || \
+    cat >>$localbase/db/SetEnv.sh <<-EOF
+	MKSH='$MKSH'
+EOF
 cat >>$localbase/db/SetEnv.sh <<-EOF
 	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE MAKECONF
-	export BINOWN BINGRP PATH MANPATH LD_LIBRARY_PATH
+	export BINOWN BINGRP PATH MANPATH LD_LIBRARY_PATH MKSH
 EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
@@ -400,6 +404,10 @@ EOF
     cat >>$localbase/db/SetEnv.csh <<-EOF
 	setenv LD_LIBRARY_PATH '$LD_LIBRARY_PATH'
 EOF
+[[ $MKSH = /bin/mksh ]] || \
+    cat >>$localbase/db/SetEnv.csh <<-EOF
+	setenv MKSH '$MKSH'
+EOF
 
 cat >$localbase/db/SetEnv.make <<-EOF
 	LOCALBASE=	$localbase
@@ -413,6 +421,10 @@ EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.make <<-EOF
 	_OUR_LDLIBPATH=	$LD_LIBRARY_PATH
+EOF
+[[ $MKSH = /bin/mksh ]] || \
+    cat >>$localbase/db/SetEnv.make <<-EOF
+	MKSH=		$MKSH
 EOF
 
 [[ -s $localbase/db/make.cfg ]] && cat >&2 <<-EOF

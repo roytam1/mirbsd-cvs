@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.6 2005/09/12 23:23:49 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.7 2005/09/12 23:25:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -177,7 +177,7 @@ if test $isinterix = yes; then
 	# We know /bin/ksh is sufficient
 	# Check for nroff
 	test -f /usr/bin/nroff || \
-	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh \
+	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh MKSH=/bin/ksh \
 	    /bin/ksh $ourpath/infrastructure/install/setup.ksh -i "$@"
 	if test ! -f /usr/bin/nroff; then
 		echo Cannot install nroff >&2
@@ -187,7 +187,7 @@ fi
 
 # Look if this is a sufficient mksh, search for one
 ms=false
-for s in $SHELL /bin/mksh; do
+for s in /bin/mksh $MKSH $SHELL; do
 	# This is from MirMake; it ensures mksh R24 or higher
 	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if test x"$t" = x"yes"; then
@@ -207,7 +207,7 @@ if test x"$ms" != x"false"; then
 	test x"$t" != x"$mksh_date" && old=yes
 
 	# If old, check if we can upgrade
-	test $old = yes && if test x"$UPGRADE" != "no"; then
+	test $old = yes && if test x"$UPGRADE" != x"no"; then
 		# But use it as build shell
 		SHELL=$ms
 		# Fake no suitable mksh found
@@ -219,6 +219,7 @@ fi
 # else jump to the "real" set-up script
 if test x"$ms" != x"false"; then
 	SHELL=$ms; export SHELL
+	MKSH=$ms; export MKSH
 	case $# in
 	0)	exec $ms $ourpath/infrastructure/install/setup.ksh ;;
 	*)	exec $ms $ourpath/infrastructure/install/setup.ksh "$@" ;;
@@ -226,20 +227,21 @@ if test x"$ms" != x"false"; then
 	echo Warning: executing old mksh failed >&2
 fi
 
+MKSH=${MKSH:-/bin/mksh}; export MKSH
 # Check permissions
-rm -rf /bin/mksh.$$.1
+rm -rf $MKSH.$$.1
 badp=0
-if test -d /bin/mksh.$$.1; then
+if test -d $MKSH.$$.1; then
 	badp=1
 else
-	mkdir /bin/mksh.$$.1 2>/dev/null
-	test -d /bin/mksh.$$.1 || badp=1
-	rmdir /bin/mksh.$$.1 2>/dev/null
-	test -d /bin/mksh.$$.1 && badp=1
-	(echo test >/bin/mksh.$$.1) 2>/dev/null
-	test -r /bin/mksh.$$.1 || badp=1
+	mkdir $MKSH.$$.1 2>/dev/null
+	test -d $MKSH.$$.1 || badp=1
+	rmdir $MKSH.$$.1 2>/dev/null
+	test -d $MKSH.$$.1 && badp=1
+	(echo test >$MKSH.$$.1) 2>/dev/null
+	test -r $MKSH.$$.1 || badp=1
 fi
-rm -f /bin/mksh.$$.1
+rm -f $MKSH.$$.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
 	echo 'Ask your system operator to install a recent mksh (R24b)' >&2
@@ -335,14 +337,14 @@ fi
 
 # Install mksh
 set -e
-install -c -s -m 555 mksh /bin/mksh.$$.1
-mv /bin/mksh /bin/mksh.$$.2 && mv /bin/mksh.$$.1 /bin/mksh
+install -c -s -m 555 mksh $MKSH.$$.1
+mv $MKSH $MKSH.$$.2 && mv $MKSH.$$.1 $MKSH
 set +e
-rm -f /bin/mksh.$$.2
-test -f /bin/mksh.$$.2 && if mv /bin/mksh.$$.2 /tmp/deleteme.$$.$RANDOM; then
+rm -f $MKSH.$$.2
+test -f $MKSH.$$.2 && if mv $MKSH.$$.2 /tmp/deleteme.$$.$RANDOM; then
 	echo Do not forget to clean up /tmp/deleteme.$$.\* >&2
 else
-	echo Warning: remove /bin/mksh.$$.2 later >&2
+	echo Warning: remove $MKSH.$$.2 later >&2
 fi
 
 # Install some kind of man page
@@ -357,10 +359,10 @@ cd $T
 rm -rf mksh
 
 # Jump into final script
-SHELL=/bin/mksh; export SHELL
+SHELL=$MKSH; export SHELL
 case $# in
-0)	exec /bin/mksh $ourpath/infrastructure/install/setup.ksh ;;
-*)	exec /bin/mksh $ourpath/infrastructure/install/setup.ksh "$@" ;;
+0)	exec $MKSH $ourpath/infrastructure/install/setup.ksh ;;
+*)	exec $MKSH $ourpath/infrastructure/install/setup.ksh "$@" ;;
 esac
 
 # This line is never run
