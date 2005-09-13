@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.7 2005/09/13 10:52:36 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.8 2005/09/13 11:05:20 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -342,14 +342,13 @@ else
 	cd $T
 	rm -rf mirmake
 	if [[ $MKSH != /bin/mksh ]]; then
-		for f in $localbase/bin/{lorder,mkdep}; do
-			chmod u+w $f
-			ed -s $f <<-EOF
-				1s#/bin/mksh#$MKSH#
-				wq
-			EOF
-			chmod u-w $f
-		done
+		# temporary hack until mirmake-20050913 is used
+		chmod u+w $localbase/bin/lorder
+		ed -s $localbase/bin/lorder <<-EOF
+			1s#/bin/mksh#$MKSH#
+			wq
+		EOF
+		chmod u-w $localbase/bin/lorder
 	fi
 fi
 
