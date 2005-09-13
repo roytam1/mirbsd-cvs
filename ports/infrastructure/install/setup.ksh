@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.3 2005/09/12 23:23:53 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.4 2005/09/12 23:25:56 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -461,6 +461,9 @@ unset LOCALBASE
 
 
 # Check if we need to install GNU wget
+
+
+# Check if we need to install cksum
 
 
 # End of installation programme
