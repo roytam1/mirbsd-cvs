@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.40.2.8 2005/09/12 22:13:47 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.44 2005/09/12 22:53:18 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -426,10 +426,6 @@ CXXFLAGS+=		${CXXDIAGFLAGS}
 .  endif
 .endif
 LDFLAGS+=		-L${LOCALBASE}/lib ${LDSTATIC}
-.if ${OStype} == "MirBSD" && ${_CC_IS_GCC:M3.4*}
-CFLAGS+=		-Werror-maybe-reset
-CXXFLAGS+=		-Werror-maybe-reset
-.endif
 
 NO_CXX?=		No	# inhibit use of C++ ports
 .if ${USE_CXX:L} == "yes"
