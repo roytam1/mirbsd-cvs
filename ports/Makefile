@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.4 2005/07/05 20:08:28 tg Exp $
+# $MirOS: ports/Makefile,v 1.5 2005/09/14 16:03:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -126,8 +126,7 @@ portupgrade: index
 	    ${.CURDIR}/infrastructure/scripts/out-of-date
 
 setup: Setup.sh
-	env ourCC='${CC}' MAKE='${MAKE}' SHELL='${SHELL}' ${SUDO} \
-	    ${SHELL} ${.CURDIR}/Setup.sh
+	env CC='${CC}' ${SUDO} ${SHELL} ${.CURDIR}/Setup.sh
 
 CVSROOT?=/cvs
 cvsup:
