@@ -1,11 +1,11 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.2 2005/03/30 18:13:23 bsiegert Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.4 2005/07/07 21:20:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=	"vi clone, many additional features"
 COMMENT-lang=	"vi clone, NLS subpackage"
 
 DISTNAME=	vim-6.3
-REVISION=	071
+REVISION=	086
 VERSION=	6.3.${REVISION}
 PKGNAME=	vim-${VERSION}-0
 P=		${DISTNAME:C/[-\.]//g}
