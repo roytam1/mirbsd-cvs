@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.7 2005/09/12 23:25:55 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.8 2005/09/13 10:52:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -338,7 +338,7 @@ fi
 # Install mksh
 set -e
 install -c -s -m 555 mksh $MKSH.$$.1
-mv $MKSH $MKSH.$$.2 && mv $MKSH.$$.1 $MKSH
+test ! -s $MKSH || mv $MKSH $MKSH.$$.2 && mv $MKSH.$$.1 $MKSH
 set +e
 rm -f $MKSH.$$.2
 test -f $MKSH.$$.2 && if mv $MKSH.$$.2 /tmp/deleteme.$$.$RANDOM; then
