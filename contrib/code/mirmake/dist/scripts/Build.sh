@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.47 2005/09/01 22:27:33 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.48 2005/09/12 22:24:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -382,7 +382,6 @@ fi
 rm -rf $d_build/libmirmake
 mkdir $d_build/libmirmake
 cd $d_build/libmirmake
-cp $d_script/../contrib/*.c .
 sed -e 's/hashinc/md4.h/g' -e 's/HASH/MD4/g' \
     $d_src/lib/libc/hash/helper.c >md4hl.c
 sed -e 's/hashinc/md5.h/g' -e 's/HASH/MD5/g' \
@@ -397,8 +396,10 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA384_/g' \
     $d_src/lib/libc/hash/helper.c >sha384hl.c
 sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
     $d_src/lib/libc/hash/helper.c >sha512hl.c
-cp $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c .
-cp $d_src/lib/libc/string/strlfun.c $d_src/lib/libc/stdlib/getopt_long.c .
+cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
+    $d_src/lib/libc/string/strlfun.c \
+    $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
+    $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
