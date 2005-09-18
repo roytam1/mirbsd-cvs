@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.man.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: bsd.man.mk,v 1.28 2004/02/08 01:19:54 espie Exp $
 # $NetBSD: bsd.man.mk,v 1.23 1996/02/10 07:49:33 jtc Exp $
 # @(#)bsd.man.mk	5.2 (Berkeley) 5/11/90
@@ -41,9 +41,12 @@ MINSTALL=       ${INSTALL} ${INSTALL_COPY} -o ${MANOWN} -g ${MANGRP} \
 	${EQN} $< >$@ || (rm -f $@; false)
 
 .if defined(MAN) && !empty(MAN) && !defined(MANALL)
-MANALL!=	echo '${MAN}' | sed -e 's/\.\([1-9]\)[[:>:]]/.cat\1/g' \
-		    -e 's/\.\([0-9]\)tbl[[:>:]]/.cat\1/g' \
-		    -e 's/\.\([0-9]\)eqn[[:>:]]/.cat\1/g'
+MANALL!=	for m in ${MAN}; do \
+			local x=$${m%.[1-9]?(eqn|tbl)}; \
+			local y=$${m\#@($$x.)}; \
+			[[ $$x = $$m ]] && print -nr -- "$$m " || \
+			    print -nr -- "$${x}.cat$${y%%?(eqn|tbl)} "; \
+		done
 .  if !defined(MANLOCALBUILD)
 .    for _i in ${MAN:M*.?tbl}
 CLEANFILES+=	${_i:S/tbl$//}
