@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.5 2005/06/08 10:03:24 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.6 2005/08/21 11:56:04 tg Exp $
 
 LIB=		mirmake
 SRCS=		md4.c md5.c rmd160.c sha1.c sha2.c \
@@ -8,6 +8,7 @@ SRCS=		md4.c md5.c rmd160.c sha1.c sha2.c \
 
 DEBUGLIBS=	no
 NOPIC=		yes
+CPPFLAGS+=	-D_LIBMIRMAKE
 
 .include <bsd.own.mk>
 
