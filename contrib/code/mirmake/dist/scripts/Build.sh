@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.48 2005/09/12 22:24:58 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.49 2005/09/18 20:19:13 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -173,7 +173,7 @@ cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
 
 # Patch sources
-for ps in Makefile.boot mk/bsd.man.mk mk/bsd.own.mk mk/bsd.prog.mk \
+for ps in Makefile.boot mk/bsd.own.mk mk/bsd.prog.mk \
     mk/bsd.sys.mk make.1 mk/sys.mk mkdep.sh; do
 	mv $d_build/$ps $d_build/$ps.tmp
 	ed -s $d_build/$ps.tmp <$d_script/$(basename $ps).ed
