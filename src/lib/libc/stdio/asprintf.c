@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: asprintf.c,v 1.13 2005/05/28 00:54:50 millert Exp $	*/
 
 /*
@@ -16,15 +17,13 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: asprintf.c,v 1.13 2005/05/28 00:54:50 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <stdarg.h>
+#ifndef _LIBMIRMAKE
 #include "local.h"
+#endif
 
 int
 asprintf(char **str, const char *fmt, ...)
@@ -32,10 +31,14 @@ asprintf(char **str, const char *fmt, ...)
 	int ret;
 	va_list ap;
 	FILE f;
+#ifndef _LIBMIRMAKE
 	struct __sfileext fext;
+#endif
 	unsigned char *_base;
 
+#ifndef _LIBMIRMAKE
 	_FILEEXT_SETUP(&f, &fext);
+#endif
 	f._file = -1;
 	f._flags = __SWR | __SSTR | __SALC;
 	f._bf._base = f._p = (unsigned char *)malloc(128);
