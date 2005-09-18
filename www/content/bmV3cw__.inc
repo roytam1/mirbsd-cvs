@@ -1,6 +1,10 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.28 2005/08/20 12:34:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.29 2005/09/12 23:05:31 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>18.09.2005<br />A new version of MirMake has been released; test it on
+	as many platforms as you can please.<br />Development slowed down,
+	mostly due to influenza, also studying work increases. Sorry.</li>
 
 <li>12.09.2005<br />
 	The MirPorts Framework now can be installed as user too. The newly
