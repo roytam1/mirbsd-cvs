@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.8 2005/09/13 10:52:35 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.9 2005/09/18 19:36:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -158,7 +158,7 @@ if T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
 	:
 else
 	# May be Interix without mktemp.sh
-	T=/tmp/mirports.$$.$RANDOM
+	T=/tmp/mirports.$$$RANDOM
 	if test -d $T; then
 		echo Cannot generate temporary directory >&2
 		exit 1
@@ -229,19 +229,20 @@ fi
 
 MKSH=${MKSH:-/bin/mksh}; export MKSH
 # Check permissions
-rm -rf $MKSH.$$.1
+tpfx=$$$RANDOM
+rm -rf $MKSH.$tpfx.1
 badp=0
-if test -d $MKSH.$$.1; then
+if test -d $MKSH.$tpfx.1; then
 	badp=1
 else
-	mkdir $MKSH.$$.1 2>/dev/null
-	test -d $MKSH.$$.1 || badp=1
-	rmdir $MKSH.$$.1 2>/dev/null
-	test -d $MKSH.$$.1 && badp=1
-	(echo test >$MKSH.$$.1) 2>/dev/null
-	test -r $MKSH.$$.1 || badp=1
+	mkdir $MKSH.$tpfx.1 2>/dev/null
+	test -d $MKSH.$tpfx.1 || badp=1
+	rmdir $MKSH.$tpfx.1 2>/dev/null
+	test -d $MKSH.$tpfx.1 && badp=1
+	(echo test >$MKSH.$tpfx.1) 2>/dev/null
+	test -r $MKSH.$tpfx.1 || badp=1
 fi
-rm -f $MKSH.$$.1
+rm -f $MKSH.$tpfx.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
 	echo 'Ask your system operator to install a recent mksh (R24b)' >&2
@@ -337,15 +338,11 @@ fi
 
 # Install mksh
 set -e
-install -c -s -m 555 mksh $MKSH.$$.1
-test ! -s $MKSH || mv $MKSH $MKSH.$$.2 && mv $MKSH.$$.1 $MKSH
+install -c -s -m 555 mksh $MKSH.$tpfx.1
+test ! -s $MKSH || mv $MKSH $MKSH.$tpfx.2 && mv $MKSH.$tpfx.1 $MKSH
 set +e
-rm -f $MKSH.$$.2
-test -f $MKSH.$$.2 && if mv $MKSH.$$.2 /tmp/deleteme.$$.$RANDOM; then
-	echo Do not forget to clean up /tmp/deleteme.$$.\* >&2
-else
-	echo Warning: remove $MKSH.$$.2 later >&2
-fi
+test ! -f $MKSH.$tpfx.2 || mv $MKSH.$tpfx.2 /tmp/deleteme.$$$RANDOM \
+    || mv $MKSH.$tpfx.2 /Deleteme.$$$RANDOM
 
 # Install some kind of man page
 s=0
