@@ -27,10 +27,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: mktemp.c,v 1.18 2004/09/28 18:12:44 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -39,6 +35,8 @@ static char rcsid[] = "$OpenBSD: mktemp.c,v 1.18 2004/09/28 18:12:44 otto Exp $"
 #include <stdlib.h>
 #include <ctype.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 static int _gettemp(char *, int *, int, int);
 
@@ -72,8 +70,10 @@ _mktemp(char *path)
 	return(_gettemp(path, (int *)NULL, 0, 0) ? path : (char *)NULL);
 }
 
+#ifdef __warn_references
 __warn_references(mktemp,
     "warning: mktemp() possibly used unsafely; consider using mkstemp()");
+#endif
 
 char *
 mktemp(char *path)
@@ -112,7 +112,12 @@ _gettemp(char *path, int *doopen, int domkdir, int slen)
 	while (trv >= path && *trv == 'X') {
 		char c;
 
+#ifdef __INTERIX
+		srandom(getpid() * time(NULL));
+		pid = (random() & 0xffff) % (26+26);
+#else
 		pid = (arc4random() & 0xffff) % (26+26);
+#endif
 		if (pid < 26)
 			c = pid + 'A';
 		else
