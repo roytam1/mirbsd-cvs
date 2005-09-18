@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man4/pppoe.4,v 1.4 2005/07/04 01:39:23 tg Exp $
+.\"	$MirOS: src/share/man/man4/pppoe.4,v 1.5 2005/09/18 18:52:37 tg Exp $
 .\"	$OpenBSD: pppoe.4,v 1.5 2004/11/30 12:42:21 jmc Exp $
 .\"	$NetBSD: pppoe.4,v 1.26 2003/10/02 07:06:36 wiz Exp $
 .\"
@@ -164,6 +164,12 @@ set the link2 flag on any interface.
 Note that this will break all userland
 .Nm PPPoE
 implementations using the same Ethernet interface!
+But if this Kernel
+.Nm PPPoE
+is the only implementation used, it is a useful device in case
+you accidentally destroy an interface while a session is open;
+in the case of German NetDSL it can reduce downtimes from 5 to
+10 minutes down to half a minute or less.
 .Pp
 This option is only useful if you have a static IP address assigned and
 your ISP does not use LCP echo requests to monitor the link status.
