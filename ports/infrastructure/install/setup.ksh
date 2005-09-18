@@ -341,15 +341,6 @@ else
 	set +e
 	cd $T
 	rm -rf mirmake
-	if [[ $MKSH != /bin/mksh ]]; then
-		# temporary hack until mirmake-20050913 is used
-		chmod u+w $localbase/bin/lorder
-		ed -s $localbase/bin/lorder <<-EOF
-			1s#/bin/mksh#$MKSH#
-			wq
-		EOF
-		chmod u-w $localbase/bin/lorder
-	fi
 fi
 
 # Copy <*.mk> includes
