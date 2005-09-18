@@ -252,7 +252,7 @@ ip_init()
 	for (i = 0; defbaddynamicports_tcp[i] != 0; i++)
 		DP_SET(baddynamicports.tcp, defbaddynamicports_tcp[i]);
 	for (i = 0; defbaddynamicports_udp[i] != 0; i++)
-		DP_SET(baddynamicports.udp, defbaddynamicports_tcp[i]);
+		DP_SET(baddynamicports.udp, defbaddynamicports_udp[i]);
 
 	strlcpy(ipsec_def_enc, IPSEC_DEFAULT_DEF_ENC, sizeof(ipsec_def_enc));
 	strlcpy(ipsec_def_auth, IPSEC_DEFAULT_DEF_AUTH, sizeof(ipsec_def_auth));
