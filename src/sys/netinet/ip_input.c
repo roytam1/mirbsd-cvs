@@ -1468,7 +1468,7 @@ ip_forward(m, srcrt)
 
 		rtalloc(&ipforward_rt);
 		if (ipforward_rt.ro_rt == 0) {
-			icmp_error(m, ICMP_UNREACH, ICMP_UNREACH_HOST, dest, 0);
+			icmp_error(m, ICMP_UNREACH, ICMP_UNREACH_NET, dest, 0);
 			return;
 		}
 		rt = ipforward_rt.ro_rt;
