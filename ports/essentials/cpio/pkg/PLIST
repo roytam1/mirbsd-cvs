@@ -1,0 +1,7 @@
+@comment $MirOS$
+bin/cpio
+bin/pax
+bin/tar
+man/cat1/cpio.0
+man/cat1/pax.0
+man/cat1/tar.0
