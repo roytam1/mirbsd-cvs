@@ -1,7 +1,8 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.2 2005/07/08 00:13:53 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.3 2005/09/12 22:15:18 tg Exp $
 
 COMMENT=		"MirBSD Korn Shell"
 DISTNAME=		mksh-R24c
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.mirsolutions.de/?mksh
 
@@ -11,16 +12,23 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
+FLAVORS=		static
+FLAVOR?=
+
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/}
 EXTRACT_SUFX=		.cpio.gz
 
 WRKDIST=		${WRKDIR}/mksh
 SEPARATE_BUILD=		flavored
 
+.if !${FLAVOR:L:Mstatic}
+BF+=			-d
+.endif
+
 do-build:
 	cd ${WRKBUILD} && ${SETENV} CC="${CC}" CFLAGS="${CFLAGS:C/ *$//}" \
 	    LDFLAGS="${LDFLAGS}" NROFF="${NROFF}" SHELL="${SH}" \
-	    ${SH} ${WRKSRC}/Build.sh
+	    ${SH} ${WRKSRC}/Build.sh ${BF}
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/mksh ${PREFIX}/bin/
