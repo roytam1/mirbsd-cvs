@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.4.2.1 2005/09/11 02:04:03 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.5 2005/09/12 22:53:20 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.4.2.1 2005/09/11 02:04:03 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.5 2005/09/12 22:53:20 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -412,7 +412,7 @@ pkg_do(char *pkg)
 		   p ? p->name : "/");
 	if (!Fake) {
 
-	    if (vsystem("/usr/sbin/mtree -q -U -f %s -d -e -p %s", MTREE_FNAME,
+	    if (vsystem("mtree -q -U -f %s -d -e -p %s", MTREE_FNAME,
 			p ? p->name : "/"))
 		pwarnx("mtree returned a non-zero status - continuing");
 	}
@@ -529,7 +529,7 @@ pkg_do(char *pkg)
 		Pager = "/bin/cat";
 		break;
 	    case LESS:
-		Pager = "/usr/bin/less";
+		Pager = "less";
 		break;
 	    case MORE:
 		Pager = NULL;
@@ -538,7 +538,7 @@ pkg_do(char *pkg)
 		Pager = getenv("PAGER");
 		break;
 	    default:
-		Pager = "/usr/bin/more";
+		Pager = "more";
 	}
 
 	snprintf(buf, sizeof buf, "%s/%s", LogDir, p->name);
