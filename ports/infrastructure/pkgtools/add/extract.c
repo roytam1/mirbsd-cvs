@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.4 2005/09/12 22:59:54 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.5 2005/09/19 18:07:56 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,7 +27,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.4 2005/09/12 22:59:54 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.5 2005/09/19 18:07:56 tg Exp $");
 
 #define STARTSTRING "tar cf - "
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
@@ -97,8 +97,8 @@ preserve(const char *fname)
 		if (unlink(copy)) {
 			char *try = malloc(FILENAME_MAX);
 			if (try == NULL)
-				err("malloc");
-			snprintf(try, FILENAME_MAX, "/tmp/Deleteme.%ulld",
+				err(1, "malloc");
+			snprintf(try, FILENAME_MAX, "/tmp/Deleteme.%llu",
 			    (unsigned long long)getpid() * time(NULL));
 			if (!fexists(try) && rename(copy, try))
 				goto removed;
@@ -107,7 +107,7 @@ preserve(const char *fname)
 			if (mkdtemp(try) == NULL)
 				pwarnx("cannot mkdtemp; %s not removed", copy);
 			else {
-				strlcat(try, FILENAME_MAX, "/removeme");
+				strlcat(try, "/removeme", FILENAME_MAX);
 				if (rename(copy, try))
 					pwarnx("cannot remove %s", copy);
 			}
