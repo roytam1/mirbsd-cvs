@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/util.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/util.c,v 1.3 2005/02/23 21:45:45 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: util.c,v 1.21 2003/06/25 15:11:06 millert Exp $	*/
 /*	$NetBSD: util.c,v 1.10 1996/12/31 17:56:04 christos Exp $	*/
@@ -33,14 +33,14 @@
 
 #include <sys/param.h>
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include "defines.h"
 #include "memory.h"
 
-__RCSID("$MirOS: src/usr.bin/make/util.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/util.c,v 1.3 2005/02/23 21:45:45 tg Exp $");
 
 #ifdef sun
-
 extern int errno, sys_nerr;
 extern char *sys_errlist[];
 
@@ -59,8 +59,6 @@ strerror(e)
 #endif
 
 #ifdef ultrix
-#include <string.h>
-
 /* strdup
  *
  * Make a duplicate of a string.
@@ -81,11 +79,9 @@ strdup(str)
 
     return memcpy(p, str, len);
 }
-
 #endif
 
 #if defined(sun) || defined(__hpux) || defined(__sgi)
-
 int
 setenv(name, value, dum)
     const char *name;
@@ -119,16 +115,13 @@ setenv(name, value, dum)
 
 #ifdef __hpux
 #include <sys/types.h>
-#include <sys/param.h>
 #include <sys/syscall.h>
 #include <sys/signal.h>
 #include <sys/stat.h>
-#include <stdio.h>
 #include <dirent.h>
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
-
 
 int
 killpg(pid, sig)
@@ -370,7 +363,6 @@ signal(s, a))()
     else
 	return osa.sa_handler;
 }
-
 #endif
 
 #ifndef BSD4_4
@@ -421,6 +413,7 @@ snprintf(char *s, size_t n, const char *fmt, ...)
 	return rv;
 }
 #endif
+
 #ifdef NEED_STRSTR
 char *
 strstr(string, substring)
