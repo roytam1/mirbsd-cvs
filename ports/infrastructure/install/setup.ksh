@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.12 2005/09/18 21:22:52 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.13 2005/09/19 18:23:07 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -471,6 +471,7 @@ cd $T
 
 
 # Check if we need to install cpio
+# (Only install if it isn't there; the user can use pkg_upgrade himself)
 [[ $isdarwin = *yes* ]] && if ! pkg_info paxmirabilis >/dev/null 2>&1; then
 	set -e
 	cd $portsdir/essentials/cpio
