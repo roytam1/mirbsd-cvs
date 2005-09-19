@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.50 2005/09/18 21:10:29 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.51 2005/09/19 18:44:45 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -323,7 +323,7 @@ fi
 rm -rf $d_build/tsort
 cd $d_src/usr.bin; find tsort | cpio -pdlu $d_build
 cd $d_build/tsort
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes \
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a"
 cd $top
 cat >>Install.sh <<EOF
@@ -353,7 +353,7 @@ if [[ $new_machos = Interix ]]; then
 	cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
 	cd $d_build/xinstall
 	CPPFLAGS="$CPPFLAGS -I$d_src/include" \
-	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes
+	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes
 	cd $top
 	cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
@@ -400,7 +400,7 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib
+${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
