@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.14 2005/09/19 19:37:55 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.15 2005/09/19 19:56:47 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -246,7 +246,7 @@ isdarwin=no
 case $(uname -s 2>/dev/null || uname) {
 (Darwin*)
 	isdarwin=yes
-	defmanpath= #XXX
+	defmanpath='/usr/local/share/man:/usr/X11R6/man:/usr/share/man'
 	;;
 (Interix*)
 	defmanpath='/usr/share/man:/usr/X11R6/man:/usr/X11R5/man'
