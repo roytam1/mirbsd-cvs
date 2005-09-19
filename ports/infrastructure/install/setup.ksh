@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.13 2005/09/19 18:23:07 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.14 2005/09/19 19:37:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -475,19 +475,24 @@ cd $T
 [[ $isdarwin = *yes* ]] && if ! pkg_info paxmirabilis >/dev/null 2>&1; then
 	set -e
 	cd $portsdir/essentials/cpio
-	make TAR=/usr/bin/tar fake
+	make fake
 	x=$(make show=_FAKE_COOKIE)
-	cp ${x%.fake_done}/bin/tar $localbase/bin/
+	cp ${x%.fake_done}$(make show=PREFIX)/bin/tar $localbase/bin/
 	make package
 	pkg_add -N $(make show=_PACKAGE_COOKIE)
 	set +e
 	make clean
+	cd $T
 fi
 
 # Check if we need to install GNU wget
 
-
 # Check if we need to install cksum
+[[ $isdarwin$isinterix = *yes* ]] && if ! pkg_info mircksum >/dev/null 2>&1; then
+	cd $portsdir/essentials/cksum
+	make install clean
+	cd $T
+fi
 
 
 # End of installation programme

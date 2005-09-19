@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.7 2005/09/12 22:45:37 tg Exp $
+# $MirOS: ports/essentials/cpio/Makefile,v 1.1 2005/09/19 18:17:22 tg Exp $
 
 COMMENT=		"MirOS cpio(1), pax(1) and tar(1)"
 CATEGORIES=		essentials
@@ -14,7 +14,9 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/pax
-#CPPFLAGS+=		-isystem ${.SYSMK}
-#EXTRA_XAKE_FLAGS=	LDADD="-L${.SYSMK} -lmirmake"
+
+# For bootstrapping
+EXTRACT_CASES+=		*.cpio.gz) ${GZIP_CMD} -dc \
+			    ${FULLDISTDIR}/$$archive | cpio -id ;;
 
 .include <bsd.port.mk>
