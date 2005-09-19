@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.10 2005/09/18 21:16:56 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.12 2005/09/18 21:22:52 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -467,10 +467,21 @@ make install
 set +e
 rm -rf {rtfm,pkg,lib,info,delete,create,add}/obj
 unset LOCALBASE
+cd $T
 
 
 # Check if we need to install cpio
-
+[[ $isdarwin = *yes* ]] && if ! pkg_info paxmirabilis >/dev/null 2>&1; then
+	set -e
+	cd $portsdir/essentials/cpio
+	make TAR=/usr/bin/tar fake
+	x=$(make show=_FAKE_COOKIE)
+	cp ${x%.fake_done}/bin/tar $localbase/bin/
+	make package
+	pkg_add -N $(make show=_PACKAGE_COOKIE)
+	set +e
+	make clean
+fi
 
 # Check if we need to install GNU wget
 
