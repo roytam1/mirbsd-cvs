@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.15 2005/09/19 19:56:47 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.16 2005/09/19 20:23:45 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -273,6 +273,19 @@ newmanpath=${MANPATH:-$defmanpath}
 [[ :$newmanpath: = *:$localbase/man:* ]] || \
     newmanpath=$localbase/man:$newmanpath
 newmanpath=${newmanpath%%+(:)}
+
+case :$INFOPATH: in
+*:$localbase/info:*) ;;
+*)	INFOPATH=$localbase/info:$INFOPATH ;;
+esac
+export INFOPATH=${INFOPATH%%+(:)}
+
+case :$PERL5LIB: in
+*:$localbase/libdata/perl5:*) ;;
+*)	PERL5LIB=$localbase/libdata/perl5:$localbase/libdata/perl5/site_perl:$PERL5LIB ;;
+esac
+export PERL5LIB=${PERL5LIB%%+(:)}
+
 portsdir=$(readlink -nf $ourpath 2>/dev/null || (cd $ourpath && pwd -P))
 
 cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
@@ -374,6 +387,8 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	BINGRP='$mygid'
 	PATH='$PATH'
 	MANPATH='$newmanpath'
+	INFOPATH='$INFOPATH'
+	PERL5LIB='$PERL5LIB'
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.sh <<-EOF
@@ -385,7 +400,8 @@ EOF
 EOF
 cat >>$localbase/db/SetEnv.sh <<-EOF
 	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE MAKECONF
-	export BINOWN BINGRP PATH MANPATH LD_LIBRARY_PATH MKSH
+	export BINOWN BINGRP PATH LD_LIBRARY_PATH MKSH
+	export MANPATH INFOPATH PERL5LIB
 EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
@@ -399,6 +415,8 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv BINGRP '$mygid'
 	setenv PATH '$PATH'
 	setenv MANPATH '$newmanpath'
+	setenv INFOPATH '$INFOPATH'
+	setenv PERL5LIB '$PERL5LIB'
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.csh <<-EOF
