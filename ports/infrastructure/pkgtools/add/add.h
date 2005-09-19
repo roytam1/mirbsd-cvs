@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: add.h,v 1.3 1998/10/13 23:09:49 marc Exp $ */
 /* from FreeBSD Id: add.h,v 1.8 1997/02/22 16:09:15 peter Exp  */
 
@@ -30,6 +30,7 @@ typedef enum { ENV, MORE, LESS, CAT  } display_mode_t;
 extern char	*Prefix;
 extern bool	NoInstall;
 extern bool	NoRecord;
+extern bool	NoBackups;
 extern char	*Mode;
 extern char	*Owner;
 extern char	*Group;
