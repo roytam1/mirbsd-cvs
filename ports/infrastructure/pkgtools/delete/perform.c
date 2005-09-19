@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.2.2.1 2005/09/11 01:05:43 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.4 2005/09/12 22:53:22 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.2.2.1 2005/09/11 01:05:43 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.4 2005/09/12 22:53:22 tg Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -130,9 +130,28 @@ pkg_do(char *pkg)
 	pwarnx("unable to change directory to %s! deinstall failed", LogDir);
 	return 1;
     }
+    sanity_check(LogDir);
+    cfile = fopen(CONTENTS_FNAME, "r");
+    if (!cfile) {
+	pwarnx("unable to open '%s' file", CONTENTS_FNAME);
+	return 1;
+    }
+    /* If we have a prefix, add it now */
+    if (Prefix)
+	add_plist(&Plist, PLIST_CWD, Prefix);
+    read_plist(&Plist, cfile);
+    fclose(cfile);
+    if (find_plist_option(&Plist, "base-package") != NULL) {
+	pwarnx("package '%s' is considered a BASE PACKAGE.\n"
+		"DELETING IT WILL ALMOST CERTAINLY BREAK YOUR SYSTEM%s.",
+		pkg, Force ? "\n(but I'll delete it anyway)" : 
+		".\nUse -f if you are really sure what you are doing");
+	if (!Force)
+	    return 1;
+    }
     if (!isemptyfile(REQUIRED_BY_FNAME)) {
 	char buf[512];
-	pwarnx("package `%s' is required by these other packages\n"
+	pwarnx("package '%s' is required by these other packages\n"
 		"and may not be deinstalled%s:",
 		pkg, Force ? " (but I'll delete it anyway)" : "" );
 	cfile = fopen(REQUIRED_BY_FNAME, "r");
@@ -145,17 +164,6 @@ pkg_do(char *pkg)
 	if (!Force)
 	    return 1;
     }
-    sanity_check(LogDir);
-    cfile = fopen(CONTENTS_FNAME, "r");
-    if (!cfile) {
-	pwarnx("unable to open '%s' file", CONTENTS_FNAME);
-	return 1;
-    }
-    /* If we have a prefix, add it now */
-    if (Prefix)
-	add_plist(&Plist, PLIST_CWD, Prefix);
-    read_plist(&Plist, cfile);
-    fclose(cfile);
     p = find_plist(&Plist, PLIST_CWD, NULL);
     if (!p) {
 	pwarnx("package '%s' doesn't have a prefix", pkg);

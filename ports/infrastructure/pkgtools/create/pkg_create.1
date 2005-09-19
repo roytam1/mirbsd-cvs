@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.2 2005/05/22 03:52:46 bsiegert Exp $
 .\"	$OpenBSD: pkg_create.1,v 1.28 2003/08/21 20:24:56 espie Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -503,6 +503,14 @@ Effects vary depending on
 By default, a package conflicts with other versions of the same package.
 With this option, the older package version will still be noticed, but the
 installation will proceed anyway.
+.It Ar base-package
+This is a base package, i.e. one that is so important that removing it
+will almost certainly break the system
+.Pq for example the Pa pkgtools No package .
+Base packages can only be removed using the
+.Fl f
+option to
+.Xr pkg_delete 1 .
 .It Ar dylib
 Enable support for Darwin-style shared libraries.
 Shared library names
