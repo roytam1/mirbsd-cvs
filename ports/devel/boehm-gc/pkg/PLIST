@@ -31,7 +31,6 @@ include/private/gc_locks.h
 include/private/gc_pmark.h
 include/private/gc_priv.h
 include/private/gcconfig.h
-lib/libgc.a
 lib/libgc.la
 man/man3/gc.3
 share/gc/README
