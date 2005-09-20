@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.13 2005/09/13 11:18:52 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.14 2005/09/13 11:21:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -109,7 +109,7 @@ _GDIFFLAG=		NEED_GDIFF=yes
 .    error Operating System too old and unsupported.
 .  elif ${OSrev} == 8
 .    ifndef OSrpl
-OSrpl!=			x=$(uname -l); x=16#${x#@(#[0-9][a-z])}; let x=${x%%-*}; print $x
+OSrpl!=			x=$$(uname -l); x=16\#$${x\#@(\#[0-9][a-z])}; let x=$${x%%-*}; print $$x
 .    endif
 .    if ${OSrpl} < 40
 HAS_CXX=		reason
