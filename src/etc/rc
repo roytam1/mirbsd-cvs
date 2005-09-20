@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.9 2005/07/02 12:17:55 tg Exp $
+# $MirOS: src/etc/rc,v 1.10 2005/07/24 16:20:21 tg Exp $
 # $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -590,6 +590,7 @@ if [[ -f /sbin/ldconfig ]]; then
 	echo creating runtime link editor directory cache.
 	[[ -d /usr/local/lib ]] && shlib_dirs="/usr/local/lib $shlib_dirs"
 	[[ -d /usr/X11R6/lib ]] && shlib_dirs="/usr/X11R6/lib $shlib_dirs"
+	[[ -d /usr/mpkg/lib ]] && shlib_dirs="/usr/mpkg/lib $shlib_dirs"
 	ldconfig $shlib_dirs
 fi
 
