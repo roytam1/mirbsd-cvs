@@ -1,3 +1,4 @@
+/*	$OpenBSD: vis.c,v 1.19 2005/09/01 17:15:49 millert Exp $ */
 /*-
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,10 +28,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: vis.c,v 1.14 2005/03/25 15:38:47 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <limits.h>
 #include <ctype.h>
@@ -38,14 +35,16 @@ static char rcsid[] = "$OpenBSD: vis.c,v 1.14 2005/03/25 15:38:47 otto Exp $";
 #include <vis.h>
 
 #define	isoctal(c)	(((u_char)(c)) >= '0' && ((u_char)(c)) <= '7')
-#define isvisible(c)	(((u_int)(c) <= UCHAR_MAX && isascii((u_char)(c)) && \
-				isgraph((u_char)(c))) ||		     \
-				((flag & VIS_SP) == 0 && (c) == ' ') ||	     \
-				((flag & VIS_TAB) == 0 && (c) == '\t') ||    \
-				((flag & VIS_NL) == 0 && (c) == '\n') ||     \
-				((flag & VIS_SAFE) && ((c) == '\b' ||	     \
-				(c) == '\007' || (c) == '\r' ||		     \
-				isgraph((u_char)(c)))))
+#define	isvisible(c)							\
+	(((u_int)(c) <= UCHAR_MAX && isascii((u_char)(c)) &&		\
+	(((c) != '*' && (c) != '?' && (c) != '[' && (c) != '#') ||	\
+		(flag & VIS_GLOB) == 0) && isgraph((u_char)(c))) ||	\
+	((flag & VIS_SP) == 0 && (c) == ' ') ||				\
+	((flag & VIS_TAB) == 0 && (c) == '\t') ||			\
+	((flag & VIS_NL) == 0 && (c) == '\n') ||			\
+	((flag & VIS_SAFE) && ((c) == '\b' ||				\
+		(c) == '\007' || (c) == '\r' ||				\
+		isgraph((u_char)(c)))))
 
 /*
  * vis - visually encode characters
@@ -105,7 +104,8 @@ vis(char *dst, int c, int flag, int nextc)
 			goto done;
 		}
 	}
-	if (((c & 0177) == ' ') || (flag & VIS_OCTAL)) {	
+	if (((c & 0177) == ' ') || (flag & VIS_OCTAL) ||
+	    ((flag & VIS_GLOB) && (c == '*' || c == '?' || c == '[' || c == '#'))) {
 		*dst++ = '\\';
 		*dst++ = ((u_char)c >> 6 & 07) + '0';
 		*dst++ = ((u_char)c >> 3 & 07) + '0';
@@ -118,7 +118,7 @@ vis(char *dst, int c, int flag, int nextc)
 		c &= 0177;
 		*dst++ = 'M';
 	}
-	if (iscntrl(c)) {
+	if (iscntrl((u_char)c)) {
 		*dst++ = '^';
 		if (c == 0177)
 			*dst++ = '?';
@@ -161,10 +161,9 @@ strvis(char *dst, const char *src, int flag)
 int
 strnvis(char *dst, const char *src, size_t siz, int flag)
 {
-	char c;
 	char *start, *end;
 	char tbuf[5];
-	int  i;
+	int c, i;
 
 	i = 0;
 	for (start = dst, end = start + siz - 1; (c = *src) && dst < end; ) {

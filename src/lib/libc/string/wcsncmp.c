@@ -1,4 +1,4 @@
-/*	$OpenBSD: wcsncmp.c,v 1.2 2005/06/19 22:12:07 espie Exp $	*/
+/*	$OpenBSD: wcsncmp.c,v 1.4 2005/08/08 08:05:37 espie Exp $	*/
 /*	$NetBSD: wcsncmp.c,v 1.5 2003/08/07 16:43:54 agc Exp $	*/
 
 /*
@@ -30,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: wcsncmp.c,v 1.2 2005/06/19 22:12:07 espie Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <wchar.h>
 #include "locale/runetype.h"
 
@@ -46,8 +42,8 @@ wcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 	do {
 		if (*s1 != *s2++) {
 			/* XXX assumes wchar_t = int */
-			return (*(const __nbrune_t *)s1 -
-			    *(const __nbrune_t *)--s2);
+			return (*(const rune_t *)s1 -
+			    *(const rune_t *)--s2);
 		}
 		if (*s1++ == 0)
 			break;
