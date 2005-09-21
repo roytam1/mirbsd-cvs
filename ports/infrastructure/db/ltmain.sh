@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.14 2005/08/25 13:27:05 tg Exp $
+# $MirOS: ports/infrastructure/db/ltmain.sh,v 1.8 2005/09/13 10:43:51 tg Exp $
 # _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.14 2005/08/25 13:27:05 tg Exp $
 # _MirOS: contrib/gnu/libtool/ltmain.in,v 1.26 2005/08/25 13:25:37 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
@@ -3272,6 +3272,7 @@ EOF
 	if test "$avoid_version" = yes && test "$need_version" = no; then
 	  major=
 	  versuffix=
+	  versuffix2=
 	  verstring=""
 	fi
 
