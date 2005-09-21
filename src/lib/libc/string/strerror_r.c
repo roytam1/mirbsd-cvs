@@ -1,13 +1,6 @@
 /* $OpenBSD: strerror_r.c,v 1.6 2005/08/08 08:05:37 espie Exp $ */
 /* Public Domain <marc@snafu.org> */
 
-#ifdef NLS
-#define catclose	_catclose
-#define catgets		_catgets
-#define catopen		_catopen
-#include <nl_types.h>
-#endif
-
 #define sys_errlist	_sys_errlist
 #define sys_nerr	_sys_nerr
 #define sys_siglist	_sys_siglist
@@ -73,26 +66,12 @@ __num2string(int num, int sign, int setid, char *buf, size_t buflen,
 	int ret = 0;
 	size_t len;
 
-#ifdef NLS
-	nl_catd catd;
-	catd = catopen("libc", 0);
-#endif
-
 	if (0 <= num && num < max) {
-#ifdef NLS
-		len = strlcpy(buf, catgets(catd, setid, num, list[num]),
-		    buflen);
-#else
 		len = strlcpy(buf, def, buflen);
-#endif
 		if (len >= buflen)
 			ret = ERANGE;
 	} else {
-#ifdef NLS
-		len = strlcpy(buf, catgets(catd, setid, 0xffff, def), buflen);
-#else
 		len = strlcpy(buf, def, buflen);
-#endif
 		if (len >= buflen)
 			ret = ERANGE;
 		else {
@@ -101,10 +80,6 @@ __num2string(int num, int sign, int setid, char *buf, size_t buflen,
 				ret = EINVAL;
 		}
 	}
-
-#ifdef NLS
-	catclose(catd);
-#endif
 
 	return ret;
 }
