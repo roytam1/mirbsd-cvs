@@ -1,4 +1,4 @@
-.\"	$OpenBSD: ohash_init.3,v 1.10 2005/02/25 03:12:43 cloder Exp $
+.\"	$OpenBSD: ohash_init.3,v 1.12 2005/07/29 08:51:13 jmc Exp $
 .\" Copyright (c) 1999 Marc Espie <espie@openbsd.org>
 .\"
 .\" Permission to use, copy, modify, and distribute this software for any
@@ -53,7 +53,7 @@
 .Ft "unsigned int"
 .Fn ohash_entries "struct ohash *h"
 .Sh DESCRIPTION
-Those functions have been designed as a fast, extensible alternative to
+These functions have been designed as a fast, extensible alternative to
 the usual hash table functions.
 They provide storage and retrieval of records indexed by keys,
 where a key is a contiguous sequence of bytes at a fixed position in
@@ -211,6 +211,7 @@ call.
 .Pp
 Multi-threaded applications should explicitly protect ohash table access.
 .Sh SEE ALSO
+.Xr ohash_interval 3
 .Rs
 .%A Donald E. Knuth
 .%B The Art of Computer Programming
@@ -218,7 +219,6 @@ Multi-threaded applications should explicitly protect ohash table access.
 .%P pp 506-550
 .%D 1973
 .Re
-.Xr ohash_interval 3
 .Sh STANDARDS
 Those functions are completely non-standard and should be avoided in
 portable programs.

@@ -1,12 +1,8 @@
+/*	$OpenBSD: localtime.c,v 1.30 2005/08/09 16:12:12 millert Exp $ */
 /*
 ** This file is in the public domain, so clarified as of
 ** 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov).
 */
-
-#if defined(LIBC_SCCS) && !defined(lint) && !defined(NOID)
-static char elsieid[] = "@(#)localtime.c	7.95";
-static char rcsid[] = "$OpenBSD: localtime.c,v 1.26 2005/07/05 13:40:51 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -1175,7 +1171,7 @@ struct tm *p_tm;
 {
 	_THREAD_PRIVATE_MUTEX_LOCK(lcl);
 	tzset_basic();
-	localsub(timep, 0L, p_tm);
+	p_tm = localsub(timep, 0L, p_tm);
 	_THREAD_PRIVATE_MUTEX_UNLOCK(lcl);
 	return p_tm;
 }
@@ -1654,9 +1650,13 @@ const int		do_norm_secs;
 		if (dir != 0) {
 			if (t == lo) {
 				++t;
+				if (t <= lo)
+					return WRONG;
 				++lo;
 			} else if (t == hi) {
 				--t;
+				if (t >= hi)
+					return WRONG;
 				--hi;
 			}
 			if (lo > hi)

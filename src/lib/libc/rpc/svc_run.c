@@ -1,3 +1,4 @@
+/*	$OpenBSD: svc_run.c,v 1.17 2005/09/10 23:04:26 brad Exp $ */
 /*
  * Sun RPC is a product of Sun Microsystems, Inc. and is provided for
  * unrestricted use provided that this legend is included on all tape
@@ -27,10 +28,6 @@
  * Mountain View, California  94043
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: svc_run.c,v 1.15 2005/04/01 07:44:04 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * This is the rpc server side idle loop
  * Wait for input, call server program.
@@ -45,17 +42,18 @@ static char *rcsid = "$OpenBSD: svc_run.c,v 1.15 2005/04/01 07:44:04 otto Exp $"
 void
 svc_run(void)
 {
-	struct pollfd *pfd = NULL;
+	struct pollfd *pfd = NULL, *newp;
 	int nready, saved_max_pollfd = 0;
 
 	for (;;) {
 		if (svc_max_pollfd > saved_max_pollfd) {
-			free(pfd);
-			pfd = malloc(sizeof(*pfd) * svc_max_pollfd);
-			if (pfd == NULL) {
+			newp = realloc(pfd, sizeof(*pfd) * svc_max_pollfd);
+			if (newp == NULL) {
+				free(pfd);
 				perror("svc_run");	/* XXX */
 				return;			/* XXX */
 			}
+			pfd = newp;
 			saved_max_pollfd = svc_max_pollfd;
 		}
 		memcpy(pfd, svc_pollfd, sizeof(*pfd) * svc_max_pollfd);

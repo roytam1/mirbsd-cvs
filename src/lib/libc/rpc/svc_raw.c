@@ -1,3 +1,4 @@
+/*	$OpenBSD: svc_raw.c,v 1.9 2005/08/08 08:05:35 espie Exp $ */
 /*
  * Sun RPC is a product of Sun Microsystems, Inc. and is provided for
  * unrestricted use provided that this legend is included on all tape
@@ -27,15 +28,11 @@
  * Mountain View, California  94043
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: svc_raw.c,v 1.7 2005/04/01 07:44:04 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * svc_raw.c,   This a toy for simple testing and timing.
  * Interface to create an rpc client and server in the same UNIX process.
  * This lets us similate rpc and get rpc (round trip) overhead, without
- * any interference from the kernal.
+ * any interference from the kernel.
  *
  * Copyright (C) 1984, Sun Microsystems, Inc.
  */
