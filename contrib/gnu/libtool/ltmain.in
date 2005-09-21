@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.25 2005/08/20 12:51:06 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.26 2005/08/25 13:25:37 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -3270,6 +3270,7 @@ EOF
 	if test "$avoid_version" = yes && test "$need_version" = no; then
 	  major=
 	  versuffix=
+	  versuffix2=
 	  verstring=""
 	fi
 
