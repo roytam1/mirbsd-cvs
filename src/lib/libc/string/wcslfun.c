@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp $ */
+/* $MirOS: src/lib/libc/string/wcslfun.c,v 1.1 2005/09/21 20:47:20 tg Exp $ */
 /* $OpenBSD: strlcpy.c,v 1.10 2005/08/08 08:05:37 espie Exp $ */
 /* $OpenBSD: strlcat.c,v 1.13 2005/08/08 08:05:37 espie Exp $ */
 
@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/wcslfun.c,v 1.1 2005/09/21 20:47:20 tg Exp $");
 
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
@@ -31,7 +31,7 @@ __RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp 
  * Returns wcslen(src); if retval >= siz, truncation occurred.
  */
 size_t
-strlcpy(wchar_t *dst, const wchar_t *src, size_t siz)
+wcslcpy(wchar_t *dst, const wchar_t *src, size_t siz)
 {
 	const wchar_t *s = src;
 
