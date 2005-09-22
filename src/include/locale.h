@@ -1,4 +1,4 @@
-/*	$MirOS$	*/
+/*	$MirOS: src/include/locale.h,v 1.2 2005/03/06 19:13:40 tg Exp $	*/
 /*	$OpenBSD: locale.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: locale.h,v 1.6 1994/10/26 00:56:02 cgd Exp $	*/
 
@@ -69,6 +69,8 @@ struct lconv {
 #define	_LC_LAST	7		/* marks end */
 
 __BEGIN_DECLS
+extern int	locale_is_utf8;
+
 struct lconv	*localeconv(void);
 char		*setlocale(int, const char *);
 __END_DECLS

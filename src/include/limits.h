@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: limits.h,v 1.11 2004/06/09 17:32:10 millert Exp $	*/
 /*	$NetBSD: limits.h,v 1.7 1994/10/26 00:56:00 cgd Exp $	*/
 
@@ -84,6 +85,9 @@
 /* where does this belong? it is defined by P1003.1c */
 #define TTY_NAME_MAX		_POSIX_TTY_NAME_MAX
 #define LOGIN_NAME_MAX		MAXLOGNAME
+
+/* maximum length of a multibyte character sequence (all locales) */
+#define MB_LEN_MAX		3	/* corresponding to UCS-2 */
 
 #include <sys/limits.h>
 #include <sys/syslimits.h>

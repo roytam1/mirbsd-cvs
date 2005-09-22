@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.2 2005/03/06 19:13:40 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -87,6 +87,8 @@ typedef struct {
 #define	EXIT_SUCCESS	0
 
 #define	RAND_MAX	0x7fffffff
+
+#define	MB_CUR_MAX	(__mb_cur_max())
 
 #include <sys/cdefs.h>
 
@@ -242,6 +244,13 @@ void	arc4random_push(int);
 void	setprogname(const char *);
 const char *getprogname(void);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
+
+size_t	__mb_cur_max(void);
+int	mblen(const char *, size_t);
+int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
+int	wctomb(char *, wchar_t);
+size_t	mbstowcs(wchar_t *__restrict__, const char *__restrict__, size_t);
+size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
 
 __END_DECLS
 
