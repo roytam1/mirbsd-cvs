@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.2 2005/03/20 16:46:28 bsiegert Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.3 2005/09/22 19:54:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
 COMMENT=		"library for layout and rendering of text"
@@ -16,7 +16,8 @@ MASTER_SITES=		ftp://ftp.gtk.org/pub/gtk/v2.8/ \
 			${MASTER_SITE_GNOME:=sources/pango/1.10/}
 EXTRACT_SUFX=           .tar.bz2
 
-LIB_DEPENDS=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib
+LIB_DEPENDS+=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib
+LIB_DEPENDS+=		cairo.2::graphics/cairo
 BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 
 USE_X11=		Yes
