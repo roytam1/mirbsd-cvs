@@ -1,7 +1,18 @@
-$MirOS$
---- configure.in.orig	Wed May 18 03:38:23 2005
-+++ configure.in	Sat Aug 20 15:55:16 2005
-@@ -181,7 +181,7 @@ AC_ARG_ENABLE(png,
+$MirOS: ports/graphics/cairo/patches/patch-configure_in,v 1.1 2005/09/06 18:53:52 bsiegert Exp $
+--- configure.in.orig	Wed Aug 24 18:25:48 2005
++++ configure.in	Thu Sep 22 15:44:02 2005
+@@ -94,8 +94,9 @@ if test "x$use_xlib" = "xyes"; then
+   PKG_CHECK_MODULES(XRENDER, xrender >= 0.6, [
+     XRENDER_REQUIRES=xrender
+     use_xlib=yes], [
+-      AC_CHECK_HEADER(X11/extensions/Xrender.h, [
+       AC_PATH_XTRA
++      CPPFLAGS="$CPPFLAGS $X_CFLAGS"
++      AC_CHECK_HEADER(X11/extensions/Xrender.h, [
+       XRENDER_LIBS="$X_LIBS -lXrender -lXext -lX11 $X_EXTRA_LIBS"
+       use_xlib=yes], [
+ 		use_xlib="no (requires Xrender http://freedesktop.org/Software/xlibs)"])])
+@@ -197,7 +198,7 @@ AC_ARG_ENABLE(png,
  if test "x$use_png" = "xyes"; then
    use_png=no
    # libpng13 is GnuWin32's libpng-1.2.8 :-(
@@ -10,18 +21,20 @@ $MirOS$
      if $PKG_CONFIG --exists $l ; then
        PNG_REQUIRES=$l
        use_png=yes
-@@ -193,7 +193,14 @@ if test "x$use_png" = "xyes"; then
+@@ -209,7 +210,16 @@ if test "x$use_png" = "xyes"; then
      # Sets PNG_CFLAGS, PNG_LIBS
      PKG_CHECK_MODULES(PNG, $PNG_REQUIRES)
    else
 -    AC_MSG_WARN([Could not find libpng in the pkg-config search path])
 +    AC_CHECK_LIB(png, png_read_info,
 +      [AC_CHECK_HEADER(libpng/png.h,
-+	use_png=yes,
-+	use_png=no)],
++	[use_png=yes; PNG_CFLAGS='-I${PREFIX}/include/libpng'],
++	[AC_CHECK_HEADER(png.h,
++	  [use_png=yes; PNG_CFLAGS=],
++	  use_png=no)])],
 +      AC_MSG_WARN(PNG library not found), -lz -lm)
 +    if test "x$use_png" = xyes; then
-+      PNG_CFLAGS='-I${PREFIX}/include/libpng'; PNG_LIBS='-lpng -lz -lm'
++      PNG_LIBS='-lpng -lz -lm'
 +    fi
    fi    
  fi

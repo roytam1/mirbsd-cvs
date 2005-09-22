@@ -1,9 +1,12 @@
-# $MirOS$
+# $MirOS: ports/graphics/cairo/Makefile,v 1.1 2005/09/06 18:53:52 bsiegert Exp $
 
 COMMENT=		"vector graphics library"
 
 DISTNAME=		cairo-1.0.0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		graphics
+
+RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 HOMEPAGE=		http://cairographics.org/introduction
 
@@ -25,6 +28,9 @@ USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ENV=  	PKG_CONFIG_PATH="${X11BASE}/lib/pkgconfig"
+
+CONFIGURE_ARGS=		--enable-static \
+			${CONFIGURE_SHARED}
 
 .include <bsd.own.mk>
 
