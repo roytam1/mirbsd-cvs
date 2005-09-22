@@ -1,7 +1,17 @@
 $MirOS$
---- configure.in.orig	Wed Aug 27 15:37:03 2003
-+++ configure.in	Thu Oct  7 20:49:02 2004
-@@ -200,7 +200,7 @@ if $have_fontconfig ; then
+$MirOS: ports/devel/pango/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
+--- configure.in.orig	Tue Aug 16 01:04:53 2005
++++ configure.in	Thu Sep 22 21:42:48 2005
+@@ -199,7 +199,7 @@ if test x$no_x = xyes ; then
+   AC_MSG_WARN([X development libraries not found])
+   have_x=false
+ else
+-  X_LIBS="$X_LIBS -lX11"
++  X_LIBS="$X_LIBS -lX11 -lXext"
+   have_x=true
+   AC_DEFINE(HAVE_X, 1, [Have X libraries])
+ fi
+@@ -231,7 +231,7 @@ if $have_fontconfig ; then
      LDFLAGS=$pango_save_ldflags
    fi
  
@@ -10,12 +20,12 @@ $MirOS$
    FREETYPE_CFLAGS="$FONTCONFIG_CFLAGS $FREETYPE_CFLAGS"
  
    AC_SUBST(FREETYPE_LIBS)
-@@ -212,6 +212,8 @@ if $have_fontconfig ; then
-   if $have_x && $have_freetype ; then
-     PKG_CHECK_MODULES(XFT, xft >= 2.0.0, have_xft=true, :)
+@@ -393,6 +393,8 @@ for module in $included_modules; do
+   else
+     dir=`echo $module | sed "s/-.*//"`
    fi
 +
 +  XFT_LIBS="$XFT_LIBS -lXext"
  
-   AC_SUBST(XFT_LIBS)
-   AC_SUBST(XFT_CFLAGS)
+   if echo $module | egrep -- "-fc($|,)" > /dev/null; then
+     INCLUDED_FC_MODULES="$INCLUDED_FC_MODULES \$(top_builddir)/modules/$dir/libpango-$module.la"

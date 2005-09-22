@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/pango/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
 @comment $OpenBSD: PLIST,v 1.10 2004/12/10 20:34:00 marcm Exp $
 bin/pango-querymodules
 include/pango-1.0/
@@ -18,6 +18,7 @@ include/pango-1.0/pango/pango-item.h
 include/pango-1.0/pango/pango-layout.h
 include/pango-1.0/pango/pango-modules.h
 include/pango-1.0/pango/pango-ot.h
+include/pango-1.0/pango/pango-renderer.h
 include/pango-1.0/pango/pango-script.h
 include/pango-1.0/pango/pango-tabs.h
 include/pango-1.0/pango/pango-types.h
@@ -28,32 +29,25 @@ include/pango-1.0/pango/pangofc-font.h
 include/pango-1.0/pango/pangofc-fontmap.h
 include/pango-1.0/pango/pangoft2.h
 include/pango-1.0/pango/pangox.h
+include/pango-1.0/pango/pangoxft-render.h
 include/pango-1.0/pango/pangoxft.h
-lib/libpango-1.0.a
 lib/libpango-1.0.la
-lib/libpangoft2-1.0.a
 lib/libpangoft2-1.0.la
-lib/libpangox-1.0.a
 lib/libpangox-1.0.la
-lib/libpangoxft-1.0.a
 lib/libpangoxft-1.0.la
 lib/pango/
 lib/pango/1.4.0/
 lib/pango/1.4.0/modules/
-lib/pango/1.4.0/modules/pango-arabic-fc.a
 lib/pango/1.4.0/modules/pango-arabic-fc.la
-lib/pango/1.4.0/modules/pango-basic-fc.a
 lib/pango/1.4.0/modules/pango-basic-fc.la
-lib/pango/1.4.0/modules/pango-basic-x.a
 lib/pango/1.4.0/modules/pango-basic-x.la
-lib/pango/1.4.0/modules/pango-hangul-fc.a
 lib/pango/1.4.0/modules/pango-hangul-fc.la
-lib/pango/1.4.0/modules/pango-hebrew-fc.a
 lib/pango/1.4.0/modules/pango-hebrew-fc.la
-lib/pango/1.4.0/modules/pango-indic-fc.a
 lib/pango/1.4.0/modules/pango-indic-fc.la
-lib/pango/1.4.0/modules/pango-thai-fc.a
+lib/pango/1.4.0/modules/pango-khmer-fc.la
+lib/pango/1.4.0/modules/pango-syriac-fc.la
 lib/pango/1.4.0/modules/pango-thai-fc.la
+lib/pango/1.4.0/modules/pango-tibetan-fc.la
 lib/pkgconfig/
 lib/pkgconfig/pango.pc
 lib/pkgconfig/pangoft2.pc
@@ -82,6 +76,7 @@ share/gtk-doc/html/pango/ix01.html
 share/gtk-doc/html/pango/layout.gif
 share/gtk-doc/html/pango/left.png
 share/gtk-doc/html/pango/lowlevel.html
+share/gtk-doc/html/pango/pango-Cairo-Rendering.html
 share/gtk-doc/html/pango/pango-Coverage-Maps.html
 share/gtk-doc/html/pango/pango-Engines.html
 share/gtk-doc/html/pango/pango-Fonts.html
@@ -102,6 +97,7 @@ share/gtk-doc/html/pango/pango.devhelp
 share/gtk-doc/html/pango/pango.html
 share/gtk-doc/html/pango/rendering.html
 share/gtk-doc/html/pango/right.png
+share/gtk-doc/html/pango/rotated-text.png
+share/gtk-doc/html/pango/style.css
 share/gtk-doc/html/pango/tools.html
 share/gtk-doc/html/pango/up.png
-%%SHARED%%
