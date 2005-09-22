@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: wcscmp.c,v 1.4 2005/08/08 08:05:37 espie Exp $	*/
 /*	$NetBSD: wcscmp.c,v 1.5 2003/08/07 16:43:54 agc Exp $	*/
 
@@ -34,7 +35,6 @@
  */
 
 #include <wchar.h>
-#include "locale/runetype.h"
 
 /*
  * Compare strings.
@@ -46,6 +46,5 @@ wcscmp(const wchar_t *s1, const wchar_t *s2)
 	while (*s1 == *s2++)
 		if (*s1++ == 0)
 			return (0);
-	/* XXX assumes wchar_t = int */
-	return (*(const rune_t *)s1 - *(const rune_t *)--s2);
+	return (*(const wchar_t *)s1 - *(const wchar_t *)--s2);
 }
