@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/mkdep/mkdep.sh,v 1.2 2005/02/23 20:58:30 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -10,6 +10,10 @@
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
+#
+# All advertising materials mentioning features or use of this soft-
+# ware must display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
 #
 # Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 # any kind, expressed or implied, to the maximum extent permitted by
@@ -74,9 +78,9 @@ trap 'rm -f $tmp; trap 2; kill -2 $$' 1 2 3 13 15
 
 # process
 if [[ -z $of ]]; then
-	$CC -M "$@"
+	$CC -D__IN_MKDEP -M "$@"
 else
-	$CC -M "$@" && cat "$of"
+	$CC -D__IN_MKDEP -M "$@" && cat "$of"
 fi | if (( flag_p == 0 )); then
 	sed -e 's; \./; ;g' >$tmp
 else
