@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/devel/atk/Makefile,v 1.2 2005/03/20 16:46:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/10 20:33:59 marcm Exp $
 
 COMMENT=		"accessibility toolkit used by gtk+"
-DISTNAME=		atk-1.8.0
+DISTNAME=		atk-1.10.1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gtk.org
 
@@ -12,11 +12,11 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/atk/1.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/atk/1.10/}
 EXTRACT_SUFX=           .tar.bz2
 
 MODULES=		devel/gettext
-LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib
+LIB_DEPENDS=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib
 BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 
 USE_GMAKE=		Yes
