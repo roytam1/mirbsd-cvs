@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.8 2005/07/28 19:19:37 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.9 2005/08/29 19:41:13 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -150,7 +150,7 @@ Boston, MA 02111-1307, USA.  */
 #define WCHAR_TYPE_SIZE 16
 
 #undef WINT_TYPE
-#define WINT_TYPE "int"
+#define WINT_TYPE "unsigned int"
 
 /* This defines which switch letters take arguments.  On MirOS, most
    of the normal cases (defined by gcc.c) apply.  */

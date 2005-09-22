@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.3 2005/03/26 10:56:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.4 2005/07/25 17:45:21 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:52 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.7 1996/11/15 22:38:50 jtc Exp $	*/
 
@@ -72,7 +72,7 @@
  * wint_t must be an int or unsigned int because of integer promotion rules.
  */
 #define	_BSD_WCHAR_T_	unsigned short		/* wchar_t */
-#define _BSD_WINT_T_	int			/* wint_t */
+#define _BSD_WINT_T_	unsigned int		/* wint_t */
 
 /*
  * We describe off_t here so its declaration can be visible to
