@@ -1,4 +1,4 @@
-@comment $MirOS: ports/graphics/tiff/pkg/PLIST,v 1.4 2005/04/28 20:16:27 tg Exp $
+@comment $MirOS: ports/graphics/tiff/pkg/PLIST,v 1.5 2005/09/11 23:13:07 tg Exp $
 @comment $OpenBSD: PLIST,v 1.10 2004/02/25 00:08:10 brad Exp $
 bin/bmp2tiff
 bin/fax2ps
@@ -215,8 +215,9 @@ share/doc/tiff-${V}/html/v3.7.0alpha.html
 share/doc/tiff-${V}/html/v3.7.0beta.html
 share/doc/tiff-${V}/html/v3.7.0beta2.html
 share/doc/tiff-${V}/html/v3.7.1.html
+share/doc/tiff-${V}/html/v3.7.2.html
+share/doc/tiff-${V}/html/v3.7.3.html
 share/doc/tiff-${V}/html/v${V}.html
-%%SHARED%%
 @dirrm share/doc/tiff-${V}/html/man
 @dirrm share/doc/tiff-${V}/html/images
 @dirrm share/doc/tiff-${V}/html

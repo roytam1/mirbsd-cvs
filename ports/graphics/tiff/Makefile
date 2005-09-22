@@ -1,18 +1,18 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.6 2005/04/28 20:08:06 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.8 2005/07/06 19:21:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		"library routines for working with TIFF images"
 COMMENT-cxx=		"library routines for working with TIFF images, C++ API"
 DESCR=			${PKGDIR}/DESCR
-V=			3.7.2
+V=			3.7.4
 _V=			${V:R:S/.//}.${V:E}
-DASH_VER=		-1
+DASH_VER=		-0
 DISTNAME=		tiff-${V}
 PKGNAME=		${DISTNAME}${DASH_VER}
 PKGNAME-cxx=		tiff-cxx-${V}${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		ftp://ftp.remotesensing.org/pub/libtiff/
-HOMEPAGE=		http://www.libtiff.org/
+HOMEPAGE=		http://www.remotesensing.org/libtiff/
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 LIB_DEPENDS=    	jpeg.62::graphics/jpeg
@@ -26,10 +26,9 @@ PERMIT_DISTFILES_FTP=	Yes
 PSEUDO_FLAVORS=		no_cxx
 FLAVOR?=
 
-CONFIGURE_STYLE=	autogen
+CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-AUTOMAKE_VERSION=	1.9
-SEPARATE_BUILD=		concurrent
+SEPARATE_BUILD=		flavored
 SUBST_VARS+=		V _V
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
@@ -47,6 +46,9 @@ MULTI_PACKAGES=		-cxx
 .if defined(PACKAGING) && defined(SUBPACKAGE) && !empty(SUBPACKAGE)
 LIB_DEPENDS=		tiff::graphics/tiff
 .endif
+
+pre-patch:
+	rm -f ${WRKSRC}/m4/libtool.m4
 
 post-install:
 	cd ${PREFIX}/man/man3; for a in *tiff; do \
