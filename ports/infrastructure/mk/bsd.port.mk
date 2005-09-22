@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.44 2005/09/12 22:53:18 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.45 2005/09/14 21:17:35 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -218,7 +218,7 @@ TRUEPREFIX?=		${PREFIX}
 DESTDIRNAME?=		DESTDIR
 DESTDIR?=		${WRKINST}
 P5SITE=			libdata/perl5/site_perl
-P5ARCH=			${P5SITE}/${MACHINE_ARCH}-${OSname}
+P5ARCH?=		${P5SITE}/${MACHINE_ARCH}-${OSname}
 
 MAKE_FLAGS?=
 .if !defined(FAKE_FLAGS)

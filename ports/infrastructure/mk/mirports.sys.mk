@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.14 2005/09/13 11:21:35 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.15 2005/09/20 19:50:25 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -57,6 +57,7 @@ UNZIP=			/usr/bin/unzip
 BZIP2=			/usr/bin/bzip2
 CHOWN=			/usr/sbin/chown
 M4?=			/usr/bin/gm4
+P5ARCH=			${P5SITE}/darwin-thread-multi-2level
 .endif
 
 #---
