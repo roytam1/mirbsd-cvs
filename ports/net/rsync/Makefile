@@ -1,8 +1,9 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.3 2005/08/21 11:49:50 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.4 2005/09/21 19:36:16 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		"mirroring/synchronisation over low bandwidth links"
 DISTNAME=		rsync-2.6.6
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -26,6 +27,13 @@ CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-included-popt \
 			--with-rsh="ssh -T" \
 			--with-rsyncd-conf="${SYSCONFDIR}/rsyncd.conf"
+
+.include <mirports.sys.mk>
+.if ${OStype:M*BSD}
+# mis-detected on MirBSD, OpenBSD due to proto in <sys/types.h>
+# probably an autoconf shortcoming though
+CONFIGURE_ENV+=		ac_cv_func_ftruncate=yes
+.endif
 
 .if ${FLAVOR:L} == "static"
 # copy this to /var/anoncvs/anoncvs/usr/bin/rsync, chmod 111
