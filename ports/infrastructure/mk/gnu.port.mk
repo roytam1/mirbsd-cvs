@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.4.2.1 2005/09/01 22:54:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.5 2005/09/12 22:53:19 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -141,5 +141,12 @@ MODGNU_post-patch+=	echo "Running autotools regeneration script in ${WRKSRC}"; \
 # OS-dependent checks
 
 .if ${OStype} == "Interix"
+# poll on Interix only works on procfs... so disable its use
 CONFIGURE_ENV+=		ac_cv_func_poll=no ac_cv_header_poll_h=no
+.endif
+
+.if ${OStype:M*BSD}
+# mis-detected on MirBSD, OpenBSD due to proto in <sys/types.h>
+# probably an autoconf shortcoming though
+CONFIGURE_ENV+=		ac_cv_func_ftruncate=yes
 .endif
