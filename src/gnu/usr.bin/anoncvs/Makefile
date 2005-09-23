@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.1.7.1 2005/03/06 16:46:49 tg Exp $
 
 CBIN=		anoncvsbin
 BINDIR=		/var/anoncvs/anoncvs
@@ -28,7 +28,7 @@ realinstall:
 	    -m ${BINMODE} ${CBIN} ${DESTDIR}${BINDIR}
 	cd ${DESTDIR}${BINDIR}; ln -f ${CBIN} bin/cat; ln -f ${CBIN} bin/pwd; \
 	    ln -f ${CBIN} bin/rm; ln -f ${CBIN} bin/sh; \
-	    ln -f ${CBIN} usr/bin/cvs; rm ${CBIN}
+	    ln -f ${CBIN} bin/cvs; rm ${CBIN}
 
 .if defined(DESTDIR) && ${DESTDIR} != "" && ${DESTDIR} != "/"
 distribution:
@@ -54,7 +54,6 @@ distribution:
 	    ${DESTDIR}/etc/services ${DESTDIR}${BINDIR}/etc
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/ttys ${DESTDIR}${BINDIR}/etc
-	cd ${DESTDIR}${BINDIR}/var; rm -f tmp; ln -s ../tmp tmp
 .else
 distribution:
 	@echo "Error: doing make distribution here is a great cause"
