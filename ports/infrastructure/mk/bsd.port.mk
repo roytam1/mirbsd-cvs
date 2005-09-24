@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.45 2005/09/14 21:17:35 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.46 2005/09/22 20:27:46 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2052,8 +2052,9 @@ ${_F}:
 		if ${FETCH_CMD} $${site}$$f; then \
 				file=${_F:S@^${DISTDIR}/@@}; \
 				ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
-				if grep -qe "^$$ck\$$" -e "^$$(print "$$ck" \
-				    | sed s/IZE/ize/) bytes\$$" ${CHECKSUM_FILE}; then \
+				if grep -qe "^$$ck\$$" \
+				    -e "^Size$${ck#SIZE} bytes\$$" \
+				    ${CHECKSUM_FILE}; then \
 					${ECHO_MSG} ">> Size matches for ${_F}"; \
 					exit 0; \
 				elif egrep -q "S(IZE|ize) \($$file\)" ${CHECKSUM_FILE}; then \
