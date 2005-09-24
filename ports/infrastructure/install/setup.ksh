@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.17 2005/09/19 20:48:56 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.18 2005/09/24 12:01:25 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -435,7 +435,7 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	MAKECONF=	$localbase/db/make.cfg
 	BINOWN?=	$myuid
 	BINGRP?=	$mygid
-	_PORTPATH?=	\${WRKDIR}/bin:$PATH
+	_PORTPATH?=	$PATH
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.make <<-EOF
