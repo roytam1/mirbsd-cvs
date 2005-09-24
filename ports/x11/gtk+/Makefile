@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.2 2005/04/02 20:32:53 bsiegert Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.4 2005/07/07 21:28:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -46,8 +46,9 @@ CPPFLAGS+=			-I${X11BASE}/include/freetype2/ -I${LOCALBASE}/include/libpng
 CONFIGURE_STYLE=		autoconf
 AUTOCONF_NEW=			Yes
 CONFIGURE_ARGS+= 		--disable-gtk-doc
-MAKE_ENV=			PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
-CONFIGURE_ENV+=			${MAKE_ENV}
+PKG_CONFIG_PATH=		${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig
+MAKE_ENV+=			PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
+CONFIGURE_ENV+=			PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
 NO_SYSTRACE=			"normalize_filename: filename too long"
 
 .include <bsd.port.mk>
