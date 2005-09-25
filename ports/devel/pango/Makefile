@@ -1,8 +1,9 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.3 2005/09/22 19:54:56 bsiegert Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.4 2005/09/22 20:04:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
 COMMENT=		"library for layout and rendering of text"
 DISTNAME=		pango-1.10.0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel x11
 HOMEPAGE=		http://www.gtk.org
 
