@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.4 2005/07/23 15:00:34 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.5 2005/09/18 18:55:07 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -202,8 +202,10 @@ anoncvs		type=dir mode=0755 uname=root gname=wheel
 .profile	type=file mode=0444 uname=root gname=wheel
 bin		type=dir mode=0755 uname=root gname=wheel
 cat		type=file mode=0111 uname=root gname=wheel
+cvs		type=file mode=0111 uname=root gname=wheel
 pwd		type=file mode=0111 uname=root gname=wheel
 rm		type=file mode=0111 uname=root gname=wheel
+rsync		type=file mode=0111 uname=root gname=wheel optional
 sh		type=file mode=0111 uname=root gname=wheel
 ..	#./var/anoncvs/anoncvs/bin
 dev		type=dir mode=0755 uname=root gname=wheel
@@ -219,12 +221,8 @@ resolv.conf	type=file mode=0444 uname=root gname=wheel
 services	type=file mode=0444 uname=root gname=wheel
 ttys		type=file mode=0444 uname=root gname=wheel
 ..	#./var/anoncvs/anoncvs/etc
-usr		type=dir mode=0755 uname=root gname=wheel
-bin		type=dir mode=0755 uname=root gname=wheel
-cvs		type=file mode=0111 uname=root gname=wheel
-rsync		type=file mode=0111 uname=root gname=wheel optional
-..	#./var/anoncvs/anoncvs/usr/bin
-..	#./var/anoncvs/anoncvs/usr
+usr		type=link uname=root gname=wheel
+var		type=link uname=root gname=wheel
 ..	#./var/anoncvs/anoncvs
 ..	#./var/anoncvs
 ..	#./var
