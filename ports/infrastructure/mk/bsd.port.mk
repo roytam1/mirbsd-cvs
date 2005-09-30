@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.48 2005/09/24 12:13:18 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.49 2005/09/29 12:42:28 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -124,6 +124,12 @@ show:
 .  endfor
 .elif defined(clean)
 .MAIN: clean
+.elif defined(for-build-depends)
+.MAIN: for-build-depends
+.elif defined(for-all-depends)
+.MAIN: for-all-depends
+.elif defined(for-run-depends)
+.MAIN: for-run-depends
 .else
 .MAIN: all
 .endif
@@ -2467,6 +2473,14 @@ full-${_i}-depends:
 		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _print-packagename ; \
 	done
+
+for-${_i}-depends:
+	@${MAKE} ${_i}-dir-depends | tsort -r | sed -e '$$d' \
+	    | while read dir; do \
+		unset FLAVOR SUBPACKAGE || true; \
+		${_flavour_fragment}; \
+		eval $$toset; ${for-${_i}-depends}; \
+	done
 .endfor
 
 relevant-checks:
@@ -2815,7 +2829,8 @@ uninstall deinstall:
 	do-extract do-fetch do-install \
 	do-package do-regress extract \
 	fake fetch fetch-all \
-	fetch-makefile full-all-depends full-build-depends \
+	fetch-makefile for-all-depends for-build-depends \
+	for-run-depends full-all-depends full-build-depends \
 	full-run-depends homepage-links install install-binpkg \
 	lib-depends lib-depends-check lib-depends-list \
 	link-categories makesum manpages-check \
