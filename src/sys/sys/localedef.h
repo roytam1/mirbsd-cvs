@@ -1,42 +1,29 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: localedef.h,v 1.3 1996/04/21 22:31:47 deraadt Exp $	*/
-/*	$NetBSD: localedef.h,v 1.4 1996/04/09 20:55:31 cgd Exp $	*/
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
-/*
- * Copyright (c) 1994 Winning Strategies, Inc.
- * All rights reserved.
+/*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *      This product includes software developed by Winning Strategies, Inc.
- * 4. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
  */
 
 #ifndef _SYS_LOCALEDEF_H_
 #define _SYS_LOCALEDEF_H_
 
 #include <sys/param.h>
-#include <sys/types.h>
 
 typedef struct {
 	const char *abday[7];
@@ -50,6 +37,6 @@ typedef struct {
 	const char *t_fmt_ampm;
 } _TimeLocale;
 
-extern const _TimeLocale  _DefaultTimeLocale;
+extern _TimeLocale _DefaultTimeLocale;
 
-#endif /* !_SYS_LOCALEDEF_H_ */
+#endif
