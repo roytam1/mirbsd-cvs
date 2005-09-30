@@ -1,4 +1,4 @@
-/*	$MirOS: src/include/locale.h,v 1.3 2005/09/22 19:53:04 tg Exp $	*/
+/*	$MirOS: src/include/locale.h,v 1.4 2005/09/30 21:41:11 tg Exp $	*/
 /*	$OpenBSD: locale.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: locale.h,v 1.6 1994/10/26 00:56:02 cgd Exp $	*/
 
@@ -39,24 +39,24 @@
 #include <sys/cdefs.h>
 
 struct lconv {
-	const char	*decimal_point;
-	const char	*thousands_sep;
-	const char	*grouping;
-	const char	*int_curr_symbol;
-	const char	*currency_symbol;
-	const char	*mon_decimal_point;
-	const char	*mon_thousands_sep;
-	const char	*mon_grouping;
-	const char	*positive_sign;
-	const char	*negative_sign;
-	const char	int_frac_digits;
-	const char	frac_digits;
-	const char	p_cs_precedes;
-	const char	p_sep_by_space;
-	const char	n_cs_precedes;
-	const char	n_sep_by_space;
-	const char	p_sign_posn;
-	const char	n_sign_posn;
+	char	*decimal_point;
+	char	*thousands_sep;
+	char	*grouping;
+	char	*int_curr_symbol;
+	char	*currency_symbol;
+	char	*mon_decimal_point;
+	char	*mon_thousands_sep;
+	char	*mon_grouping;
+	char	*positive_sign;
+	char	*negative_sign;
+	char	int_frac_digits;
+	char	frac_digits;
+	char	p_cs_precedes;
+	char	p_sep_by_space;
+	char	n_cs_precedes;
+	char	n_sep_by_space;
+	char	p_sign_posn;
+	char	n_sign_posn;
 };
 
 #define	LC_ALL		0
