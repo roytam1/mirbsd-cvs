@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+#!@SHELL@
+# $MirOS: ports/mailnews/pine/files/pine.smime.init,v 1.2 2005/05/04 23:24:45 tg Exp $
 #-
 # Copyright (c) 2003, 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -52,7 +52,7 @@ if [[ -e ~/.etc/ssh/mime.key ]]; then
 	rm -f $R
 fi
 PROG=${1:-/usr/local/bin/pine}
-[[ -z $SHELL ]] || SHELL=/bin/ksh
+[[ -z $SHELL ]] || SHELL=@SHELL@
 export SHELL
 [[ -x $(which "$PROG") ]] || PROG=$(which mail)
 [[ -n $1 ]] && shift

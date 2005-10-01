@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+#!@SHELL@
+# $MirOS: ports/mailnews/pine/files/pine.smime,v 1.2 2005/05/04 23:24:45 tg Exp $
 #-
 # Copyright (c) 2003, 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

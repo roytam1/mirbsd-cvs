@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.6 2005/07/07 21:23:06 bsiegert Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.7 2005/08/21 11:49:13 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -14,7 +14,7 @@ PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
 #PL_CCLIENT=		p0
 DISTNAME=		pine${VERSION}
-PKGNAME=		pine-${VERSION}${PL_CCLIENT}-0
+PKGNAME=		pine-${VERSION}${PL_CCLIENT}-1
 PKGNAME-cclient=	c-client-${VERSION}${PL_CCLIENT}-0
 PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCLIENT}-0
 PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCLIENT}-0
@@ -82,6 +82,9 @@ post-extract:
 	@cp ${FILESDIR}/ckp_bso.c ${WRKSRC}/imap/src/osdep/unix/
 
 do-build:
+.for _i in pine.smime.init pine.smime
+	sed -e 's#@SHELL@#${SHELL}#g' <${FILESDIR}/${_i} >${WRKSRC}/${_i}
+.endfor
 	@cd ${WRKSRC}; ./build ${PINE_BUILD_FLAGS} bso
 
 do-install:
@@ -107,8 +110,12 @@ do-install:
 	cd ${PREFIX}/man/man8 && ln ipop2d.8 ipop3d.8
 	${INSTALL_MAN} ${WRKSRC}/imap/src/mailutil/mailutil.1 ${PREFIX}/man/man1
 	${INSTALL_MAN} ${WRKSRC}/imap/src/tmail/tmail.1 ${PREFIX}/man/man1
-	cd ${FILESDIR}; ${INSTALL_SCRIPT} pgpencrypt pgpdecode pgpsign \
-	    pine.smime pine.smime.init mbxfix ${PREFIX}/bin/
+.for _i in pgpencrypt pgpdecode pgpsign mbxfix
+	${INSTALL_SCRIPT} ${FILESDIR}/${_i} ${PREFIX}/bin/
+.endfor
+.for _i in pine.smime.init pine.smime
+	${INSTALL_SCRIPT} ${WRKSRC}/${_i} ${PREFIX}/bin/
+.endfor
 	${INSTALL_DATA} ${FILESDIR}/dot.pinerc.pgp.sample \
 	    ${PREFIX}/share/doc/pine/
 	@sed -e 's#!!PREFIX!!#${PREFIX}#g' -e 's#!!ETC!!#${SYSCONFDIR}#g' \
