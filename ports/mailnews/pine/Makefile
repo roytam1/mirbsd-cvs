@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.7 2005/08/21 11:49:13 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.8 2005/10/01 19:00:16 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -83,8 +83,10 @@ post-extract:
 
 do-build:
 .for _i in pine.smime.init pine.smime
-	sed -e 's#@SHELL@#${SHELL}#g' <${FILESDIR}/${_i} >${WRKSRC}/${_i}
+	sed -e 's#@SHELL@#${SHELL}#g' <${FILESDIR}/${_i} >${WRKBUILD}/${_i}
 .endfor
+	sed -e 's#!!PREFIX!!#${PREFIX}#g' -e 's#!!ETC!!#${SYSCONFDIR}#g' \
+	    ${WRKSRC}/doc/tech-notes.txt >${WRKBUILD}/doc/tech-notes.txt.new
 	@cd ${WRKSRC}; ./build ${PINE_BUILD_FLAGS} bso
 
 do-install:
@@ -114,13 +116,11 @@ do-install:
 	${INSTALL_SCRIPT} ${FILESDIR}/${_i} ${PREFIX}/bin/
 .endfor
 .for _i in pine.smime.init pine.smime
-	${INSTALL_SCRIPT} ${WRKSRC}/${_i} ${PREFIX}/bin/
+	${INSTALL_SCRIPT} ${WRKBUILD}/${_i} ${PREFIX}/bin/
 .endfor
 	${INSTALL_DATA} ${FILESDIR}/dot.pinerc.pgp.sample \
 	    ${PREFIX}/share/doc/pine/
-	@sed -e 's#!!PREFIX!!#${PREFIX}#g' -e 's#!!ETC!!#${SYSCONFDIR}#g' \
-	    ${WRKSRC}/doc/tech-notes.txt >${WRKSRC}/doc/tech-notes.txt.new
-	${INSTALL_DATA} ${WRKSRC}/doc/tech-notes.txt.new \
+	${INSTALL_DATA} ${WRKBUILD}/doc/tech-notes.txt.new \
 	    ${PREFIX}/share/doc/pine/tech-notes.txt
 	${INSTALL_DATA} ${WRKSRC}/doc/brochure.txt ${WRKSRC}/CPYRIGHT \
 	    ${PREFIX}/share/doc/pine/

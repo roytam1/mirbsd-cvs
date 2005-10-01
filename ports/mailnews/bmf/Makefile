@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/mailnews/bmf/Makefile,v 1.2 2005/07/07 21:22:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 23:11:28 pvalchev Exp $
 
 COMMENT=		"easy to use Bayesian spam filter"
 DISTNAME=		bmf-0.9.4
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		mail
 HOMEPAGE=		http://sourceforge.net/projects/bmf
 
@@ -39,10 +39,16 @@ DOCS=			README ${FILESDIR}/OpenBSD-bmf-mini-howto.html
 
 NO_REGRESS=		Yes
 
+post-build:
+.for _i in mbmf.sh mbmf-sm.sh
+	sed -e 's#@SHELL@#${SHELL}#g' -e 's#@PREFIX@#${PREFIX}#g' \
+	    <${FILESDIR}/${_i} >${WRKBUILD}/${_i}
+.endfor
+
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/bmf
 	${INSTALL_DATA} ${WRKSRC}/${DOCS} ${PREFIX}/share/doc/bmf
-	${INSTALL_SCRIPT} ${.CURDIR}/files/mbmf.sh ${PREFIX}/bin/mbmf
-	${INSTALL_SCRIPT} ${.CURDIR}/files/mbmf-sm.sh ${PREFIX}/libexec/mbmf-sm
+	${INSTALL_SCRIPT} ${WRKBUILD}/mbmf.sh ${PREFIX}/bin/mbmf
+	${INSTALL_SCRIPT} ${WRKBUILD}/mbmf-sm.sh ${PREFIX}/libexec/mbmf-sm
 
 .include <bsd.port.mk>

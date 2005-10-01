@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!@SHELL@
+# $MirOS: ports/mailnews/bmf/files/mbmf.sh,v 1.1.7.1 2005/03/18 15:49:28 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -25,7 +25,7 @@
 #  mbmf {0|1|c}
 #  mbmf filter	# don't invoke directly
 
-export PATH=/bin:/usr/bin:/usr/local/bin
+export PATH=/bin:/usr/bin:@PREFIX@/bin
 typeset -l MODE="$1"
 shift
 
@@ -36,7 +36,7 @@ BMFP=0
 [[ $MODE = filter ]] && BMFP=p
 
 if [[ $BMFP != 0 ]]; then
-	if [ ! -x /usr/local/bin/bmf ]; then
+	if [ ! -x @PREFIX@/bin/bmf ]; then
 		echo BMF not found; aborting
 		exit 241
 	fi
