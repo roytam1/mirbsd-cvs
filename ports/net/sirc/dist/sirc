@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: ports/net/sirc/files/sirc-script,v 1.1.7.1 2005/03/18 15:49:06 tg Exp $
+#!@SHELL@
+# $MirOS: ports/net/sirc/dist/sirc,v 1.1 2005/09/01 20:38:51 tg Exp $
 #-
 # Copyright (c) 2002, 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -21,7 +21,7 @@
 
 PATH=@PREFIX@/bin:$PATH
 
-[[ -z $PERL ]] && PERL=/usr/bin/perl
+[[ -z $PERL ]] && PERL=/usr/bin/env perl
 [[ -z $SKRIPT ]] && SKRIPT=@PREFIX@/bin/dsircp
 
 [[ $1 = -d ]] || eval exec ssfe ${SSFE} ${PERL} \

@@ -1,9 +1,9 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.3 2005/09/01 20:38:50 tg Exp $
+# $MirOS: ports/net/sirc/Makefile,v 1.4 2005/09/01 20:51:19 tg Exp $
 
 COMMENT=		"programmable small perl irc client (utf-8, IPv6 ready)"
 CATEGORIES=		net
 DIST_NAME=		sirc
-DIST_DATE=		20050901
+DIST_DATE=		20051001
 #PKGNAME=		${DIST_NAME}-1:${DIST_DATE}-0
 DIST_SOURCE=		port
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -28,7 +28,8 @@ DATA=			PROGRAMMING README README.socks n0thing.pl \
 do-build:
 .for _i in ${SCRIPTS}
 	@cd ${WRKSRC}; f=$$(readlink -nf ${_i}); rm -f ${_i} && cp $$f ${_i}
-	print '%g#@PREFIX@#s##${PREFIX}#g\nwq' | ed -s ${WRKSRC}/${_i}
+	print '%g#@PREFIX@#s##${PREFIX}#g\n%g#@SHELL@#s##${SHELL}#g\nwq' \
+	    | ed -s ${WRKSRC}/${_i}
 .endfor
 
 do-install:
