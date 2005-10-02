@@ -1,5 +1,5 @@
 #!@SHELL@
-# $MirOS: ports/net/sirc/dist/sirc,v 1.1 2005/09/01 20:38:51 tg Exp $
+# $MirOS: ports/net/sirc/dist/sirc,v 1.2 2005/10/01 19:10:11 tg Exp $
 #-
 # Copyright (c) 2002, 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -19,10 +19,10 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-PATH=@PREFIX@/bin:$PATH
+PATH="@PREFIX@/bin:$PATH"
 
-[[ -z $PERL ]] && PERL=/usr/bin/env perl
-[[ -z $SKRIPT ]] && SKRIPT=@PREFIX@/bin/dsircp
+[[ -z $PERL ]] && PERL="/usr/bin/env perl"
+[[ -z $SKRIPT ]] && SKRIPT="@PREFIX@/bin/dsircp"
 
 [[ $1 = -d ]] || eval exec ssfe ${SSFE} ${PERL} \
     ${SKRIPT} ${SIRCOPTS} \"\$@\"
