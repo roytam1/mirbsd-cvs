@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/db/autogen.sh,v 1.2 2005/04/28 20:33:05 tg Exp $
+# $MirOS: ports/infrastructure/db/autogen.sh,v 1.3 2005/05/30 16:47:06 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -36,7 +36,7 @@ set -x
 aclocal -I .
 [[ -n $NO_AUTOHEADER ]] || autoheader
 set +e
-automake --foreign -i
+[[ ! -e Makefile.am ]] || automake --foreign -i
 autoconf && chmod 664 configure
 [[ -z $todel ]] || eval rm -f $todel
 [[ -e autom4te.cache ]] && rm -rf autom4te.cache
