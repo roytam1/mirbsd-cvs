@@ -1,0 +1,21 @@
+$MirOS$
+--- src/linux/zfilew.c.orig	Sun Oct  2 18:29:39 2005
++++ src/linux/zfilew.c	Sun Oct  2 18:30:00 2005
+@@ -459,7 +459,7 @@ DWORD GetDate()
+ }
+ 
+ extern char SRAMDir[1024];
+-extern char LoadDir[512];
++extern char LoadDir[1024];
+ 
+ #ifdef __LINUX__
+ 
+@@ -496,7 +496,7 @@ void obtaindir()
+   }
+   if (*LoadDir == 0) 
+   {
+-    getcwd(LoadDir, 512);
++    getcwd(LoadDir, 1024);
+   }
+ }
+ 

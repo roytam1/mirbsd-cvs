@@ -1,14 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:06:49 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		"Super Nintendo emulator for x86"
-VERSION=		1.36
+VERSION=		1.42
 DISTNAME=		zsnes-${VERSION}
 CATEGORIES=		emulators games
 HOMEPAGE=		http://www.zsnes.com/
-
-
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=zsnes/}
 DISTFILES=		zsnes${VERSION:S/.//}src${EXTRACT_SUFX}
 
@@ -18,6 +17,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+FLAVORS=		debug
+FLAVOR?=
+
 BUILD_DEPENDS=		nasm::lang/nasm
 LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl \
 			png.2::graphics/png
@@ -25,30 +27,33 @@ LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl \
 USE_X11=		Yes
 USE_CXX=		Yes
 
-CONFIGURE_STYLE=	autoconf
-CONFIGURE_ARGS=		--with-sdl-prefix=${LOCALBASE} \
-			--with-png \
-			--with-opengl \
-			--target=${MACHINE}-unknown-openbsd${OPSYS_VER}
-CONFIGURE_ENV+=		LDFLAGS="-lm" CFLAGS="${CFLAGS:N-O*}"
-ALL_TARGET=
-
-DOCS=			opengl.txt whatsnew.txt
-
+WRKDIST=		${WRKDIR}/zsnes_${VERSION:S/./_/}
 WRKSRC=			${WRKDIST}/src
+
+CONFIGURE_STYLE=	autogen
+AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
+CONFIGURE_ARGS+=	--with-sdl-prefix=${LOCALBASE} \
+			--with-opengl \
+			--with-png
+ALL_TARGET=		ALL
+
+.if ${FLAVOR:L:Mdebug}
+CONFIGURE_ARGS+=	--enable-debug
+.endif
 
 NO_REGRESS=		Yes
 
 post-extract:
 	rm -fr ${WRKSRC}/obj
 
-do-install:
-	    ${INSTALL_DATA_DIR} ${PREFIX}/share/doc/zsnes
-	    cd ${WRKBUILD} && \
-		${INSTALL_PROGRAM} zsnes ${PREFIX}/bin
-	    cd ${WRKSRC} && \
-		${INSTALL_MAN} linux/zsnes.1 ${PREFIX}/man/man1/zsnes.1
-	    cd ${WRKDIST} && \
-		${INSTALL_DATA} ${DOCS} ${PREFIX}/share/doc/zsnes
+post-install:
+.if ${FLAVOR:L:Mdebug}
+	rm -f ${PREFIX}/bin/zsnes
+	mv ${PREFIX}/bin/zsnesd ${PREFIX}/bin/zsnes
+.endif
+	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/zsnes
+	cd ${WRKDIST}/docs && \
+	    find . -type f | cpio -pdlu ${PREFIX}/share/doc/zsnes/
 
 .include <bsd.port.mk>
