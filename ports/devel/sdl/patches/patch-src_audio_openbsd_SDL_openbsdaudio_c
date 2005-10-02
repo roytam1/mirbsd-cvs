@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-src_audio_openbsd_SDL_openbsdaudio_c,v 1.5 2003/12/28 22:26:18 espie Exp $
---- src/audio/openbsd/SDL_openbsdaudio.c.orig	2003-12-28 19:42:30.000000000 +0100
-+++ src/audio/openbsd/SDL_openbsdaudio.c	2003-12-28 19:43:45.000000000 +0100
+--- src/audio/openbsd/SDL_openbsdaudio.c.orig	Sun Jan  4 16:48:53 2004
++++ src/audio/openbsd/SDL_openbsdaudio.c	Sun Oct  2 11:15:00 2005
 @@ -262,21 +262,21 @@ OBSD_Status(_THIS)
  	return;
      }

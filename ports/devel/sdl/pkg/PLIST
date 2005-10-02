@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/sdl/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:28 tg Exp $
+@comment $MirOS: ports/devel/sdl/pkg/PLIST,v 1.2 2005/07/28 23:26:16 tg Exp $
 @comment $OpenBSD: PLIST,v 1.7 2003/12/15 16:51:05 naddy Exp $
 bin/sdl-config
 include/SDL/SDL.h
@@ -208,6 +208,5 @@ man/man3/SDL_keysym.3
 man/man3/SDL_mutexP.3
 man/man3/SDL_mutexV.3
 share/aclocal/sdl.m4
-%%SHARED%%
 @dirrm share/aclocal
 @dirrm include/SDL

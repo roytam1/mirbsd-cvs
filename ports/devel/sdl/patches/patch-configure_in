@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/devel/sdl/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:45:28 tg Exp $
 $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
---- configure.in.orig	Sun Feb 22 21:31:25 2004
-+++ configure.in	Thu Aug 26 19:39:53 2004
-@@ -501,9 +501,6 @@ CheckNASM()
+--- configure.in.orig	Sun Aug 28 06:30:56 2005
++++ configure.in	Sun Oct  2 11:15:20 2005
+@@ -535,9 +535,6 @@ CheckNASM()
                win32)
                    NASMFLAGS="-f win32"
                    ;;
@@ -12,7 +12,7 @@ $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
                *)
                    NASMFLAGS="-f elf"
                    ;;
-@@ -1040,9 +1037,6 @@ CheckOpenGL()
+@@ -1082,9 +1079,6 @@ CheckOpenGL()
          AC_MSG_RESULT($video_opengl)
          if test x$video_opengl = xyes; then
              CFLAGS="$CFLAGS -DHAVE_OPENGL"
@@ -22,7 +22,7 @@ $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
          fi
      fi
  }
-@@ -1063,9 +1057,6 @@ CheckOpenGLQNX()
+@@ -1105,9 +1099,6 @@ CheckOpenGLQNX()
          if test x$video_opengl = xyes; then
              CFLAGS="$CFLAGS -DHAVE_OPENGL"
              SYSTEM_LIBS="$SYSTEM_LIBS -lGL"
@@ -32,7 +32,7 @@ $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
          fi
      fi
  }
-@@ -1174,7 +1165,7 @@ CheckPTHREAD()
+@@ -1251,7 +1242,7 @@ CheckPTHREAD()
              pthread_cflags="-I/usr/pkg/include -D_REENTRANT"
              pthread_lib="-L/usr/pkg/lib -lpthread -lsem"
              ;;
@@ -41,7 +41,7 @@ $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
              pthread_cflags="-D_REENTRANT"
              pthread_lib="-pthread"
              ;;
-@@ -1987,7 +1978,7 @@ case "$target" in
+@@ -2096,7 +2087,7 @@ case "$target" in
          # NetBSD does not define "unix"
          CFLAGS="$CFLAGS -Dunix"
          ;;
@@ -50,9 +50,9 @@ $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
          ARCH=openbsd
          CheckDummyVideo
          CheckDiskAudio
-@@ -2612,6 +2603,9 @@ fi
- if test $ARCH = solaris; then
-   SDL_RLD_FLAGS="-R\${exec_prefix}/lib"
+@@ -2764,6 +2755,9 @@ if test "x$enable_rpath" = "xyes"; then
+ else
+   SDL_RLD_FLAGS=""
  fi
 +if test $ARCH = openbsd -a x$enable_video_x11 = xyes; then
 +  SDL_RLD_FLAGS="-L${X11BASE}/lib"
@@ -60,7 +60,7 @@ $OpenBSD: patch-configure_in,v 1.22 2003/12/07 19:45:43 espie Exp $
  
  case "$ARCH" in
    openbsd | netbsd | bsdi)
-@@ -2645,7 +2639,7 @@ esac
+@@ -2797,7 +2791,7 @@ esac
  STATIC_SYSTEM_LIBS="$SYSTEM_LIBS"
  
  dnl Output the video drivers we use
