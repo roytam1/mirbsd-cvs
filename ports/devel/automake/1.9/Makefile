@@ -1,13 +1,12 @@
-# $MirOS: ports/devel/automake/1.9/Makefile,v 1.2 2005/04/03 18:03:26 bsiegert Exp $
+# $MirOS: ports/devel/automake/1.9/Makefile,v 1.4 2005/07/07 21:18:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
-COMMENT=	"experimental GNU automatic Makefile generator"
-DISTNAME=	automake-1.9.5
-PKGNAME=	${DISTNAME}-2
-SUFFIX=		-1.9
-CATEGORIES=	devel
-MASTER_SITES=	${MASTER_SITE_GNU:=automake/}
-HOMEPAGE=	http://www.gnu.org/software/automake/
+COMMENT=		"experimental GNU automatic Makefile generator"
+DISTNAME=		automake-1.9.6
+SUFFIX=			-1.9
+CATEGORIES=		devel
+MASTER_SITES=		${MASTER_SITE_GNU:=automake/}
+HOMEPAGE=		http://www.gnu.org/software/automake/
 
 # GNU GPL
 PERMIT_PACKAGE_CDROM=	Yes

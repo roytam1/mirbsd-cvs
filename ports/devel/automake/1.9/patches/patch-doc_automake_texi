@@ -1,6 +1,6 @@
-$MirOS$
---- doc/automake.texi.orig	2005-02-12 22:15:58.000000000 +0100
-+++ doc/automake.texi	2005-04-03 21:06:41.000000000 +0200
+$MirOS: ports/devel/automake/1.9/patches/patch-doc_automake_texi,v 1.2 2005/04/03 18:03:26 bsiegert Exp $
+--- doc/automake.texi.orig	Sat Jul  9 09:28:22 2005
++++ doc/automake.texi	Sun Oct  2 11:37:00 2005
 @@ -34,12 +34,12 @@ published by the Free Software Foundatio
  
  @dircategory Software development
@@ -16,7 +16,7 @@ $MirOS$
  @end direntry
  
  @titlepage
-@@ -9628,7 +9628,7 @@ The number of test cases in the test sui
+@@ -9822,7 +9822,7 @@ The number of test cases in the test sui
  @end table
  
  @multitable {8888-88-88} {8.8-p8} {8888} {888} {8888} {8888 (88)} {8888 (88)} {888} {888}
