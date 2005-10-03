@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.3 2005/10/03 23:05:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.4 2005/10/03 23:11:11 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -13,7 +13,6 @@
 
 <h3>Website</h3>
 <p><a href="http://mirbsd.de/">Another list</a>.</p><ul>
-<li><a href="http://mirbsd.tamu.edu/">mirbsd.tamu.edu</a> </li>
 <li><a href="https://mirbsd.mirsolutions.de:445/">mirbsd.mirsolutions.de</a>
  (www and distfiles, updated frequently)</li>
 </ul>
@@ -28,8 +27,6 @@
  properties of MirOS CVSweb is available.</p><ul>
 <li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">mirbsd.mirsolutions.de</a>
  (updated frequently)</li>
-<li><a href="http://mirbsd.tamu.edu/cgi-bin/cvsweb.cgi/?cvsroot=miros">mirbsd.tamu.edu</a>
- (updated every 4 hours)</li>
 </ul>
 
 <h3>anonCVS</h3>
