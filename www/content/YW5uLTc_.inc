@@ -281,7 +281,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.3 2005/10/03 23:05:47 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
@@ -339,7 +339,7 @@ vered by individual licence clauses. Most of these licences are re-
 produced below; for an additional overview of separated, but inclu-
 ded, third-party software, please refer to either of
  * /usr/share/legal/LICENCE
- * https://mirbsd.mirsolutions.de/cvs.cgi/src/share/doc/LICENCE
+ * https://mirbsd.mirsolutions.de:445/cvs.cgi/src/share/doc/LICENCE?cvsroot=mirbsd
 You are required to read, understand and accept the listed licences
 before using the third-party software (such as Apache, Sendmail and
 the GNU toolchain).

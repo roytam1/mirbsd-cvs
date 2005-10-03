@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.5 2005/06/06 10:19:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.6 2005/08/03 00:07:05 tg Exp $</small>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
 <p>The MirOS project presents a Europe-based open source operating
@@ -35,4 +35,6 @@
  We prefer new code and documentation to be placed under our
  <a href="/?licence">licence template</a> which is compliant to the
  Open Source Definition and conforms to the Debian Free Software
- Guidelines.</p>
+ Guidelines. (Don't be scared by the length of the template, the actual
+ licence stops after the first *- followed by instructions only, and
+ is way below 1 Kibibyte.)</p>

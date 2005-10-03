@@ -1,10 +1,18 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.31 2005/09/23 10:36:52 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.32 2005/10/03 23:05:48 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
 <li>03.10.2005<br />After about 2&frac12; years, our first mirror (in USA)
 	goes offline. Thanks to bsdadvocacy.org for hosting us so long, at
-	the very beginning even though the OpenBSD team disapproved.</li>
+	the very beginning even though the OpenBSD team disapproved.<br />
+	Also, the etherkiller.de mirror disappeared, and the tamu.edu was,
+	IIRC, taken offline some time ago. This means, at the moment there
+	is only one, central, place to retrieve MirOS BSD (in Germany): <a
+	href="https://mirbsd.mirsolutions.de:445/">mirbsd.mirsolutions.de</a><br />
+	There has been some further work ongoing related to both the ports
+	stuff (infrastructure fixes and port updates) and libc (it builds,
+	but this is only a small step towards both I18N and unbreaking the
+	current CVS HEAD).</li>
 
 <li>23.09.2005<br />New MirMake; MirPorts work again on Darwin; I18N/UTF-8
 	work on libc has been started.</li>
