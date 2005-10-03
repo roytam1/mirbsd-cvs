@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.2 2005/07/24 18:12:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.3 2005/07/24 19:25:00 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -20,8 +20,6 @@
 
 <h2>Mirrors known to work</h2><ul>
  <li>AnonCVS and AnonRSYNC<ul>
-  <li>mirbsd-cvs@mirbsd.bsdadvocacy.org:/cvs (pw: anoncvs)
-   (anoncvs only; broken RCS IDs)</li>
   <li>anoncvs@thor.66h.42h.de:/cvs (pw: anoncvs) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
   <li>anoncvs@mirsolutions.de:/cvs (pw: anoncvs)
@@ -41,7 +39,6 @@
   <li>Currently, no suitable snapshot is available for download.</li>
  </ul></li>
  <li>Website<ul>
-  <li><a href="http://mirbsd.bsdadvocacy.org/">http://mirbsd.bsdadvocacy.org/</a></li>
   <li><a href="https://mirbsd.mirsolutions.de:445/">http://mirbsd.mirsolutions.de/</a></li>
  </ul></li>
 </ul>

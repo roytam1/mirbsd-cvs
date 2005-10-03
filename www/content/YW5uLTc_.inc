@@ -12,7 +12,7 @@ BSD #7quater.</p>
   <dt>Home page</dt>
   <dd><a href="http://mirbsd.de">http://mirbsd.de</a></dd>
   <dt>Download</dt>
-  <dd><a href="http://mirbsd.bsdadvocacy.org/MirOS/v7/bsd/">http://mirbsd.bsdadvocacy.org/MirOS/v7/bsd/</a></dd>
+  <dd><a href="http://mirbsd.mirsolutions.de/MirOS/v7/bsd/">http://mirbsd.mirsolutions.de/MirOS/v7/bsd/</a></dd>
 </dl>
 
 <p>The MD5 and SHA1 checksum files have been signed with PGP. You are
@@ -64,7 +64,8 @@ the Free Software Foundation and the FSF Europe, to name a few).</p>
 <p>We would also like to thank all those people who have supported MirOS
 in the past, including sponsoring the developers and plain downloading
 and using MirOS. Special thanks go to Josh "selerius" Steele from CodeFusion
-IS for hosting the <tt>mirbsd.bsdadvocacy.org</tt> website, as well as Andreas
+IS for hosting the <tt>mirbsd.bsdadvocacy.org</tt> website for about two and
+an half year until the death of the server, as well as Andreas
 "ScottyTM" Kupfer and Bastian "waldi" Blank for providing domain names for the
 project.</p>
 
@@ -280,7 +281,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.11 2005/01/06 17:24:38 bsiegert Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
@@ -338,7 +339,7 @@ vered by individual licence clauses. Most of these licences are re-
 produced below; for an additional overview of separated, but inclu-
 ded, third-party software, please refer to either of
  * /usr/share/legal/LICENCE
- * https://mirbsd.bsdadvocacy.org:8890/cvs.cgi/src/share/doc/LICENCE
+ * https://mirbsd.mirsolutions.de/cvs.cgi/src/share/doc/LICENCE
 You are required to read, understand and accept the listed licences
 before using the third-party software (such as Apache, Sendmail and
 the GNU toolchain).

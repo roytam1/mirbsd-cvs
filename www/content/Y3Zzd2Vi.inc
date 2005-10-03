@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.4 2005/07/06 23:17:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.5 2005/08/03 00:07:05 tg Exp $</small>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
 <h3>Short introduction into CVSweb</h3>
@@ -15,7 +15,6 @@
 <h3>Accessing CVSweb</h3>
 
 <p>If you are using a CVSweb-enabled mirror (such as 
- <a href="http://mirbsd.bsdadvocacy.org/">mirbsd.bsdadvocacy.org</a>,
  <a href="https://mirbsd.mirsolutions.de:445/">mirbsd.mirsolutions.de</a>
  or <a href="http://mirbsd.agentdero.com/">mirbsd.agentdero.com</a>, 
  click <a href="/cvs.cgi/">here to access CVSWeb</a>)<br/>

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.12 2005/01/07 02:47:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -16,8 +16,6 @@
 <li><a href="http://mirbsd.etherkiller.de/">mirbsd.etherkiller.de</a>
  (www only, rarely updated)</li>
 <li><a href="http://mirbsd.tamu.edu/">mirbsd.tamu.edu</a> </li>
-<li><a href="http://mirbsd.bsdadvocacy.org/">mirbsd.bsdadvocacy.org</a>
- (www, distfiles and download area, updated 3 times a day)</li>
 <li><a href="https://mirbsd.mirsolutions.de:445/">mirbsd.mirsolutions.de</a>
  (www and distfiles, updated frequently)</li>
 </ul>
@@ -30,9 +28,6 @@
 <p>CVSweb is usually provided by website mirrors. More <a
  href="/?cvsweb">information</a> about CVSweb and the special
  properties of MirOS CVSweb is available.</p><ul>
-<li><a href="http://mirbsd.bsdadvocacy.org/cvs.cgi/">mirbsd.bsdadvocacy.org</a>,
- <a href="https://mirbsd.bsdadvocacy.org:8890/cvs.cgi/">with SSL</a>
- (updated once or twice a day)</li>
 <li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">mirbsd.mirsolutions.de</a>
  (updated frequently)</li>
 <li><a href="http://mirbsd.tamu.edu/cgi-bin/cvsweb.cgi/?cvsroot=miros">mirbsd.tamu.edu</a>

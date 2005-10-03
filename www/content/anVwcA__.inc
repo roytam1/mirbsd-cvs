@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.1 2005/08/09 13:10:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.2 2005/08/27 00:07:52 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp4</em>.
@@ -52,7 +52,6 @@
 
 <h3>Download</h3>
 <ul>
- <li><a href="http://mirbsd.bsdadvocacy.org/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
  <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
 </ul>
 

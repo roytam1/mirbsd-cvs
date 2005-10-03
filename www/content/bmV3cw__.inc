@@ -1,6 +1,10 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.30 2005/09/18 21:29:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.31 2005/09/23 10:36:52 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>03.10.2005<br />After about 2&frac12; years, our first mirror (in USA)
+	goes offline. Thanks to bsdadvocacy.org for hosting us so long, at
+	the very beginning even though the OpenBSD team disapproved.</li>
 
 <li>23.09.2005<br />New MirMake; MirPorts work again on Darwin; I18N/UTF-8
 	work on libc has been started.</li>

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.6 2005/09/12 20:27:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.7 2005/09/12 20:27:48 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
@@ -129,7 +129,6 @@ integer type to 64 bits signed (any takers?).
 <p>
 The current version is
 <ul>
- <li><a href="https://mirbsd.bsdadvocacy.org:8890/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz">http://mirbsd.bsdadvocacy.org/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</a></li>
  <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</a></li>
 </ul>
 <p>
@@ -380,11 +379,11 @@ I heard it compiles.
 Tab Completion is enabled by default.
 You might want to have a look at
 <ul>
- <li><a href="http://mirbsd.bsdadvocacy.org/cvs.cgi/contrib/samples/etc_profile">http://mirbsd.bsdadvocacy.org/cvs.cgi/contrib/samples/etc_profile</a></li>
+ <li><a href="http://mirbsd.mirsolutions.de/cvs.cgi/contrib/samples/etc_profile">http://mirbsd.mirsolutions.de/cvs.cgi/contrib/samples/etc_profile</a></li>
 </ul>
 (or its source)
 <ul>
- <li><a href="http://mirbsd.bsdadvocacy.org/cvs.cgi/src/etc/profile">http://mirbsd.bsdadvocacy.org/cvs.cgi/src/etc/profile</a></li>
+ <li><a href="http://mirbsd.mirsolutions.de/cvs.cgi/src/etc/profile">http://mirbsd.mirsolutions.de/cvs.cgi/src/etc/profile</a></li>
 </ul>
 for an even better pre-configured mksh environment.
 <p>

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.5 2005/03/30 12:57:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.6 2005/05/05 00:39:43 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -21,7 +21,7 @@
  from which the various public mirrors sync. For a list of these,
  again, please refer to the <a href="/?mirrors">Mirrors</a> page.</p>
 
-<p>Using <tt>mirbsd.bsdadvocacy.org</tt> as anonRSYNC server:<br />
+<p>Using <tt>mirbsd.mirsolutions.de</tt> as anonRSYNC server:<br />
  The following command line could be used to mirror the entire
  CVS repository, or download area, respectively. Please do not make
  excessive use of the rsync command, since it imposes a lot of traffic.
@@ -39,10 +39,10 @@
   _anoncvs@mirbsd.mirsolutions.de:/cvs/ /var/anoncvs/anoncvs/cvs
 nice /usr/local/bin/rsync --delete -rxlztpg \
   --rsync-path=/usr/bin/rsync \
-  mirbsd-cvs@mirbsd.bsdadvocacy.org:/ocvs/ /var/anoncvs/anoncvs/ocvs
+  mirbsd-cvs@mirbsd.mirsolutions.de:/ocvs/ /var/anoncvs/anoncvs/ocvs
 nice /usr/local/bin/rsync --delete -rxlztpg \
   --rsync-path=/usr/bin/rsync \
-  mirbsd-cvs@mirbsd.bsdadvocacy.org:/MirOS/ /var/www/htdocs/MirOS
+  mirbsd-cvs@mirbsd.mirsolutions.de:/MirOS/ /var/www/htdocs/MirOS
 </pre><p>
  Please be sure to check for problems (the CVS snapshot might contain
  lock files, because our way of mirroring isn't fully optimized yet),
@@ -50,5 +50,5 @@ nice /usr/local/bin/rsync --delete -rxlztpg \
  not problematic; <code>-a</code> is not needed, and <code>-c</code>
  is too traffic and load intensive so its use is prohibited), especially
  do add a trailing slash on the server path and do not add one on the
- client path!<br />Let me repeat it: the <tt>mirbsd.bsdadvocacy.org</tt>
+ client path!<br />Let me repeat it: the <tt>mirbsd.mirsolutions.de</tt>
  server used is just an example, look at the <a href="/?mirrors">list</a>.</p>

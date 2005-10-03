@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.5 2005/08/03 00:07:06 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.6 2005/08/20 12:34:22 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
@@ -16,7 +16,7 @@
 </ul><h2>Sponsors</h2>
 <h4>Webspace</h4><ul>
 <li>Robin S. Socha (historic)</li>
-<li>http://www.bsdadvocacy.org/</li>
+<li>Joshua C. Steele (historic)</li>
 </ul><h4>misc. services</h4><ul>
 <li>Bastian "waldi" Blank</li>
 <li>Andreas "ScottyTM" Kupfer</li>
