@@ -1,6 +1,9 @@
-$MirOS$
---- src/linux/zfilew.c.orig	Sun Oct  2 18:29:39 2005
-+++ src/linux/zfilew.c	Sun Oct  2 18:30:00 2005
+$MirOS: ports/emulators/zsnes/patches/patch-src_linux_zfilew_c,v 1.1 2005/10/02 19:25:35 tg Exp $
+
+Second chunk from zsnes CVS
+
+--- src/linux/zfilew.c.orig	Fri Jan 14 13:10:57 2005
++++ src/linux/zfilew.c	Mon Oct  3 22:22:29 2005
 @@ -459,7 +459,7 @@ DWORD GetDate()
  }
  
@@ -10,7 +13,24 @@ $MirOS$
  
  #ifdef __LINUX__
  
-@@ -496,7 +496,7 @@ void obtaindir()
+@@ -474,11 +474,12 @@ void obtaindir()
+ 
+   if ((homedir = (char *)getenv("HOME")) == 0)
+   {
+-    homedir = (char *)malloc(ZCFG_DIR_LEN);
+-    getcwd(homedir, ZCFG_DIR_LEN);
++    getcwd(zcfgdir, ZCFG_DIR_LEN);
+   }
+-  strcpy(zcfgdir, homedir);
+-  free(homedir);
++  else
++  {
++    strcpy(zcfgdir, homedir);
++  }
+   strcat(zcfgdir, ZCFG_DIR);
+   tmp = opendir(zcfgdir);
+   if (tmp == NULL) 
+@@ -496,7 +497,7 @@ void obtaindir()
    }
    if (*LoadDir == 0) 
    {
