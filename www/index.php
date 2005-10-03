@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.12 2005/08/04 09:03:33 tg Exp $ */
+/* $MirOS: www/index.php,v 1.13 2005/10/03 23:29:31 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -101,7 +101,7 @@
      ((   ||    || || || \\        ||=|= ||  ||  ||   (( |||--))   --_ )
       (( //     || || ||/         ~|| || ||  ||  ||    ( / |  )   _/  ))
         -____-  \\ |/ \\,/         |, \\,\\, \\  \\,    -____-   (_-_-
-                  _/              _-          <a href="/LICENCE"><small>Website Licence<small></a></pre>
+                  _/              _-                    <a href="/LICENCE"><small>Website Licence</small></a></pre>
  <img class="hdrrhts" src="pics/quilt.png"
   alt="Collage with MirOS and MirPorts impressions" />
 </div>
