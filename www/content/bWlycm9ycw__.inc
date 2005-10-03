@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.3 2005/10/03 23:05:48 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -13,8 +13,6 @@
 
 <h3>Website</h3>
 <p><a href="http://mirbsd.de/">Another list</a>.</p><ul>
-<li><a href="http://mirbsd.etherkiller.de/">mirbsd.etherkiller.de</a>
- (www only, rarely updated)</li>
 <li><a href="http://mirbsd.tamu.edu/">mirbsd.tamu.edu</a> </li>
 <li><a href="https://mirbsd.mirsolutions.de:445/">mirbsd.mirsolutions.de</a>
  (www and distfiles, updated frequently)</li>
