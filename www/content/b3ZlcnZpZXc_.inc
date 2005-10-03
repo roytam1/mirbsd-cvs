@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.3 2005/07/24 19:25:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.4 2005/10/03 23:05:47 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -7,7 +7,8 @@
  MirOS-current is broken at the moment and does not build.
  There is currently no recommended snapshot to install; existing snapshots are quite broken.
  The best way to install MirOS at the moment is using the LinuxTag 2005 Special Edition CD-R.
- MirPorts are currently having a flag day; it is adviced to refrain from cvs update.
+ MirPorts are past flag day; you must reinstall using the new <tt>ports/Setup.sh</tt> (still experimental).
+ We expect a huge percentage of individual ports to be broken.
 </p>
 
 <h2>Mailing lists</h2><ul>

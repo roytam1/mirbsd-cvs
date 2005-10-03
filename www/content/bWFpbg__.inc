@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.28 2005/08/09 13:56:49 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.29 2005/09/12 23:05:31 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Aus besonderem Anla&szlig; &ndash; Currently happening problems</h2>
 <p>Der <a href="http://www.ffii.org/">FFII</a> wird zur Zeit <a
@@ -39,10 +39,15 @@
 <p>STABLE: January 6th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval. Click the &quot;Download!&quot; link on the left
  for further information - where you can buy CDs or download the sets.</p -->
-<p>PORTS: September 12th, 2005: The great reorganisation continues. You can
+<p>PORTS: October 3rd, 2005: The great reorganisation has settled down; you
  now install the <a href="/?ports">MirPorts Framework</a> as regular user,
- provided <tt>/bin/mksh</tt> is recent enough, and thusly participiate in
- testing without wrecking your existing system.</p>
+ all pre-requisites including a recent enough <tt>mksh</tt> are being taken
+ care of automatically. This is for MirOS #8, OpenBSD and Darwin only at the
+ moment; we will add Interix support (much?) later and MirOS #7 only on
+ request; MirOS #7-current will probably remain unsupported. Also, there is
+ no documentation at all for the new installer, and the MirWiki documentation
+ is mostly inaccurate. The new installer is still considered experimental;
+ don't expect imake ports to work, nor do perl ports work on Darwin.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information.</p>
 <p><a href="/MirOS/CVS/cvsrepo-20050804.cgz">CVSREPO</a>: August 4th, 2005:
