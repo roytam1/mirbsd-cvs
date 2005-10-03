@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.72 2005/08/09 13:10:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.73 2005/10/03 23:27:34 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2978,7 +2978,7 @@
  MirbsdKsh, pages from the ex-MirWiki, because nobody else did.</p>
 <p>03.10.2005 by tg@<br />Why don't people just fucking use our nice ports
  framework on OpenBSD, instead take hours to port stuff to the perl-rotten
- OpenBSD ports tree (&34frac; hour alone to find libpng *sigh*)? The folks
+ OpenBSD ports tree (&frac34; hour alone to find libpng *sigh*)? The folks
  I rant about are updating ports "as they see them" anyway, so there's not
  a single reason to not use often-broken MirPorts since the Framework ipso
  is now in a stable state, and we'll notify prior to further breakage.</p>
