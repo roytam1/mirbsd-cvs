@@ -1,5 +1,7 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.10 2005/10/07 19:40:54 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.11 2005/10/07 19:43:07 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
+
+ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
 
 COMMENT=		"program for Internet News and eMail"
 COMMENT-cclient=	"University of Washington c-client mail access routines"
