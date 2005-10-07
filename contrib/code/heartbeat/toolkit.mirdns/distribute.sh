@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 #-
-# Copyright (c) 2004
+# Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -25,12 +25,17 @@
 #-
 # Distribute the 'data.cdb' file just made to the secondaries.
 # This script must be chmod'd +x to work.
+#
+# You need to visudo on the target machine and add a line such as:
+#	mirdns	ALL = NOPASSWD: /usr/local/bin/svc -t /service/dnscache
+# for the update process to work.
 
 
 # Just in case...
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 
 tinydns=$(cd $(dirname $0); pwd)
+cd $tinydns
 
 if [[ -z $1 ]]; then
 	# master distributor
@@ -43,6 +48,8 @@ if [[ -z $1 ]]; then
 	done
 	exit 0
 else
-	exec nice scp -BCpq -i $tinydns/id_rsa -F $tinydns/ssh_config \
-	    $tinydns/data.cdb mirdns@$1:$tinydns/data.cdb
+	nice scp -BCpq -i $tinydns/id_rsa -F $tinydns/ssh_config \
+	    $tinydns/data.cdb mirdns@$1:$tinydns/data.cdb && \
+	    nice ssh -T -i $tinydns/id_rsa -F $tinydns/ssh_config \
+	    -l mirdns $1 "sudo svc -t /service/dnscache"
 fi
