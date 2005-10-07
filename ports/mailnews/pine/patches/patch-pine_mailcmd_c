@@ -1,6 +1,6 @@
-$MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
---- pine/mailcmd.c.orig	Wed Apr 27 18:54:37 2005
-+++ pine/mailcmd.c	Wed May  4 23:28:10 2005
+$MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.2 2005/05/04 23:37:40 tg Exp $
+--- pine/mailcmd.c.orig	Mon Sep 12 22:04:03 2005
++++ pine/mailcmd.c	Fri Oct  7 19:12:54 2005
 @@ -1231,7 +1231,7 @@ get_out:
  	      break;
  	}
@@ -10,7 +10,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  		  mn_get_total(msgmap), mn_get_cur(msgmap), del_count));
  
  	old_max_msgno = mn_get_total(msgmap);
-@@ -5598,7 +5598,7 @@ cmd_export(state, msgmap, qline, agg)
+@@ -5601,7 +5601,7 @@ cmd_export(state, msgmap, qline, agg)
  	    }
  
  	    ok = 0;
@@ -19,7 +19,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  
  	    do {
  		tries++;
-@@ -5697,7 +5697,7 @@ cmd_export(state, msgmap, qline, agg)
+@@ -5700,7 +5700,7 @@ cmd_export(state, msgmap, qline, agg)
  		if(strlen(dir) + strlen(S_FILESEP) + strlen(lfile) + 1
  							    > sizeof(filename)){
  		    dprint(2, (debugfile,
@@ -28,7 +28,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  			   dir, S_FILESEP, lfile));
  		    errs++;
  		    continue;
-@@ -7364,6 +7364,7 @@ do_broach_folder(newfolder, new_context,
+@@ -7367,6 +7367,7 @@ do_broach_folder(newfolder, new_context,
      SEARCHSET  *srchset = NULL;
      unsigned    perfolder_startup_rule;
      char        tmp1[MAILTMPLEN], tmp2[MAILTMPLEN], *lname, *mname;
@@ -36,7 +36,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  
  #if	defined(DOS) && !defined(WIN32)
      openmode = OP_SHORTCACHE | SP_USERFLDR;
-@@ -7662,10 +7663,10 @@ do_broach_folder(newfolder, new_context,
+@@ -7665,10 +7666,10 @@ do_broach_folder(newfolder, new_context,
  	if(was_dead)
  	  icon_text(NULL, IT_MCLOSED);
  
@@ -49,7 +49,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  	/*
  	 * remember last context and folder
  	 */
-@@ -7684,9 +7685,9 @@ do_broach_folder(newfolder, new_context,
+@@ -7687,9 +7688,9 @@ do_broach_folder(newfolder, new_context,
  	    ps_global->last_unambig_folder[sizeof(ps_global->last_unambig_folder)-1] = '\0';
  	}
  
@@ -62,7 +62,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  		sizeof(ps_global->cur_folder)-1);
  	ps_global->cur_folder[sizeof(ps_global->cur_folder)-1] = '\0';
  	ps_global->context_current = ps_global->context_list;
-@@ -7841,10 +7842,10 @@ do_broach_folder(newfolder, new_context,
+@@ -7844,10 +7845,10 @@ do_broach_folder(newfolder, new_context,
                             mn_get_cur(ps_global->msgmap),
                             mn_get_total(ps_global->msgmap),
                             ps_global->mail_stream));
@@ -76,7 +76,7 @@ $MirOS: ports/mailnews/pine/patches/patch-pine_mailcmd_c,v 1.1.7.1 2005/03/18 15
  			sizeof(ps_global->cur_folder)-1);
  		ps_global->cur_folder[sizeof(ps_global->cur_folder)-1] = '\0';
              }
-@@ -12240,7 +12241,7 @@ select_date(stream, msgmap, msgno, limit
+@@ -12243,7 +12244,7 @@ select_date(stream, msgmap, msgno, limit
  	seldate_tm = localtime(&seldate);
  	sprintf(defdate, "%.2d-%.4s-%.4d", seldate_tm->tm_mday,
  		month_abbrev(seldate_tm->tm_mon + 1),

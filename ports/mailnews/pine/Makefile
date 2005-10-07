@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.8 2005/10/01 19:00:16 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.9 2005/10/01 19:06:54 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 COMMENT=		"program for Internet News and eMail"
@@ -8,18 +8,18 @@ COMMENT-mailutil=	"University of Washington IMAP4rev1/POP2/POP3 mail utility"
 COMMENT-pico=		"small text editor"
 COMMENT-pilot=		"file system browser"
 CATEGORIES=		devel editors mail net news sysutils
-VERSION=		4.63
+VERSION=		4.64
 PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
-#PL_CCLIENT=		p0
+CCLIENT_PATCHLEV=	2
 DISTNAME=		pine${VERSION}
-PKGNAME=		pine-${VERSION}${PL_CCLIENT}-1
-PKGNAME-cclient=	c-client-${VERSION}${PL_CCLIENT}-0
-PKGNAME-daemon=		imap-uw-${IMAP_VERSION}${PL_CCLIENT}-0
-PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}${PL_CCLIENT}-0
-FULLPKGNAME-pico=	pico-${PICO_VERSION}-0
-FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}-0
+PKGNAME=		pine-${VERSION}-${CCLIENT_PATCHLEV}
+PKGNAME-cclient=	c-client-${VERSION}-${CCLIENT_PATCHLEV}
+PKGNAME-daemon=		imap-uw-${IMAP_VERSION}-${CCLIENT_PATCHLEV}
+PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}-${CCLIENT_PATCHLEV}
+FULLPKGNAME-pico=	pico-${PICO_VERSION}-1
+FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}-1
 MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/old/ \
 			ftp://ftp.cac.washington.edu/pine/ \

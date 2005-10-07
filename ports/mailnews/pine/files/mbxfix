@@ -1,12 +1,11 @@
-#!/usr/bin/perl
-# $MirOS$
+#!/usr/bin/env perl
+# $MirOS: ports/mailnews/pine/files/mbxfix,v 1.2 2005/04/26 05:44:31 tg Exp $
 
 # Tool to repair MBX mailbox files as used by
 # UW imapd, c-client, Pine etc.
 # Andrew Daviel TRIUMF Oct 2001  <advax@triumf.ca>
-# (licence=http://mirbsd.de/MirOS-Licence)
 
-# Copyright (c) 2001,2005
+# Copyright (c) 2001, 2005
 #	Andrew Daviel <advax@triumf.ca>
 #
 # Licensee is hereby permitted to deal in this work without restric-

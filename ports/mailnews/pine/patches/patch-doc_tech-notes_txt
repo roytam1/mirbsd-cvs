@@ -1,12 +1,12 @@
-$MirOS: ports/mailnews/pine/patches/patch-doc_tech-notes_txt,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+$MirOS: ports/mailnews/pine/patches/patch-doc_tech-notes_txt,v 1.2 2005/05/04 23:37:39 tg Exp $
 $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
---- doc/tech-notes.txt.orig	Thu Apr 28 18:29:24 2005
-+++ doc/tech-notes.txt	Wed May  4 23:28:07 2005
+--- doc/tech-notes.txt.orig	Thu Sep 15 21:03:21 2005
++++ doc/tech-notes.txt	Fri Oct  7 19:13:23 2005
 @@ -2,6 +2,8 @@
                               Pine Technical Notes
                                         
-    Version 4.63, April 2005
-+   Local version for $MirOS: ports/mailnews/pine/patches/patch-doc_tech-notes_txt,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+    Version 4.64, September 2005
++   Local version for $MirOS: ports/mailnews/pine/patches/patch-doc_tech-notes_txt,v 1.2 2005/05/04 23:37:39 tg Exp $
 +   Not to be confused with the original UW version!
     
     _Pine_ and _Pico_ are trademarks of the University of Washington.
@@ -231,7 +231,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
     _PC-Pine_ systems, the personal configuration file is in $PINERC or
     <PineRC registry value> or ${HOME}\PINE\PINERC or <PINE.EXE
     dir>\PINERC. Or the personal configuration file can be specified with
-@@ -3167,7 +3170,7 @@ General Configuration Variables
+@@ -3171,7 +3174,7 @@ General Configuration Variables
     _personal-name_
            Personal configuration file only. User's full personal name. On
            UNIX systems, the default is taken from the accounts data base
@@ -240,7 +240,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
            is with the customized-hdrs variable.
     _personal-print-category_
            Personal configuration file only. This is the category that the
-@@ -3432,7 +3435,7 @@ General Configuration Variables
+@@ -3436,7 +3439,7 @@ General Configuration Variables
            Reverse Color.
     _rsh-command_
            Sets the format of the command used to open a UNIX remote shell
@@ -249,7 +249,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
            four "%s" entries MUST exist in the provided command. The first
            is for the command's pathname, the second is for the host to
            connnect to, the third is for the user to connect as, and the
-@@ -3757,7 +3760,7 @@ General Configuration Variables
+@@ -3761,7 +3764,7 @@ General Configuration Variables
            spell checker. If your Unix system has _ispell_ it is probably
            reasonable to make it the default speller by configuring it as
            the default in the system configuration file,
@@ -258,7 +258,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
            If this option is not set, then the system's _spell_ command is
            used. The spell command does not work the same as the alternate
            speller. It produces a list of misspelled words on its standard
-@@ -3767,7 +3770,7 @@ General Configuration Variables
+@@ -3771,7 +3774,7 @@ General Configuration Variables
            spell command, set the speller option to nothing.
     _ssh-command_
            Sets the format of the command used to open a UNIX secure shell
@@ -267,7 +267,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
            four "%s" entries MUST exist in the provided command. The first
            is for the command's pathname, the second is for the host to
            connnect to, the third is for the user to connect as, and the
-@@ -4153,11 +4156,11 @@ General Configuration Variables
+@@ -4157,11 +4160,11 @@ General Configuration Variables
            Now for an example:
            
       url-viewers=_TEST("test -n '${DISPLAY}'")_ /usr/local/bin/netscape,
@@ -281,7 +281,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
            exist. If it doesn't, then the final path and file must exist.
            Note that the last entry is a DOS/Windows path. This is one way
            to support _Pine_ running on more than one architecture with
-@@ -9383,13 +9386,13 @@ Domain Settings
+@@ -9404,13 +9407,13 @@ Domain Settings
         file
      3. Value of the variable _user-domain_ in the system-wide
         configuration file
@@ -298,7 +298,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
         by a system configuration file if _use-only-domain-name_ set to
         _yes_
      7. Unmodified value (host name) from an external database
-@@ -10084,10 +10087,10 @@ Configuration Inheritance
+@@ -10121,10 +10124,10 @@ Configuration Inheritance
      5. the system-wide _fixed_ configuration file (Unix _Pine_ only)
         
     The fixed configuration file is normally
@@ -311,7 +311,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
     _PC-Pine_. For _PC-Pine_, if the environment variable _$PINECONF_ is
     set, that is used for the system-wide configuration. This location can
     be set or changed on the command line with the -P flag. The
-@@ -10095,7 +10098,7 @@ Configuration Inheritance
+@@ -10132,7 +10135,7 @@ Configuration Inheritance
     configuration folder.
     
     For Unix _Pine_, the personal configuration file is normally the file
@@ -320,7 +320,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
     command line flag. For _PC-Pine_, the personal configuration file is
     in $PINERC or <PineRC registry value> or ${HOME}\PINE\PINERC or
     <PINE.EXE dir>\PINERC. This can be changed with the -p command line
-@@ -10345,19 +10348,18 @@ SMTP Servers
+@@ -10382,19 +10385,18 @@ SMTP Servers
     
     A typical configuration would consist of
       * A program that implements the SMTP or ESMTP protocol via stdio.
@@ -346,7 +346,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
     
     In DOS and OS/2, _Pine_ looks in the same directory as the PINERC file
     and the same dir as PINE.EXE. This is similar to the UNIX situation
-@@ -11336,7 +11338,7 @@ MIME: Reading a Message
+@@ -11373,7 +11375,7 @@ MIME: Reading a Message
     If a MAILCAPSenvironment variable is defined, _Pine_ will use that to
     look for one or more mailcap files, which are combined. In the absence
     of MAILCAPS, Unix _Pine_ will look for a personal mailcap file in
@@ -355,7 +355,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
     _PC-Pine_ will look for a file named MAILCAP in the same directory as
     the PINERC file, and/or the directory containing the PINE.EXE
     executable.
-@@ -11532,7 +11534,7 @@ Printers and Printing
+@@ -11569,7 +11571,7 @@ Printers and Printing
     
     The second selection is the standard UNIX print command. The default
     is _lpr_, but it can be changed on a system basis to anything so
@@ -364,7 +364,7 @@ $OpenBSD: patch-doc_tech-notes_txt,v 1.3 2003/05/30 20:44:34 brad Exp $
     
     The third selection is the user's personal choice for a UNIX print
     command. The text to be printed is piped into the command. _Enscript_
-@@ -11986,9 +11988,9 @@ Test Checklist
+@@ -12023,9 +12025,9 @@ Test Checklist
            Error messages for incorrect terminal types (try "foo" and
            "vt52")
     ___

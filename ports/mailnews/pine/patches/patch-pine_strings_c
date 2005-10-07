@@ -1,7 +1,7 @@
-$MirOS$
---- pine/strings.c.orig	Fri Apr 15 22:06:55 2005
-+++ pine/strings.c	Wed May  4 23:28:12 2005
-@@ -1411,7 +1411,7 @@ comatose(number) 
+$MirOS: ports/mailnews/pine/patches/patch-pine_strings_c,v 1.1 2005/05/04 23:37:41 tg Exp $
+--- pine/strings.c.orig	Tue Aug 30 00:07:57 2005
++++ pine/strings.c	Fri Oct  7 19:12:56 2005
+@@ -1468,7 +1468,7 @@ comatose(number) 
  	if(x != 0 || done_one) {
  	    if(b != buf[whichbuf])
  	      *b++ = ',';
@@ -10,7 +10,7 @@ $MirOS$
  	    b += strlen(b);
  	    done_one = 1;
  	}
-@@ -4948,7 +4948,7 @@ open_any_patterns(rflags)
+@@ -4997,7 +4997,7 @@ open_any_patterns(rflags)
  {
      long canon_rflags;
  
@@ -19,7 +19,7 @@ $MirOS$
  
      canon_rflags = CANONICAL_RFLAGS(rflags);
  
-@@ -5080,7 +5080,7 @@ close_patterns(rflags)
+@@ -5129,7 +5129,7 @@ close_patterns(rflags)
  {
      long canon_rflags;
  
@@ -28,7 +28,7 @@ $MirOS$
  
      canon_rflags = CANONICAL_RFLAGS(rflags);
  
-@@ -5150,7 +5150,7 @@ any_patterns(rflags, pstate)
+@@ -5199,7 +5199,7 @@ any_patterns(rflags, pstate)
      int  ret = 0;
      long canon_rflags;
  
@@ -37,7 +37,7 @@ $MirOS$
  
      memset((void *)pstate, 0, sizeof(*pstate));
      pstate->rflags    = rflags;
-@@ -7295,7 +7295,7 @@ write_patterns(rflags)
+@@ -7374,7 +7374,7 @@ write_patterns(rflags)
      int canon_rflags;
      int err = 0;
  
