@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.12 2005/10/07 19:47:06 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.13 2005/10/07 19:50:23 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -137,6 +137,5 @@ do-install:
 	    ${PREFIX}/include/c-client/
 	${INSTALL_DATA} ${WRKSRC}/imap/c-client/c-client.a \
 	    ${PREFIX}/lib/libc-client.a
-	${INSTALL_DATA} ${WRKSRC}/imap/c-client/libc-client.so.* ${PREFIX}/lib/
 
 .include <bsd.port.mk>
