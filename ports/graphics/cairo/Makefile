@@ -1,9 +1,9 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.1 2005/09/06 18:53:52 bsiegert Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.2 2005/09/22 13:55:56 bsiegert Exp $
 
 COMMENT=		"vector graphics library"
 
 DISTNAME=		cairo-1.0.0
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		graphics
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
