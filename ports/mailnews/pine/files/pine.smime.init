@@ -1,5 +1,5 @@
 #!@SHELL@
-# $MirOS: ports/mailnews/pine/files/pine.smime.init,v 1.2 2005/05/04 23:24:45 tg Exp $
+# $MirOS: ports/mailnews/pine/files/pine.smime.init,v 1.3 2005/10/01 19:00:17 tg Exp $
 #-
 # Copyright (c) 2003, 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -51,7 +51,7 @@ if [[ -e ~/.etc/ssh/mime.key ]]; then
 	print done.
 	rm -f $R
 fi
-PROG=${1:-/usr/local/bin/pine}
+PROG=${1:-@PREFIX@/bin/pine}
 [[ -z $SHELL ]] || SHELL=@SHELL@
 export SHELL
 [[ -x $(which "$PROG") ]] || PROG=$(which mail)
