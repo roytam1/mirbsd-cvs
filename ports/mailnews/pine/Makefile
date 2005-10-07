@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.13 2005/10/07 19:50:23 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.14 2005/10/07 20:00:38 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -69,11 +69,6 @@ LIB_DEPENDS+=		ldap.2:openldap-client-2.*:databases/openldap
 PINE_BUILD_FLAGS+=	SSLTYPE="unix"
 .else
 PINE_BUILD_FLAGS+=	SSLTYPE="unix.nopwd"
-.endif
-
-.if defined(PACKAGING) && ${SUBPACKAGE} != "-pico" \
-    && ${SUBPACKAGE} != "-pilot" && ${SUBPACKAGE} != "-cclient"
-LIB_DEPENDS+=		c-client.6::mailnews/pine,-cclient
 .endif
 
 IMAP_DOCFILES=		../CPYRIGHT FAQ.html FAQ.txt RELNOTES Y2K bugs.txt \
