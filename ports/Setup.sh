@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.9 2005/09/18 19:36:43 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.10 2005/09/18 19:42:29 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -36,8 +36,8 @@ test -f $localbase/X11/bin/xterm && xfbase=$localbase/X11
 export localbase
 export xfbase
 
-#mksh_ver=24 # unused
-mksh_date="24 2005/08/21"
+mksh_ver=24
+mksh_date=2005/08/21
 
 mirror=$1
 case x$1 in
@@ -199,12 +199,16 @@ done
 # If suitable mksh found, retrieve its version number
 if test x"$ms" != x"false"; then
 	old=no
-#	t=`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`
-#	# first check version, then date
-#	test $t -lt $mksh_ver && old=yes
-	# check if date matches
-	t=`$ms -c 'print ${KSH_VERSION#*KSH?R}'`
-	test x"$t" != x"$mksh_date" && old=yes
+	t=`$ms -c 'x=${KSH_VERSION#*KSH?R}; print ${x%% *}'`
+	# first check version, then date
+	test $t -lt $mksh_ver && old=yes
+	if test $t -eq $mksh_ver; then
+		# check if date matches
+		t=`$ms -c 'print ${KSH_VERSION#*KSH?R+([0-9]) }'`
+		# complicated check due to test/mksh brokenness in old MirOS
+		test x"$t" \> x"$mksh_date" || old=yes
+		test x"$t" = x"$mksh_date" && old=no
+	fi
 
 	# If old, check if we can upgrade
 	test $old = yes && if test x"$UPGRADE" != x"no"; then
