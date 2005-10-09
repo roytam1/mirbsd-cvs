@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.18 2005/09/24 12:01:25 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.19 2005/09/24 12:09:36 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -457,11 +457,20 @@ if [[ ! -s $localbase/db/make.cfg ]]; then
 		.  include "/etc/\${MAKE:T}.cfg"
 		.endif
 
+	EOF
+	if [[ -e /etc/mk.conf ]]; then
+		cat >>$localbase/db/make.cfg <<-EOF
+			# Older system-wide configuration
+			.include "/etc/mk.conf"
+
+		EOF
+	fi
+	cat >>$localbase/db/make.cfg <<-EOF
 		# Some stubs
 	EOF
 	if [[ $myuid = root ]]; then
 		cat >>$localbase/db/make.cfg <<-EOF
-			SUDO=		sudo		# Default on for root
+			SUDO=			sudo	# Default on for root
 		EOF
 	else
 		cat >>$localbase/db/make.cfg <<-EOF
@@ -469,9 +478,16 @@ if [[ ! -s $localbase/db/make.cfg ]]; then
 		EOF
 	fi
 	cat >>$localbase/db/make.cfg <<-EOF
-		#CLEANDEPENDS=	No		# Default to yes
-		#PREFER_SUBPKG_INSTALL=No	# Default to yes
+		#CLEANDEPENDS=		No	# Default to yes
+		#PREFER_SUBPKG_INSTALL=	No	# Default to yes
 	EOF
+	if fgrep -q DEFCOPTS /etc/make.cfg /etc/mk.conf 2>/dev/null; then
+		cat >>$localbase/db/make.cfg <<-EOF
+
+			# Add MirOS default CFLAGS if desired
+			COPTS?=			\${DEFCOPTS} \${GCEXTRA}
+		EOF
+	fi
 fi
 
 cd $portsdir/infrastructure/pkgtools
