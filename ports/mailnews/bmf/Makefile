@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/bmf/Makefile,v 1.4 2005/10/07 20:16:13 tg Exp $
+# $MirOS: ports/mailnews/bmf/Makefile,v 1.5 2005/10/09 19:14:58 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 23:11:28 pvalchev Exp $
 
 COMMENT=		"easy to use Bayesian spam filter"
@@ -28,7 +28,7 @@ CFLAGS+=		"-I${LOCALBASE}/include/mysql"
 CONFIGURE_ARGS=		--without-mysql --with-libdb
 .endif
 
-RUN_DEPENDS+=		:mailutil-uw->=2004.352-0:mail/pine,-mailutil
+RUN_DEPENDS+=		:mailutil-uw->=2004.352-0:mailnews/pine,-mailutil
 
 INSTALL_TARGET=		MANDIR=${PREFIX}/man \
 			BINDIR=${PREFIX}/bin \
