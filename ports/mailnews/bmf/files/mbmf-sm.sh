@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS: ports/mailnews/bmf/files/mbmf-sm.sh,v 1.1.7.1 2005/03/18 15:49:28 tg Exp $
+#!@SHELL@
+# $MirOS: ports/mailnews/bmf/files/mbmf-sm.sh,v 1.2 2005/10/01 19:06:56 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -22,4 +22,5 @@
 # Called via
 # echo '|@PREFIX@/libexec/mbmf-sm' >.forward
 
-HOME=. @SHELL@ @PREFIX@/bin/mbmf filter | @PREFIX@/libexec/dmail
+eval export HOME=~$(id -un)
+@SHELL@ @PREFIX@/bin/mbmf filter | @PREFIX@/libexec/dmail
