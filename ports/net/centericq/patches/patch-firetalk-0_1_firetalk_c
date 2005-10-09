@@ -1,7 +1,7 @@
-$MirOS: ports/net/centericq/patches/patch-firetalk-0_1_firetalk_c,v 1.1 2005/04/22 23:44:48 tg Exp $
---- firetalk-0.1/firetalk.c.orig	Sun Nov  2 11:00:11 2003
-+++ firetalk-0.1/firetalk.c	Tue Jul  5 15:14:01 2005
-@@ -2434,7 +2434,7 @@ enum firetalk_error firetalk_file_offer(
+$MirOS: ports/net/centericq/patches/patch-firetalk-0_1_firetalk_c,v 1.2 2005/07/05 16:04:57 tg Exp $
+--- firetalk-0.1/firetalk.c.orig	Mon Aug 29 08:56:45 2005
++++ firetalk-0.1/firetalk.c	Sun Oct  9 20:10:15 2005
+@@ -2431,7 +2431,7 @@ enum firetalk_error firetalk_file_offer(
  	while(p = strstr(cp, "/"))
  	    cp = p+1;
  

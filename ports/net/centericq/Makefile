@@ -1,9 +1,8 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.7 2005/08/21 11:49:37 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.8 2005/10/09 19:28:44 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
-DISTNAME=		centericq-4.20.0
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		centericq-4.21.0
 CATEGORIES=		net
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
@@ -23,11 +22,13 @@ USE_GMAKE=		Yes
 USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-openssl \
 			--without-gpgme \
 			--without-libjpeg \
 			--disable-nls
 
+# Yes this is right... sad but true.
 .include <mirports.sys.mk>
 COPTS+=			-fno-stack-protector
 
@@ -46,3 +47,8 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/centericq.1 ${PREFIX}/man/man1/
 
 .include <bsd.port.mk>
+
+MODGNU_post-patch+=	( cd ${WRKSRC}; echo Running \
+			    "autoheader-${AUTOCONF_VERSION} in ${WRKSRC}"; \
+			${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} \
+			    ${AUTOHEADER} );

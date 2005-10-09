@@ -1,7 +1,7 @@
-$MirOS: ports/net/centericq/patches/patch-src_icqface_cc,v 1.1 2005/04/22 23:44:48 tg Exp $
---- src/icqface.cc.orig	Wed Feb  2 23:25:49 2005
-+++ src/icqface.cc	Tue Jul  5 15:14:01 2005
-@@ -88,7 +88,7 @@ const char *strint(unsigned int i) {
+$MirOS: ports/net/centericq/patches/patch-src_icqface_cc,v 1.2 2005/07/05 16:04:57 tg Exp $
+--- src/icqface.cc.orig	Sun Aug 28 01:32:59 2005
++++ src/icqface.cc	Sun Oct  9 20:10:15 2005
+@@ -97,7 +97,7 @@ const char *strint(unsigned int i) {
      static char buf[64];
  
      if(i) {
@@ -10,7 +10,7 @@ $MirOS: ports/net/centericq/patches/patch-src_icqface_cc,v 1.1 2005/04/22 23:44:
      } else {
  	buf[0] = 0;
      }
-@@ -1202,7 +1202,7 @@ void icqface::inforss(dialogbox &db, icq
+@@ -1256,7 +1256,7 @@ void icqface::inforss(dialogbox &db, icq
      char buf[512];
  
      if(mi.checkfreq) {
