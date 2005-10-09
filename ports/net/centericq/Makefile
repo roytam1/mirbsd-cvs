@@ -1,9 +1,9 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.6 2005/07/27 19:55:36 bsiegert Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.7 2005/08/21 11:49:37 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
 DISTNAME=		centericq-4.20.0
-PKGNAME=		${DISTNAME}-0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		net
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
@@ -27,6 +27,9 @@ CONFIGURE_ARGS+=	--with-openssl \
 			--without-gpgme \
 			--without-libjpeg \
 			--disable-nls
+
+.include <mirports.sys.mk>
+COPTS+=			-fno-stack-protector
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
 			${WRKSRC}/firetalk-0.1 ${WRKSRC}/kkconsui-0.1 \
