@@ -1,4 +1,6 @@
-@comment $MirOS$
+@comment $MirOS: ports/emulators/wine/winex/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:01 tg Exp $
+@pkgcfl rewind-*
+@pkgcfl wine-*
 bin/fnt2bdf
 bin/function_grep.pl
 bin/widl
