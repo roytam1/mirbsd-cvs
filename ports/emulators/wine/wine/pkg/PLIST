@@ -1,4 +1,4 @@
-@comment $MirOS: ports/emulators/wine/wine/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:01 tg Exp $
+@comment $MirOS: ports/emulators/wine/wine/pkg/PLIST,v 1.2 2005/10/10 20:01:09 tg Exp $
 @comment $OpenBSD: PLIST,v 1.7 2003/05/12 22:19:11 sturm Exp $
 @pkgcfl rewind-*
 @pkgcfl winex-*
@@ -13,6 +13,6 @@ lib/libwine.a
 lib/wine.sym
 man/man1/wine.1
 share/examples/wine/wine.conf
-@exec if [ ! -f ${SYSCONFDIR}/wine.conf ]; then cp %D/%F ${SYSCONFDIR}; fi
+@sample ${SYSCONFDIR}/wine.conf
 @dirrm share/examples/wine
 @dirrm include/wine
