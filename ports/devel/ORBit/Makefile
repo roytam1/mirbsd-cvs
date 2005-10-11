@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/ORBit/Makefile,v 1.2 2005/03/20 16:46:23 bsiegert Exp $
+# $MirOS: ports/devel/ORBit/Makefile,v 1.4 2005/07/06 18:01:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/10 20:33:58 marcm Exp $
 
 COMMENT=		"high-performance CORBA Object Request Broker"
-DISTNAME=		ORBit2-2.12.2
+DISTNAME=		ORBit2-2.12.4
 CATEGORIES=		devel
 HOMEPAGE=		http://www.labs.redhat.com/orbit/
 
