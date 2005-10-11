@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/emulators/wine/wine/patches/patch-msdos_dpmi_c,v 1.1.7.1 2005/03/18 15:46:01 tg Exp $
 --- msdos/dpmi.c.orig	Thu Feb 25 17:32:34 1999
-+++ msdos/dpmi.c	Sat Nov  6 23:40:44 2004
++++ msdos/dpmi.c	Tue Oct 11 21:29:34 2005
 @@ -20,6 +20,7 @@
  #include "process.h"
  #include "callback.h"
@@ -9,7 +9,7 @@ $MirOS$
  
  #define DOS_GET_DRIVE(reg) ((reg) ? (reg) - 1 : DRIVE_GetCurrentDrive())
  
-@@ -211,22 +212,24 @@ static void DPMI_CallRMCBProc( CONTEXT *
+@@ -211,22 +212,26 @@ static void DPMI_CallRMCBProc( CONTEXT *
           * real-mode call structure. */
          if (flag & 1) {
              /* 32-bit DPMI client */
@@ -25,24 +25,26 @@ $MirOS$
 -                 popl %%es
 -             "
 +            __asm__ __volatile__("\n"
-+"                 pushl %%si\n"
++"                 pushl %%ebp\n"
++"                 pushl %%esi\n"
 +"                 pushl %%es\n"
 +"                 pushl %%ds\n"
 +"                 pushfl\n"
-+"                 movl %4,%%es\n"
-+"                 movl %3,%%ds\n"
++"                 mov %4,%%es\n"
++"                 mov %3,%%ds\n"
 +"                 lcall %2\n"
 +"                 popl %%ds\n"
-+"                 movl %%es,%0\n"
++"                 mov %%es,%0\n"
 +"                 popl %%es\n"
-+"                 popl %%si\n"
++"                 popl %%esi\n"
++"                 popl %%ebp\n"
 +"             "
               : "=g" (es), "=D" (edi)
               : "m" (rmcb->proc_ofs),
                 "g" (ss), "g" (rmcb->regs_sel),
                 "S" (ESP_reg(context)), "D" (rmcb->regs_ofs)
 -             : "eax", "ecx", "edx", "esi", "ebp" );
-+             : "eax", "ecx", "edx", "ebp" );
++             : "eax", "ecx", "edx" );
          } else {
              /* 16-bit DPMI client */
              CONTEXT ctx = *context;
