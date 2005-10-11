@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/wine/wine/Makefile,v 1.2 2005/04/10 21:49:51 tg Exp $
+# $MirOS: ports/emulators/wine/wine/Makefile,v 1.4 2005/07/07 21:20:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2003/05/12 22:19:11 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=		yes
 CONFIGURE_STYLE=	autoconf no-autoheader dest
-WRKDIST=		${WRKDIR}/${PKGNAME}
+WRKDIST=		${WRKDIR}/wine-${DATE}
 NO_REGRESS=		Yes
 
 post-configure:
