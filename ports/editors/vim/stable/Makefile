@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.4 2005/07/07 21:20:42 bsiegert Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.5 2005/09/17 20:46:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=	"vi clone, many additional features"
@@ -7,7 +7,7 @@ COMMENT-lang=	"vi clone, NLS subpackage"
 DISTNAME=	vim-6.3
 REVISION=	086
 VERSION=	6.3.${REVISION}
-PKGNAME=	vim-${VERSION}-0
+PKGNAME=	vim-${VERSION}-1
 P=		${DISTNAME:C/[-\.]//g}
 CATEGORIES=	editors
 MASTER_SITES=   ftp://ftp.vim.org/pub/vim/unix/ \
@@ -101,6 +101,9 @@ LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 CONFIGURE_ARGS+=--enable-gui="gtk" --with-x --enable-fontset --enable-xim --disable-gtk2-check
 .elif ${FLAVOR:L:Mgtk2} && \
 	        !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && !${FLAVOR:L:Mgtk}
+BUILD_DEPENDS+=	:pkgconfig->=0.14.0:devel/pkgconfig
+PKG_CONFIG_PATH=${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig
+CONFIGURE_ENV+=	PKG_CONFIG_PATH=${PKG_CONFIG_PATH}
 LIB_DEPENDS+=   gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+
 CONFIGURE_ARGS+=--enable-gui="gtk2" --with-x --enable-fontset --enable-xim --disable-gtk-check --enable-gtk2-check
 .else
