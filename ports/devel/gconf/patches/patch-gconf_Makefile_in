@@ -1,9 +1,11 @@
---- gconf/Makefile.in.orig	Tue Oct 12 09:49:08 2004
-+++ gconf/Makefile.in	Wed Dec 22 18:48:43 2004
-@@ -208,6 +208,7 @@ INCLUDES = \
+$MirOS$
+--- gconf/Makefile.in.orig	Wed Oct 12 21:39:51 2005
++++ gconf/Makefile.in	Wed Oct 12 21:39:57 2005
+@@ -215,6 +215,7 @@ INCLUDES = \
  	-DVERSION=\""$(VERSION)"\"					\
  	-DGCONF_ENABLE_INTERNALS=1					\
- 	-DGCONFD=\""$(GCONFD_BINARY_NAME)"\"				\
+ 	-DGCONFD=\""$(GCONFD_BINARY_NAME)$(EXEEXT)"\"			\
 +	-DGCONF_CONFIG_SOURCE=\""$(GCONF_CONFIG_SOURCE)"\"		\
  	$(NULL)
+ 
  

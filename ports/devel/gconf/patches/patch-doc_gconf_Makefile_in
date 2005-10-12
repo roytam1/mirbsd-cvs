@@ -1,7 +1,7 @@
 $OpenBSD: patch-doc_gconf_Makefile_in,v 1.6 2004/12/30 04:30:12 marcm Exp $
---- doc/gconf/Makefile.in.orig	Tue Oct 12 09:49:08 2004
-+++ doc/gconf/Makefile.in	Wed Dec 22 18:48:43 2004
-@@ -432,6 +432,7 @@ uninstall-am: uninstall-info-am uninstal
+--- doc/gconf/Makefile.in.orig	Tue Sep  6 11:05:32 2005
++++ doc/gconf/Makefile.in	Wed Oct 12 21:35:06 2005
+@@ -437,6 +437,7 @@ uninstall-am: uninstall-info-am uninstal
  
  
  @ENABLE_GTK_DOC_TRUE@all-local: html-build.stamp

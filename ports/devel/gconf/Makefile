@@ -1,13 +1,13 @@
-# $MirOS$
+# $MirOS: ports/devel/gconf/Makefile,v 1.3 2005/07/07 21:19:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/30 04:30:12 marcm Exp $
 
 COMMENT=		"configuration database system for GNOME"
-VERSION=		2.8.1
+VERSION=		2.12.0
 DISTNAME=		GConf-${VERSION}
 PKGNAME=		gconf2-${VERSION}-1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org/projects/gconf/
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/GConf/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/GConf/2.12/}
 EXTRACT_SUFX=           .tar.bz2
 
 MODULES=		devel/gettext
