@@ -1,13 +1,15 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.1.7.1 2005/03/18 15:44:10 tg Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.3 2005/07/07 21:18:26 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=	"Open source LDAP software (client)"
 COMMENT-server=	"Open source LDAP software (server)"
 VERSION=	2.2.26
+PL=		1
 
 DISTNAME=	openldap-${VERSION}
-FULLPKGNAME=	openldap-client-${VERSION}-0
-PKGNAME-server=	openldap-server-${VERSION}-0
+PKGNAME=	openldap-client-${VERSION}-${PL}
+FULLPKGNAME=	${PKGNAME}
+PKGNAME-server=	openldap-server-${VERSION}-${PL}
 CATEGORIES=	databases net
 HOMEPAGE=	http://www.openldap.org/
 
@@ -31,8 +33,15 @@ EXTRACT_SUFX=		.tgz
 SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 
+.include <mirports.sys.mk>
+.if ${__SYSTEM_PORTS:L} == "yes"
+LOCALSTATEDIR=		/var/ldap
+.else
+LOCALSTATEDIR=		${LOCALBASE}/db/ldap
+.endif
+
 CONFIGURE_ARGS+=	\
-			--localstatedir=/var/ldap \
+			--localstatedir=${LOCALSTATEDIR} \
 			--sysconfdir=${SYSCONFDIR} \
 			--enable-proctitle \
 			--with-threads \
@@ -54,7 +63,7 @@ CONFIGURE_ARGS+=	\
 			--enable-monitor \
 			--enable-null \
 			--enable-passwd \
-			--enable-perl \
+			--disable-perl \
 			--enable-shell \
 			--enable-slurpd \
 			${CONFIGURE_SHARED}
@@ -94,12 +103,12 @@ RUN_DEPENDS=		openldap:openldap-client-${VERSION}:databases/openldap
 .endif
 
 post-configure:
-	@cd ${WRKBUILD}; ${MAKE_PROGRAM} depend
+	@cd ${WRKBUILD} && ${MAKE_PROGRAM} depend
 
 post-install:
 	mv ${DESTDIR}${SYSCONFDIR}/openldap ${PREFIX}/share/examples/
 	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/share/examples/openldap
 	${INSTALL_DATA} ${WRKSRC}/LICENSE ${PREFIX}/share/openldap/
-	@rm -rf ${DESTDIR}/var/ldap
+	@rm -rf ${DESTDIR}${LOCALSTATEDIR}
 
 .include <bsd.port.mk>
