@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.3 2005/07/07 21:18:26 bsiegert Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.4 2005/10/13 23:01:52 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=	"Open source LDAP software (client)"
@@ -39,6 +39,7 @@ LOCALSTATEDIR=		/var/ldap
 .else
 LOCALSTATEDIR=		${LOCALBASE}/db/ldap
 .endif
+SUBST_VARS+=		LOCALSTATEDIR
 
 CONFIGURE_ARGS+=	\
 			--localstatedir=${LOCALSTATEDIR} \
