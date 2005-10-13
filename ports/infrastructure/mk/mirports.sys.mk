@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.15 2005/09/20 19:50:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.16 2005/09/22 20:27:47 bsiegert Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -150,6 +150,12 @@ LDFLAGS+=		-static
 .  endif
 .endif
 NO_SHARED_LIBS?=	No
+
+.if (${BINOWN} == "root") && (${LOCALBASE} == "/usr/mpkg")
+__SYSTEM_PORTS=		Yes
+.else
+__SYSTEM_PORTS=		No
+.endif
 
 # These used to be in <bsd.port.mk> but here they're more
 # easily checked and overridden by ports' Makefiles.
