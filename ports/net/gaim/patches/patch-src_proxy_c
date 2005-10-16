@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-src_proxy_c,v 1.7 2004/09/17 02:07:35 brad Exp $
---- src/proxy.c.orig	Tue Aug  3 21:51:22 2004
-+++ src/proxy.c	Fri Aug 20 23:57:04 2004
-@@ -318,7 +318,7 @@ static void host_resolved(gpointer data,
+--- src/proxy.c.orig	Sat May 14 21:33:34 2005
++++ src/proxy.c	Sun Oct 16 13:15:25 2005
+@@ -319,7 +319,7 @@ static void host_resolved(gpointer data,
  	int rc, err;
  	GSList *hosts = NULL;
  	struct sockaddr *addr = NULL;
@@ -10,7 +11,7 @@ $OpenBSD: patch-src_proxy_c,v 1.7 2004/09/17 02:07:35 brad Exp $
  
  	gaim_debug(GAIM_DEBUG_INFO, "dns", "Host '%s' resolved\n", req->host);
  	gaim_input_remove(req->inpa);
-@@ -386,7 +386,7 @@ static void trap_gdb_bug()
+@@ -387,7 +387,7 @@ static void trap_gdb_bug()
  	fputs("\n* * *\n",stderr);
  	fputs(message,stderr);
  	fputs("* * *\n\n",stderr);
@@ -19,7 +20,7 @@ $OpenBSD: patch-src_proxy_c,v 1.7 2004/09/17 02:07:35 brad Exp $
  	_exit(1);
  }
  
-@@ -427,7 +427,7 @@ gaim_dns_childthread(int child_out, int 
+@@ -428,7 +428,7 @@ gaim_dns_childthread(int child_out, int 
  	char servname[20];
  #else
  	struct sockaddr_in sin;
@@ -29,7 +30,7 @@ $OpenBSD: patch-src_proxy_c,v 1.7 2004/09/17 02:07:35 brad Exp $
  
  #ifdef HAVE_SIGNAL_H
 @@ -493,8 +493,7 @@ gaim_dns_childthread(int child_out, int 
- 		write(child_out, &zero, sizeof(zero));
+ 		}
  		tmp = res;
  		while(res) {
 -			size_t ai_addrlen = res->ai_addrlen;

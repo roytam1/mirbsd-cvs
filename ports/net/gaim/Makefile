@@ -1,14 +1,16 @@
-# $MirOS: ports/net/gaim/Makefile,v 1.2 2005/04/02 20:40:21 bsiegert Exp $
+# $MirOS: ports/net/gaim/Makefile,v 1.3 2005/04/10 21:50:38 tg Exp $
 # $OpenBSD: Makefile,v 1.73 2005/01/28 16:33:28 fgsch Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		"Gtk AIM, ICQ, IRC, Jabber, MSN, Yahoo and Zephyr client"
 
-DISTNAME=		gaim-1.2.0
+DISTNAME=		gaim-1.5.0
 CATEGORIES=		net
 HOMEPAGE=		http://gaim.sourceforge.net/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gaim/}
+
+EXTRACT_SUFX=		.tar.bz2
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -23,6 +25,9 @@ MODULES=		devel/gettext
 LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			startup-notification-1.0.0::devel/startup-notification
 BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
+
+PKG_CONFIG_PATH=	${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig
+CONFIGURE_ENV+=		PKG_CONFIG_PATH=${PKG_CONFIG_PATH}
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

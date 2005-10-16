@@ -2,7 +2,6 @@
 @comment $OpenBSD: PLIST,v 1.38 2005/01/05 17:07:44 fgsch Exp $
 bin/gaim
 bin/gaim-remote
-include/gaim/
 include/gaim/account.h
 include/gaim/accountopt.h
 include/gaim/away.h
@@ -73,23 +72,50 @@ include/gaim/util.h
 include/gaim/value.h
 include/gaim/version.h
 include/gaim/xmlnode.h
+lib/gaim/autorecon.la
+lib/gaim/docklet.la
+lib/gaim/extplacement.la
+lib/gaim/gaim-remote.la
+lib/gaim/gestures.la
+lib/gaim/history.la
+lib/gaim/iconaway.la
+lib/gaim/idle.la
+lib/gaim/libgg.la
+lib/gaim/libirc.la
+lib/gaim/libjabber.la
+lib/gaim/libmsn.la
+lib/gaim/libnapster.la
+lib/gaim/libnovell.la
+lib/gaim/liboscar.la
+lib/gaim/libyahoo.la
+lib/gaim/libzephyr.la
+lib/gaim/notify.la
+lib/gaim/relnot.la
+lib/gaim/spellchk.la
+lib/gaim/ssl-gnutls.la
+lib/gaim/ssl-nss.la
+lib/gaim/ssl-openssl.la
+lib/gaim/ssl.la
+lib/gaim/statenotify.la
+lib/gaim/ticker.la
+lib/gaim/timestamp.la
+lib/libgaim-remote.la
 lib/pkgconfig/gaim.pc
-@man man/man1/gaim-remote.1
-@man man/man1/gaim.1
-share/applications/
+man/man1/gaim-remote.1
+man/man1/gaim.1
 share/applications/gaim.desktop
 share/locale/am/LC_MESSAGES/gaim.mo
+share/locale/az/LC_MESSAGES/gaim.mo
 share/locale/bg/LC_MESSAGES/gaim.mo
 share/locale/ca/LC_MESSAGES/gaim.mo
 share/locale/cs/LC_MESSAGES/gaim.mo
 share/locale/da/LC_MESSAGES/gaim.mo
 share/locale/de/LC_MESSAGES/gaim.mo
-share/locale/en_AU/
-share/locale/en_AU/LC_MESSAGES/
 share/locale/en_AU/LC_MESSAGES/gaim.mo
 share/locale/en_CA/LC_MESSAGES/gaim.mo
 share/locale/en_GB/LC_MESSAGES/gaim.mo
 share/locale/es/LC_MESSAGES/gaim.mo
+share/locale/et/LC_MESSAGES/gaim.mo
 share/locale/fi/LC_MESSAGES/gaim.mo
 share/locale/fr/LC_MESSAGES/gaim.mo
 share/locale/he/LC_MESSAGES/gaim.mo
@@ -97,14 +123,15 @@ share/locale/hi/LC_MESSAGES/gaim.mo
 share/locale/hu/LC_MESSAGES/gaim.mo
 share/locale/it/LC_MESSAGES/gaim.mo
 share/locale/ja/LC_MESSAGES/gaim.mo
+share/locale/ka/LC_MESSAGES/gaim.mo
 share/locale/ko/LC_MESSAGES/gaim.mo
 share/locale/lt/LC_MESSAGES/gaim.mo
 share/locale/mk/LC_MESSAGES/gaim.mo
-share/locale/my_MM/
-share/locale/my_MM/LC_MESSAGES/
 share/locale/my_MM/LC_MESSAGES/gaim.mo
+share/locale/nb/LC_MESSAGES/gaim.mo
 share/locale/nl/LC_MESSAGES/gaim.mo
-share/locale/no/LC_MESSAGES/gaim.mo
+share/locale/nn/LC_MESSAGES/gaim.mo
+share/locale/pa/LC_MESSAGES/gaim.mo
 share/locale/pl/LC_MESSAGES/gaim.mo
 share/locale/pt/LC_MESSAGES/gaim.mo
 share/locale/pt_BR/LC_MESSAGES/gaim.mo
@@ -119,12 +146,10 @@ share/locale/sv/LC_MESSAGES/gaim.mo
 share/locale/tr/LC_MESSAGES/gaim.mo
 share/locale/uk/LC_MESSAGES/gaim.mo
 share/locale/vi/LC_MESSAGES/gaim.mo
+share/locale/xh/LC_MESSAGES/gaim.mo
 share/locale/zh_CN/LC_MESSAGES/gaim.mo
 share/locale/zh_TW/LC_MESSAGES/gaim.mo
-share/pixmaps/
-share/pixmaps/gaim/
 share/pixmaps/gaim.png
-share/pixmaps/gaim/buttons/
 share/pixmaps/gaim/buttons/about_menu.png
 share/pixmaps/gaim/buttons/accounts.png
 share/pixmaps/gaim/buttons/change-bgcolor-small.png
@@ -138,14 +163,12 @@ share/pixmaps/gaim/buttons/send-im.png
 share/pixmaps/gaim/buttons/text_bigger.png
 share/pixmaps/gaim/buttons/text_normal.png
 share/pixmaps/gaim/buttons/text_smaller.png
-share/pixmaps/gaim/dialogs/
 share/pixmaps/gaim/dialogs/gaim_auth.png
 share/pixmaps/gaim/dialogs/gaim_cool.png
 share/pixmaps/gaim/dialogs/gaim_error.png
 share/pixmaps/gaim/dialogs/gaim_info.png
 share/pixmaps/gaim/dialogs/gaim_question.png
 share/pixmaps/gaim/dialogs/gaim_warning.png
-share/pixmaps/gaim/icons/
 share/pixmaps/gaim/icons/away.png
 share/pixmaps/gaim/icons/connect.png
 share/pixmaps/gaim/icons/info.png
@@ -154,8 +177,6 @@ share/pixmaps/gaim/icons/msgunread.png
 share/pixmaps/gaim/icons/offline.png
 share/pixmaps/gaim/icons/online.png
 share/pixmaps/gaim/logo.png
-share/pixmaps/gaim/smileys/
-share/pixmaps/gaim/smileys/default/
 share/pixmaps/gaim/smileys/default/angel.png
 share/pixmaps/gaim/smileys/default/bigsmile.png
 share/pixmaps/gaim/smileys/default/burp.png
@@ -341,10 +362,7 @@ share/pixmaps/gaim/smileys/default/yahoo_worship.gif
 share/pixmaps/gaim/smileys/default/yahoo_yingyang.gif
 share/pixmaps/gaim/smileys/default/yahoo_youkiddingme.gif
 share/pixmaps/gaim/smileys/default/yell.png
-share/pixmaps/gaim/smileys/none/
 share/pixmaps/gaim/smileys/none/theme
-share/pixmaps/gaim/status/
-share/pixmaps/gaim/status/default/
 share/pixmaps/gaim/status/default/activebuddy.png
 share/pixmaps/gaim/status/default/admin.png
 share/pixmaps/gaim/status/default/aim.png
@@ -391,11 +409,115 @@ share/pixmaps/gaim/tb_drag_arrow_right.xpm
 share/pixmaps/gaim/tb_drag_arrow_up.xpm
 share/pixmaps/gaim/typed.png
 share/pixmaps/gaim/typing.png
-share/sounds/
-share/sounds/gaim/
 share/sounds/gaim/arrive.wav
 share/sounds/gaim/leave.wav
 share/sounds/gaim/receive.wav
 share/sounds/gaim/redalert.wav
 share/sounds/gaim/send.wav
-%%SHARED%%
+@dirrm share/sounds/gaim
+@dirrm share/sounds
+@dirrm share/pixmaps/gaim/status/default
+@dirrm share/pixmaps/gaim/status
+@dirrm share/pixmaps/gaim/smileys/none
+@dirrm share/pixmaps/gaim/smileys/default
+@dirrm share/pixmaps/gaim/smileys
+@dirrm share/pixmaps/gaim/icons
+@dirrm share/pixmaps/gaim/dialogs
+@dirrm share/pixmaps/gaim/buttons
+@dirrm share/pixmaps/gaim
+@dirrm share/pixmaps
+@dirrm share/locale/zh_TW/LC_MESSAGES
+@dirrm share/locale/zh_TW
+@dirrm share/locale/zh_CN/LC_MESSAGES
+@dirrm share/locale/zh_CN
+@dirrm share/locale/xh/LC_MESSAGES
+@dirrm share/locale/xh
+@dirrm share/locale/vi/LC_MESSAGES
+@dirrm share/locale/vi
+@dirrm share/locale/uk/LC_MESSAGES
+@dirrm share/locale/uk
+@dirrm share/locale/tr/LC_MESSAGES
+@dirrm share/locale/tr
+@dirrm share/locale/sv/LC_MESSAGES
+@dirrm share/locale/sv
+@dirrm share/locale/sr@Latn/LC_MESSAGES
+@dirrm share/locale/sr@Latn
+@dirrm share/locale/sr/LC_MESSAGES
+@dirrm share/locale/sr
+@dirrm share/locale/sq/LC_MESSAGES
+@dirrm share/locale/sq
+@dirrm share/locale/sl/LC_MESSAGES
+@dirrm share/locale/sl
+@dirrm share/locale/sk/LC_MESSAGES
+@dirrm share/locale/sk
+@dirrm share/locale/ru/LC_MESSAGES
+@dirrm share/locale/ru
+@dirrm share/locale/ro/LC_MESSAGES
+@dirrm share/locale/ro
+@dirrm share/locale/pt_BR/LC_MESSAGES
+@dirrm share/locale/pt_BR
+@dirrm share/locale/pt/LC_MESSAGES
+@dirrm share/locale/pt
+@dirrm share/locale/pl/LC_MESSAGES
+@dirrm share/locale/pl
+@dirrm share/locale/pa/LC_MESSAGES
+@dirrm share/locale/pa
+@dirrm share/locale/nn/LC_MESSAGES
+@dirrm share/locale/nn
+@dirrm share/locale/nl/LC_MESSAGES
+@dirrm share/locale/nl
+@dirrm share/locale/nb/LC_MESSAGES
+@dirrm share/locale/nb
+@dirrm share/locale/my_MM/LC_MESSAGES
+@dirrm share/locale/my_MM
+@dirrm share/locale/mk/LC_MESSAGES
+@dirrm share/locale/mk
+@dirrm share/locale/lt/LC_MESSAGES
+@dirrm share/locale/lt
+@dirrm share/locale/ko/LC_MESSAGES
+@dirrm share/locale/ko
+@dirrm share/locale/ka/LC_MESSAGES
+@dirrm share/locale/ka
+@dirrm share/locale/ja/LC_MESSAGES
+@dirrm share/locale/ja
+@dirrm share/locale/it/LC_MESSAGES
+@dirrm share/locale/it
+@dirrm share/locale/hu/LC_MESSAGES
+@dirrm share/locale/hu
+@dirrm share/locale/hi/LC_MESSAGES
+@dirrm share/locale/hi
+@dirrm share/locale/he/LC_MESSAGES
+@dirrm share/locale/he
+@dirrm share/locale/fr/LC_MESSAGES
+@dirrm share/locale/fr
+@dirrm share/locale/fi/LC_MESSAGES
+@dirrm share/locale/fi
+@dirrm share/locale/et/LC_MESSAGES
+@dirrm share/locale/et
+@dirrm share/locale/es/LC_MESSAGES
+@dirrm share/locale/es
+@dirrm share/locale/en_GB/LC_MESSAGES
+@dirrm share/locale/en_GB
+@dirrm share/locale/en_CA/LC_MESSAGES
+@dirrm share/locale/en_CA
+@dirrm share/locale/en_AU/LC_MESSAGES
+@dirrm share/locale/en_AU
+@dirrm share/locale/de/LC_MESSAGES
+@dirrm share/locale/de
+@dirrm share/locale/da/LC_MESSAGES
+@dirrm share/locale/da
+@dirrm share/locale/cs/LC_MESSAGES
+@dirrm share/locale/cs
+@dirrm share/locale/ca/LC_MESSAGES
+@dirrm share/locale/ca
+@dirrm share/locale/bg/LC_MESSAGES
+@dirrm share/locale/bg
+@dirrm share/locale/az/LC_MESSAGES
+@dirrm share/locale/az
+@dirrm share/locale/am/LC_MESSAGES
+@dirrm share/locale/am
+@dirrm share/locale
+@dirrm share/applications
+@dirrm lib/pkgconfig
+@dirrm lib/gaim
+@dirrm include/gaim
