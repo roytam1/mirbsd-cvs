@@ -1,8 +1,8 @@
-# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.3.2.1 2005/09/01 22:54:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.4 2005/09/12 22:53:19 tg Exp $
 # $OpenBSD: imake.port.mk,v 1.3 2003/07/28 17:17:05 sturm Exp $
 
 # XXX
-PREFIX=/usr/local
+#PREFIX=/usr/local
 
 .if empty(CONFIGURE_STYLE:L:Mnoman)
 INSTALL_TARGET+=	install.man
