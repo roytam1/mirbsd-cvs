@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/sysutils/dvd+rw-tools/Makefile,v 1.1 2005/05/28 21:16:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2005/01/27 10:57:20 espie Exp $
 
 NOT_FOR_PLATFORM=	Darwin:*:*
@@ -6,6 +6,7 @@ NOT_FOR_PLATFORM=	Darwin:*:*
 COMMENT=		"mastering tools for DVD+RW/+R/-R/-RW"
 
 DISTNAME=		dvd+rw-tools-5.21.4.10.8
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils
 HOMEPAGE=		http://fy.chalmers.se/~appro/linux/DVD+RW/
 
@@ -19,18 +20,20 @@ MASTER_SITES=		${HOMEPAGE}tools/
 
 RUN_DEPENDS=		:cdrtools->=1.10:sysutils/cdrtools
 
-# allow growisofs to work under sudo(8)
-CFLAGS+=		-DI_KNOW_ALL_ABOUT_SUDO
-CXXFLAGS+=		-fno-exceptions
-
 USE_CXX=		Yes
 NO_REGRESS=		Yes
 
-do-install:
-.for prog in growisofs dvd+rw-format dvd+rw-booktype dvd+rw-mediainfo
-	${INSTALL_PROGRAM} ${WRKBUILD}/${prog} ${PREFIX}/bin
+PROGS=			growisofs dvd+rw-format dvd+rw-booktype dvd+rw-mediainfo
+
+post-patch:
+	cp ${FILESDIR}/Makefile ${WRKSRC}
+.for dir in ${PROGS}
+	mkdir ${WRKSRC}/${dir}
+	cp ${FILESDIR}/Makefile.${dir} ${WRKSRC}/${dir}/Makefile
 .endfor
-	${INSTALL_MAN} ${WRKSRC}/growisofs.1 ${PREFIX}/man/man1
+
+
+post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/dvd+rw-tools
 	${INSTALL_DATA} ${WRKSRC}/index.html ${PREFIX}/share/doc/dvd+rw-tools
 
