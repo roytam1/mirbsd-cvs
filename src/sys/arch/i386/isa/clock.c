@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.4 2005/10/19 16:38:45 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.3 2005/08/02 10:54:46 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -625,11 +625,7 @@ inittodr(time_t base)
 	mc_todregs rtclk;
 	struct tm tm;
 	int s;
-	time_t unixtime;
-#if 1
-	int d = 0;
-	printf("inittodr DEBUG %d: time is %lld\n", ++d, time.tv_sec);
-#endif
+
 	/*
 	 * We mostly ignore the suggested time and go for the RTC clock time
 	 * stored in the CMOS RAM.  If the time can't be obtained from the
@@ -644,6 +640,8 @@ inittodr(time_t base)
 		base = 17*SECYR + 186*SECDAY + SECDAY/2;
 	}
 
+	time.tv_usec = 0;
+
 	s = splclock();
 	if (rtcget(&rtclk)) {
 		splx(s);
@@ -651,12 +649,7 @@ inittodr(time_t base)
 		goto fstime;
 	}
 	splx(s);
-#if 1
-	printf("inittodr: RTC says %02X.%02X.%04X %02X:%02X:%02X\n",
-	    rtclk[MC_DOM], rtclk[MC_MONTH], rtclk[MC_YEAR] +
-	    ((rtclk[MC_YEAR] < 0x70) ? 0x2000 : 0x1900),
-	    rtclk[MC_HOUR], rtclk[MC_MIN], rtclk[MC_SEC]);
-#endif
+
 	tm.tm_sec = hexdectodec(rtclk[MC_SEC]);
 	tm.tm_min = hexdectodec(rtclk[MC_MIN]);
 	tm.tm_hour = hexdectodec(rtclk[MC_HOUR]);
@@ -688,83 +681,25 @@ inittodr(time_t base)
 	}
 #endif
 
-	unixtime = tz.tz_minuteswest * 60;
-#if 1
-	printf("inittodr DEBUG %d: time is %lld\n", ++d, unixtime);
-#endif
+	time.tv_sec = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
-		unixtime -= 3600;
-#if 1
-	printf("inittodr DEBUG %d: time is %lld\n", ++d, unixtime);
-#endif
-	unixtime += tai2timet(mjd2tai(tm2mjd(tm)));
-#if 1
-	printf("inittodr DEBUG %d: time is %lld\n", ++d, unixtime);
-	printf("inittodr: should have been added %lld\n",
-	    tai2timet(mjd2tai(tm2mjd(tm))));
-	printf("inittodr: should've been %02d.%02d.%04d %02d:%02d:%02d\n",
-	    tm.tm_mday, tm.tm_mon + 1, (int)tm.tm_year + 1900,
-	    tm.tm_hour, tm.tm_min, tm.tm_sec);
-	printf("inittodr: tm2mjd = %d:%d\n", (int)tm2mjd(tm).mjd, (int)tm2mjd(tm).sec);
-	printf("inittodr: mjd2tai = %llX\n", mjd2tai(tm2mjd(tm)));
-	printf("inittodr: tai2timet = %lld\n", tai2timet(mjd2tai(tm2mjd(tm))));
-	printf("inittodr: timet2tai = %llX\n", timet2tai(tai2timet(mjd2tai(tm2mjd(tm)))));
-	printf("inittodr: tai2mjd = %d:%d\n", (int)tai2mjd(timet2tai(tai2timet(mjd2tai(tm2mjd(tm))))).mjd, (int)tai2mjd(timet2tai(tai2timet(mjd2tai(tm2mjd(tm))))).sec);
-	{
-		struct tm i = mjd2tm(tai2mjd(timet2tai(tai2timet(mjd2tai(tm2mjd(tm))))));
-		printf("inittodr: mjd2tm = %02d.%02d.%04d %02d:%02d:%02d\n",
-		    i.tm_mday, i.tm_mon + 1, (int)i.tm_year + 1900,
-		    i.tm_hour, i.tm_min, i.tm_sec);
-	}
-#endif
+		time.tv_sec -= 3600;
+	time.tv_sec += tai2timet(mjd2tai(tm2mjd(tm)));
 
-#if 1
-	{
-		struct tm i = mjd2tm(tai2mjd(timet2tai(base)));
-		printf("inittodr: base was %02d.%02d.%04d %02d:%02d:%02d\n",
-		    i.tm_mday, i.tm_mon + 1, (int)i.tm_year + 1900,
-		    i.tm_hour, i.tm_min, i.tm_sec);
-		i = mjd2tm(tai2mjd(timet2tai(unixtime)));
-		printf("inittodr: time now %02d.%02d.%04d %02d:%02d:%02d\n",
-		    i.tm_mday, i.tm_mon + 1, (int)i.tm_year + 1900,
-		    i.tm_hour, i.tm_min, i.tm_sec);
-		printf("inittodr: tz: dst %d minuteswest %d\n",
-		    tz.tz_dsttime, tz.tz_minuteswest);
-	}
-#endif
-	if (base < unixtime - 5*SECYR)
+	if (base < time.tv_sec - 5*SECYR)
 		printf("WARNING: file system time much less than clock time\n");
-	else if (base > unixtime + 5*SECYR) {
+	else if (base > time.tv_sec + 5*SECYR) {
 		printf("WARNING: clock time much less than file system time\n");
 		printf("WARNING: using file system time\n");
 		goto fstime;
 	}
 
 	timeset = 1;
-#if 1
-	printf("inittodr: initialising time to %llu, base was %llu\n",
-	    unixtime, base);
-#endif
-	s = splhigh();
-	time.tv_sec = unixtime;
-	time.tv_usec = 0;
-	splx(s);
-#if 1
-	printf("inittodr DEBUG %d: time is %lld\n", ++d, time.tv_sec);
-#endif
 	return;
 
 fstime:
 	timeset = 1;
-#if 1
-	printf("inittodr: discarding time %llu, using base %llu instead\n",
-	    unixtime, base);
-#endif
 	time.tv_sec = base;
-	time.tv_usec = 0;
-#if 1
-	printf("inittodr DEBUG %d: time is %lld\n", ++d, time.tv_sec);
-#endif
 	printf("WARNING: CHECK AND RESET THE DATE!\n");
 }
 
@@ -795,7 +730,6 @@ resettodr(void)
 	diff = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
 		diff -= 3600;
-	printf("resettodr: setting CMOS clock to %llu\n", time.tv_sec);
 	tm = mjd2tm(tai2mjd(timet2tai(time.tv_sec - diff)));
 
 	rtclk[MC_SEC] = dectohexdec(tm.tm_sec);
