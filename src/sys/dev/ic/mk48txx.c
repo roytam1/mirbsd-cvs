@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/ic/mk48txx.c,v 1.2 2005/03/06 21:27:40 tg Exp $ */
 /*	$OpenBSD: mk48txx.c,v 1.4 2002/06/09 00:07:10 nordin Exp $	*/
 /*	$NetBSD: mk48txx.c,v 1.7 2001/04/08 17:05:10 tsutsui Exp $ */
 /*-
@@ -162,6 +162,7 @@ mk48txx_gettime(handle, tv)
 	tm.tm_mday = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IDAY));
 	tm.tm_wday = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IWDAY));
 	tm.tm_mon = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IMON)) - 1;
+	tm.tm_gmtoff = 0;
 	year = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IYEAR));
 
 	year += mk->mk_year0;
