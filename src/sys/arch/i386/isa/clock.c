@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.2 2005/03/06 21:27:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.3 2005/08/02 10:54:46 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -695,10 +695,14 @@ inittodr(time_t base)
 	}
 
 	timeset = 1;
+	printf("inittodr: initialising time to %llu, base was %llu\n",
+	    time.tv_sec, base);
 	return;
 
 fstime:
 	timeset = 1;
+	printf("inittodr: discarding time %llu, using base %llu instead\n",
+	    time.tv_sec, base);
 	time.tv_sec = base;
 	printf("WARNING: CHECK AND RESET THE DATE!\n");
 }
@@ -730,6 +734,7 @@ resettodr(void)
 	diff = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
 		diff -= 3600;
+	printf("resettodr: setting CMOS clock to %llu\n", time.tv_sec);
 	tm = mjd2tm(tai2mjd(timet2tai(time.tv_sec - diff)));
 
 	rtclk[MC_SEC] = dectohexdec(tm.tm_sec);
