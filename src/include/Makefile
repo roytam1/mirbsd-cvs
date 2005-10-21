@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.4 2005/07/25 19:16:10 tg Exp $
+# $MirOS: src/include/Makefile,v 1.5 2005/09/22 19:53:04 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -70,9 +70,7 @@ includes:
 			    $$j ${DESTDIR}/usr/include/$$i/$$j; \
 		done; \
 	done
-	@rm -rf ${DESTDIR}/usr/include/openssl ${DESTDIR}/usr/include/ssl \
-		${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-openbsd/ssl \
-		${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-openbsd/openssl
+	@rm -rf ${DESTDIR}/usr/include/openssl ${DESTDIR}/usr/include/ssl
 	@mkdir ${DESTDIR}/usr/include/openssl
 	@ln -sf openssl ${DESTDIR}/usr/include/ssl
 	@echo installing ${LFILES}
