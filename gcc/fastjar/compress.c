@@ -358,7 +358,7 @@ int inflate_file(pb_file *pbf, int out_fd, struct zipentry *ze){
 
   ze->crc = crc;
   
-  pb_push(pbf, zs.next_in, zs.avail_in);
+  pb_push(pbf, (void *)zs.next_in, zs.avail_in);
 
   ze->usize = zs.total_out;
 
@@ -417,7 +417,7 @@ static Bytef *ez_inflate_str(pb_file *pbf, ub4 csize, ub4 usize) {
 
 	if((zs.next_in = in_buff = (Bytef *) malloc(csize))) {
 		if((zs.next_out = out_buff = (Bytef *) malloc(usize + 1))) { 
-			if((rdamt = pb_read(pbf, zs.next_in, csize)) == csize) {
+			if((rdamt = pb_read(pbf, (void *)zs.next_in, csize)) == csize) {
 				zs.avail_in = csize;
 				zs.avail_out = usize;
 				report_str_error(inflate(&zs, 0));
@@ -491,7 +491,7 @@ static Bytef *hrd_inflate_str(pb_file *pbf, ub4 *csize, ub4 *usize) {
 		} while((zret = inflate(&zs, 0)) == Z_OK);
 		report_str_error(zret);
 	}
-	pb_push(pbf, zs.next_in, zs.avail_in);
+	pb_push(pbf, (void *)zs.next_in, zs.avail_in);
 
 	out_buff[(RDSZ * (i - 1)) - zs.avail_out] = '\0';
 	*usize = zs.total_out;
