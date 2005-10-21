@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.9 2005/09/12 22:53:20 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.10 2005/09/19 19:35:30 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -13,6 +13,8 @@ BSD_PREFIX=	${LOCALBASE}	# path for binaries, man page, etc.
 BINDIR=		${BSD_PREFIX}/sbin
 CPPFLAGS+=	-D_PATH_REFCNTDB=\"${PKG_DB_DIR}/shareddirs.db\"
 CPPFLAGS+=	-DDEF_LOG_DIR=\"${PKG_DB_DIR}/pkg\"
+
+.include <bsd.own.mk>
 
 .ifndef LIB
 CPPFLAGS+=	${DEBUG} -I${.CURDIR}/../lib
@@ -47,7 +49,7 @@ CPPFLAGS+=	-DAS_USER
 
 PORTABLE?=	no
 .if ${PORTABLE:L} != "yes"
-CFLAGS+=	-Wall -Werror
+COPTS+=		-Wall -Werror
 .endif
 CDIAGFLAGS+=	-Wno-unreachable-code
 

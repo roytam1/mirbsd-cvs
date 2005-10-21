@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.19 2005/09/24 12:09:36 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.20 2005/10/09 18:48:08 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -311,7 +311,7 @@ all:
 	@echo \${_MIRMAKE_VER}
 EOF
 shmk=$localbase/share/make
-if [[ $(make -f f all) -ge 20050912 ]]; then
+if [[ $(make -f f all) -ge 20051021 ]]; then
 	# Version matches; check for ${.SYSMK}
 	sysmk=$(make -f f ___DISPLAY_MAKEVARS=.SYSMK)
 	if [[ $ismirbsd = yes && $sysmk = /usr/share/mk \
@@ -481,13 +481,6 @@ if [[ ! -s $localbase/db/make.cfg ]]; then
 		#CLEANDEPENDS=		No	# Default to yes
 		#PREFER_SUBPKG_INSTALL=	No	# Default to yes
 	EOF
-	if fgrep -q DEFCOPTS /etc/make.cfg /etc/mk.conf 2>/dev/null; then
-		cat >>$localbase/db/make.cfg <<-EOF
-
-			# Add MirOS default CFLAGS if desired
-			COPTS?=			\${DEFCOPTS} \${GCEXTRA}
-		EOF
-	fi
 fi
 
 cd $portsdir/infrastructure/pkgtools
