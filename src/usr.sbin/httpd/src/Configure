@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: src/usr.sbin/httpd/src/Configure,v 1.2 2005/03/13 19:16:41 tg Exp $
 # $OpenBSD: Configure,v 1.23 2003/11/17 18:57:05 henning Exp $
 #
 ## ====================================================================
@@ -241,7 +241,6 @@ RULE_SOCKS5=`${SHELL} helpers/CutRule SOCKS5 $file`
 RULE_IRIXNIS=`${SHELL} helpers/CutRule IRIXNIS $file`
 RULE_IRIXN32=`${SHELL} helpers/CutRule IRIXN32 $file`
 RULE_PARANOID=`${SHELL} helpers/CutRule PARANOID $file`
-RULE_EXPAT=`${SHELL} helpers/CutRule EXPAT $file`
 RULE_CYGWIN_WINSOCK=`${SHELL} helpers/CutRule CYGWIN_WINSOCK $file`
 RULE_SHARED_CORE=`${SHELL} helpers/CutRule SHARED_CORE $file`
 RULE_SHARED_CHAIN=`${SHELL} helpers/CutRule SHARED_CHAIN $file`
@@ -2108,49 +2107,6 @@ fi
 
 
 ####################################################################
-## Add in the Expat library if needed/wanted.
-##
-
-# set the default, based on whether expat-lite is bundled. if it is present,
-# then we can always include expat.
-if [ "x$RULE_EXPAT" = "xdefault" ]; then
-    if [ -d ./lib/expat-lite/ ]; then
-        RULE_EXPAT=yes
-    else
-        RULE_EXPAT=no
-    fi
-fi
-
-if [ "x$RULE_EXPAT" = "xyes" ]; then
-    if ${SHELL} ./helpers/TestCompile lib expat; then
-        echo " + using system Expat"
-        LIBS="$LIBS -lexpat"
-    else
-        if [ ! -d ./lib/expat-lite/ ]; then
-            echo "ERROR: RULE_EXPAT set to \"yes\" but is not available."
-	    exit 1
-        fi
-        echo " + using builtin Expat (detected)"
-        EXPATLIB="lib/expat-lite/libexpat.a"
-        APLIBDIRS="expat-lite $APLIBDIRS"
-        CFLAGS="$CFLAGS -DUSE_EXPAT -I\$(SRCDIR)/lib/expat-lite"
-    fi
-fi
-
-if [ "x$RULE_EXPAT" = "xbundled" ]; then
-    if [ -d ./lib/expat-lite/ ]; then
-	RULE_EXPAT=yes
-	echo " + using builtin Expat (bundled)"
-	EXPATLIB="lib/expat-lite/libexpat.a"
-	APLIBDIRS="expat-lite $APLIBDIRS"
-	CFLAGS="$CFLAGS -DUSE_EXPAT -I\$(SRCDIR)/lib/expat-lite"
-    else
-	echo "ERROR: RULE_EXPAT set to \"bundled\" but is not available."
-	exit 1
-    fi
-fi
-
-####################################################################
 ## Now the SHARED_CHAIN stuff
 ##
 if [ "x$using_shlib" = "x1" ] ; then
@@ -2411,7 +2367,6 @@ echo "LIBS_SHLIB=$LIBS_SHLIB" >>Makefile.config
 echo "LDFLAGS1=$LDFLAGS" >>Makefile.config
 echo "MFLAGS_STATIC=$MFLAGS_STATIC" >>Makefile.config
 echo "REGLIB=$REGLIB" >>Makefile.config
-echo "EXPATLIB=$EXPATLIB" >>Makefile.config
 echo "RANLIB=$RANLIB" >>Makefile.config
 
 ####################################################################

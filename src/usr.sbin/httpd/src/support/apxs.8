@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.sbin/httpd/src/support/apxs.8,v 1.2 2005/03/13 19:16:58 tg Exp $
 .\"	$OpenBSD: apxs.8,v 1.14 2004/12/20 23:31:52 jmc Exp $
 .\"
 .\" ====================================================================
@@ -151,7 +151,7 @@ with the help of the
 tool:
 .Bd -literal -offset indent
 # apxs -i -a -c mod_foo.c
-gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_EXPAT -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
+gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
 [activating module `foo' in /var/www/conf/httpd.conf]
 cp mod_foo.so /usr/libexec/httpd/modules/mod_foo.so
 chmod 755 /usr/libexec/httpd/modules/mod_foo.so
@@ -341,7 +341,7 @@ first compile the C source into a DSO
 suitable for loading into httpd at runtime via the following command:
 .Bd -literal -offset indent
 # apxs -c mod_foo.c
-gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_EXPAT -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
+gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
 gcc -shared -fPIC -DSHARED_MODULE -o mod_foo.so mod_foo.o
 .Ed
 .Pp
@@ -396,7 +396,7 @@ and loaded into the httpd server:
 $ cd foo
 $ make all reload
 apxs -c    mod_foo.c
-gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_EXPAT -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
+gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
 gcc -shared -fPIC -DSHARED_MODULE -o mod_foo.so mod_foo.o
 apxs -i -a -n 'foo' mod_foo.so
 [activating module `foo' in /var/www/conf/httpd.conf]

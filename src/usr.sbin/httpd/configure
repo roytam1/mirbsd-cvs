@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: src/usr.sbin/httpd/configure,v 1.2 2005/03/13 19:16:29 tg Exp $
 #
 ## ====================================================================
 ## The Apache Software License, Version 1.1
@@ -451,7 +451,6 @@ do
             echo " --enable-rule=NAME     enable  a particular Rule named 'NAME'"
             echo " --disable-rule=NAME    disable a particular Rule named 'NAME'"
             ${SHELL} $aux/ppl.sh $rulelist
-            echo " --enable-builtin-expat set the EXPAT Rule to 'bundled'"
             echo " --add-module=FILE      on-the-fly copy & activate a 3rd-party Module"
             echo " --activate-module=FILE on-the-fly activate existing 3rd-party Module"
             echo " --permute-module=N1:N2 on-the-fly permute module 'N1' with module 'N2'"
@@ -792,9 +791,6 @@ do
                   *) apc_optarg=yes ;;
             esac
             case "$apc_feature" in
-		builtin_expat)
-		    rule_expat=bundled
-		    ;;
                 rule   )
                     apc_optarg=`echo "$apc_optarg" | tr '[A-Z]' '[a-z]'`
                     apc_optarg_real=`echo "$apc_optarg" | tr '[a-z]' '[A-Z]'`

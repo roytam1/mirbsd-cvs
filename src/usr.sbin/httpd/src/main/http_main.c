@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.3 2005/04/17 04:38:34 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 /* $OpenBSD: http_main.c,v 1.38 2005/02/09 12:13:09 henning Exp $ */
 
 /* ====================================================================
@@ -113,7 +113,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.3 2005/04/17 04:38:34 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -3440,16 +3440,6 @@ void suck_in_ap_validate_password(void)
 {
     ap_validate_password("a", "b");
 }
-
-/* force Expat to be linked into the server executable */
-#if defined(USE_EXPAT)
-#include "xmlparse.h"
-const XML_LChar *suck_in_expat(void);
-const XML_LChar *suck_in_expat(void)
-{
-    return XML_ErrorString(XML_ERROR_NONE);
-}
-#endif /* USE_EXPAT */
 
 API_EXPORT(void) ap_server_strip_chroot(char *src, int force)
 {
