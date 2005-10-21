@@ -5,7 +5,7 @@
 # generated from:
 #
 #	OpenBSD: etc.i386/MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp 
-#	MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.7 2005/08/02 12:02:06 tg Exp 
+#	MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp 
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
 #	MirOS: src/etc/MAKEDEV.common,v 1.5 2005/08/02 12:02:06 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
@@ -548,7 +548,7 @@ pty*)
 	;;
 
 ptm)
-	M ptm c 81 0 666
+	M ptm c 82 0 666
 	;;
 
 tty[0-7][0-9a-f])
