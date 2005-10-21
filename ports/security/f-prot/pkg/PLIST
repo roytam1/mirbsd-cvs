@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/security/f-prot/pkg/PLIST,v 1.1.7.1 2005/03/18 15:51:23 tg Exp $
 @unexec rm -f %D/f-prot/{MACRO,SIGN{,2}}.DEF
 @unexec echo Ignore messages about missing .DEF files!
 bin/f-prot
@@ -6,12 +6,14 @@ f-prot/ENGLISH.TX0
 f-prot/MACRO.DEF
 f-prot/SIGN.DEF
 f-prot/SIGN2.DEF
-f-prot/f-prot-openbsd3.3
-f-prot/f-prot-openbsd3.4
+f-prot/f-prot
+f-prot/f-prot.sh
 man/man1/f-prot.1
 share/doc/f-prot/CHANGES
 share/doc/f-prot/KEY.ASC
 share/doc/f-prot/LICENSE
+share/doc/f-prot/LICENSE-FPAV
+share/doc/f-prot/LICENSES-others
 share/doc/f-prot/README
 share/doc/f-prot/add_info.html
 share/doc/f-prot/auto_updt.html
@@ -24,7 +26,6 @@ share/doc/f-prot/loc_files.html
 share/doc/f-prot/macro_scanning_options.html
 share/doc/f-prot/main_feat.html
 share/doc/f-prot/man_updt.html
-share/doc/f-prot/norm_scan.gif
 share/doc/f-prot/per_scan.html
 share/doc/f-prot/reporting_options.html
 share/doc/f-prot/scanning_options.html

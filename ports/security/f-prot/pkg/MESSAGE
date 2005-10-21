@@ -9,6 +9,6 @@
 | and http://updates.f-prot.com/cgi-bin/get_randomly?fp-def
 | followed by unzipping them, checking the PGP signature
 | and copying them over their equivalent files located in
-| ${PREFIX}/f-prot/ as root.
+| ${PREFIX}/f-prot/ as user ${BINOWN}.
 |
 +-----------------------------------------------------------
