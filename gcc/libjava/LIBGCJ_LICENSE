@@ -1,9 +1,11 @@
-$MirOS$
+$MirOS: gcc/libjava/LIBGCJ_LICENSE,v 1.2 2005/03/26 10:19:00 tg Exp $
 
 Linking with independent modules may be not covered by the GNU GPL,
-but inheriting a class from libgcj seems to be. That's why we add
-the _gplwarn.c file and urge people to not use gcj with libgcj for
-developing their programmes.
+but inheriting a class from libgcj seems to be. The key term seems
+to be "independent module"; the FSF does not want to clarify if a
+class which is derived from a libgcj class (such as Applet) may be
+considered no derived work from libgcj, or in which cases. We thusly
+urge people to not use gcj with libgcj for developing their programmes.
 
 ________________________________________________________________________
 
