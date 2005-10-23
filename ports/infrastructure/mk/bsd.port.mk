@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.53 2005/10/12 19:16:23 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.54 2005/10/21 20:29:18 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1014,9 +1014,9 @@ __OK!=	ok=0; \
 	print $$ok
 .    if ${__OK} == "0"
 .      if ${ARCH} == ${MACHINE_ARCH}
-IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:*:${OSREV}:*:${ARCH}"
+IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${OSREV}:${ARCH}"
 .      else
-IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:*:${OSREV}:*:${ARCH} (${MACHINE_ARCH})"
+IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${OSREV}:${ARCH} (${MACHINE_ARCH})"
 .      endif
 .    endif
 .    undef __OK
