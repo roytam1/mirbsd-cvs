@@ -1,5 +1,8 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.8 2005/10/09 19:28:44 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.9 2005/10/09 22:07:42 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
+
+# Segfaults on 3.8
+NOT_FOR_PLATFORM=	OpenBSD:*:sparc64
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
 DISTNAME=		centericq-4.21.0
