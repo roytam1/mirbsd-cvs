@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.2 2005/10/25 19:46:10 tg Exp $ */
+/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.3 2005/10/25 19:53:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -26,7 +26,7 @@
 
 /* Part I: extra headers */
 
-#if defined(__sun__)
+#if defined(__sun__) || defined(__INTERIX)
 #include <sys/mkdev.h>
 #endif
 #if !defined(__OpenBSD__) && !defined(__CYGWIN__)
@@ -76,4 +76,10 @@ size_t confstr(int, char *, size_t);
 #define	DEFFILEMODE	(S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
 mode_t	 getmode(const void *, mode_t);
 void	*setmode(const char *);
+#endif
+
+#if defined(__INTERIX)
+#define	makedev(x,y)	mkdev((x),(y))
+extern int   __cdecl	seteuid(uid_t);
+extern int   __cdecl	setegid(gid_t);
 #endif
