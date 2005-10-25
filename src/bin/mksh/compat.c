@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/mksh/compat.c,v 1.1.2.2 2005/10/25 19:46:10 tg Exp $ */
+/* $MirOS: src/bin/mksh/compat.c,v 1.1.2.3 2005/10/25 19:53:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,6 +25,10 @@
  */
 
 #include "sh.h"
+
+#ifndef __SCCSID
+#define	__SCCSID(x)	static const char __sccsid[] __attribute__((used)) = (x)
+#endif
 
 #if defined(__gnu_linux__) || defined(__sun__)
 #include "setmode.c"

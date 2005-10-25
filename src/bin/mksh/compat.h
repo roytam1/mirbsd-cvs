@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.3 2005/10/25 19:53:26 tg Exp $ */
+/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.4 2005/10/25 20:24:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -36,6 +36,7 @@
 #include <values.h>
 #endif
 
+
 /* Part II: extra macros */
 
 #ifndef timeradd
@@ -60,6 +61,11 @@
 		}							\
 	} while (0)
 #endif
+
+#ifndef S_ISTXT
+#define	S_ISTXT	0001000			/* sticky bit */
+#endif
+
 
 /* Part III: OS-dependent additions */
 
