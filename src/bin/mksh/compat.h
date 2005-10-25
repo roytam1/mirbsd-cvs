@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.2 2005/10/25 19:46:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,6 +25,16 @@
  */
 
 /* Part I: extra headers */
+
+#if defined(__sun__)
+#include <sys/mkdev.h>
+#endif
+#if !defined(__OpenBSD__) && !defined(__CYGWIN__)
+#include <ulimit.h>
+#endif
+#if defined(__sun__) || defined(__gnu_linux__)
+#include <values.h>
+#endif
 
 /* Part II: extra macros */
 

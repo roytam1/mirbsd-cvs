@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/bin/mksh/compat.c,v 1.1.2.2 2005/10/25 19:46:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -24,7 +24,7 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
-#include "compat.h"
+#include "sh.h"
 
 #if defined(__gnu_linux__) || defined(__sun__)
 #include "setmode.c"
