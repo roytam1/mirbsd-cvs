@@ -1,9 +1,9 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.7 2005/09/12 20:27:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.8 2005/10/03 23:05:48 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
 
-<h1>mksh R24c</h1>
+<h1>mksh R25</h1>
 <p>
  This is a more or less portable version of the pdksh derivate
  Korn shell which comes, as an alternative to the default (and
@@ -12,9 +12,22 @@
 
 <h3>Recent Changes</h3>
 <p>Changes in the current development version:</p><ul>
- <li>On MirOS, integrate <a href="/man1/printf.htm">printf(1)</a>
+ <li>(change revoked) <!-- On MirOS, integrate <a href="/man1/printf.htm">printf(1)</a>
   as shell builtin, mostly to speed up libtool and stuff
-  (currently broken, thus disabled again).</li>
+  (currently broken, thus disabled again). --></li>
+</ul>
+<p>New major version <b>R25</b> contains these changes:</p><ul>
+ <li>Some manual page fixes and updates</li>
+ <li>On window resizing, the COLUMNS and LINES variables are updated
+  automatically, not only after the next command (from OpenBSD)</li>
+ <li>Fix some redraw problem (from OpenBSD)</li>
+ <li>Allow &lt; and &gt; for test and [, not only [[</li>
+ <li>If an array index is out of bounds, tell which one (from OpenBSD)</li>
+ <li>Add mknod(1) for pipes (user/root) and devices (root only) as a
+  shell builtin &ndash; idea and some of the code from OpenBSD</li>
+ <li>Improve compatibility with Solaris, GNU/Linux, Darwin, Interix</li>
+ <li>Remove the need to manually specify -d on some OSes which need it</li>
+ <li>Add a compiler flag to reduce some spurious Solaris-only warnings</li>
 </ul>
 <p>R24c is another clean-up release, with no change to KSH_VERSION.</p><ul>
  <li>Document stance on quoting policy in here documents</li>
@@ -129,15 +142,15 @@ integer type to 64 bits signed (any takers?).
 <p>
 The current version is
 <ul>
- <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</a></li>
+ <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R25.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R25.cpio.gz</a></li>
 </ul>
 <p>
 <ul>
  <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R24c.cpio.gz) = d51083b237b74cb6c6035fe8fe4ea9f9382cdf26</li>
- <li>2460615772 224603 /MirOS/dist/mir/mksh/mksh-R24c.cpio.gz</li>
- <li>MD5 (mksh-R24c.cpio.gz) = 7b7b7afb595da75d27b2f08655320600</li>
+ <li>RMD160 (mksh-R25.cpio.gz) = 98385cf6ef9e963705227e8e9d59cab4d671a9fb</li>
+ <li>3123689666 228673 /MirOS/dist/mir/mksh/mksh-R25.cpio.gz</li>
+ <li>MD5 (mksh-R25.cpio.gz) = c466e687c05f8761cb4e834eb51f6112</li>
 </ul>
 <p>
 If you ever sit in front of an unfriendly operating
@@ -150,21 +163,21 @@ If you must use a web browser for downloading the file,
 please note that most of them, seen on Mozilla(TM) and
 its derivates as well as Microsoft Internet Explorer,
 have a bug where the file is saved correctly
-as <em>mksh-R24c.cpio.gz</em> but already decompressed.
+as <em>mksh-R25.cpio.gz</em> but already decompressed.
 <p>
 <h2>Unpacking</h2>
 
 <p>
 On decent systems, you can just use
 <ul>
- <li>tar xzf mksh-R24c.cpio.gz</li>
+ <li>tar xzf mksh-R25.cpio.gz</li>
 </ul>
 to extract the file.
 <p>
 On quite damaged systems such as everything which is not
 <a href="wiki.cgi?MirOS" class=wikipagelink>MirOS</a> or anything else with <a href="wiki.cgi?MirCpio" class=wikipagelink>MirCpio</a> (paxmirabilis), use
 <ul>
- <li>gzip -dc mksh-R24c.cpio.gz | cpio -mid</li>
+ <li>gzip -dc mksh-R25.cpio.gz | cpio -mid</li>
 </ul>
 <p>
 Of course, skip the gzip stage (use cat) or the 'z' flag
@@ -219,7 +232,7 @@ This is pretty dead simple but enough for mksh.
 If you get a <em>mksh</em> binary, install it to a place of your likes.
 Get a preformatted manual page from another operating system.
 <p>
-<h3>GNU/Linux<a href="wiki.cgi?action=edit&id=MirbsdKsh/Linux" class=wikipageedit>?</a> (and possibly others)</h3>
+<h3>GNU/Linux (and possibly others)</h3>
 
 <p>
 <ul>
@@ -231,10 +244,6 @@ Get a preformatted manual page from another operating system.
  <li>(update: pretty much <em>all</em> systems use /usr/man/man1/ - has GNU/Linux<a href="wiki.cgi?action=edit&id=MirbsdKsh/Linux" class=wikipageedit>?</a> world gone totally insane? GNU itself uses /man/man1/ or /share/man/man1/ ...?)</li>
  <li>install -c -o root -g bin -m 444 mksh.1 /usr/man/man1/mksh.1</li>
 </ul>
-<p>
-If you want a fully dynamic build (you depend on the PAM
-shared libraries anyway), add -d to the command line, as shown
-above; without -d it's statically linked but dlopen()s.
 <p>
 There is an mksh port for Crux - <a href="http://crux.nu/">http://crux.nu/</a> - available
 at <a href="http://www.xs4all.nl/~hanb/software/crux/han/mksh/">http://www.xs4all.nl/~hanb/software/crux/han/mksh/</a> (thanks
@@ -254,6 +263,7 @@ just "emerge mksh" to install it.
  <li>install -c -o root -g wheel -m 444 mksh.1 /usr/share/man/man1/mksh.1</li>
 </ul>
 <p>
+Older version only.
 Binaries: <a href="https://users.mirsolutions.de:446/~tg/binaries/mksh-1.17-macbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/mksh-1.17-macbin.tgz</a>
 mksh has even made its way into the Fink package management system.
 <p>
@@ -287,7 +297,7 @@ You might want to get a preformatted man page from a
 different operating system. Interix does not come with
 a manual page formatter. Or use the binary package.
 <p>
-Binaries: <a href="https://users.mirsolutions.de:446/~tg/binaries/mksh-R20-winbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/mksh-R20-winbin.tgz</a>
+(Older) Binaries: <a href="https://users.mirsolutions.de:446/~tg/binaries/mksh-R20-winbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/mksh-R20-winbin.tgz</a>
 <p>
 <h2>Official Testing</h2>
 
@@ -298,7 +308,7 @@ The <a href="wiki.cgi?MirOS" class=wikipagelink>MirOS</a> Project has tested mir
 
 <p>
 <DL >
-<dt><dd> mksh R24c
+<dt><dd> mksh R25
 </DL>
 Obviously works, as part of the base install.
 <p>
@@ -309,27 +319,27 @@ some basic usability tests.
 
 <p>
 <DL >
-<dt><dd> mksh R24b
+<dt><dd> mksh R25
 </DL>
 I have replaced the standard shell on <a href="wiki.cgi?NetBSD" class=wikipagelink>NetBSD</a> 1.6.1/pmax
 with mksh with good success and only one testsuite failure
 in <em>heredoc-tmpfile-8</em>. On <a href="wiki.cgi?NetBSD" class=wikipagelink>NetBSD</a> 1.5/pmax it does
 not work because the system scripts are not compatible
-with the Korn shell.
+with the Korn shell. A NetBSD&reg; 2.0.2/i386 system it works well too.
 <p>
 <h3><a href="wiki.cgi?DragonFly" class=wikipagelink>DragonFly</a> BSD</h3>
 
 <p>
 <DL >
-<dt><dd> mksh R24b
+<dt><dd> mksh R25
 </DL>
 Portable mksh builds; the test suite succeeds.
 <p>
-<h3>GNU/Linux<a href="wiki.cgi?action=edit&id=MirbsdKsh/Linux" class=wikipageedit>?</a></h3>
+<h3>GNU/Linux</h3>
 
 <p>
 <DL >
-<dt><dd> mksh R24b
+<dt><dd> mksh R25
 </DL>
 The test suite succeeds. Basic
 command line usage works as well. The binary is not statically
@@ -341,10 +351,9 @@ package management system.
 
 <p>
 <DL >
-<dt><dd> mksh R24b
+<dt><dd> mksh R25
 </DL>
-The testsuite works (must use <a href="/man1/locate.htm">locate(1)</a> to look where h2ph
-is installed... *sigh*), and I'm using it on my shell account.
+The testsuite works, and I'm using it on my shell account.
 Please do not redistribute the binaries either; they are
 dynamically linked.
 <p>
@@ -352,7 +361,7 @@ dynamically linked.
 
 <p>
 <DL >
-<dt><dd> mksh R24c
+<dt><dd> mksh R25
 </DL>
 The testsuite works, and it can be used to play around.
 Apple does not install the tools needed for a static build.
@@ -361,7 +370,7 @@ Apple does not install the tools needed for a static build.
 
 <p>
 <DL >
-<dt><dd> mksh R22d
+<dt><dd> mksh R25
 </DL>
 Works unmodified, better than system shell, good success.
 <p>
@@ -371,7 +380,8 @@ Works unmodified, better than system shell, good success.
 <DL >
 <dt><dd> mksh R24beta
 </DL>
-I heard it compiles.
+I heard it compiles. I could not test mksh R25 due to lack of a
+shell account on a box with Cygwin installed.
 <p>
 <h2>Tab Completion, and the Prompt</h2>
 
@@ -428,7 +438,7 @@ a collective copyright on the code.
 <p>
 <a href="wiki.cgi?MirbsdKsh" class=wikipagelink>MirbsdKsh</a> comes with <em>strlfun.c</em> which is under the ISC
 Licence aka OpenBSDLicenceTemplate<a href="wiki.cgi?action=edit&id=OpenBSDLicenceTemplate" class=wikipageedit>?</a>. This file is only a
-'shouldbeinlibc' library for brain-dead GNU libc systems.
+'shouldbeinlibc' library for brain-dead GNU libc systems. <em>setmode.c</em> also comes under a different licence &ndash; a 3-clause UCB licence.
 <p>
 This all is documented in the file <em>copyright</em> in the
 distfile, too.
