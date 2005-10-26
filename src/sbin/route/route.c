@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sbin/route/route.c,v 1.2 2005/03/06 19:50:34 tg Exp $	*/
 /*	$OpenBSD: route.c,v 1.66 2004/05/15 07:43:34 claudio Exp $	*/
 /*	$NetBSD: route.c,v 1.16 1996/04/15 18:27:05 cgd Exp $	*/
 
@@ -62,7 +62,7 @@ static const char copyright[] =
 
 #include "keywords.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/route/route.c,v 1.2 2005/03/06 19:50:34 tg Exp $");
 
 union	sockunion {
 	struct	sockaddr sa;
@@ -242,21 +242,11 @@ flushroutes(int argc, char **argv)
 				af = AF_INET6;
 				break;
 #endif
-			case K_XNS:
-				af = AF_NS;
-				break;
 			case K_IPX:
 				af = AF_IPX;
 				break;
 			case K_LINK:
 				af = AF_LINK;
-				break;
-			case K_ISO:
-			case K_OSI:
-				af = AF_ISO;
-				break;
-			case K_X25:
-				af = AF_CCITT;
 				break;
 			default:
 				goto bad;
