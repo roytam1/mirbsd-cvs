@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.5 2005/10/21 20:10:28 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.6 2005/10/25 21:27:23 tg Exp $
 
 case $what in
 cksum)
@@ -28,10 +28,10 @@ make)
 mksh)
 	f_dist=mksh-R25.cpio.gz
 	f_path=mir/mksh
-	distinfo_md5=c466e687c05f8761cb4e834eb51f6112
-	distinfo_sum=3123689666
-	distinfo_size=228673
-	distinfo_date="Oct 25 21:20"
+	distinfo_md5=ec9095ee279225fed82523044803bc32
+	distinfo_sum=4110975346
+	distinfo_size=228743
+	distinfo_date="Oct 26 08:56"
 	;;
 mtree)
 	f_dist=mirmtree-20050912.cpio.gz

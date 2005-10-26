@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.8 2005/10/03 23:05:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.9 2005/10/25 22:09:21 tg Exp $</small>
 
 <p>Notice: this page has been auto-converted from the MirWiki
  and is not yet valid XHTML/1.1. We are sorry for the inconvenience.</p>
@@ -26,6 +26,8 @@
  <li>Add mknod(1) for pipes (user/root) and devices (root only) as a
   shell builtin &ndash; idea and some of the code from OpenBSD</li>
  <li>Improve compatibility with Solaris, GNU/Linux, Darwin, Interix</li>
+ <li>Prevent redefinition of __rcsid string on systems without __RCSID
+  macro (found by Han Boetes)</li>
  <li>Remove the need to manually specify -d on some OSes which need it</li>
  <li>Add a compiler flag to reduce some spurious Solaris-only warnings</li>
 </ul>
@@ -148,9 +150,9 @@ The current version is
 <ul>
  <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R25.cpio.gz) = 98385cf6ef9e963705227e8e9d59cab4d671a9fb</li>
- <li>3123689666 228673 /MirOS/dist/mir/mksh/mksh-R25.cpio.gz</li>
- <li>MD5 (mksh-R25.cpio.gz) = c466e687c05f8761cb4e834eb51f6112</li>
+ <li>RMD160 (mksh-R25.cpio.gz) = 88f17da12b4a634fab40acee7105671ead3dc4d8</li>
+ <li>4110975346 228743 /MirOS/dist/mir/mksh/mksh-R25.cpio.gz</li>
+ <li>MD5 (mksh-R25.cpio.gz) = ec9095ee279225fed82523044803bc32</li>
 </ul>
 <p>
 If you ever sit in front of an unfriendly operating
