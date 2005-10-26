@@ -1,11 +1,8 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.9 2005/10/09 22:07:42 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.10 2005/10/24 16:43:17 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
-# Segfaults on 3.8
-NOT_FOR_PLATFORM=	OpenBSD:*:sparc64
-
 COMMENT=		"curses-based multiprotocol IM client implementation"
-DISTNAME=		centericq-4.21.0
+DISTNAME=		centericq-4.21.0	# -1 on OBSD
 CATEGORIES=		net
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
@@ -34,6 +31,12 @@ CONFIGURE_ARGS+=	--with-openssl \
 # Yes this is right... sad but true.
 .include <mirports.sys.mk>
 COPTS+=			-fno-stack-protector
+
+# Still segfaults there.
+.if ${OStype} == "OpenBSD"
+CONFIGURE_ARGS+=	--disable-msn
+PKGNAME=		${DISTNAME}-1
+.endif
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
 			${WRKSRC}/firetalk-0.1 ${WRKSRC}/kkconsui-0.1 \
