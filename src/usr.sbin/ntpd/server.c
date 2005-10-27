@@ -1,4 +1,4 @@
-/*	$OpenBSD: server.c,v 1.23 2005/07/05 10:09:12 dtucker Exp $ */
+/*	$OpenBSD: server.c,v 1.26 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -44,6 +44,8 @@ setup_listeners(struct servent *se, struct ntpd_conf *conf, u_int *cnt)
 		for (ifap = ifa; ifap != NULL; ifap = ifap->ifa_next) {
 			sa = ifap->ifa_addr;
 
+			if (SA_LEN(sa) == 0)
+				continue;
 			if (sa == NULL ||
 			    (sa->sa_family != AF_INET &&
 			    sa->sa_family != AF_INET6))
@@ -123,13 +125,17 @@ server_dispatch(int fd, struct ntpd_conf *conf)
 
 	rectime = gettime();
 
-	if (ntp_getmsg(buf, size, &query) == -1)
+	if (ntp_getmsg((struct sockaddr *)&fsa, buf, size, &query) == -1)
 		return (0);
 
 	version = (query.status & VERSIONMASK) >> 3;
 
 	bzero(&reply, sizeof(reply));
-	reply.status = conf->status.leap | (query.status & VERSIONMASK);
+	if (conf->status.synced)
+		reply.status = conf->status.leap;
+	else
+		reply.status = LI_ALARM;
+	reply.status |= (query.status & VERSIONMASK);
 	if ((query.status & MODEMASK) == MODE_CLIENT)
 		reply.status |= MODE_SERVER;
 	else
