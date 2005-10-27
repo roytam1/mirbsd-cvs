@@ -2,6 +2,7 @@
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1994 Christos Zoulas
  * All rights reserved.
  *
@@ -66,6 +67,8 @@ static const char rcsid[] = "$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 ja
 /* seconds from midnight Jan 1900 - 1970 */
 #define DIFFERENCE 2208988800UL
 
+void rfc868time_client (const char *, int, struct timeval *,
+    struct timeval *, int);
 
 void
 rfc868time_client (const char *hostname, int family, struct timeval *new,

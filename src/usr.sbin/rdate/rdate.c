@@ -1,8 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.2 2005/03/13 19:17:21 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1994 Christos Zoulas
  * All rights reserved.
  *
@@ -40,9 +41,6 @@
  *	midnight January 1st 1900.
  */
 
-#include <sys/cdefs.h>
-__RCSID("$MirOS$");
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -61,8 +59,11 @@ __RCSID("$MirOS$");
 #define	logwtmp(a,b,c)
 #endif
 
+__RCSID("$MirOS$");
+
 void rfc868time_client(const char *, int, struct timeval *, struct timeval *, int);
 void ntp_client(const char *, int, struct timeval *, struct timeval *, int);
+void usage(void);
 
 extern char *__progname;
 
@@ -87,7 +88,6 @@ main(int argc, char **argv)
 	int             pr = 0, silent = 0, ntp = 0, verbose = 0;
 	int		slidetime = 0, corrleaps = 0, showremainder = 0;
 	char           *hname;
-	extern int      optind;
 	int             c;
 	int		family = PF_UNSPEC;
 
@@ -185,7 +185,7 @@ main(int argc, char **argv)
 		}
 		if (!pr && slidetime && showremainder)
 			(void) fprintf(stdout,
-			    "%s: remainder before were %.6f seconds\n",
+			    "%s: remainder before was %.6f seconds\n",
 			    __progname, remainsec);
 	}
 

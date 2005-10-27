@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jakob Exp $	*/
 
 /*
- * Copyright (c) 2002 Thorsten Glaser. All rights reserved.
+ * Copyright (c) 2002, 2005 Thorsten Glaser. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,8 +29,8 @@
  *
  */
 
-#include <sys/cdefs.h>
-__RCSID("$MirOS$");
+/* Leap second support for NTP clients (generic) */
+
 
 /*
  * I could include tzfile.h, but this would make the code unportable
@@ -39,28 +39,33 @@ __RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <netinet/in.h>
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 #include "ntpleaps.h"
+
+__RCSID("$MirOS$");
 
 u_int64_t *leapsecs = NULL;
 unsigned int leapsecs_num = 0;
 static int flaginit = -1;
 static int flagwarn = 0;
 
+u_int32_t read_be_dword(u_int8_t *);
 
 int
 ntpleaps_init(void)
 {
 	if (!flaginit)
-		return 0;
+		return (0);
 
 	if (!ntpleaps_read()) {
 		flaginit = 0;
-		return 0;
+		return (0);
 	}
 
 	/* This does not really hurt, but users will complain about
@@ -69,37 +74,33 @@ ntpleaps_init(void)
 	if (!flagwarn) {
 		fputs("Warning: error reading tzfile. You will NOT be\n"
 		    "able to get legal time or posix compliance! To fix this,\n"
-		    "install the 232 byte /usr/share/zoneinfo/right/UTC file.\n",
+		    "install the 240 byte /usr/share/zoneinfo/UTC file.\n",
 		    stderr);
 		flagwarn = 1;	/* put it only once */
 	}
 
-	return -1;
+	return (-1);
 }
 
 int
 ntpleaps_sub(u_int64_t *t)
 {
-	unsigned int i = 0;
 	u_int64_t u;
-	int r = 1;
+	unsigned i = 0, r = 0;
 
-	if (-1 == (flaginit ? ntpleaps_init() : 0))
-		return -1;
+	if ((flaginit ? ntpleaps_init() : 0) == -1)
+		return (-1);
 
 	u = *t;
-
-	while (i < leapsecs_num) {
-		if (u < leapsecs[i])
-			break;
-		if (u == leapsecs[i++])
-			goto do_sub;
-	}
-	--r;
-
-do_sub:
-	*t = u - i;
-	return r;
+	if (u > 0)
+		while ((i < leapsecs_num) && (*t >= leapsecs[i])) {
+			--u;
+			++i;
+			if (*t == leapsecs[i])
+				r = 1;
+		}
+	*t = u;
+	return (r);
 }
 
 u_int32_t
@@ -108,7 +109,7 @@ read_be_dword(u_int8_t *ptr)
 	u_int32_t res;
 
 	memcpy(&res, ptr, 4);
-	return ntohl(res);
+	return (ntohl(res));
 }
 
 
@@ -123,15 +124,15 @@ ntpleaps_read(void)
 	u_int64_t *l;
 
 	fd = open("/usr/share/zoneinfo/UTC", O_RDONLY | O_NDELAY);
-	if (-1 == fd)
-		return -1;
+	if (fd == -1)
+		return (-1);
 
 	/* Check signature */
 	read(fd, buf, 4);
 	buf[4] = 0;
 	if (strcmp((const char *)buf, "TZif")) {
 		close(fd);
-		return -1;
+		return (-1);
 	}
 
 	/* Pre-initalize buf[24..27] so we need not check read(2) result */
@@ -148,11 +149,11 @@ ntpleaps_read(void)
 	/* Check for plausibility - arbitrary values */
 	if ((r < 20) || (r > 60000)) {
 		close(fd);
-		return -1;
+		return (-1);
 	}
-	if (NULL == (l = (u_int64_t *)malloc(r << 3))) {
+	if ((l = (u_int64_t *)malloc(r << 3)) == NULL) {
 		close(fd);
-		return -1;
+		return (-1);
 	}
 
 	/* Skip further uninteresting stuff */
@@ -168,7 +169,7 @@ ntpleaps_read(void)
 		if (read(fd, buf, 8) != 8) {
 			free(l);
 			close(fd);
-			return -1;
+			return (-1);
 		}
 		s = SEC_TO_TAI64(read_be_dword(buf));
 		/*
@@ -177,7 +178,7 @@ ntpleaps_read(void)
 		 * against the known value
 		 */
 		if (!m1 && s != 0x4000000004B2580AULL)
-			return -1;
+			return (-1);
 		l[m1] = s;
 	}
 
@@ -187,5 +188,5 @@ ntpleaps_read(void)
 		free(leapsecs);
 	leapsecs = l;
 	leapsecs_num = r;
-	return 0;
+	return (0);
 }
