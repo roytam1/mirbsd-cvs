@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.10 2005/07/24 16:20:21 tg Exp $
+# $MirOS: src/etc/rc,v 1.11 2005/09/20 18:37:41 tg Exp $
 # $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -508,6 +508,7 @@ echo .
 mount -a -t nfs
 
 swapctl -A -t noblk
+[[ $(uname -vm 2>/dev/null) = GENERIC*i386 ]] && swapctl -ap0 /dev/rd0c
 
 # /var/crash should be a directory or a symbolic link
 # to the crash directory if core dumps are to be saved.
