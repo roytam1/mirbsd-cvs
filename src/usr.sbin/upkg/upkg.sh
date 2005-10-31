@@ -27,8 +27,10 @@ function upkg_get_file
 	*://*)
 		# try it as a url
 		ftp -vo - "$1"
+		;;
 	*)
 		cat "$1"
+		;;
 	esac
 }
 		
@@ -36,13 +38,14 @@ function upkg_get_file
 
 function upkg_add
 {
+	# set -x # debug
 	set -e # abort on error
 
 	TMPDIR=$(mktemp -d /tmp/pkg_upgrade.XXXXXXXXXX)
 	trap 'rm -rf $TMPDIR ; exit 0' 0
 	trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 13 15
 	
-	upkg_get_file "$1" | (cd $TMPDIR ; tar xf -)
+	upkg_get_file "$1" | (cd $TMPDIR ; tar xzf -)
 	cd $TMPDIR
 	
 	pkgname=$(awk '$1=="@name" { print $2 ; exit }' ./+CONTENTS)
@@ -65,15 +68,23 @@ function upkg_add
 	
 	awk '
 	BEGIN {
+		prefix = "/invalid_prefix"
 		copycmd = "cpio -pld "
 		mkdir_p = "mkdir -p "
+		ignore=0
 	}
 
 	$1 == "@cwd" {
 		prefix = $2
+		close(copycmd_prefix)
+		copycmd_prefix = copycmd prefix
 	}
 	
 	/^[^@].*[^\/]$/ {
+		if (ignore) {
+			ignore = 0
+			break
+		}
 		last_file = $0
 		if (user)
 			user_files = user_files " " $0
@@ -81,7 +92,7 @@ function upkg_add
 			group_files = group_files " " $0
 		if (mode)
 			mode_files = mode_files " " $0
-		print $0 | copycmd prefix
+		print $0 | copycmd_prefix
 	}
 
 	/^[^@].*\/$/ {
@@ -115,6 +126,10 @@ function upkg_add
 	$1 == "@sample" {
 		if (substr($2, length($2), 1) == "/")
 			system(mkdir_p prefix "/" $2)
+	}
+
+	$1 == "@ignore" {
+		ignore = 1
 	}
 
 	END {
@@ -174,7 +189,7 @@ while getopts "hL" c; do
 done
 shift $((OPTIND - 1))
 
-PKG_DBDIR=$localbase/db/pkg
+PKG_DBDIR=$LOCALBASE/db/pkg
 if [[ ! -d $PKG_DBDIR ]] ; then
 	mkdir -p $PKG_DBDIR
 fi
