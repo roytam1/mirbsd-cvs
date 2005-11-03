@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/mnt-cvsroot,v 1.7 2005/10/27 12:40:20 tg Exp $
+# $MirOS: src/scripts/mnt-cvsroot,v 1.8 2005/10/27 12:40:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,16 +24,16 @@
 me=${0##*/}
 newroot=$1
 useroot=0
-shift
 if [[ $newroot = - ]]; then
+	shift
 	newroot=$(readlink -nf "$1")
 	useroot=1
-	shift
 fi
-if [[ -z $newroot ]]; then
+if [[ -z $newroot || $newroot = -? ]]; then
 	print -u2 "Syntax: $me newroot [dir [...]]"
 	exit 1
 fi
+shift
 
 [[ -z $1 ]] && if [[ $useroot = 0 ]]; then
 	exec $SHELL $me "$newroot" .
