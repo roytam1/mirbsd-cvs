@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.2 2005/08/24 09:59:14 tg Exp $
+# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.4 2005/10/31 13:28:52 bsiegert Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -33,8 +33,22 @@ function upkg_get_file
 		;;
 	esac
 }
-		
 
+# read in shareddirs.db and convert all numbers to decimal for awk processing
+function  upkg_read_db
+{
+	integer count
+	local tag
+	local saveifs
+	saveifs="$IFS"
+	IFS="|"
+
+	while read count tag ; do
+		echo "$count|$tag"
+	done
+
+	IFS="$saveifs"
+}
 
 function upkg_add
 {
@@ -50,6 +64,11 @@ function upkg_add
 	
 	pkgname=$(awk '$1=="@name" { print $2 ; exit }' ./+CONTENTS)
 	pkgdir=$PKG_DBDIR/$pkgname
+
+	if [[ "x$pkgname" == "x" ]] ; then
+		print -u2 "Missing package name for '$1'"
+		exit 1
+	fi
 
 	if [[ -f +REQUIRE ]] ; then
 		chmod +x +REQUIRE
@@ -71,7 +90,8 @@ function upkg_add
 		prefix = "/invalid_prefix"
 		copycmd = "cpio -pld "
 		mkdir_p = "mkdir -p "
-		ignore=0
+		copycmd_prefix = copycmd prefix
+		ignore = 0
 	}
 
 	$1 == "@cwd" {
@@ -83,7 +103,7 @@ function upkg_add
 	/^[^@].*[^\/]$/ {
 		if (ignore) {
 			ignore = 0
-			break
+			next
 		}
 		last_file = $0
 		if (user)
@@ -154,6 +174,42 @@ function upkg_add
 		fi
 	done
 
+	# augment shareddirs.db
+	if [[ ! -f $PKG_DBDIR/../shareddirs.db ]] ; then
+		touch $PKG_DBDIR/../shareddirs.db
+	fi
+	upkg_read_db < $PKG_DBDIR/../shareddirs.db | awk '
+	BEGIN {
+		mode = 1
+	}
+
+	/^[0-9]+|/ {
+		if (mode != 1)
+			next
+		split($0, a, "|")
+		dirs[a[2]] = a[1]
+	}
+
+	$1 == "@dirrm" {
+		mode = 2
+		++dirs[$2]
+	}
+
+
+	/^[^@].*\/$/ {
+		mode = 2
+		++dirs[substr($0, 0, length($0) - 1)]
+	}
+	
+	END {
+		OFS = "|"
+		for (i in dirs)
+			print dirs[i], i
+	}
+	' - +CONTENTS > shareddirs.db.new
+	if [[ -s shareddirs.db.new ]] ; then
+		cp shareddirs.db.new $PKG_DBDIR/../shareddirs.db
+	
 	if [[ -f +INSTALL ]] ; then
 		chmod +x +INSTALL
 		if ! ./+INSTALL $pkgname POST-INSTALL ; then
