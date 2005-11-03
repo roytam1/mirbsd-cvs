@@ -1,8 +1,9 @@
-# $MirOS: ports/audio/libsidplay/Makefile,v 1.2 2005/06/23 16:51:11 tg Exp $
+# $MirOS: ports/audio/libsidplay/Makefile,v 1.3 2005/06/28 17:16:14 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2002/09/14 20:09:31 naddy Exp $
 
 COMMENT=		"C64 music player and SID chip emulator library"
 DISTNAME=		libsidplay-1.36.59
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		audio
 HOMEPAGE=		http://www.geocities.com/SiliconValley/Lakes/5147/sidplay/
 
