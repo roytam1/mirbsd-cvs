@@ -1,0 +1,11 @@
+$MirOS$
+--- doc/ogg/Makefile.am.orig	Thu Nov  3 19:14:52 2005
++++ doc/ogg/Makefile.am	Thu Nov  3 19:15:01 2005
+@@ -1,6 +1,6 @@
+ ## Process this file with automake to produce Makefile.in
+ 
+-docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)/ogg
++docdir = $(datadir)/doc/$(PACKAGE)/ogg
+ 
+ doc_DATA = bitpacking.html datastructures.html decoding.html encoding.html\
+ 	general.html index.html ogg_packet.html ogg_packet_clear.html\

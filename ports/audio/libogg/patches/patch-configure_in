@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/audio/libogg/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:42:57 tg Exp $
 $OpenBSD: patch-configure,v 1.6 2003/12/14 00:52:22 naddy Exp $
---- configure.in.orig	2004-02-03 16:49:58.000000000 +0000
-+++ configure.in	2004-02-03 16:50:18.000000000 +0000
-@@ -35,7 +35,7 @@ if test -z "$GCC"; then
+--- configure.in.orig	Thu Sep 23 15:30:36 2004
++++ configure.in	Thu Nov  3 18:43:41 2005
+@@ -38,7 +38,7 @@ if test -z "$GCC"; then
  		;;
          *)
                  DEBUG="-g"
@@ -11,7 +11,7 @@ $OpenBSD: patch-configure,v 1.6 2003/12/14 00:52:22 naddy Exp $
                  PROFILE="-g -p" 
  		;;
          esac
-@@ -58,8 +58,8 @@ else
+@@ -61,8 +61,8 @@ else
  		;;
          *)
                  DEBUG="-g -Wall -fsigned-char"

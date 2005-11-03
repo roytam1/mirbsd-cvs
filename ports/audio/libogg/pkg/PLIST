@@ -1,8 +1,8 @@
 @comment $OpenBSD: PLIST,v 1.4 2003/12/14 00:52:22 naddy Exp $
+@comment $MirOS$
 include/ogg/config_types.h
 include/ogg/ogg.h
 include/ogg/os_types.h
-lib/libogg.a
 lib/libogg.la
 lib/pkgconfig/ogg.pc
 share/aclocal/ogg.m4
