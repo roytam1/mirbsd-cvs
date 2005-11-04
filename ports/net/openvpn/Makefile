@@ -1,8 +1,8 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.2 2005/07/07 21:24:23 bsiegert Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.3 2005/08/04 16:48:27 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=	"easy-to-use, robust, and highly configurable VPN"
-VERSION=	2.0
+VERSION=	2.0.5
 DISTNAME=	openvpn-${VERSION}
 PKGNAME=	openvpn-${VERSION:S/_//}-0
 CATEGORIES=	net security
@@ -15,8 +15,12 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	no_lzo
+FLAVORS=	no_lzo static
 FLAVOR?=
+
+.if ${FLAVOR:L:Mstatic}
+LDSTATIC=	-static
+.endif
 
 .if !${FLAVOR:L:Mno_lzo}
 LIB_DEPENDS+=	lzo::archivers/lzo
@@ -38,17 +42,19 @@ FAKE_FLAGS+=	mkdir_p='/bin/mkdir -p'
 SAMPLES_DIR=	${PREFIX}/share/examples/openvpn
 
 post-build:
-	for a in ${WRKSRC}/easy-rsa/[!W]*; do print \
-	    'g,/bin/bash,s,,${SHELL},g\nwq' | ed -s $$a; done
+	for a in ${WRKSRC}/easy-rsa/{,2.0/}[!2W]*; do print \
+	    '%g#/bin/bash#s##${SHELL}#g\nwq' | ed -s $$a; done
 
 post-install:
 	${INSTALL_DATA_DIR} ${SAMPLES_DIR}
-	${INSTALL_DATA_DIR} ${SAMPLES_DIR}/easy-rsa
+	${INSTALL_DATA_DIR} ${SAMPLES_DIR}/easy-rsa/2.0
 	${INSTALL_DATA_DIR} ${SAMPLES_DIR}/sample-config-files
 	${INSTALL_DATA_DIR} ${SAMPLES_DIR}/sample-keys
 	${INSTALL_DATA_DIR} ${SAMPLES_DIR}/sample-scripts
-	${INSTALL_DATA} ${WRKSRC}/easy-rsa/[!W]* \
+	${INSTALL_DATA} ${WRKSRC}/easy-rsa/[!2W]* \
 	    ${SAMPLES_DIR}/easy-rsa/
+	${INSTALL_DATA} ${WRKSRC}/easy-rsa/2.0/* \
+	    ${SAMPLES_DIR}/easy-rsa/2.0/
 	${INSTALL_DATA} ${WRKSRC}/sample-config-files/* \
 	    ${SAMPLES_DIR}/sample-config-files/
 	${INSTALL_DATA} ${WRKSRC}/sample-keys/* \
