@@ -1,3 +1,6 @@
+# $MirOS$
+# $OpenBSD: Setup.bsddb,v 1.2 2004/12/30 23:45:08 alek Exp $
+
 @NOSHARED@*shared*
 
 # Sleepycat Berkeley DB interface.
@@ -16,4 +19,4 @@
 #DBLIBVER=4.0
 #DBINC=$(DB)/include
 #DBLIB=$(DB)/lib
-_bsddb _bsddb.c -I${LOCALBASE}/include/db4 -L${LOCALBASE}/lib -ldb
+_bsddb _bsddb.c -I${LOCALBASE}/include/db4 -L${LOCALBASE}/lib/db4 -ldb

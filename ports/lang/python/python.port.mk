@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: python.port.mk,v 1.8 2004/05/15 09:24:12 xsa Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.1.7.1 2005/03/18 15:47:49 tg Exp $
+# $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 MODPY_VERSION?=		2.3
 
@@ -9,6 +9,11 @@ _MODPY_BUILD_DEPENDS=	:python-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},no_
 BUILD_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
 .endif
 RUN_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
+
+.if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
+MODPY_EXPAT_DEPENDS=	:python-expat-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-expat	
+MODPY_TKINTER_DEPENDS=	:python-tkinter-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-tkinter
+.endif
 
 MODPY_BIN=		${LOCALBASE}/bin/python${MODPY_VERSION}
 MODPY_INCDIR=		${LOCALBASE}/include/python${MODPY_VERSION}

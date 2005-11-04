@@ -1,19 +1,13 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.4 2004/04/06 02:39:23 brad Exp $
+# $MirOS: ports/lang/python/2.3/Makefile,v 1.2 2005/07/07 21:22:32 bsiegert Exp $
+# $OpenBSD: Makefile,v 1.18 2005/08/27 15:57:31 naddy Exp $
 
 VERSION=		2.3
 PATCHLEVEL=		.4
-PKG_PATCHLEVEL=
 
 COMMENT-bsddb=		"Berkeley db module for Python"
-FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}-0
 
-CONFIGURE_STYLE=	autoconf
-CONFIGURE_ARGS=		--enable-ipv6
-AUTOCONF_NEW=		Yes
-
-LIB_DEPENDS+=		bz2::archivers/bzip2
-
-FLAVORS+=		no_bsddb
+# needed for www/zope
+THREAD_STACK_SIZE=	0x100000
 
 .include <bsd.port.mk>

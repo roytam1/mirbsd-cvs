@@ -1,5 +1,5 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.1.7.1 2005/03/18 15:47:49 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.21 2004/05/15 06:43:23 sturm Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.3 2005/07/07 21:22:32 bsiegert Exp $
+# $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 # IMPORTANT!  If you make any changes to the Python ports, be sure
 # to also update files/CHANGES.MirPorts for your change.  This is a
@@ -7,6 +7,7 @@
 # Python itself.
 
 COMMENT=	"interpreted object-oriented programming language"
+COMMENT-bsddb=	"Berkeley db module for Python"
 COMMENT-expat=	"expat module for Python"
 COMMENT-gdbm=	"GNU dbm module for Python"
 COMMENT-idle=	"IDE for Python"
@@ -34,11 +35,11 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS+=		no_expat no_gdbm no_idle no_mpz no_tkinter no_cxx
+FLAVORS+=		no_bsddb no_cxx no_expat no_gdbm no_idle no_mpz no_tkinter
 FLAVOR?=
 
 .if ${FLAVOR:L:Mno_cxx}
-FLAVOR+=		no_gdbm no_idle no_mpz no_tkinter
+FLAVOR+=		no_bsddb no_expat no_gdbm no_idle no_mpz no_tkinter
 CONFIGURE_ARGS+=	--without-cxx
 MULTI_PACKAGES=
 .else
@@ -48,27 +49,31 @@ MULTI_PACKAGES=		-tests -tools
 
 SUBPACKAGE?=
 
-# All subpackages depend on the main python package.
-.if defined(PACKAGING) && !empty(SUBPACKAGE)
-.  if ${FLAVOR:L:Mno_cxx}
-RUN_DEPENDS+=		::lang/python/${VERSION},no_cxx
-.  else
-RUN_DEPENDS+=		::lang/python/${VERSION}
-.  endif
-.endif
+LIB_DEPENDS+=		bz2::archivers/bzip2
 
 # Python wants GNU libreadline so badly.
 # XXX both PSF and FSF say Python licence is GPL compatible,
 # XXX but I doubt it a little. -mirabile
 LIB_DEPENDS+=		readline.5::devel/libreadline
 
+.if defined(PACKAGING)
+#  All subpackages depend on the main python package.
+.  if !empty(SUBPACKAGE)
+.    if ${FLAVOR:L:Mno_cxx}
+RUN_DEPENDS+=		::lang/python/${VERSION},no_cxx
+.    else
+RUN_DEPENDS+=		::lang/python/${VERSION}
+.    endif
+LIB_DEPENDS=
+.  endif
+.endif
+
 # On architectures with shared libs, no_xxx flavors are a convenient
 # way to avoid pulling in dependencies, and don't actually show up
 # in the final package names.  On architectures without shared libs,
 # no_xxx flavors dictate what gets linked into the Python binary.
 
-# this cannot be put into 2.3/Makefile due to NO_SHARED_LIBS vs MULTI_PACKAGES
-.if ${VERSION} == "2.3" && empty(FLAVOR:L:Mno_bsddb)
+.if empty(FLAVOR:L:Mno_bsddb)
 .  if ${FLAVOR:L:Mno_cxx}
 BUILD_DEPENDS+=		::databases/db,no_cxx
 .  else
@@ -130,7 +135,7 @@ SED_PLIST+=		| sed -e '/^%%tkinter%%/d'
 LIB_DEPENDS+=		tk84::x11/tk/8.4
 .endif
 
-.if empty(FLAVOR:L:Mno_mpz)
+.if empty(FLAVOR:L:Mno_mpz) && ${VERSION} == "2.3"
 BUILD_DEPENDS+=		::devel/gmp
 SETUP_LOCAL+=		Setup.mpz
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
@@ -144,7 +149,7 @@ LIB_DEPENDS+=		gmp::devel/gmp
 LIB_DEPENDS+=		gmp::devel/gmp
 .endif
 
-.if empty(FLAVOR:L:Mno_expat)
+.if empty(FLAVOR:L:Mno_expat) && ${VERSION} == "2.3"
 SETUP_LOCAL+=		Setup.expat
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
 .    if !defined(PACKAGING)
@@ -164,7 +169,7 @@ LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
 # building the "monster" Python for platforms without shared libraries.
 
 .if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
-FULLPKGNAME=${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}-0
+FULLPKGNAME=		${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}-0
 .endif
 
 FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
@@ -175,10 +180,15 @@ FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
 FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
 FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
 
-CONFIGURE_STYLE?=	autoconf dest no-autoheader
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 # --srcdir is needed for systrace to work correctly
 CONFIGURE_ARGS+=	--with-fpectl --with-threads --srcdir=${WRKSRC}
+CONFIGURE_ARGS+=	--enable-ipv6
+
+# THREAD_STACK_SIZE value might be changed by particular python release
+THREAD_STACK_SIZE?=	0x20000
 
 REGRESS_TARGET=		test
 
@@ -200,7 +210,7 @@ SED_PLIST+=-e '/%%mm%%/r${PKGDIR}/PFRAG.mm' -e '//d'
 NOSHARED=	\#
 CONFIGURE_ENV+=	OPT='${CFLAGS}' LDFLAGS='-L${WRKSRC}'
 .else
-CONFIGURE_ENV+= OPT='${CFLAGS} -DTHREAD_STACK_SIZE=0x100000 -fPIC'
+CONFIGURE_ENV+= OPT='${CFLAGS} -DTHREAD_STACK_SIZE=${THREAD_STACK_SIZE} ${PICFLAG}'
 LDFLAGS+=	-L${WRKSRC}
 MAKE_FLAGS+=	MAJOR=0 MINOR=0 LDLIBRARY=libpython${VERSION}.so.0.0 \
 		LD_LIBRARY_PATH=${WRKSRC} PATH="${WRKDIST}:${PORTPATH}"
@@ -215,11 +225,11 @@ MACHDEP=	${_MD_SYSTEM}${_MD_RELEASE}
 SUBST_VARS+=	MACHDEP
 
 post-configure:
-	@sed -e 's,@NOSHARED@,${NOSHARED},g' \
-	     -e 's,@NO64BIT@,${NO64BIT},g'   \
+	@sed -e 's,@NOSHARED@,${NOSHARED},g'	\
+	     -e 's,@NO64BIT@,${NO64BIT},g'	\
 		${FILESDIR}/Setup >${WRKSRC}/Modules/Setup
 .for file in ${SETUP_LOCAL}
-	@sed -e 's,@NOSHARED@,${NOSHARED},g' \
+	@sed -e 's,@NOSHARED@,${NOSHARED},g'	\
 		${FILESDIR}/${file} >>${WRKSRC}/Modules/Setup.local
 .endfor
 	@cd ${WRKSRC} && ${MAKE_PROGRAM} Makefile
@@ -240,6 +250,6 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/python${VERSION}
 	${INSTALL_DATA} ${FILESDIR}/CHANGES.OpenBSD \
 		${PREFIX}/share/doc/python${VERSION}/CHANGES.OpenBSD
-	- [ -f ${FILESDIR}/CHANGES.MirPorts ] && ${INSTALL_DATA} \
-		${FILESDIR}/CHANGES.MirPorts \
-		${PREFIX}/share/doc/python${VERSION}/
+	[[ ! -f ${FILESDIR}/CHANGES.MirPorts ]] || \
+	    ${INSTALL_DATA} ${FILESDIR}/CHANGES.MirPorts \
+	    ${PREFIX}/share/doc/python${VERSION}/

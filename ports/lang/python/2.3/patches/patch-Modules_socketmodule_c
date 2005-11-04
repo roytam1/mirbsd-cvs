@@ -1,7 +1,6 @@
-$MirOS$
-$OpenBSD: patch-Modules_socketmodule_c,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
---- Modules/socketmodule.c.orig	Sun Apr 11 12:09:41 2004
-+++ Modules/socketmodule.c	Fri Oct 22 10:44:14 2004
+$OpenBSD: patch-Modules_socketmodule_c,v 1.2 2004/08/11 08:11:50 xsa Exp $
+--- Modules/socketmodule.c.orig	Sun Apr 11 14:10:03 2004
++++ Modules/socketmodule.c	Wed Aug 11 00:07:43 2004
 @@ -63,9 +63,6 @@ Local naming conventions:
  
  #include "Python.h"
