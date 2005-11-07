@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.16 2005/09/22 20:27:47 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.17 2005/10/13 22:04:12 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -50,7 +50,7 @@ NOPIC=			No	# XXX
 LDCONFIG=
 _CKSUM_A=
 HAS_TIMET64=		No
-USE_SYSTRACE=		No
+NO_SYSTRACE=		not on Darwin
 FETCH_CMD?=		/usr/bin/ftp
 TAR=			${LOCALBASE}/bin/tar
 UNZIP=			/usr/bin/unzip
@@ -67,7 +67,7 @@ P5ARCH=			${P5SITE}/darwin-thread-multi-2level
 CPPFLAGS+=		-I/usr/local/include/bind
 
 HAS_TIMET64=		No
-USE_SYSTRACE=		No
+NO_SYSTRACE=		not on Interix
 UNZIP=			/usr/contrib/bin/unzip
 CHOWN=			/bin/chown
 _MAKE_COOKIE=		/bin/touch
@@ -163,7 +163,6 @@ USE_CXX?=		No
 USE_GMAKE?=		No
 USE_MOTIF?=		No
 USE_SCHILY?=		No
-USE_SYSTRACE?=		Yes
 USE_X11?=		No
 
 #--- former pkgpath.mk
