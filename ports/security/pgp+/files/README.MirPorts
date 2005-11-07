@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/security/pgp+/files/README.MirPorts,v 1.1.7.1 2005/03/18 15:51:41 tg Exp $
 
 This is a programme derived from Philip Zimmermann's PGP (Pretty Good
 Privacy) Version 2.6.2; called pgp-2.6.3in (international use).
@@ -13,9 +13,7 @@ support using blowfish instead.
 
 The MirPorts Framework offers several distinct versions of PGP for
 this reason; the ports/security/pgp+ directory contains pgp-2.6.3in
-by Lutz Donnerhacke, and you can choose FLAVOR=no_idea to get a
-crippled version which cannot en- or decrypt messages, but is free
-to be used in any environment.
+by Lutz Donnerhacke.
 
 The MirPorts version, compiled with -DUNIX, also reads 1 KiB worth
 of data from /dev/urandom and feeds it to the PGP random seed upon
