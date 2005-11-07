@@ -1,4 +1,4 @@
-# $MirOS: ports/security/pgp+/Makefile,v 1.3 2005/08/21 11:50:08 tg Exp $
+# $MirOS: ports/security/pgp+/Makefile,v 1.4 2005/11/07 20:30:47 tg Exp $
 
 COMMENT=	"Pretty Good Privacy 2.6.3in"
 DISTNAME=	pgp263in010323
@@ -56,10 +56,10 @@ NO_REGRESS=	Yes
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/pgp
 	${INSTALL_DATA_DIR} ${PGP_DOC_DIR}
-	${INSTALL_PROGRAM} ${WRKSRC}/pgp ${PREFIX}/bin
-	${INSTALL_MAN} ${WRKDIST}/doc/pgp.1 ${PREFIX}/man/man1
-	cd ${WRKDIST}; ${INSTALL_DATA} ${LIBDOCS} ${PGP_DOC_DIR}
-	cd ${WRKDIST}; ${INSTALL_DATA} ${LIBFILES} ${PREFIX}/lib/pgp
-	cd ${WRKDIST}/doc; ${INSTALL_DATA} ${DOCS} ${PGP_DOC_DIR}
+	${INSTALL_PROGRAM} ${WRKSRC}/pgp ${PREFIX}/bin/
+	${INSTALL_MAN} ${WRKDIST}/doc/pgp.1 ${PREFIX}/man/man1/
+	cd ${WRKDIST}; ${INSTALL_DATA} ${LIBDOCS} ${PGP_DOC_DIR}/
+	cd ${WRKDIST}; ${INSTALL_DATA} ${LIBFILES} ${PREFIX}/lib/pgp/
+	cd ${WRKDIST}/doc; ${INSTALL_DATA} ${DOCS} ${PGP_DOC_DIR}/
 
 .include <bsd.port.mk>
