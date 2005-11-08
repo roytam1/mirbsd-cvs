@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.20 2005/10/09 18:48:08 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.21 2005/10/21 20:10:28 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -370,9 +370,36 @@ install -c -o $myuid -g $mygid -m 444 $T/mirports.sys.mk $shmk/
 
 
 # Check if we need to install nroff
+if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
+	dependdist nroff
+	set -e
+	for subdir in mirnroff/src/{usr.bin/oldroff,share/tmac}; do
+		cd $subdir
+		make NOMAN=yes obj
+		make NOMAN=yes depend
+		make NOMAN=yes
+		make NOMAN=yes install
+		cd ../../../..
+	done
+	set +e
+	# Building this without NOMAN=yes can be done by a port.
+	rm -rf mirnroff
+fi
 
 
 # Check if we need to install mtree
+if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
+	dependdist mtree
+	set -e
+	cd mtree
+	make obj
+	make depend
+	make
+	make install
+	set +e
+	cd ..
+	rm -rf mtree
+fi
 
 
 # Write environmental stuff
@@ -513,7 +540,9 @@ cd $T
 	cd $T
 fi
 
+
 # Check if we need to install GNU wget
+
 
 # Check if we need to install cksum
 [[ $isdarwin$isinterix = *yes* ]] && if ! pkg_info mircksum >/dev/null 2>&1; then

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.10 2005/09/18 19:42:29 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.11 2005/10/08 19:44:12 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -153,6 +153,14 @@ if test -z "$CC"; then
 	export CC
 fi
 
+# Divine a manual page formatter
+test -f "${NROFF-/nonexistent}" || if test -f /usr/bin/nrcon; then
+	NROFF=/usr/bin/nrcon
+else
+	NROFF="/usr/bin/env nroff -Tascii"
+fi
+export NROFF
+
 # Divine a temporary directory
 if T=$(mktemp -d /tmp/mirports.XXXXXXXXXX); then
 	:
@@ -174,15 +182,16 @@ tempdir=$T; export tempdir
 
 # Check for Interix
 if test $isinterix = yes; then
-	# We know /bin/ksh is sufficient
+	# We know /bin/ksh is sufficient and we're using it
 	# Check for nroff
-	test -f /usr/bin/nroff || \
+	which nroff >/dev/null 2>&1 || \
 	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh MKSH=/bin/ksh \
 	    /bin/ksh $ourpath/infrastructure/install/setup.ksh -i "$@"
-	if test ! -f /usr/bin/nroff; then
+	if ! which nroff >/dev/null 2>&1; then
 		echo Cannot install nroff >&2
 		exit 1
 	fi
+	export NROFF=nrcon
 fi
 
 # Look if this is a sufficient mksh, search for one
