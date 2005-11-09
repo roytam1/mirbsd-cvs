@@ -1,0 +1,12 @@
+$MirOS$
+--- Makefile.am.orig	Wed Nov  9 19:22:26 2005
++++ Makefile.am	Wed Nov  9 19:22:31 2005
+@@ -2,7 +2,7 @@
+ 
+ AUTOMAKE_OPTIONS = foreign dist-zip
+ 
+-SUBDIRS = lib include doc examples win32 debian vq
++SUBDIRS = lib include doc
+ 
+ m4datadir = $(datadir)/aclocal
+ m4data_DATA = vorbis.m4
