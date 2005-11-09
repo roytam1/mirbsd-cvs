@@ -1,17 +1,17 @@
 @comment $OpenBSD: PLIST,v 1.7 2003/12/14 00:52:22 naddy Exp $
+@comment $MirOS$
 bin/ogg123
 bin/oggdec
 bin/oggenc
 bin/ogginfo
-bin/vcut
 bin/vorbiscomment
 man/man1/ogg123.1
 man/man1/oggdec.1
 man/man1/oggenc.1
 man/man1/ogginfo.1
-man/man1/vcut.1
 man/man1/vorbiscomment.1
 share/examples/vorbis-tools/ogg123rc
+@sample ${SYSCONFDIR}/ogg123rc
 share/locale/be/LC_MESSAGES/vorbis-tools.mo
 share/locale/cs/LC_MESSAGES/vorbis-tools.mo
 share/locale/da/LC_MESSAGES/vorbis-tools.mo
@@ -23,6 +23,9 @@ share/locale/nl/LC_MESSAGES/vorbis-tools.mo
 share/locale/ro/LC_MESSAGES/vorbis-tools.mo
 share/locale/ru/LC_MESSAGES/vorbis-tools.mo
 share/locale/sv/LC_MESSAGES/vorbis-tools.mo
+share/locale/uk/LC_MESSAGES/vorbis-tools.mo
+@dirrm share/locale/uk/LC_MESSAGES
+@dirrm share/locale/uk
 @dirrm share/locale/sv/LC_MESSAGES
 @dirrm share/locale/sv
 @dirrm share/locale/ru/LC_MESSAGES
@@ -47,5 +50,3 @@ share/locale/sv/LC_MESSAGES/vorbis-tools.mo
 @dirrm share/locale/be
 @dirrm share/locale
 @dirrm share/examples/vorbis-tools
-@cwd ${SYSCONFDIR}
-@extra ogg123rc
