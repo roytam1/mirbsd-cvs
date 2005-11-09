@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/neon/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:35 tg Exp $
 @comment $OpenBSD: PLIST,v 1.7 2003/11/27 16:46:24 lebel Exp $
 bin/neon-config
 include/neon/ne_207.h
@@ -23,7 +23,6 @@ include/neon/ne_string.h
 include/neon/ne_uri.h
 include/neon/ne_utils.h
 include/neon/ne_xml.h
-lib/libneon.a
 lib/libneon.la
 lib/pkgconfig/neon.pc
 man/man1/neon-config.1
