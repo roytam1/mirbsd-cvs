@@ -1,9 +1,10 @@
-# $MirOS$
+# $MirOS: ports/audio/flac/Makefile,v 1.2 2005/03/25 23:13:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
 COMMENT=	"free lossless audio codec"
 
 DISTNAME=	flac-1.1.0
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio archivers
 HOMEPAGE=	http://flac.sourceforge.net/
 
@@ -17,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=flac/}
 
 MODULES=	converters/libiconv
-LIB_DEPENDS=	ogg.4::audio/libogg
+LIB_DEPENDS=	ogg::audio/libogg
 
 .if ${MACHINE_ARCH} == "i386"
 BUILD_DEPENDS+=	::lang/nasm
