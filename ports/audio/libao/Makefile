@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/audio/libao/Makefile,v 1.2 2005/07/07 21:17:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2003/10/08 16:01:45 naddy Exp $
 
 COMMENT=	"portable audio output library"
 COMMENT-arts=	"aRts module for portable audio output library"
 COMMENT-esd=	"ESounD module for portable audio output library"
 
-VERSION=	0.8.4
+VERSION=	0.8.6
 DISTNAME=	libao-${VERSION}
 PKGNAME-arts=	libao-arts-${VERSION}-0
 PKGNAME-esd=	libao-esd-${VERSION}-0
@@ -19,7 +19,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=	${HOMEPAGE}src/
+MASTER_SITES=	http://downloads.xiph.org/releases/ao/
 
 USE_CXX=	Yes
 
@@ -37,7 +37,8 @@ MULTI_PACKAGES+= -esd
 SUBPACKAGE?=
 
 SEPARATE_BUILD=	simple
-CONFIGURE_STYLE=autoconf no-autoheader
+CONFIGURE_STYLE=autogen no-autoheader
+AUTOMAKE_VERSION=1.9
 AUTOCONF_NEW=	yes
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --enable-static
 .if ${FLAVOR:L:Mno_arts}
@@ -50,18 +51,18 @@ CONFIGURE_ARGS+= --disable-nas
 
 .if defined(PACKAGING)
 .  if   ${SUBPACKAGE} == "-arts"
-LIB_DEPENDS=	ao.3::audio/libao \
-		artsc.0::x11/kde/arts3
+LIB_DEPENDS=	ao::audio/libao \
+		artsc::x11/kde/arts3
 .  elif ${SUBPACKAGE} == "-esd"
-LIB_DEPENDS=	ao.3::audio/libao \
-		esd.2::audio/esound
+LIB_DEPENDS=	ao::audio/libao \
+		esd::audio/esound
 .  endif
 .else
 .  if ${MULTI_PACKAGES:M-arts}
-LIB_DEPENDS+=	artsc.0::x11/kde/arts3
+LIB_DEPENDS+=	artsc::x11/kde/arts3
 .  endif
 .  if ${MULTI_PACKAGES:M-esd}
-LIB_DEPENDS+=	esd.2::audio/esound
+LIB_DEPENDS+=	esd::audio/esound
 .  endif
 .endif
 
