@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.21 2005/10/21 20:10:28 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.22 2005/11/08 12:04:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -253,7 +253,7 @@ case $(uname -s 2>/dev/null || uname) {
 	;;
 (MirBSD*)
 	ismirbsd=yes
-	defmanpath='/usr/{local,share,X11R6}/man/'
+	defmanpath='/usr/local/man:/usr/share/man:/usr/X11R6/man'
 	;;
 (OpenBSD*)
 	if uname -M >/dev/null 2>&1; then
@@ -261,7 +261,7 @@ case $(uname -s 2>/dev/null || uname) {
 	else
 		isopenbsd=yes
 	fi
-	defmanpath='/usr/{local,share,X11R6}/man/' #XXX
+	defmanpath='/usr/local/man:/usr/share/man:/usr/X11R6/man' #XXX
 	;;
 (*)
 	print -u2 Cannot determine operating system.
@@ -432,7 +432,6 @@ cat >>$localbase/db/SetEnv.sh <<-EOF
 EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
-	# unsupported, untested, etc.pp
 	setenv LOCALBASE '$localbase'
 	setenv PORTSDIR '$portsdir'
 	setenv SYSCONFDIR '$etc'
@@ -561,6 +560,7 @@ else
 	print Please add the required users to your system manually.
 fi
 
-print Should be done now... have fun.
-print Source $localbase/db/SetEnv.sh for playing.
+print Should be done now... have fun. Issue one of the following commands:
+print "% source $localbase/db/SetEnv.csh"
+print "\$ . $localbase/db/SetEnv.sh"
 exit 0
