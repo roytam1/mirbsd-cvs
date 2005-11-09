@@ -1,4 +1,5 @@
 @comment $OpenBSD: PLIST,v 1.1.1.1 2003/06/12 00:52:02 naddy Exp $
+@comment $MirOS$
 bin/speexdec
 bin/speexenc
 include/speex.h
@@ -6,10 +7,8 @@ include/speex_bits.h
 include/speex_callbacks.h
 include/speex_header.h
 include/speex_stereo.h
-lib/libspeex.a
 lib/libspeex.la
 man/man1/speexdec.1
 man/man1/speexenc.1
 share/doc/speex/manual.pdf
-%%SHARED%%
 @dirrm share/doc/speex
