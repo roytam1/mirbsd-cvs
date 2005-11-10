@@ -1,5 +1,7 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.3 2005/07/07 21:23:52 bsiegert Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.4 2005/08/21 11:49:25 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
+
+NOT_FOR_PLATFORM=	Interix:*:*
 
 COMMENT=	"multi-screen window manager"
 VERSION=	4.0.2
