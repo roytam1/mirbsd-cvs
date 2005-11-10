@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.56 2005/11/07 20:34:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.57 2005/11/10 20:12:08 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1568,9 +1568,9 @@ checksum: fetch
 					t=$$(cksum "$$file"); \
 					if [[ $$s = $$t ]]; then \
 						match=1; \
-						${ECHO_MSG} ">> Checksum OK for $$file. ($$cipher)"; \
+						${ECHO_MSG} ">> cksum OK for $$file."; \
 					else \
-						echo ">> Checksum mismatch for $$file. ($$cipher)"; \
+						echo ">> cksum mismatch for $$file."; \
 						OK=false; \
 					fi; \
 					continue; \
