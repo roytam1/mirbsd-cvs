@@ -1,4 +1,4 @@
-# $MirOS: ports/net/wget/Makefile,v 1.3 2005/07/07 21:25:11 bsiegert Exp $
+# $MirOS: ports/net/wget/Makefile,v 1.4 2005/11/10 22:20:49 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2003/05/14 15:03:51 brad Exp $
 
 COMMENT=		"retrieve files via HTTP and FTP"
@@ -28,7 +28,6 @@ CONFIGURE_ARGS+=	--disable-nls
 .include <mirports.sys.mk>
 .if ${OStype} == "Interix"
 CONFIGURE_ARGS+=	--disable-ipv6
-CONFIGURE_ENV+=		LIBS="-lbind -ldb"
 .endif
 
 pre-build:
