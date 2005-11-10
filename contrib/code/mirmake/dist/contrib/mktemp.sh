@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/contrib/mktemp.sh,v 1.2 2005/06/09 21:43:42 tg Exp $
+#!/bin/ksh
+# $MirOS: contrib/code/mirmake/dist/contrib/mktemp.sh,v 1.3 2005/09/18 21:01:46 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -35,27 +35,27 @@ me=${0##*/}
 
 # Functions
 
-usage()
+function usage
 {
 	(( q == 1 )) || \
 	    print -u2 "Syntax: $me [-dqtu] [-p directory] [template]"
 	exit 1
 }
 
-getrnd()
+function getrndc
+{
+	let RAN+=RANDOM
+	print -n ${chars[RAN % ${#chars[*]}]}
+	let RAN++
+}
+
+function getrnd
 {
 	let x=$1
 	while (( x > 0 )); do
 		getrndc
 		let --x
 	done
-}
-
-getrndc()
-{
-	let RAN+=RANDOM
-	print -n ${chars[RAN % ${#chars[*]}]}
-	let RAN++
 }
 
 # main
@@ -79,7 +79,7 @@ done
 shift $((OPTIND - 1))
 
 case $# {
-1)	template="$1" ;;
+1)	template=$1 ;;
 0)	let t=1
 	template=tmp.XXXXXXXXXX ;;
 *)	usage ;;
@@ -91,11 +91,11 @@ if (( t == 1 )); then
 		    "contain directory separators in -t mode"
 		exit 1
 	fi
-	[[ -n $TMPDIR ]] && p="$TMPDIR"
+	[[ -n $TMPDIR ]] && p=$TMPDIR
 	while [[ $p = */ ]]; do
-		p="${p%/}"
+		p=${p%/}
 	done
-	template="$p/$template"
+	template=$p/$template
 fi
 
 saveumask=$(umask)
@@ -103,12 +103,12 @@ umask 077
 let numx=0
 while [[ $template != ${template%X} ]]; do
 	let numx++
-	template="${template%X}"
+	template=${template%X}
 done
 
 let gotit=0
 while (( gotit == 0 )); do
-	n="${template}$(getrnd $numx)"
+	n=${template}$(getrnd $numx)
 	[[ -e $n ]] && continue
 
 	if (( d == 1 )); then
