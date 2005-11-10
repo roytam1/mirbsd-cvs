@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.19 2005/11/10 20:38:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.20 2005/11/10 22:20:47 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -66,6 +66,7 @@ P5ARCH=			${P5SITE}/darwin-thread-multi-2level
 # Use a better working resolver
 CPPFLAGS+=		-I/usr/local/include/bind
 LDFLAGS+=		-L/usr/local/lib/bind
+LDADD+=			-lbind -ldb
 
 HAS_TIMET64=		No
 NO_SYSTRACE=		not on Interix
