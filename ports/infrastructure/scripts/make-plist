@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS: ports/infrastructure/scripts/make-plist,v 1.5 2005/07/05 21:50:27 bsiegert Exp $
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.7 2005/07/23 17:39:29 bsiegert Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -45,6 +45,19 @@ my ($plist, $pshared, $pdylib);
 {
 package Annotation;
 
+# short explanation:
+# this object class is in principle a simple hash. Each plist fragment
+# has one annotation. Keys are file names, and values for each key are
+# a list of lists. The lists correspond to the entry/entries for the
+# file in the various plist fragments. Annotations are written in
+# annotate() and used in handle_file().
+# 
+# Three types of entries exist:
+# - list with two elements: normal entry
+# - list with three elements: @comment filename (hardcoded)
+# - list with six elements: file with options (mode, etc.)
+
+
 sub new {
     my $class = shift;
     bless {}, $class;
@@ -71,6 +84,7 @@ sub annotate
 	my $newfh = shift;
 	my $our_rcsid_seen = 0;
 	my ($mode, $owner, $group, $nocheck) = ('', '', '', '');
+	my @output = ();
 	while(<$oldfh>) {
 		chomp;
 		if (m/^\@mode\s*/) {
@@ -82,17 +96,17 @@ sub annotate
 		} elsif (m/^\@comment\s+no checksum$/) {
 			$nocheck = 1;
 		} elsif (m/^\@option no-default-conflict/||m/^\@pkgcfl/) {
-			printf $newfh "$_\n";
+			push(@output, "$_\n");
 		} elsif (m/^\@exec\s+/ || m/^\@unexec\s+/) {
 			$_=$';
 			# we don't warn for stuff we probably added...
 			next if m/^mkdir -p/||m/^install-info /;
 			$manual = 1;
 		} elsif (m/^\@comment\s+\$OpenBSD(\: .*)?\$$/) {
-			print $newfh "$_\n";
+			push(@output, "$_\n");
 			next;
 		} elsif (m/^\@comment\s+\$MirOS(\: .*)?\$$/) {
-			print $newfh "$_\n";
+			push(@output, "$_\n");
 			$our_rcsid_seen = 1;
 			next;
 		} elsif (m/^\@comment\s+/) {
@@ -114,7 +128,7 @@ sub annotate
 		} elsif (m/^\!?\%\%(.*)\%\%/) {
 			my $frag = $1;
 			if ($frag ne "SHARED") {
-				print $newfh "$_\n";
+				push(@output, "$_\n");
 				$manual = 1;
 			}
 		} elsif (m/\$\{.*\}/) {
@@ -132,6 +146,9 @@ sub annotate
 		}
 	}
 	print $newfh "\@comment \$MirOS\$\n" unless $our_rcsid_seen;
+	foreach (@output) {
+		print $newfh $_;
+	}
 }
 
 # read an mtree file, and produce the corresponding directory hierarchy
