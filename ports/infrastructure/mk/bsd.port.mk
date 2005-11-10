@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.55 2005/10/23 21:49:52 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.56 2005/11/07 20:34:03 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1558,6 +1558,23 @@ checksum: fetch
 		for file in ${_CKSUMFILES}; do \
 			match=; \
 			for cipher in ${_CIPHERS}; do \
+				if [[ $$cipher = cksum ]]; then \
+					s=$$(grep "$$file\$$" \
+					    $$checksum_file || true); \
+					if [[ -z $$s ]]; then \
+						${ECHO_MSG} ">> No cksum recorded for $$file."; \
+						continue; \
+					fi; \
+					t=$$(cksum "$$file"); \
+					if [[ $$s = $$t ]]; then \
+						match=1; \
+						${ECHO_MSG} ">> Checksum OK for $$file. ($$cipher)"; \
+					else \
+						echo ">> Checksum mismatch for $$file. ($$cipher)"; \
+						OK=false; \
+					fi; \
+					continue; \
+				fi; \
 				if ! (echo | ${_CKSUM_A} $$cipher \
 				    >/dev/null 2>&1); then \
 					${ECHO_MSG} ">> No $$cipher found on this system."; \
