@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.57 2005/11/10 20:12:08 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.58 2005/11/10 20:39:09 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1066,8 +1066,12 @@ _resolve_lib_args=
 _resolve_lib_args:=	${_resolve_lib_args} -noshared
 .endif
 
-.if ${OBJECT_FMT} == "Mach-O"
+.if ${RTLD_TYPE} == "dyld"
 _resolve_lib_args:=	${_resolve_lib_args} -dylib
+.endif
+
+.if ${RTLD_TYPE} == "GNU"
+_resolve_lib_args:=	${_resolve_lib_args} -gnulib
 .endif
 
 _libresolve_fragment= \

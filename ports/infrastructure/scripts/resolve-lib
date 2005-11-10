@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# $MirOS$
 # $OpenBSD: resolve-lib,v 1.4 2002/11/28 19:20:37 espie Exp $
 #
 # Copyright (c) 2001
@@ -26,8 +27,9 @@
 
 use strict;
 
-my $noshared; 
-my $dylib; 
+my $noshared;
+my $dylib;
+my $gnulib;
 my $sharedonly;
 my $strict;
 my $reqmajor;
@@ -40,6 +42,9 @@ if ($_ eq '-noshared') {
 	$_ = shift;
 } elsif ($_ eq '-dylib') {
 	$dylib = 1;
+	$_ = shift;
+} elsif ($_ eq '-gnulib') {
+	$gnulib = 1;
 	$_ = shift;
 }
 
@@ -90,8 +95,14 @@ while(<>) {
 		my $tmp;
 		my $major;
 		my $minor;
-		if($dylib) {
+		if ($dylib) {
 			$tmp = m/^lib\Q$libname\E\.(\d+)\.(\d+).\d+.dylib$/;
+			$major = $1;
+			$minor = $2;
+		} elsif ($gnulib) {
+			# XXX check for (\.\d+)*$ but that doesn't work
+			# XXX what about .so.1 (let major=0 then)?
+			$tmp = m/^lib\Q$libname\E\.so\.(\d+)\.(\d+)/;
 			$major = $1;
 			$minor = $2;
 		} else {
