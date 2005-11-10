@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.18 2005/11/07 20:34:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.19 2005/11/10 20:38:11 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -65,6 +65,7 @@ P5ARCH=			${P5SITE}/darwin-thread-multi-2level
 .if ${OStype} == "Interix"
 # Use a better working resolver
 CPPFLAGS+=		-I/usr/local/include/bind
+LDFLAGS+=		-L/usr/local/lib/bind
 
 HAS_TIMET64=		No
 NO_SYSTRACE=		not on Interix
@@ -79,6 +80,7 @@ _CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
 .  endif
 FETCH_CMD?=		${LOCALBASE}/bin/wget
+PATCH?=			${LOCALBASE}/bin/patch
 .endif
 
 #---

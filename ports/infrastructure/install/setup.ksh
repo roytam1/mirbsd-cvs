@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.25 2005/11/10 13:21:42 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.26 2005/11/10 20:38:10 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -549,6 +549,18 @@ cd $T
 fi
 
 
+# Check if we need to install patch
+[[ $isinterix = *yes* ]] && \
+    if ! pkg_info patch >/dev/null 2>&1; then
+	cd $portsdir/essentials/patch
+	set -e
+	make install
+	set +e
+	make clean
+	cd $T
+fi
+
+
 # Check if we need to install cksum
 [[ $isdarwin$isinterix = *yes* ]] && \
     if ! pkg_info mircksum >/dev/null 2>&1; then
@@ -559,6 +571,19 @@ fi
 	make clean
 	cd $T
 fi
+
+
+# Check if we need to install GNU m4
+[[ $isinterix = *yes* ]] && \
+    if ! pkg_info m4 >/dev/null 2>&1; then
+	cd $portsdir/lang/m4
+	set -e
+	make install
+	set +e
+	make clean
+	cd $T
+fi
+[[ $isinterix = *yes* ]] && unset BOOTSTRAP
 
 
 # Check if we need to install GNU wget
@@ -572,18 +597,6 @@ fi
 	cd $T
 fi
 [[ $isinterix = *yes* ]] && unset FETCH_CMD
-
-
-# Check if we need to install GNU m4
-[[ $isinterix = *yes* ]] && \
-    if ! pkg_info m4 >/dev/null 2>&1; then
-	cd $portsdir/lang/m4
-	set -e
-	make install
-	set +e
-	make clean
-	cd $T
-fi
 
 
 # End of installation programme

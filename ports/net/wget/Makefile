@@ -1,14 +1,15 @@
-# $MirOS: ports/net/wget/Makefile,v 1.1.7.1 2005/03/18 15:49:22 tg Exp $
+# $MirOS: ports/net/wget/Makefile,v 1.3 2005/07/07 21:25:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.35 2003/05/14 15:03:51 brad Exp $
 
 COMMENT=		"retrieve files via HTTP and FTP"
-V=			1.10
-P=			2
+V=			1.10.2
+P=			1
 DISTNAME=		wget-${V}
 PKGNAME=		wget-${V}-${P}
 CATEGORIES=		net
 MASTER_SITES=		${MASTER_SITE_GNU:=wget/}
-MASTER_SITES0=		ftp://ftp.us.debian.org/debian/pool/main/w/wget/
+MASTER_SITES0=		http://ftp.fr.debian.org/debian/pool/main/w/wget/ \
+			ftp://ftp.us.debian.org/debian/pool/main/w/wget/
 HOMEPAGE=		http://www.gnu.org/software/wget/
 
 PATCHFILES=		wget_${V}-${P}.diff.gz:0
@@ -20,7 +21,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-nls
@@ -28,12 +28,13 @@ CONFIGURE_ARGS+=	--disable-nls
 .include <mirports.sys.mk>
 .if ${OStype} == "Interix"
 CONFIGURE_ARGS+=	--disable-ipv6
+CONFIGURE_ENV+=		LIBS="-lbind -ldb"
 .endif
 
 pre-build:
-	print '1,$$g#/usr/local/etc#s##${SYSCONFDIR}#g\n1,$$g#/usr/local#s##${PREFIX}#g\nwq' \
+	print '%g#/usr/local/etc#s##${SYSCONFDIR}#g\n%g#/usr/local#s##${PREFIX}#g\nwq' \
 	    | ed -s ${WRKSRC}/doc/wget.texi
-	print '1,$$g#/usr/local/etc#s##${SYSCONFDIR}#g\nwq' \
+	print '%g#/usr/local/etc#s##${SYSCONFDIR}#g\nwq' \
 	    | ed -s ${WRKSRC}/doc/sample.wgetrc
 
 .include <bsd.port.mk>

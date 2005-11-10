@@ -1,8 +1,8 @@
-$MirOS: ports/net/wget/patches/patch-aclocal_m4,v 1.1.7.1 2005/03/18 15:49:22 tg Exp $
+$MirOS$
 $OpenBSD: patch-configure,v 1.4 2003/05/14 15:03:51 brad Exp $
---- aclocal.m4.orig	Wed Jun 29 13:58:13 2005
-+++ aclocal.m4	Wed Jun 29 13:58:31 2005
-@@ -320,7 +320,7 @@ AC_DEFUN([WGET_WITH_NLS],
+--- m4/wget.m4.orig	Thu Nov 10 21:24:18 2005
++++ m4/wget.m4	Thu Nov 10 21:24:26 2005
+@@ -346,7 +346,7 @@ AC_DEFUN([WGET_WITH_NLS],
  
        AC_CHECK_LIB(intl, gettext, [
          dnl gettext is in libintl; announce the fact manually.

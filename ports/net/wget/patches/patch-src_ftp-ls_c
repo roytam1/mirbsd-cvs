@@ -1,7 +1,7 @@
-$MirOS: ports/net/wget/patches/patch-src_ftp-ls_c,v 1.1.7.1 2005/03/18 15:49:22 tg Exp $
---- src/ftp-ls.c.orig	Thu May 12 16:24:11 2005
-+++ src/ftp-ls.c	Wed Jun 29 13:58:13 2005
-@@ -901,7 +901,7 @@ ftp_index (const char *file, struct url 
+$MirOS: ports/net/wget/patches/patch-src_ftp-ls_c,v 1.2 2005/06/29 14:04:46 tg Exp $
+--- src/ftp-ls.c.orig	Thu Aug  4 21:52:33 2005
++++ src/ftp-ls.c	Thu Nov 10 21:23:08 2005
+@@ -903,7 +903,7 @@ ftp_index (const char *file, struct url 
  	  };
  	  struct tm *ptm = localtime ((time_t *)&f->tstamp);
  
