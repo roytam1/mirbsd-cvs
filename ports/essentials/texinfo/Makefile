@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: ports/essentials/texinfo/Makefile,v 1.1 2005/05/21 02:22:37 tg Exp $
+#-
+# This port must not depend on autoconf.
 
 COMMENT=		"GNU's man page successor"
 DISTNAME=		texinfo-4.8
