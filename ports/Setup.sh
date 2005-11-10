@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.13 2005/11/10 13:07:55 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.14 2005/11/10 13:11:31 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -122,10 +122,12 @@ if test $isinterix = yes; then
 	# check for Weihenstephan wget
 	test -f /dev/fs/C/usr/local/wbin/wget.exe && \
 	    fetch="runwin32 c:/usr/local/wbin/wget.exe"
+	# but prefer MirPorts wget
+	test -f $localbase/bin/wget && fetch=$localbase/bin/wget
 fi
 if test x"$fetch" = x"false"; then
 	# Check for ftp/wget/fetch
-	for dir in /usr/mpkg/bin /usr/local/bin /bin /usr/bin; do
+	for dir in $localbase/bin /usr/{mpkg,local}/bin /bin /usr/bin; do
 		if test -f $dir/wget; then
 			fetch=$dir/wget
 			break
@@ -157,6 +159,8 @@ fi
 # Divine a manual page formatter
 test -f "${NROFF-/nonexistent}" || if test -f /usr/bin/nrcon; then
 	NROFF=/usr/bin/nrcon
+elif test -f $localbase/bin/nrcon; then
+	NROFF=$localbase/bin/nrcon
 else
 	NROFF="/usr/bin/env nroff -Tascii"
 fi
@@ -342,13 +346,7 @@ fi
 # Build mksh
 cd $T/mksh
 SHELL=${SHELL:-/bin/sh}; export SHELL
-if test -f /usr/lib/libc.dylib; then
-	# Darwin
-	d=-d
-else
-	d=
-fi
-$SHELL ./Build.sh $d || rm -f mksh
+$SHELL ./Build.sh || rm -f mksh
 if test ! -s mksh; then
 	echo Build failed >&2
 	cd
@@ -364,12 +362,13 @@ set +e
 test ! -f $MKSH.$tpfx.2 || mv $MKSH.$tpfx.2 /tmp/deleteme.$$$RANDOM \
     || mv $MKSH.$tpfx.2 /Deleteme.$$$RANDOM
 
-# Install some kind of man page
+# Install some kind of man page (don't care if it fails)
 s=0
 if test -s mksh.cat1; then
-	install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0 && s=1
+	install -c -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0 2>/dev/null \
+	    && s=1
 fi
-test $s = 0 && install -c -m 444 mksh.1 /usr/share/man/man1/mksh.1
+test $s = 0 && install -c -m 444 mksh.1 /usr/share/man/man1/mksh.1 2>/dev/null
 
 # Clean up
 cd $T

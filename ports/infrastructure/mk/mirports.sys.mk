@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.17 2005/10/13 22:04:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.18 2005/11/07 20:34:03 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -77,9 +77,8 @@ GZCAT?=			/usr/contrib/bin/gzip -dc
 .  ifndef BOOTSTRAP	# Install these first
 _CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
-FETCH_CMD?=		${LOCALBASE}/bin/wget
-TAR=			${LOCALBASE}/bin/tar
 .  endif
+FETCH_CMD?=		${LOCALBASE}/bin/wget
 .endif
 
 #---

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.24 2005/11/10 13:07:57 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.25 2005/11/10 13:21:42 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -250,6 +250,7 @@ case $(uname -s 2>/dev/null || uname) {
 	;;
 (Interix*)
 	defmanpath='/usr/share/man:/usr/X11R6/man:/usr/X11R5/man'
+	export FETCH_CMD=$fetch BOOTSTRAP=yes
 	;;
 (MirBSD*)
 	ismirbsd=yes
@@ -533,7 +534,8 @@ cd $T
 
 # Check if we need to install cpio
 # (Only install if it isn't there; the user can use pkg_upgrade himself)
-[[ $isdarwin = *yes* ]] && if ! pkg_info paxmirabilis >/dev/null 2>&1; then
+[[ $isdarwin$isinterix = *yes* ]] && \
+    if ! pkg_info paxmirabilis >/dev/null 2>&1; then
 	set -e
 	cd $portsdir/essentials/cpio
 	make fake
@@ -547,13 +549,39 @@ cd $T
 fi
 
 
-# Check if we need to install GNU wget
-
-
 # Check if we need to install cksum
-[[ $isdarwin$isinterix = *yes* ]] && if ! pkg_info mircksum >/dev/null 2>&1; then
+[[ $isdarwin$isinterix = *yes* ]] && \
+    if ! pkg_info mircksum >/dev/null 2>&1; then
 	cd $portsdir/essentials/cksum
-	make install clean
+	set -e
+	make install
+	set +e
+	make clean
+	cd $T
+fi
+
+
+# Check if we need to install GNU wget
+[[ $isinterix = *yes* ]] && \
+    if ! pkg_info wget >/dev/null 2>&1; then
+	cd $portsdir/net/wget
+	set -e
+	make install
+	set +e
+	make clean
+	cd $T
+fi
+[[ $isinterix = *yes* ]] && unset FETCH_CMD
+
+
+# Check if we need to install GNU m4
+[[ $isinterix = *yes* ]] && \
+    if ! pkg_info m4 >/dev/null 2>&1; then
+	cd $portsdir/lang/m4
+	set -e
+	make install
+	set +e
+	make clean
 	cd $T
 fi
 
