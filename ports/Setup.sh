@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.11 2005/10/08 19:44:12 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.12 2005/11/08 12:04:42 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -183,6 +183,10 @@ tempdir=$T; export tempdir
 # Check for Interix
 if test $isinterix = yes; then
 	# We know /bin/ksh is sufficient and we're using it
+
+	# Remove interfering environment variables
+	unset INCLUDE LIB
+
 	# Check for nroff
 	which nroff >/dev/null 2>&1 || \
 	    OVERRIDE_MKSH=/bin/ksh SHELL=/bin/ksh MKSH=/bin/ksh \

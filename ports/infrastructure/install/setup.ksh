@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.22 2005/11/08 12:04:43 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.23 2005/11/09 20:46:14 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -430,6 +430,9 @@ cat >>$localbase/db/SetEnv.sh <<-EOF
 	export BINOWN BINGRP PATH LD_LIBRARY_PATH MKSH
 	export MANPATH INFOPATH PERL5LIB
 EOF
+[[ $isinterix = yes ]] && cat >>$localbase/db/SetEnv.sh <<-EOF
+	unset INCLUDE LIB
+EOF
 
 cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv LOCALBASE '$localbase'
@@ -451,6 +454,10 @@ EOF
 [[ $MKSH = /bin/mksh ]] || \
     cat >>$localbase/db/SetEnv.csh <<-EOF
 	setenv MKSH '$MKSH'
+EOF
+[[ $isinterix = yes ]] && cat >>$localbase/db/SetEnv.csh <<-EOF
+	unsetenv INCLUDE
+	unsetenv LIB
 EOF
 
 cat >$localbase/db/SetEnv.make <<-EOF
