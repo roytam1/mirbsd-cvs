@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.12 2005/11/08 12:04:42 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.13 2005/11/10 13:07:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -36,6 +36,7 @@ test -f $localbase/X11/bin/xterm && xfbase=$localbase/X11
 export localbase
 export xfbase
 
+# minimum req'd version (change this below too)
 mksh_ver=24
 mksh_date=2005/08/21
 
@@ -262,7 +263,9 @@ fi
 rm -f $MKSH.$tpfx.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
-	echo 'Ask your system operator to install a recent mksh (R24b)' >&2
+	echo 'Ask your system operator to install a recent mksh (R25),' >&2
+	echo 'or call this script with MKSH=/path/to/mksh (is compiled' >&2
+	echo 'if it does not exist, but the path must exist).' >&2
 	cd
 	rm -rf $T
 	exit 1
