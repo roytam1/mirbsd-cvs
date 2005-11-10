@@ -1,6 +1,10 @@
-# $MirOS: ports/essentials/cpio/Makefile,v 1.3 2005/11/10 20:12:35 tg Exp $
+# $MirOS: ports/essentials/patch/Makefile,v 1.1 2005/11/10 20:45:04 tg Exp $
 #-
 # This port must not contain a patches/ directory.
+
+.if ${.SYSMK} == "/usr/share/mk"
+ERRORS+=		"This port only works with MirMake"
+.endif
 
 COMMENT=		"MirOS patch(1)"
 CATEGORIES=		essentials
@@ -16,6 +20,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/patch
+EXTRA_XAKE_FLAGS=	LDADD="-L${.SYSMK} -lmirmake"
 
 .include <bsd.port.mk>
 
