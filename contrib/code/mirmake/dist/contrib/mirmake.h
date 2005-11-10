@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.15 2005/09/12 22:24:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -176,8 +176,12 @@
 
 #ifdef _MIRMAKE_DEFNS
 __BEGIN_DECLS
+
+#if !defined(BSD) && !defined(__APPLE__)
 size_t strlcat(char *, const char *, size_t);
 size_t strlcpy(char *, const char *, size_t);
+#endif
+
 __END_DECLS
 #endif
 
