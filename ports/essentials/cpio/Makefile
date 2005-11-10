@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cpio/Makefile,v 1.1 2005/09/19 18:17:22 tg Exp $
+# $MirOS: ports/essentials/cpio/Makefile,v 1.2 2005/09/19 19:56:47 tg Exp $
 
 COMMENT=		"MirOS cpio(1), pax(1) and tar(1)"
 CATEGORIES=		essentials
@@ -20,3 +20,5 @@ EXTRACT_CASES+=		*.cpio.gz) ${GZIP_CMD} -dc \
 			    ${FULLDISTDIR}/$$archive | cpio -id ;;
 
 .include <bsd.port.mk>
+
+_CIPHERS+=		cksum

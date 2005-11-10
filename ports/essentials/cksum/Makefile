@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.6 2005/09/06 16:22:26 bsiegert Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.7 2005/09/12 22:45:37 tg Exp $
 
 .if ${.SYSMK} == "/usr/share/mk"
 ERRORS+=		"This port only works with MirMake"
@@ -29,3 +29,5 @@ MAKE_ENV+=		AFLAGS=-DUNDERSCORES
 .endif
 
 .include <bsd.port.mk>
+
+_CIPHERS+=		cksum
