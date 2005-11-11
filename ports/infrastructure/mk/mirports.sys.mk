@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.20 2005/11/10 22:20:47 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.21 2005/11/10 23:45:07 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -70,6 +70,7 @@ LDADD+=			-lbind -ldb
 
 HAS_TIMET64=		No
 NO_SYSTRACE=		not on Interix
+P5ARCH=			${P5SITE}/${MACHINE_ARCH}-${OSname}-thread-multi
 UNZIP=			/usr/contrib/bin/unzip
 CHOWN=			/bin/chown
 _MAKE_COOKIE=		/bin/touch
