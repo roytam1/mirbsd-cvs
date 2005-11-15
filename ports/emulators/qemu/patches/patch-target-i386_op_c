@@ -1,7 +1,7 @@
-$MirOS$
---- target-i386/op.c.orig	Tue May  3 18:52:10 2005
-+++ target-i386/op.c	Tue May  3 18:52:15 2005
-@@ -1527,7 +1527,7 @@ static int compute_c_eflags(void)
+$MirOS: ports/emulators/qemu/patches/patch-target-i386_op_c,v 1.1 2005/05/03 19:30:05 tg Exp $
+--- target-i386/op.c.orig	Sun Sep  4 17:11:09 2005
++++ target-i386/op.c	Tue Nov 15 11:37:45 2005
+@@ -1550,7 +1550,7 @@ static int compute_c_eflags(void)
  }
  
  CCTable cc_table[CC_OP_NB] = {

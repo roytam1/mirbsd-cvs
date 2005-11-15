@@ -1,7 +1,9 @@
-$MirOS$
---- gnu-c99-math.h.orig	Tue May  3 18:03:29 2005
-+++ gnu-c99-math.h	Tue May  3 18:03:29 2005
-@@ -0,0 +1,24 @@
+$MirOS: ports/emulators/qemu/patches/patch-gnu-c99-math_h,v 1.1 2005/05/03 19:30:04 tg Exp $
+--- gnu-c99-math.h.orig	Tue Nov 15 11:37:42 2005
++++ gnu-c99-math.h	Tue Nov 15 11:38:28 2005
+@@ -0,0 +1,26 @@
++/* $MirOS$ */
++
 +#if (defined(__sun__) || defined(__OpenBSD__)) && defined(__GNUC__)
 +
 +/*

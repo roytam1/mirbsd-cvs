@@ -1,6 +1,7 @@
-@comment $MirOS: ports/emulators/qemu/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:56 tg Exp $
+@comment $MirOS: ports/emulators/qemu/pkg/PLIST,v 1.2 2005/05/03 19:30:07 tg Exp $
 bin/qemu
 bin/qemu-img
+bin/qemu-system-mips
 bin/qemu-system-ppc
 bin/qemu-system-sparc
 bin/qemu-system-x86_64
@@ -49,6 +50,7 @@ share/qemu/ppc_rom.bin
 share/qemu/proll.elf
 share/qemu/vgabios-cirrus.bin
 share/qemu/vgabios.bin
+share/qemu/video.x
 @dirrm share/qemu/keymaps
 @dirrm share/qemu
 @dirrm share/doc/qemu

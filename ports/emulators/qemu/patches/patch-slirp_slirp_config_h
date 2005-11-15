@@ -1,6 +1,6 @@
-$MirOS$
---- slirp/slirp_config.h.orig	Wed Apr 27 20:51:43 2005
-+++ slirp/slirp_config.h	Tue May  3 18:07:50 2005
+$MirOS: ports/emulators/qemu/patches/patch-slirp_slirp_config_h,v 1.1 2005/05/03 19:30:05 tg Exp $
+--- slirp/slirp_config.h.orig	Sun Sep  4 17:11:09 2005
++++ slirp/slirp_config.h	Tue Nov 15 11:37:43 2005
 @@ -92,7 +92,7 @@
  #undef BAD_SPRINTF
  
@@ -28,7 +28,7 @@ $MirOS$
  
  /* Define if you have sys/stropts.h */
  #undef HAVE_SYS_STROPTS_H
-@@ -198,7 +198,7 @@
+@@ -197,7 +197,7 @@
  #undef HAVE_GRANTPT
  
  /* Define if you have fchmod */

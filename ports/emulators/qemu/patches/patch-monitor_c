@@ -1,25 +1,25 @@
-$MirOS$
---- monitor.c.orig	Tue May  3 18:36:30 2005
-+++ monitor.c	Tue May  3 18:42:24 2005
-@@ -906,7 +906,7 @@ static term_cmd_t term_cmds[] = {
-       "keys", "send keys to the VM (e.g. 'sendkey ctrl-alt-f1')" },
-     { "system_reset", "", do_system_reset, 
-       "", "reset the system" },
+$MirOS: ports/emulators/qemu/patches/patch-monitor_c,v 1.1 2005/05/03 19:30:05 tg Exp $
+--- monitor.c.orig	Tue Nov 15 11:54:13 2005
++++ monitor.c	Tue Nov 15 12:06:11 2005
+@@ -948,7 +948,7 @@ static term_cmd_t term_cmds[] = {
+       "", "send system power down event" },
+     { "sum", "ii", do_sum, 
+       "addr size", "compute the checksum of a memory region" },
 -    { NULL, NULL, }, 
-+    { NULL, NULL, NULL, NULL, NULL }
++    { NULL, NULL, NULL, NULL, NULL, }, 
  };
  
  static term_cmd_t info_cmds[] = {
-@@ -934,7 +934,7 @@ static term_cmd_t info_cmds[] = {
- #endif
-     { "jit", "", do_info_jit,
+@@ -978,7 +978,7 @@ static term_cmd_t info_cmds[] = {
        "", "show dynamic compiler info", },
+     { "kqemu", "", do_info_kqemu,
+       "", "show kqemu information", },
 -    { NULL, NULL, },
-+    { NULL, NULL, NULL, NULL, NULL }
++    { NULL, NULL, NULL, NULL, NULL, },
  };
  
  /*******************************************************************/
-@@ -1032,170 +1032,170 @@ static MonitorDef monitor_defs[] = {
+@@ -1076,170 +1076,170 @@ static MonitorDef monitor_defs[] = {
  
  #define SEG(name, seg) \
      { name, offsetof(CPUState, segs[seg].selector), NULL, MD_I32 },\
@@ -336,7 +336,7 @@ $MirOS$
 +    { "f31", offsetof(CPUState, fpr[31]), NULL, 0 },
  #endif
 -    { NULL },
-+    { NULL, 0, NULL, 0 }
++    { NULL, 0, NULL, 0 },
  };
  
  static void expr_error(const char *fmt) 

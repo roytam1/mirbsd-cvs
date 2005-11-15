@@ -1,7 +1,7 @@
-$MirOS$
---- hw/ppc_prep.c.orig	Tue May  3 19:02:06 2005
-+++ hw/ppc_prep.c	Tue May  3 19:02:39 2005
-@@ -548,7 +548,7 @@ void ppc_prep_init(int ram_size, int vga
+$MirOS: ports/emulators/qemu/patches/patch-hw_ppc_prep_c,v 1.1 2005/05/03 19:30:05 tg Exp $
+--- hw/ppc_prep.c.orig	Sun Sep  4 17:11:09 2005
++++ hw/ppc_prep.c	Tue Nov 15 12:07:29 2005
+@@ -557,7 +557,7 @@ static void ppc_prep_init(int ram_size, 
          kernel_base = KERNEL_LOAD_ADDR;
          /* now we can load the kernel */
          kernel_size = load_image(kernel_filename, phys_ram_base + kernel_base);
@@ -10,7 +10,7 @@ $MirOS$
              fprintf(stderr, "qemu: could not load kernel '%s'\n", 
                      kernel_filename);
              exit(1);
-@@ -558,7 +558,7 @@ void ppc_prep_init(int ram_size, int vga
+@@ -567,7 +567,7 @@ static void ppc_prep_init(int ram_size, 
              initrd_base = INITRD_LOAD_ADDR;
              initrd_size = load_image(initrd_filename,
                                       phys_ram_base + initrd_base);
@@ -19,3 +19,9 @@ $MirOS$
                  fprintf(stderr, "qemu: could not load initial ram disk '%s'\n", 
                          initrd_filename);
                  exit(1);
+@@ -674,4 +674,5 @@ QEMUMachine prep_machine = {
+     "prep",
+     "PowerPC PREP platform",
+     ppc_prep_init,
++    NULL
+ };

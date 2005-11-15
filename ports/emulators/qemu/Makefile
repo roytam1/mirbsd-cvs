@@ -1,7 +1,12 @@
-# $MirOS: ports/emulators/qemu/Makefile,v 1.1.7.1 2005/03/18 15:45:54 tg Exp $
+# $MirOS: ports/emulators/qemu/Makefile,v 1.2 2005/05/03 19:30:02 tg Exp $
+# $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
+
+# no success on other platforms yet
+ONLY_FOR_PLATFORMS=	MirBSD:*:* \
+			OpenBSD:*:amd64 OpenBSD:*:i386 OpenBSD:*:macppc
 
 COMMENT=		"fast multi-system emulator"
-DISTNAME=		qemu-0.7.0
+DISTNAME=		qemu-0.7.2
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/
 MASTER_SITES=		${HOMEPAGE}
@@ -18,8 +23,18 @@ USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--cc="${CC}" \
 			--make="${GMAKE}" \
-			--ggi-path="${LOCALBASE}" \
+			--interp-prefix="${LOCALBASE}/share/qemu/gnemul-%M" \
 			--extra-cflags="${CFLAGS}" \
-			--extra-ldflags="${LDFLAGS}"
+			--extra-ldflags="${LDFLAGS}" \
+			--enable-adlib \
+			--disable-kqemu
+
+.include <mirports.sys.mk>
+.if (${OStype} == "OpenBSD") && (${MACHINE_ARCH} == "amd64")
+PATCH_LIST=		patch-* misc-*
+.endif
+
+# from OpenBSD - should be tested again...
+COPTS+=			-fno-stack-protector
 
 .include <bsd.port.mk>

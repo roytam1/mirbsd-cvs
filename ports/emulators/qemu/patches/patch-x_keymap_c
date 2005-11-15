@@ -1,7 +1,9 @@
-$MirOS$
---- x_keymap.c.orig	Tue May  3 18:05:57 2005
-+++ x_keymap.c	Tue May  3 18:05:57 2005
-@@ -0,0 +1,96 @@
+$MirOS: ports/emulators/qemu/patches/patch-x_keymap_c,v 1.1 2005/05/03 19:30:06 tg Exp $
+--- x_keymap.c.orig	Tue Nov 15 11:37:45 2005
++++ x_keymap.c	Tue Nov 15 11:38:43 2005
+@@ -0,0 +1,98 @@
++/* $MirOS$ */
++
 +/*
 + * QEMU SDL display driver
 + *

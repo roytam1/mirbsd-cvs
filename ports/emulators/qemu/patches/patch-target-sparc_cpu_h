@@ -1,13 +1,16 @@
-$MirOS$
---- target-sparc/cpu.h.orig	Wed Apr 27 20:51:43 2005
-+++ target-sparc/cpu.h	Tue May  3 18:05:15 2005
-@@ -194,8 +194,7 @@ void cpu_set_cwp(CPUSPARCState *env1, in
- 	cpu_set_cwp(env, _tmp & PSR_CWP & (NWINDOWS - 1));		\
+$MirOS: ports/emulators/qemu/patches/patch-target-sparc_cpu_h,v 1.2 2005/05/03 19:30:05 tg Exp $
+--- target-sparc/cpu.h.orig	Sun Sep  4 17:11:09 2005
++++ target-sparc/cpu.h	Tue Nov 15 11:37:45 2005
+@@ -284,8 +284,12 @@ void cpu_set_cwp(CPUSPARCState *env1, in
      } while (0)
+ #endif
  
--struct siginfo;
--int cpu_sparc_signal_handler(int hostsignum, struct siginfo *info, void *puc);
++#ifdef _BSD
 +int cpu_sparc_signal_handler(int hostsignum, qemu_siginfo *info, void *puc);
++#else
+ struct siginfo;
+ int cpu_sparc_signal_handler(int hostsignum, struct siginfo *info, void *puc);
++#endif
  
- #define TARGET_PAGE_BITS 12 /* 4k */
  #include "cpu-all.h"
+ 
