@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PFRAG-tkinter.no_shared,v 1.1.1.1 2003/12/31 17:38:29 sturm Exp $
 lib/python2.3/lib-tk/Canvas.py
 lib/python2.3/lib-tk/Canvas.pyc

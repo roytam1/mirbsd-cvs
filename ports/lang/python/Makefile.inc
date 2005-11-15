@@ -1,5 +1,7 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.3 2005/07/07 21:22:32 bsiegert Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.4 2005/11/04 14:02:32 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
+
+.include <mirports.sys.mk>
 
 # IMPORTANT!  If you make any changes to the Python ports, be sure
 # to also update files/CHANGES.MirPorts for your change.  This is a
@@ -16,7 +18,7 @@ COMMENT-tests=	"Python test suite"
 COMMENT-tkinter="tk GUI module for Python"
 COMMENT-tools=	"extra tools for Python"
 
-PKGNAME=	python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+PKGNAME=	python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
 DISTNAME=	Python-${VERSION}${PATCHLEVEL}
 CATEGORIES=	lang
 MASTER_SITES=	ftp://ftp.python.org/pub/${PSUBDIR}/ \
@@ -55,6 +57,7 @@ LIB_DEPENDS+=		bz2::archivers/bzip2
 # XXX both PSF and FSF say Python licence is GPL compatible,
 # XXX but I doubt it a little. -mirabile
 LIB_DEPENDS+=		readline.5::devel/libreadline
+CPPFLAGS+=		-I${WRKDIR}/include	# XXX hack, see below
 
 .if defined(PACKAGING)
 #  All subpackages depend on the main python package.
@@ -172,13 +175,14 @@ LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
 FULLPKGNAME=		${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}-0
 .endif
 
-FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
-FULLPKGNAME-gdbm=	python-gdbm-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
-FULLPKGNAME-idle=	python-idle-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
-FULLPKGNAME-mpz=	python-mpz-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
-FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
-FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
-FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}-0
+FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-gdbm=	python-gdbm-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-idle=	python-idle-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-mpz=	python-mpz-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
@@ -192,8 +196,6 @@ THREAD_STACK_SIZE?=	0x20000
 
 REGRESS_TARGET=		test
 
-.include <mirports.sys.mk>
-
 .for _i in ${MACHINE_ARCH} ${ARCH}
 .  if !empty(LP64_PLATFORMS:M${OStype}\:${_i})
 NO64BIT=	\#
@@ -201,9 +203,16 @@ NO64BIT=	\#
 .endfor
 
 .ifdef NO64BIT
-SED_PLIST+=-e '/%%mm%%/d'
+SED_PLIST+=	-e '/%%mm%%/d'
 .else
-SED_PLIST+=-e '/%%mm%%/r${PKGDIR}/PFRAG.mm' -e '//d'
+SED_PLIST+=	-e '/%%mm%%/r${PKGDIR}/PFRAG.mm' -e '//d'
+.endif
+
+.if ${OStype} == "MirBSD"
+NONIS=		\#
+SED_PLIST+=	|sed -e '/^IFNIS:/d'
+.else
+SED_PLIST+=	|sed -e '/^IFNIS:/s///'
 .endif
 
 .if defined(NO_SHARED_LIBS) && ${NO_SHARED_LIBS:U} == YES
@@ -224,9 +233,16 @@ _MD_RELEASE!=	uname -r | tr -d '[/ ]' | sed 's/^[[A-Z]]\.//' | sed 's/\..*//'
 MACHDEP=	${_MD_SYSTEM}${_MD_RELEASE}
 SUBST_VARS+=	MACHDEP
 
+post-extract:
+	# XXX hack
+	mkdir -p ${WRKDIR}/include
+	ln -s ${LOCALBASE}/include/readline ${WRKDIR}/include/
+	# XXX endhack
+
 post-configure:
 	@sed -e 's,@NOSHARED@,${NOSHARED},g'	\
 	     -e 's,@NO64BIT@,${NO64BIT},g'	\
+	     -e 's,@NONIS@,${NONIS},g'		\
 		${FILESDIR}/Setup >${WRKSRC}/Modules/Setup
 .for file in ${SETUP_LOCAL}
 	@sed -e 's,@NOSHARED@,${NOSHARED},g'	\

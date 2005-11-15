@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/python/2.3/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:47:49 tg Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/12/31 17:38:29 sturm Exp $
 %%mm%%
 lib/python2.3/lib-dynload/_csv.so
@@ -29,7 +29,7 @@ lib/python2.3/lib-dynload/itertools.so
 lib/python2.3/lib-dynload/mathmodule.so
 lib/python2.3/lib-dynload/md5module.so
 lib/python2.3/lib-dynload/mmapmodule.so
-lib/python2.3/lib-dynload/nismodule.so
+IFNIS:lib/python2.3/lib-dynload/nismodule.so
 lib/python2.3/lib-dynload/operator.so
 lib/python2.3/lib-dynload/parsermodule.so
 lib/python2.3/lib-dynload/pcre.so
@@ -51,5 +51,5 @@ lib/python2.3/lib-dynload/xreadlinesmodule.so
 lib/python2.3/lib-dynload/xxsubtype.so
 lib/python2.3/lib-dynload/zlibmodule.so
 @lib lib/libpython2.3.so.0.0
-lib/python2.3/config/libpython2.3.so.0.0
+@lib lib/python2.3/config/libpython2.3.so.0.0
 @dirrm lib/python2.3/lib-dynload

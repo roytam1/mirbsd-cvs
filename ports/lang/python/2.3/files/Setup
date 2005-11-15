@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/python/2.3/files/Setup,v 1.2 2005/11/04 14:02:46 tg Exp $
 # $OpenBSD: Setup,v 1.2 2004/12/30 23:45:08 alek Exp $ 
 # -*- makefile -*-
 # The file Setup is used by the makesetup script to construct the files
@@ -217,7 +217,7 @@ crypt cryptmodule.c # -lcrypt	# crypt(3); needs -lcrypt on some systems
 # Some more UNIX dependent modules -- off by default, since these
 # are not supported by all UNIX systems:
 
-nis nismodule.c # -lnsl	# Sun yellow pages -- not everywhere
+@NONIS@nis nismodule.c # -lnsl	# Sun yellow pages -- not everywhere
 termios termios.c	# Steen Lumholt's termios module
 resource resource.c	# Jeremy Hylton's rlimit interface
 
