@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.6 2005/09/14 21:13:09 tg Exp $
+# $MirOS: ports/Makefile,v 1.7 2005/11/09 20:38:48 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -58,7 +58,7 @@ _MANUAL_SUBDIR=	yes
 
 PORTSTOP?=	yes
 
-.if !make(setup)
+.if !make(setup) && !make(nfo)
 .  include <bsd.port.subdir.mk>
 .endif
 .ifndef BSD_OWN_MK
@@ -127,12 +127,22 @@ portupgrade: index
 
 # Yes, this does hardcode /bin/sh and that's correct.
 setup: Setup.sh
+	@echo 'Use "make nfo" to generate documentation!'
+	@sleep 3
 	env CC='${CC}' SHELL=${SHELL} MKSH=${MKSH} \
 	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh
+
+nfo: Setup.sh.nfo
+
+Setup.sh.man: Setup.sh.8
+	${NROFF} -mdoc <$> >$@ || (rm -f $@; false)
+
+Setup.sh.nfo: Setup.sh.man
+	col -b <$> | sed "s!\$$!$$(printf \\r)!" >$@ || (rm -f $@; false)
 
 CVSROOT?=/cvs
 cvsup:
 	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd
 
 .PHONY: mirror-maker index search distfiles-update-locatedb \
-	print-licences print-index portupgrade setup cvsup
+	print-licences print-index portupgrade setup cvsup nfo

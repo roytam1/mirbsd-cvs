@@ -1,4 +1,4 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.1 2005/11/15 16:46:35 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.2 2005/11/15 17:06:19 tg Exp $
 .\"-
 .\" Copyright (c) 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 .\" of this work, even if advised of the possibility of such damage.
 .\"-
 .Dd November 15, 2005
-.Dt Setup.sh 8
+.Dt SETUP.SH 8
 .Os MirPorts\ Framework
 .Sh NAME
 .Nm Setup.sh
@@ -58,11 +58,11 @@ $ . ${LOCALBASE}/db/SetEnv.sh
 % source ${LOCALBASE}/db/SetEnv.csh
 .Ed
 .Pp
-Description of the command line options will be shown further below.
+Description of the command line options is shown further below.
 .Sh ENVIRONMENT
 .Bl -tag -width LD_LIBRARY_PATH
 .It CC
-Set to the C compiler used.
+Set this to the C compiler used.
 .Pp
 Default value: mgcc, gcc (probed), cc (last resort)
 .It DISTDIR
@@ -70,13 +70,13 @@ Path to store downloaded cpio-balls.
 .Pp
 Default value: ${PORTSDIR}/Distfiles
 .It INFOPATH
-Prepended with
+Prepended in SetEnv with
 .Pa ${LOCALBASE}/info .
 .It LD_LIBRARY_PATH
-Prepended with
+Prepended in SetEnv with
 .Pa ${LOCALBASE}/lib .
 .It MANPATH
-Prepended with
+Prepended in SetEnv with
 .Pa ${LOCALBASE}/man .
 .Pp
 Default value:
@@ -103,7 +103,9 @@ ${LOCALBASE}/bin/mksh
 Full command line prefix of
 .Xr nroff 1
 binary or equivalent.
-If unset, MirOS nrcon (from AT&T nroff) is used if found.
+If unset, MirOS nrcon (from
+.Tn AT&T
+nroff) is used if found.
 .Pp
 Default value: /usr/bin/env nroff -Tascii
 .It OPENNT_ROOT
@@ -117,7 +119,8 @@ variable in SetEnv scripts.
 This is usually set by the Interix
 .Pa /etc/profile .
 .It PERL5LIB
-Prepended with the Perl 5 paths within ${LOCALBASE}.
+Prepended in SetEnv with
+.Pa ${LOCALBASE}/libdata/perl5{,/site_perl} .
 .It SFUDIR
 If set, Interix operating system type is assumed.
 .It SHELL
@@ -131,7 +134,7 @@ Set this to
 to prevent an
 .Xr mksh 1
 found but too old from being overwritten.
-Only used for testing, deprecated.
+Unsupported, deprecated.
 .It fetch
 If set, the command line prefix of the fetch programme to use.
 Defaults to Weihenstephan's GNU wget on Interix, any
@@ -176,6 +179,7 @@ Enable debugging mode.
 This calls the Korn shell installation script with
 .Nm mksh
 .Fl x .
+Also, temporary files are not removed on exit.
 .It Fl E Ar sysconfdir
 Set the
 .Ev SYSCONFDIR
@@ -261,7 +265,7 @@ binaries.
 .Pp
 Running
 .Nm
-always overwrites this script.
+overwrites this file.
 .It Pa ${LOCALBASE}/db/SetEnv.make
 This
 .Xr make 1
@@ -272,7 +276,7 @@ Also, some variables have different names here.
 .Pp
 Running
 .Nm
-always overwrites this script.
+overwrites this file.
 .It Pa ${LOCALBASE}/db/SetEnv.sh
 This Bourne Shell script is the equivalent of
 .Pa SetEnv.csh
@@ -281,7 +285,7 @@ for
 .Pp
 Running
 .Nm
-always overwrites this script.
+overwrites this file.
 .It Pa ${LOCALBASE}/db/make.cfg
 Contains installation-wide (as opposed to system-wide)
 configuration for building MirPorts packages.
@@ -334,3 +338,193 @@ CFLAGS etc. use the port.
 Port location:
 none yet
 .Pp
+The
+.Os MirBSD
+version of
+.Xr make 1
+is installed if the system
+.Xr make 1
+is no MirMake or too old.
+If a recent version of MirMake is already found on the
+system or in ${LOCALBASE}/bin, no action is taken, or
+a wrapper is put into ${LOCALBASE}/bin/make so that a
+user can install \(*Ltbsd.port.mk\(*Gt himself.
+.Ss NROFF
+Port location:
+none yet
+.Pp
+If no
+.Pa /usr/bin/nroff
+or
+.Pa ${LOCALBASE}/bin/nroff
+is found (usually the case only on Interix), the
+.Os MirBSD
+version of
+.Tn AT&T
+.Xr nroff 1
+is installed.
+Note that this check is currently only tested on Interix,
+and that, since MirMake is a dependency to build nroff,
+bootstrapping can fail on non-Interix systems without
+either nroff, ditroff or GNU groff installed.
+.Ss MTREE
+Port location:
+none yet
+.Pp
+If
+.Xr mtree 8
+is not being found at
+.Pa /usr/sbin/mtree
+or within
+.Pa ${LOCALBASE}/bin ,
+this programme is installed.
+.Ss PACKAGE TOOLS
+Port location:
+none yet
+.Pp
+The package tools of the MirPorts Framework, namely
+.Xr pkg_add 1 ,
+.Xr pkg_create 1 ,
+.Xr pkg_delete 1 ,
+and
+.Xr pkg_info 1 ,
+are installed as part of the build as well.
+They are upgradable using a port, too.
+.Ss CPIO
+Port location:
+.Pa essentials/cpio
+.Pp
+On Darwin (Mac OSX) and Interix, paxmirabilis aka MirCpio
+is installed because the native archivers lack functionality.
+This programme and all following are actually already
+installed using a MirPort during set up time, too.
+.Ss PATCH
+Port location:
+.Pa essentials/patch
+.Pp
+Interix does not come with
+.Xr patch 1 .
+.Ss CKSUM
+Port location:
+.Pa essentials/cksum
+.Pp
+This port is needed on Interix and Darwin, and optional on
+OpenBSD, to verify file checksums.
+.Ss GNU TEXINFO
+Port location:
+.Pa essentials/texinfo
+.Pp
+This is being pulled in as a build dependency of m4 and wget on Interix.
+.Ss GNU M4
+Port location:
+.Pa lang/m4
+.Pp
+.Tn GNU
+.Xr m4 1
+is installed early on Interix because autoconf depends on it.
+.Ss GNU WGET
+Port location:
+.Pa net/wget
+.Pp
+On Interix, there is no really suitable fetch utility, so this
+beast is being built.
+It pulls in metaauto, autoconf-new (2.59 and up) and help2man.
+.Sh EXAMPLES
+Install the MirPorts Framework natively on MirOS-current:
+.Bd -literal
+$ sudo sh /usr/ports/Setup.sh
+.Ed
+.Pp
+Install the MirPorts Framework as a user on a shell on an OpenBSD box:
+.Bd -literal
+% cd
+% mkdir -p .etc/bin .etc/pkg
+% setenv MKSH ~/.etc/bin/mksh
+% sh mirports/Setup.sh -uel ~/.etc/pkg
+.Ed
+.Sh DIAGNOSTICS
+Most error messages are displayed on stderr, some on stdout.
+Error messages from external utilities are usually retained.
+.Pp
+The bourne shell script
+.Nm
+usually aborts in error cases, but leaves a temporary directory,
+whose name is printed to stderr directly after startup.
+You must delete it manually.
+.Pp
+The korn shell script called later cleans up (unless
+.Fl D
+is given) the temporary directory created by
+.Nm
+in cases of errors and should abort on all errors and corner cases.
+.Sh SEE ALSO
+.Xr cksum 1 ,
+.Xr csh 1 ,
+.Xr fetch 1 ,
+.Xr ftp 1 ,
+.Xr gzsig 1 ,
+.Xr m4 1 ,
+.Xr make 1 ,
+.Xr mksh 1 ,
+.Xr mtree 8 ,
+.Xr nroff 1 ,
+.Xr patch 1 ,
+.Xr pkg_add 1 ,
+.Xr pkg_create 1 ,
+.Xr pkg_delete 1 ,
+.Xr pkg_info 1 ,
+.Xr pkg_update 1 ,
+.Xr sh 1 ,
+.Xr wget 1
+.Sh AUTHORS
+.Nm
+was written by
+.An Thorsten Glaser Aq tg@66h.42h.de .
+The MirPorts Framework is maintained by
+.Aq miros-discuss@MirBSD.org .
+The package tools have been taken over from
+FreeBSD and OpenBSD and are now maintained by
+.An Benny Siegert Aq bsiegert@mirbsd.org .
+.Sh CAVEATS
+Be careful with passing environment variables to
+.Nm
+(even if they are automatically set).
+.Pp
+Running
+.Nm
+more than once overwrites some files and doesn't
+touch some others.
+You must check them manually in any case.
+For upgrading, you should use package tools upgrades
+whenever possible \(em this is only a bootstrapping tool.
+.Pp
+For many tools, upgrade them using packages even after
+bootstrapping, because ports/packages honour ${CC}, ${CFLAGS}
+and stuff like that.
+Also, on Interix, mksh and MirMake are usually built without
+any manual pages being installed during bootstrapping.
+.Sh BUGS
+Probably many.
+Report them to
+.Aq miros-discuss@MirBSD.org .
+There are so many possible scenarios and corner cases, as well
+as incompatibilities, so that some breakage might always occur.
+.Pp
+On Interix,
+.Xr mtree 8
+does not come with the base system.
+It is being used by
+.Nm
+before it's built, though.
+.Pp
+On non-Interix systems without nroff, ditroff or GNU groff,
+the detection whether to build nroff and re-build MirMake
+afterwards is not done, and stuff might break.
+.Pp
+When giving
+.Fl ul
+but omitting
+.Fl e ,
+the SYSCONFDIR is still
+.Pa /etc ,
+although that is not writable.
