@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.4 2005/11/04 14:02:32 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.5 2005/11/15 19:16:56 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -210,9 +210,9 @@ SED_PLIST+=	-e '/%%mm%%/r${PKGDIR}/PFRAG.mm' -e '//d'
 
 .if ${OStype} == "MirBSD"
 NONIS=		\#
-SED_PLIST+=	|sed -e '/^IFNIS:/d'
+SED_PLIST+=	| sed -e '/^IFNIS:/d'
 .else
-SED_PLIST+=	|sed -e '/^IFNIS:/s///'
+SED_PLIST+=	| sed -e '/^IFNIS:/s///'
 .endif
 
 .if defined(NO_SHARED_LIBS) && ${NO_SHARED_LIBS:U} == YES
