@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+.\" $MirOS: ports/Setup.sh.8,v 1.1 2005/11/15 16:46:35 tg Exp $
 .\"-
 .\" Copyright (c) 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -302,3 +302,35 @@ as well as the MirPorts Framework to store all distfiles
 retrieved during installation and package builds, if not overridden by
 .Ev DISTDIR .
 .El
+.Sh INSTALLED SOFTWARE
+During the first-time set-up process,
+.Nm
+installs various software packages in your system.
+All of these (except
+.Xr mksh 1
+in the standard configuration) will be located under
+.Ev LOCALBASE .
+.Pp
+You should not re-run
+.Nm
+to upgrade these pieces of software; instead, use
+.Xr pkg_update 1 .
+.Ss MKSH
+Port location:
+.Pa shells/mksh
+.Pp
+The
+.Os MirBSD
+Korn Shell is always installed if it's not found or too old.
+Currently, at least R24 (2005/08/21) is required.
+A manual page is attempted to be installed into
+.Pa /usr/share/man/cat1/
+or
+.Pa /usr/share/man/man1/
+but failure is not deemed important.
+For a properly installed mksh honouring default COPTS,
+CFLAGS etc. use the port.
+.Ss MIRMAKE
+Port location:
+none yet
+.Pp
