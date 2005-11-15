@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.26 2005/11/10 20:38:10 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.27 2005/11/10 22:20:46 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -39,7 +39,7 @@ function dependdist
 	what=$1
 	#%%BEGIN ^K. sync Setup.sh with setup.ksh %% getfile
 	. $ourpath/infrastructure/install/distinfo.sh
-	cd $ourpath/Distfiles
+	cd $DISTDIR
 	test -r $f_dist || case "$mirror" in
 	/*)	# file
 		test -r $mirror/$f_path && cp $mirror/$f_path .
@@ -107,7 +107,7 @@ function dependdist
 }
 
 
-if [[ $isinterix != @(yes|no) || -z $mirror \
+if [[ $isinterix != @(yes|no) || -z $mirror || -z $DISTDIR \
     || -z $ourpath || -z $tempdir || -z $fetch ]]; then
 	print -u2 ERROR: Do not call this script directly!
 	rm -rf $tempdir
@@ -404,6 +404,7 @@ fi
 
 
 # Write environmental stuff
+DISTDIR=$(readlink -nf $DISTDIR)
 
 cat >$localbase/db/SetEnv.sh <<-EOF
 	LOCALBASE='$localbase'
@@ -478,6 +479,10 @@ EOF
 [[ $MKSH = /bin/mksh ]] || \
     cat >>$localbase/db/SetEnv.make <<-EOF
 	MKSH=		$MKSH
+EOF
+[[ $DISTDIR = $portsdir/Distfiles ]] || \
+    cat >>$localbase/db/SetEnv.make <<-EOF
+	DISTDIR=	$DISTDIR
 EOF
 
 [[ -s $localbase/db/make.cfg ]] && cat >&2 <<-EOF

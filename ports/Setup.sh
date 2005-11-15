@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.14 2005/11/10 13:11:31 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.15 2005/11/10 20:38:09 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -114,11 +114,14 @@ fi
 ourpath=`dirname $0`
 ourpath=`(cd $ourpath && pwd)`
 export ourpath
-mkdir -p $ourpath/Distfiles
+test -z "$DISTDIR" && DISTDIR=$ourpath/Distfiles
+test -d "$DISTDIR" || mkdir -p "$DISTDIR"
+test -d "$DISTDIR" || DISTDIR=$ourpath/Distfiles
+test -d "$DISTDIR" || mkdir -p "$DISTDIR"
 
 # Divine a fetching utility
-fetch=false
-if test $isinterix = yes; then
+test -z "$fetch" && fetch=false
+test x"$fetch" = x"false" && if test $isinterix = yes; then
 	# check for Weihenstephan wget
 	test -f /dev/fs/C/usr/local/wbin/wget.exe && \
 	    fetch="runwin32 c:/usr/local/wbin/wget.exe"
@@ -279,7 +282,7 @@ fi
 what=mksh
 #%%BEGIN ^K. sync Setup.sh with setup.ksh %% getfile
 . $ourpath/infrastructure/install/distinfo.sh
-cd $ourpath/Distfiles
+cd $DISTDIR
 test -r $f_dist || case "$mirror" in
 /*)	# file
 	test -r $mirror/$f_path && cp $mirror/$f_path .

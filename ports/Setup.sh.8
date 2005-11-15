@@ -1,0 +1,304 @@
+.\" $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+.\"-
+.\" Copyright (c) 2005
+.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+.\"
+.\" Licensee is hereby permitted to deal in this work without restric-
+.\" tion, including unlimited rights to use, publicly perform, modify,
+.\" merge, distribute, sell, give away or sublicence, provided all co-
+.\" pyright notices above, these terms and the disclaimer are retained
+.\" in all redistributions or reproduced in accompanying documentation
+.\" or other materials provided with binary redistributions.
+.\"
+.\" All advertising materials mentioning features or use of this soft-
+.\" ware must display the following acknowledgement:
+.\"	This product includes material provided by Thorsten Glaser.
+.\"
+.\" Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+.\" any kind, expressed or implied, to the maximum extent permitted by
+.\" applicable law, but with the warranty of being written without ma-
+.\" licious intent or gross negligence; in no event shall licensor, an
+.\" author or contributor be held liable for any damage, direct, indi-
+.\" rect or other, however caused, arising in any way out of the usage
+.\" of this work, even if advised of the possibility of such damage.
+.\"-
+.Dd November 15, 2005
+.Dt Setup.sh 8
+.Os MirPorts\ Framework
+.Sh NAME
+.Nm Setup.sh
+.Nd first-time installation of MirPorts Framework
+.Sh SYNOPSIS
+.Nm
+.Op Fl Di
+.Oo
+. Fl u |
+. Fl U Ar user Ns Op Ar :group
+.Oc
+.Op Fl e | Fl E Ar sysconfdir
+.Op Fl l Ar localbase
+.Op Fl X Ar xfbase
+.Op Ar mirror
+.Sh DESCRIPTION
+The
+.Nm
+bourne shell script searches for an installed
+.Xr mksh 1
+and invokes the MirPorts Framework set-up programme with it.
+If no suitable
+.Xr mksh 1
+version is found, the current version is fetched, built and installed
+for bootstrapping purposes.
+During installation, the environment is set up, various programmes are
+installed, and several files are generated (see below).
+To use the MirPorts Framework after installation, execute either of the
+following two commands, depending on your user shell:
+.Bd -literal
+$ . ${LOCALBASE}/db/SetEnv.sh
+% source ${LOCALBASE}/db/SetEnv.csh
+.Ed
+.Pp
+Description of the command line options will be shown further below.
+.Sh ENVIRONMENT
+.Bl -tag -width LD_LIBRARY_PATH
+.It CC
+Set to the C compiler used.
+.Pp
+Default value: mgcc, gcc (probed), cc (last resort)
+.It DISTDIR
+Path to store downloaded cpio-balls.
+.Pp
+Default value: ${PORTSDIR}/Distfiles
+.It INFOPATH
+Prepended with
+.Pa ${LOCALBASE}/info .
+.It LD_LIBRARY_PATH
+Prepended with
+.Pa ${LOCALBASE}/lib .
+.It MANPATH
+Prepended with
+.Pa ${LOCALBASE}/man .
+.Pp
+Default value:
+.Li ${LOCALBASE}/man:/usr/local/man:/usr/share/man:/usr/X11R6/man
+.It MKSH
+Alternative location of
+.Xr mksh 1
+binary to use for installation, hard-code into
+.Xr make 1 ,
+and several other places, including, but not limited to, packages.
+This must be a single file which does not need to exist.
+If it does not exist, the
+.Xr mksh 1
+built is installed there.
+The directory it is located in, however, must exist.
+.Pp
+.Bl -tag -compact -width "Suggested value:"
+.It Default value:
+/bin/mksh
+.It Suggested value:
+${LOCALBASE}/bin/mksh
+.El
+.It NROFF
+Full command line prefix of
+.Xr nroff 1
+binary or equivalent.
+If unset, MirOS nrcon (from AT&T nroff) is used if found.
+.Pp
+Default value: /usr/bin/env nroff -Tascii
+.It OPENNT_ROOT
+If set, Interix operating system type is assumed.
+.It OVERRIDE_MKSH
+Used only internally for bootstrapping on Interix.
+.It PATH_WINDOWS
+Included in modified
+.Ev PATH
+variable in SetEnv scripts.
+This is usually set by the Interix
+.Pa /etc/profile .
+.It PERL5LIB
+Prepended with the Perl 5 paths within ${LOCALBASE}.
+.It SFUDIR
+If set, Interix operating system type is assumed.
+.It SHELL
+The user's default shell.
+Used as a candidate during search for
+.Xr mksh 1 .
+This can be the C Shell, too.
+.It UPGRADE
+Set this to
+.Dq no
+to prevent an
+.Xr mksh 1
+found but too old from being overwritten.
+Only used for testing, deprecated.
+.It fetch
+If set, the command line prefix of the fetch programme to use.
+Defaults to Weihenstephan's GNU wget on Interix, any
+.Xr wget 1 ,
+.Xr ftp 1 ,
+or
+.Xr fetch 1
+programme found in
+.Pa $localbase/bin
+(see below),
+.Pa /usr/mpkg/bin ,
+.Pa /usr/local/bin ,
+.Pa /bin ,
+or
+.Pa /usr/bin
+else.
+.It localbase
+Setting this environment variable has almost the same functionality as the
+.Fl l
+option, however, it is being used much earlier in the process, such as
+.Ev PATH
+manipulation during
+.Xr mksh 1
+build, and divining a fetch utility (see above).
+This option is almost unsupported, and you ought to use the
+.Fl l
+option as well if you employ setting this variable.
+If you set these two to different values, you have lost.
+.It xfbase
+This does for
+.Fl X
+what
+.Ev localbase
+does for
+.Fl l .
+The same warnings apply.
+.El
+.Sh PARAMETERS
+.Bl -tag -width "-U user[:group]"
+.It Fl D
+Enable debugging mode.
+This calls the Korn shell installation script with
+.Nm mksh
+.Fl x .
+.It Fl E Ar sysconfdir
+Set the
+.Ev SYSCONFDIR
+variable to its argument.
+.Pp
+Default:
+.Pa /etc
+.It Fl e
+This is the same as
+.Fl E Ar ${LOCALBASE}/etc .
+.It Fl i
+Used internally for bootstrapping on Interix only.
+.It Fl l Ar localbase
+Set the
+.Ev LOCALBASE
+variable to its argument.
+.Pp
+Default:
+.Pa /usr/mpkg
+.It Fl U Ar user Ns Op Ar :group
+Use its arguments as
+.Ev BINOWN
+and
+.Ev BINGRP
+to determine default ownership of files being installed.
+.Pp
+Default: root:bin
+.It Fl u
+This is the same as calling
+.Fl U
+with your current UID and GID as parameters.
+This option is the default behaviour on Interix,
+and necessary to use the MirPorts Framework as non-root
+user (together with
+.Fl e
+or similar).
+.It Fl X Ar xfbase
+Set the
+.Ev X11BASE
+to its argument.
+.Pp
+Default:
+.Pa ${LOCALBASE}/X11
+if found,
+.Pa /usr/X11R6
+else.
+.It Ar mirror
+Set this to the MirOS Distribution Server mirror you'd like to use
+for retrieving files installed during the first-time set-up process.
+.Pp
+If this starts with a
+.Dq / ,
+it is interpreted as an absolute pathname of a directory containing
+the needed cpio-balls, else, it is read as an HTTP (or FTP) URI and
+used in conjunction with the ${fetch} programme.
+.Pp
+Default:
+.Pa http://mirbsd.mirsolutions.de/MirOS/dist/
+.El
+.Sh FILES
+.Bl -tag -width "${LOCALBASE}/db/shareddirs.db"
+.It Pa /bin/mksh
+Default location of
+.Xr mksh 1
+to use.
+.Pp
+This file is overwritten if it's too old, and the
+.Ev MKSH
+environment variable is not set.
+.It Pa /etc/make.cfg
+System-wide
+.Xr make 1
+configuration, usually included if found.
+.It Pa /etc/mk.conf
+Legacy system-wide configuration, included if found.
+.It Pa ${LOCALBASE}/db/SetEnv.csh
+Sourcing this
+.Xr csh 1
+script sets up the necessary environment for
+building and installing packages using the
+MirPorts Framework, and running the installed
+binaries.
+.Pp
+Running
+.Nm
+always overwrites this script.
+.It Pa ${LOCALBASE}/db/SetEnv.make
+This
+.Xr make 1
+script contains the same definitions as the two
+shell SetEnv scripts, to the extent duplicating
+them in the MirMake variable space makes sense.
+Also, some variables have different names here.
+.Pp
+Running
+.Nm
+always overwrites this script.
+.It Pa ${LOCALBASE}/db/SetEnv.sh
+This Bourne Shell script is the equivalent of
+.Pa SetEnv.csh
+for
+.Xr sh 1 .
+.Pp
+Running
+.Nm
+always overwrites this script.
+.It Pa ${LOCALBASE}/db/make.cfg
+Contains installation-wide (as opposed to system-wide)
+configuration for building MirPorts packages.
+.Pp
+This script is generated by
+.Nm
+but never overwritten.
+.It Pa ${LOCALBASE}/db/pkg/
+This directory contains the package database.
+.It Pa ${LOCALBASE}/db/shareddirs.db
+This file keeps a list of all directories created using
+.Xr pkg_add 1
+during package installation, and their reference count.
+.It Pa ${PORTSDIR}/Distfiles/
+This directory will be used by
+.Nm
+as well as the MirPorts Framework to store all distfiles
+retrieved during installation and package builds, if not overridden by
+.Ev DISTDIR .
+.El
