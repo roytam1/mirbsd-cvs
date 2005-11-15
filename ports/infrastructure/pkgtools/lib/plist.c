@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.2 2005/07/18 20:02:00 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.2 2005/07/18 20:02:00 bsiegert Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -300,7 +300,7 @@ read_plist(package_t *pkg, FILE *fp)
 	if (pline[0] == CMD_CHAR) {
 	    cmd = plist_cmd(pline + 1, &cp);
 	    if (cmd == -1) {
-		pwarnx("Unrecognised PLIST command `%s'", pline);
+		pwarnx("Unrecognised PLIST command '%s'", pline);
 		continue;
 	    }
 	    if (*cp == '\0')
@@ -383,13 +383,13 @@ delete_package(bool ign_err, bool nukedirs, bool remove_config,
 	    /*FALLTHRU*/
 	case PLIST_UNEXEC:
 	    if (!format_cmd(tmp, sizeof(tmp), p->name, Where, last_file)) {
-	    	pwarnx("unexec command `%s' could not expand", p->name);
+	    	pwarnx("unexec command '%s' could not expand", p->name);
 		fail = -1;
 	    } else {
 		if (Verbose)
-		    printf("Execute `%s'\n", tmp);
+		    printf("Execute '%s'\n", tmp);
 		if (!Fake && system(tmp)) {
-		    pwarnx("unexec command for `%s' failed", tmp);
+		    pwarnx("unexec command for '%s' failed", tmp);
 		    fail = -1;
 		}
 	    }
@@ -403,7 +403,7 @@ delete_package(bool ign_err, bool nukedirs, bool remove_config,
 	    last_file = p->name;
 	    (void) snprintf(tmp, sizeof(tmp), "%s/%s", Where, p->name);
 	    if (isdir(tmp)) {
-		pwarnx("attempting to delete directory `%s' as a file\n"
+		pwarnx("attempting to delete directory '%s' as a file\n"
 	   "this packing list is incorrect - ignoring delete request", tmp);
 	    }
 	    else {
@@ -520,10 +520,10 @@ process_dirrm(plist_t *p, bool ign_err, int *usedb, RCDB *ourdb,
     (void) snprintf(tmp, sizeof(tmp), "%s/%s", Where, p->name);
     if (!isdir(tmp)) {
 	if (fexists(tmp)) {
-	    pwarnx("attempting to delete file `%s' as a directory\n"
+	    pwarnx("attempting to delete file '%s' as a directory\n"
 	       "this packing list is incorrect - ignoring delete request", tmp);
 	} else {
-	    pwarnx("attempting to delete non-existent directory `%s'\n"
+	    pwarnx("attempting to delete non-existent directory '%s'\n"
 	       "this packing list is incorrect - ignoring delete request", tmp);
 	}
     } else {
@@ -554,7 +554,7 @@ delete_hierarchy(char *dir, bool ign_err, bool nukedirs)
     cp1 = cp2 = dir;
     if (!fexists(dir)) {
 	if (!ign_err)
-	    pwarnx("%s `%s' doesn't really exist",
+	    pwarnx("%s '%s' doesn't really exist",
 		isdir(dir) ? "directory" : "file", dir);
 	return !ign_err;
     }
@@ -580,7 +580,7 @@ delete_hierarchy(char *dir, bool ign_err, bool nukedirs)
 	    return 0;
 	if (RMDIR(dir) && !ign_err) {
 	    if (!fexists(dir))
-		pwarnx("directory `%s' doesn't really exist", dir);
+		pwarnx("directory '%s' doesn't really exist", dir);
 	    else
 		return 1;
 	}

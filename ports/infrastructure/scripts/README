@@ -13,7 +13,7 @@ build/find-build-order
 	outputs a list of stuff that actually needs to be built to obtain those
 	packages, in a suitable order for removing backward dependencies.
 
-	Optional arg `build' or `run' to take only build or run dependencies
+	Optional arg 'build' or 'run' to take only build or run dependencies
 	into account.
 
 	Major defect: tsort is not a stable sort, so find-build-order will

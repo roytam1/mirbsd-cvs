@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.2 2005/07/05 18:50:21 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -149,16 +149,17 @@ README.html:
 	@>$@.tmp
 .for d in ${_FULLSUBDIR}
 	@dir=$d; ${_flavour_fragment}; \
-	name=`eval $$toset ${MAKE} _print-packagename`; \
+	name=$$(eval $$toset ${MAKE} _print-packagename); \
 	case $$name in \
 		README) comment='';; \
-		*) comment=`eval $$toset ${MAKE} show=_COMMENT|sed -e 's,^",,' -e 's,"$$,,' |${HTMLIFY}`;; \
+		*) comment=$$(eval $$toset ${MAKE} show=_COMMENT \
+		    | sed -e 's,^",,' -e 's,"$$,,' | ${HTMLIFY});; \
 	esac; \
 	cd ${.CURDIR}; \
 	echo "<dt><a href=\"${PKGDEPTH}$$dir/$$name.html\">$d</a><dd>$$comment" >>$@.tmp
 .endfor
 	@cat ${README} | \
-		sed -e 's%%CATEGORY%%'`echo ${.CURDIR} | sed -e 's.*/\([^/]*\)$$\1'`'g' \
+		sed -e 's%%CATEGORY%%'$$(echo ${.CURDIR} | sed -e 's.*/\([^/]*\)$$\1')'g' \
 			-e '/%%DESCR%%/r${.CURDIR}/pkg/DESCR' -e '//d' \
 			-e '/%%SUBDIR%%/r$@.tmp' -e '//d' \
 		> $@

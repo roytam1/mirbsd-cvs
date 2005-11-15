@@ -24,7 +24,7 @@
 # SUCH DAMAGE.
 
 # This critter recognizes context switch changes in the ports tree
-# and logs its output accordingly, as a kind of `super-tee'
+# and logs its output accordingly, as a kind of 'super-tee'
 
 {
 package Logger;
@@ -102,7 +102,7 @@ Registering installation)\s+for\s+(.*)|\
 Returning to build of\s+(.*)|Installing\s+(.*?)\s+from)/o) {
 		$ncontext = "$1$2$3"; 	# XXX only one alternative matches
 		chomp $ncontext;
-		# register to `master' context.
+		# register to 'master' context.
 		$ncontext=$1 if $ncontext =~ m/^.*\[(.*?)\]$/;
 		if ($ncontext ne $context) {
 			$context = $ncontext;

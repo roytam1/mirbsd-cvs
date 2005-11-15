@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.3 2005/08/08 19:25:18 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.3 2005/08/08 19:25:18 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -207,7 +207,7 @@ alternate_match(const char *pattern, const char *pkg)
 		}
 	}
 	if (cnt != 0) {
-		pwarnx("Malformed alternate `%s'", pattern);
+		pwarnx("Malformed alternate '%s'", pattern);
 		return 1;
 	}
 	for (found = 0, cp = sep + 1; *sep != '}'; cp = sep + 1) {

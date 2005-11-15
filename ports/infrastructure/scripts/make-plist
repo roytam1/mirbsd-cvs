@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS: ports/infrastructure/scripts/make-plist,v 1.8 2005/11/10 22:51:00 bsiegert Exp $
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.9 2005/11/11 23:17:05 bsiegert Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -424,7 +424,7 @@ find(
 		}
 	}, $destdir);
 
-# recursive traversal: mark specific `info' dirs, `ldconfig' dirs,
+# recursive traversal: mark specific 'info' dirs, 'ldconfig' dirs,
 # and potentially modified dirs
 
 find(

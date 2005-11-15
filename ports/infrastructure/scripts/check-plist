@@ -37,7 +37,7 @@ fi
 initial=$1
 case "$initial" in 
     "/*");; 
-    *)initial=`pwd`"/$initial";;
+    *)initial=$(pwd)"/$initial";;
 esac
 depends="$initial.depends"
 list="$initial.dirs"

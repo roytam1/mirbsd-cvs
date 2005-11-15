@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.1.7.1.2.1 2005/09/11 01:05:44 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.3 2005/09/12 22:53:23 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/23 09:14:43 tedu Exp $	*/
 
 /* This is MirPorts pkg_install, based on:
@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.1.7.1.2.1 2005/09/11 01:05:44 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.3 2005/09/12 22:53:23 tg Exp $");
 
 static char    *Home;
 
@@ -128,7 +128,7 @@ pkg_do(char *pkg)
 installed:
 	{
 		if (glob_package(log_dir, sizeof(log_dir), pkg) < 1) {
-			pwarnx("can't find package `%s' installed or in a file!", pkg);
+			pwarnx("can't find package '%s' installed or in a file!", pkg);
 			return 1;
 		}
 		if (chdir(log_dir) == -1) {

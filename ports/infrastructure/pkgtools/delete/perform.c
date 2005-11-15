@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.4 2005/09/12 22:53:22 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.5 2005/09/19 19:30:05 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.4 2005/09/12 22:53:22 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.5 2005/09/19 19:30:05 bsiegert Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -160,7 +160,7 @@ pkg_do(char *pkg)
 		fprintf(stderr, "%s", buf);
 	    fclose(cfile);
 	} else
-	    pwarnx("cannot open requirements file `%s'", REQUIRED_BY_FNAME);
+	    pwarnx("cannot open requirements file '%s'", REQUIRED_BY_FNAME);
 	if (!Force)
 	    return 1;
     }
@@ -231,7 +231,7 @@ pkg_do(char *pkg)
 	if (p->type != PLIST_PKGDEP)
 	    continue;
 	if (Verbose)
-	    printf("Attempting to remove dependency on package `%s'\n", p->name);
+	    printf("Attempting to remove dependency on package '%s'\n", p->name);
 	if (!Fake)
 	    findmatchingname(dbdir, p->name, undepend, pkg, 0);
     }
@@ -273,21 +273,21 @@ undepend(const char *deppkgname, char *pkg2delname,
 	     deppkgname, REQUIRED_BY_FNAME);
      fp = fopen(fname, "r");
      if (fp == NULL) {
-	 pwarnx("couldn't open dependency file `%s'", fname);
+	 pwarnx("couldn't open dependency file '%s'", fname);
 	 return 0;
      }
      (void) snprintf(ftmp, sizeof(ftmp), "%s.XXXXXXXXXX", fname);
      s = mkstemp(ftmp);
      if (s == -1) {
 	 fclose(fp);
-	 pwarnx("couldn't open temp file `%s'", ftmp);
+	 pwarnx("couldn't open temp file '%s'", ftmp);
 	 return 0;
      }
      fpwr = fdopen(s, "w");
      if (fpwr == NULL) {
 	 close(s);
 	 fclose(fp);
-	 pwarnx("couldn't fdopen temp file `%s'", ftmp);
+	 pwarnx("couldn't fdopen temp file '%s'", ftmp);
 	 remove(ftmp);
 	 return 0;
      }
@@ -299,18 +299,18 @@ undepend(const char *deppkgname, char *pkg2delname,
      }
      (void) fclose(fp);
      if (fchmod(s, 0644) == -1) {
-	 pwarnx("error changing permission of temp file `%s'", ftmp);
+	 pwarnx("error changing permission of temp file '%s'", ftmp);
 	 fclose(fpwr);
 	 remove(ftmp);
 	 return 0;
      }
      if (fclose(fpwr) == EOF) {
-	 pwarnx("error closing temp file `%s'", ftmp);
+	 pwarnx("error closing temp file '%s'", ftmp);
 	 remove(ftmp);
 	 return 0;
      }
      if (rename(ftmp, fname) == -1)
-	 pwarnx("error renaming `%s' to `%s'", ftmp, fname);
+	 pwarnx("error renaming '%s' to '%s'", ftmp, fname);
      remove(ftmp);			/* just in case */
 
      return 0;

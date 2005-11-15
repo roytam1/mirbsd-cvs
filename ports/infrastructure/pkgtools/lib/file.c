@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.4 2005/09/12 22:53:24 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.5 2005/09/12 22:59:55 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <glob.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.4 2005/09/12 22:53:24 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.5 2005/09/12 22:59:55 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -394,13 +394,13 @@ fileGetURL(char *base, char *spec)
 	strlcpy(fname, spec, sizeof(fname));
     cp = fileURLHost(fname, host, sizeof(host));
     if (!*cp) {
-	pwarnx("URL `%s' has bad host part!", fname);
+	pwarnx("URL '%s' has bad host part!", fname);
 	return NULL;
     }
 
     cp = fileURLFilename(fname, file, sizeof(fname));
     if (!*cp) {
-	pwarnx("URL `%s' has bad filename part!", fname);
+	pwarnx("URL '%s' has bad filename part!", fname);
 	return NULL;
     }
 

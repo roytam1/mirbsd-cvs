@@ -14,7 +14,7 @@
 #
 #  Bad files:		files that must NOT be in a distribution
 #			directory.  These are listed in the form
-#			of a shell `mv -f xxx ../licensed' command so
+#			of a shell 'mv -f xxx ../licensed' command so
 #			they can be fed to the shell (after manual
 #			verification) to move them into a directory
 #			that will not be copied to any CD-ROM.
@@ -33,7 +33,7 @@ LICENCE=${PORTSDIR:-/usr/ports}/LICENSE
 
 # Our name and a function to spit out the usage.  Exit.
 #
-prog=`basename $0`
+prog=$(basename $0)
 usage () {
     if [ ! -z "$1" ]; then
 	echo "$prog: $1"
@@ -55,7 +55,7 @@ else
     usage
 fi
 
-# This awk script matches the license file against an `ls' of the given
+# This awk script matches the license file against an 'ls' of the given
 # distribution directory and spits instructions out to stdout.
 #
 /bin/ls $DIST |
