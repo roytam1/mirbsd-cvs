@@ -1,4 +1,4 @@
-# $MirOS: ports/net/BitTorrent/Makefile,v 1.1.7.1 2005/03/18 15:47:58 tg Exp $
+# $MirOS: ports/net/BitTorrent/Makefile,v 1.2 2005/08/21 11:49:35 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/15 03:41:14 jolan Exp $
 
 COMMENT=	"cooperative file distribution system implemented in Python"
@@ -17,9 +17,10 @@ PERMIT_PACKAGE_FTP=	Yes
 MODULES=	lang/python
 
 post-configure:
-	@perl -pi -e \
-	    's,/usr/bin/env python,/usr/bin/env python${MODPY_VERSION},g' \
-	    ${WRKBUILD}/bt*.py
+	for f in ${WRKBUILD}/bt*.py; do \
+		print '%g#/usr/bin/env python#s##/usr/bin/env' \
+		    'python${MODPY_VERSION}#g\nwq' | ed -s $$f; \
+	done
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/BitTorrent
