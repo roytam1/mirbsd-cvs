@@ -1,4 +1,5 @@
-@comment $MirOS$
+@comment $MirOS: ports/essentials/cpio/pkg/PLIST,v 1.1 2005/09/19 18:17:23 tg Exp $
+@option base-package
 bin/cpio
 bin/pax
 bin/tar
