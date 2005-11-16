@@ -1,7 +1,21 @@
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.10 2005/08/20 12:34:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.11 2005/09/23 10:36:52 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
+
+<li>23.09.2005<br />New MirMake; MirPorts work again on Darwin; I18N/UTF-8
+	work on libc has been started.</li>
+
+<li>18.09.2005<br />A new version of MirMake has been released; test it on
+	as many platforms as you can please.<br />Development slowed down,
+	mostly due to influenza, also studying work increases. Sorry.</li>
+
+<li>12.09.2005<br />
+	The MirPorts Framework now can be installed as user too. The newly
+	written infrastructure is active; Support for Darwin, OpenBSD and,
+	eventually, Interix will make it into the framework the next days.
+	Along with this, new versions of the Mir* tools have been released
+	(gzsig'd as usual).</li>
 
 <li>20.08.2005<br />
 	The MirPorts Framework now installs into <tt>/usr/mpkg</tt> on all
