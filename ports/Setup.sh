@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.15 2005/11/10 20:38:09 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.16 2005/11/15 16:46:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -118,6 +118,7 @@ test -z "$DISTDIR" && DISTDIR=$ourpath/Distfiles
 test -d "$DISTDIR" || mkdir -p "$DISTDIR"
 test -d "$DISTDIR" || DISTDIR=$ourpath/Distfiles
 test -d "$DISTDIR" || mkdir -p "$DISTDIR"
+export DISTDIR
 
 # Divine a fetching utility
 test -z "$fetch" && fetch=false
