@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.27 2005/11/10 22:20:46 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.28 2005/11/15 16:46:36 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -523,7 +523,7 @@ if [[ ! -s $localbase/db/make.cfg ]]; then
 fi
 
 cd $portsdir/infrastructure/pkgtools
-export LOCALBASE=$localbase
+export LOCALBASE=$localbase PORTSDIR=$portsdir
 set -e
 make cleandir
 make obj
