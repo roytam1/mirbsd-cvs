@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.41 2005/09/13 11:30:41 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.42 2005/11/10 22:55:38 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -546,7 +546,12 @@ else
 
   if test "X$echo" = Xecho; then
     # We didn't find a better echo, so look for alternatives.
-    if test "X`(print -r '\t') 2>/dev/null`" = 'X\t' &&
+    if test "X`(print -r -- '\t') 2>/dev/null`" = 'X\t' &&
+       echo_testing_string=`(print -r -- "$echo_test_string") 2>/dev/null` &&
+       test "X$echo_testing_string" = "X$echo_test_string"; then
+      # This shell has a builtin mksh-style print -r that does the trick.
+      echo='print -r --'
+    elif test "X`(print -r '\t') 2>/dev/null`" = 'X\t' &&
        echo_testing_string=`(print -r "$echo_test_string") 2>/dev/null` &&
        test "X$echo_testing_string" = "X$echo_test_string"; then
       # This shell has a builtin print -r that does the trick.
@@ -891,10 +896,12 @@ AC_CACHE_VAL([lt_cv_sys_max_cmd_len], [dnl
     lt_cv_sys_max_cmd_len=`expr $lt_cv_sys_max_cmd_len \/ 4`
     lt_cv_sys_max_cmd_len=`expr $lt_cv_sys_max_cmd_len \* 3`
     ;;
+
   interix*)
     # We know the value 262144 and hardcode it with a safety zone (like BSD)
     lt_cv_sys_max_cmd_len=196608
     ;;
+
   osf*)
     # Dr. Hans Ekkehard Plesser reports seeing a kernel panic running configure
     # due to this test when exec_disable_arg_limit is 1 on Tru64. It is not
@@ -1637,7 +1644,7 @@ interix3*)
   soname_spec='${libname}${release}${shared_ext}$major'
   dynamic_linker='Interix 3.x GNU ld.so.1 (PE, like ELF)'
   shlibpath_var=LD_LIBRARY_PATH
-  shlibpath_overrides_runpath=yes
+  shlibpath_overrides_runpath=no
   hardcode_into_libs=yes
   ;;
 
@@ -2620,13 +2627,13 @@ esac
 # -----------------------------------
 # sets LIBLTDL to the link flags for the libltdl convenience library and
 # LTDLINCL to the include flags for the libltdl header and adds
-# --enable-ltdl-convenience to the configure arguments.  Note that LIBLTDL
-# and LTDLINCL are not AC_SUBSTed, nor is AC_CONFIG_SUBDIRS called.  If
-# DIRECTORY is not provided, it is assumed to be 'libltdl'.  LIBLTDL will
-# be prefixed with '${top_builddir}/' and LTDLINCL will be prefixed with
-# '${top_srcdir}/' (note the single quotes!).  If your package is not
-# flat and you're not using automake, define top_builddir and
-# top_srcdir appropriately in the Makefiles.
+# --enable-ltdl-convenience to the configure arguments.  Note that
+# AC_CONFIG_SUBDIRS is not called here.  If DIRECTORY is not provided,
+# it is assumed to be 'libltdl'.  LIBLTDL will be prefixed with
+# '${top_builddir}/' and LTDLINCL will be prefixed with '${top_srcdir}/'
+# (note the single quotes!).  If your package is not flat and you're not
+# using automake, define top_builddir and top_srcdir appropriately in
+# the Makefiles.
 AC_DEFUN([AC_LIBLTDL_CONVENIENCE],
 [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
   case $enable_ltdl_convenience in
@@ -2645,13 +2652,13 @@ AC_DEFUN([AC_LIBLTDL_CONVENIENCE],
 # -----------------------------------
 # sets LIBLTDL to the link flags for the libltdl installable library and
 # LTDLINCL to the include flags for the libltdl header and adds
-# --enable-ltdl-install to the configure arguments.  Note that LIBLTDL
-# and LTDLINCL are not AC_SUBSTed, nor is AC_CONFIG_SUBDIRS called.  If
-# DIRECTORY is not provided and an installed libltdl is not found, it is
-# assumed to be 'libltdl'.  LIBLTDL will be prefixed with '${top_builddir}/'
-# and LTDLINCL will be prefixed with '${top_srcdir}/' (note the single
-# quotes!).  If your package is not flat and you're not using automake,
-# define top_builddir and top_srcdir appropriately in the Makefiles.
+# --enable-ltdl-install to the configure arguments.  Note that
+# AC_CONFIG_SUBDIRS is not called here.  If DIRECTORY is not provided,
+# and an installed libltdl is not found, it is assumed to be 'libltdl'.
+# LIBLTDL will be prefixed with '${top_builddir}/'# and LTDLINCL with
+# '${top_srcdir}/' (note the single quotes!).  If your package is not
+# flat and you're not using automake, define top_builddir and top_srcdir
+# appropriately in the Makefiles.
 # In the future, this macro may have to be called after AC_PROG_LIBTOOL.
 AC_DEFUN([AC_LIBLTDL_INSTALLABLE],
 [AC_BEFORE([$0],[AC_LIBTOOL_SETUP])dnl
@@ -3378,13 +3385,16 @@ case $host_os in
     esac
     ;;
   interix3*)
+    _LT_AC_TAGVAR(hardcode_direct, $1)=yes
+    _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
+    _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
+    _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
     # Hack: On Interix 3.x, we cannot compile PIC because of a broken gcc.
     # Instead, shared libraries are loaded at an image base (0x10000000 by
     # default) and relocated if they conflict, which is a slow very memory
     # consuming and fragmenting process.  To avoid this, we pick a random,
     # 256 KiB-aligned image base between 0x50000000 and 0x6FFC0000 at link
-    # time.  Moving up from 0x10000000 also allows more sbrk(2) space.  It
-    # is ksh-specific code, but on Interix, the system /bin/sh is a pdksh.
+    # time.  Moving up from 0x10000000 also allows more sbrk(2) space.
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--image-base,`expr ${RANDOM-$$} % 4096 / 2 \* 262144 + 1342177280` -o $lib'
     _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.expsym && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.expsym ${wl}--image-base,`expr ${RANDOM-$$} % 4096 / 2 \* 262144 + 1342177280` -o $lib'
     ;;
@@ -3968,16 +3978,6 @@ if AC_TRY_EVAL(ac_compile); then
     esac
   done
 
-  case "$host_os" in
-  interix3*)
-    # Interix 3.x installs completely hosed .la files for C++, so rather
-    # than hack all around it, let's just trust "g++" to DTRT.
-    predep_objects_CXX=
-    postdep_objects_CXX=
-    postdeps_CXX=
-    ;;
-  esac
-
   # Clean up.
   rm -f a.out a.exe
 else
@@ -3989,9 +3989,20 @@ $rm -f confest.$objext
 # PORTME: override above test on systems where it is broken
 ifelse([$1],[CXX],
 [case $host_os in
+interix3*)
+  # Interix 3.5 installs completely hosed .la files for C++, so rather than
+  # hack all around it, let's just trust "g++" to DTRT.
+  _LT_AC_TAGVAR(predep_objects,$1)=
+  _LT_AC_TAGVAR(postdep_objects,$1)=
+  _LT_AC_TAGVAR(postdeps,$1)=
+  ;;
+
 solaris*)
   case $cc_basename in
   CC*)
+    # Adding this requires a known-good setup of shared libraries for
+    # Sun compiler versions before 5.6, else PIC objects from an old
+    # archive will be linked into the output, leading to subtle bugs.
     _LT_AC_TAGVAR(postdeps,$1)='-lCstd -lCrun'
     ;;
   esac
@@ -5061,10 +5072,8 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
 	esac
 	;;
       interix*)
-	# This is not gcc, but c89, which is MS Visual C++
-	# We do not support c89 in MirPorts, so for GNU Libtool
-	# special handling is needed. c89 does not support
-	# generation of shared libraries at all.
+	# This is c89, which is MS Visual C++ (no shared libs)
+	# Anyone wants to do a port? (Not for MirPorts though.)
 	;;
       irix5* | irix6* | nonstopux*)
 	case $cc_basename in
@@ -5516,7 +5525,7 @@ ifelse([$1],[CXX],[
     fi
     ;;
   interix*)
-    # XXX we just hope/assume this is gcc and not c89 (= MSVC++)
+    # we just hope/assume this is gcc and not c89 (= MSVC++)
     with_gnu_ld=yes
     ;;
   mirbsd*)
@@ -5631,8 +5640,7 @@ EOF
       # default) and relocated if they conflict, which is a slow very memory
       # consuming and fragmenting process.  To avoid this, we pick a random,
       # 256 KiB-aligned image base between 0x50000000 and 0x6FFC0000 at link
-      # time.  Moving up from 0x10000000 also allows more sbrk(2) space.  It
-      # is ksh-specific code, but on Interix, the system /bin/sh is a pdksh.
+      # time.  Moving up from 0x10000000 also allows more sbrk(2) space.
       _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--image-base,`expr ${RANDOM-$$} % 4096 / 2 \* 262144 + 1342177280` -o $lib'
       _LT_AC_TAGVAR(archive_expsym_cmds, $1)='sed s,^,_, $export_symbols >$output_objdir/$soname.expsym && $CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file,$output_objdir/$soname.expsym ${wl}--image-base,`expr ${RANDOM-$$} % 4096 / 2 \* 262144 + 1342177280` -o $lib'
       ;;
