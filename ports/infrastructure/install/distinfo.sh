@@ -1,22 +1,6 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.7 2005/10/26 09:14:15 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.8 2005/11/10 13:21:42 tg Exp $
 
 case $what in
-cksum)
-	f_dist=mircksum-20050912.cpio.gz
-	f_path=mir/cksum
-	distinfo_md5=c072abe84ab399ef2fba8a8e505154fc
-	distinfo_sum=3300899251
-	distinfo_size=14479
-	distinfo_date="Sep 12 19:06"
-	;;
-cpio)
-	f_dist=paxmirabilis-20050912.cpio.gz
-	f_path=mir/cpio
-	distinfo_md5=3ebf552572a9f561f8590ef3f44b8740
-	distinfo_sum=1040864534
-	distinfo_size=118793
-	distinfo_date="Sep 12 19:09"
-	;;
 make)
 	f_dist=mirmake-20051110.cpio.gz
 	f_path=mir/make
@@ -48,14 +32,6 @@ nroff)
 	distinfo_sum=1195567255
 	distinfo_size=224960
 	distinfo_date="Sep 12 19:34"
-	;;
-sort)
-	f_dist=mirsort-20050912.cpio.gz
-	f_path=mir/sort
-	distinfo_md5=409a55b90312b306024f9e22e32e06a6
-	distinfo_sum=108354838
-	distinfo_size=21356
-	distinfo_date="Sep 12 19:36"
 	;;
 *)
 	echo Do not call me directly. >&2
