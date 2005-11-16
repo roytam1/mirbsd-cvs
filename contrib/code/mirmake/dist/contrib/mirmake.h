@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.15 2005/09/12 22:24:57 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.16 2005/11/10 12:58:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -180,6 +180,21 @@ __BEGIN_DECLS
 #if !defined(BSD) && !defined(__APPLE__)
 size_t strlcat(char *, const char *, size_t);
 size_t strlcpy(char *, const char *, size_t);
+#endif
+
+#if defined(__INTERIX)
+char	*mkdtemp(char *);
+int	 mkstemps(char *, int);
+/* LONGLONG */
+long long
+	 strtoll(const char *, char **, int);
+quad_t	 strtoq(const char *, char **, int);
+int	 asprintf(char **, const char *, ...)
+		__attribute__((__format__ (printf, 2, 3)))
+		__attribute__((__nonnull__ (2)));
+int	 vasprintf(char **, const char *, __builtin_va_list)
+		__attribute__((__format__ (printf, 2, 0)))
+		__attribute__((__nonnull__ (2)));
 #endif
 
 __END_DECLS
