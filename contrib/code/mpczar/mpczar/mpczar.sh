@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.2 2005/11/16 20:37:08 tg Exp $
+# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.3 2005/11/16 21:06:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -97,5 +97,6 @@ $helper "$outf" |&
 exec 3>&p
 whattopack | whattoignore | cpio $v -oHv4norm >&3 || rv=1
 exec 3>&-
-[[ $rv = 1 && $outf != - ]] && rm $outf
+wait % || rv=2
+[[ $rv != 0 && $outf != - ]] && rm -f "$outf"
 exit $rv

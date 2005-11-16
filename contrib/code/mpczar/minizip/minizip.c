@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: contrib/code/mpczar/minizip/minizip.c,v 1.1 2005/11/16 20:29:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include "zopen.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/mpczar/minizip/minizip.c,v 1.1 2005/11/16 20:29:41 tg Exp $");
 
 #undef BUFSIZ
 #define BUFSIZ	256
@@ -50,8 +50,11 @@ main(int argc, char *argv[])
 	if ((argc > 1) && strcmp(argv[1], "-"))
 		fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-	if (fd == -1)
+	if (fd == -1) {
+		while (read(STDIN_FILENO, buf, BUFSIZ) > 0)
+			;
 		errx(1, "opening output file");
+	}
 
 	if ((outf = zdopen(fd, "w", 0)) == NULL)
 		errx(1, "opening compressed output stream");
