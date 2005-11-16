@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.12 2005/11/10 23:25:25 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.13 2005/11/15 19:20:20 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.12 2005/11/10 23:25:25 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.13 2005/11/15 19:20:20 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -67,8 +67,10 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 static bool
 check_lib(package_t *pkg, plist_t *p, char *cwd)
 {
+#if 0 /* see below */
 	char *tmp;
 	size_t len;
+#endif
 	bool rv = false;
 
 	if (!pkg || !p)
