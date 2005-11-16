@@ -1,10 +1,11 @@
-# $MirOS: ports/essentials/cpio/Makefile,v 1.3 2005/11/10 20:12:35 tg Exp $
+# $MirOS: ports/essentials/cpio/Makefile,v 1.4 2005/11/10 20:44:57 tg Exp $
 #-
 # This port must not contain a patches/ directory.
+# The distfile must be plain old cpio, not bcpio, odc, ..., SVR4 or tar.
 
 COMMENT=		"MirOS cpio(1), pax(1) and tar(1)"
 CATEGORIES=		essentials
-DISTNAME=		paxmirabilis-20051110
+DISTNAME=		paxmirabilis-20051116
 EXTRACT_SUFX=		.cpio.gz
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/cpio/}
