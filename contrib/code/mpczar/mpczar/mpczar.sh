@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.1 2005/11/16 19:56:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -58,7 +58,7 @@ function whattopack
 
 function whattoignore
 {
-	sed -e 's!^\./!!g' | if [[ ${ignore[0]} = -v ]]; then
+	sed 's!^[\./]*!!' | if [[ ${ignore[0]} = -v ]]; then
 		fgrep "${ignore[@]}"
 	fi | sort
 }
