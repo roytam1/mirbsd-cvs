@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.4 2005/04/29 18:35:07 tg Exp $ */
+/**	$MirOS: contrib/code/mpczar/minizip/zopen.c,v 1.1 2005/11/16 18:19:34 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.15 2005/04/17 16:17:39 deraadt Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
@@ -73,7 +73,7 @@
 #include "zopen.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.4 2005/04/29 18:35:07 tg Exp $");
+__RCSID("$MirOS: contrib/code/mpczar/minizip/zopen.c,v 1.1 2005/11/16 18:19:34 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -733,6 +733,20 @@ zopen(const char *name, const char *mode, int bits)
 	void *cookie;
 	if ((fd = open(name, (*mode=='r'? O_RDONLY:O_WRONLY|O_CREAT),
 	    S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1)
+		return NULL;
+	if ((cookie = z_open(fd, mode, NULL, bits, 0, 0)) == NULL) {
+		close(fd);
+		return NULL;
+	}
+	return funopen(cookie, (*mode == 'r'?zread:NULL),
+	    (*mode == 'w'?zwrite:NULL), NULL, zclose);
+}
+
+FILE *
+zdopen(int fd, const char *mode, int bits)
+{
+	void *cookie;
+	if (fd == -1)
 		return NULL;
 	if ((cookie = z_open(fd, mode, NULL, bits, 0, 0)) == NULL) {
 		close(fd);

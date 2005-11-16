@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: contrib/code/mpczar/minizip/zopen.h,v 1.1 2005/11/16 18:19:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -37,7 +37,8 @@ struct z_info {
 
 __BEGIN_DECLS
 extern void *z_open(int, const char *, char *, int, uint32_t, int);
-extern FILE *zopen(const char *, const char *,int);
+extern FILE *zopen(const char *, const char *, int);
+extern FILE *zdopen(int, const char *, int);
 extern int zread(void *, char *, int);
 extern int zwrite(void *, const char *, int);
 extern int z_close(void *, struct z_info *);
