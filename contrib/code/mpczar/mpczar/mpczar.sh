@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.1 2005/11/16 19:56:43 tg Exp $
+# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.2 2005/11/16 20:37:08 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -40,6 +40,7 @@ let ff=0
 v=
 me=$0
 outf=-
+rv=0
 
 helper=$(readlink -nf $(dirname "$me")/../libexec/mpczar.z)
 if [[ ! -x $helper ]]; then
@@ -59,8 +60,10 @@ function whattopack
 function whattoignore
 {
 	sed 's!^[\./]*!!' | if [[ ${ignore[0]} = -v ]]; then
-		fgrep "${ignore[@]}"
-	fi | sort
+		fgrep "${ignore[@]}" | sort
+	else
+		sort
+	fi
 }
 
 while getopts "I:o:r:v" c; do
@@ -90,5 +93,9 @@ done
 
 [[ $outf != - && $outf != *@(.mcz) ]] && outf=${outf}.mcz
 
-whattopack | whattoignore | cpio $v -oHv4norm | $helper "$outf"
-exit 0
+$helper "$outf" |&
+exec 3>&p
+whattopack | whattoignore | cpio $v -oHv4norm >&3 || rv=1
+exec 3>&-
+[[ $rv = 1 && $outf != - ]] && rm $outf
+exit $rv
