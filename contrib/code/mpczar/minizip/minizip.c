@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mpczar/minizip/minizip.c,v 1.1 2005/11/16 20:29:41 tg Exp $ */
+/* $MirOS: contrib/code/mpczar/minizip/minizip.c,v 1.2 2005/11/16 21:28:13 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include "zopen.h"
 
-__RCSID("$MirOS: contrib/code/mpczar/minizip/minizip.c,v 1.1 2005/11/16 20:29:41 tg Exp $");
+__RCSID("$MirOS: contrib/code/mpczar/minizip/minizip.c,v 1.2 2005/11/16 21:28:13 tg Exp $");
 
 #undef BUFSIZ
 #define BUFSIZ	256
@@ -59,6 +59,7 @@ main(int argc, char *argv[])
 	if ((outf = zdopen(fd, "w", 0)) == NULL)
 		errx(1, "opening compressed output stream");
 
+	fd = 1;
 loop:
 	n = read(STDIN_FILENO, buf, BUFSIZ);
 
@@ -66,6 +67,7 @@ loop:
 		errx(1, "reading input stream");
 	if (n == 0)
 		goto eof;
+	fd = 0;
 
 	if (!fwrite(buf, n, 1, outf))
 		errx(1, "writing to output file");
@@ -77,5 +79,5 @@ eof:
 	if (fclose(outf))
 		errx(1, "closing compressed output file");
 
-	return (0);
+	return (fd);
 }
