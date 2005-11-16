@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/md5/suma-mi.c,v 1.1 2005/04/12 19:50:22 tg Exp $ */
+/* $MirOS: src/bin/md5/suma-mi.c,v 1.2 2005/04/12 20:52:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -37,13 +37,15 @@ SUMA_Init(SUMA_CTX *ctx)
 }
 
 void
-SUMA_Update(SUMA_CTX *ctx, const u_int8_t *data, size_t len)
+SUMA_Update(SUMA_CTX *ctx __attribute__((unused)),
+    const u_int8_t *data __attribute__((unused)),
+    size_t len __attribute__((unused)))
 {
 	errx(1, "SUMA_Update not implemented");
 }
 
 void
-SUMA_Final(SUMA_CTX *ctx)
+SUMA_Final(SUMA_CTX *ctx __attribute__((unused)))
 {
 	errx(1, "SUMA_Final not implemented");
 }

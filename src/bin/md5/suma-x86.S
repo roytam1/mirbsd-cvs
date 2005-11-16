@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/md5/suma-x86.S,v 1.1 2005/03/16 17:19:06 tg Exp $ */
+/* $MirOS: src/bin/md5/suma-x86.S,v 1.2 2005/04/12 20:52:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -24,9 +24,15 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
+#ifdef UNDERSCORES
+#define	_C(x)	_ ## x
+#else
+#define	_C(x)	x
+#endif
+
 	.intel_syntax noprefix
 	.section .comment
-	.asciz	"$MirOS: src/bin/md5/suma-x86.S,v 1.1 2005/03/16 17:19:06 tg Exp $"
+	.asciz	"$MirOS: src/bin/md5/suma-x86.S,v 1.2 2005/04/12 20:52:21 tg Exp $"
 	.text
 
 
@@ -46,8 +52,8 @@
 
 
 /* void SUMA_Init(SUMA_CTX *ctx) */
-	.globl	SUMA_Init
-SUMA_Init:
+	.globl	_C(SUMA_Init)
+_C(SUMA_Init):
 	mov	edx,[esp+4]
 	xor	eax,eax
 	dec	eax
@@ -56,8 +62,8 @@ SUMA_Init:
 
 
 /* void SUMA_Update(SUMA_CTX *ctx, const u_int8_t *data, size_t len) */
-	.globl	SUMA_Update
-SUMA_Update:
+	.globl	_C(SUMA_Update)
+_C(SUMA_Update):
 	push	ebp
 	mov	ebp,esp
 	push	ebx
@@ -100,8 +106,8 @@ SUMA_Update:
 
 
 /* void SUMA_Final(SUMA_CTX *ctx) */
-	.globl	SUMA_Final
-SUMA_Final:
+	.globl	_C(SUMA_Final)
+_C(SUMA_Final):
 	mov	ecx,[esp+4]	/* ctx */
 	push	ebx
 	mov	edx,[ecx]
