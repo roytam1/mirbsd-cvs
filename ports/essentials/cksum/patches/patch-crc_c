@@ -1,0 +1,45 @@
+$MirOS$
+--- crc.c.orig	Sat Feb  5 17:22:28 2005
++++ crc.c	Wed Nov 16 16:36:01 2005
+@@ -130,11 +130,11 @@ CKSUM_End(CKSUM_CTX *ctx, char *outstr)
+ 	CKSUM_Final(ctx);
+ 
+ 	if (outstr == NULL) {
+-		if (asprintf(&outstr, "%u %lld", ctx->crc, ctx->len) == -1)
++		if (asprintf(&outstr, "%u %lld", ctx->crc, (long long)ctx->len) == -1)
+ 			return (NULL);
+ 	} else {
+ 		(void)snprintf(outstr, (size_t)CKSUM_DIGEST_STRING_LENGTH,
+-		    "%u %lld", ctx->crc, ctx->len);
++		    "%u %lld", ctx->crc, (long long)ctx->len);
+ 	}
+ 
+ 	return (outstr);
+@@ -171,11 +171,11 @@ SUM_End(SUM_CTX *ctx, char *outstr)
+ 	SUM_Final(ctx);
+ 
+ 	if (outstr == NULL) {
+-		if (asprintf(&outstr, "%u %lld", ctx->crc, ctx->len) == -1)
++		if (asprintf(&outstr, "%u %lld", ctx->crc, (long long)ctx->len) == -1)
+ 			return (NULL);
+ 	} else {
+ 		(void)snprintf(outstr, (size_t)SUM_DIGEST_STRING_LENGTH,
+-		    "%u %lld", ctx->crc, ctx->len);
++		    "%u %lld", ctx->crc, (long long)ctx->len);
+ 	}
+ 
+ 	return (outstr);
+@@ -212,11 +212,11 @@ SYSVSUM_End(SYSVSUM_CTX *ctx, char *outs
+ 	SYSVSUM_Final(ctx);
+ 
+ 	if (outstr == NULL) {
+-		if (asprintf(&outstr, "%u %lld", ctx->crc, ctx->len) == -1)
++		if (asprintf(&outstr, "%u %lld", ctx->crc, (long long)ctx->len) == -1)
+ 			return (NULL);
+ 	} else {
+ 		(void)snprintf(outstr, (size_t)SYSVSUM_DIGEST_STRING_LENGTH,
+-		    "%u %lld", ctx->crc, ctx->len);
++		    "%u %lld", ctx->crc, (long long)ctx->len);
+ 	}
+ 
+ 	return (outstr);
