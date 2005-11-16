@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.4 2005/11/16 21:28:14 tg Exp $
+# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.5 2005/11/16 21:46:15 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -31,11 +31,11 @@ function usage
 }
 
 set -A ignore no
-let fi=1
+let ni=1
 set -A dirs
-let fd=0
+let nd=0
 set -A files
-let ff=0
+let nf=0
 
 v=
 me=$0
@@ -51,10 +51,10 @@ fi
 function whattopack
 {
 	let i=0
-	while (( i < ff )); do
+	while (( i < nf )); do
 		print -r -- "${files[i++]}"
 	done
-	(( fd > 0 )) && find "${dirs[@]}" -type f
+	(( nd > 0 )) && find "${dirs[@]}" -type f
 }
 
 function whattoignore
@@ -68,13 +68,13 @@ function whattoignore
 
 while getopts "I:o:r:v" c; do
 	case $c {
-	(I)	(( fi == 1 )) && ignore[0]=-v
-		ignore[fi++]=-e
-		ignore[fi++]=$OPTARG
+	(I)	(( ni == 1 )) && ignore[0]=-v
+		ignore[ni++]=-e
+		ignore[ni++]=$OPTARG
 		;;
 	(o)	outf=$OPTARG
 		;;
-	(r)	dirs[fd++]=$OPTARG
+	(r)	dirs[nd++]=$OPTARG
 		;;
 	(v)	v=-v
 		;;
@@ -85,11 +85,11 @@ done
 shift $((OPTIND - 1))
 
 while [ $# -gt 0 ]; do
-	files[ff++]=$1
+	files[nf++]=$1
 	shift
 done
 
-(( (ff == 0) && (fd == 0) )) && usage
+(( (nf == 0) && (nd == 0) )) && usage
 
 [[ $outf != - && $outf != *@(.mcz) ]] && outf=${outf}.mcz
 
