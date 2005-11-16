@@ -1,0 +1,34 @@
+# $MirOS$
+
+COMMENT=		"portable MirOS make(1) variant"
+DISTNAME=		mirmake-20051116
+CATEGORIES=		devel essentials
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
+EXTRACT_SUFX=		.cpio.gz
+
+# various BSD-style and related licences
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
+
+WRKDIST=		${WRKDIR}/mirmake
+NO_REGRESS=		Yes
+
+.if ${OStype} == "Darwin"
+FMANDIR=		man/man
+.else
+FMANDIR=		man/cat
+.endif
+
+do-build:
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${MKSH} ./Build.sh \
+	    ${OStype} ${PREFIX} ${FMANDIR} make \
+	    ${MACHINE} ${MACHINE_ARCH} ${MACHINE_OS} \
+	    ${MKSH} ${BINOWN}:${BINGRP}
+
+do-install:
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${_FAKE_SETUP} ./Install.sh
+
+.include <bsd.port.mk>
