@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cpio/Makefile,v 1.4 2005/11/10 20:44:57 tg Exp $
+# $MirOS: ports/essentials/cpio/Makefile,v 1.5 2005/11/16 15:57:32 tg Exp $
 #-
 # This port must not contain a patches/ directory.
 # The distfile must be plain old cpio, not bcpio, odc, ..., SVR4 or tar.

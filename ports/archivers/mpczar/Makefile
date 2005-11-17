@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cpio/Makefile,v 1.4 2005/11/10 20:44:57 tg Exp $
+# $MirOS: ports/archivers/mpczar/Makefile,v 1.1 2005/11/17 20:11:22 tg Exp $
 
 COMMENT=		"MirPorts CpioZ archiver for distfiles"
 CATEGORIES=		archivers essentials
@@ -14,6 +14,6 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/mpczar
-RUN_DEPENDS+=		:paxmirabilis->=20051116:essentials/cpio
+RUN_DEPENDS+=		:paxmirabilis->=20051116:archivers/mircpio
 
 .include <bsd.port.mk>
