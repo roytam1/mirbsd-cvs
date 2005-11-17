@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/rar-linux/Makefile,v 1.4 2005/07/07 21:17:02 bsiegert Exp $
+# $MirOS: ports/archivers/rar-linux/Makefile,v 1.5 2005/08/21 11:48:13 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
@@ -7,7 +7,7 @@ CATEGORIES=		archivers
 COMMENT=		"commercial RAR archiver binary"
 V=			3.4.1
 DISTNAME=		rarlinux-${V}
-PKGNAME=		rar-${V}-linux-0
+PKGNAME=		rar-${V}-linux-1
 MASTER_SITES=		http://www.rarlab.com/rar/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://www.win-rar.com/index.php
