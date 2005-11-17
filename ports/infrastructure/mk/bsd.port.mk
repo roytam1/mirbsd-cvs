@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.65 2005/11/17 22:47:50 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.66 2005/11/17 22:49:46 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -817,6 +817,7 @@ _CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 
 DIST_SOURCE?=		distfile
 .if defined(_CVS_DISTF)
+FETCH_DEPENDS+=		::archivers/mpczar
 DIST_SOURCE=		distfile
 DISTFILES=
 .endif
@@ -1228,6 +1229,14 @@ _BUILD_DEP=		${_BUILD_DEP2:C/[^:]*://}
 .else
 _BUILD_DEP2=
 _BUILD_DEP=
+.endif
+
+.if defined(FETCH_DEPENDS)
+_FETCH_DEP2=		${FETCH_DEPENDS:C/^[^:]*:([^:]*:[^:]*).*$/\1/}
+_FETCH_DEP=		${_FETCH_DEP2:C/[^:]*://}
+.else
+_FETCH_DEP2=
+_FETCH_DEP=
 .endif
 
 _LIB_DEP2=		${LIB_DEPENDS}
@@ -2108,10 +2117,9 @@ fetch-all:
 .  if defined(_CVS_FETCH${_i:S/-//})
 ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}} ]] || { \
-		cd ${.CURDIR}; ${MAKE} fetch-depends \
-		    FETCH_DEPENDS=::archivers/mpczar && \
+		cd ${.CURDIR}; ${MAKE} fetch-depends; \
 		${_CVS_FETCH${_i:S/-//}}; \
-		file=${_F:S@^${DISTDIR}/@@}; \
+		file=${@:S@^${DISTDIR}/@@}; \
 		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
 		if grep -qe "^$$ck\$$" \
 		    -e "^Size$${ck#SIZE} bytes\$$" \
@@ -2770,7 +2778,7 @@ run-dir-depends:
 # recursively build a list of dirs for package building, ready for tsort
 # second and further stages need _RUN_DEP.
 _recurse-all-dir-depends:
-.for _dir in ${_ALWAYS_DEP} ${_BUILD_DEP} ${_RUN_DEP}
+.for _dir in ${_ALWAYS_DEP} ${_BUILD_DEP} ${_RUN_DEP} ${_FETCH_DEP}
 	@unset FLAVOR SUBPACKAGE || true; \
 	echo "$$self ${_dir}"; \
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
@@ -2814,7 +2822,7 @@ build-dir-depends:
 .endif
 
 all-dir-depends:
-.if !empty(_ALWAYS_DEP) || !empty(_BUILD_DEP) || !empty(_RUN_DEP)
+.if !empty(_ALWAYS_DEP) || !empty(_BUILD_DEP) || !empty(_RUN_DEP) || !empty(_FETCH_DEP)
 	@${_depfile_fragment}; \
 	if ! fgrep -q "|${FULLPKGPATH}|" $${_DEPENDS_FILE}; then \
 		echo "|${FULLPKGPATH}|" >>$${_DEPENDS_FILE}; \
