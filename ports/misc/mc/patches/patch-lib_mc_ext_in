@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.1.7.1 2005/03/18 15:50:27 tg Exp $
 --- lib/mc.ext.in.orig	Thu Jan 30 15:48:11 2003
-+++ lib/mc.ext.in	Fri Oct 15 18:10:13 2004
++++ lib/mc.ext.in	Thu Nov 17 23:36:10 2005
 @@ -300,7 +300,7 @@ type/^PDF
  
  # html
@@ -10,7 +10,7 @@ $MirOS$
  	View=%view{ascii} lynx -dump -force_html %f
  
  # StarOffice 5.2
-@@ -379,6 +379,37 @@ regex/\.(rexx|rex|cmd)$
+@@ -379,6 +379,42 @@ regex/\.(rexx|rex|cmd)$
  
  ### Archives ###
  
@@ -38,6 +38,11 @@ $MirOS$
 +	Open=%cd %p#ucpio
 +	View=%view{ascii} bgzip2 -dc %f 2>/dev/null | tar tvvf -
 +
++# .mcz
++shell/.mcz
++	Open=%cd %p#ucpio
++	View=%view{ascii} gzip -dc %f 2>/dev/null | tar tvvf -
++
 +## USTAR
 +
 +# .tbz
@@ -48,7 +53,7 @@ $MirOS$
  # .tgz, .tpz, .tar.gz, .tar.z, .tar.Z
  regex/\.t([gp]?z|ar\.g?[zZ])$
  	Open=%cd %p#utar
-@@ -402,6 +433,8 @@ regex/\.(tar|TAR)$
+@@ -402,6 +438,8 @@ regex/\.(tar|TAR)$
  	Open=%cd %p#utar
  	View=%view{ascii} tar tvvf %f
  
@@ -57,7 +62,7 @@ $MirOS$
  # zip
  type/^Zip\ archive
  	Open=%cd %p#uzip
-@@ -413,6 +446,10 @@ regex/\.(zoo|ZOO)$
+@@ -413,6 +451,10 @@ regex/\.(zoo|ZOO)$
  	View=%view{ascii} zoo l %f
  	
  # lha
