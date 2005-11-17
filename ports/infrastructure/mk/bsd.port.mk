@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.66 2005/11/17 22:49:46 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.67 2005/11/17 23:00:35 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -842,6 +842,13 @@ DISTFILES?=		${DISTNAME}${EXTRACT_SUFX}
 
 _EVERYTHING=		${DISTFILES}
 _DISTFILES=		${DISTFILES:C/:[0-9]$//}
+
+.for _i in - 0 1 2 3 4 5 6 7 8 9
+.  if defined(_CVS_DISTF${_i:S/-//})
+_DISTFILES+=		${_CVS_DISTF${_i:S/-//}}
+.  endif
+.endfor
+
 ALLFILES=		${_DISTFILES}
 
 .if defined(PATCHFILES)
@@ -849,12 +856,6 @@ _PATCHFILES=		${PATCHFILES:C/:[0-9]$//}
 _EVERYTHING+=		${PATCHFILES}
 ALLFILES+=		${_PATCHFILES}
 .endif
-
-.for _i in - 0 1 2 3 4 5 6 7 8 9
-.  if defined(_CVS_DISTF${_i:S/-//})
-ALLFILES+=		${_CVS_DISTF${_i:S/-//}}
-.  endif
-.endfor
 
 .if make(checksum) || make(makesum) || make(addsum) || defined(__FETCH_ALL)
 .  if defined(SUPDISTFILES) && !defined(NOSUPDISTFILES)
