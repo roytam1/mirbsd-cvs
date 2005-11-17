@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.61 2005/11/17 20:15:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.62 2005/11/17 20:18:31 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1089,6 +1089,7 @@ _build_depends_fragment= \
 	fi
 _run_depends_fragment=${_build_depends_fragment}
 _regress_depends_fragment=${_build_depends_fragment}
+_fetch_depends_fragment=${_build_depends_fragment}
 
 _resolve_lib_args=
 
@@ -1127,7 +1128,7 @@ _lib_depends_fragment= \
 
 _FULL_PACKAGE_NAME?=	No
 
-.for _DEP in build run lib regress
+.for _DEP in build run lib regress fetch
 _DEP${_DEP}_COOKIES=
 .  if defined(${_DEP:U}_DEPENDS) && ${NO_DEPENDS:L} == "no"
 .    for _i in ${${_DEP:U}_DEPENDS}
@@ -1422,7 +1423,7 @@ _print-packagename:
 	@echo ${FULLPKGNAME${SUBPACKAGE}}
 .endif
 
-.for _DEP in build run lib regress
+.for _DEP in build run lib regress fetch
 .  if defined(${_DEP:U}_DEPENDS) && ${NO_DEPENDS:L} == "no"
 .    for _i in ${${_DEP:U}_DEPENDS}
 ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
@@ -2095,13 +2096,43 @@ fetch-all:
 # Separate target for each file fetch will retrieve
 
 .for _F in ${ALLFILES:S@^@${FULLDISTDIR}/@}
+_CVS_DISTFNUM:=	X
+.  for _i in - 0 1 2 3 4 5 6 7 8 9
+.    if defined(_CVS_DISTF${_i:S/-//}) && (${_CVS_DISTF${_i:S/-//}} == ${_F:S@^${FULLDISTDIR}/@@})
+_CVS_DISTFNUM:=	${_i}
+.    endif
+.  endfor
+.  if ${_CVS_DISTFNUM} != X
 ${_F}:
-.  if ${FETCH_MANUALLY:L} != "no"
-.    for _M in ${FETCH_MANUALLY}
-	@echo "*** "${_M}
-.    endfor
-	@exit 1
+	@[[ -e ${_F} ]] || { \
+		cd ${.CURDIR}; ${MAKE} fetch-depends \
+		    FETCH_DEPENDS=::archivers/mpczar && \
+		${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz '${_F}' \
+		    '${CVS_DISTREPO${_CVS_DISTFNUM}}' \
+		    '${CVS_DISTDATE${_CVS_DISTFNUM}}' \
+		    '${CVS_DISTTAGS${_CVS_DISTFNUM}}' \
+		    '${CVS_DISTMODS${_CVS_DISTFNUM}}'; \
+		file=${_F:S@^${DISTDIR}/@@}; \
+		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
+		if grep -qe "^$$ck\$$" \
+		    -e "^Size$${ck#SIZE} bytes\$$" \
+		    ${CHECKSUM_FILE}; then \
+			${ECHO_MSG} ">> Size matches for ${_F}"; \
+		elif egrep -q "S(IZE|ize) \($$file\)" ${CHECKSUM_FILE}; then \
+			${ECHO_MSG} ">> Size does not match for ${_F}"; \
+			false; \
+		else \
+			${ECHO_MSG} ">> No size recorded for ${_F}"; \
+		fi; \
+	}
 .  else
+${_F}:
+.    if ${FETCH_MANUALLY:L} != "no"
+.      for _M in ${FETCH_MANUALLY}
+	@echo "*** "${_M}
+.      endfor
+	@exit 1
+.    else
 	@mkdir -p ${_F:H}; \
 	cd ${_F:H}; \
 	select=${_EVERYTHING:M*${_F:S@^${FULLDISTDIR}/@@}\:[0-9]}; \
@@ -2127,6 +2158,7 @@ ${_F}:
 				fi; \
 		fi; \
 	done; exit 1
+.    endif
 .  endif
 .endfor
 
