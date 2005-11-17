@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qvm86/Makefile,v 1.1 2005/11/17 14:48:37 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.2 2005/11/17 18:37:26 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 ONLY_FOR_PLATFORMS=	MirBSD:*:i386
@@ -43,6 +43,14 @@ LKMDIR=			${TRUEPREFIX}/share/qemu/lkm
 
 MAKE_ENV+=		BSDMAKE=/usr/bin/make
 MAKE_ENV+=		LKMDIR=${LKMDIR}
+
+SMKVER!=		let major=$$(print | /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrev); \
+			let minor=$$(print | /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrpl); \
+			let 'version=major * 256 + minor'; print $$version
+
+.if ${SMKVER} < 2106
+ERRORS+=		"Your system make(1) is too old, please upgrade."
+.endif
 
 post-extract:
 	@mv ${WRKDIR}/qvm86 ${WRKDIST}/
