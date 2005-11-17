@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/Makefile,v 1.3 2005/11/15 12:25:06 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.1 2005/11/17 14:48:37 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 ONLY_FOR_PLATFORMS=	MirBSD:*:i386
@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORMS=	MirBSD:*:i386
 COMMENT=		"fast i386 emulator with kernel module"
 V_EMU=			20051117
 V_QVM=			20051117
-PKGNAME=		qvm86-${V_QVM}-0
+PKGNAME=		qvm86-${V_QVM}-1
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/ \
 			http://savannah.nongnu.org/qvm86/
@@ -32,18 +32,27 @@ CONFIGURE_ARGS+=	--cc="${CC}" \
 			--extra-cflags="${CFLAGS}" \
 			--extra-ldflags="${LDFLAGS}" \
 			--enable-adlib \
-			--disable-qvm86 \
 			--disable-kqemu
 
 .include <mirports.sys.mk>
 COPTS+=			-fno-stack-protector
 
 WRKDIST=		${WRKDIR}/qemu
+QVMLKMFILES=		Makefile.bsdlkm lkm
+LKMDIR=			${TRUEPREFIX}/share/qemu/lkm
+
+MAKE_ENV+=		BSDMAKE=/usr/bin/make
+MAKE_ENV+=		LKMDIR=${LKMDIR}
 
 post-extract:
 	@mv ${WRKDIR}/qvm86 ${WRKDIST}/
+	@cd ${FILESDIR} && find ${QVMLKMFILES} -type f \
+	    | cpio -pdu ${WRKDIST}/qvm86/
 
 pre-patch:
 	@cd ${WRKSRC} && ${PATCH} ${PATCH_DIST_ARGS} -l <qvm86/patch.qvm86
+
+pre-install:
+	${INSTALL_DATA_DIR} ${DESTDIR}${LKMDIR}
 
 .include <bsd.port.mk>

@@ -1,4 +1,4 @@
-@comment $MirOS: ports/emulators/qemu/pkg/PLIST,v 1.3 2005/11/15 12:25:11 tg Exp $
+@comment $MirOS: ports/emulators/qvm86/pkg/PLIST,v 1.1 2005/11/17 14:48:42 tg Exp $
 @pkgcfl qemu-*
 bin/qemu
 bin/qemu-img
@@ -43,11 +43,17 @@ share/qemu/keymaps/sv
 share/qemu/keymaps/th
 share/qemu/keymaps/tr
 share/qemu/linux_boot.bin
+share/qemu/lkm/qvm86.ko
+share/qemu/lkm/qvm86_done.sh
+share/qemu/lkm/qvm86_init.sh
+share/qemu/lkm/qvm86install
+share/qemu/lkm/qvm86uninstall
 share/qemu/ppc_rom.bin
 share/qemu/proll.elf
 share/qemu/vgabios-cirrus.bin
 share/qemu/vgabios.bin
 share/qemu/video.x
+@dirrm share/qemu/lkm
 @dirrm share/qemu/keymaps
 @dirrm share/qemu
 @dirrm share/doc/qemu
