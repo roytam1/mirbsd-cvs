@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/wine/winex/Makefile,v 1.4 2005/07/07 21:20:54 bsiegert Exp $
+# $MirOS: ports/emulators/wine/winex/Makefile,v 1.5 2005/08/21 11:48:46 tg Exp $
 
 BROKEN=			builds but stalls in WaitForWin16Mutex
 
@@ -7,7 +7,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 COMMENT=		"Microsoft Windows® 3.1/95/NT/Games emulator for Unix®"
 CATEGORIES=		emulators
 DISTNAME=		winex-cvs-${V}
-PKGNAME=		wine-${V}_winex-0
+PKGNAME=		winex-${V}-0
 V=			20040225
 VER=			"ReWind/WineX CVS version $(V)"
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -24,23 +24,25 @@ MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 WRKDIST=		${WRKDIR}/winex
 EXTRACT_SUFX=		.cgz
 
+LIB_DEPENDS+=		jpeg.62::graphics/jpeg
+
 USE_X11=		yes
 USE_GMAKE=		yes
 CONFIGURE_STYLE=        gnu dest
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/tools/
 CONFIGURE_ARGS+=	--enable-opengl --disable-osmesa  # OSmesa too old
 
-#.include <bsd.own.mk>
-#.if ${OStype} == "OpenBSD"
+.include <mirports.sys.mk>
+.if ${OStype} == "OpenBSD"
 CONFIGURE_ARGS+=	--disable-pthreads
 CPPFLAGS+=		-DASSUME_BSDSAFE_VFORK
-#.else
+.else
 #CONFIGURE_ARGS+=	--enable-pthreads	# not yet
-#CPPFLAGS+=		-pthread
-#LDFLAGS+=		-pthread
-#.endif
+CPPFLAGS+=		-pthread
+LDFLAGS+=		-pthread
+.endif
 
-CFLAGS+=		-fno-stack-protector
+COPTS+=			-fno-stack-protector
 
 post-configure:
 	cd ${WRKSRC} && ${MAKE_PROGRAM} depend
