@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/mirmake/Makefile,v 1.1 2005/11/16 17:49:16 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
 DISTNAME=		mirmake-20051116
@@ -20,6 +20,12 @@ NO_REGRESS=		Yes
 FMANDIR=		man/man
 .else
 FMANDIR=		man/cat
+.endif
+
+.if ${OStype} == "Interix"
+SED_PLIST+=	| sed -e '/^IFSFU:/s///'
+.else
+SED_PLIST+=	| sed -e '/^IFSFU:/d'
 .endif
 
 do-build:

@@ -1,11 +1,11 @@
-@comment $MirOS$
-bin/install
+@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.1 2005/11/16 17:49:16 tg Exp $
+IFSFU:bin/install
 bin/lorder
 bin/make
 bin/mkdep
 bin/readlink
 bin/tsort
-man/cat1/install.0
+IFSFU:man/cat1/install.0
 man/cat1/lorder.0
 man/cat1/make.0
 man/cat1/mkdep.0
