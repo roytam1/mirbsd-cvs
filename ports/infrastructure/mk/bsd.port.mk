@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.59 2005/11/10 23:36:08 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.60 2005/11/17 19:59:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -811,7 +811,7 @@ ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
 
 DIST_SOURCE?=		distfile
 .if defined(_CVS_DISTF)
-DIST_SOURCE=		cvs
+DIST_SOURCE=		distfile
 DISTFILES=
 .endif
 .if ${DIST_SOURCE:L} == "port"
