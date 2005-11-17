@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.63 2005/11/17 22:08:57 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.64 2005/11/17 22:12:18 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2094,38 +2094,41 @@ fetch-all:
 	    NO_IGNORE=Yes fetch
 
 # Separate target for each file fetch will retrieve
+# In the first loop, go over all CVS distfiles.
+# In the second loop, go over ALLFILES, but ignore
+# these for which there is already a target.
 
-.for _F in ${ALLFILES:S@^@${FULLDISTDIR}/@}
-_CVS_DISTFNUM:=	X
-.  for _i in - 0 1 2 3 4 5 6 7 8 9
-.    if defined(_CVS_DISTF${_i:S/-//}) && (${_CVS_DISTF${_i:S/-//}} == ${_F:S@^${FULLDISTDIR}/@@})
-_CVS_DISTFNUM:=	${_i}
-.    endif
-.  endfor
-.  if ${_CVS_DISTFNUM} != X
-${_F}:
-	@[[ -e ${_F} ]] || { \
+.for _i in - 0 1 2 3 4 5 6 7 8 9
+.  if defined(_CVS_DISTF${_i:S/-//})
+_CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
+			    '${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}' \
+			    '${CVS_DISTREPO${_i:S/-//}}' \
+			    '${CVS_DISTDATE${_i:S/-//}}' \
+			    '${CVS_DISTTAGS${_i:S/-//}}' \
+			    '${CVS_DISTMODS${_i:S/-//}}'
+
+${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
+	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}} ]] || { \
 		cd ${.CURDIR}; ${MAKE} fetch-depends \
 		    FETCH_DEPENDS=::archivers/mpczar && \
-		${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz '${_F}' \
-		    '${CVS_DISTREPO${_CVS_DISTFNUM}}' \
-		    '${CVS_DISTDATE${_CVS_DISTFNUM}}' \
-		    '${CVS_DISTTAGS${_CVS_DISTFNUM}}' \
-		    '${CVS_DISTMODS${_CVS_DISTFNUM}}'; \
+		${_CVS_FETCH${_i:S/-//}}; \
 		file=${_F:S@^${DISTDIR}/@@}; \
 		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
 		if grep -qe "^$$ck\$$" \
 		    -e "^Size$${ck#SIZE} bytes\$$" \
 		    ${CHECKSUM_FILE}; then \
-			${ECHO_MSG} ">> Size matches for ${_F}"; \
+			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 		elif egrep -q "S(IZE|ize) \($$file\)" ${CHECKSUM_FILE}; then \
-			${ECHO_MSG} ">> Size does not match for ${_F}"; \
+			${ECHO_MSG} ">> Size does not match for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 			false; \
 		else \
-			${ECHO_MSG} ">> No size recorded for ${_F}"; \
+			${ECHO_MSG} ">> No size recorded for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 		fi; \
 	}
-.  else
+.  endif
+.endfor
+.for _F in ${ALLFILES:S@^@${FULLDISTDIR}/@}
+.  if !target(${_F})
 ${_F}:
 .    if ${FETCH_MANUALLY:L} != "no"
 .      for _M in ${FETCH_MANUALLY}
