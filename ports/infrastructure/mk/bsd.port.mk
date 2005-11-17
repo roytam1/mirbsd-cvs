@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.62 2005/11/17 20:18:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.63 2005/11/17 22:08:57 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -974,7 +974,7 @@ SCRIPTS_ENV+=		BATCH=yes
 .endif
 
 FETCH_MANUALLY?=	No
-.if ${FETCH_MANUALLY:L} != "no"
+.if defined(_CVS_DISTF) || (${FETCH_MANUALLY:L} != "no")
 _ALLFILES_PRESENT=	Yes
 .  for _F in ${ALLFILES:S@^@${FULLDISTDIR}/@}
 .    if !exists(${_F})
