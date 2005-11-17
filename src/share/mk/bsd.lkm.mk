@@ -1,6 +1,5 @@
-# $MirOS: src/share/mk/bsd.lkm.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.3 2005/08/31 22:11:11 tg Exp $
 # $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
-# XXX untested
 
 .if exists(${.CURDIR}/../Makefile.inc)
 .  include "${.CURDIR}/../Makefile.inc"
@@ -21,32 +20,62 @@ CFLAGS+=	${CDIAGFLAGS}
 LDFLAGS+=	-r
 .if defined(LKM) && !empty(LKM)
 SRCS?=		${LKM}.c
+MAN?=		${LKM}.1
 .  if !empty(SRCS:N*.h:N*.sh)
 OBJS+=		${SRCS:N*.h:N*.sh:R:S/$/.o/g}
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
 .  endif
-COMBINED?=	combined.o
-.  ifndef POSTINSTALL
-POSTINSTALL=	${LKM}install
-.  endif
+POSTINSTALL?=	${LKM}install
+POSTUNINSTALL?=	${LKM}uninstall
+CLEANFILES+=	${POSTINSTALL} ${POSTUNINSTALL} ${LKM}_init.sh ${LKM}_done.sh
 
 .  if defined(OBJS) && !empty(OBJS)
-${COMBINED}: ${OBJS} ${DPADD}
+${LKM}.ko: ${OBJS} ${DPADD}
 	${LD} ${LDFLAGS} -o ${.TARGET} ${OBJS} ${LDADD}
-.  endif
-
-.  ifndef MAN
-MAN=		${LKM}.1
 .  endif
 .endif	# def/not empty LKM
 
 .MAIN: all
-all: ${COMBINED} _SUBDIRUSE
+all: ${LKM}.ko ${LKM}_init.sh ${LKM}_done.sh _SUBDIRUSE
+
+.if exists(${.CURDIR}/${POSTINSTALL})
+all ${LKM}_init.sh: ${POSTINSTALL}
+
+${POSTINSTALL}: ${.CURDIR}/${POSTINSTALL}
+	${INSTALL} ${INSTALL_COPY} -m ${BINMODE} $> $@
+.endif
+
+.if exists(${.CURDIR}/${POSTUNINSTALL})
+all ${LKM}_done.sh: ${POSTUNINSTALL}
+
+${POSTUNINSTALL}: ${.CURDIR}/${POSTUNINSTALL}
+	${INSTALL} ${INSTALL_COPY} -m ${BINMODE} $> $@
+.endif
+
+${LKM}_init.sh: ${LKM}.ko
+	print '#!/bin/sh' >$@
+	print 'cd `dirname "$$0"`' >>$@
+	print -n 'exec /sbin/modload $$* ' >>$@
+	if [[ -x ${POSTINSTALL} ]]; then \
+		print -- '-o ${LKM} -p ${POSTINSTALL} ${LKM}.ko'; \
+	else \
+		print -- '-o ${LKM} ${LKM}.ko'; \
+	fi >>$@
+
+${LKM}_done.sh: ${LKM}.ko
+	print '#!/bin/sh' >$@
+	print 'cd `dirname "$$0"`' >>$@
+	print -n 'exec /sbin/modunload ' >>$@
+	if [[ -x ${POSTUNINSTALL} ]]; then \
+		print -- '-p ${POSTUNINSTALL} -n ${LKM}'; \
+	else \
+		print -- '-n ${LKM}'; \
+	fi >>$@
 
 .if !target(clean)
 clean: _SUBDIRUSE
 	rm -f a.out [Ee]rrs mklog core *.core \
-	    ${LKM} ${COMBINED} ${OBJS} ${LOBJS} ${CLEANFILES}
+	    ${LKM} ${LKM}.ko ${OBJS} ${LOBJS} ${CLEANFILES}
 .endif
 
 cleandir: _SUBDIRUSE clean
@@ -63,24 +92,25 @@ afterinstall:
 realinstall:
 .    if defined(LKM) && !empty(LKM)
 	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m ${LKMMODE} \
-	    ${COMBINED} ${DESTDIR}${LKMDIR}/${LKM}.o
+	    ${LKM}.ko ${DESTDIR}${LKMDIR}/
 .      if exists(${.CURDIR}/${POSTINSTALL})
 	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m ${BINMODE} \
 	    ${.CURDIR}/${POSTINSTALL} ${DESTDIR}${LKMDIR}/
 .      endif
+.      if exists(${.CURDIR}/${POSTUNINSTALL})
+	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m ${BINMODE} \
+	    ${.CURDIR}/${POSTUNINSTALL} ${DESTDIR}${LKMDIR}/
+.      endif
+	${INSTALL} ${INSTALL_COPY} -o ${LKMOWN} -g ${LKMGRP} -m ${BINMODE} \
+	    ${LKM}_init.sh ${LKM}_done.sh ${DESTDIR}${LKMDIR}/
 .    endif
 .  endif
 
-load:	${COMBINED}
-	if [ -x ${.CURDIR}/${POSTINSTALL} ]; then \
-		modload -d -o $(LKM) -e$(LKM) -p${.CURDIR}/${POSTINSTALL} \
-		    $(COMBINED); \
-	else \
-		modload -d -o $(LKM) -e$(LKM) $(COMBINED); \
-	fi
+load: ${LKM}_init.sh
+	@${MKSH} -x $> -d -v
 
-unload:
-	modunload -n $(LKM)
+unload: ${LKM}_done.sh
+	@${MKSH} -x $>
 
 install: maninstall _SUBDIRUSE
 .  if defined(LINKS) && !empty(LINKS)
