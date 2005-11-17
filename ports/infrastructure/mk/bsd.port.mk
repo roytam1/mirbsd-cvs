@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.60 2005/11/17 19:59:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.61 2005/11/17 20:15:03 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -796,13 +796,13 @@ _CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-
 .      for _j in ${CVS_DISTDATE${_i:S/-//}:C![^0-9]!!g}
 _CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}${_j}
 .      endfor
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.cgz
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.mcz
 .    elif defined(CVS_DISTTAGS${_i:S/-//})
 _CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-T
 .      for _j in ${CVS_DISTTAGS${_i:S/-//}:C![^0-9a-zA-Z_-]!!g}
 _CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}${_j}
 .      endfor
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.cgz
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.mcz
 .    else
 ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
 .    endif
@@ -916,7 +916,7 @@ EXTRACT_CASES+=		*.shar.gz|*.shar.Z|*.sh.gz|*.sh.Z) ${GZIP_CMD} -dc \
 			    | ${SH} ;;
 EXTRACT_CASES+=		*.shar | *.sh) ${_PERL_FIX_SHAR} \
 			    ${FULLDISTDIR}/$$archive | ${SH} ;;
-EXTRACT_CASES+=		*.tar.gz | *.cpio.gz | *.cgz) ${GZIP_CMD} -dc \
+EXTRACT_CASES+=		*.tar.gz | *.cpio.gz | *.cgz | *.mcz) ${GZIP_CMD} -dc \
 			    ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
 EXTRACT_CASES+=		*.gz) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive \
 			    >$$(basename $$archive .gz) ;;
