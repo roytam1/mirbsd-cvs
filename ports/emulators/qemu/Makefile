@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/Makefile,v 1.2 2005/05/03 19:30:02 tg Exp $
+# $MirOS: ports/emulators/qemu/Makefile,v 1.3 2005/11/15 12:25:06 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 # no success on other platforms yet
@@ -7,6 +7,7 @@ ONLY_FOR_PLATFORMS=	MirBSD:*:* \
 
 COMMENT=		"fast multi-system emulator"
 DISTNAME=		qemu-0.7.2
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/
 MASTER_SITES=		${HOMEPAGE}
