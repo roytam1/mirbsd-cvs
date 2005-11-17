@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.58 2005/11/10 20:39:09 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.59 2005/11/10 23:36:08 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -789,7 +789,31 @@ _CDROM_OVERRIDE=	if cp -f ${CDROM_SITE}/$$f .; then exit 0; fi
 _CDROM_OVERRIDE=	:
 .endif
 
+.for _i in - 0 1 2 3 4 5 6 7 8 9
+.  if defined(CVS_DISTREPO${_i:S/-//})
+.    if defined(CVS_DISTDATE${_i:S/-//})
+_CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-
+.      for _j in ${CVS_DISTDATE${_i:S/-//}:C![^0-9]!!g}
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}${_j}
+.      endfor
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.cgz
+.    elif defined(CVS_DISTTAGS${_i:S/-//})
+_CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-T
+.      for _j in ${CVS_DISTTAGS${_i:S/-//}:C![^0-9a-zA-Z_-]!!g}
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}${_j}
+.      endfor
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.cgz
+.    else
+ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
+.    endif
+.  endif
+.endfor
+
 DIST_SOURCE?=		distfile
+.if defined(_CVS_DISTF)
+DIST_SOURCE=		cvs
+DISTFILES=
+.endif
 .if ${DIST_SOURCE:L} == "port"
 DIST_SOURCEDIR?=	${.CURDIR}/dist
 .  if (${PERMIT_DISTFILES_CDROM:L} != "yes") || (${PERMIT_DISTFILES_FTP:L} != "yes")
@@ -818,6 +842,12 @@ _PATCHFILES=		${PATCHFILES:C/:[0-9]$//}
 _EVERYTHING+=		${PATCHFILES}
 ALLFILES+=		${_PATCHFILES}
 .endif
+
+.for _i in - 0 1 2 3 4 5 6 7 8 9
+.  if defined(_CVS_DISTF${_i:S/-//})
+ALLFILES+=		${_CVS_DISTF${_i:S/-//}}
+.  endif
+.endfor
 
 .if make(checksum) || make(makesum) || make(addsum) || defined(__FETCH_ALL)
 .  if defined(SUPDISTFILES) && !defined(NOSUPDISTFILES)
