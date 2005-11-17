@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/cond.c,v 1.2 2005/09/01 23:14:22 tg Exp $ */
 /*	$OpenBSD: cond.c,v 1.30 2004/04/07 13:11:35 espie Exp $	*/
 /*	$NetBSD: cond.c,v 1.7 1996/11/06 17:59:02 christos Exp $	*/
 
@@ -1000,6 +1000,12 @@ Cond_Eval(const char *line)
     	if (k == K_COND_UERR && len == strlen(COND_UERR) &&
 	    strncmp(line, COND_UERR, len) == 0)
 	    return COND_ISUERR;
+	else
+	    return COND_INVALID;
+    case K_COND_TRACE % MAGICSLOTS2:
+    	if (k == K_COND_TRACE && len == strlen(COND_TRACE) &&
+	    strncmp(line, COND_TRACE, len) == 0)
+	    return COND_ISTRACE;
 	else
 	    return COND_INVALID;
     default:

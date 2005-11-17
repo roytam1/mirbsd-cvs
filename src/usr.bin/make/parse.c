@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/parse.c,v 1.2 2005/09/01 23:14:22 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/parse.c,v 1.3 2005/09/01 23:42:13 tg Exp $ */
 /*	$OpenBSD: parse.c,v 1.69 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: parse.c,v 1.29 1997/03/10 21:20:04 christos Exp $	*/
 
@@ -1424,6 +1424,17 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 	{
 		char *t = Var_Subst(line, NULL, false);
 		Parse_Error(PARSE_FATAL, "Aborting: %s", t ? t : line);
+		if (t)
+			free(t);
+	}
+	return true;
+    case COND_ISTRACE:
+	line += 5;
+	while (*line != '\0' && isspace(*line))
+		++line;
+	{
+		char *t = Var_Subst(line, NULL, false);
+		Parse_Error(PARSE_WARNING, "Traceing: %s", t ? t : line);
 		if (t)
 			free(t);
 	}

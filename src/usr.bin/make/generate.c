@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/generate.c,v 1.2 2005/02/23 20:36:53 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/generate.c,v 1.3 2005/09/01 23:14:22 tg Exp $ */
 /*	$OpenBSD: generate.c,v 1.5 2002/06/11 21:12:11 espie Exp $ */
 
 /*
@@ -36,7 +36,7 @@
 #include "var_int.h"
 #include "defines.h"
 
-__RCSID("$MirOS: src/usr.bin/make/generate.c,v 1.2 2005/02/23 20:36:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/generate.c,v 1.3 2005/09/01 23:14:22 tg Exp $");
 
 #define M(x)	x, #x
 char *table_var[] = {
@@ -84,6 +84,7 @@ char *table_cond[] = {
 	M(COND_INCLUDE),
 	M(COND_UNDEF),
 	M(COND_UERR),
+	M(COND_TRACE),
 	NULL
 };
 

@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/make.1,v 1.5 2005/09/01 23:14:22 tg Exp $
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.6 2005/09/01 23:42:12 tg Exp $
 .\"	$OpenBSD: make.1,v 1.64 2005/01/15 20:42:49 mbalmer Exp $
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
 .\"
@@ -869,6 +869,9 @@ The possible conditionals are as follows:
 .Bl -tag -width Ds
 .It Ic .error Ar message
 Report the error message to the user and abort.
+Variables are expanded once and their expansion displayed.
+.It Ic .trace Ar message
+Report the informal message to the user.
 Variables are expanded once and their expansion displayed.
 .It Ic .undef Ar variable
 Un-define the specified global variable.
