@@ -1,18 +1,21 @@
-# $MirOS: ports/emulators/qvm86/Makefile,v 1.2 2005/11/17 18:37:26 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.3 2005/11/17 18:43:58 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 ONLY_FOR_PLATFORMS=	MirBSD:*:i386
 
 COMMENT=		"fast i386 emulator with kernel module"
-V_EMU=			20051117
-V_QVM=			20051117
-PKGNAME=		qvm86-${V_QVM}-1
+PKGNAME=		${_CVS_DISTF0:R}-0
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/ \
 			http://savannah.nongnu.org/qvm86/
-DISTFILES=		qemu-${V_EMU}.cgz \
-			qvm86-${V_QVM}.cgz:0
-MASTER_SITES=		#XXX
+CVS_DISTREPO=		anoncvs@savannah.nongnu.org:/cvsroot/qemu
+CVS_DISTDATE=		2005/11/17 15:00
+CVS_DISTMODS=		qemu
+CVS_DISTFILE=		qemu
+CVS_DISTREPO0=		anoncvs@savannah.nongnu.org:/cvsroot/qvm86
+CVS_DISTDATE0=		2005/11/17 15:00
+CVS_DISTMODS0=		qvm86
+CVS_DISTFILE0=		qvm86
 
 # GNU GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
@@ -44,8 +47,10 @@ LKMDIR=			${TRUEPREFIX}/share/qemu/lkm
 MAKE_ENV+=		BSDMAKE=/usr/bin/make
 MAKE_ENV+=		LKMDIR=${LKMDIR}
 
-SMKVER!=		let major=$$(print | /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrev); \
-			let minor=$$(print | /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrpl); \
+SMKVER!=		let major=$$(print | /usr/bin/env -i \
+			    /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrev); \
+			let minor=$$(print | /usr/bin/env -i \
+			    /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrpl); \
 			let 'version=major * 256 + minor'; print $$version
 
 .if ${SMKVER} < 2106
