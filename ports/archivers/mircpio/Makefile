@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cpio/Makefile,v 1.5 2005/11/16 15:57:32 tg Exp $
+# $MirOS: ports/archivers/mircpio/Makefile,v 1.1 2005/11/17 23:54:22 tg Exp $
 #-
 # This port must not contain a patches/ directory.
 # The distfile must be plain old cpio, not bcpio, odc, ..., SVR4 or tar.
@@ -20,7 +20,7 @@ WRKDIST=		${WRKDIR}/pax
 
 # For bootstrapping
 EXTRACT_CASES+=		*.cpio.gz) ${GZIP_CMD} -dc \
-			    ${FULLDISTDIR}/$$archive | cpio -id ;;
+			    ${FULLDISTDIR}/$$archive | pax -r ;;
 
 .include <bsd.port.mk>
 
