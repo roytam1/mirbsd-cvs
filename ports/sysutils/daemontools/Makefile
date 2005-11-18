@@ -1,10 +1,11 @@
-# $MirOS$
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.1.7.1 2005/03/18 15:52:04 tg Exp $
 
-COMMENT=	"collection of tools for managing unix services"
-CATEGORIES=	sysutils
-DISTNAME=	daemontools-0.76
-HOMEPAGE=	http://cr.yp.to/daemontools.html
-RESPONSIBLE=	Thorsten Glaser <x86@ePost.de>
+COMMENT=		"collection of tools for managing unix services"
+CATEGORIES=		sysutils
+DISTNAME=		daemontools-0.76
+PKGNAME=		${DISTNAME}-1
+HOMEPAGE=		http://cr.yp.to/daemontools.html
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # May distribute patches.
 # Must not distribute binaries.
@@ -27,11 +28,6 @@ BINLIST=	envdir envuidgid fghack multilog pgrphack readproctitle \
 		svstat tai64n tai64nlocal
 
 WRKDIST=	${WRKDIR}
-PATCH_LIST=
-.if ${OSname} == "mirbsd" && ${OSrev} >= 8
-PATCH_LIST+=	patch-admin_daemontools-0_76_src_tai_now_c \
-		patch-admin_daemontools-0_76_src_taia_now_c
-.endif
 
 do-build:
 	@echo ${CC} ${CFLAGS} >${WRKSRC}/admin/${DISTNAME}/src/conf-cc
