@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.4 2005/10/03 23:05:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.5 2005/10/03 23:43:35 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -7,7 +7,7 @@
  MirOS-current is broken at the moment and does not build.
  There is currently no recommended snapshot to install; existing snapshots are quite broken.
  The best way to install MirOS at the moment is using the LinuxTag 2005 Special Edition CD-R.
- MirPorts are past flag day; you must reinstall using the new <tt>ports/Setup.sh</tt> (still experimental).
+ MirPorts are past flag day; you must reinstall using the new <tt>ports/Setup.sh</tt> (see <a href="/?ports">docs</a>).
  We expect a huge percentage of individual ports to be broken.
 </p>
 
@@ -21,14 +21,23 @@
 
 <h2>Mirrors known to work</h2><ul>
  <li>AnonCVS and AnonRSYNC<ul>
-  <li>anoncvs@thor.66h.42h.de:/cvs (pw: anoncvs) (IPv6 enabled)
+  <li>rsync://rsync.allbsd.org/mirbsd-cvs/ (empty pw) (IPv6 enabled)
+   (rsyncd only)</li>
+  <li>_anoncvs@thor.66h.42h.de:/cvs (empty pw) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
-  <li>anoncvs@mirsolutions.de:/cvs (pw: anoncvs)
+  <li>_anoncvs@mirsolutions.de:/cvs (empty pw)
    (anoncvs and anonrsync)</li>
   <li>_anoncvs@herc.66h.42h.de:/cvs (port 57; private) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
+  <li>rsync://rsync.allbsd.org/mirbsd-old-cvs/ (empty pw) (IPv6 enabled)
+   (rsyncd only)</li>
+  <li>_anoncvs@thor.66h.42h.de:/ncvs (empty pw) (IPv6 enabled)
+   (anoncvs and anonrsync)</li>
+  <li>_anoncvs@thor.66h.42h.de:/ocvs (empty pw) (IPv6 enabled)
+   (anoncvs and anonrsync)</li>
  </ul></li>
  <li>CVSweb<ul>
+  <li><a href="http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd">http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd</a></li>
   <li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">http://mirbsd.mirsolutions.de/cvs.cgi/</a></li>
  </ul></li>
  <li>Release<ul>
@@ -38,6 +47,7 @@
  </ul></li>
  <li>Snapshots<ul>
   <li>Currently, no suitable snapshot is available for download.</li>
+  <li><a href="http://f.scarywater.net/miros/">Our BitTorrent tracker</a></li>
  </ul></li>
  <li>Website<ul>
   <li><a href="https://mirbsd.mirsolutions.de:445/">http://mirbsd.mirsolutions.de/</a></li>

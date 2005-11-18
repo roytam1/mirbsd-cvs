@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.34 2005/11/16 22:30:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.35 2005/11/18 00:11:59 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
@@ -7,7 +7,8 @@
 	MirPorts you can now specify CVS server, tag/date and module paths
 	as a &quot;pseudo distfile&quot; instead of rolling your own; they
 	will still be checksummed. The pkgtools port has been converted to
-	use this new mechanism; we'll see if it creates trouble.</li>
+	use this new mechanism; we'll see if it creates trouble.<br /> The
+	new _anoncvs password on thor/mirsolutions.de is empty.</li>
 
 <li>16.11.2005<br />The new MirPorts installer both works on all supported
 	platforms now and has got a manual page. Several ports were fixed,
