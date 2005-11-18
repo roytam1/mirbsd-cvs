@@ -1,4 +1,5 @@
-@comment $MirOS$
+@comment $MirOS: ports/essentials/pkgtools/pkg/PLIST,v 1.1 2005/11/16 11:54:00 tg Exp $
+@option base-package
 man/cat1/pkg.0
 man/cat1/pkg_add.0
 man/cat1/pkg_create.0

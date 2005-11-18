@@ -1,11 +1,12 @@
-# $MirOS$
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.1 2005/11/16 11:53:59 tg Exp $
 
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
-DIST_NAME=		pkgtools
-DIST_DATE=		20051116
-DIST_SOURCE=		module
-DIST_SOURCEDIR=		${PORTSDIR}/infrastructure/pkgtools
+CVS_DISTREPO=		_anoncvs@thor.66h.42h.de:/cvs
+CVS_DISTDATE=		2005/11/17
+CVS_DISTMODS=		ports/infrastructure/pkgtools
+CVS_DISTFILE=		pkgtools
+PKGNAME=		${_CVS_DISTF:R}-0
 RESPONSIBLE=		Benny Siegert <bsiegert@mirbsd.org>
 HOMEPAGE=		http://mirbsd.mirsolutions.de/?ports
 
@@ -19,6 +20,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 NO_REGRESS=		Yes
+WRKDIST=		${WRKDIR}/${CVS_DISTMODS}
 
 MAKE_ENV+=		PKG_USER=${BINOWN:Q}
 MAKE_ENV+=		PORTSDIR=${PORTSDIR:Q}
