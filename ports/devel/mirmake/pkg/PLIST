@@ -1,4 +1,5 @@
-@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.1 2005/11/16 17:49:16 tg Exp $
+@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.2 2005/11/17 21:28:19 tg Exp $
+@option base-package
 IFSFU:bin/install
 bin/lorder
 bin/make
