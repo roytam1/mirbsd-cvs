@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.6 2005/04/26 21:58:33 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.7 2005/08/21 11:50:16 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -31,17 +31,19 @@ USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 
 CONFIGURE_ARGS+=	--enable-diskless
-CFLAGS+=		-fno-stack-protector
+MAKE_FLAGS=		MAKEINFO="makeinfo --no-split"
+
+GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
+COPTS+=			-fno-stack-protector
 .if ${OStype} == "MirBSD"
-.if ${_CC_IS_GCC:M3.4*}
-CFLAGS+=		-ftrampolines
+.if ${GCC_VERSION:M3.4*}
+COPTS+=			-ftrampolines
 .endif
 .elif ${OStype} == "OpenBSD"
-.if ${_CC_IS_GCC:M3.3*}
-CFLAGS+=		-ftrampolines
+.if ${GCC_VERSION:M3.3*}
+COPTS+=			-ftrampolines
 .endif
 .endif
-MAKE_FLAGS=		MAKEINFO="makeinfo --no-split"
 
 FILES=			stage1/stage1 stage2/e2fs_stage1_5 \
 			stage2/fat_stage1_5 stage2/ffs_stage1_5 \
