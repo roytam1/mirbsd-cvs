@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.68 2005/11/17 23:04:49 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.69 2005/11/18 14:14:30 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -463,6 +463,13 @@ MAKE_ENV+=		HOME='${PORTHOME}' PATH='${PORTPATH}' \
 			LDFLAGS='${LDFLAGS}' ${DESTDIRNAME}= \
 			BINOWN='${BINOWN}' BINGRP='${BINGRP}' \
 			EXTRA_SYS_MK_INCLUDES="\"${PORTSDIR}/infrastructure/mk/mirports.bsd.mk\""
+
+.if defined(LDADD) && !empty(LDADD)
+MAKE_ENV+=		LDADD=${LDADD:Q}
+.  if defined(LDADD_CYCLIC)
+MAKE_ENV+=		LDADD_CYCLIC=1
+.  endif
+.endif
 
 DISTORIG?=		.bak.orig
 PATCH?=			/usr/bin/patch
