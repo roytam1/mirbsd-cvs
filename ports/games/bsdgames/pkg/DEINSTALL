@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: ports/games/bsdgames/pkg/DEINSTALL,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
 #
 # deinstallation setup for bsdgames
 
