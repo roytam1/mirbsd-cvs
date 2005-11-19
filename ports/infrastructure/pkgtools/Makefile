@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile,v 1.2.2.1 2005/09/10 23:37:03 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile,v 1.3 2005/09/12 22:53:20 tg Exp $
 
   SUBDIR=  lib
   SUBDIR+= add
@@ -7,5 +7,6 @@
   SUBDIR+= info
   SUBDIR+= pkg
   SUBDIR+= rtfm
+  SUBDIR+= upgrade
 
 .include <bsd.subdir.mk>
