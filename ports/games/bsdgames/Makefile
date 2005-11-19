@@ -1,13 +1,12 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.2 2005/07/07 21:20:57 bsiegert Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.3 2005/08/21 11:48:50 tg Exp $
 
 COMMENT=		"BSD base system games"
 CATEGORIES=		games
-V=			20050215
-DISTNAME=		games-${V}
-PKGNAME=		bsdgames-${V}-0
-EXTRACT_SUFX=		.cpio.gz
-HOMEPAGE=		http://mirbsd.de/
-MASTER_SITES=		${_MASTER_SITE_MIRBSD}
+CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTDATE=		2005/02/16
+CVS_DISTMODS=		src/games
+CVS_DISTFILE=		bsdgames
+PKGNAME=		${_CVS_DISTF:R}-0
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # BSD
@@ -16,10 +15,14 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-WRKDIST=		${WRKDIR}/games
+.if !defined(SUDO) || empty(SUDO)
+ERRORS+=		"You must use sudo."
+.endif
+
+WRKDIST=		${WRKDIR}/src/games
 PREFIX=			/usr
 EXTRA_MAKE_FLAGS=	HOSTCC="${CC}"
-EXTRA_FAKE_FLAGS=	MANDIR=${LOCALBASE}/man/cat
+EXTRA_FAKE_FLAGS=	MANDIR=${PREFIX}/share/man/cat
 
 EXTRA_FORTUNES=		at.linux fvl fvl_vendor martin.piskernig \
 			norbert.tretkowski rss thomas.ogrisegg

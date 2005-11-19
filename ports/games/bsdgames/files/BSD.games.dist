@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/bsdgames/files/BSD.games.dist,v 1.1.7.1 2005/03/18 15:46:05 tg Exp $
 # $OpenBSD: BSD.local.dist,v 1.12 2002/06/09 06:15:15 todd Exp $
 # $FreeBSD: BSD.local.dist,v 1.32 1997/09/12 05:44:11 asami Exp $
 
@@ -63,6 +63,17 @@ quiz.db
 ..
 
 # ./usr/share/games
+..
+
+# ./usr/share/man
+man
+
+# ./usr/share/man/cat6
+cat6
+# ./usr/share/man/cat6
+..
+
+# ./usr/share/man
 ..
 
 # ./usr/share
