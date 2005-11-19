@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.2.2.1 2005/09/11 02:04:04 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.3 2005/09/12 22:53:22 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.12 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include "lib.h"
 #include "delete.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.2.2.1 2005/09/11 02:04:04 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.3 2005/09/12 22:53:22 tg Exp $");
 
 static char Options[] = "chvDdnfp:q";
 
@@ -33,6 +33,7 @@ bool	NoDeInstall	= false;
 bool	CleanDirs	= false;
 bool	CleanConf	= false;
 bool	CheckMD5	= true;
+bool	KeepFiles	= false;
 
 static __dead void usage(void);
 
@@ -77,6 +78,9 @@ main(int argc, char **argv)
 	case 'c':
 	    CleanConf = true;
 	    break;
+
+	case 'U':
+	    KeepFiles = true;
 	case 'h':
 	case '?':
 	default:

@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.3 2005/09/12 22:59:56 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.4 2005/09/13 10:58:24 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -67,8 +67,15 @@ if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
 fi
 
-pkg_delete $OLDPKGS
-pkg_add $1
+if grep -q '^@option base-package' $PKG_DBDIR/$OLDPKGS/+CONTENTS ; then
+	echo "This is a base package, unregistering only"
+	pkg_delete -DU $OLDPKGS
+	pkg_add -Nq $1
+else
+	pkg_delete $OLDPKGS
+	pkg_add $1
+fi
+
 
 if [[ -f $TMPDIR/$OLDPKGS/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
 	mv $TMPDIR/$OLDPKGS/+REQUIRED_BY $PKG_DBDIR/$PKGNAME

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.2 2005/07/18 20:02:00 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.3 2005/11/15 19:33:59 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.2 2005/07/18 20:02:00 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.3 2005/11/15 19:33:59 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -345,7 +345,7 @@ write_plist(package_t *pkg, FILE *fp)
  * run it too in cases of failure.
  */
 int
-delete_package(bool ign_err, bool nukedirs, bool remove_config,
+delete_package(bool keep_files, bool nukedirs, bool remove_config,
     bool check_md5, package_t *pkg)
 {
     plist_t *p, *pp;
@@ -398,6 +398,8 @@ delete_package(bool ign_err, bool nukedirs, bool remove_config,
 	case PLIST_LIB:
 	case PLIST_SHELL:
 	case PLIST_FILE:
+	    if (keep_files)
+		break;
 	    if (p->name[strlen(p->name) - 1] == '/')
 		break;
 	    last_file = p->name;
@@ -427,7 +429,7 @@ delete_package(bool ign_err, bool nukedirs, bool remove_config,
 		if (Verbose)
 		    printf("Delete file %s\n", tmp);
 		if (!Fake) {
-		    if (delete_hierarchy(tmp, ign_err, nukedirs))
+		    if (delete_hierarchy(tmp, false, nukedirs))
 		    fail = -1;
 		}
 	    }
@@ -443,7 +445,7 @@ delete_package(bool ign_err, bool nukedirs, bool remove_config,
 	    break;
 	case PLIST_DIR_RM:
 	    last_file = p->name;
-	    fail = fail | process_dirrm(p, ign_err, &usedb, ourdb, Where);
+	    fail = fail | process_dirrm(p, false, &usedb, ourdb, Where);
 	    break;
 	default:
 	    break;
@@ -464,7 +466,7 @@ delete_package(bool ign_err, bool nukedirs, bool remove_config,
 		}
 		if (p->type == PLIST_FILE) {
 		    p->name[--len] = '\0';
-		    fail = fail | process_dirrm(p, ign_err, &usedb, ourdb, Where);
+		    fail = fail | process_dirrm(p, false, &usedb, ourdb, Where);
 		} else
 		    delete_extra(toabs(p->name, Where), true);
 	    }

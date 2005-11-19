@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/delete/delete.h,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -29,6 +29,7 @@ extern bool CheckMD5;
 extern bool CleanConf;
 extern bool CleanDirs;
 extern bool NoDeInstall;
+extern bool KeepFiles;
 
 extern char *Directory;
 extern char *PkgName;
