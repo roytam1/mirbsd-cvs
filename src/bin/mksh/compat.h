@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.5 2005/10/25 20:48:18 tg Exp $ */
+/* $MirOS: src/bin/mksh/compat.h,v 1.1.2.6 2005/10/25 21:04:16 tg Exp $ */
 
 /* Part I: extra headers */
 
@@ -54,7 +54,7 @@ size_t strlcpy(char *, const char *, size_t);
 size_t confstr(int, char *, size_t);
 #endif
 
-#if defined(__gnu_linux__) || defined(__sun__)
+#if defined(__gnu_linux__) || defined(__sun__) || defined(__CYGWIN__)
 #define	DEFFILEMODE	(S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
 mode_t	 getmode(const void *, mode_t);
 void	*setmode(const char *);
