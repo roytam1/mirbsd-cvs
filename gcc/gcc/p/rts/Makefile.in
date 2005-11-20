@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.3 2005/03/28 00:07:09 tg Exp $
+# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.4 2005/03/28 02:09:45 tg Exp $
 # Makefile for the GNU Pascal Run Time System
 #
 # Copyright (C) 1995-2005 Free Software Foundation, Inc.
@@ -150,7 +150,7 @@ init.o init.lo: $(VERSION_FILENAME)
 # or a change to the RTS's interface modify rtsc.pas (don't just
 # touch it if you're going to distribute the patch), so the
 # following rule will force the complete RTS to be recompiled.
-$(OBJS) $(SO_OBJS): rtsc.pas constants.h rts-config.inc needed-options
+$(OBJS) $(SO_OBJS): rtsc.pas constants.def rts-config.inc needed-options
 
 # The Pascal source is not used, but we have to provide any.
 # `-x Preprocessed-Pascal /dev/null' works as well, except on mingw.

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/p/module.c,v 1.2 2005/03/28 02:09:44 tg Exp $ */
 
 /*Module support for GNU Pascal
 
@@ -29,7 +29,7 @@
   02111-1307, USA. */
 
 #include "gpc.h"
-#include "p/version.h"
+#include "p/p-version.h"
 
 #ifdef EGCS
 #define HOST_PTR_PRINTF_CAST_TYPE PTR
@@ -98,43 +98,43 @@ typedef struct
   unsigned char *buffer;
 } MEMFILE;
 
-static MEMFILE *mopen_read PARAMS ((const char *));
-static void mread1 PARAMS ((MEMFILE *, PTR, size_t));
-static void mseek PARAMS ((MEMFILE *, size_t));
-static void add_to_automake_temp_file PARAMS ((const char *));
-static const char *quote_arg PARAMS ((const char *));
-static int execute PARAMS ((const char *, char *));
-static char *locate_file_1 PARAMS ((const char *, const char *));
-static const char *get_automake_switches PARAMS ((int));
-static struct interface_table_t *get_interface_table PARAMS ((tree, tree));
-static gpi_int compute_checksum PARAMS ((unsigned char *, gpi_int));
-static int itab_check_gpi_checksum PARAMS ((tree, gpi_int, int));
-static const char *file_basename PARAMS ((const char *));
-static int find_automake_tempfile_entry PARAMS ((const char *, const char *, int));
-static char *locate_object_file PARAMS ((const char *));
-static int module_must_be_recompiled PARAMS ((tree, char *, char *, tree));
-static char *locate_interface_source PARAMS ((const char *, const char *, const char *));
-static MEMFILE *gpi_open PARAMS ((tree, const char *, const char *, int, gpi_int *, gpi_int *, gpi_int *));
-static tree load_gpi_file PARAMS ((tree, const char *, int));
-static void import_node PARAMS ((tree, tree, tree, import_type));
-static void load_own_interface PARAMS ((int));
-static module_t find_module PARAMS ((tree, int));
-static void module_expand_exported_ranges PARAMS ((tree));
-static char *load_string PARAMS ((MEMFILE *));
-static inline void store_length_f PARAMS ((FILE *, const void *, size_t));
-static void store_length PARAMS ((const void *, size_t));
-static void start_chunk PARAMS ((FILE *, int, gpi_int));
-static void store_string_chunk PARAMS ((FILE *, int, const char *));
-static inline void store_string PARAMS ((const char *));
-static tree dequalify_id PARAMS ((tree));
-static void store_tree PARAMS ((tree, FILE *, tree));
-static int get_node_id PARAMS ((tree));
-static void store_node PARAMS ((tree));
-static void store_node_fields PARAMS ((tree, int));
-static tree load_tree PARAMS ((MEMFILE *, gpi_int, gpi_int, int));
-static tree load_node PARAMS ((void));
-static void itab_store_node PARAMS ((struct interface_table_t *, gpi_int, tree));
-static void store_flags PARAMS ((tree));
+static MEMFILE *mopen_read (const char *);
+static void mread1 (MEMFILE *, PTR, size_t);
+static void mseek (MEMFILE *, size_t);
+static void add_to_automake_temp_file (const char *);
+static const char *quote_arg (const char *);
+static int execute (const char *, char *);
+static char *locate_file_1 (const char *, const char *);
+static const char *get_automake_switches (int);
+static struct interface_table_t *get_interface_table (tree, tree);
+static gpi_int compute_checksum (unsigned char *, gpi_int);
+static int itab_check_gpi_checksum (tree, gpi_int, int);
+static const char *file_basename (const char *);
+static int find_automake_tempfile_entry (const char *, const char *, int);
+static char *locate_object_file (const char *);
+static int module_must_be_recompiled (tree, char *, char *, tree);
+static char *locate_interface_source (const char *, const char *, const char *);
+static MEMFILE *gpi_open (tree, const char *, const char *, int, gpi_int *, gpi_int *, gpi_int *);
+static tree load_gpi_file (tree, const char *, int);
+static void import_node (tree, tree, tree, import_type);
+static void load_own_interface (int);
+static module_t find_module (tree, int);
+static void module_expand_exported_ranges (tree);
+static char *load_string (MEMFILE *);
+static inline void store_length_f (FILE *, const void *, size_t);
+static void store_length (const void *, size_t);
+static void start_chunk (FILE *, int, gpi_int);
+static void store_string_chunk (FILE *, int, const char *);
+static inline void store_string (const char *);
+static tree dequalify_id (tree);
+static void store_tree (tree, FILE *, tree);
+static int get_node_id (tree);
+static void store_node (tree);
+static void store_node_fields (tree, int);
+static tree load_tree (MEMFILE *, gpi_int, gpi_int, int);
+static tree load_node (void);
+static void itab_store_node (struct interface_table_t *, gpi_int, tree);
+static void store_flags (tree);
 
 /* Start GPI info (the following defines are used by gpidump.pas via tree.inc) */
 #define GPI_HEADER "GNU Pascal unit/module interface\n"
@@ -187,6 +187,7 @@ static void store_flags PARAMS ((tree));
   SN (unsigned_intSI_type_node) \
   SN (unsigned_intDI_type_node) \
   SN (void_type_node) \
+  SN (void_list_node) \
   SN (open_array_index_type_node) \
   SN (ptr_type_node) \
   SN (const_ptr_type_node) \
@@ -218,9 +219,9 @@ static void store_flags PARAMS ((tree));
   SN (any_file_type_node) \
   SN (complex_type_node) \
   SN (pascal_maxint_node) \
-  SN (global_input_file_node) \
-  SN (global_output_file_node) \
-  SN (global_error_file_node) \
+  SN (input_variable_node) \
+  SN (output_variable_node) \
+  SN (error_variable_node) \
   SN (string_schema_proto_type) \
   SN (const_string_schema_proto_type) \
   SN (const_string_schema_par_type) \
@@ -304,11 +305,10 @@ static GTY(()) struct interface_table_t *current_interface_table;
 #define mptr(F, O) ((F)->buffer + (O))
 #define meof(F) ((F)->curpos >= (F)->size)
 #define mtell(F) ((F)->curpos)
-#define mclose(F) (assert (F), free ((F)->buffer), free ((F)->filename), free (F))
+#define mclose(F) (gcc_assert (F), free ((F)->buffer), free ((F)->filename), free (F))
 
 static MEMFILE *
-mopen_read (name)
-     const char *name;
+mopen_read (const char *name)
 {
   struct stat finfo;
   MEMFILE *s = NULL;
@@ -336,10 +336,7 @@ mopen_read (name)
 }
 
 static void
-mread1 (F, P, S)
-     MEMFILE *F;
-     PTR P;
-     size_t S;
+mread1 (MEMFILE *F, PTR P, size_t S)
 {
   if (F->curpos + S > F->size)
     {
@@ -351,11 +348,9 @@ mread1 (F, P, S)
 }
 
 static void
-mseek (F, O)
-     MEMFILE *F;
-     size_t O;
+mseek (MEMFILE *F, size_t O)
 {
-  assert (O <= F->size);
+  gcc_assert (O <= F->size);
   F->curpos = O;
 }
 
@@ -393,48 +388,47 @@ choose_temp_base ()
    Since the order of declarations is relaxed, this is checked before every routine.
    All nodes already handled are marked. */
 void
-associate_external_objects (external_name_list)
-     tree external_name_list;
+associate_external_objects (tree external_name_list)
 {
   tree link;
   if (external_name_list && pascal_global_bindings_p ())
     for (link = external_name_list; link; link = TREE_CHAIN (link))
       {
-        tree id = TREE_VALUE (link), special = NULL_TREE;
+        tree id = TREE_VALUE (link), name;
+        int found = 1;
         if (!id)
-          continue;
+          found = 0;
         else if (IDENTIFIER_IS_BUILT_IN (id, p_Output))
-          special = current_module->output_file_node = global_output_file_node;
+          {
+            current_module->output_available = 1;
+            pushdecl_import (output_variable_node, 0);
+          }
         else if (IDENTIFIER_IS_BUILT_IN (id, p_Input))
-          special = current_module->input_file_node = global_input_file_node;
+          {
+            current_module->input_available = 1;
+            pushdecl_import (input_variable_node, 0);
+          }
         else if (IDENTIFIER_IS_BUILT_IN (id, p_StdErr) && !(co->pascal_dialect & C_E_O_PASCAL))
-          special = current_module->error_file_node = global_error_file_node;
+          pushdecl_import (error_variable_node, 0);
+        else if ((name = lookup_name (id)))
+          {
+            if (TREE_CODE (name) == VAR_DECL && PASCAL_TYPE_FILE (TREE_TYPE (name)))
+              PASCAL_EXTERNAL_OBJECT (name) = 1;
+            else
+              warning ("identifier `%s' in %s heading is not a variable of file type",
+                       IDENTIFIER_NAME (id),
+                       current_module->main_program ? "program" : "module");
+          }
         else
-          {
-            tree name = lookup_name (id);
-            if (name)
-              {
-                if (TREE_CODE (name) == VAR_DECL && PASCAL_TYPE_FILE (TREE_TYPE (name)))
-                  PASCAL_EXTERNAL_OBJECT (name) = 1;
-                else
-                  warning ("identifier `%s' in %s heading is not a variable of file type",
-                           IDENTIFIER_NAME (id),
-                           current_module->main_program ? "program" : "module");
-                TREE_VALUE (link) = NULL_TREE;
-              }
-          }
-        if (special)
-          {
-            pushdecl (special);
-            TREE_VALUE (link) = NULL_TREE;
-          }
+          found = 0;
+        if (found)
+          TREE_VALUE (link) = NULL_TREE;
       }
 }
 
 /* Make sure all the names in program/module param list have been declared. */
 void
-check_external_objects (idlist)
-     tree idlist;
+check_external_objects (tree idlist)
 {
   associate_external_objects (idlist);
   for (; idlist; idlist = TREE_CHAIN (idlist))
@@ -446,9 +440,7 @@ check_external_objects (idlist)
 /* Locate a module by its NAME.
    If CREATE is nonzero, create a new module if an old one is not found. */
 static module_t
-find_module (name, create)
-     tree name;
-     int create;
+find_module (tree name, int create)
 {
   module_t curr;
   for (curr = module_list; curr; curr = curr->next)
@@ -483,9 +475,7 @@ find_module (name, create)
 /* Allocate and initialize a new structure for a new program (kind = 0),
    unit (1), interface (2), implementation (3) or GPC (4) module named id. */
 void
-initialize_module (id, par, kind)
-     tree id, par;
-     int kind;
+initialize_module (tree id, tree par, int kind)
 {
   const char *n;
   const char *current_module_name = NULL;
@@ -503,9 +493,10 @@ initialize_module (id, par, kind)
         chk_dialect ("programs without program header are", B_D_PASCAL);
       id = get_identifier ("noname");
     }
-  if (kind == 1 || (kind == 0 && !(co->pascal_dialect & C_E_O_PASCAL)))
-    pushdecl (build_decl (NAMESPACE_DECL, id, void_type_node));
   current_module = find_module (id, 1);
+  current_module->bp_qualids = id && (kind == 1 || (kind == 0 && (co->pascal_dialect & B_D_PASCAL)));
+  if (current_module->bp_qualids)
+    pushdecl (build_decl (NAMESPACE_DECL, id, void_type_node));
   current_module->assembler_name = NULL;
   if (kind == 0)
     {
@@ -538,8 +529,8 @@ initialize_module (id, par, kind)
   if (!current_module->assembler_name)
     {
       char name_len[23];
-      const char * mname = IDENTIFIER_POINTER (current_module->name);
-      sprintf (name_len, "%ld_", (long)strlen (mname));
+      const char *mname = IDENTIFIER_POINTER (current_module->name);
+      sprintf (name_len, "%ld_", (long) strlen (mname));
       current_module_name = ACONCAT (("_p__M", name_len, mname, NULL));
       current_module->assembler_name = get_identifier (current_module_name);
     }
@@ -547,7 +538,7 @@ initialize_module (id, par, kind)
   current_module->initializers = build_tree_list (NULL_TREE, get_identifier (n));
   n = ACONCAT ((current_module_name, "_fini", NULL));
   current_module->finalizer = build_implicit_routine_decl (get_identifier (n),
-    void_type_node, build_tree_list (NULL_TREE, void_type_node), ER_STATIC);
+    void_type_node, void_list_node, ER_STATIC);
 
   if (kind != 0)
     pushlevel (0);
@@ -559,7 +550,7 @@ initialize_module (id, par, kind)
 }
 
 void
-start_module_interface ()
+start_module_interface (void)
 {
   const char *n = ACONCAT ((IDENTIFIER_POINTER (current_module->name), "-all", NULL));
   tree t = build_tree_list (NULL_TREE, NULL_TREE);
@@ -568,7 +559,7 @@ start_module_interface ()
 }
 
 void
-start_unit_implementation ()
+start_unit_implementation (void)
 {
   if (!co->implementation_only)
     create_gpi_files ();
@@ -590,8 +581,7 @@ start_unit_implementation ()
 }
 
 void
-finalize_module (implementation_follows)
-     int implementation_follows;
+finalize_module (int implementation_follows)
 {
   if (co->implementation_only && co->automake_level)
     warning ("`--automake' together with `--implementation-only' can cause problems");
@@ -648,8 +638,8 @@ finalize_module (implementation_follows)
   current_module->autoexport = NULL_TREE;
   current_module->implementation = 0;
   current_module->interface = 0;
-  current_module->output_file_node = NULL_TREE;
-  current_module->input_file_node = NULL_TREE;
+  current_module->output_available = 0;
+  current_module->input_available = 0;
   current_module = NULL_MODULE;
   exported_interface_list = NULL_TREE;
 #ifndef GCC_3_3
@@ -694,13 +684,13 @@ finalize_module (implementation_follows)
    TREE_READONLY: protected
    TREE_PURPOSE: Export renaming (new name) or NULL_TREE.
    TREE_VALUE: IDENTIFIER_NODE of the exported name
-     or TREE_LIST if exporting a range (TREE_PURPOSE..TREE_VALUE)
+     or TREE_LIST if exporting a range (TREE_PURPOSE .. TREE_VALUE)
 
-   Later in `module_expand_exported_ranges' we replace TREE_LIST
-   representing range by NULL_TREE and we add entries for values. */
+   Later in `module_expand_exported_ranges' we replace the TREE_LIST
+   representing a range by NULL_TREE and we add entries for the individual
+   values instead. */
 void
-export_interface (name, export_list)
-     tree name, export_list;
+export_interface (tree name, tree export_list)
 {
   tree exported, t;
 
@@ -727,13 +717,13 @@ export_interface (name, export_list)
       TREE_CHAIN (last) = build_tree_list (integer_zero_node, NULL_TREE);
       last = TREE_CHAIN (last);
       current_module->autoexport = chainon (current_module->autoexport,
-             build_tree_list (last, build_tree_list (export_list, name)));
+        build_tree_list (last, build_tree_list (export_list, name)));
     }
 }
 
 /* Import module/unit interfaces specified on the command line via `--uses=...'. */
 void
-do_extra_import ()
+do_extra_import (void)
 {
   char *p = extra_imports;
   if (!p)
@@ -793,8 +783,7 @@ do_extra_import ()
 /* Export names of a Borland Pascal unit. This also handles
    `export foo = all' clauses and perhaps, one day, PXSC modules. */
 void
-handle_autoexport (name)
-     tree name;
+handle_autoexport (tree name)
 {
   tree e;
   if (!current_module->implementation)
@@ -822,10 +811,9 @@ handle_autoexport (name)
 
 #ifndef EGCS
 /* pexecute.c needs this function */
-extern const char *my_strerror PARAMS ((int));
+extern const char *my_strerror (int);
 const char *
-my_strerror (e)
-     int e;
+my_strerror (int e)
 {
 #ifdef HAVE_STRERROR
   return strerror (e);
@@ -844,8 +832,7 @@ my_strerror (e)
 
 /* Also in gpc.c :-( */
 static const char *
-quote_arg (str)
-     const char *str;
+quote_arg (const char *str)
 {
   int need_quoting = 0;
   const char *p = str, *q;
@@ -876,9 +863,7 @@ quote_arg (str)
 
    Return 1 on success, 0 otherwise. */
 static int
-execute (what, args)
-     const char *what;
-     char *args;
+execute (const char *what, char *args)
 {
   char *s;
   int pid, wait_status;
@@ -967,13 +952,12 @@ execute (what, args)
         }
       return 1;
     }
-  assert (0);
+  gcc_unreachable ();
 }
 
 /* Subroutine of locate_file */
 static char *
-locate_file_1 (filename, p)
-     const char *filename, *p;
+locate_file_1 (const char *filename, const char *p)
 {
   if (p)
     while (*p)
@@ -1011,9 +995,7 @@ locate_file_1 (filename, p)
    Return a newly allocated char * holding the result, or NULL
    if the file is not accessible. */
 char *
-locate_file (filename, kind)
-     const char *filename;
-     locate_file_t kind;
+locate_file (const char *filename, locate_file_t kind)
 {
   const char *q;
   char *r = NULL;
@@ -1051,15 +1033,14 @@ locate_file (filename, kind)
         if (!r && !flag_disable_default_paths) r = locate_file_1 (filename, default_unit_path);
         break;
       default:
-        assert (0);
+        gcc_unreachable ();
     }
   return r;
 }
 
 /* Append P to the string containing the automake GPC options. */
 void
-add_automake_gpc_options (p)
-     const char *p;
+add_automake_gpc_options (const char *p)
 {
   if (!automake_gpc_options)
     automake_gpc_options = save_string (p);
@@ -1075,14 +1056,13 @@ add_automake_gpc_options (p)
    The contents of that file will be passed to the linker
    and to recursive calls of the compiler. */
 static void
-add_to_automake_temp_file (line)
-     const char *line;
+add_to_automake_temp_file (const char *line)
 {
   if (!co->automake_level)
     return;
   if (co->debug_automake)
     fprintf (stderr, "GPC automake: adding to automake temp file: %s\n", line);
-  assert (automake_temp_filename);
+  gcc_assert (automake_temp_filename);
   if (line)
     {
       FILE *automake_temp_file = fopen (automake_temp_filename, "at");
@@ -1097,10 +1077,7 @@ add_to_automake_temp_file (line)
 }
 
 void
-append_string_list (list, str, allow_duplicates)
-     string_list **list;
-     const char *str;
-     int allow_duplicates;
+append_string_list (string_list **list, const char *str, int allow_duplicates)
 {
   string_list *p;
   /* Check whether str already is in the list. */
@@ -1120,8 +1097,7 @@ append_string_list (list, str, allow_duplicates)
    This information will be written into the GPI file.
    From there, it will be read and written to the automake temp file. */
 void
-add_to_link_file_list (filename)
-     const char *filename;
+add_to_link_file_list (const char *filename)
 {
   if (current_module && current_module->main_program)
     add_to_automake_temp_file (filename);
@@ -1134,7 +1110,7 @@ add_to_link_file_list (filename)
 /* Store the name of the executable to be produced in
    the automake temporary file. */
 void
-store_executable_name ()
+store_executable_name (void)
 {
   if (executable_file_name)
     {
@@ -1153,7 +1129,7 @@ store_executable_name ()
           executable_file_name = q;
         }
       else
-        assert (0);
+        gcc_unreachable ();
       if (executable_destination_path)
         {
           const char *p = executable_file_name + strlen (executable_file_name);
@@ -1184,8 +1160,7 @@ store_executable_name ()
    This function is shared by module_must_be_compiled
    and compile_module. */
 static const char *
-get_automake_switches (pascal_source)
-     int pascal_source;
+get_automake_switches (int pascal_source)
 {
   const char *cmd_line = "";
   if (pascal_source)
@@ -1235,8 +1210,7 @@ get_automake_switches (pascal_source)
 }
 
 static const char *
-file_basename (filename)
-     const char *filename;
+file_basename (const char *filename)
 {
   const char *f = filename;
   while (*f) f++;
@@ -1245,14 +1219,12 @@ file_basename (filename)
 }
 
 static int
-find_automake_tempfile_entry (prefix, filename, times)
-     const char *prefix, *filename;
-     int times;
+find_automake_tempfile_entry (const char *prefix, const char *filename, int times)
 {
   FILE *automake_temp_file;
   const char *fn = file_basename (filename);
   int pl = strlen (prefix);
-  assert (automake_temp_filename);
+  gcc_assert (automake_temp_filename);
   automake_temp_file = fopen (automake_temp_filename, "rt");
   if (!automake_temp_file)
     {
@@ -1276,8 +1248,7 @@ find_automake_tempfile_entry (prefix, filename, times)
 }
 
 static char *
-locate_object_file (source)
-     const char *source;
+locate_object_file (const char *source)
 {
   const char *p = file_basename (source), *q = source + strlen (source) - 1;
   while (q > p && *q != '.') q--;
@@ -1296,10 +1267,7 @@ locate_object_file (source)
 
 /* Check whether a module must be recompiled (for automake). */
 static int
-module_must_be_recompiled (interface_name, gpi_filename, source_name, import_list)
-     tree interface_name;
-     char *gpi_filename, *source_name;
-     tree import_list;
+module_must_be_recompiled (tree interface_name, char *gpi_filename, char *source_name, tree import_list)
 {
   char *gpc_args, *dep_filename;
   tree interface;
@@ -1450,8 +1418,7 @@ module_must_be_recompiled (interface_name, gpi_filename, source_name, import_lis
 /* Compile a module during an automake.
    Return 0 on success, nonzero otherwise. */
 int
-compile_module (filename, destination_path)
-     const char *filename, *destination_path;
+compile_module (const char *filename, const char *destination_path)
 {
   int result, pascal_source, cpp_source;
   char *plain_filename, *object_filename, *p, *fn, *gpc_args;
@@ -1582,10 +1549,7 @@ static struct
 } rb;
 
 static inline void
-store_length_f (f, x, l)
-     FILE *f;
-     const void *x;
-     size_t l;
+store_length_f (FILE *f, const void *x, size_t l)
 {
   size_t r = fwrite (x, l, 1, f);
   if (r != 1)
@@ -1600,9 +1564,7 @@ store_length_f (f, x, l)
 #define STORE_ANY(X) store_length (&(X), sizeof (X))
 
 static void
-store_length (buf, size)
-     const void *buf;
-     size_t size;
+store_length (const void *buf, size_t size)
 {
   if (wb.outbufcount + size > wb.outbufsize)
     {
@@ -1620,10 +1582,7 @@ store_length (buf, size)
 #define LOAD_ANY(X) LOAD_LENGTH (&(X), sizeof (X))
 
 static void
-start_chunk (s, code, size)
-     FILE *s;
-     int code;
-     gpi_int size;
+start_chunk (FILE *s, int code, gpi_int size)
 {
   unsigned char c = code;
   STORE_ANY_F (s, c);
@@ -1631,10 +1590,7 @@ start_chunk (s, code, size)
 }
 
 static void
-store_string_chunk (s, code, str)
-     FILE *s;
-     int code;
-     const char *str;
+store_string_chunk (FILE *s, int code, const char *str)
 {
   gpi_int l = strlen (str);
   start_chunk (s, code, l);
@@ -1645,8 +1601,7 @@ store_string_chunk (s, code, str)
 }
 
 static inline void
-store_string (str)
-     const char *str;
+store_string (const char *str)
 {
   gpi_int l = strlen (str);
   STORE_ANY (l);
@@ -1655,8 +1610,7 @@ store_string (str)
 }
 
 int
-is_gpi_special_node (node)
-     tree node;
+is_gpi_special_node (tree node)
 {
   unsigned int i;
   for (i = 0; i < NUM_SPECIAL_NODES; i++)
@@ -1666,19 +1620,15 @@ is_gpi_special_node (node)
 }
 
 static tree
-dequalify_id (id)
-     tree id;
+dequalify_id (tree id)
 {
   const char *str = strchr (IDENTIFIER_POINTER (id), '.');
-  assert (str);
+  gcc_assert (str);
   return get_identifier (str + 1);
 }
 
 static void
-store_tree (name, s, main_node)
-     tree name;
-     FILE *s;
-     tree main_node;
+store_tree (tree name, FILE *s, tree main_node)
 {
   int n, offset_size;
   gpi_int main_node_id, checksum;
@@ -1698,7 +1648,7 @@ store_tree (name, s, main_node)
     wb.hash_table[n] = -1;
 
   /* If this ever fails, the type for storing tree codes in GPI files must be enlarged. */
-  assert (LAST_AND_UNUSED_PASCAL_TREE_CODE < 255);
+  gcc_assert (LAST_AND_UNUSED_PASCAL_TREE_CODE < 255);
 
   /* Put the special nodes in the hash table.
      The reason for the backward loop is only that the "more common"
@@ -1756,7 +1706,7 @@ store_tree (name, s, main_node)
               else
                 {
                   wb.main_exported[c2] = 1;
-                  assert (!autoexporting);
+                  gcc_assert (!autoexporting);
                   TREE_VALUE (*tt) = rename;
                   if (TREE_CODE (value) == CONST_DECL && PASCAL_CST_PRINCIPAL_ID (value))
                     {
@@ -1799,7 +1749,7 @@ store_tree (name, s, main_node)
   main_node_id = get_node_id (main_node);
   wb.offsets[n] = wb.outbufcount;
   store_node_fields (wb.nodes[n], n);
-  assert (wb.count == n + 1 && n == main_node_id);
+  gcc_assert (wb.count == n + 1 && n == main_node_id);
 
   /* Just some statistics for those who want to check the quality of the hash function */
   if (co->debug_gpi)
@@ -1846,13 +1796,12 @@ store_tree (name, s, main_node)
 }
 
 static int
-get_node_id (node)
-     tree node;
+get_node_id (tree node)
 {
   int n, h = HASH_FUNC (node);
   for (n = wb.hash_table[h]; n >= 0; n = wb.hashlist_next[n])
     {
-      assert (n < wb.count);
+      gcc_assert (n < wb.count);
       if (wb.nodes[n] == node)
         break;
     }
@@ -1878,18 +1827,14 @@ get_node_id (node)
 
 /* Put node into hash table if not there already and write an index in the GPI file */
 static void
-store_node (node)
-     tree node;
+store_node (tree node)
 {
   gpi_int n = get_node_id (node);
   STORE_ANY (n);
 }
 
 static tree
-load_tree (s, start_of_nodes, size_of_offsets, module_interface)
-     MEMFILE *s;
-     gpi_int start_of_nodes, size_of_offsets;
-     int module_interface;
+load_tree (MEMFILE *s, gpi_int start_of_nodes, gpi_int size_of_offsets, int module_interface)
 {
   tree result;
   int n, nodes_count;
@@ -1955,10 +1900,7 @@ load_tree (s, start_of_nodes, size_of_offsets, module_interface)
 }
 
 static void
-itab_store_node (itab, uid, t)
-     struct interface_table_t *itab;
-     gpi_int uid;
-     tree t;
+itab_store_node (struct interface_table_t *itab, gpi_int uid, tree t)
 {
   if (uid >= itab->count)
     {
@@ -1991,8 +1933,7 @@ itab_store_node (itab, uid, t)
 
 /* Load a string out of a memfile */
 static char *
-load_string (s)
-     MEMFILE *s;
+load_string (MEMFILE *s)
 {
   char *str;
   gpi_int l;
@@ -2017,8 +1958,7 @@ load_string (s)
 #define DECL_EXTRA_STORED(t) DECL_FRAME_SIZE (t)
 #endif
 static void
-store_flags (t)
-     tree t;
+store_flags (tree t)
 {
   int save = TREE_ASM_WRITTEN (t);
   /* Reset TREE_ASM_WRITTEN in the GPI file for types
@@ -2032,9 +1972,7 @@ store_flags (t)
 
 /* Store the fields of a node in a stream. */
 static void
-store_node_fields (t, uid)
-     tree t;
-     int uid;
+store_node_fields (tree t, int uid)
 {
   unsigned char code;
   int class_done = 0;
@@ -2057,7 +1995,7 @@ store_node_fields (t, uid)
         {
           for (n = itab->hash_table[hash]; n >= 0; n = itab->hashlist_next[n])
             {
-              assert (n < itab->count);
+              gcc_assert (n < itab->count);
               if (itab->nodes[n] == t)
                 break;
             }
@@ -2066,7 +2004,7 @@ store_node_fields (t, uid)
         }
       if (itab)
         {
-          assert (itab->interface_name_node);
+          gcc_assert (itab->interface_name_node);
           store_node (itab->interface_name_node);
           STORE_ANY (n);
         }
@@ -2105,6 +2043,7 @@ store_node_fields (t, uid)
 #ifdef EGCS
       store_node (TYPE_SIZE_UNIT (t));
 #endif
+      store_node (TYPE_POINTER_TO (t));
       store_node (TYPE_GET_INITIALIZER (t));
       store_node (TYPE_MAIN_VARIANT (t) == t ? NULL_TREE : TYPE_MAIN_VARIANT (t));
       break;
@@ -2150,7 +2089,7 @@ store_node_fields (t, uid)
   switch (code)
   {
     case INTERFACE_NAME_NODE:
-      assert (INTERFACE_TABLE (t)->interface_name && INTERFACE_TABLE (t)->module_name);
+      gcc_assert (INTERFACE_TABLE (t)->interface_name && INTERFACE_TABLE (t)->module_name);
       store_string (IDENTIFIER_POINTER (INTERFACE_TABLE (t)->interface_name));
       store_string (IDENTIFIER_POINTER (INTERFACE_TABLE (t)->module_name));
       STORE_ANY (INTERFACE_TABLE (t)->gpi_checksum);
@@ -2232,8 +2171,7 @@ store_node_fields (t, uid)
       {
         tree f;
         signed char lang_code;
-        if (!TYPE_LANG_SPECIFIC (t))
-          TYPE_LANG_SPECIFIC (t) = allocate_type_lang_specific ();
+        allocate_type_lang_specific (t);
         lang_code = TYPE_LANG_CODE (t);
         STORE_ANY (lang_code);
         if (PASCAL_TYPE_FILE (t))
@@ -2241,16 +2179,16 @@ store_node_fields (t, uid)
         store_node (TYPE_LANG_INFO (t));
         store_node (TYPE_LANG_BASE (t));
         /* Sanity check */
-        assert (!TYPE_LANG_INFO (t)
-                || lang_code == PASCAL_LANG_NON_TEXT_FILE
-                || lang_code == PASCAL_LANG_TEXT_FILE
-                || lang_code == PASCAL_LANG_VARIANT_RECORD
-                || lang_code == PASCAL_LANG_OBJECT
-                || lang_code == PASCAL_LANG_ABSTRACT_OBJECT
-                || lang_code == PASCAL_LANG_UNDISCRIMINATED_STRING
-                || lang_code == PASCAL_LANG_PREDISCRIMINATED_STRING
-                || lang_code == PASCAL_LANG_DISCRIMINATED_STRING
-                || lang_code == PASCAL_LANG_FAKE_ARRAY);
+        gcc_assert (!TYPE_LANG_INFO (t)
+                    || lang_code == PASCAL_LANG_NON_TEXT_FILE
+                    || lang_code == PASCAL_LANG_TEXT_FILE
+                    || lang_code == PASCAL_LANG_VARIANT_RECORD
+                    || lang_code == PASCAL_LANG_OBJECT
+                    || lang_code == PASCAL_LANG_ABSTRACT_OBJECT
+                    || lang_code == PASCAL_LANG_UNDISCRIMINATED_STRING
+                    || lang_code == PASCAL_LANG_PREDISCRIMINATED_STRING
+                    || lang_code == PASCAL_LANG_DISCRIMINATED_STRING
+                    || lang_code == PASCAL_LANG_FAKE_ARRAY);
         for (f = TYPE_FIELDS (t); f; f = TREE_CHAIN (f))
           {
             store_node (f);
@@ -2313,8 +2251,7 @@ store_node_fields (t, uid)
         tree a;
         store_node (TREE_TYPE (t));
         store_string (IDENTIFIER_POINTER (DECL_ASSEMBLER_NAME (t)));
-        if (!DECL_LANG_SPECIFIC (t))
-          DECL_LANG_SPECIFIC (t) = allocate_decl_lang_specific ();
+        allocate_decl_lang_specific (t);
         store_node (DECL_LANG_RESULT_VARIABLE (t));
         for (a = DECL_LANG_PARMS (t); a; a = TREE_CHAIN (a))
           store_node (a);
@@ -2375,14 +2312,13 @@ store_node_fields (t, uid)
       break;
 
     default:
-      assert (class_done && code != RTL_EXPR);
+      gcc_assert (class_done && code != RTL_EXPR);
   }
 }
 
 /* Return an interface table (newly allocated if not existing yet). */
 static struct interface_table_t *
-get_interface_table (interface_name, module_name)
-     tree interface_name, module_name;
+get_interface_table (tree interface_name, tree module_name)
 {
   struct interface_table_t *itab;
   for (itab = interface_table; itab; itab = itab->next)
@@ -2442,9 +2378,7 @@ get_interface_table (interface_name, module_name)
 /* Compute a checksum for a GPI file.
    @@ Simple weighted sum. Perhaps we should use MD5 or something. */
 static gpi_int
-compute_checksum (buf, size)
-     unsigned char *buf;
-     gpi_int size;
+compute_checksum (unsigned char *buf, gpi_int size)
 {
   gpi_int sum = 0, n;
   for (n = 0; n < size; n++)
@@ -2457,17 +2391,14 @@ compute_checksum (buf, size)
    but never sets it. If update_flag is 1, it fails fatally on a mismatch,
    otherwise always returns 1 and sets it if it wasn't stored before. */
 static int
-itab_check_gpi_checksum (interface_name, gpi_checksum, update_flag)
-     tree interface_name;
-     gpi_int gpi_checksum;
-     int update_flag;
+itab_check_gpi_checksum (tree interface_name, gpi_int gpi_checksum, int update_flag)
 {
   struct interface_table_t *itab;
   tree t;
   for (itab = interface_table; itab; itab = itab->next)
     if (itab->interface_name == interface_name)
       break;
-  assert (itab);
+  gcc_assert (itab);
   if (itab->interface_name_node)
     {
       if (itab->gpi_checksum == gpi_checksum)
@@ -2491,14 +2422,13 @@ itab_check_gpi_checksum (interface_name, gpi_checksum, update_flag)
 
 /* Return the name of the module the interface named NAME is in. */
 tree
-itab_get_initializers (name)
-     tree name;
+itab_get_initializers (tree name)
 {
   struct interface_table_t *itab;
   for (itab = interface_table; itab; itab = itab->next)
     if (itab->interface_name == name)
       break;
-  assert (itab);
+  gcc_assert (itab);
   return itab->initializers;
 }
 
@@ -2508,7 +2438,7 @@ itab_get_initializers (name)
    only make_node, get_identifier, build_tree_list etc.) because the nodes
    it deals with may be incomplete until the end and confuse the backend. */
 static tree
-load_node ()
+load_node (void)
 {
   gpi_int uid, original_uid, count;
   unsigned char code;
@@ -2529,7 +2459,7 @@ load_node ()
   {
     gpi_int key;
     LOAD_ANY (key);
-    assert (key == GPI_DEBUG_KEY);
+    gcc_assert (key == GPI_DEBUG_KEY);
   }
 #endif
 
@@ -2547,7 +2477,7 @@ load_node ()
   if (original_uid < itab->count && itab->nodes[original_uid])
     {
       t = itab->nodes[original_uid];
-      assert (t && !rb.nodes[uid]);
+      gcc_assert (t && !rb.nodes[uid]);
       rb.nodes[uid] = t;
       mseek (rb.infile, save_pos);
       return t;
@@ -2565,7 +2495,7 @@ load_node ()
   else
     t = make_node (code);
   itab_store_node (itab, original_uid, t);
-  assert (!rb.nodes[uid]);
+  gcc_assert (!rb.nodes[uid]);
   rb.nodes[uid] = t;
   if (code != IDENTIFIER_NODE && code != INTERFACE_NAME_NODE)
     load_flags (t);
@@ -2580,11 +2510,11 @@ load_node ()
 #ifdef EGCS
         TYPE_SIZE_UNIT (t) = load_node ();
 #endif
+        TYPE_POINTER_TO (t) = load_node ();
         tmp = load_node ();
         if (tmp)
           {
-            if (!TYPE_LANG_SPECIFIC (t))
-              TYPE_LANG_SPECIFIC (t) = allocate_type_lang_specific ();
+            allocate_type_lang_specific (t);
             TYPE_LANG_INITIAL (t) = tmp;
           }
         tmp = load_node ();
@@ -2751,8 +2681,7 @@ load_node ()
       {
         tree *p;
         signed char lang_code;
-        if (!TYPE_LANG_SPECIFIC (t))
-          TYPE_LANG_SPECIFIC (t) = allocate_type_lang_specific ();
+        allocate_type_lang_specific (t);
         LOAD_ANY (lang_code);
         TYPE_LANG_CODE (t) = lang_code;
         if (PASCAL_TYPE_FILE (t))
@@ -2838,11 +2767,11 @@ load_node ()
       {
         char *assembler_name_str;
         tree *last_arg;
-        DECL_LANG_SPECIFIC (t) = allocate_decl_lang_specific ();
+        allocate_decl_lang_specific (t);
         TREE_TYPE (t) = load_node ();
         DECL_EXTERNAL (t) = 1;
         assembler_name_str = load_string (rb.infile);
-        assert (*assembler_name_str);
+        gcc_assert (*assembler_name_str);
         SET_DECL_ASSEMBLER_NAME (t, get_identifier (assembler_name_str));
         free (assembler_name_str);
         DECL_LANG_RESULT_VARIABLE (t) = load_node ();
@@ -2880,7 +2809,7 @@ load_node ()
         DECL_BIT_FIELD_TYPE (t) = load_node ();
         f = load_node ();
         if (f || PASCAL_TREE_DISCRIMINANT (t))
-          DECL_LANG_SPECIFIC (t) = allocate_decl_lang_specific ();
+          allocate_decl_lang_specific (t);
         if (f)
           DECL_LANG_FIXUPLIST (t) = f;
         break;
@@ -2902,7 +2831,7 @@ load_node ()
         char *assembler_name_str;
         TREE_TYPE (t) = load_node ();
         assembler_name_str = load_string (rb.infile);
-        assert (*assembler_name_str);
+        gcc_assert (*assembler_name_str);
         SET_DECL_ASSEMBLER_NAME (t, get_identifier (assembler_name_str));
         free (assembler_name_str);
         break;
@@ -2931,10 +2860,10 @@ load_node ()
 /* Create GPI files (GNU Pascal Interface) containing precompiled
    export interfaces of a unit or module. */
 void
-create_gpi_files ()
+create_gpi_files (void)
 {
   tree escan;
-  assert (!current_module->interface);
+  gcc_assert (!current_module->interface);
   current_module->interface = 1;
   if (co->implementation_only)
     return;
@@ -2996,9 +2925,9 @@ create_gpi_files ()
             const char *name;
             gpi_int l;
             struct interface_table_t *itab;
-            assert (iname && TREE_CODE (iname) == IDENTIFIER_NODE);
+            gcc_assert (iname && TREE_CODE (iname) == IDENTIFIER_NODE);
             itab = get_interface_table (iname, NULL_TREE);
-            assert (itab->interface_name_node);
+            gcc_assert (itab->interface_name_node);
             name = IDENTIFIER_POINTER (iname);
             l = strlen (name);
             start_chunk (s, GPI_CHUNK_IMPORT, l + sizeof (itab->gpi_checksum));
@@ -3031,8 +2960,7 @@ create_gpi_files ()
 
 /* Subroutine of gpi_open(): Search for the source of an interface. */
 static char *
-locate_interface_source (interface_name, explicit_name, gpi_stored_name)
-     const char *interface_name, *explicit_name, *gpi_stored_name;
+locate_interface_source (const char *interface_name, const char *explicit_name, const char *gpi_stored_name)
 {
   char *result = NULL;
 
@@ -3138,12 +3066,8 @@ locate_interface_source (interface_name, explicit_name, gpi_stored_name)
    Do an automake, if necessary and/or requested.
    The file is closed via a normal mclose(). */
 static MEMFILE *
-gpi_open (interface_name, name, source, current_automake_level, p_start_of_nodes, p_size_of_nodes, p_size_of_offsets)
-     tree interface_name;
-     const char *name;
-     const char *source;
-     int current_automake_level;
-     gpi_int *p_start_of_nodes, *p_size_of_nodes, *p_size_of_offsets;
+gpi_open (tree interface_name, const char *name, const char *source, int current_automake_level,
+          gpi_int *p_start_of_nodes, gpi_int *p_size_of_nodes, gpi_int *p_size_of_offsets)
 {
   MEMFILE *s = NULL;
   char *module_filename = NULL, *source_name = NULL, *temp_name;
@@ -3474,10 +3398,7 @@ gpi_open (interface_name, name, source, current_automake_level, p_start_of_nodes
 
 /* Try to load a GPI file and to extract an exported module interface. */
 static tree
-load_gpi_file (interface_name, source, module_interface)
-     tree interface_name;
-     const char *source;
-     int module_interface;
+load_gpi_file (tree interface_name, const char *source, int module_interface)
 {
   MEMFILE *gpi_file;
   gpi_int start_of_nodes, size_of_nodes, size_of_offsets;
@@ -3518,10 +3439,7 @@ load_gpi_file (interface_name, source, module_interface)
 
 /* Activate a node during import */
 static void
-import_node (item, rename, interface, qualified)
-     tree item, rename;
-     tree interface;
-     import_type qualified;
+import_node (tree item, tree rename, tree interface, import_type qualified)
 {
   tree value = TREE_PURPOSE (item);
   int no_principal = rename && TREE_CODE (value) == CONST_DECL;
@@ -3539,19 +3457,18 @@ import_node (item, rename, interface, qualified)
       PASCAL_DECL_IMPORTED (decl1) = 1;
       if (no_principal)
         PASCAL_CST_PRINCIPAL_ID (decl1) = 0;
-      IDENTIFIER_VALUE (rename) = pushdecl_import (decl1, qualified == IMPORT_USES);
+      pushdecl_import (decl1, qualified == IMPORT_USES);
     }
   if (interface)
     {
       tree qdecl = copy_node (value);
       tree qid = build_qualified_id (interface, rename);
+      DECL_NAME (qdecl) = qid;
       PASCAL_DECL_WEAK (qdecl) = 0;
       PASCAL_DECL_IMPORTED (qdecl) = 1;
-      DECL_NAME (qdecl) = qid;
       if (no_principal)
         PASCAL_CST_PRINCIPAL_ID (qdecl) = 0;
       pushdecl_import (qdecl, 0);
-      IDENTIFIER_VALUE (qid) = qdecl;
     }
   TREE_USED (item) = 1;
   if (co->propagate_units)
@@ -3560,11 +3477,10 @@ import_node (item, rename, interface, qualified)
 
 /* Load the complete interface part of this unit or module. */
 static void
-load_own_interface (is_module)
-     int is_module;
+load_own_interface (int is_module)
 {
   tree interface_name, exported, ename, t;
-  assert (!current_module->implementation);
+  gcc_assert (!current_module->implementation);
   current_module->implementation = 1;
   if (is_module)
     interface_name = get_identifier (ACONCAT ((IDENTIFIER_POINTER (current_module->name), "-all", NULL)));
@@ -3610,10 +3526,7 @@ load_own_interface (is_module)
    FILENAME is an optional IDENTIFIER_NODE holding the name of the
    source file. */
 void
-import_interface (interface, import_qualifier, qualified, filename)
-     tree interface, import_qualifier;
-     import_type qualified;
-     tree filename;
+import_interface (tree interface, tree import_qualifier, import_type qualified, tree filename)
 {
   tree exported_name_list, imported, exported, ename, iname;
   tree import_decl;
@@ -3628,16 +3541,24 @@ import_interface (interface, import_qualifier, qualified, filename)
       error ("module/unit file name is no string constant");
       filename = NULL_TREE;
     }
-
   /* Handle a special case of a circular dependency. */
-  if (interface == current_module->name)
+  if (interface == current_module->name && current_module->bp_qualids)
     {
       if (current_module->main_program)
-        error ("program trying to import itself like a module or unit");
+        {
+          error ("program with Borland Pascal style quailified identifiers");
+          error (" trying to import itself like a module or unit");
+        }
       else
-        error ("self-dependent module or unit");
+        error ("self-dependent unit");
       return;
     }
+  for (exported = current_module->exports; exported; exported = TREE_CHAIN (exported))
+    if (TREE_VALUE (exported) == interface)
+      {
+        error ("self-dependent module, interface `%s'", IDENTIFIER_NAME (interface));
+        return;
+      }
   import_decl = lookup_name_current_level (interface);
   if (import_decl && TREE_CODE (import_decl) == NAMESPACE_DECL)
     {
@@ -3662,20 +3583,27 @@ import_interface (interface, import_qualifier, qualified, filename)
     }
 
   pd = IDENTIFIER_BUILT_IN_VALUE (interface);
-  if (pd && pd->kind == bk_interface)
+  if (PD_ACTIVE (pd) && pd->kind == bk_interface)
     {
+      tree decl;
       chk_dialect_name (IDENTIFIER_NAME (interface), pd->dialect);
       (void) get_interface_table (interface, interface);  /* initializers is NULL_TREE */
       itab_check_gpi_checksum (interface, 0, 1);
       if (IDENTIFIER_IS_BUILT_IN (interface, p_StandardInput))
-        current_module->input_file_node = *pd->value;
+        {
+          current_module->input_available = 1;
+          decl = input_variable_node;
+        }
       else if (IDENTIFIER_IS_BUILT_IN (interface, p_StandardOutput))
-        current_module->output_file_node = *pd->value;
+        {
+          current_module->output_available = 1;
+          decl = output_variable_node;
+        }
       else if (IDENTIFIER_IS_BUILT_IN (interface, p_StandardError))
-        current_module->error_file_node = *pd->value;
+        decl = error_variable_node;
       else
-        assert (0);
-      exported_name_list = build_tree_list (*pd->value, DECL_NAME (*pd->value));
+        gcc_unreachable ();
+      exported_name_list = build_tree_list (decl, DECL_NAME (decl));
       TREE_PRIVATE (TREE_VALUE (imported)) = 1;
     }
   else
@@ -3727,8 +3655,7 @@ import_interface (interface, import_qualifier, qualified, filename)
    nodes. These need special care because they contain identifiers in between
    which must be exported as well. */
 static void
-module_expand_exported_ranges (list)
-     tree list;
+module_expand_exported_ranges (tree list)
 {
   tree t;
   for (t = list; t; t = TREE_CHAIN (t))

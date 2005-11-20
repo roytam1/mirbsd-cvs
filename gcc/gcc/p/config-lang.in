@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/p/config-lang.in,v 1.2 2005/03/28 00:14:31 tg Exp $
 # Top level configure fragment for GNU Pascal.
 #
 # Copyright (C) 1994-2005 Free Software Foundation, Inc.
@@ -87,7 +87,7 @@ else
   echo "/* empty */" > "$gcc_version_h"
 fi
 
-if grep "@@ PATCHED FOR GPC 20050130 @@" "$srcdir/stor-layout.c" > /dev/null; then
+if grep "@@ PATCHED FOR GPC 20051114 @@" "$srcdir/stor-layout.c" > /dev/null; then
   :
 elif grep "@@ PATCHED FOR GPC" "$srcdir/stor-layout.c" > /dev/null; then
   echo "" >&2

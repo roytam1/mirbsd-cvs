@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/utils/Makefile,v 1.2 2005/03/28 00:05:06 tg Exp $
+# $MirOS: gcc/gcc/p/utils/Makefile,v 1.3 2005/03/28 02:09:46 tg Exp $
 # Makefile for the GNU Pascal utilities
 #
 # Copyright (C) 2002-2005 Free Software Foundation, Inc.
@@ -50,7 +50,7 @@ all: $(EXE)
 
 # The Pascal source is not used, but we have to provide any.
 # `-x Preprocessed-Pascal /dev/null' works as well, except on mingw.
-needed-options: binobj.pas $(GCC_DIR)/p/version.h
+needed-options: binobj.pas $(GCC_DIR)/p/p-version.h
 	$(PC) $(UTILS_WARN) $(subst -Wformat,,$(CFLAGS)) $(PFLAGS) $(PFLAGS1) --print-needed-options "$<" 2> "$@" || true
 	if grep '^[^-]' "$@" > /dev/null; then echo "needed-options: `cat "$@"`" >&2; rm -f "$@"; false; else true; fi
 

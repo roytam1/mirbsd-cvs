@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.11 2005/03/29 01:19:36 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.12 2005/07/09 16:15:34 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -80,9 +80,9 @@ GPC_GCC_VERSION_H_=target.h dbxout.h $(LIBIBERTY_HDRS)/libiberty.h
 GPC_GCC_VERSION_H_2=gansidecl.h dbxout.h $(LIBIBERTY_HDRS)/libiberty.h
 GPC_GCC_VERSION_H_28=gansidecl.h
 GPC_GCC_VERSION_H=$(GPC_GCC_VERSION_H_$(GCC_VERSION_FOR_GPC))
-GPC_ALL_WARNINGS_=$(WARN_CFLAGS) $(STRICT_WARN)
-GPC_ALL_WARNINGS_2=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac`
-GPC_ALL_WARNINGS_28=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac`
+GPC_ALL_WARNINGS_=$(WARN_CFLAGS) $(STRICT_WARN) -Wno-traditional
+GPC_ALL_WARNINGS_2=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac` -Wno-traditional
+GPC_ALL_WARNINGS_28=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac` -Wno-traditional
 GPC_ALL_WARNINGS=$(GPC_ALL_WARNINGS_$(GCC_VERSION_FOR_GPC))
 man1dir_28=$(mandir)# gcc-2.8.1 includes `man1' in $(mandir)
 man1dir_2=$(mandir)/man1
@@ -118,7 +118,7 @@ man1ext=.1
 RTSSRCDIR=$(srcdir)/p/rts
 
 # Version numbers
-VERSION_FILENAME=$(srcdir)/p/version.h
+VERSION_FILENAME=$(srcdir)/p/p-version.h
 RTS_VERSION_FILENAME=$(RTSSRCDIR)/rts-version
 gpc_major=2
 gpc_minor=1
@@ -140,6 +140,8 @@ FLEX=flex
 FLEXFLAGS=
 MAKEINFO=makeinfo
 MAKEINFOFLAGS=
+
+unitsubdir=$(libsubdir)/units
 
 GPC_PAGESIZE=@afourpaper
 
@@ -171,72 +173,70 @@ RTS_COMPILERS=CC="`echo $(GCC_FOR_TARGET)' ' | $(ADD_RTS_PARENT_DIR)`" \
 
 # Flags to pass when installing GPC.
 GPC_INSTALL_FLAGS_TO_PASS=\
-	"exeext=$(exeext)" \
-	"version=$(version)" \
-	"target_alias=$(target_alias)" \
-	"program_transform_name=$(program_transform_name)" \
-	"program_transform_cross_name=$(program_transform_cross_name)" \
-	"SYMLINK=$(SYMLINK)" \
-	"GCC_FOR_TARGET=$(GCC_FOR_TARGET)" \
-	"GPC_FOR_TARGET=$(GPC_FOR_TARGET)" \
-	"GPCSOLIBSHORTNAME=$(GPCSOLIBSHORTNAME)" \
-	"GPCSOLIBDIR=$(GPCSOLIBDIR)" \
-	"GPCALIBDIR=$(GPCALIBDIR)" \
-	"GPC_EXTRA_INSTALL_LIBS=$(GPC_EXTRA_INSTALL_LIBS)" \
-	"WITH_SHARED=$(WITH_SHARED)" \
-	"FLOAT_H=$(FLOAT_H)" \
-	"EXTRA_PARTS=$(EXTRA_PARTS)" \
-	$(GPC_EXTRA_INSTALL_FLAGS_TO_PASS)
+  "exeext=$(exeext)" \
+  "version=$(version)" \
+  "target_alias=$(target_alias)" \
+  "program_transform_name=$(program_transform_name)" \
+  "program_transform_cross_name=$(program_transform_cross_name)" \
+  "SYMLINK=$(SYMLINK)" \
+  "GCC_FOR_TARGET=$(GCC_FOR_TARGET)" \
+  "GPC_FOR_TARGET=$(GPC_FOR_TARGET)" \
+  "GPCSOLIBSHORTNAME=$(GPCSOLIBSHORTNAME)" \
+  "GPCSOLIBDIR=$(GPCSOLIBDIR)" \
+  "GPCALIBDIR=$(GPCALIBDIR)" \
+  "GPC_EXTRA_INSTALL_LIBS=$(GPC_EXTRA_INSTALL_LIBS)" \
+  "WITH_SHARED=$(WITH_SHARED)" \
+  "FLOAT_H=$(FLOAT_H)" \
+  "EXTRA_PARTS=$(EXTRA_PARTS)" \
+  $(GPC_EXTRA_INSTALL_FLAGS_TO_PASS)
 
 # Flags to pass when building the utilities. (PC is the GPC for the host!)
 UTILS_FLAGS_TO_PASS=\
-	SHELL="$(SHELL)" \
-	PC="`if [ x"$(GPC_HOST)" = x"$(target)" ]; then echo $(GPC_FOR_TARGET) -L../..' '; else echo $(CC) | $(GCC2GPC); fi | $(ADD_RTS_PARENT_DIR)` -I../rts" \
-	CFLAGS="$(CFLAGS)" \
-	PFLAGS="$(PFLAGS)" \
-	exeext="$(exeext)" \
-	INSTALL_PROGRAM="$(INSTALL_PROGRAM)" \
-	INSTALL_DATA="$(INSTALL_DATA)" \
-	BUILD="$(GPC_BUILD)" \
-	HOST="$(GPC_HOST)"
+  SHELL="$(SHELL)" \
+  PC="`if [ x"$(GPC_HOST)" = x"$(target)" ]; then echo $(GPC_FOR_TARGET) -L../..' '; else echo $(CC) | $(GCC2GPC); fi | $(ADD_RTS_PARENT_DIR)` -I../rts" \
+  CFLAGS="$(CFLAGS)" \
+  PFLAGS="$(PFLAGS)" \
+  exeext="$(exeext)" \
+  INSTALL_PROGRAM="$(INSTALL_PROGRAM)" \
+  INSTALL_DATA="$(INSTALL_DATA)" \
+  BUILD="$(GPC_BUILD)" \
+  HOST="$(GPC_HOST)"
 
 # Flags to pass when building the RTS.
 RTS_FLAGS_TO_PASS_ALL=\
-	GCC_VERSION="$(GPC_GCC_VERSION)" \
-	SHELL="$(SHELL)" \
-	CFLAGS="$(CFLAGS)" \
-	PFLAGS="$(PFLAGS)" \
-	AR_FLAGS="$(AR_FLAGS)" \
-	RTSFLAGS="$(RTSFLAGS)" \
-	DESTDIR="../.."
+  GCC_VERSION="$(GPC_GCC_VERSION)" \
+  SHELL="$(SHELL)" \
+  CFLAGS="$(CFLAGS)" \
+  PFLAGS="$(PFLAGS)" \
+  AR_FLAGS="$(AR_FLAGS)" \
+  RTSFLAGS="$(RTSFLAGS)" \
+  DESTDIR="../.."
 
 RTS_FLAGS_TO_PASS_28=\
-	AR="$(AR)" \
-	RANLIB="$(RANLIB)" \
-	RANLIB_TEST="$(RANLIB_TEST)"
+  AR="$(AR)" \
+  RANLIB="$(RANLIB)" \
+  RANLIB_TEST="$(RANLIB_TEST)"
 
 RTS_FLAGS_TO_PASS_=\
-	AR="$(AR_FOR_TARGET)" \
-	RANLIB="$(RANLIB_FOR_TARGET)" \
-	RANLIB_TEST="$(RANLIB_TEST_FOR_TARGET)"
+  AR="$(AR_FOR_TARGET)" \
+  RANLIB="$(RANLIB_FOR_TARGET)" \
+  RANLIB_TEST="$(RANLIB_TEST_FOR_TARGET)"
 
 RTS_FLAGS_TO_PASS_2=$(RTS_FLAGS_TO_PASS_)
 
-RTS_FLAGS_TO_PASS_34=$(RTS_FLAGS_TO_PASS_)
-
 RTS_FLAGS_TO_PASS=$(RTS_FLAGS_TO_PASS_ALL) \
-	$(RTS_FLAGS_TO_PASS_$(GCC_VERSION_FOR_GPC))
+  $(RTS_FLAGS_TO_PASS_$(GCC_VERSION_FOR_GPC))
 
 # Define the names for selecting Pascal in LANGUAGES.
 # @@ Removing "pascal.rts pascal.utils" here fails for a cross-built compiler
-Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) gpc-run \
+Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpc-run \
                specs pascal.rts pascal.utils
 
 # Tell GNU make to ignore these if they exist.
 .PHONY: Pascal pascal
 
 p/gpc.o: $(srcdir)/p/gpc.c $(CONFIG_H) multilib.h Makefile \
- $(lang_specs_files) $(srcdir)/p/version.h specs.h
+ $(lang_specs_files) $(srcdir)/p/p-version.h specs.h
 	$(CC) -DGPC $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(GPC_ALL_WARNINGS) $(INCLUDES) \
 	$(DRIVER_DEFINES) -Wno-error -c `echo $(srcdir)/p/gpc.c | sed 's,^\./,,'` -o $@
 
@@ -259,9 +259,9 @@ gpc-run: $(srcdir)/p/script/gpc-run $(VERSION_FILENAME)
 # Headers and flags for GPC specific files.
 GPC_GBE_H=$(CONFIG_H) system.h tree.h input.h rtl.h flags.h output.h expr.h \
           except.h function.h convert.h toplev.h $(GPC_GCC_VERSION_H)
-P_H=$(GPC_GBE_H) p/gpc.h p/p-tree.def p/predef.h $(srcdir)/p/parse.h p/gbe.h
+P_H=$(GPC_GBE_H) p/gpc.h p/p-tree.def p/predef.def $(srcdir)/p/parse.h p/gbe.h
 ALL_GPC_FLAGS=$(ALL_CFLAGS) $(ALL_CPPFLAGS) $(GPC_ALL_WARNINGS) $(INCLUDES) \
-  -DGPC -DGPC_UNITS_DIR=\"$(libsubdir)/units\" -I$(srcdir)/p
+  -DGPC -DGPC_UNITS_DIR=\"$(unitsubdir)\" -I$(srcdir)/p
 
 # Headers and flags for patched backend files.
 GPC_BE_H=$(GPC_GBE_H) defaults.h machmode.h machmode.def real.h recog.h \
@@ -269,11 +269,8 @@ GPC_BE_H=$(GPC_GBE_H) defaults.h machmode.h machmode.def real.h recog.h \
          insn-attr.h insn-codes.h insn-config.h insn-flags.h
 ALL_GPC_GBE_FLAGS=$(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -DGPC
 
-gpcpp$(exeext): $(P) p/gpcpp.o version.o $(LIBDEPS)
-	rm -f $@
-	$(CC) $(ALL_GPC_FLAGS) $(LDFLAGS) -o $@ p/gpcpp.o version.o $(LIBS) $(EXTRA_LIBS)
-
-p/gpcpp.o: p/gpcpp.c p/version.h p/gpc-options.h p/lang-options.h $(CONFIG_H) system.h
+p/gpcpp.o: p/gpcpp.c p/p-version.h p/gpc-options.h p/lang-options.h \
+   $(CONFIG_H) system.h p/gpcpp.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 # Language-specific object files for GPC and patched GNU Back End (GBE)
@@ -284,10 +281,10 @@ GPC_OBJS=p/parse.o p/declarations.o p/expressions.o p/gpc-lex.o p/lang.o \
 	p/typecheck.o p/types.o p/convert.o p/dbxout.o p/dwarf2out.o \
 	p/expr.o p/fold-const.o p/function.o p/integrate.o p/optabs.o \
 	p/stor-layout.o p/toplev.o p/tree.o p/stmt.o p/emit-rtl.o \
-	p/varasm.o p/version.o
+	p/varasm.o p/version.o p/gpcpp.o
 
 gpc1$(exeext): $(P) $(GPC_GCC_VERSION_DEPS) $(GPC_OBJS) $(LIBDEPS)
-	@grep "@@ PATCHED FOR GPC 20050130 @@" $(srcdir)/stor-layout.c > /dev/null || \
+	@grep "@@ PATCHED FOR GPC 20051114 @@" $(srcdir)/stor-layout.c > /dev/null || \
 	 { echo "*** There have been changes in the patch for GCC. Please start with a fresh"; \
 	   echo "*** copy of the GCC sources and do a new build, including configure."; \
 	   exit 1; } >&2
@@ -300,37 +297,37 @@ p/declarations.o: p/declarations.c $(P_H)
 p/expressions.o: p/expressions.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/gpc-lex.o: p/gpc-lex.c $(srcdir)/p/pascal-lex.c $(P_H)
+p/gpc-lex.o: p/gpc-lex.c $(srcdir)/p/pascal-lex.c p/gpcpp.h $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/handle-opts.c: $(srcdir)/p/opts.sum $(srcdir)/p/script/mk-handle-opts-c
 	$(SHELL) $(srcdir)/p/script/mk-handle-opts-c $(srcdir)/p/opts.sum "$@"
 
-p/lang.o: p/lang.c $(P_H) p/handle-opts.c
+p/lang.o: p/lang.c $(P_H) p/handle-opts.c p/gpcpp.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/module.o: p/module.c $(P_H) p/version.h
+p/module.o: p/module.c $(P_H) p/p-version.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DTARGET_NAME=\"$(target_alias)\" $<
 
 p/objects.o: p/objects.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/options.o: p/options.c $(P_H) p/lang-options.h p/gpc-options.h p/version.h
+p/options.o: p/options.c $(P_H) p/lang-options.h p/gpc-options.h p/p-version.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/parse.o: $(srcdir)/p/parse.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(BIG_SWITCHFLAG) $<
 
-p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.h
+p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.def
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/statements.o: p/statements.c $(P_H) $(RTSSRCDIR)/constants.h $(RTS_VERSION_FILENAME)
+p/statements.o: p/statements.c $(P_H) $(RTSSRCDIR)/constants.def $(RTS_VERSION_FILENAME)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DRTS_VERSION_CHECK="\"_p_GPC_RTS_VERSION_`cat $(RTSSRCDIR)/rts-version`\"" $<
 
 p/typecheck.o: p/typecheck.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/types.o: p/types.c $(P_H) $(RTSSRCDIR)/constants.h
+p/types.o: p/types.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/convert.o: convert.c $(GPC_BE_H)
@@ -382,7 +379,7 @@ p/varasm.o: varasm.c $(GPC_BE_H)
 p/version.o: version.c $(GPC_BE_H)
 	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
 
-pascal.utils: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) pascal.rts force
+pascal.utils: xgpc$(exeext) gpc1$(exeext) pascal.rts force
 	mkdir -p p/utils
 	srcdir=`cd $(srcdir) && pwd` && cd ./p/utils && $(MAKE) -f "$$srcdir/p/utils/Makefile" $(UTILS_FLAGS_TO_PASS) GCC_DIR="$$srcdir" all
 
@@ -404,7 +401,7 @@ p/rts/Makefile: $(GCC_PARTS) \
 	$(SHELL) $$src/p/rts/configure --silent > /dev/null --srcdir=$$src/p/rts \
 	 `if [ x$(WITH_SHARED) = xyes ]; then echo '--with-shared'; fi`
 
-pascal.rts: p/rts/Makefile xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext)
+pascal.rts: p/rts/Makefile xgpc$(exeext) gpc1$(exeext)
 	cd ./p/rts && $(MAKE) $(RTS_COMPILERS) $(RTS_FLAGS_TO_PASS) all
 
 # Build hooks:
@@ -417,17 +414,11 @@ pascal.rest.encap: pascal.rts pascal.utils
 # Install hooks:
 # gpc1 is installed elsewhere as part of $(COMPILERS).
 
-unitsubdir=$(libsubdir)/units
-
 pascal.install-dir:
 	for directory in $(prefix) $(bindir) $(unitsubdir) $(libsubdir)/include $(LIBEXECSUBDIR) \
 	                 $(infodir) $(p_inst_docdir) $(p_inst_demodir) $(p_inst_docdemodir) $(man1dir); do \
 	  mkdir -p -m 0755 $(DESTDIR)$$directory || exit 1; \
 	done
-
-install-gpcpp: pascal.install-dir
-	rm -f $(DESTDIR)$(LIBEXECSUBDIR)/gpcpp$(exeext)
-	$(INSTALL_PROGRAM) gpcpp$(exeext) $(DESTDIR)$(LIBEXECSUBDIR)/gpcpp$(exeext)
 
 # Install the driver program as $(target)-gpc
 # and also as either gpc (if native) or $(tooldir)/bin/gpc.
@@ -516,7 +507,7 @@ pascal.install-compiler: pascal.install-dir
 	fi; exit 0
 
 pascal.install-normal: pascal.install-common pascal.install-compiler$(GPC_GCC_34_) \
- install-gpcpp pascal.install-utils pascal.install-lib pascal.install-units
+ pascal.install-utils pascal.install-lib pascal.install-units
 
 # This target will install GPC into an existing GCC installation,
 # without overwriting existing files.

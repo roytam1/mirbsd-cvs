@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/p/gpc-lex.c,v 1.2 2005/03/28 02:09:43 tg Exp $ */
 
 /*GNU Pascal compiler lexical analyzer
 
@@ -25,9 +25,12 @@
   Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
   02111-1307, USA. */
 
-#define FLEX_SCANNER  /* @@ depends on flex version, not necessary with 2.5.27 */
 #include "gpc.h"
-#undef FLEX_SCANNER
+#include "gpcpp.h"
+
+#if !defined (HAVE_SIGALRM) && defined (SIGALRM)
+#define HAVE_SIGALRM 1
+#endif
 
 #define LEX_SEMANTIC_VALUES 1
 #define LEX_INVALID (-1)
@@ -42,10 +45,7 @@
 int LEX_LINE_DIRECTIVE = MIN_EXTRA_SYMBOL - 4;
 #define BITS_PER_BYTES 8
 #define BYTES_PER_INTEGER 8
-#define lex_malloc xmalloc
-#define YY_NO_FLEX_ALLOC
 #define yyalloc xmalloc
-#define YY_NO_FLEX_REALLOC
 #define yyrealloc xrealloc
 #define YY_TYPEDEF_YY_SIZE_T
 #include "pascal-lex.c"
@@ -68,25 +68,18 @@ FILE *finput;
 /* Newlines encountered in the preprocessed input (all files). */
 static int preprocessed_lineno = 0;
 
-#ifndef HAVE_SIGALRM
-#ifdef SIGALRM
-#define HAVE_SIGALRM 1
-#endif
-#endif
-
-static void handle_progress_messages PARAMS ((int));
-static void do_directive PARAMS ((char *, int));
+static void handle_progress_messages (int);
+static void do_directive (char *, int);
 
 #ifdef HAVE_SIGALRM
 /* Triggers for periodic progress output; set every
    PROGRESS_TIME_INTERVAL microseconds. */
 #define PROGRESS_TIME_INTERVAL 200000  /* 5 Hz */
 static volatile int progress_message_alarm = 0;
-static void alarm_handler PARAMS ((int));
+static void alarm_handler (int);
 
 /* Called periodically for outputting status messages. */
-static void alarm_handler (sig)
-     int sig;
+static void alarm_handler (int sig)
 {
   progress_message_alarm = 1;
   signal (sig, &alarm_handler);
@@ -97,12 +90,12 @@ static void alarm_handler (sig)
 #endif
 
 static void
-handle_progress_messages (force)
-     int force;
+handle_progress_messages (int ending)
 {
-  preprocessed_lineno++;
+  if (!ending)
+    preprocessed_lineno++;
 #ifdef HAVE_SIGALRM
-  if (force || progress_message_alarm)
+  if (ending || progress_message_alarm)
     {
       if (flag_progress_messages)
         fprintf (stderr, "\001#progress# %s (%d)\n", input_filename, lineno);
@@ -111,23 +104,23 @@ handle_progress_messages (force)
       progress_message_alarm = 0;
     }
 #else
-  if (flag_progress_messages && (force || (lineno % 16 == 0 && lineno > 0)))
+  if (flag_progress_messages && (ending || (lineno % 16 == 0 && lineno > 0)))
     fprintf (stderr, "\001#progress# %s (%d)\n", input_filename, lineno);
-  if (flag_progress_bar && (force || preprocessed_lineno % 16 == 0))
+  if (flag_progress_bar && (ending || preprocessed_lineno % 16 == 0))
     fprintf (stderr, "\001#progress-bar# %d\n", preprocessed_lineno);
 #endif
 }
 
-void lex_error (const char *Msg)
+void lex_error (const char *Msg, int Fatal)
 {
   lineno = LexPos.Line;
   column = LexPos.Column;
   error (Msg);
+  if (Fatal)
+    exit (FATAL_EXIT_CODE);
 }
 
-void ExtraUserAction (buf, length)
-     const char *buf;
-     unsigned int length;
+void ExtraUserAction (const char *buf, unsigned int length)
 {
   if (co->debug_source && length > 0)
     fwrite (buf, 1, length, stderr);
@@ -187,7 +180,7 @@ int CheckFeature (TLexFeatureIndex Feature, int Message)
       if (!co->nested_comments)
         {
           if (co->warn_nested_comments)
-            warning ("comment opener found within comment");
+            warning ("comment opener found within a comment");
           return 0;
         }
       else if (Message && co->warn_nested_comments)
@@ -204,15 +197,14 @@ int CheckFeature (TLexFeatureIndex Feature, int Message)
 }
 
 void
-discard_input ()
+discard_input (void)
 {
   while (getc (finput) != EOF) ;
 }
 
 /* Initialize the lexical analyzer. */
 void
-init_gpc_lex (filename)
-     const char *filename;
+init_gpc_lex (const char *filename)
 {
 #ifdef HAVE_SIGALRM
   /* Periodically trigger the output of progress messages. */
@@ -227,16 +219,13 @@ init_gpc_lex (filename)
       setitimer (ITIMER_REAL, &timerval, 0);
     }
 #endif
-
   lineno = column = 1;
-  assert (filename);
+  gcc_assert (filename);
   InitLex (filename, finput, 0);
 }
 
 static void
-do_directive (s, l)
-     char *s;
-     int l;
+do_directive (char *s, int l)
 {
   int is_whole_directive = 0, n;
   char in_string = 0, *p, *q;
@@ -286,15 +275,13 @@ do_directive (s, l)
 
 const char *old_input_filename;
 
-void set_old_input_filename (s)
-     const char *s;
+void set_old_input_filename (const char *s)
 {
   old_input_filename = save_string (s);
 }
 
 void
-SetFileName (v)
-     int v;
+SetFileName (int v)
 {
   input_filename = NewPos.SrcName;
 #ifndef EGCS97
@@ -363,65 +350,57 @@ SetFileName (v)
 #endif
 }
 
-/* Hooks for parse.y: error handling. */
+/* Parser error handling */
 void
-yyerror (string)
-     const char *string;
+yyerror (const char *string)
 {
-  const char *s = LexSem.TokenString;
-  char buf[200];
-  syntax_errors++;
+  const char *s = LexSem.TokenString, *buf;
+  int c0 = s ? (unsigned char) *s : 0;
 #ifndef GCC_3_4
-  strcpy (buf, string);
-#else
-  strcpy (buf, "%H");
-  strcat (buf, string);
-#endif
   if (!s)
-    strcat (buf, " at end of input");
-  else if (s[0] < 0x20 || (unsigned char) s[0] >= 0x7f)
-    sprintf (buf + strlen (buf), " before character #%i", (unsigned char) s[0]);
+    buf = "%s at end of input";
+  else if (c0 < 0x20 || c0 >= 0x7f)
+    buf = "%s before character #%i";
   else
-    strcat (buf, " before `%s'");
-#ifndef GCC_3_4
-  error_with_file_and_line (lexer_filename, lexer_lineno, buf, s);
+    buf = "%s before `%s'";
+  error_with_file_and_line (lexer_filename, lexer_lineno, buf, string, s, c0);
 #else
-  {
-    location_t loc_aux;
-    loc_aux.file = lexer_filename;
-    loc_aux.line = lexer_lineno;
-    error (buf, &loc_aux, s);
-  }
+  location_t loc_aux;
+  loc_aux.file = lexer_filename;
+  loc_aux.line = lexer_lineno;
+  if (!s)
+    buf = "%H%s at end of input";
+  else if (c0 < 0x20 || c0 >= 0x7f)
+    buf = "%H%s before character #%i";
+  else
+    buf = "%H%s before `%s'";
+  error (buf, &loc_aux, string, s, c0);
 #endif
+  syntax_errors++;
 }
 
 void
-yyerror_id (id, location)
-     tree id;
-     const YYLTYPE *location;
+yyerror_id (tree id, const YYLTYPE *location)
 {
-  syntax_errors++;
 #ifndef GCC_3_4
   error_with_file_and_line (location->last_file, location->last_line,
                             "syntax error before `%s'", IDENTIFIER_NAME (id));
 #else
-  {
-    location_t loc_aux;
-    loc_aux.file = location->last_file;
-    loc_aux.line = location->last_line;
-    error ("%Hsyntax error before `%s'", &loc_aux, IDENTIFIER_NAME (id));
-  }
+  location_t loc_aux;
+  loc_aux.file = location->last_file;
+  loc_aux.line = location->last_line;
+  error ("%Hsyntax error before `%s'", &loc_aux, IDENTIFIER_NAME (id));
 #endif
+  syntax_errors++;
 }
 
-static int get_token PARAMS ((int));
-static int get_token (update_pos)
-     int update_pos;
+static int get_token (int);
+static int get_token (int update_pos)
 {
   int value;
   while ((value = lexscan ()) == LEX_DIRECTIVE_BEGIN)
     {
-      /* Directives can be fragmented by nested comments. Reassemble them now. */
+      /* Directives can be fragmented by nested comments. Reassemble them here. */
       int l = 0;
       char *d = NULL;
       while ((value = lexscan ()) == LEX_DIRECTIVE_CONTENT)
@@ -437,11 +416,11 @@ static int get_token (update_pos)
           l += n;
           d = dn;
         }
+      gcc_assert (value == LEX_DIRECTIVE_END);
       if (!d)
         error ("empty compiler directive");
       else
         do_directive (d, l);
-      assert (value == LEX_DIRECTIVE_END);
       if (update_pos)  /* @@ kludge, until peek_token is removed */
         {
           yylloc.first_file = NewPos.SrcName;
@@ -455,8 +434,7 @@ static int get_token (update_pos)
 static int next_token = 0;
 
 int
-peek_token (do_dir)
-     int do_dir;
+peek_token (int do_dir)
 {
   if (!do_dir)
     {
@@ -473,7 +451,7 @@ peek_token (do_dir)
 
 /* The main function of the lexical analyzer, as called from the parser. */
 int
-yylex ()
+yylex (void)
 {
 #ifndef EGCS97
   int old_momentary = suspend_momentary ();
@@ -485,7 +463,6 @@ yylex ()
   lineno = lexer_lineno;
   column = lexer_column;
   activate_options (lexer_options, 1);
-
   yylloc.first_file = input_filename;
   yylloc.first_line = lineno;
   yylloc.first_column = column;
@@ -526,19 +503,17 @@ yylex ()
         t = build_int_2 ((v[7] << 56) + (v[6] << 48) + (v[5] << 40) + (v[4] << 32)
                        + (v[3] << 24) + (v[2] << 16) + (v[1] << 8) + v[0], 0);
 #endif
-        /* This integer is marked as being input by the user program, so its
-           type does not really matter. However, assign it something reasonable. */
+        /* The type of "fresh" constants doesn't matter much. Use one that fits. */
         if (!INT_CST_LT_UNSIGNED (TYPE_MAX_VALUE (pascal_integer_type_node), t))
           type = pascal_integer_type_node;
         else if (!INT_CST_LT_UNSIGNED (TYPE_MAX_VALUE (pascal_cardinal_type_node), t))
           type = pascal_cardinal_type_node;
-        else if (!INT_CST_LT_UNSIGNED (TYPE_MAX_VALUE (long_integer_type_node), t))
+        else if (!INT_CST_LT_UNSIGNED (TYPE_MAX_VALUE (long_long_integer_type_node), t))
           type = long_long_integer_type_node;
         else
           type = long_long_unsigned_type_node;
         TREE_TYPE (t) = type;
-        TREE_UNSIGNED (t) = TREE_UNSIGNED (type);
-        PASCAL_TREE_FRESH_CST (t) = 1;
+        PASCAL_CST_FRESH (t) = 1;
         yylval.ttype = t;
         break;
       }
@@ -556,9 +531,9 @@ yylex ()
           {
             /* Compress out the leading zeros by adjusting the exponent */
             do adjust_exp--; while (*++p == '0');
-            if (!isdigit (*p))
+            if (*p < '0' || *p > '9')
               {
-                *q++ = '0';  /* A zero */
+                *q++ = '0';  /* zero */
                 zero = 1;
               }
             else
@@ -569,14 +544,14 @@ yylex ()
           }
         if (!zero)
           {
-            while (isdigit (*p) || *p == '.')
+            while ((*p >= '0' && *p <= '9') || *p == '.')
               *q++ = *p++;
             if (q > d && q[-1] == '.')
               *q++ = '0';
             /* Only valid numbers should get here. */
             while (*p)
               {
-                if (isdigit (*p))
+                if (*p >= '0' && *p <= '9')
                   expon = 10 * expon + *p - '0';
                 else if (*p == '-')
                   esign = -1;
@@ -605,98 +580,84 @@ yylex ()
         if (REAL_VALUE_ISINF (rval))
           error ("real constant out of range");
         TREE_TYPE (t) = type;
-        PASCAL_TREE_FRESH_CST (t) = 1;
+        PASCAL_CST_FRESH (t) = 1;
         yylval.ttype = t;
         break;
       }
 
-    default:
-      yylval.itype = LexSem.TokenString[0];  /* for `^(' etc. */
-  }
+    case LEX_ID:
+      {
+        tree id = make_identifier (LexSem.TokenString, LexSem.TokenStringLength);
+        struct predef *pd = IDENTIFIER_BUILT_IN_VALUE (id);
+        int declared;
+        yylval.ttype = id;
 
-  /* Don't look for built-in keywords in LEX_CARET_LETTER (i.e., after `^').
-     The only one-letter one is `c' which makes no sense there, anyway, and
-     will be removed soon. (And I hope we'll never add a new one-letter one!
-     It's bad style, and will take extra work here.) */
-  if (value == LEX_ID)
-    {
-      tree id;
-      struct predef *pd;
-      yylval.ttype = id = make_identifier (LexSem.TokenString, LexSem.TokenStringLength);
+        /* With `-pedantic' warn about any dialect specific keyword encountered.
+           At this point we don't know yet if it will be used as a keyword or an
+           identifier, but it doesn't matter. Both usages are not completely
+           portable. (That's `-pedantic' at its best! ;-) */
+        if (pedantic && pd && (pd->kind == bk_none || pd->kind == bk_keyword) && pd->dialect != ANY_PASCAL)
+          warn_about_keyword_redeclaration (id, 0);
 
-      /* See internals.texi. Fortunately, this can't occur after `^' either. */
-      if (current_structor_object_type)
-        {
-          tree t = build_component_ref (current_structor_object_type, id);
-          current_structor_object_type = NULL_TREE;
-          if (t && !EM (t)
-              && (current_structor_object_type_constructor
-                  ? PASCAL_CONSTRUCTOR_METHOD (TREE_OPERAND (t, 1))
-                  : PASCAL_DESTRUCTOR_METHOD (TREE_OPERAND (t, 1))))
-            {
-              value = LEX_STRUCTOR;
-              yylval.ttype = t;
-            }
-        }
-
-      pd = IDENTIFIER_BUILT_IN_VALUE (id);
-
-      /* With `-pedantic', warn about any dialect specific keyword
-         encountered. At this point we don't know yet if it will be used as a
-         keyword or an identifier, but it doesn't matter. Both usages are not
-         completely portable. (That's `-pedantic' at its best! ;-) */
-      if (pd && pedantic && (pd->kind == bk_none || pd->kind == bk_keyword) && pd->dialect != ANY_PASCAL)
-        warn_about_keyword_redeclaration (id, 0);
-
-      if (PD_ACTIVE (pd) && pd->kind == bk_keyword && !(pd->attributes & KW_WEAK))
-        value = pd->symbol;
-      else if (value == LEX_ID && PD_ACTIVE (pd) && !lookup_name (id) && !PASCAL_PENDING_DECLARATION (id))
-        {
-          /* lookup_name resolves built-in constants and types (because it's
-             called from many places). Built-in interfaces are handled in
-             module.c (only relevant there because interface names are in a
-             diffrent scope than all other identifiers). Other built-ins
-             (including built-in variables because some of them need special
-             handling in get_builtin_variable after they are parsed as
-             variables) are resolved here (only once during lexing, and never
-             passed around). */
-          switch (pd->kind)
+        if (PASCAL_PENDING_DECLARATION (id))
+          declared = 1;
+        else
           {
-            case bk_none:
-            case bk_interface:
-              break;
-
-            case bk_keyword:
-            case bk_special_syntax:
-              value = pd->symbol;
-              break;
-
-            case bk_var:
-              value = LEX_BUILTIN_VARIABLE;
-              break;
-
-            case bk_routine:
-              if (pd->signature[0] == '-')
-                value = LEX_BUILTIN_PROCEDURE;
-              else if (pd->signature[0] == '>')
-                value = LEX_BUILTIN_PROCEDURE_WRITE;
-              else if (pd->signature[1] == '#')
-                value = LEX_BUILTIN_FUNCTION_VT;
-              else
-                value = LEX_BUILTIN_FUNCTION;
-              break;
-
-            default:
-              assert (0);
+            tree t = IDENTIFIER_VALUE (id);
+            if (t)
+              declared = !(TREE_CODE (t) == OPERATOR_DECL && PASCAL_BUILTIN_OPERATOR (t));
+            else
+              {
+                for (t = current_type_list; t && TREE_VALUE (t) != id; t = TREE_CHAIN (t));
+                declared = t != NULL_TREE;
+              }
           }
-          if (value != LEX_ID && !pd->user_disabled < 0)
-            chk_dialect_name (IDENTIFIER_NAME (id), pd->dialect);
-        }
-    }
+
+        if (PD_ACTIVE (pd) && (!declared || (pd->kind == bk_keyword 
+             && !(pd->attributes & KW_WEAK))))
+          {
+            switch (pd->kind)
+            {
+              case bk_none:
+              /* handled in module.c */
+              case bk_interface:
+              /* handled in lookup_name */
+              case bk_const:
+
+              case bk_type:
+              case bk_var:
+                break;
+
+              case bk_keyword:
+              case bk_special_syntax:
+                value = pd->symbol;
+                break;
+
+              case bk_routine:
+                if (pd->signature[0] == '-')
+                  value = LEX_BUILTIN_PROCEDURE;
+                else if (pd->signature[0] == '>')
+                  value = LEX_BUILTIN_PROCEDURE_WRITE;
+                else
+                  value = LEX_BUILTIN_FUNCTION;
+                break;
+
+              default:
+                gcc_unreachable ();
+            }
+            if (value != LEX_ID && pd->user_disabled >= 0)
+              chk_dialect_name (IDENTIFIER_NAME (id), pd->dialect);
+          }
+        break;
+      }
+
+    default:
+      yylval.itype = LexSem.TokenString[0];  /* for `caret_chars' */
+  }
 
   /* `+' and `-' have different precedence in BP than in Pascal.
      To handle this we have to use different tokens. */
-  if (co->pascal_dialect & B_D_PASCAL)
+  if (co->pascal_dialect & B_D_M_PASCAL)
     switch (value)
     {
       case '+': value = LEX_BPPLUS;  break;
@@ -726,39 +687,10 @@ yylex ()
       case ')': case ']': lex_const_equal--; break;
     }
 
-  /* Set the location and options here before doing possible read-ahead below. */
   yylloc.last_file = NewPos.SrcName;
   yylloc.last_line = NewPos.Line;
   yylloc.last_column = NewPos.Column;
   yylloc.option_id = lexer_options->counter;
-
-  /* About the following cases, see internals.texi. */
-
-  /* `attribute' can only be a keyword if followed by `('. */
-  if (value == p_attribute && peek_token (1) != '(')
-    value = LEX_ID;
-
-  /* These can never be keywords if followed by `,', `:', `=' or `('.
-     This is sufficient since in constant, type or variable declarations
-     and export lists (where the conflicts are) only `,' and `:' and `='
-     can follow. Exception: `operator ='. This is a problem (see
-     internals.texi). (And `asmname (' which is resolved in the parser
-     using new_identifier_limited_par.) */
-  if ((value == p_asmname
-       || value == p_constructor
-       || value == p_destructor
-       || value == p_external
-       || value == p_implementation
-       || value == p_import
-       || value == p_initialization
-       || value == p_operator
-       || value == p_uses)
-      && (peek_token (1) == ','
-          || next_token == ':'
-          || (next_token == '(' && value != p_asmname)
-          || (next_token == '=' && value != p_operator)))
-    value = LEX_ID;
-
   lexer_filename = input_filename;
   lexer_lineno = lineno;
   lexer_column = column;

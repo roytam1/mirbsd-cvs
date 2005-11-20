@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.2 2005/03/28 02:09:43 tg Exp $ */
+/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.3 2005/03/28 02:57:58 tg Exp $ */
 
 /*GNU Pascal Compiler Preprocessor (GPCPP)
 
@@ -37,13 +37,17 @@
 #include "config.h"
 #ifndef EGCS97
 #include "gansidecl.h"
+#else
+#include "version.h"
 #endif
 #include "system.h"
 #include "gpc-options.h"
-#include "p/version.h"
+#include "p/p-version.h"
 #ifndef EGCS97
-extern void *alloca PARAMS ((size_t));
+extern void *alloca (size_t);
 #endif
+
+#include "gpcpp.h"
 
 #ifndef FATAL_EXIT_CODE
 #define FATAL_EXIT_CODE 1
@@ -101,7 +105,7 @@ struct gpc_option
 
 #define OPTIONS_ONLY
 #define GPC_OPT(SOURCE, NAME, OPTION, VALUE, DESCRIPTION) { SOURCE, NAME },
-const struct gpc_option gpc_options[] =
+static const struct gpc_option gpc_options[] =
 {
 #include "lang-options.h"
   { 0, NULL }
@@ -110,7 +114,9 @@ const struct gpc_option gpc_options[] =
 
 typedef unsigned char U_CHAR;
 
-extern char *version_string;
+#ifndef EGCS97
+extern char * const version_string;
+#endif
 
 /* Name under which this program was invoked. */
 static const char *progname;
@@ -126,6 +132,9 @@ static int max_include_len;
 /* Nonzero means print the names of included files rather than
    the preprocessed output. */
 static int print_deps = 0;
+
+/* File to names of included files are printed */
+FILE * deps_out_file;
 
 /* Nonzero means print names of header files (-H). */
 static int print_include_names = 0;
@@ -384,7 +393,7 @@ struct local_option_list
 
 static struct local_option_list *local_options_stack = NULL;
 
-#define DO_PARAMS PARAMS ((U_CHAR *, U_CHAR *, FILE_BUF *, struct directive *))
+#define DO_PARAMS (U_CHAR *, U_CHAR *, FILE_BUF *, struct directive *)
 
 /* `struct directive' defines one #-directive, including how to handle it. */
 struct directive
@@ -396,7 +405,7 @@ struct directive
   char angle_brackets;    /* Nonzero => <...> is special. */
 };
 
-static int do_define1 PARAMS ((U_CHAR *, U_CHAR *, FILE_BUF *, struct directive *, int, HASHNODE **));
+static int do_define1 (U_CHAR *, U_CHAR *, FILE_BUF *, struct directive *, int, HASHNODE **);
 
 /* These functions are declared to return int instead of void since they
    are going to be placed in the table and some old compilers have trouble with
@@ -464,18 +473,20 @@ struct arglist
 
 /* When a directive handler is called,
    this points to the # that started the directive. */
-U_CHAR *directive_start;
+static U_CHAR *directive_start;
 
-U_CHAR is_idchar[256];  /* char can be part of an identifier. */
-U_CHAR is_idstart[256];  /* char can be first char of an identifier. */
+static U_CHAR is_idchar[256];  /* char can be part of an identifier. */
+static U_CHAR is_idstart[256];  /* char can be first char of an identifier. */
 static U_CHAR is_hor_space[256];  /* char is horizontal space. */
-U_CHAR is_space[256];  /* char is horizontal or vertical space. */
+static U_CHAR is_space[256];  /* char is horizontal or vertical space. */
 
 #define SKIP_WHITE_SPACE(p) do { while (is_hor_space[*p]) p++; } while (0)
 #define SKIP_ALL_WHITE_SPACE(p) do { while (is_space[*p]) p++; } while (0)
 
 static int errors = 0;  /* Error counter */
+#if 0
 static const char *out_fname;  /* Name of output file, for error messages. */
+#endif
 
 /* Stack of conditionals currently in progress
    (including both successful and failing conditionals). */
@@ -519,82 +530,88 @@ struct argdata
   char use_count;
 };
 
-static int safe_read PARAMS ((int, char *, int));
-static void safe_write PARAMS ((int, char *, int));
-static void newline_fix PARAMS ((U_CHAR *));
-static void name_newline_fix PARAMS ((U_CHAR *));
-static void warn_mixed_comment PARAMS ((void));
-static void warn_nested_comment PARAMS ((void));
-static U_CHAR *skip_one_comment PARAMS ((U_CHAR *, U_CHAR *, int *, int));
-static void rescan PARAMS ((FILE_BUF *, int));
-static FILE_BUF expand_to_temp_buffer PARAMS ((U_CHAR *, U_CHAR *, int));
-static char *check_negative_option PARAMS ((const char *, size_t, int, int *));
-static int is_dialect_option PARAMS ((const char *));
-static void remove_option PARAMS ((const char *));
-static int handle_option PARAMS ((const char *));
-static int handle_directive PARAMS ((FILE_BUF *, FILE_BUF *, int));
-static void handle_pascal_directive PARAMS ((FILE_BUF *, FILE_BUF *, U_CHAR *));
-static void special_symbol PARAMS ((HASHNODE *, FILE_BUF *));
-static int open_input_file PARAMS ((int, FILE_BUF *));
-static void finclude PARAMS ((int, char *, FILE_BUF *, struct file_name_list *));
-static MACRODEF create_definition PARAMS ((U_CHAR *, U_CHAR *, FILE_BUF *));
-static int check_macro_name PARAMS ((U_CHAR *, const char *));
-static int compare_defs PARAMS ((DEFINITION *, DEFINITION *));
-static DEFINITION *collect_expansion  PARAMS ((U_CHAR *, U_CHAR *, int, struct arglist *));
+static int safe_read (int, char *, int);
+static void safe_write (const char *, int, char *, int);
+static void newline_fix (U_CHAR *);
+static void name_newline_fix (U_CHAR *);
+static void warn_mixed_comment (void);
+static void warn_nested_comment (void);
+static U_CHAR *skip_one_comment (U_CHAR *, U_CHAR *, int *, int);
+static void rescan (FILE_BUF *, int);
+static FILE_BUF expand_to_temp_buffer (U_CHAR *, U_CHAR *, int);
+static char *check_negative_option (const char *, size_t, int, int *);
+static int is_dialect_option (const char *);
+static void remove_option (const char *);
+static int handle_option (const char *);
+static int handle_directive (FILE_BUF *, FILE_BUF *, int);
+static void handle_pascal_directive (FILE_BUF *, FILE_BUF *, U_CHAR *);
+static void special_symbol (HASHNODE *, FILE_BUF *);
+static int open_input_file (int, FILE_BUF *);
+static void finclude (int, char *, FILE_BUF *, struct file_name_list *);
+static MACRODEF create_definition (U_CHAR *, U_CHAR *, FILE_BUF *);
+static int check_macro_name (U_CHAR *, const char *);
+static int compare_defs (DEFINITION *, DEFINITION *);
+static DEFINITION *collect_expansion  (U_CHAR *, U_CHAR *, int, struct arglist *);
 enum tokens { EOT = 257, INTCST, False, True, NE, LE, GE, OR, XOR, LSH, RSH, AND };
-static int yylex PARAMS ((void));
-static HOST_WIDEST_INT factor PARAMS ((void));
-static HOST_WIDEST_INT term PARAMS ((void));
-static HOST_WIDEST_INT simple_exp PARAMS ((void));
-static HOST_WIDEST_INT expr PARAMS ((void));
-static int eval_if_expression PARAMS ((U_CHAR *, int));
-static void conditional_skip PARAMS ((FILE_BUF *, int, enum node_type));
-static void skip_if_group PARAMS ((FILE_BUF *, int));
-static U_CHAR *skip_to_end_of_comment PARAMS ((FILE_BUF *, int *, int));
-static const U_CHAR *skip_quoted_string PARAMS ((const U_CHAR *, const U_CHAR *, int, int *, int *, int *));
-static char *quote_string PARAMS ((char *, const char *));
+static int yylex (void);
+static HOST_WIDEST_INT factor (void);
+static HOST_WIDEST_INT term (void);
+static HOST_WIDEST_INT simple_exp (void);
+static HOST_WIDEST_INT expr (void);
+static int eval_if_expression (U_CHAR *, int);
+static void conditional_skip (FILE_BUF *, int, enum node_type);
+static void skip_if_group (FILE_BUF *, int);
+static U_CHAR *skip_to_end_of_comment (FILE_BUF *, int *, int);
+static const U_CHAR *skip_quoted_string (const U_CHAR *, const U_CHAR *, int, int *, int *, int *);
+static char *quote_string (char *, const char *);
 enum file_change_code {same_file, enter_file, leave_file};  /* Last arg to output_line_directive. */
-static void output_line_directive PARAMS ((FILE_BUF *, FILE_BUF *, int, enum file_change_code));
-static void macroexpand PARAMS ((HASHNODE *, FILE_BUF *));
-static const char *macarg PARAMS ((struct argdata *, int));
-static U_CHAR *macarg1 PARAMS ((U_CHAR *, U_CHAR *, int *, int *, int *, int));
-static int discard_comments PARAMS ((U_CHAR *, int, int));
-static int change_newlines PARAMS ((U_CHAR *, int));
-static void warning PARAMS ((const char *, ...)) ATTRIBUTE_PRINTF_1;
-static void error PARAMS ((const char *, ...)) ATTRIBUTE_PRINTF_1;
-static void verror PARAMS ((const char *, va_list));
-static void error_from_errno PARAMS ((const char *));
-static void vwarning PARAMS ((const char *, va_list));
-static void error_with_line PARAMS ((int, const char *, ...)) ATTRIBUTE_PRINTF_2;
-static void pedwarn PARAMS ((const char *, ...)) ATTRIBUTE_PRINTF_1;
-static void pedwarn_with_file_and_line PARAMS ((const char *, int, const char *, ...)) ATTRIBUTE_PRINTF_3;
-static void print_containing_files PARAMS ((void));
-static int line_for_error PARAMS ((int));
-static int grow_outbuf PARAMS ((FILE_BUF *, int));
-static HASHNODE *install PARAMS ((U_CHAR *, int, enum node_type, char *, int, int));
-static HASHNODE *lookup PARAMS ((U_CHAR *, int, int));
-static void delete_macro PARAMS ((HASHNODE *));
-static int hashf PARAMS ((U_CHAR *, int, int));
-static void initialize_char_syntax PARAMS ((void));
-static void initialize_builtins PARAMS ((void));
-static void make_definition PARAMS ((const char *, int));
-static void make_undef PARAMS ((char *, FILE_BUF *));
-static void append_include_chain PARAMS ((struct file_name_list *, struct file_name_list *));
-extern void fancy_abort PARAMS ((void)) ATTRIBUTE_NORETURN;
-static void perror_with_name PARAMS ((const char *));
-static void pfatal_with_name PARAMS ((const char *)) ATTRIBUTE_NORETURN;
-static void pipe_closed PARAMS ((int)) ATTRIBUTE_NORETURN;
-extern int main PARAMS ((int, char **));
-#if defined (EGCS97) || !defined (EGCS)
-static void fatal PARAMS ((const char *, ...)) ATTRIBUTE_PRINTF_1 ATTRIBUTE_NORETURN;
+static void output_line_directive (FILE_BUF *, FILE_BUF *, int, enum file_change_code);
+static void macroexpand (HASHNODE *, FILE_BUF *);
+static const char *macarg (struct argdata *, int);
+static U_CHAR *macarg1 (U_CHAR *, U_CHAR *, int *, int *, int *, int);
+static int discard_comments (U_CHAR *, int, int);
+static int change_newlines (U_CHAR *, int);
+static void warning (const char *, ...) ATTRIBUTE_PRINTF_1;
+static void error (const char *, ...) ATTRIBUTE_PRINTF_1;
+static void verror (const char *, va_list);
+static void error_from_errno (const char *);
+static void vwarning (const char *, va_list);
+static void error_with_line (int, const char *, ...) ATTRIBUTE_PRINTF_2;
+static void pedwarn (const char *, ...) ATTRIBUTE_PRINTF_1;
+static void pedwarn_with_file_and_line (const char *, int, const char *, ...) ATTRIBUTE_PRINTF_3;
+static void print_containing_files (void);
+static int line_for_error (int);
+static int grow_outbuf (FILE_BUF *, int);
+static HASHNODE *install (U_CHAR *, int, enum node_type, char *, int, int);
+static HASHNODE *lookup (U_CHAR *, int, int);
+static void delete_macro (HASHNODE *);
+static int hashf (U_CHAR *, int, int);
+#if 0
+static void initialize_char_syntax (void);
 #endif
+static void initialize_builtins (void);
+#if 0
+static void make_definition (const char *, int);
+#endif
+static void make_undef (char *, FILE_BUF *);
+static void append_include_chain (struct file_name_list *, struct file_name_list *);
+#if 0
+extern void fancy_abort (void) ATTRIBUTE_NORETURN;
+#endif
+static void perror_with_name (const char *);
+static void pfatal_with_name (const char *) ATTRIBUTE_NORETURN;
+static void pipe_closed (int) ATTRIBUTE_NORETURN;
+extern int main (int, char **);
+
+static void fatal (const char *, ...) ATTRIBUTE_PRINTF_1 ATTRIBUTE_NORETURN;
+
 #ifndef EGCS
-static const char *xstrerror PARAMS ((int));
+static const char *xstrerror (int);
 #endif
 #ifndef EGCS97
-extern PTR xmalloc PARAMS ((size_t));
-extern PTR xrealloc PARAMS ((PTR, size_t));
-extern PTR xcalloc PARAMS ((size_t, size_t));
+extern PTR xmalloc (size_t);
+extern PTR xrealloc (PTR, size_t);
+extern PTR xcalloc (size_t, size_t);
 #endif
 
 /* Check if a `(*' or `//' (if enabled) comment starts at p */
@@ -609,10 +626,7 @@ extern PTR xcalloc PARAMS ((size_t, size_t));
    otherwise return the actual number of bytes read,
    which must be LEN unless end-of-file was reached. */
 static int
-safe_read (desc, ptr, len)
-     int desc;
-     char *ptr;
-     int len;
+safe_read (int desc, char *ptr, int len)
 {
   int left = len;
   while (left > 0)
@@ -637,10 +651,7 @@ safe_read (desc, ptr, len)
 /* Write LEN bytes at PTR to descriptor DESC,
    retrying if necessary, and treating any real error as fatal. */
 static void
-safe_write (desc, ptr, len)
-     int desc;
-     char *ptr;
-     int len;
+safe_write (const char * out_fname, int desc, char *ptr, int len)
 {
   while (len > 0)
   {
@@ -664,11 +675,7 @@ safe_write (desc, ptr, len)
    of option, whether or not options was positive or negative. */
 #define NEGATION "no-"
 static char *
-check_negative_option (option, length, make_positive, is_negative_p)
-     const char *option;
-     size_t length;
-     int make_positive;
-     int *is_negative_p;
+check_negative_option (const char *option, size_t length, int make_positive, int *is_negative_p)
 {
   char *result;
   int is_negative = length >= 2 + strlen (NEGATION)
@@ -702,8 +709,7 @@ check_negative_option (option, length, make_positive, is_negative_p)
 }
 
 static int
-is_dialect_option (option)
-     const char *option;
+is_dialect_option (const char *option)
 {
   const char *const *dialect_option = dialect_options;
   while (*dialect_option && strcmp (*dialect_option, option) != 0)
@@ -712,8 +718,7 @@ is_dialect_option (option)
 }
 
 static void
-remove_option (option)
-     const char *option;
+remove_option (const char *option)
 {
   struct option_list *po, **ppo;
   ppo = &current_options;
@@ -728,8 +733,7 @@ remove_option (option)
 }
 
 static int
-handle_option (option)
-     const char *option;
+handle_option (const char *option)
 {
   const struct lang_option_map *map = lang_option_map;
   const char *p, *name = option + 2, *temp, *const *dialect_option;
@@ -852,9 +856,7 @@ handle_option (option)
 }
 
 static int
-open_input_file (f, fp)
-     int f;
-     FILE_BUF *fp;
+open_input_file (int f, FILE_BUF *fp)
 {
   struct stat sbuf;
   if (fstat (f, &sbuf) < 0)
@@ -904,18 +906,17 @@ open_input_file (f, fp)
   return 1;
 }
 
+static char **pend_includes = 0;
+static int gpcpp_argc;
+static FILE_BUF *fp;
 int
-main (argc, argv)
-     int argc;
-     char **argv;
+gpcpp_process_options (int argc, char **argv)
 {
-  const char *in_fname, *cp;
-  int inhibit_output = 0, verbose = 0, f, i;
-  FILE_BUF *fp;
+  const char /* *in_fname, */ *cp;
+  int inhibit_output = 0, verbose = 0, i;
   char **pend_defs = (char **) xmalloc (argc * sizeof (char *));
   int *pend_defs_case_sensitive = (int *) xmalloc (argc * sizeof (int));
   char **pend_undefs = (char **) xmalloc (argc * sizeof (char *));
-  char **pend_includes = (char **) xmalloc (argc * sizeof (char *));
   /* Non-0 means don't output the preprocessed program. */
   const char *const *option;
   char tmp_buf[256];
@@ -928,6 +929,9 @@ main (argc, argv)
   setrlimit (RLIMIT_STACK, &rlim);
 #endif
 
+  pend_includes = (char **) xmalloc (argc * sizeof (char *));
+  gpcpp_argc = argc;
+
 #ifdef SIGPIPE
   signal (SIGPIPE, pipe_closed);
 #endif
@@ -937,9 +941,12 @@ main (argc, argv)
     --cp;
   progname = cp;
 
+#if 0
   in_fname = NULL;
   out_fname = NULL;
   initialize_char_syntax ();
+#endif
+
   no_line_directives = 0;
   no_output = 0;
   delphi_comments = 0;
@@ -957,12 +964,14 @@ main (argc, argv)
 
   for (i = 1; i < argc; i++) {
     if (argv[i][0] != '-') {
+#if 0
       if (out_fname != NULL)
         fatal ("usage: %s [switches] input output", argv[0]);
       else if (in_fname != NULL)
         out_fname = argv[i];
       else
         in_fname = argv[i];
+#endif
     } else {
       switch (argv[i][1]) {
 
@@ -1043,6 +1052,7 @@ main (argc, argv)
           goto option_error;
         break;
 
+#if 0
       case 'o':
         if (out_fname != NULL)
           fatal ("output filename specified twice");
@@ -1052,6 +1062,7 @@ main (argc, argv)
         if (!strcmp (out_fname, "-"))
           out_fname = "";
         break;
+#endif
 
       case 'p':
         if (!strcmp (argv[i], "-pedantic"))
@@ -1113,14 +1124,17 @@ main (argc, argv)
         if (strcmp (argv[i], "--help"))
           goto option_error;
       case 'v':
-        fprintf (stderr, "GNU Pascal Compiler PreProcessor version %s, based on gcc-%s", GPC_RELEASE_STRING, version_string);
+        if (!argv[i][2])
+          fprintf (stderr, "GNU Pascal Compiler PreProcessor version %s, based on gcc-%s", GPC_RELEASE_STRING, version_string);
 #ifdef TARGET_VERSION
         TARGET_VERSION;
 #endif
         fprintf (stderr, "\n");
         verbose = 1;
+#if 0
         if (argv[i][1] != 'v')
           exit (SUCCESS_EXIT_CODE);
+#endif
         break;
 
       case 'H':
@@ -1187,6 +1201,7 @@ main (argc, argv)
           goto option_error;
         break;
 
+#if 0
       case '\0': /* handle '-' as file name meaning stdin or stdout */
         if (in_fname == NULL) {
           in_fname = "";
@@ -1195,10 +1210,13 @@ main (argc, argv)
           out_fname = "";
           break;
         }
+#endif
         /* FALLTHROUGH */
       default:
-      option_error:
+      option_error: ;
+#if 0
         fatal ("invalid option `%s'", argv[i]);
+#endif
       }
     }
   }
@@ -1211,10 +1229,12 @@ main (argc, argv)
   /* Do partial setup of input buffer for the sake of generating
      early #line directives (when -g is in effect). */
   fp = &instack[++indepth];
+#if 0
   if (in_fname == NULL)
     in_fname = "";
   fp->nominal_fname = fp->fname = (in_fname == NULL || *in_fname == 0) ? "stdin" : in_fname;
   fp->lineno = 0;
+#endif
 
   /* Install __LINE__, etc. Must follow initialize_char_syntax and option processing. */
   initialize_builtins ();
@@ -1263,10 +1283,17 @@ main (argc, argv)
     }
     fprintf (stderr, "End of search list.\n");
   }
+  return 0;
+}
 
+int
+gpcpp_main (const char *filename, FILE * in_file)
+{
+  int i;
   /* Copy the entire contents of the main input file into
      the stacked input buffer previously allocated for it. */
 
+#if 0
   /* check for stdin */
   if (in_fname == NULL || *in_fname == 0) {
     in_fname = "";
@@ -1275,23 +1302,33 @@ main (argc, argv)
     pfatal_with_name (in_fname);
     return 0;
   }
+#endif
 
+#if 0
   fp->nominal_fname = fp->fname = (in_fname == NULL || *in_fname == 0) ? "stdin" : in_fname;
   if (!open_input_file (f, fp))
     exit (FATAL_EXIT_CODE);
   fp->if_stack = if_stack;
+#else
+  fp->nominal_fname = fp->fname = filename;
+  if (!open_input_file (fileno (in_file), fp))
+    return 1;
+  fp->if_stack = if_stack;
+#endif
 
+#if 0
   /* Now that we know the input file is valid, open the output. */
   if (!out_fname || !strcmp (out_fname, ""))
     out_fname = "stdout";
   else if (!freopen (out_fname, "w", stdout))
     pfatal_with_name (out_fname);
+#endif
 
   output_line_directive (fp, &outbuf, 0, same_file);
 
   /* Scan the -include files before the main input. */
   no_record_file++;
-  for (i = 1; i < argc; i++)
+  for (i = 1; i < gpcpp_argc; i++)
     if (pend_includes[i]) {
       int fd = open (pend_includes[i], O_RDONLY, 0666);
       if (fd < 0) {
@@ -1309,7 +1346,15 @@ main (argc, argv)
 
   if (local_options_stack)
     error ("missing `$endlocal'");
+  if (errors)
+    exit (FATAL_EXIT_CODE);
+  return errors;
+}
 
+int
+gpcpp_writeout (const char *out_filename, FILE * out_file)
+{
+#if 0
   if (!inhibit_output)
     safe_write (fileno (stdout), (char *) outbuf.buf, outbuf.bufp - outbuf.buf);
 
@@ -1319,6 +1364,28 @@ main (argc, argv)
   if (errors)
     exit (FATAL_EXIT_CODE);
   exit (SUCCESS_EXIT_CODE);
+#else
+  safe_write (out_filename, fileno (out_file),
+               (char *) outbuf.buf, outbuf.bufp - outbuf.buf);
+  if (ferror (out_file) || fclose (out_file) != 0)
+    fatal ("I/O error on output");
+  return errors;
+#endif
+}
+
+int 
+gpcpp_fillbuf(char * buf, int max_size)
+{
+  static char * p = 0;
+  int res;
+  if (!p) {
+    p = (char *) outbuf.buf;
+  }
+  res = (char *) outbuf.bufp - p > max_size ? max_size : 
+        (char *) outbuf.bufp - p;
+  memcpy (buf, p, res);
+  p += res;
+  return res;
 }
 
 /* Move all backslash-newline pairs out of embarrassing places.
@@ -1328,8 +1395,7 @@ main (argc, argv)
    (because a backslash-newline inside a comment delimiter
    would cause it not to be recognized). */
 static void
-newline_fix (bp)
-     U_CHAR *bp;
+newline_fix (U_CHAR *bp)
 {
   U_CHAR *p = bp;
   /* First count the backslash-newline pairs here. */
@@ -1353,8 +1419,7 @@ newline_fix (bp)
 /* Like newline_fix but for use within a directive-name.
    Move any backslash-newlines up past any following symbol constituents. */
 static void
-name_newline_fix (bp)
-     U_CHAR *bp;
+name_newline_fix (U_CHAR *bp)
 {
   U_CHAR *p = bp;
   /* First count the backslash-newline pairs here. */
@@ -1376,7 +1441,7 @@ name_newline_fix (bp)
 }
 
 static void
-warn_mixed_comment ()
+warn_mixed_comment (void)
 {
   if (warn_mixed_comments && !inhibit_warnings)
     {
@@ -1386,7 +1451,7 @@ warn_mixed_comment ()
 }
 
 static void
-warn_nested_comment ()
+warn_nested_comment (void)
 {
   if (warn_nested_comments && !inhibit_warnings)
     warning (nested_comments ? "nested comments are a GPC extension" : "comment opener found within comment");
@@ -1397,10 +1462,7 @@ warn_nested_comment ()
    not NULL. limit, if not NULL, gives the maximum end of the
    comment. */
 static U_CHAR *
-skip_one_comment (bp, limit, lineno, fix_newlines)
-     U_CHAR *bp, *limit;
-     int *lineno;
-     int fix_newlines;
+skip_one_comment (U_CHAR *bp, U_CHAR *limit, int *lineno, int fix_newlines)
 {
   int comment_count = 1, comment1 = 2, comment2 = 2;
   if (*bp == '{')
@@ -1494,9 +1556,7 @@ skip_one_comment (bp, limit, lineno, fix_newlines)
    copied back with the RECACHE macro. OBP must be copied back from OP->bufp
    explicitly, and before RECACHE, since RECACHE uses OBP. */
 static void
-rescan (op, output_marks)
-     FILE_BUF *op;
-     int output_marks;
+rescan (FILE_BUF *op, int output_marks)
 {
   U_CHAR c;  /* Character being scanned in main loop. */
   int ident_length = 0;  /* Length of pending accumulated identifier. */
@@ -2359,7 +2419,7 @@ hashcollision:
 
   /* Come here to return -- but first give an error message
      if there was an unterminated successful conditional. */
- ending:
+ending:
   if (if_stack != ip->if_stack)
     {
       const char *str;
@@ -2398,9 +2458,7 @@ hashcollision:
    OUTPUT_MARKS is 1 for macroexpanding a macro argument separately
    before substitution; it is 0 for other uses. */
 static FILE_BUF
-expand_to_temp_buffer (buf, limit, output_marks)
-     U_CHAR *buf, *limit;
-     int output_marks;
+expand_to_temp_buffer (U_CHAR *buf, U_CHAR *limit, int output_marks)
 {
   FILE_BUF *ip, obuf;
   int length = limit - buf;
@@ -2455,9 +2513,7 @@ expand_to_temp_buffer (buf, limit, output_marks)
    Returns nonzero if this was a known # directive.
    Otherwise, returns zero, without advancing the input pointer. */
 static int
-handle_directive (ip, op, pascal_directive)
-     FILE_BUF *ip, *op;
-     int pascal_directive;
+handle_directive (FILE_BUF *ip, FILE_BUF *op, int pascal_directive)
 {
   U_CHAR *bp, *cp;
   struct directive *kt;
@@ -2774,9 +2830,7 @@ handle_directive (ip, op, pascal_directive)
 
 /* Handle a Pascal directive */
 static void
-handle_pascal_directive (ip, op, limit)
-    FILE_BUF *ip, *op;
-    U_CHAR *limit;
+handle_pascal_directive (FILE_BUF *ip, FILE_BUF *op, U_CHAR *limit)
 {
   U_CHAR *p = ip->bufp, *q, *r, save_char;
   char *allocated_option;
@@ -3067,9 +3121,7 @@ handle_pascal_directive (ip, op, limit)
 /* expand things like __FILE__. Place the expansion into the output
    buffer *without* rescanning. */
 static void
-special_symbol (hp, op)
-     HASHNODE *hp;
-     FILE_BUF *op;
+special_symbol (HASHNODE *hp, FILE_BUF *op)
 {
   const char *buf;
   char *s;
@@ -3200,10 +3252,7 @@ oops:
 /* Handle #include.
    This function expects to see "fname" or <fname> on the input. */
 static int
-do_include (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword;
+do_include (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword)
 {
   int skip_dirs = (keyword->type == T_INCLUDE_NEXT);
   char *fname;  /* Dynamically allocated fname buffer */
@@ -3417,7 +3466,7 @@ get_filename:
       error ("no include path in which to find %s", fname);
   } else {
     if (print_deps)
-      puts (fname);
+      fprintf (deps_out_file, "%s\n", fname);
     if (print_include_names)
       fprintf (stderr, "%*s%s\n", indepth, "", fname);
     finclude (f, fname, op, searchptr);
@@ -3430,11 +3479,7 @@ get_filename:
    DIRPTR is the link in the dir path through which this file was found,
    or 0 if the file name was absolute. */
 static void
-finclude (f, fname, op, dirptr)
-     int f;
-     char *fname;
-     FILE_BUF *op;
-     struct file_name_list *dirptr;
+finclude (int f, char *fname, FILE_BUF *op, struct file_name_list *dirptr)
 {
   FILE_BUF *fp;  /* For input stack frame */
   CHECK_DEPTH (return);
@@ -3465,9 +3510,7 @@ finclude (f, fname, op, dirptr)
 /* Create a DEFINITION node from a #define directive. Arguments are
    as for do_define. */
 static MACRODEF
-create_definition (buf, limit, op)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
+create_definition (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op)
 {
   U_CHAR *bp;       /* temp ptr into input buffer */
   U_CHAR *symname;  /* remember where symbol name starts */
@@ -3622,12 +3665,7 @@ create_definition (buf, limit, op)
    LIMIT points to the first character past the end of the definition.
    KEYWORD is the keyword-table entry for #define. */
 static int
-do_define1 (buf, limit, op, keyword, case_sensitive, hashnode)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword ATTRIBUTE_UNUSED;
-     int case_sensitive;
-     HASHNODE **hashnode;
+do_define1 (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword ATTRIBUTE_UNUSED, int case_sensitive, HASHNODE **hashnode)
 {
   int hashcode;
   HASHNODE *hp;
@@ -3665,10 +3703,7 @@ do_define1 (buf, limit, op, keyword, case_sensitive, hashnode)
 }
 
 static int
-do_define (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword;
+do_define (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword)
 {
   return do_define1 (buf, limit, op, keyword, 1, NULL);
 }
@@ -3676,9 +3711,7 @@ do_define (buf, limit, op, keyword)
 /* Check a purported macro name SYMNAME, and yield its length.
    USAGE is the kind of name this is intended for. */
 static int
-check_macro_name (symname, usage)
-     U_CHAR *symname;
-     const char *usage;
+check_macro_name (U_CHAR *symname, const char *usage)
 {
   U_CHAR *p;
   int sym_length;
@@ -3694,8 +3727,7 @@ check_macro_name (symname, usage)
 
 /* return zero if two DEFINITIONs are isomorphic */
 static int
-compare_defs (d1, d2)
-     DEFINITION *d1, *d2;
+compare_defs (DEFINITION *d1, DEFINITION *d2)
 {
   struct reflist *a1, *a2;
   if (d1->nargs != d2->nargs || strcmp ((char *) d1->argnames, (char *) d2->argnames))
@@ -3724,10 +3756,7 @@ compare_defs (d1, d2)
 /* If there is no trailing whitespace, a Newline Space is added at the end
    to prevent concatenation that would be contrary to the standard. */
 static DEFINITION *
-collect_expansion (buf, end, nargs, arglist)
-     U_CHAR *buf, *end;
-     int nargs;
-     struct arglist *arglist;
+collect_expansion (U_CHAR *buf, U_CHAR *end, int nargs, struct arglist *arglist)
 {
   DEFINITION *defn;
   U_CHAR *p, *limit, *lastp, *exp_p;
@@ -3929,10 +3958,7 @@ collect_expansion (buf, end, nargs, arglist)
 #define FNAME_HASHSIZE 37
 
 static int
-do_line (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_line (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   U_CHAR *bp;
   FILE_BUF *ip = &instack[indepth], tem;
@@ -4053,10 +4079,7 @@ do_line (buf, limit, op, keyword)
    according to un*x /lib/cpp, it is not an error to undef
    something that has no definitions, so it isn't one here either. */
 static int
-do_undef (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op ATTRIBUTE_UNUSED;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_undef (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op ATTRIBUTE_UNUSED, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   int sym_length;
   HASHNODE *hp;
@@ -4082,10 +4105,7 @@ do_undef (buf, limit, op, keyword)
    Use the text of the line in the error message.
    (We use error because it prints the filename & line#.) */
 static int
-do_error (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op ATTRIBUTE_UNUSED;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_error (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op ATTRIBUTE_UNUSED, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   int length = limit - buf;
   U_CHAR *copy = (U_CHAR *) xmalloc (length + 1);
@@ -4100,10 +4120,7 @@ do_error (buf, limit, op, keyword)
    Use the text of the line in the warning message, then continue.
    (We use error because it prints the filename & line#.) */
 static int
-do_warning (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op ATTRIBUTE_UNUSED;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_warning (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op ATTRIBUTE_UNUSED, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   int length = limit - buf;
   U_CHAR *copy = (U_CHAR *) xmalloc (length + 1);
@@ -4125,10 +4142,7 @@ do_warning (buf, limit, op, keyword)
    5) call conditional_skip to skip til the next #endif (etc.),
       or not, depending on the value from step 3. */
 static int
-do_if (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op ATTRIBUTE_UNUSED;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_if (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op ATTRIBUTE_UNUSED, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   FILE_BUF *ip = &instack[indepth];
   conditional_skip (ip, eval_if_expression (buf, limit - buf) == 0, T_IF);
@@ -4138,10 +4152,7 @@ do_if (buf, limit, op, keyword)
 /* handle a #elif directive by not changing if_stack either.
    see the comment above do_else. */
 static int
-do_elif (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_elif (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   FILE_BUF *ip = &instack[indepth];
   if (if_stack == instack[indepth].if_stack) {
@@ -4176,7 +4187,7 @@ do_elif (buf, limit, op, keyword)
 #define OVERFLOW(C) if ((C) && !skip_evaluation) yyerror ("arithmetic overflow")
 
 static int
-yylex ()
+yylex (void)
 {
   /* Some C operators are also supported, so some "common"
      conditional expressions can be shared between Pascal and C. */
@@ -4256,7 +4267,7 @@ yylex ()
 }
 
 static HOST_WIDEST_INT
-factor ()
+factor (void)
 {
   HOST_WIDEST_INT i, j;
   int c = yylex ();
@@ -4288,7 +4299,7 @@ factor ()
 }
 
 static HOST_WIDEST_INT
-term ()
+term (void)
 {
   HOST_WIDEST_INT j = factor (), i, k;
   while (1)
@@ -4341,7 +4352,7 @@ term ()
 }
 
 static HOST_WIDEST_INT
-simple_exp ()
+simple_exp (void)
 {
   HOST_WIDEST_INT j = term (), i, k;
   while (1)
@@ -4377,7 +4388,7 @@ simple_exp ()
 }
 
 static HOST_WIDEST_INT
-expr ()
+expr (void)
 {
   HOST_WIDEST_INT j = simple_exp (), i;
   while (1)
@@ -4402,9 +4413,7 @@ expr ()
 /* Evaluate an `#if' expression in BUF, of length LENGTH,
    then parse the result return the value. */
 static int
-eval_if_expression (buf, length)
-     U_CHAR *buf;
-     int length;
+eval_if_expression (U_CHAR *buf, int length)
 {
   int value;
   HASHNODE *save_defined = install ((U_CHAR *) "defined", -1, T_SPEC_DEFINED, NULL, -1, 0);
@@ -4428,10 +4437,7 @@ eval_if_expression (buf, length)
 /* Handle ifdef/ifndef. Try to look up the symbol, then do or don't
    skip to the #endif/#else/#elif. */
 static int
-do_xifdef (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op ATTRIBUTE_UNUSED;
-     struct directive *keyword;
+do_xifdef (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op ATTRIBUTE_UNUSED, struct directive *keyword)
 {
   int skip;
   FILE_BUF *ip = &instack[indepth];
@@ -4463,10 +4469,7 @@ do_xifdef (buf, limit, op, keyword)
 
 /* Handle `ifopt' */
 static int
-do_ifopt (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op ATTRIBUTE_UNUSED;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_ifopt (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op ATTRIBUTE_UNUSED, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   FILE_BUF *ip = &instack[indepth];
   int skip = 1, is_negative, option_ok = 0;
@@ -4541,10 +4544,7 @@ do_ifopt (buf, limit, op, keyword)
 
 /* Push TYPE on stack; then, if SKIP is nonzero, skip ahead. */
 static void
-conditional_skip (ip, skip, type)
-     FILE_BUF *ip;
-     int skip;
-     enum node_type type;
+conditional_skip (FILE_BUF *ip, int skip, enum node_type type)
 {
   IF_STACK_FRAME *temp;
   temp = (IF_STACK_FRAME *) xcalloc (1, sizeof (IF_STACK_FRAME));
@@ -4566,9 +4566,7 @@ conditional_skip (ip, skip, type)
    leaves input ptr at the sharp sign found.
    If ANY is nonzero, return at next directive of any sort. */
 static void
-skip_if_group (ip, any)
-     FILE_BUF *ip;
-     int any;
+skip_if_group (FILE_BUF *ip, int any)
 {
   U_CHAR *bp = ip->bufp, *beg_of_line = bp;
   const U_CHAR *cp, *endb, *ident, *after_ident;
@@ -4801,10 +4799,7 @@ skip_if_group (ip, any)
    without changing if_stack; this is so that the error message
    for missing #endif's etc. will point to the original #if. */
 static int
-do_else (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_else (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   FILE_BUF *ip = &instack[indepth];
   if (pedantic) {
@@ -4837,10 +4832,7 @@ do_else (buf, limit, op, keyword)
 
 /* unstack after #endif directive */
 static int
-do_endif (buf, limit, op, keyword)
-     U_CHAR *buf, *limit;
-     FILE_BUF *op;
-     struct directive *keyword ATTRIBUTE_UNUSED;
+do_endif (U_CHAR *buf, U_CHAR *limit, FILE_BUF *op, struct directive *keyword ATTRIBUTE_UNUSED)
 {
   if (pedantic) {
     SKIP_WHITE_SPACE (buf);
@@ -4864,10 +4856,7 @@ do_endif (buf, limit, op, keyword)
    Don't use this routine (or the next one) if bumping the line
    counter is not sufficient to deal with newlines in the string. */
 static U_CHAR *
-skip_to_end_of_comment (ip, line_counter, match)
-     FILE_BUF *ip;
-     int *line_counter;  /* place to remember newlines, or NULL */
-     int match;
+skip_to_end_of_comment (FILE_BUF *ip, int *line_counter /* place to remember newlines, or NULL */, int match)
 {
   U_CHAR *limit = ip->buf + ip->length, *bp = ip->bufp;
   int start_line = line_counter ? *line_counter : 0, comment_count = 1;
@@ -4961,9 +4950,7 @@ skip_to_end_of_comment (ip, line_counter, match)
    if we pass a backslash-newline.
    If EOFP is nonzero, set *EOFP to 1 if the string is unterminated. */
 static const U_CHAR *
-skip_quoted_string (bp, limit, start_line, count_newlines, backslash_newlines_p, eofp)
-     const U_CHAR *bp, *limit;
-     int start_line, *count_newlines, *backslash_newlines_p, *eofp;
+skip_quoted_string (const U_CHAR *bp, const U_CHAR *limit, int start_line, int *count_newlines, int *backslash_newlines_p, int *eofp)
 {
   U_CHAR c, match;
   match = *bp++;
@@ -5012,9 +4999,7 @@ skip_quoted_string (bp, limit, start_line, count_newlines, backslash_newlines_p,
 /* Place into DST a quoted string representing the string SRC.
    Return the address of DST's terminating null. */
 static char *
-quote_string (dst, src)
-     char *dst;
-     const char *src;
+quote_string (char *dst, const char *src)
 {
   U_CHAR c;
   *dst++ = '"';
@@ -5041,10 +5026,7 @@ quote_string (dst, src)
    if we want to increase the line number by a small amount.
    FILE_CHANGE says whether we are entering a file, leaving, or neither. */
 static void
-output_line_directive (ip, op, conditional, file_change)
-     FILE_BUF *ip, *op;
-     int conditional;
-     enum file_change_code file_change;
+output_line_directive (FILE_BUF *ip, FILE_BUF *op, int conditional, enum file_change_code file_change)
 {
   int len;
   char *line_directive_buf, *line_end;
@@ -5096,9 +5078,7 @@ output_line_directive (ip, op, conditional, file_change)
    If macro wants arguments, caller has already verified that
    an argument list follows; arguments come from the input stack. */
 static void
-macroexpand (hp, op)
-     HASHNODE *hp;
-     FILE_BUF *op;
+macroexpand (HASHNODE *hp, FILE_BUF *op)
 {
   int nargs;
   DEFINITION *defn = hp->value.defn;
@@ -5440,9 +5420,7 @@ macroexpand (hp, op)
    REST_ARGS is passed to macarg1 to make it absorb the rest of the args.
    Return nonzero to indicate a syntax error. */
 static const char *
-macarg (argptr, rest_args)
-     struct argdata *argptr;
-     int rest_args;
+macarg (struct argdata *argptr, int rest_args)
 {
   FILE_BUF *ip = &instack[indepth];
   int parenthesis = 0;
@@ -5555,10 +5533,7 @@ macarg (argptr, rest_args)
    REST_ARGS notifies macarg1 that it should absorb the rest of the args.
    Set *COMMENTS to 1 if a comment is seen. */
 static U_CHAR *
-macarg1 (start, limit, depthptr, newlines, comments, rest_args)
-     U_CHAR *start, *limit;
-     int *depthptr, *newlines, *comments;
-     int rest_args;
+macarg1 (U_CHAR *start, U_CHAR *limit, int *depthptr, int *newlines, int *comments, int rest_args)
 {
   U_CHAR *bp = start;
   while (bp < limit) {
@@ -5645,10 +5620,7 @@ macarg1 (start, limit, depthptr, newlines, comments, rest_args)
    We assume that that much extra space is available past the end
    of the string. */
 static int
-discard_comments (start, length, newlines)
-     U_CHAR *start;
-     int length;
-     int newlines;
+discard_comments (U_CHAR *start, int length, int newlines)
 {
   U_CHAR *ibp, *obp, *limit;
   int c;
@@ -5744,9 +5716,7 @@ discard_comments (start, length, newlines)
    except inside of string constants.
    The string is copied into itself with its beginning staying fixed. */
 static int
-change_newlines (start, length)
-     U_CHAR *start;
-     int length;
+change_newlines (U_CHAR *start, int length)
 {
   U_CHAR *ibp, *obp, *limit;
   int c;
@@ -5801,9 +5771,7 @@ error (const char *msg, ...)
 }
 
 static void
-verror (msg, args)
-     const char *msg;
-     va_list args;
+verror (const char *msg, va_list args)
 {
   int i;
   FILE_BUF *ip = NULL;
@@ -5822,8 +5790,7 @@ verror (msg, args)
 
 /* Error including a message from `errno'. */
 static void
-error_from_errno (name)
-     const char *name;
+error_from_errno (const char *name)
 {
   int i;
   FILE_BUF *ip = NULL;
@@ -5850,9 +5817,7 @@ warning (const char *msg, ...)
 }
 
 static void
-vwarning (msg, args)
-     const char *msg;
-     va_list args;
+vwarning (const char *msg, va_list args)
 {
   int i;
   FILE_BUF *ip = NULL;
@@ -5930,7 +5895,7 @@ pedwarn_with_file_and_line (const char *file, int line, const char *msg, ...)
 /* Print the file names and line numbers of the #include
    directives which led to the current file. */
 static void
-print_containing_files ()
+print_containing_files (void)
 {
   FILE_BUF *ip = NULL;
   int i;
@@ -5971,8 +5936,7 @@ print_containing_files ()
    But if the current level is not for a file, LINE is meaningless.
    In that case, we return the lineno of the innermost file. */
 static int
-line_for_error (line)
-     int line;
+line_for_error (int line)
 {
   int i;
   int line1 = line;
@@ -5996,9 +5960,7 @@ line_for_error (line)
    should work ok. You might think void was cleaner for the return type,
    but that would get type mismatch in check_expand in strict ANSI. */
 static int
-grow_outbuf (obuf, needed)
-     FILE_BUF *obuf;
-     int needed;
+grow_outbuf (FILE_BUF *obuf, int needed)
 {
   U_CHAR *p;
   int minsize;
@@ -6033,13 +5995,7 @@ grow_outbuf (obuf, needed)
    If HASH is >= 0, it is the precomputed hash code.
    Otherwise, compute the hash code. */
 static HASHNODE *
-install (name, len, type, value, hash, case_sensitive)
-     U_CHAR *name;
-     int len;
-     enum node_type type;
-     char *value;
-     int hash;
-     int case_sensitive;
+install (U_CHAR *name, int len, enum node_type type, char *value, int hash, int case_sensitive)
 {
   HASHNODE *hp;
   int i, bucket;
@@ -6079,10 +6035,7 @@ install (name, len, type, value, hash, case_sensitive)
    If HASH is >= 0, it is the precomputed hash code.
    Otherwise, compute the hash code. */
 static HASHNODE *
-lookup (name, len, hash)
-     U_CHAR *name;
-     int len;
-     int hash;
+lookup (U_CHAR *name, int len, int hash)
 {
   U_CHAR *bp;
   HASHNODE *bucket;
@@ -6122,8 +6075,7 @@ lookup (name, len, hash)
    in the middle of reading the arguments to a call to it.
    If #undef freed the DEFINITION, that would crash. */
 static void
-delete_macro (hp)
-     HASHNODE *hp;
+delete_macro (HASHNODE *hp)
 {
   if (hp->prev != NULL)
     hp->prev->next = hp->next;
@@ -6139,9 +6091,7 @@ delete_macro (hp)
 /* return hash function on name. must be compatible with the one
    computed a step at a time, elsewhere */
 static int
-hashf (name, len, hashsize)
-     U_CHAR *name;
-     int len, hashsize;
+hashf (U_CHAR *name, int len, int hashsize)
 {
   int r = 0;
   while (len--)
@@ -6153,8 +6103,8 @@ hashf (name, len, hashsize)
   return MAKE_POS (r) % hashsize;
 }
 
-static void
-initialize_char_syntax ()
+void
+initialize_char_syntax (void)
 {
   int i;
   for (i = 'a'; i <= 'z'; i++) {
@@ -6181,7 +6131,7 @@ initialize_char_syntax ()
 
 /* Initialize the built-in macros. */
 static void
-initialize_builtins ()
+initialize_builtins (void)
 {
   install ((U_CHAR *) "__LINE__", -1, T_SPECLINE, NULL, -1, 1);
   install ((U_CHAR *) "__DATE__", -1, T_DATE, NULL, -1, 1);
@@ -6196,10 +6146,8 @@ initialize_builtins ()
    If STR is just an identifier, define it with value 1.
    If STR has anything after the identifier, then it should
    be identifier=definition. */
-static void
-make_definition (str, case_sensitive)
-     const char *str;
-     int case_sensitive;
+void
+make_definition (const char *str, int case_sensitive)
 {
   FILE_BUF *ip;
   struct directive *kt;
@@ -6279,9 +6227,7 @@ make_definition (str, case_sensitive)
 }
 
 static void
-make_undef (str, op)
-     char *str;
-     FILE_BUF *op;
+make_undef (char *str, FILE_BUF *op)
 {
   FILE_BUF *ip;
   struct directive *kt;
@@ -6303,8 +6249,7 @@ make_undef (str, op)
    to the end of the main include chain.
    FIRST is the beginning of the chain to append, and LAST is the end. */
 static void
-append_include_chain (first, last)
-     struct file_name_list *first, *last;
+append_include_chain (struct file_name_list *first, struct file_name_list *last)
 {
   struct file_name_list *dir;
   if (!first || !last)
@@ -6326,15 +6271,8 @@ append_include_chain (first, last)
   last_include = last;
 }
 
-extern void
-fancy_abort ()
-{
-  fatal ("internal gpcpp abort.");
-}
-
 static void
-perror_with_name (name)
-     const char *name;
+perror_with_name (const char *name)
 {
   fprintf (stderr, "%s: ", progname);
   fprintf (stderr, "%s: %s\n", name, xstrerror (errno));
@@ -6342,8 +6280,7 @@ perror_with_name (name)
 }
 
 static void
-pfatal_with_name (name)
-     const char *name;
+pfatal_with_name (const char *name)
 {
   perror_with_name (name);
   exit (FATAL_EXIT_CODE);
@@ -6351,16 +6288,13 @@ pfatal_with_name (name)
 
 /* Handler for SIGPIPE. */
 static void
-pipe_closed (sig)
-     int sig ATTRIBUTE_UNUSED;
+pipe_closed (int sig ATTRIBUTE_UNUSED)
 {
   fatal ("output pipe has been closed");
 }
 
-#if defined (EGCS97) || !defined (EGCS)
-static
-#endif
-void
+
+static void
 fatal (const char *msg, ...)
 {
   va_list args;
@@ -6375,8 +6309,7 @@ fatal (const char *msg, ...)
 #ifndef EGCS
 /* return the descriptive text associated with an `errno' code. */
 static const char *
-xstrerror (errnum)
-     int errnum;
+xstrerror (int errnum)
 {
   const char *result;
 #ifndef HAVE_STRERROR
@@ -6390,31 +6323,9 @@ xstrerror (errnum)
 }
 #endif
 
-#ifndef EGCS97
+#ifndef EGCS
 PTR
-xmalloc (size)
-     size_t size;
-{
-  PTR ptr = (PTR) malloc (size);
-  if (!ptr)
-    fatal ("memory exhausted");
-  return ptr;
-}
-
-PTR
-xrealloc (old, size)
-     PTR old;
-     size_t size;
-{
-  PTR ptr = (PTR) realloc (old, size);
-  if (!ptr)
-    fatal ("memory exhausted");
-  return ptr;
-}
-
-PTR
-xcalloc (number, size)
-     size_t number, size;
+xcalloc (size_t number, size_t size)
 {
   size_t total = number * size;
   PTR ptr = (PTR) malloc (total);
