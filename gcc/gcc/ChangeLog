@@ -1,7 +1,207 @@
+2005-11-13  Andreas Jaeger  <aj@suse.de>
+
+	* fixinc/check.tpl: Handle CVS additionally.
+
+2005-11-10  Uros Bizjak  <uros@kss-loka.si>
+
+        PR target/24315
+        * config/i386/i386.md (*pushdi2_rex64 splitter)
+        (*movdi_1_rex64 splitter): Delay splitting after
+        flow2 pass only when (optimize > 0 && flag_peephole2).
+
+2005-11-10  Uros Bizjak  <uros@kss-loka.si>
+
+	PR target/19340
+	* reg-stack.c (reg_to_stack): Update register liveness also
+	for flag_sched2_use_traces.
+
+2005-11-09  Per Bothner  <per@bothner.com>
+	    Uros Bizjak  <uros@kss-loka.si>
+	
+	PR c/24101
+	* toplev.c (process_options): Initialize debug_hooks early
+	in case lang_hooks.post_options ends up calling a debug_hook.
+	* cppinit.c (read_original_filename): Temporarily set
+	state.in_directive before calling _cpp_lex_direct for
+	CPP_HASH tokens.
+
+2005-11-07  Steve Ellcey  <sje@cup.hp.com>
+
+	PR bootstrap/24688
+	* fixinc/inclhack.def (sco_math): Add bypass.
+	* fixinc/fixincl.x: Regenerate.
+
+2005-11-07  James E Wilson  <wilson@specifix.com>
+
+	PR preprocessor/15220
+	* cppfiles.c (_cpp_find_file): New parameter angle_brackets.  Fix all
+	callers.  Pass to open_file_failed.
+	(open_file_failed): New parameter angle_brackets.  Fix
+	all callers.  use in print_dep assignment.
+	* cpphash.h (_cpp_find_file): Add new parm to declaration.
+	* cppinit.c (cpp_read_main_file): Pass another arg to _cpp_find_file.
+
+2005-11-05  Andreas Jaeger  <aj@suse.de>
+
+	* fixinc/check.tpl: Adopt for move to subversion.
+
+2005-11-03  Richard Guenther  <rguenther@suse.de>
+
+	PR middle-end/24470
+	* fold-const.c (fold): Avoid running in circles if we
+	got some un-folded subtree.
+
+2005-10-30  Alan Modra  <amodra@bigpond.net.au>
+
+	PR target/23070
+	* config/rs6000/rs6000.c (function_arg): For ABI_V4 calls to
+	stdarg functions, set/clear the fp marker even when no variable
+	args are passed.
+	* config/rs6000/sysv4.h (SUBTARGET_SWITCHES): Describe
+	-mprototype and -mno-prototype.
+
+2005-10-21  Alan Modra  <amodra@bigpond.net.au>
+
+	PR target/24465
+	* config/rs6000/rs6000.c (rs6000_legitimize_tls_address): Always
+	use r2 for 64-bit tls .got access.
+
+2005-10-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* dojump.c (do_jump): Revert the last patch as it breaks Ada.
+
+2005-10-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	PR #19672
+	* dojump.c (do_jump): Handle TRUTH_AND_EXPR and TRUTH_OR_EXPR
+	like TRUTH_ANDIF_EXPR and TRUTH_ORIF_EXPR, if the branch cost
+	is low enough.
+
+2005-10-09  Eric Botcazou  <ebotcazou@libertysurf.fr>
+
+	* config/sparc/gmon-sol2.c (internal_mcount): Mark as used.
+
+2005-10-08  Janis Johnson  <janis187@us.ibm.com>
+
+	PR debug/24267
+	Partial backport from mainline
+	2004-05-04 Paolo Bonzini  <bonzini@gnu.org>
+		   Richard Henderson  <rth@redhat.com>
+	* tree.c (make_or_reuse_type): New.
+	(build_common_tree_nodes): Use it.
+
+	PR target/18583
+        Partial backport from mainline
+	2004-05-04 Paolo Bonzini  <bonzini@gnu.org>
+		   Richard Henderson  <rth@redhat.com>
+	* c-common.c (vector_types_convertible_p): New function.
+	* c-common.h: Declare it.
+	* c-typeck.c (digest_init): Use it.
+
+2005-10-07  James E Wilson  <wilson@specifix.com>
+
+	PR target/23644
+	* doc/invoke.texi (IA-64 Options, item -mtune): Renamed from
+	-mtune-arch.
+
+2005-10-01  Richard Earnshaw  <richard.earnshaw@arm.com>
+
+	PR target/23985
+	Back-port 2004-08-19  Richard Henderson  <rth@redhat.com>
+	* config/arm/arm.c (arm_gen_load_multiple): Use
+	adjust_automodify_address.  Take base memory and offset instead
+	of unchanging/struct/scalar bits.
+	(arm_gen_store_multiple): Likewise.
+	(arm_gen_movstrqi): Use adjust_automodify_address.
+	* config/arm/arm-protos.h: Update decls.
+	* config/arm/arm.md (load_multiple): Update arm_gen_load_multiple call.
+	(store_multiple): Similarly.
+
+2005-09-29  Alan Modra  <amodra@bigpond.net.au>
+
+	PR target/24102
+	* config/rs6000/rs6000.md (floatdisf2_internal2): Correct range
+	check for numbers that need no bit twiddle.
+
+2005-09-09  Richard Guenther  <rguenther@suse.de>
+
+	PR c/20239
+	* cppinit.c (cpp_read_main_file): Avoid segfaulting on
+	NULL pfile->map.
+
+2005-09-09  Richard Guenther  <rguenther@suse.de>
+
+	PR c++/23624
+	* fold-const.c (fold): Check truth_value_p before calling
+	invert_truthvalue.
+
+2005-09-08  Craig Rodrigues  <rodrigc@gcc.gnu.org>
+
+	Backport from mainline
+	2005-09-01  Craig Rodrigues  <rodrigc@gcc.gnu.org>
+
+	* c-decl.c (diagnose_mismatched_decls):  With -Wredundant-decls,
+	do not issue warning for a variable definition following
+	a declaration.
+
+2005-09-02  Richard Sandiford  <richard@codesourcery.com>
+
+	PR c/22061
+	* c-decl.c (push_parm_decl): Push and pop x_dont_save_pending_sizes_p
+	around the call to grokdeclarator.  Call grokdeclarator with the
+	field set to 0.
+	(store_parm_decls): Always store the pending_sizes in cfun.
+	(c_expand_body_1): Call put_pending_sizes.
+	* c-objc-common.c (c_cannot_inline_tree_fn): Always check
+	pending_sizes.
+
+2005-09-01  Jakub Jelinek  <jakub@redhat.com>
+
+	PR rtl-optimization/23478
+	* regs.h (reg_info): Add throw_calls_crossed.
+	(REG_N_THROWING_CALLS_CROSSED): Define.
+	* flow.c (allocate_reg_life_data): Initialize
+	REG_N_THROWING_CALLS_CROSSED.
+	(propagate_one_insn, attempt_auto_inc): Update
+	REG_N_THROWING_CALLS_CROSSED.
+	* local-alloc.c (struct qty): Add n_throwing_calls_crossed field.
+	(alloc_qty): Initialize it.
+	(update_equiv_regs): Clear REG_N_THROWING_CALLS_CROSSED.
+	(combine_regs): Combine also n_throwing_calls_crossed fields.
+	(find_free_reg): Don't attempt to caller-save pseudos crossing
+	calls that might throw.
+	* global.c (struct allocno): Add throwing_calls_crossed field.
+	(global_alloc): Initialize throwing_calls_crossed.
+	(find_reg): Don't attempt to caller-save pseudos crossing calls that
+	might throw.
+
+2005-09-01  Richard Earnshaw  <richard.earnshaw@arm.com>
+
+	PR rtl-optimization/17810 target/15342
+	* regrename.c: Fix polluted patch in previous change.
+
+2005-09-01  Richard Earnshaw  <richard.earnshaw@arm.com>
+
+	PR rtl-optimization/17810
+	Backport
+	2004-11-04  Richard Sandiford  <rsandifo@redhat.com>
+	PR target/15342
+	* regrename.c (scan_rtx): Treat the destinations of SETs and CLOBBERs
+	as OP_INOUT if the instruction is predicated.
+
+2005-08-31  David Edelsohn  <edelsohn@gnu.org>
+
+        PR target/23539
+	Backport from mainline:
+
+	2005-08-27  David Edelsohn  <edelsohn@gnu.org>
+        * config/rs6000/rs6000.c (expand_block_move): Use HImode when
+        bytes >= 2 not bytes == 2.
+
 2005-08-21  Jakub Jelinek  <jakub@redhat.com>
 
-	* simplify-rtx.c (simplify_immed_subreg) <case CONST_DOUBLE>: Only clear
-	up to elem_bitsize bits, not max_bitsize.
+	* simplify-rtx.c (simplify_immed_subreg) <case CONST_DOUBLE>: Only
+	clear up to elem_bitsize bits, not max_bitsize.
 
 2005-07-20  Steve Ellcey  <sje@cup.hp.com>
 
