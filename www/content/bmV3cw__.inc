@@ -1,6 +1,11 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.35 2005/11/18 00:11:59 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.36 2005/11/18 00:23:03 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>20.11.2005<br />mksh R25b has been released, with support for MirOS #7
+	and (new) Cygwin. The current versions of gcc-3.4 (stable) and gpc
+	(GNU Pascal) have been imported, and bugs are being fixed. Work on
+	ports has stabilised, the new infrastructure is ready.</li>
 
 <li>17.11.2005<br />Work on LKMs has been done to the extent that they can
 	be used again. make(1) now knows the <tt>.trace</tt> operation. In
