@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.10 2005/10/26 09:14:16 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.11 2005/11/20 02:39:46 tg Exp $</small>
 
 <h1>mksh R25b</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -6,7 +6,23 @@
  the default (and not used by anyone sane) C Shell, or (ancient)
  Bourne shell, with MirOS.</p>
 
-<h2>Recent Changes</h2>
+<h2>Table of Contents</h2><ul>
+ <li><a href="#clog">ChangeLog</a></li>
+ <li><a href="#plans">future plans</a></li>
+ <li><a href="#fetch">Downloading</a></li>
+ <li><a href="#extract">Unpacking</a></li>
+ <li><a href="#build">Building</a>...</li>
+ <li><a href="#buildbsd">on BSD</a></li>
+ <li><a href="#buildsol">on Solaris</a></li>
+ <li><a href="#buildgnu">on GNU and Mac OSX</a></li>
+ <li><a href="#buildsfu">on Interix</a></li>
+ <li><a href="#regress">Testsuite Results</a></li>
+ <li><a href="#contrib">Additional information</a></li>
+ <li><a href="#manual">Online manual page</a></li>
+ <li><a href="#licence">Licence</a></li>
+</ul>
+
+<h2 id="clog">Recent Changes</h2>
 <p>New minor version <b>R25b</b> contains these changes:</p><ul>
  <li><tt>arc4random_push(3)</tt> does not exist on older MirOS
   systems; fixes build on MirOS #7quater</li>
@@ -121,13 +137,13 @@
  adds installation hints for various operating systems.</p>
 <p>v1.11 is a minor update to v1.10 with a few build and style fixes only.</p>
 
-<h2>Future Plans</h2>
+<h2 id="plans">Future Plans</h2>
 <p>I'd like to switch the internal integer type to 64 bits
  signed (any takers?). This includes 2^64-1 (not 2^31-1) as
  maximum valid array index; typeset -i&lt;number&gt; is unsigned.</p>
 <p>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</p>
 
-<h2>Getting The Source</h2>
+<h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
  href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R25b.cpio.gz">http://mirbsd.mirsolutions.de/MirOS/dist/mir/mksh/mksh-R25b.cpio.gz</a></p>
@@ -153,7 +169,7 @@
  have a bug where the file is saved correctly
  as <em>mksh-R25b.cpio.gz</em> but already decompressed.</p>
 
-<h3>Unpacking</h3>
+<h3 id="extract">Unpacking</h3>
 <p>On decent systems, you can just use <tt>tar xzf mksh-R25b.cpio.gz</tt>
  to extract the file. On quite damaged systems such as everything which
  is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
@@ -161,7 +177,7 @@
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
-<h3>Building</h3>
+<h3 id="build">Building</h3>
 <p>You might have to take advantage of the AT&amp;T ksh, pdksh or GNU
  bash which comes with the operating system. With hard effort,
  Solaris /bin/sh could be made to suffice.</p>
@@ -174,7 +190,7 @@
  Stripping is done via the host's <a href="/man1/install.htm">install(1)</a>
  command's -s flag; if stripping during installation fails just use the
  <em>mksh</em> binary. On Solaris, use /usr/ucb/install instead.</p>
-<h3>Most operating systems (BSD)</h3>
+<h3 id="buildbsd">Most operating systems (BSD)</h3>
 <ul>
  <li>cd mksh; sh Build.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
@@ -189,7 +205,7 @@
  #define false 0
 </pre><p>This is pretty dead simple but enough for mksh.</p>
 
-<h3>Solaris</h3>
+<h3 id="buildsol">Solaris</h3>
 <ul>
  <li>cd mksh; sh Build.sh -r</li>
  <li>/usr/ucb/install -c -s -o root -g bin -m 555 mksh ~/.bin/mksh</li>
@@ -197,7 +213,7 @@
 <p>If you get a <em>mksh</em> binary, install it to a place of your likes.
  Get a preformatted manual page from another operating system.</p>
 
-<h3>Mac OSX, GNU/Linux (and possibly others)</h3>
+<h3 id="buildgnu">Mac OSX, GNU/Linux (and possibly others)</h3>
 <ul>
  <li>cd mksh; sh Build.sh -r</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
@@ -215,7 +231,7 @@
  testing. A Gentoo ebuild is available, written by Hanno Boeck,
  just "emerge mksh" to install it.</p>
 
-<h3>Microsoft Services for Unix</h3>
+<h3 id="buildsfu">Microsoft Services for Unix</h3>
 <p>It is recommended to use the C shell instead of the
  Korn shell which comes with Interix/SFU 3.5, until
  you built the mirbsdksh successfully. (Also avoids ETXTBUSY.)
@@ -243,7 +259,7 @@
  a manual page formatter (but using <a href="/?MirMake">MirMake</a>
  you can build MirOS <a href="/man1/nroff.htm">nroff(1)</a>).</p>
 
-<h2>Official Testing</h2>
+<h2 id="regress">Official Testing</h2>
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
@@ -280,7 +296,7 @@
  </ul></li>
 </ul>
 
-<h2>Tab Completion, and the Prompt</h2>
+<h2 id="contrib">Tab Completion, and the Prompt</h2>
 
 <p>Tab Completion is enabled by default.
  You might want to have a look at <a
@@ -301,15 +317,15 @@
  with its own format...</p>
 <pre>echo '[ -n "$KSH_VERSION" ] &amp;&amp; unset HISTFILE' &gt;&gt;~/.profile</pre>
 
-<h2>The Manual Page</h2>
-<p>Online manpage: <a href="/man1/mksh.htm">mksh(1)</a></p>
-
 <h2>Porting</h2>
 <p>Contact the MirOS discussion mailing list, either via
  eMail, or via <a href="news:gmane.os.miros.general">news:gmane.os.miros.general</a>
  on news.gmane.org, if you are interested in having a new target supported.</p>
 
-<h1>Licence</h1>
+<h2 id="manual">The Manual Page</h2>
+<p>Online manpage: <a href="/man1/mksh.htm">mksh(1)</a></p>
+
+<h1 id="licence">Licence</h1>
 <p>MirbsdKsh as a whole is licenced under the BSD/MIT/X11-style <a
  href="http://mirbsd.de/MirOS-Licence">MirOS licence</a> with advertising
  clause; the file <em>alloc.c</em> which has been written by OpenBSD's Marc
