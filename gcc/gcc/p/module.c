@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/p/module.c,v 1.2 2005/03/28 02:09:44 tg Exp $ */
+/* $MirOS: gcc/gcc/p/module.c,v 1.3 2005/11/20 12:28:12 tg Exp $ */
 
 /*Module support for GNU Pascal
 
@@ -376,7 +376,7 @@ choose_temp_base ()
 
   mktemp (temp_filename);
   if (strlen (temp_filename) == 0)
-    assert (0);
+    gcc_assert (0);
   return temp_filename;
 }
 
