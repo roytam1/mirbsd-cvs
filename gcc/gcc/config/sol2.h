@@ -200,7 +200,7 @@ __enable_execute_stack (void *addr)					\
     long size = getpagesize ();						\
     long mask = ~(size-1);						\
     char *page = (char *) (((long) addr) & mask); 			\
-    char *end  = (char *) ((((long) (addr + TRAMPOLINE_SIZE - 1)) & mask) + size); \
+    char *end  = (char *) ((((long) (addr + TRAMPOLINE_SIZE)) & mask) + size); \
 									\
     if (mprotect (page, end - page, 7 /* STACK_PROT_RWX */) < 0)	\
       perror ("mprotect of trampoline code");				\
