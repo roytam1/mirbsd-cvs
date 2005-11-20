@@ -1,4 +1,4 @@
-{ $MirOS: gcc/gcc/p/rts/random.pas,v 1.3 2005/05/27 03:23:19 tg Exp $ }
+{ $MirOS: gcc/gcc/p/rts/random.pas,v 1.4 2005/11/20 12:28:14 tg Exp $ }
 
 { Pseudo random number generator
 
@@ -122,22 +122,22 @@ var
   f: file of RandomSeedType;
   b: BindingType;
 begin
-  Assign (f, '/dev/random');
+  Assign (f, '/dev/arandom');
   b := Binding (f);
   if not (b.Bound and b.Special) then
     begin
       Assign (f, '/dev/urandom');
       b := Binding (f);
       if not (b.Bound and b.Special) then
-        begin
-          Assign (f, '/dev/srandom');
-          b := Binding (f);
-          if not (b.Bound and b.Special) then
-            begin
-              Assign (f, '/dev/random');
-              b := Binding (f)
-            end;
-        end;
+	begin
+	  Assign (f, '/dev/srandom');
+	  b := Binding (f);
+	  if not (b.Bound and b.Special) then
+	    begin
+	      Assign (f, '/dev/random');
+	      b := Binding (f);
+	    end;
+	end;
     end;
   if b.Bound and b.Special then
     begin
