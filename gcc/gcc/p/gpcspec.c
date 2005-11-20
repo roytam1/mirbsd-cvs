@@ -92,7 +92,7 @@ typedef enum
 /* The original argument list and related info is copied here. */
 static int gpc_xargc;
 static char **gpc_xargv;
-static void (*gpc_fn)();
+static void (*gpc_fn) ();
 
 /* The new argument list will be built here. */
 static int gpc_newargc;
@@ -139,11 +139,7 @@ extern char *version_string;
    to short ones, where available, has already been run. */
 
 static void
-lookup_option (xopt, xskip, xarg, text)
-     Option *xopt;
-     int *xskip;
-     char **xarg;
-     char *text;
+lookup_option (Option *xopt, int *xskip, char **xarg, char *text)
 {
   Option opt = OPTION_;
   int skip;
@@ -219,8 +215,7 @@ lookup_option (xopt, xskip, xarg, text)
    the new arg count. Otherwise allocate a new list, etc. */
 
 static void
-append_arg (arg)
-     char *arg;
+append_arg (char *arg)
 {
   static int newargsize;
 
@@ -256,11 +251,7 @@ append_arg (arg)
 }
 
 void
-lang_specific_driver (fn, in_argc, in_argv, in_added_libraries)
-     void (*fn)();
-     int *in_argc;
-     char ***in_argv;
-     int *in_added_libraries;
+lang_specific_driver (void (*fn) (), int *in_argc, char ***in_argv, int *in_added_libraries)
 {
   int argc = *in_argc;
   char **argv = *in_argv;
@@ -559,7 +550,7 @@ Report bugs to <gpc@gnu.de>.\n\
 }
 
 /* Called before linking. Returns 0 on success and -1 on failure. */
-int lang_specific_pre_link ()  /* Not used for GPC. */
+int lang_specific_pre_link (void)  /* Not used for GPC. */
 {
   return 0;
 }

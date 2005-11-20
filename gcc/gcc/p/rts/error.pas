@@ -236,14 +236,27 @@ var
 { Routines called implicitly by the compiler. }
 procedure GPC_Assert (Condition: Boolean; const Message: String); attribute (name = '_p_Assert');
 function  ObjectTypeIs (Left, Right: PObjectType): Boolean; attribute (const, name = '_p_ObjectTypeIs');
-procedure ObjectTypeAsError;          attribute (noreturn, name = '_p_ObjectTypeAsError');
-procedure DisposeNilError;            attribute (noreturn, name = '_p_DisposeNilError');
-procedure CaseNoMatchError;           attribute (noreturn, name = '_p_CaseNoMatchError');
-procedure DiscriminantsMismatchError; attribute (noreturn, name = '_p_DiscriminantsMismatchError');
-procedure RangeCheckError;            attribute (noreturn, name = '_p_RangeCheckError');
-procedure IORangeCheckError;          attribute (name = '_p_IORangeCheckError');
-procedure SubrangeError;              attribute (noreturn, name = '_p_SubrangeError');
-procedure ModRangeError;              attribute (noreturn, name = '_p_ModRangeError');
+procedure ObjectTypeAsError;                attribute (noreturn, name = '_p_ObjectTypeAsError');
+procedure DisposeNilError;                  attribute (noreturn, name = '_p_DisposeNilError');
+procedure CaseNoMatchError;                 attribute (noreturn, name = '_p_CaseNoMatchError');
+procedure DiscriminantsMismatchError;       attribute (noreturn, name = '_p_DiscriminantsMismatchError');
+procedure NilPointerError;                  attribute (noreturn, name = '_p_NilPointerError');
+procedure InvalidPointerError (p: Pointer); attribute (noreturn, name = '_p_InvalidPointerError');
+procedure InvalidObjectError;               attribute (noreturn, name = '_p_InvalidObjectError');
+procedure RangeCheckError;                  attribute (noreturn, name = '_p_RangeCheckError');
+procedure IORangeCheckError;                attribute (name = '_p_IORangeCheckError');
+procedure SubrangeError;                    attribute (noreturn, name = '_p_SubrangeError');
+procedure ModRangeError;                    attribute (noreturn, name = '_p_ModRangeError');
+
+{ Pointer checking with `--pointer-checking-user-defined' }
+
+procedure DefaultValidatePointer (p: Pointer); attribute (name = '_p_DefaultValidatePointer');
+
+type
+  ValidatePointerType = ^procedure (p: Pointer);
+
+var
+  ValidatePointerPtr: ValidatePointerType = @DefaultValidatePointer; attribute (name = '_p_ValidatePointerPtr');
 
 implementation
 
@@ -290,7 +303,7 @@ const
     (270, 'alarm signal received'),
     (271, 'termination signal received'),
 
-    { Unsorted errors }
+    { Range/type checking errors and assertions }
     (300, 'value out of range'),
     (301, 'invalid subrange size'),
     (302, 'set element out of range'),
@@ -299,20 +312,16 @@ const
     (305, 'left operand of `as'' is not of required type'),
     (306, 'assertion failed'),
     (307, 'assertion `%'' failed'),
-    (308, 'attempt to dispose nil pointer'),
-    (309, 'actual schema discriminants do not match'),
-
-    { not yet implemented
-    (   , 'variant access error'),
-    (   , 'attempt to dereference nil pointer'),
-    (   , 'attempt to use an undefined value'), }
+    (308, 'actual schema discriminants do not match'),
+  { (309, 'variant access error'),
+    (310, 'attempt to use an undefined value'), }
 
     { I/O errors (range 400 .. 699) that are handled via InOutRes }
 
     { I/O errors: File and general I/O errors }
     { For errors raised with IOERROR_FILE, the "%" will be replaced by
-      "file `foo.bar'" for external files or "internal file `foo'" for
-      internal files, so don't include "file" in the error message }
+      "file `foo.bar'" for external files or "internal file `foo'" for internal
+      files, so don't include "file" or quotes in the error message. }
     (400, 'file buffer size of % must be > 0'),
     (401, 'cannot open directory `%'''),
     (402, '`Bind'' applied to non-bindable %'),
@@ -324,27 +333,25 @@ const
     (408, 'cannot map % into memory'),
     (409, 'cannot unmap memory'),
     (410, 'attempt to access elements before beginning of random access %'),
-    (411, 'attempt to modify read only %'),
     (413, 'read error'),
     (414, 'write error'),
     (415, 'cannot read all the data from % in `BlockRead'''),
     (416, '`Extend'' could not seek to end of %'),
-    (417, '`FilePos'' could not get file position of %'),
+    (417, '`Position'' or `FilePos'' could not get file position of %'),
     (418, 'error while closing %'),
-    (419, 'cannot prompt user for external name bindings for %'),
-    (420, 'cannot query user for external name bindings for %'),
-    (421, 'EOT character given for query of name for %'),
+    (419, 'cannot prompt user for external file name for %'),
+    (420, 'cannot query user for external file name for %'),
+    (421, 'EOT character given for query of file name for %'),
     (422, 'cannot write to read only %'),
     (425, 'truncation failed for %'),
-    (426, '`SeekRead'' to write only %'),
     (427, '`SeekRead'' failed on %'),
     (428, '`SeekRead'' failed to reset position of %'),
     (429, '`SeekWrite'' failed on %'),
-    (430, '`SeekUpdate'' to read-only or write-only %'),
     (431, '`SeekUpdate'' failed on %'),
     (432, '`SeekUpdate'' failed to reset position of %'),
     (433, '`Update'' failed to reset the position of %'),
     (436, '`Reset'', `SeekUpdate'' or `SeekRead'' to nonexistent %'),
+    (437, 'new file size in `DefineSize'' is < 0'),
     (438, '`Truncate'' or `DefineSize'' applied to read only %'),
     (439, '`Update'' with an undefined buffer in %'),
     (440, 'reference to buffer variable of % with undefined value'),
@@ -408,9 +415,9 @@ const
     (562, 'digit or `.'' expected after sign'),
     (563, 'overflow while reading real number'),
     (564, 'underflow while reading real number'),
-    (566, 'invalid Boolean value read'),
-    (567, 'invalid enumaration value read'),
-    (568, 'value read out of range'),
+    (565, 'invalid Boolean value read'),
+    (566, 'invalid enumaration value read'),
+    (567, 'value read out of range'),
 
     { I/O errors: Write errors }
     (580, 'fixed field width cannot be negative'),
@@ -465,12 +472,16 @@ const
     (852, 'address % is not valid for `Release'''),
     (853, 'out of heap when allocating % bytes'),
     (854, 'out of heap when reallocating % bytes'),
-    (855, 'attempt to dispose of invalid pointer with address %'),
-  { (856, 'attempt to use disposed pointer'), }
-    (857, 'attempt to map unmappable memory'),
+    (855, 'attempt to dereference nil pointer'),
+    (856, 'attempt to dereference invalid pointer with address %'),
+    (857, 'attempt to dispose nil pointer'),
+    (858, 'attempt to dispose of invalid pointer with address %'),
+  { (859, 'attempt to use disposed pointer'), }
+    (860, 'attempt to map unmappable memory'),
+    (861, 'object is invalid'),
 
     { Errors for units }
-    (870, 'BP compatible 6 byte `Real'' type does not support NaNs'),
+    (870, 'BP compatible 6 byte `Real'' type does not support NaN values'),
     (871, 'BP compatible 6 byte `Real'' type does not support infinity'),
     (872, 'underflow while converting to BP compatible 6 byte `Real'' type'),
     (873, 'overflow while converting to BP compatible 6 byte `Real'' type'),
@@ -488,7 +499,6 @@ const
     (900, 'internal error in `%'''),
     (901, 'string capacity cannot be negative'),
     (902, 'endianness incorrectly defined');
-    (903, 'read buffer underflow');
     (904, 'invalid file open mode');
     (905, 'file has no internal name'),
     (906, '`InitFDR'' has not been called for file'),
@@ -557,7 +567,7 @@ end;
 procedure DisposeNilError;
 begin
   SetReturnAddress (ReturnAddress (0));
-  RuntimeError (308);  { attempt to dispose nil pointer }
+  RuntimeError (857);  { attempt to dispose nil pointer }
   RestoreReturnAddress
 end;
 
@@ -571,7 +581,33 @@ end;
 procedure DiscriminantsMismatchError;
 begin
   SetReturnAddress (ReturnAddress (0));
-  RuntimeError (309);  { actual schema discriminants do not match }
+  RuntimeError (308);  { actual schema discriminants do not match }
+  RestoreReturnAddress
+end;
+
+procedure NilPointerError;
+begin
+  SetReturnAddress (ReturnAddress (0));
+  RuntimeError (855);  { attempt to dereference nil pointer }
+  RestoreReturnAddress
+end;
+
+procedure InvalidPointerError (p: Pointer);
+begin
+  SetReturnAddress (ReturnAddress (0));
+  RuntimeErrorInteger (856, PtrInt (p));  { attempt to dereference invalid pointer with address % }
+  RestoreReturnAddress
+end;
+
+procedure DefaultValidatePointer (p: Pointer);
+begin
+  if p = nil then NilPointerError
+end;
+
+procedure InvalidObjectError;
+begin
+  SetReturnAddress (ReturnAddress (0));
+  RuntimeError (861);  { object is invalid }
   RestoreReturnAddress
 end;
 
@@ -584,7 +620,7 @@ end;
 
 procedure IORangeCheckError;
 begin
-  IOError (568, False)  { value read out of range }
+  IOError (567, False)  { value read out of range }
 end;
 
 procedure SubrangeError;
@@ -802,8 +838,8 @@ procedure Finalize1;
 begin
   FlushAllFiles;
   RestoreTerminal (True);
-  Done_Files;
-  if ErrorMessageString <> '' then WriteStackDump
+  if ErrorMessageString <> '' then WriteStackDump;
+  Done_Files
 end;
 
 procedure Finalize;

@@ -222,7 +222,7 @@ var
 begin
   if aPointer = nil then Exit;
   if HeapChecking and ((PtrCard (aPointer) < HeapLow) or (PtrCard (aPointer) > HeapHigh)) then
-    RuntimeErrorInteger (855, PtrCard (aPointer));  { attempt to dispose of invalid pointer with address % }
+    RuntimeErrorInteger (858, PtrCard (aPointer));  { attempt to dispose of invalid pointer with address % }
   Found := False;
   p := CurrentMarkList;
   while p <> nil do

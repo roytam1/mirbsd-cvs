@@ -20,8 +20,13 @@
 
 {$gnu-pascal,I+}
 {$if __GPC_RELEASE__ < 20050101}
-{$error This prorgam requires GPC release 20050101 or newer.}
+{$error This program requires GPC release 20050101 or newer.}
 {$endif}
+
+{ We should put various sizes in .gpi file:
+for Amd64
+  real_value 32 bytes
+}
 
 program GPIDump;
 
@@ -422,7 +427,11 @@ var
         if (TreeCodes[TreeCode].CodeClass in (ExprClasses + ['c'])) or (TreeCode = FUNCTION_TYPE) then
           OutputFlag ('ignorable')
         else
-          OutputFlag ('!lang flag 2');
+          case TreeCode of
+            PARM_DECL,
+            TREE_LIST: OutputFlag ('same_id_list');
+            else       OutputFlag ('!lang flag 2')
+          end;
       if f.lang_flag_3 then
         if TreeCodes[TreeCode].CodeClass = 't' then
           OutputFlag ('value_parameter_by_reference')
@@ -437,6 +446,9 @@ var
         case TreeCode of
           FUNCTION_DECL: OutputFlag ('structor');
           TREE_LIST:     OutputFlag ('bp_initializer');
+          INTEGER_CST,
+          NON_LVALUE_EXPR:
+                         OutputFlag ('pascal_cst_parentheses');
           else           OutputFlag ('!lang flag 4')
         end;
       if f.lang_flag_5 then
@@ -502,7 +514,7 @@ var
         iocritical,
         frestricted,
         fbindable,
-        open_array,
+        type_flag_4,
         type_flag_5,
         unused_type_flag_6: Boolean;
         {$ifdef EGCS97}
@@ -515,10 +527,10 @@ var
         {$ifndef EGCS}
         unknown_type_flag_4: Boolean;
         {$endif}
-        Align: Cardinal
+        Align: CCardinal
       end;
     begin
-      CompilerAssert (SizeOf (f) = SizeOf (Cardinal) + 4);
+      CompilerAssert (SizeOf (f) = SizeOf (CCardinal) + 4);
       GetSize (Pos1, f, SizeOf (f));
       Comma;
       {$ifdef GCC_3_3}
@@ -545,10 +557,18 @@ var
       if f.iocritical then OutputFlag ('iocritical');
       if f.frestricted then OutputFlag ('restricted');
       if f.fbindable then OutputFlag ('bindable');
-      if f.open_array then OutputFlag ('open_array');
+      if f.type_flag_4 then
+        case TreeCode of
+          ARRAY_TYPE,
+          INTEGER_TYPE: OutputFlag ('open_array');
+          RECORD_TYPE,
+          UNION_TYPE:   OutputFlag ('record_variants');
+          else          OutputFlag ('!type_decl_flag_4')
+        end;
       if f.type_flag_5 then
         case TreeCode of
           ARRAY_TYPE:    OutputFlag ('intermediate_array');
+          RECORD_TYPE:   OutputFlag ('initializer_from_components');
           BOOLEAN_TYPE,
           CHAR_TYPE,
           INTEGER_TYPE,
@@ -753,7 +773,11 @@ var
     begin
       { @@ ../real.h: REAL_VALUE_TYPE }
       {$ifdef GCC_3_3}
+      {$ifdef __LP64__}
+      RealSize := 32;
+      {$else}
       RealSize := 24;
+      {$endif}
       {$elif defined (EGCS97)}
       RealSize := 20;
       {$else}
@@ -824,6 +848,7 @@ var
              {$ifdef EGCS}
              Ref ('size_unit');
              {$endif}
+             Ref ('pointer_to');
              OptRef ('initializer');
              OptRef ('main_variant');
            end;

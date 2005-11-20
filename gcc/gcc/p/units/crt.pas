@@ -21,9 +21,7 @@
     libraries (including panel and xpanel, resp.) can be found in
     http://www.gnu-pascal.de/libs/
     (Note that ncurses is already installed on many Unix systems.)
-    For ncurses, version 5.0 or newer is strongly recommended
-    because older versions contain a bug that severely affects CRT
-    programs.
+    For ncurses, version 5.0 or newer is required.
 
     When an X11 version under Unix is wanted, give `-DX11' when
     compiling crt.pas and crtc.c (or when compiling crt.pas or a
@@ -265,11 +263,11 @@ var
 
   { Window upper left coordinates. *Obsolete*! Please see WindowMin
     below. }
-  WindMin: CCardinal = not CCardinal (0); attribute (name = 'crt_WindMin');
+  WindMin: CCardinal = High (CCardinal); attribute (name = 'crt_WindMin');
 
   { Window lower right coordinates. *Obsolete*! Please see WindowMax
     below. }
-  WindMax: CCardinal = not CCardinal (0); attribute (name = 'crt_WindMax');
+  WindMax: CCardinal = High (CCardinal); attribute (name = 'crt_WindMax');
 
 procedure AssignCRT (var f: Text);
 function  KeyPressed: Boolean;              external name 'crt_KeyPressed';
@@ -1253,7 +1251,11 @@ var
 begin
   CommandLine := CStringGetEnv ('RESIZETERM');
   if CommandLine = nil then
+    {$if True}
+    CommandLine := 'PATH="$PATH:/usr/local/sbin:/usr/sbin"; { if [ x"$DISPLAY" != x ]; then resize -s "$lines" "$columns" < /dev/null; fi; } > /dev/null 2>&1';
+    {$else}
     CommandLine := 'PATH="$PATH:/usr/local/sbin:/usr/sbin"; { if [ x"$DISPLAY" != x ]; then resize -s "$lines" "$columns" < /dev/null; else SVGATextMode "$columns"x"$lines" || if [ "$lines" -gt 25 ]; then setfont cp850-8x8 -u cp437; else setfont cp850-8x16 -u cp437; fi; fi; } > /dev/null 2>&1';
+    {$endif}
   WriteStr (Buffer, 'columns=', Columns, '; lines=', Lines, '; ', CString2String (CommandLine));
   Blocked := SignalBlocked (SigWinCh);
   BlockSignal (SigWinCh, True);

@@ -48,13 +48,13 @@ var
   CBreak: Boolean absolute CheckBreak;
 
 procedure AssignKbd (var f: AnyFile);
-function  MemAvail: Integer; attribute (name = '_p_MemAvail3');
-function  MaxAvail: Integer; attribute (name = '_p_MaxAvail3');
+function  MemAvail: Integer;
+function  MaxAvail: Integer;
 function  LongFileSize (var f: AnyFile): Real;
 function  LongFilePos  (var f: AnyFile): Real;
 procedure LongSeek     (var f: AnyFile; aPosition: Real);
-procedure LowVideo;  attribute (name = '_p_LowVideo3');
-procedure HighVideo; attribute (name = '_p_HighVideo3');
+procedure LowVideo;
+procedure HighVideo;
 
 implementation
 
@@ -113,10 +113,10 @@ begin
 end;
 
 to begin do
-begin
-  NormAttr := Yellow + $10 * Black;
-  AssignKbd (Kbd);
-  Reset (Kbd)
-end;
+  begin
+    NormAttr := Yellow + $10 * Black;
+    AssignKbd (Kbd);
+    Reset (Kbd)
+  end;
 
 end.

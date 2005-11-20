@@ -35,7 +35,14 @@ sed -e '
   s/[+=-]/_/g
   s/.*/    case OPT_&:/p
   g
-  s/\(.\)\(.*[^=]\)$/      pascal_decode_option_1 (value ? "-&" : "-\1no-\2"); break;/
+  /^\([fW]\)\(.*[^=]\)$/{
+  s/^\([fW]\)\(.*[^=]\)$/      pascal_decode_option_1 (value ? "-&" : "-\1no-\2"); break;/
+  b
+  }
+  /.*=$/{
   s/.*=$/      pascal_decode_option_1 (ACONCAT (("-&", arg, NULL))); break;/
+  b
+  }
+  s/.*/      pascal_decode_option_1 ("-&"); break;/
 ' "$1"
 } > "$2" || { rm -f "$2"; false; }

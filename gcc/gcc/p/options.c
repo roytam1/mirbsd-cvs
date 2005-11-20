@@ -25,11 +25,13 @@
 
 #include "gpc.h"
 #include "gpc-options.h"
-#include "p/version.h"
+#include "p/p-version.h"
 
 #ifdef GCC_3_4
 #include "options.h"
 #endif
+
+const char *lang_version_string = GPC_RELEASE_STRING ", based on gcc-";
 
 /* An array with all long Pascal command-line switches. */
 static const struct
@@ -126,23 +128,21 @@ int flag_progress_bar;
 static const char dir_separator_str[2] = { DIR_SEPARATOR, 0 };
 static const char path_separator_str[2] = { PATH_SEPARATOR, 0 };
 
-static int is_prefix_word PARAMS ((const char *, const char *));
-static int strtoint PARAMS ((const char *, int));
-static int option_without_argument PARAMS ((const char *, const char *));
-static char *option_with_argument PARAMS ((const char *, const char *, int));
-static void string_append PARAMS ((char **, const char *, const char *));
+static int is_prefix_word (const char *, const char *);
+static int strtoint (const char *, int);
+static int option_without_argument (const char *, const char *);
+static char *option_with_argument (const char *, const char *, int);
+static void string_append (char **, const char *, const char *);
 
 /* Return a newly allocated copy of the string s */
 char *
-save_string (s)
-     const char *s;
+save_string (const char *s)
 {
   return strcpy (xmalloc (strlen (s) + 1), s);
 }
 
 static int
-is_prefix_word (prefix, s)
-     const char *prefix, *s;
+is_prefix_word (const char *prefix, const char *s)
 {
   int l = strlen (prefix);
   char c = s[l];
@@ -151,9 +151,7 @@ is_prefix_word (prefix, s)
 }
 
 static int
-strtoint (s, length)
-     const char *s;
-     int length;
+strtoint (const char *s, int length)
 {
   char *tail;
   int i;
@@ -170,8 +168,7 @@ strtoint (s, length)
 /* If `--foo' is a Pascal option without arguments, the backend will
    accept `--foo-bar' without error, so we must give an error here. */
 static int
-option_without_argument (p, option)
-     const char *p, *option;
+option_without_argument (const char *p, const char *option)
 {
   int l = strlen (option);
   if (strncmp (p, option, l))
@@ -182,9 +179,7 @@ option_without_argument (p, option)
 }
 
 static char *
-option_with_argument (p, option, may_be_empty)
-     const char *p, *option;
-     int may_be_empty;
+option_with_argument (const char *p, const char *option, int may_be_empty)
 {
   const char *q;
   int length = strlen (option);
@@ -204,9 +199,7 @@ option_with_argument (p, option, may_be_empty)
 }
 
 static void
-string_append (strvar, newval, separator)
-     char **strvar;
-     const char *newval, *separator;
+string_append (char **strvar, const char *newval, const char *separator)
 {
   if (!newval)
     ;
@@ -217,23 +210,53 @@ string_append (strvar, newval, separator)
 }
 
 void
-pascal_decode_option_1 (p)
-     const char *p;
+pascal_decode_option_1 (const char *p)
 {
   pascal_decode_option (1, &p);
 }
 
 /* Return the number of strings consumed. */
 int
-pascal_decode_option (argc, argv)
-     int argc ATTRIBUTE_UNUSED;
-     const char *const *argv;
+pascal_decode_option (int argc ATTRIBUTE_UNUSED, const char *const *argv)
 {
-  int flag;
+  int flag, kw;
   char *arg;
   const char *p = argv[0];
   const struct lang_option_map *map = lang_option_map;
   (void) dialect_options;  /* Suppress a warning */
+  /* Skip preprocessor options */
+  if (p[0] == '-')
+    {
+      const char * const iopts[] = { "idirafter", "imacros", "include",
+                 "iprefix", "isystem", "iwithprefix", "iwithprefixbefore", 0 };
+      switch (p[1])
+        { 
+          int i;
+#ifdef EGCS97
+          case 'E':
+                   if (!p[2])
+                     flag_syntax_only = 1;
+                   break;
+#endif
+          case 'M':
+                   if (!p[2])
+                     {
+                       co->preprocess_only = 1;
+                       co->print_deps = 1;
+                       return 1;
+                     }
+                   else
+                     return 0;
+          case 'D':
+          case 'U':
+          case 'I':
+                    return p[2]? 1 : 2;
+          case 'i':
+                    for (i = 0; iopts[i] && strcmp (iopts[i], p + 1); i++);
+                    if (iopts[i]) 
+                      return 2;
+        }
+    }
   while (*map->src)
     {
       const char *const *src = map->src, *const *dest;
@@ -390,7 +413,8 @@ pascal_decode_option (argc, argv)
     flag_short_enums = 1;
   else if (OPT ("-fno-short-enums"))
     flag_short_enums = 0;
-  else if ((flag = 0, OPT_ARG ("-fenable-keyword", 0)) || (flag = 1, OPT_ARG ("-fdisable-keyword", 0)))
+  else if ((kw = 1, flag = 0, OPT_ARG ("-fenable-keyword", 0)) || (flag = 1, OPT_ARG ("-fdisable-keyword", 0)) ||
+           (kw = 0, flag = 0, OPT_ARG ("-fenable-predefined-identifier", 0)) || (flag = 1, OPT_ARG ("-fdisable-predefined-identifier", 0)))
     {
       if (!text_type_node)  /* command-line */
         append_string_list (&deferred_options, p, 1);
@@ -413,8 +437,8 @@ pascal_decode_option (argc, argv)
                 *qq++ = TOLOWER (*p++);
               *qq = 0;
               pd = IDENTIFIER_BUILT_IN_VALUE (get_identifier (buf));
-              if (!pd || (pd->kind != bk_none && pd->kind != bk_keyword))
-                error ("unknown keyword `%s'", arg);
+              if (!pd || (kw != (pd->kind == bk_none || pd->kind == bk_keyword)))
+                error (kw ? "unknown keyword `%s'" : "unknown predefined identifier `%s'", arg);
               else
                 pd->user_disabled = flag ? 1 : -1;
               arg = q + 1;
@@ -561,7 +585,13 @@ pascal_decode_option (argc, argv)
       co->warn_parentheses = 1;
     }
   else if (OPT ("-fextended-syntax")
-           || OPT ("-fno-extended-syntax"))
+           || OPT ("-fno-extended-syntax")
+           || OPT ("-frange-and-object-checking")
+           || OPT ("-fno-range-and-object-checking")
+           || OPT ("-fborland-objects")
+           || OPT ("-fmac-objects")
+           || OPT ("-fooe-objects")
+           || OPT ("-fgnu-objects"))
     /* only option inclusions in gpc-options.h */ ;
   else if (OPT ("-fmacros")
            || OPT ("-fno-macros")
@@ -595,8 +625,7 @@ pascal_decode_option (argc, argv)
 }
 
 int
-is_pascal_option (option)
-     const char *option;
+is_pascal_option (const char *option)
 {
   unsigned int i;
   for (i = 0; i < ARRAY_SIZE (gpc_options) - 1; i++)
@@ -611,9 +640,7 @@ is_pascal_option (option)
 }
 
 void
-activate_options (options, save_current)
-     struct options *options;
-     int save_current;
+activate_options (struct options *options, int save_current)
 {
   if (options == co)
     return;
@@ -634,9 +661,7 @@ activate_options (options, save_current)
    already been handled by the preprocessor.
    Return 0 if rest of directive shall be skipped, otherwise 1. */
 int
-process_pascal_directive (name, length)
-     char *name;
-     int length;
+process_pascal_directive (char *name, int length)
 {
   int j, one_letter;
   char *option_name, *start;
@@ -908,10 +933,10 @@ process_pascal_directive (name, length)
    options are processed. */
 #ifndef GCC_3_4
 void
-pascal_init_options ()
+pascal_init_options (void)
 #else
 unsigned int
-pascal_init_options (unsigned int argc ATTRIBUTE_UNUSED, const char **argv ATTRIBUTE_UNUSED)
+pascal_init_options (unsigned int argc, const char **argv )
 #endif
 {
   const char *const *option;
@@ -930,7 +955,8 @@ pascal_init_options (unsigned int argc ATTRIBUTE_UNUSED, const char **argv ATTRI
   if (version_flag)
     fprintf (stderr, "GNU Pascal version is actually %s, based on gcc-%s\n", GPC_RELEASE_STRING, version_string);
 #else
-  version_string = concat (GPC_RELEASE_STRING ", based on gcc-", version_string, NULL);
+  save_argc = argc;
+  save_argv = (char * *)argv;
 #endif
 
   lexer_options = compiler_options = co = (struct options *) xmalloc (sizeof (struct options));
@@ -966,7 +992,7 @@ pascal_init_options (unsigned int argc ATTRIBUTE_UNUSED, const char **argv ATTRI
 }
 
 void
-do_deferred_options ()
+do_deferred_options (void)
 {
   while (deferred_options)
     {
@@ -979,9 +1005,7 @@ do_deferred_options ()
 /* Print error or warning, depending on error_flag */
 #define MAX_MSG_LENGTH_PER_LINE 60
 void
-error_or_warning (error_flag, msg)
-     int error_flag;
-     const char *msg;
+error_or_warning (int error_flag, const char *msg)
 {
   char *buf = alloca (strlen (msg) + 1), *p;
   strcpy (buf, msg);
@@ -1009,10 +1033,7 @@ error_or_warning (error_flag, msg)
 }
 
 void
-dialect_msg (error_flag, dialect, msg, msg2, arg)
-     int error_flag;
-     unsigned long dialect;
-     const char *msg, *msg2, *arg;
+dialect_msg (int error_flag, unsigned long dialect, const char *msg, const char *msg2, const char *arg)
 {
   static const struct dialects
   {
@@ -1061,23 +1082,22 @@ dialect_msg (error_flag, dialect, msg, msg2, arg)
   error_or_warning (error_flag, buf);
 }
 
-/* Report reserved words in some other language level that
-   are used as identifiers if pedantic option is given.
-   Complain about reserved words in the current language level
-   that are used as identifiers even without pedantic option. */
+/* Report reserved words of some other dialect that are used as identifiers
+   with `-pedantic'. Complain about reserved words in the current dialect that
+   are used as identifiers even without `-pedantic'. */
 void
-warn_about_keyword_redeclaration (id, use_as_identifier)
-     tree id;
-     int use_as_identifier;
+warn_about_keyword_redeclaration (tree id, int use_as_identifier)
 {
   int error_flag = 0;
   struct predef *pd = IDENTIFIER_BUILT_IN_VALUE (id);
-  if (!pd || (pd->kind != bk_none && pd->kind != bk_keyword) || (pd->attributes & KW_INFORMED))
+  /* Directives `forward' (ISO) and `near' and `far' (BP) are no reserved words. */
+  if (!pd || (pd->kind != bk_none && pd->kind != bk_keyword) || (pd->attributes & (KW_INFORMED | KW_DIRECTIVE)))
     return;
   if ((use_as_identifier && (co->pascal_dialect & pd->dialect)) || flag_pedantic_errors)
     error_flag = 1;
   else if (!pedantic)
     return;
   pd->attributes |= KW_INFORMED;
-  dialect_msg (error_flag, pd->dialect, "`%s' is a keyword in", "", IDENTIFIER_NAME (id));
+  if (pd->dialect)
+    dialect_msg (error_flag, pd->dialect, "`%s' is a keyword in", "", IDENTIFIER_NAME (id));
 }

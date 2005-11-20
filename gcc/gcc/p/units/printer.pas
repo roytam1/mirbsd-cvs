@@ -155,10 +155,10 @@ end;
 {$endif}
 
 to begin do
-begin
-  AssignPrinter (Lst, Null);
-  Rewrite (Lst)
-end;
+  begin
+    AssignPrinter (Lst, Null);
+    Rewrite (Lst)
+  end;
 
 to end do
   Close (Lst);

@@ -61,7 +61,7 @@ type
   TStringBuf = packed array [0 .. TStringSize] of Char;
   CharSet    = set of Char;
   Str64      = String (64);
-  TInteger2StringBase = 2 .. 36;
+  TInteger2StringBase = Cardinal(2) .. Cardinal(36);
   TInteger2StringWidth = 0 .. High (TString);
 
 var

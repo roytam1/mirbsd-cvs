@@ -85,7 +85,7 @@
 
 module System;
 
-export System = all (FileMode {$ifdef __BP_TYPE_SIZES__}, SystemInteger => Integer {$endif});
+export System = all (FileMode {$ifdef __BP_TYPE_SIZES__}, SystemInteger => Integer, SystemWord => Word {$endif});
 
 import GPC (MaxLongInt => GPC_MaxLongInt);
 
@@ -121,10 +121,11 @@ type
   LongInt       = Integer attribute (Size = 32);
   Comp          = Integer attribute (Size = 64);
   Byte          = Cardinal attribute (Size = 8);
-  Word          = Cardinal attribute (Size = 16);
+  SystemWord    = Cardinal attribute (Size = 16);
   LongWord      = Cardinal attribute (Size = 32);  { Delphi }
   {$else}
   SystemInteger = Integer;
+  SystemWord    = Word;
   {$endif}
 
   {$if False}  { @@ doesn't work well (dialec3.pas) -- when GPC gets short
@@ -139,53 +140,53 @@ const
   MaxLongInt = High (LongInt);
 
 { Return the lowest-order byte of x }
-function  Lo (x: LongestInt): Byte; attribute (name = '_p_Lo');
+function  Lo (x: LongestInt): Byte;
 
 { Return the second-lowest-order byte of x }
-function  Hi (x: LongestInt): Byte; attribute (name = '_p_Hi');
+function  Hi (x: LongestInt): Byte;
 
 { Swap the lowest-order and second-lowest-order bytes, mask out the
   higher-order ones }
-function  Swap (x: LongestInt): Word; attribute (name = '_p_Swap');
+function  Swap (x: LongestInt): SystemWord;
 
 { Store the current directory name (on the given drive number if
   drive <> 0) in s }
-procedure GetDir (Drive: Byte; var s: String); attribute (name = '_p_GetDir');
+procedure GetDir (Drive: Byte; var s: String);
 
 { Dummy routine for compatibility. @@Use two overloaded versions
   rather than varargs when possible. }
-procedure SetTextBuf (var f: Text; var Buf; ...); attribute (name = '_p_SetTextBuf');
+procedure SetTextBuf (var f: Text; var Buf; ...);
 
 { Mostly useless BP compatible variables }
 var
-  SelectorInc: Word = $1000;
-  Seg0040: Word = $40;
-  SegA000: Word = $a000;
-  SegB000: Word = $b000;
-  SegB800: Word = $b800;
+  SelectorInc: SystemWord = $1000;
+  Seg0040: SystemWord = $40;
+  SegA000: SystemWord = $a000;
+  SegB000: SystemWord = $b000;
+  SegB800: SystemWord = $b800;
   Test8086: Byte = 2;
   Test8087: Byte = 3;  { floating-point arithmetic is emulated
                          transparently by the OS if not present
                          in hardware }
-  OvrCodeList: Word = 0;
-  OvrHeapSize: Word = 0;
+  OvrCodeList: SystemWord = 0;
+  OvrHeapSize: SystemWord = 0;
   OvrDebugPtr: Pointer = nil;
-  OvrHeapOrg: Word = 0;
-  OvrHeapPtr: Word = 0;
-  OvrHeapEnd: Word = 0;
-  OvrLoadList: Word = 0;
-  OvrDosHandle: Word = 0;
-  OvrEmsHandle: Word = $ffff;
+  OvrHeapOrg: SystemWord = 0;
+  OvrHeapPtr: SystemWord = 0;
+  OvrHeapEnd: SystemWord = 0;
+  OvrLoadList: SystemWord = 0;
+  OvrDosHandle: SystemWord = 0;
+  OvrEmsHandle: SystemWord = $ffff;
   HeapOrg: Pointer absolute HeapLow;
   HeapPtr: Pointer absolute HeapHigh;
   HeapEnd: Pointer = Pointer (High (PtrCard));
   FreeList: Pointer = nil;
   FreeZero: Pointer = nil;
-  StackLimit: Word = 0;
-  HeapList: Word = 0;
-  HeapLimit: Word = 1024;
-  HeapBlock: Word = 8192;
-  HeapAllocFlags: Word = 2;
+  StackLimit: SystemWord = 0;
+  HeapList: SystemWord = 0;
+  HeapLimit: SystemWord = 1024;
+  HeapBlock: SystemWord = 8192;
+  HeapAllocFlags: SystemWord = 2;
   CmdShow: SystemInteger = 0;
   SaveInt00: Pointer = nil;
   SaveInt02: Pointer = nil;
@@ -214,13 +215,13 @@ var
      0, 0, 0, 0, 0, 0, 0, 0);
 
 { Mostly useless BP compatible pointer functions }
-function  Ofs (const x): PtrWord; attribute (name = '_p_Ofs');
-function  Seg (const x): PtrWord; attribute (name = '_p_Seg');
-function  Ptr (Seg, Ofs: PtrWord): Pointer; attribute (name = '_p_Ptr');
-function  CSeg: PtrWord; attribute (name = '_p_CSeg');
-function  DSeg: PtrWord; attribute (name = '_p_DSeg');
-function  SSeg: PtrWord; attribute (name = '_p_SSeg');
-function  SPtr: PtrWord; attribute (name = '_p_SPtr');
+function  Ofs (const x): PtrWord;
+function  Seg (const x): PtrWord;
+function  Ptr (Seg, Ofs: PtrWord): Pointer;
+function  CSeg: PtrWord;
+function  DSeg: PtrWord;
+function  SSeg: PtrWord;
+function  SPtr: PtrWord;
 
 { Routines to handle BP's 6 byte `Real' type which is formatted like
   this:
@@ -262,8 +263,8 @@ type
     Format: packed array [1 .. 6] of BPRealInteral
   end;
 
-function RealToBPReal (r: Real) = BR: BPReal; attribute (name = '_p_RealToBPReal');
-function BPRealToReal (const BR: BPReal) = RealValue: Real; attribute (name = '_p_BPRealToReal');
+function RealToBPReal (r: Real) = BR: BPReal;
+function BPRealToReal (const BR: BPReal) = RealValue: Real;
 
 { Heap management stuff }
 
@@ -294,13 +295,13 @@ var
       should dispose of some temporary objects, if available, and
       return HeapErrorRetry, and return HeapErrorRunError when no
       (more) of them are available. }
-  HeapError: ^function (Size: Word): SystemInteger = nil;
+  HeapError: ^function (Size: SystemWord): SystemInteger = nil;
 
 { Just returns HeapErrorNil. When this function is assigned to
   HeapError, GetMem and New will return a nil pointer instead of
   causing a runtime error when the allocation fails. See the comment
   for HeapError above. }
-function  HeapErrorNilReturn (Size: Word): SystemInteger; attribute (name = '_p_HeapErrorNilReturn');
+function  HeapErrorNilReturn (Size: SystemWord): SystemInteger;
 
 { Return the total free memory/biggest free memory block. Except
   under Win32 and DJGPP, these are expensive routines -- try to
@@ -317,19 +318,19 @@ function  HeapErrorNilReturn (Size: Word): SystemInteger; attribute (name = '_p_
   than the actual (physical plus swap) memory available. Therefore,
   if you want to be "sure" (modulo the above restrictions) that the
   memory is actually available, use MaxAvail. }
-function  MemAvail: Cardinal; attribute (name = '_p_MemAvail');
-function  MaxAvail: Cardinal; attribute (name = '_p_MaxAvail');
+function  MemAvail: Cardinal;
+function  MaxAvail: Cardinal;
 
 { Delphi compatibility }
 
-function  CompToDouble (x: Comp): Double; attribute (name = '_p_CompToDouble');
-function  DoubleToComp (x: Double): Comp; attribute (name = '_p_DoubleToComp');
+function  CompToDouble (x: Comp): Double;
+function  DoubleToComp (x: Double): Comp;
 {$ifndef __BP_NO_ALLOCMEM__}
-function  AllocMemCount = Count: SystemInteger;   attribute (name = '_p_AllocMemCount');
-function  AllocMemSize = Size: SizeType;          attribute (name = '_p_AllocMemSize');
+function  AllocMemCount = Count: SystemInteger;
+function  AllocMemSize = Size: SizeType;
 {$endif}
-procedure Assert (Condition: Boolean);    attribute (name = '_p_System_Assert');
-procedure DefaultAssertErrorProc (const Message, FileName: String; LineNumber: SystemInteger; ErrorAddr: Pointer); attribute (name = '_p_DefaultAssertErrorProc');
+procedure Assert (Condition: Boolean);
+procedure DefaultAssertErrorProc (const Message, FileName: String; LineNumber: SystemInteger; ErrorAddr: Pointer);
 
 var
   AssertErrorProc: ^procedure (const Message, FileName: String; LineNumber: SystemInteger; ErrorAddr: Pointer) = @DefaultAssertErrorProc;
@@ -347,7 +348,7 @@ begin
   Hi := (LongestCard (x) div $100) and $ff
 end;
 
-function Swap (x: LongestInt): Word;
+function Swap (x: LongestInt): SystemWord;
 begin
   Swap := (LongestCard (x) and $ff) * $100 + (LongestCard (x) div $100) and $ff
 end;
@@ -413,7 +414,7 @@ var
 begin
   for x := 1 to 6 do BR.Format[x] := 0;
   if IsNotANumber (r) then
-    RuntimeError (870)  { BP compatible 6 byte `Real' type does not support NaNs }
+    RuntimeError (870)  { BP compatible 6 byte `Real' type does not support NaN values }
   else if IsInfinity (r) then
     RuntimeError (871)  { BP compatible 6 byte `Real' type does not support infinity }
   else
@@ -571,7 +572,7 @@ begin
   OldFreeMem^ (aPointer)
 end;
 
-function HeapErrorNilReturn (Size: Word): SystemInteger;
+function HeapErrorNilReturn (Size: SystemWord): SystemInteger;
 begin
   Discard (Size);
   HeapErrorNilReturn := HeapErrorNil

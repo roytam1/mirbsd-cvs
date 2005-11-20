@@ -121,8 +121,7 @@ extern int fileno (FILE *f);
 #endif
 
 #if NCURSES_VERSION_MAJOR < 5
-#warning The CRT unit needs ncurses version 5.0 or newer because older
-#warning versions contain a bug that severely affects CRT programs.
+#error The CRT unit requires ncurses version 5.0 or newer.
 #endif
 #include <panel.h>
 #include <term.h>

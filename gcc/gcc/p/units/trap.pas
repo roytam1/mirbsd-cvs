@@ -85,10 +85,10 @@ var
   TrappedErrorMessageString: TString = '';
 
 { Trap runtime errors. See the comment at the top. }
-procedure TrapExec (procedure p (Trapped: Boolean)); attribute (name = '_p_TrapExec');
+procedure TrapExec (procedure p (Trapped: Boolean));
 
 { Forget about saved errors from the innermost TrapExec instance. }
-procedure TrapReset; attribute (name = '_p_TrapReset');
+procedure TrapReset;
 
 implementation
 
@@ -140,6 +140,18 @@ begin
       end
 end;
 
+{$ifndef NEW_TRAP}
+var
+  TrapP: ^procedure (Trapped: Boolean) = nil;
+
+procedure DoCall (Trapped: Boolean);
+begin
+  AtExit (TrapExit);
+  TrapP^ (Trapped)
+  end;
+{$endif}
+
+
 procedure TrapExec (procedure p (Trapped: Boolean));
 var
   SavedTrappedExitCode: Integer { @@ } = 0;
@@ -157,12 +169,8 @@ label TrapLabel;
     goto TrapLabel
   end;
 {$else}
+  SavedTrapP: ^procedure (Trapped: Boolean) = nil;
 
-  procedure DoCall (Trapped: Boolean);
-  begin
-    AtExit (TrapExit);
-    p (Trapped)
-  end;
 {$endif}
 
 begin
@@ -179,7 +187,10 @@ TrapLabel:
   p (Trapped);
   TrapJump := SavedTrapJump;
 {$else}
+  SavedTrapP := TrapP;
+  TrapP := @p;
   DoSetJmp (DoCall);
+  TrapP := SavedTrapP;
 {$endif}
   Dec (TrapCount);
   if TrappedErrorAddr = nil then

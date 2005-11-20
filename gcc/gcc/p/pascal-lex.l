@@ -24,14 +24,17 @@
 
 /*Notes:
 
-  - Return everything, including whitespace and comments if the
-    corresponding token values are >= 0.
+  Return everything, including whitespace and comments if the
+  corresponding token values are >= 0.
 
-  - Call SaveTokenString before modifying yyleng or the content of
-    yytext. */
+  Call SaveTokenString before modifying yyleng or the content of yytext. */
 
 %option noyywrap
 %option nodefault
+%option noyyalloc
+%option noyyrealloc
+%option noyyfree
+%option nounput
 %pointer
 
 %x CaretLetter
@@ -43,7 +46,8 @@
 %x DiscardComment
 
 %{
-typedef enum {
+typedef enum
+{
   DoubleQuotedStrings,
   MultilineStrings,
   IntegersWithoutSeparator,
@@ -84,7 +88,8 @@ void SetFileName (int);
 void InitLex (const char *, FILE *, int);
 void DoneLex (void);
 int lexscan (void);
-void lex_error (const char *Msg);
+void lex_error (const char *Msg, int Fatal);
+#define YY_FATAL_ERROR(msg) lex_error (msg, 1)
 
 int CommentLevelCount = 0, Directive = 0;
 TLexSem LexSem;
@@ -95,62 +100,97 @@ static char *TokenStringBuf = NULL;
 TLexPos LexPos = { 0, 0, NULL };
 static TLexPos NewPos = { 0, 0, NULL }, CommentStartPos = { 0, 0, NULL };
 
-#ifndef lex_malloc
-static char *
-lex_malloc (size)
-     size_t size;
+#ifndef yyalloc
+void *
+yyalloc (yy_size_t size)
 {
-  char *p = (char *) malloc (size);
+  void *p = (void *) malloc (size);
   if (!p)
-    yy_fatal_error ("out of memory");
+    YY_FATAL_ERROR ("out of memory");
   return p;
 }
 #endif
 
-/* Don't use the locale dependent routines. */
-#undef isdigit
-#define isdigit new_isdigit
-static inline int isdigit PARAMS ((int));
-static inline int
-isdigit (c)
-     int c;
+#ifndef yyrealloc
+void *
+yyrealloc (void *p, yy_size_t size)
 {
-  return c >= '0' && c <= '9';
+  p = (void *) realloc (p, size);
+  if (!p)
+    YY_FATAL_ERROR ("out of memory");
+  return p;
 }
+#endif
+
+#ifndef yyfree
+#define yyfree free
+#endif
+
+static int (*DoInput)(char * buf, int max_size);
+static int DoInputF (char *buf, int max_size);
+static int DoInputP (char *buf, int max_size);
 
 void InitLex (const char *SrcName, FILE *i, int IsInteractive)
 {
   if (IsInteractive >= 0)
     yy_set_interactive (IsInteractive);
   if (LexPos.SrcName) free (LexPos.SrcName);
-  LexPos.SrcName = lex_malloc (strlen (SrcName) + 1);
+  LexPos.SrcName = yyalloc (strlen (SrcName) + 1);
   strcpy (LexPos.SrcName, SrcName);
   LexPos.Line = LexPos.Column = 1;
   NewPos = LexPos;
-  yy_current_buffer->yy_input_file = yyin = i;
-  YY_FLUSH_BUFFER;
+  if (!co->preprocessed)
+    {
+      init_gpcpp();
+      gpcpp_main (SrcName, i);
+      YY_CURRENT_BUFFER->yy_input_file = 0;
+      YY_FLUSH_BUFFER;
+      DoInput = DoInputP;
+    }
+  else
+    {
+      YY_CURRENT_BUFFER->yy_input_file = yyin = i;
+      YY_FLUSH_BUFFER;
+      DoInput = DoInputF;
+    }
+  (void) yy_fatal_error;  /* avoid a warning */
 }
 
-void DoneLex ()
+void DoneLex (void)
 {
   LexPos.Line = LexPos.Column = 0;
   NewPos = LexPos;
 }
 
+
+
 #define YY_INPUT(buf, result, max_size) ((result) = DoInput ((buf), (max_size)))
-static inline int DoInput (char *buf, int max_size)
+
+static inline int DoFixInput (char *buf, int r)
 {
   static char last = 0;
+  int i;
   char *p, *q;
-  int r = fread (buf, 1, max_size, yyin), i;
-  if (r == 0 && ferror (yyin))
-    yy_fatal_error ("input in flex scanner failed");
   for (p = q = buf, i = r; i; i--, p++)
     if ((last == '\r' && *p == '\n') || (last == '\n' && *p == '\r'))
       last = 0;
     else
       *q++ = (last = *p) == '\r' ? '\n' : *p;
   return q - buf;
+}
+
+static int DoInputF (char *buf, int max_size)
+{
+  int r = fread (buf, 1, max_size, yyin);
+  if (r == 0 && ferror (yyin))
+    YY_FATAL_ERROR ("input in flex scanner failed");
+  return DoFixInput (buf, r);
+}
+
+static int DoInputP (char *buf, int max_size)
+{
+  int r = gpcpp_fillbuf(buf, max_size);
+  return DoFixInput (buf, r);
 }
 
 #define YY_USER_ACTION UserAction ();
@@ -180,7 +220,7 @@ static void SaveTokenString (void)
     {
       if (TokenStringBuf)
         free (TokenStringBuf);
-      TokenStringBuf = lex_malloc ((TokenStringBufSize = yyleng + 1));
+      TokenStringBuf = yyalloc ((TokenStringBufSize = yyleng + 1));
     }
   strncpy (TokenStringBuf, yytext, yyleng + 1);
   LexSem.TokenString = TokenStringBuf;
@@ -223,12 +263,12 @@ static char *ReadIntegerConstant (char *p, int base)
   if (largest_digit >= base)
     {
       if (base <= 10 && largest_digit >= 10)
-        lex_error ("nondigits in integer constant whose radix <= 10");
+        lex_error ("nondigits in integer constant whose radix <= 10", 0);
       else
-        lex_error ("integer constant contains digits beyond the radix");
+        lex_error ("integer constant contains digits beyond the radix", 0);
     }
   else if (overflow)
-    lex_error ("integer constant overflow");
+    lex_error ("integer constant overflow", 0);
   LexSem.IntegerValue = 0;
   LexSem.IntegerValueOverflow = 0;
   for (i = 0, v = 1; i < BYTES_PER_INTEGER; i++, v <<= BITS_PER_BYTES)
@@ -248,7 +288,7 @@ static void ReadIntegerBase (void)
       p = ReadIntegerConstant (yytext, 10);
       if (LexSem.IntegerValueOverflow || LexSem.IntegerValue < 2 || LexSem.IntegerValue > 36)
         {
-          lex_error ("integer base out of range (2 .. 36)");
+          lex_error ("integer base out of range (2 .. 36)", 0);
           LexSem.IntegerValue = 10;
         }
       ReadIntegerConstant (p + 1, LexSem.IntegerValue);
@@ -277,7 +317,7 @@ static void BPCharConstant (char *p, int base)
   if (!LEX_SEMANTIC_VALUES) return;
   ReadIntegerConstant (p, base);
   if (LexSem.IntegerValueOverflow || LexSem.IntegerValue > 0xff)
-    lex_error ("numeric value out of range for character constant");
+    lex_error ("numeric value out of range for character constant", 0);
   SetCharConst (LexSem.IntegerValue);
 }
 
@@ -327,9 +367,9 @@ static void SetString (int DoubleQuoted)
                                n++;
                              }
                            if (overflow)
-                             lex_error ("hex character escape out of range");
+                             lex_error ("hex character escape out of range", 0);
                            else if (!n)
-                             lex_error ("hex character escape with no digits");
+                             lex_error ("hex character escape with no digits", 0);
                            *d++ = v;
                            c--;
                            break;
@@ -342,7 +382,7 @@ static void SetString (int DoubleQuoted)
                              v = 8 * v + (*c++ - '0');
                            while (n++ < 3 && *c >= '0' && *c <= '7');
                            if (v > 0xff)
-                             lex_error ("octal character escape out of range");
+                             lex_error ("octal character escape out of range", 0);
                            *d++ = v;
                            c--;
                            break;
@@ -359,10 +399,10 @@ static void SetString (int DoubleQuoted)
 static void DoLineDir (int items)
 {
   char *p1 = yytext;
-  while (!isdigit (*p1)) p1++;
+  while (*p1 < '0' || *p1 > '9') p1++;
   ReadIntegerConstant (p1, 10);
   if (LexSem.IntegerValueOverflow)
-    lex_error ("number in line directive out of range");
+    lex_error ("number in line directive out of range", 0);
   NewPos.Line = LexSem.IntegerValue;
   if (items >= 2)
     {
@@ -373,7 +413,7 @@ static void DoLineDir (int items)
       while (*p2 != '"') p2++;
       /* Never free an input filename, since copies of the pointer are
          kept around (in DECL_SOURCE_FILE etc.). */
-      NewPos.SrcName = q = lex_malloc (p2 - p1 + 1);
+      NewPos.SrcName = q = yyalloc (p2 - p1 + 1);
       while (p1 < p2)
         {
           if (*p1 == '\\')
@@ -383,10 +423,10 @@ static void DoLineDir (int items)
       *q = 0;
       if (items >= 3)
         {
-          while (!isdigit (*p2)) p2++;
+          while (*p2 < '0' || *p2 > '9') p2++;
           p2 = ReadIntegerConstant (p2, 10);
           if (LexSem.IntegerValueOverflow)
-            lex_error ("number in line directive out of range");
+            lex_error ("number in line directive out of range", 0);
           v = LexSem.IntegerValue;
         }
       SetFileName (v);
@@ -412,7 +452,6 @@ static inline void StartComment (int IsDirective, int State, int StateBoth)
 #define RETURN_IF_DEFINED(x) do { if ((x) >= 0) return (x); } while (0)
 
 #define YY_DECL int lexscan (void)
-#define YY_NO_UNPUT
 %}
 
 AU     [a-zA-Z_]
@@ -488,11 +527,11 @@ LD3    {LD2}[0-9]+.*
 "^".                       SetCaretCharConst (); return LEX_STRCONST;
 <CaretLetter>{AU}          BEGIN (INITIAL); return LEX_CARET_LETTER;
 <CaretLetter>.|\n          |
-<CaretLetter><<EOF>>       assert (0);
+<CaretLetter><<EOF>>       lex_error ("internal lexer error", 1);
 
 '([^']|'')*'               SetString (0); return LEX_STRCONST;
 \"([^"\\]|\\(.|\n))*\"     SetString (1); return LEX_STRCONST;
-['"]                       lex_error ("unterminated string constant"); BEGIN (Discard); RETURN_IF_DEFINED (LEX_INVALID);
+['"]                       lex_error ("unterminated string constant", 0); BEGIN (Discard); RETURN_IF_DEFINED (LEX_INVALID);
 <Discard>.*\n?             RETURN_IF_DEFINED (LEX_INVALID);
 
 "//".*\n?                  CheckFeature (DelphiComments, 1); RETURN_IF_DEFINED (LEX_COMMENT);
@@ -543,17 +582,17 @@ LD3    {LD2}[0-9]+.*
 <Comment1B,Comment2B>{NCEB}/"(*"                CommentContent;
 <Comment1B,Comment2B>{NCEB}/"*)"                CommentContent;
 <Comment1,Comment2,Comment1B,Comment2B>.        |
-<Comment1,Comment2,Comment1B,Comment2B><<EOF>>  LexPos = CommentStartPos; lex_error ("unterminated comment"); BEGIN (DiscardComment); CommentContent;
+<Comment1,Comment2,Comment1B,Comment2B><<EOF>>  LexPos = CommentStartPos; lex_error ("unterminated comment", 0); BEGIN (DiscardComment); CommentContent;
 <DiscardComment>.*\n?                           CommentContent;
 
 ^{LD1}\n                   DoLineDir (1); RETURN_IF_DEFINED (LEX_LINE_DIRECTIVE);
 ^{LD2}\n                   DoLineDir (2); RETURN_IF_DEFINED (LEX_LINE_DIRECTIVE);
 ^{LD3}\n                   DoLineDir (3); RETURN_IF_DEFINED (LEX_LINE_DIRECTIVE);
 ^{DIRB}{WS}+[0-9].*\n?     |
-^{DIRB}[^0-9$].*\n?        lex_error ("invalid `#' directive"); RETURN_IF_DEFINED (LEX_INVALID);
+^{DIRB}[^0-9$].*\n?        lex_error ("invalid `#' directive", 0); RETURN_IF_DEFINED (LEX_INVALID);
 
 [ \t\v\f]*\n?              RETURN_IF_DEFINED (LEX_WHITESPACE);
-.                          lex_error ("invalid character"); RETURN_IF_DEFINED (LEX_INVALID);
+.                          lex_error ("invalid character", 0); RETURN_IF_DEFINED (LEX_INVALID);
 <INITIAL,Discard,DiscardComment><<EOF>>  return 0;
 
 %%

@@ -73,24 +73,24 @@ uses GPC;
   2>&1               redirect standard error to standard output
   &> file            redirect both standard output and standard
                      error to file }
-function  TranslateRedirections (const Command: String) = s: TString; attribute (name = '_p_TranslateRedirections');
+function  TranslateRedirections (const Command: String) = s: TString;
 
 { Under Unix, translates CR/LF pairs to single LF characters when
   reading from f, and back when writing to f. Under Dos, does
   nothing because the run time system alrady does this job. In the
   result, you can read both Dos and Unix files, and files written
   will be Dos. }
-procedure AssignDos (var f: AnyFile; const FileName: String); attribute (name = '_p_AssignDos');
+procedure AssignDos (var f: AnyFile; const FileName: String);
 
 { Translates a character from the "OEM" charset used under Dos to
   the ISO-8859-1 (Latin1) character set. }
-function  OEM2Latin1 (ch: Char): Char; attribute (name = '_p_OEM2Latin1');
-function  OEM2Latin1Str (const s: String) = r: TString; attribute (name = '_p_OEM2Latin1Str');
+function  OEM2Latin1 (ch: Char): Char;
+function  OEM2Latin1Str (const s: String) = r: TString;
 
 { Translates a character from the ISO-8859-1 (Latin1) character set
   to the "OEM" charset used under Dos. }
-function  Latin12OEM (ch: Char): Char; attribute (name = '_p_Latin12OEM');
-function  Latin12OEMStr (const s: String) = r: TString; attribute (name = '_p_Latin12OEMStr');
+function  Latin12OEM (ch: Char): Char;
+function  Latin12OEMStr (const s: String) = r: TString;
 
 implementation
 

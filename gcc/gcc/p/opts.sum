@@ -1,3 +1,12 @@
+A::Ignored
+D:Joined Separate:-D<macro>[=<val>]       Define a <macro> with <val> as its value.  If just <macro> is given, <val> is taken to be 1
+E::Preprocess only
+H::Print the name of include files as they are used
+I:Joined Separate:-I <dir>        Add <dir> to the end of the main include path.
+M::Generate make dependencies
+MM::Like -M but ignore system header files
+P::Do not generate #line directives
+U:Joined Separate:-U<macro>       Undefine <macro>
 Wall::
 Wcomment::
 Wmissing-declarations::
@@ -39,17 +48,24 @@ fignore-function-results::Do not complain when a function is called like a proce
 fignore-garbage-after-dot::Ignore anything after the terminating `.' (default in `--borland-pascal')
 fignore-packed::Ignore `packed' in the source code (default in `--borland-pascal')
 fio-checking::Check I/O operations automatically (same as `{$I+}') (default)
-flongjmp-all-nonlocal-labels::Use `longjmp' for all nonlocal labels
+flongjmp-all-nonlocal-labels::Use `longjmp' for all nonlocal labels (default for Darwin/PPC)
 fmacros::Expand macros (default except with `--ucsd-pascal', `--borland-pascal' or `--delphi')
 fmethods-always-virtual::Make all methods virtual (default in `--mac-pascal')
 fmixed-comments::Allow comments like `{ ... *)' as required in ISO Pascal (default in ISO 7185/10206 Pascal mode)
 fnested-comments::Allow nested comments like `{ { } }' and `(* (* *) *)'
+fnonlocal-exit::Allow non-local `Exit' statements (default in `--ucsd-pascal' and `--mac-pascal')
+fobject-checking::Check for valid objects on virtual method calls (default)
+fobjects-are-references::Turn objects into references (default in `--mac-pascal')
 fpedantic::Reject everything not allowed in some dialect, e.g. redefinition of its keywords
 fpointer-arithmetic::Enable pointer arithmetic
+fpointer-checking::Validate pointers before dereferencing
+fpointer-checking-user-defined::Use user-defined procedure for validating pointers
+fpreprocessed:RejectNegative:Treat the input file as already preprocessed
 fprogress-bar::Output number of processed lines while compiling
 fprogress-messages::Output source file names and line numbers while compiling
 fpropagate-units::Automalically export all imported identifiers from a unit
-frange-checking::Do automatic range checks (same as `{$R+}') (default)
+frange-checking::Do automatic range checks (default)
+frange-and-object-checking::Same as `--range-checking --object-checking', same as `{$R+}'
 fread-base-specifier::In read statements, allow input base specifier `n#' (default)
 fread-hex::In read statements, allow hexadecimal input with `$' (default)
 fread-white-space::In read statements, require whitespace after numbers
@@ -85,6 +101,12 @@ fstandard-pascal:RejectNegative:Synonym for `--classic-pascal'
 fsun-pascal:RejectNegative:Support (a few features of) Sun Pascal
 fucsd-pascal:RejectNegative:Try to emulate UCSD Pascal
 fvax-pascal:RejectNegative:Support (a few features of) VAX Pascal
+fobjects-require-override::Require override directive for objects (default in `--mac-pascal')
+fdelphi-method-shadowing::Redefining methods silently shadows old definition (default in `--delphi')
+fborland-objects:RejectNegative:Choose Borland object model
+fmac-objects:RejectNegative:Choose Mac object model
+fooe-objects:RejectNegative:Choose OOE object model
+fgnu-objects:RejectNegative:Reset object model to default state
 famtmpfile=:Joined RejectNegative:(Internal switch used for automake)
 fautomake-g++=:Joined RejectNegative:Set the C++ compiler invoked by automake
 fautomake-gcc=:Joined RejectNegative:Set the C compiler invoked by automake
@@ -94,6 +116,9 @@ fcsdefine=:Joined RejectNegative:Define a case-sensitive macro
 fdebug-tree=:Joined RejectNegative:(For GPC developers.) Show the internal representation of a given tree node (name or address)
 fdisable-keyword=:Joined RejectNegative:Disable a keyword, independently of dialect defaults
 fenable-keyword=:Joined RejectNegative:Enable a keyword, independently of dialect defaults
+fdisable-predefined-identifier=:Joined RejectNegative:Disable a predefined identifier, independently of dialect defaults
+fenable-predefined-identifier=:Joined RejectNegative:Enable a predefined identifier, independently of dialect defaults
+fimplicit-result::Enable implicit `Result' for functions (default only in `--delphi')
 fexecutable-file-name=:Joined RejectNegative:Specify the name of the output file
 fexecutable-file-name:RejectNegative:Derive output file name from main source file name
 fexecutable-path::`--no-executable-path': Create the executable file in the directory where the main source is (default)
@@ -112,3 +137,13 @@ funit-destination-path=:Joined RejectNegative:Path where to create object and GP
 funit-path::`--no-unit-path': Forget about directories where to look for unit/module sources
 funit-path=:Joined RejectNegative:Directories where to look for unit/module sources
 fuses=:Joined RejectNegative:Add an implicit `uses' clause
+idirafter:Joined Separate:`-idirafter <dir>'    Add <dir> to the end of the system include path
+imacros:Joined Separate:-imacros <file> Accept definition of macros in <file>
+include:Joined Separate:-include <file> Include the contents of <file> before other files
+iprefix:Joined Separate:-iprefix <path> Specify <path> as a prefix for next two options
+isystem:Joined Separate:-isystem <dir>  Add <dir> to the start of the system include path
+iwithprefix:Joined Separate:-iwithprefix <dir>      Add <dir> to the end of the system include path
+iwithprefixbefore:Joined Separate:-iwithprefixbefore <dir>        Add <dir> to the end of the main include path
+nostdinc::Do not search standard system include directories (those specified with -isystem will still be used)
+remap::Remap file names when including files
+v::Enable verbose output

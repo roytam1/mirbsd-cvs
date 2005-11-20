@@ -191,8 +191,8 @@ const
   is ignored. On systems like MSDOS that don't really multitask
   PWait is just a mechanism to provide a consistent interface for
   the caller. }
-function  PExecute (ProgramName: CString; Arguments: PCStrings; var ErrMsg: String; Flags: Integer): Integer; attribute (ignorable, name = '_p_PExecute');
-function  PWait (PID: Integer; var Status: Integer; Flags: Integer): Integer; attribute (ignorable, name = '_p_PWait');
+function  PExecute (ProgramName: CString; Arguments: PCStrings; var ErrMsg: String; Flags: Integer): Integer; attribute (ignorable);
+function  PWait (PID: Integer; var Status: Integer; Flags: Integer): Integer; attribute (ignorable);
 
 implementation
 

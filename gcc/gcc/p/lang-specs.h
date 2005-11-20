@@ -22,7 +22,7 @@
   Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
   02111-1307, USA. */
 
-#include "p/version.h"
+#include "p/p-version.h"
 
 /* This is the contribution to the `default_compilers' array for Pascal. */
   {".pas", "@Pascal", 0},
@@ -30,6 +30,7 @@
   {".pp", "@Pascal", 0},
   {".dpr", "@Pascal", 0},
   {"@Pascal",
+#if 0
    "gpcpp\
     %{fbig-endian:-D__BITS_BIG_ENDIAN__=1 -D__BYTES_BIG_ENDIAN__=1 -D__WORDS_BIG_ENDIAN__=1}\
     %{flittle-endian:-D__BITS_LITTLE_ENDIAN__=1 -D__BYTES_LITTLE_ENDIAN__=1 -D__WORDS_LITTLE_ENDIAN__=1}\
@@ -59,7 +60,18 @@
     %{!M:%{!MM:%{!E:gpc1 %{!pipe:%g.i} %(cc1_options)\
     %{!famtmpfile*:%eInternal GPC problem: internal option `--amtmpfile' not given}\
     %{!fsyntax-only:%(invoke_as)} }}}", 0},
+#endif
+    "gpc1 %{E:-E %{!M:%(cpp_unique_options) %1 %{m*} %{f*&W*&pedantic*} %{w} "
+    "%(cpp_debug_options) %{O*}}}"
+    "%{M:%(cpp_unique_options) %1 %{m*} %{f*&W*&pedantic*} %{w}" 
+    "%(cpp_debug_options) %{O*}}"
+    "%{!E:%{!M:%{save-temps:-E %(cpp_unique_options) %1 %{m*} "
+    "%{f*&W*&pedantic*} %{w}  %{O*} -o %b.i \n\
+     gpc1 -fpreprocessed %b.i} %{!save-temps:%(cpp_unique_options)} \
+     %(cc1_options)\
+    %{!famtmpfile*:%eInternal GPC problem: internal option `--amtmpfile' not given}\
+    %{!fsyntax-only:%(invoke_as)}}}", 0},
   {"@Preprocessed-Pascal",
-   "%{!M:%{!MM:%{!E:gpc1 %i %(cc1_options)\
+   "%{!M:%{!MM:%{!E:gpc1 -fpreprocessed %i %(cc1_options)\
     %{!famtmpfile*:%eInternal GPC problem: internal option `--amtmpfile' not given}\
     %{!fsyntax-only:%(invoke_as)} }}}", 0},
