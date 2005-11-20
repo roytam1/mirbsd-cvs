@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.5 2005/07/04 05:34:43 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.6 2005/08/04 22:54:33 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -123,10 +123,10 @@ done 2>&1 | tee -i "$N"
 
 {
 	print "fixing special files..."
-	fixperm 664 CVSROOT/ChangeLog CVSROOT/modules.db
-	fixperm 666 CVSROOT/history CVSROOT/val-tags{,.db}
+	fixperm 664 CVSROOT/{ChangeLog,modules.db,history}
+	fixperm 666 CVSROOT/val-tags{,.db}
 	fixperm 555 CVSROOT/*_*2{,\,v} CVSROOT/up www/*.cgi,v
-	chgrp miros-cvsall CVSROOT CVSROOT/ChangeLog CVSROOT/modules.db
+	chgrp miros-cvsall CVSROOT CVSROOT/{ChangeLog,modules.db,history}
 } 2>&1 | tee -ai "$N"
 
 cd "$WD"
