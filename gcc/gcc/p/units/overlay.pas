@@ -59,13 +59,13 @@ var
   OvrReadBuf: OvrReadFunc;
   OvrResult: Integer = 0;
 
-procedure OvrInit (aFileName: String); attribute (name = '_p_OvrInit');
-procedure OvrInitEMS;                  attribute (name = '_p_OvrInitEMS');
-procedure OvrSetBuf (Size: LongInt);   attribute (name = '_p_OvrSetBuf');
-function  OvrGetBuf: LongInt;          attribute (name = '_p_OvrGetBuf');
-procedure OvrSetRetry (Size: LongInt); attribute (name = '_p_OvrSetRetry');
-function  OvrGetRetry: LongInt;        attribute (name = '_p_OvrGetRetry');
-procedure OvrClearBuf;                 attribute (name = '_p_OvrClearBuf');
+procedure OvrInit (aFileName: String);
+procedure OvrInitEMS;
+procedure OvrSetBuf (Size: LongInt);
+function  OvrGetBuf: LongInt;
+procedure OvrSetRetry (Size: LongInt);
+function  OvrGetRetry: LongInt;
+procedure OvrClearBuf;
 
 implementation
 

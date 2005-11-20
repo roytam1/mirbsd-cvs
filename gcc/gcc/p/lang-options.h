@@ -139,17 +139,37 @@ DEFINE_LANG_NAME ("Pascal")
   GPC_OPT (1, "-fno-double-quoted-strings", double_quoted_strings, 0,
            "Do not allow strings enclosed in \"\" (default with dialect other than `--mac-pascal')")
   GPC_OPT (1, "-flongjmp-all-nonlocal-labels", longjmp_all_nonlocal_labels, 1,
-           "Use `longjmp' for all nonlocal labels")
+           "Use `longjmp' for all nonlocal labels (default for Darwin/PPC)")
   GPC_OPT (1, "-fno-longjmp-all-nonlocal-labels", longjmp_all_nonlocal_labels, 0,
-           "Use `longjmp' only for nonlocal labels in the main program (default)")
+           "Use `longjmp' only for nonlocal labels in the main program (default except for Darwin/PPC)")
+  GPC_OPT (1, "-fnonlocal-exit", nonlocal_exit, 1,
+           "Allow non-local `Exit' statements (default in `--ucsd-pascal' and `--mac-pascal')")
+  GPC_OPT (1, "-fno-nonlocal-exit", nonlocal_exit, 0,
+           "Do not allow non-local `Exit' statements (default)")
   GPC_OPT (1, "-fio-checking", io_checking, 1,
            "Check I/O operations automatically (same as `{$I+}') (default)")
   GPC_OPT (1, "-fno-io-checking", io_checking, 0,
            "Do not check I/O operations automatically (same as `{$I-}')")
+  GPC_OPT (1, "-fpointer-checking-user-defined", pointer_checking_user_defined, 1,
+           "Use user-defined procedure for validating pointers")
+  GPC_OPT (1, "-fno-pointer-checking-user-defined", pointer_checking_user_defined, 0,
+           "Do not use user-defined procedure for validating pointers (default)")
+  GPC_OPT (1, "-fpointer-checking", pointer_checking, 1,
+           "Validate pointers before dereferencing")
+  GPC_OPT (1, "-fno-pointer-checking", pointer_checking, 0,
+           "Do not validate pointers before dereferencing (default)")
+  GPC_OPT (1, "-fobject-checking", object_checking, 1,
+           "Check for valid objects on virtual method calls (default)")
+  GPC_OPT (1, "-fno-object-checking", object_checking, 0,
+           "Do not check for valid objects on virtual method calls")
   GPC_OPT (1, "-frange-checking", range_checking, 1,
-           "Do automatic range checks (same as `{$R+}') (default)")
+           "Do automatic range checks') (default)")
   GPC_OPT (1, "-fno-range-checking", range_checking, 0,
            "Do not do automatic range checks (same as `{$R-}')")
+  GPC_OPT (1, "-frange-and-object-checking", dummy, SEE_CODE,
+           "Same as `--range-checking --object-checking', same as `{$R+}'")
+  GPC_OPT (1, "-fno-range-and-object-checking", dummy, SEE_CODE,
+           "Same as `--no-range-checking --no-object-checking', same as `{$R-}'")
   GPC_OPT (1, "-fcase-value-checking", case_value_checking, 1,
            "Cause a runtime error if a `case' matches no branch (default in ISO Pascal modes)")
   GPC_OPT (1, "-fno-case-value-checking", case_value_checking, 0,
@@ -202,6 +222,14 @@ DEFINE_LANG_NAME ("Pascal")
            "Enable a keyword, independently of dialect defaults")
   GPC_OPT (1, "-fdisable-keyword", dummy, SEE_CODE,
            "Disable a keyword, independently of dialect defaults")
+  GPC_OPT (1, "-fimplicit-result", implicit_result, 1,
+           "Enable implicit `Result' for functions (default only in `--delphi')")
+  GPC_OPT (1, "-fno-implicit-result", implicit_result, 0,
+           "Disable implicit `Result' for functions")
+  GPC_OPT (1, "-fenable-predefined-identifier", dummy, SEE_CODE,
+           "Enable a predefined identifier, independently of dialect defaults")
+  GPC_OPT (1, "-fdisable-predefined-identifier", dummy, SEE_CODE,
+           "Disable a predefined identifier, independently of dialect defaults")
   GPC_OPT (1, "-fassertions", assertions, 1,
            "Enable assertion checking (default)")
   GPC_OPT (1, "-fno-assertions", assertions, 0,
@@ -276,8 +304,42 @@ DEFINE_LANG_NAME ("Pascal")
            "Do not warn when a unit/module interface differs from the file name (default)")
   GPC_OPT (1, "-fmethods-always-virtual", methods_always_virtual, 1,
            "Make all methods virtual (default in `--mac-pascal')")
-  GPC_OPT (0, "-fno-methods-always-virtual", methods_always_virtual, 0,
+  GPC_OPT (1, "-fno-methods-always-virtual", methods_always_virtual, 0,
            "Do not make all methods virtual (default)")
+  GPC_OPT (1, "-fobjects-are-references", objects_are_references, 1,
+           "Turn objects into references (default in `--mac-pascal')")
+  GPC_OPT (1, "-fno-objects-are-references", objects_are_references, 0,
+           "Do not turn objects into references (default)")
+  GPC_OPT (1, "-fobjects-require-override", objects_require_override, 1,
+           "Require override directive for objects (default in `--mac-pascal')")
+  GPC_OPT (1, "-fno-objects-require-override", objects_require_override, 0,
+           "Do not require override directive for objects (default)")
+  GPC_OPT (1, "-fdelphi-method-shadowing", delphi_method_shadowing, 1,
+           "Redefining methods silently shadows old definition (default in `--delphi')")
+  GPC_OPT (1, "-fno-delphi-method-shadowing", delphi_method_shadowing, 0,
+           "Do not silently shadow method definitions (default)")
+  GPC_OPT (1, "-fborland-objects", dummy, SEE_CODE,
+           "Choose Borland object model")
+  GPC_OPT (1, "-fmac-objects", dummy, SEE_CODE,
+           "Choose Mac object model")
+  GPC_OPT (1, "-fooe-objects", dummy, SEE_CODE,
+           "Choose OOE object model")
+  GPC_OPT (1, "-fgnu-objects", dummy, SEE_CODE,
+           "Reset object model to default state")
+  GPC_OPT (0, "-fpreprocessed", preprocessed, 1,
+             "Treat the input file as already preprocessed")
+  GPC_OPT (0, "-nostdinc", dummy, SEE_CODE, "Do not search standard system"
+     " include directories (those specified with -isystem will still be used)")
+  GPC_OPT (0, "-remap", dummy, SEE_CODE,
+             "Remap file names when including files")
+  GPC_OPT (0, "-v", dummy, SEE_CODE, "Enable verbose output")
+  GPC_OPT (0, "-A", dummy, SEE_CODE, "Ignored")
+  GPC_OPT (0, "-D", dummy, SEE_CODE, "Define a macro symbol")
+  GPC_OPT (0, "-E", preprocess_only, 1, "Preprocess only")
+  GPC_OPT (0, "-H", dummy, SEE_CODE,
+             "Print the name of include files as they are used")
+  GPC_OPT (0, "-M", dummy, SEE_CODE, "Generate make dependencies")
+  GPC_OPT (0, "-P", dummy, SEE_CODE, "Do not generate #line directives")
   GPC_OPT (1, "-Wimplicit-abstract", warn_implicit_abstract, 1,
            "Warn when an object type not declared `abstract' contains an abstract method (default)")
   GPC_OPT (1, "-Wno-implicit-abstract", warn_implicit_abstract, 0,
@@ -361,4 +423,4 @@ DEFINE_LANG_NAME ("Pascal")
   GPC_OPT (1, "-fmac-pascal", pascal_dialect, MAC_PASCAL,
            "Support (some features of) traditional Macintosh Pascal compilers")
   GPC_OPT (1, "-fgnu-pascal", pascal_dialect, 0,
-           "Undo the effect of previous dialect options, allow all features again")
+            "Undo the effect of previous dialect options, allow all features again")

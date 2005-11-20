@@ -159,7 +159,7 @@ type
   expression against a string starting from a specified position.
   Returns the position of the first match, or 0 if it does not
   match, or the regular expression is invalid. }
-function  RegExPosFrom (const Expression: String; ExtendedRegEx, CaseInsensitive: Boolean; const s: String; From: Integer) = MatchPosition: Integer; attribute (name = '_p_RegExPosFrom');
+function  RegExPosFrom (const Expression: String; ExtendedRegEx, CaseInsensitive: Boolean; const s: String; From: Integer) = MatchPosition: Integer;
 
 { Creates the internal format of a regular expression. If
   ExtendedRegEx is True, Expression is assumed to denote an extended
@@ -170,7 +170,7 @@ function  RegExPosFrom (const Expression: String; ExtendedRegEx, CaseInsensitive
   treated as dividing the string in multiple lines, so that `$' can
   match before the NewLine and `^' can match after. Also, `.' and
   `[^...]' will not match a NewLine then. }
-procedure NewRegEx (var RegEx: RegExType; const Expression: String; ExtendedRegEx, CaseInsensitive, NewLines: Boolean); attribute (name = '_p_NewRegEx');
+procedure NewRegEx (var RegEx: RegExType; const Expression: String; ExtendedRegEx, CaseInsensitive, NewLines: Boolean);
 
 { Disposes of a regular expression created with `NewRegEx'. *Must*
   be used after `NewRegEx' before the RegEx variable becomes invalid
@@ -180,11 +180,11 @@ procedure DisposeRegEx (var RegEx: RegExType); external name '_p_DisposeRegEx';
 
 { Matches a regular expression created with `NewRegEx' against a
   string. }
-function  MatchRegEx (var RegEx: RegExType; const s: String; NotBeginningOfLine, NotEndOfLine: Boolean): Boolean; attribute (name = '_p_MatchRegEx');
+function  MatchRegEx (var RegEx: RegExType; const s: String; NotBeginningOfLine, NotEndOfLine: Boolean): Boolean;
 
 { Matches a regular expression created with `NewRegEx' against a
   string, starting from a specified position. }
-function  MatchRegExFrom (var RegEx: RegExType; const s: String; NotBeginningOfLine, NotEndOfLine: Boolean; From: Integer): Boolean; attribute (name = '_p_MatchRegExFrom');
+function  MatchRegExFrom (var RegEx: RegExType; const s: String; NotBeginningOfLine, NotEndOfLine: Boolean; From: Integer): Boolean;
 
 { Finds out where the regular expression matched, if `MatchRegEx' or
   `MatchRegExFrom' were successful. If n = 0, it returns the
@@ -195,7 +195,7 @@ function  MatchRegExFrom (var RegEx: RegExType; const s: String; NotBeginningOfL
   successful empty match, so check whether MatchPosition is 0 to
   find out if it matched at all.) MatchPosition or MatchLength may
   be Null and is ignored then. }
-procedure GetMatchRegEx (var RegEx: RegExType; n: Integer; var MatchPosition, MatchLength: Integer); attribute (name = '_p_GetMatchRegEx');
+procedure GetMatchRegEx (var RegEx: RegExType; n: Integer; var MatchPosition, MatchLength: Integer);
 
 { Checks if the string s contains any quoted characters or
   (sub)expression references to the regular expression RegEx created
@@ -206,18 +206,18 @@ procedure GetMatchRegEx (var RegEx: RegExType; n: Integer; var MatchPosition, Ma
   an invalid reference (i.e. a number bigger than the number of
   subexpressions in RegEx) is found, it returns the negative value
   of the (first) invalid reference. }
-function  FindSubExpressionReferences (var RegEx: RegExType; const s: String; OnlySub: Boolean): Integer; attribute (name = '_p_FindSubExpressionReferences');
+function  FindSubExpressionReferences (var RegEx: RegExType; const s: String; OnlySub: Boolean): Integer;
 
 { Replaces (sub)expression references in ReplaceStr by the actual
   (sub)expressions and unquotes quoted characters. To be used after
   the regular expression RegEx created with `NewRegEx' was matched
   against s successfully with `MatchRegEx' or `MatchRegExFrom'. }
-function  ReplaceSubExpressionReferences (var RegEx: RegExType; const s, ReplaceStr: String) = Res: TString; attribute (name = '_p_ReplaceSubExpressionReferences');
+function  ReplaceSubExpressionReferences (var RegEx: RegExType; const s, ReplaceStr: String) = Res: TString;
 
 { Returns the string for a regular expression that matches exactly
   one character out of the given set. It can be combined with the
   usual operators to form more complex expressions. }
-function  CharSet2RegEx (const Characters: CharSet) = s: TString; attribute (name = '_p_CharSet2RegEx');
+function  CharSet2RegEx (const Characters: CharSet) = s: TString;
 
 implementation
 

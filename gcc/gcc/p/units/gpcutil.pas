@@ -406,7 +406,7 @@ end;
 
 function MapBigMem (p: PBigMem; BlockNumber: SizeType): Pointer;
 begin
-  if not p^.Mappable then RuntimeError (857);  { attempt to map unmappable memory }
+  if not p^.Mappable then RuntimeError (859);  { attempt to map unmappable memory }
   MapBigMem := p^.Pointers[BlockNumber]
 end;
 

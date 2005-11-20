@@ -102,15 +102,15 @@ type
 
   { Search record used by FindFirst and FindNext }
   TSearchRec = record
-     Fill: SearchRecFill;
-     Attr: Byte8;
-     Time, Size: LongInt;
-     Name: {$ifdef __BP_TYPE_SIZES__}
-           packed array [0 .. 12] of Char
-           {$else}
-           TStringBuf
-           {$endif};
-     Reserved: SearchRec
+    Fill: SearchRecFill;
+    Attr: Byte8;
+    Time, Size: LongInt;
+    Name: {$ifdef __BP_TYPE_SIZES__}
+          packed array [0 .. 12] of Char
+          {$else}
+          TStringBuf
+          {$endif};
+    Reserved: SearchRec
   end;
 
   { Date and time record used by PackTime and UnpackTime }
@@ -123,18 +123,18 @@ type
   all the brain-dead Dos stuff. If at all possible, the standard
   routines OpenDir, ReadDir and CloseDir (in the GPC unit) should be
   used instead. }
-procedure FindFirst (Path: PChar; Attr: Word; var SR: TSearchRec);         attribute (name = '_p_WFindFirst');
-procedure FindNext  (var SR: TSearchRec);                                  attribute (name = '_p_WFindNext');
-procedure FindClose (var SR: TSearchRec);                                  attribute (name = '_p_WFindClose');
-function  FileSearch (Dest, FileName, List: PChar): PChar;                 attribute (name = '_p_WFileSearch');
-function  FileExpand (Dest, FileName: PChar): PChar;                       attribute (name = '_p_WFileExpand');
-function  FileSplit (Path, Dir, BaseName, Ext: PChar) = Res: Word;         attribute (name = '_p_WFileSplit');
-function  GetCurDir (Dir: PChar; Drive: Byte): PChar;                      attribute (name = '_p_WGetCurDir');
-procedure SetCurDir (Dir: PChar);                                          attribute (name = '_p_WSetCurDir');
-procedure CreateDir (Dir: PChar);                                          attribute (name = '_p_WCreateDir');
-procedure RemoveDir (Dir: PChar);                                          attribute (name = '_p_WRemoveDir');
-function  GetArgCount: Integer;                                            attribute (name = '_p_WGetArgCount');
-function  GetArgStr (Dest: PChar; ArgIndex: Integer; MaxLen: Word): PChar; attribute (name = '_p_WGetArgStr');
+procedure FindFirst (Path: PChar; Attr: Word; var SR: TSearchRec);
+procedure FindNext  (var SR: TSearchRec);
+procedure FindClose (var SR: TSearchRec);
+function  FileSearch (Dest, FileName, List: PChar): PChar;
+function  FileExpand (Dest, FileName: PChar): PChar;
+function  FileSplit (Path, Dir, BaseName, Ext: PChar) = Res: Word;
+function  GetCurDir (Dir: PChar; Drive: Byte): PChar;
+procedure SetCurDir (Dir: PChar);
+procedure CreateDir (Dir: PChar);
+procedure RemoveDir (Dir: PChar);
+function  GetArgCount: Integer;
+function  GetArgStr (Dest: PChar; ArgIndex: Integer; MaxLen: Word): PChar;
 
 end;
 

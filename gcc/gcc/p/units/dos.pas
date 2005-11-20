@@ -140,32 +140,32 @@ var
   { Error status variable }
   DosError: Integer = 0;
 
-procedure GetDate (var Year, Month, Day, DayOfWeek: Word);                   attribute (name = '_p_GetDate');
-procedure GetTime (var Hour, Minute, Second, Sec100: Word);                  attribute (name = '_p_GetTime');
-procedure GetCBreak (var BreakOn: Boolean);                                  attribute (name = '_p_GetCBreak');
-procedure SetCBreak (BreakOn: Boolean);                                      attribute (name = '_p_SetCBreak');
+procedure GetDate (var Year, Month, Day, DayOfWeek: Word);
+procedure GetTime (var Hour, Minute, Second, Sec100: Word);
+procedure GetCBreak (var BreakOn: Boolean);
+procedure SetCBreak (BreakOn: Boolean);
 { GetVerify and SetVerify are dummies except for DJGPP (in the
   assumption that any real OS knows by itself when and how to verify
   its disks). }
-procedure GetVerify (var VerifyOn: Boolean);                                 attribute (name = '_p_GetVerify');
-procedure SetVerify (VerifyOn: Boolean);                                     attribute (name = '_p_SetVerify');
-function  DiskFree (Drive: Byte): LongInt;                                   attribute (name = '_p_DiskFree');
-function  DiskSize (Drive: Byte): LongInt;                                   attribute (name = '_p_DiskSize');
-procedure GetFAttr (var f: GPC_AnyFile; var Attr: TDosAttr);                 attribute (name = '_p_GetFAttr');
-procedure SetFAttr (var f: GPC_AnyFile; Attr: TDosAttr);                     attribute (name = '_p_SetFAttr');
-procedure GetFTime (var f: GPC_AnyFile; var MTime: LongInt);                 attribute (name = '_p_GetFTime');
-procedure SetFTime (var f: GPC_AnyFile; MTime: LongInt);                     attribute (name = '_p_SetFTime');
+procedure GetVerify (var VerifyOn: Boolean);
+procedure SetVerify (VerifyOn: Boolean);
+function  DiskFree (Drive: Byte): LongInt;
+function  DiskSize (Drive: Byte): LongInt;
+procedure GetFAttr (var f: GPC_AnyFile; var Attr: TDosAttr);
+procedure SetFAttr (var f: GPC_AnyFile; Attr: TDosAttr);
+procedure GetFTime (var f: GPC_AnyFile; var MTime: LongInt);
+procedure SetFTime (var f: GPC_AnyFile; MTime: LongInt);
 
 { FindFirst and FindNext are quite inefficient since they emulate
   all the brain-dead Dos stuff. If at all possible, the standard
   routines OpenDir, ReadDir and CloseDir (in the GPC unit) should be
   used instead. }
-procedure FindFirst (const Path: String; Attr: TDosAttr; var SR: SearchRec); attribute (name = '_p_FindFirst');
-procedure FindNext  (var SR: SearchRec);                                     attribute (name = '_p_FindNext');
+procedure FindFirst (const Path: String; Attr: TDosAttr; var SR: SearchRec);
+procedure FindNext  (var SR: SearchRec);
 
-procedure FindClose (var SR: SearchRec);                                     attribute (name = '_p_FindClose');
-procedure UnpackTime (p: LongInt; var t: DateTime);                          attribute (name = '_p_UnpackTime');
-procedure PackTime (const t: DateTime; var p: LongInt);                      attribute (name = '_p_PackTime');
+procedure FindClose (var SR: SearchRec);
+procedure UnpackTime (p: LongInt; var t: DateTime);
+procedure PackTime (const t: DateTime; var p: LongInt);
 function  EnvCount: Integer;
 function  EnvStr (EnvIndex: Integer): TString;
 procedure SwapVectors;
@@ -182,8 +182,8 @@ function  DosExitCode: Word;
 { These are unportable Dos-only declarations and routines, since
   interrupts are Dos and CPU specific (and have no place in a
   high-level program, anyway). }
-procedure Intr (IntNo: Byte; var Regs: Registers);                           attribute (name = '_p_Intr');
-procedure MsDos (var Regs: Registers);                                       attribute (name = '_p_MsDos');
+procedure Intr (IntNo: Byte; var Regs: Registers);
+procedure MsDos (var Regs: Registers);
 {$endif}
 
 { Though probably all non-Dos systems have versions numbers as well,
@@ -192,7 +192,7 @@ procedure MsDos (var Regs: Registers);                                       att
   version number. Therefore, this routine always returns 7 (i.e.,
   version 7.0) on non-Dos systems, in the assumption that any real
   OS has at least the features of Dos 7. }
-function  DosVersion: Word;                                                  attribute (name = '_p_DosVersion');
+function  DosVersion: Word;
 
 { Changing the system date and time is a system administration task,
   not allowed to a normal process. On non-Dos systems, these
@@ -200,8 +200,8 @@ function  DosVersion: Word;                                                  att
   GetDate (not the RTS date/time routines), and only for this
   process, not for child processes or even the parent process or
   system-wide. }
-procedure SetDate (Year, Month, Day: Word);                                  attribute (name = '_p_SetDate');
-procedure SetTime (Hour, Minute, Second, Sec100: Word);                      attribute (name = '_p_SetTime');
+procedure SetDate (Year, Month, Day: Word);
+procedure SetTime (Hour, Minute, Second, Sec100: Word);
 {$endif}
 
 end;

@@ -44,6 +44,11 @@
 
 #include "config.h"
 
+#ifndef GCC_4
+#define TYPE_UNSIGNED TREE_UNSIGNED
+#define BIT_FIELD_REF_UNSIGNED TREE_UNSIGNED
+#endif
+
 #ifndef GCC_3_4
 #define build_constructor(type, elements) (build (CONSTRUCTOR, (type), NULL_TREE, (elements)))
 #endif
@@ -96,8 +101,8 @@
 #include "obstack.h"
 #include "gansidecl.h"
 
-extern unsigned long concat_length PARAMS ((const char *, ...));
-extern char *concat_copy2 PARAMS ((const char *, ...));
+extern unsigned long concat_length (const char *, ...);
+extern char *concat_copy2 (const char *, ...);
 extern char *libiberty_concat_ptr;
 #define ACONCAT(ACONCAT_PARAMS) \
   (libiberty_concat_ptr = alloca (concat_length ACONCAT_PARAMS + 1), \
@@ -144,7 +149,9 @@ extern char *libiberty_concat_ptr;
 extern int save_argc;
 extern char **save_argv;
 #ifdef EGCS97
+#ifndef GCC_3_4
 extern struct function *outer_function_chain;
+#endif
 #else
 extern char *version_string;
 extern char *progname;  /* in cpplib.h, but we don't need to include it just for that */
@@ -152,8 +159,13 @@ extern struct obstack permanent_obstack;
 extern struct obstack *current_obstack;
 extern int errorcount;
 extern int sorrycount;
-extern void (*print_error_function) PARAMS ((const char *));
-extern PTR alloca PARAMS ((size_t));
+extern void (*print_error_function) (const char *);
+extern PTR alloca (size_t);
+extern tree void_list_node;
+#endif
+
+#ifndef GCC_3_3
+#define copy_decl_lang_specific copy_lang_decl
 #endif
 
 #ifdef EGCS
@@ -163,40 +175,40 @@ extern PTR alloca PARAMS ((size_t));
 
 #else
 
-extern char *concat PARAMS ((const char *, ...));
-extern void *xmalloc PARAMS ((size_t));
-extern void *xrealloc PARAMS ((void *, size_t));
-extern void debug_tree PARAMS ((tree node));
-extern void emit_nop PARAMS ((void));
-extern rtx label_rtx PARAMS ((tree));
+extern char *concat (const char *, ...);
+extern void *xmalloc (size_t);
+extern void *xrealloc (void *, size_t);
+extern void debug_tree (tree node);
+extern void emit_nop (void);
+extern rtx label_rtx (tree);
 extern char **save_argv;
 extern int version_flag;
-extern void pedwarn PARAMS ((const char *, ...));
-extern void warning PARAMS ((const char *, ...));
-extern void error PARAMS ((const char *, ...));
-extern void error_with_decl PARAMS ((tree, const char *, ...));
-extern void rest_of_decl_compilation PARAMS ((tree, const char *, int, int));
-extern void warning_with_file_and_line PARAMS ((const char *, int, char *, ...));
+extern void pedwarn (const char *, ...);
+extern void warning (const char *, ...);
+extern void error (const char *, ...);
+extern void error_with_decl (tree, const char *, ...);
+extern void rest_of_decl_compilation (tree, const char *, int, int);
+extern void warning_with_file_and_line (const char *, int, char *, ...);
 extern int pedantic;
-extern int int_fits_type_p PARAMS ((tree, tree));
-extern int really_constant_p PARAMS ((tree));
-extern void pop_momentary_nofree PARAMS ((void));
+extern int int_fits_type_p (tree, tree);
+extern int really_constant_p (tree);
+extern void pop_momentary_nofree (void);
 
 /* GCC files not really part of the GBE. */
 #define PEXECUTE_FIRST   1
 #define PEXECUTE_LAST    2
 #define PEXECUTE_SEARCH  4
 #define PEXECUTE_VERBOSE 8
-extern int pwait PARAMS ((int, int *, int));
-extern int pexecute PARAMS ((const char *, char * const *, const char *,
-                            const char *, char **, char **, int));
-extern char *choose_temp_base PARAMS ((void));
+extern int pwait (int, int *, int);
+extern int pexecute (const char *, char * const *, const char *,
+                     const char *, char **, char **, int);
+extern char *choose_temp_base (void);
 
 #ifdef __EMX__
 # include <process.h>
 #endif
 
-extern void *alloca PARAMS ((size_t));
+extern void *alloca (size_t);
 
 #endif /* not EGCS */
 

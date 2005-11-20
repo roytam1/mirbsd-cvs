@@ -68,7 +68,7 @@ var
   It is invoked automatically at the end, so usually you don't have
   to call it. Returns True if any non-released blocks were found,
   False otherwise. }
-function HeapMonReport (var f: Text; DoRestoreTerminal: Boolean) = Res: Boolean; attribute (ignorable, name = '_p_HeapMonReport');
+function HeapMonReport (var f: Text; DoRestoreTerminal: Boolean) = Res: Boolean; attribute (ignorable);
 
 implementation
 

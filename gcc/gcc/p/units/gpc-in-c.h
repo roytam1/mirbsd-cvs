@@ -60,7 +60,7 @@ extern void _p_initialize (int argc, char **argv, char **envp, int options);
   If you have a unit or module called `foo' written in Pascal, you
   can declare
 
-  extern void init_Foo ();
+  extern void _p__M3_Foo_init ();
 
   instead (note the case) and call it to initialize the variables
   and run the constructors of the mentioned unit/module and all

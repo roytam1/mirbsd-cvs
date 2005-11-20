@@ -42,7 +42,7 @@ uses GPC;
 { Write to multiple files. Everything written to Dest after calling
   this procedure will be written to both File1 and File2. Can be
   chained. }
-procedure MultiFileWrite (var Dest, File1, File2: AnyFile); attribute (name = '_p_MultiFileWrite');
+procedure MultiFileWrite (var Dest, File1, File2: AnyFile);
 
 implementation
 

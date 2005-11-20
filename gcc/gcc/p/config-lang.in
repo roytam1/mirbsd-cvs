@@ -100,8 +100,14 @@ for x in 3.2.2 3.2.3; do
     (cd "$srcdir/p/diffs"; ln -s "gcc-3.2.1.diff" "gcc-$x.diff")
   fi
 done
+if [ ! -r "$srcdir/p/diffs/gcc-3.3.6.diff" ]; then
+    (cd "$srcdir/p/diffs"; ln -s "gcc-3.3.5.diff" "gcc-3.3.6.diff")
+fi
+if [ ! -r "$srcdir/p/diffs/gcc-3.4.5.diff" ]; then
+    (cd "$srcdir/p/diffs"; ln -s "gcc-3.4.4.diff" "gcc-3.4.5.diff")
+fi
 
-if grep "@@ PATCHED FOR GPC 20050130 @@" "$srcdir/stor-layout.c" > /dev/null; then
+if grep "@@ PATCHED FOR GPC 20051114 @@" "$srcdir/stor-layout.c" > /dev/null; then
   :
 elif grep "@@ PATCHED FOR GPC" "$srcdir/stor-layout.c" > /dev/null; then
   echo "" >&2

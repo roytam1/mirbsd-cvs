@@ -46,9 +46,9 @@ type
 
 {@internal}
 { RandomizePtr, SeedRandomPtr, RandRealPtr and RandIntPtr point to these routines by default }
-procedure Default_Randomize;                                    attribute (name = '_p_Default_Randomize');
-procedure Default_SeedRandom (Seed: RandomSeedType);            attribute (name = '_p_Default_SeedRandom');
-function  Default_RandReal: LongestReal;                        attribute (name = '_p_Default_RandReal');
+procedure Default_Randomize;                                        attribute (name = '_p_Default_Randomize');
+procedure Default_SeedRandom (Seed: RandomSeedType);                attribute (name = '_p_Default_SeedRandom');
+function  Default_RandReal: LongestReal;                            attribute (name = '_p_Default_RandReal');
 function  Default_RandInt (MaxValue: LongestCard) = s: LongestCard; attribute (name = '_p_Default_RandInt');
 
 { GPC_Randomize, SeedRandom, GPC_RandReal and GPC_RandInt call the actual routines through RandomizePtr, RandRealPtr and RandIntPtr }
@@ -57,13 +57,13 @@ function  GPC_RandReal: LongestReal; attribute (name = '_p_RandReal');
 function  GPC_RandInt (MaxValue: LongestCard): LongestCard; attribute (name = '_p_RandInt');
 {@endinternal}
 
-var
-  RandomizePtr : RandomizeType = @Default_Randomize; attribute (name = '_p_RandomizePtr');
-  SeedRandomPtr: SeedRandomType = @Default_SeedRandom; attribute (name = '_p_SeedRandomPtr');
-  RandRealPtr  : RandRealType = @Default_RandReal; attribute (name = '_p_RandRealPtr');
-  RandIntPtr   : RandIntType = @Default_RandInt; attribute (name = '_p_RandIntPtr');
-
 procedure SeedRandom (Seed: RandomSeedType); attribute (name = '_p_SeedRandom');
+
+var
+  RandomizePtr : RandomizeType = @Default_Randomize;   attribute (name = '_p_RandomizePtr');
+  SeedRandomPtr: SeedRandomType = @Default_SeedRandom; attribute (name = '_p_SeedRandomPtr');
+  RandRealPtr  : RandRealType = @Default_RandReal;     attribute (name = '_p_RandRealPtr');
+  RandIntPtr   : RandIntType = @Default_RandInt;       attribute (name = '_p_RandIntPtr');
 
 implementation
 

@@ -58,6 +58,8 @@ type
   PWords = ^TWords;
   PConstWords = ^const TWords;
 
+{$R-}
+
 function Merge (w1, w2: TWord; Shift1, Shift2: Integer): TWord; attribute (inline);
 begin
   if BytesBigEndian then
@@ -66,7 +68,7 @@ begin
     Merge := (w1 shr Shift1) or (w2 shl Shift2)
 end;
 
-{$pointer-arithmetic,R-}
+{$pointer-arithmetic}
 
 procedure MoveLeft (const Source; var Dest; Count: SizeType);
 var

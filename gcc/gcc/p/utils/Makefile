@@ -50,7 +50,7 @@ all: $(EXE) $(DOC)
 
 # The Pascal source is not used, but we have to provide any.
 # `-x Preprocessed-Pascal /dev/null' works as well, except on mingw.
-needed-options: binobj.pas $(GCC_DIR)/p/version.h
+needed-options: binobj.pas $(GCC_DIR)/p/p-version.h
 	$(PC) $(UTILS_WARN) $(CFLAGS) $(PFLAGS) $(PFLAGS1) --print-needed-options "$<" 2> "$@" || true
 	if grep '^[^-]' "$@" > /dev/null; then echo "needed-options: `cat "$@"`" >&2; rm -f "$@"; false; else true; fi
 

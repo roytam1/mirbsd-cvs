@@ -79,9 +79,9 @@ GPC_GCC_VERSION_H_=target.h dbxout.h ../include/libiberty.h
 GPC_GCC_VERSION_H_2=gansidecl.h dbxout.h ../include/libiberty.h
 GPC_GCC_VERSION_H_28=gansidecl.h
 GPC_GCC_VERSION_H=$(GPC_GCC_VERSION_H_$(GCC_VERSION_FOR_GPC))
-GPC_ALL_WARNINGS_=$(WARN_CFLAGS) $(STRICT_WARN)
-GPC_ALL_WARNINGS_2=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac`
-GPC_ALL_WARNINGS_28=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac`
+GPC_ALL_WARNINGS_=$(WARN_CFLAGS) $(STRICT_WARN) -Wno-traditional
+GPC_ALL_WARNINGS_2=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac` -Wno-traditional
+GPC_ALL_WARNINGS_28=`case "$(CC)" in *gcc*) echo -Wall -Wmissing-prototypes -Wpointer-arith;; esac` -Wno-traditional
 GPC_ALL_WARNINGS=$(GPC_ALL_WARNINGS_$(GCC_VERSION_FOR_GPC))
 man1dir_28=$(mandir)# gcc-2.8.1 includes `man1' in $(mandir)
 man1dir_2=$(mandir)/man1
@@ -117,7 +117,7 @@ man1ext=.1
 RTSSRCDIR=$(srcdir)/p/rts
 
 # Version numbers
-VERSION_FILENAME=$(srcdir)/p/version.h
+VERSION_FILENAME=$(srcdir)/p/p-version.h
 RTS_VERSION_FILENAME=$(RTSSRCDIR)/rts-version
 gpc_major=2
 gpc_minor=1
@@ -137,6 +137,8 @@ FLEX=flex
 FLEXFLAGS=
 MAKEINFO=makeinfo
 MAKEINFOFLAGS=
+
+unitsubdir=$(libsubdir)/units
 
 GPC_PAGESIZE=@afourpaper
 
@@ -184,212 +186,210 @@ RTS_COMPILERS=CC="`echo $(GCC_FOR_TARGET)' ' | $(ADD_RTS_PARENT_DIR)`" \
 
 # Flags to pass when installing GPC.
 GPC_INSTALL_FLAGS_TO_PASS=\
-	"exeext=$(exeext)" \
-	"version=$(version)" \
-	"target_alias=$(target_alias)" \
-	"program_transform_name=$(program_transform_name)" \
-	"program_transform_cross_name=$(program_transform_cross_name)" \
-	"SYMLINK=$(SYMLINK)" \
-	"GCC_FOR_TARGET=$(GCC_FOR_TARGET)" \
-	"GPC_FOR_TARGET=$(GPC_FOR_TARGET)" \
-	"GPCSOLIBSHORTNAME=$(GPCSOLIBSHORTNAME)" \
-	"GPCSOLIBDIR=$(GPCSOLIBDIR)" \
-	"GPC_EXTRA_INSTALL_LIBS=$(GPC_EXTRA_INSTALL_LIBS)" \
-	"WITH_SHARED=$(WITH_SHARED)" \
-	"FLOAT_H=$(FLOAT_H)" \
-	"EXTRA_PARTS=$(EXTRA_PARTS)" \
-	$(GPC_EXTRA_INSTALL_FLAGS_TO_PASS)
+  "exeext=$(exeext)" \
+  "version=$(version)" \
+  "target_alias=$(target_alias)" \
+  "program_transform_name=$(program_transform_name)" \
+  "program_transform_cross_name=$(program_transform_cross_name)" \
+  "SYMLINK=$(SYMLINK)" \
+  "GCC_FOR_TARGET=$(GCC_FOR_TARGET)" \
+  "GPC_FOR_TARGET=$(GPC_FOR_TARGET)" \
+  "GPCSOLIBSHORTNAME=$(GPCSOLIBSHORTNAME)" \
+  "GPCSOLIBDIR=$(GPCSOLIBDIR)" \
+  "GPC_EXTRA_INSTALL_LIBS=$(GPC_EXTRA_INSTALL_LIBS)" \
+  "WITH_SHARED=$(WITH_SHARED)" \
+  "FLOAT_H=$(FLOAT_H)" \
+  "EXTRA_PARTS=$(EXTRA_PARTS)" \
+  $(GPC_EXTRA_INSTALL_FLAGS_TO_PASS)
 
 # Flags to pass when building the utilities. (PC is the GPC for the host!)
 UTILS_FLAGS_TO_PASS=\
-	SHELL="$(SHELL)" \
-	PC="`if [ x"$(GPC_HOST)" = x"$(target)" ]; then echo $(GPC_FOR_TARGET) -L../..' '; else echo $(CC) | $(GCC2GPC); fi | $(ADD_RTS_PARENT_DIR)` -I../rts" \
-	CFLAGS="$(CFLAGS)" \
-	PFLAGS="$(PFLAGS)" \
-	exeext="$(exeext)" \
-	INSTALL_PROGRAM="$(INSTALL_PROGRAM)" \
-	INSTALL_DATA="$(INSTALL_DATA)" \
-	BUILD="$(GPC_BUILD)" \
-	HOST="$(GPC_HOST)"
+  SHELL="$(SHELL)" \
+  PC="`if [ x"$(GPC_HOST)" = x"$(target)" ]; then echo $(GPC_FOR_TARGET) -L../..' '; else echo $(CC) | $(GCC2GPC); fi | $(ADD_RTS_PARENT_DIR)` -I../rts" \
+  CFLAGS="$(CFLAGS)" \
+  PFLAGS="$(PFLAGS)" \
+  exeext="$(exeext)" \
+  INSTALL_PROGRAM="$(INSTALL_PROGRAM)" \
+  INSTALL_DATA="$(INSTALL_DATA)" \
+  BUILD="$(GPC_BUILD)" \
+  HOST="$(GPC_HOST)"
 
 # Flags to pass when building the RTS.
 RTS_FLAGS_TO_PASS_ALL=\
-	GCC_VERSION="$(GPC_GCC_VERSION)" \
-	SHELL="$(SHELL)" \
-	CFLAGS="$(CFLAGS)" \
-	PFLAGS="$(PFLAGS)" \
-	AR_FLAGS="$(AR_FLAGS)" \
-	RTSFLAGS="$(RTSFLAGS)" \
-	DESTDIR="../.."
+  GCC_VERSION="$(GPC_GCC_VERSION)" \
+  SHELL="$(SHELL)" \
+  CFLAGS="$(CFLAGS)" \
+  PFLAGS="$(PFLAGS)" \
+  AR_FLAGS="$(AR_FLAGS)" \
+  RTSFLAGS="$(RTSFLAGS)" \
+  DESTDIR="../.."
 
 RTS_FLAGS_TO_PASS_28=\
-	AR="$(AR)" \
-	RANLIB="$(RANLIB)" \
-	RANLIB_TEST="$(RANLIB_TEST)"
+  AR="$(AR)" \
+  RANLIB="$(RANLIB)" \
+  RANLIB_TEST="$(RANLIB_TEST)"
 
 RTS_FLAGS_TO_PASS_=\
-	AR="$(AR_FOR_TARGET)" \
-	RANLIB="$(RANLIB_FOR_TARGET)" \
-	RANLIB_TEST="$(RANLIB_TEST_FOR_TARGET)"
+  AR="$(AR_FOR_TARGET)" \
+  RANLIB="$(RANLIB_FOR_TARGET)" \
+  RANLIB_TEST="$(RANLIB_TEST_FOR_TARGET)"
 
 RTS_FLAGS_TO_PASS_2=$(RTS_FLAGS_TO_PASS_)
 
-RTS_FLAGS_TO_PASS_34=$(RTS_FLAGS_TO_PASS_)
-
 RTS_FLAGS_TO_PASS=$(RTS_FLAGS_TO_PASS_ALL) \
-	$(RTS_FLAGS_TO_PASS_$(GCC_VERSION_FOR_GPC))
+  $(RTS_FLAGS_TO_PASS_$(GCC_VERSION_FOR_GPC))
 
 # Flags to pass when running the test suite.
 TEST_FLAGS_TO_PASS=\
-	MASK="$(MASK)" \
-	EXTRA_TEST_PFLAGS="$(PFLAGS) $(EXTRA_TEST_PFLAGS)" \
-	TEST_RUN_FLAGS="$(TEST_RUN_FLAGS)"
+  MASK="$(MASK)" \
+  EXTRA_TEST_PFLAGS="$(PFLAGS) $(EXTRA_TEST_PFLAGS)" \
+  TEST_RUN_FLAGS="$(TEST_RUN_FLAGS)"
 
 GPC_GENERAL_TEXI=\
- $(srcdir)/p/doc/macros.texi \
- $(srcdir)/p/doc/generated/version.texi
+  $(srcdir)/p/doc/macros.texi \
+  $(srcdir)/p/doc/generated/version.texi
 
 GPC_GENERATED_TEXI=\
- $(srcdir)/p/doc/generated/version.texi \
- $(srcdir)/p/doc/generated/lang-options.texi \
- $(srcdir)/p/doc/generated/keyword.texi \
- $(srcdir)/p/doc/generated/gpcpas.texi \
- $(srcdir)/p/doc/generated/crt.texi \
- $(srcdir)/p/doc/generated/dos.texi \
- $(srcdir)/p/doc/generated/dosunix.texi \
- $(srcdir)/p/doc/generated/fileutils.texi \
- $(srcdir)/p/doc/generated/gmp.texi \
- $(srcdir)/p/doc/generated/gpcutil.texi \
- $(srcdir)/p/doc/generated/heapmon.texi \
- $(srcdir)/p/doc/generated/intl.texi \
- $(srcdir)/p/doc/generated/md5.texi \
- $(srcdir)/p/doc/generated/overlay.texi \
- $(srcdir)/p/doc/generated/pipes.texi \
- $(srcdir)/p/doc/generated/ports.texi \
- $(srcdir)/p/doc/generated/printer.texi \
- $(srcdir)/p/doc/generated/regex.texi \
- $(srcdir)/p/doc/generated/strings.texi \
- $(srcdir)/p/doc/generated/stringutils.texi \
- $(srcdir)/p/doc/generated/system.texi \
- $(srcdir)/p/doc/generated/tfdd.texi \
- $(srcdir)/p/doc/generated/trap.texi \
- $(srcdir)/p/doc/generated/turbo3.texi \
- $(srcdir)/p/doc/generated/windos.texi
+  $(srcdir)/p/doc/generated/version.texi \
+  $(srcdir)/p/doc/generated/lang-options.texi \
+  $(srcdir)/p/doc/generated/keyword.texi \
+  $(srcdir)/p/doc/generated/gpcpas.texi \
+  $(srcdir)/p/doc/generated/crt.texi \
+  $(srcdir)/p/doc/generated/dos.texi \
+  $(srcdir)/p/doc/generated/dosunix.texi \
+  $(srcdir)/p/doc/generated/fileutils.texi \
+  $(srcdir)/p/doc/generated/gmp.texi \
+  $(srcdir)/p/doc/generated/gpcutil.texi \
+  $(srcdir)/p/doc/generated/heapmon.texi \
+  $(srcdir)/p/doc/generated/intl.texi \
+  $(srcdir)/p/doc/generated/md5.texi \
+  $(srcdir)/p/doc/generated/overlay.texi \
+  $(srcdir)/p/doc/generated/pipes.texi \
+  $(srcdir)/p/doc/generated/ports.texi \
+  $(srcdir)/p/doc/generated/printer.texi \
+  $(srcdir)/p/doc/generated/regex.texi \
+  $(srcdir)/p/doc/generated/strings.texi \
+  $(srcdir)/p/doc/generated/stringutils.texi \
+  $(srcdir)/p/doc/generated/system.texi \
+  $(srcdir)/p/doc/generated/tfdd.texi \
+  $(srcdir)/p/doc/generated/trap.texi \
+  $(srcdir)/p/doc/generated/turbo3.texi \
+  $(srcdir)/p/doc/generated/windos.texi
 
 GPC_COMMON_TEXI=\
- $(srcdir)/p/doc/macros.texi \
- $(srcdir)/p/doc/contributors.texi \
- $(GPC_GENERATED_TEXI)
+  $(srcdir)/p/doc/macros.texi \
+  $(srcdir)/p/doc/contributors.texi \
+  $(GPC_GENERATED_TEXI)
 
 GPC_TEXI_EN=\
- $(GPC_COMMON_TEXI) \
- $(srcdir)/p/doc/en/gpc.texi \
- $(srcdir)/p/doc/en/welcome.texi \
- $(srcdir)/p/doc/en/purpose.texi \
- $(srcdir)/p/doc/en/about.texi \
- $(srcdir)/p/doc/en/news.texi \
- $(srcdir)/p/doc/en/faq.texi \
- $(srcdir)/p/doc/en/libs.texi \
- $(srcdir)/p/doc/en/install.texi \
- $(srcdir)/p/doc/en/bpqstart.texi \
- $(srcdir)/p/doc/en/invoke.texi \
- $(srcdir)/p/doc/en/programming.texi \
- $(srcdir)/p/doc/en/reference.texi \
- $(srcdir)/p/doc/en/keywords.texi \
- $(srcdir)/p/doc/en/support.texi \
- $(srcdir)/p/doc/en/todo.texi \
- $(srcdir)/p/doc/en/internals.texi \
- $(srcdir)/p/doc/en/resources.texi \
- $(srcdir)/p/doc/en/authors.texi \
- $(srcdir)/p/doc/en/copying.texi \
- $(srcdir)/p/doc/en/copying-lib.texi \
- $(srcdir)/p/doc/en/copying-demo.texi \
- $(srcdir)/p/doc/en/gnu.texi \
- $(srcdir)/p/doc/en/gpcs.texi
+  $(GPC_COMMON_TEXI) \
+  $(srcdir)/p/doc/en/gpc.texi \
+  $(srcdir)/p/doc/en/welcome.texi \
+  $(srcdir)/p/doc/en/purpose.texi \
+  $(srcdir)/p/doc/en/about.texi \
+  $(srcdir)/p/doc/en/news.texi \
+  $(srcdir)/p/doc/en/faq.texi \
+  $(srcdir)/p/doc/en/libs.texi \
+  $(srcdir)/p/doc/en/install.texi \
+  $(srcdir)/p/doc/en/bpqstart.texi \
+  $(srcdir)/p/doc/en/invoke.texi \
+  $(srcdir)/p/doc/en/programming.texi \
+  $(srcdir)/p/doc/en/reference.texi \
+  $(srcdir)/p/doc/en/keywords.texi \
+  $(srcdir)/p/doc/en/support.texi \
+  $(srcdir)/p/doc/en/todo.texi \
+  $(srcdir)/p/doc/en/internals.texi \
+  $(srcdir)/p/doc/en/resources.texi \
+  $(srcdir)/p/doc/en/authors.texi \
+  $(srcdir)/p/doc/en/copying.texi \
+  $(srcdir)/p/doc/en/copying-lib.texi \
+  $(srcdir)/p/doc/en/copying-demo.texi \
+  $(srcdir)/p/doc/en/gnu.texi \
+  $(srcdir)/p/doc/en/gpcs.texi
 
 GPC_TEXI_DE=\
- $(GPC_COMMON_TEXI) \
- $(srcdir)/p/doc/de/gpcs.texi
+  $(GPC_COMMON_TEXI) \
+  $(srcdir)/p/doc/de/gpcs.texi
 
 # @@ Some files are not translated yet -- use the English versions for now
 GPC_TEXI_HR=\
- $(GPC_COMMON_TEXI) \
- $(srcdir)/p/doc/hr/gpc.texi \
- $(srcdir)/p/doc/hr/welcome.texi \
- $(srcdir)/p/doc/hr/purpose.texi \
- $(srcdir)/p/doc/hr/about.texi \
- $(srcdir)/p/doc/en/news.texi \
- $(srcdir)/p/doc/hr/faq.texi \
- $(srcdir)/p/doc/hr/libs.texi \
- $(srcdir)/p/doc/en/install.texi \
- $(srcdir)/p/doc/en/bpqstart.texi \
- $(srcdir)/p/doc/hr/invoke.texi \
- $(srcdir)/p/doc/en/programming.texi \
- $(srcdir)/p/doc/en/reference.texi \
- $(srcdir)/p/doc/hr/keywords.texi \
- $(srcdir)/p/doc/hr/support.texi \
- $(srcdir)/p/doc/en/todo.texi \
- $(srcdir)/p/doc/en/internals.texi \
- $(srcdir)/p/doc/hr/resources.texi \
- $(srcdir)/p/doc/hr/authors.texi \
- $(srcdir)/p/doc/en/copying.texi \
- $(srcdir)/p/doc/en/copying-lib.texi \
- $(srcdir)/p/doc/en/copying-demo.texi \
- $(srcdir)/p/doc/en/gnu.texi \
- $(srcdir)/p/doc/hr/gpcs.texi
+  $(GPC_COMMON_TEXI) \
+  $(srcdir)/p/doc/hr/gpc.texi \
+  $(srcdir)/p/doc/hr/welcome.texi \
+  $(srcdir)/p/doc/hr/purpose.texi \
+  $(srcdir)/p/doc/hr/about.texi \
+  $(srcdir)/p/doc/en/news.texi \
+  $(srcdir)/p/doc/hr/faq.texi \
+  $(srcdir)/p/doc/hr/libs.texi \
+  $(srcdir)/p/doc/en/install.texi \
+  $(srcdir)/p/doc/en/bpqstart.texi \
+  $(srcdir)/p/doc/hr/invoke.texi \
+  $(srcdir)/p/doc/en/programming.texi \
+  $(srcdir)/p/doc/en/reference.texi \
+  $(srcdir)/p/doc/hr/keywords.texi \
+  $(srcdir)/p/doc/hr/support.texi \
+  $(srcdir)/p/doc/en/todo.texi \
+  $(srcdir)/p/doc/en/internals.texi \
+  $(srcdir)/p/doc/hr/resources.texi \
+  $(srcdir)/p/doc/hr/authors.texi \
+  $(srcdir)/p/doc/en/copying.texi \
+  $(srcdir)/p/doc/en/copying-lib.texi \
+  $(srcdir)/p/doc/en/copying-demo.texi \
+  $(srcdir)/p/doc/en/gnu.texi \
+  $(srcdir)/p/doc/hr/gpcs.texi
 
 # @@ Some files are not translated yet -- use the English versions for now
 GPC_TEXI_ES=\
- $(GPC_COMMON_TEXI) \
- $(srcdir)/p/doc/en/gpc.texi \
- $(srcdir)/p/doc/en/welcome.texi \
- $(srcdir)/p/doc/en/purpose.texi \
- $(srcdir)/p/doc/en/about.texi \
- $(srcdir)/p/doc/en/news.texi \
- $(srcdir)/p/doc/en/faq.texi \
- $(srcdir)/p/doc/en/libs.texi \
- $(srcdir)/p/doc/en/install.texi \
- $(srcdir)/p/doc/en/bpqstart.texi \
- $(srcdir)/p/doc/en/invoke.texi \
- $(srcdir)/p/doc/en/programming.texi \
- $(srcdir)/p/doc/en/reference.texi \
- $(srcdir)/p/doc/en/keywords.texi \
- $(srcdir)/p/doc/en/support.texi \
- $(srcdir)/p/doc/en/todo.texi \
- $(srcdir)/p/doc/en/internals.texi \
- $(srcdir)/p/doc/en/resources.texi \
- $(srcdir)/p/doc/en/authors.texi \
- $(srcdir)/p/doc/en/copying.texi \
- $(srcdir)/p/doc/en/copying-lib.texi \
- $(srcdir)/p/doc/en/copying-demo.texi \
- $(srcdir)/p/doc/en/gnu.texi \
- $(srcdir)/p/doc/es/gpcs.texi
+  $(GPC_COMMON_TEXI) \
+  $(srcdir)/p/doc/en/gpc.texi \
+  $(srcdir)/p/doc/en/welcome.texi \
+  $(srcdir)/p/doc/en/purpose.texi \
+  $(srcdir)/p/doc/en/about.texi \
+  $(srcdir)/p/doc/en/news.texi \
+  $(srcdir)/p/doc/en/faq.texi \
+  $(srcdir)/p/doc/en/libs.texi \
+  $(srcdir)/p/doc/en/install.texi \
+  $(srcdir)/p/doc/en/bpqstart.texi \
+  $(srcdir)/p/doc/en/invoke.texi \
+  $(srcdir)/p/doc/en/programming.texi \
+  $(srcdir)/p/doc/en/reference.texi \
+  $(srcdir)/p/doc/en/keywords.texi \
+  $(srcdir)/p/doc/en/support.texi \
+  $(srcdir)/p/doc/en/todo.texi \
+  $(srcdir)/p/doc/en/internals.texi \
+  $(srcdir)/p/doc/en/resources.texi \
+  $(srcdir)/p/doc/en/authors.texi \
+  $(srcdir)/p/doc/en/copying.texi \
+  $(srcdir)/p/doc/en/copying-lib.texi \
+  $(srcdir)/p/doc/en/copying-demo.texi \
+  $(srcdir)/p/doc/en/gnu.texi \
+  $(srcdir)/p/doc/es/gpcs.texi
 
 RTS_GENERATED_FILES=\
- $(RTSSRCDIR)/acconfig.h \
- $(RTSSRCDIR)/configure \
- $(RTSSRCDIR)/rts-config.in \
- $(RTSSRCDIR)/rtsc.pas \
- $(RTSSRCDIR)/gpc.pas
+  $(RTSSRCDIR)/acconfig.h \
+  $(RTSSRCDIR)/configure \
+  $(RTSSRCDIR)/rts-config.in \
+  $(RTSSRCDIR)/rtsc.pas \
+  $(RTSSRCDIR)/gpc.pas
 
 GPC_GENERATED_FILES=\
- $(GPC_GENERATED_TEXI) \
- $(srcdir)/p/INSTALL \
- $(srcdir)/p/README \
- $(srcdir)/p/NEWS \
- $(srcdir)/p/FAQ \
- $(srcdir)/p/AUTHORS \
- $(srcdir)/p/COPYING \
- $(srcdir)/p/COPYING.LIB \
- $(srcdir)/p/COPYING.DEMO \
- $(srcdir)/p/lang.opt \
- $(srcdir)/p/pascal-lex.c \
- $(srcdir)/p/parse.c \
- $(srcdir)/p/parse.h \
- $(srcdir)/p/units/crtc.h \
- $(srcdir)/p/test/README \
- $(srcdir)/p/doc/generated/gpc-run.1 \
- $(RTS_GENERATED_FILES)
+  $(GPC_GENERATED_TEXI) \
+  $(srcdir)/p/INSTALL \
+  $(srcdir)/p/README \
+  $(srcdir)/p/NEWS \
+  $(srcdir)/p/FAQ \
+  $(srcdir)/p/AUTHORS \
+  $(srcdir)/p/COPYING \
+  $(srcdir)/p/COPYING.LIB \
+  $(srcdir)/p/COPYING.DEMO \
+  $(srcdir)/p/lang.opt \
+  $(srcdir)/p/pascal-lex.c \
+  $(srcdir)/p/parse.c \
+  $(srcdir)/p/parse.h \
+  $(srcdir)/p/units/crtc.h \
+  $(srcdir)/p/test/README \
+  $(srcdir)/p/doc/generated/gpc-run.1 \
+  $(RTS_GENERATED_FILES)
 
 GPC_DOC_DIRS_EN=-I $(srcdir)/p/doc -I $(srcdir)/p/doc/en -I $(srcdir)/p/doc/generated
 GPC_DOC_DIRS_DE=-I $(srcdir)/p/doc -I $(srcdir)/p/doc/de -I $(srcdir)/p/doc/generated
@@ -402,7 +402,7 @@ MAKEINFO_ES=LANG=es_ES LC_ALL=es_ES $(MAKEINFO) $(MAKEINFOFLAGS) $(GPC_DOC_DIRS_
 
 # Define the names for selecting Pascal in LANGUAGES.
 # @@ Removing "pascal.rts pascal.utils" here fails for a cross-built compiler
-Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) gpc-run \
+Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpc-run \
                specs pascal.generated-files pascal.docdemos \
                pascal.rts pascal.utils
 
@@ -430,7 +430,7 @@ pascal.update-release:
 	) > $(VERSION_FILENAME) || \
 	{ rm -f $(VERSION_FILENAME); false; }
 	@echo "New GPC release version is "$(gpc_version)
-	touch $(srcdir)/p/lang-specs.h # because GCC's Makefile doesn't know about p/version.h
+	touch $(srcdir)/p/lang-specs.h # because GCC's Makefile doesn't know about p/p-version.h
 	cd $(RTSSRCDIR) && $(MAKE) -f Makefile.in srcdir=. rts.update-release
 
 $(srcdir)/p/units/crtc.h: $(srcdir)/p/units/crt.inc
@@ -454,8 +454,8 @@ $(srcdir)/p/doc/generated/version.texi: $(VERSION_FILENAME)
 $(srcdir)/p/doc/generated/lang-options.texi: $(srcdir)/p/lang-options.h
 	$(srcdir)/p/script/lang-options2texi $(srcdir)/p/lang-options.h $(srcdir)/p/doc/generated/lang-options.texi
 
-$(srcdir)/p/doc/generated/keyword.texi: $(srcdir)/p/predef.h
-	$(srcdir)/p/script/keywords2texi $(srcdir)/p/predef.h $(srcdir)/p/doc/generated/keyword.texi
+$(srcdir)/p/doc/generated/keyword.texi: $(srcdir)/p/predef.def
+	$(srcdir)/p/script/keywords2texi $(srcdir)/p/predef.def $(srcdir)/p/doc/generated/keyword.texi
 
 $(srcdir)/p/doc/generated/gpcpas.texi: $(RTSSRCDIR)/gpc.pas
 	$(srcdir)/p/script/pas2texi $(RTSSRCDIR)/gpc.pas $(srcdir)/p/doc/generated/gpcpas.texi
@@ -549,7 +549,7 @@ p/stamp-docdemos: $(GPC_TEXI_EN)
 	$(STAMP) "$@"
 
 p/gpc.o: $(srcdir)/p/gpc.c $(CONFIG_H) multilib.h Makefile \
- $(lang_specs_files) $(srcdir)/p/version.h specs.h
+ $(lang_specs_files) $(srcdir)/p/p-version.h specs.h
 	$(CC) -DGPC $(ALL_CFLAGS) $(ALL_CPPFLAGS) $(GPC_ALL_WARNINGS) $(INCLUDES) \
 	$(DRIVER_DEFINES) -c `echo $(srcdir)/p/gpc.c | sed 's,^\./,,'` -o $@
 
@@ -575,9 +575,9 @@ $(srcdir)/p/doc/generated/gpc-run.1: $(srcdir)/p/script/gpc-run $(VERSION_FILENA
 # Headers and flags for GPC specific files.
 GPC_GBE_H=$(CONFIG_H) system.h tree.h input.h rtl.h flags.h output.h expr.h \
           except.h function.h convert.h toplev.h $(GPC_GCC_VERSION_H)
-P_H=$(GPC_GBE_H) p/gpc.h p/p-tree.def p/predef.h $(srcdir)/p/parse.h p/gbe.h
+P_H=$(GPC_GBE_H) p/gpc.h p/p-tree.def p/predef.def $(srcdir)/p/parse.h p/gbe.h
 ALL_GPC_FLAGS=$(ALL_CFLAGS) $(ALL_CPPFLAGS) $(GPC_ALL_WARNINGS) $(INCLUDES) \
-  -DGPC -DGPC_UNITS_DIR=\"$(libsubdir)/units\" -I$(srcdir)/p
+  -DGPC -DGPC_UNITS_DIR=\"$(unitsubdir)\" -I$(srcdir)/p
 
 # Headers and flags for patched backend files.
 GPC_BE_H=$(GPC_GBE_H) defaults.h machmode.h machmode.def real.h recog.h \
@@ -585,11 +585,8 @@ GPC_BE_H=$(GPC_GBE_H) defaults.h machmode.h machmode.def real.h recog.h \
          insn-attr.h insn-codes.h insn-config.h insn-flags.h
 ALL_GPC_GBE_FLAGS=$(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -DGPC
 
-gpcpp$(exeext): $(P) p/gpcpp.o version.o $(LIBDEPS)
-	rm -f $@
-	$(CC) $(ALL_GPC_FLAGS) $(LDFLAGS) -o $@ p/gpcpp.o version.o $(LIBS) $(EXTRA_LIBS)
-
-p/gpcpp.o: p/gpcpp.c p/version.h p/gpc-options.h p/lang-options.h $(CONFIG_H) system.h
+p/gpcpp.o: p/gpcpp.c p/p-version.h p/gpc-options.h p/lang-options.h \
+   $(CONFIG_H) system.h p/gpcpp.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 # Language-specific object files for GPC and patched GNU Back End (GBE)
@@ -600,7 +597,7 @@ GPC_OBJS=p/parse.o p/declarations.o p/expressions.o p/gpc-lex.o p/lang.o \
 	p/typecheck.o p/types.o p/convert.o p/dbxout.o p/dwarf2out.o \
 	p/expr.o p/fold-const.o p/function.o p/integrate.o p/optabs.o \
 	p/stor-layout.o p/toplev.o p/tree.o p/stmt.o p/emit-rtl.o \
-	p/varasm.o p/version.o
+	p/varasm.o p/version.o p/gpcpp.o
 
 # Exclude patched files from language-independent object file list.
 # Not necessary for gcc-3 since for a library (libbackend.a), the linker does this automatically.
@@ -623,7 +620,7 @@ p/stamp-gbe: stamp-objlist Makefile
 	 s: version.o::g;' "$<" > "$@" || { rm -f "$@"; false; }
 
 gpc1$(exeext): $(P) $(GPC_GCC_VERSION_DEPS) $(GPC_OBJS) $(LIBDEPS)
-	@grep "@@ PATCHED FOR GPC 20050130 @@" $(srcdir)/stor-layout.c > /dev/null || \
+	@grep "@@ PATCHED FOR GPC 20051114 @@" $(srcdir)/stor-layout.c > /dev/null || \
 	 { echo "*** There have been changes in the patch for GCC. Please start with a fresh"; \
 	   echo "*** copy of the GCC sources and do a new build, including configure."; \
 	   exit 1; } >&2
@@ -636,7 +633,7 @@ p/declarations.o: p/declarations.c $(P_H)
 p/expressions.o: p/expressions.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/gpc-lex.o: p/gpc-lex.c $(srcdir)/p/pascal-lex.c $(P_H)
+p/gpc-lex.o: p/gpc-lex.c $(srcdir)/p/pascal-lex.c p/gpcpp.h $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/handle-opts.c: $(srcdir)/p/opts.sum $(srcdir)/p/script/mk-handle-opts-c
@@ -645,31 +642,31 @@ p/handle-opts.c: $(srcdir)/p/opts.sum $(srcdir)/p/script/mk-handle-opts-c
 $(srcdir)/p/lang.opt: $(srcdir)/p/opts.sum $(srcdir)/p/script/mk-lang_opt
 	$(srcdir)/p/script/mk-lang_opt $(srcdir)/p/opts.sum "$@"
 
-p/lang.o: p/lang.c $(P_H) p/handle-opts.c
+p/lang.o: p/lang.c $(P_H) p/handle-opts.c p/gpcpp.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/module.o: p/module.c $(P_H) p/version.h
+p/module.o: p/module.c $(P_H) p/p-version.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DTARGET_NAME=\"$(target_alias)\" $<
 
 p/objects.o: p/objects.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/options.o: p/options.c $(P_H) p/lang-options.h p/gpc-options.h p/version.h
+p/options.o: p/options.c $(P_H) p/lang-options.h p/gpc-options.h p/p-version.h
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/parse.o: $(srcdir)/p/parse.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(BIG_SWITCHFLAG) $<
 
-p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.h
+p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.def
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/statements.o: p/statements.c $(P_H) $(RTSSRCDIR)/constants.h $(RTS_VERSION_FILENAME)
+p/statements.o: p/statements.c $(P_H) $(RTSSRCDIR)/constants.def $(RTS_VERSION_FILENAME)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DRTS_VERSION_CHECK="\"_p_GPC_RTS_VERSION_`cat $(RTSSRCDIR)/rts-version`\"" $<
 
 p/typecheck.o: p/typecheck.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
-p/types.o: p/types.c $(P_H) $(RTSSRCDIR)/constants.h
+p/types.o: p/types.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/convert.o: convert.c $(GPC_BE_H)
@@ -722,12 +719,18 @@ p/version.o: version.c $(GPC_BE_H)
 	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
 
 $(srcdir)/p/pascal-lex.c: $(srcdir)/p/pascal-lex.l
-	cd $(srcdir)/p && $(GPC_LEX) $(GPC_LEXFLAGS) -opascal-lex.c pascal-lex.l
+	if $(GPC_LEX) --version | grep -q '2\.5\.4'; then \
+	  echo "GPC: flex 2.5.4 is very old, working around it" >&2; \
+	  grep -v '^%option noyy[arf]' "$<" | $(GPC_LEX) $(GPC_LEXFLAGS) -t - | \
+	    sed '/^typedef .* yy_size_t;$$/d;s/malloc/xmalloc/g;s/realloc/xrealloc/g' > "$@" || { rm -f "$@"; false; }; \
+	else \
+	  cd $(srcdir)/p && $(GPC_LEX) $(GPC_LEXFLAGS) -opascal-lex.c pascal-lex.l; \
+	fi
 
 $(srcdir)/p/parse.c $(srcdir)/p/parse.h: $(srcdir)/p/parse.y
 	cd $(srcdir)/p && $(BISON) $(BISONFLAGS) -o parse.c parse.y
 
-pascal.utils: xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext) pascal.rts force
+pascal.utils: xgpc$(exeext) gpc1$(exeext) pascal.rts force
 	$(srcdir)/p/script/mkdir-p p/utils
 	srcdir=`cd $(srcdir) && pwd` && cd ./p/utils && $(MAKE) -f "$$srcdir/p/utils/Makefile" $(UTILS_FLAGS_TO_PASS) GCC_DIR="$$srcdir" all
 
@@ -762,7 +765,7 @@ p/rts/Makefile: $(GCC_PARTS) \
 	$$src/p/rts/configure --silent > /dev/null --srcdir=$$src/p/rts \
 	 `if [ x$(WITH_SHARED) = xyes ]; then echo '--with-shared'; fi`
 
-pascal.rts: p/rts/Makefile xgpc$(exeext) gpc1$(exeext) gpcpp$(exeext)
+pascal.rts: p/rts/Makefile xgpc$(exeext) gpc1$(exeext)
 	cd ./p/rts && $(MAKE) $(RTS_COMPILERS) $(RTS_FLAGS_TO_PASS) all
 
 # Build hooks:
@@ -894,8 +897,6 @@ pascal.html-dist: p/stamp-pascal-html
 # Install hooks:
 # gpc1 is installed elsewhere as part of $(COMPILERS).
 
-unitsubdir=$(libsubdir)/units
-
 pascal.install-info-man-dirs:
 	for directory in $(infodir) $(man1dir); do \
 	  $(srcdir)/p/script/mkdir-p -m a+rx $(DESTDIR)$$directory || exit 1; \
@@ -906,10 +907,6 @@ pascal.install-dir:
 	                 $(infodir) $(p_inst_docdir) $(p_inst_demodir) $(p_inst_docdemodir) $(man1dir); do \
 	  $(srcdir)/p/script/mkdir-p -m a+rx $(DESTDIR)$$directory || exit 1; \
 	done
-
-install-gpcpp: pascal.install-dir gpcpp$(exeext)
-	rm -f $(DESTDIR)$(LIBEXECSUBDIR)/gpcpp$(exeext)
-	$(INSTALL_PROGRAM) gpcpp$(exeext) $(DESTDIR)$(LIBEXECSUBDIR)/gpcpp$(exeext)
 
 # Install the driver program as $(target)-gpc
 # and also as either gpc (if native) or $(tooldir)/bin/gpc.
@@ -1088,7 +1085,7 @@ pascal.install-compiler: pascal.install-dir pascal
 	fi; exit 0
 
 pascal.install-normal: pascal.install-common pascal.install-compiler$(GPC_GCC_34_) \
- install-gpcpp pascal.install-utils pascal.install-lib pascal.install-man \
+ pascal.install-utils pascal.install-lib pascal.install-man \
  pascal.install-info pascal.install-units pascal.install-doc
 
 # This target will install GPC into an existing GCC installation,
@@ -1147,7 +1144,7 @@ p/stamp-test-Makefile: $(srcdir)/p/test/Makefile
 	  echo ""; \
 	  sed -e "s,^srcdir *=.*,srcdir=`cd $(srcdir)/p/test && pwd`,; \
 	          s,^PC *=.*,PC=`pwd`/xgpc -B`pwd`/,; \
-	          s,^TEST_PATHS *=.*,TEST_PATHS=-I ../rts --unit-path=`cd $(srcdir)/p/units && pwd`," \
+	          s,^TEST_PATHS *=.*,TEST_PATHS=-I ../rts --no-unit-path --unit-path=`cd $(srcdir)/p/units && pwd`," \
 	          $(srcdir)/p/test/Makefile; \
 	} > p/test/Makefile || { rm -f p/test/Makefile; false; }
 	$(STAMP) "$@"

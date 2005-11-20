@@ -89,11 +89,11 @@ $(srcdir)/acconfig.h: $(srcdir)/configure.in
 # being run next time. Though they cause the whole RTS to be rebuilt,
 # sometimes unnecessarily ...
 $(srcdir)/configure: $(srcdir)/configure.in $(srcdir)/acconfig.h
-	cd $(srcdir) && autoconf && touch configure
+	cd $(srcdir) && autoconf && touch configure && rm -rf autom4te.cache
 
 # @@ The `rm -f "$@"' is a workaround for a bug with `mv -f' under Cygwin.
 $(srcdir)/rts-config.in: $(srcdir)/configure.in $(srcdir)/acconfig.h
-	rm -f "$@"; cd $(srcdir) && autoheader && touch rts-config.in
+	rm -f "$@"; cd $(srcdir) && autoheader && touch rts-config.in && rm -rf autom4te.cache
 
 $(srcdir)/rtsc.pas: $(srcdir)/rts.c $(srcdir)/make-rtsc-pas
 	cd $(srcdir); ./make-rtsc-pas > "$@" || { rm -f "$@"; false; }
@@ -177,7 +177,7 @@ init.o init.lo: $(VERSION_FILENAME)
 # or a change to the RTS's interface modify rtsc.pas (don't just
 # touch it if you're going to distribute the patch), so the
 # following rule will force the complete RTS to be recompiled.
-$(OBJS) $(SO_OBJS): rtsc.pas constants.h rts-config.inc needed-options
+$(OBJS) $(SO_OBJS): rtsc.pas constants.def rts-config.inc needed-options
 
 # The Pascal source is not used, but we have to provide any.
 # `-x Preprocessed-Pascal /dev/null' works as well, except on mingw.

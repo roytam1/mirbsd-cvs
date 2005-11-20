@@ -55,8 +55,6 @@ type
 
 {@internal}
 
-{$include "constants.h"}
-
 const
   FileBufSize = 16384;
 
@@ -83,10 +81,10 @@ type
       LastEOLn,     { Last character read into buffer was EOLn (text files only) }
       LGet,         { Must do a get before next buffer reference (lazy I/O) }
       Excl,         { Open file in exclusive mode }
-      ROnly,        { File opened but is read only }
       Reading,      { File open for reading }
       Writing,      { File open for writing }
-      RW,           { File open for reading and writing }
+      Extending,    { File open for appending }
+      ROnly,        { File opened but is read only }
       WOnly,        { File opened but is write only }
       Tty: Boolean  { Device is a Tty: flush output before Get }
     end;
@@ -166,11 +164,11 @@ procedure GPC_Bind (f: GPC_FDR; protected var b: BindingType); attribute (name =
 function  GPC_Binding (protected f: GPC_FDR) = b: BindingType; attribute (name = '_p_Binding');
 procedure GPC_Close (f: GPC_FDR); attribute (name = '_p_Close');
 procedure GPC_Unbind (f: GPC_FDR); attribute (name = '_p_Unbind');
-procedure DoneFDR (f: GPC_FDR); attribute (name = '_p_DoneFDR');
 procedure GPC_Flush (f: GPC_FDR); attribute (name = '_p_Flush');
 procedure FlushAllFiles; attribute (name = '_p_FlushAllFiles');
 procedure Done_Files; attribute (name = '_p_Done_Files');
-procedure InitFDR (var ff: FDRRecord; InternalName: CString; Size, Flags: Integer); attribute (name = '_p_InitFDR');
+procedure InitFDR (var f: GPC_FDR; InternalName: CString; Size, Flags: Integer); attribute (name = '_p_InitFDR');
+procedure DoneFDR (var f: GPC_FDR); attribute (name = '_p_DoneFDR');
 procedure GPC_BlockWrite (f: GPC_FDR; IsAnyFile: Boolean; Buf: PChars0; Count: Cardinal; var Result: Cardinal); attribute (name = '_p_BlockWrite');
 procedure InternalOpen (f: GPC_FDR; FileName: CString; Length: Integer; BufferSize: Integer; Mode: TOpenMode); attribute (name = '_p_InternalOpen');
 procedure Initialize_Std_Files; attribute (iocritical, name = '_p_Initialize_Std_Files');
@@ -178,8 +176,6 @@ function  LazyGet (f: GPC_FDR): Pointer; attribute (ignorable, name = '_p_LazyGe
 function  LazyUnget (f: GPC_FDR): Pointer; attribute (name = '_p_LazyUnget');
 function  LazyTryGet (f: GPC_FDR): Pointer; attribute (name = '_p_LazyTryGet');
 procedure GPC_Get (f: GPC_FDR); attribute (name = '_p_Get');
-function  GPC_FileSize (f: GPC_FDR): FileSizeType; attribute (name = '_p_FileSize');
-function  GPC_Position (f: GPC_FDR) = Pos: FileSizeType; attribute (name = '_p_Position');
 function  GPC_EOF (f: GPC_FDR): Boolean; attribute (name = '_p_EOF');
 function  GPC_EOLn (f: GPC_FDR): Boolean; attribute (name = '_p_EOLn');
 procedure GPC_BlockRead (f: GPC_FDR; IsAnyFile: Boolean; Buf: PChars0; Count: Cardinal; var Result: Cardinal); attribute (name = '_p_BlockRead');
@@ -204,7 +200,7 @@ procedure Write_Integer  (f: GPC_FDR; Num: Integer;  Width: Integer); attribute 
 procedure Write_LongInt  (f: GPC_FDR; Num: LongInt;  Width: Integer); attribute (name = '_p_Write_LongInt');
 procedure Write_Cardinal (f: GPC_FDR; Num: Cardinal; Width: Integer); attribute (name = '_p_Write_Cardinal');
 procedure Write_LongCard (f: GPC_FDR; Num: LongCard; Width: Integer); attribute (name = '_p_Write_LongCard');
-procedure Write_Real (f: GPC_FDR; x: LongReal; Width: Integer; Precision: Integer); attribute (name = '_p_Write_Real');
+procedure Write_Real (f: GPC_FDR; x: LongReal; Width, Precision: Integer); attribute (name = '_p_Write_Real');
 procedure Write_Boolean (f: GPC_FDR; b: Boolean; Width: Integer); attribute (name = '_p_Write_Boolean');
 procedure Write_Enum (f: GPC_FDR; IDs: array of PString; v, Width: Integer); attribute (name = '_p_Write_Enum');
 procedure Write_Char (f: GPC_FDR; ch: Char; Width: Integer); attribute (name = '_p_Write_Char');
@@ -217,15 +213,17 @@ function  FormatString_Init (Flags, Count: Integer) = f: GPC_FDR; attribute (nam
 function  FormatString_Result (f: GPC_FDR; Format: Pointer): Pointer; attribute (name = '_p_FormatString_Result');
 procedure GPC_Page (f: GPC_FDR); attribute (name = '_p_Page');
 procedure GPC_Put (f: GPC_FDR); attribute (name = '_p_Put');
-procedure GPC_Truncate (f: GPC_FDR); attribute (name = '_p_Truncate');
 procedure GPC_SeekRead (f: GPC_FDR; NewPlace: FileSizeType); attribute (name = '_p_SeekRead');
 procedure GPC_SeekWrite (f: GPC_FDR; NewPlace: FileSizeType); attribute (name = '_p_SeekWrite');
 procedure GPC_SeekUpdate (f: GPC_FDR; NewPlace: FileSizeType); attribute (name = '_p_SeekUpdate');
 procedure GPC_Seek (f: GPC_FDR; NewPlace: FileSizeType); attribute (name = '_p_Seek');
-procedure GPC_DefineSize (f: GPC_FDR; NewSize: FileSizeType); attribute (name = '_p_DefineSize');
 procedure GPC_Update (f: GPC_FDR); attribute (name = '_p_Update');
+function  GPC_Position (f: GPC_FDR) = Pos: FileSizeType; attribute (name = '_p_Position');
+function  GPC_FileSize (f: GPC_FDR): FileSizeType; attribute (name = '_p_FileSize');
 function  GPC_LastPosition (f: GPC_FDR): FileSizeType; attribute (name = '_p_LastPosition');
 function  GPC_Empty (f: GPC_FDR): Boolean; attribute (name = '_p_Empty');
+procedure GPC_DefineSize (f: GPC_FDR; NewSize: FileSizeType); attribute (name = '_p_DefineSize');
+procedure GPC_Truncate (f: GPC_FDR); attribute (name = '_p_Truncate');
 function  GetErrorMessageFileName (protected var f: GPC_FDR): TString; attribute (name = '_p_GetErrorMessageFileName');
 procedure GPC_Erase (f: GPC_FDR); attribute (name = '_p_Erase');
 procedure SetFileTime (f: GPC_FDR; AccessTime: UnixTimeType; ModificationTime: UnixTimeType); attribute (name = '_p_SetFileTime');
@@ -352,7 +350,7 @@ type
   occurred. If events have occurred for several files, is it
   undefined which of these file's index is returned. If no event
   occurs until the timeout, 0 is returned. If an error occurs or the
-  target system does not have a select() system call and Events is
+  target system does not have a `select' system call and Events is
   not Null, a negative value is returned. In the Occurred field of
   the elements of Events, events that have occurred are set. The
   state of events not wanted is undefined.
@@ -426,7 +424,15 @@ function  GetTerminalName (protected var f: GPC_FDR): TString; attribute (name =
 
 implementation
 
+{$ifndef HAVE_NO_RTS_CONFIG_H}
+{$include "rts-config.inc"}
+{$endif}
+
+#define RTS_CONSTANT(NAME, VALUE) const NAME = VALUE;
+{$include "constants.def"}
+
 const
+  HaveFCntl = {$ifdef HAVE_FCNTL} True {$else} False {$endif};
   ValInternalError = 999;
   OpenErrorCode: array [TOpenMode] of Integer = (904, 442, 443, 445, 442, 443, 444);
   NewPage = "\f";
@@ -508,31 +514,9 @@ begin
   f^.Status.Undef := True
 end;
 
-function IsReadable (f: GPC_FDR): Boolean; attribute (inline);
-begin
-  IsReadable := f^.Status.Reading or f^.Status.ROnly or f^.Status.RW
-end;
-
-function IsWritable (f: GPC_FDR): Boolean; attribute (inline);
-begin
-  IsWritable := f^.Status.Writing or f^.Status.WOnly or f^.Status.RW
-end;
-
 function IsOpen (f: GPC_FDR): Boolean; attribute (inline);
 begin
-  IsOpen := f^.Status.Reading or f^.Status.ROnly or f^.Status.Writing or f^.Status.WOnly or f^.Status.RW
-end;
-
-{ Calculates the byte where the given position starts in the file. }
-function Position2Byte (f: GPC_FDR; Pos: FileSizeType): FileSizeType; attribute (inline);
-begin
-  Position2Byte := Pos * f^.FilSiz
-end;
-
-{ Calculates the number of the Pascal file component the byte is in. }
-function Byte2Position (f: GPC_FDR; BytePos: FileSizeType): FileSizeType; attribute (inline);
-begin
-  Byte2Position := BytePos div f^.FilSiz
+  IsOpen := f^.Status.Reading or f^.Status.Writing
 end;
 
 procedure InitTFDD (f: GPC_FDR); attribute (inline);
@@ -554,10 +538,10 @@ end;
 procedure ReInitFDR (f: GPC_FDR); attribute (inline);
 begin
   ResetStatus (f);
-  f^.Status.ROnly := False;
   f^.Status.Reading := False;
   f^.Status.Writing := False;
-  f^.Status.RW := False;
+  f^.Status.Extending := False;
+  f^.Status.ROnly := False;
   f^.Status.WOnly := False;
   f^.Status.Tty := False;
   f^.BufPtr := PChars0 (@f^.InternalBuffer);
@@ -575,7 +559,7 @@ end;
 procedure FlushBuffer (f: GPC_FDR); attribute (inline);
 begin
   { empty -- will be needed when we add write buffers }
-  { if IsWritable (f) then ... }
+  { if f^.Status.Writing then ... }
   Discard (f)
 end;
 
@@ -819,10 +803,7 @@ begin
         end
     end
   else if f^.CloseProc <> nil then
-    begin
-      DO_RETURN_ADDRESS (f^.CloseProc (f^.PrivateData^));
-      if not (f^.Status.Reading or f^.Status.Writing or f^.Status.RW) then Exit
-    end
+    DO_RETURN_ADDRESS (f^.CloseProc (f^.PrivateData^))
 end;
 
 procedure GPC_Close (f: GPC_FDR);
@@ -938,7 +919,7 @@ begin
   f^.Status.Tty := GetTerminalNameHandle (f^.Handle, False, TtyDeviceName) <> nil
 end;
 
-procedure DoneFDR (f: GPC_FDR);
+procedure DoneFDR (var f: GPC_FDR);
 begin
   SaveReturnAddress;
   GPC_Close (f);
@@ -950,6 +931,7 @@ begin
   if f^.Status.IsBindable then GPC_Unbind (f);
   if f^.FilBuf <> PChars0 (@f^.DefaultFilBuf) then InternalDispose (f^.FilBuf);
   InternalDispose (f);
+  f := nil;
   RestoreReturnAddress
 end;
 
@@ -981,7 +963,7 @@ procedure GPC_Flush (f: GPC_FDR);
 begin
   if InOutRes <> 0 then Exit;
   FlushBuffer (f);
-  if IsWritable (f) and (f^.FlushProc <> nil) then
+  if f^.Status.Writing and (f^.FlushProc <> nil) then
     if f^.FlushProc = DefaultFlushProc then
       FlushHandle (f^.Handle)
     else
@@ -1001,12 +983,19 @@ begin
 end;
 
 procedure Done_Files;
+var f: GPC_FDR;
 begin
-  FlushAllFiles ();
+  FlushAllFiles;
   { Clean up all open files. Note: Any FDR cleaned up might have
     a TFDD whose close routine may close other files. However,
-    FDRList will always be valid and is advanced in Close1(). }
-  while FDRList <> nil do DoneFDR (FDRList^.Item)
+    FDRList will always be valid and is advanced in Close1. }
+  while FDRList <> nil do
+    begin
+      { The argument to DoneFDR is a var parameter, and the list item is
+        disposed from Close1, so make a copy here! }
+      f := FDRList^.Item;
+      DoneFDR (f)
+    end
 end;
 
 function FileHandle (protected var f: GPC_FDR): Integer;
@@ -1016,12 +1005,10 @@ end;
 
 { Name: internal name in program
   Size: file buffer size; in bits, if packed, else in bytes
-  flags: see constants.h }
-procedure InitFDR (var ff: FDRRecord; InternalName: CString; Size, Flags: Integer);
-var f: GPC_FDR;
+  flags: see constants.def }
+procedure InitFDR (var f: GPC_FDR; InternalName: CString; Size, Flags: Integer);
 begin
   f := InternalNew (SizeOf (f^));
-  ff.f := f;
   if InternalName = nil then InternalError (905);  { File has no internal name }
   ClearStatus (f);
   if (Flags and fkind_TEXT)     <> 0 then f^.Status.Text := True;
@@ -1070,7 +1057,7 @@ end;
 
 function CheckWritable (f: GPC_FDR): Boolean; attribute (inline, ignorable);
 begin
-  if IsWritable (f) then
+  if f^.Status.Writing then
     CheckWritable := True
   else
     IOERROR_FILE (450, f, False, False)  { %s is not open for writing }
@@ -1078,7 +1065,7 @@ end;
 
 function CheckReadable (f: GPC_FDR): Boolean; attribute (inline, ignorable);
 begin
-  if IsReadable (f) then
+  if f^.Status.Reading then
     CheckReadable := True
   else
     IOERROR_FILE (452, f, False, False)  { %s is not open for reading }
@@ -1231,28 +1218,28 @@ end;
 procedure UnGetCh (f: GPC_FDR; ch: Integer); attribute (inline);
 begin
   if ch < 0 then Exit;
-  if f^.Status.LGet then
-    begin
-      f^.Status.LGet := False;
-      f^.FilBuf^[0] := Chr (ch)
-    end
-  else
-    { I hope this should never happen. Then we can remove it. -- Frank, 20010422 }
-    InternalError (903);  { read buffer underflow }
+  Assert (f^.Status.LGet);
+  f^.Status.LGet := False;
+  f^.FilBuf^[0] := Chr (ch)
 end;
 
 { Move the file pointer to the requested Pascal record of the file. n specifies
   how much to move, negative is backward, positive is forward. }
-function SeekInternal (f: GPC_FDR; n: FileSizeType; Whence: Integer): FileSizeType; attribute (ignorable);
+function SeekInternal (f: GPC_FDR; n: FileSizeType; Whence: Integer): Boolean; attribute (ignorable);
 var ByteNum: FileSizeType;
 begin
+  if (Whence = SeekRelative) and not f^.Status.LGet then Dec (n);
+  ByteNum := n * f^.FilSiz;
+  if (Whence = SeekRelative) and (f^.BufPos < f^.BufSize) then Dec (ByteNum, f^.BufSize - f^.BufPos);
   ClearBuffer (f);
   f^.Status.LGet := True;
-  if Whence <> SeekAbsolute then
-    ByteNum := n * f^.FilSiz
+  if (Whence = SeekRelative) and (ByteNum = 0) then
+    SeekInternal := True  { omit nops }
   else
-    ByteNum := Position2Byte (f, n);
-  SeekInternal := SeekHandle (f^.Handle, ByteNum, Whence)
+    begin
+      FlushBuffer (f);
+      SeekInternal := SeekHandle (f^.Handle, ByteNum, Whence) >= 0
+    end
 end;
 
 { Open a file in Mode, depending on its binding etc.
@@ -1350,7 +1337,7 @@ procedure Open (f: GPC_FDR; Mode: TOpenMode);
         if (fout = 1) or (WriteHandle (1, @Buf[1], l) <> l) then
           begin
             if Tty >= 0 then Discard (CloseHandle (Tty));
-            IOERROR_FILE (419, f, False, '')  { cannot prompt user for external file name binding for %s }
+            IOERROR_FILE (419, f, False, '')  { cannot prompt user for external file name for %s }
           end;
         fin := 0
       end;
@@ -1366,7 +1353,7 @@ procedure Open (f: GPC_FDR; Mode: TOpenMode);
         if n < 0 then
           begin
             if Tty >= 0 then Discard (CloseHandle (Tty));
-            IOERROR_FILE (420, f, False, '')  { cannot query user for external file name binding for %s }
+            IOERROR_FILE (420, f, False, '')  { cannot query user for external file name for %s }
           end
       end;
     if Tty >= 0 then Discard (CloseHandle (Tty));
@@ -1420,7 +1407,7 @@ var
 begin
   if InOutRes <> 0 then Exit;
   SaveReturnAddress;
-  if f^.BufPtr = nil then InternalError (906);  { InitFDR has not been called for file }
+  if (f = nil) or (f^.BufPtr = nil) then InternalError (906);  { InitFDR has not been called for file }
   ResetStatus (f);
   if f^.OpenProc <> DefaultOpenProc then
     begin
@@ -1467,24 +1454,32 @@ begin
             since the last opening. }
           if f^.Status.ROnly or f^.Status.WOnly then
             TempCloseFlag := True
-          else if Mode = fo_Append then
-            SeekInternal (f, 0, SeekFileEnd)  { Start appending }
-          else if Mode <> fo_Rewrite then
-            SeekInternal (f, 0, SeekAbsolute)  { Start reading or updating }
           else
             begin
-              SeekInternal (f, 0, SeekAbsolute);  { Start writing }
-              if TruncateHandle (f^.Handle, 0) < 0 then
-                { If truncation failed (or isn't supported), emulate the behaviour }
-                TempCloseFlag := True
+              if f^.Status.Extending <> (Mode = fo_Append) then
+                begin
+                  f^.Status.Extending := Mode = fo_Append;
+                  if HaveFCntl then SetFileMode (f^.Handle, MODE_APPEND, f^.Status.Extending)
+                end;
+              if Mode = fo_Append then
+                SeekInternal (f, 0, SeekFileEnd)  { Start appending (maybe redundant, but just to be safe) }
+              else if Mode <> fo_Rewrite then
+                SeekInternal (f, 0, SeekAbsolute)  { Start reading or updating }
+              else
+                begin
+                  SeekInternal (f, 0, SeekAbsolute);  { Start writing }
+                  if TruncateHandle (f^.Handle, 0) < 0 then
+                    { If truncation failed (or isn't supported), emulate the behaviour }
+                    TempCloseFlag := True
+                end
             end;
           if TempCloseFlag then
             begin
               Close1 (f);
-              f^.Status.ROnly := False;
               f^.Status.Reading := False;
               f^.Status.Writing := False;
-              f^.Status.RW := False;
+              f^.Status.Extending := False;
+              f^.Status.ROnly := False;
               f^.Status.WOnly := False;
               f^.Status.Tty := False;
               if InOutRes <> 0 then
@@ -1547,16 +1542,15 @@ begin
                     fo_Rewrite:
                       TryOpen (f, FileName, (FileMode and FileMode_Rewrite_WriteOnly) = 0, MODE_READ or MODE_WRITE or MODE_CREATE or MODE_TRUNCATE,
                         MODE_WRITE or MODE_CREATE or MODE_TRUNCATE, 'file is write only');
-                    fo_Append,
+                    fo_Append:
+                      TryOpen (f, FileName, (FileMode and FileMode_Extend_WriteOnly) = 0, MODE_READ or MODE_WRITE or MODE_CREATE or (MODE_APPEND * Ord (HaveFCntl)),
+                        MODE_WRITE or MODE_CREATE or MODE_APPEND, 'file is write only');
                     fo_SeekWrite:
-                        { do not use O_APPEND for fo_Append because it does not allow
-                           writing before the current end of file even after a seek }
-                      TryOpen (f, FileName, (Mode = fo_SeekWrite) or ((FileMode and FileMode_Extend_WriteOnly) = 0), MODE_READ or MODE_WRITE or MODE_CREATE,
-                        MODE_WRITE or MODE_CREATE, 'file is write only');
+                      TryOpen (f, FileName, True, MODE_READ or MODE_WRITE or MODE_CREATE, MODE_WRITE or MODE_CREATE, 'file is write only');
                     fo_SeekUpdate:
                       TryOpen (f, FileName, True, MODE_READ or MODE_WRITE, -1, '');
                     else
-                      InternalError (904);  { invalid file open mode }
+                      InternalError (904)  { invalid file open mode }
                   end
                 end
             end;
@@ -1572,9 +1566,9 @@ begin
         end;
       CheckFileType (f)
     end;
-  if (Mode = fo_Rewrite) or (Mode = fo_SeekWrite) or (Mode = fo_Append) then f^.Status.Writing := True;
-  if (Mode = fo_Reset) or (Mode = fo_SeekRead) or (Mode = fo_SeekUpdate) or not (f^.Status.Text and f^.Status.WOnly) then f^.Status.Reading := True;
-  if not (f^.Status.ROnly or f^.Status.WOnly or f^.Status.Text) then f^.Status.RW := True;
+  f^.Status.Reading := (Mode in [fo_Reset, fo_SeekRead, fo_SeekUpdate]) or not (f^.Status.Text and f^.Status.WOnly);
+  f^.Status.Writing := (Mode in [fo_Rewrite, fo_Append, fo_SeekWrite, fo_SeekUpdate]) or not (f^.Status.Text and f^.Status.ROnly);
+  f^.Status.Extending := Mode = fo_Append;
   f^.Status.Unread := False;
   ClearBuffer (f);
   f^.Flags := 0;
@@ -1599,7 +1593,7 @@ begin
           begin
             if f^.Status.WOnly then
               RuntimeWarningCString ('appending to write only text file `%s''; trailing EOLn not checked', f^.FilNam)
-            else if SeekInternal (f, -1, SeekFileEnd) >= 0 then
+            else if SeekInternal (f, -1, SeekFileEnd) then
               begin
                 Discard (InternalGetC (f));
                 {$ifdef __EMX__}
@@ -1612,7 +1606,7 @@ begin
         f^.Status.EOF := True;
         f^.Status.LGet := True;
         f^.Status.EOLn := False;
-        if { @@ TFDD } (f^.OpenProc = DefaultOpenProc) and (SeekInternal (f, 0, SeekFileEnd) < 0) then
+        if { @@ TFDD } (f^.OpenProc = DefaultOpenProc) and not SeekInternal (f, 0, SeekFileEnd) then
           begin
             {$if False}  { @@@@ pipes, ttys? }
             RestoreReturnAddress;
@@ -1660,16 +1654,14 @@ end;
 
 procedure Initialize_Std_Files;
 const StdFileFlags = fkind_TEXT or fkind_EXTERN or fkind_BINDABLE;
-var
-  InitStdFilesDone: Boolean = False; attribute (static);
-  r: FDRRecord;
+var InitStdFilesDone: Boolean = False; attribute (static);
 begin
   if InitStdFilesDone then Exit;
   InitStdFilesDone := True;
   SaveReturnAddress;
-  InitFDR (r, 'StdErr', 1, StdFileFlags); GPC_StdErr := r.f; InternalOpen (GPC_StdErr, nil, 0, -1, fo_Rewrite);
-  InitFDR (r, 'Output', 1, StdFileFlags); GPC_Output := r.f; InternalOpen (GPC_Output, nil, 0, -1, fo_Rewrite);
-  InitFDR (r, 'Input',  1, StdFileFlags); GPC_Input  := r.f; InternalOpen (GPC_Input,  nil, 0, -1, fo_Reset);
+  InitFDR (GPC_StdErr, 'StdErr', 1, StdFileFlags); InternalOpen (GPC_StdErr, nil, 0, -1, fo_Rewrite);
+  InitFDR (GPC_Output, 'Output', 1, StdFileFlags); InternalOpen (GPC_Output, nil, 0, -1, fo_Rewrite);
+  InitFDR (GPC_Input,  'Input',  1, StdFileFlags); InternalOpen (GPC_Input,  nil, 0, -1, fo_Reset);
   RestoreReturnAddress
 end;
 
@@ -1781,10 +1773,9 @@ function LazyUnget (f: GPC_FDR): Pointer;
 begin
   if (InOutRes = 0) and not f^.Status.LGet then
     begin
-      SeekInternal (f, -1, SeekRelative);
+      SeekInternal (f, 0, SeekRelative);  { SeekInternal checks and resets the buffer itself }
       f^.Status.EOF := False;
       f^.Status.EOLn := False;
-      f^.Status.LGet := True;
       f^.Status.Undef := True
     end;
   LazyUnget := f^.FilBuf
@@ -1805,7 +1796,7 @@ begin
   {$endif}
   { If the file buffer contents is lazy, validate it }
   if f^.Status.LGet then
-    if IsReadable (f) and not f^.Status.EOF then
+    if f^.Status.Reading and not f^.Status.EOF then
       begin
         GetN (f);
         { CheckReadableNotEOF (f)  (fails eof1.pas) }
@@ -1835,42 +1826,6 @@ begin
   f^.Status.LGet := True
 end;
 
-function GPC_FileSize (f: GPC_FDR): FileSizeType;
-var OrigPos, LastPos: FileSizeType;
-begin
-  if InOutRes <> 0 then Return 0;
-  if not IsOpen (f) then IOERROR_FILE (407, f, False, 0);  { % has not been opened }
-  FlushBuffer (f);
-  OrigPos := SeekHandle (f^.Handle, 0, SeekRelative);
-  LastPos := -1;
-  if OrigPos >= 0 then
-    begin
-      LastPos := SeekHandle (f^.Handle, 0, SeekFileEnd);
-      Discard (SeekHandle (f^.Handle, OrigPos, SeekAbsolute))
-    end;
-  if LastPos >= 0 then
-    GPC_FileSize := Byte2Position (f, LastPos)
-  else
-    IOERROR_FILE (446, f, True, 0)  { cannot get the size of % }
-end;
-
-{ Position (f) := Succ (a, Length (f.L))
-  This function returns the element number, always counted from zero
-  (since the RTS does not know the lower bound of the direct access
-  file type), so the compiler needs to adjust the value before it is
-  returned to the user. }
-function GPC_Position (f: GPC_FDR) = Pos: FileSizeType;
-var NumBytes: FileSizeType;
-begin
-  if InOutRes <> 0 then Return 0;
-  if not IsOpen (f) then IOERROR_FILE (407, f, False, 0);  { % has not been opened }
-  NumBytes := SeekHandle (f^.Handle, 0, SeekRelative);
-  if NumBytes < 0 then IOERROR_FILE (417, f, True, 0);  { `FilePos'' could not get file position of % }
-  if f^.BufPos < f^.BufSize then Dec (NumBytes, f^.BufSize - f^.BufPos);
-  Pos := Byte2Position (f, NumBytes);
-  if not (f^.Status.Undef or f^.Status.LGet) then Dec (Pos)
-end;
-
 function GPC_EOF (f: GPC_FDR): Boolean;
 begin
   if InOutRes <> 0 then
@@ -1879,7 +1834,7 @@ begin
     IOERROR_FILE (455, f, False, True)  { `EOF' tested for unopened %s }
   else
     begin
-      if not f^.Status.EOF and f^.Status.LGet and IsReadable (f) then
+      if not f^.Status.EOF and f^.Status.LGet and f^.Status.Reading then
       GetN (f);
       GPC_EOF := (InOutRes <> 0) or f^.Status.EOF
     end
@@ -1895,7 +1850,7 @@ begin
     IOERROR_FILE (458, f, False, True)  { `EOLn' applied to non-text %s }
   else
     begin
-      if not f^.Status.EOF and f^.Status.LGet and IsReadable (f) then
+      if not f^.Status.EOF and f^.Status.LGet and f^.Status.Reading then
         begin
           { EOLnResetHack: If EOLn is tested on a terminal device where
             nothing has been read yet, insert an EOLn. }
@@ -2292,7 +2247,7 @@ begin
   if StrEqualCase (v, TrueString) then
     Read_Boolean := True
   else if not StrEqualCase (v, FalseString) then
-    IOERROR (566, False, False)  { invalid Boolean value read }
+    IOERROR (565, False, False)  { invalid Boolean value read }
 end;
 
 function Read_Enum (f: GPC_FDR; IDs: array of PString) = Res: Integer;
@@ -2302,7 +2257,7 @@ begin
   Res := 0;
   if InOutRes <> 0 then Exit;
   while (Res <= High (IDs)) and not StrEqualCase (v, IDs[Res]^) do Inc (Res);
-  if Res > High (IDs) then IOERROR (567, False, 0)  { invalid enumaration value read }
+  if Res > High (IDs) then IOERROR (566, False, 0)  { invalid enumaration value read }
 end;
 
 { Read a string up to the capacity or a newline, whichever comes first.
@@ -2338,7 +2293,7 @@ end;
 
 procedure Read_Line (f: GPC_FDR);
 begin
-  if (InOutRes = 0) and IsReadable (f) and f^.Status.EOF and not f^.Status.LastEOLn then
+  if (InOutRes = 0) and f^.Status.Reading and f^.Status.EOF and not f^.Status.LastEOLn then
     begin
       f^.Status.LastEOLn := True;
       Exit
@@ -2383,6 +2338,7 @@ begin
     end;
   f^.Status.LGet := True;
   f^.Status.Text := True;
+  f^.Status.Reading := True;
   f^.Status.ROnly := True;
   if f^.BufPos >= f^.BufSize then
     begin
@@ -2452,14 +2408,6 @@ begin
       InternalWrite (PChars0 (@s[i]), Size, f);
       f^.BufPos := 0
     end
-end;
-
-procedure Write_Flush (f: GPC_FDR);
-begin
-  if InOutRes <> 0 then Exit;
-  if f^.BufPos <> 0 then InternalWrite (f^.BufPtr, f^.BufPos, f);
-  ClearBuffer (f);
-  FlushBuffer (f)
 end;
 
 procedure FormatString_StartItem (f: GPC_FDR);
@@ -2551,10 +2499,11 @@ DEFWRITEINT (Write_Cardinal, Cardinal, Cardinal, False)
 DEFWRITEINT (Write_LongCard, LongCard, LongCard, False)
 {$endlocal}
 
-procedure Write_Real (f: GPC_FDR; x: LongReal; Width: Integer; Precision: Integer);
+procedure Write_Real (f: GPC_FDR; x: LongReal; Width, Precision: Integer);
 var
   FirstChar, ExpSign: Char;
-  BufPos, TempPos, CharFirst, Count, Exp, AddExp, ExpBufPos, ExpLength, DigitsLeft, DigitsRight, i: Integer;
+  BufPos, TempPos, Count, Exp0, Exp, ExpBufPos, DigitsLeft, DigitsRight, i: Integer;
+  AddExp: Boolean;
   v, DigitVal: LongReal;
   Res: PString;
   ExpBuf: array [1 .. MaxLongestIntWidth + 3] of Char;
@@ -2602,44 +2551,48 @@ begin
       Exit
     end;
 
-  { Preparations for possible second try; see below }
-  AddExp := 0;
-  repeat
-    v := x;
+  { Check if there must be a leading minus sign or blank. No blank in front
+    of positive Reals with precision given according to ISO. }
+  if x < 0 then
+    begin
+      FirstChar := '-';
+      x := -x
+    end
+  else if (Precision < 0) and ((f^.Flags and REAL_NOBLANK_MASK) = 0) then
+    FirstChar := ' '
+  else
+    FirstChar := #0;
 
-    { Check if there must be a leading minus sign or blank }
-    if v < 0 then
+  { Find the exponent }
+  Exp0 := 0;
+  DigitVal := 1;
+  if x >= 1 then
+    while DigitVal <= x / 10 do
       begin
-        FirstChar := '-';
-        CharFirst := 1;
-        v := -v
+        DigitVal := DigitVal * 10;
+        Inc (Exp0)
       end
-    { No blank in front of positive Reals with precision given.
-      ISO Standard is *very* consistent. ;-}
-    else
+  else if (Precision < 0) and {$local W no-float-equal} (x <> 0) {$endlocal} then
+    while x < 1 do
       begin
-        FirstChar := ' ';
-        if (Precision < 0) and ((f^.Flags and REAL_NOBLANK_MASK) = 0) then CharFirst := 1 else CharFirst := 0
+        x := x * 10;
+        Dec (Exp0)
       end;
 
-    { Find the exponent }
-    Exp := 0;
-    DigitVal := 1;
-    if v >= 1 then
-      while DigitVal <= v / 10 do
-        begin
-          DigitVal := DigitVal * 10;
-          Inc (Exp)
-        end
-    else if (Precision < 0) and {$local W no-float-equal} (v <> 0) {$endlocal} then
-      while v < 1 do
-        begin
-          v := v * 10;
-          Dec (Exp)
-        end;
+  if Precision < 0 then
+    i := Max (RealDefaultDigits, Abs (Width))
+  else
+    i := Precision + Exp0 + 2;
+  var s: array [1 .. i + High (ExpBuf) + 3] of Char;
+
+  { Prepare for a possible second try; see below }
+  AddExp := False;
+  repeat
+    v := x;
+    Exp := Exp0;
 
     { Second try: exponent must be bigger; see below }
-    if AddExp = 1 then
+    if AddExp then
       begin
         DigitVal := DigitVal * 10;
         Inc (Exp)
@@ -2666,16 +2619,15 @@ begin
         ExpPut (ExpSign);
         if (f^.Flags and REAL_CAPITAL_EXP_MASK) <> 0 then ExpPut ('E') else ExpPut ('e')
       end;
-    ExpLength := High (ExpBuf) + 1 - ExpBufPos;
 
-    { Find number of digits to print before and after the (floating) point }
+    { Determine number of digits to print before and after the (floating) point }
     if Precision < 0 then
       begin
         DigitsLeft := 1;
         if Width = Low (Integer) then
           DigitsRight := RealDefaultDigits
         else
-          DigitsRight := Max (1, Width - (CharFirst + DigitsLeft + 1 + ExpLength))
+          DigitsRight := Max (1, Abs (Width) - (Ord (FirstChar <> #0) + DigitsLeft + 1 + (High (ExpBuf) + 1 - ExpBufPos)))
       end
     else
       begin
@@ -2683,9 +2635,8 @@ begin
         DigitsRight := Precision
       end;
 
-    var s: array [1 .. CharFirst + DigitsLeft + 1 + DigitsRight + ExpLength + 1] of Char;
     BufPos := 1;
-    if CharFirst > 0 then
+    if FirstChar <> #0 then
       begin
         s[BufPos] := FirstChar;
         Inc (BufPos)
@@ -2709,7 +2660,6 @@ begin
       end;
 
     { Rounding }
-    AddExp := 0;
     if v >= 5 * DigitVal then
       begin
         TempPos := BufPos - 1;
@@ -2722,26 +2672,29 @@ begin
             if Count = DigitsLeft then Dec (TempPos)
           end;
         if Count > 0 then
-          Inc (s[TempPos])
-        else
-          { If the mantissa was 999.999, and the number must be rounded up,
-            we have to start all over with a bigger exponent }
-          AddExp := 1
-      end;
-
-    if AddExp = 0 then
-      begin
-        { Copy the exponent to the real buffer }
-        for Count := ExpBufPos to High (ExpBuf) do
           begin
-            s[BufPos] := ExpBuf[Count];
-            Inc (BufPos)
-          end;
-
-        WritePadded (f, s[1 .. BufPos - 1], Width, False)
+            Inc (s[TempPos]);
+            AddExp := False
+          end
+        else
+          begin
+            { If the mantissa was 999.999, and the number must be rounded up,
+              we have to start all over with a bigger exponent }
+            Assert (not AddExp);
+            AddExp := True
+          end
       end
+    else
+      AddExp := False
+  until not AddExp;
 
-  until AddExp = 0
+  { Copy the exponent to the real buffer }
+  for Count := ExpBufPos to High (ExpBuf) do
+    begin
+      s[BufPos] := ExpBuf[Count];
+      Inc (BufPos)
+    end;
+  WritePadded (f, s[1 .. BufPos - 1], Width, False)
 end;
 
 procedure Write_Boolean (f: GPC_FDR; b: Boolean; Width: Integer);
@@ -2784,11 +2737,18 @@ begin
   WriteToBuf (f, NewLineChar, SizeOf (NewLineChar))
 end;
 
+procedure Write_Flush (f: GPC_FDR);
+begin
+  if InOutRes <> 0 then Exit;
+  if f^.BufPos <> 0 then InternalWrite (f^.BufPtr, f^.BufPos, f);
+  ClearBuffer (f);
+  FlushBuffer (f)
+end;
+
 procedure Write_Init (f: GPC_FDR; Flags: Integer);
 begin
   if InOutRes <> 0 then Exit;
   CheckWritable (f);
-  { @@ FlushBuffer (f); }
   f^.BufSize := FileBufSize;
   f^.BufPos := 0;
   f^.Flags := Flags
@@ -2801,6 +2761,7 @@ begin
   f^.BufPtr := s;
   f^.BufSize := Capacity;
   f^.BufPos := 0;
+  f^.Status.Writing := True;
   f^.Flags := Flags or WRITE_STRING_MASK
 end;
 
@@ -2865,9 +2826,8 @@ procedure GPC_Put (f: GPC_FDR);
 begin
   FlushBuffer (f);
   InternalWrite (f^.FilBuf, f^.FilSiz, f);
-  if InOutRes <> 0 then Exit;
-  { f^ set undefined if EOF or mode is generation }
-  if f^.Status.EOF or not f^.Status.RW then f^.Status.Undef := True
+  { Undef is set if EOF or mode is generation }
+  if f^.Status.EOF then f^.Status.Undef := True
 end;
 
 { Note: Extended Pascal defines the following operations only for direct access
@@ -2880,22 +2840,6 @@ end;
   However, GPC allows the operations also to other files capable of seeking
   (with an optional warning). These non-direct access files may be thought of
   as the following direct access file type: `file [0 .. MaxInt] of <type>' }
-
-procedure GPC_Truncate (f: GPC_FDR);
-var Pos: FileSizeType;
-begin
-  if InOutRes <> 0 then Exit;
-  if not IsOpen (f) then
-    IOERROR_FILE (407, f, False,)  { % has not been opened }
-  else if f^.Status.ROnly then
-    IOERROR_FILE (438, f, False,);  { `Truncate' or `DefineSize' applied to read only % }
-  Pos := GPC_Position (f);
-  if InOutRes <> 0 then Exit;
-  ClearBuffer (f);
-  if TruncateHandle (f^.Handle, Position2Byte (f, Pos)) < 0 then
-    { @@ emulate by copying and renaming? }
-    IOERROR_FILE (425, f, True,)  { truncation failed for % }
-end;
 
 { SeekRead
   pre-assertion:
@@ -2911,21 +2855,18 @@ end;
 procedure GPC_SeekRead (f: GPC_FDR; NewPlace: FileSizeType);
 begin
   if InOutRes <> 0 then Exit;
-  if f^.Status.WOnly then
-    IOERROR_FILE (426, f, False,)  { `SeekRead' to write only % }
-  else if NewPlace < 0 then
+  if NewPlace < 0 then
     IOERROR_FILE (410, f, False,);  { attempt to access elements before beginning of random access % }
-  if not IsOpen (f) then
+  if not IsOpen (f) or f^.Status.Extending then
     begin
       Open (f, fo_SeekRead);
       if InOutRes <> 0 then Exit
     end;
-  if SeekInternal (f, NewPlace, SeekAbsolute) < 0 then IOERROR_FILE (427, f, True,);  { `SeekRead' failed on % }
+  if not SeekInternal (f, NewPlace, SeekAbsolute) then IOERROR_FILE (427, f, True,);  { `SeekRead' failed on % }
   { change mode to inspection }
-  f^.Status.Reading := False;
-  f^.Status.Writing := False;
-  f^.Status.RW := False;
   f^.Status.Reading := True;
+  f^.Status.Writing := False;
+  f^.Status.Extending := False;
   f^.Status.EOF := False;
   f^.Status.LGet := True
 end;
@@ -2943,21 +2884,18 @@ end;
 procedure GPC_SeekWrite (f: GPC_FDR; NewPlace: FileSizeType);
 begin
   if InOutRes <> 0 then Exit;
-  if f^.Status.ROnly then
-    IOERROR_FILE (411, f, False,)  { attempt to modify read only % }
-  else if NewPlace < 0 then
+  if NewPlace < 0 then
     IOERROR_FILE (410, f, False,);  { attempt to access elements before beginning of random access % }
-  if not IsOpen (f) then
+  if not IsOpen (f) or f^.Status.Extending then
     begin
       Open (f, fo_SeekWrite);
       if InOutRes <> 0 then Exit
     end;
-  if SeekInternal (f, NewPlace, SeekAbsolute) < 0 then IOERROR_FILE (429, f, True,);  { `SeekWrite' failed on % }
+  if not SeekInternal (f, NewPlace, SeekAbsolute) then IOERROR_FILE (429, f, True,);  { `SeekWrite' failed on % }
   { change mode to generation }
   f^.Status.Reading := False;
-  f^.Status.Writing := False;
-  f^.Status.RW := False;
-  f^.Status.Writing := True
+  f^.Status.Writing := True;
+  f^.Status.Extending := False
 end;
 
 { SeekUpdate
@@ -2975,20 +2913,17 @@ end;
 procedure GPC_SeekUpdate (f: GPC_FDR; NewPlace: FileSizeType);
 begin
   if InOutRes <> 0 then Exit;
-  if f^.Status.ROnly or f^.Status.WOnly then
-    IOERROR_FILE (430, f, False,)  { `SeekUpdate' to read-only or write-only % }
-  else if NewPlace < 0 then
+  if NewPlace < 0 then
     IOERROR_FILE (410, f, False,);  { attempt to access elements before beginning of random access % }
-  if not IsOpen (f) then
+  if not IsOpen (f) or f^.Status.Extending then
     begin
       Open (f, fo_SeekUpdate);
       if InOutRes <> 0 then Exit
     end;
-  if SeekInternal (f, NewPlace, SeekAbsolute) < 0 then IOERROR_FILE (431, f, True,);  { `SeekUpdate' failed on % }
-  f^.Status.Reading := False;
-  f^.Status.Writing := False;
-  f^.Status.RW := False;
-  if not (f^.Status.ROnly or f^.Status.WOnly) then f^.Status.RW := True;
+  if not SeekInternal (f, NewPlace, SeekAbsolute) then IOERROR_FILE (431, f, True,);  { `SeekUpdate' failed on % }
+  f^.Status.Reading := True;
+  f^.Status.Writing := True;
+  f^.Status.Extending := False;
   f^.Status.EOF := False;
   f^.Status.LGet := True
 end;
@@ -2996,23 +2931,12 @@ end;
 procedure GPC_Seek (f: GPC_FDR; NewPlace: FileSizeType);
 begin
   if InOutRes <> 0 then Exit;
-  if not IsWritable (f) then
+  if not f^.Status.Writing then
     GPC_SeekRead (f, NewPlace)
-  else if not IsReadable (f) then
+  else if not f^.Status.Reading then
     GPC_SeekWrite (f, NewPlace)
   else
     GPC_SeekUpdate (f, NewPlace)
-end;
-
-{ DefineSize (GPC extension): Define files size as count of its
-  component type units. May be applied only to random access files
-  and files opened for writing. }
-procedure GPC_DefineSize (f: GPC_FDR; NewSize: FileSizeType);
-begin
-  if InOutRes <> 0 then Exit;
-  GPC_SeekWrite (f, NewSize);
-  if InOutRes <> 0 then Exit;
-  GPC_Truncate (f)
 end;
 
 { Update
@@ -3028,48 +2952,59 @@ end;
     else
       (f.R = S (f0^)~f0.R.rest)) and
     (f^ = f0^)
-  i.e. write the stuff in, and leave it also in the file buffer.
-  don't advance the file pointer from the pre-assert state! }
+  i.e. write the stuff to the file, and leave it also in the file buffer.
+  Don't advance the file pointer! }
 procedure GPC_Update (f: GPC_FDR);
-var RandomAccess: Boolean;
 begin
   if InOutRes <> 0 then Exit;
-  { If the file buffer content is lazy, validate it }
-  if f^.Status.LGet then
-    begin
-      f^.Status.LGet := False;
-      GPC_Get (f);
-      if InOutRes <> 0 then Exit
-    end;
   {$if False}
   { @@ Currently assigning a value to a file buffer does not clear the Undef status.
-       Disable this check => Undefined file buffers may be written with update. }
+       Disable this check => Undefined file buffers may be written with update.
+       This is related to general undefined variable checks (hard). }
   if f^.Status.Undef then IOERROR_FILE (439, f, False,);  { `Update' with an undefined file buffer in % }
   {$endif}
-  RandomAccess := f^.Status.RW;
-  if RandomAccess then
+  if f^.Status.Extending and HaveFCntl then SetFileMode (f^.Handle, MODE_APPEND, False);
+  SeekInternal (f, 0, SeekRelative);  { Seek back possible buffered data }
+  InternalWrite (f^.FilBuf, f^.FilSiz, f);
+  if f^.Status.Extending and HaveFCntl then SetFileMode (f^.Handle, MODE_APPEND, True);
+  { The file buffer is still f0^ }
+  f^.Status.LGet := False;
+  f^.Status.Undef := False
+end;
+
+{ Position (f) := Succ (a, Length (f.L))
+  This function returns the element number, always counted from zero
+  (since the RTS does not know the lower bound of the direct access
+  file type), and the compiler adds the lower bound. }
+function GPC_Position (f: GPC_FDR) = Pos: FileSizeType;
+var NumBytes: FileSizeType;
+begin
+  if InOutRes <> 0 then Return 0;
+  if not IsOpen (f) then IOERROR_FILE (407, f, False, 0);  { % has not been opened }
+  NumBytes := SeekHandle (f^.Handle, 0, SeekRelative);
+  if NumBytes < 0 then IOERROR_FILE (417, f, True, 0);  { `Position' or `FilePos' could not get file position of % }
+  if f^.BufPos < f^.BufSize then Dec (NumBytes, f^.BufSize - f^.BufPos);
+  Pos := NumBytes div f^.FilSiz;
+  if not (f^.Status.Undef or f^.Status.LGet) then Dec (Pos)
+end;
+
+function GPC_FileSize (f: GPC_FDR): FileSizeType;
+var OrigPos, LastPos: FileSizeType;
+begin
+  if InOutRes <> 0 then Return 0;
+  if not IsOpen (f) then IOERROR_FILE (407, f, False, 0);  { % has not been opened }
+  FlushBuffer (f);
+  OrigPos := SeekHandle (f^.Handle, 0, SeekRelative);
+  LastPos := -1;
+  if OrigPos >= 0 then
     begin
-      { Change the mode to generation, prevents implicit Get.
-        Yes, Put in update mode gets the next element by default. }
-      f^.Status.Reading := False;
-      f^.Status.Writing := False;
-      f^.Status.RW := False;
-      f^.Status.Writing := True
+      LastPos := SeekHandle (f^.Handle, 0, SeekFileEnd);
+      Discard (SeekHandle (f^.Handle, OrigPos, SeekAbsolute))
     end;
-  GPC_Put (f);  { Write to the current location. Put does not clobber file buffer. }
-  if InOutRes <> 0 then Exit;
-  if RandomAccess then
-    begin
-      { Change the mode back to random access }
-      f^.Status.Reading := False;
-      f^.Status.Writing := False;
-      f^.Status.RW := False;
-      if not (f^.Status.ROnly or f^.Status.WOnly) then f^.Status.RW := True
-    end;
-  f^.Status.Undef := False;  { The file buffer is still f0^ }
-  { Seek back to the place where we were before the Put.
-    It's f^.FilSiz bytes before the place we are now }
-  if SeekInternal (f, -1, SeekRelative) < 0 then IOERROR_FILE (433, f, True,)  { `Update' failed to reset the position of % }
+  if LastPos >= 0 then
+    GPC_FileSize := LastPos div f^.FilSiz
+  else
+    IOERROR_FILE (446, f, True, 0)  { cannot get the size of % }
 end;
 
 function GPC_LastPosition (f: GPC_FDR): FileSizeType;
@@ -3083,6 +3018,30 @@ begin
     GPC_Empty := True
   else
     GPC_Empty := GPC_FileSize (f) = 0
+end;
+
+{ DefineSize (GPC extension): Define files size as count of its
+  component type units. May be applied only to random access files
+  and files opened for writing. }
+procedure GPC_DefineSize (f: GPC_FDR; NewSize: FileSizeType);
+begin
+  if InOutRes <> 0 then Exit;
+  if NewSize < 0 then
+    IOERROR (437, False,)  { new file size in `DefineSize' is < 0 }
+  else if not IsOpen (f) then
+    IOERROR_FILE (407, f, False,)  { % has not been opened }
+  else if f^.Status.ROnly then
+    IOERROR_FILE (438, f, False,);  { `Truncate' or `DefineSize' applied to read only % }
+  if InOutRes <> 0 then Exit;
+  ClearBuffer (f);
+  if TruncateHandle (f^.Handle, NewSize * f^.FilSiz) < 0 then
+    { @@ emulate by copying and renaming? }
+    IOERROR_FILE (425, f, True,)  { truncation failed for % }
+end;
+
+procedure GPC_Truncate (f: GPC_FDR);
+begin
+  if (InOutRes = 0) and IsOpen (f) then GPC_DefineSize (f, GPC_Position (f))
 end;
 
 { Get the external file name }
@@ -3383,8 +3342,8 @@ begin
         if (fi <> nil) and IsOpen (fi) then
           begin
             if fi^.SelectFunc <> nil then fn := fi^.SelectFunc (fi^.PrivateData^, SelectWrite in Wanted) else fn := fi^.Handle;
-            WantRead := ((SelectReadOrEOF in Wanted) or (SelectRead in Wanted) or (SelectEOF in Wanted)) and IsReadable (fi);
-            WantWrite := (SelectWrite in Wanted) and IsWritable (fi);
+            WantRead := ((SelectReadOrEOF in Wanted) or (SelectRead in Wanted) or (SelectEOF in Wanted)) and fi^.Status.Reading;
+            WantWrite := (SelectWrite in Wanted) and fi^.Status.Writing;
             WantExcept := SelectException in Wanted;
             Buffered := WantRead and (fi^.Status.EOF or not fi^.Status.LGet or (fi^.BufPos < fi^.BufSize));
             if Buffered and SelectOccurredRead then
@@ -3437,8 +3396,8 @@ begin
         if f <> nil then fi := PFDRRecord (f)^.f else fi := nil;
         if (fi <> nil) and IsOpen (fi) then
           begin
-            WantRead := ((SelectReadOrEOF in Wanted) or (SelectRead in Wanted) or (SelectEOF in Wanted)) and IsReadable (fi);
-            WantWrite := (SelectWrite in Wanted) and IsWritable (fi);
+            WantRead := ((SelectReadOrEOF in Wanted) or (SelectRead in Wanted) or (SelectEOF in Wanted)) and fi^.Status.Reading;
+            WantWrite := (SelectWrite in Wanted) and fi^.Status.Writing;
             WantExcept := SelectException in Wanted;
             fl := False;
             if (SResult > 0) and (SelectEvents[i].Handle >= 0) then

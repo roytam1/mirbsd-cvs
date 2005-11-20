@@ -49,7 +49,7 @@ export Strings = all (CStringLength => StrLen, CStringEnd => StrEnd,
 
 import GPC;
 
-function StrPas (aString: CString): TString; attribute (name = '_p_StrPas');
+function StrPas (aString: CString): TString;
 procedure StrDispose (s: CString); external name '_p_Dispose';
 
 end;

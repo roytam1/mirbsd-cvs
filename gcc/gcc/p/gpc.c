@@ -111,7 +111,7 @@ static const char *multilib_options = "";
 #include "prefix.h"
 #else
 #define xmalloc_set_program_name(programname)
-extern const char *update_path PARAMS ((const char *, const char *));
+extern const char *update_path (const char *, const char *);
 #endif
 #ifdef EGCS97
 #include "intl.h"
@@ -120,17 +120,17 @@ extern const char *update_path PARAMS ((const char *, const char *));
 #include "version.h"
 #else
 extern char *version_string;
-extern char *make_temp_file PARAMS ((const char *));
-extern void *alloca PARAMS ((size_t));
+extern char *make_temp_file (const char *);
+extern void *alloca (size_t);
 #endif
-#include "p/version.h"
+#include "p/p-version.h"
 #ifdef EGCS
 #include "libiberty.h"
 #else
-extern char *choose_temp_base PARAMS ((void));
-extern int pexecute PARAMS ((const char *, char * const *, const char *,
-                             const char *, char **, char **, int));
-extern int pwait PARAMS ((int, int *, int));
+extern char *choose_temp_base (void);
+extern int pexecute (const char *, char * const *, const char *,
+                     const char *, char **, char **, int);
+extern int pwait (int, int *, int);
 /* Flag arguments to pexecute.  */
 #define PEXECUTE_FIRST   1
 #define PEXECUTE_LAST    2
@@ -144,7 +144,7 @@ extern int pwait PARAMS ((int, int *, int));
 /* If the system doesn't provide strsignal, we get it defined in
    libiberty but no declaration is supplied. */
 #if !defined (HAVE_STRSIGNAL) && !defined (strsignal)
-extern const char *strsignal PARAMS ((int));
+extern const char *strsignal (int);
 #endif
 #undef _
 #define _(String) String
@@ -178,9 +178,9 @@ extern const char *strsignal PARAMS ((int));
 #define ISIDNUM(c) (isalnum ((unsigned char) c) || (c) == '_')
 #endif
 
-extern int lang_specific_pre_link PARAMS ((void));
+extern int lang_specific_pre_link (void);
 int
-lang_specific_pre_link ()
+lang_specific_pre_link (void)
 {
   return 0;  /* Not used for Pascal. */
 }
@@ -194,37 +194,34 @@ static int explicit_output_file = 0;
 /* This will be 0 if we encounter a situation where we should not link in libgpc. */
 static int library = 1;
 
-static void safe_exit PARAMS ((int)) ATTRIBUTE_NORETURN;
-static void init_gpc_options PARAMS ((int *, const char ***));
-static const char *quote_arg PARAMS ((const char *));
-static void init_automake_temp_file PARAMS ((int, const char *const *));
-static void check_amtmpfile_switch PARAMS ((void));
-static char *add_automake_files PARAMS ((char *));
-static void print_message_and_exit PARAMS ((void));
-extern int do_spec PARAMS ((const char *));
-extern void record_temp_file PARAMS ((const char *, int, int));
-extern void set_input PARAMS ((const char *));
-extern void pfatal_with_name PARAMS ((const char *)) ATTRIBUTE_NORETURN;
-extern void fatal PARAMS ((const char *, ...)) ATTRIBUTE_PRINTF_1 ATTRIBUTE_NORETURN;
-extern void error PARAMS ((const char *, ...));
-void fancy_abort PARAMS ((void));
+static void safe_exit (int) ATTRIBUTE_NORETURN;
+static void init_gpc_options (int *, const char ***);
+static const char *quote_arg (const char *);
+static void init_automake_temp_file (int, const char *const *);
+static void check_amtmpfile_switch (void);
+static char *add_automake_files (char *);
+static void print_message_and_exit (void);
+extern int do_spec (const char *);
+extern void record_temp_file (const char *, int, int);
+extern void set_input (const char *);
+extern void pfatal_with_name (const char *) ATTRIBUTE_NORETURN;
+extern void fatal (const char *, ...) ATTRIBUTE_PRINTF_1 ATTRIBUTE_NORETURN;
+extern void error (const char *, ...);
+void fancy_abort (void);
 #ifndef EGCS
-static char *concat PARAMS ((const char *, ...));
-extern char *xmalloc PARAMS ((size_t));
-extern void *xcalloc PARAMS ((size_t, size_t));
-extern char *xrealloc PARAMS ((void *, size_t));
+static char *concat (const char *, ...);
+extern char *xmalloc (size_t);
+extern void *xcalloc (size_t, size_t);
+extern char *xrealloc (void *, size_t);
 #define xstrerror my_strerror  /* for pexecute */
-extern char *xstrerror PARAMS ((int));
+extern char *xstrerror (int);
 #define xstrdup(S) (save_string ((S), strlen (S)))
 #endif
 
 #ifndef EGCS97
-static PTR xmemdup PARAMS ((const PTR, size_t, size_t));
+static PTR xmemdup (const PTR, size_t, size_t);
 static PTR
-xmemdup (input, copy_size, alloc_size)
-  const PTR input;
-  size_t copy_size;
-  size_t alloc_size;
+xmemdup (const PTR input, size_t copy_size, size_t alloc_size)
 {
   PTR output = xmalloc (alloc_size);
   memset (output, 0, alloc_size);
@@ -232,9 +229,9 @@ xmemdup (input, copy_size, alloc_size)
   return output;
 }
 
-static unsigned long concat_length VPARAMS ((const char *first, ...));
+static unsigned long concat_length (const char *first, ...);
 static unsigned long
-concat_length VPARAMS ((const char *first, ...))
+concat_length (const char *first, ...)
 {
   unsigned long length = 0;
   const char *arg;
@@ -979,7 +976,7 @@ proper position among the other output files.  */
 #endif
 
 #ifndef GCC_3_3
-#include "cpp_predef.h"
+# define GPC_CPP_PREDEFINES CPP_PREDEFINES
 #else
 # define GPC_CPP_PREDEFINES ""
 #endif
@@ -1121,7 +1118,7 @@ static struct user_specs *user_specs_head, *user_specs_tail;
 struct spec_function
 {
   const char *name;
-  const char *(*func) PARAMS ((int, const char **));
+  const char *(*func) (int, const char **);
 };
 #endif
 
@@ -2759,9 +2756,7 @@ putenv_from_prefixes (struct path_prefix *paths, const char *env_var)
 /* Split a filename into component directories.  */
 
 static char **
-split_directories (name, ptr_num_dirs)
-     const char *name;
-     int *ptr_num_dirs;
+split_directories (const char *name, int *ptr_num_dirs)
 {
   int num_dirs = 0;
   char **dirs;
@@ -2828,8 +2823,7 @@ split_directories (name, ptr_num_dirs)
 /* Release storage held by split directories.  */
 
 static void
-free_split_directories (dirs)
-     char **dirs;
+free_split_directories (char **dirs)
 {
   int i = 0;
 
@@ -2850,10 +2844,7 @@ free_split_directories (dirs)
    If no relative prefix can be found, return NULL.  */
 
 static char *
-make_relative_prefix (progname, bin_prefix, prefix)
-     const char *progname;
-     const char *bin_prefix;
-     const char *prefix;
+make_relative_prefix (const char *progname, const char *bin_prefix, const char *prefix)
 {
   char **prog_dirs, **bin_dirs, **prefix_dirs;
   int prog_num, bin_num, prefix_num, std_loc_p;
@@ -3885,8 +3876,14 @@ process_command (int argc, const char **argv)
         }
 
       set_std_prefix (gcc_exec_prefix, len);
-      add_prefix (&exec_prefixes, gcc_libexec_prefix, "GCC",
-                  PREFIX_PRIORITY_LAST, 0, NULL, 0);
+#ifdef GCC_3_4
+      if (gcc_libexec_prefix)
+        add_prefix (&exec_prefixes, gcc_libexec_prefix, "GCC",
+                    PREFIX_PRIORITY_LAST, 0, NULL, 0);
+      else
+#endif
+        add_prefix (&exec_prefixes, gcc_exec_prefix, "GCC",
+                    PREFIX_PRIORITY_LAST, 0, NULL, 0);
       add_prefix (&startfile_prefixes, gcc_exec_prefix, "GCC",
                   PREFIX_PRIORITY_LAST, 0, NULL, 0);
     }
@@ -6587,8 +6584,10 @@ process_brace_body (const char *p, const char *atom, const char *end_atom,
     }
 
   end_body = p;
+#ifdef GCC_3_4
   while (end_body[-1] == ' ' || end_body[-1] == '\t')
     end_body--;
+#endif
 
   if (have_subst && !starred)
     abort ();
@@ -8394,8 +8393,7 @@ if_exists_else_spec_function (int argc, const char **argv)
 
 /* Delete the automake temp file (if present) and exit(). */
 static void
-safe_exit (retval)
-     int retval;
+safe_exit (int retval)
 {
   if (automake_temp_file_name)
     delete_if_ordinary (automake_temp_file_name);
@@ -8405,9 +8403,7 @@ safe_exit (retval)
 /* Choose a name for the automake temp file (e.g. `ccXXXXXX.gpc') and add
    the implicit option `-famtmpfile=ccXXXXXX.gpc' to the command line. */
 static void
-init_gpc_options (argcp, argvp)
-     int *argcp;
-     const char ***argvp;
+init_gpc_options (int *argcp, const char ***argvp)
 {
   int argc = *argcp, i, new_argc = 0, amt = 0;
   const char **argv = *argvp, *new_argv[2];
@@ -8439,8 +8435,7 @@ init_gpc_options (argcp, argvp)
 
 /* Also in module.c :-( */
 static const char *
-quote_arg (str)
-     const char *str;
+quote_arg (const char *str)
 {
   int need_quoting = 0;
   const char *p = str, *q;
@@ -8465,9 +8460,7 @@ quote_arg (str)
 
 /* Create the automake temp file and store our command line there. */
 static void
-init_automake_temp_file (argc, argv)
-     int argc;
-     const char *const *argv;
+init_automake_temp_file (int argc, const char *const *argv)
 {
   FILE *automake_temp_file = NULL;
   int i;
@@ -8522,7 +8515,7 @@ init_automake_temp_file (argc, argv)
 
 /* Remove the implicit `-famtmpfile' switch for non-Pascal compilations. */
 static void
-check_amtmpfile_switch ()
+check_amtmpfile_switch (void)
 {
   int i;
   for (i = 0; i < n_infiles; i++)
@@ -8553,8 +8546,7 @@ check_amtmpfile_switch ()
    A line beginning with "-o" is passed as an `-o' switch, all other
    lines as input files. */
 static char *
-add_automake_files (explicit_link_files)
-     char *explicit_link_files;
+add_automake_files (char *explicit_link_files)
 {
   FILE *automake_temp_file;
   int i = n_infiles;
@@ -8683,7 +8675,7 @@ add_automake_files (explicit_link_files)
 
 /* Print a help screen and exit */
 static void
-print_message_and_exit()
+print_message_and_exit (void)
 {
   printf("\
 GNU Pascal version %s, based on gcc-%s.\n\
@@ -8720,8 +8712,7 @@ Report bugs to <gpc@gnu.de>.\n\
 
 #ifndef EGCS
 char *
-xmalloc (size)
-     size_t size;
+xmalloc (size_t size)
 {
   char *value = (char *) malloc (size);
   if (value == 0)
@@ -8730,9 +8721,7 @@ xmalloc (size)
 }
 
 void *
-xcalloc (count, eltsize)
-     size_t count;
-     size_t eltsize;
+xcalloc (size_t count, size_t eltsize)
 {
   void *r = xmalloc (count * eltsize);
   memset ((char *) r, 0, count * eltsize);
@@ -8740,9 +8729,7 @@ xcalloc (count, eltsize)
 }
 
 char *
-xrealloc (ptr, size)
-     void *ptr;
-     size_t size;
+xrealloc (void *ptr, size_t size)
 {
   char *value = (char *) realloc (ptr, size);
   if (value == 0)
@@ -8752,7 +8739,7 @@ xrealloc (ptr, size)
 
 /* This function is based on the one in libiberty.  */
 static char *
-concat VPARAMS ((const char *first, ...))
+concat (const char *first, ...)
 {
   int length;
   char *newstr;
@@ -8795,8 +8782,7 @@ concat VPARAMS ((const char *first, ...))
 }
 
 char *
-xstrerror(e)
-     int e;
+xstrerror (int e)
 {
 #ifdef HAVE_STRERROR
   return strerror(e);
@@ -8813,8 +8799,7 @@ xstrerror(e)
 #ifndef GCC_3_4
 #ifndef HAVE_PUTENV
 void
-putenv (str)
-     char *str;
+putenv (char *str)
 {
   extern char **environ;
   char **old_environ = environ;
@@ -8876,11 +8861,9 @@ typedef unsigned long gcc_uint64_t;
    they are replaced with a string that makes the filename unique.
 
    Returns a file descriptor open on the file for reading and writing.  */
-static int mkstemps PARAMS ((char *, int));
+static int mkstemps (char *, int);
 static int
-mkstemps (template, suffix_len)
-     char *template;
-     int suffix_len;
+mkstemps (char *template, int suffix_len)
 {
   static const char letters[]
     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -8949,11 +8932,10 @@ mkstemps (template, suffix_len)
 #define TEMP_FILE "ccXXXXXX"
 #define TEMP_FILE_LEN (sizeof(TEMP_FILE) - 1)
 
-static inline const char *try PARAMS ((const char *, const char *));
+static inline const char *try (const char *, const char *);
 
 static inline const char *
-try (dir, base)
-     const char *dir, *base;
+try (const char *dir, const char *base)
 {
   if (base != 0)
     return base;
@@ -8971,9 +8953,9 @@ static const char vartmp[] =
 
 static char *memorized_tmpdir;
 
-static char *choose_tmpdir PARAMS ((void));
+static char *choose_tmpdir (void);
 static char *
-choose_tmpdir ()
+choose_tmpdir (void)
 {
   const char *base = 0;
   char *tmpdir;
@@ -9012,8 +8994,7 @@ choose_tmpdir ()
 }
 
 char *
-make_temp_file (suffix)
-     const char *suffix;
+make_temp_file (const char *suffix)
 {
   const char *base = choose_tmpdir ();
   char *temp_filename;

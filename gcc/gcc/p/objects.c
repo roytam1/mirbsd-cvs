@@ -25,7 +25,7 @@
 
 #include "gpc.h"
 
-static tree current_method PARAMS ((void));
+static tree current_method (void);
 
 /* Get a FIELD_DECL node of structured type type. This is only applied to
    structures with no variant part and no schemata, so it is much simpler
@@ -33,35 +33,34 @@ static tree current_method PARAMS ((void));
    should be either unimportant (schema_id) or not applicable (methods)
    anyway when this is called. */
 tree
-simple_get_field (name, type, descr)
-     tree name, type;
-     const char *descr;
+simple_get_field (tree name, tree type, const char *descr)
 {
   tree field = TYPE_FIELDS (type);
-  while (field && DECL_NAME (field) != name)
+  while (field && (DECL_NAME (field) != name
+         || PASCAL_FIELD_SHADOWED (field)))
     field = TREE_CHAIN (field);
   if (field)
     return field;
   field = TYPE_METHODS (type);
-  while (field && DECL_NAME (field) != name)
+  while (field && (DECL_NAME (field) != name 
+         || PASCAL_METHOD_SHADOWED (field)))
     field = TREE_CHAIN (field);
   if (!descr)
-    assert (field);
+    gcc_assert (field);
   if (!field && *descr)
     error ("%s `%s' not found", descr, IDENTIFIER_NAME (name));
   return field;
 }
 
 tree
-get_vmt_field (obj)
-     tree obj;
+get_vmt_field (tree obj)
 {
   tree vmt_field;
   CHK_EM (obj);
   if ((TREE_CODE (TREE_TYPE (obj)) == FUNCTION_TYPE && RECORD_OR_UNION (TREE_CODE (TREE_TYPE (TREE_TYPE (obj)))))
       || CALL_METHOD (obj))
     obj = undo_schema_dereference (probably_call_function (obj));
-  assert (TREE_CODE (obj) != COND_EXPR);
+  gcc_assert (TREE_CODE (obj) != COND_EXPR);
   if (TREE_CODE (obj) == COMPOUND_EXPR)
     {
       tree value = get_vmt_field (TREE_OPERAND (obj, 1));
@@ -72,7 +71,7 @@ get_vmt_field (obj)
 }
 
 static tree
-current_method ()
+current_method (void)
 {
   struct function *p;
   tree decl;
@@ -91,8 +90,7 @@ current_method ()
    with TREE_PRIVATE set, also TREE_PROTECTED is set. So here we check the
    combination of both. TREE_PROTECTED alone means `protected'. */
 const char *
-check_private_protected (field)
-     tree field;
+check_private_protected (tree field)
 {
   if (TREE_PROTECTED (field) && TREE_PRIVATE (field))
     return "private";
@@ -100,7 +98,10 @@ check_private_protected (field)
     {
       tree t = current_method ();
       if (t)
-        for (t = DECL_CONTEXT (t); t && t != DECL_CONTEXT (field); t = TYPE_LANG_BASE (t)) ;
+        for (t = DECL_CONTEXT (t); t && t != DECL_CONTEXT (field);
+             t = TYPE_LANG_BASE (t))
+          if (TREE_CODE (t) == POINTER_TYPE)
+            t = TREE_TYPE (t);
       if (!t)
         return "protected";
     }
@@ -109,14 +110,19 @@ check_private_protected (field)
 
 /* Build a method call out of a COMPONENT_REF. */
 tree
-call_method (cref, args)
-     tree cref, args;
+call_method (tree cref, tree args)
 {
-  int is_virtual;
+  int is_virtual, is_destructor;
   tree obj = TREE_OPERAND (cref, 0);
+  tree type = TREE_TYPE (obj);
   tree fun = TREE_OPERAND (cref, 1);
+  tree constructor_call = NULL_TREE;
+  tree cmeth = NULL_TREE;
 
-  if (!PASCAL_TYPE_OBJECT (TREE_TYPE (obj)))
+  if (TREE_CODE (obj) == TYPE_DECL && PASCAL_TYPE_CLASS (type))
+    type = TREE_TYPE (type);
+
+  if (!PASCAL_TYPE_OBJECT (type))
     {
       error ("calling method of something not an object");
       return error_mark_node;
@@ -127,43 +133,83 @@ call_method (cref, args)
       error ("invalid method call");
       return error_mark_node;
     }
-  assert (PASCAL_METHOD (fun));
+  gcc_assert (PASCAL_METHOD (fun));
 
   /* @@ Is this the right place to do it? (fjf639x5.pas, fjf644.pas)
         It would seem logical to build a save_expr of the whole object,
         but it doesn't work (works only on scalar types I guess),
         so do it only for INDIRECT_REFs. -- Frank */
   if (TREE_CODE (obj) == INDIRECT_REF)
-    obj = build1 (INDIRECT_REF, TREE_TYPE (obj), save_expr (TREE_OPERAND (obj, 0)));
+    obj = build1 (INDIRECT_REF, type, save_expr (TREE_OPERAND (obj, 0)));
 
   is_virtual = PASCAL_VIRTUAL_METHOD (fun);
   if (TREE_CODE (obj) == TYPE_DECL)
     {
-      if (!current_method ())
+      int is_class = PASCAL_TYPE_CLASS (TREE_TYPE (obj));
+      cmeth = current_method ();
+      if (PASCAL_CONSTRUCTOR_METHOD (fun) && is_class)
+        constructor_call = tree_cons (NULL_TREE, 
+                               obj, tree_cons (NULL_TREE, cref, args));
+
+      if (is_class && PASCAL_DESTRUCTOR_METHOD (fun) &&
+          (!cmeth || !PASCAL_DESTRUCTOR_METHOD (cmeth)))
+        {
+          error("Delphi/OOE continuing destructor activation outside a destructor");
+          return error_mark_node;
+        }
+
+      /* @@@ We should delay expanding constructor for better error detection
+         but expander does not work with 2.x */
+      if (!cmeth /* && !constructor_call */)
         /* Somebody is looking for the address of this method. Give them the FUNCTION_DECL. */
-        return fun;
+        {
+          if (constructor_call)
+            return build_predef_call (p_New, constructor_call);
+          return fun;
+        }
+
+#ifndef EGCS97
+      if (constructor_call)
+        {
+           error("Constructor call inside a method not supported"
+                 " with 2.x backends");
+           return error_mark_node;
+        }
+#endif
 
       /* This is an explicit call to an ancestor's method. */
-      fun = simple_get_field (DECL_NAME (fun), TREE_TYPE (obj), "method");
+      fun = simple_get_field (DECL_NAME (fun), type, "method");
       if (!fun)
         return error_mark_node;
       obj = build_indirect_ref (lookup_name (self_id), "`Self' reference");
       is_virtual = 0;
+      is_destructor = 0;
     }
+  else
+    /* @@@@@ Check if obj == Self ?? OOE says that in such case the
+       object remains valid */
+    is_destructor = PASCAL_DESTRUCTOR_METHOD (fun) 
+                  && TYPE_POINTER_TO (TREE_TYPE (obj)) 
+                  && PASCAL_TYPE_CLASS (TYPE_POINTER_TO (TREE_TYPE (obj)));
 
   if (is_virtual)
     {
-      tree method = NULL_TREE, type_save;
-      /* @@ Here a runtime check can be added: does the VMT field really point to a VMT? */
+      tree method = NULL_TREE, type_save, vmt = get_vmt_field (obj);
+      tree vmt_deref = build_indirect_ref (vmt, NULL);
       char *n = ACONCAT (("method_", IDENTIFIER_POINTER (DECL_NAME (fun)), NULL));
       method = simple_get_field (get_identifier (n), TREE_TYPE (TREE_TYPE (TYPE_LANG_VMT_FIELD (TREE_TYPE (obj)))), NULL);
-
       type_save = TREE_TYPE (fun);
-      fun = build (COMPONENT_REF, TREE_TYPE (method),
-        build_indirect_ref (get_vmt_field (obj), NULL), method);
+      fun = build (COMPONENT_REF, TREE_TYPE (method), vmt_deref, method);
       /* In the VMT, only generic pointers are stored to avoid
          confusion in GPI files. Repair them here. */
       TREE_TYPE (fun) = build_pointer_type (type_save);
+      if (co->object_checking)
+        fun = fold (build (COND_EXPR, TREE_TYPE (fun),
+          build_pascal_binary_op (TRUTH_ORIF_EXPR,
+            build_pascal_binary_op (EQ_EXPR, vmt, null_pointer_node),
+            build_pascal_binary_op (NE_EXPR, build_component_ref (vmt_deref, get_identifier ("Size")),
+              build_pascal_unary_op (NEGATE_EXPR, build_component_ref (vmt_deref, get_identifier ("Negatedsize"))))),
+          convert (TREE_TYPE (fun), build_predef_call (p_InvalidObjectError, NULL_TREE)), fun));
       fun = build_indirect_ref (fun, NULL);
     }
   else
@@ -174,12 +220,29 @@ call_method (cref, args)
   /* Check if OBJ is an lvalue and do the call */
   if (lvalue_or_else (obj, "method call"))
     fun = build_routine_call (fun, tree_cons (NULL_TREE, obj, args));
+
+  if (constructor_call)
+    {
+      if (!cmeth || !PASCAL_CONSTRUCTOR_METHOD (cmeth))
+        fun = integer_zero_node;
+      return build (PASCAL_CONSTRUCTOR_CALL, TYPE_POINTER_TO (type),
+                   constructor_call, fun);
+    }
+      
+  if (is_destructor)
+    {
+      tree vobj;
+      gcc_assert (TREE_CODE (obj) == INDIRECT_REF);
+      vobj = TREE_OPERAND (obj, 0);
+      return build_predef_call (p_Dispose, tree_cons (NULL_TREE, vobj,
+                 build_tree_list (NULL_TREE, fun)));
+    }
+
   return fun;
 }
 
 tree
-build_inherited_method (id)
-     tree id;
+build_inherited_method (tree id)
 {
   tree basetype, method = current_method ();
   if (!method)
@@ -193,12 +256,11 @@ build_inherited_method (id)
 
 /* Construct the internal name of a method. */
 tree
-get_method_name (object_name, method_name)
-     tree object_name, method_name;
+get_method_name (tree object_name, tree method_name)
 {
   tree t;
   const char *n = IDENTIFIER_POINTER (method_name);
-  assert (object_name);
+  gcc_assert (object_name);
   t = get_identifier (ACONCAT ((IDENTIFIER_POINTER (object_name), "_",
                                 (*n >= 'A' && *n <= 'Z') ? "" : "OBJ", n, NULL)));
   if (!IDENTIFIER_SPELLING (t) && IDENTIFIER_SPELLING (object_name) && IDENTIFIER_SPELLING (method_name))
@@ -211,20 +273,42 @@ get_method_name (object_name, method_name)
 }
 
 tree
-start_object_type (name)
-     tree name;
+start_object_type (tree name, int is_class)
 {
   tree t = start_struct (RECORD_TYPE);
-  if (co->pascal_dialect & MAC_PASCAL)
-    warning ("traditional Macintosh Pascal has a different object model from what GNU Pascal supports");
+  tree res;
+  if (co->objects_are_references)
+    is_class = 1;
+  if (is_class)
+    {
+      tree s, *pscan;
+      pscan = &current_type_list;
+      for (s = current_type_list; s && TREE_VALUE (s) != name;
+           pscan = &TREE_CHAIN (s), s = TREE_CHAIN (s)) ;
+      if (s && TREE_CODE (TREE_TYPE (TREE_PURPOSE (s))) == POINTER_TYPE
+          && PASCAL_TYPE_CLASS (TREE_TYPE (TREE_PURPOSE (s)))
+	  && TREE_CODE (TREE_TYPE (TREE_TYPE (TREE_PURPOSE (s)))) == LANG_TYPE)
+        {
+	  res = TREE_TYPE (TREE_PURPOSE (s));
+	  patch_type (t, TREE_TYPE (res));
+	  *pscan = TREE_CHAIN (s);
+	}
+      else
+	{
+          res = build_pointer_type (t);
+          PASCAL_TYPE_CLASS (res) = 1;
+	}
+    }
+  else
+    res = t;
   if (!pascal_global_bindings_p ())
     error ("object type definition only allowed at top level");
   TYPE_MODE (t) = BLKmode;  /* may be used as a value parameter within its methods */
   TYPE_ALIGN (t) = BIGGEST_ALIGNMENT;
-  TYPE_LANG_SPECIFIC (t) = allocate_type_lang_specific ();
+  allocate_type_lang_specific (t);
   TYPE_LANG_CODE (t) = PASCAL_LANG_OBJECT;
-  build_type_decl (name, t, NULL_TREE);
-  return t;
+  build_type_decl (name, res, NULL_TREE);
+  return res;
 }
 
 /* Finish an object type started with start_object_type. Note: Don't return
@@ -243,17 +327,39 @@ start_object_type (name)
      It would be nicer to have them attached to the method descriptions, but
      this seems to be hard to achieve in the parser. So we handle it here. */
 tree
-finish_object_type (type, parent, items, abstract)
-     tree type, parent, items;
-     int abstract;
+finish_object_type (tree type, tree parent, tree items, int abstract)
 {
   tree fields, methods, field, parm, vmt_entry, vmt_type, size, vmt_field, t;
   tree *pfields, *pmethods, cp, init, f, ti;
-  const char *object_name = IDENTIFIER_NAME (DECL_NAME (TYPE_NAME (type))), *n;
+  tree object_type_name = DECL_NAME (TYPE_NAME (type));
+  const char *object_name = IDENTIFIER_NAME (object_type_name), *n;
   int protected_private = 0, has_virtual_method = 0, has_constructor = 0, i;
+  tree parent_type = parent;
+  int is_class = 0;
+
+  if (TREE_CODE (type) == POINTER_TYPE)
+    {
+      gcc_assert (PASCAL_TYPE_CLASS (type));
+      type = TREE_TYPE (type);
+      is_class = 1;
+    }
 
   if (parent && EM (parent))
-    parent = NULL_TREE;
+    parent_type = parent = NULL_TREE;
+
+  if (parent && TREE_CODE (parent) == POINTER_TYPE
+      && PASCAL_TYPE_CLASS (parent))
+    {
+      parent = TREE_TYPE (parent);
+      if (TREE_CODE (parent) == LANG_TYPE)
+        {
+          error ("forward class used as parent");
+          parent_type = parent = NULL_TREE;
+        }
+      else
+        gcc_assert (PASCAL_TYPE_OBJECT (parent));
+    }
+
   if (parent && !PASCAL_TYPE_OBJECT (parent))
     {
       tree parent_name = TYPE_NAME (parent);
@@ -271,7 +377,7 @@ finish_object_type (type, parent, items, abstract)
   for (cp = items; cp && !EM (cp); cp = TREE_CHAIN (cp))
     if (TREE_CODE (cp) == TREE_LIST)
       {
-        assert (TREE_CODE (TREE_VALUE (cp)) == IDENTIFIER_NODE);
+        gcc_assert (TREE_CODE (TREE_VALUE (cp)) == IDENTIFIER_NODE);
         if (TREE_PURPOSE (cp) != void_type_node)
           error ("spurious `%s'", IDENTIFIER_NAME (TREE_VALUE (cp)));
         else
@@ -302,9 +408,9 @@ finish_object_type (type, parent, items, abstract)
       {
         tree heading = cp, assembler_name = NULL_TREE, method, method_field;
         tree t = TREE_TYPE (heading), name = DECL_NAME (heading);
-        tree method_name = get_method_name (DECL_NAME (TYPE_NAME (type)), name);
+        tree method_name = get_method_name (object_type_name, name);
         tree args, argtypes = build_formal_param_list (DECL_ARGUMENTS (heading), type, &args);
-        int virtual = 0, n = 0;
+        int virtual = 0, nv = 0, na = 0, override = 0, reintroduce = 0;
         filename_t save_input_filename = input_filename;
         int save_lineno = lineno, save_column = column;
         if (!t)
@@ -327,7 +433,7 @@ finish_object_type (type, parent, items, abstract)
                 if (co->methods_always_virtual)
                   warning ("explicit `virtual' given with `--methods-always-virtual'");
                 virtual = 1;
-                n++;
+                nv++;
                 if (TREE_PURPOSE (cp))
                   {
                     tree t = TREE_PURPOSE (cp);
@@ -344,15 +450,32 @@ finish_object_type (type, parent, items, abstract)
             else if (IDENTIFIER_IS_BUILT_IN (TREE_VALUE (cp), p_abstract))
               {
                 virtual = 2;
-                n++;
+                na++;
               }
             else if (IDENTIFIER_IS_BUILT_IN (TREE_VALUE (cp), p_attribute))
               routine_attributes (&method, TREE_PURPOSE (cp), &assembler_name);
+            else if (IDENTIFIER_IS_BUILT_IN (TREE_VALUE (cp), p_override))
+              override++;
+            else if (IDENTIFIER_IS_BUILT_IN (TREE_VALUE (cp), p_reintroduce))
+              reintroduce++;
             else
               error ("unknown object method directive `%s'", IDENTIFIER_NAME (TREE_VALUE (cp)));
           }
-        if (n > 1)
+        if (na > 1 || nv > 1)
           error ("duplicate `virtual' or `abstract'");
+        if (override > 1)
+          {
+            error ("duplicate `override'");
+            override = 1;
+          }
+        if (reintroduce > 1)
+          {
+            error ("duplicate `reintroduce'");
+            reintroduce = 1;
+          }
+
+        PASCAL_METHOD_REINTRODUCE (method) = reintroduce;
+        PASCAL_METHOD_OVERRIDE (method) = override;
         DECL_EXTERNAL (method) = 1;
         PASCAL_FORWARD_DECLARATION (method) = virtual != 2;
         PASCAL_METHOD (method) = 1;
@@ -361,10 +484,9 @@ finish_object_type (type, parent, items, abstract)
         if (assembler_name)
           assembler_name = check_assembler_name (assembler_name);
         else
-          assembler_name = pascal_mangle_names (object_name,
-                              IDENTIFIER_POINTER (name));
+          assembler_name = pascal_mangle_names (object_name, IDENTIFIER_POINTER (name));
         SET_DECL_ASSEMBLER_NAME (method, assembler_name);
-        DECL_LANG_SPECIFIC (method) = allocate_decl_lang_specific ();
+        allocate_decl_lang_specific (method);
         DECL_LANG_PARMS (method) = args;
         DECL_LANG_RESULT_VARIABLE (method) = DECL_RESULT (heading);
         PASCAL_STRUCTOR_METHOD (method) = PASCAL_STRUCTOR_METHOD (heading);
@@ -373,7 +495,7 @@ finish_object_type (type, parent, items, abstract)
           mark_addressable (method);
         /* Push also abstract methods (for better error messages on attempts to implement them). */
         method = pushdecl (method);
-        assert (!EM (method));
+        gcc_assert (!EM (method));
         rest_of_decl_compilation (method, 0, 1, 1);
         if (PASCAL_FORWARD_DECLARATION (method))
           {
@@ -384,7 +506,7 @@ finish_object_type (type, parent, items, abstract)
         DECL_NO_STATIC_CHAIN (method) = 1;  /* @@ ? */
         PASCAL_VIRTUAL_METHOD (method) = virtual != 0;
         PASCAL_ABSTRACT_METHOD (method) = virtual == 2;
-        if (virtual && PASCAL_CONSTRUCTOR_METHOD (method))
+        if (!is_class && virtual && PASCAL_CONSTRUCTOR_METHOD (method))
           error ("constructors must not be virtual or abstract");
         method_field = copy_node (method);
         PASCAL_FORWARD_DECLARATION (method_field) = 0;
@@ -404,7 +526,17 @@ finish_object_type (type, parent, items, abstract)
     for (field = i ? methods : fields; field; field = TREE_CHAIN (field))
       {
         tree t;
+#if 0
         for (t = parent; t && DECL_NAME (TYPE_NAME (t)) != DECL_NAME (field); t = TYPE_LANG_BASE (t)) ;
+#else
+        t = parent_type;
+        while (t && DECL_NAME (TYPE_NAME (t)) != DECL_NAME (field))
+          {
+            if (TREE_CODE (t) == POINTER_TYPE)
+              t = TREE_TYPE (t);
+            t = TYPE_LANG_BASE (t);
+          }
+#endif
         if (t)
           {
             if (PEDANTIC (B_D_PASCAL))  /* forbidden by OOE */
@@ -417,22 +549,39 @@ finish_object_type (type, parent, items, abstract)
   if (parent)
     {
       /* Inheritance */
-      tree parent_methods, df, pf, *dm, *pm, t;
-      for (pf = TYPE_FIELDS (parent); pf; pf = TREE_CHAIN (pf))
+      tree parent_methods, df, pf, *dm, *pm, t,
+           parent_fields = copy_list (TYPE_FIELDS (parent));
+      for (pf = parent_fields; pf; pf = TREE_CHAIN (pf))
         {
-          for (df = fields; df && DECL_NAME (df) != DECL_NAME (pf); df = TREE_CHAIN (df));
+          if (PASCAL_FIELD_SHADOWED (pf))
+            continue;
+          for (df = fields; df && DECL_NAME (df) != DECL_NAME (pf); 
+               df = TREE_CHAIN (df)) ;
           if (df)
             {
-              error ("cannot overwrite data field `%s' of parent object type", IDENTIFIER_NAME (DECL_NAME (df)));
+              if (co->delphi_method_shadowing)
+                PASCAL_FIELD_SHADOWED (pf) = 1;
+              else
+                error ("cannot overwrite data field `%s' of parent object type", IDENTIFIER_NAME (DECL_NAME (df)));
               continue;
             }
           for (df = methods; df && DECL_NAME (df) != DECL_NAME (pf); df = TREE_CHAIN (df));
           if (df)
-            error ("method `%s' conflicts with data field of parent object type", IDENTIFIER_NAME (DECL_NAME (df)));
+            {
+              if (co->delphi_method_shadowing || PASCAL_METHOD_REINTRODUCE (df))
+                PASCAL_FIELD_SHADOWED (pf) = 1;
+              else
+                error ("method `%s' conflicts with data field of parent object type", IDENTIFIER_NAME (DECL_NAME (df)));
+            }
         }
       parent_methods = copy_list (TYPE_METHODS (parent));
       for (pm = &parent_methods; *pm; )
         {
+          if (PASCAL_METHOD_SHADOWED (*pm))
+            {
+              pm = &TREE_CHAIN (*pm);
+              continue;
+            }
           for (df = fields; df && DECL_NAME (df) != DECL_NAME (*pm); df = TREE_CHAIN (df));
           if (df)
             error ("data field `%s' conflicts with method of parent object type", IDENTIFIER_NAME (DECL_NAME (df)));
@@ -443,6 +592,20 @@ finish_object_type (type, parent, items, abstract)
                 {
                   static const char *const descr[3] = { "public", "protected", "private" };
                   int p1 = PUBLIC_PRIVATE_PROTECTED (*pm), p2 = PUBLIC_PRIVATE_PROTECTED (*dm);
+                  if (is_class && !PASCAL_METHOD_OVERRIDE (*dm))
+                    {
+                      if (co->delphi_method_shadowing 
+                          || PASCAL_METHOD_REINTRODUCE (*dm))
+                        {
+                          PASCAL_METHOD_SHADOWED (*pm) = 1;
+                          pm = &TREE_CHAIN (*pm);
+                          continue;
+                        }
+                      else
+                        error ("method `%s', overrides parent method",
+                               IDENTIFIER_NAME (DECL_NAME (*dm)));
+                    }
+                  PASCAL_METHOD_OVERRIDE (*dm) = 0;
                   if (p1 < p2)
                     {
                       if (pedantic || !(co->pascal_dialect & B_D_PASCAL))
@@ -452,9 +615,11 @@ finish_object_type (type, parent, items, abstract)
                     }
                   if (PASCAL_VIRTUAL_METHOD (*pm))
                     {
-                      check_routine_decl (DECL_LANG_PARMS (*dm), TREE_TYPE (TREE_TYPE (*dm)),
-                        DECL_LANG_RESULT_VARIABLE (*dm), 0, 1, PASCAL_STRUCTOR_METHOD (*dm),
-                        *pm, DECL_SOURCE_FILE (*dm), DECL_SOURCE_LINE (*dm));
+                      if (!compare_routine_decls (*dm, *pm))
+                        {
+                          error_with_decl (*dm, "virtual method does not match inherited method");
+                          error_with_decl (*pm, " inherited method");
+                        }
                       if (PASCAL_TYPE_IOCRITICAL (TREE_TYPE (*dm))
                           && !PASCAL_TYPE_IOCRITICAL (TREE_TYPE (*pm)))
                         warning ("iocritical virtual method overrides non-iocritical one");
@@ -487,11 +652,11 @@ finish_object_type (type, parent, items, abstract)
             }
           pm = &TREE_CHAIN (*pm);
         }
-      fields = chainon (copy_list (TYPE_FIELDS (parent)), fields);
+      fields = chainon (parent_fields, fields);
       methods = chainon (parent_methods, methods);
       vmt_field = fields;  /* i.e., first field */
-      assert (DECL_NAME (vmt_field) == vmt_id);
-      assert (TREE_CODE (TREE_TYPE (vmt_field)) == POINTER_TYPE);
+      gcc_assert (DECL_NAME (vmt_field) == vmt_id);
+      gcc_assert (TREE_CODE (TREE_TYPE (vmt_field)) == POINTER_TYPE);
     }
   else
     {
@@ -505,14 +670,14 @@ finish_object_type (type, parent, items, abstract)
   TYPE_ALIGN (type) = BIGGEST_ALIGNMENT;
   TYPE_LANG_CODE (type) = abstract ? PASCAL_LANG_ABSTRACT_OBJECT : PASCAL_LANG_OBJECT;
   TYPE_LANG_VMT_FIELD (type) = vmt_field;
-  TYPE_LANG_BASE (type) = parent;
+  TYPE_LANG_BASE (type) = parent_type;
   TYPE_METHODS (type) = methods;
 
   init = NULL_TREE;
   for (f = fields; f; f = TREE_CHAIN (f))
     if ((ti = TYPE_GET_INITIALIZER (TREE_TYPE (f))))
       {
-        assert (TREE_CODE (ti) == TREE_LIST && !TREE_PURPOSE (ti));
+        gcc_assert (TREE_CODE (ti) == TREE_LIST && !TREE_PURPOSE (ti));
         init = tree_cons (build_tree_list (DECL_NAME (f), NULL_TREE), TREE_VALUE (ti), init);
       }
   if (init)
@@ -596,14 +761,15 @@ finish_object_type (type, parent, items, abstract)
         warning ("abstract object type `%s' inherits from non-abstract type `%s'",
                  object_name, IDENTIFIER_NAME (DECL_NAME (TYPE_NAME (parent))));
     }
-  else if (has_virtual_method && !has_constructor && !(co->pascal_dialect & MAC_PASCAL))
+  else if (has_virtual_method && !has_constructor && !is_class
+           /* && (co->pascal_dialect & B_D_PASCAL) */)
     warning ("object type has virtual method, but no constructor");
 
   /* Now create a global var declaration (also for abstract types,
      for `is', `as' and explicit parent type access via VMT).
      VQ_IMPLICIT suppresses `unused variable' warning and prevents it
      from being pushed as a regular declaration (which is unnecessary). */
-  n = ACONCAT (("vmt_", IDENTIFIER_POINTER (DECL_NAME (TYPE_NAME (type))), NULL));
+  n = ACONCAT (("vmt_", IDENTIFIER_POINTER (object_type_name), NULL));
   TYPE_LANG_VMT_VAR (type) = declare_variable (get_identifier (n), vmt_type,
     build_tree_list (NULL_TREE, vmt_entry), VQ_IMPLICIT | VQ_CONST | (current_module->implementation ? VQ_STATIC : 0));
 
@@ -628,11 +794,19 @@ finish_object_type (type, parent, items, abstract)
 
 /* Build an `is' or `as' expression */
 tree
-build_is_as (left, right, op)
-     tree left, right;
-     int op;
+build_is_as (tree left, tree right, int op)
 {
   const char *opname = (op == p_is) ? "is" : "as";
+  int want_class = 0;
+  tree oleft = left;
+  if (TREE_CODE (right) == POINTER_TYPE && PASCAL_TYPE_CLASS (right))
+    {
+      right = TREE_TYPE (right);
+      want_class = 1;
+    }
+  if (TREE_CODE (TREE_TYPE (left)) == POINTER_TYPE
+      && PASCAL_TYPE_CLASS (TREE_TYPE (left)))
+    left = build_indirect_ref (left, NULL);
   if (!PASCAL_TYPE_OBJECT (right))
     error ("right operand of `%s' must be an object type", opname);
   else if (!PASCAL_TYPE_OBJECT (TREE_TYPE (left)))
@@ -646,7 +820,11 @@ build_is_as (left, right, op)
              || TREE_CODE (l) == NON_LVALUE_EXPR)
         l = TREE_OPERAND (l, 0);
       while (t && TYPE_MAIN_VARIANT (t) != tl)
-        t = TYPE_LANG_BASE (t);
+        {
+          t = TYPE_LANG_BASE (t);
+          if (t && TREE_CODE (t) == POINTER_TYPE)
+            t = TREE_TYPE (t);
+        }
       if (!t)
         {
           error ("right operand of `%s' must be a derived type", opname);
@@ -666,7 +844,7 @@ build_is_as (left, right, op)
             {
               warning ("`as' has no effect if the right operand is");
               warning (" the declared type of the left operand");
-              return left;
+              return oleft;
             }
         }
       /* Variables, value parameters and components are not polymorphic.
@@ -712,12 +890,13 @@ build_is_as (left, right, op)
                  within the RTS so the compiler can optimize a construction like
                  `if foo is bar then something (foo as bar)'. */
               p_right = build_pointer_type (right);
-              return build_pascal_pointer_reference (
+              res = save_expr (
                        build (COMPOUND_EXPR, p_right,
                          build (COND_EXPR, void_type_node, res,
                                 convert (void_type_node, integer_zero_node),
                                 build_predef_call (p_as, NULL_TREE)),
                          convert (p_right, build_pascal_unary_op (ADDR_EXPR, left))));
+              return want_class ? res : build_indirect_ref (res, NULL);
             }
         }
     }

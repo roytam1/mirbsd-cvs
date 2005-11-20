@@ -37,14 +37,14 @@ static const struct gpc_short_option
   const char *inverted_long_name;
 } gpc_short_options[] =
   {
-    { 'b', 1, "-fno-short-circuit", "-fshort-circuit"      },
-    { 'c', 1, "-fassertions",       "-fno-assertions"      },
-    { 'i', 1, "-fio-checking",      "-fno-io-checking"     },
-    { 'r', 1, "-frange-checking",   "-fno-range-checking"  },
-    { 's', 1, "-fstack-checking",   "-fno-stack-checking"  },
-    { 't', 1, "-ftyped-address",    "-fno-typed-address"   },
-    { 'w', 0, "-Wwarnings",         "-Wno-warnings"        },
-    { 'x', 1, "-fextended-syntax",  "-fno-extended-syntax" },
+    { 'b', 1, "-fno-short-circuit",          "-fshort-circuit"                },
+    { 'c', 1, "-fassertions",                "-fno-assertions"                },
+    { 'i', 1, "-fio-checking",               "-fno-io-checking"               },
+    { 'r', 1, "-frange-and-object-checking", "-fno-range-and-object-checking" },
+    { 's', 1, "-fstack-checking",            "-fno-stack-checking"            },
+    { 't', 1, "-ftyped-address",             "-fno-typed-address"             },
+    { 'w', 0, "-Wwarnings",                  "-Wno-warnings"                  },
+    { 'x', 1, "-fextended-syntax",           "-fno-extended-syntax"           },
     { 'h', 1, "-#h", "-#no-h" },  /* @@ BP short strings, not yet implemented */
     { 'p', 1, "-#p", "-#no-p" },  /* @@ BP open strings, not yet implemented */
     { 'q', 1, "-#q", "-#no-q" },  /* @@ BP overflow checking, not yet implemented */
@@ -76,12 +76,20 @@ static const char *const default_options[] =
     "-fexact-compare-strings",
     "-fio-checking",
     "-frange-checking",
+    "-fobject-checking",
+    "-fno-pointer-checking",
+    "-fno-pointer-checking-user-defined",
     "-fno-stack-checking",
     "-fwrite-real-blank",
     "-fno-transparent-file-names",
     "-fno-pedantic",
     "-ftyped-address",
     "-fassertions",
+#ifdef TARGET_POWERPC
+#if TARGET_MACHO
+    "-flongjmp-all-nonlocal-labels",
+#endif
+#endif
     "-Wwarnings",
     "-Wimplicit-abstract",
     "-Winherited-abstract",
@@ -115,7 +123,7 @@ static const struct lang_option_map
      initializer doesn't compile. The limits can be increased when
      necessary. */
   const char *src[7];
-  const char *dest[23];
+  const char *dest[26];
 } lang_option_map[] =
   {
     {
@@ -131,9 +139,11 @@ static const struct lang_option_map
       {
         "-fno-ignore-packed",
         "-fno-ignore-garbage-after-dot",
+        "-fno-nonlocal-exit",
         "-fno-macros",
         "-fmixed-comments",
         "-fno-delphi-comments",
+        "-fno-implicit-result",
         "-fcase-value-checking",
         "-fno-short-circuit",
         "-fread-base-specifier",
@@ -187,7 +197,6 @@ static const struct lang_option_map
         "-fexact-compare-strings",
         "-fno-double-quoted-strings",
         "-fno-field-widths",
-        "-fno-methods-always-virtual",
         "-fno-propagate-units",
         "-Wno-object-assignment",
         "-Wno-typed-const",
@@ -202,6 +211,7 @@ static const struct lang_option_map
         0
       },
       {
+        "-fnonlocal-exit",
         "-fno-ignore-packed",
         "-Wcast-align",
         0
@@ -214,7 +224,9 @@ static const struct lang_option_map
         0
       },
       {
+        "-fno-nonlocal-exit",
         "-fignore-packed",
+        "-fborland-objects",
         "-Wno-cast-align",
         0
       }
@@ -227,6 +239,7 @@ static const struct lang_option_map
       },
       {
         "-fno-delphi-comments",
+        "-fno-implicit-result",
         0
       }
     },
@@ -237,6 +250,7 @@ static const struct lang_option_map
       },
       {
         "-fdelphi-comments",
+        "-fimplicit-result",
         0
       }
     },
@@ -246,20 +260,32 @@ static const struct lang_option_map
         0
       },
       {
+        "-fignore-garbage-after-dot",
+        "-fnonlocal-exit",
+        "-fno-mixed-comments",
+        "-fdelphi-comments",
         "-fno-typed-address",
         "-fno-case-value-checking",
         "-fno-short-circuit",
-        "-fignore-garbage-after-dot",
-        "-fno-mixed-comments",
-        "-fdelphi-comments",
+        "-fno-implicit-result",
         "-fdouble-quoted-strings",
         "-fno-field-widths",
-        "-fmethods-always-virtual",
         "-fpropagate-units",
+        "-fmac-objects",
         "-Wno-typed-const",
         "-Wno-cast-align",
         "-Wno-underscore",
         "-Wobject-assignment",
+        0
+      }
+    },
+    {
+      {
+        "-fobject-pascal",
+        0
+      },
+      {
+        "-fooe-objects",
         0
       }
     },
@@ -271,9 +297,11 @@ static const struct lang_option_map
       {
         "-fno-ignore-packed",
         "-fno-ignore-garbage-after-dot",
+        "-fno-nonlocal-exit",
         "-fmacros",
         "-fno-mixed-comments",
         "-fdelphi-comments",
+        "-fno-implicit-result",
         "-fno-case-value-checking",
         "-fshort-circuit",
         "-fread-base-specifier",
@@ -284,7 +312,7 @@ static const struct lang_option_map
         "-fexact-compare-strings",
         "-fdouble-quoted-strings",
         "-fno-field-widths",
-        "-fno-methods-always-virtual",
+        "-fgnu-objects",
         "-fno-propagate-units",
         "-Wcast-align",
         "-Wobject-assignment",
@@ -349,6 +377,76 @@ static const struct lang_option_map
         "-fno-pointer-arithmetic",
         "-fno-cstrings-as-strings",
         "-Wabsolute",
+        0
+      }
+    },
+    {
+      {
+        "-frange-and-object-checking",
+        0
+      },
+      {
+        "-frange-checking",
+        "-fobject-checking",
+        0
+      }
+    },
+    {
+      {
+        "-fno-range-and-object-checking",
+        0
+      },
+      {
+        "-fno-range-checking",
+        "-fno-object-checking",
+        0
+      }
+    },
+    {
+      {
+        "-fborland-objects",
+        0
+      },
+      {
+        "-fdelphi-method-shadowing",
+        "-fno-methods-always-virtual",
+        "-fno-objects-are-references",
+        "-fno-objects-require-override",
+        0
+      }
+    },
+    {
+      {
+        "-fmac-objects",
+        0
+      },
+      {
+        "-fobjects-are-references",
+        "-fmethods-always-virtual",
+        "-fobjects-require-override",
+        0
+      }
+    },
+    {
+      {
+        "-fooe-objects",
+        0
+      },
+      {
+        "-fmethods-always-virtual",
+        0
+      }
+    },
+    {
+      {
+        "-fgnu-objects",
+        0
+      },
+      {
+        "-fno-methods-always-virtual",
+        "-fno-objects-are-references",
+        "-fno-delphi-method-shadowing",
+        "-fno-objects-require-override",
         0
       }
     },
