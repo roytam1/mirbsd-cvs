@@ -26,6 +26,7 @@
   02111-1307, USA. */
 
 #include "gpc.h"
+#include "gpcpp.h"
 #ifdef EGCS97
 #include "langhooks.h"
 #include "langhooks-def.h"
@@ -37,32 +38,47 @@
 /* The following functions are not called from GPC, but needed by
    the backend. Depending on the GCC version, they're simply called
    as extern, so we can't make them static (yet). */
-extern void print_lang_decl PARAMS ((FILE *, tree, int));
-extern void print_lang_type PARAMS ((FILE *, tree, int));
-extern void print_lang_identifier PARAMS ((FILE *, tree, int));
-extern void lang_print_xnode PARAMS ((FILE *, tree, int));
-extern void lang_init_options PARAMS ((void));
-extern void add_pascal_tree_codes PARAMS ((void));
+extern void print_lang_decl (FILE *, tree, int);
+extern void print_lang_type (FILE *, tree, int);
+extern void print_lang_identifier (FILE *, tree, int);
+extern void lang_print_xnode (FILE *, tree, int);
+extern void lang_init_options (void);
+extern void add_pascal_tree_codes (void);
 #ifdef EGCS97
-extern const char *init_parse PARAMS ((const char *));
+extern const char *init_parse (const char *);
 #else
-extern char *init_parse PARAMS ((char *));
+extern char *init_parse (char *);
 #endif
 #ifdef EGCS
-extern int lang_decode_option PARAMS ((int, char **));
+extern int lang_decode_option (int, char **);
 #ifdef EGCS97
-extern const char *lang_init PARAMS ((const char *));
+extern const char *lang_init (const char *);
 #else
-extern void lang_init PARAMS ((void));
+extern void lang_init (void);
 #endif
-void finish_parse PARAMS ((void));
+void finish_parse (void);
 #endif
-extern void copy_lang_decl PARAMS ((tree));
-extern tree maybe_build_cleanup PARAMS ((tree));
+extern tree maybe_build_cleanup (tree);
 #ifdef GCC_3_3
-extern int yyparse PARAMS ((void));
-static void pascal_parse PARAMS ((int));
+extern int yyparse (void);
+static void pascal_parse (int);
 #endif
+
+#ifdef GCC_3_4
+int save_argc;
+char * * save_argv;
+#endif
+
+#ifndef GCC_3_4
+extern char * asm_file_name;
+#endif
+static void open_gpcpp_output (const char *out_fname);
+static void call_gpcpp (const char * filename, FILE * fi);
+
+static FILE * gpcpp_out_stream;
+static const char * gpcpp_out_fname;
+
+void open_input (const char *filename);
 
 #ifdef EGCS97
 const char *language_string = "GNU Pascal";
@@ -76,47 +92,57 @@ static rtx
 pascal_expand_expr (tree t, rtx r, enum machine_mode mm, int em, rtx *a ATTRIBUTE_UNUSED)
 #else
 #ifdef GCC_3_3
-static rtx pascal_expand_expr PARAMS ((tree, rtx, enum machine_mode, int));
+static rtx pascal_expand_expr (tree, rtx, enum machine_mode, int);
 static rtx
 pascal_expand_expr (tree t, rtx r, enum machine_mode mm, int em)
 #else
-static rtx pascal_expand_expr PARAMS ((tree, rtx, enum machine_mode, enum expand_modifier));
+static rtx pascal_expand_expr (tree, rtx, enum machine_mode, enum expand_modifier);
 static rtx
 pascal_expand_expr (tree t, rtx r, enum machine_mode mm, enum expand_modifier em)
 #endif
 #endif
 {
-  if (TREE_CODE (t) == PASCAL_BIT_FIELD_REF)
+  enum tree_code code = TREE_CODE (t);
+  if (code == PASCAL_BIT_FIELD_REF)
     return expand_expr (
              build_pascal_packed_array_ref (
                TREE_OPERAND (t, 0),
                TREE_OPERAND (t, 1),
                TREE_OPERAND (t, 2),
                1), r, mm, em);
+  else if (code == RANGE_CHECK_EXPR 
+            || code == IO_RANGE_CHECK_EXPR)
+    return expand_expr (
+             build_range_check (
+               TREE_OPERAND (t, 0),
+               TREE_OPERAND (t, 1),
+               TREE_OPERAND (t, 2),
+               code == IO_RANGE_CHECK_EXPR),
+              r, mm, em);
+  else if (code == PASCAL_CONSTRUCTOR_CALL)
+    return expand_expr (
+             build_predef_call (p_New, TREE_OPERAND (t, 0)),
+             r, mm, em);
+
 #if 0
-  if (TREE_CODE (t) == NON_RVALUE_EXPR)
+  if (code == NON_RVALUE_EXPR)
     {
        error ("Function requires parameters");
        return expand_expr (error_mark_node, r, mm, em);
     }
 #endif
   else
-    assert (0);
+    gcc_unreachable ();
 }
 
 const char *
-pascal_decl_name (decl, verbosity)
-     tree decl;
-     int verbosity ATTRIBUTE_UNUSED;
+pascal_decl_name (tree decl, int verbosity ATTRIBUTE_UNUSED)
 {
   return IDENTIFIER_NAME (DECL_NAME (decl));
 }
 
 void
-print_lang_decl (file, node, indent)
-     FILE *file;
-     tree node;
-     int indent;
+print_lang_decl (FILE *file, tree node, int indent)
 {
   if (DECL_LANG_SPECIFIC (node))
     {
@@ -125,14 +151,17 @@ print_lang_decl (file, node, indent)
       print_node (file, "result_variable", DECL_LANG_INFO2 (node), indent + 4);
       print_node (file, PASCAL_METHOD (node) ? "method_decl" : "operator_decl",
                         DECL_LANG_INFO3 (node), indent + 4);
+      print_node (file, "nonlocal_exit_label", DECL_LANG_INFO4 (node), indent + 4);
+      if (DECL_LANG_SPECIFIC (node)->used_in_scope)
+        {
+          indent_to (file, indent + 4);
+          fprintf (file, "used_in_scope %i\n", DECL_LANG_SPECIFIC (node)->used_in_scope);
+        }
     }
 }
 
 void
-print_lang_type (file, node, indent)
-     FILE *file;
-     tree node;
-     int indent;
+print_lang_type (FILE *file, tree node, int indent)
 {
   print_node (file, "main_variant", TYPE_MAIN_VARIANT (node), indent + 4);
   if TYPE_LANG_SPECIFIC (node)
@@ -190,10 +219,7 @@ print_lang_type (file, node, indent)
 }
 
 void
-print_lang_identifier (file, node, indent)
-     FILE *file;
-     tree node;
-     int indent;
+print_lang_identifier (FILE *file, tree node, int indent)
 {
   struct predef *p = IDENTIFIER_BUILT_IN_VALUE (node);
   if (IDENTIFIER_SPELLING (node))
@@ -227,10 +253,7 @@ print_lang_identifier (file, node, indent)
 }
 
 void
-lang_print_xnode (file, node, indent)
-     FILE *file;
-     tree node;
-     int indent;
+lang_print_xnode (FILE *file, tree node, int indent)
 {
   if (TREE_CODE (node) == IMPORT_NODE)
     {
@@ -241,8 +264,7 @@ lang_print_xnode (file, node, indent)
 }
 
 void
-get_current_routine_name (desc, name)
-     const char **desc, **name;
+get_current_routine_name (const char **desc, const char **name)
 {
   *name = pascal_decl_name (current_function_decl, 2);
   if (DECL_ARTIFICIAL (current_function_decl))
@@ -291,16 +313,13 @@ get_current_routine_name (desc, name)
 #endif
 static tree last_error_function = NULL;
 #ifdef EGCS97
-static void pascal_print_error_function PARAMS ((diagnostic_context *, const char *));
+static void pascal_print_error_function (diagnostic_context *, const char *);
 static void
-pascal_print_error_function (context, file)
-     diagnostic_context *context ATTRIBUTE_UNUSED;
-     const char *file;
+pascal_print_error_function (diagnostic_context *context ATTRIBUTE_UNUSED, const char *file)
 #else
-static void pascal_print_error_function PARAMS ((const char *));
+static void pascal_print_error_function (const char *);
 static void
-pascal_print_error_function (file)
-     const char *file;
+pascal_print_error_function (const char *file)
 #endif
 {
   if (error_function_changed ())
@@ -322,7 +341,7 @@ pascal_print_error_function (file)
 
 #ifndef EGCS97
 void
-lang_init_options ()
+lang_init_options (void)
 {
   pascal_init_options ();
 }
@@ -367,7 +386,7 @@ static const char *const pascal_tree_code_name[] = {
 #undef DEFTREECODE
 
 void
-add_pascal_tree_codes ()
+add_pascal_tree_codes (void)
 {
 #ifndef EGCS
   tree_code_type = (char **) xrealloc (tree_code_type, LAST_AND_UNUSED_TREE_CODE * sizeof (char *) + sizeof (pascal_tree_code_type));
@@ -420,66 +439,75 @@ const char *const tree_code_name[] = {
 
 extern int debug_no_type_hash;
 
+static void builtin_define (const char *); ATTRIBUTE_UNUSED
+static void builtin_define_with_value (const char *, const char *, int); ATTRIBUTE_UNUSED
+static void builtin_define_with_int_value (const char *, HOST_WIDE_INT); ATTRIBUTE_UNUSED
+static void builtin_define_std (const char *); ATTRIBUTE_UNUSED
+
+static void
+do_def (const char *s)
+{
+  make_definition (s, 1);
+#if 0
+  if (co->print_needed_options)
+    fprintf (stderr, "-D%s ", s);
+#endif
+}
+
+static void
+builtin_define (const char *s)
+{
+  do_def (s);
+}
+
+static void
+builtin_define_with_value (const char *s1, const char *s2, int is_str)
+{
+  char * buff = alloca (strlen (s1) + strlen (s2) + 6);
+  sprintf(buff, is_str ? "%s=\"%s\"" : "%s=%s", s1, s2);
+  do_def (buff);
+}
+
+static void
+builtin_define_with_int_value (const char *s1, HOST_WIDE_INT s2)
+{
+  size_t n = strlen (s1) + 25;
+  char * buff = alloca (n);
+  snprintf(buff, n, "%s=" HOST_WIDE_INT_PRINT_DEC, s1, s2);
+  do_def (buff);
+}
+
+static void
+builtin_define_std (const char *s)
+{
+  char * buff = alloca (strlen (s)+7);
+  do_def (s);
+  sprintf(buff, "__%s", s);
+  do_def (buff);
+  sprintf(buff, "__%s__", s);
+  do_def (buff);
+}
+
 #ifdef GCC_3_3
 #define builtin_assert(s)
-static void builtin_define PARAMS ((const char *)); ATTRIBUTE_UNUSED
-static void builtin_define_with_value PARAMS ((const char *, const char *, int)); ATTRIBUTE_UNUSED
-static void builtin_define_with_int_value PARAMS ((const char *, HOST_WIDE_INT)); ATTRIBUTE_UNUSED
-static void builtin_define_std PARAMS ((const char *)); ATTRIBUTE_UNUSED
 
-static void
-builtin_define (s)
-     const char *s;
-{
-  fprintf (stderr, "-D%s ", s);
-}
-
-static void
-builtin_define_with_value (s1, s2, is_str)
-     const char *s1;
-     const char *s2;
-     int is_str;
-{
-  fprintf (stderr, is_str ? "-D%s=\"%s\" " : "-D%s=%s ", s1, s2);
-}
-
-static void
-builtin_define_with_int_value (s1, s2)
-     const char *s1;
-     HOST_WIDE_INT s2;
-{
-  fprintf (stderr, "-D%s=" HOST_WIDE_INT_PRINT_DEC " ", s1, s2);
-}
-
-static void
-builtin_define_std (s)
-     const char *s;
-{
-  fprintf (stderr, "-D%s -D__%s -D__%s__ ", s, s, s);
-}
-
-extern int c_lex PARAMS ((tree *));
+extern int c_lex (tree *);
 int
-c_lex (t)
-     tree *t ATTRIBUTE_UNUSED;
+c_lex (tree *t ATTRIBUTE_UNUSED)
 {
   return 0;
 }
 
-extern void cpp_define PARAMS ((void *, const char *));
+extern void cpp_define (void *, const char *);
 void
-cpp_define (r, s)
-     void *r ATTRIBUTE_UNUSED;
-     const char *s;
+cpp_define (void *r ATTRIBUTE_UNUSED, const char *s)
 {
   builtin_define_std (s);
 }
 
-extern void cpp_assert PARAMS ((void *, const char *));
+extern void cpp_assert (void *, const char *);
 void
-cpp_assert (pfile, str)
-     void *pfile ATTRIBUTE_UNUSED;
-     const char *str ATTRIBUTE_UNUSED;
+cpp_assert (void *pfile ATTRIBUTE_UNUSED, const char *str ATTRIBUTE_UNUSED)
 {
 }
 
@@ -508,34 +536,54 @@ cpp_assert (pfile, str)
 static int saved_lineno;
 static const char *saved_filename = NULL;
 
-static bool pascal_post_options PARAMS ((const char **));
+static bool pascal_post_options (const char **);
 static bool
 pascal_post_options (const char **pfilename)
 {
   const char *filename = num_in_fnames > 0 ? in_fnames[0] : NULL  /* "-" */;
-#if 1
-  filename = init_parse (filename);
-  /* The beginning of the file is a new line; check for `#'.
-     With luck, we discover the real source file's name from that
-     and put it in input_filename. */
-  main_input_filename = 0;
-  lineno = 1;
-  /* With luck, we discover the real source file name from a line directive
-     at the beginning of the file and put it in input_filename. */
-  set_old_input_filename (filename ? filename : "???");
-  peek_token (0);
-  saved_lineno = lineno;
+  if (co->preprocess_only)
+    {
+      const char *out_fname = asm_file_name;
+      flag_syntax_only = 1;
+      *pfilename = filename;
 
-  lineno = 0;
-  *pfilename = main_input_filename ? main_input_filename : filename;
-#else
-  *pfilename = dump_base_name ? dump_base_name : filename;
-#endif
+      if (num_in_fnames > 1)
+        error ("too many filenames given.  Type %s --help for usage",
+               progname);
+
+      /* Open the output now.  We must do so even if flag_no_output is
+         on, because there may be other output than from the actual
+         preprocessing (e.g. from -dM).  */
+
+      open_gpcpp_output (out_fname);
+
+      return true;
+    }
+
+  if (co->preprocessed)
+  {  
+    filename = init_parse (filename);
+    /* The beginning of the file is a new line; check for `#'.
+       With luck, we discover the real source file's name from that
+       and put it in input_filename. */
+    main_input_filename = NULL;
+    lineno = 1;
+    /* With luck, we discover the real source file name from a line directive
+       at the beginning of the file and put it in input_filename. */
+    set_old_input_filename (filename ? filename : "???");
+    peek_token (0);
+    saved_lineno = lineno;
+
+    lineno = 0;
+    *pfilename = main_input_filename ? main_input_filename : filename;
+  }
+  else
+    *pfilename = filename;
   saved_filename = filename;
   return false;
 }
 
-static int pascal_handle_option PARAMS ((size_t, const char *, int));
+static int pascal_handle_option (size_t, const char *, int);
 static int
 pascal_handle_option (size_t scode, const char *arg, int value)
 {
@@ -544,7 +592,6 @@ pascal_handle_option (size_t scode, const char *arg, int value)
 #include "handle-opts.c"
     default:
       break;
-      assert (0);
   }
   return 1;
 }
@@ -557,12 +604,11 @@ pascal_tree_size (enum tree_code code)
   {
     case INTERFACE_NAME_NODE: return sizeof (struct tree_inn);
     case IMPORT_NODE:         return sizeof (struct tree_import);
-    default:
-      assert (0);
+    default:                  gcc_unreachable ();
   }
 }
 
-static bool lang_init_3_4 PARAMS ((void));
+static bool lang_init_3_4 (void);
 static bool
 lang_init_3_4 (void)
 {
@@ -570,19 +616,62 @@ lang_init_3_4 (void)
     lang_init (saved_filename);
   else
     lang_init (main_input_filename);
-  return true;
+  return !co->preprocess_only;
 }
 #endif
 
+
+
+void
+open_input (const char *filename)
+{
+#if USE_CPPLIB
+  gcc_unreachable ();
+#endif
+  /* Open input file. */
+  if (!filename || !strcmp (filename, "-"))
+    {
+      finput = stdin;
+      filename = "stdin";
+    }
+  else
+    finput = fopen (filename, "r");
+  if (!finput)
+    {
+      fprintf (stderr, "%s: ", progname);
+      perror (filename);
+      exit (FATAL_EXIT_CODE);
+    }
+#ifdef IO_BUFFER_SIZE
+  setvbuf (finput, (char *) xmalloc (IO_BUFFER_SIZE), _IOFBF, IO_BUFFER_SIZE);
+#endif
+}
+
+static void
+call_gpcpp (const char * filename, FILE * fi)
+{
+  init_gpcpp();
+  gpcpp_main (filename, fi);
+  fclose (fi);
+  if (!co->print_deps)
+    gpcpp_writeout (gpcpp_out_fname, gpcpp_out_stream);
+  else
+    fclose (gpcpp_out_stream);
+
+  exit (EXIT_SUCCESS);
+}
+
 #ifdef EGCS97
 const char *
-lang_init (filename)
-     const char *filename;
+lang_init (const char *filename)
 #else
 void
-lang_init ()
+lang_init (void)
 #endif
 {
+  /* Default trampolines to on, for now.  */
+  flag_trampolines = 1;
+
   /* What type_hash_canon() does is wrong for Pascal (distinct, but structurally
      identical types are not compatible, fjf834.pas). Also, it's not compatible
      with the end_temporary_allocation() call in build_pascal_array_type
@@ -596,11 +685,23 @@ lang_init ()
 #endif
 
 #ifdef EGCS97
-  init_decl_processing ();
-
+  if (co->preprocess_only)
+    {
+      open_input (filename);
 #ifndef GCC_3_4
-  filename = init_parse (filename);
+      open_gpcpp_output (asm_file_name);
 #endif
+      call_gpcpp (filename, finput);
+      return 0;
+    }
+
+  init_decl_processing ();
+#ifdef GCC_3_4
+  if (!co->preprocessed)
+#endif
+    {
+      filename = init_parse (filename);
+    }
 
 #ifndef GCC_3_3
   decl_printable_name = pascal_decl_name;
@@ -623,14 +724,6 @@ lang_init ()
   print_error_function = pascal_print_error_function;
 #endif
 
-#if 0
-#ifdef EGCS97
-  init_gpc_lex (filename);
-#else
-  init_gpc_lex (input_filename);
-#endif
-#endif
-
   if (co->option_big_endian == 0 && BYTES_BIG_ENDIAN)
     {
       input_filename = NULL;
@@ -645,20 +738,14 @@ lang_init ()
       error ("`--big-endian' given, but target system is little endian");
       exit (FATAL_EXIT_CODE);
     }
-  if (co->print_needed_options)
-    {
-#ifdef GCC_3_3
-      if (optimize_size)
-        builtin_define ("__OPTIMIZE_SIZE__");
-      if (optimize)
-        builtin_define ("__OPTIMIZE__");
 
-      TARGET_CPU_CPP_BUILTINS ();
-      TARGET_OS_CPP_BUILTINS ();
-#endif
+      /* Should be not needed with integrate preprocessor */
       /* The following is no joke! The difference between what the
          preprocessor and the compiler think of BYTES_BIG_ENDIAN is
          exactly the problem we're dealing with here. */
+  if (co->print_needed_options)
+    {
+#if 0
 #if BYTES_BIG_ENDIAN
       if (!BYTES_BIG_ENDIAN)
         fputs ("--little-endian", stderr);
@@ -666,10 +753,12 @@ lang_init ()
       if (BYTES_BIG_ENDIAN)
         fputs ("--big-endian", stderr);
 #endif
+#endif
       fputs ("\n", stderr);
       while (fgetc (finput) != EOF) ;
       exit (1);
     }
+#if 0
 #if BYTES_BIG_ENDIAN
   if (!BYTES_BIG_ENDIAN && co->option_big_endian < 0)
     {
@@ -687,6 +776,7 @@ lang_init ()
       exit (FATAL_EXIT_CODE);
     }
 #endif
+#endif
 
   /* In gcc-2.8.1, init_tree_codes() has not been called yet.
      Do it in init_parse instead. */
@@ -694,11 +784,12 @@ lang_init ()
   add_pascal_tree_codes ();
 #endif
 
-#ifndef GCC_3_4
   /* With luck, we discover the real source file name from a line directive
      at the beginning of the file and put it in input_filename. */
-  peek_token (0);
-#endif
+#ifdef GCC_3_4
+  if (!co->preprocessed)
+#endif    
+    peek_token (0);
 
 #ifdef EGCS97
   if (main_input_filename)
@@ -707,61 +798,100 @@ lang_init ()
 #endif
 }
 
+#ifndef TARGET_OS_CPP_BUILTINS
+# define TARGET_OS_CPP_BUILTINS()
+#endif
+
+#ifndef TARGET_OBJFMT_CPP_BUILTINS
+# define TARGET_OBJFMT_CPP_BUILTINS()
+#endif
+
+
+void
+init_gpcpp (void)
+{
+  initialize_char_syntax ();
+  if (BITS_BIG_ENDIAN)
+    builtin_define ("__BITS_BIG_ENDIAN__=1");
+  else
+    builtin_define ("__BITS_LITTLE_ENDIAN__=1");
+  if (BYTES_BIG_ENDIAN)
+    builtin_define ("__BYTES_BIG_ENDIAN__=1");
+  else
+    builtin_define ("__BYTES_LITTLE_ENDIAN__=1");
+  if (WORDS_BIG_ENDIAN)
+    builtin_define ("__WORDS_BIG_ENDIAN__=1");
+  else
+    builtin_define ("__WORDS_LITTLE_ENDIAN__=1");
+  if (STRICT_ALIGNMENT)
+    builtin_define ("__NEED_ALIGNMENT__=1");
+  else
+    builtin_define ("__NEED_NO_ALIGNMENT__=1");
+#ifdef GCC_3_3
+  {
+#if 1
+  /* Definitions for LP64 model.  */
+    if (LONG_TYPE_SIZE == 64
+        && POINTER_SIZE == 64
+        && INT_TYPE_SIZE == 32)
+      {
+        builtin_define ("_LP64");
+        builtin_define ("__LP64__");
+      }
+#endif
+      if (optimize_size)
+        builtin_define ("__OPTIMIZE_SIZE__");
+      if (optimize)
+        builtin_define ("__OPTIMIZE__");
+      TARGET_CPU_CPP_BUILTINS ();
+      TARGET_OS_CPP_BUILTINS ();
+      TARGET_OBJFMT_CPP_BUILTINS ();
+  }
+#endif
+  gpcpp_process_options (save_argc, save_argv);
+}
+
 /* If DECL has a cleanup, build and return that cleanup here.
    This is a callback called by expand_expr. */
 tree
-maybe_build_cleanup (decl)
-     tree decl ATTRIBUTE_UNUSED;
+maybe_build_cleanup (tree decl ATTRIBUTE_UNUSED)
 {
   /* There are no cleanups in Pascal (yet). */
   return NULL_TREE;
 }
 
-/* integrate_decl_tree calls this function */
-void
-copy_lang_decl (decl)
-     tree decl;
-{
-  struct lang_decl *ld;
-  if (!DECL_LANG_SPECIFIC (decl))
-    return;
-  ld = allocate_decl_lang_specific ();
-  memcpy ((char *) ld, (char *) DECL_LANG_SPECIFIC (decl), sizeof (struct lang_decl));
-  DECL_LANG_SPECIFIC (decl) = ld;
-}
-
 #ifndef EGCS97
-extern void lang_finish PARAMS ((void));
-extern char *lang_identify PARAMS ((void));
-extern void print_lang_statistics PARAMS ((void));
-extern void GNU_xref_begin PARAMS ((void));
-extern void GNU_xref_end PARAMS ((void));
+extern void lang_finish (void);
+extern char *lang_identify (void);
+extern void print_lang_statistics (void);
+extern void GNU_xref_begin (void);
+extern void GNU_xref_end (void);
 
 void
-lang_finish ()
+lang_finish (void)
 {
 }
 
 char *
-lang_identify ()
+lang_identify (void)
 {
   return "Pascal";
 }
 
 void
-print_lang_statistics ()
+print_lang_statistics (void)
 {
 }
 
 void
-GNU_xref_begin ()
+GNU_xref_begin (void)
 {
   error ("GPC does not yet support XREF");
   exit (FATAL_EXIT_CODE);
 }
 
 void
-GNU_xref_end ()
+GNU_xref_end (void)
 {
   error ("GPC does not yet support XREF");
   exit (FATAL_EXIT_CODE);
@@ -769,8 +899,7 @@ GNU_xref_end ()
 #else
 #ifndef GCC_3_3
 void
-insert_default_attributes (decl)
-     tree decl ATTRIBUTE_UNUSED;
+insert_default_attributes (tree decl ATTRIBUTE_UNUSED)
 {
 }
 #endif
@@ -778,70 +907,74 @@ insert_default_attributes (decl)
 
 #ifdef EGCS
 int
-lang_decode_option (argc, argv)
-     int argc;
-     char **argv;
+lang_decode_option (int argc, char **argv)
 {
   return pascal_decode_option (argc, (const char **) argv);
 }
 #else
 int
-lang_decode_option (p)
-     char *p;
+lang_decode_option (char *p)
 {
   return pascal_decode_option (1, (const char **) &p);
 }
 #endif
 
+static void 
+open_gpcpp_output (const char *out_fname)
+{
+
+      if (co->preprocessed)
+        {
+          error ("can not preprocess already preprocessed input");
+          exit (FATAL_EXIT_CODE);
+        }
+
+      if (!out_fname || out_fname[0] == '\0')
+        {
+          gpcpp_out_stream = stdout;
+          gpcpp_out_fname = "stdout";
+        }
+      else
+        {
+          gpcpp_out_stream = fopen (out_fname, "w");
+          gpcpp_out_fname = out_fname;
+        }
+
+      if (gpcpp_out_stream == NULL)
+        {
+          error ("opening output file %s: %m", out_fname);
+          exit (EXIT_FAILURE);
+        }
+      if (co->print_deps)
+        deps_out_file = gpcpp_out_stream;
+}
+
 #ifdef EGCS
 #ifdef EGCS97
 const char *
-init_parse (filename)
-     const char *filename;
+init_parse (const char *filename)
 #else
 char *
-init_parse (filename)
-     char *filename;
+init_parse (char *filename)
 #endif
 {
-#if !USE_CPPLIB
-  /* Open input file. */
-  if (!filename || !strcmp (filename, "-"))
+  open_input (filename);
+#ifndef EGCS97
+  if (co->preprocess_only)
     {
-      finput = stdin;
-      filename = "stdin";
+      open_gpcpp_output (asm_file_name);
+      call_gpcpp (filename, finput);
     }
-  else
-    finput = fopen (filename, "r");
-  if (!finput)
-    {
-      fprintf (stderr, "%s: ", progname);
-      perror (filename);
-      exit (FATAL_EXIT_CODE);
-    }
-#ifdef IO_BUFFER_SIZE
-  setvbuf (finput, (char *) xmalloc (IO_BUFFER_SIZE), _IOFBF, IO_BUFFER_SIZE);
-#endif
 #endif
   init_gpc_lex (filename);
-#if USE_CPPLIB
-  yy_cur = "\n";
-  yy_lim = yy_cur + 1;
-  cpp_reader_init (&parse_in);
-  parse_in.data = &parse_options;
-  cpp_options_init (&parse_options);
-  cpp_handle_options (&parse_in, 0, NULL);  /* @@ FIXME, cf. c-lex.c */
-  parse_in.show_column = 1;
-  assert (cpp_start_read (&parse_in, filename));
-#endif
   return filename;
 }
 
 void
-finish_parse ()
+finish_parse (void)
 {
 #if USE_CPPLIB
-  cpp_finish (&parse_in);
+  gcc_unreachable ();
 #else
   fclose (finput);
 #endif
@@ -849,8 +982,8 @@ finish_parse ()
 #endif
 
 #ifndef EGCS
-void init_lex PARAMS ((void));
-void init_lex ()
+void init_lex (void);
+void init_lex (void)
 {
   add_pascal_tree_codes ();
   set_identifier_size (sizeof (struct lang_identifier));
@@ -859,6 +992,12 @@ void init_lex ()
      test it on an affected system (e.g., AIX). Since gcc-2.8.1 is fading out,
      I don't want to try to fix it anymore, just disable it here. -- Frank */
   flag_unroll_loops = 0;
+ 
+  if (co->preprocess_only)
+    {
+      open_gpcpp_output (asm_file_name);
+      call_gpcpp (input_filename, finput);
+    }
 }
 #endif
 
@@ -873,24 +1012,15 @@ void init_lex ()
    attributes are low-level, so it would be nice if we could leave
    their handling to the backend. */
 #ifdef GCC_3_3
-static tree handle_nocommon_attribute   PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_common_attribute     PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_noreturn_attribute   PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_unused_attribute     PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_const_attribute      PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_section_attribute    PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_aligned_attribute    PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_weak_attribute       PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
-static tree handle_alias_attribute      PARAMS ((tree *, tree, tree, int,
-                                                 bool *));
+static tree handle_nocommon_attribute   (tree *, tree, tree, int, bool *);
+static tree handle_common_attribute     (tree *, tree, tree, int, bool *);
+static tree handle_noreturn_attribute   (tree *, tree, tree, int, bool *);
+static tree handle_unused_attribute     (tree *, tree, tree, int, bool *);
+static tree handle_const_attribute      (tree *, tree, tree, int, bool *);
+static tree handle_section_attribute    (tree *, tree, tree, int, bool *);
+static tree handle_aligned_attribute    (tree *, tree, tree, int, bool *);
+static tree handle_weak_attribute       (tree *, tree, tree, int, bool *);
+static tree handle_alias_attribute      (tree *, tree, tree, int, bool *);
 
 const struct attribute_spec gpc_attribute_table[] =
 {
@@ -925,12 +1055,7 @@ const struct attribute_spec gpc_attribute_table[] =
    struct attribute_spec.handler.  */
 
 static tree
-handle_nocommon_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name;
-     tree args ATTRIBUTE_UNUSED;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs;
+handle_nocommon_attribute (tree *node, tree name, tree args ATTRIBUTE_UNUSED, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs)
 {
   if (TREE_CODE (*node) == VAR_DECL)
     DECL_COMMON (*node) = 0;
@@ -947,12 +1072,7 @@ handle_nocommon_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_common_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name;
-     tree args ATTRIBUTE_UNUSED;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs;
+handle_common_attribute (tree *node, tree name, tree args ATTRIBUTE_UNUSED, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs)
 {
   if (TREE_CODE (*node) == VAR_DECL)
     DECL_COMMON (*node) = 1;
@@ -969,12 +1089,7 @@ handle_common_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_noreturn_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name;
-     tree args ATTRIBUTE_UNUSED;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs;
+handle_noreturn_attribute (tree *node, tree name, tree args ATTRIBUTE_UNUSED, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs)
 {
   tree type = TREE_TYPE (*node);
 
@@ -1000,12 +1115,7 @@ handle_noreturn_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_unused_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name;
-     tree args ATTRIBUTE_UNUSED;
-     int flags;
-     bool *no_add_attrs;
+handle_unused_attribute (tree *node, tree name, tree args ATTRIBUTE_UNUSED, int flags, bool *no_add_attrs)
 {
   if (DECL_P (*node))
     {
@@ -1037,12 +1147,7 @@ handle_unused_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_const_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name;
-     tree args ATTRIBUTE_UNUSED;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs;
+handle_const_attribute (tree *node, tree name, tree args ATTRIBUTE_UNUSED, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs)
 {
   tree type = TREE_TYPE (*node);
 
@@ -1068,12 +1173,7 @@ handle_const_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_section_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name ATTRIBUTE_UNUSED;
-     tree args;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs;
+handle_section_attribute (tree *node, tree name ATTRIBUTE_UNUSED, tree args, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs)
 {
   tree decl = *node;
 
@@ -1126,12 +1226,7 @@ handle_section_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_aligned_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name ATTRIBUTE_UNUSED;
-     tree args;
-     int flags;
-     bool *no_add_attrs;
+handle_aligned_attribute (tree *node, tree name ATTRIBUTE_UNUSED, tree args, int flags, bool *no_add_attrs)
 {
   tree decl = NULL_TREE;
   tree *type = NULL;
@@ -1209,12 +1304,7 @@ handle_aligned_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_weak_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name ATTRIBUTE_UNUSED;
-     tree args ATTRIBUTE_UNUSED;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs ATTRIBUTE_UNUSED;
+handle_weak_attribute (tree *node, tree name ATTRIBUTE_UNUSED, tree args ATTRIBUTE_UNUSED, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs ATTRIBUTE_UNUSED)
 {
   declare_weak (*node);
 
@@ -1225,12 +1315,7 @@ handle_weak_attribute (node, name, args, flags, no_add_attrs)
    struct attribute_spec.handler.  */
 
 static tree
-handle_alias_attribute (node, name, args, flags, no_add_attrs)
-     tree *node;
-     tree name;
-     tree args;
-     int flags ATTRIBUTE_UNUSED;
-     bool *no_add_attrs;
+handle_alias_attribute (tree *node, tree name, tree args, int flags ATTRIBUTE_UNUSED, bool *no_add_attrs)
 {
   tree decl = *node;
 
@@ -1321,7 +1406,7 @@ handle_alias_attribute (node, name, args, flags, no_add_attrs)
 #define LANG_HOOKS_TRUTHVALUE_CONVERSION truthvalue_conversion
 
 #undef LANG_HOOKS_DUP_LANG_SPECIFIC_DECL
-#define LANG_HOOKS_DUP_LANG_SPECIFIC_DECL copy_lang_decl
+#define LANG_HOOKS_DUP_LANG_SPECIFIC_DECL copy_decl_lang_specific
 
 #undef LANG_HOOKS_PARSE_FILE
 #define LANG_HOOKS_PARSE_FILE pascal_parse
@@ -1333,8 +1418,7 @@ handle_alias_attribute (node, name, args, flags, no_add_attrs)
 #define LANG_HOOKS_HASH_TYPES false
 
 static void
-pascal_parse (debug)
-     int debug;
+pascal_parse (int debug)
 {
   set_yydebug (debug);
   yyparse ();
@@ -1343,8 +1427,7 @@ pascal_parse (debug)
 #else
 
 void
-lang_mark_tree (t)
-     tree t;
+lang_mark_tree (tree t)
 {
   if (TREE_CODE (t) == IDENTIFIER_NODE)
     {
@@ -1373,9 +1456,10 @@ lang_mark_tree (t)
     {
       struct lang_decl *ld = DECL_LANG_SPECIFIC (t);
       ggc_mark (ld);
-      ggc_mark_tree (ld->info);
+      ggc_mark_tree (ld->info1);
       ggc_mark_tree (ld->info2);
       ggc_mark_tree (ld->info3);
+      ggc_mark_tree (ld->info4);
     }
 }
 #endif
@@ -1390,12 +1474,9 @@ enum attrs { A_NOCOMMON, A_COMMON, A_NORETURN, A_CONST,
 static struct { enum attrs id; tree name; int min, max, decl_req; } attrtab[50];
 static int attrtab_idx = 0;
 
-static void add_attribute PARAMS ((enum attrs, const char *, int, int, int));
+static void add_attribute (enum attrs, const char *, int, int, int);
 static void
-add_attribute (id, string, min_len, max_len, decl_req)
-     enum attrs id;
-     const char *string;
-     int min_len, max_len, decl_req;
+add_attribute (enum attrs id, const char *string, int min_len, int max_len, int decl_req)
 {
   char buf[100];
   attrtab[attrtab_idx].id = id;
@@ -1415,8 +1496,7 @@ add_attribute (id, string, min_len, max_len, decl_req)
 /* Process the attributes listed in ATTRIBUTES and install them in NODE,
    which is either a DECL (including a TYPE_DECL) or a TYPE. */
 void
-pascal_decl_attributes (anode, attributes)
-     tree *anode, attributes;
+pascal_decl_attributes (tree *anode, tree attributes)
 {
 #ifndef EGCS97
   tree node = *anode, decl = 0, type = 0;
@@ -1618,7 +1698,7 @@ pascal_decl_attributes (anode, attributes)
 
 #ifndef EGCS
 char *
-concat VPARAMS ((const char *first, ...))
+concat (const char *first, ...)
 {
   int length;
   char *newstr;
@@ -1676,7 +1756,7 @@ concat VPARAMS ((const char *first, ...))
 char *libiberty_concat_ptr;
 
 unsigned long
-concat_length VPARAMS ((const char *first, ...))
+concat_length (const char *first, ...)
 {
   unsigned long length = 0;
   const char *arg;
@@ -1689,7 +1769,7 @@ concat_length VPARAMS ((const char *first, ...))
 }
 
 char *
-concat_copy2 VPARAMS ((const char *first, ...))
+concat_copy2 (const char *first, ...)
 {
   char *end = libiberty_concat_ptr;
   const char *arg;
@@ -1709,7 +1789,7 @@ concat_copy2 VPARAMS ((const char *first, ...))
 
 /* Exit compilation as successfully as reasonable. */
 void
-exit_compilation ()
+exit_compilation (void)
 {
   if (errorcount)
     exit (FATAL_EXIT_CODE);
@@ -1719,9 +1799,7 @@ exit_compilation ()
 }
 
 void
-assert_fail (msg, file, function, line)
-     const char *msg, *file, *function;
-     int line;
+assert_fail (const char *msg, const char *file, const char *function, int line)
 {
   if (function)
     fprintf (stderr, "%s:%i:%s: failed assertion `%s'\n", file, line, function, msg);
