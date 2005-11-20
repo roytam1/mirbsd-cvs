@@ -2978,6 +2978,7 @@ push_template_decl_real (tree decl, int is_friend)
 		  error ("got %d template parameters for `%#T'",
 			    TREE_VEC_LENGTH (a), current);
 		error ("  but %d required", TREE_VEC_LENGTH (t));
+		return error_mark_node;
 	      }
 
 	    /* Perhaps we should also check that the parms are used in the
@@ -4809,6 +4810,7 @@ uses_template_parms (tree t)
 	   || TREE_CODE (t) == TEMPLATE_PARM_INDEX
 	   || TREE_CODE (t) == OVERLOAD
 	   || TREE_CODE (t) == BASELINK
+	   || TREE_CODE (t) == IDENTIFIER_NODE
 	   || TREE_CODE_CLASS (TREE_CODE (t)) == 'c')
     dependent_p = (type_dependent_expression_p (t)
 		   || value_dependent_expression_p (t));
@@ -12027,7 +12029,8 @@ type_dependent_expression_p (tree expression)
 	    return true;
 	  expression = TREE_OPERAND (expression, 0);
 	}
-      if (TREE_CODE (expression) == OVERLOAD)
+      if (TREE_CODE (expression) == OVERLOAD
+	  || TREE_CODE (expression) == FUNCTION_DECL)
 	{
 	  while (expression)
 	    {
