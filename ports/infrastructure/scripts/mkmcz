@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.1 2005/11/17 22:08:59 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,7 +37,8 @@ if ! T=$(mktemp -d /tmp/mkmcz.XXXXXXXXXX); then
 	exit 1
 fi
 cd $T
-if ! cvs -qz6 -d $repo co -PA "$tag" $5; then
+if ! ( umask 022; exec env CVSUMASK=022 \
+    cvs -qz6 -d $repo co -PA "$tag" $5 ); then
 	cd /tmp
 	rm -rf "$T"
 	print -u2 mkmcz: Checkout failed
