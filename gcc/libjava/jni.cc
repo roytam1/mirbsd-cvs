@@ -2051,7 +2051,8 @@ _Jv_GetJNIEnvNewFrame (jclass klass)
 // This is `extern "C"' because the compiler uses it.
 extern "C" void *
 _Jv_LookupJNIMethod (jclass klass, _Jv_Utf8Const *name,
-		     _Jv_Utf8Const *signature, int args_size)
+		     _Jv_Utf8Const *signature,
+		     int args_size __attribute__((unused)))
 {
   char buf[10 + 6 * (name->length + signature->length) + 12];
   int long_start;

@@ -364,7 +364,7 @@ _Jv_BuildGCDescr(jclass self)
 	      // If we find a field outside the range of our bitmap,
 	      // fall back to procedure marker. The bottom 2 bits are
 	      // reserved.
-	      if (off >= bits_per_word - 2)
+	      if (off >= (unsigned int) (bits_per_word - 2))
 		return (void *) (GCJ_DEFAULT_DESCR);
 	      desc |= 1ULL << (bits_per_word - off - 1);
 	    }
