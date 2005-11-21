@@ -1,9 +1,10 @@
-# $MirOS$
+# $MirOS: src/bin/chmod/Makefile,v 1.2 2005/03/06 18:55:17 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2001/09/06 18:52:55 mickey Exp $
 
-PROG=	chmod
+PROG=	chgrp
+SRCS=	chmod.c
 MAN=	chmod.1 chgrp.1 chown.8 chflags.1
-LINKS=	${BINDIR}/chmod ${BINDIR}/chgrp \
+LINKS=	${BINDIR}/chgrp ${BINDIR}/chmod \
 	${BINDIR}/chmod /sbin/chown
 
 afterinstall:
