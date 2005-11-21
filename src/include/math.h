@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/math.h,v 1.2 2005/11/21 19:45:59 tg Exp $ */
+/**	$MirOS: src/include/math.h,v 1.3 2005/11/21 19:46:18 tg Exp $ */
 /*	$OpenBSD: math.h,v 1.9 2005/01/06 20:36:23 espie Exp $	*/
 /*
  * ====================================================
@@ -82,8 +82,8 @@ extern  _LIB_VERSION_TYPE  _LIB_VERSION;
 #define _XOPEN_ fdlibm_xopen
 #define _POSIX_ fdlibm_posix
 
-#ifndef __cplusplus
-struct exception {
+#ifdef __LIBM_PRIVATE
+struct __libm_exception {
 	int type;
 	char *name;
 	double arg1;
@@ -171,7 +171,7 @@ extern double remainder(double, double);
 extern double scalb(double, double);
 
 #ifdef __LIBM_PRIVATE
-extern int matherr(struct exception *);
+extern int matherr(struct __libm_exception *);
 #endif
 
 /*
