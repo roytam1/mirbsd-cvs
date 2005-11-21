@@ -1,5 +1,7 @@
-# $MirOS: ports/emulators/qvm86/Makefile,v 1.3 2005/11/17 18:43:58 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.4 2005/11/17 23:05:56 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
+
+BROKEN=			problems with network, sound, etc.
 
 ONLY_FOR_PLATFORMS=	MirBSD:*:i386
 
