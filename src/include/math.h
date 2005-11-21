@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/math.h,v 1.2 2005/11/21 19:45:59 tg Exp $ */
 /*	$OpenBSD: math.h,v 1.9 2005/01/06 20:36:23 espie Exp $	*/
 /*
  * ====================================================
@@ -190,7 +190,6 @@ extern double scalbn(double, int);
 /*
  * BSD math library entry points
  */
-extern double cabs();
 extern double drem(double, double);
 extern double expm1(double);
 extern double log1p(double);
