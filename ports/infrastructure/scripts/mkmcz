@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.1 2005/11/17 22:08:59 tg Exp $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.2 2005/11/20 11:03:44 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,12 +23,26 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
+if [[ $1 = -s ]]; then
+	CVS=svn
+	shift
+else
+	CVS=cvs
+fi
 target=$1
 repo=$2
+tag=
 if [[ -z $3 ]]; then
 	tag="-r $4"
+elif [[ $CVS = svn ]]; then
+	[[ -n $3 ]] && tag="-r { $3 }"
 else
 	tag="-D $3"
+fi
+if [[ $CVS = svn ]]; then
+	CVSARGS="co --non-interactive -q $repo"
+else
+	CVSARGS="-qz6 -d $repo co -PA"
 fi
 
 export TZ=UTC
@@ -37,14 +51,13 @@ if ! T=$(mktemp -d /tmp/mkmcz.XXXXXXXXXX); then
 	exit 1
 fi
 cd $T
-if ! ( umask 022; exec env CVSUMASK=022 \
-    cvs -qz6 -d $repo co -PA "$tag" $5 ); then
+if ! ( umask 022; exec env CVSUMASK=022 $CVS $CVSARGS "$tag" $5 ); then
 	cd /tmp
 	rm -rf "$T"
 	print -u2 mkmcz: Checkout failed
 	exit 1
 fi
-$LOCALBASE/bin/mpczar -o "$1" -I CVS -r .
+$LOCALBASE/bin/mpczar -o "$1" -I CVS -I .svn -r .
 rv=$?
 cd /tmp
 rm -rf "$T"
