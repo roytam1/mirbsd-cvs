@@ -1,4 +1,4 @@
-/* $MirOS: X11/extras/evilwm/events.c,v 1.2 2005/03/19 13:30:08 tg Exp $ */
+/* $MirOS: X11/extras/evilwm/events.c,v 1.3 2005/07/07 18:27:13 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -119,9 +119,6 @@ static void handle_key_event(XKeyEvent *e) {
 				switch_vdesk(vdesk + 1);
 			break;
 #endif
-		case KEY_EXITF:
-			handle_signal(0);
-			break; /* can't happen */
 	}
 }
 

@@ -24,8 +24,6 @@
 #ifndef KEY_KILL
 #define KEY_KILL	XK_Escape
 #endif
-#define KEY_EXITF	XK_grave
-#define KEY_ALTEXITF	XK_dead_grave
 #define KEY_SLEFT	XK_q
 #define KEY_SRIGHT	XK_r
 #define KEY_SDOWN	XK_w

@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
 			grabmask2 = parse_modifiers(argv[i]);
 #ifdef STDIO
 		} else if (!strcmp(argv[i], "-V")) {
-			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.3 2005/07/07 18:27:14 tg Exp $\n");
+			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.4 2005/07/14 18:42:17 tg Exp $\n");
 			exit(0);
 #endif
 		} else {
@@ -185,7 +185,6 @@ static void setup_display(void) {
 		KEY_FIX, KEY_PREVDESK, KEY_NEXTDESK,
 		XK_1, XK_2, XK_3, XK_4, XK_5, XK_6, XK_7, XK_8,
 #endif
-		KEY_EXITF, KEY_ALTEXITF,
 		0
 	};
 	/* used in scanning windows (XQueryTree) */
