@@ -1,9 +1,11 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/config.h,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/config.h,v 1.2 2005/06/05 21:36:39 tg Exp $ */
 
 /* hand-edited */
 
 #include <sys/param.h>
+#ifndef __APPLE__
 #include <sys/endian.h>
+#endif
 
 #define HAVE_ASPRINTF 1
 #define HAVE_ATEXIT 1
