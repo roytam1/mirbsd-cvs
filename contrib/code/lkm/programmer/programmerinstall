@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: contrib/code/lkm/programmer/programmerinstall,v 1.1 2005/11/17 12:31:01 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -35,5 +35,6 @@ function run
 }
 
 print Loading Hungry Programmer LKM, ID $1, type $2
+rm -f /dev/programmer
 run mknod -m 666 /dev/programmer c $3 1
 exit 0
