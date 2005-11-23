@@ -1,4 +1,5 @@
 /*	$OpenBSD: sockio.h,v 1.24 2003/12/08 09:09:03 markus Exp $	*/
+/*	$OpenBSD: sockio.h,v 1.34 2005/05/26 22:37:35 henning Exp $	*/
 /*	$NetBSD: sockio.h,v 1.5 1995/08/23 00:40:47 thorpej Exp $	*/
 
 /*-
@@ -45,9 +46,6 @@
 #define	SIOCATMARK	 _IOR('s',  7, int)		/* at oob mark? */
 #define	SIOCSPGRP	 _IOW('s',  8, int)		/* set process group */
 #define	SIOCGPGRP	 _IOR('s',  9, int)		/* get process group */
-
-#define	SIOCADDRT	 _IOW('r', 10, struct ortentry)	/* add route */
-#define	SIOCDELRT	 _IOW('r', 11, struct ortentry)	/* delete route */
 
 #define	SIOCSIFADDR	 _IOW('i', 12, struct ifreq)	/* set ifnet address */
 #define	OSIOCGIFADDR	_IOWR('i', 13, struct ifreq)	/* get ifnet address */
