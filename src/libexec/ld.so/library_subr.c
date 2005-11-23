@@ -1,4 +1,4 @@
-/*	$OpenBSD: library_subr.c,v 1.5 2005/05/23 19:22:11 drahn Exp $ */
+/*	$OpenBSD: library_subr.c,v 1.24 2005/11/15 02:14:47 kurt Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -32,6 +32,7 @@
 #include <sys/types.h>
 #include <sys/syslimits.h>
 #include <sys/param.h>
+#include <sys/queue.h>
 #include <dirent.h>
 
 #include "archdep.h"
@@ -41,11 +42,14 @@
 
 #define DEFAULT_PATH "/usr/lib"
 
-static void _dl_unload_dlopen_recurse(struct dep_node *node);
 
 /* STATIC DATA */
-static struct dep_node *_dlopened_first_child;
-static struct dep_node *_dlopened_last_child;
+struct dlochld _dlopened_child_list;
+
+
+/* local functions */
+elf_object_t * _dl_load_shlib_hint(struct sod *sod, struct sod *req_sod,
+    int type, int flags, int use_hints, const char *libpath);
 
 /*
  * _dl_match_file()
@@ -226,8 +230,38 @@ nohints:
 }
 
 /*
+ * attempt to locate and load a library based on libpath, sod info and
+ * if it needs to respect hints, passing type and flags to perform open
+ */
+elf_object_t *
+_dl_load_shlib_hint(struct sod *sod, struct sod *req_sod, int type,
+    int flags, int use_hints, const char *libpath)
+{
+	elf_object_t *object = NULL;
+	char *hint;
+
+	hint = _dl_find_shlib(req_sod, libpath, use_hints);
+	if (hint != NULL) {
+		if (req_sod->sod_minor < sod->sod_minor)
+			_dl_printf("warning: lib%s.so.%d.%d: "
+			    "minor version >= %d expected, "
+			    "using it anyway\n",
+			    sod->sod_name, sod->sod_major,
+			    req_sod->sod_minor, sod->sod_minor);
+		object = _dl_tryload_shlib(hint, type, flags);
+	}
+	return object;
+}
+
+/*
  *  Load a shared object. Search order is:
- *	If the name contains a '/' use the name exactly as is. (only)
+ *	If the name contains a '/' use only the path preceeding the
+ *	library name and do not continue on to other methods if not
+ *	found.
+ *	   search hints for match in path preceeding library name
+ *	     this will only match specific library version.
+ *	   search path preceeding library name
+ *	     this will find largest minor version in path provided
  *	try the LD_LIBRARY_PATH specification (if present)
  *	   search hints for match in LD_LIBRARY_PATH dirs
  *           this will only match specific libary version.
@@ -242,85 +276,89 @@ nohints:
  *      by ldconfig or default to '/usr/lib'
  */
 
+
 elf_object_t *
 _dl_load_shlib(const char *libname, elf_object_t *parent, int type, int flags)
 {
 	int try_any_minor, ignore_hints;
 	struct sod sod, req_sod;
-	elf_object_t *object;
-	char *hint;
+	elf_object_t *object = NULL;
 
 	try_any_minor = 0;
 	ignore_hints = 0;
 
 	if (_dl_strchr(libname, '/')) {
-		object = _dl_tryload_shlib(libname, type);
-		return(object);
+		char *lpath, *lname;
+		lpath = _dl_strdup(libname);
+		lname = _dl_strrchr(lpath, '/');
+		if (lname == NULL) {
+			_dl_free(lpath);
+			_dl_errno = DL_NOT_FOUND;
+			return (object);
+		}
+		*lname = '\0';
+		lname++;
+		if (*lname  == '\0') {
+			_dl_free(lpath);
+			_dl_errno = DL_NOT_FOUND;
+			return (object);
+		}
+
+		_dl_build_sod(lname, &sod);
+		req_sod = sod;
+
+fullpathagain:
+		object = _dl_load_shlib_hint(&sod, &req_sod, type, flags,
+		    ignore_hints,  lpath);
+		if (object != NULL)
+			goto fullpathdone;
+
+		if (try_any_minor == 0) {
+			try_any_minor = 1;
+			ignore_hints = 1;
+			req_sod.sod_minor = -1;
+			goto fullpathagain;
+		}
+		_dl_errno = DL_NOT_FOUND;
+fullpathdone:
+		_dl_free(lpath);
+		_dl_free((char *)sod.sod_name);
+		return (object);
 	}
 
 	_dl_build_sod(libname, &sod);
 	req_sod = sod;
 
 again:
-	/*
-	 *  No '/' in name. Scan the known places, LD_LIBRARY_PATH first.
-	 */
+	/* No '/' in name. Scan the known places, LD_LIBRARY_PATH first.  */
 	if (_dl_libpath != NULL) {
-		hint = _dl_find_shlib(&req_sod, _dl_libpath, ignore_hints);
-		if (hint != NULL) {
-			if (req_sod.sod_minor < sod.sod_minor)
-				_dl_printf("warning: lib%s.so.%d.%d: "
-				    "minor version >= %d expected, "
-				    "using it anyway\n",
-				    sod.sod_name, sod.sod_major,
-				    req_sod.sod_minor, sod.sod_minor);
-			object = _dl_tryload_shlib(hint, type);
-			if (object != NULL) {
-				_dl_free((char *)sod.sod_name);
-				object->obj_flags = flags;
-				return (object);
-			}
-		}
+		object = _dl_load_shlib_hint(&sod, &req_sod, type, flags,
+		    ignore_hints,  _dl_libpath);
+		if (object != NULL)
+			goto done;
 	}
 
-	/*
-	 *  Check DT_RPATH.
-	 */
+	/* Check DT_RPATH.  */
 	if (parent->dyn.rpath != NULL) {
-		hint = _dl_find_shlib(&req_sod, parent->dyn.rpath,
-		    ignore_hints);
-		if (hint != NULL) {
-			if (req_sod.sod_minor < sod.sod_minor)
-				_dl_printf("warning: lib%s.so.%d.%d: "
-				    "minor version >= %d expected, "
-				    "using it anyway\n",
-				    sod.sod_name, sod.sod_major,
-				    req_sod.sod_minor, sod.sod_minor);
-			object = _dl_tryload_shlib(hint, type);
-			if (object != NULL) {
-				_dl_free((char *)sod.sod_name);
-				object->obj_flags = flags;
-				return (object);
-			}
-		}
+		object = _dl_load_shlib_hint(&sod, &req_sod, type, flags,
+		    ignore_hints,  parent->dyn.rpath);
+		if (object != NULL)
+			goto done;
+	}
+
+	/* Check main program's DT_RPATH, if parent != main program */
+	if (parent != _dl_objects && _dl_objects->dyn.rpath != NULL) {
+		object = _dl_load_shlib_hint(&sod, &req_sod, type, flags,
+		    ignore_hints, _dl_objects->dyn.rpath);
+		if (object != NULL)
+			goto done;
 	}
 
 	/* check 'standard' locations */
-	hint = _dl_find_shlib(&req_sod, NULL, ignore_hints);
-	if (hint != NULL) {
-		if (req_sod.sod_minor < sod.sod_minor)
-			_dl_printf("warning: lib%s.so.%d.%d: "
-			    "minor version >= %d expected, "
-			    "using it anyway\n",
-			    sod.sod_name, sod.sod_major,
-			    req_sod.sod_minor, sod.sod_minor);
-		object = _dl_tryload_shlib(hint, type);
-		if (object != NULL) {
-			_dl_free((char *)sod.sod_name);
-			object->obj_flags = flags;
-			return(object);
-		}
-	}
+	object = _dl_load_shlib_hint(&sod, &req_sod, type, flags,
+	    ignore_hints, NULL);
+	if (object != NULL)
+		goto done;
 
 	if (try_any_minor == 0) {
 		try_any_minor = 1;
@@ -328,9 +366,10 @@ again:
 		req_sod.sod_minor = -1;
 		goto again;
 	}
-	_dl_free((char *)sod.sod_name);
 	_dl_errno = DL_NOT_FOUND;
-	return(0);
+done:
+	_dl_free((char *)sod.sod_name);
+	return(object);
 }
 
 
@@ -339,52 +378,30 @@ _dl_link_dlopen(elf_object_t *dep)
 {
 	struct dep_node *n;
 
+	dep->opencount++;
+
+	if (OBJECT_DLREF_CNT(dep) > 1)
+		return;
+
 	n = _dl_malloc(sizeof *n);
 	if (n == NULL)
 		_dl_exit(5);
 
 	n->data = dep;
-	n->next_sibling = NULL;
-	if (_dlopened_first_child) {
-		_dlopened_last_child->next_sibling = n;
-		_dlopened_last_child = n;
-	} else
-		_dlopened_first_child = _dlopened_last_child = n;
+	TAILQ_INSERT_TAIL(&_dlopened_child_list, n, next_sib);
 
 	DL_DEB(("linking %s as dlopen()ed\n", dep->load_name));
 }
 
 void
-_dl_unlink_dlopen(elf_object_t *dep)
+_dl_child_refcnt_decrement(elf_object_t *object)
 {
-	struct dep_node **dnode;
-	struct dep_node *pnode;
-	struct dep_node *next;
+	struct dep_node *n;
 
-	dnode = &_dlopened_first_child;
-
-	if (_dlopened_first_child == NULL)
-		return;
-
-	if (_dlopened_first_child->data == dep) {
-		next = _dlopened_first_child->next_sibling;
-		_dl_free(_dlopened_first_child);
-		_dlopened_first_child = next;
-		return;
-	}
-	pnode = _dlopened_first_child;
-
-	while (pnode->next_sibling != NULL) {
-		if (pnode->next_sibling->data == dep) {
-			next = pnode->next_sibling->next_sibling;
-			if (pnode->next_sibling == _dlopened_last_child)
-				_dlopened_last_child = pnode;
-			_dl_free(pnode->next_sibling);
-			pnode->next_sibling = next;
-			break;
-		}
-		pnode = pnode->next_sibling;
-	}
+	object->refcount--;
+	if (OBJECT_REF_CNT(object) == 0)
+		TAILQ_FOREACH(n, &object->child_list, next_sib)
+			_dl_child_refcnt_decrement(n->data);
 }
 
 void
@@ -392,51 +409,96 @@ _dl_notify_unload_shlib(elf_object_t *object)
 {
 	struct dep_node *n;
 
-	if (--object->refcount == 0)
-		for (n = object->first_child; n; n = n->next_sibling)
+	if (OBJECT_REF_CNT(object) == 0)
+		TAILQ_FOREACH(n, &object->child_list, next_sib)
+			_dl_child_refcnt_decrement(n->data);
+
+	if (OBJECT_DLREF_CNT(object) == 0) {
+		TAILQ_FOREACH(n, &object->grpref_list, next_sib) {
+			n->data->grprefcount--; 
 			_dl_notify_unload_shlib(n->data);
+		}
+	}
 }
 
 void
 _dl_unload_dlopen(void)
 {
-	if (_dlopened_first_child != NULL)
-		_dl_unload_dlopen_recurse(_dlopened_first_child);
-}
+	struct dep_node *node;
 
-/*
- * is recursion here a good thing? 
- */
-void
-_dl_unload_dlopen_recurse(struct dep_node *node)
-{
-	if (node->next_sibling != NULL) {
-		_dl_unload_dlopen_recurse(node->next_sibling);
+	TAILQ_FOREACH_REVERSE(node, &_dlopened_child_list, dlochld, next_sib) {
+		/* dont dlclose the main program */
+		if (node->data == _dl_objects)
+			continue;
+
+		while(node->data->opencount > 0) {
+			node->data->opencount--;
+			_dl_notify_unload_shlib(node->data);
+			_dl_run_all_dtors();
+		}
 	}
-	_dl_notify_unload_shlib(node->data);
-	_dl_run_all_dtors();
-	if (_dl_exiting == 0)
-		_dl_unload_shlib(node->data);
-	_dl_free(node);
 }
 
-
 void
-_dl_link_sub(elf_object_t *dep, elf_object_t *p)
+_dl_link_grpref(elf_object_t *load_group, elf_object_t *load_object)
 {
 	struct dep_node *n;
 
 	n = _dl_malloc(sizeof *n);
 	if (n == NULL)
-		_dl_exit(5);
+		_dl_exit(7);
+	n->data = load_group;
+	TAILQ_INSERT_TAIL(&load_object->grpref_list, n, next_sib);
+	load_group->grprefcount++;
+}
+
+void
+_dl_link_child(elf_object_t *dep, elf_object_t *p)
+{
+	struct dep_node *n;
+
+	n = _dl_malloc(sizeof *n);
+	if (n == NULL)
+		_dl_exit(7);
 	n->data = dep;
-	n->next_sibling = NULL;
-	if (p->first_child) {
-		p->last_child->next_sibling = n;
-		p->last_child = n;
-	} else
-		p->first_child = p->last_child = n;
+	TAILQ_INSERT_TAIL(&p->child_list, n, next_sib);
+
+	dep->refcount++;
 
 	DL_DEB(("linking dep %s as child of %s\n", dep->load_name,
 	    p->load_name));
+}
+
+void
+_dl_link_grpsym(elf_object_t *object)
+{
+	struct dep_node *n;
+
+	TAILQ_FOREACH(n, &_dl_loading_object->grpsym_list, next_sib)
+		if (n->data == object)
+			return; /* found, dont bother adding */
+
+	n = _dl_malloc(sizeof *n);
+	if (n == NULL)
+		_dl_exit(8);
+	n->data = object;
+	TAILQ_INSERT_TAIL(&_dl_loading_object->grpsym_list, n, next_sib);
+}
+
+void
+_dl_cache_grpsym_list(elf_object_t *object)
+{
+	struct dep_node *n;
+
+	/*
+	 * grpsym_list is an ordered list of all child libs of the
+	 * _dl_loading_object with no dups. The order is equalivant
+	 * to a breath-first traversal of the child list without dups.
+	 */
+
+	TAILQ_FOREACH(n, &object->child_list, next_sib)
+		_dl_link_grpsym(n->data);
+
+	TAILQ_FOREACH(n, &object->child_list, next_sib)
+		_dl_cache_grpsym_list(n->data);
 }

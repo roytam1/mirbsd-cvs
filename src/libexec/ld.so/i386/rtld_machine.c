@@ -1,4 +1,4 @@
-/*	$OpenBSD: rtld_machine.c,v 1.16 2004/05/25 21:42:48 mickey Exp $ */
+/*	$OpenBSD: rtld_machine.c,v 1.19 2005/09/22 01:33:08 drahn Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -227,18 +227,16 @@ _dl_md_reloc(elf_object_t *object, int rel, int relsz)
 			} else {
 				this = NULL;
 				ooff = _dl_find_symbol_bysym(object,
-				    ELF_R_SYM(rels->r_info), _dl_objects,
-				    &this,NULL,SYM_SEARCH_ALL|SYM_WARNNOTFOUND|
+				    ELF_R_SYM(rels->r_info), &this,
+				    SYM_SEARCH_ALL|SYM_WARNNOTFOUND|
 				    ((type == R_TYPE(JUMP_SLOT))?
 					SYM_PLT:SYM_NOTPLT),
-				    sym->st_size);
+				    sym, NULL);
 				if (this == NULL) {
 resolve_failed:
-					_dl_printf("%s: %s: can't resolve "
-					    "reference '%s'\n",
-					    _dl_progname, object->load_name,
-					    symn);
-					fails++;
+					if (ELF_ST_BIND(sym->st_info) !=
+					    STB_WEAK)
+						fails++;
 					continue;
 				}
 				value += (Elf_Addr)(ooff + this->st_value);
@@ -257,10 +255,10 @@ resolve_failed:
 			size_t size = dstsym->st_size;
 			Elf_Addr soff;
 
-			soff = _dl_find_symbol(symn, object->next, &srcsym,
-			    NULL, SYM_SEARCH_ALL|SYM_WARNNOTFOUND|
+			soff = _dl_find_symbol(symn, &srcsym,
+			    SYM_SEARCH_OTHER|SYM_WARNNOTFOUND|
 			    ((type == R_TYPE(JUMP_SLOT)) ? SYM_PLT:SYM_NOTPLT),
-			    size, object);
+			    sym, object, NULL);
 			if (srcsym == NULL)
 				goto resolve_failed;
 
@@ -356,8 +354,8 @@ _dl_bind(elf_object_t *object, int index)
 
 	addr = (Elf_Word *)(object->load_offs + rel->r_offset);
 	this = NULL;
-	ooff = _dl_find_symbol(symn, _dl_objects, &this, NULL,
-	    SYM_SEARCH_ALL|SYM_WARNNOTFOUND|SYM_PLT, sym->st_size, object);
+	ooff = _dl_find_symbol(symn, &this,
+	    SYM_SEARCH_ALL|SYM_WARNNOTFOUND|SYM_PLT, sym, object, NULL);
 	if (this == NULL) {
 		_dl_printf("lazy binding failed!\n");
 		*((int *)0) = 0;	/* XXX */
@@ -406,14 +404,14 @@ _dl_md_reloc_got(elf_object_t *object, int lazy)
 	object->got_addr = NULL;
 	object->got_size = 0;
 	this = NULL;
-	ooff = _dl_find_symbol("__got_start", object, &this, NULL,
-	    SYM_SEARCH_SELF|SYM_NOWARNNOTFOUND|SYM_PLT, 0, object);
+	ooff = _dl_find_symbol("__got_start", &this,
+	    SYM_SEARCH_OBJ|SYM_NOWARNNOTFOUND|SYM_PLT, NULL, object, NULL);
 	if (this != NULL)
 		object->got_addr = ooff + this->st_value;
 
 	this = NULL;
-	ooff = _dl_find_symbol("__got_end", object, &this, NULL,
-	    SYM_SEARCH_SELF|SYM_NOWARNNOTFOUND|SYM_PLT, 0, object);
+	ooff = _dl_find_symbol("__got_end", &this,
+	    SYM_SEARCH_OBJ|SYM_NOWARNNOTFOUND|SYM_PLT, NULL, object, NULL);
 	if (this != NULL)
 		object->got_size = ooff + this->st_value  - object->got_addr;
 

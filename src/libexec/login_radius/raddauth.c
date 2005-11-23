@@ -1,4 +1,4 @@
-/*	$OpenBSD: raddauth.c,v 1.18 2005/03/02 21:51:17 cloder Exp $	*/
+/*	$OpenBSD: raddauth.c,v 1.20 2005/11/19 23:02:25 millert Exp $	*/
 
 /*-
  * Copyright (c) 1996, 1997 Berkeley Software Design, Inc. All rights reserved.
@@ -144,9 +144,9 @@ int
 raddauth(char *username, char *class, char *style, char *challenge,
     char *password, char **emsg)
 {
-	volatile u_char req_id;
-	char * volatile userstyle, * volatile passwd, * volatile pwstate;
-	volatile int auth_port;
+	u_char req_id;
+	char *userstyle, *passwd, *pwstate;
+	int auth_port;
 	char vector[AUTH_VECTOR_LEN+1], _pwstate[1024], *p, *v;
 	int i;
 	login_cap_t *lc;
@@ -235,12 +235,8 @@ raddauth(char *username, char *class, char *style, char *challenge,
 	if (auth_port == 0)
 		auth_port = (int)getppid();
 	if (strcmp(style, "radius") != 0) {
-		int len = strlen(username) + strlen(style) + 2;
-
-		userstyle = malloc(len);
-		if (userstyle == NULL)
+		if (asprintf(&userstyle, "%s:%s", username, style) == -1)
 			err(1, NULL);
-		snprintf(userstyle, len, "%s:%s", username, style);
 	} else
 		userstyle = username;
 

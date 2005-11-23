@@ -1,4 +1,4 @@
-/*	$OpenBSD: resolve.h,v 1.36 2005/05/10 03:36:07 drahn Exp $ */
+/*	$OpenBSD: resolve.h,v 1.50 2005/11/09 16:41:29 kurt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
@@ -29,6 +29,7 @@
 #ifndef _RESOLVE_H_
 #define _RESOLVE_H_
 
+#include <sys/queue.h>
 #include <link.h>
 #include <dlfcn.h>
 
@@ -46,7 +47,8 @@ struct load_list {
  *  The head of this struct must be compatible
  *  with struct link_map in sys/link.h
  */
-typedef struct elf_object {
+typedef struct elf_object elf_object_t;
+struct elf_object {
 	Elf_Addr load_addr;		/* Real load address */
 	char	*load_name;		/* Pointer to object name */
 	Elf_Dyn *load_dyn;		/* Pointer to object dynamic data */
@@ -91,12 +93,9 @@ typedef struct elf_object {
 			Elf_Addr	debug;
 			Elf_Addr	textrel;
 			Elf_Addr	jmprel;
-			Elf_Addr	bind_now;
 		} u;
 	} Dyn;
 #define dyn Dyn.u
-
-	struct elf_object *dep_next;	/* Shadow objects for resolve search */
 
 	int		status;
 #define	STAT_RELOC_DONE	0x01
@@ -104,11 +103,11 @@ typedef struct elf_object {
 #define	STAT_INIT_DONE	0x04
 #define	STAT_FINI_DONE	0x08
 #define	STAT_FINI_READY	0x10
+#define	STAT_UNLOADED	0x20
 
 	Elf_Phdr	*phdrp;
 	int		phdrc;
 
-	int		refcount;
 	int		obj_type;
 #define	OBJTYPE_LDR	1
 #define	OBJTYPE_EXE	2
@@ -122,40 +121,52 @@ typedef struct elf_object {
 	u_int32_t	nchains;
 	Elf_Dyn		*dynamic;
 
-	struct dep_node *first_child;
-	struct dep_node *last_child;
+	TAILQ_HEAD(,dep_node)	child_list;	/* direct dep libs of object */
+	TAILQ_HEAD(,dep_node)	grpsym_list;	/* ordered complete dep list */
+	TAILQ_HEAD(,dep_node)	grpref_list;	/* refs to other load groups */
+
+	int		refcount;	/* dep libs only */
+	int		opencount;	/* # dlopen() & exe */
+	int		grprefcount;	/* load group refs */
+#define OBJECT_REF_CNT(object) \
+    ((object->refcount + object->opencount + object->grprefcount))
+#define OBJECT_DLREF_CNT(object) \
+    ((object->opencount + object->grprefcount))
+
+	/* object that caused this module to be loaded, used in symbol lookup */
+	elf_object_t	*load_object;
 
 	/* for object confirmation */
 	dev_t	dev;
 	ino_t inode;
-} elf_object_t;
+};
 
 struct dep_node {
-	struct dep_node *next_sibling;
+	TAILQ_ENTRY(dep_node) next_sib;
 	elf_object_t *data;
 };
 
-extern void _dl_rt_resolve(void);
+void _dl_rt_resolve(void);
 
 void _dl_add_object(elf_object_t *object);
-extern elf_object_t *_dl_finalize_object(const char *objname, Elf_Dyn *dynp,
-    const u_long *, const int objtype, const long laddr, const long loff);
-extern void	_dl_remove_object(elf_object_t *object);
+elf_object_t *_dl_finalize_object(const char *objname, Elf_Dyn *dynp,
+    const long *, const int objtype, const long laddr, const long loff);
+void	_dl_remove_object(elf_object_t *object);
+void	_dl_cleanup_objects(void);
 
-extern elf_object_t *_dl_lookup_object(const char *objname);
-extern elf_object_t *_dl_load_shlib(const char *, elf_object_t *, int, int);
-extern void	_dl_unload_shlib(elf_object_t *object);
-elf_object_t *_dl_tryload_shlib(const char *libname, int type);
+elf_object_t *_dl_lookup_object(const char *objname);
+elf_object_t *_dl_load_shlib(const char *, elf_object_t *, int, int);
+elf_object_t *_dl_tryload_shlib(const char *libname, int type, int flags);
 
-extern int  _dl_md_reloc(elf_object_t *object, int rel, int relsz);
-extern void _dl_md_reloc_got(elf_object_t *object, int lazy);
+int  _dl_md_reloc(elf_object_t *object, int rel, int relsz);
+void _dl_md_reloc_got(elf_object_t *object, int lazy);
 
-Elf_Addr _dl_find_symbol(const char *name, elf_object_t *startlook,
-    const Elf_Sym **ref, const elf_object_t **pobj,
-    int flags, int sym_size, elf_object_t *object);
+Elf_Addr _dl_find_symbol(const char *name, const Elf_Sym **this,
+    int flags, const Elf_Sym *ref_sym, elf_object_t *object,
+    const elf_object_t **pobj);
 Elf_Addr _dl_find_symbol_bysym(elf_object_t *req_obj, unsigned int symidx,
-    elf_object_t *startlook, const Elf_Sym **ref, const elf_object_t **pobj,
-    int flags, int req_size);
+    const Elf_Sym **ref, int flags, const Elf_Sym *ref_sym,
+    const elf_object_t **pobj);
 /*
  * defines for _dl_find_symbol() flag field, three bits of meaning
  * myself	- clear: search all objects,	set: search only this object
@@ -170,24 +181,33 @@ Elf_Addr _dl_find_symbol_bysym(elf_object_t *req_obj, unsigned int symidx,
  * the 'real' function address is necessary, not the possible PLT address.
  */
 /* myself */
-#define SYM_SEARCH_ALL		0
-#define SYM_SEARCH_SELF		1
+#define SYM_SEARCH_ALL		0x00
+#define SYM_SEARCH_SELF		0x01
+#define SYM_SEARCH_OTHER	0x02
+#define SYM_SEARCH_NEXT		0x04
+#define SYM_SEARCH_OBJ		0x08
 /* warnnotfound */
-#define SYM_NOWARNNOTFOUND	0
-#define SYM_WARNNOTFOUND	2
+#define SYM_NOWARNNOTFOUND	0x00
+#define SYM_WARNNOTFOUND	0x10
 /* inplt */
-#define SYM_NOTPLT		0
-#define SYM_PLT			4
+#define SYM_NOTPLT		0x00
+#define SYM_PLT			0x20
 
-void _dl_rtld(elf_object_t *object);
+#define SYM_DLSYM		0x40
+
+int _dl_load_dep_libs(elf_object_t *object, int flags, int booting);
+int _dl_rtld(elf_object_t *object);
 void _dl_call_init(elf_object_t *object);
-void _dl_link_sub(elf_object_t *dep, elf_object_t *p);
+void _dl_link_child(elf_object_t *dep, elf_object_t *p);
+void _dl_link_grpsym(elf_object_t *object);
+void _dl_cache_grpsym_list(elf_object_t *object);
+void _dl_link_grpref(elf_object_t *load_group, elf_object_t *load_object);
 void _dl_link_dlopen(elf_object_t *dep);
 void _dl_unlink_dlopen(elf_object_t *dep);
 void _dl_notify_unload_shlib(elf_object_t *object);
+void _dl_unload_shlib(elf_object_t *object);
 void _dl_unload_dlopen(void);
 
-void _dl_run_dtors(elf_object_t *object);
 void _dl_run_all_dtors(void);
 
 Elf_Addr _dl_bind(elf_object_t *object, int index);
@@ -202,12 +222,13 @@ void	_dl_thread_kern_stop(void);
 extern elf_object_t *_dl_objects;
 extern elf_object_t *_dl_last_object;
 
+extern elf_object_t *_dl_loading_object;
+
 extern const char *_dl_progname;
 extern struct r_debug *_dl_debug_map;
 
 extern int  _dl_pagesz;
 extern int  _dl_errno;
-extern int  _dl_exiting;
 
 extern char *_dl_libpath;
 extern char *_dl_preload;
@@ -227,6 +248,7 @@ extern char *_dl_debug;
 #define	DL_INVALID_CTL		8
 #define	DL_NO_OBJECT		9
 #define	DL_CANT_FIND_OBJ	10
+#define	DL_CANT_LOAD_OBJ	11
 
 #define ELF_ROUND(x,malign) (((x) + (malign)-1) & ~((malign)-1))
 #define ELF_TRUNC(x,malign) ((x) & ~((malign)-1))
@@ -239,5 +261,10 @@ typedef struct sym_cache {
 } sym_cache;
 
 extern sym_cache *_dl_symcache;
+extern int _dl_symcachestat_hits;
+extern int _dl_symcachestat_lookups;
+TAILQ_HEAD(dlochld, dep_node);
+extern struct dlochld _dlopened_child_list;
+
 
 #endif /* _RESOLVE_H_ */
