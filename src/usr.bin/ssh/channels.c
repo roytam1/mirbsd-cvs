@@ -39,7 +39,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: channels.c,v 1.223 2005/07/17 07:17:54 djm Exp $");
+RCSID("$OpenBSD: channels.c,v 1.227 2005/10/14 02:29:37 stevesk Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -268,6 +268,7 @@ channel_new(char *ctype, int type, int rfd, int wfd, int efd,
 	c->force_drain = 0;
 	c->single_connection = 0;
 	c->detach_user = NULL;
+	c->detach_close = 0;
 	c->confirm = NULL;
 	c->confirm_ctx = NULL;
 	c->input_filter = NULL;
@@ -627,7 +628,7 @@ channel_register_confirm(int id, channel_callback_fn *fn, void *ctx)
 	c->confirm_ctx = ctx;
 }
 void
-channel_register_cleanup(int id, channel_callback_fn *fn)
+channel_register_cleanup(int id, channel_callback_fn *fn, int do_close)
 {
 	Channel *c = channel_lookup(id);
 
@@ -636,6 +637,7 @@ channel_register_cleanup(int id, channel_callback_fn *fn)
 		return;
 	}
 	c->detach_user = fn;
+	c->detach_close = do_close;
 }
 void
 channel_cancel_cleanup(int id)
@@ -647,6 +649,7 @@ channel_cancel_cleanup(int id)
 		return;
 	}
 	c->detach_user = NULL;
+	c->detach_close = 0;
 }
 void
 channel_register_filter(int id, channel_filter_fn *fn)
@@ -1226,6 +1229,19 @@ port_open_helper(Channel *c, char *rtype)
 	xfree(remote_ipaddr);
 }
 
+static void
+channel_set_reuseaddr(int fd)
+{
+	int on = 1;
+
+	/*
+	 * Set socket options.
+	 * Allow local port reuse in TIME_WAIT.
+	 */
+	if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) == -1)
+		error("setsockopt SO_REUSEADDR fd %d: %s", fd, strerror(errno));
+}
+
 /*
  * This socket is listening for connections to a forwarded TCP/IP port.
  */
@@ -1660,7 +1676,7 @@ channel_garbage_collect(Channel *c)
 	if (c == NULL)
 		return;
 	if (c->detach_user != NULL) {
-		if (!chan_is_dead(c, 0))
+		if (!chan_is_dead(c, c->detach_close))
 			return;
 		debug2("channel %d: gc: notify user", c->self);
 		c->detach_user(c->self, NULL);
@@ -2182,7 +2198,7 @@ channel_setup_fwd_listener(int type, const char *listen_addr, u_short listen_por
     const char *host_to_connect, u_short port_to_connect, int gateway_ports)
 {
 	Channel *c;
-	int sock, r, success = 0, on = 1, wildcard = 0, is_client;
+	int sock, r, success = 0, wildcard = 0, is_client;
 	struct addrinfo hints, *ai, *aitop;
 	const char *host, *addr;
 	char ntop[NI_MAXHOST], strport[NI_MAXSERV];
@@ -2269,13 +2285,8 @@ channel_setup_fwd_listener(int type, const char *listen_addr, u_short listen_por
 			verbose("socket: %.100s", strerror(errno));
 			continue;
 		}
-		/*
-		 * Set socket options.
-		 * Allow local port reuse in TIME_WAIT.
-		 */
-		if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &on,
-		    sizeof(on)) == -1)
-			error("setsockopt SO_REUSEADDR: %s", strerror(errno));
+
+		channel_set_reuseaddr(sock);
 
 		debug("Local forwarding listening on %s port %s.", ntop, strport);
 
@@ -2443,7 +2454,7 @@ channel_request_rforward_cancel(const char *host, u_short port)
 
 	permitted_opens[i].listen_port = 0;
 	permitted_opens[i].port_to_connect = 0;
-	free(permitted_opens[i].host_to_connect);
+	xfree(permitted_opens[i].host_to_connect);
 	permitted_opens[i].host_to_connect = NULL;
 }
 
@@ -2656,6 +2667,9 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 	char strport[NI_MAXSERV];
 	int gaierr, n, num_socks = 0, socks[NUM_SOCKS];
 
+	if (chanids == NULL)
+		return -1;
+
 	for (display_number = x11_display_offset;
 	    display_number < MAX_DISPLAYS;
 	    display_number++) {
@@ -2679,6 +2693,7 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 				freeaddrinfo(aitop);
 				return -1;
 			}
+			channel_set_reuseaddr(sock);
 			if (bind(sock, ai->ai_addr, ai->ai_addrlen) < 0) {
 				debug2("bind port %d: %.100s", port, strerror(errno));
 				close(sock);
@@ -2715,8 +2730,7 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 	}
 
 	/* Allocate a channel for each socket. */
-	if (chanids != NULL)
-		*chanids = xmalloc(sizeof(**chanids) * (num_socks + 1));
+	*chanids = xmalloc(sizeof(**chanids) * (num_socks + 1));
 	for (n = 0; n < num_socks; n++) {
 		sock = socks[n];
 		nc = channel_new("x11 listener",
@@ -2724,11 +2738,9 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 		    CHAN_X11_WINDOW_DEFAULT, CHAN_X11_PACKET_DEFAULT,
 		    0, "X11 inet listener", 1);
 		nc->single_connection = single_connection;
-		if (*chanids != NULL)
-			(*chanids)[n] = nc->self;
+		(*chanids)[n] = nc->self;
 	}
-	if (*chanids != NULL)
-		(*chanids)[n] = -1;
+	(*chanids)[n] = -1;
 
 	/* Return the display number for the DISPLAY environment variable. */
 	*display_numberp = display_number;
