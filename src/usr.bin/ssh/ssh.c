@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh.c,v 1.248 2005/07/16 01:35:24 djm Exp $");
+RCSID("$OpenBSD: ssh.c,v 1.254 2005/10/30 08:52:18 djm Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -158,7 +158,7 @@ usage(void)
 {
 	fprintf(stderr,
 "usage: ssh [-1246AaCfgkMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
-"           [-D port] [-e escape_char] [-F configfile]\n"
+"           [-D [bind_address:]port] [-e escape_char] [-F configfile]\n"
 "           [-i identity_file] [-L [bind_address:]port:host:hostport]\n"
 "           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]\n"
 "           [-R [bind_address:]port:host:hostport] [-S ctl_path]\n"
@@ -187,6 +187,9 @@ main(int ac, char **av)
 	extern char *optarg;
 	struct servent *sp;
 	Forward fwd;
+
+	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
+	sanitise_stdfd();
 
 	/*
 	 * Save the original real uid.  It will be needed later (uid-swapping
@@ -434,7 +437,7 @@ again:
 				fwd.listen_host = cleanhostname(fwd.listen_host);
 			} else {
 				fwd.listen_port = a2port(fwd.listen_host);
-				fwd.listen_host = "";
+				fwd.listen_host = NULL;
 			}
 
 			if (fwd.listen_port == 0) {
@@ -684,7 +687,7 @@ again:
 
 	/*
 	 * Now that we are back to our own permissions, create ~/.ssh
-	 * directory if it doesn\'t already exist.
+	 * directory if it doesn't already exist.
 	 */
 	snprintf(buf, sizeof buf, "%.100s%s%.100s", pw->pw_dir, strcmp(pw->pw_dir, "/") ? "/" : "", _PATH_SSH_USER_DIR);
 	if (stat(buf, &st) < 0)
@@ -780,8 +783,7 @@ ssh_init_forwarding(void)
 		debug("Remote connections from %.200s:%d forwarded to "
 		    "local address %.200s:%d",
 		    (options.remote_forwards[i].listen_host == NULL) ?
-		    (options.gateway_ports ? "*" : "LOCALHOST") :
-		    options.remote_forwards[i].listen_host,
+		    "LOCALHOST" : options.remote_forwards[i].listen_host,
 		    options.remote_forwards[i].listen_port,
 		    options.remote_forwards[i].connect_host,
 		    options.remote_forwards[i].connect_port);
@@ -797,7 +799,7 @@ static void
 check_agent_present(void)
 {
 	if (options.forward_agent) {
-		/* Clear agent forwarding if we don\'t have an agent. */
+		/* Clear agent forwarding if we don't have an agent. */
 		if (!ssh_agent_present())
 			options.forward_agent = 0;
 	}
@@ -998,7 +1000,7 @@ ssh_control_listener(void)
 		fatal("ControlPath too long");
 
 	if ((control_fd = socket(PF_UNIX, SOCK_STREAM, 0)) < 0)
-		fatal("%s socket(): %s\n", __func__, strerror(errno));
+		fatal("%s socket(): %s", __func__, strerror(errno));
 
 	old_umask = umask(0177);
 	if (bind(control_fd, (struct sockaddr*)&addr, addr.sun_len) == -1) {
@@ -1007,12 +1009,12 @@ ssh_control_listener(void)
 			fatal("ControlSocket %s already exists",
 			    options.control_path);
 		else
-			fatal("%s bind(): %s\n", __func__, strerror(errno));
+			fatal("%s bind(): %s", __func__, strerror(errno));
 	}
 	umask(old_umask);
 
 	if (listen(control_fd, 64) == -1)
-		fatal("%s listen(): %s\n", __func__, strerror(errno));
+		fatal("%s listen(): %s", __func__, strerror(errno));
 
 	set_nonblock(control_fd);
 }

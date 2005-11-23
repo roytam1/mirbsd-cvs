@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshconnect2.c,v 1.140 2005/07/17 07:17:55 djm Exp $");
+RCSID("$OpenBSD: sshconnect2.c,v 1.143 2005/10/14 02:17:59 stevesk Exp $");
 
 #include "ssh.h"
 #include "ssh2.h"
@@ -99,10 +99,10 @@ ssh_kex2(char *host, struct sockaddr *hostaddr)
 	    compat_cipher_proposal(myproposal[PROPOSAL_ENC_ALGS_STOC]);
 	if (options.compression) {
 		myproposal[PROPOSAL_COMP_ALGS_CTOS] =
-		myproposal[PROPOSAL_COMP_ALGS_STOC] = "zlib,none";
+		myproposal[PROPOSAL_COMP_ALGS_STOC] = "zlib@openssh.com,zlib,none";
 	} else {
 		myproposal[PROPOSAL_COMP_ALGS_CTOS] =
-		myproposal[PROPOSAL_COMP_ALGS_STOC] = "none,zlib";
+		myproposal[PROPOSAL_COMP_ALGS_STOC] = "none,zlib@openssh.com,zlib";
 	}
 	if (options.macs != NULL) {
 		myproposal[PROPOSAL_MAC_ALGS_CTOS] =
@@ -543,7 +543,8 @@ process_gssapi_token(void *ctxt, gss_buffer_t recv_tok)
 	Authctxt *authctxt = ctxt;
 	Gssctxt *gssctxt = authctxt->methoddata;
 	gss_buffer_desc send_tok = GSS_C_EMPTY_BUFFER;
-	gss_buffer_desc gssbuf, mic;
+	gss_buffer_desc mic = GSS_C_EMPTY_BUFFER;
+	gss_buffer_desc gssbuf;
 	OM_uint32 status, ms, flags;
 	Buffer b;
 
@@ -699,7 +700,7 @@ input_gssapi_error(int type, u_int32_t plen, void *ctxt)
 
 	packet_check_eom();
 
-	debug("Server GSSAPI Error:\n%s\n", msg);
+	debug("Server GSSAPI Error:\n%s", msg);
 	xfree(msg);
 	xfree(lang);
 }

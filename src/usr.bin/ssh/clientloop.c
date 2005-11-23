@@ -59,7 +59,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: clientloop.c,v 1.141 2005/07/16 01:35:24 djm Exp $");
+RCSID("$OpenBSD: clientloop.c,v 1.145 2005/10/30 08:52:17 djm Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -113,7 +113,7 @@ extern char *host;
 static volatile sig_atomic_t received_window_change_signal = 0;
 static volatile sig_atomic_t received_signal = 0;
 
-/* Flag indicating whether the user\'s terminal is in non-blocking mode. */
+/* Flag indicating whether the user's terminal is in non-blocking mode. */
 static int in_non_blocking_mode = 0;
 
 /* Common data for the client loop code. */
@@ -266,7 +266,7 @@ client_x11_get_proto(const char *display, const char *xauth_path,
 			}
 		}
 		snprintf(cmd, sizeof(cmd),
-		    "%s %s%s list %s . 2>" _PATH_DEVNULL,
+		    "%s %s%s list %s 2>" _PATH_DEVNULL,
 		    xauth_path,
 		    generated ? "-f " : "" ,
 		    generated ? xauthfile : "",
@@ -1379,7 +1379,7 @@ client_loop(int have_pty, int escape_char_arg, int ssh2_chan_id)
 			    simple_escape_filter);
 		if (session_ident != -1)
 			channel_register_cleanup(session_ident,
-			    client_channel_closed);
+			    client_channel_closed, 0);
 	} else {
 		/* Check if we should immediately send eof on stdin. */
 		client_check_initial_eof_on_stdin();
@@ -1880,7 +1880,7 @@ client_session2_setup(int id, int want_tty, int want_subsystem,
 			/* Split */
 			name = xstrdup(env[i]);
 			if ((val = strchr(name, '=')) == NULL) {
-				free(name);
+				xfree(name);
 				continue;
 			}
 			*val++ = '\0';
@@ -1894,7 +1894,7 @@ client_session2_setup(int id, int want_tty, int want_subsystem,
 			}
 			if (!matched) {
 				debug3("Ignored env %s", name);
-				free(name);
+				xfree(name);
 				continue;
 			}
 
@@ -1903,7 +1903,7 @@ client_session2_setup(int id, int want_tty, int want_subsystem,
 			packet_put_cstring(name);
 			packet_put_cstring(val);
 			packet_send();
-			free(name);
+			xfree(name);
 		}
 	}
 

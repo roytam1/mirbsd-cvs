@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: canohost.c,v 1.44 2005/06/17 02:44:32 djm Exp $");
+RCSID("$OpenBSD: canohost.c,v 1.47 2005/11/03 13:38:29 dtucker Exp $");
 
 #include "packet.h"
 #include "xmalloc.h"
@@ -43,12 +43,12 @@ get_remote_hostname(int sock, int use_dns)
 		cleanup_exit(255);
 	}
 
-	if (from.ss_family == AF_INET)
-		check_ip_options(sock, ntop);
-
 	if (getnameinfo((struct sockaddr *)&from, fromlen, ntop, sizeof(ntop),
 	    NULL, 0, NI_NUMERICHOST) != 0)
 		fatal("get_remote_hostname: getnameinfo NI_NUMERICHOST failed");
+
+	if (from.ss_family == AF_INET)
+		check_ip_options(sock, ntop);
 
 	if (!use_dns)
 		return xstrdup(ntop);
@@ -152,9 +152,7 @@ check_ip_options(int sock, char *ipaddr)
 		for (i = 0; i < option_size; i++)
 			snprintf(text + i*3, sizeof(text) - i*3,
 			    " %2.2x", options[i]);
-		logit("Connection from %.100s with IP options:%.800s",
-		    ipaddr, text);
-		packet_disconnect("Connection from %.100s with IP options:%.800s",
+		fatal("Connection from %.100s with IP options:%.800s",
 		    ipaddr, text);
 	}
 }
@@ -168,26 +166,27 @@ check_ip_options(int sock, char *ipaddr)
 const char *
 get_canonical_hostname(int use_dns)
 {
+	char *host;
 	static char *canonical_host_name = NULL;
-	static int use_dns_done = 0;
+	static char *remote_ip = NULL;
 
 	/* Check if we have previously retrieved name with same option. */
-	if (canonical_host_name != NULL) {
-		if (use_dns_done != use_dns)
-			xfree(canonical_host_name);
-		else
-			return canonical_host_name;
-	}
+	if (use_dns && canonical_host_name != NULL)
+		return canonical_host_name;
+	if (!use_dns && remote_ip != NULL)
+		return remote_ip;
 
 	/* Get the real hostname if socket; otherwise return UNKNOWN. */
 	if (packet_connection_is_on_socket())
-		canonical_host_name = get_remote_hostname(
-		    packet_get_connection_in(), use_dns);
+		host = get_remote_hostname(packet_get_connection_in(), use_dns);
 	else
-		canonical_host_name = xstrdup("UNKNOWN");
+		host = "UNKNOWN";
 
-	use_dns_done = use_dns;
-	return canonical_host_name;
+	if (use_dns)
+		canonical_host_name = host;
+	else
+		remote_ip = host;
+	return host;
 }
 
 /*
