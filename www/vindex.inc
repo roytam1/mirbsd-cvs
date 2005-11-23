@@ -10,7 +10,7 @@
 <li><a href="/?getting">Download</a><ul class="lv2">
 	<li><a href="/?mirrors">Mirrors</a></li>
     </ul></li>
-<li><a href="http://wiki.mirbsd.de/MirPorts">MirPorts</a></li>
+<li><a href="/?ports">MirPorts</a></li>
 <li><a href="/?docs">Documentation</a></li>
 <li><a href="/?projects">Project Ideas</a></li>
 <li><a href="/?danke">Donate</a></li>
