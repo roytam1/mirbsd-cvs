@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.6 2005/04/26 08:32:15 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.7 2005/07/07 14:39:27 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -191,6 +191,10 @@
 
 #if !__GNUC_PREREQ__(2, 8)
 #define	__extension__
+#endif
+
+#ifdef lint
+#define __restrict__
 #endif
 
 #ifdef lint
