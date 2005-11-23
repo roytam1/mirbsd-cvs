@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: machdep.c,v 1.35 2004/03/19 13:48:18 tom Exp $	*/
 
 /*
@@ -48,9 +49,8 @@ machdep(void)
 	/*
 	 * The list of probe routines is now in conf.c.
 	 */
-	for (i = 0; i < nibprobes; i++) {
-		pr = &probe_list[i];
-		if (pr != NULL) {
+	for (i = 0; i < nibprobes; i++)
+		if ((pr = &probe_list[i])) {
 			printf("%s:", pr->name);
 
 			for (j = 0; j < pr->count; j++) {
@@ -59,5 +59,4 @@ machdep(void)
 
 			printf("\n");
 		}
-	}
 }
