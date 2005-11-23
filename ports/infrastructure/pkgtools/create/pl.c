@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.14 2005/11/16 11:46:54 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.15 2005/11/23 17:32:21 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.14 2005/11/16 11:46:54 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.15 2005/11/23 17:32:21 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -67,6 +67,12 @@ convert_dylib(package_t *pkg, plist_t *p, char *cwd)
 static bool
 check_lib(package_t *pkg, plist_t *p, char *cwd)
 {
+#ifndef AS_USER
+	char *tmp;
+#endif
+#if 0 /* see below */
+	size_t len;
+#endif
 	bool rv = false;
 
 	if (!pkg || !p)
@@ -81,7 +87,7 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 		rv = convert_dylib(pkg, p, cwd);
 		break;
 	case LD_GNU:
-#if 0 /* what's this supposed to be? */
+#if 0 /* FIXME */
 	    {
 		char *tmp;
 		size_t len;
@@ -102,8 +108,6 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 	case LD_BSD:
 #ifndef AS_USER
 	    {
-		char *tmp;
-
 		if (!find_plist(pkg, PLIST_UNEXEC, "ldconfig -R"))
 			add_plist(pkg, PLIST_UNEXEC, "ldconfig -R");
 		tmp = strconcat("ldconfig -m %D/", dirname(p->name));

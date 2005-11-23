@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.3 2005/11/15 19:33:59 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.4 2005/11/19 02:05:29 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.3 2005/11/15 19:33:59 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.4 2005/11/19 02:05:29 bsiegert Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -398,11 +398,11 @@ delete_package(bool keep_files, bool nukedirs, bool remove_config,
 	case PLIST_LIB:
 	case PLIST_SHELL:
 	case PLIST_FILE:
-	    if (keep_files)
-		break;
 	    if (p->name[strlen(p->name) - 1] == '/')
 		break;
 	    last_file = p->name;
+	    if (keep_files)
+		break;
 	    (void) snprintf(tmp, sizeof(tmp), "%s/%s", Where, p->name);
 	    if (isdir(tmp)) {
 		pwarnx("attempting to delete directory '%s' as a file\n"
@@ -445,7 +445,7 @@ delete_package(bool keep_files, bool nukedirs, bool remove_config,
 	    break;
 	case PLIST_DIR_RM:
 	    last_file = p->name;
-	    fail = fail | process_dirrm(p, false, &usedb, ourdb, Where);
+	    fail = fail | process_dirrm(p, keep_files, &usedb, ourdb, Where);
 	    break;
 	default:
 	    break;
@@ -466,7 +466,7 @@ delete_package(bool keep_files, bool nukedirs, bool remove_config,
 		}
 		if (p->type == PLIST_FILE) {
 		    p->name[--len] = '\0';
-		    fail = fail | process_dirrm(p, false, &usedb, ourdb, Where);
+		    fail = fail | process_dirrm(p, keep_files, &usedb, ourdb, Where);
 		} else
 		    delete_extra(toabs(p->name, Where), true);
 	    }
@@ -479,7 +479,7 @@ delete_package(bool keep_files, bool nukedirs, bool remove_config,
 }
 
 int
-process_dirrm(plist_t *p, bool ign_err, int *usedb, RCDB *ourdb,
+process_dirrm(plist_t *p, bool keep_files, int *usedb, RCDB *ourdb,
     const char *Where)
 {
     recno_t rr;
@@ -528,10 +528,10 @@ process_dirrm(plist_t *p, bool ign_err, int *usedb, RCDB *ourdb,
 	    pwarnx("attempting to delete non-existent directory '%s'\n"
 	       "this packing list is incorrect - ignoring delete request", tmp);
 	}
-    } else {
+    } else if (!keep_files) {
 	if (Verbose)
 	    printf("Delete directory %s\n", tmp);
-	if (!Fake && delete_hierarchy(tmp, ign_err, false)) {
+	if (!Fake && delete_hierarchy(tmp, false, false)) {
 	    pwarnx("unable to completely remove directory '%s'", tmp);
 	    return -1;
 	}
