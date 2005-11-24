@@ -2,8 +2,8 @@
 # @(#)Makefile	4.7 (Berkeley) 5/11/90
 
 PROG=	nroff
-SRCS=	nii.c n1.c n2.c n3.c n4.c n5.c n6.c n7.c n8.c n9.c n10.c \
-	hytab.c ntab.c suftab.c ni1.c ni2.c ni3.c
+SRCS=	ni.c nii.c n1.c n2.c n3.c n4.c n5.c n6.c n7.c n8.c n9.c n10.c \
+	hytab.c ntab.c suftab.c
 
 CPPFLAGS+=	-DNROFF -DVMUNIX
 
