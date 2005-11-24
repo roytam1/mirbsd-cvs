@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.56 2005/11/24 11:41:33 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.57 2005/11/24 12:08:56 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -352,14 +352,7 @@ fi
 add_fgetln=
 if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
     '#include <stdio.h>' 'size_t x;'; then
-	if testfunc 'ssize_t getline(char **, size_t *, FILE *)' \
-	    'getline(&y, &x, stdin)' '#include <stdio.h>' \
-	    'size_t x; char *y;'; then
-		print -u2 Error: please supply an fgetln function.
-		exit 1
-	else
-		add_fgetln=$d_script/../contrib/gfgetln.c
-	fi
+	add_fgetln=$d_build/fgetln.c
 fi
 
 # build tsort
