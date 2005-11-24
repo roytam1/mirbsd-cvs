@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.19 2005/11/19 12:37:00 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.20 2005/11/19 12:39:19 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -46,7 +46,6 @@ topd=$(dirname $top)
 topf=$(basename $top)
 cd $topd
 find $topf -type f | xargs chmod 644
-find $topf -type f | xargs ${SUDO-sudo} chown -R 0:0
-find $topf -type f ! -path \*CVS\* | sort | cpio -oC512 \
+find $topf -type f ! -path \*CVS\* | sort | cpio -oHdist \
     | gzip -n9 >mirmake-$version.cpio.gz
 [ -n "$DEBUG" ] || rm -rf $wd/../src $wd/Version.sh
