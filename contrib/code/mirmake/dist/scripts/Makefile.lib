@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.8 2005/09/19 18:42:18 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.9 2005/11/24 11:36:28 tg Exp $
 
 LIB=		mirmake
 SRCS=		md4.c md5.c rmd160.c sha1.c sha2.c \
@@ -11,10 +11,6 @@ NOPIC=		yes
 CPPFLAGS+=	-D_LIBMIRMAKE
 
 .include <bsd.own.mk>
-
-.if ${OStype:NDarwin:N*BSD} != ""
-SRCS+=		strlfun.c
-.endif
 
 .if ${OStype} == "Interix"
 SRCS+=		asprintf.c mktemp.c strtoll.c vasprintf.c

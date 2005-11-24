@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.54 2005/11/24 11:06:46 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.55 2005/11/24 11:36:27 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -422,6 +422,13 @@ EOF
 	fi
 fi
 
+# check for strlcpy and strlcat
+add_strlfun=
+if [[ $(testfunc 'size_t strlcpy(char *, const char *, size_t)' \
+    'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];') = no ]]; then
+	add_strlfun=strlfun.c
+fi
+
 # build libmirmake (hash stuff and necessities)
 rm -rf $d_build/libmirmake
 mkdir $d_build/libmirmake
@@ -445,7 +452,7 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="$add_fgetln"
+    EXTRA_SRCS="$add_fgetln $add_strlfun"
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
