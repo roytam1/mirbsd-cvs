@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.62 2005/11/24 14:03:18 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.63 2005/11/24 14:06:24 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -466,6 +466,7 @@ ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     LIBS=$d_build/libmirmake/libmirmake.a clean
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    MKDEP_SH="${new_mirksh} ${d_build}/mkdep.sh" \
     LIBS=$d_build/libmirmake/libmirmake.a depend
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
