@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.66 2005/11/24 19:28:12 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.67 2005/11/24 20:13:50 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -151,12 +151,6 @@ Linux)
 	;;
 esac
 
-if [[ $binown = - ]]; then
-	ug=
-else
-	ug="\"-o $binown -g $bingrp\""
-fi
-
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
 export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
@@ -174,6 +168,11 @@ elif [[ $new_binids = *:* ]]; then
 else
 	binown=$new_binids
 	bingrp=$new_binids
+fi
+if [[ $binown = - ]]; then
+	ug=
+else
+	ug="\"-o $binown -g $bingrp\""
 fi
 
 if ! gnuos=$($SHELL $top/dist/contrib/gnu/config/config.guess); then
