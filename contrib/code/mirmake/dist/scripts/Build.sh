@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.60 2005/11/24 13:56:51 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.61 2005/11/24 14:01:26 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -320,6 +320,23 @@ if [[ -e $d_build/PSD12.make.txt ]]; then
 EOF
 fi
 
+# check for fgetln, strlcpy/strlcat, stdbool.h
+add_fgetln=
+if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
+    '#include <stdio.h>' 'size_t x;'; then
+	add_fgetln=$d_build/fgetln.o
+fi
+add_strlfun=
+if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
+    'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
+	add_strlfun=strlfun.c
+fi
+stdboolh=
+if ! testfunc 'void exit(int)' 'exit(t == false)' \
+    '#include <stdbool.h>' 'bool t = true;'; then
+	stdboolh=-DHAS_STDBOOL_H
+fi
+
 # build readlink
 rm -rf $d_build/readlink
 cd $d_src/usr.bin; find readlink | cpio -pdlu $d_build
@@ -346,13 +363,6 @@ else
 	cat >>Install.sh <<EOF
 \$i -c \$ug -m 444 ${d_build}/readlink/readlink.cat1 \$DESTDIR${dt_man}/readlink.0
 EOF
-fi
-
-# check for fgetln
-add_fgetln=
-if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
-    '#include <stdio.h>' 'size_t x;'; then
-	add_fgetln=$d_build/fgetln.o
 fi
 
 # build tsort
@@ -415,13 +425,6 @@ EOF
 	fi
 fi
 
-# check for strlcpy and strlcat
-add_strlfun=
-if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
-    'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
-	add_strlfun=strlfun.c
-fi
-
 # build libmirmake (hash stuff and necessities)
 rm -rf $d_build/libmirmake
 mkdir $d_build/libmirmake
@@ -457,13 +460,10 @@ fi
 
 # re-build bmake
 cd ${d_build}
+mkf="$stdboolh -D_PATH_DEFSYSPATH=\"${dt_mk}\""
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes clean
-mkf="-D_PATH_DEFSYSPATH=\"${dt_mk}\""
-if ! testfunc 'void exit(int)' 'exit(t == false)' \
-    '#include <stdbool.h>' 'bool t = true;'; then
-	mkf="$mkf -DHAS_STDBOOL_H"
-fi
+    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    LIBS=$d_build/libmirmake/libmirmake.a clean
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
     LIBS=$d_build/libmirmake/libmirmake.a depend
