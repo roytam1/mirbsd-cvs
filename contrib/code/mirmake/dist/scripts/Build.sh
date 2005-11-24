@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.59 2005/11/24 13:40:07 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.60 2005/11/24 13:56:51 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -47,7 +47,7 @@ function testfunc {
 		}
 	EOF
 	( cd $d_build/testfunc && ${d_build}/bmake -m ${d_build}/mk \
-	    NOMAN=yes NOOBJ=yes ) #>/dev/null 2>&1
+	    NOMAN=yes NOOBJ=yes ) 2>&1 | sed 's!^![ !'
 	[[ -x $d_build/testfunc/testfunc ]] && rv=1
 	rm -rf $d_build/testfunc
 	return $rv
