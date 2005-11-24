@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.67 2005/11/24 20:13:50 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.68 2005/11/24 20:17:04 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -63,6 +63,7 @@ new_macarc="$6"		# MACHINE_ARCH
 new_machos="$7"		# MACHINE_OS
 new_mirksh="$8"
 new_binids="$9"
+[[ -z $OLDMAKE ]] && OLDMAKE=make
 
 if [ -z "$new_mirksh" ]; then
 	echo "Use ../../Build.sh instead!" >&2
@@ -136,7 +137,7 @@ BSD)
 		print '.include <bsd.own.mk>' >$T
 		print 'all:' >>$T
 		print '\t@echo ${ELF_TOOLCHAIN:L}' >>$T
-		if X=$(make -f $T all); then
+		if X=$($OLDMAKE -f $T all); then
 			[[ $X = no ]] && _obfm=a.out
 		fi
 		rm -f $T
@@ -229,7 +230,7 @@ print "/^BINOWN/s/root/$binown/p\n/^BINGRP/s/bin/$bingrp/p\nwq" \
 
 # Build bmake
 cd $d_build
-if ! make -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
+if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
     MACHINE_ARCH="${new_macarc}" MACHINE_OS="${new_machos}" \
     MKSH="${new_mirksh}"; then
 	echo "Error: build failure" >&2
