@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.13 2005/07/07 22:17:45 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.14 2005/08/20 13:06:08 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -66,7 +66,7 @@ BSD|Darwin|Linux)
 *)
 	echo "Error: we cannot continue with this MACHINE_OS"
 	echo "value of '$MOS'. Please contact the MirOS"
-	echo "development team at miros-discuss@66h.42h.de and"
+	echo "development team at miros-discuss@mirbsd.org and"
 	echo "submit your operating system information and uname -a"
 	echo "output. Currently, the following values are supported:"
 	echo "- BSD Darwin Interix Linux"
@@ -115,7 +115,7 @@ ms=NONE
 echo "Checking for mirbsdksh..."
 for s in $MKS $mktest; do
 	echo "Trying ${s}..."
-	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
 	if [ x"$t" = x"yes" ]; then
 		echo "Found mirbsdksh: $s"
 		ms=$s
@@ -143,7 +143,7 @@ if [ x"$ms" = x"NONE" ]; then
 	echo "Error: could not find mirbsdksh compatible shell."
 	echo "Please go to: http://mirbsd.mirsolutions.de/?mksh"
 	echo "and install the shell before continuing."
-	echo "At least mksh R24 is required currently."
+	echo "At least mksh R26 is required currently."
 	exit 1
 fi
 
