@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.55 2005/11/24 11:36:27 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.56 2005/11/24 11:41:33 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -28,7 +28,10 @@
 
 # Functions
 
+# Call: testfunc 'proto' 'call' 'opt_include' 'opt_decl;'
+# Return: 1 if found, 0 otherwise (inverse logic)
 function testfunc {
+	rv=0
 	mkdir $d_build/testfunc
 	cat >$d_build/testfunc/Makefile <<-'EOF'
 		PROG=	testfunc
@@ -44,13 +47,10 @@ function testfunc {
 		}
 	EOF
 	( cd $d_build/testfunc && ${d_build}/bmake -m ${d_build}/mk \
-	    NOMAN=yes NOOBJ=yes )
-	if [[ -x $d_build/testfunc/testfunc ]]; then
-		print yes
-	else
-		print no
-	fi
+	    NOMAN=yes NOOBJ=yes ) #>/dev/null 2>&1
+	[[ -x $d_build/testfunc/testfunc ]] && rv=1
 	rm -rf $d_build/testfunc
+	return $rv
 }
 
 # Get parameters
@@ -350,11 +350,11 @@ fi
 
 # check for fgetln
 add_fgetln=
-if [[ $(testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
-    '#include <stdio.h>' 'size_t x;') = no ]]; then
-	if [[ $(testfunc 'ssize_t getline(char **, size_t *, FILE *)' \
+if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
+    '#include <stdio.h>' 'size_t x;'; then
+	if testfunc 'ssize_t getline(char **, size_t *, FILE *)' \
 	    'getline(&y, &x, stdin)' '#include <stdio.h>' \
-	    'size_t x; char *y') = no ]]; then
+	    'size_t x; char *y;'; then
 		print -u2 Error: please supply an fgetln function.
 		exit 1
 	else
@@ -424,8 +424,8 @@ fi
 
 # check for strlcpy and strlcat
 add_strlfun=
-if [[ $(testfunc 'size_t strlcpy(char *, const char *, size_t)' \
-    'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];') = no ]]; then
+if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
+    'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
 	add_strlfun=strlfun.c
 fi
 
