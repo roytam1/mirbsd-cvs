@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.65 2005/11/24 14:13:28 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.66 2005/11/24 19:28:12 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -101,6 +101,7 @@ Darwin:*:*)
 	[[ $new_macarc = *86 ]] && new_macarc=i386
 	;;
 Interix:*:*)
+	[[ -z $new_binids ]] && new_binids=-
 	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
 	/usr/bin/install -c -m 555 $d_script/../contrib/mktemp.sh \
@@ -149,6 +150,12 @@ Linux)
 	# XXX noone sane uses Linux with a.out libc4 these days?
 	;;
 esac
+
+if [[ $binown = - ]]; then
+	ug=
+else
+	ug="\"-o $binown -g $bingrp\""
+fi
 
 export CC="${CC:-gcc}"
 export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
@@ -212,10 +219,14 @@ for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
 	fi
 done
 
-if [[ $new_machos = Interix ]]; then
-	print "/^BINOWN/s/root/$(id -un)/p\n/^BINGRP/s/bin/$(id -gn \
-	    | sed -e 's/ /\\ /g')/p\nwq" | ed -s $d_build/mk/bsd.own.mk
+if [[ $binown = - ]]; then
+	binown=$(id -un)
+	[[ $binown = *@( )* ]] && binown=$(id -u)
+	bingrp=$(id -gn)
+	[[ $bingrp = *@( )* ]] && bingrp=$(id -g)
 fi
+print "/^BINOWN/s/root/$binown/p\n/^BINGRP/s/bin/$bingrp/p\nwq" \
+    | ed -s $d_build/mk/bsd.own.mk
 
 # Build bmake
 cd $d_build
@@ -237,11 +248,6 @@ $NROFF -ms PSD12.make.ms >PSD12.make.txt 2>/dev/null \
 
 # Generate installer
 cd $top
-if [[ $binown = - ]]; then
-	ug=
-else
-	ug="\"-o $binown -g $bingrp\""
-fi
 cat >Install.sh <<EOF
 #!${new_mirksh}
 
