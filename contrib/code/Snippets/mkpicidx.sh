@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.1 2005/06/28 19:46:39 tg Exp $
+# $MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.2 2005/06/28 19:52:51 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -48,7 +48,7 @@ function header
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
- <meta name="RCSId" content="$MirOS$" />
+ <meta name="RCSId" content="$MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.2 2005/06/28 19:52:51 tg Exp $" />
  <title>$title (Page $num)</title>
 </head><body>
 <h1>$title</h1>
@@ -65,7 +65,7 @@ function footer
 <table><tr>
  <td>$prev</td>
  <td></td>
- <td style=\"text-align:right;\">$next</td>
+ <td style="text-align:right;">$next</td>
 </tr><tr><td colspan="3">
  <img src="index000.png" alt="" style="width:${nwm}px;height:1px;" />
 </td></tr><tr><td colspan="3">
