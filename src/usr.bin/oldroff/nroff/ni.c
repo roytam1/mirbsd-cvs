@@ -1,10 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/ni.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -42,66 +42,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)ni.c	4.5 (Berkeley) 4/18/91";
-#endif /* not lint */
-
 #include "tdef.h"
 #include "pathnames.h"
-char obuf[OBUFSZ];
-char *obufp = obuf;
-int r[NN] = {
-	PAIR('%',0),
-	PAIR('n','l'),
-	PAIR('y','r'),
-	PAIR('h','p'),
-	PAIR('c','t'),
-	PAIR('d','n'),
-	PAIR('m','o'),
-	PAIR('d','y'),
-	PAIR('d','w'),
-	PAIR('l','n'),
-	PAIR('d','l'),
-	PAIR('s','t'),
-	PAIR('s','b'),
-	PAIR('c','.')};
-int pto = 10000;
-int pfrom = 1;
-int print = 1;
-char nextf[NS] = _PATH_TMAC;
-int nfi = sizeof(_PATH_TMAC) - 1;
-#ifdef NROFF
-char termtab[NS] = _PATH_TERM;
-int tti = sizeof(_PATH_TERM) - 1;
-#endif
-#ifndef NROFF
-int oldbits = -1;
-#endif
-int init = 1;
-int fc = IMP;
-int eschar = '\\';
-int pl = 11*INCH;
-int po = PO;
-int dfact = 1;
-int dfactd = 1;
-int res = 1;
-int smnt = 4;
-int ascii = ASCII;
-int ptid = PTID;
-char ptname[] = "/dev/cat";
-int lg = LG;
-int pnlist[NPN] = {-1};
-int *pnp = pnlist;
-int npn = 1;
-int npnflg = 1;
-int xflg = 1;
-int dpn = -1;
-int totout = 1;
-int ulfont = 1;
-int ulbit = 1<<9;
-int tabch = TAB;
-int ldrch = LEADER;
-int xxx;
+
+__SCCSID("@(#)ni.c	4.5 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
+
 extern caseds(), caseas(), casesp(), caseft(), caseps(), casevs(),
 casenr(), caseif(), casepo(), casetl(), casetm(), casebp(), casech(),
 casepn(), tbreak(), caseti(), casene(), casenf(), casece(), casefi(),
@@ -113,12 +59,13 @@ caseec(), caseeo(), caselc(), caseev(), caserd(), caseab(), casefl(),
 done(), casess(), casefp(), casecs(), casebd(), caselg(), casehc(),
 casehy(), casenh(), casenm(), casenn(), casesv(), caseos(), casels(),
 casecc(), casec2(), caseem(), caseaf(), casehw(), casemc(), casepm(),
-casecu(), casepi(), caserr(), caseuf(), caseie(), caseel(), casepc(),
-caseht();
-#ifndef NROFF
+caseuf(), casepc(), caseht(), casecf(), caseie(), caseel(), caserr(),
+casecu();
+#ifdef NROFF
+extern casepi();
+#else
 extern casefz();
 #endif
-extern casecf();
 struct contab {
 	int rq;
 /*
@@ -302,3 +249,58 @@ int word[WDSIZE] = {0};
 int blockxxx[EVS-68-NHYP-NTAB-WDSIZE-LNSIZE] = {0};
 /*spare 5 words*/
 int oline[LNSIZE+1];
+
+char obuf[OBUFSZ];
+char *obufp = obuf;
+int r[NN] = {
+	PAIR('%',0),
+	PAIR('n','l'),
+	PAIR('y','r'),
+	PAIR('h','p'),
+	PAIR('c','t'),
+	PAIR('d','n'),
+	PAIR('m','o'),
+	PAIR('d','y'),
+	PAIR('d','w'),
+	PAIR('l','n'),
+	PAIR('d','l'),
+	PAIR('s','t'),
+	PAIR('s','b'),
+	PAIR('c','.')};
+int pto = 10000;
+int pfrom = 1;
+int print = 1;
+char nextf[NS] = _PATH_TMAC;
+int nfi = sizeof(_PATH_TMAC) - 1;
+#ifdef NROFF
+char termtab[NS] = _PATH_TERM;
+int tti = sizeof(_PATH_TERM) - 1;
+#endif
+#ifndef NROFF
+int oldbits = -1;
+#endif
+int init = 1;
+int fc = IMP;
+int eschar = '\\';
+int pl = 11*INCH;
+int po = PO;
+int dfact = 1;
+int dfactd = 1;
+int res = 1;
+int smnt = 4;
+int ascii = ASCII;
+int ptid = PTID;
+char ptname[] = "/dev/cat";
+int lg = LG;
+int pnlist[NPN] = {-1};
+int *pnp = pnlist;
+int npn = 1;
+int npnflg = 1;
+int xflg = 1;
+int dpn = -1;
+int totout = 1;
+int ulfont = 1;
+int ulbit = 1<<9;
+int tabch = TAB;
+int ldrch = LEADER;
+int xxx;
