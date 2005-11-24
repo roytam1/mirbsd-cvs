@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.58 2005/11/24 13:32:53 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.59 2005/11/24 13:40:07 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -352,7 +352,7 @@ fi
 add_fgetln=
 if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
     '#include <stdio.h>' 'size_t x;'; then
-	add_fgetln=$d_build/fgetln.c
+	add_fgetln=$d_build/fgetln.o
 fi
 
 # build tsort
@@ -445,7 +445,7 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="$add_fgetln $add_strlfun"
+    EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun"
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
@@ -464,6 +464,9 @@ if ! testfunc 'void exit(int)' 'exit(t == false)' \
     '#include <stdbool.h>' 'bool t = true;'; then
 	mkf="$mkf -DHAS_STDBOOL_H"
 fi
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
+    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    LIBS=$d_build/libmirmake/libmirmake.a depend
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
     LIBS=$d_build/libmirmake/libmirmake.a make
