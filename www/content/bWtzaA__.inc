@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.11 2005/11/20 02:39:46 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.12 2005/11/20 11:26:27 tg Exp $</small>
 
 <h1>mksh R25b</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -23,6 +23,10 @@
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
+<p>New major version <b>R26</b> changed this, relative to R25b:</p><ul>
+ <li>Change the behaviour of <tt>\"</tt> in here documents to
+  adhere SUSv3 (inspired by OpenBSD, most code by tg@)</li>
+</ul>
 <p>New minor version <b>R25b</b> contains these changes:</p><ul>
  <li><tt>arc4random_push(3)</tt> does not exist on older MirOS
   systems; fixes build on MirOS #7quater</li>
