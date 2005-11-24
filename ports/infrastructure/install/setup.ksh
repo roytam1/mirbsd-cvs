@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.29 2005/11/16 11:49:41 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.30 2005/11/17 23:54:19 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -300,7 +300,14 @@ cat $portsdir/infrastructure/db/fake.mtree >$T/fake.mtree
  for pc in $(print "$localbase"); do
 	s="$s    "; print "$s$pc"
  done; print '.\nwq') | ed -s $T/fake.mtree
-mtree -U -e -d -n -p / -f $T/fake.mtree
+if whence -p mtree >/dev/null; then
+	mtree -U -e -d -n -p / -f $T/fake.mtree
+	run_mtree=1
+else
+	mkdir -p $localbase/{bin,db,include,info,lib{,data,exec}} \
+	    $localbase/{man/{cat,man}{1,2,3,4,5,6,7,8},sbin,share}
+	run_mtree=0
+fi
 mkdir -p $etc
 
 
@@ -401,6 +408,7 @@ if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
 	cd ..
 	rm -rf mtree
 fi
+[[ $run_mtree = 0 ]] &&	mtree -U -e -d -n -p / -f $T/fake.mtree
 
 
 # Write environmental stuff
