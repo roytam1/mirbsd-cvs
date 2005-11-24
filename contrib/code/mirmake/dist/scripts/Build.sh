@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.53 2005/09/19 18:52:24 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.54 2005/11/24 11:06:46 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -25,6 +25,33 @@
 #-
 # _Really_ build MirMake. Called from mirbsdksh.
 
+
+# Functions
+
+function testfunc {
+	mkdir $d_build/testfunc
+	cat >$d_build/testfunc/Makefile <<-'EOF'
+		PROG=	testfunc
+		.include <bsd.prog.mk>
+	EOF
+	cat >$d_build/testfunc/testfunc.c <<-EOF
+		$3
+		$1;
+		int main() {
+			$4
+			$2;
+			return 0;
+		}
+	EOF
+	( cd $d_build/testfunc && ${d_build}/bmake -m ${d_build}/mk \
+	    NOMAN=yes NOOBJ=yes )
+	if [[ -x $d_build/testfunc/testfunc ]]; then
+		print yes
+	else
+		print no
+	fi
+	rm -rf $d_build/testfunc
+}
 
 # Get parameters
 new_ostype="$1"
@@ -321,12 +348,26 @@ else
 EOF
 fi
 
+# check for fgetln
+add_fgetln=
+if [[ $(testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
+    '#include <stdio.h>' 'size_t x;') = no ]]; then
+	if [[ $(testfunc 'ssize_t getline(char **, size_t *, FILE *)' \
+	    'getline(&y, &x, stdin)' '#include <stdio.h>' \
+	    'size_t x; char *y') = no ]]; then
+		print -u2 Error: please supply an fgetln function.
+		exit 1
+	else
+		add_fgetln=$d_script/../contrib/gfgetln.c
+	fi
+fi
+
 # build tsort
 rm -rf $d_build/tsort
 cd $d_src/usr.bin; find tsort | cpio -pdlu $d_build
 cd $d_build/tsort
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a"
+    INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a $add_fgetln"
 export PATH=${d_build}/tsort:$PATH
 cd $top
 cat >>Install.sh <<EOF
@@ -403,7 +444,8 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes
+${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
+    EXTRA_SRCS="$add_fgetln"
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
