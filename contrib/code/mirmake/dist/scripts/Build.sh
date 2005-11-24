@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.52 2005/09/19 18:50:21 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.53 2005/09/19 18:52:24 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -298,6 +298,7 @@ rm -rf $d_build/readlink
 cd $d_src/usr.bin; find readlink | cpio -pdlu $d_build
 cd $d_build/readlink
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes
+export PATH=${d_build}/readlink:$PATH
 cd $top
 cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/readlink/readlink \$DESTDIR${dt_bin}/
@@ -326,6 +327,7 @@ cd $d_src/usr.bin; find tsort | cpio -pdlu $d_build
 cd $d_build/tsort
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a"
+export PATH=${d_build}/tsort:$PATH
 cd $top
 cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/tsort/tsort \$DESTDIR${dt_bin}/
