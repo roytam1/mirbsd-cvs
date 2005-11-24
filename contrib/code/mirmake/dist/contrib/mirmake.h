@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.16 2005/11/10 12:58:08 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.17 2005/11/16 16:40:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -76,9 +76,15 @@
 #endif
 #endif
 
+#ifndef __P
 #define	__P(protos)	protos
+#endif
+#ifndef __CONCAT
 #define	__CONCAT(x,y)	x ## y
+#endif
+#ifndef __STRING
 #define	__STRING(x)	#x
+#endif
 
 #define	__const		const
 #define	__signed	signed
