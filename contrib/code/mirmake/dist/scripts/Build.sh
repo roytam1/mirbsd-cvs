@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.57 2005/11/24 12:08:56 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.58 2005/11/24 13:32:53 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -248,7 +248,7 @@ i=\${1:-install}
 ug=$ug
 set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
-\$i -c -s \$ug -m 555 ${d_build}/bmake \$DESTDIR${dt_bin}/${new_exenam}
+\$i -c -s \$ug -m 555 ${d_build}/make \$DESTDIR${dt_bin}/${new_exenam}
 \$i -c \$ug -m 555 ${d_build}/mkdep.sh \$DESTDIR${dt_bin}/mkdep
 \$i -c \$ug -m 555 $d_src/usr.bin/lorder/lorder.sh \$DESTDIR${dt_bin}/lorder
 \$i -c \$ug -m 444 $d_build/F/*.h \$DESTDIR${dt_mk}/
@@ -454,6 +454,19 @@ ranlib \$DESTDIR${dt_mk}/libmirmake.a
 chmod 444 \$DESTDIR${dt_mk}/libmirmake.a
 EOF
 fi
+
+# re-build bmake
+cd ${d_build}
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
+    MAKE_BOOTSTRAP=Yes clean
+mkf="-D_PATH_DEFSYSPATH=\"${dt_mk}\""
+if ! testfunc 'void exit(int)' 'exit(t == false)' \
+    '#include <stdbool.h>' 'bool t = true;'; then
+	mkf="$mkf -DHAS_STDBOOL_H"
+fi
+${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
+    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    LIBS=$d_build/libmirmake/libmirmake.a make
 
 chmod 555 $top/Install.sh
 
