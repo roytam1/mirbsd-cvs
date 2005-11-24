@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.64 2005/11/24 14:08:41 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.65 2005/11/24 14:13:28 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -201,8 +201,7 @@ cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
 
 # Patch sources
-for ps in Makefile.boot mk/bsd.own.mk mk/bsd.prog.mk \
-    mk/bsd.sys.mk make.1 mk/sys.mk mkdep.sh; do
+for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
 	mv $d_build/$ps $d_build/$ps.tmp
 	ed -s $d_build/$ps.tmp <$d_script/$(basename $ps).ed
 	if eval sed $sed_exp <$d_build/$ps.tmp >$d_build/$ps; then
@@ -220,7 +219,9 @@ fi
 
 # Build bmake
 cd $d_build
-if ! make -f Makefile.boot bmake CC="$CC"; then
+if ! make -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
+    MACHINE_ARCH="${new_macarc}" MACHINE_OS="${new_machos}" \
+    MKSH="${new_mirksh}"; then
 	echo "Error: build failure" >&2
 	exit 1
 fi
