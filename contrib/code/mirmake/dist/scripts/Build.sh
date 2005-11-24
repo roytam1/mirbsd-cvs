@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.61 2005/11/24 14:01:26 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.62 2005/11/24 14:03:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -460,7 +460,7 @@ fi
 
 # re-build bmake
 cd ${d_build}
-mkf="$stdboolh -D_PATH_DEFSYSPATH=\"${dt_mk}\""
+mkf="$stdboolh -D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\""
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
     LIBS=$d_build/libmirmake/libmirmake.a clean
