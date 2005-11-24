@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.63 2005/11/24 14:06:24 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.64 2005/11/24 14:08:41 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -447,6 +447,8 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
+${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
+    EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun" clean
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
     EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun"
 cd $top
