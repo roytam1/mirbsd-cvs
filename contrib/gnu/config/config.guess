@@ -1,10 +1,10 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/config/config.guess,v 1.4 2005/04/26 16:09:48 tg Exp $
+# $MirOS: contrib/gnu/config/config.guess,v 1.5 2005/07/06 17:41:24 tg Exp $
 # Attempt to guess a canonical system name.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 #   2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
-timestamp='2005-06-30 (MirOS)'
+timestamp='2005-11-11 (MirOS)'
 
 # This file is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by
@@ -126,7 +126,7 @@ case $CC_FOR_BUILD,$HOST_CC,$CC in
 	;;
  ,,*)   CC_FOR_BUILD=$CC ;;
  ,*,*)  CC_FOR_BUILD=$HOST_CC ;;
-esac ;'
+esac ; set_cc_for_build= ;'
 
 # This is needed to find uname on a Pyramid OSx when run in the BSD universe.
 # (ghazi@noc.rutgers.edu 1994-08-24)
@@ -630,8 +630,7 @@ EOF
 	esac
 	if [ ${HP_ARCH} = "hppa2.0w" ]
 	then
-	    # avoid double evaluation of $set_cc_for_build
-	    test -n "$CC_FOR_BUILD" || eval $set_cc_for_build
+	    eval $set_cc_for_build
 
 	    # hppa2.0w-hp-hpux* has a 64-bit kernel and a compiler generating
 	    # 32-bit code.  hppa64-hp-hpux* has the same kernel and a compiler
@@ -787,7 +786,7 @@ EOF
     i*:PW*:*)
 	echo ${UNAME_MACHINE}-pc-pw32
 	exit ;;
-    x86:Interix*:[34]*)
+    x86:Interix*:[345]*)
 	echo i586-pc-interix${UNAME_RELEASE}|sed -e 's/\..*//'
 	exit ;;
     [345]86:Windows_95:* | [345]86:Windows_98:* | [345]86:Windows_NT:*)
@@ -802,7 +801,7 @@ EOF
     i*:UWIN*:*)
 	echo ${UNAME_MACHINE}-pc-uwin
 	exit ;;
-    amd64:CYGWIN*:*:*)
+    amd64:CYGWIN*:*:* | x86_64:CYGWIN*:*:*)
 	echo x86_64-unknown-cygwin
 	exit ;;
     p*:CYGWIN*:*)
@@ -881,6 +880,9 @@ EOF
 	eval `$CC_FOR_BUILD -E $dummy.c 2>/dev/null | grep ^CPU=`
 	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-gnu"; exit; }
 	;;
+    or32:Linux:*:*)
+	echo or32-unknown-linux-gnu
+	exit ;;
     ppc:Linux:*:*)
 	echo powerpc-unknown-linux-gnu
 	exit ;;
@@ -1190,7 +1192,6 @@ EOF
     *:Darwin:*:*)
 	UNAME_PROCESSOR=$(uname -p) || UNAME_PROCESSOR=unknown
 	case $UNAME_PROCESSOR in
-	    *86) UNAME_PROCESSOR=i686 ;;
 	    unknown) UNAME_PROCESSOR=powerpc ;;
 	esac
 	echo ${UNAME_PROCESSOR}-apple-darwin${UNAME_RELEASE}

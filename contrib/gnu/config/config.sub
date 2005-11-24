@@ -1,10 +1,10 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/config/config.sub,v 1.4 2005/04/26 16:09:48 tg Exp $
+# $MirOS: contrib/gnu/config/config.sub,v 1.5 2005/07/06 17:41:24 tg Exp $
 # Configuration validation subroutine script.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 #   2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
-timestamp='2005-07-04 (MirOS)'
+timestamp='2005-11-13 (MirOS)'
 
 # This file is (in principle) common to ALL GNU software.
 # The presence of a machine in this file suggests that SOME GNU software
@@ -172,6 +172,10 @@ case $os in
 	-hiux*)
 		os=-hiuxwe2
 		;;
+	-sco6)
+		os=-sco5v6
+		basic_machine=`echo $1 | sed -e 's/86-.*/86-pc/'`
+		;;
 	-sco5)
 		os=-sco3.2v5
 		basic_machine=$(echo $1 | sed -e 's/86-.*/86-pc/')
@@ -187,6 +191,10 @@ case $os in
 	-sco3.2v[4-9]*)
 		# Don't forget version if it is 3.2v4 or newer.
 		basic_machine=$(echo $1 | sed -e 's/86-.*/86-pc/')
+		;;
+	-sco5v6*)
+		# Don't forget version if it is 3.2v4 or newer.
+		basic_machine=`echo $1 | sed -e 's/86-.*/86-pc/'`
 		;;
 	-sco*)
 		os=-sco3.2v2
@@ -1188,7 +1196,8 @@ case $os in
 	      | -storm-chaos* | -tops10* | -tenex* | -tops20* | -its* \
 	      | -os2* | -vos* | -palmos* | -uclinux* | -nucleus* \
 	      | -morphos* | -superux* | -rtmk* | -rtmk-nova* | -windiss* \
-	      | -powermax* | -dnix* | -nx6 | -nx7 | -sei* | -dragonfly* | -skyos*)
+	      | -powermax* | -dnix* | -nx6 | -nx7 | -sei* | -dragonfly* \
+	      | -skyos* | -haiku*)
 	# Remember, each alternative MUST END IN *, to match a version number.
 		;;
 	-qnx*)
@@ -1206,7 +1215,7 @@ case $os in
 		os=$(echo $os | sed -e 's|nto|nto-qnx|')
 		;;
 	-sim | -es1800* | -hms* | -xray | -os68k* | -none* | -v88r* \
-	      | -windows* | -osx | -abug | -netware* | -os9* | -beos* \
+	      | -windows* | -osx | -abug | -netware* | -os9* | -beos* | -haiku* \
 	      | -macos* | -mpw* | -magic* | -mmixware* | -mon960* | -lnews*)
 		;;
 	-mac*)
@@ -1394,6 +1403,9 @@ case $basic_machine in
 		;;
 	*-be)
 		os=-beos
+		;;
+	*-haiku)
+		os=-haiku
 		;;
 	*-ibm)
 		os=-aix
