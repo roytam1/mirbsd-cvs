@@ -1,4 +1,4 @@
-# $MirOS: ports/net/BitTorrent/Makefile,v 1.2 2005/08/21 11:49:35 tg Exp $
+# $MirOS: ports/net/BitTorrent/Makefile,v 1.3 2005/11/15 19:33:45 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/15 03:41:14 jolan Exp $
 
 COMMENT=	"cooperative file distribution system implemented in Python"
@@ -6,13 +6,16 @@ DISTNAME=	BitTorrent-3.4.2
 CATEGORIES=	net
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bittorrent/}
 HOMEPAGE=	http://bittorrent.com/
-RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 
 # MIT
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
+# When upgrading to 4.2, uncomment these:
+## proprietary licence
+#PERMIT_PACKAGE_CDROM=	No
+#PERMIT_PACKAGE_FTP=	No
 
 MODULES=	lang/python
 
