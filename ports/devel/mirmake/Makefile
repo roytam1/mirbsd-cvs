@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.3 2005/11/18 00:07:11 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.4 2005/11/19 12:54:24 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
-DISTNAME=		mirmake-20051119
+DISTNAME=		mirmake-20051124
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
