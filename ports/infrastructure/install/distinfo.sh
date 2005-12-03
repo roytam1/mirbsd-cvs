@@ -1,21 +1,21 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.9 2005/11/16 15:57:04 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.10 2005/11/16 17:17:48 tg Exp $
 
 case $what in
 make)
-	f_dist=mirmake-20051116.cpio.gz
+	f_dist=mirmake-20051124.cpio.gz
 	f_path=mir/make
-	distinfo_md5=07b2a31b818d7d2202d3584f1f8bf18d
-	distinfo_sum=3911444794
-	distinfo_size=313526
-	distinfo_date="Nov 16 17:15"
+	distinfo_md5=238f4d5ef5489a8067836fc196356fdb
+	distinfo_sum=3292272645
+	distinfo_size=312753
+	distinfo_date="Nov 24 21:39"
 	;;
 mksh)
-	f_dist=mksh-R25.cpio.gz
+	f_dist=mksh-R26.cpio.gz
 	f_path=mir/mksh
-	distinfo_md5=ec9095ee279225fed82523044803bc32
-	distinfo_sum=4110975346
-	distinfo_size=228743
-	distinfo_date="Oct 26 08:56"
+	distinfo_md5=5493dce94a914f6ecc5b797c617b603f
+	distinfo_sum=2644744404
+	distinfo_size=228407
+	distinfo_date="Nov 24 19:46"
 	;;
 mtree)
 	f_dist=mirmtree-20050912.cpio.gz

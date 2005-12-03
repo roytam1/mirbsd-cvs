@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.16 2005/11/15 16:46:35 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.17 2005/11/16 15:29:04 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -37,8 +37,8 @@ export localbase
 export xfbase
 
 # minimum req'd version (change this below too)
-mksh_ver=24
-mksh_date=2005/08/21
+mksh_ver=26
+mksh_date=2005/11/22
 
 mirror=$1
 case x$1 in
@@ -210,8 +210,8 @@ fi
 # Look if this is a sufficient mksh, search for one
 ms=false
 for s in /bin/mksh $MKSH $SHELL; do
-	# This is from MirMake; it ensures mksh R24 or higher
-	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[4-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`
+	# This is from MirMake; it ensures mksh R26 or higher
+	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if test x"$t" = x"yes"; then
 		ms=$s
 		break
@@ -271,7 +271,7 @@ fi
 rm -f $MKSH.$tpfx.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
-	echo 'Ask your system operator to install a recent mksh (R25),' >&2
+	echo 'Ask your system operator to install a recent mksh (R26),' >&2
 	echo 'or call this script with MKSH=/path/to/mksh (is compiled' >&2
 	echo 'if it does not exist, but the path must exist).' >&2
 	cd
