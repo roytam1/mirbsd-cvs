@@ -1,6 +1,6 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.12 2005/11/20 11:26:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.13 2005/11/24 18:59:10 tg Exp $</small>
 
-<h1>mksh R25b</h1>
+<h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
@@ -150,13 +150,13 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R25b.cpio.gz">http://mirbsd.mirsolutions.de/MirOS/dist/mir/mksh/mksh-R25b.cpio.gz</a></p>
+ href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R26.cpio.gz">http://mirbsd.mirsolutions.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz</a></p>
 <ul>
  <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R25b.cpio.gz) = a5f428b937b58bfcd85e3d1f192706084530ced1</li>
- <li>3670966329 228760 /MirOS/dist/mir/mksh/mksh-R25b.cpio.gz</li>
- <li>MD5 (mksh-R25b.cpio.gz) = 51396ef919edfab8e3b5ee7330bec650</li>
+ <li>RMD160 (mksh-R26.cpio.gz) = dddd3535971afab51ea11cc5276d1c4fbba7b9a4</li>
+ <li>2644744404 228407 /MirOS/dist/mir/mksh/mksh-R26.cpio.gz</li>
+ <li>MD5 (mksh-R26.cpio.gz) = 5493dce94a914f6ecc5b797c617b603f</li>
 </ul>
 
 <h2>Installation</h2>
@@ -171,13 +171,13 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R25b.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R26.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R25b.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R26.cpio.gz</tt>
  to extract the file. On quite damaged systems such as everything which
  is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
- (paxmirabilis), use <tt>gzip -dc mksh-R25b.cpio.gz | cpio -mid</tt></p>
+ (paxmirabilis), use <tt>gzip -dc mksh-R26.cpio.gz | cpio -mid</tt></p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
@@ -267,14 +267,17 @@
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
+ <li>mksh R26<ul>
+  <li>MirOS #8: Obviously works, as part of the base install.</li>
+  <li>MirOS #8: The portable mksh also works through its test suite and
+   usability tests.</li>
+  <li>CRUX GNU/Linux: Han Boetes said it works.</li>
+ </ul></li>
  <li>mksh R25b<ul>
   <li>MirOS #7: works well</li>
   <li>GNU/Cygwin: builds, testsuite succeeds, basic usage.</li>
  </ul></li>
  <li>mksh R25<ul>
-  <li>MirOS #8: Obviously works, as part of the base install.</li>
-  <li>MirOS #8: The portable mksh also works through its test suite and
-   usability tests.</li>
   <li>NetBSD&reg; 1.6.1/pmax: I have replaced the standard shell
    with mksh with good success and only one testsuite failure
    in <em>heredoc-tmpfile-8</em>. On NetBSD&reg; 1.5/pmax it does
