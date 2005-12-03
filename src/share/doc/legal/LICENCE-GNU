@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.2 2005/08/26 22:41:32 tg Exp $
 
 Readme for GNU software on MirOS
 ================================
@@ -31,6 +31,8 @@ Update: even in the case neither front nor back cover texts,
 nor invariant sections are specified, the GFDL is considered
 non-free: http://home.twcny.rr.com/nerode/neroden/fdl.html
 
+cf. http://people.debian.org/%7Esrivasta/Position_Statement.xhtml
+
 If you don't like the fact, contact your local FSF represen-
 tative, or the FSF Europe or USA.
 
@@ -44,7 +46,7 @@ are, however, contained in the MirOS base system, and we are
 including documentation.
 
 All copyright on the changes is assigned back to the FSF, so
-there is not much we can do about it. In order to fulful the
+there is not much we can do about it. In order to fulfil the
 licence's requirements, there is always the original version
 available at the CVSweb of "sources.redhat.com", and the mo-
 dified and original versions are visible via MirOS CVSweb as
@@ -82,9 +84,8 @@ Our changelogs are CVS, and the old ones from GNU
 are retrievable via CVS:
 
 anoncvs access with ssh:
-	CVSROOT=mirbsd-cvs@mirbsd.bsdadvocacy.org:/cvs
-	CVSROOT=mirbsd-cvs@mirbsd.bsdadvocacy.org:/ocvs
-	password: anoncvs (attention: server in USA)
+	CVSROOT=_anoncvs@thor.66h.42h.de:/cvs
+	CVSROOT=_anoncvs@thor.66h.42h.de:/ocvs
 
 	CVSROOT=anoncvs-mirbsd@anoncvs.allbsd.org:/???
 	Port: 2022
@@ -93,21 +94,21 @@ anoncvs access with ssh:
 anonymous rsync access:
 	- via rsync protocol
 	rsync://rsync.allbsd.org/mirbsd-cvs/
+	rsync://rsync.allbsd.org/mirbsd-old-cvs/
 	- via SSH
-	mirbsd-cvs@mirbsd.bsdadvocacy.org:/cvs/
-	mirbsd-cvs@mirbsd.bsdadvocacy.org:/ocvs/
+	_anoncvs@thor.66h.42h.de:/cvs/
+	_anoncvs@thor.66h.42h.de:/ocvs/
 	password: anoncvs (attention: server in USA)
 
 cvsweb access with http:
-	https://MirBSD.BSDadvocacy.org:8890/cvs.cgi/
-	http://MirBSD.BSDadvocacy.org/cvs.cgi/
 	http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd
+	http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd-old
 	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=miros	(/cvs)
-	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=temp	(/ncvs)
 	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=mirbsd	(/ocvs)
+	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=temp	(/ncvs)
 
 direct access to changelog files:
-	http://mirbsd.bsdadvocacy.org/clogs/
+	https://mirbsd.mirsolutions.de:445/clogs/
 	https://mirbsd.mirsolutions.de:445/clogs/			(/cvs)
 	https://mirbsd.mirsolutions.de:445/clogs/old/ChangeLog*		(/ocvs)
 	https://mirbsd.mirsolutions.de:445/clogs/old/NewChangeLog*	(/ncvs)

@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.3 2005/04/27 08:51:44 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.4 2005/08/26 22:41:32 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -49,7 +49,7 @@ and MirPorts.
 
 /*-
  * MirBSD is Copyright (c) 1999, 2002, 2003 ff.
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -62,13 +62,14 @@ and MirPorts.
  * ware must display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *
  * This licence agreement shall be governed in all aspects by the law
  * of Germany; designated place of court is Bonn, NRW, Germany.  (Der
@@ -78,9 +79,10 @@ and MirPorts.
  * collective-work copyright on the "MirOS Project" work and "MirBSD"
  * including the MirPorts Framework and the (OpenBSD-derived) kernel,
  * excluding single ports, the contributed sections (the modules gcc,
- * x11 and contrib) and any part of MirOS licenced under the GFDL and
- * with copyright assigned back to the FSF. (Note that, for the modu-
- * les x11 and contrib, some work is also covered by this licence.)
+ * x11 and contrib) and any part of MirBSD with copyright assignments
+ * in place (appropriate CVS access control ought to be set).
+ * Please note that this copyright still applies to some work contai-
+ * ned within the X11 and contrib modules.
  * I hereby also limit the above advertising clause to cease to exist
  * after my death or removal of all other advertising clauses, which-
  * ever comes first.
@@ -93,7 +95,7 @@ rectory.
 The MirOS Project strives to make as much of our work as po-
 ssible, as well as inherited work we redistribute, available
 under OSD compliant licences (see www.opensource.org), where
-OSI certification is not a requirement, due to braindead Po-
+OSI certification is not a requirement, due to braindead po-
 licies of OSI.
 We strongly request people to not reuse our work in material
 covered by problematic licences such as the GNU FDL.
@@ -101,22 +103,15 @@ covered by problematic licences such as the GNU FDL.
 We ask all of our contributors to publish their work under a
 licence boilerplate derived from the "licence.template" file
 and request them to always use the disclaimer shown in this,
-even if contributor is not bound by EU law, and accepts that
-he is liable for knowingly inserted work or malice intent as
-well as for integrating work which other parties have rights
-but we no licence. We also ask all contributors to be either
-at least 18 years old, or at least 7 years old and have been
-given by their parents a generic permit to do business rela-
-ted to open source software (or at least specific to MirOS),
-which makes them fully contractually capable for this speci-
-fic area of deals. Contributor is responsible to provide the
-parental statement, in non-electronic form, giving this all-
-owance, or a proof of age, on request.
-With the knowledge every committer accepts certain liability
-we indemnify our official mirrors from any claims arising of
-the fact they are mirroring MirOS material, and ask projects
-hosted by us to fully indemnify us and our official mirrors,
-too.
+even if contributor is not bound by EU law.
+We also ask all contributors to be: either at least 18 years
+old, or at least 7 years old and have been given a parental,
+generic permit to do business related to open source softwa-
+re (or at least specific to MirOS), which enables them to be
+fully contractually capable for this specific area of deals.
+Contributor is responsible to provide the parental statement
+in non-electronic form, giving this permission, if required,
+and a proof of age, on request.
 
 
 The following art has been provided by developers and users of Open Source:
