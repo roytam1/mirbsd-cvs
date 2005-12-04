@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pfvar.h,v 1.2 2005/03/06 21:28:17 tg Exp $ */
+/**	$MirOS: src/sys/net/pfvar.h,v 1.3 2005/12/04 19:01:54 tg Exp $ */
 /*	$OpenBSD: pfvar.h,v 1.194 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -85,7 +85,8 @@ enum	{ PF_ADDR_ADDRMASK, PF_ADDR_NOROUTE, PF_ADDR_DYNIFTL_doesnotwork,
 #define	PF_WSCALE_MASK		0x0f
 
 #define	PF_LOG			0x01
-#define	PF_LOGALL		0x02
+#define	PF_LOG_ALL		0x02
+#define	PF_LOG_SOCKET_LOOKUP	0x04
 
 struct pf_addr {
 	union {
