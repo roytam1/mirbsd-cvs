@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/net/pfvar.h,v 1.2 2005/03/06 21:28:17 tg Exp $ */
 /*	$OpenBSD: pfvar.h,v 1.194 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -59,6 +59,7 @@ enum	{ PF_DEBUG_NONE, PF_DEBUG_URGENT, PF_DEBUG_MISC, PF_DEBUG_NOISY };
 enum	{ PF_CHANGE_NONE, PF_CHANGE_ADD_HEAD, PF_CHANGE_ADD_TAIL,
 	  PF_CHANGE_ADD_BEFORE, PF_CHANGE_ADD_AFTER,
 	  PF_CHANGE_REMOVE, PF_CHANGE_GET_TICKET };
+
 /*
  * Note about PFTM_*: real indices into pf_rule.timeout[] come before
  * PFTM_MAX, special cases afterwards. See pf_state_expires().
@@ -82,6 +83,9 @@ enum	{ PF_ADDR_ADDRMASK, PF_ADDR_NOROUTE, PF_ADDR_DYNIFTL_doesnotwork,
 #define PF_POOL_STICKYADDR	0x20
 #define	PF_WSCALE_FLAG		0x80
 #define	PF_WSCALE_MASK		0x0f
+
+#define	PF_LOG			0x01
+#define	PF_LOGALL		0x02
 
 struct pf_addr {
 	union {
