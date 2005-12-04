@@ -1,5 +1,7 @@
-# $MirOS: ports/devel/gmake/Makefile,v 1.3 2005/04/20 21:34:53 bsiegert Exp $
+# $MirOS: ports/devel/gmake/Makefile,v 1.4 2005/07/07 21:19:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
+#-
+# This port must not have dependencies, or list them in CVSROOT/modules.
 
 COMMENT=	"GNU make"
 DISTNAME=	make-3.80
