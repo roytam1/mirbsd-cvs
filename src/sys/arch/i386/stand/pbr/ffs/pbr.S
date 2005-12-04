@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.3 2005/04/19 13:21:15 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005
@@ -15,13 +15,14 @@
  * ware must display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *-
  * Derived from the original OpenBSD first stage boot loader code,
  * written by (c) 1997 Michael Shalayeff, Tobias Weingartner, as spec.
@@ -70,12 +71,12 @@ Lmsg:	.ascii	__BOOT_VER
 	.asciz	" Loading "
 
 #define	BLKCNT	(blkend - blktbl)
-blkcnt:	.byte	BLKCNT		/* FATs per volume */
-Lldp:	.word	LsLBA		/* root dir ents */
-	.word	LsCHS		/* sectors per drive (FAT16s) */
-Ldrv:	.byte	0x80		/* BIOS drive # */
-bpbspt:	.word	18		/* sectors per FAT (used!)	*/
-bpbtpc:	.word	2		/* sectors per track (used!)	*/
+blkcnt:	.byte	BLKCNT
+Lldp:	.word	LsLBA
+	.word	LsCHS
+Ldrv:	.byte	0x80
+bpbspt:	.word	18
+bpbtpc:	.word	2
 
 	/* MAIN routine */
 Lrun:	mov	[Ldrv],dl	/* boot device */
