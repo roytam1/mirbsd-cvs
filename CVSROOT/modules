@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.7 2005/11/22 18:01:10 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.8 2005/11/22 18:02:18 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -60,3 +60,5 @@ gnuauxdir	-a src/Makefile.inc src/scripts src/gnu/share \
 		   src/gnu/usr.bin/binutils/Makefile.inc \
 		   src/gnu/usr.bin/binutils/include \
 		   src/gnu/usr.bin/binutils/libiberty
+
+miniports	-a ports/devel/gmake ports/infrastructure
