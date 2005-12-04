@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.1 2005/10/10 17:04:47 bsiegert Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .Dd October 10, 2005
@@ -542,6 +542,35 @@ Most of the files needed for XFree86, the graphical user interface.
 .It Pa xetc8.ngz
 Configuration files for XFree86.
 .El
+.Pp
+The installation of the sets is going to take a while.
+After it has finished, you will be asked a final set of questions.
+If you ever want to run the X Window System (the graphical user
+interface), answer
+.Ic yes
+to the corresponding question.
+Finally, the device nodes which reside in
+.Pa /dev
+are created by executing
+.Pa MAKEDEV .
+.Pp
+At the end of the installation, the system will be rebooted.
+If you flagged the
+.Mx
+partition as bootable in the beginning, the computer will automatically
+boot into
+.Mx .
+If you use a boot manager, you will have to configure it accordingly
+to boot the partition
+.Po
+this is called a
+.Qq chainloader
+in grub
+.Pc .
+.Pp
+Have fun with your new
+.Mx
+installation!
 .\" --------------------------------------------------------------------
 .Sh SEE ALSO
 .Xr fdisk 8 , Xr disklabel 8
