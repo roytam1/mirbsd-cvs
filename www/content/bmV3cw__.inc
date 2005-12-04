@@ -1,6 +1,10 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.36 2005/11/18 00:23:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.37 2005/11/20 21:45:09 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>04.12.2005<br />mksh R26 and new MirMake and CPIO versions are out and
+	change big thing. The source tree has been fully merged; snapshots
+	will be built again soon, preparations started.</li>
 
 <li>20.11.2005<br />mksh R25b has been released, with support for MirOS #7
 	and (new) Cygwin. The current versions of gcc-3.4 (stable) and gpc
