@@ -1,4 +1,4 @@
-/*	$OpenBSD: xargs.c,v 1.20 2005/06/20 18:52:19 millert Exp $	*/
+/*	$OpenBSD: xargs.c,v 1.24 2005/11/01 04:52:59 deraadt Exp $	*/
 /*	$FreeBSD: xargs.c,v 1.51 2003/05/03 19:09:11 obrien Exp $	*/
 
 /*-
@@ -45,7 +45,7 @@ static const char copyright[] =
 #if 0
 static const char sccsid[] = "@(#)xargs.c	8.1 (Berkeley) 6/6/93";
 #else
-static const char rcsid[] = "$OpenBSD: xargs.c,v 1.20 2005/06/20 18:52:19 millert Exp $";
+static const char rcsid[] = "$OpenBSD: xargs.c,v 1.24 2005/11/01 04:52:59 deraadt Exp $";
 #endif
 #endif /* not lint */
 
@@ -79,7 +79,7 @@ static char **av, **bxp, **ep, **endxp, **xp;
 static char *argp, *bbp, *ebp, *inpline, *p, *replstr;
 static const char *eofstr;
 static int count, insingle, indouble, oflag, pflag, tflag, Rflag, rval, zflag;
-static int cnt, Iflag, jfound, Lflag, wasquoted, xflag;
+static int cnt, Iflag, jfound, Lflag, wasquoted, xflag, runeof = 1;
 static int curprocs, maxprocs;
 static size_t inpsize;
 
@@ -122,7 +122,7 @@ main(int argc, char *argv[])
 		nline -= strlen(*ep++) + 1 + sizeof(*ep);
 	}
 	maxprocs = 1;
-	while ((ch = getopt(argc, argv, "0E:I:J:L:n:oP:pR:s:tx")) != -1)
+	while ((ch = getopt(argc, argv, "0E:I:J:L:n:oP:pR:rs:tx")) != -1)
 		switch (ch) {
 		case 'E':
 			eofstr = optarg;
@@ -155,6 +155,9 @@ main(int argc, char *argv[])
 			break;
 		case 'p':
 			pflag = 1;
+			break;
+		case 'r':
+			runeof = 0;
 			break;
 		case 'R':
 			Rflag = strtol(optarg, &endptr, 10);
@@ -257,6 +260,8 @@ parse_input(int argc, char *argv[])
 	case EOF:
 		/* No arguments since last exec. */
 		if (p == bbp) {
+			if (runeof)
+				prerun(0, av);
 			waitchildren(*argv, 1);
 			exit(rval);
 		}
@@ -404,6 +409,7 @@ prerun(int argc, char *argv[])
 	int repls;
 
 	repls = Rflag;
+	runeof = 0;
 
 	if (argc == 0 || repls == 0) {
 		*xp = NULL;
@@ -533,7 +539,7 @@ exec:
 			close(fd);
 		}
 		execvp(argv[0], argv);
-                warn("%s", argv[0]);
+		warn("%s", argv[0]);
 		_exit(errno == ENOENT ? 127 : 126);
 	}
 	curprocs++;
@@ -560,7 +566,7 @@ waitchildren(const char *name, int waitall)
 			if (WEXITSTATUS(status) == 255) {
 				warnx("%s exited with status 255", name);
 				exit(124);
-                        } else if (WEXITSTATUS(status) == 127 || 
+			} else if (WEXITSTATUS(status) == 127 ||
 			    WEXITSTATUS(status) == 126) {
 				exit(WEXITSTATUS(status));
 			} else if (WEXITSTATUS(status) != 0) {
@@ -603,6 +609,7 @@ prompt(void)
 		(void)fclose(ttyfp);
 		return (0);
 	}
+	response[rsize - 1] = '\0';
 	match = regexec(&cre, response, 0, NULL, 0);
 	(void)fclose(ttyfp);
 	regfree(&cre);
@@ -613,7 +620,7 @@ static void
 usage(void)
 {
 	fprintf(stderr,
-"usage: xargs [-0opt] [-E eofstr] [-I replstr [-R replacements]] [-J replstr]\n"
+"usage: xargs [-0oprt] [-E eofstr] [-I replstr [-R replacements]] [-J replstr]\n"
 "             [-L number] [-n number [-x]] [-P maxprocs] [-s size]\n"
 "             [utility [argument ...]]\n");
 	exit(1);

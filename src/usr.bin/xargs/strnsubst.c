@@ -1,4 +1,4 @@
-/*	$OpenBSD: strnsubst.c,v 1.2 2003/06/12 03:23:22 millert Exp $	*/
+/*	$OpenBSD: strnsubst.c,v 1.4 2005/12/01 05:52:20 cloder Exp $	*/
 /*	$FreeBSD: strnsubst.c,v 1.6 2002/06/22 12:58:42 jmallett Exp $	*/
 
 /*
@@ -10,7 +10,7 @@
  */
 
 #ifndef lint
-static const char rcsid[] = "$OpenBSD: strnsubst.c,v 1.2 2003/06/12 03:23:22 millert Exp $";
+static const char rcsid[] = "$OpenBSD: strnsubst.c,v 1.4 2005/12/01 05:52:20 cloder Exp $";
 #endif /* not lint */
 
 #include <err.h>
@@ -35,7 +35,8 @@ void
 strnsubst(char **str, const char *match, const char *replstr, size_t maxsize)
 {
 	char *s1, *s2, *this;
-	size_t matchlen, repllen, s2len, n;
+	size_t matchlen, repllen, s2len;
+	int n;
 
 	if ((s1 = *str) == NULL)
 		return;
@@ -73,7 +74,7 @@ done:
 #ifdef TEST
 #include <stdio.h>
 
-int 
+int
 main(void)
 {
 	char *x, *y, *z, *za;
