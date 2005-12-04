@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.1 2005/09/13 10:26:40 tg Exp $
+# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.2 2005/09/13 10:27:17 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -81,7 +81,7 @@ done <userlist.db
 sort -t: -nk3 -o $1/etc/master.passwd $1/etc/master.passwd
 if [[ $fflag = 1 ]]; then
 	{
-		print '# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.1 2005/09/13 10:26:40 tg Exp $'
+		print '# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.2 2005/09/13 10:27:17 tg Exp $'
 		print '#'
 		print '# Users who are not allowed to use ftp access; read by ftpd(8)'
 		print
@@ -97,4 +97,4 @@ if [[ $fflag = 1 ]]; then
 		print "$LINE"
 	done >$1/etc/aliases.xxx
 fi
-[[ $nflag = 0 ]] || pwd_mkdb -p -d $1/etc master.passwd
+[[ $nflag = 1 ]] || pwd_mkdb -p -d $1/etc master.passwd
