@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/history.c,v 1.3 2005/04/19 20:58:20 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/history.c,v 1.4 2005/12/05 22:12:48 tg Exp $ */
 
 /*
  * Copyright (C) 1994-2005 The Free Software Foundation, Inc.
@@ -193,7 +193,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/history.c,v 1.3 2005/04/19 20:58:20 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/history.c,v 1.4 2005/12/05 22:12:48 tg Exp $");
 
 static struct hrec
 {
@@ -383,7 +383,7 @@ sort_order (const void *l, const void *r)
 static const char *
 get_history_log_name (time_t now)
 {
-    char *log_name;
+    char *log_name = NULL;
 
     if (config->HistoryLogPath)
     {
