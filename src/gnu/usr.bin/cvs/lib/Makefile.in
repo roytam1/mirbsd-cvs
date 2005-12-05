@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.4 2005/12/05 22:12:45 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.5 2005/12/05 22:44:35 tg Exp $
 # Makefile for library files used by GNU CVS.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -63,22 +63,22 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in __fpending.c \
 	dirname.h dup-safer.c dup2.c exitfail.c exitfail.h fd-safer.c \
 	filenamecat.c filenamecat.h fncase.c fseeko.c ftello.c \
 	ftruncate.c gai_strerror.c getaddrinfo.c getcwd.c getcwd.h \
-	getdate.c getdate.h getdate.y getdelim.c getdelim.h \
-	gethostname.c getline.c getline.h getlogin_r.c getlogin_r.h \
-	getndelim2.c getpagesize.h gettime.c gettimeofday.c \
-	glob-libc.h glob.c glob_.h lstat.c lstat.h malloc.c mbchar.c \
-	mbchar.h memchr.c memmove.c mempcpy.c mempcpy.h memrchr.c \
-	memrchr.h mkdir.c mkstemp.c nanosleep.c openat.c openat.h \
-	pagealign_alloc.c pagealign_alloc.h pathmax.h pipe-safer.c \
-	printf-args.c printf-parse.c quotearg.c quotearg.h readlink.c \
-	realloc.c regcomp.c regex.c regex.h regex_internal.c \
-	regex_internal.h regexec.c rename.c rpmatch.c save-cwd.c \
-	save-cwd.h setenv.c stat-macros.h strcasecmp.c strdup.c \
-	strdup.h strerror.c strftime.c strftime.h strncasecmp.c \
-	strstr.c strtol.c strtoul.c sunos57-select.c tempname.c \
-	time_r.c timespec.h unistd--.h unistd-safer.h unlocked-io.h \
-	unsetenv.c vasnprintf.c vasprintf.c waitpid.c xalloc.h \
-	xgetcwd.c xgetcwd.h xmalloc.c yesno.c yesno.h
+	getdate.h getdelim.c getdelim.h gethostname.c getline.c \
+	getline.h getlogin_r.c getlogin_r.h getndelim2.c getpagesize.h \
+	gettime.c gettimeofday.c glob-libc.h glob.c glob_.h lstat.c \
+	lstat.h malloc.c mbchar.c mbchar.h memchr.c memmove.c \
+	mempcpy.c mempcpy.h memrchr.c memrchr.h mkdir.c mkstemp.c \
+	nanosleep.c openat.c openat.h pagealign_alloc.c \
+	pagealign_alloc.h pathmax.h pipe-safer.c printf-args.c \
+	printf-parse.c quotearg.c quotearg.h readlink.c realloc.c \
+	regcomp.c regex.c regex.h regex_internal.c regex_internal.h \
+	regexec.c rename.c rpmatch.c save-cwd.c save-cwd.h setenv.c \
+	stat-macros.h strcasecmp.c strdup.c strdup.h strerror.c \
+	strftime.c strftime.h strncasecmp.c strstr.c strtol.c \
+	strtoul.c sunos57-select.c tempname.c time_r.c timespec.h \
+	unistd--.h unistd-safer.h unlocked-io.h unsetenv.c \
+	vasnprintf.c vasprintf.c waitpid.c xalloc.h xgetcwd.c \
+	xgetcwd.h xmalloc.c yesno.c yesno.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/atexit.m4 $(top_srcdir)/m4/bison.m4 \
@@ -165,8 +165,6 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-YACCCOMPILE = $(YACC) $(YFLAGS) $(AM_YFLAGS)
-YLWRAP = $(GNUSYSTEM_AUX_DIR)/ylwrap
 SOURCES = $(libcvs_a_SOURCES) $(getdate_SOURCES)
 DIST_SOURCES = $(libcvs_a_SOURCES) $(getdate_SOURCES)
 ETAGS = etags
@@ -300,7 +298,7 @@ TESTS = test-getdate.sh
 EXTRA_DIST = test-getdate.sh alloca_.h allocsa.valgrind fnmatch_.h \
 	fnmatch_loop.c getdate.c getndelim2.h getndelim2.c stdbool_.h \
 	stdint_.h
-getdate_SOURCES = error.c getdate.y progname.c
+getdate_SOURCES = error.c getdate.c progname.c
 getdate_CPPFLAGS = -DTEST
 getdate_LDADD = \
 	$(noinst_LIBRARIES) \
@@ -311,7 +309,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj .y
+.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -384,9 +382,6 @@ getdate-progname.o: progname.c
 
 getdate-progname.obj: progname.c
 	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getdate_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getdate-progname.obj `if test -f 'progname.c'; then $(CYGPATH_W) 'progname.c'; else $(CYGPATH_W) '$(srcdir)/progname.c'; fi`
-
-.y.c:
-	$(SHELL) $(YLWRAP) $< y.tab.c $@ y.tab.h $*.h y.output $*.output -- $(YACCCOMPILE)
 uninstall-info-am:
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -571,7 +566,6 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-rm -f getdate.c
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
