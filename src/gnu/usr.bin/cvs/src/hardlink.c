@@ -73,7 +73,7 @@ lookup_file_by_inode (const char *filepath)
     else
 	file = filepath;
 
-    if (CVS_STAT (file, &sb) < 0)
+    if (stat (file, &sb) < 0)
     {
 	if (existence_error (errno))
 	{
@@ -194,7 +194,7 @@ list_linked_files_on_disk (char *file)
        linkage for a file would always fail. */
     (void) lookup_file_by_inode (path);
 
-    if (CVS_STAT (path, &sb) < 0)
+    if (stat (path, &sb) < 0)
 	error (1, errno, "cannot stat %s", file);
     /* inodestr contains the hexadecimal representation of an
        inode. */

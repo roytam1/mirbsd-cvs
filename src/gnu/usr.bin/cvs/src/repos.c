@@ -104,7 +104,7 @@ Name_Repository (const char *dir, const char *update_dir)
      * this function is called, we the contents of CVS/Root have already been
      * compared to original_root and found to match.
      */
-    if (!isabsolute (repos))
+    if (!ISABSOLUTE (repos))
     {
 	char *newrepos;
 

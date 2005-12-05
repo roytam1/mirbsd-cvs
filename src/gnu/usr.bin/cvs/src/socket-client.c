@@ -10,40 +10,21 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.  */
 
-#include <config.h>
+/***
+ *** THIS FILE SHOULD NEVER BE COMPILED UNLESS NO_SOCKET_TO_FD IS DEFINED.
+ ***/
+
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#ifdef CLIENT_SUPPORT
 
 #include "cvs.h"
 #include "buffer.h"
 
-#ifdef CLIENT_SUPPORT
-
 #include "socket-client.h"
 
-
-#if defined (AUTH_CLIENT_SUPPORT) || defined (HAVE_KERBEROS) || defined (HAVE_GSSAPI)
-
-struct hostent *
-init_sockaddr( struct sockaddr_in *name, char *hostname, unsigned int port )
-{
-    struct hostent *hostinfo;
-    unsigned short shortport = port;
-
-    memset (name, 0, sizeof (*name));
-    name->sin_family = AF_INET;
-    name->sin_port = htons (shortport);
-    hostinfo = gethostbyname (hostname);
-    if (hostinfo == NULL)
-    {
-	fprintf (stderr, "Unknown host %s.\n", hostname);
-	exit (EXIT_FAILURE);
-    }
-    name->sin_addr = *(struct in_addr *) hostinfo->h_addr;
-    return hostinfo;
-}
-
-#endif
-
-#ifdef NO_SOCKET_TO_FD
 
 /* Under certain circumstances, we must communicate with the server
    via a socket using send() and recv().  This is because under some
@@ -73,38 +54,15 @@ struct socket_buffer
     int socket;
 };
 
-static int socket_buffer_input (void *, char *, int, int, int *);
-static int socket_buffer_output (void *, const char *, int, int *);
-static int socket_buffer_flush (void *);
-static int socket_buffer_shutdown (struct buffer *);
-
-
-
-/* Create a buffer based on a socket.  */
-
-struct buffer *
-socket_buffer_initialize( int socket, int input,
-                          void (*memory) ( struct buffer * ) )
-{
-    struct socket_buffer *sbuf = xmalloc (sizeof *sbuf);
-    sbuf->socket = socket;
-    return buf_initialize (input ? socket_buffer_input : NULL,
-			   input ? NULL : socket_buffer_output,
-			   input ? NULL : socket_buffer_flush,
-			   NULL, NULL,
-			   socket_buffer_shutdown,
-			   memory,
-			   sbuf);
-}
-
 
 
 /* The buffer input function for a buffer built on a socket.  */
 
 static int
-socket_buffer_input( void *closure, char *data, int need, int size, int *got )
+socket_buffer_input (void *closure, char *data, size_t need, size_t size,
+		     size_t *got)
 {
-    struct socket_buffer *sb = (struct socket_buffer *) closure;
+    struct socket_buffer *sb = closure;
     int nbytes;
 
     /* I believe that the recv function gives us exactly the semantics
@@ -113,6 +71,8 @@ socket_buffer_input( void *closure, char *data, int need, int size, int *got )
        one comes in.  In other words, it is not like read, which in
        blocking mode normally waits until all the requested data is
        available.  */
+
+    assert (size >= need);
 
     *got = 0;
 
@@ -129,9 +89,10 @@ socket_buffer_input( void *closure, char *data, int need, int size, int *got )
 	   makes sure that we only recv() BUFFER_DATA_SIZE bytes at
 	   a time.  */
 
-	nbytes = recv (sb->socket, data, size, 0);
+	nbytes = recv (sb->socket, data + *got, size - *got, 0);
 	if (nbytes < 0)
-	    error (1, 0, "reading from server: %s", SOCK_STRERROR (SOCK_ERRNO));
+	    error (1, 0, "reading from server: %s",
+		   SOCK_STRERROR (SOCK_ERRNO));
 	if (nbytes == 0)
 	{
 	    /* End of file (for example, the server has closed
@@ -143,12 +104,9 @@ socket_buffer_input( void *closure, char *data, int need, int size, int *got )
 	    else
 		return 0;
 	}
-	need -= nbytes;
-	size -= nbytes;
-	data += nbytes;
 	*got += nbytes;
     }
-    while (need > 0);
+    while (*got < need);
 
     return 0;
 }
@@ -158,34 +116,37 @@ socket_buffer_input( void *closure, char *data, int need, int size, int *got )
 /* The buffer output function for a buffer built on a socket.  */
 
 static int
-socket_buffer_output( void *closure, const char *data, int have, int *wrote )
+socket_buffer_output (void *closure, const char *data, size_t have,
+		      size_t *wrote)
 {
-    struct socket_buffer *sb = (struct socket_buffer *) closure;
+    struct socket_buffer *sb = closure;
 
     *wrote = have;
 
     /* See comment in socket_buffer_input regarding buffer size we pass
        to send and recv.  */
 
-#ifdef SEND_NEVER_PARTIAL
+# ifdef SEND_NEVER_PARTIAL
     /* If send() never will produce a partial write, then just do it.  This
        is needed for systems where its return value is something other than
        the number of bytes written.  */
     if (send (sb->socket, data, have, 0) < 0)
-	error (1, 0, "writing to server socket: %s", SOCK_STRERROR (SOCK_ERRNO));
-#else
+	error (1, 0, "writing to server socket: %s",
+	       SOCK_STRERROR (SOCK_ERRNO));
+# else
     while (have > 0)
     {
 	int nbytes;
 
 	nbytes = send (sb->socket, data, have, 0);
 	if (nbytes < 0)
-	    error (1, 0, "writing to server socket: %s", SOCK_STRERROR (SOCK_ERRNO));
+	    error (1, 0, "writing to server socket: %s",
+		   SOCK_STRERROR (SOCK_ERRNO));
 
 	have -= nbytes;
 	data += nbytes;
     }
-#endif
+# endif
 
     return 0;
 }
@@ -196,7 +157,7 @@ socket_buffer_output( void *closure, const char *data, int have, int *wrote )
 
 /*ARGSUSED*/
 static int
-socket_buffer_flush( void *closure )
+socket_buffer_flush (void *closure)
 {
     /* Nothing to do.  Sockets are always flushed.  */
     return 0;
@@ -205,9 +166,9 @@ socket_buffer_flush( void *closure )
 
 
 static int
-socket_buffer_shutdown( struct buffer *buf )
+socket_buffer_shutdown (struct buffer *buf)
 {
-    struct socket_buffer *n = (struct socket_buffer *) buf->closure;
+    struct socket_buffer *n = buf->closure;
     char tmp;
 
     /* no need to flush children of an endpoint buffer here */
@@ -217,9 +178,11 @@ socket_buffer_shutdown( struct buffer *buf )
 	int err = 0;
 	if (! buf_empty_p (buf)
 	    || (err = recv (n->socket, &tmp, 1, 0)) > 0)
-	    error (0, 0, "dying gasps from %s unexpected", current_parsed_root->hostname);
+	    error (0, 0, "dying gasps from %s unexpected",
+		   current_parsed_root->hostname);
 	else if (err == -1)
-	    error (0, 0, "reading from %s: %s", current_parsed_root->hostname, SOCK_STRERROR (SOCK_ERRNO));
+	    error (0, 0, "reading from %s: %s", current_parsed_root->hostname,
+		   SOCK_STRERROR (SOCK_ERRNO));
 
 	/* shutdown() socket */
 # ifdef SHUTDOWN_SERVER
@@ -227,7 +190,8 @@ socket_buffer_shutdown( struct buffer *buf )
 # endif
 	if (shutdown (n->socket, 0) < 0)
 	{
-	    error (1, 0, "shutting down server socket: %s", SOCK_STRERROR (SOCK_ERRNO));
+	    error (1, 0, "shutting down server socket: %s",
+		   SOCK_STRERROR (SOCK_ERRNO));
 	}
 
 	buf->input = NULL;
@@ -245,7 +209,8 @@ socket_buffer_shutdown( struct buffer *buf )
 # endif
 	if (shutdown (n->socket, 1) < 0)
 	{
-	    error (1, 0, "shutting down server socket: %s", SOCK_STRERROR (SOCK_ERRNO));
+	    error (1, 0, "shutting down server socket: %s",
+		   SOCK_STRERROR (SOCK_ERRNO));
 	}
 
 	buf->output = NULL;
@@ -254,6 +219,23 @@ socket_buffer_shutdown( struct buffer *buf )
     return 0;
 }
 
-#endif /* NO_SOCKET_TO_FD */
+
+
+/* Create a buffer based on a socket.  */
+
+struct buffer *
+socket_buffer_initialize (int socket, int input,
+                          void (*memory) (struct buffer *))
+{
+    struct socket_buffer *sbuf = xmalloc (sizeof *sbuf);
+    sbuf->socket = socket;
+    return buf_initialize (input ? socket_buffer_input : NULL,
+			   input ? NULL : socket_buffer_output,
+			   input ? NULL : socket_buffer_flush,
+			   NULL, NULL,
+			   socket_buffer_shutdown,
+			   memory,
+			   sbuf);
+}
 
 #endif /* CLIENT_SUPPORT */

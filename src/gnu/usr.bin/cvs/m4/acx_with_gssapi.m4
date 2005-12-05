@@ -223,6 +223,11 @@ when using GSSAPI.])
   AC_SEARCH_LIBS([__dn_expand], [resolv])
 
   #
+  # crypto             Need by gssapi under FreeBSD 5.4
+  #
+  AC_SEARCH_LIBS([RC4], [crypto])
+
+  #
   # crypt              Needed by roken under FreeBSD 4.6.
   #
   AC_SEARCH_LIBS([crypt], [crypt])

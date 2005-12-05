@@ -1,6 +1,6 @@
 /* Get the working directory, compatibly with the GNU C Library.
 
-   Copyright (C) 2004 Free Software Foundation, Inc.
+   Copyright (C) 2004-2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* Written by Paul Eggert.  */
 
@@ -36,5 +36,7 @@
 # define __GETCWD_XCONCAT(x, y) __GETCWD_CONCAT (x, y)
 # define __GETCWD_ID(y) __GETCWD_XCONCAT (__GETCWD_PREFIX, y)
 # define getcwd __GETCWD_ID (getcwd)
+/* See the POSIX:2001 specification
+   <http://www.opengroup.org/susv3xsh/getcwd.html>.  */
 char *getcwd (char *, size_t);
 #endif

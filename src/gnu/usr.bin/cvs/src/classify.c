@@ -236,19 +236,8 @@ Classify_File (struct file_info *finfo, char *tag, char *date, char *options,
 			   finfo->fullname);
 		ret = T_REMOVE_ENTRY;
 	    }
-	    else if (strcmp (vers->ts_user, vers->ts_rcs) == 0)
-	    {
-
-		/*
-		 * The user file is still unmodified, so just remove it from
-		 * the entry list
-		 */
-		if (!really_quiet)
-		    error (0, 0, "`%s' is no longer in the repository",
-			   finfo->fullname);
-		ret = T_REMOVE_ENTRY;
-	    }
-	    else if (No_Difference (finfo, vers))
+	    else if (strcmp (vers->ts_user, vers->ts_rcs)
+		     && No_Difference (finfo, vers))
 	    {
 		/* they are different -> conflict */
 		if (!really_quiet)
@@ -260,10 +249,13 @@ Classify_File (struct file_info *finfo, char *tag, char *date, char *options,
 	    }
 	    else
 	    {
-		/* they weren't really different */
+
+		/*
+		 * The user file is still unmodified, so just remove it from
+		 * the entry list
+		 */
 		if (!really_quiet)
-		    error (0, 0,
-			   "warning: `%s' is not (any longer) pertinent",
+		    error (0, 0, "`%s' is no longer in the repository",
 			   finfo->fullname);
 		ret = T_REMOVE_ENTRY;
 	    }
@@ -292,7 +284,9 @@ Classify_File (struct file_info *finfo, char *tag, char *date, char *options,
 			error (0, 0, "warning: `%s' was lost", finfo->fullname);
 		ret = T_CHECKOUT;
 	    }
-	    else if (strcmp (vers->ts_user, vers->ts_rcs) == 0)
+	    else if (!strcmp (vers->ts_user,
+			      vers->ts_conflict
+			      ? vers->ts_conflict : vers->ts_rcs))
 	    {
 
 		/*
@@ -306,6 +300,8 @@ Classify_File (struct file_info *finfo, char *tag, char *date, char *options,
 		if (vers->entdata->options &&
 		    strcmp (vers->entdata->options, vers->options) != 0)
 		    ret = T_CHECKOUT;
+		else if (vers->ts_conflict)
+		    ret = T_CONFLICT;
 		else
 		{
 		    sticky_ck (finfo, aflag, vers);
@@ -326,6 +322,13 @@ Classify_File (struct file_info *finfo, char *tag, char *date, char *options,
 		else
 		    ret = T_NEEDS_MERGE;
 #else
+		/* Files with conflict markers and new timestamps fall through
+		 * here, but they need to.  T_CONFLICT is an error in
+		 * commit_fileproc, whereas T_MODIFIED with conflict markers
+		 * is caught but only warned about.  Similarly, update_fileproc
+		 * currently reregisters a file that was conflicted but lost
+		 * its markers.
+		 */
 		ret = T_MODIFIED;
 		sticky_ck (finfo, aflag, vers);
 #endif

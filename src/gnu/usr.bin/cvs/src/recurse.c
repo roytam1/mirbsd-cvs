@@ -398,11 +398,8 @@ start_recursion (FILEPROC fileproc, FILESDONEPROC filesdoneproc,
 		addfile (&files_by_dir, dir, comp);
 	    else if (isdir (dir))
 	    {
-		if ((which & W_LOCAL) && isdir (CVSADM)
-#ifdef CLIENT_SUPPORT
-		    && !current_parsed_root->isremote
-#endif
-		    )
+		if ((which & W_LOCAL) && isdir (CVSADM) &&
+		    !current_parsed_root->isremote)
 		{
 		    /* otherwise, look for it in the repository. */
 		    char *tmp_update_dir;
@@ -678,22 +675,16 @@ do_recursion (struct recursion_frame *frame)
        directories, since we're guaranteed to have only one CVSROOT --
        our own.  */
 
-    if (
-	/* If -d was specified, it should override CVS/Root.
+    /* If -d was specified, it should override CVS/Root.
 
-	   In the single-repository case, it is long-standing CVS behavior
-	   and makes sense - the user might want another access method,
-	   another server (which mounts the same repository), &c.
+       In the single-repository case, it is long-standing CVS behavior
+       and makes sense - the user might want another access method,
+       another server (which mounts the same repository), &c.
 
-	   In the multiple-repository case, -d overrides all CVS/Root
-	   files.  That is the only plausible generalization I can
-	   think of.  */
-	CVSroot_cmdline == NULL
-
-#ifdef SERVER_SUPPORT
-	&& ! server_active
-#endif
-	)
+       In the multiple-repository case, -d overrides all CVS/Root
+       files.  That is the only plausible generalization I can
+       think of.  */
+    if (CVSroot_cmdline == NULL && !server_active)
     {
 	cvsroot_t *this_root = Name_Root (NULL, update_dir);
 	if (this_root != NULL)
@@ -781,7 +772,8 @@ do_recursion (struct recursion_frame *frame)
 	    if (repository == NULL)
 	    {
 		Name_Repository (NULL, update_dir);
-	        assert (!"Not reached.  Please report this problem to <bug-cvs@gnu.org>");
+	        assert (!"Not reached.  Please report this problem to <"
+			PACKAGE_BUGREPORT ">");
 	    }
 	    /* find the files and fill in entries if appropriate */
 	    if (process_this_directory)
@@ -1133,22 +1125,16 @@ but CVS uses %s for its own purposes; skipping %s directory",
     /* Only process this directory if the root matches.  This nearly
        duplicates code in do_recursion. */
 
-    if (
-	/* If -d was specified, it should override CVS/Root.
+    /* If -d was specified, it should override CVS/Root.
 
-	   In the single-repository case, it is long-standing CVS behavior
-	   and makes sense - the user might want another access method,
-	   another server (which mounts the same repository), &c.
+       In the single-repository case, it is long-standing CVS behavior
+       and makes sense - the user might want another access method,
+       another server (which mounts the same repository), &c.
 
-	   In the multiple-repository case, -d overrides all CVS/Root
-	   files.  That is the only plausible generalization I can
-	   think of.  */
-	CVSroot_cmdline == NULL
-
-#ifdef SERVER_SUPPORT
-	&& ! server_active
-#endif
-	)
+       In the multiple-repository case, -d overrides all CVS/Root
+       files.  That is the only plausible generalization I can
+       think of.  */
+    if (CVSroot_cmdline == NULL && !server_active)
     {
 	cvsroot_t *this_root = Name_Root (dir, update_dir);
 	if (this_root != NULL)
