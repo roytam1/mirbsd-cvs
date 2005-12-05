@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/tag_accum2,v 1.9 2005/12/05 21:07:24 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.1 2005/12/05 21:25:09 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.de>
@@ -105,10 +105,7 @@ while (( $# > 0 )); do
 	fi
 done
 
-if (( i == 0 )); then
-	rm /tmp/\#cvs.*.$id
-	exit 0
-fi
+(( i == 0 )) && exit 0
 
 let j=0
 while (( j < i )); do
