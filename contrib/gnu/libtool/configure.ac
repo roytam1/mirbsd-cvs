@@ -1,5 +1,5 @@
 ## Process this file with autoconf to create configure. -*- autoconf -*-
-# $MirOS: contrib/gnu/libtool/configure.ac,v 1.9 2005/07/05 21:01:13 tg Exp $
+# $MirOS: contrib/gnu/libtool/configure.ac,v 1.10 2005/11/16 18:06:02 tg Exp $
 # Copyright 2001, 2005  Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@ AC_PREREQ(2.50)
 ## ------------------------ ##
 ## Autoconf initialisation. ##
 ## ------------------------ ##
-AC_INIT([libtool], [1.5.20i], [bug-libtool@gnu.org])
+AC_INIT([libtool], [1.5.21a], [bug-libtool@gnu.org])
 AC_CONFIG_SRCDIR([ltmain.in])
 
 
