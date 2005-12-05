@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.1 2005/12/05 21:25:09 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.2 2005/12/05 23:09:28 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.de>
@@ -26,6 +26,7 @@
 #-
 # Log cvs 1.12 tagging operations in the same manner mklogci does it
 # for regular file operations.
+# XXX seems to not delete its temporary files sometimes, but works.
 
 SHELL=${SHELL:-/bin/mksh}
 id=$1
