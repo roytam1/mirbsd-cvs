@@ -66,19 +66,18 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in __fpending.c \
 	getdate.h getdelim.c getdelim.h gethostname.c getline.c \
 	getline.h getlogin_r.c getlogin_r.h getndelim2.c getpagesize.h \
 	gettime.c gettimeofday.c glob-libc.h glob.c glob_.h lstat.c \
-	lstat.h malloc.c mbchar.c mbchar.h memchr.c memmove.c \
-	mempcpy.c mempcpy.h memrchr.c memrchr.h mkdir.c mkstemp.c \
-	nanosleep.c openat.c openat.h pagealign_alloc.c \
-	pagealign_alloc.h pathmax.h pipe-safer.c printf-args.c \
-	printf-parse.c quotearg.c quotearg.h readlink.c realloc.c \
-	regcomp.c regex.c regex.h regex_internal.c regex_internal.h \
-	regexec.c rename.c rpmatch.c save-cwd.c save-cwd.h setenv.c \
-	stat-macros.h strcasecmp.c strdup.c strdup.h strerror.c \
-	strftime.c strftime.h strncasecmp.c strstr.c strtol.c \
-	strtoul.c sunos57-select.c tempname.c time_r.c timespec.h \
-	unistd--.h unistd-safer.h unlocked-io.h unsetenv.c \
-	vasnprintf.c vasprintf.c waitpid.c xalloc.h xgetcwd.c \
-	xgetcwd.h xmalloc.c yesno.c yesno.h
+	lstat.h malloc.c memchr.c memmove.c mempcpy.c mempcpy.h \
+	memrchr.c memrchr.h mkdir.c mkstemp.c nanosleep.c openat.c \
+	openat.h pagealign_alloc.c pagealign_alloc.h pathmax.h \
+	pipe-safer.c printf-args.c printf-parse.c quotearg.c \
+	quotearg.h readlink.c realloc.c regcomp.c regex.c regex.h \
+	regex_internal.c regex_internal.h regexec.c rename.c rpmatch.c \
+	save-cwd.c save-cwd.h setenv.c stat-macros.h strdup.c strdup.h \
+	strerror.c strftime.c strftime.h strtol.c strtoul.c \
+	sunos57-select.c tempname.c time_r.c timespec.h unistd--.h \
+	unistd-safer.h unlocked-io.h unsetenv.c vasnprintf.c \
+	vasprintf.c waitpid.c xalloc.h xgetcwd.c xgetcwd.h xmalloc.c \
+	yesno.c yesno.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/atexit.m4 $(top_srcdir)/m4/bison.m4 \
@@ -104,8 +103,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intmax_t.m4 \
 	$(top_srcdir)/m4/inttypes.m4 $(top_srcdir)/m4/inttypes_h.m4 \
 	$(top_srcdir)/m4/longdouble.m4 $(top_srcdir)/m4/longlong.m4 \
-	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/mbchar.m4 \
-	$(top_srcdir)/m4/mbiter.m4 $(top_srcdir)/m4/mbrtowc.m4 \
+	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/mbrtowc.m4 \
 	$(top_srcdir)/m4/mbstate_t.m4 $(top_srcdir)/m4/memchr.m4 \
 	$(top_srcdir)/m4/memmove.m4 $(top_srcdir)/m4/mempcpy.m4 \
 	$(top_srcdir)/m4/memrchr.m4 $(top_srcdir)/m4/minmax.m4 \
@@ -121,9 +119,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/sockpfaf.m4 \
 	$(top_srcdir)/m4/ssize_t.m4 $(top_srcdir)/m4/stat-macros.m4 \
 	$(top_srcdir)/m4/stdbool.m4 $(top_srcdir)/m4/stdint.m4 \
-	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/strcase.m4 \
-	$(top_srcdir)/m4/strdup.m4 $(top_srcdir)/m4/strerror.m4 \
-	$(top_srcdir)/m4/strftime.m4 $(top_srcdir)/m4/strstr.m4 \
+	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/strdup.m4 \
+	$(top_srcdir)/m4/strerror.m4 $(top_srcdir)/m4/strftime.m4 \
 	$(top_srcdir)/m4/strtol.m4 $(top_srcdir)/m4/strtoul.m4 \
 	$(top_srcdir)/m4/sunos57-select.m4 $(top_srcdir)/m4/time_r.m4 \
 	$(top_srcdir)/m4/timespec.m4 $(top_srcdir)/m4/tm_gmtoff.m4 \

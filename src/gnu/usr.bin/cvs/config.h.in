@@ -384,7 +384,7 @@
 /* Define to 1 if you have the `mbrlen' function. */
 #undef HAVE_MBRLEN
 
-/* Define to 1 if mbrtowc and mbstate_t are properly declared. */
+/* Define to 1 if you have the `mbrtowc' function. */
 #undef HAVE_MBRTOWC
 
 /* Define to 1 if you have the `mbsinit' function. */
@@ -548,9 +548,6 @@
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
-
-/* Define to 1 if you have the `strncasecmp' function. */
-#undef HAVE_STRNCASECMP
 
 /* Define to 1 if you have the `strtol' function. */
 #undef HAVE_STRTOL
@@ -1094,9 +1091,6 @@
 
 /* Define as a signed type of the same size as size_t. */
 #undef ssize_t
-
-/* Define to rpl_strcasecmp always. */
-#undef strcasecmp
 
 /* Define to rpl_tzset if the wrapper function should be used. */
 #undef tzset
