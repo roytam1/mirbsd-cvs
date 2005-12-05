@@ -6,7 +6,7 @@ dnl with or without modifications, as long as this notice is preserved.
 
 AC_DEFUN([gl_GETDATE],
 [
-  AC_LIBSOURCES([getdate.h, getdate.y])
+  AC_LIBSOURCES([getdate.h, getdate.c])
   AC_LIBOBJ([getdate])
 
   dnl Prerequisites of lib/getdate.h.
