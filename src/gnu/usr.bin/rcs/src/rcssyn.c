@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcssyn.c,v 1.3 2005/06/05 16:08:49 tg Exp $ */
 
 /* RCS file syntactic analysis */
 
@@ -155,7 +155,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcssyn.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcssyn.c,v 1.3 2005/06/05 16:08:49 tg Exp $");
 
 static char const *getkeyval(char const*,enum tokens,int);
 static int getdelta(void);
@@ -433,8 +433,10 @@ getdelta()
 	Delta->selector = true;
 	Delta->commitid = 0;
 	if (getkeyopt(Kcommitid)) {
+		if (nexttok == NUM)
+			nexttok = ID;
 		Delta->commitid = getid();
-		getsemi(Kcomment);
+		getsemi(Kcommitid);
         }
 	Delta->ig = getphrases(Kdesc);
         TotalDeltas++;
