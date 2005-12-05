@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.4 2005/04/19 21:51:15 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -35,7 +35,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.3 2005/04/19 20:58:21 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.4 2005/04/19 21:51:15 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -281,27 +281,27 @@ RCS_parse (const char *file, const char *repos)
        in the cache.  */
     rcsbuf_cache_close ();
 
-    if ((rcsfile = locate_rcs (repos, file, &inattic)) == NULL)
+    if (!(rcsfile = locate_rcs (repos, file, &inattic)))
     {
 	/* Handle the error cases */
     }
-    else if ((fp = CVS_FOPEN (rcsfile, FOPEN_BINARY_READ)) != NULL) 
+    else if ((fp = CVS_FOPEN (rcsfile, FOPEN_BINARY_READ))) 
     {
-        rcs = RCS_parsercsfile_i(fp, rcsfile);
-	if (rcs != NULL)
+	rcs = RCS_parsercsfile_i (fp, rcsfile);
+	if (rcs)
 	{	
 	    rcs->flags |= VALID;
-	    if ( inattic )
+	    if (inattic)
 		rcs->flags |= INATTIC;
 	}
 
-	free ( rcsfile );
+	free (rcsfile);
 	retval = rcs;
     }
-    else if (! existence_error (errno))
+    else if (!existence_error (errno))
     {
-	free ( rcsfile );
-	error (0, errno, "cannot open %s", rcsfile);
+	error (0, errno, "cannot open `%s'", rcsfile);
+	free (rcsfile);
     }
 
     return retval;
@@ -3935,6 +3935,13 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
 		if (*snl == '\n')
 		    ++cnl;
 
+	    /* If the log message did not end in a newline, increment
+	     * the newline count so we have space for the extra leader.
+	     * Failure to do so results in a buffer overrun.
+	     */
+	    if (loglen && snl[-1] != '\n')
+		++cnl;
+
 	    date = printable_date (ver->date);
 	    sub = xrealloc (sub,
 			    (sublen
@@ -3943,6 +3950,10 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
 			     + strlen (date)
 			     + strlen (ver->author)
 			     + loglen
+			       /* Use CNL + 2 below:  One leader for each log
+				* line, plus the Revision/Author/Date line,
+				* plus a trailing blank line.
+				*/
 			     + (cnl + 2) * leader_len
 			     + 20));
 	    if (expand != KFLAG_V)
@@ -3982,6 +3993,14 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
 			++slnl;
 		    memcpy (sub + sublen, sl, slnl - sl);
 		    sublen += slnl - sl;
+		    if (slnl == logend && slnl[-1] != '\n')
+		    {
+			/* There was no EOL at the end of the log message.  Add
+			 * one.
+			 */
+			sub[sublen] = '\n';
+			++sublen;
+		    }
 		    sl = slnl;
 		}
 	    }
@@ -4100,7 +4119,8 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
    Otherwise, if WORKFILE is NULL, check out the revision to SOUT.  If
    SOUT is RUN_TTY, then write the contents of the revision to
    standard output.  When using SOUT, the output is generally a
-   temporary file; don't bother to get the file modes correct.
+   temporary file; don't bother to get the file modes correct.  When
+   NOEXEC is set, WORKFILEs are not written but SOUTs are.
 
    REV is the numeric revision to check out.  It may be NULL, which
    means to check out the head of the default branch.
@@ -4163,11 +4183,7 @@ RCS_checkout (RCSNode *rcs, const char *workfile, const char *rev,
 
     assert (rev == NULL || isdigit ((unsigned char) *rev));
 
-    if (noexec
-#ifdef SERVER_SUPPORT
-	&& !server_active
-#endif
-	&& workfile != NULL)
+    if (noexec && !server_active && workfile != NULL)
 	return 0;
 
     assert (sout == RUN_TTY || workfile == NULL);
@@ -4249,7 +4265,7 @@ RCS_checkout (RCSNode *rcs, const char *workfile, const char *rev,
 	{
 	    /* If RCS_deltas didn't close the file, we could use fstat
 	       here too.  Probably should change it thusly....  */
-	    if (CVS_STAT (rcs->path, &sb) < 0)
+	    if (stat (rcs->path, &sb) < 0)
 		error (1, errno, "cannot stat %s", rcs->path);
 	    rcsbufp = NULL;
 	}
@@ -4998,7 +5014,9 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
     Deltatext *dtext;
     Node *nodep;
     char *tmpfile, *changefile;
-    char *diffopts;
+    int dargc = 0;
+    size_t darg_allocated = 0;
+    char **dargv = NULL;
     size_t bufsize;
     int status, checkin_quiet;
     struct tm *ftm;
@@ -5055,7 +5073,7 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
     if (flags & RCS_FLAGS_MODTIME)
     {
 	struct stat ws;
-	if (CVS_STAT (workfile, &ws) < 0)
+	if (stat (workfile, &ws) < 0)
 	{
 	    error (1, errno, "cannot stat %s", workfile);
 	}
@@ -5098,7 +5116,7 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
 
 	delta->other_delta = getlist();
 
-	if (CVS_LSTAT (workfile, &sb) < 0)
+	if (lstat (workfile, &sb) < 0)
 	    error (1, errno, "cannot lstat %s", workfile);
 
 	if (S_ISLNK (sb.st_mode))
@@ -5437,9 +5455,10 @@ workfile);
 
     /* Diff options should include --binary if the RCS file has -kb set
        in its `expand' field. */
-    diffopts = (rcs->expand != NULL && STREQ (rcs->expand, "b")
-		? "-a -n --binary"
-		: "-a -n");
+    run_add_arg_p (&dargc, &darg_allocated, &dargv, "-a");
+    run_add_arg_p (&dargc, &darg_allocated, &dargv, "-n");
+    if (rcs->expand != NULL && STREQ (rcs->expand, "b"))
+	run_add_arg_p (&dargc, &darg_allocated, &dargv, "--binary");
 
     if (STREQ (commitpt->version, rcs->head) &&
 	numdots (delta->version) == 1)
@@ -5462,7 +5481,8 @@ workfile);
 	memset (commitpt->text, 0, sizeof (Deltatext));
 
 	bufsize = 0;
-	switch (diff_exec (workfile, tmpfile, NULL, NULL, diffopts, changefile))
+	switch (diff_exec (workfile, tmpfile, NULL, NULL,
+			   dargc, dargv, changefile))
 	{
 	    case 0:
 	    case 1:
@@ -5510,7 +5530,8 @@ workfile);
 	/* This file is not being inserted at the head, but on a side
 	   branch somewhere.  Make a diff from the previous revision
 	   to the working file. */
-	switch (diff_exec (tmpfile, workfile, NULL, NULL, diffopts, changefile))
+	switch (diff_exec (tmpfile, workfile, NULL, NULL,
+			   dargc, dargv, changefile))
 	{
 	    case 0:
 	    case 1:
@@ -5536,6 +5557,9 @@ workfile);
 	    dtext->len = 0;
 	}
     }
+
+    run_arg_free_p (dargc, dargv);
+    free (dargv);
 
     /* Update DELTA linkage.  It is important not to do this before
        the very end of RCS_checkin; if an error arises that forces
@@ -6589,6 +6613,10 @@ RCS_delete_revs (RCSNode *rcs, char *tag1, char *tag2, int inclusive)
 	}
 	else
 	{
+	    int dargc = 0;
+	    size_t darg_allocated = 0;
+	    char **dargv = NULL;
+
 	    beforefile = cvs_temp_name();
 	    status = RCS_checkout (rcs, NULL, before, NULL, "-ko", beforefile,
 				   NULL, NULL);
@@ -6596,8 +6624,12 @@ RCS_delete_revs (RCSNode *rcs, char *tag1, char *tag2, int inclusive)
 		goto delrev_done;
 
 	    outfile = cvs_temp_name();
-	    status = diff_exec (beforefile, afterfile, NULL, NULL, "-an",
-                                outfile);
+	    run_add_arg_p (&dargc, &darg_allocated, &dargv, "-a");
+	    run_add_arg_p (&dargc, &darg_allocated, &dargv, "-n");
+	    status = diff_exec (beforefile, afterfile, NULL, NULL,
+				dargc, dargv, outfile);
+	    run_arg_free_p (dargc, dargv);
+	    free (dargv);
 
 	    if (status == 2)
 	    {
@@ -8047,31 +8079,65 @@ RCS_putdtree (RCSNode *rcs, char *rev, FILE *fp)
     RCSVers *versp;
     Node *p, *branch;
 
+    /* Previously, this function used a recursive implementation, but
+       if the trunk has a huge number of revisions and the program
+       stack is not big, a stack overflow could occur, so this
+       nonrecursive version was developed to be more safe. */
+    Node *branchlist, *onebranch;
+    List *branches;
+    List *onebranchlist;
+
     if (rev == NULL)
 	return;
 
-    /* Find the delta node for this revision. */
-    p = findnode (rcs->versions, rev);
-    if (p == NULL)
-    {
-        error (1, 0,
-               "error parsing repository file %s, file may be corrupt.", 
-               rcs->print_path);
-    }
- 
-    versp = p->data;
+    branches = getlist();
 
-    /* Print the delta node and recurse on its `next' node.  This prints
-       the trunk.  If there are any branches printed on this revision,
-       print those trunks as well. */
-    putdelta (versp, fp);
-    RCS_putdtree (rcs, versp->next, fp);
-    if (versp->branches != NULL)
+    for (; rev != NULL;)
     {
-	branch = versp->branches->list;
-	for (p = branch->next; p != branch; p = p->next)
-	    RCS_putdtree (rcs, p->key, fp);
+	/* Find the delta node for this revision. */
+	p = findnode (rcs->versions, rev);
+	if (p == NULL)
+	{
+	    error (1, 0,
+		   "error parsing repository file %s, file may be corrupt.", 
+		   rcs->path);
+	}
+ 
+	versp = p->data;
+
+	/* Print the delta node and go for its `next' node.  This
+	   prints the trunk. If there are any branches printed on this
+	   revision, mark we have some. */
+	putdelta (versp, fp);
+	/* Store branch information into branch list so to write its
+	   trunk afterwards */
+	if (versp->branches != NULL)
+	{
+	    branch = getnode();
+	    branch->data = versp->branches;
+
+	    addnode(branches, branch);
+	}
+
+	rev = versp->next;
     }
+
+    /* If there are any branches printed on this revision,
+       print those trunks as well. */
+    branchlist = branches->list;
+    for (branch = branchlist->next;
+	 branch != branchlist;
+	 branch = branch->next)
+    {
+	onebranchlist = (List *)(branch->data);
+	onebranch = onebranchlist->list;
+	for (p = onebranch->next; p != onebranch; p = p->next)
+	    RCS_putdtree (rcs, p->key, fp);
+
+	branch->data = NULL; /* so to prevent its freeing on dellist */
+    }
+
+    dellist(&branches);
 }
 
 
@@ -8401,7 +8467,7 @@ rcs_internal_lockfile (char *rcsfile)
        file.  (Really, this is a lie -- if this is a new file,
        RCS_checkin uses the permissions from the working copy.  For
        actually creating the file, we use 0444 as a safe default mode.) */
-    if( CVS_STAT( rcsfile, &rstat ) < 0 )
+    if (stat (rcsfile, &rstat) < 0)
     {
 	if (existence_error (errno))
 	    rstat.st_mode = S_IRUSR | S_IRGRP | S_IROTH;
@@ -8463,6 +8529,28 @@ rcs_internal_unlockfile (FILE *fp, char *rcsfile)
 	   real solution is to check each call to fprintf rather than waiting
 	   until the end like this.  */
 	error (1, errno, "error writing to lock file %s", rcs_lockfile);
+
+    /* Flush and sync the file, or the user may be told the commit completed,
+     * while a server crash/power failure could still cause the data to be
+     * lost.
+     *
+     * Invoking rename(",<file>," , "<file>,v") on Linux and almost all UNIXs
+     * only flushes the inode for the target file to disk, it does not
+     * guarantee flush of the kernel buffers allocated for the ,<file>,.
+     * Depending upon the load on the machine, the Linux kernel's flush daemon
+     * process may not flush for a while.  In the meantime the CVS transaction
+     * could have been declared committed to the end CVS user (CVS process has
+     * returned the final "OK").  If the machine crashes prior to syncing the
+     * changes to disk, the committed transaction can be lost.
+     */
+    if (fflush (fp) != 0)
+	error (1, errno, "error flushing file `%s' to kernel buffers",
+	       rcs_lockfile);
+#ifdef HAVE_FSYNC
+    if (fsync (rcs_lockfd) < 0)
+	error (1, errno, "error fsyncing file `%s'", rcs_lockfile);
+#endif
+
     if (fclose (fp) == EOF)
 	error (1, errno, "error closing lock file %s", rcs_lockfile);
     rcs_lockfd = -1;
@@ -8615,7 +8703,7 @@ make_file_label (const char *path, const char *rev, RCSNode *rcs)
 	if (strcmp(DEVNULL, path))
 	{
 	    const char *file = last_component (path);
-	    if (CVS_STAT (file, &sb) < 0)
+	    if (stat (file, &sb) < 0)
 		/* Assume that if the stat fails,then the later read for the
 		 * diff will too.
 		 */

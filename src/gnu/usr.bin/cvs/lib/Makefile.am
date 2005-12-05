@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.2 2005/03/13 15:50:35 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.3 2005/04/19 20:58:17 tg Exp $
 # Makefile for library files used by GNU CVS.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -48,11 +48,38 @@ check_PROGRAMS =
 EXTRA_DIST = \
 	test-getdate.sh
 
-## For GNULIB's allocsa module.
+## begin gnulib module alloca
+
+
+libcvs_a_LIBADD += @ALLOCA@
+## end   gnulib module alloca
+
+## begin gnulib module alloca-opt
+
+BUILT_SOURCES += $(ALLOCA_H)
+EXTRA_DIST += alloca_.h
+
+# We need the following in order to create <alloca.h> when the system
+# doesn't have one that works with the given compiler.
+alloca.h: alloca_.h
+	cp $(srcdir)/alloca_.h $@-t
+	mv $@-t $@
+MOSTLYCLEANFILES += alloca.h alloca.h-t
+
+## end   gnulib module alloca-opt
+
+## begin gnulib module allocsa
+
 libcvs_a_SOURCES += allocsa.h allocsa.c
 EXTRA_DIST += allocsa.valgrind
 
 ## end   gnulib module allocsa
+
+## begin gnulib module cycle-check
+
+libcvs_a_SOURCES += cycle-check.c cycle-check.h dev-ino.h
+
+## end   gnulib module cycle-check
 
 ## begin gnulib module dirname
 
@@ -79,15 +106,20 @@ libcvs_a_SOURCES += exit.h
 BUILT_SOURCES += $(FNMATCH_H)
 EXTRA_DIST += fnmatch_.h fnmatch_loop.c
 
-# We need the following in order to create an <fnmatch.h> when the system
+# We need the following in order to create <fnmatch.h> when the system
 # doesn't have one that supports the required API.
-all-local $(libcvs_a_OBJECTS): $(FNMATCH_H)
 fnmatch.h: fnmatch_.h
 	cp $(srcdir)/fnmatch_.h $@-t
 	mv $@-t $@
 MOSTLYCLEANFILES += fnmatch.h fnmatch.h-t
 
 ## end   gnulib module fnmatch
+
+## begin gnulib module getaddrinfo
+
+libcvs_a_SOURCES += getaddrinfo.h
+
+## end   gnulib module getaddrinfo
 
 ## begin gnulib module getdate
 
@@ -110,18 +142,11 @@ getdate_LDADD = \
 	$(LIB_CLOCK_GETTIME) \
 	$(LIBINTL)
 
-# We ship the getdate.c file due to requirements on particular bison
-# versions.
-#BUILT_SOURCES += getdate.c
-#MAINTAINERCLEANFILES += getdate.c
+BUILT_SOURCES += getdate.c
+MAINTAINERCLEANFILES += getdate.c
+EXTRA_DIST += getdate.c
 
 ## end   gnulib module getdate
-
-## begin gnulib module getline
-
-EXTRA_DIST += getndelim2.h getndelim2.c
-
-## end   gnulib module getline
 
 ## begin gnulib module getndelim2
 
@@ -135,19 +160,35 @@ libcvs_a_SOURCES += getnline.h getnline.c
 
 ## end   gnulib module getnline
 
+## begin gnulib module gettext-h
+
 libcvs_a_SOURCES += gettext.h
 
-## end   gnulib module gettext
+## end   gnulib module gettext-h
+
+## begin gnulib module glob
+
+BUILT_SOURCES += $(GLOB_H)
+
+# We need the following in order to create an <getopt.h> when the system
+# doesn't have one that works with the given compiler.
+all-local $(libcvs_a_OBJECTS): $(GLOB_H)
+glob.h: glob_.h
+	cp $(srcdir)/glob_.h $@-t
+	mv $@-t $@
+MOSTLYCLEANFILES += glob.h glob.h-t
+
+## end   gnulib module glob.c
+
+## begin gnulib module mbuiter
+
+libcvs_a_SOURCES += mbuiter.h
+
+## end   gnulib module mbuiter
 
 libcvs_a_SOURCES += minmax.h
 
 ## end   gnulib module minmax
-
-## begin gnulib module regex
-
-libcvs_a_SOURCES += regex.h
-
-## end   gnulib module regex
 
 ## begin gnulib module setenv
 
@@ -155,14 +196,19 @@ libcvs_a_SOURCES += setenv.h
 
 ## end   gnulib module setenv
 
+## begin gnulib module size_max
+
+libcvs_a_SOURCES += size_max.h
+
+## end   gnulib module size_max
+
 ## begin gnulib module stdbool
 
 BUILT_SOURCES += $(STDBOOL_H)
 EXTRA_DIST += stdbool_.h
 
-# We need the following in order to create an <stdbool.h> when the system
+# We need the following in order to create <stdbool.h> when the system
 # doesn't have one that works.
-all-local $(libcvs_a_OBJECTS): $(STDBOOL_H)
 stdbool.h: stdbool_.h
 	sed -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' \
 		< $(srcdir)/stdbool_.h > $@-t
@@ -176,9 +222,8 @@ MOSTLYCLEANFILES += stdbool.h stdbool.h-t
 BUILT_SOURCES += $(STDINT_H)
 EXTRA_DIST += stdint_.h
 
-# We need the following in order to create an <stdint.h> when the system
+# We need the following in order to create <stdint.h> when the system
 # doesn't have one that works with the given compiler.
-all-local $(libcvs_a_OBJECTS): $(STDINT_H)
 stdint.h: stdint_.h
 	sed -e 's/@''HAVE_LONG_64BIT''@/$(HAVE_LONG_64BIT)/g;s/@''HAVE_LONG_LONG_64BIT@/$(HAVE_LONG_LONG_64BIT)/g' < $(srcdir)/stdint_.h > $@-t
 	mv $@-t $@
@@ -191,6 +236,12 @@ MOSTLYCLEANFILES += stdint.h stdint.h-t
 libcvs_a_SOURCES += strcase.h
 
 ## end   gnulib module strcase
+
+## begin gnulib module strnlen1
+
+libcvs_a_SOURCES += strnlen1.h strnlen1.c
+
+## end   gnulib module strnlen1
 
 ## begin gnulib module strstr
 
@@ -221,12 +272,6 @@ libcvs_a_SOURCES += vasprintf.h
 libcvs_a_SOURCES += xalloc-die.c
 
 ## end   gnulib module xalloc-die
-
-## begin gnulib module xgetcwd
-
-libcvs_a_SOURCES += xgetcwd.h xgetcwd.c
-
-## end   gnulib module xgetcwd
 
 ## begin gnulib module xgethostname
 
