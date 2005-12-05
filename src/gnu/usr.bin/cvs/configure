@@ -14458,7 +14458,6 @@ _ACEOF
   fi
 
 
-  gl_FUNC_ALLOCA
 
 
 
@@ -15498,7 +15497,6 @@ esac
 
 
   # No macro. You should also use one of fnmatch-posix or fnmatch-gnu.
-  gl_FUNC_FNMATCH_POSIX
 
 
 
@@ -17980,7 +17978,6 @@ esac
 
     :
 
-  gl_GETOPT
 
 
 
@@ -18247,7 +18244,6 @@ fi
 done
 
 
-  gl_FUNC_GETPASS_GNU
 
 
   case $LIBOBJS in
@@ -18956,7 +18952,6 @@ esac
 
   :
 
-  gl_MD5
 
 
 for ac_func in memchr
@@ -20005,7 +20000,6 @@ done
 
   fi
 
-  gl_FUNC_MKTIME
 
 
 
