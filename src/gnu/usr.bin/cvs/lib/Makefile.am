@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.3 2005/04/19 20:58:17 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.4 2005/12/05 22:12:45 tg Exp $
 # Makefile for library files used by GNU CVS.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -131,7 +131,7 @@ DISTCLEANFILES += getdate.log
 check_PROGRAMS += getdate
 getdate_SOURCES = \
 	error.c \
-	getdate.y
+	getdate.c
 ## This source file was added only for the getdate test program when compiled
 ## with GNULIB's error.c.
 getdate_SOURCES += \
