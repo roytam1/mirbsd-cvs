@@ -100,7 +100,7 @@
 /* Copy the first part of user declarations.  */
 #line 1 "getdate.y"
 
-/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.5 2005/04/19 21:29:27 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6 2005/12/05 22:12:45 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
    Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
@@ -118,7 +118,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* Originally written by Steven M. Bellovin <smb@research.att.com> while
    at the University of North Carolina at Chapel Hill.  Later tweaked by
@@ -224,7 +224,7 @@ xmemdup(void const *p, size_t s)
 # define __RCSID(x) static const char __rcsid[] ATTRIBUTE_UNUSED = (x)
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.5 2005/04/19 21:29:27 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6 2005/12/05 22:12:45 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -462,16 +462,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state. */
 #define YYFINAL  12
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   78
+#define YYLAST   88
 
 /* YYNTOKENS -- Number of terminals. */
 #define YYNTOKENS  26
 /* YYNNTS -- Number of nonterminals. */
-#define YYNNTS  18
+#define YYNNTS  19
 /* YYNRULES -- Number of rules. */
-#define YYNRULES  76
+#define YYNRULES  78
 /* YYNRULES -- Number of states. */
-#define YYNSTATES  94
+#define YYNSTATES  96
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -520,39 +520,40 @@ static const unsigned char yyprhs[] =
 {
        0,     0,     3,     5,     7,    10,    11,    14,    16,    18,
       20,    22,    24,    26,    28,    31,    36,    42,    49,    57,
-      59,    62,    64,    68,    70,    73,    75,    78,    81,    84,
-      88,    94,    98,   102,   106,   109,   114,   117,   121,   124,
-     126,   129,   132,   135,   137,   140,   143,   146,   148,   151,
-     154,   157,   159,   162,   165,   168,   170,   173,   176,   179,
-     181,   184,   187,   190,   193,   196,   198,   200,   202,   204,
-     206,   208,   210,   212,   213,   216,   217
+      59,    62,    64,    67,    71,    73,    76,    78,    81,    84,
+      87,    91,    97,   101,   105,   109,   112,   117,   120,   124,
+     127,   129,   132,   135,   137,   140,   143,   145,   148,   151,
+     153,   156,   159,   161,   164,   167,   169,   172,   175,   178,
+     181,   183,   185,   188,   191,   194,   197,   200,   203,   205,
+     207,   209,   211,   213,   215,   217,   218,   221,   222
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
 static const yysigned_char yyrhs[] =
 {
-      27,     0,    -1,    28,    -1,    29,    -1,    22,    38,    -1,
+      27,     0,    -1,    28,    -1,    29,    -1,    22,    39,    -1,
       -1,    29,    30,    -1,    31,    -1,    32,    -1,    33,    -1,
-      35,    -1,    34,    -1,    36,    -1,    41,    -1,    19,    10,
-      -1,    19,    23,    19,    43,    -1,    19,    23,    19,    18,
-      42,    -1,    19,    23,    19,    23,    40,    43,    -1,    19,
-      23,    19,    23,    40,    18,    42,    -1,     9,    -1,     9,
-       4,    -1,    17,    -1,    17,    18,    42,    -1,     7,    -1,
-      17,     4,    -1,     5,    -1,     5,    24,    -1,    14,     5,
-      -1,    19,     5,    -1,    19,    25,    19,    -1,    19,    25,
-      19,    25,    19,    -1,    19,    18,    18,    -1,    19,    12,
-      18,    -1,    12,    18,    18,    -1,    12,    19,    -1,    12,
-      19,    24,    19,    -1,    19,    12,    -1,    19,    12,    19,
-      -1,    37,     3,    -1,    37,    -1,    14,    16,    -1,    19,
-      16,    -1,    18,    16,    -1,    16,    -1,    14,    13,    -1,
-      19,    13,    -1,    18,    13,    -1,    13,    -1,    14,     6,
-      -1,    19,     6,    -1,    18,     6,    -1,     6,    -1,    14,
-       8,    -1,    19,     8,    -1,    18,     8,    -1,     8,    -1,
-      14,    11,    -1,    19,    11,    -1,    18,    11,    -1,    11,
-      -1,    14,    15,    -1,    19,    15,    -1,    18,    15,    -1,
-      20,    15,    -1,    21,    15,    -1,    15,    -1,    39,    -1,
-      40,    -1,    20,    -1,    18,    -1,    21,    -1,    19,    -1,
-      19,    -1,    -1,    23,    19,    -1,    -1,    10,    -1
+      35,    -1,    34,    -1,    36,    -1,    42,    -1,    19,    10,
+      -1,    19,    23,    19,    44,    -1,    19,    23,    19,    18,
+      43,    -1,    19,    23,    19,    23,    41,    44,    -1,    19,
+      23,    19,    23,    41,    18,    43,    -1,     9,    -1,     9,
+       4,    -1,    17,    -1,    17,    38,    -1,    17,    18,    43,
+      -1,     7,    -1,    17,     4,    -1,     5,    -1,     5,    24,
+      -1,    14,     5,    -1,    19,     5,    -1,    19,    25,    19,
+      -1,    19,    25,    19,    25,    19,    -1,    19,    18,    18,
+      -1,    19,    12,    18,    -1,    12,    18,    18,    -1,    12,
+      19,    -1,    12,    19,    24,    19,    -1,    19,    12,    -1,
+      19,    12,    19,    -1,    37,     3,    -1,    37,    -1,    14,
+      16,    -1,    19,    16,    -1,    16,    -1,    14,    13,    -1,
+      19,    13,    -1,    13,    -1,    14,     6,    -1,    19,     6,
+      -1,     6,    -1,    14,     8,    -1,    19,     8,    -1,     8,
+      -1,    14,    11,    -1,    19,    11,    -1,    11,    -1,    14,
+      15,    -1,    19,    15,    -1,    20,    15,    -1,    21,    15,
+      -1,    15,    -1,    38,    -1,    18,    16,    -1,    18,    13,
+      -1,    18,     6,    -1,    18,     8,    -1,    18,    11,    -1,
+      18,    15,    -1,    40,    -1,    41,    -1,    20,    -1,    18,
+      -1,    21,    -1,    19,    -1,    19,    -1,    -1,    23,    19,
+      -1,    -1,    10,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
@@ -560,12 +561,12 @@ static const unsigned short int yyrline[] =
 {
        0,   260,   260,   261,   265,   272,   274,   278,   280,   282,
      284,   286,   288,   290,   294,   302,   310,   320,   327,   339,
-     344,   352,   354,   356,   358,   363,   368,   373,   378,   386,
-     391,   411,   418,   426,   434,   439,   445,   450,   459,   469,
-     473,   475,   477,   479,   481,   483,   485,   487,   489,   491,
+     344,   352,   354,   356,   358,   360,   365,   370,   375,   380,
+     388,   393,   413,   420,   428,   436,   441,   447,   452,   461,
+     471,   475,   477,   479,   481,   483,   485,   487,   489,   491,
      493,   495,   497,   499,   501,   503,   505,   507,   509,   511,
-     513,   515,   517,   519,   521,   523,   527,   527,   530,   531,
-     536,   537,   542,   580,   581,   587,   588
+     513,   515,   519,   521,   523,   525,   527,   529,   533,   533,
+     536,   537,   542,   543,   548,   586,   587,   593,   594
 };
 #endif
 
@@ -579,9 +580,9 @@ static const char *const yytname[] =
   "tMONTH", "tMONTH_UNIT", "tORDINAL", "tSEC_UNIT", "tYEAR_UNIT", "tZONE",
   "tSNUMBER", "tUNUMBER", "tSDECIMAL_NUMBER", "tUDECIMAL_NUMBER", "'@'",
   "':'", "','", "'/'", "$accept", "spec", "timespec", "items", "item",
-  "time", "local_zone", "zone", "day", "date", "rel", "relunit", "seconds",
-  "signed_seconds", "unsigned_seconds", "number", "o_colon_minutes",
-  "o_merid", 0
+  "time", "local_zone", "zone", "day", "date", "rel", "relunit",
+  "relunit_snumber", "seconds", "signed_seconds", "unsigned_seconds",
+  "number", "o_colon_minutes", "o_merid", 0
 };
 #endif
 
@@ -601,12 +602,12 @@ static const unsigned char yyr1[] =
 {
        0,    26,    27,    27,    28,    29,    29,    30,    30,    30,
       30,    30,    30,    30,    31,    31,    31,    31,    31,    32,
-      32,    33,    33,    33,    33,    34,    34,    34,    34,    35,
-      35,    35,    35,    35,    35,    35,    35,    35,    36,    36,
+      32,    33,    33,    33,    33,    33,    34,    34,    34,    34,
+      35,    35,    35,    35,    35,    35,    35,    35,    35,    36,
+      36,    37,    37,    37,    37,    37,    37,    37,    37,    37,
       37,    37,    37,    37,    37,    37,    37,    37,    37,    37,
-      37,    37,    37,    37,    37,    37,    37,    37,    37,    37,
-      37,    37,    37,    37,    37,    37,    38,    38,    39,    39,
-      40,    40,    41,    42,    42,    43,    43
+      37,    37,    38,    38,    38,    38,    38,    38,    39,    39,
+      40,    40,    41,    41,    42,    43,    43,    44,    44
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -614,12 +615,12 @@ static const unsigned char yyr2[] =
 {
        0,     2,     1,     1,     2,     0,     2,     1,     1,     1,
        1,     1,     1,     1,     2,     4,     5,     6,     7,     1,
-       2,     1,     3,     1,     2,     1,     2,     2,     2,     3,
-       5,     3,     3,     3,     2,     4,     2,     3,     2,     1,
-       2,     2,     2,     1,     2,     2,     2,     1,     2,     2,
-       2,     1,     2,     2,     2,     1,     2,     2,     2,     1,
-       2,     2,     2,     2,     2,     1,     1,     1,     1,     1,
-       1,     1,     1,     0,     2,     0,     1
+       2,     1,     2,     3,     1,     2,     1,     2,     2,     2,
+       3,     5,     3,     3,     3,     2,     4,     2,     3,     2,
+       1,     2,     2,     1,     2,     2,     1,     2,     2,     1,
+       2,     2,     1,     2,     2,     1,     2,     2,     2,     2,
+       1,     1,     2,     2,     2,     2,     2,     2,     1,     1,
+       1,     1,     1,     1,     1,     0,     2,     0,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -627,47 +628,47 @@ static const unsigned char yyr2[] =
    means the default is an error.  */
 static const unsigned char yydefact[] =
 {
-       5,     0,     0,     2,     3,    69,    71,    68,    70,     4,
-      66,    67,     1,    25,    51,    23,    55,    19,    59,     0,
-      47,     0,    65,    43,    21,     0,    72,     0,     0,     6,
-       7,     8,     9,    11,    10,    12,    39,    13,    26,    20,
-       0,    34,    27,    48,    52,    56,    44,    60,    40,    24,
-      73,    50,    54,    58,    46,    62,    42,    28,    49,    53,
-      14,    57,    36,    45,    61,    41,     0,     0,     0,    63,
-      64,    38,    33,     0,     0,    22,    32,    37,    31,    75,
-      29,    35,    74,    76,    73,     0,    15,     0,    16,    75,
-      30,    73,    17,    18
+       5,     0,     0,     2,     3,    71,    73,    70,    72,     4,
+      68,    69,     1,    26,    49,    24,    52,    19,    55,     0,
+      46,     0,    60,    43,    21,     0,    74,     0,     0,     6,
+       7,     8,     9,    11,    10,    12,    40,    61,    13,    27,
+      20,     0,    35,    28,    47,    50,    53,    44,    56,    41,
+      25,    75,    22,    64,    65,    66,    63,    67,    62,    29,
+      48,    51,    14,    54,    37,    45,    57,    42,     0,     0,
+       0,    58,    59,    39,    34,     0,     0,    23,    33,    38,
+      32,    77,    30,    36,    76,    78,    75,     0,    15,     0,
+      16,    77,    31,    75,    17,    18
 };
 
 /* YYDEFGOTO[NTERM-NUM]. */
 static const yysigned_char yydefgoto[] =
 {
       -1,     2,     3,     4,    29,    30,    31,    32,    33,    34,
-      35,    36,     9,    10,    11,    37,    75,    86
+      35,    36,    37,     9,    10,    11,    38,    77,    88
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -66
+#define YYPACT_NINF -43
 static const yysigned_char yypact[] =
 {
-     -13,    42,    43,   -66,    16,   -66,   -66,   -66,   -66,   -66,
-     -66,   -66,   -66,    29,   -66,   -66,   -66,    54,   -66,    -4,
-     -66,    33,   -66,   -66,    -2,    39,    -5,    49,    50,   -66,
-     -66,   -66,   -66,   -66,   -66,   -66,    63,   -66,   -66,   -66,
-      51,    44,   -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,
-      47,   -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,
-     -66,   -66,    38,   -66,   -66,   -66,    53,    48,    55,   -66,
-     -66,   -66,   -66,    56,    57,   -66,   -66,   -66,   -66,    -6,
-      52,   -66,   -66,   -66,    47,    21,   -66,    59,   -66,    41,
-     -66,    47,   -66,   -66
+     -18,    48,     9,   -43,    19,   -43,   -43,   -43,   -43,   -43,
+     -43,   -43,   -43,    32,   -43,   -43,   -43,    54,   -43,    28,
+     -43,    37,   -43,   -43,    -2,    49,    -5,    57,    58,   -43,
+     -43,   -43,   -43,   -43,   -43,   -43,    60,   -43,   -43,   -43,
+     -43,    56,    51,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
+     -43,     6,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
+     -43,   -43,   -43,   -43,    52,   -43,   -43,   -43,    59,    61,
+      62,   -43,   -43,   -43,   -43,    63,    64,   -43,   -43,   -43,
+     -43,    31,    53,   -43,   -43,   -43,    65,    40,   -43,    66,
+     -43,     5,   -43,    65,   -43,   -43
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yysigned_char yypgoto[] =
 {
-     -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,   -66,
-     -66,   -66,   -66,   -66,   -12,   -66,   -65,   -17
+     -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
+     -43,   -43,    55,   -43,   -43,   -11,   -43,   -42,    -7
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -677,42 +678,44 @@ static const yysigned_char yypgoto[] =
 #define YYTABLE_NINF -1
 static const unsigned char yytable[] =
 {
-      57,    58,    49,    59,    83,    60,    61,    62,    63,     1,
-      64,    65,    84,    66,    40,    41,    50,    85,    67,    88,
-      68,    13,    14,    15,    16,    17,    93,    18,    19,    20,
-      21,    22,    23,    24,    25,    26,    27,    28,    42,    43,
-       6,    44,     8,    12,    45,    51,    46,    52,    47,    48,
-      53,    83,    54,    38,    55,    56,    76,    77,    39,    91,
-       5,     6,     7,     8,    69,    70,    71,    79,    73,    72,
-      74,    78,    92,    89,    80,    81,    82,    87,    90
+      59,    60,    50,    61,     1,    62,    63,    64,    65,    12,
+      66,    67,    53,    68,    54,    85,    51,    55,    69,    56,
+      70,    57,    58,    93,    13,    14,    15,    16,    17,    76,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
+      28,    85,    43,    44,    90,    45,    41,    42,    46,    86,
+      47,    95,    48,    49,    87,    53,    39,    54,    40,     6,
+      55,     8,    56,    73,    57,    58,     5,     6,     7,     8,
+      78,    79,    71,    72,    74,    75,    91,    80,    89,    52,
+      81,    82,    83,    84,    94,    92,     0,     0,    76
 };
 
-static const unsigned char yycheck[] =
+static const yysigned_char yycheck[] =
 {
-       5,     6,     4,     8,    10,    10,    11,    12,    13,    22,
-      15,    16,    18,    18,    18,    19,    18,    23,    23,    84,
-      25,     5,     6,     7,     8,     9,    91,    11,    12,    13,
-      14,    15,    16,    17,    18,    19,    20,    21,     5,     6,
-      19,     8,    21,     0,    11,     6,    13,     8,    15,    16,
-      11,    10,    13,    24,    15,    16,    18,    19,     4,    18,
-      18,    19,    20,    21,    15,    15,     3,    19,    24,    18,
-      23,    18,    89,    85,    19,    19,    19,    25,    19
+       5,     6,     4,     8,    22,    10,    11,    12,    13,     0,
+      15,    16,     6,    18,     8,    10,    18,    11,    23,    13,
+      25,    15,    16,    18,     5,     6,     7,     8,     9,    23,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    10,     5,     6,    86,     8,    18,    19,    11,    18,
+      13,    93,    15,    16,    23,     6,    24,     8,     4,    19,
+      11,    21,    13,     3,    15,    16,    18,    19,    20,    21,
+      18,    19,    15,    15,    18,    24,    87,    18,    25,    24,
+      19,    19,    19,    19,    91,    19,    -1,    -1,    23
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const unsigned char yystos[] =
 {
-       0,    22,    27,    28,    29,    18,    19,    20,    21,    38,
-      39,    40,     0,     5,     6,     7,     8,     9,    11,    12,
+       0,    22,    27,    28,    29,    18,    19,    20,    21,    39,
+      40,    41,     0,     5,     6,     7,     8,     9,    11,    12,
       13,    14,    15,    16,    17,    18,    19,    20,    21,    30,
-      31,    32,    33,    34,    35,    36,    37,    41,    24,     4,
-      18,    19,     5,     6,     8,    11,    13,    15,    16,     4,
-      18,     6,     8,    11,    13,    15,    16,     5,     6,     8,
-      10,    11,    12,    13,    15,    16,    18,    23,    25,    15,
-      15,     3,    18,    24,    23,    42,    18,    19,    18,    19,
-      19,    19,    19,    10,    18,    23,    43,    25,    42,    40,
-      19,    18,    43,    42
+      31,    32,    33,    34,    35,    36,    37,    38,    42,    24,
+       4,    18,    19,     5,     6,     8,    11,    13,    15,    16,
+       4,    18,    38,     6,     8,    11,    13,    15,    16,     5,
+       6,     8,    10,    11,    12,    13,    15,    16,    18,    23,
+      25,    15,    15,     3,    18,    24,    23,    43,    18,    19,
+      18,    19,    19,    19,    19,    10,    18,    23,    44,    25,
+      43,    41,    19,    18,    44,    43
 };
 
 #if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
@@ -1470,61 +1473,66 @@ yyreduce:
 
   case 22:
 #line 355 "getdate.y"
-    { pc->time_zone = (yyvsp[-2].intval) + time_zone_hhmm ((yyvsp[-1].textintval), (yyvsp[0].intval)); ;}
+    { pc->time_zone = (yyvsp[-1].intval); pc->rels_seen = true; ;}
     break;
 
   case 23:
 #line 357 "getdate.y"
-    { pc->time_zone = (yyvsp[0].intval) + 60; ;}
+    { pc->time_zone = (yyvsp[-2].intval) + time_zone_hhmm ((yyvsp[-1].textintval), (yyvsp[0].intval)); ;}
     break;
 
   case 24:
 #line 359 "getdate.y"
-    { pc->time_zone = (yyvsp[-1].intval) + 60; ;}
+    { pc->time_zone = (yyvsp[0].intval) + 60; ;}
     break;
 
   case 25:
-#line 364 "getdate.y"
+#line 361 "getdate.y"
+    { pc->time_zone = (yyvsp[-1].intval) + 60; ;}
+    break;
+
+  case 26:
+#line 366 "getdate.y"
     {
 	pc->day_ordinal = 1;
 	pc->day_number = (yyvsp[0].intval);
       ;}
     break;
 
-  case 26:
-#line 369 "getdate.y"
+  case 27:
+#line 371 "getdate.y"
     {
 	pc->day_ordinal = 1;
 	pc->day_number = (yyvsp[-1].intval);
       ;}
     break;
 
-  case 27:
-#line 374 "getdate.y"
+  case 28:
+#line 376 "getdate.y"
     {
 	pc->day_ordinal = (yyvsp[-1].intval);
 	pc->day_number = (yyvsp[0].intval);
       ;}
     break;
 
-  case 28:
-#line 379 "getdate.y"
+  case 29:
+#line 381 "getdate.y"
     {
 	pc->day_ordinal = (yyvsp[-1].textintval).value;
 	pc->day_number = (yyvsp[0].intval);
       ;}
     break;
 
-  case 29:
-#line 387 "getdate.y"
+  case 30:
+#line 389 "getdate.y"
     {
 	pc->month = (yyvsp[-2].textintval).value;
 	pc->day = (yyvsp[0].textintval).value;
       ;}
     break;
 
-  case 30:
-#line 392 "getdate.y"
+  case 31:
+#line 394 "getdate.y"
     {
 	/* Interpret as YYYY/MM/DD if the first value has 4 or more digits,
 	   otherwise as MM/DD/YY.
@@ -1546,8 +1554,8 @@ yyreduce:
       ;}
     break;
 
-  case 31:
-#line 412 "getdate.y"
+  case 32:
+#line 414 "getdate.y"
     {
 	/* ISO 8601 format.  YYYY-MM-DD.  */
 	pc->year = (yyvsp[-2].textintval);
@@ -1556,8 +1564,8 @@ yyreduce:
       ;}
     break;
 
-  case 32:
-#line 419 "getdate.y"
+  case 33:
+#line 421 "getdate.y"
     {
 	/* e.g. 17-JUN-1992.  */
 	pc->day = (yyvsp[-2].textintval).value;
@@ -1567,8 +1575,8 @@ yyreduce:
       ;}
     break;
 
-  case 33:
-#line 427 "getdate.y"
+  case 34:
+#line 429 "getdate.y"
     {
 	/* e.g. JUN-17-1992.  */
 	pc->month = (yyvsp[-2].intval);
@@ -1578,16 +1586,16 @@ yyreduce:
       ;}
     break;
 
-  case 34:
-#line 435 "getdate.y"
+  case 35:
+#line 437 "getdate.y"
     {
 	pc->month = (yyvsp[-1].intval);
 	pc->day = (yyvsp[0].textintval).value;
       ;}
     break;
 
-  case 35:
-#line 440 "getdate.y"
+  case 36:
+#line 442 "getdate.y"
     {
 	pc->month = (yyvsp[-3].intval);
 	pc->day = (yyvsp[-2].textintval).value;
@@ -1595,16 +1603,16 @@ yyreduce:
       ;}
     break;
 
-  case 36:
-#line 446 "getdate.y"
+  case 37:
+#line 448 "getdate.y"
     {
 	pc->day = (yyvsp[-1].textintval).value;
 	pc->month = (yyvsp[0].intval);
       ;}
     break;
 
-  case 37:
-#line 451 "getdate.y"
+  case 38:
+#line 453 "getdate.y"
     {
 	pc->day = (yyvsp[-2].textintval).value;
 	pc->month = (yyvsp[-1].intval);
@@ -1612,8 +1620,8 @@ yyreduce:
       ;}
     break;
 
-  case 38:
-#line 460 "getdate.y"
+  case 39:
+#line 462 "getdate.y"
     {
 	pc->rel_ns = -pc->rel_ns;
 	pc->rel_seconds = -pc->rel_seconds;
@@ -1625,14 +1633,9 @@ yyreduce:
       ;}
     break;
 
-  case 40:
-#line 474 "getdate.y"
-    { pc->rel_year += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
-    break;
-
   case 41:
 #line 476 "getdate.y"
-    { pc->rel_year += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_year += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 42:
@@ -1657,107 +1660,107 @@ yyreduce:
 
   case 46:
 #line 486 "getdate.y"
-    { pc->rel_month += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_month += (yyvsp[0].intval); ;}
     break;
 
   case 47:
 #line 488 "getdate.y"
-    { pc->rel_month += (yyvsp[0].intval); ;}
+    { pc->rel_day += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 48:
 #line 490 "getdate.y"
-    { pc->rel_day += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
+    { pc->rel_day += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 49:
 #line 492 "getdate.y"
-    { pc->rel_day += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_day += (yyvsp[0].intval); ;}
     break;
 
   case 50:
 #line 494 "getdate.y"
-    { pc->rel_day += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_hour += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 51:
 #line 496 "getdate.y"
-    { pc->rel_day += (yyvsp[0].intval); ;}
+    { pc->rel_hour += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 52:
 #line 498 "getdate.y"
-    { pc->rel_hour += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
+    { pc->rel_hour += (yyvsp[0].intval); ;}
     break;
 
   case 53:
 #line 500 "getdate.y"
-    { pc->rel_hour += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_minutes += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 54:
 #line 502 "getdate.y"
-    { pc->rel_hour += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_minutes += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 55:
 #line 504 "getdate.y"
-    { pc->rel_hour += (yyvsp[0].intval); ;}
+    { pc->rel_minutes += (yyvsp[0].intval); ;}
     break;
 
   case 56:
 #line 506 "getdate.y"
-    { pc->rel_minutes += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
+    { pc->rel_seconds += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
     break;
 
   case 57:
 #line 508 "getdate.y"
-    { pc->rel_minutes += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_seconds += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 58:
 #line 510 "getdate.y"
-    { pc->rel_minutes += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    { pc->rel_seconds += (yyvsp[-1].timespec).tv_sec * (yyvsp[0].intval); pc->rel_ns += (yyvsp[-1].timespec).tv_nsec * (yyvsp[0].intval); ;}
     break;
 
   case 59:
 #line 512 "getdate.y"
-    { pc->rel_minutes += (yyvsp[0].intval); ;}
+    { pc->rel_seconds += (yyvsp[-1].timespec).tv_sec * (yyvsp[0].intval); pc->rel_ns += (yyvsp[-1].timespec).tv_nsec * (yyvsp[0].intval); ;}
     break;
 
   case 60:
 #line 514 "getdate.y"
-    { pc->rel_seconds += (yyvsp[-1].intval) * (yyvsp[0].intval); ;}
-    break;
-
-  case 61:
-#line 516 "getdate.y"
-    { pc->rel_seconds += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
-    break;
-
-  case 62:
-#line 518 "getdate.y"
-    { pc->rel_seconds += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
-    break;
-
-  case 63:
-#line 520 "getdate.y"
-    { pc->rel_seconds += (yyvsp[-1].timespec).tv_sec * (yyvsp[0].intval); pc->rel_ns += (yyvsp[-1].timespec).tv_nsec * (yyvsp[0].intval); ;}
-    break;
-
-  case 64:
-#line 522 "getdate.y"
-    { pc->rel_seconds += (yyvsp[-1].timespec).tv_sec * (yyvsp[0].intval); pc->rel_ns += (yyvsp[-1].timespec).tv_nsec * (yyvsp[0].intval); ;}
-    break;
-
-  case 65:
-#line 524 "getdate.y"
     { pc->rel_seconds += (yyvsp[0].intval); ;}
     break;
 
-  case 69:
-#line 532 "getdate.y"
-    { (yyval.timespec).tv_sec = (yyvsp[0].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
+  case 62:
+#line 520 "getdate.y"
+    { pc->rel_year += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    break;
+
+  case 63:
+#line 522 "getdate.y"
+    { pc->rel_month += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    break;
+
+  case 64:
+#line 524 "getdate.y"
+    { pc->rel_day += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    break;
+
+  case 65:
+#line 526 "getdate.y"
+    { pc->rel_hour += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    break;
+
+  case 66:
+#line 528 "getdate.y"
+    { pc->rel_minutes += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
+    break;
+
+  case 67:
+#line 530 "getdate.y"
+    { pc->rel_seconds += (yyvsp[-1].textintval).value * (yyvsp[0].intval); ;}
     break;
 
   case 71:
@@ -1765,8 +1768,13 @@ yyreduce:
     { (yyval.timespec).tv_sec = (yyvsp[0].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
     break;
 
-  case 72:
-#line 543 "getdate.y"
+  case 73:
+#line 544 "getdate.y"
+    { (yyval.timespec).tv_sec = (yyvsp[0].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
+    break;
+
+  case 74:
+#line 549 "getdate.y"
     {
 	if (pc->dates_seen && ! pc->year.digits
 	    && ! pc->rels_seen && (pc->times_seen || 2 < (yyvsp[0].textintval).digits))
@@ -1802,23 +1810,23 @@ yyreduce:
       ;}
     break;
 
-  case 73:
-#line 580 "getdate.y"
+  case 75:
+#line 586 "getdate.y"
     { (yyval.intval) = -1; ;}
     break;
 
-  case 74:
-#line 582 "getdate.y"
+  case 76:
+#line 588 "getdate.y"
     { (yyval.intval) = (yyvsp[0].textintval).value; ;}
     break;
 
-  case 75:
-#line 587 "getdate.y"
+  case 77:
+#line 593 "getdate.y"
     { (yyval.intval) = MER24; ;}
     break;
 
-  case 76:
-#line 589 "getdate.y"
+  case 78:
+#line 595 "getdate.y"
     { (yyval.intval) = (yyvsp[0].intval); ;}
     break;
 
@@ -1826,7 +1834,7 @@ yyreduce:
     }
 
 /* Line 1037 of yacc.c.  */
-#line 1830 "getdate.c"
+#line 1838 "getdate.c"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -2054,7 +2062,7 @@ yyreturn:
 }
 
 
-#line 592 "getdate.y"
+#line 598 "getdate.y"
 
 
 static table const meridian_table[] =
