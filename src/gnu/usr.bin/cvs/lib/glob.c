@@ -146,7 +146,9 @@
 # define NAME_MAX (sizeof (((struct dirent *) 0)->d_name))
 #endif
 
+#ifndef __MirBSD__
 #include <alloca.h>
+#endif
 
 #ifdef _LIBC
 # undef strdup

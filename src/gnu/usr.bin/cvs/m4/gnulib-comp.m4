@@ -61,8 +61,8 @@ dnl  gl_FUNC_GETPASS_GNU
   gl_GLOB
   gl_FUNC_LSTAT
   AC_FUNC_MALLOC
-  gl_MBCHAR
-  gl_MBITER
+dnl  gl_MBCHAR
+dnl  gl_MBITER
 dnl  gl_MD5
   gl_FUNC_MEMCHR
   gl_FUNC_MEMMOVE
@@ -90,11 +90,11 @@ dnl  gl_FUNC_MKTIME
   gl_STAT_MACROS
   AM_STDBOOL_H
   gl_STDINT_H
-  gl_STRCASE
+dnl  gl_STRCASE
   gl_FUNC_STRDUP
   gl_FUNC_STRERROR
   gl_FUNC_GNU_STRFTIME
-  gl_FUNC_STRSTR
+dnl  gl_FUNC_STRSTR
   gl_FUNC_STRTOL
   gl_FUNC_STRTOUL
   gl_TIME_R
@@ -188,9 +188,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/lstat.c
   lib/lstat.h
   lib/malloc.c
-  lib/mbchar.c
-  lib/mbchar.h
-  lib/mbuiter.h
   lib/md5.c
   lib/md5.h
   lib/memchr.c
@@ -235,7 +232,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stdbool_.h
   lib/stdint_.h
   lib/strcase.h
-  lib/strcasecmp.c
   lib/strdup.c
   lib/strdup.h
   lib/strerror.c
@@ -245,8 +241,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/strncasecmp.c
   lib/strnlen1.c
   lib/strnlen1.h
-  lib/strstr.c
-  lib/strstr.h
   lib/strtol.c
   lib/strtoul.c
   lib/tempname.c
