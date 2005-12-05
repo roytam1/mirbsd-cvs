@@ -68,6 +68,7 @@ nonterminal symbols are in
 		\f3state\fP	{\f2id\fP}\f3;\fP
 		\f3branches\fP	{\f2num\fP}*\f3;\fP
 		\f3next\fP	{\f2num\fP}\f3;\fP
+		{ \f3commitid\fP \f2id\fP\f3;\fP }
 		{ \f2newphrase\fP }*
 .LP
 \f2desc\fP	::=	\f3desc\fP	\f2string\fP
@@ -125,6 +126,18 @@ contains just the last two digits of the year
 for years from 1900 through 1999,
 and all the digits of years thereafter.
 Dates use the Gregorian calendar; times use UTC.
+.PP
+The
+.I commitid
+is followed by an
+.I id
+token. This token is intended to be unique across
+multiple files and is used to help group files as
+being a part of the same logical commit.
+This token must uniquely identify the commit
+operation that was applied to a set of RCS files.
+In particular, it must be unique among all the
+commitids in this file.
 .PP
 The
 .I newphrase
