@@ -14,6 +14,7 @@
 
 #include "cvs.h"
 #include "getline.h"
+#include "lstat.h"
 
 /*
  * Ignore file section.
@@ -65,13 +66,11 @@ ign_setup (void)
     ign_add (tmp, 0);
     free (tmp);
 
-#ifdef CLIENT_SUPPORT
     /* The client handles another way, by (after it does its own ignore file
        processing, and only if !ign_inhibit_server), letting the server
        know about the files and letting it decide whether to ignore
        them based on CVSROOOTADM_IGNORE.  */
     if (!current_parsed_root->isremote)
-#endif
     {
 	char *file = Xasprintf ("%s/%s/%s", current_parsed_root->directory,
 				CVSROOTADM, CVSROOTADM_IGNORE);
@@ -433,7 +432,7 @@ ignore_files (List *ilist, List *entries, const char *update_dir,
 #ifdef DT_DIR
 	    dp->d_type != DT_UNKNOWN ||
 #endif
-	    CVS_LSTAT (file, &sb) != -1)
+	    lstat (file, &sb) != -1)
 	{
 
 	    if (

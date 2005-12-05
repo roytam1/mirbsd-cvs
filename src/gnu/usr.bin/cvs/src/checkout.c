@@ -71,13 +71,13 @@ static const char *const checkout_usage[] =
 
 static const char *const export_usage[] =
 {
-    "Usage: %s %s [-NRfln] [-r rev] [-D date] [-d dir] [-k kopt] module...\n",
+    "Usage: %s %s [-NRfln] [-r tag] [-D date] [-d dir] [-k kopt] module...\n",
     "\t-N\tDon't shorten module paths if -d specified.\n",
     "\t-f\tForce a head revision match if tag/date not found.\n",
     "\t-l\tLocal directory only, not recursive\n",
     "\t-R\tProcess directories recursively (default).\n",
     "\t-n\tDo not run module program (if any).\n",
-    "\t-r rev\tExport revision or tag.\n",
+    "\t-r tag\tExport tagged revisions.\n",
     "\t-D date\tExport revisions as of date.\n",
     "\t-d dir\tExport into dir instead of module name.\n",
     "\t-k kopt\tUse RCS kopt -k option on checkout.\n",
@@ -174,11 +174,9 @@ checkout (int argc, char **argv)
 		break;
 	    case 'Q':
 	    case 'q':
-#ifdef SERVER_SUPPORT
 		/* The CVS 1.5 client sends these options (in addition to
 		   Global_option requests), so we must ignore them.  */
 		if (!server_active)
-#endif
 		    error (1, 0,
 			   "-q or -Q must be specified before \"%s\"",
 			   cvs_cmd_name);
@@ -437,17 +435,15 @@ safe_location (char *where)
     TRACE (TRACE_FUNCTION, "safe_location( where=%s )",
            where ? where : "(null)");
 
-#ifdef CLIENT_SUPPORT
     /* Don't compare remote CVSROOTs to our destination directory. */
     if (current_parsed_root->isremote) return 1;
-#endif /* CLIENT_SUPPORT */
 
     /* set current - even if where is set we'll need to cd back... */
     current = xgetcwd ();
     if (current == NULL)
 	error (1, errno, "could not get working directory");
 
-    hardpath = xresolvepath (current_parsed_root->directory);
+    hardpath = xcanonicalize_file_name (current_parsed_root->directory);
 
     /* if where is set, set current to as much of where as exists,
      * or fail.
@@ -703,7 +699,7 @@ checkout_proc (int argc, char **argv, char *where_orig, char *mwhere,
            directory, let the user override it with the command-line
            -d option. */
 
-	if ((mwhere != NULL) && (! isabsolute (mwhere)))
+	if (mwhere && !ISABSOLUTE (mwhere))
 	    (void) strcat (where, mwhere);
 	else
 	    (void) strcat (where, argv[0]);
@@ -929,7 +925,7 @@ internal error: %s doesn't start with %s in checkout_proc",
 	   build_one_dir whenever the -d command option was specified
 	   to checkout.  */
 
-	if (!isabsolute (where) && config->top_level_admin
+	if (!ISABSOLUTE (where) && config->top_level_admin
 	    && m_type == CHECKOUT)
 	{
 	    /* It may be argued that we shouldn't set any sticky

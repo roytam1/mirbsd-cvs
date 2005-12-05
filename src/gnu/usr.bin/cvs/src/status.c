@@ -140,12 +140,14 @@ status_fileproc (void *callerdat, struct file_info *finfo)
 	    sstat = "Needs Patch";
 	    break;
 	case T_CONFLICT:
-	    /* FIXME - This message needs to be clearer.  It comes up now
-	     * only when a file exists or has been added in the local sandbox
+	    /* FIXME - This message could be clearer.  It comes up
+	     * when a file exists or has been added in the local sandbox
 	     * and a file of the same name has been committed indepenently to
-	     * the repository from a different sandbox.  It also comes up
-	     * whether an update has been attempted or not, so technically, I
-	     * think it is not actually a conflict yet.
+	     * the repository from a different sandbox, as well as when a
+	     * timestamp hasn't changed since a merge resulted in conflicts.
+	     * It also comes up whether an update has been attempted or not, so
+	     * technically, I think the double-add case is not actually a
+	     * conflict yet.
 	     */
 	    sstat = "Unresolved Conflict";
 	    break;
@@ -156,9 +158,7 @@ status_fileproc (void *callerdat, struct file_info *finfo)
 	    sstat = "Locally Removed";
 	    break;
 	case T_MODIFIED:
-	    if ( vers->ts_conflict
-		 && ( file_has_conflict ( finfo, vers->ts_conflict )
-		       || file_has_markers ( finfo ) ) )
+	    if (file_has_markers (finfo))
 		sstat = "File had conflicts on merge";
 	    else
 		/* Note that we do not re Register() the file when we spot
@@ -208,21 +208,13 @@ status_fileproc (void *callerdat, struct file_info *finfo)
     }
     else if (vers->vn_user[0] == '0' && vers->vn_user[1] == '\0')
 	cvs_output ("   Working revision:\tNew file!\n", 0);
-#ifdef SERVER_SUPPORT
-    else if (server_active)
-    {
-	cvs_output ("   Working revision:\t", 0);
-	cvs_output (vers->vn_user, 0);
-	cvs_output ("\n", 0);
-    }
-#endif
     else
     {
 	cvs_output ("   Working revision:\t", 0);
 	cvs_output (vers->vn_user, 0);
 
 	/* Only add the UTC timezone if there is a time to use. */
-	if (strlen (vers->ts_rcs) > 0)
+	if (!server_active && strlen (vers->ts_rcs) > 0)
 	{
 	    /* Convert from the asctime() format to ISO 8601 */
 	    char *buf;

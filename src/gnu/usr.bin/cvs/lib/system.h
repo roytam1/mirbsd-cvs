@@ -57,11 +57,9 @@
 #include <fnmatch.h>
 #include <getopt.h>	/* Has GNU extensions,  */
 
+/* We assume <sys/stat.h> because GNULIB does.  */
+#include <sys/stat.h>
 
-
-#if HAVE_SYS_STAT_H
-# include <sys/stat.h>
-#endif /* HAVE_SYS_STAT_H */
 #if !STDC_HEADERS && HAVE_MEMORY_H
 # include <memory.h>
 #endif /* !STDC_HEADERS && HAVE_MEMORY_H */
@@ -80,157 +78,10 @@
 /* Assume these headers. */
 #include <pwd.h>
 
-/* More GNULIB includes */
-/* This include enables the use of the *_unlocked IO functions from glibc. */
-#include "unlocked-io.h"
-
-/* For struct timespec.  */
-#include "timespec.h"
-
-/* This is a replacement stub for gettext provided by GNULIB when gettext is
+/* There is a replacement stub for gettext provided by GNULIB when gettext is
  * not available.
  */
 #include <gettext.h>
-/* End GNULIB includes */
-
-#ifdef STAT_MACROS_BROKEN
-#undef S_ISBLK
-#undef S_ISCHR
-#undef S_ISDIR
-#undef S_ISREG
-#undef S_ISFIFO
-#undef S_ISLNK
-#undef S_ISSOCK
-#undef S_ISMPB
-#undef S_ISMPC
-#undef S_ISNWK
-#endif
-
-/* Not all systems have S_IFMT, but we want to use it if we have it.
-   The S_IFMT code below looks right (it masks and compares).  The
-   non-S_IFMT code looks bogus (are there really systems on which
-   S_IFBLK, S_IFLNK, &c, each have their own bit?  I suspect it was
-   written for OS/2 using the IBM C/C++ Tools 2.01 compiler).
-
-   Of course POSIX systems will have S_IS*, so maybe the issue is
-   semi-moot.  */
-
-#if !defined(S_ISBLK) && defined(S_IFBLK)
-# if defined(S_IFMT)
-# define	S_ISBLK(m) (((m) & S_IFMT) == S_IFBLK)
-# else
-# define S_ISBLK(m) ((m) & S_IFBLK)
-# endif
-#endif
-
-#if !defined(S_ISCHR) && defined(S_IFCHR)
-# if defined(S_IFMT)
-# define	S_ISCHR(m) (((m) & S_IFMT) == S_IFCHR)
-# else
-# define S_ISCHR(m) ((m) & S_IFCHR)
-# endif
-#endif
-
-#if !defined(S_ISDIR) && defined(S_IFDIR)
-# if defined(S_IFMT)
-# define	S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
-# else
-# define S_ISDIR(m) ((m) & S_IFDIR)
-# endif
-#endif
-
-#if !defined(S_ISREG) && defined(S_IFREG)
-# if defined(S_IFMT)
-# define	S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
-# else
-# define S_ISREG(m) ((m) & S_IFREG)
-# endif
-#endif
-
-#if !defined(S_ISFIFO) && defined(S_IFIFO)
-# if defined(S_IFMT)
-# define	S_ISFIFO(m) (((m) & S_IFMT) == S_IFIFO)
-# else
-# define S_ISFIFO(m) ((m) & S_IFIFO)
-# endif
-#endif
-
-#if !defined(S_ISLNK) && defined(S_IFLNK)
-# if defined(S_IFMT)
-# define	S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-# else
-# define S_ISLNK(m) ((m) & S_IFLNK)
-# endif
-#endif
-
-#ifndef S_ISSOCK
-# if defined( S_IFSOCK )
-#   ifdef S_IFMT
-#     define S_ISSOCK(m) (((m) & S_IFMT) == S_IFSOCK)
-#   else
-#     define S_ISSOCK(m) ((m) & S_IFSOCK)
-#   endif /* S_IFMT */
-# elif defined( S_ISNAM )
-    /* SCO OpenServer 5.0.6a */
-#   define S_ISSOCK S_ISNAM
-# endif /* !S_IFSOCK && S_ISNAM */
-#endif /* !S_ISSOCK */
-
-#if !defined(S_ISMPB) && defined(S_IFMPB) /* V7 */
-# if defined(S_IFMT)
-# define S_ISMPB(m) (((m) & S_IFMT) == S_IFMPB)
-# define S_ISMPC(m) (((m) & S_IFMT) == S_IFMPC)
-# else
-# define S_ISMPB(m) ((m) & S_IFMPB)
-# define S_ISMPC(m) ((m) & S_IFMPC)
-# endif
-#endif
-
-#if !defined(S_ISNWK) && defined(S_IFNWK) /* HP/UX */
-# if defined(S_IFMT)
-# define S_ISNWK(m) (((m) & S_IFMT) == S_IFNWK)
-# else
-# define S_ISNWK(m) ((m) & S_IFNWK)
-# endif
-#endif
-
-#ifdef NEED_DECOY_PERMISSIONS        /* OS/2, really */
-
-#define	S_IRUSR S_IREAD
-#define	S_IWUSR S_IWRITE
-#define	S_IXUSR S_IEXEC
-#define	S_IRWXU	(S_IRUSR | S_IWUSR | S_IXUSR)
-#define	S_IRGRP S_IREAD
-#define	S_IWGRP S_IWRITE
-#define	S_IXGRP S_IEXEC
-#define	S_IRWXG	(S_IRGRP | S_IWGRP | S_IXGRP)
-#define	S_IROTH S_IREAD
-#define	S_IWOTH S_IWRITE
-#define	S_IXOTH S_IEXEC
-#define	S_IRWXO	(S_IROTH | S_IWOTH | S_IXOTH)
-
-#else /* ! NEED_DECOY_PERMISSIONS */
-
-#ifndef S_IRUSR
-#define	S_IRUSR 0400
-#define	S_IWUSR 0200
-#define	S_IXUSR 0100
-/* Read, write, and execute by owner.  */
-#define	S_IRWXU	(S_IRUSR|S_IWUSR|S_IXUSR)
-
-#define	S_IRGRP	(S_IRUSR >> 3)	/* Read by group.  */
-#define	S_IWGRP	(S_IWUSR >> 3)	/* Write by group.  */
-#define	S_IXGRP	(S_IXUSR >> 3)	/* Execute by group.  */
-/* Read, write, and execute by group.  */
-#define	S_IRWXG	(S_IRWXU >> 3)
-
-#define	S_IROTH	(S_IRGRP >> 3)	/* Read by others.  */
-#define	S_IWOTH	(S_IWGRP >> 3)	/* Write by others.  */
-#define	S_IXOTH	(S_IXGRP >> 3)	/* Execute by others.  */
-/* Read, write, and execute by others.  */
-#define	S_IRWXO	(S_IRWXG >> 3)
-#endif /* !def S_IRUSR */
-#endif /* NEED_DECOY_PERMISSIONS */
 
 #ifndef DEVNULL
 # define	DEVNULL		"/dev/null"
@@ -287,25 +138,6 @@ int utime ();
 #  else
 #    define existence_error(x) ((x) == ENOENT)
 #  endif
-#endif
-
-#ifdef HAVE_MALLOC
-# define CVS_MALLOC malloc
-# else /* !HAVE_MALLOC */
-# define CVS_MALLOC rpl_malloc
-#endif /* HAVE_MALLOC */
-#ifdef HAVE_REALLOC
-# define CVS_REALLOC realloc
-#else /* !HAVE_REALLOC */
-# define CVS_REALLOC rpl_realloc
-#endif /* HAVE_REALLOC */
-
-#ifndef HAVE_STDLIB_H
-char *getenv ();
-char *malloc ();
-char *realloc ();
-char *calloc ();
-extern int errno;
 #endif
 
 /* check for POSIX signals */
@@ -371,24 +203,6 @@ extern int errno;
    otherwise return it unchanged. */
 #define convert_blocks(b, k) ((k) ? ((b) + 1) / 2 : (b))
 
-#ifndef S_ISLNK
-# define lstat stat
-#endif
-
-/*
- * Some UNIX distributions don't include these in their stat.h Defined here
- * because "config.h" is always included last.
- */
-#ifndef S_IWRITE
-# define	S_IWRITE	0000200    /* write permission, owner */
-#endif
-#ifndef S_IWGRP
-# define	S_IWGRP		0000020    /* write permission, grougroup */
-#endif
-#ifndef S_IWOTH
-# define	S_IWOTH		0000002    /* write permission, other */
-#endif
-
 /* Under non-UNIX operating systems (MS-DOS, WinNT, MacOS), many filesystem
    calls take  only one argument; permission is handled very differently on
    those systems than in Unix.  So we leave such systems a hook on which they
@@ -442,33 +256,6 @@ extern int errno;
 # define CVS_RMDIR rmdir
 #endif
 
-#ifndef CVS_STAT
-/* Use the function from lib/stat.c when the system version is broken.
- */
-# ifdef HAVE_STAT_EMPTY_STRING_BUG
-#   define CVS_STAT rpl_stat
-# else /* !HAVE_STAT_EMPTY_STRING_BUG */
-#   define CVS_STAT stat
-# endif /* HAVE_STAT_EMPTY_STRING_BUG */
-#endif
-
-/* Open question: should CVS_STAT be lstat by default?  We need
-   to use lstat in order to handle symbolic links correctly with
-   the PreservePermissions option. -twp */
-#ifndef CVS_LSTAT
-/* Use the function from lib/lstat.c when the system version is broken.
- */
-# if defined( HAVE_STAT_EMPTY_STRING_BUG ) || !defined( LSTAT_FOLLOWS_SLASHED_SYMLINK )
-#   define CVS_LSTAT rpl_lstat
-# else /* !defined(HAVE_STAT_EMPTY_STRING_BUG )
-        *    && defined( LSTAT_FOLLOWS_SLASHED_SYMLINK )
-        */
-#   define CVS_LSTAT lstat
-# endif /* defined(HAVE_STAT_EMPTY_STRING_BUG )
-         * || !defined( LSTAT_FOLLOWS_SLASHED_SYMLINK )
-         */
-#endif
-
 #ifndef CVS_UNLINK
 # define CVS_UNLINK unlink
 #endif
@@ -482,23 +269,6 @@ extern int errno;
 off_t ftello (FILE *);
 int fseeko (FILE *, off_t, int);
 #endif /* HAVE_FSEEKO */
-
-#ifdef WIN32
-/*
- * According to GNU conventions, we should avoid referencing any macro
- * containing "WIN" as a reference to Microsoft Windows, as we would like to
- * avoid any implication that we consider Microsoft Windows any sort of "win".
- *
- * FIXME: As of 2003-06-09, folks on the GNULIB project were discussing
- * defining a configure macro to define WOE32 appropriately.  If they ever do
- * write such a beast, we should use it, though in most cases it would be
- * preferable to avoid referencing any OS or compiler anyhow, per Autoconf
- * convention, and reference only tested features of the system.
- */
-# define WOE32 1
-#endif /* WIN32 */
-
-
 
 #ifdef FILENAMES_CASE_INSENSITIVE
 
@@ -572,4 +342,8 @@ extern void fnfold (char *FILENAME);
 #define OPEN_BINARY (O_BINARY)
 #else
 #define OPEN_BINARY (0)
+#endif
+
+#ifndef fd_select
+# define fd_select select
 #endif

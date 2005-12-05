@@ -101,17 +101,30 @@ cvs.texinfo and re-generate cvs.ps using TeX.
 versions of CVS?
 
 See also 
-	http://www.cvshome.org
+	http://cvs.nongnu.org
 	http://www.cvsnt.org
 
-The mailing list for CVS is info-cvs@gnu.org.  Send
-subscription and removal requests for that list to
-info-cvs-request@gnu.org.
+Anyone can add themselves to the following mailing lists:
+
+    bug-cvs:  This is the list which users are requested to send bug reports
+      to.  General CVS development and design discussions also tend to take
+      place on this list.
+    info-cvs:  This list is intended for user questions, including general
+      help requests.
+    cvs-announce:  CVS release announcements and other major
+      announcements about the project are sent to this list.
+    cvs-announce-binaries:  Announcements are made to this list
+      when binaries for various platforms are built and initially
+      posted for download.
+
+To subscribe to any of these lists, send mail to <list>-request@nongnu.org
+or visit http://savannah.nongnu.org/mail/?group=cvs and follow the instructions
+for the list you wish to subscribe to.
 
 The newsgroup for CVS (and other configuration management systems) is
-comp.software.config-mgmt.  There is not yet a CVS-specific newsgroup,
-but perhaps if comp.software.config-mgmt gets enough CVS discussion,
-then it will be possible to create one.
+comp.software.config-mgmt.  The gnu.cvs.help newsgroup is a 2-way mirror
+of the info-cvs@nongnu.org mailing list and gnu.cvs.bug is similarly a 2-way
+mirror of bug-cvs@nongnu.org.
 
 -------------------------------------------------------------------------------
 

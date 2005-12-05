@@ -18,9 +18,9 @@
  * For a directory, it is added at the appropriate place in the source
  * repository and a CVS directory is generated within the directory.
  * 
- * The -m option is currently the only supported option.  Some may wish to
- * supply standard "rcs" options here, but I've found that this causes more
- * trouble than anything else.
+ * `cvs add' supports `-k <mode>' and `-m <description>' options.
+ * Some may wish to supply other standard "rcs" options here, but I've
+ * found that this causes more trouble than anything else.
  * 
  * The user files or directories must already exist.  For a directory, it must
  * not already have a CVS file in it.
@@ -42,8 +42,9 @@ static int build_entry (const char *repository, const char *user,
 static const char *const add_usage[] =
 {
     "Usage: %s %s [-k rcs-kflag] [-m message] files...\n",
-    "\t-k\tUse \"rcs-kflag\" to add the file with the specified kflag.\n",
-    "\t-m\tUse \"message\" for the creation log.\n",
+    "\t-k rcs-kflag\tUse \"rcs-kflag\" to add the file with the specified\n",
+    "\t\t\tkflag.\n",
+    "\t-m message\tUse \"message\" for the creation log.\n",
     "(Specify the --help global option for a list of other help options)\n",
     NULL
 };
@@ -768,11 +769,7 @@ add_directory (struct file_info *finfo)
 	error (0, errno, "cannot chdir to %s", finfo->fullname);
 	return 1;
     }
-#ifdef SERVER_SUPPORT
     if (!server_active && isfile (CVSADM))
-#else
-    if (isfile (CVSADM))
-#endif
     {
 	error (0, 0, "%s/%s already exists", finfo->fullname, CVSADM);
 	goto out;
@@ -848,11 +845,9 @@ add_directory (struct file_info *finfo)
 	dellist (&ulist);
     }
 
-#ifdef SERVER_SUPPORT
     if (server_active)
 	WriteTemplate (finfo->fullname, 1, rcsdir);
     else
-#endif
 	Create_Admin (".", finfo->fullname, rcsdir, tag, date, nonbranch, 0, 1);
 
     if (tag)

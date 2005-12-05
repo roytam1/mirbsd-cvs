@@ -1,5 +1,104 @@
-Changes since 1.12.11:
+Changes since 1.12.12:
 **********************
+
+SECURITY FIXES
+
+* CVS now uses version 1.2.3 of the ZLib compression libraries in order to
+  avoid two recently announced security vulnerabilities in them.  Both may be
+  used for denial of service attacks and one may reportedly allow execution of
+  arbitrary code, though this is not confirmed.  Please see the CERT
+  vulnerabilities advisories #238678 <http://www.kb.cert.org/vuls/id/238678> &
+  #680620 <http://www.kb.cert.org/vuls/id/680620> for more.
+
+NEW FEATURES
+
+* Thanks to Conrad Pino <conrad@pino.com>, a hang in the Windows client, which
+  had pretty much rendered the client useless, has been fixed.
+
+* A minor problem preventing build of the Kerberos4 client has been fixed.
+
+* The path to the config file may be set as an argument to the CVS server
+  commands.
+
+* Sections of directives specific to one or more repositories and not others
+  may now be specified in the config file.
+
+* %{sV} format strings are now available to the verifymsg trigger, similar to
+  the %{stVv} available to loginfo.
+
+* `cvs watch add' on an empty directory no longer clears watchers, and
+  specifying a directory for `cvs watch add' now (correctly) sets default
+  attributes.
+
+* Missing CVSROOT/history files will now cause CVS to attempt to create one.
+  To suppress history logging, set LogHistory equal to the empty string in
+  CVSROOT/config.
+
+* There are several new options available in CVSROOT/config.  These are
+  TmpDir, HistoryLogPath, HistorySearchPath, MinCompressionLevel, &
+  MaxCompressionLevel.  Please see the manual for more.
+
+* CVS on Solaris 10 was refusing to parse command options.  This has been
+  fixed.
+
+* The Windows client now creates locks compatible with older versions of CVS by
+  default.  This should only be relevant if your client is accessing a local
+  repository concurrently with another, older client.  If you would like to
+  disable compatibility mode (because it is slightly faster), edit the
+  LOCK_COMPATIBILITY flag in windows-NT/config.h and recompile.
+
+* Misc efficiency and portability improvements.
+
+BUG FIXES
+
+* Thanks to Serguei E. Leontiev <lse@CryptoPro.ru>, CVS with Kerberos 5 GSSAPI
+  should automatically link on FreeBSD 5.x. (bug #14639).
+
+* Thanks to Rahul Bhargava <rahul@wandisco.com>, heavily loaded systems
+  suffering from a disk crash or power failure will not lose data they claimed
+  to have committed.
+
+* CVS server now handles conflict markers in Entry requests as documented.
+
+* CVS now remembers that binary file merge conflicts occurred until the
+  timestamp of the updated binary file changes.
+
+* CVS client now saves some bandwidth by not sending the contents of files
+  with conflicts to the server when it isn't needed.
+
+* CVS now does correct locking during import.
+
+* A problem where the server could block indefinitely waiting for an EOF from
+  the client when compression was enabled has been fixed.
+
+* `cvs diff' no longer splits its arguments on spaces.
+
+* Thanks to an old report and patch from Stewart Brodie <stewart@eh.org>, a
+  potential crash in response to a corrupt RCS file has been fixed.
+
+* CVS now locks the history and val-tags files before writing to them.
+  Especially with large repositories, users should no longer see new warnings
+  about corrupt history records when using the `cvs history' command.  Existing
+  corrupt history records will still need to be removed manually.  val-tags
+  corruption should have had less obvious effects, but removing the
+  CVSROOT/val-tags file and allowing a 1.11.21 or later version of CVS to
+  regenerate it may eliminate a few odd behaviors and possibly cause a slight
+  speed up of read transactions in large repositories over time.
+
+BUILD ISSUES
+
+* The RPM spec file works again with the most modern versions of `rpm'.  It
+  also finds the correct version of install-sh when building the CVS with
+  GSSAPI.
+
+DEVELOPER ISSUES
+
+* We've standardized on Automake 1.9.6 to get some at new features that make
+  our jobs easier.  See the HACKING file for more on using the autotools with
+  CVS.
+
+Changes from 1.12.11 to 1.12.12:
+********************************
 
 SERVER SECURITY FIXES
 
@@ -27,8 +126,8 @@ SERVER SECURITY FIXES
   the contributed Perl scripts intended to be run as trigger scripts, but no
   attempt has been made to ensure that they still run in taint mode.  You will
   most likely have to tweak the scripts in some way to make them run.  Please
-  send any patches you find necessary back to <bug-cvs@gnu.org> so that we may
-  again ship fully enabled scripts in the future.
+  send any patches you find necessary back to <bug-cvs@nongnu.org> so that we
+  may again ship fully enabled scripts in the future.
 
   You should also make sure that any home-grown Perl scripts that you might
   have installed as CVS triggers also have taint-checking enabled.  This can be

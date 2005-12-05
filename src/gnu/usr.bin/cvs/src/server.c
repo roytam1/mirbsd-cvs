@@ -9,12 +9,18 @@
    GNU General Public License for more details.  */
 
 #include "cvs.h"
-#include "watch.h"
+
+/* CVS */
 #include "edit.h"
 #include "fileattr.h"
+#include "watch.h"
+
+/* GNULIB */
+#include "buffer.h"
 #include "getline.h"
 #include "getnline.h"
-#include "buffer.h"
+
+int server_active = 0;
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
 
@@ -23,6 +29,7 @@
 #endif	/* defined(SERVER_SUPPORT) || defined(CLIENT_SUPPORT) */
 
 #if defined (HAVE_GSSAPI) && defined (SERVER_SUPPORT)
+# include "canon-host.h"
 # include "gssapi-client.h"
 
 /* This stuff isn't included solely with SERVER_SUPPORT since some of these
@@ -45,12 +52,6 @@ static int cvs_gssapi_wrapping;
 #ifdef SERVER_SUPPORT
 
 extern char *server_hostname;
-
-# include <netdb.h>
-
-# ifdef HAVE_WINSOCK_H
-#   include <winsock.h>
-# endif
 
 # if defined (AUTH_SERVER_SUPPORT) || defined (HAVE_KERBEROS) || defined (HAVE_GSSAPI)
 #   include <sys/socket.h>
@@ -107,7 +108,11 @@ static char *Pserver_Repos = NULL;
 # endif /* AUTH_SERVER_SUPPORT */
 
 # ifdef HAVE_PAM
-#   include <security/pam_appl.h>
+#   if defined(HAVE_SECURITY_PAM_APPL_H)
+#     include <security/pam_appl.h>
+#   elif defined(HAVE_PAM_PAM_APPL_H)
+#     include <pam/pam_appl.h>
+#   endif
 
 static pam_handle_t *pamh = NULL;
 
@@ -436,12 +441,34 @@ static int pending_error;
  * last line should not end with a newline.
  */
 static char *pending_error_text;
+static char *pending_warning_text;
 
 /* If an error is pending, print it and return 1.  If not, return 0.
+   Also prints pending warnings, but this does not affect the return value.
    Must be called only in contexts where it is OK to send output.  */
 static int
 print_pending_error (void)
 {
+    /* Check this case first since it usually means we are out of memory and
+     * the buffer output routines might try and allocate memory.
+     */
+    if (!pending_error_text && pending_error)
+    {
+	print_error (pending_error);
+	pending_error = 0;
+	return 1;
+    }
+
+    if (pending_warning_text)
+    {
+	buf_output0 (buf_to_net, pending_warning_text);
+	buf_append_char (buf_to_net, '\n');
+	buf_flush (buf_to_net, 0);
+
+	free (pending_warning_text);
+	pending_warning_text = NULL;
+    }
+
     if (pending_error_text)
     {
 	buf_output0 (buf_to_net, pending_error_text);
@@ -458,18 +485,29 @@ print_pending_error (void)
 	pending_error_text = NULL;
 	return 1;
     }
-    else if (pending_error)
-    {
-	print_error (pending_error);
-	pending_error = 0;
-	return 1;
-    }
-    else
-	return 0;
+
+    return 0;
 }
+
+
 
 /* Is an error pending?  */
 # define error_pending() (pending_error || pending_error_text)
+# define warning_pending() (pending_warning_text)
+
+/* Allocate SIZE bytes for pending_error_text and return nonzero
+   if we could do it.  */
+static inline int
+alloc_pending_internal (char **dest, size_t size)
+{
+    *dest = malloc (size);
+    if (!*dest)
+    {
+	pending_error = ENOMEM;
+	return 0;
+    }
+    return 1;
+}
 
 
 
@@ -483,13 +521,20 @@ alloc_pending (size_t size)
 	   this case.  But we might as well handle it if they don't, I
 	   guess.  */
 	return 0;
-    pending_error_text = xmalloc (size);
-    if (pending_error_text == NULL)
-    {
-	pending_error = ENOMEM;
+    return alloc_pending_internal (&pending_error_text, size);
+}
+
+
+
+/* Allocate SIZE bytes for pending_error_text and return nonzero
+   if we could do it.  */
+static int
+alloc_pending_warning (size_t size)
+{
+    if (warning_pending ())
+	/* Warnings can be lost here.  */
 	return 0;
-    }
-    return 1;
+    return alloc_pending_internal (&pending_warning_text, size);
 }
 
 
@@ -505,74 +550,6 @@ supported_response (char *name)
     error (1, 0, "internal error: testing support for unknown response?");
     /* NOTREACHED */
     return 0;
-}
-
-
-
-/* Return true if two paths match, resolving symlinks.
- */
-static inline bool
-isSamePath (const char *path1_in, const char *path2_in)
-{
-    char *p1, *p2;
-    bool same;
-
-    if (!strcmp (config->PrimaryServer->directory,
-		 current_parsed_root->directory))
-	return true;
-
-    /* Path didn't match, but try to resolve any links that may be
-     * present.
-     */
-    if (!isdir (path1_in) || !isdir (path2_in))
-	/* To be resolvable, paths must exist on this server.  */
-	return false;
-
-    p1 = xresolvepath (path1_in);
-    p2 = xresolvepath (path2_in);
-    if (strcmp (p1, p2))
-	same = false;
-    else
-	same = true;
-
-    free (p1);
-    free (p2);
-    return same;
-}
-
-
-
-/* Return true if OTHERHOST resolves to this host in the DNS.
- *
- * GLOBALS
- *   server_hostname	The name of this host, as determined by the call to
- *			xgethostname() in main().
- *
- * RETURNS
- *   true	If OTHERHOST equals or resolves to HOSTNAME.
- *   false	Otherwise.
- */
-static inline bool
-isThisHost (const char *otherhost)
-{
-    struct hostent *hinfo;
-
-    /* As an optimization, check the literal strings before looking up
-     * OTHERHOST in the DNS.
-     */
-    if (!strcasecmp (server_hostname, otherhost))
-	return true;
-
-    if (!(hinfo = gethostbyname (otherhost)))
-#ifdef HAVE_HSTRERROR
-	error (1, 0, "Name lookup failed for `%s': %s",
-	       otherhost, hstrerror (h_errno));
-#else
-	error (1, 0, "Name lookup failed for `%s': h_error=%d",
-	       otherhost, h_errno);
-#endif
-
-    return !strcasecmp (server_hostname, hinfo->h_name);
 }
 
 
@@ -777,6 +754,10 @@ rewind_buf_from_net (void)
 
 
 
+char *gConfigPath;
+
+
+
 /*
  * This request cannot be ignored by a potential secondary since it is used to
  * determine if we _are_ a secondary.
@@ -784,7 +765,6 @@ rewind_buf_from_net (void)
 static void
 serve_root (char *arg)
 {
-    char *env;
     char *path;
 
     TRACE (TRACE_FUNCTION, "serve_root (%s)", arg ? arg : "(null)");
@@ -796,7 +776,7 @@ serve_root (char *arg)
 # endif /* PROXY_SUPPORT */
        ) return;
 
-    if (!isabsolute (arg))
+    if (!ISABSOLUTE (arg))
     {
 	if (alloc_pending (80 + strlen (arg)))
 	    sprintf (pending_error_text,
@@ -845,7 +825,8 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
 
     /* For pserver, this will already have happened, and the call will do
        nothing.  But for rsh, we need to do it now.  */
-    config = get_root_allow_config (current_parsed_root->directory);
+    config = get_root_allow_config (current_parsed_root->directory,
+				    gConfigPath);
 
 # ifdef PROXY_SUPPORT
     /* At this point we have enough information to determine if we are a
@@ -868,6 +849,138 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
     }
 # endif /* PROXY_SUPPORT */
 
+    /* Now set the TMPDIR environment variable.  If it was set in the config
+     * file, we now know it.
+     */
+    push_env_temp_dir ();
+
+    /* OK, now figure out where we stash our temporary files.  */
+    {
+	char *p;
+
+	/* The code which wants to chdir into server_temp_dir is not set
+	 * up to deal with it being a relative path.  So give an error
+	 * for that case.
+	 */
+	if (!ISABSOLUTE (get_cvs_tmp_dir ()))
+	{
+	    if (alloc_pending (80 + strlen (get_cvs_tmp_dir ())))
+		sprintf (pending_error_text,
+			 "E Value of %s for TMPDIR is not absolute",
+			 get_cvs_tmp_dir ());
+
+	    /* FIXME: we would like this error to be persistent, that
+	     * is, not cleared by print_pending_error.  The current client
+	     * will exit as soon as it gets an error, but the protocol spec
+	     * does not require a client to do so.
+	     */
+	}
+	else
+	{
+	    int status;
+	    int i = 0;
+
+	    server_temp_dir = xmalloc (strlen (get_cvs_tmp_dir ()) + 80);
+	    if (!server_temp_dir)
+	    {
+		/* Strictly speaking, we're not supposed to output anything
+		 * now.  But we're about to exit(), give it a try.
+		 */
+		printf ("E Fatal server error, aborting.\n\
+error ENOMEM Virtual memory exhausted.\n");
+
+		exit (EXIT_FAILURE);
+	    }
+	    strcpy (server_temp_dir, get_cvs_tmp_dir ());
+
+	    /* Remove a trailing slash from TMPDIR if present.  */
+	    p = server_temp_dir + strlen (server_temp_dir) - 1;
+	    if (*p == '/')
+		*p = '\0';
+
+	    /* I wanted to use cvs-serv/PID, but then you have to worry about
+	     * the permissions on the cvs-serv directory being right.  So
+	     * use cvs-servPID.
+	     */
+	    strcat (server_temp_dir, "/cvs-serv");
+
+	    p = server_temp_dir + strlen (server_temp_dir);
+	    sprintf (p, "%ld", (long) getpid ());
+
+	    orig_server_temp_dir = server_temp_dir;
+
+	    /* Create the temporary directory, and set the mode to
+	     * 700, to discourage random people from tampering with
+	     * it.
+	     */
+	    while ((status = mkdir_p (server_temp_dir)) == EEXIST)
+	    {
+		static const char suffix[] = "abcdefghijklmnopqrstuvwxyz";
+
+		if (i >= sizeof suffix - 1) break;
+		if (i == 0) p = server_temp_dir + strlen (server_temp_dir);
+		p[0] = suffix[i++];
+		p[1] = '\0';
+	    }
+	    if (status)
+	    {
+		if (alloc_pending (80 + strlen (server_temp_dir)))
+		    sprintf (pending_error_text,
+			    "E can't create temporary directory %s",
+			    server_temp_dir);
+		pending_error = status;
+	    }
+#ifndef CHMOD_BROKEN
+	    else if (chmod (server_temp_dir, S_IRWXU) < 0)
+	    {
+		int save_errno = errno;
+		if (alloc_pending (80 + strlen (server_temp_dir)))
+		    sprintf (pending_error_text,
+"E cannot change permissions on temporary directory %s",
+			     server_temp_dir);
+		pending_error = save_errno;
+	    }
+#endif
+	    else if (CVS_CHDIR (server_temp_dir) < 0)
+	    {
+		int save_errno = errno;
+		if (alloc_pending (80 + strlen (server_temp_dir)))
+		    sprintf (pending_error_text,
+"E cannot change to temporary directory %s",
+			     server_temp_dir);
+		pending_error = save_errno;
+	    }
+	}
+    }
+
+    /* Now that we have a config, verify our compression level.  Since 
+     * most clients do not send Gzip-stream requests until after the root
+     * request, wait until the first request following Root to verify that
+     * compression is being used when level 0 is not allowed.
+     */
+    if (gzip_level)
+    {
+	bool forced = false;
+
+	if (gzip_level < config->MinCompressionLevel)
+	{
+	    gzip_level = config->MinCompressionLevel;
+	    forced = true;
+	}
+
+	if (gzip_level > config->MaxCompressionLevel)
+	{
+	    gzip_level = config->MaxCompressionLevel;
+	    forced = true;
+	}
+
+	if (forced && !quiet
+	    && alloc_pending_warning (120 + strlen (program_name)))
+	    sprintf (pending_warning_text,
+"E %s server: Forcing compression level %d (allowed: %d <= z <= %d).",
+		     program_name, gzip_level, config->MinCompressionLevel,
+		     config->MaxCompressionLevel);
+    }
 
     path = xmalloc (strlen (current_parsed_root->directory)
 		   + sizeof (CVSROOTADM)
@@ -887,11 +1000,7 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
     }
     free (path);
 
-# ifdef HAVE_PUTENV
-    env = Xasprintf ("%s=%s", CVSROOT_ENV, current_parsed_root->directory);
-    (void) putenv (env);
-    /* do not free env, as putenv has control of it */
-# endif
+    setenv (CVSROOT_ENV, current_parsed_root->directory, 1);
 }
 
 
@@ -909,7 +1018,7 @@ server_pathname_check (char *path)
     /* An absolute pathname is almost surely a path on the *client* machine,
        and is unlikely to do us any good here.  It also is probably capable
        of being a security hole in the anonymous readonly case.  */
-    if (isabsolute (path))
+    if (ISABSOLUTE (path))
 	/* Giving an error is actually kind of a cop-out, in the sense
 	   that it would be nice for "cvs co -d /foo/bar/baz" to work.
 	   A quick fix in the server would be requiring Max-dotdot of
@@ -927,7 +1036,7 @@ server_pathname_check (char *path)
 		path );
     if (pathname_levels (path) > max_dotdot_limit)
     {
-	/* Similar to the isabsolute case in security implications.  */
+	/* Similar to the ISABSOLUTE case in security implications.  */
 	error (0, 0, "protocol error: `%s' contains more leading ..", path);
 	error (1, 0, "than the %d which Max-dotdot specified",
 	       max_dotdot_limit);
@@ -945,10 +1054,10 @@ outside_root (char *repos)
     size_t repos_len = strlen (repos);
     size_t root_len = strlen (current_parsed_root->directory);
 
-    /* isabsolute (repos) should always be true, but
+    /* ISABSOLUTE (repos) should always be true, but
        this is a good security precaution regardless. -DRP
      */
-    if (!isabsolute (repos))
+    if (!ISABSOLUTE (repos))
     {
 	if (alloc_pending (repos_len + 80))
 	    sprintf (pending_error_text, "\
@@ -1056,7 +1165,7 @@ dirswitch (char *dir, char *repos)
 
        FIXME: could/should unify these checks with server_pathname_check
        except they need to report errors differently.  */
-    if (isabsolute (dir))
+    if (ISABSOLUTE (dir))
     {
 	if (alloc_pending (80 + strlen (dir)))
 	    sprintf ( pending_error_text,
@@ -1271,7 +1380,7 @@ serve_directory (char *arg)
     status = buf_read_line (buf_from_net, &repos, NULL);
     if (status == 0)
     {
-	if (!isabsolute (repos))
+	if (!ISABSOLUTE (repos))
 	{
 	    /* Make absolute.
 	     *
@@ -1677,19 +1786,24 @@ serve_is_modified (char *arg)
 		    *cp = cp[-1];
 		    --cp;
 		}
+
+		/* *timefield == '/';  */
 	    }
-	    /* If *TIMEFIELD wasn't '/', we assume that it was because of
-	     * multiple calls to Is-modified & Unchanged by the client and
-	     * just overwrite the value from the last call.  Technically, we
-	     * should probably either ignore calls after the first or send the
-	     * client an error, since the client/server protocol specification
-	     * specifies that only one call to either Is-Modified or Unchanged
-	     * is allowed, but broken versions of CVSNT (at least 2.0.34 -
-	     * 2.0.41, reported fixed in 2.0.41a) and the WinCVS & TortoiseCVS
-	     * clients which depend on those broken versions of CVSNT (WinCVS
-	     * 1.3 & at least one TortoiseCVS release) rely on this behavior.
+	    /* If *TIMEFIELD wasn't '/' and wasn't '+', we assume that it was
+	     * because of multiple calls to Is-modified & Unchanged by the
+	     * client and just overwrite the value from the last call.
+	     * Technically, we should probably either ignore calls after the
+	     * first or send the client an error, since the client/server
+	     * protocol specification specifies that only one call to either
+	     * Is-Modified or Unchanged is allowed, but broken versions of
+	     * CVSNT (at least 2.0.34 - 2.0.41, reported fixed in 2.0.41a) and
+	     * the WinCVS & TortoiseCVS clients which depend on those broken
+	     * versions of CVSNT (WinCVS 1.3 & at least one TortoiseCVS
+	     * release) rely on this behavior.
 	     */
-	    *timefield++ = 'M';
+	    if (*timefield != '+')
+		*timefield = 'M';
+
 	    if (kopt != NULL)
 	    {
 		if (alloc_pending (strlen (name) + 80))
@@ -1986,39 +2100,49 @@ serve_unchanged (char *arg)
 		    *cp = cp[-1];
 		    --cp;
 		}
+
+		/* *timefield == '/';  */
 	    }
-	    else if (timefield[1] != '/')
+	    if (*timefield != '+')
 	    {
-		/* Obliterate anything else in TIMEFIELD.  This is again to
-		 * support the broken CVSNT clients mentioned below, in
-		 * conjunction with strict timestamp string boundry checking in
-		 * time_stamp_server() from vers_ts.c & file_has_conflict()
-		 * from subr.c, since the broken clients used to send malformed
-		 * timestamp fields in the Entry request that they then
-		 * depended on the subsequent Unchanged request to overwrite.
+		/* '+' is a conflict marker and we don't want to mess with it
+		 * until Version_TS catches it.
 		 */
-		char *d = timefield + 1;
-		if ((cp = strchr (d, '/')))
+		if (timefield[1] != '/')
 		{
-		    while (*cp)
+		    /* Obliterate anything else in TIMEFIELD.  This is again to
+		     * support the broken CVSNT clients mentioned below, in
+		     * conjunction with strict timestamp string boundry
+		     * checking in time_stamp_server() from vers_ts.c &
+		     * file_has_conflict() from subr.c, since the broken
+		     * clients used to send malformed timestamp fields in the
+		     * Entry request that they then depended on the subsequent
+		     * Unchanged request to overwrite.
+		     */
+		    char *d = timefield + 1;
+		    if ((cp = strchr (d, '/')))
 		    {
-			*d++ = *cp++;
+			while (*cp)
+			{
+			    *d++ = *cp++;
+			}
+			*d = '\0';
 		    }
-		    *d = '\0';
 		}
+		/* If *TIMEFIELD wasn't '/', we assume that it was because of
+		 * multiple calls to Is-modified & Unchanged by the client and
+		 * just overwrite the value from the last call.  Technically,
+		 * we should probably either ignore calls after the first or
+		 * send the client an error, since the client/server protocol
+		 * specification specifies that only one call to either
+		 * Is-Modified or Unchanged is allowed, but broken versions of
+		 * CVSNT (at least 2.0.34 - 2.0.41, reported fixed in 2.0.41a)
+		 * and the WinCVS & TortoiseCVS clients which depend on those
+		 * broken versions of CVSNT (WinCVS 1.3 & at least one
+		 * TortoiseCVS release) rely on this behavior.
+		 */
+		*timefield = '=';
 	    }
-	    /* If *TIMEFIELD wasn't '/', we assume that it was because of
-	     * multiple calls to Is-modified & Unchanged by the client and
-	     * just overwrite the value from the last call.  Technically, we
-	     * should probably either ignore calls after the first or send the
-	     * client an error, since the client/server protocol specification
-	     * specifies that only one call to either Is-Modified or Unchanged
-	     * is allowed, but broken versions of CVSNT (at least 2.0.34 -
-	     * 2.0.41, reported fixed in 2.0.41a) and the WinCVS & TortoiseCVS
-	     * clients which depend on those broken versions of CVSNT (WinCVS
-	     * 1.3 & at least one TortoiseCVS release) rely on this behavior.
-	     */
-	    *timefield = '=';
 	    break;
 	}
     }
@@ -4369,7 +4493,7 @@ checked_in_response (const char *file, const char *update_dir,
 	struct stat sb;
 	char *mode_string;
 
-	if ( CVS_STAT (file, &sb) < 0)
+	if (stat (file, &sb) < 0)
 	{
 	    /* Not clear to me why the file would fail to exist, but it
 	       was happening somewhere in the testsuite.  */
@@ -4681,7 +4805,7 @@ serve_init (char *arg)
 {
     cvsroot_t *saved_parsed_root;
 
-    if (!isabsolute (arg))
+    if (!ISABSOLUTE (arg))
     {
 	if (alloc_pending (80 + strlen (arg)))
 	    sprintf (pending_error_text,
@@ -4710,7 +4834,8 @@ E Protocol error: init says \"%s\" but pserver says \"%s\"",
     current_parsed_root = local_cvsroot (arg);
 
     do_cvs_command ("init", init);
-    free_cvsroot_t (current_parsed_root);
+
+    /* Do not free CURRENT_PARSED_ROOT since it is still in the cache.  */
     current_parsed_root = saved_parsed_root;
 }
 
@@ -4735,9 +4860,6 @@ serve_rannotate (char *arg)
 static void
 serve_co (char *arg)
 {
-    char *tempdir;
-    int status;
-
     if (print_pending_error ())
 	return;
 
@@ -4764,51 +4886,13 @@ serve_co (char *arg)
     }
 # endif /* PROXY_SUPPORT */
 
-    if (!isdir (CVSADM))
-    {
-	/*
-	 * The client has not sent a "Repository" line.  Check out
-	 * into a pristine directory.
-	 */
-	tempdir = xmalloc (strlen (server_temp_dir) + 80);
-	if (tempdir == NULL)
-	{
-	    buf_output0 (buf_to_net, "E Out of memory\n");
-	    return;
-	}
-	strcpy (tempdir, server_temp_dir);
-	strcat (tempdir, "/checkout-dir");
-	status = mkdir_p (tempdir);
-	if (status != 0 && status != EEXIST)
-	{
-	    buf_output0 (buf_to_net, "E Cannot create ");
-	    buf_output0 (buf_to_net, tempdir);
-	    buf_append_char (buf_to_net, '\n');
-	    print_error (errno);
-	    free (tempdir);
-	    return;
-	}
-
-	if (CVS_CHDIR (tempdir) < 0)
-	{
-	    buf_output0 (buf_to_net, "E Cannot change to directory ");
-	    buf_output0 (buf_to_net, tempdir);
-	    buf_append_char (buf_to_net, '\n');
-	    print_error (errno);
-	    free (tempdir);
-	    return;
-	}
-	free (tempdir);
-    }
-
     /* Compensate for server_export()'s setting of cvs_cmd_name.
      *
      * [It probably doesn't matter if do_cvs_command() gets "export"
      *  or "checkout", but we ought to be accurate where possible.]
      */
-    do_cvs_command ((strcmp (cvs_cmd_name, "export") == 0) ?
-		    "export" : "checkout",
-		    checkout);
+    do_cvs_command (!strcmp (cvs_cmd_name, "export") ? "export" : "checkout",
+                   checkout);
 }
 
 
@@ -4919,7 +5003,7 @@ CVS server internal error: no mode in server_updated");
 	{
 	    struct stat sb;
 
-	    if ( CVS_STAT (finfo->file, &sb) < 0)
+	    if (stat (finfo->file, &sb) < 0)
 	    {
 		if (existence_error (errno))
 		{
@@ -5375,6 +5459,7 @@ static void
 serve_gzip_contents (char *arg)
 {
     int level;
+    bool forced = false;
 
 # ifdef PROXY_SUPPORT
     assert (!proxy_log);
@@ -5383,7 +5468,26 @@ serve_gzip_contents (char *arg)
     level = atoi (arg);
     if (level == 0)
 	level = 6;
-    file_gzip_level = level;
+
+    if (config && level < config->MinCompressionLevel)
+    {
+	level = config->MinCompressionLevel;
+	forced = true;
+    }
+    if (config && level > config->MaxCompressionLevel)
+    {
+	level = config->MaxCompressionLevel;
+	forced = true;
+    }
+
+    if (forced && !quiet
+	&& alloc_pending_warning (120 + strlen (program_name)))
+	sprintf (pending_warning_text,
+"E %s server: Forcing compression level %d (allowed: %d <= z <= %d).",
+		 program_name, level, config->MinCompressionLevel,
+		 config->MaxCompressionLevel);
+
+    gzip_level = file_gzip_level = level;
 }
 
 
@@ -5392,23 +5496,43 @@ static void
 serve_gzip_stream (char *arg)
 {
     int level;
-
-    /* If we received this request before the `Root' request, the buffer index
-     * maintained to allow the write proxy to replace the `Root' request would
-     * be relative to the decompressed stream rather than the secondary log.
-     */
-    assert (current_parsed_root);
+    bool forced = false;
 
     level = atoi (arg);
-    if (level == 0)
-	level = 6;
 
-    /* All further communication with the client will be compressed.  */
+    if (config && level < config->MinCompressionLevel)
+    {
+	level = config->MinCompressionLevel;
+	forced = true;
+    }
+    if (config && level > config->MaxCompressionLevel)
+    {
+	level = config->MaxCompressionLevel;
+	forced = true;
+    }
+
+    if (forced && !quiet
+	&& alloc_pending_warning (120 + strlen (program_name)))
+	sprintf (pending_warning_text,
+"E %s server: Forcing compression level %d (allowed: %d <= z <= %d).",
+		 program_name, level, config->MinCompressionLevel,
+		 config->MaxCompressionLevel);
+	
+    gzip_level = level;
+
+    /* All further communication with the client will be compressed.
+     *
+     * The deflate buffers need to be initialized even for compression level
+     * 0, or the client will no longer be able to understand us.  At
+     * compression level 0, the correct compression headers will be created and
+     * sent, but data will thereafter simply be copied to the network buffers.
+     */
 
     /* This needs to be processed in both passes so that we may continue to
      * understand client requests on both the socket and from the log.
      */
-    buf_from_net = compress_buffer_initialize (buf_from_net, 1, level,
+    buf_from_net = compress_buffer_initialize (buf_from_net, 1,
+					       0 /* Not used. */,
 					       buf_from_net->memory_error);
 
     /* This needs to be skipped in subsequent passes to avoid compressing data
@@ -5614,7 +5738,7 @@ serve_command_prep (char *arg)
     bool ditch_log;
 # endif /* PROXY_SUPPORT */
 
-    if (error_pending ()) return;
+    if (print_pending_error ()) return;
 
     redirect_supported = supported_response ("Redirect");
     if (redirect_supported
@@ -5775,21 +5899,28 @@ struct request requests[] =
   REQ_LINE("Argument", serve_argument, RQ_ESSENTIAL),
   REQ_LINE("Argumentx", serve_argumentx, RQ_ESSENTIAL),
   REQ_LINE("Global_option", serve_global_option, RQ_ROOTLESS),
-  REQ_LINE("Gzip-stream", serve_gzip_stream, 0),
+  /* This is rootless, even though the client/server spec does not specify
+   * such, to allow error messages to be understood by the client when they are
+   * sent.
+   */
+  REQ_LINE("Gzip-stream", serve_gzip_stream, RQ_ROOTLESS),
   REQ_LINE("wrapper-sendme-rcsOptions",
 	   serve_wrapper_sendme_rcs_options,
 	   0),
   REQ_LINE("Set", serve_set, RQ_ROOTLESS),
 #ifdef ENCRYPTION
+  /* These are rootless despite what the client/server spec says for the same
+   * reasons as Gzip-stream.
+   */
 #  ifdef HAVE_KERBEROS
-  REQ_LINE("Kerberos-encrypt", serve_kerberos_encrypt, 0),
+  REQ_LINE("Kerberos-encrypt", serve_kerberos_encrypt, RQ_ROOTLESS),
 #  endif
 #  ifdef HAVE_GSSAPI
-  REQ_LINE("Gssapi-encrypt", serve_gssapi_encrypt, 0),
+  REQ_LINE("Gssapi-encrypt", serve_gssapi_encrypt, RQ_ROOTLESS),
 #  endif
 #endif
 #ifdef HAVE_GSSAPI
-  REQ_LINE("Gssapi-authenticate", serve_gssapi_authenticate, 0),
+  REQ_LINE("Gssapi-authenticate", serve_gssapi_authenticate, RQ_ROOTLESS),
 #endif
   REQ_LINE("expand-modules", serve_expand_modules, 0),
   REQ_LINE("ci", serve_ci, RQ_ESSENTIAL),
@@ -5809,7 +5940,7 @@ struct request requests[] =
   REQ_LINE("add", serve_add, 0),
   REQ_LINE("remove", serve_remove, 0),
   REQ_LINE("update-patches", serve_ignore, 0),
-  REQ_LINE("gzip-file-contents", serve_gzip_contents, 0),
+  REQ_LINE("gzip-file-contents", serve_gzip_contents, RQ_ROOTLESS),
   REQ_LINE("status", serve_status, 0),
   REQ_LINE("rdiff", serve_rdiff, 0),
   REQ_LINE("tag", serve_tag, 0),
@@ -5870,6 +6001,14 @@ serve_valid_requests (char *arg)
 	    buf_output0 (buf_to_net, rq->name);
 	}
     }
+
+    if (config && config->MinCompressionLevel
+	&& supported_response ("Force-gzip"))
+    {
+	    buf_output0 (buf_to_net, "\n");
+	    buf_output0 (buf_to_net, "Force-gzip");
+    }
+
     buf_output0 (buf_to_net, "\nok\n");
 
     /* The client is waiting for the list of valid requests, so we
@@ -5927,7 +6066,6 @@ static void wait_sig (int sig)
  *   dont_delete_temp		Set when a core dump of a child process is
  *   				detected so that the core and related data may
  *   				be preserved.
- *   Tmpdir			The system TMP directory for all temp files.
  *   noexec			Whether we are supposed to change the disk.
  *   orig_server_temp_dir	The temporary directory we created within
  *   				Tmpdir for our duplicate of the client
@@ -6087,7 +6225,7 @@ server_cleanup (void)
 
 	    /* Make sure our working directory isn't inside the tree we're
 	       going to delete.  */
-	    CVS_CHDIR (Tmpdir);
+	    CVS_CHDIR (get_cvs_tmp_dir ());
 
 	    /* Temporarily clear noexec, so that we clean up our temp directory
 	       regardless of it (this could more cleanly be handled by moving
@@ -6131,7 +6269,41 @@ size_t MaxProxyBufferSize = (size_t)(8 * 1024 * 1024); /* 8 megabytes,
                                                         */
 #endif /* PROXY_SUPPORT */
 
-int server_active = 0;
+static const char *const server_usage[] =
+{
+    "Usage: %s %s [-c config-file]\n",
+    "\t-c config-file\tPath to an alternative CVS config file.\n",
+    "Normally invoked by a cvs client on a remote machine.\n",
+    NULL
+};
+
+
+
+void
+parseServerOptions (int argc, char **argv)
+{
+    int c;
+
+    optind = 0;
+    while ((c = getopt (argc, argv, "+c:")) != -1)
+    {
+	switch (c)
+	{
+#ifdef ALLOW_CONFIG_OVERRIDE
+	    case 'c':
+		if (gConfigPath) free (gConfigPath);
+		gConfigPath = xstrdup (optarg);
+		break;
+#endif
+	    case '?':
+	    default:
+		usage (server_usage);
+		break;
+	}
+    }
+}
+
+
 
 int
 server (int argc, char **argv)
@@ -6139,16 +6311,9 @@ server (int argc, char **argv)
     char *error_prog_name;		/* Used in error messages */
 
     if (argc == -1)
-    {
-	static const char *const msg[] =
-	{
-	    "Usage: %s %s\n",
-	    "  Normally invoked by a cvs client on a remote machine.\n",
-	    NULL
-	};
-	usage (msg);
-    }
-    /* Ignore argc and argv.  They might be from .cvsrc.  */
+	usage (server_usage);
+
+    /* Options were pre-parsed in main.c.  */
 
     /*
      * Set this in .bashrc if you want to give yourself time to attach
@@ -6214,103 +6379,6 @@ server (int argc, char **argv)
        protocol to report error messages.  */
     error_use_protocol = 1;
 
-    /* OK, now figure out where we stash our temporary files.  */
-    {
-	char *p;
-
-	/* The code which wants to chdir into server_temp_dir is not set
-	   up to deal with it being a relative path.  So give an error
-	   for that case.  */
-	if (!isabsolute (Tmpdir))
-	{
-	    if (alloc_pending (80 + strlen (Tmpdir)))
-		sprintf (pending_error_text,
-			 "E Value of %s for TMPDIR is not absolute", Tmpdir);
-
-	    /* FIXME: we would like this error to be persistent, that
-	       is, not cleared by print_pending_error.  The current client
-	       will exit as soon as it gets an error, but the protocol spec
-	       does not require a client to do so.  */
-	}
-	else
-	{
-	    int status;
-	    int i = 0;
-
-	    server_temp_dir = xmalloc (strlen (Tmpdir) + 80);
-	    if (server_temp_dir == NULL)
-	    {
-		/*
-		 * Strictly speaking, we're not supposed to output anything
-		 * now.  But we're about to exit(), give it a try.
-		 */
-		printf ("E Fatal server error, aborting.\n\
-error ENOMEM Virtual memory exhausted.\n");
-
-		exit (EXIT_FAILURE);
-	    }
-	    strcpy (server_temp_dir, Tmpdir);
-
-	    /* Remove a trailing slash from TMPDIR if present.  */
-	    p = server_temp_dir + strlen (server_temp_dir) - 1;
-	    if (*p == '/')
-		*p = '\0';
-
-	    /*
-	     * I wanted to use cvs-serv/PID, but then you have to worry about
-	     * the permissions on the cvs-serv directory being right.  So
-	     * use cvs-servPID.
-	     */
-	    strcat (server_temp_dir, "/cvs-serv");
-
-	    p = server_temp_dir + strlen (server_temp_dir);
-	    sprintf (p, "%ld", (long) getpid ());
-
-	    orig_server_temp_dir = server_temp_dir;
-
-	    /* Create the temporary directory, and set the mode to
-	       700, to discourage random people from tampering with
-	       it.  */
-	    while ((status = mkdir_p (server_temp_dir)) == EEXIST)
-	    {
-		static const char suffix[] = "abcdefghijklmnopqrstuvwxyz";
-
-		if (i >= sizeof suffix - 1) break;
-		if (i == 0) p = server_temp_dir + strlen (server_temp_dir);
-		p[0] = suffix[i++];
-		p[1] = '\0';
-	    }
-	    if (status != 0)
-	    {
-		if (alloc_pending (80 + strlen (server_temp_dir)))
-		    sprintf (pending_error_text,
-			    "E can't create temporary directory %s",
-			    server_temp_dir);
-		pending_error = status;
-	    }
-#ifndef CHMOD_BROKEN
-	    else if (chmod (server_temp_dir, S_IRWXU) < 0)
-	    {
-		int save_errno = errno;
-		if (alloc_pending (80 + strlen (server_temp_dir)))
-		    sprintf (pending_error_text,
-"E cannot change permissions on temporary directory %s",
-			     server_temp_dir);
-		pending_error = save_errno;
-	    }
-#endif
-	    else if (CVS_CHDIR (server_temp_dir) < 0)
-	    {
-		int save_errno = errno;
-		if (alloc_pending (80 + strlen (server_temp_dir)))
-		    sprintf (pending_error_text,
-"E cannot change to temporary directory %s",
-			     server_temp_dir);
-		pending_error = save_errno;
-	    }
-	}
-    }
-
     /* Now initialize our argument vector (for arguments from the client).  */
 
     /* Small for testing.  */
@@ -6364,27 +6432,26 @@ error ENOMEM Virtual memory exhausted.\n");
 		if (!(rq->flags & RQ_ROOTLESS)
 		    && current_parsed_root == NULL)
 		{
-		    /* For commands which change the way in which data
-		       is sent and received, for example Gzip-stream,
-		       this does the wrong thing.  Since the client
-		       assumes that everything is being compressed,
-		       unconditionally, there is no way to give this
-		       error to the client without turning on
-		       compression.  The obvious fix would be to make
-		       Gzip-stream RQ_ROOTLESS (with the corresponding
-		       change to the spec), and that might be a good
-		       idea but then again I can see some settings in
-		       CVSROOT about what compression level to allow.
-		       I suppose a more baroque answer would be to
-		       turn on compression (say, at level 1), just
-		       enough to give the "Root request missing"
-		       error.  For now we just lose.  */
 		    if (alloc_pending (80))
 			sprintf (pending_error_text,
 				 "E Protocol error: Root request missing");
 		}
 		else
+		{
+		    if (config && config->MinCompressionLevel && !gzip_level
+			&& !(rq->flags & RQ_ROOTLESS))
+		    {
+			/* This is a rootless request, a minimum compression
+			 * level has been configured, and no compression has
+			 * been requested by the client.
+			 */
+			if (alloc_pending (80 + strlen (program_name)))
+			    sprintf (pending_error_text,
+"E %s [server aborted]: Compression must be used with this server.",
+				     program_name);
+		    }
 		    (*rq->func) (cmd);
+		}
 		break;
 	    }
 	if (rq->name == NULL)
@@ -6590,27 +6657,13 @@ error 0 %s: no such system user\n", username);
 	CVS_Username = xstrdup (username);
 #endif
 
-#if HAVE_PUTENV
     /* Set LOGNAME, USER and CVS_USER in the environment, in case they
        are already set to something else.  */
-    {
-	char *env;
-
-	env = xmalloc (sizeof "LOGNAME=" + strlen (username));
-	(void) sprintf (env, "LOGNAME=%s", username);
-	(void) putenv (env);
-
-	env = xmalloc (sizeof "USER=" + strlen (username));
-	(void) sprintf (env, "USER=%s", username);
-	(void) putenv (env);
-
-#ifdef AUTH_SERVER_SUPPORT
-	env = xmalloc (sizeof "CVS_USER=" + strlen (CVS_Username));
-	(void) sprintf (env, "CVS_USER=%s", CVS_Username);
-	(void) putenv (env);
-#endif
-    }
-#endif /* HAVE_PUTENV */
+    setenv ("LOGNAME", username, 1);
+    setenv ("USER", username, 1);
+# ifdef AUTH_SERVER_SUPPORT
+    setenv ("CVS_USER", CVS_Username, 1);
+# endif
 }
 #endif
 
@@ -7182,7 +7235,7 @@ pserver_authenticate_connection (void)
        file, parse_config already printed an error.  We keep going.
        Why?  Because if we didn't, then there would be no way to check
        in a new CVSROOT/config file to fix the broken one!  */
-    config = get_root_allow_config (repository);
+    config = get_root_allow_config (repository, gConfigPath);
 
     /* We need the real cleartext before we hash it. */
     descrambled_password = descramble (password);
@@ -7306,7 +7359,7 @@ error 0 kerberos: %s\n", krb_get_err_text(status));
 
 
 
-#ifdef HAVE_GSSAPI
+# ifdef HAVE_GSSAPI /* && SERVER_SUPPORT */
 /* Authenticate a GSSAPI connection.  This is called from
  * pserver_authenticate_connection, and it handles success and failure
  * the same way.
@@ -7318,7 +7371,7 @@ error 0 kerberos: %s\n", krb_get_err_text(status));
 static void
 gserver_authenticate_connection (void)
 {
-    struct hostent *hp;
+    char *hn;
     gss_buffer_desc tok_in, tok_out;
     char buf[1024];
     char *credbuf;
@@ -7329,11 +7382,13 @@ gserver_authenticate_connection (void)
     int nbytes;
     gss_OID mechid;
 
-    hp = gethostbyname (server_hostname);
-    if (hp == NULL)
-	error (1, 0, "can't get canonical hostname");
+    hn = canon_host (server_hostname);
+    if (!hn)
+	error (1, 0, "can't get canonical hostname for `%s': %s",
+	       server_hostname, ch_strerror ());
 
-    sprintf (buf, "cvs@%s", hp->h_name);
+    sprintf (buf, "cvs@%s", hn);
+    free (hn);
     tok_in.value = buf;
     tok_in.length = strlen (buf);
 
@@ -7431,7 +7486,7 @@ gserver_authenticate_connection (void)
     fflush (stdout);
 }
 
-#endif /* HAVE_GSSAPI */
+# endif /* HAVE_GSSAPI */
 
 #endif /* SERVER_SUPPORT */
 

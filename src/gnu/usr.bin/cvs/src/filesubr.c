@@ -18,6 +18,7 @@
    file system semantics.  */
 
 #include "cvs.h"
+#include "lstat.h"
 #include "save-cwd.h"
 #include "xsize.h"
 
@@ -52,7 +53,7 @@ copy_file (const char *from, const char *to)
     if (isdevice (from))
     {
 #if defined(HAVE_MKNOD) && defined(HAVE_STRUCT_STAT_ST_RDEV)
-	if( CVS_STAT( from, &sb ) < 0 )
+	if (stat (from, &sb) < 0)
 	    error (1, errno, "cannot stat %s", from);
 	mknod (to, sb.st_mode, sb.st_rdev);
 #else
@@ -99,7 +100,7 @@ copy_file (const char *from, const char *to)
 	    error (1, errno, "cannot close %s", to);
     }
 
-    /* now, set the times for the copied file to match those of the original */
+    /* preserve last access & modification times */
     memset ((char *) &t, 0, sizeof (t));
     t.actime = sb.st_atime;
     t.modtime = sb.st_mtime;
@@ -120,7 +121,7 @@ isdir (const char *file)
 {
     struct stat sb;
 
-    if (CVS_STAT (file, &sb) < 0)
+    if (stat (file, &sb) < 0)
 	return false;
     return S_ISDIR (sb.st_mode);
 }
@@ -138,7 +139,7 @@ islink (const char *file)
 #ifdef S_ISLNK
     struct stat sb;
 
-    if ((CVS_LSTAT (file, &sb) >= 0) && S_ISLNK (sb.st_mode))
+    if ((lstat (file, &sb) >= 0) && S_ISLNK (sb.st_mode))
 	retsize = sb.st_size;
 #endif
     return retsize;
@@ -155,7 +156,7 @@ isdevice (const char *file)
 {
     struct stat sb;
 
-    if (CVS_LSTAT (file, &sb) < 0)
+    if (lstat (file, &sb) < 0)
 	return false;
 #ifdef S_ISBLK
     if (S_ISBLK (sb.st_mode))
@@ -218,7 +219,7 @@ isaccessible (const char *file, const int mode)
     int omask = 0;
     int uid, mask;
     
-    if (CVS_STAT (file, &sb)== -1)
+    if (stat (file, &sb)== -1)
 	return false;
     if (mode == F_OK)
 	return true;
@@ -272,7 +273,7 @@ make_directory (const char *name)
 {
     struct stat sb;
 
-    if( CVS_STAT( name, &sb ) == 0 && ( !S_ISDIR( sb.st_mode ) ) )
+    if (stat (name, &sb) == 0 && (!S_ISDIR (sb.st_mode)))
 	    error (0, 0, "%s already exists but is not a directory", name);
     if (!noexec && mkdir (name, 0777) < 0)
 	error (1, errno, "cannot make directory %s", name);
@@ -341,7 +342,7 @@ xchmod (const char *fname, int writable)
 	return;
 #endif /* PRESERVE_PERMISSIONS_SUPPORT */
 
-    if( CVS_STAT( fname, &sb ) < 0 )
+    if (stat (fname, &sb) < 0)
     {
 	if (!noexec)
 	    error (0, errno, "cannot stat %s", fname);
@@ -411,12 +412,10 @@ unlink_file_dir (const char *f)
 {
     struct stat sb;
 
-#ifdef SERVER_SUPPORT
-	/* This is called by the server parent process in contexts where
-	   it is not OK to send output (e.g. after we sent "ok" to the
-	   client).  */
-	if (!server_active)
-#endif
+    /* This is called by the server parent process in contexts where
+       it is not OK to send output (e.g. after we sent "ok" to the
+       client).  */
+    if (!server_active)
 	TRACE (TRACE_FUNCTION, "unlink_file_dir(%s)", f);
 
     if (noexec)
@@ -430,7 +429,7 @@ unlink_file_dir (const char *f)
        call to stat() and the call to unlink(), we'll still corrupt
        the filesystem.  Where is the Unix Haters Handbook when you need
        it?  */
-    if( CVS_STAT( f, &sb ) < 0 )
+    if (stat (f, &sb) < 0)
     {
 	if (existence_error (errno))
 	{
@@ -572,9 +571,9 @@ xcmp (const char *file1, const char *file2)
     int fd1, fd2;
     int ret;
 
-    if (CVS_LSTAT (file1, &sb1) < 0)
+    if (lstat (file1, &sb1) < 0)
 	error (1, errno, "cannot lstat %s", file1);
-    if (CVS_LSTAT (file2, &sb2) < 0)
+    if (lstat (file2, &sb2) < 0)
 	error (1, errno, "cannot lstat %s", file2);
 
     /* If FILE1 and FILE2 are not the same file type, they are unequal. */
@@ -718,7 +717,7 @@ cvs_temp_file (char **filename)
 
     assert (filename != NULL);
 
-    fn = Xasprintf ("%s/%s", Tmpdir, "cvsXXXXXX");
+    fn = Xasprintf ("%s/%s", get_cvs_tmp_dir (), "cvsXXXXXX");
     fd = mkstemp (fn);
 
     /* a NULL return will be interpreted by callers as an error and
@@ -758,46 +757,6 @@ cvs_temp_file (char **filename)
 
     *filename = fn;
     return fp;
-}
-
-
-
-/* char *
- * xresolvepath (const char *path)
- *
- * Like xreadlink(), but resolve all links in a path.
- *
- * INPUTS
- *  path	The original path.
- *
- * RETURNS
- *  The path with any symbolic links expanded.
- *
- * ERRORS
- *  This function exits with a fatal error if it fails to read the link for
- *  any reason.
- */
-char *
-xresolvepath (const char *path)
-{
-    char *hardpath;
-    struct saved_cwd owd;
-
-    assert (isdir (path));
-
-    /* FIXME - If HAVE_READLINK is defined, we should probably walk the path
-     * bit by bit calling xreadlink().
-     */
-
-    if (save_cwd (&owd))
-	error (1, 0, "failed to save current working directory");
-    if (CVS_CHDIR (path ) < 0)
-	error (1, errno, "cannot chdir to %s", path);
-    if ((hardpath = xgetcwd ()) == NULL)
-	error (1, errno, "cannot getwd in %s", path);
-    if (restore_cwd (&owd) < 0)
-	error (1, 0, "failed to restore working directory");
-    return hardpath;
 }
 
 
@@ -849,11 +808,7 @@ get_homedir (void)
     if (home != NULL)
 	return home;
 
-    if (
-#ifdef SERVER_SUPPORT
-	!server_active &&
-#endif
-	(env = getenv ("HOME")) != NULL)
+    if (!server_active && (env = getenv ("HOME")) != NULL)
 	home = env;
     else if ((pw = (struct passwd *) getpwuid (getuid ()))
 	     && pw->pw_dir)
@@ -897,4 +852,27 @@ expand_wild (int argc, char **argv, int *pargc, char ***pargv)
     *pargv = xnmalloc (argc, sizeof (char *));
     for (i = 0; i < argc; ++i)
 	(*pargv)[i] = xstrdup (argv[i]);
+}
+
+
+
+static char *tmpdir_env;
+
+/* Return path to temp directory.
+ */
+const char *
+get_system_temp_dir (void)
+{
+    if (!tmpdir_env) tmpdir_env = getenv (TMPDIR_ENV);
+    return tmpdir_env;
+}
+
+
+
+void
+push_env_temp_dir (void)
+{
+    const char *tmpdir = get_cvs_tmp_dir ();
+    if (tmpdir_env && strcmp (tmpdir_env, tmpdir))
+	setenv (TMPDIR_ENV, tmpdir, 1);
 }

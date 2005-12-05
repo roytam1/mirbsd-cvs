@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 1996-2005 The Free Software Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 /* Code for the buffer data structure.  */
 
 #include "cvs.h"
@@ -6,11 +20,7 @@
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
 
-# ifdef HAVE_WINSOCK_H
-#   include <winsock.h>
-# else
-#  include <sys/socket.h>
-# endif
+# include <sys/socket.h>
 
 /* OS/2 doesn't have EIO.  FIXME: this whole notion of turning
    a different error into EIO strikes me as pretty dubious.  */
@@ -26,13 +36,13 @@ static struct buffer_data *get_buffer_data (void);
 
 /* Initialize a buffer structure.  */
 struct buffer *
-buf_initialize (int (*input) (void *, char *, size_t, size_t, size_t *),
-	        int (*output) (void *, const char *, size_t, size_t *),
-                int (*flush) (void *),
-                int (*block) (void *, bool),
-                int (*get_fd) (void *),
-                int (*shutdown) (struct buffer *),
-                void (*memory) (struct buffer *),
+buf_initialize (type_buf_input input,
+                type_buf_output output,
+                type_buf_flush flush,
+                type_buf_block block,
+                type_buf_get_fd get_fd,
+                type_buf_shutdown shutdown,
+                type_buf_memory_error memory_error,
                 void *closure)
 {
     struct buffer *buf;
@@ -47,7 +57,7 @@ buf_initialize (int (*input) (void *, char *, size_t, size_t, size_t *),
     buf->block = block;
     buf->get_fd = get_fd;
     buf->shutdown = shutdown;
-    buf->memory_error = memory ? memory : buf_default_memory_error;
+    buf->memory_error = memory_error ? memory_error : buf_default_memory_error;
     buf->closure = closure;
     return buf;
 }
@@ -1761,7 +1771,7 @@ fd_buffer_initialize (int fd, pid_t child_pid, cvsroot_t *root, bool input,
 
 /* The buffer input function for a buffer built on a file descriptor.
  *
- * In non-blocing mode, this function will read as many bytes as it can in a
+ * In non-blocking mode, this function will read as many bytes as it can in a
  * single try, up to SIZE bytes, and return.
  *
  * In blocking mode with NEED > 0, this function will read as many bytes as it
@@ -1825,7 +1835,7 @@ fd_buffer_input (void *closure, char *data, size_t need, size_t size,
 		/* This used to select on exceptions too, but as far
 		   as I know there was never any reason to do that and
 		   SCO doesn't let you select on exceptions on pipes.  */
-		numfds = select (fb->fd + 1, &readfds, NULL, NULL, NULL);
+		numfds = fd_select (fb->fd + 1, &readfds, NULL, NULL, NULL);
 		if (numfds < 0 && errno != EINTR)
 		{
 		    status = errno;
@@ -2143,11 +2153,7 @@ fd_buffer_shutdown (struct buffer *buf)
 
     if (statted && closefd && close (fb->fd) == -1)
     {
-	if (0
-# ifdef SERVER_SUPPORT
-	    || server_active
-# endif /* SERVER_SUPPORT */
-           )
+	if (server_active)
 	{
             /* Syslog this? */
 	}

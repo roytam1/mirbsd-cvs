@@ -355,12 +355,8 @@ commit (int argc, char **argv)
     /* FIXME: Shouldn't this check be much more closely related to the
        readonly user stuff (CVSROOT/readers, &c).  That is, why should
        root be able to "cvs init", "cvs import", &c, but not "cvs ci"?  */
-    if (geteuid () == (uid_t) 0
-#  ifdef CLIENT_SUPPORT
-	/* Who we are on the client side doesn't affect logging.  */
-	&& !current_parsed_root->isremote
-#  endif
-	)
+    /* Who we are on the client side doesn't affect logging.  */
+    if (geteuid () == (uid_t) 0 && !current_parsed_root->isremote)
     {
 	struct passwd *pw;
 
@@ -701,14 +697,10 @@ commit (int argc, char **argv)
     dellist (&mulist);
 
     /* see if we need to sleep before returning to avoid time-stamp races */
-    if (
-#ifdef SERVER_SUPPORT
-	/* But only sleep on the client.  */
-        !server_active &&
-#endif
-	last_register_time
-       )
-	    sleep_past (last_register_time);
+    if (!server_active && last_register_time)
+    {
+	sleep_past (last_register_time);
+    }
 
     return err;
 }
@@ -853,10 +845,10 @@ check_fileproc (void *callerdat, struct file_info *finfo)
 	case T_CHECKOUT:
 	case T_PATCH:
 	case T_NEEDS_MERGE:
-	case T_CONFLICT:
 	case T_REMOVE_ENTRY:
 	    error (0, 0, "Up-to-date check failed for `%s'", finfo->fullname);
 	    goto out;
+	case T_CONFLICT:
 	case T_MODIFIED:
 	case T_ADDED:
 	case T_REMOVED:
@@ -895,39 +887,29 @@ check_fileproc (void *callerdat, struct file_info *finfo)
 		    goto out;
 		}
 	    }
-	    if (status == T_MODIFIED && !force_ci && vers->ts_conflict)
+	    if (status == T_CONFLICT && !force_ci)
 	    {
-		/*
-		 * We found a "conflict" marker.
-		 *
-		 * If the timestamp on the file is the same as the
-		 * timestamp stored in the Entries file, we block the commit.
-		 */
-		if (file_has_conflict (finfo, vers->ts_conflict))
-		{
-		    error (0, 0,
-			  "file `%s' had a conflict and has not been modified",
-			   finfo->fullname);
-		    goto out;
-		}
-
-		if (file_has_markers (finfo))
-		{
-		    /* Make this a warning, not an error, because we have
-		       no way of knowing whether the "conflict indicators"
-		       are really from a conflict or whether they are part
-		       of the document itself (cvs.texinfo and sanity.sh in
-		       CVS itself, for example, tend to want to have strings
-		       like ">>>>>>>" at the start of a line).  Making people
-		       kludge this the way they need to kludge keyword
-		       expansion seems undesirable.  And it is worse than
-		       keyword expansion, because there is no -ko
-		       analogue.  */
-		    error (0, 0,
-			   "\
+		error (0, 0,
+		      "file `%s' had a conflict and has not been modified",
+		       finfo->fullname);
+		goto out;
+	    }
+	    if (status == T_MODIFIED && !force_ci && file_has_markers (finfo))
+	    {
+		/* Make this a warning, not an error, because we have
+		   no way of knowing whether the "conflict indicators"
+		   are really from a conflict or whether they are part
+		   of the document itself (cvs.texinfo and sanity.sh in
+		   CVS itself, for example, tend to want to have strings
+		   like ">>>>>>>" at the start of a line).  Making people
+		   kludge this the way they need to kludge keyword
+		   expansion seems undesirable.  And it is worse than
+		   keyword expansion, because there is no -ko
+		   analogue.  */
+		error (0, 0,
+		       "\
 warning: file `%s' seems to still contain conflict indicators",
-			   finfo->fullname);
-		}
+		       finfo->fullname);
 	    }
 
 	    if (status == T_REMOVED)
@@ -1383,14 +1365,10 @@ commit_fileproc (void *callerdat, struct file_info *finfo)
     if (!got_message)
     {
 	got_message = 1;
-	if (
-#ifdef SERVER_SUPPORT
-	    !server_active &&
-#endif
-	    use_editor)
+	if (!server_active && use_editor)
 	    do_editor (finfo->update_dir, &saved_message,
 		       finfo->repository, ulist);
-	do_verify (&saved_message, finfo->repository);
+	do_verify (&saved_message, finfo->repository, ulist);
     }
 
     p = findnode (cilist, finfo->file);
@@ -1671,13 +1649,9 @@ commit_direntproc (void *callerdat, const char *dir, const char *repos,
     /* get commit message */
     got_message = 1;
     real_repos = Name_Repository (dir, update_dir);
-    if (
-#ifdef SERVER_SUPPORT
-        !server_active &&
-#endif
-        use_editor)
+    if (!server_active && use_editor)
 	do_editor (update_dir, &saved_message, real_repos, ulist);
-    do_verify (&saved_message, real_repos);
+    do_verify (&saved_message, real_repos, ulist);
     free (real_repos);
     return R_PROCESS;
 }
@@ -2151,7 +2125,8 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	/* and lock it */
 	if (lock_RCS (file, rcs, rev, repository))
 	{
-	    error (0, 0, "cannot lock `%s'.", rcs->path);
+	    error (0, 0, "cannot lock revision %s in `%s'.",
+		   rev ? rev : tag ? tag : "HEAD", rcs->path);
 	    if (rev != NULL)
 		free (rev);
 	    goto out;
@@ -2214,7 +2189,8 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	    /* and lock it once again. */
 	    if (lock_RCS (file, rcs, NULL, repository))
 	    {
-		error (0, 0, "cannot lock `%s'.", rcs->path);
+		error (0, 0, "cannot lock initial revision in `%s'.",
+		       rcs->path);
 		goto out;
 	    }
 	}
@@ -2322,7 +2298,7 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 	    /* lock the branch. (stubbed branches need not be locked.)  */
 	    if (lock_RCS (file, rcs, NULL, repository))
 	    {
-		error (0, 0, "cannot lock `%s'.", rcs->path);
+		error (0, 0, "cannot lock head revision in `%s'.", rcs->path);
 		goto out;
 	    }
 	}

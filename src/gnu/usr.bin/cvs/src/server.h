@@ -21,6 +21,12 @@
 
 
 /*
+ * Nonzero if we are using the server.  Used by various places to call
+ * server-specific functions.
+ */
+extern int server_active;
+
+/*
  * Expand to `S', ` ', or the empty string.  Used in `%s-> ...' trace printfs.
  */
 #ifdef SERVER_SUPPORT
@@ -31,13 +37,10 @@
 
 #ifdef SERVER_SUPPORT
 
-/*
- * Nonzero if we are using the server.  Used by various places to call
- * server-specific functions.
- */
-extern int server_active;
-
 /* Server functions exported to the rest of CVS.  */
+
+/* pre-parse the server options.  */
+void parseServerOptions (int argc, char **argv);
 
 /* Run the server.  */
 int server (int argc, char **argv);

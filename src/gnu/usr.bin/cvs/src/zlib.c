@@ -46,8 +46,10 @@ struct compress_buffer
 {
     /* The underlying buffer.  */
     struct buffer *buf;
+
     /* The compression information.  */
     z_stream zstr;
+    int level;
 };
 
 static void compress_error (int, int, z_stream *, const char *);
@@ -96,6 +98,7 @@ compress_buffer_initialize (struct buffer *buf, int input, int level,
     memset (n, 0, sizeof *n);
 
     n->buf = buf;
+    n->level = level;
 
     if (input)
 	zstatus = inflateInit (&n->zstr);
@@ -209,9 +212,8 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 
 	/* If we have obtained NEED bytes, then return, unless NEED is
            zero and we haven't obtained anything at all.  If NEED is
-           zero, we will keep reading from the underlying buffer until
-           we either can't read anything, or we have managed to
-           inflate at least one byte.  */
+           zero, we will attempt at least one nonblocking read and see if
+	   we can inflate anything then.  */
 	if (sofar > 0 && sofar >= need)
 	    break;
 
@@ -227,8 +229,7 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	   would fetch all the available bytes, and at least one byte.  */
 
 	status = (*cb->buf->input) (cb->buf->closure, bd->text,
-				    need > 0 ? 1 : 0,
-				    BUFFER_DATA_SIZE, &nread);
+				    need, BUFFER_DATA_SIZE, &nread);
 
 	if (status == -2)
 	    /* Don't try to recover from memory allcoation errors.  */
@@ -266,7 +267,15 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 
 
 
-/* Output data to a compression buffer.  */
+extern int gzip_level;
+
+/* Output data to a compression buffer.
+ *
+ * GLOBALS
+ *   gzip_level		If GZIP_LEVEL has changed to a value different from
+ *			CLOSURE->level, then set the compression level on the
+ *			stream to the new value.
+ */
 static int
 compress_buffer_output (void *closure, const char *data, size_t have,
 			size_t *wrote)
@@ -279,6 +288,12 @@ compress_buffer_output (void *closure, const char *data, size_t have,
     static char *buffer = NULL;
     if (!buffer)
 	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
+    if (cb->level != gzip_level)
+    {
+	cb->level = gzip_level;
+	deflateParams (&cb->zstr, gzip_level, Z_DEFAULT_STRATEGY);
+    }
 
     cb->zstr.avail_in = have;
     cb->zstr.next_in = (unsigned char *) data;
@@ -399,19 +414,10 @@ compress_buffer_shutdown_input (struct buffer *buf)
     struct compress_buffer *cb = buf->closure;
     int zstatus;
 
-    /* Pick up any trailing data, such as the checksum.  */
-    while (1)
-    {
-	int status;
-	size_t nread;
-	char buf[100];
-
-	status = compress_buffer_input (cb, buf, 0, sizeof buf, &nread);
-	if (status == -1)
-	    break;
-	if (status != 0)
-	    return status;
-    }
+    /* Don't make any attempt to pick up trailing data since we are shutting
+     * down.  If the client doesn't know we are shutting down, we might not
+     * see the EOF we are expecting.
+     */
 
     zstatus = inflateEnd (&cb->zstr);
     if (zstatus != Z_OK)

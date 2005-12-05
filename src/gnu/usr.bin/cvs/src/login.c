@@ -113,9 +113,11 @@ password_entry_parseline (const char *cvsroot_canonical,
     /* look for '^/' */
     if (*linebuf == '/')
     {
-	/* Yes: slurp '^/\d+\D' and parse the rest of the line according to version number */
+	/* Yes: slurp '^/\d+\D' and parse the rest of the line according to
+	 * version number
+	 */
 	char *q;
-	unsigned long int entry_version;
+	unsigned long int entry_version = 0 /* Placate -Wall.  */;
 
 	if (isspace(*(linebuf + 1)))
 	    /* special case since strtoul ignores leading white space */
@@ -123,12 +125,10 @@ password_entry_parseline (const char *cvsroot_canonical,
 	else
 	    entry_version = strtoul (linebuf + 1, &q, 10);
 
-	if (q == linebuf + 1)
-	    /* no valid digits found by strtoul */
-	    entry_version = 0;
-	else
+	if (q != linebuf + 1)
 	    /* assume a delimiting seperator */
 	    q++;
+	/* else, no valid digits found by strtoul */
 
 	switch (entry_version)
 	{

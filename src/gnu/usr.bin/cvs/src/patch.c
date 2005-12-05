@@ -46,7 +46,7 @@ static int unidiff = 0;
 
 static const char *const patch_usage[] =
 {
-    "Usage: %s %s [-flR] [-c|-u] [-s|-t] [-V %%d]\n",
+    "Usage: %s %s [-flR] [-c|-u] [-s|-t] [-V %%d] [-k kopt]\n",
     "    -r rev|-D date [-r rev2 | -D date2] modules...\n",
     "\t-f\tForce a head revision match if tag/date not found.\n",
     "\t-l\tLocal directory only, not recursive\n",
@@ -55,9 +55,10 @@ static const char *const patch_usage[] =
     "\t-u\tUnidiff format.\n",
     "\t-s\tShort patch - one liner per file.\n",
     "\t-t\tTop two diffs - last change made to the file.\n",
+    "\t-V vers\tUse RCS Version \"vers\" for keyword expansion.\n",
+    "\t-k kopt\tSpecify keyword expansion mode.\n",
     "\t-D date\tDate.\n",
     "\t-r rev\tRevision - symbolic or numeric.\n",
-    "\t-V vers\tUse RCS Version \"vers\" for keyword expansion.\n",
     "(Specify the --help global option for a list of other help options)\n",
     NULL
 };
@@ -83,11 +84,9 @@ patch (int argc, char **argv)
 	{
 	    case 'Q':
 	    case 'q':
-#ifdef SERVER_SUPPORT
 		/* The CVS 1.5 client sends these options (in addition to
 		   Global_option requests), so we must ignore them.  */
 		if (!server_active)
-#endif
 		    error (1, 0,
 			   "-q or -Q must be specified before \"%s\"",
 			   cvs_cmd_name);
@@ -392,6 +391,9 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
     char *cp1, *cp2;
     FILE *fp;
     int line_length;
+    int dargc = 0;
+    size_t darg_allocated = 0;
+    char **dargv = NULL;
 
     line1 = NULL;
     line1_chars_allocated = 0;
@@ -567,8 +569,10 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
 	    (void)utime (tmpfile2, &t);
     }
 
-    switch (diff_exec (tmpfile1, tmpfile2, NULL, NULL, unidiff ? "-u" : "-c",
-                       tmpfile3))
+    if (unidiff) run_add_arg_p (&dargc, &darg_allocated, &dargv, "-u");
+    else run_add_arg_p (&dargc, &darg_allocated, &dargv, "-c");
+    switch (diff_exec (tmpfile1, tmpfile2, NULL, NULL, dargc, dargv,
+		       tmpfile3))
     {
 	case -1:			/* fork/wait failure */
 	    error (1, errno, "fork for diff failed on %s", rcs);
@@ -726,6 +730,11 @@ failed to read diff file header %s for %s: end of file", tmpfile3, rcs);
     free (tmpfile2);
     free (tmpfile3);
     tmpfile1 = tmpfile2 = tmpfile3 = NULL;
+    if (darg_allocated)
+    {
+	run_arg_free_p (dargc, dargv);
+	free (dargv);
+    }
 
  out2:
     if (vers_tag != NULL)

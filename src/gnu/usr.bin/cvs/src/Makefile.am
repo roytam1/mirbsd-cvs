@@ -76,7 +76,6 @@ cvs_SOURCES = \
 	run.c \
 	scramble.c \
 	server.c \
-	socket-client.c socket-client.h \
 	stack.c stack.h \
 	status.c \
 	subr.c subr.h \
@@ -103,7 +102,8 @@ cvs_SOURCES = \
 	watch.h
 
 EXTRA_cvs_SOURCES = gssapi-client.c gssapi-client.h \
-                    kerberos4-client.c kerberos4-client.h
+                    kerberos4-client.c kerberos4-client.h \
+		    socket-client.c socket-client.h
 
 cvs_DEPENDENCIES = $(cvs_client_objects) \
 	../diff/libdiff.a \

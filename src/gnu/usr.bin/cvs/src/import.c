@@ -22,6 +22,7 @@
  */
 
 #include "cvs.h"
+#include "lstat.h"
 #include "save-cwd.h"
 
 static char *get_comment (const char *user);
@@ -104,17 +105,14 @@ import (int argc, char **argv)
 	{
 	    case 'Q':
 	    case 'q':
-#ifdef SERVER_SUPPORT
 		/* The CVS 1.5 client sends these options (in addition to
 		   Global_option requests), so we must ignore them.  */
 		if (!server_active)
-#endif
 		    error (1, 0,
 			   "-q or -Q must be specified before \"%s\"",
 			   cvs_cmd_name);
 		break;
 	    case 'd':
-#ifdef SERVER_SUPPORT
 		if (server_active)
 		{
 		    /* CVS 1.10 and older clients will send this, but it
@@ -124,7 +122,6 @@ import (int argc, char **argv)
 			   "warning: not setting the time of import from the file");
 		    error (0, 0, "due to client limitations");
 		}
-#endif
 		use_file_modtime = 1;
 		break;
 	    case 'b':
@@ -167,7 +164,6 @@ import (int argc, char **argv)
     if (argc < 3)
 	usage (import_usage);
 
-#ifdef SERVER_SUPPORT
     /* This is for handling the Checkin-time request.  It might seem a
        bit odd to enable the use_file_modtime code even in the case
        where Checkin-time was not sent for a particular file.  The
@@ -179,7 +175,6 @@ import (int argc, char **argv)
 
     if (server_active)
 	use_file_modtime = 1;
-#endif
 
     /* Don't allow "CVS" as any directory in module path.
      *
@@ -206,7 +201,7 @@ import (int argc, char **argv)
 		error (1, 0, "tag `%s' was specified more than once", argv[i]);
     }
 
-    if (isabsolute (argv[0]) || pathname_levels (argv[0]) > 0)
+    if (ISABSOLUTE (argv[0]) || pathname_levels (argv[0]) > 0)
 	/* It is somewhere between a security hole and "unexpected" to
 	   let the client start mucking around outside the cvsroot
 	   (wouldn't get the right CVSROOT configuration, &c).  */
@@ -257,20 +252,12 @@ import (int argc, char **argv)
     }
 #endif
 
-    if (
-#ifdef SERVER_SUPPORT
-        !server_active &&
-#endif
-        use_editor)
+    if (!server_active && use_editor)
     {
 	do_editor (NULL, &message,
-#ifdef CLIENT_SUPPORT
-		   current_parsed_root->isremote ? NULL :
-#endif
-			repository,
+		   current_parsed_root->isremote ? NULL : repository,
 		   NULL);
     }
-    do_verify (&message, repository);
     msglen = message == NULL ? 0 : strlen (message);
     if (msglen == 0 || message[msglen - 1] != '\n')
     {
@@ -332,6 +319,19 @@ import (int argc, char **argv)
     {
 	error (1, 0, "attempt to import the repository");
     }
+
+    ulist = getlist ();
+    p = getnode ();
+    p->type = UPDATE;
+    p->delproc = update_delproc;
+    p->key = xstrdup ("- Imported sources");
+    li = xmalloc (sizeof (struct logfile_info));
+    li->type = T_TITLE;
+    li->tag = xstrdup (vbranch);
+    li->rev_old = li->rev_new = NULL;
+    p->data = li;
+    (void) addnode (ulist, p);
+    do_verify (&message, repository, ulist);
 
     /*
      * Make all newly created directories writable.  Should really use a more
@@ -419,17 +419,6 @@ import (int argc, char **argv)
     /*
      * Write out the logfile and clean up.
      */
-    ulist = getlist ();
-    p = getnode ();
-    p->type = UPDATE;
-    p->delproc = update_delproc;
-    p->key = xstrdup ("- Imported sources");
-    li = xmalloc (sizeof (struct logfile_info));
-    li->type = T_TITLE;
-    li->tag = xstrdup (vbranch);
-    li->rev_old = li->rev_new = NULL;
-    p->data = li;
-    (void) addnode (ulist, p);
     Update_Logfile (repository, message, logfp, ulist);
     dellist (&ulist);
     if (fclose (logfp) < 0)
@@ -465,6 +454,9 @@ import_descend (char *message, char *vtag, int targc, char **targv)
     ign_add_file (CVSDOTIGNORE, 1);
     wrap_add_file (CVSDOTWRAPPER, 1);
 
+    if (!current_parsed_root->isremote)
+	lock_dir_for_write (repository);
+
     if ((dirp = CVS_OPENDIR (".")) == NULL)
     {
 	error (0, errno, "cannot open directory");
@@ -477,13 +469,13 @@ import_descend (char *message, char *vtag, int targc, char **targv)
 	{
 	    if (strcmp (dp->d_name, ".") == 0 || strcmp (dp->d_name, "..") == 0)
 		goto one_more_time_boys;
-#ifdef SERVER_SUPPORT
+
 	    /* CVS directories are created in the temp directory by
 	       server.c because it doesn't special-case import.  So
 	       don't print a message about them, regardless of -I!.  */
 	    if (server_active && strcmp (dp->d_name, CVSADM) == 0)
 		goto one_more_time_boys;
-#endif
+
 	    if (ign_name (dp->d_name))
 	    {
 		add_log ('I', dp->d_name);
@@ -546,6 +538,9 @@ import_descend (char *message, char *vtag, int targc, char **targv)
 	}
 	(void) CVS_CLOSEDIR (dirp);
     }
+
+    if (!current_parsed_root->isremote)
+	Simple_Lock_Cleanup ();
 
     if (dirlist != NULL)
     {
@@ -1145,7 +1140,7 @@ add_rcs_file (const char *message, const char *rcs, const char *user,
        `cannot lstat'.  I don't see a way around this, since we must
        stat the file before opening it. -twp */
 
-    if (CVS_LSTAT (userfile, &sb) < 0)
+    if (lstat (userfile, &sb) < 0)
     {
 	/* not fatal, continue import */
 	if (add_logfp != NULL)
@@ -1732,11 +1727,7 @@ import_descend_dir (char *message, char *dir, char *vtag, int targc,
 	repository = new;
     }
 
-#ifdef CLIENT_SUPPORT
     if (!quiet && !current_parsed_root->isremote)
-#else
-    if (!quiet)
-#endif
 	error (0, 0, "Importing %s", repository);
 
     if (CVS_CHDIR (dir) < 0)
@@ -1747,11 +1738,7 @@ import_descend_dir (char *message, char *dir, char *vtag, int targc,
 	err = 1;
 	goto out;
     }
-#ifdef CLIENT_SUPPORT
     if (!current_parsed_root->isremote && !isdir (repository))
-#else
-    if (!isdir (repository))
-#endif
     {
 	rcs = Xasprintf ("%s%s", repository, RCSEXT);
 	if (isfile (repository) || isfile (rcs))

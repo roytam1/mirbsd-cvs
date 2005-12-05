@@ -144,7 +144,7 @@ my_module (DBM *db, char *mname, enum mtype m_type, char *msg,
      *   cvs [server aborted]: cannot make directory /foo: Permission denied
      *   $
      */
-    if (isabsolute (mname))
+    if (ISABSOLUTE (mname))
 	error (1, 0, "Absolute module reference invalid: `%s'", mname);
 
     /* Similarly for directories that attempt to step above the root of the
@@ -684,7 +684,8 @@ module `%s' is a request for a file in a module which is not a directory",
 	    }
 
 	    /* XXX can we determine the line number for this entry??? */
-	    expanded_path = expand_path (prog, "modules", 0, 0);
+	    expanded_path = expand_path (prog, current_parsed_root->directory,
+					 false, "modules", 0);
 	    if (expanded_path != NULL)
 	    {
 		run_setup (expanded_path);

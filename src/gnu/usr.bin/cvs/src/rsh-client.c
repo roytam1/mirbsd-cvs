@@ -184,7 +184,7 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	        fprintf (stderr, "%s ", argv[i]);
 	    putc ('\n', stderr);
 	}
-	child_pid = piped_child (argv, &tofd, &fromfd);
+	child_pid = piped_child (argv, &tofd, &fromfd, true);
 
 	if (child_pid < 0)
 	    error (1, errno, "cannot start server via rsh");

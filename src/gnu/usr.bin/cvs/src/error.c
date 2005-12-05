@@ -120,14 +120,18 @@ error (int status, int errnum, const char *message, ...)
     char *cmdbuf;
     char *emptybuf = "";
 
+    static const char *last_message = NULL;
+    static int last_status;
+    static int last_errnum;
+
     /* Initialize these to avoid a lot of special case error handling.  */
     buf = statbuf;
     buf2 = statbuf2;
     cmdbuf = emptybuf;
 
     /* Expand the message the user passed us.  */
-    va_start (args, message);
     length = sizeof (statbuf);
+    va_start (args, message);
     buf = vasnprintf (statbuf, &length, message, args);
     va_end (args);
     if (!buf) goto memerror;
@@ -158,8 +162,21 @@ error (int status, int errnum, const char *message, ...)
                       errnum ? ": " : "", errnum ? strerror (errnum) : "");
     if (!buf2) goto memerror;
 
-    /* Send the final message to the client or log it.  */
+    /* Send the final message to the client or log it.
+     *
+     * Set this recursion block first since this is the only function called
+     * here which can cause error() to be called a second time.
+     */
+    if (last_message) goto recursion_error;
+    last_message = buf2;
+    last_status = status;
+    last_errnum = errnum;
     cvs_outerr (buf2, length);
+
+    /* Reset our recursion lock.  This needs to be done before the call to
+     * exit() to allow the exit handlers to make calls to error().
+     */
+    last_message = NULL;
 
     /* Done, if we're exiting.  */
     if (status)
@@ -193,6 +210,34 @@ memerror:
 #if HAVE_SYSLOG_H
     syslog (LOG_DAEMON | LOG_EMERG, "Memory exhausted.  Aborting.");
 #endif /* HAVE_SYSLOG_H */
+
+    goto sidestep_done;
+
+recursion_error:
+#if HAVE_SYSLOG_H
+    /* Syslog the problem since recursion probably means that we encountered an
+     * error while attempting to send the last error message to the client.
+     */
+
+    syslog (LOG_DAEMON | LOG_EMERG,
+	    "error (%d, %d) called recursively.  Original message was:",
+	    last_status, last_errnum);
+    syslog (LOG_DAEMON | LOG_EMERG, "%s", last_message);
+
+
+    syslog (LOG_DAEMON | LOG_EMERG,
+            "error (%d, %d) called recursively.  Second message was:",
+	    status, errnum);
+    syslog (LOG_DAEMON | LOG_EMERG, "%s", buf2);
+
+    syslog (LOG_DAEMON | LOG_EMERG, "Aborting.");
+#endif /* HAVE_SYSLOG_H */
+
+sidestep_done:
+    /* Reset our recursion lock.  This needs to be done before the call to
+     * exit() to allow the exit handlers to make calls to error().
+     */
+    last_message = NULL;
 
     exit (EXIT_FAILURE);
 }

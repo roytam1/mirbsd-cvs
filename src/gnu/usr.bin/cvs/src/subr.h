@@ -33,7 +33,6 @@ char *previous_rev (RCSNode *rcs, const char *rev);
 char *gca (const char *rev1, const char *rev2);
 void check_numeric (const char *, int, char **);
 char *make_message_rcsvalid (const char *message);
-int file_has_conflict (const struct file_info *, const char *ts_conflict);
 int file_has_markers (const struct file_info *);
 void get_file (const char *, const char *, const char *,
                char **, size_t *, size_t *);
@@ -72,8 +71,6 @@ char *format_cmdline (bool oldway, const char *srepos, const char *format, ...);
 char *format_cmdline (const char *format, ...);
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
 
-bool isabsolute (const char *filename);
-
 /* Many, many CVS calls to xstrdup depend on it to return NULL when its
  * argument is NULL.
  */
@@ -89,4 +86,7 @@ bool readBool (const char *infopath, const char *option,
 	       const char *p, bool *val);
 
 FILE *xfopen (const char *, const char *);
+char *xcanonicalize_file_name (const char *path);
+bool isThisHost (const char *otherhost);
+bool isSamePath (const char *path1_in, const char *path2_in);
 #endif /* !SUBR_H */

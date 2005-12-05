@@ -14,6 +14,9 @@
  */
 
 #include "cvs.h"
+
+#include "canonicalize.h"
+#include "canon-host.h"
 #include "getline.h"
 #include "vasprintf.h"
 #include "vasnprintf.h"
@@ -23,10 +26,7 @@
 # include <wchar.h>
 #endif
 
-#if !defined HAVE_NANOSLEEP && !defined HAVE_USLEEP && defined HAVE_SELECT
-  /* use select as a workaround */
-# include "xselect.h"
-#endif /* !defined HAVE_NANOSLEEP && !defined HAVE_USLEEP && defined HAVE_SELECT */
+
 
 extern char *getlogin (void);
 
@@ -570,57 +570,6 @@ make_message_rcsvalid (const char *message)
 
 
 
-/*
- * file_has_conflict
- *
- * This function compares the timestamp of a file with ts_conflict set
- * to the timestamp on the actual file and returns TRUE or FALSE based
- * on the results.
- *
- * This function does not check for actual markers in the file and
- * file_has_markers() function should be called when that is interesting.
- *
- * ASSUMPTIONS
- *  The ts_conflict field is not NULL.
- *
- * RETURNS
- *  TRUE	ts_conflict matches the current timestamp.
- *  FALSE	The ts_conflict field does not match the file's
- *		timestamp.
- */
-int
-file_has_conflict (const struct file_info *finfo, const char *ts_conflict)
-{
-    char *filestamp;
-    int retcode;
-
-    /* If ts_conflict is NULL, there was no merge since the last
-     * commit and there can be no conflict.
-     */
-    assert (ts_conflict);
-
-    /*
-     * If the timestamp has changed and no
-     * conflict indicators are found, it isn't a
-     * conflict any more.
-     */
-
-#ifdef SERVER_SUPPORT
-    if (server_active)
-	retcode = ts_conflict[0] == '=' && ts_conflict[1] == '\0';
-    else 
-#endif /* SERVER_SUPPORT */
-    {
-	filestamp = time_stamp (finfo->file);
-	retcode = !strcmp (ts_conflict, filestamp);
-	free (filestamp);
-    }
-
-    return retcode;
-}
-
-
-
 /* Does the file FINFO contain conflict markers?  The whole concept
    of looking at the contents of the file to figure out whether there are
    unresolved conflicts is kind of bogus (people do want to manage files
@@ -690,7 +639,7 @@ get_file (const char *name, const char *fullname, const char *mode, char **buf,
 	   be of arbitrary size, so I think we better do all that
 	   extra allocation.  */
 
-	if (CVS_STAT (name, &s) < 0)
+	if (stat (name, &s) < 0)
 	    error (1, errno, "can't stat %s", fullname);
 
 	/* Convert from signed to unsigned.  */
@@ -772,7 +721,7 @@ resolve_symlink (char **filename)
 	   expedient hack seems to be looking at HAVE_READLINK.  */
 	char *newname = Xreadlink (*filename, rsize);
 	
-	if (isabsolute (newname))
+	if (ISABSOLUTE (newname))
 	{
 	    free (*filename);
 	    *filename = newname;
@@ -1832,17 +1781,6 @@ format_cmdline (const char *format, ...)
 
 
 
-/* Return true iff FILENAME is absolute.
-   Trivial under Unix, but more complicated under other systems.  */
-bool
-isabsolute (filename)
-    const char *filename;
-{
-    return ISABSOLUTE (filename);
-}
-
-
-
 /* Like xstrdup (), but can handle a NULL argument.
  */
 char *
@@ -1960,4 +1898,106 @@ xfopen (const char *name, const char *mode)
     if (!(fp = fopen (name, mode)))
 	error (1, errno, "cannot open %s", name);
     return fp;
+}
+
+
+
+/* char *
+ * xcanonicalize_file_name (const char *path)
+ *
+ * Like canonicalize_file_name(), but exit on error.
+ *
+ * INPUTS
+ *  path	The original path.
+ *
+ * RETURNS
+ *  The path with any symbolic links, `.'s, or `..'s, expanded.
+ *
+ * ERRORS
+ *  This function exits with a fatal error if it fails to read the link for
+ *  any reason.
+ */
+char *
+xcanonicalize_file_name (const char *path)
+{
+    char *hardpath = canonicalize_file_name (path);
+    if (!hardpath)
+	error (1, errno, "Failed to resolve path: `%s'", path);
+    return hardpath;
+}
+
+
+
+/* Declared in main.c.  */
+extern char *server_hostname;
+
+/* Return true if OTHERHOST resolves to this host in the DNS.
+ *
+ * GLOBALS
+ *   server_hostname	The name of this host, as determined by the call to
+ *			xgethostname() in main().
+ *
+ * RETURNS
+ *   true	If OTHERHOST equals or resolves to HOSTNAME.
+ *   false	Otherwise.
+ */
+bool
+isThisHost (const char *otherhost)
+{
+    char *fqdno;
+    char *fqdns;
+    bool retval;
+
+    /* As an optimization, check the literal strings before looking up
+     * OTHERHOST in the DNS.
+     */
+    if (!strcasecmp (server_hostname, otherhost))
+	return true;
+
+    fqdno = canon_host (otherhost);
+    if (!fqdno)
+	error (1, 0, "Name lookup failed for `%s': %s",
+	       otherhost, ch_strerror ());
+    fqdns = canon_host (server_hostname);
+    if (!fqdns)
+	error (1, 0, "Name lookup failed for `%s': %s",
+	       server_hostname, ch_strerror ());
+
+    retval = !strcasecmp (fqdns, fqdno);
+
+    free (fqdno);
+    free (fqdns);
+    return retval;
+}
+
+
+
+/* Return true if two paths match, resolving symlinks.
+ */
+bool
+isSamePath (const char *path1_in, const char *path2_in)
+{
+    char *p1, *p2;
+    bool same;
+
+    if (!strcmp (path1_in, path2_in))
+	return true;
+
+    /* Path didn't match, but try to resolve any links that may be
+     * present.
+     */
+    if (!isdir (path1_in) || !isdir (path2_in))
+	/* To be resolvable, paths must exist on this server.  */
+	return false;
+
+    p1 = xcanonicalize_file_name (path1_in);
+    p2 = xcanonicalize_file_name (path2_in);
+    if (strcmp (p1, p2))
+	same = false;
+    else
+	same = true;
+
+    free (p1);
+    free (p2);
+    return same;
 }

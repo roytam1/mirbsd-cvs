@@ -16,7 +16,7 @@
 
    You should have received a copy of the GNU General Public License along
    with this program; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -373,13 +373,6 @@ static CHAR_T const month_name[][10] =
 # define ns 0
 #endif
 
-#if ! defined _LIBC && ! HAVE_RUN_TZSET_TEST
-/* Solaris 2.5.x and 2.6 tzset sometimes modify the storage returned
-   by localtime.  On such systems, we must use the tzset and localtime
-   wrappers to work around the bug.  */
-"you must run the autoconf test for a working tzset function"
-#endif
-
 
 /* Write information from TP into S according to the format
    string FORMAT, writing no more that MAXSIZE characters
@@ -437,6 +430,15 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
   const CHAR_T *f;
 #if DO_MULTIBYTE && !defined COMPILE_WIDE
   const char *format_end = NULL;
+#endif
+
+#if ! defined _LIBC && ! HAVE_RUN_TZSET_TEST
+  /* Solaris 2.5.x and 2.6 tzset sometimes modify the storage returned
+     by localtime.  On such systems, we must either use the tzset and
+     localtime wrappers to work around the bug (which sets
+     HAVE_RUN_TZSET_TEST) or make a copy of the structure.  */
+  struct tm copy = *tp;
+  tp = &copy;
 #endif
 
   zone = NULL;
@@ -907,10 +909,10 @@ my_strftime (CHAR_T *s, size_t maxsize, const CHAR_T *format,
 	    }
 	  while (u_number_value != 0);
 
+	do_number_sign_and_padding:
 	  if (digits < width)
 	    digits = width;
 
-	do_number_sign_and_padding:
 	  if (negative_number)
 	    *--bufp = L_('-');
 

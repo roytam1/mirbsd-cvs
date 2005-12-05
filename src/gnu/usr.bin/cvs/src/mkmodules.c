@@ -738,17 +738,14 @@ mkmodules (char *dir)
 	temp = make_tempfile ();
 	if (checkout_file (fileptr->filename, temp) == 0)
 	    rename_rcsfile (temp, fileptr->filename);
-#if 0
-	/*
-	 * If there was some problem other than the file not existing,
-	 * checkout_file already printed a real error message.  If the
-	 * file does not exist, it is harmless--it probably just means
-	 * that the repository was created with an old version of CVS
-	 * which didn't have so many files in CVSROOT.
+	/* else
+	 *   If there was some problem other than the file not existing,
+	 *   checkout_file already printed a real error message.  If the
+	 *   file does not exist, it is harmless--it probably just means
+	 *   that the repository was created with an old version of CVS
+	 *   which didn't have so many files in CVSROOT.
 	 */
-	else if (fileptr->errormsg)
-	    error (0, 0, fileptr->errormsg, fileptr->filename);
-#endif
+
 	if (unlink_file (temp) < 0
 	    && !existence_error (errno))
 	    error (0, errno, "cannot remove %s", temp);
@@ -1109,7 +1106,7 @@ rename_rcsfile (char *temp, char *real)
     /* Set "x" bits if set in original. */
     rcs = Xasprintf ("%s%s", real, RCSEXT);
     statbuf.st_mode = 0; /* in case rcs file doesn't exist, but it should... */
-    if (CVS_STAT (rcs, &statbuf) < 0
+    if (stat (rcs, &statbuf) < 0
 	&& !existence_error (errno))
 	error (0, errno, "cannot stat %s", rcs);
     free (rcs);

@@ -32,6 +32,7 @@ static bool setting_tcommit;
 static int
 onoff_fileproc (void *callerdat, struct file_info *finfo)
 {
+    fileattr_get0 (finfo->file, "_watched");
     fileattr_set (finfo->file, "_watched", turning_on ? "" : NULL);
     return 0;
 }
@@ -43,7 +44,10 @@ onoff_filesdoneproc (void *callerdat, int err, const char *repository,
                      const char *update_dir, List *entries)
 {
     if (setting_default)
+    {
+	fileattr_get0 (NULL, "_watched");
 	fileattr_set (NULL, "_watched", turning_on ? "" : NULL);
+    }
     return err;
 }
 
@@ -433,14 +437,14 @@ edit_fileproc (void *callerdat, struct file_info *finfo)
 
 static const char *const edit_usage[] =
 {
-    "Usage: %s %s [-cflR] [files...]\n",
-    "-c: Check that working files are unedited\n",
-    "-f: Force edit if working files are edited (default)\n",
-    "-l: Local directory only, not recursive\n",
-    "-R: Process directories recursively\n",
-    "-a: Specify what actions for temporary watch, one of\n",
-    "    edit,unedit,commit,all,none\n",
-    "(Specify the --help global option for a list of other help options)\n",
+    "Usage: %s %s [-lRcf] [-a <action>]... [<file>]...\n",
+    "-l\tLocal directory only, not recursive.\n",
+    "-R\tProcess directories recursively (default).\n",
+    "-a\tSpecify action to register for temporary watch, one of:\n",
+    "  \t`edit', `unedit', `commit', `all', `none' (defaults to `all').\n",
+    "-c\tCheck for <file>s edited by others and abort if found.\n",
+    "-f\tAllow edit if <file>s are edited by others (default).\n",
+    "(Specify the --help global option for a list of other help options.)\n",
     NULL
 };
 
@@ -708,10 +712,10 @@ unedit_fileproc (void *callerdat, struct file_info *finfo)
 
 static const char *const unedit_usage[] =
 {
-    "Usage: %s %s [-lR] [files...]\n",
-    "-l: Local directory only, not recursive\n",
-    "-R: Process directories recursively\n",
-    "(Specify the --help global option for a list of other help options)\n",
+    "Usage: %s %s [-lR] [<file>]...\n",
+    "-l\tLocal directory only, not recursive.\n",
+    "-R\tProcess directories recursively (default).\n",
+    "(Specify the --help global option for a list of other help options.)\n",
     NULL
 };
 
@@ -1161,10 +1165,10 @@ notify_check (const char *repository, const char *update_dir)
 
 static const char *const editors_usage[] =
 {
-    "Usage: %s %s [-lR] [files...]\n",
-    "\t-l\tProcess this directory only (not recursive).\n",
-    "\t-R\tProcess directories recursively.\n",
-    "(Specify the --help global option for a list of other help options)\n",
+    "Usage: %s %s [-lR] [<file>]...\n",
+    "-l\tProcess this directory only (not recursive).\n",
+    "-R\tProcess directories recursively (default).\n",
+    "(Specify the --help global option for a list of other help options.)\n",
     NULL
 };
 

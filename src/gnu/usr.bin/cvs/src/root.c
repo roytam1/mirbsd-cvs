@@ -112,11 +112,7 @@ Name_Root (const char *dir, const char *update_dir)
 	goto out;
     }
 
-    if (
-#ifdef CLIENT_SUPPORT
-        !ret->isremote &&
-#endif
-        !isdir (ret->directory))
+    if (!ret->isremote && !isdir (ret->directory))
     {
 	error (0, 0, "in directory %s:", xupdate_dir);
 	error (0, 0,
@@ -279,14 +275,14 @@ delconfig (Node *n)
 
 
 void
-root_allow_add (const char *arg)
+root_allow_add (const char *arg, const char *configPath)
 {
     Node *n;
 
     if (!root_allow) root_allow = getlist();
     n = getnode();
     n->key = xstrdup (arg);
-    n->data = parse_config (arg);
+    n->data = parse_config (arg, configPath);
     n->delproc = delconfig;
     addnode (root_allow, n);
 }
@@ -329,7 +325,7 @@ error 0 Server configuration missing --allow-root in inetd.conf\n");
  *   The config associated with ARG.
  */
 struct config *
-get_root_allow_config (const char *arg)
+get_root_allow_config (const char *arg, const char *configPath)
 {
     Node *n;
 
@@ -341,7 +337,7 @@ get_root_allow_config (const char *arg)
 	n = NULL;
 
     if (n) return n->data;
-    return parse_config (arg);
+    return parse_config (arg, configPath);
 }
 
 
@@ -384,7 +380,9 @@ new_cvsroot_t (void)
     newroot = xmalloc(sizeof(cvsroot_t));
 
     newroot->original = NULL;
+    newroot->directory = NULL;
     newroot->method = null_method;
+    newroot->isremote = false;
 #ifdef CLIENT_SUPPORT
     newroot->username = NULL;
     newroot->password = NULL;
@@ -392,10 +390,8 @@ new_cvsroot_t (void)
     newroot->cvs_rsh = NULL;
     newroot->cvs_server = NULL;
     newroot->port = 0;
-    newroot->directory = NULL;
     newroot->proxy_hostname = NULL;
     newroot->proxy_port = 0;
-    newroot->isremote = 0;
     newroot->redirect = true;	/* Advertise Redirect support */
 #endif /* CLIENT_SUPPORT */
 
@@ -404,10 +400,16 @@ new_cvsroot_t (void)
 
 
 
-/* Dispose of a cvsroot_t and its component parts */
-void
+/* Dispose of a cvsroot_t and its component parts.
+ *
+ * NOTE
+ *  It is dangerous for most code to call this function since parse_cvsroot
+ *  maintains a cache of parsed roots.
+ */
+static void
 free_cvsroot_t (cvsroot_t *root)
 {
+    assert (root);
     if (root->original != NULL)
 	free (root->original);
     if (root->directory != NULL)
@@ -630,9 +632,9 @@ parse_cvsroot (const char *root_in)
      * method of this root.
      */
 
-#if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
     newroot->isremote = (newroot->method != local_method);
 
+#if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
     if (readonlyfs && newroot->isremote)
 	error (1, 0,
 "Read-only repository feature unavailable with remote roots (cvsroot = %s)",
@@ -776,7 +778,7 @@ parse_cvsroot (const char *root_in)
 	   pathname produced various errors (I couldn't get it to work),
 	   so there would seem to be little risk in making this a fatal
 	   error.  */
-	if (!isabsolute (newroot->directory))
+	if (!ISABSOLUTE (newroot->directory))
 	{
 	    error (0, 0, "CVSROOT must be an absolute pathname (not `%s')",
 		   newroot->directory);
@@ -804,7 +806,7 @@ parse_cvsroot (const char *root_in)
 	    goto error_exit;
 	}
 	newroot->hostname = xstrdup("server");  /* for error messages */
-	if (!isabsolute (newroot->directory))
+	if (!ISABSOLUTE (newroot->directory))
 	{
 	    error (0, 0, "CVSROOT must be an absolute pathname (not `%s')",
 		   newroot->directory);
@@ -1018,18 +1020,8 @@ local_cvsroot (const char *dir)
 char *program_name = "testing";
 char *cvs_cmd_name = "parse_cvsroot";		/* XXX is this used??? */
 
-/* Toy versions of various functions when debugging under unix.  Yes,
-   these make various bad assumptions, but they're pretty easy to
-   debug when something goes wrong.  */
-
-int
-isabsolute( const char *dir )
-{
-    return (dir && (*dir == '/'));
-}
-
 void
-main( int argc, char *argv[] )
+main (int argc, char *argv[])
 {
     program_name = argv[0];
 
@@ -1045,12 +1037,16 @@ main( int argc, char *argv[] )
 	exit (1);
     }
     printf ("CVSroot: %s\n", argv[1]);
-    printf ("current_parsed_root->method: %s\n", method_names[current_parsed_root->method]);
+    printf ("current_parsed_root->method: %s\n",
+	    method_names[current_parsed_root->method]);
     printf ("current_parsed_root->username: %s\n",
-	    current_parsed_root->username ? current_parsed_root->username : "NULL");
+	    current_parsed_root->username
+	      ? current_parsed_root->username : "NULL");
     printf ("current_parsed_root->hostname: %s\n",
-	    current_parsed_root->hostname ? current_parsed_root->hostname : "NULL");
-    printf ("current_parsed_root->directory: %s\n", current_parsed_root->directory);
+	    current_parsed_root->hostname
+	      ? current_parsed_root->hostname : "NULL");
+    printf ("current_parsed_root->directory: %s\n",
+	    current_parsed_root->directory);
 
    exit (0);
    /* NOTREACHED */

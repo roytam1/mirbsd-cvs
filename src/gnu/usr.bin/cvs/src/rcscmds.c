@@ -17,6 +17,7 @@
 #include "cvs.h"
 #include <stdio.h>
 #include "diffrun.h"
+#include "quotearg.h"
 
 /* This file, rcs.h, and rcs.c, together sometimes known as the "RCS
    library", are intended to define our interface to RCS files.
@@ -55,8 +56,8 @@
    On a related note, see the comments at diff_exec, later in this file,
    for more on the diff library.  */
 
-static void RCS_output_diff_options (const char *, const char *, const char *,
-                                     const char *);
+static void RCS_output_diff_options (int, char * const *, const char *,
+				     const char *, const char *);
 
 
 /* Stuff to deal with passing arguments the way libdiff.a wants to deal
@@ -68,17 +69,15 @@ static void RCS_output_diff_options (const char *, const char *, const char *,
    argument will be parsed into whitespace separated words and added
    to the global call_diff_argv list.
 
-   Then, optionally, call call_diff_arg for each additional argument
+   Then, optionally, call call_diff_add_arg for each additional argument
    that you'd like to pass to the diff library.
 
    Finally, call call_diff or call_diff3 to produce the diffs.  */
 
 static char **call_diff_argv;
 static int call_diff_argc;
-static int call_diff_argc_allocated;
+static size_t call_diff_arg_allocated;
 
-static void call_diff_add_arg (const char *);
-static void call_diff_setup (const char *prog);
 static int call_diff (const char *out);
 static int call_diff3 (char *out);
 
@@ -87,59 +86,35 @@ static void call_diff_flush_output (void);
 static void call_diff_write_stdout (const char *);
 static void call_diff_error (const char *, const char *, const char *);
 
+
+
 /* VARARGS */
-static void 
-call_diff_setup (const char *prog)
-{
-    char *cp;
-    int i;
-    char *call_diff_prog;
-
-    /* clean out any malloc'ed values from call_diff_argv */
-    for (i = 0; i < call_diff_argc; i++)
-    {
-	if (call_diff_argv[i])
-	{
-	    free (call_diff_argv[i]);
-	    call_diff_argv[i] = NULL;
-	}
-    }
-    call_diff_argc = 0;
-
-    call_diff_prog = xstrdup (prog);
-
-    /* put each word into call_diff_argv, allocating it as we go */
-    for (cp = strtok (call_diff_prog, " \t");
-	 cp != NULL;
-	 cp = strtok (NULL, " \t"))
-	call_diff_add_arg (cp);
-    free (call_diff_prog);
-}
-
-static void
-call_diff_arg (const char *s)
-{
-    call_diff_add_arg (s);
-}
-
 static void
 call_diff_add_arg (const char *s)
 {
-    /* allocate more argv entries if we've run out */
-    if (call_diff_argc >= call_diff_argc_allocated)
-    {
-	call_diff_argc_allocated += 50;
-	call_diff_argv = xnrealloc (call_diff_argv,
-				    call_diff_argc_allocated,
-				    sizeof (char **));
-    }
-
-    if (s)
-	call_diff_argv[call_diff_argc++] = xstrdup (s);
-    else
-	/* Not post-incremented on purpose!  */
-	call_diff_argv[call_diff_argc] = NULL;
+    TRACE (TRACE_DATA, "call_diff_add_arg (%s)", s);
+    run_add_arg_p (&call_diff_argc, &call_diff_arg_allocated, &call_diff_argv,
+		   s);
 }
+
+
+
+static void 
+call_diff_setup (const char *prog, int argc, char * const *argv)
+{
+    int i;
+
+    /* clean out any malloc'ed values from call_diff_argv */
+    run_arg_free_p (call_diff_argc, call_diff_argv);
+    call_diff_argc = 0;
+
+    /* put each word into call_diff_argv, allocating it as we go */
+    call_diff_add_arg (prog);
+    for (i = 0; i < argc; i++)
+	call_diff_add_arg (argv[i]);
+}
+
+
 
 /* Callback function for the diff library to write data to the output
    file.  This is used when we are producing output to stdout.  */
@@ -205,6 +180,8 @@ static struct diff_callbacks call_diff_file_callbacks =
 static int
 call_diff (const char *out)
 {
+    call_diff_add_arg (NULL);
+
     if (out == RUN_TTY)
 	return diff_run( call_diff_argc, call_diff_argv, NULL,
 			 &call_diff_stdout_callbacks );
@@ -291,21 +268,21 @@ RCS_merge (RCSNode *rcs, const char *path, const char *workfile,
     /* Remember that the first word in the `call_diff_setup' string is used now
        only for diagnostic messages -- CVS no longer forks to run diff3. */
     diffout = cvs_temp_name();
-    call_diff_setup ("diff3");
-    call_diff_arg ("-E");
-    call_diff_arg ("-am");
+    call_diff_setup ("diff3", 0, NULL);
+    call_diff_add_arg ("-E");
+    call_diff_add_arg ("-am");
 
-    call_diff_arg ("-L");
-    call_diff_arg (workfile);
-    call_diff_arg ("-L");
-    call_diff_arg (xrev1);
-    call_diff_arg ("-L");
-    call_diff_arg (xrev2);
+    call_diff_add_arg ("-L");
+    call_diff_add_arg (workfile);
+    call_diff_add_arg ("-L");
+    call_diff_add_arg (xrev1);
+    call_diff_add_arg ("-L");
+    call_diff_add_arg (xrev2);
 
-    call_diff_arg ("--");
-    call_diff_arg (workfile);
-    call_diff_arg (tmp1);
-    call_diff_arg (tmp2);
+    call_diff_add_arg ("--");
+    call_diff_add_arg (workfile);
+    call_diff_add_arg (tmp1);
+    call_diff_add_arg (tmp2);
 
     retval = call_diff3 (diffout);
 
@@ -371,7 +348,8 @@ RCS_merge (RCSNode *rcs, const char *path, const char *workfile,
    about this--any such features are undocumented in the context of
    CVS, and I'm not sure how important to users.  */
 int
-RCS_exec_rcsdiff (RCSNode *rcsfile, const char *opts, const char *options,
+RCS_exec_rcsdiff (RCSNode *rcsfile, int diff_argc,
+		  char * const *diff_argv, const char *options,
                   const char *rev1, const char *rev1_cache, const char *rev2,
                   const char *label1, const char *label2, const char *workfile)
 {
@@ -446,8 +424,9 @@ RCS file: ", 0);
 	use_file2 = tmpfile2;
     }
 
-    RCS_output_diff_options (opts, rev1, rev2, workfile);
-    status = diff_exec( use_file1, use_file2, label1, label2, opts, RUN_TTY );
+    RCS_output_diff_options (diff_argc, diff_argv, rev1, rev2, workfile);
+    status = diff_exec (use_file1, use_file2, label1, label2,
+			diff_argc, diff_argv, RUN_TTY);
     if (status >= 0)
     {
 	retval = status;
@@ -527,9 +506,11 @@ RCS file: ", 0);
 
 int
 diff_exec (const char *file1, const char *file2, const char *label1,
-           const char *label2, const char *options, const char *out)
+           const char *label2, int dargc, char * const *dargv,
+	   const char *out)
 {
-    char *args;
+    TRACE (TRACE_FUNCTION, "diff_exec (%s, %s, %s, %s, %s)",
+	   file1, file2, label1, label2, out);
 
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
     /* If either file1 or file2 are special files, pretend they are
@@ -552,9 +533,9 @@ diff_exec (const char *file1, const char *file2, const char *label1,
     {
 	struct stat sb1, sb2;
 
-	if (CVS_LSTAT (file1, &sb1) < 0)
+	if (lstat (file1, &sb1) < 0)
 	    error (1, errno, "cannot get file information for %s", file1);
-	if (CVS_LSTAT (file2, &sb2) < 0)
+	if (lstat (file2, &sb2) < 0)
 	    error (1, errno, "cannot get file information for %s", file2);
 
 	if (!S_ISREG (sb1.st_mode) && !S_ISDIR (sb1.st_mode))
@@ -564,17 +545,15 @@ diff_exec (const char *file1, const char *file2, const char *label1,
     }
 #endif
 
-    /* The first word in this string is used only for error reporting. */
-    args = Xasprintf ("diff %s", options);
-    call_diff_setup (args);
+    /* The first arg to call_diff_setup is used only for error reporting. */
+    call_diff_setup ("diff", dargc, dargv);
     if (label1)
-	call_diff_arg (label1);
+	call_diff_add_arg (label1);
     if (label2)
-	call_diff_arg (label2);
-    call_diff_arg ("--");
-    call_diff_arg (file1);
-    call_diff_arg (file2);
-    free (args);
+	call_diff_add_arg (label2);
+    call_diff_add_arg ("--");
+    call_diff_add_arg (file1);
+    call_diff_add_arg (file2);
 
     return call_diff (out);
 }
@@ -586,14 +565,20 @@ diff_exec (const char *file1, const char *file2, const char *label1,
    that I have seen. */
 
 static void
-RCS_output_diff_options (const char *opts, const char *rev1, const char *rev2,
+RCS_output_diff_options (int diff_argc, char * const *diff_argv,
+			 const char *rev1, const char *rev2,
                          const char *workfile)
 {
-    char *tmp;
-
-    tmp = Xasprintf ("diff%s -r%s", opts, rev1);
-    cvs_output (tmp, 0);
-    free (tmp);
+    int i;
+    
+    cvs_output ("diff", 0);
+    for (i = 0; i < diff_argc; i++)
+    {
+        cvs_output (" ", 1);
+	cvs_output (quotearg_style (shell_quoting_style, diff_argv[i]), 0);
+    }
+    cvs_output (" -r", 3);
+    cvs_output (rev1, 0);
 
     if (rev2)
     {

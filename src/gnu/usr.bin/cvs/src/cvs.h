@@ -44,6 +44,9 @@
 # endif
 #endif /* __attribute__ */
 
+/* Some GNULIB headers require that we include system headers first.  */
+#include "system.h"
+
 /* begin GNULIB headers */
 #include "dirname.h"
 #include "exit.h"
@@ -51,6 +54,9 @@
 #include "minmax.h"
 #include "regex.h"
 #include "strcase.h"
+#include "stat-macros.h"
+#include "timespec.h"
+#include "unlocked-io.h"
 #include "xalloc.h"
 #include "xgetcwd.h"
 #include "xreadlink.h"
@@ -71,8 +77,6 @@ char *getenv();
    string.h.  */
 char *strerror (int);
 #endif
-
-#include "system.h"
 
 #include "hash.h"
 #include "stack.h"
@@ -193,6 +197,8 @@ char *strerror (int);
 #define	CVSATTIC	"Attic"
 
 #define	CVSLCK		"#cvs.lock"
+#define	CVSHISTORYLCK	"#cvs.history.lock"
+#define	CVSVALTAGSLCK	"#cvs.val-tags.lock"
 #define	CVSRFL		"#cvs.rfl"
 #define	CVSPFL		"#cvs.pfl"
 #define	CVSWFL		"#cvs.wfl"
@@ -358,7 +364,7 @@ typedef enum direnter_type Dtype;
 #define PIOPT_ALL 1	/* accept "all" keyword */
 
 extern const char *program_name, *program_path, *cvs_cmd_name;
-extern char *Tmpdir, *Editor;
+extern char *Editor;
 extern int cvsadmin_root;
 extern char *CurDir;
 extern int really_quiet, quiet;
@@ -366,6 +372,12 @@ extern int use_editor;
 extern int cvswrite;
 extern mode_t cvsumask;
 
+/* Temp dir abstraction.  */
+/* From main.c.  */
+const char *get_cvs_tmp_dir (void);
+/* From filesubr.c.  */
+const char *get_system_temp_dir (void);
+void push_env_temp_dir (void);
 
 
 /* This global variable holds the global -d option.  It is NULL if -d
@@ -419,15 +431,15 @@ int RCS_merge (RCSNode *, const char *, const char *, const char *,
 #define RCS_FLAGS_KEEPFILE 16
 #define RCS_FLAGS_USETIME 32
 
-int RCS_exec_rcsdiff (RCSNode *rcsfile,
-                      const char *opts, const char *options,
+int RCS_exec_rcsdiff (RCSNode *rcsfile, int diff_argc,
+                      char * const *diff_argv, const char *options,
                       const char *rev1, const char *rev1_cache,
                       const char *rev2,
                       const char *label1, const char *label2,
                       const char *workfile);
 int diff_exec (const char *file1, const char *file2,
                const char *label1, const char *label2,
-               const char *options, const char *out);
+               int iargc, char * const *iargv, const char *out);
 
 
 #include "error.h"
@@ -482,7 +494,6 @@ bool isdevice (const char *file);
 bool isreadable (const char *file);
 bool iswritable (const char *file);
 bool isaccessible (const char *file, const int mode);
-char *xresolvepath (const char *path);
 const char *last_component (const char *path);
 char *get_homedir (void);
 char *strcat_filename_onto_homedir (const char *, const char *);
@@ -556,6 +567,14 @@ void lock_tree_promotably (int argc, char **argv, int local, int which,
 /* See lock.c for description.  */
 void lock_dir_for_write (const char *);
 
+/* Get a write lock for the history file.  */
+int history_lock (const char *);
+void clear_history_lock (void);
+
+/* Get a write lock for the val-tags file.  */
+int val_tags_lock (const char *);
+void clear_val_tags_lock (void);
+
 void Scratch_Entry (List * list, const char *fname);
 void ParseTag (char **tagp, char **datep, int *nonbranchp);
 void WriteTag (const char *dir, const char *tag, const char *date,
@@ -607,11 +626,11 @@ void Register (List * list, const char *fname, const char *vn, const char *ts,
                const char *options, const char *tag, const char *date,
                const char *ts_conflict);
 void Update_Logfile (const char *repository, const char *xmessage,
-                     FILE * xlogfp, List * xchanges);
+                     FILE *xlogfp, List *xchanges);
 void do_editor (const char *dir, char **messagep,
-                const char *repository, List * changes);
+                const char *repository, List *changes);
 
-void do_verify (char **messagep, const char *repository);
+void do_verify (char **messagep, const char *repository, List *changes);
 
 typedef	int (*CALLBACKPROC)	(int argc, char *argv[], char *where,
 	char *mwhere, char *mfile, int shorten, int local_specified,
@@ -657,6 +676,8 @@ void read_cvsrc (int *argc, char ***argv, const char *cmdname);
 #define	RUN_SIGIGNORE         0x0010    /* ignore interrupts for command */
 #define	RUN_TTY               (char *)0 /* for the benefit of lint */
 
+void run_add_arg_p (int *, size_t *, char ***, const char *s);
+void run_arg_free_p (int, char **);
 void run_add_arg (const char *s);
 void run_print (FILE * fp);
 void run_setup (const char *prog);
@@ -666,7 +687,7 @@ int run_piped (int *, int *);
 
 /* other similar-minded stuff from run.c.  */
 FILE *run_popen (const char *, const char *);
-int piped_child (char *const *, int *, int *);
+int piped_child (char *const *, int *, int *, bool);
 void close_on_exec (int);
 
 pid_t waitpid (pid_t, int *, int);
@@ -824,8 +845,8 @@ void wrap_unparse_rcs_options (char **, int);
 #endif /* SERVER_SUPPORT || CLIENT_SUPPORT */
 
 /* Pathname expansion */
-char *expand_path (const char *name, const char *file, int line,
-                   int formatsafe);
+char *expand_path (const char *name, const char *cvsroot, bool formatsafe,
+		   const char *file, int line);
 
 /* User variables.  */
 extern List *variable_list;
@@ -897,3 +918,6 @@ void cvs_flushout (void);
 void cvs_output_tagged (const char *, const char *);
 
 extern const char *global_session_id;
+
+/* From find_names.c.  */
+List *find_files (const char *dir, const char *pat);

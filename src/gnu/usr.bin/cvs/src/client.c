@@ -45,7 +45,7 @@
  * path map on the client side.  This would be generic enough to be applied to
  * absolute paths supplied by the user too.
  */
-static List *uppaths = NULL;
+static List *uppaths;
 
 
 
@@ -68,32 +68,6 @@ int status (int argc, char **argv);
 int tag (int argc, char **argv);
 int update (int argc, char **argv);
 
-/* All the response handling functions.  */
-static void handle_ok (char *, size_t);
-static void handle_error (char *, size_t);
-static void handle_valid_requests (char *, size_t);
-static void handle_checked_in (char *, size_t);
-static void handle_new_entry (char *, size_t);
-static void handle_checksum (char *, size_t);
-static void handle_copy_file (char *, size_t);
-static void handle_updated (char *, size_t);
-static void handle_merged (char *, size_t);
-static void handle_patched (char *, size_t);
-static void handle_rcs_diff (char *, size_t);
-static void handle_removed (char *, size_t);
-static void handle_remove_entry (char *, size_t);
-static void handle_set_static_directory (char *, size_t);
-static void handle_clear_static_directory (char *, size_t);
-static void handle_set_sticky (char *, size_t);
-static void handle_clear_sticky (char *, size_t);
-static void handle_clear_template (char *, size_t);
-static void handle_module_expansion (char *, size_t);
-static void handle_wrapper_rcs_option (char *, size_t);
-static void handle_m (char *, size_t);
-static void handle_e (char *, size_t);
-static void handle_f (char *, size_t);
-static void handle_notified (char *, size_t);
-
 static size_t try_read_from_server (char *, size_t);
 
 static void auth_server (cvsroot_t *, struct buffer *, struct buffer *,
@@ -109,7 +83,7 @@ static cvsroot_t *client_referrer;
 /* We need to keep track of the list of directories we've sent to the
    server.  This list, along with the current CVSROOT, will help us
    decide which command-line arguments to send.  */
-List *dirs_sent_to_server = NULL;
+List *dirs_sent_to_server;
 static int
 is_arg_a_parent_or_listed_dir (Node *n, void *d)
 {
@@ -121,7 +95,7 @@ is_arg_a_parent_or_listed_dir (Node *n, void *d)
        the server will know to start at the top of that directory
        hierarchy and descend. */
 
-    if (strncmp (directory, this_argv_elem, strlen (this_argv_elem)) == 0)
+    if (!strncmp (directory, this_argv_elem, strlen (this_argv_elem)))
 	return 1;
 
     return 0;
@@ -153,7 +127,7 @@ arg_should_not_be_sent_to_server (char *arg)
     if (list_isempty (dirs_sent_to_server))
 	return 0;		/* always send it */
 
-    if (strcmp (arg, ".") == 0)
+    if (!strcmp (arg, "."))
 	return 0;		/* always send it */
 
     /* We should send arg if it is one of the directories sent to the
@@ -222,7 +196,7 @@ arg_should_not_be_sent_to_server (char *arg)
 
 	/* Now check the value for root. */
 	if (root_string && current_parsed_root
-	    && (strcmp (root_string, original_parsed_root->original) != 0))
+	    && strcmp (root_string, original_parsed_root->original))
 	{
 	    /* Don't send this, since the CVSROOTs don't match. */
 	    return 1;
@@ -435,7 +409,7 @@ read_line_via (struct buffer *via_from_buffer, struct buffer *via_to_buffer,
 	    error (1, status, "reading from server");
     }
 
-    if (resultp != NULL)
+    if (resultp)
 	*resultp = result;
     else
 	free (result);
@@ -470,11 +444,14 @@ int file_gzip_level;
 
 #ifdef CLIENT_SUPPORT
 
+/* Whether the server asked us to force compression.  */
+static bool force_gzip;
+
 /*
  * The Repository for the top level of this command (not necessarily
  * the CVSROOT, just the current directory at the time we do it).
  */
-static char *toplevel_repos = NULL;
+static char *toplevel_repos;
 
 /* Working directory when we first started.  Note: we could speed things
    up on some systems by using savecwd.h here instead of just always
@@ -501,7 +478,7 @@ handle_error (char *args, size_t len)
      * we ignore.
      */
     char *p = strchr (args, ' ');
-    if (p == NULL)
+    if (!p)
     {
 	error (0, 0, "invalid data from cvs server");
 	return;
@@ -536,14 +513,14 @@ handle_valid_requests (char *args, size_t len)
     do
     {
 	q = strchr (p, ' ');
-	if (q != NULL)
+	if (q)
 	    *q++ = '\0';
-	for (rq = requests; rq->name != NULL; ++rq)
+	for (rq = requests; rq->name; ++rq)
 	{
-	    if (strcmp (rq->name, p) == 0)
+	    if (!strcmp (rq->name, p))
 		break;
 	}
-	if (rq->name == NULL)
+	if (!rq->name)
 	    /*
 	     * It is a request we have never heard of (and thus never
 	     * will want to use).  So don't worry about it.
@@ -564,8 +541,8 @@ handle_valid_requests (char *args, size_t len)
 		rq->flags |= RQ_SUPPORTED;
 	}
 	p = q;
-    } while (q != NULL);
-    for (rq = requests; rq->name != NULL; ++rq)
+    } while (q);
+    for (rq = requests; rq->name; ++rq)
     {
 	if ((rq->flags & RQ_SUPPORTED)
 	    || (rq->flags & RQ_ENABLEME))
@@ -573,6 +550,12 @@ handle_valid_requests (char *args, size_t len)
 	if (rq->flags & RQ_ESSENTIAL)
 	    error (1, 0, "request `%s' not supported by server", rq->name);
     }
+}
+
+static void
+handle_force_gzip (char *args, size_t len)
+{
+    force_gzip = true;
 }
 
 
@@ -706,11 +689,11 @@ static
 int is_valid_client_path (const char *pathname)
 {
     /* 1. Absolute paths. */
-    if (isabsolute (pathname)) return 0;
+    if (ISABSOLUTE (pathname)) return 0;
     /* 2. No up-references in path.  */
     if (pathname_levels (pathname) == 0) return 1;
     /* 2. No Max-dotdot paths registered.  */
-    if (uppaths == NULL) return 0;
+    if (!uppaths) return 0;
 
     return walklist (uppaths, path_list_prefixed, (void *)pathname);
 }
@@ -769,10 +752,10 @@ call_in_directory (const char *pathname,
 
     reposname = NULL;
     read_line (&reposname);
-    assert (reposname != NULL);
+    assert (reposname);
 
     reposdirname_absolute = 0;
-    if (strncmp (reposname, toplevel_repos, strlen (toplevel_repos)) != 0)
+    if (strncmp (reposname, toplevel_repos, strlen (toplevel_repos)))
     {
 	reposdirname_absolute = 1;
 	short_repos = reposname;
@@ -791,7 +774,7 @@ call_in_directory (const char *pathname,
     * are being requested to operate on.
     */
     filename = strrchr (short_repos, '/');
-    if (filename == NULL)
+    if (!filename)
 	filename = short_repos;
     else
 	++filename;
@@ -818,7 +801,7 @@ call_in_directory (const char *pathname,
 
     reposdirname = xstrdup (short_repos);
     p = strrchr (reposdirname, '/');
-    if (p == NULL)
+    if (!p)
     {
 	reposdirname = xrealloc (reposdirname, 2);
 	reposdirname[0] = '.'; reposdirname[1] = '\0';
@@ -828,7 +811,7 @@ call_in_directory (const char *pathname,
 
     dir_name = xstrdup (pathname);
     p = strrchr (dir_name, '/');
-    if (p == NULL)
+    if (!p)
     {
 	dir_name = xrealloc (dir_name, 2);
 	dir_name[0] = '.'; dir_name[1] = '\0';
@@ -838,10 +821,10 @@ call_in_directory (const char *pathname,
     if (client_prune_dirs)
 	add_prune_candidate (dir_name);
 
-    if (toplevel_wd == NULL)
+    if (!toplevel_wd)
     {
 	toplevel_wd = xgetcwd ();
-	if (toplevel_wd == NULL)
+	if (!toplevel_wd)
 	    error (1, errno, "could not get working directory");
     }
 
@@ -865,7 +848,7 @@ call_in_directory (const char *pathname,
 	   CVS/Repository is almost surely unsuited to
 	   the reposdirname_absolute case.  */
 	!reposdirname_absolute
-	&& (strcmp (dir_name, ".") == 0)
+	&& !strcmp (dir_name, ".")
 	&& ! isdir (CVSADM))
     {
 	char *repo;
@@ -939,7 +922,7 @@ call_in_directory (const char *pathname,
 		dir[dirp - dir_name] = '\0';
 		/* Skip the slash.  */
 		++dirp;
-		if (rdirp == NULL)
+		if (!rdirp)
 		    /* This just means that the repository string has
 		       fewer components than the dir_name string.  But
 		       that is OK (e.g. see modules3-8 in testsuite).  */
@@ -980,7 +963,7 @@ call_in_directory (const char *pathname,
 	    {
 		/* It already existed, fine.  Just keep going.  */
 	    }
-	    else if (strcmp (cvs_cmd_name, "export") == 0)
+	    else if (!strcmp (cvs_cmd_name, "export"))
 		/* Don't create CVSADM directories if this is export.  */
 		;
 	    else
@@ -1025,7 +1008,7 @@ warning: server is not creating directories one at a time");
 		free (repo);
 
 		b = strrchr (dir, '/');
-		if (b == NULL)
+		if (!b)
 		    Subdir_Register (NULL, NULL, dir);
 		else
 		{
@@ -1035,19 +1018,19 @@ warning: server is not creating directories one at a time");
 		}
 	    }
 
-	    if (rdirp != NULL)
+	    if (rdirp)
 	    {
 		/* Skip the slash.  */
 		++rdirp;
 	    }
 
-	} while (dirp != NULL);
+	} while (dirp);
 	free (dir);
 	/* Now it better work.  */
 	if (CVS_CHDIR (dir_name) < 0)
 	    error (1, errno, "could not chdir to %s", dir_name);
     }
-    else if (strcmp (cvs_cmd_name, "export") == 0)
+    else if (!strcmp (cvs_cmd_name, "export"))
 	/* Don't create CVSADM directories if this is export.  */
 	;
     else if (!isdir (CVSADM))
@@ -1070,7 +1053,7 @@ warning: server is not creating directories one at a time");
 	    free (repo);
     }
 
-    if (strcmp (cvs_cmd_name, "export") != 0)
+    if (strcmp (cvs_cmd_name, "export"))
     {
 	last_entries = Entries_Open (0, dir_name);
 
@@ -1096,7 +1079,7 @@ warning: server is not creating directories one at a time");
     }
     free (reposdirname);
     (*func) (data, last_entries, short_pathname, filename);
-    if (last_entries != NULL)
+    if (last_entries)
 	Entries_Close (last_entries);
     free (dir_name);
     free (short_pathname);
@@ -1186,7 +1169,7 @@ protocol error: compressed files not supported for that operation");
        CVS/Template files should use local text file conventions or
        not.  */
     fp = CVS_FOPEN (filename, "wb");
-    if (fp == NULL)
+    if (!fp)
 	error (1, errno, "cannot write %s", fullname);
     nread = size;
     nwrite = 0;
@@ -1206,7 +1189,7 @@ protocol error: compressed files not supported for that operation");
 
 	if (nwrite > 0)
 	{
-	    n = fwrite (pwrite, 1, nwrite, fp);
+	    n = fwrite (pwrite, sizeof *pwrite, nwrite, fp);
 	    if (ferror (fp))
 		error (1, errno, "cannot write %s", fullname);
 	    nwrite -= n;
@@ -1306,7 +1289,7 @@ static char *stored_mode;
 static void
 handle_mode (char *args, size_t len)
 {
-    if (stored_mode != NULL)
+    if (stored_mode)
 	error (1, 0, "protocol error: duplicate Mode");
     stored_mode = xstrdup (args);
 }
@@ -1418,27 +1401,27 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
     if (scratch_entries[0] != '/')
         error (1, 0, "bad entries line `%s' from server", entries_line);
     user = scratch_entries + 1;
-    if ((cp = strchr (user, '/')) == NULL)
+    if (!(cp = strchr (user, '/')))
         error (1, 0, "bad entries line `%s' from server", entries_line);
     *cp++ = '\0';
     vn = cp;
-    if ((cp = strchr (vn, '/')) == NULL)
+    if (!(cp = strchr (vn, '/')))
         error (1, 0, "bad entries line `%s' from server", entries_line);
     *cp++ = '\0';
     
     ts = cp;
-    if ((cp = strchr (ts, '/')) == NULL)
+    if (!(cp = strchr (ts, '/')))
         error (1, 0, "bad entries line `%s' from server", entries_line);
     *cp++ = '\0';
     options = cp;
-    if ((cp = strchr (options, '/')) == NULL)
+    if (!(cp = strchr (options, '/')))
         error (1, 0, "bad entries line `%s' from server", entries_line);
     *cp++ = '\0';
     tag_or_date = cp;
     
     /* If a slash ends the tag_or_date, ignore everything after it.  */
     cp = strchr (tag_or_date, '/');
-    if (cp != NULL)
+    if (cp)
         *cp = '\0';
     if (*tag_or_date == 'T')
         tag = tag_or_date + 1;
@@ -1522,7 +1505,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	       I hope the above paragraph makes it clear that making this
 	       clearer is not a one-line fix.  */
 	    error (0, 0, "move away `%s'; it is in the way", short_pathname);
-	    if (updated_fname != NULL)
+	    if (updated_fname)
 	    {
 		cvs_output ("C ", 0);
 		cvs_output (updated_fname, 0);
@@ -1552,7 +1535,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	    /* The Mode, Mod-time, and Checksum responses should not carry
 	       over to a subsequent Created (or whatever) response, even
 	       in the error case.  */
-	    if (stored_mode != NULL)
+	    if (stored_mode)
 	    {
 		free (stored_mode);
 		stored_mode = NULL;
@@ -1560,7 +1543,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	    stored_modtime_valid = 0;
 	    stored_checksum_valid = 0;
 
-	    if (updated_fname != NULL)
+	    if (updated_fname)
 	    {
 		free (updated_fname);
 		updated_fname = NULL;
@@ -1591,7 +1574,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
            CVS assumes text files by default). */
 
 	if (options)
-	    bin = !(strcmp (options, "-kb"));
+	    bin = !strcmp (options, "-kb");
 	else
 	    bin = 0;
 
@@ -1655,7 +1638,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	   affects a user who wants status info about how far we have
 	   gotten, and also affects whether "U foo.c" appears in addition
 	   to various error messages.  */
-	if (updated_fname != NULL)
+	if (updated_fname)
 	{
 	    cvs_output ("U ", 0);
 	    cvs_output (updated_fname, 0);
@@ -1736,7 +1719,8 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 
 		    e = xfopen (temp_filename,
 				bin ? FOPEN_BINARY_WRITE : "w");
-		    if (fwrite (patchedbuf, 1, patchedlen, e) != patchedlen)
+		    if (fwrite (patchedbuf, sizeof *patchedbuf, patchedlen, e)
+			!= patchedlen)
 			error (1, errno, "cannot write %s", temp_filename);
 		    if (fclose (e) == EOF)
 			error (1, errno, "cannot close %s", temp_filename);
@@ -1770,7 +1754,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	     * way they were transmitted.
 	     */
 	    e = CVS_FOPEN (filename, "r");
-	    if (e == NULL)
+	    if (!e)
 	        error (1, errno, "could not open %s", short_pathname);
 
 	    md5_init_ctx (&context);
@@ -1827,7 +1811,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	free (buf);
     }
 
-    if (stored_mode != NULL)
+    if (stored_mode)
     {
 	change_mode (filename, stored_mode, 1);
 	free (stored_mode);
@@ -1868,7 +1852,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
      * Process the entries line.  Do this after we've written the file,
      * since we need the timestamp.
      */
-    if (strcmp (cvs_cmd_name, "export") != 0)
+    if (strcmp (cvs_cmd_name, "export"))
     {
 	char *local_timestamp;
 	char *file_timestamp;
@@ -1876,7 +1860,7 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	(void) time (&last_register_time);
 
 	local_timestamp = data->timestamp;
-	if (local_timestamp == NULL || ts[0] == '+')
+	if (!local_timestamp || ts[0] == '+')
 	    file_timestamp = time_stamp (filename);
 	else
 	    file_timestamp = NULL;
@@ -1886,9 +1870,9 @@ update_entries (void *data_arg, List *ent_list, const char *short_pathname,
 	 * date.  Create a dummy timestamp which will never compare
 	 * equal to the timestamp of the file.
 	 */
-	if (vn[0] == '\0' || strcmp (vn, "0") == 0 || vn[0] == '-')
+	if (vn[0] == '\0' || !strcmp (vn, "0") || vn[0] == '-')
 	    local_timestamp = "dummy timestamp";
-	else if (local_timestamp == NULL)
+	else if (!local_timestamp)
 	{
 	    local_timestamp = file_timestamp;
 
@@ -2061,10 +2045,10 @@ handle_removed (char *args, size_t len)
 static int
 is_cvsroot_level (char *pathname)
 {
-    if (strcmp (toplevel_repos, current_parsed_root->directory) != 0)
+    if (strcmp (toplevel_repos, current_parsed_root->directory))
 	return 0;
 
-    return strchr (pathname, '/') == NULL;
+    return !strchr (pathname, '/');
 }
 
 
@@ -2084,7 +2068,7 @@ set_static (void *data, List *ent_list, const char *short_pathname,
 static void
 handle_set_static_directory (char *args, size_t len)
 {
-    if (strcmp (cvs_cmd_name, "export") == 0)
+    if (!strcmp (cvs_cmd_name, "export"))
     {
 	/* Swallow the repository.  */
 	read_line (NULL);
@@ -2108,7 +2092,7 @@ clear_static (void *data, List *ent_list, const char *short_pathname,
 static void
 handle_clear_static_directory (char *pathname, size_t len)
 {
-    if (strcmp (cvs_cmd_name, "export") == 0)
+    if (!strcmp (cvs_cmd_name, "export"))
     {
 	/* Swallow the repository.  */
 	read_line (NULL);
@@ -2139,7 +2123,7 @@ set_sticky (void *data, List *ent_list, const char *short_pathname,
 
     /* FIXME-update-dir: error messages should include the directory.  */
     f = CVS_FOPEN (CVSADM_TAG, "w+");
-    if (f == NULL)
+    if (!f)
     {
 	/* Making this non-fatal is a bit of a kludge (see dirs2
 	   in testsuite).  A better solution would be to avoid having
@@ -2162,7 +2146,7 @@ set_sticky (void *data, List *ent_list, const char *short_pathname,
 static void
 handle_set_sticky (char *pathname, size_t len)
 {
-    if (strcmp (cvs_cmd_name, "export") == 0)
+    if (!strcmp (cvs_cmd_name, "export"))
     {
 	/* Swallow the repository.  */
 	read_line (NULL);
@@ -2202,7 +2186,7 @@ clear_sticky (void *data, List *ent_list, const char *short_pathname,
 static void
 handle_clear_sticky (char *pathname, size_t len)
 {
-    if (strcmp (cvs_cmd_name, "export") == 0)
+    if (!strcmp (cvs_cmd_name, "export"))
     {
 	/* Swallow the repository.  */
 	read_line (NULL);
@@ -2283,8 +2267,7 @@ add_prune_candidate (const char *dir)
     struct save_dir *p;
 
     if ((dir[0] == '.' && dir[1] == '\0')
-	|| (prune_candidates != NULL
-	    && strcmp (dir, prune_candidates->dir) == 0))
+	|| (prune_candidates && !strcmp (dir, prune_candidates->dir)))
 	return;
     p = xmalloc (sizeof (struct save_dir));
     p->dir = xstrdup (dir);
@@ -2300,12 +2283,12 @@ process_prune_candidates (void)
     struct save_dir *p;
     struct save_dir *q;
 
-    if (toplevel_wd != NULL)
+    if (toplevel_wd)
     {
 	if (CVS_CHDIR (toplevel_wd) < 0)
 	    error (1, errno, "could not chdir to %s", toplevel_wd);
     }
-    for (p = prune_candidates; p != NULL; )
+    for (p = prune_candidates; p; )
     {
 	if (isemptydir (p->dir, 1))
 	{
@@ -2314,7 +2297,7 @@ process_prune_candidates (void)
 	    if (unlink_file_dir (p->dir) < 0)
 		error (0, errno, "cannot remove %s", p->dir);
 	    b = strrchr (p->dir, '/');
-	    if (b == NULL)
+	    if (!b)
 		Subdir_Deregister (NULL, NULL, p->dir);
 	    else
 	    {
@@ -2354,20 +2337,18 @@ send_repository (const char *dir, const char *repos, const char *update_dir)
      * get set because there's no CVSADM dir, and somehow it's not
      * getting set from the -d argument either... ?
      */
-    if (repos == NULL)
+    if (!repos)
     {
         /* Lame error.  I want a real fix but can't stay up to track
            this down right now. */
         error (1, 0, "no repository");
     }
 
-    if (update_dir == NULL || update_dir[0] == '\0')
+    if (!update_dir || update_dir[0] == '\0')
 	update_dir = ".";
 
-    if (last_repos != NULL
-	&& strcmp (repos, last_repos) == 0
-	&& last_update_dir != NULL
-	&& strcmp (update_dir, last_update_dir) == 0)
+    if (last_repos && !strcmp (repos, last_repos)
+	&& last_update_dir && !strcmp (update_dir, last_update_dir))
 	/* We've already sent it.  */
 	return;
 
@@ -2376,9 +2357,8 @@ send_repository (const char *dir, const char *repos, const char *update_dir)
 
     /* Add a directory name to the list of those sent to the
        server. */
-    if (update_dir && (*update_dir != '\0')
-	&& (strcmp (update_dir, ".") != 0)
-	&& (findnode (dirs_sent_to_server, update_dir) == NULL))
+    if (update_dir && *update_dir != '\0' && strcmp (update_dir, ".")
+	&& !findnode (dirs_sent_to_server, update_dir))
     {
 	Node *n;
 	n = getnode ();
@@ -2449,7 +2429,7 @@ send_repository (const char *dir, const char *repos, const char *update_dir)
 	    sprintf (adm_name, "%s/%s", dir, CVSADM_TAG);
 
 	f = CVS_FOPEN (adm_name, "r");
-	if (f == NULL)
+	if (!f)
 	{
 	    if (! existence_error (errno))
 		error (1, errno, "reading %s", adm_name);
@@ -2459,24 +2439,22 @@ send_repository (const char *dir, const char *repos, const char *update_dir)
 	    char line[80];
 	    char *nl = NULL;
 	    send_to_server ("Sticky ", 0);
-	    while (fgets (line, sizeof (line), f) != NULL)
+	    while (fgets (line, sizeof (line), f))
 	    {
 		send_to_server (line, 0);
 		nl = strchr (line, '\n');
-		if (nl != NULL)
+		if (nl)
 		    break;
 	    }
-	    if (nl == NULL)
+	    if (!nl)
                 send_to_server ("\012", 1);
 	    if (fclose (f) == EOF)
 		error (0, errno, "closing %s", adm_name);
 	}
     }
     free (adm_name);
-    if (last_repos != NULL)
-	free (last_repos);
-    if (last_update_dir != NULL)
-	free (last_update_dir);
+    if (last_repos) free (last_repos);
+    if (last_update_dir) free (last_update_dir);
     last_repos = xstrdup (repos);
     last_update_dir = xstrdup (update_dir);
 }
@@ -2490,7 +2468,7 @@ send_a_repository (const char *dir, const char *repository,
 {
     char *update_dir = xstrdup (update_dir_in);
 
-    if (toplevel_repos == NULL && repository != NULL)
+    if (!toplevel_repos && repository)
     {
 	if (update_dir[0] == '\0'
 	    || (update_dir[0] == '.' && update_dir[1] == '\0'))
@@ -2549,9 +2527,9 @@ send_a_repository (const char *dir, const char *repository,
                    elements mean that we "step above"
                    current_parsed_root->directory, set toplevel_repos to
                    current_parsed_root->directory. */
-		if ((repository_len > update_dir_len)
-		    && (strcmp (repository + repository_len - update_dir_len,
-				update_dir) == 0)
+		if (repository_len > update_dir_len
+		    && !strcmp (repository + repository_len - update_dir_len,
+				update_dir)
 		    /* TOPLEVEL_REPOS shouldn't be above current_parsed_root->directory */
 		    && ((size_t)(repository_len - update_dir_len)
 			> strlen (current_parsed_root->directory)))
@@ -2580,6 +2558,119 @@ send_a_repository (const char *dir, const char *repository,
 
 
 
+static void
+notified_a_file (void *data, List *ent_list, const char *short_pathname,
+                 const char *filename)
+{
+    FILE *fp;
+    FILE *newf;
+    size_t line_len = 8192;
+    char *line = xmalloc (line_len);
+    char *cp;
+    int nread;
+    int nwritten;
+    char *p;
+
+    fp = xfopen (CVSADM_NOTIFY, "r");
+    if (getline (&line, &line_len, fp) < 0)
+    {
+	if (feof (fp))
+	    error (0, 0, "cannot read %s: end of file", CVSADM_NOTIFY);
+	else
+	    error (0, errno, "cannot read %s", CVSADM_NOTIFY);
+	goto error_exit;
+    }
+    cp = strchr (line, '\t');
+    if (!cp)
+    {
+	error (0, 0, "malformed %s file", CVSADM_NOTIFY);
+	goto error_exit;
+    }
+    *cp = '\0';
+    if (strcmp (filename, line + 1))
+	error (0, 0, "protocol error: notified %s, expected %s", filename,
+	       line + 1);
+
+    if (getline (&line, &line_len, fp) < 0)
+    {
+	if (feof (fp))
+	{
+	    free (line);
+	    if (fclose (fp) < 0)
+		error (0, errno, "cannot close %s", CVSADM_NOTIFY);
+	    if ( CVS_UNLINK (CVSADM_NOTIFY) < 0)
+		error (0, errno, "cannot remove %s", CVSADM_NOTIFY);
+	    return;
+	}
+	else
+	{
+	    error (0, errno, "cannot read %s", CVSADM_NOTIFY);
+	    goto error_exit;
+	}
+    }
+    newf = xfopen (CVSADM_NOTIFYTMP, "w");
+    if (fputs (line, newf) < 0)
+    {
+	error (0, errno, "cannot write %s", CVSADM_NOTIFYTMP);
+	goto error2;
+    }
+    while ((nread = fread (line, 1, line_len, fp)) > 0)
+    {
+	p = line;
+	while ((nwritten = fwrite (p, sizeof *p, nread, newf)) > 0)
+	{
+	    nread -= nwritten;
+	    p += nwritten;
+	}
+	if (ferror (newf))
+	{
+	    error (0, errno, "cannot write %s", CVSADM_NOTIFYTMP);
+	    goto error2;
+	}
+    }
+    if (ferror (fp))
+    {
+	error (0, errno, "cannot read %s", CVSADM_NOTIFY);
+	goto error2;
+    }
+    if (fclose (newf) < 0)
+    {
+	error (0, errno, "cannot close %s", CVSADM_NOTIFYTMP);
+	goto error_exit;
+    }
+    free (line);
+    if (fclose (fp) < 0)
+    {
+	error (0, errno, "cannot close %s", CVSADM_NOTIFY);
+	return;
+    }
+
+    {
+        /* In this case, we want rename_file() to ignore noexec. */
+        int saved_noexec = noexec;
+        noexec = 0;
+        rename_file (CVSADM_NOTIFYTMP, CVSADM_NOTIFY);
+        noexec = saved_noexec;
+    }
+
+    return;
+  error2:
+    (void)fclose (newf);
+  error_exit:
+    free (line);
+    (void)fclose (fp);
+}
+
+
+
+static void
+handle_notified (char *args, size_t len)
+{
+    call_in_directory (args, notified_a_file, NULL);
+}
+
+
+
 /* The "expanded" modules.  */
 static int modules_count;
 static int modules_allocated;
@@ -2588,7 +2679,7 @@ static char **modules_vector;
 static void
 handle_module_expansion (char *args, size_t len)
 {
-    if (modules_vector == NULL)
+    if (!modules_vector)
     {
 	modules_allocated = 1; /* Small for testing */
 	modules_vector = xnmalloc (modules_allocated,
@@ -2631,12 +2722,10 @@ client_expand_modules (int argc, char **argv, int local)
 
     errs = get_server_responses ();
 
-    if (last_repos != NULL)
-        free (last_repos);
+    if (last_repos) free (last_repos);
     last_repos = NULL;
 
-    if (last_update_dir != NULL)
-        free (last_update_dir);
+    if (last_update_dir) free (last_update_dir);
     last_update_dir = NULL;
 
     if (errs)
@@ -2695,14 +2784,14 @@ handle_wrapper_rcs_option (char *args, size_t len)
     /* Enforce the notes in cvsclient.texi about how the response is not
        as free-form as it looks.  */
     p = strchr (args, ' ');
-    if (p == NULL)
+    if (!p)
 	goto handle_error;
     if (*++p != '-'
 	|| *++p != 'k'
 	|| *++p != ' '
 	|| *++p != '\'')
 	goto handle_error;
-    if (strchr (p, '\'') == NULL)
+    if (!strchr (p, '\''))
 	goto handle_error;
 
     /* Add server-side cvswrappers line to our wrapper list. */
@@ -2718,9 +2807,6 @@ handle_wrapper_rcs_option (char *args, size_t len)
 static void
 handle_m (char *args, size_t len)
 {
-    fd_set wfds;
-    int s;
-
     /* In the case where stdout and stderr point to the same place,
        fflushing stderr will make output happen in the correct order.
        Often stderr will be line-buffered and this won't be needed,
@@ -2728,13 +2814,7 @@ handle_m (char *args, size_t len)
        based on being confused between default buffering between
        stdout and stderr.  But I'm not sure).  */
     fflush (stderr);
-    FD_ZERO (&wfds);
-    FD_SET (STDOUT_FILENO, &wfds);
-    errno = 0;
-    s = select (STDOUT_FILENO+1, NULL, &wfds, NULL, NULL);
-    if (s < 1 && errno != 0)
-        perror ("cannot write to stdout");
-    fwrite (args, len, sizeof (*args), stdout);
+    fwrite (args, sizeof *args, len, stdout);
     putc ('\n', stdout);
 }
 
@@ -2779,25 +2859,10 @@ handle_mbinary (char *args, size_t len)
 static void
 handle_e (char *args, size_t len)
 {
-    fd_set wfds;
-    int s;
-
     /* In the case where stdout and stderr point to the same place,
        fflushing stdout will make output happen in the correct order.  */
     fflush (stdout);
-    FD_ZERO (&wfds);
-    FD_SET (STDERR_FILENO, &wfds);
-    errno = 0;
-    s = select (STDERR_FILENO+1, NULL, &wfds, NULL, NULL);
-    /*
-     * If stderr has problems, then adding a call to
-     *   perror ("cannot write to stderr")
-     * will not work. So, try to write a message on stdout and
-     * terminate cvs.
-     */
-    if (s < 1 && errno != 0)
-        fperrmsg (stdout, 1, errno, "cannot write to stderr");
-    fwrite (args, len, sizeof (*args), stderr);
+    fwrite (args, sizeof *args, len, stderr);
     putc ('\n', stderr);
 }
 
@@ -2823,7 +2888,7 @@ handle_mt (char *args, size_t len)
     fflush (stderr);
 
     p = strchr (args, ' ');
-    if (p == NULL)
+    if (!p)
 	text = NULL;
     else
     {
@@ -2834,15 +2899,15 @@ handle_mt (char *args, size_t len)
     switch (tag[0])
     {
 	case '+':
-	    if (strcmp (tag, "+updated") == 0)
+	    if (!strcmp (tag, "+updated"))
 		updated_seen = 1;
-	    else if (strcmp (tag, "+importmergecmd") == 0)
+	    else if (!strcmp (tag, "+importmergecmd"))
 		importmergecmd.seen = 1;
 	    break;
 	case '-':
-	    if (strcmp (tag, "-updated") == 0)
+	    if (!strcmp (tag, "-updated"))
 		updated_seen = 0;
-	    else if (strcmp (tag, "-importmergecmd") == 0)
+	    else if (!strcmp (tag, "-importmergecmd"))
 	    {
 		char buf[80];
 
@@ -2850,9 +2915,9 @@ handle_mt (char *args, size_t len)
                    output the suggested merge command.  */
 
 		if (importmergecmd.conflicts == 0
-		    || importmergecmd.mergetag1 == NULL
-		    || importmergecmd.mergetag2 == NULL
-		    || importmergecmd.repository == NULL)
+		    || !importmergecmd.mergetag1
+		    || !importmergecmd.mergetag2
+		    || !importmergecmd.repository)
 		{
 		    error (0, 0,
 			   "invalid server: incomplete importmergecmd tags");
@@ -2869,7 +2934,7 @@ handle_mt (char *args, size_t len)
 			    0);
 		cvs_output ("\t", 1);
 		cvs_output (program_name, 0);
-		if (CVSroot_cmdline != NULL)
+		if (CVSroot_cmdline)
 		{
 		    cvs_output (" -d ", 0);
 		    cvs_output (CVSroot_cmdline, 0);
@@ -2898,9 +2963,9 @@ handle_mt (char *args, size_t len)
 	default:
 	    if (updated_seen)
 	    {
-		if (strcmp (tag, "fname") == 0)
+		if (!strcmp (tag, "fname"))
 		{
-		    if (updated_fname != NULL)
+		    if (updated_fname)
 		    {
 			/* Output the previous message now.  This can happen
 			   if there was no Update-existing or other such
@@ -2918,33 +2983,33 @@ handle_mt (char *args, size_t len)
 	    }
 	    else if (importmergecmd.seen)
 	    {
-		if (strcmp (tag, "conflicts") == 0)
+		if (!strcmp (tag, "conflicts"))
 		{
-		    if (strcmp (text, "No") == 0)
+		    if (!strcmp (text, "No"))
 			importmergecmd.conflicts = -1;
 		    else
 			importmergecmd.conflicts = atoi (text);
 		}
-		else if (strcmp (tag, "mergetag1") == 0)
+		else if (!strcmp (tag, "mergetag1"))
 		    importmergecmd.mergetag1 = xstrdup (text);
-		else if (strcmp (tag, "mergetag2") == 0)
+		else if (!strcmp (tag, "mergetag2"))
 		    importmergecmd.mergetag2 = xstrdup (text);
-		else if (strcmp (tag, "repository") == 0)
+		else if (!strcmp (tag, "repository"))
 		    importmergecmd.repository = xstrdup (text);
 		/* Swallow all other tags.  Either they are text for
                    which we are going to print our own version when we
                    see -importmergecmd, or they are future extensions
                    we can safely ignore.  */
 	    }
-	    else if (strcmp (tag, "newline") == 0)
+	    else if (!strcmp (tag, "newline"))
 		printf ("\n");
-	    else if (strcmp (tag, "date") == 0)
+	    else if (!strcmp (tag, "date"))
 	    {
 		char *date = format_date_alloc (text);
 		printf ("%s", date);
 		free (date);
 	    }
-	    else if (text != NULL)
+	    else if (text)
 		printf ("%s", text);
     }
 }
@@ -2967,6 +3032,8 @@ struct response responses[] =
     RSP_LINE("error", handle_error, response_type_error, rs_essential),
     RSP_LINE("Valid-requests", handle_valid_requests, response_type_normal,
        rs_essential),
+    RSP_LINE("Force-gzip", handle_force_gzip, response_type_normal,
+       rs_optional),
     RSP_LINE("Referrer", handle_referrer, response_type_normal, rs_optional),
     RSP_LINE("Redirect", handle_redirect, response_type_redirect, rs_optional),
     RSP_LINE("Checked-in", handle_checked_in, response_type_normal,
@@ -3128,8 +3195,8 @@ get_server_responses (void)
 	size_t len;
 	
 	len = read_line (&cmd);
-	for (rs = responses; rs->name != NULL; ++rs)
-	    if (strncmp (cmd, rs->name, strlen (rs->name)) == 0)
+	for (rs = responses; rs->name; ++rs)
+	    if (!strncmp (cmd, rs->name, strlen (rs->name)))
 	    {
 		size_t cmdlen = strlen (rs->name);
 		if (cmd[cmdlen] == '\0')
@@ -3146,7 +3213,7 @@ get_server_responses (void)
 		(*rs->func) (cmd + cmdlen, len - cmdlen);
 		break;
 	    }
-	if (rs->name == NULL)
+	if (!rs->name)
 	    /* It's OK to print just to the first '\0'.  */
 	    /* We might want to handle control characters and the like
 	       in some other way other than just sending them to stdout.
@@ -3164,7 +3231,7 @@ get_server_responses (void)
 	free (cmd);
     } while (rs->type == response_type_normal);
 
-    if (updated_fname != NULL)
+    if (updated_fname)
     {
 	/* Output the previous message now.  This can happen
 	   if there was no Update-existing or other such
@@ -3236,7 +3303,7 @@ get_responses_and_close (void)
      * restore_cwd() before exiting.  Of course, calling CVS_CHDIR only once,
      * here, may be more efficient.
      */
-    if (toplevel_wd != NULL)
+    if (toplevel_wd)
     {
 	if (CVS_CHDIR (toplevel_wd) < 0)
 	    error (1, errno, "could not chdir to %s", toplevel_wd);
@@ -3602,7 +3669,7 @@ auth_server (cvsroot_t *root, struct buffer *to_server,
 
 	/* Send the empty string by default.  This is so anonymous CVS
 	   access doesn't require client to have done "cvs login". */
-	if (password == NULL) 
+	if (!password) 
 	{
 	    no_passwd = 1;
 	    password = scramble ("");
@@ -3639,7 +3706,7 @@ auth_server (cvsroot_t *root, struct buffer *to_server,
 	{
 	    read_line_via (from_server, to_server, &read_buf);
 
-	    if (strcmp (read_buf, "I HATE YOU") == 0)
+	    if (!strcmp (read_buf, "I HATE YOU"))
 	    {
 		/* Authorization not granted.
 		 *
@@ -3670,13 +3737,13 @@ auth_server (cvsroot_t *root, struct buffer *to_server,
 		}
 		exit (EXIT_FAILURE);
 	    }
-	    else if (strncmp (read_buf, "E ", 2) == 0)
+	    else if (!strncmp (read_buf, "E ", 2))
 	    {
 		fprintf (stderr, "%s\n", read_buf + 2);
 
 		/* Continue with the authentication protocol.  */
 	    }
-	    else if (strncmp (read_buf, "error ", 6) == 0)
+	    else if (!strncmp (read_buf, "error ", 6))
 	    {
 		char *p;
 
@@ -3693,7 +3760,7 @@ auth_server (cvsroot_t *root, struct buffer *to_server,
 		fprintf (stderr, "%s\n", p);
 		exit (EXIT_FAILURE);
 	    }
-	    else if (strcmp (read_buf, "I LOVE YOU") == 0)
+	    else if (!strcmp (read_buf, "I LOVE YOU"))
 	    {
 		free (read_buf);
 		break;
@@ -3728,7 +3795,7 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
 
      char *command[3];
 
-    command[0] = (root->cvs_server != NULL
+    command[0] = (root->cvs_server
 		  ? root->cvs_server : getenv ("CVS_SERVER"));
     if (!command[0])
 # ifdef SERVER_SUPPORT
@@ -3758,7 +3825,7 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
     TRACE (TRACE_FUNCTION, "Forking server: %s %s",
 	   command[0] ? command[0] : "(null)", command[1]);
 
-    child_pid = piped_child (command, &tofd, &fromfd);
+    child_pid = piped_child (command, &tofd, &fromfd, false);
     if (child_pid < 0)
 	error (1, 0, "could not fork server process");
 
@@ -3888,11 +3955,12 @@ start_server (void)
 {
     bool rootless;
     int status;
+    bool have_global;
 
     do
     {
 	/* Clear our static variables for this invocation. */
-	if (toplevel_repos != NULL)
+	if (toplevel_repos)
 	    free (toplevel_repos);
 	toplevel_repos = NULL;
 
@@ -3902,23 +3970,29 @@ start_server (void)
 			&global_from_server);
 
 	/* Clear static variables.  */
-	if (toplevel_repos != NULL)
+	if (toplevel_repos)
+	{
 	    free (toplevel_repos);
-	toplevel_repos = NULL;
-	if (last_repos != NULL)
+	    toplevel_repos = NULL;
+	}
+	if (last_repos)
+	{
 	    free (last_repos);
-	last_repos = NULL;
-	if (last_update_dir != NULL)
+	    last_repos = NULL;
+	}
+	if (last_update_dir)
+	{
 	    free (last_update_dir);
-	last_update_dir = NULL;
+	    last_update_dir = NULL;
+	}
 	stored_checksum_valid = 0;
-	if (stored_mode != NULL)
+	if (stored_mode)
 	{
 	    free (stored_mode);
 	    stored_mode = NULL;
 	}
 
-	rootless = (strcmp (cvs_cmd_name, "init") == 0);
+	rootless = !strcmp (cvs_cmd_name, "init");
 	if (!rootless)
 	{
 	    send_to_server ("Root ", 0);
@@ -3932,7 +4006,7 @@ start_server (void)
 
 	    send_to_server ("Valid-responses", 0);
 
-	    for (rs = responses; rs->name != NULL; ++rs)
+	    for (rs = responses; rs->name; ++rs)
 	    {
 		if (suppress_redirect && !strcmp (rs->name, "Redirect"))
 		    continue;
@@ -3946,6 +4020,119 @@ start_server (void)
 
 	if (get_server_responses ())
 	    exit (EXIT_FAILURE);
+
+	have_global = supported_request ("Global_option");
+
+	/* Encryption needs to come before compression.  Good encryption can
+	 * render compression useless in the other direction.
+	 */
+	if (cvsencrypt && !rootless)
+	{
+#ifdef ENCRYPTION
+	    /* Turn on encryption before turning on compression.  We do
+	     * not want to try to compress the encrypted stream.  Instead,
+	     * we want to encrypt the compressed stream.  If we can't turn
+	     * on encryption, bomb out; don't let the user think the data
+	     * is being encrypted when it is not.
+	     */
+#  ifdef HAVE_KERBEROS
+	    if (current_parsed_root->method == kserver_method)
+	    {
+		if (!supported_request ("Kerberos-encrypt"))
+		    error (1, 0, "This server does not support encryption");
+		send_to_server ("Kerberos-encrypt\012", 0);
+	       initialize_kerberos4_encryption_buffers (&global_to_server,
+							&global_from_server);
+	    }
+	    else
+#  endif /* HAVE_KERBEROS */
+#  ifdef HAVE_GSSAPI
+	    if (current_parsed_root->method == gserver_method)
+	    {
+		if (!supported_request ("Gssapi-encrypt"))
+		    error (1, 0, "This server does not support encryption");
+		send_to_server ("Gssapi-encrypt\012", 0);
+		initialize_gssapi_buffers (&global_to_server,
+					   &global_from_server);
+		cvs_gssapi_encrypt = 1;
+	    }
+	    else
+#  endif /* HAVE_GSSAPI */
+		error (1, 0,
+"Encryption is only supported when using GSSAPI or Kerberos");
+#else /* ! ENCRYPTION */
+	    error (1, 0, "This client does not support encryption");
+#endif /* ! ENCRYPTION */
+	}
+
+	/* Send this before compression to enable supression of the
+	 * "Forcing compression level Z" messages.
+	 */
+	if (quiet)
+	{
+	    if (have_global)
+	    {
+		send_to_server ("Global_option -q\012", 0);
+	    }
+	    else
+		error (1, 0,
+		       "This server does not support the global -q option.");
+	}
+	if (really_quiet)
+	{
+	    if (have_global)
+	    {
+		send_to_server ("Global_option -Q\012", 0);
+	    }
+	    else
+		error (1, 0,
+		       "This server does not support the global -Q option.");
+	}
+
+	/* Compression needs to come before any of the rooted requests to
+	 * work with compression limits.
+	 */
+	if (!rootless && (gzip_level || force_gzip))
+	{
+	    if (supported_request ("Gzip-stream"))
+	    {
+		char *gzip_level_buf = Xasprintf ("%d", gzip_level);
+		send_to_server ("Gzip-stream ", 0);
+		send_to_server (gzip_level_buf, 0);
+		free (gzip_level_buf);
+		send_to_server ("\012", 1);
+
+		/* All further communication with the server will be
+		   compressed.  */
+
+		global_to_server =
+		    compress_buffer_initialize (global_to_server, 0,
+					        gzip_level, NULL);
+		global_from_server =
+		    compress_buffer_initialize (global_from_server, 1,
+						gzip_level, NULL);
+	    }
+#ifndef NO_CLIENT_GZIP_PROCESS
+	    else if (supported_request ("gzip-file-contents"))
+	    {
+		char *gzip_level_buf = Xasprintf ("%d", gzip_level);
+		send_to_server ("gzip-file-contents ", 0);
+		send_to_server (gzip_level_buf, 0);
+		free (gzip_level_buf);
+		send_to_server ("\012", 1);
+
+		file_gzip_level = gzip_level;
+	    }
+#endif
+	    else
+	    {
+		fprintf (stderr, "server doesn't support gzip-file-contents\n");
+		/* Setting gzip_level to 0 prevents us from giving the
+		   error twice if update has to contact the server again
+		   to fetch unpatchable files.  */
+		gzip_level = 0;
+	    }
+	}
 
 	if (client_referrer && supported_request ("Referrer"))
 	{
@@ -3982,61 +4169,36 @@ start_server (void)
      *
      * -l -t -r -w -q -n and -Q need to go to the server.
      */
-
+    if (noexec)
     {
-	bool have_global = supported_request ("Global_option");
-
-	if (noexec)
+	if (have_global)
 	{
-	    if (have_global)
-	    {
-		send_to_server ("Global_option -n\012", 0);
-	    }
-	    else
-		error (1, 0,
-		       "This server does not support the global -n option.");
+	    send_to_server ("Global_option -n\012", 0);
 	}
-	if (quiet)
+	else
+	    error (1, 0,
+		   "This server does not support the global -n option.");
+    }
+    if (!cvswrite)
+    {
+	if (have_global)
 	{
-	    if (have_global)
-	    {
-		send_to_server ("Global_option -q\012", 0);
-	    }
-	    else
-		error (1, 0,
-		       "This server does not support the global -q option.");
+	    send_to_server ("Global_option -r\012", 0);
 	}
-	if (really_quiet)
+	else
+	    error (1, 0,
+		   "This server does not support the global -r option.");
+    }
+    if (trace)
+    {
+	if (have_global)
 	{
-	    if (have_global)
-	    {
-		send_to_server ("Global_option -Q\012", 0);
-	    }
-	    else
-		error (1, 0,
-		       "This server does not support the global -Q option.");
+	    int count = trace;
+	    while (count--) send_to_server ("Global_option -t\012", 0);
 	}
-	if (!cvswrite)
-	{
-	    if (have_global)
-	    {
-		send_to_server ("Global_option -r\012", 0);
-	    }
-	    else
-		error (1, 0,
-		       "This server does not support the global -r option.");
-	}
-	if (trace)
-	{
-	    if (have_global)
-	    {
-	        int count = trace;
-		while (count--) send_to_server ("Global_option -t\012", 0);
-	    }
-	    else
-		error (1, 0,
-		       "This server does not support the global -t option.");
-	}
+	else
+	    error (1, 0,
+		   "This server does not support the global -t option.");
     }
 
     /* Find out about server-side cvswrappers.  An extra network
@@ -4047,8 +4209,7 @@ start_server (void)
        reason to bother would be so we could make add work without
        contacting the server, I suspect).  */
 
-    if ((strcmp (cvs_cmd_name, "import") == 0)
-        || (strcmp (cvs_cmd_name, "add") == 0))
+    if (!strcmp (cvs_cmd_name, "import") || !strcmp (cvs_cmd_name, "add"))
     {
 	if (supported_request ("wrapper-sendme-rcsOptions"))
 	{
@@ -4057,84 +4218,6 @@ start_server (void)
 	    err = get_server_responses ();
 	    if (err != 0)
 		error (err, 0, "error reading from server");
-	}
-    }
-
-    if (cvsencrypt && !rootless)
-    {
-#ifdef ENCRYPTION
-	/* Turn on encryption before turning on compression.  We do
-           not want to try to compress the encrypted stream.  Instead,
-           we want to encrypt the compressed stream.  If we can't turn
-           on encryption, bomb out; don't let the user think the data
-           is being encrypted when it is not.  */
-#ifdef HAVE_KERBEROS
-	if (current_parsed_root->method == kserver_method)
-	{
-	    if (! supported_request ("Kerberos-encrypt"))
-		error (1, 0, "This server does not support encryption");
-	    send_to_server ("Kerberos-encrypt\012", 0);
-           initialize_kerberos4_encryption_buffers (&global_to_server,
-                                                    &global_from_server);
-	}
-	else
-#endif /* HAVE_KERBEROS */
-#ifdef HAVE_GSSAPI
-	if (current_parsed_root->method == gserver_method)
-	{
-	    if (! supported_request ("Gssapi-encrypt"))
-		error (1, 0, "This server does not support encryption");
-	    send_to_server ("Gssapi-encrypt\012", 0);
-	    initialize_gssapi_buffers(&global_to_server, &global_from_server);
-	    cvs_gssapi_encrypt = 1;
-	}
-	else
-#endif /* HAVE_GSSAPI */
-	    error (1, 0,
-"Encryption is only supported when using GSSAPI or Kerberos");
-#else /* ! ENCRYPTION */
-	error (1, 0, "This client does not support encryption");
-#endif /* ! ENCRYPTION */
-    }
-
-    if (gzip_level && !rootless)
-    {
-	if (supported_request ("Gzip-stream"))
-	{
-	    char *gzip_level_buf = Xasprintf ("%d", gzip_level);
-	    send_to_server ("Gzip-stream ", 0);
-	    send_to_server (gzip_level_buf, 0);
-	    free (gzip_level_buf);
-	    send_to_server ("\012", 1);
-
-	    /* All further communication with the server will be
-               compressed.  */
-
-	    global_to_server = compress_buffer_initialize (global_to_server, 0,
-                                                           gzip_level, NULL);
-	    global_from_server = compress_buffer_initialize (global_from_server,
-                                                             1, gzip_level,
-							     NULL);
-	}
-#ifndef NO_CLIENT_GZIP_PROCESS
-	else if (supported_request ("gzip-file-contents"))
-	{
-            char *gzip_level_buf = Xasprintf ("%d", gzip_level);
-	    send_to_server ("gzip-file-contents ", 0);
-	    send_to_server (gzip_level_buf, 0);
-	    free (gzip_level_buf);
-	    send_to_server ("\012", 1);
-
-	    file_gzip_level = gzip_level;
-	}
-#endif
-	else
-	{
-	    fprintf (stderr, "server doesn't support gzip-file-contents\n");
-	    /* Setting gzip_level to 0 prevents us from giving the
-               error twice if update has to contact the server again
-               to fetch unpatchable files.  */
-	    gzip_level = 0;
 	}
     }
 
@@ -4177,7 +4260,6 @@ start_server (void)
 void
 send_arg (const char *string)
 {
-    char buf[1];
     const char *p = string;
 
     send_to_server ("Argument ", 0);
@@ -4185,14 +4267,9 @@ send_arg (const char *string)
     while (*p)
     {
 	if (*p == '\n')
-	{
 	    send_to_server ("\012Argumentx ", 0);
-	}
 	else
-        {
-	    buf[0] = *p;
-	    send_to_server (buf, 1);
-        }
+	    send_to_server (p, 1);
 	++p;
     }
     send_to_server ("\012", 1);
@@ -4217,7 +4294,7 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
     TRACE (TRACE_FUNCTION, "Sending file `%s' to server", file);
 
     /* Don't think we can assume fstat exists.  */
-    if (CVS_STAT (file, &sb) < 0)
+    if (stat (file, &sb) < 0)
 	error (1, errno, "reading %s", short_pathname);
 
     mode_string = mode_to_string (sb.st_mode);
@@ -4234,7 +4311,7 @@ send_modified (const char *file, const char *short_pathname, Vers_TS *vers)
        If so, make sure to open it in binary mode: */
 
     if (vers && vers->options)
-      bin = !(strcmp (vers->options, "-kb"));
+      bin = !strcmp (vers->options, "-kb");
     else
       bin = 0;
 
@@ -4376,12 +4453,12 @@ send_fileproc (void *callerdat, struct file_info *finfo)
     xfinfo.rcs = NULL;
     vers = Version_TS (&xfinfo, NULL, NULL, NULL, 0, 0);
 
-    if (vers->entdata != NULL)
+    if (vers->entdata)
 	filename = vers->entdata->user;
     else
 	filename = finfo->file;
 
-    if (vers->vn_user != NULL)
+    if (vers->vn_user)
     {
 	/* The Entries request.  */
 	send_to_server ("Entry /", 0);
@@ -4389,26 +4466,23 @@ send_fileproc (void *callerdat, struct file_info *finfo)
 	send_to_server ("/", 0);
 	send_to_server (vers->vn_user, 0);
 	send_to_server ("/", 0);
-	if (vers->ts_conflict != NULL)
+	if (vers->ts_conflict)
 	{
-	    if (vers->ts_user != NULL &&
-		strcmp (vers->ts_conflict, vers->ts_user) == 0)
+	    if (vers->ts_user && !strcmp (vers->ts_conflict, vers->ts_user))
 		send_to_server ("+=", 0);
 	    else
 		send_to_server ("+modified", 0);
 	}
 	send_to_server ("/", 0);
-	send_to_server (vers->entdata != NULL
-			? vers->entdata->options
-			: vers->options,
+	send_to_server (vers->entdata ? vers->entdata->options : vers->options,
 			0);
 	send_to_server ("/", 0);
-	if (vers->entdata != NULL && vers->entdata->tag)
+	if (vers->entdata && vers->entdata->tag)
 	{
 	    send_to_server ("T", 0);
 	    send_to_server (vers->entdata->tag, 0);
 	}
-	else if (vers->entdata != NULL && vers->entdata->date)
+	else if (vers->entdata && vers->entdata->date)
           {
 	    send_to_server ("D", 0);
 	    send_to_server (vers->entdata->date, 0);
@@ -4450,7 +4524,7 @@ warning: ignoring -k options due to server limitations");
 	}
     }
 
-    if (vers->ts_user == NULL)
+    if (!vers->ts_user)
     {
 	/*
 	 * Do we want to print "file was lost" like normal CVS?
@@ -4459,9 +4533,10 @@ warning: ignoring -k options due to server limitations");
 	/* File no longer exists.  Don't do anything, missing files
 	   just happen.  */
     }
-    else if (vers->ts_rcs == NULL
-	     || args->force
-	     || strcmp (vers->ts_user, vers->ts_rcs) != 0)
+    else if (!vers->ts_rcs || args->force
+	     || strcmp (vers->ts_conflict
+		        ? vers->ts_conflict : vers->ts_rcs, vers->ts_user)
+	     || (vers->ts_conflict && !strcmp (cvs_cmd_name, "diff")))
     {
 	if (args->no_contents
 	    && supported_request ("Is-modified"))
@@ -4645,35 +4720,16 @@ send_dirleave_proc (void *callerdat, const char *dir, int err,
 
 
 /*
- * Send each option in a string to the server, one by one.
- * This assumes that the options are separated by spaces, for example
- * STRING might be "--foo -C5 -y".
+ * Send each option in an array to the server, one by one.
+ * argv might be "--foo=bar",  "-C", "5", "-y".
  */
 
 void
-send_option_string (const char *string)
+send_options (int argc, char * const *argv)
 {
-    char *copy;
-    char *p;
-
-    copy = xstrdup (string);
-    p = copy;
-    while (1)
-    {
-        char *s;
-	char l;
-
-	for (s = p; *s != ' ' && *s != '\0'; s++)
-	    ;
-	l = *s;
-	*s = '\0';
-	if (s != p)
-	    send_arg (p);
-	if (l == '\0')
-	    break;
-	p = s + 1;
-    }
-    free (copy);
+    int i;
+    for (i = 0; i < argc; i++)
+	send_arg (argv[i]);
 }
 
 
@@ -4746,7 +4802,7 @@ send_file_names (int argc, char **argv, unsigned int flags)
 		       is correct behavior.  */
 		    entries = Entries_Open (0, NULL);
 		    node = findnode_fn (entries, q);
-		    if (node != NULL)
+		    if (node)
 		    {
 			/* Add the slash unless this is our first element. */
 			if (line_len)
@@ -4760,7 +4816,7 @@ send_file_names (int argc, char **argv, unsigned int flags)
 		/* If node is still NULL then we either didn't find CVSADM or
 		 * we didn't find an entry there.
 		 */
-		if (node == NULL)
+		if (!node)
 		{
 		    /* Add the slash unless this is our first element. */
 		    if (line_len)
@@ -4847,7 +4903,7 @@ send_max_dotdot (argc, argv)
         level = pathname_levels (argv[i]);
 	if (level > 0)
 	{
-            if (uppaths == NULL) uppaths = getlist();
+            if (!uppaths) uppaths = getlist();
 	    push_string (uppaths, xstrdup (argv[i]));
 	}
         if (level > max_level)
@@ -4907,7 +4963,7 @@ send_files (int argc, char **argv, int local, int aflag, unsigned int flags)
          CVS_LOCK_NONE, NULL, 0, NULL);
     if (err)
 	exit (EXIT_FAILURE);
-    if (toplevel_repos == NULL)
+    if (!toplevel_repos)
 	/*
 	 * This happens if we are not processing any files,
 	 * or for checkouts in directories without any existing stuff
@@ -4924,7 +4980,7 @@ send_files (int argc, char **argv, int local, int aflag, unsigned int flags)
 void
 client_import_setup (char *repository)
 {
-    if (toplevel_repos == NULL)		/* should always be true */
+    if (!toplevel_repos)		/* should always be true */
         send_a_repository ("", repository, "");
 }
 
@@ -4943,14 +4999,14 @@ client_process_import_file (char *message, char *vfile, char *vtag, int targc,
     char *fullname;
     Vers_TS vers;
 
-    assert (toplevel_repos != NULL);
+    assert (toplevel_repos);
 
-    if (strncmp (repository, toplevel_repos, strlen (toplevel_repos)) != 0)
+    if (strncmp (repository, toplevel_repos, strlen (toplevel_repos)))
 	error (1, 0,
 	       "internal error: pathname `%s' doesn't specify file in `%s'",
 	       repository, toplevel_repos);
 
-    if (strcmp (repository, toplevel_repos) == 0)
+    if (!strcmp (repository, toplevel_repos))
     {
 	update_dir = "";
 	fullname = xstrdup (vfile);
@@ -4968,7 +5024,7 @@ client_process_import_file (char *message, char *vfile, char *vtag, int targc,
     else
 	vers.options = wrap_rcsoption (vfile, 1);
 
-    if (vers.options != NULL)
+    if (vers.options)
     {
 	if (supported_request ("Kopt"))
 	{
@@ -4988,7 +5044,7 @@ client_process_import_file (char *message, char *vfile, char *vtag, int targc,
 	    char *rcsdate;
 	    char netdate[MAXDATELEN];
 
-	    if (CVS_STAT (vfile, &sb) < 0)
+	    if (stat (vfile, &sb) < 0)
 		error (1, errno, "cannot stat %s", fullname);
 	    rcsdate = date_from_time_t (sb.st_mtime);
 	    date_to_internet (netdate, rcsdate);
@@ -5003,7 +5059,7 @@ client_process_import_file (char *message, char *vfile, char *vtag, int targc,
 		   "warning: ignoring -d option due to server limitations");
     }
     send_modified (vfile, fullname, &vers);
-    if (vers.options != NULL)
+    if (vers.options)
 	free (vers.options);
     free (fullname);
     return 0;
@@ -5014,7 +5070,7 @@ client_process_import_file (char *message, char *vfile, char *vtag, int targc,
 void
 client_import_done (void)
 {
-    if (toplevel_repos == NULL)
+    if (!toplevel_repos)
 	/*
 	 * This happens if we are not processing any files,
 	 * or for checkouts in directories without any existing stuff
@@ -5026,121 +5082,6 @@ client_import_done (void)
 	   at the beginning.  */
 	toplevel_repos = xstrdup (current_parsed_root->directory);
     send_repository ("", toplevel_repos, ".");
-}
-
-
-
-static void
-notified_a_file (void *data, List *ent_list, const char *short_pathname,
-                 const char *filename)
-{
-    FILE *fp;
-    FILE *newf;
-    size_t line_len = 8192;
-    char *line = xmalloc (line_len);
-    char *cp;
-    int nread;
-    int nwritten;
-    char *p;
-
-    fp = xfopen (CVSADM_NOTIFY, "r");
-    if (getline (&line, &line_len, fp) < 0)
-    {
-	if (feof (fp))
-	    error (0, 0, "cannot read %s: end of file", CVSADM_NOTIFY);
-	else
-	    error (0, errno, "cannot read %s", CVSADM_NOTIFY);
-	goto error_exit;
-    }
-    cp = strchr (line, '\t');
-    if (cp == NULL)
-    {
-	error (0, 0, "malformed %s file", CVSADM_NOTIFY);
-	goto error_exit;
-    }
-    *cp = '\0';
-    if (strcmp (filename, line + 1) != 0)
-    {
-	error (0, 0, "protocol error: notified %s, expected %s", filename,
-	       line + 1);
-    }
-
-    if (getline (&line, &line_len, fp) < 0)
-    {
-	if (feof (fp))
-	{
-	    free (line);
-	    if (fclose (fp) < 0)
-		error (0, errno, "cannot close %s", CVSADM_NOTIFY);
-	    if ( CVS_UNLINK (CVSADM_NOTIFY) < 0)
-		error (0, errno, "cannot remove %s", CVSADM_NOTIFY);
-	    return;
-	}
-	else
-	{
-	    error (0, errno, "cannot read %s", CVSADM_NOTIFY);
-	    goto error_exit;
-	}
-    }
-    newf = xfopen (CVSADM_NOTIFYTMP, "w");
-    if (fputs (line, newf) < 0)
-    {
-	error (0, errno, "cannot write %s", CVSADM_NOTIFYTMP);
-	goto error2;
-    }
-    while ((nread = fread (line, 1, line_len, fp)) > 0)
-    {
-	p = line;
-	while ((nwritten = fwrite (p, 1, nread, newf)) > 0)
-	{
-	    nread -= nwritten;
-	    p += nwritten;
-	}
-	if (ferror (newf))
-	{
-	    error (0, errno, "cannot write %s", CVSADM_NOTIFYTMP);
-	    goto error2;
-	}
-    }
-    if (ferror (fp))
-    {
-	error (0, errno, "cannot read %s", CVSADM_NOTIFY);
-	goto error2;
-    }
-    if (fclose (newf) < 0)
-    {
-	error (0, errno, "cannot close %s", CVSADM_NOTIFYTMP);
-	goto error_exit;
-    }
-    free (line);
-    if (fclose (fp) < 0)
-    {
-	error (0, errno, "cannot close %s", CVSADM_NOTIFY);
-	return;
-    }
-
-    {
-        /* In this case, we want rename_file() to ignore noexec. */
-        int saved_noexec = noexec;
-        noexec = 0;
-        rename_file (CVSADM_NOTIFYTMP, CVSADM_NOTIFY);
-        noexec = saved_noexec;
-    }
-
-    return;
-  error2:
-    (void)fclose (newf);
-  error_exit:
-    free (line);
-    (void)fclose (fp);
-}
-
-
-
-static void
-handle_notified (char *args, size_t len)
-{
-    call_in_directory (args, notified_a_file, NULL);
 }
 
 
@@ -5171,7 +5112,7 @@ client_notify (const char *repository, const char *update_dir,
 void
 option_with_arg (const char *option, const char *arg)
 {
-    if (arg == NULL)
+    if (!arg)
 	return;
 
     send_to_server ("Argument ", 0);
@@ -5208,5 +5149,32 @@ send_init_command (void)
     send_to_server (current_parsed_root->directory, 0);
     send_to_server ("\012", 0);
 }
+
+
+
+#if defined AUTH_CLIENT_SUPPORT || defined HAVE_KERBEROS || defined HAVE_GSSAPI
+
+struct hostent *
+init_sockaddr (struct sockaddr_in *name, char *hostname, unsigned int port)
+{
+    struct hostent *hostinfo;
+    unsigned short shortport = port;
+
+    memset (name, 0, sizeof (*name));
+    name->sin_family = AF_INET;
+    name->sin_port = htons (shortport);
+    hostinfo = gethostbyname (hostname);
+    if (!hostinfo)
+    {
+	fprintf (stderr, "Unknown host %s.\n", hostname);
+	exit (EXIT_FAILURE);
+    }
+    name->sin_addr = *(struct in_addr *) hostinfo->h_addr;
+    return hostinfo;
+}
+
+#endif /* defined AUTH_CLIENT_SUPPORT || defined HAVE_KERBEROS
+	* || defined HAVE_GSSAPI
+	*/
 
 #endif /* CLIENT_SUPPORT */

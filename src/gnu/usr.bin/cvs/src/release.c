@@ -1,4 +1,18 @@
 /*
+ * Copyright (C) 1994-2005 The Free Software Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*
  * Release: "cancel" a checkout in the history log.
  * 
  * - Enter a line in the history log indicating the "release". - If asked to,
@@ -220,7 +234,7 @@ release (int argc, char **argv)
 
 	if (!really_quiet)
 	{
-	    int line_length;
+	    int line_length, status;
 	    pid_t child_pid;
 
 	    /* The "release" command piggybacks on "update", which
@@ -252,9 +266,10 @@ release (int argc, char **argv)
 	       complain and go on to the next arg.  Especially, we do
 	       not want to delete the local copy, since it's obviously
 	       not what the user thinks it is.  */
-	    if (close_update_command (fp, child_pid) != 0)
+	    status = close_update_command (fp, child_pid);
+	    if (status != 0)
 	    {
-		error (0, 0, "unable to release `%s'", thisarg);
+		error (0, 0, "unable to release `%s' (%d)", thisarg, status);
 		if (restore_cwd (&cwd))
 		    error (1, errno,
 		           "Failed to restore current directory, `%s'.",

@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 1996-2005 The Free Software Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 /* Declarations concerning the buffer data structure.  */
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
@@ -11,6 +25,16 @@
  * structure holds the status of one communication, and uses a linked
  * list of buffer_data structures to hold data.
  */
+
+struct buffer;
+
+typedef int (*type_buf_input) (void *, char *, size_t, size_t, size_t *);
+typedef int (*type_buf_output) (void *, const char *, size_t, size_t *);
+typedef int (*type_buf_flush) (void *);
+typedef int (*type_buf_block) (void *, bool);
+typedef int (*type_buf_get_fd) (void *);
+typedef int (*type_buf_shutdown) (struct buffer *);
+typedef void (*type_buf_memory_error) (struct buffer *);
 
 struct buffer
 {
@@ -37,30 +61,28 @@ struct buffer
        
        If there are a nonzero number of bytes available, less than NEED,
        followed by end of file, just read those bytes and return 0.  */
-    int (*input) (void *closure, char *data, size_t need, size_t size,
-		  size_t *got);
+    type_buf_input input;
 
     /* Write data.  This should write up to HAVE bytes from DATA.
        This should return 0 on success, or an errno code.  It should
        set the number of bytes written in *WROTE.  */
-    int (*output) (void *closure, const char *data, size_t have,
-		   size_t *wrote);
+    type_buf_output output;
 
     /* Flush any data which may be buffered up after previous calls to
        OUTPUT.  This should return 0 on success, or an errno code.  */
-    int (*flush) (void *closure);
+    type_buf_flush flush;
 
     /* Change the blocking mode of the underlying communication
        stream.  If BLOCK is non-zero, it should be placed into
        blocking mode.  Otherwise, it should be placed into
        non-blocking mode.  This should return 0 on success, or an
        errno code.  */
-    int (*block) (void *closure, bool block);
+    type_buf_block block;
 
     /* Return the file descriptor underlying this buffer, if any, or -1
      * otherwise.
      */
-    int (*get_fd) (void *closure);
+    type_buf_get_fd get_fd;
 
     /* Shut down the communication stream.  This does not mean that it
        should be closed.  It merely means that no more data will be
@@ -68,13 +90,13 @@ struct buffer
        appropriate should be done at this point.  This may be NULL.
        It should return 0 on success, or an errno code.  This entry
        point exists for the compression code.  */
-    int (*shutdown) (struct buffer *);
+    type_buf_shutdown shutdown;
 
     /* This field is passed to the INPUT, OUTPUT, and BLOCK functions.  */
     void *closure;
 
     /* Function to call if we can't allocate memory.  */
-    void (*memory_error) (struct buffer *);
+    type_buf_memory_error memory_error;
 };
 
 /* Data is stored in lists of these structures.  */
@@ -106,15 +128,14 @@ struct buffer_data
 /* The type of a function passed as a memory error handler.  */
 typedef void (*BUFMEMERRPROC) (struct buffer *);
 
-struct buffer *buf_initialize (int (*) (void *, char *, size_t, size_t,
-					size_t *),
-			       int (*) (void *, const char *, size_t, size_t *),
-			       int (*) (void *),
-			       int (*) (void *, bool),
-			       int (*) (void *),
-			       int (*) (struct buffer *),
-			       void (*) (struct buffer *),
-			       void *);
+struct buffer *buf_initialize (type_buf_input,
+				type_buf_output,
+				type_buf_flush,
+				type_buf_block,
+				type_buf_get_fd,
+				type_buf_shutdown,
+				type_buf_memory_error,
+				void *);
 void buf_free (struct buffer *);
 struct buffer *buf_nonio_initialize (void (*) (struct buffer *));
 struct buffer *compress_buffer_initialize (struct buffer *, int, int,

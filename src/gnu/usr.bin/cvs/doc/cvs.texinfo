@@ -128,6 +128,10 @@ approved by the Free Software Foundation.
 @copyleftnotice
 @end titlepage
 
+@summarycontents
+
+@contents
+
 @comment ================================================================
 @comment                   The real text starts here
 @comment ================================================================
@@ -233,7 +237,7 @@ versions.
 on the same project.  It is all too easy to overwrite
 each others' changes unless you are extremely careful.
 Some editors, like @sc{gnu} Emacs, try to make sure that
-the same file is never modified by two people at the
+two people never modify the same file at the
 same time.  Unfortunately, if someone is using another
 editor, that safeguard will not work.  @sc{cvs} solves this problem
 by insulating the different developers from each other.  Every
@@ -262,20 +266,20 @@ free download from the Internet.  For more information
 on downloading @sc{cvs} and other @sc{cvs} topics, see:
 
 @example
-@url{http://www.cvshome.org/}
+@url{http://cvs.nongnu.org/}
 @end example
 
 @cindex Mailing list
 @cindex List, mailing list
 @cindex Newsgroups
-There is a mailing list, known as @email{info-cvs@@gnu.org},
+There is a mailing list, known as @email{info-cvs@@nongnu.org},
 devoted to @sc{cvs}.  To subscribe or
 unsubscribe
 write to
-@email{info-cvs-request@@gnu.org}.
+@email{info-cvs-request@@nongnu.org}.
 If you prefer a Usenet group, there is a one-way mirror (posts to the email
 list are usually sent to the news group, but not visa versa) of
-@email{info-cvs@@gnu.org} at @url{news:gnu.cvs.help}.  The right
+@email{info-cvs@@nongnu.org} at @url{news:gnu.cvs.help}.  The right
 Usenet group for posts is @url{news:comp.software.config-mgmt} which is for
 @sc{cvs} discussions (along with other configuration
 management systems).  In the future, it might be
@@ -290,11 +294,11 @@ if there is sufficient @sc{cvs} traffic on
 @c would need to take a more comprehensive look at the
 @c whole comp.software.config-mgmt.* hierarchy).
 
-You can also subscribe to the @email{bug-cvs@@gnu.org} mailing list,
+You can also subscribe to the @email{bug-cvs@@nongnu.org} mailing list,
 described in more detail in @ref{BUGS}.  To subscribe
-send mail to @email{bug-cvs-request@@gnu.org}.  There is a two-way
+send mail to @email{bug-cvs-request@@nongnu.org}.  There is a two-way
 Usenet mirror (posts to the Usenet group are usually sent to the email list and
-visa versa) of @email{bug-cvs@@gnu.org} named @url{news:gnu.cvs.bug}.
+visa versa) of @email{bug-cvs@@nongnu.org} named @url{news:gnu.cvs.bug}.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node What is CVS not?
@@ -1895,6 +1899,13 @@ and server1, to update everything else.
 @cindex Creating a repository
 @cindex Setting up a repository
 
+This section describes how to set up a @sc{cvs} repository for any
+sort of access method.  After completing the setup described in this
+section, you should be able to access your @sc{cvs} repository immediately
+via the local access method and several remote access methods.  For
+more information on setting up remote access to the repository you create
+in this section, please read the section on @xref{Remote repositories}.
+
 To set up a @sc{cvs} repository, first choose the
 machine and disk on which you want to store the
 revision history of the source files.  CPU and memory
@@ -2394,11 +2405,11 @@ section concerning @file{.rhosts} and so on are likely
 to be inapplicable; consult the documentation for your rsh
 replacement.
 
-You may choose to specify the @var{CVS_RSH} option in
-the @var{CVSROOT} to allow you to use different ones
-for different roots. For example, allowing some roots
-to use @var{CVS_RSH=remsh} and some to use
-@var{CVS_RSH=ssh} for the @code{ext} method. See also
+You may choose to specify the @var{CVS_RSH} option as a method option
+in the @var{CVSROOT} string to allow you to use different connection tools
+for different roots (@pxref{The connection method}).  For example, allowing
+some roots to use @code{CVS_RSH=remsh} and some to use
+@code{CVS_RSH=ssh} for the @code{ext} method.  See also
 the @ref{Remote repositories} for more details.
 @c See also the comment in src/client.c for rationale
 @c concerning "rsh" being the default and never
@@ -2661,7 +2672,7 @@ for more details on PAM configuration.
 
 Note that PAM is an experimental feature in @sc{cvs} and feedback is
 encouraged.  Please send a mail to one of the @sc{cvs} mailing lists
-(@code{info-cvs@@gnu.org} or @code{bug-cvs@@gnu.org}) if you use the 
+(@code{info-cvs@@nongnu.org} or @code{bug-cvs@@nongnu.org}) if you use the 
 @sc{cvs} PAM support.
 
 @strong{WARNING: Using PAM gives the system administrator much more 
@@ -3497,8 +3508,13 @@ $ cvs import -m "Created directory structure" yoyodyne/@var{dir} yoyo start
 This will add yoyodyne/@var{dir} as a directory under
 @code{$CVSROOT}.
 
-Then, use @code{add} to add files (and new directories)
-as they appear.
+Use @code{checkout} to get the new project.  Then, use @code{add}
+to add files (and new directories) as needed.
+
+@example
+$ cd ..
+$ cvs co yoyodyne/@var{dir}
+@end example
 
 Check that the permissions @sc{cvs} sets on the
 directories inside @code{$CVSROOT} are reasonable.
@@ -5271,7 +5287,7 @@ later merge the removals to another branch if you want
 @cindex Removing directories
 @cindex Directories, removing
 
-In concept removing directories is somewhat similar to
+In concept, removing directories is somewhat similar to
 removing files---you want the directory to not exist in
 your current working directories, but you also want to
 be able to retrieve old releases in which the directory
@@ -5298,7 +5314,7 @@ removing it.
 @c need for -P and so that a file can be a directory in
 @c one revision and a regular file in another.
 Note that @samp{-P} is implied by the @samp{-r} or @samp{-D}
-options of @code{checkout}.  This way
+options of @code{checkout}.  This way,
 @sc{cvs} will be able to correctly create the directory
 or not depending on whether the particular version you
 are checking out contains any files in that directory.
@@ -5497,9 +5513,9 @@ like this:
 @enumerate
 @item
 Inform everyone who has a checked out copy of the directory that the
-directory will be renamed.  They should commit all
-their changes, and remove their working copies,
-before you take the steps below.
+directory will be renamed.  They should commit all their changes in all their
+copies of the project containing the directory to be removed, and remove
+all their working copies of said project, before you take the steps below.
 
 @item
 Rename the directory inside the repository.
@@ -6248,10 +6264,12 @@ these options, see @ref{Invoking CVS}.
 @cindex Merging a file
 @cindex Update, introduction
 
-When you want to update or merge a file, use the @code{update}
+When you want to update or merge a file, use the @code{cvs update -d}
 command.  For files that are not up to date this is roughly equivalent
 to a @code{checkout} command: the newest revision of the file is
-extracted from the repository and put in your working directory.
+extracted from the repository and put in your working directory.  The
+@code{-d} option, not necessary with @code{checkout}, tells @sc{cvs}
+that you wish it to create directories added by other developers.
 
 Your modifications to a file are never lost when you
 use @code{update}.  If no newer revision exists,
@@ -7406,8 +7424,10 @@ each working directory copy of a file also has a
 substitution mode.  The former is set by the @samp{-k}
 option to @code{cvs add} and @code{cvs admin}; the
 latter is set by the @samp{-k} or @samp{-A} options to @code{cvs
-checkout} or @code{cvs update}.  @code{cvs diff} also
-has a @samp{-k} option.  For some examples,
+checkout} or @code{cvs update}.
+@code{cvs diff} and @code{cvs rdiff} also
+have @samp{-k} options.
+For some examples,
 see @ref{Binary files}, and @ref{Merging and keywords}.
 @c The fact that -A is overloaded to mean both reset
 @c sticky options and reset sticky tags/dates is
@@ -7936,7 +7956,7 @@ for other files to access source files from a central
 location.  Many people have come up with some such a
 @c two such people are paul@sander.cupertino.ca.us (for
 @c a previous employer)
-@c and gtornblo@senet.abb.se (spicm and related tools),
+@c and gunnar.tornblom@se.abb.com (spicm and related tools),
 @c but as far as I know
 @c no one has nicely packaged or released such a system (or
 @c instructions for constructing one).
@@ -8109,6 +8129,7 @@ reference to @sc{cvs} commands, @pxref{Invoking CVS}).
 * ls & rls::                    List files in the repository
 * rdiff::                       'patch' format diffs between releases
 * release::                     Indicate that a directory is no longer in use
+* server & pserver::            Act as a server for a client on stdin/stdout
 * update::                      Bring work tree in sync with repository
 @end menu
 
@@ -8295,16 +8316,39 @@ Current versions of @sc{cvs} do not run @sc{rcs}
 programs; for compatibility this option is accepted,
 but it does nothing.
 
-@cindex TMPDIR, overriding
-@cindex Overriding TMPDIR
+@cindex TMPDIR, environment variable
+@cindex temporary file directory, set via command line
+@cindex temporary file directory, set via environment variable
+@cindex temporary file directory, set via config
+@cindex temporary files, location of
 @item -T @var{tempdir}
 Use @var{tempdir} as the directory where temporary files are
-located.  Overrides the setting of the @code{$TMPDIR} environment
-variable and any precompiled directory.  This parameter should be
-specified as an absolute pathname.
-(When running client/server, @samp{-T} affects only the local process;
+located.
+
+The @sc{cvs} client and server store temporary files in a temporary directory.
+The path to this temporary directory is set via, in order of precedence:
+
+@itemize @bullet
+@item
+The argument to the global @samp{-T} option.
+
+@item
+The value set for @code{TmpDir} in the config file (server only -
+@pxref{config}).
+
+@item
+The contents of the @code{$TMPDIR} environment variable (@code{%TMPDIR%} on
+Windows - @pxref{Environment variables}).
+
+@item
+/tmp
+
+@end itemize
+
+Temporary directories should always be specified as an absolute pathname.
+When running a CVS client, @samp{-T} affects only the local process;
 specifying @samp{-T} for the client has no effect on the server and
-vice versa.)
+vice versa.
 
 @cindex CVSROOT, overriding
 @cindex Overriding CVSROOT
@@ -8421,15 +8465,19 @@ available by default; it must be enabled using a
 special configure option, @file{--enable-encryption},
 when you build @sc{cvs}.
 
-@item -z @var{gzip-level}
+@item -z @var{level}
 @cindex Compression
 @cindex Gzip
-Set the compression level.
+Request compression @var{level} for network traffic.
+@sc{cvs} interprets @var{level} identically to the @code{gzip} program.
 Valid levels are 1 (high speed, low compression) to
 9 (low speed, high compression), or 0 to disable
-compression (the default).
-Only has an effect on the @sc{cvs} client.
-
+compression (the default).  Data sent to the server will
+be compressed at the requested level and the client will request
+the server use the same compression level for data returned.  The
+server will use the closest level allowed by the server administrator to
+compress returned data.  This option only has an effect when passed to
+the @sc{cvs} client.
 @end table
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -8580,8 +8628,8 @@ it operates on, and continues to use that @var{kflag} with future
 commands on the same files until you specify otherwise.
 
 The @samp{-k} option is available with the @code{add},
-@code{checkout}, @code{diff}, @code{export}, @code{import} and
-@code{update} commands.
+@code{checkout}, @code{diff}, @code{export}, @code{import},
+@code{rdiff}, and @code{update} commands.
 
 @strong{WARNING: Prior to CVS version 1.12.2, the @samp{-k} flag
 overrode the @samp{-kb} indication for a binary file.  This could
@@ -8679,9 +8727,13 @@ on sticky tags/dates, @pxref{Sticky tags}).
 
 The tag can be either a symbolic or numeric tag, as
 described in @ref{Tags}, or the name of a branch, as
-described in @ref{Branching and merging}.  When @var{tag} is the name of a
+described in @ref{Branching and merging}.
+When @var{tag} is the name of a
 branch, some commands accept the optional @var{date} argument to specify
-the revisions as of the given date on the branch.
+the revision as of the given date on the branch.
+When a command expects a specific revision,
+the name of a branch is interpreted as the most recent
+revision on that branch.
 
 Specifying the @samp{-q} global option along with the
 @samp{-r} command option is often useful, to suppress
@@ -9009,10 +9061,10 @@ it is created.  The state is visible in the output from
 @var{cvs log} (@pxref{log}), and in the
 @samp{$@splitrcskeyword{Log}$} and @samp{$@splitrcskeyword{State}$} keywords
 (@pxref{Keyword substitution}).  Note that @sc{cvs}
-uses the @code{dead} state for its own purposes; to
+uses the @code{dead} state for its own purposes (@pxref{Attic}); to
 take a file to or from the @code{dead} state use
-commands like @code{cvs remove} and @code{cvs add}, not
-@code{cvs admin -s}.
+commands like @code{cvs remove} and @code{cvs add}
+(@pxref{Adding and removing}), not @code{cvs admin -s}.
 
 @item -t[@var{file}]
 Useful with @sc{cvs}.  Write descriptive text from the
@@ -10354,14 +10406,24 @@ Requires: the file @file{$CVSROOT/CVSROOT/history}
 Changes: nothing.
 @end itemize
 
-@sc{cvs} can keep a history file that tracks each use of the
-@code{checkout}, @code{commit}, @code{rtag},
-@code{update}, and @code{release} commands.  You can
-use @code{history} to display this information in
+@sc{cvs} can keep a history log that tracks each use of most @sc{cvs}
+commands.  You can use @code{history} to display this information in
 various formats.
 
-Logging must be enabled by creating the file
-@file{$CVSROOT/CVSROOT/history}.
+To enable logging, the @samp{LogHistory} config option must be set to
+some value other than the empty string and the history file specified by
+the @samp{HistoryLogPath} option must be writable by all users who may run
+the @sc{cvs} executable (@pxref{config}).
+
+To enable the @code{history} command, logging must be enabled as above and
+the @samp{HistorySearchPath} config option (@pxref{config}) must be set to
+specify some number of the history logs created thereby and these files must
+be readable by each user who might run the @code{history} command.
+
+Creating a repository via the @code{cvs init} command will enable logging of
+all possible events to a single history log file
+(@file{$CVSROOT/CVSROOT/history}) with read and write permissions for all
+users (@pxref{Creating a repository}).
 
 @strong{Note: @code{history} uses @samp{-f}, @samp{-l},
 @samp{-n}, and @samp{-p} in ways that conflict with the
@@ -10892,7 +10954,10 @@ Suppress the header if no revisions are selected.
 @item -s @var{states}
 Print information about revisions whose state
 attributes match one of the states given in the
-comma-separated list @var{states}.
+comma-separated list @var{states}.  Individual states may
+be any text string, though @sc{cvs} commonly only uses two
+states, @samp{Exp} and @samp{dead}.  See @ref{admin options}
+for more information.
 
 @item -t
 Print the same as @samp{-h}, plus the descriptive text.
@@ -11085,6 +11150,10 @@ Use the most recent revision no later than @var{date}.
 @item -f
 If no matching revision is found, retrieve the most
 recent revision (instead of ignoring the file).
+
+@item -k @var{kflag}
+Process keywords according to @var{kflag}.  See
+@ref{Keyword substitution}.
 
 @item -l
 Local; don't descend subdirectories.
@@ -11279,6 +11348,44 @@ $
 @end example
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+@node server & pserver
+@appendixsec server & pserver---Act as a server for a client on stdin/stdout
+@cindex pserver (subcommand)
+@cindex server (subcommand)
+
+@itemize @bullet
+@item
+pserver [-c path]
+
+server [-c path]
+@item
+Requires: repository, client conversation on stdin/stdout
+@item
+Changes: Repository or, indirectly, client working directory.
+@end itemize
+
+The @sc{cvs} @code{server} and @code{pserver} commands are used to provide
+repository access to remote clients and expect a client conversation on
+stdin & stdout.  Typically these commands are launched from @code{inetd} or
+via @code{ssh} (@pxref{Remote repositories}).
+
+@code{server} expects that the client has already been authenticated somehow,
+typically via @sc{ssh}, and @code{pserver} attempts to authenticate the client
+itself.
+
+Only one option is available with the @code{server} and @code{pserver}
+commands:
+
+@cindex configuration file
+@table @code
+@item -c path
+Load configuration from @var{path} rather than the default location 
+@file{$CVSROOT/CVSROOT/config} (@pxref{config}).  @var{path} must be
+@file{/etc/cvs.conf} or prefixed by @file{/etc/cvs/}.  This option is
+supported beginning with @sc{cvs} release 1.12.13.
+@end table
+
+@c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node update
 @appendixsec update---Bring work tree in sync with repository
 @cindex update (subcommand)
@@ -11445,7 +11552,7 @@ by one character indicating the status of the file:
 @item U @var{file}
 The file was brought up to date with respect to the
 repository.  This is done for any file that exists in
-the repository but not in your source, and for files
+the repository but not in your working directory, and for files
 that you haven't changed but are not the most recent
 versions available in the repository.
 
@@ -11694,7 +11801,8 @@ Delete revisions from the repository.  See
 Run quietly; do not print diagnostics.
 
 @item -s@var{state}[:@var{rev}]
-Set the state.
+Set the state.  See @ref{admin options} for more information on possible
+states.
 
 @c Does not work for client/server CVS
 @item -t
@@ -13487,6 +13595,14 @@ In addition to the common format strings (@pxref{syntax}),
 @table @t
 @item l
 the full path to the file containing the log message to be verified
+@item @{sV@}
+File attributes, where:
+@table @t
+@item s
+file name
+@item V
+old version number (pre-checkin)
+@end table
 @end table
 
 @cindex verifymsg (admin/commit file), updating legacy repositories
@@ -13663,11 +13779,14 @@ In addition to the common format strings (@pxref{syntax}),
 @file{loginfo} supports:
 
 @table @t
-@item @{sVv@}
+@item @{stVv@}
 File attributes, where:
 @table @t
 @item s
 file name
+@item T
+tag name of destination, or the empty string when there is no associated
+tag name (this usually means the trunk)
 @item V
 old version number (pre-checkin)
 @item v
@@ -13676,7 +13795,7 @@ new version number (post-checkin)
 @end table
 
 For example, some valid format strings are @samp{%%},
-@samp{%s}, @samp{%@{s@}}, and @samp{%@{sVv@}}.
+@samp{%s}, @samp{%@{s@}}, and @samp{%@{stVv@}}.
 
 @cindex loginfo (admin file), updating legacy repositories
 @cindex compatibility notes, loginfo admin file
@@ -13840,12 +13959,15 @@ unknown, as during delete operations)
 operation (@code{add} for @code{tag}, @code{mov} for @code{tag -F}, or
 @code{del} for @code{tag -d})
 @item t
-tag name
-@item @{sVv@}
+new tag name
+@item @{sTVv@}
 file attributes, where:
 @table @t
 @item s
 file name
+@item T
+tag name of destination, or the empty string when there is no associated
+tag name (this usually means the trunk)
 @item V
 old version number (for a move or delete operation)
 @item v
@@ -14227,12 +14349,10 @@ copy}.
 @cindex History file
 @cindex Log information, saving
 
-The file @file{$CVSROOT/CVSROOT/history} is used
-to log information for the @code{history} command
-(@pxref{history}).  This file must be created to turn
-on logging.  This is done automatically if the
-@code{cvs init} command is used to set up the
-repository (@pxref{Creating a repository}).
+By default, the file @file{$CVSROOT/CVSROOT/history} is used
+to log information for the @code{history} command (@pxref{history}).
+This file name may be changed with the @samp{HistoryLogPath} and
+@samp{HistorySearchPath} config options (@pxref{config}).
 
 The file format of the @file{history} file is
 documented only in comments in the @sc{cvs} source
@@ -14308,6 +14428,20 @@ When using pserver, this is the user specified in the repository
 specification which need not be the same as the username the
 server is running as (@pxref{Password authentication server}).
 Do not confuse this with the environment variable of the same name.
+
+@item SESSIONID
+@cindex COMMITID, internal variable
+Unique Session ID of the @sc{cvs} process. This is a
+random string of printable characters of at least 16
+characters length. Users should assume that it may
+someday grow to at most 256 characters in length.
+
+@item COMMITID
+@cindex COMMITID, internal variable
+Unique Session ID of the @sc{cvs} process. This is a
+random string of printable characters of at least 16
+characters length. Users should assume that it may
+someday grow to at most 256 characters in length.
 @end table
 
 If you want to pass a value to the administrative files
@@ -14367,48 +14501,114 @@ Do not confuse this with the internal variable of the same name.
 @node config
 @appendixsec The CVSROOT/config configuration file
 
+@cindex configuration file
 @cindex config, in CVSROOT
 @cindex CVSROOT/config
+
+Usually, the @file{config} file is found at @file{$CVSROOT/CVSROOT/config},
+but this may be overridden on the @code{pserver} and @code{server} command
+lines (@pxref{server & pserver}).
 
 The administrative file @file{config} contains various
 miscellaneous settings which affect the behavior of
 @sc{cvs}.  The syntax is slightly different from the
-other administrative files.  Variables are not
-expanded.  Lines which start with @samp{#} are
-considered comments.
+other administrative files.
+
+Leading white space on any line is ignored, though the syntax is very strict
+and will reject spaces and tabs almost anywhere else.
+
+Empty lines, lines containing nothing but white space, and lines which start
+with @samp{#} (discounting any leading white space) are ignored.
+
 @c FIXME: where do we define comments for the other
 @c administrative files.
-Other lines consist of a keyword, @samp{=}, and a
-value.  Note that this syntax is very strict.
-Extraneous spaces or tabs are not permitted.
+Other lines consist of the optional leading white space, a keyword, @samp{=},
+and a value.  Please note again that this syntax is very strict.
+Extraneous spaces or tabs, other than the leading white space, are not
+permitted on these lines.
 @c See comments in parseinfo.c:parse_config for more
 @c discussion of this strictness.
+
+As of CVS 1.12.13, lines of the form @samp{[@var{CVSROOT}]} mark the subsequent
+section of the config file as applying only to certain repositories.  Multiple
+@samp{[@var{CVSROOT}]} lines without intervening
+@samp{@var{KEYWORD}=@var{VALUE}} pairs cause processing to fall through,
+processing subsequent keywords for any root in the list.  Finally, keywords
+and values which appear before any @samp{[@var{CVSROOT}]} lines are defaults,
+and may to apply to any repository.  For example, consider the following file:
+
+@example
+# Defaults
+LogHistory=TMAR
+
+[/cvsroots/team1]
+  LockDir=/locks/team1
+
+[/cvsroots/team2]
+  LockDir=/locks/team2
+
+[/cvsroots/team3]
+  LockDir=/locks/team3
+
+[/cvsroots/team4]
+  LockDir=/locks/team4
+
+[/cvsroots/team3]
+[/cvsroots/team4]
+  # Override logged commands for teams 3 & 4.
+  LogHistory=all
+@end example
+
+This example file sets up separate lock directories for each project, as well
+as a default set of logged commands overridden for the example's team 3 &
+team 4. This syntax could be useful, for instance, if you wished to share a
+single config file, for instance @file{/etc/cvs.conf}, among several
+repositories.
 
 Currently defined keywords are:
 
 @table @code
-@cindex RCSBIN, in CVSROOT/config
-@item RCSBIN=@var{bindir}
-For @sc{cvs} 1.9.12 through 1.9.18, this setting told
-@sc{cvs} to look for @sc{rcs} programs in the
-@var{bindir} directory.  Current versions of @sc{cvs}
-do not run @sc{rcs} programs; for compatibility this
-setting is accepted, but it does nothing.
+@cindex HistoryLogPath, in CVSROOT/config
+@item HistorySearchPath=@var{pattern}
+Request that @sc{cvs} look for its history information in files matching
+@var{pattern}, which is a standard UNIX file glob.  If @var{pattern} matches
+multiple files, all will be searched in lexicographically sorted order.
+@xref{history}, and @ref{history file}, for more.
 
-@cindex SystemAuth, in CVSROOT/config
-@item SystemAuth=@var{value}
-If @var{value} is @samp{yes}, then pserver should check
-for users in the system's user database if not found in
-@file{CVSROOT/passwd}.  If it is @samp{no}, then all
-pserver users must exist in @file{CVSROOT/passwd}.
-The default is @samp{yes}.  For more on pserver, see
-@ref{Password authenticated}.
+If no value is supplied for this option, it defaults to
+@file{$CVSROOT/CVSROOT/history}.
 
-@cindex LocalKeyword, in CVSROOT/config
-@item LocalKeyword=@var{value}
-Specify a local alias for a standard keyword.
-For example, @samp{LocalKeyword=MYCVS=CVSHeader}.
-For more on local keywords, see @ref{Keyword substitution}.
+@cindex HistorySearchPath, in CVSROOT/config
+@item HistoryLogPath=@var{path}
+Control where @sc{cvs} logs its history.  If the file does not exist, @sc{cvs}
+will attempt to create it.  Format strings, as available to the GNU C
+@code{strftime} function and often the UNIX date command, and the string
+@var{$CVSROOT} will be substituted in this path.  For example, consider the
+line:
+
+@example
+HistoryLogPath=$CVSROOT/CVSROOT/history/%Y-%m-%d
+@end example
+
+This line would cause @sc{cvs} to attempt to create its history file in a
+subdirectory (@file{history}) of the configuration directory (@file{CVSROOT})
+with a name equal to the current date representation in the ISO8601 format (for
+example, on May 11, 2005, @sc{cvs} would attempt to log its history under the
+repository root directory in a file named @file{CVSROOT/history/2005-05-11}).
+@xref{history}, and @ref{history file}, for more.
+
+If no value is supplied for this option, it defaults to
+@file{$CVSROOT/CVSROOT/history}.
+
+@cindex ImportNewFilesToVendorBranchOnly, in CVSROOT/config
+@cindex import, config admin file
+@cindex config (admin file), import
+@item ImportNewFilesToVendorBranchOnly=@var{value}
+Specify whether @code{cvs import} should always behave as if the
+@samp{-X} flag was specified on the command line.  
+@var{value} may be either @samp{yes} or @samp{no}.  If set to @samp{yes},
+all uses of @code{cvs import} on the repository will behave as if the
+@samp{-X} flag was set.  The default value is @samp{no}.
 
 @cindex KeywordExpand, in CVSROOT/config
 @item KeywordExpand=@var{value}
@@ -14418,32 +14618,11 @@ or @samp{e} followed by a list of keywords not to be expanded
 (for example, @samp{KeywordExpand=eCVSHeader}).
 For more on keyword expansion, see @ref{Configuring keyword expansion}.
 
-@ignore
-@cindex PreservePermissions, in CVSROOT/config
-@item PreservePermissions=@var{value}
-Enable support for saving special device files,
-symbolic links, file permissions and ownerships in the
-repository.  The default value is @samp{no}.
-@xref{Special Files}, for the full implications of using
-this keyword.
-@end ignore
-
-@cindex TopLevelAdmin, in CVSROOT/config
-@item TopLevelAdmin=@var{value}
-Modify the @samp{checkout} command to create a
-@samp{CVS} directory at the top level of the new
-working directory, in addition to @samp{CVS}
-directories created within checked-out directories.
-The default value is @samp{no}.
-
-This option is useful if you find yourself performing
-many commands at the top level of your working
-directory, rather than in one of the checked out
-subdirectories.  The @file{CVS} directory created there
-will mean you don't have to specify @code{CVSROOT} for
-each command.  It also provides a place for the
-@file{CVS/Template} file (@pxref{Working directory
-storage}).
+@cindex LocalKeyword, in CVSROOT/config
+@item LocalKeyword=@var{value}
+Specify a local alias for a standard keyword.
+For example, @samp{LocalKeyword=MYCVS=CVSHeader}.
+For more on local keywords, see @ref{Keyword substitution}.
 
 @cindex LockDir, in CVSROOT/config
 @item LockDir=@var{directory}
@@ -14478,7 +14657,82 @@ Control what is logged to the @file{CVSROOT/history} file (@pxref{history}).
 Default of @samp{TOEFWUPCGMAR} (or simply @samp{all}) will log
 all transactions.  Any subset of the default is
 legal.  (For example, to only log transactions that modify the
-@file{*,v} files, use @samp{LogHistory=TMAR}.)
+@file{*,v} files, use @samp{LogHistory=TMAR}.)  To disable history logging
+completely, use @samp{LogHistory=}.
+
+@cindex MaxCommentLeaderLength, in CVSROOT/config
+@cindex Log keyword, configuring substitution behavior
+@item MaxCommentLeaderLength=@var{length}
+Set to some length, in bytes, where a trailing @samp{k}, @samp{M}, @samp{G},
+or @samp{T} causes the preceding nubmer to be interpreted as kilobytes,
+megabytes, gigabytes, or terrabytes, respectively, will cause
+@code{$@splitrcskeyword{Log}$} keywords (@pxref{Keyword substitution}), with
+more than @var{length} bytes preceding it on a line to be ignored (or to fall
+back on the comment leader set in the RCS archive file - see
+@code{UseArchiveCommentLeader} below).  Defaults to 20 bytes to allow checkouts
+to proceed normally when they include binary files containing
+@code{$@splitrcskeyword{Log}$} keywords and which users have neglected to mark
+as binary.
+
+@cindex MinCompressionLevel, in CVSROOT/config
+@cindex MaxCompressionLevel, in CVSROOT/config
+@cindex Compression levels, restricting on server
+@item MinCompressionLevel=@var{value}
+@itemx MaxCompressionLevel=@var{value}
+Restricts the level of compression used by the @sc{cvs} server to a @var{value}
+between 0 and 9.  @var{value}s 1 through 9 are the same @sc{zlib} compression
+levels accepted by the @samp{-z} option (@pxref{Global options}), and 0 means
+no compression.  When one or both of these keys are set and a client requests a
+level outside the specified range, the server will simply use the closest
+permissable level.  Clients will continue compressing at the level requested by
+the user.
+
+The exception is when level 0 (no compression) is not available and the client
+fails to request any compression.  The @sc{cvs} server will then exit with an
+error message when it becomes apparent that the client is not going to request
+compression.  This will not happen with clients version 1.12.13 and later since
+these client versions allow the server to notify them that they must request
+some level of compression.
+
+@ignore
+@cindex PreservePermissions, in CVSROOT/config
+@item PreservePermissions=@var{value}
+Enable support for saving special device files,
+symbolic links, file permissions and ownerships in the
+repository.  The default value is @samp{no}.
+@xref{Special Files}, for the full implications of using
+this keyword.
+@end ignore
+
+@cindex PrimaryServer, in CVSROOT/config
+@cindex Primary server
+@cindex Secondary server
+@cindex proxy, write
+@cindex write proxy
+@item PrimaryServer=@var{CVSROOT}
+When specified, and the repository specified by @var{CVSROOT} is not the one
+currently being accessed, then the server will turn itself into a transparent
+proxy to @var{CVSROOT} for write requests.  The @var{hostname} configured as
+part of @var{CVSROOT} must resolve to the same string returned by the
+@command{uname} command on the primary server for this to work.  Host name
+resolution is performed via some combination of @command{named}, a broken out
+line from @file{/etc/hosts}, and the Network Information Service (NIS or YP),
+depending on the configuration of the particular system.
+
+Only the @samp{:ext:} method is
+currently supported for primaries (actually, @samp{:fork:} is supported as
+well, but only for testing - if you find another use for accessing a primary
+via the @samp{:fork:} method, please send a note to @email{bug-cvs@@nongnu.org}
+about it).  See @ref{Write proxies} for more on configuring and using write
+proxies.
+
+@cindex RCSBIN, in CVSROOT/config
+@item RCSBIN=@var{bindir}
+For @sc{cvs} 1.9.12 through 1.9.18, this setting told
+@sc{cvs} to look for @sc{rcs} programs in the
+@var{bindir} directory.  Current versions of @sc{cvs}
+do not run @sc{rcs} programs; for compatibility this
+setting is accepted, but it does nothing.
 
 @cindex RereadLogAfterVerify, in CVSROOT/config
 @cindex @file{verifymsg}, changing the log message
@@ -14499,6 +14753,69 @@ CPU intensive but is not recommended for use with large repositories}
 
 @xref{verifymsg}, for more information on how verifymsg
 may be used.
+
+@cindex SystemAuth, in CVSROOT/config
+@item SystemAuth=@var{value}
+If @var{value} is @samp{yes}, then pserver should check
+for users in the system's user database if not found in
+@file{CVSROOT/passwd}.  If it is @samp{no}, then all
+pserver users must exist in @file{CVSROOT/passwd}.
+The default is @samp{yes}.  For more on pserver, see
+@ref{Password authenticated}.
+
+@cindex TmpDir, in config
+@cindex temporary files, location of
+@cindex temporary directory, set in config
+@item TmpDir=@var{path}
+Specify @var{path} as the directory to create temporary files in.
+@xref{Global options}, for more on setting the path to the temporary
+directory.  This option first appeared with @sc{cvs} release 1.12.13.
+
+@cindex TopLevelAdmin, in CVSROOT/config
+@item TopLevelAdmin=@var{value}
+Modify the @samp{checkout} command to create a
+@samp{CVS} directory at the top level of the new
+working directory, in addition to @samp{CVS}
+directories created within checked-out directories.
+The default value is @samp{no}.
+
+This option is useful if you find yourself performing
+many commands at the top level of your working
+directory, rather than in one of the checked out
+subdirectories.  The @file{CVS} directory created there
+will mean you don't have to specify @code{CVSROOT} for
+each command.  It also provides a place for the
+@file{CVS/Template} file (@pxref{Working directory
+storage}).
+
+@cindex UseArchiveCommentLeader, in CVSROOT/config
+@cindex Log keyword, configuring substitution behavior
+@item UseArchiveCommentLeader=@var{value}
+Set to @code{true}, if the text preceding a @code{$@splitrcskeyword{Log}$}
+keyword is found to exceed @code{MaxCommentLeaderLength} (above) bytes, then
+the comment leader set in the RCS archive file (@pxref{admin}), if any, will
+be used instead.  If there is no comment leader set in the archive file or
+@var{value} is set to @samp{false}, then the keyword will not be expanded
+(@pxref{Keyword list}).  To force the comment leader in the RCS archive file to
+be used exclusively (and @code{$@splitrcskeyword{Log}$} expansion skipped in
+files where the comment leader has not been set in the archive file), set
+@var{value} and set @code{MaxCommentLeaderLength} to @code{0}.
+
+@cindex UseNewInfoFmtStrings, in CVSROOT/config
+@cindex format strings, config admin file
+@cindex config (admin file), updating legacy repositories
+@cindex compatibility notes, config admin file
+@item UseNewInfoFmtStrings=@var{value}
+Specify whether @sc{cvs} should support the new or old command line
+template model for the commit support files (@pxref{commit files}).
+This configuration variable began life in deprecation and is only here
+in order to give people time to update legacy repositories to use the new
+format string syntax before support for the old syntax is removed.  For
+information on updating your repository to support the new model,
+please see @ref{Updating Commit Files}.
+
+@emph{Note that new repositories (created with the @code{cvs init} command)
+will have this value set to @samp{yes}, but the default value is @samp{no}.}
 
 @cindex UserAdminOptions, in CVSROOT/config
 @item UserAdminOptions=@var{value}
@@ -14523,81 +14840,6 @@ As an example, to restrict users not in the @code{cvsadmin}
 group to using @code{cvs admin} to change the default keyword
 substitution mode, lock revisions, unlock revisions, and
 replace the log message, use @samp{UserAdminOptions=klum}.
-
-@cindex format strings, config admin file
-@cindex config (admin file), updating legacy repositories
-@cindex compatibility notes, config admin file
-@cindex UseNewInfoFmtStrings, in CVSROOT/config
-@item UseNewInfoFmtStrings=@var{value}
-Specify whether @sc{cvs} should support the new or old command line
-template model for the commit support files (@pxref{commit files}).
-This configuration variable began life in deprecation and is only here
-in order to give people time to update legacy repositories to use the new
-format string syntax before support for the old syntax is removed.  For
-information on updating your repository to support the new model,
-please see @ref{Updating Commit Files}.
-
-@emph{Note that new repositories (created with the @code{cvs init} command)
-will have this value set to @samp{yes}, but the default value is @samp{no}.}
-
-@cindex import, config admin file
-@cindex config (admin file), import
-@cindex ImportNewFilesToVendorBranchOnly, in CVSROOT/config
-@item ImportNewFilesToVendorBranchOnly=@var{value}
-Specify whether @code{cvs import} should always behave as if the
-@samp{-X} flag was specified on the command line.  
-@var{value} may be either @samp{yes} or @samp{no}.  If set to @samp{yes},
-all uses of @code{cvs import} on the repository will behave as if the
-@samp{-X} flag was set.  The default value is @samp{no}.
-
-@cindex PrimaryServer, in CVSROOT/config
-@cindex Primary server
-@cindex Secondary server
-@cindex proxy, write
-@cindex write proxy
-@item PrimaryServer=@var{CVSROOT}
-When specified, and the repository specified by @var{CVSROOT} is not the one
-currently being accessed, then the server will turn itself into a transparent
-proxy to @var{CVSROOT} for write requests.  The @var{hostname} configured as
-part of @var{CVSROOT} must resolve to the same string returned by the
-@command{uname} command on the primary server for this to work.  Host name
-resolution is performed via some combination of @command{named}, a broken out
-line from @file{/etc/hosts}, and the Network Information Service (NIS or YP),
-depending on the configuration of the particular system.
-
-Only the @samp{:ext:} method is
-currently supported for primaries (actually, @samp{:fork:} is supported as
-well, but only for testing - if you find another use for accessing a primary
-via the @samp{:fork:} method, please send a note to @email{bug-cvs@@gnu.org}
-about it).  See @ref{Write proxies} for more on configuring and using write
-proxies.
-
-@cindex MaxCommentLeaderLength, in CVSROOT/config
-@cindex Log keyword, configuring substitution behavior
-@item MaxCommentLeaderLength=@var{length}
-Set to some length, in bytes, where a trailing @samp{k}, @samp{M}, @samp{G},
-or @samp{T} causes the preceding nubmer to be interpreted as kilobytes,
-megabytes, gigabytes, or terrabytes, respectively, will cause
-@code{$@splitrcskeyword{Log}$} keywords (@pxref{Keyword substitution}), with
-more than @var{length} bytes preceding it on a line to be ignored (or to fall
-back on the comment leader set in the RCS archive file - see
-@code{UseArchiveCommentLeader} below).  Defaults to 20 bytes to allow checkouts
-to proceed normally when they include binary files containing
-@code{$@splitrcskeyword{Log}$} keywords and which users have neglected to mark
-as binary.
-
-@cindex UseArchiveCommentLeader, in CVSROOT/config
-@cindex Log keyword, configuring substitution behavior
-@item UseArchiveCommentLeader=@var{value}
-Set to @code{true}, if the text preceding a @code{$@splitrcskeyword{Log}$}
-keyword is found to exceed @code{MaxCommentLeaderLength} bytes, then the
-comment leader set in the RCS archive file (@pxref{admin}), if any, will be
-used instead.  If there is no comment leader set in the archive file or
-@var{value} is set to @samp{false}, then the keyword will not be expanded
-(@pxref{Keyword list}).  To force the comment leader in the RCS archive file to
-be used exclusively (and @code{$@splitrcskeyword{Log}$} expansion skipped in
-files where the comment leader has not been set in the archive file), set
-@var{value} and set @code{MaxCommentLeaderLength} to @code{0}.
 @end table
 
 
@@ -14609,7 +14851,8 @@ files where the comment leader has not been set in the archive file), set
 @cindex Reference manual for variables
 
 This is a complete list of all environment variables
-that affect @sc{cvs}.
+that affect @sc{cvs} (Windows users, please bear with this list;
+$VAR is equivalent to %VAR% at the Windows command prompt).
 
 @table @code
 @cindex CVSIGNORE, environment variable
@@ -14772,34 +15015,11 @@ Used under OS/2 only.  It specifies the name of the
 command interpreter and defaults to @sc{cmd.exe}.
 
 @cindex TMPDIR, environment variable
+@cindex temporary file directory, set via environment variable
+@cindex temporary files, location of
 @item $TMPDIR
-@cindex TMP, environment variable
-@itemx $TMP
-@cindex TEMP, environment variable
-@itemx $TEMP
-@cindex Temporary files, location of
-@c This is quite nuts.  We don't talk about tempnam
-@c or mkstemp which we sometimes use.  The discussion
-@c of "Global options" is semi-incoherent.
-@c I'm not even sure those are the only inaccuracies.
-@c Furthermore, the conventions are
-@c pretty crazy and they should be simplified.
 Directory in which temporary files are located.
-The @sc{cvs} server uses
-@code{TMPDIR}.  @xref{Global options}, for a
-description of how to specify this.
-Some parts of @sc{cvs} will always use @file{/tmp} (via
-the @code{tmpnam} function provided by the system).
-
-On Windows NT, @code{TMP} is used (via the @code{_tempnam}
-function provided by the system).
-
-The @code{patch} program which is used by the @sc{cvs}
-client uses @code{TMPDIR}, and if it is not set, uses
-@file{/tmp} (at least with GNU patch 2.1).  Note that
-if your server and client are both running @sc{cvs}
-1.9.10 or later, @sc{cvs} will not invoke an external
-@code{patch} program.
+@xref{Global options}, for more on setting the temporary directory.
 
 @cindex CVS_PID, environment variable
 @item $CVS_PID
@@ -15239,6 +15459,37 @@ logged in as "root".  (You can disable this option by passing the
 On some systems this means editing the appropriate @file{config.h} file
 before building @sc{cvs}.)
 
+@item cvs [server aborted]: Secondary out of sync with primary!
+
+This usually means that the version of @sc{cvs} running on a secondary
+server is incompatible with the version running on the primary server
+(@pxref{Write proxies}).
+This will not occur if the client supports redirection.
+
+It is not the version number that is significant here, but the list of
+supported requests that the servers provide to the client.
+For example, even if both servers were the same version,
+if the secondary was compiled with GSSAPI support and the primary was not,
+the list of supported requests provided by the two servers
+would be different and the secondary would not work as a transparent
+proxy to the primary.
+Conversely, even if the two servers were radically different versions
+but both provided the same list of valid requests to the client,
+the transparent proxy would succeed.
+
+@item Terminated with fatal signal 11
+This message usually indicates that @sc{cvs} (the server, if you're
+using client/server mode) has run out of (virtual) memory.
+Although @sc{cvs} tries to catch the error and issue a more meaningful
+message, there are many circumstances where that is not possible.
+If you appear to have lots of memory available to the system,
+the problem is most likely that you're running into a system-wide
+limit on the amount of memory a single process can use or a
+similar process-specific limit.
+The mechanisms for displaying and setting such limits vary from
+system to system, so you'll have to consult an expert for your
+particular system if you don't know how to do that.
+
 @item Too many arguments!
 This message is typically printed by the @file{log.pl}
 script which is in the @file{contrib} directory in the
@@ -15329,23 +15580,21 @@ vi $*
 exit 0
 @end example
 
-@item cvs [server aborted]: Secondary out of sync with primary!
+@item cvs update: warning: @var{file} was lost
+This means that the working copy of @var{file} has been deleted
+but it has not been removed from @sc{cvs}.
+This is nothing to be concerned about,
+the update will just recreate the local file from the repository.
+(This is a convenient way to discard local changes to a file:
+just delete it and then run @code{cvs update}.)
 
-This usually means that the version of @sc{cvs} running on a secondary server
-and a primary server (@pxref{Write proxies}) are not the same.  This will not
-occur if the client support redirection.
+@item cvs update: warning: @var{file} is not (any longer) pertinent
+This means that the working copy of @var{file} has been deleted,
+it has not been removed from @sc{cvs} in the current working directory,
+but it has been removed from @sc{cvs} in some other working directory.
+This is nothing to be concerned about,
+the update would have removed the local file anyway.
 
-It is not the version number that is significant here, but the list of
-supported requests that the servers provide to the client.  Thus, if the
-secondary was compiled with GSSAPI support and the primary was not, then the
-list of supported requests provided by the two servers will be different and
-the secondary will not work as a transparent proxy to the primary.  Conversely,
-one server could be version 1.12.10 and the other version 1.12.11 if they both
-provided the same list of valid requests to the client.
-
-@c "warning: foo was lost" and "no longer pertinent" (both normal).
-@c Would be nice to write these up--they are
-@c potentially confusing for the new user.
 @end table
 
 @node Connection
@@ -15610,11 +15859,11 @@ distribution.  It contains much more information on the
 process of submitting fixes.
 
 @item
-There may be resources on the net which can help.  Two
-good places to start are:
+There may be resources on the net which can help.  A
+good place to start is:
 
 @example
-@url{http://www.cvshome.org}
+@url{http://cvs.nongnu.org/}
 @end example
 
 If you are so inspired, increasing the information
@@ -15627,7 +15876,7 @@ page on mailing lists or newsgroups when the subject
 came up.
 
 @item
-It is also possible to report bugs to @email{bug-cvs@@gnu.org}.
+It is also possible to report bugs to @email{bug-cvs@@nongnu.org}.
 Note that someone may or may not want to do anything
 with your bug report---if you need a solution consider
 one of the options mentioned above.  People probably do
@@ -15636,20 +15885,20 @@ in consequences and/or easy to fix, however.  You can
 also increase your odds by being as clear as possible
 about the exact nature of the bug and any other
 relevant information.  The way to report bugs is to
-send email to @email{bug-cvs@@gnu.org}.  Note
-that submissions to @email{bug-cvs@@gnu.org} may be distributed
+send email to @email{bug-cvs@@nongnu.org}.  Note
+that submissions to @email{bug-cvs@@nongnu.org} may be distributed
 under the terms of the @sc{gnu} Public License, so if
 you don't like this, don't submit them.  There is
 usually no justification for sending mail directly to
 one of the @sc{cvs} maintainers rather than to
-@email{bug-cvs@@gnu.org}; those maintainers who want to hear
-about such bug reports read @email{bug-cvs@@gnu.org}.  Also note
+@email{bug-cvs@@nongnu.org}; those maintainers who want to hear
+about such bug reports read @email{bug-cvs@@nongnu.org}.  Also note
 that sending a bug report to other mailing lists or
 newsgroups is @emph{not} a substitute for sending it to
-@email{bug-cvs@@gnu.org}.  It is fine to discuss @sc{cvs} bugs on
+@email{bug-cvs@@nongnu.org}.  It is fine to discuss @sc{cvs} bugs on
 whatever forum you prefer, but there are not
 necessarily any maintainers reading bug reports sent
-anywhere except @email{bug-cvs@@gnu.org}.
+anywhere except @email{bug-cvs@@nongnu.org}.
 @end itemize
 
 @cindex Known bugs in this manual or CVS
@@ -15666,10 +15915,6 @@ comprehensive, detailed list of known bugs.
 @cindex Index
 
 @printindex cp
-
-@summarycontents
-
-@contents
 
 @bye
 

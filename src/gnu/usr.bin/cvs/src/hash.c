@@ -139,6 +139,45 @@ dellist (List **listp)
 
 
 /*
+ * remove a node from it's list (maybe hash list too)
+ */
+void
+removenode (Node *p)
+{
+    if (!p) return;
+
+    /* take it out of the list */
+    p->next->prev = p->prev;
+    p->prev->next = p->next;
+
+    /* if it was hashed, remove it from there too */
+    if (p->hashnext)
+    {
+	p->hashnext->hashprev = p->hashprev;
+	p->hashprev->hashnext = p->hashnext;
+    }
+}
+
+
+
+void
+mergelists (List *dest, List **src)
+{
+    Node *head, *p, *n;
+
+    head = (*src)->list;
+    for (p = head->next; p != head; p = n)
+    {
+	n = p->next;
+	removenode (p);
+	addnode (dest, p);
+    }
+    dellist (src);
+}
+
+
+
+/*
  * get a new list node
  */
 Node *
@@ -173,20 +212,9 @@ getnode (void)
 void
 delnode (Node *p)
 {
-    if (p == NULL)
-	return;
-
-    /* take it out of the list */
-    p->next->prev = p->prev;
-    p->prev->next = p->next;
-
-    /* if it was hashed, remove it from there too */
-    if (p->hashnext != NULL)
-    {
-	p->hashnext->hashprev = p->hashprev;
-	p->hashprev->hashnext = p->hashnext;
-    }
-
+    if (!p) return;
+    /* remove it */
+    removenode (p);
     /* free up the storage */
     freenode (p);
 }

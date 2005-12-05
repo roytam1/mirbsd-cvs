@@ -15,12 +15,12 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* Written by Jim Meyering.  */
 
-#if HAVE_CONFIG_H
-# include "config.h"
+#ifdef HAVE_CONFIG_H
+# include <config.h>
 #endif
 
 #include "save-cwd.h"
@@ -33,15 +33,12 @@
 # include <unistd.h>
 #endif
 
-#if HAVE_FCNTL_H
-# include <fcntl.h>
-#else
-# include <sys/file.h>
-#endif
+#include <fcntl.h>
 
 #include <errno.h>
 
 #include "chdir-long.h"
+#include "unistd-safer.h"
 #include "xgetcwd.h"
 
 /* On systems without the fchdir function (WOE), pretend that open
@@ -49,7 +46,7 @@
    Since chdir_long requires fchdir, use chdir instead.  */
 #if !HAVE_FCHDIR
 # undef open
-# define open(File, Flags) -1
+# define open(File, Flags) (-1)
 # undef fchdir
 # define fchdir(Fd) (abort (), -1)
 # undef chdir_long
@@ -81,10 +78,10 @@ save_cwd (struct saved_cwd *cwd)
 {
   cwd->name = NULL;
 
-  cwd->desc = open (".", O_RDONLY);
+  cwd->desc = fd_safer (open (".", O_RDONLY));
   if (cwd->desc < 0)
     {
-      cwd->desc = open (".", O_WRONLY);
+      cwd->desc = fd_safer (open (".", O_WRONLY));
       if (cwd->desc < 0)
 	{
 	  cwd->name = xgetcwd ();

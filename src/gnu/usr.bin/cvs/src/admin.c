@@ -441,17 +441,13 @@ admin (int argc, char **argv)
     /* The use of `cvs admin -k' is unrestricted.  However, any other
        option is restricted if the group CVS_ADMIN_GROUP exists on the
        server.  */
-    if (
-# ifdef CLIENT_SUPPORT
-        /* This is only "secure" on the server, since the user could edit the
-	 * RCS file on a local host, but some people like this kind of
-	 * check anyhow.  The alternative would be to check only when
-	 * (server_active) rather than when not on the client.
-	 */
-        !current_parsed_root->isremote &&
-# endif	/* CLIENT_SUPPORT */
-        !only_allowed_options
-	&& (grp = getgrnam (CVS_ADMIN_GROUP)) != NULL)
+    /* This is only "secure" on the server, since the user could edit the
+     * RCS file on a local host, but some people like this kind of
+     * check anyhow.  The alternative would be to check only when
+     * (server_active) rather than when not on the client.
+     */
+    if (!current_parsed_root->isremote && !only_allowed_options &&
+	(grp = getgrnam(CVS_ADMIN_GROUP)) != NULL)
     {
 #ifdef HAVE_GETGROUPS
 	gid_t *grps;

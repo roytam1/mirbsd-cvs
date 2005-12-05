@@ -60,8 +60,9 @@ static int have_rev1_label, have_rev2_label;
 static char *user_file_rev;
 
 static char *options;
-static char *opts;
-static size_t opts_allocated = 1;
+static char **diff_argv;
+static int diff_argc;
+static size_t diff_arg_allocated;
 static int diff_errors;
 static int empty_files;
 
@@ -206,6 +207,46 @@ static struct option const longopts[] =
     {0, 0, 0, 0}
 };
 
+
+
+/* Add one of OPT or LONGOPT, and ARGUMENT, when present, to global DIFF_ARGV.
+ *
+ * INPUTS
+ *   opt		A character option representation.
+ *   longopt		A long option name.
+ *   argument		Optional option argument.
+ *   
+ * GLOBALS
+ *   diff_argc		The number of arguments in DIFF_ARGV.
+ *   diff_argv		Array of argument strings.
+ *   diff_arg_allocated	Allocated length of DIFF_ARGV.
+ *
+ * NOTES
+ *   Behavior when both OPT & LONGOPT are provided is undefined.
+ *
+ * RETURNS
+ *   Nothing.
+ */
+static void
+add_diff_args (char opt, const char *longopt, const char *argument)
+{
+    char *tmp;
+
+    /* Add opt or longopt to diff_arv.  */
+    assert (opt || (longopt && *longopt));
+    assert (!(opt && (longopt && *longopt)));
+    if (opt) tmp = Xasprintf ("-%c", opt);
+    else tmp = Xasprintf ("--%s", longopt);
+    run_add_arg_p (&diff_argc, &diff_arg_allocated, &diff_argv, tmp);
+    free (tmp);
+
+    /* When present, add ARGUMENT to DIFF_ARGV.  */
+    if (argument)
+	run_add_arg_p (&diff_argc, &diff_arg_allocated, &diff_argv, argument);
+}
+
+
+
 /* CVS 1.9 and similar versions seemed to have pretty weird handling
    of -y and -T.  In the cases where it called rcsdiff,
    they would have the meanings mentioned below.  In the cases where it
@@ -240,7 +281,6 @@ static struct option const longopts[] =
 int
 diff (int argc, char **argv)
 {
-    char tmp[50];
     int c, err = 0;
     int local = 0;
     int which;
@@ -261,12 +301,9 @@ diff (int argc, char **argv)
     /* Clean out our global variables (multiroot can call us multiple
        times and the server can too, if the client sends several
        diff commands).  */
-    if (opts == NULL)
-    {
-	opts_allocated = 1;
-	opts = xmalloc (opts_allocated);
-    }
-    opts[0] = '\0';
+    run_arg_free_p (diff_argc, diff_argv);
+    diff_argc = 0;
+
     diff_orig1 = NULL;
     diff_orig2 = NULL;
     diff_rev1 = NULL;
@@ -289,7 +326,7 @@ diff (int argc, char **argv)
 	switch (c)
 	{
 	    case 'y':
-		xrealloc_and_strcat (&opts, &opts_allocated, " --side-by-side");
+		add_diff_args (0, "side-by-side", NULL);
 		break;
 	    case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
 	    case 'h': case 'i': case 'n': case 'p': case 's': case 't':
@@ -297,8 +334,7 @@ diff (int argc, char **argv)
             case '0': case '1': case '2': case '3': case '4': case '5':
             case '6': case '7': case '8': case '9':
 	    case 'B': case 'H': case 'T':
-		(void) sprintf (tmp, " -%c", (char) c);
-		xrealloc_and_strcat (&opts, &opts_allocated, tmp);
+		add_diff_args (c, NULL, NULL);
 		break;
 	    case 'L':
 		if (have_rev1_label++)
@@ -307,33 +343,15 @@ diff (int argc, char **argv)
 			error (0, 0, "extra -L arguments ignored");
 			break;
 		    }
-
-	        xrealloc_and_strcat (&opts, &opts_allocated, " -L");
-	        xrealloc_and_strcat (&opts, &opts_allocated, optarg);
-		break;
+		/* Fall through.  */
 	    case 'C': case 'F': case 'I': case 'U': case 'W':
-		(void) sprintf (tmp, " -%c", (char) c);
-		xrealloc_and_strcat (&opts, &opts_allocated, tmp);
-		xrealloc_and_strcat (&opts, &opts_allocated, optarg);
+		add_diff_args (c, NULL, optarg);
 		break;
-	    case 131:
-		/* --ifdef.  */
-		xrealloc_and_strcat (&opts, &opts_allocated, " --ifdef=");
-		xrealloc_and_strcat (&opts, &opts_allocated, optarg);
-		break;
-	    case 129: case 130:           case 132: case 133: case 134:
+	    case 129: case 130: case 131: case 132: case 133: case 134:
 	    case 135: case 136: case 137: case 138: case 139: case 140:
 	    case 141: case 142: case 143: case 145: case 146:
-		xrealloc_and_strcat (&opts, &opts_allocated, " --");
-		xrealloc_and_strcat (&opts, &opts_allocated,
-				     longopts[option_index].name);
-		if (longopts[option_index].has_arg == 1
-		    || (longopts[option_index].has_arg == 2
-			&& optarg != NULL))
-		{
-		    xrealloc_and_strcat (&opts, &opts_allocated, "=");
-		    xrealloc_and_strcat (&opts, &opts_allocated, optarg);
-		}
+		add_diff_args (0, longopts[option_index].name,
+			      longopts[option_index].has_arg ? optarg : NULL);
 		break;
 	    case 'R':
 		local = 0;
@@ -397,7 +415,7 @@ diff (int argc, char **argv)
 	    send_arg("-l");
 	if (empty_files)
 	    send_arg("-N");
-	send_option_string (opts);
+	send_options (diff_argc, diff_argv);
 	if (options[0] != '\0')
 	    send_arg (options);
 	if (diff_orig1)
@@ -701,8 +719,8 @@ RCS file: ", 0);
 	if (empty_file == DIFF_ADDED)
 	{
 	    if (use_rev2 == NULL)
-                status = diff_exec (DEVNULL, finfo->file, label1, label2, opts,
-                                    RUN_TTY);
+                status = diff_exec (DEVNULL, finfo->file, label1, label2,
+				    diff_argc, diff_argv, RUN_TTY);
 	    else
 	    {
 		int retcode;
@@ -714,8 +732,8 @@ RCS file: ", 0);
 		if (retcode != 0)
 		    goto out;
 
-		status = diff_exec (DEVNULL, tmp, label1, label2, opts,
-		                    RUN_TTY);
+		status = diff_exec (DEVNULL, tmp, label1, label2,
+				    diff_argc, diff_argv, RUN_TTY);
 	    }
 	}
 	else
@@ -729,12 +747,13 @@ RCS file: ", 0);
 	    if (retcode != 0)
 		goto out;
 
-	    status = diff_exec (tmp, DEVNULL, label1, label2, opts, RUN_TTY);
+	    status = diff_exec (tmp, DEVNULL, label1, label2,
+				diff_argc, diff_argv, RUN_TTY);
 	}
     }
     else
     {
-	status = RCS_exec_rcsdiff (vers->srcfile, opts,
+	status = RCS_exec_rcsdiff (vers->srcfile, diff_argc, diff_argv,
                                    *options ? options : vers->options,
                                    use_rev1, rev1_cache, use_rev2,
                                    label1, label2, finfo->file);

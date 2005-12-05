@@ -82,7 +82,7 @@ It does not depend on NFS, rdist, etc.
 @item
 Providing a reliable transport is outside this protocol.  The protocol
 expects a reliable transport that is transparent (that is, there is no
-translation of characters, including characters such as such as
+translation of characters, including characters such as
 linefeeds or carriage returns), and can transmit all 256 octets (for
 example for proper handling of binary files, compression, and
 encryption).  The encoding of characters specified by the protocol (the
@@ -1000,12 +1000,15 @@ The @code{Root} request need not have been previously sent.
 @item Gzip-stream @var{level} \n
 Response expected: no.
 Use zlib (RFC 1950/1951) compression to compress all further communication
-between the client and the server.  After this request is sent, all
-further communication must be compressed.  All further data received
-from the server will also be compressed.  The @var{level} argument
-suggests to the server the level of compression that it should apply; it
-should be an integer between 1 and 9, inclusive, where a higher number
-indicates more compression.
+between the client and the server.  As of @sc{cvs} 1.12.13, this request needs
+to be sent as the first non-rootless request if the server is configured
+with compression level restrictions and @var{level} is outside the restricted
+range.  After this request is sent, all further communication must be
+compressed.  All further data received from the server will also be
+compressed.  The @var{level} argument suggests to the server the level of
+compression that it should apply; it should be an integer between 0 and 9,
+inclusive, where @samp{0} means no compression and higher numbers indicate more
+compression.
 
 @item Kerberos-encrypt \n
 Response expected: no.
@@ -1508,6 +1511,11 @@ Indicate what requests the server will accept.  @var{request-list}
 is a space separated list of tokens.  If the server supports sending
 patches, it will include @samp{update-patches} in this list.  The
 @samp{update-patches} request does not actually do anything.
+
+@item Force-gzip \n
+Response expected: no.
+Indicates that the server requires compression.  The client must send a
+@code{Gzip-stream} request, though the requested @var{level} may be @samp{0}.
 
 @item Referrer @var{CVSROOT}
 Request that the client store @var{CVSROOT} as the name of this server and that
@@ -2095,7 +2103,7 @@ working directory, and the meaning of sending @code{Entries} without
 A number of enhancements are possible.  Also see the file @sc{todo} in
 the @sc{cvs} source distribution, which has further ideas concerning
 various aspects of @sc{cvs}, some of which impact the protocol.
-Similarly, the @code{http://www.cvshome.org} site, in particular the
+Similarly, the @url{http://www.nongnu.org/cvs/} site, in particular the
 @cite{Development} pages.
 
 @itemize @bullet

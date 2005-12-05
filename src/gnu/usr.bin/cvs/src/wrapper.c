@@ -93,9 +93,7 @@ void wrap_setup(void)
     else
         wrap_setup_already_done = 1;
 
-#ifdef CLIENT_SUPPORT
     if (!current_parsed_root->isremote)
-#endif
     {
 	char *file;
 
@@ -394,7 +392,8 @@ wrap_add (char *line, int isTemp)
 	switch(opt){
 	case 'f':
 	    /* Before this is reenabled, need to address the problem in
-	       commit.c (see http://www.cvshome.org/docs/infowrapper.html).  */
+	       commit.c (see
+	       <http://ximbiot.com/cvs/cvshome/docs/infowrapper.html>).  */
 	    error (1, 0,
 		   "-t/-f wrappers not supported by this version of CVS");
 
@@ -402,13 +401,16 @@ wrap_add (char *line, int isTemp)
 		free(e.fromcvsFilter);
 	    /* FIXME: error message should say where the bad value
 	       came from.  */
-	    e.fromcvsFilter=expand_path (temp, "<wrapper>", 0, 0);
+	    e.fromcvsFilter =
+	      expand_path (temp, current_parsed_root->directory, false,
+			   "<wrapper>", 0);
             if (!e.fromcvsFilter)
 		error (1, 0, "Correct above errors first");
 	    break;
 	case 't':
 	    /* Before this is reenabled, need to address the problem in
-	       commit.c (see http://www.cvshome.org/docs/infowrapper.html).  */
+	       commit.c (see
+	       <http://ximbiot.com/cvs/cvshome/docs/infowrapper.html>).  */
 	    error (1, 0,
 		   "-t/-f wrappers not supported by this version of CVS");
 
@@ -416,7 +418,8 @@ wrap_add (char *line, int isTemp)
 		free(e.tocvsFilter);
 	    /* FIXME: error message should say where the bad value
 	       came from.  */
-	    e.tocvsFilter=expand_path (temp, "<wrapper>", 0, 0);
+	    e.tocvsFilter = expand_path (temp, current_parsed_root->directory,
+					 false, "<wrapper>", 0);
             if (!e.tocvsFilter)
 		error (1, 0, "Correct above errors first");
 	    break;

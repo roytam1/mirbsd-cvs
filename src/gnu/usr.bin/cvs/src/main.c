@@ -18,9 +18,11 @@
  */
 
 #include "cvs.h"
-#include "xgethostname.h"
-#include "strftime.h"
+
 #include "closeout.h"
+#include "setenv.h"
+#include "strftime.h"
+#include "xgethostname.h"
 
 const char *program_name;
 const char *program_path;
@@ -29,9 +31,8 @@ const char *cvs_cmd_name;
 const char *global_session_id; /* Random session ID */
 
 char *hostname;
-#ifdef SERVER_SUPPORT
+/* FIXME: Perhaps this should be renamed original_hostname or the like?  */
 char *server_hostname;
-#endif /* SERVER_SUPPORT */
 
 int use_editor = 1;
 int use_cvsrc = 1;
@@ -61,8 +62,42 @@ char *CurDir;
 /*
  * Defaults, for the environment variables that are not set
  */
-char *Tmpdir = TMPDIR_DFLT;
 char *Editor = EDITOR_DFLT;
+
+
+
+/* Temp dir stuff.  */
+
+/* Temp dir, if set by the user.  */
+static char *tmpdir_cmdline;
+
+
+
+/* Returns in order of precedence:
+ *
+ *	1.  Temp dir as set via the command line.
+ *	2.  Temp dir as set in CVSROOT/config.
+ *	3.  Temp dir as set in $TMPDIR env var.
+ *	4.  Contents of TMPDIR_DFLT preprocessor macro.
+ *
+ * ERRORS
+ *  It is a fatal error if this function would otherwise return NULL or an
+ *  empty string.
+ */
+const char *
+get_cvs_tmp_dir (void)
+{
+    const char *retval;
+    if (tmpdir_cmdline) retval = tmpdir_cmdline;
+    else if (config && config->TmpDir) retval = config->TmpDir;
+    else retval = get_system_temp_dir ();
+    if (!retval) retval = TMPDIR_DFLT;
+
+    if (!retval || !*retval) error (1, 0, "No temp dir specified.");
+
+    return retval;
+}
+
 
 
 /* When our working directory contains subdirectories with different
@@ -186,7 +221,7 @@ static const char *const usg[] =
        version control means.  */
 
     "For CVS updates and additional information, see\n",
-    "    the CVS home page at http://www.cvshome.org/ or\n",
+    "    the CVS home page at http://www.nongnu.org/cvs/ or\n",
     "    the CVSNT home page at http://www.cvsnt.org/\n",
     NULL,
 };
@@ -258,7 +293,7 @@ static const char *const opt_usage[] =
     "    -d CVS_root  Overrides $CVSROOT as the root of the CVS tree.\n",
     "    -f           Do not use the ~/.cvsrc file.\n",
 #ifdef CLIENT_SUPPORT
-    "    -z #         Use compression level '#' for net traffic.\n",
+    "    -z #         Request compression level '#' for net traffic.\n",
 #ifdef ENCRYPTION
     "    -x           Encrypt all net traffic.\n",
 #endif
@@ -414,6 +449,55 @@ main_cleanup (int sig)
 
 
 
+/* From server.c.
+ *
+ * When !defined ALLOW_CONFIG_OVERRIDE, this will never have any value but
+ * NULL.
+ */
+extern char *gConfigPath;
+
+
+
+
+enum {RANDOM_BYTES = 8};
+enum {COMMITID_RAW_SIZE = (sizeof(time_t) + RANDOM_BYTES)};
+
+static char const alphabet[62] =
+  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+/* Divide BUF by D, returning the remainder.  Replace BUF by the
+   quotient.  BUF[0] is the most significant part of BUF.
+   D must not exceed UINT_MAX >> CHAR_BIT.  */
+static unsigned int
+divide_by (unsigned char buf[COMMITID_RAW_SIZE], unsigned int d)
+{
+    unsigned int carry = 0;
+    int i;
+    for (i = 0; i < COMMITID_RAW_SIZE; i++)
+    {
+	unsigned int byte = buf[i];
+	unsigned int dividend = (carry << CHAR_BIT) + byte;
+	buf[i] = dividend / d;
+	carry = dividend % d;
+    }
+    return carry;
+}
+
+static void
+convert (char const input[COMMITID_RAW_SIZE], char *output)
+{
+    static char const zero[COMMITID_RAW_SIZE] = { 0, };
+    unsigned char buf[COMMITID_RAW_SIZE];
+    size_t o = 0;
+    memcpy (buf, input, COMMITID_RAW_SIZE);
+    while (memcmp (buf, zero, COMMITID_RAW_SIZE) != 0)
+	output[o++] = alphabet[divide_by (buf, sizeof alphabet)];
+    if (! o)
+	output[o++] = '0';
+    output[o] = '\0';
+}
+
+
 int
 main (int argc, char **argv)
 {
@@ -422,9 +506,7 @@ main (int argc, char **argv)
     char *cp, *end;
     const struct cmd *cm;
     int c, err = 0;
-    int tmpdir_update_env;
     int free_Editor = 0;
-    int free_Tmpdir = 0;
 
     int help = 0;		/* Has the user asked for help?  This
 				   lets us support the `cvs -H cmd'
@@ -480,12 +562,6 @@ main (int argc, char **argv)
      * Query the environment variables up-front, so that
      * they can be overridden by command line arguments
      */
-    tmpdir_update_env = *Tmpdir;	/* TMPDIR_DFLT must be set */
-    if ((cp = getenv (TMPDIR_ENV)) != NULL)
-    {
-	Tmpdir = cp;
-	tmpdir_update_env = 0;		/* it's already there */
-    }
     if ((cp = getenv (EDITOR1_ENV)) != NULL)
  	Editor = cp;
     else if ((cp = getenv (EDITOR2_ENV)) != NULL)
@@ -517,6 +593,26 @@ main (int argc, char **argv)
 	    use_cvsrc = 0;
     }
 
+#ifdef SERVER_SUPPORT
+    /* Don't try and read a .cvsrc file if we are a server.  */
+    if (optind < argc
+	&& (false
+# if defined (AUTH_SERVER_SUPPORT) || defined (HAVE_GSSAPI)
+	    || !strcmp (argv[optind], "pserver")
+# endif
+# ifdef HAVE_KERBEROS
+	    || !strcmp (argv[optind], "kserver")
+# endif /* HAVE_KERBEROS */
+	    || !strcmp (argv[optind], "server")))
+	{
+	    /* Avoid any .cvsrc file.  */
+	    use_cvsrc = 0;
+	    /* Pre-parse the server options to get the config path.  */
+	    cvs_cmd_name = argv[optind];
+	    parseServerOptions (argc - optind, argv + optind);
+	}
+#endif /* SERVER_SUPPORT */
+
     /*
      * Scan cvsrc file for global options.
      */
@@ -547,7 +643,7 @@ main (int argc, char **argv)
 #ifdef SERVER_SUPPORT
 	    case 3:
 		/* --allow-root */
-		root_allow_add (optarg);
+		root_allow_add (optarg, gConfigPath);
 		break;
 #endif /* SERVER_SUPPORT */
 	    case 'Q':
@@ -601,10 +697,8 @@ distribution kit for a complete list of contributors and copyrights.\n",
 		   either new or old CVS.  */
 		break;
 	    case 'T':
-		if (free_Tmpdir) free (Tmpdir);
-		Tmpdir = xstrdup (optarg);
-		free_Tmpdir = 1;
-		tmpdir_update_env = 1;	/* need to update environment */
+		if (tmpdir_cmdline) free (tmpdir_cmdline);
+		tmpdir_cmdline = xstrdup (optarg);
 		break;
 	    case 'e':
 		if (free_Editor) free (Editor);
@@ -679,8 +773,47 @@ cause intermittent sandbox corruption.");
 
     /* Calculate the cvs global session ID */
 
-    global_session_id = Xasprintf ("%x%08lx%04x", (int)getpid(),
-                                  (long)time (NULL), rand()&0xFFFF);
+    {
+	char buf[COMMITID_RAW_SIZE] = { 0, };
+	char out[COMMITID_RAW_SIZE * 2];
+	ssize_t len = 0;
+	time_t rightnow = time (NULL);
+	char *startrand = buf + sizeof (time_t);
+	unsigned char *p = (unsigned char *) startrand;
+	size_t randbytes = RANDOM_BYTES;
+	int flags = O_RDONLY;
+	int fd;
+#ifdef O_NOCTTY
+	flags |= O_NOCTTY;
+#endif
+	if (rightnow != (time_t)-1)
+		while (rightnow > 0) {
+		    *--p = rightnow % (UCHAR_MAX + 1);
+		    rightnow /= UCHAR_MAX + 1;
+		}
+	else {
+	    /* try to use more random data */
+	    randbytes = COMMITID_RAW_SIZE;
+	    startrand = buf;
+	}
+	fd = open ("/dev/urandom", flags);
+	if (fd >= 0) {
+	    len = read (fd, startrand, randbytes);
+	    close (fd);
+	}
+	if (len <= 0) {
+	    /* no random data was available so use pid */
+	    long int pid = (long int)getpid ();
+	    p = (unsigned char *) (startrand + sizeof (pid));
+	    while (pid > 0) {
+		*--p = pid % (UCHAR_MAX + 1);
+		pid /= UCHAR_MAX + 1;
+	    }
+	}
+	convert(buf, out);
+	global_session_id = strdup (out);
+    }
+
 
     TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
 
@@ -732,6 +865,23 @@ cause intermittent sandbox corruption.");
 		       CVSUMASK_ENV, cp);
 	}
 
+	/* HOSTNAME & SERVER_HOSTNAME need to be set before they are
+	 * potentially used in gserver_authenticate_connection() (called from
+	 * pserver_authenticate_connection, below).
+	 */
+	hostname = xgethostname ();
+	if (!hostname)
+	{
+            error (0, errno,
+                   "xgethostname () returned NULL, using \"localhost\"");
+            hostname = xstrdup ("localhost");
+	}
+
+	/* Keep track of this separately since the client can change
+	 * HOSTNAME on the server.
+	 */
+	server_hostname = xstrdup (hostname);
+
 #ifdef SERVER_SUPPORT
 
 # ifdef HAVE_KERBEROS
@@ -748,15 +898,11 @@ cause intermittent sandbox corruption.");
 	}
 # endif /* HAVE_KERBEROS */
 
-
 # if defined (AUTH_SERVER_SUPPORT) || defined (HAVE_GSSAPI)
 	if (strcmp (cvs_cmd_name, "pserver") == 0)
 	{
 	    /* The reason that --allow-root is not a command option
-	       is mainly the comment in server() about how argc,argv
-	       might be from .cvsrc.  I'm not sure about that, and
-	       I'm not sure it is only true of command options, but
-	       it seems easier to make it a global option.  */
+	       is mainly that it seems easier to make it a global option.  */
 
 	    /* Gets username and password from client, authenticates, then
 	       switches to run as that user and sends an ACK back to the
@@ -767,11 +913,9 @@ cause intermittent sandbox corruption.");
 	    cvs_cmd_name = "server";
 	}
 # endif /* AUTH_SERVER_SUPPORT || HAVE_GSSAPI */
-
-	server_active = strcmp (cvs_cmd_name, "server") == 0;
-
 #endif /* SERVER_SUPPORT */
 
+	server_active = strcmp (cvs_cmd_name, "server") == 0;
 
 #ifdef SERVER_SUPPORT
 	if (server_active)
@@ -792,47 +936,16 @@ cause intermittent sandbox corruption.");
 		error (1, errno, "cannot get working directory");
 	}
 
-	if (Tmpdir == NULL || Tmpdir[0] == '\0')
 	{
-	    if (free_Tmpdir) free (Tmpdir);
-	    Tmpdir = "/tmp";
-	}
-
-#ifdef HAVE_PUTENV
-	if (tmpdir_update_env)
-	{
-	    char *env;
-	    env = Xasprintf ("%s=%s", TMPDIR_ENV, Tmpdir);
-	    (void) putenv (env);
-	    /* do not free env, as putenv has control of it */
-	}
-	{
-	    char *env;
+	    char *val;
 	    /* XXX pid < 10^32 */
-	    env = Xasprintf ("%s=%ld", CVS_PID_ENV, (long) getpid ());
-	    (void) putenv (env);
-	    /* do not free env, as putenv has control of it */
+	    val = Xasprintf ("%ld", (long) getpid ());
+	    setenv (CVS_PID_ENV, val, 1);
+	    free (val);
 	}
-#endif
 
 	/* make sure we clean up on error */
 	signals_register (main_cleanup);
-
-	hostname = xgethostname ();
-	if (hostname == NULL)
-	{
-            error (0, errno,
-                   "xgethostname () returned NULL, using \"localhost\"");
-            hostname = xstrdup ("localhost");
-            
-	}
-#ifdef SERVER_SUPPORT
-	/* Keep track of this separately since the client can change the
-	 * hostname.
-	 */
-	if (server_active)
-	    server_hostname = xstrdup (hostname);
-#endif /* SERVER_SUPPORT */
 
 #ifdef KLUDGE_FOR_WNT_TESTSUITE
 	/* Probably the need for this will go away at some point once
@@ -845,13 +958,11 @@ cause intermittent sandbox corruption.");
 	if (use_cvsrc)
 	    read_cvsrc (&argc, &argv, cvs_cmd_name);
 
-#ifdef SERVER_SUPPORT
 	/* Fiddling with CVSROOT doesn't make sense if we're running
 	 * in server mode, since the client will send the repository
 	 * directory after the connection is made.
 	 */
 	if (!server_active)
-#endif
 	{
 	    /* First check if a root was set via the command line.  */
 	    if (CVSroot_cmdline)
@@ -938,20 +1049,14 @@ cause intermittent sandbox corruption.");
 	   once).  To get out of the loop, we perform a "break" at the
 	   end of things.  */
 
-	while (
-#ifdef SERVER_SUPPORT
-	       server_active ||
-#endif
-	       walklist (root_directories, set_root_directory, NULL)
-	       )
+	while (server_active ||
+	       walklist (root_directories, set_root_directory, NULL))
 	{
-#ifdef SERVER_SUPPORT
 	    /* Fiddling with CVSROOT doesn't make sense if we're running
 	       in server mode, since the client will send the repository
 	       directory after the connection is made. */
 
 	    if (!server_active)
-#endif
 	    {
 		/* Now we're 100% sure that we have a valid CVSROOT
 		   variable.  Parse it to see if we're supposed to do
@@ -965,9 +1070,7 @@ cause intermittent sandbox corruption.");
 		/*
 		 * Check to see if the repository exists.
 		 */
-#ifdef CLIENT_SUPPORT
 		if (!current_parsed_root->isremote)
-#endif	/* CLIENT_SUPPORT */
 		{
 		    char *path;
 		    int save_errno;
@@ -985,23 +1088,9 @@ cause intermittent sandbox corruption.");
 		    free (path);
 		}
 
-#ifdef HAVE_PUTENV
 		/* Update the CVSROOT environment variable.  */
 		if (cvsroot_update_env)
-		{
-		    static char *prev;
-		    char *env;
-
-		    env = Xasprintf ("%s=%s", CVSROOT_ENV,
-				     current_parsed_root->original);
-		    (void) putenv (env);
-		    /* do not free env yet, as putenv has control of it */
-		    /* but do free the previous value, if any */
-		    if (prev != NULL)
-			free (prev);
-		    prev = env;
-		}
-#endif
+		    setenv (CVSROOT_ENV, current_parsed_root->original, 1);
 	    }
 	
 	    /* Parse the CVSROOT/config file, but only for local.  For the
@@ -1011,21 +1100,19 @@ cause intermittent sandbox corruption.");
 	       predetermine whether CVSROOT/config overrides things from
 	       read_cvsrc and other such places or vice versa.  That sort
 	       of thing probably needs more thought.  */
-	    if (1
-#ifdef SERVER_SUPPORT
-		&& !server_active
-#endif
-#ifdef CLIENT_SUPPORT
-		&& !current_parsed_root->isremote
-#endif
-		)
+	    if (!server_active && !current_parsed_root->isremote)
 	    {
 		/* If there was an error parsing the config file, parse_config
 		   already printed an error.  We keep going.  Why?  Because
 		   if we didn't, then there would be no way to check in a new
 		   CVSROOT/config file to fix the broken one!  */
 		if (config) free_config (config);
-		config = parse_config (current_parsed_root->directory);
+		config = parse_config (current_parsed_root->directory, NULL);
+
+		/* Can set TMPDIR in the environment if necessary now, since
+		 * if it was set in config, we now know it.
+		 */
+		push_env_temp_dir ();
 	    }
 
 #ifdef CLIENT_SUPPORT
@@ -1069,9 +1156,7 @@ cause intermittent sandbox corruption.");
                active, our list will be empty -- don't try and
                remove it from the list. */
 
-#ifdef SERVER_SUPPORT
 	    if (!server_active)
-#endif /* SERVER_SUPPORT */
 	    {
 		Node *n = findnode (root_directories,
 				    original_parsed_root->original);
@@ -1081,10 +1166,8 @@ cause intermittent sandbox corruption.");
 		current_parsed_root = NULL;
 	    }
 
-#ifdef SERVER_SUPPORT
 	    if (server_active)
 		break;
-#endif
 	} /* end of loop for cvsroot values */
 
 	dellist (&root_directories);
