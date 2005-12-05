@@ -26,7 +26,7 @@ AC_DEFUN([gl_EARLY],
 # "Check for header files, types and library functions".
 AC_DEFUN([gl_INIT],
 [
-  gl_FUNC_ALLOCA
+dnl  gl_FUNC_ALLOCA
   gl_ALLOCSA
   gl_FUNC_ATEXIT
   gl_CANON_HOST
@@ -40,7 +40,7 @@ AC_DEFUN([gl_INIT],
   dnl gl_USE_SYSTEM_EXTENSIONS must be added quite early to configure.ac.
   gl_FILE_NAME_CONCAT
   # No macro. You should also use one of fnmatch-posix or fnmatch-gnu.
-  gl_FUNC_FNMATCH_POSIX
+dnl  gl_FUNC_FNMATCH_POSIX
   gl_FUNC_FPENDING
   gl_FUNC_FTRUNCATE
   gl_GETADDRINFO
@@ -52,9 +52,9 @@ AC_DEFUN([gl_INIT],
   gl_GETLOGIN_R
   gl_GETNDELIM2
   gl_GETNLINE
-  gl_GETOPT
+dnl  gl_GETOPT
   gl_GETPAGESIZE
-  gl_FUNC_GETPASS_GNU
+dnl  gl_FUNC_GETPASS_GNU
   dnl you must add AM_GNU_GETTEXT([external]) or similar to configure.ac.
   gl_GETTIME
   AC_FUNC_GETTIMEOFDAY_CLOBBER
@@ -63,7 +63,7 @@ AC_DEFUN([gl_INIT],
   AC_FUNC_MALLOC
   gl_MBCHAR
   gl_MBITER
-  gl_MD5
+dnl  gl_MD5
   gl_FUNC_MEMCHR
   gl_FUNC_MEMMOVE
   gl_FUNC_MEMPCPY
@@ -71,7 +71,7 @@ AC_DEFUN([gl_INIT],
   gl_MINMAX
   gl_FUNC_MKDIR_TRAILING_SLASH
   gl_FUNC_MKSTEMP
-  gl_FUNC_MKTIME
+dnl  gl_FUNC_MKTIME
   gl_FUNC_NANOSLEEP
   gl_FUNC_OPENAT
   gl_PAGEALIGN_ALLOC
