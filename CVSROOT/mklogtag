@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.3 2005/12/05 23:17:24 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.4 2005/12/05 23:20:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.de>
@@ -159,7 +159,7 @@ if [[ -e $logf ]]; then
 	cat $F >>$T
 	print ________________________________________________________________________ >>$T
 	print >>$T
-	$SHELL $repo/CVSROOT/genlog $logf <$T
+	$SHELL $repo/CVSROOT/genlog $logf $repo/CVSROOT/history <$T
 fi
 
 rm /tmp/\#cvs.*.$id

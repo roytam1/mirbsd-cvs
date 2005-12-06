@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/posttag,v 1.5 2005/05/05 23:17:26 tg Exp $
+# $MirOS: CVSROOT/posttag,v 1.6 2005/12/05 21:25:09 tg Exp $
 #-
 # The "posttag" file is called after the "tag" command finishes
 # processing a directory.
@@ -39,4 +39,4 @@
 # If the name "ALL" appears as a regular expression it is always used
 # in addition to the first matching regex or "DEFAULT".
 
-ALL		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -I https://mirbsd.mirsolutions.de:445/clogs/ChangeLog -R miros-discuss@66h.42h.de -m miros-changes@66h.42h.de -f $CVSROOT/CVSROOT/ChangeLog %{sVv}
+ALL		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -I https://mirbsd.mirsolutions.de:445/clogs/ChangeLog -R miros-discuss@66h.42h.de -m miros-changes@66h.42h.de -f $CVSROOT/Logs/ChangeLog %{sVv}

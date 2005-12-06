@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/log_accum2,v 1.8 2005/12/05 21:04:11 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.1 2005/12/05 21:25:09 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -63,7 +63,7 @@ function writelog
 		cat "$@"
 		print ________________________________________________________________________
 		print
-	} | $SHELL $repo/CVSROOT/genlog $logfile
+	} | $SHELL $repo/CVSROOT/genlog $logfile $repo/CVSROOT/history
 }
 
 function writemail
