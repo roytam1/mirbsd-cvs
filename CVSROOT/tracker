@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/tracker,v 1.1 2005/12/05 21:25:09 tg Exp $
+# $MirOS: CVSROOT/tracker,v 1.2 2005/12/06 02:03:05 tg Exp $
 #-
 # Record the last directory where the current commit is taking place
 # in for use by the mklogci and mklogtag scripts.
 
-print -r -- "$2" >/var/tmp/\#.mcvs.lastdir.$1
+print -r -- "$2" >/var/tmp/.\#mcvs.lastdir.$1
