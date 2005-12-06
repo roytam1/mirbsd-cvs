@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/subversion/Makefile,v 1.3 2005/07/06 19:21:29 bsiegert Exp $
 
 COMMENT=		"Subversion revision control system"
-VERSION=		1.2.0
+VERSION=		1.2.3
 DASH_VER=		-0
 DISTNAME=		subversion-${VERSION}
 PKGNAME=		subversion-${VERSION}${DASH_VER}
@@ -19,11 +19,22 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://subversion.tigris.org/tarballs/
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS+=		db.4.2::databases/db
+FLAVORS=		bsddb
+FLAVOR?=
+
 LIB_DEPENDS+=		xml2::textproc/libxml
 LIB_DEPENDS+=		expat::textproc/expat
-LIB_DEPENDS+=		neon.24.7::net/neon
+LIB_DEPENDS+=		neon::net/neon
 RUN_DEPENDS+=		:p5-URI-*:www/p5-URI
+
+.if ${FLAVOR:L:Mbsddb}
+LIB_DEPENDS+=		db.4.2::databases/db
+
+CONFIGURE_ARGS+=	--with-dbm=db42 --with-berkeley-db
+.else
+CONFIGURE_ARGS+=	--without-berkeley-db
+.endif
+
 
 #
 # We don't support building the apache module (yet).
@@ -32,7 +43,7 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	--with-neon=${LOCALBASE}
-CONFIGURE_ARGS+=	--with-dbm=db42 --with-gdbm=no
+CONFIGURE_ARGS+=	--with-gdbm=no
 CONFIGURE_ARGS+=	--disable-nls
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
