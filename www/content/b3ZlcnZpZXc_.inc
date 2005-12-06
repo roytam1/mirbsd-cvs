@@ -1,14 +1,14 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.5 2005/10/03 23:43:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.6 2005/11/18 00:23:03 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
  MirOS #7 is the latest release.
  MirOS #7-stable has been EOL'd.
- MirOS-current is broken at the moment and does not build.
+ MirOS-current is very stable, expect a new snapshot to be released Really Soon Now&trade;.
  There is currently no recommended snapshot to install; existing snapshots are quite broken.
  The best way to install MirOS at the moment is using the LinuxTag 2005 Special Edition CD-R.
  MirPorts are past flag day; you must reinstall using the new <tt>ports/Setup.sh</tt> (see <a href="/?ports">docs</a>).
- We expect a huge percentage of individual ports to be broken.
+ We expect a huge percentage of individual ports to be broken or out of date due to lack of manpower.
 </p>
 
 <h2>Mailing lists</h2><ul>

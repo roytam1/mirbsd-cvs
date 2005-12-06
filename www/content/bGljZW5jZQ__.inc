@@ -1,7 +1,7 @@
-<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.1 2005/06/06 10:19:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.2 2005/06/06 13:19:58 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
-<pre>/* $MirOS: www/content/bGljZW5jZQ__.inc,v 1.1 2005/06/06 10:19:51 tg Exp $ */
+<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.3 2005/12/04 16:03:44 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year...
@@ -14,13 +14,14 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *-
  * OPTIONAL ADVERTISING CLAUSE:
  * Adding advertising clauses is not recommended, because they reduce
@@ -52,10 +53,7 @@
  * Because in some (droit d'auteur) countries you cannot disclaim all
  * liabilities this licence is drafted to behave better under Europe-
  * an law but otherwise be equivalent to the "historic permission no-
- * tice"<a id="rf2" href="#fn2">[2]</a>. You can (e.g. in German law) only be held liable if mal-
- * ware (such as backdoors) or intellectual property of third parties
- * (without a licence to do so) is added with intent; it equals a do-
- * nation.
+ * tice"<a id="rf2" href="#fn2">[2]</a>.
  *
  * ADDITIONAL NOTES:
  * This template does not imply a choice of law; the MirOS project<a id="rf3" href="#fn3">[3]</a>
@@ -74,8 +72,8 @@
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
- * and remove it as soon as you get aware of it (that's why it's cal-
- * led a "gross neglicence").
+ * and act appropriately as soon as you get aware of this problem and
+ * seek a an amicable solution for all parties.
  *
  * REFERENCES:
  * <a href="#rf1" id="fn1">[1]</a> <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>

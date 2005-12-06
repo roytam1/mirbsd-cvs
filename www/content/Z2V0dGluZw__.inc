@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.3 2005/10/03 23:05:47 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -15,6 +15,7 @@
 
 <h3>Buy CDs with MirOS on them</h3>
 <p>Usually, on exhibitions such as the <a
+ href="http://www.froscon.org/">FROSCON, St. Augustin (near Bonn), .de</a>,
  href="http://www.linuxtag.de/">LinuxTag, Karlsruhe, .de</a> or the <a
  href="http://www.fosdem.org/">FOSDEM, Bruxelles, .be</a> there is a
  BSD booth which hosts the MirOS people. The <a href="https://www.ccc.de/">20th
@@ -80,12 +81,6 @@
  The exact location of the release announcement, code and source will be
  published here when the release is due.<br />It is not expected to be
  released before end of 2004, and likely to be postponed forever.</p>
-
-<h4>Codename: MirOS X</h4>
-<p>The first version of MirOS to run on mirpp^Wmacppc is codenamed
- <tt>MirOS X</tt> and porting efforts will start on the first MirOS
- hackathon which has taken place as a sub-event to the <a
- href="http://www.ccc.de/congress/">21C3</a> in Berlin, Germany.</p>
 
 <h4>Snapshots of current development</h4>
 <p>You can usually find some more or less recent snapshots in the
