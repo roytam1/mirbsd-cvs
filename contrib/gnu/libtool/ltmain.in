@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.27 2005/09/21 19:13:28 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.28 2005/12/05 14:29:50 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -470,7 +470,12 @@ do
     preserve_args="$preserve_args $arg"
     ;;
 
-  --tag) prevopt="--tag" prev=tag ;;
+  --tag)
+    prevopt="--tag"
+    prev=tag
+    preserve_args="$preserve_args --tag"
+    ;;
+
   --tag=*)
     set tag "$optarg" ${1+"$@"}
     shift
