@@ -1,8 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.20 2003/10/08 17:13:14 sturm Exp $
 
 COMMENT=	"3D Athena Widget set that looks like Motif"
 
 DISTNAME=	Xaw3d-1.5
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	x11
 
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=widgets/Xaw3d/R6.3/}
