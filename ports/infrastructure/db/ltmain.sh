@@ -1,7 +1,7 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.15 2005/12/05 14:33:39 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.15 2005/12/05 14:33:39 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.28 2005/12/05 14:29:50 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.16 2005/12/06 19:54:47 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.16 2005/12/06 19:54:47 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.29 2005/12/06 19:53:02 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -49,7 +49,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.21a
-TIMESTAMP=" (MirLibtool 2005/12/05 14:31:49)"
+TIMESTAMP=" (MirLibtool 2005/12/06 19:54:36)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -472,7 +472,12 @@ do
     preserve_args="$preserve_args $arg"
     ;;
 
-  --tag) prevopt="--tag" prev=tag ;;
+  --tag)
+    prevopt="--tag"
+    prev=tag
+    preserve_args="$preserve_args --tag"
+    ;;
+
   --tag=*)
     set tag "$optarg" ${1+"$@"}
     shift
