@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.1 2005/12/05 21:25:09 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.2 2005/12/06 00:29:59 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -42,7 +42,7 @@
 function die
 {
 	print -r Error: "$@"
-	rm -f /tmp/\#cvs.*.$id
+	rm -f /var/tmp/\#.mcvs.*.$id
 	exit 1
 }
 
@@ -131,12 +131,12 @@ SHELL=${SHELL:-/bin/mksh}
 id=$1
 [[ -z $id ]] && die no commitid given
 shift
-diff=/tmp/\#cvs.log.dif.$id
-msgf=/tmp/\#cvs.log.msg.$id
-outf=/tmp/\#cvs.log.out.$id
-tmpf=/tmp/\#cvs.log.tmp.$id
-modf=/tmp/\#cvs.module.$id
-prefix=/tmp/\#cvs.lst
+diff=/var/tmp/\#.mcvs.log.dif.$id
+msgf=/var/tmp/\#.mcvs.log.msg.$id
+outf=/var/tmp/\#.mcvs.log.out.$id
+tmpf=/var/tmp/\#.mcvs.log.tmp.$id
+modf=/var/tmp/\#.mcvs.module.$id
+prefix=/var/tmp/\#.mcvs.lst
 
 logfile=
 loguri=
@@ -207,7 +207,7 @@ if [[ ${fold[0]} = "- New directory" ]]; then
 	cat >>$tmpf
 	[[ -n $logfile ]] && writelog $tmpf
 	[[ -n $mailto ]] && writemail $tmpf
-	rm /tmp/\#cvs.*.$id
+	rm /var/tmp/\#.mcvs.*.$id
 	exit 0
 fi
 
@@ -307,11 +307,11 @@ if [[ ${fold[0]} = "- Imported sources" ]]; then
 	fi
 	[[ -n $logfile ]] && writelog $tmpf $msgf
 	[[ -n $mailto ]] && writemail $outf
-	rm /tmp/\#cvs.*.$id
+	rm /var/tmp/\#.mcvs.*.$id
 	exit 0
 fi
 
-[[ $(</tmp/\#cvs.lastdir.$id) = $repo/$pathr ]]
+[[ $(</var/tmp/\#.mcvs.lastdir.$id) = $repo/$pathr ]]
 leave=$?
 
 # Look for a log file which matches this log message
@@ -396,5 +396,5 @@ fi
 # And out with it
 [[ -n $logfile ]] && writelog $tmpf
 [[ -n $mailto ]] && writemail $tmpf
-rm /tmp/\#cvs.*.$id
+rm /var/tmp/\#.mcvs.*.$id
 exit 0
