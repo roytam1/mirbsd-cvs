@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/genlog,v 1.2 2005/12/06 00:29:59 tg Exp $
+# $MirOS: CVSROOT/genlog,v 1.3 2005/12/06 00:31:54 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -107,7 +107,7 @@ if (( s >= (730112 - 512) )); then
 		else
 			mv $f.lock $f
 			typeset -ui16 dt=$(date +%s)
-			print "%${dt#16#}|$USER|.|CVSROOT|rotated:old|$f" \
+			print "%${dt#16#}|$USER|.|Logs|rotated:old|$f" \
 			    >>${f%/*}/history
 		fi
 	else
@@ -116,7 +116,7 @@ if (( s >= (730112 - 512) )); then
 	fi
 	chmod 664 $f
 	typeset -ui16 dt=$(date +%s)
-	print "%${dt#16#}|$USER|.|CVSROOT|rotated:new|$f.${t#16#1}" \
+	print "%${dt#16#}|$USER|.|Logs|rotated:new|$f.${t#16#1}" \
 	    >>${f%/*}/history
 	/bin/ls -l $f{,.${t#16#1}}
 fi
