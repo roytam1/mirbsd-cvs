@@ -1,6 +1,9 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.1 2005/10/10 17:04:47 bsiegert Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.2 2005/12/04 15:54:46 bsiegert Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
+.\" MirOS version number
+.nr v 8
+.\"-
 .Dd October 10, 2005
 .Dt INSTALL.I386 7
 .Os
@@ -34,10 +37,10 @@ the "big" CD-ROM (which is bootable and contains all the installation
 sets)
 .It
 the CD mini-ISO
-.Pq burned from Pa cdrom8.iso
+.Pq burned from Pa cdrom\nv.iso
 .It
 a floppy disk
-.Pq created from Pa floppy8.fs
+.Pq created from Pa floppy\nv.fs
 .It
 .Pa bsd.rd ,
 a kernel that contains a "rescue system". This is the best solution if
@@ -65,26 +68,28 @@ directly from the
 homepage
 .El
 .Pp
-To write the floppy image to a disk, use a command like the following:
-.Dl dd if=floppy8.fs of=/dev/rfd0c bs=2k
+To write the floppy image to a disk, use a command such as:
+.Dl dd if=floppy\nv.fs of=/dev/rfd0c bs=9k
 Under GNU/Linux, use
 .Pa /dev/fd0
 as the device name instead.
 To create the floppy under DOS, use the tool 
 .Cm rawrite.exe .
-For Windows, use
+For MS Windows\(rg, use
 .Cm rawritewin
 .Pq see URL below .
 .Pp
 To burn the ISO image to a CD-ROM (a rewritable CD is recommended), you can
 use any CD burning program.
-Under Unix, use
+Under
+.Ux ,
+use
 .Cm cdrecord
 for example:
-.Dl cdrecord -v dev=/dev/rcd1c cdrom8.iso
+.Dl cdrecord -v dev=/dev/rcd1c cdrom\nv.iso
 You will need to change the device name above according to your system.
 .Cm cdrecord
-is available from MirPorts as
+is available within the MirPorts Framework as
 .Pa sysutils/cdrtools .
 .\" --------------------------------------------------------------------
 .Sh BEFORE YOU START: THOUGHTS ON PARTITIONING
@@ -105,7 +110,7 @@ This partition is then subdivided into so-called
 using the
 .Xr disklabel 8
 editor.
-Partitions of other operating systems (e.g. ext2, msdos, or ntfs
+Partitions of other operating systems (e.g. ext2fs, msdos, or ntfs
 partitions) are usually automatically added to the disklabel.
 In fact,
 .Mx
@@ -123,7 +128,7 @@ with its partitioning tool (e.g.\&
 .Tn GNU
 .Cm fdisk ) ,
 you can use it to create the partition before you start the installation.
-This way, you avoid having to learn a new partitioning tool and minimize
+This way, you avoid having to learn a new partitioning tool and minimise
 the risk of data loss.
 In any case, 
 .Sy do a full backup of your data NOW
@@ -131,7 +136,7 @@ in case anything goes wrong during the installation or the change of the
 partition table.
 .Pp
 In case you have only one big partition (for example, if you had only
-Windows installed before), you need to either delete or shrink it.
+MS Windows\(rg installed before), you need to either delete or shrink it.
 For the latter, tools such as
 .Cm fips , parted
 or Partition Magic (commercial) can be used.
@@ -140,14 +145,15 @@ In special cases, you can have more than one area on the disk for
 .Mx .
 However, you will have to calculate slice offsets yourself, so do this
 only if you know what you are doing.
-In this case, the other partitions should be of type 0xDB (CP/M 86).
+In this case, the other partitions should be of a type otherwise
+unused in the system, such as 0xDB (CP/M-86).
 .Pp
 The slices inside the disklabel are named using letters.
 .Bl -tag -width 5n
 .It Ql a
 This is always the root filesystem, i.e. the one from which you boot and
 which contains the kernel.
-For a full MirOS installation including XFree86, you will need at least
+For a full MirOS installation including XFree86\(rg, you will need at least
 500 MiB of space in this partition \(em more if you want to install
 third-party applications using MirPorts or binary packages.
 .It Ql b
@@ -157,7 +163,7 @@ the installed RAM, but on modern systems, you can use less (say 300 MiB)
 to save space.
 However, more swap space does not hurt, and it can be useful for high
 loads or compiling big software.
-It should be noted that the installer forces the disk with the root
+It should be noted that the installer used to force the disk with the root
 filesystem to have a usable and allocated swap slice of at least 8 MiB.
 .It Ql c
 As this slice represents the whole disk, you cannot change its size or
@@ -177,10 +183,9 @@ Again, this depends on your system.
 The first thing you will see is the MirOS bootloader. 
 A boot prompt will appear:
 .Dl boot>
-The command to enter will be indicated on the screen
-.Pq e.g. Ql "boot /i386/bsd.rd" .
-Type it in to load the kernel and begin with the installation.
-You will see lots of messages on blue background scroll by.
+Wait a few seconds (depending on the installation medium) or enter the
+boot command shown to load the kernel and begin with the installation.
+You will see lots of messages on a blue background scroll by.
 These are the normal kernel startup messages while your hardware is being
 probed and the appropriate drivers are loaded.
 Once the kernel has finished loading, you will be asked:
@@ -191,7 +196,7 @@ key to start the installation procedure.
 .Pp
 You will be greeted with a welcome message:
 .Bd -ragged -offset indent
-Welcome to the MirOS/BSD/i386 0.8 install program.
+Welcome to the MirOS BSD #\nv/i386 install program.
 
 This program will help you install MirOS. At any prompt except password prompts
 you can run a shell command by typing '!foo', or escape to a shell by typing
@@ -228,7 +233,7 @@ now to continue.
 .Bd -ragged -offset indent
 Cool! Let's get into it...
 
-You will now initialize the disk(s) that MirBSD will use. To enable all
+You will now initialise the disk(s) that MirBSD will use. To enable all
 available security features you should configure the disk(s) to allow the
 creation of separate filesystems for /, /tmp, /var, /usr, and /home.
 
@@ -370,12 +375,12 @@ to quit and save your changes or
 to quit without saving if you made a mistake and want to redo the
 disklabel or the partitioning.
 .Pp
-After the disklabel is created, the new filesystems will be initialized
+After the disklabel is created, the new filesystems will be initialised
 .Pq erased :
 .Bd -ragged -offset indent
 The root filesystem will be mounted on wd0a.
 wd0b will be used for swap space.
-No more disks to initialize.
+No more disks to initialise.
 
 You have configured the following partitions and mount points:
 
@@ -407,7 +412,7 @@ However, if you want to fetch the installation sets over the network,
 you must do the configuration now.
 .Bd -ragged -offset indent
 Available interfaces are: ne3 plip0 irip0 irip1.
-Which one do you wish to initialize? (or 'done') [ne3]
+Which one do you wish to initialise? (or 'done') [ne3]
 .Ed
 Now, you need to figure out the name of your local network interface.
 Under
@@ -518,8 +523,9 @@ and also accept the defaults.
 In any case, you will be dropped into the install set selector.
 The available sets are:
 .Bl -tag -width 6n
-.It Pa base8.ngz
+.It Pa base\nv.ngz
 As the name implies, this set contains the base files and directories.
+You want this.
 .It Pa bsd
 The operating system kernel.
 You need this.
@@ -527,20 +533,33 @@ You need this.
 A kernel image that boots into a "rescue system" that is contained
 within the image itself.
 A very handy tool for system recovery and later upgrades.
-.It Pa gcc8.ngz
-The GNU Compiler Collection.
+.It Pa dev\nv.ngz
+The GNU Compiler Collection, binutils, system headers, static libraries
+and manual pages and associated documentation for developers.
 You will need this if you want to install additional software using
-MirPorts.
+the MirPorts Framework, or want to develop or compile yourself.
 For most normal systems, you will want this; however, in some cases
 .Pq like when building a router ,
 it might be wise not to install the compiler.
-.It Pa gnu8.ngz
-Contains those parts of the base system that are under the GPL, like
-sendmail and lynx.
-.It Pa xbase8.ngz
-Most of the files needed for XFree86, the graphical user interface.
-.It Pa xetc8.ngz
-Configuration files for XFree86.
+.It Pa etc\nv.ngz
+This set installs the files in
+.Pa /etc
+as well as the
+.Xr httpd 8
+manual and the default .profile files.
+It is never offered during an upgrade to not overwrite your changes.
+.It Pa gnu\nv.ngz
+Contains those parts of the base system that are under less free
+licences, such as perl, sendmail, and lynx.
+You can choose to not install this set, but your system will
+not really be functional without.
+.It Pa sym\nv.ngz
+Debugging symbols for most libraries and executables except gcc and X11.
+You almost never want to install this set.
+.It Pa xbase\nv.ngz
+Most of the files needed for XFree86\(rg, the graphical user interface.
+.It Pa xetc\nv.ngz
+Configuration files for XFree86\(rg, not offered during an upgrade either.
 .El
 .Pp
 The installation of the sets is going to take a while.
@@ -552,9 +571,11 @@ to the corresponding question.
 Finally, the device nodes which reside in
 .Pa /dev
 are created by executing
-.Pa MAKEDEV .
+.Xr MAKEDEV 8 ,
+and an initial random seed will be generated and written to the
+newly installed system.
 .Pp
-At the end of the installation, the system will be rebooted.
+At the end of the installation, the installer asks you to reboot.
 If you flagged the
 .Mx
 partition as bootable in the beginning, the computer will automatically
@@ -565,24 +586,31 @@ to boot the partition
 .Po
 this is called a
 .Qq chainloader
-in grub
+in LILO and GNU grub
 .Pc .
+The default
+.Mx
+MBR also contains a boot manager.
+To boot the active partition, just press Return; select one of the
+four primary partitions with the keys 0 to 3, or boot from a floppy
+by pressing 5.
 .Pp
 Have fun with your new
 .Mx
 installation!
 .\" --------------------------------------------------------------------
 .Sh SEE ALSO
-.Xr fdisk 8 , Xr disklabel 8
+.Xr fdisk 8 ,
+.Xr disklabel 8
 .Pp
 The MirOS homepage:
 .Pa http://mirbsd.de/
 .Pp
-rawrite for Windows:
+rawrite for Microsoft\(rg Windows\(rg:
 .Pa http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm
 .Sh AUTHORS
 This manual page was written by
 .An Benny Siegert Aq bsiegert@gmx.de .
 For the names of the authors and all the copyright notices, see the file
-.Pa /usr/share/doc/legal/COPYRIGHT
+.Pa /usr/share/doc/legal/1stREAD
 on the installed system.
