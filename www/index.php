@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.13 2005/10/03 23:29:31 tg Exp $ */
+/* $MirOS: www/index.php,v 1.14 2005/10/03 23:36:22 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -88,7 +88,18 @@
 </div>
 <div class="content">
  <?php
-	include($rq);
+	$cmsc = get_include_contents($rq);
+	if ($cmsc === false) {
+ ?>
+		<p>Error during including CMS content file!</p>
+ <?php
+	} else {
+		echo ereg_replace(
+		    "([0-9A-z][-.,0-9A-z]*)\(([1-9])[/0-9A-Za-z]*\)",
+		    "<a href=\"/man\\2/\\1.htm\">\\0</a>", ereg_replace(
+		    "([0-9A-z][-.,0-9A-z]*)\((PAPERS|PSD|SMM|USD)\)",
+		    "<a href=\"/cman/man\\2/\\1.htm\">\\0</a>", $cmsc));
+	}
  ?>
 </div>
 <div class="heading">

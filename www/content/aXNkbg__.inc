@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/aXNkbg__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aXNkbg__.inc,v 1.3 2005/08/03 00:07:06 tg Exp $</small>
 <h1><a href="/?isdn">ISDN4MirBSD</a> HowTo</h1>
 
 <h2>Some useful Links</h2>
@@ -37,7 +37,7 @@ example, in the /etc/isdn directory do <tt>vi isdn.rates</tt> followed by
 <tt>:wq!</tt> and that should produce the <tt>isdn.rates</tt> files. Do the
 same for <tt>holidays</tt>.</p>
 
-<h2>Making <a href="/man8/isdnd.htm">ISDND</a> start</h2>
+<h2>Making isdnd(8) start</h2>
 
 <p>At this point you might find that the ISDN daemon won't start at bootup.
 Have a look at messages: <tt>less +F /var/log/messages</tt>. You might find an

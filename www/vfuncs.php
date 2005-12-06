@@ -1,5 +1,5 @@
 <?php
-/* $MirOS$ */
+/* $MirOS: www/vfuncs.php,v 1.3 2005/03/15 17:13:04 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -56,5 +56,21 @@ function isadm()
 	if ($is_admin == 0)
 		getcsscookie();
 	return ($is_admin === 1) ? true : false;
+}
+
+/*
+ * From the PHP Website:
+ * Parse include statement but return its output
+ * instead of sending it to the client (false on error)
+ */
+function get_include_contents($filename) {
+	if (is_file($filename)) {
+		ob_start();
+		include $filename;
+		$contents = ob_get_contents();
+		ob_end_clean();
+		return $contents;
+	}
+	return false;
 }
 ?>

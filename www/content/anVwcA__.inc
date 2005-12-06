@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.2 2005/08/27 00:07:52 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.3 2005/10/03 23:05:47 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp4</em>.
@@ -57,7 +57,7 @@
 
 <p>Check the sums!</p>
 <ul>
- <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
+ <li>Please use gzsig(1) to verify
   the integrity of the distfile instead!</li>
  <li>RMD160 (joe-3.1jupp3.cpio.gz) = 577e5b491f5b9283f03f2971cb0f4b8b34f9b206</li>
  <li>610826335 381871 /MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</li>
@@ -67,7 +67,7 @@
 <h3>Unpacking</h3>
 <p>
  For more detailed information, refer to <a href="/?mksh">MirbsdKsh</a>,
- it shows in detail how to use <a href="/man1/cpio.htm">cpio(1)</a>.
+ it shows in detail how to use cpio(1).
 </p>
 
 <h2>Installation</h2>

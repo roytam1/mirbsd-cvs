@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.30 2005/10/03 23:43:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.31 2005/12/06 00:00:43 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -17,7 +17,7 @@
 <h3>News</h3>
 <p>Attention: All announcements from the MirOS team are <a
  href="/cvs.cgi/src/share/doc/README?rev=HEAD">cryptographically signed</a>
- using <a href="/man1/gzsig.htm">gzsig(1)</a> or the older, deprecated, <a
+ using gzsig(1) or the older, deprecated, <a
  href="/cvs.cgi/contrib/samples/devel-keys">PGP (RFC1991) or OpenSSL</a>,
  in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
@@ -44,7 +44,7 @@
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
  WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!</p>
 <p><a href="/MirOS/CVS/cvsrepo-20050804.cgz">CVSREPO</a>: August 4th, 2005:
- seed file (153 MiB, <a href="/man1/gzsig.htm">gzsig</a>d) for reducing the
+ seed file (153 MiB, gzsig(1)d) for reducing the
  initial transfer costs. We would like to offer CTM too; it is available on
  request but nobody uses it yet.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:

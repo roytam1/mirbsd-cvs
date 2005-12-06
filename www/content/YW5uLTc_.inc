@@ -240,8 +240,7 @@ commercially usable codebase and long-time usability.</p>
 
 <p>In order to employ the full functionality of the installer, you
 will have to edit files (<tt>ppp.conf</tt>, <tt>isp</tt>/<tt>isp.chat</tt>,
-<tt>isdnd.rc</tt>, <tt>raid0.conf</tt> are examples) with the
-<a href="http://www.openbsd.org/cgi-bin/man.cgi?query=ed"><tt>ed(1)</tt></a>
+<tt>isdnd.rc</tt>, <tt>raid0.conf</tt> are examples) with the <tt>ed(1)</tt>
 editor. To ease that, this manual page is included in the installation image,
 located as &quot;ed.hlp&quot; in the root directory on x86.
 If you do not like the bootmanager facility, choose the <tt>(u)pdate</tt>
@@ -281,7 +280,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.3 2005/10/03 23:05:47 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.4 2005/10/03 23:27:33 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.73 2005/10/03 23:27:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.74 2005/10/03 23:39:56 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -1186,16 +1186,14 @@
  developers quarreling.</p>
 <p>10.08.2004 by tg@<br />Fixing some leftovers from the libtool and
  rest changes. Jointly with sap@ deliver fine online man pages to you,
- such as <a href="/man9/style.htm">KNF &ndash; style(9)</a>.</p>
+ such as KNF &ndash; style(9).</p>
 <p>18.08.2004 by tg@<br />Fix some minor stuff after the snapshot, and
  hack libtool to death (not mine, I assure you ;). I'm preparing to send
  my laptop to maintenance, so development has slowed down.</p>
 <p>28.08.2004 by tg@<br />Think about a way to do crypto (PGP replacement)
- with in-base tools (namely: <a href="/man1/ksh.htm">ksh(1)</a> and <a
- href="/man1/openssl.htm">openssl</a><a
- href="/man1/openssltool.htm">tool(1)</a>). This could be used for verifying
- signatures for releases or snapshots, rewriting <a
- href="/man1/pkg_sign.htm">pkg_sign(1)</a> and exchanging signed and/or
+ with in-base tools (namely: ksh(1) and openssl(1), openssltool(1)).
+ This could be used for verifying
+ signatures for releases or snapshots, rewriting pkg_sign(1) and exchanging signed and/or
  encrypted eMail with the MirOS Project officials. Validation expands to
  official statements and verification of (other) X.509 certificates, such
  as the CAcert.org root cert we're using, or our web server certs. On the
@@ -1229,12 +1227,12 @@
  However, PLISTs from OpenBSD should work (mostly) without modification. New
  ports however will not use all those fluffy new keywords. Due to internal
  differences, packages created with the OpenBSD tools cannot be installed with
- our tools. <a href="/man1/pkg_create.htm"><tt>pkg_create(1)</tt></a> will
+ our tools. <tt>pkg_create(1)</tt> will
  be able to replace (upgrade) installed packages in the future.</p>
 <p>26.09.2004 by tg@<br />Before starting with the real stuff (porting gcc 3.4
  and CVS 1.12), I've played around a bit with OpenNTPD: it lacked (obviously)
  correct leap second handling. Doing that, I discovered I had still not
- written manual pages for the <a href="/man3/taitime.htm">taitime(3)</a> suite
+ written manual pages for the taitime(3) suite
  of functions, and done that as well. And I've added tyler@ to the list of
  developers; he can already commit in www/ and will soon be making
  improvements to MirOS. My infrastructure starts improving, but all the recent
@@ -1339,7 +1337,7 @@
  with kludges for broken BIOSes, actualised many components of the system
  (such as ntpd, grep, diff, sudo, newfs, fdisk, disklabel, mc, parts of libc,
  ld.so, libtool, ld, kernel stuff, make) and brougt libexpat into base. I've
- done advocacy so the author of the <a href="/man1/xmlwf.htm">xmlwf(1)</a>
+ done advocacy so the author of the xmlwf(1)
  manual page changed the licence away from GNU FDL.<br />On the other hand,
  I've still not gotten around to set up thor completely, and herc's not
  powered on either at the moment (but will be testbed for the snapshot).
@@ -1495,8 +1493,7 @@
  care about mass media, so... Maybe this time, he's got the voter's majority
  though. For me, fighting EU patent and IP laws is more important.</p>
 <p>05.11.2004 by tg@<br />Sort of a small update. I've been in Netzladen.org
- again and held a spontaneous presentation/talk about the editors <a
- href="/man1/ed.htm">ed(1)</a> and &ndash; my favourite &ndash; <a
+ again and held a spontaneous presentation/talk about the editors ed(1) and &ndash; my favourite &ndash; <a
  href="http://wiki.mirbsd.de/JuppEditor">jupp</a>, mentioning that I'm faster
  using ed(1) than vi(1), how vi(1) came to be and how vim and emacs failed,
  how to remove whitespace at end of line, etc. After the talk, we had great
@@ -2181,7 +2178,7 @@
  followed by C at age 17. I shall be 23 in a few jiffies, and I'm not a student
  of computer science. In fact, I believe I couldn't even write a (decent)
  malloc implementation. If I could, though, I could do it in any language I
- know (well, I won't do it in <a href="/man1/brainfuck.htm">brainfuck(1)</a>
+ know (well, I won't do it in brainfuck(1)
  though).<br />It has been said I'm an amateur. Well, not exactly, but <a
  href="http://article.gmane.org/gmane.os.openbsd.misc/73647">this</a> Theo
  quote can only mean me. I do believe so, too, but I'm content with it.

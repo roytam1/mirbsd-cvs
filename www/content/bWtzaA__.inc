@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.13 2005/11/24 18:59:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.14 2005/12/03 21:56:39 tg Exp $</small>
 
 <h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -54,7 +54,7 @@
 <p>R24b is a minor clean-up relase, recommended especially on Darwin.</p><ul>
  <li>please GCC 4 with the usual crazy set of warning flags</li>
  <li>remove 'version' editor binding and remap emacs ^V to quote-meta ('literal')</li>
- <li>use <a href="/man2/open.htm">open(2)</a> instead of <a href="/man3/creat.htm">creat(3)</a>, from OpenBSD</li>
+ <li>use open(2) instead of creat(3), from OpenBSD</li>
  <li>fix order of includes</li>
  <li>some code simplification; no explicit LFS needed any more</li>
 </ul>
@@ -64,7 +64,7 @@
  <li>GNU/Cygwin is now supported but not officially tested</li>
  <li>DragonFly BSD is now supported and officially tested</li>
  <li>FreeBSD should work as a side effect of the above</li>
- <li>On NetBSD, <a href="/man3/arc4random.htm">arc4random(3)</a>
+ <li>On NetBSD, arc4random(3)
   can now be used if it exists</li>
  <li>no longer look at argv[0] to determine if restricted shell</li>
  <li>changes to $EDITOR and $VISUAL no longer affect the current
@@ -73,16 +73,14 @@
  <li>the special "posix" and "sh" modes are gone</li>
  <li>code, test suites and documentation have been cleaned up a little</li>
  <li>Korn's bizarre /dev/fd hack is now no longer supported</li>
- <li>undo fix for Debian PR #71256 which turned to be bogus and break <a
-  href="/man1/make.htm">make(1)</a></li>
+ <li>undo fix for Debian PR #71256 which turned to be bogus and break make(1)</li>
  <li>fix compilation and invocation of test suite with whitespace in the
   pathnames for real, this time</li>
- <li>the distfile is now signed using <a
-  href="/man1/gzsig.htm">gzsig(1)</a></li>
+ <li>the distfile is now signed using gzsig(1)</li>
 </ul>
 <p>R23 comes with an overhauled build system providing more flags for
  easier configuration, a bug-fix if the relative path to $0 contained
- a space, and does not need <a href="/man1/h2ph.htm">h2ph(1)</a> to
+ a space, and does not need h2ph(1) to
  build some headers any more. Also, the code has cleaned up a bit and
  some manual page glitches were corrected. Some of these changes
  originated by HanBoetes, a few came via the OpenBSD project.</p>
@@ -90,8 +88,7 @@
  contain spaces in the pathname. It also allows building without
  bothering to pre-format the manual page.</p>
 <p>R22c contains some compile time warning fixes on non-MirOS platforms.</p>
-<p>R22b contains an important fix regarding the <a
- href="/man3/srand.htm">srand(3)</a> initialisation logic and a
+<p>R22b contains an important fix regarding the srand(3) initialisation logic and a
  portability fix for NetBSD.</p>
 <p>R22 is the result of three different kinds of work: integrating diffs
  from Debian's pdksh package, as needed, including fixing bugs and of
@@ -126,13 +123,13 @@
  use it and report possible bugs.</p>
 <p>v1.16 IS A BETA VERSION, use at your own risk. This version comes with
  a code cleanup session (for compilation with -Wall -Werror -W -pedantic
- and in preparation for doing an <a href="/man1/indent.htm">indent(1)</a>
+ and in preparation for doing an indent(1)
  whack over the source; any volunteers?) and some new features (with -T
  it spawns on a different tty than you're on - cool for single user mode)
  and code removed (the mailbox checking functionality, since everyone sane
  uses UW-IMAPD to access his MBX format folder using IMAPS, port 993, even
  to localhost). The code is also ANSIfied and protoised, in preparation for
- <a href="/man9/style.htm">style(9)</a> aka KNF.</p>
+ style(9) aka KNF.</p>
 <p>There were no v1.13, v1.14, and v1.15 was never released as portable
  version. MirbsdKsh version numbers were pretty much RCS IDs at the
  time of writing this paragraph.</p>
@@ -152,8 +149,7 @@
 <p>The current version is <a
  href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R26.cpio.gz">http://mirbsd.mirsolutions.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz</a></p>
 <ul>
- <li>Please use <a href="/man1/gzsig.htm">gzsig(1)</a> to verify
-  the integrity of the distfile instead!</li>
+ <li>Please use gzsig(1) to verify the integrity of the distfile instead!</li>
  <li>RMD160 (mksh-R26.cpio.gz) = dddd3535971afab51ea11cc5276d1c4fbba7b9a4</li>
  <li>2644744404 228407 /MirOS/dist/mir/mksh/mksh-R26.cpio.gz</li>
  <li>MD5 (mksh-R26.cpio.gz) = 5493dce94a914f6ecc5b797c617b603f</li>
@@ -164,7 +160,7 @@
  environment such as FreeBSD or the default Interix,
  first, do not use the sh or ksh which comes with them.
  Use the C shell instead. (Kidding? No.)
- Then, try wget, <a href="/man1/ftp.htm">ftp(1)</a> or
+ Then, try wget, ftp(1) or
  fetch or GNU wget to retrieve above file;
  usually, one of them succeeds.
  If you must use a web browser for downloading the file,
@@ -188,10 +184,10 @@
 <p>Different operating systems used to require different flags,
  but the syntax shown below should work on every system supported.</p>
 <p>Manpage generation fails on systems which are not mdoc aware,
- such as Sun Solaris, or have no <a href="/man1/nroff.htm">nroff(1)</a>
+ such as Sun Solaris, or have no nroff(1)
  installed, such as MS Interix/Services for Unix. Use the <em>-r</em>
  command line option in that case.
- Stripping is done via the host's <a href="/man1/install.htm">install(1)</a>
+ Stripping is done via the host's install(1)
  command's -s flag; if stripping during installation fails just use the
  <em>mksh</em> binary. On Solaris, use /usr/ucb/install instead.</p>
 <h3 id="buildbsd">Most operating systems (BSD)</h3>
@@ -261,7 +257,7 @@
 <p>You might want to get a preformatted man page from a
  different operating system. Interix does not come with
  a manual page formatter (but using <a href="/?MirMake">MirMake</a>
- you can build MirOS <a href="/man1/nroff.htm">nroff(1)</a>).</p>
+ you can build MirOS nroff(1)).</p>
 
 <h2 id="regress">Official Testing</h2>
 
@@ -330,7 +326,7 @@
  on news.gmane.org, if you are interested in having a new target supported.</p>
 
 <h2 id="manual">The Manual Page</h2>
-<p>Online manpage: <a href="/man1/mksh.htm">mksh(1)</a></p>
+<p>Online manpage: mksh(1)</p>
 
 <h1 id="licence">Licence</h1>
 <p>MirbsdKsh as a whole is licenced under the BSD/MIT/X11-style <a

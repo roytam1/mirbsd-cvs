@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.6 2005/11/18 00:23:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.7 2005/12/06 00:00:43 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -56,7 +56,7 @@
 
 <h2>Cryptographical Information</h2>
 
-<h3><a href="/man1/gzsig.htm">gzsig(1)</a></h3>
+<h3>gzsig(1)</h3>
 
 <p>gzsig(1) is the current tool of choice for cryptographically signing
  work available from the MirOS Project. These are the keys used:</p><ul>

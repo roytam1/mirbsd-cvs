@@ -1,10 +1,12 @@
-# $MirOS: www/LICENCE,v 1.5 2005/03/16 23:55:50 tg Exp $
+# $MirOS: www/LICENCE,v 1.6 2005/08/14 13:28:29 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
 # Copyright (c) 1999, 2002, 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
 # Copyright (c) 2004
 #	Benny Siegert <bsiegert@MirBSD.org>
+# Textual content (c) 2002, 2003, 2004, 2005
+#	The MirOS Project <miros-dev@MirBSD.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -32,13 +34,14 @@
 # of MirAbile. If licensee infringes these works or brand in any way
 # this licence automatically terminates.
 #
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
+# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+# express, or implied, to the maximum extent permitted by applicable
+# law, without malicious intent or gross negligence; in no event may
+# licensor, an author or contributor be held liable for any indirect
+# or other damage, or direct damage except proven a consequence of a
+# direct error of said person and intended use of this work, loss or
+# other issues arising in any way out of its use, even if advised of
+# the possibility of such damage or existence of a nontrivial bug.
 #
 # This licence agreement shall be governed in all aspects by the law
 # of Germany; designated place of court is Bonn, NRW, Germany.  (Der
