@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.9 2005/12/04 20:08:12 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.10 2005/12/04 20:11:15 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -28,27 +28,6 @@
 # can be useful for creating a module that consists of many directories
 # spread out over the entire source repository.
 
-usrc		-a !src/sys src
-ksrc		-a src/sys
-ksrc-common	-a !src/sys/arch src/sys
-ksrc-amd64	-a src/sys/arch/amd63
-ksrc-i386	-a src/sys/arch/i386
-ksrc-macppc	-a src/sys/arch/macppc src/sys/arch/powerpc
-ksrc-sparc	-a src/sys/arch/sparc
-
-bin		-a src/bin
-distrib		-a src/distrib
-etc		-a src/etc
-gnu		-a src/gnu
-include		-a src/include
-lib		-a src/lib
-libexec		-a src/libexec
-sbin		-a src/sbin
-scripts		-a src/scripts
-share		-a src/share
-sys		src/sys
-usr.bin		-a src/usr.bin
-usr.sbin	-a src/usr.sbin
 x11		-a X11
 
 _mirnroff	-a src/share/Makefile.inc src/share/tmac \
