@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.9 2005/12/06 00:29:59 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.10 2005/12/06 03:11:40 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -74,7 +74,7 @@ print -r "Starting fixup of permissions on \$CVSROOT=${CVSROOT}"
 print -r "Logging to file '${N}'"
 print -- "------------------------------------------------------------"
 
-touch CVSROOT/{history,val-tags} Logs/ChangeLog
+touch CVSROOT/{history,val-tags} Logs/{ChangeLog,idcache}
 mkdir -p .tmp
 
 let cnt=42
@@ -125,13 +125,13 @@ done 2>&1 | tee -i "$N"
 
 {
 	print "fixing special files..."
-	fixperm 664 CVSROOT/{modules.db,history} Logs/ChangeLog
+	fixperm 664 CVSROOT/{modules.db,history} Logs/{ChangeLog,idcache}
 	fixperm 666 CVSROOT/val-tags{,.db}
 	fixperm 555 CVSROOT/{genlog,mklogci,mklogtag,tracker}{,\,v} \
 	    CVSROOT/up www/*.cgi,v
 	fixperm 1775 .tmp
 	chgrp miros-cvsall CVSROOT CVSROOT/{modules.db,history} \
-	    Logs Logs/ChangeLog
+	    Logs Logs/{ChangeLog,idcache}
 	chgrp miros-cvsadm README
 } 2>&1 | tee -ai "$N"
 

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.4 2005/12/06 02:04:33 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.5 2005/12/06 03:11:40 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -343,7 +343,7 @@ while (( j < ${#removed_files[*]} )); do
 	print -r -- "${removed_files[j++]}" >>$prefix.del.$i.$id
 done
 
-# Collect diff information
+# Collect changeset diff information
 let j=0
 while (( j < ${#files[*]} )); do
 	fn=$pathr/${files[j]}
@@ -352,6 +352,7 @@ while (( j < ${#files[*]} )); do
 	new=${fnew[j]}
 	[[ $new = NONE ]] && new=0
 	print -r -- "cvs rdiff -ur$old -r$new $fn" >>$diff
+	print -r -- "$id	$fn" >>$repo/Logs/idcache
 	let ++j
 done
 
