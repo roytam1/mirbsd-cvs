@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.14 2005/12/03 21:56:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.15 2005/12/06 13:37:53 tg Exp $</small>
 
 <h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -39,7 +39,7 @@
  <li>Fix some redraw problem (from OpenBSD)</li>
  <li>Allow &lt; and &gt; for test and [, not only [[</li>
  <li>If an array index is out of bounds, tell which one (from OpenBSD)</li>
- <li>Add mknod(1) for pipes (user/root) and devices (root only) as a
+ <li>Add mknod(8) for pipes (user/root) and devices (root only) as a
   shell builtin &ndash; idea and some of the code from OpenBSD</li>
  <li>Improve compatibility with Solaris, GNU/Linux, Darwin, Interix</li>
  <li>Prevent redefinition of __rcsid string on systems without __RCSID

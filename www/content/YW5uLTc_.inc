@@ -170,7 +170,7 @@ project.</p>
  by their safe counterparts (snprintf(3), strlcpy/strlcat(3)).</li>
 <li>Privacy improvements: root can forbid "ps a" and "ps e" (show all users
  the processes of all users, or the environment attached to a process)</li>
-<li>Allow mknod() to succeed within a chroot() unless disabled in the kernel
+<li>Allow mknod(2) to succeed within a chroot(2) unless disabled in the kernel
  configuration. This allows much cleaner release builds.</li>
 <li>The <tt>CTM</tt> package, growfs(8) and ffsinfo(8), as well as some
  minor files from FreeBSD.</li>
@@ -280,7 +280,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.4 2005/10/03 23:27:33 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.5 2005/12/06 13:37:53 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
