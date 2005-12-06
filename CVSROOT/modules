@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.10 2005/12/04 20:11:15 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.11 2005/12/06 00:22:42 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -28,17 +28,21 @@
 # can be useful for creating a module that consists of many directories
 # spread out over the entire source repository.
 
+# Shortcut
 x11		-a X11
 
+# Collective for nroff(8) and friends
 _mirnroff	-a src/share/Makefile.inc src/share/tmac \
 		   src/usr.bin/Makefile.inc src/usr.bin/oldroff \
 		   src/usr.bin/soelim
 mirnroff	&_mirnroff
 
+# Needed for building gcc (e.g. on Darwin)
 gnuauxdir	-a src/Makefile.inc src/scripts src/gnu/share \
 		   src/gnu/usr.bin/binutils/Makefile.inc \
 		   src/gnu/usr.bin/binutils/include \
 		   src/gnu/usr.bin/binutils/libiberty
 
+# All of ports needed for building base
 miniports	-a ports/Makefile ports/Setup.sh \
 		   ports/devel/gmake ports/infrastructure
