@@ -1,3 +1,58 @@
+2005-12-06  Alan Modra  <amodra@bigpond.net.au>
+
+	PR other/13873
+	* longlong.h: Merge PPC tests from upstream.
+
+2005-12-03  Kaveh R. Ghazi  <ghazi@caip.rutgers.edu>
+
+	PR middle-end/25022
+	* builtins.c (expand_builtin_fputs, expand_builtin_printf,
+	expand_builtin_fprintf): Lookup the explicit replacement functions
+	for any unlocked stdio builtin transformations.
+
+	* builtins.c (expand_builtin_fputs): Defer check for missing
+	replacement functions.
+
+2005-12-02  Volker Reichelt  <reichelt@igpm.rwth-aachen.de>
+
+	PR c++/24103
+	Backport:
+	2002-08-22  Diego Novillo  <dnovillo@redhat.com>
+
+	* tree.c (simple_cst_equal): Call simple_cst_list_equal to compare
+	CONSTRUCTOR_ELTS pointers.
+
+2005-12-01  Gabriel Dos Reis  <gdr@integrable-solutions.net>
+
+	* version.c: Bump version number.
+	* doc/include/gcc-common.texi: Likewise.
+
+2005-11-30  Release Manager
+
+	* GCC 3.4.5 released.
+
+2005-11-23  Alan Modra  <amodra@bigpond.net.au>
+
+	PR middle-end/24950
+	* expmed.c (store_bit_field): Don't attempt to insv a field
+	larger than the reg.
+
+	Merge from trunk
+	2005-11-14  Dale Johannesen  <dalej@apple.com>
+	* expmed.c (store_bit_field):  Add offset unconditionally for
+	memory targets.
+	(extract_bit_field):  Don't force extzv or extv operand into
+	a register if field is too big.
+	2004-12-01  Richard Henderson  <rth@redhat.com>
+	* expmed.c (store_bit_field): Use simplify_gen_subreg instead
+	of gen_rtx_SUBREG directly.
+
+2005-11-16  Steve Ellcey  <sje@cup.hp.com>
+
+	PR target/24718
+	* mklibgcc.in: Create dummy object for libgcc_eh.a
+	* config/ia64/hpux.h (LIBGCC_SPEC): Remove.
+
 2005-11-13  Andreas Jaeger  <aj@suse.de>
 
 	* fixinc/check.tpl: Handle CVS additionally.
