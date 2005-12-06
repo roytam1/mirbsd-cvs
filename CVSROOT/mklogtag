@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.6 2005/12/06 02:03:05 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.7 2005/12/06 02:04:33 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.de>
@@ -35,7 +35,7 @@ shift
 function die
 {
 	print -r Error: "$@"
-	rm /var/tmp/.\#mcvs.*.$id
+	rm $repo/.tmp/cl.*.$id
 	exit 1
 }
 
@@ -54,10 +54,10 @@ set -A fnew
 opt_done=0
 let i=0
 
-F=/var/tmp/.\#mcvs.tag.$id
-T=/var/tmp/.\#mcvs.tagend.$id
+F=$repo/.tmp/cl.tag.$id
+T=$repo/.tmp/cl.tagend.$id
 
-[[ $(</var/tmp/.\#mcvs.lastdir.$id) = $repo/$dir ]]
+[[ $(<$repo/.tmp/cl.lastdir.$id) = $repo/$dir ]]
 leave=$?
 
 case $1 {
@@ -162,5 +162,5 @@ if [[ -e $logf ]]; then
 	$SHELL $repo/CVSROOT/genlog $logf $repo/CVSROOT/history <$T
 fi
 
-rm /var/tmp/.\#mcvs.*.$id
+rm $repo/.tmp/cl.*.$id
 exit 0

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.8 2005/12/05 23:19:51 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.9 2005/12/06 00:29:59 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -75,18 +75,19 @@ print -r "Logging to file '${N}'"
 print -- "------------------------------------------------------------"
 
 touch CVSROOT/{history,val-tags} Logs/ChangeLog
+mkdir -p .tmp
 
 let cnt=42
 find "$CVSROOT$fr" | while read pname; do
 	name="${pname#${CVSROOT}/}"
-	[[ -z $name || $name = @(.|..) ]] && continue
+	[[ -z $name || $name = @(.|..|.tmp) ]] && continue
 	if (( cnt > 0 )); then
 		let cnt--
 	else
 		print -r "  $name"
 		let cnt=42
 	fi
-	if [[ $name = @(|CVSROOT/).* ]]; then
+	if [[ $name = @(|CVSROOT/).* || $name = .tmp/* ]]; then
 		print -r "Found invalid '$name'"
 		rm -rf "$pname"
 	elif [[ $name = +([-_+,./:=@0-9A-Za-z]) ]]; then
@@ -128,6 +129,7 @@ done 2>&1 | tee -i "$N"
 	fixperm 666 CVSROOT/val-tags{,.db}
 	fixperm 555 CVSROOT/{genlog,mklogci,mklogtag,tracker}{,\,v} \
 	    CVSROOT/up www/*.cgi,v
+	fixperm 1775 .tmp
 	chgrp miros-cvsall CVSROOT CVSROOT/{modules.db,history} \
 	    Logs Logs/ChangeLog
 	chgrp miros-cvsadm README

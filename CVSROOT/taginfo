@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/taginfo,v 1.4 2005/05/05 16:03:42 tg Exp $
+# $MirOS: CVSROOT/taginfo,v 1.5 2005/12/05 21:25:09 tg Exp $
 #-
 # The "taginfo" file is used to control pre-tag checks.
 # The filter on the right is invoked with the following arguments
@@ -48,4 +48,4 @@
 # If the name "ALL" appears as a regular expression it is always used
 # in addition to the first matching regex or "DEFAULT".
 
-ALL	$CVSROOT/CVSROOT/tracker %I %r/%p
+ALL	$CVSROOT/CVSROOT/tracker %r %I %r/%p
