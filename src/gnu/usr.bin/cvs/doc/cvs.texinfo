@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.4 2005/05/05 23:21:44 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.5 2005/12/05 22:12:42 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -9513,7 +9513,8 @@ that the argument file contains the log message.
 At @code{commit}, a unique commitid is placed in the @sc{rcs}
 file inside the repository. All files committed at once
 get the same commitid, a string consisting only of hexadecimal
-digits (usually 16). The commitid can be retrieved with
+digits (usually 16 in GNU CVS, 19 in MirOS GNU CVS).
+The commitid can be retrieved with
 the @code{log} and @code{status} command; see @ref{log},
 @ref{File status}.
 
@@ -14454,6 +14455,7 @@ Unique Session ID of the @sc{cvs} process. This is a
 random string of printable characters of at least 16
 characters length. Users should assume that it may
 someday grow to at most 256 characters in length.
+Currently, MirOS GNU CVS uses 19 characters.
 @end table
 
 If you want to pass a value to the administrative files

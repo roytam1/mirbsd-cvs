@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.5 2005/04/19 22:00:37 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.6 2005/12/05 22:12:48 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -26,7 +26,7 @@
 #include "strftime.h"
 #include "xgethostname.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.5 2005/04/19 22:00:37 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.6 2005/12/05 22:12:48 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -771,8 +771,8 @@ distribution kit for a complete list of contributors and copyrights.\n",
 
     /* Calculate the cvs global session ID */
 
-    global_session_id = Xasprintf ("%09llx%03x%04x", (long long)time (NULL),
-				   (int)getpid() & 0xFFF,
+    global_session_id = Xasprintf ("1%010llX%04X%04X", (long long)time (NULL),
+				   (int)getpid() & 0xFFFF,
 				   (int)arc4random()&0xFFFF);
 
     TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
