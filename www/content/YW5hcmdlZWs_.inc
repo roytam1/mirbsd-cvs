@@ -1,6 +1,7 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.7 2005/09/12 00:41:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.8 2005/09/12 00:43:24 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
-<p>Go <a href="#manifest">directly to the manifesto</a>.</p>
+<p>Go <a href="#manifest">directly to the manifesto</a>, or read the <a
+ href="#koffie">unrelated side note</a> about coffee.</p>
 <h2>Why this page?</h2>
 <p>On <a href="http://www.fosdem.org/">FOSDEM</a> 2005 some guy walked past
  me and gave me a paper containing the &quot;anargeek manifesto&quot; since
@@ -171,3 +172,11 @@
  href="mailto:darkveggy@anargeek.net">darkveggy</a>.</p>
 <p>Deutsche &Uuml;bersetzung, M&auml;rz 2005,<br />von <a
  href="mailto:tg@mirbsd.org">mirabile</a>.</p>
+<hr />
+<h2 id="koffie">Official MirBSD&trade; coffee provider</h2>
+<p>Thorsten Glaser drinks fairly traded anarcho-syndicalistic zapatist coffee
+ (Caf&eacute; Libertad and others, e.g. Caf&eacute; So&ntilde;ador, Flores
+ Mag&oacute;n, Espresso Rebeld&iacute;a, Met (honey wine) with or without few
+ espresso beans, etc.) from <a href="http://www.cafe-libertad.de/">Caf&eacute;
+ Libertad &ndash; Kaffeekooperative</a> (they also have a polyglot (multilingual)
+ ordering page).</p>
