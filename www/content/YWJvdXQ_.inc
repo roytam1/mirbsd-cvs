@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.6 2005/08/03 00:07:05 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.7 2005/10/03 23:27:34 tg Exp $</small>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
 <p>The MirOS project presents a Europe-based open source operating
@@ -24,7 +24,7 @@
 <p>You might want to read about the Project's <a href="/?mail">mailing
  lists</a> or the <a href="/?history">History of MirOS</a>.</p>
 
-<p>Read more about the <a href="/?features">Features</a> of MirOS or
+<p>Read more about the XXX Features XXX of MirOS or
  the <a href="/?devel">People</a> behind it.</p>
 
 <h3>Licencing information</h3>

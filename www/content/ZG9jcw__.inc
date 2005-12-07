@@ -1,9 +1,11 @@
-<small class="rcsid">$MirOS: www/content/ZG9jcw__.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZG9jcw__.inc,v 1.3 2005/07/24 18:03:22 tg Exp $</small>
 <h1>Documentation</h1>
 
 <p>There should probably be some documentation here.
  For now, there's only the <big><big><a href="http://wiki.mirbsd.de/">MirWiki</a></big></big>
  and the following unsorted list of various documents:</p><ul>
+<li><a href="/?mksh">MirbsdKsh</a> (software produced by us)</li>
+<li><a href="/?jupp">JuppEditor</a> (software forked by us)</li>
 <li><a href="/?bsd-intro">BSD Introduction</a>
  (English, generic)</li>
 <li><a href="/?mirwarum">Why MirBSD?</a> &ndash; Warum MirBSD?
@@ -12,8 +14,6 @@
  &ndash; Who are you crazy people?</li>
 <li><a href="/?mail">Mailing Lists</a>
  &ndash; How do I reach you?</li>
-<li><a href="/?features">Features &amp; Caveats</a>
- (unmaintained, for #7 mostly)</li>
 <li><a href="/?history">History of MirOS</a>
  (pretty accurate)</li>
 <li> &mdash; Problem Solution &mdash;</li>
