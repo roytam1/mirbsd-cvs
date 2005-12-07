@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.4 2005/04/11 17:18:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.5 2005/04/20 07:06:30 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -14,6 +14,24 @@
  -->
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
+
+<p id="snap1207">07.12.2005<br />Announcement relative to the <a
+ href="#snap0420">2005-04-20 snapshot</a> below:</p><ul>
+ <li>general: too many changes to list them, so we will not
+  try at all, instead concentrate on the major points and hope
+  we haven't forgotten anything of importance...</li>
+ <li>MirPorts: rewritten installer for MirOS BSD, OpenBSD, Darwin and
+  Mac OSX (Interix support upcoming)</li>
+ <li>MirPorts: support for new fetch methods, such as CVS</li>
+ <li>MirOS: countless improvements in kernel, userland and infrastructure</li>
+ <li>gcc: This is the first time gcc actually works correctly (almost)
+  in all supported languages (C C++ Objective-C Pascal Ada Java&trade;)</li>
+</ul><p>While this snapshot has not throughoutly been tested for security
+ fixes, it contains major bug fixes (as well as both code and documentation
+ cleanup, among other things) and, finally, enables users to &quot;get the
+ BSD experience&quot; again... I had to point people to other BSDs or tell
+ them to wait, sadly. Meet your personal bunch of BSD developers at <a
+ href="http://events.ccc.de/congress/2005/">22C3</a>.</p>
 
 <p id="snap0420">20.04.2005<br />Detailed list of changes from the <a
  href="#snap0330">2005/03/30 snapshot</a> below:</p><ul>

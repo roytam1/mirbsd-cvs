@@ -1,6 +1,9 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.38 2005/12/04 16:37:41 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.39 2005/12/06 00:00:44 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>07.12.2005<br />New i386 binary snapshot, source snapshot and CVS repo
+	cpio bowl available for public download. Happy Birthday!</li>
 
 <li>05.12.2005<br />Updated GNU CVS to 1.12.13; rewrote the scripts we use
 	in /cvs/CVSROOT/ to generate changelogs and mails (maybe add later

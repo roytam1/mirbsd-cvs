@@ -1,13 +1,11 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.7 2005/12/06 00:00:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.8 2005/12/06 13:37:53 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
  MirOS #7 is the latest release.
  MirOS #7-stable has been EOL'd.
- MirOS-current is very stable, expect a new snapshot to be released Really Soon Now&trade;.
- There is currently no recommended snapshot to install; existing snapshots are quite broken.
- The best way to install MirOS at the moment is using the LinuxTag 2005 Special Edition CD-R.
- MirPorts are past flag day; you must reinstall using the new <tt>ports/Setup.sh</tt> (see <a href="/?ports">docs</a>).
+ Please install the latest MirOS #8 development snapshot, dated 2005-12-07.
+ MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable.
  We expect a huge percentage of individual ports to be broken or out of date due to lack of manpower.
 </p>
 
@@ -46,8 +44,8 @@
   <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
  </ul></li>
  <li>Snapshots<ul>
-  <li>Currently, no suitable snapshot is available for download.</li>
-  <li><a href="http://f.scarywater.net/miros/">Our BitTorrent tracker</a></li>
+  <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download</li>
+  <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/current/i386-20051207/">MirOS BSD #8/i386, 2005-12-07</a> (complete)</li>
  </ul></li>
  <li>Website<ul>
   <li><a href="https://mirbsd.mirsolutions.de:445/">http://mirbsd.mirsolutions.de/</a></li>
