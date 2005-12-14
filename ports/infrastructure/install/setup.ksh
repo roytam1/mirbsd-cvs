@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.30 2005/11/17 23:54:19 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.31 2005/11/24 22:58:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -393,6 +393,7 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	# Building this without NOMAN=yes can be done by a port.
 	rm -rf mirnroff
 fi
+unset NROFF
 
 
 # Check if we need to install mtree
