@@ -4,15 +4,18 @@
 #include "ip6.h"
 #include <stdio.h>
 
+extern char tohex(char num);
+
 unsigned int ip6_fmt(char *s,const char ip[16])
 {
   unsigned int len;
   unsigned int i;
   unsigned int temp;
   unsigned int compressing;
+  unsigned int compressed;
   int j;
 
-  len = 0; compressing = 0;
+  len = 0; compressing = 0; compressed = 0;
   for (j=0; j<16; j+=2) {
     if (j==12 && ip6_isv4mapped(ip)) {
       temp=ip4_fmt(s,ip+12);
@@ -21,7 +24,7 @@ unsigned int ip6_fmt(char *s,const char ip[16])
     }
     temp = ((unsigned long) (unsigned char) ip[j] << 8) +
             (unsigned long) (unsigned char) ip[j+1];
-    if (temp == 0) {
+    if (temp == 0 && !compressed) {
       if (!compressing) {
 	compressing=1;
 	if (j==0) {
@@ -30,7 +33,7 @@ unsigned int ip6_fmt(char *s,const char ip[16])
       }
     } else {
       if (compressing) {
-	compressing=0;
+	compressing=0; ++compressed;
 	if (s) *s++=':'; ++len;
       }
       i = fmt_xlong(s,temp); len += i; if (s) s += i;
@@ -44,15 +47,6 @@ unsigned int ip6_fmt(char *s,const char ip[16])
 
 /*  if (s) *s=0; */
   return len;
-}
-
-static char tohex(char num) {
-  if (num<10)
-    return num+'0';
-  else if (num<16)
-    return num-10+'a';
-  else
-    return -1;
 }
 
 unsigned int ip6_fmt_flat(char *s,char ip[16])

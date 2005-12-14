@@ -18,8 +18,8 @@ unsigned int ip6_scan(const char *s,char ip[16])
   unsigned long u;
 
   char suffix[16];
-  unsigned int prefixlen=0;
-  unsigned int suffixlen=0;
+  int prefixlen=0;
+  int suffixlen=0;
 
   if ((i=ip4_scan(s,ip+12))) {
     const char *c=V4mappedprefix;

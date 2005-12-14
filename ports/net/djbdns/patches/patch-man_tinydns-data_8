@@ -1,29 +1,34 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.1.201.1 2005/05/14 23:21:01 tg Exp $
 --- man/tinydns-data.8.orig	Wed May  2 13:57:07 2001
-+++ man/tinydns-data.8	Sat May 14 22:27:18 2005
-@@ -1,4 +1,20 @@
++++ man/tinydns-data.8	Tue Dec 13 22:45:26 2005
+@@ -1,4 +1,25 @@
 -.TH tinydns-data 8
-+.\" $MirOS: ports/net/djbdns/patches/patch-tinydns-data_8,v 1.1.7.1 2005/03/18 15:48:07 tg Exp $
++.\" $MirOS: src/share/misc/licence.template,v 1.3 2005/12/04 16:03:44 tg Rel $
 +.\"-
-+.\" Copyright (c) 2003 Thorsten Glaser <x86@ePost.de>
++.\" Copyright (c) 2003, 2005
++.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 +.\"
-+.\" Subject to these terms, everybody who obtained a copy of this work
-+.\" is hereby permitted to deal in the work without restriction inclu-
-+.\" ding without limitation the rights to use, distribute, sell, modi-
-+.\" fy, publically perform, give away, merge or sublicense it provided
-+.\" this notice is kept and the authors and contributors are given due
-+.\" credit in derivates or accompanying documents.
-+.\" This work is provided "as is" with no explicit or implicit warran-
-+.\" ties whatsoever to the maximum extend permitted by applicable law;
-+.\" in no event may an author or contributor be held liable for damage
-+.\" that is, directly or indirectly, caused by the work, even if advi-
-+.\" sed of the possibility of such damage.
++.\" Licensee is hereby permitted to deal in this work without restric-
++.\" tion, including unlimited rights to use, publicly perform, modify,
++.\" merge, distribute, sell, give away or sublicence, provided all co-
++.\" pyright notices above, these terms and the disclaimer are retained
++.\" in all redistributions or reproduced in accompanying documentation
++.\" or other materials provided with binary redistributions.
 +.\"
++.\" Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
++.\" express, or implied, to the maximum extent permitted by applicable
++.\" law, without malicious intent or gross negligence; in no event may
++.\" licensor, an author or contributor be held liable for any indirect
++.\" or other damage, or direct damage except proven a consequence of a
++.\" direct error of said person and intended use of this work, loss or
++.\" other issues arising in any way out of its use, even if advised of
++.\" the possibility of such damage or existence of a nontrivial bug.
++.\"-
 +.TH tinydns-data 8 "June 13, 2003" "" "DJBDNS Operation Guide"
  
  .SH NAME
  tinydns-data \- data tool for tinydns
-@@ -52,7 +68,7 @@ Spaces and tabs at the end of a line are
+@@ -52,7 +73,7 @@ Spaces and tabs at the end of a line are
  
  Each line contains a
  .I ttl
@@ -32,7 +37,7 @@ $MirOS$
  specifying the number of seconds that the line's DNS records may be cached.
  Beware that cache times below 300 seconds
  will be treated as 300 by some clients,
-@@ -74,7 +90,7 @@ the line will be ignored before that tim
+@@ -74,7 +95,7 @@ the line will be ignored before that tim
  If 
  .I ttl
  is zero,
@@ -41,7 +46,7 @@ $MirOS$
  for the information in the line;
  
  .BR tinydns (8)
-@@ -137,7 +153,7 @@ for everyone else.
+@@ -137,7 +158,7 @@ for everyone else.
  
  .SH Common data lines
  
@@ -50,7 +55,7 @@ $MirOS$
  
  Name server for our domain 
  .IR fqdn .
-@@ -244,18 +260,24 @@ while
+@@ -244,18 +265,24 @@ while
  .I .
  is used for domains delegated to this server.
  
@@ -80,7 +85,7 @@ $MirOS$
  as
  the IP address of 
  .IR fqdn
-@@ -268,9 +290,18 @@ as
+@@ -268,9 +295,20 @@ as
  the name of 
  .IR d.c.b.a .in-addr.arpa
  if 
@@ -91,6 +96,8 @@ $MirOS$
 +
 +A PTR record of
 +.IR 0.1.2.3.4.5.6.7.8.9.a.b.c.d.e.f.f.e.d.c.b.a.9.8.7.6.5.4.0.1.2.3 .ip6.arpa
++and (deprecated fallback)
++.IR 0.1.2.3.4.5.6.7.8.9.a.b.c.d.e.f.f.e.d.c.b.a.9.8.7.6.5.4.0.1.2.3 .ip6.int
 +linking to
 +.I fqdn
 +is created if
@@ -100,7 +107,7 @@ $MirOS$
  .P
  
  Remember to specify name servers for some suffix of
-@@ -285,7 +316,9 @@ Similarly, remember to specify name serv
+@@ -285,7 +323,9 @@ Similarly, remember to specify name serv
  .IR d.c.b.a .in-addr.arpa,
  if that domain has been delegated to you.
  
@@ -111,7 +118,7 @@ $MirOS$
  
  Alias
  .I fqdn
-@@ -293,6 +326,8 @@ with IP address 
+@@ -293,6 +333,8 @@ with IP address 
  .IR ip .
  This is just like 
  .RI = fqdn\fR:\fIip\fR:\fIttl\fR
@@ -120,7 +127,7 @@ $MirOS$
  except that 
  .B tinydns-data
  does not create the PTR record.
-@@ -303,8 +338,12 @@ returns addresses
+@@ -303,8 +345,12 @@ returns addresses
  (from
  .I +
  or
@@ -133,7 +140,7 @@ $MirOS$
  .I @
  or
  .I .
-@@ -427,8 +466,8 @@ use
+@@ -427,8 +473,8 @@ use
  .RI + fqdn
  instead.
  Remember the wise words of Inigo Montoya:
@@ -144,7 +151,7 @@ $MirOS$
  
  .RI Z fqdn\fR:\fImname\fR:\fIrname\fR:\fIser\fR:\fIref\fR:\fIret\fR:\fIexp\fR:\fImin\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
-@@ -596,3 +635,11 @@ if the database were rebuilt periodicall
+@@ -596,3 +642,11 @@ if the database were rebuilt periodicall
  tinydns(8)
  
  http://cr.yp.to/djbdns.html

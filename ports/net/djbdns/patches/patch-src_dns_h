@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_dns_h,v 1.1.201.1 2005/05/14 23:21:02 tg Exp $
 --- src/dns.h.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns.h	Sat May 14 22:27:17 2005
++++ src/dns.h	Wed Dec 14 01:59:28 2005
 @@ -20,6 +20,7 @@
  #define DNS_T_SIG "\0\30"
  #define DNS_T_KEY "\0\31"
@@ -27,7 +27,7 @@ $MirOS$
  
  extern void dns_domain_free(char **);
  extern int dns_domain_copy(char **,const char *);
-@@ -68,6 +71,8 @@ extern struct dns_transmit dns_resolve_t
+@@ -68,10 +71,13 @@ extern struct dns_transmit dns_resolve_t
  
  extern int dns_ip4_packet(stralloc *,const char *,unsigned int);
  extern int dns_ip4(stralloc *,const stralloc *);
@@ -36,14 +36,22 @@ $MirOS$
  extern int dns_name_packet(stralloc *,const char *,unsigned int);
  extern void dns_name4_domain(char *,const char *);
  #define DNS_NAME4_DOMAIN 31
-@@ -80,5 +85,10 @@ extern int dns_mx(stralloc *,const stral
+ extern int dns_name4(stralloc *,const char *);
++extern int dns_name6(stralloc *,const char *);
+ extern int dns_txt_packet(stralloc *,const char *,unsigned int);
+ extern int dns_txt(stralloc *,const stralloc *);
+ extern int dns_mx_packet(stralloc *,const char *,unsigned int);
+@@ -80,5 +86,13 @@ extern int dns_mx(stralloc *,const stral
  extern int dns_resolvconfrewrite(stralloc *);
  extern int dns_ip4_qualify_rules(stralloc *,stralloc *,const stralloc *,const stralloc *);
  extern int dns_ip4_qualify(stralloc *,stralloc *,const stralloc *);
 +extern int dns_ip6_qualify_rules(stralloc *,stralloc *,const stralloc *,const stralloc *);
 +extern int dns_ip6_qualify(stralloc *,stralloc *,const stralloc *);
 +
-+extern int dns_name6_domain(char *,char *);
-+#define DNS_NAME6_DOMAIN (4*16+10)
++#define DNS_IP6_INT 0
++#define DNS_IP6_ARPA 1
++
++extern int dns_name6_domain(char *,const char *,int);
++#define DNS_NAME6_DOMAIN (4*16+11)
  
  #endif

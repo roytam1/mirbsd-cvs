@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/14 23:21:02 tg Exp $
 --- src/dnscache-conf.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dnscache-conf.c	Sat May 14 22:27:17 2005
++++ src/dnscache-conf.c	Wed Dec 14 00:10:22 2005
 @@ -79,7 +79,11 @@ int main(int argc,char **argv)
    if (!dir) usage();
    if (dir[0] != '/') usage();
@@ -17,25 +17,29 @@ $MirOS$
    if (chdir(auto_home) == -1)
      strerr_die4sys(111,FATAL,"unable to switch to ",auto_home,": ");
  
+-  fdrootservers = open_read("/etc/dnsroots.local");
 +#ifndef DJB_V6ONLY
-   fdrootservers = open_read("/etc/dnsroots.local");
++  fdrootservers = open_read(_SYSCONFDIR "/dnsroots.local");
 +#else
-+  fdrootservers = open_read("/etc/dnsroots.local.v6");
++  fdrootservers = open_read(_SYSCONFDIR "/dnsroots.local.v6");
 +#endif /* DJB_V6ONLY */
    if (fdrootservers == -1) {
      if (errno != error_noent)
+-      strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.local: ");
+-    fdrootservers = open_read("/etc/dnsroots.global");
 +#ifndef DJB_V6ONLY
-       strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.local: ");
-     fdrootservers = open_read("/etc/dnsroots.global");
++      strerr_die2sys(111,FATAL,"unable to open " _SYSCONFDIR "/dnsroots.local: ");
++    fdrootservers = open_read(_SYSCONFDIR "/dnsroots.global");
 +#else
-+      strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.local.v6: ");
-+    fdrootservers = open_read("/etc/dnsroots.global.v6");
++      strerr_die2sys(111,FATAL,"unable to open " _SYSCONFDIR "/dnsroots.local.v6: ");
++    fdrootservers = open_read(_SYSCONFDIR "/dnsroots.global.v6");
 +#endif /* DJB_V6ONLY */
      if (fdrootservers == -1)
+-      strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.global: ");
 +#ifndef DJB_V6ONLY
-       strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.global: ");
++      strerr_die2sys(111,FATAL,"unable to open " _SYSCONFDIR "/dnsroots.global: ");
 +#else
-+      strerr_die2sys(111,FATAL,"unable to open /etc/dnsroots.global.v6: ");
++      strerr_die2sys(111,FATAL,"unable to open " _SYSCONFDIR "/dnsroots.global.v6: ");
 +#endif /* DJB_V6ONLY */
    }
  
@@ -59,7 +63,7 @@ $MirOS$
 +#ifndef DJB_V6ONLY
    outs(auto_home); outs("/bin/dnscache\n'\n"); finish();
 +#else
-+  outs(auto_home); outs("/bin/6dnscache\n'\n"); finish();
++  outs(auto_home); outs("/bin/dnscachet6\n'\n"); finish();
 +#endif /* DJB_V6ONLY */
    seed_addtime(); perm(0755);
    seed_addtime(); start("log/run");

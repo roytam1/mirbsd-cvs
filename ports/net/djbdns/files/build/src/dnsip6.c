@@ -12,7 +12,7 @@ static stralloc fqdn;
 static stralloc out;
 char str[IP6_FMT];
 
-main(int argc,char **argv)
+int main(int argc,char **argv)
 {
   int i;
 

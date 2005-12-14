@@ -1,7 +1,17 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_dnsname_c,v 1.1.201.1 2005/05/14 23:21:03 tg Exp $
 --- src/dnsname.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dnsname.c	Sat May 14 22:27:17 2005
-@@ -9,6 +9,9 @@
++++ src/dnsname.c	Tue Dec 13 21:44:26 2005
+@@ -2,6 +2,9 @@
+ #include "exit.h"
+ #include "strerr.h"
+ #include "ip4.h"
++#ifdef DJB_V6ONLY
++#include "ip6.h"
++#endif /* DJB_V6ONLY */
+ #include "dns.h"
+ 
+ #define FATAL "dnsname: fatal: "
+@@ -9,6 +12,9 @@
  static char seed[128];
  
  char ip[4];
@@ -11,7 +21,7 @@ $MirOS$
  static stralloc out;
  
  int main(int argc,char **argv)
-@@ -18,10 +21,22 @@ int main(int argc,char **argv)
+@@ -18,10 +24,22 @@ int main(int argc,char **argv)
    if (*argv) ++argv;
  
    while (*argv) {

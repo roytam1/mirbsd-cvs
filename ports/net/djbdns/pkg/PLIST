@@ -1,10 +1,16 @@
-@comment $MirOS: ports/net/djbdns/pkg/PLIST,v 1.1.201.1 2005/05/14 23:21:09 tg Exp $
+@comment $MirOS: ports/net/djbdns/pkg/PLIST,v 1.3 2005/05/14 23:24:03 tg Exp $
 bin/axfr-get
+bin/axfr-gett6
 bin/axfrdns
 bin/axfrdns-conf
+bin/axfrdnst6
+bin/axfrdnst6-conf
 bin/dnscache
 bin/dnscache-conf
+bin/dnscachet6
+bin/dnscachet6-conf
 bin/dnsfilter
+bin/dnsfiltert6
 bin/dnsip
 bin/dnsip6
 bin/dnsip6q
@@ -13,6 +19,8 @@ bin/dnsmx
 bin/dnsname
 bin/dnsq
 bin/dnsqr
+bin/dnsqrt6
+bin/dnsqt6
 bin/dnstrace
 bin/dnstracesort
 bin/dnstxt
@@ -20,17 +28,25 @@ bin/ignoreip-update
 bin/pickdns
 bin/pickdns-conf
 bin/pickdns-data
+bin/pickdnst6
+bin/pickdnst6-conf
 bin/random-ip
 bin/rbldns
 bin/rbldns-conf
 bin/rbldns-data
+bin/rbldnst6
+bin/rbldnst6-conf
 bin/tinydns
 bin/tinydns-conf
 bin/tinydns-data
 bin/tinydns-edit
 bin/tinydns-get
+bin/tinydnst6
+bin/tinydnst6-conf
 bin/walldns
 bin/walldns-conf
+bin/walldnst6
+bin/walldnst6-conf
 man/cat1/dnsfilter.0
 man/cat1/dnsip.0
 man/cat1/dnsipq.0
@@ -59,13 +75,10 @@ man/cat8/tinydns.0
 man/cat8/walldns-conf.0
 man/cat8/walldns.0
 share/djbdns/dnsroots.global
-@exec if [ -f /etc/%f ]; then echo "\n!! WARNING !!\t/etc/%f exists\n\t\tPlease verify with %D/%F"; else /bin/cp %D/%F /etc; fi
+@sample ${SYSCONFDIR}/dnsroots.global
 share/djbdns/dnsroots.global.v6
-@exec if [ -f /etc/%f ]; then echo "\n!! WARNING !!\t/etc/%f exists\n\t\tPlease verify with %D/%F"; else /bin/cp %D/%F /etc; fi
+@sample ${SYSCONFDIR}/dnsroots.global.v6
 @dirrm share/djbdns
-@unexec echo "Please remove /etc/dnsroots.global{,.v6} manually"
 @cwd ${SYSCONFDIR}
-@extra dnsroots.global
-@extra dnsroots.global.v6
 @extra dnsroots.local
 @extra dnsroots.local.v6

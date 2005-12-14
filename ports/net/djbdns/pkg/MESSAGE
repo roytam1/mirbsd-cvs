@@ -3,7 +3,6 @@ tinydns-data(8) manual page and ${HOMEPAGE}
 
 About namespaces (you have chosen ${FLAVORS}):
 icann	=> http://www.icann.org/
-orsc	=> http://www.open-rsc.org/
 opennic	=> http://www.opennic.glue/
 eorsn	=> https://european.orsn.net/	(IPv6 default)
 
@@ -11,6 +10,4 @@ eorsn	=> https://european.orsn.net/	(IPv6 default)
    dnscache directory to get a strong(er) random seed:
 dd if=/dev/srandom of=seed bs=128 count=1
 
-=> The necessary users and groups...
-already exist in your /etc/master.passwd file.
-Please be aware they start with an underscore.
+=> Users and Groups: please use _dnscache _dnslog _tinydns

@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_dns_rcip_c,v 1.1.201.1 2005/05/14 23:21:02 tg Exp $
 --- src/dns_rcip.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns_rcip.c	Sat May 14 22:27:17 2005
++++ src/dns_rcip.c	Tue Dec 13 23:15:33 2005
 @@ -2,12 +2,19 @@
  #include "openreadclose.h"
  #include "byte.h"
@@ -21,8 +21,12 @@ $MirOS$
  {
    int i;
    int j;
-@@ -20,10 +27,18 @@ static int init(char ip[64])
-       if (*x == '.')
+@@ -17,13 +24,21 @@ static int init(char ip[64])
+   x = env_get("DNSCACHEIP");
+   if (x)
+     while (iplen <= 60) {
+-      if (*x == '.')
++      if (*x == ' ' || *x == '\t' || *x == '\n')
  	++x;
        else {
 +#ifndef DJB_V6ONLY

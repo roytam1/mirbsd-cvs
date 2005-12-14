@@ -23,7 +23,10 @@ several components:
   root servers from ${FLAVORS}
 - The axfrdns program can be used to exchange data with BIND servers.
   It is capable of AXFR and IXFR protocols.
-- Except in the "original" flavour, dnscache can "ban" specified A
-  records from being returned, rendering domains/hosts which resolve
+- dnscache can "ban" specified A records (dnscachet6 can also ban AAAA
+  records) from being returned, rendering domains/hosts which resolve
   to these unusable, returning a NXDOMAIN. This can be used to "ban"
   wildcard second-level domains, such as those used by Verisign Corp.
+- Most xxx programmes have an xxxt6 counterpart for IPv6 transport.
+- This version also contains extensive patches to the IPv6 transport
+  resolver to enable it as client to communicate with IPv4 nameservers.

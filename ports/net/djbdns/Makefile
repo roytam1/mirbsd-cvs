@@ -1,10 +1,10 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.7 2005/12/05 15:55:29 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.8 2005/12/06 20:37:25 tg Exp $
 
 COMMENT=		"collection of Domain Name System server and tools"
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-PKGNAME=		djbdns-${VERSION}-11
+PKGNAME=		djbdns-${VERSION}-15
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	"http://cr.yp.to/distributors.html"
 PERMIT_PACKAGE_FTP=	"http://cr.yp.to/distributors.html"
 
-FLAVORS=		eorsn icann opennic orsc
+FLAVORS=		eorsn icann opennic
 FLAVOR?=		eorsn
 
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
@@ -28,49 +28,42 @@ RUN_DEPENDS=		::sysutils/daemontools
 NO_REGRESS=		Yes
 
 .undef DNSROOT
-DNSROOT6=	eorsn6
+DNSROOT6=		eorsn6
 
 .if ${FLAVOR:L:Mopennic}
 .  ifdef DNSROOT
-BROKEN=		Multiple DNS Roots chosen; invalid combination
+BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
-DNSROOT=	opennic
-.  endif
-.endif
-
-.if ${FLAVOR:L:Morsc}
-.  ifdef DNSROOT
-BROKEN=		Multiple DNS Roots chosen; invalid combination
-.  else
-DNSROOT=	orsc
+DNSROOT=		opennic
 .  endif
 .endif
 
 .if ${FLAVOR:L:Micann}
 .  ifdef DNSROOT
-BROKEN=		Multiple DNS Roots chosen; invalid combination
+BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
-DNSROOT=	icann
+DNSROOT=		icann
 .  endif
 .endif
 
 .if ${FLAVOR:L:Meorsn}
 .  ifdef DNSROOT
-BROKEN=		Multiple DNS Roots chosen; invalid combination
+BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
-DNSROOT=	eorsn
+DNSROOT=		eorsn
 .  endif
 .endif
 
 .if !defined(DNSROOT) || ${DNSROOT} == ""
-BROKEN=		choose a DNS Root flavour (default: eorsn)
+BROKEN=			choose a DNS Root flavour (default: eorsn)
 .endif
 
 WRKDIST=		${WRKDIR}
 WRKSRC=			${WRKDIR}/build
 CONFIGURE_STYLE=	simple
-CONFIGURE_ENV+=		TOP=${WRKDIR}
+CONFIGURE_ENV+=		TOP=${WRKDIR} SYSCONFDIR=${SYSCONFDIR:Q}
 MAKE_ENV+=		TOP=${WRKDIR}
+CPPFLAGS+=		-D_SYSCONFDIR=\"${SYSCONFDIR:Q}\"
 
 post-extract:
 	cd ${FILESDIR}; find build -type f \! -path \*CVS\* \

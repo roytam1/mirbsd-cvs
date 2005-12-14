@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_roots_c,v 1.1.201.1 2005/05/14 23:21:05 tg Exp $
 --- src/roots.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/roots.c	Sat May 14 22:27:18 2005
++++ src/roots.c	Tue Dec 13 21:44:39 2005
 @@ -6,6 +6,9 @@
  #include "error.h"
  #include "direntry.h"

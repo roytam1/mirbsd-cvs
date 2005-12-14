@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_query_h,v 1.1.201.1 2005/05/14 23:21:05 tg Exp $
 --- src/query.h.orig	Sun Feb 11 21:11:23 2001
-+++ src/query.h	Sat May 14 22:27:18 2005
++++ src/query.h	Tue Dec 13 21:44:37 2005
 @@ -14,16 +14,29 @@ struct query {
    char *name[QUERY_MAXLEVEL];
    char *control[QUERY_MAXLEVEL]; /* pointing inside name */

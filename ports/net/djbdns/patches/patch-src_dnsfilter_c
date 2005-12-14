@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_dnsfilter_c,v 1.1.201.1 2005/05/14 23:21:03 tg Exp $
 --- src/dnsfilter.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dnsfilter.c	Sat May 14 22:27:17 2005
++++ src/dnsfilter.c	Tue Dec 13 21:44:24 2005
 @@ -12,6 +12,9 @@
  #include "iopause.h"
  #include "error.h"

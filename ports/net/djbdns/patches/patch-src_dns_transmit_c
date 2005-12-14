@@ -1,7 +1,36 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.1.201.1 2005/05/14 23:21:02 tg Exp $
 --- src/dns_transmit.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns_transmit.c	Sat May 14 22:27:17 2005
-@@ -7,6 +7,9 @@
++++ src/dns_transmit.c	Wed Dec 14 01:59:28 2005
+@@ -1,3 +1,28 @@
++/*-
++ * Some changes Copyright (c) 2005
++ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
++ *
++ * Licensee is hereby permitted to deal in this work without restric-
++ * tion, including unlimited rights to use, publicly perform, modify,
++ * merge, distribute, sell, give away or sublicence, provided all co-
++ * pyright notices above, these terms and the disclaimer are retained
++ * in all redistributions or reproduced in accompanying documentation
++ * or other materials provided with binary redistributions.
++ *
++ * All advertising materials mentioning features or use of this soft-
++ * ware must display the following acknowledgement:
++ *	This product includes material provided by Thorsten Glaser.
++ *
++ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
++ * express, or implied, to the maximum extent permitted by applicable
++ * law, without malicious intent or gross negligence; in no event may
++ * licensor, an author or contributor be held liable for any indirect
++ * or other damage, or direct damage except proven a consequence of a
++ * direct error of said person and intended use of this work, loss or
++ * other issues arising in any way out of its use, even if advised of
++ * the possibility of such damage or existence of a nontrivial bug.
++ */
++
+ #include <sys/types.h>
+ #include <sys/socket.h>
+ #include <unistd.h>
+@@ -7,7 +32,18 @@
  #include "byte.h"
  #include "uint16.h"
  #include "dns.h"
@@ -9,27 +38,47 @@ $MirOS$
 +#include "ip6.h"
 +#endif /* DJB_V6ONLY */
  
++#ifdef DJB_V6ONLY
++static int callv4 = 0;
++static int callv4ofs = 12;
++#else
++static int callv4 = 1;
++static int callv4ofs = 0;
++#endif /* DJB_V6ONLY */
++
  static int serverwantstcp(const char *buf,unsigned int len)
  {
-@@ -85,9 +88,17 @@ static int randombind(struct dns_transmi
+   char out[12];
+@@ -83,11 +119,26 @@ void dns_transmit_free(struct dns_transm
+ static int randombind(struct dns_transmit *d)
+ {
    int j;
++  char localip[16];
  
++  byte_copy(localip,16,d->localip);
++
++#ifdef DJB_V6ONLY
++  /*
++   * If we are calling an IPv4 server from an IPv6-transport tool,
++   * we probably bind ourselves to an IPv6 socket (d'uh), so, in
++   * the IPv4 case use INADDR_ANY as local bind address instead.
++   */
++  if (callv4)
++    byte_zero(localip,4);
++#endif /* DJB_V6ONLY */
++
    for (j = 0;j < 10;++j)
-+#ifndef DJB_V6ONLY
-     if (socket_bind4(d->s1 - 1,d->localip,1025 + dns_random(64510)) == 0)
-+#else
-+    if (socket_bind6(d->s1 - 1,d->localip,1025 + dns_random(64510),d->scope_id) == 0)
-+#endif /* DJB_V6ONLY */
+-    if (socket_bind4(d->s1 - 1,d->localip,1025 + dns_random(64510)) == 0)
++    if ((callv4 ? socket_bind4(d->s1 - 1,localip,1025 + dns_random(64510))
++     : socket_bind6(d->s1 - 1,localip,1025 + dns_random(64510),d->scope_id)) == 0)
        return 0;
-+#ifndef DJB_V6ONLY
-   if (socket_bind4(d->s1 - 1,d->localip,0) == 0)
-+#else
-+  if (socket_bind6(d->s1 - 1,d->localip,0,d->scope_id) == 0)
-+#endif /* DJB_V6ONLY */
+-  if (socket_bind4(d->s1 - 1,d->localip,0) == 0)
++  if ((callv4 ? socket_bind4(d->s1 - 1,localip,0)
++   : socket_bind6(d->s1 - 1,localip,0,d->scope_id)) == 0)
      return 0;
    return -1;
  }
-@@ -102,16 +113,29 @@ static int thisudp(struct dns_transmit *
+@@ -102,16 +153,26 @@ static int thisudp(struct dns_transmit *
  
    while (d->udploop < 4) {
      for (;d->curserver < 16;++d->curserver) {
@@ -39,27 +88,26 @@ $MirOS$
 +#else
 +      ip = d->servers + 16 * d->curserver;
 +      if (byte_diff(ip,16,V6any)) {
++	if (byte_equal(ip,12,V4mappedprefix))
++	  callv4 = 1;
++	else
++	  callv4 = 0;
 +#endif /* DJB_V6ONLY */
  	d->query[2] = dns_random(256);
  	d->query[3] = dns_random(256);
    
-+#ifndef DJB_V6ONLY
-         d->s1 = 1 + socket_udp();
-+#else
-+        d->s1 = 1 + socket_udp6();
-+#endif /* DJB_V6ONLY */
+-        d->s1 = 1 + socket_udp();
++        d->s1 = 1 + (callv4 ? socket_udp() : socket_udp6());
          if (!d->s1) { dns_transmit_free(d); return -1; }
  	if (randombind(d) == -1) { dns_transmit_free(d); return -1; }
  
-+#ifndef DJB_V6ONLY
-         if (socket_connect4(d->s1 - 1,ip,53) == 0)
-+#else
-+        if (socket_connect6(d->s1 - 1,ip,53,d->scope_id) == 0)
-+#endif /* DJB_V6ONLY */
+-        if (socket_connect4(d->s1 - 1,ip,53) == 0)
++	if ((callv4 ? socket_connect4(d->s1 - 1,ip + callv4ofs,53)
++	 : socket_connect6(d->s1 - 1,ip,53,d->scope_id)) == 0)
            if (send(d->s1 - 1,d->query + 2,d->querylen - 2,0) == d->querylen - 2) {
              struct taia now;
              taia_now(&now);
-@@ -153,19 +177,32 @@ static int thistcp(struct dns_transmit *
+@@ -153,19 +214,29 @@ static int thistcp(struct dns_transmit *
    packetfree(d);
  
    for (;d->curserver < 16;++d->curserver) {
@@ -69,30 +117,29 @@ $MirOS$
 +#else
 +    ip = d->servers + 16 * d->curserver;
 +    if (byte_diff(ip,16,V6any)) {
++      if (byte_equal(ip,12,V4mappedprefix))
++	callv4 = 1;
++      else
++	callv4 = 0;
 +#endif /* DJB_V6ONLY */
        d->query[2] = dns_random(256);
        d->query[3] = dns_random(256);
  
-+#ifndef DJB_V6ONLY
-       d->s1 = 1 + socket_tcp();
-+#else
-+      d->s1 = 1 + socket_tcp6();
-+#endif /* DJB_V6ONLY */
+-      d->s1 = 1 + socket_tcp();
++      d->s1 = 1 + (callv4 ? socket_tcp() : socket_tcp6());
        if (!d->s1) { dns_transmit_free(d); return -1; }
        if (randombind(d) == -1) { dns_transmit_free(d); return -1; }
    
        taia_now(&now);
        taia_uint(&d->deadline,10);
        taia_add(&d->deadline,&d->deadline,&now);
-+#ifndef DJB_V6ONLY
-       if (socket_connect4(d->s1 - 1,ip,53) == 0) {
-+#else
-+      if (socket_connect6(d->s1 - 1,ip,53,d->scope_id) == 0) {
-+#endif /* DJB_V6ONLY */
+-      if (socket_connect4(d->s1 - 1,ip,53) == 0) {
++      if ((callv4 ? socket_connect4(d->s1 - 1,ip + callv4ofs,53)
++       : socket_connect6(d->s1 - 1,ip,53,d->scope_id)) == 0) {
          d->tcpstate = 2;
          return 0;
        }
-@@ -193,7 +230,11 @@ static int nexttcp(struct dns_transmit *
+@@ -193,7 +264,11 @@ static int nexttcp(struct dns_transmit *
    return thistcp(d);
  }
  
@@ -104,7 +151,7 @@ $MirOS$
  {
    unsigned int len;
  
-@@ -213,7 +254,11 @@ int dns_transmit_start(struct dns_transm
+@@ -213,7 +288,11 @@ int dns_transmit_start(struct dns_transm
  
    byte_copy(d->qtype,2,qtype);
    d->servers = servers;

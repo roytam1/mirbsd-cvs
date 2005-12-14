@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_okclient_c,v 1.1.201.1 2005/05/14 23:21:04 tg Exp $
 --- src/okclient.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/okclient.c	Sat May 14 22:27:17 2005
-@@ -2,24 +2,52 @@
++++ src/okclient.c	Tue Dec 13 21:44:32 2005
+@@ -2,24 +2,56 @@
  #include <sys/stat.h>
  #include "str.h"
  #include "ip4.h"
@@ -11,7 +11,11 @@ $MirOS$
 +#endif /* DJB_V6ONLY */
  #include "okclient.h"
  
++#ifndef DJB_V6ONLY
  static char fn[3 + IP4_FMT];
++#else
++static char fn[3 + IP6_FMT];
++#endif /* DJB_V6ONLY */
  
 +#ifndef DJB_V6ONLY
  int okclient(char ip[4])
