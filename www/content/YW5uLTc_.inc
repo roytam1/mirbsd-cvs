@@ -252,7 +252,8 @@ raid0&quot; (or -A root) and reboot, after which the installer should
 automatically recognize it.</p>
 
 <p>If you have support inquiries or other questions, please visit the IRC
- channel <tt>#deutsch</tt> on the OFTC network: <a
+ channel <tt>#mirbsd</tt> on the Freeforge network: thor.66h.42h.de or
+ irc.freeforge.net.<br />We used to be in #deutsch at OFTC: <a
  href="http://www.oftc.net/">irc6.oftc.net</a> (or irc.oftc.net for all
  these people who only have IPv4 instead of full Internet access).<br />
  Earlier we have been in the Freenode PDPC (OPN) IRC network: <a
@@ -280,7 +281,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.5 2005/12/06 13:37:53 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.6 2005/12/06 18:12:48 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.2 2005/07/18 01:26:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.3 2005/07/24 15:59:24 tg Exp $</small>
 <h1>Project Ideas</h1>
 
 <p>The following project ideas can be submitted to the MirOS Project
@@ -11,6 +11,35 @@
  licence is OK. We suggest to not add advertising clauses, though.</p>
 
 <h2>List of ideas</h2><ul>
+
+<li>Fix annoying bugs in nroff, especially these which prevent it from
+ outputting correctly formatted manual pages when not built with -O1 or
+ -fno-omit-frame-pointer on gcc 3.4-stable snapshots (even on Debian).
+ If the code is also cleaned up a bit, chances are it will make into
+ stock OpenBSD at least for plain nroff support. Also, ask Brian Kerninghan
+ for a licence for ditroff, start hacking on it instead (tg@ has got the
+ sources, they just lack a licence and copyright marker).<br />
+ The first bug you should look at is even exposed when using -O1:<pre>
+	On a side note: does anyone who is experienced in C
+	and gdb (I'm not familiar with the latter...) want to
+	fix the bugs in src/usr.bin/oldroff/nroff/ which make
+	it show
+	|     The options that operate on the names of files or archive members
+	|     (-c,-i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.
+	in the pax(1) manual page, instead of (hand-edited)
+	|     The options that operate on the names of files or archive members (-c,
+	|     -i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.
+	or, depending on the line length,
+	|     The options that operate on the names of files or archive members
+	|     (-c, -i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.
+
+	This is .Po and .Pc, all others (.Qo/.Qc and so on) are
+	broken the same way, and it gets worse if you build nroff
+	with -O2/-Os instead of -O1 (-funit-at-a-time also exhibits
+	the bug, but this time I'm convinced it's a bug in nroff).
+ </pre>(from an eMail)<br />
+
+ Estimated effort: Time - medium; Skill - low</li>
 
 <li>Port MirOS BSD to the Xen machine virtualisation technique. This can
  probably be done by looking at the NetBSD code and giving credit

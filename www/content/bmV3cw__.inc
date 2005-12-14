@@ -1,6 +1,11 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.39 2005/12/06 00:00:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.40 2005/12/07 00:41:17 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>14.12.2005<br />Updating project servers to new snapshot; expect some,
+	minor, instabilities. Switched IRC channel from OFTC to FreeForge,
+	with SSL soon and VPN already enabled: server thor.66h.42h.de:6667
+	or irc.freeforge.net:6667 channel #mirbsd</li>
 
 <li>07.12.2005<br />New i386 binary snapshot, source snapshot and CVS repo
 	cpio bowl available for public download. Happy Birthday!</li>

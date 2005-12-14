@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.32 2005/12/06 13:37:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.33 2005/12/07 00:41:17 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -44,7 +44,7 @@
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
  WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!</p>
 <p><a href="/MirOS/CVS/cvsrepo-20051207.cgz">CVSREPO</a>: December 7th, 2005:
- seed file (ca. 150 MiB, gzsig(1)d) for reducing the initial transfer costs.
+ seed file (150.5 MiB, gzsig(1)d) for reducing the initial transfer costs.
  We'd like to offer CTM; it is available on request but nobody asked yet.</p>
 <p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
  final and complete seed file (325 MB) for the historic old repository.</p>
