@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.5 2005/12/06 03:11:40 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.6 2005/12/06 13:44:50 tg Exp $
 #-
 # Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -352,7 +352,7 @@ while (( j < ${#files[*]} )); do
 	new=${fnew[j]}
 	[[ $new = NONE ]] && new=0
 	print -r -- "cvs rdiff -ur$old -r$new $fn" >>$diff
-	print -r -- "$id	$fn" >>$repo/Logs/idcache
+	[[ -n $logfile ]] && print -r -- "$id	$fn" >>${logfile%/*}/idcache
 	let ++j
 done
 
