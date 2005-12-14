@@ -1,9 +1,9 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.1.7.1 2005/03/18 15:52:04 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.2 2005/11/18 00:22:05 tg Exp $
 
 COMMENT=		"collection of tools for managing unix services"
 CATEGORIES=		sysutils
 DISTNAME=		daemontools-0.76
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 HOMEPAGE=		http://cr.yp.to/daemontools.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
@@ -32,16 +32,19 @@ WRKDIST=	${WRKDIR}
 do-build:
 	@echo ${CC} ${CFLAGS} >${WRKSRC}/admin/${DISTNAME}/src/conf-cc
 	@echo ${CC} ${CFLAGS} ${LDFLAGS} >${WRKSRC}/admin/${DISTNAME}/src/conf-ld
-	@echo ${PREFIX} > ${WRKSRC}/admin/${DISTNAME}/src/home
+	@echo ${PREFIX} >${WRKSRC}/admin/${DISTNAME}/src/home
 	cd ${WRKSRC}/admin/${DISTNAME}/src && make it
 
 do-install:
 .for i in ${BINLIST}
-	${INSTALL_PROGRAM} ${WRKSRC}/admin/${DISTNAME}/src/$i ${PREFIX}/bin
+	${INSTALL_PROGRAM} ${WRKSRC}/admin/${DISTNAME}/src/$i ${PREFIX}/bin/
 .endfor
-	cd ${WRKSRC}/admin/${DISTNAME}/src && \
-		sed s,/command/svc,/usr/local/bin/svc, <svscanboot >svscanboot.new
-	${INSTALL_SCRIPT} ${WRKSRC}/admin/${DISTNAME}/src/svscanboot.new ${PREFIX}/bin/svscanboot
+	for a in ${WRKSRC}/admin/${DISTNAME}/src/svscanboot \
+	    ${WRKDIR}/daemontools-man/svscanboot.8; do \
+		chmod u+w $$a; \
+		print '%g!/usr/local!s!!${TRUEPREFIX}!g\nwq' | ed -s $$a; \
+	done
+	${INSTALL_SCRIPT} ${WRKSRC}/admin/${DISTNAME}/src/svscanboot ${PREFIX}/bin/
 .for i in ${MAN8LIST}
 	${INSTALL_MAN} ${WRKDIR}/daemontools-man/$i.8 ${PREFIX}/man/man8
 .endfor
