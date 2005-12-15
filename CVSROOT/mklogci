@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.6 2005/12/06 13:44:50 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.7 2005/12/14 23:49:48 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -194,7 +194,7 @@ done
 [[ -z $module ]] && module=${pathr%%/*}
 [[ -n $logfile && $logfile != */* ]] && logfile=$repo/$module/$logfile
 if [[ -e $modf ]]; then
-	[[ $(<$modf) = $module ]] || print multiple >$modf
+	[[ $(<$modf) = $module ]] || print \(multiple\) >$modf
 else
 	print $module >$modf
 fi
