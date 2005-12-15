@@ -1,0 +1,21 @@
+$MirOS$
+--- build.orig	Wed May  4 21:22:00 2005
++++ build	Thu Dec 15 13:45:24 2005
+@@ -464,13 +464,14 @@ case $maketarg in
+ 	then
+ 	    cd "$PHOME"
+ 	    rm .pine.sedargs
+-	    echo -n " -e s/\/usr\/local\/lib\/pine.conf/\/etc\/pine.conf/" > .pine.sedargs
+-	    echo -n " -e s/\/usr\/local\/lib\/pine.info/\/etc\/pine.info/" >> .pine.sedargs
++	    echo -n " -e s/\/usr\/local\/lib\/pine.conf/@ETC@\/pine.conf/" > .pine.sedargs
++	    echo -n " -e s/\/usr\/local\/lib\/pine.info/@ETC@\/pine.info/" >> .pine.sedargs
+ 	    echo -n " -e s/\/usr\/lib\/sendmail/\/usr\/sbin\/sendmail/" >> .pine.sedargs
+ 	    echo -n " -e s/\/usr\/spool\/news/\/var\/spool\/news/" >> .pine.sedargs
+ 	    echo -n " -e s/\/usr\/spool\/mail/\/var\/spool\/mail/" >> .pine.sedargs
+ 	    echo -n " -e s/\/bin\/passwd/\/usr\/bin\/passwd/" >> .pine.sedargs
+-	    PINEEXTRAC="'LOCALPINECFLAGS=-DSYSTEM_PINERC=\\\"/etc/pine.conf\\\" -DSYSTEM_PINERC_FIXED=\\\"/etc/pine.conf.fixed\\\" -DSYSTEM_PINE_INFO_PATH=\\\"/etc/pine.info\\\"'"
++	    ( echo "%g!@ETC@!s!!`echo ${SYSCONFDIR}|sed 's!/!\\\\\\\\\\\\\\\\/!g'`!g"; echo wq ) | ed -s .pine.sedargs
++	    PINEEXTRAC="'LOCALPINECFLAGS=-DSYSTEM_PINERC=\\\"${SYSCONFDIR}/pine.conf\\\" -DSYSTEM_PINERC_FIXED=\\\"${SYSCONFDIR}/pine.conf.fixed\\\" -DSYSTEM_PINE_INFO_PATH=\\\"${SYSCONFDIR}/pine.info\\\"'"
+ 	fi
+         cd "$PHOME/pine"
+         eval echo make "$makeargs" "$L1" "$L2" "$PINEEXTRAC" -f makefile.$pinetarg

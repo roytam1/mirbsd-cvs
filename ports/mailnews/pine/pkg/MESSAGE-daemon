@@ -13,5 +13,5 @@ To use SSL as default transport you need to add the lines below to
   imaps	stream	tcp	nowait	root	${PREFIX}/libexec/imapd 	imapd
 
 You also need to install files containing an RSA certificate and private key
-to /etc/ssl/ipop3d.pem and /etc/ssl/imapd.pem. See ssl(8) for how to do this.
+to ${SYSCONFDIR}/ssl/ipop3d.pem and ${SYSCONFDIR}/ssl/imapd.pem. See ssl(8) for how to do this.
 

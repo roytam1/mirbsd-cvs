@@ -1,7 +1,10 @@
-$MirOS: ports/mailnews/pine/patches/patch-pine_pine_hlp,v 1.2 2005/05/04 23:37:41 tg Exp $
+$MirOS: ports/mailnews/pine/patches/patch-pine_pine_hlp,v 1.3 2005/10/07 19:40:57 tg Exp $
 $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
+
+ATTN: third chunk must look @ETC@/mailcap
+
 --- pine/pine.hlp.orig	Wed Sep 28 17:56:07 2005
-+++ pine/pine.hlp	Fri Oct  7 19:12:55 2005
++++ pine/pine.hlp	Thu Dec 15 13:49:52 2005
 @@ -341,10 +341,11 @@ Additions included:
  <P>
  
@@ -33,13 +36,15 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
   crash		~/.pine-crash
   newsrc#        ~/.newsrc
   signature#     &lt;pinerc dir&gt;/.signature
-@@ -1010,8 +1011,7 @@ Unix Pine:
+@@ -1009,9 +1010,8 @@ Unix Pine:
+  addrbook lu    &lt;pinerc dir&gt;/.addressbook.lu  (appends .lu to addrbk name.)
   postponed#     ~/mail/postponed-msgs
   sentmail#      ~/mail/sent-mail
-  mailcap#       ~/.mailcap + /etc/mailcap
+- mailcap#       ~/.mailcap + /etc/mailcap
 -                           + /usr/etc/mailcap + /usr/local/etc/mailcap
 - mimetypes#     ~/.mime.types + /etc/mime.types + /usr/local/lib/mime.types
-+ mimetypes#     ~/.mime.types + /etc/mime.types + /etc/mime.types
++ mailcap#       ~/.mailcap + /etc/mailcap + @ETC@/mailcap
++ mimetypes#     ~/.mime.types + /etc/mime.types + @ETC@/mime.types
  
   news-spool	varies across Unix flavors, e.g. /var/spool/news or /usr/spool/news
   active-news	varies across Unix flavors, e.g. /usr/lib/news/active
@@ -58,7 +63,7 @@ $OpenBSD: patch-pine_pine_hlp,v 1.4 2003/10/05 21:42:29 jakob Exp $
  <!--chtml else-->
  a colon (:) under UNIX; for example:<PRE>
 -        ~/.mailcap:/etc/mailcap:/usr/etc/mailcap:/usr/local/etc/mailcap
-+        ~/.mailcap:/etc/mailcap
++        ~/.mailcap:/etc/mailcap:@ETC@/mailcap
  </PRE>
  <!--chtml endif-->
  <P><UL>

@@ -1,11 +1,7 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.14 2005/10/07 20:00:38 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.15 2005/10/07 20:02:38 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
-
-.if ${SYSCONFDIR} != "/etc"
-BROKEN=			does not honour a different SYSCONFDIR
-.endif
 
 COMMENT=		"program for Internet News and eMail"
 COMMENT-cclient=	"University of Washington c-client mail access routines"
@@ -18,21 +14,22 @@ VERSION=		4.64
 PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
-CCLIENT_PATCHLEV=	2
+CCLIENT_PATCHLEV=	3
+PICOLOT_PATCHLEV=	2
 DISTNAME=		pine${VERSION}
 PKGNAME=		pine-${VERSION}-${CCLIENT_PATCHLEV}
 PKGNAME-cclient=	c-client-${VERSION}-${CCLIENT_PATCHLEV}
 PKGNAME-daemon=		imap-uw-${IMAP_VERSION}-${CCLIENT_PATCHLEV}
 PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}-${CCLIENT_PATCHLEV}
-FULLPKGNAME-pico=	pico-${PICO_VERSION}-1
-FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}-1
+FULLPKGNAME-pico=	pico-${PICO_VERSION}-${PICOLOT_PATCHLEV)
+FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}-${PICOLOT_PATCHLEV}
 MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/old/ \
 			ftp://ftp.cac.washington.edu/pine/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/
 EXTRACT_SUFX=		.tar.Z
 HOMEPAGE=		http://www.washington.edu/pine/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
 # Free, but cannot distribute with non-opensource on same media.
 # Modified versions must be marked as such.
@@ -79,19 +76,31 @@ LIB_HEADERS=		c-client.h env.h env_unix.h flstring.h fs.h ftl.h \
 			imap4r1.h linkage.c linkage.h mail.h misc.h nl.h \
 			nntp.h osdep.h rfc822.h smtp.h tcp.h utf8.h
 
+ATSED=			-e 's!@SHELL@!${SHELL}!g' \
+			-e 's!@PREFIX@!${TRUEPREFIX}!g' \
+			-e 's!@ETC@!${SYSCONFDIR}!g'
+ATSED_DEPS=		imap/src/osdep/unix/env_unix.h pine/osdep/os-bso.h \
+			pine/pine.hlp
+ATSED_FILES=		doc/pine.1 imap/src/tmail/tmail.1
+
 post-extract:
 	@cp ${FILESDIR}/ckp_bso.c ${WRKSRC}/imap/src/osdep/unix/
 
 do-build:
 .for _i in pine.smime.init pine.smime dot.pinerc.pgp.sample
-	sed -e 's#@SHELL@#${SHELL}#g' -e 's#@PREFIX@#${PREFIX}#g' \
-	    <${FILESDIR}/${_i} >${WRKBUILD}/${_i}
+	sed ${ATSED} <${FILESDIR}/${_i} >${WRKBUILD}/${_i}
 .endfor
-	sed -e 's#!!PREFIX!!#${PREFIX}#g' -e 's#!!ETC!!#${SYSCONFDIR}#g' \
-	    ${WRKSRC}/doc/tech-notes.txt >${WRKBUILD}/doc/tech-notes.txt.new
+	sed ${ATSED} ${WRKSRC}/doc/tech-notes.txt \
+	    >${WRKBUILD}/doc/tech-notes.txt.new
+.for _i in ${ATSED_DEPS}
+	cd ${WRKSRC} && mv ${_i} ${_i}.bak && sed ${ATSED} <${_i}.bak >${_i}
+.endfor
 	@cd ${WRKSRC}; ./build ${PINE_BUILD_FLAGS} bso
 
 do-install:
+.for _i in ${ATSED_FILES}
+	cd ${WRKSRC} && mv ${_i} ${_i}.bak && sed ${ATSED} <${_i}.bak >${_i}
+.endfor
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/pine
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/imap-uw
 	${INSTALL_DATA_DIR} ${PREFIX}/include/c-client
