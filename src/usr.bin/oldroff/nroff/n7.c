@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n7.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -722,7 +722,7 @@ int x;
 	}
 	swp = widthp;
 	storeword(' ' | chbits, -1);
-	if(spflg){
+	if(spflg > 0){
 		storeword(' ' | chbits, -1);
 		spflg = 0;
 	}
@@ -755,9 +755,10 @@ g1:
 	if(j != ' '){
 		if(j != '\n')goto g0;
 		j = *(wordp-1) & CMASK;
-		if((j == '.') ||
+		if((spflg == 0) &&
+		  ((j == '.') ||
 		   (j == '!') ||
-		   (j == '?'))spflg++;
+		   (j == '?')))spflg++;
 	}
 	*wordp = 0;
 rtn:

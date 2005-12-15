@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.3 2005/07/09 15:53:30 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -67,7 +67,7 @@ jmp_buf sjbuf;
 #include <termios.h>
 
 __SCCSID("@(#)n1.c	4.13 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.2 2005/04/13 18:21:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.3 2005/07/09 15:53:30 tg Exp $");
 
 /*
 troff1.c
@@ -174,6 +174,7 @@ extern int tdelim;
 extern int dotT;
 extern int tabch, ldrch;
 extern int eqflg;
+extern int spflg;
 extern no_out;
 extern int hflg;
 #ifndef NROFF
@@ -275,6 +276,9 @@ options:
 			continue;
 		case 'e':
 			eqflg++;
+			continue;
+		case 'B':
+			spflg = -1;
 			continue;
 		case 'T':
 			p = &termtab[tti];
