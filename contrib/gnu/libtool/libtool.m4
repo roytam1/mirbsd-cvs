@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.43 2005/11/16 18:06:02 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.44 2005/12/05 14:29:50 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1755,6 +1755,7 @@ linux*)
 
 mirbsd*)
   version_type=linux
+  sys_lib_dlsearch_path_spec="/usr/lib"
   need_lib_prefix=no
   need_version=no
   library_names_spec='${libname}${release}${shared_ext}$versuffix2 ${libname}${shared_ext}$versuffix2'
@@ -1812,6 +1813,7 @@ nto-qnx*)
 
 openbsd*)
   version_type=linux
+  sys_lib_dlsearch_path_spec="/usr/lib"
   need_lib_prefix=no
   # Some older versions of OpenBSD (3.3 at least) *do* need versioned libs.
   case $host_os in
