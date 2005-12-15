@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/genlog,v 1.4 2005/12/06 00:33:53 tg Exp $
+# $MirOS: CVSROOT/genlog,v 1.5 2005/12/06 23:26:09 tg Exp $
 #-
 # Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,

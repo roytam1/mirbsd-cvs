@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.7 2005/12/06 02:04:33 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.8 2005/12/06 03:11:40 tg Exp $
 #-
 # Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@MirBSD.de>
+#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,

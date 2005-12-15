@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.11 2005/12/06 13:44:50 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.12 2005/12/15 01:55:52 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
