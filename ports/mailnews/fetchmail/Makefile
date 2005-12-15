@@ -1,29 +1,30 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.98 2003/10/15 23:08:49 fgsch Exp $
+# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.1.7.1 2005/03/18 15:49:34 tg Exp $
+# $OpenBSD: Makefile,v 1.104 2005/10/27 21:58:51 bernd Exp $
 
-COMMENT=	"mail retrieval utility for POP2, POP3, IMAP and more"
+COMMENT=		"mail retrieval utility for POP2, POP3, IMAP, and more"
 
-DISTNAME=	fetchmail-6.2.5
-CATEGORIES=	mail
-MASTER_SITES=	http://catb.org/~esr/fetchmail/ \
-		ftp://ftp.ccil.org/pub/esr/fetchmail/ 
+DISTNAME=		fetchmail-6.2.5.2
+CATEGORIES=		mail
+MASTER_SITES=		http://download.berlios.de/fetchmail/
+HOMEPAGE=		http://fetchmail.berlios.de/
 
-HOMEPAGE=	http://catb.org/~esr/fetchmail/
-
-
+# GPL
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	concurrent
-CONFIGURE_STYLE= gnu
-CONFIGURE_ARGS=	--disable-nls --enable-inet6 --with-ssl \
-		--without-kerberos --without-kerberos5 --enable-NTLM
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="$(LDFLAGS) -L${LOCALBASE}/lib"
+SEPARATE_BUILD=		concurrent
+CONFIGURE_STYLE=	gnu
+CONFIGURE_ARGS+=	--disable-nls --enable-inet6 --with-ssl \
+			--without-kerberos --enable-NTLM
+.if ${OStype} == "OpenBSD"
+CONFIGURE_ARGS+=	--with-kerberos5
+.else
+CONFIGURE_ARGS+=	--without-kerberos5
+.endif
 
-NO_REGRESS=	Yes
+NO_REGRESS=		Yes
 
 DOCS=	FAQ NOTES FEATURES README COPYING fetchmail-FAQ.html \
 	fetchmail-features.html design-notes.html todo.html
