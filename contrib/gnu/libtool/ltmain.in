@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.28 2005/12/05 14:29:50 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.29 2005/12/06 19:53:02 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -1525,8 +1525,22 @@ EOF
 	  esac
 	elif test "X$arg" = "X-lc_r"; then
 	 case $host in
-	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
+	 *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
 	   # Do not include libc_r directly, use -pthread flag.
+	   continue
+	   ;;
+	 esac
+	elif test "X$arg" = "X-ldl"; then
+	 case $host in
+	 *-*-mirbsd*)
+	   # Dummy library, no shared version
+	   continue
+	   ;;
+	 esac
+	elif test "X$arg" = "X-lresolv"; then
+	 case $host in
+	 *-*-mirbsd* | *-*-openbsd*)
+	   # Dummy library, no shared version
 	   continue
 	   ;;
 	 esac
