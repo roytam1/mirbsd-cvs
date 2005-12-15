@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.1 2005/05/23 12:12:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.2 2005/08/03 21:58:56 tg Exp $</small>
 
 <h1>FAQ</h1>
 
@@ -13,6 +13,7 @@
 <ol>
 <li><a href="#s_comm">General</a><ul>
  <li><a href="#comm_donate">Do you guys eat air or what?</a></li>
+ <li><a href="/?about">About MirOS</a></li>
  <li>...</li>
 </ul></li>
 <li><a href="#s_down">Downloading</a><ul>
