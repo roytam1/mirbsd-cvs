@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.10 2005/12/15 02:03:37 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.9 2005/12/15 01:55:52 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -218,7 +218,6 @@ set -A added_files
 set -A removed_files
 set -A log_lines
 while IFS= read line; do
-print -u2 "read <$line>"
 	case $line {
 	(Modified\ Files*)
 		status=changed
@@ -235,7 +234,7 @@ print -u2 "read <$line>"
 	}
 
 	# Delete leading/trailing whitespace
-	[[ $state = log ]] || line=${line##*([	 ])}
+	[[ $status = log ]] || line=${line##*([	 ])}
 	line=${line%%*([	 ])}
 
 	case $status {
@@ -253,8 +252,6 @@ print -u2 "read <$line>"
 		done ;;
 	(log)
 		log_lines[${#log_lines[*]}]=$line
-print -u2 "line <$line> to log_lines"
-print -u2 "logl <$line>"
 		;;
 	}
 
