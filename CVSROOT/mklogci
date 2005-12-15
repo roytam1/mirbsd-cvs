@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.9 2005/12/15 01:55:52 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.10 2005/12/15 02:03:37 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -218,6 +218,7 @@ set -A added_files
 set -A removed_files
 set -A log_lines
 while IFS= read line; do
+print -u2 "read <$line>"
 	case $line {
 	(Modified\ Files*)
 		status=changed
@@ -279,14 +280,10 @@ while (( i < ${#log_lines[*]} )); do
 		print >>$msgf
 		isblank=1
 	else
-print -ru2 -- "logging <$sp${log_lines[i]}>"
 		print -r -- "$sp${log_lines[i++]}" >>$msgf
 		isblank=0
 	fi
 done
-print -u2 -- -- msgf begin
-cat $msgf >&2
-print -u2 -- -- msgf end
 
 # Check for an import command
 if [[ ${fold[0]} = "- Imported sources" ]]; then
