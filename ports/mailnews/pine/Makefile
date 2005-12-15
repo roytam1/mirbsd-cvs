@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.15 2005/10/07 20:02:38 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.16 2005/12/15 14:24:17 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -21,7 +21,7 @@ PKGNAME=		pine-${VERSION}-${CCLIENT_PATCHLEV}
 PKGNAME-cclient=	c-client-${VERSION}-${CCLIENT_PATCHLEV}
 PKGNAME-daemon=		imap-uw-${IMAP_VERSION}-${CCLIENT_PATCHLEV}
 PKGNAME-mailutil=	mailutil-uw-${IMAP_VERSION}-${CCLIENT_PATCHLEV}
-FULLPKGNAME-pico=	pico-${PICO_VERSION}-${PICOLOT_PATCHLEV)
+FULLPKGNAME-pico=	pico-${PICO_VERSION}-${PICOLOT_PATCHLEV}
 FULLPKGNAME-pilot=	pilot-${PILOT_VERSION}-${PICOLOT_PATCHLEV}
 MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/old/ \
