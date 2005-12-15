@@ -6,7 +6,7 @@
 	<li><a href="/?older">Old News</a> &amp; Log</li>
     </ul></li>
 <li><a href="/?faq">FAQ</a></li>
-<li><a href="/?about">About</a></li>
+<li><a href="http://mirbsd.de/irc">IRC</a></li>
 <li><a href="/?getting">Download</a><ul class="lv2">
 	<li><a href="/?mirrors">Mirrors</a></li>
     </ul></li>
