@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.32 2005/12/14 23:11:45 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.33 2005/12/14 23:47:26 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -542,7 +542,7 @@ make depend
 make PORTABLE=Yes PKG_USER="$myuid"
 make install
 set +e
-rm -rf {rtfm,pkg,lib,info,delete,create,add}/obj
+rm -rf {add,create,delete,info,lib,pkg,rtfm,upgrade}/obj
 unset LOCALBASE
 cd $T
 
