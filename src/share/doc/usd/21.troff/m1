@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/doc/usd/21.troff/m1,v 1.1.7.1 2005/03/06 16:17:47 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -553,7 +553,7 @@ Any adjacent pair of words that must be kept together
 in the adjustment process)
 can be tied together by separating them with the
 \fIunpaddable space\fR character
-"\fB\e\ \ \fR" (backslash-space).
+"\fB\e\ \fR" (backslash-space).
 The adjusted word spacings are uniform in \*(TR
 and the minimum interword spacing can be controlled
 with the \fBss\fR request (\(sc2).
