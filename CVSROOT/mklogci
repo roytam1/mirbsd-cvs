@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.7 2005/12/14 23:49:48 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.8 2005/12/15 01:25:41 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -113,9 +113,9 @@ function addnames
 function addflist
 {
 	set -A add_names
-	read dir
+	IFS= read dir
 	[[ $dir = */ ]] || die addflist "($dir)" does not look like a directory
-	while read fn; do
+	while IFS= read fn; do
 		if [[ $fn = */ ]]; then
 			addnames
 			dir=$fn
@@ -217,7 +217,7 @@ set -A changed_files
 set -A added_files
 set -A removed_files
 set -A log_lines
-while read line; do
+while IFS= read line; do
 	case $line {
 	(Modified\ Files*)
 		status=changed
