@@ -1,7 +1,8 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.5 2005/12/03 22:05:08 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.6 2005/12/15 01:43:00 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
 DISTNAME=		mirmake-20051215
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
@@ -15,6 +16,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/mirmake
 NO_REGRESS=		Yes
+MAKE_ENV+=		NROFF=${NROFF:C/ *$//:Q}
 
 .if ${OStype} == "Darwin"
 FMANDIR=		man/man
