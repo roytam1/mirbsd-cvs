@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $ */
+/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.3 2005/12/16 16:09:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -124,7 +124,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.2 2005/03/06 19:23:58 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.3 2005/12/16 16:09:45 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -265,7 +265,7 @@ main(int argc, char *argv[])
 		    them, ntohs(peer_sa.sin_port),
 		    us, ntohs(my_sa.sin_port));
 #endif /* def USE_SYSLOG */
-		execle("/usr/bin/cvs", "cvs",
+		execle("/bin/cvs", "cvs",
 		    "--allow-root=" LOCALROOT, "pserver", NULL, env);
 		perror("execle: cvs");
 		fprintf(stderr, "unable to exec CVS pserver!\n");
@@ -279,7 +279,7 @@ main(int argc, char *argv[])
 		if ((!strcmp("cvs server", argv[2])) ||
 		    (!strcmp("cvs -R server", argv[2])) ||
 		    (!strcmp("cvs -d " LOCALROOT " server", argv[2]))) {
-			execle("/usr/bin/cvs", "cvs", "server", NULL, env);
+			execle("/bin/cvs", "cvs", "server", NULL, env);
 			perror("execle: cvs");
 			DO_LOG("chaining to CVS failed!");
 			fprintf(stderr, "unable to exec CVS server!\n");
