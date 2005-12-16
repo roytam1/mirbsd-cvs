@@ -1,13 +1,13 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.29 2005/12/06 19:53:02 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.29 2005/12/06 19:53:02 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.33 2005/12/16 14:44:55 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.33 2005/12/16 14:44:55 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 # Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 # MirLibtool patches contributed 2004, 2005 by
-# Thorsten Glaser <tg@66h.42h.de> for the MirOS Project
+# Thorsten Glaser <tg@mirbsd.de> for the MirOS Project
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.21a
-TIMESTAMP=" (MirLibtool 2005/12/06 19:54:36)"
+TIMESTAMP=" (MirLibtool 2005/12/16 14:49:40)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -355,6 +355,8 @@ func_extract_archives ()
 # Darwin sucks
 eval std_shrext=\"$shrext_cmds\"
 
+disable_libs=no
+
 # Parse our command line options once, thoroughly.
 while test "$#" -gt 0
 do
@@ -476,7 +478,6 @@ do
     prev=tag
     preserve_args="$preserve_args --tag"
     ;;
-
   --tag=*)
     set tag "$optarg" ${1+"$@"}
     shift
@@ -507,6 +508,18 @@ if test -n "$prevopt"; then
   $echo "$help" 1>&2
   exit $EXIT_FAILURE
 fi
+
+case $disable_libs in
+no)
+  ;;
+shared)
+  build_libtool_libs=no
+  build_old_libs=yes
+  ;;
+static)
+  build_old_libs=`case $build_libtool_libs in yes) $echo no;; *) $echo yes;; esac`
+  ;;
+esac
 
 # If this variable is set in any of the actions, the command in it
 # will be execed at the end.  This prevents here-documents from being
@@ -1368,8 +1381,8 @@ EOF
 	  prev=
 	  continue
 	  ;;
-	darwin_framework)
-	  compiler_flags="$compiler_flags $arg"
+	darwin_framework|darwin_framework_skip)
+	  test "$prev" = "darwin_framework" && compiler_flags="$compiler_flags $arg"
 	  compile_command="$compile_command $arg"
 	  finalize_command="$finalize_command $arg"
 	  prev=
@@ -1434,8 +1447,12 @@ EOF
 	;;
 
       -framework|-arch|-isysroot)
-        prev=darwin_framework
-        compiler_flags="$compiler_flags $arg"
+	case " $CC " in
+	  *" ${arg} ${1} "* | *" ${arg}	${1} "*) 
+		prev=darwin_framework_skip ;;
+	  *) compiler_flags="$compiler_flags $arg"
+	     prev=darwin_framework ;;
+	esac
 	compile_command="$compile_command $arg"
 	finalize_command="$finalize_command $arg"
 	continue
@@ -1526,8 +1543,22 @@ EOF
 	  esac
 	elif test "X$arg" = "X-lc_r"; then
 	 case $host in
-	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
+	 *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
 	   # Do not include libc_r directly, use -pthread flag.
+	   continue
+	   ;;
+	 esac
+	elif test "X$arg" = "X-ldl"; then
+	 case $host in
+	 *-*-mirbsd*)
+	   # Dummy library, no shared version
+	   continue
+	   ;;
+	 esac
+	elif test "X$arg" = "X-lresolv"; then
+	 case $host in
+	 *-*-mirbsd* | *-*-openbsd*)
+	   # Dummy library, no shared version
 	   continue
 	   ;;
 	 esac
@@ -2636,7 +2667,7 @@ EOF
 	      fi
 	      ;;
 	    relink)
-	      if test "$hardcode_direct" = yes && test -f $dir/$linklib; then
+	      if test "$hardcode_direct" = yes && test -f "$dir/$linklib"; then
 		add="$dir/$linklib"
 	      elif test "$hardcode_minus_L" = yes; then
 		add_dir="-L$dir"
@@ -2692,7 +2723,7 @@ EOF
 	    add_dir=
 	    add=
 	    # Finalize command for both is simple: just hardcode it.
-	    if test "$hardcode_direct" = yes && test -f $linkdir/$linklib; then
+	    if test "$hardcode_direct" = yes && test -f "$linkdir/$linklib"; then
 	      add="$libdir/$linklib"
 	    elif test "$hardcode_minus_L" = yes; then
 	      add_dir="-L$libdir"
@@ -6720,12 +6751,11 @@ exit $?
 # configuration.  But we'll never go from static-only to shared-only.
 
 # ### BEGIN LIBTOOL TAG CONFIG: disable-shared
-build_libtool_libs=no
-build_old_libs=yes
+disable_libs=shared
 # ### END LIBTOOL TAG CONFIG: disable-shared
 
 # ### BEGIN LIBTOOL TAG CONFIG: disable-static
-build_old_libs=`case $build_libtool_libs in yes) $echo no;; *) $echo yes;; esac`
+disable_libs=static
 # ### END LIBTOOL TAG CONFIG: disable-static
 
 # Local Variables:

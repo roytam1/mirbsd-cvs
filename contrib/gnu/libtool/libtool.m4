@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.44 2005/12/05 14:29:50 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.45 2005/12/15 19:09:10 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -3550,7 +3550,6 @@ case $host_os in
     ;;
   mirbsd*)
     _LT_AC_TAGVAR(hardcode_direct, $1)=yes
-    _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
     _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
     _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
@@ -5764,7 +5763,6 @@ EOF
 
     mirbsd*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
-      _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
       _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
