@@ -1,12 +1,12 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.29 2005/12/06 19:53:02 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.30 2005/12/15 18:54:07 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 # Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 # MirLibtool patches contributed 2004, 2005 by
-# Thorsten Glaser <tg@66h.42h.de> for the MirOS Project
+# Thorsten Glaser <tg@mirbsd.de> for the MirOS Project
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -475,7 +475,6 @@ do
     prev=tag
     preserve_args="$preserve_args --tag"
     ;;
-
   --tag=*)
     set tag "$optarg" ${1+"$@"}
     shift
@@ -1367,8 +1366,8 @@ EOF
 	  prev=
 	  continue
 	  ;;
-	darwin_framework)
-	  compiler_flags="$compiler_flags $arg"
+	darwin_framework|darwin_framework_skip)
+	  test "$prev" = "darwin_framework" && compiler_flags="$compiler_flags $arg"
 	  compile_command="$compile_command $arg"
 	  finalize_command="$finalize_command $arg"
 	  prev=
@@ -1433,8 +1432,12 @@ EOF
 	;;
 
       -framework|-arch|-isysroot)
-        prev=darwin_framework
-        compiler_flags="$compiler_flags $arg"
+	case " $CC " in
+	  *" ${arg} ${1} "* | *" ${arg}	${1} "*) 
+		prev=darwin_framework_skip ;;
+	  *) compiler_flags="$compiler_flags $arg"
+	     prev=darwin_framework ;;
+	esac
 	compile_command="$compile_command $arg"
 	finalize_command="$finalize_command $arg"
 	continue
