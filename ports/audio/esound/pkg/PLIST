@@ -10,7 +10,6 @@ bin/esdplay
 bin/esdrec
 bin/esdsample
 include/esd.h
-lib/libesd.a
 lib/libesd.la
 lib/pkgconfig/
 lib/pkgconfig/esound.pc
@@ -30,4 +29,3 @@ share/aclocal/esd.m4
 share/examples/esound/
 share/examples/esound/esd.conf
 @sample ${SYSCONFDIR}/esd.conf
-%%SHARED%%

@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/audio/esound/Makefile,v 1.2 2005/07/07 21:17:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.34 2004/11/21 17:51:44 espie Exp $
 # $FreeBSD: Makefile,v 1.8 1999/03/09 01:08:46 nectar Exp $
 
 COMMENT=	"sound library for Enlightenment"
 
 DISTNAME=	esound-0.2.34
-PKGNAME=	${DISTNAME}-1
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	audio
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/esound/0.2/}
 
