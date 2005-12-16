@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.2 2005/09/19 18:07:56 tg Exp $ */
 /* $OpenBSD: add.h,v 1.3 1998/10/13 23:09:49 marc Exp $ */
 /* from FreeBSD Id: add.h,v 1.8 1997/02/22 16:09:15 peter Exp  */
 
@@ -31,6 +31,7 @@ extern char	*Prefix;
 extern bool	NoInstall;
 extern bool	NoRecord;
 extern bool	NoBackups;
+extern bool	Quiet;
 extern char	*Mode;
 extern char	*Owner;
 extern char	*Group;

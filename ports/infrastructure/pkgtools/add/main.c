@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.2 2005/06/26 17:13:43 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.3 2005/09/19 18:07:56 tg Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,14 +25,15 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.2 2005/06/26 17:13:43 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.3 2005/09/19 18:07:56 tg Exp $");
 
-static char Options[] = "d:fhIMNnp:RSt:v";
+static char Options[] = "d:fhIMNnp:qRSt:v";
 
 char	*Prefix		= NULL;
 bool	NoInstall	= false;
 bool	NoRecord	= false;
 bool	NoBackups	= false;
+bool	Quiet		= false;
 
 char	*Mode		= NULL;
 char	*Owner		= NULL;
@@ -104,6 +105,10 @@ main(int argc, char **argv)
 	case 'n':
 	    Fake = true;
 	    Verbose = true;
+	    break;
+
+	case 'q':
+	    Quiet = true;
 	    break;
 
 	case 't':

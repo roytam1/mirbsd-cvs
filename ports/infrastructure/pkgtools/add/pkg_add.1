@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.3 2005/09/19 17:44:40 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.4 2005/09/19 18:07:56 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -26,7 +26,7 @@
 .Nd install software package distributions
 .Sh SYNOPSIS
 .Nm pkg_add
-.Op Fl fIMNnRSv
+.Op Fl fIMNnqRSv
 .Op Fl d Ar mode
 .Op Fl p Ar prefix
 .Op Fl t Ar template
@@ -139,6 +139,9 @@ Do not make backups of existing files.
 .It Fl n
 Don't actually install a package, just report the steps that
 would be taken if it was.
+.It Fl q
+This option is internally used by
+.Xr pkg_upgrade 1 .
 .It Fl R
 Do not record the installation of a package.
 This means that you cannot deinstall it later, so only use this option if

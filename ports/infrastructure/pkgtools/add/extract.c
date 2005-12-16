@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.5 2005/09/19 18:07:56 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.6 2005/09/19 18:09:52 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,7 +27,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.5 2005/09/19 18:07:56 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.6 2005/09/19 18:09:52 tg Exp $");
 
 #define STARTSTRING "tar cf - "
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
@@ -91,7 +91,8 @@ preserve(const char *fname)
 	if (fexists(copy))
 		continue;
 	if (rename(fname, copy) == 0) {
-		pwarnx("conflict: renamed existing %s to %s", fname, copy);
+		if (!Quiet)
+			pwarnx("conflict: renamed existing %s to %s", fname, copy);
 		if (!NoBackups)
 			return (0);
 		if (unlink(copy)) {
