@@ -1,4 +1,4 @@
-/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.3 2005/12/16 16:09:45 tg Exp $ */
+/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.4 2005/12/16 16:59:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -124,7 +124,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.3 2005/12/16 16:09:45 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.4 2005/12/16 16:59:59 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -134,9 +134,9 @@ static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
 #include <arpa/inet.h>
 #define LOG_FACILITY	LOG_DAEMON
 #define LOG_PRIO	LOG_INFO
-#define DO_LOG(x)	syslog(LOG_NOTICE, x)
+#define DO_LOG(x, ...)	syslog(LOG_NOTICE, x, ## __VA_ARGS__)
 #else /* def USE_SYSLOG */
-#define DO_LOG(x)	/* nothing */
+#define DO_LOG(x, ...)	/* nothing */
 #endif /* ! def USE_SYSLOG */
 
 int main(int, char *[]);
@@ -210,12 +210,12 @@ main(int argc, char *argv[])
 	}
 #ifdef CHROOT_PARENT_DIR
 	if ((s = strrchr(chrootdir, '/')) == NULL) {
-		fprintf(stderr, "No slash in user's home directory!\n");
+		DO_LOG("No slash in user's home directory!\n");
 		exit(1);
 	}
 	*s = '\0';
 	if (strrchr(chrootdir, '/') == NULL) {
-		fprintf(stderr, "No slash in user's parent directory!\n");
+		DO_LOG("No slash in user's parent directory!\n");
 		exit(1);
 	}
 #endif
@@ -290,13 +290,22 @@ main(int argc, char *argv[])
 #ifdef ACCESS_RSYNC
 			int i = 0;
 			char *newarg[256];
-			char *p = argv[2] + 15;
+			char *p = argv[2] + 1;
+			if (!strncmp(p, "usr/", 4))
+				p += 4;
+			p += strlen(RSYNC) - 1 /* space */ + 1;
 
-			newarg[0] = "rsync";
+			newarg[0] = RSYNC;
 		lp:
 			newarg[++i] = strsep(&p, " ");
 			if ((newarg[i] != NULL) && (i < 255))
 				goto lp;
+#ifdef DEBUG
+			argc = i;
+			DO_LOG("calling rsync; argc = %d\n", argc);
+			for (i = 0; i < argc; i++)
+				DO_LOG("newarg[%d] = \"%s\"\n", i, newarg[i]);
+#endif
 			execve(RSYNC, newarg, env);
 			perror("execve: rsync");
 			DO_LOG("chaining to " RSYNC " failed!");
@@ -319,9 +328,9 @@ main(int argc, char *argv[])
 	    "when connecting, and use SSH instead of RSH for both.\n",
 	    HOSTNAME, LOCALROOT);
 #ifdef DEBUG
-	fprintf(stderr, "argc = %d\n", argc);
+	DO_LOG("argc = %d\n", argc);
 	for (i = 0; i < argc; i++)
-		fprintf(stderr, "argv[%d] = \"%s\"\n", i, argv[i]);
+		DO_LOG("argv[%d] = \"%s\"\n", i, argv[i]);
 #endif
 	sleep(10);
 	exit(0);
