@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.5 2005/11/19 02:05:30 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.6 2005/12/16 15:14:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -30,6 +30,12 @@ if [[ -z $1 || $1 = -h ]]; then
 	exit 1
 fi
 
+auto=0
+if [[ $1 = -a ]]; then	# XXX convert to getopt
+	auto=1
+	shift
+fi
+
 PKG_DBDIR=@@dbdir@@/pkg
 if [[ ! -d $PKG_DBDIR ]] ; then
 	echo "$me: package database directory does not exist" >&2
@@ -50,10 +56,16 @@ cd $TMPDIR
 tar xfz $1 +CONTENTS
 cd $PKG_DBDIR
 PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
-OLDPKGS=$(eval echo ${PKGNAME%%-[0-9]*}-[0-9]*)
+OLDPKGS=$(echo ${PKGNAME%%-[0-9]*}-[0-9]*)
+[[ $OLDPKGS = ?(${PKGNAME%%-[0-9]*})@(-\[0-9\]\*) ]] && OLDPKGS=
+[[ $auto = 1 && -z $OLDPKGS ]] && exit 0
 cd $OLDPWD
 
-if grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS || [[ -z "$OLDPKGS" ]] ; then
+#XXX what does this do?
+#if grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS || [[ -z "$OLDPKGS" ]] ; then
+#XXX for now:
+grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
+if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
 	pkg_add $1
 	exit
