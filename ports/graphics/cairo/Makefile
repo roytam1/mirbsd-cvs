@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.2 2005/09/22 13:55:56 bsiegert Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.3 2005/10/07 22:02:59 bsiegert Exp $
 
 COMMENT=		"vector graphics library"
 
@@ -19,9 +19,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://cairographics.org/releases/
 
 BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
-LIB_DEPENDS=		png::graphics/png # \
-#			pixman::graphics/libpixman \
-#			glitz::graphics/glitz
+LIB_DEPENDS+=		png::graphics/png
+#LIB_DEPENDS+=		pixman::graphics/libpixman
+#LIB_DEPENDS+=		glitz::graphics/glitz
 
 USE_X11=		Yes
 
@@ -32,7 +32,7 @@ CONFIGURE_ENV=  	PKG_CONFIG_PATH="${X11BASE}/lib/pkgconfig"
 CONFIGURE_ARGS=		--enable-static \
 			${CONFIGURE_SHARED}
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 .if ${OStype} == "Darwin"
 #CONFIGURE_ARGS+=	--disable-freetype
