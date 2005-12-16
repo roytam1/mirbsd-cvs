@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.6 2005/05/05 00:39:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.7 2005/10/03 23:05:47 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -34,14 +34,11 @@
  href="/MirOS/CVS/cvsroot-20050316.cgz.asc">PGP signature</a>)
  as a base for rsync use in order to speed up the initial
  synchronisation and reduce load and traffic on the servers.</p>
-<pre>nice /usr/local/bin/rsync --delete -rxlztpg \
-  --rsync-path=/usr/bin/rsync \
+<pre>nice /usr/local/bin/rsync --delete -rxlztpg --rsync-path=/bin/rsync \
   _anoncvs@mirbsd.mirsolutions.de:/cvs/ /var/anoncvs/anoncvs/cvs
-nice /usr/local/bin/rsync --delete -rxlztpg \
-  --rsync-path=/usr/bin/rsync \
+nice /usr/local/bin/rsync --delete -rxlztpg --rsync-path=/bin/rsync \
   mirbsd-cvs@mirbsd.mirsolutions.de:/ocvs/ /var/anoncvs/anoncvs/ocvs
-nice /usr/local/bin/rsync --delete -rxlztpg \
-  --rsync-path=/usr/bin/rsync \
+nice /usr/local/bin/rsync --delete -rxlztpg --rsync-path=/bin/rsync \
   mirbsd-cvs@mirbsd.mirsolutions.de:/MirOS/ /var/www/htdocs/MirOS
 </pre><p>
  Please be sure to check for problems (the CVS snapshot might contain
