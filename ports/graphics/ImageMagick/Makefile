@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.5 2005/07/07 21:21:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
 COMMENT=	"image processing tools"
@@ -20,7 +20,7 @@ LIB_DEPENDS+=	bz2.10::archivers/bzip2 \
 		xml2::textproc/libxml \
 		lcms.1::graphics/lcms \
 		jasper.1::graphics/jasper \
-		ltdl.4::devel/libltdl
+		ltdl::devel/libtool
 
 RUN_DEPENDS=	::graphics/mpeg-lib
 BUILD_DEPENDS=	${RUN_DEPENDS}
