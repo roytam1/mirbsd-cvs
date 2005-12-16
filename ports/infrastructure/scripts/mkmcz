@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.2 2005/11/20 11:03:44 tg Exp $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.3 2005/11/22 15:35:55 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -51,13 +51,15 @@ if ! T=$(mktemp -d /tmp/mkmcz.XXXXXXXXXX); then
 	exit 1
 fi
 cd $T
+print -r -- - "$CVS $CVSARGS $tag $5"
 if ! ( umask 022; exec env CVSUMASK=022 $CVS $CVSARGS "$tag" $5 ); then
 	cd /tmp
 	rm -rf "$T"
 	print -u2 mkmcz: Checkout failed
 	exit 1
 fi
-$LOCALBASE/bin/mpczar -o "$1" -I CVS -I .svn -r .
+print -r -- - "$LOCALBASE/bin/mpczar -o '$1' -I CVS -I .svn -r ."
+$LOCALBASE/bin/mpczar -o '$1' -I CVS -I .svn -r .
 rv=$?
 cd /tmp
 rm -rf "$T"
