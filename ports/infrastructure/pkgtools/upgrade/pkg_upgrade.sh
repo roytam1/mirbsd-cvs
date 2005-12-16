@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.4 2005/09/13 10:58:24 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.5 2005/11/19 02:05:30 bsiegert Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -23,15 +23,21 @@
 # This is only a "rapid prototype", the final implementation might
 # be as a part of pkg_add.
 
+me=${0##*/}
 if [[ -z $1 || $1 = -h ]]; then
 	echo "Usage:"
-	echo " $0 [pkgname]"
+	echo " $me [pkgname]"
 	exit 1
 fi
 
 PKG_DBDIR=@@dbdir@@/pkg
 if [[ ! -d $PKG_DBDIR ]] ; then
-	echo "$0: package database directory does not exist" >&2
+	echo "$me: package database directory does not exist" >&2
+	exit 1
+fi
+
+if [[ ! -s $1 ]]; then
+	print -u2 "$me: package file '$1' does not exist"
 	exit 1
 fi
 
@@ -54,7 +60,7 @@ if grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS || [[ -z "$OLDPKGS" 
 fi
 
 if echo $OLDPKGS | grep -q ' ' ; then
-	echo "$0: Multiple previous versions of this package are installed."
+	echo "$me: Multiple previous versions of this package are installed."
 	echo "This is not supported in this version."
 	echo "The packages in question are:"
 	echo "$OLDPKGS"
