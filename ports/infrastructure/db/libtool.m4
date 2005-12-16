@@ -1,6 +1,6 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.44 2005/12/05 14:29:50 tg Exp $
-# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.44 2005/12/05 14:29:50 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.46 2005/12/16 15:20:06 tg Exp $
+# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.46 2005/12/16 15:20:06 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1756,6 +1756,7 @@ linux*)
 
 mirbsd*)
   version_type=linux
+  sys_lib_dlsearch_path_spec="/usr/lib"
   need_lib_prefix=no
   need_version=no
   library_names_spec='${libname}${release}${shared_ext}$versuffix2 ${libname}${shared_ext}$versuffix2'
@@ -1813,6 +1814,7 @@ nto-qnx*)
 
 openbsd*)
   version_type=linux
+  sys_lib_dlsearch_path_spec="/usr/lib"
   need_lib_prefix=no
   # Some older versions of OpenBSD (3.3 at least) *do* need versioned libs.
   case $host_os in
@@ -3549,7 +3551,6 @@ case $host_os in
     ;;
   mirbsd*)
     _LT_AC_TAGVAR(hardcode_direct, $1)=yes
-    _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
     _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
     _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
     _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
@@ -5763,7 +5764,6 @@ EOF
 
     mirbsd*)
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
-      _LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=no
       _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
       _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
