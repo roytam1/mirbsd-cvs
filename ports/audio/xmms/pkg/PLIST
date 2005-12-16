@@ -10,7 +10,6 @@ include/xmms/plugin.h
 include/xmms/titlestring.h
 include/xmms/util.h
 include/xmms/xmmsctrl.h
-lib/libxmms.a
 lib/libxmms.la
 @comment lib/xmms/Effect/libecho.la
 @comment lib/xmms/Effect/libstereo.la

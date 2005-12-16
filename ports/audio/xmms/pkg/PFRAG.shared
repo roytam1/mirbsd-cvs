@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/audio/xmms/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:43:22 tg Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.9 2004/04/15 19:23:46 naddy Exp $
 lib/xmms/Effect/libecho.so
 lib/xmms/Effect/libstereo.so
@@ -13,7 +13,6 @@ lib/xmms/Output/libsun.so
 lib/xmms/Visualization/libbscope.so
 lib/xmms/Visualization/libogl_spectrum.so
 lib/xmms/Visualization/libsanalyzer.so
-@lib lib/libxmms.so.4.1
 @dirrm lib/xmms/Visualization
 @dirrm lib/xmms/Output
 @dirrm lib/xmms/Input
