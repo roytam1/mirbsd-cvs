@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.5 2005/07/07 21:21:42 bsiegert Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.6 2005/12/16 15:39:51 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
 COMMENT=	"image processing tools"
@@ -6,7 +6,7 @@ COMMENT=	"image processing tools"
 VER=		6.2.3
 DASHVER=	3
 DISTNAME=	ImageMagick-${VER}-${DASHVER}
-PKGNAME=	ImageMagick-${VER}.${DASHVER}-0
+PKGNAME=	ImageMagick-${VER}.${DASHVER}-1
 CATEGORIES=	graphics
 
 HOMEPAGE=	http://www.imagemagick.org
