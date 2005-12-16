@@ -1,45 +1,40 @@
-$OpenBSD: patch-install_sh,v 1.8 2004/05/12 19:35:46 sturm Exp $
---- install.sh.orig	2004-05-12 17:34:45.000000000 +0200
-+++ install.sh	2004-05-12 17:37:01.000000000 +0200
-@@ -1129,7 +1129,7 @@ run_install()
- 	mkdir $mkdirv $mkdirp $doc_dir/
- 	chmod $chmodv 755 $doc_dir
- 	cp $cpv $cpf LICENSE $doc_dir
--	if not test -d "$doc_dir/help"; then ln -s $str_localdirshare/help $doc_dir/help; fi
-+	ln -s $str_localdirshare/help $doc_dir/help
+$MirOS$
+$OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
+--- install.sh.orig	Mon Nov 14 13:47:42 2005
++++ install.sh	Fri Dec 16 13:37:16 2005
+@@ -395,7 +395,7 @@ set_os_spesific()
+ 		fi
+ 	;;
  
-     # Shared files
- 	debug_msg 1 "Shared files"
-@@ -1180,9 +1180,7 @@ run_install()
- 	chmod $chmodv 755 $share_dir/styles/user
- 	cp $cpv $cpf $cpR styles/user/* $share_dir/styles/user/
+-	i[3456]86:OpenBSD)
++	i[3456]86:OpenBSD|i386:MirBSD)
+ 	    cpf='-f'
+ 	    mkdirv=''
+ 	    chmodv=''
+@@ -778,7 +778,7 @@ generate_wrapper()
+ 	    wrapper_sunjava_machine="sparc"
+ 	;;
  
--	if not test -f "$share_dir/styles/OPF.css"; then
--	    ln $lns opf.css $share_dir/styles/OPF.css
--	fi
-+	ln $lns opf.css $share_dir/styles/OPF.css
+-	mips*:Linux)
++	mips*:Linux|i386:MirBSD)
+ 	;;
  
- 	cp $cpv $cpf hhd.ssr chartables.bin $share_dir/
- 
-@@ -1256,7 +1254,7 @@ run_install()
- 
+ 	ppc:Linux)
+@@ -1302,7 +1302,7 @@ run_install()
+     then
  	# System wide configuration files
  	config_dir="/etc"
--	if can_write_to "$config_dir"; then
-+	if false can_write_to "$config_dir"; then
+-	if can_write_to "$config_dir"
++	if false can_write_to "$config_dir"
+ 	then
  	    echo
  	    echo "System wide configuration files:"
- 	    echo "  $config_dir/opera6rc"
-@@ -1278,12 +1276,6 @@ run_install()
+@@ -1332,7 +1332,7 @@ run_install()
+ 	then
+ 	    echo
+ 	    echo "Shortcut icons will be ignored if installed with the prefix \"$prefix\"."
+-	    con_firm "Do you want to (try to) install them in default locations" || bool_icons=0
++	    bool_icons=0
  	fi
  
-      # Shorcuts and Icons
--	icons
--	gnome
--	kde 3
--	kde 2
--	kde1
--	mandrake
- 
- 	fi # OPERADESTDIR
- 
+ 	if test "${bool_icons}" -ne 0
