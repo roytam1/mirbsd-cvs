@@ -1,7 +1,21 @@
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.12 2005/11/16 22:30:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.13 2005/12/06 00:00:43 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
+
+<li>05.12.2005<br />Updated GNU CVS to 1.12.13; rewrote the scripts we use
+	in /cvs/CVSROOT/ to generate changelogs and mails (maybe add later
+	support for changesets in cvsweb). Shrink source tree (by removing
+	unused tags and cleaning up the Attic). Re-enable bootfloppy.</li>
+
+<li>04.12.2005<br />mksh R26 and new MirMake and CPIO versions are out and
+	change big thing. The source tree has been fully merged; snapshots
+	will be built again soon, preparations started.</li>
+
+<li>20.11.2005<br />mksh R25b has been released, with support for MirOS #7
+	and (new) Cygwin. The current versions of gcc-3.4 (stable) and gpc
+	(GNU Pascal) have been imported, and bugs are being fixed. Work on
+	ports has stabilised, the new infrastructure is ready.</li>
 
 <li>17.11.2005<br />Work on LKMs has been done to the extent that they can
 	be used again. make(1) now knows the <tt>.trace</tt> operation. In

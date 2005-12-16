@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.33 2005/12/07 00:41:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.34 2005/12/14 23:43:04 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -32,14 +32,14 @@
  href="/MirOS/current/i386-20051207/">download</a> via the usual mirrors.</p>
 <p>STABLE: December 7th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
  available for retrieval, but it has been "end of life"d some time ago.</p>
-<p>PORTS: December 7th, 2005: The great reorganisation has settled down; you
+<p>PORTS: December 16th, 2005: The great reorganisation has settled down; you
  can install the <a href="/?ports">MirPorts Framework</a> as regular user,
  all pre-requisites including a recent enough <tt>mksh</tt> are being taken
  care of automatically. This is for MirOS #8, OpenBSD and Darwin only at the
  moment; Interix support is not yet complete (but almost), and support for
  older MirOS releases will only be added on request. The existing
- documentation is inaccurate, especially the (former) MirWiki. Perl ports
- do not work correctly on Darwin.</p>
+ documentation is inaccurate, especially the (former) MirWiki.
+ Package upgrades are now available, yet still experimental.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
  WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!</p>
