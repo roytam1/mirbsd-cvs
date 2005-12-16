@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.3 2005/09/12 22:53:22 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.4 2005/11/19 02:05:28 bsiegert Exp $ */
 /*	$OpenBSD: main.c,v 1.12 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -24,9 +24,9 @@
 #include "lib.h"
 #include "delete.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.3 2005/09/12 22:53:22 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.4 2005/11/19 02:05:28 bsiegert Exp $");
 
-static char Options[] = "chvDdnfp:q";
+static char Options[] = "cDdfhnp:qUv";
 
 char	*Prefix		= NULL;
 bool	NoDeInstall	= false;
@@ -81,6 +81,8 @@ main(int argc, char **argv)
 
 	case 'U':
 	    KeepFiles = true;
+	    break;
+
 	case 'h':
 	case '?':
 	default:
