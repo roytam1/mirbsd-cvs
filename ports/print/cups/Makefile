@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/print/cups/Makefile,v 1.2 2005/07/06 19:21:35 bsiegert Exp $
 
 COMMENT=		"Common Unix Printing System"
 
 VERSION=		1.1.23
-DASH_VER=		-0
+DASH_VER=		-1
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}${DASH_VER}
 CATEGORIES=		print sysutils
@@ -27,8 +27,10 @@ LIB_DEPENDS=		png.3::graphics/png \
 			jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
 
-FAKE_FLAGS=		BINMODE=${BINMODE} \
-			SHAREMODE=${SHAREMODE}
+FAKE_FLAGS+=		BINMODE=${BINMODE} \
+			SHAREMODE=${SHAREMODE} \
+			top_builddir=${WRKBUILD}
+MAKE_FLAGS+=		top_builddir=${WRKBUILD}
 
 CONFIGURE_STYLE=	autoconf no-autoheader dest
 AUTOCONF_NEW=		Yes
@@ -70,7 +72,7 @@ post-install:
 	@sed s,y0y0y0,${TRUEPREFIX}, < ${FILESDIR}/${file} > \
 		${PREFIX}/sbin/${file}
 	@chmod ${BINMODE} ${PREFIX}/sbin/${file}
-	@chown ${BINOWN}.${BINGRP} ${PREFIX}/sbin/${file}
+	@chown ${BINOWN}:${BINGRP} ${PREFIX}/sbin/${file}
 .endfor
 
 .include <bsd.port.mk>

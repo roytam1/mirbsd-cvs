@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/print/cups/pkg/PLIST,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
 bin/cancel
 bin/cups-config
 bin/cupstestppd
@@ -25,10 +25,8 @@ include/cups/language.h
 include/cups/md5.h
 include/cups/ppd.h
 include/cups/raster.h
-lib/libcups.a
-@comment lib/libcups.so
-lib/libcupsimage.a
-@comment lib/libcupsimage.so
+lib/libcups.la
+lib/libcupsimage.la
 libexec/cups/backend/http
 libexec/cups/backend/ipp
 libexec/cups/backend/lpd
@@ -708,12 +706,28 @@ share/doc/cups/svd.html
 share/doc/cups/svd.pdf
 share/doc/cups/translation.html
 share/doc/cups/translation.pdf
+@sample ${SYSCONFDIR}/cups/
 share/examples/cups/classes.conf
+@sample ${SYSCONFDIR}/cups/classes.conf
 share/examples/cups/client.conf
+@sample ${SYSCONFDIR}/cups/client.conf
 share/examples/cups/cupsd.conf
+@sample ${SYSCONFDIR}/cups/cupsd.conf
 share/examples/cups/mime.convs
+@sample ${SYSCONFDIR}/cups/mime.convs
 share/examples/cups/mime.types
+@sample ${SYSCONFDIR}/cups/mime.types
 share/examples/cups/printers.conf
+@sample ${SYSCONFDIR}/cups/printers.conf
+@owner _cups
+@group _cups
+@mode 0700
+@sample /var/spool/cups/
+@mode 1700
+@sample /var/spool/cups/tmp/
+@owner
+@group
+@mode
 share/locale/C/cups_C
 share/locale/be/cups_be
 share/locale/cs/cups_cs
@@ -729,7 +743,6 @@ share/locale/sv/cups_sv
 share/locale/uk/cups_uk
 share/locale/uk_UA/cups_uk_UA
 share/locale/zh_CN/cups_zh_CN
-%%SHARED%%
 @dirrm share/locale/zh_CN
 @dirrm share/locale/uk_UA
 @dirrm share/locale/uk
@@ -753,7 +766,6 @@ share/locale/zh_CN/cups_zh_CN
 @exec mkdir -p %D/share/examples/cups/certs
 @dirrm share/examples/cups/certs
 @dirrm share/examples/cups
-@dirrm share/examples
 @dirrm share/doc/cups/images
 @dirrm share/doc/cups/fr/images
 @dirrm share/doc/cups/fr
@@ -764,7 +776,6 @@ share/locale/zh_CN/cups_zh_CN
 @dirrm share/doc/cups/be/images
 @dirrm share/doc/cups/be
 @dirrm share/doc/cups
-@dirrm share/doc
 @dirrm share/cups/templates/fr
 @dirrm share/cups/templates/es
 @dirrm share/cups/templates/de
@@ -776,36 +787,20 @@ share/locale/zh_CN/cups_zh_CN
 @dirrm share/cups/charsets
 @dirrm share/cups/banners
 @dirrm share/cups
-@dirrm share
 @comment @dirrm man/fr/man8
 @comment @dirrm man/fr/man5
 @comment @dirrm man/fr/man1
 @comment @dirrm man/fr/cat8
 @comment @dirrm man/fr/cat5
 @comment @dirrm man/fr/cat1
-@comment @dirrm man/fr
 @comment @dirrm man/es/man8
 @comment @dirrm man/es/man5
 @comment @dirrm man/es/man1
 @comment @dirrm man/es/cat8
 @comment @dirrm man/es/cat5
 @comment @dirrm man/es/cat1
-@comment @dirrm man/es
 @dirrm libexec/cups/filter
 @dirrm libexec/cups/daemon
 @dirrm libexec/cups/cgi-bin
 @dirrm libexec/cups/backend
-@dirrm libexec/cups
 @dirrm include/cups
-@cwd ${SYSCONFDIR}
-@extra cups/classes.conf
-@extra cups/client.conf
-@extra cups/cupsd.conf
-@extra cups/printers.conf
-@extra cups/mime.convs
-@extra cups/mime.types
-@extra cups/certs/
-@extra cups/interfaces/
-@extra cups/ppd/
-@extra cups/
-@extraunexec rm -rf /var/spool/cups

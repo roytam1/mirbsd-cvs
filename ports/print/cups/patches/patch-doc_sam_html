@@ -1,7 +1,7 @@
-$MirOS$
---- doc/sam.html.orig	2004-10-29 16:38:55.000000000 +0200
-+++ doc/sam.html	2004-10-31 19:20:44.000000000 +0100
-@@ -6159,8 +6159,8 @@ ftp&gt; <B>quit ENTER</B>
+$MirOS: ports/print/cups/patches/patch-doc_sam_html,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- doc/sam.html.orig	Mon Jan  3 21:13:37 2005
++++ doc/sam.html	Wed Oct 19 19:01:20 2005
+@@ -6257,8 +6257,8 @@ ftp&gt; <B>quit ENTER</B>
  <TR VALIGN="TOP"><TD>/usr/lib32/libcups.so.2
  <BR> /usr/lib32/libcupsimage.so.2</TD><TD>Shared libraries (IRIX 6.5)</TD>
  </TR>
