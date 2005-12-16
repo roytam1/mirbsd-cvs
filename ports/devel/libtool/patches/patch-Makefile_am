@@ -1,0 +1,12 @@
+$MirOS$
+--- Makefile.am.orig	Thu Jan  1 00:00:00 1970
++++ Makefile.am	Fri Dec 16 13:34:05 2005
+@@ -63,7 +63,7 @@ libtoolize: $(srcdir)/libtoolize.in $(to
+ 	CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) $(top_builddir)/config.status
+ 	chmod +x $@
+ 
+-$(srcdir)/ltmain.sh: $(srcdir)/ltmain.in $(TSDEPS)
++no-$(srcdir)/ltmain.sh: $(srcdir)/ltmain.in $(TSDEPS)
+ 	-rm -f ltmain.shT
+ 	date=`$(SHELL) $(srcdir)/mkstamp < $(srcdir)/ChangeLog` && \
+ 	sed -e 's/@''PACKAGE@/@PACKAGE@/' -e 's/@''VERSION@/@VERSION@/' \

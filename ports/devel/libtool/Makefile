@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libltdl/Makefile,v 1.4 2005/07/07 21:19:12 bsiegert Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.1 2005/12/16 11:56:51 tg Exp $
 
 COMMENT=		"complete GNU libtool with MirLibtool patches added"
 CATEGORIES=		devel
@@ -23,9 +23,13 @@ AUTOMAKE_VERSION=	1.9
 
 REGRESS_TARGET=		check
 
-regress-v:
-	cd ${.CURDIR} && exec ${MAKE} regress REGRESS_TARGET="VERBOSE=x check"
+post-configure:
+	rm -f ${WRKSRC}/{,libltdl/}ltmain.sh
+	cp ${PORTSDIR}/infrastructure/db/ltmain.sh ${WRKSRC}/
+	cp ${PORTSDIR}/infrastructure/db/ltmain.sh ${WRKSRC}/libltdl/
 
-.PHONY: regress-v
+regress-v: ${_BUILD_COOKIE}
+	cd ${.CURDIR} && exec ${MAKE} \
+	    regress REGRESS_TARGET="VERBOSE=x check" 2>&1 | tee $@
 
 .include <bsd.port.mk>
