@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.3 2005/04/19 20:58:22 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.4 2005/12/05 22:12:50 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -20,7 +20,7 @@
 #include <assert.h>
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.3 2005/04/19 20:58:22 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.4 2005/12/05 22:12:50 tg Exp $");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */
@@ -639,7 +639,7 @@ parse_cvsroot (const char *root_in)
     newroot->isremote = (newroot->method != local_method);
 
 #if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
-    if (readonlyfs && newroot->isremote && !quiet)
+    if (readonlyfs && newroot->isremote && (newroot->method != ext_method))
 	error (1, 0,
 "Read-only repository feature unavailable with remote roots (cvsroot = %s)",
 	       cvsroot_copy);

@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $ */
 
 /*-
- * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -15,13 +15,14 @@
  * ware must display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *-
  * user shell to be used for chrooted access (anonymous or personali-
  * sed, read-only or read-write) to cvs and possibly rsync.
@@ -89,7 +90,7 @@
 #if defined(FQDN) && defined(ANONCVS_USER)
 #define HOSTNAME	ANONCVS_USER "@" FQDN
 #else
-#define HOSTNAME	"mirbsd-cvs@mirbsd.bsdadvocacy.org"
+#define HOSTNAME	"_anoncvs@thor.66h.42h.de"
 #endif
 #endif /* ndef HOSTNAME */
 
@@ -104,9 +105,10 @@
  * This is the rsync server to invoke
  */
 #ifndef RSYNC
-#define RSYNC		"/usr/bin/rsync"
+#define RSYNC		"/bin/rsync"
 #endif
 #define FULL_RSYNC	RSYNC " --server "
+#define FULL_RSYNC2	"/usr" RSYNC " --server "
 
 /*
  * Niceness increase
@@ -122,7 +124,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS$";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.2 2005/03/06 19:23:58 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -275,6 +277,7 @@ main(int argc, char *argv[])
 	if ((argc == 3) && (!strcmp(ANONCVSSH_NAME, argv[0])) &&
 	    (!strcmp("-c", argv[1]))) {
 		if ((!strcmp("cvs server", argv[2])) ||
+		    (!strcmp("cvs -R server", argv[2])) ||
 		    (!strcmp("cvs -d " LOCALROOT " server", argv[2]))) {
 			execle("/usr/bin/cvs", "cvs", "server", NULL, env);
 			perror("execle: cvs");
@@ -282,7 +285,8 @@ main(int argc, char *argv[])
 			fprintf(stderr, "unable to exec CVS server!\n");
 			exit(1);
 			/* NOTREACHED */
-		} else if (!strncmp(FULL_RSYNC, argv[2], strlen(FULL_RSYNC))) {
+		} else if ((!strncmp(FULL_RSYNC, argv[2], strlen(FULL_RSYNC)))
+		    || (!strncmp(FULL_RSYNC2, argv[2], strlen(FULL_RSYNC2)))) {
 #ifdef ACCESS_RSYNC
 			int i = 0;
 			char *newarg[256];

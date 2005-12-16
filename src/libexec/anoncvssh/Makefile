@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/libexec/anoncvssh/Makefile,v 1.2 2005/03/06 19:23:58 tg Exp $
 
 # Note: you DO want to compile this, as well as the anoncvsbin
 # and rsync, statically. It is not possible, however, to do that
@@ -11,7 +11,7 @@ DEFS+=	-DLOCALROOT=\"/cvs\"
 
 # Two ways to specify the user/host part of $CVSROOT:
 # a) Simple - just specify user@host
-#DEFS+=	-DHOSTNAME=\"mirbsd-cvs@mirbsd.bsdadvocacy.org\"
+#DEFS+=	-DHOSTNAME=\"_anoncvs@mirsolutions.de\"
 # b) Split - define user and host
 #    Advantage: a warning will be issued if someone
 #    other than the user specified (or root) invokes us.
@@ -22,7 +22,7 @@ DEFS+=	-DANONCVS_USER=\"_anoncvs\" -DFQDN=\"host.domain.com\"
 # if the file ownership and permissions don't forbit it!
 DEFS+=	-DACCESS_RSYNC
 # if not using the standard path...
-#DEFS+=	-DRSYNC=\"/usr/bin/rsync\"
+#DEFS+=	-DRSYNC=\"/bin/rsync\"
 
 # Specify if you *DON'T* want to set CVSREADONLYFS=1.
 # This can be used if you want to give a user CVS
