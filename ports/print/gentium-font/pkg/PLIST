@@ -1,9 +1,11 @@
-@comment $MirOS$
+@comment $MirOS: ports/print/gentium-font/pkg/PLIST,v 1.1.7.1 2005/03/18 15:51:03 tg Exp $
+lib/X11/fonts/gentium/FAQ.txt
+lib/X11/fonts/gentium/FONTLOG.txt
 lib/X11/fonts/gentium/GenAI${V}.ttf
 lib/X11/fonts/gentium/GenAR${V}.ttf
 lib/X11/fonts/gentium/GenI${V}.ttf
 lib/X11/fonts/gentium/GenR${V}.ttf
-lib/X11/fonts/gentium/ReadMe.txt
+lib/X11/fonts/gentium/OFL.txt
 lib/X11/fonts/gentium/fonts.cache-1
 lib/X11/fonts/gentium/fonts.dir
 lib/X11/fonts/gentium/fonts.scale

@@ -1,30 +1,39 @@
-# $MirOS: ports/print/gentium-font/Makefile,v 1.2 2005/07/07 21:25:30 bsiegert Exp $
+# $MirOS: ports/print/gentium-font/Makefile,v 1.3 2005/08/21 11:49:58 tg Exp $
 
-COMMENT=	"freeware font with many latin and greek glyphs"
-CATEGORIES=	print graphics textproc productivity x11
-V=		101
-DISTNAME=	Gentium_${V}_W
-PKGNAME=	gentium-${V}-0
-HOMEPAGE=	http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&cat_id=FontDownloadsGentium
-RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
+COMMENT=		"freeware font with many latin/greek/cyrillic glyphs"
+CATEGORIES=		print graphics textproc productivity x11
+V=			102
+DISTNAME=		Gentium_${V}_W
+PKGNAME=		gentium-${V}-0
+HOMEPAGE=		http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&cat_id=FontDownloadsGentium
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
-# They call it "copyrighted freeware"
+# OFL
 PERMIT_DISTFILES_FTP=	Yes
-PERMIT_DISTFILES_CDROM=	"must not bundle"
-PERMIT_PACKAGE_FTP=	Yes
-PERMIT_PACKAGE_CDROM=	"must distribute unmodified package"
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	"modified package, would have to change font name"
+PERMIT_PACKAGE_CDROM=	"modified package, would have to change font name"
 
-EXTRACT_SUFX=	.zip
-FETCH_NAME=	${ALLFILES:S@^@${FULLDISTDIR}/@}
-WRKDIST=	${WRKDIR}/Gentium${V}
+# Backup only
+MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 
-FONTDIR=	${PREFIX}/lib/X11/fonts/gentium
-DOCS=		Gentium${V}ReadMe.txt.fmt ReadMe.txt
-FONTS=		GenAI${V}.TTF GenAI${V}.ttf GenAR${V}.TTF GenAR${V}.ttf \
-		GenI${V}.TTF GenI${V}.ttf GenR${V}.TTF GenR${V}.ttf
+EXTRACT_SUFX=		.zip
+FETCH_NAME=		${ALLFILES:S@^@${FULLDISTDIR}/@}
+WRKDIST=		${WRKDIR}/Gentium${V}
 
-SUBST_VARS+=	V
-NO_REGRESS=	Yes
+FONTDIR=		${PREFIX}/lib/X11/fonts/gentium
+DOCS=			FONTLOG.txt FONTLOG.txt \
+			GENTIUM-FAQ.txt FAQ.txt \
+			OFL.txt OFL.txt
+FONTS=			GenAI${V}.TTF GenAI${V}.ttf \
+			GenAR${V}.TTF GenAR${V}.ttf \
+			GenI${V}.TTF GenI${V}.ttf \
+			GenR${V}.TTF GenR${V}.ttf
+
+SUBST_VARS+=		V
+USE_X11=		Yes
+NO_BUILD=		Yes
+NO_REGRESS=		Yes
 
 do-fetch:
 	@( mkdir -p ${FETCH_NAME:H}; cd ${FETCH_NAME:H}; \
@@ -33,21 +42,10 @@ do-fetch:
 		${_CDROM_OVERRIDE}; site=http://scripts.sil.org/; \
 		${ECHO_MSG} ">> Attempting to fetch $$f from $${site}."; \
 		if /usr/bin/ftp -Vmo $$f \
-		    'http://scripts.sil.org/cms/scripts/render_download.php?site_id=nrsi&format=file&media_id=${DISTNAME}&_sc=1'; then \
+		    'xhttp://scripts.sil.org/cms/scripts/render_download.php?site_id=nrsi&format=file&media_id=${DISTNAME}&_sc=1'; then \
 			exit 0; \
 		fi; exit 1; \
-	fi; )
-
-do-build:
-.for _o _n in ${DOCS}
-	(i=0; cd ${WRKSRC} && print '/^----/+1,$$p\nq' \
-	    | ed -s ${_o:S/.fmt$//} | while read x; do print -r -- "$$x"; \
-		if [[ $$i = 0 ]]; then \
-			[[ $$x = VERSION\ DETAILS* ]] && i=1; \
-		else	[[ $$x = Version\ * ]] && print; \
-		fi; done | fmt -psw66 >${_o} \
-	    && ed -s ${_o} <${FILESDIR}/${_n}.ed)
-.endfor
+	fi; ) || (cd ${.CURDIR} && exec ${MAKE} ${ALLFILES:S@^@${FULLDISTDIR}/@})
 
 do-install:
 	${INSTALL_DATA_DIR} ${FONTDIR}
