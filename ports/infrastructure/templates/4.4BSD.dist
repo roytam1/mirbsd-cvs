@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.10 2005/12/17 01:50:34 tg Exp $
+# $MirOS: ports/infrastructure/templates/4.4BSD.dist,v 1.1 2005/12/17 01:51:25 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir mode=0755
@@ -539,6 +539,112 @@ examples
 ..
 
 # ./usr/local
+..
+
+# ./usr/man
+man
+
+# ./usr/man/cat1
+cat1
+# ./usr/man/cat1
+..
+
+# ./usr/man/cat2
+cat2
+# ./usr/man/cat2
+..
+
+# ./usr/man/cat3
+cat3
+# ./usr/man/cat3
+..
+
+# ./usr/man/cat3p
+cat3p
+# ./usr/man/cat3p
+..
+
+# ./usr/man/cat4
+cat4
+# ./usr/man/cat4
+..
+
+# ./usr/man/cat5
+cat5
+# ./usr/man/cat5
+..
+
+# ./usr/man/cat6
+cat6
+# ./usr/man/cat6
+..
+
+# ./usr/man/cat7
+cat7
+# ./usr/man/cat7
+..
+
+# ./usr/man/cat8
+cat8
+# ./usr/man/cat8
+..
+
+# ./usr/man/cat9
+cat9
+# ./usr/man/cat9
+..
+
+# ./usr/man/man1
+man1
+# ./usr/man/man1
+..
+
+# ./usr/man/man2
+man2
+# ./usr/man/man2
+..
+
+# ./usr/man/man3
+man3
+# ./usr/man/man3
+..
+
+# ./usr/man/man3p
+man3p
+# ./usr/man/man3p
+..
+
+# ./usr/man/man4
+man4
+# ./usr/man/man4
+..
+
+# ./usr/man/man5
+man5
+# ./usr/man/man5
+..
+
+# ./usr/man/man6
+man6
+# ./usr/man/man6
+..
+
+# ./usr/man/man7
+man7
+# ./usr/man/man7
+..
+
+# ./usr/man/man8
+man8
+# ./usr/man/man8
+..
+
+# ./usr/man/man9
+man9
+# ./usr/man/man9
+..
+
+# ./usr/man
 ..
 
 # ./usr/mdec
@@ -1082,112 +1188,6 @@ usd
 # ./usr/share/info
 info
 # ./usr/share/info
-..
-
-# ./usr/share/man
-man
-
-# ./usr/share/man/cat1
-cat1
-# ./usr/share/man/cat1
-..
-
-# ./usr/share/man/cat2
-cat2
-# ./usr/share/man/cat2
-..
-
-# ./usr/share/man/cat3
-cat3
-# ./usr/share/man/cat3
-..
-
-# ./usr/share/man/cat3p
-cat3p
-# ./usr/share/man/cat3p
-..
-
-# ./usr/share/man/cat4
-cat4
-# ./usr/share/man/cat4
-..
-
-# ./usr/share/man/cat5
-cat5
-# ./usr/share/man/cat5
-..
-
-# ./usr/share/man/cat6
-cat6
-# ./usr/share/man/cat6
-..
-
-# ./usr/share/man/cat7
-cat7
-# ./usr/share/man/cat7
-..
-
-# ./usr/share/man/cat8
-cat8
-# ./usr/share/man/cat8
-..
-
-# ./usr/share/man/cat9
-cat9
-# ./usr/share/man/cat9
-..
-
-# ./usr/share/man/man1
-man1
-# ./usr/share/man/man1
-..
-
-# ./usr/share/man/man2
-man2
-# ./usr/share/man/man2
-..
-
-# ./usr/share/man/man3
-man3
-# ./usr/share/man/man3
-..
-
-# ./usr/share/man/man3p
-man3p
-# ./usr/share/man/man3p
-..
-
-# ./usr/share/man/man4
-man4
-# ./usr/share/man/man4
-..
-
-# ./usr/share/man/man5
-man5
-# ./usr/share/man/man5
-..
-
-# ./usr/share/man/man6
-man6
-# ./usr/share/man/man6
-..
-
-# ./usr/share/man/man7
-man7
-# ./usr/share/man/man7
-..
-
-# ./usr/share/man/man8
-man8
-# ./usr/share/man/man8
-..
-
-# ./usr/share/man/man9
-man9
-# ./usr/share/man/man9
-..
-
-# ./usr/share/man
 ..
 
 # ./usr/share/misc
