@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $MirOS: ports/infrastructure/scripts/make-plist,v 1.9 2005/11/11 23:17:05 bsiegert Exp $
+# $MirOS: ports/infrastructure/scripts/make-plist,v 1.10 2005/11/15 19:34:01 tg Exp $
 # $OpenBSD: make-plist,v 1.32 2003/12/26 00:26:01 espie Exp $
 
 #  Copyright (c) 1999 Marc Espie
@@ -98,6 +98,8 @@ sub annotate
 		} elsif (m/^\@comment\s+no checksum$/) {
 			$nocheck = 1;
 		} elsif (m/^\@option no-default-conflict/||m/^\@pkgcfl/) {
+			push(@output, "$_\n");
+		} elsif (m/^\@option base-package/) {
 			push(@output, "$_\n");
 		} elsif (m/^\@exec\s+/ || m/^\@unexec\s+/) {
 			$_=$';
