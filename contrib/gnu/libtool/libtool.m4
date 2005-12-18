@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.45 2005/12/15 19:09:10 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.46 2005/12/16 15:20:06 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1379,6 +1379,15 @@ if test "$GCC" = yes; then
 else
   sys_lib_search_path_spec="/lib /usr/lib /usr/local/lib"
 fi
+tmp="$sys_lib_search_path_spec"
+sys_lib_search_path_spec=
+sp=
+for i in $tmp
+do
+  test -d $i && sys_lib_search_path_spec="$sys_lib_search_path_spec$sp$i"
+  sp=" "
+done
+
 need_lib_prefix=unknown
 hardcode_into_libs=no
 
