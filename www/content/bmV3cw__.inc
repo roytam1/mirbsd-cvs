@@ -1,6 +1,12 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.41 2005/12/14 23:43:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.42 2005/12/16 16:53:40 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>18.12.2005<br />First public development snapshot of tg@'s fork of the
+	sirc IRC client, <a href="https://tg.mirsolutions.de:445/bsd/mirsirc-20051218.tgz">MirSirc</a>,
+	released for peer review (relative to <tt>/usr/local</tt>).<br />A
+	lot of pending fixes for the build of the whole system was revised
+	and committed in an overnight no-sleep session at Netzladen.</li>
 
 <li>16.12.2005<br />MirPorts Framework: first step at implementing package
 	upgrades (works for very simple setups).<br />CVS: finally, passes
