@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.9 2005/12/15 01:55:52 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.12 2005/12/15 02:05:34 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -194,7 +194,7 @@ done
 [[ -z $module ]] && module=${pathr%%/*}
 [[ -n $logfile && $logfile != */* ]] && logfile=$repo/$module/$logfile
 if [[ -e $modf ]]; then
-	[[ $(<$modf) = $module ]] || print \(multiple\) >$modf
+	[[ "$(<$modf)" = $module ]] || print \(multiple\) >$modf
 else
 	print $module >$modf
 fi
@@ -311,7 +311,7 @@ if [[ ${fold[0]} = "- Imported sources" ]]; then
 	exit 0
 fi
 
-[[ $(<$repo/.tmp/cl.lastdir.$id) = $repo/$pathr ]]
+[[ "$(<$repo/.tmp/cl.lastdir.$id)" = $repo/$pathr ]]
 leave=$?
 
 # Look for a log file which matches this log message
@@ -322,7 +322,7 @@ while : ; do
 		cp $msgf $prefix.msg.$i.$id
 		break
 	fi
-	[[ $lmsg = $(<$prefix.msg.$i.$id) ]] && break
+	[[ $lmsg = "$(<$prefix.msg.$i.$id)" ]] && break
 	let ++i
 done
 
