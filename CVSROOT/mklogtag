@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.8 2005/12/06 03:11:40 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.9 2005/12/15 01:57:44 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -57,7 +57,7 @@ let i=0
 F=$repo/.tmp/cl.tag.$id
 T=$repo/.tmp/cl.tagend.$id
 
-[[ $(<$repo/.tmp/cl.lastdir.$id) = $repo/$dir ]]
+[[ "$(<$repo/.tmp/cl.lastdir.$id)" = $repo/$dir ]]
 leave=$?
 
 case $1 {
