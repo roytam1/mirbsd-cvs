@@ -1,18 +1,19 @@
-# $MirOS: ports/net/curl/Makefile,v 1.1.7.1 2005/03/18 15:48:03 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.2 2005/04/22 22:52:41 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
-COMMENT=	"get files from FTP, Gopher, HTTP or HTTPS servers"
-DISTNAME=	curl-7.13.2
-CATEGORIES=	net
-MASTER_SITES=	http://curl.haxx.se/download/ \
-		ftp://ftp.sunet.se/pub/www/utilities/curl/ \
-		ftp://cool.haxx.se/curl/ \
-		ftp://ftp.fu-berlin.de/pub/unix/network/curl/ \
-		http://curl.linuxworx.com.au/ \
-		http://www.cubic.ch/mirror/curl/ \
-		http://curl.webmeta.com/ \
-		ftp://gd.tuwien.ac.ut/utils/archivers/curl/
-HOMEPAGE=	http://curl.haxx.se/
+COMMENT=		"get files from FTP, Gopher, HTTP or HTTPS servers"
+DISTNAME=		curl-7.13.2
+PKGNAME=		${DISTNAME}-1
+CATEGORIES=		net
+MASTER_SITES=		http://curl.haxx.se/download/ \
+			ftp://ftp.sunet.se/pub/www/utilities/curl/ \
+			ftp://cool.haxx.se/curl/ \
+			ftp://ftp.fu-berlin.de/pub/unix/network/curl/ \
+			http://curl.linuxworx.com.au/ \
+			http://www.cubic.ch/mirror/curl/ \
+			http://curl.webmeta.com/ \
+			ftp://gd.tuwien.ac.ut/utils/archivers/curl/
+HOMEPAGE=		http://curl.haxx.se/
 
 # MIT
 PERMIT_PACKAGE_CDROM=	Yes
@@ -23,13 +24,25 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
-CONFIGURE_ARGS+=	--with-random="/dev/arandom"
+CONFIGURE_ARGS+=	--with-random="/dev/arandom" \
+			--enable-http \
+			--enable-ftp \
+			--enable-gopher \
+			--enable-file \
+			--disable-ldap \
+			--enable-telnet \
+			--enable-manual \
+			--enable-cookies \
+			--with-ssl \
+			--with-zlib \
+			--without-libidn \
+			--disable-libtool-lock
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/curl
 	${INSTALL_DATA_DIR} ${PREFIX}/share/emacs/site-lisp
-	cd ${WRKSRC}; ${INSTALL_DATA} README ${PREFIX}/share/doc/curl
+	cd ${WRKSRC}; ${INSTALL_DATA} README ${PREFIX}/share/doc/curl/
 	cd ${WRKSRC}; ${INSTALL_DATA} curl-style.el \
-		${PREFIX}/share/emacs/site-lisp
+		${PREFIX}/share/emacs/site-lisp/
 
 .include <bsd.port.mk>
