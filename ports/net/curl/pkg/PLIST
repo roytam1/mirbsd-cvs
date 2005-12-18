@@ -1,4 +1,4 @@
-@comment $MirOS: ports/net/curl/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:03 tg Exp $
+@comment $MirOS: ports/net/curl/pkg/PLIST,v 1.2 2005/10/08 17:47:30 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2004/05/18 23:30:46 brad Exp $
 bin/curl
 bin/curl-config
@@ -10,6 +10,7 @@ include/curl/multi.h
 include/curl/stdcheaders.h
 include/curl/types.h
 lib/libcurl.la
+lib/pkgconfig/libcurl.pc
 man/man1/curl-config.1
 man/man1/curl.1
 man/man3/curl_easy_cleanup.3
@@ -55,10 +56,9 @@ man/man3/libcurl-share.3
 man/man3/libcurl-tutorial.3
 man/man3/libcurl.3
 share/curl/curl-ca-bundle.crt
-share/doc/curl/README
 share/emacs/site-lisp/curl-style.el
 @dirrm share/emacs/site-lisp
 @dirrm share/emacs
-@dirrm share/doc/curl
 @dirrm share/curl
+@dirrm lib/pkgconfig
 @dirrm include/curl

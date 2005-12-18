@@ -1,9 +1,8 @@
-# $MirOS: ports/net/curl/Makefile,v 1.2 2005/04/22 22:52:41 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.3 2005/12/18 04:21:10 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
 COMMENT=		"get files from FTP, Gopher, HTTP or HTTPS servers"
-DISTNAME=		curl-7.13.2
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		curl-7.15.1
 CATEGORIES=		net
 MASTER_SITES=		http://curl.haxx.se/download/ \
 			ftp://ftp.sunet.se/pub/www/utilities/curl/ \
@@ -38,11 +37,16 @@ CONFIGURE_ARGS+=	--with-random="/dev/arandom" \
 			--without-libidn \
 			--disable-libtool-lock
 
+.include <mirports.sys.mk>
+.if ${OStype} == "OpenBSD"
+CONFIGURE_ARGS+=	--with-gssapi
+.else
+CONFIGURE_ARGS+=	--without-gssapi
+.endif
+
 post-install:
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/curl
 	${INSTALL_DATA_DIR} ${PREFIX}/share/emacs/site-lisp
-	cd ${WRKSRC}; ${INSTALL_DATA} README ${PREFIX}/share/doc/curl/
 	cd ${WRKSRC}; ${INSTALL_DATA} curl-style.el \
-		${PREFIX}/share/emacs/site-lisp/
+	    ${PREFIX}/share/emacs/site-lisp/
 
 .include <bsd.port.mk>
