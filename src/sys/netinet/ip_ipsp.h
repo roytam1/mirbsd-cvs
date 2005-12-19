@@ -538,6 +538,7 @@ extern struct tdb *gettdbbysrcdst(u_int32_t, union sockaddr_union *,
 extern void puttdb(struct tdb *);
 extern void tdb_delete(struct tdb *);
 extern struct tdb *tdb_alloc(void);
+extern int tdb_hash(u_int32_t, union sockaddr_union *, u_int8_t);
 extern int tdb_init(struct tdb *, u_int16_t, struct ipsecinit *);
 extern int tdb_walk(int (*)(struct tdb *, void *, int), void *);
 

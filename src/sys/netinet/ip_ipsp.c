@@ -76,10 +76,6 @@ void tdb_hashstats(void);
 #define	DPRINTF(x)
 #endif
 
-#ifdef __GNUC__
-#define	INLINE	static __inline
-#endif
-
 int		ipsp_kern(int, char **, int);
 u_int8_t	get_sa_require(struct inpcb *);
 void		tdb_rehash(void);
@@ -145,7 +141,7 @@ static int tdb_count;
  * Our hashing function needs to stir things with a non-zero random multiplier
  * so we cannot be DoS-attacked via choosing of the data to hash.
  */
-INLINE int
+int
 tdb_hash(u_int32_t spi, union sockaddr_union *dst, u_int8_t proto)
 {
 	static u_int32_t mult1 = 0, mult2 = 0;
@@ -291,9 +287,8 @@ gettdb(u_int32_t spi, union sockaddr_union *dst, u_int8_t proto)
 	hashval = tdb_hash(spi, dst, proto);
 
 	for (tdbp = tdbh[hashval]; tdbp != NULL; tdbp = tdbp->tdb_hnext)
-		if ((tdbp->tdb_spi == spi) &&
-		    !bcmp(&tdbp->tdb_dst, dst, SA_LEN(&dst->sa)) &&
-		    (tdbp->tdb_sproto == proto))
+		if ((tdbp->tdb_spi == spi) && (tdbp->tdb_sproto == proto) &&
+		    !bcmp(&tdbp->tdb_dst, dst, SA_LEN(&dst->sa)))
 			break;
 
 	return tdbp;
