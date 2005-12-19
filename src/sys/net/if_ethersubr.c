@@ -716,6 +716,14 @@ ether_input(ifp, eh, m)
 	ac = (struct arpcom *)ifp;
 
 	/*
+	 * If packet has been filtered by the bpf listener, drop it now
+	 */
+	if (m->m_flags & M_FILDROP) {
+		m_free(m);
+		return;
+	}
+
+	/*
 	 * If packet is unicast and we're in promiscuous mode, make sure it
 	 * is for us.  Drop otherwise.
 	 */

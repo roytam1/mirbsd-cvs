@@ -142,6 +142,7 @@ struct mbuf {
 #define M_COMP		0x1000  /* payload was compressed (IPCOMP) */
 #define M_AUTH_AH	0x2000  /* header was authenticated (AH) */
 #define M_TUNNEL	0x4000  /* IP-in-IP added by tunnel mode IPsec */
+#define M_FILDROP	0x0080	/* dropped by bpf filter */
 
 /* Checksumming flags */
 #define	M_IPV4_CSUM_OUT		0x0001	/* IPv4 checksum needed */
