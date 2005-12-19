@@ -1,4 +1,4 @@
-/*	$OpenBSD: ip_ipsp.h,v 1.127 2004/04/14 20:10:04 markus Exp $	*/
+/*	$OpenBSD: ip_ipsp.h,v 1.131 2005/11/24 12:08:16 pedro Exp $	*/
 /*
  * The authors of this code are John Ioannidis (ji@tla.org),
  * Angelos D. Keromytis (kermit@csd.uch.gr),
@@ -186,11 +186,13 @@ struct ipsec_policy {
 
 	union sockaddr_union	ipo_src;	/* Local address to use */
 	union sockaddr_union	ipo_dst;	/* Remote gateway -- if it's zeroed:
-						 * - on output, we try to contact the
-						 * remote host directly (if needed).
-						 * - on input, we accept on if the
-						 * inner source is the same as the
-						 * outer source address, or if transport
+						 * - on output, we try to
+						 * contact the remote host
+						 * directly (if needed).  
+						 * - on input, we accept on if
+						 * the inner source is the
+						 * same as the outer source
+						 * address, or if transport
 						 * mode was used.
 						 */
 
@@ -351,7 +353,6 @@ struct tdb {				/* tunnel descriptor block */
 	u_int32_t	tdb_rpl;	/* Replay counter */
 	u_int32_t	tdb_bitmap;	/* Used for replay sliding window */
 
-	u_int32_t	tdb_epoch;	/* Used by the kernfs interface */
 	u_int8_t	tdb_iv[4];	/* Used for HALF-IV ESP */
 
 	struct ipsec_ref	*tdb_local_cred;
@@ -412,7 +413,6 @@ struct ipsecinit {
 #define	XFT_COMP	0x1000
 
 #define	IPSEC_ZEROES_SIZE	256	/* Larger than an IP6 extension hdr. */
-#define	IPSEC_KERNFS_BUFSIZE	4096
 
 #if BYTE_ORDER == LITTLE_ENDIAN
 static __inline u_int64_t
@@ -538,6 +538,7 @@ extern struct tdb *gettdbbysrcdst(u_int32_t, union sockaddr_union *,
 extern void puttdb(struct tdb *);
 extern void tdb_delete(struct tdb *);
 extern struct tdb *tdb_alloc(void);
+extern void tdb_free(struct tdb *);
 extern int tdb_hash(u_int32_t, union sockaddr_union *, u_int8_t);
 extern int tdb_init(struct tdb *, u_int16_t, struct ipsecinit *);
 extern int tdb_walk(int (*)(struct tdb *, void *, int), void *);
