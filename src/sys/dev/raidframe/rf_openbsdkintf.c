@@ -1,4 +1,4 @@
-/* $OpenBSD: rf_openbsdkintf.c,v 1.27 2004/11/28 02:47:14 pedro Exp $	*/
+/* $OpenBSD: rf_openbsdkintf.c,v 1.31 2005/12/08 05:53:45 tedu Exp $	*/
 /* $NetBSD: rf_netbsdkintf.c,v 1.109 2001/07/27 03:30:07 oster Exp $	*/
 
 /*-
@@ -1101,6 +1101,7 @@ raidioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 
 		if ((row < 0) || (row >= raidPtr->numRow) ||
 		    (column < 0) || (column >= raidPtr->numCol)) {
+			RF_Free( clabel, sizeof(RF_ComponentLabel_t));
 			return(EINVAL);
   		}
 
@@ -1141,7 +1142,6 @@ raidioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 
 		if ((row < 0) || (row >= raidPtr->numRow) ||
 		    (column < 0) || (column >= raidPtr->numCol)) {
-			RF_Free( clabel, sizeof(RF_ComponentLabel_t));
 			return(EINVAL);
 		}
 
@@ -2596,18 +2596,15 @@ rf_update_component_labels(RF_Raid_t *raidPtr, int final)
 void
 rf_close_component(RF_Raid_t *raidPtr, struct vnode *vp, int auto_configured)
 {
-	struct proc *p;
-
-	if ((p = raidPtr->engine_thread) == NULL)
-		p = curproc;
+	struct proc *p = curproc;
 
 	if (vp != NULL) {
 		if (auto_configured == 1) {
+			/* component was opened by rf_find_raid_components() */
 			VOP_CLOSE(vp, FREAD | FWRITE, NOCRED, p);
 			vrele(vp);
 		} else {
-			if (VOP_ISLOCKED(vp))
-				VOP_UNLOCK(vp, 0, p);
+			/* component was opened by raidlookup() */
 			(void) vn_close(vp, FREAD | FWRITE, p->p_ucred, p);
 		}
 	} else {
