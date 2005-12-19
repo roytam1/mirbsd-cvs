@@ -1,4 +1,4 @@
-/*	$OpenBSD: tty_pty.c,v 1.29 2005/05/26 00:33:45 pedro Exp $	*/
+/*	$OpenBSD: tty_pty.c,v 1.24 2004/07/21 12:10:20 art Exp $	*/
 /*	$NetBSD: tty_pty.c,v 1.33.4.1 1996/06/02 09:08:11 mrg Exp $	*/
 
 /*
@@ -167,7 +167,7 @@ check_pty(int minor)
 {
 	struct pt_softc *pti;
 
-	rw_enter_write(&pt_softc_lock, curproc);
+	rw_enter_write(&pt_softc_lock);
 	if (minor >= npty) {
 		struct pt_softc **newpt;
 		int newnpty;
@@ -971,7 +971,7 @@ sysctl_pty(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
 	case KERN_TTY_MAXPTYS:
 		if (!newp)
 			return (sysctl_rdint(oldp, oldlenp, newp, maxptys));
-		rw_enter_write(&pt_softc_lock, curproc);
+		rw_enter_write(&pt_softc_lock);
 		oldmax = maxptys;
 		error = sysctl_int(oldp, oldlenp, newp, newlen, &maxptys);
 		/*
