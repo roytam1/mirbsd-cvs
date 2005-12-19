@@ -149,4 +149,7 @@
 #define	SIOCSIFDESCR	 _IOW('i', 128, struct ifreq)	/* set ifnet descr */
 #define	SIOCGIFDESCR	_IOWR('i', 129, struct ifreq)	/* get ifnet descr */
 
+#define	SIOCSETPFSYNC	_IOW('i', 247, struct ifreq)
+#define	SIOCGETPFSYNC	_IOWR('i', 248, struct ifreq)
+
 #endif /* !_SYS_SOCKIO_H_ */
