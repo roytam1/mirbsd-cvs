@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.3 2005/07/07 14:39:27 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.4 2005/07/25 17:58:06 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
 /*
  * Copyright (c) 2003, 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>.  All rights reserved.
+ *	Thorsten "mirabile" Glaser <tg@mirbsd.de>.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -40,8 +40,8 @@
  *	@(#)errno.h	8.5 (Berkeley) 1/21/94
  */
 
-#ifndef	_SYS_ERRNO_H
-#define	_SYS_ERRNO_H
+#ifndef	_SYS_ERRNO_H_
+#define	_SYS_ERRNO_H_
 
 #ifndef _KERNEL
 extern int errno;			/* global error number */
@@ -196,4 +196,4 @@ __END_DECLS
 #define	EJUSTRETURN	-2		/* don't modify regs, just return */
 #endif
 
-#endif	/* !def _SYS_ERRNO_H */
+#endif	/* !def _SYS_ERRNO_H_ */
