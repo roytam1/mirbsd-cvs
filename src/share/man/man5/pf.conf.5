@@ -1,4 +1,4 @@
-.\"	$OpenBSD: pf.conf.5,v 1.335 2005/06/14 18:18:14 henning Exp $
+.\"	$OpenBSD: pf.conf.5,v 1.339 2005/11/17 22:18:20 joel Exp $
 .\"
 .\" Copyright (c) 2002, Daniel Hartmeier
 .\" All rights reserved.
@@ -1084,7 +1084,7 @@ or to the firewall itself.
 Note that redirecting external incoming connections to the loopback
 address, as in
 .Bd -literal -offset indent
-rdr on ne3 inet proto tcp to port 8025 -> 127.0.0.1 port 25
+rdr on ne3 inet proto tcp to port spamd -> 127.0.0.1 port smtp
 .Ed
 .Pp
 will effectively allow an external host to connect to daemons
@@ -1230,6 +1230,13 @@ As with
 .Ar log ,
 packets are logged to
 .Xr pflog 4 .
+.It Ar log (user)
+Logs the
+.Ux
+user ID of the user that owns the socket and the PID of the process that
+has the socket open where the packet is sourced from or destined to
+(depending on which socket is local).
+This is in addition to the normal information logged.
 .It Ar quick
 If a packet matches a rule which has the
 .Ar quick
@@ -2610,11 +2617,12 @@ option         = "set" ( [ "timeout" ( timeout | "{" timeout-list "}" ) ] |
                  [ "state-policy" ( "if-bound" | "floating" ) ]
                  [ "require-order" ( "yes" | "no" ) ]
                  [ "fingerprints" filename ] |
+                 [ "skip on" ( interface-name | "{" interface-list "}" ) ] |
                  [ "debug" ( "none" | "urgent" | "misc" | "loud" ) ] )
 
 pf-rule        = action [ ( "in" | "out" ) ]
                  [ "log" [ "(" logopts ")"] ] [ "quick" ]
-                 [ "on" ifspec ] [ route ] [ af ] [ protospec ]
+                 [ "on" ifspec ] [ "fastroute" | route ] [ af ] [ protospec ]
                  hosts [ filteropt-list ]
 
 logopts        = logopt [ "," logopts ]
@@ -2692,8 +2700,7 @@ icmp6code      = ( icmp6-code-name | icmp6-code-number )
 
 ifspec         = ( [ "!" ] interface-name ) | "{" interface-list "}"
 interface-list = [ "!" ] interface-name [ [ "," ] interface-list ]
-route          = "fastroute" |
-                 ( "route-to" | "reply-to" | "dup-to" )
+route          = ( "route-to" | "reply-to" | "dup-to" )
                  ( routehost | "{" routehost-list "}" )
                  [ pooltype ]
 af             = "inet" | "inet6"
@@ -2711,7 +2718,7 @@ hosts          = "all" |
 ipspec         = "any" | host | "{" host-list "}"
 host           = [ "!" ] ( address [ "/" mask-bits ] | "<" string ">" )
 redirhost      = address [ "/" mask-bits ]
-routehost      = ( interface-name [ address [ "/" mask-bits ] ] )
+routehost      = "(" interface-name [ address [ "/" mask-bits ] ] ")"
 address        = ( interface-name | "(" interface-name ")" | hostname |
                  ipv4-dotted-quad | ipv6-coloned-hex )
 host-list      = host [ [ "," ] host-list ]
