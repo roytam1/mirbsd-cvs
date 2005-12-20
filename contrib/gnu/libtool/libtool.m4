@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.46 2005/12/16 15:20:06 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.47 2005/12/18 17:37:31 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -10,7 +10,7 @@
 ## unlimited permission to copy and/or distribute it, with or without
 ## modifications, as long as this notice is preserved.
 
-# serial 47 AC_PROG_LIBTOOL
+# serial 48 AC_PROG_LIBTOOL
 
 
 dnl Enable overwriting autoconf'd functions without aclocal bringing them in
@@ -2633,37 +2633,43 @@ AC_DEFUN([AC_PROG_NM],
   # Let the user override the test.
   lt_cv_path_NM="$NM"
 else
-  lt_save_ifs="$IFS"; IFS=$PATH_SEPARATOR
-  for ac_dir in $PATH /usr/ccs/bin /usr/ucb /bin; do
-    IFS="$lt_save_ifs"
-    test -z "$ac_dir" && ac_dir=.
-    tmp_nm="$ac_dir/${ac_tool_prefix}nm"
-    if test -f "$tmp_nm" || test -f "$tmp_nm$ac_exeext" ; then
-      # Check to see if the nm accepts a BSD-compat flag.
-      # Adding the 'sed 1q' prevents false positives on HP-UX, which says:
-      #   nm: unknown option "B" ignored
-      # Tru64's nm complains that /dev/null is an invalid object file
-      case `"$tmp_nm" -B /dev/null 2>&1 | sed '1q'` in
-      */dev/null* | *'Invalid file or object type'*)
-	lt_cv_path_NM="$tmp_nm -B"
-	break
-	;;
-      *)
-	case `"$tmp_nm" -p /dev/null 2>&1 | sed '1q'` in
-	*/dev/null*)
-	  lt_cv_path_NM="$tmp_nm -p"
+  lt_nm_to_check="${ac_tool_prefix}nm"
+  if test -n "$ac_tool_prefix" && test "$build" = "$host"; then 
+    lt_nm_to_check="$lt_nm_to_check nm"
+  fi
+  for lt_tmp_nm in $lt_nm_to_check; do
+    lt_save_ifs="$IFS"; IFS=$PATH_SEPARATOR
+    for ac_dir in $PATH /usr/ccs/bin/elf /usr/ccs/bin /usr/ucb /bin; do
+      IFS="$lt_save_ifs"
+      test -z "$ac_dir" && ac_dir=.
+      tmp_nm="$ac_dir/$lt_tmp_nm"
+      if test -f "$tmp_nm" || test -f "$tmp_nm$ac_exeext" ; then
+	# Check to see if the nm accepts a BSD-compat flag.
+	# Adding the 'sed 1q' prevents false positives on HP-UX, which says:
+	#   nm: unknown option "B" ignored
+	# Tru64's nm complains that /dev/null is an invalid object file
+	case `"$tmp_nm" -B /dev/null 2>&1 | sed '1q'` in
+	*/dev/null* | *'Invalid file or object type'*)
+	  lt_cv_path_NM="$tmp_nm -B"
 	  break
 	  ;;
 	*)
-	  lt_cv_path_NM=${lt_cv_path_NM="$tmp_nm"} # keep the first match, but
-	  continue # so that we can try to find one that supports BSD flags
+	  case `"$tmp_nm" -p /dev/null 2>&1 | sed '1q'` in
+	  */dev/null*)
+	    lt_cv_path_NM="$tmp_nm -p"
+	    break
+	    ;;
+	  *)
+	    lt_cv_path_NM=${lt_cv_path_NM="$tmp_nm"} # keep the first match, but
+	    continue # so that we can try to find one that supports BSD flags
+	    ;;
+	  esac
 	  ;;
 	esac
-	;;
-      esac
-    fi
+      fi
+    done
+    IFS="$lt_save_ifs"
   done
-  IFS="$lt_save_ifs"
   test -z "$lt_cv_path_NM" && lt_cv_path_NM=nm
 fi])
 NM="$lt_cv_path_NM"
@@ -2939,6 +2945,7 @@ _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)=
 _LT_AC_TAGVAR(hardcode_libdir_flag_spec_ld, $1)=
 _LT_AC_TAGVAR(hardcode_libdir_separator, $1)=
 _LT_AC_TAGVAR(hardcode_minus_L, $1)=no
+_LT_AC_TAGVAR(hardcode_shlibpath_var, $1)=unsupported
 _LT_AC_TAGVAR(hardcode_automatic, $1)=no
 _LT_AC_TAGVAR(module_cmds, $1)=
 _LT_AC_TAGVAR(module_expsym_cmds, $1)=
