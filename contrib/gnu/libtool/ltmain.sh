@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.33 2005/12/16 14:44:55 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.33 2005/12/16 14:44:55 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.34 2005/12/20 00:17:45 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.34 2005/12/20 00:17:45 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
@@ -47,8 +47,8 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.5.21a
-TIMESTAMP=" (MirLibtool 2005/12/16 14:49:40)"
+VERSION=1.5.23a
+TIMESTAMP=" (MirLibtool 2005/12/20 00:21:03)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
@@ -136,12 +136,51 @@ run=
 show="$echo"
 show_help=
 execute_dlfiles=
+duplicate_deps=no
+preserve_args=
 lo2o="s/\\.lo\$/.${objext}/"
 o2lo="s/\\.${objext}\$/.lo/"
 
 #####################################
 # Shell function definitions:
 # This seems to be the best place for them
+
+# func_mktempdir [string]
+# Make a temporary directory that won't clash with other running
+# libtool processes, and avoids race conditions if possible.  If
+# given, STRING is the basename for that directory.
+func_mktempdir ()
+{
+    my_template="${TMPDIR-/tmp}/${1-$progname}"
+
+    if test "$run" = ":"; then
+      # Return a directory name, but don't create it in dry-run mode
+      my_tmpdir="${my_template}-$$"
+    else
+
+      # If mktemp works, use that first and foremost
+      my_tmpdir=`mktemp -d "${my_template}-XXXXXXXXXX" 2>/dev/null`
+
+      if test ! -d "$my_tmpdir"; then
+	# Failing that, at least try and use $RANDOM to avoid a race
+	my_tmpdir="${my_template}-${RANDOM-0}$$"
+
+	save_mktempdir_umask=`umask`
+	umask 0077
+	$mkdir "$my_tmpdir"
+	umask $save_mktempdir_umask
+      fi
+
+      # If we're not in dry-run mode, bomb out on failure
+      test -d "$my_tmpdir" || {
+        $echo "cannot create temporary directory \`$my_tmpdir'" 1>&2
+	exit $EXIT_FAILURE
+      }
+    fi
+
+    $echo "X$my_tmpdir" | $Xsed
+}
+
 
 # func_win32_libid arg
 # return the library type of file 'arg'
@@ -510,14 +549,14 @@ if test -n "$prevopt"; then
 fi
 
 case $disable_libs in
-no)
+no) 
   ;;
 shared)
   build_libtool_libs=no
   build_old_libs=yes
   ;;
 static)
-  build_old_libs=`case $build_libtool_libs in yes) $echo no;; *) $echo yes;; esac`
+  build_old_libs=`case $build_libtool_libs in yes) echo no;; *) echo yes;; esac`
   ;;
 esac
 
@@ -1082,6 +1121,7 @@ EOF
     no_install=no
     objs=
     non_pic_objects=
+    notinst_path= # paths that contain not-installed libtool libraries
     precious_files_regex=
     prefer_static_libs=no
     preload=no
@@ -1484,7 +1524,8 @@ EOF
 	  absdir=`cd "$dir" && pwd`
 	  if test -z "$absdir"; then
 	    $echo "$modename: cannot determine absolute directory name of '$dir'" 1>&2
-	    exit $EXIT_FAILURE
+	    absdir="$dir"
+	    notinst_path="$notinst_path $dir"
 	  fi
 	  dir="$absdir"
 	  ;;
@@ -2026,7 +2067,6 @@ EOF
     newlib_search_path=
     need_relink=no # whether we're linking any uninstalled libtool libraries
     notinst_deplibs= # not-installed libtool libraries
-    notinst_path= # paths that contain not-installed libtool libraries
     case $linkmode in
     lib)
 	passes="conv link"
@@ -3397,9 +3437,9 @@ EOF
 
       # Eliminate all temporary directories.
       for path in $notinst_path; do
-	lib_search_path=`$echo "$lib_search_path " | ${SED} -e 's% $path % %g'`
-	deplibs=`$echo "$deplibs " | ${SED} -e 's% -L$path % %g'`
-	dependency_libs=`$echo "$dependency_libs " | ${SED} -e 's% -L$path % %g'`
+	lib_search_path=`$echo "$lib_search_path " | ${SED} -e "s% $path % %g"`
+	deplibs=`$echo "$deplibs " | ${SED} -e "s% -L$path % %g"`
+	dependency_libs=`$echo "$dependency_libs " | ${SED} -e "s% -L$path % %g"`
       done
 
       if test -n "$xrpath"; then
@@ -3793,6 +3833,35 @@ EOF
 	deplibs=$newdeplibs
       fi
 
+
+      # move library search paths that coincide with paths to not yet
+      # installed libraries to the beginning of the library search list
+      new_libs=
+      for path in $notinst_path; do
+	case " $new_libs " in
+	*" -L$path/$objdir "*) ;;
+	*)
+	  case " $deplibs " in
+	  *" -L$path/$objdir "*)
+	    new_libs="$new_libs -L$path/$objdir" ;;
+	  esac
+	  ;;
+	esac
+      done
+      for deplib in $deplibs; do
+	case $deplib in
+	-L*)
+	  case " $new_libs " in
+	  *" $deplib "*) ;;
+	  *) new_libs="$new_libs $deplib" ;;
+	  esac
+	  ;;
+	*) new_libs="$new_libs $deplib" ;;
+	esac
+      done
+      deplibs="$new_libs"
+
+
       # All the library-specific variables (install_libdir is set above).
       library_names=
       old_library=
@@ -3876,6 +3945,7 @@ EOF
 	fi
 
 	lib="$output_objdir/$realname"
+	linknames=
 	for link
 	do
 	  linknames="$linknames $link"
@@ -4306,6 +4376,35 @@ EOF
 	fi
 	;;
       esac
+
+
+      # move library search paths that coincide with paths to not yet
+      # installed libraries to the beginning of the library search list
+      new_libs=
+      for path in $notinst_path; do
+	case " $new_libs " in
+	*" -L$path/$objdir "*) ;;
+	*)
+	  case " $compile_deplibs " in
+	  *" -L$path/$objdir "*)
+	    new_libs="$new_libs -L$path/$objdir" ;;
+	  esac
+	  ;;
+	esac
+      done
+      for deplib in $compile_deplibs; do
+	case $deplib in
+	-L*)
+	  case " $new_libs " in
+	  *" $deplib "*) ;;
+	  *) new_libs="$new_libs $deplib" ;;
+	  esac
+	  ;;
+	*) new_libs="$new_libs $deplib" ;;
+	esac
+      done
+      compile_deplibs="$new_libs"
+
 
       compile_command="$compile_command $compile_deplibs"
       finalize_command="$finalize_command $finalize_deplibs"
@@ -6060,18 +6159,7 @@ relink_command=\"$relink_command\""
 	  outputname=
 	  if test "$fast_install" = no && test -n "$relink_command"; then
 	    if test "$finalize" = yes && test -z "$run"; then
-	      tmpdir="/tmp"
-	      test -n "$TMPDIR" && tmpdir="$TMPDIR"
-	      tmpdir="$tmpdir/libtool-$$"
-	      save_umask=`umask`
-	      umask 0077
-	      if $mkdir "$tmpdir"; then
-		umask $save_umask
-	      else
-		umask $save_umask
-		$echo "$modename: error: cannot create temporary directory '$tmpdir'" 1>&2
-		continue
-	      fi
+	      tmpdir=`func_mktempdir`
 	      file=`$echo "X$file$stripped_ext" | $Xsed -e 's%^.*/%%'`
 	      outputname="$tmpdir/$file"
 	      # Replace the output file specification.
