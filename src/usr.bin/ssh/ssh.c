@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh.c,v 1.254 2005/10/30 08:52:18 djm Exp $");
+RCSID("$OpenBSD: ssh.c,v 1.257 2005/12/20 04:41:07 dtucker Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -162,9 +162,9 @@ usage(void)
 "           [-i identity_file] [-L [bind_address:]port:host:hostport]\n"
 "           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]\n"
 "           [-R [bind_address:]port:host:hostport] [-S ctl_path]\n"
-"           [user@]hostname [command]\n"
+"           [-w tunnel:tunnel] [user@]hostname [command]\n"
 	);
-	exit(1);
+	exit(255);
 }
 
 static int ssh_session(void);
@@ -218,7 +218,7 @@ main(int ac, char **av)
 	pw = getpwuid(original_real_uid);
 	if (!pw) {
 		logit("You don't exist, go away!");
-		exit(1);
+		exit(255);
 	}
 	/* Take a copy of the returned structure. */
 	pw = pwcopy(pw);
@@ -239,7 +239,7 @@ main(int ac, char **av)
 
 again:
 	while ((opt = getopt(ac, av,
-	    "1246ab:c:e:fgi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVXY")) != -1) {
+	    "1246ab:c:e:fgi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVw:XY")) != -1) {
 		switch (opt) {
 		case '1':
 			options.protocol = SSH_PROTO_1;
@@ -335,6 +335,15 @@ again:
 			if (opt == 'V')
 				exit(0);
 			break;
+		case 'w':
+			if (options.tun_open == -1)
+				options.tun_open = SSH_TUNMODE_DEFAULT;
+			options.tun_local = a2tun(optarg, &options.tun_remote);
+			if (options.tun_local == SSH_TUNID_ERR) {
+				fprintf(stderr, "Bad tun device '%s'\n", optarg);
+				exit(255);
+			}
+			break;
 		case 'q':
 			options.log_level = SYSLOG_LEVEL_QUIET;
 			break;
@@ -350,7 +359,7 @@ again:
 			else {
 				fprintf(stderr, "Bad escape character '%s'.\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 		case 'c':
@@ -365,7 +374,7 @@ again:
 					fprintf(stderr,
 					    "Unknown cipher type '%s'\n",
 					    optarg);
-					exit(1);
+					exit(255);
 				}
 				if (options.cipher == SSH_CIPHER_3DES)
 					options.ciphers = "3des-cbc";
@@ -381,7 +390,7 @@ again:
 			else {
 				fprintf(stderr, "Unknown mac type '%s'\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 		case 'M':
@@ -394,7 +403,7 @@ again:
 			options.port = a2port(optarg);
 			if (options.port == 0) {
 				fprintf(stderr, "Bad port '%s'\n", optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 		case 'l':
@@ -408,7 +417,7 @@ again:
 				fprintf(stderr,
 				    "Bad local forwarding specification '%s'\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 
@@ -419,7 +428,7 @@ again:
 				fprintf(stderr,
 				    "Bad remote forwarding specification "
 				    "'%s'\n", optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 
@@ -430,7 +439,7 @@ again:
 			if ((fwd.listen_host = hpdelim(&cp)) == NULL) {
 				fprintf(stderr, "Bad dynamic forwarding "
 				    "specification '%.100s'\n", optarg);
-				exit(1);
+				exit(255);
 			}
 			if (cp != NULL) {
 				fwd.listen_port = a2port(cp);
@@ -443,7 +452,7 @@ again:
 			if (fwd.listen_port == 0) {
 				fprintf(stderr, "Bad dynamic port '%s'\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			add_local_forward(&options, &fwd);
 			xfree(p);
@@ -464,7 +473,7 @@ again:
 			line = xstrdup(optarg);
 			if (process_config_line(&options, host ? host : "",
 			    line, "command-line", 0, &dummy) != 0)
-				exit(1);
+				exit(255);
 			xfree(line);
 			break;
 		case 's':
@@ -634,7 +643,7 @@ again:
 	    options.address_family, options.connection_attempts,
 	    original_effective_uid == 0 && options.use_privileged_port,
 	    options.proxy_command) != 0)
-		exit(1);
+		exit(255);
 
 	/*
 	 * If we successfully made the connection, load the host private key
@@ -1047,6 +1056,28 @@ ssh_session2_setup(int id, void *arg)
 		packet_send();
 	}
 
+	if (options.tun_open != SSH_TUNMODE_NO) {
+		Channel *c;
+		int fd;
+
+		debug("Requesting tun.");
+		if ((fd = tun_open(options.tun_local,
+		    options.tun_open)) >= 0) {
+			c = channel_new("tun", SSH_CHANNEL_OPENING, fd, fd, -1,
+			    CHAN_TCP_WINDOW_DEFAULT, CHAN_TCP_PACKET_DEFAULT,
+			    0, "tun", 1);
+			c->datagram = 1;
+			packet_start(SSH2_MSG_CHANNEL_OPEN);
+			packet_put_cstring("tun@openssh.com");
+			packet_put_int(c->self);
+			packet_put_int(c->local_window_max);
+			packet_put_int(c->local_maxpacket);
+			packet_put_int(options.tun_open);
+			packet_put_int(options.tun_remote);
+			packet_send();
+		}
+	}
+
 	client_session2_setup(id, tty_flag, subsystem_flag, getenv("TERM"),
 	    NULL, fileno(stdin), &command, environ, &ssh_subsystem_reply);
 
@@ -1110,6 +1141,11 @@ ssh_session2(void)
 
 	if (!no_shell_flag || (datafellows & SSH_BUG_DUMMYCHAN))
 		id = ssh_session2_open();
+
+	/* Execute a local command */
+	if (options.local_command != NULL &&
+	    options.permit_local_command)
+		ssh_local_cmd(options.local_command);
 
 	/* If requested, let ssh continue in the background. */
 	if (fork_after_authentication_flag)

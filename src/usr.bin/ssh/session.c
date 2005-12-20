@@ -33,7 +33,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: session.c,v 1.188 2005/10/30 08:52:17 djm Exp $");
+RCSID("$OpenBSD: session.c,v 1.190 2005/12/17 21:13:05 stevesk Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -1505,7 +1505,7 @@ session_x11_req(Session *s)
 
 	if (s->auth_proto != NULL || s->auth_data != NULL) {
 		error("session_x11_req: session %d: "
-		    "x11 fowarding already active", s->self);
+		    "x11 forwarding already active", s->self);
 		return 0;
 	}
 	s->single_connection = packet_get_char();
@@ -1737,7 +1737,7 @@ session_close_x11(int id)
 {
 	Channel *c;
 
-	if ((c = channel_lookup(id)) == NULL) {
+	if ((c = channel_by_id(id)) == NULL) {
 		debug("session_close_x11: x11 channel %d missing", id);
 	} else {
 		/* Detach X11 listener */

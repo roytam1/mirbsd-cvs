@@ -24,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: misc.c,v 1.35 2005/09/13 23:40:07 djm Exp $");
+RCSID("$OpenBSD: misc.c,v 1.37 2005/12/08 18:34:11 reyk Exp $");
 
 #include "misc.h"
 #include "log.h"
@@ -186,6 +186,37 @@ a2port(const char *s)
 		return 0;
 
 	return port;
+}
+
+int
+a2tun(const char *s, int *remote)
+{
+	const char *errstr = NULL;
+	char *sp, *ep;
+	int tun;
+
+	if (remote != NULL) {
+		*remote = SSH_TUNID_ANY;
+		sp = xstrdup(s);
+		if ((ep = strchr(sp, ':')) == NULL) {
+			xfree(sp);
+			return (a2tun(s, NULL));
+		}
+		ep[0] = '\0'; ep++;
+		*remote = a2tun(ep, NULL);
+		tun = a2tun(sp, NULL);
+		xfree(sp);
+		return (*remote == SSH_TUNID_ERR ? *remote : tun);
+	}
+
+	if (strcasecmp(s, "any") == 0)
+		return (SSH_TUNID_ANY);
+
+	tun = strtonum(s, 0, SSH_TUNID_MAX, &errstr);
+	if (errstr != NULL)
+		return (SSH_TUNID_ERR);
+
+	return (tun);
 }
 
 #define SECONDS		1
@@ -499,6 +530,64 @@ read_keyfile_line(FILE *f, const char *filename, char *buf, size_t bufsz,
 		}
 	}
 	return -1;
+}
+
+int
+tun_open(int tun, int mode)
+{
+	struct ifreq ifr;
+	char name[100];
+	int fd = -1, sock;
+
+	/* Open the tunnel device */
+	if (tun <= SSH_TUNID_MAX) {
+		snprintf(name, sizeof(name), "/dev/tun%d", tun);
+		fd = open(name, O_RDWR);
+	} else if (tun == SSH_TUNID_ANY) {
+		for (tun = 100; tun >= 0; tun--) {
+			snprintf(name, sizeof(name), "/dev/tun%d", tun);
+			if ((fd = open(name, O_RDWR)) >= 0)
+				break;
+		}
+	} else {
+		debug("%s: invalid tunnel %u\n", __func__, tun);
+		return (-1);
+	}
+
+	if (fd < 0) {
+		debug("%s: %s open failed: %s", __func__, name, strerror(errno));
+		return (-1);
+	}
+
+	debug("%s: %s mode %d fd %d", __func__, name, mode, fd);
+
+	/* Set the tunnel device operation mode */
+	snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "tun%d", tun);
+	if ((sock = socket(PF_UNIX, SOCK_STREAM, 0)) == -1)
+		goto failed;
+
+	if (ioctl(sock, SIOCGIFFLAGS, &ifr) == -1)
+		goto failed;
+	if (mode == SSH_TUNMODE_ETHERNET) {
+		ifr.ifr_flags |= IFF_LINK0;
+		if (ioctl(sock, SIOCSIFFLAGS, &ifr) == -1)
+			goto failed;
+	}
+	ifr.ifr_flags |= IFF_UP;
+	if (ioctl(sock, SIOCSIFFLAGS, &ifr) == -1)
+		goto failed;
+
+	close(sock);
+	return (fd);
+
+ failed:
+	if (fd >= 0)
+		close(fd);
+	if (sock >= 0)
+		close(sock);
+	debug("%s: failed to set %s mode %d: %s", __func__, name,
+	    mode, strerror(errno));
+	return (-1);
 }
 
 void
