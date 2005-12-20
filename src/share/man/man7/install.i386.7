@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.2 2005/12/04 15:54:46 bsiegert Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.3 2005/12/06 13:02:03 tg Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
@@ -210,11 +210,12 @@ Terminal type? [wsvtg]
 Simply press Enter at this prompt.
 .Pp
 The next question is:
-.D1 \&Do you wish to select a keyboard encoding table?
+.D1 kbd(8) mapping? ('?' for list) [none]
 If you want to use the default US keyboard table, press Enter.
-If not, enter 
-.Ic yes
-here and select your layout at the next prompts.
+If not, enter the short code for your keyboard layout here.
+It is usually identical to your country code, for example
+.Ic de
+for Germany.
 .Bd -ragged -offset indent
 IS YOUR DATA BACKED UP? As with anything that modifies disk contents, this
 program can cause SIGNIFICANT data loss.
@@ -368,6 +369,12 @@ size: [127057]
 FS type: [swap]
 >
 .Ed
+NOTE: If you are doing the installation on a
+.Qq virgin
+hard disk, you must use the
+.Ic update
+command to install a boot loader into the MBR
+.Pq Master Boot Record .
 Type
 .Ic q
 to quit and save your changes or
@@ -382,11 +389,11 @@ The root filesystem will be mounted on wd0a.
 wd0b will be used for swap space.
 No more disks to initialise.
 
-You have configured the following partitions and mount points:
+MirBSD filesystems:
 
 wd0a /
 
-The next step creates a filesystem on each partition, ERASING existing data.
+The next step DESTROYS all existing data on these partitions!
 Are you really sure that you're ready to proceed? [no]
 .Ed
 This is really your last chance to abort.
@@ -449,6 +456,7 @@ If you do not want to give the interface an IPv4 address, enter
 .Ic none .
 If you are not sure what to do, ask your network administrator or try
 .Ic dhcp .
+.Pp
 .D1 Netmask? [255.255.255.0]
 Enter the subnet mask here.
 In most cases, you can keep the default.
@@ -487,37 +495,36 @@ This file contains a static table of host names and corresponding IP
 addresses.
 You will almost never need this.
 .Pp
-.D1 Password for root account? (will not echo)
-Enter the password for the superuser (root) account here.
-It is very important that you pick a good password.
-Do not write it down, keep it to yourself and do not forget it.
-If somebody else figures out this password, he can do everything on your
-machine.
-If you forget your root password, you will have to use a rescue system
-.Pq like Pa bsd.rd
-to reset it.
+As the next step, you will create an initial user account for the system.
+In
+.Mx ,
+the
+.Qq root
+account is disabled by default.
+Instead, you can execute commands with root rights via
+.Xr sudo 8 .
 .\" --------------------------------------------------------------------
 .Sh INSTALLING THE SETS
 The installation sets are compressed archives that contain the different
 parts of
 .Mx
 proper.
-.Bd -ragged -offset indent
 You will now specify the location and names of the install sets you want
-to load. You will be able to repeat this step until all of your sets
-have been successfully loaded. If you are not sure what sets to install,
-refer to the installation notes for details on the contents of each.
+to load.
+You will be able to repeat this step until all of your sets
+have been successfully loaded.
+Sets can be located on a mounted filesystem; a cdrom, disk or
+tape device; or a ftp, nfs or http server.
+.Bd -ragged -offset indent
+Let's install the sets!
 
-Sets can be located on a (m)ounted filesystem; a (c)drom, (d)isk or
-(t)ape device; or a (f)tp, (n)fs or (h)ttp server.
-
-Where are the install sets? (or 'done')
+Location of sets? (cd disk ftp http nfs or 'done') [cd]
 .Ed
 If you have the "big" CD-ROM, just enter
-.Ic c
+.Ic cd
 here and accept the defaults for the next questions.
-For an installation via interhet, enter
-.Ic h
+For an installation via internet, enter
+.Ic http
 and also accept the defaults.
 .Pp
 In any case, you will be dropped into the install set selector.
@@ -564,16 +571,43 @@ Configuration files for XFree86\(rg, not offered during an upgrade either.
 .Pp
 The installation of the sets is going to take a while.
 After it has finished, you will be asked a final set of questions.
+.Pp
+.D1 Start sshd(8) by default? [yes]
+ssh
+.Pq Secure Shell
+is a service that allows secure remote logins with encryption.
+It can be very handy for many uses, so will almoast always say
+.Ic yes
+here.
+.Pp
+.D1 Start ntpd(8) by default? [yes]
+The ntp daemon synchronises your system clock from time servers over
+the internet or a local network.
+NFS and many other services rely on an exact time, so answer
+.Ic yes
+here if the machine has an internet connection.
+.Bd -ragged -offset indent
+This setting affects the machdep.allowaperture sysctl.
+If you respond negatively, you must enable it later in
+/etc/sysctl.conf in order to be able to run XFree86\(rg.
+
+Do you expect to run the X Window System? [yes]
+.Ed
 If you ever want to run the X Window System (the graphical user
 interface), answer
 .Ic yes
-to the corresponding question.
+to this question.
+Finally, you must select your local timezone, for example
+.Ic Europe/Berlin
+in Germany.
+Enter
+.Ic ?
+to get a list.
 Finally, the device nodes which reside in
 .Pa /dev
 are created by executing
 .Xr MAKEDEV 8 ,
-and an initial random seed will be generated and written to the
-newly installed system.
+and the bootloader will be installed.
 .Pp
 At the end of the installation, the installer asks you to reboot.
 If you flagged the
