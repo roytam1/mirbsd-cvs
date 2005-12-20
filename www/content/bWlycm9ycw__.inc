@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.4 2005/10/03 23:11:11 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.5 2005/10/03 23:14:16 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -35,6 +35,7 @@
 <h3>anonRSYNC</h3>
 <p>click <a href="/?anoncvs">...</a> for more info until some lazy bum
  gets around and writes proper text here</p>
+<p>Look at <a href="http://www.allbsd.org/">AllBSD</a> as well.</p>
 
 <h3>CTM</h3>
 <p>...</p>
