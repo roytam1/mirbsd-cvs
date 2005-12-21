@@ -626,6 +626,9 @@ MBR also contains a boot manager.
 To boot the active partition, just press Return; select one of the
 four primary partitions with the keys 0 to 3, or boot from a floppy
 by pressing 5.
+To install a simple MBR without boot manager, use
+.Dq fdisk -ef /nonexistent wd0
+and press (u)pgrade, (w)rite, (q)uit.
 .Pp
 Have fun with your new
 .Mx
