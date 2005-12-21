@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.3 2005/12/06 13:02:03 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.4 2005/12/20 23:06:22 bsiegert Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
@@ -374,7 +374,8 @@ NOTE: If you are doing the installation on a
 hard disk, you must use the
 .Ic update
 command to install a boot loader into the MBR
-.Pq Master Boot Record .
+.Pq Master Boot Record
+and initialise the magic number.
 Type
 .Ic q
 to quit and save your changes or
