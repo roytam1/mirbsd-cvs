@@ -607,6 +607,12 @@ are created by executing
 .Xr MAKEDEV 8 ,
 and the bootloader will be installed.
 .Pp
+You will also have to create a user which you will be using after
+reboot to log into the system (locally or via
+.Xr ssh 1 ) ,
+for normal work if desired, but primarily for management tasks with
+.Xr sudo 1 .
+.Pp
 At the end of the installation, the installer asks you to reboot.
 If you flagged the
 .Mx
