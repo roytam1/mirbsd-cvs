@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/pckbc/pckbd.c,v 1.3 2005/04/14 19:35:48 tg Exp $ */
 /* $OpenBSD: pckbd.c,v 1.7 2005/02/22 16:17:31 mickey Exp $ */
 /* $NetBSD: pckbd.c,v 1.24 2000/06/05 22:20:57 sommerfeld Exp $ */
 
@@ -293,10 +294,9 @@ pckbdprobe(parent, match, aux)
 		 */
 		return (pckbd_is_console(pa->pa_tag, pa->pa_slot) ? 1 : 0);
 	}
-	if (resp[0] != KBR_RSTDONE) {
-		printf("pckbdprobe: reset response 0x%x\n", resp[0]);
-		return (0);
-	}
+	if (resp[0] != KBR_RSTDONE)
+		printf("pckbdprobe: reset response 0x%x - broken keyboard\n"
+		    "pckbdprobe: still attaching, be warned...\n", resp[0]);
 
 	/*
 	 * Some keyboards seem to leave a second ack byte after the reset.
@@ -605,6 +605,8 @@ pckbd_bell(pitch, period, volume, poll)
 	u_int pitch, period, volume;
 	int poll;
 {
+	if ((pitch == 0) || (period == 0) || (volume == 0))
+		return;
 
 	if (pckbd_bell_fn != NULL)
 		(*pckbd_bell_fn)(pckbd_bell_fn_arg, pitch, period,

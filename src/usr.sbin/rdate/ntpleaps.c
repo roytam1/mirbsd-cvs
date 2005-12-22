@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jakob Exp $	*/
 
 /*
- * Copyright (c) 2002 Thorsten Glaser. All rights reserved.
+ * Copyright (c) 2002, 2005 Thorsten Glaser. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,8 +31,6 @@
 
 /* Leap second support for NTP clients (generic) */
 
-static const char RCSId[] = "$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jakob Exp $";
-
 
 /*
  * I could include tzfile.h, but this would make the code unportable
@@ -50,11 +48,14 @@ static const char RCSId[] = "$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jako
 
 #include "ntpleaps.h"
 
+__RCSID("$MirOS$");
+
 u_int64_t *leapsecs = NULL;
 unsigned int leapsecs_num = 0;
 static int flaginit = -1;
 static int flagwarn = 0;
 
+u_int32_t read_be_dword(u_int8_t *);
 
 int
 ntpleaps_init(void)
@@ -72,7 +73,9 @@ ntpleaps_init(void)
 	 */
 	if (!flagwarn) {
 		fputs("Warning: error reading tzfile. You will NOT be\n"
-		    "able to get legal time or posix compliance!\n", stderr);
+		    "able to get legal time or posix compliance! To fix this,\n"
+		    "install the 240 byte /usr/share/zoneinfo/UTC file.\n",
+		    stderr);
 		flagwarn = 1;	/* put it only once */
 	}
 
@@ -82,25 +85,21 @@ ntpleaps_init(void)
 int
 ntpleaps_sub(u_int64_t *t)
 {
-	unsigned int i = 0;
 	u_int64_t u;
-	int r = 1;
+	unsigned i = 0, r = 0;
 
 	if ((flaginit ? ntpleaps_init() : 0) == -1)
 		return (-1);
 
 	u = *t;
-
-	while (i < leapsecs_num) {
-		if (u < leapsecs[i])
-			break;
-		if (u == leapsecs[i++])
-			goto do_sub;
-	}
-	--r;
-
-do_sub:
-	*t = u - i;
+	if (u > 0)
+		while ((i < leapsecs_num) && (*t >= leapsecs[i])) {
+			--u;
+			++i;
+			if (*t == leapsecs[i])
+				r = 1;
+		}
+	*t = u;
 	return (r);
 }
 
@@ -124,7 +123,7 @@ ntpleaps_read(void)
 	u_int64_t s;
 	u_int64_t *l;
 
-	fd = open("/usr/share/zoneinfo/right/UTC", O_RDONLY | O_NDELAY);
+	fd = open("/usr/share/zoneinfo/UTC", O_RDONLY | O_NDELAY);
 	if (fd == -1)
 		return (-1);
 

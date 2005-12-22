@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.sbin/httpd/src/support/apxs.8,v 1.2 2005/03/13 19:16:58 tg Exp $
 .\"	$OpenBSD: apxs.8,v 1.14 2004/12/20 23:31:52 jmc Exp $
 .\"
 .\" ====================================================================
@@ -118,7 +119,7 @@
 .Sh DESCRIPTION
 .Nm
 is a tool for building and installing extension modules for the
-Apache HyperText Transfer Protocol (HTTP) server,
+HyperText Transfer Protocol (HTTP) server,
 .Xr httpd 8 .
 This is achieved by building a
 Dynamic Shared Object (DSO)
@@ -150,16 +151,15 @@ with the help of the
 tool:
 .Bd -literal -offset indent
 # apxs -i -a -c mod_foo.c
-cc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_EXPAT -I../lib/expat-lite -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/lib/apache/include  -c mod_foo.c
+gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
 [activating module `foo' in /var/www/conf/httpd.conf]
-cp mod_foo.so /usr/lib/apache/modules/mod_foo.so
-chmod 755 /usr/lib/apache/modules/mod_foo.so
+cp mod_foo.so /usr/libexec/httpd/modules/mod_foo.so
+chmod 755 /usr/libexec/httpd/modules/mod_foo.so
 cp /var/www/conf/httpd.conf /var/www/conf/httpd.conf.bak
 cp /var/www/conf/httpd.conf.new /var/www/conf/httpd.conf
 rm /var/www/conf/httpd.conf.new
-# apachectl restart
-/usr/sbin/apachectl restart: httpd not running, trying to start
-/usr/sbin/apachectl restart: httpd started
+# kill $(</var/www/logs/httpd.pid)
+# httpd [flags]
 .Ed
 .Pp
 The argument
@@ -176,7 +176,7 @@ But when using such pre-compiled objects,
 make sure they are compiled for Position Independent Code (PIC)
 to be able to use them for a DSO.
 For instance, with
-.Xr cc 1
+.Xr gcc 1
 just use
 .Fl fpic .
 For other
@@ -184,7 +184,7 @@ C compilers, please consult their manual pages or watch for the flags
 .Nm
 uses to compile the object files.
 .Pp
-For more details about DSO support in Apache,
+For more details about DSO support in httpd,
 first read the background information about DSO in
 .Pa htdocs/manual/dso.html ,
 then read the documentation of
@@ -202,7 +202,7 @@ i.e. the module is just prepared for later activation but initially disabled.
 .It Fl a
 This activates the module by automatically adding a corresponding
 .Ic LoadModule
-line to Apache's httpd.conf configuration file,
+line to httpd's httpd.conf configuration file,
 or by enabling it if it already exists.
 .It Fl c
 Compile.
@@ -310,7 +310,7 @@ LIBS_SHLIB      PREFIX
 Use this for manually determining settings.
 For instance,
 use the following inside your own Makefiles if you need manual access
-to Apache's C header files:
+to httpd's C header files:
 .Pp
 .Dl INC=-I`apxs -q INCLUDEDIR`
 .It Fl S Ar variable Ns = Ns Ar value
@@ -341,8 +341,8 @@ first compile the C source into a DSO
 suitable for loading into httpd at runtime via the following command:
 .Bd -literal -offset indent
 # apxs -c mod_foo.c
-cc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_EXPAT -I../lib/expat-lite -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/lib/apache/include  -c mod_foo.c
-cc -shared -fPIC -DSHARED_MODULE -o mod_foo.so mod_foo.o
+gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
+gcc -shared -fPIC -DSHARED_MODULE -o mod_foo.so mod_foo.o
 .Ed
 .Pp
 Then a
@@ -357,8 +357,8 @@ This can be achieved by running the following:
 .Bd -literal -offset indent
 $ apxs -i -a mod_foo.so
 [activating module `foo' in /var/www/conf/httpd.conf]
-cp mod_foo.so /usr/lib/apache/modules/mod_foo.so
-chmod 755 /usr/lib/apache/modules/mod_foo.so
+cp mod_foo.so /usr/libexec/httpd/modules/mod_foo.so
+chmod 755 /usr/libexec/httpd/modules/mod_foo.so
 cp /var/www/conf/httpd.conf /var/www/conf/httpd.conf.bak
 cp /var/www/conf/httpd.conf.new /var/www/conf/httpd.conf
 rm /var/www/conf/httpd.conf.new
@@ -367,7 +367,7 @@ rm /var/www/conf/httpd.conf.new
 This way a line such as the following
 is added to the configuration file:
 .Pp
-.Dl LoadModule foo_module /usr/lib/apache/modules/mod_foo.so
+.Dl LoadModule foo_module /usr/libexec/httpd/modules/mod_foo.so
 .Pp
 If you want the module added to the configuration file
 without it being enabled,
@@ -396,18 +396,17 @@ and loaded into the httpd server:
 $ cd foo
 $ make all reload
 apxs -c    mod_foo.c
-cc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_EXPAT -I../lib/expat-lite -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/lib/apache/include  -c mod_foo.c
-cc -shared -fPIC -DSHARED_MODULE -o mod_foo.so mod_foo.o
+gcc -O2 -pipe -DDEV_RANDOM=/dev/arandom -DMOD_SSL=208116 -DEAPI -DUSE_SETUSERCONTEXT -fPIC -DSHARED_MODULE -I/usr/libexec/httpd/include  -c mod_foo.c
+gcc -shared -fPIC -DSHARED_MODULE -o mod_foo.so mod_foo.o
 apxs -i -a -n 'foo' mod_foo.so
 [activating module `foo' in /var/www/conf/httpd.conf]
-cp mod_foo.so /usr/lib/apache/modules/mod_foo.so
-chmod 755 /usr/lib/apache/modules/mod_foo.so
+cp mod_foo.so /usr/libexec/httpd/modules/mod_foo.so
+chmod 755 /usr/libexec/httpd/modules/mod_foo.so
 cp /var/www/conf/httpd.conf /var/www/conf/httpd.conf.bak
 cp /var/www/conf/httpd.conf.new /var/www/conf/httpd.conf
 rm /var/www/conf/httpd.conf.new
-apachectl restart
-/usr/sbin/apachectl restart: httpd not running, trying to start
-/usr/sbin/apachectl restart: httpd started
+kill $(</var/www/logs/httpd.pid)
+httpd [flags]
 .Ed
 .Pp
 .Nm
@@ -419,15 +418,14 @@ because
 automatically recognizes C source files and object files.
 .Bd -literal -offset indent
 $ cd php3
-$ ./configure --with-shared-apache=../apache-1.3
+$ ./configure --with-shared-apache=../httpd
 $ apxs -c -o libphp3.so mod_php3.c libmodphp3-so.a
-gcc -fpic -DSHARED_MODULE -I/tmp/apache/include  -c mod_php3.c
+gcc -fpic -DSHARED_MODULE -I/tmp/httpd/include  -c mod_php3.c
 ld -Bshareable -o libphp3.so mod_php3.o libmodphp3-so.a
 .Ed
 .Pp
 Only C source files are compiled,
 while remaining object files are used for the linking phase.
 .Sh SEE ALSO
-.Xr cc 1 ,
-.Xr apachectl 8 ,
+.Xr gcc 1 ,
 .Xr httpd 8

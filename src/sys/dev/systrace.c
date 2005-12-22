@@ -276,7 +276,7 @@ systracef_ioctl(fp, cmd, data, p)
 	int ret = 0;
 	struct fsystrace *fst = (struct fsystrace *)fp->f_data;
 	struct filedesc *fdp;
-	struct str_process *strp;
+	struct str_process *strp = NULL;
 	pid_t pid = 0;
 
 	switch (cmd) {

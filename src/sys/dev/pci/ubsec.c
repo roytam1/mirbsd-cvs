@@ -1,10 +1,11 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ubsec.c,v 1.135 2004/05/07 14:42:26 millert Exp $	*/
 
 /*
  * Copyright (c) 2000 Jason L. Wright (jason@thought.net)
  * Copyright (c) 2000 Theo de Raadt (deraadt@openbsd.org)
  * Copyright (c) 2001 Patrik Lindergren (patrik@ipunplugged.com)
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -118,7 +119,6 @@ void ubsec_dump_ctx2(struct ubsec_ctx_keyop *);
 	bus_space_write_4((sc)->sc_st, (sc)->sc_sh, reg, val)
 
 #define	SWAP32(x) (x) = htole32(ntohl((x)))
-#define	HTOLE32(x) (x) = htole32(x)
 
 
 struct ubsec_stats ubsecstats;
@@ -1172,7 +1172,7 @@ ubsec_process(struct cryptop *crp)
 
 		ctxl = (struct ubsec_pktctx_long *)(dmap->d_alloc.dma_vaddr +
 		    offsetof(struct ubsec_dmachunk, d_ctx));
-		
+
 		/* transform small context into long context */
 		ctxl->pc_len = htole16(sizeof(struct ubsec_pktctx_long));
 		ctxl->pc_type = htole16(UBS_PKTCTX_TYPE_IPSEC);
@@ -1183,7 +1183,7 @@ ubsec_process(struct cryptop *crp)
 		for (i = 0; i < 5; i++)
 			ctxl->pc_hminner[i] = ctx.pc_hminner[i];
 		for (i = 0; i < 5; i++)
-			ctxl->pc_hmouter[i] = ctx.pc_hmouter[i];   
+			ctxl->pc_hmouter[i] = ctx.pc_hmouter[i];
 		ctxl->pc_iv[0] = ctx.pc_iv[0];
 		ctxl->pc_iv[1] = ctx.pc_iv[1];
 	} else
@@ -1663,13 +1663,13 @@ ubsec_free_q(struct ubsec_softc *sc, struct ubsec_q *q)
 		if(q->q_stacked_mcr[i]) {
 			q2 = q->q_stacked_mcr[i];
 
-			if ((q2->q_dst_m != NULL) && (q2->q_src_m != q2->q_dst_m)) 
+			if ((q2->q_dst_m != NULL) && (q2->q_src_m != q2->q_dst_m))
 				m_freem(q2->q_dst_m);
 
 			crp = (struct cryptop *)q2->q_crp;
-			
+
 			SIMPLEQ_INSERT_TAIL(&sc->sc_freequeue, q2, q_next);
-			
+
 			crp->crp_etype = EFAULT;
 			crypto_done(crp);
 		} else {
@@ -1684,9 +1684,9 @@ ubsec_free_q(struct ubsec_softc *sc, struct ubsec_q *q)
 		m_freem(q->q_dst_m);
 
 	crp = (struct cryptop *)q->q_crp;
-	
+
 	SIMPLEQ_INSERT_TAIL(&sc->sc_freequeue, q, q_next);
-	
+
 	crp->crp_etype = EFAULT;
 	crypto_done(crp);
 	return(0);
@@ -2340,13 +2340,13 @@ ubsec_kprocess_rsapriv(struct ubsec_softc *sc, struct cryptkop *krp)
 #ifdef DIAGNOSTIC
 	if (rp->rpr_msgin.dma_paddr & 3 || rp->rpr_msgin.dma_size & 3) {
 		panic("%s: rsapriv: invalid msgin %p(0x%x)",
-		    sc->sc_dv.dv_xname, rp->rpr_msgin.dma_paddr,
-		    rp->rpr_msgin.dma_size);
+		    sc->sc_dv.dv_xname, (void *)(rp->rpr_msgin.dma_paddr),
+		    (unsigned)(rp->rpr_msgin.dma_size));
 	}
 	if (rp->rpr_msgout.dma_paddr & 3 || rp->rpr_msgout.dma_size & 3) {
 		panic("%s: rsapriv: invalid msgout %p(0x%x)",
-		    sc->sc_dv.dv_xname, rp->rpr_msgout.dma_paddr,
-		    rp->rpr_msgout.dma_size);
+		    sc->sc_dv.dv_xname, (void *)(rp->rpr_msgout.dma_paddr),
+		    (unsigned)(rp->rpr_msgout.dma_size));
 	}
 #endif
 

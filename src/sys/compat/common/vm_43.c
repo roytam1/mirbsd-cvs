@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vm_43.c,v 1.5 2003/06/02 23:27:59 millert Exp $	*/
 /*	$NetBSD: vm_43.c,v 1.1 1996/02/05 01:58:29 christos Exp $	*/
 
@@ -59,6 +60,8 @@
 #include <miscfs/specfs/specdev.h>
 
 #include <uvm/uvm_extern.h>
+
+#if defined(COMPAT_OPENBSD)
 
 /* ARGSUSED */
 int
@@ -131,3 +134,4 @@ compat_43_sys_mmap(p, v, retval)
 	SCARG(&nargs, pos) = SCARG(uap, pos);
 	return (sys_mmap(p, &nargs, retval));
 }
+#endif

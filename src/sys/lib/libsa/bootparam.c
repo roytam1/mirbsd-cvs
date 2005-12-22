@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bootparam.c,v 1.11 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: bootparam.c,v 1.10 1996/10/14 21:16:55 thorpej Exp $	*/
 
@@ -88,10 +89,9 @@ int xdr_string_decode(char **p, char *str, int *len_p);
  * RPC: bootparam/whoami
  * Given client IP address, get:
  *	client name	(hostname)
- *	domain name (domainname)
  *	gateway address
  *
- * The hostname and domainname are set here for convenience.
+ * The hostname is here for convenience.
  *
  * Note - bpsin is initialized to the broadcast address,
  * and will be replaced with the bootparam server address
@@ -102,6 +102,9 @@ int xdr_string_decode(char **p, char *str, int *len_p);
 int
 bp_whoami(int sockfd)
 {
+	int ldomainnamelen;
+	char ldomainname[MAXHOSTNAMELEN];
+
 	/* RPC structures for PMAPPROC_CALLIT */
 	struct args {
 		u_int32_t prog;
@@ -201,10 +204,9 @@ bp_whoami(int sockfd)
 	}
 
 	/* domain name */
-	domainnamelen = MAXHOSTNAMELEN-1;
-	if (xdr_string_decode(&recv_head, domainname, &domainnamelen)) {
+	domainnamelen = 0;
+	if (xdr_string_decode(&recv_head, ldomainname, &ldomainnamelen)) {
 		RPC_PRINTF(("bp_whoami: bad domainname\n"));
-		return (-1);
 	}
 
 	/* gateway address */
@@ -330,7 +332,7 @@ xdr_string_encode(char **pkt, char *str, int len)
 
 	datap = *pkt;
 	*pkt += padlen;
-	bcopy(str, datap, len);
+	memmove(datap, str, len);
 
 	return (0);
 }
@@ -353,7 +355,7 @@ xdr_string_decode(char **pkt, char *str, int *len_p)
 		slen = *len_p;
 	datap = *pkt;
 	*pkt += plen;
-	bcopy(datap, str, slen);
+	memmove(str, datap, slen);
 
 	str[slen] = '\0';
 	*len_p = slen;

@@ -479,7 +479,7 @@ static int add_expires(request_rec *r)
     };
 
     expires = base + additional;
-    ap_snprintf(age, sizeof(age), "max-age=%d",
+    snprintf(age, sizeof(age), "max-age=%d",
 		(int) expires - (int) r->request_time);
     ap_table_mergen(r->headers_out, "Cache-Control", ap_pstrdup(r->pool, age));
     tzset();                    /* redundant? called implicitly by localtime,

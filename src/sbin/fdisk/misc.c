@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: misc.c,v 1.15 2004/09/18 23:22:05 deraadt Exp $	*/
 
 /*
@@ -25,6 +26,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
 #include <err.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -35,12 +37,17 @@
 #include <limits.h>
 #include "misc.h"
 
+__RCSID("$MirOS$");
+
 const struct unit_type unit_types[] = {
-	{"b", 1			, "Bytes"},
 	{" ", DEV_BSIZE		, "Sectors"},
-	{"K", 1024		, "Kilobytes"},
-	{"M", 1024 * 1024	, "Megabytes"},
-	{"G", 1024 * 1024 *1024	, "Gigabytes"},
+	{"b", 1			, "Bytes"},
+	{"Ki", 1024		, "Kibibytes"},
+	{"Mi", 1024 * 1024	, "Mebibytes"},
+	{"Gi", 1024 * 1024*1024	, "Gibibytes"},
+	{"K", 1000		, "Kilobytes"},
+	{"M", 1000 * 1000	, "Megabytes"},
+	{"G", 1000 * 1000 *1000	, "Gigabytes"},
 	{NULL, 0		, NULL },
 };
 

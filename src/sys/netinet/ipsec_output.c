@@ -69,15 +69,15 @@ int
 ipsp_process_packet(struct mbuf *m, struct tdb *tdb, int af, int tunalready)
 {
 	struct timeval tv;
-	int i, off, error;
+	int i = 0, off = 0, error;
 	struct mbuf *mp;
 
 #ifdef INET
 	int setdf = 0;
-	struct ip *ip;
+	struct ip *ip = NULL;
 #endif /* INET */
 #ifdef INET6
-	struct ip6_hdr *ip6;
+	struct ip6_hdr *ip6 = NULL;
 #endif /* INET6 */
 
 	/* Check that the transform is allowed by the administrator. */
@@ -328,11 +328,11 @@ int
 ipsp_process_done(struct mbuf *m, struct tdb *tdb)
 {
 #ifdef INET
-	struct ip *ip;
+	struct ip *ip = NULL;
 #endif /* INET */
 
 #ifdef INET6
-	struct ip6_hdr *ip6;
+	struct ip6_hdr *ip6 = NULL;
 #endif /* INET6 */
 
 	struct tdb_ident *tdbi;

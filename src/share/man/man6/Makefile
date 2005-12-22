@@ -1,6 +1,6 @@
-#	$OpenBSD: Makefile,v 1.2 2001/01/29 02:11:13 niklas Exp $
+# $MirOS: src/share/man/man1/Makefile,v 1.3 2005/03/28 22:34:16 tg Exp $
 
+MANSECT=	6
 
-MAN=	intro.6
-
+.include "../automan.mk"
 .include <bsd.prog.mk>

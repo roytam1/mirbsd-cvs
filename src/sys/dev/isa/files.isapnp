@@ -68,3 +68,16 @@ device  ym: audio, isa_dma, ad1848, auconv, midibus
 attach	ym at isapnp with ym_isapnp
 file	dev/isa/ym.c			ym_isapnp
 file	dev/isa/ym_isapnp.c		ym_isapnp
+
+# ISDN devices
+attach isic at isapnp with isic_isapnp
+file dev/isa/isic_isapnp.c			isic_isapnp
+
+file dev/isa/isic_isapnp_tel_s0P.c		isic_isapnp
+file dev/isa/isic_isapnp_ctx_s0P.c		isic_isapnp
+file dev/isa/isic_isapnp_drn_ngo.c		isic_isapnp
+file dev/isa/isic_isapnp_elsa_qs1i.c		isic_isapnp
+file dev/isa/isic_isapnp_sws.c		isic_isapnp
+file dev/isa/isic_isapnp_dynalink.c		isic_isapnp
+file dev/isa/isic_isapnp_siemens_isurf.c	isic_isapnp
+file dev/isa/isic_isapnp_itkix.c		isic_isapnp

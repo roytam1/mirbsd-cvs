@@ -1,3 +1,4 @@
+/**	$MirOS: src/include/math.h,v 1.3 2005/11/21 19:46:18 tg Exp $ */
 /*	$OpenBSD: math.h,v 1.9 2005/01/06 20:36:23 espie Exp $	*/
 /*
  * ====================================================
@@ -5,7 +6,7 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
@@ -21,9 +22,11 @@
  * ANSI/POSIX
  */
 extern char __infinity[];
+#ifndef HUGE_VAL
 #define HUGE_VAL	(*(double *) __infinity)
+#endif
 
-/* 
+/*
  * C99
  */
 
@@ -63,15 +66,15 @@ extern int signgam;
 enum fdversion {fdlibm_ieee = -1, fdlibm_svid, fdlibm_xopen, fdlibm_posix};
 
 #define _LIB_VERSION_TYPE enum fdversion
-#define _LIB_VERSION _fdlib_version  
+#define _LIB_VERSION _fdlib_version
 
-/* if global variable _LIB_VERSION is not desirable, one may 
- * change the following to be a constant by: 
+/* if global variable _LIB_VERSION is not desirable, one may
+ * change the following to be a constant by:
  *	#define _LIB_VERSION_TYPE const enum version
  * In that case, after one initializes the value _LIB_VERSION (see
  * s_lib_version.c) during compile time, it cannot be modified
  * in the middle of a program
- */ 
+ */
 extern  _LIB_VERSION_TYPE  _LIB_VERSION;
 
 #define _IEEE_  fdlibm_ieee
@@ -79,8 +82,8 @@ extern  _LIB_VERSION_TYPE  _LIB_VERSION;
 #define _XOPEN_ fdlibm_xopen
 #define _POSIX_ fdlibm_posix
 
-#ifndef __cplusplus
-struct exception {
+#ifdef __LIBM_PRIVATE
+struct __libm_exception {
 	int type;
 	char *name;
 	double arg1;
@@ -91,12 +94,12 @@ struct exception {
 
 #define	HUGE		MAXFLOAT
 
-/* 
+/*
  * set X_TLOSS = pi*2**52, which is possibly defined in <values.h>
  * (one may replace the following line by "#include <values.h>")
  */
 
-#define X_TLOSS		1.41484755040568800000e+16 
+#define X_TLOSS		1.41484755040568800000e+16
 
 #define	DOMAIN		1
 #define	SING		2
@@ -168,7 +171,7 @@ extern double remainder(double, double);
 extern double scalb(double, double);
 
 #ifdef __LIBM_PRIVATE
-extern int matherr(struct exception *);
+extern int matherr(struct __libm_exception *);
 #endif
 
 /*
@@ -187,7 +190,6 @@ extern double scalbn(double, int);
 /*
  * BSD math library entry points
  */
-extern double cabs();
 extern double drem(double, double);
 extern double expm1(double);
 extern double log1p(double);

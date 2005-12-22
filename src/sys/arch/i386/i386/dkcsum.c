@@ -1,7 +1,9 @@
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.3 2005/07/07 15:39:03 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
+ * Copyright (c) 2004, 2005 Thorsten Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -39,14 +41,15 @@
 #include <sys/reboot.h>
 #include <sys/stat.h>
 #include <sys/systm.h>
+#include <dev/rndvar.h>
 
 #include <machine/biosvar.h>
-
-#include <lib/libz/zlib.h>
 
 #define	b_cylin	b_resid
 
 dev_t dev_rawpart(struct device *);	/* XXX */
+
+extern unsigned long adler32(unsigned long, const char *, unsigned);
 
 extern u_int32_t bios_cksumlen;
 extern bios_diskinfo_t *bios_diskinfo;
@@ -143,17 +146,23 @@ dkcsumattach(void)
 		/* Find the BIOS device */
 		hit = 0;
 		for (bdi = bios_diskinfo; bdi->bios_number != -1; bdi++) {
-			/* Skip non-harddrives */
-			if (!(bdi->bios_number & 0x80))
+			add_timer_randomness((bdi->bios_number * bdi->flags)
+			    ^ (int)bdi);
+			/* Skip non-harddrives and bootable CD-ROMs */
+			if ((!(bdi->bios_number & 0x80)) ||
+			    (bdi->flags & BDI_ELTORITO))
 				continue;
 			if (bdi->checksum != csum)
 				continue;
 			picked = hit || (bdi->flags & BDI_PICKED);
 			if (!picked)
 				hit = bdi;
-			printf("dkcsum: %s matches BIOS drive %#x%s\n",
+			else
+				rnd_addpool_add((bdi->bios_number + csum)
+				    ^ arc4random());
+			printf("dkcsum: %s matches BIOS drive %#x%s (%08X)\n",
 			    dv->dv_xname, bdi->bios_number,
-			    (picked ? " IGNORED" : ""));
+			    (picked ? " IGNORED" : ""), bdi->checksum);
 		}
 
 		/*
@@ -161,6 +170,7 @@ dkcsumattach(void)
 		 * than the BIOS can, so this case is pretty normal.
 		 */
 		if (!hit) {
+			rnd_addpool_add((0x100 + csum) ^ arc4random());
 #ifdef DEBUG
 			printf("dkcsum: %s has no matching BIOS drive\n",
 			    dv->dv_xname);

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: in6_cksum.c,v 1.13 2003/11/16 20:30:07 avsm Exp $	*/
 /*	$KAME: in6_cksum.c,v 1.10 2000/12/03 00:53:59 itojun Exp $	*/
 
@@ -66,6 +67,7 @@
 #include <sys/systm.h>
 #include <netinet/in.h>
 #include <netinet/ip6.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internet Protocol family headers (Portable Version).
@@ -292,5 +294,6 @@ in6_cksum(m, nxt, off, len)
 		sum += s_util.s;
 	}
 	REDUCE;
+	rnd_addpool_add(sum);
 	return (~sum & 0xffff);
 }

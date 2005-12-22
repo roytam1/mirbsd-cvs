@@ -1,4 +1,5 @@
 %{
+/**	$MirOS$ */
 /*	$OpenBSD: scan.l,v 1.17 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: scan.l,v 1.13 1997/02/02 21:12:37 thorpej Exp $	*/
 
@@ -188,6 +189,15 @@ firstfile(fname)
 	yyfile = conffile = fname;
 	yyline = 1;
 	return (0);
+}
+
+/*
+ * Return the input stream
+ */
+FILE *
+getfp(void)
+{
+	return yyin;
 }
 
 /*

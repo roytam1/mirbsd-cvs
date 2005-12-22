@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: crc.c,v 1.2 2004/05/10 19:48:07 deraadt Exp $	*/
 
 /*
@@ -16,10 +17,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: crc.c,v 1.2 2004/05/10 19:48:07 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 
 #include <errno.h>
@@ -29,6 +26,8 @@ static const char rcsid[] = "$OpenBSD: crc.c,v 1.2 2004/05/10 19:48:07 deraadt E
 #include <unistd.h>
 
 #include "crc.h"
+
+__RCSID("$MirOS$");
 
 /*
  * Table-driven version of the following polynomial from POSIX 1003.2:
@@ -130,11 +129,12 @@ CKSUM_End(CKSUM_CTX *ctx, char *outstr)
 	CKSUM_Final(ctx);
 
 	if (outstr == NULL) {
-		if (asprintf(&outstr, "%u %lld", ctx->crc, ctx->len) == -1)
+		if (asprintf(&outstr, "%u %lld", ctx->crc,
+		    (int64_t)ctx->len) == -1)
 			return (NULL);
 	} else {
 		(void)snprintf(outstr, (size_t)CKSUM_DIGEST_STRING_LENGTH,
-		    "%u %lld", ctx->crc, ctx->len);
+		    "%u %lld", ctx->crc, (int64_t)ctx->len);
 	}
 
 	return (outstr);
@@ -162,7 +162,7 @@ SUM_Update(SUM_CTX *ctx, const unsigned char *buf, size_t len)
 void
 SUM_Final(SUM_CTX *ctx)
 {
-	ctx->len = (ctx->len + 1023) / 1024;	/* convert to 1KB blocks */
+	ctx->len = (ctx->len + 1023) / 1024;	/* convert to 1 KiB blocks */
 }
 
 char *
@@ -171,11 +171,12 @@ SUM_End(SUM_CTX *ctx, char *outstr)
 	SUM_Final(ctx);
 
 	if (outstr == NULL) {
-		if (asprintf(&outstr, "%u %lld", ctx->crc, ctx->len) == -1)
+		if (asprintf(&outstr, "%u %lld", ctx->crc,
+		    (int64_t)ctx->len) == -1)
 			return (NULL);
 	} else {
 		(void)snprintf(outstr, (size_t)SUM_DIGEST_STRING_LENGTH,
-		    "%u %lld", ctx->crc, ctx->len);
+		    "%u %lld", ctx->crc, (int64_t)ctx->len);
 	}
 
 	return (outstr);
@@ -212,11 +213,12 @@ SYSVSUM_End(SYSVSUM_CTX *ctx, char *outstr)
 	SYSVSUM_Final(ctx);
 
 	if (outstr == NULL) {
-		if (asprintf(&outstr, "%u %lld", ctx->crc, ctx->len) == -1)
+		if (asprintf(&outstr, "%u %lld", ctx->crc,
+		    (int64_t)ctx->len) == -1)
 			return (NULL);
 	} else {
 		(void)snprintf(outstr, (size_t)SYSVSUM_DIGEST_STRING_LENGTH,
-		    "%u %lld", ctx->crc, ctx->len);
+		    "%u %lld", ctx->crc, (int64_t)ctx->len);
 	}
 
 	return (outstr);

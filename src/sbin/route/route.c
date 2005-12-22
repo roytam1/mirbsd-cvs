@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/route/route.c,v 1.3 2005/10/26 17:47:14 tg Exp $	*/
 /*	$OpenBSD: route.c,v 1.91 2005/06/09 08:07:45 markus Exp $	*/
 /*	$NetBSD: route.c,v 1.16 1996/04/15 18:27:05 cgd Exp $	*/
 
@@ -58,6 +59,8 @@
 
 #include "keywords.h"
 #include "show.h"
+
+__RCSID("$MirOS: src/sbin/route/route.c,v 1.3 2005/10/26 17:47:14 tg Exp $");
 
 union	sockunion {
 	struct sockaddr		sa;

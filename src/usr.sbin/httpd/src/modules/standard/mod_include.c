@@ -817,7 +817,7 @@ static int include_cmd_child(void *arg, child_info *pinfo)
 #ifdef DEBUG_INCLUDE_CMD
     fprintf(dbg, "Exec failed\n");
 #endif
-    ap_snprintf(err_string, sizeof(err_string),
+    snprintf(err_string, sizeof(err_string),
                 "exec of %s failed, reason: %s (errno = %d)\n",
                 SHELL_PATH, strerror(errno), errno);
     write(STDERR_FILENO, err_string, strlen(err_string));
@@ -1127,9 +1127,9 @@ static int handle_fsize(FILE *in, request_rec *r, const char *error, int sizefmt
                 else {
                     int l, x;
 #if defined(AP_OFF_T_IS_QUAD)
-                    ap_snprintf(tag, sizeof(tag), "%qd", finfo.st_size);
+                    snprintf(tag, sizeof(tag), "%qd", finfo.st_size);
 #else
-                    ap_snprintf(tag, sizeof(tag), "%ld", finfo.st_size);
+                    snprintf(tag, sizeof(tag), "%ld", finfo.st_size);
 #endif
                     l = strlen(tag);    /* grrr */
                     for (x = 0; x < l; x++) {

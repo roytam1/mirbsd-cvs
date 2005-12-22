@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/ssl/ssl_engine_vars.c,v 1.2 2005/03/13 19:16:54 tg Exp $ */
+
 /*                      _             _
 **  _ __ ___   ___   __| |    ___ ___| |  mod_ssl
 ** | '_ ` _ \ / _ \ / _` |   / __/ __| |  Apache Interface to OpenSSL
@@ -64,6 +66,10 @@
                                                   -- Unknown       */
 #include "mod_ssl.h"
 
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/ssl/ssl_engine_vars.c,v 1.2 2005/03/13 19:16:54 tg Exp $");
 
 /*  _________________________________________________________________
 **
@@ -212,8 +218,8 @@ char *ssl_var_lookup(pool *p, server_rec *s, conn_rec *c, request_rec *r, char *
         else if (strcEQ(var, "TIME_YEAR")) {
             tc = time(NULL);
             tm = localtime(&tc);
-            result = ap_psprintf(p, "%02d%02d",
-                                 (tm->tm_year / 100) + 19, tm->tm_year % 100);
+            result = ap_psprintf(p, "%04lld",
+                                 (int64_t)tm->tm_year + 1900);
             resdup = FALSE;
         }
 #define MKTIMESTR(format, tmfield) \
@@ -243,8 +249,9 @@ char *ssl_var_lookup(pool *p, server_rec *s, conn_rec *c, request_rec *r, char *
             tc = time(NULL);
             tm = localtime(&tc);
             result = ap_psprintf(p,
-                        "%02d%02d%02d%02d%02d%02d%02d", (tm->tm_year / 100) + 19,
-                        (tm->tm_year % 100), tm->tm_mon+1, tm->tm_mday,
+                        "%02lld%02d%02d%02d%02d%02d%02d",
+			(int64_t)(tm->tm_year / 100) + 19,
+                        (int)(tm->tm_year % 100), tm->tm_mon+1, tm->tm_mday,
                         tm->tm_hour, tm->tm_min, tm->tm_sec);
             resdup = FALSE;
         }
@@ -300,7 +307,7 @@ static char *ssl_var_lookup_ssl(pool *p, conn_rec *c, char *var)
     }
     else if (ssl != NULL && strcEQ(var, "SESSION_ID")) {
         SSL_SESSION *pSession = SSL_get_session(ssl);
-        result = ap_pstrdup(p, SSL_SESSION_id2sz(pSession->session_id, 
+        result = ap_pstrdup(p, SSL_SESSION_id2sz(pSession->session_id,
                                                  pSession->session_id_length));
     }
     else if (ssl != NULL && strlen(var) >= 6 && strcEQn(var, "CIPHER", 6)) {
@@ -619,4 +626,3 @@ static char *ssl_var_lookup_ssl_version(pool *p, char *var)
     }
     return result;
 }
-

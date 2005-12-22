@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kern_resource_43.c,v 1.5 2003/06/02 23:27:59 millert Exp $	*/
 /*	$NetBSD: kern_resource_43.c,v 1.4 1996/03/14 19:31:46 christos Exp $	*/
 
@@ -50,6 +51,7 @@
 
 #include <uvm/uvm_extern.h>
 
+#if defined(COMPAT_OPENBSD)
 /* ARGSUSED */
 int
 compat_43_sys_getrlimit(p, v, retval)
@@ -74,7 +76,9 @@ compat_43_sys_getrlimit(p, v, retval)
 	return (copyout((caddr_t)&olim, (caddr_t)SCARG(uap, rlp),
 	    sizeof(olim)));
 }
+#endif
 
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /* ARGSUSED */
 int
 compat_43_sys_setrlimit(p, v, retval)
@@ -98,3 +102,4 @@ compat_43_sys_setrlimit(p, v, retval)
 	lim.rlim_max = olim.rlim_max;
 	return (dosetrlimit(p, SCARG(uap, which), &lim));
 }
+#endif

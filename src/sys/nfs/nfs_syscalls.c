@@ -505,7 +505,6 @@ nfssvc_nfsd(nsd, argp, p)
 	struct mbuf *mreq;
 	int error = 0, cacherep, s, sotype, writes_todo;
 	u_quad_t cur_usec;
-	struct timeval tv;
 
 #ifndef nolint
 	cacherep = RC_DOIT;

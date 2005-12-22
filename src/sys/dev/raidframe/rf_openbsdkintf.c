@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/raidframe/rf_openbsdkintf.c,v 1.2 2005/03/06 21:27:56 tg Exp $ */
 /* $OpenBSD: rf_openbsdkintf.c,v 1.31 2005/12/08 05:53:45 tedu Exp $	*/
 /* $NetBSD: rf_netbsdkintf.c,v 1.109 2001/07/27 03:30:07 oster Exp $	*/
 
@@ -393,7 +394,7 @@ raidattach(int num)
 		printf("Kernelized RAIDframe activated\n");
 	else
 	        panic("Serious error booting RAID !!!");
-	
+
 	/*
 	 * Put together some datastructures like the CCD device does...
 	 * This lets us lock the device and what-not when it gets opened.
@@ -539,12 +540,22 @@ rf_buildroothack(void *arg)
 			majdev = findblkmajor(&raidrootdev[rootID]);
 			if (majdev < 0)
 				boothowto |= RB_ASKNAME;
-			else {
+			else if ((rootdev == NODEV) /* config bsd generic */
+			    || (major(rootdev) == majdev) /* root on raid */
+			    ) {
+				extern char root_devname[];
+
 				rootdev = MAKEDISKDEV(majdev,rootID,0);
 				boothowto |= RB_DFLTROOT;
+				snprintf(root_devname, 16, "raid%da", rootID);
+			} else {
+				/* Found a RAID, but e.g. RAMDISK kernel */
+				printf("raidframe: Found eligible root device, but this is not a generic kernel.\nraidframe: Please choose a root device.\nPossible answer: rd0a (if you booted a ramdisk)\n");
+				boothowto |= RB_ASKNAME;
 			}
 		} else if (num_root > 1) {
 			/* We can't guess... Require the user to answer... */
+			printf("raidframe: Found more than one eligible root device.\nraidframe: Please choose a root device.\nPossible answers: [rsw]d0a raid[0-9]a\n");
 			boothowto |= RB_ASKNAME;
 		}
 	}
@@ -3222,7 +3233,7 @@ rf_create_configuration(RF_AutoConfig_t *ac, RF_Config_t *config,
 	}
 
 	for(i=0;i<RF_MAXDBGV;i++) {
-		config->debugVars[i][0] = NULL;
+		config->debugVars[i][0] = 0;
 	}
 
 #ifdef	RAID_DEBUG_ALL

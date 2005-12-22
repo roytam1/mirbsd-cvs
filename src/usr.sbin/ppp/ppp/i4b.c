@@ -23,6 +23,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ *	$MirOS$
  *	$OpenBSD: i4b.c,v 1.9 2003/10/20 03:15:38 deraadt Exp $
  */
 
@@ -40,13 +41,8 @@
 #include <machine/i4b_ioctl.h>
 #include <machine/i4b_rbch_ioctl.h>
 #else
-#ifdef __NetBSD__
 #include <netisdn/i4b_ioctl.h>
 #include <netisdn/i4b_rbch_ioctl.h>
-#else
-#include <i4b/i4b_ioctl.h>
-#include <i4b/i4b_rbch_ioctl.h>
-#endif
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -130,7 +126,7 @@ i4b_Timeout(void *data)
       log_Printf(LogPHASE, "%s: %s: CD detected\n", p->link.name, p->name.full);
     else if (++dev->carrier_seconds >= dev->dev.cd.delay) {
       log_Printf(LogPHASE, "%s: %s: No carrier"
-                 " (increase ``set cd'' from %d ?)\n",
+                 " (increase ''set cd'' from %d ?)\n",
                  p->link.name, p->name.full, dev->dev.cd.delay);
       timer_Stop(&dev->Timer);
       /* i4b_AwaitCarrier() will notice */
@@ -391,7 +387,7 @@ i4b_Create(struct physical *p)
   /* We're gonna return an i4bdevice (unless something goes horribly wrong) */
 
   if ((dev = malloc(sizeof *dev)) == NULL) {
-    /* Complete failure - parent doesn't continue trying to ``create'' */
+    /* Complete failure - parent doesn't continue trying to "create" */
     close(p->fd);
     p->fd = -1;
     return NULL;
@@ -409,7 +405,7 @@ i4b_Create(struct physical *p)
       dev->dev.cd = p->cfg.cd;
       break;
     case CD_NOTREQUIRED:
-      log_Printf(LogWARN, "%s: Carrier must be set, using ``set cd %d!''\n",
+      log_Printf(LogWARN, "%s: Carrier must be set, using ''set cd %d!''\n",
                  p->link.name, dev->dev.cd.delay);
     case CD_DEFAULT:
       break;
@@ -417,7 +413,7 @@ i4b_Create(struct physical *p)
 
   oldflag = fcntl(p->fd, F_GETFL, 0);
   if (oldflag < 0) {
-    /* Complete failure - parent doesn't continue trying to ``create'' */
+    /* Complete failure - parent doesn't continue trying to "create" */
 
     log_Printf(LogWARN, "%s: Open: Cannot get physical flags: %s\n",
                p->link.name, strerror(errno));
@@ -436,7 +432,7 @@ i4b_Create(struct physical *p)
       dial = 0;
   }
   if (dial && ioctl(p->fd, I4B_RBCH_DIALOUT, number) == -1) {
-    /* Complete failure - parent doesn't continue trying to ``create'' */
+    /* Complete failure - parent doesn't continue trying to "create" */
 
     log_Printf(LogWARN, "%s: ioctl(I4B_RBCH_DIALOUT): %s\n",
                p->link.name, strerror(errno));

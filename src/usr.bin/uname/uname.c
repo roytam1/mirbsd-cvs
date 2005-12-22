@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/uname/uname.c,v 1.2 2005/03/13 18:33:50 tg Exp $ */
 /*	$OpenBSD: uname.c,v 1.8 2003/07/10 00:06:51 david Exp $	*/
 
 /*
@@ -31,10 +32,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: uname.c,v 1.8 2003/07/10 00:06:51 david Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,6 +41,8 @@ static char rcsid[] = "$OpenBSD: uname.c,v 1.8 2003/07/10 00:06:51 david Exp $";
 #include <sys/sysctl.h>
 #include <err.h>
 
+__RCSID("$MirOS: src/usr.bin/uname/uname.c,v 1.2 2005/03/13 18:33:50 tg Exp $");
+
 static void usage(void);
 
 #define	PRINT_SYSNAME	0x01
@@ -51,8 +50,9 @@ static void usage(void);
 #define	PRINT_RELEASE	0x04
 #define	PRINT_VERSION	0x08
 #define	PRINT_MACHINE	0x10
-#define	PRINT_ALL	0x1f
+#define	PRINT_ALL	0x5f
 #define PRINT_PROCESSOR	0x20
+#define	PRINT_PATCHLEV	0x40
 
 int
 main(int argc, char *argv[])
@@ -64,16 +64,22 @@ main(int argc, char *argv[])
 
 	setlocale(LC_ALL, "");
 
-	while ((c = getopt(argc,argv,"amnrsvp")) != -1 ) {
+	while ((c = getopt(argc,argv,"almnprsv")) != -1 ) {
 		switch ( c ) {
 		case 'a':
 			print_mask |= PRINT_ALL;
+			break;
+		case 'l':
+			print_mask |= PRINT_PATCHLEV;
 			break;
 		case 'm':
 			print_mask |= PRINT_MACHINE;
 			break;
 		case 'n':
 			print_mask |= PRINT_NODENAME;
+			break;
+		case 'p':
+			print_mask |= PRINT_PROCESSOR;
 			break;
 		case 'r': 
 			print_mask |= PRINT_RELEASE;
@@ -83,9 +89,6 @@ main(int argc, char *argv[])
 			break;
 		case 'v':
 			print_mask |= PRINT_VERSION;
-			break;
-		case 'p':
-			print_mask |= PRINT_PROCESSOR;
 			break;
 		default:
 			usage();
@@ -119,6 +122,14 @@ main(int argc, char *argv[])
 		if (space++) putchar(' ');
 		fputs(u.release, stdout);
 	}
+	if ((print_mask & PRINT_PATCHLEV) &&
+	    (u.patchlevel[0] != '\0')) {
+		if (print_mask & PRINT_RELEASE)
+			fputs(" Kv", stdout);
+		  else if (space++)
+			putchar(' ');
+		fputs(u.patchlevel, stdout);
+	}
 	if (print_mask & PRINT_VERSION) {
 		if (space++) putchar(' ');
 		fputs(u.version, stdout);
@@ -149,6 +160,6 @@ main(int argc, char *argv[])
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: uname [-amnprsv]\n");
+	fprintf(stderr, "usage: uname [-amnplrsv]\n");
 	exit(1);
 }

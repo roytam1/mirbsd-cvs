@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/pcmcia/wdc_pcmcia.c,v 1.2 2005/03/06 21:27:55 tg Exp $ */
 /*	$OpenBSD: wdc_pcmcia.c,v 1.16 2005/01/27 17:04:56 millert Exp $	*/
 /*	$NetBSD: wdc_pcmcia.c,v 1.19 1999/02/19 21:49:43 abs Exp $ */
 
@@ -318,7 +319,7 @@ wdc_pcmcia_attach(parent, self, aux)
 	    sc->sc_pioh.size, &sc->sc_pioh, &sc->sc_iowindow)) {
 		printf(": can't map first I/O space\n");
 		goto iomap_failed;
-	} 
+	}
 
 	/*
 	 * Currently, # of iospace is 1 except DIGITAL Mobile Media CD-ROM.
@@ -334,10 +335,10 @@ wdc_pcmcia_attach(parent, self, aux)
 	}
 
 	printf(" port 0x%lx/%d",
-	    sc->sc_pioh.addr, sc->sc_pioh.size);
+	    sc->sc_pioh.addr, (int)(sc->sc_pioh.size));
 	if (cfe->num_iospace > 1 && sc->sc_auxpioh.size > 0)
 		printf(",0x%lx/%d",
-		    sc->sc_auxpioh.addr, sc->sc_auxpioh.size);
+		    sc->sc_auxpioh.addr, (int)(sc->sc_auxpioh.size));
 
 	sc->wdc_channel.cmd_iot = sc->sc_pioh.iot;
 	sc->wdc_channel.cmd_ioh = sc->sc_pioh.ioh;
@@ -421,8 +422,8 @@ wdc_pcmcia_detach(self, flags)
         if (sc->sc_iowindow == -1)
                 /* Nothing to detach */
                 return (0);
-	
-	if ((error = wdcdetach(&sc->wdc_channel, flags)) != 0) 
+
+	if ((error = wdcdetach(&sc->wdc_channel, flags)) != 0)
 		return (error);
 
         if (sc->wdc_channel.ch_queue != NULL)
@@ -457,7 +458,7 @@ wdc_pcmcia_activate(self, act)
 			break;
 		}
 
-		sc->sc_ih = pcmcia_intr_establish(sc->sc_pf, IPL_BIO, 
+		sc->sc_ih = pcmcia_intr_establish(sc->sc_pf, IPL_BIO,
 		    wdcintr, &sc->wdc_channel, sc->sc_wdcdev.sc_dev.dv_xname);
 		if (sc->sc_ih == NULL) {
 			printf("%s: "
@@ -498,7 +499,7 @@ wdc_pcmcia_enable(arg, onoff)
 				return (EIO);
 			}
 
-			sc->sc_ih = pcmcia_intr_establish(sc->sc_pf, IPL_BIO, 
+			sc->sc_ih = pcmcia_intr_establish(sc->sc_pf, IPL_BIO,
 			    wdcintr, &sc->wdc_channel, sc->sc_dev.dv_xname);
 			if (sc->sc_ih == NULL) {
 				printf("%s: "

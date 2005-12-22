@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ftp_var.h,v 1.22 2003/06/03 02:56:08 millert Exp $	*/
 /*	$NetBSD: ftp_var.h,v 1.18 1997/08/18 10:20:25 lukem Exp $	*/
 
@@ -87,7 +88,8 @@ int fclose(FILE *);
 
 #define	FTP_PORT	21	/* default if ! getservbyname("ftp/tcp") */
 #define	HTTP_PORT	80	/* default if ! getservbyname("http/tcp") */
-#define	HTTP_USER_AGENT	"User-Agent: OpenBSD ftp"	/* User-Agent string sent to web server */
+			/* User-Agent string sent to web server */
+#define	HTTP_USER_AGENT	"User-Agent: MirOS ftp, http://mirbsd.de/"
 #ifndef	GATE_PORT
 #define	GATE_PORT	21	/* default if ! getservbyname("ftpgate/tcp") */
 #endif

@@ -1,0 +1,1 @@
+export CVSREADONLYFS=1

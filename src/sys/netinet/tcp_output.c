@@ -218,8 +218,8 @@ tcp_output(tp)
 	struct tcpcb *tp;
 {
 	struct socket *so = tp->t_inpcb->inp_socket;
-	long len, win, txmaxseg;
-	int off, flags, error;
+	long len = 0, win, txmaxseg;
+	int off, flags, error = 0;
 	struct mbuf *m;
 	struct tcphdr *th;
 	u_char opt[MAX_TCPOPTLEN];
@@ -227,7 +227,7 @@ tcp_output(tp)
 	int idle, sendalot = 0;
 #ifdef TCP_SACK
 	int i, sack_rxmit = 0;
-	struct sackhole *p;
+	struct sackhole *p = NULL;
 #endif
 #if defined(TCP_SACK)
 	int maxburst = TCP_MAXBURST;

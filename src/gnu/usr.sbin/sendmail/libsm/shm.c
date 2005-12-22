@@ -12,6 +12,7 @@ SM_RCSID("@(#)$Sendmail: shm.c,v 1.18 2005/02/09 01:54:51 ca Exp $")
 
 #if SM_CONF_SHM
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <errno.h>
 # include <sm/shm.h>

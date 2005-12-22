@@ -1,3 +1,4 @@
+# $MirOS$
 #	$OpenBSD: Makefile.inc,v 1.17 2004/05/03 17:30:14 millert Exp $
 
 # hash functions
@@ -30,7 +31,7 @@ MLINKS+=sha2.3 SHA512_End.3  sha2.3 SHA512_File.3   sha2.3 SHA512_Data.3
 MLINKS+=sha2.3 SHA512_Pad.3  sha2.3 SHA512_FileChunk.3
 CLEANFILES+= ${HELPER} md[45].3
 
-.ifndef NOMAN
+.if !defined(NOMAN) || ${NOMAN:L} == "no"
 all:	md4.3 md5.3
 
 md4.3:  mdX.3

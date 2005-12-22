@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tree.c,v 1.7 2005/01/24 00:12:28 millert Exp $	*/
 /*	$NetBSD: tree.c,v 1.12 1995/10/02 17:37:57 jpo Exp $	*/
 
@@ -32,10 +33,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: tree.c,v 1.7 2005/01/24 00:12:28 millert Exp $";
-#endif
-
+#include <sys/cdefs.h>
 #include <stdlib.h>
 #include <string.h>
 #include <float.h>
@@ -44,6 +42,8 @@ static char rcsid[] = "$OpenBSD: tree.c,v 1.7 2005/01/24 00:12:28 millert Exp $"
 
 #include "lint1.h"
 #include "y.tab.h"
+
+__RCSID("$MirOS$");
 
 /* Various flags for each operator. */
 static	mod_t	modtab[NOPS];
@@ -813,7 +813,7 @@ typeok(op, arg, ln, rn)
 		for (tn=rn; tn->tn_op==CVT && !tn->tn_cast; tn=tn->tn_left) ;
 		ort = tn->tn_type->t_tspec;
 	}
-		
+
 	switch (op) {
 	case POINT:
 		/*
@@ -1786,7 +1786,7 @@ iiconv(op, arg, nt, ot, tp, tn)
 			} else {
 				warning(132, tyname(tn->tn_type));
 			}
-		} 
+		}
 	}
 }
 
@@ -1857,7 +1857,7 @@ ppconv(op, tn, tp)
 		warning(229);
 		return;
 	}
-	
+
 	if (getbound(tp->t_subt) > getbound(tn->tn_type->t_subt)) {
 		if (hflag)
 			/* possible pointer alignment problem */
@@ -1989,7 +1989,7 @@ cvtcon(op, arg, tp, nv, v)
 		sz = tp->t_isfield ? tp->t_flen : size(nt);
 		nv->v_quad = xsign(nv->v_quad, nt, sz);
 	}
-	
+
 	if (rchk && op != CVT) {
 		osz = size(ot);
 		nsz = tp->t_isfield ? tp->t_flen : size(nt);
@@ -2358,7 +2358,7 @@ bldamper(tn, noign)
 {
 	tnode_t	*ntn;
 	tspec_t	t;
-	
+
 	if (!noign && ((t = tn->tn_type->t_tspec) == ARRAY || t == FUNC)) {
 		/* & before array or function: ignored */
 		if (tflag)
@@ -2372,7 +2372,7 @@ bldamper(tn, noign)
 	    tn->tn_left->tn_type->t_subt == tn->tn_type) {
 		return (tn->tn_left);
 	}
-	    
+
 	ntn = mktnode(AMPER, tincref(tn->tn_type, PTR), tn, NULL);
 
 	return (ntn);
@@ -2662,22 +2662,6 @@ plength(tp)
 	return (getinode(st, (quad_t)(elem * elsz / CHAR_BIT)));
 }
 
-#ifdef XXX_BROKEN_GCC
-static int
-quad_t_eq(x, y)
-	quad_t x, y;
-{
-	return (x == y);
-}
-
-static int
-u_quad_t_eq(x, y)
-	u_quad_t x, y;
-{
-	return (x == y);
-}
-#endif
-
 /*
  * Do only as much as necessary to compute constant expressions.
  * Called only if the operator allows folding and (both) operands
@@ -2783,11 +2767,7 @@ fold(tn)
 		q = utyp ? ul > ur : sl > sr;
 		break;
 	case EQ:
-#ifdef XXX_BROKEN_GCC
-		q = utyp ? u_quad_t_eq(ul, ur) : quad_t_eq(sl, sr);
-#else
 		q = utyp ? ul == ur : sl == sr;
-#endif
 		break;
 	case NE:
 		q = utyp ? ul != ur : sl != sr;
@@ -2821,15 +2801,6 @@ fold(tn)
 	return (cn);
 }
 
-#ifdef XXX_BROKEN_GCC
-int
-ldbl_t_neq(x, y)
-	ldbl_t x, y;
-{
-	return (x != y);
-}
-#endif
-
 /*
  * Same for operators whose operands are compared with 0 (test context).
  */
@@ -2846,22 +2817,14 @@ foldtst(tn)
 		lerror("foldtst() 1");
 
 	if (isftyp(tn->tn_left->tn_type->t_tspec)) {
-#ifdef XXX_BROKEN_GCC
-		l = ldbl_t_neq(tn->tn_left->tn_val->v_ldbl, 0.0);
-#else
 		l = tn->tn_left->tn_val->v_ldbl != 0.0;
-#endif
 	} else {
 		l = tn->tn_left->tn_val->v_quad != 0;
 	}
 
 	if (modtab[tn->tn_op].m_binary) {
 		if (isftyp(tn->tn_right->tn_type->t_tspec)) {
-#ifdef XXX_BROKEN_GCC
-			r = ldbl_t_neq(tn->tn_right->tn_val->v_ldbl, 0.0);
-#else
 			r = tn->tn_right->tn_val->v_ldbl != 0.0;
-#endif
 		} else {
 			r = tn->tn_right->tn_val->v_quad != 0;
 		}
@@ -3208,7 +3171,7 @@ chkfarg(ftp, args)
 		error(150, narg, narg > 1 ? "s" : "", npar);
 		asym = NULL;
 	}
-	
+
 	for (n = 1; n <= narg; n++) {
 
 		/*
@@ -3643,7 +3606,7 @@ chkaidx(tn, amper)
 		return;
 	if (ln->tn_left->tn_type->t_tspec != ARRAY)
 		return;
-	
+
 	/*
 	 * For incomplete array types, we can print a warning only if
 	 * the index is negative.

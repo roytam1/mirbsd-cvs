@@ -54,7 +54,7 @@ debug_packet(u_int8_t *pkt, int len)
 		printf("short packet (%d)\n", len);
 		return;
 	}
-	bcopy(pkt, &eh, sizeof(eh));
+	memmove(&eh, pkt, sizeof(eh));
 	pkt += sizeof(eh);
 	len -= sizeof(eh);
 	eh.ether_type = ntohs(eh.ether_type);
@@ -82,7 +82,7 @@ debug_packet(u_int8_t *pkt, int len)
 		printf("short packet (%d)\n", len);
 		return;
 	}
-	bcopy(pkt, &ph, sizeof(ph));
+	memmove(&ph, pkt, sizeof(ph));
 	pkt += sizeof(ph);
 	len -= sizeof(ph);
 	ph.sessionid = ntohs(ph.sessionid);
@@ -129,7 +129,7 @@ debug_packet(u_int8_t *pkt, int len)
 			printf("|\n");
 			return;
 		}
-		bcopy(pkt, &ttype, sizeof(ttype));
+		memmove(&ttype, pkt, sizeof(ttype));
 		len -= sizeof(ttype);
 		pkt += sizeof(ttype);
 		ttype = ntohs(ttype);
@@ -174,7 +174,7 @@ debug_packet(u_int8_t *pkt, int len)
 			printf("|\n");
 			return;
 		}
-		bcopy(pkt, &tlen, sizeof(tlen));
+		memmove(&tlen, pkt, sizeof(tlen));
 		len -= sizeof(tlen);
 		pkt += sizeof(tlen);
 		tlen = ntohs(tlen);

@@ -216,7 +216,7 @@ t3000_connect()
 	f = signal(SIGALRM, sigALRM);
 again:
 	nc = 0; nl = sizeof(dialer_buf)-1;
-	bzero(dialer_buf, sizeof(dialer_buf));
+	memset(dialer_buf, 0, sizeof(dialer_buf));
 	timeout = 0;
 	for (nc = 0, nl = sizeof(dialer_buf)-1 ; nl > 0 ; nc++, nl--) {
 		if (setjmp(timeoutbuf))
@@ -285,7 +285,7 @@ t3000_sync()
 	while (already++ < MAXRETRY) {
 		tcflush(FD, TCIOFLUSH);
 		t3000_write(FD, "\rAT Z\r", 6);	/* reset modem */
-		bzero(buf, sizeof(buf));
+		memset(buf, 0, sizeof(buf));
 		sleep(2);
 		ioctl(FD, FIONREAD, &len);
 #if 1
@@ -297,7 +297,7 @@ if (len == 0) len = 1;
 			buf[len] = '\0';
 			printf("t3000_sync: (\"%s\")\n\r", buf);
 #endif
-			if (strchr(buf, '0') || 
+			if (strchr(buf, '0') ||
 		   	   (strchr(buf, 'O') && strchr(buf, 'K')))
 				return(1);
 		}

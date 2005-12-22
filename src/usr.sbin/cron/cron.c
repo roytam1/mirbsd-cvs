@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/cron/cron.c,v 1.2 2005/03/13 19:16:19 tg Exp $ */
 /*	$OpenBSD: cron.c,v 1.36 2004/06/17 22:11:55 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
@@ -21,13 +22,11 @@
  * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#if !defined(lint) && !defined(LINT)
-static const char rcsid[] = "$OpenBSD: cron.c,v 1.36 2004/06/17 22:11:55 millert Exp $";
-#endif
-
 #define	MAIN_PROGRAM
 
 #include "cron.h"
+
+__RCSID("$MirOS: src/usr.sbin/cron/cron.c,v 1.2 2005/03/13 19:16:19 tg Exp $");
 
 enum timejump { negative, small, medium, large };
 
@@ -396,8 +395,9 @@ cron_sleep(int target) {
 	}
 
 	while (timerisset(&tv) && tv.tv_sec < 65) {
-		Debug(DSCH, ("[%ld] Target time=%ld, sec-to-wait=%ld\n",
-		    (long)getpid(), (long)target*SECONDS_PER_MINUTE, tv.tv_sec))
+		Debug(DSCH, ("[%ld] Target time=%ld, sec-to-wait=%lld\n",
+		    (long)getpid(), (long)target*SECONDS_PER_MINUTE,
+		    (int64_t)tv.tv_sec))
 
 		poke = RELOAD_CRON | RELOAD_AT;
 		if (fdsr)

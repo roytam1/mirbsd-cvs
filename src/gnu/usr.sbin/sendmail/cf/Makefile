@@ -1,7 +1,7 @@
-#	$OpenBSD: Makefile,v 1.1 2000/04/02 19:48:10 millert Exp $
-#
+# $MirOS$
+# $OpenBSD: Makefile,v 1.1 2000/04/02 19:48:10 millert Exp $
 
-NOOBJ=	noobj
+NOOBJ=	yes
 FILES=	README
 DIRS=	cf domain feature hack m4 mailer ostype sh siteconfig
 

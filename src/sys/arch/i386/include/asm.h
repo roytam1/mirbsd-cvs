@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.7 2003/06/02 23:27:47 millert Exp $	*/
 /*	$NetBSD: asm.h,v 1.7 1994/10/27 04:15:56 cgd Exp $	*/
 
@@ -44,7 +45,7 @@
 	call	666f;	\
 666:			\
 	popl	%ebx;	\
-	addl	$_C_LABEL(_GLOBAL_OFFSET_TABLE_)+[.-666b], %ebx
+	addl	$_GLOBAL_OFFSET_TABLE_+[.-666b], %ebx
 #define PIC_EPILOGUE	\
 	popl	%ebx
 #define PIC_PLT(x)	x@PLT
@@ -72,31 +73,24 @@
  * WARN_REFERENCES: create a warning if the specified symbol is referenced
  */
 #define WARN_REFERENCES(_sym,_msg)	\
-	.section .gnu.warning. ## _sym ; .ascii _msg ; .text
+	.section .gnu.warning.##_sym ;.ascii _msg ;.previous
 
 /* let kernels and others override entrypoint alignment */
 #ifndef _ALIGN_TEXT
-# define _ALIGN_TEXT .align 2, 0x90
+# define _ALIGN_TEXT .balign 2, 0x90
 #endif
 
 #define _ENTRY(x) \
 	.text; _ALIGN_TEXT; .globl x; .type x,@function; x:
 
-#ifdef GPROF
-# define _PROF_PROLOGUE	\
-	pushl %ebp; movl %esp,%ebp; call PIC_PLT(mcount); popl %ebp
-#else
-# define _PROF_PROLOGUE
-#endif
-
-#define	ENTRY(y)	_ENTRY(_C_LABEL(y)); _PROF_PROLOGUE
+#define	ENTRY(y)	_ENTRY(_C_LABEL(y))
 #define	NENTRY(y)	_ENTRY(_C_LABEL(y))
-#define	ASENTRY(y)	_ENTRY(_ASM_LABEL(y)); _PROF_PROLOGUE
+#define	ASENTRY(y)	_ENTRY(_ASM_LABEL(y))
 
 #define	ALTENTRY(name)	.globl _C_LABEL(name); _C_LABEL(name):
 
 #define	ASMSTR		.asciz
 
-#define RCSID(x)	.text; .asciz x
+#define RCSID(x)	.section .comment; .asciz x; .previous
 
 #endif /* !_I386_ASM_H_ */

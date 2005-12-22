@@ -205,6 +205,8 @@ rtl80x9_media_init(sc)
 		else
 			defmedia = IFM_ETHER|IFM_10_T;
 		break;
+	default:
+		defmedia = IFM_ETHER|IFM_AUTO;
 	}
 
 	/* Set NIC to page 0 registers. */

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: ipx_cksum.c,v 1.3 2003/06/02 23:27:47 millert Exp $	*/
 
 /*-
@@ -38,13 +39,14 @@
 #include <sys/systm.h>
 #include <sys/mbuf.h>
 #include <netipx/ipx.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internet Protocol family headers.
  *
  * This routine is very heavily used in the network
  * code and should be modified for each CPU to be as fast as possible.
- * 
+ *
  * This implementation is 386 version.
  */
 
@@ -168,6 +170,6 @@ ipx_cksum(m, len)
 	}
 	REDUCE;
 	ADDCARRY;
+	rnd_addpool_add(sum);
 	return (sum ^ 0xffff);
 }
-

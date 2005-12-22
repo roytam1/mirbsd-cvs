@@ -1,5 +1,5 @@
-#	$OpenBSD: Makefile,v 1.7 2002/06/01 00:14:21 deraadt Exp $
+# $MirOS$
 
-SUBDIR+=	mkhybrid sendmail
+  SUBDIR+= sendmail
 
 .include <bsd.subdir.mk>

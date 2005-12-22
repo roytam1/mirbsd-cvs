@@ -181,6 +181,7 @@ OpenSSH contains no GPL code.
 	Per Allansson
 	Nils Nordman
 	Simon Wilkinson
+	Thorsten Glaser
 
      * Redistribution and use in source and binary forms, with or without
      * modification, are permitted provided that the following conditions
@@ -203,4 +204,5 @@ OpenSSH contains no GPL code.
      * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
+$MirOS$
 $OpenBSD: LICENCE,v 1.19 2004/08/30 09:18:08 markus Exp $

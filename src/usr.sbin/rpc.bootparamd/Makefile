@@ -1,15 +1,5 @@
+#	$MirOS$
 #	$OpenBSD: Makefile,v 1.10 2003/07/21 20:10:04 mickey Exp $
-
-.include <bsd.own.mk>
-
-.if (${YP:L} == "yes")
-CFLAGS+=-DYP
-.endif
-
-.if (${MACHINE_ARCH} == vax)
-bootparam_prot_svc.o:
-	${CC} ${CFLAGS} ${CPPFLAGS} -O0 -c $<
-.endif
 
 PROG=	rpc.bootparamd
 SRCS=	bootparamd.c bootparam_prot_svc.c

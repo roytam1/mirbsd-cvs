@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: in_cksum.c,v 1.6 2003/12/10 07:22:43 itojun Exp $	*/
 /*	$NetBSD: in_cksum.c,v 1.11 1996/04/08 19:55:37 jonathan Exp $	*/
 
@@ -36,6 +37,7 @@
 #include <sys/mbuf.h>
 #include <sys/systm.h>
 #include <netinet/in.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internet Protocol family headers (Portable Version).
@@ -146,5 +148,6 @@ in_cksum(m, len)
 		sum += s_util.s;
 	}
 	REDUCE;
+	rnd_addpool_add(sum);
 	return (~sum & 0xffff);
 }

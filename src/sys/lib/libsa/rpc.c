@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: rpc.c,v 1.13 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: rpc.c,v 1.16 1996/10/13 02:29:06 christos Exp $	*/
 
@@ -148,7 +149,7 @@ rpc_call(struct iodesc *d, n_long prog, n_long vers, n_long proc, void *sdata,
 #if 1
 	/* Auth credentials: always auth unix (as root) */
 	send_head -= sizeof(struct auth_unix);
-	bzero(send_head, sizeof(struct auth_unix));
+	memset(send_head, 0, sizeof(struct auth_unix));
 	send_head -= sizeof(*auth);
 	auth = (struct auth_info *)send_head;
 	auth->authtype = htonl(RPCAUTH_UNIX);

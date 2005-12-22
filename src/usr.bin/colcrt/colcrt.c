@@ -229,7 +229,7 @@ pflush(int ol)
 		lastomit = 0;
 		printf("%s\n", cp);
 	}
-	bcopy(page[ol], page, (267 - ol) * 132);
+	memmove(page, page[ol], (267 - ol) * 132);
 	bzero(page[267- ol], ol * 132);
 	outline -= ol;
 	outcol = 0;

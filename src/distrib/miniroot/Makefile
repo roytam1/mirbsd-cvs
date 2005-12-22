@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.27 2004/02/28 04:53:30 jolan Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.27 2004/02/28 04:53:30 jolan Exp $
 
 REV=		${OSrev}
 
@@ -8,7 +9,7 @@ ARCHDIR=	${.CURDIR}/../${MACHINE}/miniroot
 .include <bsd.own.mk>
 
 .if exists(${ARCHDIR}/Makefile.inc)
-.include "${ARCHDIR}/Makefile.inc"
+.  include "${ARCHDIR}/Makefile.inc"
 .endif
 
 MOUNT_POINT?=	/mnt
@@ -19,10 +20,10 @@ DISKTYPE=	miniroot
 PID!=		echo $$$$
 REALIMAGE!=	echo /var/tmp/image.${PID}
 IMAGE?=		miniroot${REV}.fs
-IMAGESIZE?=	10240 # 5MB in 512 byte blocks
+IMAGESIZE?=	10240	# 5 MiB in 512 byte blocks
 NEWFSOPTS?=
 NEWFS_WILL_FAIL?=false
-.if ${ELF_TOOLCHAIN:L} == "yes"
+.if ${OBJECT_FMT:L} == "ELF"
 CRUNCHGENOPTS?=-E
 .else
 CRUNCHGENOPTS?=

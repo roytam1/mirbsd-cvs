@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: pcibios.4,v 1.18 2003/11/09 16:06:07 jmc Exp $
 .\" $NetBSD: pcibios.4,v 1.7 2000/08/03 13:32:39 soda Exp $
 .\"
@@ -143,6 +144,16 @@ Included in these diagnostics are: PCI device address fixup tables,
 interrupt fixup reports, and other diagnostic and non-fatal messages.
 .It 0x0020
 Make the PCI interrupt routing fixup procedure verbose.
+.It 0x0040
+Force fixing up the PCIBIOS table.
+This is a
+.Mx
+extension, under
+.Ox
+you have to recompile your kernel with
+.No \-D Ns Dv PCIBIOS_INTR_FIXUP_FORCE
+set in
+.Dv CFLAGS .
 .El
 .\" .It Nm PCIBIOS_IRQS_HINT
 .\" hint for IRQ use.

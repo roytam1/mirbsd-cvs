@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: diffreg.c,v 1.62 2005/01/13 08:27:45 otto Exp $	*/
 
 /*
@@ -33,6 +34,7 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*-
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -64,10 +66,6 @@
  *	@(#)diffreg.c   8.1 (Berkeley) 6/6/93
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: diffreg.c,v 1.62 2005/01/13 08:27:45 otto Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
@@ -84,6 +82,8 @@ static const char rcsid[] = "$OpenBSD: diffreg.c,v 1.62 2005/01/13 08:27:45 otto
 
 #include "diff.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 /*
  * diff - compare two files.
@@ -1051,8 +1051,8 @@ proceed:
 			 */
 			print_header(file1, file2);
 			anychange = 1;
-		} else if (a > context_vec_ptr->b + (2 * context) + 1 &&
-		    c > context_vec_ptr->d + (2 * context) + 1) {
+		} else if (a > context_vec_ptr->b + (2 * context) + dflag &&
+		    c > context_vec_ptr->d + (2 * context) + dflag) {
 			/*
 			 * If this change is more than 'context' lines from the
 			 * previous change, dump the record and reset it.

@@ -1,4 +1,6 @@
+/**	$MirOS$ */
 /*	$OpenBSD: timeout.h,v 1.16 2003/06/03 01:27:31 art Exp $	*/
+
 /*
  * Copyright (c) 2000-2001 Artur Grabowski <art@openbsd.org>
  * All rights reserved. 
@@ -51,13 +53,27 @@
  * These functions may be called in interrupt context (anything below splhigh).
  */
 
-struct circq {
-	struct circq *next;		/* next element */
-	struct circq *prev;		/* previous element */
+/*
+ * The following funkyness is to appease gcc3's strict aliasing.
+ */
+struct timeout;
+struct timeout_circq {
+	union {
+		struct timeout_circq *list;
+		struct timeout *elem;
+	} next;				/* next element */
+	union {
+		struct timeout_circq *list;
+		struct timeout *elem;
+	} prev;				/* previous element */
 };
+#define	next_e	next.elem
+#define	prev_e	prev.elem
+#define	next_l	next.list
+#define	prev_l	prev.list
 
 struct timeout {
-	struct circq to_list;			/* timeout queue, don't move */
+	struct timeout_circq to_list;		/* timeout queue, don't move */
 	void (*to_func)(void *);		/* function to call */
 	void *to_arg;				/* function argument */
 	int to_time;				/* ticks on event */

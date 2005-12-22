@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: random.4,v 1.18 2003/06/06 10:29:41 jmc Exp $
 .\"
 .\" Copyright (c) 1996, 1997 Michael Shalayeff
@@ -71,6 +72,19 @@ The
 function in userland libraries seeds itself from this device,
 providing a second level of ARC4 hashed data.
 .El
+.Pp
+The
+.Xr arc4random_push 3
+function, writes to the
+.Dv KERN_ARND
+.Xr sysctl 3
+and writes to
+.Pa /dev/prandom
+feed data back into a buffer of int[16] into the kernel.
+This can be disabled if you fear it reduces the entropy level by
+setting the
+.Dv KERN_PUSHRAND
+.Xr sysctl 3 .
 .Sh FILES
 .Bl -tag -width /dev/srandom -compact
 .It Pa /dev/random

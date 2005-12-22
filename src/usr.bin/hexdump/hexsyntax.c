@@ -1,9 +1,12 @@
+/**	$MirOS$ */
 /*	$OpenBSD: hexsyntax.c,v 1.8 2003/06/12 20:58:09 deraadt Exp $	*/
 /*	$NetBSD: hexsyntax.c,v 1.8 1998/04/08 23:48:57 jeremy Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
+ * Copyright (c) 2002, 2003, 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,11 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "from: @(#)hexsyntax.c	5.2 (Berkeley) 5/8/90";*/
-static char rcsid[] = "$OpenBSD: hexsyntax.c,v 1.8 2003/06/12 20:58:09 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 
 #include <err.h>
@@ -45,16 +43,24 @@ static char rcsid[] = "$OpenBSD: hexsyntax.c,v 1.8 2003/06/12 20:58:09 deraadt E
 
 #include "hexdump.h"
 
+__SCCSID("@(#)hexsyntax.c	5.2 (Berkeley) 5/8/90");
+__RCSID("$MirOS$");
+
 off_t skip;				/* bytes to skip */
 
 void
 newsyntax(int argc, char ***argvp)
 {
-	int ch;
-	char *p, **argv;
+	int ch, hexmode = 0;
+	char *p, **argv, *myname;
 
 	argv = *argvp;
-	while ((ch = getopt(argc, argv, "bcCde:f:n:os:vx")) != -1)
+	myname = strrchr(argv[0], '/');
+	myname = (myname ? (myname + 1) : argv[0]);
+	if (!strcmp(myname, "hd"))
+		++hexmode;
+
+	while ((ch = getopt(argc, argv, "bcCde:f:Hn:os:vx")) != -1)
 		switch (ch) {
 		case 'b':
 			add("\"%07.7_Ax\n\"");
@@ -78,6 +84,11 @@ newsyntax(int argc, char ***argvp)
 			break;
 		case 'f':
 			addfile(optarg);
+			break;
+		case 'H':
+			add("\"%08.8_aX  \" 8/1 \"%02X \" \" - \" 8/1 \"%02X \"");
+			add("\"  |\" \"%_p\"");
+			add("\"|\n\"");
 			break;
 		case 'n':
 			if ((length = atoi(optarg)) < 0)
@@ -114,8 +125,14 @@ newsyntax(int argc, char ***argvp)
 		}
 
 	if (!fshead) {
+	    if (hexmode) {
+		add("\"%08.8_aX  \" 8/1 \"%02X \" \" - \" 8/1 \"%02X \"");
+		add("\"  |\" \"%_p\"");
+		add("\"|\n\"");
+	    } else {
 		add("\"%07.7_Ax\n\"");
 		add("\"%07.7_ax \" 8/2 \"%04x \" \"\\n\"");
+	    }
 	}
 
 	*argvp += optind;

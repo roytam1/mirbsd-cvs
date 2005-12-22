@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dkcksum.c,v 1.7 2004/09/28 17:57:46 otto Exp $	*/
 /*	$NetBSD: dkcksum.c,v 1.6 1995/03/18 14:54:42 cgd Exp $	*/
 
@@ -30,18 +31,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)dkcksum.c	8.1 (Berkeley) 6/5/93";
-#else
-static char rcsid[] = "$OpenBSD: dkcksum.c,v 1.7 2004/09/28 17:57:46 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/disklabel.h>
 #include <stdio.h>
 #include "extern.h"
+
+__SCCSID("@(#)dkcksum.c	8.1 (Berkeley) 6/5/93");
+__RCSID("$MirOS$");
 
 u_short
 dkcksum(struct disklabel *lp)

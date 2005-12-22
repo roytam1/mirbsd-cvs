@@ -1,5 +1,6 @@
-/*	$OpenBSD: radix.h,v 1.12 2004/04/25 02:48:03 itojun Exp $	*/
-/*	$NetBSD: radix.h,v 1.8 1996/02/13 22:00:37 christos Exp $	*/
+/* $MirOS$	*/
+/* $OpenBSD: radix.h,v 1.12 2004/04/25 02:48:03 itojun Exp $	*/
+/* $NetBSD: radix.h,v 1.8 1996/02/13 22:00:37 christos Exp $	*/
 
 /*
  * Copyright (c) 1988, 1989, 1993
@@ -136,15 +137,15 @@ struct radix_node_head {
 
 
 #ifndef _KERNEL
-#define Bcmp(a, b, n) bcmp(((char *)(a)), ((char *)(b)), (n))
-#define Bcopy(a, b, n) bcopy(((char *)(a)), ((char *)(b)), (unsigned)(n))
-#define Bzero(p, n) bzero((char *)(p), (int)(n));
+#define Bcmp(a, b, n) memcmp(((char *)(a)), ((char *)(b)), (n))
+#define Bcopy(a, b, n) memmove(((char *)(b)), ((char *)(a)), (unsigned)(n))
+#define Bzero(p, n) memset((char *)(p), 0, (int)(n));
 #define R_Malloc(p, t, n) (p = (t) malloc((unsigned int)(n)))
 #define Free(p) free((char *)p);
 #else
-#define Bcmp(a, b, n) bcmp(((caddr_t)(a)), ((caddr_t)(b)), (unsigned)(n))
-#define Bcopy(a, b, n) bcopy(((caddr_t)(a)), ((caddr_t)(b)), (unsigned)(n))
-#define Bzero(p, n) bzero((caddr_t)(p), (unsigned)(n));
+#define Bcmp(a, b, n) memcmp(((caddr_t)(a)), ((caddr_t)(b)), (unsigned)(n))
+#define Bcopy(a, b, n) memmove(((caddr_t)(b)), ((caddr_t)(a)), (unsigned)(n))
+#define Bzero(p, n) memset((caddr_t)(p), 0, (unsigned)(n));
 #define R_Malloc(p, t, n) (p = (t) malloc((unsigned long)(n), M_RTABLE, M_DONTWAIT))
 #define Free(p) free((caddr_t)p, M_RTABLE);
 #endif /* !_KERNEL */

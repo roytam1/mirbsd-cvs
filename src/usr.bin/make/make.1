@@ -1,5 +1,5 @@
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.6 2005/09/01 23:42:12 tg Exp $
 .\"	$OpenBSD: make.1,v 1.64 2005/01/15 20:42:49 mbalmer Exp $
-.\"	$OpenPackages$
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
 .\"
 .\" Copyright (c) 1990, 1993
@@ -131,8 +131,8 @@ to
 Extended options are as follows:
 .Bl -tag -width Ds
 .It Fl B
-Try to be backwards compatible by executing a single shell per command and
-by executing the commands to make the sources of a dependency line in sequence.
+Try to be backwards compatible by executing a single shell per command and by
+executing the commands to make the sources of a dependency line in sequence.
 This is turned on by default unless
 .Fl j
 is used.
@@ -231,6 +231,7 @@ them with a backslash
 .Pq Ql \e .
 The trailing newline character and initial whitespace on the following
 line are compressed into a single space.
+You cannot embed comments between line continuations.
 .Sh FILE DEPENDENCY SPECIFICATIONS
 Dependency lines consist of one or more targets, an operator, and zero
 or more sources.
@@ -300,7 +301,7 @@ The
 .Ic \&::
 operator is a fairly standard extension.
 The
-.Ic !\&
+.Ic \&!\&
 operator is a BSD extension.
 .Pp
 As an extension, targets and sources may contain the shell wildcard
@@ -342,7 +343,7 @@ If a command line begins with a combination of the characters,
 and/or
 .Sq Ic + ,
 the command is treated specially:
-.Bl -tag -width `@'
+.Bl -tag -width '@'
 .It Sq Ic @
 causes the command not to be echoed before it is executed.
 .It Sq Ic \-
@@ -355,10 +356,15 @@ has been specified.
 .El
 .Pp
 The command is always executed using
-.Pa /bin/sh
+.Pa @@MKSH@@
 in
 .Qq set -e
 mode.
+(Using the mirbsdksh,
+.Pa @@MKSH@@ ,
+instead of the bourne shell,
+.Pa /bin/sh ,
+is a MirOS extension.)
 .Sh VARIABLE ASSIGNMENTS
 Variables in
 .Nm
@@ -484,6 +490,10 @@ supports the following local variables:
 .Bl -tag -width ".ARCHIVE"
 .It Va \&>
 The list of all sources for this target.
+.It Va \&^
+The GNU make equivalent of
+.Sq Va \&> .
+Only recognised for compatibility, do not use.
 .It Va .ALLSRC
 Synonym for
 .Sq Va \&> .
@@ -528,6 +538,14 @@ The name that
 .Nm
 was executed with
 .Pq Va argv Ns Op 0 .
+.It Va .SYSMK
+Path in which
+.Pa sys.mk
+is found (normally
+.Pa /usr/share/mk ,
+can be changed with the
+.Fl m
+option).
 .It Va .CURDIR
 A path to the directory where
 .Nm
@@ -576,6 +594,9 @@ to the current directory name.
 Finally, if none of these directories are available
 .Nm
 will settle for and use the current directory.
+This is a BSD (except
+.Nx )
+extension.
 .It Va .MAKEFLAGS
 The environment variable
 .Ev MAKEFLAGS
@@ -647,6 +668,12 @@ Name of the machine architecture
 .Nm
 was compiled for, obtained from the
 .Ev MACHINE_ARCH
+environment variable, or defined at compilation time.
+.It Va MACHINE_OS
+Name of the operating system type
+.Nm
+was compiled for, obtained from the
+.Ev MACHINE_OS
 environment variable, or defined at compilation time.
 .El
 .Pp
@@ -840,6 +867,12 @@ Conditional expressions are also preceded by a single dot as the first
 character of a line.
 The possible conditionals are as follows:
 .Bl -tag -width Ds
+.It Ic .error Ar message
+Report the error message to the user and abort.
+Variables are expanded once and their expansion displayed.
+.It Ic .trace Ar message
+Report the informal message to the user.
+Variables are expanded once and their expansion displayed.
 .It Ic .undef Ar variable
 Un-define the specified global variable.
 Only global variables may be un-defined.
@@ -1244,6 +1277,7 @@ If no sources are specified, any previously specified suffixes are deleted.
 uses the following environment variables, if they exist:
 .Ev MACHINE ,
 .Ev MACHINE_ARCH ,
+.Ev MACHINE_OS ,
 .Ev MAKEFLAGS ,
 .Ev MAKEOBJDIR ,
 .Ev MAKEOBJDIRPREFIX ,
@@ -1273,6 +1307,7 @@ directory
 .El
 .Sh SEE ALSO
 .Xr ed 1 ,
+.Xr ksh 1 ,
 .Xr mkdep 1 ,
 .Xr sh 1 ,
 .Xr getcwd 3 ,
@@ -1307,6 +1342,8 @@ A
 .Nm
 command appeared in
 .At v7 .
+The choice to use mirbsdksh extensions was done for
+.Mx 8 .
 .Sh BUGS
 The determination of
 .Va .OBJDIR
@@ -1358,7 +1395,7 @@ may erroneously mark archive members as out of date if the archive name
 was truncated.
 .Pp
 The handling of
-.Sq ;\&
+.Sq \&;\&
 and other special characters in tests may be utterly bogus.
 For instance, in
 .Bd -literal -offset indent

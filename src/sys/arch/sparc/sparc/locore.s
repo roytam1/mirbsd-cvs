@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: locore.s,v 1.57 2003/04/29 21:19:25 miod Exp $	*/
 /*	$NetBSD: locore.s,v 1.73 1997/09/13 20:36:48 pk Exp $	*/
 
@@ -2641,14 +2642,6 @@ nmi_sun4m:
 	 wr	%l4, 0, %y		! restore y
 #endif /* SUN4M */
 
-#ifdef GPROF
-	.globl	window_of, winof_user
-	.globl	window_uf, winuf_user, winuf_ok, winuf_invalid
-	.globl	return_from_trap, rft_kernel, rft_user, rft_invalid
-	.globl	softtrap, slowtrap
-	.globl	clean_trap_window, _C_LABEL(_syscall)
-#endif
-
 /*
  * Window overflow trap handler.
  *	%l0 = %psr
@@ -4109,17 +4102,7 @@ _C_LABEL(svr4_esigcode):
  * Primitives
  */
 #if 0
-#ifdef GPROF
-	.globl	mcount
-#define	ENTRY(x) \
-	.globl _C_LABEL(x); _C_LABEL(x): ; \
-	save	%sp, -CCFSZ, %sp; \
-	call	mcount; \
-	nop; \
-	restore
-#else
 #define	ENTRY(x)	.globl _C_LABEL(x); _C_LABEL(x):
-#endif
 #endif
 #define	ALTENTRY(x)	.globl _C_LABEL(x); _C_LABEL(x):
 
@@ -5009,6 +4992,7 @@ ENTRY(qzero)
 
 #define	BCOPY_SMALL	32	/* if < 32, copy by bytes */
 
+ENTRY(memmove)
 ENTRY(memcpy)
 	/*
 	 * Swap args for bcopy.  Gcc generates calls to memcpy for

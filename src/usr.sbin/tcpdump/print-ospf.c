@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: print-ospf.c,v 1.9 2003/07/08 10:58:27 markus Exp $	*/
 
 /*
@@ -23,11 +24,6 @@
  * OSPF support contributed by Jeffrey Honig (jch@mitchell.cit.cornell.edu)
  */
 
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/socket.h>
@@ -39,11 +35,14 @@ static const char rcsid[] =
 
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "interface.h"
 #include "addrtoname.h"
 
 #include "ospf.h"
+
+__RCSID("$MirOS$");
 
 struct bits {
 	u_int32_t bit;
@@ -95,12 +94,12 @@ ospf_print_seqage(register u_int32_t seq, register time_t us)
 
 	printf(" S %X age ", seq);
 	if (hour)
-		printf("%u:%02u:%02u",
-		    (u_int32_t) hour, (u_int32_t) mins, (u_int32_t) sec);
+		printf("%llu:%02llu:%02llu",
+		    (u_int64_t) hour, (u_int64_t) mins, (u_int64_t) sec);
 	else if (mins)
-		printf("%u:%02u", (u_int32_t) mins, (u_int32_t) sec);
+		printf("%llu:%02llu", (u_int64_t) mins, (u_int64_t) sec);
 	else
-		printf("%u", (u_int32_t) sec);
+		printf("%llu", (u_int64_t) sec);
 }
 
 

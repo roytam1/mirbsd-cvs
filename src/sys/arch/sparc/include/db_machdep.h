@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_machdep.h,v 1.10 2003/05/13 22:25:33 miod Exp $	*/
 /*	$NetBSD: db_machdep.h,v 1.10 1997/08/31 21:23:40 pk Exp $ */
 
@@ -61,6 +62,7 @@ extern db_regs_t	ddb_regs;	/* register state */
 #else
 #define	PC_REGS(regs)	((db_addr_t)(regs)->db_tf.tf_pc)
 #endif
+#define	PC_REGS_L(regs)	((regs)->db_tf.tf_pc)
 #define	PC_ADVANCE(regs) do {				\
 	int n = (regs)->db_tf.tf_npc;			\
 	(regs)->db_tf.tf_pc = n;			\

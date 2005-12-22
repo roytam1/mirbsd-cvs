@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/pcmcia/aic_pcmcia.c,v 1.2 2005/03/06 21:27:53 tg Exp $ */
 /*	$OpenBSD: aic_pcmcia.c,v 1.11 2005/01/27 17:04:55 millert Exp $	*/
 /*	$NetBSD: aic_pcmcia.c,v 1.6 1998/07/19 17:28:15 christos Exp $	*/
 
@@ -153,7 +154,7 @@ aic_pcmcia_attach(parent, self, aux)
 		return;
 	}
 
-	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, psc->sc_pcioh.size);
+	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, (int)(psc->sc_pcioh.size));
 
 	if (!aic_find(sc->sc_iot, sc->sc_ioh)) {
 		printf(": unable to detect chip!\n");

@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.19 2003/09/05 04:46:35 tedu Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.19 2003/09/05 04:46:35 tedu Exp $
 
 PROG=	compress
 SRCS=	main.c zopen.c gzopen.c nullopen.c
@@ -17,8 +18,9 @@ MLINKS= compress.1 uncompress.1 \
 	compress.1 gzcat.1 \
 	zdiff.1 zcmp.1
 
-LDADD=-lz
-DPADD=${LIBZ}
+LDADD=		-lz
+DPADD=		${LIBZ}
+LDSTATIC?=	${STATIC}
 
 afterinstall:
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \

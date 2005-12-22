@@ -1049,7 +1049,7 @@ wi_read_record_io(sc, ltv)
 {
 	u_int8_t		*ptr;
 	int			len, code;
-	struct wi_ltv_gen	*oltv, p2ltv;
+	struct wi_ltv_gen	*oltv = NULL, p2ltv;
 
 	if (sc->sc_firmware_type != WI_LUCENT) {
 		oltv = ltv;

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cs4280.c,v 1.20 2004/01/08 22:38:20 deraadt Exp $	*/
 /*	$NetBSD: cs4280.c,v 1.5 2000/06/26 04:56:23 simonb Exp $	*/
 
@@ -737,27 +738,44 @@ cs4280_intr(p)
 			sc->sc_rn += CS4280_ICHUNK;
 			break;
 		case CF_16BIT_MONO:
+		    {
+			int16_t *tmp1 = (int16_t *)sc->sc_rn;
+			int16_t *tmp2 = (int16_t *)empty_dma;
+
 			for (i = 0; i < 512; i++) {
-				rdata  = *((int16_t *)empty_dma)++>>1;
-				rdata += *((int16_t *)empty_dma)++>>1;
-				*((int16_t *)sc->sc_rn)++ = rdata;
+				rdata  = *tmp2++ >> 1;
+				rdata += *tmp2++ >> 1;
+				*tmp1++ = rdata;
+			}
+			sc->sc_rn = (char *)tmp1;
+			empty_dma = (char *)tmp2;
 			}
 			break;
 		case CF_8BIT_STEREO:
+		    {
+			int16_t *tmp2 = (int16_t *)empty_dma;
+
 			for (i = 0; i < 512; i++) {
-				rdata = *((int16_t*)empty_dma)++;
+				rdata = *tmp2++;
 				*sc->sc_rn++ = rdata >> 8;
-				rdata = *((int16_t*)empty_dma)++;
+				rdata = *tmp2++;
 				*sc->sc_rn++ = rdata >> 8;
 			}
+			empty_dma = (char *)tmp2;
+		    }
 			break;
 		case CF_8BIT_MONO:
+		    {
+			int16_t *tmp2 = (int16_t *)empty_dma;
+
 			for (i = 0; i < 512; i++) {
-				rdata =	 *((int16_t*)empty_dma)++ >>1;
-				rdata += *((int16_t*)empty_dma)++ >>1;
+				rdata =	 *tmp2++ >> 1;
+				rdata += *tmp2++ >> 1;
 				*sc->sc_rn++ = rdata >>8;
 			}
 			break;
+			empty_dma = (char *)tmp2;
+		    }
 		default:
 			/* Should not reach here */
 			printf("unknown sc->sc_rparam: %d\n", sc->sc_rparam);

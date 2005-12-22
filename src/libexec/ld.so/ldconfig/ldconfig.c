@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ldconfig.c,v 1.16 2004/08/14 03:08:24 drahn Exp $	*/
 
 /*
@@ -31,7 +32,6 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
 #include <sys/time.h>
@@ -52,6 +52,8 @@
 #include <unistd.h>
 
 #include "ld.h"
+
+__RCSID("$MirOS$");
 
 #undef major
 #undef minor
@@ -243,7 +245,7 @@ enter(char *dir, char *file, char *name, int dewey[], int ndewey)
 			shp->name = xstrdup(name);
 			free(shp->path);
 			shp->path = concat(dir, "/", file);
-			bcopy(dewey, shp->dewey, sizeof(shp->dewey));
+			memmove(shp->dewey, dewey, sizeof(shp->dewey));
 			shp->ndewey = ndewey;
 		}
 		break;
@@ -260,7 +262,7 @@ enter(char *dir, char *file, char *name, int dewey[], int ndewey)
 	shp = (struct shlib_list *)xmalloc(sizeof *shp);
 	shp->name = xstrdup(name);
 	shp->path = concat(dir, "/", file);
-	bcopy(dewey, shp->dewey, MAXDEWEY);
+	memmove(shp->dewey, dewey, MAXDEWEY);
 	shp->ndewey = ndewey;
 	shp->next = NULL;
 
@@ -365,7 +367,7 @@ buildhints(void)
 		str_index += 1 + strlen(shp->path);
 
 		/* Copy versions */
-		bcopy(shp->dewey, bp->hi_dewey, sizeof(bp->hi_dewey));
+		memmove(bp->hi_dewey, shp->dewey, sizeof(bp->hi_dewey));
 		bp->hi_ndewey = shp->ndewey;
 	}
 
@@ -456,7 +458,7 @@ readhints(void)
 	}
 
 	if (hdr->hh_ehints > msize) {
-		warnx("%s: hintsize greater than filesize: 0x%x > 0x%x ",
+		warnx("%s: hintsize greater than filesize: 0x%lx > 0x%lx ",
 		    _PATH_LD_HINTS, hdr->hh_ehints, msize);
 		    return -1;
 	}
@@ -493,7 +495,7 @@ readhints(void)
 		shp = (struct shlib_list *)xmalloc(sizeof *shp);
 		shp->name = xstrdup(strtab + bp->hi_namex);
 		shp->path = xstrdup(strtab + bp->hi_pathx);
-		bcopy(bp->hi_dewey, shp->dewey, sizeof(shp->dewey));
+		memmove(shp->dewey, bp->hi_dewey, sizeof(shp->dewey));
 		shp->ndewey = bp->hi_ndewey;
 		shp->next = NULL;
 

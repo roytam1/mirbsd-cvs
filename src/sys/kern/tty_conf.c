@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tty_conf.c,v 1.8 2003/06/02 23:28:06 millert Exp $	*/
 /*	$NetBSD: tty_conf.c,v 1.18 1996/05/19 17:17:55 jonathan Exp $	*/
 
@@ -102,7 +103,7 @@ struct	linesw linesw[] =
 	{ ttynodisc, ttyerrclose, ttyerrio, ttyerrio, nullioctl,
 	  ttyerrinput, ttyerrstart, nullmodem },	/* 1- defunct */
 
-#if defined(COMPAT_43) || defined(COMPAT_FREEBSD) || defined(COMPAT_BSDOS)
+#if defined(COMPAT_43)
 	{ ttyopen, ttylclose, ttread, ttwrite, nullioctl,
 	  ttyinput, ttstart, ttymodem },		/* 2- old NTTYDISC */
 #else

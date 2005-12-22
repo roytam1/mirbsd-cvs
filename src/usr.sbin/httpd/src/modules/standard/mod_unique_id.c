@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_unique_id.c,v 1.2 2005/03/13 19:16:57 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -67,10 +69,20 @@
 #include "http_config.h"
 #include "http_log.h"
 #include "multithread.h"
+#include "sa_len.h"
 
 typedef struct {
     unsigned int stamp;
-    unsigned int in_addr;
+    union {
+      u_int32_t     in;
+#ifdef INET6
+# ifdef SHORT_UNIQUE_ID
+      u_int32_t     in6;
+# else
+      struct in6_addr in6;
+# endif
+#endif
+    } addr;
     unsigned int pid;
     unsigned short counter;
 } unique_id_rec;
@@ -139,7 +151,7 @@ typedef struct {
  * this shouldn't be a problem till year 2106.
  */
 
-static unsigned global_in_addr;
+static struct sockaddr_storage global_addr;
 
 
 /* Even when not MULTITHREAD, this will return a single structure, since
@@ -168,6 +180,8 @@ static void unique_id_global_init(server_rec *s, pool *p)
 #define MAXHOSTNAMELEN 256
 #endif
     char str[MAXHOSTNAMELEN + 1];
+    struct addrinfo hints, *res, *res0;
+    int error;
     struct hostent *hent;
     struct timeval tv;
     unique_id_rec *cur_unique_id = get_cur_unique_id(1);
@@ -177,8 +191,8 @@ static void unique_id_global_init(server_rec *s, pool *p)
      */
     unique_id_rec_offset[0] = XtOffsetOf(unique_id_rec, stamp);
     unique_id_rec_size[0] = sizeof(cur_unique_id->stamp);
-    unique_id_rec_offset[1] = XtOffsetOf(unique_id_rec, in_addr);
-    unique_id_rec_size[1] = sizeof(cur_unique_id->in_addr);
+    unique_id_rec_offset[1] = XtOffsetOf(unique_id_rec, addr);
+    unique_id_rec_size[1] = sizeof(cur_unique_id->addr);
     unique_id_rec_offset[2] = XtOffsetOf(unique_id_rec, pid);
     unique_id_rec_size[2] = sizeof(cur_unique_id->pid);
     unique_id_rec_offset[3] = XtOffsetOf(unique_id_rec, counter);
@@ -204,28 +218,55 @@ static void unique_id_global_init(server_rec *s, pool *p)
     }
     str[sizeof(str) - 1] = '\0';
 
-    if ((hent = gethostbyname(str)) == NULL) {
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = PF_UNSPEC;
+    error = getaddrinfo(str, NULL, &hints, &res0);
+    if (error) {
         ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_ALERT, s,
-		     "mod_unique_id: unable to gethostbyname(\"%s\")", str);
+                     "mod_unique_id: getaddrinfo failed for \"%s\" (%s)", str,
+		     gai_strerror(error));
         exit(1);
     }
 
-    global_in_addr = ((struct in_addr *) hent->h_addr_list[0])->s_addr;
+    error = 1;
+    for (res = res0; res; res = res->ai_next) {
+	switch (res->ai_family) {
+	case AF_INET:
+#ifdef INET6
+	case AF_INET6:
+#endif
+	    memcpy(&global_addr, res->ai_addr, res->ai_addrlen);
+	    error = 0;
+	    break;
+	}
+    }
+    freeaddrinfo(res0);
+    if (error) {
+        ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_ALERT, s,
+                    "mod_unique_id: no known AF found for \"%s\"", str);
+        exit(1);
+    }
 
+    getnameinfo((struct sockaddr *)&global_addr,
+#ifndef SIN6_LEN
+	SA_LEN((struct sockaddr *)&global_addr),
+#else
+	global_addr.ss_len,
+#endif
+	str, sizeof(str), NULL, 0, NI_NUMERICHOST);
     ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_INFO, s,
-		 "mod_unique_id: using ip addr %s",
-		 inet_ntoa(*(struct in_addr *) hent->h_addr_list[0]));
+                 "mod_unique_id: using ip addr %s", str);
 
     /*
      * If the server is pummelled with restart requests we could possibly end
      * up in a situation where we're starting again during the same second
      * that has been used in previous identifiers.  Avoid that situation.
-     * 
+     *
      * In truth, for this to actually happen not only would it have to restart
      * in the same second, but it would have to somehow get the same pids as
      * one of the other servers that was running in that second. Which would
      * mean a 64k wraparound on pids ... not very likely at all.
-     * 
+     *
      * But protecting against it is relatively cheap.  We just sleep into the
      * next second.
      */
@@ -265,7 +306,24 @@ static void unique_id_child_init(server_rec *s, pool *p)
 		     "oh no! pids are greater than 32-bits!  I'm broken!");
     }
 
-    cur_unique_id->in_addr = global_in_addr;
+    memset(&cur_unique_id->addr, 0, sizeof(cur_unique_id->addr));
+    switch (global_addr.ss_family) {
+    case AF_INET:
+      cur_unique_id->addr.in =
+          ((struct sockaddr_in *)&global_addr)->sin_addr.s_addr;
+      break;
+#ifdef INET6
+    case AF_INET6:
+#ifdef SHORT_UNIQUE_ID
+      cur_unique_id->addr.in6 =
+          ((struct sockaddr_in6 *)&global_addr)->sin6_addr.s6_addr32[3];
+#else
+      cur_unique_id->addr.in6 =
+          ((struct sockaddr_in6 *)&global_addr)->sin6_addr;
+#endif
+      break;
+#endif
+    }
 
     /*
      * If we use 0 as the initial counter we have a little less protection
@@ -350,7 +408,7 @@ static int gen_unique_id(request_rec *r)
      */
     x[k++] = '\0';
     x[k++] = '\0';
-    
+
     /* alloc str and do the uuencoding */
     str = (char *)ap_palloc(r->pool, unique_id_rec_size_uu + 1);
     k = 0;

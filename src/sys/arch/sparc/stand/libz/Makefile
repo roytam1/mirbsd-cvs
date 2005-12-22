@@ -1,8 +1,19 @@
-#	$OpenBSD: Makefile,v 1.3 2003/12/17 05:01:06 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.1 1997/09/17 10:46:24 downsj Exp $
 
-S=${.CURDIR}/../../../..
-ZDST=${.OBJDIR}
+LIB=	z
 
-.PATH: ${S}/lib/libz
+.PATH:  ${.CURDIR}/../../../../lib/libz
 
-.include "${S}/lib/libz/Makefile"
+CFLAGS= -O2 -D_ZLIB_PRIVATE -I${.CURDIR}/../../../../lib/libz
+
+SRCS=	adler32.c crc32.c infblock.c infcodes.c inffast.c \
+	inflate.c inftrees.c infutil.c
+
+${OBJS}:	${.CURDIR}/../Makefile.inc
+
+install:
+
+NOPIC=	yes
+
+.include <bsd.lib.mk>

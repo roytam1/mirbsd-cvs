@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rpc_des.h,v 1.3 1998/02/10 06:25:33 deraadt Exp $	*/
 
 /* crypto/des/rpc_des.h */
@@ -124,10 +125,9 @@ struct desparams {
 /*
  * Encrypt an arbitrary sized buffer
  */
-#define	DESIOCBLOCK	_IOWR(d, 6, struct desparams)
+#define	DESIOCBLOCK	_IOWR('d', 6, struct desparams)
 
-/* 
+/*
  * Encrypt of small amount of data, quickly
  */
-#define DESIOCQUICK	_IOWR(d, 7, struct desparams) 
-
+#define DESIOCQUICK	_IOWR('d', 7, struct desparams)

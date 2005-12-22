@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: getinfo.c,v 1.7 2003/06/10 22:20:45 deraadt Exp $	*/
 
 /*-
@@ -29,20 +30,18 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: getinfo.c,v 1.7 2003/06/10 22:20:45 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 
 #include <ctype.h>
-#include <errno.h>	
+#include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 #define	BFRAG		1024
 #define	BSIZE		1024
@@ -139,7 +138,7 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 	int myfd, eof, foundit;
 	char *record;
 	int tc_not_resolved;
-	
+
 	/*
 	 * Return with ``loop detected'' error if we've recursed more than
 	 * MAX_RECURSION times.
@@ -208,7 +207,7 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 			for (;;) {
 				if (bp >= b_end) {
 					int n;
-		
+
 					n = read(fd, buf, sizeof(buf));
 					if (n <= 0) {
 						if (myfd)
@@ -225,7 +224,7 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 					b_end = buf+n;
 					bp = buf;
 				}
-	
+
 				c = *bp++;
 				if (c == '\n') {
 					if (bp >= b_end) {
@@ -256,7 +255,7 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 					*rp++ = c;
 
 				/*
-				 * Enforce loop invariant: if no room 
+				 * Enforce loop invariant: if no room
 				 * left in record buffer, try to get
 				 * some more.
 				 */
@@ -279,13 +278,13 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 			}
 				/* loop invariant let's us do this */
 			*rp++ = '\0';
-				
+
 			/*
 			 * Toss blank lines and comments.
 			 */
 			if (*record == '\0' || *record == '#')
 				continue;
-	
+
 			/*
 			 * See if this is the record we want ...
 			 */
@@ -365,11 +364,11 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 					tc_not_resolved = 1;
 				/* couldn't resolve tc */
 				if (iret == -1) {
-					*(s - 1) = ',';			
+					*(s - 1) = ',';
 					scan = s - 1;
 					tc_not_resolved = 1;
 					continue;
-					
+
 				}
 			}
 			/* not interested in name field of tc'ed record */
@@ -421,8 +420,8 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 			 * Insert tc'ed record into our record.
 			 */
 			s = tcstart + newilen;
-			bcopy(tcend, s, (size_t)(rp - tcend));
-			bcopy(newicap, tcstart, (size_t)newilen);
+			memmove(s, tcend, (size_t)(rp - tcend));
+			memmove(tcstart, newicap, (size_t)newilen);
 			rp += diff;
 			free(icap);
 
@@ -432,7 +431,7 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 			 */
 			scan = s-1;
 		}
-	
+
 	}
 	/*
 	 * Close file (if we opened it), give back any extra memory, and
@@ -442,17 +441,17 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 		(void)close(fd);
 	*len = rp - record - 1;	/* don't count NUL */
 	if (r_end > rp)
-		if ((record = 
+		if ((record =
 		     realloc(record, (size_t)(rp - record))) == NULL) {
 			errno = ENOMEM;
 			return (-2);
 		}
-		
+
 	*cap = record;
 	if (tc_not_resolved)
 		return (1);
 	return (0);
-}	
+}
 
 /*
  * Cgetmatch will return 0 if name is one of the names of the capability
@@ -513,7 +512,7 @@ igetclose(void)
 }
 
 /*
- * Cgetnext() gets either the first or next entry in the logical database 
+ * Cgetnext() gets either the first or next entry in the logical database
  * specified by db_array.  It returns 0 upon completion of the database, 1
  * upon returning an entry with more remaining, and -1 if an error occurs.
  */
@@ -569,7 +568,7 @@ igetnext(char **bp, char **db_array)
 		else
 			slash = 0;
 
-		/* 
+		/*
 		 * Line points to a name line.
 		 */
 		done = 0;
@@ -599,7 +598,7 @@ igetnext(char **bp, char **db_array)
 			}
 		}
 		rp = buf;
-		for(cp = nbuf; *cp != NULL; cp++)
+		for(cp = nbuf; *cp; cp++)
 			if (*cp == '|' || *cp == ',')
 				break;
 			else

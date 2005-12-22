@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: uname.1,v 1.11 2004/02/23 15:01:33 jmc Exp $
 .\"
 .\" Copyright (c) 1990 The Regents of the University of California.
@@ -37,7 +38,7 @@
 .Nd print operating system name
 .Sh SYNOPSIS
 .Nm uname
-.Op Fl amnprsv
+.Op Fl almnprsv
 .Sh DESCRIPTION
 The
 .Nm uname
@@ -48,8 +49,10 @@ The options are as follows:
 .Bl -tag -width Ds
 .It Fl a
 Behave as though all of the options
-.Fl mnrsv
+.Fl lmnrsv
 were specified.
+.It Fl l
+Print the operating system patchlevel.
 .It Fl m
 Print the machine hardware name.
 .It Fl n
@@ -85,3 +88,7 @@ The
 .Nm
 command appeared in
 .Bx 4.4 .
+The
+.Fl l
+option was added in
+.Mx .

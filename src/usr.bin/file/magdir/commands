@@ -1,4 +1,5 @@
-#	$OpenBSD: commands,v 1.3 2004/06/03 03:14:19 tedu Exp $
+# $MirOS$
+# $OpenBSD: commands,v 1.3 2004/06/03 03:14:19 tedu Exp $
 
 #------------------------------------------------------------------------------
 # commands:  file(1) magic for various shells and interpreters
@@ -11,6 +12,8 @@
 # korn shell magic, sent by George Wu, gwu@clyde.att.com
 0	string		#!/bin/ksh		Korn shell script text
 0	string		#!\ /bin/ksh		Korn shell script text
+0	string		#!/bin/mksh		MirBSD Korn shell script text
+0	string		#!\ /bin/mksh		MirBSD Korn shell script text
 0	string	 	#!/bin/tcsh		Tenex C shell script text
 0	string	 	#!\ /bin/tcsh		Tenex C shell script text
 0	string		#!/usr/local/tcsh	Tenex C shell script text

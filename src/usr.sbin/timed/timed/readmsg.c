@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: readmsg.c,v 1.15 2003/11/19 19:17:59 dhartmei Exp $	*/
 
 /*-
@@ -29,11 +30,10 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)readmsg.c	5.1 (Berkeley) 5/11/93";
-#endif /* not lint */
-
 #include "globals.h"
+
+__SCCSID("@(#)readmsg.c	5.1 (Berkeley) 5/11/93");
+__RCSID("$MirOS$");
 
 extern char *tsptype[];
 
@@ -177,8 +177,8 @@ again:
 			rwait.tv_usec = 1000000/CLK_TCK;
 
 		if (trace) {
-			fprintf(fd, "readmsg: wait %ld.%6ld at %s\n",
-				rwait.tv_sec, rwait.tv_usec, date());
+			fprintf(fd, "readmsg: wait %lld.%6ld at %s\n",
+				(int64_t)rwait.tv_sec, rwait.tv_usec, date());
 			/* Notice a full disk, as we flush trace info.
 			 * It is better to flush periodically than at
 			 * every line because the tracing consists of bursts

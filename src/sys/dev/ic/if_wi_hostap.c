@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_wi_hostap.c,v 1.29 2004/03/15 21:53:28 millert Exp $	*/
 
 /*
@@ -190,7 +191,7 @@ wihap_init(struct wi_softc *sc)
 	struct wihap_info *whi = &sc->wi_hostap_info;
 
 	if (sc->sc_arpcom.ac_if.if_flags & IFF_DEBUG)
-		printf("wihap_init: sc=0x%x whi=0x%x\n", sc, whi);
+		printf("wihap_init: sc=0x%lx whi=0x%lx\n", (long)sc, (long)whi);
 
 	bzero(whi, sizeof(struct wihap_info));
 
@@ -277,7 +278,7 @@ wihap_shutdown(struct wi_softc *sc)
 	int i, s;
 
 	if (sc->sc_arpcom.ac_if.if_flags & IFF_DEBUG)
-		printf("wihap_shutdown: sc=0x%x whi=0x%x\n", sc, whi);
+		printf("wihap_shutdown: sc=0x%lx whi=0x%lx\n", (long)sc, (long)whi);
 
 	if (!(whi->apflags & WIHAPFL_ACTIVE))
 		return;
@@ -293,7 +294,7 @@ wihap_shutdown(struct wi_softc *sc)
 	    sta != TAILQ_END(&whi->sta_list); sta = next) {
 		timeout_del(&sta->tmo);
 		if (sc->sc_arpcom.ac_if.if_flags & IFF_DEBUG)
-			printf("wihap_shutdown: FREE(sta=0x%x)\n", sta);
+			printf("wihap_shutdown: FREE(sta=0x%lx)\n", (long)sta);
 		next = TAILQ_NEXT(sta, list);
 		if (sta->challenge)
 			FREE(sta->challenge, M_TEMP);
@@ -649,7 +650,7 @@ wihap_auth_req(struct wi_softc *sc, struct wi_frame *rxfrm,
 			for (i = 0; i < 32; i++)
 				challenge[i] = sta->challenge[i] =
 					arc4random();
-			
+
 			if (sc->sc_arpcom.ac_if.if_flags & IFF_DEBUG)
 				printf("\tchallenge: 0x%x 0x%x ...\n",
 				   challenge[0], challenge[1]);

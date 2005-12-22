@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
@@ -76,6 +77,7 @@ extern const char version[];		/* system version */
 extern const char copyright[];	/* system copyright */
 extern const char ostype[];
 extern const char osversion[];
+extern const char ospatchlevel[];
 extern const char osrelease[];
 extern int cold;		/* cold start flag initialized in locore */
 
@@ -272,10 +274,6 @@ void	cpu_startup(void);
 void	cpu_configure(void);
 extern void (*md_diskconf)(void);
 
-
-#ifdef GPROF
-void	kmstartup(void);
-#endif
 
 int nfs_mountroot(void);
 int dk_mountroot(void);

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uudecode.c,v 1.14 2004/04/09 22:54:02 millert Exp $	*/
 /*	$FreeBSD: uudecode.c,v 1.49 2003/05/03 19:44:46 obrien Exp $	*/
 
@@ -36,13 +37,6 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)uudecode.c	8.2 (Berkeley) 4/2/94";
-#endif
-static const char rcsid[] = "$OpenBSD: uudecode.c,v 1.14 2004/04/09 22:54:02 millert Exp $";
-#endif /* not lint */
-
 /*
  * Create the specified file, decoding as you go.
  * Used with uuencode.
@@ -64,6 +58,9 @@ static const char rcsid[] = "$OpenBSD: uudecode.c,v 1.14 2004/04/09 22:54:02 mil
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__SCCSID("@(#)uudecode.c	8.2 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 static const char *infile, *outfile;
 static FILE *infp, *outfp;
@@ -324,7 +321,8 @@ checkend(const char *ptr, const char *end, const char *msg)
 	if (strncmp(ptr, end, n) != 0 ||
 	    strspn(ptr + n, " \t\r\n") != strlen(ptr + n)) {
 		warnx("%s: %s: %s", infile, outfile, msg);
-		return (1);
+		if (!rflag)
+			return (1);
 	}
 	if (fclose(outfp) != 0) {
 		warn("%s: %s", infile, outfile);

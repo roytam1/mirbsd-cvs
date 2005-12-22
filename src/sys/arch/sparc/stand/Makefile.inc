@@ -1,18 +1,13 @@
-#	$OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
-#	$NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
+# $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
-BINDIR=	/usr/mdec
+BINDIR=		/usr/mdec
 
-RELOC_TEST=	0x340000
-RELOC_SUN4=	0x240000
-RELOC_SUN4C=	0x380000
-RELOC_SUN4M=	0x440000
+.include "../Makefile.reloc"
 
-# Note: a `RELOC' value of 0x380000 seems to work on most machines
-RELOC?=		${RELOC_TEST}
-RELOC2!=	perl -e 'printf "0x%x", ${RELOC_TEST} + 0x40000'
-
-CFLAGS+=	-fno-stack-protector
+CFLAGS+=	-fno-stack-protector -ffreestanding -femit-memmove \
+		-Os -Wall -Werror
 
 DEFS=		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 DEFS+=		-Derrno=errno

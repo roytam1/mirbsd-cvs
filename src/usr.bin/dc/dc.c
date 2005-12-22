@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dc.c,v 1.6 2004/10/18 07:49:00 otto Exp $	*/
 
 /*
@@ -16,16 +17,16 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: dc.c,v 1.6 2004/10/18 07:49:00 otto Exp $";
-#endif /* not lint */
-
+#include <sys/cdefs.h>
 #include <err.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "extern.h"
+
+__RCSID("$MirOS$");
 
 static __dead void	usage(void);
 

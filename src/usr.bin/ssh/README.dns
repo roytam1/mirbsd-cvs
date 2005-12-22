@@ -31,7 +31,7 @@ to your DNS zone file and sign your zone.
 
 To enable the ssh client to verify host keys using DNS, you have to
 add the following option to the ssh configuration file
-($HOME/.ssh/config or /etc/ssh/ssh_config):
+($HOME/.etc/ssh/config or /etc/ssh/ssh_config):
 
     VerifyHostKeyDNS yes
 

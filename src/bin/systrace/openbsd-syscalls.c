@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.3 2005/04/26 15:12:25 tg Exp $ */
 /*	$OpenBSD: openbsd-syscalls.c,v 1.28 2004/07/09 23:51:42 deraadt Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -33,18 +34,8 @@
 
 #include <sys/syscall.h>
 
-#include <compat/bsdos/bsdos_syscall.h>
-#include <compat/freebsd/freebsd_syscall.h>
-#include <compat/netbsd/netbsd_syscall.h>
-#if defined(__hppa__) || defined(__m68k__)
-#include <compat/hpux/hpux_syscall.h>
-#endif
-#include <compat/ibcs2/ibcs2_syscall.h>
 #include <compat/linux/linux_syscall.h>
-#include <compat/osf1/osf1_syscall.h>
-#include <compat/sunos/sunos_syscall.h>
-#include <compat/svr4/svr4_syscall.h>
-#include <compat/ultrix/ultrix_syscall.h>
+#include <compat/openbsd/openbsd_syscall.h>
 
 #define KTRACE
 #define NFSCLIENT
@@ -55,18 +46,8 @@
 #define LFS
 #include <kern/syscalls.c>
 
-#include <compat/bsdos/bsdos_syscalls.c>
-#include <compat/freebsd/freebsd_syscalls.c>
-#include <compat/netbsd/netbsd_syscalls.c>
-#if defined(__hppa__) || defined(__m68k__)
-#include <compat/hpux/hpux_syscalls.c>
-#endif
-#include <compat/ibcs2/ibcs2_syscalls.c>
 #include <compat/linux/linux_syscalls.c>
-#include <compat/osf1/osf1_syscalls.c>
-#include <compat/sunos/sunos_syscalls.c>
-#include <compat/svr4/svr4_syscalls.c>
-#include <compat/ultrix/ultrix_syscalls.c>
+#include <compat/openbsd/openbsd_syscalls.c>
 #undef KTRACE
 #undef NFSCLIENT
 #undef NFSSERVER
@@ -89,6 +70,8 @@
 
 #include "intercept.h"
 
+__RCSID("$MirOS: src/bin/systrace/openbsd-syscalls.c,v 1.3 2005/04/26 15:12:25 tg Exp $");
+
 struct emulation {
 	const char *name;	/* Emulation name */
 	char **sysnames;	/* Array of system call names */
@@ -98,18 +81,8 @@ struct emulation {
 static struct emulation emulations[] = {
 	{ "native",	syscallnames,		SYS_MAXSYSCALL },
 	{ "aout",	syscallnames,		SYS_MAXSYSCALL },
-#if defined(__hppa__) || defined(__m68k__)
-	{ "hpux",	hpux_syscallnames,	HPUX_SYS_MAXSYSCALL },
-#endif
-	{ "ibcs2",	ibcs2_syscallnames,	IBCS2_SYS_MAXSYSCALL },
 	{ "linux",	linux_syscallnames,	LINUX_SYS_MAXSYSCALL },
-	{ "osf1",	osf1_syscallnames,	OSF1_SYS_MAXSYSCALL },
-	{ "sunos",	sunos_syscallnames,	SUNOS_SYS_MAXSYSCALL },
-	{ "svr4",	svr4_syscallnames,	SVR4_SYS_MAXSYSCALL },
-	{ "ultrix",	ultrix_syscallnames,	ULTRIX_SYS_MAXSYSCALL },
-	{ "bsdos",	bsdos_syscallnames,	BSDOS_SYS_MAXSYSCALL },
-	{ "freebsd",	freebsd_syscallnames,	FREEBSD_SYS_MAXSYSCALL },
-	{ "netbsd",	netbsd_syscallnames,	NETBSD_SYS_MAXSYSCALL },
+	{ "openbsd",	openbsd_syscallnames,	OPENBSD_SYS_MAXSYSCALL },
 	{ NULL,		NULL,			0 }
 };
 
@@ -392,12 +365,16 @@ obsd_answer(int fd, pid_t pid, u_int32_t seqnr, short policy, int nerrno,
 static int 
 obsd_scriptname(int fd, pid_t pid, char *scriptname)
 {
+#ifdef STRIOCSCRIPTNAME
 	struct systrace_scriptname sn;
 
 	sn.sn_pid = pid;
 	strlcpy(sn.sn_scriptname, scriptname, sizeof(sn.sn_scriptname));
 
 	return (ioctl(fd, STRIOCSCRIPTNAME, &sn));
+#else
+	return 0;
+#endif
 }
 
 static int

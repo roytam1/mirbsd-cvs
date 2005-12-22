@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uniq.c,v 1.14 2003/06/03 02:56:21 millert Exp $	*/
 /*	$NetBSD: uniq.c,v 1.7 1995/08/31 22:03:48 jtc Exp $	*/
 
@@ -34,16 +35,9 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static char copyright[] __attribute__((unused)) =
 "@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)uniq.c	8.3 (Berkeley) 5/4/95";
-#endif
-static char rcsid[] = "$OpenBSD: uniq.c,v 1.14 2003/06/03 02:56:21 millert Exp $";
 #endif /* not lint */
 
 #include <errno.h>
@@ -54,9 +48,12 @@ static char rcsid[] = "$OpenBSD: uniq.c,v 1.14 2003/06/03 02:56:21 millert Exp $
 #include <unistd.h>
 #include <err.h>
 
+__SCCSID("@(#)uniq.c	8.3 (Berkeley) 5/4/95");
+__RCSID("$MirOS$");
+
 #define	MAXLINELEN	(8 * 1024)
 
-int cflag, dflag, uflag;
+int cflag, dflag, uflag, iflag;
 int numchars, numfields, repeats;
 
 FILE	*file(char *, char *);
@@ -72,9 +69,10 @@ main(int argc, char *argv[])
 	FILE *ifp = NULL, *ofp = NULL;
 	int ch;
 	char *prevline, *thisline, *p;
+	int (*cmpfunc)(const char *, const char *);
 
 	obsolete(argv);
-	while ((ch = getopt(argc, argv, "cdf:s:u")) != -1)
+	while ((ch = getopt(argc, argv, "cdf:is:u")) != -1)
 		switch (ch) {
 		case 'c':
 			cflag = 1;
@@ -86,6 +84,9 @@ main(int argc, char *argv[])
 			numfields = strtol(optarg, &p, 10);
 			if (numfields < 0 || *p)
 				errx(1, "illegal field skip value: %s", optarg);
+			break;
+		case 'i':
+			iflag = 1;
 			break;
 		case 's':
 			numchars = strtol(optarg, &p, 10);
@@ -99,9 +100,8 @@ main(int argc, char *argv[])
 		default:
 			usage();
 	}
-
 	argc -= optind;
-	argv +=optind;
+	argv += optind;
 
 	/* If no flags are set, default is -d -u. */
 	if (cflag) {
@@ -109,6 +109,11 @@ main(int argc, char *argv[])
 			usage();
 	} else if (!dflag && !uflag)
 		dflag = uflag = 1;
+
+	if (iflag)
+		cmpfunc = strcasecmp;
+	else
+		cmpfunc = strcmp;
 
 	switch(argc) {
 	case 0:
@@ -146,7 +151,7 @@ main(int argc, char *argv[])
 		}
 
 		/* If different, print; set previous to new value. */
-		if (strcmp(t1, t2)) {
+		if (cmpfunc(t1, t2)) {
 			show(ofp, prevline);
 			t1 = prevline;
 			prevline = thisline;
@@ -170,7 +175,7 @@ show(FILE *ofp, char *str)
 
 	if (cflag && *str)
 		(void)fprintf(ofp, "%4d %s", repeats + 1, str);
-	if (dflag && repeats || uflag && !repeats)
+	if ((dflag && repeats) || (uflag && !repeats))
 		(void)fprintf(ofp, "%s", str);
 }
 

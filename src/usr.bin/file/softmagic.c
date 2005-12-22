@@ -1,9 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: softmagic.c,v 1.11 2004/05/19 02:32:36 tedu Exp $ */
 /*
  * Copyright (c) Ian F. Darwin 1986-1995.
  * Software written by Ian F. Darwin and others;
  * maintained 1995-present by Christos Zoulas and others.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -38,10 +39,7 @@
 #include <time.h>
 #include <regex.h>
 
-
-#ifndef	lint
-FILE_RCSID("@(#)$Id$")
-#endif	/* lint */
+__RCSID("$MirOS$");
 
 private int match(struct magic_set *, struct magic *, uint32_t,
     const unsigned char *, size_t);
@@ -54,7 +52,7 @@ private int mconvert(struct magic_set *, union VALUETYPE *, struct magic *);
 private int check_mem(struct magic_set *, unsigned int);
 
 /*
- * softmagic - lookup one file in database 
+ * softmagic - lookup one file in database
  * (already read from MAGIC by apprentice.c).
  * Passed the name and FILE * of one file to be typed.
  */
@@ -125,7 +123,7 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
 			break;
 		}
 		if (flush) {
-			/* 
+			/*
 			 * main entry didn't match,
 			 * flush its continuations
 			 */
@@ -154,7 +152,7 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
 		if (check_mem(ms, ++cont_level) == -1)
 			return -1;
 
-		while (magic[magindex+1].cont_level != 0 && 
+		while (magic[magindex+1].cont_level != 0 &&
 		       ++magindex < nmagic) {
 			if (cont_level < magic[magindex].cont_level)
 				continue;
@@ -171,7 +169,7 @@ match(struct magic_set *ms, struct magic *magic, uint32_t nmagic,
 			}
 			if (!mget(ms, &p, s, &magic[magindex], nbytes))
 				goto done;
-				
+
 			switch (mcheck(ms, &p, &magic[magindex])) {
 			case -1:
 				return -1;
@@ -216,7 +214,7 @@ done:
 		returnval = 1;
 		if ((ms->flags & MAGIC_CONTINUE) == 0) {
 			return 1; /* don't keep searching */
-		}			
+		}
 	}
 	return returnval;  /* This is hit if -k is set or there is no match */
 }
@@ -242,6 +240,7 @@ mprint(struct magic_set *ms, union VALUETYPE *p, struct magic *m)
 {
 	uint32_t v;
 	int32_t t=0 ;
+	time_t tv;
 
 
   	switch (m->type) {
@@ -1064,15 +1063,15 @@ mcheck(struct magic_set *ms, union VALUETYPE *p, struct magic *m)
 		if (0L == m->mask) { /* normal string: do it fast */
 			while (--len >= 0)
 				if ((v = *b++ - *a++) != '\0')
-					break; 
+					break;
 		} else { /* combine the others */
 			while (--len >= 0) {
 				if ((m->mask & STRING_IGNORE_LOWERCASE) &&
 				    islower(*a)) {
 					if ((v = tolower(*b++) - *a++) != '\0')
 						break;
-				} else if ((m->mask & STRING_COMPACT_BLANK) && 
-				    isspace(*a)) { 
+				} else if ((m->mask & STRING_COMPACT_BLANK) &&
+				    isspace(*a)) {
 					a++;
 					if (isspace(*b++)) {
 						while (isspace(*b))

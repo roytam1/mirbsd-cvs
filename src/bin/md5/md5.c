@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/md5/md5.c,v 1.4 2005/04/12 20:57:29 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -21,6 +22,7 @@
  */
 
 #include <sys/param.h>
+#include <sys/time.h>
 #include <ctype.h>
 #include <err.h>
 #include <fcntl.h>
@@ -36,6 +38,9 @@
 #include <sha1.h>
 #include <sha2.h>
 #include <crc.h>
+#include "suma.h"
+
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.4 2005/04/12 20:57:29 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -50,16 +55,17 @@ union ANY_CTX {
 	SHA512_CTX sha512;
 	SUM_CTX sum;
 	SYSVSUM_CTX sysvsum;
+	SUMA_CTX suma;
 };
 
 void digest_print(const char *, const char *, const char *);
 void digest_print_short(const char *, const char *, const char *);
 void digest_print_string(const char *, const char *, const char *);
 
-#define NHASHES	10
+#define NHASHES	11
 struct hash_functions {
-	char *name;
-	int digestlen;
+	const char *name;
+	size_t digestlen;
 	void *ctx;	/* XXX - only used by digest_file() */
 	void (*init)(void *);
 	void (*update)(void *, const unsigned char *, unsigned int);
@@ -95,8 +101,17 @@ struct hash_functions {
 		digest_print_short,
 		digest_print_short
 	}, {
+		"SUMA",
+		SUMA_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))SUMA_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))SUMA_Update,
+		(char *(*)(void *, char *))SUMA_End,
+		digest_print,
+		digest_print_string
+	}, {
 		"MD4",
-		MD5_DIGEST_LENGTH * 2,
+		MD4_DIGEST_LENGTH * 2,
 		NULL,
 		(void (*)(void *))MD4Init,
 		(void (*)(void *, const unsigned char *, unsigned int))MD4Update,
@@ -158,12 +173,12 @@ struct hash_functions {
 		digest_print,
 		digest_print_string
 	}, {
-		NULL,
+		NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL
 	},
 };
 
-void usage(void) __attribute__((__noreturn__));
-void digest_file(const char *, struct hash_functions **, int);
+__dead void usage(void);
+void digest_file(const char *, struct hash_functions **, int, int);
 int digest_filelist(const char *, struct hash_functions *);
 void digest_string(char *, struct hash_functions **);
 void digest_test(struct hash_functions **);
@@ -174,15 +189,15 @@ extern char *__progname;
 int
 main(int argc, char **argv)
 {
-	struct hash_functions *hf, *hashes[NHASHES + 1];
+	struct hash_functions *hf = NULL, *hashes[NHASHES + 1];
 	int fl, i, error;
-	int cflag, pflag, tflag, xflag;
+	int cflag, pflag, tflag, xflag, bflag;
 	char *cp, *input_string;
 
 	input_string = NULL;
-	error = cflag = pflag = tflag = xflag = 0;
+	error = cflag = pflag = tflag = xflag = bflag = 0;
 	memset(hashes, 0, sizeof(hashes));
-	while ((fl = getopt(argc, argv, "a:co:ps:tx")) != -1) {
+	while ((fl = getopt(argc, argv, "a:bco:ps:tx")) != -1) {
 		switch (fl) {
 		case 'a':
 			while ((cp = strsep(&optarg, " \t,")) != NULL) {
@@ -201,6 +216,9 @@ main(int argc, char **argv)
 						break;
 					}
 			}
+			break;
+		case 'b':
+			bflag = 1;
 			break;
 		case 'c':
 			cflag = 1;
@@ -263,6 +281,8 @@ main(int argc, char **argv)
 		digest_time(hashes);
 	else if (xflag)
 		digest_test(hashes);
+	else if (bflag)
+		digest_file("-", hashes, pflag, 1);
 	else if (input_string)
 		digest_string(input_string, hashes);
 	else if (cflag) {
@@ -272,10 +292,10 @@ main(int argc, char **argv)
 			while (argc--)
 				error += digest_filelist(*argv++, hashes[0]);
 	} else if (pflag || argc == 0)
-		digest_file("-", hashes, pflag);
+		digest_file("-", hashes, pflag, 0);
 	else
 		while (argc--)
-			digest_file(*argv++, hashes, 0);
+			digest_file(*argv++, hashes, 0, 0);
 
 	return(error ? EXIT_FAILURE : EXIT_SUCCESS);
 }
@@ -290,7 +310,8 @@ digest_string(char *string, struct hash_functions **hashes)
 	while (*hashes != NULL) {
 		hf = *hashes++;
 		hf->init(&context);
-		hf->update(&context, string, (unsigned int)strlen(string));
+		hf->update(&context, (const unsigned char *)string,
+		    (unsigned int)strlen(string));
 		(void)hf->end(&context, digest);
 		hf->printstr(hf->name, string, digest);
 	}
@@ -309,13 +330,15 @@ digest_print_string(const char *name, const char *what, const char *digest)
 }
 
 void
-digest_print_short(const char *name, const char *what, const char *digest)
+digest_print_short(const char *name __attribute__((unused)),
+    const char *what, const char *digest)
 {
 	(void)printf("%s %s\n", digest, what);
 }
 
 void
-digest_file(const char *file, struct hash_functions **hashes, int echo)
+digest_file(const char *file, struct hash_functions **hashes, int echo,
+    int dobin)
 {
 	struct hash_functions **hfp;
 	int fd;
@@ -355,7 +378,17 @@ digest_file(const char *file, struct hash_functions **hashes, int echo)
 	for (hfp = hashes; *hfp != NULL; hfp++) {
 		(void)(*hfp)->end((*hfp)->ctx, digest);
 		free((*hfp)->ctx);
-		if (fd == STDIN_FILENO)
+		if (dobin) {
+			for (nread = 0; nread < (ssize_t)(strlen(digest)/2);
+			    ++nread) {
+				int i = digest[nread * 2] - 0x30;
+				data[nread] = ((i > 9) ? i - 0x27: i) << 4;
+				i = digest[nread * 2 + 1] - 0x30;
+				data[nread] |= ((i > 9) ? i - 0x27 : i);
+			}
+			write(STDOUT_FILENO, data, (size_t)nread);
+			return;
+		} else if (fd == STDIN_FILENO)
 			(void)puts(digest);
 		else
 			(*hfp)->print((*hfp)->name, file, digest);
@@ -372,8 +405,9 @@ int
 digest_filelist(const char *file, struct hash_functions *defhash)
 {
 	int fd, found, error;
-	int algorithm_max, algorithm_min;
-	char *algorithm, *filename, *checksum, *buf, *p;
+	unsigned int algorithm_max, algorithm_min;
+	const char *algorithm;
+	char *filename, *checksum, *buf, *p;
 	char digest[MAX_DIGEST_LEN + 1];
 	char *lbuf = NULL;
 	FILE *fp;
@@ -390,8 +424,8 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		return(1);
 	}
 
-	if (defhash < &functions[3])
-		defhash = NULL;	/* No GNU format for sum, cksum, sysvsum */
+	if (defhash < &functions[4])
+		defhash = NULL;	/* No GNU format for sum, cksum, sysvsum, suma */
 
 	algorithm_max = algorithm_min = strlen(functions[0].name);
 	for (hf = &functions[1]; hf->name != NULL; hf++) {
@@ -509,6 +543,18 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 #define TEST_BLOCK_LEN 10000
 #define TEST_BLOCK_COUNT 10000
 
+#ifndef timersub
+#define timersub(tvp, uvp, vvp)                                         \
+        do {                                                            \
+                (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec;          \
+                (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec;       \
+                if ((vvp)->tv_usec < 0) {                               \
+                        (vvp)->tv_sec--;                                \
+                        (vvp)->tv_usec += 1000000;                      \
+                }                                                       \
+        } while (0)
+#endif
+
 void
 digest_time(struct hash_functions **hashes)
 {
@@ -554,7 +600,7 @@ digest_test(struct hash_functions **hashes)
 	int i;
 	char digest[MAX_DIGEST_LEN + 1];
 	unsigned char buf[1000];
-	unsigned char *test_strings[] = {
+	const char *test_strings[] = {
 		"",
 		"a",
 		"abc",
@@ -573,7 +619,8 @@ digest_test(struct hash_functions **hashes)
 
 		for (i = 0; i < 8; i++) {
 			hf->init(&context);
-			hf->update((void *)&context, test_strings[i],
+			hf->update((void *)&context,
+			    (unsigned const char *)test_strings[i],
 			    (unsigned int)strlen(test_strings[i]));
 			(void)hf->end(&context, digest);
 			hf->printstr(hf->name, test_strings[i], digest);

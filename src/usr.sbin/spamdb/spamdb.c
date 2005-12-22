@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.2 2005/03/13 19:17:27 tg Exp $ */
 /*	$OpenBSD: spamdb.c,v 1.14 2005/03/11 23:45:45 beck Exp $	*/
 
 /*
@@ -31,6 +32,8 @@
 #include <ctype.h>
 
 #include "grey.h"
+
+__RCSID("$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.2 2005/03/13 19:17:27 tg Exp $");
 
 /* things we may add/delete from the db */
 #define WHITE 0
@@ -209,14 +212,15 @@ dblist(char *dbname)
 			/* this is a non-greylist entry */
 			switch (gd.pcount) {
 			case -1: /* spamtrap hit, with expiry time */
-				printf("TRAPPED|%s|%d\n", a, gd.expire);
+				printf("TRAPPED|%s|%lld\n", a, (int64_t)gd.expire);
 				break;
 			case -2: /* spamtrap address */
 				printf("SPAMTRAP|%s\n", a);
 				break;
 			default: /* whitelist */
-				printf("WHITE|%s|||%d|%d|%d|%d|%d\n", a,
-				    gd.first, gd.pass, gd.expire, gd.bcount,
+				printf("WHITE|%s|||%lld|%lld|%lld|%d|%d\n", a,
+				    (int64_t)gd.first, (int64_t)gd.pass,
+				    (int64_t)gd.expire, gd.bcount,
 				    gd.pcount);
 				break;
 			}
@@ -234,7 +238,7 @@ dblist(char *dbname)
 			}
 			*to = '\0';
 			to++;
-			printf("GREY|%s|%s|%s|%d|%d|%d|%d|%d\n",
+			printf("GREY|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
 			    a, from, to, gd.first, gd.pass, gd.expire,
 			    gd.bcount, gd.pcount);
 		}

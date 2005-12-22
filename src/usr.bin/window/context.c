@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: context.c,v 1.6 2003/07/18 23:11:43 david Exp $	*/
 /*	$NetBSD: context.c,v 1.3 1995/09/28 10:34:15 tls Exp $	*/
 
@@ -33,25 +34,18 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)context.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: context.c,v 1.6 2003/07/18 23:11:43 david Exp $";
-#endif
-#endif /* not lint */
-
 #include "value.h"
 #include "string.h"
 #include "context.h"
 #include <fcntl.h>
 #include <stdlib.h>
 
+__SCCSID("@(#)context.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
+
 /*
  * Context push/pop for nested command files.
  */
-
-char *malloc();
 
 cx_alloc()
 {

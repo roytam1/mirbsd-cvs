@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/tty.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
 /*	$OpenBSD: tty.c,v 1.68 2004/12/26 21:22:13 miod Exp $	*/
 /*	$NetBSD: tty.c,v 1.68.4.2 1996/06/06 16:04:52 thorpej Exp $	*/
 
@@ -2109,7 +2110,7 @@ ttyinfo(tp)
 			utime.tv_sec += 1;
 			utime.tv_usec -= 1000000;
 		}
-		ttyprintf(tp, "%ld.%02ldu ", utime.tv_sec,
+		ttyprintf(tp, "%lld.%02ldu ", (int64_t)utime.tv_sec,
 		    utime.tv_usec / 10000);
 
 		/* Round up and print system time. */
@@ -2118,7 +2119,7 @@ ttyinfo(tp)
 			stime.tv_sec += 1;
 			stime.tv_usec -= 1000000;
 		}
-		ttyprintf(tp, "%ld.%02lds ", stime.tv_sec,
+		ttyprintf(tp, "%lld.%02lds ", (int64_t)stime.tv_sec,
 		    stime.tv_usec / 10000);
 
 #define	pgtok(a)	(((u_long) ((a) * PAGE_SIZE) / 1024))
