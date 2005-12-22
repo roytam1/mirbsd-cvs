@@ -1,11 +1,11 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.2 2005/08/21 11:48:42 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.3 2005/09/12 21:35:40 tg Exp $
 
 COMMENT=		"Joe's Own Editor"
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp4
+DISTNAME=		joe-3.1jupp5
 EXTRACT_SUFX=		.cpio.gz
 HOMEPAGE=		http://mirbsd.mirsolutions.de/?jupp
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/jupp/}
 
 # GNU GPL Version 1
