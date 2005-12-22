@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.3 2005/11/14 19:08:59 tg Exp $</small>
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
@@ -29,7 +29,25 @@
  you earn money, we will get a small amount of money once, too.<br />
  We are not affiliated with Google in any way and do not endorse or
  support their service, other than using it to improve the amount of
- money donated to the MirOS Project.</td></tr></table>
+ money donated to the MirOS Project.</td></tr>
+<tr><td>
+ <script type="text/javascript"><!--
+  google_ad_client = "pub-0266998858986985";
+  google_ad_width = 180;
+  google_ad_height = 60;
+  google_ad_format = "180x60_as_rimg";
+  google_cpa_choice = "CAAQyaj8zwEaCIwcWMzeycafKMu293M";
+ //--></script>
+ <script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+ </script>
+</td><td style="font-size:smaller;">
+ If you are currently using Microsoft&reg; Windows&reg; as your
+ desktop operating system, an instance where you never have installed
+ a version of Mozilla&trade; Firefox&trade; on, please download it
+ via the link on the left and start it at least once. This helps.
+ Thanks a lot!</td></tr>
+</table>
 
 <h2>Non-monetary donations</h2>
 <p>Of course, we're always interested in other things as well. Travel
