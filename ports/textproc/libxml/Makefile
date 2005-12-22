@@ -1,8 +1,8 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.3 2005/07/19 18:11:39 bsiegert Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.4 2005/07/23 17:44:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		"XML parsing library"
-VERSION=		2.6.14
+VERSION=		2.6.22
 DISTNAME=		libxml2-${VERSION}
 PKGNAME=		libxml-${VERSION}-2
 CATEGORIES=		textproc
