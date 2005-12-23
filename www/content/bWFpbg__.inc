@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.34 2005/12/14 23:43:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.35 2005/12/16 16:53:40 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -26,23 +26,26 @@
  servers; they are very outdated and broken. If you had the chance to
  get a <a href="/MirOS/ISOs/snap8lt2005.iso">CD at the LinuxTag 2005</a>, lucky you but don't update Ports yet.
  If not, you will have to wait for the next MirOS #8 snapshot.</p>
-<p>CURRENT: December 7th, 2005: #8-gamma snapshot available via our <a
+<!-- p>CURRENT: December 7th, 2005: #8-gamma snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
 <p>CURRENT: December 7th, 2005: #8-gamma snapshot available for <a
- href="/MirOS/current/i386-20051207/">download</a> via the usual mirrors.</p>
-<p>STABLE: December 7th, 2005: <a href="/?ann-7">MirOS #7quinquies</a> is
- available for retrieval, but it has been "end of life"d some time ago.</p>
-<p>PORTS: December 16th, 2005: The great reorganisation has settled down; you
+ href="/MirOS/current/i386-20051207/">download</a> via the usual mirrors.</p -->
+<p>STABLE: December 23th, 2005: <!-- a href="/?ann-8" -->MirOS #8<!-- a --> is
+ available via our <a href="http://f.scarywater.net/miros/">BitTorrent
+ tracker</a>; a release announcement will follow. <small>There is also an <a
+ href="/MirOS/v8/">HTTPS</a> download/netinstall option.</small></p>
+<p>PORTS: December 22th, 2005: The great reorganisation has settled down; you
  can install the <a href="/?ports">MirPorts Framework</a> as regular user,
  all pre-requisites including a recent enough <tt>mksh</tt> are being taken
  care of automatically. This is for MirOS #8, OpenBSD and Darwin only at the
- moment; Interix support is not yet complete (but almost), and support for
- older MirOS releases will only be added on request. The existing
+ moment; Interix support is not yet (but almost) complete. <em>You must now
+ use <tt>mmake</tt> as make(1) programme.</em> The existing
  documentation is inaccurate, especially the (former) MirWiki.
  Package upgrades are now available, yet still experimental.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
- WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!</p>
+ WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!
+ <b>Meet us at <a href="http://www.ccc.de/congress/2005/">22C3</a>!</b></p>
 <p><a href="/MirOS/CVS/cvsrepo-20051207.cgz">CVSREPO</a>: December 7th, 2005:
  seed file (150.5 MiB, gzsig(1)d) for reducing the initial transfer costs.
  We'd like to offer CTM; it is available on request but nobody asked yet.</p>
