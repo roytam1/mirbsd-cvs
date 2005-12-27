@@ -1,7 +1,7 @@
 <li><a href="/?overview">All in 1 page</a></li>
 <li><a href="/?main">Main</a><ul class="lv2">
 	<li><a href="/?news">News</a></li>
-	<li><a href="/?wlog-7">Weblog</a> for #7</li>
+	<li><a href="/?wlog-8">Weblog</a> for #8</li>
 	<li><a href="/?clog-2005">Changes</a> for 2005</li>
 	<li><a href="/?older">Old News</a> &amp; Log</li>
     </ul></li>

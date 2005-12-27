@@ -779,11 +779,14 @@
 <li><a href="/?wlog-6">From LinuxTag 2003 to Autumn 2003</a> starting with
  the internal completion of the <tt>LinuxTag Special Edition</tt> of
  MirBSD, only available for visitors at the cost of 10 Euro.</li>
+<li><a href="/?wlog-7">From Autumn 2003 to 22C3 (2005)</a> the seemingly
+ endless weblog during the lifetime of the #7 release.</li>
 </ul><p>For the current developers' weblog, please refer to the <a
- href="/?wlog-7">weblog past MirOS BSD#7</a> after Samhain 2003.</p>
+ href="/?wlog-8">weblog past MirOS BSD #8</a> starting at 22C3.</p>
 
 <h3>ChangeLog</h3><ul>
 <li><a href="/?clog-2004">Snapshots released 2004</a></li>
+<li><a href="/?clog-2005">Snapshots released 2005</a></li>
 </ul><p>Featuring a compact yet detailled list of changes between the
  snapshots uploaded &ndash; both for developers and users. A stripped
  down version (for user view) is being used for putting info into

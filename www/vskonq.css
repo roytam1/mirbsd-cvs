@@ -149,3 +149,13 @@ ul.lv2 {
 	background-color:#000000;
 	display:none;
 }
+
+div.wlentry {
+	border-bottom: 2px solid #333333;
+	padding-top: 9px;
+	margin: 0px;
+}
+
+div.wlentry h3 {
+	margin: 0px;
+}
