@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.13 2005/12/06 00:00:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.15 2005/12/27 18:59:37 bsiegert Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
@@ -124,7 +124,7 @@
 	The current development version <em>really</em> fixes <em>all</em>
 	known C++ issues, as well as enables GCJ (and libjava) to build. I
 	also have successfully built Sun's JDK/JRE 1.4.2 and QT3. The work
-	(as far as I can see with my limited knowledge).</p>
+	(as far as I can see with my limited knowledge).</li>
 
 <li>28.04.2005<br />
 	MirOS #8 RC1 is out, for general testing. Please update bsd.own.mk
