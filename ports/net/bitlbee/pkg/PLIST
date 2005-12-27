@@ -1,6 +1,9 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/bitlbee/pkg/PLIST,v 1.2 2005/07/06 18:06:12 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.5 2003/12/31 16:03:30 naddy Exp $
 libexec/bitlbee
+man/man5/bitlbee.conf.5
+man/man8/bitlbee.8
+share/bitlbee/help.txt
 share/doc/bitlbee/user-guide.html
 @sample ${ETCDIR}/
 share/examples/bitlbee/bitlbee.conf
@@ -9,6 +12,7 @@ share/examples/bitlbee/motd.txt
 @sample ${ETCDIR}/motd.txt
 @dirrm share/examples/bitlbee
 @dirrm share/doc/bitlbee
+@dirrm share/bitlbee
 @owner _bitlbee
 @group _bitlbee
 @mode 700

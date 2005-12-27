@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/bitlbee/Makefile,v 1.3 2005/07/06 18:06:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/01 07:12:39 pvalchev Exp $
 
 COMMENT=		"IRC proxy to connect to ICQ, AOL, MSN and Jabber"
-DISTNAME=		bitlbee-0.92
+DISTNAME=		bitlbee-1.0
 CATEGORIES=		net
 HOMEPAGE=		http://bitlbee.org
 
@@ -25,7 +25,7 @@ ID=			509
 SUBST_VARS=		DB_DIR ETCDIR EXAMPLEDIR DOCDIR \
 			BITLBEEUSER BITLBEEGROUP ID
 
-LIB_DEPENDS=		soup.6.4::devel/soup \
+LIB_DEPENDS=		soup::devel/soup \
 			glib-2.0.0.8,gmodule-2.0.0.8,gobject-2.0.0.8::devel/glib
 
 CONFIGURE_STYLE=	simple
@@ -33,6 +33,7 @@ CONFIGURE_ARGS+=	--bindir=${PREFIX}/libexec \
 			--mandir=${PREFIX}/man \
 			--config=${DB_DIR} \
 			--etcdir=${ETCDIR} \
+			--prefix=${PREFIX} \
 			--tcpd=0 \
 			--ssl=openssl
 
