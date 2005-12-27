@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/emulators/redhat/base/pkg/INSTALL,v 1.1.7.1 2005/03/18 15:45:56 tg Exp $
 # $OpenBSD: INSTALL,v 1.4 2004/03/11 20:54:14 lebel Exp $
 #
 # Pre/post-installation setup of redhat_base
@@ -58,8 +58,10 @@ case $2 in
 		echo "+================================================"
 		exit 1
 	fi
+	set +e
 	install -d -o root -g bin -m 755 /emul
 	install -d -o root -g bin -m 755 $PREFIX
+	set -e
 	;;
     POST-INSTALL)
 	do_notice_top
@@ -69,10 +71,12 @@ case $2 in
 	    	do_notice_link
 	    fi
 	else
-	    ln -sf $PREFIX /emul/linux
+	    ln -sf $PREFIX /emul/linux || do_notice_link
 	fi
 
+	set +e
 	${PREFIX}/sbin/ldconfig
+	set -e
 
 	do_notice_bottom $1
 	;;

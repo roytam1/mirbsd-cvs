@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/emulators/redhat/base/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:56 tg Exp $
 @comment $OpenBSD: PLIST,v 1.8 2004/03/02 07:49:24 ish Exp $
 @pkgcfl linux_lib-*
 @exec mkdir -p %D/dev
@@ -612,7 +612,7 @@ usr/lib/gconv/libJISX0213.so
 usr/lib/gconv/libKSC.so
 usr/lib/libbfd-2.13.90.0.2.so
 usr/lib/libbfd.a
-usr/lib/libbfd.la
+@comment usr/lib/libbfd.la
 usr/lib/libbfd.so
 usr/lib/libexpat.so.0
 usr/lib/libexpat.so.0.3.0
@@ -638,7 +638,7 @@ usr/lib/libmenu.so.5
 usr/lib/libncurses.so.5
 usr/lib/libopcodes-2.13.90.0.2.so
 usr/lib/libopcodes.a
-usr/lib/libopcodes.la
+@comment usr/lib/libopcodes.la
 usr/lib/libopcodes.so
 usr/lib/libpanel.so.5
 usr/lib/libpng.so.3

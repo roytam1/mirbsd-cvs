@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/emulators/redhat/base/Makefile,v 1.2 2005/07/07 21:20:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2004/03/02 07:49:24 ish Exp $
 
 COMMENT=	"Linux compatibility package based on RedHat GNU/Linux 8.0"
 EMUL=		linux
-PKGNAME=	redhat_base-8.0-5
+PKGNAME=	redhat_base-8.0-6
 MASTER_SITES=	${MASTER_SITE_REDHAT:=redhat/linux/8.0/en/os/i386/RedHat/RPMS/}
 MASTER_SITES0=	${MASTER_SITE_REDHAT:=redhat/linux/updates/8.0/en/os/i386/}
 DISTFILES=	${RPMS}
@@ -76,10 +76,8 @@ do-install:
 	@perl ${FILESDIR}/fix-ldd.pl ${PREFIX}/usr/bin/ld-2.3.2-olf.so
 
 post-install:
-# remove setuid root bits
+# remove setuid root bits, fix ownerships
 	@find ${PREFIX} -perm -4000 -exec chmod u-s {} \;
-
-# Fix ownerships
-	@find ${PREFIX} -user 5041 -exec chown -h root:wheel {} \;
+	@find ${PREFIX} -user 5041 -exec chown -h ${BINOWN}:${BINGRP} {} \;
 
 .include <bsd.port.mk>
