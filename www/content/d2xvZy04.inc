@@ -1,6 +1,7 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.1 2005/12/27 18:59:37 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.2 2005/12/27 22:47:06 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
-<p><small><a href="#eof">bottom</a></small></p>
+<p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
+ editions</small></p>
 
 <div class="wlentry">
 <h3>27.12.2005 by bsiegert@</h3>
