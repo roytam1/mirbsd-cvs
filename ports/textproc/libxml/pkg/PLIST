@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/textproc/libxml/pkg/PLIST,v 1.2 2005/07/19 18:11:39 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.34 2004/04/06 06:50:34 kevlo Exp $
 bin/xml2-config
 bin/xmlcatalog
@@ -25,6 +25,7 @@ include/libxml2/libxml/parserInternals.h
 include/libxml2/libxml/pattern.h
 include/libxml2/libxml/relaxng.h
 include/libxml2/libxml/schemasInternals.h
+include/libxml2/libxml/schematron.h
 include/libxml2/libxml/threads.h
 include/libxml2/libxml/tree.h
 include/libxml2/libxml/uri.h
@@ -36,6 +37,7 @@ include/libxml2/libxml/xmlautomata.h
 include/libxml2/libxml/xmlerror.h
 include/libxml2/libxml/xmlexports.h
 include/libxml2/libxml/xmlmemory.h
+include/libxml2/libxml/xmlmodule.h
 include/libxml2/libxml/xmlreader.h
 include/libxml2/libxml/xmlregexp.h
 include/libxml2/libxml/xmlsave.h
@@ -93,6 +95,7 @@ share/doc/libxml2/html/html/libxml-parserInternals.html
 share/doc/libxml2/html/html/libxml-pattern.html
 share/doc/libxml2/html/html/libxml-relaxng.html
 share/doc/libxml2/html/html/libxml-schemasInternals.html
+share/doc/libxml2/html/html/libxml-schematron.html
 share/doc/libxml2/html/html/libxml-threads.html
 share/doc/libxml2/html/html/libxml-tree.html
 share/doc/libxml2/html/html/libxml-uri.html
@@ -104,6 +107,7 @@ share/doc/libxml2/html/html/libxml-xmlautomata.html
 share/doc/libxml2/html/html/libxml-xmlerror.html
 share/doc/libxml2/html/html/libxml-xmlexports.html
 share/doc/libxml2/html/html/libxml-xmlmemory.html
+share/doc/libxml2/html/html/libxml-xmlmodule.html
 share/doc/libxml2/html/html/libxml-xmlreader.html
 share/doc/libxml2/html/html/libxml-xmlregexp.html
 share/doc/libxml2/html/html/libxml-xmlsave.html
@@ -174,6 +178,64 @@ share/doc/libxml2/html/tutorial/ix01.html
 share/doc/libxml2/html/tutorial/xmltutorial.pdf
 share/doc/libxml2/html/w3c.png
 share/doc/libxml2/html/xml.html
+share/gtk-doc/html/libxml2/general.html
+share/gtk-doc/html/libxml2/home.png
+share/gtk-doc/html/libxml2/index.html
+share/gtk-doc/html/libxml2/left.png
+share/gtk-doc/html/libxml2/libxml2-DOCBparser.html
+share/gtk-doc/html/libxml2/libxml2-HTMLparser.html
+share/gtk-doc/html/libxml2/libxml2-HTMLtree.html
+share/gtk-doc/html/libxml2/libxml2-SAX.html
+share/gtk-doc/html/libxml2/libxml2-SAX2.html
+share/gtk-doc/html/libxml2/libxml2-c14n.html
+share/gtk-doc/html/libxml2/libxml2-catalog.html
+share/gtk-doc/html/libxml2/libxml2-chvalid.html
+share/gtk-doc/html/libxml2/libxml2-debugXML.html
+share/gtk-doc/html/libxml2/libxml2-dict.html
+share/gtk-doc/html/libxml2/libxml2-encoding.html
+share/gtk-doc/html/libxml2/libxml2-entities.html
+share/gtk-doc/html/libxml2/libxml2-globals.html
+share/gtk-doc/html/libxml2/libxml2-hash.html
+share/gtk-doc/html/libxml2/libxml2-list.html
+share/gtk-doc/html/libxml2/libxml2-nanoftp.html
+share/gtk-doc/html/libxml2/libxml2-nanohttp.html
+share/gtk-doc/html/libxml2/libxml2-parser.html
+share/gtk-doc/html/libxml2/libxml2-parserInternals.html
+share/gtk-doc/html/libxml2/libxml2-pattern.html
+share/gtk-doc/html/libxml2/libxml2-relaxng.html
+share/gtk-doc/html/libxml2/libxml2-schemasInternals.html
+share/gtk-doc/html/libxml2/libxml2-schematron.html
+share/gtk-doc/html/libxml2/libxml2-threads.html
+share/gtk-doc/html/libxml2/libxml2-tree.html
+share/gtk-doc/html/libxml2/libxml2-uri.html
+share/gtk-doc/html/libxml2/libxml2-valid.html
+share/gtk-doc/html/libxml2/libxml2-xinclude.html
+share/gtk-doc/html/libxml2/libxml2-xlink.html
+share/gtk-doc/html/libxml2/libxml2-xmlIO.html
+share/gtk-doc/html/libxml2/libxml2-xmlautomata.html
+share/gtk-doc/html/libxml2/libxml2-xmlerror.html
+share/gtk-doc/html/libxml2/libxml2-xmlexports.html
+share/gtk-doc/html/libxml2/libxml2-xmlmemory.html
+share/gtk-doc/html/libxml2/libxml2-xmlmodule.html
+share/gtk-doc/html/libxml2/libxml2-xmlreader.html
+share/gtk-doc/html/libxml2/libxml2-xmlregexp.html
+share/gtk-doc/html/libxml2/libxml2-xmlsave.html
+share/gtk-doc/html/libxml2/libxml2-xmlschemas.html
+share/gtk-doc/html/libxml2/libxml2-xmlschemastypes.html
+share/gtk-doc/html/libxml2/libxml2-xmlstring.html
+share/gtk-doc/html/libxml2/libxml2-xmlunicode.html
+share/gtk-doc/html/libxml2/libxml2-xmlversion.html
+share/gtk-doc/html/libxml2/libxml2-xmlwriter.html
+share/gtk-doc/html/libxml2/libxml2-xpath.html
+share/gtk-doc/html/libxml2/libxml2-xpathInternals.html
+share/gtk-doc/html/libxml2/libxml2-xpointer.html
+share/gtk-doc/html/libxml2/libxml2.devhelp
+share/gtk-doc/html/libxml2/right.png
+share/gtk-doc/html/libxml2/style.css
+share/gtk-doc/html/libxml2/up.png
+@dirrm share/gtk-doc/html/libxml2
+@dirrm share/gtk-doc/html
+@dirrm share/gtk-doc
 @dirrm share/doc/libxml2/html/tutorial/images/callouts
 @dirrm share/doc/libxml2/html/tutorial/images
 @dirrm share/doc/libxml2/html/tutorial
