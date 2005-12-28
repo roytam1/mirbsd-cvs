@@ -1,4 +1,4 @@
-@comment $MirOS: ports/multimedia/mplayer/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
+@comment $MirOS: ports/multimedia/mplayer/pkg/PLIST,v 1.2 2005/05/19 21:44:59 tg Exp $
 @comment $OpenBSD: PLIST,v 1.20 2005/05/09 12:24:38 biorn Exp $
 bin/mencoder
 bin/mplayer
@@ -81,9 +81,6 @@ share/examples/mplayer/menu.conf
 @sample ${CONFDIR}/menu.conf
 share/examples/mplayer/mplayer.conf
 @sample ${CONFDIR}/mplayer.conf
-@comment @exec mkdir -p %D/share/mplayer/font
-@comment @dirrm share/mplayer/font
-@comment @dirrm share/mplayer
 @dirrm share/examples/mplayer
 @dirrm share/doc/mplayer
 @extraunexec rm -rf ${CONFDIR}

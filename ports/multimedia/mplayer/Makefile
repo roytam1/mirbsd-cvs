@@ -1,14 +1,14 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.10 2005/07/09 19:29:53 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.11 2005/08/21 11:49:33 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
 # <mira> waldi: in mplayer sind mehr LP64 bugs pro KB source drin als in pine
-ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
+ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc OpenBSD:*:arm OpenBSD:*:amd64 #XXX
 
 COMMENT=		"Movie player supporting MPEG, DivX, AVI, ASF, MOV & more"
 DISTNAME=		MPlayer-1.0pre7
 DIST_SUBDIR=		mplayer
-PKGNAME=		${DISTNAME:L}-2
+PKGNAME=		${DISTNAME:L}-3
 CATEGORIES=		x11 multimedia
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.mplayerhq.hu/
@@ -44,7 +44,6 @@ CONFIGURE_ARGS+=--disable-alsa \
 		--disable-runtime-cpudetection \
 		--disable-gui \
 		--disable-nas \
-		--disable-liblzo \
 		--disable-i18n \
 		--disable-libdv \
 		--disable-smb \
@@ -60,20 +59,38 @@ CONFIGURE_ARGS+=--disable-alsa \
 		--enable-cdparanoia \
 		--with-extraincdir=${LOCALBASE}/include/libpng:${LOCALBASE}/include \
 		--with-extralibdir=${LOCALBASE}/lib \
-		--cc="${CC}" \
+		--prefix=${PREFIX:Q} \
+		--cc=${CC:Q} \
 		--confdir=${CONFDIR}
 # disable OSS audio if no TV needed
 CONFIGURE_ARGS+=--enable-ossaudio \
 		--enable-tv-bsdbt848
 CONFIGURE_ENV+=	TMPDIR=${WRKBUILD}
 
+.if ${MACHINE_ARCH:Mi386}
+CONFIGURE_ARGS+=--enable-runtime-cpudetection
+.endif
+
 .if ${MACHINE_ARCH:Mpowerpc}
 CONFIGURE_ARGS+=--disable-altivec
 .endif
 
 FLAVORS=	arts esd sdl ggi debug mad no_x11 aa \
-		no_live no_ungif caca
+		no_live no_ungif no_lzo caca
 FLAVOR?=
+
+.if ${MACHINE_ARCH:Marm}
+CONFIGURE_ARGS+=--disable-mp3lib
+FLAVOR+=	mad
+.endif
+
+.if ${FLAVOR:L:Mno_lzo}
+CONFIGURE_ARGS+=--disable-liblzo
+.else
+LIB_DEPENDS+=	lzo2:lzo->=2.*:archivers/lzo
+CPPFLAGS+=	-I${LOCALBASE}/include/lzo
+CONFIGURE_ARGS+=--enable-liblzo
+.endif
 
 .if ${FLAVOR:L:Mno_live}
 CONFIGURE_ARGS+=--disable-live
@@ -166,9 +183,9 @@ CONFIGURE_ARGS+=--disable-win32 \
 .if ${FLAVOR:L:Maa}
 CONFIGURE_ARGS+=--enable-aa
 .  if ${FLAVOR:L:Mno_x11}
-LIB_DEPENDS+=	aa.1.3::graphics/aalib,no_x11
+LIB_DEPENDS+=	aa::graphics/aalib,no_x11
 .  else
-LIB_DEPENDS+=	aa.1.3::graphics/aalib
+LIB_DEPENDS+=	aa::graphics/aalib
 .  endif
 .else
 CONFIGURE_ARGS+=--disable-aa
@@ -177,9 +194,9 @@ CONFIGURE_ARGS+=--disable-aa
 .if ${FLAVOR:L:Mcaca}
 CONFIGURE_ARGS+=--enable-caca
 .  if ${FLAVOR:L:Mno_x11}
-LIB_DEPENDS+=	caca.1::graphics/libcaca,no_x11
+BUILD_DEPENDS+=	::graphics/libcaca,no_x11
 .  else
-LIB_DEPENDS+=	caca.1::graphics/libcaca
+BUILD_DEPENDS+=	::graphics/libcaca
 .  endif
 .else
 CONFIGURE_ARGS+=--disable-caca

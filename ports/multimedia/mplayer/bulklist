@@ -1,6 +1,8 @@
 
-aa caca no_live no_ungif no_x11
-aa no_x11
+aa caca no_live no_lzo no_ungif
+aa caca no_live no_lzo no_ungif no_x11 sdl
+aa caca no_x11
+aa caca sdl
 arts
 esd
 sdl
