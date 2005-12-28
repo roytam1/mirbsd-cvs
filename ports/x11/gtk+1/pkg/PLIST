@@ -1,4 +1,4 @@
-@comment $MirOS: ports/x11/gtk+1/pkg/PLIST,v 1.1.7.1 2005/03/18 16:00:44 tg Exp $
+@comment $MirOS: ports/x11/gtk+1/pkg/PLIST,v 1.2 2005/07/29 00:07:37 tg Exp $
 @comment $OpenBSD: PLIST,v 1.29 2003/12/18 16:32:24 naddy Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/gdk.info
 @unexec install-info --delete --info-dir=%D/info %D/info/gtk.info
@@ -183,7 +183,6 @@ share/themes/Default/gtk/gtkrc.vi_VN.viscii111
 share/themes/Default/gtk/gtkrc.yi
 share/themes/Default/gtk/gtkrc.zh_CN
 share/themes/Default/gtk/gtkrc.zh_TW.big5
-%%SHARED%%
 @dirrm share/themes/Default/gtk
 @dirrm share/themes/Default
 @dirrm share/themes

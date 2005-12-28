@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/p5-SDL/Makefile,v 1.1 2005/06/24 17:01:14 tg Exp $
+# $MirOS: ports/devel/p5-SDL/Makefile,v 1.3 2005/07/07 21:20:03 bsiegert Exp $
 # $NetBSD: Makefile,v 1.26 2005/04/11 21:45:34 tv Exp $
 
 COMMENT=		Perl module for SDL
 V=			1.19.2
 DISTNAME=		SDL_perl-$V
-PKGNAME=		p5-SDL-$V-0
+PKGNAME=		p5-SDL-$V-1
 CATEGORIES=		devel perl5
 HOMEPAGE=		http://sdlperl.org/
 MASTER_SITES=		http://search.cpan.org/CPAN/authors/id/D/DG/DGOEHRIG/

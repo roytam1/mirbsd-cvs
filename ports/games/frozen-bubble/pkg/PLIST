@@ -1,11 +1,11 @@
-@comment $MirOS$
+@comment $MirOS: ports/games/frozen-bubble/pkg/PLIST,v 1.1 2005/06/24 17:41:33 tg Exp $
 @comment $NetBSD: PLIST,v 1.2 2003/04/16 22:04:32 salo Exp $
 bin/frozen-bubble
 bin/frozen-bubble-editor
 ${P5ARCH}/FBLE.pm
 @comment ${P5ARCH}/auto/fb_c_stuff/.packlist
 ${P5ARCH}/auto/fb_c_stuff/fb_c_stuff.bs
-${P5ARCH}/auto/fb_c_stuff/fb_c_stuff.so
+${P5ARCH}/auto/fb_c_stuff/fb_c_stuff${P5DLEXT}
 ${P5ARCH}/build_fbsyms
 ${P5ARCH}/fb_c_stuff.pm
 ${P5ARCH}/fb_stuff.pm

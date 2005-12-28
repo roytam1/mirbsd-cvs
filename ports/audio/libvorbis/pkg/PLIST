@@ -1,5 +1,5 @@
+@comment $MirOS: ports/audio/libvorbis/pkg/PLIST,v 1.2 2005/11/09 19:45:00 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.4 2003/12/14 00:52:22 naddy Exp $
-@comment $MirOS$
 include/vorbis/codec.h
 include/vorbis/vorbisenc.h
 include/vorbis/vorbisfile.h

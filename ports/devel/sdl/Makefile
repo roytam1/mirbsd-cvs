@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/sdl/Makefile,v 1.3 2005/07/07 21:20:24 bsiegert Exp $
+# $MirOS: ports/devel/sdl/Makefile,v 1.4 2005/10/02 12:01:52 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/23 12:09:18 robert Exp $
 # Uses pthreads
 
 COMMENT=		"cross-platform multimedia library"
 VERSION=		1.2.9
 DISTNAME=		SDL-${VERSION}
-PKGNAME=		sdl-${VERSION}-0
+PKGNAME=		sdl-${VERSION}-1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.libsdl.org/
 
@@ -46,7 +46,7 @@ CONFIGURE_ARGS+=	--disable-openbsdaudio
 .endif
 
 .if ${FLAVOR:L:Mesd}
-LIB_DEPENDS+=		esd.2::audio/esound
+LIB_DEPENDS+=		esd::audio/esound
 CONFIGURE_ARGS+=	--enable-esd
 .else
 CONFIGURE_ARGS+=	--disable-esd

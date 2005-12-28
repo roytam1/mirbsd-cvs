@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/imlib/pkg/PLIST,v 1.2 2005/03/27 19:11:12 tg Exp $
 @comment $OpenBSD: PLIST,v 1.11 2003/11/14 23:52:42 brad Exp $
 bin/imlib-config
 bin/imlib_config
@@ -8,10 +8,16 @@ include/Imlib_types.h
 include/gdk_imlib.h
 include/gdk_imlib_private.h
 include/gdk_imlib_types.h
-lib/libImlib.a
 lib/libImlib.la
-lib/libgdk_imlib.a
 lib/libgdk_imlib.la
+lib/libimlib-bmp.la
+lib/libimlib-gif.la
+lib/libimlib-jpeg.la
+lib/libimlib-png.la
+lib/libimlib-ppm.la
+lib/libimlib-ps.la
+lib/libimlib-tiff.la
+lib/libimlib-xpm.la
 lib/pkgconfig/imlib.pc
 lib/pkgconfig/imlibgdk.pc
 man/man1/imlib-config.1
@@ -21,7 +27,6 @@ share/examples/imlib/im_palette-small.pal
 share/examples/imlib/im_palette-tiny.pal
 share/examples/imlib/im_palette.pal
 share/examples/imlib/imrc
-%%SHARED%%
 @dirrm share/examples/imlib
 @dirrm share/aclocal
 @dirrm lib/pkgconfig

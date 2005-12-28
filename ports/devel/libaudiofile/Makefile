@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/libaudiofile/Makefile,v 1.2 2005/07/07 21:19:08 bsiegert Exp $
+# $MirOS: ports/devel/libaudiofile/Makefile,v 1.3 2005/10/15 17:41:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.28 2004/02/24 23:23:27 brad Exp $
 
 COMMENT=	"SGI audiofile library clone"
 DISTNAME=	audiofile-0.2.6
-PKGNAME=	lib${DISTNAME}-0
+PKGNAME=	lib${DISTNAME}-1
 CATEGORIES=	devel audio
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/audiofile/0.2/}
 HOMEPAGE=	http://www.68k.org/~michael/audiofile/

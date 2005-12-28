@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/libungif/Makefile,v 1.3 2005/04/28 21:46:29 tg Exp $
+# $MirOS: ports/graphics/libungif/Makefile,v 1.5 2005/07/07 21:21:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/04/18 20:58:45 brad Exp $
 
 COMMENT=	"tools and library routines for working with GIF images"
@@ -26,9 +26,9 @@ DOCSDIR=		${PREFIX}/share/doc/libungif
 
 post-install:
 	@cd ${PREFIX}/lib; \
-	for f in libungif.a libungif.so.5.3; do \
+	for f in libungif.*; do \
 		g=`echo $$f | sed -e s#libungif#libgif#g`; \
-		ln -sf $$f $$g; \
+		[[ $$f = libungif.la ]] || ln -sf $$f $$g; \
 	done && \
 	sed -e s#libungif#libgif#g libungif.la > libgif.la && \
 	chown ${LIBOWN}:${LIBGRP} libgif.la && \

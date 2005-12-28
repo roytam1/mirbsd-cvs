@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.1.7.1 2005/03/18 15:45:28 tg Exp $
+# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.3 2005/07/07 21:20:26 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2003/09/25 04:17:33 jolan Exp $
 
 COMMENT=	"SDL multi-channel audio mixer library"
@@ -18,7 +18,7 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 LIB_DEPENDS=	SDL::devel/sdl \
-		smpeg.1::devel/smpeg \
+		smpeg::devel/smpeg \
 	 	vorbis.0,vorbisfile.1::audio/libvorbis
 
 SEPARATE_BUILD= concurrent

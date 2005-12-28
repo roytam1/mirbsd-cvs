@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/p5-SDL/pkg/PLIST,v 1.1 2005/06/24 17:01:14 tg Exp $
+@comment $MirOS: ports/devel/p5-SDL/pkg/PLIST,v 1.2 2005/06/24 17:24:07 tg Exp $
 ${P5ARCH}/SDL.pm
 ${P5ARCH}/SDL/App.pm
 ${P5ARCH}/SDL/Cdrom.pm
@@ -23,22 +23,22 @@ ${P5ARCH}/SDL/TTFont.pm
 ${P5ARCH}/SDL/Timer.pm
 ${P5ARCH}/SDL_perl.pm
 ${P5ARCH}/auto/SDL/autosplit.ix
-${P5ARCH}/auto/SDL_perl/.packlist
+@comment ${P5ARCH}/auto/SDL_perl/.packlist
 ${P5ARCH}/auto/SDL_perl/SDL_perl.bs
-${P5ARCH}/auto/SDL_perl/SDL_perl.so
-man/man3/SDL.3p
-man/man3/SDL::App.3p
-man/man3/SDL::Cdrom.3p
-man/man3/SDL::Color.3p
-man/man3/SDL::Console.3p
-man/man3/SDL::Cursor.3p
-man/man3/SDL::Event.3p
-man/man3/SDL::Font.3p
-man/man3/SDL::Mixer.3p
-man/man3/SDL::Rect.3p
-man/man3/SDL::Surface.3p
-man/man3/SDL::TTFont.3p
-man/man3/SDL::Timer.3p
+${P5ARCH}/auto/SDL_perl/SDL_perl${P5DLEXT}
+man/man3/SDL${P5MAN3EXT}
+man/man3/SDL::App${P5MAN3EXT}
+man/man3/SDL::Cdrom${P5MAN3EXT}
+man/man3/SDL::Color${P5MAN3EXT}
+man/man3/SDL::Console${P5MAN3EXT}
+man/man3/SDL::Cursor${P5MAN3EXT}
+man/man3/SDL::Event${P5MAN3EXT}
+man/man3/SDL::Font${P5MAN3EXT}
+man/man3/SDL::Mixer${P5MAN3EXT}
+man/man3/SDL::Rect${P5MAN3EXT}
+man/man3/SDL::Surface${P5MAN3EXT}
+man/man3/SDL::TTFont${P5MAN3EXT}
+man/man3/SDL::Timer${P5MAN3EXT}
 @dirrm ${P5ARCH}/auto/SDL_perl
 @dirrm ${P5ARCH}/auto/SDL
 @dirrm ${P5ARCH}/auto

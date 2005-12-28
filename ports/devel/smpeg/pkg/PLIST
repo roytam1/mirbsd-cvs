@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/smpeg/pkg/PLIST,v 1.2 2005/06/24 16:50:41 tg Exp $
 @comment $OpenBSD: PLIST,v 1.2 2002/12/25 02:09:03 wcobb Exp $
 bin/gtv
 bin/plaympeg
@@ -14,7 +14,6 @@ include/smpeg/MPEGstream.h
 include/smpeg/MPEGsystem.h
 include/smpeg/MPEGvideo.h
 include/smpeg/smpeg.h
-lib/libsmpeg.a
 lib/libsmpeg.la
 man/man1/gtv.1
 man/man1/plaympeg.1
