@@ -1,13 +1,13 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.1.7.1 2005/03/18 15:44:50 tg Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.3 2005/07/07 21:19:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		"library for loading GLADE interface files at runtime"
-V=			2.4.0
+V=			2.5.1
 DISTNAME=		libglade-${V}
-PKGNAME=		libglade2-${V}-1
+PKGNAME=		libglade2-${V}-0
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libglade/2.4/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libglade/2.5/}
 EXTRACT_SUFX=           .tar.bz2
 
 # GNU LGPLv2.0
@@ -16,10 +16,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=		devel/gettext
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
+MODULES=		devel/gettext devel/pkgconfig
 LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
-			xml2.7::textproc/libxml
+			xml:textproc/libxml
 
 SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
