@@ -1,19 +1,9 @@
-$MirOS$
---- configure.in.orig	Mon Sep  8 01:56:03 2003
-+++ configure.in	Wed Aug 18 16:53:19 2004
-@@ -61,9 +61,6 @@ AC_SUBST(pkglibdir)
- 
- AC_C_BIGENDIAN	      
- 
--AC_LIBLTDL_CONVENIENCE
--AC_CONFIG_SUBDIRS(libltdl)
--
- AC_PROG_CC
- AM_PROG_CC_STDC
- AC_C_CONST
-@@ -224,6 +221,15 @@ if test "$tiff_ok" = yes; then
-   fi
- fi
+$MirOS: ports/graphics/imlib2/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:46:54 tg Exp $
+--- configure.in.orig	Fri Jun 10 02:24:37 2005
++++ configure.in	Wed Dec 28 18:28:11 2005
+@@ -269,6 +269,15 @@ fi
+ AM_CONDITIONAL(BUILD_TIFF_LOADER, test "$tiff_ok" = yes)
+ AC_SUBST(TIFFLIBS)
  
 +AC_ARG_ENABLE([gif],
 +[  --enable-gif                              enable libungif/libgif checks [yes]],
@@ -24,14 +14,14 @@ $MirOS$
 +AC_MSG_WARN(*** Native GIF support will not be built (manually disabled) ***)
 +gif_ok=no
 +else
- # Test for libungif
  AC_CHECK_LIB(ungif, DGifOpenFileName,
    gif_libs="-lungif"
-@@ -269,6 +275,7 @@ if test "$gif_ok" = no; then
+   gif_ok=yes,
+@@ -312,6 +321,7 @@ if test "$gif_ok" = no; then
        AC_MSG_WARN(*** Native GIF support will not be built (GIF header file not found) ***)
      fi
    fi
 +fi
  fi
- 
- AM_CONDITIONAL(JPEG_LOADER, test "$jpeg_ok" = yes)
+ AM_CONDITIONAL(BUILD_GIF_LOADER, test "$gif_ok" = yes)
+ AC_SUBST(GIFLIBS)

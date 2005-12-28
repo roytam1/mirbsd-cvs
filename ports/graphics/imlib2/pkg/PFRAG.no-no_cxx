@@ -1,4 +1,2 @@
-@comment $MirOS$
-lib/loaders/image/gif.a
+@comment $MirOS: ports/graphics/imlib2/pkg/PFRAG.no-no_cxx,v 1.1.7.1 2005/03/18 15:46:54 tg Exp $
 lib/loaders/image/gif.la
-lib/loaders/image/gif.so
