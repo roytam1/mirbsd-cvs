@@ -1,18 +1,17 @@
-# $MirOS: ports/devel/gconf/Makefile,v 1.3 2005/07/07 21:19:02 bsiegert Exp $
+# $MirOS: ports/devel/gconf/Makefile,v 1.4 2005/10/12 19:52:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/30 04:30:12 marcm Exp $
 
 COMMENT=		"configuration database system for GNOME"
-VERSION=		2.12.0
+VERSION=		2.12.1
 DISTNAME=		GConf-${VERSION}
-PKGNAME=		gconf2-${VERSION}-1
+PKGNAME=		gconf2-${VERSION}-0
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org/projects/gconf/
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/GConf/2.12/}
 EXTRACT_SUFX=           .tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		ORBit-2::devel/ORBit \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			xml2.6::textproc/libxml
