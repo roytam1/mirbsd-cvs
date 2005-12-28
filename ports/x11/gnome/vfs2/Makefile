@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.3 2005/07/07 21:28:50 bsiegert Exp $
+# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.4 2005/10/15 17:23:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"GNOME Virtual File System"
 
-VERSION=		2.12.1.1
+VERSION=		2.12.2
 DISTNAME=		gnome-vfs-${VERSION}
 PKGNAME=		${DISTNAME}-0
 CATEGORIES=		devel x11/gnome
@@ -12,7 +12,7 @@ HOMEPAGE=		http://www.gnome.org/
 
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-vfs/2.12/}
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
 LIB_DEPENDS=		bonobo-2,bonobo-activation::x11/gnome/libbonobo \
 			bz2::archivers/bzip2 \
@@ -20,8 +20,7 @@ LIB_DEPENDS=		bonobo-2,bonobo-activation::x11/gnome/libbonobo \
 			gconf-2::devel/gconf \
 			fam::sysutils/fam
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser \
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
 			:gnome-mime-data->=2.0.0:x11/gnome/mime-data
 RUN_DEPENDS=		:gnome-mime-data->=2.0.0:x11/gnome/mime-data \
 			:shared-mime-info-*:misc/shared-mime-info
