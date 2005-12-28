@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/libcaca/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:59 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/04/18 02:03:38 jolan Exp $
 bin/caca-config
 bin/cacaball
@@ -9,7 +9,6 @@ bin/cacaplas
 bin/cacaview
 include/caca.h
 lib/libcaca.a
-@comment lib/libcaca_pic.a
 man/man1/caca-config.1
 man/man1/cacademo.1
 man/man1/cacaview.1
@@ -21,6 +20,5 @@ share/doc/libcaca/README
 share/doc/libcaca/THANKS
 share/doc/libcaca/TODO
 share/libcaca/caca.txt
-%%SHARED%%
 @dirrm share/libcaca
 @dirrm share/doc/libcaca

@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/graphics/libcaca/Makefile,v 1.2 2005/07/07 21:21:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/04/18 06:41:11 robert Exp $
 
 COMMENT=		"colour ascii art library"
 DISTNAME=		libcaca-0.9
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		graphics
-HOMEPAGE=		http://sam.zoy.org/projects/libcaca/
+HOMEPAGE=		http://sam.zoy.org/libcaca/
 MASTER_SITES=		${HOMEPAGE}
 
 # GNU LGPLv2.1
@@ -25,7 +25,8 @@ CONFIGURE_ARGS+=	--disable-x11
 USE_X11=		Yes
 .endif
 
-CONFIGURE_STYLE= 	gnu
+CONFIGURE_STYLE= 	autoconf
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-doc --disable-slang
 
 .include <bsd.port.mk>

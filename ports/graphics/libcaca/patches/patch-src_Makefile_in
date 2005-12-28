@@ -1,40 +1,11 @@
 $MirOS$
---- src/Makefile.in.orig	Mon Feb  2 03:00:23 2004
-+++ src/Makefile.in	Sun Nov 21 19:15:56 2004
-@@ -139,7 +139,7 @@ target_vendor = @target_vendor@
- 
- include_HEADERS = caca.h
- 
--lib_LIBRARIES = libcaca.a $(libcaca_pic_a)
-+lib_LIBRARIES = libcaca.a $(libcaca_pic_a) $(libcaca_so)
- libcaca_a_SOURCES = \
- 	caca.c \
- 	caca.h \
-@@ -158,6 +158,7 @@ libcaca_a_SOURCES = \
- 
- 
- @NEED_PIC_TRUE@libcaca_pic_a = libcaca_pic.a
-+@NEED_PIC_TRUE@libcaca_so = libcaca.so.1.0
- libcaca_pic_a_SOURCES = $(libcaca_a_SOURCES)
- libcaca_pic_a_CPPFLAGS = -fPIC -DPIC
- subdir = src
-@@ -239,7 +240,7 @@ install-libLIBRARIES: $(lib_LIBRARIES)
- 	  else :; fi; \
- 	done
- 	@$(POST_INSTALL)
--	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-+	@list='libcaca.a $(libcaca_pic_a)'; for p in $$list; do \
+--- src/Makefile.in.orig	Wed Dec 28 19:18:03 2005
++++ src/Makefile.in	Wed Dec 28 19:20:04 2005
+@@ -243,6 +243,7 @@ install-libLIBRARIES: $(lib_LIBRARIES)
  	  if test -f $$p; then \
  	    p="`echo $$p | sed -e 's|^.*/||'`"; \
  	    echo " $(RANLIB) $(DESTDIR)$(libdir)/$$p"; \
-@@ -265,6 +266,10 @@ libcaca_pic.a: $(libcaca_pic_a_OBJECTS) 
- 	-rm -f libcaca_pic.a
- 	$(libcaca_pic_a_AR) libcaca_pic.a $(libcaca_pic_a_OBJECTS) $(libcaca_pic_a_LIBADD)
- 	$(RANLIB) libcaca_pic.a
-+$(libcaca_so): $(libcaca_pic_a_OBJECTS)
-+	-rm -f $(libcaca_so)
-+	${CC} -shared ${libcaca_pic_a_CPPFLAGS} -o $(libcaca_so) \
-+	    $$(lorder $(libcaca_pic_a_OBJECTS)|tsort -q) ${CACA_LIBS} ${LIBS}
- 
- mostlyclean-compile:
- 	-rm -f *.$(OBJEXT) core *.core
++	    chmod u+w $(DESTDIR)$(libdir)/$$p; \
+ 	    $(RANLIB) $(DESTDIR)$(libdir)/$$p; \
+ 	  else :; fi; \
+ 	done
