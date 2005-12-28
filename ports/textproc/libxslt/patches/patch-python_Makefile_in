@@ -1,15 +1,15 @@
---- python/Makefile.in.orig	2004-03-23 04:41:40.000000000 -0800
-+++ python/Makefile.in	2004-04-06 22:59:10.000000000 -0700
-@@ -534,7 +534,7 @@ distdir: $(DISTFILES)
- 	done
+--- python/Makefile.in.orig	Mon Sep  5 00:58:11 2005
++++ python/Makefile.in	Thu Dec 22 20:01:18 2005
+@@ -557,7 +557,7 @@ distdir: $(DISTFILES)
  check-am: all-am
  check: check-recursive
+ @WITH_PYTHON_FALSE@all-local:
 -all-am: Makefile $(LTLIBRARIES) all-local
 +all-am: Makefile $(LTLIBRARIES)
  installdirs: installdirs-recursive
  installdirs-am:
- 	$(mkdir_p) $(DESTDIR)$(pythondir)
-@@ -584,7 +584,7 @@ info: info-recursive
+ 	for dir in "$(DESTDIR)$(pythondir)"; do \
+@@ -610,7 +610,7 @@ info: info-recursive
  
  info-am:
  
