@@ -1,10 +1,24 @@
-$MirOS$
---- configure.in.orig	2004-03-14 20:54:30.000000000 +0000
-+++ configure.in	2004-03-14 20:54:47.000000000 +0000
-@@ -24,24 +24,7 @@ AC_MSG_RESULT([$native_win32])
+$MirOS: ports/devel/pkgconfig/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
+--- configure.in.orig	Thu Jan 16 21:07:09 2003
++++ configure.in	Wed Dec 28 15:45:50 2005
+@@ -10,38 +10,12 @@ AM_PROG_LIBTOOL
  
- AM_CONDITIONAL(USE_INSTALLED_GLIB, test x$native_win32 = xyes)
+ AC_PROG_CC
  
+-AC_MSG_CHECKING([for Win32])
+-case "$host" in
+-  *-*-mingw*)
+-    native_win32=yes
+     AC_DEFINE(USE_INSTALLED_GLIB, 1, [We are using an installed GLib])
+-  ;;
+-  *)
+-    native_win32=no
+-  ;;
+-esac
+-AC_MSG_RESULT([$native_win32])
+ 
+-AM_CONDITIONAL(USE_INSTALLED_GLIB, test x$native_win32 = xyes)
+-
 -if test x$native_win32 = xyes; then
 -  # On Win32, use the normal installed GLib.  Yes, this is a circular
 -  # dependency. But then, only experienced hackers that presumably can
@@ -16,13 +30,14 @@ $MirOS$
 -  GLIB_CFLAGS="-I$includedir/glib-2.0 -I$libdir/glib-2.0/include"
 -  GLIB_LIBS="-L$libdir -lglib-2.0 -liconv -lintl"
 -
--  AC_SUBST(GLIB_LIBS)
--  AC_SUBST(GLIB_CFLAGS)
--
+   AC_SUBST(GLIB_LIBS)
+   AC_SUBST(GLIB_CFLAGS)
+ 
 -  AC_CONFIG_AUX_DIR(.)
 -else
-   AC_CONFIG_SUBDIRS(glib-1.2.8)
+-  AC_CONFIG_SUBDIRS(glib-1.2.8)
 -fi # !native_win32
++AM_CONDITIONAL(USE_INSTALLED_GLIB, test xyes = xyes)
  
  AC_FUNC_ALLOCA
  
