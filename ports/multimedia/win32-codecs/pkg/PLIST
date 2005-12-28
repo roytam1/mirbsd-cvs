@@ -1,4 +1,4 @@
-@comment $MirOS: ports/multimedia/win32-codecs/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
+@comment $MirOS: ports/multimedia/win32-codecs/pkg/PLIST,v 1.2 2005/04/29 02:21:07 tg Exp $
 lib/codecs/AvidQTAVUICodec.qtx
 lib/codecs/BeHereiVideo.qtx
 lib/codecs/CLRVIDDC.DLL
@@ -21,17 +21,25 @@ lib/codecs/asusasv2.dll
 lib/codecs/asusasvd.dll
 lib/codecs/ativcr2.dll
 lib/codecs/atrac3.acm
+lib/codecs/atrc.so.6.0
 lib/codecs/avimszh.dll
 lib/codecs/avizlib.dll
 lib/codecs/clrviddd.dll
 lib/codecs/cook.so
+lib/codecs/cook.so.6.0
 lib/codecs/ctadp32.acm
+lib/codecs/ddnt.so.6.0
 lib/codecs/divx.dll
 lib/codecs/divx_c32.ax
 lib/codecs/divxa32.acm
 lib/codecs/divxc32.dll
 lib/codecs/divxdec.ax
+lib/codecs/dnet.so.6.0
+lib/codecs/drv2.so.6.0
+lib/codecs/drv3.so.6.0
+lib/codecs/drv4.so.6.0
 lib/codecs/drvc.so
+lib/codecs/dspr.so.6.0
 lib/codecs/huffyuv.dll
 lib/codecs/i263_32.drv
 lib/codecs/iac25_32.ax
@@ -73,8 +81,11 @@ lib/codecs/qpeg32.dll
 lib/codecs/qtmlClient.dll
 lib/codecs/rt32dcmp.dll
 lib/codecs/scg726.acm
+lib/codecs/sipr.so.6.0
 lib/codecs/sp5x_32.dll
 lib/codecs/tm20dec.ax
+lib/codecs/tokf.so.6.0
+lib/codecs/tokr.so.6.0
 lib/codecs/tsccvid.dll
 lib/codecs/tsd32.dll
 lib/codecs/tssoft32.acm
@@ -115,5 +126,4 @@ lib/codecs/wmvdmod.dll
 lib/codecs/wmvds32.ax
 lib/codecs/wnvplay1.dll
 lib/codecs/wnvwinx.dll
-%%SHARED%%
 @dirrm lib/codecs
