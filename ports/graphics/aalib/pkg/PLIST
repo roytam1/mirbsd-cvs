@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/aalib/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:43 tg Exp $
 @comment $OpenBSD: PLIST,v 1.5 2000/06/15 18:20:06 brad Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/aalib.info
 bin/aafire
@@ -7,7 +7,5 @@ bin/aasavefont
 bin/aatest
 include/aalib.h
 info/aalib.info
-lib/libaa.a
 lib/libaa.la
-%%SHARED%%
 @exec install-info --info-dir=%D/info %D/info/aalib.info
