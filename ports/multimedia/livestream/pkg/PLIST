@@ -1,4 +1,4 @@
-@comment $MirOS: ports/multimedia/livestream/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
+@comment $MirOS: ports/multimedia/livestream/pkg/PLIST,v 1.2 2005/05/19 20:06:17 tg Exp $
 lib/live/BasicUsageEnvironment/include/BasicHashTable.hh
 lib/live/BasicUsageEnvironment/include/BasicUsageEnvironment.hh
 lib/live/BasicUsageEnvironment/include/BasicUsageEnvironment0.hh
@@ -42,6 +42,8 @@ lib/live/liveMedia/StreamParser.hh
 lib/live/liveMedia/include/AC3AudioRTPSink.hh
 lib/live/liveMedia/include/AC3AudioRTPSource.hh
 lib/live/liveMedia/include/AC3AudioStreamFramer.hh
+lib/live/liveMedia/include/ADTSAudioFileServerMediaSubsession.hh
+lib/live/liveMedia/include/ADTSAudioFileSource.hh
 lib/live/liveMedia/include/AMRAudioFileServerMediaSubsession.hh
 lib/live/liveMedia/include/AMRAudioFileSink.hh
 lib/live/liveMedia/include/AMRAudioFileSource.hh
@@ -51,6 +53,7 @@ lib/live/liveMedia/include/AMRAudioSource.hh
 lib/live/liveMedia/include/AVIFileSink.hh
 lib/live/liveMedia/include/AudioInputDevice.hh
 lib/live/liveMedia/include/AudioRTPSink.hh
+lib/live/liveMedia/include/Base64.hh
 lib/live/liveMedia/include/BasicUDPSink.hh
 lib/live/liveMedia/include/BasicUDPSource.hh
 lib/live/liveMedia/include/ByteStreamFileSource.hh
@@ -97,7 +100,9 @@ lib/live/liveMedia/include/MPEG1or2VideoStreamDiscreteFramer.hh
 lib/live/liveMedia/include/MPEG1or2VideoStreamFramer.hh
 lib/live/liveMedia/include/MPEG2TransportFileServerMediaSubsession.hh
 lib/live/liveMedia/include/MPEG2TransportStreamFramer.hh
+lib/live/liveMedia/include/MPEG2TransportStreamFromESSource.hh
 lib/live/liveMedia/include/MPEG2TransportStreamFromPESSource.hh
+lib/live/liveMedia/include/MPEG2TransportStreamMultiplexor.hh
 lib/live/liveMedia/include/MPEG4ESVideoRTPSink.hh
 lib/live/liveMedia/include/MPEG4ESVideoRTPSource.hh
 lib/live/liveMedia/include/MPEG4GenericRTPSink.hh

@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/livestream/files/BSDmakefile,v 1.2 2005/05/19 20:06:16 tg Exp $
+# $MirOS: ports/multimedia/livestream/files/BSDmakefile,v 1.3 2005/06/26 20:13:55 tg Exp $
 
 FILES=	\
 	BasicUsageEnvironment/include/BasicHashTable.hh \
@@ -44,6 +44,8 @@ FILES=	\
 	liveMedia/include/AC3AudioRTPSink.hh \
 	liveMedia/include/AC3AudioRTPSource.hh \
 	liveMedia/include/AC3AudioStreamFramer.hh \
+	liveMedia/include/ADTSAudioFileServerMediaSubsession.hh \
+	liveMedia/include/ADTSAudioFileSource.hh \
 	liveMedia/include/AMRAudioFileServerMediaSubsession.hh \
 	liveMedia/include/AMRAudioFileSink.hh \
 	liveMedia/include/AMRAudioFileSource.hh \
@@ -53,6 +55,7 @@ FILES=	\
 	liveMedia/include/AVIFileSink.hh \
 	liveMedia/include/AudioInputDevice.hh \
 	liveMedia/include/AudioRTPSink.hh \
+	liveMedia/include/Base64.hh \
 	liveMedia/include/BasicUDPSink.hh \
 	liveMedia/include/BasicUDPSource.hh \
 	liveMedia/include/ByteStreamFileSource.hh \
@@ -99,7 +102,9 @@ FILES=	\
 	liveMedia/include/MPEG1or2VideoStreamFramer.hh \
 	liveMedia/include/MPEG2TransportFileServerMediaSubsession.hh \
 	liveMedia/include/MPEG2TransportStreamFramer.hh \
+	liveMedia/include/MPEG2TransportStreamFromESSource.hh \
 	liveMedia/include/MPEG2TransportStreamFromPESSource.hh \
+	liveMedia/include/MPEG2TransportStreamMultiplexor.hh \
 	liveMedia/include/MPEG4ESVideoRTPSink.hh \
 	liveMedia/include/MPEG4ESVideoRTPSource.hh \
 	liveMedia/include/MPEG4GenericRTPSink.hh \
@@ -181,17 +186,19 @@ all:
 	cd ${WRKSRC} && ${MAKE} -f Makefile
 
 install:
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${DESTDIR}${PREFIX}/lib/live
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+	    ${DESTDIR}${TRUEPREFIX}/lib/live
 .for _i in ${DIRS}
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 ${DESTDIR}${PREFIX}/lib/live/${_i}
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+	    ${DESTDIR}${TRUEPREFIX}/lib/live/${_i}
 .endfor
 .for _i in ${FILES}
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${WRKSRC}/${_i} ${DESTDIR}${PREFIX}/lib/live/${_i}
+	    ${WRKSRC}/${_i} ${DESTDIR}${TRUEPREFIX}/lib/live/${_i}
 .endfor
 .for _i in ${PROGS}
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-	    ${WRKSRC}/${_i} ${DESTDIR}${PREFIX}/lib/live/${_i}
+	    ${WRKSRC}/${_i} ${DESTDIR}${TRUEPREFIX}/lib/live/${_i}
 .endfor
 
 .PHONY:	configure all install

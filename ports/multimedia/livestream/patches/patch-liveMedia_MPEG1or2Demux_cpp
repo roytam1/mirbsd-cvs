@@ -1,6 +1,6 @@
-$MirOS: ports/multimedia/livestream/patches/patch-liveMedia_MPEG1or2Demux_cpp,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
---- liveMedia/MPEG1or2Demux.cpp.orig	Thu May 12 01:40:47 2005
-+++ liveMedia/MPEG1or2Demux.cpp	Thu May 19 19:58:58 2005
+$MirOS: ports/multimedia/livestream/patches/patch-liveMedia_MPEG1or2Demux_cpp,v 1.2 2005/05/19 20:06:17 tg Exp $
+--- liveMedia/MPEG1or2Demux.cpp.orig	Fri Dec 23 13:00:41 2005
++++ liveMedia/MPEG1or2Demux.cpp	Wed Dec 28 18:02:48 2005
 @@ -21,6 +21,7 @@ along with this library; if not, write t
  #include "MPEG1or2Demux.hh"
  #include "MPEG1or2DemuxedElementaryStream.hh"
@@ -18,7 +18,7 @@ $MirOS: ports/multimedia/livestream/patches/patch-liveMedia_MPEG1or2Demux_cpp,v 
      exit(1);
    }
      
-@@ -456,7 +457,7 @@ void MPEGProgramStreamParser::parsePackH
+@@ -457,7 +458,7 @@ void MPEGProgramStreamParser::parsePackH
      skipBytes(pack_stuffing_length);
    } else { // unknown
      fUsingSource->envir() << "StreamParser::parsePack() saw strange byte "

@@ -1,7 +1,7 @@
-$MirOS: ports/multimedia/livestream/patches/patch-testProgs_playCommon_cpp,v 1.1.7.1 2005/03/18 15:50:47 tg Exp $
---- testProgs/playCommon.cpp.orig	Thu May 12 01:40:47 2005
-+++ testProgs/playCommon.cpp	Thu May 19 19:58:58 2005
-@@ -1253,7 +1253,7 @@ void checkForPacketArrival(void* /*clien
+$MirOS: ports/multimedia/livestream/patches/patch-testProgs_playCommon_cpp,v 1.2 2005/05/19 20:06:17 tg Exp $
+--- testProgs/playCommon.cpp.orig	Fri Dec 23 13:00:40 2005
++++ testProgs/playCommon.cpp	Wed Dec 28 18:02:48 2005
+@@ -1230,7 +1230,7 @@ void checkForPacketArrival(void* /*clien
      struct timeval timeNow;
      gettimeofday(&timeNow, NULL);
  	char timestampStr[100];
