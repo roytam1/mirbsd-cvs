@@ -1,4 +1,4 @@
-@comment $MirOS: ports/graphics/imlib2/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:54 tg Exp $
+@comment $MirOS: ports/graphics/imlib2/pkg/PLIST,v 1.2 2005/12/28 19:00:38 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/04/18 02:01:25 jolan Exp $
 !%%no_cxx%%
 bin/imlib2-config
@@ -20,7 +20,7 @@ lib/imlib2/loaders/jpeg.la
 lib/imlib2/loaders/lbm.la
 lib/imlib2/loaders/png.la
 lib/imlib2/loaders/pnm.la
-lib/imlib2/loaders/${BINOWN}a.la
+lib/imlib2/loaders/tga.la
 lib/imlib2/loaders/tiff.la
 lib/imlib2/loaders/xpm.la
 lib/imlib2/loaders/zlib.la
