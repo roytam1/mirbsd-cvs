@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.2 2005/12/04 13:49:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.3 2005/12/29 17:48:55 tg Exp $</small>
 
 <p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
 
@@ -73,7 +73,7 @@
 
 <p>To install MirOS, you need (as told above) lots of main memory, and
  some means of booting the ramdisk kernel and transferring the sets.
- This requires a bootable CD-ROM drive or a 3&12frac;" High Density
+ This requires a bootable CD-ROM drive or a 3&frac12;" High Density
  floppy drive (for the <tt>floppy8.fs</tt> set) or network boot (e.g.
  via PXE).</p>
 
@@ -378,13 +378,12 @@
 <li>This product includes software developed by the Charles D. Cranor, Washington University, University of California, Berkeley and its contributors.</li>
 <li>This product includes software developed by the Computer Systems Engineering Group at Lawrence Berkeley Laboratory.</li>
 <li>This product includes software developed by the Harvard University and its contributors.</li>
-<li>This product includes software developed by the Kungliga Tekniska Högskolan and its contributors.</li>
+<li>This product includes software developed by the Kungliga Tekniska H&ouml;gskolan and its contributors.</li>
 <li>This product includes software developed by the NetBSD Foundation, Inc. and its contributors.</li>
 <li>This product includes software developed by the Network Research Group at Lawrence Berkeley Laboratory.</li>
 <li>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)</li>
 <li>This product includes software developed by the SMCC Technology Development Group at Sun Microsystems, Inc.</li>
 <li>This product includes software developed by the University of California, Berkeley and its contributors, as well as Christoph Herrmann and Thomas-Henning von Kamptz.</li>
-<li>This product includes software developed by the University of California, Berkeley and its contributors.
 <li>This product includes software developed by the University of California, Berkeley and its contributors.</li>
 <li>This product includes software developed by the University of California, Lawrence Berkeley Laboratories.</li>
 <li>This product includes software developed by the University of California, Lawrence Berkeley Laboratory and its contributors.</li>
@@ -407,7 +406,7 @@
 <li>This product includes software that is based in part of the work of the FreeType Team (http://www.freetype.org).</li>
 <li>This product uses zlib by Jean-loup Gailly.</li>
 <li>This software is a component of "386BSD" developed by William F. Jolitz, TeleMuse.</li>
-<li>This software was developed by Holger Veit and Brian Moore for use with "386BSD" and similar operating systems.
+<li>This software was developed by Holger Veit and Brian Moore for use with "386BSD" and similar operating systems.</li>
 </ul>
 
 <p>None of the individuals, institutions, or projects listed endorse or

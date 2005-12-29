@@ -1,8 +1,8 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.9 2005/12/07 00:41:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.10 2005/12/23 22:51:05 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
- MirOS #8 is the latest release.
+ <a href="/?ann-8">MirOS #8</a> is the latest release.
  MirOS #8-stable has been opened, but there have not been any updates yet.
  There is no newer development snapshot available.
  MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable (note to use <tt>mmake</tt> as make(1) binary).
