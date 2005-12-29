@@ -1,10 +1,10 @@
-# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.3 2005/04/10 21:50:51 tg Exp $
+# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.4 2005/06/27 20:14:20 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		"AFPL PostScript interpreter"
-VERSION=		8.51
+VERSION=		8.53
 DISTNAME=		ghostscript-${VERSION}
-CATEGORIES=		print lang
+CATEGORIES=		print lang textproc
 DIR=			AFPL/gs${VERSION:S/.//}
 MASTER_SITES=		${GS_SITES}
 MASTER_SITES1=		${PDF_SITES}
@@ -84,7 +84,7 @@ $$(DD)pjxl.dev $$(DD)pjxl300.dev $$(DD)r4081.dev $$(DD)sj48.dev \
 $$(DD)st800.dev $$(DD)stcolor.dev $$(DD)t4693d2.dev $$(DD)t4693d4.dev \
 $$(DD)t4693d8.dev $$(DD)tek4696.dev $$(DD)uniprint.dev \
 $$(DD)dfaxhigh.dev $$(DD)dfaxlow.dev $$(DD)cif.dev \
-$$(DD)sgirgb.dev'
+$$(DD)sgirgb.dev $$(DD)ps2write.dev'
 
 
 MAKE_FLAGS=		${BASE_FLAGS} prefix=${PREFIX}
@@ -125,13 +125,9 @@ pre-build:
 	mkdir -p ${WRKDIST}/soobj
 	mkdir -p ${WRKDIST}/sobin
 
-pre-install:
-	@${INSTALL_DATA_DIR} ${PREFIX}/share/ghostscript
-	@${INSTALL_PROGRAM_DIR} ${PREFIX}/bin
-	@${INSTALL_MAN_DIR} ${PREFIX}/man/man1
-
 post-install:
-	strip ${PREFIX}/bin/gs
+	chmod 600 ${PREFIX}/bin/gs && strip ${PREFIX}/bin/gs
+	chmod ${BINMODE} ${PREFIX}/bin/gs
 	cd ${PREFIX}/man/man1 && \
 		ln -sf ps2ps.1 eps2eps.1 && \
 		ln -sf gslp.1 gsbj.1 && \
