@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libusb/Makefile,v 1.2 2005/07/07 21:19:15 bsiegert Exp $
+# $MirOS: ports/devel/libusb/Makefile,v 1.3 2005/12/29 21:26:10 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/21 03:04:14 naddy Exp $
 
 COMMENT=		"USB access library"
@@ -14,6 +14,7 @@ PERMIT_DISTFILES_FTP=   Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=libusb/}
 
+USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
