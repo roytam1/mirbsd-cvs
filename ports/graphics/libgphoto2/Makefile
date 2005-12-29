@@ -1,13 +1,13 @@
-# $MirOS$
+# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.2 2005/07/07 21:21:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/14 18:39:57 brad Exp $
 
-COMMENT=	'digital camera library'
-CATEGORIES=	graphics devel
-VERSION=	2.1.4
-DISTNAME=	libgphoto2-${VERSION}
-PKGNAME=	libgphoto-${VERSION}-0
-HOMEPAGE=	http://gphoto.sourceforge.net/
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=gphoto/}
+COMMENT=		'digital camera library'
+CATEGORIES=		graphics devel
+VERSION=		2.1.6
+DISTNAME=		libgphoto2-${VERSION}
+PKGNAME=		libgphoto-${VERSION}-0
+HOMEPAGE=		http://gphoto.sourceforge.net/
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gphoto/}
 
 # GPL
 PERMIT_PACKAGE_FTP=	Yes
@@ -21,11 +21,10 @@ MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libgphoto2_port
 SEPARATE_BUILD=		simple
 CONFIGURE_ARGS=		--disable-nls
 
-SUBST_VARS=		VERSION
-
-LIB_DEPENDS=		exif::graphics/libexif \
+SUBST_VARS+=		VERSION
+MODULES+=		devel/pkgconfig
+LIB_DEPENDS+=		exif:libexif->=0.6.13-1:graphics/libexif \
 			jpeg::graphics/jpeg \
 			usb::devel/libusb
-BUILD_DEPENDS=		::devel/pkgconfig
 
 .include <bsd.port.mk>
