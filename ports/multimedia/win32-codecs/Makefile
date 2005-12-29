@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/win32-codecs/Makefile,v 1.6 2005/08/21 11:49:34 tg Exp $
+# $MirOS: ports/multimedia/win32-codecs/Makefile,v 1.7 2005/12/28 17:44:47 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/11/13 09:10:19 kevlo Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -7,11 +7,8 @@ COMMENT=	"Huge compilation of mostly Win32 binary codecs for MPlayer"
 RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 _V=		20050412
 DISTNAME=	all-${_V}
-PKGNAME=	win32-codecs-${_V}-1
+PKGNAME=	win32-codecs-${_V}-2
 CATEGORIES=	graphics multimedia
-
-# royalty-free decoder; for personal use royalty-free encoder up to 56 kb/s
-FASTENC=	FastENC
 
 # probably bad, includes DivX ;-) v3 codecs.
 PERMIT_PACKAGE_CDROM=   "Unsure of codecs' licences"
@@ -28,7 +25,8 @@ MASTER_SITES=	\
 		ftp://ftp3.mplayerhq.hu/MPlayer/releases/codecs/ \
 		ftp://ftp5.mplayerhq.hu/MPlayer/releases/codecs/
 MASTER_SITES0=	${_MASTER_SITE_MIRBSD}
-DISTFILES=	${DISTNAME}${EXTRACT_SUFX} ${FASTENC}${EXTRACT_SUFX}:0
+DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
+		morecodecs-20051229.cgz:0
 EXTRACT_SUFX=	.tar.bz2
 
 NO_BUILD=	Yes
@@ -37,7 +35,7 @@ NO_REGRESS=	Yes
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/codecs
 	${INSTALL_DATA} ${WRKDIR}/${DISTNAME}/* ${PREFIX}/lib/codecs/
-	rm -f ${PREFIX}/lib/codecs/l3codeca.acm
-	${INSTALL_DATA} ${WRKDIR}/${FASTENC}/* ${PREFIX}/lib/codecs/
+	rm -f ${PREFIX}/lib/codecs/l3codec*
+	${INSTALL_DATA} ${WRKDIR}/morecodecs/* ${PREFIX}/lib/codecs/
 
 .include <bsd.port.mk>

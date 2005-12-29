@@ -1,4 +1,4 @@
-@comment $MirOS: ports/multimedia/win32-codecs/pkg/PLIST,v 1.2 2005/04/29 02:21:07 tg Exp $
+@comment $MirOS: ports/multimedia/win32-codecs/pkg/PLIST,v 1.3 2005/12/28 17:44:47 tg Exp $
 lib/codecs/AvidQTAVUICodec.qtx
 lib/codecs/BeHereiVideo.qtx
 lib/codecs/CLRVIDDC.DLL
@@ -23,6 +23,7 @@ lib/codecs/ativcr2.dll
 lib/codecs/atrac3.acm
 lib/codecs/atrc.so.6.0
 lib/codecs/avimszh.dll
+lib/codecs/avisynth.dll
 lib/codecs/avizlib.dll
 lib/codecs/clrviddd.dll
 lib/codecs/cook.so
@@ -53,7 +54,6 @@ lib/codecs/ir50_32.dll
 lib/codecs/ivvideo.dll
 lib/codecs/jp2avi.dll
 lib/codecs/l3codeca.acm
-lib/codecs/l3codecx.ax
 lib/codecs/lhacm.acm
 lib/codecs/lsvxdec.dll
 lib/codecs/m3jp2k32.dll
