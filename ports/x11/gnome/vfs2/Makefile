@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.5 2005/12/28 18:48:54 bsiegert Exp $
+# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.6 2005/12/29 17:07:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"GNOME Virtual File System"
@@ -45,9 +45,6 @@ CONFIGURE_ARGS+=	--disable-gtk-doc
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-vfs2
 CONFIGURE_ARGS+=	--disable-ipv6
 CONFIGURE_ARGS+=	--enable-cdda
-
-pre-patch:
-	cp ${FILESDIR}/gtk-doc.m4 ${WRKSRC}
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gnome-vfs2; \
