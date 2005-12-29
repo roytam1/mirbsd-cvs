@@ -1,11 +1,11 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.3 2005/12/27 23:28:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.4 2005/12/28 21:18:57 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
 
 <div class="wlentry">
 <h3>27.12.2005 by bsiegert@</h3>
-<p>We finally have a new release, over two years afer #7! To
+<p>We finally have a new release, over two years after #7! To
 celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
@@ -28,7 +28,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
   out for food (bsiegert@, a friend of his and our booth slave), Thai,
   this time, while I'm still sitting here and just fixed mplayer (that
   included fixing and upgrading a shitload of other ports). Drinking a
-  newly found thing, vanilla flavoured Soja melk, and a local delicacy
+  newly found thing, vanilla flavoured Soy milk, and a local specialty
   (Fa&szlig;brause) I'm hacking away, while the NOC complains that we,
   all of us together, are using a mere 7% of the 16 Gbit/s uplink, and
   the CAcert.org guy is seemingly confused (but they at least do their
@@ -44,6 +44,29 @@ celebrate this event, rotate the wlog and start a new one.</p>
   entries... I s'pose I should go back to coding. Who is going to read
   this anyway? People are busy complaining the FTP servers are slow (I
   think FTP deserves to die <b>fast</b> anyway).</p>
+</div>
+
+<div class="wlentry">
+ <h3>29.12.2005 by bsiegert@</h3>
+ <p>I am writing this just after midnight, so the second day of 22C3 has
+  just ended. Did some updated ports for GNOME 2.12.2, hopefully I will
+  have it finished by the time GNOME 2.14 comes out&nbsp;...</p>
+ <p>I saw three more or less interesting talks today. The first one was by
+  Dan Kaminsky is called "Black Ops Of TCP/IP 2005.5". He basically showed
+  what you can do with a <i>really</i> fat pipe: scan the entire internet!
+  He also showed a real-time traffic graphing tool and an estimate of the
+  number of machines infected by the Sony rootkit: at least 700.000
+  machines, more likely over a million. To quote <a
+  href="http://www.schneier.com/blog/archives/2005/11/sonys_drm_rootk.html">Bruce
+  Schneier</a>: "What happens when the creators of malware collude with the
+  very companies we hire to protect us from that malware?"</p>
+ <p>After that, there as a talk about <a
+  href="http://codespeak.net/pypy/">PyPy</a>, a Python implementation
+  written in Python. This actually makes sense because it is self-hosting
+  and it can translate Python code into C and even JavaScript for native
+  compilation. The third talk was a real highlight -- "Das literarische
+  Code-Quartett". Examples of good and bad code, commented in a very fun
+  way. Definitely a must.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
