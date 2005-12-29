@@ -1,12 +1,10 @@
-# $MirOS$
+# $MirOS: ports/devel/libusb/Makefile,v 1.2 2005/07/07 21:19:15 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/21 03:04:14 naddy Exp $
 
-COMMENT=	"USB access library"
-VERSION=	0.1.7
-DISTNAME=	libusb-${VERSION}
-PKGNAME=	${DISTNAME}-3
-CATEGORIES=	devel
-HOMEPAGE=	http://libusb.sourceforge.net/
+COMMENT=		"USB access library"
+DISTNAME=		libusb-0.1.10a
+CATEGORIES=		devel
+HOMEPAGE=		http://libusb.sourceforge.net/
 
 # LGPL
 PERMIT_PACKAGE_CDROM=   Yes
@@ -14,14 +12,14 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=libusb/}
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=libusb/}
 
-SEPARATE_BUILD=	concurrent
-CONFIGURE_STYLE= autoconf
-CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
-CONFIGURE_ARGS+= --enable-static --disable-build-docs
-
-post-extract:
-	@rm ${WRKSRC}/usb.h
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--enable-static \
+			--disable-build-docs
+CONFIGURE_ENV+=		libusb_cv_path_doxygen=false
+EXTRA_FAKE_FLAGS+=	mkdir_p='mkdir -p'
 
 .include <bsd.port.mk>
