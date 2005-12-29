@@ -1,5 +1,5 @@
 @comment $OpenBSD: PLIST,v 1.7 2003/12/14 00:52:22 naddy Exp $
-@comment $MirOS$
+@comment $MirOS: ports/audio/vorbis-tools/pkg/PLIST,v 1.2 2005/11/09 21:15:04 bsiegert Exp $
 bin/ogg123
 bin/oggdec
 bin/oggenc
@@ -12,41 +12,4 @@ man/man1/ogginfo.1
 man/man1/vorbiscomment.1
 share/examples/vorbis-tools/ogg123rc
 @sample ${SYSCONFDIR}/ogg123rc
-share/locale/be/LC_MESSAGES/vorbis-tools.mo
-share/locale/cs/LC_MESSAGES/vorbis-tools.mo
-share/locale/da/LC_MESSAGES/vorbis-tools.mo
-share/locale/es/LC_MESSAGES/vorbis-tools.mo
-share/locale/fr/LC_MESSAGES/vorbis-tools.mo
-share/locale/hr/LC_MESSAGES/vorbis-tools.mo
-share/locale/hu/LC_MESSAGES/vorbis-tools.mo
-share/locale/nl/LC_MESSAGES/vorbis-tools.mo
-share/locale/ro/LC_MESSAGES/vorbis-tools.mo
-share/locale/ru/LC_MESSAGES/vorbis-tools.mo
-share/locale/sv/LC_MESSAGES/vorbis-tools.mo
-share/locale/uk/LC_MESSAGES/vorbis-tools.mo
-@dirrm share/locale/uk/LC_MESSAGES
-@dirrm share/locale/uk
-@dirrm share/locale/sv/LC_MESSAGES
-@dirrm share/locale/sv
-@dirrm share/locale/ru/LC_MESSAGES
-@dirrm share/locale/ru
-@dirrm share/locale/ro/LC_MESSAGES
-@dirrm share/locale/ro
-@dirrm share/locale/nl/LC_MESSAGES
-@dirrm share/locale/nl
-@dirrm share/locale/hu/LC_MESSAGES
-@dirrm share/locale/hu
-@dirrm share/locale/hr/LC_MESSAGES
-@dirrm share/locale/hr
-@dirrm share/locale/fr/LC_MESSAGES
-@dirrm share/locale/fr
-@dirrm share/locale/es/LC_MESSAGES
-@dirrm share/locale/es
-@dirrm share/locale/da/LC_MESSAGES
-@dirrm share/locale/da
-@dirrm share/locale/cs/LC_MESSAGES
-@dirrm share/locale/cs
-@dirrm share/locale/be/LC_MESSAGES
-@dirrm share/locale/be
-@dirrm share/locale
 @dirrm share/examples/vorbis-tools
