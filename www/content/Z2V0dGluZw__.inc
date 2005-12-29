@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.3 2005/10/03 23:05:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.4 2005/12/06 00:00:43 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -32,9 +32,10 @@
  We cannot ship to outside the European Union and Swiss/Schweiz/Suisse.</p>
 
 <h3>Get MirOS now, the new way!</h3>
-<p>The current version is MirOS BSD #7quater, available for the i386 and sparc
- architectures, released on June 14th, 2004. You might want to read
- the <a href="/?ann-7">release announcement</a>.</p>
+<p>The current version is MirOS BSD #8semel, available for the i386
+ architecture, released on December 23rd, 2005, and MirOS #7quater
+ for the sparc architecture, based upon code from 2003. You might
+ want to read the <a href="/?ann-8">release announcement</a>.</p>
 <p>Development snapshots are also available, and usually newer than the
  latest release. In exchange for actuality, bug fixes and a horseload of
  new features, you get some breakage. If you actually find a bug, please
@@ -50,8 +51,11 @@
  available for download from a single site (and its mirrors). Source code
  will be retrievable using the <a href="/cvs.cgi/">CVSWEB interface</a>.</p>
 
-<h4>MirOS #7quinquies</h4>
-<p>A scheduled maintenance upgrade of MirOS BSD #7quater. This version
+<h4>MirOS #8semel</h4>
+<p>The first release of the MirOS #8 branch, and the only version
+ currently supported. Users are strongly suggested to update.
+ You can use MirPorts-current with this version.</p>
+<!-- p>A scheduled maintenance upgrade of MirOS BSD #7quater. This version
  includes all OpenBSD errata up to end of 2004, as well as various MirOS
  errata. Users <strong>must</strong> now use current MirPorts for this
  system and install the egcs (gcc3) from packages on i386 if they need it.
@@ -66,21 +70,15 @@
  href="http://benz.mine.nu/MirBSD/packages/">binary packages for MirOS at
  Benny Siegert's site</a> for both architectures; some are <a
  href="http://mirbsd.mirsolutions.de/MirOS/v7.3/bsd/Pkgs/">available here</a>
- as well.</p>
-<p>You can retrieve the source code for MirOS #7quinquies via the #7-stable
- branch by using anonCVS with the tag <tt>MIRBSD_7</tt>.</p>
+ as well.</p -->
+<p>You can retrieve the source code for MirOS #8semel
+ by using anonCVS with the tag <tt>MIRBSD_8_BASE</tt>.</p>
 
-<h4>MirOS #7-stable</h4>
+<h4>MirOS #8-stable</h4>
 <p>This is a development branch with only security and runnability fixes
- to #7quater, to which you can do binary and source upgrades from #7ter.
- Beware, this branch is prepared for -current MirPorts, not these from #7bis.
- Binary updates are uploaded for i386 as well as sparc.</p>
-
-<h4>MirOS #8 <small>(Codename: MirOS XP)</small></h4>
-<p>This is the next version of MirOS, available is BSD/i386.
- The exact location of the release announcement, code and source will be
- published here when the release is due.<br />It is not expected to be
- released before end of 2004, and likely to be postponed forever.</p>
+ to #8semel. There are currently no fixes included.</p>
+<p>You can retrieve the source code for MirOS #8-stable
+ by using anonCVS with the tag <tt>MIRBSD_8</tt>.</p>
 
 <h4>Snapshots of current development</h4>
 <p>You can usually find some more or less recent snapshots in the

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.6 2005/10/03 23:05:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.7 2005/12/06 00:00:43 tg Exp $</small>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
 <h3>Short introduction into CVSweb</h3>
@@ -27,8 +27,8 @@
 <h3>Tags</h3><ul>
 <li>HEAD - contains current MirOS development code</li>
 <li>cvs-yymmddhhmm (no branch tag) - contains imported code</li>
-<li>MIROS_8 &ndash; contains MirOS #8-stable branch</li>
-<li>MIROS_8semel (no branch tag) &ndash; the latest release</li>
+<li>MIRBSD_8 &ndash; contains MirOS #8-stable branch</li>
+<li>MIRBSD_8_BASE (no branch tag) &ndash; the latest release</li>
 <li><em>Tags from ocvs:</em></li>
 <li>ctm-nnnn (no branch tag) - contains imported code</li>
 <li>MIRBSD_7 - contains MirOS #7-stable branch</li>
