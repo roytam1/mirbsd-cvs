@@ -1,11 +1,11 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.4 2005/10/15 17:23:48 bsiegert Exp $
+# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.5 2005/12/28 18:48:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"GNOME Virtual File System"
 
 VERSION=		2.12.2
 DISTNAME=		gnome-vfs-${VERSION}
-PKGNAME=		${DISTNAME}-0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/
 
@@ -21,7 +21,9 @@ LIB_DEPENDS=		bonobo-2,bonobo-activation::x11/gnome/libbonobo \
 			fam::sysutils/fam
 
 BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
-			:gnome-mime-data->=2.0.0:x11/gnome/mime-data
+			:gnome-mime-data->=2.0.0:x11/gnome/mime-data \
+			:intltool-*:textproc/intltool \
+			:gnome-common-*:x11/gnome/common
 RUN_DEPENDS=		:gnome-mime-data->=2.0.0:x11/gnome/mime-data \
 			:shared-mime-info-*:misc/shared-mime-info
 
@@ -33,8 +35,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=		Yes
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	autoconf old
+CONFIGURE_STYLE=	autogen old
 AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
 LDFLAGS+=		-pthread
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--sysconfdir="${SYSCONFDIR}/gnome"
@@ -42,6 +45,9 @@ CONFIGURE_ARGS+=	--disable-gtk-doc
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-vfs2
 CONFIGURE_ARGS+=	--disable-ipv6
 CONFIGURE_ARGS+=	--enable-cdda
+
+pre-patch:
+	cp ${FILESDIR}/gtk-doc.m4 ${WRKSRC}
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gnome-vfs2; \
