@@ -1,7 +1,9 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.5 2003/12/15 15:54:24 naddy Exp $
 include/ao/ao.h
 include/ao/os_types.h
 include/ao/plugin.h
+lib/ao/plugins-2/libsun.la
 lib/libao.la
 lib/pkgconfig/ao.pc
 man/man5/libao.conf.5
@@ -18,6 +20,7 @@ share/doc/libao/ao_file_extension.html
 share/doc/libao/ao_free_options.html
 share/doc/libao/ao_info.html
 share/doc/libao/ao_initialize.html
+share/doc/libao/ao_is_big_endian.html
 share/doc/libao/ao_open_file.html
 share/doc/libao/ao_open_live.html
 share/doc/libao/ao_option.html
@@ -41,8 +44,9 @@ share/doc/libao/overview.html
 share/doc/libao/plugin-api.html
 share/doc/libao/plugin-overview.html
 share/doc/libao/style.css
-%%SHARED%%
 @dirrm share/doc/libao
 @dirrm share/aclocal
 @dirrm lib/pkgconfig
+@dirrm lib/ao/plugins-2
+@dirrm lib/ao
 @dirrm include/ao

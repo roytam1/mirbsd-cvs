@@ -1,2 +1,4 @@
-@comment $OpenBSD: PLIST-arts,v 1.1 2001/07/22 00:12:55 naddy Exp $
-%%SHARED%%
+@comment $MirOS$
+lib/ao/plugins-2/libarts.la
+@dirrm lib/ao/plugins-2
+@dirrm lib/ao

@@ -1,7 +1,0 @@
-@comment $MirOS: ports/audio/libao/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:42:56 tg Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.9 2003/10/08 12:12:52 naddy Exp $
-@comment lib/ao/plugins-2/libsun.a
-@comment lib/ao/plugins-2/libsun.la
-lib/ao/plugins-2/libsun.so
-@dirrm lib/ao/plugins-2
-@dirrm lib/ao
