@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.3 2005/08/08 19:25:18 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.4 2005/11/15 19:33:59 tg Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.3 2005/08/08 19:25:18 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.4 2005/11/15 19:33:59 tg Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -119,7 +119,7 @@ nuke_version(char *name, bool wildcard)
     for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
     if (idx)
 	*idx = '\0';
-    if (asprintf(&ret, wildcard ? "%s-*" : "%s", name) == -1) {
+    if (asprintf(&ret, wildcard ? "%s-[0-9]*" : "%s", name) == -1) {
 	printf("nuke_version: Could not allocate buffer\n");
 	return NULL;
     }
