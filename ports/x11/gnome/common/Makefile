@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.5 2005/12/28 18:48:54 bsiegert Exp $
+# $MirOS: ports/x11/gnome/common/Makefile,v 1.1 2005/12/29 16:17:00 bsiegert Exp $
 
 COMMENT=		"common files for GNOME applications"
 
 VERSION=		2.12.0
 DISTNAME=		gnome-common-${VERSION}
-PKGNAME=		${DISTNAME}-0
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/
 
@@ -19,9 +19,11 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu old
-#AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--sysconfdir="${SYSCONFDIR}/gnome"
 CONFIGURE_ARGS+=	--disable-gtk-doc
+
+post-install:
+	${INSTALL_DATA} ${FILESDIR}/gtk-doc.m4 ${PREFIX}/share/aclocal
 
 .include <bsd.port.mk>
