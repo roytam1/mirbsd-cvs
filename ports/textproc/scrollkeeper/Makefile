@@ -1,10 +1,11 @@
-# $MirOS$
+# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.1.7.1 2005/03/18 15:53:01 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/07 00:23:23 alek Exp $
 
 COMMENT=		"Scrollkeeper Open Documentation Cataloging System"
 
 VERSION=		0.3.14
 DISTNAME=		scrollkeeper-${VERSION}
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		textproc
 
 HOMEPAGE=		http://scrollkeeper.sourceforge.net
@@ -21,12 +22,12 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext
 
-BUILD_DEPENDS=		:docbook->=4.2p1:textproc/docbook \
+BUILD_DEPENDS=		:docbook->=4.2-1:textproc/docbook \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
-RUN_DEPENDS=		:docbook->=4.2p1:textproc/docbook \
-			:libxml->=2.5.7p1:textproc/libxml
-LIB_DEPENDS=		xml2.7::textproc/libxml \
-			xslt.1::textproc/libxslt
+RUN_DEPENDS=		:docbook->=4.2-1:textproc/docbook \
+			:libxml->=2.5.7-1:textproc/libxml
+LIB_DEPENDS=		xml::textproc/libxml \
+			xslt::textproc/libxslt
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf
