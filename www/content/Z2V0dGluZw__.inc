@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.4 2005/12/06 00:00:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.5 2005/12/29 17:48:56 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -44,7 +44,7 @@
 <h4>Doing an online installation</h4>
 <p>Currently, you must set the installation method to <tt>HTTP</tt>, the
  server to <tt>mirbsd.mirsolutions.de</tt> and the path to
- <tt>MirOS/v7/bsd/i386</tt> (or <tt>MirOS/v7/bsd/sparc</tt>),
+ <tt>MirOS/v8/i386</tt> <!-- (or <tt>MirOS/v7/bsd/sparc</tt>) -->,
  with neither a slash before nor after the pathname.</p>
 
 <p>All files which belong to a release of MirOS are
