@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.4 2005/12/28 21:18:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.5 2005/12/29 15:04:04 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -67,6 +67,27 @@ celebrate this event, rotate the wlog and start a new one.</p>
   compilation. The third talk was a real highlight -- "Das literarische
   Code-Quartett". Examples of good and bad code, commented in a very fun
   way. Definitely a must.</p>
+</div>
+
+<div class="wlentry">
+ <h3>30.12.2005 by tg@</h3>
+ <p>The chaos continues. But some real work is done &ndash; we now can
+  support the scenario &quot;some shared library depends on another of
+  their kind&quot; (for now, only unofficially, but it will be MFCs by
+  bsiegert@ I think).</p>
+ <p>Today is clean-up and go day. We asked the people from OpenBSD (we
+  have to clean up and work, no time), NetBSD&reg; (they want to drive
+  away early, like 18:00, due to the weather), DragonFly BSD (they say
+  there will be ice rain so they'll hunt home at 15:00) to eat with us
+  at the great Indian restaurant, and FreeBSD didn't even show up (the
+  same procedure as every year). But we're gaining popularity not only
+  among the other BSDs, but as well with the congress participiants (a
+  spokesman calling them "Dear congress... err... people" in a speaker
+  announcement).</p>
+ <p>Some media are writing off each other, leading to people believing
+  we have released MirOS Windows XP or something. We had to unconfuse;
+  we hope to be able to correct this mistake in each publication where
+  it shows up.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

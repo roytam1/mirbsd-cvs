@@ -1,6 +1,14 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.43 2005/12/18 16:05:05 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.44 2005/12/29 17:48:56 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>30.12.2005<br />A bugfix in the current development version leads to a
+	working implementation of the &quot;some shared library depends on
+	another shared library&quot; scenario. Whether it's now officially
+	supported is still to decide (don't depend on it), but a candidate
+	for MFC, definitively.<br />Several publication media have written
+	off each other. After waking up we were like, "WTF we had released
+	a <tt>MirOS XP</tt>?" and cleaned up with explanations.</li>
 
 <li>29.12.2005<br /><a href="/?ann-8">Public MirOS #8 Release Announcement
 	(HTML version)</a> crafted.<br />MirPorts now contains a provision
