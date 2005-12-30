@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.5 2005/12/29 15:04:04 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.6 2005/12/30 16:09:38 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -88,6 +88,10 @@ celebrate this event, rotate the wlog and start a new one.</p>
   we have released MirOS Windows XP or something. We had to unconfuse;
   we hope to be able to correct this mistake in each publication where
   it shows up.</p>
+ <p>I've got headaches. Everything is being broken down, including the
+  big HP switches, so the network'll probably cease to exist RSN. Benz
+  is watching a last presentation, then we'll head to the Indian, then
+  back home. See you all in the new (christian/western) year!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
