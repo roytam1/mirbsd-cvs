@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gphoto2/Makefile,v 1.5 2005/12/29 23:10:49 tg Exp $
+# $MirOS: ports/graphics/gphoto2/Makefile,v 1.6 2005/12/29 23:12:50 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/14 18:41:15 brad Exp $
 
 COMMENT=		'digital camera command-line interface'
@@ -29,7 +29,7 @@ CONFIGURE_ARGS+=	--without-cdk
 .endif
 
 MODULES+=		devel/pkgconfig
-LIB_DEPENDS+=		gphoto2,gphoto2_port:libgphoto2-${VERSION}-*:graphics/libgphoto2 \
+LIB_DEPENDS+=		gphoto2,gphoto2_port::graphics/libgphoto2 \
 			aa::graphics/aalib \
 			jpeg::graphics/jpeg \
 			popt::devel/popt
