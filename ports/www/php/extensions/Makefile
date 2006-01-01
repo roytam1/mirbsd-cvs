@@ -1,7 +1,7 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.4 2005/05/04 16:12:31 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.6 2005/07/07 21:28:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2004/10/18 15:58:53 robert Exp $
 
-FULLPKGNAME=		php-extensions-${V}${PV}-0
+FULLPKGNAME=		php-extensions-${V}-${PV}
 COMMENT=		"informational package about PHP5 extensions"
 
 MULTI_PACKAGES=
@@ -13,7 +13,7 @@ PREFIX?=		${CHROOT_DIR}
 FLAVORS=		no_x11
 FLAVOR?=
 
-RUN_DEPENDS=		:php-core-${V}${PV}:www/php/core
+RUN_DEPENDS=		:php-core-${V}-${PV}:www/php/core
 .if !defined(PACKAGING)
 MODULES=		devel/gettext
 .endif
@@ -115,7 +115,7 @@ USE_X11=		yes
 CONFIGURE_ARGS+=	--with-xpm-dir=${X11BASE}
 .  else
 CONFIGURE_ARGS+=	--without-xpm-dir
-FULLPKGNAME-gd=		php-gd-${V}${PV}-no_x11-0
+FULLPKGNAME-gd=		php-gd-${V}-${PV}-no_x11
 .  endif
 .endif
 
@@ -280,7 +280,7 @@ XMLRPC_DEPENDS=		expat.2::textproc/expat
 
 .for i in ${MULTI_PACKAGES}
 .  if !defined(FULLPKGNAME${i})
-FULLPKGNAME${i}=	php${i}-${V}${PV}
+FULLPKGNAME${i}=	php${i}-${V}-${PV}
 .  endif
 .endfor
 

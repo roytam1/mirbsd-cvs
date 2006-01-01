@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.6 2005/08/21 11:50:39 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.7 2005/09/11 02:34:16 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
@@ -7,7 +7,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 V=			5.0.4
 HV=			0.2.7
-PV=			p0
+PV=			1
 DISTNAME=		php-${V}
 CATEGORIES=		www lang
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>

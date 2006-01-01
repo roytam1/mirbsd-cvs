@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.3 2005/03/27 22:20:23 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.5 2005/07/07 21:28:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 
 MULTI_PACKAGES=		-pear
@@ -6,8 +6,8 @@ SUBPACKAGE?=
 
 COMMENT=		"server-side HTML-embedded scripting language"
 COMMENT-pear=		"base classes for common PHP tasks"
-PKGNAME=		php-core-${V}${PV}-0
-FULLPKGNAME-pear=	php-pear-${V}${PV}-0
+PKGNAME=		php-core-${V}-${PV}
+FULLPKGNAME-pear=	php-pear-${V}-${PV}
 
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--without-mysql \
@@ -53,7 +53,7 @@ PHPXS_SUBST+=		-e 's,${i},${${i}},'
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
 PREFIX=			${CHROOT_DIR}
-RUN_DEPENDS=		:php-core-${V}${PV}:www/php/core
+RUN_DEPENDS=		:php-core-${V}-${PV}:www/php/core
 MODULES=
 .else
 LIB_DEPENDS+=		xml2.8::textproc/libxml
