@@ -4,7 +4,7 @@ COMMENT=	"interpretive macro/programming language"
 
 V=		04-111
 DISTNAME=	zoem-${V}
-PKGNAME=	zoem-${V:S,-,_,}-0
+PKGNAME=	zoem-${V:S,-,.,}-0
 CATEGORIES=	textproc lang
 
 HOMEPAGE=	http://micans.org/zoem/

@@ -1,10 +1,9 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/07 23:35:51 pvalchev Exp $
 
 COMMENT=	"clustering algorithm for graphs"
-
 V=		04-105
 DISTNAME=	mcl-${V}
-PKGNAME=	mcl-${V:S,-,_,}-0
+PKGNAME=	mcl-${V:S,-,.,}-0
 CATEGORIES=	math
 
 HOMEPAGE=	http://micans.org/mcl/
