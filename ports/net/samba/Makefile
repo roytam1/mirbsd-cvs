@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/samba/Makefile,v 1.2 2005/07/07 21:24:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
+
+BROKEN=		does not function correctly sometimes
 
 COMMENT=	"SMB and CIFS client and server for UNIX"
 COMMENT-docs=	"documentation and examples for samba"
