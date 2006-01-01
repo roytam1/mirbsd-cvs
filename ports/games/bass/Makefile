@@ -4,7 +4,7 @@ PKG_ARCH=	*
 
 COMMENT=	"Beneath A Steel Sky"
 DISTNAME=	BASS-CD
-PKGNAME=	bass-0	# Unversioned
+PKGNAME=	bass-20060101-0	# Unversioned
 DIST_SUBDIR=	${PKGNAME}
 EXTRACT_SUFX=	.zip
 CATEGORIES=	games

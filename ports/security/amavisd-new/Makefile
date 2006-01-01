@@ -1,10 +1,11 @@
-# $MirOS$
+# $MirOS: ports/security/amavisd-new/Makefile,v 1.1.7.1 2005/03/18 15:51:16 tg Exp $
 
 BROKEN=			this one uses _foo users but mailnews/amavisd-news is newer - why 2 ports?
 
 COMMENT=		"interface between mailer and content checkers"
-VERSION=		20030616
-DISTNAME=		amavisd-new-${VERSION}-p6
+VERSION=		20030616-p6
+DISTNAME=		amavisd-new-${VERSION}
+PKGNAME=		amavisd-new-${VERSION:S/-/./}-0
 WRKDIST=		${WRKDIR}/amavisd-new-${VERSION}
 CATEGORIES=		security
 HOMEPAGE=		http://www.ijs.si/software/amavisd/

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ethereal/Makefile,v 1.2 2005/03/20 16:46:32 bsiegert Exp $
+# $MirOS: ports/net/ethereal/Makefile,v 1.4 2005/07/07 21:24:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/10 06:14:43 jakob Exp $
 
 BROKEN=		"many security problems"
@@ -9,8 +9,8 @@ VERSION=	0.10.3
 DISTNAME=	ethereal-${VERSION}
 CATEGORIES=	net x11
 
-FULLPKGNAME=		tethereal-${VERSION}${FLAVOR_EXT}-0
-FULLPKGNAME-x11=	ethereal-${VERSION}${FLAVOR_EXT}-0
+FULLPKGNAME=		tethereal-${VERSION}-0${FLAVOR_EXT}
+FULLPKGNAME-x11=	ethereal-${VERSION}-0${FLAVOR_EXT}
 
 MASTER_SITES=	http://www.ethereal.com/distribution/all-versions/ \
 		http://ethereal.zing.org/distribution/all-versions/ \

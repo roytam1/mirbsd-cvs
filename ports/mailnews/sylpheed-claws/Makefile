@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.3 2005/07/07 21:23:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		"lightweight GTK+ based mail/news client"
@@ -8,8 +8,9 @@ COMMENT-spamassassin=	"Spamassassin plugin for sylpheed-claws"
 COMMENT-themes=		"Sylpheed-claws themes"
 
 VERSION=		0.9.0
+PL=			0
 DISTNAME=		sylpheed-${VERSION}claws
-PKGNAME=		sylpheed-claws-${VERSION}-0
+PKGNAME=		sylpheed-claws-${VERSION}-${PL}
 THEMEFILE=		sylpheed-iconset-20030523
 CATEGORIES=		mail news x11
 
@@ -83,7 +84,7 @@ CONFIGURE_ARGS+=	--enable-gdk-pixbuf --disable-imlib
 .endif
 
 .for i in ${MULTI_PACKAGES}
-FULLPKGNAME$i=		sylpheed-claws${i}-${VERSION}
+FULLPKGNAME$i=		sylpheed-claws${i}-${VERSION}-${PL}
 .endfor
 
 SUBPACKAGE?=

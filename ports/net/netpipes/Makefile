@@ -3,6 +3,7 @@
 COMMENT=	"shell utilities to connect programs to sockets"
 
 DISTNAME=	netpipes-4.2-export
+PKGNAME=	netpipes-4.2.export-0
 CATEGORIES=	net
 
 HOMEPAGE=	http://web.purplefrog.com/~thoth/netpipes/netpipes.html

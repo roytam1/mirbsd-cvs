@@ -1,12 +1,13 @@
-# $MirOS$
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.2 2005/07/07 21:29:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
 COMMENT-lang=		"language subpackage for Window Maker"
 
 V=			0.91.0
+PL=			1
 DISTNAME=		WindowMaker-${V}
-PKGNAME=		${DISTNAME:L}-0
+PKGNAME=		${DISTNAME:L}-${PL}
 CATEGORIES=		x11 x11/windowmaker
 
 HOMEPAGE=		http://www.windowmaker.org/
@@ -39,7 +40,7 @@ CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include/libpng" LIBS="-L${LOCALBASE}/li
 MULTI_PACKAGES= 	-lang
 
 .for i in ${MULTI_PACKAGES}
-PKGNAME$i=      	windowmaker${i}-${V}
+PKGNAME$i=      	windowmaker${i}-${V}-${PL}
 .endfor
 
 SUBPACKAGE?=

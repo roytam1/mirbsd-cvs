@@ -2,7 +2,9 @@
 
 COMMENT=		"active monitoring tool"
 V=			2.65
+PL=			1
 DISTNAME=		symon-${V}
+PKGNAME=		symon-${V}-${PL}
 CATEGORIES=		sysutils net
 
 HOMEPAGE=		http://www.xs4all.nl/~wpd/symon/
@@ -27,7 +29,7 @@ COMMENT-mux=		"symon data gatherer"
 MUX_LIBDEPENDS=		rrd:rrdtool-*:net/rrdtool
 
 .for i in ${MULTI_PACKAGES}
-FULLPKGNAME${i}=        symon${i}-${V}
+FULLPKGNAME${i}=        symon${i}-${V}-${PL}
 .endfor
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)

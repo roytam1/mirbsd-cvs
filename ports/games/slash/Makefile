@@ -3,7 +3,7 @@
 COMMENT=	"dungeon explorin', hackin' game, but harder than nethack"
 
 DISTNAME=	slash-e8
-PKGNAME=	slash-3.2.2-e8-0
+PKGNAME=	slash-3.2.2.e8-0
 CATEGORIES=	games
 
 MASTER_SITES=   ftp://ftp.nethack.org/pub/nethack/oldver/3.2.2/src/ \

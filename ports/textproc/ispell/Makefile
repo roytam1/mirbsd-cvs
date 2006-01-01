@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.37 2004/01/14 17:09:08 jakob Exp $
 
 COMMENT=		"interactive spelling checker"
@@ -10,26 +11,26 @@ COMMENT-slovak=		"ispell dictionary for Slovak"
 COMMENT-spanish=	"ispell dictionary for Spanish"
 COMMENT-swedish=	"ispell dictionary for Swedish"
 
-VERSION=	3.2.06
-DISTNAME=	ispell-${VERSION}
-CATEGORIES=	textproc
+VERSION=		3.2.06
+PL=			1
+DISTNAME=		ispell-${VERSION}
+PKGNAME=		ispell-${VERSION}-${PL}
+CATEGORIES=		textproc
+HOMEPAGE=		http://fmg-www.cs.ucla.edu/geoff/ispell.html
 
+MASTER_SITES=		http://fmg-www.cs.ucla.edu/geoff/tars/ \
+			ftp://ftp.netsw.org/dict/tools/
+MASTER_SITES0=		ftp://ftp.freebsd.org/pub/FreeBSD/ports/distfiles/
+MASTER_SITES1=		ftp://ftp.robot.ireq.ca/pub/ispell/
+MASTER_SITES2=		ftp://ftp.informatik.uni-kiel.de/pub/kiel/dicts/
+MASTER_SITES3=		http://www.sslug.dk/locale/ispell/iswedish/
+MASTER_SITES4=		ftp://mch5.chem.msu.su/pub/russian/ispell/ \
+			ftp://ftp.afti.nsu.ru/pub/mirrors/russian-ispell/
+MASTER_SITES5=		http://natura.di.uminho.pt/~jj/pln/
+MASTER_SITES6=		http://ispell.hq.sk/
+MASTER_SITES7=		http://www.datsi.fi.upm.es/~coes/
 
-HOMEPAGE=	http://fmg-www.cs.ucla.edu/geoff/ispell.html
-
-MASTER_SITES=	http://fmg-www.cs.ucla.edu/geoff/tars/ \
-		ftp://ftp.netsw.org/dict/tools/
-MASTER_SITES0=	ftp://ftp.freebsd.org/pub/FreeBSD/ports/distfiles/
-MASTER_SITES1=	ftp://ftp.robot.ireq.ca/pub/ispell/
-MASTER_SITES2=	ftp://ftp.informatik.uni-kiel.de/pub/kiel/dicts/
-MASTER_SITES3=	http://www.sslug.dk/locale/ispell/iswedish/
-MASTER_SITES4=	ftp://mch5.chem.msu.su/pub/russian/ispell/ \
-		ftp://ftp.afti.nsu.ru/pub/mirrors/russian-ispell/
-MASTER_SITES5=	http://natura.di.uminho.pt/~jj/pln/
-MASTER_SITES6=	http://ispell.hq.sk/
-MASTER_SITES7=	http://www.datsi.fi.upm.es/~coes/
-
-DIST_SUBDIR=	ispell
+DIST_SUBDIR=		ispell
 
 DUTCH_DICT=		ispell-nl-1.0.0
 FRENCH_DICT=		francais-IREQ-1.4
@@ -62,7 +63,7 @@ SUBST_VARS+=	VERSION
 MULTI_PACKAGES=	-dutch -french -german -swedish -russian -portuguese \
 		-slovak -spanish
 .for i in ${MULTI_PACKAGES}
-PKGNAME$i=	ispell$i-${VERSION}
+PKGNAME$i=	ispell$i-${VERSION}-${PL}
 .endfor
 SUBPACKAGE?=
 
