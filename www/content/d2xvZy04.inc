@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.7 2005/12/30 17:59:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.8 2006/01/01 05:48:24 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -104,6 +104,12 @@ celebrate this event, rotate the wlog and start a new one.</p>
   <em>not</em> upgradable.</p>
  <p>sirc and ssfe are now capable of displaying "cool looking" unicode
   (and ASCII) time stamps.</p>
+ <p>I changed all my (user and root) passwords and generated a new ssh
+  key after returning from 22C3 (where I shut down the boxen remotely,
+  as the last thing before they switched off the network). This is the
+  best thing to do, since keys and passwords should be rotated yearly,
+  or at least periodically, anyway, and I can't think of a better time
+  than after the Chaos Communication Congress.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
