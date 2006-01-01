@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.6 2005/12/30 16:09:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.7 2005/12/30 17:59:04 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -92,6 +92,18 @@ celebrate this event, rotate the wlog and start a new one.</p>
   big HP switches, so the network'll probably cease to exist RSN. Benz
   is watching a last presentation, then we'll head to the Indian, then
   back home. See you all in the new (christian/western) year!</p>
+</div>
+
+<div class="wlentry">
+ <h3>01.01.2006 by tg@</h3>
+ <p>I've hacked on an enforcement for ports versioning and drafted the
+  "package era" scheme we'll probably be using, pending results of the
+  discussion with all other active MirPorts developers (hrhr).</p>
+ <p>The INDEX was regenerated after I fixed several ports with damaged
+  version numbers but the versions used before that are quite probably
+  <em>not</em> upgradable.</p>
+ <p>sirc and ssfe are now capable of displaying "cool looking" unicode
+  (and ASCII) time stamps.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
