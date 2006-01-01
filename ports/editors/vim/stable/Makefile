@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.5 2005/09/17 20:46:25 bsiegert Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.6 2005/10/11 20:35:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=	"vi clone, many additional features"
@@ -7,7 +7,8 @@ COMMENT-lang=	"vi clone, NLS subpackage"
 DISTNAME=	vim-6.3
 REVISION=	086
 VERSION=	6.3.${REVISION}
-PKGNAME=	vim-${VERSION}-1
+PL=		1
+PKGNAME=	vim-${VERSION}-${PL}
 P=		${DISTNAME:C/[-\.]//g}
 CATEGORIES=	editors
 MASTER_SITES=   ftp://ftp.vim.org/pub/vim/unix/ \
@@ -53,7 +54,7 @@ PKG_ARCH=*
 .endif
 
 .for i in ${MULTI_PACKAGES}
-PKGNAME$i=      vim$i-${VERSION}
+PKGNAME$i=      vim$i-${VERSION}-${PL}
 .endfor
 
 FLAVORS=	huge gtk gtk2 athena motif no_x11 perl python ruby
