@@ -1,4 +1,4 @@
-# $MirOS: ports/www/w3m/Makefile,v 1.2 2005/07/07 21:28:23 bsiegert Exp $
+# $MirOS: ports/www/w3m/Makefile,v 1.3 2005/08/08 19:34:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.59 2005/02/22 10:23:39 alek Exp $
 
 COMMENT=	"pager/text-based web browser"
@@ -45,7 +45,7 @@ CONFIGURE_ARGS+=--enable-image=no
 .endif
 
 .if ${FLAVOR:L:Mjapanese}
-FULLPKGNAME=	ja-${PKGNAME}${FLAVOR_EXT:S/-japanese//}-0
+FULLPKGNAME=	ja-w3m-${VERSION}${DASH_VER}${FLAVOR_EXT:S/-japanese//}
 CATEGORIES+=	japanese
 CONFIGURE_ARGS+=--enable-japanese=E
 DOCS+=		README.SSL README.cookie README.keymap \
