@@ -1,8 +1,10 @@
-# $MirOS$
+# $MirOS: ports/security/vpnc/Makefile,v 1.1.7.1 2005/03/18 15:51:56 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/14 13:34:51 sturm Exp $
 
 COMMENT=		"client for Cisco 3000 VPN concentrators"
-DISTNAME=		vpnc-0.2-rm+zomb.1
+VERSION=		0.2-rm+zomb.1
+DISTNAME=		vpnc-${VERSION}
+PKGNAME=		vpnc-${VERSION:C/[-+]/_/g}-0
 CATEGORIES=		security net
 HOMEPAGE=		http://www.unix-ag.uni-kl.de/~massar/vpnc/
 
