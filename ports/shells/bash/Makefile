@@ -1,12 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.27 2004/01/13 20:09:39 naddy Exp $
 
-BROKEN=		read the file WHY for details
 COMMENT=	"GNU Bourne Again Shell"
-
 DISTNAME=	bash-2.05b
 CATEGORIES=	shells
 HOMEPAGE=	http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html
-
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
