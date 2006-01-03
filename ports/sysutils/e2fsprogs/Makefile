@@ -1,9 +1,10 @@
-# $MirOS: ports/sysutils/e2fsprogs/Makefile,v 1.1.7.1 2005/03/18 15:52:04 tg Exp $
+# $MirOS: ports/sysutils/e2fsprogs/Makefile,v 1.2 2006/01/03 03:02:02 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
 # $FreeBSD: ports/sysutils/e2fsprogs/Makefile,v 1.8 2003/02/20 19:00:47 knu Exp $
 
 COMMENT=		"utilities to manipulate ext2 and ext3 filesystems"
 DISTNAME=		e2fsprogs-1.38
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils
 HOMEPAGE=		http://e2fsprogs.sourceforge.net/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=e2fsprogs/}
@@ -16,10 +17,19 @@ PERMIT_PACKAGE_FTP=     Yes
 
 .include <mirports.sys.mk>
 
+FLAVORS=		static
+FLAVOR?=
+
+.if ${FLAVOR:L:Mstatic}
+LDSTATIC=		-static
+NO_SHARED_LIBS=		Yes
+.endif
+
 SEPARATE_BUILD= 	concurrent
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--enable-compression \
 			--enable-htree \
+			--with-ldopts=${LDFLAGS:Q} \
 			--disable-fsck \
 			--disable-e2initrd-helper \
 			--disable-nls

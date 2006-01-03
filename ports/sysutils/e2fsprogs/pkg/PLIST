@@ -1,16 +1,16 @@
-@comment $MirOS$
+@comment $MirOS: ports/sysutils/e2fsprogs/pkg/PLIST,v 1.1.7.1 2005/03/18 15:52:04 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/libext2fs.info
 bin/chattr
 bin/lsattr
 bin/uuidgen
 info/libext2fs.info
-lib/libblkid.a
-lib/libe2p.a
-lib/libext2fs.a
-lib/libext2fs_com_err.a
-lib/libss.a
-lib/libuuid.a
+@comment lib/libblkid.a
+@comment lib/libe2p.a
+@comment lib/libext2fs.a
+@comment lib/libext2fs_com_err.a
+@comment lib/libss.a
+@comment lib/libuuid.a
 man/man1/chattr.1
 man/man1/lsattr.1
 man/man1/uuidgen.1
