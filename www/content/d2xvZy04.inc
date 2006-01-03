@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.9 2006/01/01 05:52:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.10 2006/01/03 01:38:31 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -140,6 +140,16 @@ celebrate this event, rotate the wlog and start a new one.</p>
   that the &quot;others&quot; are not only recognising us but also see
   us as dangerous to them (their popularity? user base? I've converted
   at least one OpenBSD person to MirOS during 22C3). Nice to know.</p>
+ <p>I tought bogus some MirPorts and upgraded the ext2fs-progs port in
+  the meantime (also adding a static flavour later, to benefit a weird
+  setup of my new dedicated server). The idea is to have a 16 MiB wd0a
+  with a partition ID != 0x27, containing a /boot installed with -P as
+  to recognise the partition, and one or two ramdisk kernels, and some
+  text files (e.g. disklabel, fdisk output). Then, a 16 MiB extfs with
+  a gzip'd image of the first 16 MiB (including MBR, PBR, 4.2BSD FFS),
+  a stand-alone MBR, and what else you could need to recover. The rest
+  is a standard 0x27 partition with the wd0a of a regular boot, /home,
+  swap, whatever. The "irregular" wd0a need not even be in there.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
