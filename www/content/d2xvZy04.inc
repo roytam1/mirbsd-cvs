@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.8 2006/01/01 05:48:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.9 2006/01/01 05:52:47 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -110,6 +110,36 @@ celebrate this event, rotate the wlog and start a new one.</p>
   best thing to do, since keys and passwords should be rotated yearly,
   or at least periodically, anyway, and I can't think of a better time
   than after the Chaos Communication Congress.</p>
+</div>
+
+<div class="wlentry">
+ <h3>02.01.2006 by tg@</h3>
+ <p>I've ordered a new dedicated server which will cost me a lot less,
+  namely 19.90 &euro; the first 18 months and then 29 &euro; (also per
+  month) with the same functionality at the same hoster. I'm compiling
+  a new snapshot these days to set it up with this &ndash; so thor has
+  outlived and will not be continued, but switching will not be a pain
+  either.</p>
+ <p>My friend <tt>bogus</tt> was here for a bottle of Met and just did
+  the same. The new hostnames will be fungor (his choice) and... well,
+  &#39764;&#29579; (&#12414;&#12362;&#12358;) is mine. The meal we had
+  at the yugoslawian (croatian) was tasteful, by the way.</p>
+ <p>I baked an Atheros kernel for <tt>gecko2</tt>'s Soekris net4801 he
+  purchased (which was formerly known as <tt>loki</tt>) which works...
+  much to my surprise. But it's not ready for commit, e.g. I nuked the
+  wi(4) support to compile, ifconfig(8) doesn't operate properly, etc.
+  (but he can access wireless LANs with it). I wouldn't buy ath(4) tho
+  (I just don't trust them).</p>
+ <p>I somehow miss bsiegert@ here &ndash; there's lots of fixes he may
+  (should) be doing now...</p>
+ <p>Somehow we're gaining <a
+  href="http://www.pro-linux.de/news/2005/9093.html">good</a> <a
+  href="http://www.symlink.ch/article.pl?sid=05/12/30/1030208&amp;mode=nested">press</a>
+  and <a href="http://www.osnews.com/comment.php?news_id=13124#79739">user reviews</a> (and <a
+  href="http://www.osnews.com/comment.php?news_id=13124&amp;offset=20#80467">slander</a> which shows
+  that the &quot;others&quot; are not only recognising us but also see
+  us as dangerous to them (their popularity? user base? I've converted
+  at least one OpenBSD person to MirOS during 22C3). Nice to know.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

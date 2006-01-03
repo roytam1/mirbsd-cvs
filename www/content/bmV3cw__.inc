@@ -1,6 +1,10 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.44 2005/12/29 17:48:56 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.45 2005/12/30 16:09:38 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>03.01.2005<br />Several minor fixes in ports, roff2htm and other parts
+	of the system.<br />Do not hardcode MirOS mirrors, use the generic
+	redirection (mirbsd.de/mirbsd.org) instead, as they'll change.</li>
 
 <li>30.12.2005<br />A bugfix in the current development version leads to a
 	working implementation of the &quot;some shared library depends on
