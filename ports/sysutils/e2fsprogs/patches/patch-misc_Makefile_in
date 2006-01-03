@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/sysutils/e2fsprogs/patches/patch-misc_Makefile_in,v 1.1.7.1 2005/03/18 15:52:04 tg Exp $
 $OpenBSD: patch-misc_Makefile_in,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
---- misc/Makefile.in.orig	Wed Jan 26 18:03:32 2005
-+++ misc/Makefile.in	Sun Feb 13 16:11:05 2005
+--- misc/Makefile.in.orig	Wed Jun 29 17:41:58 2005
++++ misc/Makefile.in	Tue Jan  3 02:52:57 2006
 @@ -46,16 +46,16 @@ SRCS=	$(srcdir)/tune2fs.c $(srcdir)/mklo
  		$(srcdir)/filefrag.c $(srcdir)/base_device.c
  
@@ -22,7 +22,7 @@ $OpenBSD: patch-misc_Makefile_in,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
  
  .c.o:
  	@echo "	CC $<"
-@@ -98,7 +98,7 @@ mklost+found: $(MKLPF_OBJS)
+@@ -102,7 +102,7 @@ mklost+found: $(MKLPF_OBJS)
  	@echo "	LD $@"
  	@$(CC) $(ALL_LDFLAGS) -o mklost+found $(MKLPF_OBJS) $(LIBINTL)
  

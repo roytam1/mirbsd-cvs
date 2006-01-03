@@ -1,24 +1,6 @@
-$MirOS$
---- lib/blkid/devno.c.orig	Sun Feb 13 16:47:00 2005
-+++ lib/blkid/devno.c	Sun Feb 13 16:47:25 2005
-@@ -125,7 +125,7 @@ static void scan_dir(char *dirname, dev_
- 		else if (S_ISBLK(st.st_mode) && st.st_rdev == devno) {
- 			*devname = blkid_strdup(path);
- 			DBG(DEBUG_DEVNO,
--			    printf("found 0x%Lx at %s (%p)\n", devno,
-+			    printf("found 0x%Lx at %s (%p)\n", (unsigned long long)devno,
- 				   path, *devname));
- 			break;
- 		}
-@@ -183,7 +183,7 @@ char *blkid_devno_to_devname(dev_t devno
- 			   (unsigned long) devno));
- 	} else {
- 		DBG(DEBUG_DEVNO,
--		    printf("found devno 0x%04Lx as %s\n", devno, devname));
-+		    printf("found devno 0x%04Lx as %s\n", (unsigned long long)devno, devname));
- 	}
- 	
- 
+$MirOS: ports/sysutils/e2fsprogs/patches/patch-lib_blkid_devno_c,v 1.1.7.1 2005/03/18 15:52:04 tg Exp $
+--- lib/blkid/devno.c.orig	Sat May  7 18:34:31 2005
++++ lib/blkid/devno.c	Tue Jan  3 02:52:57 2006
 @@ -224,7 +224,7 @@ int main(int argc, char** argv)
  		}
  		devno = makedev(major, minor);
