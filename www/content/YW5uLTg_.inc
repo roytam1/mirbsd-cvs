@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.3 2005/12/29 17:48:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.4 2005/12/29 17:57:33 tg Exp $</small>
 
 <p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
 
@@ -113,6 +113,9 @@
  upgrading you should read the appropriate mailing lists to stay informed
  about possible backwards-not-so-compatible changes.</p>
 
+<p>Secondly, the ld(1) linker should be updated by an erratum yet to be
+ released to prevent a core dump in shared library dependencies.</p>
+
 
 <h2 id="get">Getting MirOS</h2>
 
@@ -213,6 +216,7 @@
  HTML manual pages, french spacing</li>
 <li>New tools: gzsig(1), getcap(1), ifwatchd(8), ntpd(8), spamd(8) and
  friends, tcpdrop(8), wssetfont(8), xmlwf(1), ...</li>
+<li>Support for hardcoding ARP table entries at boot in /etc/arp.conf</li>
 </ul>
 
 <p>We're quite sure this list isn't complete and we might even have
@@ -257,6 +261,7 @@
  certificate (boot-time) and CAcert.org support</li>
 <li>AT&amp;T nroff instead of GNU groff</li>
 <li>Default <tt>/etc/profile</tt> file for smoother user interface</li>
+<li>Support for hardcoding ARP table entries at boot in /etc/arp.conf</li>
 <li>Many more ports which are not in OpenBSD for political reasons</li>
 </ul>
 
