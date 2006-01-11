@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.5 2006/01/11 17:44:24 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.6 2006/01/11 17:49:51 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -67,7 +67,7 @@ CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 			-qt-imgfmt-mng -qt-imgfmt-png -qt-imgfmt-jpeg \
 			-sm -no-g++-exceptions \
 			-v -stl -xrender -xft -fast \
-			-no-sql-odbc -no-odbc -no-ibase \
+			-no-sql-odbc -no-sql-ibase -qt-sql-sqlite \
 			-tablet \
 			-xinerama \
 			-no-cups \
@@ -116,7 +116,7 @@ e:=$e,no_postgresql
 .endif
 
 .if !empty(FLAVOR:L:Mno_mysql)
-CONFIGURE_ARGS+=	-no-sql-mysql -no-mysql
+CONFIGURE_ARGS+=	-no-sql-mysql
 .else
 MULTI_PACKAGES+=	-mysql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-mysql"
@@ -127,7 +127,7 @@ CONFIGURE_ARGS+=	-I${LOCALBASE}/include/mysql -L${LOCALBASE}/lib/mysql \
 .endif
 
 .if !empty(FLAVOR:L:Mno_postgresql)
-CONFIGURE_ARGS+=	-no-sql-psql -no-psql
+CONFIGURE_ARGS+=	-no-sql-psql
 .else
 MULTI_PACKAGES+=	-postgresql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-postgresql"
