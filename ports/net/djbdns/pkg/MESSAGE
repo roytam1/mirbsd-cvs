@@ -3,7 +3,7 @@ tinydns-data(8) manual page and ${HOMEPAGE}
 
 About namespaces (you have chosen ${FLAVORS}):
 icann	=> http://www.icann.org/
-opennic	=> http://www.opennic.glue/
+opennic	=> http://www.opennic.unrated.net/
 eorsn	=> https://european.orsn.net/	(IPv6 default)
 
 => _After_ running dnscache-conf, do the following in your new
