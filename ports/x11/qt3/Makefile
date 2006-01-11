@@ -23,26 +23,23 @@ SHARED_LIBS=		qt-mt	3.35 \
 QT_PLUGINS=		plugins-${LIBqt-mt_VERSION:R}
 
 
-VERSION=	3.5
-DISTNAME=	qt-x11-free-3.${VERSION}
-CATEGORIES=	x11
-MASTER_SITES=	ftp://ftp.troll.no/qt/source/
-
-MASTER_SITES0=	http://freedesktop.org/~daisuke/
-
-PATCHFILES=	qt-x11-immodule-unified-qt3.3.5-20051018.diff.bz2:0
+VERSION=		3.5
+DISTNAME=		qt-x11-free-3.${VERSION}
+CATEGORIES=		x11
+MASTER_SITES=		ftp://ftp.troll.no/qt/source/
+MASTER_SITES0=		http://freedesktop.org/~daisuke/
+PATCHFILES=		qt-x11-immodule-unified-qt3.3.5-20051018.diff.bz2:0
 PATCH_DIST_STRIP=	-p1
 
 pre-configure:
 	cd ${WRKDIST} && /bin/sh ./make-symlinks.sh
 
-HOMEPAGE=	http://www.trolltech.com/qt/
+HOMEPAGE=		http://www.trolltech.com/qt/
 
 MAINTAINER=	Marc Espie <espie@openbsd.org>
 
-FLAVORS=debug
-
-PSEUDO_FLAVORS=	no_mysql no_postgresql no_examples mt
+FLAVORS=		debug
+PSEUDO_FLAVORS=		mt no_examples no_mysql no_postgresql
 FLAVOR?=
 
 # GPL/QPL
@@ -53,62 +50,64 @@ PERMIT_DISTFILES_FTP=	Yes
 myWANTLIB=		GL GLU ICE SM X11 Xcursor Xext Xft Xi Xinerama Xmu \
 			Xrandr Xrender fontconfig freetype jpeg lcms m z
 
-USE_X11=	Yes
-MAKE_ENV=	QTDIR="${WRKDIST}" EXTRA_SAMPLES="${EXTRA_SAMPLES}" \
-		SYS_CXX="${CXX}" SYS_CXXFLAGS="${CXXFLAGS}" \
-		LD_LIBRARY_PATH="${WRKDIST}/lib"
+USE_X11=		Yes
+MAKE_ENV=		QTDIR="${WRKDIST}" EXTRA_SAMPLES="${EXTRA_SAMPLES}" \
+			SYS_CXX="${CXX}" SYS_CXXFLAGS="${CXXFLAGS}" \
+			LD_LIBRARY_PATH="${WRKDIST}/lib"
 
 # For qsettings to write its setup
-PORTHOME=	${WRKDIST}
+PORTHOME=		${WRKDIST}
 
-MAKE_FLAGS=	DESIGNER_SUBDIR=dummy \
-		LIBqt-mt_VERSION=$(LIBqt-mt_VERSION) \
-		LIBqui_VERSION=$(LIBqui_VERSION)
-FAKE_FLAGS=	$(MAKE_FLAGS) DESTDIR=${WRKINST}
+MAKE_FLAGS=		DESIGNER_SUBDIR=dummy \
+			LIBqt-mt_VERSION=$(LIBqt-mt_VERSION) \
+			LIBqui_VERSION=$(LIBqui_VERSION)
+FAKE_FLAGS=		$(MAKE_FLAGS) DESTDIR=${WRKINST}
 
-CONFIGURE_STYLE= simple
-CONFIGURE_ARGS=	-qt-gif -system-libmng -system-libpng -system-libjpeg -system-zlib \
-		-qt-imgfmt-mng -qt-imgfmt-png -qt-imgfmt-jpeg -sm -no-g++-exceptions \
-		-v -stl -xrender -xft -fast \
-		-no-sql-odbc \
-		-tablet \
-		-xinerama \
-		-cups \
-		-inputmethod \
-		-I${LOCALBASE}/include/libpng \
-		-I${X11BASE}/include/freetype2 \
-		-I${LOCALBASE}/include \
-		-L${WRKSRC}/lib \
-		-L${LOCALBASE}/lib
+CONFIGURE_STYLE=	simple
+CONFIGURE_ARGS=		-qt-gif -system-libmng -system-libpng \
+			-system-libjpeg -system-zlib \
+			-qt-imgfmt-mng -qt-imgfmt-png -qt-imgfmt-jpeg \
+			-sm -no-g++-exceptions \
+			-v -stl -xrender -xft -fast \
+			-no-sql-odbc \
+			-tablet \
+			-xinerama \
+			-cups \
+			-inputmethod \
+			-I${LOCALBASE}/include/libpng \
+			-I${X11BASE}/include/freetype2 \
+			-I${LOCALBASE}/include \
+			-L${WRKSRC}/lib \
+			-L${LOCALBASE}/lib
 
-MULTI_PACKAGES+=-html
+MULTI_PACKAGES+=	-html
 
 .if ${FLAVOR:L:Mdebug}
-CONFIGURE_ARGS+=-debug
-PKGDEBUG=-debug
+CONFIGURE_ARGS+=	-debug
+PKGDEBUG=		-debug
 .else
 PKGDEBUG=
 .endif
 
-CONFIGURE_ARGS+=-thread
+CONFIGURE_ARGS+=	-thread
 
 .if !${FLAVOR:L:Mdebug} && !${FLAVOR:L:Mno_examples}
 MULTI_PACKAGES+=	-examples
 .else
-ALL_TARGET=sub-src sub-tools
+ALL_TARGET=		sub-src sub-tools
 .endif
 
 # This is needed to find plugins
 CONFIGURE_ARGS+=	-prefix ${QT_LIBDIR}
 CONFIGURE_ARGS+=	-plugindir ${QT_PLUGINSDIR}
 
-CONFIGURE_ENV=	QTDIR="${WRKSRC}" 
+CONFIGURE_ENV+=		QTDIR="${WRKSRC}"
 
 SUBPACKAGE?=
 
 LIB_DEPENDS=
-BUILD_DEPENDS=::graphics/jpeg
-BUILD_DEPENDS=::print/cups
+BUILD_DEPENDS=		::graphics/jpeg
+BUILD_DEPENDS=		::print/cups
 
 e=
 .if ${FLAVOR:L:Mno_mysql}
@@ -119,28 +118,28 @@ e:=$e,no_postgresql
 .endif
 
 .if !empty(FLAVOR:L:Mno_mysql)
-CONFIGURE_ARGS+=-no-sql-mysql
+CONFIGURE_ARGS+=	-no-sql-mysql
 .else
 MULTI_PACKAGES+=	-mysql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-mysql"
-LIB_DEPENDS+=mysqlclient::databases/mysql
+LIB_DEPENDS+=		mysqlclient::databases/mysql
 .  endif
-CONFIGURE_ARGS+= -I${LOCALBASE}/include/mysql -L${LOCALBASE}/lib/mysql \
-	-plugin-sql-mysql
+CONFIGURE_ARGS+=	-I${LOCALBASE}/include/mysql -L${LOCALBASE}/lib/mysql \
+			-plugin-sql-mysql
 .endif
 
 .if !empty(FLAVOR:L:Mno_postgresql)
-CONFIGURE_ARGS+=-no-sql-psql
+CONFIGURE_ARGS+=	-no-sql-psql
 .else
 MULTI_PACKAGES+=	-postgresql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-postgresql"
-LIB_DEPENDS+=pq.2:postgresql-client-*:databases/postgresql
-BUILD_DEPENDS+=::databases/postgresql,-server
+LIB_DEPENDS+=		pq:postgresql-client-*:databases/postgresql
+BUILD_DEPENDS+=		::databases/postgresql,-server
 .  endif
-CONFIGURE_ARGS+= -I${LOCALBASE}/include/postgresql \
-	    -I${LOCALBASE}/include/postgresql/server \
-	    -L${LOCALBASE}/lib \
-	    -I${LOCALBASE}/include -plugin-sql-psql
+CONFIGURE_ARGS+=	-I${LOCALBASE}/include/postgresql \
+			-I${LOCALBASE}/include/postgresql/server \
+			-L${LOCALBASE}/lib \
+			-I${LOCALBASE}/include -plugin-sql-psql
 .endif
 
 .if ${SUBPACKAGE} == "-examples" || ${SUBPACKAGE} == ""
@@ -148,41 +147,42 @@ myWANTLIB+=	pthread stdc++ c
 .endif
 
 .if !defined(PACKAGING) || ${SUBPACKAGE} != "-html"
-LIB_DEPENDS+=	png.2::graphics/png \
-		mng.1::graphics/libmng
+LIB_DEPENDS+=		png::graphics/png \
+			mng::graphics/libmng
 WANTLIB=	${myWANTLIB}
 .endif
 
 .if defined(PACKAGING) && ${SUBPACKAGE} != "-html" && ${SUBPACKAGE} != ""
-LIB_DEPENDS+=	qt-mt.3::x11/qt3$e
+LIB_DEPENDS+=		qt-mt.3::x11/qt3$e
 .endif
 
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-html"
-PKG_ARCH=	*
+PKG_ARCH=		*
 .endif
 
-QT_INCDIR=	${PREFIX}/include/X11/qt3
-TRUEDIR=	${TRUEPREFIX}/lib/qt3
-QT_LIBDIR=	${PREFIX}/lib/qt3
-QT_MANDIR=	${QT_LIBDIR}/man
-QT_EXAMPLES=	${QT_LIBDIR}/examples
-QT_TUTORIAL=	${QT_LIBDIR}/tutorial
-QT_DOC=		${PREFIX}/share/doc/qt3
-QT_PLUGINSDIR=	${QT_LIBDIR}/${QT_PLUGINS}
-QT_BINDIR=	${QT_LIBDIR}/bin
+QT_INCDIR=		${PREFIX}/include/X11/qt3
+TRUEDIR=		${TRUEPREFIX}/lib/qt3
+QT_LIBDIR=		${PREFIX}/lib/qt3
+QT_MANDIR=		${QT_LIBDIR}/man
+QT_EXAMPLES=		${QT_LIBDIR}/examples
+QT_TUTORIAL=		${QT_LIBDIR}/tutorial
+QT_DOC=			${PREFIX}/share/doc/qt3
+QT_PLUGINSDIR=		${QT_LIBDIR}/${QT_PLUGINS}
+QT_BINDIR=		${QT_LIBDIR}/bin
 
 # for manpages in MESSAGE
-SUBST_VARS=	QT_LIBDIR QT_DOC QT_PLUGINS
+SUBST_VARS=		QT_LIBDIR QT_DOC QT_PLUGINS
 
-DOCS=	FAQ LICENSE.GPL README README-QT.TXT \
-	changes-3* \
-	README.immodule changes.immodule
+DOCS=			FAQ LICENSE.GPL README README-QT.TXT \
+			changes-3* \
+			README.immodule changes.immodule
 
-VMEM_WARNING=	Yes
-NO_REGRESS=	Yes
+VMEM_WARNING=		Yes
+NO_REGRESS=		Yes
 
-PROGRAMS3=designer findtr moc qt20fix qtrename140 uic
-PROGRAMS=assistant linguist lrelease lupdate qm2ts qmake qtconfig 
+PROGRAMS3=		designer findtr moc qt20fix qtrename140 uic
+PROGRAMS=		assistant linguist lrelease lupdate qm2ts \
+			qmake qtconfig
 
 .if !${FLAVOR:L:Mdebug}
 post-configure:
