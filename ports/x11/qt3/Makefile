@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.4 2006/01/11 17:10:37 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.5 2006/01/11 17:44:24 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -67,7 +67,7 @@ CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 			-qt-imgfmt-mng -qt-imgfmt-png -qt-imgfmt-jpeg \
 			-sm -no-g++-exceptions \
 			-v -stl -xrender -xft -fast \
-			-no-sql-odbc \
+			-no-sql-odbc -no-odbc -no-ibase \
 			-tablet \
 			-xinerama \
 			-no-cups \
@@ -116,7 +116,7 @@ e:=$e,no_postgresql
 .endif
 
 .if !empty(FLAVOR:L:Mno_mysql)
-CONFIGURE_ARGS+=	-no-sql-mysql
+CONFIGURE_ARGS+=	-no-sql-mysql -no-mysql
 .else
 MULTI_PACKAGES+=	-mysql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-mysql"
@@ -127,7 +127,7 @@ CONFIGURE_ARGS+=	-I${LOCALBASE}/include/mysql -L${LOCALBASE}/lib/mysql \
 .endif
 
 .if !empty(FLAVOR:L:Mno_postgresql)
-CONFIGURE_ARGS+=	-no-sql-psql
+CONFIGURE_ARGS+=	-no-sql-psql -no-psql
 .else
 MULTI_PACKAGES+=	-postgresql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-postgresql"
@@ -176,6 +176,10 @@ NO_REGRESS=		Yes
 PROGRAMS3=		designer findtr moc qt20fix qtrename140 uic
 PROGRAMS=		assistant linguist lrelease lupdate qm2ts \
 			qmake qtconfig
+
+post-patch:
+	print '%g/@@CC@@/s//${CC}/\n%g/@@CXX@@/s//${CXX}/\nwq' \
+	    | ed -s ${WRKSRC}/mkspecs/openbsd-g++/qmake.conf
 
 .if !${FLAVOR:L:Mdebug}
 post-configure:
