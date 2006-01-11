@@ -1,8 +1,8 @@
+# $MirOS$
 # $OpenBSD: qt3.port.mk,v 1.3 2006/01/02 16:59:37 espie Exp $
 
-MODULES+=	gcc3
-MODGCC3_ARCHES+=sparc64
-MODGCC3_LANGS+=	c++
+USE_CXX=		Yes
+USE_X11=		Yes
 
 # This fragment uses MODQT_* variables to make it easier to substitute
 # qt1/qt2/qt3 in a port.
@@ -19,7 +19,7 @@ _MODQT_SETUP=		MOC=${MODQT_MOC} \
 _MODQT_SETUP+=		UIC=${MODQT_UIC}
 .endif
 
-LIB_DEPENDS+=lib/qt3/qt-mt.3::x11/qt3
+LIB_DEPENDS+=		lib/qt3/qt-mt::x11/qt3
 # may be needed to find plugins
 MODQT_MOC=		${LOCALBASE}/bin/moc3-mt
 MODQT_UIC=		${LOCALBASE}/bin/uic3-mt

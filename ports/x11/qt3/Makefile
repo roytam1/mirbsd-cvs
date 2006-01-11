@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -7,36 +8,31 @@ COMMENT-html=		"off-line html documentation for qt3"
 COMMENT-postgresql=	"PostgresSQL plugin for qt3"
 COMMENT-mysql=		"MySQL plugin for qt3"
 
-PKGNAME=		qt3-${VERSION}
-PKGNAME-mysql=		qt3-mysql-${VERSION}p0
-PKGNAME-postgresql=	qt3-postgresql-${VERSION}p0
-PKGNAME-examples=	qt3-examples-${VERSION}
-FULLPKGNAME=		qt3-mt-${VERSION}p2${PKGDEBUG}
-FULLPKGNAME-html=	qt3-html-${VERSION}
-SHARED_LIBS=		qt-mt	3.35 \
-			qui	1.0 \
-			qui-mt	1.0
+PKGNAME=		qt3-${VERSION}-${PL}
+PKGNAME-mysql=		qt3-mysql-${VERSION}-${PL}
+PKGNAME-postgresql=	qt3-postgresql-${VERSION}-${PL}
+PKGNAME-examples=	qt3-examples-${VERSION}-${PL}
+FULLPKGNAME=		qt3-mt-${VERSION}-${PL}${PKGDEBUG}
+FULLPKGNAME-html=	qt3-html-${VERSION}-${PL}
 
-# note that qui-mt is a `false' library, just a link to qui.
-
-# XXX be sure to update the qt3.port.mk version after a qt bump.
+# XXX this is wrong, let libtool handle it instead
+LIBqt-mt_VERSION=	99.1
+LIBqui_VERSION=		98.2
 QT_PLUGINS=		plugins-${LIBqt-mt_VERSION:R}
 
-
 VERSION=		3.5
+PL=			0
 DISTNAME=		qt-x11-free-3.${VERSION}
-CATEGORIES=		x11
+CATEGORIES=		x11 kde
 MASTER_SITES=		ftp://ftp.troll.no/qt/source/
 MASTER_SITES0=		http://freedesktop.org/~daisuke/
 PATCHFILES=		qt-x11-immodule-unified-qt3.3.5-20051018.diff.bz2:0
 PATCH_DIST_STRIP=	-p1
 
 pre-configure:
-	cd ${WRKDIST} && /bin/sh ./make-symlinks.sh
+	cd ${WRKDIST} && ${MKSH} ./make-symlinks.sh
 
 HOMEPAGE=		http://www.trolltech.com/qt/
-
-MAINTAINER=	Marc Espie <espie@openbsd.org>
 
 FLAVORS=		debug
 PSEUDO_FLAVORS=		mt no_examples no_mysql no_postgresql
@@ -47,24 +43,26 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
-myWANTLIB=		GL GLU ICE SM X11 Xcursor Xext Xft Xi Xinerama Xmu \
-			Xrandr Xrender fontconfig freetype jpeg lcms m z
 
 USE_X11=		Yes
-MAKE_ENV=		QTDIR="${WRKDIST}" EXTRA_SAMPLES="${EXTRA_SAMPLES}" \
-			SYS_CXX="${CXX}" SYS_CXXFLAGS="${CXXFLAGS}" \
-			LD_LIBRARY_PATH="${WRKDIST}/lib"
+USE_CXX=		Yes
+MAKE_ENV+=		QTDIR=${WRKDIST:Q} EXTRA_SAMPLES=${EXTRA_SAMPLES:Q} \
+			SYS_CXX=${CXX:Q} SYS_CXXFLAGS=${CXXFLAGS:Q}
+
+.include <mirports.sys.mk>
+.if defined(_OUR_LDLIBPATH) && !empty(_OUR_LDLIBPATH)
+_OUR_LDLIBPATH:=${WRKDIST}/lib:${_OUR_LDLIBPATH}
+.else
+_OUR_LDLIBPATH=${WRKDIST}/lib
+.endif
 
 # For qsettings to write its setup
 PORTHOME=		${WRKDIST}
 
-MAKE_FLAGS=		DESIGNER_SUBDIR=dummy \
-			LIBqt-mt_VERSION=$(LIBqt-mt_VERSION) \
-			LIBqui_VERSION=$(LIBqui_VERSION)
-FAKE_FLAGS=		$(MAKE_FLAGS) DESTDIR=${WRKINST}
+EXTRA_XAKE_FLAGS+=	DESIGNER_SUBDIR=dummy
 
 CONFIGURE_STYLE=	simple
-CONFIGURE_ARGS=		-qt-gif -system-libmng -system-libpng \
+CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 			-system-libjpeg -system-zlib \
 			-qt-imgfmt-mng -qt-imgfmt-png -qt-imgfmt-jpeg \
 			-sm -no-g++-exceptions \
@@ -101,13 +99,13 @@ ALL_TARGET=		sub-src sub-tools
 CONFIGURE_ARGS+=	-prefix ${QT_LIBDIR}
 CONFIGURE_ARGS+=	-plugindir ${QT_PLUGINSDIR}
 
-CONFIGURE_ENV+=		QTDIR="${WRKSRC}"
+CONFIGURE_ENV+=		QTDIR=${WRKSRC:Q}
 
 SUBPACKAGE?=
 
 LIB_DEPENDS=
-BUILD_DEPENDS=		::graphics/jpeg
-BUILD_DEPENDS=		::print/cups
+BUILD_DEPENDS+=		::graphics/jpeg
+BUILD_DEPENDS+=		::print/cups
 
 e=
 .if ${FLAVOR:L:Mno_mysql}
@@ -142,14 +140,9 @@ CONFIGURE_ARGS+=	-I${LOCALBASE}/include/postgresql \
 			-I${LOCALBASE}/include -plugin-sql-psql
 .endif
 
-.if ${SUBPACKAGE} == "-examples" || ${SUBPACKAGE} == ""
-myWANTLIB+=	pthread stdc++ c
-.endif
-
 .if !defined(PACKAGING) || ${SUBPACKAGE} != "-html"
 LIB_DEPENDS+=		png::graphics/png \
 			mng::graphics/libmng
-WANTLIB=	${myWANTLIB}
 .endif
 
 .if defined(PACKAGING) && ${SUBPACKAGE} != "-html" && ${SUBPACKAGE} != ""
