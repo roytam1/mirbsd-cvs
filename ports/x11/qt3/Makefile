@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/qt3/Makefile,v 1.3 2006/01/11 17:09:59 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -70,7 +70,7 @@ CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 			-no-sql-odbc \
 			-tablet \
 			-xinerama \
-			-cups \
+			-no-cups \
 			-inputmethod \
 			-I${LOCALBASE}/include/libpng \
 			-I${X11BASE}/include/freetype2 \
@@ -105,7 +105,7 @@ SUBPACKAGE?=
 
 LIB_DEPENDS=
 BUILD_DEPENDS+=		::graphics/jpeg
-BUILD_DEPENDS+=		::print/cups
+#BUILD_DEPENDS+=	::print/cups
 
 e=
 .if ${FLAVOR:L:Mno_mysql}
