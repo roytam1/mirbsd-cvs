@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.6 2006/01/11 17:49:51 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.7 2006/01/11 17:55:33 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -16,8 +16,8 @@ FULLPKGNAME=		qt3-mt-${VERSION}-${PL}${PKGDEBUG}
 FULLPKGNAME-html=	qt3-html-${VERSION}-${PL}
 
 # XXX this is wrong, let libtool handle it instead
-LIBqt-mt_VERSION=	99.1
-LIBqui_VERSION=		98.2
+LIBqt-mt_VERSION=	3.3
+LIBqui_VERSION=		1.0
 QT_PLUGINS=		plugins-${LIBqt-mt_VERSION:R}
 
 VERSION=		3.5

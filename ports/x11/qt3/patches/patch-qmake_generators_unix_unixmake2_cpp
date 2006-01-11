@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-qmake_generators_unix_unixmake2_cpp,v 1.14 2005/12/28 16:50:59 espie Exp $
---- qmake/generators/unix/unixmake2.cpp.orig	Fri Sep  2 14:43:19 2005
-+++ qmake/generators/unix/unixmake2.cpp	Tue Dec 27 19:45:53 2005
+--- qmake/generators/unix/unixmake2.cpp.orig	Fri Sep  2 12:42:57 2005
++++ qmake/generators/unix/unixmake2.cpp	Wed Jan 11 18:12:18 2006
 @@ -295,10 +295,15 @@ UnixMakefileGenerator::writeMakeParts(QT
      } else if (!project->isActiveConfig("staticlib") && project->variables()["QMAKE_APP_FLAG"].isEmpty()) {
  	t << "TARGETA	= " << var("TARGETA") << endl;
@@ -58,3 +59,17 @@ $OpenBSD: patch-qmake_generators_unix_unixmake2_cpp,v 1.14 2005/12/28 16:50:59 e
  	}
  	if(project->isEmpty("QMAKE_LN_SHLIB"))
  	    project->variables()["QMAKE_LN_SHLIB"].append("ln -s");
+@@ -1441,9 +1459,13 @@ UnixMakefileGenerator::writeLibtoolFile(
+     if(project->isActiveConfig("plugin")) {
+ 	t << var("TARGET");
+     } else {
++        if ( !project->variables()["QMAKE_OPENBSD_SHLIBS"].isEmpty() ) {
++	  t << var("TARGET_x.y");
++	} else {
+     	if (project->isEmpty("QMAKE_HPUX_SHLIB"))
+ 	    t << var("TARGET_x.y.z") << " ";
+     	t << var("TARGET_x") << " " << var("TARGET_");
++	}
+     }
+     t << "'\n\n";
+ 
