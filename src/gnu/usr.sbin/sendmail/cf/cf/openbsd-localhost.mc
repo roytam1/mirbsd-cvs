@@ -1,6 +1,6 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.2 2005/03/13 15:11:42 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.3 2005/04/26 21:04:38 tg Exp $
 #
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -22,7 +22,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.2 2005/03/13 15:11:42 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.3 2005/04/26 21:04:38 tg Exp $')
 OSTYPE(openbsd)dnl
 FEATURE(nouucp, `reject')dnl
 FEATURE(`accept_unresolvable_domains')dnl
@@ -39,4 +39,5 @@ dnl
 dnl Some broken nameservers will return SERVFAIL (a temporary failure) 
 dnl on T_AAAA (IPv6) lookups.
 define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
+define(`confCACERT_PATH', `/etc/ssl/certs')dnl
 define(`confSEVEN_BIT_INPUT', `True')dnl
