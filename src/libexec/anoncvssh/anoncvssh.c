@@ -1,7 +1,7 @@
-/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.4 2005/12/16 16:59:59 tg Exp $ */
+/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.5 2005/12/16 23:37:43 tg Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005
+ * Copyright (c) 2004, 2005, 2006
  *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -87,11 +87,13 @@
  * CVS repository remotely
  */
 #ifndef HOSTNAME
-#if defined(FQDN) && defined(ANONCVS_USER)
-#define HOSTNAME	ANONCVS_USER "@" FQDN
-#else
-#define HOSTNAME	"_anoncvs@thor.66h.42h.de"
+#if !defined(FQDN) || !defined(ANONCVS_USER)
+#undef FQDN
+#undef ANONCVS_USER
+#define ANONCVS_USER	"_anoncvs"
+#define FQDN		"mirbsd.org"
 #endif
+#define HOSTNAME	ANONCVS_USER "@" FQDN
 #endif /* ndef HOSTNAME */
 
 /*
@@ -124,7 +126,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.4 2005/12/16 16:59:59 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.5 2005/12/16 23:37:43 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>

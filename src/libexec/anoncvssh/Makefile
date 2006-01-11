@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/anoncvssh/Makefile,v 1.3 2005/12/16 16:09:45 tg Exp $
+# $MirOS: src/libexec/anoncvssh/Makefile,v 1.4 2005/12/16 23:37:43 tg Exp $
 
 # Note: you DO want to compile this, as well as the anoncvsbin
 # and rsync, statically. It is not possible, however, to do that
@@ -11,11 +11,11 @@ DEFS+=	-DLOCALROOT=\"/cvs\"
 
 # Two ways to specify the user/host part of $CVSROOT:
 # a) Simple - just specify user@host
-#DEFS+=	-DHOSTNAME=\"_anoncvs@mirsolutions.de\"
-# b) Split - define user and host
+#DEFS+=	-DHOSTNAME=\"_anoncvs@host.domain.com\"
+# b) Split - define user and host (default)
 #    Advantage: a warning will be issued if someone
 #    other than the user specified (or root) invokes us.
-DEFS+=	-DANONCVS_USER=\"_anoncvs\" -DFQDN=\"host.domain.com\"
+#DEFS+=	-DANONCVS_USER=\"_anoncvs\" -DFQDN=\"host.domain.com\"
 
 # Enable rsync for the user.
 # Warning: this also makes rsync writes possible
