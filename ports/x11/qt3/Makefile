@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.3 2006/01/11 17:09:59 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.4 2006/01/11 17:10:37 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -36,7 +36,7 @@ HOMEPAGE=		http://www.trolltech.com/qt/
 
 FLAVORS=		debug
 PSEUDO_FLAVORS=		mt no_examples no_mysql no_postgresql
-FLAVOR?=
+FLAVOR?=		no_examples no_mysql no_postgresql
 
 # GPL/QPL
 PERMIT_PACKAGE_CDROM=	Yes
