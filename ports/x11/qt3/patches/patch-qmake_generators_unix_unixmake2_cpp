@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/x11/qt3/patches/patch-qmake_generators_unix_unixmake2_cpp,v 1.2 2006/01/11 18:13:33 tg Exp $
 $OpenBSD: patch-qmake_generators_unix_unixmake2_cpp,v 1.14 2005/12/28 16:50:59 espie Exp $
 --- qmake/generators/unix/unixmake2.cpp.orig	Fri Sep  2 12:42:57 2005
 +++ qmake/generators/unix/unixmake2.cpp	Wed Jan 11 18:12:18 2006
@@ -22,7 +22,7 @@ $OpenBSD: patch-qmake_generators_unix_unixmake2_cpp,v 1.14 2005/12/28 16:50:59 e
  	} else {
  	    t << "TARGETD	= " << var("TARGET_x") << endl;
  	    t << "TARGET0	= " << var("TARGET_") << endl;
-@@ -1293,10 +1298,20 @@ void UnixMakefileGenerator::init2()
+@@ -1293,10 +1298,21 @@ void UnixMakefileGenerator::init2()
  		project->variables()["TARGET_x"].append("lib" + project->first("TARGET") + "." +
  							project->first("QMAKE_EXTENSION_SHLIB") +
  							"." + project->first("VER_MAJ"));
@@ -37,7 +37,8 @@ $OpenBSD: patch-qmake_generators_unix_unixmake2_cpp,v 1.14 2005/12/28 16:50:59 e
 +		    project->variables()["OBSD_TARGET_NAME"].append(project->first("TARGET"));
 +		    project->variables()["TARGET_x.y"].append("lib" + project->first("TARGET") + "." +
 +							  project->first("QMAKE_EXTENSION_SHLIB")
-+							  + ".$(LIB"+ project->first("TARGET") + "_VERSION)");
++							  + "." + project->first("VER_MAJ") +
++							  "." + s);
 +		} else {
 +		    project->variables()["TARGET_x.y"].append("lib" + project->first("TARGET") + "." +
 +							  project->first("QMAKE_EXTENSION_SHLIB")
