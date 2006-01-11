@@ -1,13 +1,13 @@
-# $MirOS: ports/graphics/lcms/Makefile,v 1.1.7.1 2005/03/18 15:46:58 tg Exp $
+# $MirOS: ports/graphics/lcms/Makefile,v 1.2 2005/04/28 20:24:18 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/03 05:15:16 brad Exp $
 
-COMMENT=	"color management library"
-DISTNAME=	lcms-1.14
-CATEGORIES=	graphics
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=lcms/}
-HOMEPAGE=	http://www.littlecms.com/
-LIB_DEPENDS+=	jpeg::graphics/jpeg \
-		tiff::graphics/tiff
+COMMENT=		"color management library"
+DISTNAME=		lcms-1.15
+CATEGORIES=		graphics
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=lcms/}
+HOMEPAGE=		http://www.littlecms.com/
+LIB_DEPENDS+=		jpeg::graphics/jpeg \
+			tiff::graphics/tiff
 
 # MIT
 PERMIT_PACKAGE_CDROM=	Yes
