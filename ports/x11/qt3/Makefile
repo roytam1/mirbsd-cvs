@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.8 2006/01/11 18:13:32 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.9 2006/01/11 18:25:27 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -35,8 +35,8 @@ pre-configure:
 HOMEPAGE=		http://www.trolltech.com/qt/
 
 FLAVORS=		debug
-PSEUDO_FLAVORS=		mt no_examples no_mysql no_postgresql
-FLAVOR?=		no_examples no_mysql no_postgresql
+PSEUDO_FLAVORS=		mt no_mysql no_postgresql
+FLAVOR?=		no_mysql no_postgresql
 
 # GPL/QPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -89,7 +89,7 @@ PKGDEBUG=
 
 CONFIGURE_ARGS+=	-thread
 
-.if !${FLAVOR:L:Mdebug} && !${FLAVOR:L:Mno_examples}
+.if !${FLAVOR:L:Mdebug}
 MULTI_PACKAGES+=	-examples
 .else
 ALL_TARGET=		sub-src sub-tools
