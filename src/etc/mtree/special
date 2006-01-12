@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.6 2005/09/25 16:48:19 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.7 2006/01/01 01:38:48 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -143,7 +143,7 @@ acct		type=file mode=0644 uname=root gname=wheel optional
 backups		type=dir mode=0700 uname=root gname=wheel ignore
 ..	#var/backups
 cron		type=dir mode=0555 uname=root gname=wheel
-log		type=file mode=0600 uname=root gname=wheel
+log		type=file mode=0600 uname=root gname=wheel optional
 atjobs		type=dir mode=01770 uname=root gname=crontab ignore
 ..	#var/cron/atjobs
 tabs		type=dir mode=01730 uname=root gname=crontab ignore
