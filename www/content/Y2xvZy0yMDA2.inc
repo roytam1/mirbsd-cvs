@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.1 2006/01/01 05:48:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.2 2006/01/10 23:48:35 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -29,7 +29,9 @@
  <li>base: small format string bug fixes</li>
  <li>build: roff2man bugfix for trespassing &quot;&gt; barriers</li>
  <li>installer: allow alphanumeric user names; add to groups staff, wsrc</li>
+<!--
  <li>kernel: binary compatibility for pre-#8 MirOS was removed</li>
+-->
  <li>kernel: compat_linux(8) now does ptrace(2), from NetBSD&reg;</li>
  <li>mirmake: Libraries built contain debugging information</li>
  <li>mirmake: add -g1 to CFLAGS if DEBUGLIBS (bsd.cfwrap.mk)</li>
