@@ -1,9 +1,9 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.2 2005/11/18 00:22:05 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.3 2005/12/14 23:13:18 tg Exp $
 
 COMMENT=		"collection of tools for managing unix services"
 CATEGORIES=		sysutils
 DISTNAME=		daemontools-0.76
-PKGNAME=		${DISTNAME}-2
+PKGNAME=		${DISTNAME}-3
 HOMEPAGE=		http://cr.yp.to/daemontools.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
@@ -44,6 +44,8 @@ do-install:
 		chmod u+w $$a; \
 		print '%g!/usr/local!s!!${TRUEPREFIX}!g\nwq' | ed -s $$a; \
 	done
+	print '%g!^/command!s!!${TRUEPREFIX}/bin!\nwq' \
+	    | ed -s ${WRKSRC}/admin/${DISTNAME}/src/svscanboot
 	${INSTALL_SCRIPT} ${WRKSRC}/admin/${DISTNAME}/src/svscanboot ${PREFIX}/bin/
 .for i in ${MAN8LIST}
 	${INSTALL_MAN} ${WRKDIR}/daemontools-man/$i.8 ${PREFIX}/man/man8
