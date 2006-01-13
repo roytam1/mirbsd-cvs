@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.10 2006/01/03 01:38:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.11 2006/01/03 03:41:36 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -150,6 +150,23 @@ celebrate this event, rotate the wlog and start a new one.</p>
   a stand-alone MBR, and what else you could need to recover. The rest
   is a standard 0x27 partition with the wd0a of a regular boot, /home,
   swap, whatever. The "irregular" wd0a need not even be in there.</p>
+</div>
+
+<div class="wlentry">
+ <h3>13.01.2006 by tg@</h3>
+ <p>I've fixed a few things (code cleanliness) and built a snapshot to
+  see if it works (another one &ndash; there was one on 03.01. already
+  which bsiegert@ has announced today at freshmeat). This one also has
+  taken care of the always changing domains. I'm updating MirOS #8 (by
+  mkdir updates) with current MirPorts as well.</p>
+ <p>My little brother and bogus came here, teaching me Maths, drinking
+  Met and having fun, after a good meal. I need it; university is some
+  weird shit, something else really. It's not my favourite but I still
+  want to do 2 semesters before going to work (so I can continue later
+  if I want).</p>
+ <p>Nothing else in peculiar... bsiegert@ has got a girlfriend, thusly
+  #8-stable is lagging quite a bit. My new dedicated server also could
+  need some more attention.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
