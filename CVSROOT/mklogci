@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.14 2005/12/19 18:12:50 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.15 2005/12/22 01:14:31 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -217,7 +217,7 @@ set -A changed_files
 set -A added_files
 set -A removed_files
 set -A log_lines
-while IFS= read line; do
+while IFS= read -r line; do
 	case $line {
 	(Modified\ Files*)
 		status=changed
