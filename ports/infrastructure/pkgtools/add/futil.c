@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/add/futil.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/add/futil.c,v 1.2 2005/05/20 23:48:52 tg Exp $ */
 /*	$OpenBSD: futil.c,v 1.7 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/futil.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/futil.c,v 1.2 2005/05/20 23:48:52 tg Exp $");
 
 /*
  * Assuming dir is a desired directory name, make it and all intervening
@@ -83,7 +83,12 @@ apply_perms(const char *dir, char *arg)
 		   arg, real_owner, real_group);
     }
 #endif
-    if (Mode)
+    if (Mode) {
 	if (vsystem("cd %s && chmod -R %s %s", cd_to, Mode, arg))
 	    pwarnx("couldn't change modes of '%s' to '%s'", arg, Mode);
+#ifdef AS_USER
+	if (vsystem("cd %s && chmod -R a-st %s", cd_to, arg))
+	    pwarnx("SECURITY WARNING: could not reset sugid/itxt bits on '%s', arg);
+#endif
+    }
 }
