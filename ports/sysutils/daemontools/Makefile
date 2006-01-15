@@ -1,9 +1,10 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.3 2005/12/14 23:13:18 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.4 2006/01/13 02:55:55 tg Exp $
 
 COMMENT=		"collection of tools for managing unix services"
 CATEGORIES=		sysutils
 DISTNAME=		daemontools-0.76
-PKGNAME=		${DISTNAME}-3
+MANVER=			20020131
+PKGNAME=		${DISTNAME}-4
 HOMEPAGE=		http://cr.yp.to/daemontools.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
@@ -15,9 +16,10 @@ PERMIT_PACKAGE_FTP=	No
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	"http://cr.yp.to/distributors.html"
 
-DISTFILES=	${DISTNAME}${EXTRACT_SUFX} ${DISTNAME}-man${EXTRACT_SUFX}:0
+DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
+		${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
 MASTER_SITES=	http://cr.yp.to/daemontools/
-MASTER_SITES0=	${_MASTER_SITE_MIRBSD}
+MASTER_SITES0=	http://smarden.org/pape/djb/manpages/
 
 MAN8LIST=	envdir envuidgid fghack multilog setlock setuidgid softlimit \
 		supervise svc svok svscan svstat tai64n tai64nlocal \

@@ -1,6 +1,6 @@
-$MirOS$
---- man/axfr-get.8.orig	Sat Jul  2 10:42:25 2005
-+++ man/axfr-get.8	Sat Jul  2 10:42:35 2005
+$MirOS: ports/net/djbdns/patches/patch-man_axfr-get_8,v 1.1 2005/07/02 10:44:14 tg Exp $
+--- man/axfr-get.8.orig	Thu Oct 23 07:43:53 2003
++++ man/axfr-get.8	Sun Jan 15 12:56:07 2006
 @@ -3,11 +3,6 @@
  .SH NAME
  axfr-get \- a DNS zone-transfer client.
@@ -10,7 +10,7 @@ $MirOS$
 -reads the results from descriptor 6,
 -and saves the results in a file.
 -
- .SH SYNOIPSIS
+ .SH SYNOPSIS
  Normally 
  .B axfr-get
 @@ -21,6 +16,11 @@ which sets up descriptors 6 and 7 as a T

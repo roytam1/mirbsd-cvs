@@ -1,10 +1,11 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.8 2005/12/06 20:37:25 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.9 2005/12/14 23:27:51 tg Exp $
 
 COMMENT=		"collection of Domain Name System server and tools"
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-PKGNAME=		djbdns-${VERSION}-15
+MANVER=			20031023
+PKGNAME=		djbdns-${VERSION}-16
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
@@ -19,10 +20,10 @@ FLAVORS=		eorsn icann opennic
 FLAVOR?=		eorsn
 
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
-			${DISTNAME}-man${EXTRACT_SUFX}:0
+			${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
 MASTER_SITES=		http://cr.yp.to/djbdns/ \
 			ftp://ftp.id.wustl.edu/pub/qmail/
-MASTER_SITES0=		${_MASTER_SITE_MIRBSD}
+MASTER_SITES0=		http://smarden.org/pape/djb/manpages/
 
 RUN_DEPENDS=		::sysutils/daemontools
 NO_REGRESS=		Yes
