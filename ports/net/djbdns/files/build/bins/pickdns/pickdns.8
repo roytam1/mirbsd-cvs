@@ -1,0 +1,59 @@
+.TH pickdns 8
+
+.SH NAME
+pickdns \- a load-balancing DNS server.
+
+.SH DESCRIPTION
+.B pickdns
+accepts iterative DNS queries
+from hosts around the Internet,
+and responds with a dynamic selection of locally configured IP addresses
+with 5-second TTLs.
+
+In versions 1.04 and above, the features of
+.B pickdns
+have been integrated into
+.BR tinydns (8).
+
+.SH Configuration
+Normally 
+.B pickdns
+is set up by the
+.BR pickdns-conf (8)
+program.
+
+.B pickdns
+runs chrooted in the directory
+specified by the 
+.I $ROOT
+environment variable,
+under the uid and gid
+specified by the 
+.I $UID
+and 
+.I $GID
+environment variables.
+
+.B pickdns
+listens for incoming UDP packets
+addressed to port 53 of 
+.IR $IP .
+It does not listen for TCP queries.
+
+.B pickdns
+rejects
+inverse queries, non-Internet-class queries, truncated packets,
+packets that contain anything other than a single query,
+and query types other than A or MX or *.
+It looks up other queries inside 
+.IR data.cdb ,
+a binary file created by
+.BR pickdns-data (8).
+
+.SH SEE ALSO
+pickdns-conf(8),
+pickdns-data(8)
+
+
+
+http://cr.yp.to/djbdns.html

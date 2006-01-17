@@ -1,0 +1,98 @@
+.TH pickdns-data 8
+
+.SH NAME
+pickdns-data \- data tool for pickdns
+
+.SH DESCRIPTION
+.B pickdns-data
+reads local IP addresses
+from a file named 
+.I data
+in the current directory.
+It creates 
+.I data.cdb
+in a binary format designed for
+fast access by 
+.BR pickdns (8).
+It may also create some other files
+with names beginning with 
+.IR data .
+
+.B pickdns-data
+updates 
+.I data.cdb
+atomically,
+so you can use it safely while 
+.BR pickdns (8)
+is running.
+If anything goes wrong with the creation of 
+.IR data.cdb ,
+.B pickdns-data
+stops and leaves the old 
+.I data.cdb
+in place.
+
+.SH Data format
+
++\fIfqdn\fR:\fIip\fR
+
+The domain name 
+.I fqdn
+has IP address 
+.IR ip .
+You can list as many as 128 IP addresses for the same name.
+
+
+-\fIfqdn\fR:\fIip\fR
+
+This type of line is used by programs that automatically edit 
+.I data
+to temporarily exclude addresses of overloaded or dead machines.
+The line is ignored.
+
+.RI # comment
+
+Comment line. The line is ignored.
+
+.SH Client differentiation
+
+.I pickdns
+can return results
+that depend on the location of the client.
+
+.B pickdns-data
+supports the following data lines:
+
+%\fIlo\fR:\fIipprefix\fR
+
+IP addresses starting with 
+.I ipprefix
+are in location 
+.IR lo .
+
+.I lo
+must be at most two bytes long:
+e.g., 
+.IR uk .
+
++\fIfqdn\fR:\fIip\fR:\fIlo\fR
+
+The domain name 
+.I fqdn
+has IP address
+.I ip
+for clients in location
+.IR lo .
+You can list as many as 128 IP addresses for the same name and location.
+This eliminates all non-location +\fIfqdn\fR:\fIip\fR
+lines
+from the point of view of those clients.
+
+-\fIfqdn\fR:\fIip\fR:\fIlo\fR
+
+Ignored.
+
+.SH SEE ALSO
+pickdns(8)
+
+http://cr.yp.to/djbdns.html
