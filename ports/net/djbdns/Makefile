@@ -1,11 +1,14 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.13 2006/01/17 21:08:43 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.14 2006/01/17 21:13:39 tg Exp $
+
+# uses arc4random(3)
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		"collection of Domain Name System server and tools"
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
 MANVER=			20031023
-PKGNAME=		djbdns-${VERSION}-20
+PKGNAME=		djbdns-${VERSION}-21
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
@@ -65,6 +68,8 @@ CONFIGURE_STYLE=	simple
 CONFIGURE_ENV+=		TOP=${WRKDIR} SYSCONFDIR=${SYSCONFDIR:Q}
 MAKE_ENV+=		TOP=${WRKDIR}
 CPPFLAGS+=		-D_SYSCONFDIR=\"${SYSCONFDIR:Q}\"
+CPPFLAGS+=		-D_DJBDNS_PORT_V=\"${PKGNAME:Q}\"
+CPPFLAGS+=		-D_PATH_MKSH=\"${MKSH:Q}\"
 
 post-extract:
 	cd ${FILESDIR}; find build -type f \! -path \*CVS\* \

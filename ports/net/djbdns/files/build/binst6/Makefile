@@ -1,9 +1,7 @@
-# $MirOS: ports/net/djbdns/files/build/bins/Makefile,v 1.1.201.1 2005/05/14 23:21:07 tg Exp $
+# $MirOS: ports/net/djbdns/files/build/binst6/Makefile,v 1.1 2005/12/14 23:28:08 tg Exp $
 
   SUBDIR+= libt6
   SUBDIR+= axfr-gett6
-  SUBDIR+= axfrdnst6
-  SUBDIR+= axfrdnst6-conf
   SUBDIR+= dnscachet6
   SUBDIR+= dnscachet6-conf
   SUBDIR+= dnsfiltert6

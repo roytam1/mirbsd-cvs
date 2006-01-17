@@ -1,0 +1,54 @@
+$MirOS$
+--- man/axfrdns-conf.8.orig	Thu Oct 23 08:09:45 2003
++++ man/axfrdns-conf.8	Tue Jan 17 22:30:43 2006
+@@ -28,6 +28,18 @@ Normally 
+ is 
+ .IR /etc/axfrdns .
+ 
++.B axfrdns-conf
++enables
++.B axfrdns
++to run in two different ways.
++You can use
++.BR tcpserver (1)
++which is not included in the MirPorts Framework but the
++default mode of operation, or you can run it from within
++.BR inetd (8).
++The latter option however also forces you to run it outside
++of the control of djb daemontools.
++
+ You can run the service under
+ .BR svscan (8)
+ by creating a symbolic link in the 
+@@ -65,6 +77,31 @@ into
+ .I tcp.cdb
+ for
+ .BR tcpserver (1).
++
++To run
++.B axfrdns
++within
++.BR inetd (8),
++first shut down the services after creating the
++directory, using the command:
++
++svc -dx 
++.I D
++.IR D /log
++
++After shutting down, remove both 
++.IR D /run
++and
++.IR D /log/run
++to avoid them being picked up by
++.BR svscanboot (8)
++on next reboot.
++Finally, read the comment in
++.IR D /inetd
++and patch
++.BR inetd.conf (5).
++You can also remove Makefile and tcp (and tcp.cdb) from
++.IR D .
+ 
+ .B axfrdns-conf
+ arranges for
