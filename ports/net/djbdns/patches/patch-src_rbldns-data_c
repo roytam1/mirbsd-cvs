@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_rbldns-data_c,v 1.1 2005/12/14 23:28:37 tg Exp $
 --- src/rbldns-data.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/rbldns-data.c	Tue Dec 13 23:02:56 2005
++++ src/rbldns-data.c	Tue Jan 17 20:53:13 2006
 @@ -42,7 +42,7 @@ void syntaxerror(const char *why)
  }
  void die_datatmp(void)
@@ -19,7 +19,23 @@ $MirOS$
    if (fdcdb == -1) die_datatmp();
    if (cdb_make_start(&cdb,fdcdb) == -1) die_datatmp();
  
-@@ -121,8 +121,8 @@ int main()
+@@ -89,6 +89,15 @@ int main()
+         if (cdb_make_add(&cdb,"",0,tmp.s,tmp.len) == -1)
+           die_datatmp();
+         break;
++      case '!': /* root entry */
++	j = byte_chr(line.s + 1,line.len - 1,':');
++	if (j >= line.len - 1) syntaxerror(": missing colon");
++	if (ip4_scan(line.s + 1,ip) != j) syntaxerror(": malformed IP address");
++	if (!stralloc_copyb(&tmp,ip,4)) nomem();
++	if (!stralloc_catb(&tmp,line.s + j + 2,line.len - j - 2)) nomem();
++        if (cdb_make_add(&cdb,"R",1,tmp.s,tmp.len) == -1)
++          die_datatmp();
++        break;
+       case '0': case '1': case '2': case '3': case '4':
+       case '5': case '6': case '7': case '8': case '9':
+ 	if (!stralloc_0(&line)) nomem();
+@@ -121,8 +130,8 @@ int main()
    if (cdb_make_finish(&cdb) == -1) die_datatmp();
    if (fsync(fdcdb) == -1) die_datatmp();
    if (close(fdcdb) == -1) die_datatmp(); /* NFS stupidity */
