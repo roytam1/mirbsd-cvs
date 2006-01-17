@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14 23:21:06 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.2 2005/12/14 23:28:40 tg Exp $
 --- src/tinydns-data.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/tinydns-data.c	Tue Dec 13 23:56:44 2005
++++ src/tinydns-data.c	Tue Jan 17 20:44:19 2006
 @@ -8,6 +8,7 @@
  #include "byte.h"
  #include "fmt.h"
@@ -89,7 +89,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  
  char strnum[FMT_ULONG];
  
-@@ -187,12 +220,14 @@ int main()
+@@ -187,15 +220,18 @@ int main()
    int i;
    int j;
    int k;
@@ -105,7 +105,11 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
    char type[2];
    char soa[20];
    char buf[4];
-@@ -206,7 +241,7 @@ int main()
++  char srv[6];
+ 
+   umask(022);
+ 
+@@ -206,7 +242,7 @@ int main()
  
    buffer_init(&b,buffer_unixread,fddata,bspace,sizeof bspace);
  
@@ -114,7 +118,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
    if (fdcdb == -1) die_datatmp();
    if (cdb_make_start(&cdb,fdcdb) == -1) die_datatmp();
  
-@@ -251,23 +286,22 @@ int main()
+@@ -251,23 +287,22 @@ int main()
  	if (!dns_domain_fromdot(&d1,f[0].s,f[0].len)) nomem();
  
  	if (!stralloc_0(&f[3])) nomem();
@@ -144,7 +148,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	ttdparse(&f[9],ttd);
  	locparse(&f[10],loc);
  
-@@ -282,8 +316,7 @@ int main()
+@@ -282,8 +317,7 @@ int main()
  
        case '.': case '&':
  	if (!dns_domain_fromdot(&d1,f[0].s,f[0].len)) nomem();
@@ -154,7 +158,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	ttdparse(&f[4],ttd);
  	locparse(&f[5],loc);
  
-@@ -308,24 +341,26 @@ int main()
+@@ -308,24 +342,26 @@ int main()
  	rr_addname(d2);
  	rr_finish(d1);
  
@@ -186,7 +190,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	  rr_start(DNS_T_A,ttl,ttd,loc);
  	  rr_add(ip,4);
  	  rr_finish(d1);
-@@ -336,13 +371,45 @@ int main()
+@@ -336,13 +372,45 @@ int main()
  	    rr_addname(d1);
  	    rr_finish(dptr);
  	  }
@@ -235,7 +239,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	ttdparse(&f[5],ttd);
  	locparse(&f[6],loc);
  
-@@ -355,7 +422,7 @@ int main()
+@@ -355,7 +423,7 @@ int main()
  	if (!dns_domain_fromdot(&d2,f[2].s,f[2].len)) nomem();
  
  	if (!stralloc_0(&f[3])) nomem();
@@ -244,7 +248,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  
  	rr_start(DNS_T_MX,ttl,ttd,loc);
  	uint16_pack_big(buf,u);
-@@ -363,18 +430,19 @@ int main()
+@@ -363,18 +431,58 @@ int main()
  	rr_addname(d2);
  	rr_finish(d1);
  
@@ -254,9 +258,47 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	  rr_start(DNS_T_A,ttl,ttd,loc);
  	  rr_add(ip,4);
  	  rr_finish(d2);
--	}
 +	} else if (f[1].len > 1)
 +	  die_semantic4("unparseable IP address in ","@"," line: ", f[1].s);
++	break;
++	
++      case 'S':
++	if (!dns_domain_fromdot(&d1,f[0].s,f[0].len)) nomem();
++	if (!stralloc_0(&f[6])) nomem();
++	if (!scan_ulong(f[6].s,&ttl)) ttl = TTL_POSITIVE;
++	ttdparse(&f[7],ttd);
++	locparse(&f[8],loc);
++
++	if (!stralloc_0(&f[1])) nomem();
++
++	if (byte_chr(f[2].s,f[2].len,'.') >= f[2].len) {
++	  if (!stralloc_cats(&f[2],".srv.")) nomem();
++	  if (!stralloc_catb(&f[2],f[0].s,f[0].len)) nomem();
+ 	}
++	if (!dns_domain_fromdot(&d2,f[2].s,f[2].len)) nomem();
++
++	if (!stralloc_0(&f[4])) nomem();
++	if (!scan_ulong(f[4].s,&u)) u = 0;
++	uint16_pack_big(srv,u);
++	if (!stralloc_0(&f[5])) nomem();
++	if (!scan_ulong(f[5].s,&u)) u = 0;
++	uint16_pack_big(srv + 2,u);
++	if (!stralloc_0(&f[3])) nomem();
++	if (!scan_ulong(f[3].s,&u)) nomem();
++	uint16_pack_big(srv + 4,u);
++
++	rr_start(DNS_T_SRV,ttl,ttd,loc);
++	rr_add(srv,6);
++	rr_addname(d2);
++	rr_finish(d1);
++
++	iplen = ip4_scan(f[1].s,ip);
++	if (iplen != 0 && iplen + 1 == f[1].len) {
++	  rr_start(DNS_T_A,ttl,ttd,loc);
++	  rr_add(ip,4);
++	  rr_finish(d2);
++	} else if (f[1].len > 1)
++	  die_semantic4("unparseable IP address in ","S"," line: ", f[1].s);
  	break;
  
        case '^': case 'C':
@@ -268,7 +310,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	ttdparse(&f[3],ttd);
  	locparse(&f[4],loc);
  
-@@ -388,8 +456,7 @@ int main()
+@@ -388,8 +496,7 @@ int main()
  
        case '\'':
  	if (!dns_domain_fromdot(&d1,f[0].s,f[0].len)) nomem();
@@ -278,7 +320,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	ttdparse(&f[3],ttd);
  	locparse(&f[4],loc);
  
-@@ -411,13 +478,12 @@ int main()
+@@ -411,13 +518,12 @@ int main()
  
        case ':':
  	if (!dns_domain_fromdot(&d1,f[0].s,f[0].len)) nomem();
@@ -294,7 +336,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-data_c,v 1.1.201.1 2005/05/14
  	uint16_pack_big(type,u);
  	if (byte_equal(type,2,DNS_T_AXFR))
  	  syntaxerror(": type AXFR prohibited");
-@@ -449,8 +515,8 @@ int main()
+@@ -449,8 +555,8 @@ int main()
    if (cdb_make_finish(&cdb) == -1) die_datatmp();
    if (fsync(fdcdb) == -1) die_datatmp();
    if (close(fdcdb) == -1) die_datatmp(); /* NFS stupidity */
