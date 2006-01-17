@@ -23,17 +23,20 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * $MirOS$
  * $Id$
  */
 
 #include "zonenotify.h"
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
 	int i = 2;
 	int ret = 0;
 
-	if (argc < 3) usage ();
+	if (argc < 3)
+		usage ();
 
 	while (i < argc) {
 		if (init_connection (argv[i]) != -1) {
@@ -44,44 +47,44 @@ int main(int argc, char *argv[])
 		i++;
 	}
 
-	exit (ret);
+	return (ret);
 }
 
-void usage ()
+__dead void
+usage(void)
 {
 	printf ("%s, %s\n\nusage: zonenotify zone slave [slave 2 ... [slave n]] \n", VERSION, AUTHOR);
 	printf ("where zone is the domain name to update on slave server ``slave''\n");
+	printf ("this send a \"NOTIFY\" packet to slave1 (slave2...slaveN) about zone\n"
+	    "\"zone\", if there are some problem zonenofity display the error message\n"
+	    "and exit 1, otherwise exit 0.\n");
 	exit (1);
 }
 
 /* connect to the nameserver */
-int init_connection (const char *server)
+int
+init_connection(const char *server)
 {
 	struct	sockaddr_in sa, sl;
 	struct	hostent *he;
 	int	isbind = 0;
 	int	i;
-	long	rand;
-	time_t	now;
-
-	time (&now);
-	srandom ((long) now);
 
 	s = socket (AF_INET, SOCK_DGRAM, 0);
 	if (s < 0) return -1;
 
-	/* local port: random */
 	memset (&sl, 0, sizeof (sl));
 	sl.sin_family = AF_INET;
 	sl.sin_addr.s_addr = htonl (INADDR_ANY);
 
 	for (i = 0; i < 12 && !isbind; i++) {
-		rand = 1025+(random () % 15000);
-		sl.sin_port = htons (rand);
-		isbind = (bind (s, (struct sockaddr *) &sl, sizeof (sl)) == 0);
+		/* local port: random */
+		sl.sin_port = htons(1025+(arc4random() % 15000));
+		isbind = (bind(s, (struct sockaddr *) &sl, sizeof (sl)) == 0);
 	}
 
-	if (!isbind) return -1;
+	if (!isbind)
+		return (-1);
 
 	/* destination port: nameserver (53) */
 	memset (&sa, 0, sizeof (sa));
@@ -103,13 +106,15 @@ int init_connection (const char *server)
 }
 
 /* close local socket */
-void stop_connection (void)
+void
+stop_connection(void)
 {
 	shutdown (s, SHUT_RDWR);
 }
 
 /* encode name string in ns query format */
-int ns_encode (char *str, char *buff)
+int
+ns_encode(char *str, char *buff)
 {
 	char *pos;
 	int size;
@@ -144,7 +149,8 @@ int ns_encode (char *str, char *buff)
 }
 
 /* send sequest to our DNS-cache server */
-int slave_notify (char *domain, const char *server)
+int
+slave_notify(char *domain, const char *server)
 {
 	static int	unique = 0;
 	char		buffer[PACKETSZ];
@@ -190,7 +196,7 @@ int slave_notify (char *domain, const char *server)
 
 	FD_ZERO (&active_fd_set);
 	FD_SET (s, &active_fd_set);
-	
+
 	/* send the request to the nameserver */
 	if (send (s, buffer, sizeof (HEADER)+reqlen, 0) == -1)
 		return -1;
@@ -208,9 +214,9 @@ int slave_notify (char *domain, const char *server)
 		hdr = (HEADER*) buffer;
 
 		if (hdr->qr && hdr->rcode) {
-			fprintf (stderr, "%s: %s\n", 
-					server, 
-					hdr->rcode < 23 ? dns_errors[hdr->rcode] : "unknow error");
+			fprintf (stderr, "%s: %s\n",
+					server,
+					hdr->rcode < 23 ? dns_errors[hdr->rcode] : "unknown error");
 			return -1;
 		}
 	}

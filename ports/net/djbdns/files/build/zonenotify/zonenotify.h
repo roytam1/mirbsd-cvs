@@ -23,16 +23,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * $MirOS$
  * $Id$
  */
 
-#include <stdio.h>
-#include <errno.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/time.h>
+#include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -40,15 +37,26 @@
 #ifdef _BSD
 #include <arpa/nameser_compat.h>
 #endif
+#include <stdio.h>
+#include <errno.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
 #include <netdb.h>
+#include <unistd.h>
 
+#ifdef _DJBDNS_PORT_V
+#define VERSION	"zonenotify " _DJBDNS_PORT_V
+#define AUTHOR	"MirPorts Framework"
+#else
 #define VERSION "zonenotify 0.01"
 #define AUTHOR	"Luca Morettoni <luca@morettoni.net>"
+#endif
 
 /* alarm timeout (second) */
 #define TIMEOUT	120
 
-char *dns_errors[] = {
+const char *dns_errors[] = {
 	"No error",
 	"Format error",
 	"Server failure",
@@ -74,8 +82,8 @@ char *dns_errors[] = {
 int s;
 
 /* program functions */
-int ns_encode (char *str, char *buff);
-int slave_notify (char *domain, const char *server);
-void usage ();
-int init_connection (const char *server);
-void stop_connection (void);
+__dead void usage(void);
+int init_connection(const char *);
+void stop_connection(void);
+int ns_encode(char *, char *);
+int slave_notify(char *, const char *);
