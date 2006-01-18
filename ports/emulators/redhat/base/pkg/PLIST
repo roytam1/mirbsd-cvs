@@ -1,4 +1,4 @@
-@comment $MirOS: ports/emulators/redhat/base/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:56 tg Exp $
+@comment $MirOS: ports/emulators/redhat/base/pkg/PLIST,v 1.2 2005/12/27 18:49:03 tg Exp $
 @comment $OpenBSD: PLIST,v 1.8 2004/03/02 07:49:24 ish Exp $
 @pkgcfl linux_lib-*
 @exec mkdir -p %D/dev
@@ -8106,3 +8106,4 @@ usr/lib/libreadline.so.4.3
 @dirrm etc
 @dirrm bin
 @unexec rmdir %D
+@dirrm emul
