@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/emulators/debian/Makefile,v 1.1 2006/01/18 11:16:47 tg Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:i386 OpenBSD:*:i386
 
@@ -56,10 +56,10 @@ FLAVORS=		${HAS_DYNEXEC}
 FLAVOR?=		${HAS_DYNEXEC}
 
 .if ${FLAVOR:L:Mdynexec}
-SED_PLIST+=		| sed -e '/^KLUDGE:/s///'
+SED_PLIST+=		| sed -e '/^KLUDGE:/d'
 LDSO=			ld-linux.so.2
 .else
-SED_PLIST+=		| sed -e '/^KLUDGE:/d'
+SED_PLIST+=		| sed -e '/^KLUDGE:/s///'
 LDSO=			ld-linux.so.2.bin
 .endif
 
