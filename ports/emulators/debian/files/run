@@ -1,0 +1,13 @@
+#!/bin/sh
+# $MirOS$
+
+p='@@BASEDIR@@'
+
+case :${LD_LIBRARY_PATH}: in
+*:${p}:*) ;;
+::)	LD_LIBRARY_PATH=$p ;;
+*)	LD_LIBRARY_PATH=${p}:$LD_LIBRARY_PATH ;;
+esac
+
+export LD_LIBRARY_PATH
+exec $p/@@LDSO@@ "$@"

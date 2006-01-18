@@ -1,0 +1,20 @@
+@comment $MirOS$
+emul/debian/ld-linux.so.2
+KLUDGE:emul/debian/ld-linux.so.2.bin
+emul/debian/libICE.so.6
+emul/debian/libSM.so.6
+emul/debian/libX11.so.6
+emul/debian/libXext.so.6
+emul/debian/libXpm.so.4
+emul/debian/libXt.so.6
+emul/debian/libc.so.6
+emul/debian/libdl.so.2
+emul/debian/libexpat.so.0
+emul/debian/libfontconfig.so.1
+emul/debian/libfreetype.so.6
+emul/debian/libm.so.6
+emul/debian/libpthread.so.0
+emul/debian/libz.so.1
+emul/debian/run
+@dirrm emul/debian
+@dirrm emul
