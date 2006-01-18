@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/exec_elf.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
+/**	$MirOS: src/sys/kern/exec_elf.c,v 1.3 2005/07/19 12:42:23 tg Exp $ */
 /*	$OpenBSD: exec_elf.c,v 1.49 2003/11/03 19:58:22 tedu Exp $	*/
 
 /*
@@ -148,6 +148,14 @@ ELFNAME(copyargs)(struct exec_package *pack, struct ps_strings *arginfo,
 	return (stack);
 }
 
+#ifndef COMPAT_LINUX
+#define CHECK_ET (ehdr->e_type != type)
+#else
+/* ld-linux.so.2 kludge */
+#define CHECK_ET ((ehdr->e_type != type) && \
+		    ((type != ET_EXEC) || (ehdr->e_type != ET_DYN)))
+#endif
+
 /*
  * Check header for validity; return 0 for ok, ENOEXEC if error
  */
@@ -171,7 +179,7 @@ ELFNAME(check_header)(Elf_Ehdr *ehdr, int type)
 		return (ENOEXEC);
 
 	/* Check the type */
-	if (ehdr->e_type != type)
+	if CHECK_ET
 		return (ENOEXEC);
 
 	/* Don't allow an insane amount of sections. */
@@ -216,7 +224,7 @@ os_ok:
 		return (ENOEXEC);
 
 	/* Check the type */
-	if (ehdr->e_type != type)
+	if CHECK_ET
 		return (ENOEXEC);
 
 	/* Don't allow an insane amount of sections. */
@@ -226,6 +234,7 @@ os_ok:
 	*os = ehdr->e_ident[OI_OS];
 	return (0);
 }
+#undef CHECK_ET
 
 /*
  * Load a psection at the appropriate address

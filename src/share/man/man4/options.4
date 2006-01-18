@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man4/options.4,v 1.2 2005/03/06 19:38:39 tg Exp $
+.\"	$MirOS: src/share/man/man4/options.4,v 1.3 2005/12/16 21:34:51 tg Exp $
 .\"	$OpenBSD: options.4,v 1.142 2004/05/05 00:23:29 millert Exp $
 .\"	$NetBSD: options.4,v 1.21 1997/06/25 03:13:00 thorpej Exp $
 .\"
@@ -55,14 +55,6 @@ options are passed to the compile process as
 flags to the C compiler.
 .Ss Compatibility Options
 .Bl -ohang
-.It Cd option COMPAT_BSDOS
-On those architectures that support it, this enables binary
-compatibility with
-.Em BSD/OS
-applications.
-This option is supported on the i386 architecture.
-See
-.Xr compat_bsdos 8 .
 .It Cd option COMPAT_LINUX
 On those architectures that support it, this enables binary
 compatibility with
@@ -72,14 +64,16 @@ applications built for the same architecture.
 This option is supported on the i386 architecture.
 See
 .Xr compat_linux 8 .
-.It Cd option COMPAT_FREEBSD
-On those architectures that support it, this enables binary
-compatibility with
-.Em FreeBSD
+.Pp
+This option also enables execution of ET_DYN binaries, such as
+.Pa ld-linux.so.2 .
+.It Cd option COMPAT_OPENBSD
+This enables binary compatibility with
+.Em OpenBSD
 applications built for the same architecture.
-This option is available on the i386 architecture.
+This option is available on all architectures.
 See
-.Xr compat_freebsd 8 .
+.Xr compat_openbsd 8 .
 .El
 .Ss Debugging Options
 .Bl -ohang
