@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/www/opera/Makefile,v 1.5 2005/12/16 14:42:58 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -6,7 +6,7 @@ EMUL=			linux
 
 COMMENT=		"fast and customizable WWW browser"
 DISTNAME=		opera-8.51-20051114.1-static-qt.i386-en
-PKGNAME=		opera-8.51-0
+PKGNAME=		opera-8.51-1
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
 
@@ -30,7 +30,7 @@ MASTER_SITES_OPERA=	ftp://ftp.opera.com/pub/opera/ \
 MASTER_SITES=		${MASTER_SITES_OPERA:=linux/851/final/en/i386/}
 EXTRACT_SUFX=		.tar.bz2
 
-RUN_DEPENDS=		:redhat_base->=8.0:emulators/redhat/base
+RUN_DEPENDS=		:debian-libs-*:emulators/debian
 
 NO_BUILD=		Yes
 NO_REGRESS=		Yes
@@ -46,5 +46,10 @@ do-install:
 	    ${FILESDIR}/opera.sh >${PREFIX}/bin/opera
 	mv ${PREFIX}/share/doc/opera/* ${PREFIX}/share/opera/
 	rmdir ${PREFIX}/share/doc/opera
+	for f in ${PREFIX}/share/opera/ini/pluginpath.ini \
+	    ${PREFIX}/share/opera/java/opera.policy; do \
+		print '%g!${PREFIX}!s!!${TRUEPREFIX}!g\nwq' \
+		    | ed -s $$f; \
+	done
 
 .include <bsd.port.mk>
