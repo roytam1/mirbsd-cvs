@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.4 2005/07/01 18:51:20 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.5 2005/07/04 00:10:43 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls.c,v 1.125 2005/06/17 20:39:14 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
@@ -96,6 +96,9 @@ sys_mount(p, v, retval)
 	struct vattr va;
 	struct nameidata nd;
 	struct vfsconf *vfsp;
+
+	if (securelevel > 1)
+		return (EAUTH);
 
 	if (usermount == 0 && (error = suser(p, 0)))
 		return (error);
@@ -380,6 +383,9 @@ sys_unmount(p, v, retval)
 	struct mount *mp;
 	int error;
 	struct nameidata nd;
+
+	if (securelevel > 1)
+		return (EAUTH);
 
 	NDINIT(&nd, LOOKUP, FOLLOW | LOCKLEAF, UIO_USERSPACE,
 	    SCARG(uap, path), p);
