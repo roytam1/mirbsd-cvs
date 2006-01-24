@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.1 2006/01/24 19:51:57 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,26 +41,22 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/nlist.c,v 1.3 2005/09/22 20:40:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.1 2006/01/24 19:51:57 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
 #include <olf_abi.h>
 #endif
 
-int	__fdnlist(int, struct nlist *);
-int	__aout_fdnlist(int, struct nlist *);
-int	__ecoff_fdnlist(int, struct nlist *);
-int	__elf_fdnlist(int, struct nlist *);
-#ifdef _NLIST_DO_ELF
-int	__elf_is_okay__(Elf_Ehdr *ehdr);
-#endif
+int	__fnlist(int, struct nlist *);
+int	__aout_fnlist(int, struct nlist *);
+int	__elf_fnlist(int, struct nlist *);
 
 #define	ISLAST(p)	(p->n_un.n_name == 0 || p->n_un.n_name[0] == 0)
 
 #ifdef _NLIST_DO_AOUT
 int
-__aout_fdnlist(int fd, struct nlist *list)
+__aout_fnlist(int fd, struct nlist *list)
 {
 	struct nlist *p, *s;
 	char *strtab;
@@ -161,39 +157,8 @@ aout_done:
 #endif /* _NLIST_DO_AOUT */
 
 #ifdef _NLIST_DO_ELF
-/*
- * __elf_is_okay__ - Determine if ehdr really
- * is ELF and valid for the target platform.
- *
- * WARNING:  This is NOT a ELF ABI function and
- * as such it's use should be restricted.
- */
 int
-__elf_is_okay__(Elf_Ehdr *ehdr)
-{
-	int retval = 0;
-	/*
-	 * We need to check magic, class size, endianess,
-	 * and version before we look at the rest of the
-	 * Elf_Ehdr structure.  These few elements are
-	 * represented in a machine independent fashion.
-	 */
-	if ((IS_ELF(*ehdr) || IS_OLF(*ehdr)) &&
-	    ehdr->e_ident[EI_CLASS] == ELF_TARG_CLASS &&
-	    ehdr->e_ident[EI_DATA] == ELF_TARG_DATA &&
-	    ehdr->e_ident[EI_VERSION] == ELF_TARG_VER) {
-
-		/* Now check the machine dependant header */
-		if (ehdr->e_machine == ELF_TARG_MACH &&
-		    ehdr->e_version == ELF_TARG_VER)
-			retval = 1;
-	}
-
-	return retval;
-}
-
-int
-__elf_fdnlist(int fd, struct nlist *list)
+__elf_fnlist(int fd, struct nlist *list)
 {
 	struct nlist *p;
 	caddr_t strtab;
@@ -392,15 +357,15 @@ static struct nlist_handlers {
 	int	(*fn)(int fd, struct nlist *list);
 } nlist_fn[] = {
 #ifdef _NLIST_DO_AOUT
-	{ __aout_fdnlist },
+	{ __aout_fnlist },
 #endif
 #ifdef _NLIST_DO_ELF
-	{ __elf_fdnlist },
+	{ __elf_fnlist },
 #endif
 };
 
 int
-__fdnlist(int fd, struct nlist *list)
+__fnlist(int fd, struct nlist *list)
 {
 	int n = -1, i;
 
