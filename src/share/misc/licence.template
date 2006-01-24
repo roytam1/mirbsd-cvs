@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.5 2006/01/24 12:48:21 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year...
@@ -48,9 +48,9 @@
  * Because in some (droit d'auteur) countries you cannot disclaim all
  * liabilities this licence is drafted to behave better under Europe-
  * an law but otherwise be equivalent to the "historic permission no-
- * tice"[3]. There is no implied choice of law (the MirOS project has
- * an extra provision for that), so the licence is GPL-compatible (as
- * long as no advertising clause is used).
+ * tice"[3]. There is no implied choice of law (we[4] have extra pro-
+ * vision for that); the licence is GPL-compatible (as long as no ad-
+ * vertising clause is used).
  *
  * Licensor and Licensee are not defined by the licence text, neither
  * is there a statement like "perpetual, non-exclusive, irrevocable".
