@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.3 2006/01/24 19:54:47 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.4 2006/01/24 19:57:46 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.3 2006/01/24 19:54:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.4 2006/01/24 19:57:46 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -67,7 +67,7 @@ __aout_fnlist(FILE *f, struct nlist *list)
 	struct nlist nbuf[1024];
 	struct exec exec;
 
-	if (pread(fd, &exec, sizeof(exec), (off_t)0) != sizeof(exec) ||
+	if (fpread(f, &exec, sizeof(exec), (off_t)0) != sizeof(exec) ||
 	    N_BADMAG(exec) || exec.a_syms == (u_int32_t)NULL)
 		return (-1);
 
@@ -76,7 +76,7 @@ __aout_fnlist(FILE *f, struct nlist *list)
 	symsize = exec.a_syms;
 
 	/* Read in the size of the string table. */
-	if (pread(fd, (void *)&strsize, sizeof(strsize), stroff) !=
+	if (fpread(f, (void *)&strsize, sizeof(strsize), stroff) !=
 	    sizeof(strsize))
 		return (-1);
 	else
@@ -91,7 +91,7 @@ __aout_fnlist(FILE *f, struct nlist *list)
 	if ((strtab = (char *)malloc(strsize)) == NULL)
 		return (-1);
 	errno = EIO;
-	if (pread(fd, strtab, strsize, stroff) != strsize) {
+	if (fpread(f, strtab, strsize, stroff) != strsize) {
 		nent = -1;
 		goto aout_done;
 	}
@@ -117,7 +117,7 @@ __aout_fnlist(FILE *f, struct nlist *list)
 
 	while (symsize > 0) {
 		cc = MIN(symsize, sizeof(nbuf));
-		if (pread(fd, nbuf, cc, symoff) != cc)
+		if (fpread(f, nbuf, cc, symoff) != cc)
 			break;
 		symsize -= cc;
 		symoff += cc;
@@ -165,8 +165,8 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	struct stat st;
 
 	/* Make sure obj is OK */
-	if (pread(fd, &ehdr, sizeof(Elf_Ehdr), (off_t)0) != sizeof(Elf_Ehdr) ||
-	    !__elf_is_okay__(&ehdr) || fstat(fd, &st) < 0)
+	if (fpread(f, &ehdr, sizeof(Elf_Ehdr), (off_t)0) != sizeof(Elf_Ehdr) ||
+	    !__elf_is_okay__(&ehdr) || fstat(f->_file, &st) < 0)
 		return (-1);
 
 	/* calculate section header table size */
@@ -175,7 +175,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	if ((shdr = malloc(shdr_size)) == NULL)
 		return (-1);
 
-	if (pread(fd, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
+	if (fpread(f, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
 		free(shdr);
 		return (-1);
 	}
@@ -204,7 +204,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	 */
 	if ((strtab = malloc(symstrsize)) == NULL)
 		return (-1);
-	if (pread(fd, strtab, symstrsize, symstroff) != symstrsize) {
+	if (fpread(f, strtab, symstrsize, symstroff) != symstrsize) {
 		free(strtab);
 		return (-1);
 	}
@@ -234,7 +234,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 
 	while (symsize > 0) {
 		cc = MIN(symsize, sizeof(sbuf));
-		if (pread(fd, sbuf, cc, symoff) != cc)
+		if (fpread(f, sbuf, cc, symoff) != cc)
 			break;
 		symsize -= cc;
 		symoff += cc;
