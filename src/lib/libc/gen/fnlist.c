@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.1 2006/01/24 19:51:57 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.2 2006/01/24 19:53:39 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,22 +41,22 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.1 2006/01/24 19:51:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.2 2006/01/24 19:53:39 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
 #include <olf_abi.h>
 #endif
 
-int	__fnlist(int, struct nlist *);
-int	__aout_fnlist(int, struct nlist *);
-int	__elf_fnlist(int, struct nlist *);
+int	__fnlist(FILE *, struct nlist *);
+int	__aout_fnlist(FILE *, struct nlist *);
+int	__elf_fnlist(FILE *, struct nlist *);
 
 #define	ISLAST(p)	(p->n_un.n_name == 0 || p->n_un.n_name[0] == 0)
 
 #ifdef _NLIST_DO_AOUT
 int
-__aout_fnlist(int fd, struct nlist *list)
+__aout_fnlist(FILE *f, struct nlist *list)
 {
 	struct nlist *p, *s;
 	char *strtab;
@@ -158,7 +158,7 @@ aout_done:
 
 #ifdef _NLIST_DO_ELF
 int
-__elf_fnlist(int fd, struct nlist *list)
+__elf_fnlist(FILE *f, struct nlist *list)
 {
 	struct nlist *p;
 	caddr_t strtab;
@@ -354,7 +354,7 @@ elf_done:
 
 
 static struct nlist_handlers {
-	int	(*fn)(int fd, struct nlist *list);
+	int	(*fn)(FILE *f, struct nlist *list);
 } nlist_fn[] = {
 #ifdef _NLIST_DO_AOUT
 	{ __aout_fnlist },
@@ -365,12 +365,12 @@ static struct nlist_handlers {
 };
 
 int
-__fnlist(int fd, struct nlist *list)
+__fnlist(FILE *f, struct nlist *list)
 {
 	int n = -1, i;
 
 	for (i = 0; i < sizeof(nlist_fn)/sizeof(nlist_fn[0]); i++) {
-		n = (nlist_fn[i].fn)(fd, list);
+		n = (nlist_fn[i].fn)(f, list);
 		if (n != -1)
 			break;
 	}
