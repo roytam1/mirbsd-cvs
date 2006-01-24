@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.4 2006/01/24 19:57:46 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.5 2006/01/24 20:00:43 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.4 2006/01/24 19:57:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.5 2006/01/24 20:00:43 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -53,6 +53,28 @@ int	__aout_fnlist(FILE *, struct nlist *);
 int	__elf_fnlist(FILE *, struct nlist *);
 
 #define	ISLAST(p)	(p->n_un.n_name == 0 || p->n_un.n_name[0] == 0)
+
+static ssize_t
+__fpread(FILE *f, void *buf, size_t nbytes, off_t offset)
+{
+	off_t oldofs;
+	ssize_t rv;
+
+	if ((oldofs = ftello(f)) == -1)
+		return (-1);
+	if (fseeko(f, offset, SEEK_SET))
+		return (-1);
+	if ((rv = fread(buf, 1, nbytes, f)) == 0) {
+		if (ferror(f))
+			return (-1);
+	}
+	if (fseeko(f, oldofs, SEEK_SET))
+		return (-1);
+
+	return (rv);
+}
+
+#define fpread __fpread
 
 #ifdef _NLIST_DO_AOUT
 int
@@ -166,7 +188,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 
 	/* Make sure obj is OK */
 	if (fpread(f, &ehdr, sizeof(Elf_Ehdr), (off_t)0) != sizeof(Elf_Ehdr) ||
-	    !__elf_is_okay__(&ehdr) || fstat(f->_file, &st) < 0)
+	    !__elf_is_okay__(&ehdr) || fstat(fileno(f), &st) < 0)
 		return (-1);
 
 	/* calculate section header table size */
