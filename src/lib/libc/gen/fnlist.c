@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.2 2006/01/24 19:53:39 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.3 2006/01/24 19:54:47 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.2 2006/01/24 19:53:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.3 2006/01/24 19:54:47 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -63,7 +63,7 @@ __aout_fnlist(FILE *f, struct nlist *list)
 	off_t symoff, stroff;
 	u_long symsize;
 	int nent, cc;
-	int strsize, usemalloc = 0;
+	int strsize;
 	struct nlist nbuf[1024];
 	struct exec exec;
 
@@ -83,22 +83,17 @@ __aout_fnlist(FILE *f, struct nlist *list)
 		stroff += sizeof(strsize);
 
 	/*
-	 * Read in the string table.  We try mmap, but that will fail
-	 * for /dev/ksyms so fall back on malloc.  Since OpenBSD's malloc(3)
+	 * Read in the string table.  We don't try mmap, that will fail
+	 * for zlib streams so use on malloc.  Since OpenBSD's malloc(3)
 	 * returns memory to the system on free this does not cause bloat.
 	 */
 	strsize -= sizeof(strsize);
-	strtab = mmap(NULL, (size_t)strsize, PROT_READ, MAP_SHARED|MAP_FILE,
-	    fd, stroff);
-	if (strtab == MAP_FAILED) {
-		usemalloc = 1;
-		if ((strtab = (char *)malloc(strsize)) == NULL)
-			return (-1);
-		errno = EIO;
-		if (pread(fd, strtab, strsize, stroff) != strsize) {
-			nent = -1;
-			goto aout_done;
-		}
+	if ((strtab = (char *)malloc(strsize)) == NULL)
+		return (-1);
+	errno = EIO;
+	if (pread(fd, strtab, strsize, stroff) != strsize) {
+		nent = -1;
+		goto aout_done;
 	}
 
 	/*
@@ -148,10 +143,7 @@ __aout_fnlist(FILE *f, struct nlist *list)
 		}
 	}
 aout_done:
-	if (usemalloc)
-		free(strtab);
-	else
-		munmap(strtab, strsize);
+	free(strtab);
 	return (nent);
 }
 #endif /* _NLIST_DO_AOUT */
@@ -171,7 +163,6 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	Elf_Shdr *shdr = NULL;
 	Elf_Word shdr_size;
 	struct stat st;
-	int usemalloc = 0;
 
 	/* Make sure obj is OK */
 	if (pread(fd, &ehdr, sizeof(Elf_Ehdr), (off_t)0) != sizeof(Elf_Ehdr) ||
@@ -181,24 +172,12 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	/* calculate section header table size */
 	shdr_size = ehdr.e_shentsize * ehdr.e_shnum;
 
-	/* Make sure it's not too big to mmap */
-	if (shdr_size > SIZE_T_MAX) {
-		errno = EFBIG;
+	if ((shdr = malloc(shdr_size)) == NULL)
 		return (-1);
-	}
 
-	/* mmap section header table */
-	shdr = (Elf_Shdr *)mmap(NULL, (size_t)shdr_size, PROT_READ,
-	    MAP_SHARED|MAP_FILE, fd, (off_t) ehdr.e_shoff);
-	if (shdr == MAP_FAILED) {
-		usemalloc = 1;
-		if ((shdr = malloc(shdr_size)) == NULL)
-			return (-1);
-
-		if (pread(fd, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
-			free(shdr);
-			return (-1);
-		}
+	if (pread(fd, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
+		free(shdr);
+		return (-1);
 	}
 
 	/*
@@ -218,35 +197,16 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	}
 
 	/* Flush the section header table */
-	if (usemalloc)
-		free(shdr);
-	else
-		munmap((caddr_t)shdr, shdr_size);
+	free(shdr);
 
-	/* Check for files too large to mmap. */
-	/* XXX is this really possible? */
-	if (symstrsize > SIZE_T_MAX) {
-		errno = EFBIG;
-		return (-1);
-	}
 	/*
-	 * Map string table into our address space.  This gives us
-	 * an easy way to randomly access all the strings, without
-	 * making the memory allocation permanent as with malloc/free
-	 * (i.e., munmap will return it to the system).
+	 * Read string table into our address space.
 	 */
-	if (usemalloc) {
-		if ((strtab = malloc(symstrsize)) == NULL)
-			return (-1);
-		if (pread(fd, strtab, symstrsize, symstroff) != symstrsize) {
-			free(strtab);
-			return (-1);
-		}
-	} else {
-		strtab = mmap(NULL, (size_t)symstrsize, PROT_READ,
-		    MAP_SHARED|MAP_FILE, fd, (off_t) symstroff);
-		if (strtab == MAP_FAILED)
-			return (-1);
+	if ((strtab = malloc(symstrsize)) == NULL)
+		return (-1);
+	if (pread(fd, strtab, symstrsize, symstroff) != symstrsize) {
+		free(strtab);
+		return (-1);
 	}
 	/*
 	 * clean out any left-over information for all valid entries.
@@ -344,10 +304,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 		}
 	}
 elf_done:
-	if (usemalloc)
-		free(strtab);
-	else
-		munmap(strtab, symstrsize);
+	free(strtab);
 	return (nent);
 }
 #endif /* _NLIST_DO_ELF */
