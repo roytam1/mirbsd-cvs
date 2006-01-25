@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.8 2006/01/25 19:04:08 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.9 2006/01/25 20:06:58 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -46,7 +46,7 @@ CONFIGURE_ARGS+=	--enable-yp
 MODULES+=		converters/libiconv
 
 # some variables to substitute
-SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH
+SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH WWW_PREFIX
 PHP_VERSION=		${V}
 
 .for i in TRUEPREFIX PHP_CONFIG_FILE MODULES_DIR PHP_VERSION HTTPD_MODULE_DIR
