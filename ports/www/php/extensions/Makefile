@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.8 2006/01/25 12:48:07 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.9 2006/01/25 13:54:49 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
@@ -16,9 +16,6 @@ FLAVORS=		no_x11
 FLAVOR?=
 
 RUN_DEPENDS+=		:php-core-${V}-${PV}:www/php/core
-.if !defined(PACKAGING)
-MODULES=		devel/gettext
-.endif
 
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--with-iconv-dir=${LOCALBASE} \
@@ -153,16 +150,6 @@ MULTI_PACKAGES+=	-ldap
 COMMENT-ldap=		"ldap protocol extensions for php"
 CONFIGURE_ARGS+=	--with-ldap=shared,${LOCALBASE}
 LDAP_DEPENDS=		ldap,lber::databases/openldap
-.endif
-
-# mbstring
-PSEUDO_FLAVORS+=	no_mbstring
-.if ${FLAVOR:L:Mno_mbstring}
-CONFIGURE_ARGS+=	--disable-mbstring
-.else
-MULTI_PACKAGES+=	-mbstring
-COMMENT-mbstring=	"multibyte characters extensions for php"
-CONFIGURE_ARGS+=	--enable-mbstring=shared
 .endif
 
 # mcrypt

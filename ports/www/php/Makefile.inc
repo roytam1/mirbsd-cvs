@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.8 2006/01/01 04:14:49 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.9 2006/01/25 12:48:04 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
@@ -47,19 +47,21 @@ MODULES_DIR=		${CHROOT_DIR}/${MODULES_SUBDIR}
 CONFIGURE_STYLE=	autogen
 AUTOGEN=		${MKSH} ${PORTSDIR}/www/php/files/autogen.sh
 CONFIGURE_ENV+=		EXTENSION_DIR=${MODULES_DIR}
-MAKE_ENV+=		${CONFIGURE_ENV}
+EXTRA_MAKE_ENV+=	${CONFIGURE_ENV}
 
 CONFIGURE_ARGS+=	--enable-shared \
 			--disable-static \
-			--disable-rpath \
-			--with-config-file-path=${PHP_CONFIG_PATH} \
-			--with-config-file-scan-dir=${PHP_CONFIG_PATH}/php \
+			--disable-short-tags \
+			--with-config-file-path=${PHP_CONFIG_PATH:Q} \
+			--with-config-file-scan-dir=${PHP_CONFIG_PATH:Q}/php \
 			--enable-inline-optimization \
 			--with-pic
 
 # default included extensions
 CONFIGURE_ARGS+= 	--with-openssl \
 			--with-zlib
+
+CONFIGURE_ENV+=		TERM=vt100
 
 REGRESS_TARGET=		test
 REGRESS_FLAGS=		NO_INTERACTION=1

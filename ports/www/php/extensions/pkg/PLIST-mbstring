@@ -1,5 +1,0 @@
-@comment $MirOS: ports/www/php/extensions/pkg/PLIST-xmlrpc,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
-@comment $OpenBSD: PLIST-mbstring,v 1.1 2005/07/06 00:50:33 kevlo Exp $
-@conflict php4-mbstring-*
-lib/php/modules/mbstring.so
-@dirrm lib/php/modules
