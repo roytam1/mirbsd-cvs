@@ -1,6 +1,6 @@
-$MirOS$
---- ext/standard/datetime.c.orig	Wed Jul 28 01:44:19 2004
-+++ ext/standard/datetime.c	Sun Feb 13 02:49:44 2005
+$MirOS: ports/www/php/patches/patch-ext_standard_datetime_c,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+--- ext/standard/datetime.c.orig	Tue Aug 30 09:15:36 2005
++++ ext/standard/datetime.c	Wed Jan 25 17:56:14 2006
 @@ -446,7 +446,7 @@ static void php_date(INTERNAL_FUNCTION_P
  				strcat(Z_STRVAL_P(return_value), day_full_names[ta->tm_wday]);
  				break;
@@ -64,7 +64,7 @@ $MirOS$
  				tm1->tm_hour, tm1->tm_min, tm1->tm_sec);
  	} else {
  		snprintf(str, 80, "%s, %02d-%s-%02d %02d:%02d:%02d GMT",
- 				day_short_names[tm1->tm_wday],
+ 				day_full_names[tm1->tm_wday],
  				tm1->tm_mday,
  				mon_short_names[tm1->tm_mon],
 -				((tm1->tm_year) % 100),

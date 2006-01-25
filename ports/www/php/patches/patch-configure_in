@@ -1,7 +1,7 @@
-$MirOS: ports/www/php/patches/patch-configure_in,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+$MirOS: ports/www/php/patches/patch-configure_in,v 1.2 2005/05/04 15:42:23 tg Exp $
 $OpenBSD: patch-configure_in,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
---- configure.in.orig	Wed May  4 14:38:00 2005
-+++ configure.in	Wed May  4 14:41:58 2005
+--- configure.in.orig	Wed Jan 25 17:54:40 2006
++++ configure.in	Wed Jan 25 17:54:43 2006
 @@ -31,9 +31,7 @@ AC_PREREQ(2.13)
  AC_INIT(README.CVS-RULES)
  
@@ -13,7 +13,7 @@ $OpenBSD: patch-configure_in,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
  
  PHP_CANONICAL_HOST
  AC_CONFIG_HEADER(main/php_config.h)
-@@ -877,17 +875,14 @@ enable_static=yes
+@@ -888,17 +886,14 @@ enable_static=yes
  
  case $php_build_target in
  program|static)
@@ -33,7 +33,7 @@ $OpenBSD: patch-configure_in,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
      EXTRA_LDFLAGS="$EXTRA_LDFLAGS -avoid-version -module"
  ;;
  esac
-@@ -1071,7 +1066,7 @@ EXPANDED_SYSCONFDIR=`eval echo $sysconfd
+@@ -1082,7 +1077,7 @@ EXPANDED_SYSCONFDIR=`eval echo $sysconfd
  EXPANDED_DATADIR=$datadir
  EXPANDED_PHP_CONFIG_FILE_PATH=`eval echo "$PHP_CONFIG_FILE_PATH"`
  EXPANDED_PHP_CONFIG_FILE_SCAN_DIR=`eval echo "$PHP_CONFIG_FILE_SCAN_DIR"`

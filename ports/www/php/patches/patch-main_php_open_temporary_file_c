@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/www/php/patches/patch-main_php_open_temporary_file_c,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 $OpenBSD: patch-main_php_open_temporary_file_c,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
---- main/php_open_temporary_file.c.orig	Mon Mar 29 21:43:45 2004
-+++ main/php_open_temporary_file.c	Wed Nov  3 14:59:11 2004
-@@ -130,7 +130,7 @@ static int php_do_open_temporary_file(co
+--- main/php_open_temporary_file.c.orig	Sat Jul 16 12:14:23 2005
++++ main/php_open_temporary_file.c	Wed Jan 25 17:54:43 2006
+@@ -123,7 +123,7 @@ static int php_do_open_temporary_file(co
  		trailing_slash = "/";
  	}
  
