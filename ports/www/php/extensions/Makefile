@@ -1,5 +1,7 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.6 2005/07/07 21:28:19 bsiegert Exp $
-# $OpenBSD: Makefile,v 1.3 2004/10/18 15:58:53 robert Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.7 2006/01/01 04:14:50 tg Exp $
+# $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
+
+BROKEN=			porting in progress
 
 FULLPKGNAME=		php-extensions-${V}-${PV}
 COMMENT=		"informational package about PHP5 extensions"
@@ -13,7 +15,7 @@ PREFIX?=		${CHROOT_DIR}
 FLAVORS=		no_x11
 FLAVOR?=
 
-RUN_DEPENDS=		:php-core-${V}-${PV}:www/php/core
+RUN_DEPENDS+=		:php-core-${V}-${PV}:www/php/core
 .if !defined(PACKAGING)
 MODULES=		devel/gettext
 .endif
@@ -24,12 +26,10 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--disable-dom
 
 GRAPHIC_DEPENDS=	jpeg.62::graphics/jpeg \
-			png.3::graphics/png \
-			tiff.35::graphics/tiff
+			png.3::graphics/png
 
 GRAPHIC_CONFIG=		--with-jpeg-dir=${LOCALBASE} \
 			--with-png-dir=${LOCALBASE} \
-			--with-tiff-dir=${LOCALBASE} \
 			--with-zlib-dir=/usr
 
 .include <mirports.sys.mk>
@@ -42,7 +42,7 @@ CONFIGURE_ARGS+=	--without-bz2
 MULTI_PACKAGES+=	-bz2
 COMMENT-bz2=		"bzip2 compression extensions for php"
 CONFIGURE_ARGS+=	--with-bz2=shared,${LOCALBASE}
-BZ2_DEPENDS=		bz2.10::archivers/bzip2
+BZ2_DEPENDS=		bz2::archivers/bzip2
 .endif
 
 # curl
@@ -53,7 +53,7 @@ CONFIGURE_ARGS+=	--without-curl
 MULTI_PACKAGES+=	-curl
 COMMENT-curl=		"curl URL library extensions for php"
 CONFIGURE_ARGS+=	--with-curl=shared,${LOCALBASE}
-CURL_DEPENDS=		curl.2::net/curl
+CURL_DEPENDS=		curl::net/curl
 .endif
 
 # dba
@@ -64,7 +64,7 @@ CONFIGURE_ARGS+=	--disable-dba
 MULTI_PACKAGES+=	-dba
 COMMENT-dba=		"dba GDBM access extensions for php"
 CONFIGURE_ARGS+=	--enable-dba=shared --with-gdbm=${LOCALBASE}
-DBA_DEPENDS=		gdbm.2::databases/gdbm
+DBA_DEPENDS=		gdbm::databases/gdbm
 .endif
 
 # dbase
@@ -105,8 +105,8 @@ CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 .else
 MULTI_PACKAGES+=	-gd
 COMMENT-gd=		"image manipulation extensions for php"
-GD_DEPENDS=		ttf.1::print/freetype ${GRAPHIC_DEPENDS} \
-			t1.5::devel/t1lib
+GD_DEPENDS=		ttf::print/freetype ${GRAPHIC_DEPENDS} \
+			t1::devel/t1lib
 CONFIGURE_ARGS+=	--with-gd=shared ${GRAPHIC_CONFIG} \
 			--with-ttf=shared,${LOCALBASE} --without-freetype-dir \
 			--with-t1lib=${LOCALBASE}
@@ -129,7 +129,7 @@ CONFIGURE_ARGS+=	--without-gmp
 MULTI_PACKAGES+=	-gmp
 COMMENT-gmp=		"gmp math library support for php"
 CONFIGURE_ARGS+=	--with-gmp=shared,${LOCALBASE}
-GMP_DEPENDS=		gmp.4::devel/gmp
+GMP_DEPENDS=		gmp::devel/gmp
 .endif
 
 # imap
@@ -140,10 +140,10 @@ CONFIGURE_ARGS+=	--without-imap --without-kerberos
 MULTI_PACKAGES+=	-imap
 COMMENT-imap=		"imap, pop3 and nntp extensions for php"
 CONFIGURE_ARGS+=	--with-imap=shared,${LOCALBASE} --with-imap-ssl
-.  if ${OSname} == "openbsd"
+.  if ${OStype} == "OpenBSD"
 CONFIGURE_ARGS+=	--with-kerberos=/usr
 .  endif
-IMAP_DEPENDS=		c-client.3::mailnews/pine,-cclient
+BUILD_DEPENDS+=		::mailnews/pine,-cclient
 .endif
 
 # ldap
@@ -154,7 +154,17 @@ CONFIGURE_ARGS+=	--without-ldap
 MULTI_PACKAGES+=	-ldap
 COMMENT-ldap=		"ldap protocol extensions for php"
 CONFIGURE_ARGS+=	--with-ldap=shared,${LOCALBASE}
-LDAP_DEPENDS=		ldap.2,lber::databases/openldap
+LDAP_DEPENDS=		ldap,lber::databases/openldap
+.endif
+
+# mbstring
+PSEUDO_FLAVORS+=	no_mbstring
+.if ${FLAVOR:L:Mno_mbstring}
+CONFIGURE_ARGS+=	--disable-mbstring
+.else
+MULTI_PACKAGES+=	-mbstring
+COMMENT-mbstring=	"multibyte characters extensions for php"
+CONFIGURE_ARGS+=	--enable-mbstring=shared
 .endif
 
 # mcrypt
@@ -165,7 +175,7 @@ CONFIGURE_ARGS+=	--without-mcrypt
 MULTI_PACKAGES+=	-mcrypt
 COMMENT-mcrypt=		"mcrypt encryption/decryption extensions for php"
 CONFIGURE_ARGS+=	--with-mcrypt=shared,${LOCALBASE}
-MCRYPT_DEPENDS=		mcrypt::security/libmcrypt
+MCRYPT_DEPENDS=		mcrypt::security/libmcrypt ltdl::devel/libtool
 .endif
 
 # mhash
@@ -176,7 +186,7 @@ CONFIGURE_ARGS+=	--without-mhash
 MULTI_PACKAGES+=	-mhash
 COMMENT-mhash=		"mhash extensions for php"
 CONFIGURE_ARGS+=	--with-mhash=shared,${LOCALBASE}
-MHASH_DEPENDS=		mhash.2::security/mhash
+MHASH_DEPENDS=		mhash::security/mhash
 .endif
 
 # mysql
@@ -187,7 +197,7 @@ CONFIGURE_ARGS+=	--without-mysql
 MULTI_PACKAGES+=	-mysql
 COMMENT-mysql=		"mysql database access extensions for php"
 CONFIGURE_ARGS+=	--with-mysql=shared,${LOCALBASE}
-MYSQL_DEPENDS=		lib/mysql/mysqlclient.10::databases/mysql
+MYSQL_DEPENDS=		lib/mysql/mysqlclient::databases/mysql
 USE_CXX=		Yes
 .endif
 
@@ -209,7 +219,7 @@ CONFIGURE_ARGS+=	--without-odbc
 MULTI_PACKAGES+=	-odbc
 COMMENT-odbc=		"odbc database access extensions for php"
 CONFIGURE_ARGS+=	--with-iodbc=shared
-ODBC_DEPENDS=		iodbc.2::databases/iodbc
+ODBC_DEPENDS=		iodbc::databases/iodbc
 .endif
 
 # pgsql
@@ -220,7 +230,7 @@ CONFIGURE_ARGS+=	--without-pgsql
 MULTI_PACKAGES+=	-pgsql
 COMMENT-pgsql=		"pgsql database access extensions for php"
 CONFIGURE_ARGS+=	--with-pgsql=shared,${LOCALBASE}
-PGSQL_DEPENDS=		pq.2::databases/postgresql
+PGSQL_DEPENDS=		pq::databases/postgresql
 .endif
 
 # shmop
@@ -233,6 +243,16 @@ COMMENT-shmop=		"shared memory extensions for php"
 CONFIGURE_ARGS+=	--enable-shmop=shared
 .endif
 
+# soap
+PSEUDO_FLAVORS+=	no_soap
+.if ${FLAVOR:L:Mno_soap}
+CONFIGURE_ARGS+=	--without-soap
+.else
+MULTI_PACKAGES+=	-soap
+COMMENT-soap=		"SOAP functions for php"
+CONFIGURE_ARGS+=	--enable-soap=shared
+.endif
+
 # snmp
 PSEUDO_FLAVORS+=	no_snmp
 .if ${FLAVOR:L:Mno_snmp}
@@ -241,7 +261,7 @@ CONFIGURE_ARGS+=	--without-snmp
 MULTI_PACKAGES+=	-snmp
 COMMENT-snmp=		"snmp protocol extensions for php"
 CONFIGURE_ARGS+=	--with-snmp=shared,${LOCALBASE} --enable-ucd-snmp-hack
-SNMP_DEPENDS=		snmp.42::net/ucd-snmp
+SNMP_DEPENDS=		snmp::net/ucd-snmp
 .endif
 
 # sqlite
@@ -253,7 +273,7 @@ MULTI_PACKAGES+=	-sqlite
 COMMENT-sqlite=		"sqlite database access extensions for php"
 # do NOT enable utf8 mode here, it's broken
 CONFIGURE_ARGS+=	--with-sqlite=shared,${LOCALBASE} --disable-sqlite-utf8
-SQLITE_DEPENDS=		sqlite.8::databases/sqlite2
+SQLITE_DEPENDS=		sqlite::databases/sqlite2
 .endif
 
 # sybase-ct
@@ -264,7 +284,7 @@ CONFIGURE_ARGS+=	--without-sybase-ct
 MULTI_PACKAGES+=	-sybase_ct
 COMMENT-sybase_ct=	"sybase database access extensions for php"
 CONFIGURE_ARGS+=	--with-sybase-ct=shared,${LOCALBASE}
-SYBASE_CT_DEPENDS=	ct.0::databases/freetds
+SYBASE_CT_DEPENDS=	ct::databases/freetds
 .endif
 
 # xml-rpc
@@ -275,7 +295,20 @@ CONFIGURE_ARGS+=	--without-xmlrpc
 MULTI_PACKAGES+=	-xmlrpc
 COMMENT-xmlrpc=		"XML RPC functions for php"
 CONFIGURE_ARGS+=	--with-xmlrpc=shared
-XMLRPC_DEPENDS=		expat.2::textproc/expat
+.  if ${OStype} != "MirBSD"
+XMLRPC_DEPENDS=		expat::textproc/expat
+.  endif
+.endif
+
+# xsl
+PSEUDO_FLAVORS+=	no_xsl
+.if ${FLAVOR:L:Mno_xsl}
+CONFIGURE_ARGS+=	--without-xsl
+.else
+MULTI_PACKAGES+=	-xsl
+COMMENT-xsl=		"XSL functions for php"
+CONFIGURE_ARGS+=	--with-xsl=shared --enable-dom
+XSL_DEPENDS=		xslt,exslt::textproc/libxslt
 .endif
 
 .for i in ${MULTI_PACKAGES}
@@ -286,7 +319,7 @@ FULLPKGNAME${i}=	php${i}-${V}-${PV}
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
 MODULE_NAME=		${SUBPACKAGE:S/-//g}
-LIB_DEPENDS=		${${MODULE_NAME:U}_DEPENDS}
+LIB_DEPENDS+=		${${MODULE_NAME:U}_DEPENDS}
 MESSAGE=		${PKGDIR}/MESSAGE
 SUBST_VARS=		MODULE_NAME PHP_CONFIG_FILE LOCALBASE
 .elif defined(PACKAGING) && empty(SUBPACKAGE)

@@ -1,5 +1,7 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.5 2005/07/07 21:28:18 bsiegert Exp $
-# $OpenBSD: Makefile,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.6 2006/01/01 04:14:50 tg Exp $
+# $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
+
+BROKEN=porting in progress
 
 MULTI_PACKAGES=		-pear
 SUBPACKAGE?=
@@ -35,10 +37,10 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 
 .include <mirports.sys.mk>
 
-.if ${OSname} == "openbsd"
-CONFIGURE_ARGS+=	--enable-yp
-.else
+.if ${OStype} == "MirBSD"
 CONFIGURE_ARGS+=	--disable-yp
+.else
+CONFIGURE_ARGS+=	--enable-yp
 .endif
 
 MODULES=		devel/gettext
@@ -56,7 +58,7 @@ PREFIX=			${CHROOT_DIR}
 RUN_DEPENDS=		:php-core-${V}-${PV}:www/php/core
 MODULES=
 .else
-LIB_DEPENDS+=		xml2.8::textproc/libxml
+LIB_DEPENDS+=		xml2::textproc/libxml
 .endif
 
 pre-fake:
@@ -68,7 +70,9 @@ FAKE_FLAGS= 		INSTALL_ROOT=${DESTDIR}
 
 pre-configure:
 	@perl -p -i.orig -e "s,MIRPORTS_PEAR_ROOT,'${CHROOT_DIR}/pear',g" \
-	    ${WRKSRC}/pear/PEAR/Config.php
+	    ${WRKSRC}/pear/PEAR/Config.php \
+	    ${WRKSRC}/scripts/phpize.in \
+	    ${WRKSRC}/scripts/php-config.in
 
 post-install:
 	${INSTALL_DATA} ${WRKBUILD}/.libs/libphp5.so \
@@ -88,6 +92,6 @@ post-install:
 	@sed ${PHPXS_SUBST} <${FILESDIR}/phpxs >${PREFIX}/sbin/phpxs
 	@chown ${BINOWN}:${BINGRP} ${PREFIX}/sbin/phpxs
 	@chmod ${BINMODE} ${PREFIX}/sbin/phpxs
-	${INSTALL_MAN} ${WRKSRC}/sapi/cli/php.1 ${PREFIX}/man/man1
+	${INSTALL_MAN} ${WRKSRC}/sapi/cli/php.1 ${PREFIX}/man/man1/
 
 .include <bsd.port.mk>

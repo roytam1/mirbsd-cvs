@@ -1,7 +1,20 @@
-$MirOS: ports/www/php/patches/patch-acinclude_m4,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
-$OpenBSD: patch-aclocal_m4,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
+$MirOS: ports/www/php/patches/patch-acinclude_m4,v 1.2 2005/05/04 15:42:23 tg Exp $
+$OpenBSD: patch-aclocal_m4,v 1.5 2005/12/29 23:07:19 sturm Exp $
 --- acinclude.m4.orig	Wed May  4 14:37:59 2005
 +++ acinclude.m4	Wed May  4 14:38:03 2005
+@@ -1656,10 +1656,9 @@
+     if test "$PHP_KERBEROS_DIR"; then
+       found_kerberos=yes
+       PHP_ADD_LIBPATH($PHP_KERBEROS_DIR/lib, $1)
+-      PHP_ADD_LIBRARY(gssapi_krb5, 1, $1)
+       PHP_ADD_LIBRARY(krb5, 1, $1)
+-      PHP_ADD_LIBRARY(k5crypto, 1, $1)
+-      PHP_ADD_LIBRARY(com_err,  1, $1)
++      PHP_ADD_LIBRARY(crypto, 1, $1)
++      PHP_ADD_LIBRARY(gssapi, 1, $1)
+       PHP_ADD_INCLUDE($PHP_KERBEROS_DIR/include)
+     fi
+   fi
 @@ -1783,6 +1783,7 @@ AC_DEFUN([PHP_SETUP_OPENSSL],[
    
      PHP_CHECK_LIBRARY(crypto, CRYPTO_free, [

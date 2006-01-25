@@ -1,6 +1,6 @@
-#!/bin/ksh
-# $MirOS: ports/www/php/core/files/phpxs,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
-# $OpenBSD: phpxs,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
+#!/usr/bin/env mksh
+# $MirOS: ports/www/php/core/files/phpxs,v 1.2 2005/03/27 22:20:24 tg Exp $
+# $OpenBSD: phpxs,v 1.2 2004/11/24 17:37:49 robert Exp $
 #
 # Copyright (c) 2002-2004 Anil Madhavapeddy <anil@recoil.org>
 #
@@ -103,12 +103,12 @@ if [ $add -gt 0 ]; then
     fi
     if [ $(grep -E "${extmatch}" $php_cfg | wc -l) -gt 0 ]; then
         echo "Activating extension : $module";
-        /usr/bin/perl -pi -e "s/${extmatch}/extension=${module}.so/" $php_cfg
+        /usr/bin/env perl -pi -e "s/${extmatch}/extension=${module}.so/" $php_cfg
     else
         echo "Adding extension : $module";
         echo "extension=${module}.so" >> $php_cfg;
     fi
 elif [ $remove -gt 0 ]; then
     echo "Disabling extension: $module"
-    /usr/bin/perl -pi -e "s/${extmatch}/\;extension=${module}.so/" $php_cfg;
+    /usr/bin/env perl -pi -e "s/${extmatch}/\;extension=${module}.so/" $php_cfg;
 fi
