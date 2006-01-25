@@ -1,13 +1,13 @@
-$MirOS$
+$MirOS: ports/textproc/libxml/patches/patch-xmllint_c,v 1.1.7.1 2005/03/18 15:52:47 tg Exp $
 $OpenBSD: patch-xmllint_c,v 1.2 2003/08/26 16:33:11 marcm Exp $
---- xmllint.c.orig	Sun Sep 19 11:43:58 2004
-+++ xmllint.c	Thu Oct  7 21:54:46 2004
-@@ -97,7 +97,7 @@
+--- xmllint.c.orig	Mon Sep 12 09:15:26 2005
++++ xmllint.c	Wed Jan 25 17:34:20 2006
+@@ -100,7 +100,7 @@
  #endif
  
  #ifndef XML_XML_DEFAULT_CATALOG
 -#define XML_XML_DEFAULT_CATALOG "file:///etc/xml/catalog"
-+#define XML_XML_DEFAULT_CATALOG "file:///var/db/xmlcatalog"
++#define XML_XML_DEFAULT_CATALOG "file://" MIRPORTS_LOCALBASE "/db/xmlcatalog"
  #endif
  
  typedef enum {
