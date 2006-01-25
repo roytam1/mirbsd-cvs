@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.6 2006/01/01 04:14:50 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.7 2006/01/25 12:48:05 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 BROKEN=porting in progress
@@ -14,12 +14,13 @@ FULLPKGNAME-pear=	php-pear-${V}-${PV}
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--without-mysql \
 			--enable-xml \
+			--with-libxml-dir=${LOCALBASE:Q} \
 			--enable-wddx \
 			--enable-cli \
-			--with-iconv=${LOCALBASE} \
-			--with-gettext=${LOCALBASE} \
+			--with-iconv=${LOCALBASE:Q} \
+			--without-gettext \
 			--enable-dio \
-			--with-pear=${PEAR_DIR} \
+			--with-pear=${PEAR_DIR:Q} \
 			--enable-bcmath \
 			--enable-session \
 			--enable-trans-sid \
@@ -33,6 +34,7 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--enable-sysvsem \
 			--enable-sysvshm \
 			--enable-exif \
+			--with-libedit \
 			--without-sqlite
 
 .include <mirports.sys.mk>
@@ -43,7 +45,7 @@ CONFIGURE_ARGS+=	--disable-yp
 CONFIGURE_ARGS+=	--enable-yp
 .endif
 
-MODULES=		devel/gettext
+MODULES+=		converters/libiconv
 
 # some variables to substitute
 SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH
