@@ -1,4 +1,4 @@
-# $MirOS: ports/www/opera/Makefile,v 1.5 2005/12/16 14:42:58 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.6 2006/01/18 11:26:17 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -6,7 +6,7 @@ EMUL=			linux
 
 COMMENT=		"fast and customizable WWW browser"
 DISTNAME=		opera-8.51-20051114.1-static-qt.i386-en
-PKGNAME=		opera-8.51-1
+PKGNAME=		opera-8.51-2
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
 
