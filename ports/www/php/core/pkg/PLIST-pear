@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/php/core/pkg/PLIST-pear,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+@comment $MirOS: ports/www/php/core/pkg/PLIST-pear,v 1.2 2005/05/04 15:42:23 tg Exp $
 @comment $OpenBSD: PLIST-pear,v 1.1.1.1 2004/10/02 12:36:50 robert Exp $
 pear/build/Makefile.global
 pear/build/acinclude.m4
@@ -12,6 +12,8 @@ pear/build/scan_makefile_in.awk
 pear/build/shtool
 pear/data/PEAR/package.dtd
 pear/data/PEAR/template.spec
+pear/data/pear.conf
+@sample ${SYSCONFDIR}/pear.conf
 pear/doc/Archive_Tar/docs/Archive_Tar.txt
 pear/doc/HTML_Template_IT/examples/sample_it.php
 pear/doc/HTML_Template_IT/examples/templates/main.tpl.htm
@@ -87,6 +89,7 @@ pear/include/ext/iconv/php_iconv_supports_errno.h
 pear/include/ext/iconv/php_php_iconv_h_path.h
 pear/include/ext/iconv/php_php_iconv_impl.h
 pear/include/ext/libxml/php_libxml.h
+pear/include/ext/mbstring/libmbfl/config.h
 pear/include/ext/mbstring/libmbfl/mbfl/eaw_table.h
 pear/include/ext/mbstring/libmbfl/mbfl/mbfilter.h
 pear/include/ext/mbstring/libmbfl/mbfl/mbfilter_8bit.h
@@ -168,6 +171,7 @@ pear/include/ext/standard/quot_print.h
 pear/include/ext/standard/reg.h
 pear/include/ext/standard/scanf.h
 pear/include/ext/standard/sha1.h
+pear/include/ext/standard/sha256.h
 pear/include/ext/standard/streamsfuncs.h
 pear/include/ext/standard/uniqid.h
 pear/include/ext/standard/url.h
@@ -177,11 +181,10 @@ pear/include/ext/xml/expat_compat.h
 pear/include/ext/xml/php_xml.h
 pear/include/main/SAPI.h
 pear/include/main/build-defs.h
-pear/include/main/config.nw.h
 pear/include/main/config.w32.h
 pear/include/main/fopen_wrappers.h
 pear/include/main/hardened_globals.h
-pear/include/main/hardened_php.h
+pear/include/main/hardening_patch.h
 pear/include/main/internal_functions_registry.h
 pear/include/main/logos.h
 pear/include/main/php.h

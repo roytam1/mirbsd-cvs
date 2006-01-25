@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/php/core/pkg/PLIST,v 1.2 2005/03/27 22:20:25 tg Exp $
+@comment $MirOS: ports/www/php/core/pkg/PLIST,v 1.3 2006/01/25 12:48:06 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 @pkgcfl php-core-*
 @pkgcfl php4-core-*
@@ -6,9 +6,10 @@
 bin/pear
 bin/php
 bin/php-config
-bin/phpextdist
 bin/phpize
+man/man1/php-config.1
 man/man1/php.1
+man/man1/phpize.1
 sbin/phpxs
 share/doc/php/LICENSE.php
 share/doc/php/LICENSE.zend
