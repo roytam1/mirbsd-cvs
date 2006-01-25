@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.6 2005/09/19 18:09:52 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.7 2005/12/16 12:12:52 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,7 +27,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.6 2005/09/19 18:09:52 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.7 2005/12/16 12:12:52 tg Exp $");
 
 #define STARTSTRING "tar cf - "
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
@@ -326,10 +326,15 @@ extract_plist(const char *home, package_t *pkg)
 	    }
 
 	    PUSHOUT(Directory);
-	    if (Verbose)
+	    if (Verbose) {
+		system("echo current wd is: $(pwd); ls -la");
 		printf("extract: execute '%s'\n", cmd);
+	    }
 	    if (!Fake && system(cmd))
 		pwarnx("command '%s' failed", cmd);
+//	    if (Verbose) {
+//		system("echo pause; read x");
+//	    }
 	    break;
 
 	case PLIST_DIR_RM:
