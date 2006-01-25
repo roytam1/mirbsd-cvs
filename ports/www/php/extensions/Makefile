@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.7 2006/01/01 04:14:50 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.8 2006/01/25 12:48:07 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
@@ -121,8 +121,6 @@ FULLPKGNAME-gd=		php-gd-${V}-${PV}-no_x11
 
 # gmp
 PSEUDO_FLAVORS+=	no_gmp
-#XXX it's broken
-FLAVOR+=		no_gmp
 .if ${FLAVOR:L:Mno_gmp}
 CONFIGURE_ARGS+=	--without-gmp
 .else
