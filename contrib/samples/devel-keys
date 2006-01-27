@@ -1,14 +1,13 @@
 These are the public SSH keys of the MirOS developers, sorted by login name:
 
 bsiegert	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxgiHlIckV+JhD+l1bHElMTafm2sHisWvIMoRQoZs722YCUG5Bni8GTzYeObcuq8UB6Kc3woCYedaQcJ2dSgxssUy5yfLcWfXPCzKS6r7M/WizKCRgDLAfRbheXcQCLdxTpgrPRuKcBJJwsfsTpMJ4G5wlNb0yFIioeeVlyNWnqM= bsiegert@amiras.66h.42h.de
-sap		ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAyz3nGoLn0SigogcqIczbbYjmLTeFJAW8PO6vIdJr3iThzgHyUYpor+Umal1uxl1Y8ER2LBBlYnYeEndDH72MFNxp+kpUM/PqxJj0pwhvrchKt74+O1XziIiJcM58j3VWG0B+T9gZpq6ho/IjcNjt+yYVicgqqKrtsDyjzn0IhpU= paskaluk@itanium.invalid.66h.42h.de
-tg		ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAREAuxpusruWkoDWvZQ49mlhP3rtiSAGQA+clDKrhXKq0iPLdorOvtKwdAw/ckZ90lIbkf+kBez9N7U51JWyjuVa1AxxbTAiZQwLPNVsk4GkjE7cmCeT/6StsTEGF8MVIeIcZSczsD+1Viw5dfDgLUKMkmUS/46cGosoJiJaPzBxdrdYvVzBtoNPQsbFAoRajOfHUodUCUTQUlHtcYkDRLNm1LRYIWOvsa5yplXMdCE3UJHr8AMTADBhIdsJNJ6urIsMwN/AyY2hIs8gfffnufgvBWEOYpjhrS66zYryf2UGS69BdwNrRV8UBPeKncRPSSyVaoAqIMSIqkdFF9NDVdICf3WbdnfSyPUMssJZ8E1YiSM= tg@odem.66h.42h.de
+tg		ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAASEAmE/kae2OppreGbHl/45N56/d1IhXYQsc95ydk8UQuoOKd6e/+MRzwwcKz37v/VZX1co9knQECn8Pk+URARq7KChTvi2blM0T7Aqj140NVf6XTKxwx6uJpmgeOGLcGOxmgFjYkfcdMPPuejwJBpt+8fdFeKsDcKfD2oibXN7v11zngjSortJhhObsNpkfrJRKQRESudMv9+NSdty020iFw7r+P3vXZQcGlDt14iLcJplYwHW3KqcAs2Hfc9mA/p8BraMg9HwGprSiuqI25lmZFvaX3IcCtmH36blxTYgEDmfUcDZonlHP7dpxyzg4pHtuYyXzxPMl0yDHqJ7jWVzUecXYzji4aVIxaDVWRlkfrohRYD6Gzo+lAEo3a6TVstgr tg@odem.66h.42h.de
 
 
 These are the PGP fingerprints of the MirOS developers' keys:
 
 bsiegert   0xC246B025	70 98 4E B3 81 3F 89 FF  D6 F2 7E A2 DE E1 CD 88	Benny Siegert <bsiegert@gmx.de>
-tg	   0x5CE51C3D	29 BD 51 5B EF 59 EE 3B  32 D4 F5 B5 3A 84 DA 5A	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+tg	   (all keys no longer in use)
 
 
 Instead of the MirOS Root CA, please use the CAcert.org service, whose
@@ -20,6 +19,6 @@ trojan and we wouldn't easily know.
 
 gzsig(1) public keys are not kept in this file, and not used for ssh ac-
 cess; they are shown in src/share/doc/README in the base system instead.
-The ssh(1) public keys above are usually not used for gzsig(1) work.
+The ssh(1) public keys above are not used for gzsig(1) work.
 
-$MirOS: contrib/samples/devel-keys,v 1.2 2005/03/29 21:22:47 tg Exp $
+$MirOS: contrib/samples/devel-keys,v 1.3 2005/07/07 23:50:59 tg Exp $
