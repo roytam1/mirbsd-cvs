@@ -7,7 +7,7 @@
 #	OpenBSD: etc.sparc/MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp 
 #	$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.6 2005/08/02 12:02:07 tg Exp $
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
-#	MirOS: src/etc/MAKEDEV.common,v 1.6 2006/01/30 13:07:24 tg Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.7 2006/01/30 13:10:15 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
 #	MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
@@ -262,10 +262,10 @@ ss*)
 
 *random)
 	M random c 119 0 644
-	M srandom c 119 0 644
-	M urandom c 119 0 644
-	M prandom c 119 0 666
-	M arandom c 119 0 644
+	M srandom c 119 1 644
+	M urandom c 119 2 644
+	M prandom c 119 3 666
+	M arandom c 119 4 644
 	;;
 
 pf*)

@@ -7,7 +7,7 @@
 #	OpenBSD: etc.i386/MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp 
 #	MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp 
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
-#	MirOS: src/etc/MAKEDEV.common,v 1.6 2006/01/30 13:07:24 tg Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.7 2006/01/30 13:10:15 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
 #	MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
@@ -353,10 +353,10 @@ speaker)
 
 *random)
 	M random c 45 0 644
-	M srandom c 45 0 644
-	M urandom c 45 0 644
-	M prandom c 45 0 666
-	M arandom c 45 0 644
+	M srandom c 45 1 644
+	M urandom c 45 2 644
+	M prandom c 45 3 666
+	M arandom c 45 4 644
 	;;
 
 rmidi*)
