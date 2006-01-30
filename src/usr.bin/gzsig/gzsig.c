@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: gzsig.c,v 1.3 2005/05/29 09:10:23 djm Exp $ */
 
 /*
@@ -39,7 +40,7 @@
 
 #include "extern.h"
 
-static void
+static __dead void
 usage(void)
 {
 	sign_usage();
