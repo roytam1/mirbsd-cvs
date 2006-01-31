@@ -635,6 +635,10 @@ sys_execve(p, v, retval)
 	    p->p_emul != pack.ep_emul)
 		(*p->p_emul->e_proc_exit)(p);
 
+	p->p_descfd = 255;
+	if ((pack.ep_flags & EXEC_HASFD) && pack.ep_fd < 255)
+		p->p_descfd = pack.ep_fd;
+
 	/*
 	 * Call exec hook. Emulation code may NOT store reference to anything
 	 * from &pack.
