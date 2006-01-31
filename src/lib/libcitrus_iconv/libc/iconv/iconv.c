@@ -26,10 +26,9 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-#if defined(LIBC_SCCS) && !defined(lint)
+#include <sys/param.h>
+
 __RCSID("$NetBSD: iconv.c,v 1.5 2005/04/25 13:42:04 tshiozak Exp $");
-#endif /* LIBC_SCCS and not lint */
 
 #include "namespace.h"
 #include <assert.h>
@@ -49,11 +48,11 @@ __RCSID("$NetBSD: iconv.c,v 1.5 2005/04/25 13:42:04 tshiozak Exp $");
 
 #define ISBADF(_h_)	(!(_h_) || (_h_) == (iconv_t)-1)
 
-#ifdef __weak_alias
+//#ifdef __weak_alias
 __weak_alias(iconv, _iconv)
 __weak_alias(iconv_open, _iconv_open)
 __weak_alias(iconv_close, _iconv_close)
-#endif
+//#endif
 
 iconv_t
 _iconv_open(const char *out, const char *in)

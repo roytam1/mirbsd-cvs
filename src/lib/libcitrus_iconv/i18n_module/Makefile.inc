@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.2 2006/01/31 16:43:24 tg Exp $
 # $NetBSD: Makefile.inc,v 1.8 2004/05/17 05:49:54 lukem Exp $
 
 NOLINT=		# defined
@@ -8,12 +8,15 @@ NOPROFILE=	# defined
 .include <bsd.own.mk>
 .include "../Makefile.inc"
 
+# versioned(!) bundles
+.include "shlib_version"
+SHLIB_VERSION?=	${major}.${minor}
+
 LIBDIR=		/usr/lib/i18n
 CPPFLAGS+=	-I${NBLIBC}/citrus
 CPPFLAGS+=	-DLIBC_SCCS
 BASENAME=	${.CURDIR:T}
 LIB=		${BASENAME}
-SHLIB_SONAME=	lib${LIB}.so.4.4	# versioned(!) bundle
 SRCS_1=		${SRCPRE}${BASENAME}.c
 SRCS_2!=	echo '${SRCS_1}' | tr '[:upper:]' '[:lower:]'
 SRCS?=		${SRCS_2}

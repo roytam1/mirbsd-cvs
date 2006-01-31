@@ -31,6 +31,7 @@
 __RCSID("$NetBSD: citrus_mmap.c,v 1.3 2005/01/19 00:52:37 mycroft Exp $");
 #endif /* LIBC_SCCS and not lint */
 
+#include <sys/types.h>
 #include "namespace.h"
 #include <assert.h>
 #include <errno.h>
@@ -41,6 +42,7 @@ __RCSID("$NetBSD: citrus_mmap.c,v 1.3 2005/01/19 00:52:37 mycroft Exp $");
 #include <fcntl.h>
 #include <limits.h>
 #include <sys/mman.h>
+#include <sys/stat.h>
 
 #include "citrus_namespace.h"
 #include "citrus_region.h"
