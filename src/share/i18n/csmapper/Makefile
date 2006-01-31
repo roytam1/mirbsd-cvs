@@ -1,8 +1,10 @@
+# $MirOS$
 # $NetBSD: Makefile,v 1.6 2005/03/27 22:30:06 tnozaki Exp $
 
 NOMAN=
 
 .include <bsd.own.mk>
+_MKTARGET_CREATE?=@:
 
 .SUFFIXES: .src .646 .mps
 
@@ -10,12 +12,15 @@ BINDIR?= /usr/share/i18n/csmapper
 SRCS_mapper.dir+= mapper.dir.src
 SRCS_charset.pivot+= charset.pivot.src
 
-SUBDIR= CNS CP EBCDIC GB ISO646 ISO-8859 JIS KS MISC
-.for i in ${SUBDIR}
-.if exists(${.CURDIR}/$i/Makefile.inc)
-.include "${.CURDIR}/$i/Makefile.inc"
-.endif
+XSUBDIR= CNS CP EBCDIC GB ISO646 ISO-8859 JIS KS MISC
+.for i in ${XSUBDIR}
+.  if exists(${.CURDIR}/$i/Makefile.inc)
+.    include "${.CURDIR}/$i/Makefile.inc"
+.  endif
 .endfor
+
+SUBDIR+= mkcsmapper
+TOOL_MKCSMAPPER=${.CURDIR}/mkcsmapper/${__objdir}/mkcsmapper
 
 # ----------------------------------------------------------------------
 
@@ -41,7 +46,17 @@ CLEANFILES+= charset.pivot charset.pivot.pvdb
 	${_MKTARGET_CREATE}
 	${TOOL_MKCSMAPPER} -o $@ $>
 
-all: ${FILES}
+all: _SUBDIRUSE .WAIT ${TOOL_MKCSMAPPER} ${FILES}
 realall: ${FILES}
+
+${FILES}: ${TOOL_MKCSMAPPER}
+
+${TOOL_MKCSMAPPER}:
+	cd ${.CURDIR}/mkcswrapper && ${MAKE}
+
+FILESDIR?= ${BINDIR}
+afterinstall:
+	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${BINMODE} ${FILES} ${DESTDIR}${FILESDIR}/
 
 .include <bsd.prog.mk>

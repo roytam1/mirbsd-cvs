@@ -1,8 +1,10 @@
+# $MirOS$
 # $NetBSD: Makefile,v 1.4 2003/10/21 10:01:21 lukem Exp $
 
 NOMAN=
 
 .include <bsd.own.mk>
+_MKTARGET_CREATE?=@:
 
 BINDIR?=	/usr/share/i18n/esdb
 
@@ -12,11 +14,14 @@ BINDIR?=	/usr/share/i18n/esdb
 	${_MKTARGET_CREATE}
 	${TOOL_MKESDB} -o $@ $>
 
-SUBDIR=	CP EUC EBCDIC ISO-2022 ISO-8859 ISO646 MISC UTF
+XSUBDIR=	CP EUC EBCDIC ISO-2022 ISO-8859 ISO646 MISC UTF
 
-.for i in ${SUBDIR}
-.include "${.CURDIR}/$i/Makefile.inc"
+.for i in ${XSUBDIR}
+.  include "${.CURDIR}/$i/Makefile.inc"
 .endfor
+
+SUBDIR+= mkesdb
+TOOL_MKESDB=${.CURDIR}/mkesdb/${__objdir}/mkesdb
 
 # ----------------------------------------------------------------------
 # esdb.{dir,alias}
@@ -40,7 +45,17 @@ FILES+=		esdb.dir esdb.dir.db esdb.alias esdb.alias.db
 CLEANFILES+=	esdb.dir esdb.dir.db esdb.alias esdb.alias.db
 FILESDIR:=	${BINDIR}
 
-all: ${FILES}
+all: _SUBDIRUSE .WAIT ${TOOL_MKESDB} ${FILES}
 realall: ${FILES}
+
+${FILES}: ${TOOL_MKESDB}
+
+${TOOL_MKESDB}:
+	cd ${.CURDIR}/mkesdb && ${MAKE}
+
+FILESDIR?= ${BINDIR}
+afterinstall:
+	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${BINMODE} ${FILES} ${DESTDIR}${FILESDIR}/
 
 .include <bsd.prog.mk>
