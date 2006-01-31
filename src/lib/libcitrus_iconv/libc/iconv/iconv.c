@@ -29,6 +29,7 @@
 #include <sys/param.h>
 
 __RCSID("$NetBSD: iconv.c,v 1.5 2005/04/25 13:42:04 tshiozak Exp $");
+__RCSID("$MirOS$");
 
 #include "namespace.h"
 #include <assert.h>
@@ -52,6 +53,11 @@ __RCSID("$NetBSD: iconv.c,v 1.5 2005/04/25 13:42:04 tshiozak Exp $");
 __weak_alias(iconv, _iconv);
 __weak_alias(iconv_open, _iconv_open);
 __weak_alias(iconv_close, _iconv_close);
+
+/* GNU libiconv compatibility */
+__weak_alias(libiconv, _iconv);
+__weak_alias(libiconv_open, _iconv_open);
+__weak_alias(libiconv_close, _iconv_close);
 #endif
 
 iconv_t
