@@ -13,3 +13,4 @@ CLEANFILES+=		${ESDB_MISC}
 .for i in ${ESDB_MISC}
 FILESDIR_$i:=		${BINDIR}/MISC
 .endfor
+_ALLFDIRS+= ${BINDIR}/MISC

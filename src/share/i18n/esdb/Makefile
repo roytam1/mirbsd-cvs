@@ -1,4 +1,4 @@
-# $MirOS: src/share/i18n/esdb/Makefile,v 1.2 2006/01/31 15:19:09 tg Exp $
+# $MirOS: src/share/i18n/esdb/Makefile,v 1.3 2006/01/31 15:59:31 tg Exp $
 # $NetBSD: Makefile,v 1.4 2003/10/21 10:01:21 lukem Exp $
 
 NOMAN=
@@ -49,10 +49,5 @@ realall: ${FILES}
 
 ${TOOL_MKESDB}:
 	cd ${.CURDIR}/mkesdb && ${MAKE}
-
-FILESDIR?= ${BINDIR}
-afterinstall:
-	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${FILES} ${DESTDIR}${FILESDIR}/
 
 .include <bsd.prog.mk>
