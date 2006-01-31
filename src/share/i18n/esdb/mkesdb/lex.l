@@ -46,7 +46,7 @@ __RCSID("$NetBSD: lex.l,v 1.2 2003/10/27 00:12:43 lukem Exp $");
 #include <sys/queue.h>
 
 #include "ldef.h"
-#include "yacc.h"
+#include "y.tab.h"
 
 int line_number = 1;
 %}

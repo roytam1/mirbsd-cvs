@@ -23,3 +23,4 @@ CLEANFILES+= ${MAPS_CNS}
 .for i in ${MAPS_CNS}
 FILESDIR_$i= ${BINDIR}/CNS
 .endfor
+_ALLFDIRS+= ${BINDIR}/CNS

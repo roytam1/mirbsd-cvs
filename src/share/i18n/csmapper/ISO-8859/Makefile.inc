@@ -55,3 +55,4 @@ charset.pivot.ISO-8859: ${.CURDIR}/ISO-8859/ISO-8859.part
 	    done;\
 	    echo;\
 	) > ${.TARGET}
+_ALLFDIRS+= ${BINDIR}/ISO-8859

@@ -21,3 +21,4 @@ CLEANFILES+= ${MAPS_GB}
 .for i in ${MAPS_GB}
 FILESDIR_$i= ${BINDIR}/GB
 .endfor
+_ALLFDIRS+= ${BINDIR}/GB

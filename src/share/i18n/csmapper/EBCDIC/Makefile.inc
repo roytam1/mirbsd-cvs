@@ -39,3 +39,4 @@ FILES+=					UCS%EBCDIC-${i:S/:/@/}.mps
 FILESDIR_UCS%EBCDIC-${i:S/:/@/}.mps=	${BINDIR}/EBCDIC
 CLEANFILES+=				UCS%EBCDIC-${i:S/:/@/}.mps
 .endfor
+_ALLFDIRS+= ${BINDIR}/EBCDIC

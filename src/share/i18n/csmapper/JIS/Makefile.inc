@@ -37,3 +37,4 @@ CLEANFILES+= ${MAPS_JIS}
 .for i in ${MAPS_JIS}
 FILESDIR_$i= ${BINDIR}/JIS
 .endfor
+_ALLFDIRS+= ${BINDIR}/JIS

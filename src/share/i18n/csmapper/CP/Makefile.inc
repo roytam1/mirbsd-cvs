@@ -39,3 +39,5 @@ CLEANFILES+=	CP${i:S/:/@/}%UCS.mps UCS%CP${i:S/:/@/}.mps
 FILESDIR_CP${i:S/:/@/}%UCS.mps=	${BINDIR}/CP
 FILESDIR_UCS%CP${i:S/:/@/}.mps=	${BINDIR}/CP
 .endfor
+
+_ALLFDIRS+= ${BINDIR}/CP

@@ -1,10 +1,9 @@
-# $MirOS$
+# $MirOS: src/share/i18n/esdb/Makefile,v 1.2 2006/01/31 15:19:09 tg Exp $
 # $NetBSD: Makefile,v 1.4 2003/10/21 10:01:21 lukem Exp $
 
 NOMAN=
 
 .include <bsd.own.mk>
-_MKTARGET_CREATE?=@:
 
 BINDIR?=	/usr/share/i18n/esdb
 
@@ -47,8 +46,6 @@ FILESDIR:=	${BINDIR}
 
 all: _SUBDIRUSE .WAIT ${TOOL_MKESDB} ${FILES}
 realall: ${FILES}
-
-${FILES}: ${TOOL_MKESDB}
 
 ${TOOL_MKESDB}:
 	cd ${.CURDIR}/mkesdb && ${MAKE}
