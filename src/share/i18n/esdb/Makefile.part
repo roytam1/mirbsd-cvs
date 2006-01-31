@@ -35,7 +35,7 @@ CLEANFILES+=	esdb.dir.${code}
 #
 .for i in ${${code}_PART:S/:/@/}
 ${code}_$i_aliases!= \
-	sed '/^\#/d;/^ *$$/d;/^${i:S/@/:/}[ 	]/!d;;s/^[^ 	]*[ 	]*//' \
+	sed '/^\#/d;/^ *$$/d;/^${i:S/@/:/}[ 	]/!d;s/^[^ 	]*[ 	]*//' \
 		${ALIASFILE_${code}}
 .endfor
 esdb.alias.${code}: ${PARTFILE_${code}} ${ALIASFILE_${code}}
