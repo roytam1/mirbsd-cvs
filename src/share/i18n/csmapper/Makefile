@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/i18n/csmapper/Makefile,v 1.2 2006/01/31 15:19:08 tg Exp $
 # $NetBSD: Makefile,v 1.6 2005/03/27 22:30:06 tnozaki Exp $
 
 NOMAN=
@@ -52,7 +52,7 @@ realall: ${FILES}
 ${FILES}: ${TOOL_MKCSMAPPER}
 
 ${TOOL_MKCSMAPPER}:
-	cd ${.CURDIR}/mkcswrapper && ${MAKE}
+	cd ${.CURDIR}/mkcsmapper && ${MAKE}
 
 FILESDIR?= ${BINDIR}
 afterinstall:
