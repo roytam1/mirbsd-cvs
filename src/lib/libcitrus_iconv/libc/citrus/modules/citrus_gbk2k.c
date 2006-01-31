@@ -338,6 +338,7 @@ _citrus_GBK2K_stdenc_wctocs(_GBK2KEncodingInfo * __restrict ei,
 			    _index_t * __restrict idx, wchar_t wc)
 {
 	u_int8_t ch, cl;
+	u_int32_t wci = wc;
 
 	_DIAGASSERT(csid != NULL && idx != NULL);
 
@@ -345,10 +346,10 @@ _citrus_GBK2K_stdenc_wctocs(_GBK2KEncodingInfo * __restrict ei,
 		/* ISO646 */
 		*csid = 0;
 		*idx = (_index_t)wc;
-	} else if ((u_int32_t)wc>=0x10000) {
+	} else if (wci>=0x10000) {
 		/* GBKUCS : XXX */
 		*csid = 3;
-		*idx = (_index_t)wc;
+		*idx = (_index_t)wci;
 	} else {
 		ch = (u_int8_t)(wc >> 8);
 		cl = (u_int8_t)wc;

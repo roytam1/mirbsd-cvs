@@ -1,11 +1,14 @@
-# $MirOS$
+# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.1 2006/01/31 17:27:29 tg Exp $
 
 .include <bsd.own.mk>
 .include "Makefile.inc"
 .include "i18n_module/shlib_version"
 SHLIB_VERSION?=	${major}.${minor}
 
-SUBDIR+=	i18n_module/iconv_std
+SUBDIR+=	i18n_module
+.if make(obj) || make(clean) || make(cleandir)
+SUBDIR+=	test
+.endif
 
 .PATH: ${NBLIBC}/citrus ${NBLIBC}/citrus/modules ${NBLIBC}/iconv
 
@@ -19,14 +22,5 @@ MAN=		iconv.3
 
 MLINKS+=	iconv.3 iconv_open.3 \
 		iconv.3 iconv_close.3
-
-CPPFLAGS+=	-I${NBLIBC}/citrus -I${NBLIBC}/citrus/modules \
-		-I${BSDSRCDIR}/lib/libc/include -I${NBLIBC}
-
-CPPFLAGS+=	-D'_PATH_CSMAPPER="/usr/share/i18n/csmapper"' \
-		-D'_PATH_ESDB="/usr/share/i18n/esdb"' \
-		-D'_PATH_ICONV="/usr/share/i18n/iconv"' \
-		-DI18NMODULE_MAJOR=${major} \
-		-DCITRUS -DCITRUS_ICONV
 
 .include <bsd.lib.mk>

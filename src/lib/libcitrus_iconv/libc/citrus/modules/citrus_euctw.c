@@ -299,7 +299,7 @@ _citrus_EUCTW_wcrtomb_priv(_EUCTWEncodingInfo * __restrict ei,
 			   _EUCTWState * __restrict psenc,
 			   size_t * __restrict nresult)
 {
-	wchar_t cs = wc & 0x7f000080;
+	int32_t cs = (int32_t)wc & 0x7f000080;
 	wchar_t v;
 	int i, len, clen, ret;
 

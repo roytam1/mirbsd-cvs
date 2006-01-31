@@ -27,9 +27,10 @@
  */
 
 #include <sys/cdefs.h>
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0 /* defined(LIBC_SCCS) && !defined(lint) */
 __RCSID("$NetBSD: citrus_none.c,v 1.17 2005/12/02 11:14:20 yamt Exp $");
 #endif /* LIBC_SCCS and not lint */
+__RCSID("$MirOS$");
 
 #include <assert.h>
 #include <errno.h>
@@ -44,18 +45,23 @@ __RCSID("$NetBSD: citrus_none.c,v 1.17 2005/12/02 11:14:20 yamt Exp $");
 #include "citrus_namespace.h"
 #include "citrus_types.h"
 #include "citrus_module.h"
+#if 0
 #include "citrus_ctype.h"
+#endif
 #include "citrus_none.h"
 #include "citrus_stdenc.h"
 
 /* ---------------------------------------------------------------------- */
 
+#if 0
 _CITRUS_CTYPE_DECLS(NONE);
 _CITRUS_CTYPE_DEF_OPS(NONE);
+#endif
 
 
 /* ---------------------------------------------------------------------- */
 
+#if 0
 static int
 /*ARGSUSED*/
 _citrus_NONE_ctype_init(void ** __restrict cl, void * __restrict var,
@@ -337,6 +343,7 @@ _citrus_NONE_ctype_wctob(_citrus_ctype_rec_t * __restrict cc,
 		*cresult = (int)wc;
 	return (0);
 }
+#endif
 
 /* ---------------------------------------------------------------------- */
 

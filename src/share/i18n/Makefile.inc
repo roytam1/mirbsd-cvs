@@ -1,9 +1,7 @@
-# $MirOS: src/share/i18n/Makefile.inc,v 1.1 2006/01/31 15:59:28 tg Exp $
+# $MirOS: src/share/i18n/Makefile.inc,v 1.2 2006/01/31 16:26:48 tg Exp $
 
 .ifndef _MODSRC_SHARE_I18N_MAKEFILE_INC
 _MODSRC_SHARE_I18N_MAKEFILE_INC=1
-
-CPPFLAGS+=	-D'_DIAGASSERT(x)='
 
 _MKTARGET_CREATE?=@:
 

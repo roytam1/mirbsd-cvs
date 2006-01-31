@@ -157,7 +157,7 @@ _FUNCNAME(stdenc_mbtowc)(struct _citrus_stdenc * __restrict ce,
 			 const char ** __restrict s, size_t n,
 			 void * __restrict ps, size_t * __restrict nresult)
 {
-	return _FUNCNAME(mbrtowc_priv)(_CE_TO_EI(ce), wc, s, n,
+	return _FUNCNAME(mbrtowc_priv)(_CE_TO_EI(ce), (wchar_t *)wc, s, n,
 				       _TO_STATE(ps), nresult);
 }
 

@@ -244,6 +244,7 @@ _citrus_UTF1632_wcrtomb_priv(_UTF1632EncodingInfo *ei, char *s, size_t n,
 {
 	int ret;
 	wchar_t wc2;
+	uint32_t wci = wc;
 
 	_DIAGASSERT(ei != NULL);
 	_DIAGASSERT(nresult != 0);
@@ -252,9 +253,9 @@ _citrus_UTF1632_wcrtomb_priv(_UTF1632EncodingInfo *ei, char *s, size_t n,
 	wc2 = 0;
 	if ((ei->mode & _MODE_UTF32)==0) {
 		/* UTF16 */
-		if (wc>0xFFFF) {
+		if (wci>0xFFFF) {
 			/* surrogate */
-			if (wc>0x10FFFF) {
+			if (wci>0x10FFFF) {
 				ret = EILSEQ;
 				goto err;
 			}
@@ -262,9 +263,9 @@ _citrus_UTF1632_wcrtomb_priv(_UTF1632EncodingInfo *ei, char *s, size_t n,
 				ret = E2BIG;
 				goto err;
 			}
-			wc -= 0x10000;
-			wc2 = (wc & 0x3FF) | 0xDC00;
-			wc = (wc>>10) | 0xD800;
+			wci -= 0x10000;
+			wc2 = (wci & 0x3FF) | 0xDC00;
+			wc = (wci>>10) | 0xD800;
 			*nresult = (size_t)4;
 		} else {
 			if (n < 2) {
@@ -413,7 +414,7 @@ _citrus_UTF1632_stdenc_wctocs(_UTF1632EncodingInfo * __restrict ei,
 static __inline int
 /*ARGSUSED*/
 _citrus_UTF1632_stdenc_cstowc(_UTF1632EncodingInfo * __restrict ei,
-			      _wc_t * __restrict wc,
+			      wchar_t * __restrict wc,
 			      _csid_t csid, _index_t idx)
 {
 

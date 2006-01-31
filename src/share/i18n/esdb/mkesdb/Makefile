@@ -1,10 +1,10 @@
-# $MirOS: src/share/i18n/esdb/mkesdb/Makefile,v 1.2 2006/01/31 15:19:09 tg Exp $
+# $MirOS: src/share/i18n/esdb/mkesdb/Makefile,v 1.3 2006/01/31 15:59:31 tg Exp $
 # $NetBSD: Makefile,v 1.3 2003/10/27 00:14:59 lukem Exp $
 
 .ifndef HOSTPROG
 .include <bsd.own.mk>
 .endif
-.include "../../Makefile.inc"
+.include "${BSDSRCDIR}/lib/libcitrus_iconv/Makefile.inc"
 
 .PATH: ${BSDSRCDIR}/lib/libcitrus_iconv/libc/citrus
 
