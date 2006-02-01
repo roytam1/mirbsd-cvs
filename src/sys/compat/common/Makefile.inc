@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/compat/common/Makefile.inc,v 1.2 2005/03/06 21:27:28 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.7 2002/07/14 09:20:24 mdw Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/05/20 17:23:59 mrg Exp $
 #
@@ -13,7 +13,7 @@ COMPATMAKE= \
 	cd ${COMPATDST} && ${MAKE} -f ${COMPATDIR}/Makefile \
 	    CC="${CC}" CFLAGS="${CFLAGS:S/-I./-I${PWD}\/./g}" \
 	    LD="${LD}" AR="${AR}" RANLIB="${RANLIB}" LORDER="${LORDER}" \
-	    NM="${NM}" \
+	    NM="${NM}" COPTS= \
 	    XMACHINE='${MACHINE}' XMACHINE_ARCH='${MACHINE_ARCH}' \
 	    CPPFLAGS="${CPPFLAGS:S/-I./-I${PWD}\/./g}" \
 	    COMPATDIR="${COMPATDIR}"

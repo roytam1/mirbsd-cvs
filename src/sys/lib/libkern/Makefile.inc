@@ -1,4 +1,4 @@
-#	$MirOS$
+#	$MirOS: src/sys/lib/libkern/Makefile.inc,v 1.2 2005/03/06 21:28:05 tg Exp $
 #	$OpenBSD: Makefile.inc,v 1.11 2000/06/29 16:28:29 mickey Exp $
 #	$NetBSD: Makefile.inc,v 1.22 1996/09/30 15:54:35 ws Exp $
 #
@@ -20,7 +20,7 @@ KERNMAKE= \
 	    CC='${CC}' CFLAGS='${CFLAGS}' AS='${AS}' AFLAGS='${AFLAGS}' \
 	    LD='${LD}' STRIP='${STRIP}' CPP='${CPP}' STRIP='${STRIP}' \
 	    AR='${AR}' NM='${NM}' LORDER='${LORDER}' XMACHINE='${MACHINE}' \
-	    XMACHINE_ARCH='${MACHINE_ARCH}' KERNDIR=${KERNDIR} \
+	    XMACHINE_ARCH='${MACHINE_ARCH}' KERNDIR=${KERNDIR} COPTS= \
 	    KERNCPPFLAGS='${CPPFLAGS:S@^-I.@-I../../.@g}'
 
 ${KERNLIB}:		.NOTMAIN __always_make_kernlib
