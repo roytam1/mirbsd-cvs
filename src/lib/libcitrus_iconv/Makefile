@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.3 2006/02/01 14:40:13 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.4 2006/02/01 16:22:47 tg Exp $
 
 .include <bsd.own.mk>
 .include "Makefile.inc"
@@ -30,6 +30,7 @@ lt_current!=	print $$((${SHLIB_VERSION:R} + ${SHLIB_VERSION:E}))
 lt_age=		${SHLIB_VERSION:E}
 
 all: libiconv.la
+CLEANFILES+=	libiconv.la
 
 libiconv.la: iconv.la
 	sed -e 's!@SHLIB_VERSION@!${SHLIB_VERSION}!g' \
