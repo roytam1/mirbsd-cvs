@@ -1,9 +1,10 @@
-# $MirOS: ports/emulators/redhat/Makefile.inc,v 1.2 2005/04/10 21:49:47 tg Exp $
+# $MirOS: ports/emulators/redhat/Makefile.inc,v 1.3 2005/04/11 15:55:15 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.7 2002/12/29 15:06:49 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-CATEGORIES=	emulators
+CATEGORIES=		emulators
+EMUL=			linux
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
@@ -18,8 +19,12 @@ MASTER_SITE_REDHAT=\
 DIST_SUBDIR=	rpm
 EXTRACT_ONLY=
 
-BUILD_DEPENDS=	::converters/rpm2cpio
+BUILD_DEPENDS+=	::converters/rpm2cpio
 
 NO_BUILD=	Yes
+NO_REGRESS=	Yes
+EMDIR=		${PREFIX}/emul/redhat
+PL=		7
 
-PREFIX=		${LOCALBASE}/emul/redhat
+pre-install:
+	@${INSTALL_DATA_DIR} ${EMDIR}

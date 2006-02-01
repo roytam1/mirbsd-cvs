@@ -1,4 +1,4 @@
-# $MirOS: ports/www/opera/Makefile,v 1.6 2006/01/18 11:26:17 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.7 2006/01/25 11:28:28 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -6,7 +6,7 @@ EMUL=			linux
 
 COMMENT=		"fast and customizable WWW browser"
 DISTNAME=		opera-8.51-20051114.1-static-qt.i386-en
-PKGNAME=		opera-8.51-2
+PKGNAME=		opera-8.51-3
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
 
@@ -30,7 +30,7 @@ MASTER_SITES_OPERA=	ftp://ftp.opera.com/pub/opera/ \
 MASTER_SITES=		${MASTER_SITES_OPERA:=linux/851/final/en/i386/}
 EXTRACT_SUFX=		.tar.bz2
 
-RUN_DEPENDS=		:debian-libs-*:emulators/debian
+RUN_DEPENDS=		:debian-libs->=3.1-1:emulators/debian
 
 NO_BUILD=		Yes
 NO_REGRESS=		Yes
@@ -40,6 +40,10 @@ do-install:
 	    --prefix=${PREFIX} \
 	    --exec_prefix=${PREFIX}/libexec \
 	    --plugindir=${PREFIX}/lib/opera/plugins
+	chmod 600 ${PREFIX}/libexec/opera
+	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' \
+	    ${PREFIX}/libexec/opera
+	chmod ${BINMODE} ${PREFIX}/libexec/opera
 	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' \
 	    -e 's:@SHELL@:${MKSH}:g' \
 	    -e 's:@LOCALBASE@:${LOCALBASE}:g' \

@@ -1,20 +1,19 @@
-@comment $MirOS$
-emul/debian/ld-linux.so.2
-KLUDGE:emul/debian/ld-linux.so.2.bin
-emul/debian/libICE.so.6
-emul/debian/libSM.so.6
-emul/debian/libX11.so.6
-emul/debian/libXext.so.6
-emul/debian/libXpm.so.4
-emul/debian/libXt.so.6
-emul/debian/libc.so.6
-emul/debian/libdl.so.2
-emul/debian/libexpat.so.0
-emul/debian/libfontconfig.so.1
-emul/debian/libfreetype.so.6
-emul/debian/libm.so.6
-emul/debian/libpthread.so.0
-emul/debian/libz.so.1
-emul/debian/run
+@comment $MirOS: ports/emulators/debian/pkg/PLIST,v 1.1 2006/01/18 11:16:47 tg Exp $
+emul/debian/dbl/ld-linux.so.2
+emul/debian/dbl/libICE.so.6
+emul/debian/dbl/libSM.so.6
+emul/debian/dbl/libX11.so.6
+emul/debian/dbl/libXext.so.6
+emul/debian/dbl/libXpm.so.4
+emul/debian/dbl/libXt.so.6
+emul/debian/dbl/libc.so.6
+emul/debian/dbl/libdl.so.2
+emul/debian/dbl/libexpat.so.0
+emul/debian/dbl/libfontconfig.so.1
+emul/debian/dbl/libfreetype.so.6
+emul/debian/dbl/libm.so.6
+emul/debian/dbl/libpthread.so.0
+emul/debian/dbl/libz.so.1
+@dirrm emul/debian/dbl
 @dirrm emul/debian
 @dirrm emul

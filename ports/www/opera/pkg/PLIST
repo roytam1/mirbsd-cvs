@@ -1,5 +1,7 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.2 2005/12/16 14:42:59 tg Exp $
 @comment $OpenBSD: PLIST,v 1.21 2005/07/07 18:30:29 sturm Exp $
+@unexec rm -f %D/share/opera/styles/browser.css
+@unexec rm -f %D/share/opera/styles/user.css
 bin/opera
 lib/opera/plugins/libnpp.so
 lib/opera/plugins/operamotifwrapper-1

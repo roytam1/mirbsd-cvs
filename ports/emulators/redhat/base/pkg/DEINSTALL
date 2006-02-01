@@ -1,14 +1,12 @@
 #!/bin/sh
 # $MirOS$
-# $OpenBSD: DEINSTALL,v 1.3 2004/03/11 20:54:14 lebel Exp $
 #
 # redhat_base de-installation
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
-PREFIX=${PREFIX:-/usr/local}/emul/redhat
+PREFIX=${PKG_PREFIX:-/usr/local}
 
-if [ -L /emul/linux -a x`readlink /emul/linux` = x"$PREFIX" ]; then
-    rm -f /emul/linux
-fi
+$PREFIX/emul/linux/linuxctl deregister ${PREFIX}/emul/redhat \
+    bin etc lib sbin usr var
 
 exit 0

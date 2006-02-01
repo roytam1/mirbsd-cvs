@@ -1,13 +1,13 @@
-# $MirOS: ports/emulators/redhat/base/Makefile,v 1.2 2005/07/07 21:20:47 bsiegert Exp $
+# $MirOS: ports/emulators/redhat/base/Makefile,v 1.3 2005/12/27 18:49:03 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/03/02 07:49:24 ish Exp $
 
 COMMENT=	"Linux compatibility package based on RedHat GNU/Linux 8.0"
-EMUL=		linux
-PKGNAME=	redhat_base-8.0-6
+PKGNAME=	redhat_base-8.0-${PL}
 MASTER_SITES=	${MASTER_SITE_REDHAT:=redhat/linux/8.0/en/os/i386/RedHat/RPMS/}
 MASTER_SITES0=	${MASTER_SITE_REDHAT:=redhat/linux/updates/8.0/en/os/i386/}
 DISTFILES=	${RPMS}
 RPMDIR=		${FULLDISTDIR}
+RUN_DEPENDS+=	:linux-common-*:emulators/linux-common
 
 RPMS=		glibc-2.3.2-4.80.8.i386.rpm:0 \
 		glibc-common-2.3.2-4.80.8.i386.rpm:0 \
@@ -39,45 +39,39 @@ REMOVE_FILES=	/etc/localtime
 
 PATCH_LIST=
 
-NO_BUILD=	Yes
-NO_REGRESS=	Yes
-
-pre-install:
-	@${INSTALL_DATA_DIR} ${PREFIX}
-
 do-install:
 .for rpm in ${RPMS:S/:0//}
-	@cd ${PREFIX}; ${LOCALBASE}/bin/rpm2cpio ${RPMDIR}/${rpm} | cpio -id
+	@cd ${EMDIR}; ${LOCALBASE}/bin/rpm2cpio ${RPMDIR}/${rpm} | cpio -id
 .endfor
 
 # Get rid of some unnecessary files and directories.
 .for D in ${REMOVE_DIRS}
-	@rm -rf ${PREFIX}/${D}
+	@rm -rf ${EMDIR}/${D}
 .endfor
 .for F in ${REMOVE_FILES}
-	@rm -f ${PREFIX}/${F}
+	@rm -f ${EMDIR}/${F}
 .endfor
 
-	@cd ${PREFIX} && ${PATCH} -p0 --forward --quiet -E < ${PATCHDIR}/patch-ldd
+	@cd ${EMDIR} && ${PATCH} -p0 --forward --quiet -E < ${PATCHDIR}/patch-ldd
 
 # copy in ld.so.conf
-	${INSTALL_DATA} ${FILESDIR}/ld.so.conf ${PREFIX}/etc
+	${INSTALL_DATA} ${FILESDIR}/ld.so.conf ${EMDIR}/etc
 
 # run elf2olf on a few binaries known not to run as elf
-	@elf2olf -o linux ${PREFIX}/sbin/ldconfig
+	@elf2olf -o linux ${EMDIR}/sbin/ldconfig
 
 # rename ldconfig and install wrapper
-	@cp -p ${PREFIX}/sbin/ldconfig ${PREFIX}/sbin/ldconfig.bin
-	${INSTALL_SCRIPT} ${FILESDIR}/ldconfig ${PREFIX}/sbin
+	@cp -p ${EMDIR}/sbin/ldconfig ${EMDIR}/sbin/ldconfig.bin
+	${INSTALL_SCRIPT} ${FILESDIR}/ldconfig ${EMDIR}/sbin
 
 # make a copy of ld.so, convert to olf and then patch
-	@cp -p ${PREFIX}/lib/ld-2.3.2.so ${PREFIX}/usr/bin/ld-2.3.2-olf.so
-	@elf2olf -o linux ${PREFIX}/usr/bin/ld-2.3.2-olf.so
-	@perl ${FILESDIR}/fix-ldd.pl ${PREFIX}/usr/bin/ld-2.3.2-olf.so
+	@cp -p ${EMDIR}/lib/ld-2.3.2.so ${EMDIR}/usr/bin/ld-2.3.2-olf.so
+	@elf2olf -o linux ${EMDIR}/usr/bin/ld-2.3.2-olf.so
+	@perl ${FILESDIR}/fix-ldd.pl ${EMDIR}/usr/bin/ld-2.3.2-olf.so
 
 post-install:
 # remove setuid root bits, fix ownerships
-	@find ${PREFIX} -perm -4000 -exec chmod u-s {} \;
-	@find ${PREFIX} -user 5041 -exec chown -h ${BINOWN}:${BINGRP} {} \;
+	@find ${EMDIR} -perm -4000 -exec chmod u-s {} \;
+	@find ${EMDIR} -user 5041 -exec chown -h ${BINOWN}:${BINGRP} {} \;
 
 .include <bsd.port.mk>

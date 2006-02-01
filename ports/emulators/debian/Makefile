@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/debian/Makefile,v 1.1 2006/01/18 11:16:47 tg Exp $
+# $MirOS: ports/emulators/debian/Makefile,v 1.2 2006/01/18 11:24:36 tg Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:i386 OpenBSD:*:i386
 
@@ -6,8 +6,9 @@ COMMENT=		"Debian GNU/Linux shared libraries"
 EMUL=			linux
 CATEGORIES=		emulators
 DISTNAME=		debian-libs-3.1
-FULLPKGNAME=		${DISTNAME}-0
+FULLPKGNAME=		${DISTNAME}-1
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RUN_DEPENDS+=		:linux-common-*:emulators/linux-common
 
 # DFSG compliant
 PERMIT_DISTFILES_CDROM=	Yes
@@ -39,39 +40,16 @@ DISTFILES=		libc6_2.3.2.ds1-22_i386.deb:0 \
 			zlib1g_1.2.2-4.sarge.2_i386.deb:5
 
 WRKDIST=		${WRKDIR}/debian-libs
+NO_BUILD=		Yes
 NO_REGRESS=		Yes
 
-BASEDIR=		${PREFIX}/emul/debian
-
-.include <mirports.sys.mk>
-.if ${OStype} == "MirBSD"
-HAS_DYNEXEC!=		eval $$(uname -l|sed \
-			    's/^\#\([0-9]*\)[a-z]\([0-9A-F][0-9A-F]\).*$$/let \
-			     major=\1 minor=16\#\2/'); \
-			(( (major > 8) || ((major == 8) && (minor > 161)) )) \
-			    && echo dynexec || true
-.endif
-
-FLAVORS=		${HAS_DYNEXEC}
-FLAVOR?=		${HAS_DYNEXEC}
-
-.if ${FLAVOR:L:Mdynexec}
-SED_PLIST+=		| sed -e '/^KLUDGE:/d'
-LDSO=			ld-linux.so.2
-.else
-SED_PLIST+=		| sed -e '/^KLUDGE:/s///'
-LDSO=			ld-linux.so.2.bin
-.endif
+BASEDIR=		${PREFIX}/emul/debian/dbl
 
 do-extract:
 	mkdir -p ${WRKDIST}
 .for _i in ${DISTFILES:T}
 	cd ${WRKDIST}; ar x ${FULLDISTDIR}/${_i:C/:.$//} && tar xzf data.tar.gz
 .endfor
-
-do-build:
-	sed -e 's!@@BASEDIR@@!${BASEDIR}!g' -e 's!@@LDSO@@!${LDSO}!g' \
-	    <${FILESDIR}/run >${WRKSRC}/run
 
 LIBS=			/lib/ld-linux.so.2 \
 			/lib/libc.so.6 \
@@ -95,14 +73,6 @@ do-install:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
 	    ${WRKDIST}${_i} ${BASEDIR}/
 .endfor
-.if !${FLAVOR:L:Mdynexec}
-	# hack ET_DYN
-	cp ${BASEDIR}/ld-linux.so.2 ${BASEDIR}/ld-linux.so.2.bin
-	chmod 600 ${BASEDIR}/ld-linux.so.2.bin
-	print -n '\02' | dd of=${BASEDIR}/ld-linux.so.2.bin \
-	    bs=1 conv=notrunc seek=16
-.endif
-	chmod ${BINMODE} ${BASEDIR}/ld-linux.so.2*
-	${INSTALL_SCRIPT} ${WRKSRC}/run ${BASEDIR}/
+	chmod ${BINMODE} ${BASEDIR}/ld-linux.so.2
 
 .include <bsd.port.mk>

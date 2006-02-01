@@ -1,10 +1,6 @@
 #!/bin/sh
 # $MirOS$
-#
-# Pre/post-installation setup of redhat_base
 
-# exit on errors, use a sane path and install prefix
-#
 set -e
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 PREFIX=${PKG_PREFIX:-/usr/local}
@@ -40,11 +36,7 @@ case $2 in
 	fi
 	;;
     POST-INSTALL)
-	set +e
-	$PREFIX/emul/linux/linuxctl register ${PREFIX}/emul/redhat \
-	    bin etc lib sbin usr var
-	${PREFIX}/emul/redhat/sbin/ldconfig
-	set -e
+	$PREFIX/emul/linux/linuxctl register ${PREFIX}/emul/debian dbl
 	;;
     *)
 	echo "usage: $0 distname { PRE-INSTALL | POST-INSTALL }" >&2
