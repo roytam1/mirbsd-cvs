@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.1 2006/01/31 17:27:29 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.2 2006/01/31 19:13:42 tg Exp $
 
 .include <bsd.own.mk>
 .include "Makefile.inc"
@@ -12,7 +12,9 @@ SUBDIR+=	test
 
 .PATH: ${NBLIBC}/citrus ${NBLIBC}/citrus/modules ${NBLIBC}/iconv
 
-LIB=		citrus_iconv
+LIB=		iconv
+DPADD+=		${.CURDIR}/iconv.exp
+LDFLAGS+=	-Wl,--version-script,${.CURDIR}/iconv.exp
 SRCS=		citrus_bcs.c citrus_csmapper.c citrus_db.c \
 		citrus_db_hash.c citrus_esdb.c citrus_hash.c \
 		citrus_iconv.c citrus_lookup.c citrus_mapper.c \
