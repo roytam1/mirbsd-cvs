@@ -1,9 +1,9 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.3 2005/07/07 21:18:06 bsiegert Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.4 2005/07/19 18:10:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
 COMMENT=	"character set conversion library"
 DISTNAME=	libiconv-1.9.1
-PKGNAME=	${DISTNAME}-2
+PKGNAME=	${DISTNAME}-3
 CATEGORIES=	converters devel
 MASTER_SITES=	${MASTER_SITE_GNU:=libiconv/}
 HOMEPAGE=	http://www.gnu.org/software/libiconv/
@@ -24,6 +24,10 @@ CONFIGURE_ARGS+= --enable-static \
 		 --enable-extra-encodings \
 		 --disable-nls \
 		 --mandir=${PREFIX}/man
+
+# To avoid clashing with native libiconv (Darwin, MirBSD #9)
+CONFIGURE_ARGS+= --libdir=${PREFIX}/giconv/lib \
+		 --includedir=${PREFIX}/giconv/include
 
 # Yes, it does need this fuckup.
 pre-patch:
