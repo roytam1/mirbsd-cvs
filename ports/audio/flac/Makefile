@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/flac/Makefile,v 1.3 2005/11/09 20:51:11 bsiegert Exp $
+# $MirOS: ports/audio/flac/Makefile,v 1.4 2005/12/29 20:29:25 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
 COMMENT=		"free lossless audio codec"
@@ -26,7 +26,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--enable-3dnow \
-			--with-libiconv-prefix="${LOCALBASE}" \
+			--with-libiconv-prefix="${ICONV_PREFIX}" \
 			--with-ogg="${LOCALBASE}"
 CONFIGURE_ENV+=		ac_cv_path_XMMS_CONFIG=false \
 			ac_cv_prog_DOXYGEN=false

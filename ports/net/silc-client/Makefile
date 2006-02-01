@@ -1,4 +1,4 @@
-# $MirOS: ports/net/silc-client/Makefile,v 1.2 2005/03/30 16:51:12 bsiegert Exp $
+# $MirOS: ports/net/silc-client/Makefile,v 1.3 2005/04/10 21:50:49 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/02/19 23:07:27 brad Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -38,7 +38,7 @@ CONFIGURE_ARGS+=--enable-ipv6 \
 		--with-helpdir=${PREFIX}/share/silc/help \
 		--with-docdir=${PREFIX}/share/doc/silc \
 		--with-etcdir=${CONFDIR} \
-		--with-iconv=${LOCALBASE} \
+		--with-iconv=${ICONV_PREFIX} \
 		--with-perl-lib=${PREFIX}/libdata/perl5/site_perl
 
 CONFIGURE_ENV+=	CFLAGS="" SILC_CFLAGS="${CFLAGS}"

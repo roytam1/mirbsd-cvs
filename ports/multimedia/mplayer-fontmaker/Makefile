@@ -18,7 +18,7 @@ post-extract:
 WRKSRC=	${WRKDIST}/TOOLS/subfont-c
 ALL_TARGET=subfont
 MAKE_FLAGS=OPTFLAGS='-I${X11BASE}/include/freetype2 -I${LOCALBASE}/include' \
-    LDLIBS='-lm -L/usr/X11R6/lib -lfreetype -L/usr/local/lib -liconv'
+    LDLIBS='-lm -L${X11BASE}/lib -lfreetype -L${ICONV_PREFIX}/lib -liconv'
 
 USE_GMAKE=Yes
 

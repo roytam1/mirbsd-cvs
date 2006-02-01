@@ -29,7 +29,7 @@ CONFIGURE_STYLE=gnu
 CONFIGURE_ENV=	SABLOT_GPL=1
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --enable-static \
 		--enable-debugger --with-expat-prefix=${LOCALBASE} \
-		--with-iconv-prefix=${LOCALBASE} --with-readline \
+		--with-iconv-prefix=${ICONV_PREFIX} --with-readline \
 		--with-html-dir=${PREFIX}/share/doc/sablotron
 
 .include <bsd.port.mk>

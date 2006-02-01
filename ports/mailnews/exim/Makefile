@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.2 2005/03/28 14:50:24 bsiegert Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.3 2005/07/07 21:22:44 bsiegert Exp $
 
 COMMENT=		"flexible mail transfer agent"
 VERSION=		4.50
@@ -60,8 +60,8 @@ EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib -lldap -llber
 
 .if ${FLAVOR:L:Miconv}
 MODULES=		converters/libiconv
-EXIM_EXTRA_LIBS+=	-L${LOCALBASE}/lib -liconv
-EXIM_CFLAGS+=		-I${LOCALBASE}/include
+EXIM_EXTRA_LIBS+=	-L${ICONV_PREFIX}/lib -liconv
+EXIM_CFLAGS+=		-I${ICONV_PREFIX}/include
 .endif
 
 post-patch:

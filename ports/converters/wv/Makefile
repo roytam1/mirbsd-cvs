@@ -24,7 +24,7 @@ USE_CXX=	Yes
 CONFIGURE_STYLE= gnu dest
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED} --enable-static
 CONFIGURE_ARGS+= --with-png=${LOCALBASE} --with-exporter \
-		--with-libiconv=${LOCALBASE} \
+		--with-libiconv=${ICONV_PREFIX} \
 		--with-Magick=${LOCALBASE} --with-libwmf=${LOCALBASE}
 
 NO_REGRESS=	Yes

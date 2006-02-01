@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/korean/hanterm-xf/Makefile,v 1.3 2005/07/07 21:22:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/01/25 21:10:50 pvalchev Exp $
 
 COMMENT=	"XFree86-based xterm with Korean language support"
@@ -18,7 +18,7 @@ USE_X11=	Yes
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ENV+=	CFLAGS="${CFLAGS} -I${PREFIX}/include" \
-		X_EXTRA_LIBS="-L${PREFIX}/lib -liconv"
+		X_EXTRA_LIBS="-L${ICONV_PREFIX}/lib -liconv"
 
 NO_REGRESS=	Yes
 

@@ -17,14 +17,12 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	"commercial contributor must indemnify all others"
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	iconv::converters/libiconv
+MODULES+=	converters/libiconv
 
 VMEM_WARNING=	Yes
 
 USE_CXX=	Yes
 SEPARATE_BUILD=	simple
 CONFIGURE_STYLE= gnu
-CONFIGURE_ARGS+=	--includedir=${LOCALBASE}/include
-CONFIGURE_ARGS+=	--libdir=${LOCALBASE}/lib
 
 .include <bsd.port.mk>

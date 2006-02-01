@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.6 2005/12/27 13:54:47 bsiegert Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.7 2006/01/25 17:53:02 tg Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		"XML parsing library"
@@ -26,7 +26,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--with-html-dir="${PREFIX}/share/doc"
 CONFIGURE_ARGS+=	--with-html-subdir="libxml2/html"
-CONFIGURE_ARGS+=	--with-iconv="${LOCALBASE}"
+CONFIGURE_ARGS+=	--with-iconv="${ICONV_PREFIX}"
 CONFIGURE_ARGS+=	--with-zlib
 CONFIGURE_ARGS+=	--without-python
 CONFIGURE_ARGS+=	--without-readline

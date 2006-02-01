@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	http://download.berlios.de/cjkpython/
 
-MODPY_DISTUTILS_BUILDARGS=	--with-libiconv=${LOCALBASE}
+MODPY_DISTUTILS_BUILDARGS=	--with-libiconv=${ICONV_PREFIX}
 
 NO_REGRESS=	Yes
 
