@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.2 2006/01/31 19:13:42 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/Makefile,v 1.3 2006/02/01 14:40:13 tg Exp $
 
 .include <bsd.own.mk>
 .include "Makefile.inc"
@@ -24,5 +24,22 @@ MAN=		iconv.3
 
 MLINKS+=	iconv.3 iconv_open.3 \
 		iconv.3 iconv_close.3
+
+# fake Libtool
+lt_current!=	print $$((${SHLIB_VERSION:R} + ${SHLIB_VERSION:E}))
+lt_age=		${SHLIB_VERSION:E}
+
+all: libiconv.la
+
+libiconv.la: iconv.la
+	sed -e 's!@SHLIB_VERSION@!${SHLIB_VERSION}!g' \
+	    -e 's!@LIBDIR@!${LIBDIR}!g' \
+	    -e 's!@current@!${lt_current}!g' \
+	    -e 's!@age@!${lt_age}!g' \
+	    <$> >$@
+
+afterinstall:
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${SHAREMODE} \
+	    libiconv.la ${DESTDIR}${LIBDIR}/
 
 .include <bsd.lib.mk>

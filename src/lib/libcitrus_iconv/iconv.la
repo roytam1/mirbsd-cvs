@@ -1,0 +1,16 @@
+# $MirOS$
+#-
+# Fake MirLibtool information for libcitrus_iconv
+
+dlname='libiconv.so.@SHLIB_VERSION@'
+library_names='libiconv.so.@SHLIB_VERSION@'
+old_library='libiconv.a'
+dependency_libs='-L@LIBDIR@'
+current=@current@
+age=@age@
+revision=0
+installed=yes
+shouldnotlink=no
+dlopen=
+dlpreopen=
+libdir=@LIBDIR@
