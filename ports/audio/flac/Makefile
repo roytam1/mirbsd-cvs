@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/flac/Makefile,v 1.5 2006/02/01 16:28:01 tg Exp $
+# $MirOS: ports/audio/flac/Makefile,v 1.6 2006/02/01 17:36:54 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
 COMMENT=		"free lossless audio codec"
@@ -17,6 +17,9 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=flac/}
 
 MODULES=		converters/libiconv
 LIB_DEPENDS=		ogg::audio/libogg
+
+# for two .m4 files (no actual code)
+BUILD_DEPENDS+=		::devel/gettext
 
 .if ${MACHINE_ARCH} == "i386"
 BUILD_DEPENDS+=		::lang/nasm
