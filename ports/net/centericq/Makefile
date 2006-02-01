@@ -1,14 +1,21 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.10 2005/10/24 16:43:17 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.11 2005/10/26 11:27:51 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
-DISTNAME=		centericq-4.21.0	# -1 on OBSD
+DISTNAME=		centericq-${V}
+PKGNAME=		${DISTNAME}-${PL}
+V=			4.21.0
+PL=			2
 CATEGORIES=		net
+PATCHFILES=		centericq-${V}.msn.patch:0
+PATCH_DIST_STRIP=	-p1
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
 			http://centericq.de/archive/source/releases/
+MASTER_SITES0=		http://unkie.org/tmp/ \
+			http://centericq.de/archive/contrib/patches/
 HOMEPAGE=		http://konst.org.ua/en/centericq
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=   Yes
@@ -16,33 +23,25 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-MODULES=		converters/libiconv
-LIB_DEPENDS+=		curl.2::net/curl
+MODULES+=		converters/libiconv
+LIB_DEPENDS+=		curl::net/curl
+LIB_DEPENDS+=		jpeg::graphics/jpeg
 USE_GMAKE=		Yes
 USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-openssl \
+			--with-libjpeg \
 			--without-gpgme \
-			--without-libjpeg \
 			--disable-nls
-
-# Yes this is right... sad but true.
-.include <mirports.sys.mk>
-COPTS+=			-fno-stack-protector
-
-# Still segfaults there.
-.if ${OStype} == "OpenBSD"
-CONFIGURE_ARGS+=	--disable-msn
-PKGNAME=		${DISTNAME}-1
-.endif
+CPPFLAGS+=		-D'PORT_VERSION="${V}-${PL}"'
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
 			${WRKSRC}/firetalk-0.1 ${WRKSRC}/kkconsui-0.1 \
 			${WRKSRC}/kkstrtext-0.1 ${WRKSRC}/kksystr-0.1 \
 			${WRKSRC}/libgadu-0.1 ${WRKSRC}/libicq2000-0.1 \
-			${WRKSRC}/libjabber-0.1 ${WRKSRC}/libmsn-0.1 \
+			${WRKSRC}/libjabber-0.1 ${WRKSRC}/libmsn-3.2 \
 			${WRKSRC}/libyahoo2-0.1
 
 DOCS=			ChangeLog FAQ README
