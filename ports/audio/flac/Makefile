@@ -1,8 +1,9 @@
-# $MirOS: ports/audio/flac/Makefile,v 1.4 2005/12/29 20:29:25 tg Exp $
+# $MirOS: ports/audio/flac/Makefile,v 1.5 2006/02/01 16:28:01 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
 COMMENT=		"free lossless audio codec"
 DISTNAME=		flac-1.1.2
+PKGNAME?=		${DISTNAME}-1
 CATEGORIES=		audio archivers
 HOMEPAGE=		http://flac.sourceforge.net/
 
@@ -22,8 +23,9 @@ BUILD_DEPENDS+=		::lang/nasm
 .endif
 
 USE_CXX=		Yes
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--enable-3dnow \
 			--with-libiconv-prefix="${ICONV_PREFIX}" \
