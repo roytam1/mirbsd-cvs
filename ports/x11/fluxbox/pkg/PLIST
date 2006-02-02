@@ -1,15 +1,14 @@
-@comment $OpenBSD: PLIST,v 1.11 2004/04/28 18:10:34 robert Exp $
-@pkgcfl blackbox-*
-@pkgcfl openbox-*
-bin/bsetroot
+@comment $MirOS$
+@comment $OpenBSD: PLIST,v 1.15 2006/01/25 03:57:44 david Exp $
 bin/fbrun
 bin/fbsetbg
+bin/fbsetroot
 bin/fluxbox
 bin/fluxbox-generate_menu
 bin/startfluxbox
-man/man1/bsetroot.1
 man/man1/fbrun.1
 man/man1/fbsetbg.1
+man/man1/fbsetroot.1
 man/man1/fluxbox.1
 man/man1/fluxstyle.1
 man/man1/startfluxbox.1
