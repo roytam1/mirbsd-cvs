@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.9 2006/01/25 13:54:49 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.10 2006/01/25 19:00:48 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
@@ -176,6 +176,7 @@ MHASH_DEPENDS=		mhash::security/mhash
 
 # mysql
 PSEUDO_FLAVORS+=	no_mysql
+FLAVOR+=		no_mysql	# since it's broken
 .if ${FLAVOR:L:Mno_mysql}
 CONFIGURE_ARGS+=	--without-mysql
 .else

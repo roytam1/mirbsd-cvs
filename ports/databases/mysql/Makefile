@@ -1,10 +1,13 @@
-# $MirOS$
+# $MirOS: ports/databases/mysql/Makefile,v 1.2 2005/07/07 21:18:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.99 2004/05/21 12:16:21 brad Exp $
 # Uses pthreads
 
-.if ${MACHINE_ARCH} == "hppa" || ${MACHINE_ARCH} == "m88k"
-BROKEN=		"gen_lex_hash hangs"
-.endif
+BROKEN=		needs fixing/updating, any volunteers?
+
+# test that!
+#.if ${MACHINE_ARCH} == "hppa" || ${MACHINE_ARCH} == "m88k"
+#BROKEN=		gen_lex_hash hangs
+#.endif
 
 COMMENT=	"multithreaded SQL database (client)"
 COMMENT-server=	"multithreaded SQL database (server)"
