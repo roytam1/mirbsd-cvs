@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.9 2006/01/25 20:06:58 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.10 2006/01/25 21:26:05 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -15,7 +15,7 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--with-libxml-dir=${LOCALBASE:Q} \
 			--enable-wddx \
 			--enable-cli \
-			--with-iconv=${LOCALBASE:Q} \
+			--with-iconv=${ICONV_PREFIX:Q} \
 			--without-gettext \
 			--enable-dio \
 			--with-pear=${PEAR_DIR:Q} \

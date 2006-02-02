@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.2 2005/05/21 12:48:01 bsiegert Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.3 2005/07/07 21:25:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		"GNU privacy guard - a free PGP replacement"
@@ -30,12 +30,12 @@ MODULES=		devel/gettext
 LIB_DEPENDS=		bz2::archivers/bzip2
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-ldap --disable-gnupg-iconv
+CONFIGURE_ARGS+=	--disable-ldap
 .if ${MACHINE_ARCH} == "m68k"
 CONFIGURE_ARGS+=	--disable-asm
 .endif
 MAKE_FLAGS=		LIBINTL="-L${LOCALBASE}/lib -lintl -liconv" \
-			LIBICONV="-L${LOCALBASE}/lib -liconv"
+			LIBICONV="-L${ICONV_PREFIX}/lib -liconv"
 
 FLAVORS=		idea card
 FLAVOR?=

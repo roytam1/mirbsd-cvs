@@ -16,9 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS+=	glib-2.0.0.0,glib-2.0.0.0::devel/glib \
 		xml2::textproc/libxml \
 		gsf-1::devel/libgsf,no_gnome
@@ -28,7 +27,7 @@ CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --disable-debug \
 		 --enable-static \
-		 --with-libiconv="${LOCALBASE}"
+		 --with-libiconv="${ICONV_PREFIX}"
 
 NO_REGRESS=	Yes
 

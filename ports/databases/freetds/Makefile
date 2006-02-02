@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/databases/freetds/Makefile,v 1.1.7.1 2005/03/18 15:44:07 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/14 03:17:04 jcs Exp $
 
 COMMENT=	"project to document and implement the TDS protocol"
@@ -17,7 +17,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--enable-static \
-			--with-libiconv-prefix="${LOCALBASE}" \
+			--with-libiconv-prefix="${ICONV_PREFIX}" \
 			--disable-threadsafe \
 			--disable-odbc
 MAKE_ENV=		RM=rm

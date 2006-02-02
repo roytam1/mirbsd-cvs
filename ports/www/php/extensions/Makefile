@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.10 2006/01/25 19:00:48 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.11 2006/02/02 20:13:46 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
@@ -15,11 +15,11 @@ PREFIX?=		${CHROOT_DIR}
 FLAVORS=		no_x11
 FLAVOR?=
 
+MODULES+=		converters/libiconv
 RUN_DEPENDS+=		:php-core-${V}-${PV}:www/php/core
 
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
-			--with-iconv-dir=${LOCALBASE} \
-			--with-iconv=${LOCALBASE} \
+			--with-iconv=${ICONV_PREFIX:Q} \
 			--disable-dom
 
 GRAPHIC_DEPENDS=	jpeg.62::graphics/jpeg \

@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/xmms-flac/Makefile,v 1.1.7.1 2005/03/18 15:43:23 tg Exp $
+# $MirOS: ports/audio/xmms-flac/Makefile,v 1.3 2005/07/07 21:17:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2003/10/23 01:36:27 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -26,11 +26,12 @@ PATCH_DIST_STRIP= -p1
 
 LIB_DEPENDS=	xmms.3::audio/xmms \
 		FLAC.5::audio/flac
+MODULES+=	converters/libiconv
 
 USE_CXX=	Yes
 CONFIGURE_STYLE= autoconf
 AUTOCONF_NEW=	Yes
-CONFIGURE_ARGS=	--with-libiconv-prefix="${LOCALBASE}" \
+CONFIGURE_ARGS=	--with-libiconv-prefix="${ICONV_PREFIX}" \
 		--with-ogg="${LOCALBASE}" \
 		--with-xmms-prefix="${LOCALBASE}"
 

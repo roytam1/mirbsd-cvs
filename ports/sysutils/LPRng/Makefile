@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/sysutils/LPRng/Makefile,v 1.1.7.1 2005/03/18 15:52:00 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/01/06 02:25:45 espie Exp $
 
 COMMENT=	"enhanced printer spooler"
@@ -27,7 +27,7 @@ CONFIGURE_ARGS=	--with-sbindir=${PREFIX}/sbin \
 		--with-printcap_path=${SYSCONFDIR}/printcap \
 		--with-cppopts=-I${LOCALBASE}/include \
 		--with-ldopts=-L${LOCALBASE}/lib \
-		--with-libiconv-prefix=${LOCALBASE} \
+		--with-libiconv-prefix=${ICONV_PREFIX} \
 		--with-libintl-prefix=${LOCALBASE}
 CFLAGS+=	-Dlog=mylog
 FAKE_FLAGS=	DESTDIR=${WRKINST} POSTINSTALL=NO prefix=${TRUEPREFIX} \

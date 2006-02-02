@@ -20,9 +20,7 @@ MODULES=		converters/libiconv
 SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS=		--with-rcfile="${SYSCONFDIR}/nail.rc" --with-openssl
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib" \
-			LIBS="-liconv"
+CONFIGURE_ENV+=		LIBS="-L${ICONV_PREFIX}/lib -liconv"
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/nail
