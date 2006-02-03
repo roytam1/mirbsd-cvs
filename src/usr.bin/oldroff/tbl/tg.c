@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/tbl/tg.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -52,7 +52,7 @@ gettext(sp, ilin,icol, fn, sz)
 	char *sp, *fn, *sz;
 {
 /* get a section of text */
-char line[256];
+char line[BUFSIZ];
 int oname;
 char *vs;
 if (texname==0) error("Too many text block diversions");
