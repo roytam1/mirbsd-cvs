@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/tbl/te.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -80,7 +80,7 @@ while (p==0)
 while (*s) s++;
 s--;
 if (*s == '\n') *s-- =0;
-for(nbl=0; *s == '\\' && s>p; s--)
+for(nbl=0; s>p && *s == '\\'; s--)
 	nbl++;
 if (linstart && nbl % 2) /* fold escaped nl if in table */
 	gets1(s+1);
