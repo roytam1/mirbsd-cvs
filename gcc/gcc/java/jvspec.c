@@ -609,6 +609,7 @@ lang_specific_pre_link (void)
      class name.  Append dummy `.c' that can be stripped by set_input so %b
      is correct.  */ 
   set_input (concat (main_class_name, "main.c", NULL));
+  putenv ("GCC_HONOUR_COPTS=s"); /* XXX hack!  */
   err = do_spec (jvgenmain_spec);
   if (err == 0)
     {
