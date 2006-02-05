@@ -16,11 +16,10 @@ PERMIT_DISTFILES_FTP=	Yes
 EXTRACT_SUFX=	.tgz
 
 WRKDIST=	${WRKDIR}/${DISTNAME}/src
-MAKE_FLAGS=	CFLAGS="${CFLAGS}"
 
 NO_REGRESS=	Yes
 
-post-patch:
+pre-configure:
 	@perl -pi -e "s,%%SYSCONFDIR%%,${SYSCONFDIR}," ${WRKSRC}/apc_upsd.h
 
 do-install:

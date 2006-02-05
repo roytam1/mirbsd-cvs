@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 NO_REGRESS=	Yes
 
-post-patch:
+pre-configure:
 	@perl -pi -e "s,%%SYSCONFDIR%%,${SYSCONFDIR}," ${WRKSRC}/Makefile
 
 do-install:

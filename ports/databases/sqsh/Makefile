@@ -19,16 +19,13 @@ MODULES=	devel/gettext
 LIB_DEPENDS=	tds.3,ct.2::databases/freetds
 
 CONFIGURE_STYLE= gnu old
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/autoconf
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		SYBASE="${LOCALBASE}"
+CONFIGURE_ENV+=	SYBASE="${LOCALBASE}"
 CONFIGURE_ARGS=	--with-readline --sysconfdir='${SYSCONFDIR}'
 
 ALL_TARGET=	
 NO_REGRESS=	Yes
 
-post-patch:
+pre-configure:
 	@perl -pi -e "s,%%SYSCONFDIR%%,${SYSCONFDIR}," ${WRKSRC}/Makefile.in \
 		${WRKSRC}/src/Makefile.in
 

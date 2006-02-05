@@ -5,12 +5,13 @@ $OpenBSD: patch-server_gkrellmd_h,v 1.2 2004/05/18 14:49:56 naddy Exp $
  #endif
  
  #if !defined(WIN32)
-+#if !defined(GKRELLMD_SYS_ETC)
- #define	GKRELLMD_SYS_ETC	"/etc"
+-#define       GKRELLMD_SYS_ETC        "/etc"
 -#define GKRELLMD_LOCAL_ETC	"/usr/local/etc"
 -#endif
++#if !defined(GKRELLMD_SYS_ETC)
++#define       GKRELLMD_SYS_ETC        "%%SYSCONFDIR%%"
 +#endif /* GKRELLMD_SYS_ETC */
-+#define GKRELLMD_LOCAL_ETC	"/etc"
++#define GKRELLMD_LOCAL_ETC    "%%SYSCONFDIR%%"
 +#endif /* WIN32 */
  
  
