@@ -1,9 +1,11 @@
-# $MirOS: ports/devel/libsigc++/Makefile,v 1.1.7.1 2005/03/18 15:44:54 tg Exp $
+# $MirOS: ports/devel/libsigc++/Makefile,v 1.2 2006/02/05 18:18:50 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/11/27 02:22:20 pvalchev Exp $
 
 COMMENT=		"callback framework for C++"
 COMMENT-docs=		"HTML documentation for libsigc++"
-DISTNAME=		libsigc++-2.0.17
+V=			2.0.17
+DISTNAME=		libsigc++-${V}
+PKGNAME-docs=		libsigc++-docs-${V}-0
 CATEGORIES=		devel
 HOMEPAGE=		http://libsigc.sourceforge.net/
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libsigc++/2.0/}

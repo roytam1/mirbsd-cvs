@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/libsigc++/pkg/PLIST-docs,v 1.1 2006/02/05 18:18:52 tg Exp $
 share/doc/libsigc-2.0/docs/images/libsigc_logo.gif
 share/doc/libsigc-2.0/docs/images/top.gif
 share/doc/libsigc-2.0/docs/index.html
@@ -1230,5 +1230,9 @@ share/doc/libsigc-2.0/docs/tutorial/html/ch04s03.html
 share/doc/libsigc-2.0/docs/tutorial/html/ch05.html
 share/doc/libsigc-2.0/docs/tutorial/html/index.html
 @dirrm share/doc/libsigc-2.0/docs/tutorial/html
+@dirrm share/doc/libsigc-2.0/docs/tutorial
 @dirrm share/doc/libsigc-2.0/docs/reference/html
+@dirrm share/doc/libsigc-2.0/docs/reference
 @dirrm share/doc/libsigc-2.0/docs/images
+@dirrm share/doc/libsigc-2.0/docs
+@dirrm share/doc/libsigc-2.0
