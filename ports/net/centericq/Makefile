@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.12 2006/02/01 21:52:13 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.13 2006/02/05 18:34:36 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 COMMENT=		"curses-based multiprotocol IM client implementation"
@@ -35,7 +35,7 @@ CONFIGURE_ARGS+=	--with-openssl \
 			--with-libjpeg \
 			--without-gpgme \
 			--disable-nls
-CPPFLAGS+=		-DPORT_VERSION="${V}-${PL}"
+CPPFLAGS+=		-DPORT_VERSION=\"${V}-${PL}\"
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
 			${WRKSRC}/firetalk-0.1 ${WRKSRC}/kkconsui-0.1 \
