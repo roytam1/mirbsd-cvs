@@ -1,0 +1,14 @@
+$MirOS$
+--- src/main.cc.orig	Tue Feb  7 15:39:40 2006
++++ src/main.cc	Tue Feb  7 15:39:48 2006
+@@ -177,8 +177,8 @@ main(int argc, char** argv) {
+     OptionFile optionFile;
+     optionFile.slot_option(sigc::mem_fun(control->variables(), &utils::VariableMap::process_command));
+ 
+-    if (getenv("HOME") && !optionFile.process_file(getenv("HOME") + std::string("/.rtorrent.rc")))
+-      control->core()->get_log_important().push_front("Could not load \"~/.rtorrent.rc\".");
++    if (getenv("HOME") && !optionFile.process_file(getenv("HOME") + std::string("/.etc/rtorrent.rc")))
++      control->core()->get_log_important().push_front("Could not load \"~/.etc/rtorrent.rc\".");
+ 
+     int firstArg = parse_options(control, control->variables(), argc, argv);
+ 

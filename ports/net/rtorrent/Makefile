@@ -1,0 +1,33 @@
+# $MirOS$
+
+CATEGORIES=		net
+COMMENT=		"BitTorrent ncurses client"
+DISTNAME=		rtorrent-0.4.3
+HOMEPAGE=		http://libtorrent.rakshasa.no/
+MASTER_SITES=		${HOMEPAGE}downloads/
+
+# GPLv2
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
+
+DESCR=			${PORTSDIR}/net/libtorrent/pkg/DESCR
+
+MODULES+=		devel/pkgconfig
+LIB_DEPENDS+=		torrent::net/libtorrent
+LIB_DEPENDS+=		curl::net/curl
+
+USE_CXX=		Yes
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+CONFIGURE_ARGS+=	--disable-debug \
+			--disable-dependency-tracking
+
+SAMPLEDIR=		${PREFIX}/share/examples/rtorrent
+
+post-install:
+	${INSTALL_DATA_DIR} ${SAMPLEDIR}
+	${INSTALL_DATA} ${WRKSRC}/doc/rtorrent.rc ${SAMPLEDIR}/
+
+.include <bsd.port.mk>
