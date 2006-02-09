@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.5 2005/09/12 22:59:55 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.6 2005/11/15 19:33:59 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <glob.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.5 2005/09/12 22:59:55 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.6 2005/11/15 19:33:59 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -620,9 +620,9 @@ move_file(const char *dir, const char *fname, char *to)
     char cmd[FILENAME_MAX];
 
     if (fname[0] == '/')
-	snprintf(cmd, sizeof(cmd), "mv %s %s", fname, to);
+	snprintf(cmd, sizeof(cmd), "mv -f %s %s", fname, to);
     else
-	snprintf(cmd, sizeof(cmd), "mv %s/%s %s", dir, fname, to);
+	snprintf(cmd, sizeof(cmd), "mv -f %s/%s %s", dir, fname, to);
     if (vsystem("%s", cmd)) {
 	cleanup(0);
 	errx(2, "could not perform '%s'", cmd);
