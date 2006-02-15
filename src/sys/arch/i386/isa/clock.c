@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.6 2005/10/19 17:42:26 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.7 2005/12/15 03:07:44 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -448,12 +448,24 @@ findcpuspeed(void)
 void
 calibrate_cyclecounter(void)
 {
-	unsigned long long count, last_count;
+	unsigned long long last_count;
+	/* XXX this is a hack, we'd better do precision timekeeping */
+	struct timeval tv;
+
+	disable_intr();
+	tv = time;
+	enable_intr();
+	/* it's probably not exactly one second, but pretty good */
+	tv.tv_sec++;
 
 	__asm __volatile("rdtsc" : "=A" (last_count));
 	delay(1000000);
-	__asm __volatile("rdtsc" : "=A" (count));
-	pentium_mhz = ((count - last_count) + 500000) / 1000000;
+	__asm __volatile("rdtsc" : "=A" (pentium_base_tsc));
+	pentium_mhz = ((pentium_base_tsc - last_count) + 500000) / 1000000;
+
+	disable_intr();
+	time = tv;
+	enable_intr();
 }
 #endif
 
