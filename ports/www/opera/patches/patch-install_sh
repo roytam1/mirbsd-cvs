@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/www/opera/patches/patch-install_sh,v 1.2 2005/12/16 14:42:58 tg Exp $
 $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
---- install.sh.orig	Mon Nov 14 13:47:42 2005
-+++ install.sh	Fri Dec 16 13:37:16 2005
+--- install.sh.orig	Wed Feb  1 14:23:56 2006
++++ install.sh	Sat Feb 18 12:58:50 2006
 @@ -395,7 +395,7 @@ set_os_spesific()
  		fi
  	;;
@@ -11,7 +11,7 @@ $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
  	    cpf='-f'
  	    mkdirv=''
  	    chmodv=''
-@@ -778,7 +778,7 @@ generate_wrapper()
+@@ -792,7 +792,7 @@ generate_wrapper()
  	    wrapper_sunjava_machine="sparc"
  	;;
  
@@ -19,17 +19,17 @@ $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
 +	mips*:Linux|i386:MirBSD)
  	;;
  
- 	ppc:Linux)
-@@ -1302,7 +1302,7 @@ run_install()
-     then
- 	# System wide configuration files
- 	config_dir="/etc"
+ 	ppc:Linux|ppc64:Linux)
+@@ -1344,7 +1344,7 @@ run_install()
+ 	    *)				config_dir="/etc";;
+ 	esac
+ 
 -	if can_write_to "$config_dir"
 +	if false can_write_to "$config_dir"
  	then
  	    echo
  	    echo "System wide configuration files:"
-@@ -1332,7 +1332,7 @@ run_install()
+@@ -1374,7 +1374,7 @@ run_install()
  	then
  	    echo
  	    echo "Shortcut icons will be ignored if installed with the prefix \"$prefix\"."

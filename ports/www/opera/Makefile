@@ -1,12 +1,13 @@
-# $MirOS: ports/www/opera/Makefile,v 1.7 2006/01/25 11:28:28 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.8 2006/02/01 20:38:49 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=		"fast and customizable WWW browser"
-DISTNAME=		opera-8.51-20051114.1-static-qt.i386-en
-PKGNAME=		opera-8.51-3
+VERS=			8.52
+DISTNAME=		opera-${VERS}-20060201.1-static-qt.i386-en
+PKGNAME=		opera-${VERS}-0
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
 
@@ -27,8 +28,7 @@ MASTER_SITES_OPERA=	ftp://ftp.opera.com/pub/opera/ \
 			ftp://ftp.rge.com/pub/infosystems/opera/ \
 			http://www.rge.com/pub/infosystems/opera/
 
-MASTER_SITES=		${MASTER_SITES_OPERA:=linux/851/final/en/i386/}
-EXTRACT_SUFX=		.tar.bz2
+MASTER_SITES=		${MASTER_SITES_OPERA:=linux/${VERS:S/.//}/final/en/i386/static/}
 
 RUN_DEPENDS=		:debian-libs->=3.1-1:emulators/debian
 
