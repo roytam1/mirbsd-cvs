@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.15 2006/01/17 22:40:37 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.16 2006/01/24 21:54:21 tg Exp $
 
 # uses arc4random(3)
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -8,7 +8,7 @@ VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
 MANVER=			20031023
-PKGNAME=		djbdns-${VERSION}-22
+PKGNAME=		djbdns-${VERSION}-23
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
