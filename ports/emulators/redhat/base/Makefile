@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/redhat/base/Makefile,v 1.3 2005/12/27 18:49:03 tg Exp $
+# $MirOS: ports/emulators/redhat/base/Makefile,v 1.4 2006/02/01 20:38:45 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/03/02 07:49:24 ish Exp $
 
 COMMENT=	"Linux compatibility package based on RedHat GNU/Linux 8.0"
@@ -33,9 +33,8 @@ RPMS=		glibc-2.3.2-4.80.8.i386.rpm:0 \
 		freetype-2.1.2-7.i386.rpm \
 		expat-1.95.4-1.i386.rpm
 
-REMOVE_DIRS=	/usr/doc /usr/info /usr/man /usr/share/doc \
-		/usr/share/zoneinfo /etc/fonts
-REMOVE_FILES=	/etc/localtime
+REMOVE_DIRS=	/usr/doc /usr/info /usr/man /usr/share/doc /usr/share/zoneinfo
+REMOVE_FILES=	/etc/fonts/fonts.conf /etc/localtime
 
 PATCH_LIST=
 
@@ -55,7 +54,8 @@ do-install:
 	@cd ${EMDIR} && ${PATCH} -p0 --forward --quiet -E < ${PATCHDIR}/patch-ldd
 
 # copy in ld.so.conf
-	${INSTALL_DATA} ${FILESDIR}/ld.so.conf ${EMDIR}/etc
+	${INSTALL_DATA} ${FILESDIR}/ld.so.conf ${EMDIR}/etc/
+	${INSTALL_DATA} ${FILESDIR}/fonts.conf ${EMDIR}/etc/fonts/
 
 # run elf2olf on a few binaries known not to run as elf
 	@elf2olf -o linux ${EMDIR}/sbin/ldconfig

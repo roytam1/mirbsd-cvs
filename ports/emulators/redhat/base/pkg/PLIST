@@ -1,4 +1,4 @@
-@comment $MirOS: ports/emulators/redhat/base/pkg/PLIST,v 1.3 2006/01/18 11:28:09 tg Exp $
+@comment $MirOS: ports/emulators/redhat/base/pkg/PLIST,v 1.4 2006/02/01 20:38:46 tg Exp $
 @comment $OpenBSD: PLIST,v 1.8 2004/03/02 07:49:24 ish Exp $
 @pkgcfl linux_lib-*
 @unexec rm -f %D/emul/redhat/etc/ld.so.cache
@@ -43,6 +43,8 @@ emul/redhat/bin/uname
 emul/redhat/bin/unlink
 emul/redhat/etc/DIR_COLORS
 emul/redhat/etc/DIR_COLORS.xterm
+emul/redhat/etc/fonts/fonts.conf
+emul/redhat/etc/fonts/fonts.dtd
 emul/redhat/etc/gtk/gtkrc
 emul/redhat/etc/gtk/gtkrc.az
 emul/redhat/etc/gtk/gtkrc.be
@@ -8093,6 +8095,7 @@ emul/redhat/usr/share/themes/Default/gtk/gtkrc
 @dirrm emul/redhat/etc/profile.d
 @dirrm emul/redhat/etc/pam.d
 @dirrm emul/redhat/etc/gtk
+@dirrm emul/redhat/etc/fonts
 @dirrm emul/redhat/etc
 @dirrm emul/redhat/bin
 @dirrm emul/redhat
