@@ -37,7 +37,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: packet.c,v 1.120 2005/10/30 08:52:17 djm Exp $");
+RCSID("$MirBSD: packet.c,v 1.120 2005/10/30 08:52:17 djm Exp $");
 
 #include <sys/queue.h>
 
@@ -160,10 +160,10 @@ packet_set_connection(int fd_in, int fd_out)
 		fatal("packet_set_connection: cannot load cipher 'none'");
 	connection_in = fd_in;
 	connection_out = fd_out;
-	cipher_init(&send_context, none, (const u_char *)"",
-	    0, NULL, 0, CIPHER_ENCRYPT);
-	cipher_init(&receive_context, none, (const u_char *)"",
-	    0, NULL, 0, CIPHER_DECRYPT);
+	cipher_init(&send_context, none, (const u_char *)&fd_in,
+	    sizeof (fd_in), NULL, 0, CIPHER_ENCRYPT);
+	cipher_init(&receive_context, none, (const u_char *)&fd_out,
+	    sizeof (fd_out), NULL, 0, CIPHER_DECRYPT);
 	newkeys[MODE_IN] = newkeys[MODE_OUT] = NULL;
 	if (!initialized) {
 		initialized = 1;
