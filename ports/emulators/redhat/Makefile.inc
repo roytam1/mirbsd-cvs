@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/redhat/Makefile.inc,v 1.3 2005/04/11 15:55:15 tg Exp $
+# $MirOS: ports/emulators/redhat/Makefile.inc,v 1.4 2006/02/01 20:38:45 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.7 2002/12/29 15:06:49 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -24,7 +24,7 @@ BUILD_DEPENDS+=	::converters/rpm2cpio
 NO_BUILD=	Yes
 NO_REGRESS=	Yes
 EMDIR=		${PREFIX}/emul/redhat
-PL=		7
+PL=		8
 
 pre-install:
 	@${INSTALL_DATA_DIR} ${EMDIR}
