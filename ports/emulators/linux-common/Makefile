@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/emulators/linux-common/Makefile,v 1.1 2006/02/01 20:38:44 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 CATEGORIES=		emulators
 COMMENT=		"common files for compat_linux(8)"
 EMUL=			linux
-PKGNAME=		linux-common-20060201-0
+PKGNAME=		linux-common-20060220-0
 
 # MirOS
 PERMIT_DISTFILES_CDROM=	Yes
