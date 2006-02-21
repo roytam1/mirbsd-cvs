@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.12 2006/02/02 21:09:41 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.13 2006/02/21 16:48:30 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
@@ -82,6 +82,17 @@ CONFIGURE_ARGS+=	--disable-dbx
 MULTI_PACKAGES+=	-dbx
 COMMENT-dbx=		"dbx database abstraction interface for php"
 CONFIGURE_ARGS+=	--enable-dbx=shared
+.endif
+
+# fam
+PSEUDO_FLAVORS+=	no_fam
+.if ${FLAVOR:L:Mno_fam}
+CONFIGURE_ARGS+=	--disable-fam
+.else
+MULTI_PACKAGES+=	-fam
+COMMENT-fam=		"filesystem alteration monitor extensions for php"
+CONFIGURE_ARGS+=	--enable-fam=shared ...
+#FAM_DEPENDS=		...
 .endif
 
 # filepro
