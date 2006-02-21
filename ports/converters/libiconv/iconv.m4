@@ -1,7 +1,7 @@
 #serial AM2
 
 dnl From Bruno Haible.
-dnl $MirOS$
+dnl $MirOS: ports/converters/libiconv/iconv.m4,v 1.1 2006/02/20 19:04:15 tg Exp $
 
 AC_DEFUN([AM_ICONV],
 [
@@ -17,7 +17,7 @@ AC_DEFUN([AM_ICONV],
    ])
 
   AC_CACHE_CHECK(for iconv, am_cv_func_iconv, [
-    am_cv_func_iconv="no, consider installing GNU libiconv"
+    am_cv_func_iconv="no, consider installing MirPorts converters/libiconv"
     am_cv_lib_iconv=no
     AC_TRY_LINK([#include <stdlib.h>
 #include <iconv.h>],
@@ -70,4 +70,9 @@ size_t iconv();
   dnl Compatibility, added by Thorsten Glaser
   LTLIBICONV=$LIBICONV
   AC_SUBST(LTLIBICONV)
+  if test "$am_cv_lib_iconv" = yes; then
+    AC_MSG_NOTICE([found iconv suitable for MirPorts: $LIBICONV])
+  else
+    AC_MSG_NOTICE([did not fiund iconv suitable for MirPorts. $LIBICONV])
+  fi
 ])
