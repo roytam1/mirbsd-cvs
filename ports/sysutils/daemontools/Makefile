@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.4 2006/01/13 02:55:55 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.5 2006/01/15 12:57:45 tg Exp $
 
 COMMENT=		"collection of tools for managing unix services"
 CATEGORIES=		sysutils
@@ -15,6 +15,8 @@ PERMIT_PACKAGE_CDROM=	No
 PERMIT_PACKAGE_FTP=	No
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	"http://cr.yp.to/distributors.html"
+
+FETCH_CMD=		lynx -source >$$f
 
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
 		${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
