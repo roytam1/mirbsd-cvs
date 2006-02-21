@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.4 2006/02/21 20:07:21 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.5 2006/02/21 20:14:47 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -152,14 +152,11 @@ sys___sysctl(p, v, retval)
 		syscallarg(void *) new;
 		syscallarg(size_t) newlen;
 	} */ *uap = v;
-	int error, dolock = 1;
+	int error, dolock = 1, canwrite = 0;
 	size_t savelen = 0, oldlen = 0;
 	sysctlfn *fn;
 	int name[CTL_MAXNAME];
 
-	if (SCARG(uap, new) != NULL &&
-	    (error = suser(p, 0)))
-		return (error);
 	/*
 	 * all top-level sysctl names are non-terminal
 	 */
@@ -175,6 +172,8 @@ sys___sysctl(p, v, retval)
 		fn = kern_sysctl;
 		if (name[1] == KERN_VNODE)	/* XXX */
 			dolock = 0;
+		if (name[1] == KERN_ARND)	/* non-root write access */
+			canwrite = 1;
 		break;
 	case CTL_HW:
 		fn = hw_sysctl;
@@ -207,6 +206,10 @@ sys___sysctl(p, v, retval)
 	default:
 		return (EOPNOTSUPP);
 	}
+
+	if (SCARG(uap, new) != NULL && !canwrite &&
+	    (error = suser(p, 0)))
+		return (error);
 
 	if (SCARG(uap, oldlenp) &&
 	    (error = copyin(SCARG(uap, oldlenp), &oldlen, sizeof(oldlen))))
