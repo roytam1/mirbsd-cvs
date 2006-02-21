@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/www/php/core/patches/patch-ext_yp_yp_c,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
 $OpenBSD: patch-ext_yp_yp_c,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 --- ext/yp/yp.c.orig	Mon May 31 21:00:56 2004
 +++ ext/yp/yp.c	Wed Nov  3 14:59:11 2004

@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.10 2006/01/25 21:26:05 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.11 2006/02/02 21:09:41 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -33,7 +33,8 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--enable-sysvshm \
 			--enable-exif \
 			--with-libedit \
-			--without-sqlite
+			--with-sqlite \
+			--disable-sqlite-utf8
 
 .include <mirports.sys.mk>
 
@@ -58,7 +59,8 @@ PREFIX=			${CHROOT_DIR}
 RUN_DEPENDS=		:php-core-${V}-${PV}:www/php/core
 MODULES=
 .else
-LIB_DEPENDS+=		xml2::textproc/libxml
+LIB_DEPENDS+=		xml2::textproc/libxml \
+			sqlite::databases/sqlite2
 .endif
 
 pre-fake:

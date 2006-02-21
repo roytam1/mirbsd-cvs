@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.11 2006/02/02 20:13:46 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.12 2006/02/02 21:09:41 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
@@ -248,18 +248,6 @@ MULTI_PACKAGES+=	-snmp
 COMMENT-snmp=		"snmp protocol extensions for php"
 CONFIGURE_ARGS+=	--with-snmp=shared,${LOCALBASE} --enable-ucd-snmp-hack
 SNMP_DEPENDS=		snmp::net/ucd-snmp
-.endif
-
-# sqlite
-PSEUDO_FLAVORS+=	no_sqlite
-.if ${FLAVOR:L:Mno_sqlite}
-CONFIGURE_ARGS+=	--without-sqlite
-.else
-MULTI_PACKAGES+=	-sqlite
-COMMENT-sqlite=		"sqlite database access extensions for php"
-# do NOT enable utf8 mode here, it's broken
-CONFIGURE_ARGS+=	--with-sqlite=shared,${LOCALBASE} --disable-sqlite-utf8
-SQLITE_DEPENDS=		sqlite::databases/sqlite2
 .endif
 
 # sybase-ct
