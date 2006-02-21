@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.16 2006/01/24 21:54:21 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.17 2006/02/18 16:53:47 tg Exp $
 
 # uses arc4random(3)
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -18,6 +18,8 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	"http://cr.yp.to/distributors.html"
 PERMIT_PACKAGE_FTP=	"http://cr.yp.to/distributors.html"
+
+FETCH_CMD=		lynx -source >$$f
 
 FLAVORS=		eorsn icann opennic
 FLAVOR?=		eorsn
