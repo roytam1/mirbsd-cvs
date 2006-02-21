@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.4 2005/08/21 12:52:20 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.5 2005/12/22 19:54:36 tg Exp $
 .\" $OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
 .\"-
 .\" Copyright (c) 2002-2004 The MirOS Project.
@@ -186,6 +186,9 @@ In header files, put function prototypes within
 .Dv __BEGIN_DECLS / __END_DECLS
 matching pairs.
 This makes the header file usable from C++.
+.Pp
+Labels start at column 2 (i.e. are prefixed with only a single
+space (ASCII 20 hex) character) no matter which block they are in.
 .Pp
 Macros are capitalized and parenthesized, and should avoid side-effects.
 If they are an inline expansion of a function, the function is defined
