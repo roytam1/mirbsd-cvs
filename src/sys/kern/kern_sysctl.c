@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.2 2005/03/06 21:28:01 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.3 2005/07/01 14:56:29 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -407,8 +407,20 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		    sizeof(rndstats)));
 	case KERN_ARND: {
 		char buf[256];
+		int i;
 
-		rnd_addpool_add((long)(*oldlenp) ^ (long)oldp);
+		if (newlen > sizeof (buf))
+			newlen = sizeof (buf);
+		if (newp && newlen) {
+			uint32_t *buf2 = (uint32_t *)buf;
+
+			if ((error = copyin(buf, newp, newlen)))
+				return (error);
+			for (i = 0; i < newlen; i += 4)
+				rnd_addpool_add(*buf2++);
+			rnd_addpool_add((uint32_t)newp);
+		}
+
 		if (*oldlenp > sizeof(buf))
 			*oldlenp = sizeof(buf);
 		if (oldp) {
