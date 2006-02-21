@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.11 2006/02/02 21:09:41 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.12 2006/02/21 16:48:29 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -33,7 +33,7 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--enable-sysvshm \
 			--enable-exif \
 			--with-libedit \
-			--with-sqlite \
+			--with-sqlite=${LOCALBASE:Q} \
 			--disable-sqlite-utf8
 
 .include <mirports.sys.mk>
