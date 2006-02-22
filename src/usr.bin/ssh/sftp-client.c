@@ -20,9 +20,11 @@
 /* XXX: copy between two remote sites */
 
 #include "includes.h"
-RCSID("$OpenBSD: sftp-client.c,v 1.57 2005/07/27 10:39:03 dtucker Exp $");
+RCSID("$OpenBSD: sftp-client.c,v 1.60 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/queue.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "buffer.h"
 #include "bufaux.h"
@@ -39,11 +41,8 @@ RCSID("$OpenBSD: sftp-client.c,v 1.57 2005/07/27 10:39:03 dtucker Exp $");
 extern volatile sig_atomic_t interrupted;
 extern int showprogress;
 
-/* Minimum amount of data to read at at time */
+/* Minimum amount of data to read at a time */
 #define MIN_READ_SIZE	512
-
-/* Maximum packet size */
-#define MAX_MSG_LENGTH	(256 * 1024)
 
 struct sftp_conn {
 	int fd_in;
@@ -59,7 +58,7 @@ send_msg(int fd, Buffer *m)
 {
 	u_char mlen[4];
 
-	if (buffer_len(m) > MAX_MSG_LENGTH)
+	if (buffer_len(m) > SFTP_MAX_MSG_LENGTH)
 		fatal("Outbound message too long %u", buffer_len(m));
 
 	/* Send length first */
@@ -87,7 +86,7 @@ get_msg(int fd, Buffer *m)
 	}
 
 	msg_len = buffer_get_int(m);
-	if (msg_len > MAX_MSG_LENGTH)
+	if (msg_len > SFTP_MAX_MSG_LENGTH)
 		fatal("Received message too long %u", msg_len);
 
 	buffer_append_space(m, msg_len);

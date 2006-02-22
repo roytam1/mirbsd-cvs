@@ -24,7 +24,14 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: misc.c,v 1.37 2005/12/08 18:34:11 reyk Exp $");
+RCSID("$OpenBSD: misc.c,v 1.45 2006/02/10 00:27:13 stevesk Exp $");
+
+#include <sys/ioctl.h>
+
+#include <net/if.h>
+#include <netinet/tcp.h>
+
+#include <paths.h>
 
 #include "misc.h"
 #include "log.h"
@@ -381,12 +388,15 @@ void
 addargs(arglist *args, char *fmt, ...)
 {
 	va_list ap;
-	char buf[1024];
+	char *cp;
 	u_int nalloc;
+	int r;
 
 	va_start(ap, fmt);
-	vsnprintf(buf, sizeof(buf), fmt, ap);
+	r = vasprintf(&cp, fmt, ap);
 	va_end(ap);
+	if (r == -1)
+		fatal("addargs: argument too long");
 
 	nalloc = args->nalloc;
 	if (args->list == NULL) {
@@ -397,8 +407,42 @@ addargs(arglist *args, char *fmt, ...)
 
 	args->list = xrealloc(args->list, nalloc * sizeof(char *));
 	args->nalloc = nalloc;
-	args->list[args->num++] = xstrdup(buf);
+	args->list[args->num++] = cp;
 	args->list[args->num] = NULL;
+}
+
+void
+replacearg(arglist *args, u_int which, char *fmt, ...)
+{
+	va_list ap;
+	char *cp;
+	int r;
+
+	va_start(ap, fmt);
+	r = vasprintf(&cp, fmt, ap);
+	va_end(ap);
+	if (r == -1)
+		fatal("replacearg: argument too long");
+
+	if (which >= args->num)
+		fatal("replacearg: tried to replace invalid arg %d >= %d",
+		    which, args->num);
+	xfree(args->list[which]);
+	args->list[which] = cp;
+}
+
+void
+freeargs(arglist *args)
+{
+	u_int i;
+
+	if (args->list != NULL) {
+		for (i = 0; i < args->num; i++)
+			xfree(args->list[i]);
+		xfree(args->list);
+		args->nalloc = args->num = 0;
+		args->list = NULL;
+	}
 }
 
 /*
@@ -550,7 +594,7 @@ tun_open(int tun, int mode)
 				break;
 		}
 	} else {
-		debug("%s: invalid tunnel %u\n", __func__, tun);
+		debug("%s: invalid tunnel %u", __func__, tun);
 		return (-1);
 	}
 
@@ -568,11 +612,17 @@ tun_open(int tun, int mode)
 
 	if (ioctl(sock, SIOCGIFFLAGS, &ifr) == -1)
 		goto failed;
-	if (mode == SSH_TUNMODE_ETHERNET) {
+
+	/* Set interface mode */
+	ifr.ifr_flags &= ~IFF_UP;
+	if (mode == SSH_TUNMODE_ETHERNET)
 		ifr.ifr_flags |= IFF_LINK0;
-		if (ioctl(sock, SIOCSIFFLAGS, &ifr) == -1)
-			goto failed;
-	}
+	else
+		ifr.ifr_flags &= ~IFF_LINK0;
+	if (ioctl(sock, SIOCSIFFLAGS, &ifr) == -1)
+		goto failed;
+
+	/* Bring interface up */
 	ifr.ifr_flags |= IFF_UP;
 	if (ioctl(sock, SIOCSIFFLAGS, &ifr) == -1)
 		goto failed;
@@ -593,18 +643,20 @@ tun_open(int tun, int mode)
 void
 sanitise_stdfd(void)
 {
-	int nullfd;
+	int nullfd, dupfd;
 
-	if ((nullfd = open(_PATH_DEVNULL, O_RDWR)) == -1) {
+	if ((nullfd = dupfd = open(_PATH_DEVNULL, O_RDWR)) == -1) {
 		fprintf(stderr, "Couldn't open /dev/null: %s", strerror(errno));
 		exit(1);
 	}
-	while (nullfd < 2) {
-		if (dup2(nullfd, nullfd + 1) == -1) {
+	while (++dupfd <= 2) {
+		/* Only clobber closed fds */
+		if (fcntl(dupfd, F_GETFL, 0) >= 0)
+			continue;
+		if (dup2(nullfd, dupfd) == -1) {
 			fprintf(stderr, "dup2: %s", strerror(errno));
 			exit(1);
 		}
-		nullfd++;
 	}
 	if (nullfd > 2)
 		close(nullfd);
