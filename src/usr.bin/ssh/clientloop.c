@@ -59,7 +59,15 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: clientloop.c,v 1.147 2005/12/07 03:52:22 djm Exp $");
+RCSID("$OpenBSD: clientloop.c,v 1.154 2006/02/20 17:19:54 stevesk Exp $");
+
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <paths.h>
+#include <signal.h>
+#include <termios.h>
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -1386,7 +1394,7 @@ client_loop(int have_pty, int escape_char_arg, int ssh2_chan_id)
 		session_ident = ssh2_chan_id;
 		if (escape_char != SSH_ESCAPECHAR_NONE)
 			channel_register_filter(session_ident,
-			    simple_escape_filter);
+			    simple_escape_filter, NULL);
 		if (session_ident != -1)
 			channel_register_cleanup(session_ident,
 			    client_channel_closed, 0);
@@ -1688,7 +1696,7 @@ client_request_x11(const char *request_type, int rchan)
 
 	if (!options.forward_x11) {
 		error("Warning: ssh server tried X11 forwarding.");
-		error("Warning: this is probably a break in attempt by a malicious server.");
+		error("Warning: this is probably a break-in attempt by a malicious server.");
 		return NULL;
 	}
 	originator = packet_get_string(NULL);
@@ -1721,7 +1729,7 @@ client_request_agent(const char *request_type, int rchan)
 
 	if (!options.forward_agent) {
 		error("Warning: ssh server tried agent forwarding.");
-		error("Warning: this is probably a break in attempt by a malicious server.");
+		error("Warning: this is probably a break-in attempt by a malicious server.");
 		return NULL;
 	}
 	sock =  ssh_get_authentication_socket();

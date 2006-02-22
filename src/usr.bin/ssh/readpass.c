@@ -23,8 +23,12 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: readpass.c,v 1.33 2005/05/02 21:13:22 markus Exp $");
+RCSID("$OpenBSD: readpass.c,v 1.35 2006/02/10 01:44:26 stevesk Exp $");
 
+#include <sys/types.h>
+#include <sys/wait.h>
+
+#include <paths.h>
 #include <readpassphrase.h>
 
 #include "xmalloc.h"

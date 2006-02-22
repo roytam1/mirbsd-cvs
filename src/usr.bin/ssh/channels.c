@@ -39,7 +39,13 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: channels.c,v 1.229 2005/12/12 13:46:18 markus Exp $");
+RCSID("$OpenBSD: channels.c,v 1.235 2006/02/20 16:36:14 stevesk Exp $");
+
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/un.h>
+
+#include <termios.h>
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -57,8 +63,6 @@ RCSID("$OpenBSD: channels.c,v 1.229 2005/12/12 13:46:18 markus Exp $");
 #include "bufaux.h"
 
 /* -- channel core */
-
-#define CHAN_RBUF	16*1024
 
 /*
  * Pointer to an array containing all allocated channels.  The array is
@@ -300,6 +304,7 @@ channel_new(char *ctype, int type, int rfd, int wfd, int efd,
 	c->confirm = NULL;
 	c->confirm_ctx = NULL;
 	c->input_filter = NULL;
+	c->output_filter = NULL;
 	debug("channel %d: new [%s]", found, remote_name);
 	return c;
 }
@@ -680,7 +685,8 @@ channel_cancel_cleanup(int id)
 	c->detach_close = 0;
 }
 void
-channel_register_filter(int id, channel_filter_fn *fn)
+channel_register_filter(int id, channel_infilter_fn *ifn,
+    channel_outfilter_fn *ofn)
 {
 	Channel *c = channel_lookup(id);
 
@@ -688,7 +694,8 @@ channel_register_filter(int id, channel_filter_fn *fn)
 		logit("channel_register_filter: %d: bad id", id);
 		return;
 	}
-	c->input_filter = fn;
+	c->input_filter = ifn;
+	c->output_filter = ofn;
 }
 
 void
@@ -1453,7 +1460,7 @@ static int
 channel_handle_wfd(Channel *c, fd_set * readset, fd_set * writeset)
 {
 	struct termios tio;
-	u_char *data;
+	u_char *data = NULL, *buf;
 	u_int dlen;
 	int len;
 
@@ -1461,11 +1468,26 @@ channel_handle_wfd(Channel *c, fd_set * readset, fd_set * writeset)
 	if (c->wfd != -1 &&
 	    FD_ISSET(c->wfd, writeset) &&
 	    buffer_len(&c->output) > 0) {
+		if (c->output_filter != NULL) {
+			if ((buf = c->output_filter(c, &data, &dlen)) == NULL) {
+				debug2("channel %d: filter stops", c->self);
+				if (c->type != SSH_CHANNEL_OPEN)
+					chan_mark_dead(c);
+				else
+					chan_write_failed(c);
+				return -1;
+			}
+		} else if (c->datagram) {
+			buf = data = buffer_get_string(&c->output, &dlen);
+		} else {
+			buf = data = buffer_ptr(&c->output);
+			dlen = buffer_len(&c->output);
+		}
+
 		if (c->datagram) {
-			data = buffer_get_string(&c->output, &dlen);
 			/* ignore truncated writes, datagrams might get lost */
 			c->local_consumed += dlen + 4;
-			len = write(c->wfd, data, dlen);
+			len = write(c->wfd, buf, dlen);
 			xfree(data);
 			if (len < 0 && (errno == EINTR || errno == EAGAIN))
 				return 1;
@@ -1478,9 +1500,8 @@ channel_handle_wfd(Channel *c, fd_set * readset, fd_set * writeset)
 			}
 			return 1;
 		}
-		data = buffer_ptr(&c->output);
-		dlen = buffer_len(&c->output);
-		len = write(c->wfd, data, dlen);
+
+		len = write(c->wfd, buf, dlen);
 		if (len < 0 && (errno == EINTR || errno == EAGAIN))
 			return 1;
 		if (len <= 0) {
@@ -1497,14 +1518,14 @@ channel_handle_wfd(Channel *c, fd_set * readset, fd_set * writeset)
 			}
 			return -1;
 		}
-		if (compat20 && c->isatty && dlen >= 1 && data[0] != '\r') {
+		if (compat20 && c->isatty && dlen >= 1 && buf[0] != '\r') {
 			if (tcgetattr(c->wfd, &tio) == 0 &&
 			    !(tio.c_lflag & ECHO) && (tio.c_lflag & ICANON)) {
 				/*
 				 * Simulate echo to reduce the impact of
 				 * traffic analysis. We need to match the
 				 * size of a SSH2_MSG_CHANNEL_DATA message
-				 * (4 byte channel id + data)
+				 * (4 byte channel id + buf)
 				 */
 				packet_send_ignore(4 + len);
 				packet_send();
@@ -2991,7 +3012,7 @@ deny_input_open(int type, u_int32_t seq, void *ctxt)
 		error("deny_input_open: type %d", type);
 		break;
 	}
-	error("Warning: this is probably a break in attempt by a malicious server.");
+	error("Warning: this is probably a break-in attempt by a malicious server.");
 	packet_start(SSH_MSG_CHANNEL_OPEN_FAILURE);
 	packet_put_int(rchan);
 	packet_send();
