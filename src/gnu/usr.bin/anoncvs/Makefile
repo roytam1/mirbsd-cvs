@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.2 2005/09/23 10:53:59 tg Exp $
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.3 2005/12/04 20:29:50 tg Exp $
 
 CBIN=		anoncvsbin
 BINDIR=		/var/anoncvs/anoncvs
@@ -21,7 +21,7 @@ ${CBIN}.conf: crunch.conf
 	sed 's%OBJPATH%${BSDOBJDIR}%g' <${.CURDIR}/crunch.conf >${CBIN}.conf
 
 ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
-	${MAKE} -f ${CBIN}.mk CFLAGS="${CFLAGS}" all
+	${MAKE} -f ${CBIN}.mk
 
 realinstall:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
