@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/crunch/crunchgen.c,v 1.2 2005/03/13 18:32:50 tg Exp $ */
 /* $OpenBSD: crunchgen.c,v 1.21 2004/08/24 09:11:39 jmc Exp $	 */
 
 /*
@@ -43,7 +43,7 @@
 #include <ctype.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/crunch/crunchgen.c,v 1.2 2005/03/13 18:32:50 tg Exp $");
 
 #define CRUNCH_VERSION	"0.3-MirOS"
 
@@ -716,7 +716,7 @@ gen_output_makefile(void)
 	for (p = progs; p != NULL; p = p->next)
 		prog_makefile_rules(outmk, p);
 
-	fprintf(outmk, "\n# ========\n");
+	fprintf(outmk, "\n# ========\n.include <bsd.prog.mk>\n");
 	fclose(outmk);
 }
 
