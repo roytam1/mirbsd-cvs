@@ -31,6 +31,7 @@
 #include <time.h>
 #include <glob.h>
 #include <libgen.h>
+#include <unistd.h>
 
 __RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.6 2005/11/15 19:33:59 tg Exp $");
 
@@ -618,6 +619,7 @@ void
 move_file(const char *dir, const char *fname, char *to)
 {
     char cmd[FILENAME_MAX];
+
 
     if (fname[0] == '/')
 	snprintf(cmd, sizeof(cmd), "mv -f %s %s", fname, to);

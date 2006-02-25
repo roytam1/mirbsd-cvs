@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -21,9 +21,14 @@
  */
 
 #include <err.h>
+#include <pwd.h>
 #include "lib.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+
+#ifdef AS_USER
+static bool PrivsDropped = false;
+#endif
 
 /*
  * Unusual system() substitute.  Accepts format string and args,
@@ -61,4 +66,46 @@ vsystem(const char *fmt, ...)
 	va_end(args);
 	free(cmd);
 	return ret;
+}
+
+/*
+ * If run under sudo, this drops privileges to those of the user calling
+ * sudo.
+ */
+
+void
+drop_privs(void)
+{
+#ifdef AS_USER
+	char *login = getlogin();
+	struct passwd *pwent;
+
+	if (!geteuid() && strcmp(login, "root")) {
+		pwent = getpwnam(login);
+		if (!pwent) {
+			pwarnx("drop_privs: Cannot get passwd entry for user %s\n", login);
+			return;
+		}
+		if (Verbose)
+			printf("Dropping privileges to %s (uid %d)\n",
+					login, pwent->pw_uid);
+		seteuid(pwent->pw_uid);
+		PrivsDropped = true;
+	}
+#endif
+}
+
+/*
+ * Raise privileges after they have been dropped.
+ */
+
+void
+raise_privs(void)
+{
+#ifdef AS_USER
+	if (PrivsDropped) {
+		seteuid(0);
+		PrivsDropped = false;
+	}
+#endif
 }
