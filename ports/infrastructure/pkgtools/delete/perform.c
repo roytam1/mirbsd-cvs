@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.7 2005/11/19 02:05:28 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.8 2005/12/20 19:22:59 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.7 2005/11/19 02:05:28 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.8 2005/12/20 19:22:59 tg Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -232,8 +232,10 @@ pkg_do(char *pkg)
 	    continue;
 	if (Verbose)
 	    printf("Attempting to remove dependency on package '%s'\n", p->name);
+	drop_privs();
 	if (!Fake)
 	    findmatchingname(dbdir, p->name, undepend, pkg, 0);
+	raise_privs();
     }
     free(pkg);
     return 0;
