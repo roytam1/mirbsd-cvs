@@ -1,10 +1,10 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.3 2005/07/07 21:25:48 bsiegert Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.4 2006/02/02 21:09:41 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		"GNU privacy guard - a free PGP replacement"
-VERSION=		1.4.1
+VERSION=		1.4.2.1
 DISTNAME=		gnupg-${VERSION}
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-0
 CATEGORIES=		security
 MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gnupg/ \
 			ftp://gd.tuwien.ac.at/privacy/gnupg/gnupg/ \
