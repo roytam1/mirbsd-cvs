@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.6 2005/09/19 17:42:03 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.7 2005/11/15 19:33:56 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.6 2005/09/19 17:42:03 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.7 2005/11/15 19:33:56 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -450,13 +450,16 @@ pkg_do(char *pkg)
 	zapLogDir = 1;
 	if (Verbose)
 	    printf("Attempting to record package into '%s'\n", LogDir);
+	drop_privs();
 	if (make_hierarchy(LogDir)) {
 	    pwarnx("can't record package into '%s', you're on your own!",
 		   LogDir);
 	    memset(LogDir, 0, FILENAME_MAX);
+	    raise_privs();
 	    code = 1;
 	    goto success;	/* close enough for government work */
 	}
+	raise_privs();
 	/* Make sure pkg_info can read the entry */
 	vsystem("chmod a+rx %s", LogDir);
 	if (fexists(DEINSTALL_FNAME))
@@ -464,14 +467,17 @@ pkg_do(char *pkg)
 	if (fexists(REQUIRE_FNAME))
 	    move_file(".", REQUIRE_FNAME, LogDir);
 	(void) snprintf(contents, sizeof(contents), "%s/%s", LogDir, CONTENTS_FNAME);
+	drop_privs();
 	cfile = fopen(contents, "w");
 	if (!cfile) {
+	    raise_privs();
 	    pwarnx("can't open new contents file '%s'! can't register pkg",
 		contents);
 	    goto success; /* can't log, but still keep pkg */
 	}
 	write_plist(&Plist, cfile);
 	fclose(cfile);
+	raise_privs();
 	move_file(".", DESC_FNAME, LogDir);
 	move_file(".", COMMENT_FNAME, LogDir);
 	if (fexists(DISPLAY_FNAME))
@@ -505,14 +511,17 @@ pkg_do(char *pkg)
 	    strlcat(contents, "/", sizeof(contents));
 	    strlcat(contents, REQUIRED_BY_FNAME, sizeof(contents));
 
+	    drop_privs();
 	    cfile = fopen(contents, "a");
-	    if (!cfile)
+	    if (!cfile) {
+		raise_privs();
 		pwarnx("can't open dependency file '%s'!\n"
 		       "dependency registration is incomplete", contents);
-	    else {
+	    } else {
 		fprintf(cfile, "%s\n", PkgName);
 		if (fclose(cfile) == EOF)
 		    pwarnx("cannot properly close file '%s'", contents);
+		raise_privs();
 	    }
 	}
 	if (Verbose)
