@@ -1,12 +1,12 @@
-$MirOS$
---- ext/standard/info.c.orig	Tue Feb 21 17:49:07 2006
-+++ ext/standard/info.c	Tue Feb 21 17:49:52 2006
+$MirOS: ports/www/php/core/patches/patch-ext_standard_info_c,v 1.1 2006/02/21 17:51:19 tg Exp $
+--- ext/standard/info.c.orig	Sun Feb 26 14:25:20 2006
++++ ext/standard/info.c	Mon Feb 27 21:40:14 2006
 @@ -434,18 +434,18 @@ PHPAPI void php_print_info(int flag TSRM
  
  #if HARDENING_PATCH
  		if (!sapi_module.phpinfo_as_text) {
 -			php_printf("<h1 class=\"p\">PHP Version %s with <a href=\"http://www.hardened-php.net\">Hardening-Patch</a> %s</h1>\n", PHP_VERSION, HARDENING_PATCH_VERSION);
-+			php_printf("<h1 class=\"p\"><a href="http://mirbsd.de/ports">MirPorts Framework</a> PHP Version %s with <a href=\"http://www.hardened-php.net\">Hardening-Patch</a> %s</h1>\n", PHP_VERSION, HARDENING_PATCH_VERSION);
++			php_printf("<h1 class=\"p\"><a href=\"http://mirbsd.de/ports\">MirPorts Framework</a> PHP Version %s with <a href=\"http://www.hardened-php.net\">Hardening-Patch</a> %s</h1>\n", PHP_VERSION, HARDENING_PATCH_VERSION);
  		} else {
  			char temp_ver[40];	
  		
