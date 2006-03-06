@@ -1,9 +1,10 @@
-# $MirOS: ports/devel/automake/1.4/Makefile,v 1.2 2005/07/07 21:18:55 bsiegert Exp $
+# $MirOS: ports/devel/automake/1.4/Makefile,v 1.3 2005/10/03 11:05:17 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
 COMMENT=		"GNU Standards-compliant Makefile generator"
 DISTNAME=		automake-1.4-p6
-PKGNAME=		automake-1.4p6-3
+MPVERSION=		1.4p6-MirPorts-4
+PKGNAME=		automake-${MPVERSION:S/-MirPorts-/-/}
 SUFFIX=			-1.4
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=automake/}
@@ -16,8 +17,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	gnu
-MAKE_FLAGS=		MAKEINFO="makeinfo --no-split"
-FAKE_FLAGS=		${MAKE_FLAGS} ${DESTDIRNAME}="${WRKINST}"
 SUBST_VARS+=		SUFFIX
 
 RUN_DEPENDS=		:metaauto->=0.2:devel/metaauto
@@ -26,6 +25,11 @@ REGRESS_DEPENDS=	:gmake-*:devel/gmake
 do-regress:
 	cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} MAKE=gmake gmake -f \
 	    ${MAKE_FILE} ${REGRESS_FLAGS} ${REGRESS_TARGET}
+
+post-build:
+.for _f in aclocal automake
+	print '%g/@MPVERSION@/s//${MPVERSION}/g\nwq' | ed -s ${WRKSRC}/${_f}
+.endfor
 
 post-install:
 	cd ${PREFIX}/info && mv automake.info automake${SUFFIX}.info
