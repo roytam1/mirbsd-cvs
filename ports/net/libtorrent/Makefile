@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/libtorrent/Makefile,v 1.1 2006/02/07 15:42:51 tg Exp $
 
 CATEGORIES=		net
 COMMENT=		"BitTorrent client back-end library"
-DISTNAME=		libtorrent-0.8.3
+DISTNAME=		libtorrent-0.8.5
 HOMEPAGE=		http://libtorrent.rakshasa.no/
 MASTER_SITES=		${HOMEPAGE}downloads/
 

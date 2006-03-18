@@ -1,13 +1,13 @@
-$MirOS$
+$MirOS: ports/net/libtorrent/patches/patch-src_download_Makefile_in,v 1.1 2006/02/07 15:42:52 tg Exp $
 
 calls abort() in gcc/gcc/protector.c:sweep_string_variable()
 because rtx sweep_var is neither MEM nor CONST_INT
 
 this is a problem of the gcc2/gcc3 stack protector and C++
 
---- src/download/Makefile.in.orig	Tue Feb  7 14:59:29 2006
-+++ src/download/Makefile.in	Tue Feb  7 15:00:19 2006
-@@ -302,6 +302,13 @@ distclean-compile:
+--- src/download/Makefile.in.orig	Sat Feb 11 16:12:23 2006
++++ src/download/Makefile.in	Sat Mar 18 17:56:32 2006
+@@ -301,6 +301,13 @@ distclean-compile:
  @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
  @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
  
