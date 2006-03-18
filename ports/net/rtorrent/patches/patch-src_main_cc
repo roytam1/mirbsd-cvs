@@ -1,14 +1,14 @@
-$MirOS$
---- src/main.cc.orig	Tue Feb  7 15:39:40 2006
-+++ src/main.cc	Tue Feb  7 15:39:48 2006
-@@ -177,8 +177,8 @@ main(int argc, char** argv) {
-     OptionFile optionFile;
-     optionFile.slot_option(sigc::mem_fun(control->variables(), &utils::VariableMap::process_command));
+$MirOS: ports/net/rtorrent/patches/patch-src_main_cc,v 1.1 2006/02/07 15:42:52 tg Exp $
+--- src/main.cc.orig	Mon Feb 13 16:46:57 2006
++++ src/main.cc	Sat Mar 18 18:19:03 2006
+@@ -161,8 +161,8 @@ main(int argc, char** argv) {
+     control->core()->initialize_first();
  
--    if (getenv("HOME") && !optionFile.process_file(getenv("HOME") + std::string("/.rtorrent.rc")))
+     // Move env and go through "try_import".
+-    if (!control->variables()->process_file("~/.rtorrent.rc"))
 -      control->core()->get_log_important().push_front("Could not load \"~/.rtorrent.rc\".");
-+    if (getenv("HOME") && !optionFile.process_file(getenv("HOME") + std::string("/.etc/rtorrent.rc")))
++    if (!control->variables()->process_file("~/.etc/rtorrent.rc"))
 +      control->core()->get_log_important().push_front("Could not load \"~/.etc/rtorrent.rc\".");
  
-     int firstArg = parse_options(control, control->variables(), argc, argv);
+     int firstArg = parse_options(control, argc, argv);
  

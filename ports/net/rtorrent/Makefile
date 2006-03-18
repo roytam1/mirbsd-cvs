@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/rtorrent/Makefile,v 1.1 2006/02/07 15:42:52 tg Exp $
 
 CATEGORIES=		net
 COMMENT=		"BitTorrent ncurses client"
-DISTNAME=		rtorrent-0.4.3
+DISTNAME=		rtorrent-0.4.5
 HOMEPAGE=		http://libtorrent.rakshasa.no/
 MASTER_SITES=		${HOMEPAGE}downloads/
 
@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 DESCR=			${PORTSDIR}/net/libtorrent/pkg/DESCR
 
 MODULES+=		devel/pkgconfig
-LIB_DEPENDS+=		torrent::net/libtorrent
+LIB_DEPENDS+=		torrent:libtorrent->=0.8.5:net/libtorrent
 LIB_DEPENDS+=		curl::net/curl
 
 USE_CXX=		Yes
