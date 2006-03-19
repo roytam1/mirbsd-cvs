@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.8 2006/01/25 21:07:37 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.9 2006/03/19 19:30:06 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,9 +27,9 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.8 2006/01/25 21:07:37 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.9 2006/03/19 19:30:06 tg Exp $");
 
-#define STARTSTRING "tar -R cf - "
+#define STARTSTRING "tar -Rcf - "
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
 		|| (strlen(str) + FILENAME_MAX + perm_count > maxargs))
 
