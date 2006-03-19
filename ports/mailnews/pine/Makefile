@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.17 2005/12/15 14:26:16 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.18 2005/12/16 14:54:33 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -14,7 +14,7 @@ VERSION=		4.64
 PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
-CCLIENT_PATCHLEV=	4
+CCLIENT_PATCHLEV=	5
 PICOLOT_PATCHLEV=	2
 DISTNAME=		pine${VERSION}
 PKGNAME=		pine-${VERSION}-${CCLIENT_PATCHLEV}
@@ -79,8 +79,11 @@ LIB_HEADERS=		c-client.h env.h env_unix.h flstring.h fs.h ftl.h \
 ATSED=			-e 's!@SHELL@!${SHELL}!g' \
 			-e 's!@PREFIX@!${TRUEPREFIX}!g' \
 			-e 's!@ETC@!${SYSCONFDIR}!g'
-ATSED_DEPS=		imap/src/osdep/unix/env_unix.h pine/osdep/os-bso.h \
-			pine/pine.hlp
+ATSED_DEPS=		build imap/Makefile imap/src/imapd/Makefile \
+			imap/src/osdep/unix/Makefile \
+			imap/src/osdep/unix/Makefile.md5 \
+			imap/src/osdep/unix/env_unix.h \
+			pine/osdep/os-bso.h pine/pine.hlp
 ATSED_FILES=		doc/pine.1 imap/src/tmail/tmail.1
 
 post-extract:
@@ -95,7 +98,7 @@ do-build:
 .for _i in ${ATSED_DEPS}
 	cd ${WRKSRC} && mv ${_i} ${_i}.bak && sed ${ATSED} <${_i}.bak >${_i}
 .endfor
-	@cd ${WRKSRC}; ./build ${PINE_BUILD_FLAGS} bso
+	@cd ${WRKSRC}; chmod a+x build; ./build ${PINE_BUILD_FLAGS} bso
 
 do-install:
 .for _i in ${ATSED_FILES}
