@@ -1,9 +1,10 @@
-# $MirOS: ports/devel/automake/1.9/Makefile,v 1.5 2005/10/02 11:46:27 tg Exp $
+# $MirOS: ports/devel/automake/1.9/Makefile,v 1.6 2006/03/23 22:50:42 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
 COMMENT=		"experimental GNU automatic Makefile generator"
 DISTNAME=		automake-1.9.6
-PKGNAME=		${DISTNAME}-1
+MPVERSION=		1.9.6-MirPorts-2
+PKGNAME=		automake-${MPVERSION:S/-MirPorts-/-/}
 SUFFIX=			-1.9
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=automake/}
@@ -27,6 +28,12 @@ REGRESS_DEPENDS=	:gmake-*:devel/gmake
 do-regress:
 	cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} MAKE=${GMAKE} \
 	    ${GMAKE} -f ${MAKE_FILE} ${REGRESS_FLAGS} ${REGRESS_TARGET}
+
+post-build:
+	chmod u+w ${WRKSRC}/lib/Automake/Config.pm
+	print '%g/@MPVERSION@/s//${MPVERSION}/g\nwq' \
+	    | ed -s ${WRKSRC}/lib/Automake/Config.pm
+	chmod u-w ${WRKSRC}/lib/Automake/Config.pm
 
 post-install:
 	cd ${PREFIX}/info && mv automake.info automake${SUFFIX}.info
