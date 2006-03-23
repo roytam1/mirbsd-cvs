@@ -1,6 +1,6 @@
-$MirOS: ports/devel/automake/1.9/patches/patch-automake_in,v 1.1.7.1 2005/03/18 15:44:28 tg Exp $
+$MirOS: ports/devel/automake/1.9/patches/patch-automake_in,v 1.2 2005/10/02 11:46:28 tg Exp $
 --- automake.in.orig	Thu Jun 30 21:16:51 2005
-+++ automake.in	Sun Oct  2 11:37:00 2005
++++ automake.in	Thu Mar 23 22:47:43 2006
 @@ -289,6 +289,8 @@ my $copy_missing = 0;
  # TRUE if we should always update files that we know about.
  my $force_missing = 0;
@@ -10,6 +10,15 @@ $MirOS: ports/devel/automake/1.9/patches/patch-automake_in,v 1.1.7.1 2005/03/18 
  
  ## ---------------------------------------- ##
  ## Variables filled during files scanning.  ##
+@@ -787,7 +789,7 @@ register_language ('name' => 'asm',
+ 		   # or anything else required.  They can also set AS.
+ 		   'compile' => '$(CCAS) $(AM_CCASFLAGS) $(CCASFLAGS)',
+ 		   'compiler' => 'CCASCOMPILE',
+-		   'compile_flag' => '-c',
++		   'compile_flag' => '-c -D_ASM_SOURCE',
+ 		   'extensions' => ['.s', '.S'],
+ 
+ 		   # With assembly we still use the C linker.
 @@ -3885,7 +3887,7 @@ sub handle_configure ($$$@)
    # in the package, for backward compatibility (some people may still
    # use $(mkinstalldirs)).
