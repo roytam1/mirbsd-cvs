@@ -19,7 +19,7 @@ dnl
 dnl Disable EXPN and VRFY to help thwart address harvesters and require
 dnl senders to say hello.
 dnl
-define(`confPRIVACY_FLAGS', `authwarnings,needmailhelo,noexpn,novrfy')dnl
+define(`confPRIVACY_FLAGS', `authwarnings,needmailhelo,noexpn,novrfy,nobodyreturn')dnl
 dnl
 dnl We wish to make the existence of the local-host-names and
 dnl trusted-users files optional, hence the "-o" below.
