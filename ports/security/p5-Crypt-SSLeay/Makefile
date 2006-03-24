@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.17 2004/05/16 09:44:29 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -5,7 +6,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=	"library to provide LWP https support via OpenSSL"
 
 DISTNAME=	Crypt-SSLeay-0.51
-PKGNAME=	p5-${DISTNAME}-0
+PKGNAME=	p5-${DISTNAME}-1
 CATEGORIES=	security perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Crypt/}
