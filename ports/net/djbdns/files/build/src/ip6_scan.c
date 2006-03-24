@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #include "scan.h"
 #include "ip4.h"
 #include "ip6.h"
@@ -56,6 +58,8 @@ unsigned int ip6_scan(const char *s,char ip[16])
   }
 
 /* part 2, after "::" */
+  if (*s == '\0')
+    return 2;
   for (;;) {
     if (*s == ':') {
       if (suffixlen==0)
