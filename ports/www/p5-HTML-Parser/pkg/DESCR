@@ -13,7 +13,7 @@ The modules present in this collection are:
   handlers are invoked.
 
   HTML::Entities - Provides functions to encode and decode text
-  with embedded HTML &gt;entities&gt;.
+  with embedded HTML "entities".
 
   HTML::HeadParser - A lightweight HTML::Parser subclass that
   extractsinformation from the <HEAD> section of an HTML document.

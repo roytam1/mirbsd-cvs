@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2003/10/18 19:44:56 sturm Exp $
 
 COMMENT=	"data tables useful for parsing HTML"
 
-DISTNAME=	HTML-Tagset-3.03
+DISTNAME=	HTML-Tagset-3.10
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=HTML/}

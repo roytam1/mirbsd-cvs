@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.24 2004/04/11 14:59:53 brad Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"modules to parse and extract information from HTML"
  
-DISTNAME=	HTML-Parser-3.36
+DISTNAME=	HTML-Parser-3.51
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=HTML/}
