@@ -1,19 +1,17 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.10 2003/12/31 15:11:09 naddy Exp $
 ${P5ARCH}/Compress/Zlib.pm
 @comment ${P5ARCH}/auto/Compress/Zlib/.packlist
 ${P5ARCH}/auto/Compress/Zlib/Zlib.bs
-${P5ARCH}/auto/Compress/Zlib/Zlib.so
+${P5ARCH}/auto/Compress/Zlib/Zlib${P5DLEXT}
 ${P5ARCH}/auto/Compress/Zlib/autosplit.ix
-@comment ${P5ARCH}/auto/zlib/extralibs.ld
-man/man3/Compress::Zlib.3p
+man/man3/Compress::Zlib${P5MAN3EXT}
 share/examples/p5-Compress-Zlib/filtdef
 share/examples/p5-Compress-Zlib/filtinf
 share/examples/p5-Compress-Zlib/gzcat
 share/examples/p5-Compress-Zlib/gzgrep
 share/examples/p5-Compress-Zlib/gzstream
 @dirrm share/examples/p5-Compress-Zlib
-@dirrm man/man3
-@comment @dirrm ${P5ARCH}/auto/zlib
 @dirrm ${P5ARCH}/auto/Compress/Zlib
 @dirrm ${P5ARCH}/auto/Compress
 @dirrm ${P5ARCH}/auto

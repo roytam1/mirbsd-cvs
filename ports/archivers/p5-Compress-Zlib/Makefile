@@ -1,9 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.36 2004/02/16 05:31:44 kevlo Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"perl interface to the zlib compression library"
-DISTNAME=	Compress-Zlib-1.33
+DISTNAME=	Compress-Zlib-1.41
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	archivers perl5
 
