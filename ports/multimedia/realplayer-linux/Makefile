@@ -1,11 +1,11 @@
-# $MirOS: ports/x11/realplayer-linux/Makefile,v 1.7 2005/07/07 21:29:17 bsiegert Exp $
+# $MirOS: ports/multimedia/realplayer-linux/Makefile,v 1.1 2006/03/24 13:41:54 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=		Real Networks streaming audio/video client
 DISTNAME=		rp8_linux20_libc6_i386_cs2
-PKGNAME=		realplayer-linux-8.0.1-3
+PKGNAME=		realplayer-linux-8.0.1-4
 CATEGORIES=		audio graphics x11 multimedia
 DISTFILES=		rp8_linux20_libc6_i386_cs2_rpm \
 			rv9_libc6_i386_cs2.tgz
@@ -19,7 +19,6 @@ PERMIT_DISTFILES_FTP=	"commercial, redistribution not permitted"
 RUN_DEPENDS=		:redhat_base->=6.2:emulators/redhat/base
 BUILD_DEPENDS=		::converters/rpm2cpio
 
-NO_BUILD=		Yes
 NO_REGRESS=		Yes
 
 RPDIR=			${PREFIX}/lib/RealPlayer
@@ -54,6 +53,10 @@ do-extract:
 	done
 	@chmod -R u=rwX,go=rX ${WRKSRC}
 
+do-build:
+	sed 's!@RPDIR@!${RPDIR}!g' \
+	    <${FILESDIR}/realplay.sh >${WRKBUILD}/realplay.sh
+
 do-install:
 	${INSTALL_DATA_DIR} ${RPDIR}
 .for _f in mimeinstall.sh realplay rpnp.so
@@ -72,7 +75,6 @@ do-install:
 	${INSTALL_DATA_DIR} ${RPDIR}/Plugins/ExtResources
 	${INSTALL_SCRIPT} ${WRKSRC}/Plugins/ExtResources/* \
 		${RPDIR}/Plugins/ExtResources/
-	cd ${PREFIX}/bin; ln -sf ..${RPDIR:S!${PREFIX}!!}/realplay .
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/RealPlayer8/realplay/pics
 	${INSTALL_DATA} ${WRKSRC}/Help/readme ${WRKSRC}/Help/realplay.htm \
 	    ${PREFIX}/share/doc/RealPlayer8/
@@ -80,5 +82,6 @@ do-install:
 	    ${PREFIX}/share/doc/RealPlayer8/realplay/
 	${INSTALL_DATA} ${WRKSRC}/Help/realplay/pics/* \
 	    ${PREFIX}/share/doc/RealPlayer8/realplay/pics/
+	${INSTALL_SCRIPT} ${WRKBUILD}/realplay.sh ${PREFIX}/bin/realplay
 
 .include <bsd.port.mk>
