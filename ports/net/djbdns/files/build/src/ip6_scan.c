@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/net/djbdns/files/build/src/ip6_scan.c,v 1.2 2006/03/24 22:25:17 tg Exp $ */
 
 #include "scan.h"
 #include "ip4.h"
@@ -59,7 +59,7 @@ unsigned int ip6_scan(const char *s,char ip[16])
 
 /* part 2, after "::" */
   if (*s == '\0')
-    return 2;
+    return len;
   for (;;) {
     if (*s == ':') {
       if (suffixlen==0)
