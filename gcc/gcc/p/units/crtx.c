@@ -1,6 +1,6 @@
 /*Wrapper for the support routines for the CRT unit for XCurses.
 
-  Copyright (C) 1999-2005 Free Software Foundation, Inc.
+  Copyright (C) 1999-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

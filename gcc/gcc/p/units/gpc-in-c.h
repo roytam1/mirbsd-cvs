@@ -1,7 +1,7 @@
 /*Header to support the inclusion of GPC compiled code into C
   programs
 
-  Copyright (C) 2000-2005 Frank Heckenbach <frank@pascal.gnu.de>
+  Copyright (C) 2000-2006 Frank Heckenbach <frank@pascal.gnu.de>
 
   This file is free software; as a special exception the author
   gives unlimited permission to copy and/or distribute it, with or

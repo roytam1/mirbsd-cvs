@@ -1,6 +1,6 @@
 { Memory transfer procedures
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Authors: Peter Gerwinski <peter@gerwinski.de>
            Frank Heckenbach <frank@pascal.gnu.de>

@@ -16,6 +16,41 @@ cleaner, more flexible or otherwise more useful ones. This might lead
 to minor problems with old code, but we suppose they're rare and easy
 to overcome. Backward-incompatible changes are marked with `(@)'.
 
+   * preliminary support for gcc-4.0.x
+
+   * handle named exit from a method
+
+   * check string parameters more strictly (@)
+
+   * use at least integer precision for arithmetic (@)
+
+   * refuse `--executable-file-name' on names without a suffix
+
+   * do not create `.gpi' files from incorrect input
+
+   * `CWordBool' type
+
+   * allow passing variant selector by reference in default mode
+
+   * `noinline' attribute
+
+   * check for identifier redeclaration in records and parameter lists
+     (@)
+
+   * set constants are compatible with packed sets
+
+   * `ReadString' and `StringOf' predefined routines (M)
+
+   * pass discriminated string schema by value (@)
+
+   * `const var' parameters
+
+   * preliminary support for OOE class views (test/view1[a-g].pas)
+
+   * `--iso-goto-restrictions' option
+
+   * `--preprocessed' option
+
    * integrated preprocessor (@)
 
    * `--longjmp-all-nonlocal-labels' is on by default on Darwin/PPC

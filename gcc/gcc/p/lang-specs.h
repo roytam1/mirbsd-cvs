@@ -1,6 +1,6 @@
 /*Definitions for specs for Pascal.
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Authors: Peter Gerwinski <peter@gerwinski.de>
            Frank Heckenbach <frank@pascal.gnu.de>
@@ -30,37 +30,6 @@
   {".pp", "@Pascal", 0},
   {".dpr", "@Pascal", 0},
   {"@Pascal",
-#if 0
-   "gpcpp\
-    %{fbig-endian:-D__BITS_BIG_ENDIAN__=1 -D__BYTES_BIG_ENDIAN__=1 -D__WORDS_BIG_ENDIAN__=1}\
-    %{flittle-endian:-D__BITS_LITTLE_ENDIAN__=1 -D__BYTES_LITTLE_ENDIAN__=1 -D__WORDS_LITTLE_ENDIAN__=1}\
-    %{!fbig-endian:%{!flittle-endian:"
-#if BITS_BIG_ENDIAN
-   "-D__BITS_BIG_ENDIAN__=1"
-#else
-   "-D__BITS_LITTLE_ENDIAN__=1"
-#endif
-#if BYTES_BIG_ENDIAN
-   " -D__BYTES_BIG_ENDIAN__=1"
-#else
-   " -D__BYTES_LITTLE_ENDIAN__=1"
-#endif
-#if WORDS_BIG_ENDIAN
-   " -D__WORDS_BIG_ENDIAN__=1"
-#else
-   " -D__WORDS_LITTLE_ENDIAN__=1"
-#endif
-   "}}"
-#if STRICT_ALIGNMENT
-   " -D__NEED_ALIGNMENT__=1"
-#else
-   " -D__NEED_NO_ALIGNMENT__=1"
-#endif
-   " %(cpp_unique_options) %{f*&W*&w} %{pedantic*} %{!M:%{!E:%{!pipe:%g.i}}} |\n\
-    %{!M:%{!MM:%{!E:gpc1 %{!pipe:%g.i} %(cc1_options)\
-    %{!famtmpfile*:%eInternal GPC problem: internal option `--amtmpfile' not given}\
-    %{!fsyntax-only:%(invoke_as)} }}}", 0},
-#endif
     "gpc1 %{E:-E %{!M:%(cpp_unique_options) %1 %{m*} %{f*&W*&pedantic*} %{w} "
     "%(cpp_debug_options) %{O*}}}"
     "%{M:%(cpp_unique_options) %1 %{m*} %{f*&W*&pedantic*} %{w}" 

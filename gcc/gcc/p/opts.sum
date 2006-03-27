@@ -9,6 +9,7 @@ P::Do not generate #line directives
 U:Joined Separate:-U<macro>       Undefine <macro>
 Wall::
 Wcomment::
+Werror::
 Wmissing-declarations::
 Wmissing-prototypes::
 Wpointer-arith::
@@ -48,6 +49,7 @@ fignore-function-results::Do not complain when a function is called like a proce
 fignore-garbage-after-dot::Ignore anything after the terminating `.' (default in `--borland-pascal')
 fignore-packed::Ignore `packed' in the source code (default in `--borland-pascal')
 fio-checking::Check I/O operations automatically (same as `{$I+}') (default)
+fiso-goto-restrictions::Do not allow jumps into structured instructions (default)
 flongjmp-all-nonlocal-labels::Use `longjmp' for all nonlocal labels (default for Darwin/PPC)
 fmacros::Expand macros (default except with `--ucsd-pascal', `--borland-pascal' or `--delphi')
 fmethods-always-virtual::Make all methods virtual (default in `--mac-pascal')

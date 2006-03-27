@@ -1,6 +1,6 @@
 { Some text file tricks.
 
-  Copyright (C) 2002-2005 Free Software Foundation, Inc.
+  Copyright (C) 2002-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

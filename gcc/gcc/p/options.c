@@ -1,6 +1,6 @@
 /*GPC command-line options and compiler directives
 
-  Copyright (C) 1988-2005 Free Software Foundation, Inc.
+  Copyright (C) 1988-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -26,6 +26,10 @@
 #include "gpc.h"
 #include "gpc-options.h"
 #include "p/p-version.h"
+#ifdef GCC_4_0
+#include "version.h"
+#endif
+
 
 #ifdef GCC_3_4
 #include "options.h"

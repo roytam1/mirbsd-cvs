@@ -2,7 +2,7 @@
 ; DO NOT CHANGE THIS FILE MANUALLY!
 ;
 ; Options for the Pascal front end.
-; Copyright (C) 2004-2005 Free Software Foundation, Inc.
+; Copyright (C) 2004-2006 Free Software Foundation, Inc.
 ;
 ; This file is part of GNU Pascal.
 ;
@@ -79,6 +79,10 @@ Pascal
 Wdynamic-arrays
 Pascal
 Warn about arrays whose size is determined at run time (including array slices)
+
+Werror
+Pascal
+
 
 Wfloat-equal
 Pascal
@@ -371,6 +375,10 @@ Compile only the interface part of a unit/module and exit (creates `.gpi' file, 
 fio-checking
 Pascal
 Check I/O operations automatically (same as `{$I+}') (default)
+
+fiso-goto-restrictions
+Pascal
+Do not allow jumps into structured instructions (default)
 
 flittle-endian
 Pascal RejectNegative

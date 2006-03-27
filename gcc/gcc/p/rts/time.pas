@@ -1,6 +1,6 @@
 { Time and date routines
 
-  Copyright (C) 1991-2005 Free Software Foundation, Inc.
+  Copyright (C) 1991-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
            Jukka Virtanen <jtv@hut.fi>

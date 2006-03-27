@@ -1,6 +1,6 @@
 { File handling routines
 
-  Copyright (C) 1991-2005 Free Software Foundation, Inc.
+  Copyright (C) 1991-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Frank Heckenbach <frank@pascal.gnu.de>
@@ -191,7 +191,7 @@ function  Read_String (f: GPC_FDR; Str: PChars0; Capacity: Integer) = Length: In
 procedure Read_FixedString (f: GPC_FDR; Str: PChars0; Capacity: Integer); attribute (name = '_p_Read_FixedString');
 procedure Read_Line (f: GPC_FDR); attribute (name = '_p_Read_Line');
 procedure Read_Init (f: GPC_FDR; Flags: Integer); attribute (name = '_p_Read_Init');
-function  ReadStr_Init (const s: String; aFlags: Integer) = f: GPC_FDR; attribute (name = '_p_ReadStr_Init');
+function  ReadStr_Init (s: PChars0; Length: Cardinal; aFlags: Integer) = f: GPC_FDR; attribute (name = '_p_ReadStr_Init');
 procedure ReadWriteStr_Done (f: GPC_FDR); attribute (name = '_p_ReadWriteStr_Done');
 function  Val_Done (f: GPC_FDR): Integer; attribute (name = '_p_Val_Done');
 
@@ -211,6 +211,7 @@ function  WriteStr_Init (s: PChars0; Capacity, Flags: Integer) = f: GPC_FDR; att
 function  WriteStr_GetLength (f: GPC_FDR): Integer; attribute (name = '_p_WriteStr_GetLength');
 function  FormatString_Init (Flags, Count: Integer) = f: GPC_FDR; attribute (name = '_p_FormatString_Init');
 function  FormatString_Result (f: GPC_FDR; Format: Pointer): Pointer; attribute (name = '_p_FormatString_Result');
+function  StringOf_Result (f: GPC_FDR): Pointer; attribute (name = '_p_StringOf_Result');
 procedure GPC_Page (f: GPC_FDR); attribute (name = '_p_Page');
 procedure GPC_Put (f: GPC_FDR); attribute (name = '_p_Put');
 procedure GPC_SeekRead (f: GPC_FDR; NewPlace: FileSizeType); attribute (name = '_p_SeekRead');
@@ -392,7 +393,7 @@ procedure AssignHandle (var t: AnyFile; Handle: Integer; CloseFlag: Boolean); at
 { Under development }
 procedure AnyStringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString); attribute (name = '_p_AnyStringTFDD_Reset');
 { @@ procedure AnyStringTFDD_Rewrite (var f: GPC_FDR; var Buf: VarAnyString); attribute (name = '_p_AnyStringTFDD_Rewrite'); }
-procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString; const s: String); attribute (name = '_p_StringTFDD_Reset');
+procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString; var s: array [m .. n: Integer] of Char); attribute (name = '_p_StringTFDD_Reset');
 { @@ procedure StringTFDD_Rewrite (var f: GPC_FDR; var Buf: VarAnyString; var s: String); attribute (name = '_p_StringTFDD_Rewrite'); }
 
 {@internal}
@@ -2323,15 +2324,15 @@ begin
     f := InternalNew (SizeOf (f^))
 end;
 
-function ReadStr_Init (const s: String; aFlags: Integer) = f: GPC_FDR;
+function ReadStr_Init (s: PChars0; Length: Cardinal; aFlags: Integer) = f: GPC_FDR;
 begin
   if (aFlags and VAL_MASK) <> 0 then StartTempIOError;
   f := GetReadWriteStrFDR;
   ClearStatus (f);
   with f^ do
     begin
-      if s = '' then BufPtr := nil else BufPtr := PChars0 (@s[1]);
-      BufSize := Length (s);
+      BufPtr := s;
+      BufSize := Length;
       BufPos := 0;
       Flags := aFlags or READ_STRING_MASK;
       FilBuf := PChars0 (@InternalBuffer)  { only 1 char is actually needed }
@@ -2722,11 +2723,7 @@ end;
 
 procedure Write_String (f: GPC_FDR; s: PChars0; Length: Cardinal; Width: Integer);
 begin
-  if s = nil then
-    Length := 0
-  else if Length = High (Cardinal) then  { CString }
-    Length := CStringLength (CString (s));
-  if Length = 0 then
+  if (s = nil) or (Length = 0) then
     WritePadded (f, '', Width, (f^.Flags and CLIP_STRING_MASK) <> 0)
   else
     WritePadded (f, s^[0 .. Length - 1], Width, (f^.Flags and CLIP_STRING_MASK) <> 0)
@@ -2798,6 +2795,18 @@ begin
       f^.FormatStringLengths^[f^.FormatStringN - 1] := f^.BufPos
     end;
   FormatString_Result := InternalFormatString (PString (Format)^, f^.FormatStringCount, f^.FormatStringStrings, f^.FormatStringLengths);
+  ReadWriteStr_Done (f)
+end;
+
+function StringOf_Result (f: GPC_FDR): Pointer;
+begin
+    if f^.FormatStringN <> f^.FormatStringCount then InternalErrorCString (900, 'StringOf');  { internal error }
+  if f^.FormatStringN <> 0 then
+    begin
+      f^.FormatStringStrings^[f^.FormatStringN - 1] := f^.BufPtr;
+      f^.FormatStringLengths^[f^.FormatStringN - 1] := f^.BufPos
+    end;
+  StringOf_Result := InternalStringOf (f^.FormatStringCount, f^.FormatStringStrings, f^.FormatStringLengths);
   ReadWriteStr_Done (f)
 end;
 
@@ -3482,10 +3491,10 @@ begin
   Internal_Reset (f, '', False, 1)
 end;
 
-procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString; const s: String);
+procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString; var s: array [m .. n: Integer] of Char);
 begin
-  Buf.Length := Length (s);
-  if s = '' then Buf.Chars := nil else Buf.Chars := PChars (@s[1]);
+  Buf.Length := n - m + 1;
+  Buf.Chars := PChars (@s[m]);
   AnyStringTFDD_Reset (f, Buf)
 end;
 

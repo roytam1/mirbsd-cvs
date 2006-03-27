@@ -1,7 +1,7 @@
 { Some routines for string handling on a higher level than those
   provided by the RTS.
 
-  Copyright (C) 1999-2005 Free Software Foundation, Inc.
+  Copyright (C) 1999-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

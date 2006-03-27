@@ -1,6 +1,6 @@
 /*Support routines for the CRT unit
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -2614,7 +2614,7 @@ GLOBAL (size_t crt_Read (void *PrivateData UNUSED, Char *buffer, size_t size))
       do
         {
           errno = 0;
-          res = wgetnstr (crt_ActivePanel->w, crt_LineBuf, MAXLENGTH - 1);
+          res = wgetnstr (crt_ActivePanel->w, (char *)crt_LineBuf, MAXLENGTH - 1);
         }
       while
         #ifdef EINTR
@@ -2630,12 +2630,12 @@ GLOBAL (size_t crt_Read (void *PrivateData UNUSED, Char *buffer, size_t size))
             {
               do
                 {
-                  p = strchr (crt_LineBuf, 26);
+                  p = (Char *)strchr ((char *)crt_LineBuf, 26);
                   if (p) *p = 0;
                 }
               while (p);
             }
-          crt_LineBufCount = strlen (crt_LineBuf);
+          crt_LineBufCount = strlen ((char *)crt_LineBuf);
           crt_LineBuf[crt_LineBufCount++] = '\n';
         }
       crt_LineBufPos = crt_LineBuf;
@@ -2695,7 +2695,7 @@ static chtype chtransform (Char ch, TTextAttr attr, Boolean PCCharSet)
     }
   #endif
   if (!pccs && !_p_IsPrintable (ch)) return ' ';
-  return (crt_LinuxConsole && pccs) ? ch | A_ALTCHARSET : ch;
+  return (crt_LinuxConsole && pccs && (ch < 32 || ch > 126)) ? ch | A_ALTCHARSET : ch;
 }
 
 GLOBAL (void crt_ReadChar (int x, int y, Char *ch, TTextAttr *attr))

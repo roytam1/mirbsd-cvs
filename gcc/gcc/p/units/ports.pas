@@ -3,7 +3,7 @@
   under Linux and DJGPP). It is provided here only to serve as a
   replacement for BP's Port and PortW pseudo arrays.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

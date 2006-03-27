@@ -1,6 +1,6 @@
 { File name routines
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Authors: Prof. Abimbola A. Olowofoyeku <African_Chief@bigfoot.com>
            Frank Heckenbach <frank@pascal.gnu.de>

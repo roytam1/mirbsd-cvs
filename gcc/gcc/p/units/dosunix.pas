@@ -6,7 +6,7 @@
   see, perhaps when more routines suited for this/these unit(s) will
   be found, the design will become clearer ...
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

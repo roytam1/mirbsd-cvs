@@ -62,7 +62,7 @@ features.
 What is the current version?
 ============================
 
-The current version is 20051116.
+The current version is 20060215.
 
    Releases are available as a source archive and precompiled binaries
 for several common platforms from the GPC web site,
@@ -120,6 +120,7 @@ EMX 0.9B                      (OS/2, Dos)
 Cygwin32 beta20 and higher    (MS-Windows95/98, MS-Windows NT)
 mingw32                       (MS-Windows95/98, MS-Windows NT)
 MSYS                          (MS-Windows)
+Mac OS/X 10.3                 
 mips-sgi-irix5.3              
 mips-sgi-irix6.5              
 sun-sparc-sunos4.1.4          
@@ -714,7 +715,7 @@ in BP mode (or with a special switch) short string of capacity 255
 
    Q: So when will these short strings be available?
 
-   A: It's been planned for over a year. The delay has been caused by
+   A: It's been planned for some years. The delay has been caused by
 more pressing problems.
 
 What about C strings?

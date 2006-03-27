@@ -1,6 +1,6 @@
 { String handling routines (lower level)
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
            Jukka Virtanen <jtv@hut.fi>

@@ -1,6 +1,6 @@
 { Heap management routines
 
-  Copyright (C) 1991-2005 Free Software Foundation, Inc.
+  Copyright (C) 1991-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Frank Heckenbach <frank@pascal.gnu.de>

@@ -1,6 +1,6 @@
 /*GNU Pascal compiler option tables
 
-  Copyright (C) 2000-2005, Free Software Foundation, Inc.
+  Copyright (C) 2000-2006, Free Software Foundation, Inc.
 
   Used by the preprocessor and the compiler in common.
 
@@ -85,11 +85,10 @@ static const char *const default_options[] =
     "-fno-pedantic",
     "-ftyped-address",
     "-fassertions",
-#ifdef TARGET_POWERPC
 #if TARGET_MACHO
     "-flongjmp-all-nonlocal-labels",
 #endif
-#endif
+    "-fiso-goto-restrictions",
     "-Wwarnings",
     "-Wimplicit-abstract",
     "-Winherited-abstract",
@@ -123,7 +122,7 @@ static const struct lang_option_map
      initializer doesn't compile. The limits can be increased when
      necessary. */
   const char *src[7];
-  const char *dest[26];
+  const char *dest[28];
 } lang_option_map[] =
   {
     {
@@ -155,6 +154,7 @@ static const struct lang_option_map
         "-fno-double-quoted-strings",
         "-ffield-widths",
         "-fno-propagate-units",
+        "-fiso-goto-restrictions",
         "-Wcast-align",
         "-Wobject-assignment",
         "-Wtyped-const",
@@ -227,6 +227,7 @@ static const struct lang_option_map
         "-fno-nonlocal-exit",
         "-fignore-packed",
         "-fborland-objects",
+        "-fno-iso-goto-restrictions",
         "-Wno-cast-align",
         0
       }

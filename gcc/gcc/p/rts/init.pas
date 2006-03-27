@@ -1,6 +1,6 @@
 { Initialization
 
-  Copyright (C) 1999-2005 Free Software Foundation, Inc.
+  Copyright (C) 1999-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
 

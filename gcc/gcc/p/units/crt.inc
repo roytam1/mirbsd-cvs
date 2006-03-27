@@ -4,7 +4,7 @@
   crtc.c can be generated from this file (cf. Make-lang.in in the
   main GPC source directory).
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

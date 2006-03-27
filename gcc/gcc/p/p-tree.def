@@ -1,6 +1,6 @@
 /*Pascal specific tree nodes.
 
-  Copyright (C) 2002-2005 Free Software Foundation, Inc.
+  Copyright (C) 2002-2006 Free Software Foundation, Inc.
 
   Authors: Waldek Hebisch <hebisch@math.uni.wroc.pl>
            Frank Heckenbach <frank@pascal.gnu.de>
@@ -22,6 +22,21 @@
   Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
   02111-1307, USA. */
 
+#ifdef GCC_4_0
+DEFTREECODE (OPERATOR_DECL, "operator_decl", tcc_declaration, 0)
+/* The field `gpi_int checksum' might be larger than a pointer, so
+   reserve two pointer sizes for it. */
+DEFTREECODE (INTERFACE_NAME_NODE, "interface_name_node", tcc_exceptional, 3)
+DEFTREECODE (IMPORT_NODE, "import_node", tcc_exceptional, 4)
+DEFTREECODE (PASCAL_BIT_FIELD_REF, "pascal_bit_field_ref", tcc_reference, 3)
+DEFTREECODE (PASCAL_CONSTRUCTOR_CALL, "pascal_constructor_call", tcc_binary, 2)
+DEFTREECODE (POWER_EXPR, "power_expr", tcc_binary, 2)
+DEFTREECODE (POW_EXPR, "pow_expr", tcc_binary, 2)
+DEFTREECODE (SYMDIFF_EXPR, "symdiff_expr", tcc_binary, 2)
+DEFTREECODE (RANGE_CHECK_EXPR, "range_check_expr", tcc_expression, 3)
+DEFTREECODE (IO_RANGE_CHECK_EXPR, "io_range_check_expr", tcc_expression, 3)
+DEFTREECODE (IN_EXPR, "in_expr", tcc_binary, 2)
+#else
 #ifdef EGCS
 DEFTREECODE (OPERATOR_DECL, "operator_decl", 'd', 0)
 /* The field `gpi_int checksum' might be larger than a pointer, so
@@ -47,4 +62,5 @@ DEFTREECODE (SYMDIFF_EXPR, "symdiff_expr", "2", 2)
 DEFTREECODE (NAMESPACE_DECL, "namespace_decl", "d", 0)
 DEFTREECODE (RANGE_CHECK_EXPR, "range_check_expr", "e", 3)
 DEFTREECODE (IO_RANGE_CHECK_EXPR, "io_range_check_expr", "e", 3)
+#endif
 #endif

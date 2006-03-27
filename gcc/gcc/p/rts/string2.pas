@@ -1,6 +1,6 @@
 { String handling routines (higher level)
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
            Jukka Virtanen <jtv@hut.fi>
@@ -157,6 +157,7 @@ type
   TIntegers = array [0 .. MaxVarSize div SizeOf (Integer) - 1] of Integer;
 
 function InternalFormatString (var Format: String; Count: Integer; Strings: PPChars0; Lengths: PIntegers): PString; attribute (name = '_p_InternalFormatString');
+function InternalStringOf (Count: Integer; Strings: PPChars0; Lengths: PIntegers): PString; attribute (name = '_p_InternalStringOf');
 {@endinternal}
 
 type
@@ -409,6 +410,38 @@ begin
   { Clean up and return result }
   for i := 1 to Count do InternalDispose (Strings^[i - 1]);
   InternalFormatString := Res
+end;
+
+function InternalStringOf (Count: Integer; Strings: PPChars0; Lengths: PIntegers): PString;
+var
+  Size, k, n: Integer;
+  p: Pointer;
+  Res: PString = nil; attribute (static);
+begin
+  { Compute size of the result. }
+  Size := 0;
+  for n := 1 to Count do
+    Inc (Size, Lengths^[n - 1]);
+
+  { Allocate the result. (Dispose of it in the
+    next invocation so we don't have to worry about this in the compiler.) }
+  p := SuspendMark;
+  Dispose (Res);
+  New (Res, Max (1, Size));
+  ResumeMark (p);
+  SetLength (Res^, Size);
+
+  { Copy to the result. }
+  Size := 0;
+  for n := 1 to Count do
+    begin
+      k := Lengths^[n - 1];
+      Res^[Size + 1 .. Size + k] := Strings^[n - 1]^[0 .. k - 1];
+      Inc (Size, k)
+    end;
+  { Clean up and return result }
+  for n := 1 to Count do InternalDispose (Strings^[n - 1]);
+  InternalStringOf := Res
 end;
 
 function VarAnyStringLength (var s: VarAnyString): Cardinal;
