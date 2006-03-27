@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.h,v 1.5 2005/07/23 20:08:50 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.h,v 1.6 2005/07/23 20:33:24 tg Exp $ */
 /*	$NetBSD: var.h,v 1.23 2004/10/02 12:16:53 dsl Exp $	*/
 
 /*-
@@ -40,14 +40,15 @@
  */
 
 /* flags */
-#define VEXPORT		0x01	/* variable is exported */
-#define VREADONLY	0x02	/* variable cannot be modified */
-#define VSTRFIXED	0x04	/* variable struct is statically allocated */
-#define VTEXTFIXED	0x08	/* text is statically allocated */
-#define VSTACK		0x10	/* text is allocated on the stack */
-#define VUNSET		0x20	/* the variable is not set */
-#define VNOFUNC		0x40	/* don't call the callback function */
-#define VNOSET		0x80	/* do not set variable - just readonly test */
+#define VEXPORT		0x0001	/* variable is exported */
+#define VREADONLY	0x0002	/* variable cannot be modified */
+#define VSTRFIXED	0x0004	/* variable struct is statically allocated */
+#define VTEXTFIXED	0x0008	/* text is statically allocated */
+#define VSTACK		0x0010	/* text is allocated on the stack */
+#define VUNSET		0x0020	/* the variable is not set */
+#define VNOFUNC		0x0040	/* don't call the callback function */
+#define VNOSET		0x0080	/* do not set variable - just readonly test */
+#define VISRANDOM	0x0100	/* is $RANDOM */
 
 
 struct var {
@@ -76,6 +77,7 @@ extern struct var vpath;
 extern struct var vps1;
 extern struct var vps2;
 extern struct var vps4;
+extern struct var vrandom;
 
 /*
  * The following macros access the values of the above variables.

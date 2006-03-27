@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/sh/var.c,v 1.5 2005/07/23 20:07:47 tg Exp $ */
+/**	$MirOS: src/bin/sh/var.c,v 1.6 2005/07/23 20:08:50 tg Exp $ */
 /*	$NetBSD: var.c,v 1.36 2004/10/06 10:23:43 enami Exp $	*/
 
 /*-
@@ -35,7 +35,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)var.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/bin/sh/var.c,v 1.5 2005/07/23 20:07:47 tg Exp $");
+__RCSID("$MirOS: src/bin/sh/var.c,v 1.6 2005/07/23 20:08:50 tg Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -77,6 +77,10 @@ struct var vps2;
 struct var vps4;
 struct var vvers;
 struct var voptind;
+struct var vrandom; static int vrandom_set = 0;
+
+static void changerandom(const char *);
+static char *getrandom(void);
 
 const struct varinit varinit[] = {
 	{ &vifs,	VSTRFIXED|VTEXTFIXED,		"IFS= \t\n",
@@ -92,6 +96,8 @@ const struct varinit varinit[] = {
 	  NULL },
 	{ &voptind,	VSTRFIXED|VTEXTFIXED|VNOFUNC,	"OPTIND=1",
 	  getoptsreset },
+	{ &vrandom,	VISRANDOM,			"RANDOM=1",
+	  changerandom },
 	{ NULL,	0,				NULL,
 	  NULL }
 };
@@ -125,6 +131,8 @@ initvar(void)
 		vp->text = strdup(ip->text);
 		vp->flags = ip->flags;
 		vp->func = ip->func;
+		if (ip->flags & VISRANDOM)
+			vrandom_set = 0;
 	}
 	/*
 	 * PS1 depends on uid
@@ -300,6 +308,8 @@ lookupvar(const char *name)
 	v = find_var(name, NULL, NULL);
 	if (v == NULL || v->flags & VUNSET)
 		return NULL;
+	if (v->flags & VISRANDOM)
+		return getrandom();
 	return v->text + v->name_len + 1;
 }
 
@@ -326,6 +336,8 @@ bltinlookup(const char *name, int doall)
 
 	if (v == NULL || v->flags & VUNSET || (!doall && !(v->flags & VEXPORT)))
 		return NULL;
+	if (v->flags & VISRANDOM)
+		return getrandom();
 	return v->text + v->name_len + 1;
 }
 
@@ -486,7 +498,10 @@ showvars(const char *name, int flag, int show_value)
 			out1c(*p);
 		if (!(vp->flags & VUNSET) && show_value) {
 			out1fmt("=");
-			print_quoted(++p);
+			if (vp->flags & VISRANDOM)
+				print_quoted(getrandom());
+			else
+				print_quoted(++p);
 		}
 		out1c('\n');
 	}
@@ -520,7 +535,8 @@ exportcmd(int argc, char **argv)
 		} else {
 			vp = find_var(name, NULL, NULL);
 			if (vp != NULL) {
-				vp->flags |= flag;
+				if ((vp->flags & VISRANDOM) == 0)
+					vp->flags |= flag;
 				continue;
 			}
 		}
@@ -580,6 +596,11 @@ mklocal(const char *name, int flags)
 			lvp->text = NULL;
 			lvp->flags = VUNSET;
 		} else {
+			if (vp->flags & VISRANDOM) {
+				ckfree(lvp);
+				INTON;
+				return;
+			}
 			lvp->text = vp->text;
 			lvp->flags = vp->flags;
 			vp->flags |= VSTRFIXED|VTEXTFIXED;
@@ -686,7 +707,7 @@ unsetvar(const char *s, int unexport)
 	if (vp == NULL)
 		return 1;
 
-	if (vp->flags & VREADONLY)
+	if (vp->flags & (VREADONLY | VISRANDOM))
 		return (1);
 
 	INTOFF;
@@ -763,4 +784,25 @@ find_var(const char *name, struct var ***vppp, int *lenp)
 		return vp;
 	}
 	return NULL;
+}
+
+static void
+changerandom(const char *value)
+{
+	int i = number(value);
+
+	vrandom_set = 1;
+	srand(i & 0xFFFF);
+}
+
+static char *
+getrandom(void)
+{
+	static char buf[10];
+
+	if (vrandom_set)
+		snprintf(buf, sizeof (buf), "%u", rand() & 0xFFFF);
+	else
+		snprintf(buf, sizeof (buf), "%lu", (long)arc4random());
+	return (buf);
 }
