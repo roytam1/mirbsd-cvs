@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -1454,6 +1455,7 @@ val_fileproc (void *callerdat, struct file_info *finfo)
  *   		2. If IDB is non-NULL and val-tags cannot be opened for write.
  *   		   This allows callers to ignore the harmless inability to
  *   		   update the val-tags cache.
+ *		3. If CVSREADONLYFS is set (same as #2 above).
  *   false	If the file could be opened and the tag is not present.
  */
 static int is_in_val_tags (DBM **idb, const char *name)
@@ -1462,6 +1464,10 @@ static int is_in_val_tags (DBM **idb, const char *name)
     char *valtags_filename;
     datum mytag;
     int status;
+
+    /* do nothing if we know we fail anyway */
+    if (readonlyfs)
+      return 1;
 
     /* Casting out const should be safe here - input datums are not
      * written to by the myndbm functions.
