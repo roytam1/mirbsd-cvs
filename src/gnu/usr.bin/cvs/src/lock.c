@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/lock.c,v 1.2 2006/03/27 11:35:11 tg Exp $ */
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -72,6 +72,7 @@
 
 #include "cvs.h"
 
+__RCSID("$MirOS$");
 
 
 struct lock {

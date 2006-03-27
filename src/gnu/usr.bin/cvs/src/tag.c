@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/tag.c,v 1.4 2006/03/27 11:35:11 tg Exp $ */
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -20,6 +20,8 @@
 
 #include "cvs.h"
 #include "save-cwd.h"
+
+__RCSID("$MirOS$");
 
 static int rtag_proc (int argc, char **argv, char *xwhere,
 		      char *mwhere, char *mfile, int shorten,
