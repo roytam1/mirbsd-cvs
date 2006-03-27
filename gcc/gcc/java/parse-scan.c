@@ -1,7 +1,7 @@
-/* A Bison parser, made by GNU Bison 2.0.  */
+/* A Bison parser, made by GNU Bison 1.875.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -278,7 +278,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 37 "parse-scan.y"
+#line 37 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
 
 #define JC1_LITE
 
@@ -386,14 +386,14 @@ void report (void);
 #endif
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 130 "parse-scan.y"
+#line 130 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
 typedef union YYSTYPE {
   char *node;
   struct method_declarator *declarator;
   int value;			/* For modifiers */
 } YYSTYPE;
-/* Line 190 of yacc.c.  */
-#line 397 "parse-scan.c"
+/* Line 191 of yacc.c.  */
+#line 396 "java/parse-scan.c"
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -402,33 +402,30 @@ typedef union YYSTYPE {
 
 
 /* Copy the second part of user declarations.  */
-#line 136 "parse-scan.y"
+#line 136 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
 
 extern int flag_assert;
 
 #include "lex.c"
 
 
-/* Line 213 of yacc.c.  */
-#line 414 "parse-scan.c"
+/* Line 214 of yacc.c.  */
+#line 413 "java/parse-scan.c"
 
 #if ! defined (yyoverflow) || YYERROR_VERBOSE
 
-# ifndef YYFREE
-#  define YYFREE free
-# endif
-# ifndef YYMALLOC
-#  define YYMALLOC malloc
-# endif
-
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
-# ifdef YYSTACK_USE_ALLOCA
-#  if YYSTACK_USE_ALLOCA
-#   ifdef __GNUC__
-#    define YYSTACK_ALLOC __builtin_alloca
-#   else
+# if YYSTACK_USE_ALLOCA
+#  define YYSTACK_ALLOC alloca
+# else
+#  ifndef YYSTACK_USE_ALLOCA
+#   if defined (alloca) || defined (_ALLOCA_H)
 #    define YYSTACK_ALLOC alloca
+#   else
+#    ifdef __GNUC__
+#     define YYSTACK_ALLOC __builtin_alloca
+#    endif
 #   endif
 #  endif
 # endif
@@ -441,20 +438,20 @@ extern int flag_assert;
 #   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
 #   define YYSIZE_T size_t
 #  endif
-#  define YYSTACK_ALLOC YYMALLOC
-#  define YYSTACK_FREE YYFREE
+#  define YYSTACK_ALLOC malloc
+#  define YYSTACK_FREE free
 # endif
 #endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
 
 
 #if (! defined (yyoverflow) \
      && (! defined (__cplusplus) \
-	 || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))
+	 || (YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  short int yyss;
+  short yyss;
   YYSTYPE yyvs;
   };
 
@@ -464,13 +461,13 @@ union yyalloc
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (sizeof (short int) + sizeof (YYSTYPE))			\
+     ((N) * (sizeof (short) + sizeof (YYSTYPE))				\
       + YYSTACK_GAP_MAXIMUM)
 
 /* Copy COUNT objects from FROM to TO.  The source and destination do
    not overlap.  */
 # ifndef YYCOPY
-#  if defined (__GNUC__) && 1 < __GNUC__
+#  if 1 < __GNUC__
 #   define YYCOPY(To, From, Count) \
       __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
 #  else
@@ -506,7 +503,7 @@ union yyalloc
 #if defined (__STDC__) || defined (__cplusplus)
    typedef signed char yysigned_char;
 #else
-   typedef short int yysigned_char;
+   typedef short yysigned_char;
 #endif
 
 /* YYFINAL -- State number of the termination state. */
@@ -575,7 +572,7 @@ static const unsigned char yytranslate[] =
 #if YYDEBUG
 /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-static const unsigned short int yyprhs[] =
+static const unsigned short yyprhs[] =
 {
        0,     0,     3,     5,     7,     9,    11,    13,    15,    17,
       19,    21,    23,    25,    27,    29,    31,    33,    35,    37,
@@ -616,7 +613,7 @@ static const unsigned short int yyprhs[] =
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS. */
-static const short int yyrhs[] =
+static const short yyrhs[] =
 {
      113,     0,    -1,   126,    -1,   106,    -1,   107,    -1,   110,
       -1,   105,    -1,   104,    -1,   111,    -1,   116,    -1,   117,
@@ -737,7 +734,7 @@ static const short int yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const unsigned short int yyrline[] =
+static const unsigned short yyrline[] =
 {
        0,   210,   210,   215,   216,   217,   218,   219,   220,   225,
      226,   230,   235,   240,   248,   249,   253,   257,   261,   265,
@@ -783,76 +780,76 @@ static const unsigned short int yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "PLUS_TK", "MINUS_TK", "MULT_TK",
-  "DIV_TK", "REM_TK", "LS_TK", "SRS_TK", "ZRS_TK", "AND_TK", "XOR_TK",
-  "OR_TK", "BOOL_AND_TK", "BOOL_OR_TK", "EQ_TK", "NEQ_TK", "GT_TK",
-  "GTE_TK", "LT_TK", "LTE_TK", "PLUS_ASSIGN_TK", "MINUS_ASSIGN_TK",
-  "MULT_ASSIGN_TK", "DIV_ASSIGN_TK", "REM_ASSIGN_TK", "LS_ASSIGN_TK",
-  "SRS_ASSIGN_TK", "ZRS_ASSIGN_TK", "AND_ASSIGN_TK", "XOR_ASSIGN_TK",
-  "OR_ASSIGN_TK", "PUBLIC_TK", "PRIVATE_TK", "PROTECTED_TK", "STATIC_TK",
-  "FINAL_TK", "SYNCHRONIZED_TK", "VOLATILE_TK", "TRANSIENT_TK",
-  "NATIVE_TK", "PAD_TK", "ABSTRACT_TK", "MODIFIER_TK", "STRICT_TK",
-  "DECR_TK", "INCR_TK", "DEFAULT_TK", "IF_TK", "THROW_TK", "BOOLEAN_TK",
-  "DO_TK", "IMPLEMENTS_TK", "THROWS_TK", "BREAK_TK", "IMPORT_TK",
-  "ELSE_TK", "INSTANCEOF_TK", "RETURN_TK", "VOID_TK", "CATCH_TK",
-  "INTERFACE_TK", "CASE_TK", "EXTENDS_TK", "FINALLY_TK", "SUPER_TK",
-  "WHILE_TK", "CLASS_TK", "SWITCH_TK", "CONST_TK", "TRY_TK", "FOR_TK",
-  "NEW_TK", "CONTINUE_TK", "GOTO_TK", "PACKAGE_TK", "THIS_TK", "ASSERT_TK",
-  "BYTE_TK", "SHORT_TK", "INT_TK", "LONG_TK", "CHAR_TK", "INTEGRAL_TK",
-  "FLOAT_TK", "DOUBLE_TK", "FP_TK", "ID_TK", "REL_QM_TK", "REL_CL_TK",
-  "NOT_TK", "NEG_TK", "ASSIGN_ANY_TK", "ASSIGN_TK", "OP_TK", "CP_TK",
-  "OCB_TK", "CCB_TK", "OSB_TK", "CSB_TK", "SC_TK", "C_TK", "DOT_TK",
-  "STRING_LIT_TK", "CHAR_LIT_TK", "INT_LIT_TK", "FP_LIT_TK", "TRUE_TK",
-  "FALSE_TK", "BOOL_LIT_TK", "NULL_TK", "$accept", "goal", "literal",
-  "type", "primitive_type", "reference_type", "class_or_interface_type",
-  "class_type", "interface_type", "array_type", "name", "simple_name",
-  "qualified_name", "identifier", "compilation_unit",
-  "import_declarations", "type_declarations", "package_declaration",
-  "import_declaration", "single_type_import_declaration",
-  "type_import_on_demand_declaration", "type_declaration", "modifiers",
-  "class_declaration", "@1", "@2", "super", "interfaces",
-  "interface_type_list", "class_body", "class_body_declarations",
-  "class_body_declaration", "class_member_declaration",
-  "field_declaration", "variable_declarators", "variable_declarator",
-  "variable_declarator_id", "variable_initializer", "method_declaration",
-  "@3", "method_header", "method_declarator", "formal_parameter_list",
-  "formal_parameter", "throws", "class_type_list", "method_body",
-  "static_initializer", "static", "constructor_declaration",
-  "constructor_declarator", "constructor_body",
-  "explicit_constructor_invocation", "this_or_super",
-  "interface_declaration", "@4", "@5", "@6", "@7", "extends_interfaces",
-  "interface_body", "interface_member_declarations",
-  "interface_member_declaration", "constant_declaration",
-  "abstract_method_declaration", "array_initializer",
-  "variable_initializers", "block", "block_statements", "block_statement",
-  "local_variable_declaration_statement", "local_variable_declaration",
-  "statement", "statement_nsi", "statement_without_trailing_substatement",
-  "empty_statement", "label_decl", "labeled_statement",
-  "labeled_statement_nsi", "expression_statement", "statement_expression",
-  "if_then_statement", "if_then_else_statement",
-  "if_then_else_statement_nsi", "switch_statement", "switch_block",
-  "switch_block_statement_groups", "switch_block_statement_group",
-  "switch_labels", "switch_label", "while_expression", "while_statement",
-  "while_statement_nsi", "do_statement_begin", "do_statement",
-  "for_statement", "for_statement_nsi", "for_header", "for_begin",
-  "for_init", "for_update", "statement_expression_list", "break_statement",
-  "continue_statement", "return_statement", "throw_statement",
-  "assert_statement", "synchronized_statement", "synchronized",
-  "try_statement", "catches", "catch_clause", "finally", "primary",
-  "primary_no_new_array", "type_literals",
-  "class_instance_creation_expression", "anonymous_class_creation", "@8",
-  "@9", "something_dot_new", "argument_list", "array_creation_expression",
-  "dim_exprs", "dim_expr", "dims", "field_access", "method_invocation",
-  "array_access", "postfix_expression", "post_increment_expression",
-  "post_decrement_expression", "unary_expression",
-  "pre_increment_expression", "pre_decrement_expression",
-  "unary_expression_not_plus_minus", "cast_expression",
-  "multiplicative_expression", "additive_expression", "shift_expression",
-  "relational_expression", "equality_expression", "and_expression",
-  "exclusive_or_expression", "inclusive_or_expression",
-  "conditional_and_expression", "conditional_or_expression",
-  "conditional_expression", "assignment_expression", "assignment",
-  "left_hand_side", "assignment_operator", "expression",
+  "$end", "error", "$undefined", "PLUS_TK", "MINUS_TK", "MULT_TK", "DIV_TK", 
+  "REM_TK", "LS_TK", "SRS_TK", "ZRS_TK", "AND_TK", "XOR_TK", "OR_TK", 
+  "BOOL_AND_TK", "BOOL_OR_TK", "EQ_TK", "NEQ_TK", "GT_TK", "GTE_TK", 
+  "LT_TK", "LTE_TK", "PLUS_ASSIGN_TK", "MINUS_ASSIGN_TK", 
+  "MULT_ASSIGN_TK", "DIV_ASSIGN_TK", "REM_ASSIGN_TK", "LS_ASSIGN_TK", 
+  "SRS_ASSIGN_TK", "ZRS_ASSIGN_TK", "AND_ASSIGN_TK", "XOR_ASSIGN_TK", 
+  "OR_ASSIGN_TK", "PUBLIC_TK", "PRIVATE_TK", "PROTECTED_TK", "STATIC_TK", 
+  "FINAL_TK", "SYNCHRONIZED_TK", "VOLATILE_TK", "TRANSIENT_TK", 
+  "NATIVE_TK", "PAD_TK", "ABSTRACT_TK", "MODIFIER_TK", "STRICT_TK", 
+  "DECR_TK", "INCR_TK", "DEFAULT_TK", "IF_TK", "THROW_TK", "BOOLEAN_TK", 
+  "DO_TK", "IMPLEMENTS_TK", "THROWS_TK", "BREAK_TK", "IMPORT_TK", 
+  "ELSE_TK", "INSTANCEOF_TK", "RETURN_TK", "VOID_TK", "CATCH_TK", 
+  "INTERFACE_TK", "CASE_TK", "EXTENDS_TK", "FINALLY_TK", "SUPER_TK", 
+  "WHILE_TK", "CLASS_TK", "SWITCH_TK", "CONST_TK", "TRY_TK", "FOR_TK", 
+  "NEW_TK", "CONTINUE_TK", "GOTO_TK", "PACKAGE_TK", "THIS_TK", 
+  "ASSERT_TK", "BYTE_TK", "SHORT_TK", "INT_TK", "LONG_TK", "CHAR_TK", 
+  "INTEGRAL_TK", "FLOAT_TK", "DOUBLE_TK", "FP_TK", "ID_TK", "REL_QM_TK", 
+  "REL_CL_TK", "NOT_TK", "NEG_TK", "ASSIGN_ANY_TK", "ASSIGN_TK", "OP_TK", 
+  "CP_TK", "OCB_TK", "CCB_TK", "OSB_TK", "CSB_TK", "SC_TK", "C_TK", 
+  "DOT_TK", "STRING_LIT_TK", "CHAR_LIT_TK", "INT_LIT_TK", "FP_LIT_TK", 
+  "TRUE_TK", "FALSE_TK", "BOOL_LIT_TK", "NULL_TK", "$accept", "goal", 
+  "literal", "type", "primitive_type", "reference_type", 
+  "class_or_interface_type", "class_type", "interface_type", "array_type", 
+  "name", "simple_name", "qualified_name", "identifier", 
+  "compilation_unit", "import_declarations", "type_declarations", 
+  "package_declaration", "import_declaration", 
+  "single_type_import_declaration", "type_import_on_demand_declaration", 
+  "type_declaration", "modifiers", "class_declaration", "@1", "@2", 
+  "super", "interfaces", "interface_type_list", "class_body", 
+  "class_body_declarations", "class_body_declaration", 
+  "class_member_declaration", "field_declaration", "variable_declarators", 
+  "variable_declarator", "variable_declarator_id", "variable_initializer", 
+  "method_declaration", "@3", "method_header", "method_declarator", 
+  "formal_parameter_list", "formal_parameter", "throws", 
+  "class_type_list", "method_body", "static_initializer", "static", 
+  "constructor_declaration", "constructor_declarator", "constructor_body", 
+  "explicit_constructor_invocation", "this_or_super", 
+  "interface_declaration", "@4", "@5", "@6", "@7", "extends_interfaces", 
+  "interface_body", "interface_member_declarations", 
+  "interface_member_declaration", "constant_declaration", 
+  "abstract_method_declaration", "array_initializer", 
+  "variable_initializers", "block", "block_statements", "block_statement", 
+  "local_variable_declaration_statement", "local_variable_declaration", 
+  "statement", "statement_nsi", "statement_without_trailing_substatement", 
+  "empty_statement", "label_decl", "labeled_statement", 
+  "labeled_statement_nsi", "expression_statement", "statement_expression", 
+  "if_then_statement", "if_then_else_statement", 
+  "if_then_else_statement_nsi", "switch_statement", "switch_block", 
+  "switch_block_statement_groups", "switch_block_statement_group", 
+  "switch_labels", "switch_label", "while_expression", "while_statement", 
+  "while_statement_nsi", "do_statement_begin", "do_statement", 
+  "for_statement", "for_statement_nsi", "for_header", "for_begin", 
+  "for_init", "for_update", "statement_expression_list", 
+  "break_statement", "continue_statement", "return_statement", 
+  "throw_statement", "assert_statement", "synchronized_statement", 
+  "synchronized", "try_statement", "catches", "catch_clause", "finally", 
+  "primary", "primary_no_new_array", "type_literals", 
+  "class_instance_creation_expression", "anonymous_class_creation", "@8", 
+  "@9", "something_dot_new", "argument_list", "array_creation_expression", 
+  "dim_exprs", "dim_expr", "dims", "field_access", "method_invocation", 
+  "array_access", "postfix_expression", "post_increment_expression", 
+  "post_decrement_expression", "unary_expression", 
+  "pre_increment_expression", "pre_decrement_expression", 
+  "unary_expression_not_plus_minus", "cast_expression", 
+  "multiplicative_expression", "additive_expression", "shift_expression", 
+  "relational_expression", "equality_expression", "and_expression", 
+  "exclusive_or_expression", "inclusive_or_expression", 
+  "conditional_and_expression", "conditional_or_expression", 
+  "conditional_expression", "assignment_expression", "assignment", 
+  "left_hand_side", "assignment_operator", "expression", 
   "constant_expression", 0
 };
 #endif
@@ -860,7 +857,7 @@ static const char *const yytname[] =
 # ifdef YYPRINT
 /* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
    token YYLEX-NUM.  */
-static const unsigned short int yytoknum[] =
+static const unsigned short yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
@@ -878,7 +875,7 @@ static const unsigned short int yytoknum[] =
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const unsigned short int yyr1[] =
+static const unsigned short yyr1[] =
 {
        0,   112,   113,   114,   114,   114,   114,   114,   114,   115,
      115,   116,   116,   116,   117,   117,   118,   119,   120,   121,
@@ -962,7 +959,7 @@ static const unsigned char yyr2[] =
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
    STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
-static const unsigned short int yydefact[] =
+static const unsigned short yydefact[] =
 {
       26,    46,     0,     0,     0,     0,   177,     0,     2,    28,
       29,    27,    34,    39,    40,    36,     0,    43,    44,    45,
@@ -1029,7 +1026,7 @@ static const unsigned short int yydefact[] =
 };
 
 /* YYDEFGOTO[NTERM-NUM]. */
-static const short int yydefgoto[] =
+static const short yydefgoto[] =
 {
       -1,     7,   177,   235,   178,    73,    74,    59,    52,   179,
      180,    22,    23,    24,     8,     9,    10,    11,    12,    13,
@@ -1052,7 +1049,7 @@ static const short int yydefgoto[] =
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
 #define YYPACT_NINF -465
-static const short int yypact[] =
+static const short yypact[] =
 {
      237,  -465,   -32,   -32,   -32,   -32,  -465,    83,  -465,   124,
       -8,   124,  -465,  -465,  -465,  -465,   183,  -465,  -465,  -465,
@@ -1119,7 +1116,7 @@ static const short int yypact[] =
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const short int yypgoto[] =
+static const short yypgoto[] =
 {
     -465,  -465,  -465,   -11,   -10,   415,   -19,   -87,    19,   240,
      106,   102,  -465,    -3,  -465,   741,    41,  -465,    44,  -465,
@@ -1144,7 +1141,7 @@ static const short int yypgoto[] =
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -354
-static const short int yytable[] =
+static const short yytable[] =
 {
       25,    26,   243,   126,   366,   148,   311,   375,   389,   295,
      296,   297,   298,   550,   287,   146,    16,   304,   305,   483,
@@ -1482,7 +1479,7 @@ static const short int yytable[] =
      174,     0,     0,   175,   176
 };
 
-static const short int yycheck[] =
+static const short yycheck[] =
 {
        3,     4,   130,   105,   243,   113,   170,   262,   290,   159,
      160,   161,   162,     1,   150,   110,     0,   167,   168,   399,
@@ -1822,7 +1819,7 @@ static const short int yycheck[] =
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
-static const unsigned short int yystos[] =
+static const unsigned short yystos[] =
 {
        0,    44,    56,    62,    68,    76,   101,   113,   126,   127,
      128,   129,   130,   131,   132,   133,   134,   135,   166,   187,
@@ -1911,8 +1908,7 @@ static const unsigned short int yystos[] =
 
 #define YYACCEPT	goto yyacceptlab
 #define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrorlab
-
+#define YYERROR		goto yyerrlab1
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
@@ -1939,52 +1935,19 @@ do								\
     }								\
 while (0)
 
-
 #define YYTERROR	1
 #define YYERRCODE	256
 
+/* YYLLOC_DEFAULT -- Compute the default location (before the actions
+   are run).  */
 
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-#define YYRHSLOC(Rhs, K) ((Rhs)[K])
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)				\
-    do									\
-      if (N)								\
-	{								\
-	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
-	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
-	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
-	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
-	}								\
-      else								\
-	{								\
-	  (Current).first_line   = (Current).last_line   =		\
-	    YYRHSLOC (Rhs, 0).last_line;				\
-	  (Current).first_column = (Current).last_column =		\
-	    YYRHSLOC (Rhs, 0).last_column;				\
-	}								\
-    while (0)
+# define YYLLOC_DEFAULT(Current, Rhs, N)         \
+  Current.first_line   = Rhs[1].first_line;      \
+  Current.first_column = Rhs[1].first_column;    \
+  Current.last_line    = Rhs[N].last_line;       \
+  Current.last_column  = Rhs[N].last_column;
 #endif
-
-
-/* YY_LOCATION_PRINT -- Print the location on the stream.
-   This macro was not mandated originally: define only if we know
-   we won't break user code: when these are the locations we know.  */
-
-#ifndef YY_LOCATION_PRINT
-# if YYLTYPE_IS_TRIVIAL
-#  define YY_LOCATION_PRINT(File, Loc)			\
-     fprintf (File, "%d.%d-%d.%d",			\
-              (Loc).first_line, (Loc).first_column,	\
-              (Loc).last_line,  (Loc).last_column)
-# else
-#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-# endif
-#endif
-
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
@@ -2008,30 +1971,36 @@ do {						\
     YYFPRINTF Args;				\
 } while (0)
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)		\
+# define YYDSYMPRINT(Args)			\
+do {						\
+  if (yydebug)					\
+    yysymprint Args;				\
+} while (0)
+
+# define YYDSYMPRINTF(Title, Token, Value, Location)		\
 do {								\
   if (yydebug)							\
     {								\
       YYFPRINTF (stderr, "%s ", Title);				\
       yysymprint (stderr, 					\
-                  Type, Value);	\
+                  Token, Value);	\
       YYFPRINTF (stderr, "\n");					\
     }								\
 } while (0)
 
 /*------------------------------------------------------------------.
 | yy_stack_print -- Print the state stack from its BOTTOM up to its |
-| TOP (included).                                                   |
+| TOP (cinluded).                                                   |
 `------------------------------------------------------------------*/
 
 #if defined (__STDC__) || defined (__cplusplus)
 static void
-yy_stack_print (short int *bottom, short int *top)
+yy_stack_print (short *bottom, short *top)
 #else
 static void
 yy_stack_print (bottom, top)
-    short int *bottom;
-    short int *top;
+    short *bottom;
+    short *top;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
@@ -2061,9 +2030,9 @@ yy_reduce_print (yyrule)
 #endif
 {
   int yyi;
-  unsigned int yylno = yyrline[yyrule];
+  unsigned int yylineno = yyrline[yyrule];
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %u), ",
-             yyrule - 1, yylno);
+             yyrule - 1, yylineno);
   /* Print the symbols being reduced, and their result.  */
   for (yyi = yyprhs[yyrule]; 0 <= yyrhs[yyi]; yyi++)
     YYFPRINTF (stderr, "%s ", yytname [yyrhs[yyi]]);
@@ -2081,7 +2050,8 @@ do {					\
 int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
+# define YYDSYMPRINT(Args)
+# define YYDSYMPRINTF(Title, Token, Value, Location)
 # define YY_STACK_PRINT(Bottom, Top)
 # define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
@@ -2098,6 +2068,10 @@ int yydebug;
    Do not make this value too large; the results are undefined if
    SIZE_MAX < YYSTACK_BYTES (YYMAXDEPTH)
    evaluated with infinite-precision integer arithmetic.  */
+
+#if YYMAXDEPTH == 0
+# undef YYMAXDEPTH
+#endif
 
 #ifndef YYMAXDEPTH
 # define YYMAXDEPTH 10000
@@ -2180,15 +2154,15 @@ yysymprint (yyoutput, yytype, yyvaluep)
   (void) yyvaluep;
 
   if (yytype < YYNTOKENS)
-    YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
+    {
+      YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
+# ifdef YYPRINT
+      YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+# endif
+    }
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
-
-# ifdef YYPRINT
-  if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
-# endif
   switch (yytype)
     {
       default:
@@ -2204,21 +2178,16 @@ yysymprint (yyoutput, yytype, yyvaluep)
 
 #if defined (__STDC__) || defined (__cplusplus)
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (int yytype, YYSTYPE *yyvaluep)
 #else
 static void
-yydestruct (yymsg, yytype, yyvaluep)
-    const char *yymsg;
+yydestruct (yytype, yyvaluep)
     int yytype;
     YYSTYPE *yyvaluep;
 #endif
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
-
-  if (!yymsg)
-    yymsg = "Deleting";
-  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
   switch (yytype)
     {
@@ -2272,10 +2241,10 @@ yyparse ()
 #endif
 #endif
 {
-  /* The look-ahead symbol.  */
+  /* The lookahead symbol.  */
 int yychar;
 
-/* The semantic value of the look-ahead symbol.  */
+/* The semantic value of the lookahead symbol.  */
 YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
@@ -2286,7 +2255,7 @@ int yynerrs;
   int yyresult;
   /* Number of tokens to shift before error messages enabled.  */
   int yyerrstatus;
-  /* Look-ahead token as an internal (translated) token number.  */
+  /* Lookahead token as an internal (translated) token number.  */
   int yytoken = 0;
 
   /* Three stacks and their tools:
@@ -2298,9 +2267,9 @@ int yynerrs;
      to reallocate them elsewhere.  */
 
   /* The state stack.  */
-  short int yyssa[YYINITDEPTH];
-  short int *yyss = yyssa;
-  register short int *yyssp;
+  short	yyssa[YYINITDEPTH];
+  short *yyss = yyssa;
+  register short *yyssp;
 
   /* The semantic value stack.  */
   YYSTYPE yyvsa[YYINITDEPTH];
@@ -2337,9 +2306,6 @@ int yynerrs;
   yyssp = yyss;
   yyvsp = yyvs;
 
-
-  yyvsp[0] = yylval;
-
   goto yysetstate;
 
 /*------------------------------------------------------------.
@@ -2365,7 +2331,7 @@ int yynerrs;
 	   these so that the &'s don't force the real ones into
 	   memory.  */
 	YYSTYPE *yyvs1 = yyvs;
-	short int *yyss1 = yyss;
+	short *yyss1 = yyss;
 
 
 	/* Each stack pointer address is followed by the size of the
@@ -2393,7 +2359,7 @@ int yynerrs;
 	yystacksize = YYMAXDEPTH;
 
       {
-	short int *yyss1 = yyss;
+	short *yyss1 = yyss;
 	union yyalloc *yyptr =
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
@@ -2429,18 +2395,18 @@ int yynerrs;
 yybackup:
 
 /* Do appropriate processing given the current state.  */
-/* Read a look-ahead token if we need one and don't already have one.  */
+/* Read a lookahead token if we need one and don't already have one.  */
 /* yyresume: */
 
-  /* First try to decide what to do without reference to look-ahead token.  */
+  /* First try to decide what to do without reference to lookahead token.  */
 
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a look-ahead token if don't already have one.  */
+  /* Not known => get a lookahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -2455,7 +2421,7 @@ yybackup:
   else
     {
       yytoken = YYTRANSLATE (yychar);
-      YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
+      YYDSYMPRINTF ("Next token is", yytoken, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -2475,8 +2441,8 @@ yybackup:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  /* Shift the look-ahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+  /* Shift the lookahead token.  */
+  YYDPRINTF ((stderr, "Shifting token %s, ", yytname[yytoken]));
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -2526,495 +2492,495 @@ yyreduce:
   switch (yyn)
     {
         case 11:
-#line 231 "parse-scan.y"
+#line 231 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
 		  /* use preset global here. FIXME */
-		  (yyval.node) = xstrdup ("int");
+		  yyval.node = xstrdup ("int");
 		;}
     break;
 
   case 12:
-#line 236 "parse-scan.y"
+#line 236 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
 		  /* use preset global here. FIXME */
-		  (yyval.node) = xstrdup ("double");
+		  yyval.node = xstrdup ("double");
 		;}
     break;
 
   case 13:
-#line 241 "parse-scan.y"
+#line 241 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
 		  /* use preset global here. FIXME */
-		  (yyval.node) = xstrdup ("boolean");
+		  yyval.node = xstrdup ("boolean");
 		;}
     break;
 
   case 19:
-#line 266 "parse-scan.y"
+#line 266 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
 	          while (bracket_count-- > 0) 
-		    (yyval.node) = concat ("[", (yyvsp[-1].node), NULL);
+		    yyval.node = concat ("[", yyvsp[-1].node, NULL);
 		;}
     break;
 
   case 20:
-#line 271 "parse-scan.y"
+#line 271 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
 	          while (bracket_count-- > 0) 
-		    (yyval.node) = concat ("[", (yyvsp[-1].node), NULL);
+		    yyval.node = concat ("[", yyvsp[-1].node, NULL);
 		;}
     break;
 
   case 24:
-#line 289 "parse-scan.y"
+#line 289 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
-		  (yyval.node) = concat ((yyvsp[-2].node), ".", (yyvsp[0].node), NULL);
+		  yyval.node = concat (yyvsp[-2].node, ".", yyvsp[0].node, NULL);
 		;}
     break;
 
   case 38:
-#line 321 "parse-scan.y"
-    { package_name = (yyvsp[-1].node); ;}
+#line 321 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
+    { package_name = yyvsp[-1].node; ;}
     break;
 
   case 46:
-#line 348 "parse-scan.y"
+#line 348 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
-		  if ((yyvsp[0].value) == PUBLIC_TK)
+		  if (yyvsp[0].value == PUBLIC_TK)
 		    modifier_value++;
-                  if ((yyvsp[0].value) == STATIC_TK)
+                  if (yyvsp[0].value == STATIC_TK)
                     modifier_value++;
 	          USE_ABSORBER;
 		;}
     break;
 
   case 47:
-#line 356 "parse-scan.y"
+#line 356 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
-		  if ((yyvsp[0].value) == PUBLIC_TK)
+		  if (yyvsp[0].value == PUBLIC_TK)
 		    modifier_value++;
-                  if ((yyvsp[0].value) == STATIC_TK)
+                  if (yyvsp[0].value == STATIC_TK)
                     modifier_value++;
 		  USE_ABSORBER;
 		;}
     break;
 
   case 48:
-#line 368 "parse-scan.y"
+#line 368 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
-		  report_class_declaration((yyvsp[-2].node));
+		  report_class_declaration(yyvsp[-2].node);
 		  modifier_value = 0;
                 ;}
     break;
 
   case 50:
-#line 374 "parse-scan.y"
-    { report_class_declaration((yyvsp[-2].node)); ;}
+#line 374 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
+    { report_class_declaration(yyvsp[-2].node); ;}
     break;
 
   case 56:
-#line 388 "parse-scan.y"
+#line 388 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 57:
-#line 390 "parse-scan.y"
+#line 390 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 58:
-#line 395 "parse-scan.y"
+#line 395 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { pop_class_context (); ;}
     break;
 
   case 59:
-#line 397 "parse-scan.y"
+#line 397 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { pop_class_context (); ;}
     break;
 
   case 71:
-#line 423 "parse-scan.y"
+#line 423 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 72:
-#line 425 "parse-scan.y"
+#line 425 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { modifier_value = 0; ;}
     break;
 
   case 77:
-#line 441 "parse-scan.y"
+#line 441 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { bracket_count = 0; USE_ABSORBER; ;}
     break;
 
   case 78:
-#line 443 "parse-scan.y"
+#line 443 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++bracket_count; ;}
     break;
 
   case 81:
-#line 454 "parse-scan.y"
+#line 454 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++method_depth; ;}
     break;
 
   case 82:
-#line 456 "parse-scan.y"
+#line 456 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { --method_depth; ;}
     break;
 
   case 83:
-#line 461 "parse-scan.y"
+#line 461 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 85:
-#line 464 "parse-scan.y"
+#line 464 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { modifier_value = 0; ;}
     break;
 
   case 86:
-#line 466 "parse-scan.y"
+#line 466 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
-                  report_main_declaration ((yyvsp[-1].declarator));
+                  report_main_declaration (yyvsp[-1].declarator);
 		  modifier_value = 0;
 		;}
     break;
 
   case 87:
-#line 474 "parse-scan.y"
+#line 474 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
 		  struct method_declarator *d;
-		  NEW_METHOD_DECLARATOR (d, (yyvsp[-2].node), NULL);
-		  (yyval.declarator) = d;
+		  NEW_METHOD_DECLARATOR (d, yyvsp[-2].node, NULL);
+		  yyval.declarator = d;
 		;}
     break;
 
   case 88:
-#line 480 "parse-scan.y"
+#line 480 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
 		  struct method_declarator *d;
-		  NEW_METHOD_DECLARATOR (d, (yyvsp[-3].node), (yyvsp[-1].node));
-		  (yyval.declarator) = d;
+		  NEW_METHOD_DECLARATOR (d, yyvsp[-3].node, yyvsp[-1].node);
+		  yyval.declarator = d;
 		;}
     break;
 
   case 91:
-#line 491 "parse-scan.y"
+#line 491 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
-		  (yyval.node) = concat ((yyvsp[-2].node), ",", (yyvsp[0].node), NULL);
+		  yyval.node = concat (yyvsp[-2].node, ",", yyvsp[0].node, NULL);
 		;}
     break;
 
   case 92:
-#line 498 "parse-scan.y"
+#line 498 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { 
 		  USE_ABSORBER;
 		  if (bracket_count)
 		    {
 		      int i;
-		      char *n = xmalloc (bracket_count + 1 + strlen ((yyval.node)));
+		      char *n = xmalloc (bracket_count + 1 + strlen (yyval.node));
 		      for (i = 0; i < bracket_count; ++i)
 			n[i] = '[';
-		      strcpy (n + bracket_count, (yyval.node));
-		      (yyval.node) = n;
+		      strcpy (n + bracket_count, yyval.node);
+		      yyval.node = n;
 		    }
 		  else
-		    (yyval.node) = (yyvsp[-1].node);
+		    yyval.node = yyvsp[-1].node;
 		;}
     break;
 
   case 93:
-#line 513 "parse-scan.y"
+#line 513 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {
 		  if (bracket_count)
 		    {
 		      int i;
-		      char *n = xmalloc (bracket_count + 1 + strlen ((yyval.node)));
+		      char *n = xmalloc (bracket_count + 1 + strlen (yyval.node));
 		      for (i = 0; i < bracket_count; ++i)
 			n[i] = '[';
-		      strcpy (n + bracket_count, (yyval.node));
-		      (yyval.node) = n;
+		      strcpy (n + bracket_count, yyval.node);
+		      yyval.node = n;
 		    }
 		  else
-		    (yyval.node) = (yyvsp[-1].node);
+		    yyval.node = yyvsp[-1].node;
 		;}
     break;
 
   case 96:
-#line 534 "parse-scan.y"
+#line 534 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 97:
-#line 536 "parse-scan.y"
+#line 536 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 101:
-#line 551 "parse-scan.y"
+#line 551 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 103:
-#line 562 "parse-scan.y"
+#line 562 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { modifier_value = 0; ;}
     break;
 
   case 105:
-#line 567 "parse-scan.y"
+#line 567 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { modifier_value = 0; ;}
     break;
 
   case 106:
-#line 574 "parse-scan.y"
+#line 574 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 107:
-#line 576 "parse-scan.y"
+#line 576 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 114:
-#line 593 "parse-scan.y"
+#line 593 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 115:
-#line 595 "parse-scan.y"
+#line 595 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 118:
-#line 607 "parse-scan.y"
-    { report_class_declaration ((yyvsp[0].node)); modifier_value = 0; ;}
+#line 607 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
+    { report_class_declaration (yyvsp[0].node); modifier_value = 0; ;}
     break;
 
   case 120:
-#line 610 "parse-scan.y"
-    { report_class_declaration ((yyvsp[0].node)); modifier_value = 0; ;}
+#line 610 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
+    { report_class_declaration (yyvsp[0].node); modifier_value = 0; ;}
     break;
 
   case 122:
-#line 613 "parse-scan.y"
-    { report_class_declaration ((yyvsp[-1].node)); modifier_value = 0; ;}
+#line 613 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
+    { report_class_declaration (yyvsp[-1].node); modifier_value = 0; ;}
     break;
 
   case 124:
-#line 616 "parse-scan.y"
-    { report_class_declaration ((yyvsp[-1].node)); modifier_value = 0; ;}
+#line 616 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
+    { report_class_declaration (yyvsp[-1].node); modifier_value = 0; ;}
     break;
 
   case 128:
-#line 627 "parse-scan.y"
+#line 627 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { pop_class_context (); ;}
     break;
 
   case 129:
-#line 629 "parse-scan.y"
+#line 629 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { pop_class_context (); ;}
     break;
 
   case 152:
-#line 688 "parse-scan.y"
+#line 688 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 153:
-#line 690 "parse-scan.y"
+#line 690 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { modifier_value = 0; ;}
     break;
 
   case 178:
-#line 731 "parse-scan.y"
+#line 731 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 189:
-#line 759 "parse-scan.y"
+#line 759 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 190:
-#line 764 "parse-scan.y"
+#line 764 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 191:
-#line 769 "parse-scan.y"
+#line 769 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 199:
-#line 789 "parse-scan.y"
+#line 789 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 204:
-#line 804 "parse-scan.y"
+#line 804 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 208:
-#line 821 "parse-scan.y"
+#line 821 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 214:
-#line 839 "parse-scan.y"
+#line 839 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 225:
-#line 864 "parse-scan.y"
+#line 864 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 228:
-#line 873 "parse-scan.y"
+#line 873 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 231:
-#line 880 "parse-scan.y"
+#line 880 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {yyerror ("Missing term"); RECOVER;;}
     break;
 
   case 232:
-#line 882 "parse-scan.y"
+#line 882 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     {yyerror ("';' expected"); RECOVER;;}
     break;
 
   case 235:
-#line 891 "parse-scan.y"
+#line 891 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 241:
-#line 906 "parse-scan.y"
+#line 906 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 242:
-#line 910 "parse-scan.y"
+#line 910 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 253:
-#line 932 "parse-scan.y"
+#line 932 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 254:
-#line 937 "parse-scan.y"
+#line 937 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 255:
-#line 939 "parse-scan.y"
+#line 939 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 256:
-#line 941 "parse-scan.y"
+#line 941 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 257:
-#line 943 "parse-scan.y"
+#line 943 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 265:
-#line 958 "parse-scan.y"
+#line 958 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { report_class_declaration (anonymous_context); ;}
     break;
 
   case 267:
-#line 961 "parse-scan.y"
+#line 961 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { report_class_declaration (anonymous_context); ;}
     break;
 
   case 269:
-#line 967 "parse-scan.y"
+#line 967 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 283:
-#line 999 "parse-scan.y"
+#line 999 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { bracket_count = 1; ;}
     break;
 
   case 284:
-#line 1001 "parse-scan.y"
+#line 1001 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { bracket_count++; ;}
     break;
 
   case 287:
-#line 1014 "parse-scan.y"
+#line 1014 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ++complexity; ;}
     break;
 
   case 288:
-#line 1016 "parse-scan.y"
+#line 1016 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ++complexity; ;}
     break;
 
   case 289:
-#line 1017 "parse-scan.y"
+#line 1017 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 290:
-#line 1018 "parse-scan.y"
+#line 1018 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 291:
-#line 1019 "parse-scan.y"
+#line 1019 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 292:
-#line 1020 "parse-scan.y"
+#line 1020 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 293:
-#line 1025 "parse-scan.y"
+#line 1025 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 296:
-#line 1032 "parse-scan.y"
+#line 1032 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
   case 343:
-#line 1128 "parse-scan.y"
+#line 1128 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 345:
-#line 1134 "parse-scan.y"
+#line 1134 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 347:
-#line 1140 "parse-scan.y"
+#line 1140 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { ++complexity; ;}
     break;
 
   case 351:
-#line 1154 "parse-scan.y"
+#line 1154 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
     { USE_ABSORBER; ;}
     break;
 
 
     }
 
-/* Line 1037 of yacc.c.  */
-#line 3018 "parse-scan.c"
+/* Line 991 of yacc.c.  */
+#line 2983 "java/parse-scan.c"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -3055,33 +3021,18 @@ yyerrlab:
 	{
 	  YYSIZE_T yysize = 0;
 	  int yytype = YYTRANSLATE (yychar);
-	  const char* yyprefix;
 	  char *yymsg;
-	  int yyx;
+	  int yyx, yycount;
 
+	  yycount = 0;
 	  /* Start YYX at -YYN if negative to avoid negative indexes in
 	     YYCHECK.  */
-	  int yyxbegin = yyn < 0 ? -yyn : 0;
-
-	  /* Stay within bounds of both yycheck and yytname.  */
-	  int yychecklim = YYLAST - yyn;
-	  int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-	  int yycount = 0;
-
-	  yyprefix = ", expecting ";
-	  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+	  for (yyx = yyn < 0 ? -yyn : 0;
+	       yyx < (int) (sizeof (yytname) / sizeof (char *)); yyx++)
 	    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	      {
-		yysize += yystrlen (yyprefix) + yystrlen (yytname [yyx]);
-		yycount += 1;
-		if (yycount == 5)
-		  {
-		    yysize = 0;
-		    break;
-		  }
-	      }
-	  yysize += (sizeof ("syntax error, unexpected ")
-		     + yystrlen (yytname[yytype]));
+	      yysize += yystrlen (yytname[yyx]) + 15, yycount++;
+	  yysize += yystrlen ("syntax error, unexpected ") + 1;
+	  yysize += yystrlen (yytname[yytype]);
 	  yymsg = (char *) YYSTACK_ALLOC (yysize);
 	  if (yymsg != 0)
 	    {
@@ -3090,13 +3041,16 @@ yyerrlab:
 
 	      if (yycount < 5)
 		{
-		  yyprefix = ", expecting ";
-		  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+		  yycount = 0;
+		  for (yyx = yyn < 0 ? -yyn : 0;
+		       yyx < (int) (sizeof (yytname) / sizeof (char *));
+		       yyx++)
 		    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
 		      {
-			yyp = yystpcpy (yyp, yyprefix);
+			const char *yyq = ! yycount ? ", expecting " : " or ";
+			yyp = yystpcpy (yyp, yyq);
 			yyp = yystpcpy (yyp, yytname[yyx]);
-			yyprefix = " or ";
+			yycount++;
 		      }
 		}
 	      yyerror (yymsg);
@@ -3114,58 +3068,55 @@ yyerrlab:
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse look-ahead token after an
+      /* If just tried and failed to reuse lookahead token after an
 	 error, discard it.  */
 
-      if (yychar <= YYEOF)
+      /* Return failure if at end of input.  */
+      if (yychar == YYEOF)
         {
-          /* If at end of input, pop the error token,
-	     then the rest of the stack, then return failure.  */
-	  if (yychar == YYEOF)
-	     for (;;)
-	       {
-
-		 YYPOPSTACK;
-		 if (yyssp == yyss)
-		   YYABORT;
-		 yydestruct ("Error: popping",
-                             yystos[*yyssp], yyvsp);
-	       }
+	  /* Pop the error token.  */
+          YYPOPSTACK;
+	  /* Pop the rest of the stack.  */
+	  while (yyss < yyssp)
+	    {
+	      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
+	      yydestruct (yystos[*yyssp], yyvsp);
+	      YYPOPSTACK;
+	    }
+	  YYABORT;
         }
-      else
-	{
-	  yydestruct ("Error: discarding", yytoken, &yylval);
-	  yychar = YYEMPTY;
-	}
+
+      YYDSYMPRINTF ("Error: discarding", yytoken, &yylval, &yylloc);
+      yydestruct (yytoken, &yylval);
+      yychar = YYEMPTY;
+
     }
 
-  /* Else will try to reuse look-ahead token after shifting the error
+  /* Else will try to reuse lookahead token after shifting the error
      token.  */
-  goto yyerrlab1;
+  goto yyerrlab2;
 
 
-/*---------------------------------------------------.
-| yyerrorlab -- error raised explicitly by YYERROR.  |
-`---------------------------------------------------*/
-yyerrorlab:
+/*----------------------------------------------------.
+| yyerrlab1 -- error raised explicitly by an action.  |
+`----------------------------------------------------*/
+yyerrlab1:
 
-#ifdef __GNUC__
-  /* Pacify GCC when the user code never invokes YYERROR and the label
-     yyerrorlab therefore never appears in user code.  */
-  if (0)
-     goto yyerrorlab;
+  /* Suppress GCC warning that yyerrlab1 is unused when no action
+     invokes YYERROR.  */
+#if defined (__GNUC_MINOR__) && 2093 <= (__GNUC__ * 1000 + __GNUC_MINOR__) \
+    && !defined __cplusplus
+  __attribute__ ((__unused__))
 #endif
 
-yyvsp -= yylen;
-  yyssp -= yylen;
-  yystate = *yyssp;
-  goto yyerrlab1;
+
+  goto yyerrlab2;
 
 
-/*-------------------------------------------------------------.
-| yyerrlab1 -- common code for both syntax error and YYERROR.  |
-`-------------------------------------------------------------*/
-yyerrlab1:
+/*---------------------------------------------------------------.
+| yyerrlab2 -- pop states until the error token can be shifted.  |
+`---------------------------------------------------------------*/
+yyerrlab2:
   yyerrstatus = 3;	/* Each real token shifted decrements this.  */
 
   for (;;)
@@ -3186,21 +3137,21 @@ yyerrlab1:
       if (yyssp == yyss)
 	YYABORT;
 
+      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
+      yydestruct (yystos[yystate], yyvsp);
+      yyvsp--;
+      yystate = *--yyssp;
 
-      yydestruct ("Error: popping", yystos[yystate], yyvsp);
-      YYPOPSTACK;
-      yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
     }
 
   if (yyn == YYFINAL)
     YYACCEPT;
 
+  YYDPRINTF ((stderr, "Shifting error token, "));
+
   *++yyvsp = yylval;
 
-
-  /* Shift the error token. */
-  YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
@@ -3217,9 +3168,6 @@ yyacceptlab:
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
-  yydestruct ("Error: discarding lookahead",
-              yytoken, &yylval);
-  yychar = YYEMPTY;
   yyresult = 1;
   goto yyreturn;
 
@@ -3242,7 +3190,7 @@ yyreturn:
 }
 
 
-#line 1172 "parse-scan.y"
+#line 1172 "/home/gdr/build/gcc-3.4.6/gcc-3.4.6/gcc/java/parse-scan.y"
 
 
 /* Create a new parser context */
