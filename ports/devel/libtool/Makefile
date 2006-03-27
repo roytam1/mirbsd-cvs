@@ -1,12 +1,12 @@
-# $MirOS: ports/devel/libtool/Makefile,v 1.2 2005/12/16 14:52:20 tg Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.3 2005/12/20 22:15:46 tg Exp $
 
 COMMENT=		"complete GNU libtool with MirLibtool patches added"
 CATEGORIES=		devel
 CVS_DISTREPO=		:pserver:anonymous@cvs.sv.gnu.org:/sources/libtool
-CVS_DISTDATE=		2005/12/20
+CVS_DISTDATE=		2006/03/27 18:00
 CVS_DISTTAGS=		branch-1-5
 CVS_DISTMODS=		libtool
-PKGNAME=		libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-0
+PKGNAME=		libtool-1.5.23a.${CVS_DISTDATE:C![/:]!!g:Q:S!\\ !!}-0
 HOMEPAGE=		http://www.gnu.org/software/libtool/
 
 # GNU GPLv2
@@ -21,6 +21,10 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 
+#XXX hack
+.if make(regress)
+USE_CXX=		Yes
+.endif
 REGRESS_TARGET=		check
 
 post-configure:

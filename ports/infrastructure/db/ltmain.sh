@@ -1,13 +1,13 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.18 2005/12/20 00:22:14 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.18 2005/12/20 00:22:14 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.34 2005/12/20 00:17:45 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.19 2006/03/27 21:05:17 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.19 2006/03/27 21:05:17 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.35 2006/03/27 19:57:46 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
-# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
+# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 # Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
-# MirLibtool patches contributed 2004, 2005 by
+# MirLibtool patches contributed 2004, 2005, 2006 by
 # Thorsten Glaser <tg@mirbsd.de> for the MirOS Project
 #
 # This program is free software; you can redistribute it and/or modify
@@ -49,13 +49,21 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2005/12/20 00:21:03)"
+TIMESTAMP=" (MirLibtool 2006/03/27 19:58:37)"
 
-# See if we are running on zsh, and set the options which allow our
-# commands through without removal of \ escapes.
-if test -n "${ZSH_VERSION+set}" ; then
+# Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
+if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
+  emulate sh
+  NULLCMD=:
+  # Zsh 3.x and 4.x performs word splitting on ${1+"$@"}, which
+  # is contrary to our usage.  Disable this feature.
+  alias -g '${1+"$@"}'='"$@"'
   setopt NO_GLOB_SUBST
+else
+  case `(set -o) 2>/dev/null` in *posix*) set -o posix;; esac
 fi
+BIN_SH=xpg4; export BIN_SH # for Tru64
+DUALCASE=1; export DUALCASE # for MKS sh
 
 # Check that we have a working $echo.
 if test "X$1" = X--no-reexec; then
@@ -141,6 +149,8 @@ duplicate_deps=no
 preserve_args=
 lo2o="s/\\.lo\$/.${objext}/"
 o2lo="s/\\.${objext}\$/.lo/"
+extracted_archives=
+extracted_serial=0
 
 #####################################
 # Shell function definitions:
@@ -201,7 +211,13 @@ func_win32_libid ()
     if eval $OBJDUMP -f $1 | $SED -e '10q' 2>/dev/null | \
       $EGREP -e 'file format pe-i386(.*architecture: i386)?' >/dev/null ; then
       win32_nmres=`eval $NM -f posix -A $1 | \
-	$SED -n -e '1,100{/ I /{s,.*,import,;p;q;};}'`
+	$SED -n -e '1,100{
+		/ I /{
+			s,.*,import,
+			p
+			q
+			}
+		}'`
       case $win32_nmres in
       import*)  win32_libid_type="x86 archive import";;
       *)        win32_libid_type="x86 archive static";;
@@ -332,7 +348,17 @@ func_extract_archives ()
 	*) my_xabs=`pwd`"/$my_xlib" ;;
       esac
       my_xlib=`$echo "X$my_xlib" | $Xsed -e 's%^.*/%%'`
-      my_xdir="$my_gentop/$my_xlib"
+      my_xlib_u=$my_xlib
+      while :; do
+        case " $extracted_archives " in
+	*" $my_xlib_u "*)
+	  extracted_serial=`expr $extracted_serial + 1`
+	  my_xlib_u=lt$extracted_serial-$my_xlib ;;
+	*) break ;;
+	esac
+      done
+      extracted_archives="$extracted_archives $my_xlib_u"
+      my_xdir="$my_gentop/$my_xlib_u"
 
       $show "${rm}r $my_xdir"
       $run ${rm}r "$my_xdir"
@@ -461,7 +487,7 @@ do
   --version)
     $echo "$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP"
     $echo
-    $echo "Copyright (C) 2005  Free Software Foundation, Inc."
+    $echo "Copyright (C) 2006  Free Software Foundation, Inc."
     $echo "This is free software; see the source for copying conditions.  There is NO"
     $echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     exit $?
@@ -550,7 +576,7 @@ if test -n "$prevopt"; then
 fi
 
 case $disable_libs in
-no) 
+no)
   ;;
 shared)
   build_libtool_libs=no
@@ -763,6 +789,7 @@ if test -z "$show_help"; then
     *.f90) xform=f90 ;;
     *.for) xform=for ;;
     *.java) xform=java ;;
+    *.obj) xform=obj ;;
     esac
 
     libobj=`$echo "X$libobj" | $Xsed -e "s/\.$xform$/.lo/"`
@@ -1143,8 +1170,9 @@ EOF
     for arg
     do
       case $arg in
-      -all-static | -static)
-	if test "X$arg" = "X-all-static"; then
+      -all-static | -static | -static-libtool-libs)
+	case $arg in
+	-all-static)
 	  if test "$build_libtool_libs" = yes && test -z "$link_static_flag"; then
 	    $echo "$modename: warning: complete static linking is impossible in this configuration" 1>&2
 	  fi
@@ -1152,12 +1180,20 @@ EOF
 	    dlopen_self=$dlopen_self_static
 	  fi
 	  prefer_static_libs=yes
-	else
+	  ;;
+	-static)
 	  if test -z "$pic_flag" && test -n "$link_static_flag"; then
 	    dlopen_self=$dlopen_self_static
 	  fi
 	  prefer_static_libs=built
-	fi
+	  ;;
+	-static-libtool-libs)
+	  if test -z "$pic_flag" && test -n "$link_static_flag"; then
+	    dlopen_self=$dlopen_self_static
+	  fi
+	  prefer_static_libs=yes
+	  ;;
+	esac
 	build_libtool_libs=no
 	build_old_libs=yes
 	break
@@ -1489,7 +1525,7 @@ EOF
 
       -framework|-arch|-isysroot)
 	case " $CC " in
-	  *" ${arg} ${1} "* | *" ${arg}	${1} "*) 
+	  *" ${arg} ${1} "* | *" ${arg}	${1} "*)
 		prev=darwin_framework_skip ;;
 	  *) compiler_flags="$compiler_flags $arg"
 	     prev=darwin_framework ;;
@@ -1732,7 +1768,7 @@ EOF
 	continue
 	;;
 
-      -static)
+      -static | -static-libtool-libs)
 	# The effects of -static are defined in a previous loop.
 	# We used to do the same as -all-static on platforms that
 	# didn't have a PIC flag, but the assumption that the effects
@@ -2513,7 +2549,9 @@ EOF
 
 	if test "$linkmode,$pass" = "prog,link"; then
 	  if test -n "$library_names" &&
-	     { test "$prefer_static_libs" = no || test -z "$old_library"; }; then
+	     { { test "$prefer_static_libs" = no ||
+		 test "$prefer_static_libs,$installed" = "built,yes"; } ||
+	       test -z "$old_library"; }; then
 	    # We need to hardcode the library path
 	    if test -n "$shlibpath_var" && test -z "$avoidtemprpath" ; then
 	      # Make sure the rpath contains only unique directories.
@@ -3437,11 +3475,11 @@ EOF
       fi
 
       # Eliminate all temporary directories.
-      for path in $notinst_path; do
-	lib_search_path=`$echo "$lib_search_path " | ${SED} -e "s% $path % %g"`
-	deplibs=`$echo "$deplibs " | ${SED} -e "s% -L$path % %g"`
-	dependency_libs=`$echo "$dependency_libs " | ${SED} -e "s% -L$path % %g"`
-      done
+      #for path in $notinst_path; do
+      #	lib_search_path=`$echo "$lib_search_path " | ${SED} -e "s% $path % %g"`
+      #	deplibs=`$echo "$deplibs " | ${SED} -e "s% -L$path % %g"`
+      #	dependency_libs=`$echo "$dependency_libs " | ${SED} -e "s% -L$path % %g"`
+      #done
 
       if test -n "$xrpath"; then
 	# If the user specified any rpath flags, then add them.
@@ -3542,13 +3580,12 @@ EOF
 	  int main() { return 0; }
 EOF
 	  $rm conftest
-	  $LTCC $LTCFLAGS -o conftest conftest.c $deplibs
-	  if test "$?" -eq 0 ; then
+	  if $LTCC $LTCFLAGS -o conftest conftest.c $deplibs; then
 	    ldd_output=`ldd conftest`
 	    for i in $deplibs; do
 	      name=`expr $i : '-l\(.*\)'`
 	      # If $name is empty we are operating on a -L argument.
-	      if test "$name" != "" && test "$name" -ne "0"; then
+              if test "$name" != "" && test "$name" != "0"; then
 		if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
 		  case " $predeps $postdeps " in
 		  *" $i "*)
@@ -3587,9 +3624,7 @@ EOF
 	      # If $name is empty we are operating on a -L argument.
 	      if test "$name" != "" && test "$name" != "0"; then
 		$rm conftest
-		$LTCC $LTCFLAGS -o conftest conftest.c $i
-		# Did it work?
-		if test "$?" -eq 0 ; then
+		if $LTCC $LTCFLAGS -o conftest conftest.c $i; then
 		  ldd_output=`ldd conftest`
 		  if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
 		    case " $predeps $postdeps " in
@@ -3621,7 +3656,7 @@ EOF
 		  droppeddeps=yes
 		  $echo
 		  $echo "*** Warning!  Library $i is needed by this library but I was not able to"
-		  $echo "***  make it link in!  You will probably need to install it or some"
+		  $echo "*** make it link in!  You will probably need to install it or some"
 		  $echo "*** library that it depends on before this library will be fully"
 		  $echo "*** functional.  Installing it before continuing would be even better."
 		fi
@@ -4266,12 +4301,14 @@ EOF
       reload_conv_objs=
       gentop=
       # reload_cmds runs $LD directly, so let us get rid of
-      # -Wl from whole_archive_flag_spec
+      # -Wl from whole_archive_flag_spec and hope we can get by with
+      # turning comma into space..
       wl=
 
       if test -n "$convenience"; then
 	if test -n "$whole_archive_flag_spec"; then
-	  eval reload_conv_objs=\"\$reload_objs $whole_archive_flag_spec\"
+	  eval tmp_whole_archive_flags=\"$whole_archive_flag_spec\"
+	  reload_conv_objs=$reload_objs\ `$echo "X$tmp_whole_archive_flags" | $Xsed -e 's|,| |g'`
 	else
 	  gentop="$output_objdir/${obj}x"
 	  generated="$generated $gentop"
@@ -5280,6 +5317,20 @@ EOF
 Xsed='${SED} -e 1s/^X//'
 sed_quote_subst='$sed_quote_subst'
 
+# Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
+if test -n \"\${ZSH_VERSION+set}\" && (emulate sh) >/dev/null 2>&1; then
+  emulate sh
+  NULLCMD=:
+  # Zsh 3.x and 4.x performs word splitting on \${1+\"\$@\"}, which
+  # is contrary to our usage.  Disable this feature.
+  alias -g '\${1+\"\$@\"}'='\"\$@\"'
+  setopt NO_GLOB_SUBST
+else
+  case \`(set -o) 2>/dev/null\` in *posix*) set -o posix;; esac
+fi
+BIN_SH=xpg4; export BIN_SH # for Tru64
+DUALCASE=1; export DUALCASE # for MKS sh
+
 # The HP-UX ksh and POSIX shell print the target directory to stdout
 # if CDPATH is set.
 (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
@@ -5791,7 +5842,7 @@ relink_command=\"$relink_command\""
 
       case $arg in
       -d) isdir=yes ;;
-      -f) 
+      -f)
       	case " $install_prog " in
 	*[\\\ /]cp\ *) ;;
 	*) prev=$arg ;;
@@ -6765,9 +6816,9 @@ The following components of LINK-COMMAND are treated specially:
   -dlpreopen FILE   link in FILE and add its symbols to lt_preloaded_symbols
   -export-dynamic   allow symbols from OUTPUT-FILE to be resolved with dlsym(3)
   -export-symbols SYMFILE
-		    try to export only the symbols listed in SYMFILE
+                    try to export only the symbols listed in SYMFILE
   -export-symbols-regex REGEX
-		    try to export only the symbols matching REGEX
+                    try to export only the symbols matching REGEX
   -LLIBDIR          search LIBDIR for required installed libraries
   -lNAME            OUTPUT-FILE requires the installed library libNAME
   -module           build a library that can dlopened
@@ -6781,9 +6832,11 @@ The following components of LINK-COMMAND are treated specially:
   -release RELEASE  specify package release information
   -rpath LIBDIR     the created library will eventually be installed in LIBDIR
   -R[ ]LIBDIR       add LIBDIR to the runtime path of programs and libraries
-  -static           do not do any dynamic linking of libtool libraries
+  -static           do not do any dynamic linking of uninstalled libtool libraries
+  -static-libtool-libs
+                    do not do any dynamic linking of libtool libraries
   -version-info CURRENT[:REVISION[:AGE]]
-		    specify library version info [each variable defaults to 0]
+                    specify library version info [each variable defaults to 0]
 
 All other options (arguments beginning with '-') are ignored.
 
