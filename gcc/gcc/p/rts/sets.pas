@@ -9,7 +9,7 @@
   No type checking is done here. It's left to the compiler.
   Results are silently truncated.
 
-  Copyright (C) 1991-2005 Free Software Foundation, Inc.
+  Copyright (C) 1991-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
            Jukka Virtanen <jtv@hut.fi>
@@ -215,6 +215,8 @@ begin
         if SetA^[i + a] <> SetB^[i] then Exit;
       for i := wa - a + 1 to wb do
         if SetB^[i] <> 0 then Exit;
+      for i := wb + a + 1 to wa do
+        if SetA^[i] <> 0 then Exit;
       SetEqual := True
     end
 end;
@@ -243,7 +245,9 @@ begin
           for i := 0 to a - 1 do
             if SetA^[i] <> 0 then Exit;
           for i := 0 to Min (wa - a, wb) do
-            if (SetA^[i + a] and not SetB^[i]) <> 0 then Exit
+            if (SetA^[i + a] and not SetB^[i]) <> 0 then Exit;
+          for i := wb + a + 1 to wa do
+            if SetA^[i] <> 0 then Exit;
         end;
       SetLessEqual := True
     end

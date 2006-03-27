@@ -1,7 +1,7 @@
 /*A Bison parser for ISO 7185 Pascal, ISO 10206 Extended Pascal,
   Borland Pascal and some PXSC, Borland Delphi and GNU Pascal extensions.
 
-  Copyright (C) 1989-2005 Free Software Foundation, Inc.
+  Copyright (C) 1989-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -61,7 +61,11 @@
   token LEX_CONST_EQUAL. */
 
 %{
+#define YYMAXDEPTH 200000
 #include "gpc.h"
+#ifdef GCC_4_0
+#include "cgraph.h"
+#endif
 
 /* A few keywords of some dialects can be parsed as regular identifiers
    and checked from the parser actions => fewer special tokens. */
@@ -101,8 +105,8 @@ static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
 %locations
 %glr-parser
 %no-default-prec
-%expect 58
-%expect-rr 23
+%expect 62
+%expect-rr 24
 
 /* The semantic values */
 %union {
@@ -133,11 +137,11 @@ static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
   p_implementation p_import p_inherited p_initialization p_is p_near p_object
   p_only p_operator p_otherwise p_or_else p_pow p_qualified p_restricted p_shl
   p_shr p_unit p_uses p_value p_virtual p_xor p_asmname p_c p_c_language
-  p_class p_override p_reintroduce
+  p_class p_override p_reintroduce p_view
 
 /* Built-in identifiers with special syntax */
 %token <ttype>
-  p_Addr p_Assigned p_Dispose p_Exit p_FormatString p_New p_Return
+  p_Addr p_Assigned p_Dispose p_Exit p_FormatString p_New p_Return p_StringOf
 
 /* Lexer tokens */
 %token <ttype>
@@ -201,7 +205,7 @@ static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
   unsigned_number id_list_limited set_constructor routine_heading bp_field_value
   array_index_list remote_directive operator_symbol string_constant variant_list
   rest_of_variant new_pointer_type conformant_array enumerated_type id_list1 err
-  optional_rename attrib id_list id
+  optional_rename attrib id_list id optional_formal_parameter_list0
 
 %%
 
@@ -722,7 +726,9 @@ type_definition:
             build_type_decl ($1, $4, $5);
           }
       }
-  | new_identifier formal_schema_discriminants equals
+  | new_identifier 
+      { current_schema = start_struct (RECORD_TYPE); }
+    formal_schema_discriminants equals
       {
         $<itype>$ = immediate_size_expand;
         immediate_size_expand = 0;
@@ -730,22 +736,49 @@ type_definition:
       }
     type_denoter_with_attributes optional_value_specification
       {
-        build_type_decl ($1, build_schema_type ($5, $2, $6), NULL_TREE);
-        immediate_size_expand = $<itype>4;
+        build_type_decl ($1, build_schema_type ($6, $3, $7, current_schema), 
+                          NULL_TREE);
+        immediate_size_expand = $<itype>5;
         size_volatile--;
+        current_schema = NULL_TREE;
       }
-  | new_identifier formal_schema_discriminants error
-      { build_schema_type (error_mark_node, $2, NULL_TREE); }
+  | new_identifier 
+      { current_schema = start_struct (RECORD_TYPE); }
+    formal_schema_discriminants error
+      { build_schema_type (error_mark_node, $3, NULL_TREE, current_schema);
+        current_schema = NULL_TREE;
+      }
   | new_identifier enable_lce equals
       { $<ttype>$ = start_object_type ($1, 0); }
-    optional_abstract p_object object_parent object_field_list p_end
-      { lex_const_equal = -1; finish_object_type ($<ttype>4, $7, $8, $5 != NULL_TREE); yyerrok; }
-  | new_identifier enable_lce equals
-      { $<ttype>$ = start_object_type ($1, 1); }
-    optional_abstract p_class object_parent object_field_list p_end
+    optional_abstract p_object object_parent
+      { push_scope (); }
+    object_field_list p_end
       {
         lex_const_equal = -1;
-        finish_object_type ($<ttype>4, $7, $8, $5 != NULL_TREE);
+        finish_object_type ($<ttype>4, $7, $9, $5 != NULL_TREE);
+        pop_record_level ($<ttype>4);
+        yyerrok;
+      }
+
+  | new_identifier enable_lce equals
+      { $<ttype>$ = start_object_type ($1, 1); }
+    optional_abstract p_class object_parent
+      { push_scope (); }
+    object_field_list p_end
+      {
+        lex_const_equal = -1;
+        finish_object_type ($<ttype>4, $7, $9, $5 != NULL_TREE);
+        pop_record_level ($<ttype>4);
+        yyerrok;
+      }
+
+  | new_identifier enable_lce equals p_view p_of typename object_parent
+      { push_scope (); }
+    object_field_list p_end
+      {
+        lex_const_equal = -1;
+        finish_view_type ($1, $6, $7, $9);
+        pop_record_level (NULL_TREE);
         yyerrok;
       }
   | new_identifier enable_lce equals p_class object_parent
@@ -789,7 +822,7 @@ discriminant_specification_list:
 
 discriminant_specification:
     id_list ':' typename
-      { $$ = build_discriminants ($1, $3); }
+      { $$ = build_discriminants ($1, $3, current_schema); }
   ;
 
 type_denoter_with_attributes:
@@ -869,8 +902,8 @@ unpacked_structured_type:
       { $$ = build_file_type ($4, $2, 0); }
   | p_set p_of type_denoter
       { $$ = build_set_type ($3); }
-  | p_record record_field_list p_end
-      { $$ = $2; yyerrok; }
+  | p_record { push_scope (); } record_field_list p_end
+      { pop_record_level ($3); $$ = $3; yyerrok; }
   | p_record error p_end
       { $$ = build_record (NULL_TREE, NULL_TREE, NULL_TREE); }
   | err
@@ -1030,9 +1063,14 @@ pointer_domain_type:
 
 new_procedural_type:
     p_procedure optional_formal_parameter_list
-      { $$ = build_procedural_type (void_type_node, $2); }
-  | p_function optional_formal_parameter_list resulttype
-      { $$ = build_procedural_type ($3, $2); }
+      { 
+        pop_param_level ($2, NULL_TREE);
+        $$ = build_procedural_type (void_type_node, $2);
+      }
+  | p_function optional_formal_parameter_list 
+      { pop_param_level ($2, NULL_TREE); }
+    resulttype
+      { $$ = build_procedural_type ($4, $2); }
   ;
 
 object_parent:
@@ -1049,9 +1087,8 @@ optional_abstract:
   ;
 
 object_field_list:
-    object_field_list_1
-  | object_field_list_1 object_section
-      { $$ = chainon ($1, $2); }
+    object_field_list_1 { $$ = $1; }
+  | object_field_list_1 object_section { $$ = chainon ($1, $2); }
   | error
       { $$ = error_mark_node; }
   ;
@@ -1068,13 +1105,27 @@ object_section:
     id_list ':' type_denoter optional_value_specification
       { $$ = build_fields ($1, $3, $4); }
   | p_procedure new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE, void_type_node, 0); }
-  | p_function new_identifier optional_formal_parameter_list optional_result_def resulttype
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, $4, $5, 0); }
+      { 
+        pop_param_level ($3, NULL_TREE);
+        $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE,
+                                      void_type_node, 0);
+      }
+  | p_function new_identifier optional_formal_parameter_list optional_result_def
+      { pop_param_level ($3, $4); }
+ resulttype
+      { $$ = build_routine_heading (NULL_TREE, $2, $3, $4, $6, 0); }
   | p_constructor new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE, boolean_type_node, 1); }
+      { 
+        pop_param_level ($3, NULL_TREE);
+        $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE,
+                                      boolean_type_node, 1);
+      }
   | p_destructor new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE, void_type_node, 1); }
+      { 
+        pop_param_level ($3, NULL_TREE);
+        $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE,
+                                      void_type_node, 1);
+      }
   | p_virtual
       { $$ = build_tree_list (NULL_TREE, $1); }
   | p_virtual expression
@@ -1099,7 +1150,7 @@ optional_value_specification:
 var_init:
     p_value { lex_const_equal = -1; }
   | LEX_ASSIGN
-      { chk_dialect ("initialization with `:=' is", VAX_PASCAL); }
+      { chk_dialect ("initialization with `:=' is", VAX_PASCAL|SUN_PASCAL); }
   | LEX_CONST_EQUAL
       { chk_dialect ("initialization with `=' is", BORLAND_DELPHI); }
   ;
@@ -1138,11 +1189,19 @@ routine_or_method_heading:
 
 routine_heading:
     p_procedure new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE, void_type_node, 0); }
-  | p_function new_identifier optional_formal_parameter_list optional_result_def resulttype
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, $4, $5, 0); }
-  | p_operator operator_identifier optional_formal_parameter_list operator_result_def resulttype
-      { $$ = build_operator_heading ($2, $3, $4, $5); }
+      { 
+        pop_param_level ($3, NULL_TREE);
+        $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE,
+                                      void_type_node, 0);
+      }
+  | p_function new_identifier optional_formal_parameter_list optional_result_def
+      { pop_param_level ($3, $4); }
+ resulttype
+      { $$ = build_routine_heading (NULL_TREE, $2, $3, $4, $6, 0); }
+  | p_operator operator_identifier optional_formal_parameter_list operator_result_def
+      { pop_param_level ($3, $4); }
+ resulttype
+      { $$ = build_operator_heading ($2, $3, $4, $6); }
   ;
 
 /* Using identifier instead of new_identifier for the object type would cause
@@ -1152,13 +1211,27 @@ routine_heading:
    (in build_routine_heading) that the object type really exists. */
 method_heading:
     p_procedure new_identifier '.' new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading ($2, $4, $5, NULL_TREE, void_type_node, 0); }
-  | p_function new_identifier '.' new_identifier optional_formal_parameter_list optional_result_def resulttype
-      { $$ = build_routine_heading ($2, $4, $5, $6, $7, 0); }
+      { 
+        pop_param_level ($5, NULL_TREE);
+        $$ = build_routine_heading ($2, $4, $5, NULL_TREE,
+                                      void_type_node, 0);
+      }
+  | p_function new_identifier '.' new_identifier optional_formal_parameter_list optional_result_def 
+      { pop_param_level ($5, $6); }
+resulttype
+      { $$ = build_routine_heading ($2, $4, $5, $6, $8, 0); }
   | p_constructor new_identifier '.' new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading ($2, $4, $5, NULL_TREE, boolean_type_node, 1); }
+      { 
+        pop_param_level ($5, NULL_TREE);
+        $$ = build_routine_heading ($2, $4, $5, NULL_TREE,
+                                      boolean_type_node, 1);
+      }
   | p_destructor new_identifier '.' new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading ($2, $4, $5, NULL_TREE, void_type_node, 1); }
+      { 
+        pop_param_level ($5, NULL_TREE);
+        $$ = build_routine_heading ($2, $4, $5, NULL_TREE,
+                                      void_type_node, 1);
+      }
   ;
 
 optional_routine_interface_directive_list:
@@ -1244,6 +1317,9 @@ operator_result_def:
   ;
 
 optional_formal_parameter_list:
+  { push_scope (); } optional_formal_parameter_list0 { $$ = $2; }
+
+optional_formal_parameter_list0:
     null
   | '(' ')'
       { chk_dialect ("empty parentheses are", BORLAND_DELPHI); $$ = void_list_node; }
@@ -1273,12 +1349,20 @@ formal_parameter:
       { $$ = build_formal_param ($2, $4, 0, 1); }
   | optional_protected p_var id_list optional_parameter_form
       { $$ = build_formal_param ($3, $4, 1, !!$1); }
+  | p_const p_var id_list ':' parameter_form
+      { $$ = build_formal_param ($3, $5, 3, 1); }
   | p_const id_list optional_parameter_form
       { $$ = build_formal_param ($2, $3, 2, 1); }
   | p_procedure new_identifier optional_formal_parameter_list
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE, void_type_node, 0); }
-  | p_function new_identifier optional_formal_parameter_list optional_result_def resulttype
-      { $$ = build_routine_heading (NULL_TREE, $2, $3, $4, $5, 0); }
+      { 
+        pop_param_level ($3, NULL_TREE); 
+        $$ = build_routine_heading (NULL_TREE, $2, $3, NULL_TREE,
+                                      void_type_node, 0);
+      }
+  | p_function new_identifier optional_formal_parameter_list optional_result_def
+      { pop_param_level ($3, $4); }
+ resulttype
+      { $$ = build_routine_heading (NULL_TREE, $2, $3, $4, $6, 0); }
   ;
 
 resulttype:
@@ -1431,6 +1515,8 @@ unlabelled_statement:
       { build_predef_call (p_Exit, build_tree_list (NULL_TREE, void_type_node)); }
   | p_Exit '(' id ')'
       { build_predef_call (p_Exit, build_tree_list (NULL_TREE, $3)); }
+  | p_Exit '(' id '.' id ')'
+      { build_predef_call (p_Exit, build_tree_list ($3, $5)); }
   | builtin_procedure_statement
   | p_with with_list p_do pushlevel optional_statement poplevel
       { restore_identifiers ($2); }
@@ -1673,10 +1759,10 @@ static_expression:
       {
         $$ = string_may_be_char ($1, 0);
         if (PEDANTIC (NOT_CLASSIC_PASCAL)
-            && (TREE_CODE_CLASS (TREE_CODE ($$)) != 'c'
-                || TREE_CODE ($$) == STRING_CST
-                || !PASCAL_CST_FRESH ($$)
-                || PASCAL_CST_PARENTHESES ($$)))
+            && ( PASCAL_CST_PARENTHESES ($$)
+                 || !(TREE_CODE ($$) == STRING_CST
+                      || (TREE_CODE_CLASS (TREE_CODE ($$)) == tcc_constant
+                          && PASCAL_CST_FRESH ($$)))))
           error ("ISO 7185 Pascal allows only simple constants");
       }
   ;
@@ -1838,6 +1924,8 @@ variable_or_routine_access_no_builtin_function:
       { $$ = build_inherited_method ($2); }
   | p_FormatString '(' write_actual_parameter_list ')'
       { $$ = build_predef_call (p_FormatString, $3); }
+  | p_StringOf '(' write_actual_parameter_list ')'
+      { $$ = build_predef_call (p_StringOf, $3); }
   | p_Assigned '(' disable_function_calls expression ')'
       { $$ = build_predef_call (p_Assigned, build_tree_list (NULL_TREE, $4)); allow_function_calls ($<itype>2); }
   | p_Addr '(' variable_or_routine_access ')'
@@ -2226,6 +2314,7 @@ new_identifier_1:
   | p_unit
   | p_uses
   | p_value
+  | p_view
   | p_xor
   ;
 
@@ -2406,6 +2495,23 @@ set_yydebug (int value)
 int
 yyparse (void)
 {
+  int res;
   init_predef ();
-  return main_yyparse ();
+  res = main_yyparse ();
+#ifdef GCC_4_0
+  /* @@@@@ cgraphunit do not notice if address of a routine is
+     referenced from static global variable */
+  {
+    tree decl = getdecls();
+    while (decl) 
+      {
+        if (TREE_CODE (decl) == FUNCTION_DECL && TREE_ADDRESSABLE (decl))
+          mark_decl_referenced (decl);
+        decl = TREE_CHAIN (decl);
+      }
+  }
+  cgraph_finalize_compilation_unit ();
+  cgraph_optimize ();
+#endif
+  return res;
 }

@@ -1,6 +1,6 @@
 { Dump the contents of GPI files. Useful for GPC developers.
 
-  Copyright (C) 2002-2005 Free Software Foundation, Inc.
+  Copyright (C) 2002-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -46,6 +46,17 @@ type
 
 const
   ExprClasses = ['e', '1', '2', '<', 's'];
+  tcc_type = 't';
+  tcc_declaration = 'd';
+  tcc_constant = 'c';
+  tcc_unary = '1';
+  tcc_binary = '2';
+  tcc_comparison = '<';
+  tcc_expression = 'e';
+  tcc_reference = 'r';
+  tcc_exceptional = 'x';
+  tcc_statement = 's';
+  
   TreeCodes: array [TTreeCode] of record
     Name: ^String;
     CodeClass: Char;
@@ -361,7 +372,7 @@ var
         fprotected,
         {$ifdef GCC_3_4}
         deprecated,
-        unused_flag_1,
+        invariant,
         {$elif defined (EGCS97)}
         bounded,
         deprecated,
@@ -416,7 +427,8 @@ var
       if f.fprotected then OutputFlag ('protected');
       {$ifdef GCC_3_4}
       if f.deprecated then OutputFlag ('!deprecated');
-      if f.unused_flag_1 then OutputFlag ('!unused_flag_1');
+      if f.invariant then OutputFlag (
+        {$ifdef GCC_4_0} 'invariant' {$else} '!unused_flag_1' {$endif});
       {$elif defined (EGCS97)}
       if f.bounded then OutputFlag ('bounded');
       if f.deprecated then OutputFlag ('!deprecated');
@@ -465,6 +477,7 @@ var
           VAR_DECL:      OutputFlag ('had_side_effects');
           FUNCTION_DECL: OutputFlag ('virtual');
           CONSTRUCTOR:   OutputFlag ('constructor_int_cst');
+          POINTER_TYPE:  OutputFlag ('class');
           else           OutputFlag ('!lang flag 5')
         end;
       if f.lang_flag_6 then
@@ -629,9 +642,12 @@ var
         thread_local,
         declared_inline_flag: Boolean;
         {$endif}
+        {$ifdef GCC_4_0}
+        seen_in_bind_expr: Boolean;
+        {$endif}
         {$ifdef GCC_3_4}
         visibility: 0 .. 3;
-        unused: Boolean;
+        visibility_specified: Boolean;
         {$endif}
         {$endif}
         unused_decl_flag_0,
@@ -642,6 +658,14 @@ var
         decl_flag_5,
         decl_flag_6,
         decl_flag_7: Boolean;
+        {$ifdef GCC_4_0}
+        possibly_inlined,
+        preserve_flag,
+        gimple_formal_temp,
+        debug_expr_is_from : Boolean;
+        sp1, sp2, sp3, sp4, sp5, sp6, sp7,
+        sp8, sp9, sp10, sp11 : Boolean;
+        {$endif}
         {$if defined (EGCS) and not defined (EGCS97)}
         non_addr_const_p,
         no_instrument_function_entry_exit,
@@ -651,7 +675,11 @@ var
         Misc: TDeclMisc
       end;
     begin
-      CompilerAssert (SizeOf (f) = {$ifdef EGCS97} 6 {$elif defined (EGCS)} 5 {$else} 4 {$endif} + SizeOf (TDeclMisc));
+      CompilerAssert (SizeOf (f) = {$ifdef GCC_4_0} 8 
+                           {$elif defined (EGCS97)} 6 
+                             {$elif defined (EGCS)} 5
+                                            {$else} 4
+                            {$endif} + SizeOf (TDeclMisc));
       GetSize (Pos1, f, SizeOf (f));
       Comma;
       Write ('machine_mode ', Number (f.MachineMode, 0));
@@ -691,13 +719,21 @@ var
       {$endif}
       {$ifdef GCC_3_4}
       OutputFlag2 ('visibility', f.visibility);
-      if f.unused then OutputFlag ('!unused');
+      if f.visibility_specified then OutputFlag (
+           {$ifdef GCC_4_0} 'visibility_specified' {$else} '!unused' {$endif});
       {$endif}
       {$endif}
       if f.unused_decl_flag_0 then OutputFlag ('!unused_decl_flag_0');
       if f.imported then OutputFlag ('imported');
       if f.imported_uses then OutputFlag ('imported_uses');
-      if f.bp_typed_const then OutputFlag ('bp_typed_const');
+      if f.bp_typed_const then
+        case TreeCode of
+          FUNCTION_DECL,
+          FIELD_DECL: OutputFlag ('shadowed_field');
+          LABEL_DECL: OutputFlag ('label_set');
+          VAR_DECL:   OutputFlag ('bp_typed_const');
+          else        OutputFlag ('!lang_decl_flag_3')
+        end;
       if f.decl_flag_4 then
         case TreeCode of
           FIELD_DECL: OutputFlag ('packed_field');
@@ -717,12 +753,15 @@ var
         case TreeCode of
           VAR_DECL:  OutputFlag ('initialized');
           PARM_DECL: OutputFlag ('procedural_parameter');
+          FUNCTION_DECL: 
+                     OutputFlag ('reintroduce');
           else       OutputFlag ('!lang_decl_flag_6')
         end;
       if f.decl_flag_7 then
         case TreeCode of
           FUNCTION_DECL: OutputFlag ('forward');
           CONST_DECL:    OutputFlag ('principal');
+          VAR_DECL:      OutputFlag ('for_loop_counter');
           else           OutputFlag ('!lang_decl_flag_7')
         end;
       {$if defined (EGCS) and not defined (EGCS97)}
@@ -1121,12 +1160,15 @@ var
       TYPE_DECL:        Ref ('type');
       VAR_DECL:         begin
                           Ref ('type');
+                          Ref ('initial');
                           Discard (OptStr ('linker_name '))
                         end;
       OPERATOR_DECL:    ;
       PLACEHOLDER_EXPR: Ref ('type');
       NON_LVALUE_EXPR:  if IsPackedAccess then Ref ('packed_info');
-      else              if not ClassDone or (TreeCode = RTL_EXPR) then Error ('unknown tree code')
+      else              if not ClassDone 
+                           {$ifndef GCC_4_0} or (TreeCode = RTL_EXPR) {$endif}
+                          then Error ('unknown tree code')
     end;
     if not First then WriteLn;
     if Pos1 <= Pos2 then
@@ -1290,7 +1332,7 @@ procedure Usage;
 begin
   WriteLn ('GPI file dump for GPC ', __GPC_RELEASE__, ' based on GCC ', GCC_VERSION, '
 
-Copyright (C) 2002-2005 Free Software Foundation, Inc.
+Copyright (C) 2002-2006 Free Software Foundation, Inc.
 
 This program is part of GPC. GPC is free software; see the source
 for copying conditions. There is NO warranty; not even for
@@ -1325,7 +1367,7 @@ begin
            end;
       'V': begin
              WriteLn ('gpidump for GPC ', __GPC_RELEASE__, ' based on GCC ', GCC_VERSION);
-             WriteLn ('Copyright (C) 2002-2005 Free Software Foundation, Inc.');
+             WriteLn ('Copyright (C) 2002-2006 Free Software Foundation, Inc.');
              WriteLn ('Report bugs to <gpc@gnu.de>.');
              Halt
            end;

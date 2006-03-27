@@ -1,6 +1,6 @@
 /*Definitions of keywords, predefined identifiers etc.
 
-  Copyright (C) 1987-2005 Free Software Foundation, Inc.
+  Copyright (C) 1987-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -41,6 +41,7 @@ PREDEF_ID (interface,  NOT_CLASSIC_PASCAL)  /* module or unit interface part */
 PREDEF_ID (iocritical, GNU_PASCAL)
 PREDEF_ID (module,     E_O_PASCAL)          /* EP style or PXSC style module */
 PREDEF_ID (name,       0)                   /* linker name */
+PREDEF_ID (noinline,   GNU_PASCAL)
 PREDEF_ID (private,    B_D_PASCAL)          /* private object fields */
 PREDEF_ID (protected,  E_O_B_D_PASCAL)      /* read-only formal parameters or module export and protected object fields */
 PREDEF_ID (public,     B_D_PASCAL)          /* public object fields */
@@ -128,9 +129,9 @@ PREDEF_KEYWORD (with,           0, ANY_PASCAL)          /* automatic <record> or
 PREDEF_KEYWORD (xor,            1, B_D_M_PASCAL)        /* Boolean or bitwise `exclusive or' operator */
 PREDEF_KEYWORD (reintroduce,   -1, BORLAND_DELPHI)      /* Explicit method
 shadowing */
+PREDEF_KEYWORD (view,           1, OBJECT_PASCAL)       /* OOE class view */
 #if 0
 PREDEF_KEYWORD (property,       1, O_D_PASCAL)          /* OOE property classes/Delphi object properties (not yet implemented) */
-PREDEF_KEYWORD (view,           1, OBJECT_PASCAL)       /* object class view (not yet implemented) */
 PREDEF_KEYWORD (try,            1, BORLAND_DELPHI)      /* try statement */
 PREDEF_KEYWORD (except,         1, BORLAND_DELPHI)      /* exception handler */
 PREDEF_KEYWORD (finally,        1, BORLAND_DELPHI)      /* block finally */
@@ -200,6 +201,7 @@ PREDEF_TYPE (Boolean,     boolean_type_node,            ANY_PASCAL)
 PREDEF_TYPE (ByteBool,    byte_boolean_type_node,       B_D_PASCAL)
 PREDEF_TYPE (ShortBool,   short_boolean_type_node,      GNU_PASCAL)
 PREDEF_TYPE (WordBool,    word_boolean_type_node,       B_D_PASCAL)
+PREDEF_TYPE (CWordBool,   cword_boolean_type_node,      GNU_PASCAL)
 PREDEF_TYPE (MedBool,     long_boolean_type_node,       GNU_PASCAL)
 PREDEF_TYPE (LongBool,    long_long_boolean_type_node,  B_D_PASCAL)
 PREDEF_TYPE (LongestBool, long_long_boolean_type_node,  GNU_PASCAL)
@@ -230,6 +232,7 @@ PREDEF_SYNTAX (Assigned,     "by|",    0, B_D_PASCAL)
 PREDEF_SYNTAX (New,          "p^,|p$", 0, ANY_PASCAL)
 PREDEF_SYNTAX (Dispose,      "-p,|-p", 0, ANY_PASCAL)
 PREDEF_SYNTAX (FormatString, "ss,|",   0, GNU_PASCAL)
+PREDEF_SYNTAX (StringOf,     "s,|",    0, MAC_PASCAL)
 
 PREDEF_ROUTINE (Break,              "-|",            0,             B_D_PASCAL)
 PREDEF_ROUTINE (Continue,           "-|",            0,             B_D_M_PASCAL)
@@ -432,12 +435,14 @@ PREDEF_ROUTINE_NO_ID (WriteStr_Init,       "ppii",  0)
 PREDEF_ROUTINE_NO_ID (WriteStr_GetLength,  "iF",    0)
 PREDEF_ROUTINE_NO_ID (FormatString_Init,   "pii",   0)
 PREDEF_ROUTINE_NO_ID (FormatString_Result, "%Fs",   0)
+PREDEF_ROUTINE_NO_ID (StringOf_Result,     "%F",    0)
 
 PREDEF_ROUTINE (Read,    "-,|",  ER_IOCRITICAL, ANY_PASCAL)
 PREDEF_ROUTINE (ReadLn,  "-,|",  ER_IOCRITICAL, ANY_PASCAL)
 PREDEF_ROUTINE (ReadStr, "-x,|", 0,             E_O_PASCAL)
+PREDEF_ALIAS (ReadString, ReadStr, "-x,|", 0, MAC_PASCAL)
 PREDEF_ROUTINE_NO_ID (Read_Init,         "-Fi",  0)
-PREDEF_ROUTINE_NO_ID (ReadStr_Init,      "psi",  0)
+PREDEF_ROUTINE_NO_ID (ReadStr_Init,      "pphi", 0)
 PREDEF_ROUTINE_NO_ID (ReadWriteStr_Done, "-F",   0)
 PREDEF_ROUTINE_NO_ID (Val_Done,          "iF",   0)
 PREDEF_ROUTINE_NO_ID (Read_Integer,      "lF",   0)

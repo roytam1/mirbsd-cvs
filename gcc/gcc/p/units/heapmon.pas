@@ -14,7 +14,7 @@
   purposes and don't always release it at the end. Therefore, the
   usefulness of this unit is rather limited.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

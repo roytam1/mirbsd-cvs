@@ -1,6 +1,6 @@
 /*Global definitions for GNU Pascal
 
-  Copyright (C) 1987-2005 Free Software Foundation, Inc.
+  Copyright (C) 1987-2006 Free Software Foundation, Inc.
 
   Authors: Peter Gerwinski <peter@gerwinski.de>
            Frank Heckenbach <frank@pascal.gnu.de>
@@ -26,7 +26,7 @@
 #ifndef _GPC_H_
 #define _GPC_H_
 
-/*#define PG__NEW_STRINGS*/
+#define PG__NEW_STRINGS
 
 /* GPC compile time configuration switches */
 
@@ -49,6 +49,40 @@
 
 #include "gbe.h"
 
+#ifdef GCC_4_0
+extern tree xnon_lvalue (tree x);
+// #define non_lvalue(x) (build1 (NON_LVALUE_EXPR, TREE_TYPE (x), x))
+#define non_lvalue(x) (xnon_lvalue (x))
+#define PASCAL_BIT_FIELD_REF_UNSIGNED(x) \
+  (TREE_CHECK2(x, BIT_FIELD_REF, PASCAL_BIT_FIELD_REF)->common.unsigned_flag)
+#define fold(x) (pascal_fold1 (x))
+#define build_int_cst_wide(x, y, z) (pascal_build_int_cst ((x), (y), (z)))
+#define usizetype sizetype
+#define ubitsizetype bitsizetype
+#define build_int_2(x, y)  (build_int_cst_wide (integer_type_node, x, y))
+#define build_type_copy(x) (build_variant_type_copy (x))
+
+extern tree
+pascal_build_int_cst (tree type, unsigned HOST_WIDE_INT low, HOST_WIDE_INT hi);
+extern tree pascal_fold1 (tree t);
+
+extern int lvalue_or_else (tree ref, const char *string);
+extern tree builtin_function (const char *name, tree type, int function_code,
+       enum built_in_class class, const char *library_name, tree dummy);
+#include "plant.h"
+#else
+#define PASCAL_BIT_FIELD_REF_UNSIGNED(x) TREE_UNSIGNED (x)
+#define tcc_exceptional 'x'
+#define tcc_constant 'c'
+#define tcc_type 't'
+#define tcc_declaration 'd'
+#define tcc_reference 'r'
+#define tcc_comparison '<'
+#define tcc_unary '1'
+#define tcc_binary '2'
+#define tcc_expression 'e'
+#endif
+
 #undef abort
 #define abort() USE_GCC_ASSERT_RATHER_THAN_ABORT
 #undef assert
@@ -57,7 +91,7 @@
 /* GCC 4.0.0 and up have gcc_assert and gcc_unreachable. Timing data shows
    that removing asserts, but keeping gcc_unreachable's speeds up the compile.
    gcc_assert does not evaluate the expression if assertions are disabled. */
-#ifndef GCC_4
+#ifndef GCC_4_0
 #ifndef __GNUC__
 #define __PRETTY_FUNCTION__ NULL
 #endif
@@ -101,10 +135,11 @@
 #define sbitsizetype ssizetype
 #define ubitsizetype usizetype
 #define TREE_CHECK(t, code) (t)
-#define TYPE_P(TYPE) (TREE_CODE_CLASS (TREE_CODE (TYPE)) == 't')
-#define DECL_P(DECL) (TREE_CODE_CLASS (TREE_CODE (DECL)) == 'd')
+#define TYPE_P(TYPE) (TREE_CODE_CLASS (TREE_CODE (TYPE)) == tcc_type)
+#define DECL_P(DECL) (TREE_CODE_CLASS (TREE_CODE (DECL)) == tcc_declaration)
 #define IS_EXPR_CODE_CLASS(CLASS) \
-  (CLASS == '<' || CLASS == '1' || CLASS == '2' || CLASS == 'e')
+  (CLASS == tcc_comparison || CLASS == tcc_unary || \
+   CLASS == tcc_binary || CLASS == tcc_expression)
 #define IDENTIFIER_NODE_CHECK(NODE) (TREE_CHECK (NODE, IDENTIFIER_NODE))
 #define INTERFACE_NAME_NODE_CHECK(NODE) (TREE_CHECK (NODE, INTERFACE_NAME_NODE))
 #define IMPORT_NODE_CHECK(NODE) (TREE_CHECK (NODE, IMPORT_NODE))
@@ -349,7 +384,8 @@ union lang_tree_node
 #define HAS_EXP_ORIGINAL_CODE_FIELD(exp) \
   (IS_EXPR_CODE_CLASS (TREE_CODE_CLASS (TREE_CODE (exp))) && TREE_CODE (exp) != CONSTRUCTOR)
 
-#define IS_EXPR_OR_REF_CODE_CLASS(c) (IS_EXPR_CODE_CLASS (c) || c == 'r')
+#define IS_EXPR_OR_REF_CODE_CLASS(c) (IS_EXPR_CODE_CLASS (c) || \
+                                      c == tcc_reference)
 
 #define PROMOTING_INTEGER_TYPE(t) \
   (TREE_CODE (t) == INTEGER_TYPE && TYPE_PRECISION (t) < TYPE_PRECISION (integer_type_node))
@@ -537,7 +573,7 @@ struct lang_decl GTY(())
   tree info2;
   tree info3;
   tree info4;
-  int used_in_scope;
+  long used_in_scope;
 };
 
 #define DECL_LANG_INFO1(decl) (DECL_LANG_SPECIFIC (decl)->info1)
@@ -584,7 +620,10 @@ struct lang_decl GTY(())
 /* This flag is set if the type is `packed' */
 #define PASCAL_TYPE_PACKED(type) TYPE_PACKED (type)
 
-/* Type flags 0, 6 are still available. */
+/* Type flag 6 is still available. */
+
+/* Set for set constant */
+#define PASCAL_TYPE_CANONICAL_SET(type) TYPE_LANG_FLAG_0 (type)
 
 /* Set for the type of an IO-critical function. Used in FUNCTION_TYPE nodes. */
 #define PASCAL_TYPE_IOCRITICAL(type) TYPE_LANG_FLAG_1 (type)
@@ -985,6 +1024,10 @@ struct options
   /* Nonzero means to use `longjmp' for all nonlocal labels, not only those in the main program. */
   int longjmp_all_nonlocal_labels;
 
+  /* Nonzero means to enforce ISO rule forbiding jumps into structured
+     instructions. */
+  int iso_goto_restrictions;
+
   /* Nonzero means to allow non-local `Exit' statements. */
   int nonlocal_exit;
 
@@ -1216,6 +1259,7 @@ extern void finish_routine (tree);
 extern tree build_routine_heading (tree, tree, tree, tree, tree, int);
 extern tree build_operator_heading (tree, tree, tree, tree);
 extern int compare_routine_decls (tree, tree);
+extern int check_routine_decl (tree, tree, tree, int, int, int, tree, int);
 extern tree start_routine (tree, tree);
 extern tree start_implicit_routine (tree, tree, tree, tree);
 extern void sort_fields (tree);
@@ -1246,6 +1290,9 @@ extern tree build_procedural_type (tree, tree);
 extern tree build_formal_param_list (tree, tree, tree *);
 extern tree add_parm_decl (tree, tree, tree);
 extern tree poplevel (int, int, int);
+extern void pop_param_level (tree, tree);
+extern void pop_record_level (tree);
+extern void push_scope (void);
 extern void pushlevel_expand (int);
 extern tree poplevel_expand (int, int);
 extern void mark_temporary_levels (void);
@@ -1285,7 +1332,7 @@ extern tree build_string_constant (const char *, int, int);
 extern tree build_caret_string_constant (int);
 extern tree combine_strings (tree, int);
 extern void constant_expression_warning (tree);
-extern tree build_range_check (tree min, tree max, tree expr, int is_io);
+extern tree build_range_check (tree min, tree max, tree expr, int is_io, int gimplifying);
 extern tree range_check_2 (tree, tree, tree);
 extern tree range_check (tree, tree);
 extern tree convert_and_check (tree, tree);
@@ -1339,6 +1386,7 @@ extern void implicit_module_structors (void);
 
 /* typecheck.c */
 
+extern tree copy_expr (tree);
 extern void cstring_inform (void);
 extern void ptrarith_inform (void);
 extern tree require_complete_type (tree);
@@ -1369,6 +1417,7 @@ extern tree initializer_constant_valid_p (tree, tree);
 extern tree digest_init (tree, tree, int);
 extern tree build_pascal_initializer (tree, tree, const char *, int);
 extern tree find_variant (tree, tree);
+// extern int allow_packed_addresses;
 
 /* types.c */
 
@@ -1392,9 +1441,9 @@ extern int is_string_compatible_type (tree, int);
 extern int is_string_type (tree, int);
 extern int is_of_string_type (tree, int);
 extern int is_variable_string_type (tree);
-extern tree build_discriminants (tree, tree);
+extern tree build_discriminants (tree, tree, tree);
 extern tree maybe_schema_discriminant (tree);
-extern tree build_schema_type (tree, tree, tree);
+extern tree build_schema_type (tree, tree, tree, tree);
 extern int number_of_schema_discriminants (tree);
 extern void prediscriminate_schema (tree);
 extern tree base_type (tree);
@@ -1455,6 +1504,7 @@ extern tree build_inherited_method (tree);
 extern tree get_method_name (tree, tree);
 extern tree start_object_type (tree, int);
 extern tree finish_object_type (tree, tree, tree, int);
+extern tree finish_view_type (tree, tree, tree, tree);
 extern tree build_is_as (tree, tree, int);
 
 /* predef.c */
@@ -1598,76 +1648,92 @@ extern FILE *finput;
 #define const_string_schema_par_type PGT(28)
 #define string255_type_node PGT(29)
 #define empty_set_type_node PGT(30)
+#define root_object_type_node PGT(31)
 
 /* Constants */
-#define pascal_maxint_node PGT(31)
+#define pascal_maxint_node PGT(32)
 #ifndef GCC_3_4
-#define boolean_false_node PGT(32)
-#define boolean_true_node PGT(33)
+#define boolean_false_node PGT(33)
+#define boolean_true_node PGT(34)
 #endif
-#define char_max_node PGT(34)
-#define real_max_node PGT(35)
-#define real_min_node PGT(36)
-#define real_eps_node PGT(37)
-#define real_zero_node PGT(38)
-#define real_half_node PGT(39)
-#define real_pi_node PGT(40)
-#define complex_zero_node PGT(41)
-#define empty_string_node PGT(42)
+#define char_max_node PGT(35)
+#define real_max_node PGT(36)
+#define real_min_node PGT(37)
+#define real_eps_node PGT(38)
+#define real_zero_node PGT(39)
+#define real_half_node PGT(40)
+#define real_pi_node PGT(41)
+#define complex_zero_node PGT(42)
+#define empty_string_node PGT(43)
 
 /* Variables */
-#define null_pseudo_const_node PGT(43)
-#define inoutres_variable_node PGT(44)
-#define paramcount_variable_node PGT(45)
-#define paramstr_variable_node PGT(46)
-#define input_variable_node PGT(47)
-#define output_variable_node PGT(48)
-#define error_variable_node PGT(49)
-#define validate_pointer_ptr_node PGT(50)
+#define null_pseudo_const_node PGT(44)
+#define inoutres_variable_node PGT(45)
+#define paramcount_variable_node PGT(46)
+#define paramstr_variable_node PGT(47)
+#define input_variable_node PGT(48)
+#define output_variable_node PGT(49)
+#define error_variable_node PGT(50)
+#define validate_pointer_ptr_node PGT(51)
 
 /* Routines */
-#define memcpy_routine_node PGT(51)
-#define memset_routine_node PGT(52)
-#define strlen_routine_node PGT(53)
-#define setjmp_routine_node PGT(54)
-#define longjmp_routine_node PGT(55)
-#define return_address_routine_node PGT(56)
-#define frame_address_routine_node PGT(57)
-#define checkinoutres_routine_node PGT(58)
+#define memcpy_routine_node PGT(52)
+#define memset_routine_node PGT(53)
+#define strlen_routine_node PGT(54)
+#define setjmp_routine_node PGT(55)
+#define longjmp_routine_node PGT(56)
+#define return_address_routine_node PGT(57)
+#define frame_address_routine_node PGT(58)
+#define checkinoutres_routine_node PGT(59)
+#define setbits_routine_node PGT(60)
 
 /* Identifiers */
-#define self_id PGT(59)
-#define schema_id PGT(60)
-#define vmt_id PGT(61)
+#define self_id PGT(61)
+#define schema_id PGT(62)
+#define vmt_id PGT(63)
 
 /* All the nodes above are once initialized and should not change afterwards. */
 
 /* A list of all exported names in all modules seen so far.
    TREE_VALUE is an IDENTIFIER_NODE of an exported interface name, TREE_PURPOSE
    is a TREE_LIST of the names exported by this interface. */
-#define exported_interface_list PGT(62)
+#define exported_interface_list PGT(64)
 
 /* A list of all initializers that were deferred. */
-#define deferred_initializers PGT(63)
+#define deferred_initializers PGT(65)
 
 /* The types in the current `type' declaration part. */
-#define current_type_list PGT(64)
+#define current_type_list PGT(66)
 
 /* While in a `case' statement, a TREE_LIST:
    TREE_VALUE: current case expression
    TREE_PURPOSE: list of case ranges seen (if needed) */
-#define current_case_values PGT(65)
+#define current_case_values PGT(67)
 
-#define PTI_MAX 66
+/* While in a schema definition, (incomplete) type of the schema */
+#define current_schema PGT(68)
+
+#define cword_boolean_type_node PGT(69)
+
+#define global_save_list PGT(70)
+
+#define current_statement_list PGT(71)
+
+/* #define global_var_type_list (72) */
+
+#define PTI_MAX 72
+
 extern GTY(()) tree pascal_global_trees[PTI_MAX];
 
 #define pascal_integer_type_node  ptrsize_integer_type_node
 #define pascal_cardinal_type_node ptrsize_unsigned_type_node
 
+#ifndef GCC_3_3
 /* @@ gcc>3.2 defines size_type_node in tree.h. After dropping support for
       gcc-3.2.x, we can remove pascal_size_type_node (or make it #ifndef EGCS97
       if gcc-2 support is still wanted), and remove the following definition. */
 #undef size_type_node
 #define size_type_node pascal_size_type_node
+#endif
 
 #endif /* _GPC_H_ */

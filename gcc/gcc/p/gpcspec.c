@@ -1,7 +1,7 @@
 /*Specific flags and argument handling of the Pascal front-end.
   @@ This file will take the place of gpc.c once automake is removed.
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Author: Peter Gerwinski <peter@gerwinski.de>
 
@@ -376,7 +376,7 @@ lang_specific_driver (void (*fn) (), int *in_argc, char ***in_argv, int *in_adde
         case OPTION_version:
           printf ("\
 GNU Pascal version %s, based on gcc-%s.\n\
-Copyright (C) 1987-2005 Free Software Foundation, Inc.\n\
+Copyright (C) 1987-2006 Free Software Foundation, Inc.\n\
 \n\
 GNU Pascal is free software; you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License as published by\n\

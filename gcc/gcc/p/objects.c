@@ -1,6 +1,6 @@
 /*Object oriented programming support routines for GNU Pascal
 
-  Copyright (C) 1987-2005 Free Software Foundation, Inc.
+  Copyright (C) 1987-2006 Free Software Foundation, Inc.
 
   Authors: Peter Gerwinski <peter@gerwinski.de>
            Frank Heckenbach <frank@pascal.gnu.de>
@@ -67,7 +67,12 @@ get_vmt_field (tree obj)
       return build (COMPOUND_EXPR, TREE_TYPE (value), TREE_OPERAND (obj, 0), value);
     }
   vmt_field = TYPE_LANG_VMT_FIELD (TREE_TYPE (obj));
+#ifndef GCC_4_0
   return build (COMPONENT_REF, TREE_TYPE (vmt_field), obj, vmt_field);
+#else
+  return build3 (COMPONENT_REF, TREE_TYPE (vmt_field), obj, vmt_field,
+                   NULL_TREE);
+#endif
 }
 
 static tree
@@ -199,7 +204,12 @@ call_method (tree cref, tree args)
       char *n = ACONCAT (("method_", IDENTIFIER_POINTER (DECL_NAME (fun)), NULL));
       method = simple_get_field (get_identifier (n), TREE_TYPE (TREE_TYPE (TYPE_LANG_VMT_FIELD (TREE_TYPE (obj)))), NULL);
       type_save = TREE_TYPE (fun);
+#ifndef GCC_4_0
       fun = build (COMPONENT_REF, TREE_TYPE (method), vmt_deref, method);
+#else
+      fun = build3 (COMPONENT_REF, TREE_TYPE (method), vmt_deref, 
+                      method, NULL_TREE);
+#endif
       /* In the VMT, only generic pointers are stored to avoid
          confusion in GPI files. Repair them here. */
       TREE_TYPE (fun) = build_pointer_type (type_save);
@@ -253,6 +263,15 @@ build_inherited_method (tree id)
     return build_component_ref (TYPE_NAME (basetype), id);
   return error_mark_node;
 }
+
+#if 0
+tree
+build_class_of_type (tree base)
+{
+  error ("class types unimplemented");
+  return error_mark_node;
+}
+#endif
 
 /* Construct the internal name of a method. */
 tree
@@ -357,7 +376,12 @@ finish_object_type (tree type, tree parent, tree items, int abstract)
           parent_type = parent = NULL_TREE;
         }
       else
-        gcc_assert (PASCAL_TYPE_OBJECT (parent));
+        {
+          gcc_assert (PASCAL_TYPE_OBJECT (parent));
+          /* Check for unfinished (erroneous) parent */
+          if (!TYPE_FIELDS (parent))
+            parent_type = parent = NULL_TREE;
+        }
     }
 
   if (parent && !PASCAL_TYPE_OBJECT (parent))
@@ -496,7 +520,9 @@ finish_object_type (tree type, tree parent, tree items, int abstract)
         /* Push also abstract methods (for better error messages on attempts to implement them). */
         method = pushdecl (method);
         gcc_assert (!EM (method));
+#ifndef GCC_4_0
         rest_of_decl_compilation (method, 0, 1, 1);
+#endif
         if (PASCAL_FORWARD_DECLARATION (method))
           {
             set_forward_decl (method, 1);
@@ -697,8 +723,22 @@ finish_object_type (tree type, tree parent, tree items, int abstract)
           error ("result variable `%s' of method `%s' conflicts with field or method",
                  IDENTIFIER_NAME (DECL_LANG_RESULT_VARIABLE (field)), name);
       }
+#if 0
+  return type;
+}
 
+tree
+finish_object_type (tree type, tree parent, tree items, int abstract)
+{
+  tree field, methods, size, vmt_entry, vmt_type, vmt_field, t;
+  int has_virtual_method = 0, has_constructor = 0;
+  tree object_type_name = DECL_NAME (TYPE_NAME (type));
+  const char *object_name = IDENTIFIER_NAME (object_type_name), *n ;
+  type = finish_object_type1 (type, parent, items, abstract);
   /* Create a record type for the VMT. The fields will contain pointers to all virtual methods. */
+  methods = TYPE_METHODS (type);
+  vmt_field = TYPE_LANG_VMT_FIELD (type);
+#endif
   vmt_entry = copy_list (gpc_fields_PObjectType);
   for (field = methods; field; field = TREE_CHAIN (field))
     if (PASCAL_VIRTUAL_METHOD (field))
@@ -708,7 +748,9 @@ finish_object_type (tree type, tree parent, tree items, int abstract)
            here would only cause confusion in GPI files if the method has
            a prediscriminated parameter. So use just ptr_type_node. */
         char *n = ACONCAT (("method_", IDENTIFIER_POINTER (DECL_NAME (field)), NULL));
-        vmt_entry = chainon (vmt_entry, build_field (get_identifier (n), ptr_type_node));
+        tree nf = build_field (get_identifier (n), ptr_type_node);
+        PASCAL_FIELD_SHADOWED (nf) = PASCAL_METHOD_SHADOWED (field);
+        vmt_entry = chainon (vmt_entry, nf);
       }
   vmt_type = finish_struct (start_struct (RECORD_TYPE), vmt_entry, 0);
   TYPE_READONLY (vmt_type) = 1;
@@ -771,8 +813,16 @@ finish_object_type (tree type, tree parent, tree items, int abstract)
      from being pushed as a regular declaration (which is unnecessary). */
   n = ACONCAT (("vmt_", IDENTIFIER_POINTER (object_type_name), NULL));
   TYPE_LANG_VMT_VAR (type) = declare_variable (get_identifier (n), vmt_type,
-    build_tree_list (NULL_TREE, vmt_entry), VQ_IMPLICIT | VQ_CONST | (current_module->implementation ? VQ_STATIC : 0));
+    build_tree_list (NULL_TREE, vmt_entry), VQ_IMPLICIT | VQ_CONST |
+      (current_module->implementation ? VQ_STATIC : 0));
 
+#ifdef GCC_4_0
+  if (current_module->implementation || !(co->interface_only))
+    {
+      mark_decl_referenced (TYPE_LANG_VMT_VAR (type));
+      make_decl_rtl (TYPE_LANG_VMT_VAR (type));
+    }
+#endif
   /* Attach VMT_TYPE to the implicit VMT field of the object.
      (Until here it still has the inherited type or ^void type.)
      We also need this for abstract types because their methods
@@ -789,6 +839,99 @@ finish_object_type (tree type, tree parent, tree items, int abstract)
       TYPE_METHODS (t) = TYPE_METHODS (type);
     }
 
+  return type;
+}
+
+void
+mark_fields_shadowed (tree fields, tree mask);
+void
+mark_fields_shadowed (tree fields, tree mask)
+{
+  tree field;
+  for (field = fields; field; field = TREE_CHAIN (field))
+    {
+      tree t, name;
+      if (PASCAL_FIELD_SHADOWED (field))
+        continue;
+      name = DECL_NAME (field);
+      for (t = mask; t && DECL_NAME (t) != name ; t = TREE_CHAIN (t)) ;
+      if (t)
+        continue;
+      PASCAL_FIELD_SHADOWED (field) = 1;
+    }
+}
+
+tree
+finish_view_type (tree name, tree base, tree parent, tree items)
+{
+  tree res, type;
+  tree base_fields, base_methods, cp, fields, methods;
+  tree *pfields, *pmethods;
+  CHK_EM (base);
+  if (TREE_CODE (base) != POINTER_TYPE || !PASCAL_TYPE_CLASS (base)
+      || TREE_CODE (base) == LANG_TYPE)
+    {
+      error ("Only can view a class");
+      return error_mark_node;
+    }
+  else
+    base = TREE_TYPE (base);
+  /* Make new variant, so can modify */
+  type = build_type_copy (base);
+  res = build_pointer_type (type);
+  PASCAL_TYPE_CLASS (res) = 1;
+  base_fields = copy_list (TYPE_FIELDS (type));
+  base_methods = copy_list (TYPE_METHODS (type));
+
+  /* Check that parent is an ancestor of the base */
+  if (parent)
+    error ("Class views with parents unimplemented");
+
+  pfields = &fields;
+  pmethods = &methods;
+
+  /* Separate items, check that all are visible and
+     agree with old definition */
+  for (cp = items; cp && !EM (cp); cp = TREE_CHAIN (cp))
+    if (TREE_CODE (cp) == TREE_LIST)
+      {
+        gcc_assert (TREE_CODE (TREE_VALUE (cp)) == IDENTIFIER_NODE);
+        error ("spurious `%s'", IDENTIFIER_NAME (TREE_VALUE (cp)));
+      }
+    else if (TREE_CODE (cp) != FUNCTION_DECL)
+      {
+        if (!EM (TREE_TYPE (cp)))
+          {
+            tree of = simple_get_field (DECL_NAME (cp), base, "base field");
+            if (TREE_TYPE (of) != TREE_TYPE (cp))
+              error ("Attempt to change field type");
+            *pfields = cp;
+            pfields = &TREE_CHAIN (cp);
+          }
+      }
+   else
+     {
+       tree om = simple_get_field (DECL_NAME (cp), base, "base method");
+       tree args;
+       build_formal_param_list (DECL_ARGUMENTS (cp), type, &args);
+       if (!check_routine_decl (args, TREE_TYPE (cp),
+            DECL_RESULT (cp), 0, 1, PASCAL_STRUCTOR_METHOD (cp), om, 1))
+         error ("Attempt to change method signature");
+       *pmethods = cp;
+       pmethods = &TREE_CHAIN (cp);
+     }
+  *pmethods = NULL_TREE;
+  *pfields = NULL_TREE;
+
+  /* Mark fields&methods as shadowed */
+  gcc_assert (DECL_NAME (base_fields) == vmt_id);
+  mark_fields_shadowed (TREE_CHAIN (base_fields), fields);
+  mark_fields_shadowed (base_methods, methods);
+
+  TYPE_FIELDS (type) = base_fields;
+  TYPE_METHODS (type) = base_methods;
+  TYPE_LANG_VMT_FIELD (type) = base_fields;
+  build_type_decl (name, res, NULL_TREE);
   return type;
 }
 

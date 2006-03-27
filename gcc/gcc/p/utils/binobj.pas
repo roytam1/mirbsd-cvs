@@ -8,7 +8,7 @@
 
   @@ It is not very efficient on large files.
 
-  Copyright (C) 2001-2005 Free Software Foundation, Inc.
+  Copyright (C) 2001-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -50,7 +50,7 @@ begin
     begin
       WriteLn ('binobj for GPC
 
-Copyright (C) 2001-2005 Free Software Foundation, Inc.
+Copyright (C) 2001-2006 Free Software Foundation, Inc.
 
 This program is part of GPC. GPC is free software; see the source
 for copying conditions. There is NO warranty; not even for
@@ -62,7 +62,7 @@ Usage: ', ParamStr (0), ' source[.bin] dest[', ObjSuffix, '] public-name');
   if (ParamCount = 1) and (ParamStr (1) = '--version') then
     begin
       WriteLn ('binobj for GPC');
-      WriteLn ('Copyright (C) 2001-2005 Free Software Foundation, Inc.');
+      WriteLn ('Copyright (C) 2001-2006 Free Software Foundation, Inc.');
       WriteLn ('Report bugs to <gpc@gnu.de>.');
       Halt
     end;

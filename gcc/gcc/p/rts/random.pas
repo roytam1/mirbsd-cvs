@@ -1,6 +1,6 @@
 { Pseudo random number generator
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
            Toby Ewing <ewing@iastate.edu>

@@ -22,7 +22,7 @@
   `protected var' can be used since this guarantees passing by
   reference.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -60,7 +60,7 @@
   General Public License. }
 
 {$gnu-pascal,I-}
-{$if __GPC_RELEASE__ <> 20051116}
+{$if __GPC_RELEASE__ <> 20060215}
 {$error
 Trying to compile gpc.pas with a non-matching GPC version is likely
 to cause problems.
@@ -1660,7 +1660,7 @@ procedure AssignHandle (var t: AnyFile; Handle: Integer; CloseFlag: Boolean); at
 { Under development }
 procedure AnyStringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString); attribute (name = '_p_AnyStringTFDD_Reset'); external;
 { @@ procedure AnyStringTFDD_Rewrite (var f: GPC_FDR; var Buf: VarAnyString); attribute (name = '_p_AnyStringTFDD_Rewrite'); }
-procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString; const s: String); attribute (name = '_p_StringTFDD_Reset'); external;
+procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString; var s: array [m .. n: Integer] of Char); attribute (name = '_p_StringTFDD_Reset'); external;
 { @@ procedure StringTFDD_Rewrite (var f: GPC_FDR; var Buf: VarAnyString; var s: String); attribute (name = '_p_StringTFDD_Rewrite'); }
 
 { Returns True is a terminal device is open on the file f, False if

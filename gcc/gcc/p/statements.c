@@ -1,6 +1,6 @@
 /*Pascal statements.
 
-  Copyright (C) 1992-2005 Free Software Foundation, Inc.
+  Copyright (C) 1992-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -265,11 +265,11 @@ check_reference_parameter (tree val, int protected)
   if (TREE_CODE (val) == COMPONENT_REF)
     {
       tree r = TREE_TYPE (TREE_OPERAND (val, 0));
-      if ((pedantic || (co->pascal_dialect & B_D_M_PASCAL) == 0)
+      if ((co->pascal_dialect & C_E_O_PASCAL)
           && PASCAL_TYPE_VARIANT_RECORD (r)
           && TREE_VALUE (TREE_PURPOSE (TYPE_LANG_VARIANT_TAG (r))) == TREE_OPERAND (val, 1))
         {
-          error ("variant record selector cannot be passed by reference");
+          error ("in ISO Pascal variant record selector cannot be passed by reference");
           return 0;
         }
     }
@@ -739,7 +739,22 @@ init_record (tree thing, int the_end, int implicit, tree base)
   tree field;
   for (field = TYPE_FIELDS (TREE_TYPE (thing)); field; field = TREE_CHAIN (field))
     if (DECL_NAME (field))
-      init_any (build_component_ref_no_schema_dereference (base, DECL_NAME (field), 1), the_end, implicit);
+      {
+        tree comp_ref;
+        if (PASCAL_FIELD_SHADOWED (field))
+           /* No need to recurse. Avoid `find_field' */
+#ifndef GCC_4_0
+           comp_ref = fold (build (COMPONENT_REF, TREE_TYPE (field),
+                                    base, field));
+#else
+           comp_ref = fold (build3 (COMPONENT_REF, TREE_TYPE (field),
+                                    base, field, NULL_TREE));
+#endif
+        else
+          comp_ref = build_component_ref_no_schema_dereference (base,
+                        DECL_NAME (field), 1);
+        init_any (comp_ref, the_end, implicit);
+      }
     else if (RECORD_OR_UNION (TREE_CODE (TREE_TYPE (field))))
       init_record (field, the_end, implicit, base);
     else
@@ -883,11 +898,14 @@ init_any (tree thing, int the_end, int implicit)
           const char *temp;
           tree fname, file_size, file_kind, t;
           tree component_type = TREE_TYPE (type);
+          unsigned long save_pascal_dialect = co->pascal_dialect;
 
           if (the_end)
             {
               /* Close the file on exit */
+              co->pascal_dialect = ANY_PASCAL;
               build_predef_call (p_DoneFDR, build_tree_list (NULL_TREE, thing));
+              co->pascal_dialect = save_pascal_dialect;
               break;
             }
 
@@ -926,10 +944,12 @@ init_any (tree thing, int the_end, int implicit)
 
           /* Call and construct parameters to the RTS routine that
              initializes a file buffer to a known state */
+          co->pascal_dialect = ANY_PASCAL;
           build_predef_call (p_InitFDR,
             tree_cons (NULL_TREE, thing, tree_cons (NULL_TREE, fname, tree_cons (NULL_TREE, file_size,
               build_tree_list (NULL_TREE, file_kind)))));
           was_used = 1;  /* @@ */
+          co->pascal_dialect = save_pascal_dialect;
           break;
         }
       else if (PASCAL_TYPE_DISCRIMINATED_STRING (type))
@@ -979,9 +999,9 @@ init_any (tree thing, int the_end, int implicit)
             {
               tree field = TREE_VALUE (variant), init = TYPE_GET_INITIALIZER (TREE_TYPE (field));
               tree c = TREE_PURPOSE (variant);
-              tree label = build_decl (LABEL_DECL, NULL_TREE, NULL_TREE);
               if (!c)  /* otherwise */
                 {
+                  tree label = build_decl (LABEL_DECL, NULL_TREE, NULL_TREE);
                   int r = pushcase (NULL_TREE, NULL, label, &duplicate);
                   gcc_assert (!r);
                   have_otherwise = 1;
@@ -989,6 +1009,7 @@ init_any (tree thing, int the_end, int implicit)
               else
                 for (; c; c= TREE_CHAIN (c))
                   {
+                    tree label = build_decl (LABEL_DECL, NULL_TREE, NULL_TREE);
                     int r = TREE_PURPOSE (c)
                       ? pushcase_range (TREE_VALUE (c), TREE_PURPOSE (c), convert_and_check, label, &duplicate)
                       : pushcase (TREE_VALUE (c), convert_and_check, label, &duplicate);
@@ -1047,7 +1068,12 @@ un_initialize_block (tree names, int the_end, int global)
       if (TREE_CODE (t) == VAR_DECL && !DECL_EXTERNAL (t))
         {
           if (global || !TREE_STATIC (t))
-            init_any (t, the_end, 1);
+            {
+              gcc_assert (the_end || !DECL_ARTIFICIAL (t) 
+                 || !PASCAL_TYPE_FILE (TREE_TYPE (t)));
+              if (!DECL_ARTIFICIAL (t) || !PASCAL_TYPE_FILE (TREE_TYPE (t)))
+                init_any (t, the_end, 1);
+            }
           else if (!the_end)
 #ifndef EGCS97
             {
@@ -1097,13 +1123,19 @@ expand_call_statement (tree t)
     {
       if (PASCAL_TREE_IGNORABLE (t))
         {
-          if (TREE_CODE_CLASS (TREE_CODE (t)) == 'c')
-            t = convert (void_type_node, t);
+          if (TREE_CODE_CLASS (TREE_CODE (t)) == tcc_constant)
+            return;
         }
       else if (!function_called)
-        error ("expression used as a statement");
+        {
+          error ("expression used as a statement");
+          return;
+        }
       else if (TREE_CODE (t) == FUNCTION_DECL)
-        error ("missing arguments in routine call");
+        {
+          error ("missing arguments in routine call");
+          return;
+        }
       else if (TREE_TYPE (t) != void_type_node
                && !(TREE_CODE (t) == CALL_EXPR
                     && TREE_CODE (TREE_OPERAND (t, 0)) == ADDR_EXPR
@@ -1181,6 +1213,8 @@ expand_pascal_assignment (tree target, tree source)
   schema_target = undo_schema_dereference (target);
   DEREFERENCE_SCHEMA (source);
   DEREFERENCE_SCHEMA (target);
+  CHK_EM (source);
+  CHK_EM (target);
 
   /* Restricted types. @@@@ Maybe this needs further checking */
   if (TREE_CODE (source) == CALL_EXPR && PASCAL_TYPE_RESTRICTED (TREE_TYPE (source)))
@@ -1218,7 +1252,8 @@ expand_pascal_assignment (tree target, tree source)
         {
           if (!lvalue_or_else (schema_target, "assignment") || !mark_lvalue (schema_target, "assignment", 1))
             return;
-          stmt = build (MODIFY_EXPR, TREE_TYPE (schema_target), schema_target, schema_source);
+          stmt = build (MODIFY_EXPR, TREE_TYPE (schema_target),
+                          schema_target, schema_source);
           TREE_SIDE_EFFECTS (stmt) = 1;
           if (TREE_CODE (schema_check) != INTEGER_CST)
             stmt = build (COMPOUND_EXPR, TREE_TYPE (stmt), schema_check, stmt);
@@ -1328,6 +1363,7 @@ assign_string (tree target, tree source)
                 length = integer_zero_node;
               else
                 {
+#if 0
                   /* Use save_expr, so the length is not computed twice (for the
                      number of chars to move and the assignment to the target length). */
                   length = save_expr (fold (build_pascal_binary_op (MIN_EXPR, PASCAL_STRING_LENGTH (source), capacity)));
@@ -1335,6 +1371,21 @@ assign_string (tree target, tree source)
                      be e.g. an array returned by a function or whatever. */
                   expr1 = build_memcpy (build_unary_op (ADDR_EXPR, PASCAL_STRING_VALUE (target), 1),
                     build1 (ADDR_EXPR, cstring_type_node, PASCAL_STRING_VALUE (source)), length);
+#else
+                  /* save_expr would cause problems */
+                  tree olen = PASCAL_STRING_LENGTH (source);
+                  tree las;
+                  length = make_new_variable ("str_len", TREE_TYPE (olen));
+                  las = build_pascal_binary_op (MIN_EXPR, olen, capacity);
+                  las = build_modify_expr (length, NOP_EXPR, fold (las));
+                  expr1 = build_memcpy (
+                            build_unary_op (ADDR_EXPR,
+                                            PASCAL_STRING_VALUE (target), 1),
+                            build1 (ADDR_EXPR, cstring_type_node, 
+                                    PASCAL_STRING_VALUE (source)),
+                            length);
+                  expr1 = build (COMPOUND_EXPR, TREE_TYPE (expr1), las, expr1);
+#endif
                 }
             }
           break;
@@ -1490,6 +1541,8 @@ finish_main_program (void)
   tree decl_argv = add_parm_decl (decl_argc, cstring_ptr_type_node, get_identifier ("argv"));
   tree decl_envp = add_parm_decl (decl_argv, cstring_ptr_type_node, get_identifier ("envp"));
   start_implicit_routine (NULL_TREE, get_identifier (name), integer_type_node, decl_envp);
+  
+  TREE_USED (decl_argc) = TREE_USED (decl_argv) = TREE_USED (decl_envp) = 1;
 
   /* If it is called `main', let the backend do any necessary magic. */
   if (!strcmp (name, "main"))
@@ -1635,10 +1688,15 @@ start_constructor (int implicit)
   un_initialize_block (decls, 0, 1);
 
   if (!implicit || DECL_INITIAL (current_module->finalizer))
+    {
     expand_expr_stmt (build_routine_call (
       build_implicit_routine_decl (get_identifier ("_p_AtExit"), void_type_node,
         tree_cons (NULL_TREE, ptr_type_node, void_list_node), ER_EXTERNAL),
-      build_tree_list (NULL_TREE, build1 (ADDR_EXPR, ptr_type_node, current_module->finalizer))));
+      build_tree_list (NULL_TREE, convert(ptr_type_node, 
+              build_unary_op (ADDR_EXPR, current_module->finalizer, 0)))
+         ));
+//      TREE_USED (current_module->finalizer) = 1;
+    }
   if (current_module->main_program)
     call_no_args (get_identifier ("_p_DoInitProc"), 1);
 }
@@ -1669,7 +1727,7 @@ void
 implicit_module_structors (void)
 {
   const char *save_filename = start_dummy_file_name ();
-  if (TREE_USED (current_module->finalizer) && !DECL_INITIAL (current_module->finalizer))
+  if (/* 1 TREE_USED (current_module->finalizer) && */ !DECL_INITIAL (current_module->finalizer) )
     {
       start_destructor ();
       finish_destructor ();

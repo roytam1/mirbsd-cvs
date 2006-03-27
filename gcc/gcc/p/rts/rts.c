@@ -2,7 +2,7 @@
   routines. The main purpose of this file is to ensure portability.
   Higher level stuff is in other files.
 
-  Copyright (C) 1985-2005 Free Software Foundation, Inc.
+  Copyright (C) 1985-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            J.J. van der Heijden <j.j.vanderheijden@student.utwente.nl>

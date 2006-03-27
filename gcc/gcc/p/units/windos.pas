@@ -20,7 +20,7 @@
     there are other ways to achieve the same in GPC, see the GPC
     unit.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

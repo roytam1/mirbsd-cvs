@@ -1,7 +1,7 @@
 { Some routines for file and directory handling on a higher level
   than those provided by the RTS.
 
-  Copyright (C) 2000-2005 Free Software Foundation, Inc.
+  Copyright (C) 2000-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

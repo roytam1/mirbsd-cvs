@@ -7,7 +7,7 @@
 # the program run is redirected to standard output, to separate it
 # from the runtime error etc. messages.
 #
-# Copyright (C) 2001-2005 Free Software Foundation, Inc.
+# Copyright (C) 2001-2006 Free Software Foundation, Inc.
 #
 # Author: Frank Heckenbach <frank@pascal.gnu.de>
 #
@@ -34,7 +34,7 @@ cat << EOF
 gpc-run: Run programs compiled with GPC and translate runtime error
 messages to a more human readable format.
 
-Copyright (C) 2001-2005 Free Software Foundation, Inc.
+Copyright (C) 2001-2006 Free Software Foundation, Inc.
 
 This program is part of GPC. GPC is free software; see the source
 for copying conditions. There is NO warranty; not even for
@@ -54,7 +54,7 @@ EOF
 
 if [ x"$1" = x"--version" ]; then
   echo "gpc-run @version@"
-  echo "Copyright (C) 2001-2005 Free Software Foundation, Inc."
+  echo "Copyright (C) 2001-2006 Free Software Foundation, Inc."
   exit
 fi
 

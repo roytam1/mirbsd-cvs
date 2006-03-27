@@ -44,9 +44,13 @@
 
 #include "config.h"
 
-#ifndef GCC_4
+#ifndef GCC_4_0
 #define TYPE_UNSIGNED TREE_UNSIGNED
 #define BIT_FIELD_REF_UNSIGNED TREE_UNSIGNED
+#endif
+
+#ifdef GCC_4_0
+extern int immediate_size_expand;
 #endif
 
 #ifndef GCC_3_4

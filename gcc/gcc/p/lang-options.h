@@ -142,6 +142,10 @@ DEFINE_LANG_NAME ("Pascal")
            "Use `longjmp' for all nonlocal labels (default for Darwin/PPC)")
   GPC_OPT (1, "-fno-longjmp-all-nonlocal-labels", longjmp_all_nonlocal_labels, 0,
            "Use `longjmp' only for nonlocal labels in the main program (default except for Darwin/PPC)")
+  GPC_OPT (1, "-fiso-goto-restrictions", iso_goto_restrictions, 1,
+           "Do not allow jumps into structured instructions (default)")
+  GPC_OPT (1, "-fno-iso-goto-restrictions", iso_goto_restrictions, 0,
+           "Allow jumps into structured instructions (default in `--borland-pascal')")
   GPC_OPT (1, "-fnonlocal-exit", nonlocal_exit, 1,
            "Allow non-local `Exit' statements (default in `--ucsd-pascal' and `--mac-pascal')")
   GPC_OPT (1, "-fno-nonlocal-exit", nonlocal_exit, 0,

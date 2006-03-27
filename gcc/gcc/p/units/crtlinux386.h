@@ -3,7 +3,7 @@
   IA32-specific, but I've had no chance to test them on another
   processor yet.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

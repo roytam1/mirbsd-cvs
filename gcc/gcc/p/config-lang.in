@@ -26,7 +26,7 @@
 language="pascal"
 compilers="gpc1\$(exeext)"
 stagestuff="gpc\$(exeext) gpc-cross\$(exeext) gpc1\$(exeext) gpcpp\$(exeext) libgpc.a"
-gtfiles="\$(srcdir)/p/gpc.h \$(srcdir)/p/declarations.c \$(srcdir)/p/module.c \$(srcdir)/p/predef.c"
+gtfiles="\$(srcdir)/p/gpc.h \$(srcdir)/p/declarations.c \$(srcdir)/p/module.c \$(srcdir)/p/predef.c \$(srcdir)/p/plant.c"
 
 #echo "in p/config-lang.in"
 #echo "srcdir=$srcdir"
@@ -51,33 +51,45 @@ fi
 
 srcdir="$MY_SRCDIR"
 
-version=`grep version_string "$srcdir/version.c" | sed -e 's/[^"]*"//;s/[ "].*//'`
+if [ -r "$srcdir/BASE-VER" ]; then
+  version=`cat "$srcdir/BASE-VER"`
+else
+  version=`grep version_string "$srcdir/version.c" | sed -e 's/[^"]*"//;s/[ "].*//'`
+fi
+
 mainversion="$version"
 gcc281=y
 gcc3=n
-if echo $version | grep '^2\.9' > /dev/null || echo $version | grep '^3\.[1-9]' > /dev/null; then
+if echo $version | grep '^2\.9' > /dev/null || echo $version | grep '^3\.[1-9]' > /dev/null || echo $version | grep '^4\.[0-9]' > /dev/null; then
   gcc281=n
   echo '#define EGCS' > "$gcc_version_h"
-  if echo $version | grep '^2\.95\.[3-9]' > /dev/null || echo $version | grep '^3\.[1-9]' > /dev/null; then
+  if echo $version | grep '^2\.95\.[3-9]' > /dev/null || echo $version | grep '^3\.[1-9]' > /dev/null || echo $version | grep '^4\.[0-9]' > /dev/null; then
     echo '#define GCC_2_95_3' >> "$gcc_version_h"
   fi
-  if echo $version | grep '^2\.9[6-9]' > /dev/null || echo $version | grep '^3\.[1-9]' > /dev/null; then
+  if echo $version | grep '^2\.9[6-9]' > /dev/null || echo $version | grep '^3\.[1-9]' > /dev/null || echo $version | grep '^4\.[0-9]' > /dev/null; then
     gcc3=y
     echo '#define EGCS97' >> "$gcc_version_h"
-    if echo $version | grep '^3\.[3-9]' > /dev/null; then
+    if echo $version | grep '^3\.[3-9]' > /dev/null || echo $version | grep '^4\.[0-9]' > /dev/null; then
       echo '#define GCC_3_3' >> "$gcc_version_h"
-      if echo $version | grep '^3\.[4-9]' > /dev/null; then
+      if echo $version | grep '^3\.[4-9]' > /dev/null || echo $version | grep '^4\.[0-9]' > /dev/null; then
         echo '#define GCC_3_4' >> "$gcc_version_h"
-        if echo $version | grep '^3\.[5-9]' > /dev/null; then
-          echo '#define GCC_3_5' >> "$gcc_version_h"
+        if echo $version | grep '^4\.[0-9]' > /dev/null; then
+          echo '#define GCC_4_0' >> "$gcc_version_h"
           echo "" >&2
           echo "***" >&2
           echo "*** Detected GCC version $mainversion." >&2
-          echo "*** The GPC port for GCC > 3.4.x is still in an early state." >&2
+          if echo $version | grep '^4\.[1-9]' > /dev/null; then
+            echo '#define GCC_4_1' >> "$gcc_version_h"
+
+          echo "*** The GPC port for GCC > 4.0.x does not work." >&2
           echo "*** You can proceed now if you want to work on it." >&2
           echo "***" >&2
+          else
+            echo "*** The GPC port for GCC 4.0.x is still in an early state." >&2
+            echo "*** You can proceed now if you want to test it." >&2
+          fi
           echo "*** For a \"production compiler\" we currently still" >&2
-          echo "*** recommend GPC based on gcc 2.95.x, 3.2.x or 3.3.x" >&2
+          echo "*** recommend GPC based on gcc 3.3.x or gcc 3.4.x" >&2
           echo "***" >&2
           echo "*** Press ENTER to continue, Ctrl-C to abort." >&2
           echo "***" >&2
@@ -88,6 +100,17 @@ if echo $version | grep '^2\.9' > /dev/null || echo $version | grep '^3\.[1-9]' 
   fi
 else
   echo "/* empty */" > "$gcc_version_h"
+fi
+
+if echo $version | grep '^2\.[89]' > /dev/null || echo $version | grep '^3\.[1-2]' > /dev/null; then
+  echo "*** Detected GCC version $mainversion." >&2
+  echo "*** Using GPC with 2.x or 3.2.x backends is depreciated." >&2
+  echo "*** In the future support for those backends will be dropped." >&2
+  echo "*** We encourage you to try GPC based on gcc 3.3.x or gcc 3.4.x" >&2
+  echo "***" >&2
+  echo "*** Press ENTER to continue, Ctrl-C to abort." >&2
+  echo "***" >&2
+  read junk
 fi
 
 for x in 2.95.1 2.95.2 2.95.3 2.95.3-5 2.95.3-6 2.95.3-8 2.95.4; do
@@ -106,8 +129,11 @@ fi
 if [ ! -r "$srcdir/p/diffs/gcc-3.4.5.diff" ]; then
     (cd "$srcdir/p/diffs"; ln -s "gcc-3.4.4.diff" "gcc-3.4.5.diff")
 fi
+if [ ! -r "$srcdir/p/diffs/gcc-3.4.6.diff" ]; then
+    (cd "$srcdir/p/diffs"; ln -s "gcc-3.4.4.diff" "gcc-3.4.6.diff")
+fi
 
-if grep "@@ PATCHED FOR GPC 20051114 @@" "$srcdir/stor-layout.c" > /dev/null; then
+if grep "@@ PATCHED FOR GPC 20060322 @@" "$srcdir/stor-layout.c" > /dev/null; then
   :
 elif grep "@@ PATCHED FOR GPC" "$srcdir/stor-layout.c" > /dev/null; then
   echo "" >&2

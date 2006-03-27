@@ -1,6 +1,6 @@
 /*Pascal types.
 
-  Copyright (C) 1987-2005 Free Software Foundation, Inc.
+  Copyright (C) 1987-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -36,6 +36,32 @@ static tree limited_set (tree);
 static int has_side_effects (tree, int);
 static int count_unsigned_bits (tree);
 static void check_nonconstants (tree);
+
+#ifdef GCC_4_0
+tree
+pascal_build_int_cst (tree type, unsigned HOST_WIDE_INT low, HOST_WIDE_INT hi)
+{
+  tree t = make_node (INTEGER_CST);
+
+  TREE_INT_CST_LOW (t) = low;
+  TREE_INT_CST_HIGH (t) = hi;
+  TREE_TYPE (t) = type;
+  return t;
+}
+
+tree
+pascal_fold1 (tree t)
+{
+  /* Force call to original fold */
+  tree res = (fold) (t);
+  if (TREE_CODE (res) == INTEGER_CST)
+    return copy_node (res);
+  else
+   return res;
+}
+
+#endif
+
 
 tree
 check_result_type (tree type)
@@ -211,15 +237,18 @@ sce_cmp (const PTR xp, const PTR yp)
     return 0;
 }
 
-/* Build a constructor node for set elements.
-   construct_set later converts this to a set. */
+/* Build a constructor node for set elements. construct_set later
+   converts this to a set. Assumes that input list is unique (can
+   be mangled). */
 tree
 build_set_constructor (tree elements)
 {
-  tree t, m;
+  tree t, res = elements;
+  tree * pres = &res;
   int is_constant = 1, is_intcst = 1, side_effects = 0, n = 0;
-  for (m = elements; m; m = TREE_CHAIN (m))
+  while (*pres)
     {
+      tree m = *pres;
       tree lower = TREE_PURPOSE (m), upper = TREE_VALUE (m);
       if (!lower || EM (lower) || (upper && EM (upper)))
         return error_mark_node;
@@ -252,9 +281,12 @@ build_set_constructor (tree elements)
           && TREE_CODE (upper) == INTEGER_CST
           && tree_int_cst_lt (upper, lower))
         {
-          error ("set constructor range is empty");
-          return error_mark_node;
+          warning ("set constructor range is empty");
+          *pres = TREE_CHAIN (m);
+          continue;
         }
+      else
+        pres = &TREE_CHAIN (m);
       if (!TREE_CONSTANT (lower) || (upper && !TREE_CONSTANT (upper)))
         is_constant = 0;
       if (TREE_CODE (lower) != INTEGER_CST || (upper && TREE_CODE (upper) != INTEGER_CST))
@@ -271,6 +303,7 @@ build_set_constructor (tree elements)
       TREE_VALUE (m) = upper;
       n++;
     }
+  elements = res;
   /* A single element/range with side-effects should be safe. */
   if (side_effects && TREE_CHAIN (elements))
     {
@@ -281,8 +314,9 @@ build_set_constructor (tree elements)
   if (is_intcst && n)
     {
       tree *p = alloca (n * sizeof (tree));
+      tree m;
       int i;
-      for (m = copy_list (elements), i = 0; m; m = TREE_CHAIN (m), i++)
+      for (m = elements /* copy_list (elements) */, i = 0; m; m = TREE_CHAIN (m), i++)
         p[i] = m;
       gcc_assert (i == n);
       qsort (p, n, sizeof (tree), sce_cmp);
@@ -308,6 +342,9 @@ build_set_constructor (tree elements)
   TREE_TYPE (t) = empty_set_type_node;  /* real type not yet known */
   CONSTRUCTOR_ELTS (t) = elements;
   TREE_CONSTANT (t) = TREE_STATIC (t) = is_constant;
+#ifdef GCC_4_0
+  TREE_INVARIANT (t) = is_constant;
+#endif
   PASCAL_CONSTRUCTOR_INT_CST (t) = is_intcst;
   TREE_SIDE_EFFECTS (t) = side_effects;
   TREE_ADDRESSABLE (t) = 1;
@@ -345,6 +382,7 @@ tree
 construct_set (tree constructor, tree target_or_type, int arg_type)
 {
   tree elements, elem, set_low, set_high, setsize, this_set_type;
+  tree nelem;
   CHK_EM (constructor);
   elements = CONSTRUCTOR_ELTS (constructor);
   if (!elements && (arg_type == 0 || (arg_type == 1 && !target_or_type)))
@@ -437,6 +475,7 @@ construct_set (tree constructor, tree target_or_type, int arg_type)
       /* @@ non-constant bounds not yet supported (Why???) */
       gcc_assert (int_size_in_bytes (type) != -1);
       this_set_type = build_set_type (type);
+      PASCAL_TYPE_CANONICAL_SET (this_set_type) = 1;
     }
 
   /* Now we know the type of the target set, so we switch the constructor
@@ -455,16 +494,24 @@ construct_set (tree constructor, tree target_or_type, int arg_type)
 
   /* Check that the constructor elements are of valid type
      and within the allowed range. */
+  nelem = NULL_TREE;
   for (elem = elements; elem; elem = TREE_CHAIN (elem))
     {
       tree lo = TREE_PURPOSE (elem), hi = TREE_VALUE (elem);
+      tree lo2, hi2;
       if (!comptypes (TYPE_MAIN_VARIANT (TREE_TYPE (lo)), TYPE_MAIN_VARIANT (TREE_TYPE (this_set_type))))
-        error ("type mismatch in set constructor");
-      TREE_PURPOSE (elem) = range_check_2 (set_low, set_high, lo);
-      CHK_EM (TREE_PURPOSE (elem));
-      TREE_VALUE (elem) = hi == lo ? TREE_PURPOSE (elem) : range_check_2 (set_low, set_high, hi);
-      CHK_EM (TREE_VALUE (elem));
+        {
+          error ("type mismatch in set constructor");
+          return error_mark_node;
+        }
+      lo2 = range_check_2 (set_low, set_high, lo);
+      CHK_EM (lo2);
+      hi2 = hi == lo ? lo2 : range_check_2 (set_low, set_high, hi);
+      CHK_EM (hi2);
+      nelem = tree_cons (lo2, hi2, nelem);
     }
+  nelem = nreverse (nelem);
+  CONSTRUCTOR_ELTS (constructor) = nelem;
   return constructor;
 }
 
@@ -607,8 +654,13 @@ string_may_be_char (tree expr, int assignment_compatibility)
             pedwarn ("assignment of empty string to a char yields a space");
           ch = ' ';
         }
+#ifndef GCC_4_0
       t = build_int_2 (ch & ((1 << BITS_PER_UNIT) - 1), 0);
       TREE_TYPE (t) = char_type_node;
+#else
+      t = build_int_cst_wide (char_type_node, 
+                                ch & ((1 << BITS_PER_UNIT) - 1), 0);
+#endif
       PASCAL_CST_FRESH (t) = PASCAL_CST_FRESH (expr);
       return t;
     }
@@ -674,12 +726,18 @@ build_pascal_string_schema (tree capacity)
 #ifdef PG__NEW_STRINGS
   if (!capacity)
     {
+#ifdef GCC_4_0
+      internal_capacity = build3 (COMPONENT_REF, pascal_cardinal_type_node,
+        build (PLACEHOLDER_EXPR, string), fields, NULL_TREE);
+#else
       internal_capacity = build (COMPONENT_REF, pascal_cardinal_type_node,
         build (PLACEHOLDER_EXPR, string), fields);
+#endif
 #if 0
       capacity = integer_zero_node;
 #else
       capacity = pascal_maxint_node; /* @@@@ */
+//      capacity = internal_capacity;
 #endif
     }
   size_volatile++;  /* @@ Otherwise compilation of 'russ3a.pas' crashes */
@@ -736,7 +794,8 @@ is_of_string_type (tree type, int error_flag)
   if (PASCAL_TYPE_STRING (type))
     return 1;
 
-  if (TREE_CODE (type) != ARRAY_TYPE || TREE_CODE (TREE_TYPE (type)) != CHAR_TYPE)
+  if (TREE_CODE (type) != ARRAY_TYPE
+      || TYPE_MAIN_VARIANT (TREE_TYPE (type)) != char_type_node)
     return 0;
 
   if (!PASCAL_TYPE_PACKED (type))
@@ -749,7 +808,12 @@ is_of_string_type (tree type, int error_flag)
 
   /* String type low index must be one and nonvarying according to ISO */
   if (tree_int_cst_equal (TYPE_MIN_VALUE (TYPE_DOMAIN (type)), integer_one_node))
-    return 1;
+    if ((co->pascal_dialect & CLASSIC_PASCAL) &&
+         tree_int_cst_equal (TYPE_MAX_VALUE (TYPE_DOMAIN (type)),
+                             integer_one_node))
+      return 0;
+    else
+      return 1;
 
   if (co->pascal_dialect & C_E_O_PASCAL)
     return 0;
@@ -766,7 +830,7 @@ is_variable_string_type (tree type)
 }
 
 tree
-build_discriminants (tree names, tree type)
+build_discriminants (tree names, tree type, tree stype)
 {
   tree t;
   if (!ORDINAL_TYPE (TREE_CODE (type)))
@@ -780,10 +844,23 @@ build_discriminants (tree names, tree type)
          Store the previous meanings of the identifiers
          in the TREE_PURPOSE fields of the id_list. */
       tree id = TREE_VALUE (t);
+#if 0
       tree decl = TREE_VALUE (t) = build_decl (VAR_DECL, id, type);
       SET_DECL_ASSEMBLER_NAME (decl, id);
       allocate_decl_lang_specific (decl);
       PASCAL_TREE_DISCRIMINANT (decl) = 1;
+#else
+      tree decl = build_decl (CONST_DECL, id, type);
+#endif
+      tree field = build_field (id, type);
+#ifdef GCC_4_0
+      tree val = build3 (COMPONENT_REF, TREE_TYPE (field),
+            build (PLACEHOLDER_EXPR, stype), field, NULL_TREE);
+#else
+      tree val = build (COMPONENT_REF, TREE_TYPE (field),
+            build (PLACEHOLDER_EXPR, stype), field);
+#endif
+      DECL_INITIAL (decl) = val;
       TREE_PURPOSE (t) = IDENTIFIER_VALUE (id);
       IDENTIFIER_VALUE (id) = decl;
     }
@@ -833,7 +910,7 @@ static int
 has_side_effects (tree t, int had)
 {
   enum tree_code code = TREE_CODE (t);
-  if (TREE_CODE_CLASS (code) == 't')
+  if (TREE_CODE_CLASS (code) == tcc_type)
     {
       tree i = TYPE_GET_INITIALIZER (t);
       if (i && has_side_effects (i, 0))
@@ -893,7 +970,7 @@ has_side_effects (tree t, int had)
    its TYPE_LANG_CODE set accordingly, having as fields the discriminants plus a
    `_p_Schema' field which contains the actual type. */
 tree
-build_schema_type (tree type, tree discriminants, tree init)
+build_schema_type (tree type, tree discriminants, tree init, tree stype)
 {
   tree fields = NULL_TREE, d, tmp, t;
   chk_dialect ("schema types are", E_O_M_PASCAL);
@@ -904,10 +981,29 @@ build_schema_type (tree type, tree discriminants, tree init)
     }
   /* Release the identifiers of the discriminants. We must do this also in case
      of a previous error, but check_pascal_initializer still needs them! */
+#if 0
+  t = stype;
+#endif
   for (d = discriminants; d; d = TREE_CHAIN (d))
     {
-      tree id = DECL_NAME (TREE_VALUE (d));
-      fields = chainon (fields, build_field (id, TREE_TYPE (TREE_VALUE (d))));
+//      tree id = DECL_NAME (TREE_VALUE (d));
+#if 0
+      tree field = build_field (id, TREE_TYPE (TREE_VALUE (d)));
+      tree val = build3 (COMPONENT_REF, TREE_TYPE (field), 
+            build (PLACEHOLDER_EXPR, t), field, NULL_TREE);
+      tree fix = DECL_LANG_FIXUPLIST (TREE_VALUE (d));
+      for (; fix; fix = TREE_CHAIN (fix))
+        {
+          tree target = TREE_VALUE (fix);
+          gcc_assert (TREE_CODE (target) == CONVERT_EXPR && PASCAL_TREE_DISCRIMINANT (target));
+          TREE_OPERAND (target, 0) = val;
+        }
+#else
+      tree id = TREE_VALUE (d);
+      tree val = DECL_INITIAL (IDENTIFIER_VALUE (id));
+      tree field = TREE_OPERAND (val, 1);
+#endif
+      fields = chainon (fields, field);
       IDENTIFIER_VALUE (id) = TREE_PURPOSE (d);
     }
   /* Do not return before this point! */
@@ -918,7 +1014,7 @@ build_schema_type (tree type, tree discriminants, tree init)
   for (t = fields; t && !has_side_effects (TREE_TYPE (t), 0); t = TREE_CHAIN (t)) ;
   if (t || (init && has_side_effects (init, 0)))
     error ("expressions with side-effects are not allowed in schema types");
-  t = finish_struct (start_struct (RECORD_TYPE), fields, 1);
+  t = finish_struct (stype, fields, 1);
   CHK_EM (t);
   TREE_USED (t) = TREE_USED (type);
   allocate_type_lang_specific (t);
@@ -931,7 +1027,7 @@ build_schema_type (tree type, tree discriminants, tree init)
        d && tmp; d = TREE_CHAIN (d), tmp = TREE_CHAIN (tmp))
     {
       allocate_decl_lang_specific (tmp);
-      DECL_LANG_FIXUPLIST (tmp) = DECL_LANG_FIXUPLIST (TREE_VALUE (d));
+      DECL_LANG_FIXUPLIST (tmp) = NULL_TREE /* DECL_LANG_FIXUPLIST (TREE_VALUE (d)) */;
       PASCAL_TREE_DISCRIMINANT (tmp) = 1;
     }
   return t;
@@ -972,9 +1068,9 @@ prediscriminate_schema (tree decl)
   if (PASCAL_TYPE_UNDISCRIMINATED_STRING (TREE_TYPE (TREE_TYPE (decl))))
     {
       tree new_type, string_type = TREE_TYPE (TREE_TYPE (decl));
-#ifndef PG__NEW_STRINGS
+/* #ifndef PG__NEW_STRINGS */
+#if 1
       tree val = build_component_ref (build_indirect_ref (decl, NULL), get_identifier ("Capacity"));
-
       size_volatile++;
       new_type = build_pascal_string_schema (val);
       size_volatile--;
@@ -1027,15 +1123,42 @@ prediscriminate_schema (tree decl)
 tree
 build_type_of (tree d)
 {
+  int indirect = 0;
   tree t;
   chk_dialect_name ("type of", E_O_PASCAL);
-  d = undo_schema_dereference (d);
+  t = d = undo_schema_dereference (d);
+  while (TREE_CODE (t) == NOP_EXPR
+         || TREE_CODE (t) == NON_LVALUE_EXPR
+         || TREE_CODE (t) == CONVERT_EXPR
+         || (TREE_CODE (t) == INDIRECT_REF && ++indirect))
+    t = TREE_OPERAND (t, 0);
+  if (!lvalue_p (d))
+    chk_dialect ("`type of' applied to a value is", GNU_PASCAL);
+  else if (!((indirect == 0 && TREE_CODE (t) == VAR_DECL)
+             || (indirect == 0 && TREE_CODE (t) == PARM_DECL)
+             || (indirect == 1 && TREE_CODE (t) == PARM_DECL && TREE_CODE (TREE_TYPE (t)) == REFERENCE_TYPE)))
+    chk_dialect ("`type of' applied to non variables/parameters is", GNU_PASCAL);
   t = TREE_TYPE (d);
   CHK_EM (t);
-  t = TYPE_MAIN_VARIANT (t);
+  if (TYPE_READONLY (t))
+    t = p_build_type_variant (t, 0, TYPE_VOLATILE (t));
   gcc_assert (!PASCAL_TYPE_UNDISCRIMINATED_STRING (t) && !PASCAL_TYPE_UNDISCRIMINATED_SCHEMA (t));
   if (PASCAL_TYPE_PREDISCRIMINATED_STRING (t))
+#if 0
     t = build_pascal_string_schema (save_nonconstants (TYPE_LANG_DECLARED_CAPACITY (t)));
+#else
+    {
+// = build_component_ref (build_indirect_ref (decl, NULL), get_identifier ("Capacity")); 
+//      tree l = TYPE_LANG_DECLARED_CAPACITY (t);
+      tree l = build_component_ref (d, get_identifier ("Capacity"));
+#ifdef GCC_4_0
+      l = SUBSTITUTE_PLACEHOLDER_IN_EXPR (l, d);
+#else
+      l = build (WITH_RECORD_EXPR, TREE_TYPE (l), l, d);
+#endif
+      t = build_pascal_string_schema (save_nonconstants (l));
+    }
+#endif
   else if (PASCAL_TYPE_PREDISCRIMINATED_SCHEMA (t))
     {
       tree field, discr = NULL_TREE;
@@ -1138,8 +1261,17 @@ build_record (tree fixed_part, tree variant_selector, tree variant_list)
       if (!selector_field && TREE_CODE (selector_type) == IDENTIFIER_NODE)
         {
           tree decl = lookup_name (selector_type);
+#if 0
           if (decl && TREE_CODE (decl) == VAR_DECL && PASCAL_TREE_DISCRIMINANT (decl))
             selector_field = maybe_schema_discriminant (decl);
+#endif
+          if (decl && TREE_CODE (decl) == CONST_DECL 
+              && TREE_CODE (DECL_INITIAL (decl)) == COMPONENT_REF 
+              && TREE_CODE (TREE_OPERAND (DECL_INITIAL (decl), 0))
+                   == PLACEHOLDER_EXPR
+              && TREE_TYPE (TREE_OPERAND (DECL_INITIAL (decl), 0)) 
+                   == current_schema)
+            selector_field = DECL_INITIAL (decl);
           else if (!(decl && TREE_CODE (decl) == TYPE_DECL))
             {
               error ("selector type name or discriminant identifier expected, `%s' given",
@@ -1149,6 +1281,11 @@ build_record (tree fixed_part, tree variant_selector, tree variant_list)
           selector_type = TREE_TYPE (decl);
         }
       CHK_EM (selector_type);
+
+      /* @@@@@ We should use only one piece of code to verify
+         case-constant-list, so the code below should be common
+         to initializers, variant records and case instruction. */
+
       for (t = variant_list; t; t = TREE_CHAIN (t))
         {
           tree f = TREE_VALUE (t), c;
@@ -1291,11 +1428,24 @@ pack_type (tree type)
           return type;
         }
 
+#if 1      
       if (uns != TYPE_UNSIGNED (type))
         {
           TREE_TYPE (type) = build_type_copy (TREE_TYPE (type));
           TYPE_UNSIGNED (TREE_TYPE (type)) = uns;
         }
+#else
+      {
+        tree el_type = build_type_copy (TREE_TYPE (type));
+        TYPE_UNSIGNED (el_type) = uns;
+        TYPE_PRECISION (el_type) = TREE_INT_CST_LOW (bits);
+        TYPE_SIZE (el_type) = NULL_TREE;
+#ifdef EGCS
+        TYPE_SIZE_UNIT (el_type) = NULL_TREE;
+#endif
+        layout_type (type);
+      }
+#endif
 
       TYPE_ALIGN (type) = TYPE_PRECISION (packed_array_unsigned_short_type_node);
       align = bitsize_int (TYPE_ALIGN (type));
@@ -1308,6 +1458,11 @@ pack_type (tree type)
 #ifdef EGCS
       TYPE_SIZE_UNIT (type) = convert (sizetype,
         size_binop (CEIL_DIV_EXPR, new_size, bitsize_int (BITS_PER_UNIT)));
+#endif
+#ifdef GCC_4_0
+      /* @@@@@@ Maybe */
+      /* TYPE_NO_FORCE_BLK (type) = 1; */
+      TYPE_MODE (type) = BLKmode;
 #endif
     }
   else if (ORDINAL_TYPE (TREE_CODE (type)))
@@ -1365,6 +1520,7 @@ is_packed_field (tree val)
          || TREE_CODE (val) == PASCAL_BIT_FIELD_REF
          || (TREE_CODE (val) == COMPONENT_REF && DECL_PACKED_FIELD (TREE_OPERAND (val, 1)))
          || (TREE_CODE (val) == ARRAY_REF && TYPE_PACKED (TREE_TYPE (TREE_OPERAND (val, 0))))
+         /* @@@@@ Wrong for packed sets */
          || (IS_EXPR_OR_REF_CODE_CLASS (TREE_CODE_CLASS (TREE_CODE (val))) && PASCAL_TREE_PACKED (val));
 }
 
@@ -1406,10 +1562,10 @@ tree
 count_bits (tree type, int *punsigned)
 {
   int positive, lo_bits, hi_bits, bits;
-  tree lo = TYPE_MIN_VALUE (type), hi = TYPE_MAX_VALUE (type), result;
+  tree lo, hi, result;
   if (!ORDINAL_TYPE (TREE_CODE (type))
-      || !lo || TREE_CODE (lo) != INTEGER_CST
-      || !hi || TREE_CODE (hi) != INTEGER_CST)
+      || !(lo = TYPE_MIN_VALUE (type)) || TREE_CODE (lo) != INTEGER_CST
+      || !(hi = TYPE_MAX_VALUE (type)) || TREE_CODE (hi) != INTEGER_CST)
     return NULL_TREE;
   positive = tree_int_cst_sgn (lo) >= 0 && tree_int_cst_sgn (hi) >= 0;
   lo_bits = count_unsigned_bits (lo);
@@ -1526,6 +1682,9 @@ select_integer_type (tree val1, tree val2, enum tree_code why)
           val1 = val2;
           val2 = tmp;
         }
+
+      if (why != NOP_EXPR && MAX (TYPE_PRECISION (TREE_TYPE (val1)), TYPE_PRECISION (TREE_TYPE (val2))) < TYPE_PRECISION (pascal_integer_type_node))
+        return pascal_integer_type_node;
       if (TREE_CODE (val1) == INTEGER_CST
           && TREE_CODE (TREE_TYPE (val2)) == INTEGER_TYPE
           && TYPE_MIN_VALUE (TREE_TYPE (val2))
@@ -1534,7 +1693,8 @@ select_integer_type (tree val1, tree val2, enum tree_code why)
           && TREE_CODE (TYPE_MAX_VALUE (TREE_TYPE (val2))) == INTEGER_CST
           && !const_lt (val1, TYPE_MIN_VALUE (TREE_TYPE (val2)))
           && !const_lt (TYPE_MAX_VALUE (TREE_TYPE (val2)), val1))
-        return TREE_TYPE (val2);
+        return (why != NOP_EXPR && TYPE_PRECISION (TREE_TYPE (val2)) < TYPE_PRECISION (pascal_integer_type_node))
+               ? pascal_integer_type_node : TYPE_MAIN_VARIANT (TREE_TYPE (val2));
       return common_type (TREE_TYPE (val1), TREE_TYPE (val2));
     }
 
@@ -1551,14 +1711,16 @@ select_integer_type (tree val1, tree val2, enum tree_code why)
       min_val = val2;
       max_val = val1;
     }
-  if (!(TREE_CODE_CLASS (TREE_CODE (val1)) == 'c' && PASCAL_CST_FRESH (val1)))
+  if (!(TREE_CODE_CLASS (TREE_CODE (val1)) == tcc_constant
+         && PASCAL_CST_FRESH (val1)))
     {
       if (const_lt (TYPE_MIN_VALUE (TREE_TYPE (val1)), min_val))
         min_val = TYPE_MIN_VALUE (TREE_TYPE (val1));
       if (const_lt (max_val, TYPE_MAX_VALUE (TREE_TYPE (val1))))
         max_val = TYPE_MAX_VALUE (TREE_TYPE (val1));
     }
-  if (!(TREE_CODE_CLASS (TREE_CODE (val2)) == 'c' && PASCAL_CST_FRESH (val2)))
+  if (!(TREE_CODE_CLASS (TREE_CODE (val2)) == tcc_constant
+         && PASCAL_CST_FRESH (val2)))
     {
       if (const_lt (TYPE_MIN_VALUE (TREE_TYPE (val2)), min_val))
         min_val = TYPE_MIN_VALUE (TREE_TYPE (val2));
@@ -1690,7 +1852,12 @@ save_nonconstants (tree expr)
 
   /* Constant expressions are ok. Discriminants are substituted elsewhere. */
   if (TREE_CONSTANT (expr)
+#if 0
       || ((code == VAR_DECL || code == FIELD_DECL || code == CONVERT_EXPR) && PASCAL_TREE_DISCRIMINANT (expr)))
+#else
+      || (code == COMPONENT_REF 
+          && TREE_CODE (TREE_OPERAND (expr, 0)) == PLACEHOLDER_EXPR))
+#endif
     return expr;
 
   if (code == COMPOUND_EXPR)
@@ -1745,6 +1912,8 @@ build_pascal_range_type (tree lowval, tree highval)
   tree type, range_type;
   int discr_lo = contains_discriminant (lowval, NULL_TREE);
   int discr_hi = contains_discriminant (highval, NULL_TREE);
+  CHK_EM (lowval);
+  CHK_EM (highval);
   if (!discr_lo)
     {
       STRIP_TYPE_NOPS (lowval);
@@ -1862,7 +2031,8 @@ find_field (tree type, tree component, int mode)
       else
         {
           for (field = TYPE_FIELDS (type); field; field = TREE_CHAIN (field))
-            if (DECL_NAME (field) == component)
+            if (DECL_NAME (field) == component
+                && !(PASCAL_FIELD_SHADOWED (field)))
               break;
             else if (!DECL_NAME (field) || DECL_NAME (field) == schema_id)
               {
@@ -1875,7 +2045,8 @@ find_field (tree type, tree component, int mode)
         {
           tree fl = TYPE_METHODS (type);
           for (kind = "method"; fl; fl = TREE_CHAIN (fl))
-            if (DECL_NAME (fl) == component)
+            if (DECL_NAME (fl) == component
+                && !(PASCAL_FIELD_SHADOWED (fl)))
               field = fl;
         }
     }
@@ -1963,11 +2134,22 @@ build_component_ref_no_schema_dereference (tree datum, tree component, int impli
         {
           tree ref1, ftype = TREE_TYPE (TREE_VALUE (field));
           CHK_EM (ftype);
+#ifndef GCC_4_0
           ref1 = build (COMPONENT_REF, ftype, ref, TREE_VALUE (field));
+#else
+          ref1 = build3 (COMPONENT_REF, ftype, ref, TREE_VALUE (field),
+                          NULL_TREE);
+#endif
           if (TREE_READONLY (ref) || TREE_READONLY (TREE_VALUE (field)))
             TREE_READONLY (ref1) = 1;
           if (TREE_THIS_VOLATILE (ref) || TREE_THIS_VOLATILE (TREE_VALUE (field)))
             TREE_THIS_VOLATILE (ref1) = 1;
+#if 0
+          if (DECL_BIT_FIELD (TREE_VALUE (field))
+              && TREE_INT_CST_LOW (DECL_SIZE (field)) 
+                 < TYPE_PRECISION (integer_type_node))
+             ref1 = convert (integer_type_node, ref1);
+#endif
           ref = fold (ref1);
         }
       return ref;
@@ -2008,7 +2190,11 @@ build_component_ref (tree datum, tree component)
 tree
 simple_component_ref (tree expr, tree field)
 {
+#ifndef GCC_4_0
   tree ref = build (COMPONENT_REF, TREE_TYPE (field), expr, field);
+#else
+  tree ref = build3 (COMPONENT_REF, TREE_TYPE (field), expr, field, NULL_TREE);
+#endif
   if (TREE_CODE (expr) == CONSTRUCTOR)
     ref = save_expr (ref);
   if (TREE_READONLY (expr) || TREE_READONLY (field))
@@ -2346,8 +2532,13 @@ build_pascal_array_ref (tree array, tree index_list)
 
           if (TREE_CODE (array) == STRING_CST && TREE_CODE (index) == INTEGER_CST)
             {
+#ifndef GCC_4_0
               array = build_int_2 (TREE_STRING_POINTER (array)[TREE_INT_CST_LOW (index) - 1], 0);
               TREE_TYPE (array) = char_type_node;
+#else
+              array = build_int_cst_wide (char_type_node,
+                TREE_STRING_POINTER (array)[TREE_INT_CST_LOW (index) - 1], 0);
+#endif
             }
           else if (!bits || TREE_INT_CST_LOW (bits) == TREE_INT_CST_LOW (TYPE_SIZE (TREE_TYPE (TREE_TYPE (array)))))
             /* Not packed. Just a normal array reference. */
@@ -2431,7 +2622,12 @@ build_pascal_array_ref (tree array, tree index_list)
                 }
               else
                 array = build (PASCAL_BIT_FIELD_REF, TREE_TYPE (array_type), array, bits, index);
+#if 1
+              PASCAL_BIT_FIELD_REF_UNSIGNED (array) =
+                TYPE_UNSIGNED (TREE_TYPE (array_type));
+#else
               BIT_FIELD_REF_UNSIGNED (array) = TYPE_UNSIGNED (TREE_TYPE (array_type));
+#endif
             }
         }
       if (EM (array))
@@ -2452,8 +2648,13 @@ fold_array_ref (tree t)
     {
       arg1 = range_check_2 (integer_one_node, build_int_2 (TREE_STRING_LENGTH (arg0) - 1, 0), arg1);
       CHK_EM (arg1);
+#ifndef GCC_4_0
       t = build_int_2 (TREE_STRING_POINTER (arg0)[TREE_INT_CST_LOW (arg1) - 1], 0);
       TREE_TYPE (t) = char_type_node;
+#else
+      t = build_int_cst_wide (char_type_node, 
+         TREE_STRING_POINTER (arg0)[TREE_INT_CST_LOW (arg1) - 1], 0);
+#endif
     }
   else if (TREE_CODE (arg1) == INTEGER_CST && TREE_CODE (arg0) == CONSTRUCTOR)
     {
@@ -2527,7 +2728,11 @@ build_array_ref (tree array, tree index)
         }
 
       type = TYPE_MAIN_VARIANT (TREE_TYPE (TREE_TYPE (array)));
+#ifndef GCC_4_0
       rval = build (ARRAY_REF, type, array, index);
+#else
+      rval = build4 (ARRAY_REF, type, array, index, NULL_TREE, NULL_TREE);
+#endif
       /* Array ref is const/volatile if the array elements are or if the array is. */
       TREE_READONLY (rval) |= (TYPE_READONLY (TREE_TYPE (TREE_TYPE (array))) | TREE_READONLY (array));
       TREE_SIDE_EFFECTS (rval) |= (TYPE_VOLATILE (TREE_TYPE (TREE_TYPE (array))) | TREE_SIDE_EFFECTS (array));
@@ -2575,6 +2780,10 @@ convert (tree type, tree e)
   if (type == TREE_TYPE (e) || EM (e) || EM (type))
     return e;
   CHK_EM (TREE_TYPE (e));
+/*
+  if (code = INTEGER_TYPE || code == ENUMERAL_TYPE)
+    e = copy_node (e);
+*/
   if (TYPE_MAIN_VARIANT (type) == TYPE_MAIN_VARIANT (TREE_TYPE (e)))
     return fold (build1 (NOP_EXPR, type, e));
   if (code == SET_TYPE && TREE_CODE (TREE_TYPE (e)) == SET_TYPE)
@@ -2594,8 +2803,10 @@ convert (tree type, tree e)
             expression here to avoid this bug in case there are other
             references to it (as in fact there are in `case', casebool.pas). */
       enum tree_code c = TREE_CODE (e);
-      tree e2 = (TREE_CODE_CLASS (c) == '<' || c == TRUTH_AND_EXPR || c == TRUTH_ANDIF_EXPR
-        || c == TRUTH_OR_EXPR || c == TRUTH_ORIF_EXPR || c == TRUTH_XOR_EXPR || c == TRUTH_NOT_EXPR) ? copy_node (e) : e;
+      tree e2 = (TREE_CODE_CLASS (c) == tcc_comparison || c == TRUTH_AND_EXPR
+                 || c == TRUTH_ANDIF_EXPR || c == TRUTH_OR_EXPR
+                 || c == TRUTH_ORIF_EXPR || c == TRUTH_XOR_EXPR
+                 || c == TRUTH_NOT_EXPR) ? copy_node (e) : e;
       tree result = fold (convert_to_integer (type, e2));
       return result;
     }

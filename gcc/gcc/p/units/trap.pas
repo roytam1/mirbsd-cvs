@@ -40,7 +40,7 @@
     after its termination will be trapped by the outer TrapExec
     again.
 
-  Copyright (C) 1996-2005 Free Software Foundation, Inc.
+  Copyright (C) 1996-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

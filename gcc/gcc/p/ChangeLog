@@ -1,12 +1,228 @@
 ChangeLog -- Edit History for GPC, the GNU Pascal Compiler, since version 2.1
 =============================================================================
+2006-03-09  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * predef.c: build_predef_call (): handle named exit from a method
+          parse.y: allow qualified name as an argument for `Exit'
+
+2006-03-05  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * parse.y: remove reduce-reduce conflict in `object_field_list'
+
+2006-03-04  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * types.c: is_of_string_type (): check more strictly
+
+2006-02-28  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * units/crtc.c: crt_Read (): add casts between `Char *' and
+          `char *'.
+
+2006-02-28  Frank Heckenbach  <frank@pascal.gnu.de>
+
+        * types.c: select_integer_type (): Use at least integer
+          precision for arithmetic
+
+2006-02-25  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * parse.y: increase YYMAXDEPTH
+       
+        * types.c: find_field (): remove `gcc_unreachable'
+
+2006-02-14  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * predef.c: build_read (): in ISO mode require second argument
+          to `ReadStr'. Copy first argument if needed.
+
+        * declarations.c: check_routine_decl (): check that types of both
+          args have the same code, before testing reference types (ice3.pas)
+
+        * declarations.c: routine_attributes (): disable noninline attribute
+          with 2.x backends
+
+        * lang.c: pascal_clear_binding_stack (): new routine which exits
+          on errors (ice4.pas)
+          define LANG_HOOKS_CLEAR_BINDING_STACK
+
+        * gpc-lex.c: CheckFeature (): allow choice of base for Sun Pascal
+
+        * types.c: build_set_constructor (): omit constant empty ranges from
+          set initializers (avoid failure in sets18.pas). Do not copy input
+          list (should be unique).
+
+        * parse.y: correct number of expected conflicts, allow initialization
+          with for Sun Pascal
+
+2006-02-14  Frank Heckenbach  <frank@pascal.gnu.de>
+
+        Turn string argument of runtime support for `ReadStr' into
+        conformal array
+        * predef.c: string_par (): new routine
+          build_read (): call it, add length parameter to `ReadStr_Init'
+          build_val (): likewise
+          build_write (): likewise
+          predef.def: new signature for `ReadStr_Init'
+          rts/files.pas: likewise, simplify `Write_String', new signature
+          for `StringTFDD_Reset'
+          
+        
+
+2006-02-13  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * module.c: finalize_module (), create_gpi_files (): do
+          not write `.gpi' files if any errors were found
+
+        * declarations.c: visible_list_length (): new function
+          sort_fields (): call it, skip fields with PASCAL_FIELD_SHADOWED on
+          types.c: find_field (): likewise
+          objects.c: finish_object_type (): ignore unfinished parents,
+          set PASCAL_FIELD_SHADOWED on vmt entries
+          finish_view_type (): do not set PASCAL_FIELD_SHADOWED on vmt
+          field
+          statements.c: init_record (): avoid `find_field' on fields with
+          PASCAL_FIELD_SHADOWED on
+
+        * expressions.c: parser_build_binary_op (): return error_mark_node
+          on incompatible arguments (avoid crash later)
+
+        * gpc.h, gpc-options.h, gpc.h, lang-options.h, opts.sum: new
+          option `-fiso-goto-restrictions'
+          declarations.c: set_label (): handle it
+
+        * types.c: construct_set (): return error_mark_node on errors,
+          clone list.
+
+2006-02-12  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        Fixes for argument handling (needed by `const var')        
+        * typecheck.c: convert_arguments (): reorganized
+          argument_error (), convert_arg1 (), convert_bounds (),
+          convert_conformal (), convert_one_arg (), convert_schema (),
+          copy_val_ref_parm (), get_schema_plain_type (), handle_typed_arg (),
+          handle_vararg (), scan_section (): new functions
+
+2006-02-08  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        Check identifier scopes stricter in record types and
+        parameter lists
+        * declarations.c: check_field_list (), check_param_redeclaration (),
+          check_id_redeclaration (), peek_name (): new local functions
+          push_scope (), pop_record_level (), pop_param_level (): new functions
+          parse.y: call thema
+
+        * declarations.c: make scope index long
+          lang.c: likewise
+
+        * parse.y: support `const var'
+          declarations.c: build_formal_param (): handle it
+
+2006-02-03  Frank Heckenbach  <frank@pascal.gnu.de>
+
+        * units/crtc.c: chtransform (): do not use A_ALTCHARSET on normal
+          characters
+
+2006-02-02  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * rts/Makefile.in: remove `needed-options'
+
+2006-02-30  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        Support OOE view
+        * declarations.c: make check_routine_decl () global
+          gpc.h: Likewise. 
+          objects.c: use it
+          finish_view_type (): new function
+          mark_fields_shadowed (): new function
+          parse.y: call finish_view_type ()
+
+        * lang-specs.h: clean-up
+
+        Make set constants compatible with packed sets
+        * gpc.h: PASCAL_TYPE_CANONICAL_SET () : new macro (flag)
+          declarations.c: set it for empty_set_type_node
+          predef.c: build_predef_call (): handle it
+          typecheck.c: common_type (): reject sets
+          comptypes (): use PASCAL_TYPE_CANONICAL_SET ()
+          types.c (): set it for set constants
+        
+        In ISO modes report out of range constants only at runtime
+        * expressions.c: do_range_error (): New function
+          range_check_2 (): Use it
+
+        * predef.def: define `noinline' attribute
+          declarations.c: handle it
+
+2006-01-29  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * rts/files.pas: StringOf_Result (): new routine
+          rts/string2.pas: InternalStringOf (): new routine
+          predef.def: add `StringOf', make `ReadString' alias
+          of `ReadStr'
+          predef.c: build_read (): handle `ReadString'
+          build_write (): handle `StringOf'
+          build_predef_call (): likewise
+          
+2006-01-28  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * gpc-lex.c: CheckFeature (): require digit after decimal
+          point in ISO modes (change a warning to an error)
+        * module.c: associate_external_objects (): in ISO-7185 mode
+          require that program parameters are files
+        * predef.c: build_read (): in ISO-7185 mode require
+          parameters to `read'
+          build_write (): Likewise
+        * statements.c: init_any (): set `co->pascal_dialect' to
+          ANY_PASCAL when building calls to p_DoneFDR and p_InitFDR
+
+2006-01-28  Frank Heckenbach  <frank@pascal.gnu.de>
+
+        * types.c: build_type_of (): check `type of' argument more
+          strictly
+
+2006-01-27  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * rts/sets.pas: SetEqual: check that SetA has no elements
+          beyond the higest word of SetB
+          SetLessEqual: Likewise
+        * parse.y: allow string literals in ISO-7185 mode
+        * types.c: build_set_constructor (): allow empty ranges
+          in set constructors (warn only)
+
+2006-01-04  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * module.c: store_executable_name (): give error if input
+          filename contains no suffix
+        * statements.c: check_reference_parameter (): Allow passing
+          variant selector by reference, give error only in ISO modes
+
+2006-01-04  Frank Heckenbach  <frank@pascal.gnu.de>
+
+        * declarations.c: support `CWordBool'
+          module.c: Likewise
+          gpc.h: Likewise
+          predef.def: Likewise
+        
+
+2006-01-04  Adriaan van Os  <gpc@microbizz.nl>
+
+        * gpc-options.h: default `-flongjmp-all-nonlocal-labels' to on
+          for all MACHO targets
+
+2005-11-18  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
+
+        * lang.c: do_def (): add `__OS_DOS__' hack
+          call_gpcpp (): avoid double close
+        * gpcpp.c: gpcpp_process_options (): disable `__OS_DOS__' hack
+          for gcc-3.[34]
+        * lang-specs.h: pass `-O' options to the preprocessor
+
 2005-11-15  Waldek Hebisch  <hebisch@math.uni.wroc.pl>
 
         * utils/gpidump.pas: Flags: add `pascal_cst_parentheses', adjust
           RealSize for 64-bit machines
         * lang.c: init_gpcpp (): predefine `__LP64__' for 64-bit targets
 
-2005-11-14  Frank Heckenbach <frank@g-n-u.de>
+2005-11-14  Frank Heckenbach  <frank@pascal.gnu.de>
 
         * typecheck.c: convert_arguments (): fix passing discriminated
           string schema
@@ -102,7 +318,7 @@ ChangeLog -- Edit History for GPC, the GNU Pascal Compiler, since version 2.1
           variables (flags)
         * objects.c: finish_object_type (): Handle them
 
-2005-10-24  Adriaan van Os <gpc@microbizz.nl>
+2005-10-24  Adriaan van Os  <gpc@microbizz.nl>
 
         * gpc-lex.c: yylex (): handle `+' and `-' as Mac Pascal does.
         * predef.c: build_predef_call (): allow file name parameters and

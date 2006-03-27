@@ -47,7 +47,7 @@
   have to `Mark' the heap which makes memory de-/allocations much
   faster if the program doesn't use `Mark' otherwise.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Authors: Peter Gerwinski <peter@gerwinski.de>
            Prof. Abimbola A. Olowofoyeku <African_Chief@bigfoot.com>

@@ -1,6 +1,6 @@
 /* Compiler driver program that can handle many languages.
    Copyright (C) 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 This file is derived from GCC's `gcc.c'.
 
@@ -207,7 +207,10 @@ extern void set_input (const char *);
 extern void pfatal_with_name (const char *) ATTRIBUTE_NORETURN;
 extern void fatal (const char *, ...) ATTRIBUTE_PRINTF_1 ATTRIBUTE_NORETURN;
 extern void error (const char *, ...);
+#ifndef GCC_4_0
 void fancy_abort (void);
+#endif
+
 #ifndef EGCS
 static char *concat (const char *, ...);
 extern char *xmalloc (size_t);
@@ -869,11 +872,22 @@ proper position among the other output files.  */
 /* config.h can define LIBGCC_SPEC to override how and when libgcc.a is
    included.  */
 #ifndef LIBGCC_SPEC
+#ifndef GCC_4_0
 #if defined(LINK_LIBGCC_SPECIAL) || defined(LINK_LIBGCC_SPECIAL_1)
 /* Have gcc do the search for libgcc.a.  */
 #define LIBGCC_SPEC "libgcc.a%s"
 #else
 #define LIBGCC_SPEC "-lgcc"
+#endif
+#else
+#if defined(REAL_LIBGCC_SPEC)
+#define LIBGCC_SPEC REAL_LIBGCC_SPEC
+#elif defined(LINK_LIBGCC_SPECIAL_1)
+/* Have gcc do the search for libgcc.a.  */
+#define LIBGCC_SPEC "libgcc.a%s"
+#else
+#define LIBGCC_SPEC "-lgcc"
+#endif
 #endif
 #endif
 
@@ -954,6 +968,7 @@ proper position among the other output files.  */
 #endif
 
 #ifndef LINK_LIBGCC_SPEC
+#ifndef GCC_4_0
 # ifdef LINK_LIBGCC_SPECIAL
 /* Don't generate -L options for startfile prefix list.  */
 #  define LINK_LIBGCC_SPEC ""
@@ -961,6 +976,9 @@ proper position among the other output files.  */
 /* Do generate them.  */
 #  define LINK_LIBGCC_SPEC "%D"
 # endif
+#else
+#  define LINK_LIBGCC_SPEC "%D"
+#endif
 #endif
 
 #ifndef STARTFILE_PREFIX_SPEC
@@ -1137,6 +1155,7 @@ struct spec_function
 
 /* This defines which multi-letter switches take arguments.  */
 
+#ifndef DEFAULT_WORD_SWITCH_TAKES_ARG
 #define DEFAULT_WORD_SWITCH_TAKES_ARG(STR)              \
  (!strcmp (STR, "Tdata") || !strcmp (STR, "Ttext")      \
   || !strcmp (STR, "Tbss") || !strcmp (STR, "include")  \
@@ -1146,6 +1165,7 @@ struct spec_function
   || !strcmp (STR, "isystem") || !strcmp (STR, "-param") \
   || !strcmp (STR, "specs") \
   || !strcmp (STR, "MF") || !strcmp (STR, "MT") || !strcmp (STR, "MQ"))
+#endif
 
 #ifndef WORD_SWITCH_TAKES_ARG
 #define WORD_SWITCH_TAKES_ARG(STR) DEFAULT_WORD_SWITCH_TAKES_ARG (STR)
@@ -4034,7 +4054,7 @@ process_command (int argc, const char **argv)
         {
           /* translate_options () has turned --version into -fversion.  */
           printf (_("%s %s, based on gcc-%s\n"), programname, GPC_RELEASE_STRING, version_string);
-	  printf ("Copyright %s 2005 Free Software Foundation, Inc.\n",
+	  printf ("Copyright %s 2006 Free Software Foundation, Inc.\n",
 		  _("(C)"));
           fputs (_("This is free software; see the source for copying conditions.  There is NO\n\
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"),
@@ -5191,8 +5211,10 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
                           if (is_directory (buffer, multilib_dir, 1))
                             {
                               do_spec_1 ("-L", 0, NULL);
+#ifndef GCC_4_0
 #ifdef SPACE_AFTER_L_OPTION
                               do_spec_1 (" ", 0, NULL);
+#endif
 #endif
                               do_spec_1 (buffer, 1, NULL);
                               do_spec_1 (multilib_dir, 1, NULL);
@@ -5205,8 +5227,10 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
                           if (is_directory (pl->prefix, multi_dir, 1))
                             {
                               do_spec_1 ("-L", 0, NULL);
+#ifndef GCC_4_0
 #ifdef SPACE_AFTER_L_OPTION
                               do_spec_1 (" ", 0, NULL);
+#endif
 #endif
                               do_spec_1 (pl->prefix, 1, NULL);
                               do_spec_1 (multi_dir, 1, NULL);
@@ -5220,8 +5244,10 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
                       if (is_directory (pl->prefix, machine_suffix, 1))
                         {
                           do_spec_1 ("-L", 0, NULL);
+#ifndef GCC_4_0
 #ifdef SPACE_AFTER_L_OPTION
                           do_spec_1 (" ", 0, NULL);
+#endif
 #endif
                           do_spec_1 (pl->prefix, 1, NULL);
                           /* Remove slash from machine_suffix.  */
@@ -5242,8 +5268,10 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
                       if (is_directory (pl->prefix, "", 1))
                         {
                           do_spec_1 ("-L", 0, NULL);
+#ifndef GCC_4_0
 #ifdef SPACE_AFTER_L_OPTION
                           do_spec_1 (" ", 0, NULL);
+#endif
 #endif
                           /* Remove slash from pl->prefix.  */
                           if (strlen (pl->prefix) >= bufsize)
@@ -7560,10 +7588,15 @@ pfatal_pexecute (const char *errmsg_fmt, const char *errmsg_arg)
   pfatal_with_name (errmsg_fmt);
 }
 
-/* Output an error message and exit.  */
 
+/* Output an error message and exit.  */
+#ifdef GCC_4_0
+void 
+fancy_abort (const char * file_name, int line_number, const char * fun_name)
+#else
 void
 fancy_abort (void)
+#endif
 {
   fatal ("internal gpc abort");
 }
@@ -8679,7 +8712,7 @@ print_message_and_exit (void)
 {
   printf("\
 GNU Pascal version %s, based on gcc-%s.\n\
-Copyright (C) 1987-2005 Free Software Foundation, Inc.\n\
+Copyright (C) 1987-2006 Free Software Foundation, Inc.\n\
 \n\
 GNU Pascal is free software; you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License as published by\n\
