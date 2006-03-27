@@ -744,8 +744,12 @@ check_specialization_namespace (tree tmpl)
 void 
 maybe_process_partial_specialization (tree type)
 {
-  /* TYPE maybe an ERROR_MARK_NODE.  */
-  tree context = TYPE_P (type) ? TYPE_CONTEXT (type) : NULL_TREE;
+  tree context;
+
+  if (type == error_mark_node)
+    return;
+
+  context = TYPE_CONTEXT (type);
 
   if (CLASS_TYPE_P (type) && CLASSTYPE_USE_TEMPLATE (type))
     {
@@ -7802,6 +7806,10 @@ tsubst_copy (tree t, tree args, tsubst_flags_t complain, tree in_decl)
       return build_x_va_arg (tsubst_copy (TREE_OPERAND (t, 0), args, complain,
 					  in_decl),
 			     tsubst (TREE_TYPE (t), args, complain, in_decl));
+
+    case OFFSET_REF:
+      mark_used (TREE_OPERAND (t, 1));
+      return t;
 
     default:
       return t;
