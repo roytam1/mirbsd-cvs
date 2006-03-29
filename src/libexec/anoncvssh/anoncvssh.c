@@ -1,4 +1,4 @@
-/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.5 2005/12/16 23:37:43 tg Exp $ */
+/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.6 2006/01/11 00:40:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
@@ -64,7 +64,7 @@
  * can be found
  */
 #ifndef _PATH_DEFPATH
-#define _PATH_DEFPATH	"/bin:/usr/bin"
+#define _PATH_DEFPATH	"/bin"
 #endif
 
 /*
@@ -110,7 +110,6 @@
 #define RSYNC		"/bin/rsync"
 #endif
 #define FULL_RSYNC	RSYNC " --server "
-#define FULL_RSYNC2	"/usr" RSYNC " --server "
 
 /*
  * Niceness increase
@@ -126,7 +125,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.5 2005/12/16 23:37:43 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.6 2006/01/11 00:40:01 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -287,15 +286,11 @@ main(int argc, char *argv[])
 			fprintf(stderr, "unable to exec CVS server!\n");
 			exit(1);
 			/* NOTREACHED */
-		} else if ((!strncmp(FULL_RSYNC, argv[2], strlen(FULL_RSYNC)))
-		    || (!strncmp(FULL_RSYNC2, argv[2], strlen(FULL_RSYNC2)))) {
+		} else if (!strncmp(FULL_RSYNC, argv[2], strlen(FULL_RSYNC))) {
 #ifdef ACCESS_RSYNC
 			int i = 0;
 			char *newarg[256];
-			char *p = argv[2] + 1;
-			if (!strncmp(p, "usr/", 4))
-				p += 4;
-			p += strlen(RSYNC) - 1 /* space */ + 1;
+			char *p = argv[2] + strlen(RSYNC) /* space */ + 1;
 
 			newarg[0] = RSYNC;
 		lp:
