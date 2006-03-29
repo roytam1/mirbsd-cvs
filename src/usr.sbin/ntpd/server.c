@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: server.c,v 1.26 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -27,6 +28,8 @@
 
 #include "ntpd.h"
 #include "ntp.h"
+
+__RCSID("$MirOS$");
 
 int
 setup_listeners(struct servent *se, struct ntpd_conf *conf, u_int *cnt)
@@ -156,5 +159,15 @@ server_dispatch(int fd, struct ntpd_conf *conf)
 		reply.refid = conf->status.refid;
 
 	ntp_sendmsg(fd, (struct sockaddr *)&fsa, &reply, size, 0);
+	/*
+	 * fabs() requires libm, so we do it like this
+	 * and hope gcc optimises it for us
+	 */
+	if (((lfp_to_d(query.xmttime) - rectime) > 3.0) ||
+	    ((lfp_to_d(query.xmttime) - rectime) < -3.0)) {
+		arc4random_push(query.xmttime.int_partl);
+		arc4random_push(query.xmttime.fractionl);
+	}
+	/* note this does not reduce accuracy of the replies here */
 	return (0);
 }
