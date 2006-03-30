@@ -1,4 +1,4 @@
-# $MirOS: www/.htaccess,v 1.3 2005/08/03 00:07:04 tg Exp $
+# $MirOS: www/.htaccess,v 1.4 2006/03/30 13:04:29 tg Exp $
 
 # custom 404 document
 ErrorDocument 404 /404.php
@@ -9,12 +9,8 @@ ErrorDocument 404 /404.php
   ForceType text/plain
 </Files>
 
-#<Files gzsigkey.cer>
-#  ForceType ???
-#</Files>
-
-<Files robots.txt>
-  ForceType text/plain
+<Files gzsigkey.cer>
+  ForceType application/x-x509-ca-cert
 </Files>
 
 
