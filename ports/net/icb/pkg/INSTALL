@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 # $OpenBSD: INSTALL,v 1.3 2002/04/26 03:35:34 pvalchev Exp $
 #
 # Pre/post-installation setup of icb
@@ -25,7 +26,7 @@ do_notice()
 
 do_install()
 {
-    install -o root -g wheel -m 644 $SAMPLE_CONFIG_FILE $CONFIG_FILE
+    install -m 644 $SAMPLE_CONFIG_FILE $CONFIG_FILE
     echo
     echo "+---------------"
     echo "| The $1 configuration file, $CONFIG_FILE,"
