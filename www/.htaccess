@@ -1,4 +1,4 @@
-# $MirOS: www/.htaccess,v 1.4 2006/03/30 13:04:29 tg Exp $
+# $MirOS: www/.htaccess,v 1.5 2006/03/30 13:07:19 tg Exp $
 
 # custom 404 document
 ErrorDocument 404 /404.php
@@ -6,6 +6,14 @@ ErrorDocument 404 /404.php
 
 # forced text files
 <Files LICENCE>
+  ForceType text/plain
+</Files>
+
+<Files ISC-Licence>
+  ForceType text/plain
+</Files>
+
+<Files MirOS-Licence>
   ForceType text/plain
 </Files>
 
