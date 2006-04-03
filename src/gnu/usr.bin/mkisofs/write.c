@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/mkisofs/write.c,v 1.1.7.1 2005/03/06 16:46:54 tg Exp $ */
 /* @(#)write.c	1.79 03/07/13 joerg */
 #if 0
 static	char sccsid[] =
@@ -51,7 +51,7 @@ static	char sccsid[] =
 #include "vms.h"
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/mkisofs/write.c,v 1.1.7.1 2005/03/06 16:46:54 tg Exp $");
 
 /* Max number of sectors we will write at  one time */
 #define	NSECT 16
@@ -503,19 +503,22 @@ static	char		buffer[SECTOR_SIZE * NSECT];
 							use / SECTOR_SIZE) {
 			time_t	now;
 			time_t	the_end;
+			char	*timestr;
 			double	frac;
 
 			time(&now);
 			frac = last_extent_written / (1.0 * last_extent);
 			the_end = begun + (now - begun) / frac;
+			timestr = ctime(&the_end);
+			timestr[strlen(timestr) - 1] = '\0';
 #ifndef NO_FLOATINGPOINT
-			fprintf(stderr, "%6.2f%% done, estimate finish %s",
-				frac * 100., ctime(&the_end));
+			fprintf(stderr, "\r%6.2f%% done, estimate finish %s",
+				frac * 100., timestr);
 #else
-			fprintf(stderr, "%3d.%-02d%% done, estimate finish %s",
+			fprintf(stderr, "\r%3d.%-02d%% done, estimate finish %s",
 				(int)(frac * 100.),
 				(int)((frac+.00005) * 10000.)%100,
-				ctime(&the_end));
+				timestr);
 #endif
 			fflush(stderr);
 		}
@@ -1838,7 +1841,7 @@ file_write(outfile)
 		fprintf(stderr, "Predicted = %d, written = %d\n",
 						should_write, last_extent);
 	}
-	fprintf(stderr, "Total translation table size: %d\n", table_size);
+	fprintf(stderr, "\nTotal translation table size: %d\n", table_size);
 	fprintf(stderr, "Total rockridge attributes bytes: %d\n",
 						rockridge_size);
 	fprintf(stderr, "Total directory bytes: %d\n", total_dir_size);
