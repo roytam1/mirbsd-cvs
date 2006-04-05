@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.1 2006/04/05 22:38:12 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -67,7 +67,8 @@ function ask_netconfig
 	print "Available network interfaces: ${all_ifnames[*]}"
 	if=
 	while [[ -z $if ]]; do
-		print -n "Interface to run a DHCP client on [$default_ifname]? "
+		print -n "Interface to run a DHCP client on" \
+		    "(or none) [$default_ifname]? "
 		read ifname
 		[[ $ifname = none ]] && break
 		[[ -z $ifname ]] && ifname=$default_ifname
@@ -78,9 +79,21 @@ function ask_netconfig
 			let ++i
 		done
 	done
-	[[ -z $if ]] && return
-	print dhcp >/etc/hostname.$if
-	print rdate_flags=\"-ncv 81.169.176.177\" >>/etc/rc.conf.local
+	do_netconf ${if:-none}
+}
+
+function do_netconf
+{
+	if [[ $1 = none ]]; then
+		:
+		#XXX this is actually a bad idea, maybe the network
+		#XXX is manually configured later; for now, just do
+		#XXX not add the run of rdate (ntpd is run with -S)
+		#print ntpd_flags=NO >>/etc/rc.conf.local
+	else
+		print dhcp >/etc/hostname.$1
+		print rdate_flags=\"-ncv 81.169.176.177\" >>/etc/rc.conf.local
+	fi
 }
 
 print Select the MirOS Live CD \'modus operandi\'
@@ -98,7 +111,7 @@ done
 
 case $i {
 (1)	# no network to configure
-#	print ntpd_flags=NO >>/etc/rc.conf.local (XXX no good idea, maybe later manually confd)
+	do_netconf none
 	get_passwd
 	set_hostname
 	;;
