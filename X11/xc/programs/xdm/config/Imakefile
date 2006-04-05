@@ -1,4 +1,4 @@
-XCOMM $MirOS: X11/xc/programs/xdm/config/Imakefile,v 1.2 2005/03/20 21:24:34 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xdm/config/Imakefile,v 1.3 2005/07/01 14:26:33 tg Exp $
 XCOMM $Xorg: Imakefile,v 1.4 2000/08/17 19:54:17 cpqbld Exp $
 
 
@@ -10,8 +10,12 @@ SERVERSTYPE = XdmServersType
 
 all:: Xservers.ws xdm-config Xservers Xresources
 
+#if (defined(i386Architecture) || defined(AMD64Architecture)) && defined(MirBSDArchitecture)
+DEFAULTVT=vt07
+#else
 #if (defined(i386Architecture) || defined(AMD64Architecture)) && (defined(KNetBSDArchitecture) || defined(KOpenBSDArchitecture))
 DEFAULTVT=vt05
+#endif
 #endif
 
 #if defined(LinuxDistribution) && (LinuxDistribution == LinuxDebian)
