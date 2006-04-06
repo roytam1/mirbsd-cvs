@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ukc.h,v 1.11 2003/06/25 21:10:12 deraadt Exp $ */
 
 /*
@@ -50,7 +51,8 @@
 #define I_NKMEMPG	20
 #define I_SHMSEG	21
 #define I_SHMMAXPGS	22
-#define NLENTRIES	23
+#define I_ROOTDEV	23
+#define NLENTRIES	24
 
 #ifdef UKC_MAIN
 struct nlist nl[] = {
@@ -77,6 +79,7 @@ struct nlist nl[] = {
 	{ "_nkmempages" },
 	{ "_shmseg" },
 	{ "_shmmaxpgs" },
+	{ "_rootdev" },
 	{ NULL },
 };
 struct nlist knl[] = {
@@ -103,6 +106,7 @@ struct nlist knl[] = {
 	{ "_nkmempages" },
 	{ "_shmseg" },
 	{ "_shmmaxpgs" },
+	{ "_rootdev" },
 	{ NULL },
 };
 int	maxdev = 0;
@@ -163,5 +167,3 @@ void	process_history(int, char *);
 #define UC_SHOW 's'
 
 #endif /* _UTIL_H */
-
-
