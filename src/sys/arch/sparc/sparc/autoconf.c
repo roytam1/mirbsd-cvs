@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.2 2005/03/06 21:27:18 tg Exp $	*/
+/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.3 2006/04/06 10:50:38 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.59 2003/06/23 09:23:31 miod Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.73 1997/07/29 09:41:53 fair Exp $ */
 
@@ -1960,6 +1960,9 @@ setroot()
 #endif
 	extern int rootdev_override;
 
+	if (rootdev_override)
+		mountroot = dk_mountroot;
+
 	bp = nbootpath == 0 ? NULL : &bootpath[nbootpath-1];
 #ifdef RAMDISK_HOOKS
 	bootdv = &fakerdrootdev;
@@ -2066,7 +2069,7 @@ gotswap:
 		swdevt[0].sw_dev = nswapdev;
 		/* swdevt[1].sw_dev = NODEV; */
 
-	} else if (!rootdev_override && mountroot == NULL) {
+	} else if (mountroot == NULL) {
 
 		/*
 		 * 'swap generic': Use the device the ROM told us to use.
