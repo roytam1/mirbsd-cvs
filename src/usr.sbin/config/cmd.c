@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/config/cmd.c,v 1.2 2006/04/06 00:53:48 tg Exp $ */
 /*	$OpenBSD: cmd.c,v 1.13 2004/06/08 20:59:28 mcbride Exp $ */
 
 /*
@@ -39,7 +39,7 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.2 2006/04/06 00:53:48 tg Exp $");
 
 extern int ukc_mod_kernel;
 static void int_variable_adjust(const cmd_t *, int, const char *);
@@ -63,7 +63,7 @@ cmd_table_t cmd_table[] = {
 	{"nkmempg", Xnkmempg,	"[number]",	"Show/change NKMEMPAGES"},
 	{"shmseg", Xshmseg,	"[number]",	"Show/change SHMSEG"},
 	{"shmmaxpgs", Xshmmaxpgs,"[number]",	"Show/change SHMMAXPGS"},
-	{"rootdev",Xrootdev,	"major minor",	"Show/change root device"},
+	{"rootdev",Xrootdev,	"[maj min]",	"Show/change root device"},
 	{NULL,     NULL,	NULL,		NULL}
 };
 
