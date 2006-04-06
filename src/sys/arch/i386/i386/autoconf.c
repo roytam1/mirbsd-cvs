@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.3 2006/04/06 10:50:38 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.4 2006/04/06 20:44:05 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -377,7 +377,8 @@ rootconf()
 #endif
 
 #ifdef	RAMDISK_HOOKS
-	{
+	if (!rootdev_override) {
+		/* this block ends at noask: */
 		char name[128] = "rd0a";
 		extern size_t rd_root_image_siz;
 		extern char rd_root_image_cmp[], rd_root_image[];
@@ -393,7 +394,7 @@ rootconf()
 	if (boothowto & RB_ASKNAME) {
 		char name[128];
 #endif
-retry:
+ retry:
 		printf("root device? ");
 		cnpollc(TRUE);
 		getsn(name, sizeof name);
@@ -401,7 +402,7 @@ retry:
 		if (*name == '\0')
 			goto noask;
 #ifdef	RAMDISK_HOOKS
-ramtry:
+ ramtry:
 #endif
 		for (gc = genericconf; gc->gc_driver; gc++)
 			if (gc->gc_driver->cd_ndevs &&
@@ -452,7 +453,7 @@ ramtry:
 		printf("\n");
 		goto retry;
 	}
-noask:
+ noask:
 	if (mountroot == NULL) {
 		/* 'swap generic' */
 		setroot();
@@ -471,7 +472,7 @@ noask:
 		return;
 	}
 
-doswap:
+ doswap:
 #ifndef DISKLESS
 	mountroot = dk_mountroot;
 #endif
