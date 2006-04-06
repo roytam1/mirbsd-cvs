@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.2 2005/03/06 21:26:57 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -360,6 +360,7 @@ rootconf()
 	register struct genericconf *gc;
 	int unit, part = 0;
 	char *num;
+	extern int rootdev_override;
 
 #ifdef INSTALL
 	if (B_TYPE(bootdev) == 2) {
@@ -449,7 +450,7 @@ ramtry:
 		goto retry;
 	}
 noask:
-	if (mountroot == NULL) {
+	if (!rootdev_override && mountroot == NULL) {
 		/* 'swap generic' */
 		setroot();
 	} else {

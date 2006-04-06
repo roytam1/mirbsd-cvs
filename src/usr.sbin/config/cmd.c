@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/cmd.c,v 1.2 2006/04/06 00:53:48 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/cmd.c,v 1.3 2006/04/06 10:49:09 tg Exp $ */
 /*	$OpenBSD: cmd.c,v 1.13 2004/06/08 20:59:28 mcbride Exp $ */
 
 /*
@@ -39,7 +39,7 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.2 2006/04/06 00:53:48 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.3 2006/04/06 10:49:09 tg Exp $");
 
 extern int ukc_mod_kernel;
 static void int_variable_adjust(const cmd_t *, int, const char *);
@@ -338,10 +338,13 @@ Xrootdev(cmd_t *cmd)
 {
 	int maj, min;
 	dev_t *dt;
+	int *override = NULL;
 
 	ukc_mod_kernel = 1;
 
 	dt = (dev_t *)adjust((caddr_t)(nl[I_ROOTDEV].n_value));
+	if (nl[I_ROOTDEV_OV].n_type != 0)
+		override = (int *)adjust((caddr_t)(nl[I_ROOTDEV_OV].n_value));
 
 	if (strlen(cmd->args) == 0) {
 		if (*dt == NODEV)
@@ -362,6 +365,8 @@ Xrootdev(cmd_t *cmd)
 				else
 					printf("rootdev = %d, %d\n",
 					    major(*dt), minor(*dt));
+				if (override)
+					*override = (*dt == NODEV) ? 0 : 1;
 			} else
 				printf("Unknown argument\n");
 		} else if (!strcmp(cmd->args, "NODEV")) {

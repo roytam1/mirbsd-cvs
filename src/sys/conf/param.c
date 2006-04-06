@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: param.c,v 1.23 2004/01/01 20:17:34 millert Exp $	*/
 /*	$NetBSD: param.c,v 1.16 1996/03/12 03:08:40 mrg Exp $	*/
 
@@ -165,3 +166,5 @@ struct	buf *buf, *swbuf;
 char	*buffers;
 
 struct	utsname utsname;
+
+int	rootdev_override = 0;
