@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year...
@@ -21,7 +21,7 @@
  * the possibility of such damage or existence of a nontrivial bug.
  *-
 
-(The licence template ends here, only read below for further information
+(The licence template ends here, only read below for further information,
  and how to integrate an advertising clause, if you have to and want to.)
 
  * INSTRUCTIONS:
@@ -66,8 +66,8 @@
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
- * and act appropriately as soon as you become aware of this problem,
- * and seek a an amicable solution for all parties.
+ * act appropriately as soon as you become aware of this problem, and
+ * seek a an amicable solution for all parties.
  *
  * REFERENCES:
  * [1] http://www.opensource.org/docs/definition_plain.php
