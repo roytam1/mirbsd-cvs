@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.4 2005/04/12 20:57:29 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.5 2005/11/16 17:08:46 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include <crc.h>
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.4 2005/04/12 20:57:29 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.5 2005/11/16 17:08:46 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -259,7 +259,7 @@ main(int argc, char **argv)
 	argv += optind;
 
 	/* Most arguments are mutually exclusive */
-	fl = pflag + tflag + xflag + cflag + (input_string != NULL);
+	fl = pflag + tflag + xflag + cflag + (input_string != NULL) + bflag;
 	if (fl > 1 || (fl && argc && cflag == 0))
 		usage();
 	if (cflag != 0 && hashes[1] != NULL)
@@ -641,7 +641,7 @@ digest_test(struct hash_functions **hashes)
 void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-p | -t | -x | -c [checklist ...] | "
+	fprintf(stderr, "usage: %s [-b | -p | -t | -x | -c [checklist ...] | "
 	    "-s string | file ...]\n", __progname);
 	if (strcmp(__progname, "cksum") == 0)
 		fprintf(stderr, "             [-a algorithms]] [-o 1 | 2]\n");
