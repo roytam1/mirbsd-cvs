@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.1 2006/04/10 17:27:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -135,9 +135,9 @@ Lhook1:	OUTCH(205,15)
 	LOCATE(2,0)
 	OUTCH(200,15)
 	pop	cx
-Lhook1:	OUTCH(205,15)
+Lhook2:	OUTCH(205,15)
 	dec	cx
-	jne	Lhook1
+	jne	Lhook2
 	OUTCH(188,15)
 
 	.data
