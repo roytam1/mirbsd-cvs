@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.2 2006/04/10 17:33:03 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.3 2006/04/10 18:50:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -37,14 +37,14 @@ lbl_menus:
 	.word	lbl_menu1
 	.word	lbl_menu2
 lbl_menu0:
-	.asciz	"Continue to normal /boot"
+	.asciz	"Continue to normal /boot\n"
 lbl_menu1:
-	.asciz	"Boot into the Live-CD"
+	.asciz	"Boot into the Live-CD\n"
 lbl_menu2:
-	.asciz	"Boot the MirOS installer"
+	.asciz	"Boot the MirOS installer\n"
 lbl_ask:
-	.ascii	"Use the cursor up/down keys to navigate\r\n"
-	.ascii	"and press return to activate the selected item\r\n"
+	.ascii	"\nUse the cursor up/down keys to navigate\n"
+	.ascii	"and press return to activate the selected item\n"
 	.asciz	"or enter the number of the entry to boot: "
 
 	.text
@@ -74,9 +74,9 @@ Llens:	mov	di,si
 	int	0x10
 
 #define OUTCH(ch,col) \
-	mov	ax,0x0E00 | ((ch) & 0xFF); \
+	mov	al,(ch); \
 	mov	bx,((col) & 0xFF); \
-	int	0x10
+	call	outchc
 
 #define OUTS(s,col) \
 	mov	si,offset s; \
@@ -86,8 +86,7 @@ Llens:	mov	di,si
 Louts:	lodsb
 	or	al,al
 	je	Louts1
-	mov	ah,0x0E
-	int	0x10
+	call	outchc
 	jmp	Louts
 #if 1
 Louts1:	ret
@@ -205,6 +204,7 @@ Lmlp5:	sub	al,13		/* return */
 	jae	Lmlp1
 	mov	[Lmenu],al
 Ldone:	/* choice in [Lmenu] */
+	LOCATE(18,0)
 	xor	eax,eax
 	mov	al,[Lmenu]
 	ret
@@ -221,34 +221,68 @@ Ldspm0:	xor	ax,ax
 	mov	bx,7
 	cmp	ax,di
 	jne	Ldspm1
-	mov	bl,15
+	mov	bl,0x70
 Ldspm1:	lodsw
 	push	si
 	push	di
 	push	bp
 	mov	si,ax
-	mov	ax,0x0E30
+	mov	al,0x30
 	add	ax,di
-	int	0x10
-	mov	ax,0x0E29	/* ')' */
-	int	0x10
-	mov	ax,0x0E20
-	int	0x10
+	call	outchc
+	mov	al,')'
+	call	outchc
+	mov	al,' '
+	call	outchc
 	call	Louts
-	mov	ax,0x0E0D
-	mov	bx,7
-	int	0x10
-	mov	ax,0x0E0A
-	int	0x10
 	pop	bp
 	pop	di
 	pop	si
 	inc	di
 	dec	bp
 	jne	Ldspm0
-	mov	ax,0x0E0D
-	int	0x10
-	mov	ax,0x0E0A
-	int	0x10
-	OUTS(lbl_ask,7)
+	OUTS(lbl_ask,9)
 	ret
+
+outchc:
+	cmp	al,0x0a
+	je	outnl
+	pusha
+	mov	ah,bl
+	push	ax
+	mov	ah,3
+	int	0x10
+	mov	cl,160
+	mov	al,dh
+	mul	cl
+	mov	dh,0
+	shl	dx,1
+	add	dx,ax
+	pop	ax
+	push	es
+	mov	bx,0xb000
+	mov	es,bx
+	mov	di,dx
+	stosw
+	mov	bh,0xb8
+	mov	es,bx
+	mov	di,dx
+	stosw
+	pop	es
+	mov	ah,3
+	mov	bh,0
+	int	0x10
+	inc	dx
+setcpos:
+	mov	ah,2
+	int	0x10
+	popa
+	ret
+outnl:
+	pusha
+	mov	ah,3
+	mov	bh,0
+	int	0x10
+	inc	dh
+	mov	dl,0
+	jmp	setcpos
