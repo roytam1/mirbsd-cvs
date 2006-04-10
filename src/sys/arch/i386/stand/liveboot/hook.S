@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.3 2006/04/10 18:50:57 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.4 2006/04/10 20:26:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -46,6 +46,9 @@ lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
 	.ascii	"and press return to activate the selected item\n"
 	.asciz	"or enter the number of the entry to boot: "
+
+Ltick:	.long	0	/* end tick for timeout */
+Lmenu:	.word	0	/* which menu point has been chosen */
 
 	.text
 	.globl	Lhook
@@ -104,7 +107,7 @@ Lsput:	mov	ah,1
 	ret
 
 Lsget:
-	;...
+	XXX ...
 #endif
 
 Lhook:
@@ -138,11 +141,6 @@ Lhook2:	OUTCH(205,15)
 	dec	cx
 	jne	Lhook2
 	OUTCH(188,15)
-
-	.data
-Ltick:	.long	0
-Lmenu:	.byte	0
-
 #define GETTICK(a) \
 	xor	ax,ax; \
 	int	0x1A; \
@@ -216,8 +214,7 @@ Ldspm:	/* lines 0, 1, 2 = banner, 3 = empty, start at 4 */
 	lodsb
 	mov	bp,ax	/* count left */
 	xor	di,di	/* which item */
-Ldspm0:	xor	ax,ax
-	mov	al,[Lmenu]
+Ldspm0:	mov	ax,[Lmenu]
 	mov	bx,7
 	cmp	ax,di
 	jne	Ldspm1
@@ -244,12 +241,18 @@ Ldspm1:	lodsw
 	OUTS(lbl_ask,9)
 	ret
 
+/*
+ * We cannot use INT 10h AH=09 or AH=0Eh functions for
+ * outputting coloured text, use direct memory writes,
+ * cover both HGC and CGA/EGA/VGA memory
+ */
 outchc:
+	pusha
+	/* special case: newline (never coloured, equals 0x0D 0x0A) */
 	cmp	al,0x0a
 	je	outnl
-	pusha
 	mov	ah,bl
-	push	ax
+	push	ax	/* in correct form for video memory */
 	mov	ah,3
 	int	0x10
 	mov	cl,160
@@ -257,7 +260,7 @@ outchc:
 	mul	cl
 	mov	dh,0
 	shl	dx,1
-	add	dx,ax
+	add	dx,ax	/* dx := offset in video memory */
 	pop	ax
 	push	es
 	mov	bx,0xb000
@@ -272,14 +275,13 @@ outchc:
 	mov	ah,3
 	mov	bh,0
 	int	0x10
-	inc	dx
+	inc	dx	/* go forward by one char */
 setcpos:
 	mov	ah,2
 	int	0x10
 	popa
 	ret
 outnl:
-	pusha
 	mov	ah,3
 	mov	bh,0
 	int	0x10
