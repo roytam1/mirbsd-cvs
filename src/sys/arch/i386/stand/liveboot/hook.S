@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.1 2006/04/10 17:27:26 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.2 2006/04/10 17:33:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -43,8 +43,8 @@ lbl_menu1:
 lbl_menu2:
 	.asciz	"Boot the MirOS installer"
 lbl_ask:
-	.ascii	"Use the cursor up/down keys to navigate and press return"
-	.ascii	" to activate the selected item\r\n"
+	.ascii	"Use the cursor up/down keys to navigate\r\n"
+	.ascii	"and press return to activate the selected item\r\n"
 	.asciz	"or enter the number of the entry to boot: "
 
 	.text
