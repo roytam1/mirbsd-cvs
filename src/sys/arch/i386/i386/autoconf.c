@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.4 2006/04/06 20:44:05 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.5 2006/04/06 22:20:24 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -377,14 +377,14 @@ rootconf()
 #endif
 
 #ifdef	RAMDISK_HOOKS
+	if (boothowto & RB_ASKNAME)
+		goto retry;
 	if (!rootdev_override) {
 		/* this block ends at noask: */
 		char name[128] = "rd0a";
 		extern size_t rd_root_image_siz;
 		extern char rd_root_image_cmp[], rd_root_image[];
 
-		if (boothowto & RB_ASKNAME)
-			goto retry;
 		if (!strncmp(rd_root_image, rd_root_image_cmp,
 		    rd_root_image_siz))
 			goto noask;
