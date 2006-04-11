@@ -1,4 +1,4 @@
-# $MirOS: X11/xc/programs/twm/system.twmrc,v 1.3 2006/04/11 20:04:48 tg Exp $
+# $MirOS: X11/xc/programs/twm/system.twmrc,v 1.4 2006/04/11 20:06:59 tg Exp $
 # $Xorg: system.twmrc,v 1.3 2000/08/17 19:54:08 cpqbld Exp $
 #
 # Default twm configuration file; needs to be kept small to conserve string
@@ -101,7 +101,8 @@ menu "Utilities"
 #"Mail"		!"xmh -font fixed &"
 #""		f.nop
 "XLock"		!"xlock -mode random &"
-"Reset X defaults" !"xrdb -load $HOME/.Xdefaults"
+"Reset X defaults" !"xrdb -load $HOME/.Xresources"
+"Reset X keymap" !"xmodmap $HOME/.Xmodmap"
 }
 
 menu "Window Ops"
