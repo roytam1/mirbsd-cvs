@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: X11/xc/programs/twm/system.twmrc,v 1.3 2006/04/11 20:04:48 tg Exp $
 # $Xorg: system.twmrc,v 1.3 2000/08/17 19:54:08 cpqbld Exp $
 #
 # Default twm configuration file; needs to be kept small to conserve string
@@ -131,7 +131,7 @@ menu "Restart"
 ""		f.nop
 "twm"		f.startwm "twm"
 "evilwm"	f.startwm "evilwm"
-"icewm"		f.startwm "icewm"
+"icewm"		f.startwm "icewm-session"
 "fvwm"		f.startwm "fvwm"
 "wm2"		f.startwm "wm2"
 "ctwm"		f.startwm "ctwm"
