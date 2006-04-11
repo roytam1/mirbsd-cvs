@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.9 2005/12/30 00:15:37 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.10 2006/04/11 01:25:09 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -200,6 +200,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	HasBsdMake		YES
 
 #define	StripInstalledPrograms	YES
+#define	BuildCIDFonts		NO
 #define	BuildCyrillicFonts	YES
 #define	BuildBethMarduthoFonts	YES
 #define	BuildEthiopicFonts	YES
