@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.8 2005/04/16 18:12:22 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.9 2005/12/30 00:15:37 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -204,6 +204,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	BuildBethMarduthoFonts	YES
 #define	BuildEthiopicFonts	YES
 #define	GzipFontCompression	YES
+#define	GzipCmd			gzip -n9
 #define	MakeLocalFontDir	YES
 #define	DefaultUserPath		/bin:/usr/bin:/usr/local/bin:$(BINDIR)
 #define	DefaultSystemPath	/sbin:/usr/sbin:/bin:/usr/bin:$(BINDIR)
