@@ -1,6 +1,6 @@
-#
+# $MirOS$
 # $Xorg: system.twmrc,v 1.3 2000/08/17 19:54:08 cpqbld Exp $
-# 
+#
 # Default twm configuration file; needs to be kept small to conserve string
 # space in systems whose compilers don't handle medium-sized strings.
 #
@@ -84,6 +84,7 @@ menu "defops"
 ""		f.nop
 "Refresh"	f.refresh
 ""		f.nop
+"System Menu"	f.menu "Systemenu"
 "(Re)Start"	f.menu "Restart"
 "Exit"		f.menu "Quit"
 }
@@ -117,12 +118,20 @@ menu "Window Ops"
 "Hide Iconmgr"	f.hideiconmgr
 }
 
+menu "Systemenu"
+{
+"Reboot"	!"/sbin/shutdown -r now within twm"
+"Shutdown"	!"/sbin/shutdown -h now within twm"
+"Power Off"	!"/sbin/shutdown -hp now within twm"
+}
+
 menu "Restart"
 {
 "Restart"	f.restart
 ""		f.nop
 "twm"		f.startwm "twm"
 "evilwm"	f.startwm "evilwm"
+"icewm"		f.startwm "icewm"
 "fvwm"		f.startwm "fvwm"
 "wm2"		f.startwm "wm2"
 "ctwm"		f.startwm "ctwm"
