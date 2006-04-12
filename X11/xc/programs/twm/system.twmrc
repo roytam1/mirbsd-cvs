@@ -1,4 +1,4 @@
-# $MirOS: X11/xc/programs/twm/system.twmrc,v 1.5 2006/04/11 20:10:12 tg Exp $
+# $MirOS: X11/xc/programs/twm/system.twmrc,v 1.6 2006/04/12 11:55:14 tg Exp $
 # $Xorg: system.twmrc,v 1.3 2000/08/17 19:54:08 cpqbld Exp $
 #
 # Default twm configuration file; needs to be kept small to conserve string
@@ -73,7 +73,8 @@ Button2 = : iconmgr : f.iconify
 menu "defops"
 {
 "Twm"		f.title
-"XTerm"		!"xterm &"
+"XTerm latin1"	!"xterm &"
+"XTerm UTF-8"	!"uxterm &"
 ""		f.nop
 "Utilities"	f.menu "Utilities"
 ""		f.nop
@@ -121,9 +122,9 @@ menu "Window Ops"
 
 menu "Systemenu"
 {
-"Reboot"	!"/sbin/shutdown -r now within twm"
-"Shutdown"	!"/sbin/shutdown -h now within twm"
-"Power Off"	!"/sbin/shutdown -hp now within twm"
+"Reboot"	!"/sbin/shutdown -r now requested from within twm"
+"Shutdown"	!"/sbin/shutdown -h now requested from within twm"
+"Power Off"	!"/sbin/shutdown -hp now requested from within twm"
 }
 
 menu "Restart"
