@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.6 2006/04/11 09:24:23 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.7 2006/04/12 23:08:03 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -409,6 +409,7 @@ rootconf()
 			mountroot = nfs_mountroot;
 			rootdev = NODEV;
 			swdevt[0].sw_dev = NODEV;
+			dumpdev = NODEV;
 			goto noask;
 #else
 			printf("NFS is not supported.\n");
