@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/rpc.bootparamd/bootparamd.c,v 1.2 2005/03/13 19:17:24 tg Exp $ */
 /*	$OpenBSD: bootparamd.c,v 1.17 2003/12/25 19:05:09 deraadt Exp $	*/
 
 /*
@@ -293,6 +293,9 @@ lookup_bootparam(char *client, char *client_canonical, char *id,
 				continue;
 			if ((word = strsep(&bp, " \t\n")) == NULL)
 				continue;
+			/* wildcard hack */
+			if (strcmp(word, "*"))
+				/* the if below is the body */
 			/* See if this line's client is the one we are
 			 * looking for */
 			if (strcasecmp(word, client) != 0) {
