@@ -1,5 +1,5 @@
 <!-- PageID: irc -->
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/aXJj.inc,v 1.1 2006/03/30 12:50:26 tg Exp $</small>
 
 <h1>The MirOS Project on IRC</h1>
 
@@ -45,16 +45,21 @@
 <p>Disclaimer: the Freeforge IRC network is neither run nor
  managed by MirOS staff, not even in personal union. But we
  support and endorse this network and have sponsored access
- to two boxen to the project to run their IRC d&aelig;mon on.</p>
+ to two boxen to the project to run their IRC d&aelig;mon on.
+ Also, we consider Freeforge the successor to <tt>#deutsch</tt>
+ and the next channel meeting (now: network meeting) has been
+ planned to accomodate these facts.</p>
 
 <h3 id="ffinf">About the Network</h3>
 <p>The Freeforge IRC network is run by a team of three volunteers
  in their spare time on sponsored servers (two of them are hosted
  by Thorsten Glaser of MirOS). They use ratbox-ircd and some kind
- of weird services on top of that. <a href="http://freeforge.net/">This
- poor excuse of a website</a> is currently empty, so the page you are
- currently reading (<a href="http://mirbsd.mirsolutions.de/?irc">reference
- link</a>) is the primary source of information regarding Freeforge.</p>
+ of weird services on top of that; one however gets used to these
+ rather quickly. <a href="http://freeforge.net/">This poor excuse
+ of a website</a> has now been filled with some content, but this
+ page you are currently reading (please note the semi-official <a
+ href="http://mirbsd.mirsolutions.de/?irc">reference link</a>) is
+ the primary source of information regarding Freeforge.</p>
 
 <p>Freeforge guarantees that all server-to-server communication is
  secured by strong TLS encryption and also offers IRCS (IRC over
