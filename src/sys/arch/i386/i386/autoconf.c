@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.5 2006/04/06 22:20:24 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.6 2006/04/11 09:24:23 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -376,7 +376,7 @@ rootconf()
 	}
 #endif
 
-#ifdef	RAMDISK_HOOKS
+#ifdef RAMDISK_HOOKS
 	if (boothowto & RB_ASKNAME)
 		goto retry;
 	if (!rootdev_override) {
@@ -401,9 +401,20 @@ rootconf()
 		cnpollc(FALSE);
 		if (*name == '\0')
 			goto noask;
-#ifdef	RAMDISK_HOOKS
+#ifdef RAMDISK_HOOKS
  ramtry:
 #endif
+		if (!strcmp(name, "nfs")) {
+#ifdef NFSCLIENT
+			mountroot = nfs_mountroot;
+			rootdev = NODEV;
+			swdevt[0].sw_dev = NODEV;
+			goto noask;
+#else
+			printf("NFS is not supported.\n");
+			goto retry;
+#endif
+		}
 		for (gc = genericconf; gc->gc_driver; gc++)
 			if (gc->gc_driver->cd_ndevs &&
 			    strncmp(gc->gc_name, name,
@@ -442,7 +453,7 @@ rootconf()
 				goto doswap;
 			}
 		}
-		printf("use one of: ");
+		printf("use one of: nfs ");
 		for (gc = genericconf; gc->gc_driver; gc++) {
 			for (unit=0; unit < gc->gc_driver->cd_ndevs; unit++) {
 				if (gc->gc_driver->cd_devs[unit])
