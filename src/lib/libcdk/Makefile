@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcdk/Makefile,v 1.2 2005/03/15 19:07:05 tg Exp $
+# $MirOS: src/lib/libcdk/Makefile,v 1.3 2006/04/16 18:31:32 tg Exp $
 
 SHLIB_VERSION?=	2.0
 LIB=		cdk
@@ -33,7 +33,7 @@ GENERATED=	cdk_dscale.3tbl cdk_fscale.3tbl cdk_scale.3tbl \
 		cdk_uslider.3tbl dscale.h fscale.h \
 		scale.h uscale.h fslider.h slider.h uslider.h dscale.c \
 		fscale.c scale.c uscale.c fslider.c slider.c uslider.c
-CLEANFILES+=	${GENERATED} generated
+CLEANFILES+=	${GENERATED} ${GENERATED:M*tbl:S/tbl//} generated
 CPPFLAGS+=	-D"SYSTEM_NAME=\"${OSname}${OSrev}\"" -DHAVE_CONFIG_H \
 		-I${.CURDIR}/include -I.
 MLINKS=		cdk_alphalist.3 activateCDKAlphalist.3 \
