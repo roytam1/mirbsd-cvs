@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcdk/Makefile,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
+# $MirOS: src/lib/libcdk/Makefile,v 1.2 2005/03/15 19:07:05 tg Exp $
 
 SHLIB_VERSION?=	2.0
 LIB=		cdk
@@ -18,18 +18,19 @@ INCS=		alphalist.h binding.h button.h buttonbox.h calendar.h cdk.h \
 		itemlist.h label.h marquee.h matrix.h mentry.h menu.h \
 		radio.h scale.h scroll.h selection.h slider.h swindow.h \
 		template.h traverse.h uscale.h uslider.h viewer.h
-MAN=		cdk.3 cdk_alphalist.3 cdk_binding.3 cdk_button.3 \
+MANTBLS=	cdk.3 cdk_alphalist.3 cdk_binding.3 cdk_button.3 \
 		cdk_buttonbox.3 cdk_calendar.3 cdk_dialog.3 cdk_display.3 \
-		cdk_dscale.3 cdk_entry.3 cdk_fscale.3 cdk_fscale.3 \
-		cdk_fselect.3 cdk_fslider.3 cdk_graph.3 cdk_histogram.3 \
+		cdk_dscale.3tbl cdk_entry.3 cdk_fscale.3tbl \
+		cdk_fselect.3 cdk_fslider.3tbl cdk_graph.3 cdk_histogram.3 \
 		cdk_itemlist.3 cdk_label.3 cdk_marquee.3 cdk_matrix.3 \
 		cdk_mentry.3 cdk_menu.3 cdk_misc.3 cdk_position.3 \
-		cdk_process.3 cdk_radio.3 cdk_scale.3 cdk_scale.3 \
-		cdk_screen.3 cdk_scroll.3 cdk_selection.3 cdk_slider.3 \
-		cdk_swindow.3 cdk_template.3 cdk_traverse.3 cdk_uscale.3 \
-		cdk_uslider.3 cdk_viewer.3
-GENERATED=	cdk_dscale.3 cdk_fscale.3 cdk_scale.3 cdk_uscale.3 \
-		cdk_fslider.3 cdk_slider.3 cdk_uslider.3 dscale.h fscale.h \
+		cdk_process.3 cdk_radio.3 cdk_scale.3tbl \
+		cdk_screen.3 cdk_scroll.3 cdk_selection.3 cdk_slider.3tbl \
+		cdk_swindow.3 cdk_template.3 cdk_traverse.3 cdk_uscale.3tbl \
+		cdk_uslider.3tbl cdk_viewer.3
+GENERATED=	cdk_dscale.3tbl cdk_fscale.3tbl cdk_scale.3tbl \
+		cdk_uscale.3tbl cdk_fslider.3tbl cdk_slider.3tbl \
+		cdk_uslider.3tbl dscale.h fscale.h \
 		scale.h uscale.h fslider.h slider.h uslider.h dscale.c \
 		fscale.c scale.c uscale.c fslider.c slider.c uslider.c
 CLEANFILES+=	${GENERATED} generated
@@ -668,6 +669,14 @@ MLINKS=		cdk_alphalist.3 activateCDKAlphalist.3 \
 
 .PATH: ${.CURDIR}/man
 
+.for _i in ${MANTBLS:N*tbl}
+MAN+=		${_i}tbl
+CLEANFILES+=	${_i}tbl
+
+${_i}tbl: ${.CURDIR}/man/${_i}
+	cp $> $@
+.endfor
+
 all: generated
 
 beforedepend: generated
@@ -717,19 +726,19 @@ generated: gen-scale.sh gen-scale.c gen-slider.c include/gen-scale.h \
 	${SHELL} ${.CURDIR}/gen-scale.sh USLIDER USlider Unsigned unsigned \
 	    ${.CURDIR}/include/gen-slider.h >uslider.h
 	${SHELL} ${.CURDIR}/gen-scale.sh DSCALE DScale Double double \
-	    ${.CURDIR}/man/gen-scale.3 >cdk_dscale.3
+	    ${.CURDIR}/man/gen-scale.3 >cdk_dscale.3tbl
 	${SHELL} ${.CURDIR}/gen-scale.sh FSCALE FScale Float float \
-	    ${.CURDIR}/man/gen-scale.3 >cdk_fscale.3
+	    ${.CURDIR}/man/gen-scale.3 >cdk_fscale.3tbl
 	${SHELL} ${.CURDIR}/gen-scale.sh FSLIDER FSlider Float float \
-	    ${.CURDIR}/man/gen-slider.3 >cdk_fslider.3
+	    ${.CURDIR}/man/gen-slider.3 >cdk_fslider.3tbl
 	${SHELL} ${.CURDIR}/gen-scale.sh SCALE Scale Int int \
-	    ${.CURDIR}/man/gen-scale.3 >cdk_scale.3
+	    ${.CURDIR}/man/gen-scale.3 >cdk_scale.3tbl
 	${SHELL} ${.CURDIR}/gen-scale.sh SLIDER Slider Int int \
-	    ${.CURDIR}/man/gen-slider.3 >cdk_slider.3
+	    ${.CURDIR}/man/gen-slider.3 >cdk_slider.3tbl
 	${SHELL} ${.CURDIR}/gen-scale.sh USCALE UScale Unsigned unsigned \
-	    ${.CURDIR}/man/gen-scale.3 >cdk_uscale.3
+	    ${.CURDIR}/man/gen-scale.3 >cdk_uscale.3tbl
 	${SHELL} ${.CURDIR}/gen-scale.sh USLIDER USlider Unsigned unsigned \
-	    ${.CURDIR}/man/gen-slider.3 >cdk_uslider.3
+	    ${.CURDIR}/man/gen-slider.3 >cdk_uslider.3tbl
 	touch $@
 
 .include <bsd.lib.mk>
