@@ -1,3 +1,4 @@
+/* $OpenBSD: sshtty.c,v 1.10 2006/03/25 13:17:03 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,7 +36,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshtty.c,v 1.8 2006/02/07 01:52:50 stevesk Exp $");
 
 #include <termios.h>
 

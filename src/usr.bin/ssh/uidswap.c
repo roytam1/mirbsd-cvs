@@ -1,3 +1,4 @@
+/* $OpenBSD: uidswap.c,v 1.26 2006/03/25 13:17:03 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,7 +13,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: uidswap.c,v 1.24 2003/05/29 16:58:45 deraadt Exp $");
 
 #include "log.h"
 #include "uidswap.h"

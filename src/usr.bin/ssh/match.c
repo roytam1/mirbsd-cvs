@@ -1,3 +1,4 @@
+/* $OpenBSD: match.c,v 1.24 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,7 +36,8 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: match.c,v 1.20 2005/06/17 02:44:32 djm Exp $");
+
+#include <ctype.h>
 
 #include "match.h"
 #include "xmalloc.h"
@@ -136,7 +138,7 @@ match_pattern_list(const char *string, const char *pattern, u_int len,
 		    i < len && subi < sizeof(sub) - 1 && pattern[i] != ',';
 		    subi++, i++)
 			sub[subi] = dolower && isupper(pattern[i]) ?
-			    tolower(pattern[i]) : pattern[i];
+			    (char)tolower(pattern[i]) : pattern[i];
 		/* If subpattern too long, return failure (no match). */
 		if (subi >= sizeof(sub) - 1)
 			return 0;

@@ -1,3 +1,4 @@
+/* $OpenBSD: auth2-passwd.c,v 1.7 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth2-passwd.c,v 1.5 2003/12/31 00:24:50 dtucker Exp $");
 
 #include "xmalloc.h"
 #include "packet.h"
