@@ -1,3 +1,4 @@
+/* $OpenBSD: rsa.c,v 1.26 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -60,7 +61,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: rsa.c,v 1.24 2001/12/27 18:22:16 markus Exp $");
 
 #include "rsa.h"
 #include "log.h"

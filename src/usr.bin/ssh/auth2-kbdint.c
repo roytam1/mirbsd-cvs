@@ -1,3 +1,4 @@
+/* $OpenBSD: auth2-kbdint.c,v 1.4 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth2-kbdint.c,v 1.2 2002/05/31 11:35:15 markus Exp $");
 
 #include "packet.h"
 #include "auth.h"

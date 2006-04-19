@@ -1,3 +1,4 @@
+/* $OpenBSD: canohost.c,v 1.53 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,7 +13,8 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: canohost.c,v 1.48 2005/12/28 22:46:06 stevesk Exp $");
+
+#include <ctype.h>
 
 #include "packet.h"
 #include "xmalloc.h"
@@ -82,7 +84,7 @@ get_remote_hostname(int sock, int use_dns)
 	 */
 	for (i = 0; name[i]; i++)
 		if (isupper(name[i]))
-			name[i] = tolower(name[i]);
+			name[i] = (char)tolower(name[i]);
 	/*
 	 * Map it back to an IP address and check that the given
 	 * address actually is an address of this host.  This is
@@ -97,7 +99,7 @@ get_remote_hostname(int sock, int use_dns)
 	hints.ai_socktype = SOCK_STREAM;
 	if (getaddrinfo(name, NULL, &hints, &aitop) != 0) {
 		logit("reverse mapping checking getaddrinfo for %.700s "
-		    "failed - POSSIBLE BREAK-IN ATTEMPT!", name);
+		    "[%s] failed - POSSIBLE BREAK-IN ATTEMPT!", name, ntop);
 		return xstrdup(ntop);
 	}
 	/* Look for the address from the list of addresses. */

@@ -1,3 +1,4 @@
+/* $OpenBSD: log.c,v 1.31 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -34,7 +35,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: log.c,v 1.29 2003/09/23 20:17:11 markus Exp $");
 
 #include "log.h"
 #include "xmalloc.h"

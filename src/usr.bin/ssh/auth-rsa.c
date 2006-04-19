@@ -1,3 +1,4 @@
+/* $OpenBSD: auth-rsa.c,v 1.67 2006/03/25 18:29:35 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -14,7 +15,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth-rsa.c,v 1.64 2006/02/20 17:19:53 stevesk Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -140,7 +140,7 @@ auth_rsa_challenge_dialog(Key *key)
 	/* Wait for a response. */
 	packet_read_expect(SSH_CMSG_AUTH_RSA_RESPONSE);
 	for (i = 0; i < 16; i++)
-		response[i] = packet_get_char();
+		response[i] = (u_char)packet_get_char();
 	packet_check_eom();
 
 	success = PRIVSEP(auth_rsa_verify_response(key, challenge, response));

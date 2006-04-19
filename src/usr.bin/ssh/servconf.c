@@ -1,3 +1,4 @@
+/* $OpenBSD: servconf.c,v 1.150 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -10,7 +11,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: servconf.c,v 1.146 2005/12/08 18:34:11 reyk Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -413,7 +413,8 @@ process_server_config_line(ServerOptions *options, char *line,
 	u_int i;
 
 	cp = line;
-	arg = strdelim(&cp);
+	if ((arg = strdelim(&cp)) == NULL)
+		return 0;
 	/* Ignore leading whitespace */
 	if (*arg == '\0')
 		arg = strdelim(&cp);

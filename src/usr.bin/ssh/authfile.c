@@ -1,3 +1,4 @@
+/* $OpenBSD: authfile.c,v 1.66 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -36,7 +37,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: authfile.c,v 1.62 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -214,12 +214,10 @@ key_save_private(Key *key, const char *filename, const char *passphrase,
 	case KEY_RSA1:
 		return key_save_private_rsa1(key, filename, passphrase,
 		    comment);
-		break;
 	case KEY_DSA:
 	case KEY_RSA:
 		return key_save_private_pem(key, filename, passphrase,
 		    comment);
-		break;
 	default:
 		break;
 	}
@@ -510,7 +508,7 @@ key_load_private_pem(int fd, int type, const char *passphrase,
 	return prv;
 }
 
-static int
+int
 key_perm_ok(int fd, const char *filename)
 {
 	struct stat st;
@@ -554,13 +552,11 @@ key_load_private_type(int type, const char *filename, const char *passphrase,
 		return key_load_private_rsa1(fd, filename, passphrase,
 		    commentp);
 		/* closes fd */
-		break;
 	case KEY_DSA:
 	case KEY_RSA:
 	case KEY_UNSPEC:
 		return key_load_private_pem(fd, type, passphrase, commentp);
 		/* closes fd */
-		break;
 	default:
 		close(fd);
 		break;

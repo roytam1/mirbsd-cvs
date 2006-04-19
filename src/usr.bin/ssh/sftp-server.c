@@ -1,3 +1,4 @@
+/* $OpenBSD: sftp-server.c,v 1.57 2006/03/30 09:58:16 djm Exp $ */
 /*
  * Copyright (c) 2000-2004 Markus Friedl.  All rights reserved.
  *
@@ -14,7 +15,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 #include "includes.h"
-RCSID("$OpenBSD: sftp-server.c,v 1.52 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -23,7 +23,6 @@ RCSID("$OpenBSD: sftp-server.c,v 1.52 2006/02/20 17:19:54 stevesk Exp $");
 
 #include "buffer.h"
 #include "bufaux.h"
-#include "getput.h"
 #include "log.h"
 #include "xmalloc.h"
 #include "misc.h"
@@ -170,7 +169,7 @@ handle_to_string(int handle, char **stringp, int *hlenp)
 	if (stringp == NULL || hlenp == NULL)
 		return -1;
 	*stringp = xmalloc(sizeof(int32_t));
-	PUT_32BIT(*stringp, handle);
+	put_u32(*stringp, handle);
 	*hlenp = sizeof(int32_t);
 	return 0;
 }
@@ -182,7 +181,7 @@ handle_from_string(const char *handle, u_int hlen)
 
 	if (hlen != sizeof(int32_t))
 		return -1;
-	val = GET_32BIT(handle);
+	val = get_u32(handle);
 	if (handle_is_ok(val, HANDLE_FILE) ||
 	    handle_is_ok(val, HANDLE_DIR))
 		return val;
@@ -697,11 +696,11 @@ process_readdir(void)
 		Stat *stats;
 		int nstats = 10, count = 0, i;
 
-		stats = xmalloc(nstats * sizeof(Stat));
+		stats = xcalloc(nstats, sizeof(Stat));
 		while ((dp = readdir(dirp)) != NULL) {
 			if (count >= nstats) {
 				nstats *= 2;
-				stats = xrealloc(stats, nstats * sizeof(Stat));
+				stats = xrealloc(stats, nstats, sizeof(Stat));
 			}
 /* XXX OVERFLOW ? */
 			snprintf(pathname, sizeof pathname, "%s%s%s", path,
@@ -930,7 +929,7 @@ process(void)
 	if (buf_len < 5)
 		return;		/* Incomplete message. */
 	cp = buffer_ptr(&iqueue);
-	msg_len = GET_32BIT(cp);
+	msg_len = get_u32(cp);
 	if (msg_len > SFTP_MAX_MSG_LENGTH) {
 		error("bad message ");
 		exit(11);

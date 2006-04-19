@@ -1,3 +1,4 @@
+/* $OpenBSD: fatal.c,v 1.5 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2002 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: fatal.c,v 1.2 2003/09/23 20:17:11 markus Exp $");
 
 #include "log.h"
 
@@ -33,6 +33,7 @@ void
 fatal(const char *fmt,...)
 {
 	va_list args;
+
 	va_start(args, fmt);
 	do_log(SYSLOG_LEVEL_FATAL, fmt, args);
 	va_end(args);

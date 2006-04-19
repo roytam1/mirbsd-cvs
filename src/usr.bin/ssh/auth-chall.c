@@ -1,3 +1,4 @@
+/* $OpenBSD: auth-chall.c,v 1.11 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth-chall.c,v 1.9 2003/11/03 09:03:37 djm Exp $");
 
 #include "auth.h"
 #include "log.h"

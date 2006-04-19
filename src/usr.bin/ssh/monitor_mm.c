@@ -1,3 +1,4 @@
+/* $OpenBSD: monitor_mm.c,v 1.11 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -24,7 +25,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: monitor_mm.c,v 1.9 2004/05/11 19:01:43 deraadt Exp $");
 
 #include <sys/mman.h>
 

@@ -1,3 +1,4 @@
+/* $OpenBSD: auth-options.c,v 1.35 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -10,7 +11,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth-options.c,v 1.33 2005/12/08 18:34:11 reyk Exp $");
 
 #include "xmalloc.h"
 #include "match.h"

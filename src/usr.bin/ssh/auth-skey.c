@@ -1,3 +1,4 @@
+/* $OpenBSD: auth-skey.c,v 1.23 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -22,7 +23,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "includes.h"
-RCSID("$OpenBSD: auth-skey.c,v 1.20 2002/06/30 21:59:45 deraadt Exp $");
 
 #ifdef SKEY
 
@@ -53,15 +53,10 @@ skey_query(void *ctx, char **name, char **infotxt,
 	*name  = xstrdup("");
 	*infotxt  = xstrdup("");
 	*numprompts = 1;
-	*prompts = xmalloc(*numprompts * sizeof(char *));
-	*echo_on = xmalloc(*numprompts * sizeof(u_int));
-	(*echo_on)[0] = 0;
+	*prompts = xcalloc(*numprompts, sizeof(char *));
+	*echo_on = xcalloc(*numprompts, sizeof(u_int));
 
-	len = strlen(challenge) + strlen(SKEY_PROMPT) + 1;
-	p = xmalloc(len);
-	strlcpy(p, challenge, len);
-	strlcat(p, SKEY_PROMPT, len);
-	(*prompts)[0] = p;
+	xasprintf(*prompts, "%s%s", challenge, SKEY_PROMPT);
 
 	return 0;
 }

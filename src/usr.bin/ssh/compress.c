@@ -1,3 +1,4 @@
+/* $OpenBSD: compress.c,v 1.23 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,7 +13,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: compress.c,v 1.21 2004/01/13 19:45:15 markus Exp $");
 
 #include "log.h"
 #include "buffer.h"

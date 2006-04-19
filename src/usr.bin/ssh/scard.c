@@ -1,3 +1,4 @@
+/* $OpenBSD: scard.c,v 1.32 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -24,7 +25,6 @@
 
 #ifdef SMARTCARD
 #include "includes.h"
-RCSID("$OpenBSD: scard.c,v 1.29 2004/05/08 00:21:31 djm Exp $");
 
 #include <openssl/evp.h>
 #include <sectok.h>
@@ -383,7 +383,7 @@ sc_get_keys(const char *id, const char *pin)
 		key_free(k);
 		return NULL;
 	}
-	keys = xmalloc((nkeys+1) * sizeof(Key *));
+	keys = xcalloc((nkeys+1), sizeof(Key *));
 
 	n = key_new(KEY_RSA1);
 	BN_copy(n->rsa->n, k->rsa->n);

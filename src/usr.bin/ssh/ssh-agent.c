@@ -1,3 +1,4 @@
+/* $OpenBSD: ssh-agent.c,v 1.137 2006/03/30 09:58:16 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -34,7 +35,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh-agent.c,v 1.129 2006/02/20 17:02:44 stevesk Exp $");
 
 #include <sys/queue.h>
 #include <sys/resource.h>
@@ -52,7 +52,6 @@ RCSID("$OpenBSD: ssh-agent.c,v 1.129 2006/02/20 17:02:44 stevesk Exp $");
 #include "buffer.h"
 #include "bufaux.h"
 #include "xmalloc.h"
-#include "getput.h"
 #include "key.h"
 #include "authfd.h"
 #include "compat.h"
@@ -102,8 +101,8 @@ int max_fd = 0;
 pid_t parent_pid = -1;
 
 /* pathname and directory for AUTH_SOCKET */
-char socket_name[1024];
-char socket_dir[1024];
+char socket_name[MAXPATHLEN];
+char socket_dir[MAXPATHLEN];
 
 /* locking */
 int locked = 0;
@@ -684,7 +683,7 @@ process_message(SocketEntry *e)
 	if (buffer_len(&e->input) < 5)
 		return;		/* Incomplete message. */
 	cp = buffer_ptr(&e->input);
-	msg_len = GET_32BIT(cp);
+	msg_len = get_u32(cp);
 	if (msg_len > 256 * 1024) {
 		close_socket(e);
 		return;
@@ -796,10 +795,7 @@ new_socket(sock_type type, int fd)
 		}
 	old_alloc = sockets_alloc;
 	new_alloc = sockets_alloc + 10;
-	if (sockets)
-		sockets = xrealloc(sockets, new_alloc * sizeof(sockets[0]));
-	else
-		sockets = xmalloc(new_alloc * sizeof(sockets[0]));
+	sockets = xrealloc(sockets, new_alloc, sizeof(sockets[0]));
 	for (i = old_alloc; i < new_alloc; i++)
 		sockets[i].type = AUTH_UNUSED;
 	sockets_alloc = new_alloc;
@@ -880,7 +876,7 @@ after_select(fd_set *readset, fd_set *writeset)
 			if (FD_ISSET(sockets[i].fd, readset)) {
 				slen = sizeof(sunaddr);
 				sock = accept(sockets[i].fd,
-				    (struct sockaddr *) &sunaddr, &slen);
+				    (struct sockaddr *)&sunaddr, &slen);
 				if (sock < 0) {
 					error("accept from AUTH_SOCKET: %s",
 					    strerror(errno));
@@ -957,6 +953,7 @@ cleanup_exit(int i)
 	_exit(i);
 }
 
+/*ARGSUSED*/
 static void
 cleanup_handler(int sig)
 {
@@ -964,6 +961,7 @@ cleanup_handler(int sig)
 	_exit(2);
 }
 
+/*ARGSUSED*/
 static void
 check_parent_exists(int sig)
 {
@@ -1058,20 +1056,24 @@ main(int ac, char **av)
 
 	if (ac == 0 && !c_flag && !s_flag) {
 		shell = getenv("SHELL");
-		if (shell != NULL && strncmp(shell + strlen(shell) - 3, "csh", 3) == 0)
+		if (shell != NULL &&
+		    strncmp(shell + strlen(shell) - 3, "csh", 3) == 0)
 			c_flag = 1;
 	}
 	if (k_flag) {
+		const char *errstr = NULL;
+
 		pidstr = getenv(SSH_AGENTPID_ENV_NAME);
 		if (pidstr == NULL) {
 			fprintf(stderr, "%s not set, cannot kill agent\n",
 			    SSH_AGENTPID_ENV_NAME);
 			exit(1);
 		}
-		pid = atoi(pidstr);
-		if (pid < 1) {
-			fprintf(stderr, "%s=\"%s\", which is not a good PID\n",
-			    SSH_AGENTPID_ENV_NAME, pidstr);
+		pid = (int)strtonum(pidstr, 2, INT_MAX, &errstr);
+		if (errstr) {
+			fprintf(stderr,
+			    "%s=\"%s\", which is not a good PID: %s\n",
+			    SSH_AGENTPID_ENV_NAME, pidstr, errstr);
 			exit(1);
 		}
 		if (kill(pid, SIGTERM) == -1) {
@@ -1114,7 +1116,7 @@ main(int ac, char **av)
 	memset(&sunaddr, 0, sizeof(sunaddr));
 	sunaddr.sun_family = AF_UNIX;
 	strlcpy(sunaddr.sun_path, socket_name, sizeof(sunaddr.sun_path));
-	if (bind(sock, (struct sockaddr *) & sunaddr, sizeof(sunaddr)) < 0) {
+	if (bind(sock, (struct sockaddr *)&sunaddr, sizeof(sunaddr)) < 0) {
 		perror("bind");
 		*socket_name = '\0'; /* Don't unlink any existing file */
 		cleanup_exit(1);
