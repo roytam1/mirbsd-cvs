@@ -1,5 +1,7 @@
 /* Pascal language support routines for GDB, the GNU debugger.
-   Copyright 2000, 2002, 2003, 2004 Free Software Foundation, Inc.
+
+   Copyright 2000, 2002, 2003, 2004, 2005 Free Software Foundation,
+   Inc.
 
    This file is part of GDB.
 
@@ -46,8 +48,9 @@ extern void _initialize_pascal_language (void);
    but this does not happen for Free Pascal nor for GPC.  */
 int
 is_pascal_string_type (struct type *type,int *length_pos,
-                       int *length_size, int *string_pos, int *char_size,
-		       char **arrayname)
+                       int *length_size, int *capacity_pos,
+                       int *capacity_size,int *string_pos,
+                       int *char_size, char **arrayname)
 {
   if (TYPE_CODE (type) == TYPE_CODE_STRUCT)
     {
@@ -59,8 +62,12 @@ is_pascal_string_type (struct type *type,int *length_pos,
         {
           if (length_pos)
 	    *length_pos = TYPE_FIELD_BITPOS (type, 0) / TARGET_CHAR_BIT;
+          if (capacity_pos)
+      *capacity_pos = *length_pos;  /* Fake capacity */
           if (length_size)
 	    *length_size = TYPE_LENGTH (TYPE_FIELD_TYPE (type, 0));
+          if (capacity_size)
+      *capacity_size = *length_size;  /* Fake capacity */
           if (string_pos)
 	    *string_pos = TYPE_FIELD_BITPOS (type, 1) / TARGET_CHAR_BIT;
           if (char_size)
@@ -75,6 +82,10 @@ is_pascal_string_type (struct type *type,int *length_pos,
           && strcmp (TYPE_FIELDS (type)[0].name, "Capacity") == 0
           && strcmp (TYPE_FIELDS (type)[1].name, "length") == 0)
         {
+          if (capacity_pos)
+      *capacity_pos = TYPE_FIELD_BITPOS (type, 0) / TARGET_CHAR_BIT;
+          if (capacity_size)
+      *capacity_size = TYPE_LENGTH (TYPE_FIELD_TYPE (type, 0));
           if (length_pos)
 	    *length_pos = TYPE_FIELD_BITPOS (type, 1) / TARGET_CHAR_BIT;
           if (length_size)
@@ -155,8 +166,8 @@ pascal_printchar (int c, struct ui_file *stream)
    had to stop before printing LENGTH characters, or if FORCE_ELLIPSES.  */
 
 void
-pascal_printstr (struct ui_file *stream, char *string, unsigned int length,
-		 int width, int force_ellipses)
+pascal_printstr (struct ui_file *stream, const gdb_byte *string,
+		 unsigned int length, int width, int force_ellipses)
 {
   unsigned int i;
   unsigned int things_printed = 0;
@@ -286,7 +297,7 @@ pascal_create_fundamental_type (struct objfile *objfile, int typeid)
       type = init_type (TYPE_CODE_INT,
 			TARGET_INT_BIT / TARGET_CHAR_BIT,
 			0, "<?type?>", objfile);
-      warning ("internal error: no Pascal fundamental type %d", typeid);
+      warning (_("internal error: no Pascal fundamental type %d"), typeid);
       break;
     case FT_VOID:
       type = init_type (TYPE_CODE_VOID,
