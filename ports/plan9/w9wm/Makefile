@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/plan9/w9wm/Makefile,v 1.2 2005/07/06 19:21:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/25 03:49:29 naddy Exp $
 
 COMMENT=		"hacked 9wm with support for virtual screens"
@@ -21,9 +21,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://www.grassouille.org/code/w9wm/src/
 
 CONFIGURE_STYLE=	imake
-
 NO_REGRESS=		Yes
-
-WRKSRC=${WRKDIR}/${DISTNAME}.orig
+WRKDIST=		${WRKDIR}/${DISTNAME}.orig
 
 .include <bsd.port.mk>
