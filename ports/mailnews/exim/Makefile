@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.3 2005/07/07 21:22:44 bsiegert Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.4 2006/02/01 16:28:02 tg Exp $
 
 COMMENT=		"flexible mail transfer agent"
-VERSION=		4.50
+VERSION=		4.61
 DISTNAME=		exim-${VERSION}
 PKGNAME=		exim-${VERSION}-0
 CATEGORIES=		mail
@@ -20,7 +20,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=		no_x11 no_perl no_ssl no_wrap mysql pgsql ldap iconv
+FLAVORS=		no_x11 no_perl mysql pgsql ldap iconv
 FLAVOR?=
 
 EXIM_ROUTERS=		ACCEPT DNSLOOKUP IPLITERAL MANUALROUTE QUERYPROGRAM REDIRECT # IPLOOKUP
@@ -31,10 +31,6 @@ EXIM_AUTH_MECHANISMS=	CRAM_MD5 PLAINTEXT SPA
 
 .if !${FLAVOR:L:Mno_x11}
 USE_X11=		Yes
-.endif
-
-.if !${FLAVOR:L:Mno_wrap}
-EXIM_EXTRA_LIBS+=	-lwrap
 .endif
 
 .if ${FLAVOR:L:Mmysql}
@@ -112,15 +108,10 @@ do-configure:
 	@echo "EXIM_MONITOR=eximon.bin" >> ${WRKSRC}/Local/Makefile
 	@cp ${WRKSRC}/exim_monitor/EDITME ${WRKSRC}/Local/eximon.conf
 .endif
-.if !${FLAVOR:L:Mno_ssl}
 	@echo "SUPPORT_TLS=yes" >> ${WRKSRC}/Local/Makefile
 	@echo "TLS_LIBS=-lssl -lcrypto" >> ${WRKSRC}/Local/Makefile
-.endif
 .if !${FLAVOR:L:Mno_perl}
 	@echo "EXIM_PERL=perl.o" >> ${WRKSRC}/Local/Makefile
-.endif
-.if !${FLAVOR:L:Mno_wrap}
-	@echo "USE_TCP_WRAPPERS=yes" >> ${WRKSRC}/Local/Makefile
 .endif
 .if ${FLAVOR:L:Mldap}
 	@echo "LDAP_LIB_TYPE=OPENLDAP2" >> ${WRKSRC}/Local/Makefile
@@ -138,10 +129,6 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/doc/spec.txt ${PREFIX}/share/doc/exim
 	${INSTALL_DATA} ${WRKSRC}/doc/README.SIEVE ${PREFIX}/share/doc/exim
 	${INSTALL_DATA} ${WRKSRC}/doc/filter.txt ${PREFIX}/share/doc/exim
-.if ${FLAVOR:L:Mexiscan}
-	${INSTALL_DATA} ${WRKSRC}/doc/exiscan-acl-examples.txt ${PREFIX}/share/doc/exim
-	${INSTALL_DATA} ${WRKSRC}/doc/exiscan-acl-spec.txt ${PREFIX}/share/doc/exim
-.endif
 	${INSTALL_MAN} ${WRKSRC}/doc/exim.8 ${PREFIX}/man/man8
 
 .include <bsd.port.mk>

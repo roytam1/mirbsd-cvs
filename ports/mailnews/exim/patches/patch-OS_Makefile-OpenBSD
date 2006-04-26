@@ -1,11 +1,15 @@
-$MirOS$
---- OS/Makefile-OpenBSD.orig	Sun Oct 10 17:53:25 2004
-+++ OS/Makefile-OpenBSD	Sun Oct 10 17:53:36 2004
-@@ -2,7 +2,6 @@
+$MirOS: ports/mailnews/exim/patches/patch-OS_Makefile-OpenBSD,v 1.1.7.1 2005/03/18 15:49:34 tg Exp $
+--- OS/Makefile-OpenBSD.orig	Tue Apr  4 13:59:41 2006
++++ OS/Makefile-OpenBSD	Wed Apr 26 14:45:42 2006
+@@ -2,9 +2,8 @@
  
- CHOWN_COMMAND=/usr/sbin/chown
- CHGRP_COMMAND=/usr/sbin/chgrp
+ # Exim: OS-specific make file for OpenBSD
+ 
+-CHOWN_COMMAND=/usr/sbin/chown
+-CHGRP_COMMAND=/usr/sbin/chgrp
 -CFLAGS=-O2 -Wall
++CHOWN_COMMAND=/sbin/chown
++CHGRP_COMMAND=/bin/chgrp
  
- HAVE_SA_LEN=YES
+ LIBS=-lm
  
