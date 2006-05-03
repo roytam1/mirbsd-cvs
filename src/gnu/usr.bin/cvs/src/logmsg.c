@@ -1,7 +1,7 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.4 2005/04/19 21:15:03 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.5 2005/12/05 22:12:48 tg Exp $ */
 
 /*
- * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ * Copyright (C) 1986-2006 The Free Software Foundation, Inc.
  *
  * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
  *                                  and others.
@@ -17,7 +17,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.4 2005/04/19 21:15:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.5 2005/12/05 22:12:48 tg Exp $");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -273,6 +273,9 @@ do_editor (const char *dir, char **messagep, const char *repository,
     (void) fprintf (fp,
   "%s----------------------------------------------------------------------\n",
 		    CVSEDITPREFIX);
+    if (readonlyfs)
+      (void) fprintf (fp, "%sATTENTION: read-only mode selected!\n",
+		      CVSEDITPREFIX);
     (void) fprintf (fp,
   "%sEnter Log.  Lines beginning with `%.*s' are removed automatically\n%s\n",
 		    CVSEDITPREFIX, CVSEDITPREFIXLEN, CVSEDITPREFIX,
