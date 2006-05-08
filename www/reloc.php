@@ -1,5 +1,5 @@
 <?php
-/* $MirOS$ */
+/* $MirOS: www/reloc.php,v 1.1 2006/03/30 12:50:26 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -11,6 +11,6 @@
 	require "index.php";
 	$contents = ob_get_contents();
 	ob_end_clean();
-	$mirror = "http://mirbsd.mirsolutions.de/";
+	$mirror = "http://www.mirbsd.org/";
 	echo ereg_replace("([[:space:]]href=\")/", "\\1$mirror", $contents);
 ?>
