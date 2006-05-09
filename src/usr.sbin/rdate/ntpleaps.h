@@ -1,32 +1,25 @@
+/**	$MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 /*	$OpenBSD: ntpleaps.h,v 1.3 2004/05/05 20:29:54 jakob Exp $	*/
 
-/*
- * Copyright (c) 2002 Thorsten Glaser. All rights reserved.
+/*-
+ * Copyright (c) 2002, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- *    - Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    - Redistributions in binary form must reproduce the above
- *      copyright notice, this list of conditions and the following
- *      disclaimer in the documentation and/or other materials provided
- *      with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  */
 
 /* Leap second support for SNTP clients
@@ -51,22 +44,22 @@
 #define	SEC_TO_TAI64(s)	(NTPLEAPS_OFFSET + (u_int64_t)(s))
 #define	TAI64_TO_SEC(t)	((t) - NTPLEAPS_OFFSET)
 
-/* Initializes the leap second table. Does not need to be called
+/* Initialises the leap second table. Does not need to be called
  * before usage of the subtract funtion, but calls ntpleaps_read.
- * returns 0 on success, -1 on error (displays a warning on stderr)
+ * Returns 0 on success, -1 on error (displays a warning on stderr)
  */
 int ntpleaps_init(void);
 
 /* Re-reads the leap second table, thus consuming quite much time.
  * Ought to be called from within daemons at least once a month to
  * ensure the in-memory table is always up-to-date.
- * returns 0 on success, -1 on error (leap seconds will not be available)
+ * Returns 0 on success, -1 on error (leap seconds will not be available)
  */
 int ntpleaps_read(void);
 
 /* Subtracts leap seconds from the given value (converts NTP time
  * to posix clock tick time.
- * returns 0 on success, -1 on error (time is unchanged), 1 on leap second
+ * Returns 0 on success, -1 on error (time is unchanged), 1 on leap second
  */
 int ntpleaps_sub(u_int64_t *);
 

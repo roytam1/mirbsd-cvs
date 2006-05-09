@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jakob Exp $	*/
 
 /*
- * Copyright (c) 2002, 2005 Thorsten Glaser. All rights reserved.
+ * Copyright (c) 2002, 2005, 2006 Thorsten Glaser. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,7 +31,6 @@
 
 /* Leap second support for NTP clients (generic) */
 
-
 /*
  * I could include tzfile.h, but this would make the code unportable
  * at no real benefit. Read tzfile.h for why.
@@ -48,14 +47,22 @@
 
 #include "ntpleaps.h"
 
-__RCSID("$MirOS$");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
+#endif
+
+__RCSID("$MirOS: src/usr.sbin/rdate/ntpleaps.c,v 1.3 2005/10/27 11:58:39 tg Exp $");
+
+#ifndef O_NDELAY
+#define O_NDELAY	0
+#endif
 
 u_int64_t *leapsecs = NULL;
 unsigned int leapsecs_num = 0;
 static int flaginit = -1;
 static int flagwarn = 0;
 
-u_int32_t read_be_dword(u_int8_t *);
+static u_int32_t read_be_dword(u_int8_t *);
 
 int
 ntpleaps_init(void)
@@ -69,12 +76,12 @@ ntpleaps_init(void)
 	}
 
 	/* This does not really hurt, but users will complain about
-	 * off-by-22-seconds (at time of coding) errors if we don't warn.
+	 * off-by-23-seconds (at time of coding) errors if we don't warn.
 	 */
 	if (!flagwarn) {
 		fputs("Warning: error reading tzfile. You will NOT be\n"
 		    "able to get legal time or posix compliance! To fix this,\n"
-		    "install the 240 byte /usr/share/zoneinfo/UTC file.\n",
+		    "install the 240 byte /usr/share/zoneinfo/right/UTC file.\n",
 		    stderr);
 		flagwarn = 1;	/* put it only once */
 	}
@@ -103,7 +110,7 @@ ntpleaps_sub(u_int64_t *t)
 	return (r);
 }
 
-u_int32_t
+static u_int32_t
 read_be_dword(u_int8_t *ptr)
 {
 	u_int32_t res;
@@ -111,7 +118,6 @@ read_be_dword(u_int8_t *ptr)
 	memcpy(&res, ptr, 4);
 	return (ntohl(res));
 }
-
 
 int
 ntpleaps_read(void)
@@ -123,7 +129,9 @@ ntpleaps_read(void)
 	u_int64_t s;
 	u_int64_t *l;
 
-	fd = open("/usr/share/zoneinfo/UTC", O_RDONLY | O_NDELAY);
+	fd = open("/usr/share/zoneinfo/right/UTC", O_RDONLY | O_NDELAY);
+	if (fd == -1)
+		fd = open("/usr/share/zoneinfo/UTC", O_RDONLY | O_NDELAY);
 	if (fd == -1)
 		return (-1);
 
@@ -135,7 +143,7 @@ ntpleaps_read(void)
 		return (-1);
 	}
 
-	/* Pre-initalize buf[24..27] so we need not check read(2) result */
+	/* Pre-initalise buf[24..27] so we need not check read(2) result */
 	buf[24] = 0;
 	buf[25] = 0;
 	buf[26] = 0;
