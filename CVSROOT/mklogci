@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.17 2006/01/14 01:20:31 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.18 2006/01/14 01:31:36 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -120,6 +120,8 @@ function addflist
 			addnames
 			dir=$fn
 			set -A add_names
+		elif [[ -z $fn || $fn = *([	 ]) ]]; then
+			break
 		else
 			add_names[${#add_names[*]}]=$fn
 		fi
