@@ -1,5 +1,5 @@
 <!-- PageID: irc -->
-<small class="rcsid">$MirOS: www/content/aXJj.inc,v 1.1 2006/03/30 12:50:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aXJj.inc,v 1.2 2006/04/12 18:17:55 tg Exp $</small>
 
 <h1>The MirOS Project on IRC</h1>
 
@@ -95,12 +95,14 @@
 
 <h3 id="ffcon">List of Servers</h3>
 <p>The standard way to connect to IRC is to open a TCP connection to
- one of the servers on port 6667 (non-SSL) or 6668 (TLS secured).
- However, all of Freeforge's servers also offer IRC in port 6666 (also
- non-encrypted).</p>
+ one of the servers on port 6666 (non-SSL) or 6668 (TLS secured).
+ However, most of Freeforge's servers also offer IRC on the legacy
+ port 6667 (also non-encrypted).</p>
 
 <p>Thorsten Glaser of MirOS has set up a DNS round-robin for these who
- want to "simply connect to Port 6667/6668 and it works". You can use
+ want to "simply connect to Port 6667/6668 and it works". (Note that,
+ for some of the IPv6 servers, Port 6667 does not work &ndash; however,
+ Port 6668 (encrypted) or 6666 (plaintext) always does.) You can use
  either of irc.mirbsd.org, irc4.mirbsd.org or irc6.mirbsd.org (for
  both address families, IPv4 only, and IPv6 only, respectively). Also,
  you can use irc.66h.42h.de, irc4.66h.42h.de, irc6.66h.42h.de, in case
@@ -110,16 +112,20 @@
  connectivity, etc.</p><ul>
 <li>zeus: zeus.freeforge.net (IPv4 only), gecko2.tb.as8758.net (IPv6
  only <strong>but no port 6667</strong>, only 6666 (non-SSL), 6668 (TLS)).
- The IPv4 portion of this server is included in the MirBSD round-robin.
+ The IPv4 portion of this server is included in the MirBSD round-robin;
+ the IPv6 portion as well (beware!).
  This server is located at Strato, Berlin, Germany with an 100 Mbit
  IPv4 connection and an IPv6 tunnel to Switzerland.</li>
 <li>thor: this server has been cancelled.</li>
-<li>maou: maou.66h.42h.de (IPv4 only). Included in the MirBSD round-robin.
- Also located at Strato, Berlin, Germany with an 100 Mbit pipe.</li>
+<!-- li>maou: maou.66h.42h.de (IPv4 only). Included in the MirBSD round-robin.
+ Also located at Strato, Berlin, Germany with an 100 Mbit pipe.</li -->
+<li>maou: this server is out of order at the moment.</li>
 <li>herc: herc.66h.42h.de (IPv4/IPv6). Both are included in the MirBSD
  round-robin (and support 6666/6667/6668). Located in Bad Godesberg,
  Germany, behind a customer-grade ADSL connection with 0.5 Mbit IPv4
- to Cologne and an IPv6 tunnel to Hamburg.</li>
+ to Cologne and an IPv6 tunnel to Hamburg. Sometimes, the IPv4 portion
+ is only reachable under y.shacknet.nu or mirabile.cjb.net (but IPv6
+ should be stable).</li>
 </ul>
 
 <p>As a special service to our customers, the IRC servers listed
