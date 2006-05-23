@@ -1,7 +1,41 @@
-/* $MirOS: contrib/code/libhaible/towupper.c,v 1.2 2006/05/23 10:42:57 tg Exp $ */
+/* $MirOS$ */
+
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Based upon code written by Bruno Haible for GNU libutf8:
+ * Copyright (c) 1999, 2000, 2001
+ *	Free Software Foundation, Inc.
+ *
+ * This work is licenced under the terms of the GNU Library General
+ * Public License, Version 2, as in /usr/share/doc/legal/COPYING.LIB-2
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
+
+#include <wchar.h>
 
 #define mir18n_caseconv
 #include "mir18n.h"
+
+__RCSID("$MirOS$");
+
+wint_t
+towupper(wint_t x)
+{
+	if (!__locale_is_utf8)
+		return ((x < 0x100) ? toupper(x) : x);
+	else
+		return ((x < 0xFFFD) ?
+		    (x + toupper_table[x >> 8][x & 0xff]) : x);
+}
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
