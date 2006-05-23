@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/libhaible/towlower.c,v 1.1 2006/05/23 10:32:15 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/towlower.c,v 1.2 2006/05/23 10:42:57 tg Exp $ */
 
-#define nop_page mir18n_attribute_nop_page
-extern const short nop_page[256];
+#define mir18n_caseconv
+#include "mir18n.h"
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
@@ -460,7 +460,7 @@ static const short tolower_table_pageff[256] = {
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 };
 
-static const short * const tolower_table[0x100] = {
+const short * const tolower_table[0x100] = {
 	tolower_table_page00, tolower_table_page01, tolower_table_page02, tolower_table_page03,
 	tolower_table_page04, tolower_table_page05, nop_page, nop_page,
 	nop_page, nop_page, nop_page, nop_page,

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.1 2006/05/23 10:18:05 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.2 2006/05/23 10:25:23 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -65,6 +65,19 @@ __END_DECLS
 #define attribute_table mir18n_attribute_table
 __BEGIN_DECLS
 extern const unsigned char * const attribute_table[0x100];
+__END_DECLS
+#endif
+
+#ifdef mir18n_caseconv
+/* namespace definitions for the UCD tables */
+#define nop_page mir18n_attribute_nop_page
+#define tolower_page mir18n_caseconv_tolower
+#define toupper_page mir18n_caseconv_toupper
+
+__BEGIN_DECLS
+extern const short nop_page[256];
+extern const short * const tolower_table[0x100];
+extern const short * const toupper_table[0x100];
 __END_DECLS
 #endif
 

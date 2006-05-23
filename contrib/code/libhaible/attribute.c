@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/attribute.c,v 1.3 2006/05/23 10:32:59 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/attribute.c,v 1.4 2006/05/23 10:42:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -21,11 +21,11 @@
  */
 
 #define mir18n_attributes
+#define mir18n_caseconv
 #include "mir18n.h"
 
 /* for towlower.c and towupper.c */
 
-#define nop_page mir18n_attribute_nop_page
 const short nop_page[256] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
