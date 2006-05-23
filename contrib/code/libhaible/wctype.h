@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wctype.h,v 1.1 2006/05/23 10:35:28 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wctype.h,v 1.2 2006/05/23 11:26:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -55,8 +55,8 @@ int	iswupper(wint_t);
 #ifdef notyet
 int	iswxdigit(wint_t);
 int	iswctype(wint_t, wctype_t);
-wint_t	towctrans(wint_t, wctrans_t);
 #endif
+wint_t	towctrans(wint_t, wctrans_t);
 wint_t	towlower(wint_t);
 wint_t	towupper(wint_t);
 #ifdef notyet

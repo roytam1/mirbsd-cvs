@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/libhaible/towctrans.c,v 1.1 2006/05/23 11:18:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -20,8 +20,34 @@
  * the possibility of such damage or existence of a nontrivial bug.
  */
 
+#include <wctype.h>
+#include <errno.h>
+
 #define mir18n_caseconv
 #include "mir18n.h"
+
+__RCSID("$MirOS$");
+
+wint_t
+towctrans(wint_t wc, wctrans_t desc)
+{
+	if (!__locale_is_utf8) {
+		if (wc < 0x100) {
+			if (desc == toupper_table)
+				return ((wint_t)toupper(wc));
+			else if (desc == tolower_table)
+				return ((wint_t)tolower(wc));
+			else
+				errno = EINVAL;
+		}
+	} else {
+		if (desc == NULL)
+			errno = EINVAL;
+		else if (wc <= 0xFFFD)
+			return (wc + desc[wc >> 8][wc & 0xFF]);
+	}
+	return (wc);
+}
 
 /* for towlower and towupper tables */
 
