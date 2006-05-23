@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.3 2006/05/23 10:49:08 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.4 2006/05/23 11:11:52 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -73,15 +73,20 @@ __END_DECLS
 #endif
 
 #ifdef mir18n_caseconv
+/* for uint16_t */
+#ifndef __BIT_TYPES_DEFINED__
+#include <machine/types.h>
+#endif
+
 /* namespace definitions for the UCD tables */
 #define nop_page mir18n_attribute_nop_page
 #define tolower_page mir18n_caseconv_tolower
 #define toupper_page mir18n_caseconv_toupper
 
 __BEGIN_DECLS
-extern const short nop_page[256];
-extern const short * const tolower_table[0x100];
-extern const short * const toupper_table[0x100];
+extern const uint16_t nop_page[256];
+extern const uint16_t * const tolower_table[0x100];
+extern const uint16_t * const toupper_table[0x100];
 __END_DECLS
 #endif
 
