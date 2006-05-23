@@ -1,4 +1,7 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/libhaible/towlower.c,v 1.1 2006/05/23 10:32:15 tg Exp $ */
+
+#define nop_page mir18n_attribute_nop_page
+extern const short nop_page[256];
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
