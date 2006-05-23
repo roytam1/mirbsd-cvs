@@ -1,7 +1,11 @@
-/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.2 2006/05/23 10:25:23 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.3 2006/05/23 10:49:08 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
+
+#ifndef __BEGIN_DECLS
+#include <sys/cdefs.h>
+#endif
 
 #ifndef __bool_true_false_are_defined
 #include <stdbool.h>
