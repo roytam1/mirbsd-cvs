@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/towlower.c,v 1.5 2006/05/23 11:18:43 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/towlower.c,v 1.6 2006/05/23 11:21:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,7 +26,7 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/towlower.c,v 1.5 2006/05/23 11:18:43 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/towlower.c,v 1.6 2006/05/23 11:21:54 tg Exp $");
 
 wint_t
 towlower(wint_t x)
@@ -34,7 +34,7 @@ towlower(wint_t x)
 	if (!__locale_is_utf8)
 		return ((x < 0x100) ? (wint_t)tolower(x) : x);
 	else
-		return ((x < 0xFFFD) ?
+		return ((x <= 0xFFFD) ?
 		    (x + tolower_table[x >> 8][x & 0xff]) : x);
 }
 
