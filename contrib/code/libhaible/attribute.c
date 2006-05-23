@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/attribute.c,v 1.5 2006/05/23 10:49:04 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/attribute.c,v 1.6 2006/05/23 11:18:40 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,6 +22,8 @@
 
 #define mir18n_attributes
 #include "mir18n.h"
+
+__RCSID("$MirOS$");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 

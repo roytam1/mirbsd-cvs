@@ -1,6 +1,8 @@
-/* $MirOS: contrib/code/libhaible/wcwidth.c,v 1.1 2006/05/23 10:32:16 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wcwidth.c,v 1.2 2006/05/23 11:11:52 tg Exp $ */
 
 #include <stdlib.h>
+
+__RCSID("$MirOS$");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
