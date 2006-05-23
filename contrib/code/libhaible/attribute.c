@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/attribute.c,v 1.1 2006/05/23 10:25:20 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/attribute.c,v 1.2 2006/05/23 10:31:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -14788,7 +14788,7 @@ static const unsigned char attribute_table_pageff[256] = {
 	/* 0xffff */ 0
 };
 
-static const unsigned char * const attribute_table[0x100] = {
+const unsigned char * const attribute_table[0x100] = {
 	attribute_table_page00, attribute_table_page01,
 	attribute_table_page02, attribute_table_page03,
 	attribute_table_page04, attribute_table_page05,
