@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.4 2006/05/09 08:43:17 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.1 2006/05/23 10:35:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -81,8 +81,8 @@ size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
 #endif
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
-#ifdef notyet
 int	mbsinit(const mbstate_t *);
+#ifdef notyet
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
 #endif
