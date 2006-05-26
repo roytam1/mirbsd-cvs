@@ -1,14 +1,14 @@
-# $MirOS: src/usr.bin/ftp/Makefile,v 1.2 2005/03/13 18:32:59 tg Exp $
+# $MirOS: src/usr.bin/ftp/Makefile,v 1.3 2005/04/13 16:10:27 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/11/20 23:32:26 tedu Exp $
 
-# Define SMALL to disable command line editing
-#CPPFLAGS+=	-DSMALL
+.include <bsd.own.mk>
 
 # Uncomment the following to provide defaults for gate-ftp operation
 #CPPFLAGS+=	-DGATE_SERVER=\"ftp-gw.host\" # -DGATE_PORT=21
 
 .if (defined(USE_SOCKS) && ${USE_SOCKS:L} == "yes")
-CPPFLAGS+=	-DSOCKS -I/usr/local/include
+LOCALBASE?=	/usr/mpkg
+CPPFLAGS+=	-DSOCKS -I${LOCALBASE}/include
 LDADD+=		-lsocks5
 .endif
 
@@ -19,10 +19,17 @@ SRCS=	cmds.c cmdtab.c complete.c domacro.c fetch.c ftp.c main.c ruserpass.c \
 .ifndef NO_INET6
 CPPFLAGS+=	-DINET6
 .endif
-CFLAGS+=	-Wall
+.ifdef SMALL
+CPPFLAGS+=	-DSMALL
+.else
+LDADD+=		-ledit
+DPADD+=		${LIBEDIT}
+.endif
 
-LDADD+=		-ledit -lcurses -lutil
-DPADD+=		${LIBEDIT} ${LIBCURSES} ${LIBUTIL}
+LDADD+=		-lcurses -lutil
+DPADD+=		${LIBCURSES} ${LIBUTIL}
+
+CFLAGS+=	-Wall
 LDSTATIC=	${STATIC}
 
 .include <bsd.prog.mk>
