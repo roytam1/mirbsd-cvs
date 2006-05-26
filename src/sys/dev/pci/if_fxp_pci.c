@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_fxp_pci.c,v 1.35 2005/05/27 06:37:21 brad Exp $	*/
+/*	$OpenBSD: if_fxp_pci.c,v 1.46 2006/03/08 20:51:59 miod Exp $	*/
 
 /*
  * Copyright (c) 1995, David Greenman
@@ -85,7 +85,7 @@ struct cfattach fxp_pci_ca = {
 };
 
 const struct pci_matchid fxp_pci_devices[] = {
-	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82557 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_8255x },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82559 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82559ER },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82562 },
@@ -107,15 +107,32 @@ const struct pci_matchid fxp_pci_devices[] = {
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_3 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_4 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_5 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_6 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_7 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_8 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_9 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_10 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_11 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_12 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_13 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_14 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_15 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_16 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_17 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_18 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_VM_19 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100_M },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PRO_100 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801DB_LAN },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801E_LAN_1 },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801E_LAN_2 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_LAN },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_LAN_2 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FBM_LAN },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_LAN },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_LAN_2 },
 };
 
-/*
- * Check if a device is an 82557.
- */
 int
 fxp_pci_match(parent, match, aux)
 	struct device *parent;
@@ -135,6 +152,7 @@ fxp_pci_attach(parent, self, aux)
 	struct pci_attach_args *pa = aux;
 	pci_chipset_tag_t pc = pa->pa_pc;
 	pci_intr_handle_t ih;
+	const char *chipname = NULL;
 	const char *intrstr = NULL;
 	bus_size_t iosize;
 
@@ -144,7 +162,7 @@ fxp_pci_attach(parent, self, aux)
 		return;
 	}
 	sc->sc_dmat = pa->pa_dmat;
-	
+
 	sc->sc_revision = PCI_REVISION(pa->pa_class);
 
 	/*
@@ -169,12 +187,11 @@ fxp_pci_attach(parent, self, aux)
 	}
 
 	switch (PCI_PRODUCT(pa->pa_id)) {
-	case PCI_PRODUCT_INTEL_82557:
+	case PCI_PRODUCT_INTEL_8255x:
 	case PCI_PRODUCT_INTEL_82559:
 	case PCI_PRODUCT_INTEL_82559ER:
 	{
-		const char *chipname = NULL;
-
+		chipname = "i82557";
 		if (sc->sc_revision >= FXP_REV_82558_A4)
 			chipname = "i82558";
 		if (sc->sc_revision >= FXP_REV_82559_A0)
@@ -185,30 +202,16 @@ fxp_pci_attach(parent, self, aux)
 			chipname = "i82550";
 		if (sc->sc_revision >= FXP_REV_82551_E)
 			chipname = "i82551";
-
-		if (chipname != NULL)
-			printf(", %s", chipname);
-
 		break;
 	}
-		break;
-	case PCI_PRODUCT_INTEL_PRO_100_VE_0:
-	case PCI_PRODUCT_INTEL_PRO_100_VE_1:
-	case PCI_PRODUCT_INTEL_PRO_100_VM_0:
-	case PCI_PRODUCT_INTEL_PRO_100_VM_1:
-	case PCI_PRODUCT_INTEL_PRO_100_VM_2:
-	case PCI_PRODUCT_INTEL_82562EH_HPNA_0:
-	case PCI_PRODUCT_INTEL_82562EH_HPNA_1:
-	case PCI_PRODUCT_INTEL_82562EH_HPNA_2:
-		/*
-		 * ICH3 chips apparently have problems with the enhanced
-		 * features, so just treat them as an i82557.
-		 */
-		sc->sc_revision = 1;
 		break;
 	default:
+		chipname = "i82562";
 		break;
 	}
+
+	if (chipname != NULL)
+		printf(", %s", chipname);
 
 	/*
 	 * Cards for which we should WRITE TO THE EEPROM
@@ -225,7 +228,7 @@ fxp_pci_attach(parent, self, aux)
 	    (PCI_PRODUCT(pa->pa_id) > 0x1030 && 
 	    PCI_PRODUCT(pa->pa_id) < 0x1039) || 
 	    (PCI_PRODUCT(pa->pa_id) == 0x1229 &&
-	    (sc->sc_revision >= 8 && sc->sc_revision <= 13))))
+	    (sc->sc_revision >= 8 && sc->sc_revision <= 16))))
 		sc->sc_flags |= FXPF_DISABLE_STANDBY;
 
 	/* enable bus mastering */
