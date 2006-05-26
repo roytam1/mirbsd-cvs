@@ -1,4 +1,4 @@
-/*	$OpenBSD: fxp.c,v 1.72 2005/06/08 17:02:59 henning Exp $	*/
+/*	$OpenBSD: fxp.c,v 1.78 2006/05/22 20:35:12 krw Exp $	*/
 /*	$NetBSD: if_fxp.c,v 1.2 1997/06/05 02:01:55 thorpej Exp $	*/
 
 /*
@@ -179,6 +179,7 @@ static int tx_threshold = 64;
  */
 int fxp_int_delay = FXP_INT_DELAY;
 int fxp_bundle_max = FXP_BUNDLE_MAX;
+int fxp_min_size_mask = FXP_MIN_SIZE_MASK;
 
 /*
  * TxCB list index mask. This is used to do list wrap-around.
@@ -323,7 +324,7 @@ fxp_power(why, arg)
 	struct ifnet *ifp;
 	int s;
 
-	s = splimp();
+	s = splnet();
 	if (why != PWR_RESUME)
 		fxp_stop(sc, 0);
 	else {
@@ -434,6 +435,7 @@ fxp_attach_common(sc, intrstr)
 	if (sc->sc_revision >= FXP_REV_82558_A4) {
 		sc->sc_int_delay = fxp_int_delay;
 		sc->sc_bundle_max = fxp_bundle_max;
+		sc->sc_min_size_mask = fxp_min_size_mask;
 	}
 	/*
 	 * Read MAC address.
@@ -576,8 +578,10 @@ fxp_detach(sc)
 	ether_ifdetach(ifp);
 	if_detach(ifp);
 
-	shutdownhook_disestablish(sc->sc_sdhook);
-	powerhook_disestablish(sc->sc_powerhook);
+	if (sc->sc_sdhook != NULL)
+		shutdownhook_disestablish(sc->sc_sdhook);
+	if (sc->sc_powerhook != NULL)
+		powerhook_disestablish(sc->sc_powerhook);
 
 	return (0);
 }
@@ -1035,7 +1039,7 @@ fxp_stats_update(arg)
 		if (tx_threshold < 192)
 			tx_threshold += 64;
 	}
-	s = splimp();
+	s = splnet();
 	/*
 	 * If we haven't received any packets in FXP_MAX_RX_IDLE seconds,
 	 * then assume the receiver has locked up and attempt to clear
@@ -1152,7 +1156,7 @@ fxp_stop(sc, drain)
 		for (i = 0; i < FXP_NRFABUFS_MIN; i++) {
 			if (fxp_add_rfabuf(sc, NULL) != 0) {
 				/*
-				 * This "can't happen" - we're at splimp()
+				 * This "can't happen" - we're at splnet()
 				 * and we just freed all the buffers we need
 				 * above.
 				 */
@@ -1204,7 +1208,7 @@ fxp_init(xsc)
 	bus_dmamap_t rxmap;
 	int i, prm, save_bf, lrxen, allm, s, bufs;
 
-	s = splimp();
+	s = splnet();
 
 	/*
 	 * Cancel any pending I/O
@@ -1665,7 +1669,7 @@ fxp_ioctl(ifp, command, data)
 	struct ifaddr *ifa = (struct ifaddr *)data;
 	int s, error = 0;
 
-	s = splimp();
+	s = splnet();
 
 	if ((error = ether_ioctl(ifp, &sc->sc_arpcom, command, data)) > 0) {
 		splx(s);
@@ -1750,7 +1754,7 @@ fxp_ioctl(ifp, command, data)
  * of it. We then can do 'CU_START' on the mcsetup descriptor and have it
  * lead into the regular TxCB ring when it completes.
  *
- * This function must be called at splimp.
+ * This function must be called at splnet.
  */
 void
 fxp_mc_setup(sc, doit)
