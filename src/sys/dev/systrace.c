@@ -1,4 +1,4 @@
-/*	$OpenBSD: systrace.c,v 1.38 2005/04/17 22:11:34 millert Exp $	*/
+/*     $OpenBSD: systrace.c,v 1.42 2006/05/28 17:06:38 pedro Exp $     */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -1442,17 +1442,14 @@ systrace_replace(struct str_process *strp, size_t argsize, register_t args[])
 int
 systrace_fname(struct str_process *strp, caddr_t kdata, size_t len)
 {
-	if (strp->nfname >= SYSTR_MAXFNAME)
-		return (EINVAL);
-
-	if (len < 2) /* Be consistent with namei() behaviour */
-		return (ENOENT);
+       if (strp->nfname >= SYSTR_MAXFNAME || len < 1)
+		return EINVAL;
 
 	strp->fname[strp->nfname] = kdata;
 	strp->fname[strp->nfname][len - 1] = '\0';
 	strp->nfname++;
 
-	return (0);
+	return 0;
 }
 
 void
