@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
@@ -17,7 +17,9 @@
  * This acknowledgement does not need to be reprinted if this work is
  * linked into a bigger work whose licence does not allow such clause
  * and the author of this work is given due credit in the bigger work
- * or its documentation.
+ * or its documentation. Specifically, re-using this code in any work
+ * covered by the GNU General Public License version 1 or Library Ge-
+ * neral Public License (any version) is permitted.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -37,7 +39,7 @@
 #include "sqlite3.h"
 #include "regexp.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.1 2006/05/04 11:41:24 tg Exp $");
 
 static unsigned char errstr[256];
 
