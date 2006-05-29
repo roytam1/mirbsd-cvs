@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.3 2006/02/01 17:23:35 tg Exp $
+# $MirOS: ports/textproc/expat/expat.port.mk,v 1.1 2006/05/29 21:23:29 bsiegert Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -17,7 +17,7 @@ USE_EXPAT=	base
 .  elif ${OStype} == "Darwin"
 USE_EXPAT=	X11
 .  elif ${OStype} == "OpenBSD"
-USE_XPAT=	X11
+USE_EXPAT=	X11
 .  else
 USE_EXPAT=	port
 .  endif
