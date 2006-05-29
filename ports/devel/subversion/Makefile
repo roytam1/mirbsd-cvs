@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.3 2005/07/06 19:21:29 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.4 2005/12/06 20:00:01 bsiegert Exp $
 
 COMMENT=		"Subversion revision control system"
-VERSION=		1.2.3
+VERSION=		1.3.1
 DASH_VER=		-0
 DISTNAME=		subversion-${VERSION}
 PKGNAME=		subversion-${VERSION}${DASH_VER}
@@ -23,9 +23,9 @@ FLAVORS=		bsddb
 FLAVOR?=
 
 LIB_DEPENDS+=		xml2::textproc/libxml
-LIB_DEPENDS+=		expat::textproc/expat
 LIB_DEPENDS+=		neon::net/neon
 RUN_DEPENDS+=		:p5-URI-*:www/p5-URI
+MODULES=		textproc/expat
 
 .if ${FLAVOR:L:Mbsddb}
 LIB_DEPENDS+=		db.4.2::databases/db
@@ -45,6 +45,7 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-neon=${LOCALBASE}
 CONFIGURE_ARGS+=	--with-gdbm=no
 CONFIGURE_ARGS+=	--disable-nls
+CONFIGURE_ARGS+=	--with-expat=${EXPAT_PREFIX}
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/apr ${WRKSRC}/apr-util
