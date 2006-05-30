@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/towctrans.c,v 1.1 2006/05/23 11:18:43 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/towctrans.c,v 1.2 2006/05/23 11:39:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,13 +26,13 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/towctrans.c,v 1.2 2006/05/23 11:39:37 tg Exp $");
 
 wint_t
 towctrans(wint_t wc, wctrans_t desc)
 {
 	if (!__locale_is_utf8) {
-		if (wc < 0x100) {
+		if (wc <= MIR18N_SB_MAX) {
 			if (desc == toupper_table)
 				return ((wint_t)toupper(wc));
 			else if (desc == tolower_table)
@@ -43,7 +43,7 @@ towctrans(wint_t wc, wctrans_t desc)
 	} else {
 		if (desc == NULL)
 			errno = EINVAL;
-		else if (wc <= 0xFFFD)
+		else if (wc <= MIR18N_MB_MAX)
 			return (wc + desc[wc >> 8][wc & 0xFF]);
 	}
 	return (wc);

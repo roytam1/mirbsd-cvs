@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/towupper.c,v 1.6 2006/05/23 11:21:54 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/towupper.c,v 1.7 2006/05/23 11:37:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,15 +26,15 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/towupper.c,v 1.6 2006/05/23 11:21:54 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/towupper.c,v 1.7 2006/05/23 11:37:19 tg Exp $");
 
 wint_t
 towupper(wint_t x)
 {
 	if (!__locale_is_utf8)
-		return ((x < 0x100) ? (wint_t)toupper(x) : x);
+		return ((x <= MIR18N_SB_MAX) ? (wint_t)toupper(x) : x);
 	else
-		return ((x <= 0xFFFD) ?
+		return ((x <= MIR18N_MB_MAX) ?
 		    (x + toupper_table[x >> 8][x & 0xff]) : x);
 }
 
