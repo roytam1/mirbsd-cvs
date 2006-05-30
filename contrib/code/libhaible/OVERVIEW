@@ -1,88 +1,88 @@
-$MirOS$
-$function name		wchar.h	wctypeh	src_lc	src_lh	manpage
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.1 2006/05/30 13:34:46 tg Exp $
+$function name		header		manpage	source location
 $ 
-btowc			x	-
-fgetwc			x	-
-fgetws			x	-
-fputwc			x	-
-fputws			x	-
-fwide			x	-
-fwprintf		x	-
-fwscanf			x	-
-getwc			x	-
-getwchar		x	-
-iswalnum		-	x
-iswalpha		-	x
-iswblank		-	x
-iswcntrl		-	x
-iswctype		-	x
-iswdigit		-	x
-iswgraph		-	x
-iswlower		-	x
-iswprint		-	x
-iswpunct		-	x
-iswspace		-	x
-iswupper		-	x
-iswxdigit		-	x
-mbrlen			x	-
-mbrtowc			x	-
-mbsinit			x	-
-mbsrtowcs		x	-
-putwc			x	-
-putwchar		x	-
-swprintf		x	-
-swscanf			x	-
-towctrans		-	x
-towlower		-	x
-towupper		-	x
-ungetwc			x	-
-vfwprintf		x	-
-vfwscanf		x	-
-vswprintf		x	-
-vswscanf		x	-
-vwprintf		x	-
-vwscanf			x	-
-wcrtomb			x	-
-wcscasecmp		x	-
-wcscat			x	-
-wcschr			x	-
-wcscmp			x	-
-wcscoll			x	-
-wcscpy			x	-
-wcscspn			x	-
-wcsdup			x	-
-wcsftime		x	-
-wcslcat			x	-
-wcslcpy			x	-
-wcslen			x	-
-wcsncasecmp		x	-
-wcsncat			x	-
-wcsncmp			x	-
-wcsncpy			x	-
-wcspbrk			x	-
-wcsrchr			x	-
-wcsrtombs		x	-
-wcsspn			x	-
-wcsstr			x	-
-wcstod			x	-
-wcstof			x	-
-wcstok			x	-
-wcstol			x	-
-wcstold			x	-
-wcstoll			x	-
-wcstoul			x	-
-wcstoull		x	-
-wcswcs			x	-
-wcswidth		x	-
-wcsxfrm			x	-
-wctob			x	-
-wctrans			-	x
-wctype			x	-
-wcwidth			x	-
-wmemchr			x	-
-wmemcmp			x	-
-wmemcpy			x	-
-wmemmove		x	-
-wmemset			x	-
-wprintf			x	-
-wscanf			x	-
+btowc			 wchar.h
+fgetwc			 wchar.h
+fgetws			 wchar.h
+fputwc			 wchar.h
+fputws			 wchar.h
+fwide			 wchar.h
+fwprintf		 wchar.h
+fwscanf			 wchar.h
+getwc			 wchar.h
+getwchar		 wchar.h
+iswalnum		 wctype.h
+iswalpha		 wctype.h
+iswblank		 wctype.h
+iswcntrl		 wctype.h
+iswctype		 wctype.h
+iswdigit		 wctype.h
+iswgraph		 wctype.h
+iswlower		 wctype.h
+iswprint		 wctype.h
+iswpunct		 wctype.h
+iswspace		 wctype.h
+iswupper		 wctype.h
+iswxdigit		 wctype.h
+mbrlen			 wchar.h
+mbrtowc			 wchar.h
+mbsinit			 wchar.h
+mbsrtowcs		 wchar.h
+putwc			 wchar.h
+putwchar		 wchar.h
+swprintf		 wchar.h
+swscanf			 wchar.h
+towctrans		 wctype.h
+towlower		 wctype.h
+towupper		 wctype.h
+ungetwc			 wchar.h
+vfwprintf		 wchar.h
+vfwscanf		 wchar.h
+vswprintf		 wchar.h
+vswscanf		 wchar.h
+vwprintf		 wchar.h
+vwscanf			 wchar.h
+wcrtomb			 wchar.h
+wcscasecmp		 wchar.h
+wcscat			 wchar.h
+wcschr			 wchar.h
+wcscmp			 wchar.h
+wcscoll			 wchar.h
+wcscpy			 wchar.h
+wcscspn			 wchar.h
+wcsdup			 wchar.h
+wcsftime		 wchar.h
+wcslcat			 wchar.h
+wcslcpy			 wchar.h
+wcslen			 wchar.h
+wcsncasecmp		 wchar.h
+wcsncat			 wchar.h
+wcsncmp			 wchar.h
+wcsncpy			 wchar.h
+wcspbrk			 wchar.h
+wcsrchr			 wchar.h
+wcsrtombs		 wchar.h
+wcsspn			 wchar.h
+wcsstr			 wchar.h
+wcstod			 wchar.h
+wcstof			 wchar.h
+wcstok			 wchar.h
+wcstol			 wchar.h
+wcstold			 wchar.h
+wcstoll			 wchar.h
+wcstoul			 wchar.h
+wcstoull		 wchar.h
+wcswcs			 wchar.h
+wcswidth		 wchar.h
+wcsxfrm			 wchar.h
+wctob			 wchar.h
+wctrans			 wctype.h
+wctype			 wchar.h
+wcwidth			 wchar.h
+wmemchr			 wchar.h
+wmemcmp			 wchar.h
+wmemcpy			 wchar.h
+wmemmove		 wchar.h
+wmemset			 wchar.h
+wprintf			 wchar.h
+wscanf			 wchar.h
