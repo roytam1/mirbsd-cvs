@@ -1,7 +1,9 @@
+/* $MirOS$ */
 /*	$OpenBSD: wcstod.c,v 1.1 2005/07/01 08:59:27 espie Exp $	*/
 /* $NetBSD: wcstod.c,v 1.4 2001/10/28 12:08:43 yamt Exp $ */
 
 /*-
+ * Copyright (c) 2006 MirOS Project,
  * Copyright (c)1999, 2000, 2001 Citrus Project,
  * All rights reserved.
  *
@@ -36,8 +38,8 @@
 #include <wchar.h>
 #include <wctype.h>
 
-double
-wcstod(const wchar_t *nptr, wchar_t **endptr)
+long double
+wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 {
 	const wchar_t *src;
 	size_t size;
@@ -87,7 +89,7 @@ wcstod(const wchar_t *nptr, wchar_t **endptr)
 		char *end;
 		const wchar_t *s;
 		size_t size_converted;
-		double result;
+		long double result;
 		
 		buf = malloc(size + 1);
 		if (!buf) {
@@ -124,3 +126,7 @@ wcstod(const wchar_t *nptr, wchar_t **endptr)
 
 	return 0;
 }
+#if 0
+double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
+float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
+#endif
