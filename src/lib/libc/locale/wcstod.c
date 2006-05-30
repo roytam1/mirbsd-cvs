@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/locale/wcstod.c,v 1.2 2006/05/30 20:49:41 tg Exp $ */
 /*	$OpenBSD: wcstod.c,v 1.1 2005/07/01 08:59:27 espie Exp $	*/
 /* $NetBSD: wcstod.c,v 1.4 2001/10/28 12:08:43 yamt Exp $ */
 
@@ -126,7 +126,15 @@ wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 
 	return 0;
 }
-#if 0
-double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
-float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
-#endif
+
+double
+wcstod(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
+{
+	return ((double)wcstold(nptr, endptr));
+}
+
+float
+wcstof(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
+{
+	return ((float)wcstold(nptr, endptr));
+}
