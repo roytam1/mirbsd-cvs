@@ -1,9 +1,13 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.2 2006/05/30 13:41:26 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.3 2006/05/30 13:43:56 tg Exp $
 $function name		header		manpage	source location
 $ 
 $ Info: # = commented out
 $  
+__mb_cur_max		 stdlib.h
 btowc			 wchar.h
+catclose		 nl_types.h
+catgets			 nl_types.h
+catopen			 nl_types.h
 fgetwc			 wchar.h
 fgetws			 wchar.h
 fputwc			 wchar.h
@@ -26,12 +30,18 @@ iswpunct		 wctype.h
 iswspace		 wctype.h
 iswupper		 wctype.h
 iswxdigit		 wctype.h
+localeconv		 locale.h
+mblen			 stdlib.h
 mbrlen			#wchar.h
 mbrtowc			 wchar.h
 mbsinit			 wchar.h
 mbsrtowcs		#wchar.h
+mbstowcs		 stdlib.h
+mbtowc			 stdlib.h
+nl_langinfo		 langinfo.h
 putwc			 wchar.h
 putwchar		 wchar.h
+setlocale		 locale.h
 swprintf		#wchar.h
 swscanf			#wchar.h
 towctrans		 wctype.h
@@ -72,12 +82,14 @@ wcstok			 wchar.h
 wcstol			#wchar.h
 wcstold			#wchar.h
 wcstoll			#wchar.h
+wcstombs		 stdlib.h
 wcstoul			#wchar.h
 wcstoull		#wchar.h
 wcswcs			 wchar.h
 wcswidth		 wchar.h
 wcsxfrm			#wchar.h
 wctob			 wchar.h
+wctomb			 stdlib.h
 wctrans			 wctype.h
 wctype			 wchar.h
 wcwidth			 wchar.h
