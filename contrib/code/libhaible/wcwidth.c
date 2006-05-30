@@ -1,8 +1,59 @@
-/* $MirOS: contrib/code/libhaible/wcwidth.c,v 1.2 2006/05/23 11:11:52 tg Exp $ */
+/* $MirOS$ */
+
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Based upon code written by Bruno Haible for GNU libutf8:
+ * Copyright (c) 1999, 2000, 2001
+ *	Free Software Foundation, Inc.
+ *
+ * This work is licenced under the terms of the GNU Library General
+ * Public License, Version 2, as in /usr/share/doc/legal/COPYING.LIB-2
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
 
 #include <stdlib.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wcwidth.c,v 1.3 2006/05/23 11:44:23 tg Exp $");
+
+static const unsigned char * const nonspacing_table[];
+
+int
+wcwidth(wchar_t c)
+{
+	if (c == L'\0')
+		return (0);
+	if (!iswprint(c))
+		return (-1);
+
+	if (!__locale_is_utf8)
+		return (1);
+
+	/* test for non-spacing (combining) character */
+	if ((nonspacing_table[c >> 10] != NULL) &&
+	    (nonspacing_table[c >> 10][(c >> 3) & 127] & (1 << (c & 7))))
+		return (0);
+
+	if (c >= 0x1100 && (
+	    (c < 0x1160)		/* Hangul Jamo */ ||
+	    (c >= 0x2e80 && c < 0xa4d0	/* CJK ... Yi */
+	     && !((c & ~0x0011) == 0x300a || c == 0x303f)) ||
+	    (c >= 0xac00 && c < 0xd7a4)	/* Hangul Syllables */ ||
+	    (c >= 0xf900 && c < 0xfb00) /* CJK compat ideographs */ ||
+	    (c >= 0xfe30 && c < 0xfe70) /* CJK compat forms */ ||
+	    (c >= 0xff00 && c < 0xff60) /* full width forms */ ||
+	    (c >= 0xffe0 && c < 0xffe7)))
+		return (2);
+	return (1);
+}
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
