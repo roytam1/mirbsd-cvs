@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/lib/libcitrus_iconv/test/iconv_test.c,v 1.1 2006/01/31 19:13:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,6 +26,7 @@
 #include <stdio.h>
 
 unsigned char sb[512] = "fAbianBHello, world!", db[512] = "aaaaaaaaaaaaaaaaaa";
+unsigned char tb[512], ntb[512];
 
 int
 main(int argc, char **argv)
@@ -72,5 +73,46 @@ main(int argc, char **argv)
 		return (1);
 	if (*dp++ != 0xA4)
 		return (1);
-	return (strcmp(dp, "bian"));
+	if (strcmp(dp, "bian"))
+		return (1);
+
+	printf("Transliteration test:\n");
+
+	i = iconv_open("ISO_646.irv:1991", "UTF-8");
+	if (i == (iconv_t)-1)
+		perror("iconv_open");
+	ss = strlen(db);
+	ds = sizeof (ntb);
+	sp = db;
+	dp = ntb;
+	rv = iconv(i, (char **)&sp, &ss, (char **)&dp, &ds);
+	if (rv == (size_t)-1)
+		perror("iconv");
+	if (iconv_close(i))
+		perror("iconv_close");
+	printf("iconv: %d invalid, new src=%d dst=%d\ndump:", rv, ss, ds);
+	for (sp = ntb; sp <= dp; ++sp)
+		printf(" %02X", *sp & 0xFF);
+	*dp = '\0';
+	printf("\nString (sans): %s\n", ntb);
+
+	i = iconv_open("ISO_646.irv:1991//TRANSLIT", "UTF-8");
+	if (i == (iconv_t)-1)
+		perror("iconv_open");
+	ss = strlen(db);
+	ds = sizeof (tb);
+	sp = db;
+	dp = tb;
+	rv = iconv(i, (char **)&sp, &ss, (char **)&dp, &ds);
+	if (rv == (size_t)-1)
+		perror("iconv");
+	if (iconv_close(i))
+		perror("iconv_close");
+	printf("iconv: %d invalid, new src=%d dst=%d\ndump:", rv, ss, ds);
+	for (sp = tb; sp <= dp; ++sp)
+		printf(" %02X", *sp & 0xFF);
+	*dp = '\0';
+	printf("\nString (avec): %s\n", tb);
+
+	return (0);
 }
