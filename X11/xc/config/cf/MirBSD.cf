@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.10 2006/04/11 01:25:09 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.11 2006/04/11 19:03:54 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -88,7 +88,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	DBMLibrary		/**/
 #define	HasLibCrypt		NO
 #define	HasShm          	YES
-#define	HasWChar32		YES
+#define	HasWChar32		NO
 #define	HasMkstemp		YES
 #define	HasSetProcTitle		YES
 #define	HasZlib			YES
@@ -182,7 +182,12 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 # define AsmDefines		-DUSE_GAS -D__AOUT__
 #endif
 
-#define	XawI18nDefines		-DUSE_XWCHAR_STRING -DUSE_XMBTOWC
+#if OSMajorVersion > 8 || (OSMajorVersion == 8 && OSTeenyVersion >= 168
+# define XawI18nDefines		-DHAS_WCHAR_H -DHAS_WCTYPE_H -DNO_WIDEC_H \
+				-DHAS_ISW_FUNCS -D'iswalnum(c)=iswalnum(c)'
+#else
+# define XawI18nDefines		-DUSE_XWCHAR_STRING -DUSE_XMBTOWC
+#endif
 
 #define	AdmDir			/var/log
 
