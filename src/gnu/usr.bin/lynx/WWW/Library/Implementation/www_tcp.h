@@ -93,6 +93,11 @@ Default values
 #  include <ndir.h>
 # endif
 #endif /* HAVE_DIRENT_H */
+
+#if !(defined(DOSPATH) || defined(__EMX__) || defined(__CYGWIN__))
+#define STRUCT_DIRENT__D_INO 1
+#endif
+
 #endif /* !VMS */
 
 #ifdef TIME_WITH_SYS_TIME
@@ -202,6 +207,10 @@ extern int ws_netread(int fd, char *buf, int len);
 /* Avoid including <winsock*.h> in <windows.h> */
 #ifndef WIN32_LEAN_AND_MEAN
 #error Define "WIN32_LEAN_AND_MEAN" in your makefile
+#endif
+
+#ifdef _WINSOCKAPI_
+#error windows.h included before winsock2.h
 #endif
 
 #if defined(_MSC_VER) && (!defined(_WIN32_WINNT) || _WIN32_WINNT < 0x0501)

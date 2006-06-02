@@ -450,7 +450,7 @@ void curses_w_style(WINDOW * win, int style,
 
     if (style == s_normal && dir) {
 	LYAttrset(win, ds->color, ds->mono);
-	if (win == LYwin)
+	if (win == LYwin && CACHE_VALIDATE_YX(YP, XP))
 	    cached_styles[YP][XP] = s_normal;
 	return;
     }
@@ -496,7 +496,7 @@ void curses_w_style(WINDOW * win, int style,
 	    && style != s_aedit_arr) {
 	    CTRACE2(TRACE_STYLE, (tfp, "CACHED: <%s> @(%d,%d)\n",
 				  ds->name, YP, XP));
-	    if (win == LYwin)
+	    if (win == LYwin && CACHE_VALIDATE_YX(YP, XP))
 		cached_styles[YP][XP] = style;
 	}
 	LYAttrset(win, ds->color, ds->mono);
@@ -811,7 +811,7 @@ void LYnoVideo(int a)
  * If newterm is not defined, assume a curses subset which
  * supports only initscr.  --gil
  */
-#if defined(HAVE_NEWTERM) && defined(HAVE_DELSCREEN) && !(defined(NCURSES) && defined(HAVE_RESIZETERM))
+#if defined(HAVE_NEWTERM) && defined(HAVE_DELSCREEN) && !defined(PDCURSES) && !(defined(NCURSES) && defined(HAVE_RESIZETERM))
 static SCREEN *LYscreen = NULL;
 
 #define LYDELSCR() { \
@@ -2772,7 +2772,7 @@ long LYgetattrs(WINDOW * win)
 NCURSES_CONST char *unctrl(chtype ch)
 {
     static char result[3];
-    unsigned data = (unsigned char)ch;
+    unsigned data = (unsigned char) ch;
 
     if (data < 32) {
 	result[0] = '^';
