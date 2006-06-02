@@ -1,4 +1,4 @@
-/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.6 2006/01/11 00:40:01 tg Exp $ */
+/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.7 2006/03/29 21:41:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
@@ -106,10 +106,7 @@
 /*
  * This is the rsync server to invoke
  */
-#ifndef RSYNC
-#define RSYNC		"/bin/rsync"
-#endif
-#define FULL_RSYNC	RSYNC " --server "
+#define FULL_RSYNC	"rsync --server "
 
 /*
  * Niceness increase
@@ -125,7 +122,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.6 2006/01/11 00:40:01 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.7 2006/03/29 21:41:29 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -136,13 +133,15 @@ static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
 #define LOG_FACILITY	LOG_DAEMON
 #define LOG_PRIO	LOG_INFO
 #define DO_LOG(x, ...)	syslog(LOG_NOTICE, x, ## __VA_ARGS__)
+#define DO_LOG0(x)	syslog(LOG_NOTICE, x)
 #else /* def USE_SYSLOG */
 #define DO_LOG(x, ...)	/* nothing */
+#define DO_LOG0(x)	/* nothing */
 #endif /* ! def USE_SYSLOG */
 
 int main(int, char *[]);
 
-char * const env[] = {
+const char * const env[] = {
 	"PATH=" _PATH_DEFPATH,
 	"SHELL=" _PATH_BSHELL,
 	"CVSROOT=" LOCALROOT,
@@ -158,7 +157,7 @@ main(int argc, char *argv[])
 {
 	struct passwd *pw;
 	int niceness;
-	char *chrootdir;
+	char *chrootdir, *pgm;
 #ifdef CHROOT_PARENT_DIR
 	char *s;
 #endif
@@ -184,9 +183,9 @@ main(int argc, char *argv[])
 	errno = 0;
 	niceness = NICE_INC + getpriority(PRIO_PROCESS, 0);
 	if ((niceness == (NICE_INC - 1)) && errno) {
-		DO_LOG("Can't get process priority!");
+		DO_LOG0("Can't get process priority!");
 	} else if (setpriority(PRIO_PROCESS, 0, niceness)) {
-		DO_LOG("Can't set process priority!");
+		DO_LOG0("Can't set process priority!");
 	}
 
 #ifdef ANONCVS_USER
@@ -211,12 +210,12 @@ main(int argc, char *argv[])
 	}
 #ifdef CHROOT_PARENT_DIR
 	if ((s = strrchr(chrootdir, '/')) == NULL) {
-		DO_LOG("No slash in user's home directory!\n");
+		DO_LOG0("No slash in user's home directory!\n");
 		exit(1);
 	}
 	*s = '\0';
 	if (strrchr(chrootdir, '/') == NULL) {
-		DO_LOG("No slash in user's parent directory!\n");
+		DO_LOG0("No slash in user's parent directory!\n");
 		exit(1);
 	}
 #endif
@@ -277,22 +276,26 @@ main(int argc, char *argv[])
 
 	if ((argc == 3) && (!strcmp(ANONCVSSH_NAME, argv[0])) &&
 	    (!strcmp("-c", argv[1]))) {
-		if ((!strcmp("cvs server", argv[2])) ||
-		    (!strcmp("cvs -R server", argv[2])) ||
-		    (!strcmp("cvs -d " LOCALROOT " server", argv[2]))) {
+		pgm = argv[2];
+		if (!strncmp("/usr/bin/", pgm, strlen("/usr/bin/")))
+			pgm += strlen("/usr/bin/");
+		if (!strncmp("/bin/", pgm, strlen("/bin/")))
+			pgm += strlen("/bin/");
+		if ((!strcmp("cvs server", pgm)) ||
+		    (!strcmp("cvs -R server", pgm)) ||
+		    (!strcmp("cvs -d " LOCALROOT " server", pgm))) {
 			execle("/bin/cvs", "cvs", "server", NULL, env);
 			perror("execle: cvs");
-			DO_LOG("chaining to CVS failed!");
+			DO_LOG0("chaining to CVS failed!");
 			fprintf(stderr, "unable to exec CVS server!\n");
 			exit(1);
 			/* NOTREACHED */
-		} else if (!strncmp(FULL_RSYNC, argv[2], strlen(FULL_RSYNC))) {
+		} else if (!strncmp(FULL_RSYNC, pgm, strlen(FULL_RSYNC))) {
 #ifdef ACCESS_RSYNC
-			int i = 0;
+			int i = -1;
 			char *newarg[256];
-			char *p = argv[2] + strlen(RSYNC) /* space */ + 1;
+			char *p = pgm;
 
-			newarg[0] = RSYNC;
 		lp:
 			newarg[++i] = strsep(&p, " ");
 			if ((newarg[i] != NULL) && (i < 255))
@@ -303,26 +306,25 @@ main(int argc, char *argv[])
 			for (i = 0; i < argc; i++)
 				DO_LOG("newarg[%d] = \"%s\"\n", i, newarg[i]);
 #endif
-			execve(RSYNC, newarg, env);
+			execve("/bin/rsync", newarg, (char **)env);
 			perror("execve: rsync");
-			DO_LOG("chaining to " RSYNC " failed!");
+			DO_LOG0("chaining to rsync failed!");
 			fprintf(stderr, "unable to exec RSYNC!\n");
 			exit(1);
 			/* NOTREACHED */
 #else
-			DO_LOG("access to RSYNC prohibited!");
+			DO_LOG0("access to RSYNC prohibited!");
 #endif
 		}
 	}
 
-	DO_LOG("parameter failure, printing help message");
+	DO_LOG0("parameter failure, printing help message");
 	fprintf(stderr, "\n"
 	    "To use anonymous CVS or RSYNC, install the latest version of the\n"
 	    "client access software, as well as OpenSSH, on your computer.\n"
 	    "Then, set your CVSROOT environment variable to the following\n"
 	    "value for CVS access:\n\t%s:%s\n"
-	    "For RSYNC specify the parameter --rsync-path=" RSYNC "\n"
-	    "when connecting, and use SSH instead of RSH for both.\n",
+	    "For RSYNC, use SSH instead of RSH.\n",
 	    HOSTNAME, LOCALROOT);
 #ifdef DEBUG
 	DO_LOG("argc = %d\n", argc);

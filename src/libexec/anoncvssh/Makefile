@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/anoncvssh/Makefile,v 1.4 2005/12/16 23:37:43 tg Exp $
+# $MirOS: src/libexec/anoncvssh/Makefile,v 1.5 2006/01/11 00:40:01 tg Exp $
 
 # Note: you DO want to compile this, as well as the anoncvsbin
 # and rsync, statically. It is not possible, however, to do that
@@ -57,6 +57,7 @@ PROG?=	anoncvssh${PROGSUFF}
 # whenever you are going to update this.
 
 CPPFLAGS+=	${DEFS} -DANONCVSSH_NAME=\"${PROG}\"
+CDIAGFLAGS+=	-Wno-cast-qual
 BINOWN=		root
 BINGRP=		_anoncvs
 BINMODE=	4110
