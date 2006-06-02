@@ -1,4 +1,11 @@
-$MirOS$
+$MirOS: contrib/code/heartbeat/README,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
+
+WARNING
+-------
+
+This code has some not yet tracked down bugs which disappear if
+debugging prints are added. Use at your own risk and TEST it.
+
 
 Notes for the heartbeat support
 -------------------------------
