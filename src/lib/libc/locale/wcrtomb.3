@@ -51,7 +51,17 @@ is a null pointer.
 This function will modify the first at most
 .Dv MB_CUR_MAX
 bytes of the array pointed by
-.Fa s .
+.Fa s ,
+if
+.Fa ps
+is an initial conversion state.
+Contrary to and violating
+.St -susv3 ,
+this implementation can store up to five bytes in
+.Fa s
+if
+.Fa ps
+is not the initial conversion state.
 .Pp
 The behaviour of
 .Fn wcrtomb
