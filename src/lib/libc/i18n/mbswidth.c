@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/mbswidth.c,v 1.1 2006/06/02 12:29:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,7 +27,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/i18n/mbswidth.c,v 1.1 2006/06/02 12:29:33 tg Exp $");
 
 int
 mbswidth(const char *s, size_t n)
@@ -39,14 +39,14 @@ mbswidth(const char *s, size_t n)
 
 	while (n) {
 		numb = mbrtowc(&wc, s, n, &ps);
-		/* '\0' or invalid or incomplete multibyte character end us */
-		if (!numb || (numb == (size_t)-1) || (numb == (size_t)-2))
+		if (__predict_false(numb == (size_t)-1))
+			/* invalid input string */
+			return (-1);
+		if ((numb == 0) || (numb == (size_t)-2))
+			/* end of input string */
 			break;
 		width += wcwidth(wc);
 		s += numb;
-		/* just in case mbrtowc is buggy */
-		if (__predict_false(numb > n))
-			break;
 		n -= numb;
 	}
 	return (width);
