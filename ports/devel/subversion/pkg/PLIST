@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.3 2005/12/06 20:00:01 bsiegert Exp $
+@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.4 2006/05/29 21:16:22 bsiegert Exp $
 %%bsddb%%
 bin/apr-config
 bin/apu-config
@@ -135,4 +135,4 @@ man/man5/svnserve.conf.5
 man/man8/svnserve.8
 @dirrm include/subversion-1
 @dirrm include/apr-0
-@dirrm build
+@comment @dirrm build
