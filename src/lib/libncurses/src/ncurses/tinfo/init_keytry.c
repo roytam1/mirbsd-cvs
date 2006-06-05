@@ -90,7 +90,7 @@ _nc_init_keytry(void)
 	{
 	    TERMTYPE *tp = &(SP->_term->type);
 	    for (n = STRCOUNT; n < NUM_STRINGS(tp); ++n) {
-		char *name = ExtStrname(tp, n, strnames);
+		const char *name = ExtStrname(tp, n, strnames);
 		char *value = tp->Strings[n];
 		if (name != 0
 		    && *name == 'k'
