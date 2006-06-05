@@ -1,9 +1,10 @@
-# $MirOS: src/lib/libncurses/Makefile.inc,v 1.1 2006/06/05 00:44:34 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile.inc,v 1.2 2006/06/05 02:27:49 tg Exp $
 
 .ifndef _LIBNCURSES_MAKEFILE_INC
 _LIBNCURSES_MAKEFILE_INC=1
 
-NCSRCDIR?=	${.CURDIR}/../src
+.include <bsd.own.mk>
+NCSRCDIR?=	${BSDSRCDIR}/lib/libncurses/src
 
 # XXX should be defined elsewhere
 AWK?=		/usr/bin/awk
