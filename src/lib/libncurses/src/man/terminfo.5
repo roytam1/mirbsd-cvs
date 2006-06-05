@@ -46,7 +46,7 @@ is a data base describing terminals, used by screen-oriented programs such as
 \fBnvi\fR(1),
 \fBrogue\fR(1)
 and libraries such as
-\fBcurses\fR(3X).
+\fBcurses\fR(3).
 .I Terminfo
 describes terminals by giving a set of capabilities which they
 have, by specifying how to perform screen operations, and by
@@ -1928,7 +1928,7 @@ while the Lear Siegler \s-1ADM-3\s0 is described as
 Cursor addressing and other strings requiring parameters
 in the terminal are described by a
 parameterized string capability, with
-.IR printf (3S)
+.IR printf (3)
 like escapes \fB%x\fR in it.
 For example, to address the cursor, the
 .B cup
@@ -2166,7 +2166,7 @@ and
 .B rc
 (save and restore cursor) commands may be useful for ensuring that
 your synthesized insert/delete string does not move the cursor.
-(Note that the \fBncurses\fR(3X) library does this synthesis
+(Note that the \fBncurses\fR(3) library does this synthesis
 automatically, so you need not compose insert/delete strings for
 an entry with \fBcsr\fR).
 .PP
@@ -3282,10 +3282,10 @@ Supports both the SVr4 set and the AIX extensions.
 \*d/?/*
 files containing terminal descriptions
 .SH SEE ALSO
-\fBtic\fR(1M),
-\fBinfocmp\fR(1M),
-\fBcurses\fR(3X),
-\fBprintf\fR(3S),
+\fBtic\fR(1),
+\fBinfocmp\fR(1),
+\fBcurses\fR(3),
+\fBprintf\fR(3),
 \fBterm\fR(\*n).
 .SH AUTHORS
 Zeyd M. Ben-Halim, Eric S. Raymond, Thomas E. Dickey.
