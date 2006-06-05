@@ -88,7 +88,6 @@
 #define NCURSES_EXT_FUNCS 1
 #define NCURSES_NO_PADDING 1
 #define USE_SIGWINCH 1
-#define USE_ASSUMED_COLOR 1
 #define USE_HASHMAP 1
 #define GCC_SCANF 1
 #define GCC_PRINTF 1
