@@ -55,7 +55,14 @@ extern "C" {
 #include <ncurses_cfg.h>
 
 #if USE_RCS_IDS
+#ifndef __BEGIN_DECLS
+#include <sys/cdefs.h>
+#endif
+#ifdef __RCSID
+#define MODULE_ID(id) __RCSID(id);
+#else
 #define MODULE_ID(id) static const char Ident[] = id;
+#endif
 #else
 #define MODULE_ID(id) /*nothing*/
 #endif
@@ -159,11 +166,15 @@ extern int errno;
  * If desired, one can configure this, disabling environment variables that
  * point to custom terminfo/termcap locations.
  */
+#ifdef __OpenBSD__
+#define use_terminfo_vars() (!issetugid())
+#else
 #ifdef USE_ROOT_ENVIRON
 #define use_terminfo_vars() 1
 #else
 #define use_terminfo_vars() _nc_env_access()
 extern NCURSES_EXPORT(int) _nc_env_access (void);
+#endif
 #endif
 
 /*
