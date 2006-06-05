@@ -48,6 +48,10 @@
 #define _XOPEN_CURSES 1
  */
 
+#if __MIROS_IS_LIBNCURSESW
+#define _XOPEN_SOURCE_EXTENDED 1 /* to accomodate broken autofools */
+#endif
+
 /* These are defined only in curses.h, and are used for conditional compiles */
 #define NCURSES_VERSION_MAJOR 5
 #define NCURSES_VERSION_MINOR 5
