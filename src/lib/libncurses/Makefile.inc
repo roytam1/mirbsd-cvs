@@ -1,0 +1,8 @@
+# $MirOS$
+
+.ifndef _LIBNCURSES_MAKEFILE_INC
+_LIBNCURSES_MAKEFILE_INC=1
+
+NCSRCDIR?=	${.CURDIR}/../src
+
+.endif
