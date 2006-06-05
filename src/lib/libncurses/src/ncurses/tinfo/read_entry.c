@@ -388,10 +388,10 @@ _nc_read_file_entry(const char *const filename, TERMTYPE *ptr)
 {
     int code, fd = -1;
 
-#ifdef __OpenBSD__
+#ifdef WANT_BSD_TERMCAP_DB
     if (_nc_read_bsd_terminfo_file(filename, ptr) == 1)
 	return (1);
-#endif /* __OpenBSD__ */
+#endif /* WANT_BSD_TERMCAP_DB */
 
     if (_nc_access(filename, R_OK) < 0
 	|| (fd = open(filename, O_RDONLY | O_BINARY)) < 0) {
@@ -484,11 +484,11 @@ _nc_read_entry(const char *const tn, char *const filename, TERMTYPE *const tp)
 	return 0;
     }
 
-#ifdef __OpenBSD__
+#ifdef WANT_BSD_TERMCAP_DB
     /* First check the BSD terminfo.db file */
     if (_nc_read_bsd_terminfo_entry(tn, filename, tp) == 1)
 	return (1);
-#endif /* __OpenBSD__ */
+#endif /* WANT_BSD_TERMCAP_DB */
 
     /* truncate the terminal name to prevent buffer overflow */
     (void) sprintf(ttn, "%c/%.*s", *tn, (int) sizeof(ttn) - 3, tn);

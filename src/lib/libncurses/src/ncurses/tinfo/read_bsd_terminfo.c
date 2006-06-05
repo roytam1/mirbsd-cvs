@@ -27,8 +27,9 @@ static const char rcsid[] = "$OpenBSD: read_bsd_terminfo.c,v 1.14 2003/06/17 21:
 #include <term.h>	/* lines, columns, cur_term */
 #include <term_entry.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.1 2006/06/05 03:27:48 tg Exp $");
 
+#ifdef WANT_BSD_TERMCAP_DB
 #define	_PATH_TERMINFO	"/usr/share/misc/terminfo"
 
 /* Function prototypes for private functions, */
@@ -207,3 +208,4 @@ done:
 
     return ((error == 0));
 }
+#endif
