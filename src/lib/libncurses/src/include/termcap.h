@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright (c) 1998-2003,2004 Free Software Foundation, Inc.              *
+ * Copyright (c) 1998,2000 Free Software Foundation, Inc.                   *
  *                                                                          *
  * Permission is hereby granted, free of charge, to any person obtaining a  *
  * copy of this software and associated documentation files (the            *
@@ -27,85 +27,49 @@
  ****************************************************************************/
 
 /****************************************************************************
- *   Author:  Juergen Pfeifer, 1995,1997                                    *
+ *  Author: Zeyd M. Ben-Halim <zmbenhal@netcom.com> 1992,1995               *
+ *     and: Eric S. Raymond <esr@snark.thyrsus.com>                         *
  ****************************************************************************/
 
 /* $Id$ */
 
-/* Common internal header for menu and form library */
+#ifndef NCURSES_TERMCAP_H_incl
+#define NCURSES_TERMCAP_H_incl	1
 
-#ifndef MF_COMMON_H_incl
-#define MF_COMMON_H_incl 1
+#undef  NCURSES_VERSION
+#define NCURSES_VERSION "5.5"
 
-#include <ncurses_cfg.h>
-#include <curses.h>
+#include <ncurses_dll.h>
 
-#include <stdlib.h>
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
+
 #include <sys/types.h>
-#include <assert.h>
-#include <string.h>
-#include <ctype.h>
-#include <errno.h>
 
-#if DECL_ERRNO
-extern int errno;
+#undef  NCURSES_CONST 
+#define NCURSES_CONST const 
+
+#undef  NCURSES_OSPEED 
+#define NCURSES_OSPEED short 
+
+extern NCURSES_EXPORT_VAR(char) PC;
+extern NCURSES_EXPORT_VAR(char *) UP;
+extern NCURSES_EXPORT_VAR(char *) BC;
+extern NCURSES_EXPORT_VAR(NCURSES_OSPEED) ospeed; 
+
+#if !defined(NCURSES_TERM_H_incl)
+extern NCURSES_EXPORT(char *) tgetstr (NCURSES_CONST char *, char **);
+extern NCURSES_EXPORT(char *) tgoto (const char *, int, int);
+extern NCURSES_EXPORT(int) tgetent (char *, const char *);
+extern NCURSES_EXPORT(int) tgetflag (NCURSES_CONST char *);
+extern NCURSES_EXPORT(int) tgetnum (NCURSES_CONST char *);
+extern NCURSES_EXPORT(int) tputs (const char *, int, int (*)(int));
 #endif
 
-/* in case of debug version we ignore the suppression of assertions */
-#ifdef TRACE
-#  ifdef NDEBUG
-#    undef NDEBUG
-#  endif
+#ifdef __cplusplus
+}
 #endif
 
-#include <nc_alloc.h>
-
-#if USE_RCS_IDS
-#ifndef __BEGIN_DECLS
-#include <sys/cdefs.h>
-#endif
-#ifdef __RCSID
-#define MODULE_ID(id) __RCSID(id);
-#else
-#define MODULE_ID(id) static const char Ident[] = id;
-#endif
-#else
-#define MODULE_ID(id) /*nothing*/
-#endif
-
-
-/* Maximum regular 8-bit character code */
-#define MAX_REGULAR_CHARACTER (0xff)
-
-#define SET_ERROR(code) (errno=(code))
-#define GET_ERROR()     (errno)
-
-#ifdef TRACE
-#define RETURN(code)    returnCode( SET_ERROR(code) )
-#else
-#define RETURN(code)    return( SET_ERROR(code) )
-#endif
-
-/* The few common values in the status fields for menus and forms */
-#define _POSTED         (0x01U)  /* menu or form is posted                  */
-#define _IN_DRIVER      (0x02U)  /* menu or form is processing hook routine */
-
-/* Call object hook */
-#define Call_Hook( object, handler ) \
-   if ( (object) != 0 && ((object)->handler) != (void *) 0 )\
-   {\
-	(object)->status |= _IN_DRIVER;\
-	(object)->handler(object);\
-	(object)->status &= ~_IN_DRIVER;\
-   }
-
-#define INLINE
-
-#ifndef TRACE
-#  if CC_HAS_INLINE_FUNCS
-#    undef INLINE
-#    define INLINE inline
-#  endif
-#endif
-
-#endif /* MF_COMMON_H_incl */
+#endif /* NCURSES_TERMCAP_H_incl */

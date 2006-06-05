@@ -1,3 +1,4 @@
+#if __MIROS_IS_LIBNCURSESW
 
 #ifdef _XOPEN_SOURCE_EXTENDED
 
@@ -235,3 +236,5 @@ extern NCURSES_EXPORT(int) wvline_set (WINDOW *, const cchar_t *, int);	/* imple
 #define mvwvline_set(win,y,x,c,n)	(wmove(win,y,x) == ERR ? ERR : wvline_set(win,c,n))
 
 #endif /* _XOPEN_SOURCE_EXTENDED */
+
+#endif /* __MIROS_IS_LIBNCURSESW */
