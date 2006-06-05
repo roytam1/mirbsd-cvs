@@ -1,9 +1,10 @@
-# $MirOS: src/lib/libncurses/Makefile.inc,v 1.2 2006/06/05 02:27:49 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile.inc,v 1.3 2006/06/05 02:36:31 tg Exp $
 
 .ifndef _LIBNCURSES_MAKEFILE_INC
 _LIBNCURSES_MAKEFILE_INC=1
 
 .include <bsd.own.mk>
+NCMKDIR?=	${BSDSRCDIR}/lib/libncurses
 NCSRCDIR?=	${BSDSRCDIR}/lib/libncurses/src
 
 # XXX should be defined elsewhere
