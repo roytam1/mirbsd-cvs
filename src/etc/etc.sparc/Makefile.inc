@@ -1,4 +1,4 @@
-# $MirOS: src/etc/etc.sparc/Makefile.inc,v 1.2 2005/03/06 19:05:57 tg Exp $
+# $MirOS: src/etc/etc.sparc/Makefile.inc,v 1.3 2005/07/23 15:00:33 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.13 2005/04/28 22:28:14 deraadt Exp $
 # etc.sparc/Makefile.inc -- sparc-specific etc Makefile targets
 
@@ -6,10 +6,12 @@
 
 .ifdef DESTDIR
 .if !defined(REL_NO_KERNEL) || ${REL_NO_KERNEL:L} != "yes"
-snap_md: bsd distrib
+snap_md: bsd distrib bsd.install
 .endif
 
 snap_md: bootblocks
+
+bsd.install: bsd
 	touch ${.CURDIR}/../sys/arch/sparc/compile/GENERIC/bsd
 	cp ${.CURDIR}/../sys/arch/sparc/compile/GENERIC/bsd \
 	    ${DESTDIR}/snapshot/bsd
@@ -28,6 +30,6 @@ bootblocks:
 	${DESTDIR}/usr/mdec/binstall net /tmp && \
 	  mv /tmp/boot.sparc.openbsd ${DESTDIR}/snapshot/boot.net
 
-.PHONY: bsd bootblocks
+.PHONY: bsd bsd.install bootblocks
 
 .endif	# DESTDIR check
