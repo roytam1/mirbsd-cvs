@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.3 2006/06/11 13:07:44 tg Exp $ */
+/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.4 2006/06/11 20:54:35 tg Exp $ */
 /*	$NetBSD: elf2aout.c,v 1.11 2004/04/23 02:55:11 simonb Exp $	*/
 
 /*
@@ -61,7 +61,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.3 2006/06/11 13:07:44 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.4 2006/06/11 20:54:35 tg Exp $");
 
 bool is_lefile;
 
@@ -462,7 +462,8 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 			 * underscore. */
 			*nsp = '_';
 			strcpy(nsp + 1, oldstrings + inbuf[i].st_name);
-			outbuf[i].n_un.n_strx = nsp - newstrings + 4;
+			outbuf[i].n_un.n_strx =
+			    (long)htof32((uint32_t)(nsp - newstrings + 4));
 			nsp += strlen(nsp) + 1;
 
 			type = ELF32_ST_TYPE(inbuf[i].st_info);
