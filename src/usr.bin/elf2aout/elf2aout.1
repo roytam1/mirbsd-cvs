@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/elf2aout/elf2aout.1,v 1.2 2005/03/13 18:32:54 tg Exp $
 .\"	$NetBSD: elf2aout.1,v 1.9 2003/02/25 10:35:40 wiz Exp $
 .\"
 .\" Copyright 1996 The Board of Trustees of The Leland Stanford
@@ -59,8 +59,7 @@ The values set are MID_PMAX on EM_MIPS and 0x0103 on EM_SPARC\*.
 .Sh HISTORY
 .Nm
 was originally developed for
-.Nx 
-.Ns Tn /pmax
+NetBSD\(rg/pmax
 by Ted Lemon
 and was first distributed with the pmax port of
 .Nx 1.1 .
@@ -68,6 +67,8 @@ and was first distributed with the pmax port of
 appeared in
 .Mx
 \&#7ter.
+Endianness awareness was added for
+.Mx 9 .
 .Sh BUGS
 .Nm
 assumes there are no multiply-referenced symbols in the input ELF symbol
@@ -77,11 +78,6 @@ It may be necessary to link with the
 option to
 .Xr ld 1
 to avoid such duplicate symbols.
-.Pp
-The
-.Nm
-utility is not endian-aware, for example you cannot convert an object file
-for the sparc architecture on the i386 architecture.
 .Pp
 In some environments, the GNU binutils
 .Xr objcopy 1

@@ -1,7 +1,9 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.2 2005/03/13 18:32:54 tg Exp $ */
 /* $NetBSD: elf2aout.c,v 1.10 2000/03/13 23:22:50 soren Exp $ */
 
 /*
+ * Copyright (c) 2006
+ *	Thorsten Glaser (hereinafter referred to as Licensor)
  * Copyright (c) 1995
  *	Ted Lemon (hereinafter referred to as the author)
  *
@@ -27,6 +29,15 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  */
 
 /* elf2aout.c
@@ -44,11 +55,22 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
+bool is_lefile;
+
+#define	ftoh16(x)	(is_lefile ? letoh16(x) : betoh16(x))
+#define	ftoh32(x)	(is_lefile ? letoh32(x) : betoh32(x))
+#define	ftoh64(x)	(is_lefile ? letoh64(x) : betoh64(x))
+#define	htof16(x)	(is_lefile ? htole16(x) : htobe16(x))
+#define	htof32(x)	(is_lefile ? htole32(x) : htobe32(x))
+#define	htof64(x)	(is_lefile ? htole64(x) : htobe64(x))
 
 struct sect {
 	unsigned long vaddr;
@@ -57,7 +79,7 @@ struct sect {
 
 void	combine(struct sect *, struct sect *, int);
 int	phcmp(const void *, const void *);
-char   *saveRead(int, off_t, off_t, char *);
+char   *saveRead(int, off_t, off_t, const char *);
 void	copy(int, int, off_t, off_t);
 void	translate_syms(int, int, off_t, off_t, off_t, off_t);
 
@@ -116,12 +138,56 @@ usage:
 		    argv[1], i ? strerror(errno) : "End of file reached");
 		exit(1);
 	}
+	if (ex.e_ident[EI_DATA] == ELFDATA2LSB) {
+		is_lefile = true;
+	} else if (ex.e_ident[EI_DATA] == ELFDATA2MSB) {
+		is_lefile = false;
+	} else {
+		fprintf(stderr, "ex: %s: unknown endianness %d\n",
+		    argv[1], ex.e_ident[EI_DATA]);
+		exit(1);
+	}
+	ex.e_ehsize = ftoh16(ex.e_ehsize);
+	ex.e_machine = ftoh16(ex.e_machine);
+	ex.e_phentsize = ftoh16(ex.e_phentsize);
+	ex.e_phnum = ftoh16(ex.e_phnum);
+	ex.e_shentsize = ftoh16(ex.e_shentsize);
+	ex.e_shnum = ftoh16(ex.e_shnum);
+	ex.e_shstrndx = ftoh16(ex.e_shstrndx);
+	ex.e_type = ftoh16(ex.e_type);
+	ex.e_entry = ftoh32(ex.e_entry);
+	ex.e_phoff = ftoh32(ex.e_phoff);
+	ex.e_shoff = ftoh32(ex.e_shoff);
+	ex.e_flags = ftoh32(ex.e_flags);
+	ex.e_version = ftoh32(ex.e_version);
 	/* Read the program headers... */
 	ph = (Elf32_Phdr *) saveRead(infile, ex.e_phoff,
 	    ex.e_phnum * sizeof(Elf32_Phdr), "ph");
+	for (i = 0; i < ex.e_phnum; ++i) {
+		ph[i].p_type = ftoh32(ph[i].p_type);
+		ph[i].p_offset = ftoh32(ph[i].p_offset);
+		ph[i].p_vaddr = ftoh32(ph[i].p_vaddr);
+		ph[i].p_paddr = ftoh32(ph[i].p_paddr);
+		ph[i].p_filesz = ftoh32(ph[i].p_filesz);
+		ph[i].p_memsz = ftoh32(ph[i].p_memsz);
+		ph[i].p_flags = ftoh32(ph[i].p_flags);
+		ph[i].p_align = ftoh32(ph[i].p_align);
+	}
 	/* Read the section headers... */
 	sh = (Elf32_Shdr *) saveRead(infile, ex.e_shoff,
 	    ex.e_shnum * sizeof(Elf32_Shdr), "sh");
+	for (i = 0; i < ex.e_shnum; ++i) {
+		sh[i].sh_name = ftoh32(sh[i].sh_name);
+		sh[i].sh_type = ftoh32(sh[i].sh_type);
+		sh[i].sh_flags = ftoh32(sh[i].sh_flags);
+		sh[i].sh_addr = ftoh32(sh[i].sh_addr);
+		sh[i].sh_offset = ftoh32(sh[i].sh_offset);
+		sh[i].sh_size = ftoh32(sh[i].sh_size);
+		sh[i].sh_link = ftoh32(sh[i].sh_link);
+		sh[i].sh_info = ftoh32(sh[i].sh_info);
+		sh[i].sh_addralign = ftoh32(sh[i].sh_addralign);
+		sh[i].sh_entsize = ftoh32(sh[i].sh_entsize);
+	}
 	/* Read in the section string table. */
 	shstrtab = saveRead(infile, sh[ex.e_shstrndx].sh_offset,
 	    sh[ex.e_shstrndx].sh_size, "shstrtab");
@@ -263,11 +329,11 @@ usage:
 			break;
 	}
 	aex.a_midmag = htonl((symflag << 26) | (newmid << 16) | OMAGIC);
-	aex.a_text = text.len;
-	aex.a_data = data.len;
-	aex.a_bss = bss.len;
-	aex.a_entry = ex.e_entry;
-	aex.a_syms = (sizeof(struct nlist) *
+	aex.a_text = htof32(text.len);
+	aex.a_data = htof32(data.len);
+	aex.a_bss = htof32(bss.len);
+	aex.a_entry = htof32(ex.e_entry);
+	aex.a_syms = htof32(sizeof(struct nlist) *
 	    (symtabix != -1
 		? sh[symtabix].sh_size / sizeof(Elf32_Sym) : 0));
 	aex.a_trsize = 0;
@@ -380,7 +446,7 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 		if (cur > SYMS_PER_PASS)
 			cur = SYMS_PER_PASS;
 		remaining -= cur;
-		if ((i = read(in, inbuf, cur * sizeof(Elf32_Sym)))
+		if ((size_t)(i = read(in, inbuf, cur * sizeof(Elf32_Sym)))
 		    != cur * sizeof(Elf32_Sym)) {
 			if (i < 0)
 				perror("translate_syms");
@@ -397,7 +463,8 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 			*nsp = '_';
 			strlcpy(nsp + 1, oldstrings + inbuf[i].st_name,
 			    newstringsize - 1);
-			outbuf[i].n_un.n_strx = nsp - newstrings + 4;
+			outbuf[i].n_un.n_strx =
+			    (long)htof32((uint32_t)(nsp - newstrings + 4));
 			nsp += strlen(nsp) + 1;
 
 			type = ELF32_ST_TYPE(inbuf[i].st_info);
@@ -408,23 +475,22 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 			if (type == STT_FILE)
 				outbuf[i].n_type = N_FN;
 			else
-				if (inbuf[i].st_shndx == SHN_UNDEF)
+				if (ftoh16(inbuf[i].st_shndx) == SHN_UNDEF)
 					outbuf[i].n_type = N_UNDF;
+				else if (ftoh16(inbuf[i].st_shndx) == SHN_ABS)
+					outbuf[i].n_type = N_ABS;
+				else if (ftoh16(inbuf[i].st_shndx) == SHN_COMMON)
+					outbuf[i].n_type = N_COMM;
 				else
-					if (inbuf[i].st_shndx == SHN_ABS)
-						outbuf[i].n_type = N_ABS;
-					else
-						if (inbuf[i].st_shndx == SHN_COMMON)
-							outbuf[i].n_type = N_COMM;
-						else
-							outbuf[i].n_type = symTypeTable[inbuf[i].st_shndx];
+					outbuf[i].n_type =
+					    symTypeTable[ftoh16(inbuf[i].st_shndx)];
 			if (binding == STB_GLOBAL)
 				outbuf[i].n_type |= N_EXT;
 			/* Symbol values in executables should be compatible. */
 			outbuf[i].n_value = inbuf[i].st_value;
 		}
 		/* Write out the symbols... */
-		if ((i = write(out, outbuf, cur * sizeof(struct nlist)))
+		if ((size_t)(i = write(out, outbuf, cur * sizeof(struct nlist)))
 		    != cur * sizeof(struct nlist)) {
 			fprintf(stderr, "translate_syms: write: %s\n", strerror(errno));
 			exit(1);
@@ -458,7 +524,7 @@ copy(int out, int in, off_t offset, off_t size)
 	remaining = size;
 	while (remaining) {
 		cur = remaining;
-		if (cur > sizeof ibuf)
+		if ((size_t)cur > sizeof ibuf)
 			cur = sizeof ibuf;
 		remaining -= cur;
 		if ((count = read(in, ibuf, cur)) != cur) {
@@ -498,9 +564,9 @@ combine(struct sect *base, struct sect *new, int pad)
 int
 phcmp(const void *vh1, const void *vh2)
 {
-	Elf32_Phdr *h1, *h2;
-	h1 = (Elf32_Phdr *) vh1;
-	h2 = (Elf32_Phdr *) vh2;
+	const Elf32_Phdr *h1, *h2;
+	h1 = (const Elf32_Phdr *) vh1;
+	h2 = (const Elf32_Phdr *) vh2;
 
 	if (h1->p_vaddr > h2->p_vaddr)
 		return 1;
@@ -512,7 +578,7 @@ phcmp(const void *vh1, const void *vh2)
 }
 
 char *
-saveRead(int file, off_t offset, off_t len, char *name)
+saveRead(int file, off_t offset, off_t len, const char *name)
 {
 	char   *tmp;
 	int     count;
