@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.35 2006/03/27 19:57:46 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.35 2006/03/27 19:57:46 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.36 2006/06/12 19:28:54 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.36 2006/06/12 19:28:54 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2006/03/27 19:58:37)"
+TIMESTAMP=" (MirLibtool 2006/06/12 19:30:28)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -117,12 +117,14 @@ esac
 # These must not be set unconditionally because not all systems understand
 # e.g. LANG=C (notably SCO).
 # We save the old values to restore during execute mode.
-if test "${LC_ALL+set}" = set; then
-  save_LC_ALL="$LC_ALL"; LC_ALL=C; export LC_ALL
-fi
-if test "${LANG+set}" = set; then
-  save_LANG="$LANG"; LANG=C; export LANG
-fi
+for lt_var in LANG LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
+do
+  eval "if test \"\${$lt_var+set}\" = set; then
+	  save_$lt_var=\$$lt_var
+	  $lt_var=C
+	  export $lt_var
+	fi"
+done
 
 # Make sure IFS has a sensible default
 lt_nl='
@@ -484,11 +486,24 @@ do
     ;;
 
   --version)
-    $echo "$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP"
-    $echo
-    $echo "Copyright (C) 2006  Free Software Foundation, Inc."
-    $echo "This is free software; see the source for copying conditions.  There is NO"
-    $echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+    echo "\
+
+$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP
+
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+    echo "\
+
+MirLibtool contributed to the FSF by Thorsten Glaser for the MirOS Project.
+Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+express, or implied, to the maximum extent permitted by applicable
+law, without malicious intent or gross negligence; in no event may
+licensor, an author or contributor be held liable for any indirect
+or other damage, or direct damage except proven a consequence of a
+direct error of said person and intended use of this work, loss or
+other issues arising in any way out of its use, even if advised of
+the possibility of such damage or existence of a nontrivial bug."
     exit $?
     ;;
 
@@ -1654,7 +1669,7 @@ EOF
 	continue
 	;;
 
-     -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe)
+     -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe|-threads)
 	compiler_flags="$compiler_flags $arg"
 	compile_command="$compile_command $arg"
 	finalize_command="$finalize_command $arg"
@@ -2149,7 +2164,7 @@ EOF
 	lib=
 	found=no
 	case $deplib in
-	-mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe)
+	-mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe|-threads)
 	  if test "$linkmode,$pass" = "prog,link"; then
 	    compile_deplibs="$deplib $compile_deplibs"
 	    finalize_deplibs="$deplib $finalize_deplibs"
@@ -3246,7 +3261,7 @@ EOF
 	  # which has an extra 1 added just for fun
 	  #
 	  case $version_type in
-	  darwin|linux|osf|windows)
+	  darwin|linux|osf|windows|none)
 	    current=`expr $number_major + $number_minor`
 	    age="$number_minor"
 	    revision="$number_revision"
@@ -4755,16 +4770,16 @@ static const void *lt_preloaded_setup() {
           case $host in
           *cygwin* | *mingw* )
             if test -f "$output_objdir/${outputname}.def" ; then
-              compile_command=`$echo "X$compile_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%"`
-              finalize_command=`$echo "X$finalize_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%"`
+              compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%" | $NL2SP`
+              finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%" | $NL2SP`
             else
-              compile_command=`$echo "X$compile_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
-              finalize_command=`$echo "X$finalize_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
+              compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
+              finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
              fi
             ;;
           * )
-            compile_command=`$echo "X$compile_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
-            finalize_command=`$echo "X$finalize_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
+            compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
+            finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
             ;;
           esac
 	  ;;
@@ -4779,13 +4794,13 @@ static const void *lt_preloaded_setup() {
 	# really was required.
 
 	# Nullify the symbol file.
-	compile_command=`$echo "X$compile_command" | $Xsed -e "s% @SYMFILE@%%"`
-	finalize_command=`$echo "X$finalize_command" | $Xsed -e "s% @SYMFILE@%%"`
+	compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s% @SYMFILE@%%" | $NL2SP`
+	finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s% @SYMFILE@%%" | $NL2SP`
       fi
 
       if test "$need_relink" = no || test "$build_libtool_libs" != yes; then
 	# Replace the output file specification.
-	compile_command=`$echo "X$compile_command" | $Xsed -e 's%@OUTPUT@%'"$output"'%g'`
+	compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e 's%@OUTPUT@%'"$output"'%g' | $NL2SP`
 	link_command="$compile_command$compile_rpath"
 
 	# We have no uninstalled library dependencies, so finalize right now.
@@ -4872,7 +4887,7 @@ static const void *lt_preloaded_setup() {
 	if test "$fast_install" != no; then
 	  link_command="$finalize_var$compile_command$finalize_rpath"
 	  if test "$fast_install" = yes; then
-	    relink_command=`$echo "X$compile_var$compile_command$compile_rpath" | $Xsed -e 's%@OUTPUT@%\$progdir/\$file%g'`
+	    relink_command=`$echo "X$compile_var$compile_command$compile_rpath" | $SP2NL | $Xsed -e 's%@OUTPUT@%\$progdir/\$file%g' | $NL2SP`
 	  else
 	    # fast_install is set to needless
 	    relink_command=
@@ -4909,7 +4924,7 @@ static const void *lt_preloaded_setup() {
 	  fi
 	done
 	relink_command="(cd `pwd`; $relink_command)"
-	relink_command=`$echo "X$relink_command" | $Xsed -e "$sed_quote_subst"`
+	relink_command=`$echo "X$relink_command" | $SP2NL | $Xsed -e "$sed_quote_subst" | $NL2SP`
       fi
 
       # Quote $echo for shipping.
@@ -5472,7 +5487,7 @@ else
 	  ;;
 	esac
 	$echo >> $output "\
-      \$echo \"\$0: cannot exec \$program \${1+\"\$@\"}\"
+      \$echo \"\$0: cannot exec \$program \$*\"
       exit $EXIT_FAILURE
     fi
   else
@@ -5658,7 +5673,7 @@ fi\
       done
       # Quote the link command for shipping.
       relink_command="(cd `pwd`; $SHELL $progpath $preserve_args --mode=relink $libtool_args @inst_prefix_dir@)"
-      relink_command=`$echo "X$relink_command" | $Xsed -e "$sed_quote_subst"`
+      relink_command=`$echo "X$relink_command" | $SP2NL | $Xsed -e "$sed_quote_subst" | $NL2SP`
       if test "$hardcode_automatic" = yes ; then
 	relink_command=
       fi
@@ -6003,9 +6018,9 @@ relink_command=\"$relink_command\""
 
 	  if test -n "$inst_prefix_dir"; then
 	    # Stick the inst_prefix_dir data into the link command.
-	    relink_command=`$echo "$relink_command" | $SED "s%@inst_prefix_dir@%-inst-prefix-dir $inst_prefix_dir%"`
+	    relink_command=`$echo "$relink_command" | $SP2NL | $SED "s%@inst_prefix_dir@%-inst-prefix-dir $inst_prefix_dir%" | $NL2SP`
 	  else
-	    relink_command=`$echo "$relink_command" | $SED "s%@inst_prefix_dir@%%"`
+	    relink_command=`$echo "$relink_command" | $SP2NL | $SED "s%@inst_prefix_dir@%%" | $NL2SP`
 	  fi
 
 	  $echo "$modename: warning: relinking '$file'" 1>&2
@@ -6214,7 +6229,7 @@ relink_command=\"$relink_command\""
 	      file=`$echo "X$file$stripped_ext" | $Xsed -e 's%^.*/%%'`
 	      outputname="$tmpdir/$file"
 	      # Replace the output file specification.
-	      relink_command=`$echo "X$relink_command" | $Xsed -e 's%@OUTPUT@%'"$outputname"'%g'`
+	      relink_command=`$echo "X$relink_command" | $SP2NL | $Xsed -e 's%@OUTPUT@%'"$outputname"'%g' | $NL2SP`
 
 	      $show "$relink_command"
 	      if $run eval "$relink_command"; then :
@@ -6453,12 +6468,14 @@ relink_command=\"$relink_command\""
       fi
 
       # Restore saved environment variables
-      if test "${save_LC_ALL+set}" = set; then
-	LC_ALL="$save_LC_ALL"; export LC_ALL
-      fi
-      if test "${save_LANG+set}" = set; then
-	LANG="$save_LANG"; export LANG
-      fi
+      for lt_var in LANG LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
+      do
+	eval "if test \"\${save_$lt_var+set}\" = set; then
+		$lt_var=\$save_$lt_var; export $lt_var
+	      else
+		$lt_unset $lt_var
+	      fi"
+      done
 
       # Now prepare to actually exec the command.
       exec_cmd="\$cmd$args"
