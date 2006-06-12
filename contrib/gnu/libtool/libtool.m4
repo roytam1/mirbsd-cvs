@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.49 2006/03/27 19:57:44 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.50 2006/06/12 19:28:56 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -17,7 +17,7 @@ dnl Enable overwriting autoconf'd functions without aclocal bringing them in
 dnl ------------------------------------------------------------------------
 builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 
-dnl Support using MirLibtool with Autoconf 2.13 and 2.59
+dnl Support using MirLibtool with Autoconf 2.13 and 2.60
 dnl ----------------------------------------------------
 ifdef([m4_PACKAGE_VERSION], [], [sinclude([m4salt.inc])])dnl
 ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
@@ -139,7 +139,7 @@ AC_SUBST(CXXCPP)dnl
 AC_LANG([C])dnl
 ])# AC_PROG_CXXCPP
 
-dnl  End of Autoconf switch (2.59)
+dnl  End of Autoconf switch (2.60)
 dnl  ====================== ------
 ])dnl
 
