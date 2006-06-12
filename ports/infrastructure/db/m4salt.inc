@@ -1,11 +1,11 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.8 2005/12/17 05:46:10 tg Exp $
-# _MirOS: contrib/gnu/libtool/m4salt.inc,v 1.8 2005/12/17 05:46:10 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.9 2006/06/12 19:10:32 tg Exp $ */
+# _MirOS: contrib/gnu/libtool/m4salt.inc,v 1.9 2006/06/12 19:10:32 tg Exp $ */
 #-
 # Copyright (c) 2004, 2005
 #	Free Software Foundation, Inc.
-# Contributed by:
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Contributed under copyright assignment by:
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -13,6 +13,16 @@ divert(-1)dnl
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
+#
+# All advertising materials mentioning features or use of this soft-
+# ware must display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
+# This acknowledgement does not need to be reprinted if this work is
+# linked into a bigger work whose licence does not allow such clause
+# and the author of this work is given due credit in the bigger work
+# or its documentation. Specifically, re-using this code in any work
+# covered by the GNU General Public License version 1 or Library Ge-
+# neral Public License (any version) is permitted.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
 # express, or implied, to the maximum extent permitted by applicable
@@ -23,9 +33,9 @@ divert(-1)dnl
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 #-
-# m4salt - include m4sugar (from Autoconf 2.52) for Autoconf 2.13 as
+# m4salt - include m4sugar (from Autoconf 2.60) for Autoconf 2.13 as
 # well as enough magic to make GNU Libtool 1.5 work with Autoconf in
-# both the 2.13 and 2.59 version. Provide a way for libtool.m4 later
+# both the 2.13 and 2.60 version. Provide a way for libtool.m4 later
 # on to distinguish whether stuff has been fnordified or not.
 
 define([AC_m4salt_INIT],
