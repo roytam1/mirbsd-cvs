@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/libtool/pkg/PLIST,v 1.1 2005/12/16 14:52:21 tg Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/libtool.info
 bin/libtool
 bin/libtoolize
@@ -27,6 +27,8 @@ share/libtool/libltdl/ltdl.h
 share/libtool/libltdl/ltmain.sh
 share/libtool/libltdl/missing
 share/libtool/ltmain.sh
+share/libtool/m4salt.inc
+share/libtool/m4sugar.inc
 @dirrm share/libtool/libltdl
 @dirrm share/libtool
 @dirrm share/aclocal
