@@ -2739,6 +2739,7 @@ static void split_line(HText *text, unsigned split)
     int indent = (text->in_line_1
 		  ? text->style->indent1st
 		  : text->style->leftIndent);
+    int new_offset;
     short alignment;
     TextAnchor *a;
     int CurLine = text->Lines;
@@ -3169,19 +3170,21 @@ static void split_line(HText *text, unsigned split)
 #endif
     }
 
+    new_offset = previous->offset;
     switch (style->alignment) {
     case HT_CENTER:
-	previous->offset = previous->offset + indent + spare / 2;
+	new_offset += indent + spare / 2;
 	break;
     case HT_RIGHT:
-	previous->offset = previous->offset + indent + spare;
+	new_offset += indent + spare;
 	break;
     case HT_LEFT:
     case HT_JUSTIFY:		/* Not implemented */
     default:
-	previous->offset = previous->offset + indent;
+	new_offset += indent;
 	break;
     }				/* switch */
+    previous->offset = ((new_offset < 0) ? 0 : new_offset);
 
     if (text->stbl)
 	/*
@@ -4147,7 +4150,7 @@ void HText_appendCharacter(HText *text, int ch)
 	    if (target_cu > WRAP_COLS(text))
 		target -= target_cu - WRAP_COLS(text);
 	    if (line->size == 0) {
-		line->offset = line->offset + target - here;
+		line->offset += (target - here);
 	    } else {
 		for (; here < target; here++) {
 		    /* Put character into line */
@@ -4747,7 +4750,9 @@ static int HText_insertBlanksInStblLines(HText *me, int ncols)
 	    }
 #endif
 	    CTRACE((tfp, " %d:%d", lineno, table_offset - line->offset));
-	    line->offset = table_offset;
+	    line->offset = (table_offset > 0
+			    ? table_offset
+			    : 0);
 	}
     }
 #ifdef EXP_NESTED_TABLES

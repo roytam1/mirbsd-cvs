@@ -1516,9 +1516,10 @@ int main(int argc,
     /*
      * If the lynx-style file is not available, inform the user and exit.
      */
-    if (!LYCanReadFile(lynx_lss_file)) {
+    if (!isEmpty(lynx_lss_file) && !LYCanReadFile(lynx_lss_file)) {
 	fprintf(stderr, gettext("\nLynx file %s is not available.\n\n"),
 		lynx_lss_file);
+	exit_immediately(EXIT_FAILURE);
     } else {
 	style_readFromFile(lynx_lss_file);
     }

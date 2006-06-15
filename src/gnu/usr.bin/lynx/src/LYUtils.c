@@ -2706,8 +2706,10 @@ BOOLEAN LYCanReadFile(const char *filename)
 {
     FILE *fp;
 
-    if ((fp = fopen(filename, "r")) != 0) {
-	return LYCloseInput(fp);
+    if (!isEmpty(filename)) {
+	if ((fp = fopen(filename, "r")) != 0) {
+	    return LYCloseInput(fp);
+	}
     }
     return FALSE;
 }

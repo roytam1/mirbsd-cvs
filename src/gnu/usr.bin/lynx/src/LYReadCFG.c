@@ -1258,6 +1258,9 @@ static Config_Type Config_Table [] =
 #ifdef USE_COLOR_TABLE
      PARSE_FUN(RC_COLOR,                color_fun),
 #endif
+#ifdef USE_COLOR_STYLE
+     PARSE_STR(RC_COLOR_STYLE,          lynx_lss_file),
+#endif
      PARSE_PRG(RC_COMPRESS_PATH,        ppCOMPRESS),
      PARSE_PRG(RC_COPY_PATH,            ppCOPY),
      PARSE_INT(RC_CONNECT_TIMEOUT,      connect_timeout),

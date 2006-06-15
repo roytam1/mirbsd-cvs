@@ -705,7 +705,11 @@ typedef unsigned short mode_t;
 #define DECL_SYS_ERRLIST 1
 #endif
 
+#if defined(VMS)
+#define socklen_t unsigned
+#else
 #define socklen_t int		/* used for default LY_SOCKLEN definition */
+#endif
 
 #endif /* !HAVE_CONFIG_H */
 
