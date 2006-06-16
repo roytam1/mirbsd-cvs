@@ -14,7 +14,7 @@ MAXPAGESIZE=256
 # N.B. We can't use PROVIDE to set the default value in a symbol because
 # the address is needed to place the .stack section, which in turn is needed
 # to hold the sentinel value(s).
-test -z "$CREATE_SHLIB" && OTHER_SECTIONS="  .stack        ${RELOCATING-0}${RELOCATING+(DEFINED(__stack) ? __stack : 0x007FFFF0)} :
+test -z "$CREATE_SHLIB" && OTHER_SECTIONS="  .stack        ${RELOCATING-0}${RELOCATING+\(DEFINED\(__stack\) ? __stack : 0x007FFFF0\)} :
   {
     ${RELOCATING+__stack = .;}
     *(.stack)
