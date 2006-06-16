@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/devel/bison/Makefile,v 1.2 2005/03/25 23:13:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.34 2004/04/06 03:12:19 brad Exp $
 
 COMMENT=		"GNU parser generator"
-DISTNAME=       	bison-2.0
+DISTNAME=       	bison-2.3
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=bison/}
 HOMEPAGE=		http://www.gnu.org/software/bison/
@@ -16,9 +16,12 @@ PERMIT_DISTFILES_FTP=	Yes
 MAKE_ENV+=		MAKEINFOFLAGS="--no-split"
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-nls --disable-yacc
+CONFIGURE_ARGS+=	--disable-nls
+CONFIGURE_ARGS+=	--disable-yacc
+CONFIGURE_ARGS+=	--disable-dependency-tracking
 
-BUILD_DEPENDS+=		:m4->=1.4.2:lang/m4
-RUN_DEPENDS+=		:m4->=1.4.2:lang/m4
+# Trust me on this one.
+BUILD_DEPENDS+=		:m4->=1.4.3:lang/m4
+RUN_DEPENDS+=		:m4->=1.4.3:lang/m4
 
 .include <bsd.port.mk>
