@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: src/README,v 1.1.7.1 2005/03/06 16:33:37 tg Exp $
 
 This is the MirOS base BSD derived operating system,
 kernel and userland, by The MirOS Project - http://mirbsd.de/
@@ -6,7 +6,7 @@ kernel and userland, by The MirOS Project - http://mirbsd.de/
 MirOS BSD is structured as follows:
  * MirOS BSD kernel: sys/
     A BSD-licenced uniprocessor operating system kernel
-    for i386, amd64, sparc and macppc CPUs
+    for i386 and sparc CPUs
  * MirOS userland: bin/ include/ lib/ libexec/ sbin/ usr.bin/ usr.sbin/
    and supplemental information: etc/ share/
     A BSD-licenced or similar userland for the MirOS BSD
