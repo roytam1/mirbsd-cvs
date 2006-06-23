@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2004/01/06 06:40:14 jolan Exp $
 
 COMMENT=	"library for decoding/generating MPEG TS/DVB PSI tables"
-VER=		0.1.4
-DISTNAME=	libdvbpsi3-${VER}
+VER=		0.1.5
+DISTNAME=	libdvbpsi4-${VER}
 PKGNAME=	libdvbpsi-${VER}-0
 CATEGORIES=	devel
 MASTER_SITES=	http://www.videolan.org/pub/libdvbpsi/${VER}/ \
@@ -17,6 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-CONFIGURE_STYLE=gnu
+CONFIGURE_STYLE=autoconf
+AUTOCONF_NEW=	Yes
 
 .include <bsd.port.mk>
