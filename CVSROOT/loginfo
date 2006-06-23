@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.12 2006/04/01 23:32:39 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.13 2006/04/05 21:46:04 tg Exp $
 #-
 # The "loginfo" file controls where "cvs commit" log information is
 # sent. The first entry on a line is a regular expression which must
@@ -38,4 +38,4 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-DEFAULT		$CVSROOT/CVSROOT/mklogci %I -I http://mirbsd.mirsolutions.de/clogs/ChangeLog -R miros-discuss@66h.42h.de -m miros-changes@mirbsd.de -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
+DEFAULT		$CVSROOT/CVSROOT/mklogci %I -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@66h.42h.de -m miros-changes@mirbsd.de -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
