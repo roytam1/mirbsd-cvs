@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.2 2005/03/06 19:50:01 tg Exp $ */
 /*	$OpenBSD: ifconfig.c,v 1.121 2004/12/01 15:57:44 jmc Exp $	*/
 /*	$NetBSD: ifconfig.c,v 1.40 1997/10/01 02:19:43 enami Exp $	*/
 
@@ -117,7 +117,7 @@ static const char copyright[] =
 #include <unistd.h>
 #include <ifaddrs.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.2 2005/03/06 19:50:01 tg Exp $");
 
 struct	ifreq		ifr, ridreq;
 struct	ifaliasreq	addreq;
@@ -198,6 +198,7 @@ void	setpppoe_ac(const char *,int);
 void	pppoe_status(void);
 int	main(int, char *[]);
 int	prefix(void *val, int);
+void	list_if(void);
 
 /*
  * Media stuff.  Whenever a media command is first performed, the
@@ -398,6 +399,8 @@ main(int argc, char *argv[])
 	argc--, argv++;
 	if (!strcmp(*argv, "-a"))
 		aflag = 1;
+	else if (!strcmp(*argv, "-l"))
+		lflag = 1;
 	else if (!strcmp(*argv, "-A")) {
 		aflag = 1;
 		ifaliases = 1;
@@ -432,15 +435,22 @@ main(int argc, char *argv[])
 		af = ifr.ifr_addr.sa_family = rafp->af_af;
 	}
 	if (Cflag) {
-		if (argc > 0 || mflag || aflag)
+		if (argc > 0 || mflag || aflag || lflag)
 			usage();
 		list_cloners();
 		exit(0);
 	}
 	if (aflag) {
-		if (argc > 0)
+		if (argc > 0 || lflag)
 			usage();
 		printif(NULL, ifaliases);
+		exit(0);
+	}
+	if (lflag) {
+		if (argc > 0)
+			usage();
+		list_if();
+		putchar('\n');
 		exit(0);
 	}
 	(void) strlcpy(ifr.ifr_name, name, sizeof(ifr.ifr_name));
@@ -2496,6 +2506,7 @@ usage(void)
 #endif
 	    "       ifconfig -A | -Am | -a | -am [address_family]\n"
 	    "       ifconfig -C\n"
+	    "       ifconfig -l\n"
 	    "       ifconfig -m interface [address_family]\n"
 	    "       ifconfig interface create\n"
 	    "       ifconfig interface destroy\n");
@@ -2840,3 +2851,24 @@ sec2str(time_t total)
 	return(result);
 }
 #endif /* INET6 */
+
+void
+list_if(void)
+{
+	struct ifaddrs *ifap, *ifa;
+	char name2[IFNAMSIZ];
+
+	if (getifaddrs(&ifap) != 0)
+		err(1, "getifaddrs");
+
+	ifa = ifap;
+	strlcpy(name2, ifa->ifa_name, sizeof(name2));
+
+	for ( ; ifa; ifa = ifa->ifa_next)
+		if ( !strcmp(name2, ifa->ifa_name) == 0) {
+			fputs(ifa->ifa_name, stdout);
+			putchar(' ');
+			strlcpy(name2, ifa->ifa_name, sizeof (name2));
+			continue;
+		}
+}
