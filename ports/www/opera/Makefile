@@ -1,4 +1,4 @@
-# $MirOS: ports/www/opera/Makefile,v 1.9 2006/02/18 13:03:28 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.10 2006/06/20 18:20:36 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -7,7 +7,7 @@ EMUL=			linux
 COMMENT=		"fast and customizable WWW browser"
 VERS=			9.0
 DISTNAME=		opera-${VERS}-20060616.1-static-qt.i386-en-344
-PKGNAME=		opera-${VERS}-0
+PKGNAME=		opera-${VERS}-1
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
 
@@ -35,14 +35,19 @@ RUN_DEPENDS=		:debian-libs->=3.1-1:emulators/debian
 NO_BUILD=		Yes
 NO_REGRESS=		Yes
 
+DBL_FILES=		${PREFIX}/libexec/opera ${PREFIX}/libexec/works \
+			${PREFIX}/share/opera/plugins/operaplugincleaner \
+			${PREFIX}/share/opera/plugins/operapluginwrapper
+
 do-install:
 	cd ${WRKBUILD} && ${SHELL} ./install.sh \
 	    --prefix=${PREFIX} \
 	    --exec_prefix=${PREFIX}/libexec \
-	    --plugindir=${PREFIX}/lib/opera/plugins
+	    --plugindir=${PREFIX}/share/opera/plugins
 	chmod 600 ${PREFIX}/libexec/opera
-	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' \
-	    ${PREFIX}/libexec/opera
+.for _i in ${DBL_FILES}
+	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' ${_i}
+.endfor
 	chmod ${BINMODE} ${PREFIX}/libexec/opera
 	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' \
 	    -e 's:@SHELL@:${MKSH}:g' \
@@ -55,5 +60,7 @@ do-install:
 		print '%g!${PREFIX}!s!!${TRUEPREFIX}!g\nwq' \
 		    | ed -s $$f; \
 	done
+	print '/^.usr.lib.opera.plugins/s!!${TRUEPREFIX}/share/opera/plugins!\nwq' \
+	    | ed -s ${PREFIX}/share/opera/ini/pluginpath.ini
 
 .include <bsd.port.mk>

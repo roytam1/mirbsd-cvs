@@ -1,15 +1,12 @@
-@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.3 2006/02/01 20:38:49 tg Exp $
+@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.4 2006/06/20 18:20:37 tg Exp $
 @comment $OpenBSD: PLIST,v 1.21 2005/07/07 18:30:29 sturm Exp $
 @unexec rm -f %D/share/opera/styles/browser.css
 @unexec rm -f %D/share/opera/styles/user.css
 bin/opera
-lib/opera/plugins/libnpp.so
-lib/opera/plugins/operaplugincleaner
-lib/opera/plugins/operapluginwrapper
 libexec/missingsyms.so
 libexec/opera
 libexec/spellcheck.so
-libexec/works
+@comment libexec/works
 man/man1/opera.1
 share/opera/LICENSE
 share/opera/chartables.bin
@@ -31,14 +28,17 @@ share/opera/ini/standard_mouse.ini
 share/opera/ini/standard_toolbar.ini
 share/opera/ini/unix_keyboard.ini
 share/opera/ini/xmlentities.ini
-share/opera/java/opera.jar
-share/opera/java/opera.policy
+@comment share/opera/java/opera.jar
+@comment share/opera/java/opera.policy
 share/opera/lngcode.txt
 share/opera/locale/en/default.adr
 share/opera/locale/en/license.txt
 share/opera/locale/en/search.ini
 share/opera/locale/english.lng
 share/opera/opera6.adr
+share/opera/plugins/libnpp.so
+share/opera/plugins/operaplugincleaner
+share/opera/plugins/operapluginwrapper
 share/opera/search.ini
 share/opera/skin/standard_skin.zip
 share/opera/skin/windows_skin.zip
@@ -82,12 +82,11 @@ share/opera/svg-sebd.dat
 @dirrm share/opera/styles/images
 @dirrm share/opera/styles
 @dirrm share/opera/skin
+@dirrm share/opera/plugins
 @dirrm share/opera/locale/en
 @dirrm share/opera/locale
-@dirrm share/opera/java
+@comment @dirrm share/opera/java
 @dirrm share/opera/ini
 @dirrm share/opera/images
 @dirrm share/opera/config
 @dirrm share/opera
-@dirrm lib/opera/plugins
-@dirrm lib/opera
