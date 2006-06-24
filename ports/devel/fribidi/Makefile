@@ -1,11 +1,12 @@
-# $MirOS$
+# $MirOS: ports/devel/fribidi/Makefile,v 1.1.7.1 2005/03/18 15:44:35 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/01/11 16:45:51 couderc Exp $
 
 COMMENT=		"Library implementing the Unicode Bidirectional Algorithm"
 DISTNAME=		fribidi-0.10.4
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel
-HOMEPAGE=		http://freedesktop.org/Software/FriBidi
-MASTER_SITES=		http://freedesktop.org/~fribidi/download/
+HOMEPAGE=		http://fribidi.org/
+MASTER_SITES=		${HOMEPAGE}download/
 
 # GNU LGPLv2.1
 PERMIT_PACKAGE_CDROM=	Yes
