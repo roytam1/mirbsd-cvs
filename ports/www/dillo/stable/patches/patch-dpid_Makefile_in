@@ -1,7 +1,7 @@
-$MirOS$
---- dpid/Makefile.in.orig	2005-06-19 19:07:01.000000000 +0200
-+++ dpid/Makefile.in	2005-06-19 19:07:43.000000000 +0200
-@@ -471,8 +471,8 @@ uninstall-am: uninstall-binPROGRAMS unin
+$MirOS: ports/www/dillo/stable/patches/patch-dpid_Makefile_in,v 1.2 2005/06/19 17:20:19 bsiegert Exp $
+--- dpid/Makefile.in.orig	Wed Apr 26 16:06:55 2006
++++ dpid/Makefile.in	Mon May 15 17:49:33 2006
+@@ -481,8 +481,8 @@ uninstall-am: uninstall-binPROGRAMS unin
  
  
  install-data-local :
