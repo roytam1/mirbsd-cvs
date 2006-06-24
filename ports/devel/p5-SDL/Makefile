@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/p5-SDL/Makefile,v 1.4 2005/12/28 16:37:57 tg Exp $
+# $MirOS: ports/devel/p5-SDL/Makefile,v 1.5 2006/02/27 19:00:32 tg Exp $
 # $NetBSD: Makefile,v 1.26 2005/04/11 21:45:34 tv Exp $
 
 COMMENT=		Perl module for SDL
@@ -21,8 +21,11 @@ LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl \
 			png::graphics/png \
 			jpeg.62::graphics/jpeg
 BUILD_DEPENDS=		::devel/sdl-image \
-			::devel/sdl-mixer
+			::devel/sdl-mixer \
+			::devel/sdl-ttf
 RUN_DEPENDS=		${BUILD_DEPENDS}
+
+CONFIGURE_ENV+=		PREFIX=${PREFIX}
 
 CONFIGURE_STYLE=	perl
 

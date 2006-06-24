@@ -1,6 +1,6 @@
-$MirOS$
---- Makefile.netbsd.orig	Wed Aug 28 01:27:48 2002
-+++ Makefile.netbsd	Fri Jun 24 17:19:28 2005
+$MirOS: ports/devel/p5-SDL/patches/patch-Makefile_netbsd,v 1.1 2005/06/24 17:24:07 tg Exp $
+--- Makefile.netbsd.orig	Wed Aug 28 03:27:48 2002
++++ Makefile.netbsd	Sat Jun 24 17:59:13 2006
 @@ -15,7 +15,7 @@ use vars qw/ $sdl_cflags $sdl_libs @dirs
  
  chomp ($sdl_cflags = "-I/usr/X11R6/include " . `sdl-config --cflags`);
@@ -10,7 +10,7 @@ $MirOS$
  							# use -R instead
  
  #
-@@ -23,9 +23,11 @@ $sdl_libs =~ s/-Wl,-rpath,(\/usr\/pkg)*\
+@@ -23,9 +23,14 @@ $sdl_libs =~ s/-Wl,-rpath,(\/usr\/pkg)*\
  #
  
  @dirs=(
@@ -22,6 +22,9 @@ $MirOS$
 +	'/usr/local/include/png', 
 +	'/usr/local/include/SDL', 
 +	'/usr/local/include/smpeg',
++	$ENV{'PREFIX'} . '/include',
++	$ENV{'PREFIX'} . '/include/SDL',
++	$ENV{'PREFIX'} . '/include/smpeg',
  	'/usr/X11R6/include',
  	'/usr/X11R6/include/GL', 
  );
