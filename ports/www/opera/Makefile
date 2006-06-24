@@ -1,4 +1,4 @@
-# $MirOS: ports/www/opera/Makefile,v 1.11 2006/06/23 14:27:15 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.12 2006/06/24 11:44:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -10,6 +10,7 @@ DISTNAME=		opera-${VERS}-20060616.1-static-qt.i386-en
 PKGNAME=		opera-${VERS}-1
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
+WRKDIST=		${WRKDIR}/${DISTNAME}-344
 
 PERMIT_PACKAGE_CDROM=	"Commercial software"
 PERMIT_PACKAGE_FTP=	"Commercial software"
