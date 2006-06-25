@@ -1,4 +1,4 @@
-$MirOS: src/README,v 1.2 2006/06/17 22:11:05 tg Exp $
+$MirOS: src/README,v 1.3 2006/06/25 03:46:28 tg Exp $
 
 This is the MirOS base BSD derived operating system,
 kernel and userland, by The MirOS Project - http://mirbsd.de/
@@ -42,4 +42,5 @@ System either; XFree86(TM) is contributed similarily to gcc,
 but only for size and practical reasons, since it's free.
 
 Licencing information can be found in /usr/share/doc/legal/
-after installation. Wir sind verpeilt und garantieren nichts.
+after installation. Wir sind verpeilt und garantieren nichts;
+wer unsere Releases verwendet, ist selber schuld.
