@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/audio/faad/Makefile,v 1.2 2005/07/07 21:17:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/04/28 13:05:01 jolan Exp $
 
 COMMENT=	"MPEG2 and MPEG-4 AAC decoder"
 DISTNAME=	faad2-2.0
-PKGNAME=	faad-2.0-0
+PKGNAME=	faad-2.0-1
 CATEGORIES=    	audio
 MASTER_SITES=	http://users.codefusionis.com/~jolan/
 HOMEPAGE=	http://faac.sourceforge.net/
