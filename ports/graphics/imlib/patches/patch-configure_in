@@ -1,6 +1,15 @@
-$MirOS: ports/graphics/imlib/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:46:54 tg Exp $
---- configure.in.orig	Thu Sep 23 01:13:23 2004
-+++ configure.in	Thu Apr 28 22:12:40 2005
+$MirOS: ports/graphics/imlib/patches/patch-configure_in,v 1.2 2005/04/28 22:20:55 tg Exp $
+--- configure.in.orig	Thu Sep 23 01:13:45 2004
++++ configure.in	Sun Jun 25 03:21:38 2006
+@@ -25,7 +25,7 @@ AM_PATH_GTK(1.2.1,[
+ AC_MSG_CHECKING(whether to build gmodulized imlib)
+ 
+ AC_ARG_ENABLE(modules, [  --disable-modules       Disables dynamic module loading],[
+-	if test x$withval = xyes; then 
++	if test x$enableval = xyes; then 
+ 	    with_modules=yes
+         else
+             with_modules=no
 @@ -141,8 +141,6 @@ else
  fi
  AC_SUBST(GX_LIBS)
