@@ -1,6 +1,6 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/config/config.guess,v 1.8 2006/06/02 20:58:15 tg Exp $
-# _MirOS: contrib/gnu/config/config.guess,v 1.8 2006/06/02 20:58:15 tg Exp $
+# $MirOS: contrib/gnu/config/config.guess,v 1.9 2006/06/17 21:51:07 tg Exp $
+# _MirOS: contrib/gnu/config/config.guess,v 1.9 2006/06/17 21:51:07 tg Exp $
 # Attempt to guess a canonical system name.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 #   2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation,
@@ -208,15 +208,6 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
 	exit ;;
     *:ekkoBSD:*:*)
 	echo ${UNAME_MACHINE}-unknown-ekkobsd${UNAME_RELEASE}
-	exit ;;
-    amd64:MirBSD:*:*)
-	echo x86_64-ecce-mirbsd${UNAME_RELEASE}
-	exit ;;
-    macppc:MirBSD:*:*)
-	echo powerpc-ecce-mirbsd${UNAME_RELEASE}
-	exit ;;
-    pmax:MirBSD:*:*)
-	echo mipsel-ecce-mirbsd${UNAME_RELEASE}
 	exit ;;
     *:MirBSD:*:*)
 	echo ${UNAME_MACHINE}-ecce-mirbsd${UNAME_RELEASE}

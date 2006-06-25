@@ -1,6 +1,6 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: ports/infrastructure/db/libtool.m4,v 1.20 2006/06/12 19:33:08 tg Exp $
-# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.51 2006/06/12 19:29:50 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.52 2006/06/25 02:12:21 tg Exp $
+# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.52 2006/06/25 02:12:21 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
