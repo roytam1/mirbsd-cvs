@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.9 2006/03/19 19:30:06 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.10 2006/03/19 20:08:11 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,9 +27,15 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.9 2006/03/19 19:30:06 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.10 2006/03/19 20:08:11 tg Exp $");
 
+#if 0 /* defined(__OpenBSD__) && !defined(__MirBSD__) */
+/* this gets rid of the requirement to run paxmirabilis
+   on OpenBSD, but their pax is so broken sometimes...  */
+#define STARTSTRING "tar -cf - "
+#else
 #define STARTSTRING "tar -Rcf - "
+#endif
 #define TOOBIG(str) ((strlen(str) + FILENAME_MAX + where_count > maxargs) \
 		|| (strlen(str) + FILENAME_MAX + perm_count > maxargs))
 
