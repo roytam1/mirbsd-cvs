@@ -1,6 +1,6 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.52 2006/06/25 02:12:21 tg Exp $
-# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.52 2006/06/25 02:12:21 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.53 2006/06/25 02:50:22 tg Exp $
+# _MirOS: contrib/gnu/libtool/libtool.m4,v 1.53 2006/06/25 02:50:22 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -556,12 +556,12 @@ else
        test "X$echo_testing_string" = "X$echo_test_string"; then
       # This shell has a builtin print -r that does the trick.
       echo='print -r'
-    elif (test -f /bin/mksh || test -f /bin/mksh$ac_exeext) &&
-	 test "X$CONFIG_SHELL" != X/bin/mksh; then
+    elif test -f ${MKSH:-/bin/mksh} &&
+	 test "X$CONFIG_SHELL" != X${MKSH:-/bin/mksh}; then
       # If we have mksh, try running configure again with it.
       ORIGINAL_CONFIG_SHELL=${CONFIG_SHELL-/bin/sh}
       export ORIGINAL_CONFIG_SHELL
-      CONFIG_SHELL=/bin/mksh
+      CONFIG_SHELL=${MKSH:-/bin/mksh}
       export CONFIG_SHELL
       exec $CONFIG_SHELL "[$]0" --no-reexec ${1+"[$]@"}
     elif (test -f /bin/ksh || test -f /bin/ksh$ac_exeext) &&
