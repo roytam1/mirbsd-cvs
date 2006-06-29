@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.20 2006/06/02 21:19:50 tg Exp $
+# $MirOS: X11/Makefile,v 1.21 2006/06/29 19:53:07 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -18,7 +18,8 @@ DIRGRP?=	wheel
 .include <bsd.obj.mk>
 
 .if make(obj)
-SUBDIR=		extras
+  SUBDIR+=	depends
+  SUBDIR+=	extras
 .  include <bsd.subdir.mk>
 .endif
 
@@ -45,6 +46,7 @@ b-r:
 	cd ${.CURDIR} && exec ${MAKE} release
 
 compile:
+	cd ${.CURDIR}/depends && ${MAKE} depend && exec ${MAKE}
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
