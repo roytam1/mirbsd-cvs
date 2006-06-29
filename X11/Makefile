@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.19 2005/04/20 06:18:06 tg Exp $
+# $MirOS: X11/Makefile,v 1.20 2006/06/02 21:19:50 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -47,10 +47,6 @@ b-r:
 compile:
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
-.if ${MKC_USAP:L} != "yes"
-	echo '#define Freetype2BuildDefines	'\
-	    '-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER' >>${CONFHOSTDEF}
-.endif
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
 	echo "#define BuildFonts		NO" >>${CONFHOSTDEF}
 .endif
