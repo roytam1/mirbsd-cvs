@@ -151,7 +151,7 @@ EXPATBUILDDIR = expat
 #endif
 
 #if BuildFreetype2Library
-FREETYPE2BUILDDIR = freetype2
+XCOMM FREETYPE2BUILDDIR = freetype2
 #endif
 
 #if BuildFontconfigLibrary
