@@ -1,8 +1,0 @@
-0a
-# $MirOS: contrib/code/mirmake/dist/scripts/bsd.prog.mk.ed,v 1.2 2004/11/12 01:06:09 tg Exp $
-.
-/^..PROG/d
-i
-${PROG}: ${OBJS} ${DPADD}
-.
-wq
