@@ -1,4 +1,5 @@
 #! /bin/sh
+# $MirOS$
 #
 # Copyright 2000, 2001, 2002, 2003, 2004, 2005 by
 # David Turner, Robert Wilhelm, and Werner Lemberg.
@@ -9,14 +10,14 @@
 # indicate that you have read the license and understand and accept it
 # fully.
 
-prefix=@prefix@
-exec_prefix=@exec_prefix@
+prefix=@X11BASE@
+exec_prefix=@X11BASE@
 exec_prefix_set=no
-includedir=@includedir@
-libdir=@libdir@
-enable_shared=@enable_shared@
+includedir=@X11BASE@/include
+libdir=@X11BASE@/lib
+enable_shared=yes
 wl=@wl@
-hardcode_libdir_flag_spec='@hardcode_libdir_flag_spec@'
+hardcode_libdir_flag_spec='-Wl,-rpath,@X11BASE@/lib'
 
 usage()
 {
@@ -76,13 +77,13 @@ while test $# -gt 0 ; do
     exit 0
     ;;
   --ftversion)
-    major=`grep define @prefix@/include/freetype2/freetype/freetype.h \
+    major=`grep define @X11BASE@/include/freetype2/freetype/freetype.h \
            | grep FREETYPE_MAJOR \
            | sed 's/.*[ 	]\([0-9][0-9]*\).*/\1/'`
-    minor=`grep define @prefix@/include/freetype2/freetype/freetype.h \
+    minor=`grep define @X11BASE@/include/freetype2/freetype/freetype.h \
            | grep FREETYPE_MINOR \
            | sed 's/.*[ 	]\([0-9][0-9]*\).*/\1/'`
-    patch=`grep define @prefix@/include/freetype2/freetype/freetype.h \
+    patch=`grep define @X11BASE@/include/freetype2/freetype/freetype.h \
            | grep FREETYPE_PATCH \
            | sed 's/.*[ 	]\([0-9][0-9]*\).*/\1/'`
     echo $major.$minor.$patch
@@ -141,7 +142,7 @@ if test "$echo_libs" = "yes" ; then
   if test "$enable_shared" = "yes" ; then
     eval "rpath=\"$hardcode_libdir_flag_spec\""
   fi
-  libs="-lfreetype @LIBZ@"
+  libs="-lfreetype -lz"
   if test "$libdir" != "/usr/lib" && test "$libdir" != "/usr/lib64"; then
     echo -L$libdir $rpath $libs
   else
