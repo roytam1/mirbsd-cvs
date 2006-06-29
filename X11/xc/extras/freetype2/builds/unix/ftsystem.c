@@ -18,12 +18,16 @@
 
 #include <ft2build.h>
   /* we use our special ftconfig.h file, not the standard one */
+#ifndef MBSD_BUILD
 #include <ftconfig.h>
+#endif
 #include FT_INTERNAL_DEBUG_H
 #include FT_SYSTEM_H
 #include FT_ERRORS_H
 #include FT_TYPES_H
 #include FT_INTERNAL_STREAM_H
+
+#include <fcntl.h>
 
   /* memory-mapping includes and definitions */
 #ifdef HAVE_UNISTD_H

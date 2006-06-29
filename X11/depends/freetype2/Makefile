@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.1 2006/06/29 19:36:16 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.2 2006/06/29 20:11:14 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
@@ -6,7 +6,7 @@
 # This is the one from the freetype project
 #LT_VERSION=		9:10:3
 # This is bumped like we need it
-LT_VERSION=		11:10:1
+LT_VERSION=		11:10:0
 
 FT_VERSION=		${LT_VERSION:S/:/./g}
 LT_CURRENT=		${FT_VERSION:R:R}
@@ -29,6 +29,10 @@ freetype2.pc: freetype2.in
 FT2_DIR=		${.CURDIR}/../../xc/extras/freetype2
 
 CPPFLAGS+=		-I${FT2_DIR}/include
+CPPFLAGS+=		-DFT2_BUILD_LIBRARY
+CPPFLAGS+=		-DMBSD_BUILD
+
+.PATH:			${FT2_DIR}/builds/unix
 
 .for module in autofit autohint base bdf cache cff cid gxvalid gzip lzw \
     otlayout otvalid pcf pfr psaux pshinter psnames raster sfnt smooth \
@@ -43,6 +47,8 @@ CPPFLAGS+=		-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER
 LIB=			freetype
 NOMAN=			Yes
 
+  SRCS+=		ftsystem.c
+  SRCS+=		ftinit.c
   SRCS+=		afangles.c
   SRCS+=		afcjk.c
   SRCS+=		afdummy.c
