@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    OpenType and CFF data/program tables loader (body).                  */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004 by                               */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -1095,7 +1095,7 @@
 
     idx->stream = stream;
     if ( !FT_READ_USHORT( count ) &&
-         count > 0             )
+         count > 0                )
     {
       FT_Byte*   p;
       FT_Byte    offsize;
@@ -1235,7 +1235,7 @@
       }
 
       /* access element */
-      if ( off1 )
+      if ( off1 && off2 > off1 )
       {
         *pbyte_len = off2 - off1;
 
@@ -1687,7 +1687,9 @@
       FT_MEM_ZERO( charset->cids, sizeof ( FT_UShort ) * max_cid );
 
       for ( i = 0; i < num_glyphs; i++ )
-        charset->cids[charset->sids[i]] = i;
+        charset->cids[charset->sids[i]] = (FT_UShort)i;
+
+      charset->max_cid = max_cid;
     }
 
   Exit:
@@ -2011,7 +2013,7 @@
 
     if ( error )
       goto Exit;
-
+ 
     /* if it is a CID font, we stop there */
     if ( top->cid_registry != 0xFFFFU )
       goto Exit;
@@ -2040,6 +2042,9 @@
       FT_FRAME_EXIT();
       if ( error )
         goto Exit;
+
+      /* ensure that `num_blue_values' is even */
+      priv->num_blue_values &= ~1;
     }
 
     /* read the local subrs, if any */
@@ -2099,6 +2104,7 @@
     FT_Memory        memory = stream->memory;
     FT_ULong         base_offset;
     CFF_FontRecDict  dict;
+
 
     FT_ZERO( font );
 
@@ -2189,11 +2195,11 @@
       if ( FT_NEW_ARRAY( sub, fd_index.count ) )
         goto Fail_CID;
 
-      /* setup pointer table */
+      /* set up pointer table */
       for ( idx = 0; idx < fd_index.count; idx++ )
         font->subfonts[idx] = sub + idx;
 
-      /* now load each sub font independently */
+      /* now load each subfont independently */
       for ( idx = 0; idx < fd_index.count; idx++ )
       {
         sub = font->subfonts[idx];
@@ -2239,11 +2245,9 @@
     /* read the Charset and Encoding tables if available */
     if ( font->num_glyphs > 0 )
     {
-      FT_Bool  invert;
+      FT_Bool  invert = FT_BOOL( dict->cid_registry != 0xFFFFU );
 
 
-      invert = dict->cid_registry != 0xFFFFU &&
-               font->charstrings_index.count != dict->cid_count;
       error = cff_charset_load( &font->charset, font->num_glyphs, stream,
                                 base_offset, dict->charset_offset, invert );
       if ( error )
@@ -2294,8 +2298,6 @@
     {
       for ( idx = 0; idx < font->num_subfonts; idx++ )
         cff_subfont_done( memory, font->subfonts[idx] );
-
-      FT_FREE( font->subfonts );
     }
 
     cff_encoding_done( &font->encoding );

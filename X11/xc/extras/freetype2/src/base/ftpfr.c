@@ -6,7 +6,7 @@
 /*                                                                         */
 /*    FreeType API for accessing PFR-specific data (body).                 */
 /*                                                                         */
-/*  Copyright 2002, 2003 by                                                */
+/*  Copyright 2002, 2003, 2004 by                                          */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -35,6 +35,8 @@
     return service;
   }
 
+
+  /* documentation is in ftpfr.h */
 
   FT_EXPORT_DEF( FT_Error )
   FT_Get_PFR_Metrics( FT_Face    face,
@@ -81,6 +83,8 @@
   }
 
 
+  /* documentation is in ftpfr.h */
+
   FT_EXPORT_DEF( FT_Error )
   FT_Get_PFR_Kerning( FT_Face     face,
                       FT_UInt     left,
@@ -103,6 +107,8 @@
     return error;
   }
 
+
+  /* documentation is in ftpfr.h */
 
   FT_EXPORT_DEF( FT_Error )
   FT_Get_PFR_Advance( FT_Face   face,

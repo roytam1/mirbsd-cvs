@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    The FreeType basic cache interface (body).                           */
 /*                                                                         */
-/*  Copyright 2003, 2004 by                                                */
+/*  Copyright 2003, 2004, 2005, 2006 by                                    */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -18,13 +18,51 @@
 
 #include <ft2build.h>
 #include FT_CACHE_H
-#include FT_CACHE_INTERNAL_GLYPH_H
-#include FT_CACHE_INTERNAL_IMAGE_H
-#include FT_CACHE_INTERNAL_SBITS_H
+#include "ftcglyph.h"
+#include "ftcimage.h"
+#include "ftcsbits.h"
 #include FT_INTERNAL_MEMORY_H
 
 #include "ftccback.h"
 #include "ftcerror.h"
+
+
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
+
+  /*
+   *  These structures correspond to the FTC_Font and FTC_ImageDesc types
+   *  that were defined in version 2.1.7.
+   */
+  typedef struct  FTC_OldFontRec_
+  {
+    FTC_FaceID  face_id;
+    FT_UShort   pix_width;
+    FT_UShort   pix_height;
+
+  } FTC_OldFontRec, *FTC_OldFont;
+
+
+  typedef struct  FTC_OldImageDescRec_
+  {
+    FTC_OldFontRec  font;
+    FT_UInt32       flags;
+
+  } FTC_OldImageDescRec, *FTC_OldImageDesc;
+
+
+  /*
+   *  Notice that FTC_OldImageDescRec and FTC_ImageTypeRec are nearly
+   *  identical, bit-wise.  The only difference is that the `width' and
+   *  `height' fields are expressed as 16-bit integers in the old structure,
+   *  and as normal `int' in the new one.
+   *
+   *  We are going to perform a weird hack to detect which structure is
+   *  being passed to the image and sbit caches.  If the new structure's
+   *  `width' is larger than 0x10000, we assume that we are really receiving
+   *  an FTC_OldImageDesc.
+   */
+
+#endif /* FT_CONFIG_OPTION_OLD_INTERNALS */
 
 
   /*
@@ -38,9 +76,9 @@
 
   } FTC_BasicAttrRec, *FTC_BasicAttrs;
 
-#define FTC_BASIC_ATTR_COMPARE( a, b )                           \
-          ( FTC_SCALER_COMPARE( &(a)->scaler, &(b)->scaler ) &&  \
-            (a)->load_flags == (b)->load_flags               )
+#define FTC_BASIC_ATTR_COMPARE( a, b )                                 \
+          FT_BOOL( FTC_SCALER_COMPARE( &(a)->scaler, &(b)->scaler ) && \
+                   (a)->load_flags == (b)->load_flags               )
 
 #define FTC_BASIC_ATTR_HASH( a )                                   \
           ( FTC_SCALER_HASH( &(a)->scaler ) + 31*(a)->load_flags )
@@ -63,18 +101,27 @@
 
 
   FT_CALLBACK_DEF( FT_Bool )
-  ftc_basic_family_compare( FTC_BasicFamily  family,
-                            FTC_BasicQuery   query )
+  ftc_basic_family_compare( FTC_MruNode  ftcfamily,
+                            FT_Pointer   ftcquery )
   {
-    return FT_BOOL( FTC_BASIC_ATTR_COMPARE( &family->attrs, &query->attrs ) );
+    FTC_BasicFamily  family = (FTC_BasicFamily)ftcfamily;
+    FTC_BasicQuery   query  = (FTC_BasicQuery)ftcquery;
+
+
+    return FTC_BASIC_ATTR_COMPARE( &family->attrs, &query->attrs );
   }
 
 
   FT_CALLBACK_DEF( FT_Error )
-  ftc_basic_family_init( FTC_BasicFamily  family,
-                         FTC_BasicQuery   query,
-                         FTC_Cache        cache )
+  ftc_basic_family_init( FTC_MruNode  ftcfamily,
+                         FT_Pointer   ftcquery,
+                         FT_Pointer   ftccache )
   {
+    FTC_BasicFamily  family = (FTC_BasicFamily)ftcfamily;
+    FTC_BasicQuery   query  = (FTC_BasicQuery)ftcquery;
+    FTC_Cache        cache  = (FTC_Cache)ftccache;
+
+
     FTC_Family_Init( FTC_FAMILY( family ), cache );
     family->attrs = query->attrs;
     return 0;
@@ -82,12 +129,13 @@
 
 
   FT_CALLBACK_DEF( FT_UInt )
-  ftc_basic_family_get_count( FTC_BasicFamily  family,
-                              FTC_Manager      manager )
+  ftc_basic_family_get_count( FTC_Family   ftcfamily,
+                              FTC_Manager  manager )
   {
-    FT_Error  error;
-    FT_Face   face;
-    FT_UInt   result = 0;
+    FTC_BasicFamily  family = (FTC_BasicFamily)ftcfamily;
+    FT_Error         error;
+    FT_Face          face;
+    FT_UInt          result = 0;
 
 
     error = FTC_Manager_LookupFace( manager, family->attrs.scaler.face_id,
@@ -100,13 +148,14 @@
 
 
   FT_CALLBACK_DEF( FT_Error )
-  ftc_basic_family_load_bitmap( FTC_BasicFamily  family,
-                                FT_UInt          gindex,
-                                FTC_Manager      manager,
-                                FT_Face         *aface )
+  ftc_basic_family_load_bitmap( FTC_Family   ftcfamily,
+                                FT_UInt      gindex,
+                                FTC_Manager  manager,
+                                FT_Face     *aface )
   {
-    FT_Error  error;
-    FT_Size   size;
+    FTC_BasicFamily  family = (FTC_BasicFamily)ftcfamily;
+    FT_Error         error;
+    FT_Size          size;
 
 
     error = FTC_Manager_LookupSize( manager, &family->attrs.scaler, &size );
@@ -126,15 +175,16 @@
 
 
   FT_CALLBACK_DEF( FT_Error )
-  ftc_basic_family_load_glyph( FTC_BasicFamily  family,
-                               FT_UInt          gindex,
-                               FTC_Cache        cache,
-                               FT_Glyph        *aglyph )
+  ftc_basic_family_load_glyph( FTC_Family  ftcfamily,
+                               FT_UInt     gindex,
+                               FTC_Cache   cache,
+                               FT_Glyph   *aglyph )
   {
-    FT_Error    error;
-    FTC_Scaler  scaler = &family->attrs.scaler;
-    FT_Face     face;
-    FT_Size     size;
+    FTC_BasicFamily  family = (FTC_BasicFamily)ftcfamily;
+    FT_Error         error;
+    FTC_Scaler       scaler = &family->attrs.scaler;
+    FT_Face          face;
+    FT_Size          size;
 
 
     /* we will now load the glyph image */
@@ -173,11 +223,13 @@
 
 
   FT_CALLBACK_DEF( FT_Bool )
-  ftc_basic_gnode_compare_faceid( FTC_GNode   gnode,
-                                  FTC_FaceID  face_id,
+  ftc_basic_gnode_compare_faceid( FTC_Node    ftcgnode,
+                                  FT_Pointer  ftcface_id,
                                   FTC_Cache   cache )
   {
-    FTC_BasicFamily  family = (FTC_BasicFamily)gnode->family;
+    FTC_GNode        gnode   = (FTC_GNode)ftcgnode;
+    FTC_FaceID       face_id = (FTC_FaceID)ftcface_id;
+    FTC_BasicFamily  family  = (FTC_BasicFamily)gnode->family;
     FT_Bool          result;
 
 
@@ -203,13 +255,13 @@
   const FTC_IFamilyClassRec  ftc_basic_image_family_class =
   {
     {
-      sizeof( FTC_BasicFamilyRec ),
-      (FTC_MruNode_CompareFunc)ftc_basic_family_compare,
-      (FTC_MruNode_InitFunc)   ftc_basic_family_init,
-      (FTC_MruNode_ResetFunc)  NULL,
-      (FTC_MruNode_DoneFunc)   NULL
+      sizeof ( FTC_BasicFamilyRec ),
+      ftc_basic_family_compare,
+      ftc_basic_family_init,
+      0,                        /* FTC_MruNode_ResetFunc */
+      0                         /* FTC_MruNode_DoneFunc  */
     },
-    (FTC_IFamily_LoadGlyphFunc)ftc_basic_family_load_glyph
+    ftc_basic_family_load_glyph
   };
 
 
@@ -217,19 +269,21 @@
   const FTC_GCacheClassRec  ftc_basic_image_cache_class =
   {
     {
-      (FTC_Node_NewFunc)    ftc_inode_new,
-      (FTC_Node_WeightFunc) ftc_inode_weight,
-      (FTC_Node_CompareFunc)ftc_gnode_compare,
-      (FTC_Node_CompareFunc)ftc_basic_gnode_compare_faceid,
-      (FTC_Node_FreeFunc)   ftc_inode_free,
+      ftc_inode_new,
+      ftc_inode_weight,
+      ftc_gnode_compare,
+      ftc_basic_gnode_compare_faceid,
+      ftc_inode_free,
 
-      sizeof( FTC_GCacheRec ),
-      (FTC_Cache_InitFunc)  ftc_gcache_init,
-      (FTC_Cache_DoneFunc)  ftc_gcache_done
+      sizeof ( FTC_GCacheRec ),
+      ftc_gcache_init,
+      ftc_gcache_done
     },
     (FTC_MruListClass)&ftc_basic_image_family_class
   };
 
+
+  /* documentation is in ftcache.h */
 
   FT_EXPORT_DEF( FT_Error )
   FTC_ImageCache_New( FTC_Manager      manager,
@@ -240,7 +294,7 @@
   }
 
 
-  /* documentation is in ftcimage.h */
+  /* documentation is in ftcache.h */
 
   FT_EXPORT_DEF( FT_Error )
   FTC_ImageCache_Lookup( FTC_ImageCache  cache,
@@ -250,7 +304,7 @@
                          FTC_Node       *anode )
   {
     FTC_BasicQueryRec  query;
-    FTC_INode          node;
+    FTC_INode          node = 0;  /* make compiler happy */
     FT_Error           error;
     FT_UInt32          hash;
 
@@ -266,14 +320,36 @@
     if ( anode )
       *anode  = NULL;
 
-    query.attrs.scaler.face_id = type->face_id;
-    query.attrs.scaler.width   = type->width;
-    query.attrs.scaler.height  = type->height;
-    query.attrs.scaler.pixel   = 1;
-    query.attrs.load_flags     = type->flags;
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
 
-    query.attrs.scaler.x_res   = 0;  /* make compilers happy */
-    query.attrs.scaler.y_res   = 0;
+    /*
+     *  This one is a major hack used to detect whether we are passed a
+     *  regular FTC_ImageType handle, or a legacy FTC_OldImageDesc one.
+     */
+    if ( type->width >= 0x10000 )
+    {
+      FTC_OldImageDesc  desc = (FTC_OldImageDesc)type;
+
+
+      query.attrs.scaler.face_id = desc->font.face_id;
+      query.attrs.scaler.width   = desc->font.pix_width;
+      query.attrs.scaler.height  = desc->font.pix_height;
+      query.attrs.load_flags     = desc->flags;
+    }
+    else
+
+#endif /* FT_CONFIG_OPTION_OLD_INTERNALS */
+
+    {
+      query.attrs.scaler.face_id = type->face_id;
+      query.attrs.scaler.width   = type->width;
+      query.attrs.scaler.height  = type->height;
+      query.attrs.load_flags     = type->flags;
+    }
+
+    query.attrs.scaler.pixel = 1;
+    query.attrs.scaler.x_res = 0;  /* make compilers happy */
+    query.attrs.scaler.y_res = 0;
 
     hash = FTC_BASIC_ATTR_HASH( &query.attrs ) + gindex;
 
@@ -307,6 +383,135 @@
   }
 
 
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
+
+  /* yet another backwards-legacy structure */
+  typedef struct  FTC_OldImage_Desc_
+  {
+    FTC_FontRec  font;
+    FT_UInt      image_type;
+
+  } FTC_OldImage_Desc;
+
+
+#define FTC_OLD_IMAGE_FORMAT( x )  ( (x) & 7 )
+
+
+#define ftc_old_image_format_bitmap    0x0000
+#define ftc_old_image_format_outline   0x0001
+
+#define ftc_old_image_format_mask      0x000F
+
+#define ftc_old_image_flag_monochrome  0x0010
+#define ftc_old_image_flag_unhinted    0x0020
+#define ftc_old_image_flag_autohinted  0x0040
+#define ftc_old_image_flag_unscaled    0x0080
+#define ftc_old_image_flag_no_sbits    0x0100
+
+  /* monochrome bitmap */
+#define ftc_old_image_mono             ftc_old_image_format_bitmap   | \
+                                       ftc_old_image_flag_monochrome
+
+  /* anti-aliased bitmap */
+#define ftc_old_image_grays            ftc_old_image_format_bitmap
+
+  /* scaled outline */
+#define ftc_old_image_outline          ftc_old_image_format_outline
+
+
+  static void
+  ftc_image_type_from_old_desc( FTC_ImageType       typ,
+                                FTC_OldImage_Desc*  desc )
+  {
+    typ->face_id = desc->font.face_id;
+    typ->width   = desc->font.pix_width;
+    typ->height  = desc->font.pix_height;
+
+    /* convert image type flags to load flags */
+    {
+      FT_UInt  load_flags = FT_LOAD_DEFAULT;
+      FT_UInt  type       = desc->image_type;
+
+
+      /* determine load flags, depending on the font description's */
+      /* image type                                                */
+
+      if ( FTC_OLD_IMAGE_FORMAT( type ) == ftc_old_image_format_bitmap )
+      {
+        if ( type & ftc_old_image_flag_monochrome )
+          load_flags |= FT_LOAD_MONOCHROME;
+
+        /* disable embedded bitmaps loading if necessary */
+        if ( type & ftc_old_image_flag_no_sbits )
+          load_flags |= FT_LOAD_NO_BITMAP;
+      }
+      else
+      {
+        /* we want an outline, don't load embedded bitmaps */
+        load_flags |= FT_LOAD_NO_BITMAP;
+
+        if ( type & ftc_old_image_flag_unscaled )
+          load_flags |= FT_LOAD_NO_SCALE;
+      }
+
+      /* always render glyphs to bitmaps */
+      load_flags |= FT_LOAD_RENDER;
+
+      if ( type & ftc_old_image_flag_unhinted )
+        load_flags |= FT_LOAD_NO_HINTING;
+
+      if ( type & ftc_old_image_flag_autohinted )
+        load_flags |= FT_LOAD_FORCE_AUTOHINT;
+
+      typ->flags = load_flags;
+    }
+  }
+
+
+  FT_EXPORT( FT_Error )
+  FTC_Image_Cache_New( FTC_Manager      manager,
+                       FTC_ImageCache  *acache );
+
+  FT_EXPORT( FT_Error )
+  FTC_Image_Cache_Lookup( FTC_ImageCache      icache,
+                          FTC_OldImage_Desc*  desc,
+                          FT_UInt             gindex,
+                          FT_Glyph           *aglyph );
+
+
+  FT_EXPORT_DEF( FT_Error )
+  FTC_Image_Cache_New( FTC_Manager      manager,
+                       FTC_ImageCache  *acache )
+  {
+    return FTC_ImageCache_New( manager, (FTC_ImageCache*)acache );
+  }
+
+
+
+  FT_EXPORT_DEF( FT_Error )
+  FTC_Image_Cache_Lookup( FTC_ImageCache      icache,
+                          FTC_OldImage_Desc*  desc,
+                          FT_UInt             gindex,
+                          FT_Glyph           *aglyph )
+  {
+    FTC_ImageTypeRec  type0;
+
+
+    if ( !desc )
+      return FTC_Err_Invalid_Argument;
+
+    ftc_image_type_from_old_desc( &type0, desc );
+
+    return FTC_ImageCache_Lookup( (FTC_ImageCache)icache,
+                                   &type0,
+                                   gindex,
+                                   aglyph,
+                                   NULL );
+  }
+
+#endif /* FT_CONFIG_OPTION_OLD_INTERNALS */
+
+
  /*
   *
   * basic small bitmap cache
@@ -319,13 +524,13 @@
   {
     {
       sizeof( FTC_BasicFamilyRec ),
-      (FTC_MruNode_CompareFunc)ftc_basic_family_compare,
-      (FTC_MruNode_InitFunc)   ftc_basic_family_init,
-      (FTC_MruNode_ResetFunc)  NULL,
-      (FTC_MruNode_DoneFunc)   NULL
+      ftc_basic_family_compare,
+      ftc_basic_family_init,
+      0,                            /* FTC_MruNode_ResetFunc */
+      0                             /* FTC_MruNode_DoneFunc  */
     },
-    (FTC_SFamily_GetCountFunc) ftc_basic_family_get_count,
-    (FTC_SFamily_LoadGlyphFunc)ftc_basic_family_load_bitmap
+    ftc_basic_family_get_count,
+    ftc_basic_family_load_bitmap
   };
 
 
@@ -333,19 +538,21 @@
   const FTC_GCacheClassRec  ftc_basic_sbit_cache_class =
   {
     {
-      (FTC_Node_NewFunc)    ftc_snode_new,
-      (FTC_Node_WeightFunc) ftc_snode_weight,
-      (FTC_Node_CompareFunc)ftc_snode_compare,
-      (FTC_Node_CompareFunc)ftc_basic_gnode_compare_faceid,
-      (FTC_Node_FreeFunc)   ftc_snode_free,
+      ftc_snode_new,
+      ftc_snode_weight,
+      ftc_snode_compare,
+      ftc_basic_gnode_compare_faceid,
+      ftc_snode_free,
 
-      sizeof( FTC_GCacheRec ),
-      (FTC_Cache_InitFunc)  ftc_gcache_init,
-      (FTC_Cache_DoneFunc)  ftc_gcache_done
+      sizeof ( FTC_GCacheRec ),
+      ftc_gcache_init,
+      ftc_gcache_done
     },
     (FTC_MruListClass)&ftc_basic_sbit_family_class
   };
 
+
+  /* documentation is in ftcache.h */
 
   FT_EXPORT_DEF( FT_Error )
   FTC_SBitCache_New( FTC_Manager     manager,
@@ -356,6 +563,8 @@
   }
 
 
+  /* documentation is in ftcache.h */
+
   FT_EXPORT_DEF( FT_Error )
   FTC_SBitCache_Lookup( FTC_SBitCache  cache,
                         FTC_ImageType  type,
@@ -365,7 +574,7 @@
   {
     FT_Error           error;
     FTC_BasicQueryRec  query;
-    FTC_SNode          node;
+    FTC_SNode          node = 0; /* make compiler happy */
     FT_UInt32          hash;
 
 
@@ -378,14 +587,35 @@
 
     *ansbit = NULL;
 
-    query.attrs.scaler.face_id = type->face_id;
-    query.attrs.scaler.width   = type->width;
-    query.attrs.scaler.height  = type->height;
-    query.attrs.scaler.pixel   = 1;
-    query.attrs.load_flags     = type->flags;
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
 
-    query.attrs.scaler.x_res   = 0;  /* make compilers happy */
-    query.attrs.scaler.y_res   = 0;
+    /*  This one is a major hack used to detect whether we are passed a
+     *  regular FTC_ImageType handle, or a legacy FTC_OldImageDesc one.
+     */
+    if ( type->width >= 0x10000 )
+    {
+      FTC_OldImageDesc  desc = (FTC_OldImageDesc)type;
+
+
+      query.attrs.scaler.face_id = desc->font.face_id;
+      query.attrs.scaler.width   = desc->font.pix_width;
+      query.attrs.scaler.height  = desc->font.pix_height;
+      query.attrs.load_flags     = desc->flags;
+    }
+    else
+
+#endif /* FT_CONFIG_OPTION_OLD_INTERNALS */
+
+    {
+      query.attrs.scaler.face_id = type->face_id;
+      query.attrs.scaler.width   = type->width;
+      query.attrs.scaler.height  = type->height;
+      query.attrs.load_flags     = type->flags;
+    }
+
+    query.attrs.scaler.pixel = 1;
+    query.attrs.scaler.x_res = 0;  /* make compilers happy */
+    query.attrs.scaler.y_res = 0;
 
     /* beware, the hash must be the same for all glyph ranges! */
     hash = FTC_BASIC_ATTR_HASH( &query.attrs ) +
@@ -420,6 +650,51 @@
   Exit:
     return error;
   }
+
+
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
+
+  FT_EXPORT( FT_Error )
+  FTC_SBit_Cache_New( FTC_Manager     manager,
+                      FTC_SBitCache  *acache );
+
+  FT_EXPORT( FT_Error )
+  FTC_SBit_Cache_Lookup( FTC_SBitCache       cache,
+                         FTC_OldImage_Desc*  desc,
+                         FT_UInt             gindex,
+                         FTC_SBit           *ansbit );
+
+
+  FT_EXPORT_DEF( FT_Error )
+  FTC_SBit_Cache_New( FTC_Manager     manager,
+                      FTC_SBitCache  *acache )
+  {
+    return FTC_SBitCache_New( manager, (FTC_SBitCache*)acache );
+  }
+
+
+  FT_EXPORT_DEF( FT_Error )
+  FTC_SBit_Cache_Lookup( FTC_SBitCache       cache,
+                         FTC_OldImage_Desc*  desc,
+                         FT_UInt             gindex,
+                         FTC_SBit           *ansbit )
+  {
+    FTC_ImageTypeRec  type0;
+
+
+    if ( !desc )
+      return FT_Err_Invalid_Argument;
+
+    ftc_image_type_from_old_desc( &type0, desc );
+
+    return FTC_SBitCache_Lookup( (FTC_SBitCache)cache,
+                                  &type0,
+                                  gindex,
+                                  ansbit,
+                                  NULL );
+  }
+
+#endif /* FT_CONFIG_OPTION_OLD_INTERNALS */
 
 
 /* END */

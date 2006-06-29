@@ -10,7 +10,7 @@
 /*  parse compressed PCF fonts, as found with many X11 server              */
 /*  distributions.                                                         */
 /*                                                                         */
-/*  Copyright 2002, 2003, 2004 by                                          */
+/*  Copyright 2002, 2003, 2004, 2005, 2006 by                              */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -28,9 +28,7 @@
 #include FT_INTERNAL_STREAM_H
 #include FT_INTERNAL_DEBUG_H
 #include FT_GZIP_H
-#if 0
 #include <string.h>
-#endif
 
 
 #include FT_MODULE_ERRORS_H
@@ -105,12 +103,12 @@
                  uInt       size )
   {
     FT_ULong    sz = (FT_ULong)size * items;
+    FT_Error    error;
     FT_Pointer  p;
 
 
-    FT_MEM_ALLOC( p, sz );
-
-    return (voidpf) p;
+    (void)FT_ALLOC( p, sz );
+    return p;
   }
 
 
@@ -568,10 +566,18 @@
     FT_GZipFile  zip;
 
 
+    /*
+     *  check the header right now; this prevents allocating un-necessary
+     *  objects when we don't need them
+     */
+    error = ft_gzip_check_header( source );
+    if ( error )
+      goto Exit;
+
     FT_ZERO( stream );
     stream->memory = memory;
 
-    if ( !FT_NEW( zip ) )
+    if ( !FT_QNEW( zip ) )
     {
       error = ft_gzip_file_init( zip, stream, source );
       if ( error )
