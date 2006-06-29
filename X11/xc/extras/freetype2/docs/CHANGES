@@ -1,5 +1,344 @@
+CHANGES BETWEEN 2.2.1 and 2.2
 
-LATEST CHANGES BETWEEN 2.1.8 and 2.1.7
+  I. IMPORTANT BUG FIXES
+
+    - Various integer overflows have been fixed.
+
+    - PFB fonts with MacOS resource fork weren't  handled correctly on
+      non-MacOS platforms.
+
+
+======================================================================
+
+CHANGES BETWEEN 2.2 and 2.1.10
+
+(not released officially)
+
+  I. IMPORTANT BUG FIXES
+
+    - Vertical metrics for SFNT fonts were incorrect sometimes.
+
+    - The FT_HAS_KERNING macro always returned 0.
+
+    - CFF OpenType  fonts didn't  return correct vertical  metrics for
+      glyphs with outlines.
+
+    - If FreeType was compiled without hinters, all font formats based
+      on PS outlines weren't scaled correctly.
+
+
+  II. IMPORTANT CHANGES
+
+    - Version 2.2 no longer exposes its internals, this is, the header
+      files  located in  the `include/freetype/internal'  directory of
+      the source package are not  copied anymore by the `make install'
+      command.  Consequently, a number of rogue clients which directly
+      access  FreeType's  internal   functions  and  structures  won't
+      compile without modification.
+
+      We provide  patches for  most of those  rogue clients.   See the
+      following page for more information:
+
+        http://www.freetype.org/freetype2/patches/rogue-patches.html
+
+      Note that, as  a convenience to our Unix  desktop users, version
+      2.2 is *binary* compatible with FreeType 2.1.7, which means that
+      installing this  release on  an existing distribution  shall not
+      break any working desktop.
+
+    - FreeType's build  mechanism has been redesigned.   With GNU make
+      it  is  now  sufficient  in   most  cases  to  edit  two  files:
+      `modules.cfg',  to  select   the  library  components,  and  the
+      configuration  file  `include/freetype/config/ftoption.h' (which
+      can be copied to the objects directory).  Removing unused module
+      directories   to    prevent   its   compilation    and   editing
+      `include/freetype/config/ftmodule.h' is no longer necessary.
+
+    - The  LIGHT  hinting algorithm  produces  more pleasant  results.
+      Also, using the  FT_LOAD_TARGET_LIGHT flags within FT_Load_Glyph
+      always forces auto-hinting, as a special exception.  This allows
+      you to experiment with it  even if you have enabled the TrueType
+      bytecode interpreter in your build.
+
+    - The auto hinter now employs a new algorithm for CJK fonts, based
+      on Akito  Hirai's patch.   Note that this  only works  for fonts
+      with a Unicode charmap at the moment.
+
+    - The following callback function  types have changed slightly (by
+      adding the `const' keyword where appropriate):
+
+        FT_Outline_MoveToFunc
+        FT_Outline_LineToFunc
+        FT_Outline_ConicToFunc
+        FT_Outline_CubicToFunc
+        FT_SpanFunc
+        FT_Raster_RenderFunc
+
+        FT_Glyph_TransformFunc
+        FT_Renderer_RenderFunc
+        FT_Renderer_TransformFunc
+
+      Note that this doesn't affect binary backward compatibility.
+
+    - On MacOS,  new APIs have  been added as replacements  for legacy
+      APIs:  `FT_New_Face_From_FSRef'  for  `FT_New_Face_From_FSSpec',
+      and              `FT_GetFile_From_Mac_ATS_Name'              for
+      `FT_GetFile_From_Mac_Name'.  Legacy APIs are still available, if
+      FreeType is built without disabling them.
+
+    - A new  API `FT_Select_Size'  has been added  to select  a bitmap
+      strike  by its  index.   Code using  other  functions to  select
+      bitmap strikes should be updated to use this function.
+
+    - A  new API  `FT_Get_SubGlyph_Info'  has been  added to  retrieve
+      subglyph data.  This can be  used by rogue clients which used to
+      access the internal headers to get the corresponding data.
+
+    - In 2.1.10, the behaviour of `FT_Set_Pixel_Sizes' was changed for
+      BDF/PCF fonts,  and only  for them.  This  causes inconsistency.
+      In this release,  we undo the change.  The  intent of the change
+      in 2.1.10  is to allow  size selection through  real dimensions,
+      which can now be done through `FT_Request_Size'.
+
+    - Some security  issues were discovered  and fixed in the  CFF and
+      Type  1 loader, causing  crashes of  FreeType by  malformed font
+      files.
+
+
+  III. MISCELLANEOUS
+
+    - The documentation  for FT_LOAD_TARGET_XXX and FT_RENDER_MODE_XXX
+      values now better reflects its usage and differences: One set is
+      used to specify the hinting algorithm, the other to specify  the
+      pixel rendering mode.
+
+    - FT_New_Face() and FT_New_Face_From_FSSpec() in ftmac.c have been
+      changed to count supported scalable faces (sfnt, LWFN) only, and
+      to  return the  number of  available faces  via face->num_faces.
+      Unsupported bitmap faces (fbit, NFNT) are ignored.
+
+    - builds/unix/configure  has been  improved for  MacOS X.   It now
+      automatically checks available  functions in Carbon library, and
+      prepare to use newest  functions by default.  Options to specify
+      the  dependencies of  each Carbon  APIs (FSSpec,  FSRef, old/new
+      QuickDraw, ATS)  are available too.  By manual  disabling of all
+      QuickDraw   functionality,  FreeType   can   be  built   without
+      `deprecated   function'   warnings    on   MacOS   10.4.x,   but
+      FT_GetFile_Mac_Name  in  ftmac.c  then  is changed  to  a  dummy
+      function, and returns an `unimplemented' error.  For details see
+      builds/mac/README.
+
+    - SFNT cmap handling has been  improved, mainly to run much faster
+      with CJK fonts.
+
+    - A   new  function   `FT_Get_TrueType_Engine_Type   (declared  in
+      `FT_MODULE_H')  is  provided  to  determine the  status  of  the
+      TrueType   bytecode  interpreter   compiled  into   the  library
+      (patented, unpatented, unimplemented).
+
+    - Vertical metrics of glyphs are  synthesized if the font does not
+      provide such information.  You can tell whether  the metrics are
+      synthesized or not by checking the FT_FACE_FLAG_VERTICAL flag of
+      the face.
+
+    - The demo programs  `ftview' and  `ftstring' have been  rewritten
+      for better readability.   `ftview' has a new switch `-p' to test
+      FT_New_Memory_Face (instead of FT_New_Face).
+
+    - FreeType now honours bit 1 in the `head' table of TrueType fonts
+      (meaning `left sidebearing point at x=0').  This helps with some
+      buggy fonts.
+
+    - Rudimentary support for Adobe's new `SING Glyphlet' format.  See
+
+        http://www.adobe.com/products/indesign/sing_gaiji.html
+
+      for more information.
+
+    - The `ftdump'  program from the `ft2demos' bundle  now shows some
+      information about charmaps.  It  also supports a new switch `-v'
+      to increase verbosity.
+
+    - Better AFM support.  This includes track kerning support.
+
+
+======================================================================
+
+CHANGES BETWEEN 2.1.10 and 2.1.9
+
+  I. IMPORTANT BUG FIXES
+
+    - The size comparison for BDF and PCF files could fail sometimes.
+
+    - Some  CFF files  were still not  loaded  correctly.   Patch from
+      Derek Noonburg.
+
+    - The stroker still had some serious bugs.
+
+    - Boris  Letocha  fixed a  bug in  the  TrueType interpreter:  The
+      NPUSHW instruction wasn't skipped correctly in IF clauses.  Some
+      fonts like `Helvetica 75 Bold' failed.
+
+    - Another  serious  bug  in  handling  TrueType hints  caused many
+      distortions.  It has been introduced in version 2.1.8, and it is
+      highly recommended to upgrade.
+
+    - FreeType didn't properly parse empty Type 1 glyphs.
+
+    - An unbound dynamic buffer growth was fixed in the PFR loader.
+
+    - Several bugs have been fixed in the cache sub-system.
+
+    - FreeType behaved incorrectly when resizing two distinct but very
+      close character pixel sizes through `FT_Set_Char_Size' (Savannah
+      bug #12263).
+
+    - The auto-hinter didn't work properly for fonts without a Unicode
+      charmap -- it even refused to load the glyphs.
+
+
+  II. IMPORTANT CHANGES
+
+    - Many fixes have been applied to drastically reduce the amount of
+      heap   memory   used   by   FreeType,   especially   when  using
+      memory-mapped font files  (which is the default on Unix  systems
+      which support them).
+
+    - The auto-hinter  has been replaced with a new module, called the
+      `auto-fitter'.  It consumes  less memory  than its  predecessor,
+      and it is  prepared to support non-latin scripts  better in next
+      releases.
+
+    - George Williams  contributed code to read  kerning data from PFM
+      files.
+
+    - FreeType   now   uses    the   TT_NAME_ID_PREFERRED_FAMILY   and
+      TT_NAME_ID_PREFERRED_SUBFAMILY   strings   (if   available)  for
+      setting  family  and  style in SFNT  fonts  (patch from Kornfeld
+      Eliyahu Peter).
+
+    - A  new  API `FT_Sfnt_Table_Info'  (in FT_TRUETYPE_TABLES_H)  has
+      been added to retrieve name and size information of SFNT tables.
+
+    - A new API `FT_OpenType_Validate' (in FT_OPENTYPE_VALIDATE_H) has
+      been added to validate OpenType tables  (BASE, GDEF, GPOS, GSUB,
+      JSTF).   After validation  it is  no longer  necessary to  check
+      for errors in those tables while accessing them.
+
+      Note that  this module might  be moved to another library in the
+      future  to avoid  a tight  dependency between  FreeType and  the
+      OpenType specification.
+
+    - A new API in FT_BITMAP_H  (`FT_Bitmap_New', `FT_Bitmap_Convert',
+      `FT_Bitmap_Copy',  `FT_Bitmap_Embolden',  `FT_Bitmap_Done')  has
+      been added.   Its  use is  to convert an  FT_Bitmap structure in
+      1bpp, 2bpp,  4bpp, or 8bpp  format into  another 8bpp FT_Bitmap,
+      probably using a different pitch, and to further manipulate it.
+
+    - A new  API `FT_Outline_Embolden'  (in FT_OUTLINE_H) gives  finer
+      control how  outlines are embolded.
+
+    - `FT_GlyphSlot_Embolden' (in FT_SYNTHESIS_H)  now handles bitmaps
+      also (code contributed  by Chia I Wu).  Note that this  function
+      is still experimental and may be replaced with a better API.
+
+    - The method  how BDF and PCF  bitmap fonts  are accessed has been
+      refined.   Formerly,   FT_Set_Pixel_Sizes  and  FT_Set_Char_Size
+      were  synonyms in  FreeType's  BDF and PCF interface.  This  has
+      changed now.  FT_Set_Pixel_Sizes  should be  used to  select the
+      actual  font dimensions  (the `strike',  which is the sum of the
+      `FONT_ASCENT'    and    `FONT_DESCENT'    properties),     while
+      FT_Set_Char_Size  selects  the  `nominal' size  (the `PIXELSIZE'
+      property).  In both functions, the width parameter is ignored.
+
+
+  III. MISCELLANEOUS
+
+    - The BDF driver  no longer converts  all returned bitmaps  with a
+      depth of 2bpp or 4bpp to a depth of 8bpp.  The documentation has
+      not  mentioned  this  explicitly,  but  implementors  might have
+      relied on this after looking into the source files.
+
+    - A new option `--ftversion' has been  added to freetype-config to
+      return the FreeType version.
+
+    - The  memory  debugger  has  been  updated   to  dump  allocation
+      statistics on  all allocation  sources in the library.   This is
+      useful to  spot greedy  allocations when  loading and processing
+      fonts.
+
+    - We removed a huge array of constant pointers to constant strings
+      in the `psnames' module.   The problem was that  compilations in
+      PIC mode (i.e.,  when generating a  Unix shared object/dll)  put
+      the array  into the non-shared  writable section of  the library
+      since absolute pointers are not relocatable by nature.
+
+      This reduces the memory consumption by approximately 16KByte per
+      process linked  to FreeType.   We now also store  the array in a
+      compressed form (as a trie) which saves about 20KByte of code as
+      well.
+
+    - Kirill  Smelkov provided  patches to make  src/raster/ftraster.c
+      compile stand-alone again.
+
+
+======================================================================
+
+CHANGES BETWEEN 2.1.9 and 2.1.8
+
+  I. IMPORTANT BUG FIXES
+
+    - The function  `FT_Get_CharMap_Index' was only declared,  without
+      any  real  code.   For  consistency,  it  has  been  renamed  to
+      `FT_Get_Charmap_Index'.   (This function is needed  to implement
+      cmap caches.)
+
+    - `FT_Outline_Get_BBox'  sometimes returned  incorrect values  for
+      conic outlines (e.g., for TrueType fonts).
+
+    - Handling of `bhed' table has been fixed.
+
+    - The TrueType driver with enabled byte code interpreter sometimes
+      returned artifacts due to incorrect rounding.  This bug has been
+      introduced after version 2.1.4.
+
+    - The BDF driver dropped the last glyph in the font.
+
+    - The BDF driver now uses the DEFAULT_CHAR property (if available)
+      to select a glyph shape for the undefined glyph.
+
+    - The stroker failed for closed outlines and single points.
+
+
+  II. IMPORTANT CHANGES
+
+    - George  Williams   contributed  code  to   handle  Apple's  font
+      distortion technology found in GX fonts (`avar', `cvar', `fvar',
+      and `gvar' tables;  the Multiple Masters  API has been  slightly
+      extended to cope with the new functionality).
+
+    - The `FT_GlyphSlotRec' structure has been extended:  The elements
+      `lsb_delta' and  `rsb_delta' give the difference  between hinted
+      and  unhinted  left and right  side bearings  if autohinting  is
+      active.  Using those values can improve the inter-letter spacing
+      considerably.   See the documentation of  `FT_GlyphSlotRec'  and
+      the `ftstring' demo program how to use it.
+
+    - Loading TrueType and Type 1 fonts has been made much faster.
+
+    - The stroker is  no longer experimental (but the  cache subsystem
+      still is).
+
+
+  III. MISCELLANEOUS
+
+    - A new  documentation file  `formats.txt' describes various  font
+      formats supported (and not supported) by FreeType.
+
+
+======================================================================
+
+CHANGES BETWEEN 2.1.8 and 2.1.7
 
   I. IMPORTANT BUG FIXES
 
@@ -161,7 +500,7 @@ LATEST CHANGES BETWEEN 2.1.8 and 2.1.7
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.7 and 2.1.6
+CHANGES BETWEEN 2.1.7 and 2.1.6
 
   I. IMPORTANT BUG FIXES
 
@@ -177,7 +516,7 @@ LATEST CHANGES BETWEEN 2.1.7 and 2.1.6
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.6 and 2.1.5
+CHANGES BETWEEN 2.1.6 and 2.1.5
 
   I. IMPORTANT BUG FIXES
 
@@ -238,7 +577,7 @@ LATEST CHANGES BETWEEN 2.1.6 and 2.1.5
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.5 and 2.1.4
+CHANGES BETWEEN 2.1.5 and 2.1.4
 
   I. IMPORTANT BUG FIXES
 
@@ -340,7 +679,7 @@ LATEST CHANGES BETWEEN 2.1.5 and 2.1.4
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.4 and 2.1.3
+CHANGES BETWEEN 2.1.4 and 2.1.3
 
   I. IMPORTANT BUG FIXES
 
@@ -435,7 +774,7 @@ LATEST CHANGES BETWEEN 2.1.4 and 2.1.3
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.3 and 2.1.2
+CHANGES BETWEEN 2.1.3 and 2.1.2
 
   I. IMPORTANT BUG FIXES
 
@@ -593,7 +932,7 @@ LATEST CHANGES BETWEEN 2.1.3 and 2.1.2
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.2 and 2.1.1
+CHANGES BETWEEN 2.1.2 and 2.1.1
 
   I. IMPORTANT BUG FIXES
 
@@ -629,7 +968,7 @@ LATEST CHANGES BETWEEN 2.1.2 and 2.1.1
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.1 and 2.1.0
+CHANGES BETWEEN 2.1.1 and 2.1.0
 
   I. IMPORTANT BUG FIXES
 
@@ -699,7 +1038,7 @@ LATEST CHANGES BETWEEN 2.1.1 and 2.1.0
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.1.0 and 2.0.9
+CHANGES BETWEEN 2.1.0 and 2.0.9
 
   I. IMPORTANT BUG FIXES
 
@@ -730,7 +1069,7 @@ LATEST CHANGES BETWEEN 2.1.0 and 2.0.9
 
   III. MISCELLANEOUS
 
-    - The  FreeType  License in  `docs/FTL.txt'  has  been updated  to
+    - The  FreeType  License in  `docs/FTL.TXT'  has  been updated  to
       include  a  proposed preferred  disclaimer.   If  you are  using
       FreeType in your products, you are encouraged (but not mandated)
       to use the following text in your documentation:
@@ -843,7 +1182,7 @@ LATEST CHANGES BETWEEN 2.1.0 and 2.0.9
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.9 and 2.0.8
+CHANGES BETWEEN 2.0.9 and 2.0.8
 
   I. IMPORTANT BUG FIXES
 
@@ -904,7 +1243,7 @@ LATEST CHANGES BETWEEN 2.0.9 and 2.0.8
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.8 and 2.0.7
+CHANGES BETWEEN 2.0.8 and 2.0.7
 
   I. IMPORTANT BUG FIXES
 
@@ -924,7 +1263,7 @@ LATEST CHANGES BETWEEN 2.0.8 and 2.0.7
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.7 and 2.0.6
+CHANGES BETWEEN 2.0.7 and 2.0.6
 
   I. IMPORTANT BUG FIXES
 
@@ -967,7 +1306,7 @@ LATEST CHANGES BETWEEN 2.0.7 and 2.0.6
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.6 and 2.0.5
+CHANGES BETWEEN 2.0.6 and 2.0.5
 
   I. IMPORTANT BUG FIXES
 
@@ -1009,7 +1348,7 @@ LATEST CHANGES BETWEEN 2.0.6 and 2.0.5
     - Important updates to the Mac-specific parts of the library.
 
     - The caching sub-system has  been completely re-designed, and its
-      API has  evolved (the old  one is still supported  for backwards
+      API has  evolved (the  old one is  still supported  for backward
       compatibility).
 
       The documentation for it is  not yet completed, sorry.  For now,
@@ -1068,7 +1407,7 @@ LATEST CHANGES BETWEEN 2.0.6 and 2.0.5
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.5 and 2.0.4
+CHANGES BETWEEN 2.0.5 and 2.0.4
 
   NOTE THAT 2.0.5 DOES NOT CONTAIN THE POSTSCRIPT HINTER.  THIS MODULE
   WILL BE PART OF THE NEXT RELEASE (EITHER 2.0.6 or 2.1)
@@ -1120,7 +1459,7 @@ LATEST CHANGES BETWEEN 2.0.5 and 2.0.4
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.4 and 2.0.3
+CHANGES BETWEEN 2.0.4 and 2.0.3
 
   - Fixed a rather annoying bug that was introduced in 2.0.3.  Namely,
     the font  transformation set through  FT_Set_Transform was applied
@@ -1156,7 +1495,7 @@ LATEST CHANGES BETWEEN 2.0.4 and 2.0.3
 
 =======================================================================
 
-LATEST CHANGES BETWEEN 2.0.3 and 2.0.2
+CHANGES BETWEEN 2.0.3 and 2.0.2
 
   I. CHANGES TO THE MODULES / FONT DRIVERS
 
@@ -1265,7 +1604,7 @@ LATEST CHANGES BETWEEN 2.0.3 and 2.0.2
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.2 and 2.0.1
+CHANGES BETWEEN 2.0.2 and 2.0.1
 
   I. CHANGES TO THE MODULES / FONT DRIVERS
 
@@ -1388,7 +1727,7 @@ LATEST CHANGES BETWEEN 2.0.2 and 2.0.1
 
 ======================================================================
 
-LATEST CHANGES BETWEEN 2.0.1 and 2.0
+CHANGES BETWEEN 2.0.1 and 2.0
 
   2.0.1 introduces a few changes:
 
@@ -2426,5 +2765,17 @@ Extensions support:
 
      return ext_interface->do_it(ext);
    }
+
+------------------------------------------------------------------------
+
+Copyright 2000, 2001, 2002, 2003, 2004, 2005, 2006 by
+David Turner, Robert Wilhelm, and Werner Lemberg.
+
+This  file  is  part  of the  FreeType  project, and may  only be  used,
+modified,  and  distributed  under  the  terms of  the FreeType  project
+license, LICENSE.TXT.   By continuing to use, modify, or distribute this
+file you  indicate that  you have  read the  license and understand  and
+accept it fully.
+
 
 --- end of CHANGES ---
