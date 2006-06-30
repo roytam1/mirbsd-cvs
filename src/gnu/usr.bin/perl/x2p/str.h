@@ -1,15 +1,10 @@
-/* $RCSfile$$Revision$$Date$
+/*    str.h
  *
  *    Copyright (C) 1991, 1992, 1993, 1994, 1995, 1999, 2000,
  *    by Larry Wall and others
  *
  *    You may distribute under the terms of either the GNU General Public
  *    License or the Artistic License, as specified in the README file.
- *
- * $Log$
- * Revision 1.7  2003/12/03 03:02:53  millert
- * Resolve conflicts for perl 5.8.2, remove old files, and add OpenBSD-specific scaffolding
- *
  */
 
 struct string {
@@ -33,25 +28,16 @@ struct string {
 EXT STR **tmps_list;
 EXT long tmps_max INIT(-1);
 
-double str_2num ( STR *str );
 char * str_2ptr ( STR *str );
-char * str_append_till ( STR *str, char *from, int delim, char *keeplist );
 void str_cat ( STR *str, char *ptr );
-void str_chop ( STR *str, char *ptr );
-void str_dec ( STR *str );
 void str_free ( STR *str );
 char * str_gets ( STR *str, FILE *fp );
-void str_grow ( STR *str, int len );
-void str_inc ( STR *str );
 int str_len ( STR *str );
 STR * str_make ( char *s );
-STR * str_mortal ( STR *oldstr );
 void str_ncat ( STR *str, char *ptr, int len );
 STR * str_new ( int len );
-STR * str_nmake ( double n );
 void str_nset ( STR *str, char *ptr, int len );
 void str_numset ( STR *str, double num );
-void str_replace ( STR *str, STR *nstr );
 void str_scat ( STR *dstr, STR *sstr );
 void str_set ( STR *str, char *ptr );
 void str_sset ( STR *dstr, STR *sstr );
