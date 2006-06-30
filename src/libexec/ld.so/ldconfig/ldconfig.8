@@ -1,4 +1,4 @@
-.\"	$OpenBSD: ldconfig.8,v 1.16 2004/11/22 00:58:39 jmc Exp $
+.\"	$OpenBSD: ldconfig.8,v 1.22 2006/06/19 20:43:13 jmc Exp $
 .\"
 .\" Copyright (c) 1993,1995 Paul Kranenburg
 .\" All rights reserved.
@@ -37,8 +37,8 @@
 .Nd configure the shared library cache
 .Sh SYNOPSIS
 .Nm ldconfig
-.Op Fl RUmrsv
-.Op Ar directory Ar ...
+.Op Fl DmPRrSsUv
+.Op Ar path ...
 .Sh DESCRIPTION
 .Nm
 is used to prepare a set of
@@ -91,21 +91,34 @@ for further information.
 The following options are recognized by
 .Nm ldconfig :
 .Bl -tag -width indent
+.It Fl D
+Remove any prebind information in the specified binary or shared library.
 .It Fl m
 Merge the result of the scan of the directories given as arguments into
 the existing hints file.
 The default action is to build the hints file afresh.
 This option cannot be used with
 .Fl U .
+.It Fl P
+Create and append prebind information to all executables found in
+the specified directories, and also all shared libraries which are
+required by those executables.
+.It Fl R
+Rescan the previously configured directories.
+This opens the hints file and fetches the directory list from the header.
+Any additional pathnames on the command line are also processed.
 .It Fl r
 List the current contents of
 .Pa ld.so.hints
 on the standard output.
 The hints file will not be modified.
-.It Fl R
-Rescan the previously configured directories.
-This opens the hints file and fetches the directory list from the header.
-Any additional pathnames on the command line are also processed.
+.It Fl S
+Perform prelinking operations in a safe mode; always copies the binaries
+when prelinking data is added to a file.
+Use this to elminate the possibility that
+.Dv ETXTBUSY
+will occur when attempting to run a binary while prelinking
+is running.
 .It Fl s
 Do not scan the built-in system directory
 .Pq Dq /usr/lib
@@ -118,7 +131,19 @@ This option cannot be used with
 .It Fl v
 Switch on verbose mode.
 .El
-.Sh Security
+.Sh PREBINDING
+Prebinding is loosely based on an earlier concept called Prelinking, which
+also accelerated
+.Xr ld.so 1
+performance but simultaneously impaired address space randomization.
+When prebinding information is added to libraries and programs using
+.Fl P ,
+program startup can be significantly improved because
+.Xr ld.so 1
+can initialize the shared library environment much faster.
+Prebinding information adds a small amount of data to the end of each
+specified program and associated shared libraries.
+.Sh SECURITY
 Special care must be taken when loading shared libraries into the address
 space of
 .Ev set-user-Id

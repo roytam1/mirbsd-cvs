@@ -1,4 +1,4 @@
-/* $OpenBSD: etc.c,v 1.5 2003/07/06 20:04:00 deraadt Exp $ */
+/* $OpenBSD: etc.c,v 1.7 2006/05/12 23:35:16 deraadt Exp $ */
 
 /* Public Domain */
 
@@ -39,6 +39,17 @@ xrealloc(void *ptr, size_t size)
 	if ((nptr = realloc(ptr, size)) == NULL)
 		err(1, OOM_MSG);
 	return (nptr);
+}
+
+void *
+xcalloc(size_t nmemb, size_t size)
+{
+	void *ptr;
+
+	ptr = calloc(nmemb, size);
+	if (ptr == NULL)
+		err(1, OOM_MSG);
+	return ptr;
 }
 
 char *

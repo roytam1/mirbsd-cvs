@@ -1,4 +1,4 @@
-/*	$OpenBSD: resolve.h,v 1.50 2005/11/09 16:41:29 kurt Exp $ */
+/*	$OpenBSD: resolve.h,v 1.52 2006/06/16 21:34:53 kettenis Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
@@ -136,6 +136,8 @@ struct elf_object {
 	/* object that caused this module to be loaded, used in symbol lookup */
 	elf_object_t	*load_object;
 
+	void *prebind_data;
+
 	/* for object confirmation */
 	dev_t	dev;
 	ino_t inode;
@@ -210,6 +212,7 @@ void _dl_unload_dlopen(void);
 
 void _dl_run_all_dtors(void);
 
+/* Please don't rename; gdb(1) knows about this. */
 Elf_Addr _dl_bind(elf_object_t *object, int index);
 
 int	_dl_match_file(struct sod *sodp, char *name, int namelen);
