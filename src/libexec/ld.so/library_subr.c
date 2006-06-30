@@ -1,4 +1,4 @@
-/*	$OpenBSD: library_subr.c,v 1.24 2005/11/15 02:14:47 kurt Exp $ */
+/*	$OpenBSD: library_subr.c,v 1.26 2006/05/08 20:37:01 deraadt Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -415,7 +415,7 @@ _dl_notify_unload_shlib(elf_object_t *object)
 
 	if (OBJECT_DLREF_CNT(object) == 0) {
 		TAILQ_FOREACH(n, &object->grpref_list, next_sib) {
-			n->data->grprefcount--; 
+			n->data->grprefcount--;
 			_dl_notify_unload_shlib(n->data);
 		}
 	}
@@ -431,7 +431,7 @@ _dl_unload_dlopen(void)
 		if (node->data == _dl_objects)
 			continue;
 
-		while(node->data->opencount > 0) {
+		while (node->data->opencount > 0) {
 			node->data->opencount--;
 			_dl_notify_unload_shlib(node->data);
 			_dl_run_all_dtors();
