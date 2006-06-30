@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/libtool/Makefile,v 1.5 2006/06/12 19:33:11 tg Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.6 2006/06/12 20:17:49 tg Exp $
 
 COMMENT=		"complete GNU libtool with MirLibtool patches added"
 CATEGORIES=		devel
 CVS_DISTREPO=		:pserver:anonymous@cvs.sv.gnu.org:/sources/libtool
-CVS_DISTDATE=		2006/06/12
+CVS_DISTDATE=		2006/06/30
 CVS_DISTTAGS=		branch-1-5
 CVS_DISTMODS=		libtool
 PKGNAME=		libtool-1.5.23a.${CVS_DISTDATE:C![/:]!!g:Q:S!\\ !!}-1
@@ -22,10 +22,12 @@ AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 
 #XXX hack
-.if make(regress)
+.ifdef LT_HAVE_CXX
 USE_CXX=		Yes
-.endif
 REGRESS_TARGET=		check
+.else
+NO_REGRESS=		Yes
+.endif
 
 post-configure:
 	rm -f ${WRKSRC}/{,libltdl/}ltmain.sh
