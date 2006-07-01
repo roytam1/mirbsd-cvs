@@ -162,6 +162,7 @@ xf86SIGIO (int sig)
     int	    i;
     fd_set  ready;
     struct timeval  to;
+    int save_errno = errno;	/* do not clobber the global errno */
     int	    r;
 
     ready = xf86SigIOMask;
@@ -180,6 +181,8 @@ xf86SIGIO (int sig)
       xf86Msg(X_ERROR, "SIGIO %d descriptors not handled\n", r);
     }
 #endif
+    /* restore global errno */
+    errno = save_errno;
 }
 
 static int

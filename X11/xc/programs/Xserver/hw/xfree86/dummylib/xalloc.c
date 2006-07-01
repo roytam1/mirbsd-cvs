@@ -81,13 +81,15 @@ char *
 Xstrdup(const char *s)
 {
     char *sd;
+    size_t len;
 
     if (s == NULL)
 	return NULL;
 
-    sd = (char *)Xalloc(strlen(s) + 1);
+    len = strlen(s) + 1;
+    sd = (char *)Xalloc(len);
     if (sd != NULL)
-	strcpy(sd, s);
+	strlcpy(sd, s, len);
     return sd;
 }
 
@@ -95,11 +97,13 @@ char *
 XNFstrdup(const char *s)
 {
     char *sd;
+    size_t len;
 
     if (s == NULL)
 	return NULL;
-
-    sd = (char *)XNFalloc(strlen(s) + 1);
-    strcpy(sd, s);
+    
+    len = strlen(s) + 1;
+    sd = (char *)XNFalloc(len);
+    strlcpy(sd, s, len);
     return sd;
 }
