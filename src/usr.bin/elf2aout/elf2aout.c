@@ -1,5 +1,9 @@
-/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.4 2006/06/11 20:54:35 tg Exp $ */
+/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.5 2006/06/11 20:55:52 tg Exp $ */
 /*	$NetBSD: elf2aout.c,v 1.11 2004/04/23 02:55:11 simonb Exp $	*/
+
+/*
+ * IMPORTANT: this code is not 64-bit safe!
+ */
 
 /*
  * Copyright (c) 2006
@@ -61,7 +65,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.4 2006/06/11 20:54:35 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.5 2006/06/11 20:55:52 tg Exp $");
 
 bool is_lefile;
 
@@ -411,10 +415,10 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 	int     i, remaining, cur;
 	char   *oldstrings;
 	char   *newstrings, *nsp;
-	int     newstringsize;
+	int     newstringsize, newstringsize2;
 
 	/* Zero the unused fields in the output buffer.. */
-	memset(outbuf, 0, sizeof outbuf);
+	memset(outbuf, 0, sizeof (outbuf));
 
 	/* Find number of symbols to process... */
 	remaining = symsize / sizeof(Elf32_Sym);
@@ -458,10 +462,28 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 		for (i = 0; i < cur; i++) {
 			int     binding, type;
 
+			if ((newstringsize - ((nsp + 1) - newstrings)) < 1) {
+#if 1
+				char *newstrings2;
+
+				newstringsize2 = newstringsize + 4096;
+				if ((newstrings2 = realloc(newstrings,
+				    newstringsize2)) == NULL)
+					err(1, "translate_syms: realloc");
+				nsp = newstrings2 + (nsp - newstrings);
+				newstrings = newstrings2;
+				newstringsize = newstringsize2;
+#else
+				fprintf(stderr, "translate_syms: premature end of symbol buffer.\n");
+				break;
+#endif
+			}
+
 			/* Copy the symbol into the new table, but prepend an
 			 * underscore. */
 			*nsp = '_';
-			strcpy(nsp + 1, oldstrings + inbuf[i].st_name);
+			strlcpy(nsp + 1, oldstrings + inbuf[i].st_name,
+			    newstringsize - ((nsp + 1) - newstrings));
 			outbuf[i].n_un.n_strx =
 			    (long)htof32((uint32_t)(nsp - newstrings + 4));
 			nsp += strlen(nsp) + 1;
@@ -496,8 +518,9 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 		}
 	}
 	/* Write out the string table length... */
-	if (write(out, &newstringsize, sizeof newstringsize)
-	    != sizeof newstringsize) {
+	newstringsize2 = htof32(newstringsize);
+	if (write(out, &newstringsize2, sizeof (newstringsize2))
+	    != sizeof (newstringsize2)) {
 		fprintf(stderr,
 		    "translate_syms: newstringsize: %s\n", strerror(errno));
 		exit(1);
