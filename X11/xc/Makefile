@@ -55,11 +55,12 @@ World:
 	;; esac;
 	@date
 	@echo ""
-	@if [ -f xmakefile ]; then \
-	    $(MAKE_CMD) -k distclean || \
-	    $(MAKE_CMD) -k clean || \
-	    $(RM) xmakefile; \
-	fi
+#	@if [ -f xmakefile ]; then \
+#	    $(MAKE_CMD) -k distclean || \
+#	    $(MAKE_CMD) -k clean || \
+#	    $(RM) xmakefile; \
+#	fi
+	rm -f xmakefile
 	@if [ ! -f $(IRULESRC)/host.def ]; then \
 	    if [ ! -f $(TOP)/lib/Xt/Imakefile ]; then \
 		echo "#define BuildServersOnly YES" > $(IRULESRC)/host.def; \
