@@ -480,8 +480,19 @@ FreeTypeOpenInstance(FTInstancePtr *instance_return, FTFacePtr face,
 	tt_y_ppem  = (FT_UShort)( tt_dim_y >> 6 );
 	/* See Reset_SBit_Size() in ttobjs.c */
 	sfnt   = (SFNT_Service)tt_face->sfnt;
-	err = sfnt->set_sbit_strike(tt_face,tt_x_ppem,tt_y_ppem,&instance->strike_index);
-	if ( err ) instance->strike_index=0xFFFFU;
+	{
+		FT_Size_RequestRec req;
+
+		req.type = FT_SIZE_REQUEST_TYPE_NOMINAL;
+		req.width = tt_char_width;
+		req.height = tt_char_height;
+		req.horiResolution = trans->xres;
+		req.vertResolution = trans->yres;
+
+		err = sfnt->set_sbit_strike(tt_face,&req,&instance->strike_index);
+	}
+	if ( err )
+		instance->strike_index=0xFFFFFFFFU;
     }
 
     /* maintain a linked list of instances */
