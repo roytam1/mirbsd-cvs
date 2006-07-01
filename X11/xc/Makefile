@@ -83,7 +83,7 @@ World:
 	$(MAKE) $(MFLAGS) Makefile.boot
 	$(MAKE_CMD) $(MFLAGS) VerifyOS
 	$(MAKE_CMD) $(MFLAGS) Makefiles
-	$(MAKE_CMD) $(MFLAGS) BOOTSTRAPSUBDIRS= clean
+#	$(MAKE_CMD) $(MFLAGS) BOOTSTRAPSUBDIRS= clean
 	$(MAKE_CMD) $(MFLAGS) includes
 	$(MAKE_CMD) $(MFLAGS) depend
 	$(MAKE_CMD) $(MFLAGS) $(WORLDOPTS) World
