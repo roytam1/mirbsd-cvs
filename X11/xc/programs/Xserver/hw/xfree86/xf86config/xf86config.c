@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/programs/Xserver/hw/xfree86/xf86config/xf86config.c,v 1.3 2005/03/22 20:34:02 tg Exp $ */
+/* $MirOS: X11/xc/programs/Xserver/hw/xfree86/xf86config/xf86config.c,v 1.4 2006/04/11 19:02:46 tg Exp $ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/xf86config/xf86config.c,v 3.72 2004/10/25 21:23:58 dawes Exp $ */
 
 /*
@@ -1919,13 +1919,13 @@ static char *XF86Config_firstchunk_text =
 "    EndSubSection\n"
 "\n"
 "# This loads the Type1 and FreeType font modules\n"
-"    Load        \"type1\"\n"
-"    Load        \"speedo\"\n"
+"#    Load        \"type1\"\n"
+"#    Load        \"speedo\"\n"
 "    Load        \"freetype\"\n"
 "#    Load        \"xtt\"\n"
 "\n"
 "# This loads the GLX module\n"
-"#    Load       \"glx\"\n"
+"    Load       \"glx\"\n"
 "# This loads the DRI module\n"
 "#    Load       \"dri\"\n"
 "\n"
