@@ -936,7 +936,8 @@ FT_Do_SBit_Metrics( FT_Face ft_face, FT_Size ft_size, FT_ULong strike_index,
     face = (TT_Face)ft_face;
     sfnt   = (SFNT_Service)face->sfnt;
 
-    if ( strike_index != 0xFFFFU && sfnt->load_sbits ) {
+    if (strike_index != 0xFFFFU && sfnt && sfnt->find_sbit_image &&
+            sfnt->load_sbits) {
         /* Check whether there is a glyph sbit for the current index */
         error = sfnt->find_sbit_image( face, glyph_index, strike_index,
                                        &range, &strike, &glyph_offset );
@@ -962,7 +963,10 @@ FT_Do_SBit_Metrics( FT_Face ft_face, FT_Size ft_size, FT_ULong strike_index,
     if ( FT_STREAM_SEEK( ebdt_pos + glyph_offset ) )
       goto Exit;
 
-    error = sfnt->load_sbit_metrics( stream, range, &elem_metrics );
+    if ( sfnt->load_sbit_metrics )
+      error = sfnt->load_sbit_metrics( stream, range, &elem_metrics );
+    else
+      error = -1;
     if ( error )
       goto Exit;
 
