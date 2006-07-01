@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.5 2006/06/11 20:55:52 tg Exp $ */
+/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.6 2006/07/01 14:56:37 tg Exp $ */
 /*	$NetBSD: elf2aout.c,v 1.11 2004/04/23 02:55:11 simonb Exp $	*/
 
 /*
@@ -65,7 +65,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.5 2006/06/11 20:55:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.6 2006/07/01 14:56:37 tg Exp $");
 
 bool is_lefile;
 
@@ -462,11 +462,12 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 		for (i = 0; i < cur; i++) {
 			int     binding, type;
 
-			if ((newstringsize - ((nsp + 1) - newstrings)) < 1) {
+			/* we use 512 here as max estimated symbol size */
+			if ((newstringsize - ((nsp + 1) - newstrings)) < 512) {
 #if 1
 				char *newstrings2;
 
-				newstringsize2 = newstringsize + 4096;
+				newstringsize2 = newstringsize + 32768;
 				if ((newstrings2 = realloc(newstrings,
 				    newstringsize2)) == NULL)
 					err(1, "translate_syms: realloc");
@@ -482,7 +483,7 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 			/* Copy the symbol into the new table, but prepend an
 			 * underscore. */
 			*nsp = '_';
-			strlcpy(nsp + 1, oldstrings + inbuf[i].st_name,
+			strlcpy(nsp + 1, oldstrings + ftoh32(inbuf[i].st_name),
 			    newstringsize - ((nsp + 1) - newstrings));
 			outbuf[i].n_un.n_strx =
 			    (long)htof32((uint32_t)(nsp - newstrings + 4));
