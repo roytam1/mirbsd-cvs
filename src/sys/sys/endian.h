@@ -1,8 +1,8 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/sys/endian.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
 /*	$OpenBSD: endian.h,v 1.14 2004/01/11 19:17:31 brad Exp $	*/
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2006
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
  *
@@ -183,12 +183,12 @@ __END_DECLS
 #define betoh32 swap32
 #define betoh64 swap64
 
-#define htole16(x) (x)
-#define htole32(x) (x)
-#define htole64(x) (x)
-#define letoh16(x) (x)
-#define letoh32(x) (x)
-#define letoh64(x) (x)
+#define htole16(x) ((uint16_t)(x))
+#define htole32(x) ((uint32_t)(x))
+#define htole64(x) ((uint64_t)(x))
+#define letoh16(x) ((uint16_t)(x))
+#define letoh32(x) ((uint32_t)(x))
+#define letoh64(x) ((uint64_t)(x))
 
 #endif /* BYTE_ORDER */
 
@@ -209,12 +209,12 @@ __END_DECLS
 #define letoh32 swap32
 #define letoh64 swap64
 
-#define htobe16(x) (x)
-#define htobe32(x) (x)
-#define htobe64(x) (x)
-#define betoh16(x) (x)
-#define betoh32(x) (x)
-#define betoh64(x) (x)
+#define htobe16(x) ((uint16_t)(x))
+#define htobe32(x) ((uint32_t)(x))
+#define htobe64(x) ((uint64_t)(x))
+#define betoh16(x) ((uint16_t)(x))
+#define betoh32(x) ((uint32_t)(x))
+#define betoh64(x) ((uint64_t)(x))
 
 #endif /* BYTE_ORDER */
 
