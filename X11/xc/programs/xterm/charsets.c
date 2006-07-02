@@ -1,4 +1,4 @@
-/* $XTermId: charsets.c,v 1.32 2005/01/14 01:50:02 tom Exp $ */
+/* $XTermId: charsets.c,v 1.31 2005/01/10 00:57:56 tom Exp $ */
 
 /*
  * $XFree86: xc/programs/xterm/charsets.c,v 1.12 2005/01/14 01:50:02 dickey Exp $

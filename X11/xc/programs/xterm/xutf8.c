@@ -1,4 +1,4 @@
-/* $XTermId: xutf8.c,v 1.8 2005/01/14 01:50:03 tom Exp $ */
+/* $XTermId: xutf8.c,v 1.7 2005/01/11 00:10:42 tom Exp $ */
 
 /* $XFree86: xc/programs/xterm/xutf8.c,v 1.4 2005/01/14 01:50:03 dickey Exp $ */
 /*

@@ -1,9 +1,13 @@
-/* $XTermId: data.c,v 1.79 2006/02/13 01:14:58 tom Exp $ */
-
-/* $XFree86: xc/programs/xterm/data.c,v 3.34 2006/02/13 01:14:58 dickey Exp $ */
+/* $XTermId: data.c,v 1.70 2005/01/09 23:59:24 tom Exp $ */
 
 /*
- * Copyright 2002-2005,2006 by Thomas E. Dickey
+ *	$Xorg: data.c,v 1.3 2000/08/17 19:55:08 cpqbld Exp $
+ */
+
+/* $XFree86: xc/programs/xterm/data.c,v 3.30 2005/01/14 01:50:02 dickey Exp $ */
+
+/*
+ * Copyright 2002-2004,2005 by Thomas E. Dickey
  *
  *                         All Rights Reserved
  *
@@ -84,7 +88,7 @@ Atom wm_delete_window;		/* for ICCCM delete window */
 
 XTERM_RESOURCE resource;
 
-PtyData *VTbuffer;
+PtyData VTbuffer;
 
 jmp_buf VTend;
 
@@ -95,9 +99,7 @@ int debug = 0;			/* true causes error messages to be displayed */
 XtAppContext app_con;
 XtermWidget term;		/* master data structure for client */
 char *xterm_name;		/* argv[0] */
-
 int hold_screen;
-SIG_ATOMIC_T need_cleanup = FALSE;
 
 #if OPT_ZICONBEEP
 int zIconBeep;			/* non-zero means beep; see charproc.c for details -IAN! */
@@ -119,5 +121,5 @@ PtySelect pty_mask;
 char *ptydev;
 char *ttydev;
 
-Boolean waitingForTrackInfo = False;
+int waitingForTrackInfo = 0;
 EventMode eventMode = NORMAL;

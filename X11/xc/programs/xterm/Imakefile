@@ -1,5 +1,7 @@
-XCOMM $MirOS: X11/xc/programs/xterm/Imakefile,v 1.4 2006/07/02 00:02:39 tg Exp $
-XCOMM $XTermId: Imakefile,v 1.98 2006/04/10 00:34:36 tom Exp $
+XCOMM $MirOS: X11/xc/programs/xterm/Imakefile,v 1.3 2005/03/21 10:29:16 tg Exp $
+XCOMM $XTermId: Imakefile,v 1.73 2005/01/13 23:39:33 tom Exp $
+XCOMM
+XCOMM $Xorg: Imakefile,v 1.3 2000/08/17 19:55:07 cpqbld Exp $
 XCOMM
 XCOMM                         Attention xterm porters
 XCOMM
@@ -8,7 +10,7 @@ XCOMM Xterm assumes that bcopy can handle overlapping arguments.  If your
 XCOMM bcopy (or memcpy) cannot, write a routine called bcopy and link it in
 XCOMM or add -Dbcopy=mybcopy to the DEFINES list below.
 XCOMM
-XCOMM $XFree86: xc/programs/xterm/Imakefile,v 3.73 2006/04/10 00:34:36 dickey Exp $
+XCOMM $XFree86: xc/programs/xterm/Imakefile,v 3.57 2005/01/17 20:40:01 dickey Exp $
 XCOMM
 
 /* Uncomment SCROLLBAR_RIGHT if you want the scroll bar to be on the right */
@@ -17,62 +19,16 @@ SCROLLBAR_RIGHT = -DSCROLLBAR_RIGHT
 /* Define UTF8support to compile-in support for UTF-8 */
 #define UTF8support
 
-#if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture)
-#undef InstallXtermSetUID
-#undef InstallXtermSetGID
-#define InstallXtermSetUID	NO
-#define InstallXtermSetGID	YES
-#endif
-
 /*
- * setgid mode works for systems that do not require setuid to open pty.
- *
- * This feature could also be applied to FreeBSD, but requires the installer
- * to define a "utmp" group as well as chgrp the utmp file to match.
- *
- * Note: InstallXtermSetUID is always defined; InstallXtermSetGID is defined
- * in newer imake configurations.
+ * Fixes to allow compile with X11R5
  */
-#if !defined(InstallXtermSetGID) && !InstallXtermSetUID
-#if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture) || \
-    (defined(LinuxArchitecture) && \
-     (LinuxCLibMajorVersion == 6))
-#define InstallXtermSetGID YES
-#endif
-#endif
-
-/*
- * Override the set uid/gid flags to use the utempter library.
- */
-#if defined(UseUtempter)
-#undef InstallXtermSetUID /* imake sets this */
-#undef InstallXtermSetGID /* we set this */
-#define InstallXtermSetUID NO
-#define InstallXtermSetGID NO
-        UTMPLIB = -lutempter
-#endif
-
-/*
- * Fixes to allow compile with X11R5, etc.
- */
-#ifndef InstGidFlags
-#define InstGidFlags -m 2755 -g utmp
-#endif
-
-#ifndef InstUidFlags
-#define InstUidFlags -m 4711
-#endif
-
 #ifndef XkbClientDefines
 #define XkbClientDefines /**/
 #endif
 
-#ifndef InstallXtermSetUID
-#define InstallXtermSetUID NO
-#endif
-
-#ifndef InstallXtermSetGID
-#define InstallXtermSetGID NO
+#if defined(UseUtempter)
+#undef InstallXtermSetUID
+        UTMPLIB = -lutempter
 #endif
 
 #ifndef XkbClientDepLibs
@@ -81,25 +37,6 @@ SCROLLBAR_RIGHT = -DSCROLLBAR_RIGHT
 
 #ifndef XkbClientLibs
 #define XkbClientLibs /**/
-#endif
-
-/* This must come before setting DEFINES */
-#if InstallXtermSetUID
-INSTSETIDFLAGS = InstUidFlags 
-#elif InstallXtermSetGID
-CSGIDFLAGS = -DUSE_UTMP_SETGID
-INSTSETIDFLAGS = InstGidFlags 
-#else
-INSTSETIDFLAGS = NullParameter 
-#endif
-
-/*
- * Compensate for broken imake configuration.
- */
-#ifdef LinuxGnuSourceDefines
-# ifdef UseInstalled
-   IMAKEDEFINES = -D_GNU_SOURCE
-# endif
 #endif
 
 #ifndef SpecialCObjectRule
@@ -116,26 +53,17 @@ module.o: ; $(CC) -c defines $(CFLAGS) module.c
  * handle overlapping copies before using it.
  */
 #if SetTtyGroup			/* turn on in config/machine.cf */
-    TTYGROUPDEF = -DUSE_TTY_GROUP
+   TTYGROUPDEF = -DUSE_TTY_GROUP
 #endif
-#ifdef UsePUCCPtyd		/* turn on in config/site.def */
-    PUCCPTYDDEF = -DPUCC_PTYD	/* does not need to be setuid */
+#ifdef UsePUCCPtyd			/* turn on in config/site.def */
+    PUCCPTYDDEF = -DPUCC_PTYD		/* does not need to be setuid */
          PTYLIB = -lpucc
 #endif
 
-#if defined(NetBSDArchitecture) || \
-    defined(OpenBSDArchitecture) || \
-    defined(MirBSDArchitecture) || \
-    defined(FreeBSDArchitecture) || \
+#if defined(NetBSDArchitecture) || defined(OpenBSDArchitecture) || \
     (defined(LinuxArchitecture) && \
      (LinuxCLibMajorVersion == 6) && (LinuxCLibMinorVersion < 1))
          PTYLIB = -lutil
-#endif
-
-#if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture)
-ERASEDEF=	-DOPT_INITIAL_ERASE=1
-#else
-ERASEDEF=	-DOPT_INITIAL_ERASE=0
 #endif
 
 #ifdef DarwinArchitecture
@@ -179,7 +107,7 @@ ERASEDEF=	-DOPT_INITIAL_ERASE=0
          XRFDEF = -DXRENDERFONT -DXFREE86_FT2
         XRFLIBS = XftClientLibs
      XRFDEPLIBS = XftClientDepLibs
-    XRFINCLUDES = $(XFTINCLUDES)
+    XRFINCLUDES = $(XFTINCLUDES) -I$(XBUILDINCDIR)
 #endif
 #if !HasPutenv
       PUTENVDEF = -DNOPUTENV
@@ -187,13 +115,13 @@ ERASEDEF=	-DOPT_INITIAL_ERASE=0
 #ifdef TraceXTerm
        TRACEDEF = -DOPT_TRACE=1
 #endif
-   MAIN_DEFINES = $(UTMPDEF) $(TTYGROUPDEF) $(PUCCPTYDDEF) $(CSGIDFLAGS) \
+   MAIN_DEFINES = $(UTMPDEF) $(TTYGROUPDEF) $(PUCCPTYDDEF) $(NOPOSIXTERMIOS) \
 		  -DOSMAJORVERSION=$(OSMAJORVERSION) \
 		  -DOSMINORVERSION=$(OSMINORVERSION)
    MISC_DEFINES = /* -DALLOWLOGGING -DALLOWLOGFILEEXEC */
     XKB_DEFINES = XkbClientDefines
    PATH_DEFINES = -DPROJECTROOT=$(PROJECTROOT)
-        DEFINES = $(XKB_DEFINES) $(TERMCAPDEFINES) $(FEATURE_DEFINES) $(SCROLLBAR_RIGHT) $(UTF8_OPTION) $(XRFDEF) $(PATH_DEFINES) $(PUTENVDEF) $(IMAKEDEFINES) $(TRACEDEF) $(ERASEDEF)
+        DEFINES = $(XKB_DEFINES) $(TERMCAPDEFINES) $(FEATURE_DEFINES) $(SCROLLBAR_RIGHT) $(UTF8_OPTION) $(XRFDEF) $(PATH_DEFINES) $(PUTENVDEF) $(TRACEDEF)
        INCLUDES = -I. $(XRFINCLUDES)
 
 #ifdef OS2Architecture
@@ -229,11 +157,7 @@ ERASEDEF=	-DOPT_INITIAL_ERASE=0
 
 #ifndef TermcapLibrary
 #if SystemV && !defined(MacIIArchitecture)
-#if	defined(CrayArchitecture) || \
-	(defined(HPArchitecture) && (OSMajorVersion < 10)) || \
-	defined(RsArchitecture) || \
-	defined(SCOArchitecture) || \
-	defined(USLArchitecture)
+#if defined(CrayArchitecture) || (defined(HPArchitecture) && (OSMajorVersion < 10)) || defined(RsArchitecture)
 #define TermcapLibrary -lcurses		/* special cases of System V */
 #else
 #define TermcapLibrary -ltermlib	/* usually in here */
@@ -259,6 +183,11 @@ SetUIDProgramTarget(xterm,$(OBJS1),$(DEPLIBS1),$(XRFLIBS) XkbClientLibs XawClien
 NormalProgramTarget(xterm,$(OBJS1),$(DEPLIBS1),$(XRFLIBS) XkbClientLibs XawClientLibs,$(TERMCAPLIB) $(UTMPLIB) $(PTYLIB))
 #endif
 
+#if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture)
+/* On OpenBSD xterm is now setgid utmp */
+INSTUIDFLAGS= -m 2555 -g utmp
+#endif
+
 #if InstallXtermSetUID && defined(SunArchitecture) && HasSharedLibraries && (OSMajorVersion < 5)
 #if AlternateUsrLibDir
 #if ((OSMajorVersion == 4) && (OSMinorVersion >= 1))
@@ -279,10 +208,14 @@ install::
 	$(EXTRA_LDOPTIONS) $(LOCAL_LDFLAGS),$(OBJS1),$(LDOVERRIDE)
 	$(XRFLIBS) XawClientLibs $(LDRESUME) $(LDLIBS) $(TERMCAPLIB)
 	$(PTYLIB))
-	$(INSTALL) -c $(INSTPGMFLAGS) $(INSTSETIDFLAGS) ProgramTargetName(xterm.inst) $(DESTDIR)$(BINDIR)/ProgramTargetName(xterm)
+	$(INSTALL) -c $(INSTPGMFLAGS) $(INSTUIDFLAGS) ProgramTargetName(xterm.inst) $(DESTDIR)$(BINDIR)/ProgramTargetName(xterm)
 	RemoveFile(ProgramTargetName(xterm.inst))
 #else
-InstallProgramWithFlags(xterm,$(BINDIR),$(INSTSETIDFLAGS))
+#if InstallXtermSetUID
+InstallProgramWithFlags(xterm,$(BINDIR),$(INSTUIDFLAGS))
+#else
+InstallProgramWithFlags(xterm,$(BINDIR),NullParameter)
+#endif
 #endif
 
 InstallNamedProg(uxterm,uxterm,$(BINDIR))
@@ -291,9 +224,9 @@ InstallNamedProg(uxterm,uxterm,$(BINDIR))
  * Link with the termcap library if USE_TERMCAP is defined in resize.c
  */
 #if	defined(NTOArchitecture)	|| \
+	defined(SCOArchitecture)	|| \
 	defined(LinuxArchitecture)	|| \
 	defined(OpenBSDArchitecture)	|| \
-	defined(MirBSDArchitecture)	|| \
 	defined(SGIArchitecture)	|| \
 	defined(SunArchitecture)
 NormalProgramTarget(resize,$(OBJS2),$(DEPLIBS2),NullParameter,NullParameter)
