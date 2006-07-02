@@ -1,12 +1,10 @@
-! $MirOS: X11/xc/programs/xterm/XTerm.ad,v 1.3 2005/06/28 12:04:42 tg Exp $
+! $MirOS: X11/xc/programs/xterm/XTerm.ad,v 1.4 2005/06/28 12:08:02 tg Exp $
 ! $Xorg: XTerm.ad,v 1.3 2000/08/17 19:55:08 cpqbld Exp $
-!
-!
-!
-!
-! $XTermId: XTerm.ad,v 1.62 2004/11/24 22:54:02 tom Exp $
-! $XFree86: xc/programs/xterm/XTerm.ad,v 3.29 2004/12/01 01:27:46 dickey Exp $
+! $OpenBSD: XTerm.ad,v 1.16 2006/04/07 06:43:53 matthieu Exp $
+! $XTermId: XTerm.ad,v 1.80 2006/04/10 00:34:36 tom Exp $
+! $XFree86: xc/programs/xterm/XTerm.ad,v 3.37 2006/04/10 00:34:36 dickey Exp $
 
+*scrollBar: true
 *saveLines: 1024
 
 *SimpleMenu*BackingStore: NotUseful
@@ -28,6 +26,7 @@
 *mainMenu*8-bit control*Label: 8-Bit Controls
 *mainMenu*backarrow key*Label: Backarrow Key (BS/DEL)
 *mainMenu*num-lock*Label: Alt/NumLock Modifiers
+*mainMenu*alt-esc*Label: Alt Sends Escape
 *mainMenu*meta-esc*Label: Meta Sends Escape
 *mainMenu*delete-is-del*Label: Delete is DEL
 *mainMenu*oldFunctionKeys*Label: Old Function-Keys
@@ -55,6 +54,7 @@
 *vtMenu*scrollkey*Label:  Scroll to Bottom on Key Press
 *vtMenu*scrollttyoutput*Label:  Scroll to Bottom on Tty Output
 *vtMenu*allow132*Label: Allow 80/132 Column Switching
+*vtMenu*selectToClipboard*Label: Select to Clipboard
 *vtMenu*cursesemul*Label:  Enable Curses Emulation
 *vtMenu*visualbell*Label:  Enable Visual Bell
 *vtMenu*poponbell*Label:  Enable Pop on Bell
@@ -73,18 +73,18 @@
 *fontMenu.Label:  VT Fonts
 *fontMenu*fontdefault*Label:	Default
 *fontMenu*font1*Label:	Unreadable
-*VT100*font1:		nil2
+*VT100.font1:		nil2
 *IconFont:		nil2
 *fontMenu*font2*Label:	Tiny
-*VT100*font2:		5x7
+*VT100.font2:		5x7
 *fontMenu*font3*Label:	Small
-*VT100*font3:		6x10
+*VT100.font3:		6x10
 *fontMenu*font4*Label:	Medium
-*VT100*font4:		7x13
+*VT100.font4:		7x13
 *fontMenu*font5*Label:	Large
-*VT100*font5:		9x15
+*VT100.font5:		9x15
 *fontMenu*font6*Label:	Huge
-*VT100*font6:		10x20
+*VT100.font6:		10x20
 *fontMenu*fontescape*Label:	Escape Sequence
 *fontMenu*fontsel*Label:	Selection
 !fontescape and fontsel overridden by application
@@ -93,6 +93,7 @@
 *fontMenu*font-loadable*Label:	VT220 Soft Fonts
 *fontMenu*render-font*Label:	TrueType Fonts
 *fontMenu*utf8-mode*Label:	UTF-8
+*fontMenu*utf8-title*Label:	UTF-8 Titles
 
 *VT100.utf8Fonts.font2:	-misc-fixed-medium-r-normal--8-80-75-75-c-50-iso10646-1
 *VT100.utf8Fonts.font:	-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
@@ -141,6 +142,78 @@
 ! and the back arrow generates whatever the erase char is set to
 *ptyInitialErase: true
 *backarrowKeyIsErase: true
+
+! If xterm is built with a toolbar, the widget hierarchy looks like this,
+! showing widget name / class names.  The complete menu hierarchy is built
+! at startup because it is needed to make the layout work for the menubar:
+!
+!	xterm/XTerm
+!		form/Form
+!			menubar/Box
+!				mainMenuButton/MenuButton
+!					mainMenu/SimpleMenu
+!						menuLabel/SmeBSB
+!						toolbar/SmeBSB
+!						...
+!					vtMenu/SimpleMenu
+!						menuLabel/SmeBSB
+!						scrollbar/SmeBSB
+!						...
+!					fontMenu/SimpleMenu
+!						menuLabel/SmeBSB
+!						fontdefault/SmeBSB
+!						...
+!					tekMenu/SimpleMenu
+!						menuLabel/SmeBSB
+!						fontdefault/SmeBSB
+!						...
+!			vt100/VT100
+!			tektronix/TopLevelShell
+!				shellext/VendorShellExt
+!					tek4014/Tek4014
+!
+! If built without a toolbar, the widget hierarchy is simpler, because there
+! is no form, and the popup menu widgets are created only when they are first
+! used.
+!
+!	xterm/XTerm
+!		shellext/VendorShellExt
+!			mainMenu/SimpleMenu
+!				menuLabel/SmeBSB
+!				...
+!			...
+!		vt100/VT100
+!		tektronix/TopLevelShell
+!			shellext/VendorShellExt
+!				tek4014/Tek4014
+!
+! A more complete list of the widget/class names can be obtained using editres
+! to dump a file.  Some widget names are not available until the corresponding
+! menu has been created.
+
+! These resources reduce space around the menubar, by eliminating padding in
+! the enclosing form (Thickness) and the border of the Box which represents
+! the menubar widget.
+*form.Thickness: 0
+*menubar.borderWidth: 0
+
+! If we wanted to eliminate the border of the popup menus, we could do this
+! instead, since they are children of the menubar:
+!*menubar.*.borderWidth: 0
+
+! Eliminate the border of the buttons in the menubar, so the only line around
+! the text is for the highlighted button:
+*MenuButton*borderWidth: 0
+
+! Set a border for the menus to make them simpler to distinguish against the
+! vt100 widget:
+*SimpleMenu*borderWidth: 2
+
+! Here is a pattern that is useful for double-clicking on a URL:
+!*charClass: 33:48,35:48,37-38:48,43-47:48,58:48,61:48,63-64:48,95:48,126:48
+!
+! Alternatively,
+!*on2Clicks: regex [[:alpha:]]+://([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
 
 ! Principle of least surprise: colours and working keys (MirOS)
 *termName: xterm-xfree86
