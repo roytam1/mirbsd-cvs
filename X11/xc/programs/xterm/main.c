@@ -2406,6 +2406,7 @@ main(int argc, char *argv[]ENVP_ARG)
 }
 
 #if defined(__osf__) || (defined(__GLIBC__) && !defined(USE_USG_PTYS)) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__APPLE__)
+#undef USE_OPENPTY
 #define USE_OPENPTY 1
 static int opened_tty = -1;
 #endif
