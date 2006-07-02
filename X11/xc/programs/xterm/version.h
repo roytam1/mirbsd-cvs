@@ -10,5 +10,5 @@
 #define XTERM_PATCH   200
 
 #ifndef __vendorversion__
-#define __vendorversion__ "XTerm"
+#define __vendorversion__ "XTerm/MirOS"
 #endif
