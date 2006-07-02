@@ -1,4 +1,4 @@
-XCOMM $MirOS$
+XCOMM $MirOS: X11/xc/programs/xterm/Imakefile,v 1.4 2006/07/02 00:02:39 tg Exp $
 XCOMM $XTermId: Imakefile,v 1.98 2006/04/10 00:34:36 tom Exp $
 XCOMM
 XCOMM                         Attention xterm porters
@@ -16,6 +16,13 @@ SCROLLBAR_RIGHT = -DSCROLLBAR_RIGHT
 
 /* Define UTF8support to compile-in support for UTF-8 */
 #define UTF8support
+
+#if defined(OpenBSDArchitecture) || defined(MirBSDArchitecture)
+#undef InstallXtermSetUID
+#undef InstallXtermSetGID
+#define InstallXtermSetUID	NO
+#define InstallXtermSetGID	YES
+#endif
 
 /*
  * setgid mode works for systems that do not require setuid to open pty.

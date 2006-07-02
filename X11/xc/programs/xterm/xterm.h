@@ -165,6 +165,7 @@ authorization.
 #endif
 
 #if defined(__OpenBSD__)
+#undef USE_UTMP_SETGID
 #define USE_UTMP_SETGID TRUE
 #define USE_OPENPTY TRUE
 #define DEFDELETE_DEL TRUE
