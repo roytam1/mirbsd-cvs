@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/miniroot/Makefile,v 1.2 2005/03/06 18:58:03 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/28 04:53:30 jolan Exp $
 
 REV=		${OSrev}
@@ -40,13 +40,7 @@ all:
 	@false
 .else
 
-bsd:
-	cd ${.CURDIR}/../../sys/arch/${MACHINE}/conf && config GENERIC
-	cd ${.CURDIR}/../../sys/arch/${MACHINE}/compile/GENERIC && \
-	    make clean && make
-	cp ${.CURDIR}/../../sys/arch/${MACHINE}/compile/GENERIC/bsd bsd
-
-all: ${CBIN} bsd
+all: ${CBIN}
 	dd if=/dev/zero of=${REALIMAGE} count=${IMAGESIZE}
 	vnconfig -v -c ${VND} ${REALIMAGE}
 	disklabel -w ${RAWLABEL} ${VND} ${DISKTYPE}
