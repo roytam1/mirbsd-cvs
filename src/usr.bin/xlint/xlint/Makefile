@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/xlint/xlint/Makefile,v 1.2 2005/03/13 18:34:11 tg Exp $
 # $OpenBSD: Makefile,v 1.4 1997/04/27 20:57:00 millert Exp $
 # $NetBSD: Makefile,v 1.2 1995/07/03 21:25:14 cgd Exp $
 
@@ -8,7 +8,7 @@ PROG=	xlint
 SRCS=	mem.c xlint.c
 MAN=	lint.1
 
-CPPFLAGS+= -I${.CURDIR}/../lint1 -DREISER_CPP
+CPPFLAGS+= -I${.CURDIR}/../lint1
 
 realinstall:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \

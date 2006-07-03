@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.2 2005/03/13 18:34:11 tg Exp $ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -50,7 +50,7 @@
 #include "lint.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.2 2005/03/13 18:34:11 tg Exp $");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -583,13 +583,7 @@ fname(name, last)
 
 	/* run cpp */
 
-#ifndef REISER_CPP
-	len = strlen(PATH_LIBEXEC) + sizeof ("/cpp");
-	path = xmalloc(len);
-	(void)snprintf(path, len, "%s/cpp", PATH_LIBEXEC);
-#else
 	path = strdup("/usr/bin/cpp");
-#endif
 
 	appcstrg(&args, path);
 	applst(&args, cppflags);
