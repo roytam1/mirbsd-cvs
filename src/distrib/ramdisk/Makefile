@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.2 2005/03/06 18:58:04 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 REV=		${OSrev}
@@ -53,6 +53,13 @@ NEWFSOPTS_RD?=	${NEWFSOPTS} -i 16384 -c 64 -s ${IMAGESIZE}
 #NEWFSOPTS_FD=	${NEWFSOPTS} -i 524288 -c 80 -s ${FLOPPYSIZE}
 NEWFSOPTS_FD=	${NEWFSOPTS} -i 1048575 -c 256 -s ${FLOPPYSIZE}
 
+# build kernel
+RAMDISK=	${KERNEL}
+SYSDIR?=	${.CURDIR}/../sys
+SYSSUBDIR=	${SYSDIR}/arch/${MACHINE}
+KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
+.include "../Makefile.kernel"
+
 .ifndef DESTDIR
 all:
 	@echo setenv DESTDIR before making a ramdisk!
@@ -93,12 +100,6 @@ ${FLOPPY}:	bsd.gz ${BOOT} ${BOOTXX}
 	vnconfig -u ${VND}
 	dd if=${REALIMAGE} of=${FLOPPY} count=${FLOPPYSIZE}
 	rm -f ${REALIMAGE}
-
-bsd:
-	cd ${.CURDIR}/../../sys/arch/${MACHINE}/conf && config ${KERNEL}
-	cd ${.CURDIR}/../../sys/arch/${MACHINE}/compile/${KERNEL} && \
-	    make depend && make clean && make
-	cp ${.CURDIR}/../../sys/arch/${MACHINE}/compile/${KERNEL}/bsd bsd
 
 bsd.rd:	bsd ${IMAGE} ${RDSETROOT}
 	cp bsd bsd.rd
