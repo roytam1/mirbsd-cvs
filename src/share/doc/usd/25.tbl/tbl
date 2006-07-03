@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/doc/usd/25.tbl/tbl,v 1.1.7.1 2005/03/06 16:17:49 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -703,8 +703,8 @@ that cannot conveniently be typed as a simple string between
 tabs.
 Note that the $fat roman "T}" $ end delimiter must begin a line;
 additional columns of data may follow after a tab on the same line.
-See the example on page 11 for an illustration of included text blocks
-.e1 aa 11
+See the example on page 14 for an illustration of included text blocks
+.e1 aa 14
 in a table.
 If more than twenty or thirty text blocks are used in a table,
 various limits in the
@@ -814,9 +814,9 @@ The outline of such a table input is:
 .ft R
 \&\*.TE
 .DE
-as in the examples on pages 10 and 13.
-.e1 ab 10
-.e1 ac 13
+as in the examples on pages 14 and 16.
+.e1 ab 14
+.e1 ac 16
 Using this procedure, each table line can be close to its corresponding format line.
 .bd I 3
 .br
