@@ -1031,54 +1031,16 @@ by asking edit to search for a specified pattern of letters
 that occurs in that line.
 The parts of the above command are:
 .TS
-.in +1i
-.nr 35 \n(.u
-.nf
-.ds #d .d
-.if \(ts\n(.z\(ts\(ts .ds #d nl
-.nr 80 0
-.nr 38 \w\f3/strange/\fP
-.if \n(80<\n(38 .nr 80 \n(38
-.nr 38 \w\f3s\fP
-.if \n(80<\n(38 .nr 80 \n(38
-.nr 38 \w\f3/strange, but //\fP
-.if \n(80<\n(38 .nr 80 \n(38
-.nr 81 0
-.nr 38 \wtells edit to find the characters ``strange'' in the text
-.if \n(81<\n(38 .nr 81 \n(38
-.nr 38 \wtells edit to make a substitution
-.if \n(81<\n(38 .nr 81 \n(38
-.nr 38 \wsubstitutes nothing at all for the characters ``strange, but ''
-.if \n(81<\n(38 .nr 81 \n(38
-.nr 38 1n
-.nr 79 0
-.nr 40 \n(79+(0*\n(38)
-.nr 80 +\n(40
-.nr 41 \n(80+(3*\n(38)
-.nr 81 +\n(41
-.nr TW \n(81
-.if t .if (\n(TW+\n(.o)>7.75i .tm Table at line 307 file ed2.tbl is too wide - \n(TW units
-.fc  
-.nr #T 0
-.eo
-.de T#
-.ds #d .d
-.if \(ts\n(.z\(ts\(ts .ds #d nl
-.mk ##
-.nr ## -1v
-..
-.ec
-.ta \n(80u \n(81u 
-\&\h'|\n(40u'\f3/strange/\fP\h'|\n(41u'tells edit to find the characters ``strange'' in the text
-.ta \n(80u \n(81u 
-\&\h'|\n(40u'\f3s\fP\h'|\n(41u'tells edit to make a substitution
-.ta \n(80u \n(81u 
-\&\h'|\n(40u'\f3/strange, but //\fP\h'|\n(41u'substitutes nothing at all for the characters ``strange, but ''
-.fc
-.nr T. 1
-.T# 1
-.if \n(35>0 .fi
-.in -1i
+lw(1i)0 lw(2i)0 lw(3.5i).
+\&	\fB/strange/\fP	T{
+tells edit to find the characters ``strange'' in the text
+T}
+\&	\fBs\fP	T{
+tells edit to make a substitution
+T}
+\&	\fB/strange, but //\fP	T{
+substitutes nothing at all for the characters ``strange, but ''
+T}
 .TE
 .PP
 You should note the space after ``but'' in ``/strange, but /''. 
