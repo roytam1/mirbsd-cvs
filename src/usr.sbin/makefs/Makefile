@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.2 2006/07/05 15:12:37 tg Exp $
 # $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
@@ -27,15 +27,5 @@ CPPFLAGS+=	\
 .PATH:		${.CURDIR}/ffs ${UFSSRC}/ffs \
 		${.CURDIR}/cd9660 ${CD9660SRC} \
 		${LSSRC} ${MKNODSRC} ${MTREESRC}
-
-WARNS?=	3
-
-.if !defined(HOSTPROGNAME)
-.if ${HAVE_GCC} == 4
-.for f in cd9660_debug cd9660_write
-COPTS.${f}.c+=  -Wno-pointer-sign
-.endfor
-.endif
-.endif
 
 .include <bsd.prog.mk>
