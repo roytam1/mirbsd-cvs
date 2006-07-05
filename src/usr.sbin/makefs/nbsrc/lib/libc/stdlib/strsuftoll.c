@@ -103,6 +103,9 @@ __weak_alias(strsuftollx, _strsuftollx)
 #endif /* LIBC */
 
 /* LONGLONG */
+long long strsuftoll(const char *desc, const char *val,
+    long long min, long long max);
+/* LONGLONG */
 long long strsuftollx(const char *desc, const char *val,
     long long min, long long max, char *ebuf, size_t ebuflen);
 

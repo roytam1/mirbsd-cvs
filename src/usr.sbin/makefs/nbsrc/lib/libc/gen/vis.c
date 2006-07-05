@@ -88,6 +88,8 @@ __weak_alias(vis,_vis)
 #include <stdio.h>
 #include <string.h>
 
+int strsvis(char *dst, const char *csrc, int flag, const char *extra);
+
 #undef BELL
 #define BELL '\a'
 

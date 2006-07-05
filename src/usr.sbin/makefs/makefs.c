@@ -57,6 +57,15 @@ __RCSID("$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $");
 #include "mtree.h"
 #include "cd9660.h"
 
+__RCSID("$MirOS$");
+
+/* LONGLONG */
+long long strsuftoll(const char *desc, const char *val,
+    long long min, long long max);
+/* LONGLONG */
+long long strsuftollx(const char *desc, const char *val,
+    long long min, long long max, char *ebuf, size_t ebuflen);
+
 /*
  * list of supported file systems and dispatch functions
  */

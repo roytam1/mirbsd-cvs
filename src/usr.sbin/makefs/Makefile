@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.10 2006/07/05 17:14:16 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.11 2006/07/05 20:08:34 tg Exp $
 # $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
@@ -18,6 +18,8 @@ MAN=	makefs.8
 
 DPADD+=	${LIBUTIL}
 LDADD+=	-lutil
+
+COPTS+=		-Wmissing-declarations -Wmissing-prototypes
 
 LSSRC=		${BSDSRCDIR}/bin/ls
 MKNODSRC=	${BSDSRCDIR}/sbin/mknod

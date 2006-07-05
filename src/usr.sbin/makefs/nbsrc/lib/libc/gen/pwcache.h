@@ -73,3 +73,15 @@ typedef struct gidc {
 
 const char *user_from_uid(uid_t uid, int noname);
 const char *group_from_gid(gid_t gid, int noname);
+int uid_from_user(const char *name, uid_t *uid);
+int gid_from_group(const char *name, gid_t *gid);
+int pwcache_userdb(
+	int		(*a_setpassent)(int),
+	void		(*a_endpwent)(void),
+	struct passwd *	(*a_getpwnam)(const char *),
+	struct passwd *	(*a_getpwuid)(uid_t));
+int pwcache_groupdb(
+	int		(*a_setgroupent)(int),
+	void		(*a_endgrent)(void),
+	struct group *	(*a_getgrnam)(const char *),
+	struct group *	(*a_getgrgid)(gid_t));
