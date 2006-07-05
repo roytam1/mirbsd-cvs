@@ -54,7 +54,6 @@ __RCSID("$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $");
 #include <unistd.h>
 
 #include "makefs.h"
-#include "mtree.h"
 #include "cd9660.h"
 
 /*
@@ -114,7 +113,7 @@ main(int argc, char *argv[])
 	start_time.tv_sec = start.tv_sec;
 	start_time.tv_nsec = start.tv_usec * 1000;
 
-	while ((ch = getopt(argc, argv, "B:b:d:f:F:M:m:N:o:s:S:t:x")) != -1) {
+	while ((ch = getopt(argc, argv, "B:b:d:f:F:M:m:o:s:S:t:x")) != -1) {
 		switch (ch) {
 
 		case 'B':
@@ -176,13 +175,6 @@ main(int argc, char *argv[])
 		case 'M':
 			fsoptions.minsize =
 			    strsuftoll("minimum size", optarg, 1LL, LLONG_MAX);
-			break;
-
-		case 'N':
-			if (! setup_getid(optarg))
-				errx(1,
-			    "Unable to use user and group databases in `%s'",
-				    optarg);
 			break;
 
 		case 'm':
@@ -316,7 +308,7 @@ usage(void)
 "usage: %s [-t fs-type] [-o fs-options] [-d debug-mask] [-B endian]\n"
 "\t[-S sector-size] [-M minimum-size] [-m maximum-size] [-s image-size]\n"
 "\t[-b free-blocks] [-f free-files] [-F mtree-specfile] [-x]\n"
-"\t[-N userdb-dir] image-file directory\n",
+"\timage-file directory\n",
 	    prog);
 	exit(1);
 }
