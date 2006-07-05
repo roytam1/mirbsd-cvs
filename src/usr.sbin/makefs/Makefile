@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.6 2006/07/05 16:49:11 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.9 2006/07/05 16:53:06 tg Exp $
 # $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
@@ -14,6 +14,9 @@ SRCS=	buf.c \
 	ufs_bmap.c \
 	walk.c
 MAN=	makefs.8
+
+DPADD+=	${LIBUTIL}
+LDADD+=	-lutil
 
 LSSRC=		${BSDSRCDIR}/bin/ls
 MKNODSRC=	${BSDSRCDIR}/sbin/mknod
