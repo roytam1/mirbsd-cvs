@@ -41,9 +41,8 @@
 
 #include <sys/cdefs.h>
 #include <sys/featuretest.h>
-#include <sys/stdint.h>
+#include <stdint.h>
 #include <machine/ansi.h>
-#include <sys/ansi.h>
 #include <sys/fstypes.h>
 
 #define	_VFS_NAMELEN	32
