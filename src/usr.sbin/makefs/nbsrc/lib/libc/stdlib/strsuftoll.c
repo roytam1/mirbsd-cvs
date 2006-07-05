@@ -95,6 +95,8 @@ __RCSID("$NetBSD: strsuftoll.c,v 1.6 2004/03/05 05:58:29 lukem Exp $");
 #include <stdlib.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 #ifdef _LIBC
 # ifdef __weak_alias
 __weak_alias(strsuftoll, _strsuftoll)
@@ -161,12 +163,18 @@ strsuftollx(const char *desc, const char *val,
 	while (isspace((unsigned char)*val))	/* Skip leading space */
 		val++;
 
-	num = strtoll(val, &expr, 10);
+	if (*val == '0')
+		num = strtoll(val, &expr, 0);
+	else
+		num = strtoll(val, &expr, 10);
 	if (errno == ERANGE)
 		goto erange;			/* Overflow */
 
 	if (expr == val)			/* No digits */
 		goto badnum;
+
+	if (*val == '0')
+		goto suffix_done;
 
 	switch (*expr) {
 	case 'b':
@@ -213,6 +221,7 @@ strsuftollx(const char *desc, const char *val,
 		break;
 	}
 
+ suffix_done:
 	switch (*expr) {
 	case '\0':
 		break;
