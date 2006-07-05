@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.7 2006/07/05 16:51:14 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.6 2006/07/05 16:49:11 tg Exp $
 # $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
@@ -17,6 +17,7 @@ MAN=	makefs.8
 
 LSSRC=		${BSDSRCDIR}/bin/ls
 MKNODSRC=	${BSDSRCDIR}/sbin/mknod
+MTREESRC=	${BSDSRCDIR}/usr.sbin/mtree
 UFSSRC=		${BSDSRCDIR}/sys/ufs
 CD9660SRC=	${BSDSRCDIR}/sys/isofs/cd9660
 
@@ -29,10 +30,12 @@ CPPFLAGS+=	\
 		-I${NBASSOC}/sys \
 		-I${NBASSOC}/bin/ls -I${LSSRC} \
 		-I${NBASSOC}/sbin/mknod -I${MKNODSRC} \
+		-I${NBASSOC}/usr.sbin/mtree -I${MTREESRC} \
 		-I${NBASSOC}/sys/isofs/cd9660 -I${CD9660SRC}
 .PATH:		${.CURDIR}/ffs ${NBASSOC}/sys/ufs/ffs ${UFSSRC}/ffs \
 		${.CURDIR}/cd9660 ${NBASSOC}/sys/isofs/cd9660 ${CD9660SRC} \
 		${NBASSOC}/bin/ls ${LSSRC} \
-		${NBASSOC}/sbin/mknod ${MKNODSRC}
+		${NBASSOC}/sbin/mknod ${MKNODSRC} \
+		${NBASSOC}/usr.sbin/mtree ${MTREESRC}
 
 .include <bsd.prog.mk>
