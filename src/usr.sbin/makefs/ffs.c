@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $	*/
 
 /*
@@ -104,6 +105,8 @@ __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #include "ffs/ufs_inode.h"
 #include "ffs/newfs_extern.h"
 #include "ffs/ffs_extern.h"
+
+__RCSID("$MirOS$");
 
 #undef DIP
 #define DIP(dp, field) \
@@ -1100,9 +1103,8 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	    initediblk < ufs_rw32(cgp->cg_niblk, fsopts->needswap)) {
 		memset(buf, 0, fs->fs_bsize);
 		dip = (struct ufs2_dinode *)buf;
-		srandom(time(NULL));
 		for (i = 0; i < INOPB(fs); i++) {
-			dip->di_gen = random() / 2 + 1;
+			dip->di_gen = arc4random() / 2 + 1;
 			dip++;
 		}
 		ffs_wtfs(fsbtodb(fs, ino_to_fsba(fs,
