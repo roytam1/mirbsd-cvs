@@ -229,8 +229,8 @@ extern	struct timespec	start_time;
 		struct timeval end, td;			\
 		gettimeofday(&end, NULL);		\
 		timersub(&end, &(x), &td);		\
-		printf("%s took %ld.%06ld seconds\n",	\
-		    (d), td.tv_sec, td.tv_usec);	\
+		printf("%s took %lld.%06ld seconds\n",	\
+		    (d), (int64_t)td.tv_sec, td.tv_usec);\
 	}
 
 
