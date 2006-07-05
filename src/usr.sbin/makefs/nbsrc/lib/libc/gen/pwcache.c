@@ -85,7 +85,7 @@ __RCSID("$NetBSD: pwcache.c,v 1.29 2004/06/20 22:20:14 jmc Exp $");
 #endif
 #endif /* LIBC_SCCS and not lint */
 
-#include "namespace.h"
+//#include "namespace.h"
 
 #include <sys/types.h>
 #include <sys/param.h>
@@ -98,18 +98,8 @@ __RCSID("$NetBSD: pwcache.c,v 1.29 2004/06/20 22:20:14 jmc Exp $");
 #include <string.h>
 #include <unistd.h>
 
-#if HAVE_NBTOOL_CONFIG_H
-/* XXX Now, re-apply the renaming that we undid above. */
 #define	group_from_gid	__nbcompat_group_from_gid
 #define	user_from_uid	__nbcompat_user_from_uid
-#endif
-
-#ifdef __weak_alias
-__weak_alias(user_from_uid,_user_from_uid)
-__weak_alias(group_from_gid,_group_from_gid)
-__weak_alias(pwcache_userdb,_pwcache_userdb)
-__weak_alias(pwcache_groupdb,_pwcache_groupdb)
-#endif
 
 #if !HAVE_PWCACHE_USERDB || HAVE_NBTOOL_CONFIG_H
 #include "pwcache.h"

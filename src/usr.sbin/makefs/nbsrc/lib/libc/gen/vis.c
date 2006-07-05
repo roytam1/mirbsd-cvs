@@ -67,23 +67,22 @@
 __RCSID("$NetBSD: vis.c,v 1.34 2005/11/18 08:32:46 martin Exp $");
 #endif /* LIBC_SCCS and not lint */
 
-#include "namespace.h"
+//#include "namespace.h"
 #include <sys/types.h>
 
 #include <assert.h>
 #include <vis.h>
 #include <stdlib.h>
 
-#ifdef __weak_alias
+/*#ifdef __weak_alias
 __weak_alias(strsvis,_strsvis)
 __weak_alias(strsvisx,_strsvisx)
 __weak_alias(strvis,_strvis)
 __weak_alias(strvisx,_strvisx)
 __weak_alias(svis,_svis)
 __weak_alias(vis,_vis)
-#endif
+#endif*/
 
-#if !HAVE_VIS || !HAVE_SVIS
 #include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
@@ -216,32 +215,6 @@ do {									      \
 
 
 /*
- * svis - visually encode characters, also encoding the characters
- *	  pointed to by `extra'
- */
-char *
-svis(char *dst, int c, int flag, int nextc, const char *extra)
-{
-	char *nextra = NULL;
-
-	_DIAGASSERT(dst != NULL);
-	_DIAGASSERT(extra != NULL);
-	MAKEEXTRALIST(flag, nextra, extra);
-	if (!nextra) {
-		*dst = '\0';		/* can't create nextra, return "" */
-		return dst;
-	}
-	if (flag & VIS_HTTPSTYLE)
-		HVIS(dst, c, flag, nextc, nextra);
-	else
-		SVIS(dst, c, flag, nextc, nextra);
-	free(nextra);
-	*dst = '\0';
-	return dst;
-}
-
-
-/*
  * strsvis, strsvisx - visually encode characters from src into dst
  *
  *	Extra is a pointer to a \0-terminated list of characters to
@@ -272,77 +245,11 @@ strsvis(char *dst, const char *csrc, int flag, const char *extra)
 		*dst = '\0';		/* can't create nextra, return "" */
 		return 0;
 	}
-	if (flag & VIS_HTTPSTYLE) {
-		for (start = dst; (c = *src++) != '\0'; /* empty */)
-			HVIS(dst, c, flag, *src, nextra);
-	} else {
 		for (start = dst; (c = *src++) != '\0'; /* empty */)
 			SVIS(dst, c, flag, *src, nextra);
-	}
 	free(nextra);
 	*dst = '\0';
 	return (dst - start);
-}
-
-
-int
-strsvisx(char *dst, const char *csrc, size_t len, int flag, const char *extra)
-{
-	unsigned char c;
-	char *start;
-	char *nextra = NULL;
-	const unsigned char *src = (const unsigned char *)csrc;
-
-	_DIAGASSERT(dst != NULL);
-	_DIAGASSERT(src != NULL);
-	_DIAGASSERT(extra != NULL);
-	MAKEEXTRALIST(flag, nextra, extra);
-	if (! nextra) {
-		*dst = '\0';		/* can't create nextra, return "" */
-		return 0;
-	}
-
-	if (flag & VIS_HTTPSTYLE) {
-		for (start = dst; len > 0; len--) {
-			c = *src++;
-			HVIS(dst, c, flag, len ? *src : '\0', nextra);
-		}
-	} else {
-		for (start = dst; len > 0; len--) {
-			c = *src++;
-			SVIS(dst, c, flag, len ? *src : '\0', nextra);
-		}
-	}
-	free(nextra);
-	*dst = '\0';
-	return (dst - start);
-}
-#endif
-
-#if !HAVE_VIS
-/*
- * vis - visually encode characters
- */
-char *
-vis(char *dst, int c, int flag, int nextc)
-{
-	char *extra = NULL;
-	unsigned char uc = (unsigned char)c;
-
-	_DIAGASSERT(dst != NULL);
-
-	MAKEEXTRALIST(flag, extra, "");
-	if (! extra) {
-		*dst = '\0';		/* can't create extra, return "" */
-		return dst;
-	}
-	if (flag & VIS_HTTPSTYLE)
-		HVIS(dst, uc, flag, nextc, extra);
-	else
-		SVIS(dst, uc, flag, nextc, extra);
-	free(extra);
-	*dst = '\0';
-	return dst;
 }
 
 
@@ -371,21 +278,3 @@ strvis(char *dst, const char *src, int flag)
 	free(extra);
 	return rv;
 }
-
-
-int
-strvisx(char *dst, const char *src, size_t len, int flag)
-{
-	char *extra = NULL;
-	int rv;
-
-	MAKEEXTRALIST(flag, extra, "");
-	if (!extra) {
-		*dst = '\0';		/* can't create extra, return "" */
-		return 0;
-	}
-	rv = strsvisx(dst, src, len, flag, extra);
-	free(extra);
-	return rv;
-}
-#endif

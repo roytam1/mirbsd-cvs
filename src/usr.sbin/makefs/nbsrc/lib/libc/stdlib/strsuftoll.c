@@ -102,6 +102,10 @@ __weak_alias(strsuftollx, _strsuftollx)
 # endif
 #endif /* LIBC */
 
+/* LONGLONG */
+long long strsuftollx(const char *desc, const char *val,
+    long long min, long long max, char *ebuf, size_t ebuflen);
+
 /*
  * Convert an expression of the following forms to a (u)int64_t.
  * 	1) A positive decimal number.

@@ -70,7 +70,7 @@
 #endif
 
 #include <sys/cdefs.h>
-#if defined(__RCSID) && !defined(lint)
+#if 0
 #if 0
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
@@ -94,6 +94,12 @@ __RCSID("$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $");
 
 #include "extern.h"
 #include "pack_dev.h"
+
+#define	group_from_gid	__nbcompat_group_from_gid
+#define	user_from_uid	__nbcompat_user_from_uid
+#include "pwcache.h"
+
+__RCSID("$MirOS$");
 
 size_t	mtree_lineno;			/* Current spec line number */
 int	mtree_Mflag;			/* Merge duplicate entries */
@@ -331,14 +337,14 @@ dump_nodes(const char *dir, NODE *root, int pathlast)
 			printf("type=%s ", nodetype(cur->type));
 		if (MATCHFLAG(F_UID | F_UNAME)) {
 			if (keys & F_UNAME &&
-			    (name = user_from_uid(cur->st_uid, 1)) != NULL)
+			    (name = __nbcompat_user_from_uid(cur->st_uid, 1)) != NULL)
 				printf("uname=%s ", name);
 			else
 				printf("uid=%u ", cur->st_uid);
 		}
 		if (MATCHFLAG(F_GID | F_GNAME)) {
 			if (keys & F_GNAME &&
-			    (name = group_from_gid(cur->st_gid, 1)) != NULL)
+			    (name = __nbcompat_group_from_gid(cur->st_gid, 1)) != NULL)
 				printf("gname=%s ", name);
 			else
 				printf("gid=%u ", cur->st_gid);

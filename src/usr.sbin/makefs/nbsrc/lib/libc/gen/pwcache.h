@@ -70,3 +70,6 @@ typedef struct gidc {
 	char name[GNMLEN];	/* gid name */
 	gid_t gid;		/* cached gid */
 } GIDC;
+
+const char *user_from_uid(uid_t uid, int noname);
+const char *group_from_gid(gid_t gid, int noname);
