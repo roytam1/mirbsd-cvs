@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.4 2006/07/05 16:06:02 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.5 2006/07/05 16:24:29 tg Exp $
 # $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
@@ -23,6 +23,7 @@ UFSSRC=		${BSDSRCDIR}/sys/ufs
 CD9660SRC=	${BSDSRCDIR}/sys/isofs/cd9660
 
 CPPFLAGS+=	-DHAVE_STRUCT_STAT_BIRTHTIME=0
+CPPFLAGS+=	-DHAVE_FSTATVFS=0
 
 NBASSOC=	${.CURDIR}/nbsrc
 
