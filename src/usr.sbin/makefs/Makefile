@@ -1,5 +1,5 @@
-#	$NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
-#
+# $MirOS$
+# $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
 
@@ -16,13 +16,13 @@ SRCS=	buf.c \
 	walk.c
 MAN=	makefs.8
 
-LSSRC=		${NETBSDSRCDIR}/bin/ls
-MKNODSRC=	${NETBSDSRCDIR}/sbin/mknod
-MTREESRC=	${NETBSDSRCDIR}/usr.sbin/mtree
-UFSSRC=		${NETBSDSRCDIR}/sys/ufs
-CD9660SRC=	${NETBSDSRCDIR}/sys/fs/cd9660
+LSSRC=		${BSDSRCDIR}/bin/ls
+MKNODSRC=	${BSDSRCDIR}/sbin/mknod
+MTREESRC=	${BSDSRCDIR}/usr.sbin/mtree
+UFSSRC=		${BSDSRCDIR}/sys/ufs
+CD9660SRC=	${BSDSRCDIR}/sys/isofs/cd9660
 
-CPPFLAGS+=	-I${.CURDIR} \
+CPPFLAGS+=	\
 		-I${LSSRC} -I${MKNODSRC} -I${MTREESRC} -I${CD9660SRC}
 .PATH:		${.CURDIR}/ffs ${UFSSRC}/ffs \
 		${.CURDIR}/cd9660 ${CD9660SRC} \
