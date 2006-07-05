@@ -253,16 +253,7 @@ void	vfs_hooks_unmount(struct mount *);
  *
  * The current export_args structure can be found in nfs/nfs.h.
  */
-struct export_args30 {
-	int	ex_flags;		/* export related flags */
-	uid_t	ex_root;		/* mapping for root uid */
-	struct	uucred ex_anon;		/* mapping for anonymous user */
-	struct	sockaddr *ex_addr;	/* net address to which exported */
-	int	ex_addrlen;		/* and the net address length */
-	struct	sockaddr *ex_mask;	/* mask of valid bits in saddr */
-	int	ex_masklen;		/* and the smask length */
-	char	*ex_indexfile;		/* index file for WebNFS URLs */
-};
+struct export_args30;
 
 #ifdef _KERNEL
 #include <sys/mallocvar.h>
@@ -316,7 +307,7 @@ int	unmount(const char *, int);
 #if defined(_NETBSD_SOURCE)
 int	fhopen(const fhandle_t *, int);
 #ifndef __LIBC12_SOURCE__
-int	fhstat(const fhandle_t *, struct stat *) __RENAME(__fhstat30);
+/*int	fhstat(const fhandle_t *, struct stat *) __RENAME(__fhstat30);*/
 #endif
 #endif /* _NETBSD_SOURCE */
 __END_DECLS
