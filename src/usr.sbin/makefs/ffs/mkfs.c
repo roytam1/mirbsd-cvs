@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.2 2006/07/05 15:51:41 tg Exp $ */
 /*	$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $	*/
 
 /*
@@ -75,7 +75,7 @@ __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
 #include "ffs/ffs_extern.h"
 #include "ffs/newfs_extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.2 2006/07/05 15:51:41 tg Exp $");
 
 static void initcg(int, time_t, const fsinfo_t *);
 static int ilog2(int);
@@ -563,13 +563,13 @@ ffs_write_superblock(struct fs *fs, const fsinfo_t *fsopts)
         memcpy(writebuf, &sblock, sbsize);
 	if (fsopts->needswap)
 		ffs_sb_swap(fs, (struct fs*)writebuf);
-	(struct fs *)writebuf->fs_firstfield = arc4random();
-	(struct fs *)writebuf->fs_unused_1 = arc4random();
+	((struct fs *)writebuf)->fs_firstfield = arc4random();
+	((struct fs *)writebuf)->fs_unused_1 = arc4random();
 	ffs_wtfs(fs->fs_sblockloc / sectorsize, sbsize, writebuf, fsopts);
 
 	/* Write out the duplicate super blocks */
 	for (cylno = 0; cylno < fs->fs_ncg; cylno++) {
-		(struct fs *)writebuf->fs_unused_1 = arc4random();
+		((struct fs *)writebuf)->fs_unused_1 = arc4random();
 		ffs_wtfs(fsbtodb(fs, cgsblock(fs, cylno)),
 		    sbsize, writebuf, fsopts);
 	}
