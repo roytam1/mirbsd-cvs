@@ -472,6 +472,7 @@ static int do_cmd(LHASH *prog, int argc, char *argv[])
 				BIO_printf(bio_err,"\n");
 				nl=1;
 				}
+			else BIO_printf(bio_err," ");
 			if (fp->type != tp)
 				{
 				tp=fp->type;
