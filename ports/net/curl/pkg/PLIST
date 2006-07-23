@@ -1,4 +1,4 @@
-@comment $MirOS: ports/net/curl/pkg/PLIST,v 1.2 2005/10/08 17:47:30 tg Exp $
+@comment $MirOS: ports/net/curl/pkg/PLIST,v 1.3 2005/12/18 04:54:47 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2004/05/18 23:30:46 brad Exp $
 bin/curl
 bin/curl-config
@@ -15,12 +15,14 @@ man/man1/curl-config.1
 man/man1/curl.1
 man/man3/curl_easy_cleanup.3
 man/man3/curl_easy_duphandle.3
+man/man3/curl_easy_escape.3
 man/man3/curl_easy_getinfo.3
 man/man3/curl_easy_init.3
 man/man3/curl_easy_perform.3
 man/man3/curl_easy_reset.3
 man/man3/curl_easy_setopt.3
 man/man3/curl_easy_strerror.3
+man/man3/curl_easy_unescape.3
 man/man3/curl_escape.3
 man/man3/curl_formadd.3
 man/man3/curl_formfree.3
@@ -38,7 +40,10 @@ man/man3/curl_multi_info_read.3
 man/man3/curl_multi_init.3
 man/man3/curl_multi_perform.3
 man/man3/curl_multi_remove_handle.3
+man/man3/curl_multi_setopt.3
+man/man3/curl_multi_socket.3
 man/man3/curl_multi_strerror.3
+man/man3/curl_multi_timeout.3
 man/man3/curl_share_cleanup.3
 man/man3/curl_share_init.3
 man/man3/curl_share_setopt.3
@@ -55,10 +60,8 @@ man/man3/libcurl-multi.3
 man/man3/libcurl-share.3
 man/man3/libcurl-tutorial.3
 man/man3/libcurl.3
-share/curl/curl-ca-bundle.crt
 share/emacs/site-lisp/curl-style.el
 @dirrm share/emacs/site-lisp
 @dirrm share/emacs
-@dirrm share/curl
 @dirrm lib/pkgconfig
 @dirrm include/curl

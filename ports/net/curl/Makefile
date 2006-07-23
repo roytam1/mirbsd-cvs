@@ -1,8 +1,8 @@
-# $MirOS: ports/net/curl/Makefile,v 1.3 2005/12/18 04:21:10 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.4 2005/12/18 04:54:45 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
-COMMENT=		"get files from FTP, Gopher, HTTP or HTTPS servers"
-DISTNAME=		curl-7.15.1
+COMMENT=		get files from FTP, Gopher, HTTP or HTTPS servers
+DISTNAME=		curl-7.15.4
 CATEGORIES=		net
 MASTER_SITES=		http://curl.haxx.se/download/ \
 			ftp://ftp.sunet.se/pub/www/utilities/curl/ \
@@ -24,16 +24,21 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-random="/dev/arandom" \
+			--disable-dependency-tracking \
+			--disable-libtool-lock \
 			--enable-http \
 			--enable-ftp \
-			--enable-gopher \
 			--enable-file \
+			--enable-tftp \
 			--disable-ldap \
+			--enable-gopher \
 			--enable-telnet \
 			--enable-manual \
 			--enable-cookies \
+			--enable-crypto-auth \
 			--with-ssl \
 			--with-zlib \
+			--without-ca-bundle \
 			--without-libidn \
 			--disable-libtool-lock
 
