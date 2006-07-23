@@ -1,0 +1,12 @@
+$MirOS$
+--- configure.ac.orig	Tue Nov 29 16:17:31 2005
++++ configure.ac	Sun Jul 23 16:10:57 2006
+@@ -1379,7 +1379,7 @@ if test x$cross_compiling != xyes; then
+      dnl failure, now disable the function
+      AC_MSG_RESULT(no)
+     ,
+-    dnl not invoked when crosscompiling)
++    : dnl not invoked when crosscompiling)
+     ])
+   fi
+ else
