@@ -24,13 +24,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.2 2006/01/17 21:27:43 tg Exp $
+ * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.3 2006/07/27 00:58:16 tg Exp $
  * $Id$
  */
 
 #include "zonenotify.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.3 2006/07/27 00:58:16 tg Exp $");
 
 int
 main(int argc, char *argv[])
@@ -68,7 +68,7 @@ init_connection(const char *server, const char *domain)
 	struct addrinfo hints, *res, *res0;
 	struct sockaddr_storage ss;
 	struct sockaddr *ssp = (struct sockaddr *)&ss;
-	socklen_t sssz = sizeof (ss);
+	socklen_t sssz;
 	const char *cause;
 	int i;
 	int rv = 0;
@@ -92,6 +92,7 @@ init_connection(const char *server, const char *domain)
 			cause = "connect";
 			continue;
 		}
+		sssz = sizeof (ss);
 		if (getpeername(s, ssp, &sssz) == 0) {
 			char n[256];
 			if (!getnameinfo(ssp, SA_LEN(ssp), n, 256, NULL,
