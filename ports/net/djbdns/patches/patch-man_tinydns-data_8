@@ -1,34 +1,13 @@
-$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28:30 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.3 2006/01/15 12:57:46 tg Exp $
 --- man/tinydns-data.8.orig	Thu Oct 23 07:47:10 2003
-+++ man/tinydns-data.8	Sun Jan 15 12:56:21 2006
-@@ -1,4 +1,25 @@
++++ man/tinydns-data.8	Wed Jul 26 23:42:43 2006
+@@ -1,4 +1,4 @@
 -.TH tinydns-data 8
-+.\" $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28:30 tg Exp $
-+.\"-
-+.\" Copyright (c) 2003, 2005, 2006
-+.\"	Thorsten "mirabile" Glaser <tg@mirbsd.de>
-+.\"
-+.\" Licensee is hereby permitted to deal in this work without restric-
-+.\" tion, including unlimited rights to use, publicly perform, modify,
-+.\" merge, distribute, sell, give away or sublicence, provided all co-
-+.\" pyright notices above, these terms and the disclaimer are retained
-+.\" in all redistributions or reproduced in accompanying documentation
-+.\" or other materials provided with binary redistributions.
-+.\"
-+.\" Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-+.\" express, or implied, to the maximum extent permitted by applicable
-+.\" law, without malicious intent or gross negligence; in no event may
-+.\" licensor, an author or contributor be held liable for any indirect
-+.\" or other damage, or direct damage except proven a consequence of a
-+.\" direct error of said person and intended use of this work, loss or
-+.\" other issues arising in any way out of its use, even if advised of
-+.\" the possibility of such damage or existence of a nontrivial bug.
-+.\"-
 +.TH tinydns-data 8 "June 13, 2003" "" "DJBDNS Operation Guide"
  
  .SH NAME
  tinydns-data \- data tool for tinydns
-@@ -53,7 +74,7 @@ Blank lines are ignored.
+@@ -53,7 +53,7 @@ Blank lines are ignored.
  
  Each line contains a
  .I ttl
@@ -37,7 +16,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  specifying the number of seconds that the line's DNS records may be cached.
  Beware that cache times below 300 seconds
  will be treated as 300 by some clients,
-@@ -74,7 +95,7 @@ the line will be ignored before that tim
+@@ -74,7 +74,7 @@ the line will be ignored before that tim
  If 
  .I ttl
  is zero,
@@ -46,7 +25,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  for the information in the line;
  .BR tinydns (8)
  dynamically adjusts 
-@@ -144,14 +165,14 @@ Name server for our domain 
+@@ -144,14 +144,14 @@ Name server for our domain 
  .B tinydns-data
  creates
  .IP
@@ -63,7 +42,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  .I ip
  as the IP address
  of
-@@ -159,7 +180,7 @@ of
+@@ -159,7 +159,7 @@ of
  and
  .P
  .IP
@@ -72,7 +51,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  .I fqdn
  listing 
  .IR x\fR.ns.\fIfqdn
-@@ -304,33 +325,50 @@ and an A record showing
+@@ -304,33 +304,50 @@ and an A record showing
  as the IP address of
  .IR ns7.panic.mil .
  
@@ -130,7 +109,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  .P
  
  Remember to specify name servers for some suffix of
-@@ -358,7 +396,9 @@ and a PTR record showing
+@@ -358,7 +375,9 @@ and a PTR record showing
  as the name of
  .IR 108.7.8.1.in-addr.arpa .
  
@@ -141,7 +120,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  
  Alias
  .I fqdn
-@@ -366,6 +406,8 @@ with IP address 
+@@ -366,6 +385,8 @@ with IP address 
  .IR ip .
  This is just like 
  .RI = fqdn\fR:\fIip\fR:\fIttl\fR
@@ -150,7 +129,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  except that 
  .B tinydns-data
  does not create the PTR record.
-@@ -376,8 +418,12 @@ returns addresses
+@@ -376,8 +397,12 @@ returns addresses
  (from
  .I +
  or
@@ -163,7 +142,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  .I @
  or
  .I .
-@@ -405,7 +451,7 @@ Mail exchanger for 
+@@ -405,7 +430,7 @@ Mail exchanger for 
  .B tinydns-data
  creates
  .IP
@@ -172,7 +151,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  showing 
  .IR x\fR.mx.\fIfqdn
  as a mail exchanger for 
-@@ -471,7 +517,7 @@ The line is ignored.
+@@ -471,7 +496,7 @@ The line is ignored.
  
  .RI ' fqdn\fR:\fIs\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
@@ -181,7 +160,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  .IR fqdn .
  .B tinydns-data
  creates a TXT record for 
-@@ -499,7 +545,7 @@ pointing to the domain name 
+@@ -499,7 +524,7 @@ pointing to the domain name 
  
  .RI C fqdn\fR:\fIp\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
@@ -190,7 +169,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  .IR fqdn .
  .B tinydns-data
  creates a CNAME record for 
-@@ -518,8 +564,8 @@ use
+@@ -518,8 +543,8 @@ use
  .RI + fqdn
  instead.
  Remember the wise words of Inigo Montoya:
@@ -201,7 +180,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.2 2005/12/14 23:28
  
  .RI Z fqdn\fR:\fImname\fR:\fIrname\fR:\fIser\fR:\fIref\fR:\fIret\fR:\fIexp\fR:\fImin\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
-@@ -704,3 +750,11 @@ if the database were rebuilt periodicall
+@@ -704,3 +729,11 @@ if the database were rebuilt periodicall
  tinydns(8)
  
  http://cr.yp.to/djbdns.html

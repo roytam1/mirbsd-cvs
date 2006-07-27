@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/files/build/bins/Makefile.inc,v 1.1.201.1 2005/05/14 23:21:07 tg Exp $
+# $MirOS: ports/net/djbdns/files/build/binst6/Makefile.inc,v 1.1 2005/12/14 23:28:08 tg Exp $
 
 .ifndef _DJBDNS_BINS_MAKEFILE_INC
 _DJBDNS_BINS_MAKEFILE_INC=1
@@ -14,6 +14,8 @@ DPADD+=		${.CURDIR}/../libt6/libdjbdnst6.a
 .include "../Makefile.inc"
 
 CPPFLAGS+=	-DDJB_V6ONLY
+.ifndef MAN
 NOMAN=		Yes
+.endif
 
 .endif

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2006  Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2004  Morettoni Luca <luca@morettoni.net>
  * All rights reserved.
  *
@@ -23,11 +24,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $MirOS$
+ * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.2 2006/01/17 21:27:43 tg Exp $
  * $Id$
  */
 
 #include "zonenotify.h"
+
+__RCSID("$MirOS$");
 
 int
 main(int argc, char *argv[])
@@ -39,11 +42,8 @@ main(int argc, char *argv[])
 		usage ();
 
 	while (i < argc) {
-		if (init_connection (argv[i]) != -1) {
-			if (slave_notify (argv[1], argv[i]) == -1) ret = 1;
-			stop_connection ();
-		} else
-			fprintf (stderr, "Can't connect to %s\n", argv[i]);
+		if (init_connection (argv[i], argv[1]) == -1)
+			ret = 1;
 		i++;
 	}
 
@@ -63,65 +63,70 @@ usage(void)
 
 /* connect to the nameserver */
 int
-init_connection(const char *server)
+init_connection(const char *server, const char *domain)
 {
-	struct	sockaddr_in sa, sl;
-	struct	hostent *he;
-	int	isbind = 0;
-	int	i;
+	struct addrinfo hints, *res, *res0;
+	struct sockaddr_storage ss;
+	struct sockaddr *ssp = (struct sockaddr *)&ss;
+	socklen_t sssz = sizeof (ss);
+	const char *cause;
+	int i;
+	int rv = 0;
 
-	s = socket (AF_INET, SOCK_DGRAM, 0);
-	if (s < 0) return -1;
-
-	memset (&sl, 0, sizeof (sl));
-	sl.sin_family = AF_INET;
-	sl.sin_addr.s_addr = htonl (INADDR_ANY);
-
-	for (i = 0; i < 12 && !isbind; i++) {
-		/* local port: random */
-		sl.sin_port = htons(1025+(arc4random() % 15000));
-		isbind = (bind(s, (struct sockaddr *) &sl, sizeof (sl)) == 0);
+	memset(&hints, 0, sizeof (hints));
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_socktype = SOCK_DGRAM;
+	if ((i = getaddrinfo(server, "domain", &hints, &res0))) {
+		warnx("%s", gai_strerror(i));
+		goto cant_connect;
 	}
-
-	if (!isbind)
-		return (-1);
-
-	/* destination port: nameserver (53) */
-	memset (&sa, 0, sizeof (sa));
-	if (inet_aton (server, &sa.sin_addr) == 0) {
-		he = gethostbyname (server);
-
-		if (he)
-			memcpy (&sa.sin_addr, he->h_addr_list[0], sizeof (sa.sin_addr));
+	s = -1;
+	for (res = res0; res; res = res->ai_next) {
+		s = socket(res->ai_family, res->ai_socktype,
+		    res->ai_protocol);
+		if (s < 0) {
+			cause = "socket";
+			continue;
+		}
+		if (connect(s, res->ai_addr, res->ai_addrlen) < 0) {
+			cause = "connect";
+			continue;
+		}
+		if (getpeername(s, ssp, &sssz) == 0) {
+			char n[256];
+			if (!getnameinfo(ssp, SA_LEN(ssp), n, 256, NULL,
+			    0, NI_NUMERICHOST))
+				printf("connecting to %s\n", n);
+			else
+				printf("getnameinfo failed\n");
+		} else
+			printf("getpeername failed\n");
+		if (slave_notify(domain, server) == -1)
+			rv = 1;
 		else
-			return -1;
+			cause = NULL;
+		close(s);
 	}
+	if (cause) {
+		warn("couldn't %s", cause);
+ cant_connect:
+		fprintf(stderr, "%s: couldn't connect\n", server);
+	}
+	freeaddrinfo(res0);
 
-	sa.sin_family = AF_INET;
-	sa.sin_port = htons (NAMESERVER_PORT);
-	if (connect (s, (struct sockaddr *) &sa, sizeof (sa)) != 0)
-		return -1;
-
-	return 0;
-}
-
-/* close local socket */
-void
-stop_connection(void)
-{
-	shutdown (s, SHUT_RDWR);
+	return (rv);
 }
 
 /* encode name string in ns query format */
 int
-ns_encode(char *str, char *buff)
+ns_encode(const char *str, char *buff)
 {
-	char *pos;
+	const char *pos;
 	int size;
 	int len = 0;
 
 	while (1) {
-		pos = (char *) strchr (str, '.');
+		pos = (const char *) strchr (str, '.');
 
 		if (!pos) break;
 
@@ -150,7 +155,7 @@ ns_encode(char *str, char *buff)
 
 /* send sequest to our DNS-cache server */
 int
-slave_notify(char *domain, const char *server)
+slave_notify(const char *domain, const char *server)
 {
 	static int	unique = 0;
 	char		buffer[PACKETSZ];

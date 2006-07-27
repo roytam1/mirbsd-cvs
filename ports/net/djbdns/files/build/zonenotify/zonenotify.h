@@ -23,7 +23,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $MirOS$
+ * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.h,v 1.2 2006/01/17 21:27:43 tg Exp $
  * $Id$
  */
 
@@ -83,7 +83,6 @@ int s;
 
 /* program functions */
 __dead void usage(void);
-int init_connection(const char *);
-void stop_connection(void);
-int ns_encode(char *, char *);
-int slave_notify(char *, const char *);
+int init_connection(const char *, const char *);
+int ns_encode(const char *, char *);
+int slave_notify(const char *, const char *);

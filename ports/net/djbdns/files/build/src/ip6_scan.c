@@ -1,11 +1,10 @@
-/* $MirOS: ports/net/djbdns/files/build/src/ip6_scan.c,v 1.3 2006/03/27 21:28:23 tg Exp $ */
+/* $MirOS: ports/net/djbdns/files/build/src/ip6_scan.c,v 1.4 2006/06/15 01:43:17 tg Exp $ */
 
 #include "scan.h"
 #include "ip4.h"
 #include "ip6.h"
 #include "byte.h"
-
-static inline int fromhex(unsigned char);
+#include "fromhex.h"
 
 /*
  * IPv6 addresses are really ugly to parse.
@@ -93,16 +92,6 @@ unsigned int ip6_scan(const char *s,char ip[16])
   for (i=0; i<suffixlen; i++)
     ip[16-suffixlen+i] = suffix[i];
   return len;
-}
-
-static inline int fromhex(unsigned char c) {
-  if (c>='0' && c<='9')
-    return c-'0';
-  else if (c>='A' && c<='F')
-    return c-'A'+10;
-  else if (c>='a' && c<='f')
-    return c-'a'+10;
-  return -1;
 }
 
 unsigned int ip6_scan_flat(const char *s,char ip[16])
