@@ -1,9 +1,9 @@
-/* $MirOS: src/lib/libc/string/strlfun.c,v 1.4 2005/05/28 20:59:09 tg Exp $ */
+/* $MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp $ */
 /* $OpenBSD: strlcpy.c,v 1.10 2005/08/08 08:05:37 espie Exp $ */
 /* $OpenBSD: strlcat.c,v 1.13 2005/08/08 08:05:37 espie Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005 Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2006 Thorsten Glaser <tg@mirbsd.de>
  * Thanks to Bodo Eggert for optimisation hints
  * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
  *
@@ -20,12 +20,15 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#if !defined(_KERNEL) && !defined(_STANDALONE)
-#ifdef HAVE_CONFIG_H
-/* usually when packaged with third-party software */
-#include "config.h"
-#endif
-#include <sys/types.h>
+#if defined(_KERNEL) || defined(_STANDALONE)
+# include <lib/libkern/libkern.h>
+# undef HAVE_STRLCPY
+# undef HAVE_STRLCAT
+#else
+# ifdef HAVE_CONFIG_H	/* usually when packaged with third-party software */
+#  include "config.h"
+# endif
+# include <sys/types.h>
 
 extern size_t strlen(const char *);
 
@@ -33,11 +36,11 @@ extern size_t strlen(const char *);
 #define __RCSID(x)	static const char __rcsid[] = (x)
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.4 2005/05/28 20:59:09 tg Exp $");
-#else
-#include <lib/libkern/libkern.h>
-#undef HAVE_STRLCPY
-#undef HAVE_STRLCAT
+#ifndef __predict_false
+#define __predict_false(exp)	((exp) != 0)
+#endif
+
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp $");
 #endif
 
 size_t strlcat(char *, const char *, size_t);
@@ -54,22 +57,25 @@ strlcpy(char *dst, const char *src, size_t siz)
 {
 	const char *s = src;
 
-	if (!siz) goto traverse_src;
+	if (__predict_false(!siz))
+		goto traverse_src;
 
-	/* Copy as many bytes as will fit */
-	for (; --siz && (*dst++ = *s++); /* nothing */)
+	/* copy as many bytes as will fit */
+	for (; --siz && (*dst++ = *s++); )
 		;
 
-	/* Not enough room in dst, add NUL and traverse rest of src */
-	if (!siz) {
-		/* Save, since we've copied at max. (siz-1) characters */
-		*dst = '\0';	/* NUL-terminate dst */
-traverse_src:
+	/* not enough room in dst */
+	if (__predict_false(!siz)) {
+		/* safe to NUL-terminate dst since copied <= siz-1 chars */
+		*dst = '\0';
+ traverse_src:
+		/* traverse rest of src */
 		while (*s++)
 			;
 	}
 
-	return (s - src - 1);	/* count does not include NUL */
+	/* count doesn't include NUL */
+	return (s - src - 1);
 }
 #endif /* !HAVE_STRLCPY */
 
@@ -91,20 +97,20 @@ strlcat(char *dst, const char *src, size_t siz)
 	while (n-- && (*d++ != '\0'))
 		;
 	if (!++n && (*d != '\0'))
-		return strlen(src);
+		return (strlen(src));
 
 	dl = --d - dst;		/* original strlen(dst), max. siz-1 */
 	n = siz - dl;
 	dl += sl;
 
-	if (!n--)
-		return dl;
+	if (__predict_false(!n--))
+		return (dl);
 
-	if (n > sl)
-		n = sl;		/* number of octets to copy */
-	for (; n-- && (*d++ = *src++); /* nothing */)
+	if (__predict_false(n > sl))
+		n = sl;		/* number of chars to copy */
+	for (; n-- && (*d++ = *src++); )
 		;
 	*d = '\0';		/* NUL-terminate dst */
-	return dl;
+	return (dl);
 }
 #endif /* !HAVE_STRLCAT */
