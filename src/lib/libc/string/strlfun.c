@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp $ */
+/* $MirOS: src/lib/libc/string/strlfun.c,v 1.6 2006/08/01 13:36:15 tg Exp $ */
 /* $OpenBSD: strlcpy.c,v 1.10 2005/08/08 08:05:37 espie Exp $ */
 /* $OpenBSD: strlcat.c,v 1.13 2005/08/08 08:05:37 espie Exp $ */
 
@@ -40,7 +40,7 @@ extern size_t strlen(const char *);
 #define __predict_false(exp)	((exp) != 0)
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.5 2005/09/19 19:01:11 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.6 2006/08/01 13:36:15 tg Exp $");
 #endif
 
 size_t strlcat(char *, const char *, size_t);
@@ -60,7 +60,7 @@ strlcpy(char *dst, const char *src, size_t siz)
 	if (__predict_false(!siz))
 		goto traverse_src;
 
-	/* copy as many bytes as will fit */
+	/* copy as many chars as will fit */
 	for (; --siz && (*dst++ = *s++); )
 		;
 
