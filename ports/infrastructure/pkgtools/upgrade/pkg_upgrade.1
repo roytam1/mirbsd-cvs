@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.1 2006/08/08 18:53:02 bsiegert Exp $
 .\"
 .\" Copyright (c) 2006
 .\"	Benny Siegert <bsiegert@gmx.de>
@@ -26,7 +26,7 @@
 .Nm pkg_upgrade
 .Nd upgrade an installed package in-place
 .Sh SYNOPSIS
-.Nm pkg_upgrade
+.Nm
 .Op Fl afq
 .Ar pkgname.cgz
 .Sh DESCRIPTION
@@ -62,12 +62,22 @@ Don't print less important messages
 .Xr ports 7
 .Sh AUTHORS
 .Bl -tag -width indent -compact
-.It "Benny Siegert"
-idea, first version, this manpage
-.It "Thorsten Glaser"
-option handling, robustness fixes
+.An Benny Siegert Aq bsiegert@mirbsd.org
+came up with the idea for
+.Nm "" ,
+wrote the first version and this manual page.
+.An Thorsten Glaser Aq tg@mirbsd.org
+improved option handling and overall robustness.
 .El
 .Sh BUGS
 .Nm
 can easily render other packages unusable if you install a new version
 of a shared library while the other package still uses the old one.
+.Pp
+.Nm
+does not handle the case of paralelly installed,
+non-conflicting packages, such as
+.Li autoconf\-2.13.20050228\-1
+and
+.Li autoconf\-2.60\-2 ,
+well.
