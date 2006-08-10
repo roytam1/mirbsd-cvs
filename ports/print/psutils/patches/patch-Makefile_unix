@@ -1,6 +1,17 @@
---- Makefile.unix	Wed Mar 12 07:52:59 1997
-+++ Makefile.unix	Wed Mar 11 10:10:59 1998
-@@ -222,27 +222,27 @@
+$MirOS$
+--- Makefile.unix.orig	Tue Mar 11 22:52:39 1997
++++ Makefile.unix	Thu Aug 10 18:13:27 2006
+@@ -38,9 +38,6 @@ INSTALLMAN = install -c -m $(MANMODE)
+ MANEXT = 1
+ MANDIR = /usr/local/share/man/man$(MANEXT)
+ 
+-CC = gcc
+-CFLAGS = -DPAPER=\"$(PAPER)\" -DUNIX -O -Wall
+-
+ BIN = psbook psselect pstops epsffit psnup \
+ 	psresize
+ SHELLSCRIPTS = getafm showchar
+@@ -222,27 +219,27 @@ install.bin: $(BIN)
  	-mkdir $(BINDIR)
  	@for i in $(BIN); do \
  		echo Installing $$i; \

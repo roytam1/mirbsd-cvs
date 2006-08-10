@@ -1,12 +1,12 @@
-# $MirOS$
+# $MirOS: ports/print/psutils/Makefile,v 1.3 2006/01/01 04:03:47 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/21 01:20:09 pvalchev Exp $
 
-COMMENT=	"manipulating PostScript documents"
-DISTNAME=	psutils-p17
-PKGNAME=	psutils-1.17-1
-CATEGORIES=	print
-MASTER_SITES=   ftp://ftp.tardis.ed.ac.uk/users/ajcd/
-HOMEPAGE=	http://gershwin.ens.fr/vdaniel/Doc-Locale/Outils-Gnu-Linux/PsUtils/
+COMMENT=		"manipulating PostScript documents"
+DISTNAME=		psutils-p17
+PKGNAME=		psutils-1.17-2
+CATEGORIES=		print
+MASTER_SITES=   	ftp://ftp.tardis.ed.ac.uk/users/ajcd/
+HOMEPAGE=		http://gershwin.ens.fr/vdaniel/Doc-Locale/Outils-Gnu-Linux/PsUtils/
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
@@ -36,20 +36,17 @@ ERRORS+="Fatal: invalid value for PAPERSIZE: \"${PAPERSIZE}\"" \
 	"   Possible values are:  A3, A4 (default), A5, B5, letter, legal," \
 	"   ledger, tabloid, statement, executive, folio, quarto, and 10x14."
 .endif
-MAKE_FLAGS=	\
-	BINDIR=${PREFIX}/bin \
-	INCLUDEDIR=${PREFIX}/share/psutils \
-	MANDIR=${PREFIX}/man/man1 \
-	PERL=/usr/bin/perl CC=cc CFLAGS='${CFLAGS}' \
-	PAPER=${PP} 
-FAKE_FLAGS=	\
-	BINDIR=${WRKINST}${PREFIX}/bin \
-	INCLUDEDIR=${WRKINST}${PREFIX}/share/psutils \
-	MANDIR=${WRKINST}${PREFIX}/man/man1 \
-	PERL=/usr/bin/perl CC=cc CFLAGS='${CFLAGS}' \
-	PAPER=${PP} 
-
-MAKE_FILE=Makefile.unix
+EXTRA_MAKE_FLAGS=	\
+			BINDIR=${PREFIX}/bin \
+			INCLUDEDIR=${PREFIX}/share/psutils \
+			MANDIR=${PREFIX}/man/man1
+EXTRA_FAKE_FLAGS=	\
+			BINDIR=${WRKINST}${PREFIX}/bin \
+			INCLUDEDIR=${WRKINST}${PREFIX}/share/psutils \
+			MANDIR=${WRKINST}${PREFIX}/man/man1
+EXTRA_XAKE_FLAGS=	PERL=/usr/bin/perl PAPER=${PP}
+MAKE_FILE=		Makefile.unix
+CPPFLAGS+=		-DPAPER=\"${PP}\" -DUNIX
 
 NO_REGRESS=	Yes
 
