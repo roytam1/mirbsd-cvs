@@ -24,13 +24,31 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.3 2006/07/27 00:58:16 tg Exp $
+ * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.4 2006/07/27 01:15:35 tg Exp $
  * $Id$
  */
 
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <arpa/nameser.h>
+#ifdef _BSD
+#include <arpa/nameser_compat.h>
+#endif
+#include <err.h>
+#include <errno.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
 #include "zonenotify.h"
 
-__RCSID("$MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.3 2006/07/27 00:58:16 tg Exp $");
+__RCSID("$MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.4 2006/07/27 01:15:35 tg Exp $");
 
 int
 main(int argc, char *argv[])
@@ -69,7 +87,7 @@ init_connection(const char *server, const char *domain)
 	struct sockaddr_storage ss;
 	struct sockaddr *ssp = (struct sockaddr *)&ss;
 	socklen_t sssz;
-	const char *cause;
+	const char *cause = NULL;
 	int i;
 	int rv = 0;
 

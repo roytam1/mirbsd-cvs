@@ -23,27 +23,12 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.h,v 1.2 2006/01/17 21:27:43 tg Exp $
+ * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.h,v 1.3 2006/07/27 00:58:16 tg Exp $
  * $Id$
  */
 
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/stat.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <arpa/nameser.h>
-#ifdef _BSD
-#include <arpa/nameser_compat.h>
-#endif
-#include <stdio.h>
-#include <errno.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <netdb.h>
-#include <unistd.h>
+#ifndef ZONENOTIFY_H
+#define ZONENOTIFY_H
 
 #ifdef _DJBDNS_PORT_V
 #define VERSION	"zonenotify " _DJBDNS_PORT_V
@@ -56,6 +41,7 @@
 /* alarm timeout (second) */
 #define TIMEOUT	120
 
+__BEGIN_DECLS
 const char *dns_errors[] = {
 	"No error",
 	"Format error",
@@ -86,3 +72,6 @@ __dead void usage(void);
 int init_connection(const char *, const char *);
 int ns_encode(const char *, char *);
 int slave_notify(const char *, const char *);
+__END_DECLS
+
+#endif
