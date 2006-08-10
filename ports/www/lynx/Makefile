@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/www/lynx/Makefile,v 1.1 2006/08/10 19:18:23 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
@@ -38,6 +38,7 @@ EXTRA_XAKE_FLAGS+=		docdir=${PREFIX}/share/doc/lynx_doc \
 				helpdir=${PREFIX}/share/doc/lynx_help
 
 post-install:
-	mv -f ${PREFIX}/etc/lynx.* ${PREFIX}/share/doc/lynx_doc/samples/
+	mv -f ${WRKINST}${SYSCONFDIR}/lynx.{cfg,lss} \
+	    ${PREFIX}/share/doc/lynx_doc/samples/
 
 .include <bsd.port.mk>
