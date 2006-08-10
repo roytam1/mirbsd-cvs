@@ -1,0 +1,36 @@
+$MirOS$
+--- src/LYMain.c.orig	Mon May 29 22:44:31 2006
++++ src/LYMain.c	Thu Aug 10 18:32:17 2006
+@@ -64,7 +64,7 @@
+ #define COOKIE_FILE "cookies"
+ #define TRACE_FILE "LY-TRACE.LOG"
+ #else
+-#define COOKIE_FILE ".lynx_cookies"
++#define COOKIE_FILE ".etc/cookies.txt"
+ #define TRACE_FILE "Lynx.trace"
+ #endif /* FNAMES_8_3 */
+ 
+@@ -1155,6 +1155,11 @@ int main(int argc,
+     StrAllocCopy(LYUserAgent, LYNX_NAME);
+     StrAllocCat(LYUserAgent, "/");
+     StrAllocCat(LYUserAgent, LYNX_VERSION);
++    /*
++     * rationale: certain web backends only give Mozilla or Internet
++     * Explorer users the "real" web page by checking the user agent
++     */
++    StrAllocCat(LYUserAgent, " (compatible; MSIE 6.0; UNIX)");
+     if (HTLibraryVersion) {
+ 	StrAllocCat(LYUserAgent, " libwww-FM/");
+ 	StrAllocCat(LYUserAgent, HTLibraryVersion);
+@@ -2033,10 +2038,7 @@ int main(int argc,
+      * synchronized.  - FM
+      */
+     if (!bookmark_page || *bookmark_page == '\0') {
+-	temp = NULL;
+-	HTSprintf0(&temp, "lynx_bookmarks%s", HTML_SUFFIX);
+-	set_default_bookmark_page(temp);
+-	FREE(temp);
++	set_default_bookmark_page("./.etc/bookmark.htm");
+     }
+     if (!BookmarkPage || *BookmarkPage == '\0') {
+ 	set_default_bookmark_page(bookmark_page);
