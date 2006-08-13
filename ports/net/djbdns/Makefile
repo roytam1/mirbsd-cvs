@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.23 2006/07/27 01:15:34 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.24 2006/08/10 15:31:55 tg Exp $
 
 # uses arc4random(3)
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -74,8 +74,7 @@ CPPFLAGS+=		-D_DJBDNS_PORT_V=\"${PKGNAME:Q}\"
 CPPFLAGS+=		-D_PATH_MKSH=\"${MKSH:Q}\"
 
 post-extract:
-	cd ${FILESDIR}; find build -type f \! -path \*CVS\* \
-	    | cpio -pdu ${WRKDIR}/
+	cd ${FILESDIR}; pax -rw build ${WRKDIR}
 	cd ${WRKDIR}; mv djbdns-${VERSION} src; mv djbdns-man man
 
 post-install:
