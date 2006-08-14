@@ -1,6 +1,7 @@
 #!/bin/mksh
 # $Id$
-# sync MirOS CVS repo from primary server to primary anoncvs mirror
+# sync MirOS CVS repo from primary server to primary anoncvs mirror,
+# or (if using -B) from there to a secondary anoncvs mirror.
 
 if wd=$(readlink -nf .); then
 	vd=$(readlink -nf $(dirname $0)/..)
@@ -14,6 +15,9 @@ p=
 a=0
 if [[ $1 = -A ]]; then
 	a=1
+	shift
+elif [[ $1 = -B ]]; then
+	: ${CVSROOT:=anoncvs@anoncvs.mirbsd.org:/cvs}
 	shift
 fi
 case $1 {
