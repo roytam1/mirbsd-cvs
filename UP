@@ -4,10 +4,10 @@
 # or (if using -B) from there to a secondary anoncvs mirror.
 
 if wd=$(readlink -nf .); then
-	vd=$(readlink -nf $(dirname $0)/..)
+	vd=$(readlink -nf $(dirname $0))
 else
 	wd=$(pwd)
-	cd $(dirname $0)/..
+	cd $(dirname $0)
 	vd=$(pwd)
 fi
 cd $vd
