@@ -1,13 +1,17 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.2 2006/08/10 22:27:10 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.3 2006/08/14 21:04:06 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
-VERSION=			2.8.6dev.18
-DISTNAME=			lynx${VERSION
-PKGNAME=			lynx-${VERSION}-1
+VERSION=			2.8.6dev.18f
+PL=				0
+DISTNAME=			lynx${VERSION:C/[a-z]$//}
+PATCHFILES=			lynx${VERSION}.patch.gz:0
+PKGNAME=			lynx-${VERSION}-${PL}
 HOMEPAGE=			http://lynx.browser.org/
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=			http://lynx.isc.org/current/
+MASTER_SITES0=			ftp://invisible-island.net/temp/
+PATCH_DIST_STRIP=		-p1
 
 # GNU GPL Version 2 or later
 PERMIT_DISTFILES_CDROM=		Yes
@@ -32,14 +36,13 @@ CONFIGURE_ARGS+=		--with-ssl --with-zlib --enable-japanese-utf8 \
 .if ${OStype} == "Interix"
 CONFIGURE_ARGS+=		--disable-ipv6
 .endif
-.if ${OStype} == "Darwin"
-CONFIGURE_ARGS+=		--disable-prettysrc
-.endif
 EXTRA_XAKE_FLAGS+=		docdir=${PREFIX}/share/doc/lynx_doc \
 				helpdir=${PREFIX}/share/doc/lynx_help
+CPPFLAGS+=			-DLYNX_VERSION=\"${VERSION}-MirPorts-${PL}\"
 
 post-install:
 	mv -f ${WRKINST}${SYSCONFDIR}/lynx.{cfg,lss} \
 	    ${PREFIX}/share/doc/lynx_doc/samples/
+	-rm -rf ${WRKINST}${SYSCONFDIR}
 
 .include <bsd.port.mk>

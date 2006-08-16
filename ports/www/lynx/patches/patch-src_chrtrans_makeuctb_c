@@ -1,7 +1,7 @@
-$MirOS$
---- src/chrtrans/makeuctb.c.orig	Sun Jan  2 23:34:59 2005
-+++ src/chrtrans/makeuctb.c	Thu Aug 10 18:32:17 2006
-@@ -296,6 +296,7 @@ int main(int argc, char **argv)
+$MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.1 2006/08/10 19:18:25 tg Exp $
+--- src/chrtrans/makeuctb.c.orig	2006-08-16 18:54:25.000000000 +0000
++++ src/chrtrans/makeuctb.c	2006-08-16 18:54:25.000000000 +0000
+@@ -297,6 +297,7 @@ int main(int argc, char **argv)
      int fp0 = 0, fp1 = 0, un0, un1;
      char *p, *p1;
      char *tbuf, ch;
@@ -9,7 +9,7 @@ $MirOS$
  
      if (argc < 2 || argc > 5) {
  	usage();
-@@ -323,11 +324,11 @@ int main(int argc, char **argv)
+@@ -324,11 +325,11 @@ int main(int argc, char **argv)
  	chdr = stdout;
  	hdrname = "stdout";
      } else {
@@ -23,7 +23,7 @@ $MirOS$
      }
  
      if (chdr == 0) {
-@@ -536,7 +537,8 @@ int main(int argc, char **argv)
+@@ -537,7 +538,8 @@ int main(int argc, char **argv)
  		continue;
  	    }
  
@@ -33,7 +33,7 @@ $MirOS$
  
  	    if (!(p1 = tbuf)) {
  		fprintf(stderr, "%s: Out of memory\n", tblname);
-@@ -573,7 +575,7 @@ int main(int argc, char **argv)
+@@ -574,7 +576,7 @@ int main(int argc, char **argv)
  		for (ch = *(++p); (ch = *p) != '\0'; p++, p1++) {
  		    if (UCH(ch) < 32 || ch == '\\' || ch == '\"' ||
  			UCH(ch) >= 127) {

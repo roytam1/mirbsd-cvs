@@ -1,7 +1,8 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.1 2006/08/10 19:18:25 tg Exp $
 bin/lynx
 man/man1/lynx.1
 share/doc/lynx_doc/CHANGES
+@comment share/doc/lynx_doc/CHANGES.bak.orig
 share/doc/lynx_doc/COPYHEADER
 @comment share/doc/lynx_doc/COPYING
 share/doc/lynx_doc/PROBLEMS
@@ -64,6 +65,7 @@ share/doc/lynx_doc/test/spaces.html
 share/doc/lynx_doc/test/special_urls.html
 share/doc/lynx_doc/test/tabtest.html
 share/doc/lynx_doc/test/tags.html
+share/doc/lynx_doc/test/test-styles.html
 share/doc/lynx_doc/test/unicode.html
 share/doc/lynx_doc/test/utf-8-demo.html
 share/doc/lynx_help/COPYHEADER
