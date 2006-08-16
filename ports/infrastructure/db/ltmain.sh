@@ -1,7 +1,7 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.20 2006/06/12 19:31:50 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.20 2006/06/12 19:31:50 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.36 2006/06/12 19:28:54 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.21 2006/08/16 20:38:31 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.sh,v 1.21 2006/08/16 20:38:31 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.38 2006/08/16 20:36:53 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -49,7 +49,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2006/06/12 19:30:28)"
+TIMESTAMP=" (MirLibtool 2006/08/16 20:37:39)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -504,7 +504,7 @@ licensor, an author or contributor be held liable for any indirect
 or other damage, or direct damage except proven a consequence of a
 direct error of said person and intended use of this work, loss or
 other issues arising in any way out of its use, even if advised of
-the possibility of such damage or existence of a nontrivial bug."
+the possibility of such damage or existence of a defect."
     exit $?
     ;;
 
@@ -1780,6 +1780,13 @@ EOF
 	*" $dir "*) ;;
 	*) xrpath="$xrpath $dir" ;;
 	esac
+	continue
+	;;
+
+     -specs=*)
+	compiler_flags="$compiler_flags $arg"
+	compile_command="$compile_command $arg"
+	finalize_command="$finalize_command $arg"
 	continue
 	;;
 
