@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.35 2006/03/27 19:57:46 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.36 2006/06/12 19:28:54 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -1778,6 +1778,13 @@ EOF
 	*" $dir "*) ;;
 	*) xrpath="$xrpath $dir" ;;
 	esac
+	continue
+	;;
+
+     -specs=*)
+	compiler_flags="$compiler_flags $arg"
+	compile_command="$compile_command $arg"
+	finalize_command="$finalize_command $arg"
 	continue
 	;;
 
