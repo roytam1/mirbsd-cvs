@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.12 2005/12/06 18:16:37 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.13 2006/04/26 11:06:11 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -47,3 +47,7 @@ gnuauxdir	-a src/Makefile.inc src/scripts src/gnu/share \
 miniports	-a ports/Makefile ports/Setup.sh \
 		   ports/essentials/pkgtools \
 		   ports/devel/gmake ports/infrastructure
+
+# All of contrib needed for building a baselive cd image
+basedep		-a contrib/code/Snippets/tinyirc.c \
+		   contrib/code/jupp
