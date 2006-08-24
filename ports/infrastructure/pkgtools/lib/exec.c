@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.2 2006/02/25 15:49:55 bsiegert Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <pwd.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.2 2006/02/25 15:49:55 bsiegert Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -106,6 +106,9 @@ raise_privs(void)
 	if (PrivsDropped) {
 		seteuid(0);
 		PrivsDropped = false;
-	}
+		if (Verbose)
+			printf("Raising privileges to root\n");
+	} else if (Verbose)
+		pwarnx("raise_privs: incorrect attempt to raise privs\n");
 #endif
 }
