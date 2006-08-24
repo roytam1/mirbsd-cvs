@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.14 2006/08/18 22:34:19 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.15 2006/08/24 13:18:11 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -29,6 +29,7 @@
 # spread out over the entire source repository.
 
 # Shortcut
+jupp		contrib/code/jupp
 mksh		src/bin/mksh
 x11		-a X11
 
