@@ -1,4 +1,4 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.3 2006/08/14 21:04:06 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.4 2006/08/16 19:32:26 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
@@ -22,6 +22,7 @@ PERMIT_PACKAGE_FTP=		Yes
 WRKDIST=			${WRKDIR}/lynx2-8-6
 MAKE_FILE=			makefile
 INSTALL_TARGET=			install-full
+NO_REGRESS=			Yes
 
 MODULES=			converters/libiconv
 CONFIGURE_STYLE=		gnu
