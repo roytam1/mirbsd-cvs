@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: ports/security/sysjail/Makefile,v 1.1 2006/08/26 14:32:59 tg Exp $
+
+ONLY_FOR_PLATFORM=		MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			systrace userland virtualisation
 CATEGORIES=			security sysutils
