@@ -1,7 +1,48 @@
-$MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/14 23:21:02 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.2 2005/12/14 23:28:32 tg Exp $
 --- src/dnscache-conf.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dnscache-conf.c	Wed Dec 14 00:10:22 2005
-@@ -79,7 +79,11 @@ int main(int argc,char **argv)
++++ src/dnscache-conf.c	Sat Aug 26 15:20:17 2006
+@@ -37,39 +37,13 @@ const char *myip;
+ uint32 seed[32];
+ int seedpos = 0;
+ 
+-void seed_adduint32(uint32 u)
+-{
+-  int i;
+-
+-  seed[seedpos] += u;
+-  if (++seedpos == 32) {
+-    for (i = 0;i < 32;++i) {
+-      u = ((u ^ seed[i]) + 0x9e3779b9) ^ (u << 7) ^ (u >> 25);
+-      seed[i] = u;
+-    }
+-    seedpos = 0;
+-  }
+-}
+-
+ void seed_addtime(void)
+ {
+-  struct taia t;
+-  char tpack[TAIA_PACK];
+-  int i;
+-
+-  taia_now(&t);
+-  taia_pack(tpack,&t);
+-  for (i = 0;i < TAIA_PACK;++i)
+-    seed_adduint32(tpack[i]);
+ }
+ 
+ int main(int argc,char **argv)
+ {
+-  seed_addtime();
+-  seed_adduint32(getpid());
+-  seed_adduint32(getppid());
+-  seed_adduint32(getuid());
+-  seed_adduint32(getgid());
++  seed[seedpos++] = arc4random();
+ 
+   user = argv[1];
+   if (!user) usage();
+@@ -79,7 +53,11 @@ int main(int argc,char **argv)
    if (!dir) usage();
    if (dir[0] != '/') usage();
    myip = argv[4];
@@ -13,7 +54,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/1
  
    pw = getpwnam(loguser);
    seed_addtime();
-@@ -89,13 +93,26 @@ int main(int argc,char **argv)
+@@ -89,13 +67,26 @@ int main(int argc,char **argv)
    if (chdir(auto_home) == -1)
      strerr_die4sys(111,FATAL,"unable to switch to ",auto_home,": ");
  
@@ -44,7 +85,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/1
    }
  
    init(dir,FATAL);
-@@ -114,7 +131,11 @@ int main(int argc,char **argv)
+@@ -114,7 +105,11 @@ int main(int argc,char **argv)
    seed_addtime(); perm(0644);
    seed_addtime(); start("env/IP"); outs(myip); outs("\n"); finish();
    seed_addtime(); perm(0644);
@@ -56,7 +97,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/1
    seed_addtime(); perm(0644);
    seed_addtime(); start("env/CACHESIZE"); outs("1000000\n"); finish();
    seed_addtime(); perm(0644);
-@@ -123,7 +144,11 @@ int main(int argc,char **argv)
+@@ -123,7 +118,11 @@ int main(int argc,char **argv)
    seed_addtime(); start("run");
    outs("#!/bin/sh\nexec 2>&1\nexec <seed\nexec envdir ./env sh -c '\n  exec envuidgid "); outs(user);
    outs(" softlimit -o250 -d \"$DATALIMIT\" ");
@@ -68,7 +109,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/1
    seed_addtime(); perm(0755);
    seed_addtime(); start("log/run");
    outs("#!/bin/sh\nexec setuidgid "); outs(loguser);
-@@ -133,7 +158,11 @@ int main(int argc,char **argv)
+@@ -133,7 +132,11 @@ int main(int argc,char **argv)
    seed_addtime(); perm(02755);
    seed_addtime(); makedir("root/ip");
    seed_addtime(); perm(02755);
@@ -80,3 +121,12 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnscache-conf_c,v 1.1.201.1 2005/05/1
    seed_addtime(); perm(0600);
    seed_addtime(); makedir("root/servers");
    seed_addtime(); perm(02755);
+@@ -144,6 +147,8 @@ int main(int argc,char **argv)
+   seed_addtime(); perm(0644);
+   seed_addtime();
+ 
++  while (seedpos < 32)
++    seed[seedpos++] = arc4random();
+   start("seed"); out((char *) seed,128); finish();
+   perm(0600);
+ 
