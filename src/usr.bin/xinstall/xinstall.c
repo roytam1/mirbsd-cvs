@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.4 2005/06/03 00:03:58 tg Exp $ */
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.5 2005/08/20 12:59:00 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.42 2004/10/04 05:21:27 jsg Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -62,7 +62,7 @@ static char copyright[] =
 #include "pathnames.h"
 
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.4 2005/06/03 00:03:58 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.5 2005/08/20 12:59:00 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -114,7 +114,11 @@ main(int argc, char *argv[])
 {
 	struct stat from_sb, to_sb;
 	void *set;
+#ifdef __APPLE__
+	u_long fset;
+#else
 	u_int32_t fset;
+#endif
 	u_int iflags;
 	int ch, no_target;
 	char *flags, *to_name, *group = NULL, *owner = NULL;
