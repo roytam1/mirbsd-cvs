@@ -1,4 +1,4 @@
-# $MirOS: src/share/i18n/esdb/Makefile,v 1.3 2006/01/31 15:59:31 tg Exp $
+# $MirOS: src/share/i18n/esdb/Makefile,v 1.4 2006/01/31 16:26:48 tg Exp $
 # $NetBSD: Makefile,v 1.4 2003/10/21 10:01:21 lukem Exp $
 
 NOMAN=
@@ -28,14 +28,16 @@ TOOL_MKESDB=${.CURDIR}/mkesdb/${__objdir}/mkesdb
 
 esdb.dir: ${SRC_esdb.dir}
 	${_MKTARGET_CREATE}
-	cat $> > $@
+	cat $> | unexpand -a >$@
+
 esdb.dir.db: esdb.dir
 	${_MKTARGET_CREATE}
 	${TOOL_MKESDB} -m -o $@ $>
 
 esdb.alias: ${SRC_esdb.alias}
 	${_MKTARGET_CREATE}
-	cat $> > $@
+	cat $> | unexpand -a >$@
+
 esdb.alias.db: esdb.alias
 	${_MKTARGET_CREATE}
 	${TOOL_MKESDB} -m -o $@ $>
