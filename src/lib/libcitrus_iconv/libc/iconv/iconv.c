@@ -29,7 +29,7 @@
 #include <sys/param.h>
 
 __RCSID("$NetBSD: iconv.c,v 1.5 2005/04/25 13:42:04 tshiozak Exp $");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libcitrus_iconv/libc/iconv/iconv.c,v 1.4 2006/01/31 20:16:40 tg Exp $");
 
 #include "namespace.h"
 #include <assert.h>
@@ -39,7 +39,6 @@ __RCSID("$MirOS$");
 
 #include <iconv.h>
 
-#ifdef CITRUS_ICONV
 #include <sys/types.h>
 #include <citrus/citrus_types.h>
 #include <citrus/citrus_module.h>
@@ -154,39 +153,3 @@ __iconv_free_list(char **list, size_t sz)
 {
 	_citrus_esdb_free_list(list, sz);
 }
-
-#else
-iconv_t
-/*ARGSUSED*/
-_iconv_open(const char *in, const char *out)
-{
-	errno = EINVAL;
-	return ((iconv_t)-1);
-}
-int
-/*ARGSUSED*/
-_iconv_close(iconv_t handle)
-{
-	errno = EBADF;
-	return (-1);
-}
-size_t
-/*ARGSUSED*/
-_iconv(iconv_t handle, const char **in, size_t *szin, char **out, size_t *szout)
-{
-	errno = EBADF;
-	return ((size_t)-1);
-}
-int
-/*ARGSUSED*/
-__iconv_get_list(char ***rlist, size_t *rsz)
-{
-	errno = EINVAL;
-	return -1;
-}
-void
-/*ARGSUSED*/
-__iconv_free_list(char **list, size_t sz)
-{
-}
-#endif
