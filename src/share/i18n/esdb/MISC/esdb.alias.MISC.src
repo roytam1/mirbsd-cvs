@@ -1,5 +1,4 @@
-# $NetBSD: esdb.alias.MISC.src,v 1.4 2003/07/20 19:26:57 tshiozak Exp $
-
+# MISC
 shift_jis			Shift_JIS
 sjis				Shift_JIS
 big5				Big5
@@ -9,3 +8,4 @@ koi8-r				KOI8-R
 koi8-u				KOI8-U
 iso-ir-111			KOI8-R
 ctext				CTEXT
+
