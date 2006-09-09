@@ -1,15 +1,16 @@
-@comment $MirOS$
+@comment $MirOS: ports/security/gnupg/pkg/PLIST,v 1.2 2005/05/21 12:48:03 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.14 2003/12/16 19:52:23 naddy Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/gpg.info
 @unexec install-info --delete --info-dir=%D/info %D/info/gpgv.info
 bin/gpg
+bin/gpg-zip
 bin/gpgsplit
 bin/gpgv
 info/gpg.info
 info/gpgv.info
+libexec/gnupg/gpgkeys_curl
 libexec/gnupg/gpgkeys_finger
 libexec/gnupg/gpgkeys_hkp
-libexec/gnupg/gpgkeys_http
 man/man1/gpg.1
 @comment man/man1/gpg.ru.1
 man/man1/gpgv.1
@@ -25,92 +26,9 @@ share/doc/gnupg/README
 share/doc/gnupg/THANKS
 share/doc/gnupg/TODO
 share/doc/gnupg/faq.html
+share/gnupg/FAQ
+share/gnupg/faq.html
 share/gnupg/options.skel
-share/locale/be/LC_MESSAGES/gnupg.mo
-share/locale/ca/LC_MESSAGES/gnupg.mo
-share/locale/cs/LC_MESSAGES/gnupg.mo
-share/locale/da/LC_MESSAGES/gnupg.mo
-share/locale/de/LC_MESSAGES/gnupg.mo
-share/locale/el/LC_MESSAGES/gnupg.mo
-share/locale/en@boldquot/LC_MESSAGES/gnupg.mo
-share/locale/en@quot/LC_MESSAGES/gnupg.mo
-share/locale/eo/LC_MESSAGES/gnupg.mo
-share/locale/es/LC_MESSAGES/gnupg.mo
-share/locale/et/LC_MESSAGES/gnupg.mo
-share/locale/fi/LC_MESSAGES/gnupg.mo
-share/locale/fr/LC_MESSAGES/gnupg.mo
-share/locale/gl/LC_MESSAGES/gnupg.mo
-share/locale/hu/LC_MESSAGES/gnupg.mo
-share/locale/id/LC_MESSAGES/gnupg.mo
-share/locale/it/LC_MESSAGES/gnupg.mo
-share/locale/ja/LC_MESSAGES/gnupg.mo
-share/locale/pl/LC_MESSAGES/gnupg.mo
-share/locale/pt/LC_MESSAGES/gnupg.mo
-share/locale/pt_BR/LC_MESSAGES/gnupg.mo
-share/locale/ro/LC_MESSAGES/gnupg.mo
-share/locale/ru/LC_MESSAGES/gnupg.mo
-share/locale/sk/LC_MESSAGES/gnupg.mo
-share/locale/sv/LC_MESSAGES/gnupg.mo
-share/locale/tr/LC_MESSAGES/gnupg.mo
-share/locale/zh_CN/LC_MESSAGES/gnupg.mo
-share/locale/zh_TW/LC_MESSAGES/gnupg.mo
-@dirrm share/locale/zh_TW/LC_MESSAGES
-@dirrm share/locale/zh_TW
-@dirrm share/locale/zh_CN/LC_MESSAGES
-@dirrm share/locale/zh_CN
-@dirrm share/locale/tr/LC_MESSAGES
-@dirrm share/locale/tr
-@dirrm share/locale/sv/LC_MESSAGES
-@dirrm share/locale/sv
-@dirrm share/locale/sk/LC_MESSAGES
-@dirrm share/locale/sk
-@dirrm share/locale/ru/LC_MESSAGES
-@dirrm share/locale/ru
-@dirrm share/locale/ro/LC_MESSAGES
-@dirrm share/locale/ro
-@dirrm share/locale/pt_BR/LC_MESSAGES
-@dirrm share/locale/pt_BR
-@dirrm share/locale/pt/LC_MESSAGES
-@dirrm share/locale/pt
-@dirrm share/locale/pl/LC_MESSAGES
-@dirrm share/locale/pl
-@dirrm share/locale/ja/LC_MESSAGES
-@dirrm share/locale/ja
-@dirrm share/locale/it/LC_MESSAGES
-@dirrm share/locale/it
-@dirrm share/locale/id/LC_MESSAGES
-@dirrm share/locale/id
-@dirrm share/locale/hu/LC_MESSAGES
-@dirrm share/locale/hu
-@dirrm share/locale/gl/LC_MESSAGES
-@dirrm share/locale/gl
-@dirrm share/locale/fr/LC_MESSAGES
-@dirrm share/locale/fr
-@dirrm share/locale/fi/LC_MESSAGES
-@dirrm share/locale/fi
-@dirrm share/locale/et/LC_MESSAGES
-@dirrm share/locale/et
-@dirrm share/locale/es/LC_MESSAGES
-@dirrm share/locale/es
-@dirrm share/locale/eo/LC_MESSAGES
-@dirrm share/locale/eo
-@dirrm share/locale/en@quot/LC_MESSAGES
-@dirrm share/locale/en@quot
-@dirrm share/locale/en@boldquot/LC_MESSAGES
-@dirrm share/locale/en@boldquot
-@dirrm share/locale/el/LC_MESSAGES
-@dirrm share/locale/el
-@dirrm share/locale/de/LC_MESSAGES
-@dirrm share/locale/de
-@dirrm share/locale/da/LC_MESSAGES
-@dirrm share/locale/da
-@dirrm share/locale/cs/LC_MESSAGES
-@dirrm share/locale/cs
-@dirrm share/locale/ca/LC_MESSAGES
-@dirrm share/locale/ca
-@dirrm share/locale/be/LC_MESSAGES
-@dirrm share/locale/be
-@dirrm share/locale
 @dirrm share/gnupg
 @dirrm share/doc/gnupg
 @dirrm libexec/gnupg
