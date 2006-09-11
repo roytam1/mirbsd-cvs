@@ -1,10 +1,10 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.6 2006/09/09 14:12:00 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.7 2006/09/09 14:33:27 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - a GPL'd PGP replacement
 VERSION=		1.4.5
 DISTNAME=		gnupg-${VERSION}
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security
 HOMEPAGE=		http://www.gnupg.org/
 MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gnupg/ \
@@ -25,7 +25,6 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-#MODULES+=		devel/gettext
 MODULES+=		converters/libiconv
 LIB_DEPENDS+=		bz2::archivers/bzip2
 LIB_DEPENDS+=		curl::net/curl
@@ -71,8 +70,5 @@ DOCFILES=	README AUTHORS COPYING THANKS TODO BUGS \
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/gnupg
 	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCFILES} ${PREFIX}/share/doc/gnupg/
-
-do-regress:
-	@cd ${WRKSRC}/checks && ${MAKE_PROGRAM}
 
 .include <bsd.port.mk>
