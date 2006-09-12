@@ -200,15 +200,13 @@ tribute. Alternate streams / forks are not supported.
 6. Currently defined attributes
 -------------------------------
 
-0x01	this file is a block special device
+0x01	this file is a block special device (*1)
 	no payload
-	THIS IDENTIFIER IS ONLY RESERVED, IT DOES NOT NEED TO BE IMPLEMENTED
 
-0x02	this file is a character special device
+0x02	this file is a character special device (*1)
 	no payload
-	THIS IDENTIFIER IS ONLY RESERVED, IT DOES NOT NEED TO BE IMPLEMENTED
 
-0x03	this file is a symbolic link
+0x03	this file is a symbolic link (*2)
 	no payload
 
 0x04	this file is a hard link to another file
@@ -227,7 +225,7 @@ i/I	"inode" of the file
 	optional (ignored) otherwise
 	payload length: lowercase = 8 bit, uppercase = 16 bit
 
-m/M	mode_t / permissions of the file
+m/M	mode_t / permissions of the file (*3)
 	optional
 	payload length: lowercase = 16 bit, uppercase = 32 bit
 
@@ -239,6 +237,16 @@ s/S	size of the file
 	for files and symbolic links: mandatory
 	for device nodes and hard links: forbidden
 	payload length: lowercase = 8 bit, uppercase = 24 bit
+
+*1) These identifiers are reserved in this specification; however,
+    implementations are not required to support them at this time.
+    Device nodes in /etc do not make sense. (Neither do e.g. FIFOs
+    or sockets.)
+
+*2) The name of the target is the data, thus, size is required.
+
+*3) Defaults to 0 if not used (for security reasons), so labelling
+    it as "optional" is probably a farce ;)
 
 
 7. Miscellaneous
@@ -262,6 +270,6 @@ would really appreciate users to credit his name and that of the
 FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
-___________________________________________________________________________
+_______________________________________________________________________
 
-$MirOS$
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.1.1.1 2006/09/12 22:50:55 tg Exp $
