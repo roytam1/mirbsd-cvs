@@ -461,6 +461,12 @@ extern "C" {
 #ifdef USE_COLOR_TABLE
     extern void LYaddAttr(int a);
     extern void LYsubAttr(int a);
+    extern void lynx_setup_colors(void);
+    extern unsigned Lynx_Color_Flags;
+#endif
+
+#if defined(USE_COLOR_TABLE) || defined(USE_SLANG)
+    extern int Current_Attr;
 #endif
 
 #ifdef USE_SLANG
@@ -607,7 +613,6 @@ extern "C" {
 #endif
 
 #if defined(USE_COLOR_TABLE)
-    extern void lynx_setup_colors(void);
     extern void lynx_set_color(int a);
     extern void lynx_standout(int a);
     extern char *LYgetTableString(int code);
