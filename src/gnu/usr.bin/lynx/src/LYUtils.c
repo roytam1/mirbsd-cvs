@@ -6,7 +6,7 @@
 #include <HTAlert.h>
 
 #ifdef __MINGW32__
-int kbhit(void);
+int kbhit(void);		/* FIXME: use conio.h */
 
 #ifdef UNIX
 #undef UNIX
@@ -1029,8 +1029,19 @@ void LYhighlight(int flag,
      * know, such bugs have been squashed, but if they should reappear, this
      * works around them.  -FM
      */
-    if (cur < 0)
+    if (cur < 0) {
+	CTRACE((tfp, "LYhighlight cur %d (bug workaround)\n", cur));
 	cur = 0;
+    }
+
+    CTRACE((tfp, "LYhighlight %s %d [%d]:%s\n",
+	    (flag
+	     ? "on"
+	     : "off"),
+	    cur,
+	    links[cur].anchor_number,
+	    NONNULL(target)));
+
 #if defined(TEXTFIELDS_MAY_NEED_ACTIVATION) && defined(INACTIVE_INPUT_STYLE_VH)
     if (flag == OFF)
 	textinput_redrawn = FALSE;
@@ -1269,6 +1280,7 @@ void statusline(const char *text)
     char buffer[MAX_LINE];
     unsigned char *temp = NULL;
     int max_length, len, i, j;
+    int at_lineno;
     unsigned char k;
     char *p;
     char text_buff[MAX_LINE];
@@ -1396,15 +1408,16 @@ void statusline(const char *text)
      */
     if (LYStatusLine >= 0) {
 	if (LYStatusLine < LYlines - 1) {
-	    LYmove(LYStatusLine, 0);
+	    at_lineno = LYStatusLine;
 	} else {
-	    LYmove(LYlines - 1, 0);
+	    at_lineno = LYlines - 1;
 	}
     } else if (user_mode == NOVICE_MODE) {
-	LYmove(LYlines - 3, 0);
+	at_lineno = LYlines - 3;
     } else {
-	LYmove(LYlines - 1, 0);
+	at_lineno = LYlines - 1;
     }
+    LYmove(at_lineno, 0);
     LYclrtoeol();
 
     if (non_empty(buffer)) {
@@ -1433,6 +1446,7 @@ void statusline(const char *text)
 #else
 	/* draw the status bar in the STATUS style */
 	{
+	    int y, x;
 	    int a = ((strncmp(buffer, ALERT_FORMAT, ALERT_PREFIX_LEN)
 		      || !hashStyles[s_alert].name)
 		     ? s_status
@@ -1442,9 +1456,12 @@ void statusline(const char *text)
 	    LYaddstr(buffer);
 	    wbkgdset(LYwin,
 		     ((lynx_has_color && LYShowColor >= SHOW_COLOR_ON)
-		      ? hashStyles[a].color
+		      ? (chtype) hashStyles[a].color
 		      : A_NORMAL) | ' ');
-	    LYclrtoeol();
+	    LYGetYX(y, x);
+	    if (y == at_lineno) {
+		LYclrtoeol();
+	    }
 	    if (!(lynx_has_color && LYShowColor >= SHOW_COLOR_ON))
 		wbkgdset(LYwin, A_NORMAL | ' ');
 	    else if (s_normal != NOSTYLE)
@@ -1490,9 +1507,10 @@ void noviceline(int more_flag GCC_UNUSED)
 	return;
 
     LYmove(LYlines - 2, 0);
-    /* lynx_stop_reverse(); */
     LYclrtoeol();
     LYaddstr(NOVICE_LINE_ONE);
+
+    LYmove(LYlines - 1, 0);
     LYclrtoeol();
 #if defined(DIRED_SUPPORT ) && defined(OK_OVERRIDE)
     if (lynx_edit_mode && !no_dired_support)
@@ -1670,13 +1688,6 @@ int HTCheckForInterrupt(void)
     int c;
     int cmd;
 
-#ifndef VMS			/* UNIX stuff: */
-#if !defined(USE_SLANG)
-    struct timeval socket_timeout;
-    int ret = 0;
-    fd_set readfds;
-#endif /* !USE_SLANG */
-
     if (fake_zap > 0) {
 	fake_zap--;
 	CTRACE((tfp, "\r *** Got simulated 'Z' ***\n"));
@@ -1689,7 +1700,13 @@ int HTCheckForInterrupt(void)
     if (DontCheck())
 	return ((int) FALSE);
 
+#ifndef VMS			/* UNIX stuff: */
+
 #if !defined(_WINDOWS) || defined(__MINGW32__)
+
+    /*
+     * First, check if there is a character.
+     */
 #ifdef USE_SLANG
     /** No keystroke was entered
 	Note that this isn't taking possible SOCKSification
@@ -1697,59 +1714,58 @@ int HTCheckForInterrupt(void)
 	slang library's select() when SOCKSified. - FM **/
 #ifdef DJGPP_KEYHANDLER
     if (0 == _bios_keybrd(_NKEYBRD_READY))
+	return (FALSE);
 #else
     if (0 == SLang_input_pending(0))
-#endif /* DJGPP_KEYHANDLER */
 	return (FALSE);
+#endif /* DJGPP_KEYHANDLER */
 
 #else /* Unix curses: */
+    {
+	struct timeval socket_timeout;
+	int ret = 0;
+	fd_set readfds;
 
-    socket_timeout.tv_sec = 0;
-    socket_timeout.tv_usec = 0;
-    FD_ZERO(&readfds);
-    FD_SET(0, &readfds);
+	socket_timeout.tv_sec = 0;
+	socket_timeout.tv_usec = 0;
+	FD_ZERO(&readfds);
+	FD_SET(0, &readfds);
 #ifdef SOCKS
-    if (socks_flag)
-	ret = Rselect(1, &readfds, NULL, NULL, &socket_timeout);
-    else
+	if (socks_flag)
+	    ret = Rselect(1, &readfds, NULL, NULL, &socket_timeout);
+	else
 #endif /* SOCKS */
-	ret = select(1, &readfds, NULL, NULL, &socket_timeout);
+	    ret = select(1, &readfds, NULL, NULL, &socket_timeout);
 
-    /** Suspended? **/
-    if ((ret == -1) && (SOCKET_ERRNO == EINTR))
-	return ((int) FALSE);
+	/** Suspended? **/
+	if ((ret == -1) && (SOCKET_ERRNO == EINTR))
+	    return ((int) FALSE);
 
-    /** No keystroke was entered? **/
-    if (!FD_ISSET(0, &readfds))
-	return ((int) FALSE);
+	/** No keystroke was entered? **/
+	if (!FD_ISSET(0, &readfds))
+	    return ((int) FALSE);
+    }
 #endif /* USE_SLANG */
+
 #endif /* !_WINDOWS */
 
+    /*
+     * Now, read the character.
+     */
 #if defined(PDCURSES)
     nodelay(LYwin, TRUE);
-#endif /* PDCURSES */
-    /*
-     * 'c' contains whatever character we're able to read from keyboard
-     */
     c = LYgetch();
-#if defined(PDCURSES)
     nodelay(LYwin, FALSE);
-#endif /* PDCURSES */
+#elif defined(USE_SLANG) && defined(_WINDOWS)
+    if (!SLang_input_pending(0))
+	return ((int) FALSE);
+    c = LYgetch();
+#else
+    c = LYgetch();
+#endif
 
 #else /* VMS: */
     extern int typeahead(void);
-
-    if (fake_zap > 0) {
-	fake_zap--;
-	CTRACE((tfp, "\r *** Got simulated 'Z' ***\n"));
-	CTRACE_FLUSH(tfp);
-	CTRACE_SLEEP(AlertSecs);
-	return ((int) TRUE);
-    }
-
-    /** Curses or slang setup was not invoked **/
-    if (DontCheck())
-	return ((int) FALSE);
 
     /** Control-C or Control-Y and a 'N'o reply to exit query **/
     if (HadVMSInterrupt) {
@@ -1757,9 +1773,6 @@ int HTCheckForInterrupt(void)
 	return ((int) TRUE);
     }
 
-    /*
-     * 'c' contains whatever character we're able to read from keyboard
-     */
     c = typeahead();
 
 #endif /* !VMS */
@@ -1768,7 +1781,7 @@ int HTCheckForInterrupt(void)
      * 'c' contains whatever character we're able to read from keyboard
      */
 
-	/** Keyboard 'Z' or 'z', or Control-G or Control-C **/
+    /** Keyboard 'Z' or 'z', or Control-G or Control-C **/
     if (LYCharIsINTERRUPT(c))
 	return ((int) TRUE);
 
@@ -7507,7 +7520,7 @@ static int clip_grab(void)
     if (!cmd)
 	return 0;
 
-    paste_handle = popen(cmd, "rt");
+    paste_handle = popen(cmd, TXT_R);
     if (!paste_handle)
 	return 0;
     return 1;
@@ -7553,7 +7566,7 @@ int put_clip(const char *s)
     if (!cmd)
 	return -1;
 
-    fh = popen(cmd, "wt");
+    fh = popen(cmd, TXT_W);
     if (!fh)
 	return -1;
     res = fwrite(s, 1, l, fh);

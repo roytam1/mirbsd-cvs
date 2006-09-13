@@ -247,6 +247,10 @@ int fancy_mouse(WINDOW * win, int row,
 
 /************************************************************************/
 #endif /* USE_MOUSE */
+    (void) win;
+    (void) row;
+    (void) position;
+
     return cmd;
 }
 
@@ -733,6 +737,22 @@ static int myGetChar(void)
 	    break;
 	}
     } while (!done);
+
+    /* PDCurses - until version 2.7 in 2005 - defined ERR as 0, unlike other
+     * versions of curses.  Generally both EOF and ERR are defined as -1's. 
+     * However, there is a special case (see HTCheckForInterrupt()) to handle
+     * a case where no select() function in used the win32 environment.
+     *
+     * HTCheckForInterrupt() uses nodelay() in this special case to check for
+     * pending input.  That normally returns ERR.  But LYgetch_for() checks
+     * the return value of this function for EOF (to handle some antique
+     * runtime libraries which did not set the state for feof/ferror). 
+     * Returning a zero (0) is safer since normally that is not mapped to any
+     * commands, and will be ignored by lynx.
+     */
+    if (c == -1)
+	c = 0;
+
     return c;
 }
 #define GetChar() myGetChar()
@@ -1070,8 +1090,10 @@ static BOOLEAN unescape_string(char *src, char *dst, char *final)
 	    dst[1] = '\0';
 	    ok = TRUE;
 	}
-    } else if (*src == DQUOTE)
+    } else if (*src == DQUOTE) {
 	ok = expand_substring(dst, src + 1, src + strlen(src) - 1, final);
+	(void) final;
+    }
     return ok;
 }
 
@@ -1110,15 +1132,16 @@ int map_string_to_keysym(const char *str, int *keysym)
 	if (*str) {
 	    size_t len = strlen(str);
 
-	    if (len == 1)
+	    if (len == 1) {
 		return (*keysym = (UCH(str[0])) | modifier);
-	    else if (len == 2 && str[0] == '^' &&
-		     (isalpha(UCH(str[1])) ||
-		      (TOASCII(str[1]) >= '@' && TOASCII(str[1]) <= '_')))
+	    } else if (len == 2 && str[0] == '^' &&
+		       (isalpha(UCH(str[1])) ||
+			(TOASCII(str[1]) >= '@' && TOASCII(str[1]) <= '_'))) {
 		return (*keysym = FROMASCII(UCH(str[1] & 0x1f)) | modifier);
-	    else if (len == 2 && str[0] == '^' &&
-		     str[1] == '?')
+	    } else if (len == 2 && str[0] == '^' &&
+		       str[1] == '?') {
 		return (*keysym = CH_DEL | modifier);
+	    }
 	    if (*str == '^' || *str == '\\') {
 		char buf[BUFSIZ];
 
@@ -1343,7 +1366,7 @@ static void setup_vtXXX_keymap(void)
 	INTERN_KEY( "\033OP",	F1,		KEY_F(1) ),
 	INTERN_KEY( "\033[OP",	F1,		KEY_F(1) ),
 	INTERN_KEY( "\033[29~",	DO_KEY,		KEY_F(16) ),
-#if defined(USE_SLANG) && defined(__MINGW32__)
+#if defined(USE_SLANG) && (defined(__WIN32__) || defined(__MINGW32__))
 	INTERN_KEY( "\xE0H",	UPARROW,	KEY_UP ),
 	INTERN_KEY( "\xE0P",	DNARROW,	KEY_DOWN ),
 	INTERN_KEY( "\xE0M",	RTARROW,	KEY_RIGHT ),
@@ -1552,7 +1575,7 @@ static int LYgetch_for(int code)
 
     key = SLang_do_key(Keymap_List, myGetChar);
     if ((key == NULL) || (key->type != SLKEY_F_KEYSYM)) {
-#ifdef __MINGW32__
+#if defined(__WIN32__) || defined(__MINGW32__)
 	if ((key == NULL) && (current_sl_modifier == LKC_ISLKC)) {
 	    key = SLang_do_key(Keymap_List, myGetChar);
 	    keysym = key->f.keysym;
@@ -1636,6 +1659,8 @@ static int LYgetch_for(int code)
     int a, b, c, d = -1;
     int current_modifier = 0;
     BOOLEAN done_esc = FALSE;
+
+    (void) code;
 
     have_levent = 0;
 
@@ -3800,6 +3825,8 @@ static void draw_option(WINDOW * win, int entry,
 {
     char Cnum[MAX_LINE];
 
+    (void) width;
+
     FormatChoiceNum(Cnum, num_choices, number, "");
 #ifdef USE_SLANG
     SLsmg_gotorc(win->top_y + entry, (win->left_x + 2));
@@ -4902,7 +4929,7 @@ int LYgetstr(char *inputline,
 			    _statusline(": ");
 			reinsertEdit(&MyEdit, data[cur_choice]);
 		    }
-		    wmove(LYwin, old_y, old_x);
+		    LYmove(old_y, old_x);
 		    FREE(data);
 		}
 	    } else {

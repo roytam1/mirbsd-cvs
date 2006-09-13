@@ -1100,8 +1100,8 @@ static int parse_html_src_spec(HTlexeme lexeme_code, char *value,
     CTRACE((tfp, "ReadCFG - parsing tagspec '%s:%s' for option '%s'\n",
 	    value, ts2, option_name));
     html_src_clean_item(lexeme_code);
-    if (html_src_parse_tagspec(value, lexeme_code, TRUE, TRUE)
-	|| html_src_parse_tagspec(ts2, lexeme_code, TRUE, TRUE)) {
+    if (!html_src_parse_tagspec(value, lexeme_code, TRUE, TRUE)
+	|| !html_src_parse_tagspec(ts2, lexeme_code, TRUE, TRUE)) {
 	*ts2 = ':';
 	BS();
     }
@@ -1390,6 +1390,9 @@ static Config_Type Config_Table [] =
      PARSE_ENU(RC_MULTI_BOOKMARK_SUPPORT, LYMultiBookmarks, tbl_multi_bookmarks),
      PARSE_PRG(RC_MV_PATH,              ppMV),
      PARSE_SET(RC_NCR_IN_BOOKMARKS,     UCSaveBookmarksInUnicode),
+#ifdef EXP_NESTED_TABLES
+     PARSE_SET(RC_NESTED_TABLES,        nested_tables),
+#endif
 #ifndef DISABLE_NEWS
      PARSE_FUN(RC_NEWS_CHUNK_SIZE,      news_chunk_size_fun),
      PARSE_FUN(RC_NEWS_MAX_CHUNK,       news_max_chunk_fun),
