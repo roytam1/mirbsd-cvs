@@ -1,0 +1,10 @@
+# $MirOS$
+#-
+# This file is part of the FreeWRT project. FreeWRT is copyrighted
+# material, please see the LICENCE file in the top-level directory
+# or at http://www.freewrt.org/license for details.
+
+  SUBDIR+= mkfwcf
+  SUBDIR+= unfwcf
+
+.include <bsd.subdir.mk>

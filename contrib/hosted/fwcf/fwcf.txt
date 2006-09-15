@@ -271,5 +271,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.1.1.1 2006/09/12 22:50:55 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.2 2006/09/12 23:07:40 tg Exp $
