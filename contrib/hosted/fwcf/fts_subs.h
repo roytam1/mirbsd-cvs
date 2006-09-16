@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.2 2006/09/16 02:46:35 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.3 2006/09/16 03:16:01 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -24,9 +24,11 @@ typedef struct {
 extern const char ftsf_prefix[];
 #endif
 
+__BEGIN_DECLS
 void ftsf_start(const char *);
 /* returns -1 on error, 0 on empty, 1 on okay */
 int ftsf_next(ftsf_entry *);
 void ftsf_debugent(ftsf_entry *);
+__END_DECLS
 
 #endif
