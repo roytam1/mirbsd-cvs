@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.1 2006/09/16 05:52:09 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.2 2006/09/16 06:18:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -36,7 +36,7 @@
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.1 2006/09/16 05:52:09 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.2 2006/09/16 06:18:58 tg Exp $");
 
 static int unfwcf(int, const char *);
 static int list_compressors(void);
@@ -125,7 +125,8 @@ unfwcf(int fd, const char *dir __attribute__((unused)))
 		errx(1, "size mismatch: decompressed %d, want %d", x, inner);
 	free(cdata);
 
-	return ((size_t)write(1, udata, inner) == inner ? 0 : 1);
+	ft_dump(udata);
+	return (0);
 }
 
 static int
