@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.2 2006/09/16 02:46:34 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.3 2006/09/16 03:32:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,9 +30,9 @@
 #include <unistd.h>
 
 #include "fts_subs.h"
-#include "ft_pack.h"
+#include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.2 2006/09/16 02:46:34 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.3 2006/09/16 03:32:44 tg Exp $");
 
 #define STOREB(x) do {				\
 		if (hdrleft < 1)		\

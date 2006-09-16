@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.3 2006/09/16 01:55:24 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.4 2006/09/16 03:17:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,9 +31,9 @@
 
 #include "compress.h"
 #include "fts_subs.h"
-#include "ft_pack.h"
+#include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.3 2006/09/16 01:55:24 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.4 2006/09/16 03:17:03 tg Exp $");
 
 static int mkfwcf(int, const char *, int);
 static int list_compressors(void);

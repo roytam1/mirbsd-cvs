@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_packm.c,v 1.1 2006/09/16 03:17:03 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_packm.c,v 1.2 2006/09/16 03:32:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,9 +28,9 @@
 #include <string.h>
 
 #include "fts_subs.h"
-#include "ft_pack.h"
+#include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_packm.c,v 1.1 2006/09/16 03:17:03 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_packm.c,v 1.2 2006/09/16 03:32:44 tg Exp $");
 
 char *
 ft_packm(void)
