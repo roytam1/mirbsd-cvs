@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.1 2006/09/15 21:11:23 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.1 2006/09/16 00:52:13 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -9,7 +9,10 @@
 #ifndef COMPRESS_H
 #define COMPRESS_H
 
+/* returns 0 on success, -1 on failure */
 typedef int (*fwcf_compress_init_func)(void);
+/* in: *dst (malloc'd), src, size of source (max. INT_MAX) */
+/* returns size of destination on success, -1 on failure */
 typedef int (*fwcf_compress_work_func)(void **, void *, size_t)
     __attribute__((bounded (string, 2, 3)));
 
@@ -23,6 +26,7 @@ typedef struct FWCF_COMPRESSOR {
 
 int compress_register(fwcf_compressor *);
 fwcf_compressor *compress_enumerate(void);
+/* 0=success 1=EINVAL 2=slot already used */
 int compress_list(void);
 
 #endif
