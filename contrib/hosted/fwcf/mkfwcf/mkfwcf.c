@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.1 2006/09/15 21:11:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -29,12 +29,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "compress.h"
 #include "fts_subs.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.1 2006/09/15 21:11:24 tg Exp $");
 
-int mkfwcf(int, const char *, int);
-__dead void usage(void);
+static int mkfwcf(int, const char *, int);
+static int list_compressors(void);
+static __dead void usage(void);
 
 int
 main(int argc, char *argv[])
@@ -43,15 +45,17 @@ main(int argc, char *argv[])
 	int fd = STDOUT_FILENO, docompress = 0;
 	const char *file_root = NULL, *outfile = NULL;
 
-	while ((c = getopt(argc, argv, "cC:o:")) != -1)
+	while ((c = getopt(argc, argv, "C:clo:")) != -1)
 		switch (c) {
-		case 'c':
-			docompress = 1;
-			break;
 		case 'C':
 			if (!(docompress = strtonum(optarg, 1, 255, NULL)))
 				usage();
 			break;
+		case 'c':
+			docompress = 1;
+			break;
+		case 'l':
+			return (list_compressors());
 		case 'o':
 			outfile = optarg;
 			break;
@@ -79,17 +83,17 @@ main(int argc, char *argv[])
 	return (mkfwcf(fd, file_root, docompress));
 }
 
-__dead void
+static __dead void
 usage(void)
 {
-	extern const char __progname[];
+	extern const char *__progname;
 
 	fprintf(stderr, "Usage:\t%s [-c | -C <algorithm-number>] [-o <outfile>]"
-	    "\n\t    [<directory>]\n", __progname);
+	    "\n\t    [<directory>]\n\t%s -l\n", __progname, __progname);
 	exit(1);
 }
 
-int
+static int
 mkfwcf(int fd __attribute__((unused)), const char *dir, int algo __attribute__((unused)))
 {
 	ftsf_entry e;
@@ -100,4 +104,15 @@ mkfwcf(int fd __attribute__((unused)), const char *dir, int algo __attribute__((
 		ftsf_debugent(&e);
 
 	return (i == 0 ? 0 : 1);
+}
+
+static int
+list_compressors(void)
+{
+	int rv;
+
+	printf("List of registered compressors:\n");
+	if ((rv = compress_list()))
+		printf("No compressor registered!\n");
+	return (rv);
 }
