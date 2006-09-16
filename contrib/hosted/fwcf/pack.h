@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/pack.h,v 1.3 2006/09/16 03:52:04 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/pack.h,v 1.4 2006/09/16 04:40:25 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -42,6 +42,23 @@
 		*hdrptr++ = ((x) >> 24) & 0xFF;	\
 		hdrleft -= 4;			\
 	} while (0)
+
+#define LOADW(x) __extension__({		\
+		uint8_t *lwbf = (uint8_t *)(x);	\
+		uint32_t res = 0;		\
+		res = (res << 8) | lwbf[1];	\
+		res = (res << 8) | lwbf[0];	\
+		res;				\
+	})
+
+#define LOADT(x) __extension__({		\
+		uint8_t *lwbf = (uint8_t *)(x);	\
+		uint32_t res = 0;		\
+		res = (res << 8) | lwbf[2];	\
+		res = (res << 8) | lwbf[1];	\
+		res = (res << 8) | lwbf[0];	\
+		res;				\
+	})
 
 __BEGIN_DECLS
 char *ft_pack(ftsf_entry *);

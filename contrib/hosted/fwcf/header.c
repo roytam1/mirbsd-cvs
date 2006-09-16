@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/header.c,v 1.1 2006/09/16 04:40:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,10 +28,12 @@
 #endif
 
 #include "defs.h"
+#include "adler.h"
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.5 2006/09/16 03:51:06 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.1 2006/09/16 04:40:25 tg Exp $"
+    "\t" ADLER_H);
 
 char *
 mkheader(char *f_header, size_t hdrsize, uint32_t outer_len,
@@ -57,25 +59,12 @@ char *
 mktrailer(char *data, size_t len)
 {
 	char *hdrptr = data + len;
-	uint8_t *buf = (uint8_t *)data;
 	size_t hdrleft = 4;
-	unsigned s1 = 1, s2 = 0, n;
 #ifdef DEBUG
-	uint32_t adler = adler32(1, buf, len);
+	uint32_t adler = adler32(1, (uint8_t *)data, len);
 #endif
-
-#define BASE	65521	/* largest prime smaller than 65536 */
-#define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
-	while (len) {
-		len -= (n = MIN(len, NMAX));
-		while (n--) {
-			s1 += *buf++;
-			s2 += s1;
-		}
-		s1 %= BASE;
-		s2 %= BASE;
-	}
-
+	ADLER_START(data)
+	ADLER_RUN
 #ifdef DEBUG
 	if ((s1 != (adler & 0xFFFF)) || (s2 != (adler >> 16)))
 		errx(255, "adler32 implementation error: %04X%04X vs %08X",
@@ -83,7 +72,6 @@ mktrailer(char *data, size_t len)
 #endif
 	STOREW(s1);
 	STOREW(s2);
+	ADLER_END
 	return (data);
-#undef BASE
-#undef NMAX
 }

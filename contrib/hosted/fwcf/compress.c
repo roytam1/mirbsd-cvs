@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/compress.c,v 1.1 2006/09/16 00:52:13 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.c,v 1.2 2006/09/16 03:07:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,7 +28,7 @@
 
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.1 2006/09/16 00:52:13 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.2 2006/09/16 03:07:48 tg Exp $");
 
 #ifdef DEBUG
 #undef __inline
@@ -96,4 +96,19 @@ compress_list(void)
 			printf("%02Xh = %s%s\n", cl[i].code,
 			    (i < 0xC0 ? "" : "PRIVATE "), cl[i].name);
 	return (0);
+}
+
+fwcf_compressor *
+compressor_get(uint8_t algo)
+{
+	fwcf_compressor *list;
+
+	if ((list = compress_enumerate()) == NULL)
+		errx(1, "compress_enumerate");
+	if (list[algo].name == NULL)
+		errx(1, "compression algorithm %02Xh not loaded", algo);
+	if (list[algo].init())
+		errx(1, "cannot initialise %s compression", list[algo].name);
+
+	return (&(list[algo]));
 }

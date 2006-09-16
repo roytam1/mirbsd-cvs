@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.6 2006/09/16 03:51:06 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.7 2006/09/16 04:40:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -35,7 +35,7 @@
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.6 2006/09/16 03:51:06 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.7 2006/09/16 04:40:25 tg Exp $");
 
 static int mkfwcf(int, const char *, int);
 static int list_compressors(void);
@@ -102,7 +102,6 @@ mkfwcf(int fd, const char *dir, int algo)
 	size_t i, k, sz;
 	int j;
 	char *data, *cdata;
-	fwcf_compressor *complist;
 
 	ftsf_start(dir);
 	data = ft_packm();
@@ -110,16 +109,9 @@ mkfwcf(int fd, const char *dir, int algo)
 	if (i > 0xFFFFFF)
 		errx(1, "inner size of %d too large", i);
 
-	if ((complist = compress_enumerate()) == NULL)
-		errx(1, "compress_enumerate");
-	if (complist[algo].name == NULL)
-		errx(1, "compression algorithm %02Xh not found", algo);
-	if (complist[algo].init())
-		errx(1, "cannot initialise %s compression",
-		     complist[algo].name);
-	if ((j = complist[algo].compress(&cdata, data + sizeof (size_t), i))
-	    == -1)
-		errx(1, "%s compression failed", complist[algo].name);
+	if ((j = compressor_get(algo)->compress(&cdata, data + sizeof (size_t),
+	    i)) == -1)
+		errx(1, "%s compression failed", compressor_get(algo)->name);
 	free(data);
 
 	/* 12 bytes header, padding to 4-byte boundary, 4 bytes trailer */

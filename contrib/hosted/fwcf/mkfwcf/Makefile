@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.5 2006/09/16 04:40:25 tg Exp $
+# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.6 2006/09/16 05:12:50 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -17,10 +17,10 @@ CPPFLAGS+=	-I${.CURDIR}/..
 DPADD+=		${LIBZ}
 LDADD+=		-lz
 
-CLEANFILES+=	${.CURDIR}/test.out ${.CURDIR}/testz.out
+CLEANFILES+=	${.CURDIR}/test.out ${.CURDIR}/tesz.out
 
 test: ${PROG}
 	./${PROG} -o ${.CURDIR}/test.out ${.CURDIR}/CVS
-	./${PROG} -C 1 -o ${.CURDIR}/testz.out ${.CURDIR}/CVS
+	./${PROG} -C 1 -o ${.CURDIR}/tesz.out ${.CURDIR}/CVS
 
 .include <bsd.prog.mk>

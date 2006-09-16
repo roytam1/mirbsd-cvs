@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.7 2006/09/16 04:40:25 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.1 2006/09/16 05:52:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,11 +31,12 @@
 #include <unistd.h>
 
 #include "defs.h"
+#include "adler.h"
 #include "compress.h"
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.7 2006/09/16 04:40:25 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.1 2006/09/16 05:52:09 tg Exp $");
 
 static int unfwcf(int, const char *);
 static int list_compressors(void);
@@ -87,10 +88,8 @@ static int
 unfwcf(int fd, const char *dir __attribute__((unused)))
 {
 	uint8_t c, hdrbuf[12];
-	size_t outer, inner;
-	fwcf_compressor *complist;
+	size_t outer, inner, x;
 	char *cdata, *udata;
-	uint32_t x;
 
 	if (read(fd, hdrbuf, 12) != 12)
 		err(1, "read");
@@ -98,19 +97,11 @@ unfwcf(int fd, const char *dir __attribute__((unused)))
 	if (strncmp((const char *)hdrbuf, "FWCF", 4))
 		errx(1, "file format error");
 
-	outer = hdrbuf[4] | (hdrbuf[5] << 8) | (hdrbuf[6] << 16);
+	outer = LOADT(hdrbuf + 4);
 	if (hdrbuf[7] != FWCF_VER)
 		errx(1, "wrong file version %02Xh", hdrbuf[7]);
-	inner = hdrbuf[8] | (hdrbuf[9] << 8) | (hdrbuf[10] << 16);
+	inner = LOADT(hdrbuf + 8);
 	c = hdrbuf[11];
-
-	if ((complist = compress_enumerate()) == NULL)
-		errx(1, "compress_enumerate");
-	if (complist[c].name == NULL)
-		errx(1, "compression algorithm %02Xh not found", c);
-	if (complist[c].init())
-		errx(1, "cannot initialise %s compression",
-		     complist[c].name);
 
 	if (((cdata = malloc(outer)) == NULL) ||
 	    ((udata = malloc(inner)) == NULL))
@@ -118,31 +109,18 @@ unfwcf(int fd, const char *dir __attribute__((unused)))
 	memcpy(cdata, hdrbuf, 12);
 	if ((size_t)read(fd, cdata + 12, outer - 12) != (outer - 12))
 		err(1, "read");
-	memcpy(hdrbuf, cdata + outer - 4, 4);
-	{
-		uint8_t *buf = (uint8_t *)cdata;
-		unsigned s1 = 1, s2 = 0, n, len = outer - 4;
 
-#define BASE	65521	/* largest prime smaller than 65536 */
-#define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
-		while (len) {
-			len -= (n = MIN(len, NMAX));
-			while (n--) {
-				s1 += *buf++;
-				s2 += s1;
-			}
-			s1 %= BASE;
-			s2 %= BASE;
-		}
-#undef BASE
-#undef NMAX
-		if (((hdrbuf[0] | ((unsigned)hdrbuf[1] << 8)) != s1) ||
-		    ((hdrbuf[2] | ((unsigned)hdrbuf[3] << 8)) != s2))
-			errx(1, "crc mismatch: %02X%02X%02X%02X != %04X%04X",
-			    hdrbuf[3], hdrbuf[2], hdrbuf[1], hdrbuf[0], s2, s1);
-	}
+	ADLER_START(cdata)
+	unsigned len = outer - 4;
+	ADLER_RUN
+	if ((s1 != LOADW(cdata + outer - 4)) ||
+	    (s2 != LOADW(cdata + outer - 2)))
+		errx(1, "crc mismatch: %02X%02X%02X%02X != %04X%04X",
+		    cdata[outer - 1], cdata[outer - 2], cdata[outer - 3],
+		    cdata[outer - 4], s2, s1);
+	ADLER_END
 
-	if ((x = complist[c].decompress(udata, inner, cdata + 12,
+	if ((x = compressor_get(c)->decompress(udata, inner, cdata + 12,
 	    outer - 12)) != inner)
 		errx(1, "size mismatch: decompressed %d, want %d", x, inner);
 	free(cdata);
