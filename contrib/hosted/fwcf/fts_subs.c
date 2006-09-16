@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,11 +26,13 @@
 #include <err.h>
 #include <errno.h>
 #include <fts.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "fts_subs.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $");
 
 static FTS *handle;
 
@@ -61,12 +63,16 @@ int
 ftsf_next(ftsf_entry *e)
 {
 	FTSENT *ent;
+	char *ename;
+
+	bzero(e, sizeof (ftsf_entry));
 
 	if (handle == NULL) {
 		warn("ftsf_next called before ftsf_open");
 		return (-1);
 	}
 
+ ftsf_continue:
 	if ((ent = fts_read(handle)) == NULL) {
 		if (errno == 0) {
 			if (fts_close(handle))
@@ -81,4 +87,81 @@ ftsf_next(ftsf_entry *e)
 		return (-1);
 	}
 
-XXX fill in ftsf_entry *e structure
+	ename = ent->fts_path;
+#if 0 /* debug */
+	if (asprintf(&ename, "accpath<%s> path<%s> name<%s>", ent->fts_accpath,
+	    ent->fts_path, ent->fts_name) == -1)
+		err(1, "asprintf");
+#endif
+	if (strlcpy(e->pathname, ename, MAXPATHLEN) >= MAXPATHLEN)
+		warn("truncating file name '%s' to '%s'", ename, e->pathname);
+
+	switch (ent->fts_info) {
+	case FTS_D:
+		e->etype = FTSF_DIR;
+		break;
+	case FTS_DNR:
+		warn("directory %s not readable, skipping: %s", ename,
+		    strerror(ent->fts_errno));
+		/* FALLTHROUGH */
+	case FTS_DC:
+	case FTS_DOT:
+	case FTS_DP:
+		goto ftsf_continue;
+	case FTS_DEFAULT:
+		if (S_ISDIR(ent->fts_statp->st_mode))
+			e->etype = FTSF_DIR;
+		else if (S_ISREG(ent->fts_statp->st_mode))
+			e->etype = FTSF_FILE;
+		else if (S_ISLNK(ent->fts_statp->st_mode))
+			e->etype = FTSF_SYMLINK;
+		else
+			e->etype = FTSF_OTHER;
+		break;
+	case FTS_ERR:
+		warn("generic error condition %s on %s, skipping",
+		    strerror(ent->fts_errno), ename);
+		goto ftsf_continue;
+	case FTS_F:
+		e->etype = FTSF_FILE;
+		break;
+	case FTS_NSOK:
+		ent->fts_errno = 0;
+		/* FALLTHROUGH */
+	case FTS_NS:
+		warn("skipping due to no stat(2) information on %s: %s",
+		    ename, strerror(ent->fts_errno));
+		goto ftsf_continue;
+	case FTS_SL:
+	case FTS_SLNONE:
+		e->etype = FTSF_SYMLINK;
+		break;
+	default:
+		warn("unknown fts_info field for %s: %d, skipping",
+		    ename, (int)ent->fts_info);
+		warn("ent->fts_errno = %d (%s)", ent->fts_errno,
+		    strerror(ent->fts_errno));
+	}
+
+	e->statp = ent->fts_statp;
+	return (1);
+}
+
+void
+ftsf_debugent(ftsf_entry *e)
+{
+	fprintf(stderr, "%s @%08X %06o %2u %u %06llX %lu:%lu %s%c\n",
+	    (e->etype == FTSF_DIR ? "DIR" : e->etype == FTSF_FILE ? "REG" :
+	    e->etype == FTSF_SYMLINK ? "SYM" : "OTH"),
+	    (unsigned)e->statp->st_ino, (unsigned)e->statp->st_mode,
+	    e->statp->st_nlink, (unsigned)e->statp->st_mtime,
+	    (uint64_t)e->statp->st_size, (u_long)e->statp->st_uid,
+	    (u_long)e->statp->st_gid, e->pathname,
+	    ((e->statp->st_mode & S_IFMT) == S_IFDIR ? '/' :
+	    (e->statp->st_mode & S_IFMT) == S_IFIFO ? '|' :
+	    (e->statp->st_mode & S_IFMT) == S_IFLNK ? '@' :
+	    (e->statp->st_mode & S_IFMT) == S_IFSOCK ? '=' :
+	    (e->statp->st_mode & S_IFMT) == S_IFBLK ? '&' :
+	    (e->statp->st_mode & S_IFMT) == S_IFCHR ? '%' :
+	    (e->statp->st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)) ? '*' : '_'));
+}
