@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.1 2006/09/16 01:55:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -24,6 +24,7 @@
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -31,7 +32,7 @@
 #include "fts_subs.h"
 #include "ft_pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.1 2006/09/16 01:55:23 tg Exp $");
 
 #define STOREB(x) do {				\
 		if (hdrleft < 1)		\
@@ -130,20 +131,23 @@ ft_pack(ftsf_entry *e)
 	if (e->statp->st_size) {
 		if ((f_data = malloc(e->statp->st_size)) == NULL)
 			return (NULL);
+		if (asprintf(&rv, "%s/%s", ftsf_prefix, e->pathname) == -1)
+			return (NULL);
 		if (e->etype == FTSF_SYMLINK) {
-			if (readlink(e->pathname, f_data, e->statp->st_size)
+			if (readlink(rv, f_data, e->statp->st_size)
 			    != e->statp->st_size)
 				return (NULL);
 		} else {
 			int fd;
 
-			if ((fd = open(e->pathname, O_RDONLY, 0)) < 0)
+			if ((fd = open(rv, O_RDONLY, 0)) < 0)
 				return (NULL);
 			if (read(fd, f_data, e->statp->st_size) !=
 			    e->statp->st_size)
 				return (NULL);
 			close(fd);
 		}
+		free(rv);
 	}
 	k = sizeof (size_t) + (hdrptr - f_header) + e->statp->st_size;
 	if ((rv = malloc(k)) == NULL)

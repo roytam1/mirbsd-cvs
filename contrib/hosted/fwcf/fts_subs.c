@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.2 2006/09/16 00:08:42 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.3 2006/09/16 01:54:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,16 +30,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define FTSF_INTERNALS
 #include "fts_subs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.2 2006/09/16 00:08:42 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.3 2006/09/16 01:54:33 tg Exp $");
 
 static FTS *handle;
+
+char ftsf_prefix[PATH_MAX];
+size_t ftsf_prefixlen;
 
 void
 ftsf_start(const char *root)
 {
-	char *paths[2], real_root[PATH_MAX];
+	char *paths[2];
 
 	if (handle != NULL) {
 		if (fts_close(handle))
@@ -47,16 +51,17 @@ ftsf_start(const char *root)
 		free(handle);
 	}
 
-	if (realpath(root, real_root) == NULL)
+	if (realpath(root, ftsf_prefix) == NULL)
 		err(1, "determine realpath for %s", root);
+	ftsf_prefixlen = strlen(ftsf_prefix) + 1;
 
-	paths[0] = real_root;
+	paths[0] = ftsf_prefix;
 	paths[1] = NULL;
 
 	handle = fts_open(paths, FTS_NOCHDIR | FTS_PHYSICAL, NULL);
 
 	if (handle == NULL)
-		err(1, "fts_open on %s for %s", real_root, root);
+		err(1, "fts_open on %s for %s", ftsf_prefix, root);
 }
 
 int
@@ -93,8 +98,13 @@ ftsf_next(ftsf_entry *e)
 	    ent->fts_path, ent->fts_name) == -1)
 		err(1, "asprintf");
 #endif
-	if (strlcpy(e->pathname, ename, MAXPATHLEN) >= MAXPATHLEN)
-		warn("truncating file name '%s' to '%s'", ename, e->pathname);
+	if (strcmp(ename, ftsf_prefix)) {
+		if (strlcpy(e->pathname, ename + ftsf_prefixlen,
+		    sizeof (e->pathname)) >= sizeof (e->pathname))
+			warn("truncating file name '%s' to '%s'", ename,
+			    e->pathname);
+	} else
+		memcpy(e->pathname, ".", 2);
 
 	switch (ent->fts_info) {
 	case FTS_D:
@@ -151,13 +161,14 @@ ftsf_next(ftsf_entry *e)
 void
 ftsf_debugent(ftsf_entry *e)
 {
-	fprintf(stderr, "%s @%08X %06o %2u %u %06llX %lu:%lu %s%c\n",
+	fprintf(stderr,
+	    "%s @%08X %06o %2u %u %06llX %lu:%lu %s/\033[1m%s\033[0m%c\n",
 	    (e->etype == FTSF_DIR ? "DIR" : e->etype == FTSF_FILE ? "REG" :
 	    e->etype == FTSF_SYMLINK ? "SYM" : "OTH"),
 	    (unsigned)e->statp->st_ino, (unsigned)e->statp->st_mode,
 	    e->statp->st_nlink, (unsigned)e->statp->st_mtime,
 	    (uint64_t)e->statp->st_size, (u_long)e->statp->st_uid,
-	    (u_long)e->statp->st_gid, e->pathname,
+	    (u_long)e->statp->st_gid, ftsf_prefix, e->pathname,
 	    ((e->statp->st_mode & S_IFMT) == S_IFDIR ? '/' :
 	    (e->statp->st_mode & S_IFMT) == S_IFIFO ? '|' :
 	    (e->statp->st_mode & S_IFMT) == S_IFLNK ? '@' :
