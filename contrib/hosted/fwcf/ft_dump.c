@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.1 2006/09/16 06:44:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,7 +22,6 @@
  */
 
 #include <sys/param.h>
-#include <ctype.h>
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,7 +31,7 @@
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.1 2006/09/16 06:44:25 tg Exp $");
 
 static int ft_dumpfile(char *);
 
@@ -87,9 +86,9 @@ ft_dumpfile(char *buf)
 		case 'G':
 		case 'u':
 		case 'U':
-			x = islower(c) ? *p : LOADD(p);
-			p += islower(c) ? 1 : 4;
-			printf("%cID=%d\n", toupper(c), x);
+			x = (c & 0x20) ? *p : LOADD(p);
+			p += (c & 0x20) ? 1 : 4;
+			printf("%cID=%d\n", c & ~0x20, x);
 			break;
 		case 'i':
 		case 'I':
