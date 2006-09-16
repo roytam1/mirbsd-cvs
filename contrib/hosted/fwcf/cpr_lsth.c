@@ -22,56 +22,19 @@
  */
 
 #include <sys/param.h>
-#include <err.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 #include "compress.h"
 
 __RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.4 2006/09/16 07:09:49 tg Exp $");
 
-static void compress_initialise(void);
-
-static fwcf_compressor *fwcf_compressors = NULL;
-
 int
-compress_register(fwcf_compressor *e)
+list_compressors(void)
 {
-	compress_initialise();
-	if (e == NULL)
-		return (1);
+	int rv;
 
-	if ((e->init == NULL) || (e->compress == NULL) ||
-	    (e->decompress == NULL) || (e->name == NULL))
-		return (1);
-	if (fwcf_compressors[e->code].name != NULL)
-		return (2);
-
-	fwcf_compressors[e->code] = *e;
-	return (0);
-}
-
-fwcf_compressor *
-compress_enumerate(void)
-{
-	int i;
-	fwcf_compressor *rv = NULL;
-
-	compress_initialise();
-	for (i = 0; i < 256; ++i)
-		if (fwcf_compressors[i].name != NULL) {
-			if (fwcf_compressors[i].code == i)
-				rv = fwcf_compressors;
-			else
-				errx(1, "fwcf compressor registry invalid");
-		}
+	printf("List of registered compressors:\n");
+	if ((rv = compress_list()))
+		printf("No compressor registered!\n");
 	return (rv);
-}
-
-static void
-compress_initialise(void)
-{
-	if (fwcf_compressors != NULL)
-		return;
-	if ((fwcf_compressors = calloc(256, sizeof (fwcf_compressor))) == NULL)
-		err(1, "calloc");
 }

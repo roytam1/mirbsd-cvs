@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.3 2006/09/16 01:54:33 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.4 2006/09/16 02:46:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,14 +26,13 @@
 #include <err.h>
 #include <errno.h>
 #include <fts.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define FTSF_INTERNALS
 #include "fts_subs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.3 2006/09/16 01:54:33 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.4 2006/09/16 02:46:34 tg Exp $");
 
 static FTS *handle;
 
@@ -156,24 +155,4 @@ ftsf_next(ftsf_entry *e)
 
 	e->statp = ent->fts_statp;
 	return (1);
-}
-
-void
-ftsf_debugent(ftsf_entry *e)
-{
-	fprintf(stderr,
-	    "%s @%08X %06o %2u %u %06llX %lu:%lu %s/\033[1m%s\033[0m%c\n",
-	    (e->etype == FTSF_DIR ? "DIR" : e->etype == FTSF_FILE ? "REG" :
-	    e->etype == FTSF_SYMLINK ? "SYM" : "OTH"),
-	    (unsigned)e->statp->st_ino, (unsigned)e->statp->st_mode,
-	    e->statp->st_nlink, (unsigned)e->statp->st_mtime,
-	    (uint64_t)e->statp->st_size, (u_long)e->statp->st_uid,
-	    (u_long)e->statp->st_gid, ftsf_prefix, e->pathname,
-	    ((e->statp->st_mode & S_IFMT) == S_IFDIR ? '/' :
-	    (e->statp->st_mode & S_IFMT) == S_IFIFO ? '|' :
-	    (e->statp->st_mode & S_IFMT) == S_IFLNK ? '@' :
-	    (e->statp->st_mode & S_IFMT) == S_IFSOCK ? '=' :
-	    (e->statp->st_mode & S_IFMT) == S_IFBLK ? '&' :
-	    (e->statp->st_mode & S_IFMT) == S_IFCHR ? '%' :
-	    (e->statp->st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)) ? '*' : '_'));
 }

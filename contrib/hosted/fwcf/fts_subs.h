@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.3 2006/09/16 03:16:01 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.4 2006/09/16 03:52:04 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -9,7 +9,7 @@
 #ifndef FTS_SUBS_H
 #define FTS_SUBS_H
 
-typedef struct {
+struct FTSF_ENTRY {
 	char pathname[MAXPATHLEN];
 	struct stat *statp;
 	enum {
@@ -18,7 +18,10 @@ typedef struct {
 		FTSF_SYMLINK,
 		FTSF_OTHER
 	} etype;
-} ftsf_entry;
+};
+#ifndef PACK_H
+typedef struct FTSF_ENTRY ftsf_entry;
+#endif
 
 #ifndef FTSF_INTERNALS
 extern const char ftsf_prefix[];

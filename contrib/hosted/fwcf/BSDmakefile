@@ -1,9 +1,10 @@
-# $MirOS: contrib/hosted/fwcf/BSDmakefile,v 1.1 2006/09/15 20:09:36 tg Exp $
+# $MirOS: contrib/hosted/fwcf/BSDmakefile,v 1.2 2006/09/16 06:18:57 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
 # or at http://www.freewrt.org/license for details.
 
+  SUBDIR+= lib
   SUBDIR+= mkfwcf
   SUBDIR+= unfwcf
 

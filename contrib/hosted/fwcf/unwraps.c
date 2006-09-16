@@ -30,55 +30,49 @@
 #include "defs.h"
 #include "adler.h"
 #include "compress.h"
-#include "fts_subs.h"
 #include "pack.h"
 
 __RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.1 2006/09/16 07:09:49 tg Exp $");
 
 char *
-fwcf_pack(const char *dir, int algo, size_t *dstsz)
+fwcf_unpack(int fd)
 {
-	size_t i, k;
-	int j;
-	char *data, *cdata;
+	uint8_t c, hdrbuf[12];
+	size_t outer, inner, x;
+	char *cdata, *udata;
 
-	ftsf_start(dir);
-	data = ft_packm();
-	i = *(size_t *)data - sizeof (size_t);
-	if (i > 0xFFFFFF)
-		errx(1, "inner size of %d too large", i);
+	if (read(fd, hdrbuf, 12) != 12)
+		err(1, "read");
 
-	if ((j = compressor_get(algo)->compress(&cdata, data + sizeof (size_t),
-	    i)) == -1)
-		errx(1, "%s compression failed", compressor_get(algo)->name);
-	free(data);
+	if (strncmp((const char *)hdrbuf, "FWCF", 4))
+		errx(1, "file format error");
 
-	/* 12 bytes header, padding to 4-byte boundary, 4 bytes trailer */
-	k = ((j + 19) / 4) * 4;
-#if DEF_FLASHPART > 0xFFFFFF
-# error DEF_FLASHPART too large
-#endif
-	if (k > DEF_FLASHPART)
-		errx(1, "%d bytes too large for flash partition of %d KiB",
-		    k, DEF_FLASHPART / 1024);
-	/* padded to size of flash block */
-#if (DEF_FLASHBLOCK & 3)
-# error DEF_FLASHBLOCK must be dword-aligned
-#endif
-	*dstsz = ((i + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK) * DEF_FLASHBLOCK;
-	if ((data = malloc(*dstsz)) == NULL)
+	outer = LOADT(hdrbuf + 4);
+	if (hdrbuf[7] != FWCF_VER)
+		errx(1, "wrong file version %02Xh", hdrbuf[7]);
+	inner = LOADT(hdrbuf + 8);
+	c = hdrbuf[11];
+
+	if (((cdata = malloc(outer)) == NULL) ||
+	    ((udata = malloc(inner)) == NULL))
 		err(1, "malloc");
-	mkheader(data, *dstsz, k, i, algo);
-	memcpy(data + 12, cdata, j);
+	memcpy(cdata, hdrbuf, 12);
+	if ((size_t)read(fd, cdata + 12, outer - 12) != (outer - 12))
+		err(1, "read");
+
+	ADLER_START(cdata)
+	unsigned len = outer - 4;
+	ADLER_RUN
+	if ((s1 != LOADW(cdata + outer - 4)) ||
+	    (s2 != LOADW(cdata + outer - 2)))
+		errx(1, "crc mismatch: %02X%02X%02X%02X != %04X%04X",
+		    cdata[outer - 1], cdata[outer - 2], cdata[outer - 3],
+		    cdata[outer - 4], s2, s1);
+	ADLER_END
+
+	if ((x = compressor_get(c)->decompress(udata, inner, cdata + 12,
+	    outer - 12)) != inner)
+		errx(1, "size mismatch: decompressed %d, want %d", x, inner);
 	free(cdata);
-	k = j + 12;
-	while (k & 3)
-		data[k++] = 0;
-	mktrailer(data, k);
-	k += 4;
-	while (k < *dstsz) {
-		*(uint32_t *)(data + k) = arc4random();
-		k += 4;
-	}
-	return (data);
+	return (udata);
 }

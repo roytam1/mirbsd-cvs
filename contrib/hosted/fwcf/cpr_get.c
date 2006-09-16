@@ -23,55 +23,22 @@
 
 #include <sys/param.h>
 #include <err.h>
-#include <stdlib.h>
 
 #include "compress.h"
 
 __RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.4 2006/09/16 07:09:49 tg Exp $");
 
-static void compress_initialise(void);
-
-static fwcf_compressor *fwcf_compressors = NULL;
-
-int
-compress_register(fwcf_compressor *e)
-{
-	compress_initialise();
-	if (e == NULL)
-		return (1);
-
-	if ((e->init == NULL) || (e->compress == NULL) ||
-	    (e->decompress == NULL) || (e->name == NULL))
-		return (1);
-	if (fwcf_compressors[e->code].name != NULL)
-		return (2);
-
-	fwcf_compressors[e->code] = *e;
-	return (0);
-}
-
 fwcf_compressor *
-compress_enumerate(void)
+compressor_get(uint8_t algo)
 {
-	int i;
-	fwcf_compressor *rv = NULL;
+	fwcf_compressor *list;
 
-	compress_initialise();
-	for (i = 0; i < 256; ++i)
-		if (fwcf_compressors[i].name != NULL) {
-			if (fwcf_compressors[i].code == i)
-				rv = fwcf_compressors;
-			else
-				errx(1, "fwcf compressor registry invalid");
-		}
-	return (rv);
-}
+	if ((list = compress_enumerate()) == NULL)
+		errx(1, "compress_enumerate");
+	if (list[algo].name == NULL)
+		errx(1, "compression algorithm %02Xh not loaded", algo);
+	if (list[algo].init())
+		errx(1, "cannot initialise %s compression", list[algo].name);
 
-static void
-compress_initialise(void)
-{
-	if (fwcf_compressors != NULL)
-		return;
-	if ((fwcf_compressors = calloc(256, sizeof (fwcf_compressor))) == NULL)
-		err(1, "calloc");
+	return (&(list[algo]));
 }
