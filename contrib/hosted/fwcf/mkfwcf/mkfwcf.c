@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.4 2006/09/16 03:17:03 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.6 2006/09/16 03:51:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,6 +27,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "defs.h"
@@ -34,7 +35,7 @@
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.4 2006/09/16 03:17:03 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.6 2006/09/16 03:51:06 tg Exp $");
 
 static int mkfwcf(int, const char *, int);
 static int list_compressors(void);
@@ -98,7 +99,7 @@ usage(void)
 static int
 mkfwcf(int fd, const char *dir, int algo)
 {
-	size_t i, k;
+	size_t i, k, sz;
 	int j;
 	char *data, *cdata;
 	fwcf_compressor *complist;
@@ -106,6 +107,8 @@ mkfwcf(int fd, const char *dir, int algo)
 	ftsf_start(dir);
 	data = ft_packm();
 	i = *(size_t *)data - sizeof (size_t);
+	if (i > 0xFFFFFF)
+		errx(1, "inner size of %d too large", i);
 
 	if ((complist = compress_enumerate()) == NULL)
 		errx(1, "compress_enumerate");
@@ -120,18 +123,34 @@ mkfwcf(int fd, const char *dir, int algo)
 	free(data);
 
 	/* 12 bytes header, padding to 4-byte boundary, 4 bytes trailer */
-	i = ((j + 19) / 4) * 4;
-	if (i > DEF_FLASHPART)
+	k = ((j + 19) / 4) * 4;
+#if DEF_FLASHPART > 0xFFFFFF
+# error DEF_FLASHPART too large
+#endif
+	if (k > DEF_FLASHPART)
 		errx(1, "%d bytes too large for flash partition of %d KiB",
-		    i, DEF_FLASHPART / 1024);
+		    k, DEF_FLASHPART / 1024);
 	/* padded to size of flash block */
-	k = ((i + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK) * DEF_FLASHBLOCK;
-	if ((data = malloc(k)) == NULL)
+#if (DEF_FLASHBLOCK & 3)
+# error DEF_FLASHBLOCK must be dword-aligned
+#endif
+	sz = ((i + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK) * DEF_FLASHBLOCK;
+	if ((data = malloc(sz)) == NULL)
 		err(1, "malloc");
+	mkheader(data, sz, k, i, algo);
+	memcpy(data + 12, cdata, j);
+	free(cdata);
+	k = j + 12;
+	while (k & 3)
+		data[k++] = 0;
+	mktrailer(data, k);
+	k += 4;
+	while (k < sz) {
+		*(uint32_t *)(data + k) = arc4random();
+		k += 4;
+	}
 
-
-
-	return ((size_t)write(fd, data + sizeof (size_t), i) == i ? 0 : 1);
+	return ((size_t)write(fd, data, sz) == sz ? 0 : 1);
 }
 
 static int

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.1 2006/09/16 01:06:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,11 +28,11 @@
 
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.1 2006/09/16 01:06:32 tg Exp $");
 
 static void c_null_load(void) __attribute__((constructor));
 static int c_init(void);
-static int c_compress(void **, void *, size_t)
+static int c_compress(char **, char *, size_t)
     __attribute__((bounded (string, 2, 3)));
 
 static fwcf_compressor c_null = {
@@ -57,7 +57,7 @@ c_init(void)
 }
 
 static int
-c_compress(void **dst, void *src, size_t len)
+c_compress(char **dst, char *src, size_t len)
 {
 	if (dst == NULL)
 		return (-1);
