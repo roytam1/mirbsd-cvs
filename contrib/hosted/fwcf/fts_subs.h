@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.1 2006/09/15 21:11:23 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.h,v 1.2 2006/09/16 02:46:35 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -21,7 +21,7 @@ typedef struct {
 } ftsf_entry;
 
 #ifndef FTSF_INTERNALS
-extern const char *ftsf_prefix;
+extern const char ftsf_prefix[];
 #endif
 
 void ftsf_start(const char *);
