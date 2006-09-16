@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/ft_packm.c,v 1.1 2006/09/16 03:17:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 #include "fts_subs.h"
 #include "ft_pack.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_packm.c,v 1.1 2006/09/16 03:17:03 tg Exp $");
 
 char *
 ft_packm(void)
@@ -41,7 +41,8 @@ ft_packm(void)
 	size_t len = 1 + sizeof (size_t), k, pos = sizeof (size_t);
 
 	while ((i = ftsf_next(&e)) > 0) {
-		if ((e.etype != FTSF_FILE) && (e.etype != FTSF_SYMLINK))
+		if ((e.etype != FTSF_FILE) && (e.etype != FTSF_SYMLINK) &&
+		    (e.etype != FTSF_DIR))
 			continue;
 		if ((afile = ft_pack(&e)) == NULL)
 			errx(1, "cannot pack %s/%s", ftsf_prefix, e.pathname);

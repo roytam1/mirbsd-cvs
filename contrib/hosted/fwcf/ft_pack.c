@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.1 2006/09/16 01:55:23 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.2 2006/09/16 02:46:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,7 +32,7 @@
 #include "fts_subs.h"
 #include "ft_pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.1 2006/09/16 01:55:23 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.2 2006/09/16 02:46:34 tg Exp $");
 
 #define STOREB(x) do {				\
 		if (hdrleft < 1)		\
@@ -74,11 +74,15 @@ ft_pack(ftsf_entry *e)
 	char f_header[4096], *hdrptr = f_header;
 	size_t hdrleft = sizeof (f_header), k;
 	char *f_data = NULL, *rv;
+	off_t e_size;
 
 	if (e == NULL)
 		return (NULL);
-	if ((e->etype != FTSF_FILE) && (e->etype != FTSF_SYMLINK))
+	if ((e->etype != FTSF_FILE) && (e->etype != FTSF_SYMLINK) &&
+	    (e->etype != FTSF_DIR))
 		return (NULL);
+
+	e_size = e->statp->st_size;
 
 	if ((k = strlcpy(hdrptr, e->pathname, hdrleft)) >= hdrleft)
 		return (NULL);
@@ -87,6 +91,10 @@ ft_pack(ftsf_entry *e)
 
 	if (e->etype == FTSF_SYMLINK)
 		STOREB(0x03);
+	else if (e->etype == FTSF_DIR) {
+		STOREB(0x05);
+		e_size = 0;
+	}
 
 	if (e->statp->st_mtime) {
 		STOREB(0x10);
@@ -117,44 +125,41 @@ ft_pack(ftsf_entry *e)
 		STOREB(e->statp->st_uid);
 	}
 
-	/* XXX only for files and symlinks */
-	if (e->statp->st_size > 0xFF) {
+	/* e_size is zero for everything except files and symlinks */
+	if (e_size > 0xFF) {
 		STOREB('S');
-		STORET(e->statp->st_size);
-	} else if (e->statp->st_size) {
+		STORET(e_size);
+	} else if (e_size) {
 		STOREB('s');
-		STOREB(e->statp->st_size);
+		STOREB(e_size);
 	}
 
 	STOREB(0);
 
-	if (e->statp->st_size) {
-		if ((f_data = malloc(e->statp->st_size)) == NULL)
+	if (e_size) {
+		if ((f_data = malloc(e_size)) == NULL)
 			return (NULL);
 		if (asprintf(&rv, "%s/%s", ftsf_prefix, e->pathname) == -1)
 			return (NULL);
 		if (e->etype == FTSF_SYMLINK) {
-			if (readlink(rv, f_data, e->statp->st_size)
-			    != e->statp->st_size)
+			if (readlink(rv, f_data, e_size) != e_size)
 				return (NULL);
 		} else {
 			int fd;
 
 			if ((fd = open(rv, O_RDONLY, 0)) < 0)
 				return (NULL);
-			if (read(fd, f_data, e->statp->st_size) !=
-			    e->statp->st_size)
+			if (read(fd, f_data, e_size) != e_size)
 				return (NULL);
 			close(fd);
 		}
 		free(rv);
 	}
-	k = sizeof (size_t) + (hdrptr - f_header) + e->statp->st_size;
+	k = sizeof (size_t) + (hdrptr - f_header) + e_size;
 	if ((rv = malloc(k)) == NULL)
 		return (NULL);
 	*(size_t *)rv = k;
 	memcpy(rv + sizeof (size_t), f_header, hdrptr - f_header);
-	memcpy(rv + sizeof (size_t) + (hdrptr - f_header), f_data,
-	    e->statp->st_size);
+	memcpy(rv + sizeof (size_t) + (hdrptr - f_header), f_data, e_size);
 	return (rv);
 }
