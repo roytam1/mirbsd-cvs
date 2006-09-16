@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.2 2006/09/16 04:40:24 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_zlib.c,v 1.1 2006/09/16 05:12:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,12 +22,13 @@
  */
 
 #include <sys/param.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <zlib.h>
 
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_zlib.c,v 1.2 2006/09/16 04:40:24 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_zlib.c,v 1.1 2006/09/16 05:12:49 tg Exp $");
 
 static void c_zlib_load(void) __attribute__((constructor));
 static int c_init(void);
