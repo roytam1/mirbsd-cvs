@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                   Version 0.9 - 12 September 2006
+                                  Version 0.91 - 16 September 2006
 
 
 Copyright (c) 2006
@@ -212,6 +212,9 @@ tribute. Alternate streams / forks are not supported.
 0x04	this file is a hard link to another file (*4)
 	no payload
 
+0x05	this file is a directory (*4)
+	no payload
+
 0x10	modification time of the entry
 	optional
 	payload length: 32 bit
@@ -235,7 +238,7 @@ o/O	owner of the file (numeric UID)
 
 s/S	size of the file
 	for files and symbolic links: mandatory
-	for device nodes and hard links: forbidden
+	for directories, device nodes and hard links: forbidden
 	payload length: lowercase = 8 bit, uppercase = 24 bit
 
 *1) These identifiers are reserved in this specification; however,
@@ -248,7 +251,8 @@ s/S	size of the file
 *3) Defaults to 0 if not used (for security reasons), so labelling
     it as "optional" is probably a farce ;)
 
-*4) Implementing hard links is, of course, optional for the writer.
+*4) Implementing hard links and directories is, of course, optional
+    for the writer.
 
 
 7. Miscellaneous
@@ -273,4 +277,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.3 2006/09/15 20:09:36 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.4 2006/09/16 01:55:24 tg Exp $
