@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/compress.c,v 1.2 2006/09/16 03:07:48 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.c,v 1.3 2006/09/16 06:18:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,14 +28,14 @@
 
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.2 2006/09/16 03:07:48 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.3 2006/09/16 06:18:57 tg Exp $");
 
 #ifdef DEBUG
 #undef __inline
 #define __inline /* nothing */
 #endif
 
-static __inline void compress_initialise(void);
+static void compress_initialise(void);
 
 static fwcf_compressor *fwcf_compressors = NULL;
 
@@ -73,7 +73,7 @@ compress_enumerate(void)
 	return (rv);
 }
 
-static __inline void
+static void
 compress_initialise(void)
 {
 	if (fwcf_compressors != NULL)
@@ -111,4 +111,15 @@ compressor_get(uint8_t algo)
 		errx(1, "cannot initialise %s compression", list[algo].name);
 
 	return (&(list[algo]));
+}
+
+int
+list_compressors(void)
+{
+	int rv;
+
+	printf("List of registered compressors:\n");
+	if ((rv = compress_list()))
+		printf("No compressor registered!\n");
+	return (rv);
 }

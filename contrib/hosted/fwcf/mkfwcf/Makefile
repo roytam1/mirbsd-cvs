@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.6 2006/09/16 05:12:50 tg Exp $
+# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.7 2006/09/16 06:18:58 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -7,9 +7,11 @@
 PROG=		mkfwcf
 NOMAN=		yes
 SRCS=		mkfwcf.c
-SRCS+=		fts_subs.c ft_pack.c ft_packm.c compress.c header.c
+SRCS+=		fts_subs.c ft_pack.c ft_packm.c compress.c header.c wraps.c
 SRCS+=		c_null.c
 SRCS+=		c_zlib.c
+
+CPPFLAGS+=	-DWRAPS_PACK
 
 CPPFLAGS+=	-I${.CURDIR}/..
 .PATH: ${.CURDIR}/..

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/header.c,v 1.1 2006/09/16 04:40:25 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/header.c,v 1.2 2006/09/16 06:18:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -29,10 +29,9 @@
 
 #include "defs.h"
 #include "adler.h"
-#include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.1 2006/09/16 04:40:25 tg Exp $"
+__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.2 2006/09/16 06:18:58 tg Exp $"
     "\t" ADLER_H);
 
 char *

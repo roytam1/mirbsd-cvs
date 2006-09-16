@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.1 2006/09/16 06:44:25 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.2 2006/09/16 06:50:11 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,10 +28,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.1 2006/09/16 06:44:25 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.2 2006/09/16 06:50:11 tg Exp $");
 
 static int ft_dumpfile(char *);
 
