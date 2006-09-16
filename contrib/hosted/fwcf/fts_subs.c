@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.2 2006/09/16 00:08:42 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,7 +32,7 @@
 
 #include "fts_subs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.1 2006/09/15 21:11:23 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.2 2006/09/16 00:08:42 tg Exp $");
 
 static FTS *handle;
 
@@ -141,6 +141,7 @@ ftsf_next(ftsf_entry *e)
 		    ename, (int)ent->fts_info);
 		warn("ent->fts_errno = %d (%s)", ent->fts_errno,
 		    strerror(ent->fts_errno));
+		goto ftsf_continue;
 	}
 
 	e->statp = ent->fts_statp;
