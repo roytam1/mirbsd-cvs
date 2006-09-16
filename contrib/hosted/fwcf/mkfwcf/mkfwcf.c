@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.2 2006/09/16 00:52:13 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.3 2006/09/16 01:55:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,7 +33,7 @@
 #include "fts_subs.h"
 #include "ft_pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.2 2006/09/16 00:52:13 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.3 2006/09/16 01:55:24 tg Exp $");
 
 static int mkfwcf(int, const char *, int);
 static int list_compressors(void);
@@ -95,16 +95,15 @@ usage(void)
 }
 
 static int
-mkfwcf(int fd __attribute__((unused)), const char *dir, int algo __attribute__((unused)))
+mkfwcf(int fd, const char *dir, int algo __attribute__((unused)))
 {
-	ftsf_entry e;
-	int i;
+	size_t i;
+	char *data;
 
 	ftsf_start(dir);
-	while ((i = ftsf_next(&e)) > 0)
-		ftsf_debugent(&e);
-
-	return (i == 0 ? 0 : 1);
+	data = ft_packm();
+	i = *(size_t *)data - sizeof (size_t);
+	return ((size_t)write(fd, data + sizeof (size_t), i) == i ? 0 : 1);
 }
 
 static int
