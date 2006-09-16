@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.1 2006/09/16 01:06:32 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.2 2006/09/16 04:40:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,17 +28,20 @@
 
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.1 2006/09/16 01:06:32 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.2 2006/09/16 04:40:24 tg Exp $");
 
 static void c_null_load(void) __attribute__((constructor));
 static int c_init(void);
 static int c_compress(char **, char *, size_t)
     __attribute__((bounded (string, 2, 3)));
+static int c_decompress(char *, size_t, char *, size_t)
+    __attribute__((bounded (string, 1, 2)))
+    __attribute__((bounded (string, 3, 4)));
 
 static fwcf_compressor c_null = {
 	c_init,			/* init */
 	c_compress,		/* compress */
-	c_compress,		/* decompress */
+	c_decompress,		/* decompress */
 	"null",			/* name */
 	0			/* code */
 };
@@ -59,10 +62,16 @@ c_init(void)
 static int
 c_compress(char **dst, char *src, size_t len)
 {
-	if (dst == NULL)
-		return (-1);
 	if ((*dst = malloc(len)) == NULL)
 		return (-1);
 	memcpy(*dst, src, len);
+	return (len);
+}
+
+static int
+c_decompress(char *dst, size_t dstlen, char *src, size_t srclen)
+{
+	size_t len = MIN(srclen, dstlen);
+	memmove(dst, src, len);
 	return (len);
 }
