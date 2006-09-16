@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "defs.h"
 #include "compress.h"
 #include "fts_subs.h"
 #include "pack.h"
@@ -95,14 +96,41 @@ usage(void)
 }
 
 static int
-mkfwcf(int fd, const char *dir, int algo __attribute__((unused)))
+mkfwcf(int fd, const char *dir, int algo)
 {
-	size_t i;
-	char *data;
+	size_t i, k;
+	int j;
+	char *data, *cdata;
+	fwcf_compressor *complist;
 
 	ftsf_start(dir);
 	data = ft_packm();
 	i = *(size_t *)data - sizeof (size_t);
+
+	if ((complist = compress_enumerate()) == NULL)
+		errx(1, "compress_enumerate");
+	if (complist[algo].name == NULL)
+		errx(1, "compression algorithm %02Xh not found", algo);
+	if (complist[algo].init())
+		errx(1, "cannot initialise %s compression",
+		     complist[algo].name);
+	if ((j = complist[algo].compress(&cdata, data + sizeof (size_t), i))
+	    == -1)
+		errx(1, "%s compression failed", complist[algo].name);
+	free(data);
+
+	/* 12 bytes header, padding to 4-byte boundary, 4 bytes trailer */
+	i = ((j + 19) / 4) * 4;
+	if (i > DEF_FLASHPART)
+		errx(1, "%d bytes too large for flash partition of %d KiB",
+		    i, DEF_FLASHPART / 1024);
+	/* padded to size of flash block */
+	k = ((i + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK) * DEF_FLASHBLOCK;
+	if ((data = malloc(k)) == NULL)
+		err(1, "malloc");
+
+
+
 	return ((size_t)write(fd, data + sizeof (size_t), i) == i ? 0 : 1);
 }
 
