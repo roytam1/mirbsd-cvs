@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.1 2006/09/16 07:09:49 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.1 2006/09/16 07:35:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,14 +32,15 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.1 2006/09/16 07:09:49 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.1 2006/09/16 07:35:37 tg Exp $");
 
 char *
 fwcf_unpack(int fd)
 {
 	uint8_t c, hdrbuf[12];
-	size_t outer, inner, x;
+	size_t outer, inner, x, len;
 	char *cdata, *udata;
+	ADLER_DECL;
 
 	if (read(fd, hdrbuf, 12) != 12)
 		err(1, "read");
@@ -60,15 +61,13 @@ fwcf_unpack(int fd)
 	if ((size_t)read(fd, cdata + 12, outer - 12) != (outer - 12))
 		err(1, "read");
 
-	ADLER_START(cdata)
-	unsigned len = outer - 4;
-	ADLER_RUN
+	len = outer - 4;
+	ADLER_CALC(cdata);
 	if ((s1 != LOADW(cdata + outer - 4)) ||
 	    (s2 != LOADW(cdata + outer - 2)))
 		errx(1, "crc mismatch: %02X%02X%02X%02X != %04X%04X",
 		    cdata[outer - 1], cdata[outer - 2], cdata[outer - 3],
 		    cdata[outer - 4], s2, s1);
-	ADLER_END
 
 	if ((x = compressor_get(c)->decompress(udata, inner, cdata + 12,
 	    outer - 12)) != inner)

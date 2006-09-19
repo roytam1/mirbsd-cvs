@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.1 2006/09/16 06:18:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,17 +22,19 @@
  */
 
 #ifndef ADLER_H
-#define ADLER_H	"$MirOS$"
+#define ADLER_H	"$MirOS: contrib/hosted/fwcf/adler.h,v 1.1 2006/09/16 06:18:57 tg Exp $"
 
 #define ADLER_BASE 65521 /* largest prime smaller than 65536 */
 #define ADLER_NMAX 5552	 /* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
 
-#define ADLER_START(buffer)					\
-	{							\
-		uint8_t *adler_buf = (uint8_t *)(buffer);	\
-		unsigned s1 = 1, s2 = 0, n;
+/* declare everything needed by the adler32 routine */
+#define ADLER_DECL		unsigned s1 = 1, s2 = 0, n
 
-#define ADLER_RUN						\
+/* calculate the adler32 crc of the data pointed to
+   by the 'buffer' argument, size expected in 'len'
+   which is TRASHED; stores the result in s1 and s2 */
+#define ADLER_CALC(buffer)	do {				\
+		uint8_t *adler_buf = (uint8_t *)(buffer);	\
 		while (len) {					\
 			len -= (n = MIN(len, ADLER_NMAX));	\
 			while (n--) {				\
@@ -41,9 +43,7 @@
 			}					\
 			s1 %= ADLER_BASE;			\
 			s2 %= ADLER_BASE;			\
-		}
-
-#define ADLER_END						\
-	}
+		}						\
+	} while (0)
 
 #endif
