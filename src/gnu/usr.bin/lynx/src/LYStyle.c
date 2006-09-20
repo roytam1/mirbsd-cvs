@@ -251,7 +251,6 @@ static void parse_style(char *param)
 	{ "status",		DSTYLE_STATUS,		0 }, /* status bar */
 	{ "label",		DSTYLE_OPTION,		0 }, /* [INLINE]'s */
 	{ "value",		DSTYLE_VALUE,		0 }, /* [INLINE]'s */
-	{ "high",		DSTYLE_HIGH,		0 }, /* [INLINE]'s */
 	{ "normal",		DSTYLE_NORMAL,		0 },
 	{ "candy",		DSTYLE_CANDY,		0 }, /* [INLINE]'s */
 	{ "whereis",		DSTYLE_WHEREIS,		&s_whereis },
