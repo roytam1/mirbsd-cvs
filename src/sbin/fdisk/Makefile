@@ -1,5 +1,5 @@
 #
-#	$OpenBSD: Makefile,v 1.30 2005/02/16 20:39:38 millert Exp $
+#	$OpenBSD: Makefile,v 1.33 2006/07/09 21:02:38 miod Exp $
 #
 # Copyright (c) 1997 Tobias Weingartner
 # All rights reserved.
@@ -25,9 +25,10 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-.if (${MACHINE} == "i386") || (${MACHINE} == "amd64") || \
-    (${MACHINE} == "macppc") || (${MACHINE} == "alpha") || \
-    (${MACHINE} == "cats") || (${MACHINE} == "zaurus") 
+.if (${MACHINE} == "alpha") || (${MACHINE} == "amd64") || \
+    (${MACHINE} == "armish") || (${MACHINE} == "cats") || \
+    (${MACHINE} == "i386") || (${MACHINE} == "macppc") || \
+    (${MACHINE} == "zaurus")
 PROG=	fdisk
 SRCS=	fdisk.c user.c misc.c disk.c mbr.c part.c cmd.c manual.c
 DPADD=	${LIBUTIL}
@@ -38,12 +39,12 @@ CLEANFILES+=manual.c
 
 .ifdef NOMAN
 manual.c:
-	(echo 'const char manpage[] = {'; \
+	(echo 'const unsigned char manpage[] = {'; \
 	echo 'no manual' | gzip -9c | hexdump -ve '"0x" 1/1 "%02x,"'; \
 	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
 .else
 manual.c:	fdisk.cat8
-	(echo 'const char manpage[] = {'; \
+	(echo 'const unsigned char manpage[] = {'; \
 	cat fdisk.cat8 | gzip -9c | hexdump -ve '"0x" 1/1 "%02x,"'; \
 	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
 .endif
@@ -53,6 +54,6 @@ NOPROG=yes
 .endif
 
 MAN=	fdisk.8
-MANSUBDIR=i386 amd64 macppc alpha cats zaurus
+MANSUBDIR=alpha amd64 armish cats i386 macppc zaurus
 
 .include <bsd.prog.mk>

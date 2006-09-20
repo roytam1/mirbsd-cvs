@@ -1,4 +1,4 @@
-/* $OpenBSD: authfile.c,v 1.67 2006/04/25 08:02:27 dtucker Exp $ */
+/* $OpenBSD: authfile.c,v 1.76 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -36,19 +36,26 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>
+#include <sys/uio.h>
 
 #include <openssl/err.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 
-#include "cipher.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "xmalloc.h"
+#include "cipher.h"
 #include "buffer.h"
-#include "bufaux.h"
 #include "key.h"
 #include "ssh.h"
 #include "log.h"
@@ -187,7 +194,7 @@ key_save_private_pem(Key *key, const char *filename, const char *_passphrase,
 		return 0;
 	}
 	fp = fdopen(fd, "w");
-	if (fp == NULL ) {
+	if (fp == NULL) {
 		error("fdopen %s failed: %s.", filename, strerror(errno));
 		close(fd);
 		return 0;

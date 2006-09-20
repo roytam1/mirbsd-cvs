@@ -1,4 +1,4 @@
-/*	$OpenBSD: part.c,v 1.40 2004/11/10 17:29:41 deraadt Exp $	*/
+/*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -131,6 +131,8 @@ static const struct part_type {
 	{ 0xE3, "SpeedStor   "},   /* DOS R/O or SpeedStor or Storage Dimensions */
 	{ 0xE4, "SpeedStor   "},   /* SpeedStor 16-bit FAT extended partition < 1024 cyl. */
 	{ 0xEB, "BeOS/i386   "},   /* BeOS for Intel */
+	{ 0xEE, "EFI GPT     "},   /* EFI Protective Partition */
+	{ 0xEF, "EFI Sys     "},   /* EFI System Partition */
 	{ 0xF1, "SpeedStor   "},   /* SpeedStor or Storage Dimensions */
 	{ 0xF2, "DOS 3.3+ Sec"},   /* DOS 3.3+ Secondary */
 	{ 0xF4, "SpeedStor   "},   /* SpeedStor >1024 cyl. or LANstep or IBM PS/2 IML */
@@ -283,7 +285,7 @@ PRT_print(int num, prt_t *partn, char *units)
 		printf(" #: id    C   H  S -    C   H  S [       start:      size   ]\n");
 		printf("------------------------------------------------------------------------\n");
 	} else {
-		size = (double)partn->ns * DEV_BSIZE /
+		size = ((double)partn->ns * unit_types[SECTORS].conversion) /
 		    unit_types[i].conversion;
 		printf("%c%1d: %.2X %4u %3u %2u - %4u %3u %2u [%12u:%12.0f%s] %s\n",
 			(partn->flag == 0x80)?'*':' ',

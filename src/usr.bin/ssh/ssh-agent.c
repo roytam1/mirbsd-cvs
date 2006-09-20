@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-agent.c,v 1.140 2006/06/13 02:17:07 djm Exp $ */
+/* $OpenBSD: ssh-agent.c,v 1.152 2006/08/04 20:46:05 stevesk Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -34,24 +34,32 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
+#include <sys/types.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
 #include <sys/types.h>
+#include <sys/socket.h>
 #include <sys/un.h>
-
-#include <paths.h>
-#include <signal.h>
+#include <sys/time.h>
+#include <sys/param.h>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
 
+#include <errno.h>
+#include <fcntl.h>
+#include <paths.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "rsa.h"
 #include "buffer.h"
-#include "bufaux.h"
-#include "xmalloc.h"
 #include "key.h"
 #include "authfd.h"
 #include "compat.h"
@@ -995,7 +1003,7 @@ int
 main(int ac, char **av)
 {
 	int c_flag = 0, d_flag = 0, k_flag = 0, s_flag = 0;
-	int sock, fd,  ch;
+	int sock, fd, ch;
 	u_int nalloc;
 	char *shell, *format, *pidstr, *agentsocket = NULL;
 	fd_set *readsetp = NULL, *writesetp = NULL;

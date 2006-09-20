@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-dss.c,v 1.21 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: ssh-dss.c,v 1.23 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,14 +23,15 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
+#include <sys/types.h>
 
 #include <openssl/bn.h>
 #include <openssl/evp.h>
 
+#include <string.h>
+
 #include "xmalloc.h"
 #include "buffer.h"
-#include "bufaux.h"
 #include "compat.h"
 #include "log.h"
 #include "key.h"

@@ -1,4 +1,4 @@
-/*	$OpenBSD: bpf.c,v 1.13 2004/05/05 14:28:58 deraadt Exp $	*/
+/*	$OpenBSD: bpf.c,v 1.15 2005/11/26 17:35:35 reyk Exp $	*/
 
 /* BPF socket interface code, originally contributed by Archie Cobbs. */
 
@@ -195,6 +195,9 @@ if_register_receive(struct interface_info *info)
 	if (ioctl(info->rfdesc, BIOCIMMEDIATE, &flag) < 0)
 		error("Can't set immediate mode on bpf device: %m");
 
+	if (ioctl(info->rfdesc, BIOCSFILDROP, &flag) < 0)
+		error("Can't set filter-drop mode on bpf device: %m");
+
 	/* Get the required BPF buffer length from the kernel. */
 	if (ioctl(info->rfdesc, BIOCGBLEN, &sz) < 0)
 		error("Can't get bpf buffer length: %m");
@@ -285,7 +288,7 @@ receive_packet(struct interface_info *interface, unsigned char *buf,
 			if (length <= 0)
 				return (length);
 			interface->rbuf_offset = 0;
-			interface->rbuf_len = length;
+			interface->rbuf_len = BPF_WORDALIGN(length);
 		}
 
 		/*
@@ -319,7 +322,9 @@ receive_packet(struct interface_info *interface, unsigned char *buf,
 		 * do is drop it.
 		 */
 		if (hdr.bh_caplen != hdr.bh_datalen) {
-			interface->rbuf_offset += hdr.bh_hdrlen = hdr.bh_caplen;
+			interface->rbuf_offset = BPF_WORDALIGN(
+			    interface->rbuf_offset + hdr.bh_hdrlen +
+			    hdr.bh_caplen);
 			continue;
 		}
 
@@ -336,7 +341,8 @@ receive_packet(struct interface_info *interface, unsigned char *buf,
 		 * this packet.
 		 */
 		if (offset < 0) {
-			interface->rbuf_offset += hdr.bh_caplen;
+			interface->rbuf_offset = BPF_WORDALIGN(
+			    interface->rbuf_offset + hdr.bh_caplen);
 			continue;
 		}
 		interface->rbuf_offset += offset;
@@ -348,7 +354,8 @@ receive_packet(struct interface_info *interface, unsigned char *buf,
 
 		/* If the IP or UDP checksum was bad, skip the packet... */
 		if (offset < 0) {
-			interface->rbuf_offset += hdr.bh_caplen;
+			interface->rbuf_offset = BPF_WORDALIGN(
+			    interface->rbuf_offset + hdr.bh_caplen);
 			continue;
 		}
 		interface->rbuf_offset += offset;
@@ -360,14 +367,16 @@ receive_packet(struct interface_info *interface, unsigned char *buf,
 		 * life, though).
 		 */
 		if (hdr.bh_caplen > len) {
-			interface->rbuf_offset += hdr.bh_caplen;
+			interface->rbuf_offset = BPF_WORDALIGN(
+			    interface->rbuf_offset + hdr.bh_caplen);
 			continue;
 		}
 
 		/* Copy out the data in the packet... */
 		memcpy(buf, interface->rbuf + interface->rbuf_offset,
 		    hdr.bh_caplen);
-		interface->rbuf_offset += hdr.bh_caplen;
+		interface->rbuf_offset = BPF_WORDALIGN(interface->rbuf_offset +
+		    hdr.bh_caplen);
 		return (hdr.bh_caplen);
 	} while (!length);
 	return (0);

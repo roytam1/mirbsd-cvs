@@ -1,4 +1,4 @@
-/* $OpenBSD: auth.c,v 1.67 2006/03/30 11:40:21 dtucker Exp $ */
+/* $OpenBSD: auth.c,v 1.75 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,28 +23,35 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 
+#include <errno.h>
 #include <libgen.h>
 #include <paths.h>
+#include <pwd.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "xmalloc.h"
 #include "match.h"
 #include "groupaccess.h"
 #include "log.h"
+#include "buffer.h"
 #include "servconf.h"
+#include "key.h"
+#include "hostfile.h"
 #include "auth.h"
 #include "auth-options.h"
 #include "canohost.h"
-#include "buffer.h"
-#include "bufaux.h"
 #include "uidswap.h"
 #include "misc.h"
-#include "bufaux.h"
 #include "packet.h"
+#ifdef GSSAPI
+#include "ssh-gss.h"
+#endif
 #include "monitor_wrap.h"
 
 /* import */
@@ -381,6 +388,9 @@ getpwnamallow(const char *user)
 #endif
 #endif
 	struct passwd *pw;
+
+	parse_server_match_config(&options, user,
+	    get_canonical_hostname(options.use_dns), get_remote_ipaddr());
 
 	pw = getpwnam(user);
 	if (pw == NULL) {

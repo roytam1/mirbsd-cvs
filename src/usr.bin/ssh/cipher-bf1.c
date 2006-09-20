@@ -1,4 +1,4 @@
-/* $OpenBSD: cipher-bf1.c,v 1.3 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: cipher-bf1.c,v 1.5 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2003 Markus Friedl.  All rights reserved.
  *
@@ -23,9 +23,12 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
+#include <sys/types.h>
 
 #include <openssl/evp.h>
+
+#include <string.h>
+
 #include "xmalloc.h"
 #include "log.h"
 /*

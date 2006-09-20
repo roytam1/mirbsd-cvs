@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect2.c,v 1.155 2006/06/08 14:45:49 markus Exp $ */
+/* $OpenBSD: sshconnect2.c,v 1.162 2006/08/30 00:06:51 dtucker Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,21 +23,27 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
 #include <sys/types.h>
+#include <sys/socket.h>
 #include <sys/wait.h>
 #include <sys/queue.h>
 #include <sys/stat.h>
 
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <signal.h>
+#include <pwd.h>
+#include <unistd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh2.h"
-#include "xmalloc.h"
 #include "buffer.h"
 #include "packet.h"
 #include "compat.h"
-#include "bufaux.h"
 #include "cipher.h"
+#include "key.h"
 #include "kex.h"
 #include "myproposal.h"
 #include "sshconnect.h"
@@ -368,7 +374,7 @@ input_userauth_banner(int type, u_int32_t seq, void *ctxt)
 	debug3("input_userauth_banner");
 	msg = packet_get_string(NULL);
 	lang = packet_get_string(NULL);
-	if (options.log_level > SYSLOG_LEVEL_QUIET)
+	if (options.log_level >= SYSLOG_LEVEL_INFO)
 		fprintf(stderr, "%s", msg);
 	xfree(msg);
 	xfree(lang);
@@ -499,25 +505,18 @@ userauth_gssapi(Authctxt *authctxt)
 
 	/* Check to see if the mechanism is usable before we offer it */
 	while (mech < gss_supported->count && !ok) {
-		if (gssctxt)
-			ssh_gssapi_delete_ctx(&gssctxt);
-		ssh_gssapi_build_ctx(&gssctxt);
-		ssh_gssapi_set_oid(gssctxt, &gss_supported->elements[mech]);
-
 		/* My DER encoding requires length<128 */
 		if (gss_supported->elements[mech].length < 128 &&
-		    !GSS_ERROR(ssh_gssapi_import_name(gssctxt,
-		    authctxt->host))) {
+		    ssh_gssapi_check_mechanism(&gssctxt, 
+		    &gss_supported->elements[mech], authctxt->host)) {
 			ok = 1; /* Mechanism works */
 		} else {
 			mech++;
 		}
 	}
 
-	if (!ok) {
-		ssh_gssapi_delete_ctx(&gssctxt);
+	if (!ok)
 		return 0;
-	}
 
 	authctxt->methoddata=(void *)gssctxt;
 

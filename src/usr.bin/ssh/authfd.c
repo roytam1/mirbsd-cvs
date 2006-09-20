@@ -1,4 +1,4 @@
-/* $OpenBSD: authfd.c,v 1.74 2006/03/30 09:58:15 djm Exp $ */
+/* $OpenBSD: authfd.c,v 1.80 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,18 +35,24 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
 
 #include <sys/types.h>
 #include <sys/un.h>
+#include <sys/socket.h>
 
 #include <openssl/evp.h>
 
+#include <openssl/crypto.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <string.h>
+#include <unistd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "rsa.h"
 #include "buffer.h"
-#include "bufaux.h"
-#include "xmalloc.h"
 #include "key.h"
 #include "authfd.h"
 #include "cipher.h"

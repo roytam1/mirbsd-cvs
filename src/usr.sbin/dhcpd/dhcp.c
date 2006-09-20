@@ -1,4 +1,4 @@
-/*	$OpenBSD: dhcp.c,v 1.19 2005/01/31 22:21:44 claudio Exp $ */
+/*	$OpenBSD: dhcp.c,v 1.24 2006/06/14 14:49:46 ckuethe Exp $ */
 
 /*
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
@@ -135,6 +135,8 @@ dhcpdiscover(struct packet *packet)
 				warning("Reclaiming abandoned IP address %s.",
 				    piaddr(lease->ip_addr));
 				lease->flags &= ~ABANDONED_LEASE;
+
+				pfmsg('L', lease); /* unabandon address */
 			}
 		}
 
@@ -509,7 +511,7 @@ nak_lease(struct packet *packet, struct iaddr *cip)
 	options[DHO_DHCP_MESSAGE_TYPE]->value = &nak;
 	options[DHO_DHCP_MESSAGE_TYPE]->len = sizeof nak;
 	options[DHO_DHCP_MESSAGE_TYPE]->buf_size = sizeof nak;
-	options[DHO_DHCP_MESSAGE_TYPE]->timeout = 0xFFFFFFFF;
+	options[DHO_DHCP_MESSAGE_TYPE]->timeout = -1;
 	options[DHO_DHCP_MESSAGE_TYPE]->tree = NULL;
 
 	/* Set DHCP_MESSAGE to whatever the message is */
@@ -517,7 +519,7 @@ nak_lease(struct packet *packet, struct iaddr *cip)
 	options[DHO_DHCP_MESSAGE]->value = (unsigned char *)dhcp_message;
 	options[DHO_DHCP_MESSAGE]->len = strlen(dhcp_message);
 	options[DHO_DHCP_MESSAGE]->buf_size = strlen(dhcp_message);
-	options[DHO_DHCP_MESSAGE]->timeout = 0xFFFFFFFF;
+	options[DHO_DHCP_MESSAGE]->timeout = -1;
 	options[DHO_DHCP_MESSAGE]->tree = NULL;
 
 	/* Do not use the client's requested parameter list. */
@@ -596,8 +598,13 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 
 	/* If we're already acking this lease, don't do it again. */
 	if (lease->state) {
-		note("already acking lease %s", piaddr(lease->ip_addr));
-		return;
+		if ((lease->flags & STATIC_LEASE) ||
+		    cur_time - lease->timestamp < 60) {
+			note("already acking lease %s", piaddr(lease->ip_addr));
+			return;
+		}
+		free_lease_state(lease->state, "ACK timed out");
+		lease->state = NULL;
 	}
 
 	if (packet->options[DHO_DHCP_CLASS_IDENTIFIER].len) {
@@ -646,7 +653,7 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 	/* Replace the old lease hostname with the new one, if it's changed. */
 	if (packet->options[DHO_HOST_NAME].len &&
 	    lease->client_hostname &&
-	    (strlen (lease->client_hostname) == packet->options[DHO_HOST_NAME].len) &&
+	    (strlen(lease->client_hostname) == packet->options[DHO_HOST_NAME].len) &&
 	    !memcmp(lease->client_hostname, packet->options[DHO_HOST_NAME].data,
 	    packet->options[DHO_HOST_NAME].len)) {
 	} else if (packet->options[DHO_HOST_NAME].len) {
@@ -882,7 +889,7 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 	   was sent. */
 	i = DHO_DHCP_MAX_MESSAGE_SIZE;
 	if (packet->options[i].data &&
-	    packet->options[i].len == sizeof (u_int16_t))
+	    packet->options[i].len == sizeof(u_int16_t))
 		state->max_message_size = getUShort(packet->options[i].data);
 	/* Otherwise, if a maximum message size was specified, use that. */
 	else if (state->options[i] && state->options[i]->value)
@@ -908,9 +915,9 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 		state->options[i] = new_tree_cache("hostname");
 		state->options[i]->flags = TC_TEMPORARY;
 		state->options[i]->value = (unsigned char *)lease->hostname;
-		state->options[i]->len = strlen (lease->hostname);
+		state->options[i]->len = strlen(lease->hostname);
 		state->options[i]->buf_size = state->options[i]->len;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 	}
 
@@ -925,7 +932,7 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 		state->options[i]->value = &state->offer;
 		state->options[i]->len = sizeof state->offer;
 		state->options[i]->buf_size = sizeof state->offer;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 
 		i = DHO_DHCP_SERVER_IDENTIFIER;
@@ -938,14 +945,14 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 			    sizeof state->ip->primary_address;
 			state->options[i]->buf_size =
 			    state->options[i]->len;
-			state->options[i]->timeout = 0xFFFFFFFF;
+			state->options[i]->timeout = -1;
 			state->options[i]->tree = NULL;
 			state->from.len = sizeof state->ip->primary_address;
 			memcpy(state->from.iabuf, &state->ip->primary_address,
 			    state->from.len);
 		} else {
 			/* Find the value of the server identifier... */
-			if (!tree_evaluate (state->options[i]))
+			if (!tree_evaluate(state->options[i]))
 				goto use_primary;
 			if (!state->options[i]->value ||
 			    (state->options[i]->len > sizeof state->from.iabuf))
@@ -968,42 +975,42 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 		putULong((unsigned char *)&state->expiry,
 		    offered_lease_time);
 		i = DHO_DHCP_LEASE_TIME;
-		state->options[i] = new_tree_cache ("lease-expiry");
+		state->options[i] = new_tree_cache("lease-expiry");
 		state->options[i]->flags = TC_TEMPORARY;
 		state->options[i]->value = (unsigned char *)&state->expiry;
 		state->options[i]->len = sizeof state->expiry;
 		state->options[i]->buf_size = sizeof state->expiry;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 
 		/* Renewal time is lease time * 0.5. */
 		offered_lease_time /= 2;
-		putULong ((unsigned char *)&state->renewal,
+		putULong((unsigned char *)&state->renewal,
 			  offered_lease_time);
 		i = DHO_DHCP_RENEWAL_TIME;
-		state->options[i] = new_tree_cache ("renewal-time");
+		state->options[i] = new_tree_cache("renewal-time");
 		state->options[i]->flags = TC_TEMPORARY;
 		state->options[i]->value =
 			(unsigned char *)&state->renewal;
 		state->options[i]->len = sizeof state->renewal;
 		state->options[i]->buf_size = sizeof state->renewal;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 
 
 		/* Rebinding time is lease time * 0.875. */
 		offered_lease_time += (offered_lease_time / 2 +
 		    offered_lease_time / 4);
-		putULong ((unsigned char *)&state->rebind,
+		putULong((unsigned char *)&state->rebind,
 		    offered_lease_time);
 		i = DHO_DHCP_REBINDING_TIME;
-		state->options[i] = new_tree_cache ("rebind-time");
+		state->options[i] = new_tree_cache("rebind-time");
 		state->options[i]->flags = TC_TEMPORARY;
 		state->options[i]->value =
 			(unsigned char *)&state->rebind;
 		state->options[i]->len = sizeof state->rebind;
 		state->options[i]->buf_size = sizeof state->rebind;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 
 		/* If we used the vendor class the client specified, we
@@ -1011,15 +1018,15 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 		if (vendor_class) {
 			i = DHO_DHCP_CLASS_IDENTIFIER;
 			state->options[i] =
-				new_tree_cache ("class-identifier");
+				new_tree_cache("class-identifier");
 			state->options[i]->flags = TC_TEMPORARY;
 			state->options[i]->value =
 				(unsigned char *)vendor_class->name;
 			state->options[i]->len =
-				strlen (vendor_class->name);
+				strlen(vendor_class->name);
 			state->options[i]->buf_size =
 				state->options[i]->len;
-			state->options[i]->timeout = 0xFFFFFFFF;
+			state->options[i]->timeout = -1;
 			state->options[i]->tree = NULL;
 		}
 
@@ -1027,15 +1034,15 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 		   have to return it. */
 		if (user_class) {
 			i = DHO_DHCP_USER_CLASS_ID;
-			state->options[i] = new_tree_cache ("user-class");
+			state->options[i] = new_tree_cache("user-class");
 			state->options[i]->flags = TC_TEMPORARY;
 			state->options[i]->value =
 				(unsigned char *)user_class->name;
 			state->options[i]->len =
-				strlen (user_class->name);
+				strlen(user_class->name);
 			state->options[i]->buf_size =
 				state->options[i]->len;
-			state->options[i]->timeout = 0xFFFFFFFF;
+			state->options[i]->timeout = -1;
 			state->options[i]->tree = NULL;
 		}
 	}
@@ -1044,14 +1051,14 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 	   mask has been provided. */
 	i = DHO_SUBNET_MASK;
 	if (!state->options[i]) {
-		state->options[i] = new_tree_cache ("subnet-mask");
+		state->options[i] = new_tree_cache("subnet-mask");
 		state->options[i]->flags = TC_TEMPORARY;
 		state->options[i]->value =
 			lease->subnet->netmask.iabuf;
 		state->options[i]->len = lease->subnet->netmask.len;
 		state->options[i]->buf_size =
 			lease->subnet->netmask.len;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 	}
 
@@ -1076,12 +1083,12 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 
 	i = DHO_ROUTERS;
 	if (ulafdr && !state->options[i]) {
-		state->options[i] = new_tree_cache ("routers");
+		state->options[i] = new_tree_cache("routers");
 		state->options[i]->flags = TC_TEMPORARY;
 		state->options[i]->value = lease->ip_addr.iabuf;
 		state->options[i]->len = lease->ip_addr.len;
 		state->options[i]->buf_size = lease->ip_addr.len;
-		state->options[i]->timeout = 0xFFFFFFFF;
+		state->options[i]->timeout = -1;
 		state->options[i]->tree = NULL;
 	}
 
@@ -1092,12 +1099,12 @@ ack_lease(struct packet *packet, struct lease *lease, unsigned int offer,
 	if (offer == DHCPOFFER && !(lease->flags & STATIC_LEASE) &&
 	    cur_time - lease->timestamp > 60) {
 		lease->timestamp = cur_time;
-		icmp_echorequest (&lease->ip_addr);
-		add_timeout (cur_time + 1, lease_ping_timeout, lease);
+		icmp_echorequest(&lease->ip_addr);
+		add_timeout(cur_time + 1, lease_ping_timeout, lease);
 		++outstanding_pings;
 	} else {
 		lease->timestamp = cur_time;
-		dhcp_reply (lease);
+		dhcp_reply(lease);
 	}
 }
 
@@ -1253,7 +1260,7 @@ dhcp_reply(struct lease *lease)
 	   and is not requesting a broadcast response, and we can
 	   unicast to a client without using the ARP protocol, sent it
 	   directly to that client. */
-	} else if (!(raw.flags & htons (BOOTP_BROADCAST))) {
+	} else if (!(raw.flags & htons(BOOTP_BROADCAST))) {
 		to.sin_addr = raw.yiaddr;
 		to.sin_port = client_port;
 
@@ -1333,7 +1340,7 @@ find_lease(struct packet *packet, struct shared_network *share,
 		    packet->raw->chaddr, packet->raw->hlen);
 		if (hp) {
 			host = hp; /* Save it for later. */
-			fixed_lease = mockup_lease (packet, share, hp);
+			fixed_lease = mockup_lease(packet, share, hp);
 		}
 	}
 
@@ -1346,7 +1353,7 @@ find_lease(struct packet *packet, struct shared_network *share,
 		if (ours)
 			*ours = 1;
 		strlcpy(dhcp_message, "requested address is incorrect",
-		    sizeof (dhcp_message));
+		    sizeof(dhcp_message));
 		return NULL;
 	}
 
@@ -1418,7 +1425,7 @@ find_lease(struct packet *packet, struct shared_network *share,
 					    ip_lease->shared_network->name);
 
 					if (uid_lease && !packet->raw->ciaddr.s_addr)
-						release_lease (uid_lease);
+						release_lease(uid_lease);
 				}
 				uid_lease = ip_lease;
 			}

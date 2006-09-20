@@ -1,4 +1,4 @@
-/*	$OpenBSD: dhcpd.h,v 1.45 2005/07/17 19:33:55 krw Exp $	*/
+/*	$OpenBSD: dhcpd.h,v 1.49 2006/08/29 03:55:09 deraadt Exp $	*/
 
 /*
  * Copyright (c) 2004 Henning Brauer <henning@openbsd.org>
@@ -156,6 +156,7 @@ struct client_config {
 	int			 requested_option_count;
 	time_t			 timeout;
 	time_t			 initial_interval;
+	time_t			 link_timeout;
 	time_t			 retry_interval;
 	time_t			 select_interval;
 	time_t			 reboot_timeout;
@@ -285,6 +286,8 @@ void cancel_timeout(void (*)(void *), void *);
 void add_protocol(char *, int, void (*)(struct protocol *), void *);
 void remove_protocol(struct protocol *);
 int interface_link_status(char *);
+int interface_link_forceup(char *);
+void interface_link_forcedown(char *);
 
 /* tables.c */
 extern const struct option dhcp_options[256];
@@ -310,8 +313,6 @@ extern char *path_dhclient_conf;
 extern char *path_dhclient_db;
 extern time_t cur_time;
 extern int log_perror;
-
-extern struct client_config top_level_config;
 
 void dhcpoffer(struct packet *);
 void dhcpack(struct packet *);
@@ -345,11 +346,9 @@ int	 priv_script_go(void);
 void script_init(char *, struct string_list *);
 void script_write_params(char *, struct client_lease *);
 int script_go(void);
-void client_envadd(struct client_state *,
-    const char *, const char *, const char *, ...);
-void script_set_env(struct client_state *, const char *, const char *,
-    const char *);
-void script_flush_env(struct client_state *);
+void client_envadd(const char *, const char *, const char *, ...);
+void script_set_env(const char *, const char *, const char *);
+void script_flush_env(void);
 int dhcp_option_ev_name(char *, size_t, const struct option *);
 
 struct client_lease *packet_to_lease(struct packet *);
@@ -377,24 +376,13 @@ ssize_t decode_ethernet_header(struct interface_info *, unsigned char *,
 /* clparse.c */
 int read_client_conf(void);
 void read_client_leases(void);
-void parse_client_statement(FILE *, struct interface_info *,
-    struct client_config *);
+void parse_client_statement(FILE *);
 int parse_X(FILE *, u_int8_t *, int);
 int parse_option_list(FILE *, u_int8_t *);
-void parse_interface_declaration(FILE *, struct client_config *);
-struct interface_info *interface_or_dummy(char *);
-void make_client_state(struct interface_info *);
-void make_client_config(struct interface_info *, struct client_config *);
+void parse_interface_declaration(FILE *);
 void parse_client_lease_statement(FILE *, int);
 void parse_client_lease_declaration(FILE *, struct client_lease *,
     struct interface_info **);
 int parse_option_decl(FILE *, struct option_data *);
 void parse_string_list(FILE *, struct string_list **, int);
-void parse_reject_statement(FILE *, struct client_config *);
-
-/* privsep.c */
-struct buf	*buf_open(size_t);
-int		 buf_add(struct buf *, void *, size_t);
-int		 buf_close(int, struct buf *);
-ssize_t		 buf_read(int, void *, size_t);
-void		 dispatch_imsg(int);
+void parse_reject_statement(FILE *);

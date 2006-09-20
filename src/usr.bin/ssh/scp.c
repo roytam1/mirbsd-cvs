@@ -1,4 +1,4 @@
-/* $OpenBSD: scp.c,v 1.142 2006/05/17 12:43:34 markus Exp $ */
+/* $OpenBSD: scp.c,v 1.155 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
  * uses ssh to do the data transfer (instead of using rcmd).
@@ -71,15 +71,25 @@
  *
  */
 
-#include "includes.h"
-
+#include <sys/param.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/uio.h>
 
 #include <ctype.h>
 #include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <pwd.h>
 #include <signal.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "xmalloc.h"
 #include "atomicio.h"
@@ -266,14 +276,20 @@ void usage(void);
 int
 main(int argc, char **argv)
 {
-	int ch, fflag, tflag, status;
+	int ch, fflag, tflag, status, n;
 	double speed;
-	char *targ, *endp;
+	char *targ, *endp, **newargv;
 	extern char *optarg;
 	extern int optind;
 
 	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
 	sanitise_stdfd();
+
+	/* Copy argv, because we modify it */
+	newargv = xcalloc(MAX(argc + 1, 1), sizeof(*newargv));
+	for (n = 0; n < argc; n++)
+		newargv[n] = xstrdup(argv[n]);
+	argv = newargv;
 
 	memset(&args, '\0', sizeof(args));
 	args.list = NULL;

@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.144 2006/05/17 12:43:34 markus Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.154 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,13 +12,21 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/param.h>
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+
+#include <errno.h>
+#include <fcntl.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "xmalloc.h"
 #include "key.h"
@@ -26,17 +34,16 @@
 #include "authfile.h"
 #include "uuencode.h"
 #include "buffer.h"
-#include "bufaux.h"
 #include "pathnames.h"
 #include "log.h"
 #include "misc.h"
 #include "match.h"
 #include "hostfile.h"
+#include "dns.h"
 
 #ifdef SMARTCARD
 #include "scard.h"
 #endif
-#include "dns.h"
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048

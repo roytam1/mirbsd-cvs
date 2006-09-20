@@ -1,4 +1,4 @@
-/*	$OpenBSD: cmd.c,v 1.39 2005/03/29 19:35:25 otto Exp $	*/
+/*	$OpenBSD: cmd.c,v 1.42 2006/07/27 04:06:13 ray Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -114,7 +114,7 @@ Xswap(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		return (ret);
 	}
 
-	pt = ask_num("Swap with what paritition?", ASK_DEC,
+	pt = ask_num("Swap with what partition?", ASK_DEC,
 	    -1, 0, 3, NULL);
 	if (pt < 0 || pt > 3) {
 		printf("Invalid partition number %d.\n", pt);
@@ -314,15 +314,18 @@ int
 Xwrite(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 {
 	char mbr_buf[DEV_BSIZE];
-	int fd;
+	int fd, ret;
+
+	ret = CMD_CONT;
 
 	printf("Writing MBR at offset %d.\n", offset);
 
 	fd = DISK_open(disk->name, O_RDWR);
 	MBR_make(mbr, mbr_buf);
-	MBR_write(fd, offset, mbr_buf);
+	if (MBR_write(fd, offset, mbr_buf) != -1)
+		ret = CMD_CLEAN;
 	close(fd);
-	return (CMD_CLEAN);
+	return (ret);
 }
 
 /* ARGSUSED */
@@ -430,7 +433,7 @@ Xmanual(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 	char *pager = "/usr/bin/less";
 	char *p;
 	sig_t opipe;
-	extern const char manpage[];
+	extern const unsigned char manpage[];
 	extern const int manpage_sz;
 	FILE *f;
 

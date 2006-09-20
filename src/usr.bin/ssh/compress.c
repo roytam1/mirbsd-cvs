@@ -1,4 +1,4 @@
-/* $OpenBSD: compress.c,v 1.23 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: compress.c,v 1.25 2006/08/06 01:13:32 stevesk Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,11 +12,13 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
+#include <sys/types.h>
+
+#include <stdarg.h>
+#include <zlib.h>
 
 #include "log.h"
 #include "buffer.h"
-#include "zlib.h"
 #include "compress.h"
 
 z_stream incoming_stream;

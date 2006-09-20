@@ -1,4 +1,4 @@
-/* $OpenBSD: progressmeter.c,v 1.29 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: progressmeter.c,v 1.37 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2003 Nils Nordman.  All rights reserved.
  *
@@ -23,11 +23,16 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
+#include <sys/types.h>
 #include <sys/ioctl.h>
+#include <sys/uio.h>
 
+#include <errno.h>
 #include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "progressmeter.h"
 #include "atomicio.h"
@@ -157,7 +162,7 @@ refresh_progress_meter(void)
 			len = 0;
 		if (len >= file_len + 1)
 			len = file_len;
-		for (i = len;  i < file_len; i++ )
+		for (i = len; i < file_len; i++)
 			buf[i] = ' ';
 		buf[file_len] = '\0';
 	}
@@ -218,6 +223,7 @@ refresh_progress_meter(void)
 	last_update = now;
 }
 
+/*ARGSUSED*/
 static void
 update_progress_meter(int ignore)
 {

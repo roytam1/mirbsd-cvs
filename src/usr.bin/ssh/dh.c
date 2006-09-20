@@ -1,4 +1,4 @@
-/* $OpenBSD: dh.c,v 1.36 2006/05/04 14:55:23 djm Exp $ */
+/* $OpenBSD: dh.c,v 1.42 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Niels Provos.  All rights reserved.
  *
@@ -23,17 +23,15 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
-#include "xmalloc.h"
+#include <sys/param.h>
 
 #include <openssl/bn.h>
 #include <openssl/dh.h>
-#include <openssl/evp.h>
 
-#include "buffer.h"
-#include "cipher.h"
-#include "kex.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "dh.h"
 #include "pathnames.h"
 #include "log.h"

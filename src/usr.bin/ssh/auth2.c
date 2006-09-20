@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2.c,v 1.110 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth2.c,v 1.113 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,22 +23,29 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
 
-#include "ssh2.h"
+#include <sys/types.h>
+
+#include <pwd.h>
+#include <string.h>
+#include <stdarg.h>
+
 #include "xmalloc.h"
+#include "ssh2.h"
 #include "packet.h"
 #include "log.h"
+#include "buffer.h"
 #include "servconf.h"
 #include "compat.h"
+#include "key.h"
+#include "hostfile.h"
 #include "auth.h"
 #include "dispatch.h"
 #include "pathnames.h"
-#include "monitor_wrap.h"
-
 #ifdef GSSAPI
 #include "ssh-gss.h"
 #endif
+#include "monitor_wrap.h"
 
 /* import */
 extern ServerOptions options;

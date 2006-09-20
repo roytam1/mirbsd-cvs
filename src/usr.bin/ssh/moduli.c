@@ -1,4 +1,4 @@
-/* $OpenBSD: moduli.c,v 1.13 2006/03/25 00:05:41 djm Exp $ */
+/* $OpenBSD: moduli.c,v 1.18 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright 1994 Phil Karn <karn@qualcomm.com>
  * Copyright 1996-1998, 2003 William Allen Simpson <wsimpson@greendragon.com>
@@ -37,11 +37,18 @@
  * Second step: test primes' safety (processor intensive)
  */
 
-#include "includes.h"
-#include "xmalloc.h"
-#include "log.h"
+#include <sys/types.h>
 
 #include <openssl/bn.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+#include <time.h>
+
+#include "xmalloc.h"
+#include "log.h"
 
 /*
  * File output defines

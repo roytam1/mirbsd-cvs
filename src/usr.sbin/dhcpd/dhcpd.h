@@ -1,4 +1,4 @@
-/*	$OpenBSD: dhcpd.h,v 1.16 2004/10/31 10:43:38 canacar Exp $ */
+/*	$OpenBSD: dhcpd.h,v 1.21 2006/06/14 14:58:52 ckuethe Exp $ */
 
 /*
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
@@ -82,6 +82,10 @@ extern int h_errno;
 #endif
 #ifndef _PATH_DHCPD_DB
 #define _PATH_DHCPD_DB "/var/db/dhcpd.leases"
+#endif
+
+#ifndef _PATH_DEV_PF
+#define _PATH_DEV_PF "/dev/pf"
 #endif
 
 /* Time stuff... */
@@ -242,14 +246,6 @@ struct lease_state {
 #define CLASS_DECL	4
 #define	GROUP_DECL	5
 
-/* Possible modes in which discover_interfaces can run. */
-
-#define DISCOVER_RUNNING	0
-#define DISCOVER_SERVER		1
-#define DISCOVER_UNCONFIGURED	2
-#define DISCOVER_RELAY		3
-#define DISCOVER_REQUESTED	4
-
 /* Group of declarations that share common parameters. */
 struct group {
 	struct group *next;
@@ -332,6 +328,12 @@ struct client_lease {
 	unsigned int is_bootp: 1;	/* If set, lease was aquired with BOOTP. */
 
 	struct option_data options [256];	/* Options supplied with lease. */
+};
+
+/* privsep message. fixed length for easy parsing */
+struct pf_cmd{
+	struct in_addr ip;
+	u_int32_t type;
 };
 
 /* Possible states in which the client can be. */
@@ -436,9 +438,6 @@ struct interface_info {
 	size_t rbuf_len;		/* Length of data in buffer. */
 
 	struct ifreq *ifp;		/* Pointer to ifreq struct. */
-	u_int32_t flags;		/* Control flags... */
-#define INTERFACE_REQUESTED 1
-#define INTERFACE_AUTOMATIC 2
 
 	/* Only used by DHCP client code. */
 	struct client_state *client;
@@ -454,8 +453,8 @@ struct hardware_link {
 	struct hardware address;
 };
 
-struct timeout {
-	struct timeout *next;
+struct dhcpd_timeout {
+	struct dhcpd_timeout *next;
 	time_t when;
 	void (*func)(void *);
 	void *what;
@@ -567,6 +566,7 @@ int	main(int, char *[]);
 void	cleanup(void);
 void	lease_pinged(struct iaddr, u_int8_t *, int);
 void	lease_ping_timeout(void *);
+void	periodic_scan(void *);
 
 /* conflex.c */
 extern int	 lexline, lexchar;
@@ -722,8 +722,8 @@ extern struct interface_info *interfaces;
 extern struct protocol *protocols;
 extern void (*bootp_packet_handler)(struct interface_info *,
     struct dhcp_packet *, int, unsigned int, struct iaddr, struct hardware *);
-extern struct timeout *timeouts;
-void discover_interfaces(int);
+extern struct dhcpd_timeout *timeouts;
+void discover_interfaces(void);
 void dispatch(void);
 int locate_network(struct packet *);
 void got_one(struct protocol *);
@@ -786,3 +786,11 @@ u_int32_t	wrapsum(u_int32_t);
 void icmp_startup(int, void (*)(struct iaddr, u_int8_t *, int));
 int icmp_echorequest(struct iaddr *);
 void icmp_echoreply(struct protocol *);
+
+/* pfutils.c */
+__dead void pftable_handler(void);
+void pf_change_table(int , int , struct in_addr , char *);
+void pf_kill_state(int , struct in_addr );
+size_t atomicio(ssize_t (*)(int, void *, size_t), int, void *, size_t);
+#define vwrite (ssize_t (*)(int, void *, size_t))write
+void pfmsg(char, struct lease *);

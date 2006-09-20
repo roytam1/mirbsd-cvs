@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keyscan.c,v 1.64 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: ssh-keyscan.c,v 1.73 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright 1995, 1996 by David Mazieres <dm@lcs.mit.edu>.
  *
@@ -7,27 +7,35 @@
  * OpenBSD project by leaving this copyright notice intact.
  */
 
-#include "includes.h"
-
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
-
-#include <errno.h>
-#include <setjmp.h>
+#include <sys/time.h>
 
 #include <openssl/bn.h>
+
+#include <errno.h>
+#include <netdb.h>
+#include <setjmp.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "xmalloc.h"
 #include "ssh.h"
 #include "ssh1.h"
+#include "buffer.h"
 #include "key.h"
+#include "cipher.h"
 #include "kex.h"
 #include "compat.h"
 #include "myproposal.h"
 #include "packet.h"
 #include "dispatch.h"
-#include "buffer.h"
-#include "bufaux.h"
 #include "log.h"
 #include "atomicio.h"
 #include "misc.h"

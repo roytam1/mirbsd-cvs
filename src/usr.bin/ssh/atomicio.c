@@ -1,4 +1,4 @@
-/* $OpenBSD: atomicio.c,v 1.19 2006/04/16 07:59:00 djm Exp $ */
+/* $OpenBSD: atomicio.c,v 1.23 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Copyright (c) 2006 Damien Miller. All rights reserved.
  * Copyright (c) 2005 Anil Madhavapeddy. All rights reserved.
@@ -26,7 +26,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
+#include <sys/param.h>
+#include <sys/uio.h>
+
+#include <errno.h>
+#include <string.h>
 
 #include "atomicio.h"
 

@@ -1,4 +1,4 @@
-/* $OpenBSD: uidswap.h,v 1.11 2006/06/08 14:45:49 markus Exp $ */
+/* $OpenBSD: uidswap.h,v 1.13 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -12,12 +12,7 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#ifndef UIDSWAP_H
-#define UIDSWAP_H
-
 void	 temporarily_use_uid(struct passwd *);
 void	 restore_uid(void);
 void	 permanently_set_uid(struct passwd *);
 void	 permanently_drop_suid(uid_t);
-
-#endif				/* UIDSWAP_H */

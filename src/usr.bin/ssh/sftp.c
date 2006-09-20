@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp.c,v 1.82 2006/05/17 12:43:34 markus Exp $ */
+/* $OpenBSD: sftp.c,v 1.91 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -15,25 +15,31 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include "includes.h"
-
-#include <sys/ioctl.h>
 #include <sys/types.h>
+#include <sys/ioctl.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/param.h>
 
+#include <errno.h>
 #include <glob.h>
 #include <histedit.h>
 #include <paths.h>
 #include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdarg.h>
 
-#include "buffer.h"
 #include "xmalloc.h"
 #include "log.h"
 #include "pathnames.h"
 #include "misc.h"
 
 #include "sftp.h"
+#include "buffer.h"
 #include "sftp-common.h"
 #include "sftp-client.h"
 

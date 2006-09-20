@@ -1,4 +1,4 @@
-/*	$OpenBSD: extern.h,v 1.41 2005/05/29 18:44:36 espie Exp $	*/
+/*	$OpenBSD: extern.h,v 1.45 2006/03/20 20:27:45 espie Exp $	*/
 /*	$NetBSD: extern.h,v 1.3 1996/01/13 23:25:24 pk Exp $	*/
 
 /*-
@@ -55,7 +55,8 @@ extern void doprintlineno(struct input_file *);
 extern void doprintfilename(struct input_file *);
 
 extern void doesyscmd(const char *);
-extern void	getdivfile(const char *);
+extern void getdivfile(const char *);
+extern void doformat(const char *[], int);
  
 
 /* look.c */
@@ -100,7 +101,7 @@ extern void	pbnum(int);
 extern void	pbnumbase(int, int, int);
 extern void	pbunsigned(unsigned long);
 extern void	pbstr(const char *);
-extern void	putback(int);
+extern void	pushback(int);
 extern void	*xalloc(size_t, const char *fmt, ...);
 extern void	*xrealloc(void *, size_t, const char *fmt, ...);
 extern char	*xstrdup(const char *);
@@ -108,13 +109,14 @@ extern void	usage(void);
 extern void	resizedivs(int);
 extern size_t	buffer_mark(void);
 extern void	dump_buffer(FILE *, size_t);
+extern void	m4errx(int, const char *, ...);
 
 extern int 	obtain_char(struct input_file *);
 extern void	set_input(struct input_file *, FILE *, const char *);
 extern void	release_input(struct input_file *);
 
-/* speeded-up versions of chrsave/putback */
-#define PUTBACK(c)				\
+/* speeded-up versions of chrsave/pushback */
+#define PUSHBACK(c)				\
 	do {					\
 		if (bp >= endpbb)		\
 			enlarge_bufspace();	\
@@ -138,7 +140,7 @@ extern char *endest;
 extern unsigned int trace_flags;
 #define TRACE_ALL	512
 extern void trace_file(const char *);
-extern ssize_t trace(const char **, int, struct input_file *);
+extern size_t trace(const char **, int, struct input_file *);
 extern void finish_trace(size_t);
 extern void set_trace_flags(const char *);
 extern FILE *traceout;

@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-add.c,v 1.80 2006/05/30 11:46:38 mk Exp $ */
+/* $OpenBSD: ssh-add.c,v 1.89 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,18 +35,25 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 
 #include <openssl/evp.h>
 
+#include <fcntl.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "rsa.h"
 #include "log.h"
-#include "xmalloc.h"
 #include "key.h"
+#include "buffer.h"
 #include "authfd.h"
 #include "authfile.h"
 #include "pathnames.h"
@@ -132,7 +139,7 @@ add_file(AuthenticationConnection *ac, const char *filename)
 	char msg[1024];
 	int fd, perms_ok, ret = -1;
 
-	if ((fd = open(filename, 0)) < 0) {
+	if ((fd = open(filename, O_RDONLY)) < 0) {
 		perror(filename);
 		return -1;
 	}
