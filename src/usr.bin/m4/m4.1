@@ -1,4 +1,4 @@
-.\"	@(#) $OpenBSD: m4.1,v 1.38 2005/03/02 10:12:15 espie Exp $
+.\"	@(#) $OpenBSD: m4.1,v 1.46 2006/08/29 18:40:49 mbalmer Exp $
 .\"
 .\" Copyright (c) 1989, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -38,16 +38,19 @@
 .Nd macro language processor
 .Sh SYNOPSIS
 .Nm m4
-.Op Fl d Ar flags
-.Op Fl t Ar name
-.Op Fl o Ar filename
-.Op Fl g
-.Op Fl s
+.Op Fl gs
 .Oo
-.Fl D Ns Ar name Ns Op Ar =value
+.Sm off
+.Fl D Ar name Op No = Ar value
+.Sm on
 .Oc
-.Op Fl U Ns Ar name
+.Op Fl d Ar flags
 .Op Fl I Ar dirname
+.Op Fl o Ar filename
+.Bk -words
+.Op Fl t Ar macro
+.Op Fl U Ns Ar name
+.Ek
 .Sh DESCRIPTION
 The
 .Nm m4
@@ -87,19 +90,12 @@ recognized as special when not followed by an open parenthesis.
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl D Ns Ar name Ns Oo
-.Ar =value
+.Pf = Ns Ar value
 .Oc
 Define the symbol
 .Ar name
 to have some value (or
 .Dv NULL ) .
-.It Fl "U" Ns Ar "name"
-Undefine the symbol
-.Ar name .
-.It Fl I Ar "dirname"
-Add directory
-.Ar dirname
-to the include path.
 .It Fl d Ar "flags"
 Set trace flags.
 .Ar flags
@@ -127,22 +123,28 @@ turn on all options.
 .Pp
 By default, trace is set to
 .Qq eq .
-.It Fl o Ar filename
-Send trace output to
-.Ar filename .
-.It Fl t Ar macro
-Turn tracing on for
-.Ar macro .
 .It Fl g
 Activate GNU-m4 compatibility mode.
-In this mode, changequote with
-two empty parameters deactivates quotes, translit handles simple character
+In this mode, translit handles simple character
 ranges (e.g., a-z), regular expressions mimic emacs behavior,
 multiple m4wrap calls are handled as a stack,
 and the number of diversions is unlimited.
+.It Fl I Ar "dirname"
+Add directory
+.Ar dirname
+to the include path.
+.It Fl o Ar filename
+Send trace output to
+.Ar filename .
 .It Fl s
 Output line synchronization directives, suitable for
 .Xr cpp 1 .
+.It Fl t Ar macro
+Turn tracing on for
+.Ar macro .
+.It Fl "U" Ns Ar "name"
+Undefine the symbol
+.Ar name .
 .El
 .Sh SYNTAX
 .Nm m4
@@ -155,17 +157,29 @@ Calls a built-in by its
 .Fa name ,
 overriding possible redefinitions.
 .It Fn changecom startcomment endcomment
-Change the start and end comment sequences.
-The default is the pound sign
-.Pq Sq #
+Changes the start comment and end comment sequences.
+Comment sequences may be up to five characters long.
+The default values are the hash sign
 and the newline character.
-With no arguments comments are turned off.
-The maximum length for a comment marker is five characters.
+.Bd -literal -offset indent
+# This is a comment
+.Ed
+.Pp
+With no arguments, comments are turned off.
+With one single argument, the end comment sequence is set
+to the newline character.
 .It Fn changequote beginquote endquote
-Defines the quote symbols to be the first and second arguments.
-The symbols may be up to five characters long.
-If no arguments are
-given it restores the default open and close single quotes.
+Defines the open quote and close quote sequences.
+Quote sequences may be up to five characters long.
+The default values are the backquote character and the quote
+character.
+.Bd -literal -offset indent
+`Here is a quoted string'
+.Ed
+.Pp
+With no arguments, the default quotes are restored.
+With one single argument, the close quote sequence is set
+to the newline character.
 .It Fn decr arg
 Decrements the argument
 .Fa arg
@@ -237,6 +251,16 @@ specifies the minimum number of digits in the result.
 .It Fn expr expr
 This is an alias for
 .Ic eval .
+.It Fn format formatstring arg1 ...
+Returns
+.Fa formatstring
+with escape sequences substituted with
+.Fa arg1
+and following arguments, in a way similar to
+.Xr printf 3 .
+This built-in is only available in GNU-m4 compatibility mode, and the
+left-padding flag, an optional field width and the %s data type
+are the only supported parameters.
 .It Fn ifdef name yes no
 If the macro named by the first argument is defined then return the second
 argument, otherwise the third.
@@ -386,18 +410,12 @@ Returns the current file's name.
 .El
 .Sh STANDARDS
 .Nm
-follows the Single Unix 2 specification, along with a few extensions taken
-from
+is expected to be
+.St -p1003.1-2004
+compliant,
+along with a few extensions taken from
 .Nm gnu-m4 .
 .Pp
-The
-.Fl s
-option
-.Po
-.Xr cpp 1 's
-#line directives
-.Pc
-is currently not supported.
 Flags
 .Fl I ,
 .Fl d ,
@@ -429,8 +447,9 @@ Other implementations may erase all definitions on the stack instead.
 .Pp
 For portability, one should not use the macros
 .Ic builtin ,
-.Ic esycmd ,
+.Ic esyscmd ,
 .Ic expr ,
+.Ic format ,
 .Ic indir ,
 .Ic paste ,
 .Ic patsubst ,
@@ -447,6 +466,7 @@ Many other
 .Nm
 have dire size limitations with respect to buffer sizes.
 .Sh AUTHORS
+.An -nosplit
 .An Ozan Yigit Aq oz@sis.yorku.ca
 and
 .An Richard A. O'Keefe Aq ok@goanna.cs.rmit.OZ.AU .

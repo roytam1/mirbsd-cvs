@@ -1,4 +1,4 @@
-/* $OpenBSD: gnum4.c,v 1.31 2005/05/29 18:44:36 espie Exp $ */
+/* $OpenBSD: gnum4.c,v 1.36 2006/03/24 08:03:44 espie Exp $ */
 
 /*
  * Copyright (c) 1999 Marc Espie
@@ -33,13 +33,13 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <ctype.h>
+#include <err.h>
 #include <paths.h>
 #include <regex.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <err.h>
 #include <errno.h>
 #include <unistd.h>
 #include "mdef.h"
@@ -164,7 +164,7 @@ doindir(const char *argv[], int argc)
 
 	n = lookup(argv[2]);
 	if (n == NULL || (p = macro_getdef(n)) == NULL)
-		errx(1, "undefined macro %s", argv[2]);
+		m4errx(1, "indir: undefined macro %s.", argv[2]);
 	argv[1] = p->defn;
 	
 	eval(argv+1, argc-1, p->type, is_traced(n));
@@ -180,7 +180,7 @@ dobuiltin(const char *argv[], int argc)
 	if (p != NULL)
 		eval(argv+1, argc-1, macro_builtin_type(p), is_traced(p));
 	else
-		errx(1, "unknown builtin %s", argv[2]);
+		m4errx(1, "unknown builtin %s.", argv[2]);
 } 
 
 
@@ -250,8 +250,7 @@ exit_regerror(int er, regex_t *re)
 	errbuf = xalloc(errlen, 
 	    "malloc in regerror: %lu", (unsigned long)errlen);
 	regerror(er, re, errbuf, errlen);
-	errx(1, "%s at line %lu: regular expression error: %s", 
-	    CURRENT_NAME, CURRENT_LINE, errbuf);
+	m4errx(1, "regular expression error: %s.", errbuf);
 }
 
 static void
@@ -502,6 +501,53 @@ doregexp(const char *argv[], int argc)
 		do_regexp(argv[2], &re, argv[4], pmatch);
 	free(pmatch);
 	regfree(&re);
+}
+
+void
+doformat(const char *argv[], int argc)
+{
+	const char *format = argv[2];
+	int pos = 3;
+
+	while (*format != 0) {
+		if (*format != '%') {
+			addchar(*format++);
+		} else {
+			format++;
+			if (*format == '%' || *format == 0) {
+				addchar('%');
+				if (*format == '%')
+					format++;
+			} else {
+			    int left_padded = 0;
+			    unsigned long width;
+			    size_t l;
+
+			    if (*format == '-') {
+				    left_padded = 1;
+				    format++;
+			    }
+			    width = strtoul(format, (char **)&format, 10);
+			    if (*format != 's') {
+				    m4errx(1, "Unsupported format specification: %s.", argv[2]);
+			    }
+			    format++;
+			    if (pos >= argc)
+				    m4errx(1, "Format with too many values.");
+			    l = strlen(argv[pos]);
+			    if (!left_padded) {
+				    while (l < width--)
+					    addchar(' ');
+			    }
+			    addchars(argv[pos++], l);
+			    if (left_padded) {
+				    while (l < width--)
+					    addchar(' ');
+			    }
+			}
+		}
+	}
+	pbstr(getstring());
 }
 
 void

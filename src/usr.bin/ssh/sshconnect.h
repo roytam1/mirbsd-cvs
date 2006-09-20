@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect.h,v 1.20 2006/06/06 10:20:20 markus Exp $ */
+/* $OpenBSD: sshconnect.h,v 1.23 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -23,8 +23,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef SSHCONNECT_H
-#define SSHCONNECT_H
 
 typedef struct Sensitive Sensitive;
 struct Sensitive {
@@ -69,5 +67,3 @@ int	 ssh_local_cmd(const char *);
 		    strerror(errno));			\
 	errno = save_errno;				\
 } while (0)
-
-#endif

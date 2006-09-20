@@ -1,4 +1,4 @@
-/*	$OpenBSD: privsep.c,v 1.8 2005/06/02 15:04:25 cloder Exp $ */
+/*	$OpenBSD: privsep.c,v 1.12 2005/10/07 13:19:40 pedro Exp $ */
 
 /*
  * Copyright (c) 2004 Henning Brauer <henning@openbsd.org>
@@ -25,79 +25,65 @@ buf_open(size_t len)
 	struct buf	*buf;
 
 	if ((buf = calloc(1, sizeof(struct buf))) == NULL)
-		return (NULL);
+		error("buf_open: %m");
 	if ((buf->buf = malloc(len)) == NULL) {
 		free(buf);
-		return (NULL);
+		error("buf_open: %m");
 	}
 	buf->size = len;
 
 	return (buf);
 }
 
-int
+void
 buf_add(struct buf *buf, void *data, size_t len)
 {
 	if (len == 0)
-		return (0);
+		return;
 
 	if (buf->wpos + len > buf->size)
-		return (-1);
+		error("buf_add: %m");
 
 	memcpy(buf->buf + buf->wpos, data, len);
 	buf->wpos += len;
-	return (0);
 }
 
-int
+void
 buf_close(int sock, struct buf *buf)
 {
 	ssize_t	n;
 
 	do {
 		n = write(sock, buf->buf + buf->rpos, buf->size - buf->rpos);
-		if (n != -1)
-			buf->rpos += n;
-		if (n == 0) {			/* connection closed */
-			errno = 0;
-			return (-1);
-		}
+		if (n == 0)			/* connection closed */
+			error("buf_close (connection closed)");
+		if (n != -1 && n < buf->size - buf->rpos)
+			error("buf_close (short write): %m");
+
 	} while (n == -1 && (errno == EAGAIN || errno == EINTR));
 
-	if (buf->rpos < buf->size)
-		error("short write: wanted %lu got %ld bytes",
-		    (unsigned long)buf->size, (long)buf->rpos);
+	if (n == -1)
+		error("buf_close: %m");
 
 	free(buf->buf);
 	free(buf);
-	return (n);
 }
 
-ssize_t
+void
 buf_read(int sock, void *buf, size_t nbytes)
 {
-	ssize_t	n, r = 0;
-	char *p = buf;
+	ssize_t	n;
 
 	do {
-		n = read(sock, p, nbytes);
-		if (n == 0)
-			error("connection closed");
-		if (n != -1) {
-			r += n;
-			p += n;
-			nbytes -= n;
-		}
+		n = read(sock, buf, nbytes);
+		if (n == 0) 			/* connection closed */
+			error("buf_read (connection closed)");
+		if (n != -1 && n < nbytes)
+			error("buf_read (short read): %m");
 	} while (n == -1 && (errno == EINTR || errno == EAGAIN));
 
 	if (n == -1)
 		error("buf_read: %m");
-
-	if (r < nbytes)
-		error("short read: wanted %lu got %ld bytes",
-		    (unsigned long)nbytes, (long)r);
-
-	return (r);
 }
 
 void
@@ -225,12 +211,9 @@ dispatch_imsg(int fd)
 		hdr.len = sizeof(struct imsg_hdr) + sizeof(int);
 		if ((buf = buf_open(hdr.len)) == NULL)
 			error("buf_open: %m");
-		if (buf_add(buf, &hdr, sizeof(hdr)))
-			error("buf_add: %m");
-		if (buf_add(buf, &ret, sizeof(ret)))
-			error("buf_add: %m");
-		if (buf_close(fd, buf) == -1)
-			error("buf_close: %m");
+		buf_add(buf, &hdr, sizeof(hdr));
+		buf_add(buf, &ret, sizeof(ret));
+		buf_close(fd, buf);
 		break;
 	default:
 		error("received unknown message, code %d", hdr.code);

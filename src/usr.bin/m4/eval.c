@@ -1,4 +1,4 @@
-/*	$OpenBSD: eval.c,v 1.56 2005/05/29 18:44:36 espie Exp $	*/
+/*	$OpenBSD: eval.c,v 1.63 2006/03/24 08:03:44 espie Exp $	*/
 /*	$NetBSD: eval.c,v 1.7 1996/11/10 21:21:29 pk Exp $	*/
 
 /*
@@ -33,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)eval.c	8.2 (Berkeley) 4/27/95";
-#else
-static char rcsid[] = "$OpenBSD: eval.c,v 1.56 2005/05/29 18:44:36 espie Exp $";
-#endif
-#endif /* not lint */
-
 /*
  * eval.c
  * Facility: m4 macro processor
@@ -48,6 +40,7 @@ static char rcsid[] = "$OpenBSD: eval.c,v 1.56 2005/05/29 18:44:36 espie Exp $";
  */
 
 #include <sys/types.h>
+#include <err.h>
 #include <errno.h>
 #include <limits.h>
 #include <unistd.h>
@@ -56,7 +49,6 @@ static char rcsid[] = "$OpenBSD: eval.c,v 1.56 2005/05/29 18:44:36 espie Exp $";
 #include <stddef.h>
 #include <string.h>
 #include <fcntl.h>
-#include <err.h>
 #include "mdef.h"
 #include "stdd.h"
 #include "extern.h"
@@ -69,9 +61,7 @@ static void	dotrace(const char *[], int, int);
 static void	doifelse(const char *[], int);
 static int	doincl(const char *);
 static int	dopaste(const char *);
-static void	gnu_dochq(const char *[], int);
 static void	dochq(const char *[], int);
-static void	gnu_dochc(const char *[], int);
 static void	dochc(const char *[], int);
 static void	dom4wrap(const char *);
 static void	dodiv(int);
@@ -107,19 +97,18 @@ unsigned long	expansion_id;
 void
 eval(const char *argv[], int argc, int td, int is_traced)
 {
-	ssize_t mark = -1;
+	size_t mark = SIZE_MAX;
 
 	expansion_id++;
 	if (td & RECDEF) 
-		errx(1, "%s at line %lu: expanding recursive definition for %s",
-			CURRENT_NAME, CURRENT_LINE, argv[1]);
+		m4errx(1, "expanding recursive definition for %s.", argv[1]);
 	if (is_traced)
 		mark = trace(argv, argc, infile+ilevel);
 	if (td == MACRTYPE)
 		expand_macro(argv, argc);
 	else
 		expand_builtin(argv, argc, td);
-    	if (mark != -1)
+    	if (mark != SIZE_MAX)
 		finish_trace(mark);
 }
 
@@ -144,6 +133,9 @@ expand_builtin(const char *argv[], int argc, int td)
   * if argc == 3 and argv[2] is null, then we
   * have macro-or-builtin() type call. We adjust
   * argc to avoid further checking..
+  */
+ /* we keep the initial value for those built-ins that differentiate
+  * between builtin() and builtin.
   */
   	ac = argc;
 
@@ -187,13 +179,13 @@ expand_builtin(const char *argv[], int argc, int td)
 		if (argc > 3) {
 			base = strtonum(argv[3], 2, 36, &errstr);
 			if (errstr) {
-				errx(1, "base %s invalid", argv[3]);
+				m4errx(1, "expr: base %s invalid.", argv[3]);
 			}
 		}
 		if (argc > 4) {
 			maxdigits = strtonum(argv[4], 0, INT_MAX, &errstr);
 			if (errstr) {
-				errx(1, "maxdigits %s invalid", argv[4]);
+				m4errx(1, "expr: maxdigits %s invalid.", argv[4]);
 			}
 		}
 		if (argc > 2)
@@ -292,19 +284,16 @@ expand_builtin(const char *argv[], int argc, int td)
 		if (argc > 2)
 			(void) dopaste(argv[2]);
 		break;
+	case FORMATTYPE:
+		doformat(argv, argc);
+		break;
 #endif
 	case CHNQTYPE:
-		if (mimic_gnu)
-			gnu_dochq(argv, ac);
-		else
-			dochq(argv, argc);
+		dochq(argv, ac);
 		break;
 
 	case CHNCTYPE:
-		if (mimic_gnu)
-			gnu_dochc(argv, ac);
-		else
-			dochc(argv, argc);
+		dochc(argv, argc);
 		break;
 
 	case SUBSTYPE:
@@ -327,7 +316,7 @@ expand_builtin(const char *argv[], int argc, int td)
 				pbstr(rquote);
 				pbstr(argv[n]);
 				pbstr(lquote);
-				putback(COMMA);
+				pushback(COMMA);
 			}
 			pbstr(rquote);
 			pbstr(argv[3]);
@@ -502,8 +491,7 @@ expand_builtin(const char *argv[], int argc, int td)
 		pbstr(lquote);
 		break;
 	default:
-		errx(1, "%s at line %lu: eval: major botch.",
-			CURRENT_NAME, CURRENT_LINE);
+		m4errx(1, "eval: major botch.");
 		break;
 	}
 }
@@ -526,7 +514,7 @@ expand_macro(const char *argv[], int argc)
 	p--;			       /* last character of defn */
 	while (p > t) {
 		if (*(p - 1) != ARGFLAG)
-			PUTBACK(*p);
+			PUSHBACK(*p);
 		else {
 			switch (*p) {
 
@@ -550,7 +538,7 @@ expand_macro(const char *argv[], int argc)
 				if (argc > 2) {
 					for (n = argc - 1; n > 2; n--) {
 						pbstr(argv[n]);
-						putback(COMMA);
+						pushback(COMMA);
 					}
 					pbstr(argv[2]);
 			    	}
@@ -561,7 +549,7 @@ expand_macro(const char *argv[], int argc)
 						pbstr(rquote);
 						pbstr(argv[n]);
 						pbstr(lquote);
-						putback(COMMA);
+						pushback(COMMA);
 					}
 					pbstr(rquote);
 					pbstr(argv[2]);
@@ -569,8 +557,8 @@ expand_macro(const char *argv[], int argc)
 				}
                                 break;
 			default:
-				PUTBACK(*p);
-				PUTBACK('$');
+				PUSHBACK(*p);
+				PUSHBACK('$');
 				break;
 			}
 			p--;
@@ -578,7 +566,7 @@ expand_macro(const char *argv[], int argc)
 		p--;
 	}
 	if (p == t)		       /* do last character */
-		PUTBACK(*p);
+		PUSHBACK(*p);
 }
 
 
@@ -589,8 +577,7 @@ void
 dodefine(const char *name, const char *defn)
 {
 	if (!*name)
-		errx(1, "%s at line %lu: null definition.", CURRENT_NAME,
-		    CURRENT_LINE);
+		m4errx(1, "null definition.");
 	macro_define(name, defn);
 }
 
@@ -626,8 +613,7 @@ static void
 dopushdef(const char *name, const char *defn)
 {
 	if (!*name)
-		errx(1, "%s at line %lu: null definition", CURRENT_NAME,
-		    CURRENT_LINE);
+		m4errx(1, "null definition.");
 	macro_pushdef(name, defn);
 }
 
@@ -710,8 +696,7 @@ static int
 doincl(const char *ifile)
 {
 	if (ilevel + 1 == MAXINP)
-		errx(1, "%s at line %lu: too many include files.",
-		    CURRENT_NAME, CURRENT_LINE);
+		m4errx(1, "too many include files.");
 	if (fopen_trypath(infile+ilevel+1, ifile) != NULL) {
 		ilevel++;
 		bbase[ilevel] = bufbase = bp;
@@ -744,85 +729,44 @@ dopaste(const char *pfile)
 }
 #endif
 
-static void
-gnu_dochq(const char *argv[], int ac)
-{
-	/* In gnu-m4 mode, the only way to restore quotes is to have no
-	 * arguments at all. */
-	if (ac == 2) {
-		lquote[0] = LQUOTE, lquote[1] = EOS;
-		rquote[0] = RQUOTE, rquote[1] = EOS;
-	} else {
-		strlcpy(lquote, argv[2], sizeof(lquote));
-		if(ac > 3)
-			strlcpy(rquote, argv[3], sizeof(rquote));
-		else
-			rquote[0] = EOS;
-	}
-}
-
 /*
  * dochq - change quote characters
  */
 static void
-dochq(const char *argv[], int argc)
+dochq(const char *argv[], int ac)
 {
-	if (argc > 2) {
-		if (*argv[2])
-			strlcpy(lquote, argv[2], sizeof(lquote));
-		else {
-			lquote[0] = LQUOTE;
-			lquote[1] = EOS;
-		}
-		if (argc > 3) {
-			if (*argv[3])
-				strlcpy(rquote, argv[3], sizeof(rquote));
-		} else
-			strlcpy(rquote, lquote, sizeof(rquote));
+	if (ac == 2) {
+		lquote[0] = LQUOTE; lquote[1] = EOS;
+		rquote[0] = RQUOTE; rquote[1] = EOS;
 	} else {
-		lquote[0] = LQUOTE, lquote[1] = EOS;
-		rquote[0] = RQUOTE, rquote[1] = EOS;
+		strlcpy(lquote, argv[2], sizeof(lquote));
+		if (ac > 3) {
+			strlcpy(rquote, argv[3], sizeof(rquote));
+		} else {
+			rquote[0] = ECOMMT; rquote[1] = EOS;
+		}
 	}
 }
 
-static void
-gnu_dochc(const char *argv[], int ac)
-{
-	/* In gnu-m4 mode, no arguments mean no comment
-	 * arguments at all. */
-	if (ac == 2) {
-		scommt[0] = EOS;
-		ecommt[0] = EOS;
-	} else {
-		if (*argv[2])
-			strlcpy(scommt, argv[2], sizeof(scommt));
-		else
-			scommt[0] = SCOMMT, scommt[1] = EOS;
-		if(ac > 3 && *argv[3])
-			strlcpy(ecommt, argv[3], sizeof(ecommt));
-		else
-			ecommt[0] = ECOMMT, ecommt[1] = EOS;
-	}
-}
 /*
  * dochc - change comment characters
  */
 static void
 dochc(const char *argv[], int argc)
 {
-	if (argc > 2) {
-		if (*argv[2])
-			strlcpy(scommt, argv[2], sizeof(scommt));
-		if (argc > 3) {
-			if (*argv[3])
-				strlcpy(ecommt, argv[3], sizeof(ecommt));
+/* XXX Note that there is no difference between no argument and a single
+ * empty argument.
+ */
+	if (argc == 2) {
+		scommt[0] = EOS;
+		ecommt[0] = EOS;
+	} else {
+		strlcpy(scommt, argv[2], sizeof(scommt));
+		if (argc == 3) {
+			ecommt[0] = ECOMMT; ecommt[1] = EOS;
+		} else {
+			strlcpy(ecommt, argv[3], sizeof(ecommt));
 		}
-		else
-			ecommt[0] = ECOMMT, ecommt[1] = EOS;
-	}
-	else {
-		scommt[0] = SCOMMT, scommt[1] = EOS;
-		ecommt[0] = ECOMMT, ecommt[1] = EOS;
 	}
 }
 
@@ -926,7 +870,7 @@ dosub(const char *argv[], int argc)
 #endif
 	if (fc >= ap && fc < ap + strlen(ap))
 		for (k = fc + nc - 1; k >= fc; k--)
-			putback(*k);
+			pushback(*k);
 }
 
 /*

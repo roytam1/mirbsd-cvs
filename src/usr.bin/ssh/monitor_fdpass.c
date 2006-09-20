@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor_fdpass.c,v 1.8 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: monitor_fdpass.c,v 1.12 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright 2001 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -24,9 +24,13 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <sys/uio.h>
+
+#include <errno.h>
+#include <string.h>
+#include <stdarg.h>
 
 #include "log.h"
 #include "monitor_fdpass.h"

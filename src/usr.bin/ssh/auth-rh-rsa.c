@@ -1,4 +1,4 @@
-/* $OpenBSD: auth-rh-rsa.c,v 1.40 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth-rh-rsa.c,v 1.42 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,18 +13,24 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
+#include <sys/types.h>
+
+#include <pwd.h>
+#include <stdarg.h>
 
 #include "packet.h"
 #include "uidswap.h"
 #include "log.h"
+#include "buffer.h"
 #include "servconf.h"
 #include "key.h"
 #include "hostfile.h"
 #include "pathnames.h"
 #include "auth.h"
 #include "canohost.h"
-
+#ifdef GSSAPI
+#include "ssh-gss.h"
+#endif
 #include "monitor_wrap.h"
 
 /* import */

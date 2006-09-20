@@ -1,4 +1,4 @@
-/* $OpenBSD: ttymodes.c,v 1.23 2006/03/25 13:17:03 djm Exp $ */
+/* $OpenBSD: ttymodes.c,v 1.26 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -43,16 +43,18 @@
  * suitable code.
  */
 
-#include "includes.h"
+#include <sys/types.h>
 
+#include <errno.h>
+#include <string.h>
 #include <termios.h>
+#include <stdarg.h>
 
 #include "packet.h"
 #include "log.h"
 #include "ssh1.h"
 #include "compat.h"
 #include "buffer.h"
-#include "bufaux.h"
 
 #define TTY_OP_END		0
 /*

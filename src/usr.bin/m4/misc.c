@@ -1,4 +1,4 @@
-/*	$OpenBSD: misc.c,v 1.31 2005/05/29 18:44:36 espie Exp $	*/
+/*	$OpenBSD: misc.c,v 1.35 2006/03/20 10:55:19 espie Exp $	*/
 /*	$NetBSD: misc.c,v 1.6 1995/09/28 05:37:41 tls Exp $	*/
 
 /*
@@ -32,14 +32,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)misc.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: misc.c,v 1.31 2005/05/29 18:44:36 espie Exp $";
-#endif
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <errno.h>
@@ -84,10 +76,10 @@ indx(const char *s1, const char *s2)
 		return (t - s1);
 }
 /*
- *  putback - push character back onto input
+ *  pushback - push character back onto input
  */
 void
-putback(int c)
+pushback(int c)
 {
 	if (c == EOF)
 		return;
@@ -98,7 +90,7 @@ putback(int c)
 
 /*
  *  pbstr - push string back onto input
- *          putback is replicated to improve
+ *          pushback is replicated to improve
  *          performance.
  */
 void
@@ -130,14 +122,14 @@ pbnumbase(int n, int base, int d)
 	int printed = 0;
 
 	if (base > 36)
-		errx(1, "base %d > 36: not supported", base);
+		m4errx(1, "base %d > 36: not supported.", base);
 
 	if (base < 2)
-		errx(1, "bad base %d for conversion", base);
+		m4errx(1, "bad base %d for conversion.", base);
 
 	num = (n < 0) ? -n : n;
 	do {
-		putback(digits[num % base]);
+		pushback(digits[num % base]);
 		printed++;
 	}
 	while ((num /= base) > 0);
@@ -145,10 +137,10 @@ pbnumbase(int n, int base, int d)
 	if (n < 0)
 		printed++;
 	while (printed++ < d)
-		putback('0');
+		pushback('0');
 
 	if (n < 0)
-		putback('-');
+		pushback('-');
 }
 
 /*
@@ -158,7 +150,7 @@ void
 pbunsigned(unsigned long n)
 {
 	do {
-		putback(n % 10 + '0');
+		pushback(n % 10 + '0');
 	}
 	while ((n /= 10) > 0);
 }
@@ -236,7 +228,7 @@ getdiv(int n)
 	int c;
 
 	if (active == outfile[n])
-		errx(1, "undivert: diversion still active");
+		m4errx(1, "undivert: diversion still active.");
 	rewind(outfile[n]);
 	while ((c = getc(outfile[n])) != EOF)
 		putc(c, active);
@@ -264,6 +256,23 @@ killdiv()
 		if (outfile[n] != NULL) {
 			(void) fclose(outfile[n]);
 		}
+}
+
+extern char *__progname;
+
+void
+m4errx(int eval, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	fprintf(stderr, "%s: ", __progname);
+	fprintf(stderr, "%s at line %lu: ", CURRENT_NAME, CURRENT_LINE);
+	if (fmt != NULL)
+		vfprintf(stderr, fmt, ap);
+	fprintf(stderr, "\n");
+	exit(eval);
+	va_end(ap);
 }
 
 /*
@@ -331,7 +340,7 @@ xstrdup(const char *s)
 void
 usage()
 {
-	fprintf(stderr, "usage: m4 [-gs] [-d flags] [-t macro] [-o file] [-Dname[=val]] [-Uname] [-I dirname...]\n");
+	fprintf(stderr, "usage: m4 [-gs] [-Dname[=value]] [-d flags] [-I dirname] [-o filename] [-t macro] [-Uname]\n");
 	exit(1);
 }
 
@@ -340,10 +349,11 @@ obtain_char(struct input_file *f)
 {
 	if (f->c == EOF)
 		return EOF;
-	else if (f->c == '\n')
-		f->lineno++;
 
 	f->c = fgetc(f->file);
+	if (f->c == '\n')
+		f->lineno++;
+
 	return f->c;
 }
 

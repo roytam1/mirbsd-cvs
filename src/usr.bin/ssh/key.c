@@ -1,4 +1,4 @@
-/* $OpenBSD: key.c,v 1.64 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: key.c,v 1.67 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * read_bignum():
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -32,16 +32,19 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "includes.h"
+
+#include <sys/types.h>
 
 #include <openssl/evp.h>
+
+#include <stdio.h>
+#include <string.h>
 
 #include "xmalloc.h"
 #include "key.h"
 #include "rsa.h"
 #include "uuencode.h"
 #include "buffer.h"
-#include "bufaux.h"
 #include "log.h"
 
 Key *

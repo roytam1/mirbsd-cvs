@@ -1,4 +1,4 @@
-/* $OpenBSD: uidswap.c,v 1.29 2006/06/08 14:45:49 markus Exp $ */
+/* $OpenBSD: uidswap.c,v 1.35 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,7 +12,12 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
+#include <sys/param.h>
+#include <errno.h>
+#include <pwd.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdarg.h>
 
 #include "log.h"
 #include "uidswap.h"

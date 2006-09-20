@@ -1,4 +1,4 @@
-/* $OpenBSD: misc.c,v 1.52 2006/03/30 09:58:15 djm Exp $ */
+/* $OpenBSD: misc.c,v 1.64 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  * Copyright (c) 2005,2006 Damien Miller.  All rights reserved.
@@ -24,18 +24,29 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
+#include <sys/types.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <sys/param.h>
 
 #include <net/if.h>
+#include <netinet/in.h>
 #include <netinet/tcp.h>
 
+#include <errno.h>
+#include <fcntl.h>
 #include <paths.h>
+#include <pwd.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
+#include "xmalloc.h"
 #include "misc.h"
 #include "log.h"
-#include "xmalloc.h"
+#include "ssh.h"
 
 /* remove newline at end of string */
 char *
@@ -319,6 +330,23 @@ convtime(const char *s)
 	}
 
 	return total;
+}
+
+/*
+ * Returns a standardized host+port identifier string.
+ * Caller must free returned string.
+ */
+char *
+put_host_port(const char *host, u_short port)
+{
+	char *hoststr;
+
+	if (port == 0 || port == SSH_DEFAULT_PORT)
+		return(xstrdup(host));
+	if (asprintf(&hoststr, "[%s]:%d", host, (int)port) < 0)
+		fatal("put_host_port: asprintf: %s", strerror(errno));
+	debug3("put_host_port: %s", hoststr);
+	return hoststr;
 }
 
 /*

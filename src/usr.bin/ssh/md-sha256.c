@@ -1,4 +1,4 @@
-/* $OpenBSD: md-sha256.c,v 1.3 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: md-sha256.c,v 1.5 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2005 Damien Miller <djm@openbsd.org>
  *
@@ -17,10 +17,12 @@
 
 /* EVP wrapper for SHA256 */
 
-#include "includes.h"
-#include <openssl/evp.h>
-#include <sha2.h>
+#include <sys/types.h>
 
+#include <openssl/evp.h>
+
+#include <sha2.h>
+#include <string.h>
 
 const EVP_MD *evp_ssh_sha256(void);
 

@@ -1,4 +1,4 @@
-/*	$OpenBSD: dhcpd.c,v 1.24 2005/05/23 22:54:55 henning Exp $ */
+/*	$OpenBSD: dhcpd.c,v 1.29 2006/06/14 20:19:20 jmc Exp $ */
 
 /*
  * Copyright (c) 2004 Henning Brauer <henning@cvs.openbsd.org>
@@ -50,24 +50,39 @@ struct group root_group;
 u_int16_t server_port;
 u_int16_t client_port;
 
+struct passwd *pw;
 int log_priority;
 int log_perror = 0;
+int pfpipe[2];
+int gotpipe = 0;
+pid_t pfproc_pid = -1;
 char *path_dhcpd_conf = _PATH_DHCPD_CONF;
 char *path_dhcpd_db = _PATH_DHCPD_DB;
+char *abandoned_tab = NULL;
+char *changedmac_tab = NULL;
+char *leased_tab = NULL;
 
 int
 main(int argc, char *argv[])
 {
 	int ch, cftest = 0, daemonize = 1;
-	struct passwd	*pw;
 	extern char *__progname;
 
 	/* Initially, log errors to stderr as well as to syslogd. */
 	openlog(__progname, LOG_NDELAY, DHCPD_LOG_FACILITY);
 	setlogmask(LOG_UPTO(LOG_INFO));
 
-	while ((ch = getopt(argc, argv, "c:dfl:nq")) != -1)
+	while ((ch = getopt(argc, argv, "A:C:L:c:dfl:nq")) != -1)
 		switch (ch) {
+		case 'A':
+			abandoned_tab = optarg;
+			break;
+		case 'C':
+			changedmac_tab = optarg;
+			break;
+		case 'L':
+			leased_tab = optarg;
+			break;
 		case 'c':
 			path_dhcpd_conf = optarg;
 			break;
@@ -101,7 +116,6 @@ main(int argc, char *argv[])
 			error("calloc");
 		strlcpy(tmp->name, argv[0], sizeof(tmp->name));
 		tmp->next = interfaces;
-		tmp->flags = INTERFACE_REQUESTED;
 		interfaces = tmp;
 		argc--;
 		argv++;
@@ -121,7 +135,7 @@ main(int argc, char *argv[])
 		exit(0);
 
 	db_startup();
-	discover_interfaces(DISCOVER_SERVER);
+	discover_interfaces();
 	icmp_startup(1, lease_pinged);
 
 	if ((pw = getpwnam("_dhcp")) == NULL)
@@ -129,6 +143,28 @@ main(int argc, char *argv[])
 
 	if (daemonize)
 		daemon(0, 0);
+
+	/* don't go near /dev/pf unless we actually intend to use it */
+	if ((abandoned_tab != NULL) ||
+	    (changedmac_tab != NULL) ||
+	    (leased_tab != NULL)){
+		if (pipe(pfpipe) == -1)
+			error("pipe (%m)");
+		switch (pfproc_pid = fork()){
+		case -1:
+			error("fork (%m)");
+			/* NOTREACHED */
+			exit(1);
+		case 0:
+			/* child process. start up table engine */
+			pftable_handler();
+			/* NOTREACHED */
+			exit(1);
+		default:
+			gotpipe = 1;
+			break;
+		}
+	}
 
 	if (chroot(_PATH_VAREMPTY) == -1)
 		error("chroot %s: %m", _PATH_VAREMPTY);
@@ -140,6 +176,7 @@ main(int argc, char *argv[])
 		error("can't drop privileges: %m");
 
 	bootp_packet_handler = do_packet;
+	add_timeout(cur_time + 5, periodic_scan, NULL);
 	dispatch();
 
 	/* not reached */
@@ -151,9 +188,11 @@ usage(void)
 {
 	extern char *__progname;
 
-	fprintf(stderr, "usage: %s [-dfn] [-c config-file] [-l lease-file]",
-	    __progname);
-	fprintf(stderr, " [if0 [...ifN]]\n");
+	fprintf(stderr, "usage: %s [-dfn] [-A abandoned_ip_table]", __progname);
+	fprintf(stderr, " [-C changed_ip_table]\n");
+	fprintf(stderr, "\t[-c config-file] [-L leased_ip_table]");
+	fprintf(stderr, " [-l lease-file]\n");
+	fprintf(stderr, "\t[-p pf-device] [if0 [...ifN]]\n");
 	exit(1);
 }
 
@@ -218,4 +257,40 @@ lease_ping_timeout(void *vlp)
 		release_lease(lp);
 	} else
 		dhcp_reply(lp);
+}
+
+/* from memory.c - needed to be able to walk the lease table */
+extern struct subnet *subnets;
+
+void
+periodic_scan(void *p)
+{
+	time_t x, y;
+	struct subnet		*n;
+	struct group		*g;
+	struct shared_network	*s;
+	struct lease		*l;
+
+	/* find the shortest lease this server gives out */
+	x = MIN(root_group.default_lease_time, root_group.max_lease_time);
+	for (n = subnets; n; n = n->next_subnet)
+		for (g = n->group; g; g = g->next)
+			x = MIN(x, g->default_lease_time);
+
+	/* use half of the shortest lease as the scan interval */
+	y = x / 2;
+	if (y < 1)
+		y = 1;
+
+	/* walk across all leases to find the exired ones */
+	for (n = subnets; n; n = n->next_subnet)
+		for (g = n->group; g; g = g->next)
+			for (s = g->shared_network; s; s = s->next)
+				for (l = s->leases; l && l->ends; l = l->next)
+					if (cur_time >= l->ends){
+						release_lease(l);
+						pfmsg('R', l);
+					}
+
+	add_timeout(cur_time + y, periodic_scan, NULL);
 }

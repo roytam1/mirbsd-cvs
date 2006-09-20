@@ -1,4 +1,4 @@
-/* $OpenBSD: auth-skey.c,v 1.23 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth-skey.c,v 1.26 2006/08/05 08:28:24 dtucker Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -22,13 +22,19 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "includes.h"
 
 #ifdef SKEY
+
+#include <sys/types.h>
+
+#include <pwd.h>
+#include <stdio.h>
 
 #include <skey.h>
 
 #include "xmalloc.h"
+#include "key.h"
+#include "hostfile.h"
 #include "auth.h"
 #include "monitor_wrap.h"
 
@@ -43,8 +49,7 @@ skey_query(void *ctx, char **name, char **infotxt,
     u_int* numprompts, char ***prompts, u_int **echo_on)
 {
 	Authctxt *authctxt = ctx;
-	char challenge[1024], *p;
-	int len;
+	char challenge[1024];
 	struct skey skey;
 
 	if (skeychallenge(&skey, authctxt->user, challenge) == -1)
