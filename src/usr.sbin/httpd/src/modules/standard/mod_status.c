@@ -285,7 +285,6 @@ static int status_handler(request_rec *r)
     if (r->header_only)
 	return 0;
 
-    ap_sync_scoreboard_image();
     for (i = 0; i < HARD_SERVER_LIMIT; ++i) {
 	score_record = ap_scoreboard_image->servers[i];
 	ps_record = ap_scoreboard_image->parent[i];
@@ -326,8 +325,6 @@ static int status_handler(request_rec *r)
 	ap_rvputs(r, ap_get_server_name(r), "</H1>\n\n", NULL);
 	ap_rvputs(r, "Server Version: ",
 	  ap_get_server_version(), "<br>\n", NULL);
-	ap_rvputs(r, "Server Built: ",
-	  ap_get_server_built(), "<br>\n<hr>\n", NULL);
 	ap_rvputs(r, "Current Time: ",
 	  ap_ht_time(r->pool, nowtime, DEFAULT_TIME_FORMAT, 0), "<br>\n", NULL);
 	ap_rvputs(r, "Restart Time: ",
