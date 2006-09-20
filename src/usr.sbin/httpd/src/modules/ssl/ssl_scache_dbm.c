@@ -148,13 +148,8 @@ BOOL ssl_scache_dbm_store(server_rec *s, UCHAR *id, int idlen, time_t expiry, SS
     i2d_SSL_SESSION(sess, &ucp);
 
     /* be careful: do not try to store too much bytes in a DBM file! */
-#ifdef SSL_USE_SDBM
-    if ((idlen + nData) >= PAIRMAX)
-        return FALSE;
-#else
     if ((idlen + nData) >= 950 /* at least less than approx. 1KB */)
         return FALSE;
-#endif
 
     /* create DBM key */
     dbmkey.dptr  = (char *)id;
@@ -235,14 +230,18 @@ SSL_SESSION *ssl_scache_dbm_retrieve(server_rec *s, UCHAR *id, int idlen)
     ssl_mutex_off(s);
 
     /* immediately return if not found */
-    if (dbmval.dptr == NULL || dbmval.dsize <= sizeof(time_t))
+    if (dbmval.dptr == NULL || dbmval.dsize <= sizeof(time_t)) {
+	ssl_dbm_close(dbm);
         return NULL;
+    }
 
     /* parse resulting data */
     nData = dbmval.dsize-sizeof(time_t);
     ucpData = (UCHAR *)malloc(nData);
-    if (ucpData == NULL) 
+    if (ucpData == NULL) {
+	ssl_dbm_close(dbm);
         return NULL;
+    }
     memcpy(ucpData, (char *)dbmval.dptr+sizeof(time_t), nData);
     memcpy(&expiry, dbmval.dptr, sizeof(time_t));
 

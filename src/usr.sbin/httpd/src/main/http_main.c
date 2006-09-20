@@ -1,4 +1,4 @@
-/* $OpenBSD: http_main.c,v 1.39 2005/05/03 05:44:35 djm Exp $ */
+/* $OpenBSD: http_main.c,v 1.45 2006/07/28 14:07:22 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -100,6 +100,8 @@
 #include "scoreboard.h"
 #include "multithread.h"
 #include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include <netinet/tcp.h>
 #ifdef MOD_SSL
 #include <openssl/evp.h>
@@ -155,6 +157,11 @@ API_VAR_EXPORT uid_t ap_user_id=0;
 API_VAR_EXPORT char *ap_user_name=NULL;
 API_VAR_EXPORT gid_t ap_group_id=0;
 API_VAR_EXPORT int ap_max_requests_per_child=0;
+API_VAR_EXPORT int ap_max_cpu_per_child=0;
+API_VAR_EXPORT int ap_max_data_per_child=0;
+API_VAR_EXPORT int ap_max_nofile_per_child=0;
+API_VAR_EXPORT int ap_max_rss_per_child=0;
+API_VAR_EXPORT int ap_max_stack_per_child=0;
 API_VAR_EXPORT int ap_threads_per_child=0;
 API_VAR_EXPORT int ap_excess_requests_per_child=0;
 API_VAR_EXPORT char *ap_pid_fname=NULL;
@@ -1169,10 +1176,6 @@ static void setup_shared_mem(pool *p)
     ap_scoreboard_image->global.running_generation = 0;
 }
 
-static void reopen_scoreboard(pool *p)
-{
-}
-
 /* Called by parent process */
 static void reinit_scoreboard(pool *p)
 {
@@ -1198,18 +1201,9 @@ static void reinit_scoreboard(pool *p)
  * anyway.
  */
 
-ap_inline void ap_sync_scoreboard_image(void)
-{
-}
-
 API_EXPORT(int) ap_exists_scoreboard_image(void)
 {
     return (ap_scoreboard_image ? 1 : 0);
-}
-
-static ap_inline void put_scoreboard_info(int child_num,
-				       short_score *new_score_rec)
-{
 }
 
 /* a clean exit from the parent with proper cleanup */
@@ -1233,7 +1227,6 @@ API_EXPORT(int) ap_update_child_status(int child_num, int status, request_rec *r
 
     ap_check_signals();
 
-    ap_sync_scoreboard_image();
     ss = &ap_scoreboard_image->servers[child_num];
     old_status = ss->status;
     ss->status = status;
@@ -1282,13 +1275,8 @@ API_EXPORT(int) ap_update_child_status(int child_num, int status, request_rec *r
 	ss->vhostrec = NULL;
 	ap_scoreboard_image->parent[child_num].generation = ap_my_generation;
     }
-    put_scoreboard_info(child_num, ss);
 
     return old_status;
-}
-
-static void update_scoreboard_global(void)
-{
 }
 
 void ap_time_process_request(int child_num, int status)
@@ -1298,7 +1286,6 @@ void ap_time_process_request(int child_num, int status)
     if (child_num < 0)
 	return;
 
-    ap_sync_scoreboard_image();
     ss = &ap_scoreboard_image->servers[child_num];
 
     if (status == START_PREQUEST) {
@@ -1314,8 +1301,6 @@ void ap_time_process_request(int child_num, int status)
 		ss->start_time.tv_usec = 0L;
 
     }
-
-    put_scoreboard_info(child_num, ss);
 }
 
 static void increment_counts(int child_num, request_rec *r)
@@ -1323,7 +1308,6 @@ static void increment_counts(int child_num, request_rec *r)
     long int bs = 0;
     short_score *ss;
 
-    ap_sync_scoreboard_image();
     ss = &ap_scoreboard_image->servers[child_num];
 
     if (r->sent_bodyct)
@@ -1336,8 +1320,6 @@ static void increment_counts(int child_num, request_rec *r)
     ss->bytes_served += (unsigned long) bs;
     ss->my_bytes_served += (unsigned long) bs;
     ss->conn_bytes += (unsigned long) bs;
-
-    put_scoreboard_info(child_num, ss);
 }
 
 static int find_child_by_pid(int pid)
@@ -1360,8 +1342,6 @@ static void reclaim_child_processes(int terminate)
     int not_dead_yet;
     int ret;
     other_child_rec *ocr, *nocr;
-
-    ap_sync_scoreboard_image();
 
     for (tries = terminate ? 4 : 1; tries <= 12; ++tries) {
 	/* don't want to hold up progress any more than 
@@ -2119,7 +2099,6 @@ static ap_inline listen_rec *find_ready_listener(fd_set * main_fds)
 static void show_compile_settings(void)
 {
     printf("Server version: %s\n", ap_get_server_version());
-    printf("Server built:   %s\n", ap_get_server_built());
     printf("Server's Module Magic Number: %u:%u\n",
 	   MODULE_MAGIC_NUMBER_MAJOR, MODULE_MAGIC_NUMBER_MINOR);
     printf("Server compiled with....\n");
@@ -2244,6 +2223,7 @@ static void child_main(int child_num_arg)
     struct sockaddr sa_server;
     struct sockaddr sa_client;
     listen_rec *lr;
+    struct rlimit rlp;
 
     /* All of initialization is a critical section, we don't care if we're
      * told to HUP or USR1 before we're done initializing.  For example,
@@ -2265,6 +2245,55 @@ static void child_main(int child_num_arg)
 
     setproctitle("child");
 
+    /*
+     * set up rlimits to keep apache+scripting from leaking horribly
+     */
+    if (ap_max_cpu_per_child != 0){
+	rlp.rlim_cur = rlp.rlim_max = ap_max_cpu_per_child;
+	if (setrlimit(RLIMIT_CPU, &rlp) == -1){
+	    ap_log_error(APLOG_MARK, APLOG_ALERT, server_conf,
+		"setrlimit: unable to set CPU limit to %d",
+		ap_max_cpu_per_child);
+	    clean_child_exit(APEXIT_CHILDFATAL);
+	}
+    }
+    if (ap_max_data_per_child != 0){
+	rlp.rlim_cur = rlp.rlim_max = ap_max_data_per_child;
+	if (setrlimit(RLIMIT_DATA, &rlp) == -1){
+	    ap_log_error(APLOG_MARK, APLOG_ALERT, server_conf,
+		"setrlimit: unable to set data limit to %d",
+		ap_max_data_per_child);
+	    clean_child_exit(APEXIT_CHILDFATAL);
+	}
+    }
+    if (ap_max_nofile_per_child != 0){
+	rlp.rlim_cur = rlp.rlim_max = ap_max_nofile_per_child;
+	if (setrlimit(RLIMIT_NOFILE, &rlp) == -1){
+	    ap_log_error(APLOG_MARK, APLOG_ALERT, server_conf,
+		"setrlimit: unable to set open file limit to %d",
+		ap_max_nofile_per_child);
+	    clean_child_exit(APEXIT_CHILDFATAL);
+	}
+    }
+    if (ap_max_rss_per_child != 0){
+	rlp.rlim_cur = rlp.rlim_max = ap_max_rss_per_child;
+	if (setrlimit(RLIMIT_RSS, &rlp) == -1){
+	    ap_log_error(APLOG_MARK, APLOG_ALERT, server_conf,
+		"setrlimit: unable to set RSS limit to %d",
+		ap_max_rss_per_child);
+	    clean_child_exit(APEXIT_CHILDFATAL);
+	}
+    }
+    if (ap_max_stack_per_child != 0){
+	rlp.rlim_cur = rlp.rlim_max = ap_max_stack_per_child;
+	if (setrlimit(RLIMIT_STACK, &rlp) == -1){
+	    ap_log_error(APLOG_MARK, APLOG_ALERT, server_conf,
+		"setrlimit: unable to set stack size limit to %d",
+		ap_max_stack_per_child);
+	    clean_child_exit(APEXIT_CHILDFATAL);
+	}
+    }
+
     /* Get a sub pool for global allocations in this child, so that
      * we can have cleanups occur when the child exits.
      */
@@ -2276,7 +2305,6 @@ static void child_main(int child_num_arg)
     pmutex = ap_make_sub_pool(pchild);
 
     /* needs to be done before we switch UIDs so we have permissions */
-    reopen_scoreboard(pchild);
     SAFE_ACCEPT(accept_mutex_child_init(pmutex));
 
     set_group_privs();
@@ -2328,7 +2356,6 @@ static void child_main(int child_num_arg)
 
 	ap_clear_pool(ptrans);
 
-	ap_sync_scoreboard_image();
 	if (ap_scoreboard_image->global.running_generation != ap_my_generation) {
 	    clean_child_exit(0);
 	}
@@ -2458,7 +2485,6 @@ static void child_main(int child_num_arg)
 	    /* or maybe we missed a signal, you never know on systems
 	     * without reliable signals
 	     */
-	    ap_sync_scoreboard_image();
 	    if (ap_scoreboard_image->global.running_generation != ap_my_generation) {
 		clean_child_exit(0);
 	    }
@@ -2540,7 +2566,6 @@ static void child_main(int child_num_arg)
 	    (void) ap_update_child_status(my_child_num, SERVER_BUSY_KEEPALIVE,
 				       (request_rec *) NULL);
 
-	    ap_sync_scoreboard_image();
 	    if (ap_scoreboard_image->global.running_generation != ap_my_generation) {
 		ap_call_close_connection_hook(current_conn);
 		ap_bclose(conn_io);
@@ -2706,7 +2731,6 @@ static void perform_idle_server_maintenance(void)
     last_non_dead = -1;
     total_non_dead = 0;
 
-    ap_sync_scoreboard_image();
     for (i = 0; i < ap_daemons_limit; ++i) {
 	int status;
 
@@ -2950,7 +2974,7 @@ static void standalone_main(int argc, char **argv)
 		if (setresgid(ap_group_id, ap_group_id, ap_group_id) != 0 ||
 		    setresuid(ap_user_id, ap_user_id, ap_user_id) != 0) {
 			ap_log_error(APLOG_MARK, APLOG_CRIT, server_conf,
-			    "can't drop priviliges!");
+			    "can't drop privileges!");
 			exit(1);
 		} else
 		    ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE,
@@ -2998,8 +3022,6 @@ static void standalone_main(int argc, char **argv)
 	    ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE, server_conf,
 		         "suEXEC mechanism enabled (wrapper: %s)", SUEXEC_BIN);
 	}
-	ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_INFO, server_conf,
-		    "Server built: %s", ap_get_server_built());
 	ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE, server_conf,
 		    "Accept mutex: %s (Default: %s)",
 		     amutex->name, ap_default_mutex_method());
@@ -3017,7 +3039,6 @@ static void standalone_main(int argc, char **argv)
 	    if (pid >= 0) {
 		process_child_status(pid, status);
 		/* non-fatal death... note that it's gone in the scoreboard. */
-		ap_sync_scoreboard_image();
 		child_slot = find_child_by_pid(pid);
 		Explain2("Reaping child %d slot %d", pid, child_slot);
 		if (child_slot >= 0) {
@@ -3078,7 +3099,7 @@ static void standalone_main(int argc, char **argv)
 
 	    /* cleanup pid file on normal shutdown */
 	    {
-		const char *pidfile = NULL;
+		char *pidfile = NULL;
 		pidfile = ap_server_root_relative (pconf, ap_pid_fname);
 		ap_server_strip_chroot(pidfile, 0);
 		if ( pidfile != NULL && unlink(pidfile) == 0)
@@ -3108,7 +3129,6 @@ static void standalone_main(int argc, char **argv)
 	 */
 	++ap_my_generation;
 	ap_scoreboard_image->global.running_generation = ap_my_generation;
-	update_scoreboard_global();
 
 	if (is_graceful) {
 	    int i;
@@ -3124,7 +3144,6 @@ static void standalone_main(int argc, char **argv)
 	     * do it if we're in a SCOREBOARD_FILE because it'll cause
 	     * corruption too easily.
 	     */
-	    ap_sync_scoreboard_image();
 	    for (i = 0; i < ap_daemons_limit; ++i) {
 		if (ap_scoreboard_image->servers[i].status != SERVER_DEAD) {
 		    ap_scoreboard_image->servers[i].status = SERVER_GRACEFUL;
@@ -3207,7 +3226,6 @@ int REALMAIN(int argc, char *argv[])
 	case 'v':
 	    ap_set_version();
 	    printf("Server version: %s\n", ap_get_server_version());
-	    printf("Server built:   %s\n", ap_get_server_built());
 	    exit(0);
 	case 'V':
 	    ap_set_version();

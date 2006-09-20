@@ -206,6 +206,11 @@ extern "C" {
 #define make_table                     ap_make_table
 #define matches_request_vhost          ap_matches_request_vhost
 #define max_requests_per_child         ap_max_requests_per_child
+#define max_cpu_per_child              ap_max_cpu_per_child
+#define max_data_per_child             ap_max_data_per_child
+#define max_nofile_per_child           ap_max_nofile_per_child
+#define max_rss_per_child              ap_max_rss_per_child
+#define max_stack_per_child            ap_max_stack_per_child
 #define md5                            ap_md5
 #define meets_conditions               ap_meets_conditions
 #define merge_per_dir_configs          ap_merge_per_dir_configs
@@ -384,7 +389,6 @@ extern "C" {
 #define sub_req_lookup_file            ap_sub_req_lookup_file
 #define sub_req_lookup_uri             ap_sub_req_lookup_uri
 #define suexec_enabled                 ap_suexec_enabled
-#define sync_scoreboard_image          ap_sync_scoreboard_image
 #define table_add                      ap_table_add
 #define table_addn                     ap_table_addn
 #define table_do                       ap_table_do
