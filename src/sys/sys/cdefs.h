@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.7 2005/07/07 14:39:27 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.8 2005/11/23 20:32:41 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
 /*-
- * Copyright (c) 2005
+ * Copyright (c) 2005, 2006
  *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -58,6 +58,9 @@
 /*
  * Macro to test if we're using a specific version of gcc or later.
  */
+#ifdef lint
+#undef __GNUC__
+#endif
 #ifdef __GNUC__
 #define __GNUC_PREREQ__(ma, mi) \
 	((__GNUC__ > (ma)) || (__GNUC__ == (ma) && __GNUC_MINOR__ >= (mi)))
@@ -194,21 +197,24 @@
 #endif
 
 #ifdef lint
+#define __func__		"__func__"
 #define __restrict__
+#define __unused
+#else
+#define __unused		__attribute__((unused))
 #endif
 
-#ifdef lint
-#define	__IDSTRING(prefix, string)				\
-	static const char __LINTED__ ## prefix [] = (string)
-#elif defined(__ELF__) && defined(__GNUC__)
+#if defined(__ELF__) && defined(__GNUC__)
 #define	__IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
-	"\n	.ascii	\"" #prefix ": \""			\
+	"\n	.ascii	\"@(#)" #prefix ": \""			\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
+#define __IDSTRING_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
+#define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
 #define	__IDSTRING(prefix, string)				\
-	static const char __ ## prefix []			\
+	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
 	    __attribute__((used)) = (string)
 #endif
 #ifdef lint
