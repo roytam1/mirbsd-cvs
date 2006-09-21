@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.12 2006/09/21 00:08:12 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.13 2006/09/21 00:11:37 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,8 +63,7 @@ let i=0
 		print -nr -- "<${argv[i++]}> "
 	done
 	print
-	cat
-	print "END calling information"
+	print "END calling information (no stdin)"
     ) | logger -t "CVS:dump"
 
 F=$repo/.tmp/cl.tag.$id
