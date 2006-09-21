@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.11 2006/09/21 00:04:49 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.12 2006/09/21 00:08:12 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -54,7 +54,7 @@ set -A fnew
 opt_done=0
 let i=0
 
-[[ -e $1/.tmp/do-dump ]] && (
+[[ -e $repo/.tmp/do-dump ]] && (
 	local argv
 	set -A argv -- "$0" "$@"
 	print "BEGIN calling information"
