@@ -114,9 +114,11 @@ typedef	__fsfilcnt_t	fsfilcnt_t;	/* fs file count */
 #define	fsfilcnt_t	__fsfilcnt_t
 #endif
 
+#ifndef __MirBSD__
 #ifndef	uid_t
 typedef	__uid_t		uid_t;		/* user id */
 #define	uid_t		__uid_t
+#endif
 #endif
 
 #ifdef	_BSD_SIZE_T_
@@ -207,7 +209,7 @@ void	copy_statvfs_info(struct statvfs *, const struct mount *);
 int	dostatvfs(struct mount *, struct statvfs *, struct lwp *, int, int);
 #else
 __BEGIN_DECLS
-int	statvfs(const char *__restrict, struct statvfs *__restrict);
+int	statvfs(const char *__restrict__, struct statvfs *__restrict__);
 int	fstatvfs(int, struct statvfs *);
 int	getvfsstat(struct statvfs *, size_t, int);
 #ifndef __LIBC12_SOURCE__
@@ -216,7 +218,7 @@ int	getvfsstat(struct statvfs *, size_t, int);
 #if defined(_NETBSD_SOURCE)
 int	fhstatvfs(const fhandle_t *, struct statvfs *);
 
-int	statvfs1(const char *__restrict, struct statvfs *__restrict, int);
+int	statvfs1(const char *__restrict__, struct statvfs *__restrict__, int);
 int	fstatvfs1(int, struct statvfs *, int);
 int	fhstatvfs1(const fhandle_t *, struct statvfs *, int);
 #endif /* _NETBSD_SOURCE */

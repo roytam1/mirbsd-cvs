@@ -96,7 +96,7 @@
 enum fi_flags {
 	FI_SIZED =	1<<0,		/* inode sized */
 	FI_ALLOCATED =	1<<1,		/* fsinode->ino allocated */
-	FI_WRITTEN =	1<<2,		/* inode written */
+	FI_WRITTEN =	1<<2		/* inode written */
 };
 
 typedef struct {
