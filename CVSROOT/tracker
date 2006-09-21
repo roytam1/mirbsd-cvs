@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/tracker,v 1.5 2005/12/06 03:11:40 tg Exp $
+# $MirOS: CVSROOT/tracker,v 1.6 2006/09/21 00:04:49 tg Exp $
 #-
 # Record the last directory where the current commit is taking place
 # in for use by the mklogci and mklogtag scripts. Note that the pre-
@@ -7,14 +7,15 @@
 # with the other files.
 
 [[ -e $1/.tmp/do-dump ]] && (
+	local argv
+	set -A argv -- "$0" "$@"
 	print "BEGIN calling information"
 	integer i=0
-	while (( i <= $# )); do
-		print -nr -- "<${$i}> "
-		let ++i
+	while (( i < ${#argv[*]} )); do
+		print -nr -- "<${argv[i++]}> "
 	done
 	print
-	cat
+	#cat	#--> nothing on stdin here
 	print "END calling information"
     ) | logger -t "CVS:dump"
 

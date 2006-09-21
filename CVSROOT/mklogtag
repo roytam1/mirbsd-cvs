@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: CVSROOT/mklogtag,v 1.11 2006/09/21 00:04:49 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -55,11 +55,12 @@ opt_done=0
 let i=0
 
 [[ -e $1/.tmp/do-dump ]] && (
+	local argv
+	set -A argv -- "$0" "$@"
 	print "BEGIN calling information"
 	integer i=0
-	while (( i <= $# )); do
-		print -nr -- "<${$i}> "
-		let ++i
+	while (( i < ${#argv[*]} )); do
+		print -nr -- "<${argv[i++]}> "
 	done
 	print
 	cat
