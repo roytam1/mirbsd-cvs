@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.2 2006/07/05 15:51:40 tg Exp $ */
 /*	$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $	*/
 
 /*
@@ -72,6 +72,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #endif	/* !__lint */
 
@@ -106,7 +107,7 @@ __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #include "ffs/newfs_extern.h"
 #include "ffs/ffs_extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.2 2006/07/05 15:51:40 tg Exp $");
 
 #undef DIP
 #define DIP(dp, field) \
@@ -998,7 +999,7 @@ ffs_make_dirbuf(dirbuf_t *dbuf, const char *name, fsnode *node, int needswap)
 	de.d_fileno = ufs_rw32(node->inode->ino, needswap);
 	de.d_type = IFTODT(node->type);
 	de.d_namlen = (uint8_t)strlen(name);
-	strcpy(de.d_name, name);
+	strlcpy(de.d_name, name, sizeof (de.d_name));
 	reclen = DIRSIZ(0, &de, needswap);
 	de.d_reclen = ufs_rw16(reclen, needswap);
 

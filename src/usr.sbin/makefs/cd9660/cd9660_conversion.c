@@ -35,6 +35,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: cd9660_conversion.c,v 1.3 2005/12/24 20:56:41 perry Exp $");
 #endif  /* !__lint */
 
@@ -175,7 +176,7 @@ cd9660_time_8426(unsigned char *buf, time_t tim)
 	char temp[18];
 
 	t = localtime(&tim);
-	sprintf(temp,"%04i%02i%02i%02i%02i%02i%02i",
+	snprintf(temp, sizeof (temp), "%04i%02i%02i%02i%02i%02i%02i",
 		1900+(int)t->tm_year,
 		(int)t->tm_mon+1,
 		(int)t->tm_mday,

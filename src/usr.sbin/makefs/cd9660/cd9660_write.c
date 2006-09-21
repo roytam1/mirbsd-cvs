@@ -287,7 +287,7 @@ cd9660_write_file(FILE *fd, cd9660node *writenode)
 			    __func__, (int)inode->st.st_ino, inode->ino));
 			inode->flags |= FI_WRITTEN;
 			cd9660_compute_full_filename(writenode,
-			    temp_file_name, 0);
+			    temp_file_name, 0, CD9660MAXPATH + 1);
 			ret = cd9660_copy_file(fd, writenode->fileDataSector,
 			    temp_file_name);
 			if (ret == 0)

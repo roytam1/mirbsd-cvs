@@ -70,13 +70,9 @@
 #endif
 
 #include <sys/cdefs.h>
-#if 0
-#if 0
-static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
-#else
+__SCCSID("@(#)spec.c	8.2 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $");
-#endif
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -99,7 +95,7 @@ __RCSID("$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $");
 #define	user_from_uid	__nbcompat_user_from_uid
 #include "pwcache.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.2 2006/07/05 20:08:35 tg Exp $");
 
 size_t	mtree_lineno;			/* Current spec line number */
 int	mtree_Mflag;			/* Merge duplicate entries */
@@ -214,7 +210,7 @@ noparent:		mtree_err("no parent node");
 			mtree_err("%s", strerror(errno));
 		*centry = ginfo;
 		centry->lineno = mtree_lineno;
-		strcpy(centry->name, p);
+		strlcpy(centry->name, p, sizeof (centry->name));
 #define	MAGIC	"?*["
 		if (strpbrk(p, MAGIC))
 			centry->flags |= F_MAGIC;
