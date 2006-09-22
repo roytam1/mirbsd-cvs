@@ -79,14 +79,6 @@
  *
  */
 
-#ifndef lint
-#if 0
-static char rcsid[] = "Id: chat.c,v 1.19 1998/03/24 23:57:48 paulus Exp $";
-#else
-static char rcsid[] = "$OpenBSD: chat.c,v 1.22 2004/02/26 17:46:24 deraadt Exp $";
-#endif
-#endif
-
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
@@ -112,6 +104,8 @@ static char rcsid[] = "$OpenBSD: chat.c,v 1.22 2004/02/26 17:46:24 deraadt Exp $
 #ifdef TERMIOS
 #include <termios.h>
 #endif
+
+__RCSID("$MirOS$");
 
 #define	STR_LEN	1024
 
