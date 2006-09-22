@@ -458,7 +458,7 @@ static struct cmd {
 
 static char *usage_string =
 #ifdef SMALL
-"syntax error\n"
+"syntax error\n";
 #else
 "pppd version %s patch level %d%s\n\
 Usage: %s [ options ], where options are:\n\
