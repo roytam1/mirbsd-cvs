@@ -456,8 +456,11 @@ static struct cmd {
 #define IMPLEMENTATION ""
 #endif
 
-static char *usage_string = "\
-pppd version %s patch level %d%s\n\
+static char *usage_string =
+#ifdef SMALL
+"syntax error\n"
+#else
+"pppd version %s patch level %d%s\n\
 Usage: %s [ options ], where options are:\n\
 	<device>	Communicate over the named device\n\
 	<speed>		Set the baud rate to <speed>\n\
@@ -473,8 +476,8 @@ Usage: %s [ options ], where options are:\n\
 	modem_chat	Use modem control lines during chat\n\
 	mru <n>		Set MRU value to <n> for negotiation\n\
 	netmask <n>	Set interface netmask to <n>\n\
-See pppd(8) for more options.\n\
-";
+See pppd(8) for more options.\n";
+#endif
 
 static char *current_option;	/* the name of the option being parsed */
 static int privileged_option;	/* set iff the current option came from root */
@@ -1162,7 +1165,7 @@ setpassfilter(argv)
 {
     pc.linktype = DLT_PPP;
     pc.snapshot = PPP_HDRLEN;
- 
+
     if (pcap_compile(&pc, &pass_filter, *argv, 1, netmask) == 0)
 	return 1;
     option_error("error in pass-filter expression: %s\n", pcap_geterr(&pc));
@@ -1178,7 +1181,7 @@ setactivefilter(argv)
 {
     pc.linktype = DLT_PPP;
     pc.snapshot = PPP_HDRLEN;
- 
+
     if (pcap_compile(&pc, &active_filter, *argv, 1, netmask) == 0)
 	return 1;
     option_error("error in active-filter expression: %s\n", pcap_geterr(&pc));
@@ -1530,7 +1533,7 @@ setdisconnector(argv)
 	novm("disconnect script");
     disconnector_info.priv = privileged_option;
     disconnector_info.source = option_source;
-  
+
     return (1);
 }
 
@@ -1574,7 +1577,7 @@ setmaxconnect(argv)
 }
 
 /*
- * setdomain - Set domain name to append to hostname 
+ * setdomain - Set domain name to append to hostname
  */
 static int
 setdomain(argv)
@@ -1696,7 +1699,7 @@ setdevname(cp, quiet)
     default_device = FALSE;
     devnam_info.priv = privileged_option;
     devnam_info.source = option_source;
-  
+
     return 1;
 }
 
@@ -1713,13 +1716,13 @@ setipaddr(arg)
     struct in_addr ina;
     u_int32_t local, remote;
     ipcp_options *wo = &ipcp_wantoptions[0];
-  
+
     /*
      * IP address pair separated by ":".
      */
     if ((colon = strchr(arg, ':')) == NULL)
 	return 0;
-  
+
     /*
      * If colon first character, then no local addr.
      */
@@ -1744,7 +1747,7 @@ setipaddr(arg)
 	    wo->ouraddr = local;
 	*colon = ':';
     }
-  
+
     /*
      * If colon last character, then no remote addr.
      */
@@ -2385,7 +2388,7 @@ setipxrouter (argv)
 {
     ipxcp_wantoptions[0].neg_router  = 1;
     ipxcp_allowoptions[0].neg_router = 1;
-    return int_option(*argv, &ipxcp_wantoptions[0].router); 
+    return int_option(*argv, &ipxcp_wantoptions[0].router);
 }
 
 static int
@@ -2500,7 +2503,7 @@ u_char *src, *dst;
     for (;;) {
         if (!isxdigit (*src))
 	    break;
-	
+
 	for (indx = 0; indx < 5; ++indx) {
 	    dst[indx] <<= 4;
 	    dst[indx] |= (dst[indx + 1] >> 4) & 0x0F;
