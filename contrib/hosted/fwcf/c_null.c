@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.3 2006/09/16 05:06:22 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.4 2006/09/23 23:21:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,10 +26,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "compress.h"
 #include "defs.h"
+#include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.3 2006/09/16 05:06:22 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.4 2006/09/23 23:21:03 tg Exp $");
 
 static void c_null_load(void) __attribute__((constructor));
 static int c_init(void);

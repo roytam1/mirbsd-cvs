@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/compress.c,v 1.5 2006/09/16 07:35:36 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.c,v 1.6 2006/09/23 23:21:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,10 +25,10 @@
 #include <err.h>
 #include <stdlib.h>
 
-#include "compress.h"
 #include "defs.h"
+#include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.5 2006/09/16 07:35:36 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/compress.c,v 1.6 2006/09/23 23:21:03 tg Exp $");
 
 static void compress_initialise(void);
 

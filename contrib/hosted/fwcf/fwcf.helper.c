@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fwcf.helper.c,v 1.1 2006/09/23 22:54:34 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fwcf.helper.c,v 1.2 2006/09/23 23:21:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,11 +28,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "compress.h"
 #include "defs.h"
+#include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/fwcf.helper.c,v 1.2 2006/09/23 23:21:04 tg Exp $");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);

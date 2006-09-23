@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.1 2006/09/16 07:35:36 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.2 2006/09/23 23:21:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -24,10 +24,10 @@
 #include <sys/param.h>
 #include <stdio.h>
 
-#include "compress.h"
 #include "defs.h"
+#include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.1 2006/09/16 07:35:36 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.2 2006/09/23 23:21:04 tg Exp $");
 
 int
 compress_list(void)
