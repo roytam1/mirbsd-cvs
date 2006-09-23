@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 0.93 - 23 September 2006
+                                  Version 0.94 - 23 September 2006
 
 
 Copyright (c) 2006
@@ -66,13 +66,16 @@ a userland programme to be run manually.
 -------------------------
 
 The size of the flash partition has been set by the FreeWRT project
-to 128 KiB (usually two flash blocks). A custom flash map driver is
-going to be added to the FreeWRT kernel before the import of fwcf.
+to 128 KiB (usually two flash blocks). A custom flash map driver has
+been added to the FreeWRT kernel before the import of fwcf.
 
 The command-line utility will support three operations:
 * fwcf setup		to be run by the rc bootup script early
 * fwcf commit		similar to Cisco 'write'
 * fwcf erase		similar to Cisco 'erase startup-config'
+
+This utility is implemented as rapid prototype as a shell script in
+ash, using one C helper programme. Later versions will be pure C.
 
 
 2.1. Operation of 'fwcf setup'
@@ -84,8 +87,7 @@ at /var/fwcf/tmp and populate it with all files from /var/fwcf/root.
 Now, the fwcf flash partition will be read, the format and checksum
 verified and data extracted to /var/fwcf/tmp, possibly overwriting
 pre-existing files. Then, the /var/fwcf/tmp filesystem will be re-
-bound to /etc and, if possible, the mountpoint at /var/fwcf/tmp un-
-loaded.
+bound to /etc and, finally, the mountpoint at /var/fwcf/tmp unloaded.
 
 Data from the end of the fwcf data in the flash partition to the
 end of the 64 KiB block the end of data resides in will be written
@@ -292,4 +294,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.7 2006/09/23 18:41:15 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.8 2006/09/23 21:50:21 tg Exp $
