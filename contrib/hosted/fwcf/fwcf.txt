@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 0.92 - 23 September 2006
+                                  Version 0.93 - 23 September 2006
 
 
 Copyright (c) 2006
@@ -102,6 +102,13 @@ from /var/fwcf/tmp. Any remaining files will be packed into the
 fwcf format documented below and written to the flash partition,
 padded to a multiple of 64 KiB with data read from /dev/urandom.
 
+The first public release will not remove any files before gene-
+rating the compressed data, and only support directories, files
+and symbolic links, for simplicity. Stored hard links and other
+file types will be skipped, because their storage format is al-
+ready specified (as "reserved for future use"), and ignored. No
+inode or file-sequential-number information is read or written.
+
 
 2.3. Operation of 'fwcf erase'
 ------------------------------
@@ -164,7 +171,8 @@ at least one of the non-private algorithms below.
 This draft of the specification offers two compression algorithms:
 
 0x00 = plain uncompressed data
-0x01 = zlib deflate compression
+0x01 = zlib deflate compression as per http://www.zlib.net/
+0x02 = LZO1X-999 as per http://www.oberhumer.com/opensource/lzo/
 
 Algorithm codes from 0xC0 to 0xFF are available for private use.
 
@@ -284,4 +292,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.6 2006/09/23 16:54:49 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.7 2006/09/23 18:41:15 tg Exp $
