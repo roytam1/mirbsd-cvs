@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.1 2006/09/16 07:09:49 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.2 2006/09/16 07:35:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,7 +33,7 @@
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.1 2006/09/16 07:09:49 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.2 2006/09/16 07:35:37 tg Exp $");
 
 char *
 fwcf_pack(const char *dir, int algo, size_t *dstsz)
@@ -46,7 +46,7 @@ fwcf_pack(const char *dir, int algo, size_t *dstsz)
 	data = ft_packm();
 	i = *(size_t *)data - sizeof (size_t);
 	if (i > 0xFFFFFF)
-		errx(1, "inner size of %d too large", i);
+		errx(1, "inner size of %lu too large", (u_long)i);
 
 	if ((j = compressor_get(algo)->compress(&cdata, data + sizeof (size_t),
 	    i)) == -1)
@@ -59,8 +59,8 @@ fwcf_pack(const char *dir, int algo, size_t *dstsz)
 # error DEF_FLASHPART too large
 #endif
 	if (k > DEF_FLASHPART)
-		errx(1, "%d bytes too large for flash partition of %d KiB",
-		    k, DEF_FLASHPART / 1024);
+		errx(1, "%lu bytes too large for flash partition of %lu KiB",
+		    (u_long)k, DEF_FLASHPART / 1024UL);
 	/* padded to size of flash block */
 #if (DEF_FLASHBLOCK & 3)
 # error DEF_FLASHBLOCK must be dword-aligned
