@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.4 2006/09/16 07:09:50 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.5 2006/09/23 18:44:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,7 +31,7 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.4 2006/09/16 07:09:50 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.5 2006/09/23 18:44:10 tg Exp $");
 
 static int unfwcf(int, const char *);
 static __dead void usage(void);
@@ -79,12 +79,13 @@ usage(void)
 	extern const char *__progname;
 
 	fprintf(stderr, "Usage:\t%s [-i <infile>] <directory>"
-	    "\n\t%s -l\n", __progname, __progname);
+	    "\n\t%s -d [-i <infile>]"
+	    "\n\t%s -l\n", __progname, __progname, __progname);
 	exit(1);
 }
 
 static int
-unfwcf(int fd, const char *dir __attribute__((unused)))
+unfwcf(int fd, const char *dir)
 {
 	char *udata;
 
@@ -92,7 +93,7 @@ unfwcf(int fd, const char *dir __attribute__((unused)))
 		if (do_dump)
 			ft_dump(udata);
 		else
-			/* ft_creatm(udata) */ udata++;
+			ft_creatm(udata, dir);
 	}
 	return (udata != NULL ? 0 : 1);
 }

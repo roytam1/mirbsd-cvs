@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/pack.h,v 1.8 2006/09/16 07:35:37 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/pack.h,v 1.9 2006/09/23 18:41:15 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -83,8 +83,7 @@ char *mkheader(char *, size_t, uint32_t, uint32_t, uint8_t);
 char *mktrailer(char *, size_t);
 
 void ft_dump(char *);
-void ft_creatm(char *);
-size_t ft_creat(char *);
+void ft_creatm(char *, const char *);
 
 char *fwcf_unpack(int);
 char *fwcf_pack(const char *, int, size_t *);

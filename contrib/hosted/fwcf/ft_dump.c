@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.2 2006/09/16 06:50:11 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.3 2006/09/16 07:09:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.2 2006/09/16 06:50:11 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.3 2006/09/16 07:09:49 tg Exp $");
 
 static int ft_dumpfile(char *);
 
@@ -99,7 +99,7 @@ ft_dumpfile(char *buf)
 		case 'M':
 			x = (c == 'm') ? LOADW(p) : LOADD(p);
 			p += (c == 'm') ? 2 : 4;
-			printf("MODE=%o\n", x);
+			printf("MODE=0%o\n", x);
 			break;
 		case 's':
 		case 'S':

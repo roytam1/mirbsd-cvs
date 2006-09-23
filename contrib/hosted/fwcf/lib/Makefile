@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.8 2006/09/16 07:09:49 tg Exp $
+# $MirOS: contrib/hosted/fwcf/lib/Makefile,v 1.1 2006/09/16 07:35:37 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -10,6 +10,7 @@ SRCS+=		compress.c
 SRCS+=		cpr_get.c
 SRCS+=		cpr_list.c
 SRCS+=		cpr_lsth.c
+SRCS+=		ft_creat.c
 SRCS+=		ft_dump.c
 SRCS+=		ft_pack.c
 SRCS+=		ft_packm.c
