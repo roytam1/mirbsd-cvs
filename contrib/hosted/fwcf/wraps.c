@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.3 2006/09/23 16:49:22 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.4 2006/09/23 20:20:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -34,7 +34,9 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.3 2006/09/23 16:49:22 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.4 2006/09/23 20:20:01 tg Exp $");
+
+static char empty_data[sizeof (size_t) + 1];
 
 char *
 fwcf_pack(const char *dir, int algo, size_t *dstsz)
@@ -43,8 +45,14 @@ fwcf_pack(const char *dir, int algo, size_t *dstsz)
 	int j;
 	char *data, *cdata;
 
-	ftsf_start(dir);
-	data = ft_packm();
+	if (dir == NULL) {
+		bzero(empty_data, sizeof (empty_data));
+		*(size_t *)empty_data = sizeof (empty_data);
+		data = empty_data;
+	} else {
+		ftsf_start(dir);
+		data = ft_packm();
+	}
 	i = *(size_t *)data - sizeof (size_t);
 	if (i > 0xFFFFFF)
 		errx(1, "inner size of %lu too large", (u_long)i);
@@ -52,7 +60,8 @@ fwcf_pack(const char *dir, int algo, size_t *dstsz)
 	if ((j = compressor_get(algo)->compress(&cdata, data + sizeof (size_t),
 	    i)) == -1)
 		errx(1, "%s compression failed", compressor_get(algo)->name);
-	free(data);
+	if (data != empty_data)
+		free(data);
 
 	/* 12 bytes header, padding to 4-byte boundary, 4 bytes trailer */
 	k = ((j + 19) / 4) * 4;

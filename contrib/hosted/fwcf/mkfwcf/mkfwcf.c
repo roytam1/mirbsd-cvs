@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.8 2006/09/16 06:18:58 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.9 2006/09/16 07:09:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,7 +31,7 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.8 2006/09/16 06:18:58 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.9 2006/09/16 07:09:49 tg Exp $");
 
 static int mkfwcf(int, const char *, int);
 static __dead void usage(void);
@@ -40,10 +40,10 @@ int
 main(int argc, char *argv[])
 {
 	int c;
-	int fd = STDOUT_FILENO, docompress = 0;
+	int fd = STDOUT_FILENO, docompress = 0, doempty = 0;
 	const char *file_root = NULL, *outfile = NULL;
 
-	while ((c = getopt(argc, argv, "C:clo:")) != -1)
+	while ((c = getopt(argc, argv, "C:celo:")) != -1)
 		switch (c) {
 		case 'C':
 			if (!(docompress = strtonum(optarg, 1, 255, NULL)))
@@ -51,6 +51,9 @@ main(int argc, char *argv[])
 			break;
 		case 'c':
 			docompress = 1;
+			break;
+		case 'e':
+			doempty = 1;
 			break;
 		case 'l':
 			return (list_compressors());
@@ -74,11 +77,11 @@ main(int argc, char *argv[])
 		    0666)) < 0)
 			err(1, "open %s", outfile);
 
-	if (file_root == NULL)
+	if ((file_root == NULL) && !doempty)
 		if ((file_root = getcwd(NULL, 0)) == NULL)
 			err(1, "cannot determine current working directory");
 
-	return (mkfwcf(fd, file_root, docompress));
+	return (mkfwcf(fd, doempty ? NULL : file_root, docompress));
 }
 
 static __dead void
@@ -86,7 +89,7 @@ usage(void)
 {
 	extern const char *__progname;
 
-	fprintf(stderr, "Usage:\t%s [-c | -C <algorithm-number>] [-o <outfile>]"
+	fprintf(stderr, "Usage:\t%s [-e] [-c | -C <algorithm-number>] [-o <outfile>]"
 	    "\n\t    [<directory>]\n\t%s -l\n", __progname, __progname);
 	exit(1);
 }
