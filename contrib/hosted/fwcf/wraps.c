@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.2 2006/09/16 07:35:37 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.3 2006/09/23 16:49:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,8 +32,9 @@
 #include "compress.h"
 #include "fts_subs.h"
 #include "pack.h"
+#include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.2 2006/09/16 07:35:37 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.3 2006/09/23 16:49:22 tg Exp $");
 
 char *
 fwcf_pack(const char *dir, int algo, size_t *dstsz)
@@ -65,7 +66,7 @@ fwcf_pack(const char *dir, int algo, size_t *dstsz)
 #if (DEF_FLASHBLOCK & 3)
 # error DEF_FLASHBLOCK must be dword-aligned
 #endif
-	*dstsz = ((i + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK) * DEF_FLASHBLOCK;
+	*dstsz = ((k + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK) * DEF_FLASHBLOCK;
 	if ((data = malloc(*dstsz)) == NULL)
 		err(1, "malloc");
 	mkheader(data, *dstsz, k, i, algo);
@@ -76,9 +77,6 @@ fwcf_pack(const char *dir, int algo, size_t *dstsz)
 		data[k++] = 0;
 	mktrailer(data, k);
 	k += 4;
-	while (k < *dstsz) {
-		*(uint32_t *)(data + k) = arc4random();
-		k += 4;
-	}
+	pull_rndata((uint8_t *)data + k, *dstsz - k);
 	return (data);
 }

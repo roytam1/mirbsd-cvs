@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.2 2006/09/19 11:30:25 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.3 2006/09/23 16:49:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,14 +31,15 @@
 #include "adler.h"
 #include "compress.h"
 #include "pack.h"
+#include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.2 2006/09/19 11:30:25 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.3 2006/09/23 16:49:22 tg Exp $");
 
 char *
 fwcf_unpack(int fd)
 {
 	uint8_t c, hdrbuf[12];
-	size_t outer, inner, x, len;
+	size_t outer, inner, x, len, maxln;
 	char *cdata, *udata;
 	ADLER_DECL;
 
@@ -53,12 +54,14 @@ fwcf_unpack(int fd)
 		errx(1, "wrong file version %02Xh", hdrbuf[7]);
 	inner = LOADT(hdrbuf + 8);
 	c = hdrbuf[11];
+	maxln = ((outer + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK)
+	    * DEF_FLASHBLOCK;
 
-	if (((cdata = malloc(outer)) == NULL) ||
+	if (((cdata = malloc(maxln)) == NULL) ||
 	    ((udata = malloc(inner)) == NULL))
 		err(1, "malloc");
 	memcpy(cdata, hdrbuf, 12);
-	if ((size_t)read(fd, cdata + 12, outer - 12) != (outer - 12))
+	if (read(fd, cdata + 12, maxln - 12) < (ssize_t)(outer - 12))
 		err(1, "read");
 
 	len = outer - 4;
@@ -73,6 +76,7 @@ fwcf_unpack(int fd)
 	    outer - 12)) != inner)
 		errx(1, "size mismatch: decompressed %lu, want %lu", (u_long)x,
 		    (u_long)inner);
+	push_rndata((uint8_t *)cdata + outer, maxln - outer);
 	free(cdata);
 	return (udata);
 }

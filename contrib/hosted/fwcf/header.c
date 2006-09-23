@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/header.c,v 1.3 2006/09/16 07:09:49 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/header.c,v 1.4 2006/09/19 11:30:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,7 +31,7 @@
 #include "adler.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.3 2006/09/16 07:09:49 tg Exp $"
+__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.4 2006/09/19 11:30:24 tg Exp $"
     "\t" ADLER_H);
 
 char *
@@ -40,6 +40,11 @@ mkheader(char *f_header, size_t hdrsize, uint32_t outer_len,
 {
 	char *hdrptr = f_header;
 	size_t hdrleft = hdrsize;
+
+#ifdef DEBUG
+	fprintf(stderr, "header: inner=%d outer=%d\n", inner_len & 0xFFFFFF,
+	    outer_len & 0xFFFFFF);
+#endif
 
 	STOREB('F');
 	STOREB('W');
