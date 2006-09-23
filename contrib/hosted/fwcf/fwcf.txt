@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 0.91 - 16 September 2006
+                                  Version 0.92 - 23 September 2006
 
 
 Copyright (c) 2006
@@ -202,15 +202,18 @@ tribute. Alternate streams / forks are not supported.
 
 0x01	this file is a block special device (*1)
 	no payload
+	reserved for future use
 
 0x02	this file is a character special device (*1)
 	no payload
+	reserved for future use
 
 0x03	this file is a symbolic link (*2)
 	no payload
 
-0x04	this file is a hard link to another file (*4)
+0x04	this file is a hard link to another file (*1) (*4)
 	no payload
+	reserved for future use
 
 0x05	this file is a directory (*4)
 	no payload
@@ -223,10 +226,11 @@ g/G	group of the file (numeric GID)
 	optional
 	payload length: lowercase = 8 bit, uppercase = 32 bit
 
-i/I	"inode" of the file (*4)
+i/I	"inode" of the file (*1) (*4)
 	required if this file is a hard link source or target
 	optional (ignored) otherwise
 	payload length: lowercase = 8 bit, uppercase = 16 bit
+	reserved for future use
 
 m/M	mode_t / permissions of the file (*3)
 	optional
@@ -241,10 +245,8 @@ s/S	size of the file
 	for directories, device nodes and hard links: forbidden
 	payload length: lowercase = 8 bit, uppercase = 24 bit
 
-*1) These identifiers are reserved in this specification; however,
-    implementations are not required to support them at this time.
-    Device nodes in /etc do not make sense. (Neither do e.g. FIFOs
-    or sockets.)
+*1) These identifiers are defined in this specification for future
+    use; implementations do not need to support them at this time.
 
 *2) The name of the target is the data, thus, size is required.
 
@@ -264,6 +266,9 @@ Brodkorb, FreeWRT Project Founder. After a discussion with him I
 decided on the archive/userland tool layout outlined in sections
 1 and 2 above.
 
+For now, nodes other than directories, files, and symbolic links
+are not supported.
+
 Development of FWCF is hosted in the CVS repository of the MirOS
 project. Anonymous read-only CVS access is available at the root
 ":ext:anoncvs@anoncvs.mirbsd.org:/cvs" using password "anoncvs",
@@ -277,4 +282,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.4 2006/09/16 01:55:24 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.5 2006/09/16 03:19:52 tg Exp $
