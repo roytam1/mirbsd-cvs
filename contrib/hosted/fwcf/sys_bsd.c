@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.1 2006/09/23 20:20:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -24,9 +24,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "defs.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.1 2006/09/23 20:20:00 tg Exp $");
 
 void
 pull_rndata(uint8_t *buf, size_t n)

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.4 2006/09/16 02:46:34 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_debg.c,v 1.1 2006/09/16 07:35:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,9 +25,10 @@
 #include <sys/stat.h>
 #include <stdio.h>
 
+#include "defs.h"
 #include "fts_subs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.4 2006/09/16 02:46:34 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts_debg.c,v 1.1 2006/09/16 07:35:36 tg Exp $");
 
 void
 ftsf_debugent(ftsf_entry *e)

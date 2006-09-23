@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.4 2006/09/16 02:46:34 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.5 2006/09/16 07:35:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -29,10 +29,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "defs.h"
 #define FTSF_INTERNALS
 #include "fts_subs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.4 2006/09/16 02:46:34 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts_subs.c,v 1.5 2006/09/16 07:35:36 tg Exp $");
 
 static FTS *handle;
 

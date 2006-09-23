@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.1 2006/09/23 20:20:00 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/sys_linux.c,v 1.1 2006/09/23 22:05:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -21,12 +21,14 @@
  * the possibility of such damage or existence of a defect.
  */
 
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "defs.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.1 2006/09/23 20:20:00 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/sys_linux.c,v 1.1 2006/09/23 22:05:25 tg Exp $");
 
 void
 pull_rndata(uint8_t *buf, size_t n)

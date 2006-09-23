@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.3 2006/09/16 07:09:49 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_creat.c,v 1.1 2006/09/23 19:47:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,9 +32,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "defs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_dump.c,v 1.3 2006/09/16 07:09:49 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_creat.c,v 1.1 2006/09/23 19:47:39 tg Exp $");
 
 static size_t ft_creat(char *);
 static void make_directory(char *, uint32_t, uint32_t, uint32_t, time_t);

@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/fwcf.helper.c,v 1.1 2006/09/23 22:54:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -29,10 +29,10 @@
 #include <unistd.h>
 
 #include "compress.h"
+#include "defs.h"
 #include "pack.h"
 
-static const char __rcsid[] __attribute__((section (".text"))) =
-    "$MirOS$";
+__RCSID("$MirOS$");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);
@@ -42,18 +42,12 @@ int
 main(int argc, char *argv[])
 {
 	int c;
-	int mode = 0, docompress = 0, doempty = 0;
+	int mode = 0, doempty = 0;
 	const char *file_root = NULL;
+	fwcf_compressor *cl;
 
-	while ((c = getopt(argc, argv, "cC:elMU")) != -1)
+	while ((c = getopt(argc, argv, "elMU")) != -1)
 		switch (c) {
-		case 'C':
-			if (!(docompress = strtonum(optarg, 1, 255, NULL)))
-				usage();
-			break;
-		case 'c':
-			docompress = 1;
-			break;
 		case 'e':
 			doempty = 1;
 			break;
@@ -71,7 +65,7 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (!mode || ((mode == 2) && (doempty || docompress)))
+	if (!mode || ((mode == 2) && doempty))
 		usage();
 
 	if (argc != (1 - doempty))
@@ -81,7 +75,16 @@ main(int argc, char *argv[])
 
 	if (mode == 2)
 		return (unfwcf(STDIN_FILENO, file_root));
-	return (mkfwcf(STDOUT_FILENO, doempty ? NULL : file_root, docompress));
+
+	if ((cl = compress_enumerate()) != NULL)
+		for (c = 0; c < 256; ++c)
+			if (cl[c].name != NULL)
+				break;
+
+	if ((cl == NULL) || (c == 256))
+		errx(1, "no compression algorithms found");
+
+	return (mkfwcf(STDOUT_FILENO, doempty ? NULL : file_root, c));
 }
 
 static __dead void
@@ -89,7 +92,7 @@ usage(void)
 {
 	extern const char *__progname;
 
-	fprintf(stderr, "Usage:\t%s -M [-e] [-c | -C <algorithm-number>] <directory>"
+	fprintf(stderr, "Usage:\t%s -M {-e | <directory>}"
 	    "\n\t%s -U <directory>"
 	    "\n\t%s -l\n", __progname, __progname, __progname);
 	exit(1);
