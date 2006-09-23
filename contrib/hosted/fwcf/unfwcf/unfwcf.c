@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.3 2006/09/16 06:44:26 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.4 2006/09/16 07:09:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,10 +31,12 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.3 2006/09/16 06:44:26 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.4 2006/09/16 07:09:50 tg Exp $");
 
 static int unfwcf(int, const char *);
 static __dead void usage(void);
+
+static int do_dump = 0;
 
 int
 main(int argc, char *argv[])
@@ -43,8 +45,11 @@ main(int argc, char *argv[])
 	int fd = STDIN_FILENO;
 	const char *file_root = NULL, *infile = NULL;
 
-	while ((c = getopt(argc, argv, "i:l")) != -1)
+	while ((c = getopt(argc, argv, "di:l")) != -1)
 		switch (c) {
+		case 'd':
+			do_dump = 1;
+			break;
 		case 'i':
 			infile = optarg;
 			break;
@@ -56,7 +61,7 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (argc != 1)
+	if (argc != (1 - do_dump))
 		usage();
 
 	file_root = *argv;
@@ -83,7 +88,11 @@ unfwcf(int fd, const char *dir __attribute__((unused)))
 {
 	char *udata;
 
-	if ((udata = fwcf_unpack(fd)))
-		ft_dump(udata);
+	if ((udata = fwcf_unpack(fd))) {
+		if (do_dump)
+			ft_dump(udata);
+		else
+			/* ft_creatm(udata) */ udata++;
+	}
 	return (udata != NULL ? 0 : 1);
 }
