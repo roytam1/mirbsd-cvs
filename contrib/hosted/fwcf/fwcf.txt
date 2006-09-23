@@ -220,6 +220,7 @@ tribute. Alternate streams / forks are not supported.
 
 0x10	modification time of the entry
 	optional
+	ignored for symbolic links
 	payload length: 32 bit
 
 g/G	group of the file (numeric GID)
@@ -234,6 +235,7 @@ i/I	"inode" of the file (*1) (*4)
 
 m/M	mode_t / permissions of the file (*3)
 	optional
+	ignored for symbolic links
 	payload length: lowercase = 16 bit, uppercase = 32 bit
 
 o/O	owner of the file (numeric UID)
@@ -282,4 +284,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.5 2006/09/16 03:19:52 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.6 2006/09/23 16:54:49 tg Exp $

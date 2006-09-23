@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.4 2006/09/16 03:50:24 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.5 2006/09/16 03:51:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,7 +32,7 @@
 #include "fts_subs.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.4 2006/09/16 03:50:24 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/ft_pack.c,v 1.5 2006/09/16 03:51:06 tg Exp $");
 
 char *
 ft_pack(ftsf_entry *e)
@@ -55,9 +55,11 @@ ft_pack(ftsf_entry *e)
 	hdrptr += ++k;
 	hdrleft -= k;
 
-	if (e->etype == FTSF_SYMLINK)
+	if (e->etype == FTSF_SYMLINK) {
 		STOREB(0x03);
-	else if (e->etype == FTSF_DIR) {
+		e->statp->st_mtime = 0;
+		e->statp->st_mode = 0;
+	} else if (e->etype == FTSF_DIR) {
 		STOREB(0x05);
 		e_size = 0;
 	}
