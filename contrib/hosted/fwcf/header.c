@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/header.c,v 1.4 2006/09/19 11:30:24 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/header.c,v 1.5 2006/09/23 20:20:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,6 +23,7 @@
 
 #include <sys/param.h>
 #include <err.h>
+#include <stdlib.h>
 #ifdef DEBUG
 #include <zlib.h>
 #endif
@@ -31,7 +32,7 @@
 #include "adler.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.4 2006/09/19 11:30:24 tg Exp $"
+__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.5 2006/09/23 20:20:00 tg Exp $"
     "\t" ADLER_H);
 
 char *
