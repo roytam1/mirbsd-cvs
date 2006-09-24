@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.8 2006/02/25 15:49:55 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.9 2006/02/26 00:23:58 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.8 2006/02/25 15:49:55 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.9 2006/02/26 00:23:58 bsiegert Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -620,17 +620,19 @@ move_file(const char *dir, const char *fname, char *to)
 {
     char cmd[FILENAME_MAX];
 
-    drop_privs();
     if (fname[0] == '/')
 	snprintf(cmd, sizeof(cmd), "mv -f %s %s", fname, to);
     else
 	snprintf(cmd, sizeof(cmd), "mv -f %s/%s %s", dir, fname, to);
     if (vsystem("%s", cmd)) {
-	raise_privs();
 	cleanup(0);
 	errx(2, "could not perform '%s'", cmd);
     }
-    raise_privs();
+#ifdef AS_USER
+    if (!geteuid())
+	vsystem("chown -f %s %s", getlogin(), to);
+    /* no error handling, we don't care if chown fails */
+#endif
 }
 
 /*
