@@ -1,11 +1,11 @@
-# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.3 2006/09/24 03:26:05 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.4 2006/09/24 20:35:00 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
 # or at http://www.freewrt.org/license for details.
 
 PROG=		fwcf.helper
-SRCS=		tool.c c_zlib.c sys_bsd.c
+SRCS=		tool.c sys_bsd.c
 CFLAGS_tool.o+=	-DSMALL
 NOMAN=		Yes
 DPADD+=		${LIBZ}
@@ -25,6 +25,14 @@ CLEANFILES+=	${.CURDIR}/test.out ${.CURDIR}/test.nil
 
 LIB=		# don't need, thanks
 
+.ifdef COMPRESSOR_ZLIB
+SRCS+=		c_zlib.c
+DPADD+=		${LIBZ}
+LDADD+=		-lz
+.else
+SRCS+=		c_lzo1x1.c
+.endif
+
 test: ${PROG}
 	./${PROG} -M ${.CURDIR}/../mkfwcf/CVS >${.CURDIR}/test.out
 	./${PROG} -Me >${.CURDIR}/test.nil
@@ -33,7 +41,7 @@ test: ${PROG}
 
 .include <bsd.prog.mk>
 
-clean: clean-local
+clean cleandir: clean-local
 
 clean-local:
 	-rm -rf out.test out.tesz

@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/tool/Makefile,v 1.1 2006/09/24 20:35:00 tg Exp $
+# $MirOS: contrib/hosted/fwcf/tool/Makefile,v 1.2 2006/09/24 21:46:17 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -50,7 +50,7 @@ test: ${PROG}
 
 .include <bsd.prog.mk>
 
-clean: clean-local
+clean cleandir: clean-local
 
 clean-local:
 	-rm -rf out.test out.tesz out.tesL
