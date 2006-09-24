@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.1 2006/09/24 21:46:16 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.2 2006/09/24 21:55:29 tg Exp $ */
 
 /*-
  * MiniLZO (LZO1X-1) compression plug-in for FWCF
@@ -37,7 +37,7 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.1 2006/09/24 21:46:16 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.2 2006/09/24 21:55:29 tg Exp $");
 
 #define C_LZO1X1_T1(a,b)			c_lzo1x1_ ## a ## _ ## b
 #define C_LZO1X1_T2(a,b)			C_LZO1X1_T1(a,b)
@@ -114,7 +114,7 @@ c_decompress(char *dst, size_t dstlen, char *src, size_t srclen)
 #ifdef DEBUG
 	fprintf(stderr, "LZO1X decompress %lu -> %lu bytes\n", srclen, dstlen);
 #endif
-	if (((i = lzo1x_decompress((lzo_bytep)src, srclen, (lzo_bytep)dst,
+	if (((i = lzo1x_decompress_safe((lzo_bytep)src, srclen, (lzo_bytep)dst,
 	    &ldlen, wrkmem)) == LZO_E_OK) || (i == LZO_E_INPUT_NOT_CONSUMED))
 		return (ldlen);
 #ifdef DEBUG

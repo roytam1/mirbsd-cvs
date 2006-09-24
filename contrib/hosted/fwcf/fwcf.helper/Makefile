@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.4 2006/09/24 20:35:00 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.5 2006/09/24 21:51:27 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -37,11 +37,15 @@ test: ${PROG}
 	./${PROG} -M ${.CURDIR}/../mkfwcf/CVS >${.CURDIR}/test.out
 	./${PROG} -Me >${.CURDIR}/test.nil
 #	./${PROG} -U out.test <${.CURDIR}/../mkfwcf/test.out
+.ifdef COMPRESSOR_ZLIB
 	./${PROG} -U out.tesz <${.CURDIR}/../mkfwcf/tesz.out
+.else
+	./${PROG} -U out.tesL <${.CURDIR}/../mkfwcf/tesL.out
+.endif
 
 .include <bsd.prog.mk>
 
 clean cleandir: clean-local
 
 clean-local:
-	-rm -rf out.test out.tesz
+	-rm -rf out.test out.tesz out.tesL
