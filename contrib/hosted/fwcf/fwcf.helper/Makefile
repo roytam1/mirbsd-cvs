@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.1 2006/09/23 23:04:15 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.2 2006/09/24 03:25:12 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -27,7 +27,7 @@ LIB=		# don't need, thanks
 test: ${PROG}
 	./${PROG} -M ${.CURDIR}/../mkfwcf/CVS >${.CURDIR}/test.out
 	./${PROG} -Me >${.CURDIR}/test.nil
-	./${PROG} -U out.test <${.CURDIR}/../mkfwcf/test.out
+#	./${PROG} -U out.test <${.CURDIR}/../mkfwcf/test.out
 	./${PROG} -U out.tesz <${.CURDIR}/../mkfwcf/tesz.out
 
 .include <bsd.prog.mk>
