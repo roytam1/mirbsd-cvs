@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.2 2006/09/23 23:21:04 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.3 2006/09/23 23:46:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,7 +27,7 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.2 2006/09/23 23:21:04 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/cpr_list.c,v 1.3 2006/09/23 23:46:35 tg Exp $");
 
 int
 compress_list(void)
@@ -41,6 +41,6 @@ compress_list(void)
 	for (i = 0; i < 256; ++i)
 		if (cl[i].name != NULL)
 			printf("%02Xh = %s%s\n", cl[i].code,
-			    (i < 0xC0 ? "" : "PRIVATE "), cl[i].name);
+			    (i < 0xE0 ? "" : "PRIVATE "), cl[i].name);
 	return (0);
 }

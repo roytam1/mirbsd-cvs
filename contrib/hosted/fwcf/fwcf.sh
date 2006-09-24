@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.6 2006/09/24 03:01:10 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.7 2006/09/24 03:06:21 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -25,7 +25,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 case $1 in
 setup|commit|erase) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 0.96
+FreeWRT Configuration Filesytem (fwcf), Version 0.99
 Copyright (c) 2006 by Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
@@ -41,7 +41,7 @@ if ! test -e "$part"; then
 fi
 
 if test $1 = erase; then
-	fwcf.helper -Me | mtd -f write - fwcf
+	fwcf.helper -Me | mtd -F write - fwcf
 	exit $?
 fi
 
@@ -59,7 +59,7 @@ if test $1 = setup; then
 	mount -t tmpfs swap /tmp/.fwcf/temp
 	(cd /tmp/.fwcf/root; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	x=$(dd if="$part" bs=4 count=1 2>&-)
-	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -f write - fwcf
+	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -F write - fwcf
 	if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
 		echo 'fwcf: error: cannot extract' >&2
 		exit 2
@@ -95,7 +95,7 @@ if test $1 = commit; then
 		test x"$x" = x"$y" && rm "../temp/${f#./}"
 	done
 	rv=0
-	if ! ( fwcf.helper -M /tmp/.fwcf/temp | mtd -f write - fwcf ); then
+	if ! ( fwcf.helper -M /tmp/.fwcf/temp | mtd -F write - fwcf ); then
 		echo 'fwcf: error: cannot write to mtd!' >&2
 		rv=6
 	fi

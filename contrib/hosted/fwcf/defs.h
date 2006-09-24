@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/defs.h,v 1.3 2006/09/23 23:21:04 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/defs.h,v 1.4 2006/09/23 23:46:35 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -12,7 +12,7 @@
 #define DEF_FLASHBLOCK	65536		/* size of a flash block */
 #define DEF_FLASHPART	131072		/* size of the flash partition */
 
-#define FWCF_VER	0x00		/* major version of spec used */
+#define FWCF_VER	0x01		/* major version of spec used */
 
 #undef __RCSID
 #ifndef __RCSID
