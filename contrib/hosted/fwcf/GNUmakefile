@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.1 2006/09/23 23:04:15 tg Exp $
+# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.1 2006/09/23 23:21:03 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -21,7 +21,11 @@ SRCS+=		wraps.c
 
 OBJS=		${SRCS:.c=.o}
 
+# missing in uClibc
+SRCS+=		fts.c
+CFLAGS+=	-I.
+
 all: fwcf.helper.out
 
 fwcf.helper.out: ${OBJS}
-	${CC} -o $@ ${OBJS} -lz
+	${CC} -o $@ ${OBJS} ${LDFLAGS} -lz
