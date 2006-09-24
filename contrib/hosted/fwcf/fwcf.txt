@@ -3,15 +3,11 @@
 
                       Specification Document
 
-                                  Version 0.97 - 23 September 2006
+                                  Version 1.00 - 24 September 2006
 
 
 Copyright (c) 2006
 	Thorsten Glaser <tg@mirbsd.de>
-
-This specification is subject to change. Users are advised to wait
-for the release of the specification version 1.0 released together
-with the first version of the configfs tool.
 
 Licensee is hereby permitted to deal in this work without restric-
 tion, including unlimited rights to use, publicly perform, modify,
@@ -139,7 +135,7 @@ data, including the header (including the magic bytes and the length
 information itself) and the trailer (checksum), but not the padding;
 the length takes up the lower 24 bits of this doubleword. The upper
 8 bits are the (major) version of the specification adhered to, i.e.
-0x00 for this document. This information shall be true for all ver-
+0x01 for this document. This information shall be true for all ver-
 sions of this specification in order to enable the fwcf command-line
 utility to perform as follows: it is not required to process any non-
 native versions of fwcf data, but even if reading a different version,
@@ -177,9 +173,9 @@ This draft of the specification offers two compression algorithms:
 
 0x00 = plain uncompressed data
 0x01 = zlib deflate compression as per http://www.zlib.net/
-0x02 = LZO1X-999 as per http://www.oberhumer.com/opensource/lzo/
+0x10 = LZO1X-999 as per http://www.oberhumer.com/opensource/lzo/
 
-Algorithm codes from 0xC0 to 0xFF are available for private use.
+Algorithm codes from 0xE0 to 0xFF are available for private use.
 
 
 5. Structure of the fwcf filesystem
@@ -279,7 +275,7 @@ The initial idea for a "configuration filesystem" based upon the
 Linux FUSE kernel module has been communicated to me by Waldemar
 Brodkorb, FreeWRT Project Founder. After a discussion with him I
 decided on the archive/userland tool layout outlined in sections
-1 and 2 above.
+1 and 2 above. For FreeWRT 1.0, it has been realised in shell.
 
 For now, nodes other than directories, files, and symbolic links
 are not supported.
@@ -296,5 +292,5 @@ would really appreciate users to credit his name and that of the
 FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
-_______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.10 2006/09/24 02:05:07 tg Exp $
+_________________________________________________________________________
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.11 2006/09/24 03:06:21 tg Exp $
