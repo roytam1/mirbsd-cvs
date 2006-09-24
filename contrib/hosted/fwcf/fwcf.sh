@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.2 2006/09/24 01:26:35 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.3 2006/09/24 01:46:46 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,15 +19,13 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
-#-
-# FreeWRT Configuration Filesytem, Version 0.94
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 case $1 in
 setup|commit|erase) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 0.94
+FreeWRT Configuration Filesytem (fwcf), Version 0.96
 Copyright (c) 2006 by Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
@@ -58,7 +56,7 @@ if test $1 = setup; then
 	mkdir /tmp/fwcf/root
 	mount --bind /etc /tmp/fwcf/root
 	mkdir /tmp/fwcf/temp
-	mount -t mfs swap /tmp/fwcf/temp
+	mount -t tmpfs swap /tmp/fwcf/temp
 	(cd /tmp/fwcf/root; tar cf - .) | (cd /tmp/fwcf/temp; tar xpf -)
 	x=$(dd if="$part" bs=4 count=1 2>&-)
 	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -f write - fwcf
