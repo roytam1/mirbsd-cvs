@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.7 2006/09/24 03:06:21 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.8 2006/09/24 03:21:29 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -62,22 +62,32 @@ if test $1 = setup; then
 	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -F write - fwcf
 	if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
 		echo 'fwcf: error: cannot extract' >&2
+		umount /tmp/.fwcf/temp
+		umount /tmp/.fwcf/root
+		rm -rf /tmp/.fwcf
 		exit 2
 	fi
 	rm -f /tmp/.fwcf/temp/.fwcf_done
 	if test -e /tmp/.fwcf/temp/.fwcf_done; then
 		echo 'fwcf: fatal: this is not Kansas any more' >&2
+		umount /tmp/.fwcf/temp
+		umount /tmp/.fwcf/root
+		rm -rf /tmp/.fwcf
 		exit 3
 	fi
 	echo -n >/tmp/.fwcf/temp/.fwcf_done
 	if test ! -e /tmp/.fwcf/temp/.fwcf_done; then
 		echo 'fwcf: fatal: cannot write to tmpfs' >&2
+		umount /tmp/.fwcf/temp
+		umount /tmp/.fwcf/root
+		rm -rf /tmp/.fwcf
 		exit 4
 	fi
 	mount --bind /tmp/.fwcf/temp /etc
 	if test ! -e /etc/.fwcf_done; then
 		umount /etc
 		echo 'fwcf: fatal: binding to /etc failed' >&2
+		echo 'fwcf: configuration is preserved in /tmp/.fwcf/temp' >&2
 		exit 5
 	fi
 	umount /tmp/.fwcf/temp
@@ -90,8 +100,8 @@ if test $1 = commit; then
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	cd /tmp/.fwcf/root
 	find . -type f | while read f; do
-		x=$(md5sum "${f#./}")
-		y=$(cd ../temp; md5sum "${f#./}")
+		x=$(md5sum "${f#./}" 2>&-)
+		y=$(cd ../temp; md5sum "${f#./}" 2>&-)
 		test x"$x" = x"$y" && rm "../temp/${f#./}"
 	done
 	rv=0
