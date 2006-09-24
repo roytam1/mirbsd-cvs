@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.5 2006/09/24 03:49:08 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.6 2006/09/24 17:27:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,7 +33,7 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.5 2006/09/24 03:49:08 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.6 2006/09/24 17:27:36 tg Exp $");
 
 char *
 fwcf_unpack(int fd)
@@ -71,8 +71,8 @@ fwcf_unpack(int fd)
 	if ((s1 != LOADW(cdata + outer - 4)) ||
 	    (s2 != LOADW(cdata + outer - 2)))
 		errx(1, "crc mismatch: %02X%02X%02X%02X != %04X%04X",
-		    (uint8_t *)cdata[outer - 1], (uint8_t *)cdata[outer - 2],
-		    (uint8_t *)cdata[outer - 3], (uint8_t *)cdata[outer - 4],
+		    (uint8_t)cdata[outer - 1], (uint8_t)cdata[outer - 2],
+		    (uint8_t)cdata[outer - 3], (uint8_t)cdata[outer - 4],
 		    s2, s1);
 
 	if ((x = compressor_get(c)->decompress(udata, inner, cdata + 12,
