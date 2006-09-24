@@ -1,10 +1,10 @@
-# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.1 2006/09/23 23:21:03 tg Exp $
+# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.2 2006/09/24 00:28:32 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
 # or at http://www.freewrt.org/license for details.
 
-SRCS=		fwcf.helper.c
+SRCS=		tool.c
 SRCS+=		c_zlib.c
 SRCS+=		sys_linux.c
 SRCS+=		compress.c
@@ -20,6 +20,9 @@ SRCS+=		unwraps.c
 SRCS+=		wraps.c
 
 OBJS=		${SRCS:.c=.o}
+
+# build for the target
+CFLAGS+=	-DSMALL
 
 # missing in uClibc
 SRCS+=		fts.c

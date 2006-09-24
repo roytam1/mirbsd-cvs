@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.6 2006/09/24 17:27:36 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.7 2006/09/24 19:13:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,6 +23,9 @@
 
 #include <sys/param.h>
 #include <err.h>
+#ifdef DEBUG
+#include <stdio.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -33,15 +36,18 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.6 2006/09/24 17:27:36 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.7 2006/09/24 19:13:53 tg Exp $");
 
 char *
-fwcf_unpack(int fd)
+fwcf_unpack(int fd, size_t *inner)
 {
 	uint8_t c, hdrbuf[12];
-	size_t outer, inner, x, len, maxln;
+	size_t outer, x_inner, x, len, maxln;
 	char *cdata, *udata;
 	ADLER_DECL;
+
+	if (inner == NULL)
+		inner = &x_inner;
 
 	if (read(fd, hdrbuf, 12) != 12)
 		err(1, "read");
@@ -54,13 +60,13 @@ fwcf_unpack(int fd)
 	   major 0 and 1 are compatible */
 	if (hdrbuf[7] > FWCF_VER)
 		errx(1, "wrong file version %02Xh", hdrbuf[7]);
-	inner = LOADT(hdrbuf + 8);
+	*inner = LOADT(hdrbuf + 8);
 	c = hdrbuf[11];
 	maxln = ((outer + (DEF_FLASHBLOCK - 1)) / DEF_FLASHBLOCK)
 	    * DEF_FLASHBLOCK;
 
 	if (((cdata = malloc(maxln)) == NULL) ||
-	    ((udata = malloc(inner)) == NULL))
+	    ((udata = malloc(*inner)) == NULL))
 		err(1, "malloc");
 	memcpy(cdata, hdrbuf, 12);
 	if (read(fd, cdata + 12, maxln - 12) < (ssize_t)(outer - 12))
@@ -75,11 +81,15 @@ fwcf_unpack(int fd)
 		    (uint8_t)cdata[outer - 3], (uint8_t)cdata[outer - 4],
 		    s2, s1);
 
-	if ((x = compressor_get(c)->decompress(udata, inner, cdata + 12,
-	    outer - 12)) != inner)
+	if ((x = compressor_get(c)->decompress(udata, *inner, cdata + 12,
+	    outer - 12)) != *inner)
 		errx(1, "size mismatch: decompressed %lu, want %lu", (u_long)x,
-		    (u_long)inner);
+		    (u_long)*inner);
 	push_rndata((uint8_t *)cdata + outer, maxln - outer);
 	free(cdata);
+#ifdef DEBUG
+	fprintf(stderr, "fwcf_unpack: decompressed outer %lu inner %lu\n",
+	    outer, *inner);
+#endif
 	return (udata);
 }

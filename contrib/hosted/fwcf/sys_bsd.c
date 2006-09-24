@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.1 2006/09/23 20:20:00 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.2 2006/09/23 23:21:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,11 +27,16 @@
 #include "defs.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.1 2006/09/23 20:20:00 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.2 2006/09/23 23:21:04 tg Exp $");
 
 void
 pull_rndata(uint8_t *buf, size_t n)
 {
+#ifdef RND_DISABLE
+	while (n--)
+		*buf++ = 0xF6;
+	*--buf = 0xFF;
+#else
 #ifdef RND_DEBUG
 	fprintf(stderr, "writing %ld bytes of entropy\n", n);
 	while (n > 4) {
@@ -55,6 +60,7 @@ pull_rndata(uint8_t *buf, size_t n)
 	}
 #ifdef RND_DEBUG
 		*--buf = 0xFF;
+#endif
 #endif
 }
 

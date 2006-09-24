@@ -1,11 +1,12 @@
-# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.2 2006/09/24 03:25:12 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.3 2006/09/24 03:26:05 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
 # or at http://www.freewrt.org/license for details.
 
 PROG=		fwcf.helper
-SRCS=		${PROG}.c c_zlib.c sys_bsd.c
+SRCS=		tool.c c_zlib.c sys_bsd.c
+CFLAGS_tool.o+=	-DSMALL
 NOMAN=		Yes
 DPADD+=		${LIBZ}
 LDADD+=		-lz

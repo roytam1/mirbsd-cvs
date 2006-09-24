@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.6 2006/09/23 19:47:40 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.7 2006/09/24 19:11:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,7 +32,7 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.6 2006/09/23 19:47:40 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unfwcf/unfwcf.c,v 1.7 2006/09/24 19:11:57 tg Exp $");
 
 static int unfwcf(int, const char *);
 static __dead void usage(void);
@@ -90,7 +90,7 @@ unfwcf(int fd, const char *dir)
 {
 	char *udata;
 
-	if ((udata = fwcf_unpack(fd))) {
+	if ((udata = fwcf_unpack(fd, NULL))) {
 		if (do_dump)
 			ft_dump(udata);
 		else

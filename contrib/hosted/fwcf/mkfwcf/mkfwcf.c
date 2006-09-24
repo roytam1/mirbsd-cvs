@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.11 2006/09/23 23:04:16 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.12 2006/09/24 19:11:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,7 +32,7 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.11 2006/09/23 23:04:16 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/mkfwcf/mkfwcf.c,v 1.12 2006/09/24 19:11:57 tg Exp $");
 
 static int mkfwcf(int, const char *, int);
 static __dead void usage(void);
@@ -104,6 +104,6 @@ mkfwcf(int fd, const char *dir, int algo)
 	size_t sz;
 	char *data;
 
-	data = fwcf_pack(dir, algo, &sz);
+	data = fwcf_packm(dir, algo, &sz);
 	return ((size_t)write(fd, data, sz) == sz ? 0 : 1);
 }

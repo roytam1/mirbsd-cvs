@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/Makefile.inc,v 1.2 2006/09/16 03:07:48 tg Exp $
+# $MirOS: contrib/hosted/fwcf/Makefile.inc,v 1.3 2006/09/16 07:35:36 tg Exp $
 
 __CRAZY=		Yes
 MKC_DEBG=		cpp
@@ -23,3 +23,7 @@ test: .NOTMAIN all
 
 COMPRESSORS+=		c_null.c
 COMPRESSORS+=		c_zlib.c
+
+.if make(test)
+CFLAGS_sys_bsd.o+=	-DRND_DISABLE
+.endif
