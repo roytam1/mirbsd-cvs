@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.4 2006/09/23 20:20:01 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.5 2006/09/24 03:49:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,7 +33,7 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.4 2006/09/23 20:20:01 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.5 2006/09/24 03:49:08 tg Exp $");
 
 char *
 fwcf_unpack(int fd)
@@ -50,7 +50,9 @@ fwcf_unpack(int fd)
 		errx(1, "file format error");
 
 	outer = LOADT(hdrbuf + 4);
-	if (hdrbuf[7] != FWCF_VER)
+	/* we don't need to support older versions, but specification
+	   major 0 and 1 are compatible */
+	if (hdrbuf[7] > FWCF_VER)
 		errx(1, "wrong file version %02Xh", hdrbuf[7]);
 	inner = LOADT(hdrbuf + 8);
 	c = hdrbuf[11];
