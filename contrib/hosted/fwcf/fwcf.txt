@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 0.95 - 23 September 2006
+                                  Version 0.97 - 23 September 2006
 
 
 Copyright (c) 2006
@@ -82,25 +82,29 @@ ash, using one C helper programme. Later versions will be pure C.
 ------------------------------
 
 This command will first remap the existing /etc (via mount --bind)
-to /var/fwcf/root. Then, it will create a memory filesystem (tmpfs)
-at /var/fwcf/tmp and populate it with all files from /var/fwcf/root.
+to /tmp/.fwcf/root. Then, it will create a memory filesystem (tmpfs)
+at /tmp/.fwcf/temp and populate it with all files from /tmp/.fwcf/root.
 Now, the fwcf flash partition will be read, the format and checksum
-verified and data extracted to /var/fwcf/tmp, possibly overwriting
-pre-existing files. Then, the /var/fwcf/tmp filesystem will be re-
-bound to /etc and, finally, the mountpoint at /var/fwcf/tmp unloaded.
+verified and data extracted to /tmp/.fwcf/temp, possibly overwriting
+pre-existing files. Then, the /tmp/.fwcf/temp filesystem will be re-
+bound to /etc and, finally, the mountpoint at /tmp/.fwcf/temp unloaded.
 
 Data from the end of the fwcf data in the flash partition to the
 end of the 64 KiB block the end of data resides in will be written
 to /dev/urandom.
 
+If the "fwcf" mtd partition does not start with the four letters
+FWCF on invoking 'fwcf setup', it is erased (i.e. populated with
+an empty FWCF filesystem).
+
 
 2.2. Operation of 'fwcf commit'
 -------------------------------
 
-A new memory filesystem (tmpfs) will be createt at /var/fwcf/tmp
+A new memory filesystem (tmpfs) will be createt at /tmp/.fwcf/temp
 and populated with the data currently in /etc. Then, all files
-with exactly the same content in /var/fwcf/root will be removed
-from /var/fwcf/tmp. Any remaining files will be packed into the
+with exactly the same content in /tmp/.fwcf/root will be removed
+from /tmp/.fwcf/temp. Any remaining files will be packed into the
 fwcf format documented below and written to the flash partition,
 padded to a multiple of 64 KiB with data read from /dev/urandom.
 
@@ -286,11 +290,11 @@ project. Anonymous read-only CVS access is available at the root
 SSH on port 22; module "fwcf". CVSweb is also available, e.g. at
 http://cvs.mirbsd.de/contrib/hosted/fwcf/ or its mirrors.
 
-FWCF will be released under the same licence terms as the speci-
+FWCF code is released under the same licence terms as the speci-
 fication, but without the advertising clause. The author however
 would really appreciate users to credit his name and that of the
 FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.9 2006/09/23 22:54:34 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.10 2006/09/24 02:05:07 tg Exp $

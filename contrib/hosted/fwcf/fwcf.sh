@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.5 2006/09/24 02:05:07 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.6 2006/09/24 03:01:10 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -46,60 +46,60 @@ if test $1 = erase; then
 fi
 
 if test $1 = setup; then
-	if test -e /tmp/fwcf; then
+	if test -e /tmp/.fwcf; then
 		echo 'fwcf: error: "fwcf setup" already run!' >&2
 		exit 1
 	fi
-	mkdir /tmp/fwcf
-	chown 0:0 /tmp/fwcf
-	chmod 700 /tmp/fwcf
-	mkdir /tmp/fwcf/root
-	mount --bind /etc /tmp/fwcf/root
-	mkdir /tmp/fwcf/temp
-	mount -t tmpfs swap /tmp/fwcf/temp
-	(cd /tmp/fwcf/root; tar cf - .) | (cd /tmp/fwcf/temp; tar xpf -)
+	mkdir /tmp/.fwcf
+	chown 0:0 /tmp/.fwcf
+	chmod 700 /tmp/.fwcf
+	mkdir /tmp/.fwcf/root
+	mount --bind /etc /tmp/.fwcf/root
+	mkdir /tmp/.fwcf/temp
+	mount -t tmpfs swap /tmp/.fwcf/temp
+	(cd /tmp/.fwcf/root; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	x=$(dd if="$part" bs=4 count=1 2>&-)
 	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -f write - fwcf
-	if ! fwcf.helper -U /tmp/fwcf/temp <"$part"; then
+	if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
 		echo 'fwcf: error: cannot extract' >&2
 		exit 2
 	fi
-	rm -f /tmp/fwcf/temp/.fwcf_done
-	if test -e /tmp/fwcf/temp/.fwcf_done; then
+	rm -f /tmp/.fwcf/temp/.fwcf_done
+	if test -e /tmp/.fwcf/temp/.fwcf_done; then
 		echo 'fwcf: fatal: this is not Kansas any more' >&2
 		exit 3
 	fi
-	echo -n >/tmp/fwcf/temp/.fwcf_done
-	if test ! -e /tmp/fwcf/temp/.fwcf_done; then
+	echo -n >/tmp/.fwcf/temp/.fwcf_done
+	if test ! -e /tmp/.fwcf/temp/.fwcf_done; then
 		echo 'fwcf: fatal: cannot write to tmpfs' >&2
 		exit 4
 	fi
-	mount --bind /tmp/fwcf/temp /etc
+	mount --bind /tmp/.fwcf/temp /etc
 	if test ! -e /etc/.fwcf_done; then
 		umount /etc
 		echo 'fwcf: fatal: binding to /etc failed' >&2
 		exit 5
 	fi
-	umount /tmp/fwcf/temp
+	umount /tmp/.fwcf/temp
 	exit 0
 fi
 
 if test $1 = commit; then
-	umount /tmp/fwcf/temp >&- 2>&-
-	mount -t tmpfs swap /tmp/fwcf/temp
-	(cd /etc; tar cf - .) | (cd /tmp/fwcf/temp; tar xpf -)
-	cd /tmp/fwcf/root
+	umount /tmp/.fwcf/temp >&- 2>&-
+	mount -t tmpfs swap /tmp/.fwcf/temp
+	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
+	cd /tmp/.fwcf/root
 	find . -type f | while read f; do
 		x=$(md5sum "${f#./}")
 		y=$(cd ../temp; md5sum "${f#./}")
 		test x"$x" = x"$y" && rm "../temp/${f#./}"
 	done
 	rv=0
-	if ! ( fwcf.helper -M /tmp/fwcf/temp | mtd -f write - fwcf ); then
+	if ! ( fwcf.helper -M /tmp/.fwcf/temp | mtd -f write - fwcf ); then
 		echo 'fwcf: error: cannot write to mtd!' >&2
 		rv=6
 	fi
-	umount /tmp/fwcf/temp
+	umount /tmp/.fwcf/temp
 	exit $rv
 fi
 
