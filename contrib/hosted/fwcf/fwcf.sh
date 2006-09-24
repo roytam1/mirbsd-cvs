@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.3 2006/09/24 01:46:46 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.4 2006/09/24 01:56:04 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -88,6 +88,12 @@ if test $1 = commit; then
 	umount /tmp/fwcf/temp >&- 2>&-
 	mount -t tmpfs swap /tmp/fwcf/temp
 	(cd /etc; tar cf - .) | (cd /tmp/fwcf/temp; tar xpf -)
+	cd /tmp/fwcf/root
+	find . -type f | while read f; do
+		x=$(md5sum "${f#./}")
+		y=$(cd ../temp; md5sum "${f#./}")
+		test x"$x" = x"$y" && rm "../temp/${f#./}"
+	done
 	rv=0
 	if ! ( fwcf.helper -Mc /tmp/fwcf/temp | mtd -f write - fwcf ); then
 		echo 'fwcf: error: cannot write to mtd!' >&2

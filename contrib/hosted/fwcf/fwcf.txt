@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 0.94 - 23 September 2006
+                                  Version 0.95 - 23 September 2006
 
 
 Copyright (c) 2006
@@ -104,8 +104,7 @@ from /var/fwcf/tmp. Any remaining files will be packed into the
 fwcf format documented below and written to the flash partition,
 padded to a multiple of 64 KiB with data read from /dev/urandom.
 
-The first public release will not remove any files before gene-
-rating the compressed data, and only support directories, files
+The first public release does only support directories, files
 and symbolic links, for simplicity. Stored hard links and other
 file types will be skipped, because their storage format is al-
 ready specified (as "reserved for future use"), and ignored. No
@@ -294,4 +293,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.8 2006/09/23 21:50:21 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.9 2006/09/23 22:54:34 tg Exp $
