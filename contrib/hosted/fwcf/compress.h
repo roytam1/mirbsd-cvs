@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.6 2006/09/16 06:18:57 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.7 2006/09/16 07:09:49 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -8,6 +8,8 @@
 
 #ifndef COMPRESS_H
 #define COMPRESS_H
+
+/* BEGIN of plug-in API description - hook yer proprietary modules here */
 
 /* returns 0 on success, -1 on failure */
 typedef int (*fwcf_compress_init_func)(void);
@@ -32,7 +34,11 @@ typedef struct FWCF_COMPRESSOR {
 __BEGIN_DECLS
 /* 0=success 1=EINVAL 2=slot already used */
 int compress_register(fwcf_compressor *);
+__END_DECLS
 
+/* END of plug-in API description, version 1.0 */
+
+__BEGIN_DECLS
 /* low-level */
 fwcf_compressor *compress_enumerate(void);
 int compress_list(void);
