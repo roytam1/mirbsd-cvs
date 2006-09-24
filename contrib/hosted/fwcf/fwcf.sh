@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.1 2006/09/23 22:54:34 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.2 2006/09/24 01:26:35 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -55,8 +55,9 @@ if test $1 = setup; then
 	mkdir /tmp/fwcf
 	chown 0:0 /tmp/fwcf
 	chmod 700 /tmp/fwcf
-	mkdir /tmp/fwcf/{root,temp}
+	mkdir /tmp/fwcf/root
 	mount --bind /etc /tmp/fwcf/root
+	mkdir /tmp/fwcf/temp
 	mount -t mfs swap /tmp/fwcf/temp
 	(cd /tmp/fwcf/root; tar cf - .) | (cd /tmp/fwcf/temp; tar xpf -)
 	x=$(dd if="$part" bs=4 count=1 2>&-)
