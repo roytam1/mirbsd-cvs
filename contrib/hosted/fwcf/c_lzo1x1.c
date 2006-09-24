@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.5 2006/09/23 23:46:35 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.1 2006/09/24 21:46:16 tg Exp $ */
 
 /*-
  * MiniLZO (LZO1X-1) compression plug-in for FWCF
@@ -37,12 +37,15 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.1 2006/09/24 21:46:16 tg Exp $");
 
 #define C_LZO1X1_T1(a,b)			c_lzo1x1_ ## a ## _ ## b
 #define C_LZO1X1_T2(a,b)			C_LZO1X1_T1(a,b)
 #define LZO_COMPILE_TIME_ASSERT_HEADER(e)	\
 		extern int C_LZO1X1_T2(__LINE__,__lzo_cta)[1-2*!(e)];
+#define MINILZO_CFG_SKIP_LZO1X_DECOMPRESS	1
+#define MINILZO_CFG_SKIP_LZO_PTR		1
+#define MINILZO_CFG_SKIP_LZO_STRING		1
 #include "minilzo.c"
 
 static void c_lzo1x1_load(void) __attribute__((constructor));
