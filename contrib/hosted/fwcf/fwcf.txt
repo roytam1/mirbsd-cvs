@@ -173,7 +173,7 @@ This draft of the specification offers two compression algorithms:
 
 0x00 = plain uncompressed data
 0x01 = zlib deflate compression as per http://www.zlib.net/
-0x10 = LZO1X-1 as per http://www.oberhumer.com/opensource/lzo/
+0x10 = LZO1X as per http://www.oberhumer.com/opensource/lzo/
 
 Algorithm codes from 0xE0 to 0xFF are available for private use.
 
@@ -293,4 +293,4 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 _________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.12 2006/09/24 03:18:34 tg Stab $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.13 2006/09/24 20:46:11 tg Exp $
