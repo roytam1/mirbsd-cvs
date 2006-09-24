@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.7 2006/09/24 19:13:53 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.8 2006/09/24 20:34:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -36,7 +36,7 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.7 2006/09/24 19:13:53 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.8 2006/09/24 20:34:59 tg Exp $");
 
 char *
 fwcf_unpack(int fd, size_t *inner)
@@ -82,7 +82,7 @@ fwcf_unpack(int fd, size_t *inner)
 		    s2, s1);
 
 	if ((x = compressor_get(c)->decompress(udata, *inner, cdata + 12,
-	    outer - 12)) != *inner)
+	    outer - 16)) != *inner)
 		errx(1, "size mismatch: decompressed %lu, want %lu", (u_long)x,
 		    (u_long)*inner);
 	push_rndata((uint8_t *)cdata + outer, maxln - outer);
