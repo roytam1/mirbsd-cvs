@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.4 2006/09/24 01:56:04 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.5 2006/09/24 02:05:07 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -95,7 +95,7 @@ if test $1 = commit; then
 		test x"$x" = x"$y" && rm "../temp/${f#./}"
 	done
 	rv=0
-	if ! ( fwcf.helper -Mc /tmp/fwcf/temp | mtd -f write - fwcf ); then
+	if ! ( fwcf.helper -M /tmp/fwcf/temp | mtd -f write - fwcf ); then
 		echo 'fwcf: error: cannot write to mtd!' >&2
 		rv=6
 	fi
