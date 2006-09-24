@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.1 2006/09/23 22:54:34 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -59,6 +59,8 @@ if test $1 = setup; then
 	mount --bind /etc /tmp/fwcf/root
 	mount -t mfs swap /tmp/fwcf/temp
 	(cd /tmp/fwcf/root; tar cf - .) | (cd /tmp/fwcf/temp; tar xpf -)
+	x=$(dd if="$part" bs=4 count=1 2>&-)
+	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -f write - fwcf
 	if ! fwcf.helper -U /tmp/fwcf/temp <"$part"; then
 		echo 'fwcf: error: cannot extract' >&2
 		exit 2
