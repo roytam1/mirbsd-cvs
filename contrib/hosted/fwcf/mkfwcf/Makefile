@@ -1,8 +1,8 @@
-# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.12 2006/09/23 23:04:16 tg Exp $
+# $MirOS: contrib/hosted/fwcf/mkfwcf/Makefile,v 1.13 2006/09/24 21:46:17 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
-# or at http://www.freewrt.org/license for details.
+# or at http://www.freewrt.org/licence for details.
 
 PROG=		mkfwcf
 SRCS=		${PROG}.c ${COMPRESSORS} sys_bsd.c

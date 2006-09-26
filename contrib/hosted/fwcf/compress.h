@@ -1,9 +1,9 @@
-/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.7 2006/09/16 07:09:49 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.8 2006/09/24 19:11:56 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
  * material, please see the LICENCE file in the top-level directory
- * or at http://www.freewrt.org/license for details.
+ * or at http://www.freewrt.org/licence for details.
  */
 
 #ifndef COMPRESS_H

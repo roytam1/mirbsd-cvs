@@ -1,9 +1,9 @@
-/* $MirOS: contrib/hosted/fwcf/defs.h,v 1.4 2006/09/23 23:46:35 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/defs.h,v 1.5 2006/09/24 03:21:29 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
  * material, please see the LICENCE file in the top-level directory
- * or at http://www.freewrt.org/license for details.
+ * or at http://www.freewrt.org/licence for details.
  */
 
 #ifndef DEFS_H

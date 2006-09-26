@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.5 2006/09/23 22:05:25 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/wraps.c,v 1.6 2006/09/24 20:34:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -37,7 +37,7 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.5 2006/09/23 22:05:25 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/wraps.c,v 1.6 2006/09/24 20:34:59 tg Exp $");
 
 char *
 fwcf_packm(const char *dir, int algo, size_t *dstsz)
@@ -69,7 +69,7 @@ fwcf_pack(char *odata, size_t i, int algo, size_t *dstsz)
 	if (i > 0xFFFFFF)
 		errx(1, "inner size of %lu too large", (u_long)i);
 #ifdef DEBUG
-	fprintf(stderr, "fwcf_pack: algo %02X compressing %lu\n", algo, i);
+	fprintf(stderr, "fwcf_pack: algo %02X packing %lu\n", algo, (u_long)i);
 #endif
 
 	if ((j = compressor_get(algo)->compress(&cdata, odata, i)) == -1)

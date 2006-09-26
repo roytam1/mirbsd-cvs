@@ -1,8 +1,8 @@
-# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.3 2006/09/24 20:34:59 tg Exp $
+# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.4 2006/09/24 21:51:27 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
-# or at http://www.freewrt.org/license for details.
+# or at http://www.freewrt.org/licence for details.
 
 SRCS=		tool.c
 SRCS+=		sys_linux.c
@@ -34,4 +34,4 @@ CFLAGS+=	-I.
 all: fwcf.helper.out
 
 fwcf.helper.out: ${OBJS}
-	${CC} -o $@ ${OBJS} ${LDFLAGS} -lz
+	${CC} -o $@ ${OBJS} ${LDFLAGS}

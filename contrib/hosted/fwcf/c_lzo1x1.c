@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.2 2006/09/24 21:55:29 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.3 2006/09/24 21:59:13 tg Exp $ */
 
 /*-
  * MiniLZO (LZO1X-1) compression plug-in for FWCF
@@ -37,7 +37,7 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.2 2006/09/24 21:55:29 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.3 2006/09/24 21:59:13 tg Exp $");
 
 #define C_LZO1X1_T1(a,b)			c_lzo1x1_ ## a ## _ ## b
 #define C_LZO1X1_T2(a,b)			C_LZO1X1_T1(a,b)
@@ -95,11 +95,12 @@ c_compress(char **dst, char *src, size_t len)
 	if ((ldst = malloc(ldlen)) == NULL)
 		return (-1);
 #ifdef DEBUG
-	fprintf(stderr, "LZO1X-1 compress %lu bytes -> (%lu)", len, ldlen);
+	fprintf(stderr, "LZO1X-1 compress %lu bytes -> (%lu)",
+	    (u_long)len, (u_long)ldlen);
 #endif
 	lzo1x_1_compress((lzo_bytep)src, len, ldst, &ldlen, wrkmem);
 #ifdef DEBUG
-	fprintf(stderr, " %lu bytes\n", ldlen);
+	fprintf(stderr, " %lu bytes\n", (u_long)ldlen);
 #endif
 	*dst = (char *)ldst;
 	return (ldlen);
@@ -112,7 +113,8 @@ c_decompress(char *dst, size_t dstlen, char *src, size_t srclen)
 	int i;
 
 #ifdef DEBUG
-	fprintf(stderr, "LZO1X decompress %lu -> %lu bytes\n", srclen, dstlen);
+	fprintf(stderr, "LZO1X decompress %lu -> %lu bytes\n",
+	    (u_long)srclen, (u_long)dstlen);
 #endif
 	if (((i = lzo1x_decompress_safe((lzo_bytep)src, srclen, (lzo_bytep)dst,
 	    &ldlen, wrkmem)) == LZO_E_OK) || (i == LZO_E_INPUT_NOT_CONSUMED))

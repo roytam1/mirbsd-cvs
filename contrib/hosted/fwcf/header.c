@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/header.c,v 1.5 2006/09/23 20:20:00 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/header.c,v 1.6 2006/09/23 23:55:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,8 +23,9 @@
 
 #include <sys/param.h>
 #include <err.h>
+#include <stdio.h>
 #include <stdlib.h>
-#ifdef DEBUG
+#ifdef DEBUG_ADLER
 #include <zlib.h>
 #endif
 
@@ -32,7 +33,7 @@
 #include "adler.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.5 2006/09/23 20:20:00 tg Exp $"
+__RCSID("$MirOS: contrib/hosted/fwcf/header.c,v 1.6 2006/09/23 23:55:37 tg Exp $"
     "\t" ADLER_H);
 
 char *
@@ -66,12 +67,12 @@ mktrailer(char *data, size_t len)
 	char *hdrptr = data + len;
 	size_t hdrleft = 4;
 	ADLER_DECL;
-#ifdef DEBUG
+#ifdef DEBUG_ADLER
 	uint32_t adler = adler32(1, (uint8_t *)data, len);
 #endif
 
 	ADLER_CALC(data);
-#ifdef DEBUG
+#ifdef DEBUG_ADLER
 	if ((s1 != (adler & 0xFFFF)) || (s2 != (adler >> 16)))
 		errx(255, "adler32 implementation error: %04X%04X vs %08X",
 		    s2, s1, adler);

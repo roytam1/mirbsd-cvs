@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.8 2006/09/24 20:34:59 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/unwraps.c,v 1.9 2006/09/24 21:46:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -36,7 +36,7 @@
 #include "pack.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.8 2006/09/24 20:34:59 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/unwraps.c,v 1.9 2006/09/24 21:46:16 tg Exp $");
 
 char *
 fwcf_unpack(int fd, size_t *inner)
@@ -89,7 +89,7 @@ fwcf_unpack(int fd, size_t *inner)
 	free(cdata);
 #ifdef DEBUG
 	fprintf(stderr, "fwcf_unpack: decompressed outer %lu inner %lu\n",
-	    outer, *inner);
+	    (u_long)outer, (u_long)*inner);
 #endif
 	return (udata);
 }

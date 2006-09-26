@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/sys_linux.c,v 1.1 2006/09/23 22:05:25 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/sys_linux.c,v 1.2 2006/09/23 23:21:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -21,14 +21,16 @@
  * the possibility of such damage or existence of a defect.
  */
 
+#include <err.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "defs.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/sys_linux.c,v 1.1 2006/09/23 22:05:25 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/sys_linux.c,v 1.2 2006/09/23 23:21:05 tg Exp $");
 
 void
 pull_rndata(uint8_t *buf, size_t n)
@@ -39,7 +41,7 @@ pull_rndata(uint8_t *buf, size_t n)
 		warn("Cannot open /dev/urandom for %sing", "read");
 		return;
 	}
-	if (read(fd, buf, n) != n)
+	if ((size_t)read(fd, buf, n) != n)
 		warn("Cannot read %lu bytes from /dev/urandom", (u_long)n);
 	close(fd);
 }
@@ -53,7 +55,7 @@ push_rndata(uint8_t *buf, size_t n)
 		warn("Cannot open /dev/urandom for %sing", "writ");
 		return;
 	}
-	if (write(fd, buf, n) != n)
+	if ((size_t)write(fd, buf, n) != n)
 		warn("Cannot write %lu bytes to /dev/urandom", (u_long)n);
 	close(fd);
 }
