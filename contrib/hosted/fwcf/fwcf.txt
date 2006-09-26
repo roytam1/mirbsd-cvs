@@ -156,7 +156,11 @@ to the next 4-byte boundary with zeroes.
 
 The next doubleword is the ADLER-32 checksum (as defined by libz)
 of all previous data, starting from the magic bytes at offset 0,
-ending with the zero-padding of the compressed data.
+ending with the zero-padding of the compressed data. Note that this
+does not check the integrity of the data after decompressing; cur-
+rently we must trust the decompressor to check integrity and do a
+length check on the decompressed data returned by the plugin our-
+selves. The next major version of the specification may change that.
 
 
 4. Compression algorithm allocation
@@ -292,5 +296,5 @@ would really appreciate users to credit his name and that of the
 FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
-_________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.13 2006/09/24 20:46:11 tg Exp $
+________________________________________________________________________
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.14 2006/09/24 20:46:44 tg Stab $
