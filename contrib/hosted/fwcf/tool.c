@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.1 2006/09/24 20:34:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,7 +32,7 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fwcf.helper.c,v 1.3 2006/09/23 23:46:35 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.1 2006/09/24 20:34:59 tg Exp $");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);
@@ -163,6 +163,14 @@ usage(void)
 	    "	%s -M { -e | <directory> }"
 	    "\n	%s -U <directory>"
 	    "\n	%s -l\n", __progname, __progname, __progname);
+	/*
+	 * Possible later extension (yes, on the target too):
+	 *  "\n	%s -M { -D <file> | -e | <directory> }"
+	 *  "\n	%s -U { -D <file> | <directory> }"
+	 * where -D saves/restores the intermediate form of
+	 * the build-system tool's -R option (i.e. the un-
+	 * compressed format of the "inner" filesystem).
+	 */
 #else
 	    "	%s -M [-c | -C <compressor>] [-o <file>] { -e | <directory> }"
 	    "\n	%s [-i <file>] {-U <directory> | -d}"
