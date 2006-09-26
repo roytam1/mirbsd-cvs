@@ -1,5 +1,0 @@
-This port packages some sample and contributional files that
-used to lie within /usr/share/misc/contrib/ until MirOS #7.
-
-In addition to that, here is a central place to get the SSH
-public keys and PGP fingerprints of the MirOS developers.
