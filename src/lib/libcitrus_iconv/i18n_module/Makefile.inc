@@ -1,8 +1,9 @@
-# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.3 2006/01/31 17:27:30 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.4 2006/04/06 22:10:49 tg Exp $
 # $NetBSD: Makefile.inc,v 1.8 2004/05/17 05:49:54 lukem Exp $
 
 NOLINT=		# defined
 NOPICINSTALL=	# defined
+_LIBS_STATIC=	No
 NOPROFILE=	# defined
 
 .include <bsd.own.mk>
@@ -22,7 +23,3 @@ SRCS_2!=	echo '${SRCS_1}' | tr '[:upper:]' '[:lower:]'
 SRCS?=		${SRCS_2}
 
 .PATH:	${NBLIBC}/citrus/modules
-
-afterinstall:
-	# These are bundles, no dylibs
-	-rm -f ${DESTDIR}${LIBDIR}/lib${LIB}.a
