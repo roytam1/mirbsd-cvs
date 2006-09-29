@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.8 2005/11/23 20:32:41 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.9 2006/09/21 21:01:45 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
 /*-
  * Copyright (c) 2005, 2006
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+ *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -205,25 +205,26 @@
 #endif
 
 #if defined(__ELF__) && defined(__GNUC__)
-#define	__IDSTRING(prefix, string)				\
+#define __IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
-	"\n	.ascii	\"@(#)" #prefix ": \""			\
+	"\n	.ascii	\"@(\"\"#)" #prefix ": \""		\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
 #define __IDSTRING_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
 #define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
-#define	__IDSTRING(prefix, string)				\
+#define __IDSTRING(prefix, string)				\
 	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = (string)
+	    __attribute__((used)) = "@(""#)" (string)
 #endif
+#define __COPYRIGHT(x)		__IDSTRING(copyright,x)
 #ifdef lint
-#define	__KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
+#define __KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
 #else
-#define	__KERNEL_RCSID(n,x)	/* nothing */
+#define __KERNEL_RCSID(n,x)	/* nothing */
 #endif
-#define	__RCSID(x)		__IDSTRING(rcsid,x)
-#define	__SCCSID(x)		__IDSTRING(sccsid,x)
+#define __RCSID(x)		__IDSTRING(rcsid,x)
+#define __SCCSID(x)		__IDSTRING(sccsid,x)
 
 /*
  * "The nice thing about standards is that there are so many to choose from."
