@@ -1,9 +1,15 @@
 /* XPM */
 static char * bsd_daemon_xpm[] = {
-/* $MirOS$ */
+/* $MirOS: ports/x11/icewm/files/bsd-daemon.xpm,v 1.1 2005/03/27 20:42:18 tg Exp $ */
 /*-
- * The BSD Daemon is Copyright (c) 1988 by Marshall Kirk McKusick.
- * All Rights reserved.
+ * The BSD daemon is Copyright (c) 1988 by Marshall Kirk McKusick.
+ * All Rights Reserved.  Individuals may use the daemon for their
+ * personal use within the bounds of good taste.  When reasonably
+ * possible, the text shown above is to be included.
+ * If you want to mass produce the daemon, for example on CDROM or
+ * T-Shirts, you need permission in advance.  Permission to use it
+ * may be obtained from: Marshall Kirk McKusick, 1614 Oxford St,
+ * Berkeley, CA 94709-1608, USA  or at <mckusick@mckusick.com>
  */
 "48 20 146 2",
 "  	c #D75CD75CD75C",
