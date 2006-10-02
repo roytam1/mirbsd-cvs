@@ -1,7 +1,47 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Exp $
 --- src/main.c.orig	Sun Oct  2 15:16:59 2005
-+++ src/main.c	Mon Oct  2 04:40:37 2006
-@@ -676,6 +676,7 @@ main (int argc, char **argv)
++++ src/main.c	Mon Oct  2 06:11:15 2006
+@@ -465,39 +465,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
+ static char const alphabet[62] =
+   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ 
+-/* Divide BUF by D, returning the remainder.  Replace BUF by the
+-   quotient.  BUF[0] is the most significant part of BUF.
+-   D must not exceed UINT_MAX >> CHAR_BIT.  */
+-static unsigned int
+-divide_by (unsigned char buf[COMMITID_RAW_SIZE], unsigned int d)
+-{
+-    unsigned int carry = 0;
+-    int i;
+-    for (i = 0; i < COMMITID_RAW_SIZE; i++)
+-    {
+-	unsigned int byte = buf[i];
+-	unsigned int dividend = (carry << CHAR_BIT) + byte;
+-	buf[i] = dividend / d;
+-	carry = dividend % d;
+-    }
+-    return carry;
+-}
+ 
+-static void
+-convert (char const input[COMMITID_RAW_SIZE], char *output)
+-{
+-    static char const zero[COMMITID_RAW_SIZE] = { 0, };
+-    unsigned char buf[COMMITID_RAW_SIZE];
+-    size_t o = 0;
+-    memcpy (buf, input, COMMITID_RAW_SIZE);
+-    while (memcmp (buf, zero, COMMITID_RAW_SIZE) != 0)
+-	output[o++] = alphabet[divide_by (buf, sizeof alphabet)];
+-    if (! o)
+-	output[o++] = '0';
+-    output[o] = '\0';
+-}
+-
+-
+ int
+ main (int argc, char **argv)
+ {
+@@ -676,6 +644,7 @@ main (int argc, char **argv)
  		(void) fputs ("\
  Copyright (C) 2005 Free Software Foundation, Inc.\n\
  \n\
@@ -9,7 +49,7 @@ $MirOS$
  Senior active maintainers include Larry Jones, Derek R. Price,\n\
  and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
  distribution kit for a complete list of contributors and copyrights.\n",
-@@ -764,57 +765,12 @@ distribution kit for a complete list of 
+@@ -764,57 +733,12 @@ distribution kit for a complete list of 
      if (argc < 1)
  	usage (usg);
  
@@ -70,7 +110,7 @@ $MirOS$
      TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
  
      /* Look up the command name. */
-@@ -1285,7 +1241,7 @@ date_from_time_t (time_t unixtime)
+@@ -1285,7 +1209,7 @@ date_from_time_t (time_t unixtime)
  	ftm = localtime (&unixtime);
  
      (void) sprintf (date, DATEFORM,
@@ -79,7 +119,7 @@ $MirOS$
  		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  		    ftm->tm_min, ftm->tm_sec);
      ret = xstrdup (date);
-@@ -1315,8 +1271,9 @@ date_to_internet (char *dest, const char
+@@ -1315,8 +1239,9 @@ date_to_internet (char *dest, const char
  void
  date_to_tm (struct tm *dest, const char *source)
  {
@@ -90,7 +130,7 @@ $MirOS$
  		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
  	    != 6)
  	/* Is there a better way to handle errors here?  I made this
-@@ -1324,9 +1281,7 @@ date_to_tm (struct tm *dest, const char 
+@@ -1324,9 +1249,7 @@ date_to_tm (struct tm *dest, const char 
  	   deal with fatal errors.  */
  	error (0, 0, "internal error: bad date %s", source);
  
@@ -101,7 +141,7 @@ $MirOS$
      dest->tm_mon -= 1;
  }
  
-@@ -1351,7 +1306,7 @@ tm_to_internet (char *dest, const struct
+@@ -1351,7 +1274,7 @@ tm_to_internet (char *dest, const struct
      sprintf (dest, "%d %s %d %02d:%02d:%02d -0000", source->tm_mday,
  	     source->tm_mon < 0 || source->tm_mon > 11
                 ? "???" : month_names[source->tm_mon],
