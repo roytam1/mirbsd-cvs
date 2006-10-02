@@ -1,8 +1,8 @@
 %{
-/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.5 2005/04/19 21:29:27 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6 2005/12/05 22:12:45 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
-   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
+   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005, 2006
    Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -82,13 +82,13 @@ xmalloc(size_t s)
 		exit(1);
 	}
 
-	return x;
+	return (x);
 }
 
 void *
 xmemdup(void const *p, size_t s)
 {
-	return memcpy(xmalloc(s), p, s);
+	return (memcpy(xmalloc(s), p, s));
 }
 #endif /* IN_RCS */
 
@@ -123,7 +123,7 @@ xmemdup(void const *p, size_t s)
 # define __RCSID(x) static const char __rcsid[] ATTRIBUTE_UNUSED = (x)
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.5 2005/04/19 21:29:27 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6 2005/12/05 22:12:45 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -1529,8 +1529,8 @@ once:
       else
 	{
 	  int ns = d.tv_nsec;
-	  printf ("%13lld =\t%04lld-%02d-%02d %02d:%02d:%02d.%09d\n",
-		  (long long)d.tv_sec, (long long)tm->tm_year + 1900LL,
+	  printf ("%13llu =\t%04d-%02d-%02d %02d:%02d:%02d.%09d\n",
+		  (uint64_t)d.tv_sec, (int)tm->tm_year + 1900LL,
 		  tm->tm_mon + 1, tm->tm_mday,
 		  tm->tm_hour, tm->tm_min, tm->tm_sec, ns);
 	}
