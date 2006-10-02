@@ -114,7 +114,7 @@
 /* Copy the first part of user declarations.  */
 #line 1 "getdate.y"
 
-/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.1 2006/10/02 04:44:44 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.2 2006/10/02 05:25:56 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
    Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005, 2006
@@ -238,7 +238,7 @@ xmemdup(void const *p, size_t s)
 # define __RCSID(x) static const char __rcsid[] ATTRIBUTE_UNUSED = (x)
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.1 2006/10/02 04:44:44 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.2 2006/10/02 05:25:56 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -3296,7 +3296,7 @@ once:
 	{
 	  int ns = d.tv_nsec;
 	  printf ("%13llu =\t%04d-%02d-%02d %02d:%02d:%02d.%09d\n",
-		  (uint64_t)d.tv_sec, (int)tm->tm_year + 1900LL,
+		  (uint64_t)d.tv_sec, (int)tm->tm_year + 1900,
 		  tm->tm_mon + 1, tm->tm_mday,
 		  tm->tm_hour, tm->tm_min, tm->tm_sec, ns);
 	}
