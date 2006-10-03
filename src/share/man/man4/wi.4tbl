@@ -132,7 +132,7 @@ driver:
 .Pp
 .in +\n(dIu
 .TS
-tab (:);
+tab (:) nokeep ;
 l l l
 _ _ _
 l l l .

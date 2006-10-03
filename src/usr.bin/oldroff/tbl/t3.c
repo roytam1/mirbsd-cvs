@@ -1,10 +1,10 @@
-/* $MirOS: src/usr.bin/oldroff/tbl/t3.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/tbl/t3.c,v 1.2 2006/02/03 20:52:17 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2006
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -69,6 +69,8 @@ struct optstr {char *optnam; int *optadd;} options [] = {
 	"LINESIZE", &linsize,
 	"delim", &delim1,
 	"DELIM", &delim1,
+	"nokeep", &dummyflg,
+	"NOKEEP", &dummyflg,
 	0,0};
 getcomm()
 {

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/tbl/t..c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -81,6 +81,7 @@ extern int linsize, delim1, delim2;
 extern int allflg;
 extern int textflg;
 extern int left1flg;
+extern int dummyflg;
 extern int rightl;
 struct colstr {char *col, *rcol;};
 /* FIXME: kludge for seeing if somebody stuffed a char into col or rcol. */
