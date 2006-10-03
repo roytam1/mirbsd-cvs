@@ -1,4 +1,4 @@
-.\" 	$OpenBSD: ftp.1,v 1.52 2005/07/06 10:35:36 jmc Exp $
+.\" 	$OpenBSD: ftp.1,v 1.56 2006/05/25 03:35:58 ray Exp $
 .\" 	$NetBSD: ftp.1,v 1.22 1997/08/18 10:20:22 lukem Exp $
 .\"
 .\" Copyright (c) 1985, 1989, 1990, 1993
@@ -38,7 +38,7 @@
 .Nd ARPANET file transfer program
 .Sh SYNOPSIS
 .Nm ftp
-.Op Fl 46AadegimnptVv
+.Op Fl 46AadEegimnptVv
 .Op Fl P Ar port
 .Op Fl r Ar seconds
 .Op Ar host Op Ar port
@@ -59,6 +59,12 @@
 .Nm ftp
 .Op Fl o Ar output
 .Sm off
+.No https:// Ar host Oo : Ar port
+.Oc No / Ar file
+.Sm on
+.Nm ftp
+.Op Fl o Ar output
+.Sm off
 .Ar host : No / Ar file Oo /
 .Oc
 .Sm on
@@ -70,8 +76,8 @@ standard File Transfer Protocol (FTP).
 The program allows a user to transfer files to and from a
 remote network site.
 .Pp
-The latter three usage formats will fetch a file using either the
-HTTP or FTP protocols into the current directory.
+The latter four usage formats will fetch a file using either the
+FTP, HTTP, or HTTPS protocols into the current directory.
 This is ideal for scripts.
 Refer to
 .Sx AUTO-FETCHING FILES
@@ -104,6 +110,8 @@ Causes
 to bypass the normal login procedure and use an anonymous login instead.
 .It Fl d
 Enables debugging.
+.It Fl E
+Disables EPSV/EPRT command on IPv4 connections.
 .It Fl e
 Disables command line editing.
 Useful for Emacs ange-ftp.
@@ -1110,7 +1118,7 @@ To enable auto-fetch, simply pass the list of hostnames/files
 on the command line.
 .Pp
 The following formats are valid syntax for an auto-fetch element:
-.Bl -tag -width "ftp://[user:password@]host[:port]/file[/]"
+.Bl -tag -width Ds
 .It host:/file[/]
 .Dq Classic
 .Nm
@@ -1134,6 +1142,12 @@ An HTTP URL, retrieved using the HTTP protocol.
 If
 .Ev http_proxy
 is defined, it is used as a URL to an HTTP proxy server.
+.It https://host[:port]/file
+An HTTPS URL, retrieved using the HTTPS protocol.
+If
+.Ev http_proxy
+is defined, this HTTPS proxy server will be used to fetch the
+file using the CONNECT method.
 .El
 .Pp
 If a classic format or an FTP URL format has a trailing
@@ -1490,7 +1504,7 @@ Directory to put temporary files.
 URL of FTP proxy to use when making FTP URL requests
 (if not defined, use the standard FTP protocol).
 .It Ev http_proxy
-URL of HTTP proxy to use when making HTTP URL requests.
+URL of HTTP proxy to use when making HTTP or HTTPS URL requests.
 .El
 .Sh PORT ALLOCATION
 For active mode data connections,
