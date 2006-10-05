@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.4 2005/11/15 19:33:59 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.5 2005/12/29 22:40:38 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.4 2005/11/15 19:33:59 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.5 2005/12/29 22:40:38 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -105,6 +105,21 @@ nuke_suffix(char *str)
 	*idx = '\0';  /* Yow!  Don't try this on a const! */
 }
 
+/* Find the version number in a package name. Use this instead of
+ * strrchr(name, '-').
+ */
+char *
+find_version(const char *name)
+{
+    char *idx;
+
+    if (!name)
+	return NULL;
+    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
+    
+    return idx;
+}
+
 /* Remove the version number from a package name. Optionally add a
  * "-*" suffix at the end.
  */
@@ -116,8 +131,7 @@ nuke_version(char *name, bool wildcard)
     if (!name)
 	return NULL;
 
-    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
-    if (idx)
+    if ((idx = find_version(name)))
 	*idx = '\0';
     if (asprintf(&ret, wildcard ? "%s-[0-9]*" : "%s", name) == -1) {
 	printf("nuke_version: Could not allocate buffer\n");
@@ -160,10 +174,10 @@ deweycmp(char *a, enum deweycmp_ops op, char *b)
 			break;
 		}
 		ad = bd = 0;
-		for (; *a && *a != '.'; a++) {
+		for (; *a && *a != '.' && *a != '-'; a++) {
 			ad = (ad * 10) + (*a - '0');
 		}
-		for (; *b && *b != '.'; b++) {
+		for (; *b && *b != '.' && *b != '-'; b++) {
 			bd = (bd * 10) + (*b - '0');
 		}
 		if ((cmp = ad - bd) != 0) {
@@ -173,6 +187,10 @@ deweycmp(char *a, enum deweycmp_ops op, char *b)
 			a++;
 		}
 		if (*b == '.') {
+			b++;
+		}
+		if (*a == '-' && *b == '-') {
+			a++;
 			b++;
 		}
 	}
@@ -243,12 +261,16 @@ dewey_match(const char *pattern, const char *pkg)
 	if ((sep = strpbrk(pattern, "<>")) == NULL)
 		errx(1, "dewey_match(): '<' or '>' expexted in \"%s\"", pattern);
 
-	/* next three lines are static in loops, too (-> cache!) */
+	/* next few lines are static in loops, too (-> cache!) */
 	snprintf(name, sizeof(name), "%.*s", (int) (sep - pattern), pattern);
+	n = (int)(sep - pattern);
+	if (name[strlen(name) - 1] == '-') {
+		name[strlen(name) - 1] = '\0';
+		n--;
+	}
 	op = (*sep == '>') ? (*(sep + 1) == '=') ? GE : GT : (*(sep + 1) == '=') ? LE : LT;
 	ver = (op == GE || op == LE) ? sep + 2 : sep + 1;
-	n = (int)(sep - pattern);
-	if ((cp = strrchr(pkg, '-')) != NULL) {
+	if ((cp = find_version(pkg)) != NULL) {
 		if (strncmp(pkg, name, (size_t)(cp - pkg)) == 0 && n == cp - pkg) {
 			if (deweycmp(cp + 1, op, ver)) {
 				found = 1;
@@ -345,10 +367,12 @@ findbestmatchingname_fn(const char *pkg, char *data, int len)
     /* if pkg > data */
     char *s1, *s2;
 
-    s1=strrchr(pkg, '-')+1;
-    s2=strrchr(data, '-')+1;
+    s1 = find_version(pkg);
+    s2 = find_version(data);
+    if (!s1 || !s2)
+	return 0;
 
-    if(data[0] == '\0' || deweycmp(s1, GT, s2))
+    if (data[0] == '\0' || deweycmp(++s1, GT, ++s2))
 	strlcpy(data, pkg, len);
 
     return 0;

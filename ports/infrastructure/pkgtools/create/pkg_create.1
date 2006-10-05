@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.2 2005/05/22 03:52:46 bsiegert Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.3 2005/09/19 19:30:04 bsiegert Exp $
 .\"	$OpenBSD: pkg_create.1,v 1.28 2003/08/21 20:24:56 espie Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -494,7 +494,14 @@ package gets installed because they install the same files and thus conflict.
 .Ar pkgcflname
 may use
 .Xr fnmatch 3
-wildcards.
+wildcards, csh-style alternates
+.Brq pkg1,pkg2
+or the operators <, <=, >, and >=.
+As an example for the latter,
+.Cm subversion<1.4
+and
+.Cm subversion-<1.4.0-0
+are equivalent.
 .It Cm @option Ar name
 Effects vary depending on
 .Ar name .
