@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/groff/Makefile,v 1.1 2006/08/10 23:01:32 tg Exp $
+# $MirOS: ports/textproc/groff/Makefile,v 1.2 2006/10/06 14:43:44 tg Exp $
 
 # probably easy to add others, but packing list is different
 ONLY_FOR_PLATFORM=		MirBSD:*:* Interix:*:*
@@ -23,7 +23,7 @@ PERMIT_PACKAGE_CDROM=		Yes
 PERMIT_PACKAGE_FTP=		Yes
 
 FLAVORS=			console
-FLAVOR?=			console
+FLAVOR?=
 
 MULTI_PACKAGES=			-docs
 SUBPACKAGE?=
