@@ -1,6 +1,7 @@
-# $MirOS$
+# $MirOS: ports/japanese/jmdict/gjdict/Makefile,v 1.1 2006/10/07 00:12:58 tg Exp $
 
 BROKEN=			not fully ported nightmare
+BROKEN+=		- start by fixing x11/gtkmm
 
 COMMENT=		graphical japanese-english dictionary
 CATEGORIES=		japanese x11
