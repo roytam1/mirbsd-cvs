@@ -34,6 +34,8 @@
 #include "ntpd.h"
 #include "ntp.h"
 
+__RCSID("$MirOS$");
+
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
 
@@ -441,7 +443,8 @@ priv_adjtime(void)
 		    &offset_median, sizeof(offset_median));
 
 		conf->status.reftime = gettime();
-		conf->status.stratum++;	/* one more than selected peer */
+		/* one more than selected peer, but cap */
+		conf->status.stratum = MIN(conf->status.stratum, 254) + 1;
 		update_scale(offset_median);
 
 		conf->status.refid4 =
@@ -534,4 +537,3 @@ error_interval(void)
 	r = arc4random() % (interval / 10);
 	return (interval + r);
 }
-
