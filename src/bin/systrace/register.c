@@ -1,4 +1,4 @@
-/*	$OpenBSD: register.c,v 1.16 2003/07/19 11:48:58 sturm Exp $	*/
+/*	$OpenBSD: register.c,v 1.22 2006/08/14 07:24:55 ray Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -39,6 +39,7 @@
 
 #include "intercept.h"
 #include "systrace.h"
+#include "linux-translate.h"
 
 #define X(x)	if ((x) == -1) \
 	err(1, "%s:%d: intercept failed", __func__, __LINE__)
@@ -58,6 +59,9 @@ systrace_initcb(void)
 	alias = systrace_new_alias("native", "open", "native", "fswrite");
 	systrace_alias_add_trans(alias, tl);
 
+	X(intercept_register_sccb("native", "sendmsg", trans_cb, NULL));
+	intercept_register_translation("native", "sendmsg", 1,
+	    &ic_translate_sendmsg);
 	X(intercept_register_sccb("native", "connect", trans_cb, NULL));
 	intercept_register_translation("native", "connect", 1,
 	    &ic_translate_connect);
@@ -86,6 +90,19 @@ systrace_initcb(void)
 	    &ic_translate_unlinkname);
 	alias = systrace_new_alias("native", "unlink", "native", "fswrite");
 	systrace_alias_add_trans(alias, tl);
+	X(intercept_register_sccb("native", "truncate", trans_cb, NULL));
+	tl = intercept_register_transfn("native", "truncate", 0);
+	alias = systrace_new_alias("native", "truncate", "native", "fswrite");
+	systrace_alias_add_trans(alias, tl);
+
+	X(intercept_register_sccb("native", "mkfifo", trans_cb, NULL));
+	tl = intercept_register_transfn("native", "mkfifo", 0);
+	intercept_register_translation("native", "mkfifo", 1, &ic_modeflags);
+	alias = systrace_new_alias("native", "mkfifo", "native", "fswrite");
+	systrace_alias_add_trans(alias, tl);
+	X(intercept_register_sccb("native", "mknod", trans_cb, NULL));
+	intercept_register_transfn("native", "mknod", 0);
+	intercept_register_translation("native", "mknod", 1, &ic_modeflags);
 
 	X(intercept_register_sccb("native", "chown", trans_cb, NULL));
 	intercept_register_transfn("native", "chown", 0);
@@ -95,12 +112,20 @@ systrace_initcb(void)
 	intercept_register_translation("native", "fchown", 0, &ic_fdt);
 	intercept_register_translation("native", "fchown", 1, &ic_uidt);
 	intercept_register_translation("native", "fchown", 2, &ic_gidt);
+	X(intercept_register_sccb("native", "lchown", trans_cb, NULL));
+	intercept_register_translation("native", "lchown", 0,
+	    &ic_translate_unlinkname);
+	intercept_register_translation("native", "lchown", 1, &ic_uidt);
+	intercept_register_translation("native", "lchown", 2, &ic_gidt);
 	X(intercept_register_sccb("native", "chmod", trans_cb, NULL));
 	intercept_register_transfn("native", "chmod", 0);
 	intercept_register_translation("native", "chmod", 1, &ic_modeflags);
 	X(intercept_register_sccb("native", "fchmod", trans_cb, NULL));
 	intercept_register_translation("native", "fchmod", 0, &ic_fdt);
 	intercept_register_translation("native", "fchmod", 1, &ic_modeflags);
+	X(intercept_register_sccb("native", "chflags", trans_cb, NULL));
+	intercept_register_transfn("native", "chflags", 0);
+	intercept_register_translation("native", "chflags", 1, &ic_fileflags);
 	X(intercept_register_sccb("native", "readlink", trans_cb, NULL));
 	tl = intercept_register_translation("native", "readlink", 0,
 	    &ic_translate_unlinkname);
@@ -129,10 +154,12 @@ systrace_initcb(void)
 	X(intercept_register_sccb("native", "rename", trans_cb, NULL));
 	intercept_register_translation("native", "rename", 0,
 	    &ic_translate_unlinkname);
-	intercept_register_transfn("native", "rename", 1);
+	intercept_register_translation("native", "rename", 1,
+	    &ic_translate_unlinkname);
 	X(intercept_register_sccb("native", "symlink", trans_cb, NULL));
 	intercept_register_transstring("native", "symlink", 0);
-	intercept_register_transfn("native", "symlink", 1);
+	intercept_register_translation("native", "symlink", 1,
+	    &ic_translate_unlinkname);
 	X(intercept_register_sccb("native", "link", trans_cb, NULL));
 	intercept_register_transfn("native", "link", 0);
 	intercept_register_transfn("native", "link", 1);
@@ -154,6 +181,13 @@ systrace_initcb(void)
 	X(intercept_register_sccb("native", "kill", trans_cb, NULL));
 	intercept_register_translation("native", "kill", 0, &ic_pidname);
 	intercept_register_translation("native", "kill", 1, &ic_signame);
+	X(intercept_register_sccb("native", "fcntl", trans_cb, NULL));
+	intercept_register_translation("native", "fcntl", 1, &ic_fcntlcmd);
+
+	X(intercept_register_sccb("native", "mmap", trans_cb, NULL));
+	intercept_register_translation("native", "mmap", 2, &ic_memprot);
+	X(intercept_register_sccb("native", "mprotect", trans_cb, NULL));
+	intercept_register_translation("native", "mprotect", 2, &ic_memprot);
 
 	X(intercept_register_sccb("linux", "open", trans_cb, NULL));
 	tl = intercept_register_translink("linux", "open", 0);
@@ -203,6 +237,23 @@ systrace_initcb(void)
 	X(intercept_register_sccb("linux", "chmod", trans_cb, NULL));
 	intercept_register_translink("linux", "chmod", 0);
 	intercept_register_translation("linux", "chmod", 1, &ic_modeflags);
+
+	X(intercept_register_sccb("linux", "socketcall", trans_cb, NULL));
+	alias = systrace_new_alias("linux", "socketcall", "linux", "_socketcall");
+	tl = intercept_register_translation("linux", "socketcall", 1, &ic_linux_socket_sockdom);
+	systrace_alias_add_trans(alias, tl);
+	tl = intercept_register_translation("linux", "socketcall", 1, &ic_linux_socket_socktype);
+	systrace_alias_add_trans(alias, tl);
+	tl = intercept_register_translation("linux", "socketcall", 1, &ic_linux_connect_sockaddr);
+	systrace_alias_add_trans(alias, tl);
+	tl = intercept_register_translation("linux", "socketcall", 1, &ic_linux_bind_sockaddr);
+	systrace_alias_add_trans(alias, tl);
+	tl = intercept_register_translation("linux", "socketcall", 0, &ic_linux_socketcall_catchall);
+	systrace_alias_add_trans(alias, tl);
+
+	X(intercept_register_sccb("linux", "kill", trans_cb, NULL));
+	intercept_register_translation("linux", "kill", 0, &ic_pidname);
+	intercept_register_translation("linux", "kill", 1, &ic_signame);
 
 	X(intercept_register_execcb(execres_cb, NULL));
 	X(intercept_register_pfreecb(policyfree_cb, NULL));
