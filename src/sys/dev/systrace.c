@@ -138,13 +138,13 @@ struct lock systrace_lck;
 static __inline void
 systrace_lock(void)
 {
-	lockmgr(&systrace_lck, LK_EXCLUSIVE, NULL);
+	lockmgr(&systrace_lck, LK_EXCLUSIVE, NULL, curproc);
 }
 
 static __inline void
 systrace_unlock(void)
 {
-	lockmgr(&systrace_lck, LK_RELEASE, NULL);
+	lockmgr(&systrace_lck, LK_RELEASE, NULL, curproc);
 }
 
 /* Needs to be called with fst locked */
@@ -215,7 +215,7 @@ systracef_read(fp, poff, uio, cred)
 
  again:
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
 	systrace_unlock();
 	if ((process = TAILQ_FIRST(&fst->messages)) != NULL) {
 		error = uiomove((caddr_t)&process->msg,
@@ -235,7 +235,7 @@ systracef_read(fp, poff, uio, cred)
 		if (fp->f_flag & FNONBLOCK)
 			error = EAGAIN;
 		else {
-			lockmgr(&fst->lock, LK_RELEASE, NULL);
+			lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 			error = tsleep(fst, PWAIT|PCATCH, "systrrd", 0);
 			if (error)
 				goto out;
@@ -244,7 +244,7 @@ systracef_read(fp, poff, uio, cred)
 
 	}
 
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
  out:
 	return (error);
 }
@@ -332,7 +332,7 @@ systracef_ioctl(fp, cmd, data, p)
 		return (ret);
 
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
 	systrace_unlock();
 	if (pid) {
 		strp = systrace_findpid(fst, pid);
@@ -404,7 +404,7 @@ systracef_ioctl(fp, cmd, data, p)
 	}
 
  unlock:
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 	return (ret);
 }
 
@@ -422,13 +422,13 @@ systracef_poll(fp, events, p)
 		return (0);
 
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
 	systrace_unlock();
 	if (!TAILQ_EMPTY(&fst->messages))
 		revents = events & (POLLIN | POLLRDNORM);
 	else
 		selrecord(p, &fst->si);
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, p);
 
 	return (revents);
 }
@@ -463,7 +463,7 @@ systracef_close(fp, p)
 	struct str_policy *strpol;
 
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
 	systrace_unlock();
 
 	/* Untrace all processes */
@@ -492,7 +492,7 @@ systracef_close(fp, p)
 		vrele(fst->fd_cdir);
 	if (fst->fd_rdir)
 		vrele(fst->fd_rdir);
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 
 	FREE(fp->f_data, M_XDATA);
 	fp->f_data = NULL;
@@ -638,14 +638,14 @@ systrace_exit(struct proc *proc)
 	strp = proc->p_systrace;
 	if (strp != NULL) {
 		fst = strp->parent;
-		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
 		systrace_unlock();
 
 		/* Insert Exit message */
 		systrace_msg_child(fst, strp, -1);
 
 		systrace_detach(strp);
-		lockmgr(&fst->lock, LK_RELEASE, NULL);
+		lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 	} else
 		systrace_unlock();
 	CLR(proc->p_flag, P_SYSTRACE);
@@ -665,7 +665,7 @@ systrace_fork(struct proc *oldproc, struct proc *p)
 	}
 
 	fst = oldstrp->parent;
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
 	systrace_unlock();
 
 	if (systrace_insert_process(fst, p))
@@ -680,7 +680,7 @@ systrace_fork(struct proc *oldproc, struct proc *p)
 	/* Insert fork message */
 	systrace_msg_child(fst, oldstrp, p->p_pid);
  out:
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 }
 
 #define REACQUIRE_LOCK	do { \
@@ -691,7 +691,7 @@ systrace_fork(struct proc *oldproc, struct proc *p)
 		return (error); \
 	} \
 	fst = strp->parent; \
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL); \
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p); \
 	systrace_unlock(); \
 } while (0)
 
@@ -724,7 +724,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 
 	fst = strp->parent;
 
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
 	systrace_unlock();
 
 	/*
@@ -768,7 +768,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 				error = EPERM;
 		}
 		systrace_replacefree(strp);
-		lockmgr(&fst->lock, LK_RELEASE, NULL);
+		lockmgr(&fst->lock, LK_RELEASE, NULL, p);
 		if (policy == SYSTR_POLICY_PERMIT)
 			error = (*callp->sy_call)(p, v, retval);
 		return (error);
@@ -797,7 +797,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 	}
 
 	fst = strp->parent;
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
 	systrace_unlock();
 
 	if (strp->answer == SYSTR_POLICY_NEVER) {
@@ -832,7 +832,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 	} else
 		CLR(strp->flags, STR_PROC_SETEUID|STR_PROC_SETEGID);
 
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 				
 	error = (*callp->sy_call)(p, v, retval);
 
@@ -875,7 +875,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 
 	/* Acquire lock */
 	fst = strp->parent;
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
 	systrace_unlock();
 
 	if (p->p_emul != oldemul) {
@@ -907,7 +907,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 	}
 
 out_unlock:
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 out:
 	return (error);
 }
@@ -1320,7 +1320,7 @@ systrace_execve1(char *path, struct proc *p)
 
 		msg_execve = &strp->msg.msg_data.msg_execve;
 		fst = strp->parent;
-		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
 		systrace_unlock();
 
 		/*
@@ -1331,7 +1331,7 @@ systrace_execve1(char *path, struct proc *p)
 		if (fst->issuser ||
 		    fst->p_ruid != p->p_cred->p_ruid ||
 		    fst->p_rgid != p->p_cred->p_rgid) {
-			lockmgr(&fst->lock, LK_RELEASE, NULL);
+			lockmgr(&fst->lock, LK_RELEASE, NULL, p);
 			return;
 		}
 		strlcpy(msg_execve->path, path, MAXPATHLEN);
@@ -1485,7 +1485,7 @@ systrace_scriptname(struct proc *p, char *dst)
 	strp = p->p_systrace;
 	fst = strp->parent;
 
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
 	systrace_unlock();
 
 	if (!fst->issuser && (ISSET(p->p_flag, P_SUGID) ||
@@ -1508,7 +1508,7 @@ systrace_scriptname(struct proc *p, char *dst)
 
  out:
 	strp->scriptname[0] = '\0';
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, p);
 
 	return (error);
 }
@@ -1526,7 +1526,7 @@ systrace_namei(struct nameidata *ndp)
 	strp = cnp->cn_proc->p_systrace;
 	if (strp != NULL) {
 		fst = strp->parent;
-		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL);
+		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
 		systrace_unlock();
 
 		for (i = 0; i < strp->nfname; i++)
@@ -1539,7 +1539,7 @@ systrace_namei(struct nameidata *ndp)
 		    strcmp(cnp->cn_pnbuf, strp->scriptname) == 0)
 			hamper = 1;
 
-		lockmgr(&fst->lock, LK_RELEASE, NULL);
+		lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
 	} else
 		systrace_unlock();
 
@@ -1781,7 +1781,7 @@ systrace_make_msg(struct str_process *strp, int type)
 	systrace_wakeup(fst);
 
 	/* Release the lock - XXX */
-	lockmgr(&fst->lock, LK_RELEASE, NULL);
+	lockmgr(&fst->lock, LK_RELEASE, NULL, strp->proc);
 
 	while (1) {
 		st = tsleep(strp, pri, "systrmsg", 0);
