@@ -1,4 +1,4 @@
-/*	$OpenBSD: systrace.c,v 1.38 2005/04/17 22:11:34 millert Exp $	*/
+/*	$OpenBSD: systrace.c,v 1.43 2006/10/06 05:47:27 djm Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -42,15 +42,14 @@
 #include <sys/filedesc.h>
 #include <sys/filio.h>
 #include <sys/signalvar.h>
-#include <sys/lock.h>
+#include <sys/rwlock.h>
 #include <sys/pool.h>
 #include <sys/mount.h>
 #include <sys/namei.h>
 #include <sys/poll.h>
+#include <sys/ptrace.h>
 
 #include <compat/common/compat_util.h>
-
-#include <miscfs/procfs/procfs.h>
 
 #include <dev/systrace.h>
 
@@ -134,18 +133,18 @@ struct str_process {
 	int  injectind;
 };
 
-struct lock systrace_lck;
+struct rwlock systrace_lck;
 
 static __inline void
 systrace_lock(void)
 {
-	lockmgr(&systrace_lck, LK_EXCLUSIVE, NULL, curproc);
+	rw_enter_write(&systrace_lck);
 }
 
 static __inline void
 systrace_unlock(void)
 {
-	lockmgr(&systrace_lck, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&systrace_lck);
 }
 
 /* Needs to be called with fst locked */
@@ -216,7 +215,7 @@ systracef_read(fp, poff, uio, cred)
 
  again:
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 	if ((process = TAILQ_FIRST(&fst->messages)) != NULL) {
 		error = uiomove((caddr_t)&process->msg,
@@ -236,7 +235,7 @@ systracef_read(fp, poff, uio, cred)
 		if (fp->f_flag & FNONBLOCK)
 			error = EAGAIN;
 		else {
-			lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+			rw_exit_write(&fst->lock);
 			error = tsleep(fst, PWAIT|PCATCH, "systrrd", 0);
 			if (error)
 				goto out;
@@ -245,7 +244,7 @@ systracef_read(fp, poff, uio, cred)
 
 	}
 
-	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&fst->lock);
  out:
 	return (error);
 }
@@ -333,7 +332,7 @@ systracef_ioctl(fp, cmd, data, p)
 		return (ret);
 
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 	if (pid) {
 		strp = systrace_findpid(fst, pid);
@@ -405,7 +404,7 @@ systracef_ioctl(fp, cmd, data, p)
 	}
 
  unlock:
-	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&fst->lock);
 	return (ret);
 }
 
@@ -423,13 +422,13 @@ systracef_poll(fp, events, p)
 		return (0);
 
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 	if (!TAILQ_EMPTY(&fst->messages))
 		revents = events & (POLLIN | POLLRDNORM);
 	else
 		selrecord(p, &fst->si);
-	lockmgr(&fst->lock, LK_RELEASE, NULL, p);
+	rw_exit_write(&fst->lock);
 
 	return (revents);
 }
@@ -464,7 +463,7 @@ systracef_close(fp, p)
 	struct str_policy *strpol;
 
 	systrace_lock();
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 
 	/* Untrace all processes */
@@ -493,7 +492,7 @@ systracef_close(fp, p)
 		vrele(fst->fd_cdir);
 	if (fst->fd_rdir)
 		vrele(fst->fd_rdir);
-	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&fst->lock);
 
 	FREE(fp->f_data, M_XDATA);
 	fp->f_data = NULL;
@@ -508,7 +507,7 @@ systraceattach(int n)
 	    "strprocpl", NULL);
 	pool_init(&systr_policy_pl, sizeof(struct str_policy), 0, 0, 0,
 	    "strpolpl", NULL);
-	lockinit(&systrace_lck, PLOCK, "systrace", 0, 0);
+	rw_init(&systrace_lck, "systrace");
 }
 
 int
@@ -567,7 +566,7 @@ systraceioctl(dev, cmd, data, flag, p)
 		    M_XDATA, M_WAITOK);
 
 		memset(fst, 0, sizeof(struct fsystrace));
-		lockinit(&fst->lock, PLOCK, "systrace", 0, 0);
+		rw_init(&fst->lock, "systrace");
 		TAILQ_INIT(&fst->processes);
 		TAILQ_INIT(&fst->messages);
 		TAILQ_INIT(&fst->policies);
@@ -639,14 +638,14 @@ systrace_exit(struct proc *proc)
 	strp = proc->p_systrace;
 	if (strp != NULL) {
 		fst = strp->parent;
-		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
+		rw_enter_write(&fst->lock);
 		systrace_unlock();
 
 		/* Insert Exit message */
 		systrace_msg_child(fst, strp, -1);
 
 		systrace_detach(strp);
-		lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+		rw_exit_write(&fst->lock);
 	} else
 		systrace_unlock();
 	CLR(proc->p_flag, P_SYSTRACE);
@@ -666,7 +665,7 @@ systrace_fork(struct proc *oldproc, struct proc *p)
 	}
 
 	fst = oldstrp->parent;
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 
 	if (systrace_insert_process(fst, p))
@@ -681,7 +680,7 @@ systrace_fork(struct proc *oldproc, struct proc *p)
 	/* Insert fork message */
 	systrace_msg_child(fst, oldstrp, p->p_pid);
  out:
-	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&fst->lock);
 }
 
 #define REACQUIRE_LOCK	do { \
@@ -692,7 +691,7 @@ systrace_fork(struct proc *oldproc, struct proc *p)
 		return (error); \
 	} \
 	fst = strp->parent; \
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p); \
+	rw_enter_write(&fst->lock); \
 	systrace_unlock(); \
 } while (0)
 
@@ -725,7 +724,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 
 	fst = strp->parent;
 
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 
 	/*
@@ -769,7 +768,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 				error = EPERM;
 		}
 		systrace_replacefree(strp);
-		lockmgr(&fst->lock, LK_RELEASE, NULL, p);
+		rw_exit_write(&fst->lock);
 		if (policy == SYSTR_POLICY_PERMIT)
 			error = (*callp->sy_call)(p, v, retval);
 		return (error);
@@ -798,7 +797,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 	}
 
 	fst = strp->parent;
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 
 	if (strp->answer == SYSTR_POLICY_NEVER) {
@@ -833,7 +832,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 	} else
 		CLR(strp->flags, STR_PROC_SETEUID|STR_PROC_SETEGID);
 
-	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&fst->lock);
 				
 	error = (*callp->sy_call)(p, v, retval);
 
@@ -876,7 +875,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 
 	/* Acquire lock */
 	fst = strp->parent;
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 
 	if (p->p_emul != oldemul) {
@@ -908,7 +907,7 @@ systrace_redirect(int code, struct proc *p, void *v, register_t *retval)
 	}
 
 out_unlock:
-	lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+	rw_exit_write(&fst->lock);
 out:
 	return (error);
 }
@@ -1211,7 +1210,7 @@ systrace_io(struct str_process *strp, struct systrace_io *io)
 	uio.uio_segflg = UIO_USERSPACE;
 	uio.uio_procp = p;
 
-	error = procfs_domem(p, t, NULL, &uio);
+	error = process_domem(p, t, &uio, PT_WRITE_I);
 	io->strio_len -= uio.uio_resid;
  out:
 
@@ -1321,7 +1320,7 @@ systrace_execve1(char *path, struct proc *p)
 
 		msg_execve = &strp->msg.msg_data.msg_execve;
 		fst = strp->parent;
-		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
+		rw_enter_write(&fst->lock);
 		systrace_unlock();
 
 		/*
@@ -1332,7 +1331,7 @@ systrace_execve1(char *path, struct proc *p)
 		if (fst->issuser ||
 		    fst->p_ruid != p->p_cred->p_ruid ||
 		    fst->p_rgid != p->p_cred->p_rgid) {
-			lockmgr(&fst->lock, LK_RELEASE, NULL, p);
+			rw_exit_write(&fst->lock);
 			return;
 		}
 		strlcpy(msg_execve->path, path, MAXPATHLEN);
@@ -1360,9 +1359,16 @@ systrace_preprepl(struct str_process *strp, struct systrace_replace *repl)
 		return (EINVAL);
 
 	for (i = 0, len = 0; i < repl->strr_nrepl; i++) {
-		len += repl->strr_offlen[i];
+		if (repl->strr_argind[i] < 0 ||
+		    repl->strr_argind[i] >= SYSTR_MAXARGS)
+			return (EINVAL);
 		if (repl->strr_offlen[i] == 0)
 			continue;
+		len += repl->strr_offlen[i];
+		if (repl->strr_offlen[i] > SYSTR_MAXREPLEN ||
+		    repl->strr_off[i] > SYSTR_MAXREPLEN ||
+		    len > SYSTR_MAXREPLEN)
+			return (EINVAL);
 		if (repl->strr_offlen[i] + repl->strr_off[i] > len)
 			return (EINVAL);
 	}
@@ -1372,7 +1378,7 @@ systrace_preprepl(struct str_process *strp, struct systrace_replace *repl)
 		return (EINVAL);
 
 	/* Check against a maximum length */
-	if (repl->strr_len > 2048)
+	if (repl->strr_len > SYSTR_MAXREPLEN)
 		return (EINVAL);
 
 	strp->replace = (struct systrace_replace *)
@@ -1407,6 +1413,10 @@ systrace_replace(struct str_process *strp, size_t argsize, register_t args[])
 
 	maxarg = argsize/sizeof(register_t);
 	ubase = stackgap_alloc(&strp->sg, repl->strr_len);
+	if (ubase == NULL) {
+		ret = EINVAL;
+		goto out;
+	}
 
 	kbase = repl->strr_base;
 	for (i = 0; i < maxarg && i < repl->strr_nrepl; i++) {
@@ -1442,7 +1452,7 @@ systrace_replace(struct str_process *strp, size_t argsize, register_t args[])
 int
 systrace_fname(struct str_process *strp, caddr_t kdata, size_t len)
 {
-	if (strp->nfname >= SYSTR_MAXFNAME || len < 2)
+	if (strp->nfname >= SYSTR_MAXFNAME || len < 1)
 		return EINVAL;
 
 	strp->fname[strp->nfname] = kdata;
@@ -1475,7 +1485,7 @@ systrace_scriptname(struct proc *p, char *dst)
 	strp = p->p_systrace;
 	fst = strp->parent;
 
-	lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, p);
+	rw_enter_write(&fst->lock);
 	systrace_unlock();
 
 	if (!fst->issuser && (ISSET(p->p_flag, P_SUGID) ||
@@ -1498,7 +1508,7 @@ systrace_scriptname(struct proc *p, char *dst)
 
  out:
 	strp->scriptname[0] = '\0';
-	lockmgr(&fst->lock, LK_RELEASE, NULL, p);
+	rw_exit_write(&fst->lock);
 
 	return (error);
 }
@@ -1516,7 +1526,7 @@ systrace_namei(struct nameidata *ndp)
 	strp = cnp->cn_proc->p_systrace;
 	if (strp != NULL) {
 		fst = strp->parent;
-		lockmgr(&fst->lock, LK_EXCLUSIVE, NULL, curproc);
+		rw_enter_write(&fst->lock);
 		systrace_unlock();
 
 		for (i = 0; i < strp->nfname; i++)
@@ -1529,7 +1539,7 @@ systrace_namei(struct nameidata *ndp)
 		    strcmp(cnp->cn_pnbuf, strp->scriptname) == 0)
 			hamper = 1;
 
-		lockmgr(&fst->lock, LK_RELEASE, NULL, curproc);
+		rw_exit_write(&fst->lock);
 	} else
 		systrace_unlock();
 
@@ -1746,7 +1756,6 @@ systrace_make_msg(struct str_process *strp, int type)
 {
 	struct str_message *msg = &strp->msg;
 	struct fsystrace *fst = strp->parent;
-	struct proc *p = strp->proc;
 	int st, pri;
 
 	pri = PWAIT|PCATCH;
@@ -1772,7 +1781,7 @@ systrace_make_msg(struct str_process *strp, int type)
 	systrace_wakeup(fst);
 
 	/* Release the lock - XXX */
-	lockmgr(&fst->lock, LK_RELEASE, NULL, p);
+	rw_exit_write(&fst->lock);
 
 	while (1) {
 		st = tsleep(strp, pri, "systrmsg", 0);

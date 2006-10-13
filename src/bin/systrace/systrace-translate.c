@@ -1,4 +1,4 @@
-/*	$OpenBSD: systrace-translate.c,v 1.18 2005/05/03 18:03:26 sturm Exp $	*/
+/*	$OpenBSD: systrace-translate.c,v 1.21 2006/07/02 12:34:15 sturm Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -33,6 +33,8 @@
 #include <sys/wait.h>
 #include <sys/tree.h>
 #include <sys/socket.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <inttypes.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -61,6 +63,9 @@ static int print_number(char *, size_t, struct intercept_translate *);
 static int print_uname(char *, size_t, struct intercept_translate *);
 static int print_pidname(char *, size_t, struct intercept_translate *);
 static int print_signame(char *, size_t, struct intercept_translate *);
+static int print_fcntlcmd(char *, size_t, struct intercept_translate *);
+static int print_memprot(char *, size_t, struct intercept_translate *);
+static int print_fileflags(char *, size_t, struct intercept_translate *);
 static int get_argv(struct intercept_translate *, int, pid_t, void *);
 static int print_argv(char *, size_t, struct intercept_translate *);
 
@@ -188,14 +193,14 @@ print_sockdom(char *buf, size_t buflen, struct intercept_translate *tl)
 	case AF_INET6:
 		what = "AF_INET6";
 		break;
+	case AF_IPX:
+		what = "AF_IPX";
+		break;
 	case AF_ISO:
 		what = "AF_ISO";
 		break;
 	case AF_NS:
 		what = "AF_NS";
-		break;
-	case AF_IPX:
-		what = "AF_IPX";
 		break;
 	case AF_IMPLINK:
 		what = "AF_IMPLINK";
@@ -262,14 +267,20 @@ print_pidname(char *buf, size_t buflen, struct intercept_translate *tl)
 	struct intercept_pid *icpid;
 	pid_t pid = (intptr_t)tl->trans_addr;
 
-	if (pid != 0) {
-		icpid = intercept_getpid(pid);
-		strlcpy(buf, icpid->name != NULL ? icpid->name : "<unknown>",
-		    buflen);
-		if (icpid->name == NULL)
-			intercept_freepid(pid);
-	} else
+	if (pid > 0) {
+		icpid = intercept_findpid(pid);
+		strlcpy(buf, icpid != NULL ? icpid->name : "<unknown>", buflen);
+	} else if (pid == 0) {
 		strlcpy(buf, "<own process group>", buflen);
+	} else if (pid == -1) {
+		strlcpy(buf, "<every process: -1>", buflen);
+	} else {
+		/* pid is negative but not -1 - trying to signal pgroup */
+		pid = -pid;
+		icpid = intercept_findpid(pid);
+		strlcpy(buf, "pg:", buflen);
+		strlcat(buf, icpid != NULL ? icpid->name : "unknown", buflen);
+	}
 
 	return (0);
 }
@@ -371,11 +382,194 @@ print_signame(char *buf, size_t buflen, struct intercept_translate *tl)
 }
 
 static int
+print_fcntlcmd(char *buf, size_t buflen, struct intercept_translate *tl)
+{
+	int cmd = (intptr_t)tl->trans_addr;
+	char *name;
+
+	switch (cmd) {
+	case F_DUPFD:
+		name = "F_DUPFD";
+		break;
+	case F_GETFD:
+		name = "F_GETFD";
+		break;
+	case F_SETFD:
+		name = "F_SETFD";
+		break;
+	case F_GETFL:
+		name = "F_GETFL";
+		break;
+	case F_SETFL:
+		name = "F_SETFL";
+		break;
+	case F_GETOWN:
+		name = "F_GETOWN";
+		break;
+	case F_SETOWN:
+		name = "F_SETOWN";
+		break;
+	case F_GETLK:
+		name = "F_GETLK";
+		break;
+	case F_SETLK:
+		name = "F_SETLK";
+		break;
+	case F_SETLKW:
+		name = "F_SETLKW";
+		break;
+	default:
+		snprintf(buf, buflen, "<unknown>: %d", cmd);
+		return (0);
+	}
+
+	snprintf(buf, buflen, "%s", name);
+	return (0);
+}
+
+struct linux_i386_mmap_arg_struct {
+	unsigned long addr;
+	unsigned long len;
+	unsigned long prot;
+	unsigned long flags;
+	unsigned long fd;
+	unsigned long offset;
+};
+
+static int
+get_linux_memprot(struct intercept_translate *trans, int fd, pid_t pid,
+    void *addr)
+{
+	struct linux_i386_mmap_arg_struct arg;
+	size_t len = sizeof(arg);
+	extern struct intercept_system intercept;
+
+	if (intercept.io(fd, pid, INTERCEPT_READ, addr,
+	    (void *)&arg, len) == -1)
+		return (-1);
+
+	trans->trans_addr = (void *)arg.prot;
+
+	return (0);
+}
+
+static int
+print_memprot(char *buf, size_t buflen, struct intercept_translate *tl)
+{
+	int prot = (intptr_t)tl->trans_addr;
+	char lbuf[64];
+
+	if (prot == PROT_NONE) {
+		strlcpy(buf, "PROT_NONE", buflen);
+		return (0);
+	} else
+		*buf = '\0';
+
+	while (prot) {
+		if (*buf)
+			strlcat(buf, "|", buflen);
+
+		if (prot & PROT_READ) {
+			strlcat(buf, "PROT_READ", buflen);
+			prot &= ~PROT_READ;
+			continue;
+		}
+
+		if (prot & PROT_WRITE) {
+			strlcat(buf, "PROT_WRITE", buflen);
+			prot &= ~PROT_WRITE;
+			continue;
+		}
+
+		if (prot & PROT_EXEC) {
+			strlcat(buf, "PROT_EXEC", buflen);
+			prot &= ~PROT_EXEC;
+			continue;
+		}
+
+		if (prot) {
+			snprintf(lbuf, sizeof(lbuf), "<unknown:0x%x>", prot);
+			strlcat(buf, lbuf, buflen);
+			prot = 0;
+			continue;
+		}
+	}
+
+	return (0);
+}
+
+static int
+print_fileflags(char *buf, size_t buflen, struct intercept_translate *tl)
+{
+	unsigned int flags = (intptr_t)tl->trans_addr;
+	char lbuf[64];
+
+	*buf = '\0';
+
+	while (flags) {
+		if (*buf)
+			strlcat(buf, "|", buflen);
+
+		if (flags & UF_NODUMP) {
+			strlcat(buf, "UF_NODUMP", buflen);
+			flags &= ~UF_NODUMP;
+			continue;
+		}
+
+		if (flags & UF_IMMUTABLE) {
+			strlcat(buf, "UF_IMMUTABLE", buflen);
+			flags &= ~UF_IMMUTABLE;
+			continue;
+		}
+
+		if (flags & UF_APPEND) {
+			strlcat(buf, "UF_APPEND", buflen);
+			flags &= ~UF_APPEND;
+			continue;
+		}
+
+		if (flags & UF_OPAQUE) {
+			strlcat(buf, "UF_OPAQUE", buflen);
+			flags &= ~UF_OPAQUE;
+			continue;
+		}
+
+		if (flags & SF_ARCHIVED) {
+			strlcat(buf, "SF_ARCHIVED", buflen);
+			flags &= ~SF_ARCHIVED;
+			continue;
+		}
+
+		if (flags & SF_IMMUTABLE) {
+			strlcat(buf, "SF_IMMUTABLE", buflen);
+			flags &= ~SF_IMMUTABLE;
+			continue;
+		}
+
+		if (flags & SF_APPEND) {
+			strlcat(buf, "SF_APPEND", buflen);
+			flags &= ~SF_APPEND;
+			continue;
+		}
+
+		if (flags) {
+			snprintf(lbuf, sizeof(lbuf), "<unknown:0x%x>", flags);
+			strlcat(buf, lbuf, buflen);
+			flags = 0;
+			continue;
+		}
+	}
+
+	return (0);
+}
+
+static int
 get_argv(struct intercept_translate *trans, int fd, pid_t pid, void *addr)
 {
 	char *arg;
 	char buf[_POSIX2_LINE_MAX], *p;
-	int i, off = 0, len;
+	int i, off = 0;
+	size_t len;
 	extern struct intercept_system intercept;
 
 	i = 0;
@@ -479,4 +673,24 @@ struct intercept_translate ic_pidname = {
 struct intercept_translate ic_signame = {
 	"signame",
 	NULL, print_signame,
+};
+
+struct intercept_translate ic_fcntlcmd = {
+	"cmd",
+	NULL, print_fcntlcmd,
+};
+
+struct intercept_translate ic_memprot = {
+	"prot",
+	NULL, print_memprot,
+};
+
+struct intercept_translate ic_linux_memprot = {
+	"prot",
+	get_linux_memprot, print_memprot,
+};
+
+struct intercept_translate ic_fileflags = {
+	"flags",
+	NULL, print_fileflags,
 };

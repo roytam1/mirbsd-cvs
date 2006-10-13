@@ -1,4 +1,4 @@
-/*	$OpenBSD: filter.c,v 1.30 2004/01/23 20:51:18 sturm Exp $	*/
+/*	$OpenBSD: filter.c,v 1.33 2006/07/02 12:34:15 sturm Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -140,7 +140,7 @@ filter_match(struct intercept_pid *icpid, struct intercept_tlq *tls,
 int
 filter_predicate(struct intercept_pid *icpid, struct predicate *pdc)
 {
-	int pidnr, pdcnr;
+	id_t pidnr, pdcnr;
 	int res = 0;
 
 	if (!pdc->p_flags)
@@ -397,6 +397,10 @@ filter_modifypolicy(int fd, int policynr, const char *emulation,
 {
 	struct systrace_revalias *reverse = NULL;
 
+	/*
+	 * Check if we are dealing with a system call that really
+	 * is an alias for something else.
+	 */
 	if (!noalias)
 		reverse = systrace_find_reverse(emulation, name);
 	if (reverse == NULL) {
@@ -440,6 +444,12 @@ filter_quickpredicate(struct filter *filter)
 
 	return (1);
 }
+
+/*
+ * Processes the filters for a policy that have not been applied yet.
+ * Pre-filters get installed when reading a policy.  This function
+ * installs a fast-path in the kernel.
+ */
 
 int
 filter_prepolicy(int fd, struct policy *policy)
@@ -549,10 +559,8 @@ filter_ask(int fd, struct intercept_tlq *tls, struct filterq *fls,
 
 	while (1) {
 		/* Special policy active that allows only yes or no */
-		if (icpid->uflags & PROCESS_PROMPT) {
-			fprintf(stderr, "isprompt\n");
+		if (icpid->uflags & PROCESS_PROMPT)
 			isprompt = 1;
-		}
 		filter = NULL;
 
 		if (!allow) {
@@ -855,6 +863,7 @@ filter_regex(struct intercept_translate *tl, struct logic *logic)
 	return (res == 0);
 }
 
+/* ARGSUSED */
 int
 filter_true(struct intercept_translate *tl, struct logic *logic)
 {

@@ -1,4 +1,4 @@
-/*	$OpenBSD: intercept.c,v 1.49 2004/07/07 07:31:40 marius Exp $	*/
+/*	$OpenBSD: intercept.c,v 1.53 2006/09/19 10:48:41 otto Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -28,6 +28,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 #include <sys/types.h>
 #include <sys/param.h>
@@ -238,9 +239,10 @@ intercept_register_pfreecb(void (*cb)(int, void *), void *arg)
 	return (0);
 }
 
+/* ARGSUSED */
 static void
 sigusr1_handler(int signum)
-{                                                                              
+{
 	/* all we need to do is pretend to handle it */
 	got_sigusr1 = 1;
 }
@@ -323,16 +325,12 @@ intercept_run(int bg, int fd, uid_t uid, gid_t gid,
 
 		/* Change to different user */
 		if (uid || gid) {
+			if (setresgid(gid, gid, gid) == -1)
+				err(1, "setresgid");
 			if (setgroups(1, &gid) == -1)
 				err(1, "setgroups");
-			if (setgid(gid) == -1)
-				err(1, "setgid");
-			if (setegid(gid) == -1)
-				err(1, "setegid");
-			if (setuid(uid) == -1)
-				err(1, "setuid");
-			if (seteuid(uid) == -1)
-				err(1, "seteuid");
+			if (setresuid(uid, uid, uid) == -1)
+				err(1, "setresuid");
 		}
 		execvp(path, argv);
 
@@ -552,6 +550,9 @@ intercept_get_string(int fd, pid_t pid, void *addr)
 	static char name[8192];
 	int off = 0, done = 0, stride;
 
+	if (addr == NULL)
+		return (NULL);
+
 	stride = 32;
 	do {
 		if (intercept.io(fd, pid, INTERCEPT_READ, (char *)addr + off,
@@ -639,7 +640,6 @@ normalize_filename(int fd, pid_t pid, char *name, int userp)
 		havecwd = 1;
 	}
 
-	/* Need concatenated path for simplifypath */
 	if (havecwd && name[0] != '/') {
 		if (strlcat(cwd, "/", sizeof(cwd)) >= sizeof(cwd))
 			return (NULL);
@@ -661,8 +661,7 @@ normalize_filename(int fd, pid_t pid, char *name, int userp)
 
 		if (userp == ICLINK_NOLAST) {
 			/* Check if the last component has special meaning */
-			if (strcmp(base, "..") == 0 ||
-			    strcmp(base, "/") == 0)
+			if (strcmp(base, "..") == 0 || strcmp(base, "/") == 0)
 				userp = ICLINK_ALL;
 			else
 				goto nolast;
@@ -705,7 +704,7 @@ normalize_filename(int fd, pid_t pid, char *name, int userp)
 			 */
 			if (userp != ICLINK_NOLAST) {
 				if (lstat(rcwd, &st) == -1 ||
-				    !(st.st_mode & S_IFDIR))
+				    !S_ISDIR(st.st_mode))
 					failed = 1;
 			}
 		}
@@ -870,7 +869,6 @@ intercept_newimage(int fd, pid_t pid, int policynr,
 		    icpid->name, intercept_newimagecbarg);
 }
 
-
 int
 intercept_newpolicy(int fd)
 {
@@ -885,6 +883,12 @@ int
 intercept_assignpolicy(int fd, pid_t pid, int policynr)
 {
 	return (intercept.assignpolicy(fd, pid, policynr));
+}
+
+int
+intercept_modifypolicy_nr(int fd, int policynr, int code, short policy)
+{
+	return (intercept.policy(fd, policynr, code, policy));
 }
 
 int
@@ -961,12 +965,27 @@ intercept_ugid(struct intercept_pid *icpid, uid_t uid, gid_t gid)
 }
 
 /*
+ * Returns the number of a system call
+ */
+
+int
+intercept_getsyscallnumber(const char *emulation, const char *name)
+{
+	int nr = intercept.getsyscallnumber(emulation, name);
+
+	if (nr >= INTERCEPT_MAXSYSCALLNR)
+		err(1, "%s: system call number too high: %d", __func__, nr);
+
+	return (nr);
+}
+
+/*
  * Checks if the given emulation has a certain system call.
  * This is a very slow function.
  */
 
 int
-intercept_isvalidsystemcall(char *emulation, char *name)
+intercept_isvalidsystemcall(const char *emulation, const char *name)
 {
 	int res;
 

@@ -1,4 +1,4 @@
-/*	$OpenBSD: openbsd-syscalls.c,v 1.28 2004/07/09 23:51:42 deraadt Exp $	*/
+/*	$OpenBSD: openbsd-syscalls.c,v 1.31 2006/07/02 12:34:15 sturm Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -47,12 +47,14 @@
 #include <compat/ultrix/ultrix_syscall.h>
 
 #define KTRACE
+#define PTRACE
 #define NFSCLIENT
 #define NFSSERVER
 #define SYSVSEM
 #define SYSVMSG
 #define SYSVSHM
 #define LFS
+#define RTHREADS
 #include <kern/syscalls.c>
 
 #include <compat/bsdos/bsdos_syscalls.c>
@@ -68,12 +70,14 @@
 #include <compat/svr4/svr4_syscalls.c>
 #include <compat/ultrix/ultrix_syscalls.c>
 #undef KTRACE
+#undef PTRACE
 #undef NFSCLIENT
 #undef NFSSERVER
 #undef SYSVSEM
 #undef SYSVMSG
 #undef SYSVSHM
 #undef LFS
+#undef RTHREADS
 
 #include <sys/ioctl.h>
 #include <sys/tree.h>
@@ -134,7 +138,7 @@ static int obsd_syscall_number(const char *, const char *);
 static short obsd_translate_policy(short);
 static short obsd_translate_flags(short);
 static int obsd_translate_errno(int);
-static int obsd_answer(int, pid_t, u_int32_t, short, int, short,
+static int obsd_answer(int, pid_t, u_int16_t, short, int, short,
     struct elevate *);
 static int obsd_newpolicy(int);
 static int obsd_assignpolicy(int, pid_t, int);
@@ -360,7 +364,7 @@ obsd_translate_errno(int nerrno)
 }
 
 static int
-obsd_answer(int fd, pid_t pid, u_int32_t seqnr, short policy, int nerrno,
+obsd_answer(int fd, pid_t pid, u_int16_t seqnr, short policy, int nerrno,
     short flags, struct elevate *elevate)
 {
 	struct systrace_answer ans;
@@ -453,6 +457,8 @@ obsd_replace(int fd, pid_t pid, u_int16_t seqnr,
 	struct systrace_replace replace;
 	size_t len, off;
 	int i, ret;
+
+	memset(&replace, 0, sizeof(replace));
 
 	for (i = 0, len = 0; i < repl->num; i++) {
 		len += repl->len[i];
