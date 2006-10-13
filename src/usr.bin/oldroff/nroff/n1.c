@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.5 2006/08/11 00:29:14 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.6 2006/10/13 20:21:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2002, 2003, 2004, 2005, 2006
@@ -69,7 +69,9 @@
 #include "pathnames.h"
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 extern
 #include "d.h"
 extern
@@ -87,7 +89,7 @@ __COPYRIGHT("Copyright (c) 2006 The MirOS Project.\n\
  Copyright (c) 1991 The Regents of the University of California.\n\
  All rights reserved.\n");
 __SCCSID("@(#)n1.c	4.13 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.5 2006/08/11 00:29:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.6 2006/10/13 20:21:22 tg Exp $");
 
 /*
 troff1.c
@@ -453,14 +455,12 @@ init2()
 	register i,j;
 	extern int block;
 	extern char *setbrk();
-	extern char *ttyname();
 
 	ttyod = 2;
-	if(((ttyp=ttyname(j=0)) != (char *)0) ||
-	   ((ttyp=ttyname(j=1)) != (char *)0) ||
-	   ((ttyp=ttyname(j=2)) != (char *)0)
-	  );else ttyp = "notty";
-	iflg = j;
+	if (((ttyp = ttyname(1)) != NULL) && ascii)
+		mesg(0);
+	iflg = isatty(0) ? 0 : 1;
+	if(ascii)mesg(0);
 
 	if((!ptid) && (!waitf)){
 		if((ptid = open(ptname,1)) < 0){
@@ -502,9 +502,22 @@ char *a;
 
 	ibufp = a;
 	eibuf = (char *) MAXPTR;
-	i = atoi();
+	i = nr_atoi();
 	ch = 0;
 	return(i);
+}
+mesg(f)
+int f;
+{
+	struct stat cb;
+	static int mode = -1;
+
+	if (!f) {
+		stat(ttyp,&cb);
+		mode = (cb.st_mode);
+		chmod(ttyp,mode & ~022);
+	} else if (mode != -1)
+		chmod(ttyp,mode);
 }
 prstrfl(s)
 char *s;
@@ -872,7 +885,6 @@ n2:
 popf(){
 	register i;
 	register char *p, *q;
-	extern char *ttyname();
 
 	ioff = offl[--ifi];
 	ip = ipl[ifi];

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.3 2005/04/13 18:28:00 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,9 +42,9 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)n5.c	4.4 (Berkeley) 5/2/91";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)n5.c	4.4 (Berkeley) 5/2/91");
+__RCSID("$MirOS$");
 
 #include "tdef.h"
 #include <termios.h>
@@ -231,7 +231,7 @@ casehy(){
 	hyf = 1;
 	if(skip())return;
 	noscale++;
-	i = atoi();
+	i = nr_atoi();
 	noscale = 0;
 	if(nonumb)return;
 	hyf = max(i,0);
@@ -250,7 +250,7 @@ casece(){
 
 	noscale++;
 	skip();
-	i = max(atoi(),0);
+	i = max(nr_atoi(),0);
 	if(nonumb)i = 1;
 	tbreak();
 	ce = i;
@@ -460,7 +460,7 @@ e0:
 		goto e1;
 	}
 	noscale++;
-	nxev = atoi();
+	nxev = nr_atoi();
 	noscale = 0;
 	if(nonumb)goto e0;
 	flushi();
@@ -512,7 +512,7 @@ int x;
 		notflag = 0;
 		ch = i;
 	}
-	i = atoi();
+	i = nr_atoi();
 	if(!nonumb){
 		if(i > 0)true++;
 		goto i1;
@@ -747,7 +747,7 @@ caseul(){
 
 	noscale++;
 	if(skip())i = 1;
-	else i = atoi();
+	else i = nr_atoi();
 	if(ul && (i == 0)){
 		font = sfont;
 		ul = cu = 0;
@@ -781,7 +781,7 @@ caseit(){
 	it = itmac = 0;
 	noscale++;
 	skip();
-	i = atoi();
+	i = nr_atoi();
 	skip();
 	if(!nonumb && (itmac = getrq()))it = i;
 	noscale = 0;
@@ -851,14 +851,14 @@ int *p, min;
 
 	eat(' ');
 	if(skip())return;
-	i = atoi();
+	i = nr_atoi();
 	if(nonumb)return;
 	*p = max(i,min);
 }
 casenn(){
 	noscale++;
 	skip();
-	nn = max(atoi(),1);
+	nn = max(nr_atoi(),1);
 	noscale = 0;
 }
 caseab(){
