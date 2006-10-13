@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.3 2005/04/13 18:28:00 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.4 2005/07/09 15:53:30 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,10 +42,6 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)n2.c	4.2 (Berkeley) 4/18/91";
-#endif /* not lint */
-
 #include "tdef.h"
 #include <termios.h>
 extern
@@ -59,6 +55,9 @@ extern
 #include "sdef.h"
 #include <setjmp.h>
 jmp_buf sjbuf;
+
+__SCCSID("@(#)n2.c	4.2 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
 
 /*
 troff2.c
@@ -332,7 +331,6 @@ done3(x) int x;{
 		ttys.c_lflag |= ECHO;
 		tcsetattr(0, TCSAFLUSH, &ttys);
 	}
-	if(ascii)mesg(1);
 #ifndef NROFF
 	report();
 #endif

@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.5 2006/08/11 00:29:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2002, 2003, 2004, 2005, 2006
@@ -83,11 +83,11 @@ extern
 jmp_buf sjbuf;
 #include <termios.h>
 
-__IDSTRING(copyright, "@(#) Copyright (c) 2006 The MirOS Project.\n\
+__COPYRIGHT("Copyright (c) 2006 The MirOS Project.\n\
  Copyright (c) 1991 The Regents of the University of California.\n\
  All rights reserved.\n");
 __SCCSID("@(#)n1.c	4.13 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.4 2005/12/15 01:10:09 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.5 2006/08/11 00:29:14 tg Exp $");
 
 /*
 troff1.c
@@ -461,7 +461,6 @@ init2()
 	   ((ttyp=ttyname(j=2)) != (char *)0)
 	  );else ttyp = "notty";
 	iflg = j;
-	if(ascii)mesg(0);
 
 	if((!ptid) && (!waitf)){
 		if((ptid = open(ptname,1)) < 0){
@@ -506,22 +505,6 @@ char *a;
 	i = atoi();
 	ch = 0;
 	return(i);
-}
-mesg(f)
-int f;
-{
-	struct stat cb;
-	static int mode;
-
-	if (ttyp==0)
-		return;
-	if(!f){
-		stat(ttyp,&cb);
-		mode = (cb.st_mode);
-		chmod(ttyp,mode & ~022);
-	}else{
-		chmod(ttyp,mode);
-	}
 }
 prstrfl(s)
 char *s;
