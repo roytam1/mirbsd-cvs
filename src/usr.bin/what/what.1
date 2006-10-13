@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/what/what.1,v 1.2 2005/03/13 18:34:04 tg Exp $
 .\"	$OpenBSD: what.1,v 1.9 2003/06/03 02:56:22 millert Exp $
 .\"	$NetBSD: what.1,v 1.3 1994/11/17 06:59:38 jtc Exp $
 .\"
@@ -31,7 +31,7 @@
 .\"
 .\"     @(#)what.1	8.1 (Berkeley) 6/6/93
 .\"
-.Dd May 1, 2003
+.Dd October 13, 2006
 .Dt WHAT 1
 .Os
 .Sh NAME
@@ -39,16 +39,13 @@
 .Nd "show what versions of object modules were used to construct a file"
 .Sh SYNOPSIS
 .Nm what
+.Op Fl s
 .Op Ar file Op Ar ...
 .Sh DESCRIPTION
 .Nm
 reads each
 .Ar file
-and searches for sequences of either the form
-.Dq $
-immediately followed by the system name (sysname) as defined by
-.Xr uname 3 ,
-or the form
+and searches for sequences of the form
 .Dq \&@(#)
 as inserted by the source code control system.
 It prints the remainder
@@ -57,22 +54,10 @@ quote, backslash, or
 .Ql >
 character.
 .Pp
-Since
-.Ox 3.4 ,
-the ability of the
-.Nm
-utility to operate on stdin was removed for
-.St -p1003.1
-compliance.
-In
-.Mx ,
-the old behaviour is retained, and the
-.Nm
-version in
-.Mx 5
-and up is not
-.St -p1003.1
-compliant.
+If the
+.Fl s
+option is specified, only the first occurrence of an identification string in
+each file is printed.
 .Sh EXIT STATUS
 The
 .Nm
@@ -84,6 +69,9 @@ The
 utility is expected to be a superset of the
 .St -p1003.1
 specification.
+In
+.Mx 5
+and up, the ability to operate on standard input is restored.
 .Sh HISTORY
 The
 .Nm

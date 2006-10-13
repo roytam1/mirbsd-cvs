@@ -31,30 +31,26 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)what.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$MirOS$";
-#endif /* not lint */
-
 #include <sys/types.h>
-#include <sys/utsname.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <err.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-void search(char *);
+__COPYRIGHT("Copyright (c) 1980, 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)what.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
-static const char match2[] = "MirBSD: ";
+static void search(void);
+static __dead void usage(void);
+
+static int matches;
+static int sflag;
+
+extern const char *__progname;
 
 /*
  * what
@@ -63,62 +59,42 @@ static const char match2[] = "MirBSD: ";
 int
 main(int argc, char *argv[])
 {
-	struct utsname utsn;
-	char match[256];
+	int c;
 
-	if (uname(&utsn) == -1)
-		err(1, "uname");
-	strlcpy(match, utsn.sysname, sizeof match);
+	matches = sflag = 0;
+	while ((c = getopt(argc, argv, "s")) != -1) {
+		switch (c) {
+		case 's':
+			sflag = 1;
+			break;
+		default:
+			usage();
+		}
+	}
+	argc -= optind;
+	argv += optind;
 
-	if (!*++argv) 
-		search(match);
-	else do {
+	if (argc < 1) {
+		printf("/dev/stdin\n");
+		search();
+	} else do {
 		if (!freopen(*argv, "r", stdin)) {
 			perror(*argv);
-			exit(1);
+			exit(matches ? 0 : 1);
 		}
 		printf("%s\n", *argv);
-		search(match);
+		search();
 	} while(*++argv);
-	exit(0);
+	exit(matches ? 0 : 1);
 }
 
-void
-search(char *match)
+static void
+search(void)
 {
 	int c;
-	int i;
-	int j0, j1, j2, jl;
 
 	while ((c = getchar()) != EOF) {
-loop:		if (c == '$') {
-			j1 = strlen(match);
-			j2 = strlen(match2);
-			j0 = (j1>j2) ? j1 : j2;
-			for (i = 0; i < j0; ++i) {
-				if ((i == j1) && (jl == 1))
-					break;
-				if ((i == j2) && (jl == 2))
-					break;
-				c = getchar();
-				if (i < j1)
-					if (c == match[i]) {
-						jl = 1;
-						continue;
-					}
-				if (i < j2)
-					if (c == match2[i]) {
-						jl = 2;
-						continue;
-					}
-				goto loop;
-			}
-			printf("\t$%s", ((jl==1) ? match : match2));
-			while (isprint(c = getchar()))
-				putchar(c);
-			putchar('\n');
-			goto loop;
-		}
+ loop:
 		if (c != '@')
 			continue;
 		if ((c = getchar()) != '(')
@@ -132,5 +108,15 @@ loop:		if (c == '$') {
 		    c != '>' && c != '\n' && c != '\\')
 			putchar(c);
 		putchar('\n');
+		matches++;
+		if (sflag)
+			break;
 	}
+}
+
+static void
+usage(void)
+{
+	fprintf(stderr, "usage: %s [-s] [file [...]]\n", __progname);
+	exit(1);
 }
