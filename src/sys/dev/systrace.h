@@ -33,7 +33,6 @@
 #define _SYSTRACE_H_
 
 #include <sys/ioccom.h>
-#include <sys/rwlock.h>
 
 #define SYSTR_EMULEN	8	/* sync with sys proc */
 
@@ -194,7 +193,7 @@ struct systrace_inject {
 
 struct str_process;
 struct fsystrace {
-	struct rwlock lock;
+	struct lock lock;
 	struct selinfo si;
 
 	TAILQ_HEAD(strprocessq, str_process) processes;
