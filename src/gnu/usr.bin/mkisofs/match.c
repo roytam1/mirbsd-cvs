@@ -22,7 +22,9 @@ static	char sccsid[] =
 #include <libport.h>
 #include "match.h"
 
+#ifdef SORTING
 static	int	add_sort_match	__PR((char *fn, int val));
+#endif
 
 struct match {
 	struct match *next;
