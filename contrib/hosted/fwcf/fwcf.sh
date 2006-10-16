@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.10 2006/09/26 10:26:26 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.11 2006/10/07 18:52:32 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -25,7 +25,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 case $1 in
 setup|commit|erase) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 1.00
+FreeWRT Configuration Filesytem (fwcf), Version 1.01
 Copyright © 2006 by Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
@@ -51,6 +51,10 @@ if test $1 = setup; then
 		exit 1
 	fi
 	mkdir /tmp/.fwcf
+	if test ! -d /tmp/.fwcf; then
+		echo 'fwcf: error: cannot create temporary directory!' >&2
+		exit 4
+	fi
 	chown 0:0 /tmp/.fwcf
 	chmod 700 /tmp/.fwcf
 	mkdir /tmp/.fwcf/root
@@ -91,6 +95,7 @@ if test $1 = setup; then
 		exit 5
 	fi
 	umount /tmp/.fwcf/temp
+	echo complete | logger -t 'fwcf setup'
 	exit 0
 fi
 
