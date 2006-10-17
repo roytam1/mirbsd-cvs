@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_usrreq.c,v 1.9 2004/02/06 22:19:21 tedu Exp $	*/
 
 /*
@@ -34,6 +35,8 @@
 #include <ddb/db_var.h>
 
 int	db_log = 1;
+
+static int db_allowcrash = 0;
 
 int
 ddb_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
@@ -85,6 +88,28 @@ ddb_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (0);
 	case DBCTL_LOG:
 		return (sysctl_int(oldp, oldlenp, newp, newlen, &db_log));
+	case DBCTL_CRASH:
+		ctlval = db_allowcrash;
+		if ((error = sysctl_int(oldp, oldlenp, newp, newlen, &ctlval)) ||
+		    newp == NULL)
+			return (error);
+		switch (ctlval) {
+		case 0:
+			db_allowcrash = 0;
+			break;
+		case 1:
+			if (securelevel > 0)
+				return (EPERM);
+			db_allowcrash = 1;
+			break;
+		default:
+			if (!db_allowcrash)
+				return (EPERM);
+			panic("ddb user requested panic: sysctl ddb.crash=%d",
+			    ctlval);
+			printf("db_usrreq.c: recovering sysop after panic\n");
+		}
+		return (0);
 	default:
 		return (EOPNOTSUPP);
 	}
