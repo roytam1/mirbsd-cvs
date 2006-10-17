@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_sync.c,v 1.2 2005/03/06 21:28:04 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_sync.c,v 1.3 2005/07/04 00:10:43 tg Exp $ */
 /*	$OpenBSD: vfs_sync.c,v 1.32 2005/05/31 11:35:33 art Exp $  */
 
 /*
@@ -143,7 +143,7 @@ sched_sync(p)
 {
 	struct synclist *slp;
 	struct vnode *vp;
-	long starttime;
+	time_t starttime;
 	int s;
 
 	syncerproc = curproc;
