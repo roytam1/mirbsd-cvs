@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.7 2005/12/15 03:07:44 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.8 2006/02/15 05:20:24 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -666,18 +666,14 @@ inittodr(time_t base)
 	 * Mojo. This at least lets the user boot and fix the problem.
 	 * Note the code is self eliminating once time_t goes to 64 bits.
 	 */
-#ifdef fornow
 	if (sizeof(time_t) <= sizeof(int32_t)) {
-#endif
 		if (tm.tm_year >= 2038 - 1900) {
 			printf("WARNING: RTC time at or beyond 2038.\n");
 			tm.tm_year = 2037 - 1900;
 			printf("WARNING: year set back to 2037.\n");
 			printf("WARNING: CHECK AND RESET THE DATE!\n");
 		}
-#ifdef fornow
 	}
-#endif
 
 	time.tv_sec = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
