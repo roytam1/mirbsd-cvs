@@ -45,6 +45,10 @@
 
 #include <dev/cons.h>
 
+/* copy from sys/kern/subr_prf.c */
+void	 kputchar(int, int, struct tty *);
+#define TOLOG		0x04	/* to the kernel message buffer */
+
 /*
  * Character input and editing.
  */
@@ -351,7 +355,7 @@ db_readline(char *lstart, int lsize)
 	db_putchar('\n');	/* synch output position */
 	tlog_c = db_lbuf_start;
 	while (*tlog_c)
-		kputchar(*tlog_c++, 0x04, NULL); /* 0x04 = subr_prf.c:TOLOG */
+		kputchar(*tlog_c++, TOLOG, NULL);
 	*db_le = 0;
 	return (db_le - db_lbuf_start);
 }
