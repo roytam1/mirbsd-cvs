@@ -1,28 +1,30 @@
 /*	$OpenBSD: db_input.c,v 1.9 2002/03/14 01:26:51 millert Exp $	*/
 /*	$NetBSD: db_input.c,v 1.7 1996/02/05 01:57:02 christos Exp $	*/
 
-/* 
+/*
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
+ *
  * Mach Operating System
  * Copyright (c) 1993,1992,1991,1990 Carnegie Mellon University
  * All Rights Reserved.
- * 
+ *
  * Permission to use, copy, modify and distribute this software and its
  * documentation is hereby granted, provided that both the copyright
  * notice and this permission notice appear in all copies of the
  * software, derivative works or modified versions, and any portions
  * thereof, and that both notices appear in supporting documentation.
- * 
+ *
  * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS"
  * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
  * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
- * 
+ *
  * Carnegie Mellon requests users of this software to return to
- * 
+ *
  *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
  *  School of Computer Science
  *  Carnegie Mellon University
  *  Pittsburgh PA 15213-3890
- * 
+ *
  * any improvements or extensions that they make and grant Carnegie Mellon
  * the rights to redistribute these changes.
  *
@@ -48,6 +50,7 @@
 /* copy from sys/kern/subr_prf.c */
 void	 kputchar(int, int, struct tty *);
 #define TOLOG		0x04	/* to the kernel message buffer */
+#define TODDB		0x10	/* to ddb console */
 
 /*
  * Character input and editing.
@@ -69,7 +72,7 @@ char *  db_history_curr = db_history;	/* start of current line */
 char *  db_history_last = db_history;	/* start of last line */
 char *  db_history_prev = (char *) 0;	/* start of previous line */
 #endif
-	
+
 
 #define	CTRL(c)		((c) & 0x1f)
 #define	isspace(c)	((c) == ' ' || (c) == '\t')
@@ -145,7 +148,7 @@ db_delete_line(void)
 			db_history_size - 1; \
 	} while (0)
 #endif
-		
+
 /* returns TRUE at end-of-line */
 int
 db_inputchar(c)
@@ -340,7 +343,7 @@ db_inputchar(c)
 int
 db_readline(char *lstart, int lsize)
 {
-	char *tlog_c;
+	char *tlog_c = lstart;
 
 	db_force_whitespace();	/* synch output position */
 
@@ -352,11 +355,13 @@ db_readline(char *lstart, int lsize)
 	while (!db_inputchar(cngetc()))
 	    continue;
 
-	db_putchar('\n');	/* synch output position */
-	tlog_c = db_lbuf_start;
-	while (*tlog_c)
-		kputchar(*tlog_c++, TOLOG, NULL);
 	*db_le = 0;
+	/* synch ddb.log message buffer output */
+	if (db_log)
+		while (*tlog_c)
+			kputchar(*tlog_c++, TOLOG, NULL);
+	/* synch output position */
+	kputchar('\n', TODDB | (db_log ? TOLOG : 0), NULL);
 	return (db_le - db_lbuf_start);
 }
 
