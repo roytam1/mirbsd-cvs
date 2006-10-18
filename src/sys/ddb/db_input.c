@@ -334,10 +334,10 @@ db_inputchar(c)
 }
 
 int
-db_readline(lstart, lsize)
-	char *	lstart;
-	int	lsize;
+db_readline(char *lstart, int lsize)
 {
+	char *tlog_c;
+
 	db_force_whitespace();	/* synch output position */
 
 	db_lbuf_start = lstart;
@@ -349,7 +349,9 @@ db_readline(lstart, lsize)
 	    continue;
 
 	db_putchar('\n');	/* synch output position */
-
+	tlog_c = db_lbuf_start;
+	while (*tlog_c)
+		kputchar(*tlog_c++, 0x04, NULL); /* 0x04 = subr_prf.c:TOLOG */
 	*db_le = 0;
 	return (db_le - db_lbuf_start);
 }
