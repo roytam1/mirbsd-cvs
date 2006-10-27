@@ -327,7 +327,8 @@ _nc_setupscreen(short slines, short const scolumns, FILE *output)
 	if (SP->_default_fg >= max_colors) {
 	    if (set_a_foreground != ABSENT_STRING
 		&& !strcmp(set_a_foreground, "\033[3%p1%dm")) {
-		set_a_foreground = "\033[3%?%p1%{8}%>%t9%e%p1%d%;m";
+		static char _nc_set_a_foreground[] = "\033[3%?%p1%{8}%>%t9%e%p1%d%;m";
+		set_a_foreground = _nc_set_a_foreground;
 	    } else {
 		SP->_default_fg %= max_colors;
 	    }
@@ -335,7 +336,8 @@ _nc_setupscreen(short slines, short const scolumns, FILE *output)
 	if (SP->_default_bg >= max_colors) {
 	    if (set_a_background != ABSENT_STRING
 		&& !strcmp(set_a_background, "\033[4%p1%dm")) {
-		set_a_background = "\033[4%?%p1%{8}%>%t9%e%p1%d%;m";
+		static char _nc_set_a_background[] = "\033[4%?%p1%{8}%>%t9%e%p1%d%;m";
+		set_a_background = _nc_set_a_background;
 	    } else {
 		SP->_default_bg %= max_colors;
 	    }

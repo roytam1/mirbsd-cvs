@@ -161,11 +161,9 @@ extern NCURSES_IMPEXP void NCURSES_API (*_nc_check_termtype2)(TERMTYPE *, bool);
 /* trace_xnames.c */
 extern NCURSES_EXPORT(void) _nc_trace_xnames (TERMTYPE *);
 
-#ifdef WANT_BSD_TERMCAP_DB
 /* read_bsd_terminfo.c: terminfo.db reading */
 extern int _nc_read_bsd_terminfo_entry(const char * const, char * const, TERMTYPE *const);
 extern int _nc_read_bsd_terminfo_file(const char * const, TERMTYPE *const);
-#endif /* WANT_BSD_TERMCAP_DB */
 
 #ifdef __cplusplus
 }

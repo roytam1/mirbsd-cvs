@@ -171,6 +171,4 @@ extern NCURSES_EXPORT(const char *) _nc_visbuf (const char *);
 }
 #endif
 
-#undef __MIROS_IS_LIBNCURSESW
-
 #endif /* __NCURSES_H */

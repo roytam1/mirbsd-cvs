@@ -1,6 +1,8 @@
+/**	$MirOS$ */
 /*	$OpenBSD: read_bsd_terminfo.c,v 1.14 2003/06/17 21:56:24 millert Exp $	*/
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1998, 1999, 2000 Todd C. Miller <Todd.Miller@courtesan.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -16,20 +18,13 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#if 0
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: read_bsd_terminfo.c,v 1.14 2003/06/17 21:56:24 millert Exp $";
-#endif
-#endif
-
 #include <curses.priv.h>
 #include <tic.h>
 #include <term.h>	/* lines, columns, cur_term */
 #include <term_entry.h>
 
-__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.1 2006/06/05 03:27:48 tg Exp $");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.2 2006/06/05 03:50:16 tg Exp $");
 
-#ifdef WANT_BSD_TERMCAP_DB
 #define	_PATH_TERMINFO	"/usr/share/misc/terminfo"
 
 /* Function prototypes for private functions, */
@@ -123,17 +118,21 @@ _nc_lookup_bsd_terminfo_entry(tn, filename, tp)
     const char *const filename;
     TERMTYPE *const tp;
 {
-    char  *pathvec[2];
+    char  *pathvec[2], *sfn;
     char  *capbuf, *cptr, *infobuf, *iptr, lastc;
     int    error;
     size_t len;
+    ENTRY  thisentry;
+
+    if (asprintf(&sfn, "getcap(%s)", filename) == -1)
+	sfn = (char *)filename;
 
     pathvec[0] = (char *)filename;
     pathvec[1] = NULL;
     capbuf = NULL;
     infobuf = NULL;
 
-    _nc_set_source(filename);		/* For useful error messages */
+    _nc_set_source(sfn);		/* For useful error messages */
 
     /* Don't prepend any hardcoded entries. */
     (void) cgetset(NULL);
@@ -179,24 +178,13 @@ _nc_lookup_bsd_terminfo_entry(tn, filename, tp)
 	*iptr++ = '\n';
 	*iptr = '\0';
 
-	/*
-	 * Parse the terminfo entry; sets _nc_head as a side effect.
-	 * (_nc_head is actually a linked list but since we only parse
-	 *  a single entry we know there is only one entry in the list).
-	 */
-	_nc_read_entry_source(NULL, infobuf, FALSE, FALSE, NULLHOOK);
-	if (_nc_head == 0) {
-	    error = TRUE;
-	    goto done;
+	_nc_reset_input(NULL, infobuf);
+	memset(&thisentry, 0, sizeof (thisentry));
+	if (_nc_parse_entry(&thisentry, FALSE, FALSE) == ERR) {
+		error = TRUE;
+		goto done;
 	}
-
-	/*
-	 * Save term entry and prevent _nc_free_entries() from freeing
-	 * up the string table (since we use it in tp).
-	 */
-	*tp = _nc_head->tterm;
-	_nc_head->tterm.str_table = NULL;
-	_nc_free_entries(_nc_head);
+	*tp = thisentry.tterm;
     }
 
 done:
@@ -206,6 +194,9 @@ done:
 	free(infobuf);
     cgetclose();
 
+    _nc_set_source("");
+    if (sfn != filename)
+	free(sfn);
+
     return ((error == 0));
 }
-#endif

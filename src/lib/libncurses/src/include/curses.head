@@ -32,12 +32,11 @@
  *     and: Thomas E. Dickey                        1996-on                 *
  ****************************************************************************/
 
+/* $MirOS$ */
 /* $Id$ */
 
 #ifndef __NCURSES_H
 #define __NCURSES_H
-
-#define __MIROS_IS_LIBNCURSESW @@
 
 #define CURSES 1
 #define CURSES_H 1
@@ -48,9 +47,8 @@
 #define _XOPEN_CURSES 1
  */
 
-#if __MIROS_IS_LIBNCURSESW
-#define _XOPEN_SOURCE_EXTENDED 1 /* to accomodate broken autofools */
-#endif
+/* Some GNU autoconf tests fail to define this appropriately (eg, lynx) */
+#define _XOPEN_SOURCE_EXTENDED 1
 
 /* These are defined only in curses.h, and are used for conditional compiles */
 #define NCURSES_VERSION_MAJOR 5
@@ -64,11 +62,7 @@
 /*
  * Identify the mouse encoding version.
  */
-#if __MIROS_IS_LIBNCURSESW
 #define NCURSES_MOUSE_VERSION 2
-#else
-#define NCURSES_MOUSE_VERSION 1
-#endif
 
 /*
  * Definitions to facilitate DLL's.
@@ -119,13 +113,9 @@
  * of the header incompatible.
  */
 #undef	NCURSES_CH_T
-#if __MIROS_IS_LIBNCURSESW
 #define NCURSES_CH_T cchar_t
-#else
-#define NCURSES_CH_T chtype
-#endif
 
-#if 0 && defined(_LP64)
+#if 1 && defined(_LP64)
 typedef unsigned chtype;
 typedef unsigned mmask_t;
 #else
@@ -331,16 +321,16 @@ typedef	chtype	attr_t;		/* ...must be at least as wide as chtype */
 #include <libutf8.h>
 #endif
 
-#if __MIROS_IS_LIBNCURSESW
+#if 1
 #include <wchar.h>		/* ...to get mbstate_t, etc. */
 #endif
 
 #if 0
-typedef unsigned short wchar_t;
+typedef unsigned short wchar_t1;
 #endif
 
 #if 0
-typedef unsigned int wint_t;
+typedef unsigned int wint_t1;
 #endif
 
 #define CCHARW_MAX	5
@@ -348,7 +338,7 @@ typedef struct
 {
     attr_t	attr;
     wchar_t	chars[CCHARW_MAX];
-#if __MIROS_IS_LIBNCURSESW
+#if 1
     int		ext_color;	/* color pair, must be more than 16-bits */
 #endif
 }
@@ -407,7 +397,7 @@ struct _win_st
 
 #ifdef _XOPEN_SOURCE_EXTENDED
 	cchar_t  _bkgrnd;	/* current background char/attribute pair */
-#if __MIROS_IS_LIBNCURSESW
+#if 1
 	int	_color;		/* current color-pair for non-space character */
 #endif
 #endif
@@ -902,7 +892,7 @@ extern NCURSES_EXPORT(int) wvline (WINDOW *,chtype,int);		/* implemented */
 #define wattron(win,at)		wattr_on(win, NCURSES_CAST(attr_t, at), NULL)
 #define wattroff(win,at)	wattr_off(win, NCURSES_CAST(attr_t, at), NULL)
 
-#if __MIROS_IS_LIBNCURSESW
+#if 1
 #define wattrset(win,at)	((win)->_color = PAIR_NUMBER(at), \
 				 (win)->_attrs = (at))
 #else
@@ -1031,7 +1021,7 @@ extern NCURSES_EXPORT(int) wvline (WINDOW *,chtype,int);		/* implemented */
 #define slk_attr_off(a,v)		((v) ? ERR : slk_attroff(a))
 #define slk_attr_on(a,v)		((v) ? ERR : slk_attron(a))
 
-#if __MIROS_IS_LIBNCURSESW
+#if 1
 #define wattr_set(win,a,p,opts)		((win)->_attrs = ((a) & ~A_COLOR), \
 					 (win)->_color = (p), \
 					 OK)

@@ -89,7 +89,7 @@ char *ttyname(int fd);
 #endif
 
 /* this is just to stifle a missing-prototype warning */
-#ifdef linux
+#if 1
 # include <sys/ioctl.h>
 #endif
 

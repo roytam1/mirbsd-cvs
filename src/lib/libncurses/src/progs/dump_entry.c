@@ -960,7 +960,7 @@ dump_entry(TERMTYPE *tterm,
 	     */
 	    int n;
 	    for (n = STRCOUNT; n < NUM_STRINGS(tterm); n++) {
-		char *name = ExtStrname(tterm, n, strnames);
+		const char *name = ExtStrname(tterm, n, strnames);
 
 		if (VALID_STRING(tterm->Strings[n])) {
 		    set_attributes = ABSENT_STRING;

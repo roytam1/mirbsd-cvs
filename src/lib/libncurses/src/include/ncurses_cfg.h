@@ -49,12 +49,13 @@
 #define CC_HAS_PROTOS 1
 #define HAVE_LONG_FILE_NAMES 1
 #define MIXEDCASE_FILENAMES 1
+#define HAVE_DLFCN_H 1
 #define USE_DATABASE 1
 #define TERMINFO_DIRS "/usr/share/terminfo"
 #define TERMINFO "/usr/share/terminfo"
 #define HAVE_BIG_CORE 1
 #define USE_TERMCAP 1
-#define TERMPATH "/etc/termcap:/usr/share/misc/termcap"
+#define TERMPATH "/usr/share/misc/termcap:/etc/termcap"
 #define USE_GETCAP 1
 #define USE_HOME_TERMINFO 1
 #define HAVE_REMOVE 1
@@ -62,7 +63,6 @@
 #define HAVE_LINK 1
 #define HAVE_SYMLINK 1
 #define HAVE_LANGINFO_CODESET 1
-#ifdef __MIROS_BUILD_LIBNCURSESW
 #define USE_WIDEC_SUPPORT 1
 #define HAVE_PUTWC 1
 #define HAVE_BTOWC 1
@@ -73,11 +73,8 @@
 #define HAVE_MBRLEN 1
 #define HAVE_MBRTOWC 1
 #define NEED_WCHAR_H 1
-#define NCURSES_EXT_COLORS 1
-#else
-#undef USE_WIDEC_SUPPORT
-#endif
-#define HAVE_FSEEKO 1
+#define NEED_WCHAR_H 1
+#define BSD_TPUTS 1
 #define USE_RCS_IDS 1
 #define HAVE_CURSES_VERSION 1
 #define HAVE_HAS_KEY 1
@@ -88,7 +85,12 @@
 #define NCURSES_EXT_FUNCS 1
 #define NCURSES_NO_PADDING 1
 #define USE_SIGWINCH 1
+#define USE_HARD_TABS 1
+#define USE_XMC_SUPPORT 1
+#define USE_ASSUMED_COLOR 1
 #define USE_HASHMAP 1
+#define USE_COLORFGBG 1
+#define NCURSES_EXT_COLORS 1
 #define GCC_SCANF 1
 #define GCC_PRINTF 1
 #define GCC_UNUSED __attribute__((unused))

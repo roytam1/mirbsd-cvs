@@ -178,13 +178,14 @@ Copy_RegularExpression_Type(const void *argp)
 {
 #if (HAVE_REGEX_H_FUNCS | HAVE_REGEXP_H_FUNCS | HAVE_REGEXPR_H_FUNCS)
   const RegExp_Arg *ap = (const RegExp_Arg *)argp;
-  const RegExp_Arg *result = (const RegExp_Arg *)0;
+  RegExp_Arg *result = NULL;
 
   if (ap)
-    {
-      *(ap->refCount) += 1;
-      result = ap;
-    }
+	if ((result = malloc(sizeof (RegExp_Arg))) != NULL) {
+		result->pRegExp = ap->pRegExp;
+		result->refCount = ap->refCount;
+		*(result->refCount) += 1;
+	}
   return (void *)result;
 #else
   return 0;
@@ -222,8 +223,8 @@ Free_RegularExpression_Type(void *argp)
 	      free(ap->compiled_expression);
 	    }
 #endif
-	  free(ap);
 	}
+	free(ap);
     }
 #endif
 }
