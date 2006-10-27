@@ -21,7 +21,8 @@ programmes:
 
 All the standard macro packages are supported. Some of the system's
 macro packages are wrapped; use -mgdoc to access the GNU version of
-the mdoc macros, -mdoc for the BSD version; -man or -mandoc for an
-automatic detection between GNU man and BSD mdoc macros, -mgan for
-an automatic detection between GNU man and GNU mdoc macros; finally,
+the mdoc macros, -mdoc for the BSD version; -man for an automatic
+detection between GNU man and BSD mdoc macros, -mandoc for an auto-
+matic detection between BSD man and BSD mdoc macros, -mgan for an
+automatic detection between GNU man and GNU mdoc macros; finally,
 -man-old for GNU man and -man.old for BSD man macros.

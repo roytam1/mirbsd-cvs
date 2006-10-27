@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/groff/Makefile,v 1.2 2006/10/06 14:43:44 tg Exp $
+# $MirOS: ports/textproc/groff/Makefile,v 1.3 2006/10/06 14:51:13 tg Exp $
 
 # probably easy to add others, but packing list is different
 ONLY_FOR_PLATFORM=		MirBSD:*:* Interix:*:*
@@ -7,7 +7,7 @@ COMMENT=			GNU troff compatible typesetter
 COMMENT-docs=			documentation for groff
 CATEGORIES=			textproc
 VERSION=			1.19.2
-PL=				1
+PL=				2
 DISTNAME=			groff-${VERSION}
 PKGNAME=			groff-${VERSION}-${PL}
 PKGNAME-docs=			groff-docs-${VERSION}-${PL}
@@ -75,8 +75,8 @@ post-install:
 	    -e 's!tbl!g&!g' \
 	    -e 's!\.gtbl!.tbl!' \
 	    >${PREFIX}/share/groff/man.conf
-	${INSTALL_DATA} ${FILESDIR}/{,g}an.tmac ${PREFIX}/lib/groff/site-tmac/
-	cd ${PREFIX}/lib/groff/site-tmac && ln -f an.tmac andoc.tmac
+	cd ${FILESDIR} && ${INSTALL_DATA} an.tmac andoc.tmac gan.tmac \
+	    ${PREFIX}/lib/groff/site-tmac/
 	cd ${PREFIX}/share/groff/${VERSION}/tmac && ln -f doc.tmac gdoc.tmac
 
 .include <bsd.port.mk>
