@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -30,19 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95";
-#endif
-static char rcsid[] = "$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -56,6 +44,11 @@ static char rcsid[] = "$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp 
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
+__RCSID("$MirOS$");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -269,7 +262,7 @@ db_build(char **ifiles)
 
 		/* Store references for other names. */
 		for (p = t = bp;; ++p) {
-			if (p > t && (*p == (info ? ',' : ':') || *p == '|')) {
+			if (p > t && (*p == '|')) {
 				key.size = p - t;
 				key.data = t;
 				switch(capdbp->put(capdbp,

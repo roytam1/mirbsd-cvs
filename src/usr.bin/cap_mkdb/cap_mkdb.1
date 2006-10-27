@@ -95,6 +95,17 @@ first capability of the record with a data field consisting a special
 byte followed by the first capability of the record.
 The special byte is a 2.
 .Pp
+Starting with
+.Mx 10 ,
+the last
+.Pq Dq description
+field of the first capability of the record is not stored
+as an indirect record any more, following both the
+.Xr termcap 5
+and
+.Xr terminfo 5
+specifications.
+.Pp
 In normal operation names are looked up in the database, resulting
 in a key/data pair of the second type.
 The data field of this key/data pair is used to look up a key/data
