@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2006 Thorsten Glaser
  * Copyright (c) 1998-2005 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1992, 1995-1997 Eric P. Allman.  All rights reserved.
@@ -14,6 +15,7 @@
 #include <sendmail.h>
 
 SM_RCSID("@(#)$Sendmail: map.c,v 8.672 2006/04/18 01:26:41 ca Exp $")
+__RCSID("$MirOS$");
 
 #if LDAPMAP
 # include <sm/ldap.h>
@@ -1868,6 +1870,9 @@ ndbm_map_close(map)
 #  ifndef DB_HASH_NELEM
 #   define DB_HASH_NELEM	4096		/* (starting) size of hash table */
 #  endif /* ! DB_HASH_NELEM */
+#  ifndef DB_HASH_BSIZE
+#   define DB_HASH_BSIZE	16384		/* bucket size (default 4096) */
+#  endif /* ! DB_HASH_BSIZE */
 # endif /* DB_VERSION_MAJOR < 2 */
 
 bool
@@ -1926,6 +1931,9 @@ hash_map_open(map, mode)
 #  ifdef DB_CACHE_SIZE
 	hinfo.db_cachesize = DB_CACHE_SIZE;
 #  endif /* DB_CACHE_SIZE */
+#  ifdef DB_HASH_BSIZE
+	hinfo.bsize = DB_HASH_BSIZE;
+#  endif
 # endif /* DB_VERSION_MAJOR < 3 */
 
 	return db_map_open(map, mode, "hash", DB_HASH, &hinfo);
