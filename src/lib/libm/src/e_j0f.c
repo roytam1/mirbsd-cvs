@@ -17,6 +17,7 @@
 static char rcsid[] = "$NetBSD: e_j0f.c,v 1.4 1995/05/10 20:45:25 jtc Exp $";
 #endif
 
+#include <stdlib.h>
 #include "math.h"
 #include "math_private.h"
 
@@ -63,8 +64,11 @@ __ieee754_j0f(float x)
 	 * j0(x) = 1/sqrt(pi) * (P(0,x)*cc - Q(0,x)*ss) / sqrt(x)
 	 * y0(x) = 1/sqrt(pi) * (P(0,x)*ss + Q(0,x)*cc) / sqrt(x)
 	 */
+#ifdef DEAD_CODE
 		if(ix>0x80000000U) z = (invsqrtpi*cc)/sqrtf(x);
-		else {
+		else
+#endif
+		{
 		    u = pzerof(x); v = qzerof(x);
 		    z = invsqrtpi*(u*cc-v*ss)/sqrtf(x);
 		}
@@ -137,8 +141,11 @@ __ieee754_y0f(float x)
                     if ((s*c)<zero) cc = z/ss;
                     else            ss = z/cc;
                 }
+#ifdef DEAD_CODE
                 if(ix>0x80000000U) z = (invsqrtpi*ss)/sqrtf(x);
-                else {
+                else
+#endif
+		{
                     u = pzerof(x); v = qzerof(x);
                     z = invsqrtpi*(u*ss+v*cc)/sqrtf(x);
                 }
@@ -228,7 +235,7 @@ static const float pS2[5] = {
 static float
 pzerof(float x)
 {
-	const float *p,*q;
+	const float *p = NULL,*q = NULL;
 	float z,r,s;
 	int32_t ix;
 	GET_FLOAT_WORD(ix,x);
@@ -324,7 +331,7 @@ static const float qS2[6] = {
 static float
 qzerof(float x)
 {
-	const float *p,*q;
+	const float *p = NULL,*q = NULL;
 	float s,r,z;
 	int32_t ix;
 	GET_FLOAT_WORD(ix,x);

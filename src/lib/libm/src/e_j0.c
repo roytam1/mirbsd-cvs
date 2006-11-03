@@ -59,6 +59,7 @@ static char rcsid[] = "$NetBSD: e_j0.c,v 1.8 1995/05/10 20:45:23 jtc Exp $";
  *	3. Special cases: y0(0)=-inf, y0(x<0)=NaN, y0(inf)=0.
  */
 
+#include <stdlib.h>
 #include "math.h"
 #include "math_private.h"
 
@@ -271,7 +272,7 @@ static const double pS2[5] = {
 static
 double pzero(double x)
 {
-	const double *p,*q;
+	const double *p = NULL,*q = NULL;
 	double z,r,s;
 	int32_t ix;
 	GET_HIGH_WORD(ix,x);
@@ -367,7 +368,7 @@ static const double qS2[6] = {
 static
 double qzero(double x)
 {
-	const double *p,*q;
+	const double *p = NULL,*q = NULL;
 	double s,r,z;
 	int32_t ix;
 	GET_HIGH_WORD(ix,x);

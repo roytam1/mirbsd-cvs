@@ -41,7 +41,7 @@ qS4 =  7.7038154006e-02; /* 0x3d9dc62e */
 float
 __ieee754_asinf(float x)
 {
-	float t,w,p,q,c,r,s;
+	float t = 0,w,p,q,c,r,s;
 	int32_t hx,ix;
 	GET_FLOAT_WORD(hx,x);
 	ix = hx&0x7fffffff;
