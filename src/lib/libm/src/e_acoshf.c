@@ -8,25 +8,26 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_acoshf.c,v 1.5 1995/05/12 04:57:20 jtc Exp $";
+__RCSID("$NetBSD: e_acoshf.c,v 1.8 2002/05/26 22:01:48 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const float 
+static const float
 one	= 1.0,
 ln2	= 6.9314718246e-01;  /* 0x3f317218 */
 
 float
 __ieee754_acoshf(float x)
-{	
+{
 	float t;
 	int32_t hx;
 	GET_FLOAT_WORD(hx,x);
@@ -35,7 +36,7 @@ __ieee754_acoshf(float x)
 	} else if(hx >=0x4d800000) {	/* x > 2**28 */
 	    if(hx >=0x7f800000) {	/* x is inf of NaN */
 	        return x+x;
-	    } else 
+	    } else
 		return __ieee754_logf(x)+ln2;	/* acosh(huge)=log(2x) */
 	} else if (hx==0x3f800000) {
 	    return 0.0;			/* acosh(1) = 0 */

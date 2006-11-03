@@ -1,4 +1,5 @@
-.\"	$OpenBSD: round.3,v 1.1 2006/07/12 07:26:08 brad Exp $
+.\" $NetBSD: round.3,v 1.5 2006/03/25 20:01:36 uwe Exp $
+.\"
 .\" Copyright (c) 2003, Steven G. Kargl
 .\" All rights reserved.
 .\"
@@ -23,30 +24,28 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\" $FreeBSD: src/lib/msun/man/round.3,v 1.6 2005/06/15 19:04:04 ru Exp $
+.\" $FreeBSD: src/lib/msun/man/round.3,v 1.2 2004/06/20 09:27:17 das Exp $
 .\"
-.Dd April 7, 2005
+.Dd July 15, 2004
 .Dt ROUND 3
 .Os
 .Sh NAME
 .Nm round ,
 .Nm roundf
-.\" .Nm roundl
 .Nd round to nearest integral value
+.Sh LIBRARY
+.Lb libm
 .Sh SYNOPSIS
 .In math.h
 .Ft double
 .Fn round "double x"
 .Ft float
 .Fn roundf "float x"
-.\" .Ft "long double"
-.\" .Fn roundl "long double x"
 .Sh DESCRIPTION
 The
 .Fn round
 and
 .Fn roundf
-.\" .Fn roundl
 functions return the nearest integral value to
 .Fa x ;
 if
@@ -58,11 +57,20 @@ absolute value (i.e., they round away from zero).
 .Xr ceil 3 ,
 .Xr floor 3 ,
 .Xr ieee 3 ,
-.Xr lrint 3 ,
-.Xr lround 3 ,
 .Xr math 3 ,
 .Xr rint 3 ,
 .Xr trunc 3
 .Sh STANDARDS
-These functions conform to
+The
+.Fn round
+and
+.Fn roundf
+functions conform to
 .St -isoC-99 .
+.Sh HISTORY
+The
+.Fn round
+and
+.Fn roundf
+functions appeared in
+.Nx 2.0 .

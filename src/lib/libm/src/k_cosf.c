@@ -8,19 +8,20 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: k_cosf.c,v 1.4 1995/05/10 20:46:23 jtc Exp $";
+__RCSID("$NetBSD: k_cosf.c,v 1.7 2002/05/26 22:01:53 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const float 
+static const float
 one =  1.0000000000e+00, /* 0x3f800000 */
 C1  =  4.1666667908e-02, /* 0x3d2aaaab */
 C2  = -1.3888889225e-03, /* 0xbab60b61 */
@@ -41,7 +42,7 @@ __kernel_cosf(float x, float y)
 	}
 	z  = x*x;
 	r  = z*(C1+z*(C2+z*(C3+z*(C4+z*(C5+z*C6)))));
-	if(ix < 0x3e99999a) 			/* if |x| < 0.3 */ 
+	if(ix < 0x3e99999a) 			/* if |x| < 0.3 */
 	    return one - ((float)0.5*z - (z*r - x*y));
 	else {
 	    if(ix > 0x3f480000) {		/* x > 0.78125 */

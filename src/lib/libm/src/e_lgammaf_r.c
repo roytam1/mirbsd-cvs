@@ -8,19 +8,20 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_lgammaf_r.c,v 1.3 1995/05/10 20:45:47 jtc Exp $";
+__RCSID("$NetBSD: e_lgammaf_r.c,v 1.6 2002/05/26 22:01:51 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const float 
+static const float
 two23=  8.3886080000e+06, /* 0x4b000000 */
 half=  5.0000000000e-01, /* 0x3f000000 */
 one =  1.0000000000e+00, /* 0x3f800000 */
@@ -124,9 +125,9 @@ sin_pif(float x)
         }
 	switch (n) {
 	    case 0:   y =  __kernel_sinf(pi*y,zero,0); break;
-	    case 1:   
+	    case 1:
 	    case 2:   y =  __kernel_cosf(pi*((float)0.5-y),zero); break;
-	    case 3:  
+	    case 3:
 	    case 4:   y =  __kernel_sinf(pi*(one-y),zero,0); break;
 	    case 5:
 	    case 6:   y = -__kernel_cosf(pi*(y-(float)1.5),zero); break;
@@ -142,6 +143,7 @@ __ieee754_lgammaf_r(float x, int *signgamp)
 	float t,y,z,nadj,p,p1,p2,p3,q,r,w;
 	int i,hx,ix;
 
+	nadj = 0;
 	GET_FLOAT_WORD(hx,x);
 
     /* purge off +-inf, NaN, +-0, and negative arguments */
@@ -195,7 +197,7 @@ __ieee754_lgammaf_r(float x, int *signgamp)
 		p3 = t2+w*(t5+w*(t8+w*(t11+w*t14)));
 		p  = z*p1-(tt-w*(p2+y*p3));
 		r += (tf + p); break;
-	      case 2:	
+	      case 2:
 		p1 = y*(u0+y*(u1+y*(u2+y*(u3+y*(u4+y*u5)))));
 		p2 = one+y*(v1+y*(v2+y*(v3+y*(v4+y*v5))));
 		r += (-(float)0.5*y + p1/p2);
@@ -224,7 +226,7 @@ __ieee754_lgammaf_r(float x, int *signgamp)
 	    y = z*z;
 	    w = w0+z*(w1+y*(w2+y*(w3+y*(w4+y*(w5+y*w6)))));
 	    r = (x-half)*(t-one)+w;
-	} else 
+	} else
     /* 2**58 <= x <= inf */
 	    r =  x*(__ieee754_logf(x)-one);
 	if(hx<0) r = nadj - r;

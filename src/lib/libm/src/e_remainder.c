@@ -5,21 +5,22 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_remainder.c,v 1.8 1995/05/10 20:46:05 jtc Exp $";
+__RCSID("$NetBSD: e_remainder.c,v 1.11 2002/05/26 22:01:52 wiz Exp $");
 #endif
 
 /* __ieee754_remainder(x,p)
- * Return :                  
- * 	returns  x REM p  =  x - [x/p]*p as if in infinite 
- * 	precise arithmetic, where [x/p] is the (infinite bit) 
+ * Return :
+ * 	returns  x REM p  =  x - [x/p]*p as if in infinite
+ * 	precise arithmetic, where [x/p] is the (infinite bit)
  *	integer nearest x/p (in half way case choose the even one).
- * Method : 
+ * Method :
  *	Based on fmod() return x-[x/p]chopped*p exactlp.
  */
 

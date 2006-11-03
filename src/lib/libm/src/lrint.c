@@ -1,4 +1,3 @@
-/*	$OpenBSD: lrint.c,v 1.1 2005/11/17 20:07:40 otto Exp $	*/
 /* $NetBSD: lrint.c,v 1.3 2004/10/13 15:18:32 drochner Exp $ */
 
 /*-
@@ -27,11 +26,9 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/types.h>
-#include <sys/limits.h>
 #include <math.h>
-#include <ieeefp.h>
-#include <machine/ieee.h>
+#include <sys/ieee754.h>
+#include <machine/limits.h>
 #include "math_private.h"
 
 #ifndef LRINTNAME

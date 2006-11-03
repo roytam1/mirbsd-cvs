@@ -8,18 +8,19 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_scalbf.c,v 1.3 1995/05/10 20:49:50 jtc Exp $";
+__RCSID("$NetBSD: w_scalbf.c,v 1.6 2002/05/26 22:02:02 wiz Exp $");
 #endif
 
 /*
  * wrapper scalbf(float x, float fn) is provide for
- * passing various standard test suite. One 
+ * passing various standard test suite. One
  * should use scalbn() instead.
  */
 
@@ -28,11 +29,12 @@ static char rcsid[] = "$NetBSD: w_scalbf.c,v 1.3 1995/05/10 20:49:50 jtc Exp $";
 
 #include <errno.h>
 
-float 
 #ifdef _SCALB_INT
+float
 scalbf(float x, int fn)		/* wrapper scalbf */
 #else
-scalbf(float x, float fn)	/* wrapper scalbf */
+float
+scalbf(float x, float fn)		/* wrapper scalbf */
 #endif
 {
 #ifdef _IEEE_LIBM
@@ -48,10 +50,10 @@ scalbf(float x, float fn)	/* wrapper scalbf */
 	if(z==(float)0.0&&z!=x) {
 	    /* scalbf underflow */
 	    return (float)__kernel_standard((double)x,(double)fn,133);
-	} 
+	}
 #ifndef _SCALB_INT
 	if(!finitef(fn)) errno = ERANGE;
 #endif
 	return z;
-#endif 
+#endif
 }

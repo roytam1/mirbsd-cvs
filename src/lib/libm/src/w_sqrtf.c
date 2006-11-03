@@ -8,16 +8,17 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_sqrtf.c,v 1.3 1995/05/10 20:49:59 jtc Exp $";
+__RCSID("$NetBSD: w_sqrtf.c,v 1.6 2002/05/26 22:02:03 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper sqrtf(x)
  */
 

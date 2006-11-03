@@ -8,19 +8,20 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_expm1f.c,v 1.5 1995/05/10 20:47:11 jtc Exp $";
+__RCSID("$NetBSD: s_expm1f.c,v 1.10 2002/05/26 22:01:55 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const volatile float huge = 1.0e+30, tiny = 1.0e-30;
+static const float huge = 1.0e+30, tiny = 1.0e-30;
 
 static const float
 one		= 1.0,
@@ -42,6 +43,7 @@ expm1f(float x)
 	int32_t k,xsb;
 	u_int32_t hx;
 
+	c = 0;
 	GET_FLOAT_WORD(hx,x);
 	xsb = hx&0x80000000;		/* sign bit of x */
 	if(xsb==0) y=x; else y= -x;	/* y = |x| */
@@ -63,7 +65,7 @@ expm1f(float x)
 	}
 
     /* argument reduction */
-	if(hx > 0x3eb17218) {		/* if  |x| > 0.5 ln2 */ 
+	if(hx > 0x3eb17218) {		/* if  |x| > 0.5 ln2 */
 	    if(hx < 0x3F851592) {	/* and |x| < 1.5 ln2 */
 		if(xsb==0)
 		    {hi = x - ln2_hi; lo =  ln2_lo;  k =  1;}
@@ -77,10 +79,10 @@ expm1f(float x)
 	    }
 	    x  = hi - lo;
 	    c  = (hi-x)-lo;
-	} 
+	}
 	else if(hx < 0x33000000) {  	/* when |x|<2**-25, return x */
 	    t = huge+x;	/* return x with inexact flags when x!=0 */
-	    return x - (t-(huge+x));	
+	    return x - (t-(huge+x));
 	}
 	else k = 0;
 
@@ -95,9 +97,10 @@ expm1f(float x)
 	    e  = (x*(e-c)-c);
 	    e -= hxs;
 	    if(k== -1) return (float)0.5*(x-e)-(float)0.5;
-	    if(k==1) 
+	    if(k==1)  {
 	       	if(x < (float)-0.25) return -(float)2.0*(e-(x+(float)0.5));
 	       	else 	      return  one+(float)2.0*(x-e);
+	    }
 	    if (k <= -2 || k>56) {   /* suffice to return exp(x)-1 */
 	        int32_t i;
 	        y = one-(e-x);

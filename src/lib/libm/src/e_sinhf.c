@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_sinhf.c,v 1.4 1995/05/10 20:46:15 jtc Exp $";
+__RCSID("$NetBSD: e_sinhf.c,v 1.7 2002/05/26 22:01:52 wiz Exp $");
 #endif
 
 #include "math.h"
@@ -24,7 +25,7 @@ static const float one = 1.0, shuge = 1.0e37;
 
 float
 __ieee754_sinhf(float x)
-{	
+{
 	float t,w,h;
 	int32_t ix,jx;
 
@@ -32,7 +33,7 @@ __ieee754_sinhf(float x)
 	ix = jx&0x7fffffff;
 
     /* x is INF or NaN */
-	if(ix>=0x7f800000) return x+x;	
+	if(ix>=0x7f800000) return x+x;
 
 	h = 0.5;
 	if (jx<0) h = -h;

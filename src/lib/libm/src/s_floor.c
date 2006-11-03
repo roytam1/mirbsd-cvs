@@ -5,13 +5,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_floor.c,v 1.8 1995/05/10 20:47:20 jtc Exp $";
+__RCSID("$NetBSD: s_floor.c,v 1.11 2002/05/26 22:01:56 wiz Exp $");
 #endif
 
 /*
@@ -38,7 +39,7 @@ floor(double x)
 	if(j0<20) {
 	    if(j0<0) { 	/* raise inexact if x != 0 */
 		if(huge+x>0.0) {/* return 0*sign(x) if |x|<1 */
-		    if(i0>=0) {i0=i1=0;} 
+		    if(i0>=0) {i0=i1=0;}
 		    else if(((i0&0x7fffffff)|i1)!=0)
 			{ i0=0xbff00000;i1=0;}
 		}
@@ -58,7 +59,7 @@ floor(double x)
 	    if((i1&i)==0) return x;	/* x is integral */
 	    if(huge+x>0.0) { 		/* raise inexact flag */
 		if(i0<0) {
-		    if(j0==20) i0+=1; 
+		    if(j0==20) i0+=1;
 		    else {
 			j = i1+(1<<(52-j0));
 			if(j<i1) i0 +=1 ; 	/* got a carry */

@@ -5,30 +5,32 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: k_standard.c,v 1.6 1995/05/10 20:46:35 jtc Exp $";
+__RCSID("$NetBSD: k_standard.c,v 1.12 2005/07/21 16:58:39 christos Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 #include <errno.h>
-#include <stdio.h>			/* fputs(), stderr */
 
 #ifndef _USE_WRITE
+#include <stdio.h>			/* fputs(), stderr */
 #define	WRITE2(u,v)	fputs(u, stderr)
 #else	/* !defined(_USE_WRITE) */
 #include <unistd.h>			/* write */
 #define	WRITE2(u,v)	write(2, u, v)
+#undef fflush
 #endif	/* !defined(_USE_WRITE) */
 
 static const double zero = 0.0;	/* used as const */
 
-/* 
+/*
  * Standard conformance (non-IEEE) on exception cases.
  * Mapping:
  *	1 -- acos(|x|>1)
@@ -53,7 +55,7 @@ static const double zero = 0.0;	/* used as const */
  *	20-- pow(0.0,0.0)
  *	21-- pow(x,y) overflow
  *	22-- pow(x,y) underflow
- *	23-- pow(0,negative) 
+ *	23-- pow(0,negative)
  *	24-- pow(neg,non-integral)
  *	25-- sinh(finite) overflow
  *	26-- sqrt(negative)
@@ -73,14 +75,16 @@ static const double zero = 0.0;	/* used as const */
  *	40-- gamma(finite) overflow
  *	41-- gamma(-integer)
  *	42-- pow(NaN,0.0)
+ *	48-- log2(0)
+ *	49-- log2(x<0)
  */
 
 
 double
-__kernel_standard(double x, double y, int type) 
+__kernel_standard(double x, double y, int type)
 {
 	struct exception exc;
-#ifndef HUGE_VAL	/* this is the only routine that uses HUGE_VAL */ 
+#ifndef HUGE_VAL	/* this is the only routine that uses HUGE_VAL */
 #define HUGE_VAL inf
 	double inf = 0.0;
 
@@ -460,7 +464,7 @@ __kernel_standard(double x, double y, int type)
 		/* 0**neg */
 		exc.type = DOMAIN;
 		exc.name = type < 100 ? "pow" : "powf";
-		if (_LIB_VERSION == _SVID_) 
+		if (_LIB_VERSION == _SVID_)
 		  exc.retval = zero;
 		else
 		  exc.retval = -HUGE_VAL;
@@ -478,11 +482,11 @@ __kernel_standard(double x, double y, int type)
 		/* neg**non-integral */
 		exc.type = DOMAIN;
 		exc.name = type < 100 ? "pow" : "powf";
-		if (_LIB_VERSION == _SVID_) 
+		if (_LIB_VERSION == _SVID_)
 		    exc.retval = zero;
-		else 
+		else
 		    exc.retval = zero/zero;	/* X/Open allow NaN */
-		if (_LIB_VERSION == _POSIX_) 
+		if (_LIB_VERSION == _POSIX_)
 		   errno = EDOM;
 		else if (!matherr(&exc)) {
 		  if (_LIB_VERSION == _SVID_) {
@@ -640,7 +644,7 @@ __kernel_standard(double x, double y, int type)
                                 (void) WRITE2(": TLOSS error\n", 14);
                         }
                         errno = ERANGE;
-                }        
+                }
 		break;
 	    case 35:
 	    case 135:
@@ -656,7 +660,7 @@ __kernel_standard(double x, double y, int type)
                                 (void) WRITE2(": TLOSS error\n", 14);
                         }
                         errno = ERANGE;
-                }        
+                }
 		break;
 	    case 36:
 	    case 136:
@@ -672,7 +676,7 @@ __kernel_standard(double x, double y, int type)
                                 (void) WRITE2(": TLOSS error\n", 14);
                         }
                         errno = ERANGE;
-                }        
+                }
 		break;
 	    case 37:
 	    case 137:
@@ -688,7 +692,7 @@ __kernel_standard(double x, double y, int type)
                                 (void) WRITE2(": TLOSS error\n", 14);
                         }
                         errno = ERANGE;
-                }        
+                }
 		break;
 	    case 38:
 	    case 138:
@@ -704,7 +708,7 @@ __kernel_standard(double x, double y, int type)
                                 (void) WRITE2(": TLOSS error\n", 14);
                         }
                         errno = ERANGE;
-                }        
+                }
 		break;
 	    case 39:
 	    case 139:
@@ -720,7 +724,7 @@ __kernel_standard(double x, double y, int type)
                                 (void) WRITE2(": TLOSS error\n", 14);
                         }
                         errno = ERANGE;
-                }        
+                }
 		break;
 	    case 40:
 	    case 140:
@@ -768,6 +772,42 @@ __kernel_standard(double x, double y, int type)
 			errno = EDOM;
 		}
 		break;
+	    case 48:
+	    case 148:
+		/* log2(0) */
+		exc.type = SING;
+		exc.name = type < 100 ? "log2" : "log2f";
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = -HUGE;
+		else
+		  exc.retval = -HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+		  errno = ERANGE;
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+			(void) WRITE2("log2: SING error\n", 18);
+		      }
+		  errno = EDOM;
+		}
+		break;
+	    case 49:
+	    case 149:
+		/* log2(x<0) */
+		exc.type = DOMAIN;
+		exc.name = type < 100 ? "log2" : "log2f";
+		if (_LIB_VERSION == _SVID_)
+		  exc.retval = -HUGE;
+		else
+		  exc.retval = -HUGE_VAL;
+		if (_LIB_VERSION == _POSIX_)
+		  errno = EDOM;
+		else if (!matherr(&exc)) {
+		  if (_LIB_VERSION == _SVID_) {
+			(void) WRITE2("log2: DOMAIN error\n", 20);
+		      }
+		  errno = EDOM;
+		}
+		break;
 	}
-	return exc.retval; 
+	return exc.retval;
 }

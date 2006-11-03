@@ -1,5 +1,3 @@
-/*	$OpenBSD: s_round.c,v 1.1 2006/07/12 07:26:08 brad Exp $	*/
-
 /*-
  * Copyright (c) 2003, Steven G. Kargl
  * All rights reserved.
@@ -26,26 +24,35 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "math.h"
-#include "math_private.h"
+#include <sys/cdefs.h>
+#if defined(LIBM_SCCS) && !defined(lint)
+__RCSID("$NetBSD: s_round.c,v 1.1 2004/07/10 13:49:10 junyoung Exp $");
+#if 0
+__FBSDID("$FreeBSD: src/lib/msun/src/s_round.c,v 1.1 2004/06/07 08:05:36 das Exp $");
+#endif
+#endif
+
+#include <math.h>
 
 double
 round(double x)
 {
 	double t;
+	int i;
 
-	if (isinf(x) || isnan(x))
+	i = fpclassify(x);
+	if (i == FP_INFINITE || i == FP_NAN)
 		return (x);
 
 	if (x >= 0.0) {
-		t = floor(x);
-		if (t - x <= -0.5)
-			t += 1.0;
+		t = ceil(x);
+		if (t - x > 0.5)
+			t -= 1.0;
 		return (t);
 	} else {
-		t = floor(-x);
-		if (t + x <= -0.5)
-			t += 1.0;
+		t = ceil(-x);
+		if (t + x > 0.5)
+			t -= 1.0;
 		return (-t);
 	}
 }

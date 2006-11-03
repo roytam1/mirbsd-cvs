@@ -1,26 +1,43 @@
 /*
- * Written by J.T. Conklin <jtc@netbsd.org>.
+ * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
 
-RCSID("$NetBSD: s_floorf.S,v 1.3 1995/05/09 00:04:32 jtc Exp $")
+RCSID("$NetBSD: s_floorf.S,v 1.7 2004/07/16 18:40:24 drochner Exp $")
 
 ENTRY(floorf)
+#ifdef __i386__
+	pushl	%ebp
+	movl	%esp,%ebp
 	subl	$8,%esp
 
-	fstcw	4(%esp)		/* store fpu control word */
-	movw	4(%esp),%dx
+	fstcw	-4(%ebp)		/* store fpu control word */
+	movw	-4(%ebp),%dx
 	orw	$0x0400,%dx		/* round towards -oo */
 	andw	$0xf7ff,%dx
-	movw	%dx,(%esp)
-	fldcw	(%esp)		/* load modfied control word */
+	movw	%dx,-8(%ebp)
+	fldcw	-8(%ebp)		/* load modfied control word */
 
-	flds	12(%esp);		/* round */
+	flds	8(%ebp);		/* round */
 	frndint
 
-	fldcw	4(%esp)		/* restore original control word */
+	fldcw	-4(%ebp)		/* restore original control word */
 
-	addl	$8,%esp
+	leave
+#else
+	movss	%xmm0, -4(%rsp)
+	fstcw	-8(%rsp)
+	movw	-8(%rsp),%dx
+	orw	$0x0400,%dx
+	andw	$0xf7ff,%dx  
+	movw	%dx,-12(%rsp)
+	fldcw	-12(%rsp)
+	flds	-4(%rsp)
+	frndint
+	fldcw	-8(%rsp)
+	fstps	-4(%rsp)
+	movss	-4(%rsp),%xmm0
+#endif
 	ret

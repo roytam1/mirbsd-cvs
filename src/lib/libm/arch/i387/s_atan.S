@@ -1,14 +1,18 @@
 /*
- * Written by J.T. Conklin <jtc@netbsd.org>.
+ * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
 
-RCSID("$NetBSD: s_atan.S,v 1.4 1995/05/08 23:50:41 jtc Exp $")
+#include "abi.h"
+
+RCSID("$NetBSD: s_atan.S,v 1.6 2003/07/26 19:25:00 salo Exp $")
 
 ENTRY(atan)
-	fldl	4(%esp)
+	XMM_ONE_ARG_DOUBLE_PROLOGUE
+	fldl	ARG_DOUBLE_ONE
 	fld1
 	fpatan
+	XMM_DOUBLE_EPILOGUE
 	ret

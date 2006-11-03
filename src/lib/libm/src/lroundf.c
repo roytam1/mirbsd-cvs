@@ -1,4 +1,3 @@
-/*	$OpenBSD: lroundf.c,v 1.1 2005/11/17 20:07:40 otto Exp $	*/
 /* $NetBSD: lroundf.c,v 1.2 2004/10/13 15:18:32 drochner Exp $ */
 
 /*-
@@ -28,10 +27,8 @@
  */
 
 #include <math.h>
-#include <sys/types.h>
-#include <sys/limits.h>
-#include <ieeefp.h>
-#include <machine/ieee.h>
+#include <sys/ieee754.h>
+#include <machine/limits.h>
 #include "math_private.h"
 
 #ifndef LROUNDNAME
