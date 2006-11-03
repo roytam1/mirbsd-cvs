@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-pango/Makefile,v 1.1 2006/11/03 22:35:50 tg Exp $
+# $MirOS: ports/devel/sdl-pango/Makefile,v 1.2 2006/11/03 22:38:46 tg Exp $
 
 COMMENT=		SDL Pango fonts library
 DISTNAME=		SDL_Pango-0.1.2
@@ -9,17 +9,21 @@ MASTER_SITES0=		http://zarb.org/~gc/t/
 HOMEPAGE=		http://sdlpango.sourceforge.net/
 
 # LGPL 2.1
-PERMIT_PACKAGE_CDROM=   Yes
-PERMIT_PACKAGE_FTP=     Yes
-PERMIT_DISTFILES_CDROM= Yes
-PERMIT_DISTFILES_FTP=   Yes
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
 
 PATCHFILES=		SDL_Pango-0.1.2-API-adds.patch:0
 
 MODULES+=		devel/pkgconfig
-LIB_DEPENDS+=		SDL:sdl->=1.2.4:devel/sdl
+LIB_DEPENDS+=		SDL::devel/sdl
+B_R_DEPENDS+=		:sdl->=1.2.4:devel/sdl
 # XXX this STINKS, we'd better not give any shlib version
-LIB_DEPENDS+=		pango-1.0.0.0,pangoft2-1.0.0.0:pango->=1.2.0:devel/pango
+LIB_DEPENDS+=		pango-1.0.0.0,pangoft2-1.0.0.0::devel/pango
+B_R_DEPENDS+=		:pango->=1.2.0:devel/pango
+BUILD_DEPENDS+=		${B_R_DEPENDS}
+RUN_DEPENDS+=		${B_R_DEPENDS}
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
