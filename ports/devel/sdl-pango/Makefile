@@ -1,10 +1,11 @@
-# $MirOS: ports/devel/sdl-ttf/Makefile,v 1.8 2006/11/03 22:02:00 tg Exp $
+# $MirOS: ports/devel/sdl-pango/Makefile,v 1.1 2006/11/03 22:35:50 tg Exp $
 
 COMMENT=		SDL Pango fonts library
 DISTNAME=		SDL_Pango-0.1.2
-PKGNAME=		${DISTNAME:L:S/_/-/}-0
+PKGNAME=		${DISTNAME:L:S/_/-/}-1
 CATEGORIES=		devel graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=sdlpango/}
+MASTER_SITES0=		http://zarb.org/~gc/t/
 HOMEPAGE=		http://sdlpango.sourceforge.net/
 
 # LGPL 2.1
@@ -12,6 +13,8 @@ PERMIT_PACKAGE_CDROM=   Yes
 PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
+
+PATCHFILES=		SDL_Pango-0.1.2-API-adds.patch:0
 
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		SDL:sdl->=1.2.4:devel/sdl
