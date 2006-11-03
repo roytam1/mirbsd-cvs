@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.5 2005/12/29 22:40:38 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.6 2006/10/05 15:11:42 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.5 2005/12/29 22:40:38 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.6 2006/10/05 15:11:42 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -189,9 +189,18 @@ deweycmp(char *a, enum deweycmp_ops op, char *b)
 		if (*b == '.') {
 			b++;
 		}
-		if (*a == '-' && *b == '-') {
-			a++;
-			b++;
+		/* we might have a patchlevel in a but not in b or vice versa */
+		if (*a == '-') {
+			if (*b == '-') {
+				a++;
+				b++;
+			} else if (*b == 0) {
+				cmp = 0;
+				break;
+			}
+		} else if ((*a == 0) && (*b == '-')) {
+			cmp = 0;
+			break;
 		}
 	}
 	return (op == GE) ? cmp >= 0 : (op == GT) ? cmp > 0 : (op == LE) ? cmp <= 0 : cmp < 0;
