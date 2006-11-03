@@ -38,7 +38,7 @@ typedef double double_t;
 /*
  * XOPEN/SVID
  */
-#if __BSD_VISIBLE || __XPG_VISIBLE
+#if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 #define	M_E		2.7182818284590452354	/* e */
 #define	M_LOG2E		1.4426950408889634074	/* log 2e */
 #define	M_LOG10E	0.43429448190325182765	/* log 10e */
@@ -60,9 +60,8 @@ typedef double double_t;
 #endif
 
 extern int signgam;
-#endif /* __BSD_VISIBLE || __XPG_VISIBLE */
 
-#if __BSD_VISIBLE
+#if !defined(_XOPEN_SOURCE)
 enum fdversion {fdlibm_ieee = -1, fdlibm_svid, fdlibm_xopen, fdlibm_posix};
 
 #define _LIB_VERSION_TYPE enum fdversion
@@ -108,7 +107,8 @@ struct exception {
 #define	TLOSS		5
 #define	PLOSS		6
 
-#endif /* __BSD_VISIBLE */
+#endif /* !_XOPEN_SOURCE */
+#endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 __BEGIN_DECLS
 /*
@@ -144,7 +144,7 @@ extern double fmod(double, double);
 extern double round(double);
 extern double trunc(double);
 
-#if __BSD_VISIBLE || __XPG_VISIBLE
+#if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 extern double erf(double);
 extern double erfc(double);
 extern double gamma(double);
@@ -160,7 +160,7 @@ extern double y0(double);
 extern double y1(double);
 extern double yn(int, double);
 
-#if __BSD_VISIBLE || __XPG_VISIBLE >= 500
+#if !defined(_XOPEN_SOURCE)
 extern double acosh(double);
 extern double asinh(double);
 extern double atanh(double);
@@ -203,10 +203,10 @@ extern double log1p(double);
  * Reentrant version of gamma & lgamma; passes signgam back by reference
  * as the second argument; user must allocate space for signgam.
  */
-#if __BSD_VISIBLE || defined(_REENTRANT)
+#ifdef _REENTRANT
 extern double gamma_r(double, int *);
 extern double lgamma_r(double, int *);
-#endif /* __BSD_VISIBLE || _REENTRANT */
+#endif /* _REENTRANT */
 
 
 /* float versions of ANSI/POSIX functions */
@@ -295,13 +295,13 @@ extern float log1pf(float);
  * signgam back by reference as the second argument; user must
  * allocate space for signgam.
  */
-#if __BSD_VISIBLE || defined(_REENTRANT)
+#ifdef _REENTRANT
 extern float gammaf_r(float, int *);
 extern float lgammaf_r(float, int *);
-#endif /* __BSD_VISIBLE || _REENTRANT */
+#endif	/* _REENTRANT */
 
-#endif /* __BSD_VISIBLE || __XPG_VISIBLE >= 500 */
-#endif /* __BSD_VISIBLE || __XPG_VISIBLE */
+#endif /* !_XOPEN_SOURCE */
+#endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 __END_DECLS
 
 #endif /* _MATH_H_ */
