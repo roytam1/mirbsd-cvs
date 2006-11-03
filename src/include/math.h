@@ -1,4 +1,4 @@
-/*	$OpenBSD: math.h,v 1.9 2005/01/06 20:36:23 espie Exp $	*/
+/*	$OpenBSD: math.h,v 1.14 2006/07/12 07:26:07 brad Exp $	*/
 /*
  * ====================================================
  * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
@@ -17,11 +17,13 @@
 #ifndef _MATH_H_
 #define _MATH_H_
 
+#include <sys/cdefs.h>
+
 /*
  * ANSI/POSIX
  */
 extern char __infinity[];
-#define HUGE_VAL	(*(double *) __infinity)
+#define HUGE_VAL	(*(double *)(void *)__infinity)
 
 /* 
  * C99
@@ -36,7 +38,7 @@ typedef double double_t;
 /*
  * XOPEN/SVID
  */
-#if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
+#if __BSD_VISIBLE || __XPG_VISIBLE
 #define	M_E		2.7182818284590452354	/* e */
 #define	M_LOG2E		1.4426950408889634074	/* log 2e */
 #define	M_LOG10E	0.43429448190325182765	/* log 10e */
@@ -58,8 +60,9 @@ typedef double double_t;
 #endif
 
 extern int signgam;
+#endif /* __BSD_VISIBLE || __XPG_VISIBLE */
 
-#if !defined(_XOPEN_SOURCE)
+#if __BSD_VISIBLE
 enum fdversion {fdlibm_ieee = -1, fdlibm_svid, fdlibm_xopen, fdlibm_posix};
 
 #define _LIB_VERSION_TYPE enum fdversion
@@ -105,11 +108,8 @@ struct exception {
 #define	TLOSS		5
 #define	PLOSS		6
 
-#endif /* !_XOPEN_SOURCE */
-#endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
+#endif /* __BSD_VISIBLE */
 
-
-#include <sys/cdefs.h>
 __BEGIN_DECLS
 /*
  * ANSI/POSIX
@@ -141,7 +141,10 @@ extern double fabs(double);
 extern double floor(double);
 extern double fmod(double, double);
 
-#if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
+extern double round(double);
+extern double trunc(double);
+
+#if __BSD_VISIBLE || __XPG_VISIBLE
 extern double erf(double);
 extern double erfc(double);
 extern double gamma(double);
@@ -157,7 +160,7 @@ extern double y0(double);
 extern double y1(double);
 extern double yn(int, double);
 
-#if !defined(_XOPEN_SOURCE)
+#if __BSD_VISIBLE || __XPG_VISIBLE >= 500
 extern double acosh(double);
 extern double asinh(double);
 extern double atanh(double);
@@ -182,6 +185,10 @@ extern double significand(double);
 extern double copysign(double, double);
 extern int ilogb(double);
 extern double rint(double);
+extern long int lrint(double);
+extern long int lround(double);
+extern long long int llrint(double);
+extern long long int llround(double);
 extern double scalbn(double, int);
 
 /*
@@ -196,10 +203,10 @@ extern double log1p(double);
  * Reentrant version of gamma & lgamma; passes signgam back by reference
  * as the second argument; user must allocate space for signgam.
  */
-#ifdef _REENTRANT
+#if __BSD_VISIBLE || defined(_REENTRANT)
 extern double gamma_r(double, int *);
 extern double lgamma_r(double, int *);
-#endif /* _REENTRANT */
+#endif /* __BSD_VISIBLE || _REENTRANT */
 
 
 /* float versions of ANSI/POSIX functions */
@@ -229,6 +236,9 @@ extern float ceilf(float);
 extern float fabsf(float);
 extern float floorf(float);
 extern float fmodf(float, float);
+
+extern float roundf(float);
+extern float truncf(float);
 
 extern float erff(float);
 extern float erfcf(float);
@@ -266,6 +276,10 @@ extern float significandf(float);
 extern float copysignf(float, float);
 extern int ilogbf(float);
 extern float rintf(float);
+extern long int lrintf(float);
+extern long int lroundf(float);
+extern long long int llrintf(float);
+extern long long int llroundf(float);
 extern float scalbnf(float, int);
 
 /*
@@ -281,13 +295,13 @@ extern float log1pf(float);
  * signgam back by reference as the second argument; user must
  * allocate space for signgam.
  */
-#ifdef _REENTRANT
+#if __BSD_VISIBLE || defined(_REENTRANT)
 extern float gammaf_r(float, int *);
 extern float lgammaf_r(float, int *);
-#endif	/* _REENTRANT */
+#endif /* __BSD_VISIBLE || _REENTRANT */
 
-#endif /* !_XOPEN_SOURCE */
-#endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
+#endif /* __BSD_VISIBLE || __XPG_VISIBLE >= 500 */
+#endif /* __BSD_VISIBLE || __XPG_VISIBLE */
 __END_DECLS
 
 #endif /* _MATH_H_ */
