@@ -109,8 +109,6 @@ static const char *RankNames[] = {"", "A",
 #endif
 #endif
 
-static inline int round(double x) { return int(x + 0.5); }
-
 #ifdef DOFONT
 // Does this really add anything?
 extern XFontStruct *getFont(Display * display);
@@ -297,7 +295,7 @@ void CardView::draw()
 #ifdef CENTERLABEL
 			XDrawString(display, window, gc,
 				x() + width() / 2 - strlen(RankNames[card->whichRank()]) * 8,
-				y() + round(height() * 0.40),
+				y() + lround(height() * 0.40),
 				RankNames[card->whichRank()], strlen(RankNames[card->whichRank()]));
 #else
 			XDrawString(display, window, gc,
@@ -308,22 +306,22 @@ void CardView::draw()
 		}
 #ifdef SUITNAMES
 			char *SuitNames[] = {"Spade", "Diamond", "Club", "Heart"};
-		XDrawString(display, window, gc, x() + 0.2, y() + round(height() * 0.8),
+		XDrawString(display, window, gc, x() + 0.2, y() + lround(height() * 0.8),
 			SuitNames[card->whichSuit()], strlen(SuitNames[card->whichSuit()]));
 #endif
 #ifdef CENTERLABEL
 		drawSuit(mi, card->whichSuit(),
-			x() + round(width() * 0.35), y() + round(height() * 0.55),
-			round(0.3 * width()), round(0.3 * height()));
+			x() + lround(width() * 0.35), y() + lround(height() * 0.55),
+			lround(0.3 * width()), lround(0.3 * height()));
 #else
 		if (width() > 16 && height() > 34) {
 			drawSuit(mi, card->whichSuit(),
 				x() + 5, y() + 25,
-				round(0.3 * width()), round(0.3 * height()));
+				lround(0.3 * width()), lround(0.3 * height()));
 		} else {
 			drawSuit(mi, card->whichSuit(),
 				x() + 2, y() + 2,
-				round(0.3 * width()), round(0.3 * height()));
+				lround(0.3 * width()), lround(0.3 * height()));
 		}
 #endif
 		XSetForeground(display, gc, MI_BLACK_PIXEL(mi));
@@ -342,17 +340,17 @@ void CardView::draw()
 		XFillRectangle(display, window, gc,
 			x(), y(), width(), height());
 		XSetForeground(display, gc, MI_BLACK_PIXEL(mi));
-		n = x() + round(round(width() * 0.3));
-		XDrawLine(display, window, gc, n, y() + round(height() * 0.1),
-			n, y() + round(height() * 0.9));
-		n = x() + round(width() * 0.7);
-		XDrawLine(display, window, gc, n, y() + round(height() * 0.1),
-			n, y() + round(height() * 0.9));
-		n = y() + round(height() * 0.3);
-		XDrawLine(display, window, gc, x() + round(height() * 0.1), n,
-			x() + round(width() * 0.9), n);
-		n = y() + round(height() * 0.7);
-		XDrawLine(display, window, gc, x() + round(width() * 0.1), n,
+		n = x() + lround(width() * 0.3);
+		XDrawLine(display, window, gc, n, y() + lround(height() * 0.1),
+			n, y() + lround(height() * 0.9));
+		n = x() + lround(width() * 0.7);
+		XDrawLine(display, window, gc, n, y() + lround(height() * 0.1),
+			n, y() + lround(height() * 0.9));
+		n = y() + lround(height() * 0.3);
+		XDrawLine(display, window, gc, x() + lround(height() * 0.1), n,
+			x() + lround(width() * 0.9), n);
+		n = y() + lround(height() * 0.7);
+		XDrawLine(display, window, gc, x() + lround(width() * 0.1), n,
 			x() + int(width() * 0.9), n);
 	}
 	// Shadow
@@ -670,10 +668,10 @@ void DeckPile::updateLocation(ModeInfo * a_mi)
 	solitarestruct *bp = &solitare[MI_SCREEN(a_mi)];
 
 	//set pile
-	x = round(((bp->cardwidth + 2.0 * MAXSUITS * bp->cardwidth *
+	x = lround(((bp->cardwidth + 2.0 * MAXSUITS * bp->cardwidth *
 		(MAXALTERNATEPILES + 1.0)) / (2.0 * MAXALTERNATEPILES)) +
 		3 * bp->cardwidth / 4.0);
-	y = round(0.25 * bp->cardheight);
+	y = lround(0.25 * bp->cardheight);
 
 	// set card
 	for (CardLink *p = top; p!= nilLink; p = p->nextCard()) {
@@ -728,10 +726,10 @@ void DiscardPile::updateLocation(ModeInfo * a_mi)
 	solitarestruct *bp = &solitare[MI_SCREEN(a_mi)];
 
 	//set pile
-	x = round(((bp->cardwidth + 2.0 * MAXSUITS * bp->cardwidth *
+	x = lround(((bp->cardwidth + 2.0 * MAXSUITS * bp->cardwidth *
 		(MAXALTERNATEPILES + 1.0)) / (2.0 * MAXALTERNATEPILES)) +
 		2 * bp->cardwidth);
-	y = round(0.25 * bp->cardheight);
+	y = lround(0.25 * bp->cardheight);
 
 	// set card
 	for (CardLink *p = top; p!= nilLink; p = p->nextCard()) {
@@ -785,10 +783,10 @@ void SuitPile::updateLocation(ModeInfo * a_mi)
 	solitarestruct *bp = &solitare[MI_SCREEN(a_mi)];
 
 	//set pile
-	x = round(((bp->cardwidth + 2.0 * suit * bp->cardwidth *
+	x = lround(((bp->cardwidth + 2.0 * suit * bp->cardwidth *
 		(MAXALTERNATEPILES + 1.0)) / (2.0 * MAXALTERNATEPILES)) +
 		bp->cardwidth / 2.0);
-	y = round(0.25 * bp->cardheight);
+	y = lround(0.25 * bp->cardheight);
 
 	// set card
 	for (CardLink *p = top; p!= nilLink; p = p->nextCard()) {
@@ -816,9 +814,9 @@ void AlternatePile::updateLocation(ModeInfo * a_mi)
 	int ty;
 
 	//set pile
-	x = (round((bp->cardwidth + 2.0 * pile * bp->cardwidth *
+	x = (lround((bp->cardwidth + 2.0 * pile * bp->cardwidth *
 	 (MAXALTERNATEPILES + 1.0)) / (2.0 * MAXALTERNATEPILES)));
-	y = round(1.5 * bp->cardheight);
+	y = lround(1.5 * bp->cardheight);
 
 	CardLink *bf = nilLink;
 	// set card
@@ -837,7 +835,7 @@ void AlternatePile::updateLocation(ModeInfo * a_mi)
 			CardLink *sp;
 			for (sp = top; sp->nextCard() != bf; sp = sp->nextCard());
 			bf = sp;
-			ty += round(bp->cardheight * OVERLAP);
+			ty += lround(bp->cardheight * OVERLAP);
 			sp->moveTo(x, ty);
 		}
 	}
@@ -878,7 +876,7 @@ void AlternatePile::addCard(CardLink * card)
 #else
 		if (top->isFaceUp())
 #endif
-			ty += round(bp->cardheight * OVERLAP);
+			ty += lround(bp->cardheight * OVERLAP);
 		CardPile::addCard(card);
 		top->moveTo(tx, ty);
 	}
