@@ -1,11 +1,11 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.2 2005/11/24 01:21:07 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@mirbsd.org>
+ * Copyright (c) 2003, 2004, 2005, 2006
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -24,6 +24,10 @@
  *   This product includes software developed or owned by
  *   Caldera International, Inc.
  *
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
  * Neither the name of Caldera International, Inc. nor the names
  * of other contributors may be used to endorse or promote products
  * derived from this software without specific prior written permission.
@@ -40,6 +44,15 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <stdio.h>
@@ -55,7 +68,7 @@ extern
 #include "sdef.h"
 
 __SCCSID("@(#)n3.c	4.5 (Berkeley) 4/18/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.2 2005/11/24 01:21:07 tg Exp $");
 
 /*
 troff3.c
@@ -506,9 +519,9 @@ filep newip;
 	cp = ap = 0;
 	nchar = rchar = pendt = ch0 = ch = 0;
 	frame = nxf;
-	if (nxf->nargs == 0) 
+	if (nxf->nargs == 0)
 		nxf += 1;
-	else 
+	else
 		nxf = (struct s *)argtop;
 	return(ip = newip);
 }
@@ -538,9 +551,21 @@ getsn()
 
 	if ((i = getach()) == 0)
 		return(0);
+	if (!copyf && (i == '[')) {
+		fputs("warning: request for long string [", stderr);
+		while ((i = getach())) {
+			putc(i, stderr);
+			if (i == ']')
+				break;
+		}
+		if (i != ']')
+			fputs("<NUL>]", stderr);
+		fprintf(stderr, " in line %d denied!\n", v.cd+1);
+		return (0);
+	}
 	if (i == '(')
 		return(getrq());
-	else 
+	else
 		return(i);
 }
 
@@ -595,7 +620,7 @@ collect()
 		/*
 		 *	CPERMAC (the total # of characters for ALL arguments)
 		 *	to a macros, has been carefully chosen
-		 *	so that the distance between stack frames is < DELTA 
+		 *	so that the distance between stack frames is < DELTA
 		 */
 #define	CPERMAC	500
 #define	APERMAC	9
@@ -624,7 +649,7 @@ collect()
 		quote = 0;
 		if (cbits(i = getch()) == '"')
 			quote++;
-		else 
+		else
 			ch = i;
 		while (1) {
 			i = getch();
