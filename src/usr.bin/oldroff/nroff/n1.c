@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.6 2006/10/13 20:21:22 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.7 2006/10/13 20:36:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2002, 2003, 2004, 2005, 2006
@@ -89,7 +89,7 @@ __COPYRIGHT("Copyright (c) 2006 The MirOS Project.\n\
  Copyright (c) 1991 The Regents of the University of California.\n\
  All rights reserved.\n");
 __SCCSID("@(#)n1.c	4.13 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.6 2006/10/13 20:21:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.7 2006/10/13 20:36:36 tg Exp $");
 
 /*
 troff1.c
@@ -205,6 +205,7 @@ extern int spbits;
 #endif
 extern int xxx;
 extern char *__progname;
+extern int maybe_groff;
 int stopmesg;
 filep ipl[NSO];
 long offl[NSO];
@@ -625,10 +626,14 @@ g0:
 		case '\n':	/*concealed newline*/
 			goto g0;
 		case 'n':	/*number register*/
+			maybe_groff = 1;
 			setn();
+			maybe_groff = 0;
 			goto g0;
 		case '*':	/*string indicator*/
+			maybe_groff = 1;
 			setstr();
+			maybe_groff = 0;
 			goto g0;
 		case '$':	/*argument indicator*/
 			seta();

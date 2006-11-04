@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.2 2005/11/24 01:21:07 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.3 2006/11/03 18:02:04 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -68,7 +68,7 @@ extern
 #include "sdef.h"
 
 __SCCSID("@(#)n3.c	4.5 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.2 2005/11/24 01:21:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.3 2006/11/03 18:02:04 tg Exp $");
 
 /*
 troff3.c
@@ -115,6 +115,7 @@ extern int *cp;
 extern int xxx;
 int pagech = '%';
 int strflg;
+int maybe_groff = 0;
 extern struct contab {
 	int rq;
 	union {
@@ -551,7 +552,12 @@ getsn()
 
 	if ((i = getach()) == 0)
 		return(0);
-	if (!copyf && (i == '[')) {
+	if (maybe_groff && !copyf && (i == '[')) {
+		i = getch0();
+		ch0 = i;
+		if (!((i >= 'a') && (i <= 'z')) &&
+		    !((i >= 'A') && (i <= 'Z')))
+			return ('[');
 		fputs("warning: request for long string [", stderr);
 		while ((i = getach())) {
 			putc(i, stderr);
