@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/sdl-pango/Makefile,v 1.2 2006/11/03 22:38:46 tg Exp $
+# $MirOS: ports/devel/sdl-pango/Makefile,v 1.3 2006/11/03 23:44:15 tg Exp $
 
 COMMENT=		SDL Pango fonts library
 DISTNAME=		SDL_Pango-0.1.2
-PKGNAME=		${DISTNAME:L:S/_/-/}-1
+PKGNAME=		${DISTNAME:L:S/_/-/}-2
 CATEGORIES=		devel graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=sdlpango/}
 MASTER_SITES0=		http://zarb.org/~gc/t/
