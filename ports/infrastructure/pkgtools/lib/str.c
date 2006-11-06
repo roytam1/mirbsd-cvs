@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.6 2006/10/05 15:11:42 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.7 2006/11/03 20:14:16 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.6 2006/10/05 15:11:42 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.7 2006/11/03 20:14:16 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -115,7 +115,8 @@ find_version(const char *name)
 
     if (!name)
 	return NULL;
-    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]); idx = strchr(idx + 1, '-'));
+    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]) 
+		&& idx[1] != '<' && idx[1] != '>'; idx = strchr(idx + 1, '-'));
     
     return idx;
 }
@@ -157,7 +158,8 @@ enum deweycmp_ops {
 	GT,
 	GE,
 	LT,
-	LE
+	LE,
+	NONE
 };
 
 /* compare two dewey decimal numbers */
@@ -297,6 +299,40 @@ glob_match(const char *pattern, const char *pkg)
 	return fnmatch(pattern, pkg, FNM_PERIOD) == 0;
 }
 
+/* perform match on multiple version numbers */
+/* return 1 on match, 0 otherwise */
+static int
+multiversion_match(const char *pattern, const char *pkg)
+{
+	char			*cp, *ver, *token;
+	char			name[FILENAME_MAX];
+	enum deweycmp_ops op;
+	
+	/* short-cut path if the name does not match */
+	ver = find_version(pkg);
+	if (strncmp(pattern, pkg, (size_t)(ver - pkg)))
+		return 0;
+
+	ver++; /* jump over '-' */
+	if ((cp = find_version(pattern)) == NULL)
+		errx(1, "multiversion_match(): malformed pattern '%s'!", pattern);
+	snprintf(name, sizeof(name), cp + 1);
+	token = name;
+
+	while ((cp = strsep(&token, ",")) != NULL) {
+		op = NONE;
+		if (*cp == '>')
+			op = (cp[1] == '=') ? GE : GT;
+		else if (*cp == '<') 
+			op = (cp[1] == '=') ? LE : LT;
+		if (op == NONE && glob_match(cp, ver))
+			return 1;
+		if (op != NONE && !deweycmp(ver, op, (op == GE || op == LE) ? cp + 2 : cp + 1))
+			return 0;
+	}
+	return 1;
+}
+
 /* perform simple match on "pkg" against "pattern" */
 /* return 1 on match, 0 otherwise */
 static int
@@ -316,6 +352,10 @@ pmatch(const char *pattern, const char *pkg)
 	if (strchr(pattern, '{')) {
 		/* emulate csh-type alternates */
 		return alternate_match(pattern, pkg);
+	}
+	if (strchr(pattern, ',')) {
+		/* perform match on multiple versions */
+		return multiversion_match(pattern, pkg);
 	}
 	if (strpbrk(pattern, "<>")) {
 		/* perform relational dewey match on version number */
