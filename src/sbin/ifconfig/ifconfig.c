@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.2 2005/03/06 19:50:01 tg Exp $ */
+/**	$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.3 2006/06/23 14:19:15 tg Exp $ */
 /*	$OpenBSD: ifconfig.c,v 1.121 2004/12/01 15:57:44 jmc Exp $	*/
 /*	$NetBSD: ifconfig.c,v 1.40 1997/10/01 02:19:43 enami Exp $	*/
 
@@ -68,12 +68,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1983, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -117,7 +111,9 @@ static const char copyright[] =
 #include <unistd.h>
 #include <ifaddrs.h>
 
-__RCSID("$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.2 2005/03/06 19:50:01 tg Exp $");
+__COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__RCSID("$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.3 2006/06/23 14:19:15 tg Exp $");
 
 struct	ifreq		ifr, ridreq;
 struct	ifaliasreq	addreq;
@@ -2244,7 +2240,7 @@ pppoe_status(void)
 		}
 		printf(" time: ");
 		if (day != 0) printf("%ldd ", day);
-		printf("%ld:%ld:%ld", hour, min, sec);
+		printf("%02ld:%02ld:%02ld", hour, min, sec);
 	}
 	putchar('\n');
 }
