@@ -4,7 +4,7 @@
  * You may distribute under the terms of either the GNU General Public
  * License or the Less License, as specified in the README file.
  *
- * For more information about less, or for information on how to 
+ * For more information about less, or for information on how to
  * contact the author, see the README file.
  */
 
@@ -19,6 +19,12 @@
 #include <locale.h>
 #include <ctype.h>
 #endif
+#if HAVE_UTF8_LOCALE
+#include <langinfo.h>
+#include <locale.h>
+#endif
+
+__RCSID("$MirOS$");
 
 public int utf_mode = 0;
 
@@ -66,7 +72,7 @@ public int binattr = AT_STANDOUT;
  * one for each character in the charset.
  * If the string is shorter than 256 letters, missing letters
  * are taken to be identical to the last one.
- * A decimal number followed by a letter is taken to be a 
+ * A decimal number followed by a letter is taken to be a
  * repetition of the letter.
  *
  * Each letter is one of:
@@ -227,7 +233,7 @@ init_charset()
 
 	s = lgetenv("LESSBINFMT");
 	setbinfmt(s);
-	
+
 	/*
 	 * See if environment variable LESSCHARSET is defined.
 	 */
@@ -248,6 +254,24 @@ init_charset()
 	/*
 	 * Check whether LC_ALL, LC_CTYPE or LANG look like UTF-8 is used.
 	 */
+#if HAVE_UTF8_LOCALE
+#ifdef LC_CTYPE
+	if ((s = setlocale(LC_CTYPE, "")) != NULL)
+#else
+	if ((s = setlocale(LC_ALL, "")) != NULL)
+#endif
+	{
+		if (strstr(s, "UTF-8") != NULL || strstr(s, "utf-8") != NULL)
+			if (icharset("utf-8"))
+				return;
+#ifdef CODESET
+		if ((s = nl_langinfo(CODESET)) != NULL)
+		if (strstr(s, "UTF-8") != NULL || strstr(s, "utf-8") != NULL)
+			if (icharset("utf-8"))
+				return;
+#endif
+	}
+#endif
 	if ((s = lgetenv("LC_ALL")) != NULL ||
 	    (s = lgetenv("LC_CTYPE")) != NULL ||
 	    (s = lgetenv("LANG")) != NULL)
