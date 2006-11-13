@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.8 2006/02/25 15:49:55 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.9 2006/10/05 15:11:41 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -59,6 +59,7 @@
 #define REQUIRED_BY_FNAME	"+REQUIRED_BY"
 #define DISPLAY_FNAME		"+DISPLAY"
 #define MTREE_FNAME		"+MTREE_DIRS"
+#define DEPENDS_FNAME		"+DEPENDS"
 
 #define CMD_CHAR		'@'	/* prefix for extended PLIST cmd */
 

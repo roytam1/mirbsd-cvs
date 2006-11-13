@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.7 2005/11/15 19:33:56 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.8 2006/02/26 00:23:57 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,12 +29,19 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.7 2005/11/15 19:33:56 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.8 2006/02/26 00:23:57 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
+static int install_dep_local(char *, char *);
+static int install_dep_ftp(char *, char *);
+static void register_dep(char *, char *);
+static void write_deps(void);
+
 static char LogDir[FILENAME_MAX];
 static int zapLogDir;          /* Should we delete LogDir? */
+static char *PkgDeps = NULL;
+static char *dbdir = NULL;
 
 int
 pkg_perform(char **pkgs)
@@ -79,7 +86,6 @@ pkg_do(char *pkg)
     char solve_deps[FILENAME_MAX+50];
     char installed[FILENAME_MAX];
     char *where_to, *tmp, *extract;
-    const char *dbdir;
     FILE *cfile;
     int code;
     plist_t *p;
@@ -282,80 +288,11 @@ pkg_do(char *pkg)
 	if (Verbose)
 	    printf("Package '%s' depends on '%s'\n", PkgName, p->name);
 	if (!findmatchingname(dbdir, p->name, check_if_installed, insttst, sizeof(insttst))) {
-	    char path[FILENAME_MAX], *cp = NULL;
-
 	    if (!Fake) {
-		if (!isURL(pkg) && !getenv("PKG_ADD_BASE")) {
-		    /* install depending pkg from local disk */
-
-		    snprintf(path, sizeof(path), "%s/%s", Home, ensure_tgz(p->name));
-		    if (fexists(path))
-			cp = path;
-		    else
-			cp = fileFindByPath(pkg, p->name);
-		    if (cp) {
-			if (Verbose)
-			    printf("Loading it from '%s'\n", cp);
-		        if (vsystem("pkg_add %s%s %s%s",
-                                     Prefix ? "-p " : "",
-                                     Prefix ? Prefix : "",
-				     Verbose ? "-v " : "", cp)) {
-			    pwarnx("autoload of dependency '%s' failed%s",
-				cp, Force ? " (proceeding anyway)" : "!");
-			    if (!Force)
-				++code;
-			}
-		    }
-		    else {
-			pwarnx("add of dependency '%s' failed%s",
-				p->name, Force ? " (proceeding anyway)" : "!");
-			     if (!Force)
-				++code;
-		    }
-		} else {
-		    /* install depending pkg via FTP */
-
-		    if (ispkgpattern(p->name)){
-			pwarnx("can't install dependent pkg '%s' via FTP, "
-			     "please install manually!", p->name);
-			/* ... until we come up with a better solution - HF */
-			goto bomb;
-		    }else{
-		    char *saved_Current;   /* allocated/set by save_dirs(), */
-		    char *saved_Previous;  /* freed by restore_dirs() */
-
-		    save_dirs(&saved_Current, &saved_Previous);
-
-		    if ((cp = fileGetURL(pkg, p->name)) != NULL) {
-			if (Verbose)
-			    printf("Finished loading '%s' over FTP\n", p->name);
-			system(solve_deps);
-			if (!fexists(CONTENTS_FNAME)) {
-			    pwarnx("autoloaded package '%s' has no %s file?",
-				  p->name, CONTENTS_FNAME);
-			    if (!Force)
-				++code;
-			}
-			else if (vsystem("(pwd; cat %s) | pkg_add %s%s %s-S",
-					 CONTENTS_FNAME,
-					 Prefix ? "-p " : "",
-					 Prefix ? Prefix : "",
-					 Verbose ? "-v " : "")) {
-			    pwarnx("add of dependency '%s' failed%s",
-				  p->name, Force ? " (proceeding anyway)" : "!");
-			    if (!Force)
-				++code;
-			}
-			else if (Verbose)
-			    printf("\t'%s' loaded successfully\n", p->name);
-			/* Nuke the temporary playpen */
-			leave_playpen(cp);
-			free(cp);
-
-			restore_dirs(saved_Current, saved_Previous);
-		    }
-		}
-	    }
+		if (!isURL(pkg) && !getenv("PKG_ADD_BASE"))
+		    code += install_dep_local(pkg, p->name);
+		else
+		    code += install_dep_ftp(pkg, p->name);
 	    } else {
 		if (Verbose)
 		    printf("and was not found%s\n", Force ? " (proceeding anyway)" : "");
@@ -365,9 +302,11 @@ pkg_do(char *pkg)
 		if (!Force)
 		    ++code;
 	    }
+	} else {
+	    if (Verbose)
+		printf(" - '%s' already installed\n", insttst);
+	    register_dep(pkg, insttst);
 	}
-	else if (Verbose)
-	    printf(" - '%s' already installed\n", insttst);
     }
 
     if (code != 0)
@@ -482,48 +421,8 @@ pkg_do(char *pkg)
 	move_file(".", COMMENT_FNAME, LogDir);
 	if (fexists(DISPLAY_FNAME))
 	    move_file(".", DISPLAY_FNAME, LogDir);
+	write_deps();
 
-	/* register dependencies */
-	/* we could save some cycles here if we remembered what we installed
-	 * above (in case we got a wildcard dependency) */
-	/* XXX remembering in p->name would NOT be good! */
-	for (p = Plist.head; p ; p = p->next) {
-	    if (p->type != PLIST_PKGDEP)
-		continue;
-	    if (Verbose)
-		printf("Attempting to record dependency on package '%s'\n", p->name);
-	    (void) snprintf(contents, sizeof(contents), "%s/%s", dbdir,
-	    	    basename(p->name));
-	    if (ispkgpattern(p->name)) {
-		char *s;
-		s=findbestmatchingname(dirname(contents),
-				       basename(contents));
-		if (s != NULL) {
-		    char *t;
-		    t=strrchr(contents, '/');
-		    strlcpy(t+1, s, contents + sizeof(contents) - (t+1));
-		    free(s);
-		}else{
-		    errx(1,"Where did our dependency go?!");
-		    /* this shouldn't happen... X-) */
-		}
-	    }
-	    strlcat(contents, "/", sizeof(contents));
-	    strlcat(contents, REQUIRED_BY_FNAME, sizeof(contents));
-
-	    drop_privs();
-	    cfile = fopen(contents, "a");
-	    if (!cfile) {
-		raise_privs();
-		pwarnx("can't open dependency file '%s'!\n"
-		       "dependency registration is incomplete", contents);
-	    } else {
-		fprintf(cfile, "%s\n", PkgName);
-		if (fclose(cfile) == EOF)
-		    pwarnx("cannot properly close file '%s'", contents);
-		raise_privs();
-	    }
-	}
 	if (Verbose)
 	    printf("Package '%s' registered in '%s'\n", PkgName, LogDir);
     }
@@ -573,6 +472,159 @@ pkg_do(char *pkg)
     free_plist(&Plist);
     leave_playpen(Home);
     return code;
+}
+
+/* install depending pkg from local disk */
+static int
+install_dep_local(char *base, char *pattern)
+{
+    char *cp;
+    char path[FILENAME_MAX];
+
+    snprintf(path, sizeof(path), "%s/%s", Home, ensure_tgz(pattern));
+    if (fexists(path))
+	cp = path;
+    else
+	cp = fileFindByPath(base, pattern);
+    if (cp) {
+	if (Verbose)
+	    printf("Loading it from '%s'\n", cp);
+	if (vsystem("pkg_add %s%s %s%s",
+		     Prefix ? "-p " : "",
+		     Prefix ? Prefix : "",
+		     Verbose ? "-v " : "", cp)) {
+	    pwarnx("autoload of dependency '%s' failed%s",
+		cp, Force ? " (proceeding anyway)" : "!");
+	    if (!Force)
+		return 1;
+	}
+	register_dep(base, cp);
+    } else {
+	pwarnx("add of dependency '%s' failed%s",
+		pattern, Force ? " (proceeding anyway)" : "!");
+	     if (!Force)
+		 return 1;
+    }
+    return 0;
+}
+
+/* install depending pkg via FTP */
+static int
+install_dep_ftp(char *base, char *pattern)
+{
+    char *cp;
+
+    if (ispkgpattern(pattern)){
+	pwarnx("can't install dependent pkg '%s' via FTP, "
+	     "please install manually!", pattern);
+	/* ... until we come up with a better solution - HF */
+	return 1;
+    } else {
+	char *saved_Current;   /* allocated/set by save_dirs(), */
+	char *saved_Previous;  /* freed by restore_dirs() */
+
+	save_dirs(&saved_Current, &saved_Previous);
+
+	if ((cp = fileGetURL(base, pattern)) != NULL) {
+	    if (Verbose)
+		printf("Finished loading '%s' over FTP\n", pattern);
+	    /*system(solve_deps); * XXX */
+	    if (!fexists(CONTENTS_FNAME)) {
+		pwarnx("autoloaded package '%s' has no %s file?",
+		      pattern, CONTENTS_FNAME);
+		if (!Force)
+		    return 1;
+	    } else if (vsystem("(pwd; cat %s) | pkg_add %s%s %s-S",
+			     CONTENTS_FNAME,
+			     Prefix ? "-p " : "",
+			     Prefix ? Prefix : "",
+			     Verbose ? "-v " : "")) {
+		pwarnx("add of dependency '%s' failed%s",
+		      pattern, Force ? " (proceeding anyway)" : "!");
+		if (!Force)
+		    return 1;
+	    } else if (Verbose)
+		printf("\t'%s' loaded successfully\n", pattern);
+	    /* Nuke the temporary playpen */
+	    leave_playpen(cp);
+	    free(cp);
+
+	    restore_dirs(saved_Current, saved_Previous);
+	    register_dep(base, pattern);
+	}
+    }
+}
+
+/* register a dependent package and add it to the internal depends list */
+static void
+register_dep(char *pkg, char *dep)
+{
+    char *cp;
+    char buf[FILENAME_MAX];
+    int len;
+    FILE *cfile;
+
+    if (!pkg || !dep || !dbdir)
+	return;
+
+    if (Verbose)
+	printf("Attempting to record dependency on package '%s'\n", dep);
+
+    if (!PkgDeps) {
+	if (asprintf(&PkgDeps, "%s\n", dep) < 0) {
+	    pwarnx("cannot allocate memory for PkgDeps list!\n"
+		    "dependency registration is incomplete");
+	}
+    } else {
+	(void) snprintf(buf, sizeof(buf), "%s\n", basename(dep));
+	len = strlen(PkgDeps) + strlen(buf) + 1;
+	if ((cp = (char *) realloc(PkgDeps, len)) == NULL) {
+	    pwarnx("cannot allocate more memory for PkgDeps list!\n"
+		    "dependency registration is incomplete");
+	} else {
+	    (void) strlcat(cp, buf, len);
+	    PkgDeps = cp;
+	}
+    }
+
+    (void) snprintf(buf, sizeof(buf), "%s/%s/%s", dbdir, basename(dep),
+		    REQUIRED_BY_FNAME);
+    drop_privs();
+    cfile = fopen(buf, "a");
+    if (!cfile) {
+	raise_privs();
+	pwarnx("can't open dependency file '%s'!\n"
+	       "dependency registration is incomplete", buf);
+    } else {
+	fprintf(cfile, "%s\n", PkgName);
+	if (fclose(cfile) == EOF)
+	    pwarnx("cannot properly close file '%s'", buf);
+	raise_privs();
+    }
+}
+
+/* write the dependencies of a package into its dbdir */
+static void
+write_deps(void)
+{
+    char filename[FILENAME_MAX];
+    FILE *cfile;
+
+    if (!PkgDeps || !LogDir)
+	return;
+
+    (void) snprintf(filename, sizeof(filename), "%s/%s", LogDir, DEPENDS_FNAME);
+    drop_privs();
+    cfile = fopen(filename, "w");
+    if (!cfile) {
+	raise_privs();
+	pwarnx("cannot open dependency file '%s' for writing", filename);
+	return;
+    }
+    fprintf(cfile, "%s", PkgDeps);
+    if (fclose(cfile) == EOF)
+	pwarnx("cannot properly close file '%s'", filename);
+    raise_privs();
 }
 
 static int
