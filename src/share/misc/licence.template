@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.15 2006/11/14 01:10:26 tg Exp $ */
 
 /*-
  * Copyright (c) year, year, year, ...
@@ -7,9 +7,9 @@
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
  * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * pyright notices above, these terms and below disclaimer are retai-
+ * ned in all redistributions, or reproduced in accompanying documen-
+ * tation or other materials provided with binary redistributions.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
