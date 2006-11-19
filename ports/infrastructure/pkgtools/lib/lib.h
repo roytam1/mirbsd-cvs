@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.9 2006/10/05 15:11:41 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.10 2006/11/13 21:49:54 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -230,13 +230,5 @@ void 		pwarn(const char *, ...)
 extern bool	Verbose;
 extern bool	Fake;
 extern bool	Force;
-
-#ifndef	__SCCSID
-#define	__SCCSID(x)	static const char sccsid[] = x
-#endif
-
-#ifndef	__RCSID
-#define	__RCSID(x)	static const char rcsid[] = x
-#endif
 
 #endif /* _INST_LIB_LIB_H_ */
