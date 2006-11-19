@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.8 2006/02/26 00:23:57 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.9 2006/11/13 21:49:53 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.8 2006/02/26 00:23:57 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.9 2006/11/13 21:49:53 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -555,20 +555,16 @@ install_dep_ftp(char *base, char *pattern)
     }
 }
 
-/* register a dependent package and add it to the internal depends list */
+/* add a dependent package to the internal depends list */
 static void
 register_dep(char *pkg, char *dep)
 {
     char *cp;
     char buf[FILENAME_MAX];
     int len;
-    FILE *cfile;
 
-    if (!pkg || !dep || !dbdir)
+    if (!pkg || !dep)
 	return;
-
-    if (Verbose)
-	printf("Attempting to record dependency on package '%s'\n", dep);
 
     if (!PkgDeps) {
 	if (asprintf(&PkgDeps, "%s\n", dep) < 0) {
@@ -586,28 +582,14 @@ register_dep(char *pkg, char *dep)
 	    PkgDeps = cp;
 	}
     }
-
-    (void) snprintf(buf, sizeof(buf), "%s/%s/%s", dbdir, basename(dep),
-		    REQUIRED_BY_FNAME);
-    drop_privs();
-    cfile = fopen(buf, "a");
-    if (!cfile) {
-	raise_privs();
-	pwarnx("can't open dependency file '%s'!\n"
-	       "dependency registration is incomplete", buf);
-    } else {
-	fprintf(cfile, "%s\n", PkgName);
-	if (fclose(cfile) == EOF)
-	    pwarnx("cannot properly close file '%s'", buf);
-	raise_privs();
-    }
 }
 
-/* write the dependencies of a package into its dbdir */
+/* write the dependencies of a package into its dbdir and register them */
 static void
 write_deps(void)
 {
     char filename[FILENAME_MAX];
+    char *cp, *token;
     FILE *cfile;
 
     if (!PkgDeps || !LogDir)
@@ -618,13 +600,36 @@ write_deps(void)
     cfile = fopen(filename, "w");
     if (!cfile) {
 	raise_privs();
-	pwarnx("cannot open dependency file '%s' for writing", filename);
+	pwarn("cannot open dependency file '%s' for writing", filename);
 	return;
     }
     fprintf(cfile, "%s", PkgDeps);
     if (fclose(cfile) == EOF)
-	pwarnx("cannot properly close file '%s'", filename);
+	pwarn("cannot properly close file '%s'", filename);
     raise_privs();
+
+    token = PkgDeps;
+    while ((cp = strsep(&token, "\n")) != NULL) {
+	if (*cp == '\0')
+	    continue;
+	if (Verbose)
+	    printf("Attempting to record dependency on package '%s'\n", cp);
+	(void) snprintf(filename, sizeof(filename), "%s/%s/%s", dbdir,
+			basename(cp), REQUIRED_BY_FNAME);
+	drop_privs();
+	cfile = fopen(filename, "a");
+	if (!cfile) {
+	    raise_privs();
+	    pwarn("can't open dependency file '%s'\n"
+		   "dependency registration is incomplete", filename);
+	} else {
+	    fprintf(cfile, "%s\n", PkgName);
+	    if (fclose(cfile) == EOF)
+		pwarn("cannot properly close file '%s'", filename);
+	    raise_privs();
+	}
+    }
+
 }
 
 static int
