@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.15 2006/11/14 01:10:26 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.16 2006/11/14 01:13:52 tg Exp $ */
 
 /*-
  * Copyright (c) year, year, year, ...
@@ -41,14 +41,13 @@
  *	)?( and (its|their|by other) contributors)?( (for|by) $name).
  *
  * RATIONALE:
- * This template contains the preferred licence for any work (such as
- * source code, documentation, fonts, graphics, sound, etc.) added to
- * MirOS and is OSD[2] 1.9 and DFSG[3] 1.1 compliant. It's drafted as
- * equivalent of the "historic permission notice"[4] adapted to Euro-
- * pean law because in some (droit d'auteur) countries one can't dis-
- * claim all liability. There is no implied choice of law (MirOS uses
- * extra provision for that); the licence is GPL-compatible if adver-
- * tising clauses are not used.
+ * This licence is apt for any kind of work (such as source code, do-
+ * cumentation, fonts, graphics, sound, etc.) and the preferred terms
+ * for works added to MirOS. It has been drafted as universally usab-
+ * le equivalent of the "historic permission notice"[2] adapted to EU
+ * law, because in some (droit d'auteur) countries one can't disclaim
+ * claim all liabilities, and is OSD[3] 1.9 and DFSG[4] 1.1 compliant
+ * and GPL compatible unless advertising clauses are used.
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
@@ -57,7 +56,7 @@
  *
  * REFERENCES:
  * [1] also at http://mirbsd.de/MirOS-Licence
- * [2] http://www.opensource.org/docs/definition_plain.php
- * [3] http://www.debian.org/social_contract#guidelines
- * [4] http://www.opensource.org/licenses/historical.php
+ * [2] http://www.opensource.org/licenses/historical.php
+ * [3] http://www.opensource.org/docs/definition_plain.php
+ * [4] http://www.debian.org/social_contract#guidelines
  */
