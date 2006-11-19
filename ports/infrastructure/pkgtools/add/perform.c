@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.9 2006/11/13 21:49:53 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.10 2006/11/19 13:06:53 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.9 2006/11/13 21:49:53 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.10 2006/11/19 13:06:53 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -41,7 +41,7 @@ static void write_deps(void);
 static char LogDir[FILENAME_MAX];
 static int zapLogDir;          /* Should we delete LogDir? */
 static char *PkgDeps = NULL;
-static char *dbdir = NULL;
+static const char *dbdir = NULL;
 
 int
 pkg_perform(char **pkgs)
