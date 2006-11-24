@@ -1,9 +1,10 @@
-# $MirOS: ports/x11/libxklavier/Makefile,v 1.2 2006/02/09 11:15:51 tg Exp $
+# $MirOS: ports/audio/taglib/Makefile,v 1.1 2006/11/24 23:15:51 bsiegert Exp $
 
 COMMENT=		audio metadata library
 
 VERSION=		1.4
 DISTNAME=		taglib-${VERSION}
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		audio devel
 
 HOMEPAGE=		http://developer.kde.org/~wheeler/taglib.html
@@ -26,6 +27,10 @@ CONFIGURE_STYLE= 	autogen
 AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--disable-dependency-tracking
+
+pre-patch:
+	print "/^# libtool.m4/,$$ d\nwq" | ed -s ${WRKSRC}/acinclude.m4
 
 .include <bsd.port.mk>
