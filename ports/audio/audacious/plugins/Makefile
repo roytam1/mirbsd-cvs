@@ -1,7 +1,8 @@
-# $MirOS$
+# $MirOS: ports/audio/audacious/plugins/Makefile,v 1.1 2006/11/25 23:21:54 bsiegert Exp $
 
 COMMENT=		plugins package for audacious
 DISTNAME=		audacious-plugins-1.2.5
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		audio
 
 LIB_DEPENDS+=		audacious.4.0::audio/audacious/player
@@ -25,5 +26,6 @@ CONFIGURE_ARGS+=	--disable-modplug
 CONFIGURE_ARGS+=	--disable-alsa
 CONFIGURE_ARGS+=	--disable-amidiplug
 CONFIGURE_ARGS+=	--disable-timidity
+CONFIGURE_ARGS+=	--with-dev-dsp=/dev/sound
 
 .include <bsd.port.mk>
