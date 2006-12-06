@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/arpa/nameser.h,v 1.3 2006/12/06 13:08:56 tg Exp $ */
 /*	$OpenBSD: nameser.h,v 1.10 2004/01/22 21:48:02 espie Exp $	*/
 
 /*
@@ -368,23 +368,23 @@ extern	u_int32_t	_getlong(const unsigned char *);
  * These macros demonstrate the property of C whereby it can be
  * portable or it can be elegant but rarely both.
  */
-#define GETSHORT(s, cp) { \
-	unsigned char *t_cp = (unsigned char *)(cp); \
+#define GETSHORT(s, cp) do { \
+	const unsigned char *t_cp = (const unsigned char *)(cp); \
 	(s) = ((u_int16_t)t_cp[0] << 8) \
 	    | ((u_int16_t)t_cp[1]) \
 	    ; \
 	(cp) += INT16SZ; \
-}
+} while (0)
 
-#define GETLONG(l, cp) { \
-	unsigned char *t_cp = (unsigned char *)(cp); \
+#define GETLONG(l, cp) do { \
+	const unsigned char *t_cp = (const unsigned char *)(cp); \
 	(l) = ((u_int32_t)t_cp[0] << 24) \
 	    | ((u_int32_t)t_cp[1] << 16) \
 	    | ((u_int32_t)t_cp[2] << 8) \
 	    | ((u_int32_t)t_cp[3]) \
 	    ; \
 	(cp) += INT32SZ; \
-}
+} while (0)
 
 #define PUTSHORT(s, cp) { \
 	u_int16_t t_s = (u_int16_t)(s); \
