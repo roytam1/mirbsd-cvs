@@ -58,7 +58,7 @@
 #include <unistd.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/net/res_comp.c,v 1.2 2006/12/06 13:02:28 tg Exp $");
 
 static int dn_find(u_char *, u_char *, u_char **, u_char **);
 
@@ -328,6 +328,7 @@ dn_find(u_char *exp_dn, u_char *msg, u_char **dnptrs, u_char **lastdnptr)
  */
 #define PERIOD 0x2e
 #define	hyphenchar(c) ((c) == 0x2d)
+#define	uscorechar(c) ((c) == 0x5f)
 #define bslashchar(c) ((c) == 0x5c)
 #define periodchar(c) ((c) == PERIOD)
 #define asterchar(c) ((c) == 0x2a)
@@ -336,7 +337,7 @@ dn_find(u_char *exp_dn, u_char *msg, u_char **dnptrs, u_char **lastdnptr)
 #define digitchar(c) ((c) >= 0x30 && (c) <= 0x39)
 
 #define borderchar(c) (alphachar(c) || digitchar(c))
-#define middlechar(c) (borderchar(c) || hyphenchar(c))
+#define middlechar(c) (borderchar(c) || hyphenchar(c) || uscorechar(c))
 #define	domainchar(c) ((c) > 0x20 && (c) < 0x7f)
 
 int
