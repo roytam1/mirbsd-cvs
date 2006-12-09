@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.15 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,9 +24,9 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
-static char Options[] = "acDde:fIikLl:mpqRrsvh";
+static char Options[] = "acDde:fIikLl:mPpqRrsvh";
 
 int	Flags		= 0;
 bool	AllInstalled	= false;
@@ -95,6 +95,10 @@ main(int argc, char **argv)
 	    Flags |= SHOW_MTREE;
 	    break;
 
+	case 'P':
+	    Flags |= SHOW_DEPENDS;
+	    break;
+
 	case 'p':
 	    Flags |= SHOW_PREFIX;
 	    break;
@@ -118,9 +122,9 @@ main(int argc, char **argv)
 	case 'v':
 	    Verbose = true;
 	    /* Reasonable definition of 'everything' */
-	    Flags = SHOW_COMMENT | SHOW_DESC | SHOW_PLIST | SHOW_INSTALL |
-		SHOW_DEINSTALL | SHOW_REQUIRE | SHOW_DISPLAY | SHOW_MTREE |
-		SHOW_REQBY;
+	    Flags = SHOW_COMMENT | SHOW_DESC | SHOW_DEPENDS | SHOW_PLIST |
+		SHOW_INSTALL | SHOW_DEINSTALL | SHOW_REQUIRE | SHOW_DISPLAY |
+		SHOW_MTREE | SHOW_REQBY;
 	    break;
 
 	case 'h':

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/info/info.h,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: info.h,v 1.3 1998/11/19 04:12:55 espie Exp $ */
 
 /*
@@ -40,6 +40,7 @@
 #define SHOW_REQBY	0x0400
 #define SHOW_MTREE	0x0800
 #define SHOW_SAMPLE	0x1000
+#define SHOW_DEPENDS	0x2000
 
 extern int Flags;
 extern bool AllInstalled;
