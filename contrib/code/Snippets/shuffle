@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.17 2006/11/19 13:37:59 tg Exp $
+# $MirOS: contrib/code/Snippets/shuffle,v 1.1 2006/11/23 19:46:38 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -65,7 +65,11 @@ done
 # Sort list of files
 while (( ${#files[*]} > 0 )); do
 	let "nr = (RANDOM << 15 | RANDOM) % ${#files[*]}"
-	cmdline[${#cmdline[*]}]=${files[nr]}
+	if [[ -e ${files[nr]} ]]; then
+		cmdline[${#cmdline[*]}]=${files[nr]}
+	else
+		print -u2 "Warning: non-existent '${files[nr]}' skipped"
+	fi
 	unset files[nr]
 	set -A files -- "${files[@]}"
 done
