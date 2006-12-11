@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.18 2006/12/06 14:42:16 tg Draft $ */
+/* $MirOS: src/share/misc/licence.template,v 1.19 2006/12/11 20:57:37 bsiegert Stab $ */
 
 /*-
  * Copyright (c) year, year, year, ...
@@ -45,8 +45,9 @@
  * for works added to MirOS. It has been drafted as universally usab-
  * le equivalent of the "historic permission notice"[2] adapted to EU
  * law, because in some (droit d'auteur) countries one can't disclaim
- * claim all liabilities, and is OSD[3] 1.9 and DFSG[4] 1.1 compliant
- * and GPL compatible unless advertising clauses are used.
+ * all liabilities. Compliance to OSD[3] 1.9 and DFSG[4] 1.1 is safe,
+ * and GPLv2 compatibility is asserted unless advertising clauses are
+ * used or other (restrictive) text is added.
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
