@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/make.1,v 1.6 2005/09/01 23:42:12 tg Exp $
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.7 2005/11/17 20:58:18 tg Exp $
 .\"	$OpenBSD: make.1,v 1.64 2005/01/15 20:42:49 mbalmer Exp $
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
 .\"
@@ -784,8 +784,8 @@ The
 modifier is just like the
 .Cm :S
 modifier except that the old and new strings, instead of being
-simple strings, are a regular expression (see
-.Xr regex 3 )
+simple strings, are a POSIX extended regular expression (see
+.Xr re_format 7 )
 and an
 .Xr ed 1 Ns \-style
 replacement string.
