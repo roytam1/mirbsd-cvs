@@ -1,10 +1,17 @@
-$MirOS: contrib/code/heartbeat/README,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
+$MirOS: contrib/code/heartbeat/README,v 1.2 2006/06/02 20:54:34 tg Exp $
 
 WARNING
 -------
 
 This code has some not yet tracked down bugs which disappear if
 debugging prints are added. Use at your own risk and TEST it.
+
+Some (but not all) of the bugs may be due to the fact that the
+heartbeat client *as well as* /etc/ppp/ip-{up,down} access the
+gif(4) interface. It should only be controlled from one place.
+
+This code is no longer in use at the author's site - switched
+to a static-IPv4 tunnel. Use with care.
 
 
 Notes for the heartbeat support
