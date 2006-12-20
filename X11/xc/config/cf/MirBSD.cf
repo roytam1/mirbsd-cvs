@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.12 2006/06/02 12:12:12 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.13 2006/06/02 21:19:50 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -237,8 +237,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #ifndef	HasCookieMaker
 #  define HasCookieMaker	YES
-#  define MkCookieCmd \
-	'dd if=/dev/arandom bs=16 count=1 2>/dev/null | hexdump -e \\"%08x\\"'
+#  define MkCookieCmd		'/usr/sbin/openssl rand -hex 16'
 #endif
 
 
