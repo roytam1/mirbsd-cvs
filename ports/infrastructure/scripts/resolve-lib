@@ -1,7 +1,9 @@
 #!/usr/bin/perl
-# $MirOS$
+# $MirOS: ports/infrastructure/scripts/resolve-lib,v 1.4 2005/11/10 23:36:09 tg Exp $
 # $OpenBSD: resolve-lib,v 1.4 2002/11/28 19:20:37 espie Exp $
 #
+# Copyright (c) 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2001
 # Marc Espie.  All rights reserved.
 # Redistribution and use in source and binary forms, with or without
@@ -88,10 +90,13 @@ my $bestminor=-1;
 my $found_shared;
 my $found_goodshared;
 my $found_unshared;
+my $found_libtool;
 
 while(<>) {
 	chomp;
-	if (!$noshared) {
+	if (m/^lib\Q$libname\E\.la$/) {
+		$found_libtool = 1;
+	} elsif (!$noshared) {
 		my $tmp;
 		my $major;
 		my $minor;
@@ -146,7 +151,9 @@ while(<>) {
 	}
 }
 
-if ($found_goodshared) {
+if ($found_libtool) {
+	print "$libname.la\n";
+} elsif ($found_goodshared) {
 	print "$libname.$bestmajor.$bestminor\n";
 } elsif ($found_shared) {
 	print "Error: bad shared library\n";
