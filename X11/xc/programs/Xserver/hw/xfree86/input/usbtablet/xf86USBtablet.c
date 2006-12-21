@@ -405,7 +405,7 @@ UsbTabletReadInput(InputInfoPtr pInfo)
 		}
 	}
 	DBG(7, ErrorF("UsbTabletReadInput END   pInfo=0x%x priv=0x%x\n",
-		      pInfo, priv));
+		      (unsigned)pInfo, (unsigned)priv));
 }
 
 static void
@@ -910,7 +910,7 @@ UsbTabletPreInit(InputDriverPtr drv, IDevPtr dev, int flags)
 		} else if (xf86NameCmp(s, "eraser") == 0) {
 			pInfo = UsbTabletAllocateEraser(drv);
 		} else {
-			xf86Msg(X_ERROR, "%s: Invalid type specified.\n",
+			xf86Msg(X_ERROR, "%s: Invalid type specified.\n"
 				"Must be one of stylus or eraser.\n",
 				dev->identifier);
 			goto PreInit_fail;
