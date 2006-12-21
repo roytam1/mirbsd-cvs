@@ -1,6 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.67 2005/08/10 13:48:36 dtucker Exp $ */
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -8,13 +9,16 @@
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF MIND, USE, DATA OR PROFITS, WHETHER
- * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The following disclaimer must also be retained:
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -34,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.3 2006/10/10 17:31:19 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -420,10 +424,21 @@ priv_adjtime(void)
 		    offset_compare);
 
 	if (offset_cnt > 0) {
+		double weight_cnt = 0.0;
+
+		offset_median = 0.0;
+		for (i = 0; i < offset_cnt; ++i) {
+			double j = (i + 1) * (offset_cnt - i);
+			offset_median += j * peers[i]->update.offset;
+			weight_cnt += j;
+		}
+		offset_median /= weight_cnt;
+
 		if (offset_cnt > 1 && offset_cnt % 2 == 0) {
-			offset_median =
+			log_info("measured value %fs adjusted to %fs",
 			    (peers[offset_cnt / 2 - 1]->update.offset +
-			    peers[offset_cnt / 2]->update.offset) / 2;
+			    peers[offset_cnt / 2]->update.offset) / 2,
+			    offset_median);
 			conf->status.rootdelay =
 			    (peers[offset_cnt / 2 - 1]->update.delay +
 			    peers[offset_cnt / 2]->update.delay) / 2;
@@ -431,7 +446,9 @@ priv_adjtime(void)
 			    peers[offset_cnt / 2 - 1]->update.status.stratum,
 			    peers[offset_cnt / 2]->update.status.stratum);
 		} else {
-			offset_median = peers[offset_cnt / 2]->update.offset;
+			log_info("measured value %fs adjusted to %fs",
+			    peers[offset_cnt / 2]->update.offset,
+			    offset_median);
 			conf->status.rootdelay =
 			    peers[offset_cnt / 2]->update.delay;
 			conf->status.stratum =
