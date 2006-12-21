@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.3 2006/10/10 17:31:19 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.4 2006/12/21 22:44:41 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -425,10 +425,19 @@ priv_adjtime(void)
 
 	if (offset_cnt > 0) {
 		double weight_cnt = 0.0;
+		int weight_half = 0;
 
 		offset_median = 0.0;
 		for (i = 0; i < offset_cnt; ++i) {
 			double j = (i + 1) * (offset_cnt - i);
+			if (weight_half) {
+				j += weight_half;
+				weight_half = 0;
+			} else if ((i + 1) * 2 == offset_cnt) {
+				weight_half = weight_cnt;
+				j += weight_half;
+			} else if (i * 2 + 1 == offset_cnt)
+				j += 2.0 * weight_cnt;
 			offset_median += j * peers[i]->update.offset;
 			weight_cnt += j;
 		}
