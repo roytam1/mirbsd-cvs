@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.4 2006/12/21 22:44:41 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.5 2006/12/21 22:57:13 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -444,10 +444,6 @@ priv_adjtime(void)
 		offset_median /= weight_cnt;
 
 		if (offset_cnt > 1 && offset_cnt % 2 == 0) {
-			log_info("measured value %fs adjusted to %fs",
-			    (peers[offset_cnt / 2 - 1]->update.offset +
-			    peers[offset_cnt / 2]->update.offset) / 2,
-			    offset_median);
 			conf->status.rootdelay =
 			    (peers[offset_cnt / 2 - 1]->update.delay +
 			    peers[offset_cnt / 2]->update.delay) / 2;
@@ -455,9 +451,6 @@ priv_adjtime(void)
 			    peers[offset_cnt / 2 - 1]->update.status.stratum,
 			    peers[offset_cnt / 2]->update.status.stratum);
 		} else {
-			log_info("measured value %fs adjusted to %fs",
-			    peers[offset_cnt / 2]->update.offset,
-			    offset_median);
 			conf->status.rootdelay =
 			    peers[offset_cnt / 2]->update.delay;
 			conf->status.stratum =
