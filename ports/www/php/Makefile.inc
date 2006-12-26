@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.11 2006/02/21 16:48:29 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.12 2006/02/21 17:40:12 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
@@ -14,10 +14,7 @@ RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://www.php.net/ \
 			http://www.hardened-php.net/
 MASTER_SITES=		\
-			http://no.php.net/distributions/ \
-			http://uk.php.net/distributions/ \
-			http://se.php.net/distributions/ \
-			http://us2.php.net/distributions/
+			http://museum.php.net/php5/
 MASTER_SITES0=		\
 			http://www.hardened-php.net/
 PATCHFILES=		\
