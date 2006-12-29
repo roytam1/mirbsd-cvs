@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/opal/Makefile,v 1.1 2006/11/24 19:49:25 tg Exp $
+# $MirOS: ports/lang/opal/Makefile,v 1.2 2006/12/29 00:45:26 tg Exp $
 
 COMMENT=			functional programming language
 CATEGORIES=			devel lang
 VERSION=			2.3k
 DISTNAME=			ocs-${VERSION}-src
-PKGNAME=			opal-${VERSION}
+PKGNAME=			opal-${VERSION}-0
 HOMEPAGE=			http://uebb.cs.tu-berlin.de/~opal/
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
 
