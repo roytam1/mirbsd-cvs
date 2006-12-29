@@ -1,4 +1,6 @@
-# $MirOS: ports/lang/opal/Makefile,v 1.2 2006/12/29 00:45:26 tg Exp $
+# $MirOS: ports/lang/opal/Makefile,v 1.3 2006/12/29 01:16:20 tg Exp $
+
+ONLY_FOR_PLATFORM=		MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			functional programming language
 CATEGORIES=			devel lang
