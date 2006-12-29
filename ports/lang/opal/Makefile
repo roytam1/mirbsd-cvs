@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/opal/Makefile,v 1.1 2006/11/24 19:49:25 tg Exp $
 
 COMMENT=			functional programming language
 CATEGORIES=			devel lang
@@ -30,6 +30,8 @@ B_R_DEPENDS+=			:gsed-*:textproc/gsed
 
 CPPFLAGS+=			-I${LOCALBASE}/include/tcl8.4 \
 				-I${LOCALBASE}/include/tk8.4
+LDFLAGS+=			-Wl,-rpath,${LOCALBASE}/lib \
+				-Wl,-rpath,${X11BASE}/lib
 
 CONFIGURE_STYLE=		autoconf no-autoheader dest
 AUTOCONF_NEW=			Yes
