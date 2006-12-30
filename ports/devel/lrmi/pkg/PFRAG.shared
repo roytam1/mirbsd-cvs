@@ -1,0 +1,2 @@
+@comment $MirOS$
+@lib lib/liblrmi.so.0.10
