@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.1 2006/12/28 04:38:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,8 +31,10 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$FromMirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.7 2006/11/16 21:34:37 tg Exp $");
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.7 2006/11/16 21:34:37 tg Exp $");
+#ifdef __RCSID
+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.7 2006/11/16 21:34:37 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.1 2006/12/28 04:38:23 tg Exp $");
+#endif
 
 /*
  * -U			return true and print (unless -q) if VT is UTF-8
@@ -46,6 +48,8 @@ main(int argc, char **argv)
 	int wsfd, c, rv = 0;
 	int nr = 0, q = 0;
 	struct termios tio, otio;
+
+	const char qstr[] = "\030\032\r\xC2\xA0\033[6n";
 
 	while ((c = getopt(argc, argv, "qU")) != -1)
 		switch (c) {
@@ -78,8 +82,7 @@ main(int argc, char **argv)
 			warn("tcsetattr\r");
 			goto tios_err;
 		}
-		strlcpy(buf, "\030\032\r\xC2\xA0\033[6n", sizeof (buf));
-		if ((size_t)write(wsfd, buf, strlen(buf)) != strlen(buf)) {
+		if ((size_t)write(wsfd, qstr, strlen(qstr)) != strlen(qstr)) {
 			warn("write\r");
 			goto tios_err;
 		}
