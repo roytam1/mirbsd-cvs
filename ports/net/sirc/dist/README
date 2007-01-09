@@ -1,4 +1,4 @@
-$MirOS: ports/net/sirc/patches/patch-README,v 1.1.7.1 2005/03/18 15:49:06 tg Exp $
+$MirOS: ports/net/sirc/dist/README,v 1.2 2005/09/01 20:38:50 tg Exp $
 
 Attention: this file is not accurate, please use the manual page.
 
@@ -130,7 +130,7 @@ interrupted by pressing ^c (Control-C).
 
 
 
-## Recognized shell variables:
+## Recognised shell variables:
 
 SIRCSERVER, IRCSERVER	- server to use, optionally followed by a port
 			  and a password, in the form server:port:pass; 
@@ -139,6 +139,10 @@ SIRCSERVER, IRCSERVER	- server to use, optionally followed by a port
 
 SIRCPORT, IRCPORT	- port to connect to if not specified in the
 			  server, overriden by -p, defaults to 6667
+			  precede with 's' to use SSL
+
+SIRCSSL			- extra arguments to openssl(1)
+			  defaults to -CApath /etc/ssl/certs
 
 SIRCNAME, IRCNAME	- information between ()'s in the /whois,
 			  defaults to "sirc user"
@@ -403,7 +407,7 @@ CTCP off|none|noreply|noflood|on|all
 		      "all" will process and reply to all CTCPs.
 
 		      note that even in "all" mode, stacked CTCPs (more than
-		      one in a single message) are not recognized.  I have
+		      one in a single message) are not recognised.  I have
 		      yet to see those in actual use other than in floods.
 
 CTRL_T text         - sets the text that the ^t key types; the default is
@@ -473,7 +477,7 @@ If you use the install program, the "sirc" shell-script puts this
 directory in the environment variable SIRCLIB before starting the perl
 client
 
-$SIRCLIB/sircrc and ~/.sircrc can contain commands that will be recognized
+$SIRCLIB/sircrc and ~/.sircrc can contain commands that will be recognised
 as if the user had typed them right at the moment of connecting to the
 server.
 
@@ -491,7 +495,7 @@ You can specify a different name for this file, with the option -L.
 
 
 The files $SIRCLIB/sircrc.pl and ~/.sircrc.pl can contain perl code that
-will be sourced during initialization, and can define new functions
+will be sourced during initialisation, and can define new functions
 programmed in perl, and install help for them, and also set hooks (the
 equivalent of ircII's /on's) and &load other perl scripts.
 
@@ -527,7 +531,7 @@ and a scrolling-region separated from it by a status bar, which
 shows your nick, user modes, away status, channel, channel modes,
 and query.
 
-The command-line editor recognizes the following editing keys:
+The command-line editor recognises the following editing keys:
 
 ( ^key means Control-key )
 
