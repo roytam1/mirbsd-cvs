@@ -1,4 +1,4 @@
-/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.2 2007/01/08 17:20:55 tg Exp $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.3 2007/01/10 00:02:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -33,7 +33,7 @@
 
 #ifdef __RCSID
 __RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $");
-__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.2 2007/01/08 17:20:55 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.3 2007/01/10 00:02:36 tg Exp $");
 #endif
 
 /* query string sent to the terminal for LC_CTYPE detection */
@@ -73,42 +73,42 @@ main(int argc, char **argv)
 		if ((wsfd = open(wsdev, O_RDWR, 0)) < 0)
 			err(2, "open %s", wsdev);
 
-		if (tcgetattr(wsfd, &otio))
-			err(3, "tcgetattr");
-		tio = otio;
-		cfmakeraw(&tio);
-		if (tcflush(wsfd, TCIOFLUSH))
-			warn("tcflush");
-		rv = 3;
-		if (tcsetattr(wsfd, TCSANOW, &tio)) {
-			warn("tcsetattr\r");
-			goto tios_err;
-		}
-		if ((size_t)write(wsfd, ctype_qstr, strlen(ctype_qstr)) !=
-		    strlen(ctype_qstr)) {
-			warn("write\r");
-			goto tios_err;
-		}
-		nr = read(wsfd, buf, sizeof (buf));
-		rv = 1;
-		if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
-			c = 2;
-			while (c < (nr - 2))
-				if (buf[c++] == ';')
-					break;
-			if (buf[c - 1] == ';' && buf[c] == '2' &&
-			    !isdigit(buf[c + 1]))
-				rv = 0;
-		}
-		write(wsfd, "\r   \r", 5);
+	if (tcgetattr(wsfd, &otio))
+		err(3, "tcgetattr");
+	tio = otio;
+	cfmakeraw(&tio);
+	if (tcflush(wsfd, TCIOFLUSH))
+		warn("tcflush");
+	rv = 3;
+	if (tcsetattr(wsfd, TCSANOW, &tio)) {
+		warn("tcsetattr\r");
+		goto tios_err;
+	}
+	if ((size_t)write(wsfd, ctype_qstr, strlen(ctype_qstr)) !=
+	    strlen(ctype_qstr)) {
+		warn("write\r");
+		goto tios_err;
+	}
+	nr = read(wsfd, buf, sizeof (buf));
+	rv = 1;
+	if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
+		c = 2;
+		while (c < (nr - 2))
+			if (buf[c++] == ';')
+				break;
+		if (buf[c - 1] == ';' && buf[c] == '2' &&
+		    !isdigit(buf[c + 1]))
+			rv = 0;
+	}
+	write(wsfd, "\r   \r", 5);
  tios_err:
-		if (tcsetattr(wsfd, TCSAFLUSH, &otio))
-			err(3, "tcsetattr");
-		if (!q)
-			printf("LC_CTYPE=%s; export LC_CTYPE\n",
-			    rv == 0 ? "en_US.UTF-8" : "C");
-		if (!q && rv > 1)
-			puts("# warning: problems occured!\n");
+	if (tcsetattr(wsfd, TCSAFLUSH, &otio))
+		err(3, "tcsetattr");
+	if (!q)
+		printf("LC_CTYPE=%s; export LC_CTYPE\n",
+		    rv == 0 ? "en_US.UTF-8" : "C");
+	if (!q && rv > 1)
+		puts("# warning: problems occured!\n");
 
 	close(wsfd);
 	return (rv);
