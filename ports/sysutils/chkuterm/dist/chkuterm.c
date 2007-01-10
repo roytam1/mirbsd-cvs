@@ -1,7 +1,7 @@
-/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.1 2006/12/28 04:38:23 tg Exp $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.2 2007/01/08 17:20:55 tg Exp $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -32,9 +32,13 @@
 #include <unistd.h>
 
 #ifdef __RCSID
-__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.7 2006/11/16 21:34:37 tg Exp $");
-__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.1 2006/12/28 04:38:23 tg Exp $");
+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.2 2007/01/08 17:20:55 tg Exp $");
 #endif
+
+/* query string sent to the terminal for LC_CTYPE detection */
+/* XXX is U+00A0 ok or some other char better? Think EUC, SJIS, etc. */
+const char ctype_qstr[] = "\030\032\r\xC2\xA0\033[6n";
 
 /*
  * -U			return true and print (unless -q) if VT is UTF-8
@@ -48,8 +52,6 @@ main(int argc, char **argv)
 	int wsfd, c, rv = 0;
 	int nr = 0, q = 0;
 	struct termios tio, otio;
-
-	const char qstr[] = "\030\032\r\xC2\xA0\033[6n";
 
 	while ((c = getopt(argc, argv, "qU")) != -1)
 		switch (c) {
@@ -82,7 +84,8 @@ main(int argc, char **argv)
 			warn("tcsetattr\r");
 			goto tios_err;
 		}
-		if ((size_t)write(wsfd, qstr, strlen(qstr)) != strlen(qstr)) {
+		if ((size_t)write(wsfd, ctype_qstr, strlen(ctype_qstr)) !=
+		    strlen(ctype_qstr)) {
 			warn("write\r");
 			goto tios_err;
 		}
