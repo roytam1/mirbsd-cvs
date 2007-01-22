@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.6 2007/01/22 15:38:05 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.7 2007/01/22 15:40:45 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -50,7 +50,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.6 2007/01/22 15:38:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.7 2007/01/22 15:40:45 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -99,6 +99,10 @@ static void free_line(LINE *);
 static __dead void usage(void);
 static void *xmalloc(void *, size_t);
 
+#ifdef COL_SLAVE
+int do_col(int, int);		/* -b (0/1), -f (0/1) */
+#endif
+
 static CSET last_set;		/* char_set of last char printed */
 static LINE *lines;
 static int compress_spaces;	/* if doing space -> tab conversion */
@@ -112,7 +116,11 @@ static int no_backspaces;	/* if not to output any backspaces */
 		err(1, "stdout");
 
 int
+#ifdef COL_SLAVE
+do_col(int ex_b, int ex_f)
+#else
 main(int argc, char *argv[])
+#endif
 {
 	wint_t ch;
 	CHAR *c;
@@ -126,12 +134,21 @@ main(int argc, char *argv[])
 	int this_dwc;			/* ever had a non-1-width wchar? */
 	int lastc_col;			/* last column (for combining) */
 	int nflushd_lines;		/* number of lines that were flushed */
-	int adjust, opt, warned;
-
-	setlocale(LC_ALL, "");
+	int adjust, warned;
+#ifndef COL_SLAVE
+	int opt;
+#endif
 
 	max_bufd_lines = 256;
 	compress_spaces = 1;		/* compress spaces into tabs */
+
+#ifdef COL_SLAVE
+	compress_spaces = 0;
+	no_backspaces = ex_b;
+	fine = ex_f;
+#else
+	setlocale(LC_ALL, "");
+
 	while ((opt = getopt(argc, argv, "bfhl:x")) != -1)
 		switch (opt) {
 		case 'b':		/* do not output backspaces */
@@ -145,9 +162,9 @@ main(int argc, char *argv[])
 			break;
 		case 'l':		/* buffered line count */
 			if ((max_bufd_lines = atoi(optarg)) <= 0) {
-				(void)fprintf(stderr,
+				fprintf(stderr,
 				    "col: bad -l argument %s.\n", optarg);
-				exit(1);
+				return (1);
 			}
 			break;
 		case 'x':		/* do not compress spaces into tabs */
@@ -160,6 +177,7 @@ main(int argc, char *argv[])
 
 	if (optind != argc)
 		usage();
+#endif
 
 	/* this value is in half lines */
 	max_bufd_lines *= 2;
@@ -338,7 +356,7 @@ main(int argc, char *argv[])
 			this_dwc = 1;
 	}
 	if (max_line == 0)
-		exit(0);	/* no lines, so just exit */
+		return (0);	/* no lines, so just exit */
 
 	/* goto the last line that had a character on it */
 	for (; l->l_next; l = l->l_next)
@@ -357,7 +375,7 @@ main(int argc, char *argv[])
 		/* missing a \n on the last line? */
 		nblank_lines = 2;
 	flush_blanks();
-	exit(0);
+	return (0);
 }
 
 static void
@@ -374,7 +392,7 @@ flush_lines(int nflush)
 		}
 		nblank_lines++;
 		if (l->l_line)
-			(void)free((void *)l->l_line);
+			free((void *)l->l_line);
 		free_line(l);
 	}
 	if (lines)
@@ -557,7 +575,7 @@ xmalloc(void *p, size_t size)
 static __dead void
 usage(void)
 {
-	(void)fprintf(stderr, "usage: col [-bfhx] [-l num]\n");
+	fprintf(stderr, "usage: col [-bfhx] [-l num]\n");
 	exit(1);
 }
 
@@ -565,5 +583,5 @@ static void
 dowarn(int line)
 {
 	warnx("warning: can't back up %s",
-		line < 0 ? "past first line" : "-- line already flushed");
+	    line < 0 ? "past first line" : "-- line already flushed");
 }
