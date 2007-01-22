@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/col/col.1,v 1.2 2005/03/13 18:32:47 tg Exp $
 .\"	$OpenBSD: col.1,v 1.8 2003/06/03 02:56:06 millert Exp $
 .\"	$NetBSD: col.1,v 1.4 1995/03/26 05:25:52 glass Exp $
 .\"
@@ -34,7 +34,7 @@
 .\"
 .\"     @(#)col.1	8.1 (Berkeley) 6/29/93
 .\"
-.Dd June 29, 1993
+.Dd January 22, 2007
 .Dt COL 1
 .Os
 .Sh NAME
@@ -110,7 +110,7 @@ Moves forward to next tab stop (9).
 Reverse line feed (11).
 .El
 .Pp
-All unrecognized control characters and escape sequences are
+All unrecognised control characters and escape sequences are
 discarded.
 .Pp
 .Nm
@@ -129,3 +129,5 @@ A
 .Nm
 command appeared in
 .At v6 .
+It was made locale aware in
+.Mx 10 .

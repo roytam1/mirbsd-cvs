@@ -1,8 +1,10 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.2 2005/03/13 18:32:47 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.3 2007/01/22 06:40:26 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
 /*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -42,11 +44,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <wchar.h>
+#include <wctype.h>
 
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.2 2005/03/13 18:32:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.3 2007/01/22 06:40:26 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -71,7 +75,8 @@ typedef struct char_str {
 #define	CS_ALTERNATE	2
 	short		c_column;	/* column character is in */
 	CSET		c_set;		/* character set (currently only 2) */
-	char		c_char;		/* character in question */
+	int8_t		c_width;	/* width of character */
+	wchar_t		c_char;		/* character in question */
 } CHAR;
 
 typedef struct line_str LINE;
@@ -91,7 +96,7 @@ void	flush_line(LINE *);
 void	flush_lines(int);
 void	flush_blanks(void);
 void	free_line(LINE *);
-__dead void	usage(void);
+__dead void usage(void);
 void   *xmalloc(void *, size_t);
 
 CSET	last_set;		/* char_set of last char printed */
@@ -103,13 +108,13 @@ int	nblank_lines;		/* # blanks after last flushed line */
 int	no_backspaces;		/* if not to output any backspaces */
 
 #define	PUTC(ch) \
-	if (putchar(ch) == EOF) \
+	if (putwchar(ch) == WEOF) \
 		err(1, "stdout");
 
 int
 main(int argc, char *argv[])
 {
-	int ch;
+	wint_t ch;
 	CHAR *c;
 	CSET cur_set;			/* current character set */
 	LINE *l;			/* current line */
@@ -118,6 +123,7 @@ main(int argc, char *argv[])
 	int cur_line;			/* line number of current position */
 	int max_line;			/* max value of cur_line */
 	int this_line;			/* line l points to */
+	int this_dwc;			/* ever had a non-1-width wchar? */
 	int nflushd_lines;		/* number of lines that were flushed */
 	int adjust, opt, warned;
 
@@ -158,23 +164,40 @@ main(int argc, char *argv[])
 	max_bufd_lines *= 2;
 
 	adjust = cur_col = extra_lines = warned = 0;
-	cur_line = max_line = nflushd_lines = this_line = 0;
+	cur_line = max_line = nflushd_lines = this_line = this_dwc = 0;
 	cur_set = last_set = CS_NORMAL;
 	lines = l = alloc_line();
 
-	while ((ch = getchar()) != EOF) {
-		if (!isgraph(ch)) {
+	while ((ch = getwchar()) != WEOF) {
+		if (!iswgraph(ch)) {
 			switch (ch) {
 			case BS:		/* can't go back further */
 				if (cur_col == 0)
 					continue;
-				--cur_col;
+				if (this_dwc && l->l_line &&
+				    (cur_line == this_line - adjust)) {
+					/* we had double-width, complicated */
+					CHAR *tc = l->l_line, *tend = NULL;
+					int nchars = l->l_line_len;
+
+					while (nchars--) {
+						if (!tc->c_set)
+							continue;
+						if (cur_col == (tc->c_column +
+						    tc->c_width))
+							tend = tc;
+						++tc;
+					}
+					cur_col -= tend == NULL ? 1 :
+					    tend->c_width;
+				} else
+					--cur_col;
 				continue;
 			case CR:
 				cur_col = 0;
 				continue;
-			case ESC:		/* just ignore EOF */
-				switch(getchar()) {
+			case ESC:		/* just ignore WEOF */
+				switch(getwchar()) {
 				case RLF:
 					cur_line -= 2;
 					break;
@@ -262,6 +285,7 @@ main(int argc, char *argv[])
 				}
 			}
 			this_line = cur_line + adjust;
+			this_dwc = 0;
 			nmove = this_line - nflushd_lines;
 			if (nmove >= max_bufd_lines + BUFFER_MARGIN) {
 				nflushd_lines += nmove - max_bufd_lines;
@@ -279,6 +303,21 @@ main(int argc, char *argv[])
 		}
 		c = &l->l_line[l->l_line_len++];
 		c->c_char = ch;
+		if (this_dwc && c->c_char == L'_') {
+			/* we had double-width, scan if this is \b_ */
+			CHAR *tc = l->l_line, *tend = NULL;
+			int nchars = l->l_line_len;
+
+			while (nchars--) {
+				if (!tc->c_set)
+					continue;
+				if (tc->c_column == cur_col)
+					tend = tc;
+				++tc;
+			}
+			c->c_width = tend == NULL ? 1 : tend->c_width;
+		} else
+			c->c_width = wcwidth(ch);
 		c->c_set = cur_set;
 		c->c_column = cur_col;
 		/*
@@ -289,7 +328,9 @@ main(int argc, char *argv[])
 			l->l_needs_sort = 1;
 		else
 			l->l_max_col = cur_col;
-		cur_col++;
+		cur_col += c->c_width;
+		if (c->c_width != 1)
+			this_dwc = 1;
 	}
 	if (max_line == 0)
 		exit(0);	/* no lines, so just exit */
@@ -301,7 +342,7 @@ main(int argc, char *argv[])
 
 	/* make sure we leave things in a sane state */
 	if (last_set != CS_NORMAL)
-		PUTC('\017');
+		PUTC(L'\017');
 
 	/* flush out the last few blank lines */
 	nblank_lines = max_line - this_line;
@@ -355,12 +396,12 @@ flush_blanks(void)
 	}
 	nb /= 2;
 	for (i = nb; --i >= 0;)
-		PUTC('\n');
+		PUTC(L'\n');
 	if (half) {
-		PUTC('\033');
-		PUTC('9');
+		PUTC(L'\033');
+		PUTC(L'9');
 		if (!nb)
-			PUTC('\r');
+			PUTC(L'\r');
 	}
 	nblank_lines = 0;
 }
@@ -436,30 +477,30 @@ flush_line(LINE *l)
 				if (ntabs) {
 					nspace -= (ntabs * 8) - (last_col % 8);
 					while (--ntabs >= 0)
-						PUTC('\t');
+						PUTC(L'\t');
 				}
 			}
 			while (--nspace >= 0)
-				PUTC(' ');
+				PUTC(L' ');
 			last_col = this_col;
 		}
-		last_col++;
+		last_col += (endc - 1)->c_width;
 
 		for (;;) {
 			if (c->c_set != last_set) {
 				switch (c->c_set) {
 				case CS_NORMAL:
-					PUTC('\017');
+					PUTC(L'\017');
 					break;
 				case CS_ALTERNATE:
-					PUTC('\016');
+					PUTC(L'\016');
 				}
 				last_set = c->c_set;
 			}
 			PUTC(c->c_char);
 			if (++c >= endc)
 				break;
-			PUTC('\b');
+			PUTC(L'\b');
 		}
 	}
 }
@@ -515,7 +556,6 @@ usage(void)
 void
 dowarn(int line)
 {
-
 	warnx("warning: can't back up %s",
 		line < 0 ? "past first line" : "-- line already flushed");
 }
