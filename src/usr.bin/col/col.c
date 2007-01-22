@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.5 2007/01/22 14:14:57 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.6 2007/01/22 15:38:05 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -50,7 +50,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.5 2007/01/22 14:14:57 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.6 2007/01/22 15:38:05 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -90,22 +90,22 @@ struct line_str {
 	int	l_max_col;		/* max column in the line */
 };
 
-LINE   *alloc_line(void);
-void	dowarn(int);
-void	flush_line(LINE *);
-void	flush_lines(int);
-void	flush_blanks(void);
-void	free_line(LINE *);
-__dead void usage(void);
-void   *xmalloc(void *, size_t);
+static LINE *alloc_line(void);
+static void dowarn(int);
+static void flush_line(LINE *);
+static void flush_lines(int);
+static void flush_blanks(void);
+static void free_line(LINE *);
+static __dead void usage(void);
+static void *xmalloc(void *, size_t);
 
-CSET	last_set;		/* char_set of last char printed */
-LINE   *lines;
-int	compress_spaces;	/* if doing space -> tab conversion */
-int	fine;			/* if `fine' resolution (half lines) */
-int	max_bufd_lines;		/* max # lines to keep in memory */
-int	nblank_lines;		/* # blanks after last flushed line */
-int	no_backspaces;		/* if not to output any backspaces */
+static CSET last_set;		/* char_set of last char printed */
+static LINE *lines;
+static int compress_spaces;	/* if doing space -> tab conversion */
+static int fine;		/* if 'fine' resolution (half lines) */
+static int max_bufd_lines;	/* max # lines to keep in memory */
+static int nblank_lines;	/* # blanks after last flushed line */
+static int no_backspaces;	/* if not to output any backspaces */
 
 #define	PUTC(ch) \
 	if (putwchar(ch) == WEOF) \
@@ -360,7 +360,7 @@ main(int argc, char *argv[])
 	exit(0);
 }
 
-void
+static void
 flush_lines(int nflush)
 {
 	LINE *l;
@@ -386,7 +386,7 @@ flush_lines(int nflush)
  * is the number of half line feeds, otherwise it is the number of whole line
  * feeds.
  */
-void
+static void
 flush_blanks(void)
 {
 	int half, i, nb;
@@ -415,7 +415,7 @@ flush_blanks(void)
  * Write a line to stdout taking care of space to tab conversion (-h flag)
  * and character set shifts.
  */
-void
+static void
 flush_line(LINE *l)
 {
 	CHAR *c, *endc, *lastc;
@@ -517,7 +517,7 @@ flush_line(LINE *l)
 
 static LINE *line_freelist;
 
-LINE *
+static LINE *
 alloc_line(void)
 {
 	LINE *l;
@@ -537,7 +537,7 @@ alloc_line(void)
 	return (l);
 }
 
-void
+static void
 free_line(LINE *l)
 {
 
@@ -545,7 +545,7 @@ free_line(LINE *l)
 	line_freelist = l;
 }
 
-void *
+static void *
 xmalloc(void *p, size_t size)
 {
 
@@ -554,14 +554,14 @@ xmalloc(void *p, size_t size)
 	return (p);
 }
 
-__dead void
+static __dead void
 usage(void)
 {
 	(void)fprintf(stderr, "usage: col [-bfhx] [-l num]\n");
 	exit(1);
 }
 
-void
+static void
 dowarn(int line)
 {
 	warnx("warning: can't back up %s",
