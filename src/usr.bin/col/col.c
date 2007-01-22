@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.4 2007/01/22 14:13:52 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.5 2007/01/22 14:14:57 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -50,7 +50,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.4 2007/01/22 14:13:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.5 2007/01/22 14:14:57 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -124,6 +124,7 @@ main(int argc, char *argv[])
 	int max_line;			/* max value of cur_line */
 	int this_line;			/* line l points to */
 	int this_dwc;			/* ever had a non-1-width wchar? */
+	int lastc_col;			/* last column (for combining) */
 	int nflushd_lines;		/* number of lines that were flushed */
 	int adjust, opt, warned;
 
@@ -166,10 +167,12 @@ main(int argc, char *argv[])
 	adjust = cur_col = extra_lines = warned = 0;
 	cur_line = max_line = nflushd_lines = this_line = this_dwc = 0;
 	cur_set = last_set = CS_NORMAL;
+	lastc_col = -1;
 	lines = l = alloc_line();
 
 	while ((ch = getwchar()) != WEOF) {
 		if (!iswgraph(ch)) {
+			lastc_col = -1;
 			switch (ch) {
 			case BS:		/* can't go back further */
 				if (cur_col == 0)
@@ -286,6 +289,7 @@ main(int argc, char *argv[])
 			}
 			this_line = cur_line + adjust;
 			this_dwc = 0;
+			lastc_col = -1;
 			nmove = this_line - nflushd_lines;
 			if (nmove >= max_bufd_lines + BUFFER_MARGIN) {
 				nflushd_lines += nmove - max_bufd_lines;
@@ -311,7 +315,7 @@ main(int argc, char *argv[])
 			while (nchars--) {
 				if (!tc->c_set)
 					continue;
-				if (tc->c_column == cur_col)
+				if ((tc->c_column == cur_col) && tc->c_width)
 					tend = tc;
 				++tc;
 			}
@@ -319,7 +323,8 @@ main(int argc, char *argv[])
 		} else
 			c->c_width = wcwidth(ch);
 		c->c_set = cur_set;
-		c->c_column = cur_col;
+		lastc_col = c->c_column = (c->c_width == 0) &&
+		    (lastc_col != -1) ? lastc_col : cur_col;
 		/*
 		 * If things are put in out of order, they will need sorting
 		 * when it is flushed.
@@ -413,7 +418,7 @@ flush_blanks(void)
 void
 flush_line(LINE *l)
 {
-	CHAR *c, *endc;
+	CHAR *c, *endc, *lastc;
 	int nchars, last_col, this_col;
 
 	last_col = 0;
@@ -458,14 +463,16 @@ flush_line(LINE *l)
 		c = l->l_line;
 	while (nchars > 0) {
 		this_col = c->c_column;
-		endc = c;
+		lastc = endc = c;
 		do {
+			if (endc->c_width > 0)
+				lastc = endc;
 			++endc;
 		} while (--nchars > 0 && this_col == endc->c_column);
 
 		/* if -b only print last character */
 		if (no_backspaces)
-			c = endc - 1;
+			c = lastc;
 
 		if (this_col > last_col) {
 			int nspace = this_col - last_col;
@@ -484,7 +491,7 @@ flush_line(LINE *l)
 				PUTC(L' ');
 			last_col = this_col;
 		}
-		last_col += (endc - 1)->c_width;
+		last_col += lastc->c_width;
 
 		for (;;) {
 			if (c->c_set != last_set) {
@@ -500,7 +507,7 @@ flush_line(LINE *l)
 			PUTC(c->c_char);
 			if (++c >= endc)
 				break;
-			if ((c - 1)->c_width)
+			if (c->c_width)
 				PUTC(L'\b');
 		}
 	}
