@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.6 2006/02/21 02:26:45 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.7 2006/03/19 11:20:33 tg Exp $
 .\" $OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
 .\"-
 .\" Copyright (c) 2002-2006 The MirOS Project.
@@ -27,7 +27,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"-
-.Dd June 18, 2001
+.Dd January 22, 2007
 .Dt STYLE 9 IMP
 .Os
 .Sh NAME
@@ -628,6 +628,8 @@ if (!*p)
 Routines returning
 .Li void *
 should not have their return values cast to any pointer type.
+Functions used as procedures should not have their return
+value explicitly cast to void, either.
 .Pp
 Use
 .Xr err 3
