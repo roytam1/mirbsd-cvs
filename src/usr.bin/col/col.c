@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.3 2007/01/22 06:40:26 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.4 2007/01/22 14:13:52 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -50,7 +50,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.3 2007/01/22 06:40:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.4 2007/01/22 14:13:52 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -500,7 +500,8 @@ flush_line(LINE *l)
 			PUTC(c->c_char);
 			if (++c >= endc)
 				break;
-			PUTC(L'\b');
+			if ((c - 1)->c_width)
+				PUTC(L'\b');
 		}
 	}
 }
