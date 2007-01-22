@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/col/col.1,v 1.2 2005/03/13 18:32:47 tg Exp $
+.\"	$MirOS: src/usr.bin/col/col.1,v 1.3 2007/01/22 14:13:52 tg Exp $
 .\"	$OpenBSD: col.1,v 1.8 2003/06/03 02:56:06 millert Exp $
 .\"	$NetBSD: col.1,v 1.4 1995/03/26 05:25:52 glass Exp $
 .\"
@@ -112,6 +112,9 @@ Reverse line feed (11).
 .Pp
 All unrecognised control characters and escape sequences are
 discarded.
+Due to the non-recovering input error strategy of
+.Xr fgetwc 3 ,
+an invalid multibyte sequence terminates the input stream.
 .Pp
 .Nm
 keeps track of the character set as characters are read and makes
