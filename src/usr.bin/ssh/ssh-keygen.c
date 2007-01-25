@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.156 2006/11/14 19:41:04 deraadt Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.160 2007/01/21 01:41:54 stevesk Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -234,7 +234,7 @@ do_convert_private_ssh2_from_blob(u_char *blob, u_int blen)
 	buffer_init(&b);
 	buffer_append(&b, blob, blen);
 
-	magic  = buffer_get_int(&b);
+	magic = buffer_get_int(&b);
 	if (magic != SSH_COM_PRIVATE_KEY_MAGIC) {
 		error("bad magic 0x%x != 0x%x", magic, SSH_COM_PRIVATE_KEY_MAGIC);
 		buffer_free(&b);
@@ -246,7 +246,7 @@ do_convert_private_ssh2_from_blob(u_char *blob, u_int blen)
 	i2 = buffer_get_int(&b);
 	i3 = buffer_get_int(&b);
 	i4 = buffer_get_int(&b);
-	debug("ignore (%d %d %d %d)", i1,i2,i3,i4);
+	debug("ignore (%d %d %d %d)", i1, i2, i3, i4);
 	if (strcmp(cipher, "none") != 0) {
 		error("unsupported cipher %s", cipher);
 		xfree(cipher);
@@ -277,7 +277,7 @@ do_convert_private_ssh2_from_blob(u_char *blob, u_int blen)
 		buffer_get_bignum_bits(&b, key->dsa->priv_key);
 		break;
 	case KEY_RSA:
-		e  = buffer_get_char(&b);
+		e = buffer_get_char(&b);
 		debug("e %lx", e);
 		if (e < 30) {
 			e <<= 8;
@@ -339,9 +339,8 @@ get_line(FILE *fp, char *line, size_t len)
 		line[pos++] = c;
 		line[pos] = '\0';
 	}
-	if (c == EOF)
-		return -1;
-	return pos;
+	/* We reached EOF */
+	return -1;
 }
 
 static void
@@ -547,7 +546,7 @@ do_fingerprint(struct passwd *pw)
 			for (cp = line; *cp == ' ' || *cp == '\t'; cp++)
 				;
 			if (!*cp || *cp == '\n' || *cp == '#')
-				continue ;
+				continue;
 			i = strtol(cp, &ep, 10);
 			if (i == 0 || ep == NULL || (*ep != ' ' && *ep != '\t')) {
 				int quoted = 0;
@@ -1010,13 +1009,13 @@ usage(void)
 #ifdef SMARTCARD
 	fprintf(stderr, "  -D reader   Download public key from smartcard.\n");
 #endif /* SMARTCARD */
-	fprintf(stderr, "  -e          Convert OpenSSH to IETF SECSH key file.\n");
+	fprintf(stderr, "  -e          Convert OpenSSH to RFC 4716 key file.\n");
 	fprintf(stderr, "  -F hostname Find hostname in known hosts file.\n");
 	fprintf(stderr, "  -f filename Filename of the key file.\n");
 	fprintf(stderr, "  -G file     Generate candidates for DH-GEX moduli.\n");
 	fprintf(stderr, "  -g          Use generic DNS resource record format.\n");
 	fprintf(stderr, "  -H          Hash names in known_hosts file.\n");
-	fprintf(stderr, "  -i          Convert IETF SECSH to OpenSSH key file.\n");
+	fprintf(stderr, "  -i          Convert RFC 4716 to OpenSSH key file.\n");
 	fprintf(stderr, "  -l          Show fingerprint of key file.\n");
 	fprintf(stderr, "  -M memory   Amount of memory (MB) to use for generating DH-GEX moduli.\n");
 	fprintf(stderr, "  -N phrase   Provide new passphrase.\n");
