@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+.\" $MirOS: src/usr.bin/oldroff/nrcon/nrcon.1,v 1.1 2007/01/21 17:40:37 tg Exp $
 .\"-
 .\" Copyright (c) 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,10 @@ for the BSD console.
 Input is first pre-processed (see below), then passed through
 .Xr nroff 1 ,
 then post-processed and passed through
-.Xr col 1 .
+.Xr col 1
+with the
+.Fl x
+option, in UTF-8 mode.
 The full capabilities of
 .Nm nroff
 are described in the
@@ -77,6 +80,14 @@ Default: 10000
 Ignored for compatibility with
 .Mx
 .Xr nroff 1 .
+.It Fl C Ns Ar codeset
+Process input in the
+.Ar codeset
+encoding and write output in the same, using
+.Xr iconv 3 .
+This option is special to
+.Nm nrcon .
+Default: utf-8
 .It Fl c
 Ignored for compatibility with GNU groff.
 .It Fl e
@@ -160,6 +171,8 @@ extension of the
 terminal driver to produce, with support of the post processor,
 output suitable for unicode devices, with improved support for
 superscript, subscript, non-ASCII characters, etc.
+Also known as
+.Cm utf8 .
 Not yet implemented.
 .El
 .It Fl z
