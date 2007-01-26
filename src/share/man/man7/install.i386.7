@@ -1,9 +1,9 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.10 2006/06/24 23:04:15 bsiegert Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.11 2007/01/26 19:20:19 tg Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 9
-.Dd October 10, 2005
+.Dd January 26, 2007
 .Dt INSTALL.I386 7
 .Os
 .Sh NAME
@@ -34,6 +34,10 @@ options:
 .It
 the "big" CD-ROM (which is bootable and contains all the installation
 sets)
+.It
+the baselive CD-ROM (which can be booted into either a Live CD with
+the base system pre-installed, or into an installer behaving exactly
+like the "big" CD-ROM, which is what you need to install MirOS)
 .It
 the CD mini-ISO
 .Pq burned from Pa cdrom\nv.iso
@@ -90,6 +94,24 @@ You will need to change the device name above according to your system.
 .Cm cdrecord
 is available within the MirPorts Framework as
 .Pa sysutils/cdrtools .
+On
+.Ox 4.0
+and up, you can use
+.Xr cdio 1
+to burn the CD as well.
+Finally, the
+.Pa cdrom\nv.iso
+image can be written to a hard disc, i.e.
+.Pa /dev/rwd0c
+or
+.Pa /dev/rsd0c
+.Pq BSD
+or, respectively,
+.Pa /dev/hda
+or
+.Pa /dev/sda
+.Pq GNU/Linux ,
+depending on which your BIOS is capable of booting from.
 .\" --------------------------------------------------------------------
 .Sh BEFORE YOU START: THOUGHTS ON PARTITIONING
 You should plan the organization of your hard disk now before you start
