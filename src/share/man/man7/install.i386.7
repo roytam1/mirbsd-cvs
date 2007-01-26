@@ -1,23 +1,8 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.9 2005/12/21 19:01:38 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.10 2006/06/24 23:04:15 bsiegert Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 9
-.\"-
-.\" for portability
-.de Mx
-.nr cF \\n(.f
-.nr cZ \\n(.s
-.ds aa \&\f\\n(cF\s\\n(cZ
-.if \\n(aC==0 \{\
-.	if \\n(.$==0 \&MirOS\\*(aa
-.\}
-.if \\n(.$==1 \{\
-.	if "\\$1"."  \&MirOS\\$1\\*(aa
-.	if "\\$1","  \&MirOS\\$1\\*(aa
-.	if "\\$1"MirBSD"  \&MirBSD\\*(aa
-.\}
-..
 .Dd October 10, 2005
 .Dt INSTALL.I386 7
 .Os
