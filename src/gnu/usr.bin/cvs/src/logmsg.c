@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.5 2005/12/05 22:12:48 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.6 2006/05/03 20:39:21 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2006 The Free Software Foundation, Inc.
@@ -17,7 +17,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.5 2005/12/05 22:12:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.6 2006/05/03 20:39:21 tg Exp $");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -34,6 +34,8 @@ static int verifymsg_proc (const char *repository, const char *script,
 
 static FILE *fp;
 static Ctype type;
+
+char *LogMsgFile = NULL;
 
 struct verifymsg_proc_data
 {
@@ -202,7 +204,6 @@ do_editor (const char *dir, char **messagep, const char *repository,
     char *line;
     int line_length;
     size_t line_chars_allocated;
-    char *fname;
     struct stat pre_stbuf, post_stbuf;
     int retcode = 0;
 
@@ -216,8 +217,15 @@ do_editor (const char *dir, char **messagep, const char *repository,
         error(1, 0, "no editor defined, must use -e or -m");
 
   again:
+    if (LogMsgFile)
+    {
+	if (unlink_file (LogMsgFile) < 0)
+	    error (0, errno, "warning: cannot remove temp file %s", LogMsgFile);
+	free (LogMsgFile);
+	LogMsgFile = NULL;
+    }
     /* Create a temporary file.  */
-    if( ( fp = cvs_temp_file( &fname ) ) == NULL )
+    if( ( fp = cvs_temp_file( &LogMsgFile ) ) == NULL )
 	error( 1, errno, "cannot create temporary file" );
 
     if (*messagep)
@@ -291,26 +299,26 @@ do_editor (const char *dir, char **messagep, const char *repository,
 
     /* finish off the temp file */
     if (fclose (fp) == EOF)
-        error (1, errno, "%s", fname);
-    if (stat (fname, &pre_stbuf) == -1)
+        error (1, errno, "%s", LogMsgFile);
+    if (stat (LogMsgFile, &pre_stbuf) == -1)
 	pre_stbuf.st_mtime = 0;
 
     /* run the editor */
     run_setup (Editor);
-    run_add_arg (fname);
+    run_add_arg (LogMsgFile);
     if ((retcode = run_exec (RUN_TTY, RUN_TTY, RUN_TTY,
 			     RUN_NORMAL | RUN_SIGIGNORE)) != 0)
 	error (0, retcode == -1 ? errno : 0, "warning: editor session failed");
 
     /* put the entire message back into the *messagep variable */
 
-    fp = xfopen (fname, "r");
+    fp = xfopen (LogMsgFile, "r");
 
     if (*messagep)
 	free (*messagep);
 
-    if (stat (fname, &post_stbuf) != 0)
-	    error (1, errno, "cannot find size of temp file %s", fname);
+    if (stat (LogMsgFile, &post_stbuf) != 0)
+	    error (1, errno, "cannot find size of temp file %s", LogMsgFile);
 
     if (post_stbuf.st_size == 0)
 	*messagep = NULL;
@@ -335,7 +343,7 @@ do_editor (const char *dir, char **messagep, const char *repository,
 	    if (line_length == -1)
 	    {
 		if (ferror (fp))
-		    error (0, errno, "warning: cannot read %s", fname);
+		    error (0, errno, "warning: cannot read %s", LogMsgFile);
 		break;
 	    }
 	    if (strncmp (line, CVSEDITPREFIX, CVSEDITPREFIXLEN) == 0)
@@ -348,7 +356,7 @@ do_editor (const char *dir, char **messagep, const char *repository,
 	}
     }
     if (fclose (fp) < 0)
-	error (0, errno, "warning: cannot close %s", fname);
+	error (0, errno, "warning: cannot close %s", LogMsgFile);
 
     /* canonicalize emply messages */
     if (*messagep != NULL &&
@@ -370,9 +378,11 @@ do_editor (const char *dir, char **messagep, const char *repository,
 	    if (line_length < 0)
 	    {
 		error (0, errno, "cannot read from stdin");
-		if (unlink_file (fname) < 0)
+		if (unlink_file (LogMsgFile) < 0)
 		    error (0, errno,
-			   "warning: cannot remove temp file %s", fname);
+			   "warning: cannot remove temp file %s", LogMsgFile);
+		free (LogMsgFile);
+		LogMsgFile = NULL;
 		error (1, 0, "aborting");
 	    }
 	    else if (line_length == 0
@@ -380,8 +390,10 @@ do_editor (const char *dir, char **messagep, const char *repository,
 		break;
 	    if (*line == 'a' || *line == 'A')
 		{
-		    if (unlink_file (fname) < 0)
-			error (0, errno, "warning: cannot remove temp file %s", fname);
+		    if (unlink_file (LogMsgFile) < 0)
+			error (0, errno, "warning: cannot remove temp file %s", LogMsgFile);
+		    free (LogMsgFile);
+		    LogMsgFile = NULL;
 		    error (1, 0, "aborted by user");
 		}
 	    if (*line == 'e' || *line == 'E')
@@ -396,9 +408,6 @@ do_editor (const char *dir, char **messagep, const char *repository,
     }
     if (line)
 	free (line);
-    if (unlink_file (fname) < 0)
-	error (0, errno, "warning: cannot remove temp file %s", fname);
-    free (fname);
 }
 
 /* Runs the user-defined verification script as part of the commit or import 
@@ -986,4 +995,21 @@ verifymsg_proc (const char *repository, const char *script, void *closure)
      */
     return abs (run_exec (RUN_TTY, RUN_TTY, RUN_TTY,
 			  RUN_NORMAL | RUN_SIGIGNORE));
+}
+
+void
+logmsg_cleanup (int err)
+{
+    if (!use_editor || LogMsgFile == NULL)
+	return;
+
+    if (err == 0)
+    {
+	if (unlink_file (LogMsgFile) < 0)
+	    error (0, errno, "warning: cannot remove temp file %s", LogMsgFile);
+    }
+    else
+	error (0, 0, "your log message was saved in %s", LogMsgFile);
+    free (LogMsgFile);
+    LogMsgFile = NULL;
 }

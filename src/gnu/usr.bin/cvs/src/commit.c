@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.4 2005/04/19 21:15:02 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.5 2005/12/05 22:12:46 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -27,7 +27,7 @@
 #include "fileattr.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.4 2005/04/19 21:15:02 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.5 2005/12/05 22:12:46 tg Exp $");
 
 static Dtype check_direntproc (void *callerdat, const char *dir,
                                const char *repos, const char *update_dir,
@@ -617,31 +617,7 @@ commit (int argc, char **argv)
 
 	send_to_server ("ci\012", 0);
 	err = get_responses_and_close ();
-	if (err != 0 && use_editor && saved_message != NULL)
-	{
-	    /* If there was an error, don't nuke the user's carefully
-	       constructed prose.  This is something of a kludge; a better
-	       solution is probably more along the lines of #150 in TODO
-	       (doing a second up-to-date check before accepting the
-	       log message has also been suggested, but that seems kind of
-	       iffy because the real up-to-date check could still fail,
-	       another error could occur, &c.  Also, a second check would
-	       slow things down).  */
-
-	    char *fname;
-	    FILE *fp;
-
-	    fp = cvs_temp_file (&fname);
-	    if (fp == NULL)
-		error (1, 0, "cannot create temporary file %s", fname);
-	    if (fwrite (saved_message, 1, strlen (saved_message), fp)
-		!= strlen (saved_message))
-		error (1, errno, "cannot write temporary file %s", fname);
-	    if (fclose (fp) < 0)
-		error (0, errno, "cannot close temporary file %s", fname);
-	    error (0, 0, "saving log message in %s", fname);
-	    free (fname);
-	}
+	logmsg_cleanup(err);
 	return err;
     }
 #endif
@@ -706,6 +682,7 @@ commit (int argc, char **argv)
 	sleep_past (last_register_time);
     }
 
+    logmsg_cleanup(err);
     return err;
 }
 
