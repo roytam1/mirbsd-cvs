@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/cvs/Makefile,v 1.1 2006/10/02 05:59:14 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 V=			1.12.13
-PL=			0
+DASH_VER=		1
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
@@ -14,7 +14,6 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 DISTNAME=		cvs-$V
-PKGNAME=		cvs-$V-${PL}
 MASTER_SITES=		${MASTER_SITE_GNU:gnu/=non-gnu/cvs/source/feature/$V/}
 
 CONFIGURE_STYLE=	autoconf
@@ -40,7 +39,8 @@ CONFIGURE_ARGS+=	--disable-dependency-tracking \
 CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 
 pre-configure:
-	print '%g/\(MirPorts-\)QQ/s//\1${PL}/g\nwq' | ed -s ${WRKSRC}/configure
+	print '%g/\(MirPorts-\)QQ/s//\1${DASH_VER}/g\nwq' | \
+	    ed -s ${WRKSRC}/configure
 
 post-install:
 	cd ${WRKSRC} && ${INSTALL_DATA} AUTHORS BUGS FAQ MINOR-BUGS NEWS \

@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_import_c,v 1.1 2006/10/02 05:59:17 tg Exp $
 --- src/import.c.orig	Sun Sep  4 00:27:22 2005
-+++ src/import.c	Mon Oct  2 04:40:37 2006
++++ src/import.c	Thu Feb  1 23:27:09 2007
 @@ -238,6 +238,23 @@ import (int argc, char **argv)
  	regfree (&pat);
      }
@@ -25,7 +25,23 @@ $MirOS$
      /* Set vhead to the branch's parent.  */
      vhead = xstrdup (vbranch);
      cp = strrchr (vhead, '.');
-@@ -1253,7 +1270,7 @@ add_rcs_file (const char *message, const
+@@ -311,6 +328,7 @@ import (int argc, char **argv)
+ 	free (vhead);
+ 	send_to_server ("import\012", 0);
+ 	err += get_responses_and_close ();
++	logmsg_cleanup(err);
+ 	return err;
+     }
+ #endif
+@@ -436,6 +454,7 @@ import (int argc, char **argv)
+     free (vbranch);
+     free (vhead);
+ 
++    logmsg_cleanup(err);
+     return err;
+ }
+ 
+@@ -1253,7 +1272,7 @@ add_rcs_file (const char *message, const
  	(void) time (&now);
      ftm = gmtime (&now);
      (void) sprintf (altdate1, DATEFORM,
