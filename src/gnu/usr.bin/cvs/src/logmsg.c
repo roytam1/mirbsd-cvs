@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.6 2006/05/03 20:39:21 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.7 2007/01/27 23:46:27 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2006 The Free Software Foundation, Inc.
@@ -8,7 +8,7 @@
  *
  * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
  * Portions Copyright (C) 1989-1992, Brian Berliner
- * 
+ *
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
  */
@@ -17,7 +17,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.6 2006/05/03 20:39:21 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.7 2007/01/27 23:46:27 tg Exp $");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -187,7 +187,7 @@ fmt_proc (Node *p, void *closure)
  * Builds a temporary file using setup_tmpfile() and invokes the user's
  * editor on the file.  The header garbage in the resultant file is then
  * stripped and the log message is stored in the "message" argument.
- * 
+ *
  * If REPOSITORY is non-NULL, process rcsinfo for that repository; if it
  * is NULL, use the CVSADM_TEMPLATE file instead.  REPOSITORY should be
  * NULL when running in client mode.
@@ -410,9 +410,9 @@ do_editor (const char *dir, char **messagep, const char *repository,
 	free (line);
 }
 
-/* Runs the user-defined verification script as part of the commit or import 
-   process.  This verification is meant to be run whether or not the user 
-   included the -m attribute.  unlike the do_editor function, this is 
+/* Runs the user-defined verification script as part of the commit or import
+   process.  This verification is meant to be run whether or not the user
+   included the -m attribute.  unlike the do_editor function, this is
    independant of the running of an editor for getting a message.
  */
 void

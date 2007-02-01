@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.5 2005/12/05 22:12:48 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.6 2007/01/27 23:46:27 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -8,13 +8,13 @@
  *
  * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
  * Portions Copyright (C) 1989-1992, Brian Berliner
- * 
+ *
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
- * 
+ *
  * "import" checks in the vendor release located in the current directory into
  * the CVS source repository.  The CVS vendor branch support is utilized.
- * 
+ *
  * At least three arguments are expected to follow the options:
  *	repository	Where the source belongs relative to the CVSROOT
  *	VendorTag	Vendor's major tag
@@ -27,7 +27,7 @@
 #include "lstat.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.5 2005/12/05 22:12:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.6 2007/01/27 23:46:27 tg Exp $");
 
 static char *get_comment (const char *user);
 static int add_rev (char *message, RCSNode *rcs, char *vfile,
@@ -610,7 +610,7 @@ process_import_file (char *message, char *vfile, char *vtag, int targc,
 	       created in the attic!  */
 	    if (!killnew)
 	        free (attic_name);
-	    else 
+	    else
 	    {
 		free (rcs);
 		rcs = attic_name;
@@ -716,7 +716,7 @@ update_rcs_file (char *message, char *vfile, char *vtag, int targc,
 	 * this revision with the import file; if they match exactly, there
 	 * is no need to install the new import file as a new revision to the
 	 * branch.  Just tag the revision with the new import tags.
-	 * 
+	 *
 	 * This is to try to cut down the number of "C" conflict messages for
 	 * locally modified import source files.
 	 */
@@ -1716,7 +1716,7 @@ add_log (int ch, char *fname)
  * This is the recursive function that walks the argument directory looking
  * for sub-directories that have CVS administration files in them and updates
  * them recursively.
- * 
+ *
  * Note that we do not follow symbolic links here, which is a feature!
  */
 static int
