@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.1 2005/09/13 10:26:42 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.2 2005/12/04 13:55:59 tg Exp $
 #
 # List of users and groups for the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -9,7 +9,7 @@
 # If a user is created, his name is always the same as the
 # name of his group. The UID and GID are always the same.
 #
-0	root		!0:daemon:0:0:Charlie &:/root:/bin/mksh
+0	root		!0:daemon:0:0:Charlie &:/root:/bin/sh
 0	wheel		NO,root
 1	daemon		!1::0:0:The devil himself:/root:/sbin/nologin
 1	daemon		NO,daemon
@@ -95,8 +95,8 @@
 504	_mailman	mail/mailman
 505	_mixmaster	mail/mixmaster
 506	_spamdaemon	mail/p5-Mail-SpamAssassin
-507	_postfix	mail/postfix MTA(?)
-508	_postdrop	mail/postfix MDA(?)
+507	_postfix	mail/postfix
+508	_postdrop	NO
 509	_bitlbee	net/bitlbee
 510	_pdnsd		net/pdnsd
 511	_tacacs		net/tacacs+
@@ -143,5 +143,33 @@
 552	_xavante	www/xavante
 553	_saned		graphics/sane-backends
 554	_avenger	mail/avenger
+555	_akpop3d	NO
+556	_nrpe		net/nagios/nrpe
+557	_snort		net/snort
+558	_ipfreely	net/ipfreely
+559	_freeradius	net/freeradius
+560	_mpd		audio/mpd
+561	_rbldns		net/rbldnsd
+562	_smokeping	net/smokeping
+563	_postgrey	mail/postgrey
+564	_prelude	security/prelude
+565	_pfflowd	net/pfflowd
+566	_tor		net/tor
+567	_dk-milter	mail/dk-milter
+568	_milter-greylist	mail/milter-greylist
+569	_dkim-milter	mail/dkim-milter
+570	_mdefang	mail/mimedefang
+571	_courier	mail/maildrop
+572	_dbus		x11/dbus
+573	_perdition	mail/perdition
+574	_siproxd	telephony/siproxd
+575	_netflow	net/flow-tools
+576	_apache2	www/apache-httpd
+577	_openvpn	net/openvpn
+578	_mrtg		net/mrtg
+579	_hiawatha	www/hiawatha
+580	_puppet		sysutils/ruby-puppet
+581	_gonzui		textproc/gonzui
+582	_tabled		sysutils/tabled
 32766	nogroup		NO
 32767	nobody		Unprivileged User
