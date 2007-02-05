@@ -1,4 +1,4 @@
-/*	$OpenBSD: buffer.c,v 1.7 2005/07/02 07:15:13 grunk Exp $	*/
+/*	$OpenBSD: buffer.c,v 1.13 2007/02/04 18:59:12 millert Exp $	*/
 
 /*
  * Copyright (c) 2002, 2003 Niels Provos <provos@citi.umich.edu>
@@ -108,7 +108,7 @@ evbuffer_add_buffer(struct evbuffer *outbuf, struct evbuffer *inbuf)
 		/*
 		 * Optimization comes with a price; we need to notify the
 		 * buffer if necessary of the changes. oldoff is the amount
-		 * of data that we tranfered from inbuf to outbuf
+		 * of data that we transferred from inbuf to outbuf
 		 */
 		if (inbuf->off != oldoff && inbuf->cb != NULL)
 			(*inbuf->cb)(inbuf, oldoff, inbuf->off, inbuf->cbarg);
@@ -119,45 +119,61 @@ evbuffer_add_buffer(struct evbuffer *outbuf, struct evbuffer *inbuf)
 	}
 
 	res = evbuffer_add(outbuf, inbuf->buffer, inbuf->off);
-	if (res == 0)
+	if (res == 0) {
+		/* We drain the input buffer on success */
 		evbuffer_drain(inbuf, inbuf->off);
+	}
 
 	return (res);
 }
 
 int
-evbuffer_add_printf(struct evbuffer *buf, char *fmt, ...)
+evbuffer_add_vprintf(struct evbuffer *buf, const char *fmt, va_list ap)
+{
+	char *buffer;
+	size_t space;
+	size_t oldoff = buf->off;
+	int sz;
+	va_list aq;
+
+	for (;;) {
+		buffer = (char *)buf->buffer + buf->off;
+		space = buf->totallen - buf->misalign - buf->off;
+
+		va_copy(aq, ap);
+
+#ifdef WIN32
+		sz = vsnprintf(buffer, space - 1, fmt, aq);
+		buffer[space - 1] = '\0';
+#else
+		sz = vsnprintf(buffer, space, fmt, aq);
+#endif
+
+		va_end(aq);
+
+		if (sz == -1)
+			return (-1);
+		if (sz < space) {
+			buf->off += sz;
+			if (buf->cb != NULL)
+				(*buf->cb)(buf, oldoff, buf->off, buf->cbarg);
+			return (sz);
+		}
+		if (evbuffer_expand(buf, sz + 1) == -1)
+			return (-1);
+ 
+	}
+	/* NOTREACHED */
+}
+
+int
+evbuffer_add_printf(struct evbuffer *buf, const char *fmt, ...)
 {
 	int res = -1;
-	char *msg;
-#ifndef HAVE_VASPRINTF
-	static char buffer[4096];
-#endif
 	va_list ap;
 
 	va_start(ap, fmt);
-
-#ifdef HAVE_VASPRINTF
-	if (vasprintf(&msg, fmt, ap) == -1)
-		goto end;
-#else
-#  ifdef WIN32
-	_vsnprintf(buffer, sizeof(buffer) - 1, fmt, ap);
-	buffer[sizeof(buffer)-1] = '\0';
-#  else /* ! WIN32 */
-	vsnprintf(buffer, sizeof(buffer), fmt, ap);
-#  endif
-	msg = buffer;
-#endif
-	
-	res = strlen(msg);
-	if (evbuffer_add(buf, msg, res) == -1)
-		res = -1;
-#ifdef HAVE_VASPRINTF
-	free(msg);
-
-end:
-#endif
+	res = evbuffer_add_vprintf(buf, fmt, ap);
 	va_end(ap);
 
 	return (res);
@@ -334,8 +350,21 @@ evbuffer_read(struct evbuffer *buf, int fd, int howmuch)
 #endif
 
 #ifdef FIONREAD
-	if (ioctl(fd, FIONREAD, &n) == -1 || n == 0)
+	if (ioctl(fd, FIONREAD, &n) == -1 || n == 0) {
 		n = EVBUFFER_MAX_READ;
+	} else if (n > EVBUFFER_MAX_READ && n > howmuch) {
+		/*
+		 * It's possible that a lot of data is available for
+		 * reading.  We do not want to exhaust resources
+		 * before the reader has a chance to do something
+		 * about it.  If the reader does not tell us how much
+		 * data we should read, we artifically limit it.
+		 */
+		if (n > buf->totallen << 2)
+			n = buf->totallen << 2;
+		if (n < EVBUFFER_MAX_READ)
+			n = EVBUFFER_MAX_READ;
+	}
 #endif	
 	if (howmuch < 0 || howmuch > n)
 		howmuch = n;
@@ -399,18 +428,19 @@ evbuffer_write(struct evbuffer *buffer, int fd)
 }
 
 u_char *
-evbuffer_find(struct evbuffer *buffer, u_char *what, size_t len)
+evbuffer_find(struct evbuffer *buffer, const u_char *what, size_t len)
 {
 	size_t remain = buffer->off;
 	u_char *search = buffer->buffer;
 	u_char *p;
 
-	while ((p = memchr(search, *what, remain)) != NULL && remain >= len) {
+	while ((p = memchr(search, *what, remain)) != NULL) {
+		remain = buffer->off - (size_t)(search - buffer->buffer);
+		if (remain < len)
+			break;
 		if (memcmp(p, what, len) == 0)
 			return (p);
-
 		search = p + 1;
-		remain = buffer->off - (size_t)(search - buffer->buffer);
 	}
 
 	return (NULL);

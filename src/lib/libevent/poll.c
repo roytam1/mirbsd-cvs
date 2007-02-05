@@ -1,4 +1,4 @@
-/*	$OpenBSD: poll.c,v 1.10 2005/07/02 07:15:13 grunk Exp $	*/
+/*	$OpenBSD: poll.c,v 1.13 2006/11/26 15:24:34 brad Exp $	*/
 
 /*
  * Copyright 2000-2003 Niels Provos <provos@citi.umich.edu>
@@ -74,14 +74,16 @@ int poll_add		(void *, struct event *);
 int poll_del		(void *, struct event *);
 int poll_recalc		(struct event_base *, void *, int);
 int poll_dispatch	(struct event_base *, void *, struct timeval *);
+void poll_dealloc	(void *);
 
-struct eventop pollops = {
+const struct eventop pollops = {
 	"poll",
 	poll_init,
 	poll_add,
 	poll_del,
 	poll_recalc,
-	poll_dispatch
+	poll_dispatch,
+	poll_dealloc
 };
 
 void *
@@ -233,29 +235,48 @@ poll_add(void *arg, struct event *ev)
 
 	poll_check_ok(pop);
 	if (pop->nfds + 1 >= pop->event_count) {
+		struct pollfd *tmp_event_set;
+		struct event **tmp_event_r_back;
+		struct event **tmp_event_w_back;
+		int tmp_event_count;
+
 		if (pop->event_count < 32)
-			pop->event_count = 32;
+			tmp_event_count = 32;
 		else
-			pop->event_count *= 2;
+			tmp_event_count = pop->event_count * 2;
 
 		/* We need more file descriptors */
-		pop->event_set = realloc(pop->event_set,
-				 pop->event_count * sizeof(struct pollfd));
-		if (pop->event_set == NULL) {
+		tmp_event_set = realloc(pop->event_set,
+				 tmp_event_count * sizeof(struct pollfd));
+		if (tmp_event_set == NULL) {
 			event_warn("realloc");
 			return (-1);
 		}
-		pop->event_r_back = realloc(pop->event_r_back,
-			    pop->event_count * sizeof(struct event *));
-		pop->event_w_back = realloc(pop->event_w_back,
-			    pop->event_count * sizeof(struct event *));
-		if (pop->event_r_back == NULL ||
-		    pop->event_w_back == NULL) {
+		pop->event_set = tmp_event_set;
+
+		tmp_event_r_back = realloc(pop->event_r_back,
+			    tmp_event_count * sizeof(struct event *));
+		if (tmp_event_r_back == NULL) {
+			/* event_set overallocated; that's okay. */
 			event_warn("realloc");
 			return (-1);
 		}
+		pop->event_r_back = tmp_event_r_back;
+
+		tmp_event_w_back = realloc(pop->event_w_back,
+			    tmp_event_count * sizeof(struct event *));
+		if (tmp_event_w_back == NULL) {
+			/* event_set and event_r_back overallocated; that's
+			 * okay. */
+			event_warn("realloc");
+			return (-1);
+		}
+		pop->event_w_back = tmp_event_w_back;
+
+		pop->event_count = tmp_event_count;
 	}
 	if (ev->ev_fd >= pop->fd_count) {
+		int *tmp_idxplus1_by_fd;
 		int new_count;
 		if (pop->fd_count < 32)
 			new_count = 32;
@@ -263,12 +284,13 @@ poll_add(void *arg, struct event *ev)
 			new_count = pop->fd_count * 2;
 		while (new_count <= ev->ev_fd)
 			new_count *= 2;
-		pop->idxplus1_by_fd =
-			realloc(pop->idxplus1_by_fd, new_count*sizeof(int));
-		if (pop->idxplus1_by_fd == NULL) {
+		tmp_idxplus1_by_fd =
+			realloc(pop->idxplus1_by_fd, new_count * sizeof(int));
+		if (tmp_idxplus1_by_fd == NULL) {
 			event_warn("realloc");
 			return (-1);
 		}
+		pop->idxplus1_by_fd = tmp_idxplus1_by_fd;
 		memset(pop->idxplus1_by_fd + pop->fd_count,
 		       0, sizeof(int)*(new_count - pop->fd_count));
 		pop->fd_count = new_count;
@@ -355,4 +377,22 @@ poll_del(void *arg, struct event *ev)
 
 	poll_check_ok(pop);
 	return (0);
+}
+
+void
+poll_dealloc(void *arg)
+{
+	struct pollop *pop = arg;
+
+	if (pop->event_set)
+		free(pop->event_set);
+	if (pop->event_r_back)
+		free(pop->event_r_back);
+	if (pop->event_w_back)
+		free(pop->event_w_back);
+	if (pop->idxplus1_by_fd)
+		free(pop->idxplus1_by_fd);
+
+	memset(pop, 0, sizeof(struct pollop));
+	free(pop);
 }
