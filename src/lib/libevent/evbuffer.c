@@ -1,4 +1,4 @@
-/*	$OpenBSD: evbuffer.c,v 1.6 2005/07/02 07:15:13 grunk Exp $	*/
+/*	$OpenBSD: evbuffer.c,v 1.9 2006/11/26 15:22:58 brad Exp $	*/
 
 /*
  * Copyright (c) 2002-2004 Niels Provos <provos@citi.umich.edu>
@@ -76,7 +76,7 @@ bufferevent_read_pressure_cb(struct evbuffer *buf, size_t old, size_t now,
     void *arg) {
 	struct bufferevent *bufev = arg;
 	/*
-	 * If we are below the watermak then reschedule reading if it's
+	 * If we are below the watermark then reschedule reading if it's
 	 * still enabled.
 	 */
 	if (bufev->wm_read.high == 0 || now < bufev->wm_read.high) {
@@ -94,13 +94,21 @@ bufferevent_readcb(int fd, short event, void *arg)
 	int res = 0;
 	short what = EVBUFFER_READ;
 	size_t len;
+	int howmuch = -1;
 
 	if (event == EV_TIMEOUT) {
 		what |= EVBUFFER_TIMEOUT;
 		goto error;
 	}
 
-	res = evbuffer_read(bufev->input, fd, -1);
+	/*
+	 * If we have a high watermark configured then we don't want to
+	 * read more data than would make us reach the watermark.
+	 */
+	if (bufev->wm_read.high != 0)
+		howmuch = bufev->wm_read.high;
+
+	res = evbuffer_read(bufev->input, fd, howmuch);
 	if (res == -1) {
 		if (errno == EAGAIN || errno == EINTR)
 			goto reschedule;
@@ -130,7 +138,8 @@ bufferevent_readcb(int fd, short event, void *arg)
 	}
 
 	/* Invoke the user callback - must always be called last */
-	(*bufev->readcb)(bufev, bufev->cbarg);
+	if (bufev->readcb != NULL)
+		(*bufev->readcb)(bufev, bufev->cbarg);
 	return;
 
  reschedule:
@@ -177,7 +186,8 @@ bufferevent_writecb(int fd, short event, void *arg)
 	 * Invoke the user callback if our buffer is drained or below the
 	 * low watermark.
 	 */
-	if (EVBUFFER_LENGTH(bufev->output) <= bufev->wm_write.low)
+	if (bufev->writecb != NULL &&
+	    EVBUFFER_LENGTH(bufev->output) <= bufev->wm_write.low)
 		(*bufev->writecb)(bufev, bufev->cbarg);
 
 	return;
@@ -197,6 +207,9 @@ bufferevent_writecb(int fd, short event, void *arg)
  * The read callback is invoked whenever we read new data.
  * The write callback is invoked whenever the output buffer is drained.
  * The error callback is invoked on a write/read error or on EOF.
+ *
+ * Both read and write callbacks maybe NULL.  The error callback is not
+ * allowed to be NULL and have to be provided always.
  */
 
 struct bufferevent *
@@ -228,7 +241,12 @@ bufferevent_new(int fd, evbuffercb readcb, evbuffercb writecb,
 
 	bufev->cbarg = cbarg;
 
-	bufev->enabled = EV_READ | EV_WRITE;
+	/*
+	 * Set to EV_WRITE so that using bufferevent_write is going to
+	 * trigger a callback.  Reading needs to be explicitly enabled
+	 * because otherwise no data will be available.
+	 */
+	bufev->enabled = EV_WRITE;
 
 	return (bufev);
 }
@@ -373,4 +391,17 @@ bufferevent_setwatermark(struct bufferevent *bufev, short events,
 	/* If the watermarks changed then see if we should call read again */
 	bufferevent_read_pressure_cb(bufev->input,
 	    0, EVBUFFER_LENGTH(bufev->input), bufev);
+}
+
+int
+bufferevent_base_set(struct event_base *base, struct bufferevent *bufev)
+{
+	int res;
+
+	res = event_base_set(base, &bufev->ev_read);
+	if (res == -1)
+		return (res);
+
+	res = event_base_set(base, &bufev->ev_write);
+	return (res);
 }

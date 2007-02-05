@@ -1,4 +1,4 @@
-/*	$OpenBSD: event.h,v 1.12 2005/06/18 01:52:22 brad Exp $	*/
+/*	$OpenBSD: event.h,v 1.16 2007/02/04 18:59:12 millert Exp $	*/
 
 /*
  * Copyright (c) 2000-2004 Niels Provos <provos@citi.umich.edu>
@@ -33,6 +33,8 @@
 extern "C" {
 #endif
 
+#include <stdarg.h>
+
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -40,7 +42,7 @@ extern "C" {
 typedef unsigned char u_char;
 #endif
 
-#define LIBEVENT_VERSION	"1.1a"
+#define LIBEVENT_VERSION	"1.1b"
 
 #define EVLIST_TIMEOUT	0x01
 #define EVLIST_INSERTED	0x02
@@ -123,6 +125,7 @@ struct eventop {
 	int (*del)(void *, struct event *);
 	int (*recalc)(struct event_base *, void *, int);
 	int (*dispatch)(struct event_base *, void *, struct timeval *);
+	void (*dealloc)(void *);
 };
 
 #define TIMEOUT_DEFAULT	{5, 0}
@@ -130,6 +133,7 @@ struct eventop {
 void *event_init(void);
 int event_dispatch(void);
 int event_base_dispatch(struct event_base *);
+void event_base_free(struct event_base *);
 
 #define _EVENT_LOG_DEBUG 0
 #define _EVENT_LOG_MSG   1
@@ -261,11 +265,12 @@ int evbuffer_add(struct evbuffer *, void *, size_t);
 int evbuffer_remove(struct evbuffer *, void *, size_t);
 char *evbuffer_readline(struct evbuffer *);
 int evbuffer_add_buffer(struct evbuffer *, struct evbuffer *);
-int evbuffer_add_printf(struct evbuffer *, char *fmt, ...);
+int evbuffer_add_printf(struct evbuffer *, const char *fmt, ...);
+int evbuffer_add_vprintf(struct evbuffer *, const char *fmt, va_list ap);
 void evbuffer_drain(struct evbuffer *, size_t);
 int evbuffer_write(struct evbuffer *, int);
 int evbuffer_read(struct evbuffer *, int, int);
-u_char *evbuffer_find(struct evbuffer *, u_char *, size_t);
+u_char *evbuffer_find(struct evbuffer *, const u_char *, size_t);
 void evbuffer_setcb(struct evbuffer *, void (*)(struct evbuffer *, size_t, size_t, void *), void *);
 
 #ifdef __cplusplus

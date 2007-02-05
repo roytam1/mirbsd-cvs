@@ -1,4 +1,4 @@
-/*	$OpenBSD: event.c,v 1.11 2005/07/02 07:15:13 grunk Exp $	*/
+/*	$OpenBSD: event.c,v 1.15 2007/02/04 18:59:12 millert Exp $	*/
 
 /*
  * Copyright (c) 2000-2004 Niels Provos <provos@citi.umich.edu>
@@ -140,6 +140,23 @@ compare(struct event *a, struct event *b)
 	return (0);
 }
 
+static int
+gettime(struct timeval *tp)
+{
+#ifdef HAVE_CLOCK_GETTIME
+	struct timespec	ts;
+	
+	if (clock_gettime(CLOCK_MONOTONIC, &ts) == -1)
+		return (-1);
+	tp->tv_sec = ts.tv_sec;
+	tp->tv_usec = ts.tv_nsec / 1000;
+#else
+	gettimeofday(tp, NULL);
+#endif
+
+	return (0);
+}
+
 RB_PROTOTYPE(event_tree, event, ev_timeout_node, compare);
 
 RB_GENERATE(event_tree, event, ev_timeout_node, compare);
@@ -155,7 +172,7 @@ event_init(void)
 
 	event_sigcb = NULL;
 	event_gotsig = 0;
-	gettimeofday(&current_base->event_tv, NULL);
+	gettime(&current_base->event_tv);
 	
 	RB_INIT(&current_base->timetree);
 	TAILQ_INIT(&current_base->eventqueue);
@@ -179,6 +196,33 @@ event_init(void)
 	event_base_priority_init(current_base, 1);
 
 	return (current_base);
+}
+
+void
+event_base_free(struct event_base *base)
+{
+	int i;
+
+	if (base == NULL && current_base)
+		base = current_base;
+	if (base == current_base)
+		current_base = NULL;
+
+	assert(base);
+	assert(TAILQ_EMPTY(&base->eventqueue));
+	for (i=0; i < base->nactivequeues; ++i)
+		assert(TAILQ_EMPTY(base->activequeues[i]));
+
+	assert(RB_EMPTY(&base->timetree));
+
+	for (i = 0; i < base->nactivequeues; ++i)
+		free(base->activequeues[i]);
+	free(base->activequeues);
+
+	if (base->evsel->dealloc != NULL)
+		base->evsel->dealloc(base->evbase);
+
+	free(base);
 }
 
 int
@@ -259,6 +303,8 @@ event_process_active(struct event_base *base)
 			ncalls--;
 			ev->ev_ncalls = ncalls;
 			(*ev->ev_callback)((int)ev->ev_fd, ev->ev_res, ev->ev_arg);
+			if (event_gotsig)
+				return;
 		}
 	}
 }
@@ -343,7 +389,7 @@ event_base_loop(struct event_base *base, int flags)
 		}
 
 		/* Check if time is running backwards */
-		gettimeofday(&tv, NULL);
+		gettime(&tv);
 		if (timercmp(&tv, &base->event_tv, <)) {
 			struct timeval off;
 			event_debug(("%s: time is running backwards, corrected",
@@ -414,6 +460,7 @@ event_once(int fd, short events,
 {
 	struct event_once *eonce;
 	struct timeval etv;
+	int res;
 
 	/* We cannot support signals that just fire once */
 	if (events & EV_SIGNAL)
@@ -442,7 +489,11 @@ event_once(int fd, short events,
 		return (-1);
 	}
 
-	event_add(&eonce->ev, tv);
+	res = event_add(&eonce->ev, tv);
+	if (res != 0) {
+		free(eonce);
+		return (res);
+	}
 
 	return (0);
 }
@@ -504,6 +555,7 @@ event_priority_set(struct event *ev, int pri)
 int
 event_pending(struct event *ev, short event, struct timeval *tv)
 {
+	struct timeval	now, res;
 	int flags = 0;
 
 	if (ev->ev_flags & EVLIST_INSERTED)
@@ -518,8 +570,13 @@ event_pending(struct event *ev, short event, struct timeval *tv)
 	event &= (EV_TIMEOUT|EV_READ|EV_WRITE|EV_SIGNAL);
 
 	/* See if there is a timeout that we should report */
-	if (tv != NULL && (flags & event & EV_TIMEOUT))
-		*tv = ev->ev_timeout;
+	if (tv != NULL && (flags & event & EV_TIMEOUT)) {
+		gettime(&now);
+		timersub(&ev->ev_timeout, &now, &res);
+		/* correctly remap to real time */
+		gettimeofday(&now, NULL);
+		timeradd(&now, &res, tv);
+	}
 
 	return (flags & event);
 }
@@ -563,7 +620,7 @@ event_add(struct event *ev, struct timeval *tv)
 			event_queue_remove(base, ev, EVLIST_ACTIVE);
 		}
 
-		gettimeofday(&now, NULL);
+		gettime(&now);
 		timeradd(&now, tv, &ev->ev_timeout);
 
 		event_debug((
@@ -659,7 +716,7 @@ timeout_next(struct event_base *base, struct timeval *tv)
 		return (0);
 	}
 
-	if (gettimeofday(&now, NULL) == -1)
+	if (gettime(&now) == -1)
 		return (-1);
 
 	if (timercmp(&ev->ev_timeout, &now, <=)) {
@@ -695,7 +752,7 @@ timeout_process(struct event_base *base)
 	struct timeval now;
 	struct event *ev, *next;
 
-	gettimeofday(&now, NULL);
+	gettime(&now);
 
 	for (ev = RB_MIN(event_tree, &base->timetree); ev; ev = next) {
 		if (timercmp(&ev->ev_timeout, &now, >))
