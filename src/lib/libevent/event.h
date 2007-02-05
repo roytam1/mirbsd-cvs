@@ -241,6 +241,7 @@ struct bufferevent {
 	short enabled;	/* events that are currently enabled */
 };
 
+int bufferevent_base_set(struct event_base *base, struct bufferevent *bufev);
 struct bufferevent *bufferevent_new(int fd,
     evbuffercb readcb, evbuffercb writecb, everrorcb errorcb, void *cbarg);
 int bufferevent_priority_set(struct bufferevent *bufev, int pri);
