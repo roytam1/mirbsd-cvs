@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.2 2007/02/06 20:21:48 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.3 2007/02/06 20:23:19 tg Exp $ */
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
@@ -1356,6 +1356,22 @@ ZEXTERN const uLongf * ZEXPORT get_crc_table    OF((void));
 
 #ifdef __cplusplus
 }
+#endif
+
+#ifndef ZLIB_FREESTANDING	/* -fhosted, i.e. userland implementation */
+/* MirOS extension: gzfopen.c */
+#define ZLIB_HAS_GZFOPEN
+
+#include <stdio.h>
+__BEGIN_DECLS
+FILE *gzfopen(const char *, const char *);
+FILE *gzfdopen(int, const char *);
+__END_DECLS
+#endif /* !ZLIB_FREESTANDING */
+
+#ifndef _STANDALONE		/* kernel or userland, but not bootloader */
+/* MirOS extension: adler32() entropy hack */
+#define ZLIB_HAS_ADLERPUSH
 #endif
 
 #endif /* ZLIB_H */
