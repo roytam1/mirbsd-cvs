@@ -29,7 +29,7 @@
 (define_attr "ppro_uops" "one,few,many"
   (cond [(eq_attr "type" "other,multi,call,callv,fpspc,str")
 	   (const_string "many")
-	 (eq_attr "type" "icmov,fcmov,str,cld,leave")
+	 (eq_attr "type" "icmov,fcmov,str,leave")
 	   (const_string "few")
 	 (eq_attr "type" "imov")
 	   (if_then_else (eq_attr "memory" "store,both")
@@ -60,7 +60,7 @@
 
 (define_function_unit "ppro_p0" 1 0
   (and (eq_attr "cpu" "pentiumpro")
-       (eq_attr "type" "ishift,rotate,ishift1,rotate1,lea,ibr,cld"))
+       (eq_attr "type" "ishift,rotate,ishift1,rotate1,lea,ibr"))
   1 1)
 
 (define_function_unit "ppro_p0" 1 0

@@ -11127,7 +11127,6 @@ ix86_expand_movstr (rtx dst, rtx src, rtx count_exp, rtx align_exp)
 
   if ((!optimize || optimize_size) && (count == 0 || (count & 0x03)))
     {
-      emit_insn (gen_cld ());
       countreg = ix86_zero_extend_to_Pmode (count_exp);
       destexp = gen_rtx_PLUS (Pmode, destreg, countreg);
       srcexp = gen_rtx_PLUS (Pmode, srcreg, countreg);
@@ -11148,7 +11147,6 @@ ix86_expand_movstr (rtx dst, rtx src, rtx count_exp, rtx align_exp)
       int size = TARGET_64BIT && !optimize_size ? 8 : 4;
       rtx srcmem, dstmem;
 
-      emit_insn (gen_cld ());
       if (count & ~(size - 1))
 	{
 	  countreg = copy_to_mode_reg (counter_mode,
@@ -11219,9 +11217,6 @@ ix86_expand_movstr (rtx dst, rtx src, rtx count_exp, rtx align_exp)
 	  && (align < UNITS_PER_WORD || !TARGET_REP_MOVL_OPTIMAL))
 	return 0;
 
-      if (TARGET_SINGLE_STRINGOP)
-	emit_insn (gen_cld ());
-
       countreg2 = gen_reg_rtx (Pmode);
       countreg = copy_to_mode_reg (counter_mode, count_exp);
 
@@ -11281,8 +11276,6 @@ ix86_expand_movstr (rtx dst, rtx src, rtx count_exp, rtx align_exp)
 	  LABEL_NUSES (label) = 1;
 	  label = NULL_RTX;
 	}
-      if (!TARGET_SINGLE_STRINGOP)
-	emit_insn (gen_cld ());
       if (TARGET_64BIT)
 	{
 	  emit_insn (gen_lshrdi3 (countreg2, ix86_zero_extend_to_Pmode (countreg),
@@ -11394,8 +11387,6 @@ ix86_expand_clrstr (rtx dst, rtx count_exp, rtx align_exp)
   if (destreg != XEXP (dst, 0))
     dst = replace_equiv_address_nv (dst, destreg);
 
-  emit_insn (gen_cld ());
-
   /* When optimizing for size emit simple rep ; movsb instruction for
      counts not divisible by 4.  */
 
@@ -11469,9 +11460,6 @@ ix86_expand_clrstr (rtx dst, rtx count_exp, rtx align_exp)
 	  && (align < UNITS_PER_WORD || !TARGET_REP_MOVL_OPTIMAL))
 	return 0;
 
-      if (TARGET_SINGLE_STRINGOP)
-	emit_insn (gen_cld ());
-
       countreg2 = gen_reg_rtx (Pmode);
       countreg = copy_to_mode_reg (counter_mode, count_exp);
       zeroreg = copy_to_mode_reg (Pmode, const0_rtx);
@@ -11521,8 +11509,6 @@ ix86_expand_clrstr (rtx dst, rtx count_exp, rtx align_exp)
 	  label = NULL_RTX;
 	}
 
-      if (!TARGET_SINGLE_STRINGOP)
-	emit_insn (gen_cld ());
       if (TARGET_64BIT)
 	{
 	  emit_insn (gen_lshrdi3 (countreg2, ix86_zero_extend_to_Pmode (countreg),
@@ -11631,7 +11617,6 @@ ix86_expand_strlen (rtx out, rtx src, rtx eoschar, rtx align)
       emit_move_insn (scratch3, addr);
       eoschar = force_reg (QImode, eoschar);
 
-      emit_insn (gen_cld ());
       src = replace_equiv_address_nv (src, scratch3);
 
       /* If .md starts supporting :P, this can be done in .md.  */
