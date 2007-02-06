@@ -1,4 +1,4 @@
-/*	$OpenBSD: wsmux.c,v 1.14 2005/05/15 19:03:47 deraadt Exp $	*/
+/*	$OpenBSD: wsmux.c,v 1.19 2006/11/01 03:37:24 tedu Exp $	*/
 /*      $NetBSD: wsmux.c,v 1.37 2005/04/30 03:47:12 augustss Exp $      */
 
 /*
@@ -61,6 +61,7 @@
 #include <sys/tty.h>
 #include <sys/signalvar.h>
 #include <sys/device.h>
+#include <sys/poll.h>
 
 #include <dev/wscons/wsconsio.h>
 #include <dev/wscons/wsksymdef.h>
@@ -98,7 +99,7 @@ void	wsmux_do_open(struct wsmux_softc *, struct wseventvar *);
 
 void	wsmux_do_close(struct wsmux_softc *);
 #if NWSDISPLAY > 0
-int	wsmux_evsrc_set_display(struct device *, struct wsevsrc *);
+int	wsmux_evsrc_set_display(struct device *, struct device *);
 #else
 #define wsmux_evsrc_set_display NULL
 #endif
@@ -370,7 +371,6 @@ wsmux_do_ioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
 	int s, put, get, n;
 	struct wseventvar *evar;
 	struct wscons_event *ev;
-	struct timeval xxxtime;
 	struct wsmux_device_list *l;
 
 	DPRINTF(("wsmux_do_ioctl: %s: enter sc=%p, cmd=%08lx\n",
@@ -378,9 +378,19 @@ wsmux_do_ioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
 
 	switch (cmd) {
 	case WSMUXIO_INJECTEVENT:
+	case WSMUXIO_ADD_DEVICE:
+	case WSMUXIO_REMOVE_DEVICE:
+#ifdef WSDISPLAY_COMPAT_RAWKBD
+	case WSKBDIO_SETMODE:
+#endif
+		if ((flag & FWRITE) == 0)
+			return (EACCES);
+	}
+
+	switch (cmd) {
+	case WSMUXIO_INJECTEVENT:
 		/* Inject an event, e.g., from moused. */
 		DPRINTF(("%s: inject\n", sc->sc_base.me_dv.dv_xname));
-
 		evar = sc->sc_base.me_evp;
 		if (evar == NULL) {
 			/* No event sink, so ignore it. */
@@ -400,8 +410,7 @@ wsmux_do_ioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
 		if (put >= WSEVENT_QSIZE)
 			put = 0;
 		*ev = *(struct wscons_event *)data;
-		microtime(&xxxtime);
-		TIMEVAL_TO_TIMESPEC(&xxxtime, &ev->time);
+		nanotime(&ev->time);
 		evar->put = put;
 		WSEVENT_WAKEUP(evar);
 		splx(s);
@@ -539,7 +548,7 @@ wsmuxpoll(dev_t dev, int events, struct proc *p)
 #ifdef DIAGNOSTIC
 		printf("wsmuxpoll: not open\n");
 #endif
-		return (EACCES);
+		return (POLLERR);
 	}
 
 	return (wsevent_poll(sc->sc_base.me_evp, events, p));
@@ -620,7 +629,7 @@ wsmux_attach_sc(struct wsmux_softc *sc, struct wsevsrc *me)
 		DPRINTF(("wsmux_attach_sc: %s: set display %p\n",
 			 sc->sc_base.me_dv.dv_xname, sc->sc_displaydv));
 		if (me->me_ops->dsetdisplay != NULL) {
-			error = wsevsrc_set_display(me, &sc->sc_base);
+			error = wsevsrc_set_display(me, sc->sc_displaydv);
 			/* Ignore that the console already has a display. */
 			if (error == EBUSY)
 				error = 0;
@@ -629,7 +638,7 @@ wsmux_attach_sc(struct wsmux_softc *sc, struct wsevsrc *me)
 				DPRINTF(("wsmux_attach_sc: %s set rawkbd=%d\n",
 					 me->me_dv.dv_xname, sc->sc_rawkbd));
 				(void)wsevsrc_ioctl(me, WSKBDIO_SETMODE,
-						    &sc->sc_rawkbd, 0, 0);
+						    &sc->sc_rawkbd, FWRITE, 0);
 #endif
 				if (sc->sc_kbd_layout != KB_NONE)
 					(void)wsevsrc_ioctl(me,
@@ -749,11 +758,9 @@ wsmux_do_displayioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
  * Set display of a mux via the parent mux.
  */
 int
-wsmux_evsrc_set_display(struct device *dv, struct wsevsrc *ame)
+wsmux_evsrc_set_display(struct device *dv, struct device *displaydv)
 {
-	struct wsmux_softc *muxsc = (struct wsmux_softc *)ame;
 	struct wsmux_softc *sc = (struct wsmux_softc *)dv;
-	struct device *displaydv = muxsc ? muxsc->sc_displaydv : NULL;
 
 	DPRINTF(("wsmux_set_display: %s: displaydv=%p\n",
 		 sc->sc_base.me_dv.dv_xname, displaydv));
@@ -794,7 +801,7 @@ wsmux_set_display(struct wsmux_softc *sc, struct device *displaydv)
 		}
 #endif
 		if (me->me_ops->dsetdisplay != NULL) {
-			error = wsevsrc_set_display(me, &nsc->sc_base);
+			error = wsevsrc_set_display(me, nsc->sc_displaydv);
 			DPRINTF(("wsmux_set_display: m=%p dev=%s error=%d\n",
 				 me, me->me_dv.dv_xname, error));
 			if (!error) {
@@ -804,7 +811,7 @@ wsmux_set_display(struct wsmux_softc *sc, struct device *displaydv)
 ,
 					 me->me_dv.dv_xname, sc->sc_rawkbd));
 				(void)wsevsrc_ioctl(me, WSKBDIO_SETMODE,
-						    &sc->sc_rawkbd, 0, 0);
+						    &sc->sc_rawkbd, FWRITE, 0);
 #endif
 			}
 		}

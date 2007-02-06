@@ -1,4 +1,4 @@
-/* $OpenBSD: wsmouse.c,v 1.16 2005/06/01 18:50:30 miod Exp $ */
+/* $OpenBSD: wsmouse.c,v 1.18 2006/11/01 03:37:24 tedu Exp $ */
 /* $NetBSD: wsmouse.c,v 1.35 2005/02/27 00:27:52 perry Exp $ */
 
 /*
@@ -91,6 +91,7 @@
 #include <sys/signalvar.h>
 #include <sys/device.h>
 #include <sys/vnode.h>
+#include <sys/poll.h>
 
 #include <dev/wscons/wsconsio.h>
 #include <dev/wscons/wsmousevar.h>
@@ -350,10 +351,7 @@ wsmouse_input(struct device *wsmousedev, u_int btns, /* 0 is up */
 	/* TIMESTAMP sets `time' field of the event to the current time */
 #define TIMESTAMP							\
 	do {								\
-		int s;							\
-		s = splhigh();						\
-		TIMEVAL_TO_TIMESPEC(&time, &ev->time);			\
-		splx(s);						\
+		getnanotime(&ev->time);					\
 	} while (0)
 
 	if (flags & WSMOUSE_INPUT_ABSOLUTE_X) {
@@ -593,6 +591,15 @@ wsmouse_do_ioctl(struct wsmouse_softc *sc, u_long cmd, caddr_t data, int flag,
 	/*
 	 * Try the generic ioctls that the wsmouse interface supports.
 	 */
+
+	switch (cmd) {
+	case FIOASYNC:
+	case FIOSETOWN:
+	case TIOCSPGRP:
+		if ((flag & FWRITE) == 0)
+			return (EACCES);
+	}
+
 	switch (cmd) {
 	case FIONBIO:		/* we will remove this someday (soon???) */
 		return (0);
@@ -634,7 +641,7 @@ wsmousepoll(dev_t dev, int events, struct proc *p)
 	struct wsmouse_softc *sc = wsmouse_cd.cd_devs[minor(dev)];
 
 	if (sc->sc_base.me_evp == NULL)
-		return (EINVAL);
+		return (POLLERR);
 	return (wsevent_poll(sc->sc_base.me_evp, events, p));
 }
 
