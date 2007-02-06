@@ -371,6 +371,7 @@ wsmux_do_ioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
 	int s, put, get, n;
 	struct wseventvar *evar;
 	struct wscons_event *ev;
+	struct timeval xxxtime;
 	struct wsmux_device_list *l;
 
 	DPRINTF(("wsmux_do_ioctl: %s: enter sc=%p, cmd=%08lx\n",
@@ -410,7 +411,8 @@ wsmux_do_ioctl(struct device *dv, u_long cmd, caddr_t data, int flag,
 		if (put >= WSEVENT_QSIZE)
 			put = 0;
 		*ev = *(struct wscons_event *)data;
-		nanotime(&ev->time);
+		microtime(&xxxtime);
+		TIMEVAL_TO_TIMESPEC(&xxxtime, &ev->time);
 		evar->put = put;
 		WSEVENT_WAKEUP(evar);
 		splx(s);
