@@ -915,7 +915,7 @@ ega_unpack_attr(id, attr, fg, bg, ul)
 	} else {
 		*fg = pctoansi[attr & 0x07];
 		*bg = pctoansi[(attr & 0x70) >> 4];
-		if (*ul != NULL)
+		if (ul != NULL)
 			*ul = 0;
 	}
 	if (attr & FG_INTENSE)
