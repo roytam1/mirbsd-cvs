@@ -351,7 +351,10 @@ wsmouse_input(struct device *wsmousedev, u_int btns, /* 0 is up */
 	/* TIMESTAMP sets `time' field of the event to the current time */
 #define TIMESTAMP							\
 	do {								\
-		getnanotime(&ev->time);					\
+		int s;							\
+		s = splhigh();						\
+		TIMEVAL_TO_TIMESPEC(&time, &ev->time);			\
+		splx(s);						\
 	} while (0)
 
 	if (flags & WSMOUSE_INPUT_ABSOLUTE_X) {
