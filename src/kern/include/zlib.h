@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/kern/include/zlib.h,v 1.2 2007/02/06 20:21:48 tg Exp $ */
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
@@ -82,15 +82,15 @@ typedef void   (*free_func)  OF((voidpf opaque, voidpf address));
 struct internal_state;
 
 typedef struct z_stream_s {
-    Bytef    *next_in;  /* next input byte */
+    const Bytef *next_in;  /* next input byte */
     uInt     avail_in;  /* number of bytes available at next_in */
-    uLong    total_in;  /* total nb of input bytes read so far */
+    z_off_t  total_in;  /* total nb of input bytes read so far */
 
     Bytef    *next_out; /* next output byte should be put there */
     uInt     avail_out; /* remaining free space at next_out */
-    uLong    total_out; /* total nb of bytes output so far */
+    z_off_t  total_out; /* total nb of bytes output so far */
 
-    char     *msg;      /* last error message, NULL if no error */
+    const char *msg;    /* last error message, NULL if no error */
     struct internal_state FAR *state; /* not visible by applications */
 
     alloc_func zalloc;  /* used to allocate the internal state */
@@ -876,7 +876,7 @@ ZEXTERN int ZEXPORT inflateBackInit OF((z_streamp strm, int windowBits,
    match the version of the header file.
 */
 
-typedef unsigned (*in_func) OF((void FAR *, unsigned char FAR * FAR *));
+typedef unsigned (*in_func) OF((void FAR *, const unsigned char FAR * FAR *));
 typedef int (*out_func) OF((void FAR *, unsigned char FAR *, unsigned));
 
 ZEXTERN int ZEXPORT inflateBack OF((z_streamp strm,
