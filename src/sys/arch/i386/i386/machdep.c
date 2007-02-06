@@ -1,4 +1,4 @@
-/*	$OpenBSD: machdep.c,v 1.291 2004/05/04 17:06:33 grange Exp $	*/
+/*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
@@ -2834,20 +2834,6 @@ consinit()
 	initted = 1;
 	cninit();
 }
-
-#if (NPCKBC > 0) && (NPCKBD == 0)
-/*
- * glue code to support old console code with the
- * mi keyboard controller driver
- */
-int
-pckbc_machdep_cnattach(kbctag, kbcslot)
-	pckbc_tag_t kbctag;
-	pckbc_slot_t kbcslot;
-{
-	return (ENXIO);
-}
-#endif
 
 #ifdef KGDB
 void

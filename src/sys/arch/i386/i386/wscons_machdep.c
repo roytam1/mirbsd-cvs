@@ -1,4 +1,4 @@
-/*	$OpenBSD: wscons_machdep.c,v 1.10 2003/06/04 19:36:33 deraadt Exp $ */
+/*	$OpenBSD: wscons_machdep.c,v 1.13 2006/06/11 21:00:48 matthieu Exp $ */
 
 /*
  * Copyright (c) 2001 Aaron Campbell
@@ -66,7 +66,7 @@
 #include <dev/ic/i8042reg.h>
 #include <dev/ic/pckbcvar.h>
 #endif
-#include "pckbd.h"     /* for pckbc_machdep_cnattach */
+#include "pckbd.h"
 #include "ukbd.h"
 #if (NPCKBD > 0) || (NUKBD > 0)
 #include <dev/wscons/wskbdvar.h>
@@ -75,15 +75,10 @@
 #include <dev/usb/ukbdvar.h>
 #endif
 
-void wscnprobe(struct consdev *);
-void wscninit(struct consdev *);
-void wscnputc(dev_t, char);
-int wscngetc(dev_t);
-void wscnpollc(dev_t, int);
+cons_decl(ws);
 
 void
-wscnprobe(cp)
-	struct consdev *cp;
+wscnprobe(struct consdev *cp)
 {
 	int maj;
 
@@ -103,8 +98,7 @@ wscnprobe(cp)
 }
 
 void
-wscninit(cp)
-	struct consdev *cp;
+wscninit(struct consdev *cp)
 {
 	static int initted;
 
@@ -141,24 +135,19 @@ dokbd:
 }
 
 void
-wscnputc(dev, i)
-	dev_t dev;
-	char i;
+wscnputc(dev_t dev, int i)
 {
-	wsdisplay_cnputc(dev, (int)i);
+	wsdisplay_cnputc(dev, i);
 }
 
 int
-wscngetc(dev)
-	dev_t dev;
+wscngetc(dev_t dev)
 {
 	return (wskbd_cngetc(dev));
 }
 
 void
-wscnpollc(dev, on)
-	dev_t dev;
-	int on;
+wscnpollc(dev_t dev, int on)
 {
 	wskbd_cnpollc(dev, on);
 }

@@ -71,6 +71,4 @@ typedef	unsigned long long	 uint64_t;
 
 typedef int32_t			register_t;
 
-#define __HAVE_NWSCONS
-
 #endif	/* _MACHTYPES_H_ */
