@@ -1,4 +1,4 @@
-/* $OpenBSD: tga.c,v 1.23 2004/02/21 19:38:19 miod Exp $ */
+/* $OpenBSD: tga.c,v 1.29 2006/12/17 22:18:16 miod Exp $ */
 /* $NetBSD: tga.c,v 1.40 2002/03/13 15:05:18 ad Exp $ */
 
 /*
@@ -52,9 +52,12 @@
 #include <dev/ic/ibm561var.h>
 
 #include <dev/wscons/wsconsio.h>
-#include <dev/wscons/wscons_raster.h>
 #include <dev/rasops/rasops.h>
 #include <dev/wsfont/wsfont.h>
+
+#if defined(__alpha__) || defined(__mips__)
+#include <uvm/uvm_extern.h>
+#endif
 
 #ifdef __alpha__
 #include <machine/pte.h>
@@ -128,6 +131,7 @@ struct wsdisplay_emulops tga_emulops = {
 	tga_copyrows,
 	tga_eraserows,
 	NULL,
+	NULL
 };
 
 struct wsscreen_descr tga_stdscreen = {
@@ -135,7 +139,8 @@ struct wsscreen_descr tga_stdscreen = {
 	0, 0,	/* will be filled in -- XXX shouldn't, it's global */
 	&tga_emulops,
 	0, 0,
-	WSSCREEN_REVERSE
+	WSSCREEN_UNDERLINE | WSSCREEN_HILIT |
+	    WSSCREEN_WSCOLORS | WSSCREEN_REVERSE
 };
 
 const struct wsscreen_descr *_tga_scrlist[] = {
@@ -535,6 +540,7 @@ tgaattach(parent, self, aux)
 	aa.scrdata = &tga_screenlist;
 	aa.accessops = &tga_accessops;
 	aa.accesscookie = sc;
+	aa.defaultscreens = 0;
 
 	config_found(self, &aa, wsemuldisplaydevprint);
 
@@ -570,7 +576,7 @@ tga_ioctl(v, cmd, data, flag, p)
 	switch (cmd) {
 	case WSDISPLAYIO_GTYPE:
 		*(u_int *)data = WSDISPLAY_TYPE_TGA;
-		return (0);
+		break;
 
 	case WSDISPLAYIO_SMODE:
 		sc->sc_mode = *(u_int *)data;
@@ -584,7 +590,7 @@ tga_ioctl(v, cmd, data, flag, p)
 			TGAWREG(dc, TGA_REG_VVBR, 1);
 			break;			
 		}
-		return (0);
+		break;
 
 	case WSDISPLAYIO_GINFO:
 #define	wsd_fbip ((struct wsdisplay_fbinfo *)data)
@@ -593,30 +599,22 @@ tga_ioctl(v, cmd, data, flag, p)
 		wsd_fbip->depth = sc->sc_dc->dc_tgaconf->tgac_phys_depth;
 		wsd_fbip->cmsize = 1024;		/* XXX ??? */
 #undef wsd_fbip
-		return (0);
+		break;
 
 	case WSDISPLAYIO_LINEBYTES:
 		*(u_int *)data = sc->sc_dc->dc_rowbytes;
-		return 0;
+		break;
+
 	case WSDISPLAYIO_GETCMAP:
 		return (*dcrf->ramdac_get_cmap)(dcrc,
 		    (struct wsdisplay_cmap *)data);
-
 	case WSDISPLAYIO_PUTCMAP:
 		return (*dcrf->ramdac_set_cmap)(dcrc,
 		    (struct wsdisplay_cmap *)data);
 
 	case WSDISPLAYIO_SVIDEO:
-		if (*(u_int *)data == WSDISPLAYIO_VIDEO_OFF)
-			tga_blank(sc->sc_dc);
-		else
-			tga_unblank(sc->sc_dc);
-		return (0);
-
 	case WSDISPLAYIO_GVIDEO:
-		*(u_int *)data = dc->dc_blanked ?
-		    WSDISPLAYIO_VIDEO_OFF : WSDISPLAYIO_VIDEO_ON;
-		return (0);
+		break;
 
 	case WSDISPLAYIO_GCURPOS:
 		return (*dcrf->ramdac_get_curpos)(dcrc,
@@ -637,8 +635,12 @@ tga_ioctl(v, cmd, data, flag, p)
 	case WSDISPLAYIO_SCURSOR:
 		return (*dcrf->ramdac_set_cursor)(dcrc,
 		    (struct wsdisplay_cursor *)data);
+
+	default:
+		return (-1);
 	}
-	return (-1);
+
+	return (0);
 }
 
 int
@@ -719,10 +721,8 @@ tga_mmap(v, offset, prot)
 		 */
 		offset += dc->dc_tgaconf->tgac_cspace_size / 2;
 	}
-#if defined(__alpha__)
-	return alpha_btop(sc->sc_dc->dc_paddr + offset);
-#elif defined(__mips__)
-	return mips_btop(sc->sc_dc->dc_paddr + offset);
+#if defined(__alpha__) || defined(__mips__)
+	return atop(sc->sc_dc->dc_paddr + offset);
 #else
 	return (-1);
 #endif
@@ -1250,7 +1250,8 @@ tga_rop_vtov(dst, dx, dy, w, h, src, sx, sy)
 }
 
 
-void tga_putchar (c, row, col, uc, attr)
+void
+tga_putchar(c, row, col, uc, attr)
 	void *c;
 	int row, col;
 	u_int uc;
@@ -1259,6 +1260,7 @@ void tga_putchar (c, row, col, uc, attr)
 	struct rasops_info *ri = c;
 	struct tga_devconfig *dc = ri->ri_hw;
 	int fs, height, width;
+	int fg, bg, ul;
 	u_char *fr;
 	int32_t *rp;
 
@@ -1275,8 +1277,9 @@ void tga_putchar (c, row, col, uc, attr)
 	 * The rasops code has already expanded the color entry to 32 bits
 	 * for us, even for 8-bit displays, so we don't have to do anything.
 	 */
-	TGAWREG(dc, TGA_REG_GFGR, ri->ri_devcmap[(attr >> 24) & 15]);
-	TGAWREG(dc, TGA_REG_GBGR, ri->ri_devcmap[(attr >> 16) & 15]);
+	ri->ri_ops.unpack_attr(c, attr, &fg, &bg, &ul);
+	TGAWREG(dc, TGA_REG_GFGR, ri->ri_devcmap[fg]);
+	TGAWREG(dc, TGA_REG_GBGR, ri->ri_devcmap[bg]);
 	
 	/* Set raster operation to "copy"... */
 	if (ri->ri_depth == 8)
@@ -1303,7 +1306,7 @@ void tga_putchar (c, row, col, uc, attr)
 	}
 
 	/* Do underline */
-	if ((attr & 1) != 0) {
+	if (ul) {
 		rp = (int32_t *)((caddr_t)rp - (ri->ri_stride << 1));
 		*rp = 0xffffffff;
 	}
@@ -1311,7 +1314,6 @@ void tga_putchar (c, row, col, uc, attr)
 	/* Set grapics mode back to normal. */
 	TGAWREG(dc, TGA_REG_GMOR, 0);
 	TGAWREG(dc, TGA_REG_GPXR_P, 0xffffffff);
-
 }
 
 void
@@ -1323,9 +1325,11 @@ tga_eraserows(c, row, num, attr)
 	struct rasops_info *ri = c;
 	struct tga_devconfig *dc = ri->ri_hw;
 	int32_t color, lines, pixels;
+	int fg, bg;
 	int32_t *rp;
 
-	color = ri->ri_devcmap[(attr >> 16) & 15];
+	ri->ri_ops.unpack_attr(c, attr, &fg, &bg, NULL);
+	color = ri->ri_devcmap[bg];
 	rp = (int32_t *)(ri->ri_bits + row*ri->ri_yscale);
 	lines = num * ri->ri_font->fontheight;
 	pixels = ri->ri_emuwidth - 1;
@@ -1377,9 +1381,11 @@ tga_erasecols (c, row, col, num, attr)
 	struct rasops_info *ri = c;
 	struct tga_devconfig *dc = ri->ri_hw;
 	int32_t color, lines, pixels;
+	int fg, bg;
 	int32_t *rp;
 
-	color = ri->ri_devcmap[(attr >> 16) & 15];
+	ri->ri_ops.unpack_attr(c, attr, &fg, &bg, NULL);
+	color = ri->ri_devcmap[bg];
 	rp = (int32_t *)(ri->ri_bits + row*ri->ri_yscale + col*ri->ri_xscale);
 	lines = ri->ri_font->fontheight;
 	pixels = (num * ri->ri_font->fontwidth) - 1;

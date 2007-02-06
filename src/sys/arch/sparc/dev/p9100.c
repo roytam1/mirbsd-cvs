@@ -1,4 +1,4 @@
-/*	$OpenBSD: p9100.c,v 1.29 2004/05/12 16:26:11 deraadt Exp $	*/
+/*	$OpenBSD: p9100.c,v 1.40 2006/11/29 19:08:22 miod Exp $	*/
 
 /*
  * Copyright (c) 2003, Miodrag Vallat.
@@ -724,7 +724,7 @@ p9100_ras_erasecols(void *v, int row, int col, int n, long int attr)
 	struct p9100_softc *sc = ri->ri_hw;
 	int fg, bg;
 
-	rasops_unpack_attr(attr, &fg, &bg, NULL);
+	ri->ri_ops.unpack_attr(v, attr, &fg, &bg, NULL);
 
 	n *= ri->ri_font->fontwidth;
 	col *= ri->ri_font->fontwidth;
@@ -756,7 +756,7 @@ p9100_ras_eraserows(void *v, int row, int n, long int attr)
 	struct p9100_softc *sc = ri->ri_hw;
 	int fg, bg;
 
-	rasops_unpack_attr(attr, &fg, &bg, NULL);
+	ri->ri_ops.unpack_attr(v, attr, &fg, &bg, NULL);
 
 	p9100_drain(sc);
 	P9100_SELECT_DE_LOW(sc);
