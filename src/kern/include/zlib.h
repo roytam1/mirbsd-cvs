@@ -1,6 +1,8 @@
+/* $MirOS$ */
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
+  Copyright (c) 2006-2007 Thorsten Glaser <tg@mirbsd.de>
   Copyright (C) 1995-2005 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
@@ -37,8 +39,8 @@
 extern "C" {
 #endif
 
-#define ZLIB_VERSION "1.2.3"
-#define ZLIB_VERNUM 0x1230
+#define ZLIB_VERSION "1.2.3.f-MirOS"
+#define ZLIB_VERNUM 0x123f
 
 /*
      The 'zlib' compression library provides in-memory compression and
@@ -1119,7 +1121,9 @@ ZEXTERN int ZEXPORT    gzwrite OF((gzFile file,
    (0 in case of error).
 */
 
-ZEXTERN int ZEXPORTVA   gzprintf OF((gzFile file, const char *format, ...));
+ZEXTERN int ZEXPORTVA   gzprintf OF((gzFile file, const char *format, ...))
+    __attribute__((format (printf, 2, 3)))
+    __attribute__((nonnull (1)));
 /*
      Converts, formats, and writes the args to the compressed file under
    control of the format string, as in fprintf. gzprintf returns the number of

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -284,9 +285,18 @@ typedef uLong FAR uLongf;
    typedef Byte       *voidp;
 #endif
 
-#if 0           /* HAVE_UNISTD_H -- this line is updated by ./configure */
+#if !defined(HAVE_UNISTD_H) || (!HAVE_UNISTD_H)
+#  ifdef __MirBSD__
+#    include <sys/param.h>
+#  endif
 #  include <sys/types.h> /* for off_t */
-#  include <unistd.h>    /* for SEEK_* and off_t */
+#  if defined(_STANDALONE) || defined(_KERNEL)
+#    include <sys/unistd.h>
+#    define ZLIB_FREESTANDING
+#  else
+#    include <unistd.h>    /* for SEEK_* and off_t */
+#    undef ZLIB_FREESTANDING
+#  endif
 #  ifdef VMS
 #    include <unixio.h>   /* for off_t */
 #  endif
