@@ -1,4 +1,4 @@
-/*	$OpenBSD: rasops.c,v 1.9 2003/12/17 11:21:08 miod Exp $	*/
+/*	$OpenBSD: rasops.c,v 1.17 2006/12/02 18:02:53 miod Exp $	*/
 /*	$NetBSD: rasops.c,v 1.35 2001/02/02 06:01:01 marcus Exp $	*/
 
 /*-
@@ -36,8 +36,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include "rasops_glue.h"
 
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -140,6 +138,7 @@ const u_char rasops_isgray[16] = {
 };
 
 /* Generic functions */
+void	rasops_copycols(void *, int, int, int, int);
 void	rasops_copyrows(void *, int, int, int);
 int	rasops_mapchar(void *, int, u_int *);
 void	rasops_cursor(void *, int, int, int);
@@ -147,6 +146,29 @@ int	rasops_alloc_cattr(void *, int, int, int, long *);
 int	rasops_alloc_mattr(void *, int, int, int, long *);
 void	rasops_do_cursor(struct rasops_info *);
 void	rasops_init_devcmap(struct rasops_info *);
+void	rasops_unpack_attr(void *, long, int *, int *, int *);
+#if NRASOPS_BSWAP > 0
+static void slow_ovbcopy(void *, void *, size_t);
+#endif
+#if NRASOPS_ROTATION > 0
+void	rasops_copychar(void *, int, int, int, int);
+void	rasops_copycols_rotated(void *, int, int, int, int);
+void	rasops_copyrows_rotated(void *, int, int, int);
+void	rasops_erasecols_rotated(void *, int, int, int, long);
+void	rasops_eraserows_rotated(void *, int, int, long);
+void	rasops_putchar_rotated(void *, int, int, u_int, long);
+void	rasops_rotate_font(int *);
+
+/*
+ * List of all rotated fonts
+ */
+SLIST_HEAD(, rotatedfont) rotatedfonts = SLIST_HEAD_INITIALIZER(rotatedfonts);
+struct	rotatedfont {
+	SLIST_ENTRY(rotatedfont) rf_next;
+	int rf_cookie;
+	int rf_rotated;
+};
+#endif
 
 /*
  * Initialize a 'rasops_info' descriptor.
@@ -178,6 +200,15 @@ rasops_init(ri, wantrows, wantcols)
 			printf("rasops_init: font table is empty\n");
 			return (-1);
 		}
+
+#if NRASOPS_ROTATION > 0
+		/*
+		 * Pick the rotated version of this font. This will create it
+		 * if necessary.
+		 */
+		if (ri->ri_flg & RI_ROTATE_CW)
+			rasops_rotate_font(&cookie);
+#endif
 
 		if (wsfont_lock(cookie, &ri->ri_font,
 		    WSDISPLAY_FONTORDER_L2R, WSDISPLAY_FONTORDER_L2R) <= 0) {
@@ -217,7 +248,7 @@ rasops_reconfig(ri, wantrows, wantcols)
 	struct rasops_info *ri;
 	int wantrows, wantcols;
 {
-	int bpp, s;
+	int l, bpp, s;
 
 	s = splhigh();
 
@@ -251,8 +282,16 @@ rasops_reconfig(ri, wantrows, wantcols)
 	while ((ri->ri_emuwidth * bpp & 31) != 0)
 		ri->ri_emuwidth--;
 
-	ri->ri_cols = ri->ri_emuwidth / ri->ri_font->fontwidth;
-	ri->ri_rows = ri->ri_emuheight / ri->ri_font->fontheight;
+#if NRASOPS_ROTATION > 0
+	if (ri->ri_flg & RI_ROTATE_CW) {
+		ri->ri_rows = ri->ri_emuwidth / ri->ri_font->fontwidth;
+		ri->ri_cols = ri->ri_emuheight / ri->ri_font->fontheight;
+	} else
+#endif
+	{
+		ri->ri_cols = ri->ri_emuwidth / ri->ri_font->fontwidth;
+		ri->ri_rows = ri->ri_emuheight / ri->ri_font->fontheight;
+	}
 	ri->ri_emustride = ri->ri_emuwidth * bpp >> 3;
 	ri->ri_delta = ri->ri_stride - ri->ri_emustride;
 	ri->ri_ccol = 0;
@@ -268,8 +307,10 @@ rasops_reconfig(ri, wantrows, wantcols)
 		panic("rasops_init: ri_delta not aligned on 32-bit boundary");
 #endif
 	/* Clear the entire display */
-	if ((ri->ri_flg & RI_CLEAR) != 0)
+	if ((ri->ri_flg & RI_CLEAR) != 0) {
 		memset(ri->ri_bits, 0, ri->ri_stride * ri->ri_height);
+		ri->ri_flg &= ~RI_CLEARMARGINS;
+	}
 
 	/* Now centre our window if needs be */
 	ri->ri_origbits = ri->ri_bits;
@@ -287,6 +328,18 @@ rasops_reconfig(ri, wantrows, wantcols)
 	} else
 		ri->ri_xorigin = ri->ri_yorigin = 0;
 
+	/* Clear the margins */
+	if ((ri->ri_flg & RI_CLEARMARGINS) != 0) {
+		memset(ri->ri_origbits, 0, ri->ri_bits - ri->ri_origbits);
+		for (l = 0; l < ri->ri_emuheight; l++)
+			memset(ri->ri_bits + ri->ri_emustride +
+			    l * ri->ri_stride, 0,
+			    ri->ri_stride - ri->ri_emustride);
+		memset(ri->ri_bits + ri->ri_emuheight * ri->ri_stride, 0,
+		    (ri->ri_origbits + ri->ri_height * ri->ri_stride) -
+		    (ri->ri_bits + ri->ri_emuheight * ri->ri_stride));
+	}
+
 	/*
 	 * Fill in defaults for operations set.  XXX this nukes private
 	 * routines used by accelerated fb drivers.
@@ -297,6 +350,7 @@ rasops_reconfig(ri, wantrows, wantcols)
 	ri->ri_ops.erasecols = rasops_erasecols;
 	ri->ri_ops.eraserows = rasops_eraserows;
 	ri->ri_ops.cursor = rasops_cursor;
+	ri->ri_ops.unpack_attr = rasops_unpack_attr;
 	ri->ri_do_cursor = rasops_do_cursor;
 	ri->ri_updatecursor = NULL;
 
@@ -351,6 +405,17 @@ rasops_reconfig(ri, wantrows, wantcols)
 		splx(s);
 		return (-1);
 	}
+
+#if NRASOPS_ROTATION > 0
+	if (ri->ri_flg & RI_ROTATE_CW) {
+		ri->ri_real_ops = ri->ri_ops;
+		ri->ri_ops.copycols = rasops_copycols_rotated;
+		ri->ri_ops.copyrows = rasops_copyrows_rotated;
+		ri->ri_ops.erasecols = rasops_erasecols_rotated;
+		ri->ri_ops.eraserows = rasops_eraserows_rotated;
+		ri->ri_ops.putchar = rasops_putchar_rotated;
+	}
+#endif
 
 	ri->ri_flg |= RI_CFGDONE;
 	splx(s);
@@ -600,10 +665,21 @@ rasops_copycols(cookie, row, src, dst, num)
 	sp = ri->ri_bits + row + src * ri->ri_xscale;
 	dp = ri->ri_bits + row + dst * ri->ri_xscale;
 
-	while (height--) {
-		ovbcopy(sp, dp, num);
-		dp += ri->ri_stride;
-		sp += ri->ri_stride;
+#if NRASOPS_BSWAP > 0
+	if (ri->ri_flg & RI_BSWAP) {
+		while (height--) {
+			slow_ovbcopy(sp, dp, num);
+			dp += ri->ri_stride;
+			sp += ri->ri_stride;
+		}
+	} else
+#endif
+	{
+		while (height--) {
+			ovbcopy(sp, dp, num);
+			dp += ri->ri_stride;
+			sp += ri->ri_stride;
+		}
 	}
 }
 
@@ -658,31 +734,51 @@ void
 rasops_init_devcmap(ri)
 	struct rasops_info *ri;
 {
+	int i;
+#if NRASOPS15 > 0 || NRASOPS16 > 0 || NRASOPS24 > 0 || NRASOPS32 > 0
 	const u_char *p;
-	int i, c;
+#endif
+#if NRASOPS4 > 0 || NRASOPS15 > 0 || NRASOPS16 > 0 || NRASOPS24 > 0 || NRASOPS32 > 0
+	int c;
+#endif
 
 	switch (ri->ri_depth) {
+#if NRASOPS1 > 0
 	case 1:
 		ri->ri_devcmap[0] = 0;
 		for (i = 1; i < 16; i++)
-			ri->ri_devcmap[i] = -1;
+			ri->ri_devcmap[i] = 0xffffffff;
 		return;
-
+#endif
+#if NRASOPS2 > 0
 	case 2:
 		for (i = 1; i < 15; i++)
 			ri->ri_devcmap[i] = 0xaaaaaaaa;
 
 		ri->ri_devcmap[0] = 0;
 		ri->ri_devcmap[8] = 0x55555555;
-		ri->ri_devcmap[15] = -1;
+		ri->ri_devcmap[15] = 0xffffffff;
 		return;
-
+#endif
+#if NRASOPS4 > 0
+	case 4:
+		for (i = 0; i < 16; i++) {
+			c = i | (i << 4);
+			ri->ri_devcmap[i] = c | (c<<8) | (c<<16) | (c<<24);
+		}
+		return;
+#endif
+#if NRASOPS8 > 0
 	case 8:
 		for (i = 0; i < 16; i++)
 			ri->ri_devcmap[i] = i | (i<<8) | (i<<16) | (i<<24);
 		return;
+#endif
+	default:
+		break;
 	}
 
+#if NRASOPS15 > 0 || NRASOPS16 > 0 || NRASOPS24 > 0 || NRASOPS32 > 0
 	p = rasops_cmap;
 
 	for (i = 0; i < 16; i++) {
@@ -711,6 +807,7 @@ rasops_init_devcmap(ri)
 			c = c | (c << 16);
 
 		/* 24bpp does bswap on the fly. {32,16,15}bpp do it here. */
+#if NRASOPS_BSWAP > 0
 		if ((ri->ri_flg & RI_BSWAP) == 0)
 			ri->ri_devcmap[i] = c;
 		else if (ri->ri_depth == 32)
@@ -719,18 +816,22 @@ rasops_init_devcmap(ri)
 			ri->ri_devcmap[i] = swap16(c);
 		else
 			ri->ri_devcmap[i] = c;
+#else
+		ri->ri_devcmap[i] = c;
+#endif
 	}
+#endif
 }
 
 /*
  * Unpack a rasops attribute
  */
 void
-rasops_unpack_attr(attr, fg, bg, underline)
+rasops_unpack_attr(cookie, attr, fg, bg, underline)
+	void *cookie;
 	long attr;
 	int *fg, *bg, *underline;
 {
-
 	*fg = ((u_int)attr >> 24) & 0xf;
 	*bg = ((u_int)attr >> 16) & 0xf;
 	if (underline != NULL)
@@ -820,8 +921,17 @@ rasops_do_cursor(ri)
 	int full1, height, cnt, slop1, slop2, row, col;
 	u_char *dp, *rp;
 
-	row = ri->ri_crow;
-	col = ri->ri_ccol;
+#if NRASOPS_ROTATION > 0
+	if (ri->ri_flg & RI_ROTATE_CW) {
+		/* Rotate rows/columns */
+		row = ri->ri_ccol;
+		col = ri->ri_rows - ri->ri_crow - 1;
+	} else
+#endif
+	{
+		row = ri->ri_crow;
+		col = ri->ri_ccol;
+	}
 
 	rp = ri->ri_bits + row * ri->ri_yscale + col * ri->ri_xscale;
 	height = ri->ri_font->fontheight;
@@ -1000,3 +1110,212 @@ rasops_erasecols(cookie, row, col, num, attr)
 			*(int16_t *)dp = clr;
 	}
 }
+
+#if NRASOPS_ROTATION > 0
+/*
+ * Quarter clockwise rotation routines (originally intended for the
+ * built-in Zaurus C3x00 display in 16bpp).
+ */
+
+#include <sys/malloc.h>
+
+void
+rasops_rotate_font(int *cookie)
+{
+	struct rotatedfont *f;
+	int ncookie;
+
+	SLIST_FOREACH(f, &rotatedfonts, rf_next) {
+		if (f->rf_cookie == *cookie) {
+			*cookie = f->rf_rotated;
+			return;
+		}
+	}
+
+	/*
+	 * We did not find a rotated version of this font. Ask the wsfont
+	 * code to compute one for us.
+	 */
+
+	f = malloc(sizeof(struct rotatedfont), M_DEVBUF, M_WAITOK);
+	if (f == NULL)
+		return;
+
+	if ((ncookie = wsfont_rotate(*cookie)) == -1)
+		return;
+
+	f->rf_cookie = *cookie;
+	f->rf_rotated = ncookie;
+	SLIST_INSERT_HEAD(&rotatedfonts, f, rf_next);
+
+	*cookie = ncookie;
+}
+
+void
+rasops_copychar(cookie, srcrow, dstrow, srccol, dstcol)
+	void *cookie;
+	int srcrow, dstrow, srccol, dstcol;
+{
+	struct rasops_info *ri;
+	u_char *sp, *dp;
+	int height;
+	int r_srcrow, r_dstrow, r_srccol, r_dstcol;
+
+	ri = (struct rasops_info *)cookie;
+
+	r_srcrow = srccol;
+	r_dstrow = dstcol;
+	r_srccol = ri->ri_rows - srcrow - 1;
+	r_dstcol = ri->ri_rows - dstrow - 1;
+
+	r_srcrow *= ri->ri_yscale;
+	r_dstrow *= ri->ri_yscale;
+	height = ri->ri_font->fontheight;
+
+	sp = ri->ri_bits + r_srcrow + r_srccol * ri->ri_xscale;
+	dp = ri->ri_bits + r_dstrow + r_dstcol * ri->ri_xscale;
+
+#if NRASOPS_BSWAP > 0
+	if (ri->ri_flg & RI_BSWAP) {
+		while (height--) {
+			slow_ovbcopy(sp, dp, ri->ri_xscale);
+			dp += ri->ri_stride;
+			sp += ri->ri_stride;
+		}
+	} else
+#endif
+	{
+		while (height--) {
+			ovbcopy(sp, dp, ri->ri_xscale);
+			dp += ri->ri_stride;
+			sp += ri->ri_stride;
+		}
+	}
+}
+
+void
+rasops_putchar_rotated(cookie, row, col, uc, attr)
+	void *cookie;
+	int row, col;
+	u_int uc;
+	long attr;
+{
+	struct rasops_info *ri;
+	u_char *rp;
+	int height;
+
+	ri = (struct rasops_info *)cookie;
+
+	/* Do rotated char sans (side)underline */
+	ri->ri_real_ops.putchar(cookie, col, ri->ri_rows - row - 1, uc,
+	    attr & ~1);
+
+	/* Do rotated underline */
+	rp = ri->ri_bits + col * ri->ri_yscale + (ri->ri_rows - row - 1) * 
+	    ri->ri_xscale;
+	height = ri->ri_font->fontheight;
+
+	/* XXX this assumes 16-bit color depth */
+	if ((attr & 1) != 0) {
+		int16_t c = (int16_t)ri->ri_devcmap[((u_int)attr >> 24) & 0xf];
+
+		while (height--) {
+			*(int16_t *)rp = c;
+			rp += ri->ri_stride;
+		}
+	}
+}
+
+void
+rasops_erasecols_rotated(cookie, row, col, num, attr)
+	void *cookie;
+	int row, col, num;
+	long attr;
+{
+	struct rasops_info *ri;
+	int i;
+
+	ri = (struct rasops_info *)cookie;
+
+	for (i = col; i < col + num; i++)
+		ri->ri_ops.putchar(cookie, row, i, ' ', attr);
+}
+
+/* XXX: these could likely be optimised somewhat. */
+void
+rasops_copyrows_rotated(cookie, src, dst, num)
+	void *cookie;
+	int src, dst, num;
+{
+	struct rasops_info *ri = (struct rasops_info *)cookie;
+	int col, roff;
+
+	if (src > dst)
+		for (roff = 0; roff < num; roff++)
+			for (col = 0; col < ri->ri_cols; col++)
+				rasops_copychar(cookie, src + roff, dst + roff,
+				    col, col);
+	else
+		for (roff = num - 1; roff >= 0; roff--)
+			for (col = 0; col < ri->ri_cols; col++)
+				rasops_copychar(cookie, src + roff, dst + roff,
+				    col, col);
+}
+
+void
+rasops_copycols_rotated(cookie, row, src, dst, num)
+	void *cookie;
+	int row, src, dst, num;
+{
+	int coff;
+
+	if (src > dst)
+		for (coff = 0; coff < num; coff++)
+			rasops_copychar(cookie, row, row, src + coff, dst + coff);
+	else
+		for (coff = num - 1; coff >= 0; coff--)
+			rasops_copychar(cookie, row, row, src + coff, dst + coff);
+}
+
+void
+rasops_eraserows_rotated(cookie, row, num, attr)
+	void *cookie;
+	int row, num;
+	long attr;
+{
+	struct rasops_info *ri;
+	int col, rn;
+
+	ri = (struct rasops_info *)cookie;
+
+	for (rn = row; rn < row + num; rn++)
+		for (col = 0; col < ri->ri_cols; col++)
+			ri->ri_ops.putchar(cookie, rn, col, ' ', attr);
+}
+#endif	/* NRASOPS_ROTATION */
+
+#if NRASOPS_BSWAP > 0
+/*
+ * Strictly byte-only ovbcopy() version, to be used with RI_BSWAP, as the
+ * regular ovbcopy() may want to optimize things by doing larger-than-byte
+ * reads or write. This may confuse things if src and dst have different
+ * alignments.
+ */
+void
+slow_ovbcopy(void *s, void *d, size_t len)
+{
+	u_int8_t *src = s;
+	u_int8_t *dst = d;
+
+	if ((vaddr_t)dst <= (vaddr_t)src) {
+		while (len-- != 0)
+			*dst++ = *src++;
+	} else {
+		src += len;
+		dst += len;
+		if (len != 0)
+			while (--len != 0)
+				*--dst = *--src;
+	}
+}
+#endif	/* NRASOPS_BSWAP */

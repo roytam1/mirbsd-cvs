@@ -1,4 +1,4 @@
-/*	$OpenBSD: rasops4.c,v 1.5 2002/07/27 22:18:20 miod Exp $	*/
+/*	$OpenBSD: rasops4.c,v 1.7 2006/08/03 18:42:06 miod Exp $	*/
 /*	$NetBSD: rasops4.c,v 1.4 2001/11/15 09:48:15 lukem Exp $	*/
 
 /*-
@@ -72,6 +72,7 @@ void
 rasops4_init(ri)
 	struct rasops_info *ri;
 {
+	rasops_masks_init();
 
 	switch (ri->ri_font->fontwidth) {
 #ifndef RASOPS_SMALL
@@ -244,10 +245,17 @@ rasops4_makestamp(ri, attr)
 	stamp_attr = attr;
 
 	for (i = 0; i < 16; i++) {
+#if BYTE_ORDER == LITTLE_ENDIAN
 		stamp[i] =  (i & 1 ? fg : bg) << 8;
 		stamp[i] |= (i & 2 ? fg : bg) << 12;
 		stamp[i] |= (i & 4 ? fg : bg) << 0;
 		stamp[i] |= (i & 8 ? fg : bg) << 4;
+#else
+		stamp[i] =  (i & 1 ? fg : bg) << 0;
+		stamp[i] |= (i & 2 ? fg : bg) << 4;
+		stamp[i] |= (i & 4 ? fg : bg) << 8;
+		stamp[i] |= (i & 8 ? fg : bg) << 12;
+#endif
 	}
 }
 

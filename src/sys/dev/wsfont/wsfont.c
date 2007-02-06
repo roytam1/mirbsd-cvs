@@ -1,4 +1,4 @@
-/*	$OpenBSD: wsfont.c,v 1.13 2005/05/05 23:32:48 miod Exp $ */
+/*	$OpenBSD: wsfont.c,v 1.20 2006/08/06 16:00:46 miod Exp $ */
 /* 	$NetBSD: wsfont.c,v 1.17 2001/02/07 13:59:24 ad Exp $	*/
 
 /*-
@@ -37,9 +37,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-//__KERNEL_RCSID(0, "$NetBSD: wsfont.c,v 1.17 2001/02/07 13:59:24 ad Exp $");
-
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -49,6 +46,8 @@
 #include <dev/wscons/wsdisplayvar.h>
 #include <dev/wscons/wsconsio.h>
 #include <dev/wsfont/wsfont.h>
+
+#include "wsfont_glue.h"	/* NRASOPS_ROTATION */
 
 #undef HAVE_FONT
 
@@ -102,21 +101,16 @@
 
 /*
  * Make sure we always have at least one font.
- * Sparc and sparc64 always provide a specific set of fonts.
- * Other platforms provide a 8x16 font and a larger 12x22 fonts, which is
- * omitted if option SMALL_KERNEL.
+ * Sparc, sparc64 always provide a 8x16 font and a larger 12x22 font.
+ * Other platforms also provide both, but the 12x22 font is omitted if
+ * option SMALL_KERNEL.
  */
 #ifndef HAVE_FONT
 #define HAVE_FONT 1
 
-#if defined(__sparc__) || defined(__sparc64__)
 #define	FONT_BOLD8x16_ISO1
+#if defined(__sparc__) || defined(__sparc64__) || defined(luna88k) || !defined(SMALL_KERNEL)
 #define	FONT_GALLANT12x22
-#else
-#define	FONT_BOLD8x16_ISO1
-#if !defined(SMALL_KERNEL)
-#define	FONT_GALLANT12x22
-#endif
 #endif
 
 #endif	/* HAVE_FONT */
@@ -127,10 +121,6 @@
 
 #ifdef FONT_GALLANT12x22
 #include <dev/wsfont/gallant12x22.h>
-#endif
-
-#ifdef __zaurus__
-void wsfont_rotate(struct wsdisplay_font *, int);
 #endif
 
 /* Placeholder struct used for linked list */
@@ -181,6 +171,8 @@ static struct font *list, builtin_fonts[] = {
 	{ NULL, NULL, NULL, 0 },
 };
 
+#if !defined(SMALL_KERNEL) || defined(__alpha__)
+
 /* Reverse the bit order in a byte */
 static const u_char reverse[256] = {
 	0x00, 0x80, 0x40, 0xc0, 0x20, 0xa0, 0x60, 0xe0, 
@@ -217,13 +209,16 @@ static const u_char reverse[256] = {
 	0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff, 
 };
 
-static struct	font *wsfont_find0(int);
-static void	wsfont_revbit(struct wsdisplay_font *);
-static void	wsfont_revbyte(struct wsdisplay_font *);
+#endif
+
+static struct font *wsfont_find0(int);
+
+#if !defined(SMALL_KERNEL) || defined(__alpha__)
 
 /*
  * Reverse the bit order of a font
  */
+static void	wsfont_revbit(struct wsdisplay_font *);
 static void
 wsfont_revbit(font)
 	struct wsdisplay_font *font;
@@ -237,9 +232,14 @@ wsfont_revbit(font)
 		*p = reverse[*p];
 }
 
+#endif
+
+#if !defined(SMALL_KERNEL)
+
 /*
  * Reverse the byte order of a font
  */
+static void	wsfont_revbyte(struct wsdisplay_font *);
 static void
 wsfont_revbyte(font)
 	struct wsdisplay_font *font;
@@ -268,6 +268,8 @@ wsfont_revbyte(font)
 	}
 }
 
+#endif
+
 /*
  * Enumerate the list of fonts
  */
@@ -289,19 +291,35 @@ wsfont_enum(cb)
 	splx(s);
 }
 
-#ifdef __zaurus__
-void wsfont_rotate(struct wsdisplay_font *font, int static_orig)
+#if NRASOPS_ROTATION > 0
+
+struct wsdisplay_font *wsfont_rotate_internal(struct wsdisplay_font *);
+
+struct wsdisplay_font *
+wsfont_rotate_internal(struct wsdisplay_font *font)
 {
 	int b, n, r, newstride;
-	char *newfont;
+	struct wsdisplay_font *newfont;
+	char *newbits;
+
+	/* Duplicate the existing font... */
+	newfont = malloc(sizeof *font, M_DEVBUF, M_WAITOK);
+	if (newfont == NULL)
+		return (NULL);
+
+	bcopy(font, newfont, sizeof *font);
+	newfont->cookie = NULL;
 
 	/* Allocate a buffer big enough for the rotated font. */
 	newstride = (font->fontheight + 7) / 8;
-	newfont = malloc(newstride * font->fontwidth * font->numchars,
+	newbits = malloc(newstride * font->fontwidth * font->numchars,
 	    M_DEVBUF, M_WAITOK);
-	if (newfont == NULL)
-		return;
-	bzero(newfont, newstride * font->fontwidth * font->numchars);
+	if (newbits == NULL) {
+		free(newfont, M_DEVBUF);
+		return (NULL);
+	}
+
+	bzero(newbits, newstride * font->fontwidth * font->numchars);
 
 	/* Rotate the font a bit at a time. */
 	for (n = 0; n < font->numchars; n++) {
@@ -315,7 +333,7 @@ void wsfont_rotate(struct wsdisplay_font *font, int static_orig)
 				if (*rb & (0x80 >> (b % 8))) {
 					unsigned char *rrb;
 
-					rrb = newfont + newstride - 1 - (r / 8)
+					rrb = newbits + newstride - 1 - (r / 8)
 					    + (n * newstride * font->fontwidth)
 					    + (newstride * b);
 					*rrb |= (1 << (r % 8));
@@ -324,28 +342,48 @@ void wsfont_rotate(struct wsdisplay_font *font, int static_orig)
 		}
 	}
 
-	/*
-	 * If the rotated font will fit into the memory the font originally
-	 * used, copy it into there, otherwise use our new buffer.
-	 */
-	if ((newstride * font->fontwidth * font->numchars) <=
-	    (font->stride * font->fontheight * font->numchars)) {
-		memcpy(font->data, newfont, newstride *
-		    font->fontwidth * font->numchars);
-		free(newfont, M_DEVBUF);
-	} else {
-		if (!static_orig)
-			free(font->data, M_DEVBUF);
-		font->data = newfont;
-	}
+	newfont->data = newbits;
 
 	/* Update font sizes. */
-	font->stride = newstride;
-	newstride = font->fontwidth;	 /* temp */
-	font->fontwidth = font->fontheight;
-	font->fontheight = newstride;
+	newfont->stride = newstride;
+	newfont->fontwidth = font->fontheight;
+	newfont->fontheight = font->fontwidth;
+
+	if (wsfont_add(newfont, 0) != 0) {
+		/*
+		 * If we seem to have rotated this font already, drop the
+		 * new one...
+		 */
+		free(newbits, M_DEVBUF);
+		free(newfont, M_DEVBUF);
+		newfont = NULL;
+	}
+
+	return (newfont);
 }
-#endif
+
+int
+wsfont_rotate(int cookie)
+{
+	int s, ncookie;
+	struct wsdisplay_font *font;
+	struct font *origfont;
+
+	s = splhigh();
+	origfont = wsfont_find0(cookie);
+	splx(s);
+
+	font = wsfont_rotate_internal(origfont->font);
+	if (font == NULL)
+		return (-1);
+
+	ncookie = wsfont_find(font->name, font->fontwidth, font->fontheight, 
+	    font->stride);
+
+	return (ncookie);
+}
+
+#endif	/* NRASOPS_ROTATION */
 
 /*
  * Initialize list with WSFONT_BUILTIN fonts
@@ -360,11 +398,6 @@ wsfont_init(void)
 		return;
 	again = 1;
 		
-#ifdef __zaurus__
-	for (i = 0; builtin_fonts[i].font != NULL; i++)
-		wsfont_rotate(builtin_fonts[i].font, 1);
-#endif
-
 	for (i = 0; builtin_fonts[i].font != NULL; i++) {
 		builtin_fonts[i].next = list;
 		list = &builtin_fonts[i];
@@ -466,16 +499,12 @@ wsfont_add(font, copy)
 		ent->flg = 0;
 	}
 
-#ifdef __zaurus__
-	wsfont_rotate(ent->font, 0);
-#endif
-	
 	/* Now link into the list and return */
 	list = ent;
 	splx(s);	
 	return (0);
 }
-			
+
 /*
  * Remove a font.
  */
@@ -538,21 +567,31 @@ wsfont_lock(cookie, ptr, bitorder, byteorder)
 	
 	if ((ent = wsfont_find0(cookie)) != NULL) {
 		if (bitorder && bitorder != ent->font->bitorder) {
+#if !defined(SMALL_KERNEL) || defined(__alpha__)
 			if (ent->lockcount) {
 				splx(s);
 				return (-1);
 			}
 			wsfont_revbit(ent->font);
 			ent->font->bitorder = bitorder;
+#else
+			splx(s);
+			return (-1);
+#endif
 		}
 
 		if (byteorder && byteorder != ent->font->byteorder) {
+#if !defined(SMALL_KERNEL)
 			if (ent->lockcount) {
 				splx(s);
 				return (-1);
 			}
 			wsfont_revbyte(ent->font);
 			ent->font->byteorder = byteorder;
+#else
+			splx(s);
+			return (-1);
+#endif
 		}
 		
 		lc = ++ent->lockcount;
@@ -608,6 +647,7 @@ wsfont_unlock(cookie)
 	return (lc);
 }
 
+#if !defined(SMALL_KERNEL)
 
 /*
  * Unicode to font encoding mappings
@@ -777,65 +817,16 @@ static struct wsfont_level2_glyphmap *iso7_level1[] = {
 };
 
 
-/*
- * SONY maps
- */
-
-static u_int8_t
-sony_chars_0[] = {
-	 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
-	16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-	32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-	48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
-	64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
-	80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95,
-	96, 97, 98, 99, 100,101,102,103,104,105,106,107,108,109,110,111,
-	112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,
-	 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-	128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,
-	144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,
-	160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,
-	176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,
-	192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,
-	208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223
-};
-static u_int16_t
-sony_chars_255[] = {
-	225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,
-	241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,
-	257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,
-	273,274,275,276,277,278,279,280,281,282,283,284,285,286,287
-};
-
-static struct wsfont_level2_glyphmap
-sony_level2_0 = { 0, 256, sony_chars_0, 1 },
-sony_level2_255 = { 97, 63, sony_chars_255, 2 };
-
-static struct wsfont_level2_glyphmap *sony_level1[] = {
-	&sony_level2_0, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL,
-	null16, null16, null16, null16,
-	null16, null16, null16, null16,
-	null16, null16, null16, null16,
-	null16, null16,
-	NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, &sony_level2_255
-};
-
 static struct wsfont_level1_glyphmap encodings[] = {
 	{ NULL, 0, 0 },			/* WSDISPLAY_FONTENC_ISO */
 	{ ibm437_level1, 0, 38 },	/* WSDISPLAY_FONTENC_IBM */
 	{ NULL, 0, 0 },			/* WSDISPLAY_FONTENC_PCVT */
 	{ iso7_level1, 0, 33 },		/* WSDISPLAY_FONTENC_ISO7 */
-	{ sony_level1, 0, 256 },	/* WSDISPLAY_FONTENC_SONY */
 };
 
-#define MAX_ENCODING WSDISPLAY_FONTENC_SONY
+#define MAX_ENCODING (sizeof(encodings) / sizeof(encodings[0]))
+
+#endif	/* !SMALL_KERNEL */
 
 /*
  * Remap Unicode character to glyph
@@ -845,16 +836,13 @@ wsfont_map_unichar(font, c)
 	struct wsdisplay_font *font;
 	int c;
 {
-	if (font->encoding == WSDISPLAY_FONTENC_ISO) {
-
+	if (font->encoding == WSDISPLAY_FONTENC_ISO)
 		return c;
-
-	} else if (font->encoding < 0 || font->encoding > MAX_ENCODING) {
-
+	else
+#if !defined(SMALL_KERNEL)
+	if (font->encoding < 0 || font->encoding > MAX_ENCODING)
 		return (-1);
-
-	} else {
-
+	else {
 		int hi = (c >> 8), lo = c & 255;
 		struct wsfont_level1_glyphmap *map1 =
 			&encodings[font->encoding];
@@ -864,20 +852,20 @@ wsfont_map_unichar(font, c)
 			  map1->level2[hi - map1->base];
 
 			if (map2 != NULL &&
-			    lo >= map2->base && hi < map2->base + map2->size) {
+			    lo >= map2->base && lo < map2->base + map2->size) {
 
 			  	lo -= map2->base;
 
 				switch(map2->width) {
-				 case 1:
-				   c = (((u_int8_t *)map2->chars)[lo]);
-				   break;
-				 case 2:
-				   c = (((u_int16_t *)map2->chars)[lo]);
-				   break;
-				 case 4:
-				   c = (((u_int32_t *)map2->chars)[lo]);
-				   break;
+				case 1:
+					c = (((u_int8_t *)map2->chars)[lo]);
+					break;
+				case 2:
+					c = (((u_int16_t *)map2->chars)[lo]);
+					break;
+				case 4:
+					c = (((u_int32_t *)map2->chars)[lo]);
+					break;
 				}
 
 				if (c == 0 && lo != 0)
@@ -894,5 +882,7 @@ wsfont_map_unichar(font, c)
 		}
 
 	}
-
+#else
+	return (-1);
+#endif	/* SMALL_KERNEL */
 }

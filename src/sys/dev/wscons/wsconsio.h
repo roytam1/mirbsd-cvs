@@ -1,4 +1,4 @@
-/* $OpenBSD: wsconsio.h,v 1.36 2005/05/15 11:29:15 miod Exp $ */
+/* $OpenBSD: wsconsio.h,v 1.43 2006/11/27 18:04:28 gwk Exp $ */
 /* $NetBSD: wsconsio.h,v 1.74 2005/04/28 07:15:44 martin Exp $ */
 
 /*
@@ -256,7 +256,7 @@ struct wsmouse_calibcoords {
 #define		WSDISPLAY_TYPE_HPCFB	16	/* Handheld/PalmSize PC */
 #define		WSDISPLAY_TYPE_VIDC	17	/* Acorn/ARM VIDC */
 #define		WSDISPLAY_TYPE_SPX	18	/* DEC SPX (VS3100/VS4000) */
-#define		WSDISPLAY_TYPE_GPX	19	/* DEC GPX (uVAX/VS2K/VS3100 */
+#define		WSDISPLAY_TYPE_GPX	19	/* DEC GPX (uVAX/VS2K/VS3100) */
 #define		WSDISPLAY_TYPE_LCG	20	/* DEC LCG (VS4000) */
 #define		WSDISPLAY_TYPE_VAX_MONO	21	/* DEC VS2K/VS3100 mono */
 #define		WSDISPLAY_TYPE_SB_P9100	22	/* Tadpole SPARCbook P9100 */
@@ -286,6 +286,11 @@ struct wsmouse_calibcoords {
 #define		WSDISPLAY_TYPE_HYPERION	46	/* HP Hyperion */
 #define		WSDISPLAY_TYPE_TOPCAT	47	/* HP Topcat */
 #define		WSDISPLAY_TYPE_PXALCD	48	/* PXALCD (Zaurus) */
+#define		WSDISPLAY_TYPE_MAC68K	49	/* Generic mac68k framebuffer */
+#define		WSDISPLAY_TYPE_SUNLEO	50	/* Sun ZX/Leo */
+#define		WSDISPLAY_TYPE_TVRX	51	/* HP TurboVRX */
+#define		WSDISPLAY_TYPE_CFXGA	52	/* CF VoyagerVGA */
+#define		WSDISPLAY_TYPE_LCSPX	53	/* DEC LCSPX (VS4000) */
 
 /* Basic display information.  Not applicable to all display types. */
 struct wsdisplay_fbinfo {
@@ -362,7 +367,6 @@ struct wsdisplay_font {
 #define WSDISPLAY_FONTENC_IBM 1
 #define WSDISPLAY_FONTENC_PCVT 2
 #define WSDISPLAY_FONTENC_ISO7 3 /* greek */
-#define WSDISPLAY_FONTENC_SONY 4
 	u_int fontwidth, fontheight, stride;
 #define WSDISPLAY_MAXFONTSZ	(512*1024)
 	int bitorder, byteorder;
@@ -404,7 +408,8 @@ struct wsdisplay_addscreendata {
 struct wsdisplay_delscreendata {
 	int idx; /* screen index */
 	int flags;
-#define WSDISPLAY_DELSCR_FORCE 1
+#define	WSDISPLAY_DELSCR_FORCE	0x01
+#define	WSDISPLAY_DELSCR_QUIET	0x02
 };
 #define WSDISPLAYIO_DELSCREEN	_IOW('W', 84, struct wsdisplay_delscreendata)
 
@@ -430,6 +435,27 @@ struct wsdisplay_param {
 #define	WSDISPLAYIO_SETPARAM	_IOWR('W', 90, struct wsdisplay_param)
 
 #define WSDISPLAYIO_GPCIID	_IOR('W', 91, struct pcisel)
+
+/* graphical mode control */
+
+#define WSDISPLAYIO_DEPTH_1		0x1
+#define WSDISPLAYIO_DEPTH_4		0x2
+#define WSDISPLAYIO_DEPTH_8		0x4
+#define WSDISPLAYIO_DEPTH_15		0x8
+#define WSDISPLAYIO_DEPTH_16		0x10
+#define WSDISPLAYIO_DEPTH_24_24		0x20
+#define WSDISPLAYIO_DEPTH_24_32		0x40
+#define WSDISPLAYIO_DEPTH_24 (WSDISPLAYIO_DEPTH_24_24|WSDISPLAYIO_DEPTH_24_32)
+
+#define WSDISPLAYIO_GETSUPPORTEDDEPTH	_IOR('W', 92, unsigned int)
+
+struct wsdisplay_gfx_mode {
+	int width;
+	int height;
+	int depth;
+};
+
+#define WSDISPLAYIO_SETGFXMODE	_IOW('W', 92, struct wsdisplay_gfx_mode)
 
 /* XXX NOT YET DEFINED */
 /* Mapping information retrieval. */
