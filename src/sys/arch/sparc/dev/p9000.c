@@ -1,4 +1,4 @@
-/*	$OpenBSD: p9000.c,v 1.8 2004/05/12 16:26:11 deraadt Exp $	*/
+/*	$OpenBSD: p9000.c,v 1.17 2006/11/29 19:08:22 miod Exp $	*/
 
 /*
  * Copyright (c) 2003, Miodrag Vallat.
@@ -665,7 +665,7 @@ p9000_ras_erasecols(void *v, int row, int col, int n, long int attr)
 	struct p9000_softc *sc = ri->ri_hw;
 	int fg, bg;
 
-	rasops_unpack_attr(attr, &fg, &bg, NULL);
+	ri->ri_ops.unpack_attr(v, attr, &fg, &bg, NULL);
 
 	n *= ri->ri_font->fontwidth;
 	col *= ri->ri_font->fontwidth;
@@ -697,7 +697,7 @@ p9000_ras_eraserows(void *v, int row, int n, long int attr)
 	struct p9000_softc *sc = ri->ri_hw;
 	int fg, bg;
 
-	rasops_unpack_attr(attr, &fg, &bg, NULL);
+	ri->ri_ops.unpack_attr(v, attr, &fg, &bg, NULL);
 
 	p9000_drain(sc);
 	P9000_SELECT_DE_LOW(sc);
