@@ -1,4 +1,0 @@
-@comment $MirOS$
-lib/ao/plugins-2/libarts.la
-@dirrm lib/ao/plugins-2
-@dirrm lib/ao

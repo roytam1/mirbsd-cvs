@@ -1,4 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/12/22 01:49:19 margarida Exp $
-bin/streamripper
-share/doc/streamripper/README
-@dirrm share/doc/streamripper

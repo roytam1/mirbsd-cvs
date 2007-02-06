@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.no-no_x11,v 1.2 2002/04/07 01:54:52 naddy Exp $
-sbin/webspy
-man/man8/webspy.8

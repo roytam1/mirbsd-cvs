@@ -1,7 +1,0 @@
-@comment $MirOS$
-bin/bsdiff
-bin/bspatch
-man/cat1/bsdiff.0
-man/cat1/bspatch.0
-share/doc/bsdiff/LICENSE
-@dirrm share/doc/bsdiff
