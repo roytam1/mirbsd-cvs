@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.7 2007/01/22 15:40:45 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.8 2007/01/22 15:52:41 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -50,7 +50,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.7 2007/01/22 15:40:45 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.8 2007/01/22 15:52:41 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -188,7 +188,14 @@ main(int argc, char *argv[])
 	lastc_col = -1;
 	lines = l = alloc_line();
 
-	while ((ch = getwchar()) != WEOF) {
+	for (;;) {
+		if ((ch = getwchar()) == WEOF) {
+			if (ferror(stdin) && (errno == EILSEQ)) {
+				clearerr(stdin);
+				continue;
+			}
+			break;
+		}
 		if (!iswgraph(ch)) {
 			lastc_col = -1;
 			switch (ch) {
