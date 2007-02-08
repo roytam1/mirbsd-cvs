@@ -1,22 +1,22 @@
-# $MirOS: src/sys/compat/common/Makefile.inc,v 1.2 2005/03/06 21:27:28 tg Exp $
+# $MirOS: src/sys/compat/common/Makefile.inc,v 1.3 2006/02/01 19:22:45 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.7 2002/07/14 09:20:24 mdw Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/05/20 17:23:59 mrg Exp $
 #
 #	NOTE: $S must correspond to the top of the 'sys' tree
 
-PWD!=		pwd
-COMPATDIR!=	cd $S/compat/common; pwd
+PWD!=		readlink -nf .
+COMPATDIR!=	readlink -nf $S/compat/common
 COMPATDST?=	lib/compat
 COMPATLIB=	${COMPATDST}/libcompat.a
 
 COMPATMAKE= \
 	cd ${COMPATDST} && ${MAKE} -f ${COMPATDIR}/Makefile \
-	    CC="${CC}" CFLAGS="${CFLAGS:S/-I./-I${PWD}\/./g}" \
-	    LD="${LD}" AR="${AR}" RANLIB="${RANLIB}" LORDER="${LORDER}" \
-	    NM="${NM}" COPTS= \
-	    XMACHINE='${MACHINE}' XMACHINE_ARCH='${MACHINE_ARCH}' \
-	    CPPFLAGS="${CPPFLAGS:S/-I./-I${PWD}\/./g}" \
-	    COMPATDIR="${COMPATDIR}"
+	    CC=${CC:Q} CFLAGS=${CFLAGS:S/-I./-I${PWD}\/./g:Q} \
+	    LD=${LD:Q} AR=${AR:Q} RANLIB=${RANLIB:Q} LORDER=${LORDER:Q} \
+	    NM=${NM:Q} COPTS= \
+	    XMACHINE=${MACHINE:Q} XMACHINE_ARCH=${MACHINE_ARCH:Q} \
+	    CPPFLAGS=${CPPFLAGS:S/-I./-I${PWD}\/./g:Q} \
+	    COMPATDIR=${COMPATDIR:Q}
 
 ${COMPATLIB}:		.NOTMAIN __always_make_compatlib
 	@echo making sure the compat library is up to date...
