@@ -1,4 +1,4 @@
-#	$MirOS: src/sys/lib/libkern/Makefile.inc,v 1.3 2006/02/01 19:22:45 tg Exp $
+#	$MirOS: src/sys/lib/libkern/Makefile.inc,v 1.4 2007/02/06 18:49:40 tg Exp $
 #	$OpenBSD: Makefile.inc,v 1.11 2000/06/29 16:28:29 mickey Exp $
 #	$NetBSD: Makefile.inc,v 1.22 1996/09/30 15:54:35 ws Exp $
 #
@@ -7,7 +7,7 @@
 KERNDIR=	$S/lib/libkern
 
 KERNDST?=	${.OBJDIR}/lib/kern
-KERN_AS?=	obj
+KERN_AS?=	library		# or obj
 
 .if (${KERN_AS} == "library")
 KERNLIB=	${KERNDST}/libkern.a
