@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcstime.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* Convert between RCS time format and Posix and/or C formats.  */
 
@@ -30,8 +30,9 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 #include "getdate.h"
+#include <sys/taitime.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcstime.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 /*
 * Convert Unix time to RCS format.
