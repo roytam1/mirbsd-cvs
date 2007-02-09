@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: pckbc.c,v 1.9 2004/11/02 21:21:00 miod Exp $ */
 /* $NetBSD: pckbc.c,v 1.5 2000/06/09 04:58:35 soda Exp $ */
 
@@ -39,6 +40,7 @@
 
 #include <machine/bus.h>
 
+#include <dev/rndvar.h>
 #include <dev/ic/i8042reg.h>
 #include <dev/ic/pckbcvar.h>
 
