@@ -46,6 +46,9 @@ XCOMM $XFree86: xc/fonts/bdf/misc/Imakefile,v 1.31 2004/06/01 00:16:55 dawes Exp
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef Build9x18UntruncFont
+#define Build9x18UntruncFont	NO
+#endif
 
 #if BuildUCSFonts
 
@@ -396,7 +399,11 @@ FontTargetLong(8x13Bt,8x13B)
 FontTargetLong(8x13Ot,8x13O)
 FontTargetLong(9x15t,9x15)
 FontTargetLong(9x15Bt,9x15B)
+#if Build9x18UntruncFont
+FontTarget(9x18)
+#else
 FontTargetLong(9x18t,9x18)
+#endif
 FontTargetLong(9x18Bt,9x18B)
 FontTargetLong(10x20t,10x20)
 FontTargetLong(clR6x12t,clR6x12)
@@ -916,7 +923,9 @@ MakeTruncatedUCSBdfFont(8x13B,MaxUCSChar,8x13Bt)
 MakeTruncatedUCSBdfFont(8x13O,MaxUCSChar,8x13Ot)
 MakeTruncatedUCSBdfFont(9x15,MaxUCSChar,9x15t)
 MakeTruncatedUCSBdfFont(9x15B,MaxUCSChar,9x15Bt)
+#if !Build9x18UntruncFont
 MakeTruncatedUCSBdfFont(9x18,MaxUCSChar,9x18t)
+#endif
 MakeTruncatedUCSBdfFont(9x18B,MaxUCSChar,9x18Bt)
 MakeTruncatedUCSBdfFont(10x20,MaxUCSChar,10x20t)
 MakeTruncatedUCSBdfFont(clR6x12,MaxUCSChar,clR6x12t)
