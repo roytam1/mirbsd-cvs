@@ -1,3 +1,7 @@
+/*- $MirOS$
+ * Part of Henry Spencer's regular expression library
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -230,7 +234,7 @@ FILE *d;
 			fprintf(d, ">");
 			break;
 		default:
-			fprintf(d, "!%d(%d)!", OP(*s), opnd);
+			fprintf(d, "!%d(%d)!", (int)(OP(*s)), (int)opnd);
 			break;
 		}
 		if (!done)
@@ -249,8 +253,8 @@ int ch;
 	static char buf[10];
 
 	if (isprint(ch) || ch == ' ')
-		sprintf(buf, "%c", ch);
+		snprintf(buf, sizeof (buf), "%c", ch);
 	else
-		sprintf(buf, "\\%o", ch);
+		snprintf(buf, sizeof (buf), "\\%o", ch);
 	return(buf);
 }

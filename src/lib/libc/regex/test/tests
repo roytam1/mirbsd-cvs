@@ -1,3 +1,6 @@
+# $MirOS$
+# Part of Henry Spencer's regular expression library
+#
 # regular expression test set
 # Lines are at least three fields, separated by one or more tabs.  "" stands
 # for an empty field.  First field is an RE.  Second field is flags.  If
