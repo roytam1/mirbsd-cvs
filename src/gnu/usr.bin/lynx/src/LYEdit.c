@@ -247,7 +247,7 @@ void edit_temporary_file(char *filename,
 	    CTRACE((tfp, "ExtEditForm: system() returned %d (0x%x), %s\n",
 		    rv, rv, errno ? LYStrerror(errno) : "reason unknown"));
 	    LYFixCursesOn("show error warning:");
-	    if (rv != -1 && (rv && 0xff) && !rvhi) {
+	    if (rv != -1 && (rv & 0xff) && !rvhi) {
 		HTAlwaysAlert(NULL, gettext("Editor killed by signal"));
 	    } else if (!(rv == -1 || (rvhi == 127 && errno))) {
 		HTUserMsg2(gettext("Editor returned with error status, %s"),
