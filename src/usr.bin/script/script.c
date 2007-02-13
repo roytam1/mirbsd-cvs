@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.3 2007/02/13 16:48:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.4 2007/02/13 17:06:00 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -144,7 +144,7 @@ main(int argc, char *argv[])
 	int aflg, nflg, ch;
 
 #if !defined(MirBSD) || (MirBSD < 0x09AB)
-#if 1
+#if 0
 	extern bool __locale_is_utf8;
 	__locale_is_utf8 = true;
 #else
@@ -322,6 +322,7 @@ dooutput(void)
 	mbstate_t state = { 0, 0 };
 
 	if (l1mode) {
+		/* this formula works because wcwidth(U+0000..U+00FF)<2 */
 		cc = l1rlen < 1 ? 1 : l1rlen;
 		if ((cbuf = calloc(BUFSIZ, cc)) == NULL)
 			err(1, "cannot allocate %zd*%zd bytes for"
@@ -384,6 +385,7 @@ dooutput(void)
 				if (wc < 0x0100)
 					*lp++ = wc;
 				else for (cc = 0; cc < wcwidth(wc); ++cc) {
+					/* what about wcwidth==(-1) C0/C1? */
 					memcpy(lp, l1rep, l1rlen);
 					lp += l1rlen;
 				}
