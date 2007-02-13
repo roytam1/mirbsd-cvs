@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.2 2007/02/13 15:32:03 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.3 2007/02/13 16:48:20 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -144,7 +144,7 @@ main(int argc, char *argv[])
 	int aflg, nflg, ch;
 
 #if !defined(MirBSD) || (MirBSD < 0x09AB)
-#if 0
+#if 1
 	extern bool __locale_is_utf8;
 	__locale_is_utf8 = true;
 #else
@@ -383,7 +383,7 @@ dooutput(void)
 				cp += n;
 				if (wc < 0x0100)
 					*lp++ = wc;
-				else {
+				else for (cc = 0; cc < wcwidth(wc); ++cc) {
 					memcpy(lp, l1rep, l1rlen);
 					lp += l1rlen;
 				}
