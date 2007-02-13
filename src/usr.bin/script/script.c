@@ -55,18 +55,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1980, 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)script.c	8.1 (Berkeley) 6/6/93";
-#endif
-static const char rcsid[] = "$OpenBSD: script.c,v 1.24 2005/12/12 20:10:53 deraadt Exp $";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -92,7 +85,7 @@ FILE	*fscript;
 int	master, slave;
 volatile sig_atomic_t child;
 pid_t	subchild;
-char	*fname;
+const char *fname;
 
 volatile sig_atomic_t dead;
 volatile sig_atomic_t sigdeadstatus;
@@ -101,9 +94,9 @@ volatile sig_atomic_t flush;
 struct	termios tt;
 
 __dead void done(int);
-void dooutput(void);
-void doshell(void);
-void fail(void);
+__dead void dooutput(void);
+__dead void doshell(void);
+__dead void fail(void);
 void finish(int);
 void scriptflush(int);
 void handlesigwinch(int);
@@ -140,25 +133,25 @@ main(int argc, char *argv[])
 	if ((fscript = fopen(fname, aflg ? "a" : "w")) == NULL)
 		err(1, "%s", fname);
 
-	(void)tcgetattr(STDIN_FILENO, &tt);
-	(void)ioctl(STDIN_FILENO, TIOCGWINSZ, &win);
+	tcgetattr(STDIN_FILENO, &tt);
+	ioctl(STDIN_FILENO, TIOCGWINSZ, &win);
 	if (openpty(&master, &slave, NULL, &tt, &win) == -1)
 		err(1, "openpty");
 
-	(void)printf("Script started, output file is %s\n", fname);
+	printf("Script started, output file is %s\n", fname);
 	rtt = tt;
 	cfmakeraw(&rtt);
 	rtt.c_lflag &= ~ECHO;
-	(void)tcsetattr(STDIN_FILENO, TCSAFLUSH, &rtt);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &rtt);
 
 	bzero(&sa, sizeof sa);
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = finish;
-	(void)sigaction(SIGCHLD, &sa, NULL);
+	sigaction(SIGCHLD, &sa, NULL);
 
 	sa.sa_handler = handlesigwinch;
 	sa.sa_flags = SA_RESTART;
-	(void)sigaction(SIGWINCH, &sa, NULL);
+	sigaction(SIGWINCH, &sa, NULL);
 
 	child = fork();
 	if (child < 0) {
@@ -177,7 +170,7 @@ main(int argc, char *argv[])
 			doshell();
 	}
 
-	(void)fclose(fscript);
+	fclose(fscript);
 	while (1) {
 		if (dead)
 			break;
@@ -201,7 +194,7 @@ main(int argc, char *argv[])
 
 /* ARGSUSED */
 void
-finish(int signo)
+finish(int signo __attribute__((unused)))
 {
 	int save_errno = errno;
 	int status, e = 1;
@@ -220,7 +213,7 @@ finish(int signo)
 
 /* ARGSUSED */
 void
-handlesigwinch(int signo)
+handlesigwinch(int signo __attribute__((unused)))
 {
 	int save_errno = errno;
 	struct winsize win;
@@ -244,25 +237,25 @@ dooutput(void)
 	time_t tvec;
 	ssize_t outcc = 0, cc, off;
 
-	(void)close(STDIN_FILENO);
+	close(STDIN_FILENO);
 	tvec = time(NULL);
-	(void)fprintf(fscript, "Script started on %s", ctime(&tvec));
+	fprintf(fscript, "Script started on %s", ctime(&tvec));
 
 	sigemptyset(&blkalrm);
 	sigaddset(&blkalrm, SIGALRM);
 	bzero(&sa, sizeof sa);
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = scriptflush;
-	(void)sigaction(SIGALRM, &sa, NULL);
+	sigaction(SIGALRM, &sa, NULL);
 
 	value.it_interval.tv_sec = SECSPERMIN / 2;
 	value.it_interval.tv_usec = 0;
 	value.it_value = value.it_interval;
-	(void)setitimer(ITIMER_REAL, &value, NULL);
+	setitimer(ITIMER_REAL, &value, NULL);
 	for (;;) {
 		if (flush) {
 			if (outcc) {
-				(void)fflush(fscript);
+				fflush(fscript);
 				outcc = 0;
 			}
 			flush = 0;
@@ -282,7 +275,7 @@ dooutput(void)
 			if (n > 0)
 				off += n;
 		}
-		(void)fwrite(obuf, 1, cc, fscript);
+		fwrite(obuf, 1, cc, fscript);
 		outcc += cc;
 		sigprocmask(SIG_UNBLOCK, &blkalrm, NULL);
 	}
@@ -291,7 +284,7 @@ dooutput(void)
 
 /* ARGSUSED */
 void
-scriptflush(int signo)
+scriptflush(int signo __attribute__((unused)))
 {
 	flush = 1;
 }
@@ -299,14 +292,14 @@ scriptflush(int signo)
 void
 doshell(void)
 {
-	char *shell;
+	const char *shell;
 
 	shell = getenv("SHELL");
 	if (shell == NULL)
 		shell = _PATH_BSHELL;
 
-	(void)close(master);
-	(void)fclose(fscript);
+	close(master);
+	fclose(fscript);
 	login_tty(slave);
 	execl(shell, shell, "-i", (char *)NULL);
 	warn("%s", shell);
@@ -316,8 +309,7 @@ doshell(void)
 void
 fail(void)
 {
-
-	(void)kill(0, SIGTERM);
+	kill(0, SIGTERM);
 	done(1);
 }
 
@@ -328,12 +320,12 @@ done(int eval)
 
 	if (subchild) {
 		tvec = time(NULL);
-		(void)fprintf(fscript,"\nScript done on %s", ctime(&tvec));
-		(void)fclose(fscript);
-		(void)close(master);
+		fprintf(fscript,"\nScript done on %s", ctime(&tvec));
+		fclose(fscript);
+		close(master);
 	} else {
-		(void)tcsetattr(STDIN_FILENO, TCSAFLUSH, &tt);
-		(void)printf("Script done, output file is %s\n", fname);
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &tt);
+		printf("Script done, output file is %s\n", fname);
 	}
 	exit(eval);
 }
