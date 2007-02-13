@@ -1,6 +1,26 @@
 /*	$OpenBSD: script.c,v 1.24 2005/12/12 20:10:53 deraadt Exp $	*/
 /*	$NetBSD: script.c,v 1.3 1994/12/21 08:55:43 jtc Exp $	*/
 
+/*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
+
 /*
  * Copyright (c) 2001 Theo de Raadt
  * All rights reserved.
@@ -55,13 +75,12 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <sys/param.h>
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.2 2007/02/13 15:32:03 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -71,12 +90,14 @@ __RCSID("$MirOS$");
 #include <fcntl.h>
 #include <paths.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
 #include <tzfile.h>
 #include <unistd.h>
+#include <wchar.h>
 
 #include <util.h>
 #include <err.h>
@@ -87,6 +108,10 @@ volatile sig_atomic_t child;
 pid_t	subchild;
 const char *fname;
 
+bool l1mode = false;
+const char *l1rep = "?";
+size_t l1rlen = 1;
+
 volatile sig_atomic_t dead;
 volatile sig_atomic_t sigdeadstatus;
 volatile sig_atomic_t flush;
@@ -95,50 +120,84 @@ struct	termios tt;
 
 __dead void done(int);
 __dead void dooutput(void);
+__dead void doinput(void);
 __dead void doshell(void);
 __dead void fail(void);
 void finish(int);
 void scriptflush(int);
 void handlesigwinch(int);
+__dead void usage(void);
+
+#ifdef DEBUG
+#define dump(buf, len)	__dump(#buf, __func__, buf, len)
+static void __dump(const char *, const char *, const uint8_t *, size_t);
+#else
+#define dump(buf, len)	/* nothing */
+#endif
 
 int
 main(int argc, char *argv[])
 {
-	extern char *__progname;
 	struct sigaction sa;
 	struct termios rtt;
 	struct winsize win;
-	char ibuf[BUFSIZ];
-	ssize_t cc, off;
-	int aflg, ch;
+	int aflg, nflg, ch;
 
-	aflg = 0;
-	while ((ch = getopt(argc, argv, "a")) != -1)
+#if !defined(MirBSD) || (MirBSD < 0x09AB)
+#if 0
+	extern bool __locale_is_utf8;
+	__locale_is_utf8 = true;
+#else
+#error Need at least MirOS #9uAB locale support!*/
+#endif
+#endif
+
+	aflg = nflg = 0;
+	while ((ch = getopt(argc, argv, "aL:ln")) != -1)
 		switch(ch) {
 		case 'a':
 			aflg = 1;
 			break;
+		case 'L':
+			l1rep = optarg;
+			l1rlen = strlen(l1rep);
+			/* FALLTHRU */
+		case 'l':
+			l1mode = true;
+			break;
+		case 'n':
+			nflg = 1;
+			break;
 		default:
-			fprintf(stderr, "usage: %s [-a] [file]\n", __progname);
-			exit(1);
+			usage();
 		}
 	argc -= optind;
 	argv += optind;
 
-	if (argc > 0)
-		fname = argv[0];
-	else
-		fname = "typescript";
+	if (nflg) {
+		if (argc > 0)
+			usage();
+		fscript = NULL;
+		fname = "";
+	} else {
+		if (argc > 0)
+			fname = argv[0];
+		else
+			fname = "typescript";
 
-	if ((fscript = fopen(fname, aflg ? "a" : "w")) == NULL)
-		err(1, "%s", fname);
+		if ((fscript = fopen(fname, aflg ? "a" : "w")) == NULL)
+			err(1, "%s", fname);
+	}
 
 	tcgetattr(STDIN_FILENO, &tt);
 	ioctl(STDIN_FILENO, TIOCGWINSZ, &win);
 	if (openpty(&master, &slave, NULL, &tt, &win) == -1)
 		err(1, "openpty");
 
-	printf("Script started, output file is %s\n", fname);
+	printf("Script started, %s%s%s\n",
+	    l1mode ? "latin1 mode, " : "",
+	    fscript ? "output file is " : "no output file",
+	    fname);
 	rtt = tt;
 	cfmakeraw(&rtt);
 	rtt.c_lflag &= ~ECHO;
@@ -168,10 +227,23 @@ main(int argc, char *argv[])
 			dooutput();
 		else
 			doshell();
+		/* NOTREACHED */
 	}
+	doinput();
+	/* NOTREACHED */
+}
 
-	fclose(fscript);
-	while (1) {
+void
+doinput(void)
+{
+	ssize_t cc, off;
+	unsigned char ibuf[BUFSIZ];
+	unsigned char cbuf[BUFSIZ * 2];
+	mbstate_t state = { 0, 0 };
+
+	if (fscript)
+		fclose(fscript);
+	for (;;) {
 		if (dead)
 			break;
 		cc = read(STDIN_FILENO, ibuf, BUFSIZ);
@@ -179,8 +251,18 @@ main(int argc, char *argv[])
 			continue;
 		if (cc <= 0)
 			break;
+		if (l1mode) {
+			unsigned char *cp = cbuf;
+
+			for (off = 0; off < cc; ++off)
+				cp += wcrtomb((char *)cp, ibuf[off], &state);
+			dump(ibuf, cc);
+			cc = cp - cbuf;
+			dump(cbuf, cc);
+		}
 		for (off = 0; off < cc; ) {
-			ssize_t n = write(master, ibuf + off, cc - off);
+			ssize_t n = write(master,
+			    (l1mode ? cbuf : ibuf) + off, cc - off);
 			if (n == -1 && errno != EAGAIN)
 				break;
 			if (n == 0)
@@ -233,41 +315,85 @@ dooutput(void)
 	struct sigaction sa;
 	struct itimerval value;
 	sigset_t blkalrm;
-	char obuf[BUFSIZ];
+	unsigned char obuf[BUFSIZ];
+	unsigned char *cbuf = NULL;
 	time_t tvec;
-	ssize_t outcc = 0, cc, off;
+	ssize_t outcc = 0, cc, fcc, off;
+	mbstate_t state = { 0, 0 };
 
+	if (l1mode) {
+		cc = l1rlen < 1 ? 1 : l1rlen;
+		if ((cbuf = calloc(BUFSIZ, cc)) == NULL)
+			err(1, "cannot allocate %zd*%zd bytes for"
+			    " conversion buffer", cc, (ssize_t)BUFSIZ);
+	}
 	close(STDIN_FILENO);
-	tvec = time(NULL);
-	fprintf(fscript, "Script started on %s", ctime(&tvec));
+	if (fscript) {
+		tvec = time(NULL);
+		fprintf(fscript, "Script started on %s", ctime(&tvec));
 
-	sigemptyset(&blkalrm);
-	sigaddset(&blkalrm, SIGALRM);
-	bzero(&sa, sizeof sa);
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = scriptflush;
-	sigaction(SIGALRM, &sa, NULL);
+		sigemptyset(&blkalrm);
+		sigaddset(&blkalrm, SIGALRM);
+		bzero(&sa, sizeof sa);
+		sigemptyset(&sa.sa_mask);
+		sa.sa_handler = scriptflush;
+		sigaction(SIGALRM, &sa, NULL);
 
-	value.it_interval.tv_sec = SECSPERMIN / 2;
-	value.it_interval.tv_usec = 0;
-	value.it_value = value.it_interval;
-	setitimer(ITIMER_REAL, &value, NULL);
+		value.it_interval.tv_sec = SECSPERMIN / 2;
+		value.it_interval.tv_usec = 0;
+		value.it_value = value.it_interval;
+		setitimer(ITIMER_REAL, &value, NULL);
+	}
 	for (;;) {
-		if (flush) {
+		if (fscript && flush) {
 			if (outcc) {
 				fflush(fscript);
 				outcc = 0;
 			}
 			flush = 0;
 		}
-		cc = read(master, obuf, sizeof (obuf));
+		fcc = cc = read(master, obuf, sizeof (obuf));
 		if (cc == -1 && errno == EINTR)
 			continue;
 		if (cc <= 0)
 			break;
-		sigprocmask(SIG_BLOCK, &blkalrm, NULL);
+		if (fscript)
+			sigprocmask(SIG_BLOCK, &blkalrm, NULL);
+		if (l1mode) {
+			unsigned char *cp = obuf;
+			unsigned char *lp = cbuf;
+			size_t n;
+			wchar_t wc;
+
+			off = cc;
+			dump(obuf, cc);
+			while (off) {
+				n = mbrtowc(&wc, (char *)cp, off, &state);
+
+				if (n == 0) {
+					n = 1;
+					wc = 0;
+				} else if (n == (size_t)-1) {
+					n = 1;
+					wc = 0xFFFD;
+					state.count = 0;
+				} else if (n == (size_t)-2)
+					break;
+				off -= n;
+				cp += n;
+				if (wc < 0x0100)
+					*lp++ = wc;
+				else {
+					memcpy(lp, l1rep, l1rlen);
+					lp += l1rlen;
+				}
+			}
+			cc = lp - cbuf;
+			dump(cbuf, cc);
+		}
 		for (off = 0; off < cc; ) {
-			ssize_t n = write(STDOUT_FILENO, obuf + off, cc - off);
+			ssize_t n = write(STDOUT_FILENO,
+			     (l1mode ? cbuf : obuf) + off, cc - off);
 			if (n == -1 && errno != EAGAIN)
 				break;
 			if (n == 0)
@@ -275,10 +401,15 @@ dooutput(void)
 			if (n > 0)
 				off += n;
 		}
-		fwrite(obuf, 1, cc, fscript);
-		outcc += cc;
-		sigprocmask(SIG_UNBLOCK, &blkalrm, NULL);
+		if (fscript) {
+			fwrite(obuf, 1, fcc, fscript);
+			outcc += cc;
+			sigprocmask(SIG_UNBLOCK, &blkalrm, NULL);
+		}
 	}
+	if (l1mode && state.count)
+		/* incomplete multibyte char on exit */
+		write(STDOUT_FILENO, l1rep, l1rlen);
 	done(0);
 }
 
@@ -299,9 +430,10 @@ doshell(void)
 		shell = _PATH_BSHELL;
 
 	close(master);
-	fclose(fscript);
+	if (fscript)
+		fclose(fscript);
 	login_tty(slave);
-	execl(shell, shell, "-i", (char *)NULL);
+	execl(shell, shell, "-i", NULL);
 	warn("%s", shell);
 	fail();
 }
@@ -319,13 +451,49 @@ done(int eval)
 	time_t tvec;
 
 	if (subchild) {
-		tvec = time(NULL);
-		fprintf(fscript,"\nScript done on %s", ctime(&tvec));
-		fclose(fscript);
+		if (fscript) {
+			tvec = time(NULL);
+			fprintf(fscript,"\nScript done on %s", ctime(&tvec));
+			fclose(fscript);
+		}
 		close(master);
 	} else {
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &tt);
-		printf("Script done, output file is %s\n", fname);
+		printf("Script done, %s%s\n",
+		    fscript ? "output file is " : "no output file", fname);
 	}
 	exit(eval);
 }
+
+void
+usage(void)
+{
+	extern const char *__progname;
+	fprintf(stderr, "usage: %s [-al] [-L replstr] [-n | file]\n",
+	    __progname);
+	exit(1);
+}
+
+#ifdef DEBUG
+static void
+__dump(const char *name, const char *func, const uint8_t *buf, size_t len)
+{
+	size_t n = 0;
+
+	fflush(NULL);
+#if 0
+	fprintf(stderr, "  dumping buffer <%s> in %s()", name, func);
+	while (n < len)
+		fprintf(stderr, "%s%02X",
+		    n++ & 15 ? " " : "\r\n  ",
+		    *buf++);
+	fprintf(stderr, "\r\n");
+#else
+	fprintf(stderr, "{%s():%s[] =", func, name);
+	while (n++ < len)
+		fprintf(stderr, " %02X", *buf++);
+	fprintf(stderr, "}");
+#endif
+	fflush(NULL);
+}
+#endif
