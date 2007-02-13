@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.4 2007/02/13 17:06:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.5 2007/02/13 17:10:04 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -107,6 +107,7 @@ int	master, slave;
 volatile sig_atomic_t child;
 pid_t	subchild;
 const char *fname;
+const char *shcmd = NULL;
 
 bool l1mode = false;
 const char *l1rep = "?";
@@ -153,10 +154,13 @@ main(int argc, char *argv[])
 #endif
 
 	aflg = nflg = 0;
-	while ((ch = getopt(argc, argv, "aL:ln")) != -1)
+	while ((ch = getopt(argc, argv, "ac:L:ln")) != -1)
 		switch(ch) {
 		case 'a':
 			aflg = 1;
+			break;
+		case 'c':
+			shcmd = optarg;
 			break;
 		case 'L':
 			l1rep = optarg;
@@ -435,8 +439,11 @@ doshell(void)
 	if (fscript)
 		fclose(fscript);
 	login_tty(slave);
-	execl(shell, shell, "-i", NULL);
-	warn("%s", shell);
+	if (shcmd)
+		execl(shell, shell, "-c", shcmd, NULL);
+	else
+		execl(shell, shell, "-i", NULL);
+	warn("%s%s%s", shell, shcmd ? " -c " : " -i", shcmd ? shcmd : "");
 	fail();
 }
 
@@ -471,7 +478,7 @@ void
 usage(void)
 {
 	extern const char *__progname;
-	fprintf(stderr, "usage: %s [-al] [-L replstr] [-n | file]\n",
+	fprintf(stderr, "usage: %s [-al] [-c cmd] [-L replstr] [-n | file]\n",
 	    __progname);
 	exit(1);
 }
