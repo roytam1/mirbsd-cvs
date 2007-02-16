@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -14,6 +19,8 @@
 
 #include "cvs.h"
 #include "getline.h"
+
+__RCSID("$MirOS$");
 
 static RETSIGTYPE patch_cleanup (int);
 static Dtype patch_dirproc (void *callerdat, const char *dir,
@@ -41,18 +48,19 @@ static int unidiff = 0;
 
 static const char *const patch_usage[] =
 {
-    "Usage: %s %s [-flR] [-c|-u] [-s|-t] [-V %%d]\n",
+    "Usage: %s %s [-flR] [-c|-u[p]] [-s|-t] [-V %%d] [-k kopt]\n",
     "    -r rev|-D date [-r rev2 | -D date2] modules...\n",
     "\t-f\tForce a head revision match if tag/date not found.\n",
     "\t-l\tLocal directory only, not recursive\n",
     "\t-R\tProcess directories recursively.\n",
     "\t-c\tContext diffs (default)\n",
-    "\t-u\tUnidiff format.\n",
+    "\t-u\tUnidiff format (-p like diff).\n",
     "\t-s\tShort patch - one liner per file.\n",
     "\t-t\tTop two diffs - last change made to the file.\n",
+    "\t-V vers\tUse RCS Version \"vers\" for keyword expansion.\n",
+    "\t-k kopt\tSpecify keyword expansion mode.\n",
     "\t-D date\tDate.\n",
     "\t-r rev\tRevision - symbolic or numeric.\n",
-    "\t-V vers\tUse RCS Version \"vers\" for keyword expansion.\n",
     "(Specify the --help global option for a list of other help options)\n",
     NULL
 };
@@ -72,17 +80,15 @@ patch (int argc, char **argv)
 	usage (patch_usage);
 
     optind = 0;
-    while ((c = getopt (argc, argv, "+V:k:cuftsQqlRD:r:")) != -1)
+    while ((c = getopt (argc, argv, "+V:k:cupftsQqlRD:r:")) != -1)
     {
 	switch (c)
 	{
 	    case 'Q':
 	    case 'q':
-#ifdef SERVER_SUPPORT
 		/* The CVS 1.5 client sends these options (in addition to
 		   Global_option requests), so we must ignore them.  */
 		if (!server_active)
-#endif
 		    error (1, 0,
 			   "-q or -Q must be specified before \"%s\"",
 			   cvs_cmd_name);
@@ -143,20 +149,15 @@ patch (int argc, char **argv)
 		   quick and dirty error message for now.  */
 		error (1, 0,
 		       "the -V option is obsolete and should not be used");
-#if 0
-		if (atoi (optarg) <= 0)
-		    error (1, 0, "must specify a version number to -V");
-		if (options)
-		    free (options);
-		options = xmalloc (strlen (optarg) + 1 + 2);	/* for the -V */
-		(void) sprintf (options, "-V%s", optarg);
-#endif
 		break;
 	    case 'u':
-		unidiff = 1;		/* Unidiff */
+		unidiff |= 1;		/* Unidiff */
 		break;
 	    case 'c':			/* Context diff */
-		unidiff = 0;
+		unidiff &= ~1;
+		break;
+	    case 'p':
+		unidiff |= 2;		/* Unidiff context */
 		break;
 	    case '?':
 	    default:
@@ -171,6 +172,8 @@ patch (int argc, char **argv)
     if (argc < 1)
 	usage (patch_usage);
 
+    if (!(unidiff & 1))
+	unidiff = 0;
     if (toptwo_diffs && patch_short)
 	error (1, 0, "-t and -s options are mutually exclusive");
     if (toptwo_diffs && (date1 != NULL || date2 != NULL ||
@@ -206,6 +209,8 @@ patch (int argc, char **argv)
 	    send_arg("-s");
 	if (unidiff)
 	    send_arg("-u");
+	if (unidiff & 2)
+	    send_arg("-p");
 
 	if (rev1)
 	    option_with_arg ("-r", rev1);
@@ -252,7 +257,7 @@ patch (int argc, char **argv)
     db = open_module ();
     for (i = 0; i < argc; i++)
 	err += do_module (db, argv[i], PATCH, "Patching", patch_proc,
-			  (char *)NULL, 0, local, 0, 0, (char *)NULL);
+			  NULL, 0, local, 0, 0, NULL);
     close_module (db);
     free (options);
     patch_cleanup (0);
@@ -335,6 +340,7 @@ patch_proc (int argc, char **argv, char *xwhere, char *mwhere, char *mfile,
     {
 	error (0, errno, "cannot chdir to %s", repository);
 	free (repository);
+	free (where);
 	return 1;
     }
 
@@ -379,6 +385,7 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
     struct utimbuf t;
     char *vers_tag, *vers_head;
     char *rcs = NULL;
+    char *rcs_orig = NULL;
     RCSNode *rcsfile;
     FILE *fp1, *fp2, *fp3;
     int ret = 0;
@@ -393,6 +400,9 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
     char *cp1, *cp2;
     FILE *fp;
     int line_length;
+    int dargc = 0;
+    size_t darg_allocated = 0;
+    char **dargv = NULL;
 
     line1 = NULL;
     line1_chars_allocated = 0;
@@ -409,8 +419,7 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
     if ((rcsfile->flags & VALID) && (rcsfile->flags & INATTIC))
 	isattic = 1;
 
-    rcs = xmalloc (strlen (finfo->file) + sizeof (RCSEXT) + 5);
-    (void)sprintf (rcs, "%s%s", finfo->file, RCSEXT);
+    rcs_orig = rcs = Xasprintf ("%s%s", finfo->file, RCSEXT);
 
     /* if vers_head is NULL, may have been removed from the release */
     if (isattic && rev2 == NULL && date2 == NULL)
@@ -541,7 +550,7 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
 	}
 	memset ((char *) &t, 0, sizeof (t));
 	if ((t.actime = t.modtime = RCS_getrevtime (rcsfile, vers_tag,
-						    (char *) 0, 0)) != -1)
+						    NULL, 0)) != -1)
 	    /* I believe this timestamp only affects the dates in our diffs,
 	       and therefore should be on the server, not the client.  */
 	    (void)utime (tmpfile1, &t);
@@ -563,14 +572,17 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
 	    goto out;
 	}
 	if ((t.actime = t.modtime = RCS_getrevtime (rcsfile, vers_head,
-						    (char *)0, 0)) != -1)
+						    NULL, 0)) != -1)
 	    /* I believe this timestamp only affects the dates in our diffs,
 	       and therefore should be on the server, not the client.  */
 	    (void)utime (tmpfile2, &t);
     }
 
-    switch (diff_exec (tmpfile1, tmpfile2, NULL, NULL, unidiff ? "-u" : "-c",
-                       tmpfile3))
+    if (unidiff) run_add_arg_p (&dargc, &darg_allocated, &dargv, "-u");
+    else run_add_arg_p (&dargc, &darg_allocated, &dargv, "-c");
+    if (unidiff & 2) run_add_arg_p (&dargc, &darg_allocated, &dargv, "-p");
+    switch (diff_exec (tmpfile1, tmpfile2, NULL, NULL, dargc, dargv,
+		       tmpfile3))
     {
 	case -1:			/* fork/wait failure */
 	    error (1, errno, "fork for diff failed on %s", rcs);
@@ -604,7 +616,7 @@ patch_fileproc (void *callerdat, struct file_info *finfo)
 	    cvs_output ("\n", 1);
 
 	    /* Now the munging. */
-	    fp = open_file (tmpfile3, "r");
+	    fp = xfopen (tmpfile3, "r");
 	    if (getline (&line1, &line1_chars_allocated, fp) < 0 ||
 		getline (&line2, &line2_chars_allocated, fp) < 0)
 	    {
@@ -650,40 +662,29 @@ failed to read diff file header %s for %s: end of file", tmpfile3, rcs);
 	    }
 	    assert (current_parsed_root != NULL);
 	    assert (current_parsed_root->directory != NULL);
-	    {
-		strippath = xmalloc (strlen (current_parsed_root->directory)
-                                     + 2);
-		(void)sprintf (strippath, "%s/",
-                               current_parsed_root->directory);
-	    }
-	    /*else
-		strippath = xstrdup (REPOS_STRIP); */
+
+	    strippath = Xasprintf ("%s/", current_parsed_root->directory);
+
 	    if (strncmp (rcs, strippath, strlen (strippath)) == 0)
 		rcs += strlen (strippath);
 	    free (strippath);
 	    if (vers_tag != NULL)
-	    {
-		file1 = xmalloc (strlen (finfo->fullname)
-				 + strlen (vers_tag)
-				 + 10);
-		(void)sprintf (file1, "%s:%s", finfo->fullname, vers_tag);
-	    }
+		file1 = Xasprintf ("%s:%s", finfo->fullname, vers_tag);
 	    else
-	    {
 		file1 = xstrdup (DEVNULL);
-	    }
-	    file2 = xmalloc (strlen (finfo->fullname)
-			     + (vers_head != NULL ? strlen (vers_head) : 10)
-			     + 10);
-	    (void)sprintf (file2, "%s:%s", finfo->fullname,
-			   vers_head ? vers_head : "removed");
+
+	    file2 = Xasprintf ("%s:%s", finfo->fullname,
+			       vers_head ? vers_head : "removed");
 
 	    /* Note that the string "diff" is specified by POSIX (for -c)
 	       and is part of the diff output format, not the name of a
 	       program.  */
 	    if (unidiff)
 	    {
-		cvs_output ("diff -u ", 0);
+		if (unidiff & 2)
+		    cvs_output ("diff -up ", 0);
+		else
+		    cvs_output ("diff -u ", 0);
 		cvs_output (file1, 0);
 		cvs_output (" ", 1);
 		cvs_output (file2, 0);
@@ -742,14 +743,19 @@ failed to read diff file header %s for %s: end of file", tmpfile3, rcs);
     free (tmpfile2);
     free (tmpfile3);
     tmpfile1 = tmpfile2 = tmpfile3 = NULL;
+    if (darg_allocated)
+    {
+	run_arg_free_p (dargc, dargv);
+	free (dargv);
+    }
 
  out2:
     if (vers_tag != NULL)
 	free (vers_tag);
     if (vers_head != NULL)
 	free (vers_head);
-    if (rcs != NULL)
-	free (rcs);
+    if (rcs_orig)
+	free (rcs_orig);
     return ret;
 }
 
