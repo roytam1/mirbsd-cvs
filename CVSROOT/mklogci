@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.23 2007/02/16 19:40:26 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.24 2007/02/16 19:46:40 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,10 +27,11 @@
 # scratch. The design pattern is a perl script originally written by
 # David Hampton and hacked by Greg A. Woods, OpenBSD and MirBSD.
 #-
-# Usage: mklogci commitid [-C root] [-f file] [-I uri] [-M module]
+# Usage: mklogci commitid [-D] [-C root] [-f file] [-I uri] [-M module]
 #		 [-m mailto] -p pathr [-R replyto] file ...
 #	commitid	= GNU CVS 1.12.12 + MirOS mode %I, PGRP else
 #	-C root		= CVSROOT (the %r argument)
+#	-D		= mail: append diffs themselves not commands
 #	-f logfile	= create ChangeLog file from commit messages
 #	-I loguri	= reduce size of import mails, refer to URI
 #	-M module	= set module name
@@ -139,10 +140,12 @@ module=
 mailto=
 pathr=
 replyto=
+integer do_diff=0
 
-while getopts "C:f:I:M:m:p:R: :" flag; do
+while getopts "C:Df:I:M:m:p:R: :" flag; do
 	case $flag {
 	(C)	repo=$OPTARG ;;
+	(D)	do_diff=1 ;;
 	(f)	logfile=$OPTARG ;;
 	(I)	loguri=$OPTARG ;;
 	(M)	module=$OPTARG ;;
@@ -191,6 +194,7 @@ else
 fi
 
 diff=$repo/.tmp/cl.log.dif.$id
+difc=$repo/.tmp/cl.log.dfc.$id
 msgf=$repo/.tmp/cl.log.msg.$id
 outf=$repo/.tmp/cl.log.out.$id
 tmpf=$repo/.tmp/cl.log.tmp.$id
@@ -425,14 +429,23 @@ while [[ -e $prefix.msg.$i.$id ]]; do
 	let ++i
 done
 if [[ -s $diff ]]; then
-	print To generate a diff of this changeset, execute the \
-	    following commands: >>$tmpf
-	cat $diff >>$tmpf
+	if (( do_diff )); then
+		print Please note that the following diffs are not public \
+		    domain, they are >$difc
+		print copyrighted and covered by the licence terms of the \
+		    files themselves. >>$difc
+		print >>$difc
+		CVSROOT="$repo" $SHELL $diff >>$difc
+	else
+		difc=$diff
+	fi
+	print '0a\nTo generate a diff of this changeset, execute the' \
+	    'following commands:\n.\nwq' | ed -s $diff
 fi
 
 # And out with it
-[[ -n $logfile ]] && writelog $tmpf
-[[ -n $mailto ]] && writemail $tmpf
+[[ -n $logfile ]] && writelog $tmpf $diff
+[[ -n $mailto ]] && writemail $tmpf $difc
 rm $repo/.tmp/cl.*.$id
 print Committed revision $id.
 exit 0
