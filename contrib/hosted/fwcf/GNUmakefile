@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.4 2006/09/24 21:51:27 tg Exp $
+# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.5 2006/09/26 10:25:02 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -25,11 +25,11 @@ CFLAGS+=	-Ibundled
 OBJS=		${SRCS:.c=.o}
 
 # build for the target
-CFLAGS+=	-DSMALL
+CPPFLAGS+=	-DSMALL
 
 # missing in uClibc
 SRCS+=		fts.c
-CFLAGS+=	-I.
+CPPFLAGS+=	-I.
 
 all: fwcf.helper.out
 
