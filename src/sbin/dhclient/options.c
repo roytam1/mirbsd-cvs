@@ -1,4 +1,4 @@
-/*	$OpenBSD: options.c,v 1.25 2005/08/22 20:30:52 krw Exp $	*/
+/*	$OpenBSD: options.c,v 1.34 2007/02/14 23:19:26 deraadt Exp $	*/
 
 /* DHCP options parsing and reassembly. */
 
@@ -44,59 +44,16 @@
 
 #include "dhcpd.h"
 
-int bad_options = 0;
-int bad_options_max = 5;
-
-void	parse_options(struct packet *);
-void	parse_option_buffer(struct packet *, unsigned char *, int);
-
-/*
- * Parse all available options out of the specified packet.
- */
-void
-parse_options(struct packet *packet)
-{
-	/* Initially, zero all option pointers. */
-	memset(packet->options, 0, sizeof(packet->options));
-
-	/* If we don't see the magic cookie, there's nothing to parse. */
-	if (memcmp(packet->raw->options, DHCP_OPTIONS_COOKIE, 4)) {
-		packet->options_valid = 0;
-		return;
-	}
-
-	/*
-	 * Go through the options field, up to the end of the packet or
-	 * the End field.
-	 */
-	parse_option_buffer(packet, &packet->raw->options[4],
-	    packet->packet_length - DHCP_FIXED_NON_UDP - 4);
-
-	/*
-	 * If we parsed a DHCP Option Overload option, parse more
-	 * options out of the buffer(s) containing them.
-	 */
-	if (packet->options_valid &&
-	    packet->options[DHO_DHCP_OPTION_OVERLOAD].data) {
-		if (packet->options[DHO_DHCP_OPTION_OVERLOAD].data[0] & 1)
-			parse_option_buffer(packet,
-			    (unsigned char *)packet->raw->file,
-			    sizeof(packet->raw->file));
-		if (packet->options[DHO_DHCP_OPTION_OVERLOAD].data[0] & 2)
-			parse_option_buffer(packet,
-			    (unsigned char *)packet->raw->sname,
-			    sizeof(packet->raw->sname));
-	}
-}
+int parse_option_buffer(struct option_data *, unsigned char *, int);
 
 /*
  * Parse options out of the specified buffer, storing addresses of
- * option values in packet->options and setting packet->options_valid if
+ * option values in options and setting client->options_valid if
  * no errors are encountered.
  */
-void
-parse_option_buffer(struct packet *packet,
-    unsigned char *buffer, int length)
+int
+parse_option_buffer(struct option_data *options, unsigned char *buffer,
+    int length)
 {
 	unsigned char *s, *t, *end = buffer + length;
 	int len, code;
@@ -109,81 +66,63 @@ parse_option_buffer(struct packet *packet,
 			s++;
 			continue;
 		}
-		if (s + 2 > end) {
-			len = 65536;
-			goto bogus;
-		}
 
 		/*
-		 * All other fields (except end, see above) have a
-		 * one-byte length.
+		 * All options other than DHO_PAD and DHO_END have a
+		 * one-byte length field.
 		 */
-		len = s[1];
+		if (s + 2 > end)
+			len = 0;
+		else
+			len = s[1];
 
 		/*
-		 * If the length is outrageous, silently skip the rest,
-		 * and mark the packet bad. Unfortunately some crappy
-		 * dhcp servers always seem to give us garbage on the
-		 * end of a packet. so rather than keep refusing, give
-		 * up and try to take one after seeing a few without
-		 * anything good.
+		 * If the option claims to extend beyond the end of the buffer
+		 * then mark the options buffer bad.
 		 */
 		if (s + len + 2 > end) {
-		    bogus:
-			bad_options++;
-			warning("option %s (%d) %s.",
-			    dhcp_options[code].name, len,
-			    "larger than buffer");
-			if (bad_options == bad_options_max) {
-				packet->options_valid = 1;
-				bad_options = 0;
-				warning("Many bogus options seen in offers. "
-				    "Taking this offer in spite of bogus "
-				    "options - hope for the best!");
-			} else {
-				warning("rejecting bogus offer.");
-				packet->options_valid = 0;
-			}
-			return;
+			warning("option %s (%d) larger than buffer.",
+			    dhcp_options[code].name, len);
+			warning("rejecting bogus offer.");
+			return (0);
 		}
 		/*
 		 * If we haven't seen this option before, just make
 		 * space for it and copy it there.
 		 */
-		if (!packet->options[code].data) {
+		if (!options[code].data) {
 			if (!(t = calloc(1, len + 1)))
 				error("Can't allocate storage for option %s.",
 				    dhcp_options[code].name);
 			/*
 			 * Copy and NUL-terminate the option (in case
-			 * it's an ASCII string.
+			 * it's an ASCII string).
 			 */
 			memcpy(t, &s[2], len);
 			t[len] = 0;
-			packet->options[code].len = len;
-			packet->options[code].data = t;
+			options[code].len = len;
+			options[code].data = t;
 		} else {
 			/*
 			 * If it's a repeat, concatenate it to whatever
 			 * we last saw.   This is really only required
 			 * for clients, but what the heck...
 			 */
-			t = calloc(1, len + packet->options[code].len + 1);
+			t = calloc(1, len + options[code].len + 1);
 			if (!t)
 				error("Can't expand storage for option %s.",
 				    dhcp_options[code].name);
-			memcpy(t, packet->options[code].data,
-				packet->options[code].len);
-			memcpy(t + packet->options[code].len,
-				&s[2], len);
-			packet->options[code].len += len;
-			t[packet->options[code].len] = 0;
-			free(packet->options[code].data);
-			packet->options[code].data = t;
+			memcpy(t, options[code].data, options[code].len);
+			memcpy(t + options[code].len, &s[2], len);
+			options[code].len += len;
+			t[options[code].len] = 0;
+			free(options[code].data);
+			options[code].data = t;
 		}
 		s += len + 2;
 	}
-	packet->options_valid = 1;
+
+	return (1);
 }
 
 /*
@@ -475,36 +414,88 @@ pretty_print_option(unsigned int code, unsigned char *data, int len,
 }
 
 void
-do_packet(struct interface_info *interface, struct dhcp_packet *packet,
-    int len, unsigned int from_port, struct iaddr from, struct hardware *hfrom)
+do_packet(int len, unsigned int from_port, struct iaddr from,
+    struct hardware *hfrom)
 {
-	struct packet tp;
-	int i;
+	struct dhcp_packet *packet = &client->packet;
+	struct option_data options[256];
+	struct iaddrlist *ap;
+	void (*handler)(struct iaddr, struct option_data *);
+	char *type;
+	int i, options_valid = 1;
 
 	if (packet->hlen > sizeof(packet->chaddr)) {
 		note("Discarding packet with invalid hlen.");
 		return;
 	}
 
-	memset(&tp, 0, sizeof(tp));
-	tp.raw = packet;
-	tp.packet_length = len;
-	tp.client_port = from_port;
-	tp.client_addr = from;
-	tp.interface = interface;
-	tp.haddr = hfrom;
+	/*
+	 * Silently drop the packet if the client hardware address in the
+	 * packet is not the hardware address of the interface being managed.
+	 */
+	if ((ifi->hw_address.hlen != packet->hlen) ||
+	    (memcmp(ifi->hw_address.haddr, packet->chaddr, packet->hlen)))
+		return;
 
-	parse_options(&tp);
-	if (tp.options_valid &&
-	    tp.options[DHO_DHCP_MESSAGE_TYPE].data)
-		tp.packet_type = tp.options[DHO_DHCP_MESSAGE_TYPE].data[0];
-	if (tp.packet_type)
-		dhcp(&tp);
-	else
-		bootp(&tp);
+	memset(options, 0, sizeof(options));
 
-	/* Free the data associated with the options. */
+	if (memcmp(&packet->options, DHCP_OPTIONS_COOKIE, 4) == 0) {
+		/* Parse the BOOTP/DHCP options field. */
+		options_valid = parse_option_buffer(options,
+		    &packet->options[4], sizeof(packet->options) - 4);
+
+		/* Only DHCP packets have overload areas for options. */
+		if (options_valid &&
+		    options[DHO_DHCP_MESSAGE_TYPE].data &&
+		    options[DHO_DHCP_OPTION_OVERLOAD].data) {
+			if (options[DHO_DHCP_OPTION_OVERLOAD].data[0] & 1)
+				options_valid = parse_option_buffer(options,
+				    (unsigned char *)packet->file,
+				    sizeof(packet->file));
+			if (options_valid &&
+			    options[DHO_DHCP_OPTION_OVERLOAD].data[0] & 2)
+				options_valid = parse_option_buffer(options,
+				    (unsigned char *)packet->sname,
+				    sizeof(packet->sname));
+		}
+	}
+
+	type = "";
+	handler = NULL;
+
+	if (options[DHO_DHCP_MESSAGE_TYPE].data) {
+		/* Always try a DHCP packet, even if a bad option was seen. */
+		switch (options[DHO_DHCP_MESSAGE_TYPE].data[0]) {
+		case DHCPOFFER:
+			handler = dhcpoffer;
+			type = "DHCPOFFER";
+			break;
+		case DHCPNAK:
+			handler = dhcpnak;
+			type = "DHCPNACK";
+			break;
+		case DHCPACK:
+			handler = dhcpack;
+			type = "DHCPACK";
+			break;
+		default:
+			break;
+		}
+	} else if (options_valid && packet->op == BOOTREPLY) {
+		handler = dhcpoffer;
+		type = "BOOTREPLY";
+	}
+
+	for (ap = config->reject_list; ap && handler; ap = ap->next)
+		if (addr_eq(from, ap->addr)) {
+			note("%s from %s rejected.", type, piaddr(from));
+			handler = NULL;
+		}
+
+	if (handler)
+		(*handler)(from, options);
+
 	for (i = 0; i < 256; i++)
-		if (tp.options[i].len && tp.options[i].data)
-			free(tp.options[i].data);
+		if (options[i].len && options[i].data)
+			free(options[i].data);
 }

@@ -1,4 +1,4 @@
-/*	$OpenBSD: packet.c,v 1.9 2004/05/04 18:58:50 deraadt Exp $	*/
+/*	$OpenBSD: packet.c,v 1.12 2006/12/28 01:10:46 stevesk Exp $	*/
 
 /* Packet assembly code, originally contributed by Archie Cobbs. */
 
@@ -52,11 +52,6 @@
 u_int32_t	checksum(unsigned char *, unsigned, u_int32_t);
 u_int32_t	wrapsum(u_int32_t);
 
-void	assemble_ethernet_header(struct interface_info *, unsigned char *,
-	    int *, struct hardware *);
-ssize_t	decode_ethernet_header(struct interface_info *, unsigned char *,
-	    int bufix, struct hardware *);
-
 u_int32_t
 checksum(unsigned char *buf, unsigned nbytes, u_int32_t sum)
 {
@@ -91,8 +86,7 @@ wrapsum(u_int32_t sum)
 }
 
 void
-assemble_hw_header(struct interface_info *interface, unsigned char *buf,
-    int *bufix, struct hardware *to)
+assemble_hw_header(unsigned char *buf, int *bufix, struct hardware *to)
 {
 	struct ether_header eh;
 
@@ -100,8 +94,8 @@ assemble_hw_header(struct interface_info *interface, unsigned char *buf,
 		memcpy(eh.ether_dhost, to->haddr, sizeof(eh.ether_dhost));
 	else
 		memset(eh.ether_dhost, 0xff, sizeof(eh.ether_dhost));
-	if (interface->hw_address.hlen == sizeof(eh.ether_shost))
-		memcpy(eh.ether_shost, interface->hw_address.haddr,
+	if (ifi->hw_address.hlen == sizeof(eh.ether_shost))
+		memcpy(eh.ether_shost, ifi->hw_address.haddr,
 		    sizeof(eh.ether_shost));
 	else
 		memset(eh.ether_shost, 0x00, sizeof(eh.ether_shost));

@@ -1,4 +1,4 @@
-.\"	$OpenBSD: spamd.8,v 1.57 2005/08/06 19:52:36 jmc Exp $
+.\"	$OpenBSD: spamd.8,v 1.66 2006/11/14 17:37:47 jmc Exp $
 .\"
 .\" Copyright (c) 2002 Theo de Raadt.  All rights reserved.
 .\"
@@ -36,6 +36,7 @@
 .Op Fl b Ar address
 .Op Fl c Ar maxcon
 .Op Fl G Ar passtime:greyexp:whiteexp
+.Op Fl h Ar hostname
 .Op Fl n Ar name
 .Op Fl p Ar port
 .Op Fl r Ar reply
@@ -56,14 +57,16 @@ it will attempt to waste the time and resources of the spam sender.
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl 4
-For black listed entries, return error code 450 to the spammer (default).
+For blacklisted entries, return error code 450 to the spammer (default).
 .It Fl 5
-For black-listed entries, return error code 550 to the spammer.
+For blacklisted entries, return error code 550 to the spammer.
 .It Fl B Ar maxblack
 The maximum number of concurrent blacklisted connections to allow in
 greylisting mode.
 This value may not be greater than maxcon (see below).
-The default is maxcon \- 100
+The default is
+.Ar maxcon
+\- 100.
 .It Fl b Ar address
 Specify the local address to which
 .Nm
@@ -74,7 +77,8 @@ By default
 listens on all local addresses.
 .It Fl c Ar maxcon
 The maximum number of concurrent connections to allow.
-The default is 800.
+.Ar maxcon
+may not exceed 800 (the default).
 .It Fl d
 Debug mode.
 .Nm
@@ -96,6 +100,8 @@ to 864 (hours, approximately 36 days).
 Greylisting mode; see
 .Sx GREYLISTING
 below.
+.It Fl h Ar hostname
+The hostname that is reported in the SMTP banner.
 .It Fl n Ar name
 The SMTP version banner that is reported upon initial connection.
 .It Fl p Ar port
@@ -107,7 +113,8 @@ The default port is found by looking for the named service
 using
 .Xr getservbyname 3 .
 .It Fl r Ar reply
-The SMTP error to return to the spammer, i.e. 450, 451, 550.
+For blacklisted entries, the SMTP error to return to the spammer,
+e.g. 450, 451, 550.
 This defaults to 450.
 .It Fl S Ar secs
 Stutter at greylisted connections for the specified amount
@@ -356,7 +363,7 @@ port.
 .Pp
 .Xr spamdb 8
 can be used to examine and alter the contents of
-.Pa /var/db/spamdb .
+.Pa /var/db/spamd .
 See
 .Xr spamdb 8
 for further information.
@@ -386,7 +393,7 @@ database with the following
 .Xr spamdb 8
 command:
 .Pp
-.Dl # spamdb -T -a \&"<spamtrap@mydomain.org>\&"
+.Dl # spamdb -T -a '<spamtrap@mydomain.org>'
 .Pp
 It should be entered exactly, as the address will be used in the SMTP dialogue.
 See
