@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.3 2007/02/02 16:53:38 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.4 2007/02/08 22:08:45 tg Exp $
 #
 # List of users and groups for the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -11,10 +11,10 @@
 #
 0	root		!0:daemon:0:0:Charlie &:/root:/bin/sh
 0	wheel		NO,root
-1	daemon		!1::0:0:The devil himself:/root:/sbin/nologin
+1	daemon		!1::0:0:the devil himself:/root:/sbin/nologin
 1	daemon		NO,daemon
 2	kmem		NO,root
-2	operator	!5::0:0:System &:/operator:/sbin/nologin
+2	operator	!5::0:0:system &:/operator:/sbin/nologin
 3	bin		!7::0:0:Binaries Commands and Source:/:/sbin/nologin
 3	sys		NO,root
 4	tty		NO,root
@@ -48,10 +48,10 @@
 64	_token		NO
 65	_shadow		NO
 66	crontab		NO
-67	www		HTTP Server
+67	www		HTTP Daemon
 68	_isakmpd	ISAKMP Daemon
 69	network		NO
-70	named		Name Service Daemon
+70	named		BIND Name Service Daemon
 71	proxy		Proxy Services
 72	authpf		NO
 73	_syslogd	Syslog Daemon
@@ -63,11 +63,14 @@
 79	_tftpd		TFTP Daemon
 80	_rbootd		rboot Daemon
 81	_afs		AFS Daemon
-82	_ppp		PPP Daemon
-83	_ntp		Network Time Daemon
+82	_ppp		PPP Utilities
+83	_ntp		NTP Daemon
 84	_ftp		FTP Daemon
 85	_ospfd		OSPF Daemon
 86	_hostapd	HostAP Daemon
+87	_dvmrpd		DVMRP Daemon
+88	_ripd		RIP Daemon
+89	_hoststated	host state Daemon
 117	dialer		NO
 250	audio		NO
 251	_cvsadmin	NO
