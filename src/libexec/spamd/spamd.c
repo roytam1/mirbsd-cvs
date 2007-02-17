@@ -1,4 +1,4 @@
-/*	$OpenBSD: spamd.c,v 1.80 2005/11/12 02:20:37 deraadt Exp $	*/
+/*	$OpenBSD: spamd.c,v 1.85 2006/11/27 20:46:03 beck Exp $	*/
 
 /*
  * Copyright (c) 2002 Theo de Raadt.  All rights reserved.
@@ -144,7 +144,7 @@ usage(void)
 	fprintf(stderr,
 	    "usage: spamd [-45dgv] [-B maxblack] [-b address] [-c maxcon]\n");
 	fprintf(stderr,
-	    "             [-G mins:hours:hours] [-n name] [-p port]\n");
+	    "             [-G mins:hours:hours] [-h host] [-n name] [-p port]\n");
 	fprintf(stderr,
 	    "             [-r reply] [-S secs] [-s secs] [-w window]\n");
 	exit(1);
@@ -422,10 +422,10 @@ append_error_string(struct con *cp, size_t off, char *fmt, int af, void *ia)
 				sav = '\0';
 				break;
 			}
-			/* fallthrough */
+			/* FALLTHROUGH */
 		default:
 			if (sav)
-			c[i++] = sav;
+				c[i++] = sav;
 			c[i++] = *s;
 			sav = '\0';
 			c[i] = '\0';
@@ -452,8 +452,7 @@ loglists(struct con *cp)
 		/* don't report an insane amount of lists in the logs.
 		 * just truncate and indicate with ...
 		 */
-		if (strlen(matchlists) + strlen(matches[0]->tag) + 1
-		    >= s)
+		if (strlen(matchlists) + strlen(matches[0]->tag) + 1 >= s)
 			strlcat(matchlists, " ...", sizeof(matchlists));
 		else {
 			strlcat(matchlists, " ", s);
@@ -555,11 +554,11 @@ setlog(char *p, size_t len, char *f)
 void
 initcon(struct con *cp, int fd, struct sockaddr *sa)
 {
-	time_t t;
+	time_t tt;
 	char *tmp;
 	int error;
 
-	time(&t);
+	time(&tt);
 	free(cp->obuf);
 	cp->obuf = NULL;
 	cp->osize = 0;
@@ -577,7 +576,7 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 		errx(1, "not supported yet");
 	memcpy(&cp->ss, sa, sa->sa_len);
 	cp->af = sa->sa_family;
-	cp->ia = &((struct sockaddr_in *)sa)->sin_addr;
+	cp->ia = &((struct sockaddr_in *)&cp->ss)->sin_addr;
 	cp->blacklists = sdl_lookup(blacklists, cp->af, cp->ia);
 	cp->stutter = (greylist && !grey_stutter && cp->blacklists == NULL) ?
 	    0 : stutter;
@@ -594,8 +593,8 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	free(tmp);
 	cp->op = cp->obuf;
 	cp->ol = strlen(cp->op);
-	cp->w = t + cp->stutter;
-	cp->s = t;
+	cp->w = tt + cp->stutter;
+	cp->s = tt;
 	strlcpy(cp->rend, "\n", sizeof cp->rend);
 	clients++;
 	if (cp->blacklists != NULL) {
@@ -613,16 +612,16 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 void
 closecon(struct con *cp)
 {
-	time_t t;
+	time_t tt;
 
-	time(&t);
+	time(&tt);
 	syslog_r(LOG_INFO, &sdata, "%s: disconnected after %ld seconds.%s%s",
-	    cp->addr, (long)(t - cp->s),
+	    cp->addr, (long)(tt - cp->s),
 	    ((cp->lists == NULL) ? "" : " lists:"),
 	    ((cp->lists == NULL) ? "": cp->lists));
 	if (debug > 0)
 		printf("%s connected for %ld seconds.\n", cp->addr,
-		    (long)(t - cp->s));
+		    (long)(tt - cp->s));
 	if (cp->lists != NULL) {
 		free(cp->lists);
 		cp->lists = NULL;
@@ -703,8 +702,8 @@ nextstate(struct con *cp)
 		cp->state = 3;
 		cp->r = t;
 		break;
-	mail:
 	case 3:
+	mail:
 		if (match(cp->ibuf, "MAIL")) {
 			setlog(cp->mail, sizeof cp->mail, cp->ibuf);
 			snprintf(cp->obuf, cp->osize,
@@ -726,8 +725,8 @@ nextstate(struct con *cp)
 		cp->state = 5;
 		cp->r = t;
 		break;
-	rcpt:
 	case 5:
+	rcpt:
 		if (match(cp->ibuf, "RCPT")) {
 			setlog(cp->rcpt, sizeof(cp->rcpt), cp->ibuf);
 			snprintf(cp->obuf, cp->osize,
@@ -754,9 +753,6 @@ nextstate(struct con *cp)
 					fprintf(grey, "IP:%s\nFR:%s\nTO:%s\n",
 					    cp->addr, cp->mail, cp->rcpt);
 					fflush(grey);
-					cp->laststate = cp->state;
-					cp->state = 98;
-					goto done;
 				}
 			}
 			break;
@@ -771,8 +767,8 @@ nextstate(struct con *cp)
 		cp->r = t;
 		break;
 
-	spam:
 	case 50:
+	spam:
 		if (match(cp->ibuf, "DATA")) {
 			snprintf(cp->obuf, cp->osize,
 			    "354 Enter spam, end with \".\" on a line by "
@@ -793,6 +789,11 @@ nextstate(struct con *cp)
 		cp->op = cp->obuf;
 		cp->ol = strlen(cp->op);
 		cp->w = t + cp->stutter;
+		if (greylist && cp->blacklists == NULL) {
+			cp->laststate = cp->state;
+			cp->state = 98;
+			goto done;
+		}
 		break;
 	case 60:
 		/* sent 354 blah */
@@ -832,8 +833,8 @@ nextstate(struct con *cp)
 		cp->r = t;
 		break;
 	}
-	done:
 	case 98:
+	done:
 		doreply(cp);
 		cp->op = cp->obuf;
 		cp->ol = strlen(cp->op);
@@ -958,7 +959,7 @@ main(int argc, char *argv[])
 	if (gethostname(hostname, sizeof hostname) == -1)
 		err(1, "gethostname");
 
-	while ((ch = getopt(argc, argv, "45b:c:B:p:dgG:r:s:S:n:vw:")) != -1) {
+	while ((ch = getopt(argc, argv, "45b:c:B:p:dgG:h:r:s:S:n:vw:")) != -1) {
 		switch (ch) {
 		case '4':
 			nreply = "450";
@@ -999,6 +1000,12 @@ main(int argc, char *argv[])
 			whiteexp *= (60 * 60);
 			/* convert to seconds from hours */
 			greyexp *= (60 * 60);
+			break;
+		case 'h':
+			bzero(&hostname, sizeof(hostname));
+			if (strlcpy(hostname, optarg, sizeof(hostname)) >=
+			    sizeof(hostname))
+				errx(1, "-h arg too long"); 
 			break;
 		case 'r':
 			reply = optarg;
@@ -1164,13 +1171,11 @@ jail:
 		exit(1);
 	}
 
-	if (pw) {
-		setgroups(1, &pw->pw_gid);
-		setegid(pw->pw_gid);
-		setgid(pw->pw_gid);
-		seteuid(pw->pw_uid);
-		setuid(pw->pw_uid);
-	}
+	if (pw)
+		if (setgroups(1, &pw->pw_gid) ||
+		    setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) ||
+		    setresuid(pw->pw_uid, pw->pw_uid, pw->pw_uid))
+			err(1, "failed to drop privs");
 
 	if (listen(s, 10) == -1)
 		err(1, "listen");

@@ -1,4 +1,4 @@
-/*	$OpenBSD: dispatch.c,v 1.34 2006/08/29 04:09:27 deraadt Exp $	*/
+/*	$OpenBSD: dispatch.c,v 1.39 2007/02/14 23:15:01 stevesk Exp $	*/
 
 /*
  * Copyright 2004 Henning Brauer <henning@openbsd.org>
@@ -47,15 +47,11 @@
 #include <ifaddrs.h>
 #include <poll.h>
 
-struct protocol *protocols;
 struct timeout *timeouts;
 static struct timeout *free_timeouts;
 static int interfaces_invalidated;
-void (*bootp_packet_handler)(struct interface_info *,
-    struct dhcp_packet *, int, unsigned int,
-    struct iaddr, struct hardware *);
 
-static int interface_status(struct interface_info *ifinfo);
+static int interface_status(void);
 
 /*
  * Use getifaddrs() to get a list of all the attached interfaces.  For
@@ -64,7 +60,7 @@ static int interface_status(struct interface_info *ifinfo);
  * what subnet it's on, and add it to the list of interfaces.
  */
 void
-discover_interfaces(struct interface_info *iface)
+discover_interface(void)
 {
 	struct ifaddrs *ifap, *ifa;
 	struct ifreq *tif;
@@ -79,7 +75,7 @@ discover_interfaces(struct interface_info *iface)
 		    (!(ifa->ifa_flags & IFF_UP)))
 			continue;
 
-		if (strcmp(iface->name, ifa->ifa_name))
+		if (strcmp(ifi->name, ifa->ifa_name))
 			continue;
 
 		/*
@@ -90,56 +86,46 @@ discover_interfaces(struct interface_info *iface)
 			struct sockaddr_dl *foo =
 			    (struct sockaddr_dl *)ifa->ifa_addr;
 
-			iface->index = foo->sdl_index;
-			iface->hw_address.hlen = foo->sdl_alen;
-			iface->hw_address.htype = HTYPE_ETHER; /* XXX */
-			memcpy(iface->hw_address.haddr,
+			ifi->index = foo->sdl_index;
+			ifi->hw_address.hlen = foo->sdl_alen;
+			ifi->hw_address.htype = HTYPE_ETHER; /* XXX */
+			memcpy(ifi->hw_address.haddr,
 			    LLADDR(foo), foo->sdl_alen);
 		}
-		if (!iface->ifp) {
+		if (!ifi->ifp) {
 			if ((tif = malloc(len)) == NULL)
 				error("no space to remember ifp");
 			strlcpy(tif->ifr_name, ifa->ifa_name, IFNAMSIZ);
-			iface->ifp = tif;
+			ifi->ifp = tif;
 		}
 	}
 
-	if (!iface->ifp)
-		error("%s: not found", iface->name);
+	if (!ifi->ifp)
+		error("%s: not found", ifi->name);
 
 	/* Register the interface... */
-	if_register_receive(iface);
-	if_register_send(iface);
-	add_protocol(iface->name, iface->rfdesc, got_one, iface);
+	if_register_receive();
+	if_register_send();
 	freeifaddrs(ifap);
 }
 
 void
-reinitialize_interfaces(void)
+reinitialize_interface(void)
 {
 	interfaces_invalidated = 1;
 }
 
 /*
- * Wait for packets to come in using poll().  When a packet comes in,
- * call receive_packet to receive the packet and possibly strip hardware
- * addressing information from it, and then call through the
- * bootp_packet_handler hook to try to do something with it.
+ * Wait for packets to come in using poll().  When a packet comes in, call
+ * receive_packet to receive the packet and possibly strip hardware addressing
+ * information from it, and then call do_packet to try to do something with it.
  */
 void
 dispatch(void)
 {
-	int count, i, to_msec, nfds = 0;
-	struct protocol *l;
-	struct pollfd *fds;
+	int count, to_msec;
+	struct pollfd fds[2];
 	time_t howlong;
-
-	for (l = protocols; l; l = l->next)
-		nfds++;
-
-	fds = malloc(nfds * sizeof(struct pollfd));
-	if (fds == NULL)
-		error("Can't allocate poll structures.");
 
 	do {
 		/*
@@ -153,7 +139,7 @@ another:
 			if (timeouts->when <= cur_time) {
 				t = timeouts;
 				timeouts = timeouts->next;
-				(*(t->func))(t->what);
+				(*(t->func))();
 				t->next = free_timeouts;
 				free_timeouts = t;
 				goto another;
@@ -173,98 +159,70 @@ another:
 			to_msec = -1;
 
 		/* Set up the descriptors to be polled. */
-		for (i = 0, l = protocols; l; l = l->next) {
-			struct interface_info *ip = l->local;
+		if (!ifi || ifi->rfdesc == -1)
+			error("No live interface to poll on");
 
-			if (ip && (l->handler != got_one || !ip->dead)) {
-				fds[i].fd = l->fd;
-				fds[i].events = POLLIN;
-				fds[i].revents = 0;
-				i++;
-			}
-		}
-
-		if (i == 0)
-			error("No live interfaces to poll on - exiting.");
+		fds[0].fd = ifi->rfdesc;
+		fds[1].fd = routefd; /* Could be -1, which will be ignored. */
+		fds[0].events = fds[1].events = POLLIN;
 
 		/* Wait for a packet or a timeout... XXX */
-		count = poll(fds, nfds, to_msec);
+		count = poll(fds, 2, to_msec);
+
+		/* Get the current time... */
+		time(&cur_time);
 
 		/* Not likely to be transitory... */
 		if (count == -1) {
 			if (errno == EAGAIN || errno == EINTR) {
-				time(&cur_time);
 				continue;
 			} else
 				error("poll: %m");
 		}
 
-		/* Get the current time... */
-		time(&cur_time);
-
-		i = 0;
-		for (l = protocols; l; l = l->next) {
-			struct interface_info *ip;
-			ip = l->local;
-			if ((fds[i].revents & (POLLIN | POLLHUP))) {
-				fds[i].revents = 0;
-				if (ip && (l->handler != got_one ||
-				    !ip->dead))
-					(*(l->handler))(l);
-				if (interfaces_invalidated)
-					break;
-			}
-			i++;
+		if ((fds[0].revents & (POLLIN | POLLHUP))) {
+			if (ifi && ifi->rfdesc != -1)
+				got_one();
 		}
+		if ((fds[1].revents & (POLLIN | POLLHUP))) {
+			if (ifi && !interfaces_invalidated)
+				routehandler();
+		}
+
 		interfaces_invalidated = 0;
 	} while (1);
 }
 
 void
-got_one(struct protocol *l)
+got_one(void)
 {
 	struct sockaddr_in from;
 	struct hardware hfrom;
 	struct iaddr ifrom;
 	ssize_t result;
-	union {
-		/*
-		 * Packet input buffer.  Must be as large as largest
-		 * possible MTU.
-		 */
-		unsigned char packbuf[4095];
-		struct dhcp_packet packet;
-	} u;
-	struct interface_info *ip = l->local;
 
-	if ((result = receive_packet(ip, u.packbuf, sizeof(u), &from,
-	    &hfrom)) == -1) {
-		warning("receive_packet failed on %s: %s", ip->name,
+	if ((result = receive_packet(&from, &hfrom)) == -1) {
+		warning("receive_packet failed on %s: %s", ifi->name,
 		    strerror(errno));
-		ip->errors++;
-		if ((!interface_status(ip)) ||
-		    (ip->noifmedia && ip->errors > 20)) {
+		ifi->errors++;
+		if ((!interface_status()) ||
+		    (ifi->noifmedia && ifi->errors > 20)) {
 			/* our interface has gone away. */
 			warning("Interface %s no longer appears valid.",
-			    ip->name);
-			ip->dead = 1;
+			    ifi->name);
 			interfaces_invalidated = 1;
-			close(l->fd);
-			remove_protocol(l);
-			free(ip);
+			close(ifi->rfdesc);
+			ifi->rfdesc = -1;
 		}
 		return;
 	}
 	if (result == 0)
 		return;
 
-	if (bootp_packet_handler) {
-		ifrom.len = 4;
-		memcpy(ifrom.iabuf, &from.sin_addr, ifrom.len);
+	ifrom.len = 4;
+	memcpy(ifrom.iabuf, &from.sin_addr, ifrom.len);
 
-		(*bootp_packet_handler)(ip, &u.packet, result,
-		    from.sin_port, ifrom, &hfrom);
-	}
+	do_packet(result, from.sin_port, ifrom, &hfrom);
 }
 
 int
@@ -324,10 +282,10 @@ interface_link_forcedown(char *ifname)
 }
 
 int
-interface_status(struct interface_info *ifinfo)
+interface_status(void)
 {
-	char *ifname = ifinfo->name;
-	int ifsock = ifinfo->rfdesc;
+	char *ifname = ifi->name;
+	int ifsock = ifi->rfdesc;
 	struct ifreq ifr;
 	struct ifmediareq ifmr;
 
@@ -335,7 +293,7 @@ interface_status(struct interface_info *ifinfo)
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
 	if (ioctl(ifsock, SIOCGIFFLAGS, &ifr) < 0) {
-		syslog(LOG_ERR, "ioctl(SIOCGIFFLAGS) on %s: %m", ifname);
+		warning("ioctl(SIOCGIFFLAGS) on %s: %m", ifname);
 		goto inactive;
 	}
 
@@ -347,23 +305,22 @@ interface_status(struct interface_info *ifinfo)
 		goto inactive;
 
 	/* Next, check carrier on the interface, if possible */
-	if (ifinfo->noifmedia)
+	if (ifi->noifmedia)
 		goto active;
 	memset(&ifmr, 0, sizeof(ifmr));
 	strlcpy(ifmr.ifm_name, ifname, sizeof(ifmr.ifm_name));
 	if (ioctl(ifsock, SIOCGIFMEDIA, (caddr_t)&ifmr) < 0) {
 		if (errno != EINVAL) {
-			syslog(LOG_DEBUG, "ioctl(SIOCGIFMEDIA) on %s: %m",
-			    ifname);
+			debug("ioctl(SIOCGIFMEDIA) on %s: %m", ifname);
 
-			ifinfo->noifmedia = 1;
+			ifi->noifmedia = 1;
 			goto active;
 		}
 		/*
 		 * EINVAL (or ENOTTY) simply means that the interface
 		 * does not support the SIOCGIFMEDIA ioctl. We regard it alive.
 		 */
-		ifinfo->noifmedia = 1;
+		ifi->noifmedia = 1;
 		goto active;
 	}
 	if (ifmr.ifm_status & IFM_AVALID) {
@@ -385,14 +342,14 @@ active:
 }
 
 void
-add_timeout(time_t when, void (*where)(void *), void *what)
+add_timeout(time_t when, void (*where)(void))
 {
 	struct timeout *t, *q;
 
 	/* See if this timeout supersedes an existing timeout. */
 	t = NULL;
 	for (q = timeouts; q; q = q->next) {
-		if (q->func == where && q->what == what) {
+		if (q->func == where) {
 			if (t)
 				t->next = q->next;
 			else
@@ -409,13 +366,11 @@ add_timeout(time_t when, void (*where)(void *), void *what)
 			q = free_timeouts;
 			free_timeouts = q->next;
 			q->func = where;
-			q->what = what;
 		} else {
 			q = malloc(sizeof(struct timeout));
 			if (!q)
 				error("Can't allocate timeout structure!");
 			q->func = where;
-			q->what = what;
 		}
 	}
 
@@ -445,14 +400,14 @@ add_timeout(time_t when, void (*where)(void *), void *what)
 }
 
 void
-cancel_timeout(void (*where)(void *), void *what)
+cancel_timeout(void (*where)(void))
 {
 	struct timeout *t, *q;
 
 	/* Look for this timeout on the list, and unlink it if we find it. */
 	t = NULL;
 	for (q = timeouts; q; q = q->next) {
-		if (q->func == where && q->what == what) {
+		if (q->func == where) {
 			if (t)
 				t->next = q->next;
 			else
@@ -466,42 +421,6 @@ cancel_timeout(void (*where)(void *), void *what)
 	if (q) {
 		q->next = free_timeouts;
 		free_timeouts = q;
-	}
-}
-
-/* Add a protocol to the list of protocols... */
-void
-add_protocol(char *name, int fd, void (*handler)(struct protocol *),
-    void *local)
-{
-	struct protocol *p;
-
-	p = malloc(sizeof(*p));
-	if (!p)
-		error("can't allocate protocol struct for %s", name);
-
-	p->fd = fd;
-	p->handler = handler;
-	p->local = local;
-	p->next = protocols;
-	protocols = p;
-}
-
-void
-remove_protocol(struct protocol *proto)
-{
-	struct protocol *p, *next, *prev;
-
-	prev = NULL;
-	for (p = protocols; p; p = next) {
-		next = p->next;
-		if (p == proto) {
-			if (prev)
-				prev->next = p->next;
-			else
-				protocols = p->next;
-			free(p);
-		}
 	}
 }
 
@@ -519,8 +438,7 @@ interface_link_status(char *ifname)
 	if (ioctl(sock, SIOCGIFMEDIA, (caddr_t)&ifmr) == -1) {
 		/* EINVAL -> link state unknown. treat as active */
 		if (errno != EINVAL)
-			syslog(LOG_DEBUG, "ioctl(SIOCGIFMEDIA) on %s: %m",
-			    ifname);
+			debug("ioctl(SIOCGIFMEDIA) on %s: %m", ifname);
 		close(sock);
 		return (1);
 	}

@@ -1,4 +1,4 @@
-/*	$OpenBSD: spamd-setup.c,v 1.21 2005/03/02 16:45:30 dhartmei Exp $ */
+/*	$OpenBSD: spamd-setup.c,v 1.29 2007/02/14 01:16:22 millert Exp $ */
 
 /*
  * Copyright (c) 2003 Bob Beck.  All rights reserved.
@@ -24,7 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -64,32 +64,27 @@ struct blacklist {
 	int count;
 };
 
-u_int32_t	imask(u_int8_t b);
-u_int8_t	maxblock(u_int32_t addr, u_int8_t bits);
-u_int8_t	maxdiff(u_int32_t a, u_int32_t b);
-struct cidr	*range2cidrlist(u_int32_t start, u_int32_t end);
-void		cidr2range(struct cidr cidr, u_int32_t *start, u_int32_t *end);
-char		*atop(u_int32_t addr);
-u_int32_t	ptoa(char *cp);
-int		parse_netblock(char *buf, struct bl *start, struct bl *end,
-		    int white);
-int		open_child(char *file, char **argv);
-int		fileget(char *url);
-int		open_file(char *method, char *file);
-char		*fix_quoted_colons(char *buf);
-void		do_message(FILE *sdc, char *msg);
-struct bl	*add_blacklist(struct bl *bl, int *blc, int *bls, gzFile gzf,
-		    int white);
-int		cmpbl(const void *a, const void *b);
-struct cidr	**collapse_blacklist(struct bl *bl, int blc);
-int		configure_spamd(u_short dport, char *name, char *message,
-		    struct cidr **blacklists);
-int		configure_pf(struct cidr **blacklists);
-int		getlist(char ** db_array, char *name, struct blacklist *blist,
-		    struct blacklist *blistnew);
+u_int32_t	  imask(u_int8_t);
+u_int8_t	  maxblock(u_int32_t, u_int8_t);
+u_int8_t	  maxdiff(u_int32_t, u_int32_t);
+struct cidr	 *range2cidrlist(u_int32_t, u_int32_t);
+void		  cidr2range(struct cidr, u_int32_t *, u_int32_t *);
+char		 *atop(u_int32_t);
+int		  parse_netblock(char *, struct bl *, struct bl *, int);
+int		  open_child(char *, char **);
+int		  fileget(char *);
+int		  open_file(char *, char *);
+char		 *fix_quoted_colons(char *);
+void		  do_message(FILE *, char *);
+struct bl	 *add_blacklist(struct bl *, size_t *, size_t *, gzFile, int);
+int		  cmpbl(const void *, const void *);
+struct cidr	**collapse_blacklist(struct bl *, size_t);
+int		  configure_spamd(u_short, char *, char *, struct cidr **);
+int		  configure_pf(struct cidr **);
+int		  getlist(char **, char *, struct blacklist *, struct blacklist *);
 
-int		debug;
-int		dryrun;
+int		  debug;
+int		  dryrun;
 
 u_int32_t
 imask(u_int8_t b)
@@ -99,36 +94,39 @@ imask(u_int8_t b)
 
 	for (i = 31; i > 31 - b; --i)
 		j |= (1 << i);
-	return(j);
+	return (j);
 }
 
 u_int8_t
 maxblock(u_int32_t addr, u_int8_t bits)
 {
+	u_int32_t m;
+
 	while (bits > 0) {
-		u_int32_t m = imask(bits - 1);
+		m = imask(bits - 1);
 
 		if ((addr & m) != addr)
 			return (bits);
 		bits--;
 	}
-	return(bits);
+	return (bits);
 }
 
 u_int8_t
 maxdiff(u_int32_t a, u_int32_t b)
 {
 	u_int8_t bits = 0;
+	u_int32_t m;
 
 	b++;
 	while (bits < 32) {
-		u_int32_t m = imask(bits);
+		m = imask(bits);
 
 		if ((a & m) != (b & m))
 			return (bits);
 		bits++;
 	}
-	return(bits);
+	return (bits);
 }
 
 struct cidr *
@@ -136,15 +134,15 @@ range2cidrlist(u_int32_t start, u_int32_t end)
 {
 	struct cidr *list = NULL;
 	size_t cs = 0, cu = 0;
+	u_int8_t maxsize, diff;
+	struct cidr *tmp;
 
 	while (end >= start) {
-		u_int8_t maxsize = maxblock(start, 32);
-		u_int8_t diff = maxdiff(start, end);
+		maxsize = maxblock(start, 32);
+		diff = maxdiff(start, end);
 
 		maxsize = MAX(maxsize, diff);
-		if (cs == cu) {
-			struct cidr *tmp;
-
+		if (cs <= cu + 1) {		/* one extra for terminator */
 			tmp = realloc(list, (cs + 32) * sizeof(struct cidr));
 			if (tmp == NULL)
 				errx(1, "malloc failed");
@@ -158,7 +156,7 @@ range2cidrlist(u_int32_t start, u_int32_t end)
 		list[cu].bits = 0;
 		start = start + (1 << (32 - maxsize));
 	}
-	return(list);
+	return (list);
 }
 
 void
@@ -175,7 +173,7 @@ atop(u_int32_t addr)
 
 	memset(&in, 0, sizeof(in));
 	in.s_addr = htonl(addr);
-	return(inet_ntoa(in));
+	return (inet_ntoa(in));
 }
 
 int
@@ -183,25 +181,24 @@ parse_netblock(char *buf, struct bl *start, struct bl *end, int white)
 {
 	char astring[16], astring2[16];
 	unsigned maskbits;
+	struct cidr c;
 
 	/* skip leading spaces */
 	while (*buf == ' ')
 		buf++;
 	/* bail if it's a comment */
 	if (*buf == '#')
-		return(0);
+		return (0);
 	/* otherwise, look for a netblock of some sort */
 	if (sscanf(buf, "%15[^/]/%u", astring, &maskbits) == 2) {
 		/* looks like a cidr */
-		struct cidr c;
-
 		memset(&c.addr, 0, sizeof(c.addr));
 		if (inet_net_pton(AF_INET, astring, &c.addr, sizeof(c.addr))
 		    == -1)
-			return(0);
+			return (0);
 		c.addr = ntohl(c.addr);
 		if (maskbits > 32)
-			return(0);
+			return (0);
 		c.bits = maskbits;
 		cidr2range(c, &start->addr, &end->addr);
 		end->addr += 1;
@@ -212,24 +209,24 @@ parse_netblock(char *buf, struct bl *start, struct bl *end, int white)
 		memset(&end->addr, 0, sizeof(end->addr));
 		if (inet_net_pton(AF_INET, astring, &start->addr,
 		    sizeof(start->addr)) == -1)
-			return(0);
+			return (0);
 		start->addr = ntohl(start->addr);
 		if (inet_net_pton(AF_INET, astring2, &end->addr,
 		    sizeof(end->addr)) == -1)
-			return(0);
+			return (0);
 		end->addr = ntohl(end->addr) + 1;
 		if (start > end)
-			return(0);
+			return (0);
 	} else if (sscanf(buf, "%15[0123456789.]", astring) == 1) {
 		/* just a single address */
 		memset(&start->addr, 0, sizeof(start->addr));
 		if (inet_net_pton(AF_INET, astring, &start->addr,
 		    sizeof(start->addr)) == -1)
-			return(0);
+			return (0);
 		start->addr = ntohl(start->addr);
 		end->addr = start->addr + 1;
 	} else
-		return(0);
+		return (0);
 
 	if (white) {
 		start->b = 0;
@@ -242,7 +239,7 @@ parse_netblock(char *buf, struct bl *start, struct bl *end, int white)
 		end->b = -1;
 		end->w = 0;
 	}
-	return(1);
+	return (1);
 }
 
 int
@@ -251,12 +248,12 @@ open_child(char *file, char **argv)
 	int pdes[2];
 
 	if (pipe(pdes) != 0)
-		return(-1);
+		return (-1);
 	switch (fork()) {
 	case -1:
 		close(pdes[0]);
 		close(pdes[1]);
-		return(-1);
+		return (-1);
 	case 0:
 		/* child */
 		close(pdes[0]);
@@ -270,7 +267,7 @@ open_child(char *file, char **argv)
 
 	/* parent */
 	close(pdes[1]);
-	return(pdes[0]);
+	return (pdes[0]);
 }
 
 int
@@ -288,30 +285,27 @@ fileget(char *url)
 	if (debug)
 		fprintf(stderr, "Getting %s\n", url);
 
-	return open_child(PATH_FTP, argv);
+	return (open_child(PATH_FTP, argv));
 }
 
 int
 open_file(char *method, char *file)
 {
 	char *url;
+	char **ap, **argv;
+	int len, i, oerrno;
 
 	if ((method == NULL) || (strcmp(method, "file") == 0))
-		return(open(file, O_RDONLY));
+		return (open(file, O_RDONLY));
 	if ((strcmp(method, "http") == 0) ||
 	    strcmp(method, "ftp") == 0) {
-		int i;
-
 		asprintf(&url, "%s://%s", method, file);
 		if (url == NULL)
-			return(-1);
+			return (-1);
 		i = fileget(url);
 		free(url);
-		return(i);
+		return (i);
 	} else if (strcmp(method, "exec") == 0) {
-		char **ap, **argv;
-		int len, i, oerrno;
-
 		len = strlen(file);
 		argv = malloc(len * sizeof(char *));
 		if (argv == NULL)
@@ -326,10 +320,10 @@ open_file(char *method, char *file)
 		oerrno = errno;
 		free(argv);
 		errno = oerrno;
-		return(i);
+		return (i);
 	}
 	errx(1, "Unknown method %s", method);
-	return(-1); /* NOTREACHED */
+	return (-1); /* NOTREACHED */
 }
 
 /*
@@ -347,13 +341,14 @@ open_file(char *method, char *file)
 char *
 fix_quoted_colons(char *buf)
 {
-	int nbs = 0, i = 0, j = 0, in = 0;
+	int in = 0;
+	size_t i, j = 0;
 	char *newbuf, last;
 
-	nbs = strlen(buf) + 128;
-	newbuf = malloc(nbs);
+	/* Allocate enough space for a buf of all colons (impossible). */
+	newbuf = malloc(2 * strlen(buf) + 1);
 	if (newbuf == NULL)
-		return NULL;
+		return (NULL);
 	last = '\0';
 	for (i = 0; i < strlen(buf); i++) {
 		switch (buf[i]) {
@@ -372,37 +367,29 @@ fix_quoted_colons(char *buf)
 		default:
 			newbuf[j++] = buf[i];
 		}
-		if (j == nbs) {
-			char *tmp;
-
-			nbs += 128;
-			tmp = realloc(newbuf, nbs);
-			if (tmp == NULL)
-				errx(1, "malloc failed");
-			newbuf = tmp;
-		}
+		last = buf[i];
 	}
 	free(buf);
 	newbuf[j] = '\0';
-	return(newbuf);
+	return (newbuf);
 }
 
 void
 do_message(FILE *sdc, char *msg)
 {
-	int i, n, bu = 0, bs = 0, len;
-	char *buf = NULL, last;
+	size_t i, bs = 0, bu = 0, len;
+	ssize_t n;	
+	char *buf = NULL, last, *tmp;
+	int fd;
 
 	len = strlen(msg);
 	if (msg[0] == '"' && msg[len - 1] == '"') {
 		/* quoted msg, escape newlines and send it out */
 		msg[len - 1] = '\0';
-		buf = msg+1;
+		buf = msg + 1;
 		bu = len - 2;
 		goto sendit;
 	} else {
-		int fd;
-
 		/*
 		 * message isn't quoted - try to open a local
 		 * file and read the message from it.
@@ -412,8 +399,6 @@ do_message(FILE *sdc, char *msg)
 			err(1, "Can't open message from %s", msg);
 		for (;;) {
 			if (bu == bs) {
-				char *tmp;
-
 				tmp = realloc(buf, bs + 8192);
 				if (tmp == NULL)
 					errx(1, "malloc failed");
@@ -450,7 +435,7 @@ do_message(FILE *sdc, char *msg)
 			break;
 		case '"':
 			fputc('\\', sdc);
-			/* fall through */
+			/* FALLTHROUGH */
 		default:
 			fputc(buf[i], sdc);
 			last = '\0';
@@ -463,16 +448,15 @@ do_message(FILE *sdc, char *msg)
 
 /* retrieve a list from fd. add to blacklist bl */
 struct bl *
-add_blacklist(struct bl *bl, int *blc, int *bls, gzFile gzf, int white)
+add_blacklist(struct bl *bl, size_t *blc, size_t *bls, gzFile gzf, int white)
 {
 	int i, n, start, bu = 0, bs = 0, serrno = 0;
-	char *buf = NULL;
+	char *buf = NULL, *tmp;
+	struct bl *blt;
 
 	for (;;) {
 		/* read in gzf, then parse */
 		if (bu == bs) {
-			char *tmp;
-
 			tmp = realloc(buf, bs + 8192 + 1);
 			if (tmp == NULL) {
 				free(buf);
@@ -498,23 +482,21 @@ add_blacklist(struct bl *bl, int *blc, int *bls, gzFile gzf, int white)
 	start = 0;
 	for (i = 0; i <= bu; i++) {
 		if (*blc == *bls) {
-			struct bl *tmp;
-
 			*bls += 1024;
-			tmp = realloc(bl, *bls * sizeof(struct bl));
-			if (tmp == NULL) {
+			blt = realloc(bl, *bls * sizeof(struct bl));
+			if (blt == NULL) {
 				*bls -= 1024;
 				serrno = errno;
 				goto bldone;
 			}
-			bl = tmp;
+			bl = blt;
 		}
 		if (i == bu || buf[i] == '\n') {
 			buf[i] = '\0';
 			if (parse_netblock(buf + start,
 			    bl + *blc, bl + *blc + 1, white))
-				*blc+=2;
-			start = i+1;
+				*blc += 2;
+			start = i + 1;
 		}
 	}
 	if (bu == 0)
@@ -531,10 +513,10 @@ int
 cmpbl(const void *a, const void *b)
 {
 	if (((struct bl *)a)->addr > ((struct bl *) b)->addr)
-		return(1);
+		return (1);
 	if (((struct bl *)a)->addr < ((struct bl *) b)->addr)
-		return(-1);
-	return(0);
+		return (-1);
+	return (0);
 }
 
 /*
@@ -544,15 +526,17 @@ cmpbl(const void *a, const void *b)
  * printable form to pfctl or spamd.
  */
 struct cidr **
-collapse_blacklist(struct bl *bl, int blc)
+collapse_blacklist(struct bl *bl, size_t blc)
 {
 	int bs = 0, ws = 0, state=0, cli, i;
 	u_int32_t bstart = 0;
 	struct cidr **cl;
+	int laststate;
+	u_int32_t addr;
 
 	if (blc == 0)
-		return(NULL);
-	cl = malloc((blc / 2) * sizeof(struct cidr));
+		return (NULL);
+	cl = malloc(((blc / 2) + 1) * sizeof(struct cidr));
 	if (cl == NULL) {
 		return (NULL);
 	}
@@ -560,8 +544,8 @@ collapse_blacklist(struct bl *bl, int blc)
 	cli = 0;
 	cl[cli] = NULL;
 	for (i = 0; i < blc;) {
-		int laststate = state;
-		u_int32_t addr = bl[i].addr;
+		laststate = state;
+		addr = bl[i].addr;
 
 		do {
 			bs += bl[i].b;
@@ -598,18 +582,18 @@ configure_spamd(u_short dport, char *name, char *message,
 
 	s = rresvport(&lport);
 	if (s == -1)
-		return(-1);
+		return (-1);
 	memset(&sin, 0, sizeof sin);
 	sin.sin_len = sizeof(sin);
 	sin.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(dport);
 	if (connect(s, (struct sockaddr *)&sin, sizeof sin) == -1)
-		return(-1);
+		return (-1);
 	sdc = fdopen(s, "w");
 	if (sdc == NULL) {
 		close(s);
-		return(-1);
+		return (-1);
 	}
 	fprintf(sdc, "%s", name);
 	do_message(sdc, message);
@@ -624,7 +608,7 @@ configure_spamd(u_short dport, char *name, char *message,
 	fputc('\n', sdc);
 	fclose(sdc);
 	close(s);
-	return(0);
+	return (0);
 }
 
 
@@ -638,12 +622,12 @@ configure_pf(struct cidr **blacklists)
 
 	if (pf == NULL) {
 		if (pipe(pdes) != 0)
-			return(-1);
+			return (-1);
 		switch (fork()) {
 		case -1:
 			close(pdes[0]);
 			close(pdes[1]);
-			return(-1);
+			return (-1);
 		case 0:
 			/* child */
 			close(pdes[1]);
@@ -660,7 +644,7 @@ configure_pf(struct cidr **blacklists)
 		pf = fdopen(pdes[1], "w");
 		if (pf == NULL) {
 			close(pdes[1]);
-			return(-1);
+			return (-1);
 		}
 	}
 	while (*blacklists != NULL) {
@@ -672,7 +656,7 @@ configure_pf(struct cidr **blacklists)
 		}
 		blacklists++;
 	}
-	return(0);
+	return (0);
 }
 
 int
@@ -680,7 +664,8 @@ getlist(char ** db_array, char *name, struct blacklist *blist,
     struct blacklist *blistnew)
 {
 	char *buf, *method, *file, *message;
-	int blc, bls, fd, black = 0;
+	int fd, black = 0;
+	size_t blc, bls;
 	struct bl *bl = NULL;
 	gzFile gzf;
 
@@ -741,7 +726,7 @@ getlist(char ** db_array, char *name, struct blacklist *blist,
 	if (bl == NULL) {
 		warn("Could not add %slist %s", black ? "black" : "white",
 		    name);
-		return(0);
+		return (0);
 	}
 	if (black) {
 		blistnew->message = message;
@@ -757,9 +742,9 @@ getlist(char ** db_array, char *name, struct blacklist *blist,
 		blist->bls = bls;
 	}
 	if (debug)
-		fprintf(stderr, "%slist %s %d entries\n",
+		fprintf(stderr, "%slist %s %zu entries\n",
 		    black ? "black" : "white", name, blc / 2);
-	return(black);
+	return (black);
 }
 
 int
