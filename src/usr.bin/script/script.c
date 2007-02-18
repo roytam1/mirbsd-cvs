@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.5 2007/02/13 17:10:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.6 2007/02/13 17:30:46 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -128,6 +128,10 @@ void finish(int);
 void scriptflush(int);
 void handlesigwinch(int);
 __dead void usage(void);
+
+#ifdef SMALL
+#undef DEBUG
+#endif
 
 #ifdef DEBUG
 #define dump(buf, len)	__dump(#buf, __func__, buf, len)
@@ -198,10 +202,12 @@ main(int argc, char *argv[])
 	if (openpty(&master, &slave, NULL, &tt, &win) == -1)
 		err(1, "openpty");
 
+#ifndef SMALL
 	printf("Script started, %s%s%s\n",
 	    l1mode ? "latin1 mode, " : "",
 	    fscript ? "output file is " : "no output file",
 	    fname);
+#endif
 	rtt = tt;
 	cfmakeraw(&rtt);
 	rtt.c_lflag &= ~ECHO;
@@ -321,7 +327,9 @@ dooutput(void)
 	sigset_t blkalrm;
 	unsigned char obuf[BUFSIZ];
 	unsigned char *cbuf = NULL;
+#ifndef SMALL
 	time_t tvec;
+#endif
 	ssize_t outcc = 0, cc, fcc, off;
 	mbstate_t state = { 0, 0 };
 
@@ -334,8 +342,10 @@ dooutput(void)
 	}
 	close(STDIN_FILENO);
 	if (fscript) {
+#ifndef SMALL
 		tvec = time(NULL);
 		fprintf(fscript, "Script started on %s", ctime(&tvec));
+#endif
 
 		sigemptyset(&blkalrm);
 		sigaddset(&blkalrm, SIGALRM);
@@ -457,19 +467,23 @@ fail(void)
 void
 done(int eval)
 {
-	time_t tvec;
-
 	if (subchild) {
 		if (fscript) {
+#ifndef SMALL
+			time_t tvec;
+
 			tvec = time(NULL);
 			fprintf(fscript,"\nScript done on %s", ctime(&tvec));
+#endif
 			fclose(fscript);
 		}
 		close(master);
 	} else {
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &tt);
+#ifndef SMALL
 		printf("Script done, %s%s\n",
 		    fscript ? "output file is " : "no output file", fname);
+#endif
 	}
 	exit(eval);
 }
@@ -477,9 +491,19 @@ done(int eval)
 void
 usage(void)
 {
+#ifdef SMALL
+	const char usage_str[] = "usage: script"
+#else
 	extern const char *__progname;
-	fprintf(stderr, "usage: %s [-al] [-c cmd] [-L replstr] [-n | file]\n",
-	    __progname);
+	fprintf(stderr, "usage: %s"
+#endif
+	    " [-al] [-c cmd] [-L replstr] [-n | file]\n"
+#ifdef SMALL
+	    ;
+	fwrite(usage_str, 1, sizeof (usage_str) - 1, stderr);
+#else
+	    , __progname);
+#endif
 	exit(1);
 }
 
