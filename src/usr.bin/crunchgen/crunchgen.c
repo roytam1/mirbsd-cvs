@@ -44,7 +44,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.2 2007/02/18 02:39:14 tg Exp $");
 
 #define CRUNCH_VERSION	"1.3-MirOS"
 
@@ -525,7 +525,16 @@ add_special(int argc, char **argv)
 	} else if (!strcmp(argv[2], "srcdir")) {
 		if (argc != 4)
 			goto argcount;
-		if ((p->srcdir = strdup(argv[3])) == NULL)
+		p->srcdir = NULL;
+		if (argv[3][0] != '/' && topdir[0] != '\0') {
+			if (asprintf(&(p->srcdir), "%s/%s",
+			    topdir, argv[3]) == -1)
+				p->srcdir = NULL;
+			else if (!is_dir(p->srcdir))
+				p->srcdir = NULL;
+		}
+		if ((p->srcdir == NULL) &&
+		    ((p->srcdir = strdup(argv[3])) == NULL))
 			out_of_memory();
 	} else if (!strcmp(argv[2], "mf_name")) {
 		if (argc != 4)
