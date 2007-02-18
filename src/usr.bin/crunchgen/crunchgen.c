@@ -44,7 +44,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.2 2007/02/18 02:39:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.3 2007/02/18 02:41:16 tg Exp $");
 
 #define CRUNCH_VERSION	"1.3-MirOS"
 
@@ -803,6 +803,7 @@ gen_output_makefile(void)
 		prog_makefile_rules(outmk, p);
 
 	fprintf(outmk, "\n# ========\n");
+	fprintf(outmk, ".include <bsd.prog.mk>\n");
 	fclose(outmk);
 }
 
@@ -890,8 +891,8 @@ top_makefile_rules(FILE * outmk)
 	prog_t *p;
 	strlst_t *l;
 
-	fprintf(outmk, "STRIP?=strip\n");
-	fprintf(outmk, "LINK=$(LD) -dc -r\n");
+	fprintf(outmk, "\n.include <bsd.own.mk>\n");
+	fprintf(outmk, "LINK.rlo=\t$(LD) -dc -r\n");
 	fprintf(outmk, "LIBS=");
 	for (l = libdirs; l != NULL; l = l->next)
 		fprintf(outmk, " -L%s", l->str);
@@ -911,7 +912,6 @@ top_makefile_rules(FILE * outmk)
 	    execfname, execfname);
 	fprintf(outmk, "\t$(CC) -static -o $@ %s.o $(CRUNCHED_OBJS) $(LIBS)\n",
 	    execfname);
-	fprintf(outmk, "\t$(STRIP) %s\n", execfname);
 	fprintf(outmk, "all: objs exe\nobjs: $(SUBMAKE_TARGETS)\n");
 	fprintf(outmk, "exe: %s\n", execfname);
 	fprintf(outmk, "clean:\n\trm -f %s *.lo *.o *_stub.c\n",
@@ -945,7 +945,7 @@ prog_makefile_rules(FILE * outmk, prog_t * p)
 	    p->ident);
 	fprintf(outmk, "%s.lo: %s_stub.o $(%s_OBJPATHS)\n",
 	    p->name, p->name, p->ident);
-	fprintf(outmk, "\t$(LINK) -o $@ %s_stub.o $(%s_OBJPATHS)\n",
+	fprintf(outmk, "\t$(LINK.rlo) -o $@ %s_stub.o $(%s_OBJPATHS)\n",
 	    p->name, p->ident);
 	fprintf(outmk, "\tcrunchide -k %s_crunched_%s_stub $@\n",
 	    elf_names ? "" : "_", p->ident);
