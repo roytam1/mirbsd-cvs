@@ -39,23 +39,21 @@
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunched_main.c,v 1.2 2007/02/18 02:39:14 tg Exp $");
 
-struct stub {
-	char	*name;
-	int	(*f)(int, char **, char **);
-};
+static const struct stub {
+	const char *name;
+	int (*f)(int, char **, char **);
+} entry_points[NUMS];
 
-extern struct stub entry_points[];
-
-int crunched_main(int, char **, char **);
+static int crunched_main(int, char **, char **);
 static int crunched_usage(void);
 
 int
 main(int argc, char *argv[], char **envp)
 {
-	char		*slash, *basename;
-	struct stub	*ep;
+	char *slash, *basename;
+	const struct stub *ep;
 
 	if (argv == NULL || argv[0] == NULL || *argv[0] == '\0')
 		return (crunched_usage());
@@ -74,7 +72,7 @@ main(int argc, char *argv[], char **envp)
 	return (crunched_usage());
 }
 
-int
+static int
 crunched_main(int argc, char **argv, char **envp)
 {
 	if (argc <= 1)
@@ -86,8 +84,8 @@ crunched_main(int argc, char **argv, char **envp)
 static int
 crunched_usage(void)
 {
-	int		columns, len;
-	struct stub	*ep;
+	int 	columns, len;
+	const struct stub *ep;
 
 	fprintf(stderr,
 	    "Usage: %s <prog> <args> ..., where <prog> is one of:\n",

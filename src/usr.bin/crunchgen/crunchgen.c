@@ -44,7 +44,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.4 2007/02/18 02:44:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.5 2007/02/18 02:45:47 tg Exp $");
 
 #define CRUNCH_VERSION	"1.3-MirOS"
 
@@ -815,6 +815,7 @@ gen_output_cfile(void)
 	FILE *outcf;
 	prog_t *p;
 	strlst_t *s;
+	size_t nums = 2;
 
 	snprintf(line, sizeof(line), "generating %s", outcfname);
 	status(line);
@@ -827,14 +828,21 @@ gen_output_cfile(void)
 	fprintf(outcf, "/* %s - generated from %s by crunchgen %s */\n",
 	    outcfname, infilename, CRUNCH_VERSION);
 
+	for (p = progs; p != NULL; p = p->next) {
+		++nums;
+		for (s = p->links; s != NULL; s = s->next)
+			++nums;
+	}
 	fprintf(outcf, "#define EXECNAME \"%s\"\n", execfname);
+	fprintf(outcf, "#define NUMS %zu\n", nums);
 	for (cp = crunched_skel; *cp != NULL; cp++)
 		fprintf(outcf, "%s\n", *cp);
 
 	for (p = progs; p != NULL; p = p->next)
-		fprintf(outcf, "extern int _crunched_%s_stub();\n", p->ident);
+		fprintf(outcf, "extern int _crunched_%s_stub(int, char **,"
+		    " char **);\n", p->ident);
 
-	fprintf(outcf, "\nstruct stub entry_points[] = {\n");
+	fprintf(outcf, "\nstatic const struct stub entry_points[NUMS] = {\n");
 	for (p = progs; p != NULL; p = p->next) {
 		fprintf(outcf, "\t{ \"%s\", _crunched_%s_stub },\n",
 			p->name, p->ident);
@@ -939,15 +947,15 @@ prog_makefile_rules(FILE * outmk, prog_t * p)
 	output_strlst(outmk, p->objpaths);
 
 	fprintf(outmk, "%s_stub.c:\n", p->name);
-	fprintf(outmk, "\techo \""
-	    "int _crunched_%s_stub(int argc, char **argv, char **envp)"
-	    "{return main(argc,argv,envp);}\" >$@\n",
-	    p->ident);
+	fprintf(outmk, "\tprint 'int _crunched_%s_stub(int, char **, char **);"
+	    "\\nint' \\\n\t    'main(int, char **, char **);\\nint' \\\n\t    "
+	    "'\\n_crunched_%s_stub(int ac, char **av, char' \\\n\t    '**e)\\n"
+	    "{\\n\\treturn (main(ac, av, e));\\n}' >$@\n", p->ident, p->ident);
 	fprintf(outmk, "%s.lo: %s_stub.o $(%s_OBJPATHS)\n",
 	    p->name, p->name, p->ident);
 	fprintf(outmk, "\t$(LINK.rlo) -o $@ %s_stub.o $(%s_OBJPATHS)\n",
 	    p->name, p->ident);
-	fprintf(outmk, "\tcrunchide -k %s_crunched_%s_stub $@\n",
+	fprintf(outmk, "\tobjcopy -G %s_crunched_%s_stub $@\n",
 	    elf_names ? "" : "_", p->ident);
 }
 

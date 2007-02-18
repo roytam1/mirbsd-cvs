@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: crunchgen.1,v 1.20 2006/10/15 15:31:06 jmc Exp $
 .\"
 .\"
@@ -65,8 +66,9 @@ This information is cached in a file named
 .Pa <conf-name>.cache
 between runs.
 .Nm
-uses the companion program
-.Xr crunchide 1
+uses
+.Tn GNU
+.Xr objcopy 1
 to eliminate link-time conflicts between the component programs by
 hiding all unnecessary symbols.
 .Pp
@@ -265,14 +267,22 @@ At this point the binary
 .Dq kcopy
 can be copied onto an install floppy
 and hard-linked to the names of the component programs.
-.Sh SEE ALSO
-.Xr crunchide 1
 .Sh AUTHORS
 .Nm
-was written by James da Silva
+was written by
+.An James da Silva
 .Aq jds@cs.umd.edu .
 .Pp
-Copyright (c) 1994 University of Maryland.  All Rights Reserved.
+Copyright \(co 1994 University of Maryland.  All Rights Reserved.
+.Pp
+.An Thorsten Glaser Aq tg@mirbsd.de
+did major cleanup for
+.Mx
+and replaced the traditional
+.Nm crunchide
+with
+.Tn GNU
+.Nm objcopy .
 .Sh CAVEATS
 While
 .Nm
@@ -289,3 +299,6 @@ The
 .Dq make objs
 target must then be used to get those object files built,
 or some other arrangements made.
+.Sh BUGS
+This should really use
+.Pa \*(Ltbsd.prog.mk\*(Gt .
