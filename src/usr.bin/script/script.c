@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.6 2007/02/13 17:30:46 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.7 2007/02/18 01:28:42 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -107,6 +107,7 @@ int	master, slave;
 volatile sig_atomic_t child;
 pid_t	subchild;
 const char *fname;
+bool do_loginshell = false;
 const char *shcmd = NULL;
 
 bool l1mode = false;
@@ -158,7 +159,7 @@ main(int argc, char *argv[])
 #endif
 
 	aflg = nflg = 0;
-	while ((ch = getopt(argc, argv, "ac:L:ln")) != -1)
+	while ((ch = getopt(argc, argv, "ac:L:lns")) != -1)
 		switch(ch) {
 		case 'a':
 			aflg = 1;
@@ -175,6 +176,9 @@ main(int argc, char *argv[])
 			break;
 		case 'n':
 			nflg = 1;
+			break;
+		case 's':
+			do_loginshell = true;
 			break;
 		default:
 			usage();
@@ -439,7 +443,8 @@ scriptflush(int signo __attribute__((unused)))
 void
 doshell(void)
 {
-	const char *shell;
+	const char *shell, *shargv0;
+	char *cp;
 
 	shell = getenv("SHELL");
 	if (shell == NULL)
@@ -449,11 +454,22 @@ doshell(void)
 	if (fscript)
 		fclose(fscript);
 	login_tty(slave);
+
+	if (!do_loginshell)
+		shargv0 = shell;
+	else if ((shargv0 = cp = calloc(1, 1 + strlen(shell) + 1)) == NULL) {
+		warn("out of memory");
+		fail();
+	} else {
+		*cp++ = '-';
+		memcpy(cp, shell, strlen(shell) + 1);
+	}
+
 	if (shcmd)
-		execl(shell, shell, "-c", shcmd, NULL);
+		execl(shell, shargv0, "-c", shcmd, NULL);
 	else
-		execl(shell, shell, "-i", NULL);
-	warn("%s%s%s", shell, shcmd ? " -c " : " -i", shcmd ? shcmd : "");
+		execl(shell, shargv0, "-i", NULL);
+	warn("%s%s%s", shargv0, shcmd ? " -c " : " -i", shcmd ? shcmd : "");
 	fail();
 }
 
@@ -497,7 +513,7 @@ usage(void)
 	extern const char *__progname;
 	fprintf(stderr, "usage: %s"
 #endif
-	    " [-al] [-c cmd] [-L replstr] [-n | file]\n"
+	    " [-als] [-c cmd] [-L replstr] [-n | file]\n"
 #ifdef SMALL
 	    ;
 	fwrite(usage_str, 1, sizeof (usage_str) - 1, stderr);
