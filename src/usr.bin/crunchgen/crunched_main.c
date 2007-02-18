@@ -1,6 +1,7 @@
 /* $OpenBSD: crunched_main.c,v 1.5 2003/01/27 19:41:30 deraadt Exp $	 */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1994 University of Maryland
  * All Rights Reserved.
  *
@@ -25,6 +26,7 @@
  *			   Computer Science Department
  *			   University of Maryland at College Park
  */
+
 /*
  * crunched_main.c - main program for crunched binaries, it branches to a
  * 	particular subprogram based on the value of argv[0].  Also included
@@ -33,24 +35,30 @@
  *	or calls one of them based on argv[1].   This allows the testing of
  *	the crunched binary without creating all the links.
  */
+
 #include <stdio.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 struct stub {
 	char	*name;
-	int	(*f)();
+	int	(*f)(int, char **, char **);
 };
 
 extern struct stub entry_points[];
 
-int 
+int crunched_main(int, char **, char **);
+static int crunched_usage(void);
+
+int
 main(int argc, char *argv[], char **envp)
 {
 	char		*slash, *basename;
 	struct stub	*ep;
 
-	if (argv[0] == NULL || *argv[0] == '\0')
-		crunched_usage();
+	if (argv == NULL || argv[0] == NULL || *argv[0] == '\0')
+		return (crunched_usage());
 
 	slash = strrchr(argv[0], '/');
 	basename = slash ? slash + 1 : argv[0];
@@ -60,27 +68,23 @@ main(int argc, char *argv[], char **envp)
 			break;
 
 	if (ep->name)
-		return ep->f(argc, argv, envp);
-	else {
-		fprintf(stderr, "%s: %s not compiled in\n", EXECNAME, basename);
-		crunched_usage();
-	}
+		return (ep->f(argc, argv, envp));
+
+	fprintf(stderr, "%s: %s not compiled in\n", EXECNAME, basename);
+	return (crunched_usage());
 }
 
-int 
+int
 crunched_main(int argc, char **argv, char **envp)
 {
-	struct stub	*ep;
-	int		columns, len;
-
 	if (argc <= 1)
-		crunched_usage();
+		return (crunched_usage());
 
-	return main(--argc, ++argv, envp);
+	return (main(--argc, ++argv, envp));
 }
 
-int 
-crunched_usage()
+static int
+crunched_usage(void)
 {
 	int		columns, len;
 	struct stub	*ep;
@@ -100,5 +104,5 @@ crunched_usage()
 		fprintf(stderr, " %s", ep->name);
 	}
 	fprintf(stderr, "\n");
-	exit(1);
+	return (1);
 }
