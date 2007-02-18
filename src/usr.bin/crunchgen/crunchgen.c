@@ -44,7 +44,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.5 2007/02/18 02:45:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.6 2007/02/18 03:43:07 tg Exp $");
 
 #define CRUNCH_VERSION	"1.3-MirOS"
 
@@ -810,8 +810,7 @@ gen_output_makefile(void)
 void
 gen_output_cfile(void)
 {
-	extern const char *crunched_skel[];
-	const char **cp;
+	extern const char crunched_skel[];
 	FILE *outcf;
 	prog_t *p;
 	strlst_t *s;
@@ -835,8 +834,7 @@ gen_output_cfile(void)
 	}
 	fprintf(outcf, "#define EXECNAME \"%s\"\n", execfname);
 	fprintf(outcf, "#define NUMS %zu\n", nums);
-	for (cp = crunched_skel; *cp != NULL; cp++)
-		fprintf(outcf, "%s\n", *cp);
+	fputs(crunched_skel, outcf);
 
 	for (p = progs; p != NULL; p = p->next)
 		fprintf(outcf, "extern int _crunched_%s_stub(int, char **,"

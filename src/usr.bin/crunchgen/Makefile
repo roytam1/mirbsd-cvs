@@ -1,15 +1,12 @@
-# $MirOS$
+# $MirOS: src/usr.bin/crunchgen/Makefile,v 1.2 2007/02/18 02:39:14 tg Exp $
 # $OpenBSD: Makefile,v 1.2 1996/09/25 06:40:52 etheisen Exp $
 
 PROG=		crunchgen
-SRCS=		crunchgen.c crunched_skel.c
+SRCS=		crunchgen.c data.S
 CFLAGS+=	-Wall
 CPPFLAGS+=	-DMF_NAMES='"Makefile.bsd-wrapper","Makefile"'
-CLEANFILES+=	crunched_skel.c
+AFLAGS+=	-Wa,-I${.CURDIR}
 
-crunched_skel.c: crunched_main.c
-	print '#include <stdlib.h>\nconst char *crunched_skel[] = {' >$@
-	sed -e 's/\\/&&/g' -e 's/"/\\"/g' -e 's/^.*$$/	"&",/' $> >>$@
-	print '	NULL\n};' >>$@
+data.o: crunched_main.c
 
 .include <bsd.prog.mk>
