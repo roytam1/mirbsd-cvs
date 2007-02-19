@@ -24,10 +24,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LINT
-static char rcsid[] = "$OpenBSD: exec_ecoff.c,v 1.9 2003/09/26 17:00:27 deraadt Exp $";
-#endif
-
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -41,6 +37,8 @@ static char rcsid[] = "$OpenBSD: exec_ecoff.c,v 1.9 2003/09/26 17:00:27 deraadt 
 
 #include "config.h"
 #include "ukc.h"
+
+__RCSID("$MirOS$");
 
 caddr_t		ecoff_p, ecoff_r, ecoff_b;
 int		ecoff_psz = 0, ecoff_rsz = 0, ecoff_bsz = 0;

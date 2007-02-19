@@ -24,10 +24,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LINT
-static char rcsid[] = "$OpenBSD: ukc.c,v 1.13 2004/06/08 20:59:29 mcbride Exp $";
-#endif
-
 #include <sys/types.h>
 #include <sys/device.h>
 #include <sys/ioctl.h>
@@ -45,6 +41,8 @@ static char rcsid[] = "$OpenBSD: ukc.c,v 1.13 2004/06/08 20:59:29 mcbride Exp $"
 #define UKC_MAIN
 #include "ukc.h"
 #include "exec.h"
+
+__RCSID("$MirOS$");
 
 void	init(void);
 void	usage(void);
