@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: ports/japanese/jmdict/datfile/Makefile,v 1.1 2006/10/07 00:12:57 tg Exp $
+
+.include <mirports.sys.mk>
 
 COMMENT=		sqlite2 format JMdict database
 CATEGORIES=		japanese
