@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.38 2006/08/16 20:36:53 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.38 2006/08/16 20:36:53 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.39 2007/02/22 22:30:37 tg Exp $
+# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.39 2007/02/22 22:30:37 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2006/08/16 20:37:39)"
+TIMESTAMP=" (MirLibtool 2007/02/22 22:31:54)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -3705,7 +3705,7 @@ EOF
 	      if test -n "$a_deplib" ; then
 		libname=`eval \\$echo \"$libname_spec\"`
 		for i in $lib_search_path $sys_lib_search_path $shlib_search_path; do
-		  potential_libs=`ls $i/$libname[.-]* 2>/dev/null`
+		  potential_libs=`ls $i/$libname[._-]* 2>/dev/null`
 		  for potent_lib in $potential_libs; do
 		      # Follow soft links.
 		      if ls -lLd "$potent_lib" 2>/dev/null \
@@ -3774,7 +3774,7 @@ EOF
 	      if test -n "$a_deplib" ; then
 		libname=`eval \\$echo \"$libname_spec\"`
 		for i in $lib_search_path $sys_lib_search_path $shlib_search_path; do
-		  potential_libs=`ls $i/$libname[.-]* 2>/dev/null`
+		  potential_libs=`ls $i/$libname[._-]* 2>/dev/null`
 		  for potent_lib in $potential_libs; do
 		    potlib="$potent_lib" # see symlink-check above in file_magic test
 		    if eval $echo \"$potent_lib\" 2>/dev/null \
