@@ -1,0 +1,7 @@
+@comment $MirOS$
+@pkgcfl pkgconfig-*
+bin/pkg-config
+${P5ARCH}/OpenBSD/PkgConfig.pm
+man/cat1/pkg-config.0
+@dirrm ${P5ARCH}/OpenBSD
+@dirrm ${P5ARCH}
