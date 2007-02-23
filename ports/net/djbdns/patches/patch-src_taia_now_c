@@ -1,7 +1,14 @@
-$MirOS$
+$MirOS: ports/net/djbdns/patches/patch-src_taia_now_c,v 1.1.201.1 2005/05/14 23:21:05 tg Exp $
 --- src/taia_now.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/taia_now.c	Sat May 14 22:46:44 2005
-@@ -4,9 +4,19 @@
++++ src/taia_now.c	Fri Feb 23 01:02:57 2007
+@@ -1,12 +1,26 @@
++#include <sys/param.h>
++#if defined(MirBSD) && (MirBSD > 0x09AB)
++#include <sys/taitime.h>
++#endif
+ #include <sys/types.h>
+ #include <sys/time.h>
+ #include "taia.h"
  
  void taia_now(struct taia *t)
  {
