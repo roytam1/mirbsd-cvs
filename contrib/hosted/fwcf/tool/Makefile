@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/tool/Makefile,v 1.3 2006/09/24 21:51:27 tg Exp $
+# $MirOS: contrib/hosted/fwcf/tool/Makefile,v 1.4 2006/09/26 10:25:06 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -16,7 +16,8 @@ CLEANFILES+=	${.CURDIR}/test_c.out ${.CURDIR}/tesz_c.out ${.CURDIR}/tesL_c.out \
 		${.CURDIR}/test_r.out ${.CURDIR}/tesz_r.out ${.CURDIR}/tesL_r.out \
 		${.CURDIR}/test_r.nil ${.CURDIR}/tesz_r.nil ${.CURDIR}/tesL_r.nil \
 		${.CURDIR}/dtest_d.out ${.CURDIR}/dtesz_d.out ${.CURDIR}/dtesL_d.out \
-		${.CURDIR}/dtest_d.nil ${.CURDIR}/dtesz_d.nil ${.CURDIR}/dtesL_d.nil
+		${.CURDIR}/dtest_d.nil ${.CURDIR}/dtesz_d.nil ${.CURDIR}/dtesL_d.nil \
+		${.CURDIR}/test_D.out ${.CURDIR}/test_D.cz
 
 test: ${PROG}
 	./${PROG} -Mo ${.CURDIR}/test_c.out ${.CURDIR}/../mkfwcf/CVS
@@ -47,6 +48,8 @@ test: ${PROG}
 	./${PROG} -Rci ${.CURDIR}/tesz_c.out -o ${.CURDIR}/tesz_r.out
 	./${PROG} -Rci ${.CURDIR}/tesz_c.nil -o ${.CURDIR}/tesz_r.nil
 .endif
+	./${PROG} -UD ${.CURDIR}/test_D.out <${.CURDIR}/tesL_c.out
+	./${PROG} -McD ${.CURDIR}/test_D.out >${.CURDIR}/test_D.cz
 
 .include <bsd.prog.mk>
 

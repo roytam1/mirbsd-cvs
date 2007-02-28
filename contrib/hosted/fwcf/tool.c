@@ -1,24 +1,23 @@
-/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.1 2006/09/24 20:34:59 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -29,15 +28,18 @@
 #include <unistd.h>
 
 #include "defs.h"
+#include "adler.h"
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.1 2006/09/24 20:34:59 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.2 2006/09/26 10:01:49 tg Exp $");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);
 static int unfwcf(int, const char *);
+#ifndef SMALL
 static int refwcf(int, int, int);
+#endif
 
 int
 main(int argc, char *argv[])
@@ -51,13 +53,14 @@ main(int argc, char *argv[])
 	int calg = 0;
 	const char *infile = NULL, *outfile = NULL;
 #endif
+	const char *dfile = NULL;
 	const char *file_root = NULL;
 	fwcf_compressor *cl;
 
 #ifdef SMALL
-	while ((c = getopt(argc, argv, "elMU")) != -1)
+	while ((c = getopt(argc, argv, "D:elMU")) != -1)
 #else
-	while ((c = getopt(argc, argv, "C:cdei:lMo:RU")) != -1)
+	while ((c = getopt(argc, argv, "C:cD:dei:lMo:RU")) != -1)
 #endif
 		switch (c) {
 #ifndef SMALL
@@ -68,11 +71,20 @@ main(int argc, char *argv[])
 		case 'c':
 			calg = -1;
 			break;
+#endif
+		case 'D':
+			if (doempty)
+				usage();
+			dfile = optarg;
+			break;
+#ifndef SMALL
 		case 'd':
 			mode = 3;
 			break;
 #endif
 		case 'e':
+			if (dfile != NULL)
+				usage();
 			doempty = 1;
 			break;
 #ifndef SMALL
@@ -104,17 +116,17 @@ main(int argc, char *argv[])
 
 	switch (mode) {
 	case 1:
-		if (argc != (1 - doempty))
+		if (argc != ((dfile == NULL) ? (1 - doempty) : 0))
 			usage();
 		break;
 	case 2:
-		if (argc != 1)
+		if (argc != ((dfile == NULL) ? 1 : 0))
 			usage();
 		break;
 #ifndef SMALL
 	case 3:
 	case 4:
-		if (argc || doempty)
+		if (argc || doempty || (dfile != NULL))
 			usage();
 		break;
 #endif
@@ -133,6 +145,40 @@ main(int argc, char *argv[])
 			err(1, "open %s", outfile);
 #endif
 
+	if (mode == 2 && dfile != NULL) {
+		char *data;
+		uint8_t lenbuf[4], adlerbuf[4];
+		size_t sz, len;
+		int dfd;
+		ADLER_DECL;
+
+		if ((dfd = (dfile[0] == '-' && dfile[1] == 0 ? STDOUT_FILENO :
+		    open(dfile, O_WRONLY | O_CREAT | O_TRUNC, 0666))) < 0)
+			err(1, "open %s", dfile);
+		if ((data = fwcf_unpack(ifd, &sz)) == NULL)
+			return (1);
+		lenbuf[0] = sz & 0xFF;
+		lenbuf[1] = (sz >> 8) & 0xFF;
+		lenbuf[2] = (sz >> 16) & 0xFF;
+		lenbuf[3] = (sz >> 24) & 0xFF;
+		len = 4;	/* for ADLER_CALC on lenbuf */
+		ADLER_CALC(lenbuf);
+		len = sz;	/* for ADLER_CALC on data */
+		ADLER_CALC(data);
+		adlerbuf[0] = s1 & 0xFF;
+		adlerbuf[1] = (s1 >> 8) & 0xFF;
+		adlerbuf[2] = s2 & 0xFF;
+		adlerbuf[3] = (s2 >> 8) & 0xFF;
+		if (write(dfd, adlerbuf, 4) != 4)
+			err(1, "short write on %s", dfile);
+		if (write(dfd, lenbuf, 4) != 4)
+			err(1, "short write on %s", dfile);
+		if ((size_t)write(dfd, data, sz) != sz)
+			err(1, "short write on %s", dfile);
+		close(dfd);
+		return (0);
+	}
+
 	if ((mode == 2) || (mode == 3))
 		return (unfwcf(ifd, (mode == 3) ? NULL : file_root));
 
@@ -147,8 +193,46 @@ main(int argc, char *argv[])
 		calg &= 0xFF;
 	}
 
+#ifndef SMALL
 	if (mode == 4)
 		return (refwcf(ifd, ofd, calg));
+#endif
+
+	if (dfile != NULL) {
+		char *udata, *data;
+		uint8_t hdrbuf[8];
+		size_t sz, isz, len;
+		int dfd;
+		ADLER_DECL;
+
+		if ((dfd = (dfile[0] == '-' && dfile[1] == 0 ? STDIN_FILENO :
+		    open(dfile, O_RDONLY, 0))) < 0)
+			err(1, "open %s", dfile);
+		if (read(dfd, hdrbuf, 8) != 8)
+			err(1, "short read on %s", dfile);
+		isz = hdrbuf[4] | (hdrbuf[5] << 8) |
+		    (hdrbuf[6] << 16) | (hdrbuf[7] << 24);
+		if ((udata = malloc(isz)) == NULL)
+			err(255, "out of memory trying to allocate %zu bytes",
+			    isz);
+		if ((size_t)read(dfd, udata, isz) != isz)
+			err(1, "short read on %s", dfile);
+		close(dfd);
+		len = 4;
+		ADLER_CALC(hdrbuf + 4);
+		len = isz;
+		ADLER_CALC(udata);
+		if ((hdrbuf[0] != (s1 & 0xFF)) ||
+		    (hdrbuf[1] != ((s1 >> 8) & 0xFF)) ||
+		    (hdrbuf[2] != (s2 & 0xFF)) ||
+		    (hdrbuf[3] != ((s2 >> 8) & 0xFF)))
+			err(2, "checksum mismatch from %s, sz %zu,"
+			    " want %02X%02X%02X%02X got %04X%04X",
+			    dfile, isz, hdrbuf[3], hdrbuf[2],
+			    hdrbuf[1], hdrbuf[0], s2, s1);
+		data = fwcf_pack(udata, isz, calg, &sz);
+		return ((size_t)write(ofd, data, sz) == sz ? 0 : 1);
+	}
 
 	return (mkfwcf(ofd, doempty ? NULL : file_root, calg));
 }
@@ -160,22 +244,17 @@ usage(void)
 
 	fprintf(stderr, "Usage:"
 #ifdef SMALL
-	    "	%s -M { -e | <directory> }"
-	    "\n	%s -U <directory>"
+	    "	%s -M { -D <file> | -e | <directory> }"
+	    "\n	%s -U { -D <file> | <directory> }"
 	    "\n	%s -l\n", __progname, __progname, __progname);
-	/*
-	 * Possible later extension (yes, on the target too):
-	 *  "\n	%s -M { -D <file> | -e | <directory> }"
-	 *  "\n	%s -U { -D <file> | <directory> }"
-	 * where -D saves/restores the intermediate form of
-	 * the build-system tool's -R option (i.e. the un-
-	 * compressed format of the "inner" filesystem).
-	 */
 #else
-	    "	%s -M [-c | -C <compressor>] [-o <file>] { -e | <directory> }"
-	    "\n	%s [-i <file>] {-U <directory> | -d}"
+	    "	%s -M [-c | -C <compressor>] [-o <file>]"
+	    "\n	    { -D <file> | -e | <directory> }"
+	    "\n	%s [-i <file>] -U { -D <file> | <directory> }"
+	    "\n	%s [-i <file>] -d"
 	    "\n	%s -R [-c | -C <compressor>] [-i <infile>] [-o <outfile>]"
-	    "\n	%s -l\n", __progname, __progname, __progname, __progname);
+	    "\n	%s -l\n",
+	    __progname, __progname, __progname, __progname, __progname);
 #endif
 	exit(1);
 }
@@ -206,6 +285,7 @@ unfwcf(int fd, const char *dir)
 	return (udata != NULL ? 0 : 1);
 }
 
+#ifndef SMALL
 static int
 refwcf(int ifd, int ofd, int algo)
 {
@@ -217,3 +297,4 @@ refwcf(int ifd, int ofd, int algo)
 	data = fwcf_pack(udata, isz, algo, &sz);
 	return ((size_t)write(ofd, data, sz) == sz ? 0 : 1);
 }
+#endif
