@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.3 2007/02/28 22:59:38 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -32,7 +32,7 @@
 #include "compress.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.2 2006/09/26 10:01:49 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.3 2007/02/28 22:59:38 tg Exp $");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);
@@ -40,13 +40,14 @@ static int unfwcf(int, const char *);
 #ifndef SMALL
 static int refwcf(int, int, int);
 #endif
+static int fsopen(const char *, int, int);
 
 int
 main(int argc, char *argv[])
 {
 	int c;
 	int mode = 0, doempty = 0;
-	int ifd = STDIN_FILENO, ofd = STDOUT_FILENO;
+	int ifd, ofd;
 #ifdef SMALL
 	int calg = -1;
 #else
@@ -135,14 +136,12 @@ main(int argc, char *argv[])
 	}
 	if (argc)
 		file_root = *argv;
-#ifndef SMALL
-	if (infile != NULL)
-		if ((ifd = open(infile, O_RDONLY, 0)) < 0)
-			err(1, "open %s", infile);
-	if (outfile != NULL)
-		if ((ofd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC,
-		    0666)) < 0)
-			err(1, "open %s", outfile);
+#ifdef SMALL
+	ifd = STDIN_FILENO;
+	ofd = STDOUT_FILENO;
+#else
+	ifd = fsopen(infile, O_RDONLY, STDIN_FILENO);
+	ofd = fsopen(outfile, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
 #endif
 
 	if (mode == 2 && dfile != NULL) {
@@ -152,8 +151,8 @@ main(int argc, char *argv[])
 		int dfd;
 		ADLER_DECL;
 
-		if ((dfd = (dfile[0] == '-' && dfile[1] == 0 ? STDOUT_FILENO :
-		    open(dfile, O_WRONLY | O_CREAT | O_TRUNC, 0666))) < 0)
+		if ((dfd = fsopen(dfile, O_WRONLY | O_CREAT | O_TRUNC,
+		    STDOUT_FILENO)) < 0)
 			err(1, "open %s", dfile);
 		if ((data = fwcf_unpack(ifd, &sz)) == NULL)
 			return (1);
@@ -205,8 +204,7 @@ main(int argc, char *argv[])
 		int dfd;
 		ADLER_DECL;
 
-		if ((dfd = (dfile[0] == '-' && dfile[1] == 0 ? STDIN_FILENO :
-		    open(dfile, O_RDONLY, 0))) < 0)
+		if ((dfd = fsopen(dfile, O_RDONLY, STDIN_FILENO)) < 0)
 			err(1, "open %s", dfile);
 		if (read(dfd, hdrbuf, 8) != 8)
 			err(1, "short read on %s", dfile);
@@ -298,3 +296,11 @@ refwcf(int ifd, int ofd, int algo)
 	return ((size_t)write(ofd, data, sz) == sz ? 0 : 1);
 }
 #endif
+
+static int
+fsopen(const char *fn, int mode, int altfd)
+{
+	return (((fn == NULL) || (*fn == '\0') ||
+	    ((fn[0] == '-') && (fn[1] == '\0'))) ? altfd :
+	    open(fn, mode, 0666));
+}
