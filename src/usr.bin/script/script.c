@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.8 2007/02/18 01:52:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.9 2007/03/06 01:14:32 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
@@ -95,7 +95,6 @@ __RCSID("$MirOS: src/usr.bin/script/script.c,v 1.8 2007/02/18 01:52:51 tg Exp $"
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
-#include <tzfile.h>
 #include <unistd.h>
 #ifndef NO_CONV
 #include <wchar.h>
@@ -381,7 +380,7 @@ dooutput(void)
 		sa.sa_handler = scriptflush;
 		sigaction(SIGALRM, &sa, NULL);
 
-		value.it_interval.tv_sec = SECSPERMIN / 2;
+		value.it_interval.tv_sec = 30;
 		value.it_interval.tv_usec = 0;
 		value.it_value = value.it_interval;
 		setitimer(ITIMER_REAL, &value, NULL);
