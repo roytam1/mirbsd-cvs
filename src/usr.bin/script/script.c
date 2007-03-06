@@ -79,12 +79,12 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.7 2007/02/18 01:28:42 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.8 2007/02/18 01:52:51 tg Exp $");
 
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -97,28 +97,34 @@ __RCSID("$MirOS: src/usr.bin/script/script.c,v 1.7 2007/02/18 01:28:42 tg Exp $"
 #include <termios.h>
 #include <tzfile.h>
 #include <unistd.h>
+#ifndef NO_CONV
 #include <wchar.h>
+#endif
 
 #include <util.h>
 #include <err.h>
 
-FILE	*fscript;
-int	master, slave;
+FILE *fscript;
+int master, slave;
 volatile sig_atomic_t child;
-pid_t	subchild;
+pid_t subchild;
 const char *fname;
 bool do_loginshell = false;
 const char *shcmd = NULL;
 
+#ifndef NO_CONV
 bool l1mode = false;
 const char *l1rep = "?";
 size_t l1rlen = 1;
+#else
+#define l1mode	0
+#endif
 
 volatile sig_atomic_t dead;
 volatile sig_atomic_t sigdeadstatus;
 volatile sig_atomic_t flush;
 
-struct	termios tt;
+struct termios tt;
 
 __dead void done(int);
 __dead void dooutput(void);
@@ -149,12 +155,14 @@ main(int argc, char *argv[])
 	struct winsize win;
 	int aflg, nflg, ch;
 
+#ifndef NO_CONV
 #if !defined(MirBSD) || (MirBSD < 0x09AB)
 #if 0
 	extern bool __locale_is_utf8;
 	__locale_is_utf8 = true;
 #else
 #error Need at least MirOS #9uAB locale support!*/
+#endif
 #endif
 #endif
 
@@ -167,6 +175,7 @@ main(int argc, char *argv[])
 		case 'c':
 			shcmd = optarg;
 			break;
+#ifndef NO_CONV
 		case 'L':
 			l1rep = optarg;
 			l1rlen = strlen(l1rep);
@@ -174,6 +183,7 @@ main(int argc, char *argv[])
 		case 'l':
 			l1mode = true;
 			break;
+#endif
 		case 'n':
 			nflg = 1;
 			break;
@@ -208,7 +218,10 @@ main(int argc, char *argv[])
 
 #ifndef SMALL
 	printf("Script started, %s%s%s\n",
-	    l1mode ? "latin1 mode, " : "",
+#ifndef NO_CONV
+	    l1mode ? "latin1 mode, " :
+#endif
+	    "",
 	    fscript ? "output file is " : "no output file",
 	    fname);
 #endif
@@ -252,8 +265,12 @@ doinput(void)
 {
 	ssize_t cc, off;
 	unsigned char ibuf[BUFSIZ];
+#ifndef NO_CONV
 	unsigned char cbuf[BUFSIZ * 2];
 	mbstate_t state = { 0, 0 };
+#else
+	unsigned char *cbuf = NULL;	/* to quieten gcc */
+#endif
 
 	if (fscript)
 		fclose(fscript);
@@ -265,6 +282,7 @@ doinput(void)
 			continue;
 		if (cc <= 0)
 			break;
+#ifndef NO_CONV
 		if (l1mode) {
 			unsigned char *cp = cbuf;
 
@@ -274,6 +292,7 @@ doinput(void)
 			cc = cp - cbuf;
 			dump(cbuf, cc);
 		}
+#endif
 		for (off = 0; off < cc; ) {
 			ssize_t n = write(master,
 			    (l1mode ? cbuf : ibuf) + off, cc - off);
@@ -333,10 +352,13 @@ dooutput(void)
 	unsigned char *cbuf = NULL;
 #ifndef SMALL
 	time_t tvec;
+#ifndef NO_CONV
+	mbstate_t state = { 0, 0 };
+#endif
 #endif
 	ssize_t outcc = 0, cc, fcc, off;
-	mbstate_t state = { 0, 0 };
 
+#ifndef NO_CONV
 	if (l1mode) {
 		/* this formula works because wcwidth(U+0000..U+00FF)<2 */
 		cc = l1rlen < 1 ? 1 : l1rlen;
@@ -344,6 +366,7 @@ dooutput(void)
 			err(1, "cannot allocate %zd*%zd bytes for"
 			    " conversion buffer", cc, (ssize_t)BUFSIZ);
 	}
+#endif
 	close(STDIN_FILENO);
 	if (fscript) {
 #ifndef SMALL
@@ -378,6 +401,7 @@ dooutput(void)
 			break;
 		if (fscript)
 			sigprocmask(SIG_BLOCK, &blkalrm, NULL);
+#ifndef NO_CONV
 		if (l1mode) {
 			unsigned char *cp = obuf;
 			unsigned char *lp = cbuf;
@@ -411,6 +435,7 @@ dooutput(void)
 			cc = lp - cbuf;
 			dump(cbuf, cc);
 		}
+#endif
 		for (off = 0; off < cc; ) {
 			ssize_t n = write(STDOUT_FILENO,
 			     (l1mode ? cbuf : obuf) + off, cc - off);
@@ -427,9 +452,11 @@ dooutput(void)
 			sigprocmask(SIG_UNBLOCK, &blkalrm, NULL);
 		}
 	}
+#ifndef NO_CONV
 	if (l1mode && state.count)
 		/* incomplete multibyte char on exit */
 		write(STDOUT_FILENO, l1rep, l1rlen);
+#endif
 	done(0);
 }
 
@@ -513,7 +540,11 @@ usage(void)
 	extern const char *__progname;
 	fprintf(stderr, "usage: %s"
 #endif
+#ifdef NO_CONV
+	    " [-as] [-c cmd] [-n | file]\n"
+#else
 	    " [-als] [-c cmd] [-L replstr] [-n | file]\n"
+#endif
 #ifdef SMALL
 	    ;
 	fwrite(usage_str, 1, sizeof (usage_str) - 1, stderr);
