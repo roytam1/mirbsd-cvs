@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.9 2007/03/06 01:14:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.10 2007/03/06 01:23:20 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
@@ -95,6 +95,7 @@ __RCSID("$MirOS: src/usr.bin/script/script.c,v 1.9 2007/03/06 01:14:32 tg Exp $"
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
 #ifndef NO_CONV
 #include <wchar.h>
@@ -125,15 +126,15 @@ volatile sig_atomic_t flush;
 
 struct termios tt;
 
-__dead void done(int);
-__dead void dooutput(void);
-__dead void doinput(void);
-__dead void doshell(void);
-__dead void fail(void);
+void done(int) __attribute__((noreturn));
+void dooutput(void) __attribute__((noreturn));
+void doinput(void) __attribute__((noreturn));
+void doshell(void) __attribute__((noreturn));
+void fail(void) __attribute__((noreturn));
 void finish(int);
 void scriptflush(int);
 void handlesigwinch(int);
-__dead void usage(void);
+void usage(void) __attribute__((noreturn));
 
 #ifdef SMALL
 #undef DEBUG
