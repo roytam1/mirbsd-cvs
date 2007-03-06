@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.10 2007/03/06 01:23:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.11 2007/03/06 01:29:36 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
@@ -138,6 +138,8 @@ void usage(void) __attribute__((noreturn));
 
 #ifdef SMALL
 #undef DEBUG
+#else
+bool qflg = false;
 #endif
 
 #ifdef DEBUG
@@ -167,7 +169,7 @@ main(int argc, char *argv[])
 #endif
 
 	aflg = nflg = 0;
-	while ((ch = getopt(argc, argv, "ac:L:lns")) != -1)
+	while ((ch = getopt(argc, argv, "ac:L:lnqs")) != -1)
 		switch(ch) {
 		case 'a':
 			aflg = 1;
@@ -186,6 +188,11 @@ main(int argc, char *argv[])
 #endif
 		case 'n':
 			nflg = 1;
+			break;
+		case 'q':
+#ifndef SMALL
+			qflg = true;
+#endif
 			break;
 		case 's':
 			do_loginshell = true;
@@ -217,13 +224,12 @@ main(int argc, char *argv[])
 		err(1, "openpty");
 
 #ifndef SMALL
-	printf("Script started, %s%s%s\n",
+	if (!qflg)
+		printf("Script started, %s%s%s\n",
 #ifndef NO_CONV
-	    l1mode ? "latin1 mode, " :
+		    l1mode ? "latin1 mode, " :
 #endif
-	    "",
-	    fscript ? "output file is " : "no output file",
-	    fname);
+		    "", fscript ? "output file is " : "no output file", fname);
 #endif
 	rtt = tt;
 	cfmakeraw(&rtt);
@@ -368,10 +374,12 @@ dooutput(void)
 	}
 #endif
 	close(STDIN_FILENO);
+	close(slave);
 	if (fscript) {
 #ifndef SMALL
 		tvec = time(NULL);
-		fprintf(fscript, "Script started on %s", ctime(&tvec));
+		if (!qflg)
+			fprintf(fscript, "Script started on %s", ctime(&tvec));
 #endif
 
 		sigemptyset(&blkalrm);
@@ -516,7 +524,9 @@ done(int eval)
 			time_t tvec;
 
 			tvec = time(NULL);
-			fprintf(fscript,"\nScript done on %s", ctime(&tvec));
+			if (!qflg)
+				fprintf(fscript,"\nScript done on %s",
+				    ctime(&tvec));
 #endif
 			fclose(fscript);
 		}
@@ -524,8 +534,10 @@ done(int eval)
 	} else {
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &tt);
 #ifndef SMALL
-		printf("Script done, %s%s\n",
-		    fscript ? "output file is " : "no output file", fname);
+		if (!qflg)
+			printf("Script done, %s%s\n",
+			    fscript ? "output file is " : "no output file",
+			    fname);
 #endif
 	}
 	exit(eval);
