@@ -1,4 +1,4 @@
-/*	$OpenBSD: gencode.c,v 1.24 2005/06/04 18:00:45 joel Exp $	*/
+/*	$OpenBSD: gencode.c,v 1.28 2007/01/02 18:35:17 reyk Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998
@@ -32,10 +32,12 @@ struct rtentry;
 
 #include <netinet/in.h>
 #include <netinet/if_ether.h>
-#include <netinet/if_arc.h>
 
 #include <net/if_pflog.h>
 #include <net/pfvar.h>
+
+#include <net80211/ieee80211.h>
+#include <net80211/ieee80211_radiotap.h>
 
 #include <stdlib.h>
 #include <stddef.h>
@@ -46,6 +48,7 @@ struct rtentry;
 #include "pcap-int.h"
 
 #include "ethertype.h"
+#include "llc.h"
 #include "gencode.h"
 #include "ppp.h"
 #include <pcap-namedb.h>
@@ -119,6 +122,7 @@ static __inline void syntax(void);
 static void backpatch(struct block *, struct block *);
 static void merge(struct block *, struct block *);
 static struct block *gen_cmp(u_int, u_int, bpf_int32);
+static struct block *gen_cmp_gt(u_int, u_int, bpf_int32);
 static struct block *gen_mcmp(u_int, u_int, bpf_int32, bpf_u_int32);
 static struct block *gen_bcmp(u_int, u_int, const u_char *);
 static struct block *gen_uncond(int);
@@ -129,10 +133,11 @@ static struct block *gen_hostop(bpf_u_int32, bpf_u_int32, int, int, u_int, u_int
 #ifdef INET6
 static struct block *gen_hostop6(struct in6_addr *, struct in6_addr *, int, int, u_int, u_int);
 #endif
-static struct block *gen_ahostop(const u_char *, int);
 static struct block *gen_ehostop(const u_char *, int);
 static struct block *gen_fhostop(const u_char *, int);
 static struct block *gen_dnhostop(bpf_u_int32, int, u_int);
+static struct block *gen_p80211_hostop(const u_char *, int);
+static struct block *gen_p80211_addr(int, u_int, const u_char *);
 static struct block *gen_host(bpf_u_int32, bpf_u_int32, int, int);
 #ifdef INET6
 static struct block *gen_host6(struct in6_addr *, struct in6_addr *, int, int);
@@ -464,6 +469,24 @@ gen_cmp(offset, size, v)
 }
 
 static struct block *
+gen_cmp_gt(offset, size, v)
+	u_int offset, size;
+	bpf_int32 v;
+{
+	struct slist *s;
+	struct block *b;
+
+	s = new_stmt(BPF_LD|BPF_ABS|size);
+	s->s.k = offset;
+
+	b = new_block(JMP(BPF_JGT));
+	b->stmts = s;
+	b->s.k = v;
+
+	return b;
+}
+
+static struct block *
 gen_mcmp(offset, size, v, mask)
 	u_int offset, size;
 	bpf_int32 v;
@@ -534,11 +557,6 @@ init_linktype(type)
 	linktype = type;
 
 	switch (type) {
-
-	case DLT_ARCNET:
-		off_linktype = 2;
-		off_nl = 6;	/* XXX in reality, variable! */
-		return;
 
 	case DLT_EN10MB:
 		off_linktype = 12;
@@ -611,9 +629,9 @@ init_linktype(type)
 		off_nl = 32;
 		return;
 
-	case DLT_IEEE802_11_RADIO:
-		off_linktype = 30 + 64; /* XXX variable */
-		off_nl = 32 + 64;
+	case DLT_IEEE802_11_RADIO: /* XXX variable */
+		off_linktype = 30 + IEEE80211_RADIOTAP_HDRLEN;
+		off_nl = 32 + IEEE80211_RADIOTAP_HDRLEN;
 		return;
 
 	case DLT_ATM_RFC1483:
@@ -704,6 +722,20 @@ gen_linktype(proto)
 
 	switch (linktype) {
 
+	case DLT_EN10MB:
+		if (proto <= ETHERMTU) {
+			/* This is an LLC SAP value */
+			b0 = gen_cmp_gt(off_linktype, BPF_H, ETHERMTU);
+			gen_not(b0);
+			b1 = gen_cmp(off_linktype + 2, BPF_B, (bpf_int32)proto);
+			gen_and(b0, b1);
+			return b1;
+		} else {
+			/* This is an Ethernet type */
+			return gen_cmp(off_linktype, BPF_H, (bpf_int32)proto);
+		}
+		break;
+
 	case DLT_SLIP:
 		return gen_false();
 
@@ -786,38 +818,6 @@ gen_linktype(proto)
 			return gen_false();
 		break;
 
-	case DLT_ARCNET:
-		/*
-		 * XXX should we check for first fragment if the protocol
-		 * uses PHDS?
-		 */
-		switch(proto) {
-		default:
-			return gen_false();
-#ifdef INET6
-		case ETHERTYPE_IPV6:
-			return(gen_cmp(2, BPF_B,
-					(bpf_int32)htonl(ARCTYPE_INET6)));
-#endif /* INET6 */
-		case ETHERTYPE_IP:
-			b0 = gen_cmp(2, BPF_B, (bpf_int32)htonl(ARCTYPE_IP));
-			b1 = gen_cmp(2, BPF_B,
-					(bpf_int32)htonl(ARCTYPE_IP_OLD));
-			gen_or(b0, b1);
-			return(b1);
-		case ETHERTYPE_ARP:
-			b0 = gen_cmp(2, BPF_B, (bpf_int32)htonl(ARCTYPE_ARP));
-			b1 = gen_cmp(2, BPF_B,
-					(bpf_int32)htonl(ARCTYPE_ARP_OLD));
-			gen_or(b0, b1);
-			return(b1);
-		case ETHERTYPE_REVARP:
-			return(gen_cmp(2, BPF_B,
-					(bpf_int32)htonl(ARCTYPE_REVARP)));
-		case ETHERTYPE_ATALK:
-			return(gen_cmp(2, BPF_B,
-					(bpf_int32)htonl(ARCTYPE_ATALK)));
-		}
 	}
 	return gen_cmp(off_linktype, BPF_H, (bpf_int32)proto);
 }
@@ -856,7 +856,8 @@ gen_hostop(addr, mask, dir, proto, src_off, dst_off)
 		return b1;
 
 	default:
-		abort();
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
 	}
 	b0 = gen_linktype(proto);
 	b1 = gen_mcmp(offset, BPF_W, (bpf_int32)addr, mask);
@@ -900,7 +901,8 @@ gen_hostop6(addr, mask, dir, proto, src_off, dst_off)
 		return b1;
 
 	default:
-		abort();
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
 	}
 	/* this order is important */
 	a = (u_int32_t *)addr;
@@ -944,8 +946,10 @@ gen_ehostop(eaddr, dir)
 		b1 = gen_ehostop(eaddr, Q_DST);
 		gen_or(b0, b1);
 		return b1;
+	default:
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
 	}
-	abort();
 	/* NOTREACHED */
 }
 
@@ -986,8 +990,10 @@ gen_fhostop(eaddr, dir)
 		b1 = gen_fhostop(eaddr, Q_DST);
 		gen_or(b0, b1);
 		return b1;
+	default:
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
 	}
-	abort();
 	/* NOTREACHED */
 }
 
@@ -1047,7 +1053,8 @@ gen_dnhostop(addr, dir, base_off)
 		return b1;
 
 	default:
-		abort();
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
 	}
 	b0 = gen_linktype(ETHERTYPE_DN);
 	/* Check for pad = 1, long header case */
@@ -1128,6 +1135,9 @@ gen_host(addr, mask, proto, dir)
 	case Q_PIM:
 		bpf_error("'pim' modifier applied to host");
 
+	case Q_STP:
+		bpf_error("'stp' modifier applied to host");
+
 	case Q_ATALK:
 		bpf_error("ATALK host filtering not implemented");
 
@@ -1161,7 +1171,8 @@ gen_host(addr, mask, proto, dir)
 		bpf_error("'esp' modifier applied to host");
 
 	default:
-		abort();
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
 	}
 	/* NOTREACHED */
 }
@@ -1205,6 +1216,9 @@ gen_host6(addr, mask, proto, dir)
 
 	case Q_PIM:
 		bpf_error("'pim' modifier applied to host");
+
+	case Q_STP:
+		bpf_error("'stp' modifier applied to host");
 
 	case Q_ATALK:
 		bpf_error("ATALK host filtering not implemented");
@@ -1377,6 +1391,10 @@ gen_proto_abbrev(proto)
 
 	case Q_MOPRC:
 		b1 =  gen_linktype(ETHERTYPE_MOPRC);
+		break;
+
+	case Q_STP:
+		b1 = gen_linktype(LLCSAP_8021D);
 		break;
 
 #ifdef INET6
@@ -1629,8 +1647,11 @@ lookup_proto(name, proto)
 	case Q_LINK:
 		/* XXX should look up h/w protocol type based on linktype */
 		v = pcap_nametoeproto(name);
-		if (v == PROTO_UNDEF)
-			bpf_error("unknown ether proto '%s'", name);
+		if (v == PROTO_UNDEF) {
+			v = pcap_nametollc(name);
+			if (v == PROTO_UNDEF)
+				bpf_error("unknown ether proto '%s'", name);
+		}
 		break;
 
 	default:
@@ -2022,6 +2043,10 @@ gen_proto(v, proto, dir)
 		bpf_error("'pim proto' is bogus");
 		/* NOTREACHED */
 
+	case Q_STP:
+		bpf_error("'stp proto' is bogus");
+		/* NOTREACHED */
+
 #ifdef INET6
 	case Q_IPV6:
 		b0 = gen_linktype(ETHERTYPE_IPV6);
@@ -2104,6 +2129,15 @@ gen_scode(name, q)
 					bpf_error(
 					    "unknown FDDI host '%s'", name);
 				return gen_fhostop(eaddr, dir);
+
+			case DLT_IEEE802_11:
+			case DLT_IEEE802_11_RADIO:
+				eaddr = pcap_ether_hostton(name);
+				if (eaddr == NULL)
+					bpf_error(
+					    "unknown 802.11 host '%s'", name);
+
+				return gen_p80211_hostop(eaddr, dir);
 
 			default:
 				bpf_error(
@@ -2441,6 +2475,9 @@ gen_ecode(eaddr, q)
 			return gen_ehostop(eaddr, (int)q.dir);
 		if (linktype == DLT_FDDI)
 			return gen_fhostop(eaddr, (int)q.dir);
+		if (linktype == DLT_IEEE802_11 ||
+		    linktype == DLT_IEEE802_11_RADIO)
+			return gen_p80211_hostop(eaddr, (int)q.dir);
 	}
 	bpf_error("ethernet address used in non-ether expression");
 	/* NOTREACHED */
@@ -2822,8 +2859,6 @@ gen_byteop(op, idx, val)
 	return b;
 }
 
-static u_char abroadcast[] = { 0x0 };
-
 struct block *
 gen_broadcast(proto)
 	int proto;
@@ -2836,12 +2871,13 @@ gen_broadcast(proto)
 
 	case Q_DEFAULT:
 	case Q_LINK:
-		if (linktype == DLT_ARCNET)
-			return gen_ahostop(abroadcast, Q_DST);
 		if (linktype == DLT_EN10MB)
 			return gen_ehostop(ebroadcast, Q_DST);
 		if (linktype == DLT_FDDI)
 			return gen_fhostop(ebroadcast, Q_DST);
+		if (linktype == DLT_IEEE802_11 ||
+		    linktype == DLT_IEEE802_11_RADIO)
+			return gen_p80211_hostop(ebroadcast, Q_DST);
 		bpf_error("not a broadcast link");
 		break;
 
@@ -2869,10 +2905,6 @@ gen_multicast(proto)
 
 	case Q_DEFAULT:
 	case Q_LINK:
-		if (linktype == DLT_ARCNET)
-			/* all ARCnet multicasts use the same address */
-			return gen_ahostop(abroadcast, Q_DST);
-
 		if (linktype == DLT_EN10MB) {
 			/* ether[0] & 1 != 0 */
 			s = new_stmt(BPF_LD|BPF_B|BPF_ABS);
@@ -2949,7 +2981,7 @@ gen_inbound(dir)
 		break;
 
 	default:
-		bpf_error("inbound/outbound not supported on linktype 0x%x\n",
+		bpf_error("inbound/outbound not supported on linktype 0x%x",
 		    linktype);
 		/* NOTREACHED */
 	}
@@ -2972,11 +3004,11 @@ gen_pf_ifname(char *ifname)
 		len = sizeof(((struct old_pfloghdr *)0)->ifname);
 		off = offsetof(struct old_pfloghdr, ifname);
 	} else {
-		bpf_error("ifname not supported on linktype 0x%x\n", linktype);
+		bpf_error("ifname not supported on linktype 0x%x", linktype);
 		/* NOTREACHED */
 	}
 	if (strlen(ifname) >= len) {
-		bpf_error("ifname interface names can only be %d characters\n",
+		bpf_error("ifname interface names can only be %d characters",
 		    len - 1);
 		/* NOTREACHED */
 	}
@@ -2992,11 +3024,11 @@ gen_pf_ruleset(char *ruleset)
 	struct block *b0;
 
 	if (linktype != DLT_PFLOG) {
-		bpf_error("ruleset not supported on linktype 0x%x\n", linktype);
+		bpf_error("ruleset not supported on linktype 0x%x", linktype);
 		/* NOTREACHED */
 	}
 	if (strlen(ruleset) >= sizeof(((struct pfloghdr *)0)->ruleset)) {
-		bpf_error("ruleset names can only be %d characters\n",
+		bpf_error("ruleset names can only be %d characters",
 		    sizeof(((struct pfloghdr *)0)->ruleset) - 1);
 		/* NOTREACHED */
 	}
@@ -3019,7 +3051,7 @@ gen_pf_rnr(int rnr)
 		b0 = gen_cmp(offsetof(struct old_pfloghdr, rnr), BPF_H,
 			 (bpf_int32)rnr);
 	} else {
-		bpf_error("rnr not supported on linktype 0x%x\n", linktype);
+		bpf_error("rnr not supported on linktype 0x%x", linktype);
 		/* NOTREACHED */
 	}
 
@@ -3034,7 +3066,7 @@ gen_pf_srnr(int srnr)
 	struct block *b0;
 
 	if (linktype != DLT_PFLOG) {
-		bpf_error("srnr not supported on linktype 0x%x\n", linktype);
+		bpf_error("srnr not supported on linktype 0x%x", linktype);
 		/* NOTREACHED */
 	}
 
@@ -3056,7 +3088,7 @@ gen_pf_reason(int reason)
 		b0 = gen_cmp(offsetof(struct old_pfloghdr, reason), BPF_H,
 		    (bpf_int32)reason);
 	} else {
-		bpf_error("reason not supported on linktype 0x%x\n", linktype);
+		bpf_error("reason not supported on linktype 0x%x", linktype);
 		/* NOTREACHED */
 	}
 
@@ -3076,54 +3108,165 @@ gen_pf_action(int action)
 		b0 = gen_cmp(offsetof(struct old_pfloghdr, action), BPF_H,
 		    (bpf_int32)action);
 	} else {
-		bpf_error("action not supported on linktype 0x%x\n", linktype);
+		bpf_error("action not supported on linktype 0x%x", linktype);
 		/* NOTREACHED */
 	}
 
 	return (b0);
 }
 
+/* IEEE 802.11 wireless header */
 struct block *
-gen_acode(eaddr, q)
-	register const u_char *eaddr;
-	struct qual q;
+gen_p80211_type(int type, int mask)
 {
-	if ((q.addr == Q_HOST || q.addr == Q_DEFAULT) && q.proto == Q_LINK) {
-		if (linktype == DLT_ARCNET)
-			return gen_ahostop(eaddr, (int)q.dir);
+	struct block *b0;
+	u_int offset;
+
+	if (!(linktype == DLT_IEEE802_11 ||
+	    linktype == DLT_IEEE802_11_RADIO)) {
+		bpf_error("type not supported on linktype 0x%x",
+		    linktype);
+		/* NOTREACHED */
 	}
-	bpf_error("ARCnet address used in non-arc expression");
+	offset = (u_int)offsetof(struct ieee80211_frame, i_fc[0]);
+	if (linktype == DLT_IEEE802_11_RADIO)
+		offset += IEEE80211_RADIOTAP_HDRLEN;
+
+	b0 = gen_mcmp(offset, BPF_B, (bpf_int32)type, (bpf_u_int32)mask);
+
+	return (b0);
+}
+
+struct block *
+gen_p80211_fcdir(int fcdir)
+{
+	struct block *b0;
+	u_int offset;
+
+	if (!(linktype == DLT_IEEE802_11 ||
+	    linktype == DLT_IEEE802_11_RADIO)) {
+		bpf_error("frame direction not supported on linktype 0x%x",
+		    linktype);
+		/* NOTREACHED */
+	}
+	offset = (u_int)offsetof(struct ieee80211_frame, i_fc[1]);
+	if (linktype == DLT_IEEE802_11_RADIO)
+		offset += IEEE80211_RADIOTAP_HDRLEN;
+
+	b0 = gen_mcmp(offset, BPF_B, (bpf_int32)fcdir,
+	    (bpf_u_int32)IEEE80211_FC1_DIR_MASK);
+
+	return (b0);
+}
+
+static struct block *
+gen_p80211_hostop(const u_char *lladdr, int dir)
+{
+	struct block *b0, *b1, *b2, *b3, *b4;
+	u_int offset = 0;
+
+	if (linktype == DLT_IEEE802_11_RADIO)
+		offset = IEEE80211_RADIOTAP_HDRLEN;
+
+	switch (dir) {
+	case Q_SRC:
+		b0 = gen_p80211_addr(IEEE80211_FC1_DIR_NODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame, i_addr2),
+		    lladdr);
+		b1 = gen_p80211_addr(IEEE80211_FC1_DIR_TODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame, i_addr2),
+		    lladdr);
+		b2 = gen_p80211_addr(IEEE80211_FC1_DIR_FROMDS, offset +
+		    (u_int)offsetof(struct ieee80211_frame, i_addr3),
+		    lladdr);
+		b3 = gen_p80211_addr(IEEE80211_FC1_DIR_DSTODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame_addr4, i_addr4),
+		    lladdr);
+		b4 = gen_p80211_addr(IEEE80211_FC1_DIR_DSTODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame_addr4, i_addr2),
+		    lladdr);
+
+		gen_or(b0, b1);
+		gen_or(b1, b2);
+		gen_or(b2, b3);
+		gen_or(b3, b4);
+		return (b4);
+
+	case Q_DST:
+		b0 = gen_p80211_addr(IEEE80211_FC1_DIR_NODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame, i_addr1),
+		    lladdr);
+		b1 = gen_p80211_addr(IEEE80211_FC1_DIR_TODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame, i_addr3),
+		    lladdr);
+		b2 = gen_p80211_addr(IEEE80211_FC1_DIR_FROMDS, offset +
+		    (u_int)offsetof(struct ieee80211_frame, i_addr1),
+		    lladdr);
+		b3 = gen_p80211_addr(IEEE80211_FC1_DIR_DSTODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame_addr4, i_addr3),
+		    lladdr);
+		b4 = gen_p80211_addr(IEEE80211_FC1_DIR_DSTODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame_addr4, i_addr1),
+		    lladdr);
+
+		gen_or(b0, b1);
+		gen_or(b1, b2);
+		gen_or(b2, b3);
+		gen_or(b3, b4);
+		return (b4);
+
+	case Q_ADDR1:
+		return (gen_bcmp(offset +
+		    (u_int)offsetof(struct ieee80211_frame,
+		    i_addr1), IEEE80211_ADDR_LEN, lladdr));
+
+	case Q_ADDR2:
+		return (gen_bcmp(offset +
+		    (u_int)offsetof(struct ieee80211_frame,
+		    i_addr2), IEEE80211_ADDR_LEN, lladdr));
+
+	case Q_ADDR3:
+		return (gen_bcmp(offset +
+		    (u_int)offsetof(struct ieee80211_frame,
+		    i_addr3), IEEE80211_ADDR_LEN, lladdr));
+
+	case Q_ADDR4:
+		return (gen_p80211_addr(IEEE80211_FC1_DIR_DSTODS, offset +
+		    (u_int)offsetof(struct ieee80211_frame_addr4, i_addr4),
+		    lladdr));
+
+	case Q_AND:
+		b0 = gen_p80211_hostop(lladdr, Q_SRC);
+		b1 = gen_p80211_hostop(lladdr, Q_DST);
+		gen_and(b0, b1);
+		return (b1);
+
+	case Q_DEFAULT:
+	case Q_OR:
+		b0 = gen_p80211_hostop(lladdr, Q_ADDR1);
+		b1 = gen_p80211_hostop(lladdr, Q_ADDR2);
+		b2 = gen_p80211_hostop(lladdr, Q_ADDR3);
+		b3 = gen_p80211_hostop(lladdr, Q_ADDR4);
+		gen_or(b0, b1);
+		gen_or(b1, b2);
+		gen_or(b2, b3);
+		return (b3);
+
+	default:
+		bpf_error("direction not supported on linktype 0x%x",
+		    linktype);
+	}
 	/* NOTREACHED */
 }
 
 static struct block *
-gen_ahostop(eaddr, dir)
-	register const u_char *eaddr;
-	register int dir;
+gen_p80211_addr(int fcdir, u_int offset, const u_char *lladdr)
 {
-	register struct block *b0, *b1;
+	struct block *b0, *b1;
 
-	switch (dir) {
-	/* src comes first, different from Ethernet */
-	case Q_SRC:
-		return gen_bcmp(0, 1, eaddr);
+	b0 = gen_mcmp(offset, BPF_B, (bpf_int32)fcdir, IEEE80211_FC1_DIR_MASK);
+	b1 = gen_bcmp(offset, IEEE80211_ADDR_LEN, lladdr);
+	gen_and(b0, b1);
 
-	case Q_DST:
-		return gen_bcmp(1, 1, eaddr);
-
-	case Q_AND:
-		b0 = gen_ahostop(eaddr, Q_SRC);
-		b1 = gen_ahostop(eaddr, Q_DST);
-		gen_and(b0, b1);
-		return b1;
-
-	case Q_DEFAULT:
-	case Q_OR:
-		b0 = gen_ahostop(eaddr, Q_SRC);
-		b1 = gen_ahostop(eaddr, Q_DST);
-		gen_or(b0, b1);
-		return b1;
-	}
-	abort();
-	/* NOTREACHED */
+	return (b1);
 }

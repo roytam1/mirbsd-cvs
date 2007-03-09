@@ -1,4 +1,4 @@
-/*	$OpenBSD: nametoaddr.c,v 1.11 2005/03/28 06:19:58 tedu Exp $	*/
+/*	$OpenBSD: nametoaddr.c,v 1.13 2006/01/11 07:31:46 jaredy Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996
@@ -236,6 +236,27 @@ pcap_nametoeproto(const char *s)
 	return PROTO_UNDEF;
 }
 
+#include "llc.h"
+
+/* Static data base of LLC values. */
+static struct eproto llc_db[] = {
+	{ "stp", LLCSAP_8021D },
+	{ (char *)0, 0 }
+};
+
+int
+pcap_nametollc(const char *s)
+{
+	struct eproto *p = llc_db;
+
+	while (p->s != 0) {
+		if (strcmp(p->s, s) == 0)
+			return p->p;
+		p += 1;
+	}
+	return PROTO_UNDEF;
+}
+
 /* Hex digit to integer. */
 static __inline int
 xdtoi(c)
@@ -300,6 +321,8 @@ pcap_ether_aton(const char *s)
 	register u_int d;
 
 	e = ep = (u_char *)malloc(6);
+	if (e == NULL)
+		bpf_error("malloc");
 
 	while (*s) {
 		if (*s == ':')

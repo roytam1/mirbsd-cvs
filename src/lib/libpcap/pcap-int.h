@@ -1,4 +1,4 @@
-/*	$OpenBSD: pcap-int.h,v 1.9 2001/10/02 18:04:35 deraadt Exp $	*/
+/*	$OpenBSD: pcap-int.h,v 1.11 2006/03/26 20:58:51 djm Exp $	*/
 
 /*
  * Copyright (c) 1994, 1995, 1996
@@ -73,6 +73,7 @@ struct pcap {
 	int linktype;
 	int tzoff;		/* timezone offset */
 	int offset;		/* offset for proper alignment */
+	int break_loop;		/* force break from packet-reading loop */
 
 	struct pcap_sf sf;
 	struct pcap_md md;
@@ -96,7 +97,15 @@ struct pcap {
 	 */
 	struct bpf_program fcode;
 
+	/*
+	 * Datalink types supported on underlying fd
+	 */
+	int dlt_count;
+	u_int *dlt_list;
+
 	char errbuf[PCAP_ERRBUF_SIZE];
+
+	struct pcap_pkthdr pcap_header;	/* This is needed for the pcap_next_ex() to work */
 };
 
 /*
@@ -113,6 +122,14 @@ int	yylex(void);
 
 #ifndef min
 #define min(a, b) ((a) > (b) ? (b) : (a))
+#endif
+
+/* Not all systems have IFF_LOOPBACK */
+#ifdef IFF_LOOPBACK
+#define ISLOOPBACK(name, flags) ((flags) & IFF_LOOPBACK)
+#else
+#define ISLOOPBACK(name, flags) ((name)[0] == 'l' && (name)[1] == 'o' && \
+    (isdigit((unsigned char)((name)[2])) || (name)[2] == '\0'))
 #endif
 
 /* XXX should these be in pcap.h? */

@@ -1,4 +1,4 @@
-/*	$OpenBSD: gencode.h,v 1.11 2003/05/14 08:50:37 canacar Exp $	*/
+/*	$OpenBSD: gencode.h,v 1.14 2007/01/02 18:31:21 reyk Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996
@@ -59,6 +59,7 @@
 #define Q_ESP		19
 
 #define Q_PIM		20
+#define Q_STP		21
 
 /* Directional qualifiers. */
 
@@ -66,6 +67,10 @@
 #define Q_DST		2
 #define Q_OR		3
 #define Q_AND		4
+#define Q_ADDR1		5
+#define Q_ADDR2		6
+#define Q_ADDR3		7
+#define Q_ADDR4		8
 
 #define Q_DEFAULT	0
 #define Q_UNDEF		255
@@ -161,7 +166,6 @@ void gen_not(struct block *);
 
 struct block *gen_scode(const char *, struct qual);
 struct block *gen_ecode(const u_char *, struct qual);
-struct block *gen_acode(const u_char *, struct qual);
 struct block *gen_mcode(const char *, const char *, int, struct qual);
 #ifdef INET6
 struct block *gen_mcode6(const char *, const char *, int, struct qual);
@@ -183,6 +187,9 @@ struct block *gen_pf_ruleset(char *);
 struct block *gen_pf_reason(int);
 struct block *gen_pf_action(int);
 struct block *gen_pf_dir(int);
+
+struct block *gen_p80211_type(int, int);
+struct block *gen_p80211_fcdir(int);
 
 void bpf_optimize(struct block **);
 __dead void bpf_error(const char *, ...)
