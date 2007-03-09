@@ -1,4 +1,4 @@
-.\"	$OpenBSD: spamdb.8,v 1.10 2006/12/09 20:04:27 jmc Exp $
+.\"	$OpenBSD: spamdb.8,v 1.13 2007/03/06 10:51:16 jmc Exp $
 .\"
 .\" Copyright (c) 2004 Bob Beck.  All rights reserved.
 .\"
@@ -31,8 +31,7 @@
 manipulates the spamd database in
 .Pa /var/db/spamd
 used for
-.Xr spamd 8
-greylisting.
+.Xr spamd 8 .
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -81,7 +80,7 @@ If adding or deleting a SPAMTRAP address
 .Ar keys
 should be specified as email addresses:
 .Pp
-.Dl <spamtrap@mydomain.org>
+.Dl spamtrap@mydomain.org
 .Pp
 Otherwise
 .Ar keys
@@ -116,7 +115,7 @@ will be when the IP is due to be removed from the blacklist.
 .Pp
 For GREY or WHITE entries, the format is:
 .Pp
-.Dl type|source IP|from|to|first|pass|expire|block|pass
+.Dl type|source IP|helo|from|to|first|pass|expire|block|pass
 .Pp
 The fields are as follows:
 .Pp
@@ -128,6 +127,9 @@ if whitelisted or
 if greylisted
 .It source IP
 IP address the connection originated from
+.It helo
+what the connecting host sent as identification in the HELO/EHLO command in the
+SMTP dialogue
 .It from
 envelope-from address for
 .Em GREY

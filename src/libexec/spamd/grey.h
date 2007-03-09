@@ -1,4 +1,4 @@
-/*	$OpenBSD: grey.h,v 1.5 2005/03/11 23:09:53 beck Exp $	*/
+/*	$OpenBSD: grey.h,v 1.9 2007/03/06 23:38:36 beck Exp $	*/
 
 /*
  * Copyright (c) 2004 Bob Beck.  All rights reserved.
@@ -22,7 +22,9 @@
 #define WHITEEXP (60 * 60 * 24 * 36) /* remove white entries after 36 days */
 #define TRAPEXP (60 * 60 * 24) /* hitting a spamtrap blacklists for a day */
 #define PATH_PFCTL "/sbin/pfctl"
+#define PATH_SPAMD_ALLOWEDDOMAINS "/etc/mail/spamd.alloweddomains"
 #define DB_SCAN_INTERVAL 60
+#define DB_TRAP_INTERVAL 60 * 10
 #define PATH_SPAMD_DB "/var/db/spamd"
 
 struct gdata {
@@ -34,3 +36,4 @@ struct gdata {
 };
 
 extern int greywatcher(void);
+extern int greyupdate(char *, char *, char *, char *, char *, int, char *);

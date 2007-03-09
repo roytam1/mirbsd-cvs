@@ -1,4 +1,4 @@
-.\"	$OpenBSD: spamlogd.8,v 1.4 2004/07/14 21:38:09 jmc Exp $
+.\"	$OpenBSD: spamlogd.8,v 1.12 2007/03/04 09:58:22 jmc Exp $
 .\"
 .\" Copyright (c) 2004 Bob Beck.  All rights reserved.
 .\"
@@ -22,17 +22,17 @@
 .Nd spamd whitelist updating daemon
 .Sh SYNOPSIS
 .Nm spamlogd
-.Op Fl I
+.Op Fl DI
 .Op Fl i Ar interface
+.Op Fl l Ar pflog_interface
+.Op Fl Y Ar synctarget
 .Sh DESCRIPTION
 .Nm
 manipulates the
 .Xr spamd 8
 database in
 .Pa /var/db/spamd
-used for
-.Xr spamd 8
-greylisting.
+used for greylisting.
 .Nm
 updates the
 .Pa /var/db/spamd
@@ -50,14 +50,16 @@ The destination addresses of outbound connections are whitelisted
 when seen by
 .Nm
 so that replies to outbound mail may be received without initial
-greylisting delays
-(see
-.Sx GREYLISTING
-in
-.Xr spamd 8 ) .
+greylisting delays.
+Greylisting is explained more fully in
+.Xr spamd 8 .
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl D
+Debugging mode.
+.Nm
+does not disassociate from the controlling terminal.
 .It Fl I
 Specify that
 .Nm
@@ -69,6 +71,17 @@ target of outbound SMTP connections.
 .It Fl i Ar interface
 Specify a network interface on which packets must arrive.
 The default is to watch for connections logged from any interfaces.
+.It Fl l Ar pflog_interface
+Specify a
+.Xr pflog 4
+interface to listen for connection notifications.
+The default is to watch for connections logged on
+.Dq pflog0 .
+.It Fl Y Ar synctarget
+Add a target to receive synchronisation messages; see
+.Sx SYNCHRONISATION
+below.
+This option can be specified multiple times.
 .El
 .Pp
 It is important to be sure to log any connections to and from your real
@@ -82,9 +95,9 @@ configuration for logging such connections is as follows:
 EXT_IF = "fxp0"
 MAILHOSTS = "{129.128.11.10, 129.128.11.43}"
 pass in log on $EXT_IF inet proto tcp to $MAILHOSTS \e
-	port smtp keep state
+	port smtp
 pass out log on $EXT_IF inet proto tcp from $MAILHOSTS \e
-	to any port smtp keep state
+	to any port smtp
 .Ed
 .Pp
 .Nm
@@ -95,6 +108,20 @@ using facility
 .Nm
 will log each connection it sees at level
 .Dv LOG_DEBUG .
+.Sh SYNCHRONISATION
+.Nm
+supports realtime synchronisation of whitelist states by sending
+the information it updates to
+a number of
+.Xr spamd 8
+daemons running on multiple machines.
+To enable synchronisation, use the command line
+.Fl Y
+to specify the machines to which
+.Nm
+will send messages when it updates the state information.
+For more information see
+.Xr spamd 8
 .Sh FILES
 /var/db/spamd
 .Sh SEE ALSO
