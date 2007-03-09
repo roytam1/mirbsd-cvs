@@ -1,5 +1,5 @@
 %{
-/*	$OpenBSD: scanner.l,v 1.14 2003/05/14 08:50:37 canacar Exp $	*/
+/*	$OpenBSD: scanner.l,v 1.19 2007/01/02 18:31:21 reyk Exp $	*/
 
 /*
  * Copyright (c) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997
@@ -33,6 +33,7 @@ static const char rcsid[] =
 #include <ctype.h>
 #include <string.h>
 #include <unistd.h>
+#include <vis.h>
 
 #include "pcap-int.h"
 
@@ -196,6 +197,7 @@ lat		return LAT;
 sca		return SCA;
 moprc		return MOPRC;
 mopdl		return MOPDL;
+stp		return STP;
 
 host		return HOST;
 net		return NET;
@@ -233,6 +235,15 @@ srnr|subrulenum	return PF_SRNR;
 reason		return PF_REASON;
 action		return PF_ACTION;
 
+wlan		return LINK;
+type		return TYPE;
+subtype		return SUBTYPE;
+direction|dir	return DIR;
+address1|addr1	return ADDR1;
+address2|addr2	return ADDR2;
+address3|addr3	return ADDR3;
+address4|addr4	return ADDR4;
+
 [ \n\t]			;
 [+\-*/:\[\]!<>()&|=]	return yytext[0];
 ">="			return GEQ;
@@ -264,10 +275,22 @@ action		return PF_ACTION;
 {B}:+({B}:+)+		{ bpf_error("bogus ethernet address %s", yytext); }
 [A-Za-z0-9][-_.A-Za-z0-9]*[.A-Za-z0-9] {
 			 yylval.s = sdup((char *)yytext); return ID; }
+[A-Za-z] {		 yylval.s = sdup((char *)yytext); return ID; }
 "\\"[^ !()\n\t]+	{ yylval.s = sdup((char *)yytext + 1); return ID; }
-[^ \[\]\t\n\-_.A-Za-z0-9!<>()&|=]+i {
-			bpf_error("illegal token: %s\n", yytext); }
-.			{ bpf_error("illegal char '%c'", *yytext); }
+[^ \[\]\t\n\-_.A-Za-z0-9!<>()&|=]+ {
+			size_t len = strlen(yytext) * 4 + 1;
+			char *v = malloc(len);
+			if (v != NULL)
+				strnvis(v, yytext, len, 0);
+			bpf_error("illegal token: %s", v);
+			free(v);
+			}
+.			{
+			  char v[5];
+
+			  vis(v, *yytext, VIS_OCTAL, 0);
+			  bpf_error("illegal char '%s'", v);
+			}
 %%
 void
 lex_init(buf)
