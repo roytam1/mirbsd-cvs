@@ -1,4 +1,4 @@
-/*	$OpenBSD: spamd-setup.c,v 1.29 2007/02/14 01:16:22 millert Exp $ */
+/*	$OpenBSD: spamd-setup.c,v 1.32 2007/02/27 02:10:58 beck Exp $ */
 
 /*
  * Copyright (c) 2003 Bob Beck.  All rights reserved.
@@ -41,7 +41,7 @@
 
 #define PATH_FTP		"/usr/bin/ftp"
 #define PATH_PFCTL		"/sbin/pfctl"
-#define PATH_SPAMD_CONF		"/etc/spamd.conf"
+#define PATH_SPAMD_CONF		"/etc/mail/spamd.conf"
 #define SPAMD_ARG_MAX		256 /* max # of args to an exec */
 
 struct cidr {
@@ -82,9 +82,13 @@ struct cidr	**collapse_blacklist(struct bl *, size_t);
 int		  configure_spamd(u_short, char *, char *, struct cidr **);
 int		  configure_pf(struct cidr **);
 int		  getlist(char **, char *, struct blacklist *, struct blacklist *);
+__dead void	  usage(void);
 
 int		  debug;
 int		  dryrun;
+int		  greyonly = 1;
+
+extern char 	 *__progname;
 
 u_int32_t
 imask(u_int8_t b)
@@ -457,7 +461,7 @@ add_blacklist(struct bl *bl, size_t *blc, size_t *bls, gzFile gzf, int white)
 	for (;;) {
 		/* read in gzf, then parse */
 		if (bu == bs) {
-			tmp = realloc(buf, bs + 8192 + 1);
+			tmp = realloc(buf, bs + (1024 * 1024) + 1);
 			if (tmp == NULL) {
 				free(buf);
 				buf = NULL;
@@ -465,7 +469,7 @@ add_blacklist(struct bl *bl, size_t *blc, size_t *bls, gzFile gzf, int white)
 				serrno = errno;
 				goto bldone;
 			}
-			bs += 8192;
+			bs += 1024 * 1024;
 			buf = tmp;
 		}
 
@@ -721,6 +725,7 @@ getlist(char ** db_array, char *name, struct blacklist *blist,
 		if (gzf == NULL)
 			errx(1, "gzdopen");
 	}
+	free(buf);
 	bl = add_blacklist(bl, &blc, &bls, gzf, !black);
 	gzclose(gzf);
 	if (bl == NULL) {
@@ -747,6 +752,38 @@ getlist(char ** db_array, char *name, struct blacklist *blist,
 	return (black);
 }
 
+void
+send_blacklist(struct blacklist *blist, in_port_t port)
+{
+	struct cidr **cidrs, **tmp;
+
+	if (blist->blc > 0) {
+		cidrs = collapse_blacklist(blist->bl, blist->blc);
+		if (cidrs == NULL)
+			errx(1, "malloc failed");
+		if (!dryrun) {
+			if (configure_spamd(port, blist->name,
+			    blist->message, cidrs) == -1)
+				err(1, "Can't connect to spamd on port %d",
+				    port);
+			if (!greyonly && configure_pf(cidrs) == -1)
+				err(1, "pfctl failed");
+		}
+		for (tmp = cidrs; *tmp != NULL; tmp++)
+			free(*tmp);
+		free(cidrs);
+		free(blist->bl);
+	}
+}
+
+__dead void
+usage(void)
+{
+
+	fprintf(stderr, "usage: %s [-bdn]\n", __progname);
+	exit(1);
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -756,7 +793,7 @@ main(int argc, char *argv[])
 	struct servent *ent;
 	int i, ch;
 
-	while ((ch = getopt(argc, argv, "nd")) != -1) {
+	while ((ch = getopt(argc, argv, "bdn")) != -1) {
 		switch (ch) {
 		case 'n':
 			dryrun = 1;
@@ -764,10 +801,18 @@ main(int argc, char *argv[])
 		case 'd':
 			debug = 1;
 			break;
+		case 'b':
+			greyonly = 0;
+			break;
 		default:
+			usage();
 			break;
 		}
 	}
+	argc -= optind;
+	argv += optind;
+	if (argc != 0)
+		usage();
 
 	if ((ent = getservbyname("spamd-cfg", "tcp")) == NULL)
 		errx(1, "cannot find service \"spamd-cfg\" in /etc/services");
@@ -796,7 +841,7 @@ main(int argc, char *argv[])
 			if (blc == bls) {
 				struct blacklist *tmp;
 
-				bls += 1024;
+				bls += 32;
 				tmp = realloc(blists,
 				    bls * sizeof(struct blacklist));
 				if (tmp == NULL)
@@ -810,33 +855,17 @@ main(int argc, char *argv[])
 				black = blc;
 			}
 			memset(&blists[black], 0, sizeof(struct blacklist));
-			blc += getlist(db_array, name, &blists[white],
+			black = getlist(db_array, name, &blists[white],
 			    &blists[black]);
+			if (black && blc > 0) {
+				/* collapse and free previous blacklist */
+				send_blacklist(&blists[blc - 1], ent->s_port);
+			}
+			blc += black;
 		}
 	}
-	for (i = 0; i < blc; i++) {
-		struct cidr **cidrs, **tmp;
-
-		if (blists[i].blc > 0) {
-			cidrs = collapse_blacklist(blists[i].bl,
-			   blists[i].blc);
-			if (cidrs == NULL)
-				errx(1, "malloc failed");
-			if (dryrun)
-				continue;
-
-			if (configure_spamd(ent->s_port, blists[i].name,
-			    blists[i].message, cidrs) == -1)
-				err(1, "Can't connect to spamd on port %d",
-				    ent->s_port);
-			if (configure_pf(cidrs) == -1)
-				err(1, "pfctl failed");
-			tmp = cidrs;
-			while (*tmp != NULL)
-				free(*tmp++);
-			free(cidrs);
-			free(blists[i].bl);
-		}
-	}
+	/* collapse and free last blacklist */
+	if (blc > 0)
+		send_blacklist(&blists[blc - 1], ent->s_port);
 	return (0);
 }

@@ -1,4 +1,4 @@
-/*	$OpenBSD: spamd.c,v 1.85 2006/11/27 20:46:03 beck Exp $	*/
+/*	$OpenBSD: spamd.c,v 1.98 2007/03/07 11:30:43 jmc Exp $	*/
 
 /*
  * Copyright (c) 2002 Theo de Raadt.  All rights reserved.
@@ -28,6 +28,7 @@
 #include <sys/file.h>
 #include <sys/wait.h>
 #include <sys/socket.h>
+#include <sys/sysctl.h>
 #include <sys/resource.h>
 
 #include <netinet/in.h>
@@ -47,6 +48,10 @@
 
 #include "sdl.h"
 #include "grey.h"
+#include "sync.h"
+
+extern int server_lookup(struct sockaddr *, struct sockaddr *,
+    struct sockaddr *);
 
 struct con {
 	int fd;
@@ -56,7 +61,8 @@ struct con {
 	struct sockaddr_storage ss;
 	void *ia;
 	char addr[32];
-	char mail[MAX_MAIL], rcpt[MAX_MAIL];
+	char caddr[32];
+	char helo[MAX_MAIL], mail[MAX_MAIL], rcpt[MAX_MAIL];
 	struct sdlist **blacklists;
 
 	/*
@@ -101,7 +107,6 @@ void     handlew(struct con *, int one);
 
 char hostname[MAXHOSTNAMELEN];
 struct syslog_data sdata = SYSLOG_DATA_INIT;
-char *reply = NULL;
 char *nreply = "450";
 char *spamd = "spamd IP-based SPAM blocker";
 int greypipe[2];
@@ -115,8 +120,11 @@ time_t trapexp = TRAPEXP;
 struct passwd *pw;
 pid_t jail_pid = -1;
 u_short cfg_port;
+u_short sync_port;
 
 extern struct sdlist *blacklists;
+extern int pfdev;
+extern char *low_prio_mx_ip; 
 
 int conffd = -1;
 int trapfd = -1;
@@ -126,27 +134,34 @@ size_t cbs, cbu;
 time_t t;
 
 #define MAXCON 800
+int maxfiles;
 int maxcon = MAXCON;
 int maxblack = MAXCON;
 int blackcount;
 int clients;
 int debug;
-int greylist;
+int greylist = 1;
 int grey_stutter = 10;
 int verbose;
 int stutter = 1;
 int window;
+int syncrecv;
+int syncsend;
 #define MAXTIME 400
 
 void
 usage(void)
 {
+	extern char *__progname;
+
 	fprintf(stderr,
-	    "usage: spamd [-45dgv] [-B maxblack] [-b address] [-c maxcon]\n");
-	fprintf(stderr,
-	    "             [-G mins:hours:hours] [-h host] [-n name] [-p port]\n");
-	fprintf(stderr,
-	    "             [-r reply] [-S secs] [-s secs] [-w window]\n");
+	    "usage: %s [-45bdv] [-B maxblack] [-c maxcon] "
+	    "[-G passtime:greyexp:whiteexp]\n"
+	    "\t[-h hostname] [-l address] [-M address] [-n name] [-p port]\n"
+	    "\t[-S secs] [-s secs] "
+	    "[-w window] [-Y synctarget] [-y synclisten]\n",
+	    __progname);
+
 	exit(1);
 }
 
@@ -328,7 +343,6 @@ configdone:
 	conffd = -1;
 }
 
-
 int
 read_configline(FILE *config)
 {
@@ -339,13 +353,13 @@ read_configline(FILE *config)
 		if (buf[len - 1] == '\n')
 			buf[len - 1] = '\0';
 		else
-			return(-1);	/* all valid lines end in \n */
+			return (-1);	/* all valid lines end in \n */
 		parse_configline(buf);
 	} else {
 		syslog_r(LOG_DEBUG, &sdata, "read_configline: fgetln (%m)");
-		return(-1);
+		return (-1);
 	}
-	return(0);
+	return (0);
 }
 
 int
@@ -446,7 +460,7 @@ loglists(struct con *cp)
 	matchlists[0] = '\0';
 	matches = cp->blacklists;
 	if (matches == NULL)
-		return(NULL);
+		return (NULL);
 	for (; *matches; matches++) {
 
 		/* don't report an insane amount of lists in the logs.
@@ -524,8 +538,6 @@ bad:
 void
 doreply(struct con *cp)
 {
-	if (reply)
-		snprintf(cp->obuf, cp->osize, "%s %s\n", nreply, reply);
 	build_reply(cp);
 }
 
@@ -537,6 +549,53 @@ setlog(char *p, size_t len, char *f)
 	s = strsep(&f, ":");
 	if (!f)
 		return;
+	while (*f == ' ' || *f == '\t')
+		f++;
+	s = strsep(&f, " \t");
+	if (s == NULL)
+		return;
+	strlcpy(p, s, len);
+	s = strsep(&p, " \t\n\r");
+	if (s == NULL)
+		return;
+	s = strsep(&p, " \t\n\r");
+	if (s)
+		*s = '\0';
+}
+
+/* 
+ * Get address client connected to, by doing a DIOCNATLOOK call.
+ * Uses server_lookup code from ftp-proxy.
+ */
+void
+getcaddr(struct con *cp) {
+	struct sockaddr_storage spamd_end;
+	struct sockaddr *sep = (struct sockaddr *) &spamd_end;
+	struct sockaddr_storage original_destination;
+	struct sockaddr *odp = (struct sockaddr *) &original_destination;
+	socklen_t len = sizeof(struct sockaddr_storage);
+	int error;
+
+	cp->caddr[0] = '\0';
+	if (getsockname(cp->fd, sep, &len) == -1)
+		return;
+	if (server_lookup((struct sockaddr *)&cp->ss, sep, odp) != 0)
+		return;
+	error = getnameinfo(odp, odp->sa_len, cp->caddr, sizeof(cp->caddr),
+	    NULL, 0, NI_NUMERICHOST);
+	if (error) 
+		cp->caddr[0] = '\0';
+}
+	
+
+void
+gethelo(char *p, size_t len, char *f)
+{
+	char *s;
+
+	/* skip HELO/EHLO */
+	f+=4;
+	/* skip whitespace */
 	while (*f == ' ' || *f == '\t')
 		f++;
 	s = strsep(&f, " \t");
@@ -683,6 +742,7 @@ nextstate(struct con *cp)
 		/* received input: parse, and select next state */
 		if (match(cp->ibuf, "HELO") ||
 		    match(cp->ibuf, "EHLO")) {
+			gethelo(cp->helo, sizeof cp->helo, cp->ibuf);
 			snprintf(cp->obuf, cp->osize,
 			    "250 Hello, spam sender. "
 			    "Pleased to be wasting your time.\r\n");
@@ -750,8 +810,11 @@ nextstate(struct con *cp)
 					    cp->addr, cp->mail, cp->rcpt);
 				if (greylist && cp->blacklists == NULL) {
 					/* send this info to the greylister */
-					fprintf(grey, "IP:%s\nFR:%s\nTO:%s\n",
-					    cp->addr, cp->mail, cp->rcpt);
+					getcaddr(cp);
+					fprintf(grey,
+					    "CO:%s\nHE:%s\nIP:%s\nFR:%s\nTO:%s\n",
+					    cp->caddr, cp->helo, cp->addr,
+					    cp->mail, cp->rcpt);
 					fflush(grey);
 				}
 			}
@@ -932,19 +995,39 @@ handled:
 	}
 }
 
+static int
+get_maxfiles(void)
+{
+	int mib[2], maxfiles;
+	size_t len;
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_MAXFILES;
+	len = sizeof(maxfiles);
+	if (sysctl(mib, 2, &maxfiles, &len, NULL, 0) == -1)
+		return(MAXCON);
+	if ((maxfiles - 200) < 10)
+		errx(1, "kern.maxfiles is only %d, can not continue\n",
+		    maxfiles);
+	else
+		return(maxfiles - 200);
+}
+
 int
 main(int argc, char *argv[])
 {
 	fd_set *fdsr = NULL, *fdsw = NULL;
 	struct sockaddr_in sin;
 	struct sockaddr_in lin;
-	int ch, s, s2, conflisten = 0, i, omax = 0, one = 1;
+	int ch, s, s2, conflisten = 0, syncfd = 0, i, omax = 0, one = 1;
 	socklen_t sinlen;
 	u_short port;
 	struct servent *ent;
 	struct rlimit rlp;
 	char *bind_address = NULL;
 	const char *errstr;
+	char *sync_iface = NULL;
+	char *sync_baddr = NULL;
 
 	tzset();
 	openlog_r("spamd", LOG_PID | LOG_NDELAY, LOG_DAEMON, &sdata);
@@ -955,11 +1038,19 @@ main(int argc, char *argv[])
 	if ((ent = getservbyname("spamd-cfg", "tcp")) == NULL)
 		errx(1, "Can't find service \"spamd-cfg\" in /etc/services");
 	cfg_port = ntohs(ent->s_port);
+	if ((ent = getservbyname("spamd-sync", "udp")) == NULL)
+		errx(1, "Can't find service \"spamd-sync\" in /etc/services");
+	sync_port = ntohs(ent->s_port);
 
 	if (gethostname(hostname, sizeof hostname) == -1)
 		err(1, "gethostname");
-
-	while ((ch = getopt(argc, argv, "45b:c:B:p:dgG:h:r:s:S:n:vw:")) != -1) {
+	maxfiles = get_maxfiles();
+	if (maxcon > maxfiles)
+		maxcon = maxfiles;
+	if (maxblack > maxfiles)
+		maxblack = maxfiles;
+	while ((ch =
+	    getopt(argc, argv, "45l:c:B:p:bdG:h:r:s:S:M:n:vw:y:Y:")) != -1) {
 		switch (ch) {
 		case '4':
 			nreply = "450";
@@ -967,7 +1058,7 @@ main(int argc, char *argv[])
 		case '5':
 			nreply = "550";
 			break;
-		case 'b':
+		case 'l':
 			bind_address = optarg;
 			break;
 		case 'B':
@@ -976,8 +1067,12 @@ main(int argc, char *argv[])
 			break;
 		case 'c':
 			i = atoi(optarg);
-			if (i > MAXCON)
+			if (i > maxfiles) {
+				fprintf(stderr,
+				    "%d > system max of %d connections\n",
+				    i, maxfiles);
 				usage();
+			}
 			maxcon = i;
 			break;
 		case 'p':
@@ -987,8 +1082,8 @@ main(int argc, char *argv[])
 		case 'd':
 			debug = 1;
 			break;
-		case 'g':
-			greylist = 1;
+		case 'b':
+			greylist = 0;
 			break;
 		case 'G':
 			if (sscanf(optarg, "%d:%d:%d", &passtime, &greyexp,
@@ -1005,10 +1100,7 @@ main(int argc, char *argv[])
 			bzero(&hostname, sizeof(hostname));
 			if (strlcpy(hostname, optarg, sizeof(hostname)) >=
 			    sizeof(hostname))
-				errx(1, "-h arg too long"); 
-			break;
-		case 'r':
-			reply = optarg;
+				errx(1, "-h arg too long");
 			break;
 		case 's':
 			i = atoi(optarg);
@@ -1022,6 +1114,9 @@ main(int argc, char *argv[])
 				usage();
 			grey_stutter = i;
 			break;
+		case 'M':
+			low_prio_mx_ip = optarg;
+			break;
 		case 'n':
 			spamd = optarg;
 			break;
@@ -1033,11 +1128,24 @@ main(int argc, char *argv[])
 			if (window <= 0)
 				usage();
 			break;
+		case 'Y':
+			if (sync_addhost(optarg, sync_port) != 0)
+				sync_iface = optarg;
+			syncsend++;
+			break;
+		case 'y':
+			sync_baddr = optarg;
+			syncrecv++;
+			break;
 		default:
 			usage();
 			break;
 		}
 	}
+
+	setproctitle("[priv]%s%s",
+	    greylist ? " (greylist)" : "",
+	    (syncrecv || syncsend) ? " (sync)" : "");
 
 	if (!greylist)
 		maxblack = maxcon;
@@ -1101,6 +1209,12 @@ main(int argc, char *argv[])
 	if (bind(conflisten, (struct sockaddr *)&lin, sizeof lin) == -1)
 		err(1, "bind local");
 
+	if (syncsend || syncrecv) {
+		syncfd = sync_init(sync_iface, sync_baddr, sync_port);
+		if (syncfd == -1)
+			err(1, "sync init");
+	}
+
 	pw = getpwnam("_spamd");
 	if (!pw)
 		pw = getpwnam("nobody");
@@ -1111,6 +1225,12 @@ main(int argc, char *argv[])
 	}
 
 	if (greylist) {
+		pfdev = open("/dev/pf", O_RDWR);
+		if (pfdev == -1) {
+			syslog_r(LOG_ERR, &sdata, "open /dev/pf: %m");
+			exit(1);
+		}
+
 		maxblack = (maxblack >= maxcon) ? maxcon - 100 : maxblack;
 		if (maxblack < 0)
 			maxblack = 0;
@@ -1126,7 +1246,7 @@ main(int argc, char *argv[])
 			exit(1);
 		}
 		jail_pid = fork();
-		switch(jail_pid) {
+		switch (jail_pid) {
 		case -1:
 			syslog(LOG_ERR, "fork (%m)");
 			exit(1);
@@ -1161,7 +1281,7 @@ main(int argc, char *argv[])
 			exit(1);
 		}
 		close(trappipe[0]);
-		return(greywatcher());
+		return (greywatcher());
 		/* NOTREACHED */
 	}
 
@@ -1189,10 +1309,12 @@ jail:
 
 	while (1) {
 		struct timeval tv, *tvp;
-		int max, i, n;
+		int max, n;
 		int writers;
 
 		max = MAX(s, conflisten);
+		if (syncrecv)
+			max = MAX(max, syncfd);
 		max = MAX(max, conffd);
 		max = MAX(max, trapfd);
 
@@ -1250,6 +1372,8 @@ jail:
 			FD_SET(conffd, fdsr);
 		if (trapfd != -1)
 			FD_SET(trapfd, fdsr);
+		if (syncrecv)
+			FD_SET(syncfd, fdsr);
 
 		if (writers == 0) {
 			tvp = NULL;
@@ -1312,6 +1436,8 @@ jail:
 			do_config();
 		if (trapfd != -1 && FD_ISSET(trapfd, fdsr))
 			read_configline(trapcfg);
+		if (syncrecv && FD_ISSET(syncfd, fdsr))
+			sync_recv();
 	}
 	exit(1);
 }
