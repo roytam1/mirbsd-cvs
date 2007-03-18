@@ -1,4 +1,4 @@
-/*	$OpenBSD: pass5.c,v 1.20 2005/06/16 14:51:37 millert Exp $	*/
+/*	$OpenBSD: pass5.c,v 1.25 2007/03/15 10:27:00 pedro Exp $	*/
 /*	$NetBSD: pass5.c,v 1.16 1996/09/27 22:45:18 christos Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)pass5.c	8.6 (Berkeley) 11/30/94";
 #else
-static const char rcsid[] = "$OpenBSD: pass5.c,v 1.20 2005/06/16 14:51:37 millert Exp $";
+static const char rcsid[] = "$OpenBSD: pass5.c,v 1.25 2007/03/15 10:27:00 pedro Exp $";
 #endif
 #endif /* not lint */
 
@@ -58,7 +58,7 @@ static int info_cg;
 static int info_maxcg;
 
 static int
-pass5_info(char *buf, int buflen)
+pass5_info(char *buf, size_t buflen)
 {
 	return (snprintf(buf, buflen, "phase 5, cg %d/%d",
 	    info_cg, info_maxcg) > 0);
@@ -195,6 +195,7 @@ pass5(void)
 		if (dmax > fs->fs_size)
 			dmax = fs->fs_size;
 		newcg->cg_time = cg->cg_time;
+		newcg->cg_ffs2_time = cg->cg_ffs2_time;
 		newcg->cg_cgx = c;
 		if (c == fs->fs_ncg - 1)
 			newcg->cg_ncyl = fs->fs_ncyl % fs->fs_cpg;
@@ -211,11 +212,11 @@ pass5(void)
 			newcg->cg_rotor = cg->cg_rotor;
 		else
 			newcg->cg_rotor = 0;
-		if (cg->cg_frotor < newcg->cg_ndblk)
+		if (cg->cg_frotor >= 0 && cg->cg_frotor < newcg->cg_ndblk)
 			newcg->cg_frotor = cg->cg_frotor;
 		else
 			newcg->cg_frotor = 0;
-		if (cg->cg_irotor < newcg->cg_niblk)
+		if (cg->cg_irotor >= 0 && cg->cg_irotor < newcg->cg_niblk)
 			newcg->cg_irotor = cg->cg_irotor;
 		else
 			newcg->cg_irotor = 0;
@@ -235,7 +236,7 @@ pass5(void)
 			case DCLEAR:
 			case DFOUND:
 				newcg->cg_cs.cs_ndir++;
-				/* fall through */
+				/* FALLTHROUGH */
 
 			case FSTATE:
 			case FCLEAR:

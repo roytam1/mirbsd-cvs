@@ -1,4 +1,4 @@
-/*	$OpenBSD: boot.c,v 1.10 2004/07/17 02:14:33 deraadt Exp $	*/
+/*	$OpenBSD: boot.c,v 1.12 2006/07/19 10:44:23 tom Exp $	*/
 /*	$NetBSD: boot.c,v 1.5 1997/10/17 11:19:23 ws Exp $	*/
 
 /*
@@ -35,7 +35,7 @@
 
 
 #ifndef lint
-static char rcsid[] = "$OpenBSD: boot.c,v 1.10 2004/07/17 02:14:33 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: boot.c,v 1.12 2006/07/19 10:44:23 tom Exp $";
 #endif /* not lint */
 
 #include <stdlib.h>
@@ -55,7 +55,7 @@ readboot(int dosfs, struct bootblock *boot)
 	int ret = FSOK;
 
 	if (read(dosfs, block, sizeof block) < sizeof block) {
-		perror("could not read boot block");
+		xperror("could not read boot block");
 		return (FSFATAL);
 	}
 
@@ -107,7 +107,7 @@ readboot(int dosfs, struct bootblock *boot)
 		    != boot->FSInfo * boot->BytesPerSec
 		    || read(dosfs, fsinfo, sizeof fsinfo)
 		    != sizeof fsinfo) {
-			perror("could not read fsinfo block");
+			xperror("could not read fsinfo block");
 			return FSFATAL;
 		}
 		if (memcmp(fsinfo, "RRaA", 4)
@@ -134,7 +134,7 @@ readboot(int dosfs, struct bootblock *boot)
 				    != boot->FSInfo * boot->BytesPerSec
 				    || write(dosfs, fsinfo, sizeof fsinfo)
 				    != sizeof fsinfo) {
-					perror("Unable to write FSInfo");
+					xperror("Unable to write FSInfo");
 					return FSFATAL;
 				}
 				ret = FSBOOTMOD;
@@ -153,11 +153,26 @@ readboot(int dosfs, struct bootblock *boot)
 		if (lseek(dosfs, boot->Backup * boot->BytesPerSec, SEEK_SET)
 		    != boot->Backup * boot->BytesPerSec
 		    || read(dosfs, backup, sizeof backup) != sizeof  backup) {
-			perror("could not read backup bootblock");
+			xperror("could not read backup bootblock");
 			return FSFATAL;
 		}
-		if (memcmp(block, backup, DOSBOOTBLOCKSIZE)) {
-			/* Correct?					XXX */
+
+		/*
+		 * Check that the backup boot block matches the primary one.
+		 * We don't check every byte, since some vendor utilities
+		 * seem to overwrite the boot code when they feel like it,
+		 * without changing the backup block.  Specifically, we check
+		 * the two-byte signature at the end, the BIOS parameter
+		 * block (which starts after the 3-byte JMP and the 8-byte
+		 * OEM name/version) and the filesystem information that
+		 * follows the BPB (bsPBP[53] and bsExt[26] for FAT32, so we
+		 * check 79 bytes).
+		 */
+		if (backup[510] != 0x55 || backup[511] != 0xaa) {
+			pfatal("Invalid signature in backup boot block: %02x%02x\n", backup[511], backup[510]);
+			return FSFATAL;
+		}
+		if (memcmp(block + 11, backup + 11, 79)) {
 			pfatal("backup doesn't compare to primary bootblock\n");
 			return FSFATAL;
 		}
@@ -232,7 +247,7 @@ writefsinfo(int dosfs, struct bootblock *boot)
 	if (lseek(dosfs, boot->FSInfo * boot->BytesPerSec, SEEK_SET)
 	    != boot->FSInfo * boot->BytesPerSec
 	    || read(dosfs, fsinfo, sizeof fsinfo) != sizeof fsinfo) {
-		perror("could not read fsinfo block");
+		xperror("could not read fsinfo block");
 		return FSFATAL;
 	}
 	fsinfo[0x1e8] = (u_char)boot->FSFree;
@@ -247,7 +262,7 @@ writefsinfo(int dosfs, struct bootblock *boot)
 	    != boot->FSInfo * boot->BytesPerSec
 	    || write(dosfs, fsinfo, sizeof fsinfo)
 	    != sizeof fsinfo) {
-		perror("Unable to write FSInfo");
+		xperror("Unable to write FSInfo");
 		return FSFATAL;
 	}
 	/*
