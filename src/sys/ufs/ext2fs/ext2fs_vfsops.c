@@ -898,6 +898,17 @@ ext2fs_vget(mp, ino, vpp)
 	ip->i_effnlink = ip->i_e2fs_nlink;
 	brelse(bp);
 
+	/*
+	 * The fields for storing the UID and GID of an ext2fs inode are
+	 * limited to 16 bits. To overcome this limitation, Linux decided to
+	 * scatter the highest bits of these values into a previously reserved
+	 * area on the disk inode. We deal with this situation by having two
+	 * 32-bit fields *out* of the disk inode to hold the complete values.
+	 * Now that we are reading in the inode, compute these fields.
+	 */
+	ip->i_e2fs_uid = ip->i_e2fs_uid_low | (ip->i_e2fs_uid_high << 16);
+	ip->i_e2fs_gid = ip->i_e2fs_gid_low | (ip->i_e2fs_gid_high << 16);
+
 	/* If the inode was deleted, reset all fields */
 	if (ip->i_e2fs_dtime != 0) {
 		ip->i_e2fs_mode = ip->i_e2fs_nblock = 0;
