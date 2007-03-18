@@ -206,13 +206,11 @@ struct inode_vtbl {
 #endif	/* _KERNEL */
 
 #define i_e2fs_mode		i_e2din.e2di_mode
-#define i_e2fs_uid		i_e2din.e2di_uid
 #define i_e2fs_size		i_e2din.e2di_size
 #define i_e2fs_atime		i_e2din.e2di_atime
 #define i_e2fs_ctime		i_e2din.e2di_ctime
 #define i_e2fs_mtime		i_e2din.e2di_mtime
 #define i_e2fs_dtime		i_e2din.e2di_dtime
-#define i_e2fs_gid		i_e2din.e2di_gid
 #define i_e2fs_nlink		i_e2din.e2di_nlink
 #define i_e2fs_nblock		i_e2din.e2di_nblock
 #define i_e2fs_flags		i_e2din.e2di_flags
