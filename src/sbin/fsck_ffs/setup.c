@@ -1,4 +1,4 @@
-/*	$OpenBSD: setup.c,v 1.21 2003/09/25 04:19:39 deraadt Exp $	*/
+/*	$OpenBSD: setup.c,v 1.29 2007/02/16 08:34:29 otto Exp $	*/
 /*	$NetBSD: setup.c,v 1.27 1996/09/27 22:45:19 christos Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)setup.c	8.5 (Berkeley) 11/23/94";
 #else
-static const char rcsid[] = "$OpenBSD: setup.c,v 1.21 2003/09/25 04:19:39 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: setup.c,v 1.29 2007/02/16 08:34:29 otto Exp $";
 #endif
 #endif /* not lint */
 
@@ -58,7 +58,6 @@ static const char rcsid[] = "$OpenBSD: setup.c,v 1.21 2003/09/25 04:19:39 deraad
 #include "extern.h"
 #include "fsutil.h"
 
-struct bufarea asblk;
 #define altsblock (*asblk.b_un.b_fs)
 #define POWEROF2(num)	(((num) & ((num) - 1)) == 0)
 
@@ -73,8 +72,7 @@ long numdirs, listmax, inplast;
 int
 setup(char *dev)
 {
-	long cg, size, asked, i, j;
-	long bmapsize;
+	long cg, size, asked, i, j, bmapsize;
 	struct disklabel *lp;
 	off_t sizepb;
 	struct stat statb;
@@ -83,7 +81,7 @@ setup(char *dev)
 	u_int64_t maxfilesize;
 
 	havesb = 0;
-	fswritefd = -1;
+	fswritefd = fsreadfd = -1;
 	doskipclean = skipclean;
 	if (stat(dev, &statb) < 0) {
 		printf("Can't stat %s: %s\n", dev, strerror(errno));
@@ -135,12 +133,12 @@ setup(char *dev)
 		}
 		if (cg >= proto.fs_ncg) {
 			printf("%s %s\n%s %s\n%s %s\n",
-				"SEARCH FOR ALTERNATE SUPER-BLOCK",
-				"FAILED. YOU MUST USE THE",
-				"-b OPTION TO FSCK_FFS TO SPECIFY THE",
-				"LOCATION OF AN ALTERNATE",
-				"SUPER-BLOCK TO SUPPLY NEEDED",
-				"INFORMATION; SEE fsck_ffs(8).");
+			    "SEARCH FOR ALTERNATE SUPER-BLOCK",
+			    "FAILED. YOU MUST USE THE",
+			    "-b OPTION TO FSCK_FFS TO SPECIFY THE",
+			    "LOCATION OF AN ALTERNATE",
+			    "SUPER-BLOCK TO SUPPLY NEEDED",
+			    "INFORMATION; SEE fsck_ffs(8).");
 			return(0);
 		}
 		doskipclean = 0;
@@ -177,7 +175,7 @@ setup(char *dev)
 	}
 	if ((sblock.fs_minfree < 0 || sblock.fs_minfree > 99)) {
 		pfatal("IMPOSSIBLE MINFREE=%d IN SUPERBLOCK",
-			sblock.fs_minfree);
+		    sblock.fs_minfree);
 		if (reply("SET TO DEFAULT") == 1) {
 			sblock.fs_minfree = 10;
 			sbdirty();
@@ -186,7 +184,7 @@ setup(char *dev)
 	if (sblock.fs_interleave < 1 ||
 	    sblock.fs_interleave > sblock.fs_nsect) {
 		pwarn("IMPOSSIBLE INTERLEAVE=%d IN SUPERBLOCK",
-			sblock.fs_interleave);
+		    sblock.fs_interleave);
 		sblock.fs_interleave = 1;
 		if (preen)
 			printf(" (FIXED)\n");
@@ -198,7 +196,7 @@ setup(char *dev)
 	if (sblock.fs_npsect < sblock.fs_nsect ||
 	    sblock.fs_npsect > sblock.fs_nsect*2) {
 		pwarn("IMPOSSIBLE NPSECT=%d IN SUPERBLOCK",
-			sblock.fs_npsect);
+		    sblock.fs_npsect);
 		sblock.fs_npsect = sblock.fs_nsect;
 		if (preen)
 			printf(" (FIXED)\n");
@@ -209,7 +207,7 @@ setup(char *dev)
 	}
 	if (sblock.fs_bmask != ~(sblock.fs_bsize - 1)) {
 		pwarn("INCORRECT BMASK=%x IN SUPERBLOCK",
-			sblock.fs_bmask);
+		    sblock.fs_bmask);
 		sblock.fs_bmask = ~(sblock.fs_bsize - 1);
 		if (preen)
 			printf(" (FIXED)\n");
@@ -220,8 +218,28 @@ setup(char *dev)
 	}
 	if (sblock.fs_fmask != ~(sblock.fs_fsize - 1)) {
 		pwarn("INCORRECT FMASK=%x IN SUPERBLOCK",
-			sblock.fs_fmask);
+		    sblock.fs_fmask);
 		sblock.fs_fmask = ~(sblock.fs_fsize - 1);
+		if (preen)
+			printf(" (FIXED)\n");
+		if (preen || reply("FIX") == 1) {
+			sbdirty();
+			dirty(&asblk);
+		}
+	}
+	if (1 << sblock.fs_bshift != sblock.fs_bsize) {
+		pwarn("INCORRECT BSHIFT=%d IN SUPERBLOCK", sblock.fs_bshift);
+		sblock.fs_bshift = ffs(sblock.fs_bsize) - 1;
+		if (preen)
+			printf(" (FIXED)\n");
+		if (preen || reply("FIX") == 1) {
+			sbdirty();
+			dirty(&asblk);
+		}
+	}
+	if (1 << sblock.fs_fshift != sblock.fs_fsize) {
+		pwarn("INCORRECT FSHIFT=%d IN SUPERBLOCK", sblock.fs_fshift);
+		sblock.fs_fshift = ffs(sblock.fs_fsize) - 1;
 		if (preen)
 			printf(" (FIXED)\n");
 		if (preen || reply("FIX") == 1) {
@@ -232,7 +250,7 @@ setup(char *dev)
 	if (sblock.fs_inodefmt >= FS_44INODEFMT) {
 		if (sblock.fs_maxfilesize != maxfilesize) {
 			pwarn("INCORRECT MAXFILESIZE=%llu IN SUPERBLOCK",
-				(unsigned long long)sblock.fs_maxfilesize);
+			    (unsigned long long)sblock.fs_maxfilesize);
 			sblock.fs_maxfilesize = maxfilesize;
 			if (preen)
 				printf(" (FIXED)\n");
@@ -241,10 +259,10 @@ setup(char *dev)
 				dirty(&asblk);
 			}
 		}
-		if (sblock.fs_maxsymlinklen != MAXSYMLINKLEN) {
+		if (sblock.fs_maxsymlinklen != MAXSYMLINKLEN_UFS1) {
 			pwarn("INCORRECT MAXSYMLINKLEN=%d IN SUPERBLOCK",
-				sblock.fs_maxsymlinklen);
-			sblock.fs_maxsymlinklen = MAXSYMLINKLEN;
+			    sblock.fs_maxsymlinklen);
+			sblock.fs_maxsymlinklen = MAXSYMLINKLEN_UFS1;
 			if (preen)
 				printf(" (FIXED)\n");
 			if (preen || reply("FIX") == 1) {
@@ -254,7 +272,7 @@ setup(char *dev)
 		}
 		if (sblock.fs_qbmask != ~sblock.fs_bmask) {
 			pwarn("INCORRECT QBMASK=%lx IN SUPERBLOCK",
-				(unsigned long)sblock.fs_qbmask);
+			    (unsigned long)sblock.fs_qbmask);
 			sblock.fs_qbmask = ~sblock.fs_bmask;
 			if (preen)
 				printf(" (FIXED)\n");
@@ -265,7 +283,7 @@ setup(char *dev)
 		}
 		if (sblock.fs_qfmask != ~sblock.fs_fmask) {
 			pwarn("INCORRECT QFMASK=%lx IN SUPERBLOCK",
-				(unsigned long)sblock.fs_qfmask);
+			    (unsigned long)sblock.fs_qfmask);
 			sblock.fs_qfmask = ~sblock.fs_fmask;
 			if (preen)
 				printf(" (FIXED)\n");
@@ -291,7 +309,7 @@ setup(char *dev)
 		doinglevel2++;
 		sblock.fs_inodefmt = FS_44INODEFMT;
 		sblock.fs_maxfilesize = maxfilesize;
-		sblock.fs_maxsymlinklen = MAXSYMLINKLEN;
+		sblock.fs_maxsymlinklen = MAXSYMLINKLEN_UFS1;
 		sblock.fs_qbmask = ~sblock.fs_bmask;
 		sblock.fs_qfmask = ~sblock.fs_fmask;
 		sbdirty();
@@ -309,7 +327,7 @@ setup(char *dev)
 		sblock.fs_postblformat = FS_DYNAMICPOSTBLFMT;
 		sblock.fs_nrpos = 8;
 		sblock.fs_postbloff =
-		    (char *)(&sblock.fs_opostbl[0][0]) -
+		    (char *)(&sblock.fs_opostbl_start) -
 		    (char *)(&sblock.fs_firstfield);
 		sblock.fs_rotbloff = &sblock.fs_space[0] -
 		    (u_char *)(&sblock.fs_firstfield);
@@ -317,6 +335,36 @@ setup(char *dev)
 			fragroundup(&sblock, CGSIZE(&sblock));
 		sbdirty();
 		dirty(&asblk);
+	}
+	if (sblock.fs_cgsize != fragroundup(&sblock, CGSIZE(&sblock))) {
+		pwarn("INCONSISTENT CGSIZE=%d\n", sblock.fs_cgsize);
+		sblock.fs_cgsize = fragroundup(&sblock, CGSIZE(&sblock));
+		if (preen)
+			printf(" (FIXED)\n");
+		if (preen || reply("FIX") == 1) {
+			sbdirty();
+			dirty(&asblk);
+		}
+	}
+	if (INOPB(&sblock) != sblock.fs_bsize / sizeof(struct ufs1_dinode)) {
+		pwarn("INCONSISTENT INOPB=%d\n", INOPB(&sblock));
+		sblock.fs_inopb = sblock.fs_bsize / sizeof(struct ufs1_dinode);
+		if (preen)
+			printf(" (FIXED)\n");
+		if (preen || reply("FIX") == 1) {
+			sbdirty();
+			dirty(&asblk);
+		}
+	}
+	if (NINDIR(&sblock) != sblock.fs_bsize / sizeof(ufs1_daddr_t)) {
+		pwarn("INCONSISTENT NINDIR=%d\n", NINDIR(&sblock));
+		sblock.fs_nindir = sblock.fs_bsize / sizeof(daddr_t);
+		if (preen)
+			printf(" (FIXED)\n");
+		if (preen || reply("FIX") == 1) {
+			sbdirty();
+			dirty(&asblk);
+		}
 	}
 	if (asblk.b_dirty && !bflag) {
 		memcpy(&altsblock, &sblock, (size_t)sblock.fs_sbsize);
@@ -411,17 +459,37 @@ readsb(int listerr)
 	/*
 	 * run a few consistency checks of the super block
 	 */
-	if (sblock.fs_magic != FS_MAGIC)
-		{ badsb(listerr, "MAGIC NUMBER WRONG"); return (0); }
-	if (sblock.fs_ncg < 1)
-		{ badsb(listerr, "NCG OUT OF RANGE"); return (0); }
-	if (sblock.fs_cpg < 1)
-		{ badsb(listerr, "CPG OUT OF RANGE"); return (0); }
+	if (sblock.fs_magic != FS_MAGIC) {
+		badsb(listerr, "MAGIC NUMBER WRONG");
+		return (0);
+	}
+	if (sblock.fs_ncg < 1) {
+		badsb(listerr, "NCG OUT OF RANGE");
+		return (0);
+	}
+	if (sblock.fs_cpg < 1) {
+		badsb(listerr, "CPG OUT OF RANGE");
+		return (0);
+	}
 	if (sblock.fs_ncg * sblock.fs_cpg < sblock.fs_ncyl ||
-	    (sblock.fs_ncg - 1) * sblock.fs_cpg >= sblock.fs_ncyl)
-		{ badsb(listerr, "NCYL LESS THAN NCG*CPG"); return (0); }
-	if (sblock.fs_sbsize > SBSIZE)
-		{ badsb(listerr, "SIZE PREPOSTEROUSLY LARGE"); return (0); }
+	    (sblock.fs_ncg - 1) * sblock.fs_cpg >= sblock.fs_ncyl) {
+		badsb(listerr, "NCYL LESS THAN NCG*CPG");
+		return (0);
+	}
+	if (sblock.fs_sbsize > SBSIZE) {
+		badsb(listerr, "SBSIZE PREPOSTEROUSLY LARGE");
+		return (0);
+	}
+
+	if (!POWEROF2(sblock.fs_bsize) || sblock.fs_bsize < MINBSIZE ||
+	    sblock.fs_bsize > MAXBSIZE)
+		badsb(listerr, "ILLEGAL BLOCK SIZE");
+
+	if (!POWEROF2(sblock.fs_fsize) || sblock.fs_fsize > sblock.fs_bsize ||
+	    sblock.fs_fsize < sblock.fs_bsize / MAXFRAG)
+		badsb(listerr, "ILLEGAL FRAGMENT SIZE");
+
+
 	/*
 	 * Compute block size that the filesystem is based on,
 	 * according to fsbtodb, and adjust superblock block number
@@ -453,7 +521,7 @@ readsb(int listerr)
 			}
 		}
 		badsb(listerr,
-		"VALUES IN SUPER BLOCK DISAGREE WITH THOSE IN FIRST ALTERNATE");
+		    "VALUES IN SUPER BLOCK DISAGREE WITH THOSE IN FIRST ALTERNATE");
 		return (0);
 	}
 	havesb = 1;
@@ -486,7 +554,8 @@ calcsb(char *dev, int devfd, struct fs *fs)
 	int i;
 
 	cp = strchr(dev, '\0') - 1;
-	if ((cp == (char *)-1 || (*cp < 'a' || *cp > 'h')) && !isdigit(*cp)) {
+	if ((cp == (char *)-1 || (*cp < 'a' || *cp >= 'a' + MAXPARTITIONS)) &&
+	    !isdigit(*cp)) {
 		pfatal("%s: CANNOT FIGURE OUT FILE SYSTEM PARTITION\n", dev);
 		return (0);
 	}
@@ -497,22 +566,26 @@ calcsb(char *dev, int devfd, struct fs *fs)
 		pp = &lp->d_partitions[*cp - 'a'];
 	if (pp->p_fstype != FS_BSDFFS) {
 		pfatal("%s: NOT LABELED AS A BSD FILE SYSTEM (%s)\n",
-			dev, pp->p_fstype < FSMAXTYPES ?
-			fstypenames[pp->p_fstype] : "unknown");
+		    dev, pp->p_fstype < FSMAXTYPES ?
+		    fstypenames[pp->p_fstype] : "unknown");
 		return (0);
 	}
 	memset(fs, 0, sizeof(struct fs));
 	fs->fs_fsize = pp->p_fsize;
 	fs->fs_frag = pp->p_frag;
+	fs->fs_bsize = fs->fs_fsize * fs->fs_frag;
 	fs->fs_cpg = pp->p_cpg;
-	fs->fs_size = pp->p_size;
+	fs->fs_nspf = fs->fs_fsize / lp->d_secsize;
+	/* unit for fs->fs_size is fragments, for pp->p_size it is sectors */
+	fs->fs_size = pp->p_size / fs->fs_nspf;
 	fs->fs_ntrak = lp->d_ntracks;
 	fs->fs_nsect = lp->d_nsectors;
 	fs->fs_spc = lp->d_secpercyl;
-	fs->fs_nspf = fs->fs_fsize / lp->d_secsize;
+	/* we can't use lp->d_sbsize, it is the max sb size */
 	fs->fs_sblkno = roundup(
-		howmany(lp->d_bbsize + lp->d_sbsize, fs->fs_fsize),
+		howmany(lp->d_bbsize + SBSIZE, fs->fs_fsize),
 		fs->fs_frag);
+again:
 	fs->fs_cgmask = 0xffffffff;
 	for (i = fs->fs_ntrak; i > 1; i >>= 1)
 		fs->fs_cgmask <<= 1;
@@ -521,9 +594,19 @@ calcsb(char *dev, int devfd, struct fs *fs)
 	fs->fs_cgoffset = roundup(
 		howmany(fs->fs_nsect, NSPF(fs)), fs->fs_frag);
 	fs->fs_fpg = (fs->fs_cpg * fs->fs_spc) / NSPF(fs);
-	fs->fs_ncg = howmany(fs->fs_size / fs->fs_spc, fs->fs_cpg);
+	fs->fs_ncg = howmany(pp->p_size / fs->fs_spc, fs->fs_cpg);
 	for (fs->fs_fsbtodb = 0, i = NSPF(fs); i > 1; i >>= 1)
 		fs->fs_fsbtodb++;
+	/*
+	 * Mimick what mkfs is doing to get an acceptable cgsize,
+	 * not all fields used by CGSIZE() are filled in, but it's a best
+	 * effort anyway.
+	 */
+	if (CGSIZE(fs) > fs->fs_bsize && fs->fs_ntrak > 1) {
+		fs->fs_ntrak >>= 1;
+		fs->fs_spc >>= 1;
+		goto again;
+	}
 	dev_bsize = lp->d_secsize;
 	return (1);
 }

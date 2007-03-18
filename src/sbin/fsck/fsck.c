@@ -1,4 +1,4 @@
-/*	$OpenBSD: fsck.c,v 1.19 2005/02/03 05:03:50 jaredy Exp $	*/
+/*	$OpenBSD: fsck.c,v 1.24 2006/03/20 19:50:09 dhill Exp $	*/
 /*	$NetBSD: fsck.c,v 1.7 1996/10/03 20:06:30 christos Exp $	*/
 
 /*
@@ -35,7 +35,7 @@
  *
  */
 
-static const char rcsid[] = "$OpenBSD: fsck.c,v 1.19 2005/02/03 05:03:50 jaredy Exp $";
+static const char rcsid[] = "$OpenBSD: fsck.c,v 1.24 2006/03/20 19:50:09 dhill Exp $";
 
 #include <sys/param.h>
 #include <sys/mount.h>
@@ -90,7 +90,7 @@ main(int argc, char *argv[])
 	struct fstab *fs;
 	int i, rval = 0;
 	char *vfstype = NULL;
-	char globopt[3];
+	char *p, globopt[3];
 	struct rlimit rl;
 
 	/* Increase our data size to the max */
@@ -110,7 +110,7 @@ main(int argc, char *argv[])
 	TAILQ_INIT(&selhead);
 	TAILQ_INIT(&opthead);
 
-	while ((i = getopt(argc, argv, "dvpfnyl:t:T:")) != -1)
+	while ((i = getopt(argc, argv, "dvpfnyb:l:T:t:")) != -1)
 		switch (i) {
 		case 'd':
 			flags |= CHECK_DEBUG;
@@ -130,6 +130,13 @@ main(int argc, char *argv[])
 			options = catopt(options, globopt, 1);
 			break;
 
+		case 'b':
+			if (asprintf(&p, "-b %s", optarg) == -1)
+				err(1, "malloc failed");
+			options = catopt(options, p, 1);
+			free(p);
+			break;
+
 		case 'l':
 			maxrun = atoi(optarg);
 			break;
@@ -140,7 +147,7 @@ main(int argc, char *argv[])
 			break;
 
 		case 't':
-			if (selhead.tqh_first != NULL)
+			if (!TAILQ_EMPTY(&selhead))
 				errx(1, "only one -t option may be specified.");
 
 			maketypelist(optarg);
@@ -263,6 +270,7 @@ checkfs(const char *vfstype, const char *spec, const char *mntpt, void *auxarg,
 		warn("fork");
 		if (optbuf)
 			free(optbuf);
+		free(argv);
 		return (1);
 
 	case 0:					/* Child. */
@@ -295,6 +303,7 @@ checkfs(const char *vfstype, const char *spec, const char *mntpt, void *auxarg,
 	default:				/* Parent. */
 		if (optbuf)
 			free(optbuf);
+		free(argv);
 
 		if (pidp) {
 			*pidp = pid;
@@ -327,7 +336,7 @@ selected(const char *type)
 	struct entry *e;
 
 	/* If no type specified, it's always selected. */
-	for (e = selhead.tqh_first; e != NULL; e = e->entries.tqe_next)
+	TAILQ_FOREACH(e, &selhead, entries)
 		if (!strncmp(e->type, type, MFSNAMELEN))
 			return which == IN_LIST ? 1 : 0;
 
@@ -340,7 +349,7 @@ getoptions(const char *type)
 {
 	struct entry *e;
 
-	for (e = opthead.tqh_first; e != NULL; e = e->entries.tqe_next)
+	TAILQ_FOREACH(e, &opthead, entries)
 		if (!strncmp(e->type, type, MFSNAMELEN))
 			return e->options;
 	return "";
@@ -358,7 +367,7 @@ addoption(char *optstr)
 
 	*newoptions++ = '\0';
 
-	for (e = opthead.tqh_first; e != NULL; e = e->entries.tqe_next)
+	TAILQ_FOREACH(e, &opthead, entries)
 		if (!strncmp(e->type, optstr, MFSNAMELEN)) {
 			e->options = catopt(e->options, newoptions, 1);
 			return;
@@ -403,15 +412,12 @@ maketypelist(char *fslist)
 static char *
 catopt(char *s0, const char *s1, int fr)
 {
-	size_t i;
 	char *cp;
 
 	if (s0 && *s0) {
-		i = strlen(s0) + strlen(s1) + 1 + 1;
-		cp = emalloc(i);
-		(void)snprintf(cp, i, "%s,%s", s0, s1);
-	}
-	else
+		if (asprintf(&cp, "%s,%s", s0, s1) == -1)
+			err(1, "malloc failed");
+	} else
 		cp = estrdup(s1);
 
 	if (s0 && fr)

@@ -1,4 +1,4 @@
-/*	$OpenBSD: pass2.c,v 1.22 2005/06/16 14:51:37 millert Exp $	*/
+/*	$OpenBSD: pass2.c,v 1.25 2006/03/22 20:24:32 deraadt Exp $	*/
 /*	$NetBSD: pass2.c,v 1.17 1996/09/27 22:45:15 christos Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)pass2.c	8.6 (Berkeley) 10/27/94";
 #else
-static const char rcsid[] = "$OpenBSD: pass2.c,v 1.22 2005/06/16 14:51:37 millert Exp $";
+static const char rcsid[] = "$OpenBSD: pass2.c,v 1.25 2006/03/22 20:24:32 deraadt Exp $";
 #endif
 #endif /* not lint */
 
@@ -61,14 +61,14 @@ static int info_max;
 static int info_pos;
 
 static int
-pass2_info1(char *buf, int buflen)
+pass2_info1(char *buf, size_t buflen)
 {
 	return (snprintf(buf, buflen, "phase 2, directory %d/%d",
 	    info_pos, info_max) > 0);
 }
 
 static int
-pass2_info2(char *buf, int buflen)
+pass2_info2(char *buf, size_t buflen)
 {
 	if (snprintf(buf, buflen, "phase 2, parent directory %d/%d",
 	    info_pos, info_max) > 0)
@@ -470,7 +470,7 @@ again:
 			}
 			if (idesc->id_entryno > 2)
 				inp->i_parent = idesc->id_number;
-			/* fall through */
+			/* FALLTHROUGH */
 
 		case FSTATE:
 			if (newinofmt && dirp->d_type != typemap[dirp->d_ino]) {

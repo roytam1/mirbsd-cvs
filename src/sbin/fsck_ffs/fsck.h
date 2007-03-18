@@ -1,4 +1,4 @@
-/*	$OpenBSD: fsck.h,v 1.14 2003/09/25 04:19:39 deraadt Exp $	*/
+/*	$OpenBSD: fsck.h,v 1.17 2007/02/08 19:02:23 otto Exp $	*/
 /*	$NetBSD: fsck.h,v 1.13 1996/10/11 20:15:46 thorpej Exp $	*/
 
 /*
@@ -73,6 +73,7 @@ struct bufarea {
 #define	MINBUFS		5	/* minimum number of buffers required */
 struct bufarea bufhead;		/* head of list of other blks in filesys */
 struct bufarea sblk;		/* file system superblock */
+struct bufarea asblk;		/* alternate file system superblock */
 struct bufarea cgblk;		/* cylinder group blocks */
 struct bufarea *pdirbp;		/* current directory contents */
 struct bufarea *pbp;		/* current inode block */
@@ -216,5 +217,5 @@ struct inoinfo *getinoinfo(ino_t);
 void getblk(struct bufarea *, daddr_t, long);
 ino_t allocino(ino_t, int);
 
-int	(*info_fn)(char *, int);
+int	(*info_fn)(char *, size_t);
 char	*info_filesys;

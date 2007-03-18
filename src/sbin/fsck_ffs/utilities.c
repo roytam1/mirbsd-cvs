@@ -1,4 +1,4 @@
-/*	$OpenBSD: utilities.c,v 1.20 2003/08/25 23:28:15 tedu Exp $	*/
+/*	$OpenBSD: utilities.c,v 1.31 2007/02/13 20:37:07 otto Exp $	*/
 /*	$NetBSD: utilities.c,v 1.18 1996/09/27 22:45:20 christos Exp $	*/
 
 /*
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)utilities.c	8.1 (Berkeley) 6/5/93";
 #else
-static const char rcsid[] = "$OpenBSD: utilities.c,v 1.20 2003/08/25 23:28:15 tedu Exp $";
+static const char rcsid[] = "$OpenBSD: utilities.c,v 1.31 2007/02/13 20:37:07 otto Exp $";
 #endif
 #endif /* not lint */
 
@@ -45,6 +45,7 @@ static const char rcsid[] = "$OpenBSD: utilities.c,v 1.20 2003/08/25 23:28:15 te
 #include <ufs/ufs/dinode.h>
 #include <ufs/ufs/dir.h>
 #include <ufs/ffs/fs.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,7 +67,6 @@ int
 ftypeok(struct ufs1_dinode *dp)
 {
 	switch (dp->di_mode & IFMT) {
-
 	case IFDIR:
 	case IFREG:
 	case IFBLK:
@@ -75,7 +75,6 @@ ftypeok(struct ufs1_dinode *dp)
 	case IFSOCK:
 	case IFIFO:
 		return (1);
-
 	default:
 		if (debug)
 			printf("bad file type 0%o\n", dp->di_mode);
@@ -86,8 +85,7 @@ ftypeok(struct ufs1_dinode *dp)
 int
 reply(char *question)
 {
-	int persevere;
-	int c;
+	int persevere, c;
 
 	if (preen)
 		pfatal("INTERNAL ERROR: GOT TO reply()");
@@ -102,10 +100,15 @@ reply(char *question)
 		printf("%s? yes\n\n", question);
 		return (1);
 	}
-	do	{
-		printf("%s? [yn] ", question);
+
+	do {
+		printf("%s? [Fyn?] ", question);
 		(void) fflush(stdout);
 		c = getc(stdin);
+		if (c == 'F') {
+			yflag = 1;
+			return (1);
+		}
 		while (c != '\n' && getc(stdin) != '\n') {
 			if (feof(stdin)) {
 				resolved = 0;
@@ -144,8 +147,11 @@ bufinit(void)
 		bp = malloc(sizeof(struct bufarea));
 		bufp = malloc((unsigned int)sblock.fs_bsize);
 		if (bp == NULL || bufp == NULL) {
-			if (i >= MINBUFS)
+			if (i >= MINBUFS) {
+				free(bp);
+				free(bufp);
 				break;
+			}
 			errexit("cannot allocate buffer pool\n");
 		}
 		bp->b_un.b_buf = bufp;
@@ -175,7 +181,7 @@ getdatablk(daddr_t blkno, long size)
 	if (bp == &bufhead)
 		errexit("deadlocked buffer pool\n");
 	getblk(bp, blkno, size);
-	/* fall through */
+	/* FALLTHROUGH */
 foundit:
 	totalreads++;
 	bp->b_prev->b_next = bp->b_next;
@@ -243,11 +249,19 @@ ckfini(int markclean)
 {
 	struct bufarea *bp, *nbp;
 	int cnt = 0;
+	sigset_t oset, nset;
+
+	sigemptyset(&nset);
+	sigaddset(&nset, SIGINT);
+	sigprocmask(SIG_BLOCK, &nset, &oset);
 
 	if (fswritefd < 0) {
 		(void)close(fsreadfd);
+		fsreadfd = -1;
+		sigprocmask(SIG_SETMASK, &oset, NULL);
 		return;
 	}
+	sblock.fs_flags &= ~FS_FLAGS_UPDATED; /* Force update on next mount */
 	flush(fswritefd, &sblk);
 	if (havesb && sblk.b_bno != SBOFF / dev_bsize &&
 	    !preen && reply("UPDATE STANDARD SUPERBLOCK")) {
@@ -285,7 +299,10 @@ ckfini(int markclean)
 		printf("cache missed %ld of %ld (%d%%)\n", diskreads,
 		    totalreads, (int)(diskreads * 100 / totalreads));
 	(void)close(fsreadfd);
+	fsreadfd = -1;
 	(void)close(fswritefd);
+	fswritefd = -1;
+	sigprocmask(SIG_SETMASK, &oset, NULL);
 }
 
 int
@@ -297,19 +314,19 @@ bread(int fd, char *buf, daddr_t blk, long size)
 
 	offset = blk;
 	offset *= dev_bsize;
-	if (lseek(fd, offset, 0) < 0)
+	if (lseek(fd, offset, SEEK_SET) < 0)
 		rwerror("SEEK", blk);
 	else if (read(fd, buf, (int)size) == size)
 		return (0);
 	rwerror("READ", blk);
-	if (lseek(fd, offset, 0) < 0)
+	if (lseek(fd, offset, SEEK_SET) < 0)
 		rwerror("SEEK", blk);
 	errs = 0;
 	memset(buf, 0, (size_t)size);
 	printf("THE FOLLOWING DISK SECTORS COULD NOT BE READ:");
 	for (cp = buf, i = 0; i < size; i += secsize, cp += secsize) {
 		if (read(fd, cp, (int)secsize) != secsize) {
-			(void)lseek(fd, offset + i + secsize, 0);
+			(void)lseek(fd, offset + i + secsize, SEEK_SET);
 			if (secsize != dev_bsize && dev_bsize != 1)
 				printf(" %ld (%ld),",
 				    (blk * dev_bsize + i) / secsize,
@@ -334,19 +351,19 @@ bwrite(int fd, char *buf, daddr_t blk, long size)
 		return;
 	offset = blk;
 	offset *= dev_bsize;
-	if (lseek(fd, offset, 0) < 0)
+	if (lseek(fd, offset, SEEK_SET) < 0)
 		rwerror("SEEK", blk);
 	else if (write(fd, buf, (int)size) == size) {
 		fsmodified = 1;
 		return;
 	}
 	rwerror("WRITE", blk);
-	if (lseek(fd, offset, 0) < 0)
+	if (lseek(fd, offset, SEEK_SET) < 0)
 		rwerror("SEEK", blk);
 	printf("THE FOLLOWING SECTORS COULD NOT BE WRITTEN:");
 	for (cp = buf, i = 0; i < size; i += dev_bsize, cp += dev_bsize)
 		if (write(fd, cp, (int)dev_bsize) != dev_bsize) {
-			(void)lseek(fd, offset + i + dev_bsize, 0);
+			(void)lseek(fd, offset + i + dev_bsize, SEEK_SET);
 			printf(" %ld,", blk + i / dev_bsize);
 		}
 	printf("\n");
@@ -466,13 +483,13 @@ getpathname(char *namebuf, size_t namebuflen, ino_t curdir, ino_t ino)
 	memcpy(namebuf, cp, (size_t)(&namebuf[MAXPATHLEN] - cp));
 }
 
+/*ARGSUSED*/
 void
-catch(int n)
+catch(int signo)
 {
-	/* XXX signal race */
 	if (!doinglevel2)
-		ckfini(0);
-	exit(12);
+		ckfini(0);			/* XXX signal race */
+	_exit(12);
 }
 
 /*
@@ -480,8 +497,9 @@ catch(int n)
  * a special exit after filesystem checks complete
  * so that reboot sequence may be interrupted.
  */
+/*ARGSUSED*/
 void
-catchquit(int n)
+catchquit(int signo)
 {
 	extern volatile sig_atomic_t returntosingle;
 	char buf[1024];
@@ -497,13 +515,16 @@ catchquit(int n)
  * Ignore a single quit signal; wait and flush just in case.
  * Used by child processes in preen.
  */
+/*ARGSUSED*/
 void
-voidquit(int n)
+voidquit(int signo)
 {
+	int save_errno = errno;
 
 	sleep(1);
 	(void)signal(SIGQUIT, SIG_IGN);
 	(void)signal(SIGQUIT, SIG_DFL);
+	errno = save_errno;
 }
 
 /*
@@ -544,16 +565,16 @@ dofix(struct inodesc *idesc, char *msg)
 	/* NOTREACHED */
 }
 
-int (* info_fn)(char *, int) = NULL;
+int (* info_fn)(char *, size_t) = NULL;
 char *info_filesys = "?";
 
+/*ARGSUSED*/
 void
-catchinfo(int n)
+catchinfo(int signo)
 {
-	int save_errno = errno;
-	char buf[1024];
+	int save_errno = errno, fd;
 	struct iovec iov[4];
-	int fd;
+	char buf[1024];
 
 	if (info_fn != NULL && info_fn(buf, sizeof buf)) {
 		fd = open(_PATH_TTY, O_WRONLY);
