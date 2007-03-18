@@ -267,6 +267,8 @@ struct fs {
 /* actually longer */
 };
 
+#define	fs_opostbl_start	fs_opostbl[0][0]
+
 /*
  * Filesystem identification
  */
