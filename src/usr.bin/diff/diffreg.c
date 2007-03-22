@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: diffreg.c,v 1.62 2005/01/13 08:27:45 otto Exp $	*/
 
 /*
@@ -83,7 +82,7 @@
 #include "diff.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/diff/diffreg.c,v 1.2 2005/03/13 18:32:52 tg Exp $");
 
 /*
  * diff - compare two files.
@@ -1280,7 +1279,7 @@ asciifile(FILE *f)
 	rewind(f);
 	cnt = fread(buf, 1, sizeof(buf), f);
 	for (i = 0; i < cnt; i++)
-		if (!isprint(buf[i]) && !isspace(buf[i]))
+		if (isbinry(buf[i]))
 			return (0);
 	return (1);
 }

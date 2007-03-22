@@ -20,10 +20,6 @@
  * Materiel Command, USAF, under agreement number F39502-99-1-0512.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: diffdir.c,v 1.30 2005/06/15 18:44:01 millert Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -39,6 +35,8 @@ static const char rcsid[] = "$OpenBSD: diffdir.c,v 1.30 2005/06/15 18:44:01 mill
 #include <unistd.h>
 
 #include "diff.h"
+
+__RCSID("$MirOS$");
 
 static int dircompare(const void *, const void *);
 static int excluded(const char *);
@@ -250,8 +248,8 @@ slurpdir(char *path, char **bufp, int enoentok)
 static int
 dircompare(const void *vp1, const void *vp2)
 {
-	struct dirent *dp1 = *((struct dirent **) vp1);
-	struct dirent *dp2 = *((struct dirent **) vp2);
+	const struct dirent *dp1 = *((struct dirent * const *) vp1);
+	const struct dirent *dp2 = *((struct dirent * const *) vp2);
 
 	return (strcmp(dp1->d_name, dp2->d_name));
 }
