@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.1 2007/03/31 00:03:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -26,6 +26,8 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 char *fgetln(FILE *, size_t *);
 
