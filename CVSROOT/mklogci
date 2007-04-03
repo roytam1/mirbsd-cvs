@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.24 2007/02/16 19:46:40 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.25 2007/02/16 20:08:53 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -25,7 +25,8 @@
 #-
 # CVS helper to create log messages from cvs commits, rewritten from
 # scratch. The design pattern is a perl script originally written by
-# David Hampton and hacked by Greg A. Woods, OpenBSD and MirBSD.
+# David Hampton and hacked by Greg A. Woods, OpenBSD, and Th. Glaser
+# for MirBSD, later The MirOS Project.
 #-
 # Usage: mklogci commitid [-D] [-C root] [-f file] [-I uri] [-M module]
 #		 [-m mailto] -p pathr [-R replyto] file ...
@@ -83,30 +84,27 @@ function writemail
 
 function addnames
 {
-	local i
+	integer i
+	integer linln
 
 	dir=${dir##+(./)}
 	dir=${dir%%+(/)}
 	[[ -z $dir ]] && dir=.
-	line=$(printf '\t%-15s:' "$dir")
-	linadd=${add_names[0]}
-	let i=1
-	let linln=3
-	while (( i <= ${#add_names[*]} )); do
-		while (( ( linln + ${#linadd} ) < 58 )); do
+
+	line=$(printf '%-15s:' "$dir")
+	let i=0
+	let linln=${#line}
+	line="	$line"
+	while (( i < ${#add_names[*]} )); do
+		while :; do
 			line="$line $linadd"
 			let "linln += ${#linadd} + 1"
-			if (( i < ${#add_names[*]} )); then
-				linadd=${add_names[i++]}
-			else
-				linadd=
-				let i++
-				break
-			fi
+			(( i < ${#add_names[*]} )) || break
+			(( (linln + 1 + ${#add_names[i]}) < 72 )) || break
 		done
 		print -r -- "$line"
 		line='			'
-		let linln=3
+		let linln=16
 	done
 }
 
