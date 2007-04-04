@@ -61,6 +61,8 @@ from The Open Group.
 #include "bitmap.h"
 #include "bdfint.h"
 
+#include <stdint.h>
+
 #define INDICES 256
 #define MAXENCODING 0xFFFF
 #define BDFLINELEN  1024
@@ -283,6 +285,11 @@ bdfReadCharacters(FontFilePtr file, FontPtr pFont, bdfFileState *pState,
     if (nchars < 1) {
 	bdfError("invalid number of CHARS in BDF file\n");
 	return (FALSE);
+    }
+    if (nchars > INT32_MAX / sizeof(CharInfoRec)) {
+	bdfError("Couldn't allocate pCI (%d*%d)\n", nchars,
+		 sizeof(CharInfoRec));
+	goto BAILOUT;
     }
     ci = (CharInfoPtr) xalloc(nchars * sizeof(CharInfoRec));
     if (!ci) {
