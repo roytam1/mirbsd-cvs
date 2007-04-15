@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/file/magdir/commands,v 1.3 2007/04/15 12:46:10 tg Exp $
+# $MirOS: src/usr.bin/file/magdir/commands,v 1.4 2007/04/15 12:48:04 tg Exp $
 # $OpenBSD: commands,v 1.3 2004/06/03 03:14:19 tedu Exp $
 
 #------------------------------------------------------------------------------
@@ -82,3 +82,19 @@
 >2	string		>\0			%s script text
 0	string		#!\ 			commands text
 >3	string		>\0			for %s
+
+# UTF-8 Byte Order Mark plus shell magic
+0	string		﻿#!/bin/mksh		MirBSD Korn shell script text, with BOM
+0	string		﻿#!\ /bin/mksh		MirBSD Korn shell script text, with BOM
+0	string		﻿#!/usr/bin/env\ mksh	MirBSD Korn shell script text, with BOM
+0	string		﻿#!\ /usr/bin/env\ mksh	MirBSD Korn shell script text, with BOM
+0	string		﻿#!/bin/perl			perl commands text, with BOM
+0	string		﻿#!\ /bin/perl			perl commands text, with BOM
+0	string		﻿eval\ "exec\ /bin/perl		perl commands text, with BOM
+0	string		﻿#!/usr/bin/perl			perl commands text, with BOM
+0	string		﻿#!\ /usr/bin/perl		perl commands text, with BOM
+0	string		﻿eval\ "exec\ /usr/bin/perl	perl commands text, with BOM
+0	string		﻿#!/usr/local/bin/perl		perl commands text, with BOM
+0	string		﻿#!\ /usr/local/bin/perl		perl commands text, with BOM
+0	string		﻿#!/usr/bin/env\ perl		perl commands text, with BOM
+0	string		﻿#!\ /usr/bin/env\ perl		perl commands text, with BOM
