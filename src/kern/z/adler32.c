@@ -8,7 +8,11 @@
 #define ZLIB_INTERNAL
 #include "zlib.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/z/adler32.c,v 1.2 2007/02/06 20:29:45 tg Exp $");
+
+#if !defined(L_adler32) && !defined(L_adler32_combine)
+#error usage error, tell tg@ to fix this
+#endif
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552
