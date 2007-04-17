@@ -211,6 +211,10 @@ int		ListenTransCount;
 
 static void ErrorConnMax(XtransConnInfo /* trans_conn */);
 
+#if defined(__OpenBSD__)
+int priv_signal_parent(void);
+#endif
+
 #ifndef LBX
 static
 void CloseDownFileDescriptor(
