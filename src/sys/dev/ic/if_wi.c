@@ -212,7 +212,7 @@ wi_attach(struct wi_softc *sc, struct wi_funcs *funcs)
 	int			error;
 
 	sc->sc_funcs = funcs;
-	sc->wi_cmd_count = 500;
+	sc->wi_cmd_count = 1500;
 
 	wi_reset(sc);
 
