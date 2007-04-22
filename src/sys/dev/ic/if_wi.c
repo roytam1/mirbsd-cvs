@@ -1023,9 +1023,9 @@ wi_cor_reset(sc)
 	 * Do a soft reset of the card; this is required for Symbol cards.
 	 * This shouldn't hurt other cards but there have been reports
 	 * of the COR reset messing up old Lucent firmware revisions so
-	 * we only soft reset Symbol cards for now.
+	 * we avoid soft reset Lucent cards for now.
 	 */
-	if (sc->sc_firmware_type == WI_SYMBOL) {
+	if (sc->sc_firmware_type != WI_LUCENT) {
 		cor_value = bus_space_read_1(sc->wi_ltag, sc->wi_lhandle,
 		    sc->wi_cor_offset);
 		bus_space_write_1(sc->wi_ltag, sc->wi_lhandle,
