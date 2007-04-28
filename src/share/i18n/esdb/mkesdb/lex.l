@@ -34,6 +34,7 @@
 #include <sys/cdefs.h>
 #if !defined(lint)
 __RCSID("$NetBSD: lex.l,v 1.2 2003/10/27 00:12:43 lukem Exp $");
+__RCSID("$MirOS$");
 #endif /* not lint */
 
 #include <assert.h>
@@ -46,7 +47,7 @@ __RCSID("$NetBSD: lex.l,v 1.2 2003/10/27 00:12:43 lukem Exp $");
 #include <sys/queue.h>
 
 #include "ldef.h"
-#include "y.tab.h"
+#include "yacc.h"
 
 int line_number = 1;
 %}
