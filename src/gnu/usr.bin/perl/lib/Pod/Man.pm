@@ -257,6 +257,7 @@ $PREAMBLE = <<'----END OF PREAMBLE----';
 
     'nbsp'      =>    '\\ ',    # non-breaking space
     'shy'       =>    '',       # soft (discretionary) hyphen
+    'copy'	=>    '\(co',	# copyright
 );
 
 
@@ -474,6 +475,8 @@ $_
     $$self{ITEMTYPES} = [];     # Stack of =item types, one per list.
     $$self{SHIFTWAIT} = 0;      # Whether there is a shift waiting.
     $$self{SHIFTS}    = [];     # Stack of .RS shifts.
+    $$self{EXCLUDE}   = 0;
+    $$self{VERBATIM}  = 0;
 }
 
 
