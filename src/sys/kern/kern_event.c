@@ -698,7 +698,7 @@ kqueue_poll(struct file *fp, int events, struct proc *p)
 {
 	struct kqueue *kq = (struct kqueue *)fp->f_data;
 	int revents = 0;
-	int s = splnet();
+	int s = splhigh();
 
 	if (events & (POLLIN | POLLRDNORM)) {
 		if (kq->kq_count) {
