@@ -1,27 +1,20 @@
-/*	$OpenBSD: spamd.c,v 1.98 2007/03/07 11:30:43 jmc Exp $	*/
+/*	$OpenBSD: spamd.c,v 1.102 2007/04/13 22:05:43 beck Exp $	*/
 
 /*
+ * Copyright (c) 2002-2007 Bob Beck.  All rights reserved.
  * Copyright (c) 2002 Theo de Raadt.  All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 #include <sys/param.h>
@@ -658,10 +651,8 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	clients++;
 	if (cp->blacklists != NULL) {
 		blackcount++;
-		if (greylist && blackcount > maxblack) {
-			closecon(cp); /* close and free */
-			return;
-		}
+		if (greylist && blackcount > maxblack)
+			cp->stutter = 0;
 		cp->lists = strdup(loglists(cp));
 	}
 	else
@@ -742,14 +733,22 @@ nextstate(struct con *cp)
 		/* received input: parse, and select next state */
 		if (match(cp->ibuf, "HELO") ||
 		    match(cp->ibuf, "EHLO")) {
+			int nextstate = 2;
+			cp->helo[0] = '\0'; 
 			gethelo(cp->helo, sizeof cp->helo, cp->ibuf);
-			snprintf(cp->obuf, cp->osize,
-			    "250 Hello, spam sender. "
-			    "Pleased to be wasting your time.\r\n");
+			if (cp->helo[0] == '\0') {
+				nextstate = 0;
+				snprintf(cp->obuf, cp->osize,
+				    "501 helo requires domain name.\r\n");
+			} else {
+				snprintf(cp->obuf, cp->osize,
+				    "250 Hello, spam sender. "
+				    "Pleased to be wasting your time.\r\n");
+			}
 			cp->op = cp->obuf;
 			cp->ol = strlen(cp->op);
 			cp->laststate = cp->state;
-			cp->state = 2;
+			cp->state = nextstate;
 			cp->w = t + cp->stutter;
 			break;
 		}
@@ -842,20 +841,29 @@ nextstate(struct con *cp)
 				syslog_r(LOG_DEBUG, &sdata,"setsockopt: %m");
 				/* don't fail if this doesn't work. */
 			}
+			cp->ip = cp->ibuf;
+			cp->il = sizeof(cp->ibuf) - 1;
+			cp->op = cp->obuf;
+			cp->ol = strlen(cp->op);
+			cp->w = t + cp->stutter;
+			if (greylist && cp->blacklists == NULL) {
+				cp->laststate = cp->state;
+				cp->state = 98;
+				goto done;
+			}
 		} else {
-			snprintf(cp->obuf, cp->osize,
-			    "500 5.5.1 Command unrecognized\r\n");
+			if (match(cp->ibuf, "NOOP")) 
+				snprintf(cp->obuf, cp->osize,
+				    "250 2.0.0 OK I did nothing\r\n");
+			else
+                        	snprintf(cp->obuf, cp->osize,
+				    "500 5.5.1 Command unrecognized\r\n");
 			cp->state = cp->laststate;
-		}
-		cp->ip = cp->ibuf;
-		cp->il = sizeof(cp->ibuf) - 1;
-		cp->op = cp->obuf;
-		cp->ol = strlen(cp->op);
-		cp->w = t + cp->stutter;
-		if (greylist && cp->blacklists == NULL) {
-			cp->laststate = cp->state;
-			cp->state = 98;
-			goto done;
+			cp->ip = cp->ibuf;
+			cp->il = sizeof(cp->ibuf) - 1;
+			cp->op = cp->obuf;
+			cp->ol = strlen(cp->op);
+			cp->w = t + cp->stutter;
 		}
 		break;
 	case 60:

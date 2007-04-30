@@ -1,4 +1,4 @@
-/*	$OpenBSD: grey.c,v 1.34 2007/03/06 23:38:36 beck Exp $	*/
+/*	$OpenBSD: grey.c,v 1.39 2007/03/18 18:38:57 beck Exp $	*/
 
 /*
  * Copyright (c) 2004-2006 Bob Beck.  All rights reserved.
@@ -96,6 +96,7 @@ SLIST_HEAD(, mail_addr) match_suffix = SLIST_HEAD_INITIALIZER(match_suffix);
 char *alloweddomains_file = PATH_SPAMD_ALLOWEDDOMAINS;
 
 char *low_prio_mx_ip;
+time_t startup;
 
 static char *pargv[11]= {
 	"pfctl", "-p", "/dev/pf", "-q", "-t",
@@ -515,6 +516,29 @@ do_changes(DB *db)
 }
 
 int
+db_notin(DB *db, char *key)
+{
+	int			i;
+	DBT			dbk, dbd;
+
+	memset(&dbk, 0, sizeof(dbk));
+	dbk.size = strlen(key);
+	dbk.data = key;
+	memset(&dbd, 0,
+ sizeof(dbd));
+	i = db->get(db, &dbk, &dbd, 0);
+	if (i == -1)
+		return (-1);
+	if (i)
+		/* not in the database */
+		return (1);
+	else
+		/* it is in the database */
+		return (0);
+}
+
+
+int
 greyscan(char *dbname)
 {
 	HASHINFO	hashinfo;
@@ -567,7 +591,6 @@ greyscan(char *dbname)
 			char *cp;
 
 			/*
-			 * remove this tuple-keyed  entry from db
 			 * add address to whitelist
 			 * add an address-keyed entry to db
 			 */
@@ -584,11 +607,7 @@ greyscan(char *dbname)
 					goto bad;
 			}
 
-			if (tuple) {
-				if (cp != NULL)
-					*cp = '\n';
-				if (queue_change(a, NULL, 0, DBC_DEL) == -1)
-					goto bad;
+			if (tuple && db_notin(db, a)) {
 				if (cp != NULL)
 					*cp = '\0';
 				/* re-add entry, keyed only by ip */
@@ -600,7 +619,6 @@ greyscan(char *dbname)
 					goto bad;
 				syslog_r(LOG_DEBUG, &sdata,
 				    "whitelisting %s in %s", a, dbname);
-
 			}
 			if (debug)
 				fprintf(stderr, "whitelisted %s\n", a);
@@ -793,6 +811,8 @@ greyupdate(char *dbname, char *helo, char *ip, char *from, char *to, int sync,
 		spamtrap = 1;
 		lookup = ip;
 		expire = trapexp;
+		syslog_r(LOG_DEBUG, &sdata, "Trapping %s for tuple %s", ip,
+		    key);
 		break;
 	default:
 		goto bad;
@@ -807,7 +827,9 @@ greyupdate(char *dbname, char *helo, char *ip, char *from, char *to, int sync,
 		goto bad;
 	if (r) {
 		/* new entry */
-		if (sync && low_prio_mx_ip && (strcmp(cip, low_prio_mx_ip) == 0)) {
+		if (sync &&  low_prio_mx_ip &&
+		    (strcmp(cip, low_prio_mx_ip) == 0) &&
+		    ((startup + 60)  < now)) {
 			/* we haven't seen a greylist entry for this tuple, 
 			 * and yet the connection was to a low priority MX
 			 * which we know can't be hit first if the client
@@ -1062,6 +1084,8 @@ convert_spamd_db(void)
 		syslog_r(LOG_ERR, &sdata,
 		    "can't convert %s:  can't dbopen %s (%m)", PATH_SPAMD_DB,
 		sfn);
+		db1->close(db1);
+		exit(1);
 	}
 
 	memset(&dbk, 0, sizeof(dbk));
@@ -1151,6 +1175,7 @@ greywatcher(void)
 
 	check_spamd_db();
 
+	startup = time(NULL);
 	db_pid = fork();
 	switch (db_pid) {
 	case -1:
