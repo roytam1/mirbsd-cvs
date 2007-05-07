@@ -1,15 +1,9 @@
-# $MirOS: src/gnu/usr.bin/perl/hints/mirbsd.sh,v 1.1.7.1 2005/03/06 17:01:26 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/hints/mirbsd.sh,v 1.2 2007/05/07 18:16:25 tg Exp $
 #
-# hints file for MirOS; Thorsten Glaser <tg@66h.42h.de>
-# Derived from OpenBSD; Todd Miller <millert@openbsd.org>
-# Edited to allow Configure command-line overrides by
-#  Andy Dougherty <doughera@lafayette.edu>
-#
-# To build with distribution paths, use:
-#	./Configure -des -Dmirbsd_distribution=defined
-#
+# hints file for MirOS by Thorsten Glaser <tg@mirbsd.de>
+# based upon hints for OpenBSD
 
-[ -z "$cc" ] && cc="$CC"
+[ -z "$cc" ] && cc="${CC:-mgcc}"
 
 # MirOS has a better malloc than perl...
 usemymalloc='n'
@@ -21,14 +15,18 @@ test -z "$usedl" && usedl=$define
 # We use -fPIC here because -fpic is *NOT* enough for some of the
 # extensions like Tk on some platforms (ie: sparc)
 cccdlflags="-DPIC -fPIC $cccdlflags"
-ld="${cc:-cc}"
+ld=$cc
 lddlflags="-shared -fPIC $lddlflags"
 libswanted=$(echo $libswanted | sed 's/ dl / /')
 
 # We need to force ld to export symbols on ELF platforms.
-# Without this, dlopen() is crippled.
-ELF=$(${cc:-cc} -dM -E - </dev/null | grep __ELF__)
-test -n "$ELF" && ldflags="-Wl,-E $ldflags"
+# Without this, dlopen() is crippled. All platforms are ELF.
+ldflags="-Wl,-E $ldflags"
+
+# malloc wrap works
+case "$usemallocwrap" in
+'') usemallocwrap='define' ;;
+esac
 
 # MirOS doesn't need libcrypt
 libswanted=$(echo $libswanted | sed 's/ crypt / /')
@@ -36,7 +34,9 @@ libswanted=$(echo $libswanted | sed 's/ crypt / /')
 # Configure can't figure this out non-interactively
 d_suidsafe=$define
 
-   test "$optimize" || optimize='-O2'
+# cc is gcc so we can do better than -O
+# Allow a command-line override, such as -Doptimize=-g
+test "$optimize" || optimize='-O2'
 
 # This script UU/usethreads.cbu will get 'called-back' by Configure
 # after it has prompted the user for whether to use threads.
