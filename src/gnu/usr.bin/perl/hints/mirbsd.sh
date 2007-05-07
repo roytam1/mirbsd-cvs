@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/perl/hints/mirbsd.sh,v 1.1.7.1 2005/03/06 17:01:26 tg Exp $
 #
 # hints file for MirOS; Thorsten Glaser <tg@66h.42h.de>
 # Derived from OpenBSD; Todd Miller <millert@openbsd.org>
@@ -17,7 +17,6 @@ usemymalloc='n'
 # Currently, vfork(2) is not a real win over fork(2).
 usevfork="$undef"
 
-ARCH=$(arch | sed 's/^MirBSD.//')
 test -z "$usedl" && usedl=$define
 # We use -fPIC here because -fpic is *NOT* enough for some of the
 # extensions like Tk on some platforms (ie: sparc)
