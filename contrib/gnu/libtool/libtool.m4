@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.52 2006/06/25 02:12:21 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.53 2006/06/25 02:50:22 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1764,6 +1764,7 @@ linux*)
 
 mirbsd*)
   version_type=linux
+  sys_lib_search_path_spec="/usr/lib"
   sys_lib_dlsearch_path_spec="/usr/lib"
   need_lib_prefix=no
   need_version=no
