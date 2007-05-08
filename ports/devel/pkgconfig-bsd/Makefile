@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.12 2006/09/14 00:09:19 tg Exp $
+# $MirOS: ports/devel/pkgconfig-bsd/Makefile,v 1.1 2007/02/23 20:14:07 bsiegert Exp $
 
 COMMENT=		pkg-config clone in Perl
 CATEGORIES=		devel
@@ -6,7 +6,7 @@ CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/02/23
 CVS_DISTMODS=		src/usr.bin/pkg-config src/usr.sbin/pkg_add/OpenBSD
 CVS_DISTFILE=		pkgconfig-bsd
-DASH_VER=		0
+PKGNAME=		pkgconfig-${CVS_DISTDATE:S!/!!g}-${DASH_VER}-bsd
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 WRKDIST=		${WRKDIR}/src/usr.bin/pkg-config
