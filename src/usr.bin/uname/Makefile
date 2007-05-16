@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.2 1996/06/26 05:42:06 deraadt Exp $
+#	$NetBSD: Makefile,v 1.3 1997/01/09 20:23:11 tls Exp $
+#	from: @(#)Makefile	5.3 (Berkeley) 5/11/90
 
 PROG=	uname
 
