@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: uname.1,v 1.11 2004/02/23 15:01:33 jmc Exp $
+.\"	$MirOS: src/usr.bin/uname/uname.1,v 1.2 2005/03/13 18:33:50 tg Exp $
+.\"	$NetBSD: uname.1,v 1.12 2005/03/27 18:41:22 peter Exp $
 .\"
 .\" Copyright (c) 1990 The Regents of the University of California.
 .\" All rights reserved.
@@ -30,65 +30,70 @@
 .\"
 .\"     from: @(#)du.1	6.13 (Berkeley) 6/20/91
 .\"
-.Dd January 26, 1994
+.Dd May 16, 2007
 .Dt UNAME 1
 .Os
 .Sh NAME
 .Nm uname
-.Nd print operating system name
+.Nd Print operating system name
 .Sh SYNOPSIS
-.Nm uname
+.Nm
 .Op Fl almnprsv
 .Sh DESCRIPTION
 The
-.Nm uname
+.Nm
 utility writes symbols representing one or more system characteristics
 to the standard output.
 .Pp
-The options are as follows:
-.Bl -tag -width Ds
+The following options are available:
+.Bl -tag -width indent
 .It Fl a
 Behave as though all of the options
 .Fl lmnrsv
 were specified.
 .It Fl l
-Print the operating system patchlevel.
+print the operating system patchlevel.
 .It Fl m
-Print the machine hardware name.
+print the machine hardware name.
 .It Fl n
-Print the nodename (the nodename may be a name
+print the nodename (the nodename may be a name
 that the system is known by to a communications
 network).
 .It Fl p
-Print the processor type in more detail.
+print the machine processor architecture name.
 .It Fl r
-Print the operating system release.
+print the operating system release.
 .It Fl s
-Print the operating system name.
+print the operating system name.
 .It Fl v
-Print the operating system version.
+print the operating system version.
 .El
 .Pp
 If no options are specified,
-.Nm uname
+.Nm
 prints the operating system name as if the
 .Fl s
 option had been specified.
 .Sh SEE ALSO
+.Xr arch 1 ,
 .Xr hostname 1 ,
 .Xr machine 1 ,
 .Xr uname 3
 .Sh STANDARDS
 The
-.Nm uname
+.Nm
 utility conforms to
 .St -p1003.2-92 .
+The
+.Fl l
+option is an extension to the standard; its presence in the
+.Fl a
+output is conformant as it is an expanded operating system release.
+The
+.Fl p
+option is an extension to the standard.
 .Sh HISTORY
 The
 .Nm
 command appeared in
 .Bx 4.4 .
-The
-.Fl l
-option was added in
-.Mx .
