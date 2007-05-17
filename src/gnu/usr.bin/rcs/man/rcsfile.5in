@@ -86,7 +86,8 @@ nonterminal symbols are in
 .LP
 \f2sym\fP	::=	{\f2digit\fP}* \f2idchar\fP {\f2idchar\fP | \f2digit\fP}*
 .LP
-\f2idchar\fP	::=	any visible graphic character except \f2special\fP
+\f2idchar\fP	::=	any visible graphic character,
+		except \f2digit\fP or \f2special\fP
 .LP
 \f2special\fP	::=	\f3$\fP | \f3,\fP | \f3.\fP | \f3:\fP | \f3;\fP | \f3@\fP
 .LP
@@ -120,12 +121,23 @@ the hour (00\-23),
 the minute (00\-59),
 and
 .I ss
-the second (00\-60).
+the second (00\-59).
+If
 .I Y
-contains just the last two digits of the year
-for years from 1900 through 1999,
-and all the digits of years thereafter.
-Dates use the Gregorian calendar; times use UTC.
+contains exactly two digits,
+they are the last two digits of a year from 1900 through 1999;
+otherwise,
+.I Y
+contains all the digits of the year.
+Dates use the Gregorian calendar.
+Times use UTC, except that for portability's sake leap seconds are not allowed;
+implementations that support leap seconds should output
+.B 59
+for
+.I ss
+during an inserted leap second, and should accept
+.B 59
+for a deleted leap second.
 .PP
 The
 .I commitid
@@ -157,16 +169,23 @@ are on the trunk, and are linked through the
 field in order of decreasing numbers.
 The
 .B head
-field in the
-.I admin
-node points to the head of that sequence (i.e., contains
+field points to the head of that sequence (i.e., contains
 the highest pair).
 The
 .B branch
-node in the admin node indicates the default
+field indicates the default
 branch (or revision) for most \*r operations.
 If empty, the default
 branch is the highest branch on the trunk.
+The
+.B symbols
+field associates symbolic names with revisions.
+For example, if the file contains
+.B "symbols rr:1.1;"
+then
+.B rr
+is a name for revision
+.BR 1.1 .
 .PP
 All
 .I delta
