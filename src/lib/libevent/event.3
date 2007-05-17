@@ -1,4 +1,4 @@
-.\"	$OpenBSD: event.3,v 1.28 2006/11/26 15:22:58 brad Exp $
+.\"	$OpenBSD: event.3,v 1.35 2007/03/26 18:43:32 deraadt Exp $
 .\"
 .\" Copyright (c) 2000 Artur Grabowski <art@openbsd.org>
 .\" All rights reserved.
@@ -32,17 +32,23 @@
 .Nm event_loop ,
 .Nm event_loopexit ,
 .Nm event_set ,
+.\".Nm event_set_log_callback ,
 .Nm event_base_dispatch ,
 .Nm event_base_loop ,
 .Nm event_base_loopexit ,
 .Nm event_base_set ,
+.Nm event_base_free ,
 .Nm event_add ,
 .Nm event_del ,
 .Nm event_once ,
+.\".Nm event_active ,
 .Nm event_pending ,
 .Nm event_initialized ,
 .Nm event_priority_init ,
 .Nm event_priority_set ,
+.\".Nm event_base_priority_init ,
+.\".Nm event_get_version ,
+.\".Nm event_get_method ,
 .Nm evtimer_set ,
 .Nm evtimer_add ,
 .Nm evtimer_del ,
@@ -62,25 +68,74 @@
 .Nm bufferevent_disable ,
 .Nm bufferevent_settimeout ,
 .Nm bufferevent_base_set ,
+.\".Nm bufferevent_priority_set ,
 .Nm evbuffer_new ,
 .Nm evbuffer_free ,
 .Nm evbuffer_add ,
 .Nm evbuffer_add_buffer ,
 .Nm evbuffer_add_printf ,
 .Nm evbuffer_add_vprintf ,
+.\".Nm evbuffer_expand ,
+.\".Nm evbuffer_remove ,
+.\".Nm evbuffer_setcb ,
 .Nm evbuffer_drain ,
 .Nm evbuffer_write ,
 .Nm evbuffer_read ,
 .Nm evbuffer_find ,
-.Nm evbuffer_readline
+.Nm evbuffer_readline ,
+.\".Nm evhttp_start ,
+.\".Nm evhttp_free
+.\".Nm evtag_init ,
+.\".Nm evtag_marshal ,
+.\".Nm encode_int ,
+.\".Nm evtag_marshal_int ,
+.\".Nm evtag_marshal_string ,
+.\".Nm evtag_marshal_timeval ,
+.\".Nm evtag_test ,
+.\".Nm evtag_unmarshal ,
+.\".Nm evtag_peek ,
+.\".Nm evtag_peek_length ,
+.\".Nm evtag_payload_length ,
+.\".Nm evtag_consume ,
+.\".Nm evtag_unmarshal_int ,
+.\".Nm evtag_unmarshal_fixed ,
+.\".Nm evtag_unmarshal_string ,
+.\".Nm evtag_unmarshal_timeval ,
+.\".Nm evhttp_start ,
+.\".Nm evhttp_free ,
+.\".Nm evhttp_set_cb ,
+.\".Nm evhttp_set_gencb ,
+.\".Nm evhttp_set_timeout ,
+.\".Nm evhttp_send_error ,
+.\".Nm evhttp_send_reply ,
+.\".Nm evhttp_send_reply_start ,
+.\".Nm evhttp_send_reply_chunk ,
+.\".Nm evhttp_send_reply_end ,
+.\".Nm evhttp_request_new ,
+.\".Nm evhttp_request_set_chunked_cb ,
+.\".Nm evhttp_connection_new ,
+.\".Nm evhttp_connection_free ,
+.\".Nm evhttp_connection_set_timeout ,
+.\".Nm evhttp_connection_set_retries ,
+.\".Nm evhttp_connection_set_closecb ,
+.\".Nm evhttp_connection_get_peer ,
+.\".Nm evhttp_make_request ,
+.\".Nm evhttp_request_uri ,
+.\".Nm evhttp_remove_header ,
+.\".Nm evhttp_add_header ,
+.\".Nm evhttp_clear_headers ,
+.\".Nm evhttp_encode_uri ,
+.\".Nm evhttp_decode_uri ,
+.\".Nm evhttp_parse_query ,
+.\".Nm evhttp_htmlescape ,
 .Nd execute a function when a specific event occurs
 .Sh SYNOPSIS
 .Fd #include <sys/time.h>
 .Fd #include <event.h>
 .Ft "struct event_base *"
-.Fn "event_init"
+.Fn "event_init" "void"
 .Ft int
-.Fn "event_dispatch"
+.Fn "event_dispatch" "void"
 .Ft int
 .Fn "event_loop" "int flags"
 .Ft int
@@ -95,6 +150,8 @@
 .Fn "event_base_loopexit" "struct event_base *base" "struct timeval *tv"
 .Ft int
 .Fn "event_base_set" "struct event_base *base" "struct event *"
+.Ft void
+.Fn "event_base_free" "struct event_base *base"
 .Ft int
 .Fn "event_add" "struct event *ev" "struct timeval *tv"
 .Ft int
@@ -152,11 +209,11 @@
 .Ft void
 .Fn "evbuffer_free" "struct evbuffer *buf"
 .Ft int
-.Fn "evbuffer_add" "struct evbuffer *buf" "u_char *data" "size_t size"
+.Fn "evbuffer_add" "struct evbuffer *buf" "const void *data" "size_t size"
 .Ft int
 .Fn "evbuffer_add_buffer" "struct evbuffer *dst" "struct evbuffer *src"
 .Ft int
-.Fn "evbuffer_add_printf" "struct evbuffer *buf" "char *fmt" "..."
+.Fn "evbuffer_add_printf" "struct evbuffer *buf" "const char *fmt" "..."
 .Ft int
 .Fn "evbuffer_add_vprintf" "struct evbuffer *buf" "const char *fmt" "va_list ap"
 .Ft void
@@ -169,6 +226,10 @@
 .Fn "evbuffer_find" "struct evbuffer *buf" "const u_char *data" "size_t size"
 .Ft "char *"
 .Fn "evbuffer_readline" "struct evbuffer *buf"
+.\".Ft "struct evhttp *"
+.\".Fn "evhttp_start" "const char *address" "u_short port"
+.\".Ft "void"
+.\".Fn "evhttp_free" "struct evhttp* http"
 .Ft int
 .Fa (*event_sigcb)(void) ;
 .Ft volatile sig_atomic_t
@@ -444,8 +505,9 @@ This event base can be used in conjunction with calls to
 .Fn event_base_dispatch ,
 .Fn event_base_loop ,
 .Fn event_base_loopexit ,
+.Fn bufferevent_base_set
 and
-.Fn bufferevent_base_set .
+.Fn event_base_free .
 .Fn event_base_set
 should be called after preparing an event with
 .Fn event_set ,
@@ -455,6 +517,9 @@ assigns the provided event to the most recently created event base.
 .Fn bufferevent_base_set
 should be called after preparing a bufferevent with
 .Fn bufferevent_new .
+.Fn event_base_free
+should be used to free memory associated with the event base
+when it is no longer needed.
 .Sh BUFFERED EVENTS
 .Nm libevent
 provides an abstraction on top of the regular event callbacks.
@@ -515,6 +580,28 @@ returning the amount of data read.
 .Pp
 If multiple bases are in use, bufferevent_base_set() must be called before
 enabling the bufferevent for the first time.
+.\".Sh NON-BLOCKING HTTP SUPPORT
+.\".Nm libevent
+.\"provides a very thin HTTP layer that can be used both to host an HTTP
+.\"server and also to make HTTP requests.
+.\"An HTTP server can be created by calling
+.\".Fn evhttp_start .
+.\"When the HTTP server is no longer used, it can be freed via
+.\".Fn evhttp_free .
+.\".Pp
+.\"To be notified of HTTP requests, a user needs to register callbacks with the
+.\"HTTP server.
+.\"This can be done by calling
+.\".Fn evhttp_set_cb .
+.\"The second argument is the URI for which a callback is being registered.
+.\"The corresponding callback will receive an
+.\".Va struct evhttp_request
+.\"object that contains all information about the request.
+.Pp
+This section does not document all the possible function calls; please
+check
+.Va event.h
+for the public interfaces.
 .Sh RETURN VALUES
 Upon successful completion
 .Fn event_add
@@ -527,6 +614,7 @@ set to indicate the error.
 .Xr kqueue 2 ,
 .Xr poll 2 ,
 .Xr select 2 ,
+.Xr evdns 3 ,
 .Xr timeout 9
 .Sh HISTORY
 The
