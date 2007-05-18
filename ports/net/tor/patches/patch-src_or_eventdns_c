@@ -1,0 +1,21 @@
+$MirOS$
+
+	Use eventdns from libevent in base if possible.
+
+--- src/or/eventdns.c.orig	Wed Mar  7 11:12:15 2007
++++ src/or/eventdns.c	Thu May 17 23:50:19 2007
+@@ -34,6 +34,9 @@
+ 
+ #include <sys/types.h>
+ #include "eventdns_tor.h"
++
++#if !HAVE_EVDNS_INIT
++
+ //#define NDEBUG
+ #include "../common/torint.h"
+ 
+@@ -3132,3 +3135,4 @@ main(int c, char **v) {
+ // indent-tabs-mode: t
+ // End:
+ 
++#endif	// !HAVE_EVDNS_INIT

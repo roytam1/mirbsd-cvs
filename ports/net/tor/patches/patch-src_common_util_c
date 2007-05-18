@@ -1,0 +1,26 @@
+$MirOS$
+--- src/common/util.c.orig	Wed Mar  7 11:12:59 2007
++++ src/common/util.c	Thu May 17 23:56:50 2007
+@@ -945,19 +945,20 @@ parse_rfc1123_time(const char *buf, time
+   struct tm tm;
+   char month[4];
+   char weekday[4];
+-  int i, m;
++  int i, m, y;
+ 
+   if (strlen(buf) != RFC1123_TIME_LEN)
+     return -1;
+   memset(&tm, 0, sizeof(tm));
+   if (sscanf(buf, "%3s, %d %3s %d %d:%d:%d GMT", weekday,
+-             &tm.tm_mday, month, &tm.tm_year, &tm.tm_hour,
++             &tm.tm_mday, month, &y, &tm.tm_hour,
+              &tm.tm_min, &tm.tm_sec) < 7) {
+     char *esc = esc_for_log(buf);
+     log_warn(LD_GENERAL, "Got invalid RFC1123 time %s", esc);
+     tor_free(esc);
+     return -1;
+   }
++  tm.tm_year = y;
+ 
+   m = -1;
+   for (i = 0; i < 12; ++i) {

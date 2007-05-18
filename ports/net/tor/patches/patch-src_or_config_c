@@ -1,0 +1,23 @@
+$MirOS$
+--- src/or/config.c.orig	Wed Mar  7 11:12:10 2007
++++ src/or/config.c	Fri May 18 00:17:53 2007
+@@ -2637,15 +2637,15 @@ options_validate(or_options_t *old_optio
+ 
+   if (options->BandwidthRate > ROUTER_MAX_DECLARED_BANDWIDTH) {
+     r = tor_snprintf(buf, sizeof(buf),
+-                     "BandwidthRate must be at most %d",
+-                     ROUTER_MAX_DECLARED_BANDWIDTH);
++                     "BandwidthRate must be at most %ld",
++                     (long)ROUTER_MAX_DECLARED_BANDWIDTH);
+     *msg = tor_strdup(r >= 0 ? buf : "internal error");
+     return -1;
+   }
+   if (options->BandwidthBurst > ROUTER_MAX_DECLARED_BANDWIDTH) {
+     r = tor_snprintf(buf, sizeof(buf),
+-                     "BandwidthBurst must be at most %d",
+-                     ROUTER_MAX_DECLARED_BANDWIDTH);
++                     "BandwidthBurst must be at most %ld",
++                     (long)ROUTER_MAX_DECLARED_BANDWIDTH);
+     *msg = tor_strdup(r >= 0 ? buf : "internal error");
+     return -1;
+   }
