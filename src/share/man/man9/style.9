@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.7 2006/03/19 11:20:33 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.8 2007/01/22 15:51:54 tg Exp $
 .\" $OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
 .\"-
 .\" Copyright (c) 2002-2006 The MirOS Project.
@@ -27,7 +27,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"-
-.Dd January 22, 2007
+.Dd May 17, 2007
 .Dt STYLE 9 IMP
 .Os
 .Sh NAME
@@ -132,6 +132,11 @@ The includes block is separated by another blank line from the file
 identification block.
 Add the CVS (or RCS) ID of the file and, if taking over old source
 code, the SCCS ID as well; place another blank line after that.
+It is discouraged listing RCS IDs as comments at the beginning of
+files if it's possible (this excludes e.g. header files) to use
+these macros; copy them over, the macros are safe to be used more
+than once in the same file.
+Note that this may introduce CVS branch merge conflicts.
 These two macros are defined in
 .Aq Pa sys/cdefs.h :
 .Bd -literal -offset indent
