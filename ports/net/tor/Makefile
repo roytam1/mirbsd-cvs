@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/tor/Makefile,v 1.1 2007/05/18 00:23:06 tg Exp $
 # $NetBSD: Makefile,v 1.41 2007/04/26 20:04:37 tv Exp $
 
 COMMENT=		Anonymising overlay network for TCP
@@ -19,7 +19,7 @@ CONFIGURE_ARGS+=	--enable-eventdns \
 			--enable-threads \
 			--with-tor-user=_tor \
 			--with-tor-group=_tor \
-			--enable-gcc-warnings
+			--disable-gcc-warnings
 # enable gcc warnings will set -Werror, this might be bad
 EXTRA_XAKE_FLAGS+=	confdir=${PREFIX}/share/examples/tor
 
