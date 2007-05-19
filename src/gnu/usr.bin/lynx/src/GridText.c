@@ -1,4 +1,7 @@
-/*		Character grid hypertext object
+/*
+ * $LynxId: GridText.c,v 1.140 2007/05/13 20:42:37 Takeshi.Hataguchi Exp $
+ *
+ *		Character grid hypertext object
  *		===============================
  */
 
@@ -1709,14 +1712,14 @@ static void display_title(HText *text)
 	sprintf(percent, " (l%d of %d)",
 		text->top_of_screen, text->Lines);
     } else if ((text->Lines >= display_lines) && (display_lines > 0)) {
-	int total_pages = ((text->Lines + display_lines - 1)
+	int total_pages = ((text->Lines + display_lines)
 			   / display_lines);
 	int start_of_last_page = ((text->Lines <= display_lines)
 				  ? 0
 				  : (text->Lines - display_lines));
 
 	sprintf(percent, " (p%d of %d)",
-		((text->top_of_screen >= start_of_last_page)
+		((text->top_of_screen > start_of_last_page)
 		 ? total_pages
 		 : ((text->top_of_screen + display_lines) / (display_lines))),
 		total_pages);
@@ -7290,7 +7293,7 @@ BOOL HText_canScrollDown(void)
     HText *text = HTMainText;
 
     return (BOOL) ((text != 0)
-		   && ((text->top_of_screen + display_lines) < text->Lines));
+		   && ((text->top_of_screen + display_lines) <= text->Lines));
 }
 
 /*		Scroll actions
@@ -8035,7 +8038,7 @@ void print_crawl_to_fd(FILE *fp, char *thelink,
 	 * Add data.
 	 */
 	limit = TrimmedLength(line->data);
-	for (i = 0; limit; i++) {
+	for (i = 0; i < limit; i++) {
 	    int ch = UCH(line->data[i]);
 
 	    if (!IsSpecialAttrChar(ch)) {
@@ -8392,19 +8395,15 @@ void www_user_search(int start_line,
 void user_message(const char *message,
 		  const char *argument)
 {
-    char *temp = NULL;
-
     if (message == NULL) {
 	mustshow = FALSE;
-	return;
+    } else {
+	char *temp = NULL;
+
+	HTSprintf0(&temp, message, NonNull(argument));
+	statusline(temp);
+	FREE(temp);
     }
-
-    HTSprintf0(&temp, message, NonNull(argument));
-
-    statusline(temp);
-
-    FREE(temp);
-    return;
 }
 
 /*
@@ -11422,11 +11421,17 @@ int HText_SubmitForm(FormInfo * submit_item, DocInfo *doc, char *link_name,
 		    StrAllocCopy(escaped1, my_data[anchor_count].name);
 		} else if (Boundary) {
 		    const char *t = guess_content_type(val_used);
+		    char *copied_fname = NULL;
 
 		    StrAllocCopy(escaped1, "Content-Disposition: form-data");
 		    HTSprintf(&escaped1, "; name=\"%s\"",
 			      my_data[anchor_count].name);
-		    HTSprintf(&escaped1, "; filename=\"%s\"", val_used);
+
+		    StrAllocCopy(copied_fname, val_used);
+		    HTMake822Word(&copied_fname, FALSE);
+		    HTSprintf(&escaped1, "; filename=\"%s\"", copied_fname);
+		    FREE(copied_fname);
+
 		    /* Should we take into account the encoding? */
 		    HTSprintf(&escaped1, "\r\nContent-Type: %s", t);
 		    if (my_data[anchor_count].quote == QUOTE_BASE64)
