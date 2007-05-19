@@ -77,6 +77,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: walk.c,v 1.19 2006/02/01 22:19:34 dyoung Exp $");
 #endif	/* !__lint */
 
@@ -129,7 +130,7 @@ walk_dir(const char *dir, fsnode *parent)
 			continue;
 		if (debug & DEBUG_WALK_DIR_NODE)
 			printf("scanning %s/%s\n", dir, dent->d_name);
-		if (snprintf(path, sizeof(path), "%s/%s", dir, dent->d_name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, dent->d_name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (lstat(path, &stbuf) == -1)
@@ -282,7 +283,7 @@ apply_specdir(const char *dir, NODE *specnode, fsnode *dirnode)
 			if (strcmp(curnode->name, curfsnode->name) == 0)
 				break;
 		}
-		if (snprintf(path, sizeof(path), "%s/%s",
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s",
 		    dir, curnode->name) >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (curfsnode == NULL) {	/* need new entry */
@@ -450,7 +451,7 @@ dump_fsnodes(const char *dir, fsnode *root)
 	assert (dir != NULL);
 	printf("dump_fsnodes: %s %p\n", dir, root);
 	for (cur = root; cur != NULL; cur = cur->next) {
-		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 
@@ -505,16 +506,16 @@ link_check(fsinode *entry)
 		uint64_t	ino;
 		fsinode		*dup;
 	} *dups, *newdups;
-	static	int	ndups, maxdups;
+	static	size_t	ndups, maxdups;
 
-	int	i;
+	size_t	i;
 
 	assert (entry != NULL);
 
 		/* XXX; maybe traverse in reverse for speed? */
 	for (i = 0; i < ndups; i++) {
-		if (dups[i].dev == entry->st.st_dev &&
-		    dups[i].ino == entry->st.st_ino) {
+		if (dups[i].dev == (uint32_t)entry->st.st_dev &&
+		    dups[i].ino == (uint64_t)entry->st.st_ino) {
 			if (debug & DEBUG_WALK_DIR_LINKCHECK)
 				printf("link_check: found [%u, %llu]\n",
 				    entry->st.st_dev,

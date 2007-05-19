@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.2 2006/07/05 15:51:40 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.3 2006/09/21 20:16:23 tg Exp $ */
 /*	$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $	*/
 
 /*
@@ -72,7 +72,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.3 2006/09/21 20:16:23 tg Exp $");
 __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #endif	/* !__lint */
 
@@ -107,7 +107,7 @@ __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #include "ffs/newfs_extern.h"
 #include "ffs/ffs_extern.h"
 
-__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.2 2006/07/05 15:51:40 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.3 2006/09/21 20:16:23 tg Exp $");
 
 #undef DIP
 #define DIP(dp, field) \
@@ -212,7 +212,7 @@ ffs_parse_opts(const char *option, fsinfo_t *fsopts)
 					"max # of blocks per group" },
 		{ "version",	&ffs_opts->version,	1,	2,
 					"UFS version" },
-		{ NULL }
+		{ NULL, NULL, 0, 0, NULL }
 	};
 
 	char	*var, *val;
@@ -324,7 +324,7 @@ static void
 ffs_validate(const char *dir, fsnode *root, fsinfo_t *fsopts)
 {
 	int32_t	ncg = 1;
-#if notyet
+#ifdef notyet
 	int32_t	spc, nspf, ncyl, fssize;
 #endif
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
@@ -607,7 +607,7 @@ ffs_size_dir(fsnode *root, fsinfo_t *fsopts)
 			if (node->type == S_IFREG)
 				ADDSIZE(node->inode->st.st_size);
 			if (node->type == S_IFLNK) {
-				int	slen;
+				size_t	slen;
 
 				slen = strlen(node->symlink) + 1;
 				if (slen >= (ffs_opts->version == 1 ?
@@ -630,7 +630,7 @@ static void *
 ffs_build_dinode1(struct ufs1_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 		 fsnode *root, fsinfo_t *fsopts)
 {
-	int slen;
+	size_t slen;
 	void *membuf;
 
 	memset(dinp, 0, sizeof(*dinp));
@@ -678,7 +678,7 @@ static void *
 ffs_build_dinode2(struct ufs2_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 		 fsnode *root, fsinfo_t *fsopts)
 {
-	int slen;
+	size_t slen;
 	void *membuf;
 
 	memset(dinp, 0, sizeof(*dinp));
@@ -792,7 +792,7 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 			continue;		/* skip hard-linked entries */
 		cur->inode->flags |= FI_WRITTEN;
 
-		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 
@@ -835,7 +835,7 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 			continue;
 		if (cur->child == NULL)
 			continue;
-		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (! ffs_populate_dir(path, cur->child, fsopts))
@@ -1046,10 +1046,11 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	struct ufs2_dinode *dp2, *dip;
 	struct cg	*cgp;
 	struct fs	*fs;
-	int		cg, cgino, i;
+	int		cg, i;
+	unsigned	cgino;
 	daddr_t		d;
 	char		sbbuf[FFS_MAXBSIZE];
-	int32_t		initediblk;
+	uint32_t	initediblk;
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
 
 	assert (dp != NULL);

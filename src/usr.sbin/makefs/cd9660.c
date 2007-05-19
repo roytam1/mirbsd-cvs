@@ -101,7 +101,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.2 2006/09/21 20:16:22 tg Exp $");
 __RCSID("$NetBSD: cd9660.c,v 1.13 2006/06/01 21:06:37 hubertf Exp $");
 #endif  /* !__lint */
 
@@ -310,7 +310,7 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 		  "Turns on verbose output" },
 		{ "v", &diskStructure.verbose_level, 0 , 2,
 		  "Turns on verbose output"},
-		{ NULL }
+		{ NULL, NULL, 0, 0, NULL }
 	};
 
 	if (cd9660_defaults_set == 0)

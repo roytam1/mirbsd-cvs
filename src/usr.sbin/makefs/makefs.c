@@ -41,6 +41,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
+__RCSID("$MirOS: src/usr.sbin/makefs/makefs.c,v 1.4 2006/07/05 20:27:24 tg Exp $");
 __RCSID("$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $");
 #endif	/* !__lint */
 
@@ -56,8 +57,6 @@ __RCSID("$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $");
 #include "makefs.h"
 #include "mtree.h"
 #include "cd9660.h"
-
-__RCSID("$MirOS$");
 
 /* LONGLONG */
 long long strsuftoll(const char *desc, const char *val,
@@ -82,14 +81,14 @@ static fstype_t fstypes[] = {
 	{ "ffs", ffs_prep_opts,	ffs_parse_opts,	ffs_cleanup_opts, ffs_makefs },
 	{ "cd9660", cd9660_prep_opts, cd9660_parse_opts, cd9660_cleanup_opts,
 	  cd9660_makefs},
-	{ NULL	},
+	{ NULL, NULL, NULL, NULL, NULL	},
 };
 
 u_int		debug;
 struct timespec	start_time;
 
 static	fstype_t *get_fstype(const char *);
-static	void	usage(void);
+static	void	usage(void) __dead;
 int		main(int, char *[]);
 
 int

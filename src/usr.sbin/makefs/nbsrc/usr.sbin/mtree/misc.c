@@ -37,6 +37,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: misc.c,v 1.27 2005/09/29 14:29:03 tron Exp $");
 #endif /* not lint */
 
@@ -91,13 +92,13 @@ static KEY keylist[] = {
 };
 
 static KEY typelist[] = {
-	{"block",	F_BLOCK,	},
-	{"char",	F_CHAR,		},
-	{"dir",		F_DIR,		},
-	{"fifo",	F_FIFO,		},
-	{"file",	F_FILE,		},
-	{"link",	F_LINK,		},
-	{"socket",	F_SOCK,		},
+	{"block",	F_BLOCK,	0},
+	{"char",	F_CHAR,		0},
+	{"dir",		F_DIR,		0},
+	{"fifo",	F_FIFO,		0},
+	{"file",	F_FILE,		0},
+	{"link",	F_LINK,		0},
+	{"socket",	F_SOCK,		0},
 };
 
 slist_t	excludetags, includetags;
@@ -113,7 +114,7 @@ parsekey(const char *name, int *needvaluep)
 	KEY *k, tmp;
 
 	if (allbits == 0) {
-		int i;
+		size_t i;
 
 		for (i = 0; i < sizeof(keylist) / sizeof(KEY); i++)
 			allbits |= keylist[i].val;

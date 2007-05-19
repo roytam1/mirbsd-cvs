@@ -71,8 +71,8 @@ typedef struct gidc {
 	gid_t gid;		/* cached gid */
 } GIDC;
 
-const char *user_from_uid(uid_t uid, int noname);
-const char *group_from_gid(gid_t gid, int noname);
+const char *__nbcompat_user_from_uid(uid_t uid, int noname);
+const char *__nbcompat_group_from_gid(gid_t gid, int noname);
 int uid_from_user(const char *name, uid_t *uid);
 int gid_from_group(const char *name, gid_t *gid);
 int pwcache_userdb(

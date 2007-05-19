@@ -35,6 +35,7 @@
 #endif
 
 #include <sys/cdefs.h>
+__RCSID("$MirOS$");
 __KERNEL_RCSID(0, "$NetBSD: ffs_bswap.c,v 1.32 2005/12/11 12:25:25 christos Exp $");
 
 #include <sys/param.h>
@@ -58,7 +59,7 @@ __KERNEL_RCSID(0, "$NetBSD: ffs_bswap.c,v 1.32 2005/12/11 12:25:25 christos Exp 
 void
 ffs_sb_swap(struct fs *o, struct fs *n)
 {
-	int i;
+	size_t i;
 	u_int32_t *o32, *n32;
 
 	/*
@@ -164,7 +165,7 @@ ffs_dinode2_swap(struct ufs2_dinode *o, struct ufs2_dinode *n)
 void
 ffs_csum_swap(struct csum *o, struct csum *n, int size)
 {
-	int i;
+	size_t i;
 	u_int32_t *oint, *nint;
 
 	oint = (u_int32_t*)o;

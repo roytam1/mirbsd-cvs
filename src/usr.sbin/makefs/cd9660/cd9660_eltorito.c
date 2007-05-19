@@ -46,7 +46,6 @@ __RCSID("$NetBSD: cd9660_eltorito.c,v 1.11 2006/04/22 17:38:20 christos Exp $");
 #endif
 
 static struct boot_catalog_entry *cd9660_init_boot_catalog_entry(void);
-static struct boot_catalog_entry *cd9660_boot_setup_validation_entry(char);
 static struct boot_catalog_entry *cd9660_boot_setup_default_entry(
     struct cd9660_boot_image *);
 static struct boot_catalog_entry *cd9660_boot_setup_section_head(char);
@@ -241,7 +240,7 @@ cd9660_boot_setup_validation_entry(char sys)
 	boot_catalog_validation_entry *ve;
 	int16_t checksum;
 	unsigned char *csptr;
-	int i;
+	size_t i;
 	entry = cd9660_init_boot_catalog_entry();
 
 	if (entry == NULL) {

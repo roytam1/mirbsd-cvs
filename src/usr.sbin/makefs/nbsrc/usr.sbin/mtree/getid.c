@@ -76,6 +76,7 @@
 #include <grp.h>
 #include <limits.h>
 #include <pwd.h>
+#include <pwcache.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -83,6 +84,8 @@
 #include <unistd.h>
 
 #include "extern.h"
+
+__RCSID("$MirOS$");
 
 static	struct group *	gi_getgrnam(const char *);
 static	struct group *	gi_getgrgid(gid_t);

@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.12 2006/07/05 20:27:24 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.13 2007/05/19 22:51:43 tg Exp $
 # $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
 
 .include <bsd.own.mk>
@@ -20,6 +20,7 @@ DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
 
 CDIAGFLAGS+=	-Wmissing-declarations -Wmissing-prototypes
+CDIAGFLAGS+=	-Wno-unused -Wno-old-style-definition
 
 LSSRC=		${BSDSRCDIR}/bin/ls
 MKNODSRC=	${BSDSRCDIR}/sbin/mknod
@@ -28,6 +29,8 @@ UFSSRC=		${BSDSRCDIR}/sys/ufs
 CD9660SRC=	${BSDSRCDIR}/sys/isofs/cd9660
 
 CPPFLAGS+=	-DHAVE_STRUCT_STAT_BIRTHTIME=0
+CPPFLAGS+=	-DHAVE_NBTOOL_CONFIG_H=0 -DHAVE_NETDB_H=1 \
+		-DHAVE_PWCACHE_USERDB=0 -DHAVE_STRSUFTOLL=0
 
 NBASSOC=	${.CURDIR}/nbsrc
 

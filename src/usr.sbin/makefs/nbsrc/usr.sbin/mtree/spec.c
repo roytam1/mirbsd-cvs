@@ -71,7 +71,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)spec.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.3 2006/09/21 20:16:23 tg Exp $");
 __RCSID("$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $");
 
 #include <sys/param.h>
@@ -90,12 +90,9 @@ __RCSID("$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $");
 
 #include "extern.h"
 #include "pack_dev.h"
-
-#define	group_from_gid	__nbcompat_group_from_gid
-#define	user_from_uid	__nbcompat_user_from_uid
 #include "pwcache.h"
 
-__RCSID("$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.2 2006/07/05 20:08:35 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.3 2006/09/21 20:16:23 tg Exp $");
 
 size_t	mtree_lineno;			/* Current spec line number */
 int	mtree_Mflag;			/* Merge duplicate entries */
@@ -320,7 +317,7 @@ dump_nodes(const char *dir, NODE *root, int pathlast)
 		if (cur->type != F_DIR && !matchtags(cur))
 			continue;
 
-		if (snprintf(path, sizeof(path), "%s%s%s",
+		if ((size_t)snprintf(path, sizeof(path), "%s%s%s",
 		    dir, *dir ? "/" : "", cur->name)
 		    >= sizeof(path))
 			mtree_err("Pathname too long.");

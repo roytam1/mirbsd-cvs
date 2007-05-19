@@ -60,6 +60,7 @@ void	 dump_nodes(const char *, NODE *, int);
 void	 init_excludes(void);
 int	 matchtags(NODE *);
 void	 mtree_err(const char *, ...)
+	    __attribute__((noreturn))
 	    __attribute__((__format__(__printf__, 1, 2)));
 const char *nodetype(u_int);
 u_int	 parsekey(const char *, int *);
