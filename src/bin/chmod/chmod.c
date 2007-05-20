@@ -30,20 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)chmod.c	8.8 (Berkeley) 4/1/94";
-#else
-static char rcsid[] = "$OpenBSD: chmod.c,v 1.18 2004/07/01 18:25:47 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -52,6 +38,7 @@ static char rcsid[] = "$OpenBSD: chmod.c,v 1.18 2004/07/01 18:25:47 otto Exp $";
 #include <fts.h>
 #include <pwd.h>
 #include <grp.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,30 +46,34 @@ static char rcsid[] = "$OpenBSD: chmod.c,v 1.18 2004/07/01 18:25:47 otto Exp $";
 #include <limits.h>
 #include <locale.h>
 
+__COPYRIGHT("@(#) Copyright (c) 1989, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)chmod.c	8.8 (Berkeley) 4/1/94");
+__RCSID("$OpenBSD: chmod.c,v 1.18 2004/07/01 18:25:47 otto Exp $");
+__RCSID("$NetBSD: chmod.c,v 1.33 2005/10/01 20:09:18 christos Exp $");
+__RCSID("$MirOS$");
+
 int ischflags, ischown, ischgrp, ischmod;
-extern char *__progname;
+extern const char *__progname;
 
 gid_t a_gid(const char *);
 uid_t a_uid(const char *, int);
-void usage(void);
+void usage(void) __dead;
 
 int
 main(int argc, char *argv[])
 {
 	FTS *ftsp;
 	FTSENT *p;
-	void *set;
+	void *set = NULL;
 	long val;
-	int oct, omode;
+	bool oct = false;
+	mode_t omode = 0;
 	int Hflag, Lflag, Pflag, Rflag, ch, fflag, fts_options, hflag, rval;
 	uid_t uid;
 	gid_t gid;
 	u_int32_t fclear, fset;
 	char *ep, *mode, *cp, *flags;
-#ifdef lint
-	set = NULL;
-	oct = omode = 0;
-#endif
 
 	setlocale(LC_ALL, "");
 
@@ -119,8 +110,9 @@ main(int argc, char *argv[])
 			 * In System V (and probably POSIX.2) the -h option
 			 * causes chmod to change the mode of the symbolic
 			 * link.  4.4BSD's symbolic links don't have modes,
-			 * so it's an undocumented noop.  Do syntax checking,
-			 * though.
+			 * so it's an undocumented noop.  In MirOS #10,
+			 * lchmod(2) and lchflags(2) were introduced, and
+			 * this option does real work.
 			 */
 			hflag = 1;
 			break;
@@ -159,26 +151,27 @@ done:	argv += optind;
 			fts_options &= ~FTS_PHYSICAL;
 			fts_options |= FTS_LOGICAL;
 		}
-	}
+	} else if (!hflag)
+		fts_options |= FTS_COMFOLLOW;
 
 	if (ischflags) {
 		flags = *argv;
 		if (*flags >= '0' && *flags <= '7') {
 			errno = 0;
 			val = strtoul(flags, &ep, 8);
-			if (val > UINT_MAX)
+			if (val > (long)(UINT_MAX))
 				errno = ERANGE;
 			if (errno)
 				err(1, "invalid flags: %s", flags);
 			if (*ep)
 				errx(1, "invalid flags: %s", flags);
 			fset = val;
-			oct = 1;
+			oct = true;
 		} else {
 			if (strtofflags(&flags, &fset, &fclear))
 				errx(1, "invalid flag: %s", flags);
 			fclear = ~fclear;
-			oct = 0;
+			oct = false;
 		}
 	} else if (ischmod) {
 		mode = *argv;
@@ -192,11 +185,11 @@ done:	argv += optind;
 			if (*ep)
 				errx(1, "invalid file mode: %s", mode);
 			omode = val;
-			oct = 1;
+			oct = true;
 		} else {
 			if ((set = setmode(mode)) == NULL)
 				errx(1, "invalid file mode: %s", mode);
-			oct = 0;
+			oct = false;
 		}
 	} else if (ischown) {
 		if ((cp = strchr(*argv, ':')) != NULL) {
@@ -210,7 +203,7 @@ done:	argv += optind;
 			gid = a_gid(cp);
 		}
 #endif
-		if (uid == -1)
+		if (uid == (uid_t)(-1))
 			uid = a_uid(*argv, 0);
 	} else
 		gid = a_gid(*argv);
@@ -247,30 +240,34 @@ done:	argv += optind;
 			 * don't point to anything and ones that we found
 			 * doing a physical walk.
 			 */
-			if (ischflags || ischmod || !hflag)
+			if (!hflag)
 				continue;
+			/* FALLTHROUGH */
 		default:
 			break;
 		}
 		if (ischflags) {
 			if (oct) {
-				if (!chflags(p->fts_accpath, fset))
+				if (!(hflag?lchflags:chflags)(p->fts_accpath,
+				    fset))
 					continue;
 			} else {
 				p->fts_statp->st_flags |= fset;
 				p->fts_statp->st_flags &= fclear;
-				if (!chflags(p->fts_accpath, p->fts_statp->st_flags))
+				if (!(hflag?lchflags:chflags)(p->fts_accpath,
+				    p->fts_statp->st_flags))
 					continue;
 			}
 			warn("%s", p->fts_path);
 			rval = 1;
-		} else if (ischmod && chmod(p->fts_accpath, oct ? omode :
-		    getmode(set, p->fts_statp->st_mode)) && !fflag) {
+		} else if (ischmod && (hflag ? lchmod : chmod)(p->fts_accpath,
+		    oct ? omode : getmode(set, p->fts_statp->st_mode)) &&
+		    !fflag) {
 			warn("%s", p->fts_path);
 			rval = 1;
 		} else if (!ischmod && !ischflags &&
-		    (hflag ? lchown(p->fts_accpath, uid, gid) :
-		    chown(p->fts_accpath, uid, gid)) && !fflag) {
+		    (hflag ? lchown : chown)(p->fts_accpath, uid, gid) &&
+		    !fflag) {
 			warn("%s", p->fts_path);
 			rval = 1;
 		}
@@ -335,8 +332,8 @@ usage(void)
 {
 	if (ischmod || ischflags)
 		fprintf(stderr,
-		    "usage: %s [-R [-H | -L | -P]] %s file ...\n",
-		    __progname, (ischmod? "mode" : "flags"));
+		    "usage: %s [-R [-H | -L | -P]] [-h] %s file ...\n",
+		    __progname, (ischmod ? "mode" : "flags"));
 	else
 		fprintf(stderr,
 		    "usage: %s [-R [-H | -L | -P]] [-f] [-h] %s file ...\n",
