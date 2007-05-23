@@ -1685,48 +1685,17 @@ build_function_call (tree function, tree params)
   fntype = TREE_TYPE (fntype);
 
   /* Check that the function is called through a compatible prototype.
-     If it is not, replace the call by a trap, wrapped up in a compound
-     expression if necessary.  This has the nice side-effect to prevent
-     the tree-inliner from generating invalid assignment trees which may
-     blow up in the RTL expander later.
-
-     ??? This doesn't work for Objective-C because objc_comptypes
-     refuses to compare function prototypes, yet the compiler appears
-     to build calls that are flagged as invalid by C's comptypes.  */
+     If it is not, warn.  */
   if (! c_dialect_objc ()
       && TREE_CODE (function) == NOP_EXPR
       && TREE_CODE (tem = TREE_OPERAND (function, 0)) == ADDR_EXPR
       && TREE_CODE (tem = TREE_OPERAND (tem, 0)) == FUNCTION_DECL
       && ! comptypes (fntype, TREE_TYPE (tem), COMPARE_STRICT))
     {
-      tree return_type = TREE_TYPE (fntype);
-      tree trap = build_function_call (built_in_decls[BUILT_IN_TRAP],
-				       NULL_TREE);
-
       /* This situation leads to run-time undefined behavior.  We can't,
 	 therefore, simply error unless we can prove that all possible
 	 executions of the program must execute the code.  */
       warning ("function called through a non-compatible type");
-
-      /* We can, however, treat "undefined" any way we please.
-	 Call abort to encourage the user to fix the program.  */
-      inform ("if this code is reached, the program will abort");
-
-      if (VOID_TYPE_P (return_type))
-	return trap;
-      else
-	{
-	  tree rhs;
-
-	  if (AGGREGATE_TYPE_P (return_type))
-	    rhs = build_compound_literal (return_type,
-					  build_constructor (return_type,
-							     NULL_TREE));
-	  else
-	    rhs = fold (build1 (NOP_EXPR, return_type, integer_zero_node));
-
-	  return build (COMPOUND_EXPR, return_type, trap, rhs);
-	}
     }
 
   /* Convert the parameters to the types declared in the
@@ -4098,7 +4067,8 @@ digest_init (tree type, tree init, int require_constant)
      vector constructor is not constant (e.g. {1,2,3,foo()}) then punt
      below and handle as a constructor.  */
   if (code == VECTOR_TYPE
-      && comptypes (TREE_TYPE (inside_init), type, COMPARE_STRICT)
+      && TREE_CODE (TREE_TYPE (inside_init)) == VECTOR_TYPE
+      && vector_types_convertible_p (TREE_TYPE (inside_init), type)
       && TREE_CONSTANT (inside_init))
     {
       if (TREE_CODE (inside_init) == VECTOR_CST
@@ -4634,19 +4604,27 @@ push_init_level (int implicit)
   tree value = NULL_TREE;
 
   /* If we've exhausted any levels that didn't have braces,
-     pop them now.  */
-  while (constructor_stack->implicit)
+     pop them now.  If implicit == 1, this will have been done in
+     process_init_element; do not repeat it here because in the case
+     of excess initializers for an empty aggregate this leads to an
+     infinite cycle of popping a level and immediately recreating
+     it.  */
+  if (implicit != 1)
     {
-      if ((TREE_CODE (constructor_type) == RECORD_TYPE
-	   || TREE_CODE (constructor_type) == UNION_TYPE)
-	  && constructor_fields == 0)
-	process_init_element (pop_init_level (1));
-      else if (TREE_CODE (constructor_type) == ARRAY_TYPE
-	       && constructor_max_index
-	       && tree_int_cst_lt (constructor_max_index, constructor_index))
-	process_init_element (pop_init_level (1));
-      else
-	break;
+      while (constructor_stack->implicit)
+	{
+	  if ((TREE_CODE (constructor_type) == RECORD_TYPE
+	       || TREE_CODE (constructor_type) == UNION_TYPE)
+	      && constructor_fields == 0)
+	    process_init_element (pop_init_level (1));
+	  else if (TREE_CODE (constructor_type) == ARRAY_TYPE
+		   && constructor_max_index
+		   && tree_int_cst_lt (constructor_max_index,
+				       constructor_index))
+	    process_init_element (pop_init_level (1));
+	  else
+	    break;
+	}
     }
 
   /* Unless this is an explicit brace, we need to preserve previous
