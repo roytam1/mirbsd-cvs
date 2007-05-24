@@ -44,7 +44,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.6 2007/02/18 03:43:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.7 2007/02/18 12:54:04 tg Exp $");
 
 #define CRUNCH_VERSION	"1.3-MirOS"
 
@@ -916,7 +916,7 @@ top_makefile_rules(FILE * outmk)
 
 	fprintf(outmk, "%s: %s.o $(CRUNCHED_OBJS)\n",
 	    execfname, execfname);
-	fprintf(outmk, "\t$(CC) -static -o $@ %s.o $(CRUNCHED_OBJS)"
+	fprintf(outmk, "\t$(CC) -static $(LDFLAGS) -o $@ %s.o $(CRUNCHED_OBJS)"
 	    " -Wl,--start-group $(LIBS) -Wl,--end-group\n", execfname);
 	fprintf(outmk, "all: objs exe\nobjs: $(SUBMAKE_TARGETS)\n");
 	fprintf(outmk, "exe: %s\n", execfname);
