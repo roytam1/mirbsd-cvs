@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: procfs_subr.c,v 1.22 2005/04/16 22:19:28 kettenis Exp $	*/
 /*	$NetBSD: procfs_subr.c,v 1.15 1996/02/12 15:01:42 christos Exp $	*/
 
@@ -46,6 +47,8 @@
 #include <sys/stat.h>
 
 #include <miscfs/procfs/procfs.h>
+
+extern int allowpsa, allowpse;
 
 static TAILQ_HEAD(, pfsnode)	pfshead;
 struct lock pfs_vlock;
@@ -133,7 +136,9 @@ loop:
 
 	switch (pfs_type) {
 	case Proot:	/* /proc = dr-xr-xr-x */
-		pfs->pfs_mode = S_IRUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH;
+		/* sysctl kern.allowpsa=0 changes to dr-x------ */
+		pfs->pfs_mode = S_IRUSR | S_IXUSR |
+		    allowpsa ? (S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) : 0;
 		vp->v_type = VDIR;
 		vp->v_flag = VROOT;
 		break;
@@ -145,7 +150,9 @@ loop:
 		break;
 
 	case Pproc:	/* /proc/N = dr-xr-xr-x */
-		pfs->pfs_mode = S_IRUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH;
+		/* sysctl kern.allowpse=0 changes to dr-x------ */
+		pfs->pfs_mode = S_IRUSR | S_IXUSR |
+		    allowpse ? (S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) : 0;
 		vp->v_type = VDIR;
 		break;
 
