@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: contrib/code/Snippets/setlocale.c,v 1.1 2007/01/18 22:07:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2007
@@ -32,8 +32,8 @@
 #include <stdlib.h>
 #include <wchar.h>
 
-static const char __rcsid_1[] = "$miros: src/lib/libc/i18n/charsets.c,v 1.14 2006/09/07 17:13:15 tg Exp $" __attribute__((used));
-static const char __rcsid_2[] = "$MirOS: src/lib/libc/i18n/charsets.c,v 1.14 2006/09/07 17:13:15 tg Exp $" __attribute__((used));
+static const char __rcsid_1[] = "$miros: src/lib/libc/i18n/charsets.c,v 1.14 2006/09/07 17:13:15 tg Exp $";
+static const char __rcsid_2[] = "$MirOS: contrib/code/Snippets/setlocale.c,v 1.1 2007/01/18 22:07:22 tg Exp $";
 
 /* simple locale support (C and UTF-8) */
 
