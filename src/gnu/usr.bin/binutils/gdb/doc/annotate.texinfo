@@ -58,7 +58,7 @@ Texts.  A copy of the license is included in the section entitled ``GNU
 Free Documentation License''.
 @end titlepage
 
-@ifinfo
+@ifnottex
 @node Top
 @top GDB Annotations
 
@@ -68,7 +68,7 @@ implemented in older @value{GDBN} versions.
 @ignore
 This is Edition @value{EDITION}, @value{DATE}.
 @end ignore
-@end ifinfo
+@end ifnottex
 
 @menu
 * Annotations Overview::  What annotations are; the general syntax.

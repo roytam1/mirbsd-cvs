@@ -55,7 +55,7 @@ Texts.  A copy of the license is included in the section entitled ``GNU
 Free Documentation License''.
 @end titlepage
 
-@ifinfo
+@ifnottex
 @node Top
 @top The "stabs" representation of debugging information
 
@@ -79,7 +79,7 @@ This document describes the stabs debugging format.
 * Symbol Types Index::          Index of symbolic stab symbol type names.
 * GNU Free Documentation License::  The license for this documentation
 @end menu
-@end ifinfo
+@end ifnottex
 
 @c TeX can handle the contents at the start but makeinfo 3.12 can not
 @iftex
