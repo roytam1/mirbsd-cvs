@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/i386/Makefile,v 1.2 2005/03/06 21:26:54 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2002/07/15 21:29:16 mickey Exp $
 # $NetBSD: Makefile,v 1.6 1996/02/01 22:31:28 mycroft Exp $
 # @(#)Makefile	7.3 (Berkeley) 6/9/91
@@ -11,7 +11,9 @@ S=${.CURDIR}/../..
 NOPROG=	yes
 NOMAN=	yes
 
+.if ${MACHINE_ARCH} == "i386"
 SUBDIR=	stand
+.endif
 
 TI386=	$S/arch/i386/tags
 SI386=	$S/arch/i386/eisa/*.[ch] $S/arch/i386/i386/*.[ch] \
