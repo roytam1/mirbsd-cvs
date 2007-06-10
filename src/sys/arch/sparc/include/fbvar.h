@@ -68,6 +68,11 @@ struct sunfb {
 	volatile u_int32_t* sf_pfour;	/* P4 register when applicable */
 
 	struct	rasops_info sf_ro;
+
+	struct	wsscreen_descr sf_wsd;
+	struct	wsscreen_list sf_wsl;
+	struct	wsscreen_descr *sf_scrlist[1];
+	int	sf_nscreens;
 };
 
 /*
@@ -77,10 +82,10 @@ extern int fbnode;
 
 void	fb_setsize(struct sunfb*, int, int, int, int, int);
 void	fbwscons_init(struct sunfb *, int);
-void	fbwscons_console_init(struct sunfb *, struct wsscreen_descr *, int,
-    void (*)(void *, u_int, u_int));
+void	fbwscons_console_init(struct sunfb *, int);
 void	fbwscons_setcolormap(struct sunfb *,
     void (*)(void *, u_int, u_int8_t, u_int8_t, u_int8_t));
+void	fbwscons_attach(struct sunfb *, struct wsdisplay_accessops *, int);
 
 #if defined(SUN4)
 int	fb_pfour_id(void *);
