@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.5 2007/06/10 22:20:37 tg Exp $	*/
+/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.6 2007/06/11 00:44:48 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.59 2003/06/23 09:23:31 miod Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.73 1997/07/29 09:41:53 fair Exp $ */
 
@@ -1970,6 +1970,7 @@ setroot()
 	bootdv = (bp == NULL) ? NULL : bp->dev;
 #endif
 
+	part = (bp == NULL) ? 0 : bp->val[2];
 	/*
 	 * (raid) device auto-configuration could have returned
 	 * the root device's id in rootdev.  Check this case.
@@ -2001,7 +2002,7 @@ setroot()
 				printf("(default %s%c)",
 					bootdv->dv_xname,
 					bootdv->dv_class == DV_DISK
-						? bp->val[2]+'a' : ' ');
+						? part+'a' : ' ');
 			printf(": ");
 			len = getstr(buf, sizeof(buf));
 			if (len == 0 && bootdv != NULL) {
@@ -2017,7 +2018,7 @@ setroot()
 					goto gotswap;
 				}
 			}
-			dv = getdisk(buf, len, bp?bp->val[2]:0, &nrootdev);
+			dv = getdisk(buf, len, part, &nrootdev);
 			if (dv != NULL) {
 				bootdv = dv;
 				break;
@@ -2081,7 +2082,6 @@ gotswap:
 			 * val[2] of the boot device is the partition number.
 			 * Assume swap is on partition b.
 			 */
-			part = bp->val[2];
 			unit = bootdv->dv_unit;
 			rootdev = MAKEDISKDEV(majdev, unit, part);
 			nswapdev = dumpdev = MAKEDISKDEV(major(rootdev),
@@ -2155,7 +2155,7 @@ gotswap:
 			dumpdev = swdevt[0].sw_dev;
 	}
 
-gotroot:
+ gotroot:
 	/*
 	 * Find mountroot hook and execute.
 	 */
