@@ -762,9 +762,8 @@ ubt_request_start(struct ubt_softc * sc)
 	 */
 
 	if (m->m_pkthdr.len > UBT_CTRL_BUFFER_SIZE)
-		panic(
-"%s: %s - HCI command frame too big, size=%zd, len=%d\n",
-			__func__, USBDEVNAME(sc->sc_dev), UBT_CTRL_BUFFER_SIZE,
+		panic("%s: %s - HCI command frame too big, size=%lu, len=%d\n",
+			__func__, USBDEVNAME(sc->sc_dev), (u_long)UBT_CTRL_BUFFER_SIZE,
 			m->m_pkthdr.len);
 
 	m_copydata(m, 0, m->m_pkthdr.len, sc->sc_ctrl_buffer);

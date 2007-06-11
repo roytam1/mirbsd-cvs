@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.4 2006/04/06 20:44:06 tg Exp $	*/
+/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.5 2007/06/10 22:20:37 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.59 2003/06/23 09:23:31 miod Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.73 1997/07/29 09:41:53 fair Exp $ */
 
@@ -1002,12 +1002,12 @@ romprop(rp, cp, node)
 	    strcmp(getpropstring(node, "device_type"), "hierarchical") == 0)
 		len = 0;
 	if (len % sizeof(struct rom_reg)) {
-		printf("%s \"reg\" %s = %d (need multiple of %zu)\n",
+		printf("%s \"reg\" %s = %d (need multiple of %lu)\n",
 			cp, pl, len, sizeof(struct rom_reg));
 		return (0);
 	}
 	if (len > RA_MAXREG * sizeof(struct rom_reg))
-		printf("warning: %s \"reg\" %s %d > %zu, excess ignored\n",
+		printf("warning: %s \"reg\" %s %d > %lu, excess ignored\n",
 		    cp, pl, len, RA_MAXREG * sizeof(struct rom_reg));
 	rp->ra_node = node;
 	rp->ra_name = cp;
@@ -1482,7 +1482,7 @@ makememarr(ap, max, which)
 		 * Version 2 PROMs use a property array to describe them.
 		 */
 		if (max > MAXMEMINFO) {
-			printf("makememarr: limited to %zu\n", MAXMEMINFO);
+			printf("makememarr: limited to %lu\n", MAXMEMINFO);
 			max = MAXMEMINFO;
 		}
 		if ((node = findnode(firstchild(findroot()), "memory")) == 0)
