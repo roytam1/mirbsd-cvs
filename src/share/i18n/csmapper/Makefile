@@ -1,4 +1,4 @@
-# $MirOS: src/share/i18n/csmapper/Makefile,v 1.3 2006/01/31 15:23:05 tg Exp $
+# $MirOS: src/share/i18n/csmapper/Makefile,v 1.4 2006/01/31 15:59:29 tg Exp $
 # $NetBSD: Makefile,v 1.6 2005/03/27 22:30:06 tnozaki Exp $
 
 NOMAN=
@@ -49,6 +49,7 @@ all: _SUBDIRUSE .WAIT ${TOOL_MKCSMAPPER} ${FILES}
 realall: ${FILES}
 
 ${TOOL_MKCSMAPPER}:
-	cd ${.CURDIR}/mkcsmapper && ${MAKE}
+	cd ${.CURDIR}/mkcsmapper && \
+	    ${MAKE} CC=${HOSTCC:Q} CFLAGS=${HOSTCFLAGS:M*:Q}
 
 .include <bsd.prog.mk>

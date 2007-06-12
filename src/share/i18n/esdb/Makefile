@@ -1,4 +1,4 @@
-# $MirOS: src/share/i18n/esdb/Makefile,v 1.4 2006/01/31 16:26:48 tg Exp $
+# $MirOS: src/share/i18n/esdb/Makefile,v 1.5 2006/09/07 19:00:32 tg Exp $
 # $NetBSD: Makefile,v 1.4 2003/10/21 10:01:21 lukem Exp $
 
 NOMAN=
@@ -50,6 +50,7 @@ all: _SUBDIRUSE .WAIT ${TOOL_MKESDB} ${FILES}
 realall: ${FILES}
 
 ${TOOL_MKESDB}:
-	cd ${.CURDIR}/mkesdb && ${MAKE}
+	cd ${.CURDIR}/mkesdb && \
+	    ${MAKE} CC=${HOSTCC:Q} CFLAGS=${HOSTCFLAGS:M*:Q}
 
 .include <bsd.prog.mk>
