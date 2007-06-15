@@ -1,6 +1,7 @@
 XCOMM UTF-8 (Unicode) compose sequence
 XCOMM David.Monniaux@ens.fr
 XCOMM
+XCOMM $MirOS$
 XCOMM $XFree86: xc/nls/Compose/en_US.UTF-8,v 1.13 2004/05/08 06:10:16 pascal Exp $
 
 XCOMM Part 1 - Manual definitions
@@ -102,6 +103,9 @@ XCOMM Spaces
 <Multi_key> <minus> <d> : "đ" dstroke
 <Multi_key> <minus> <D> : "Đ" Dstroke
 <Multi_key> <s> <s> : "ß" ssharp
+<Multi_key> <s> <z> : "ß" ssharp
+<Multi_key> <S> <S> : "ẞ" U1E9E
+<Multi_key> <S> <Z> : "ẞ" U1E9E
 
 <Multi_key> <o> <e> : "œ" oe
 <Multi_key> <O> <E> : "Œ" OE
