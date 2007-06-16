@@ -1,12 +1,15 @@
 #!/bin/sh -
 #
-#	$OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
+#	$OpenBSD: daily,v 1.56 2006/10/26 12:20:55 ajacoutot Exp $
 #	From: @(#)daily	8.2 (Berkeley) 1/25/94
 #
+umask 022
+
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
 bak=/var/backups
 
 sysctl -n kern.version
+uptime
 
 if [ -f /etc/daily.local ]; then
 	echo ""
@@ -20,7 +23,7 @@ OUT=`mktemp /tmp/_security.XXXXXXXXXX` || {
 	exit 1
 }
 
-trap 'rm -f $TMP $OUT' 0 1 15
+trap 'rm -f $TMP $OUT; exit 1' 0 1 15
 
 echo ""
 echo "Removing scratch and junk files:"
@@ -55,8 +58,8 @@ if [ -d /var/rwho -a ! -L /var/rwho ] ; then
 	find . ! -name . -mtime +7 -execdir rm -f -- {} \; ; }
 fi
 
-#find / \( ! -fstype local -o -fstype rdonly -o -fstype fdesc \
-#		-o -fstype kernfs -o -fstype procfs \) -a -prune -o \
+#find / \( ! -fstype local -o -fstype rdonly \
+#		-o -fstype procfs \) -a -prune -o \
 #	-name 'lost+found' -a -prune -o \
 #	-name '*.core' -a -print -o \
 #	\( -name '[#,]*' -o -name '.#*' -o -name a.out \
