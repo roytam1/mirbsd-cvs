@@ -1,4 +1,4 @@
-#	$OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
+#	$OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
 # .
@@ -1045,17 +1045,6 @@ info
 # ./usr/share/info
 ..
 
-# ./usr/share/ipsec
-ipsec
-
-# ./usr/share/ipsec/isakmpd
-isakmpd		gname=bin uname=root
-# ./usr/share/ipsec/isakmpd
-..
-
-# ./usr/share/ipsec
-..
-
 # ./usr/share/lkm
 lkm		gname=bin uname=root
 
@@ -1069,16 +1058,386 @@ syscall		gname=bin uname=root
 # ./usr/share/lkm/syscall
 ..
 
-# ./usr/share/lkm/vfs
-vfs		gname=bin uname=root
-# ./usr/share/lkm/vfs
-..
-
 # ./usr/share/lkm
 ..
 
 # ./usr/share/locale
 locale
+# ./usr/share/locale/bg_BG.CP1251
+bg_BG.CP1251
+# ./usr/share/locale/bg_BG.CP1251
+..
+
+# ./usr/share/locale/ca_ES.ISO8859-1
+ca_ES.ISO8859-1
+# ./usr/share/locale/ca_ES.ISO8859-1
+..
+
+# ./usr/share/locale/ca_ES.ISO8859-15
+ca_ES.ISO8859-15
+# ./usr/share/locale/ca_ES.ISO8859-15
+..
+
+# ./usr/share/locale/cs_CZ.ISO8859-2
+cs_CZ.ISO8859-2
+# ./usr/share/locale/cs_CZ.ISO8859-2
+..
+
+# ./usr/share/locale/da_DK.ISO8859-1
+da_DK.ISO8859-1
+# ./usr/share/locale/da_DK.ISO8859-1
+..
+
+# ./usr/share/locale/da_DK.ISO8859-15
+da_DK.ISO8859-15
+# ./usr/share/locale/da_DK.ISO8859-15
+..
+
+# ./usr/share/locale/de_AT
+de_AT
+# ./usr/share/locale/de_AT
+..
+
+# ./usr/share/locale/de_AT.ISO8859-1
+de_AT.ISO8859-1
+# ./usr/share/locale/de_AT.ISO8859-1
+..
+
+# ./usr/share/locale/de_AT.ISO8859-15
+de_AT.ISO8859-15
+# ./usr/share/locale/de_AT.ISO8859-15
+..
+
+# ./usr/share/locale/de_CH.ISO8859-1
+de_CH.ISO8859-1
+# ./usr/share/locale/de_CH.ISO8859-1
+..
+
+# ./usr/share/locale/de_CH.ISO8859-15
+de_CH.ISO8859-15
+# ./usr/share/locale/de_CH.ISO8859-15
+..
+
+# ./usr/share/locale/de_DE.ISO8859-1
+de_DE.ISO8859-1
+# ./usr/share/locale/de_DE.ISO8859-1
+..
+
+# ./usr/share/locale/de_DE.ISO8859-15
+de_DE.ISO8859-15
+# ./usr/share/locale/de_DE.ISO8859-15
+..
+
+# ./usr/share/locale/el_GR.ISO8859-7
+el_GR.ISO8859-7
+# ./usr/share/locale/el_GR.ISO8859-7
+..
+
+# ./usr/share/locale/en_AU.ISO8859-1
+en_AU.ISO8859-1
+# ./usr/share/locale/en_AU.ISO8859-1
+..
+
+# ./usr/share/locale/en_AU.ISO8859-15
+en_AU.ISO8859-15
+# ./usr/share/locale/en_AU.ISO8859-15
+..
+
+# ./usr/share/locale/en_CA.ISO8859-1
+en_CA.ISO8859-1
+# ./usr/share/locale/en_CA.ISO8859-1
+..
+
+# ./usr/share/locale/en_CA.ISO8859-15
+en_CA.ISO8859-15
+# ./usr/share/locale/en_CA.ISO8859-15
+..
+
+# ./usr/share/locale/en_GB.ISO8859-1
+en_GB.ISO8859-1
+# ./usr/share/locale/en_GB.ISO8859-1
+..
+
+# ./usr/share/locale/en_GB.ISO8859-15
+en_GB.ISO8859-15
+# ./usr/share/locale/en_GB.ISO8859-15
+..
+
+# ./usr/share/locale/en_US.ISO8859-1
+en_US.ISO8859-1
+# ./usr/share/locale/en_US.ISO8859-1
+..
+
+# ./usr/share/locale/en_US.ISO8859-15
+en_US.ISO8859-15
+# ./usr/share/locale/en_US.ISO8859-15
+..
+
+# ./usr/share/locale/en_US.UTF-8
+en_US.UTF-8
+# ./usr/share/locale/en_US.UTF-8
+..
+
+# ./usr/share/locale/es_ES.ISO8859-1
+es_ES.ISO8859-1
+# ./usr/share/locale/es_ES.ISO8859-1
+..
+
+# ./usr/share/locale/es_ES.ISO8859-15
+es_ES.ISO8859-15
+# ./usr/share/locale/es_ES.ISO8859-15
+..
+
+# ./usr/share/locale/fi_FI.ISO8859-1
+fi_FI.ISO8859-1
+# ./usr/share/locale/fi_FI.ISO8859-1
+..
+
+# ./usr/share/locale/fi_FI.ISO8859-15
+fi_FI.ISO8859-15
+# ./usr/share/locale/fi_FI.ISO8859-15
+..
+
+# ./usr/share/locale/fr_BE.ISO8859-1
+fr_BE.ISO8859-1
+# ./usr/share/locale/fr_BE.ISO8859-1
+..
+
+# ./usr/share/locale/fr_BE.ISO8859-15
+fr_BE.ISO8859-15
+# ./usr/share/locale/fr_BE.ISO8859-15
+..
+
+# ./usr/share/locale/fr_CA.ISO8859-1
+fr_CA.ISO8859-1
+# ./usr/share/locale/fr_CA.ISO8859-1
+..
+
+# ./usr/share/locale/fr_CA.ISO8859-15
+fr_CA.ISO8859-15
+# ./usr/share/locale/fr_CA.ISO8859-15
+..
+
+# ./usr/share/locale/fr_CH.ISO8859-1
+fr_CH.ISO8859-1
+# ./usr/share/locale/fr_CH.ISO8859-1
+..
+
+# ./usr/share/locale/fr_CH.ISO8859-15
+fr_CH.ISO8859-15
+# ./usr/share/locale/fr_CH.ISO8859-15
+..
+
+# ./usr/share/locale/fr_FR.ISO8859-1
+fr_FR.ISO8859-1
+# ./usr/share/locale/fr_FR.ISO8859-1
+..
+
+# ./usr/share/locale/fr_FR.ISO8859-15
+fr_FR.ISO8859-15
+# ./usr/share/locale/fr_FR.ISO8859-15
+..
+
+# ./usr/share/locale/hr_HR.ISO8859-2
+hr_HR.ISO8859-2
+# ./usr/share/locale/hr_HR.ISO8859-2
+..
+
+# ./usr/share/locale/hu_HU.ISO8859-2
+hu_HU.ISO8859-2
+# ./usr/share/locale/hu_HU.ISO8859-2
+..
+
+# ./usr/share/locale/hy_AM.ARMSCII-8
+hy_AM.ARMSCII-8
+# ./usr/share/locale/hy_AM.ARMSCII-8
+..
+
+# ./usr/share/locale/is_IS.ISO8859-1
+is_IS.ISO8859-1
+# ./usr/share/locale/is_IS.ISO8859-1
+..
+
+# ./usr/share/locale/is_IS.ISO8859-15
+is_IS.ISO8859-15
+# ./usr/share/locale/is_IS.ISO8859-15
+..
+
+# ./usr/share/locale/it_CH.ISO8859-1
+it_CH.ISO8859-1
+# ./usr/share/locale/it_CH.ISO8859-1
+..
+
+# ./usr/share/locale/it_CH.ISO8859-15
+it_CH.ISO8859-15
+# ./usr/share/locale/it_CH.ISO8859-15
+..
+
+# ./usr/share/locale/it_IT.ISO8859-1
+it_IT.ISO8859-1
+# ./usr/share/locale/it_IT.ISO8859-1
+..
+
+# ./usr/share/locale/it_IT.ISO8859-15
+it_IT.ISO8859-15
+# ./usr/share/locale/it_IT.ISO8859-15
+..
+
+# ./usr/share/locale/ja_JP.ISO2022-JP
+ja_JP.ISO2022-JP
+# ./usr/share/locale/ja_JP.ISO2022-JP
+..
+
+# ./usr/share/locale/ja_JP.ISO2022-JP2
+ja_JP.ISO2022-JP2
+# ./usr/share/locale/ja_JP.ISO2022-JP2
+..
+
+# ./usr/share/locale/ja_JP.SJIS
+ja_JP.SJIS
+# ./usr/share/locale/ja_JP.SJIS
+..
+
+# ./usr/share/locale/ja_JP.ct
+ja_JP.ct
+# ./usr/share/locale/ja_JP.ct
+..
+
+# ./usr/share/locale/ja_JP.eucJP
+ja_JP.eucJP
+# ./usr/share/locale/ja_JP.eucJP
+..
+
+# ./usr/share/locale/ko_KR.UTF-8
+ko_KR.UTF-8
+# ./usr/share/locale/ko_KR.UTF-8
+..
+
+# ./usr/share/locale/ko_KR.eucKR
+ko_KR.eucKR
+# ./usr/share/locale/ko_KR.eucKR
+..
+
+# ./usr/share/locale/lt_LT.ISO8859-13
+lt_LT.ISO8859-13
+# ./usr/share/locale/lt_LT.ISO8859-13
+..
+
+# ./usr/share/locale/lt_LT.ISO8859-4
+lt_LT.ISO8859-4
+# ./usr/share/locale/lt_LT.ISO8859-4
+..
+
+# ./usr/share/locale/nl_BE.ISO8859-1
+nl_BE.ISO8859-1
+# ./usr/share/locale/nl_BE.ISO8859-1
+..
+
+# ./usr/share/locale/nl_BE.ISO8859-15
+nl_BE.ISO8859-15
+# ./usr/share/locale/nl_BE.ISO8859-15
+..
+
+# ./usr/share/locale/nl_NL.ISO8859-1
+nl_NL.ISO8859-1
+# ./usr/share/locale/nl_NL.ISO8859-1
+..
+
+# ./usr/share/locale/nl_NL.ISO8859-15
+nl_NL.ISO8859-15
+# ./usr/share/locale/nl_NL.ISO8859-15
+..
+
+# ./usr/share/locale/no_NO.ISO8859-1
+no_NO.ISO8859-1
+# ./usr/share/locale/no_NO.ISO8859-1
+..
+
+# ./usr/share/locale/no_NO.ISO8859-15
+no_NO.ISO8859-15
+# ./usr/share/locale/no_NO.ISO8859-15
+..
+
+# ./usr/share/locale/pl_PL.ISO8859-2
+pl_PL.ISO8859-2
+# ./usr/share/locale/pl_PL.ISO8859-2
+..
+
+# ./usr/share/locale/pt_PT.ISO8859-1
+pt_PT.ISO8859-1
+# ./usr/share/locale/pt_PT.ISO8859-1
+..
+
+# ./usr/share/locale/pt_PT.ISO8859-15
+pt_PT.ISO8859-15
+# ./usr/share/locale/pt_PT.ISO8859-15
+..
+
+# ./usr/share/locale/ru_RU.CP866
+ru_RU.CP866
+# ./usr/share/locale/ru_RU.CP866
+..
+
+# ./usr/share/locale/ru_RU.ISO8859-5
+ru_RU.ISO8859-5
+# ./usr/share/locale/ru_RU.ISO8859-5
+..
+
+# ./usr/share/locale/ru_RU.KOI8-R
+ru_RU.KOI8-R
+# ./usr/share/locale/ru_RU.KOI8-R
+..
+
+# ./usr/share/locale/sk_SK.ISO8859-2
+sk_SK.ISO8859-2
+# ./usr/share/locale/sk_SK.ISO8859-2
+..
+
+# ./usr/share/locale/sl_SI.ISO8859-2
+sl_SI.ISO8859-2
+# ./usr/share/locale/sl_SI.ISO8859-2
+..
+
+# ./usr/share/locale/sv_SE.ISO8859-1
+sv_SE.ISO8859-1
+# ./usr/share/locale/sv_SE.ISO8859-1
+..
+
+# ./usr/share/locale/sv_SE.ISO8859-15
+sv_SE.ISO8859-15
+# ./usr/share/locale/sv_SE.ISO8859-15
+..
+
+# ./usr/share/locale/uk_UA.KOI8-U
+uk_UA.KOI8-U
+# ./usr/share/locale/uk_UA.KOI8-U
+..
+
+# ./usr/share/locale/zh_CN.GB18030
+zh_CN.GB18030
+# ./usr/share/locale/zh_CN.GB18030
+..
+
+# ./usr/share/locale/zh_CN.eucCN
+zh_CN.eucCN
+# ./usr/share/locale/zh_CN.eucCN
+..
+
+# ./usr/share/locale/zh_TW.Big5
+zh_TW.Big5
+# ./usr/share/locale/zh_TW.Big5
+..
+
+# ./usr/share/locale/zh_TW.BIG5
+zh_TW.BIG5
+# ./usr/share/locale/zh_TW.BIG5
+..
+
+# ./usr/share/locale/zh_TW.eucTW
+zh_TW.eucTW
+# ./usr/share/locale/zh_TW.eucTW
+..
+
 # ./usr/share/locale
 ..
 
@@ -1092,6 +1451,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1101,6 +1464,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1139,6 +1504,10 @@ alpha
 amd64
 ..
 
+# ./usr/share/man/cat2/armish
+armish
+..
+
 # ./usr/share/man/cat2/i386
 i386
 
@@ -1167,6 +1536,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1176,6 +1549,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1215,6 +1590,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1224,6 +1603,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1258,6 +1639,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1267,6 +1652,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1311,6 +1698,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1320,6 +1711,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1354,6 +1747,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1363,6 +1760,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1397,6 +1796,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1406,6 +1809,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1440,6 +1845,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 i386
@@ -1457,6 +1866,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1466,6 +1879,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1505,6 +1920,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1514,6 +1933,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1548,6 +1969,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1557,6 +1982,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1601,6 +2028,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1610,6 +2041,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1644,6 +2077,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1653,6 +2090,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1687,6 +2126,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1696,6 +2139,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1745,6 +2190,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1754,6 +2203,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1803,6 +2254,10 @@ alpha
 ..
 amd64
 ..
+armish
+..
+aviion
+..
 cats
 ..
 hp300
@@ -1812,6 +2267,8 @@ hppa
 hppa64
 ..
 i386
+..
+landisk
 ..
 luna88k
 ..
@@ -1978,11 +2435,6 @@ Mexico           gname=bin uname=root mode=0555
 # ./usr/share/zoneinfo/Mexico
 ..
 
-# ./usr/share/zoneinfo/SystemV
-SystemV          gname=bin uname=root mode=0555
-# ./usr/share/zoneinfo/SystemV
-..
-
 # ./usr/share/zoneinfo/US
 US               gname=bin uname=root mode=0555
 # ./usr/share/zoneinfo/US
@@ -1998,6 +2450,11 @@ US               gname=bin uname=root mode=0555
 #src		gname=wsrc mode=0775
 # ./usr/src
 #..
+
+# ./usr/xobj
+xobj		gname=wsrc mode=0775
+# ./usr/xobj
+..
 
 # ./usr
 ..
@@ -2149,6 +2606,11 @@ slave		uname=root gname=named mode=0775
 # ./var/named/standard
 standard
 # ./var/named/standard
+..
+
+# ./var/named/tmp
+tmp		uname=root gname=named mode=0775
+# ./var/named/tmp
 ..
 
 # ./var/named
@@ -2338,6 +2800,11 @@ conf  type=dir uname=root gname=daemon mode=755
 #./www/users
 users  type=dir uname=root gname=daemon mode=755
 #./www/users
+..
+
+#./www/bin
+bin  type=dir uname=root gname=daemon mode=755
+#./www/bin
 ..
 
 #./www

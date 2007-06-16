@@ -1,4 +1,4 @@
-#	$OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
+#	$OpenBSD: special,v 1.74 2007/02/28 01:37:15 david Exp $
 #	$NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 #	@(#)special	8.2 (Berkeley) 1/23/94
 #
@@ -17,7 +17,8 @@ mem		type=char mode=0640 uname=root gname=kmem
 
 etc		type=dir mode=0755 uname=root gname=wheel
 bgpd.conf	type=file mode=0600 uname=root gname=wheel
-crontab		type=file mode=0644 uname=root gname=wheel optional
+chio.conf	type=file mode=0600 uname=root gname=wheel
+crontab		type=file mode=0600 uname=root gname=wheel optional
 csh.cshrc	type=file mode=0644 uname=root gname=wheel
 csh.login	type=file mode=0644 uname=root gname=wheel
 csh.logout	type=file mode=0644 uname=root gname=wheel
@@ -25,14 +26,17 @@ daily		type=file mode=0644 uname=root gname=wheel
 daily.local	type=file mode=0644 uname=root gname=wheel optional
 disklabels	type=dir mode=0755 uname=root gname=wheel ignore
 ..	#disklabels
+dvmrpd.conf	type=file mode=0600 uname=root gname=wheel
 exports		type=file mode=0644 uname=root gname=wheel optional
 fbtab		type=file mode=0644 uname=root gname=wheel
 fstab		type=file mode=0644 uname=root gname=wheel
 ftpusers	type=file mode=0644 uname=root gname=wheel
 group		type=file mode=0644 uname=root gname=wheel
+hostapd.conf	type=file mode=0600 uname=root gname=wheel
 hosts		type=file mode=0644 uname=root gname=wheel
 hosts.equiv	type=file mode=0600 uname=root gname=wheel optional
 inetd.conf	type=file mode=0644 uname=root gname=wheel
+ipsec.conf	type=file mode=0600 uname=root gname=wheel
 isakmpd		type=dir mode=0755 uname=root gname=wheel
 isakmpd.conf	type=file mode=0600 uname=root gname=wheel optional
 isakmpd.policy	type=file mode=0600 uname=root gname=wheel optional
@@ -50,6 +54,7 @@ mail		type=dir mode=0755 uname=root gname=wheel
 aliases		type=file mode=0644 uname=root gname=wheel optional
 aliases.db	type=file mode=0644 uname=root gname=wheel optional
 sendmail.cf	type=file mode=0644 uname=root gname=wheel optional
+spamd.conf	type=file mode=0644 uname=root gname=wheel optional
 submit.cf	type=file mode=0644 uname=root gname=wheel optional
 ..	#mail
 mtree		type=dir mode=0755 uname=root gname=wheel
@@ -70,12 +75,13 @@ rc.securelevel	type=file mode=0644 uname=root gname=wheel
 rc.shutdown	type=file mode=0644 uname=root gname=wheel
 resolv.conf	type=file mode=0644 uname=root gname=wheel optional
 resolv.conf.tail type=file mode=0644 uname=root gname=wheel optional
+ripd.conf	type=file mode=0600 uname=root gname=wheel
+sasyncd.conf	type=file mode=0600 uname=root gname=wheel
 security	type=file mode=0644 uname=root gname=wheel
 sensorsd.conf	type=file mode=0644 uname=root gname=wheel
 shells		type=file mode=0644 uname=root gname=wheel
 skey		type=dir mode=01730 uname=root gname=auth optional
 ..	#skey
-spamd.conf	type=file mode=0644 uname=root gname=wheel optional
 spwd.db		type=file mode=0640 uname=root gname=_shadow
 ssh		type=dir mode=0755 uname=root gname=wheel optional
 ssh_config	type=file mode=0644 uname=root gname=wheel
@@ -87,6 +93,7 @@ ssh_host_rsa_key	type=file mode=0600 uname=root gname=wheel optional
 ssh_host_rsa_key.pub	type=file mode=0644 uname=root gname=wheel optional
 sshd_config	type=file mode=0644 uname=root gname=wheel
 ..	#ssh
+sudoers		type=file mode=0440 uname=root gname=wheel
 systrace	type=dir mode=0755 uname=root gname=wheel optional
 ..	#systrace
 syslog.conf	type=file mode=0644 uname=root gname=wheel
