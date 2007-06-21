@@ -1,8 +1,9 @@
-# $MirOS: ports/x11/libxklavier/Makefile,v 1.3 2006/09/14 00:15:28 tg Exp $
+# $MirOS: ports/graphics/icon-naming-utils/Makefile,v 1.1 2007/06/21 17:47:10 bsiegert Exp $
 
 COMMENT=		icon naming utilities from Tango project
 
 VERSION=		0.8.2
+DASH_VER=		1
 DISTNAME=		icon-naming-utils-${VERSION}
 CATEGORIES=		x11 x11/gnome
 
