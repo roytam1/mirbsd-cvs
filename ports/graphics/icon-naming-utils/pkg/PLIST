@@ -1,0 +1,8 @@
+@comment $MirOS$
+libexec/icon-name-mapping
+share/dtds/legacy-icon-mapping.dtd
+share/icon-naming-utils/legacy-icon-mapping.xml
+share/pkgconfig/icon-naming-utils.pc
+@dirrm share/pkgconfig
+@dirrm share/icon-naming-utils
+@dirrm share/dtds
