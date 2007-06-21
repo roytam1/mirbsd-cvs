@@ -1,5 +1,5 @@
 /*	$OpenPackages$ */
-/*	$OpenBSD: cond.c,v 1.30 2004/04/07 13:11:35 espie Exp $	*/
+/*	$OpenBSD: cond.c,v 1.33 2007/03/20 03:50:39 tedu Exp $	*/
 /*	$NetBSD: cond.c,v 1.7 1996/11/06 17:59:02 christos Exp $	*/
 
 /*
@@ -39,6 +39,7 @@
 #include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "config.h"
@@ -74,6 +75,8 @@
  *	T -> $(varspec) op value
  *	T -> $(varspec) == "string"
  *	T -> $(varspec) != "string"
+ *	T -> "string" == "string"
+ *	T -> "string" != "string"
  *	T -> ( E )
  *	T -> ! T
  *	op -> == | != | > | < | >= | <=
@@ -109,6 +112,8 @@ static Token CondF(bool);
 static Token CondE(bool);
 static Token CondHandleVarSpec(bool);
 static Token CondHandleDefault(bool);
+static Token CondHandleComparison(char *, bool, bool);
+static Token CondHandleString(bool);
 static const char *find_cond(const char *);
 
 
@@ -364,16 +369,12 @@ CondCvtArg(const char *str, double *value)
 static Token
 CondHandleVarSpec(bool doEval)
 {
-    Token	t;
     char	*lhs;
-    const char	*rhs;
-    const char	*op;
     size_t	varSpecLen;
     bool	doFree;
 
     /* Parse the variable spec and skip over it, saving its
      * value in lhs.  */
-    t = Err;
     lhs = Var_Parse(condExpr, NULL, doEval,&varSpecLen,&doFree);
     if (lhs == var_Error)
 	/* Even if !doEval, we still report syntax errors, which
@@ -395,11 +396,44 @@ CondHandleVarSpec(bool doEval)
 	for (;*condExpr && !isspace(*condExpr); condExpr++)
 	    Buf_AddChar(&buf, *condExpr);
 
-	lhs = Buf_Retrieve(&buf);
-
+	lhs = Var_Subst(Buf_Retrieve(&buf), NULL, doEval);
+	Buf_Destroy(&buf);
 	doFree = true;
     }
 
+    return CondHandleComparison(lhs, doFree, doEval);
+}
+
+static Token
+CondHandleString(bool doEval)
+{
+	char *lhs;
+	const char *begin;
+	BUFFER buf;
+
+	/* find the extent of the string */
+	begin = ++condExpr;
+	while (*condExpr && *condExpr != '"') {
+		condExpr++;
+	}
+
+	Buf_Init(&buf, 0);
+	Buf_Addi(&buf, begin, condExpr);
+	if (*condExpr == '"')
+		condExpr++;
+	lhs = Var_Subst(Buf_Retrieve(&buf), NULL, doEval);
+	Buf_Destroy(&buf);
+	return CondHandleComparison(lhs, true, doEval);
+}
+
+static Token
+CondHandleComparison(char *lhs, bool doFree, bool doEval)
+{
+    Token	t;
+    const char	*rhs;
+    const char	*op;
+
+    t = Err;
     /* Skip whitespace to get to the operator.	*/
     while (isspace(*condExpr))
 	condExpr++;
@@ -610,7 +644,7 @@ CondHandleDefault(bool doEval)
 		/* A variable is empty when it just contains
 		 * spaces... 4/15/92, christos */
 		char *p;
-		for (p = val; *p && isspace(*p); p++)
+		for (p = val; isspace(*p); p++)
 		    continue;
 		t = *p == '\0' ? True : False;
 	    }
@@ -706,6 +740,8 @@ CondToken(bool doEval)
 	case '\n':
 	case '\0':
 	    return EndOfFile;
+	case '"':
+	    return CondHandleString(doEval);
 	case '$':
 	    return CondHandleVarSpec(doEval);
 	default:
@@ -850,7 +886,7 @@ Cond_Eval(const char *line)
 {
     /* find end of keyword */
     const char	*end;
-    u_int32_t 	k;
+    uint32_t 	k;
     size_t 	len;
     struct If	*ifp;
     bool	value = false;

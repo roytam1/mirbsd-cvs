@@ -1,5 +1,5 @@
 /*	$OpenPackages$ */
-/*	$OpenBSD: main.c,v 1.66 2005/02/17 02:37:21 jolan Exp $ */
+/*	$OpenBSD: main.c,v 1.69 2006/09/26 18:20:50 mk Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
 
 /*
@@ -268,7 +268,7 @@ MainParseArgs(int argc, char **argv)
 					break;
 				default:
 					(void)fprintf(stderr,
-				"make: illegal argument to d option -- %c\n",
+				"make: illegal argument to -d option -- %c\n",
 					    *modules);
 					usage();
 				}
@@ -289,7 +289,6 @@ MainParseArgs(int argc, char **argv)
 					optarg);
 				usage();
 			}
-			maxJobs = atoi(optarg);
 			maxLocal = maxJobs;
 			record_option(c, optarg);
 			break;
@@ -753,6 +752,7 @@ main(int argc, char **argv)
 	if (objdir != curdir)
 	    free(objdir);
 	free(curdir);
+	End();
 #endif
 	if (queryFlag && outOfDate)
 		return 1;

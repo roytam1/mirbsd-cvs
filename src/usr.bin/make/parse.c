@@ -1,5 +1,5 @@
 /*	$OpenPackages$ */
-/*	$OpenBSD: parse.c,v 1.69 2004/04/07 13:11:36 espie Exp $	*/
+/*	$OpenBSD: parse.c,v 1.71 2007/03/20 03:50:39 tedu Exp $	*/
 /*	$NetBSD: parse.c,v 1.29 1997/03/10 21:20:04 christos Exp $	*/
 
 /*
@@ -220,6 +220,7 @@ static void ParseLookupIncludeFile(char *, char *, bool, bool);
 static void ParseFinishDependency(void);
 static bool ParseIsCond(Buffer, Buffer, char *);
 static char *strip_comments(Buffer, const char *);
+static char *find_include(const char *, bool);
 
 static void ParseDoCommands(const char *);
 
@@ -837,7 +838,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 		Parse_Error(PARSE_WARNING, "Extra target ignored");
 	    }
 	} else {
-	    while (*cp && isspace(*cp)) {
+	    while (isspace(*cp)) {
 		cp++;
 	    }
 	}
@@ -884,7 +885,7 @@ ParseDoDependency(char *line)	/* the line to parse */
     /*
      * Get to the first source
      */
-    while (*cp && isspace(*cp)) {
+    while (isspace(*cp)) {
 	cp++;
     }
     line = cp;
@@ -996,7 +997,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 	    if (savec != '\0') {
 		cp++;
 	    }
-	    while (*cp && isspace(*cp)) {
+	    while (isspace(*cp)) {
 		cp++;
 	    }
 	    line = cp;
@@ -1046,7 +1047,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 
 		ParseDoSrc(tOp, line);
 	    }
-	    while (*cp && isspace(*cp)) {
+	    while (isspace(*cp)) {
 		cp++;
 	    }
 	    line = cp;
@@ -1240,26 +1241,18 @@ ParseConditionalInclude(char *file)/* file specification */
     ParseLookupIncludeFile(file, cp, true, false);
 }
 
-/* Common part to lookup and read an include file.  */
-static void
-ParseLookupIncludeFile(char *spec, char *endSpec, bool isSystem, 
-    bool errIfNotFound)
+/* helper function for ParseLookupIncludeFile */
+static char *
+find_include(const char *file, bool isSystem)
 {
-    char *file;
     char *fullname;
-    char endc;
-
-    /* Substitute for any variables in the file name before trying to
-     * find the thing.	*/
-    endc = *endSpec;
-    *endSpec = '\0';
-    file = Var_Subst(spec, NULL, false);
-    *endSpec = endc;
-
-    /* Now that we know the file name and its search path, we attempt to
-     * find the durn thing. NULL indicates the file still hasn't been
-     * found.  */
-    fullname = NULL;
+    
+    /* Look up system files on the system path first */
+    if (isSystem) {
+	fullname = Dir_FindFileNoDot(file, sysIncPath);
+	if (fullname)
+	    return fullname;
+    }
 
     /* Handle non-system non-absolute files... */
     if (!isSystem && file[0] != '/') {
@@ -1281,24 +1274,48 @@ ParseLookupIncludeFile(char *spec, char *endSpec, bool isSystem,
 	    if (fullname == NULL)
 		fullname = Dir_FindFile(newName, dirSearchPath);
 	    free(newName);
+	    if (fullname)
+	    	return fullname;
 	}
     }
 
     /* Now look first on the -I search path, then on the .PATH
      * search path, if not found in a -I directory.
      * XXX: Suffix specific?  */
-    if (fullname == NULL)
-	fullname = Dir_FindFile(file, parseIncPath);
-    if (fullname == NULL)
-	fullname = Dir_FindFile(file, dirSearchPath);
+    fullname = Dir_FindFile(file, parseIncPath);
+    if (fullname)
+    	return fullname;
+    fullname = Dir_FindFile(file, dirSearchPath);
+    if (fullname)
+    	return fullname;
 
     /* Still haven't found the makefile. Look for it on the system
      * path as a last resort.  */
-    if (fullname == NULL)
-	fullname = Dir_FindFile(file, sysIncPath);
+    if (isSystem)
+    	return NULL;
+    else
+	return Dir_FindFile(file, sysIncPath);
+}
 
+/* Common part to lookup and read an include file.  */
+static void
+ParseLookupIncludeFile(char *spec, char *endSpec, bool isSystem, 
+    bool errIfNotFound)
+{
+    char *file;
+    char *fullname;
+    char endc;
+
+    /* Substitute for any variables in the file name before trying to
+     * find the thing.	*/
+    endc = *endSpec;
+    *endSpec = '\0';
+    file = Var_Subst(spec, NULL, false);
+    *endSpec = endc;
+
+    fullname = find_include(file, isSystem);
     if (fullname == NULL && errIfNotFound)
-	    Parse_Error(PARSE_FATAL, "Could not find %s", file);
+	Parse_Error(PARSE_FATAL, "Could not find %s", file);
 	
 
     free(file);
@@ -1361,7 +1378,7 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 
     char	*stripped;
 
-    while (*line != '\0' && isspace(*line))
+    while (isspace(*line))
 	line++;
 
     /* The line might be a conditional. Ask the conditional module
@@ -1372,7 +1389,7 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 	do {
 	    line = Parse_ReadNextConditionalLine(linebuf);
 	    if (line != NULL) {
-		while (*line != '\0' && isspace(*line))
+		while (isspace(*line))
 		    line++;
 		    stripped = strip_comments(copy, line);
 	    }
@@ -1408,7 +1425,7 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 	char *cp;
 
 	line+=5;
-	while (*line != '\0' && isspace(*line))
+	while (isspace(*line))
 	    line++;
 	for (cp = line; !isspace(*cp) && *cp != '\0';)
 	    cp++;

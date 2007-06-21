@@ -1,15 +1,19 @@
-#	$OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
+#	$OpenBSD: Makefile,v 1.40 2007/03/18 15:37:06 mickey Exp $
 
 PROG=	make
 CFLAGS+= -I${.OBJDIR} -I${.CURDIR}
+HOSTCFLAGS+= -I${.OBJDIR} -I${.CURDIR}
 CDIAGFLAGS=-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
 	-Wmissing-prototypes
 
-CFLAGS+=-DUSE_TIMESPEC
-CFLAGS+=-DHAS_BOOL_H
-CFLAGS+=-DHAS_PATHS_H
-CFLAGS+=-DHAS_EXTENDED_GETCWD
-#CFLAGS+=-DHAS_STATS
+CDEFS+=-DUSE_TIMESPEC
+CDEFS+=-DHAS_BOOL_H
+CDEFS+=-DHAS_PATHS_H
+CDEFS+=-DHAS_EXTENDED_GETCWD
+#CDEFS+=-DHAS_STATS
+
+CFLAGS+=${CDEFS}
+HOSTCFLAGS+=${CDEFS}
 
 SRCS=	arch.c buf.c cmd_exec.c compat.c cond.c dir.c error.c for.c \
 	init.c job.c lowparse.c main.c make.c memory.c parse.c \
@@ -38,7 +42,7 @@ condhashconsts.h: generate
 	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >${.TARGET}
 
 generate: generate.c stats.c memory.c
-	${HOSTCC} ${LDSTATIC} -o ${.TARGET} ${CFLAGS} ${.ALLSRC} ${LDADD}
+	${HOSTCC} ${LDSTATIC} -o ${.TARGET} ${HOSTCFLAGS} ${.ALLSRC} ${LDADD}
 
 check: regress.o str.o memory.o buf.o
 	${CC} -o ${.TARGET} ${CFLAGS} ${.ALLSRC} ${LDADD}
@@ -49,6 +53,8 @@ regress: check
 # kludge for people who forget to make depend
 var.o: varhashconsts.h
 cond.o: condhashconsts.h
+var.ln: varhashconsts.h
+cond.ln: condhashconsts.h
 
 .if make(install)
 SUBDIR+= PSD.doc
