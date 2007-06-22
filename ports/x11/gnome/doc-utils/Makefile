@@ -1,8 +1,9 @@
-# $MirOS: ports/x11/gnome/desktop/Makefile,v 1.4 2007/04/18 20:05:04 bsiegert Exp $
+# $MirOS: ports/x11/gnome/doc-utils/Makefile,v 1.1 2007/06/22 21:55:42 bsiegert Exp $
 
 COMMENT=		GNOME documentation utilities
 
 DISTNAME=		gnome-doc-utils-0.10.3
+DASH_VER=		1
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org/
@@ -20,6 +21,7 @@ MODULES=		devel/gettext devel/pkgconfig
 BUILD_DEPENDS+=		::textproc/p5-XML-Parser
 BUILD_DEPENDS+=		::textproc/intltool
 B_R_DEPENDS+=		::lang/python/2.3,no_cxx
+B_R_DEPENDS+=		::textproc/libxml,python
 B_R_DEPENDS=		::textproc/scrollkeeper
 
 CONFIGURE_STYLE=	autoconf no-autoheader
