@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: readelf.c,v 1.8 2004/05/19 02:32:35 tedu Exp $ */
 /*
  * Copyright (c) Christos Zoulas 2003.
@@ -15,7 +14,7 @@
  *    documentation and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- *  
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,7 +40,7 @@
 
 #include "readelf.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.2 2005/03/13 18:32:56 tg Exp $");
 
 #ifdef	ELFCORE
 private int dophn_core(struct magic_set *, int, int, int, off_t, int, size_t);
@@ -344,6 +343,14 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 			break;
 		case GNU_OS_SOLARIS:
 			if (file_printf(ms, "Solaris") == -1)
+				return size;
+			break;
+		case GNU_OS_KFREEBSD:
+			if (file_printf(ms, "kFreeBSD") == -1)
+				return size;
+			break;
+		case GNU_OS_KNETBSD:
+			if (file_printf(ms, "kNetBSD") == -1)
 				return size;
 			break;
 		default:
