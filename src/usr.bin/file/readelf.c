@@ -40,7 +40,7 @@
 
 #include "readelf.h"
 
-__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.2 2005/03/13 18:32:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.3 2007/06/24 20:37:25 tg Exp $");
 
 #ifdef	ELFCORE
 private int dophn_core(struct magic_set *, int, int, int, off_t, int, size_t);
@@ -55,6 +55,8 @@ private size_t donote(struct magic_set *, unsigned char *, size_t, size_t, int,
 private uint16_t getu16(int, uint16_t);
 private uint32_t getu32(int, uint32_t);
 private uint64_t getu64(int, uint64_t);
+
+private int note_seen;
 
 private uint16_t
 getu16(int swap, uint16_t value)
@@ -130,6 +132,14 @@ getu64(int swap, uint64_t value)
 #define shs_type	(class == ELFCLASS32		\
 			 ? getu32(swap, sh32.sh_type)	\
 			 : getu32(swap, sh64.sh_type))
+#define sh_offset	(class == ELFCLASS32		\
+			 ? getu32(swap, sh32.sh_offset)	\
+			 : getu64(swap, sh64.sh_offset))
+#define sh_align	(size_t)((class == ELFCLASS32	\
+			 ? (off_t) (sh32.sh_addralign ? 	\
+			    getu32(swap, sh32.sh_addralign) : 4) \
+			 : (off_t) (sh64.sh_addralign ?	\
+			    getu64(swap, sh64.sh_addralign) : 4)))
 #define ph_addr		(class == ELFCLASS32		\
 			 ? (void *) &ph32		\
 			 : (void *) &ph64)
@@ -330,6 +340,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 		uint32_t desc[4];
 		(void)memcpy(desc, &nbuf[doff], sizeof(desc));
 
+		note_seen = 1;
 		if (file_printf(ms, ", for GNU/") == -1)
 			return size;
 		switch (getu32(swap, desc[0])) {
@@ -370,6 +381,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 		char *tmp = (char *)&nbuf[noff];
 		uint32_t desc;
 
+		note_seen = 1;
 		if (strcmp((char *)&nbuf[noff], "MirBSD") == 0)
 			tmp = "MirOS BSD";
 		if (file_printf(ms, ", for %s", tmp) == -1)
@@ -400,6 +412,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 		(void)memcpy(&desc, &nbuf[doff], sizeof(desc));
 		desc = getu32(swap, desc);
 
+		note_seen = 1;
 		if (file_printf(ms, ", for NetBSD") == -1)
 			return size;
 		/*
@@ -441,6 +454,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 		uint32_t desc;
 		(void)memcpy(&desc, &nbuf[doff], sizeof(desc));
 		desc = getu32(swap, desc);
+		note_seen = 1;
 		if (file_printf(ms, ", for FreeBSD") == -1)
 			return size;
 
@@ -479,6 +493,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 
 	if (namesz == 8 && strcmp((char *)&nbuf[noff], "OpenBSD") == 0 &&
 	    nh_type == NT_OPENBSD_VERSION && descsz == 4) {
+		note_seen = 1;
 		if (file_printf(ms, ", for OpenBSD") == -1)
 			return size;
 		/* Content of note is always 0 */
@@ -514,9 +529,11 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 	}
 
 #ifdef ELFCORE
-	if (os_style != -1)
+	if (os_style != -1) {
+		note_seen = 1;
 		if (file_printf(ms, ", %s-style", os_style_names[os_style]) == -1)
 			return size;
+	}
 
 	if (os_style == OS_STYLE_NETBSD && nh_type == NT_NETBSD_CORE_PROCINFO) {
 		uint32_t signo;
@@ -619,6 +636,10 @@ doshn(struct magic_set *ms, int class, int swap, int fd, off_t off, int num,
 {
 	Elf32_Shdr sh32;
 	Elf64_Shdr sh64;
+	unsigned char nbuf[BUFSIZ];
+	int bufsize;
+	size_t offset, align;
+	off_t savedoffset;
 
 	if (size != sh_size) {
 		if (file_printf(ms, ", corrupted section header size") == -1)
@@ -636,10 +657,51 @@ doshn(struct magic_set *ms, int class, int swap, int fd, off_t off, int num,
 			file_badread(ms);
 			return -1;
 		}
-		if (shs_type == SHT_SYMTAB /* || shs_type == SHT_DYNSYM */) {
+		switch (shs_type) {
+		case SHT_SYMTAB:
+		/* case SHT_DYNSYM: */
 			if (file_printf(ms, ", not stripped") == -1)
 				return -1;
-			return 0;
+			break;
+		case SHT_NOTE:
+			if (note_seen)
+				break;
+			if ((savedoffset = lseek(fd, (off_t)0, SEEK_CUR)) == (off_t)-1) {
+				file_badseek(ms);
+				return -1;
+			}
+			if ((align = sh_align) & 0x80000000) {
+				if (file_printf(ms,
+				    ", invalid note alignment 0x%lx",
+				    (unsigned long)align) == -1)
+					return -1;
+				align = 4;
+			}
+			if (lseek(fd, (off_t) sh_offset, SEEK_SET)
+			    == (off_t)-1) {
+				file_badseek(ms);
+				return -1;
+			}
+			bufsize = read(fd, nbuf, sizeof(nbuf));
+			if (bufsize == -1) {
+				file_badread(ms);
+				return -1;
+			}
+			offset = 0;
+			for (;;) {
+				if (offset >= (size_t)bufsize)
+					break;
+				offset = donote(ms, nbuf, offset,
+				    (size_t)bufsize, class, swap, align);
+				if (offset == 0)
+					break;
+			}
+			if (lseek(fd, savedoffset + offset, SEEK_SET)
+			    == (off_t)-1) {
+				file_badseek(ms);
+				return -1;
+			}
+			break;
 		}
 	}
 	if (file_printf(ms, ", stripped") == -1)
@@ -790,6 +852,7 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 			;
 #endif
 		} else {
+			note_seen = 0;
 			if (getu16(swap, elfhdr.e_type) == ET_EXEC) {
 				if (dophn_exec(ms, class, swap,
 				    fd, (off_t)getu32(swap, elfhdr.e_phoff),
