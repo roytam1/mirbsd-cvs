@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/file/readelf.h,v 1.2 2005/03/13 18:32:56 tg Exp $ */
+/**	$MirOS: src/usr.bin/file/readelf.h,v 1.3 2007/06/24 20:37:25 tg Exp $ */
 /*	$OpenBSD: readelf.h,v 1.5 2004/05/19 02:32:36 tedu Exp $ */
 /*
  * Copyright (c) Christos Zoulas 2003.
@@ -100,6 +100,7 @@ typedef struct {
 
 /* e_type */
 #define ET_EXEC		2
+#define ET_DYN		3
 #define ET_CORE		4
 
 /* sh_type */
