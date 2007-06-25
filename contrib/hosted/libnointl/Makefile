@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: contrib/hosted/libnointl/Makefile,v 1.1 2007/06/25 10:47:19 tg Exp $
 #-
 # Makefile for libnointl, a plug-compatible replacement for
 # libintl from GNU gettext 0.10.40 and 0.16.1, reverse-engineered.
 
 LIB=		nointl
-SHLIB_VERSION=	1.0
+SHLIB_VERSION?=	1.0		# use 1.0 for 0.10.40/BSD, 8.0.1 for 0.16.1/WRT
 SRCS=		nointl.c
 CPPFLAGS+=	-I${.CURDIR}
 HDRS=		libintl.h
