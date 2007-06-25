@@ -35,7 +35,7 @@
 #define LIBINTL_INTERNAL
 #include "libintl.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.23 2007/06/05 10:05:25 tg Rel $");
+__RCSID("$MirOS: contrib/hosted/libnointl/nointl.c,v 1.1 2007/06/25 10:47:19 tg Exp $");
 
 #define __unused	__attribute__((unused))
 
@@ -86,6 +86,7 @@ libintl_hash_string(const char *s)
 	 * An adaptation of Peter Weinberger's (PJW) generic hashing
 	 * algorithm based on Allen Holub's version. Assumes 32-bit
 	 * output values to be compatible to GNU libintl.
+	 * Source: Doctor Dobb's Journal
 	 */
 	unsigned long hash_value = 0, i;
 	const unsigned char *datum = (const unsigned char *)s;
