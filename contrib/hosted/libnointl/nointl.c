@@ -35,7 +35,8 @@
 #define LIBINTL_INTERNAL
 #include "libintl.h"
 
-__RCSID("$MirOS: contrib/hosted/libnointl/nointl.c,v 1.1 2007/06/25 10:47:19 tg Exp $");
+static const char __rcsid_intl[] __attribute__((used)) =
+    "$MirOS$";
 
 #define __unused	__attribute__((unused))
 
@@ -54,21 +55,34 @@ void *libintl_nl_domain_bindings;
 int _nl_msg_cat_cntr;
 
 /* hidden functions */
-_nl_expand_alias
-_nl_explode_name
-_nl_find_domain
-_nl_find_language
-_nl_find_msg
-_nl_free_domain_conv
-_nl_init_domain_conv
-_nl_language_preferences_default
-_nl_load_domain
-_nl_locale_name
-_nl_locale_name_default
-_nl_locale_name_posix
-_nl_log_untranslated
-_nl_make_l10nflist
-_nl_normalize_codeset
+/*
+ * luckily, for a C function, it doesn't matter how many arguments
+ * we have, we can just return NULL/0 in all cases
+ */
+#define hiddenfunc(x)		\
+	void *x(void);		\
+				\
+	void *			\
+	x(void)			\
+	{			\
+		return (NULL);	\
+	}
+hiddenfunc(_nl_expand_alias)
+hiddenfunc(_nl_explode_name)
+hiddenfunc(_nl_find_domain)
+hiddenfunc(_nl_find_language)
+hiddenfunc(_nl_find_msg)
+hiddenfunc(_nl_free_domain_conv)
+hiddenfunc(_nl_init_domain_conv)
+hiddenfunc(_nl_language_preferences_default)
+hiddenfunc(_nl_load_domain)
+hiddenfunc(_nl_locale_name)
+hiddenfunc(_nl_locale_name_default)
+hiddenfunc(_nl_locale_name_posix)
+hiddenfunc(_nl_log_untranslated)
+hiddenfunc(_nl_make_l10nflist)
+hiddenfunc(_nl_normalize_codeset)
+#undef hiddenfunc
 
 /* public and semi-public functions */
 
@@ -154,6 +168,19 @@ libintl_set_relocation_prefix(const char *a __unused, const char *b __unused)
 #define LIBINTL_REDEFINE
 #include "libintl.h"
 #include "meat.c"
+
+#undef gettext
+#undef dgettext
+#undef dcgettext
+#undef ngettext
+#undef dngettext
+#undef dcngettext
+#undef dcigettext
+#undef textdomain
+#undef bindtextdomain
+#undef bind_textdomain_codeset
+#undef gettext_free_exp
+#undef gettextparse
 
 #define gettext gettext__
 #define dgettext dgettext__
