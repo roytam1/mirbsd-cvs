@@ -1,4 +1,11 @@
-/* $MirOS$ */
+/* $MirOS: contrib/hosted/libnointl/libintl.h,v 1.1 2007/06/25 10:47:19 tg Exp $ */
+
+/*-
+ * "THE BEER-WARE LICENCE" (Revision 42):
+ * <tg@mirbsd.de> wrote this header file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return.     Thorsten Glaser
+ */
 
 #ifndef _LIBINTL_H
 
