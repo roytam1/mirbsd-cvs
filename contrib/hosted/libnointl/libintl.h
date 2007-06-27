@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/libnointl/libintl.h,v 1.2 2007/06/25 10:53:16 tg Exp $ */
+/* $MirOS: contrib/hosted/libnointl/libintl.h,v 1.3 2007/06/25 16:32:53 tg Exp $ */
 
 /*-
  * "THE BEER-WARE LICENCE" (Revision 42):
@@ -104,9 +104,10 @@ extern const char *locale_charset(void);
 #define dngettext(x,s,t,n)	libintl_unconst(s)
 #define dcngettext(x,s,t,n,m)	libintl_unconst(s)
 #define dcigettext(x,s,t,n,m,p)	libintl_unconst(s)
-#define textdomain(x)		libintl_unconst(_nl_current_default_domain)
+#define textdomain(x)		libintl_unconst("messages")
 #define bindtextdomain(x,y)	libintl_unconst(y)
 #define bind_textdomain_codeset(x,y)		libintl_unconst(y)
 #define libintl_set_relocation_prefix(x,y)	do { } while(0)
+#define locale_charset()	"UTF-8"
 
 #endif /* !_LIBINTL_H */
