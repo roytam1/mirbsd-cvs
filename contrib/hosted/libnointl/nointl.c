@@ -36,7 +36,7 @@
 #include "libintl.h"
 
 static const char __rcsid_intl[] __attribute__((used)) =
-    "$MirOS$";
+    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.3 2007/06/25 16:32:54 tg Exp $";
 
 #define __unused	__attribute__((unused))
 
@@ -127,6 +127,7 @@ libintl_relocate(const char *s)
 	return (s);
 }
 
+#undef locale_charset
 const char *
 locale_charset(void)
 {
