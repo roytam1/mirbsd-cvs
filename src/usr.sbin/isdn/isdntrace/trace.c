@@ -1,7 +1,7 @@
 /*
  *   Copyright (c) 1996, 2000 Hellmuth Michaelis.  All rights reserved.
  *
- *   Copyright (c) 1996 Gary Jennejohn.  All rights reserved. 
+ *   Copyright (c) 1996 Gary Jennejohn.  All rights reserved.
  *
  *   Redistribution and use in source and binary forms, with or without
  *   modification, are permitted provided that the following conditions
@@ -17,7 +17,7 @@
  *      without specific prior written permission.
  *   4. Altered versions must be plainly marked as such, and must not be
  *      misrepresented as being the original software and/or documentation.
- *   
+ *
  *   THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
  *   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,7 +35,7 @@
  *	trace.c - print traces of D (B) channel activity for isdn4bsd
  *	-------------------------------------------------------------
  *
- *	$Id$ 
+ *	$Id$
  *
  * $FreeBSD$
  *
@@ -67,7 +67,7 @@ int Fopt = 0;
 int xopt = 1;
 
 int enable_trace = TRACE_D_RX | TRACE_D_TX;
-	
+
 static char outfilename[MAXPATHLEN];
 static char routfilename[MAXPATHLEN];
 static char BPfilename[MAXPATHLEN];
@@ -80,7 +80,8 @@ static int switch_driver( int value, int rx, int tx );
 static void usage( void );
 static void exit_hdl( void );
 static void reopenfiles( int );
-void add_datetime(char *filename, char *rfilename);
+static void add_datetime(char *filename, char *rfilename, size_t rfsz)
+    __attribute__((bounded (string, 2, 3)));
 char * fmt_hdr(struct i4b_trace_hdr *hdr, int frm_len);
 
 /*---------------------------------------------------------------------------*
@@ -98,7 +99,7 @@ usage(void)
 	fprintf(stderr,"       -d        switch D channel trace off ....................... (default on)\n");
 	fprintf(stderr,"       -f <file> write output to file filename ............ (default %s0)\n", TRACE_FILE_NAME);
 	fprintf(stderr,"       -h        don't print header for each message ............. (default off)\n");
-	fprintf(stderr,"       -i        print I.430 (layer 1) INFO signals .............. (default off)\n");	
+	fprintf(stderr,"       -i        print I.430 (layer 1) INFO signals .............. (default off)\n");
 	fprintf(stderr,"       -l        don't decode low layer Q.921 messages ........... (default off)\n");
 	fprintf(stderr,"       -n <val>  process packet if it is longer than <val> octetts . (default 0)\n");
 	fprintf(stderr,"       -o        don't write output to a file .................... (default off)\n");
@@ -126,7 +127,7 @@ main(int argc, char *argv[])
 	extern char *optarg;
 	char devicename[80];
 	char headerbuf[256];
-		
+
 	int n;
 	int c;
 	char *b;
@@ -139,10 +140,10 @@ main(int argc, char *argv[])
 	time_t tm;
 	struct i4b_trace_hdr *ithp = NULL;
 	int l;
-	static struct stat fstnew;	
+	static struct stat fstnew;
 
 	b = &buf[sizeof(struct i4b_trace_hdr)];
-	
+
 	while( (c = getopt(argc, argv, "abdf:hiln:op:ru:xBFPR:T:")) != -1)
 	{
 		switch (c)
@@ -150,7 +151,7 @@ main(int argc, char *argv[])
 		case 'a':
 			analyze = 1;
 			break;
-			
+
 		case 'b':
 			enable_trace |= (TRACE_B_RX | TRACE_B_TX);
 			break;
@@ -167,7 +168,7 @@ main(int argc, char *argv[])
 			outfile = optarg;
 			outfileset = 1;
 			break;
-		
+
 		case 'n':
 			noct = atoi(optarg);
 			break;
@@ -189,7 +190,7 @@ main(int argc, char *argv[])
 			binfile = optarg;
 			bpopt = 1;
 			break;
-		
+
 		case 'r':
 			raw = 0;
 			break;
@@ -205,15 +206,15 @@ main(int argc, char *argv[])
 		case 'B':
 			Bopt = 1;
 			break;
-		
+
 		case 'F':
 			Fopt = 1;
 			break;
-		
+
 		case 'P':
 			Popt = 1;
 			break;
-		
+
 		case 'R':
 			Rx = atoi(optarg);
 			break;
@@ -234,7 +235,7 @@ main(int argc, char *argv[])
 
 	if (Bopt && Popt)
 		usage();
-		
+
 	atexit(exit_hdl);
 
 	if (Bopt)
@@ -244,8 +245,8 @@ main(int argc, char *argv[])
 		else
 			snprintf(BPfilename, sizeof(BPfilename), "%s%d",
 			    BIN_FILE_NAME, unit);
-			
-		add_datetime(BPfilename, rBPfilename);
+
+		add_datetime(BPfilename, rBPfilename, sizeof (rBPfilename));
 
 		if ((BP = fopen(rBPfilename, "w")) == NULL)
 		{
@@ -256,7 +257,7 @@ main(int argc, char *argv[])
 			perror(buffer);
 			exit(1);
 		}
-		
+
 		if ((setvbuf(BP, (char *)NULL, _IONBF, 0)) != 0)
 		{
 			char buffer[80];
@@ -267,7 +268,7 @@ main(int argc, char *argv[])
 			perror(buffer);
 			exit(1);
 		}
-	}		
+	}
 
 	if (Popt)
 	{
@@ -276,9 +277,9 @@ main(int argc, char *argv[])
 		else
 			snprintf(BPfilename, sizeof(BPfilename), "%s%d",
 			    BIN_FILE_NAME, unit);
-  			
+
 		strlcpy(rBPfilename, BPfilename, sizeof(rBPfilename));
-		
+
 		if ((BP = fopen(BPfilename, "r")) == NULL)
 		{
 			char buffer[80];
@@ -301,21 +302,21 @@ main(int argc, char *argv[])
 		}
 	}
 	else
-	{		
+	{
 		snprintf(devicename, sizeof(devicename), "%s%d",
 		    I4BTRC_DEVICE, unit);
-	
+
 		if ((f = open(devicename, O_RDWR)) < 0)
 		{
 			char buffer[80];
-	
+
 			snprintf(buffer, sizeof(buffer),
 			    "Error opening trace device [%s]", devicename);
 			perror(buffer);
 			exit(1);
 		}
 	}
-	
+
 	if (outflag)
 	{
 		if (outfileset == 0)
@@ -323,9 +324,9 @@ main(int argc, char *argv[])
 			    TRACE_FILE_NAME, unit);
 		else
 			strlcpy(outfilename, outfile, sizeof(outfilename));
-			
-		add_datetime(outfilename, routfilename);
-			
+
+		add_datetime(outfilename, routfilename, sizeof (routfilename));
+
 		if ((Fout = fopen(routfilename, "w")) == NULL)
 		{
 			char buffer[80];
@@ -335,7 +336,7 @@ main(int argc, char *argv[])
 			perror(buffer);
 			exit(1);
 		}
-		
+
 		if ((setvbuf(Fout, (char *)NULL, _IONBF, 0)) != 0)
 		{
 			char buffer[80];
@@ -365,12 +366,12 @@ main(int argc, char *argv[])
 		else
 			traceon = 1;
 	}
-		
+
 	signal(SIGHUP, SIG_IGN);	/* ignore hangup signal */
-	signal(SIGUSR1, reopenfiles);	/* rotate logfile(s)	*/	
+	signal(SIGUSR1, reopenfiles);	/* rotate logfile(s)	*/
 
 	time(&tm);
-	
+
 	if (analyze)
 	{
 		snprintf(headerbuf, sizeof(headerbuf),
@@ -383,9 +384,9 @@ main(int argc, char *argv[])
 		    "\n=========== isdntrace controller #%d =========== started %s",
 		    unit, ctime(&tm));
 	}
-	
+
 	printf("%s", headerbuf);
-	
+
 	if (outflag)
 		fprintf(Fout, "%s", headerbuf);
 
@@ -408,10 +409,10 @@ main(int argc, char *argv[])
 				}
 			}
 
-			n -= sizeof(struct i4b_trace_hdr);			
+			n -= sizeof(struct i4b_trace_hdr);
 		}
 		else
-		{			
+		{
 again:
 			if ((fread(buf, 1, sizeof(struct i4b_trace_hdr), BP)) != sizeof(struct i4b_trace_hdr))
 			{
@@ -466,7 +467,7 @@ again:
 
 			ithp = (struct i4b_trace_hdr *)buf;
 			l = ithp->length - sizeof(struct i4b_trace_hdr);
-			
+
 			if ((n = fread(buf+sizeof(struct i4b_trace_hdr), 1, l , BP)) != l)
 			{
 				char buffer[80];
@@ -527,13 +528,13 @@ fmt_hdr(struct i4b_trace_hdr *hdr, int frm_len)
 			    (u_int32_t)hdr->time.tv_usec, frm_len);
 		}
 	}
-	
+
 	for (i = strlen(hbuf); i <= NCOLS;)
 		hbuf[i++] = '-';
 
 	hbuf[i++] = '\n';
 	hbuf[i] = '\0';
-	
+
 	return(hbuf);
 }
 
@@ -562,7 +563,7 @@ dumpbuf(int n, unsigned char *buf, struct i4b_trace_hdr *hdr, int raw)
 		/* on playback, don't display layer 1 if -i ! */
 		if (!(enable_trace & TRACE_I))
 			break;
-			
+
 		pbuf = &l1buf[0];
 
 		switch (buf[0])
@@ -600,14 +601,14 @@ dumpbuf(int n, unsigned char *buf, struct i4b_trace_hdr *hdr, int raw)
 			break;
 		}
 		break;
-		
+
 	case TRC_CH_D:		/* D-channel data */
 
 		cnt = decode_lapd(l2buf, n, buf, hdr->dir, raw, print_q921);
-	
+
 		n -= cnt;
 		buf += cnt;
-	
+
 		if (n)
 		{
 			switch (*buf)
@@ -616,7 +617,7 @@ dumpbuf(int n, unsigned char *buf, struct i4b_trace_hdr *hdr, int raw)
 			case 0x41:
 				decode_1tr6(l3buf, n, cnt, buf, raw);
 				break;
-				
+
 			case 0x08:
 				decode_q931(l3buf, n, cnt, buf, raw);
 				break;
@@ -628,7 +629,7 @@ dumpbuf(int n, unsigned char *buf, struct i4b_trace_hdr *hdr, int raw)
 					l3buf[0] = '\0';
 				}
 				else
-				{	
+				{
 					decode_unknownl3(l3buf, n, cnt, buf, raw);
 				}
 				break;
@@ -662,7 +663,7 @@ dumpbuf(int n, unsigned char *buf, struct i4b_trace_hdr *hdr, int raw)
 		}
 		break;
 	}
-	
+
 	if (header && ((l1buf[0] != '\0' || l2buf[0] != '\0') || (l3buf[0] != 0)))
 	{
 		char *p;
@@ -673,14 +674,14 @@ dumpbuf(int n, unsigned char *buf, struct i4b_trace_hdr *hdr, int raw)
 	}
 
 	if (l1buf[0] != '\0')
-	{	
+	{
 		printf("%s", l1buf);
 		if (outflag)
 			fprintf(Fout, "%s", l1buf);
 	}
 
 	if (l2buf[0] != '\0')
-	{	
+	{
 		printf("%s", l2buf);
 		if (outflag)
 			fprintf(Fout, "%s", l2buf);
@@ -738,12 +739,12 @@ switch_driver(int value, int rx, int tx)
 		else
 		{
 			i4b_trace_setupa_t tsa;
-			
+
 			tsa.rxunit = rx;
 			tsa.rxflags = value;
 			tsa.txunit = tx;
 			tsa.txflags = value;
-			
+
 			if (ioctl(f, I4B_TRC_SETA, &tsa) < 0)
 			{
 				snprintf(buffer, sizeof(buffer),
@@ -764,7 +765,7 @@ switch_driver(int value, int rx, int tx)
  *	close file and reopen it for append. this will be a nop
  *	if the previously opened file hasn't moved but will open
  *	a new one otherwise, thus enabling a rotation...
- * 
+ *
  *---------------------------------------------------------------------------*/
 static void
 reopenfiles(int dummy)
@@ -773,8 +774,8 @@ reopenfiles(int dummy)
 	{
 		fclose(Fout);
 
-		add_datetime(outfilename, routfilename);
-		
+		add_datetime(outfilename, routfilename, sizeof (routfilename));
+
 		if ((Fout = fopen(routfilename, "a")) == NULL)
 		{
 			char buffer[80];
@@ -799,11 +800,11 @@ reopenfiles(int dummy)
 
 	if (Bopt)
 	{
-		
+
 		fclose(BP);
 
-		add_datetime(BPfilename, rBPfilename);
-		
+		add_datetime(BPfilename, rBPfilename, sizeof (rBPfilename));
+
 		if ((BP = fopen(rBPfilename, "a")) == NULL)
 		{
 			char buffer[80];
@@ -828,7 +829,7 @@ reopenfiles(int dummy)
 }
 
 void
-add_datetime(char *filename, char *rfilename)
+add_datetime(char *filename, char *rfilename, size_t rsz)
 {
 	time_t timeb;
 	struct tm *tmp;
@@ -836,12 +837,12 @@ add_datetime(char *filename, char *rfilename)
 
 	time(&timeb);
 	tmp = localtime(&timeb);
-	
-	snprintf(rfilename, sizeof(rfilename), "%s-", filename);
 
-	strftime(rfilename+strlen(rfilename), MAXPATHLEN-strlen(rfilename)-1,
+	snprintf(rfilename, rsz, "%s-", filename);
+
+	strftime(rfilename+strlen(rfilename), rsz-strlen(rfilename)-1,
 		"%Y%m%d-%H%M%S", tmp);
-		
+
 	if ((fx = fopen(rfilename, "r")) != NULL)
 	{
 		fclose(fx);
@@ -850,12 +851,12 @@ add_datetime(char *filename, char *rfilename)
 
 		time(&timeb);
 		tmp = localtime(&timeb);
-	
-		snprintf(rfilename, sizeof(rfilename), "%s-", filename);
 
-		strftime(rfilename+strlen(rfilename), MAXPATHLEN-strlen(rfilename)-1,
+		snprintf(rfilename, rsz, "%s-", filename);
+
+		strftime(rfilename+strlen(rfilename), rsz-strlen(rfilename)-1,
 			"%Y%m%d-%H%M%S", tmp);
 	}
 }
-	
+
 /* EOF */
