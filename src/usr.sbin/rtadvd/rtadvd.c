@@ -65,6 +65,8 @@
 #include "config.h"
 #include "dump.h"
 
+__RCSID("$MirOS$");
+
 struct msghdr rcvmhdr;
 static u_char *rcvcmsgbuf;
 static size_t rcvcmsgbuflen;
@@ -592,6 +594,13 @@ rtadvd_input()
 	 * If we happen to receive data on an interface which is now down,
 	 * just discard the data.
 	 */
+	if (iflist[pi->ipi6_ifindex] == NULL) {
+		syslog(LOG_INFO,
+		    "<%s> received data on a non-existent interface (%d/%s)",
+		    __func__, pi->ipi6_ifindex,
+		    if_indextoname(pi->ipi6_ifindex, ifnamebuf));
+		return;
+	}
 	if ((iflist[pi->ipi6_ifindex]->ifm_flags & IFF_UP) == 0) {
 		syslog(LOG_INFO,
 		       "<%s> received data on a disabled interface (%s)",
