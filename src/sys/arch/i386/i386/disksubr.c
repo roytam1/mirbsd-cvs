@@ -1,12 +1,12 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
 /*
  * Copyright (c) 1996 Theo de Raadt
  * Copyright (c) 1982, 1986, 1988 Regents of the University of California.
- * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2007
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ read_pt(long offs, long secpercyl, void (*strat)(struct buf *),
 {
 	int i;
 
-#ifdef	DEBUG
+#ifdef DEBUG
 	printf("debug: reading pt at %d (0x%X)\n", offs, offs);
 #endif
 	bp->b_blkno = offs;
@@ -78,10 +78,12 @@ read_pt(long offs, long secpercyl, void (*strat)(struct buf *),
 		set_le(&target[i].dp_start,
 		    get_le(&target[i].dp_start) + offs);
 
-#ifdef	DEBUG
-	if (((struct dos_mbr *)(bp->b_data))->dmbr_sign != DOSMBR_SIGNATURE)
+	if (((struct dos_mbr *)(bp->b_data))->dmbr_sign != DOSMBR_SIGNATURE) {
+#ifdef DEBUG
 		printf("warning: broken MBR signature\n");
 #endif
+		return (-1);
+	}
 
 	return 0;
 }
@@ -94,7 +96,7 @@ scan_pt(struct dos_partition *dp, u_int8_t what)
 	for (part = 0; part < NDOSPART; ++part) {
 		if ((!get_le(&dp[part].dp_size)) || (dp[part].dp_typ != what))
 			continue;
-#ifdef	DEBUG
+#ifdef DEBUG
 		printf("debug: found partition %d: "
 		    "type %02X ofs %d (0x%Xh) size %d (0x%X)%s\n",
 		    part, dp[part].dp_typ,
@@ -119,7 +121,8 @@ find_mirbsd_disklabel(void (*strat)(struct buf *), struct buf *bp,
 	long mbrofs = DOSBBSECTOR;
 	int part;
 
-loop:	if (read_pt(mbrofs, lp->d_secpercyl, strat, bp, dp))
+ loop:
+	if (read_pt(mbrofs, lp->d_secpercyl, strat, bp, dp))
 		return -1;
 	if ((part = scan_pt(dp, DOSPTYP_MIRBSD)) < NDOSPART)
 		goto found;
@@ -142,7 +145,8 @@ loop:	if (read_pt(mbrofs, lp->d_secpercyl, strat, bp, dp))
 	mbrofs = get_le(&dp[part].dp_start);
 	goto loop;
 
-found:	memcpy(dp, &dp[part], sizeof(*dp));
+ found:
+	memcpy(dp, &dp[part], sizeof(*dp));
 	return 0;
 }
 
@@ -294,7 +298,7 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 				case DOSPTYP_EXTENDL:
 				case DOSPTYP_EXTENDLX:
 					part_blkno = get_le(&dp[i].dp_start);
-#ifdef	DEBUG
+#ifdef DEBUG
 					printf("debug: wandering, found %X at"
 					    " %d (0x%X)\n", dp[i].dp_typ,
 					    part_blkno, part_blkno);
