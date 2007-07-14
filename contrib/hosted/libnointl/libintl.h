@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/libnointl/libintl.h,v 1.4 2007/06/27 01:58:19 tg Exp $ */
+/* $MirOS: contrib/hosted/libnointl/libintl.h,v 1.5 2007/07/01 20:43:59 tg Exp $ */
 
 /*-
  * "THE BEER-WARE LICENCE" (Revision 42):
@@ -19,16 +19,25 @@
 #define __GNU_GETTEXT_SUPPORTED_REVISION(major)	\
 	    ((major) == 0 || (major) == 1 ? 1 : -1)
 
+#ifndef __BEGIN_DECLS
 #if defined(__cplusplus)
-extern "C" {
+#define	__BEGIN_DECLS	extern "C" {
+#define	__END_DECLS	}
+#else
+#define	__BEGIN_DECLS
+#define	__END_DECLS
+#endif
 #endif
 
+__BEGIN_DECLS
 extern int libintl_version;
+__END_DECLS
 
 #endif /* !_LIBINTL_H */
 
 #if !defined(_LIBINTL_H) || defined(LIBINTL_REDEFINE)
 
+__BEGIN_DECLS
 extern char *gettext(const char *)
     __attribute__((format_arg (1)));
 extern char *dgettext(const char *, const char *)
@@ -57,6 +66,7 @@ extern char *bind_textdomain_codeset(const char *, const char *);
 extern void gettext_free_exp(void *);
 extern int gettextparse(void *);
 #endif /* LIBINTL_INTERNAL */
+__END_DECLS
 
 #endif /* !_LIBINTL_H || LIBINTL_REDEFINE */
 
@@ -64,6 +74,7 @@ extern int gettextparse(void *);
 #define _LIBINTL_H
 
 #ifdef LIBINTL_INTERNAL
+__BEGIN_DECLS
 extern void libintl_set_relocation_prefix(const char *, const char *);
 extern void libintl_gettext_extract_plural(const char *, void *,
     unsigned long *);
@@ -72,11 +83,8 @@ extern int libintl_once_singlethreaded(void *);
 extern const char *libintl_relocate(const char *)
     __attribute__((format_arg (1)));
 extern const char *locale_charset(void);
+__END_DECLS
 #endif /* LIBINTL_INTERNAL */
-
-#if defined(__cplusplus)
-}
-#endif
 
 /*
  * Macro definitions for the above functions.
