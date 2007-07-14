@@ -29,20 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)rs.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $";
-#endif
-#endif /* not lint */
-
 /*
  *	rs - reshape a data array
  *	Author:  John Kunze, Office of Comp. Affairs, UCB
@@ -56,6 +42,11 @@ static const char rcsid[] = "$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)rs.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 long	flags;
 #define	TRANSPOSE	000001
@@ -81,8 +72,8 @@ short	*cord;
 short	*icbd;
 short	*ocbd;
 int	nelem;
-char	**elem;
-char	**endelem;
+const char **elem;
+const char **endelem;
 char	*curline;
 int	allocsize = BUFSIZ;
 int	curlen;
@@ -94,14 +85,14 @@ int	propgutter;
 char	isep = ' ', osep = ' ';
 int	owidth = 80, gutter = 2;
 
-void	  usage(void);
+void	  usage(void) __dead;
 void	  getargs(int, char *[]);
 void	  getfile(void);
 int	  getline(void);
 char	 *getlist(short **, char *);
-char	**getptrs(char **);
+const char **getptrs(const char **);
 void	  prepfile(void);
-void	  prints(char *, int);
+void	  prints(const char *, int);
 void	  putfile(void);
 
 #define INCR(ep) do {			\
@@ -128,10 +119,10 @@ getfile(void)
 {
 	char *p;
 	char *endp;
-	char **ep = NULL;
+	const char **ep = NULL;
 	int multisep = (flags & ONEISEPONLY ? 0 : 1);
 	int nullpad = flags & NULLPAD;
-	char **padto;
+	const char **padto;
 
 	while (skip--) {
 		getline();
@@ -192,7 +183,7 @@ getfile(void)
 void
 putfile(void)
 {
-	char **ep;
+	const char **ep;
 	int i, j, n;
 
 	ep = elem;
@@ -215,10 +206,10 @@ putfile(void)
 }
 
 void
-prints(char *s, int col)
+prints(const char *s, int col)
 {
 	int n;
-	char *p = s;
+	const char *p = s;
 
 	while (*p)
 		p++;
@@ -246,10 +237,10 @@ usage(void)
 void
 prepfile(void)
 {
-	char **ep;
+	const char **ep;
 	int  i;
 	int  j;
-	char **lp;
+	const char **lp;
 	int colw;
 	int max = 0;
 	int n;
@@ -352,10 +343,10 @@ getline(void)	/* get line; maintain curline, curlen; manage storage */
 	return(c);
 }
 
-char **
-getptrs(char **sp)
+const char **
+getptrs(const char **sp)
 {
-	char **p;
+	const char **p;
 	int newsize, gap;
 
 	newsize = allocsize * 2;
