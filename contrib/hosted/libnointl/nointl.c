@@ -36,7 +36,7 @@
 #include "libintl.h"
 
 static const char __rcsid_intl[] __attribute__((used)) =
-    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.3 2007/06/25 16:32:54 tg Exp $";
+    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.4 2007/06/27 23:19:55 tg Exp $";
 
 #define __unused	__attribute__((unused))
 
@@ -44,6 +44,9 @@ static const char __rcsid_intl[] __attribute__((used)) =
 const char _nl_default_default_domain__[] = "messages";
 const char _nl_default_dirname__[] = "/usr/share/locale";
 const char *_nl_current_default_domain__ = _nl_default_default_domain__;
+const char _nl_default_default_domain[] = "messages";
+const char _nl_default_dirname[] = "/usr/share/locale";
+const char *_nl_current_default_domain = _nl_default_default_domain__;
 const char libintl_nl_default_default_domain[] = "messages";
 const char libintl_nl_default_dirname[] = "/usr/share/locale";
 const char *libintl_nl_current_default_domain = _nl_default_default_domain__;
@@ -51,6 +54,7 @@ int libintl_version = LIBINTL_VERSION;
 char _nl_state_lock[/* arbitrary value */ 64] = "";
 char libintl_gettext_germanic_plural[/* arbitrary value */ 64] = "";
 void *_nl_domain_bindings__;
+void *_nl_domain_bindings;
 void *libintl_nl_domain_bindings;
 int _nl_msg_cat_cntr;
 
