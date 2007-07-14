@@ -36,7 +36,7 @@
 #include "libintl.h"
 
 static const char __rcsid_intl[] __attribute__((used)) =
-    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.4 2007/06/27 23:19:55 tg Exp $";
+    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.5 2007/07/14 19:50:18 tg Exp $";
 
 #define __unused	__attribute__((unused))
 
@@ -199,6 +199,5 @@ libintl_set_relocation_prefix(const char *a __unused, const char *b __unused)
 #define bind_textdomain_codeset bind_textdomain_codeset__
 #define gettext_free_exp gettext_free_exp__
 #define gettextparse gettextparse__
-#define LIBINTL_REDEFINE
 #include "libintl.h"
 #include "meat.c"
