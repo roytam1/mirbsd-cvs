@@ -2,6 +2,8 @@
 /*	$NetBSD: str.c,v 1.7 1995/08/31 22:13:47 jtc Exp $	*/
 
 /*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -40,7 +42,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)str.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/tr/str.c,v 1.2 2007/07/15 19:10:31 tg Exp $");
 
 static wchar_t	backslash(STR *);
 static bool	bracket(STR *);
