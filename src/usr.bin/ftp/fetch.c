@@ -1,4 +1,4 @@
-/*	$OpenBSD: fetch.c,v 1.68 2006/07/07 12:00:25 ray Exp $	*/
+/*	$OpenBSD: fetch.c,v 1.74 2007/06/13 13:52:26 pyr Exp $	*/
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
 /*-
@@ -38,7 +38,7 @@
  */
 
 #if !defined(lint) && !defined(SMALL)
-static const char rcsid[] = "$OpenBSD: fetch.c,v 1.68 2006/07/07 12:00:25 ray Exp $";
+static const char rcsid[] = "$OpenBSD: fetch.c,v 1.74 2007/06/13 13:52:26 pyr Exp $";
 #endif /* not lint and not SMALL */
 
 /*
@@ -69,6 +69,7 @@ static const char rcsid[] = "$OpenBSD: fetch.c,v 1.68 2006/07/07 12:00:25 ray Ex
 #include <string.h>
 #include <unistd.h>
 #include <util.h>
+#include <resolv.h>
 
 #ifndef SMALL
 #include <openssl/ssl.h>
@@ -100,6 +101,7 @@ char		*SSL_readline(SSL *, size_t *);
 #define FTP_PROXY	"ftp_proxy"	/* env var with ftp proxy location */
 #define HTTP_PROXY	"http_proxy"	/* env var with http proxy location */
 
+#define COOKIE_MAX_LEN	42
 
 #define EMPTYSTRING(x)	((x) == NULL || (*(x) == '\0'))
 
@@ -118,12 +120,13 @@ static int	redirect_loop;
 static int
 url_get(const char *origline, const char *proxyenv, const char *outfile)
 {
-	char pbuf[NI_MAXSERV], hbuf[NI_MAXHOST], *cp, *portnum, *path;
+	char pbuf[NI_MAXSERV], hbuf[NI_MAXHOST], *cp, *portnum, *path, ststr[4];
 	char *hosttail, *cause = "unknown", *newline, *host, *port, *buf = NULL;
 	int error, i, isftpurl = 0, isfileurl = 0, isredirect = 0, rval = -1;
 	struct addrinfo hints, *res0, *res;
 	const char * volatile savefile;
 	char * volatile proxyurl = NULL;
+	char *cookie = NULL;
 	volatile int s = -1, out;
 	volatile sig_t oldintr;
 	FILE *fin = NULL;
@@ -136,6 +139,7 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	SSL_CTX *ssl_ctx = NULL;
 #endif
 	SSL *ssl = NULL;
+	int status;
 
 	newline = strdup(origline);
 	if (newline == NULL)
@@ -214,7 +218,28 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		*--path = '/';			/* add / back to real path */
 		path = strchr(host, '/');	/* remove trailing / on host */
 		if (!EMPTYSTRING(path))
+			*path++ = '\0';		/* i guess this ++ is useless */
+
+		path = strchr(host, '@');	/* look for credentials in proxy */
+		if (!EMPTYSTRING(path)) {
 			*path++ = '\0';
+			cookie = strchr(host, ':');
+			if (EMPTYSTRING(cookie)) {
+				warnx("Malformed proxy URL: %s", proxyenv);
+				goto cleanup_url_get;
+			}
+			cookie  = malloc(COOKIE_MAX_LEN);
+			b64_ntop(host, strlen(host), cookie, COOKIE_MAX_LEN);
+			/*
+			 * This removes the password from proxyenv,
+			 * filling with stars
+			 */
+			for (host = strchr(proxyenv + 5, ':');  *host != '@';
+			     host++)
+				*host = '*';
+
+			host = path;
+		}
 		path = newline;
 	}
 
@@ -409,7 +434,7 @@ again:
 		}
 		if (SSL_connect(ssl) <= 0) {
 			ERR_print_errors_fp(ttyout);
-			goto cleanup_url_get;;
+			goto cleanup_url_get;
 		}
 	} else {
 		fin = fdopen(s, "r+");
@@ -423,6 +448,9 @@ again:
 	/*
 	 * Construct and send the request. Proxy requests don't want leading /.
 	 */
+#ifndef SMALL
+	cookie_get(host, path, ishttpsurl, &buf);
+#endif
 	if (proxyurl) {
 		if (verbose)
 			fprintf(ttyout, " (via %s)\n", proxyenv);
@@ -430,8 +458,14 @@ again:
 		 * Host: directive must use the destination host address for
 		 * the original URI (path).  We do not attach it at this moment.
 		 */
-		ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n%s\r\n\r\n", path,
-		    HTTP_USER_AGENT);
+		if (cookie)
+			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n"
+			    "Proxy-Authorization: Basic %s%s\r\n%s\r\n\r\n",
+			    path, cookie, buf ? buf : "", HTTP_USER_AGENT);
+		else
+			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n%s%s\r\n\r\n",
+			    path, buf ? buf : "", HTTP_USER_AGENT);
+
 	} else {
 		ftp_printf(fin, ssl, "GET /%s HTTP/1.0\r\nHost: ", path);
 		if (strchr(host, ':')) {
@@ -463,10 +497,18 @@ again:
 		if (port && strcmp(port, "80") != 0)
 			ftp_printf(fin, ssl, ":%s", port);
 #endif
-		ftp_printf(fin, ssl, "\r\n%s\r\n\r\n", HTTP_USER_AGENT);
+		ftp_printf(fin, ssl, "\r\n%s%s\r\n\r\n",
+		    buf ? buf : "", HTTP_USER_AGENT);
 		if (verbose)
 			fprintf(ttyout, "\n");
 	}
+
+
+#ifndef SMALL
+	free(buf);
+#endif
+	buf = NULL;
+
 	if (fin != NULL && fflush(fin) == EOF) {
 		warn("Writing HTTP request");
 		goto cleanup_url_get;
@@ -486,13 +528,28 @@ again:
 		goto improper;
 	else
 		cp++;
-	if (strncmp(cp, "301", 3) == 0 || strncmp(cp, "302", 3) == 0) {
+
+	strlcpy(ststr, cp, sizeof(ststr));
+	status = strtonum(ststr, 200, 307, &errstr);
+	if (errstr) {
+		warnx("Error retrieving file: %s", cp);
+		goto cleanup_url_get;
+	}
+
+	switch (status) {
+	case 200:	/* OK */
+		break;
+	case 301:	/* Moved Permanently */
+	case 302:	/* Found */
+	case 303:	/* See Other */
+	case 307:	/* Temporary Redirect */
 		isredirect++;
 		if (redirect_loop++ > 10) {
 			warnx("Too many redirections requested");
 			goto cleanup_url_get;
 		}
-	} else if (strncmp(cp, "200", 3)) {
+		break;
+	default:
 		warnx("Error retrieving file: %s", cp);
 		goto cleanup_url_get;
 	}
@@ -1150,6 +1207,7 @@ proxy_connect(int socket, char *host)
 	if (write(socket, connstr, l) != l)
 		err(1, "Could not send connect string");
 	read(socket, &buf, sizeof(buf)); /* only proxy header XXX: error handling? */
+	free(connstr);
 	return(200);
 }
 #endif

@@ -1,4 +1,4 @@
-.\" 	$OpenBSD: ftp.1,v 1.56 2006/05/25 03:35:58 ray Exp $
+.\" 	$OpenBSD: ftp.1,v 1.61 2007/06/16 08:58:33 espie Exp $
 .\" 	$NetBSD: ftp.1,v 1.22 1997/08/18 10:20:22 lukem Exp $
 .\"
 .\" Copyright (c) 1985, 1989, 1990, 1993
@@ -30,7 +30,7 @@
 .\"
 .\"	@(#)ftp.1	8.3 (Berkeley) 10/9/94
 .\"
-.Dd August 18, 1997
+.Dd $Mdocdate: June 13 2007 $
 .Dt FTP 1
 .Os
 .Sh NAME
@@ -39,6 +39,8 @@
 .Sh SYNOPSIS
 .Nm ftp
 .Op Fl 46AadEegimnptVv
+.Op Fl c Ar cookie
+.Op Fl k Ar seconds
 .Op Fl P Ar port
 .Op Fl r Ar seconds
 .Op Ar host Op Ar port
@@ -108,6 +110,19 @@ to very old servers that do not implement passive mode properly.
 Causes
 .Nm
 to bypass the normal login procedure and use an anonymous login instead.
+.It Fl c Ar cookie
+Load a Netscape-like cookiejar file
+for HTTP and HTTPS transfers.
+With this option relevant cookies from the jar are sent with each HTTP(S)
+request.
+Setting the
+.Ev http_cookies
+environment variable has the same effect.
+If both the
+.Ev http_cookies
+environment variable is set and the
+.Fl c
+argument is given, the latter takes precedence.
 .It Fl d
 Enables debugging.
 .It Fl E
@@ -120,6 +135,19 @@ Disables file name globbing.
 .It Fl i
 Turns off interactive prompting during
 multiple file transfers.
+.It Fl k Ar seconds
+Sends a byte after each
+.Ar seconds
+period over the control connection during long transfers,
+so that incorrectly configured network equipment won't
+agressively drop it.
+The FTP protocol supports a
+.Dv NOOP
+command that can be used for that purpose.
+This assumes the FTP server can deal with extra commands coming over
+the control connection during a transfer.
+Well-behaved servers queue those commands, and process them after the
+transfer.
 .It Fl m
 Causes
 .Nm
@@ -765,7 +793,7 @@ Toggle passive mode.
 If passive mode is turned on (default is on),
 .Nm
 will send a
-.Dv PASV
+.Dv EPSV
 command for all data connections instead of the usual
 .Dv PORT
 command.
@@ -1505,6 +1533,9 @@ URL of FTP proxy to use when making FTP URL requests
 (if not defined, use the standard FTP protocol).
 .It Ev http_proxy
 URL of HTTP proxy to use when making HTTP or HTTPS URL requests.
+.It Ev http_cookies
+Path of a Netscape-like cookiejar file to use when making
+HTTP or HTTPS URL requests.
 .El
 .Sh PORT ALLOCATION
 For active mode data connections,
