@@ -1,4 +1,4 @@
-/*	$OpenBSD: extern.h,v 1.28 2005/10/12 06:50:42 otto Exp $	*/
+/*	$OpenBSD: extern.h,v 1.31 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: extern.h,v 1.17 1997/08/18 10:20:19 lukem Exp $	*/
 
 /*
@@ -149,7 +149,6 @@ void    reset(int, char **);
 void	restart(int, char **);
 void	rmthelp(int, char **);
 void	rmtstatus(int, char **);
-int	ruserpass(const char *, char **, char **, char **);
 void    sendrequest(const char *, const char *, const char *, int);
 void	setascii(int, char **);
 void	setbell(int, char **);
@@ -190,6 +189,12 @@ int	togglevar(int, char **, int *, const char *);
 void	usage(void);
 void	user(int, char **);
 
+#ifndef SMALL
+int	ruserpass(const char *, char **, char **, char **);
+void	cookie_load(void);
+void	cookie_get(const char *, const char *, int, char **);
+#endif
+
 
 extern jmp_buf	abortprox;
 extern int	abrtflag;
@@ -203,6 +208,7 @@ extern int	proxy;
 extern char	reply_string[];
 extern off_t	restart_point;
 extern int	NCMDS;
+extern int	keep_alive_timeout;
 
 extern char *__progname;		/* from crt0.o */
 
