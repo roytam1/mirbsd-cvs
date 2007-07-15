@@ -2,6 +2,8 @@
 /*	$NetBSD: tr.c,v 1.5 1995/08/31 22:13:48 jtc Exp $	*/
 
 /*
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -30,87 +32,85 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tr.c	8.2 (Berkeley) 5/4/95";
-#endif
-static char rcsid[] = "$OpenBSD: tr.c,v 1.13 2004/09/15 22:12:19 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include <err.h>
+#include <errno.h>
+#include <stdbool.h>
+#include <wctype.h>
 
 #include "extern.h"
 
-static int string1[NCHARS] = {
-	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,		/* ASCII */
-	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-	0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
-	0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
-	0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
-	0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
-	0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,
-	0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47,
-	0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
-	0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,
-	0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f,
-	0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
-	0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f,
-	0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
-	0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f,
-	0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
-	0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,
-	0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
-	0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f,
-	0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,
-	0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf,
-	0xb0, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7,
-	0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf,
-	0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7,
-	0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf,
-	0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7,
-	0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf,
-	0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7,
-	0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
-	0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,
-	0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff,
-}, string2[NCHARS];
+__COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)tr.c	8.2 (Berkeley) 5/4/95");
+__RCSID("$MirOS$");
 
-STR s1 = { STRING1, NORMAL, 0, OOBCH, { 0, OOBCH }, NULL, NULL };
-STR s2 = { STRING2, NORMAL, 0, OOBCH, { 0, OOBCH }, NULL, NULL };
+static wchar_t string1[NCHARS], string2[NCHARS];
 
-static void setup(int *, char *, STR *, int);
-static void usage(void);
+STR s1 = {
+	.which = STRING1,
+	.state = NORMAL,
+	.cnt = 0,
+	.lastch = OOBCH,
+	.equiv = { 0, OOBCH },
+	.set = NULL,
+	.use_wctrans = false,
+	.str = NULL
+};
+STR s2 = {
+	.which = STRING2,
+	.state = NORMAL,
+	.cnt = 0,
+	.lastch = OOBCH,
+	.equiv = { 0, OOBCH },
+	.set = NULL,
+	.use_wctrans = false,
+	.str = NULL
+};
+
+static void setup(wchar_t *, char *, STR *, bool);
+static void usage(void) __dead;
+wchar_t *ambstowcs(const char *);
+
+#define getwcf() __extension__({				\
+	wint_t getwcf_c;					\
+								\
+	if ((getwcf_c = getwchar()) == WEOF && ferror(stdin) &&	\
+	    errno == EILSEQ) {					\
+		clearerr(stdin);				\
+		getwcf_c = 0xFFFD;				\
+	}							\
+	(wchar_t)(getwcf_c);					\
+})
 
 int
 main(int argc, char *argv[])
 {
-	int ch, cnt, lastch, *p;
-	int cflag, dflag, sflag, isstring2;
+	wchar_t ch, cnt, lastch, *p;
+	int ich;
+	bool cflag, dflag, sflag, isstring2;
 
-	cflag = dflag = sflag = 0;
-	while ((ch = getopt(argc, argv, "cds")) != -1)
-		switch((char)ch) {
+#ifndef __MirBSD__
+	setlocale(LC_ALL, "");
+#endif
+
+	for (lastch = 0; lastch < (NCHARS - 1); ++lastch)
+		string1[lastch] = lastch;
+	string1[NCHARS - 1] = 0;
+
+	cflag = dflag = sflag = false;
+	while ((ich = getopt(argc, argv, "cds")) != -1)
+		switch (ich) {
 		case 'c':
-			cflag = 1;
+			cflag = true;
 			break;
 		case 'd':
-			dflag = 1;
+			dflag = true;
 			break;
 		case 's':
-			sflag = 1;
+			sflag = true;
 			break;
 		case '?':
 		default:
@@ -125,10 +125,10 @@ main(int argc, char *argv[])
 		usage();
 		/* NOTREACHED */
 	case 1:
-		isstring2 = 0;
+		isstring2 = false;
 		break;
 	case 2:
-		isstring2 = 1;
+		isstring2 = true;
 		break;
 	}
 
@@ -142,12 +142,12 @@ main(int argc, char *argv[])
 			usage();
 
 		setup(string1, argv[0], &s1, cflag);
-		setup(string2, argv[1], &s2, 0);
+		setup(string2, argv[1], &s2, false);
 
-		for (lastch = OOBCH; (ch = getchar()) != EOF;)
+		for (lastch = OOBCH; (ch = getwcf()) != WEOF; )
 			if (!string1[ch] && (!string2[ch] || lastch != ch)) {
 				lastch = ch;
-				(void)putchar(ch);
+				putwchar(ch);
 			}
 		exit(0);
 	}
@@ -162,9 +162,9 @@ main(int argc, char *argv[])
 
 		setup(string1, argv[0], &s1, cflag);
 
-		while ((ch = getchar()) != EOF)
+		while ((ch = getwcf()) != WEOF)
 			if (!string1[ch])
-				(void)putchar(ch);
+				putwchar(ch);
 		exit(0);
 	}
 
@@ -175,10 +175,10 @@ main(int argc, char *argv[])
 	if (sflag && !isstring2) {
 		setup(string1, argv[0], &s1, cflag);
 
-		for (lastch = OOBCH; (ch = getchar()) != EOF;)
+		for (lastch = OOBCH; (ch = getwcf()) != WEOF; )
 			if (!string1[ch] || lastch != ch) {
 				lastch = ch;
-				(void)putchar(ch);
+				putwchar(ch);
 			}
 		exit(0);
 	}
@@ -192,8 +192,13 @@ main(int argc, char *argv[])
 	if (!isstring2)
 		usage();
 
-	s1.str = (unsigned char *)argv[0];
-	s2.str = (unsigned char *)argv[1];
+	s1.str = ambstowcs(argv[0]);
+	s2.str = ambstowcs(argv[1]);
+	if ((strstr(argv[0], "[:lower:]") && strstr(argv[1], "[:upper:]")) ||
+	    (strstr(argv[1], "[:lower:]") && strstr(argv[0], "[:upper:]"))) {
+		s1.use_wctrans = true;
+		s2.use_wctrans = true;
+	}
 
 	if (cflag)
 		for (cnt = NCHARS, p = string1; cnt--;)
@@ -221,26 +226,26 @@ main(int argc, char *argv[])
 			*p = *p == OOBCH ? ch : cnt;
 
 	if (sflag)
-		for (lastch = OOBCH; (ch = getchar()) != EOF;) {
+		for (lastch = OOBCH; (ch = getwcf()) != WEOF;) {
 			ch = string1[ch];
 			if (!string2[ch] || lastch != ch) {
 				lastch = ch;
-				(void)putchar(ch);
+				putwchar(ch);
 			}
 		}
 	else
-		while ((ch = getchar()) != EOF)
-			(void)putchar(string1[ch]);
-	exit (0);
+		while ((ch = getwcf()) != WEOF)
+			putwchar(string1[ch]);
+	exit(0);
 }
 
 static void
-setup(int *string, char *arg, STR *str, int cflag)
+setup(wchar_t *string, char *arg, STR *str, bool cflag)
 {
-	int cnt, *p;
+	wchar_t cnt, *p;
 
-	str->str = (unsigned char *)arg;
-	bzero(string, NCHARS * sizeof(int));
+	str->str = ambstowcs(arg);
+	bzero(string, NCHARS * sizeof (wchar_t));
 	while (next(str))
 		string[str->lastch] = 1;
 	if (cflag)
@@ -256,4 +261,31 @@ usage(void)
 	    "\ttr [-c] -s string1\n"
 	    "\ttr [-c] -ds string1 string2\n");
 	exit(1);
+}
+
+wchar_t *
+ambstowcs(const char *s)
+{
+	wchar_t *ws = NULL;
+	size_t n = 0, p = 0, ilen, b;
+
+	ilen = strlen(s);
+
+ ambstowcs_loop:
+	if (p >= n && (ws = realloc(ws,
+	    (n = (n ? n << 1 : 32)) * sizeof (wchar_t))) == NULL)
+		err(1, "out of memory allocating %zu wide chars", n);
+	if (ilen == 0) {
+		ws[p] = L'\0';
+		return (ws);
+	} else if ((b = mbtowc(ws + p, s, ilen)) == (size_t)-1) {
+		ws[p] = 0xFFFD;
+		++s;
+		--ilen;
+	} else {
+		s += b;
+		ilen -= b;
+	}
+	++p;
+	goto ambstowcs_loop;
 }
