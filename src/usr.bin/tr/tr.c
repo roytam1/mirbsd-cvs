@@ -41,11 +41,12 @@
 #include <wctype.h>
 
 #include "extern.h"
+#include "ambstowcs.h"
 
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tr.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.2 2007/07/15 19:10:32 tg Exp $");
 
 static wchar_t string1[NCHARS], string2[NCHARS];
 
@@ -72,7 +73,6 @@ STR s2 = {
 
 static void setup(wchar_t *, char *, STR *, bool);
 static void usage(void) __dead;
-wchar_t *ambstowcs(const char *);
 
 #define getwcf() __extension__({				\
 	wint_t getwcf_c;					\
@@ -261,31 +261,4 @@ usage(void)
 	    "\ttr [-c] -s string1\n"
 	    "\ttr [-c] -ds string1 string2\n");
 	exit(1);
-}
-
-wchar_t *
-ambstowcs(const char *s)
-{
-	wchar_t *ws = NULL;
-	size_t n = 0, p = 0, ilen, b;
-
-	ilen = strlen(s);
-
- ambstowcs_loop:
-	if (p >= n && (ws = realloc(ws,
-	    (n = (n ? n << 1 : 32)) * sizeof (wchar_t))) == NULL)
-		err(1, "out of memory allocating %zu wide chars", n);
-	if (ilen == 0) {
-		ws[p] = L'\0';
-		return (ws);
-	} else if ((b = mbtowc(ws + p, s, ilen)) == (size_t)-1) {
-		ws[p] = 0xFFFD;
-		++s;
-		--ilen;
-	} else {
-		s += b;
-		ilen -= b;
-	}
-	++p;
-	goto ambstowcs_loop;
 }
