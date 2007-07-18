@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.3 2007/07/11 22:28:40 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
@@ -78,14 +78,8 @@ read_pt(long offs, long secpercyl, void (*strat)(struct buf *),
 		set_le(&target[i].dp_start,
 		    get_le(&target[i].dp_start) + offs);
 
-	if (((struct dos_mbr *)(bp->b_data))->dmbr_sign != DOSMBR_SIGNATURE) {
-#ifdef DEBUG
-		printf("warning: broken MBR signature\n");
-#endif
-		return (-1);
-	}
-
-	return 0;
+	return ((((struct dos_mbr *)(bp->b_data))->dmbr_sign ==
+	    DOSMBR_SIGNATURE) ? 0 : 1);
 }
 
 int
@@ -236,10 +230,16 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 			wander = 0;
 
 			/* read boot record */
-			if (read_pt(part_blkno, lp->d_secpercyl, strat,
+			switch (read_pt(part_blkno, lp->d_secpercyl, strat,
 			    bp, dp)) {
+			case -1:
 				msg = "dos partition I/O error";
 				goto done;
+			case 1:
+				if (loop == 1)
+					goto dodospart_noparts;
+				else
+					goto dodospart_someparts;
 			}
 
 			/*
@@ -312,9 +312,12 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 				}
 			}
 		}
+ dodospart_someparts:
 		lp->d_bbsize = 8192;
 		lp->d_sbsize = 64*1024;		/* XXX ? */
 		lp->d_npartitions = MAXPARTITIONS;
+ dodospart_noparts:
+		;
 	}
 
 	/* don't read the on-disk label if we are in spoofed-only mode */
@@ -393,7 +396,7 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 			i < lp->d_nsectors);
 	}
 
-done:
+ done:
 	if (bp) {
 		bp->b_flags |= B_INVAL;
 		brelse(bp);
@@ -510,7 +513,7 @@ writedisklabel(dev_t dev, void (*strat)(struct buf *),
 	error = biowait(bp);
 	goto done;
 
-done:
+ done:
 	bp->b_flags |= B_INVAL;
 	brelse(bp);
 	return (error);
@@ -572,8 +575,8 @@ bounds_check_with_label(bp, lp, osdep, wlabel)
 		lp->d_secpercyl;
 	return (1);
 
-bad:
+ bad:
 	bp->b_flags |= B_ERROR;
-done:
+ done:
 	return (0);
 }
