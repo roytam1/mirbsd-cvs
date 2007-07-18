@@ -74,7 +74,7 @@
  * has the table of implementation/integration differences.
  */
 #define __KAME__
-#define __KAME_VERSION		"MirOS-BSD"
+#define __KAME_VERSION		"MirBSD"
 
 /*
  * Local port number conventions:
