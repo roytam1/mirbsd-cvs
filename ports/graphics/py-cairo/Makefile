@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/py-gobject/Makefile,v 1.1 2007/07/19 16:48:44 bsiegert Exp $
+# $MirOS: ports/graphics/py-cairo/Makefile,v 1.1 2007/07/19 19:00:01 bsiegert Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
@@ -19,18 +19,14 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://cairographics.org/releases/
 
-MODULES=		devel/gettext devel/pkgconfig
+MODULES=		devel/gettext devel/pkgconfig lang/python
 BUILD_DEPENDS+=		::math/py-Numeric
 LIB_DEPENDS+=		cairo::graphics/cairo
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
-USE_GMAKE=		Yes
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} --enable-thread
-
-# we cannot use python.port.mk because we do not use distutils
-PYTHON_VERSION=		2.3
-SUBST_VARS+=		PYTHON_VERSION
+MODPY_USE_DISTUTILS=	No
 
 .include <bsd.port.mk>

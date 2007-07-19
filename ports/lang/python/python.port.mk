@@ -1,9 +1,10 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.1.7.1 2005/03/18 15:47:49 tg Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.2 2005/11/04 14:02:33 tg Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 MODPY_VERSION?=		2.3
+MODPY_MINPKG?=		2.3.5-1
 
-_MODPY_BUILD_DEPENDS=	:python-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},no_cxx
+_MODPY_BUILD_DEPENDS=	:python->=${MODPY_MINPKG}:lang/python/${MODPY_VERSION},no_cxx
 
 .if ${NO_BUILD:L} == "no"
 BUILD_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
@@ -20,6 +21,12 @@ MODPY_INCDIR=		${LOCALBASE}/include/python${MODPY_VERSION}
 MODPY_LIBDIR=		${LOCALBASE}/lib/python${MODPY_VERSION}
 MODPY_SITEPKG=		${MODPY_LIBDIR}/site-packages
 
+SUBST_VARS+=		MODPY_VERSION
+
+MODPY_USE_DISTUTILS?=	Yes
+
+.if ${MODPY_USE_DISTUTILS:L} == "yes"
+
 # usually setup.py but Setup.py can be found too
 MODPY_SETUP?=		setup.py
 
@@ -30,17 +37,17 @@ MODPY_DISTUTILS_INSTALL?=	install --prefix=${PREFIX}
 _MODPY_CMD=	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 			${MODPY_BIN} ./${MODPY_SETUP}
 
-SUBST_VARS+=	MODPY_VERSION
-
 # dirty way to do it with no modifications in bsd.port.mk
-.if !target(do-build)
+.  if !target(do-build)
 do-build:
 	${_MODPY_CMD} ${MODPY_DISTUTILS_BUILD} ${MODPY_DISTUTILS_BUILDARGS}
-.endif
+.  endif
 
 # extra documentation or scripts should be installed via post-install
-.if !target(do-install)
+.  if !target(do-install)
 do-install:
 	${_MODPY_CMD} ${MODPY_DISTUTILS_BUILD} ${MODPY_DISTUTILS_BUILDARGS} \
 		${MODPY_DISTUTILS_INSTALL} ${MODPY_DISTUTILS_INSTALLARGS}
+.  endif
+
 .endif

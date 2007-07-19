@@ -1,20 +1,20 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/py-gobject/pkg/PLIST,v 1.1 2007/07/19 16:48:44 bsiegert Exp $
 include/pygtk-2.0/pygobject.h
 lib/pkgconfig/pygobject-2.0.pc
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/dsextras.py
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/dsextras.pyc
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/dsextras.pyo
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/__init__.py
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/__init__.pyc
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/__init__.pyo
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/_gobject.la
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/option.py
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/option.pyc
-lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject/option.pyo
-lib/python${PYTHON_VERSION}/site-packages/pygtk.pth
-lib/python${PYTHON_VERSION}/site-packages/pygtk.py
-lib/python${PYTHON_VERSION}/site-packages/pygtk.pyc
-lib/python${PYTHON_VERSION}/site-packages/pygtk.pyo
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/dsextras.py
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/dsextras.pyc
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/dsextras.pyo
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/__init__.py
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/__init__.pyc
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/__init__.pyo
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/_gobject.la
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/option.py
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/option.pyc
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/option.pyo
+lib/python${MODPY_VERSION}/site-packages/pygtk.pth
+lib/python${MODPY_VERSION}/site-packages/pygtk.py
+lib/python${MODPY_VERSION}/site-packages/pygtk.pyc
+lib/python${MODPY_VERSION}/site-packages/pygtk.pyo
 share/gtk-doc/html/pygobject/class-gobject.html
 share/gtk-doc/html/pygobject/class-gobjectgboxed.html
 share/gtk-doc/html/pygobject/class-gobjectginterface.html
@@ -41,9 +41,9 @@ share/pygobject/xsl/ref-html-style.xsl
 @dirrm share/gtk-doc/html/pygobject
 @dirrm share/gtk-doc/html
 @dirrm share/gtk-doc
-@dirrm lib/python${PYTHON_VERSION}/site-packages/gtk-2.0/gobject
-@dirrm lib/python${PYTHON_VERSION}/site-packages/gtk-2.0
-@dirrm lib/python${PYTHON_VERSION}/site-packages
-@dirrm lib/python${PYTHON_VERSION}
+@dirrm lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject
+@dirrm lib/python${MODPY_VERSION}/site-packages/gtk-2.0
+@dirrm lib/python${MODPY_VERSION}/site-packages
+@dirrm lib/python${MODPY_VERSION}
 @dirrm lib/pkgconfig
 @dirrm include/pygtk-2.0
