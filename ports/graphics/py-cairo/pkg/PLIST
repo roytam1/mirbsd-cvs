@@ -1,0 +1,12 @@
+@comment $MirOS$
+include/pycairo/pycairo.h
+lib/pkgconfig/pycairo.pc
+lib/python${PYTHON_VERSION}/site-packages/cairo/__init__.py
+lib/python${PYTHON_VERSION}/site-packages/cairo/__init__.pyc
+lib/python${PYTHON_VERSION}/site-packages/cairo/__init__.pyo
+lib/python${PYTHON_VERSION}/site-packages/cairo/_cairo.la
+@dirrm lib/python${PYTHON_VERSION}/site-packages/cairo
+@dirrm lib/python${PYTHON_VERSION}/site-packages
+@dirrm lib/python${PYTHON_VERSION}
+@dirrm lib/pkgconfig
+@dirrm include/pycairo
