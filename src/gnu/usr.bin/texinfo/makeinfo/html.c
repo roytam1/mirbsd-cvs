@@ -211,7 +211,9 @@ html_output_head (void)
   /* Make sure this is the very first string of the output document.  */
   output_paragraph_offset = 0;
 
-  add_html_block_elt_args ("<html lang=\"%s\">\n<head>\n",
+  add_html_block_elt_args ("%s\n<html lang=\"%s\">\n<head>\n",
+      "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\""
+      " \"http://www.w3.org/TR/html401/loose.dtd\">",
       language_table[language_code].abbrev);
 
   /* When splitting, add current node's name to title if it's available and not
@@ -222,11 +224,9 @@ html_output_head (void)
   else
     add_word_args ("<title>%s</title>\n",  html_title);
 
-  add_word ("<meta http-equiv=\"Content-Type\" content=\"text/html");
-  if (encoding && *encoding)
-    add_word_args ("; charset=%s", encoding);
-                   
-  add_word ("\">\n");
+  add_word_args ("<meta http-equiv=\"Content-Type\" content=\"text/html;"
+    " charset=%s\">\n",
+    (encoding && *encoding) ? encoding : "utf-8");
 
   if (!document_description)
     document_description = html_title;
@@ -234,7 +234,7 @@ html_output_head (void)
   add_word_args ("<meta name=\"description\" content=\"%s\">\n",
                  document_description);
   add_word_args ("<meta name=\"generator\" content=\"makeinfo %s\">\n",
-                 VERSION);
+                 VERSION "-MirOS");
 
   /* Navigation bar links.  */
   if (!splitting)
