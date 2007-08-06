@@ -1,6 +1,6 @@
-$MirOS$
---- configure.in.orig	Tue Apr 24 05:06:30 2007
-+++ configure.in	Fri May 18 00:19:05 2007
+$MirOS: ports/net/tor/patches/patch-configure_in,v 1.1 2007/05/18 00:23:06 tg Exp $
+--- configure.in.orig	Thu Aug  2 04:38:22 2007
++++ configure.in	Mon Aug  6 09:14:46 2007
 @@ -44,7 +44,7 @@ AC_ARG_ENABLE(threads,
  
  if test x$enable_threads = x; then
@@ -10,7 +10,7 @@ $MirOS$
       # Don't try multithreading on netbsd -- there is no threadsafe DNS
       # lookup function there.
       if test x$eventdns != xtrue; then
-@@ -310,7 +310,7 @@ fi
+@@ -318,7 +318,7 @@ fi
  fi
  
  dnl Now check for particular libevent functions.
@@ -19,7 +19,7 @@ $MirOS$
  
  dnl ------------------------------------------------------
  dnl Where do you live, openssl?  And how do we call you?
-@@ -517,7 +517,7 @@ if test x$transparent = xtrue ; then
+@@ -525,7 +525,7 @@ if test x$transparent = xtrue ; then
     if test x$transparent_ok = x1 ; then
       AC_DEFINE(USE_TRANSPARENT, 1, "Define to enable transparent proxy support")
       case $host in
@@ -28,7 +28,7 @@ $MirOS$
           AC_DEFINE(OPENBSD, 1, "Define to handle pf on OpenBSD properly") ;;
       esac
     else
-@@ -837,9 +837,8 @@ AC_DEFINE_UNQUOTED(LOCALSTATEDIR,"$LOCAL
+@@ -845,9 +845,8 @@ AC_DEFINE_UNQUOTED(LOCALSTATEDIR,"$LOCAL
  # Set CFLAGS _after_ all the above checks, since our warnings are stricter
  # than autoconf's macros like.
  if test $ac_cv_c_compiler_gnu = yes; then

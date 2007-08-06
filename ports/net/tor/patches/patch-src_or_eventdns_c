@@ -1,20 +1,19 @@
-$MirOS$
+$MirOS: ports/net/tor/patches/patch-src_or_eventdns_c,v 1.1 2007/05/18 00:23:06 tg Exp $
 
 	Use eventdns from libevent in base if possible.
 
---- src/or/eventdns.c.orig	Wed Mar  7 11:12:15 2007
-+++ src/or/eventdns.c	Thu May 17 23:50:19 2007
-@@ -34,6 +34,9 @@
- 
+--- src/or/eventdns.c.orig	Thu Jul 12 16:46:52 2007
++++ src/or/eventdns.c	Mon Aug  6 09:15:38 2007
+@@ -36,6 +36,8 @@
  #include <sys/types.h>
- #include "eventdns_tor.h"
-+
+ //#define NDEBUG
+ 
 +#if !HAVE_EVDNS_INIT
 +
- //#define NDEBUG
- #include "../common/torint.h"
- 
-@@ -3132,3 +3135,4 @@ main(int c, char **v) {
+ #ifndef DNS_USE_CPU_CLOCK_FOR_ID
+ #ifndef DNS_USE_GETTIMEOFDAY_FOR_ID
+ #ifndef DNS_USE_OPENSSL_FOR_ID
+@@ -3136,3 +3138,4 @@ main(int c, char **v) {
  // indent-tabs-mode: t
  // End:
  
