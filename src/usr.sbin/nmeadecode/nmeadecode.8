@@ -1,9 +1,9 @@
-$MirOS$
+$MirOS: src/usr.sbin/nmeadecode/nmeadecode.8,v 1.1 2007/08/11 00:16:09 tg Exp $
 
 principal idea:
 # nmeadecode [-G] [-N | -n 71.80.83.32] [-p 123] [-F nmea] [-f cua00] [-s 4800]
 
--G: enable outputting GPS positioning data
+-G: disable outputting GPS positioning data
 -N: disable ntp
 -n 1.2.3.4: bind 1.2.3.4 (default: 71.80.83.32)
 -p 123: listen @ udp 123 (default: 123)
@@ -19,7 +19,7 @@ if -f argument is not a character device, -s is ignored (for dumps processing)
 default operation w/ no args:
 * read /dev/cua00,4800,8N1
 * parse time data
-* ignore GPS data
+* parse GPS data (including DGPS and # of sats, etc.)
 * do not forward raw data
 * listen on 71.80.83.32:123/udp as NTP server
 
