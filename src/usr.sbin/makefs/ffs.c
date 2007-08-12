@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.3 2006/09/21 20:16:23 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.4 2007/05/19 23:17:48 tg Exp $ */
 /*	$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $	*/
 
 /*
@@ -72,7 +72,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.3 2006/09/21 20:16:23 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.4 2007/05/19 23:17:48 tg Exp $");
 __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #endif	/* !__lint */
 
@@ -107,7 +107,7 @@ __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #include "ffs/newfs_extern.h"
 #include "ffs/ffs_extern.h"
 
-__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.3 2006/09/21 20:16:23 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.4 2007/05/19 23:17:48 tg Exp $");
 
 #undef DIP
 #define DIP(dp, field) \
@@ -431,7 +431,7 @@ ffs_validate(const char *dir, fsnode *root, fsinfo_t *fsopts)
 
 		/* now check calculated sizes vs requested sizes */
 	if (fsopts->maxsize > 0 && fsopts->size > fsopts->maxsize) {
-		errx(1, "`%s' size of %lld is larger than the maxsize of %lld.",
+		errx(1, "'%s' size of %lld is larger than the maxsize of %lld.",
 		    dir, (long long)fsopts->size, (long long)fsopts->maxsize);
 	}
 }
