@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile.gen,v 1.4 2006/06/12 22:05:38 tg Exp $
+# $MirOS: src/lib/libz/Makefile.gen,v 1.5 2007/04/17 22:10:58 tg Exp $
 
 zlib_depends: crc32.h inffixed.h trees.h
 
@@ -13,24 +13,26 @@ trees.h: mk_trees
 
 mk_crc32.c:
 	print 'void get_crc_table(void);' >$@
+	print >>$@
 	print 'int' >>$@
 	print 'main(void)' >>$@
 	print '{' >>$@
 	print '\tget_crc_table();' >>$@
-	print '\treturn 0;' >>$@
+	print '\treturn (0);' >>$@
 	print '}' >>$@
 
 mk_crc32: mk_crc32.c crc32.c
 	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} \
-	    ${HOSTLDFLAGS} -DMAKECRCH $> -o $@
+	    ${HOSTLDFLAGS} -DMAKECRCH -DZLIB_NO_CRC32PUSH $> -o $@
 
 mk_inffixed.c: crc32.h
 	print 'void makefixed(void);' >$@
+	print >>$@
 	print 'int' >>$@
 	print 'main(void)' >>$@
 	print '{' >>$@
 	print '\tmakefixed();' >>$@
-	print '\treturn 0;' >>$@
+	print '\treturn (0);' >>$@
 	print '}' >>$@
 
 mk_inffixed: mk_inffixed.c inflate.c \
@@ -47,7 +49,7 @@ mk_trees.c:
 	print '{' >>$@
 	print '\tdeflate_state s;' >>$@
 	print >>$@
-	print '\tmemset(&s, 0, sizeof (s));' >>$@
+	print '\tbzero(&s, sizeof (s));' >>$@
 	print '\t_tr_init(&s);' >>$@
 	print '\treturn (0);' >>$@
 	print '}' >>$@
