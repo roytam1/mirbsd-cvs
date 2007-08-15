@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/man/man8/compat_openbsd.8,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
 .\"	$OpenBSD: compat_freebsd.8,v 1.17 2003/10/25 07:50:51 jmc Exp $
 .\"	$NetBSD: compat_linux.8,v 1.1 1995/03/05 23:30:36 fvdl Exp $
 .\"
@@ -44,7 +44,9 @@ binaries under emulation
 supports running
 .Ox
 binaries.
-Most binaries should work.
+Most binaries for
+.Ox 3.8
+and below should work.
 .Pp
 The
 .Ox
@@ -362,7 +364,11 @@ or
 Simply extract the files from these compressed tarfiles in the
 .Pa /emul/openbsd
 directory (possibly omitting or afterwards removing unnecessary files).
+.Sh CAVEATS
+.Nm compat_openbsd
+only works on the i386 architecture.
 .Sh BUGS
 The information about
 .Ox
 releases may become outdated.
+This manual page is too visibly derived from the freebsd one.
