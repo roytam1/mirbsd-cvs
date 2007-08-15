@@ -15,7 +15,7 @@ XOBJS = BUSmemcpy.o IODelay.o SlowBcopy.o
 #else
 XSRCS = BUSmemcpy.c IODelay.c SlowBcopy.c
 XOBJS = BUSmemcpy.o IODelay.o SlowBcopy.o
-#if defined(NetBSDArchitecture)
+#if defined(NetBSDArchitecture) || defined(MirBSDArchitecture)
 BUSmemcpy.o: BUSmemcpy.c
 IODelay.o: IODelay.c
 SlowBcopy.o: SlowBcopy.c
