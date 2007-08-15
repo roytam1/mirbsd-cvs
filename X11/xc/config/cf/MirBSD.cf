@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.15 2007/02/11 02:18:00 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.16 2007/08/15 01:38:18 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -55,7 +55,6 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	LibDir			${LOCALBASE}/lib/X11
 #define	UsrLibDir		${LOCALBASE}/lib
 #define	ManDirectoryRoot	${LOCALBASE}/man
-#define	LdPreLib		-L/usr/X11R6/lib -L${LOCALBASE}/lib
 #define	XpmLibDir		/usr/X11R6/lib
 #define	XpmIncDir		/usr/X11R6/include
 #define	ConfigDir		/usr/X11R6/lib/X11/config
@@ -65,7 +64,15 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	DocDir			${LOCALBASE}/share/doc
 #define	BuildHtmlManPages	NO
 
+#define	LdPreLib		-Wl,--start-group -L/usr/X11R6/lib -L${LOCALBASE}/lib
+#else
+# if !defined(UseInstalled)
+#define	LdPreLib		-Wl,--start-group -L$(BUILDLIBDIR)
+# else
+#define	LdPreLib		-Wl,--start-group -L$(USRLIBDIR)
+# endif
 #endif
+#define	LdPostLib		-Wl,--end-group -Wl,-O2
 
 /*
  * C library features
@@ -387,7 +394,6 @@ install::								@@\
 
 # define ServerOSDefines		XFree86ServerOSDefines
 # define ServerExtraSysLibs		-li386
-# define LdPostLib			/**/
 # define ServerExtraDefines		GccGasOption XFree86ServerDefines
 # ifndef XFree86ConsoleDefines
 #   define XFree86ConsoleDefines	-DWSCONS_SUPPORT -DPCVT_SUPPORT
