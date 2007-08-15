@@ -166,6 +166,8 @@
 #define SUPPORT_PC98
 #endif
 
+extern int priv_open_device(const char *);
+
 /*
  * These paths define the way the config file search is done.  The escape
  * sequences are documented in parser/scan.c.
@@ -2137,7 +2139,7 @@ configInputKbd(IDevPtr pIDev)
 			   " the \"wskbd\" keyboard protocol.");
 	   return FALSE;
 	}
-     xf86Info.kbdFd = priv_open_device(s);
+	xf86Info.kbdFd = priv_open_device(s);
 	if (xf86Info.kbdFd == -1) {
 	    xf86ConfigError("cannot open \"%s\"", s);
 	    xfree(s);

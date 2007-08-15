@@ -23,7 +23,7 @@
 #include "atKeynames.h"
 #include "bsd_kbd.h"
 
-extern int priv_open_device(char *);
+extern int priv_open_device(const char *);
 
 extern Bool VTSwitchEnabled;
 #ifdef USE_VT_SYSREQ
