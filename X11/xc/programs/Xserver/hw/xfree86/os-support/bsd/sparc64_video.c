@@ -107,3 +107,14 @@ xf86EnableInterrupts()
 
 	return;
 }
+
+/*
+ * Do all things that need root privileges early 
+ * and revoke those privileges 
+ */
+void
+xf86PrivilegedInit(void)
+{
+	pciInit();
+	xf86OpenConsole();
+}
