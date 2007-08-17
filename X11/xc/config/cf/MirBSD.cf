@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.17 2007/08/15 20:00:21 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.18 2007/08/15 23:49:52 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -107,9 +107,9 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	HasKrb5			NO
 #define	HasUsableFileMmap	YES
 #define	HasShadowPasswd		NO
-#define IPv6SocketsAlsoIPv4	NO
+#define	IPv6SocketsAlsoIPv4	NO
 
-#define HasArc4Random		YES
+#define	HasArc4Random		YES
 
 #define	HasNCurses		YES
 #define	NCursesLibName		-lcurses
@@ -167,8 +167,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #define	ModuleCcCmd		${CC}
 
-#ifndef AsCmd
-#define AsCmd			${CC} -c -x assembler
+#ifndef	AsCmd
+#define	AsCmd			${CC} -c -x assembler
 #endif
 
 #define	HasCplusplus		YES
@@ -199,8 +199,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	HasFlex			YES
 #define	DontRebuildGperfOutput	YES
 
-#ifndef UseRpath
-#define UseRpath		UseElfFormat
+#ifndef	UseRpath
+#define	UseRpath		UseElfFormat
 #endif
 
 /*
@@ -214,7 +214,9 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	BuildCyrillicFonts	YES
 #define	BuildBethMarduthoFonts	YES
 #define	BuildEthiopicFonts	YES
-#define Build9x18UntruncFont	YES
+#define	Build9x18UntruncFont	YES
+#define	DerivedUCSFonts		NO
+#define	TruncateUCSFonts	NO
 #define	GzipFontCompression	YES
 #define	GzipCmd			gzip -n9
 #define	MakeLocalFontDir	YES
@@ -358,7 +360,7 @@ install::								@@\
 #ifndef	LocalConfigFiles
 #define	LocalConfigFiles OpenBSDLib.rules
 #endif
-#define ShLibIncludeFile <bsdLib.tmpl>
+#define	ShLibIncludeFile <bsdLib.tmpl>
 
 /*
  * Architecture specific sections - put all architecture dependent
