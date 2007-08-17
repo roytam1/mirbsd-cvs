@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.18 2007/08/15 23:49:52 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.19 2007/08/17 09:41:43 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -443,9 +443,6 @@ install::								@@\
  */
 #ifdef SparcArchitecture
 
-# define BuildXF86MiscExt	NO
-# define BuildMITMiscExt	NO
-
 #  define XF86Server		YES
 
 #  ifndef Xsun24Server
@@ -470,11 +467,6 @@ install::								@@\
 
 # define XkbServerDefines	-DXKB_ALWAYS_USES_SOFT_REPEAT
 
-# define BuildXF86VidModeExt	NO
-# define BuildXF86DGA		NO
-# ifndef BuildXInputExt
-#  define BuildXInputExt	NO
-# endif
 # include <xfree86.cf>
 
 #endif /* SparcArchitecture */
