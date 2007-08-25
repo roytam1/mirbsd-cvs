@@ -25,6 +25,7 @@
 #include "termdep.h"
 
 #include <sys/types.h>
+#include <sys/ioctl.h>
 #include <signal.h>
 
 /* The Unix termcap interface code. */
