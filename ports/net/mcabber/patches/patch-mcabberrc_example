@@ -1,12 +1,30 @@
-$MirOS$
+$MirOS: ports/net/mcabber/patches/patch-mcabberrc_example,v 1.1 2007/08/25 19:04:10 tg Exp $
 --- mcabberrc.example.orig	Tue Jun 19 20:09:34 2007
-+++ mcabberrc.example	Sat Aug 25 18:55:41 2007
++++ mcabberrc.example	Sat Aug 25 19:30:57 2007
 @@ -1,4 +1,4 @@
 -# Sample ~/.mcabber/mcabberrc file
 +# Sample ~/.etc/mcabber/mcabberrc file
  
  # Note about this file syntax:
  # - Leading and trailing spaces are ignored.
+@@ -35,7 +35,7 @@ set resource = mcabber
+ set ssl = 0
+ #set ssl_verify = -1
+ #set ssl_cafile = /usr/share/ssl/certs/ca-bundle.crt
+-#set ssl_capath =
++set ssl_capath = /etc/ssl/certs
+ #set ssl_ciphers =
+ 
+ # PGP support
+@@ -80,7 +80,7 @@ set ssl = 0
+ # If your mcabber has been built with Aspell support, you can enable spell
+ # checking with the following options (you can't change them once mcabber is
+ # running).
+-#set aspell_enable = 1
++set aspell_enable = 0
+ #set aspell_lang = en_EN
+ #set aspell_encoding = iso8859-1
+ #set aspell_encoding = UTF-8
 @@ -105,7 +105,7 @@ set cmdhistory_lines = 250
  # (and status messages) to the log files (default: 0).
  # You can load (read) the messages history: set load_logs = 1
