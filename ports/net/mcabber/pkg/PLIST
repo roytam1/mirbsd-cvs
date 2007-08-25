@@ -1,6 +1,12 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/mcabber/pkg/PLIST,v 1.1 2007/08/25 11:15:01 tg Exp $
 bin/mcabber
 man/man1/mcabber.1
+share/doc/mcabber/README
+share/doc/mcabber/README_PGP.txt
+share/doc/mcabber/light.txt
+share/doc/mcabber/light2.txt
+share/doc/mcabber/mcabberrc.example
+share/doc/mcabber/oliver.txt
 share/mcabber/help/de/hlp.txt
 share/mcabber/help/de/hlp_add.txt
 share/mcabber/help/de/hlp_alias.txt
@@ -241,3 +247,4 @@ share/mcabber/help/uk/hlp_version.txt
 @dirrm share/mcabber/help/de
 @dirrm share/mcabber/help
 @dirrm share/mcabber
+@dirrm share/doc/mcabber

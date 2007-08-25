@@ -1,0 +1,21 @@
+$MirOS$
+--- src/histolog.c.orig	Tue Jun 19 20:09:34 2007
++++ src/histolog.c	Sat Aug 25 18:55:41 2007
+@@ -300,7 +300,7 @@ void hlog_read_history(const char *bjid,
+ }
+ 
+ //  hlog_enable()
+-// Enable logging to files.  If root_dir is NULL, then $HOME/.mcabber is used.
++// Enable logging to files.  If root_dir is NULL, then $HOME/.etc/mcabber is used.
+ // If loadfiles is TRUE, we will try to load buddies history logs from file.
+ void hlog_enable(guint enable, const char *root_dir, guint loadfiles)
+ {
+@@ -326,7 +326,7 @@ void hlog_enable(guint enable, const cha
+       }
+     } else {
+       char *home = getenv("HOME");
+-      const char *dir = "/.mcabber/histo/";
++      const char *dir = "/.etc/mcabber/histo/";
+       RootDir = g_strdup_printf("%s%s", home, dir);
+     }
+     // Check directory permissions (should not be readable by group/others)
