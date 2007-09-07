@@ -1,9 +1,9 @@
-# $MirOS: ports/net/tor/Makefile,v 1.2 2007/05/18 07:27:58 tg Exp $
+# $MirOS: ports/net/tor/Makefile,v 1.3 2007/08/06 09:47:33 tg Exp $
 # $NetBSD: Makefile,v 1.41 2007/04/26 20:04:37 tv Exp $
 
 COMMENT=		Anonymising overlay network for TCP
 CATEGORIES=		net security
-DISTNAME=		tor-0.1.2.16
+DISTNAME=		tor-0.1.2.17
 HOMEPAGE=		http://tor.eff.org/
 
 # 3-clause UCB-style
