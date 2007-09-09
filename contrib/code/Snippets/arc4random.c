@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/Snippets/arc4random.c,v 1.1 2007/09/07 19:28:08 tg Exp $ */
 
 /*-
  * Arc4 random number generator for OpenBSD.
@@ -36,21 +36,24 @@
 #include <sys/sysctl.h>
 #endif
 #include <fcntl.h>
+#if HAVE_STDINT_H
+#include <stdint.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 struct arc4_stream {
-	u_int8_t i;
-	u_int8_t j;
-	u_int8_t s[256];
+	uint8_t i;
+	uint8_t j;
+	uint8_t s[256];
 };
 
 static int rs_initialized;
 static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
 
-static u_int8_t arc4_getbyte(struct arc4_stream *);
+static uint8_t arc4_getbyte(struct arc4_stream *);
 
 u_int32_t arc4random(void);
 void arc4random_addrandom(u_char *, int);
@@ -71,7 +74,7 @@ static void
 arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
 {
 	int     n;
-	u_int8_t si;
+	uint8_t si;
 
 	as->i--;
 	for (n = 0; n < 256; n++) {
@@ -143,10 +146,10 @@ arc4_stir(struct arc4_stream *as)
 		arc4_getbyte(as);
 }
 
-static u_int8_t
+static uint8_t
 arc4_getbyte(struct arc4_stream *as)
 {
-	u_int8_t si, sj;
+	uint8_t si, sj;
 
 	as->i = (as->i + 1);
 	si = as->s[as->i];
@@ -157,10 +160,10 @@ arc4_getbyte(struct arc4_stream *as)
 	return (as->s[(si + sj) & 0xff]);
 }
 
-static u_int32_t
+static uint32_t
 arc4_getword(struct arc4_stream *as)
 {
-	u_int32_t val;
+	uint32_t val;
 	val = arc4_getbyte(as) << 24;
 	val |= arc4_getbyte(as) << 16;
 	val |= arc4_getbyte(as) << 8;
