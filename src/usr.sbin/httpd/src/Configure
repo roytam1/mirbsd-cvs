@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/usr.sbin/httpd/src/Configure,v 1.2 2005/03/13 19:16:41 tg Exp $
+# $MirOS: src/usr.sbin/httpd/src/Configure,v 1.3 2005/10/21 11:09:46 tg Exp $
 # $OpenBSD: Configure,v 1.23 2003/11/17 18:57:05 henning Exp $
 #
 ## ====================================================================
@@ -956,7 +956,7 @@ fi
 #
 # If $TCC is null, then no such line exists in Configuration
 #
-TCC=`egrep '^CC=' Makefile.config | tail -1 | awk -F= '{print $2}'`
+TCC=`egrep '^CC=' Makefile.config | tail -1 | sed 's/^CC=//'`
 if [ "x$TCC" = "x" ]; then
     if [ "x$CC" = "x" ]; then
 	# At this point, CC is not set in Configuration or above, so we
@@ -1000,7 +1000,7 @@ fi
 ####################################################################
 ## Now check how we can _directly_ run the C pre-processor
 ##
-TCPP=`egrep '^CPP=' Makefile.config | tail -1 | awk -F= '{print $2}'`
+TCPP=`egrep '^CPP=' Makefile.config | tail -1 | sed 's/^CPP=//'`
 if [ "x$TCPP" != "x" ]; then
     CPP=`CPP="$TCPP"; export CPP CC; ${SHELL} ./helpers/findcpp.sh`
 else
@@ -1067,18 +1067,18 @@ esac
 ####################################################################
 ## Look for OPTIM and save for later
 ##
-TOPTIM=`egrep '^OPTIM=' Makefile.config | tail -1 | awk -F= '{print $2}'`
-TRANLIB=`egrep '^RANLIB=' Makefile.config | tail -1 | awk -F= '{print $2}'`
-TTARGET=`egrep '^TARGET=' Makefile.config | tail -1 | awk -F= '{print $2}'`
+TOPTIM=`egrep '^OPTIM=' Makefile.config | tail -1 | sed 's/^OPTIM=//'`
+TRANLIB=`egrep '^RANLIB=' Makefile.config | tail -1 | sed 's/^RANLIB=//'`
+TTARGET=`egrep '^TARGET=' Makefile.config | tail -1 | sed 's/^TARGET=//'`
 
 ####################################################################
 ## Check for user provided flags for shared object support
 ##
-TLD_SHLIB=`egrep '^LD_SHLIB=' Makefile.config | tail -1 | awk -F= '{print $2}'`
-TLDFLAGS_SHLIB=`egrep '^LDFLAGS_SHLIB=' Makefile.config | tail -1 | awk -F= '{print $2}'`
-TLDFLAGS_MOD_SHLIB=`egrep '^LDFLAGS_MOD_SHLIB=' Makefile.config | tail -1 | awk -F= '{print $2}'`
-TLDFLAGS_SHLIB_EXPORT=`egrep '^LDFLAGS_SHLIB_EXPORT=' Makefile.config | tail -1 | awk -F= '{print $2}'`
-TCFLAGS_SHLIB=`egrep '^CFLAGS_SHLIB=' Makefile.config | tail -1 | awk -F= '{print $2}'`
+TLD_SHLIB=`egrep '^LD_SHLIB=' Makefile.config | tail -1 | sed 's/^LD_SHLIB=//'`
+TLDFLAGS_SHLIB=`egrep '^LDFLAGS_SHLIB=' Makefile.config | tail -1 | sed 's/^LDFLAGS_SHLIB=//'`
+TLDFLAGS_MOD_SHLIB=`egrep '^LDFLAGS_MOD_SHLIB=' Makefile.config | tail -1 | sed 's/^LDFLAGS_MOD_SHLIB=//'`
+TLDFLAGS_SHLIB_EXPORT=`egrep '^LDFLAGS_SHLIB_EXPORT=' Makefile.config | tail -1 | sed 's/^LDFLAGS_SHLIB_EXPORT=//'`
+TCFLAGS_SHLIB=`egrep '^CFLAGS_SHLIB=' Makefile.config | tail -1 | sed 's/^CFLAGS_SHLIB=//'`
 
 ####################################################################
 ## Handle TARGET name
@@ -1171,14 +1171,11 @@ if [ "x$using_shlib" = "x1" ] ; then
 	    ;;
 	*-mirbsd*)
 	    PLATOSVERS=`echo $PLAT | sed 's/^.*mirbsd//'`
-	    CFLAGS_SHLIB="-fPIC"
-	    LDFLAGS_SHLIB_EXPORT=""
+	    CFLAGS_SHLIB="-fPIC -DPIC"
 	    SHLIB_SUFFIX_DEPTH=2
 	    LD_SHLIB="cc"
 	    LDFLAGS_SHLIB="-shared \$(CFLAGS_SHLIB)"
-	    if [ -z "`echo __ELF__ | ${CC} -E - | grep __ELF__`" ]; then
-	      LDFLAGS_SHLIB_EXPORT="-Wl,-E"
-	    fi
+	    LDFLAGS_SHLIB_EXPORT="-Wl,-E"
 	    LDFLAGS_MOD_SHLIB=$LDFLAGS_SHLIB
 	    ;;
 	*-netbsd*)
@@ -2058,7 +2055,7 @@ if [ "x$RULE_EAPI" = "xyes" ]; then
     esac
     #   MM Shared Memory Library support for EAPI
     if [ "x$EAPI_MM" = "x" ]; then
-        EAPI_MM=`egrep '^EAPI_MM=' $file | sed -n -e '$p' | awk -F= '{print $2}'`
+        EAPI_MM=`egrep '^EAPI_MM=' $file | sed -n -e '$p' | sed 's/^EAPI_MM=//'`
     fi
     if [ "x$EAPI_MM" != "x" ]; then
         case $EAPI_MM in
