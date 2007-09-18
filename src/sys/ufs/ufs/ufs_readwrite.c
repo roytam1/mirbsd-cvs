@@ -233,7 +233,7 @@ WRITE(v)
 	 * file servers have no limits, I don't think it matters.
 	 */
 	p = uio->uio_procp;
-	if (vp->v_type == VREG && p &&
+	if (vp->v_type == VREG && p && !(ioflag & IO_NOLIMIT) &&
 	    uio->uio_offset + uio->uio_resid >
 	    p->p_rlimit[RLIMIT_FSIZE].rlim_cur) {
 		psignal(p, SIGXFSZ);
