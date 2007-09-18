@@ -1,4 +1,4 @@
-/*	$OpenBSD: vnd.c,v 1.57 2005/12/29 20:02:03 pedro Exp $	*/
+/*	$OpenBSD: vnd.c,v 1.59 2006/03/04 22:53:32 pedro Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
@@ -570,7 +570,9 @@ vndstrategy(bp)
 			    vnd->sc_vp, vp, bn, nbn, sz);
 #endif
 
+		s = splbio();
 		nbp = getvndbuf();
+		splx(s);
 		nbp->vb_buf.b_flags = flags;
 		nbp->vb_buf.b_bcount = sz;
 		nbp->vb_buf.b_bufsize = bp->b_bufsize;
@@ -1150,3 +1152,4 @@ vndunlock(sc)
 		wakeup(sc);
 	}
 }
+/*	$OpenBSD: vnd.c,v 1.57 2005/12/29 20:02:03 pedro Exp $	*/
