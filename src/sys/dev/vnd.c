@@ -1,4 +1,4 @@
-/*	$OpenBSD: vnd.c,v 1.62 2006/08/13 17:55:07 thib Exp $	*/
+/*	$OpenBSD: vnd.c,v 1.68 2007/02/01 01:02:05 pedro Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
@@ -129,7 +129,6 @@ struct vnd_softc {
 	size_t		 sc_size;		/* size of vnd in blocks */
 	struct vnode	*sc_vp;			/* vnode */
 	struct ucred	*sc_cred;		/* credentials */
-	int		 sc_maxactive;		/* max # of active requests */
 	struct buf	 sc_tab;		/* transfer queue */
 	blf_ctx		*sc_keyctx;		/* key context */
 };
@@ -142,7 +141,6 @@ struct vnd_softc {
 #define	VNF_LABELLING	0x0100
 #define	VNF_WLABEL	0x0200
 #define	VNF_HAVELABEL	0x0400
-#define	VNF_BUSY	0x0800
 #define	VNF_SIMPLE	0x1000
 
 struct vnd_softc *vnd_softc;
@@ -156,7 +154,6 @@ void	vndattach(int);
 void	vndclear(struct vnd_softc *);
 void	vndstart(struct vnd_softc *);
 int	vndsetcred(struct vnd_softc *, struct ucred *);
-void	vndthrottle(struct vnd_softc *, struct vnode *);
 void	vndiodone(struct buf *);
 void	vndshutdown(void);
 void	vndgetdisklabel(dev_t, struct vnd_softc *);
@@ -393,9 +390,7 @@ vndclose(dev, flags, mode, p)
  *
  * Latter method:
  * Repack the buffer into an uio structure and use VOP_READ/VOP_WRITE to
- * access the underlying file.  Things are complicated by the fact that we
- * might get recursively called due to buffer flushes.  In those cases we
- * queue one write.
+ * access the underlying file.
  */
 void
 vndstrategy(bp)
@@ -458,25 +453,6 @@ vndstrategy(bp)
 
 	/* No bypassing of buffer cache?  */
 	if (vndsimple(bp->b_dev)) {
-		/*
-		 * In order to avoid "locking against myself" panics, we
-		 * must be prepared to queue operations during another I/O
-		 * operation.  This situation comes up where a dirty cache
-		 * buffer needs to be flushed in order to provide the current
-		 * operation with a fresh buffer.
-		 *
-		 * XXX do we really need to protect stuff relating to this with
-		 * splbio?
-		 */
-		if (vnd->sc_flags & VNF_BUSY) {
-			s = splbio();
-			bp->b_actf = vnd->sc_tab.b_actf;
-			vnd->sc_tab.b_actf = bp;
-			vnd->sc_tab.b_active++;
-			splx(s);
-			return;
-		}
-
 		/* Loop until all queued requests are handled.  */
 		for (;;) {
 			int part = DISKPART(bp->b_dev);
@@ -491,7 +467,6 @@ vndstrategy(bp)
 			auio.uio_procp = p;
 
 			vn_lock(vnd->sc_vp, LK_EXCLUSIVE | LK_RETRY, p);
-			vnd->sc_flags |= VNF_BUSY;
 			if (bp->b_flags & B_READ) {
 				auio.uio_rw = UIO_READ;
 				bp->b_error = VOP_READ(vnd->sc_vp, &auio, 0,
@@ -511,7 +486,6 @@ vndstrategy(bp)
 					vndencrypt(vnd, bp->b_data,
 					   bp->b_bcount, bp->b_blkno, 0);
 			}
-			vnd->sc_flags &= ~VNF_BUSY;
 			VOP_UNLOCK(vnd->sc_vp, 0, p);
 			if (bp->b_error)
 				bp->b_flags |= B_ERROR;
@@ -624,12 +598,9 @@ vndstrategy(bp)
 		nbp->vb_buf.b_cylin = nbp->vb_buf.b_blkno;
 		s = splbio();
 		disksort(&vnd->sc_tab, &nbp->vb_buf);
-		if (vnd->sc_tab.b_active < vnd->sc_maxactive) {
-			vnd->sc_tab.b_active++;
-			vndstart(vnd);
-		}
+		vnd->sc_tab.b_active++;
+		vndstart(vnd);
 		splx(s);
-
 		bn += sz;
 		addr += sz;
 	}
@@ -699,9 +670,7 @@ vndiodone(bp)
 	if (vnd->sc_tab.b_active) {
 		disk_unbusy(&vnd->sc_dk, (pbp->b_bcount - pbp->b_resid),
 		    (pbp->b_flags & B_READ));
-		if (vnd->sc_tab.b_actf)
-			vndstart(vnd);
-		else
+		if (!vnd->sc_tab.b_actf)
 			vnd->sc_tab.b_active--;
 	}
 	if (pbp->b_resid == 0) {
@@ -867,7 +836,6 @@ vndioctl(dev, cmd, addr, flag, p)
 		} else
 			vnd->sc_keyctx = NULL;
 
-		vndthrottle(vnd, vnd->sc_vp);
 		vio->vnd_size = dbtob((off_t)vnd->sc_size);
 		vnd->sc_flags |= VNF_INITED;
 #ifdef DEBUG
@@ -1047,24 +1015,6 @@ vndsetcred(vnd, cred)
 
 	free(tmpbuf, M_TEMP);
 	return (error);
-}
-
-/*
- * Set maxactive based on FS type
- */
-void
-vndthrottle(vnd, vp)
-	struct vnd_softc *vnd;
-	struct vnode *vp;
-{
-#ifdef NFSCLIENT
-	extern int (**nfsv2_vnodeop_p)(void *);
-
-	if (vp->v_op == nfsv2_vnodeop_p)
-		vnd->sc_maxactive = 2;
-	else
-#endif
-		vnd->sc_maxactive = 8;
 }
 
 void
