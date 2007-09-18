@@ -245,11 +245,11 @@ vndopen(dev, flags, mode, p)
 
 	/*
 	 * If any partition is open, all succeeding openings must be of the
-	 * same type.
+	 * same type or read-only.
 	 */
 	if (sc->sc_dk.dk_openmask) {
 		if (((sc->sc_flags & VNF_SIMPLE) != 0) !=
-		    (vndsimple(dev) != 0)) {
+		    (vndsimple(dev) != 0) && (flags & FWRITE)) {
 			error = EBUSY;
 			goto bad;
 		}
