@@ -180,6 +180,7 @@ struct vattr {
 #define	IO_SYNC		0x04		/* do I/O synchronously */
 #define	IO_NODELOCKED	0x08		/* underlying node already locked */
 #define	IO_NDELAY	0x10		/* FNDELAY flag set in file table */
+#define	IO_NOLIMIT	0x20		/* don't enforce limits on i/o */
 
 /*
  *  Modes.  Some values same as Ixxx entries from inode.h for now.
