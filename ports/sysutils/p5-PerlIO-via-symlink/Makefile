@@ -1,9 +1,9 @@
-# $MirOS: ports/sysutils/p5-PerlIO-via-dynamic/Makefile,v 1.1 2007/09/15 23:42:56 bsiegert Exp $
+# $MirOS: ports/sysutils/p5-PerlIO-via-symlink/Makefile,v 1.1 2007/09/19 20:20:38 bsiegert Exp $
 
 COMMENT=		PerlIO layers for creating symlinks
 DISTNAME=		PerlIO-via-symlink-0.05
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
-CATEGORIES=		devel perl5
+CATEGORIES=		sysutils perl5
 MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=PerlIO/}
 HOMEPAGE=		http://search.cpan.org/~clk/${DISTNAME}/
 
