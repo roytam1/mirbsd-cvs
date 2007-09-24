@@ -428,6 +428,18 @@
 #define	PMC6_SEG_REG_RENAMES		0xd5	/* P-II and P-III only */
 #define	PMC6_RET_SEG_RENAMES		0xd6	/* P-II and P-III only */
 
+/* Centaur Extended Feature flags */
+#define C3_CPUID_HAS_RNG		0x000004
+#define C3_CPUID_DO_RNG			0x000008
+#define C3_CPUID_HAS_ACE		0x000040
+#define C3_CPUID_DO_ACE			0x000080
+#define C3_CPUID_HAS_ACE2		0x000100
+#define C3_CPUID_DO_ACE2		0x000200
+#define C3_CPUID_HAS_PHE		0x000400
+#define C3_CPUID_DO_PHE			0x000800
+#define C3_CPUID_HAS_PMM		0x001000
+#define C3_CPUID_DO_PMM			0x002000
+
 /* VIA C3 xcrypt-* instruction context control options */
 #define	C3_CRYPT_CWLO_ROUND_M		0x0000000f
 #define	C3_CRYPT_CWLO_ALG_M		0x00000070
