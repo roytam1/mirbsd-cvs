@@ -47,7 +47,7 @@
 #include <unistd.h>
 
 __SCCSID("@(#)sun_disklabel.h	8.1 (Berkeley) 6/11/93");
-__RCSID("$MirOS: src/distrib/tools/sundsklbl.c,v 1.1 2007/09/28 22:24:03 tg Exp $");
+__RCSID("$MirOS: src/distrib/tools/sundsklbl.c,v 1.2 2007/09/28 22:25:04 tg Exp $");
 
 /*
  * SunOS disk label layout (only relevant portions discovered here).
@@ -131,7 +131,7 @@ main(void)
 	printf("sl_xpmag\t%08X (want %08X)\n",
 	    betoh32(thelabel.sl_xpmag), SL_XPMAG);
 	for (i = 0; i < 8; ++i) {
-		printf("sl_xpart[%d] (%c)\t%08X @%08X\n", i, i + 'i',
+		printf("sl_xpart[%d] (%c)\t%08X @%08X (%3$u)\n", i, i + 'i',
 		    betoh32(thelabel.sl_xpart[i].sdkp_nsectors),
 		    betoh32(thelabel.sl_xpart[i].sdkp_cyloffset));
 	}
@@ -163,9 +163,9 @@ main(void)
 	    isprint(thelabel.sl_xxx4[2]) ? thelabel.sl_xxx4[2] : '.',
 	    isprint(thelabel.sl_xxx4[3]) ? thelabel.sl_xxx4[3] : '.');
 	for (i = 0; i < 8; ++i) {
-		printf("sl_part[%d] (%c)\t%08X @%08X\n", i, i + 'a',
-		    betoh32(thelabel.sl_xpart[i].sdkp_nsectors),
-		    betoh32(thelabel.sl_xpart[i].sdkp_cyloffset));
+		printf("sl_part[%d] (%c)\t%08X @%08X (%3$u)\n", i, i + 'a',
+		    betoh32(thelabel.sl_part[i].sdkp_nsectors),
+		    betoh32(thelabel.sl_part[i].sdkp_cyloffset));
 	}
 	printf("sl_magic\t%04X (want %04X)\n",
 	    betoh16(thelabel.sl_magic), SUN_DKMAGIC);
