@@ -1,4 +1,4 @@
-/* $MirOS: src/distrib/tools/i386_chain.S,v 1.3 2007/09/28 22:41:27 tg Exp $ */
+/* $MirOS: src/distrib/tools/i386_chain.S,v 1.4 2007/09/28 22:43:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -31,7 +31,9 @@
 #define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
 #define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
 
+#ifndef CHAINSECTOR
 #define CHAINSECTOR	24	/* first = sector 0 = CHS 0/0/1 */
+#endif
 
 	.intel_syntax noprefix
 	.code16

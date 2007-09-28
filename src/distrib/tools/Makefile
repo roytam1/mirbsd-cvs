@@ -1,8 +1,12 @@
-# $MirOS$
+# $MirOS: src/distrib/tools/Makefile,v 1.1 2007/09/28 22:32:54 tg Exp $
 
 all: i386_chain sundsklbl
 
 .include <bsd.own.mk>
+
+CHAINSECTOR=	24
+
+CPPFLAGS+=	-DCHAINSECTOR=${CHAINSECTOR}
 
 depend:
 prereq:
