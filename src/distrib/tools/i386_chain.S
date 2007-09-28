@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.8 2007/05/26 21:57:39 tg Exp $ */
+/* $MirOS: src/distrib/tools/i386_chain.S,v 1.1 2007/09/28 21:14:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -79,9 +79,3 @@ Lboot:	ljmp	0x0000,0x7C00
 	.balign	4, 0x90
 	.org	128 - 4
 	.byte	0x90, 0x90, 0x55, 0xAA
-
-/*-
- * compile and disassemble with:
- * $ mgcc -c i386_chain.S && ld --oformat binary -Ttext 0 i386_chain.o
- * $ objdump -D -b binary -m i386 -Mintel,i8086 a.out
- */
