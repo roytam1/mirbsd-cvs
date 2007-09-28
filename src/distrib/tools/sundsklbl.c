@@ -47,7 +47,7 @@
 #include <unistd.h>
 
 __SCCSID("@(#)sun_disklabel.h	8.1 (Berkeley) 6/11/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/distrib/tools/sundsklbl.c,v 1.1 2007/09/28 22:24:03 tg Exp $");
 
 /*
  * SunOS disk label layout (only relevant portions discovered here).
@@ -143,7 +143,7 @@ main(void)
 	printf("sl_rpm\t\t%04X (%1$u)\n", betoh16(thelabel.sl_rpm));
 	printf("sl_pcylind.\t%04X (%1$u)\n", betoh16(thelabel.sl_pcylinders));
 	printf("sl_sp_p_cyl\t%04X (%1$u)\n", betoh16(thelabel.sl_sparespercyl));
-	printf("sl_xxx3\t\t%02X %02X %02X %02X  |%c%c%c%c|\n",
+	printf("sl_xxx3\t\t%02X %02X %02X %02X |%c%c%c%c|\n",
 	    thelabel.sl_xxx3[0], thelabel.sl_xxx3[1],
 	    thelabel.sl_xxx3[2], thelabel.sl_xxx3[3],
 	    isprint(thelabel.sl_xxx3[0]) ? thelabel.sl_xxx3[0] : '.',
@@ -155,7 +155,7 @@ main(void)
 	printf("sl_acylinders\t%04X (%1$u)\n", betoh16(thelabel.sl_acylinders));
 	printf("sl_ntracks\t%04X (%1$u)\n", betoh16(thelabel.sl_ntracks));
 	printf("sl_nsectors\t%04X (%1$u)\n", betoh16(thelabel.sl_nsectors));
-	printf("sl_xxx4\t\t%02X %02X %02X %02X  |%c%c%c%c|\n",
+	printf("sl_xxx4\t\t%02X %02X %02X %02X |%c%c%c%c|\n",
 	    thelabel.sl_xxx4[0], thelabel.sl_xxx4[1],
 	    thelabel.sl_xxx4[2], thelabel.sl_xxx4[3],
 	    isprint(thelabel.sl_xxx4[0]) ? thelabel.sl_xxx4[0] : '.',
@@ -174,7 +174,7 @@ main(void)
 		s ^= (((uint8_t *)&thelabel)[i++] << 8);
 		s ^= (((uint8_t *)&thelabel)[i++]);
 	}
-	printf("sl_cksum\t%04X (want %04X, all %04X)\n",
+	printf("sl_cksum\t%04X (want %04X, total %04X, must be zero)\n",
 	    betoh16(thelabel.sl_cksum), s, betoh16(thelabel.sl_cksum) ^ s);
 
 	printf("i386_magic\t%02X%02X (dangerous 55AA)\n",
