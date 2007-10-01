@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/sys/stdarg.h,v 1.2 2007/10/01 18:58:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -43,7 +43,7 @@ typedef __gnuc_va_list va_list;
 
 #define va_start(ap,list)	__builtin_stdarg_start((ap), (list))
 /* note: “type” must be promoted, i.e. “short” is not valid, use “int” */
-#define va_arg(ap,type)		__builtin_va_arg((ap), (type))
+#define va_arg(ap,type)		__builtin_va_arg((ap), type)
 #define va_end(ap)		__builtin_va_end(ap)
 
 #if !defined(_ANSI_SOURCE) && \
