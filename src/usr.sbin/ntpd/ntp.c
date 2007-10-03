@@ -1,4 +1,4 @@
-/*	$OpenBSD: ntp.c,v 1.67 2005/08/10 13:48:36 dtucker Exp $ */
+/*	$OpenBSD: ntp.c,v 1.83 2006/06/04 18:58:13 otto Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -388,7 +388,7 @@ peer_remove(struct ntp_peer *p)
 	peer_cnt--;
 }
 
-void
+int
 priv_adjtime(void)
 {
 	struct ntp_peer	 *p;
@@ -400,9 +400,12 @@ priv_adjtime(void)
 		if (p->trustlevel < TRUSTLEVEL_BADPEER)
 			continue;
 		if (!p->update.good)
-			return;
+			return (1);
 		offset_cnt++;
 	}
+
+	if (offset_cnt == 0)
+		return (1);
 
 	if ((peers = calloc(offset_cnt, sizeof(struct ntp_peer *))) == NULL)
 		fatal("calloc priv_adjtime");
