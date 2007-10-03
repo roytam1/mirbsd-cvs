@@ -419,41 +419,39 @@ priv_adjtime(void)
 
 	qsort(peers, offset_cnt, sizeof(struct ntp_peer *), offset_compare);
 
-	if (offset_cnt > 0) {
-		if (offset_cnt > 1 && offset_cnt % 2 == 0) {
-			offset_median =
-			    (peers[offset_cnt / 2 - 1]->update.offset +
-			    peers[offset_cnt / 2]->update.offset) / 2;
-			conf->status.rootdelay =
-			    (peers[offset_cnt / 2 - 1]->update.delay +
-			    peers[offset_cnt / 2]->update.delay) / 2;
-			conf->status.stratum = MAX(
-			    peers[offset_cnt / 2 - 1]->update.status.stratum,
-			    peers[offset_cnt / 2]->update.status.stratum);
-		} else {
-			offset_median = peers[offset_cnt / 2]->update.offset;
-			conf->status.rootdelay =
-			    peers[offset_cnt / 2]->update.delay;
-			conf->status.stratum =
-			    peers[offset_cnt / 2]->update.status.stratum;
-		}
-		conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
-
-		imsg_compose(ibuf_main, IMSG_ADJTIME, 0, 0,
-		    &offset_median, sizeof(offset_median));
-
-		conf->status.reftime = gettime();
-		conf->status.stratum++;	/* one more than selected peer */
-		update_scale(offset_median);
-
-		conf->status.refid4 =
-		    peers[offset_cnt / 2]->update.status.refid4;
-		if (peers[offset_cnt / 2]->addr->ss.ss_family == AF_INET)
-			conf->status.refid = ((struct sockaddr_in *)
-			    &peers[offset_cnt / 2]->addr->ss)->sin_addr.s_addr;
-		else
-			conf->status.refid = conf->status.refid4;
+	if (offset_cnt > 1 && offset_cnt % 2 == 0) {
+		offset_median =
+		    (peers[offset_cnt / 2 - 1]->update.offset +
+		    peers[offset_cnt / 2]->update.offset) / 2;
+		conf->status.rootdelay =
+		    (peers[offset_cnt / 2 - 1]->update.delay +
+		    peers[offset_cnt / 2]->update.delay) / 2;
+		conf->status.stratum = MAX(
+		    peers[offset_cnt / 2 - 1]->update.status.stratum,
+		    peers[offset_cnt / 2]->update.status.stratum);
+	} else {
+		offset_median = peers[offset_cnt / 2]->update.offset;
+		conf->status.rootdelay =
+		    peers[offset_cnt / 2]->update.delay;
+		conf->status.stratum =
+		    peers[offset_cnt / 2]->update.status.stratum;
 	}
+	conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
+
+	imsg_compose(ibuf_main, IMSG_ADJTIME, 0, 0,
+	    &offset_median, sizeof(offset_median));
+
+	conf->status.reftime = gettime();
+	conf->status.stratum++;	/* one more than selected peer */
+	update_scale(offset_median);
+
+	conf->status.refid4 =
+	    peers[offset_cnt / 2]->update.status.refid4;
+	if (peers[offset_cnt / 2]->addr->ss.ss_family == AF_INET)
+		conf->status.refid = ((struct sockaddr_in *)
+		    &peers[offset_cnt / 2]->addr->ss)->sin_addr.s_addr;
+	else
+		conf->status.refid = conf->status.refid4;
 
 	free(peers);
 
