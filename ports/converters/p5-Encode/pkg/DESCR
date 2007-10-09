@@ -1,0 +1,3 @@
+The Encode module provides the interfaces between Perl's strings and the
+rest of the system.  It encodes a string from Perl's internal form into
+ENCODING and returns a sequence of octets.
