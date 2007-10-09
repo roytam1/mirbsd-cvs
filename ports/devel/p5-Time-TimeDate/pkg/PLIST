@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.7 2003/12/24 01:07:54 naddy Exp $
 ${P5SITE}/Date/Format.pm
 ${P5SITE}/Date/Language.pm
@@ -27,10 +28,9 @@ ${P5SITE}/Date/Language/TigrinyaEthiopian.pm
 ${P5SITE}/Date/Parse.pm
 ${P5SITE}/Time/Zone.pm
 @comment ${P5ARCH}/auto/TimeDate/.packlist
-man/man3/Date::Format.3p
-man/man3/Date::Parse.3p
-man/man3/Time::Zone.3p
-@dirrm man/man3
+man/man3/Date::Format${P5MAN3EXT}
+man/man3/Date::Parse${P5MAN3EXT}
+man/man3/Time::Zone${P5MAN3EXT}
 @comment @dirrm ${P5ARCH}/auto/TimeDate
 @comment @dirrm ${P5ARCH}/auto
 @comment @dirrm ${P5ARCH}
