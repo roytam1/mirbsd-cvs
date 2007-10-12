@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: ports/devel/svk/Makefile,v 1.1 2007/10/11 21:15:43 bsiegert Exp $
+
+BROKEN=			fails systrace test, thus broken by policy
 
 COMMENT=		distributed version control system
 
