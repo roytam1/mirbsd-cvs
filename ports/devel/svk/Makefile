@@ -1,10 +1,9 @@
-# $MirOS: ports/devel/svk/Makefile,v 1.1 2007/10/11 21:15:43 bsiegert Exp $
-
-BROKEN=			fails systrace test, thus broken by policy
+# $MirOS: ports/devel/svk/Makefile,v 1.2 2007/10/12 19:33:57 tg Exp $
 
 COMMENT=		distributed version control system
 
 VERSION=		2.0.2
+DASH_VER=		1
 DISTNAME=		SVK-v${VERSION}
 PKGNAME=		svk-${VERSION}-${DASH_VER}
 CATEGORIES=		devel net
@@ -43,6 +42,8 @@ B_R_DEPENDS+=		::devel/p5-Locale-Maketext-Lexicon
 B_R_DEPENDS+=		::devel/p5-IO-Pager
 B_R_DEPENDS+=		::devel/p5-FreezeThaw
 B_R_DEPENDS+=		::devel/p5-SVN-Mirror
+B_R_DEPENDS+=		::devel/p5-Path-Class
+B_R_DEPENDS+=		::devel/p5-Class-Autouse
 
 CONFIGURE_STYLE= 	perl
 CONFIGURE_ARGS+=	--defaultdeps
