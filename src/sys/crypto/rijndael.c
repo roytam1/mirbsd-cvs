@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1264,3 +1265,6 @@ rijndael_encrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
 {
 	rijndaelEncrypt(ctx->ek, ctx->Nr, src, dst);
 }
+
+rijndael_xcrypt_t rijndael_decrypt_fast = rijndael_decrypt;
+rijndael_xcrypt_t rijndael_encrypt_fast = rijndael_encrypt;

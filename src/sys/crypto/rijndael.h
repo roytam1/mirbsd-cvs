@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -48,6 +49,11 @@ int	 rijndael_set_key(rijndael_ctx *, u_char *, int);
 int	 rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
 void	 rijndael_decrypt(rijndael_ctx *, u_char *, u_char *);
 void	 rijndael_encrypt(rijndael_ctx *, u_char *, u_char *);
+
+typedef void (*rijndael_xcrypt_t)(rijndael_ctx *, u_char *, u_char *);
+
+extern rijndael_xcrypt_t rijndael_decrypt_fast;
+extern rijndael_xcrypt_t rijndael_encrypt_fast;
 
 int	rijndaelKeySetupEnc(unsigned int [], const unsigned char [], int);
 int	rijndaelKeySetupDec(unsigned int [], const unsigned char [], int);
