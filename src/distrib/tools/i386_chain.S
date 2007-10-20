@@ -1,4 +1,4 @@
-/* $MirOS: src/distrib/tools/i386_chain.S,v 1.5 2007/09/28 22:44:36 tg Exp $ */
+/* $MirOS: src/distrib/tools/i386_chain.S,v 1.6 2007/10/20 22:01:31 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -64,7 +64,10 @@ GTENTRY(_start)
 LTENTRY(Lmain)
 	mov	ax,0x0201
 	mov	bx,0x0200
-	mov	cx,CHAINSECTOR + 1
+/*	mov	cx,CHAINSECTOR + 1 */
+	.byte	0xB9
+GTENTRY(patch_sector)
+	.word	CHAINSECTOR + 1
 	mov	dh,0
 Lload:	pusha
 	int	0x13
@@ -77,8 +80,10 @@ Lload:	pusha
 	jmp	Lload
 Lboot:	ljmp	0x0000,0x7C00
 GTENTRY(pad_start)
+#if 0
 	nop
 
 	.balign	4, 0x90
 	.org	128 - 4
 	.byte	0x90, 0x90, 0x55, 0xAA
+#endif
