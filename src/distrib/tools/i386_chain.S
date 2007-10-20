@@ -1,4 +1,4 @@
-/* $MirOS: src/distrib/tools/i386_chain.S,v 1.4 2007/09/28 22:43:36 tg Exp $ */
+/* $MirOS: src/distrib/tools/i386_chain.S,v 1.5 2007/09/28 22:44:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -76,6 +76,7 @@ Lload:	pusha
 	popa
 	jmp	Lload
 Lboot:	ljmp	0x0000,0x7C00
+GTENTRY(pad_start)
 	nop
 
 	.balign	4, 0x90
