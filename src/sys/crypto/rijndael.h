@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.3 2007/10/21 17:16:21 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.4 2007/10/21 17:48:13 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -44,17 +44,17 @@ struct viac3_rijndael_ctx {
 
 /*  The structure for key information */
 typedef struct {
+	u32	ek[4*(MAXNR + 1) + 4];	/* encrypt key schedule */
+	u32	dk[4*(MAXNR + 1) + 4];	/* decrypt key schedule */
 	int	enc_only;		/* context contains only encrypt schedule */
 	int	Nr;			/* key-length-dependent number of rounds */
-	u32	ek[4*(MAXNR + 1)];	/* encrypt key schedule */
-	u32	dk[4*(MAXNR + 1)];	/* decrypt key schedule */
 	union {
 		struct viac3_rijndael_ctx via;
 	} hwcr_info;
 	u8	hwcr_nr;		/* ID number of hw crypto processor */
 #define RIJNDAEL_HWCR_SOFTWARE	0
 #define RIJNDAEL_HWCR_VIA	1
-} rijndael_ctx;
+} rijndael_ctx __attribute__((aligned (16)));
 
 int	 rijndael_set_key(rijndael_ctx *, u_char *, int);
 int	 rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
