@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.1 2007/10/20 23:05:12 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*
@@ -221,10 +221,10 @@ swap_key_prepare(struct swap_key *key, int encrypt)
 		return;
 
 	if (encrypt)
-		rijndael_set_key_enc_only(&swap_ctxt, (u_char *)key->key,
+		(*rijndael_set_key_enc_only_fast)(&swap_ctxt, (u_char *)key->key,
 		    sizeof(key->key) * 8);
 	else
-		rijndael_set_key(&swap_ctxt, (u_char *)key->key,
+		(*rijndael_set_key_fast)(&swap_ctxt, (u_char *)key->key,
 		    sizeof(key->key) * 8);
 
 	kcur = key;
