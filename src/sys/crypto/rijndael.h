@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.2 2007/10/21 17:11:50 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.3 2007/10/21 17:16:21 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -37,13 +37,20 @@ typedef unsigned char	u8;
 typedef unsigned short	u16;
 typedef unsigned int	u32;
 
+/*  VIA C3 additional information */
+struct viac3_rijndael_ctx {
+	uint32_t cw0;			/* control word */
+};
+
 /*  The structure for key information */
 typedef struct {
-	void   *hwcr_info;		/* hardware crypto specific information */
 	int	enc_only;		/* context contains only encrypt schedule */
 	int	Nr;			/* key-length-dependent number of rounds */
 	u32	ek[4*(MAXNR + 1)];	/* encrypt key schedule */
 	u32	dk[4*(MAXNR + 1)];	/* decrypt key schedule */
+	union {
+		struct viac3_rijndael_ctx via;
+	} hwcr_info;
 	u8	hwcr_nr;		/* ID number of hw crypto processor */
 #define RIJNDAEL_HWCR_SOFTWARE	0
 #define RIJNDAEL_HWCR_VIA	1

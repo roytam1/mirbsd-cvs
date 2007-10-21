@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.2 2007/10/21 17:11:50 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.3 2007/10/21 17:16:21 tg Exp $ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1233,7 +1233,6 @@ rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
 	ctx->Nr = rounds;
 	ctx->enc_only = 1;
 	ctx->hwcr_nr = RIJNDAEL_HWCR_SOFTWARE;
-	ctx->hwcr_info = NULL;
 
 	return 0;
 }
@@ -1253,7 +1252,6 @@ rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
 	ctx->Nr = rounds;
 	ctx->enc_only = 0;
 	ctx->hwcr_nr = RIJNDAEL_HWCR_SOFTWARE;
-	ctx->hwcr_info = NULL;
 
 	return 0;
 }
