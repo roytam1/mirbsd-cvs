@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp $
+# $MirOS: src/etc/MAKEDEV.mi,v 1.8 2007/06/15 23:43:46 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
@@ -9,7 +9,7 @@
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
 #	MirOS: src/etc/MAKEDEV.common,v 1.8 2007/02/02 16:45:10 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
-#	MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp 
+#	MirOS: src/etc/MAKEDEV.mi,v 1.8 2007/06/15 23:43:46 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
 #	MirOS: src/etc/MAKEDEV.sub,v 1.4 2005/07/24 12:49:10 tg Exp 
 #
@@ -102,16 +102,16 @@ hex()
 
 alph2d()
 {
-	local t="$1"
-	local p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	local sub=${p%${t}*}
+	typeset t="$1"
+	typeset p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	typeset sub=${p%${t}*}
 	echo ${#sub}
 }
 
 h2d()
 {
-	local s="$1"
-	local f=${s%*[0-9a-f]} n=${s#[0-9a-f]*}
+	typeset s="$1"
+	typeset f=${s%*[0-9a-f]} n=${s#[0-9a-f]*}
 
 	echo $(($(_h2d $f)*16+ $(_h2d $n) ))
 }
