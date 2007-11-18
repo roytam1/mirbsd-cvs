@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.27 2007-04-03 20:52:36 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.28 2007-11-18 21:34:32 bsiegert Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -206,7 +206,7 @@ set -A fold
 set -A fnew
 let i=0
 
-while (( $# > 0 )); do
+while (( $# > 2 )); do
 	files[i]=$1
 	fold[i]=$2
 	fnew[i]=$3
