@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/commitinfo,v 1.6 2005/12/06 03:11:40 tg Exp $
+# $MirOS: commitinfo,v 1.7 2007/04/03 20:47:43 tg Exp $
 #-
 # The "commitinfo" file is used to control pre-commit checks.
 # The filter on the right is invoked with the repository and a list
@@ -28,4 +28,4 @@
 # If the name "ALL" appears as a regular expression it is always used
 # in addition to the first matching regex or "DEFAULT".
 
-ALL	$CVSROOT/CVSROOT/tracker %r %I %r/%p
+ALL	perl -e 'exec $ARGV[0], $ARGV[1], getpgrp 0, $ARGV[2];' $CVSROOT/CVSROOT/tracker %r %r/%p
