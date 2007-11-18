@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.28 2007-11-18 21:34:32 bsiegert Exp $
+# $MirOS: CVSROOT/mklogci,v 1.29 2007-11-18 21:37:21 bsiegert Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -130,7 +130,7 @@ function addflist
 
 print $*
 
-SHELL=${SHELL:-/bin/mksh}
+SHELL=/bin/mksh
 id=$1
 [[ -z $id ]] && exit 255
 shift
