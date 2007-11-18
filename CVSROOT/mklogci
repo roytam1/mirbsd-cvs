@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.29 2007-11-18 21:37:21 bsiegert Exp $
+# $MirOS: CVSROOT/mklogci,v 1.30 2007-11-18 21:57:31 bsiegert Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -127,8 +127,6 @@ function addflist
 	done
 	addnames
 }
-
-print $*
 
 SHELL=/bin/mksh
 id=$1

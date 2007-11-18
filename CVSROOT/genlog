@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/genlog,v 1.8 2007-11-18 21:52:49 bsiegert Exp $
+# $MirOS: CVSROOT/genlog,v 1.9 2007-11-18 21:56:22 bsiegert Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -28,8 +28,6 @@
 # (locked); do the same for the history file.
 # Then append stdin to log file.
 
-print genlog $*
-
 f=${1:-ChangeLog}
 h=${2:-${f%ChangeLog}history}
 
@@ -43,7 +41,7 @@ if [[ -e $h.lock ]]; then
 	print '[genlog] removing stale lock in history'
 	rm -f $h.lock
 fi
-echo '[ continued ]' >$h.lock
+print '[ continued ]' >$h.lock
 
 if [[ -e $h ]]; then
 	set -A o -- $(/bin/ls -l $h)
