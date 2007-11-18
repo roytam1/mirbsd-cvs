@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/genlog,v 1.7 2006-01-14 01:29:41 tg Exp $
+# $MirOS: CVSROOT/genlog,v 1.8 2007-11-18 21:52:49 bsiegert Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -43,7 +43,7 @@ if [[ -e $h.lock ]]; then
 	print '[genlog] removing stale lock in history'
 	rm -f $h.lock
 fi
-print '[ continued ]' >$h.lock
+echo '[ continued ]' >$h.lock
 
 if [[ -e $h ]]; then
 	set -A o -- $(/bin/ls -l $h)
