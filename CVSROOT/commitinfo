@@ -28,4 +28,4 @@
 # If the name "ALL" appears as a regular expression it is always used
 # in addition to the first matching regex or "DEFAULT".
 
-ALL	perl -e 'exec $ARGV[0], $ARGV[1], getpgrp 0, $ARGV[2];' $CVSROOT/CVSROOT/tracker %r %r/%p
+ALL	$CVSROOT/CVSROOT/tracker %r %I %r/%p
