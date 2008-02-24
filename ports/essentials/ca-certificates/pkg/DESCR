@@ -1,0 +1,11 @@
+This port packages some X.509 CA certificates which
+come with the MirOS base installation, for use e.g.
+with OpenBSD and Mac OSX.
+
+Recent SetEnv.{sh,csh} automatically point the path
+correctly to the data directory, if found. Program-
+mes employing OpenSSL will use the SSL_CERT_DIR en-
+vironment variable set thusly.
+
+Other programmes must be configured to set the cer-
+tificate store to ${PREFIX}/share/ca-certificates/
