@@ -20,7 +20,6 @@
  * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
  * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-/* $XFree86: xc/extras/freetype2/src/bdf/bdflib.c,v 1.4 2004/04/26 16:15:54 dawes Exp $ */
 
   /*************************************************************************/
   /*                                                                       */

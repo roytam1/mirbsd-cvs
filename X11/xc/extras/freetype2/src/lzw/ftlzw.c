@@ -1,4 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/lzw/ftlzw.c,v 1.3 2005/02/28 23:19:13 dawes Exp $ */
 /***************************************************************************/
 /*                                                                         */
 /*  ftlzw.c                                                                */
@@ -27,11 +26,8 @@
 #include FT_INTERNAL_MEMORY_H
 #include FT_INTERNAL_STREAM_H
 #include FT_INTERNAL_DEBUG_H
-#include FT_LZW_H
-#ifndef FONTMODULE
 #include <string.h>
 #include <stdio.h>
-#endif
 
 
 #include FT_MODULE_ERRORS_H

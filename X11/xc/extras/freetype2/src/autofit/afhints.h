@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/autofit/afhints.h,v 1.2 2004/06/09 18:52:02 tsi Exp $ */
-
 #ifndef __AFHINTS_H__
 #define __AFHINTS_H__
 
@@ -27,8 +25,6 @@ FT_BEGIN_HEADER
   /* in opposite directions iff `dir1+dir2 == 0'                        */
   typedef enum
   {
-    AF_DIR_BOTH  =  0,
-
     AF_DIR_NONE  =  4,
     AF_DIR_RIGHT =  1,
     AF_DIR_LEFT  = -1,

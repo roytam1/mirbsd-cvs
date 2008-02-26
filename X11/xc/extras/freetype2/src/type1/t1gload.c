@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/type1/t1gload.c,v 1.3 2004/04/26 16:15:55 dawes Exp $ */
+
 
 #include <ft2build.h>
 #include "t1gload.h"

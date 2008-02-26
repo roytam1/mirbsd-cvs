@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/autofit/aflatin.h,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 #ifndef __AFLATIN_H__
 #define __AFLATIN_H__
 
@@ -11,9 +9,7 @@ FT_BEGIN_HEADER
   * the latin-specific script class
   *
   */
-#ifndef FT_MAKE_OPTION_SINGLE_OBJECT
   FT_LOCAL( const AF_ScriptClassRec )    af_latin_script_class;
-#endif
 
  /***************************************************************************/
  /***************************************************************************/

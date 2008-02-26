@@ -14,7 +14,6 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/ttsbit.h,v 1.3 2004/04/26 16:15:55 dawes Exp $ */
 
 
 #ifndef __TTSBIT_H__

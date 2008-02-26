@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/pfr/pfrobjs.c,v 1.3 2004/04/26 16:15:55 dawes Exp $ */
+
 
 #include "pfrobjs.h"
 #include "pfrload.h"
@@ -47,7 +47,7 @@
     /* we don't want dangling pointers */
     face->root.family_name = NULL;
     face->root.style_name  = NULL;
-
+    
     /* finalize the physical font record */
     pfr_phy_font_done( &face->phy_font, FT_FACE_MEMORY( face ) );
 

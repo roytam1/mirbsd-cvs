@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/autofit/aflatin.c,v 1.2 2004/06/09 18:52:02 tsi Exp $ */
-
 #include "aflatin.h"
 
  /***************************************************************************/
@@ -41,7 +39,7 @@
       scaler->x_scale     = scaler->y_scale = 0x10000L;
       scaler->x_delta     = scaler->y_delta = 0;
       scaler->face        = face;
-      scaler->render_mode = FT_RENDER_MODE_NORMAL;
+      scaler->render_mode = 0;
       scaler->flags       = 0;
 
       error = af_glyph_hints_reset( hints, scaler,
@@ -50,7 +48,7 @@
       if ( error )
         goto Exit;
 
-      for ( dim = AF_DIMENSION_HORZ; dim < AF_DIMENSION_MAX; dim++ )
+      for ( dim = 0; dim < AF_DIMENSION_MAX; dim++ )
       {
         AF_LatinAxis  axis    = & metrics->axis[ dim ];
         AF_AxisHints  axhints = & hints->axis[ dim ];
@@ -1019,7 +1017,7 @@
         edge->dir = -up_dir;
 
       else if ( ups == downs )
-        edge->dir = AF_DIR_BOTH;  /* both up and down! */
+        edge->dir = 0;  /* both up and down! */
 
       /* gets rid of serifs if link is set                */
       /* XXX: This gets rid of many unpleasant artefacts! */
@@ -1744,7 +1742,7 @@
 
     FT_UNUSED( metrics );
 
-    for ( dim = AF_DIMENSION_HORZ; dim < AF_DIMENSION_MAX; dim++ )
+    for ( dim = 0; dim < AF_DIMENSION_MAX; dim++ )
     {
       if ( (dim == AF_DIMENSION_HORZ && AF_HINTS_DO_HORIZONTAL(hints)) ||
            (dim == AF_DIMENSION_VERT && AF_HINTS_DO_VERTICAL(hints))   )

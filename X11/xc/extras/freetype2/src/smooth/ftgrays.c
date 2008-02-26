@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/smooth/ftgrays.c,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 /***************************************************************************/
 /*                                                                         */
 /*  ftgrays.c                                                              */
@@ -1961,7 +1959,7 @@
   }
 
 
-  static int
+  extern int
   gray_raster_render( PRaster            raster,
                       FT_Raster_Params*  params )
   {

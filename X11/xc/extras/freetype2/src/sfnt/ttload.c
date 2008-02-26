@@ -15,7 +15,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/ttload.c,v 1.5 2004/12/31 02:56:02 tsi Exp $ */
+
 
 #include <ft2build.h>
 #include FT_INTERNAL_DEBUG_H
@@ -675,7 +675,7 @@
     FT_Error        error;
     TT_MaxProfile*  maxProfile = &face->max_profile;
 
-    static const FT_Frame_Field  maxp_fields[] =
+    const FT_Frame_Field  maxp_fields[] =
     {
 #undef  FT_STRUCTURE
 #define FT_STRUCTURE  TT_MaxProfile
@@ -686,7 +686,7 @@
       FT_FRAME_END
     };
 
-    static const FT_Frame_Field  maxp_fields_extra[] =
+    const FT_Frame_Field  maxp_fields_extra[] =
     {
       FT_FRAME_START( 26 ),
         FT_FRAME_USHORT( maxPoints ),
@@ -958,7 +958,7 @@
     FT_Error        error;
     TT_HoriHeader*  header;
 
-    static const FT_Frame_Field  metrics_header_fields[] =
+    const FT_Frame_Field  metrics_header_fields[] =
     {
 #undef  FT_STRUCTURE
 #define FT_STRUCTURE  TT_HoriHeader
@@ -1283,7 +1283,7 @@
     FT_Error  error;
     TT_OS2*   os2;
 
-    static const FT_Frame_Field  os2_fields[] =
+    const FT_Frame_Field  os2_fields[] =
     {
 #undef  FT_STRUCTURE
 #define FT_STRUCTURE  TT_OS2

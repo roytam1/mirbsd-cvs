@@ -15,8 +15,6 @@
 /*                                                                         */
 /***************************************************************************/
 
-/* $XFree86: xc/extras/freetype2/src/cff/cffgload.c,v 1.4 2004/04/26 16:15:54 dawes Exp $ */
-
 
 #include <ft2build.h>
 #include FT_INTERNAL_DEBUG_H

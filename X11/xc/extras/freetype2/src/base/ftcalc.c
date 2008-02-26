@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/base/ftcalc.c,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 /***************************************************************************/
 /*                                                                         */
 /*  ftcalc.c                                                               */
@@ -38,6 +36,24 @@
 #include FT_INTERNAL_CALC_H
 #include FT_INTERNAL_DEBUG_H
 #include FT_INTERNAL_OBJECTS_H
+
+
+/* we need to define a 64-bits data type here */
+
+#ifdef FT_LONG64
+
+  typedef FT_INT64  FT_Int64;
+
+#else
+
+  typedef struct  FT_Int64_
+  {
+    FT_UInt32  lo;
+    FT_UInt32  hi;
+
+  } FT_Int64;
+
+#endif /* FT_LONG64 */
 
 
   /*************************************************************************/

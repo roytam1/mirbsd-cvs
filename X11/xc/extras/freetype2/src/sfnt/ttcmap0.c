@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/ttcmap0.c,v 1.5 2004/04/26 16:15:55 dawes Exp $ */
+
 
 #include <ft2build.h>
 #include FT_INTERNAL_DEBUG_H

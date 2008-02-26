@@ -14,7 +14,6 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/ttsbit.c,v 1.4 2004/12/31 02:56:02 tsi Exp $ */
 
 
 #include <ft2build.h>
@@ -401,7 +400,7 @@
     FT_ULong   num_strikes;
     FT_ULong   table_base;
 
-    static const FT_Frame_Field  sbit_line_metrics_fields[] =
+    const FT_Frame_Field  sbit_line_metrics_fields[] =
     {
 #undef  FT_STRUCTURE
 #define FT_STRUCTURE  TT_SBit_LineMetricsRec
@@ -424,7 +423,7 @@
       FT_FRAME_END
     };
 
-    static const FT_Frame_Field  strike_start_fields[] =
+    const FT_Frame_Field  strike_start_fields[] =
     {
 #undef  FT_STRUCTURE
 #define FT_STRUCTURE  TT_SBit_StrikeRec

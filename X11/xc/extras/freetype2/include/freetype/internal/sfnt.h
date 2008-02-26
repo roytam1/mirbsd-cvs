@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/include/freetype/internal/sfnt.h,v 1.4 2004/04/26 21:07:50 dawes Exp $ */
+
 
 #ifndef __SFNT_H__
 #define __SFNT_H__

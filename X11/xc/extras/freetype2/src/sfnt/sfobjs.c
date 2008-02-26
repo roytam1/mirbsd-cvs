@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/sfobjs.c,v 1.4 2004/04/26 16:15:55 dawes Exp $ */
+
 
 #include <ft2build.h>
 #include "sfobjs.h"
@@ -272,8 +272,6 @@
           result            = NULL;
           goto Exit;
         }
-
-	(void)error;	/* Muffle compiler */
       }
 
       result = convert( rec, memory );

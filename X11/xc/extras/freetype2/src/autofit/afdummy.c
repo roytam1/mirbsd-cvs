@@ -1,4 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/autofit/afdummy.c,v 1.2 2004/05/06 00:52:49 tsi Exp $ */
 #include "afdummy.h"
 
 
@@ -18,7 +17,6 @@
                         FT_Outline*    outline )
   {
     af_glyph_hints_save( hints, outline );
-    return 0;
   }
 
 

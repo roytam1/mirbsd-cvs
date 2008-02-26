@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/sfdriver.c,v 1.5 2004/04/26 16:15:55 dawes Exp $ */
+
 
 #include <ft2build.h>
 #include FT_INTERNAL_SFNT_H
@@ -221,9 +221,6 @@
 
         FT_FRAME_EXIT();
       }
-
-      (void)error;	/* Muffle compiler */
-
       goto Exit;
     }
 
@@ -253,8 +250,6 @@
         }
         ((char*)result)[len] = '\0';
       }
-
-      (void)error;	/* Muffle compiler */
     }
 
   Exit:

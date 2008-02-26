@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/include/freetype/config/ftheader.h,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 /***************************************************************************/
 /*                                                                         */
 /*  ftheader.h                                                             */
@@ -532,8 +530,6 @@
 #define FT_SFNT_NAMES_H  <freetype/ftsnames.h>
 
   /* */
-
-#define FT_PFR_H                <freetype/ftpfr.h>
 
 #define FT_TRIGONOMETRY_H       <freetype/fttrigon.h>
 #define FT_STROKER_H            <freetype/ftstroke.h>

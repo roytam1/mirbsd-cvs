@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/base/ftmac.c,v 1.6 2004/04/26 16:15:54 dawes Exp $ */
+
 
   /*
     Notes

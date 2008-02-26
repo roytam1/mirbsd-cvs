@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/src/autofit/afhints.c,v 1.2 2004/06/09 18:52:02 tsi Exp $ */
-
 #include "afhints.h"
 
 #ifdef AF_DEBUG
@@ -292,7 +290,7 @@
      /* note that we don't need to free the segment and edge
       * buffers, since they're really within the hints->points array
       */
-      for ( dim = AF_DIMENSION_HORZ; dim < AF_DIMENSION_MAX; dim++ )
+      for ( dim = 0; dim < 2; dim++ )
       {
         AF_AxisHints  axis = &hints->axis[ dim ];
 
@@ -468,7 +466,7 @@
             point->flags = AF_FLAG_CUBIC;
             break;
           default:
-            point->flags = AF_FLAG_NONE;
+            point->flags = 0;
             ;
           }
         }

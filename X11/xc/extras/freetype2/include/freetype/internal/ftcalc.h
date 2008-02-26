@@ -1,5 +1,3 @@
-/* $XFree86: xc/extras/freetype2/include/freetype/internal/ftcalc.h,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 /***************************************************************************/
 /*                                                                         */
 /*  ftcalc.h                                                               */
@@ -103,38 +101,6 @@ FT_BEGIN_HEADER
 
 #define ROUND_F26DOT6( x )     ( x >= 0 ? (    ( (x) + 32 ) & -64 )     \
                                         : ( -( ( 32 - (x) ) & -64 ) ) )
-
-#ifdef FT_LONG64
-
-  typedef FT_INT64  FT_Int64;
-
-#else
-
-  typedef struct  FT_Int64_
-  {
-    FT_UInt32  lo;
-    FT_UInt32  hi;
-
-  } FT_Int64;
-
-#endif /* FT_LONG64 */
-
-#ifndef FT_LONG64
-
-  FT_EXPORT_DEF( void )
-  FT_Add64( FT_Int64*  x,
-            FT_Int64*  y,
-            FT_Int64  *z );
-
-  FT_EXPORT_DEF( void )
-  FT_MulTo64( FT_Int32   x,
-              FT_Int32   y,
-              FT_Int64  *z );
-
-  FT_EXPORT_DEF( FT_Int32 )
-  FT_Div64by32( FT_Int64*  x,
-                FT_Int32   y );
-#endif
 
 
 FT_END_HEADER

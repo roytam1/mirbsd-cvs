@@ -1,7 +1,5 @@
 #! /bin/sh
 
-# $XFree86: xc/extras/freetype2/builds/unix/freetype-config.in,v 1.6 2004/04/26 16:15:53 dawes Exp $
-
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 exec_prefix_set=no
